@@ -1,0 +1,278 @@
+MACROS in gmp_impl.h
+===========================================
+LIKELY(cond) - branch hint (likely), e.g. if LIKELY(x > 0)....
+UNLIKELY(cond) - branch hint (unlikely)
+
+ABS(x) - absolute value of x
+MIN(x, y) - minimum of x and y (operands may be signed or unsigned)
+MAX(x, y) - maximum of x and y
+numberof(x) - assumes x is a pointer to an array, returns the number of elements
+  of the array that fit into a type the same size as a pointer (??)
+
+SIZ(z) - _mp_size field of z
+ABSIZ(z) - abs val of SIZ(z)
+PTR(z) - _mp_d field of z
+LIMBS(z) - same as PTR(z)
+EXP(z) -  _mp_exp field of x
+PREC(x) - _mp_prec field of x
+ALLOC(x) - _mp_alloc field of x
+
+MP_LIMB_T_SWAP(x, y) - swap two mp_limb_t's
+MP_SIZE_T_SWAP(x, y) - swap two mp_size_t's
+MP_PTR_SWAP(x, y) - swap two mp_ptr's
+MP_SRCPTR_SWAP(x, y) - swap two mp_srcptr's
+MPN_PTR_SWAP(xp, xs, yp, ys) - swap {xp, xs} and {yp, ys}
+MPN_SRCPTR_SWAP(xp, xs, yp, ys) - swap {xp, xs} and {yp, ys}
+MPZ_PTR_SWAP(x, y) - swap two mpz_ptr's
+MPZ_SRCPTR_SWAP(x, y) - swap two mpz_srcptr's
+
+MPN_CMP(result, xp, yp, size) - compare {xp, size} with {yp, size} and set 
+  result to -1, 0, 1, size may be zero
+MPN_COPY_INCR(dst, src, size) - copy size limbs from src to dst incrementing
+  memory locations throughout copy (i.e. src must come after dst if they overlap)
+  size == 0 is allowed
+MPN_COPY_DECR(dst, src, size) - as for MPN_COPY_INCR except ptrs are decremented
+  (i.e. src must come before dst if they overlap)
+MPN_COPY(dst, src, size) - copy size limbs from src to dst which must be same
+  or separate
+MPN_REVERSE(dst, src, size) - set {dst, size} to the limbs of {src, size} in 
+  reverse order
+MPN_ZERO(dst, n) - set n limbs at dst to zero
+mpn_com_n(dst, src, size) - set {dst, size} to the complement of {src, size}
+mpn_and_n(dst, src1, src2, n) - set {dst, n} to {src1, n} & {src2, n}
+mpn_andn_n(dst, src1, src2, n) - set {dst, n} to {src1, n} & ~{src2, n}
+mpn_nand_n(dst, src1, src2, n) - set {dst, n} to {src1, n} nand {src2, n}
+mpn_ior_n(dst, src1, src2, n) - set {dst, n} to {src1, n} | {src2, n}
+mpn_iorn_n(dst, src1, src2, n) - set {dst, n} to {src1, n} | ~{src2, n}
+mpn_nior_n(dst, src1, src2, n) - set {dst, n} to {src1, n} nor {src2, n}
+mpn_xor_n(dst, src1, src2, n) - set {dst, n} to {src1, n} xor {src2, n}
+mpn_xnor_n(dst, src1, src2, n) - set {dst, n} to {src1, n} xnor {src2, n}
+MPN_NORMALIZE(dst, nlimbs) - normalise the mpn at dst, i.e. set nlimbs to number
+  of non-zero limbs
+MPN_NORMALIZE_NOT_ZERO(dst, nlimbs) - normalise the mpn at dst, i.e. set 
+  nlimbs to number of non-zero limbs, assuming it isn't zero
+MPN_STRIP_LOW_ZEROS_NOT_ZERO(ptr, size, low) - strip least sig zero limbs from 
+  {ptr, size} by incr ptr and decr size, low should be ptr[0] and will be set
+  to new ptr[0] upon return, function assumes {ptr, size} is not zero
+MPN_OVERLAP_P(xp, xsize, yp, ysize) - nonzero if the given mpns overlap
+MPN_SAME_OR_INCR2_P(dst, dsize, src, ssize) - nonzero if ok for incr algorithm
+MPN_SAME_OR_INCR_P(dst, src, size) - as for INCR2 variant, but same sizes
+MPN_SAME_OR_DECR2_P(dst, dsize, src, ssize) - nonzero if ok for decr algorithm
+MPN_SAME_OR_DECR_P(dst, src, size) - as for DECR2 variant, but same sizes
+MPN_LOGOPS_N_INLINE(dst, src1, src2, n, operation) - do n operations involving
+  any of src1, src2, dst
+MPN_INCR_U(ptr, size, incr) - {ptr, size} += n expect no carry
+MPN_DECR_U(ptr, size, incr) - {ptr, size} -= n expect no carry
+mpn_incr_u(ptr, incr) - {ptr, size} += n carry possible
+mpn_decr_u(ptr, incr) - {ptr, size} -= n carry possible
+MPN_SIZEINBASE(result, ptr, size, base) - set result to number of numerals 
+  {ptr, size} has, in the given base. For power of 2 bases it is exact, otherwise
+  it may sometimes be one too big - this is done for efficiency so not all limbs
+  have to be checked
+MPN_SIZEINBASE_16(result, ptr, size, base) - special optimisation for base 16
+MPN_SET_UI(zp, zn, u) - set {zp, zn} to the given ui, where zn must be big enough
+  to accomodate a ulong  
+MPN_DIVREM_OR_PREINV_DIVREM_1(qp,xsize,ap,size,d,dinv,shift) - set {qp, xsize} to
+  {ap, size} divided by d with dinv an inverse of d and shift the number of bits
+  d has to be shifted, only uses the preinv if this will be better on this arch
+MPN_MOD_OR_PREINV_MOD_1(ap,size,d,dinv) - return {ap, size} mod d with d an 
+  inverse of d - using preinv only if better on this arch
+MPN_DIVREM_OR_DIVEXACT_1(dst, src, size, divisor) - divide {src, size} by      divisor assuming no remainder if this will be faster
+MPN_DIVREM_OR_DIVEXACT_1(dst, src, size, divisor) - mpn_modexact_1_odd or 
+  mpn_mod_1 depending on which is faster on this arch
+MPN_BSWAP(dst, src, size) - byte swap limbs from {src,size} and store 
+  at {dst,size}
+MPN_BSWAP_REVERSE(dst, src, size) - byte swap limbs from {dst,size} and 
+  store in reverse order at {src,size}
+
+ADDC_LIMB(cout, w, x, y) - w = x + y with cout set to 1 for carry from add
+ADDC_LIMB(cout, w, x, y) - w = x - y with cout set to 1 for borrow from sub
+
+BITS_TO_LIMBS(n) - number of limbs required to store the given number of bits
+LIMB_HIGHBIT_TO_MASK(n) - platform independently set a mask to 0 or 0xFF..FF
+  depending on whether high bit of n is 0 or 1
+LOW_ZEROS_MASK(n) - bit mask of all the least significant zero bits of n
+ULONG_PARITY(p, n) - sets p to 1 if the number of 1 bits in n is odd
+NEG_MOD(r, a, d) - r = -a mod d (a >= d is allowed) may return r > d (all limbs)
+BSWAP_LIMB(dst, src) - reverse bytes in a limb
+BSWAP_LIMB_FETCH(dst, src) - set dst to the reverse of the bytes in the limb 
+  pointed to by src
+BSWAP_LIMB_STORE(dst, src) - set limb pointed to by dst to the reverse of the       bytes in src
+popc_limb(result, input) - population count of a limb (fast!!)
+POW2_P(n) - return 1 if n is a power of 2 (or 0)
+CNST_LIMB(C) - platform independent way of writing e.g. 1L if C was 1 say
+
+MEM_OVERLAP_P(xp, xsize, yp, ysize) - nonzero if given arrays of bytes overlap
+
+invert_limb(invxl, xl) - set invxl to the "inverse" of the limb xl for functions
+  that take a precomputed "inverse" limb
+  technically this isn't an inverse, but it sets invxl to the largest limb
+  not larger than (2^(2*BITS_PER_MP_LIMB))/xl - (2^BITS_PER_MP_LIMB) and all
+  1's if this would give an overflow
+udiv_qrnnd_preinv1(q, r, nh, nl, d, di) - nh, nl divided by d with di an "inverse"
+  of d. The most significant bit of d has to be set
+udiv_qrnnd_preinv2(q, r, nh, nl, d, di) - as for preinv1 but branch free
+udiv_qrnnd_preinv2gen(q, r, nh, nl, d, di, dnorm, lgup) - as for preinv2 but for
+  any d. dnorm is d shifted left so its msb is set, lgup is ceil_log2(d)
+
+modlimb_invert(inv, n) - true limb invert, i.e. inv*n == 1 mod 2^GMP_NUMB_BITS
+MODLIMB_INVERSE_3 - special case of modlimb_invert for n == 3
+
+MPZ_TMP_INIT(X, NLIMBS) - Allocates a temporary mpz_t with space for NLIMBS, space
+  will automatically be cleared out upon calling function's return
+MPZ_REALLOC(z, n) - reallocate mpz_t to n limbs if it doesn't have enough
+MPZ_EQUAL_1_P(z) - returns 1 if z is 1, otherwise 0
+MPZ_FAKE_UI(z, zp, u) - creates a fake mpz_t z from an ui. zp must have space for
+  an unsigned long
+
+ABOVE_THRESHOLD(size, thresh) - decide whether to use algorithm A or B depending     whether size >= thresh. thresh == MP_SIZE_T_MAX means only ever use A, 
+  thresh == 0 means only ever use B
+BELOW_THRESHOLD(size, thresh) - !ABOVE_THRESHOLD
+
+Macro constants defined in gmp_impl.h
+===========================================
+
+BYTES_PER_MP_LIMB - bytes per limb
+BITS_PER_MP_LIMB - bits per limb
+BITS_PER_ULONG - bits in an unsigned long
+LIMBS_PER_ULONG - number of limbs per unsigned long
+
+ULONG_MAX - unsigned long ~0
+UINT_MAX - unsigned in ~0
+USHRT_MAX - unsigned short ~0
+MP_LIMB_T_MAX - mp_limb_t ~0
+
+ULONG_HIGHBIT - unsigned long high bit set
+UINT_HIGHBIT - unsigned int high bit set
+USHRT_HIGHBIT - unsigned short high bit set
+GMP_LIMB_HIGHBIT - mp_limb_t high bit set
+
+LONG_MIN - smallest negative long
+LONG_MAX - largest positive long
+LONG_HIGHBIT - LONG_MIN
+INT_MIN - smallest negative int
+INT_MAX - largest positive int
+INT_HIGHBIT - INT_MIN
+SHRT_MIN - smallest negative short
+SHRT_MAX - largest positive short
+SHRT_HIGHBIT - SHRT_MIN
+MP_SIZE_T_MIN - smallest negative mp_size_t
+MP_SIZE_T_MAX - largest positive mp_size_t
+MP_EXP_T_MIN - smallest negative mp_exp_t
+MP_EXP_T_MAX - largest positive mp_exp_t
+GMP_NUMB_HIGHBIT - highest bit of a limb (not including nail bits)
+
+GMP_NUMB_CEIL_MAX_DIV3 - ceil(GMP_NUMB_MAX/3)
+GMP_NUMB_CEIL_2MAX_DIV3 - ceil(2*GMP_NUMB_MAX/3)
+
+PP - product of odd primes that will fit in a limb 3x5x...
+PP_FIRST_OMITTED - first odd prime omitted
+PP_INVERTED - inverse of PP
+
+Exception macros
+===========================================
+
+GMP_ERROR(code) - raise exception with given code
+DIVIDE_BY_ZERO - raise divide by zero exception
+SQRT_OF_NEGATIVE - raise square root of negative exception
+
+Some types defined in gmp_impl.h
+===========================================
+
+gmp_uint_least32_t - unsigned integer type with at least 32 bits
+
+Macros used in prototypes
+===========================================
+
+ATTRIBUTE_CONST - function examines its arguments and returns a value but no 
+   memory is read or written to and function has no side effects
+
+ATTRIBUTE_NORETURN - signifies a function that won't ever return (supresses
+   "code unreachable" compile time errors)
+
+ATTRIBUTE_MALLOC - function returns a pointer that can't alias anything, 
+   just as malloc does
+
+REGPARM_2_1(a,b,x) - reorder parameters to x,a,b so that x can be put in a reg
+REGPARM_3_1(a,b,c,x) - reorder parameters to x,a,b,c so that x can be put in a reg
+REGPARM_ATTR(n) - make parameter a register parameter
+
+Stack based memory manager
+==========================
+Usage: TMP_DECL;
+       TMP_MARK;
+       ptr = TMP_ALLOC(bytes);
+       TMP_FREE;
+
+This pushes handling of the stack allocation onto the calling function, which is
+what Pari does. It is faster than malloc and other stack based methods (!) A 
+reentrant version is available by doing #define WANT_TMP_REENTRANT 1
+
+Variants: TMP_SDECL, TMP_SMARK, TMP_SALLOC, TMP_SFREE - for small allocations
+  (uses alloca if available)
+          TMP_SDECL, TMP_SMARK, TMP_SALLOC, TMP_SFREE - for large allocations
+  
+Note: TEMP_ALLOC calls TMP_SALLOC if bytes < 65536, otherwise TMP_BALLOC
+
+TMP_B/S/ALLOC_TYPE(n, type) - alloc space for n variables of the given type
+TMP_B/S/ALLOC_LIMBS(n) - alloc space for n limbs
+TMP_B/S/ALLOC_MP_PTRS(n) - alloc space for n mp_ptr's
+
+TMP_ALLOC_LIMBS_2(xp, xsize, yp, ysize) - makes two allocations at once (faster)
+
+Memory manager
+==========================
+
+alloca(size) - allocate size bytes of space in the stack frame of the calling
+  function. Space is automatically freed when the calling function returns
+
+__gmp_default_allocate(bytes) - alloc bytes using GMP default memory manager
+__gmp_default_reallocate(ptr,bytes) - realloc bytes using default memory manager
+__gmp_default_free(ptr, size) - free the size bytes allocated at ptr
+
+__GMP_ALLOCATE_FUNC_TYPE(n, type) - allocate space for n vars of given type using
+  user defined memory management function
+__GMP_ALLOCATE_FUNC_LIMBS(n) - allocate n limbs, user defined mem man
+
+__GMP_REALLOCATE_FUNC_TYPE(p, old, new, type) - reallocate from old to new size
+  user defined memory management function
+__GMP_REALLOCATE_FUNC_LIMBS(p, old, new) - realloc from old to new limbs, 
+  user defined mem man
+
+__GMP_FREE_FUNC_TYPE(n, type) - free space for n vars of given type using
+  user defined memory management function
+__GMP_FREE_FUNC_LIMBS(n) - free n limbs, user defined mem man
+
+__GMP_REALLOCATE_FUNC_MAYBE(p, old, new) - reallocate, oldsize can equal newsize,
+  user defined memory management function
+
+__GMP_REALLOCATE_FUNC_MAYBE_TYPE(p, old, new, type) - reallocate type, 
+  oldsize can equal newsize, user defined memory management function
+
+Assembly macros
+====================================
+
+ASM_L(name) - local label for a gcc asm block
+
+Debugging
+====================================
+
+MPZ_CHECK_FORMAT(z) - tries to check an mpz_t to see if it is broken
+MPZ_PROVOKE_REALLOC(z) - cause z to be realloc'd just because ou feel like it
+
+Misc
+====================================
+
+- Macros to do with the random generators
+- Lot's of undocumented mpn functions presumably defined in mpn/generic
+- macros for temp space required by kara and toom3 mul and sqr 
+- space for fibonnacci functions, fn for n-th fib num from table and biggest n
+  such that L_n fits in a long
+- default values for mullow, kara, toom, fft params and thresholds, div divide and
+  conquer thresholds
+- piles of different assert macros
+- defines for longlong.h
+- stuff for handling doubles
+- lots of macros for v. fast computation of jacobi symbols
+- stuff for mpf's
+- stuff for formatted printing, reading
