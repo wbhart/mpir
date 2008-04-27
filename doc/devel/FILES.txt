@@ -1,0 +1,67 @@
+.gdbinit - three basic macros for printing mpz, mpq and mpf's in gdb
+acinclude - many GMP specific script macros to be used by autoconf
+aclocal - scripts for setting up the tools used to build GMP on a wide variety of platforms
+ansi2knr - a script belonging to ansi2knr
+ansi2knr.c - C program for converting from Ansi C to Kernighan and Ritchie C
+assert.c - two GMP wide assert functions
+AUTHORS - a list of authors and what they did
+CHANGELOG - a changelog going back to March 1991
+compat.c - some function entry points for three deprecated functions
+config.in - piles of undefs for all environment variables used by GMP
+config.guess - GMP script to try and guess what the CPU-VENDOR-OS is 
+config.sub - gives CPU-VENDOR-OS names GMP recognizes, in some canonical way
+configfsf - presumably the GNU CPU-VENDOR-OS guess program, later sharpened by config.guess
+configfsf.sub - common to all GNU software, attempts to come up with canonical CPU-VENDOR-OS
+configure - guess values for system dependent variables and create Makefiles
+configure.in - used by autoconf to produce a configure script
+COPYING - GPL version 2
+COPYING.lib - GPL version 2.1
+dumbgmp.c - very limited subset of GMP used in some build time computations
+errno.c - some wrappers for the exception generating code 
+extract-dbl.c - convert from a double to an array of mp_limb_t's
+gen-bases.c - auto generates some hard coded macros for base conversion
+gen-facui.c - generates data tables for factorials, e.g. all factorials which fit in a limb
+gen-fib.c - generate data for Fibonnacci number tables
+gen-psqr.c - generates data for perfect square testing
+gmp-h.in - gmp.h with some platform dependent stuff not yet inserted (gmp.h is included by 
+  programs using GMP and by code within GMP
+gmp-impl.h - internal include file containing all the macros used GMP wide
+gmpxx.h - C++ class wrapper for GMP types
+INSTALL - basic text notes on installing GMP
+INSTALL.AUTOCONF - more detailed text file on configuring GMP
+install-sh - script for installing GMP (once built)
+invalid.c - an extra exception wrapper for invalid operations
+libmp - a short list of relatively basic mathematical function names (??)
+longlong.h - assembly code for numerous machines for longlong arithmetic
+ltmain.sh - generalised library tool services
+makefile-in - makefile
+makefile.am - used by automake to generate makefile-in
+memory.c - the default GMP memory allocation functions
+missing - stubs for missing GNU programs (prints warning messages)
+mp_bpl.c - defines mp_bits_per_limb, __gmp_0 (= (int) 0) and __gmp_junk
+mp_clz_tab.c - defines __clz_tab[128] for counting leading zeroes
+mp_dv_tab.c - defines __gmp_digit_value_tab for giving values to ascii chars for bases
+mp_get_fns.c - contains mp_get_memory_functions(...)
+mp_minv_tab.c - defines modlimb_invert_table[128] for inverses of 2*i+1 mod 256
+mp_set_fns.c - contains mp_set_memory_functions(...)
+mp-h.in - MINT is an __mpz_struct, gives protos for a handful of Berkeley mp functions
+NEWS - details the major changes between all the released versions of GMP
+rand.c - defines the function gmp_randinit (which is essentially a wrapper)
+randbui.c - defines the function gmp_urandomb_ui which is a wrapper
+randclr.c - defines gmp_randclear which is a wrapper
+randdef.c - defines gmp_randinit_default which is a wrapper
+randiset.c - defines gmp_randinit_set which is a wrapper
+randlc2s.c - initialises a random state with a linear congruential generator of given size
+randlc2x.c - implementation of linear congruential pseudorandom functions
+randmt.c - implementation of mersenne twister pseudorandom functions
+randmt.h - header file for randmt.c
+randmts.h - functions for managing the seed, etc, for the mersenne twister
+randmui.c - defines gmp_urandomm_ui which is a wrapper
+rands.c - global random state for old style random functions
+randsd.c - defines gmp_randseed which is a wrapper
+randsdui.c - defines gmp_randseed_ui which is a wrapper
+README - a very short overview of the gmp library and how to report bugs
+tal-debug.c - debug versions of TMP_ALLOC
+tal-notreent.c - non-reentrant versions of the TMP_ALLOC functions
+tal-reent.c - reentrant versions of TMP_ALLOC functions
+version.c - defines gmp_version (= VERSION)
