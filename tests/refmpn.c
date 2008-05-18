@@ -1671,7 +1671,7 @@ refmpn_sb_divrem_mn (mp_ptr qp,
           if (! refmpn_add_n (np+i, np+i, dp, dsize))
             {
               q--;
-              ASSERT (refmpn_add_n (np+i, np+i, dp, dsize) != 0);
+              ASSERT_CARRY (refmpn_add_n (np+i, np+i, dp, dsize) != 0);
             }
         }
       np[i+dsize] = 0;

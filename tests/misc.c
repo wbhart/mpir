@@ -27,7 +27,7 @@ MA 02110-1301, USA. */
 #include <stdlib.h>     /* for getenv */
 #include <string.h>
 
-#if HAVE_FLOAT_H
+#if HAVE_FLOAT_H || defined( _MSC_VER )	/* BRG */
 #include <float.h>      /* for DBL_MANT_DIG */
 #endif
 
@@ -477,7 +477,14 @@ tests_hardware_setround (int mode)
   default:
     return 0;
   }
+#if defined( _MSC_VER )
+  {		unsigned int cw;
+		_controlfp_s(&cw, 0, 0);
+		_controlfp_s(&cw, (cw & ~0xC00) | (rc << 10), _MCW_RC);
+  }
+#else
   x86_fldcw ((x86_fstcw () & ~0xC00) | (rc << 10));
+#endif
   return 1;
 #endif
 
@@ -489,7 +496,14 @@ int
 tests_hardware_getround (void)
 {
 #if HAVE_HOST_CPU_FAMILY_x86
-  switch ((x86_fstcw () & ~0xC00) >> 10) {
+  unsigned int cw;
+#if defined( _MSC_VER )
+  _controlfp_s(&cw, 0, 0);
+#else
+  cw = x86_fstcw();
+#endif
+
+  switch ((cw & ~0xC00) >> 10) {
   case 0: return 0; break;  /* nearest */
   case 1: return 3; break;  /* down    */
   case 2: return 2; break;  /* up      */

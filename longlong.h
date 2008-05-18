@@ -166,6 +166,46 @@ MA 02110-1301, USA. */
   } while (0)
 #endif
 
+#ifdef _MSC_VER
+#  include <intrin.h>
+
+#  if defined( _WIN64 )
+#    define count_leading_zeros(c,x)        \
+      do {                                  \
+        ASSERT ((x) != 0);                  \
+        _BitScanReverse64(&c, (x));         \
+        c = 63 - c;                         \
+      } while (0)
+#    define count_trailing_zeros(c,x)       \
+      do {                                  \
+        ASSERT ((x) != 0);                  \
+        _BitScanForward64(&c, (x));         \
+      } while (0)
+#    define umul_ppmm(xh, xl, m0, m1)       \
+      do {                                  \
+        xl = _umul128( (m0), (m1), &xh);    \
+      } while (0)
+#  else
+#    define count_leading_zeros(c,x)        \
+      do {                                  \
+        ASSERT ((x) != 0);                  \
+        _BitScanReverse(&c, (x));           \
+        c = 31 - c;                         \
+      } while (0)
+#    define count_trailing_zeros(c,x)       \
+      do {                                  \
+        ASSERT ((x) != 0);                  \
+        _BitScanForward(&c, (x));           \
+      } while (0)
+#    define umul_ppmm(xh, xl, m0, m1)       \
+      do { unsigned __int64 _t;             \
+        _t = __emulu( (m0), (m1));          \
+        xl = _t & 0xffffffff;               \
+        xh = _t >> 32;                      \
+      } while (0)
+#  endif
+
+#endif
 
 /* FIXME: The macros using external routines like __MPN(count_leading_zeros)
    don't need to be under !NO_ASM */
@@ -344,6 +384,187 @@ long __MPN(count_leading_zeros) _PROTO ((UDItype));
 #define UDIV_TIME 220
 #endif
 
+
+#if defined (__GNUC__) || defined(INTEL_COMPILER)
+
+#if (defined (__i386__) || defined (__i486__)) && W_TYPE_SIZE == 32
+#define add_ssaaaa(sh, sl, ah, al, bh, bl) \
+  __asm__ ("addl %5,%k1\n\tadcl %3,%k0"					\
+	   : "=r" (sh), "=&r" (sl)					\
+	   : "0"  ((USItype)(ah)), "g" ((USItype)(bh)),			\
+	     "%1" ((USItype)(al)), "g" ((USItype)(bl)))
+#define sub_ddmmss(sh, sl, ah, al, bh, bl) \
+  __asm__ ("subl %5,%k1\n\tsbbl %3,%k0"					\
+	   : "=r" (sh), "=&r" (sl)					\
+	   : "0" ((USItype)(ah)), "g" ((USItype)(bh)),			\
+	     "1" ((USItype)(al)), "g" ((USItype)(bl)))
+#define umul_ppmm(w1, w0, u, v) \
+  __asm__ ("mull %3"							\
+	   : "=a" (w0), "=d" (w1)					\
+	   : "%0" ((USItype)(u)), "rm" ((USItype)(v)))
+#define udiv_qrnnd(q, r, n1, n0, dx) /* d renamed to dx avoiding "=d" */\
+  __asm__ ("divl %4"		     /* stringification in K&R C */	\
+	   : "=a" (q), "=d" (r)						\
+	   : "0" ((USItype)(n0)), "1" ((USItype)(n1)), "rm" ((USItype)(dx)))
+
+#if HAVE_HOST_CPU_i586 || HAVE_HOST_CPU_pentium || HAVE_HOST_CPU_pentiummmx
+/* Pentium bsrl takes between 10 and 72 cycles depending where the most
+   significant 1 bit is, hence the use of the following alternatives.  bsfl
+   is slow too, between 18 and 42 depending where the least significant 1
+   bit is, so let the generic count_trailing_zeros below make use of the
+   count_leading_zeros here too.  */
+
+#if HAVE_HOST_CPU_pentiummmx && ! defined (LONGLONG_STANDALONE)
+/* The following should be a fixed 14 or 15 cycles, but possibly plus an L1
+   cache miss reading from __clz_tab.  For P55 it's favoured over the float
+   below so as to avoid mixing MMX and x87, since the penalty for switching
+   between the two is about 100 cycles.
+
+   The asm block sets __shift to -3 if the high 24 bits are clear, -2 for
+   16, -1 for 8, or 0 otherwise.  This could be written equivalently as
+   follows, but as of gcc 2.95.2 it results in conditional jumps.
+
+       __shift = -(__n < 0x1000000);
+       __shift -= (__n < 0x10000);
+       __shift -= (__n < 0x100);
+
+   The middle two sbbl and cmpl's pair, and with luck something gcc
+   generates might pair with the first cmpl and the last sbbl.  The "32+1"
+   constant could be folded into __clz_tab[], but it doesn't seem worth
+   making a different table just for that.  */
+
+#define count_leading_zeros(c,n)					\
+  do {									\
+    USItype  __n = (n);							\
+    USItype  __shift;							\
+    __asm__ ("cmpl  $0x1000000, %1\n"					\
+	     "sbbl  %0, %0\n"						\
+	     "cmpl  $0x10000, %1\n"					\
+	     "sbbl  $0, %0\n"						\
+	     "cmpl  $0x100, %1\n"					\
+	     "sbbl  $0, %0\n"						\
+	     : "=&r" (__shift) : "r"  (__n));				\
+    __shift = __shift*8 + 24 + 1;					\
+    (c) = 32 + 1 - __shift - __clz_tab[__n >> __shift];			\
+  } while (0)
+#define COUNT_LEADING_ZEROS_NEED_CLZ_TAB
+#define COUNT_LEADING_ZEROS_0   31   /* n==0 indistinguishable from n==1 */
+
+#else /* ! pentiummmx || LONGLONG_STANDALONE */
+/* The following should be a fixed 14 cycles or so.  Some scheduling
+   opportunities should be available between the float load/store too.  This
+   sort of code is used in gcc 3 for __builtin_ffs (with "n&-n") and is
+   apparently suggested by the Intel optimizing manual (don't know exactly
+   where).  gcc 2.95 or up will be best for this, so the "double" is
+   correctly aligned on the stack.  */
+#define count_leading_zeros(c,n)					\
+  do {									\
+    union {								\
+      double    d;							\
+      unsigned  a[2];							\
+    } __u;								\
+    ASSERT ((n) != 0);							\
+    __u.d = (UWtype) (n);						\
+    (c) = 0x3FF + 31 - (__u.a[1] >> 20);				\
+  } while (0)
+#define COUNT_LEADING_ZEROS_0   (0x3FF + 31)
+#endif /* pentiummx */
+
+#else /* ! pentium */
+
+#if __GMP_GNUC_PREREQ (3,4)  /* using bsrl */
+#define count_leading_zeros(count,x)  count_leading_zeros_gcc_clz(count,x)
+#endif /* gcc clz */
+
+/* On P6, gcc prior to 3.0 generates a partial register stall for
+   __cbtmp^31, due to using "xorb $31" instead of "xorl $31", the former
+   being 1 code byte smaller.  "31-__cbtmp" is a workaround, probably at the
+   cost of one extra instruction.  Do this for "i386" too, since that means
+   generic x86.  */
+#if ! defined (count_leading_zeros) && __GNUC__ < 3                     \
+  && (HAVE_HOST_CPU_i386						\
+      || HAVE_HOST_CPU_i686						\
+      || HAVE_HOST_CPU_pentiumpro					\
+      || HAVE_HOST_CPU_pentium2						\
+      || HAVE_HOST_CPU_pentium3)
+#define count_leading_zeros(count, x)					\
+  do {									\
+    USItype __cbtmp;							\
+    ASSERT ((x) != 0);							\
+    __asm__ ("bsrl %1,%0" : "=r" (__cbtmp) : "rm" ((USItype)(x)));	\
+    (count) = 31 - __cbtmp;						\
+  } while (0)
+#endif /* gcc<3 asm bsrl */
+
+#ifndef count_leading_zeros
+#define count_leading_zeros(count, x)					\
+  do {									\
+    USItype __cbtmp;							\
+    ASSERT ((x) != 0);							\
+    __asm__ ("bsrl %1,%0" : "=r" (__cbtmp) : "rm" ((USItype)(x)));	\
+    (count) = __cbtmp ^ 31;						\
+  } while (0)
+#endif /* asm bsrl */
+
+#if __GMP_GNUC_PREREQ (3,4)  /* using bsfl */
+#define count_trailing_zeros(count,x)  count_trailing_zeros_gcc_ctz(count,x)
+#endif /* gcc ctz */
+
+#ifndef count_trailing_zeros
+#define count_trailing_zeros(count, x)					\
+  do {									\
+    ASSERT ((x) != 0);							\
+    __asm__ ("bsfl %1,%0" : "=r" (count) : "rm" ((USItype)(x)));	\
+  } while (0)
+#endif /* asm bsfl */
+
+#endif /* ! pentium */
+
+#ifndef UMUL_TIME
+#define UMUL_TIME 10
+#endif
+#ifndef UDIV_TIME
+#define UDIV_TIME 40
+#endif
+#endif /* 80x86 */
+
+#if defined (__amd64__) && W_TYPE_SIZE == 64
+#define add_ssaaaa(sh, sl, ah, al, bh, bl) \
+  __asm__ ("addq %5,%q1\n\tadcq %3,%q0"					\
+	   : "=r" (sh), "=&r" (sl)					\
+	   : "0"  ((UDItype)(ah)), "rme" ((UDItype)(bh)),		\
+	     "%1" ((UDItype)(al)), "rme" ((UDItype)(bl)))
+#define sub_ddmmss(sh, sl, ah, al, bh, bl) \
+  __asm__ ("subq %5,%q1\n\tsbbq %3,%q0"					\
+	   : "=r" (sh), "=&r" (sl)					\
+	   : "0" ((UDItype)(ah)), "rme" ((UDItype)(bh)),		\
+	     "1" ((UDItype)(al)), "rme" ((UDItype)(bl)))
+#define umul_ppmm(w1, w0, u, v) \
+  __asm__ ("mulq %3"							\
+	   : "=a" (w0), "=d" (w1)					\
+	   : "%0" ((UDItype)(u)), "rm" ((UDItype)(v)))
+#define udiv_qrnnd(q, r, n1, n0, dx) /* d renamed to dx avoiding "=d" */\
+  __asm__ ("divq %4"		     /* stringification in K&R C */	\
+	   : "=a" (q), "=d" (r)						\
+	   : "0" ((UDItype)(n0)), "1" ((UDItype)(n1)), "rm" ((UDItype)(dx)))
+/* bsrq destination must be a 64-bit register, hence UDItype for __cbtmp. */
+#define count_leading_zeros(count, x)					\
+  do {									\
+    UDItype __cbtmp;							\
+    ASSERT ((x) != 0);							\
+    __asm__ ("bsrq %1,%0" : "=r" (__cbtmp) : "rm" ((UDItype)(x)));	\
+    (count) = __cbtmp ^ 63;						\
+  } while (0)
+/* bsfq destination must be a 64-bit register, "%q0" forces this in case
+   count is only an int. */
+#define count_trailing_zeros(count, x)					\
+  do {									\
+    ASSERT ((x) != 0);							\
+    __asm__ ("bsfq %1,%q0" : "=r" (count) : "rm" ((UDItype)(x)));	\
+  } while (0)
+#endif /* x86_64 */
+
+#endif
 
 #if defined (__GNUC__)
 
@@ -653,183 +874,6 @@ extern UWtype __MPN(udiv_qrnnd) _PROTO ((UWtype *, UWtype, UWtype, UWtype));
     (q) = __x.__i.__l; (r) = __x.__i.__h;				\
   } while (0)
 #endif
-
-#if (defined (__i386__) || defined (__i486__)) && W_TYPE_SIZE == 32
-#define add_ssaaaa(sh, sl, ah, al, bh, bl) \
-  __asm__ ("addl %5,%k1\n\tadcl %3,%k0"					\
-	   : "=r" (sh), "=&r" (sl)					\
-	   : "0"  ((USItype)(ah)), "g" ((USItype)(bh)),			\
-	     "%1" ((USItype)(al)), "g" ((USItype)(bl)))
-#define sub_ddmmss(sh, sl, ah, al, bh, bl) \
-  __asm__ ("subl %5,%k1\n\tsbbl %3,%k0"					\
-	   : "=r" (sh), "=&r" (sl)					\
-	   : "0" ((USItype)(ah)), "g" ((USItype)(bh)),			\
-	     "1" ((USItype)(al)), "g" ((USItype)(bl)))
-#define umul_ppmm(w1, w0, u, v) \
-  __asm__ ("mull %3"							\
-	   : "=a" (w0), "=d" (w1)					\
-	   : "%0" ((USItype)(u)), "rm" ((USItype)(v)))
-#define udiv_qrnnd(q, r, n1, n0, dx) /* d renamed to dx avoiding "=d" */\
-  __asm__ ("divl %4"		     /* stringification in K&R C */	\
-	   : "=a" (q), "=d" (r)						\
-	   : "0" ((USItype)(n0)), "1" ((USItype)(n1)), "rm" ((USItype)(dx)))
-
-#if HAVE_HOST_CPU_i586 || HAVE_HOST_CPU_pentium || HAVE_HOST_CPU_pentiummmx
-/* Pentium bsrl takes between 10 and 72 cycles depending where the most
-   significant 1 bit is, hence the use of the following alternatives.  bsfl
-   is slow too, between 18 and 42 depending where the least significant 1
-   bit is, so let the generic count_trailing_zeros below make use of the
-   count_leading_zeros here too.  */
-
-#if HAVE_HOST_CPU_pentiummmx && ! defined (LONGLONG_STANDALONE)
-/* The following should be a fixed 14 or 15 cycles, but possibly plus an L1
-   cache miss reading from __clz_tab.  For P55 it's favoured over the float
-   below so as to avoid mixing MMX and x87, since the penalty for switching
-   between the two is about 100 cycles.
-
-   The asm block sets __shift to -3 if the high 24 bits are clear, -2 for
-   16, -1 for 8, or 0 otherwise.  This could be written equivalently as
-   follows, but as of gcc 2.95.2 it results in conditional jumps.
-
-       __shift = -(__n < 0x1000000);
-       __shift -= (__n < 0x10000);
-       __shift -= (__n < 0x100);
-
-   The middle two sbbl and cmpl's pair, and with luck something gcc
-   generates might pair with the first cmpl and the last sbbl.  The "32+1"
-   constant could be folded into __clz_tab[], but it doesn't seem worth
-   making a different table just for that.  */
-
-#define count_leading_zeros(c,n)					\
-  do {									\
-    USItype  __n = (n);							\
-    USItype  __shift;							\
-    __asm__ ("cmpl  $0x1000000, %1\n"					\
-	     "sbbl  %0, %0\n"						\
-	     "cmpl  $0x10000, %1\n"					\
-	     "sbbl  $0, %0\n"						\
-	     "cmpl  $0x100, %1\n"					\
-	     "sbbl  $0, %0\n"						\
-	     : "=&r" (__shift) : "r"  (__n));				\
-    __shift = __shift*8 + 24 + 1;					\
-    (c) = 32 + 1 - __shift - __clz_tab[__n >> __shift];			\
-  } while (0)
-#define COUNT_LEADING_ZEROS_NEED_CLZ_TAB
-#define COUNT_LEADING_ZEROS_0   31   /* n==0 indistinguishable from n==1 */
-
-#else /* ! pentiummmx || LONGLONG_STANDALONE */
-/* The following should be a fixed 14 cycles or so.  Some scheduling
-   opportunities should be available between the float load/store too.  This
-   sort of code is used in gcc 3 for __builtin_ffs (with "n&-n") and is
-   apparently suggested by the Intel optimizing manual (don't know exactly
-   where).  gcc 2.95 or up will be best for this, so the "double" is
-   correctly aligned on the stack.  */
-#define count_leading_zeros(c,n)					\
-  do {									\
-    union {								\
-      double    d;							\
-      unsigned  a[2];							\
-    } __u;								\
-    ASSERT ((n) != 0);							\
-    __u.d = (UWtype) (n);						\
-    (c) = 0x3FF + 31 - (__u.a[1] >> 20);				\
-  } while (0)
-#define COUNT_LEADING_ZEROS_0   (0x3FF + 31)
-#endif /* pentiummx */
-
-#else /* ! pentium */
-
-#if __GMP_GNUC_PREREQ (3,4)  /* using bsrl */
-#define count_leading_zeros(count,x)  count_leading_zeros_gcc_clz(count,x)
-#endif /* gcc clz */
-
-/* On P6, gcc prior to 3.0 generates a partial register stall for
-   __cbtmp^31, due to using "xorb $31" instead of "xorl $31", the former
-   being 1 code byte smaller.  "31-__cbtmp" is a workaround, probably at the
-   cost of one extra instruction.  Do this for "i386" too, since that means
-   generic x86.  */
-#if ! defined (count_leading_zeros) && __GNUC__ < 3                     \
-  && (HAVE_HOST_CPU_i386						\
-      || HAVE_HOST_CPU_i686						\
-      || HAVE_HOST_CPU_pentiumpro					\
-      || HAVE_HOST_CPU_pentium2						\
-      || HAVE_HOST_CPU_pentium3)
-#define count_leading_zeros(count, x)					\
-  do {									\
-    USItype __cbtmp;							\
-    ASSERT ((x) != 0);							\
-    __asm__ ("bsrl %1,%0" : "=r" (__cbtmp) : "rm" ((USItype)(x)));	\
-    (count) = 31 - __cbtmp;						\
-  } while (0)
-#endif /* gcc<3 asm bsrl */
-
-#ifndef count_leading_zeros
-#define count_leading_zeros(count, x)					\
-  do {									\
-    USItype __cbtmp;							\
-    ASSERT ((x) != 0);							\
-    __asm__ ("bsrl %1,%0" : "=r" (__cbtmp) : "rm" ((USItype)(x)));	\
-    (count) = __cbtmp ^ 31;						\
-  } while (0)
-#endif /* asm bsrl */
-
-#if __GMP_GNUC_PREREQ (3,4)  /* using bsfl */
-#define count_trailing_zeros(count,x)  count_trailing_zeros_gcc_ctz(count,x)
-#endif /* gcc ctz */
-
-#ifndef count_trailing_zeros
-#define count_trailing_zeros(count, x)					\
-  do {									\
-    ASSERT ((x) != 0);							\
-    __asm__ ("bsfl %1,%0" : "=r" (count) : "rm" ((USItype)(x)));	\
-  } while (0)
-#endif /* asm bsfl */
-
-#endif /* ! pentium */
-
-#ifndef UMUL_TIME
-#define UMUL_TIME 10
-#endif
-#ifndef UDIV_TIME
-#define UDIV_TIME 40
-#endif
-#endif /* 80x86 */
-
-#if defined (__amd64__) && W_TYPE_SIZE == 64
-#define add_ssaaaa(sh, sl, ah, al, bh, bl) \
-  __asm__ ("addq %5,%q1\n\tadcq %3,%q0"					\
-	   : "=r" (sh), "=&r" (sl)					\
-	   : "0"  ((UDItype)(ah)), "rme" ((UDItype)(bh)),		\
-	     "%1" ((UDItype)(al)), "rme" ((UDItype)(bl)))
-#define sub_ddmmss(sh, sl, ah, al, bh, bl) \
-  __asm__ ("subq %5,%q1\n\tsbbq %3,%q0"					\
-	   : "=r" (sh), "=&r" (sl)					\
-	   : "0" ((UDItype)(ah)), "rme" ((UDItype)(bh)),		\
-	     "1" ((UDItype)(al)), "rme" ((UDItype)(bl)))
-#define umul_ppmm(w1, w0, u, v) \
-  __asm__ ("mulq %3"							\
-	   : "=a" (w0), "=d" (w1)					\
-	   : "%0" ((UDItype)(u)), "rm" ((UDItype)(v)))
-#define udiv_qrnnd(q, r, n1, n0, dx) /* d renamed to dx avoiding "=d" */\
-  __asm__ ("divq %4"		     /* stringification in K&R C */	\
-	   : "=a" (q), "=d" (r)						\
-	   : "0" ((UDItype)(n0)), "1" ((UDItype)(n1)), "rm" ((UDItype)(dx)))
-/* bsrq destination must be a 64-bit register, hence UDItype for __cbtmp. */
-#define count_leading_zeros(count, x)					\
-  do {									\
-    UDItype __cbtmp;							\
-    ASSERT ((x) != 0);							\
-    __asm__ ("bsrq %1,%0" : "=r" (__cbtmp) : "rm" ((UDItype)(x)));	\
-    (count) = __cbtmp ^ 63;						\
-  } while (0)
-/* bsfq destination must be a 64-bit register, "%q0" forces this in case
-   count is only an int. */
-#define count_trailing_zeros(count, x)					\
-  do {									\
-    ASSERT ((x) != 0);							\
-    __asm__ ("bsfq %1,%q0" : "=r" (count) : "rm" ((UDItype)(x)));	\
-  } while (0)
-#endif /* x86_64 */
 
 #if defined (__i860__) && W_TYPE_SIZE == 32
 #define rshift_rhlc(r,h,l,c) \

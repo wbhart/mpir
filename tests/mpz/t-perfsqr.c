@@ -26,8 +26,11 @@ MA 02110-1301, USA. */
 #include "gmp-impl.h"
 #include "tests.h"
 
+#ifdef _MSC_VER		/* BRG */
+#include "perfsqr.h"
+#else
 #include "mpn/perfsqr.h"
-
+#endif
 
 /* check_modulo() exercises mpz_perfect_square_p on squares which cover each
    possible quadratic residue to each divisor used within
