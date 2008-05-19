@@ -1,6 +1,6 @@
 /* mpn_addsub_n -- Add and Subtract two limb vectors of equal, non-zero length.
 
-Copyright 1999, 2000, 2001 Free Software Foundation, Inc.
+Copyright 1999, 2000, 2001, 2006 Free Software Foundation, Inc.
 
 This file is part of the GNU MP Library.
 
@@ -58,13 +58,13 @@ mpn_addsub_n (mp_ptr r1p, mp_ptr r2p, mp_srcptr s1p, mp_srcptr s2p, mp_size_t n)
       for (off = 0; off < n; off += PART_SIZE)
 	{
 	  this_n = MIN (n - off, PART_SIZE);
-#if HAVE_NATIVE_mpn_add_nc || !HAVE_NATIVE_mpn_add_n
+#if HAVE_NATIVE_mpn_add_nc
 	  acyo = mpn_add_nc (r1p + off, s1p + off, s2p + off, this_n, acyo);
 #else
 	  acyn = mpn_add_n (r1p + off, s1p + off, s2p + off, this_n);
 	  acyo = acyn + mpn_add_1 (r1p + off, r1p + off, this_n, acyo);
 #endif
-#if HAVE_NATIVE_mpn_sub_nc || !HAVE_NATIVE_mpn_sub_n
+#if HAVE_NATIVE_mpn_sub_nc
 	  scyo = mpn_sub_nc (r2p + off, s1p + off, s2p + off, this_n, scyo);
 #else
 	  scyn = mpn_sub_n (r2p + off, s1p + off, s2p + off, this_n);
@@ -81,13 +81,13 @@ mpn_addsub_n (mp_ptr r1p, mp_ptr r2p, mp_srcptr s1p, mp_srcptr s2p, mp_size_t n)
       for (off = 0; off < n; off += PART_SIZE)
 	{
 	  this_n = MIN (n - off, PART_SIZE);
-#if HAVE_NATIVE_mpn_sub_nc || !HAVE_NATIVE_mpn_sub_n
+#if HAVE_NATIVE_mpn_sub_nc
 	  scyo = mpn_sub_nc (r2p + off, s1p + off, s2p + off, this_n, scyo);
 #else
 	  scyn = mpn_sub_n (r2p + off, s1p + off, s2p + off, this_n);
 	  scyo = scyn + mpn_sub_1 (r2p + off, r2p + off, this_n, scyo);
 #endif
-#if HAVE_NATIVE_mpn_add_nc || !HAVE_NATIVE_mpn_add_n
+#if HAVE_NATIVE_mpn_add_nc
 	  acyo = mpn_add_nc (r1p + off, s1p + off, s2p + off, this_n, acyo);
 #else
 	  acyn = mpn_add_n (r1p + off, s1p + off, s2p + off, this_n);
@@ -97,7 +97,7 @@ mpn_addsub_n (mp_ptr r1p, mp_ptr r2p, mp_srcptr s1p, mp_srcptr s2p, mp_size_t n)
     }
   else
     {
-      /* r1 and r2 are identical to s1 and s2 (r1==s1 and r2=s2 or vice versa)
+      /* r1 and r2 are identical to s1 and s2 (r1==s1 and r2==s2 or vice versa)
 	 Need temporary storage.  */
       mp_limb_t tp[PART_SIZE];
       acyo = 0;
@@ -105,13 +105,13 @@ mpn_addsub_n (mp_ptr r1p, mp_ptr r2p, mp_srcptr s1p, mp_srcptr s2p, mp_size_t n)
       for (off = 0; off < n; off += PART_SIZE)
 	{
 	  this_n = MIN (n - off, PART_SIZE);
-#if HAVE_NATIVE_mpn_add_nc || !HAVE_NATIVE_mpn_add_n
+#if HAVE_NATIVE_mpn_add_nc
 	  acyo = mpn_add_nc (tp, s1p + off, s2p + off, this_n, acyo);
 #else
 	  acyn = mpn_add_n (tp, s1p + off, s2p + off, this_n);
 	  acyo = acyn + mpn_add_1 (tp, tp, this_n, acyo);
 #endif
-#if HAVE_NATIVE_mpn_sub_nc || !HAVE_NATIVE_mpn_sub_n
+#if HAVE_NATIVE_mpn_sub_nc
 	  scyo = mpn_sub_nc (r2p + off, s1p + off, s2p + off, this_n, scyo);
 #else
 	  scyn = mpn_sub_n (r2p + off, s1p + off, s2p + off, this_n);

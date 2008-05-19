@@ -974,21 +974,11 @@ __GMP_DECLSPEC extern gmp_randstate_t  __gmp_rands;
    fastest hardware currently (2003) would need 100 million years, which
    suggests that these limits are acceptable.  */
 #if WANT_FFT
-#if HAVE_NATIVE_mpn_sublsh1_n
 #define MPN_TOOM3_MUL_N_TSIZE(n)  (2*(n) + 63)
 #define MPN_TOOM3_SQR_N_TSIZE(n)  (2*(n) + 63)
-#else
-#define MPN_TOOM3_MUL_N_TSIZE(n)  (2*(n) + 2*(n/3) + 63)
-#define MPN_TOOM3_SQR_N_TSIZE(n)  (2*(n) + 2*(n/3) + 63)
-#endif
 #else /* WANT_FFT */
-#if HAVE_NATIVE_mpn_sublsh1_n
 #define MPN_TOOM3_MUL_N_TSIZE(n)  (2*(n) + 255)
 #define MPN_TOOM3_SQR_N_TSIZE(n)  (2*(n) + 255)
-#else
-#define MPN_TOOM3_MUL_N_TSIZE(n)  (2*(n) + 2*(n/3) + 255)
-#define MPN_TOOM3_SQR_N_TSIZE(n)  (2*(n) + 2*(n/3) + 255)
-#endif
 #define MPN_TOOM3_MAX_N 285405
 #endif /* WANT_FFT */
 
