@@ -11,8 +11,7 @@
 	/>
 	<Tool
 		Name="VCLinkerTool"
-		AdditionalDependencies="$(LIBS)  $(TestDir)$(PlatformName)\$(ConfigurationName)\test-lib.lib"
-		OutputFile=""
+		AdditionalDependencies="$(LIBS) $(TestDir)$(PlatformName)\$(ConfigurationName)\test-lib.lib"
 		IgnoreDefaultLibraryNames=""
 	/>
 	<Tool
@@ -28,7 +27,7 @@
 	/>
 	<UserMacro
 		Name="TestDir"
-		Value="&quot;$(SolutionDir)gmp-tests\&quot;"
+		Value="&quot;$(SolutionDir)mpir-tests\&quot;"
 		InheritsFromParent="true"
 		Delimiter=";"
 		PerformEnvironmentSet="true"
