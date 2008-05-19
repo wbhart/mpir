@@ -1548,16 +1548,8 @@
 					Name="Assembler"
 					>
 					<File
-						RelativePath="..\..\mpn\x86_64i\amd64\aors_n.asm"
+						RelativePath="..\..\mpn\x86_64i\aors_n.asm"
 						>
-						<FileConfiguration
-							Name="Debug|x64"
-							>
-							<Tool
-								Name="YASM"
-								Debug="true"
-							/>
-						</FileConfiguration>
 					</File>
 					<File
 						RelativePath="..\..\mpn\x86_64i\amd64\aorsmul_1.asm"
