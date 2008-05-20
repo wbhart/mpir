@@ -33,9 +33,15 @@
 ; This is an SEH Frame Function with a leaf prologue
 
 %define _SEH_
+%define DWORD_OFFSETS
 
-%define UNROLL_COUNT    31
-%define  CODE_BYTES_PER_LIMB  25 ; must be odd
+%define UNROLL_COUNT    40
+
+%ifndef DWORD_OFFSETS 
+%if UNROLL_COUNT > 31
+%error Unroll count is too large for byte offsets
+%endif
+%endif
 
 %if   UNROLL_COUNT > 15
 %define  off (UNROLL_COUNT - 15) * 8
@@ -192,10 +198,29 @@ sqr_4_plus:
     sub     rsi,off
 %endif
     mov     rdx,rcx
+
+%ifdef DWORD_OFFSETS
+
+%define  CODE_BYTES_PER_LIMB  31    ; must be odd
+%define dsiz dword
+
+    shl     rcx,5
+    sub     rcx,rdx
+    lea     v_jmp,[rel .3]
+    lea     rcx,[rcx+(UNROLL_COUNT - 2) * CODE_BYTES_PER_LIMB]
+
+%else
+
+%define  CODE_BYTES_PER_LIMB  25    ; must be odd
+%define  dsiz byte
+
     shl     rcx,3
     lea     rcx,[rcx+rcx*2]
     lea     v_jmp,[rel .3]
     lea     rcx,[rcx+rdx+(UNROLL_COUNT - 2) * CODE_BYTES_PER_LIMB]
+
+%endif
+
     lea     rcx,[rcx+v_jmp]
 .2: lea     v_jmp,[rcx+CODE_BYTES_PER_LIMB]
     mov     rbp,[rsi+rdx*8-24+off]
@@ -220,27 +245,28 @@ sqr_4_plus:
 .3:
 %assign  i UNROLL_COUNT
 %rep  UNROLL_COUNT
-
 %define  disp_src off - 8 * i
 
+%ifndef DWORD_OFFSETS
 %if disp_src < -120 || disp_src >= 128
 %error source dispacement too large
+%endif
 %endif
 
 %if (i % 2) = 0     ; 25 bytes of code per limb
     nop
-    mov     rax,[byte rsi + disp_src]
+    mov     rax,[dsiz rsi + disp_src]
     adc     rbx,rdx
     mul     rbp
-    add     [byte rdi + disp_src - 8],rcx
+    add     [dsiz rdi + disp_src - 8],rcx
     mov     rcx,dword 0
     adc     rbx,rax
 %else
     nop
-    mov     rax,[byte rsi + disp_src]
+    mov     rax,[dsiz rsi + disp_src]
     adc     rcx,rdx
     mul     rbp
-    add     [byte rdi + disp_src - 8],rbx
+    add     [dsiz rdi + disp_src - 8],rbx
 %if   i != 1
     mov     rbx,dword 0
 %endif
