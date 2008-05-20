@@ -33,20 +33,21 @@
 ; This is an SEH Frame Function with a leaf prologue
 
 %define _SEH_
-%define DWORD_OFFSETS
 
-%define UNROLL_COUNT    40
+%define UNROLL_COUNT    31
 
-%ifndef DWORD_OFFSETS 
 %if UNROLL_COUNT > 31
-%error Unroll count is too large for byte offsets
-%endif
+%define DWORD_OFFSETS
+%else
+%undef DWORD_OFFSETS
 %endif
 
-%if   UNROLL_COUNT > 15
-%define  off (UNROLL_COUNT - 15) * 8
+%ifdef DWORD_OFFSETS
+%define  ADR_BIAS  0
+%elif UNROLL_COUNT > 15
+%define  ADR_BIAS (UNROLL_COUNT - 15) * 8
 %else
-%define  off  0
+%define  ADR_BIAS  0
 %endif
 
 %define r_ptr  r10
@@ -193,9 +194,9 @@ sqr_4_plus:
     sub     rcx,4
     jz      L_corner
     neg     rcx
-%if   off != 0
-    sub     rdi,off
-    sub     rsi,off
+%if   ADR_BIAS != 0
+    sub     rdi,ADR_BIAS
+    sub     rsi,ADR_BIAS
 %endif
     mov     rdx,rcx
 
@@ -223,8 +224,8 @@ sqr_4_plus:
 
     lea     rcx,[rcx+v_jmp]
 .2: lea     v_jmp,[rcx+CODE_BYTES_PER_LIMB]
-    mov     rbp,[rsi+rdx*8-24+off]
-    mov     rax,[rsi+rdx*8-16+off]
+    mov     rbp,[rsi+rdx*8-24+ADR_BIAS]
+    mov     rax,[rsi+rdx*8-16+ADR_BIAS]
     mov     v_ctr,rdx
     mul     rbp
     test    cl,1
@@ -245,7 +246,7 @@ sqr_4_plus:
 .3:
 %assign  i UNROLL_COUNT
 %rep  UNROLL_COUNT
-%define  disp_src off - 8 * i
+%define  disp_src ADR_BIAS - 8 * i
 
 %ifndef DWORD_OFFSETS
 %if disp_src < -120 || disp_src >= 128
@@ -276,17 +277,17 @@ sqr_4_plus:
 %endrep
 
     adc     rdx,dword 0
-    add     [rdi-8+off],rcx
+    add     [rdi-8+ADR_BIAS],rcx
     mov     rcx,v_jmp
     adc     rdx,dword 0
-    mov     [rdi+off],rdx
+    mov     [rdi+ADR_BIAS],rdx
     mov     rdx,v_ctr
     inc     rdx
     jnz     .2
 
-%if   off != 0
-    add     rsi,off
-    add     rdi,off
+%if   ADR_BIAS != 0
+    add     rsi,ADR_BIAS
+    add     rdi,ADR_BIAS
 %endif
 
 L_corner:
