@@ -56,9 +56,6 @@ mpz_set_d (mpz_ptr r, double d)
   if (ALLOC(r) < rn)
     _mpz_realloc (r, rn);
 
-  if (rn <= 0)
-      rn = 0;
-
   rp = PTR (r);
 
   switch (rn)
