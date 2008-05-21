@@ -28,7 +28,7 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
-				CommandLine="call ..\file_copy ..\config.amd64 ..\..\config.h&#x0D;&#x0A;call ..\file_copy ..\..\mpn\x86_64i\amd64\gmp-mparam.h ..\..\gmp-mparam.h&#x0D;&#x0A;call ..\file_copy ..\gmp.h ..\..\gmp.h&#x0D;&#x0A;call ..\file_copy ..\gmp.h ..\..\mpir.h&#x0D;&#x0A;"
+				CommandLine="call ..\file_copy ..\config.amd64 ..\..\config.h&#x0D;&#x0A;call ..\file_copy ..\..\mpn\x86_64i\amd64\gmp-mparam.h ..\..\gmp-mparam.h&#x0D;&#x0A;call ..\file_copy ..\gmp.h ..\..\gmp.h&#x0D;&#x0A;"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -74,7 +74,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="$(OutDir)\gmp.lib"
+				OutputFile="$(OutDir)\mpir.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -90,7 +90,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="if not exist ..\lib\$(OutDir)\ md ..\lib\$(OutDir)\&#x0D;&#x0A;&#x0D;&#x0A;call ..\out_copy ..\..\config.h &quot;$(TargetDir)&quot;&#x0D;&#x0A;call ..\out_copy ..\..\$(TargetName).h &quot;$(TargetDir)&quot;&#x0D;&#x0A;call ..\out_copy &quot;..\..\gmp-mparam.h&quot; &quot;$(TargetDir)&quot;&#x0D;&#x0A;&#x0D;&#x0A;call ..\out_copy &quot;..\..\gmp.h&quot; ..\lib\$(OutDir)\&#x0D;&#x0A;call ..\out_copy &quot;..\..\mpir.h&quot; ..\lib\$(OutDir)\&#x0D;&#x0A;call ..\out_copy ..\..\config.h ..\lib\$(OutDir)\&#x0D;&#x0A;call ..\out_copy ..\..\$(TargetName).h ..\lib\$(OutDir)\&#x0D;&#x0A;call ..\out_copy &quot;..\..\gmp-mparam.h&quot; ..\lib\$(OutDir)\&#x0D;&#x0A;call ..\out_copy &quot;$(TargetDir)$(TargetName).lib&quot; ..\lib\$(OutDir)\&#x0D;&#x0A;call ..\out_copy &quot;$(TargetDir)$(TargetName).pdb&quot; ..\lib\$(OutDir)\&#x0D;&#x0A;&#x0D;&#x0A;echo $(ProjectDir)+$(OutDir)+$(TargetName)+$(TargetExt) &gt; ..\last_build.txt&#x0D;&#x0A;"
+				CommandLine="if not exist ..\lib\$(OutDir)\ md ..\lib\$(OutDir)\&#x0D;&#x0A;&#x0D;&#x0A;call ..\out_copy_rename ..\..\gmp.h &quot;$(TargetDir)&quot; mpir.h&#x0D;&#x0A;call ..\out_copy ..\..\config.h &quot;$(TargetDir)&quot;&#x0D;&#x0A;call ..\out_copy ..\..\$(TargetName).h &quot;$(TargetDir)&quot;&#x0D;&#x0A;call ..\out_copy &quot;..\..\gmp-mparam.h&quot; &quot;$(TargetDir)&quot;&#x0D;&#x0A;&#x0D;&#x0A;call ..\out_copy_rename &quot;..\..\gmp.h&quot; ..\lib\$(OutDir)\ mpir.h&#x0D;&#x0A;call ..\out_copy ..\..\config.h ..\lib\$(OutDir)\&#x0D;&#x0A;call ..\out_copy ..\..\$(TargetName).h ..\lib\$(OutDir)\&#x0D;&#x0A;call ..\out_copy &quot;..\..\gmp-mparam.h&quot; ..\lib\$(OutDir)\&#x0D;&#x0A;call ..\out_copy &quot;$(TargetDir)$(TargetName).lib&quot; ..\lib\$(OutDir)\&#x0D;&#x0A;call ..\out_copy &quot;$(TargetDir)$(TargetName).pdb&quot; ..\lib\$(OutDir)\&#x0D;&#x0A;&#x0D;&#x0A;echo $(ProjectDir)+$(OutDir)+$(TargetName)+$(TargetExt) &gt; ..\last_build.txt&#x0D;&#x0A;"
 			/>
 		</Configuration>
 		<Configuration
@@ -103,7 +103,7 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
-				CommandLine="call ..\file_copy ..\config.amd64 ..\..\config.h&#x0D;&#x0A;call ..\file_copy ..\..\mpn\x86_64i\amd64\gmp-mparam.h ..\..\gmp-mparam.h&#x0D;&#x0A;call ..\file_copy ..\gmp.h ..\..\gmp.h&#x0D;&#x0A;call ..\file_copy ..\gmp.h ..\..\mpir.h&#x0D;&#x0A;"
+				CommandLine="call ..\file_copy ..\config.amd64 ..\..\config.h&#x0D;&#x0A;call ..\file_copy ..\..\mpn\x86_64i\amd64\gmp-mparam.h ..\..\gmp-mparam.h&#x0D;&#x0A;call ..\file_copy ..\gmp.h ..\..\gmp.h&#x0D;&#x0A;"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -153,7 +153,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="$(OutDir)\gmp.lib"
+				OutputFile="$(OutDir)\mpir.lib"
 				IgnoreAllDefaultLibraries="false"
 			/>
 			<Tool
@@ -170,7 +170,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="if not exist ..\lib\$(OutDir)\ md ..\lib\$(OutDir)\&#x0D;&#x0A;&#x0D;&#x0A;call ..\out_copy ..\..\config.h &quot;$(TargetDir)&quot;&#x0D;&#x0A;call ..\out_copy ..\..\$(TargetName).h &quot;$(TargetDir)&quot;&#x0D;&#x0A;call ..\out_copy &quot;..\..\gmp-mparam.h&quot; &quot;$(TargetDir)&quot;&#x0D;&#x0A;&#x0D;&#x0A;call ..\out_copy &quot;..\..\gmp.h&quot; ..\lib\$(OutDir)\&#x0D;&#x0A;call ..\out_copy &quot;..\..\mpir.h&quot; ..\lib\$(OutDir)\&#x0D;&#x0A;call ..\out_copy ..\..\config.h ..\lib\$(OutDir)\&#x0D;&#x0A;call ..\out_copy ..\..\$(TargetName).h ..\lib\$(OutDir)\&#x0D;&#x0A;call ..\out_copy &quot;..\..\gmp-mparam.h&quot; ..\lib\$(OutDir)\&#x0D;&#x0A;call ..\out_copy &quot;$(TargetDir)$(TargetName).lib&quot; ..\lib\$(OutDir)\&#x0D;&#x0A;call ..\out_copy &quot;$(TargetDir)$(TargetName).pdb&quot; ..\lib\$(OutDir)\&#x0D;&#x0A;&#x0D;&#x0A;echo $(ProjectDir)+$(OutDir)+$(TargetName)+$(TargetExt) &gt; ..\last_build.txt&#x0D;&#x0A;"
+				CommandLine="if not exist ..\lib\$(OutDir)\ md ..\lib\$(OutDir)\&#x0D;&#x0A;&#x0D;&#x0A;call ..\out_copy_rename ..\..\gmp.h &quot;$(TargetDir)&quot; mpir.h&#x0D;&#x0A;call ..\out_copy ..\..\config.h &quot;$(TargetDir)&quot;&#x0D;&#x0A;call ..\out_copy ..\..\$(TargetName).h &quot;$(TargetDir)&quot;&#x0D;&#x0A;call ..\out_copy &quot;..\..\gmp-mparam.h&quot; &quot;$(TargetDir)&quot;&#x0D;&#x0A;&#x0D;&#x0A;call ..\out_copy_rename &quot;..\..\gmp.h&quot; ..\lib\$(OutDir)\ mpir.h&#x0D;&#x0A;call ..\out_copy ..\..\config.h ..\lib\$(OutDir)\&#x0D;&#x0A;call ..\out_copy ..\..\$(TargetName).h ..\lib\$(OutDir)\&#x0D;&#x0A;call ..\out_copy &quot;..\..\gmp-mparam.h&quot; ..\lib\$(OutDir)\&#x0D;&#x0A;call ..\out_copy &quot;$(TargetDir)$(TargetName).lib&quot; ..\lib\$(OutDir)\&#x0D;&#x0A;call ..\out_copy &quot;$(TargetDir)$(TargetName).pdb&quot; ..\lib\$(OutDir)\&#x0D;&#x0A;&#x0D;&#x0A;echo $(ProjectDir)+$(OutDir)+$(TargetName)+$(TargetExt) &gt; ..\last_build.txt&#x0D;&#x0A;"
 			/>
 		</Configuration>
 	</Configurations>
