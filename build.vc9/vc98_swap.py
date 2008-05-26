@@ -1,38 +1,27 @@
 
+# Convert between Visual Studio 2008 and 2005 Project Files
+# (with thanks to Tommi Vainikainen)
+
 import os
 import shutil
 import string
+import fileinput, sys
 
-def convert(sp) :
-  f = open(sp, 'r+')
-  for l in f :
-    p = l.find("Version=\"9.00\"\r\n")
-    if p != -1
-      l = l[ : l + 9] + '8' + l[ l + 10 : ]
-      f.write(l)
-    p = l.find("Version=\"8.00\"\r\n")
-    if p != -1
-      l = l[ : l + 9] + '9' + l[ l + 10 : ]
-      f.write(l)
-  f.close()
-  return
+def fd_convert(sp):
+  for l in fileinput.input(sp, inplace = 1) :
+    p1 = l.find("Version=\"8.00\"")
+    p2 = l.find("Version=\"9.00\"")
+    if p1 != -1 or p2 != -1 :
+      if p1 != -1 :
+        l = l[ : p1 + 9] + '9' + l[ p1 + 10 : ]
+      else :
+        l = l[ : p2 + 9] + '8' + l[ p2 + 10 : ]
+    sys.stdout.write(l)
 
-def fd_search(s) :
-  fd = os.listdir(s)
-  for f in fd :
-    sp = os.path.join(s,f)
-    if os.path.isdir(sp) :
-      fd_convert(sp)
-    elif os.path.isfile(sp) :
-      fn = os.path.basename(f)
-      x = os.path.splitext(fn)
-      if x[1] == ".vcproj" :
-        convert(sp)
-  return
-
-cd = os.getcwd()           # it must run in build.vc9 
-cd += "\\..\\build.vc9"    # the current vc9 build directory
-if os.path.exists(cd) :
-    fd_search(cd)
+if os.getcwd().endswith("build.vc9") :
+  for root, dirs, files in os.walk("./") :
+    for file in files :
+      if file.endswith(".vcproj") :
+        fd_convert(os.path.join(root, file))
 else :
   print "This script must be run in the 'build.vc9' directory"
