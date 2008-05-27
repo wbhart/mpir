@@ -1889,9 +1889,9 @@ GMP_CHECK_LIBM_FOR_BUILD
 #
 if test $transitioned = yes; then
   MPIR_AS="/yasm/yasm"
-else
-  test -n "$CCAS" || CCAS="$CC -c"
 fi
+
+test -n "$CCAS" || CCAS="$CC -c"
 
 AM_CONDITIONAL(TRANSITIONED, test $transitioned = yes)
   
