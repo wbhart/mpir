@@ -93,7 +93,11 @@ __gmpn_modexact_1c_odd:
     mov      r8, rdx
     shr      edx, 1
 
+%ifdef PIC
     mov      r9, [__gmp_modlimb_invert_table wrt rip wrt ..gotpcrel]
+%else
+    lea      r9, [__gmp_modlimb_invert_table wrt rip]
+%endif
 
     and      edx, 127
     mov      r10, rcx
