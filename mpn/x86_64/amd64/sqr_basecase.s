@@ -30,6 +30,11 @@
 ;     mp_size_t size     r8 rdx
 ;  )
 
+;  The unroll count here is set very large so that tuneup won't run 
+;  out of unroll loop when it tried ridiculously large crossover 
+;  values with karatsuba squaring. Tuneup was observed to require a
+;  value here of over 128. Though 150 seems ok, we set it even higher.
+
 %define UNROLL_COUNT 300 
 
 %if UNROLL_COUNT > 31
