@@ -42,7 +42,7 @@ MA 02111-1307, USA. */
 /*  WARNING: SQR_KARATSUBA_THRESHOLD cannot be larger than 34 when byte
     offsets are used within the unrolled loop in sqr_basecase.asm
 */
-#define SQR_KARATSUBA_THRESHOLD     34
+#define SQR_KARATSUBA_THRESHOLD     33
 #define MUL_KARATSUBA_THRESHOLD     26
 #define MUL_TOOM3_THRESHOLD        298
 #define DIV_DC_THRESHOLD            88

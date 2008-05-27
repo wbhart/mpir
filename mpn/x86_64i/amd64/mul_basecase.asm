@@ -37,7 +37,9 @@
 ;
 ; This is an SEH Frame Function with a leaf prologue
 
-%define _SEH_
+%include "..\x86_64_asm.inc"
+
+%define reg_save_list       rbx, rsi, rdi, rbp, r12
 
 %define UNROLL_LOG2         4
 %define UNROLL_COUNT        (1 << UNROLL_LOG2)
@@ -126,24 +128,9 @@ mul_2_by_2:                 ; r8 (x_len) and r10 (y_len) free
 ; do first multiply of y[0] * x[n] as it can simply be stored
 
 mul_m_by_n:
-    mov     r10d,dword[rsp+0x28]    ; load as a 32-bit integer
-%ifdef _SEH_
-PROC_FRAME  fmul_m_by_n
-    push_reg    rbx
-    push_reg    rsi
-    push_reg    rdi
-    push_reg    rbp
-    push_reg    r12
-    alloc_stack 4*8                 ; align to 16 byte boundary
-END_PROLOGUE                        ; [rsp], [rsp+8] & [rsp+16]
-%else
-    push    rbx
-    push    rsi
-    push    rdi
-    push    rbp
-    push    r12
-    sub     rsp,v_len           ; ***
-%endif
+    mov     r10d, dword[rsp+0x28]   ; load as a 32-bit integer
+
+prologue fmul_m_by_n, reg_save_list, 3
     mov     x_ptr,rdx
     mov     r12,x_len
     mov     rbp,rax             ; y[0] -> rbp
@@ -278,23 +265,6 @@ L_unroll:
     mov     [rdi+8],rdx
     jnz     .2
 L_exit:
-%ifdef _SEH_
-    add     rsp, 4*8
-    pop     r12
-    pop     rbp
-    pop     rdi
-    pop     rsi
-    pop     rbx
-    ret
-ENDPROC_FRAME
-%else
-    add     rsp,v_len
-    pop     r12
-    pop     rbp
-    pop     rdi
-    pop     rsi
-    pop     rbx
-    ret
-%endif
+    epilogue reg_save_list, 3
 
     end

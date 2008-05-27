@@ -37,7 +37,9 @@
 ;
 ; This is an SEH Frame Function with a leaf prologue
 
-%define _SEH_
+%include "x86_64_asm.inc"
+
+%define reg_save_list       rsi, rdi
 
     bits    64
     section .text
@@ -66,17 +68,7 @@ L_div_top:
     jnz     L_div_top
     rep     ret         ; avoid single byte return
 
-%ifdef _SEH_
-PROC_FRAME  L_mul_by_inverse
-    push_reg    rsi
-    push_reg    rdi
-    alloc_stack 8       ; align to 16 byte boundary
-END_PROLOGUE
-%else
-L_mul_by_inverse:
-    push    rsi
-    push    rdi
-%endif
+prologue    L_mul_by_inverse, reg_save_list, 0
     mov     rsi,rdx     ; src pointer
     mov     rdi,rcx     ; dst pointer
     mov     rax,r9
@@ -163,16 +155,6 @@ L_even_entry:
     imul    rax,r10
     mov     [rdi-8],rax
 L_exit:
-%ifdef _SEH_
-    add     rsp, 8
-    pop     rdi
-    pop     rsi
-    ret
-ENDPROC_FRAME
-%else
-    pop     rdi
-    pop     rsi
-    ret
-%endif
+    epilogue reg_save_list, 0
 
     end

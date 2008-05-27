@@ -125,7 +125,11 @@
 ; b_z       B_z
 ; temp      temp
 ; index     index
-;
+
+%include "..\x86_64_asm.inc"
+
+%define reg_save_list       rsi, rdi, r12, r13, r14, r15
+
 %define s2limb  rcx
 %define s1p     rsi
 %define rp      rdi
@@ -156,16 +160,7 @@ __gmpn_mul_1:
 __gmpn_mul_1c:
     mov     a_z, [rsp+0x28]
 
-PROC_FRAME  entry
-    push_reg    rsi
-    push_reg    rdi
-    push_reg    r12
-    push_reg    r13
-    push_reg    r14
-    push_reg    r15
-    alloc_stack 8
-END_PROLOGUE
-
+prologue    entry, reg_save_list, 0
     mov     rdi, rcx
     mov     rsi, rdx
     xor     rdx, rdx
@@ -319,14 +314,6 @@ END_PROLOGUE
     mov     [rp+index*8-8], rax
     mov     rax, rdx
 .mul_1_exit:
-    add     rsp, 8
-    pop     r15
-    pop     r14
-    pop     r13
-    pop     r12
-    pop     rdi
-    pop     rsi
-    ret
-ENDPROC_FRAME
+    epilogue    reg_save_list,0 
 
     end

@@ -47,7 +47,7 @@
     export  __gmpn_lshift
 %endif
 
-%if 0
+%if 1
 
 __gmpn_lshift:
     movsxd  s_len,r8d
@@ -68,7 +68,7 @@ __gmpn_lshift:
 .0: ret
 .1: dec     s_len
     mov     rdx,[s_ptr+s_len*8]
-    mov     [rsp+0x08],rdx          ; save rdx in shadow space
+    movq    xmm0, rdx
 .2: mov     rax,[s_ptr+s_len*8-8]
     mov     r_tmp,rax
     shl     rdx,cl
@@ -83,7 +83,7 @@ __gmpn_lshift:
     shl     rax,cl
     mov     [d_ptr],rax
     neg     cl
-    mov     rax,[rsp+0x08]
+    movq     rax, xmm0
     shr     rax,cl
     ret
 
@@ -91,7 +91,7 @@ __gmpn_lshift:
 
 __gmpn_lshift:
     movsxd  r8, r8d
-    movq    mm7, [rdx+r8*8-8]   ; rdx  -> src
+    movq    mm7, [rdx+r8*8-8]   ; rdx -> src
     movd    mm1, r9d            ; <<  -> mm1
     mov     eax, 64
     sub     eax, r9d

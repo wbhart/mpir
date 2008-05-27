@@ -32,7 +32,9 @@
 ;
 ; This is an SEH Frame Function with a leaf prologue
 
-%define _SEH_
+%include "..\x86_64_asm.inc"
+
+%define reg_save_list   rbx, rsi, rdi, rbp, r12, r13
 
 %define UNROLL_COUNT    31
 
@@ -101,25 +103,7 @@ sqr_2:
     adc     [r_ptr+24],rcx
     ret
 
-%ifdef _SEH_
-PROC_FRAME  sqr_3_plus
-    push_reg    rbx
-    push_reg    rsi
-    push_reg    rdi
-    push_reg    rbp
-    push_reg    r12
-    push_reg    r13
-   alloc_stack  8           ; align to 16 byte boundary
-END_PROLOGUE
-%else
-sqr_3_plus:
-    push    rbx
-    push    rsi
-    push    rdi
-    push    rbp
-    push    r12
-    push    r13
-%endif
+prologue    sqr_3_plus, reg_save_list, 0
     mov     r_ptr,rcx
     mov     x_ptr,rdx
     cmp     x_len,4
@@ -346,23 +330,6 @@ L_corner:
     jnz     .1
     add     [rdi-8],rdx
 sqr_exit:
-%ifdef _SEH_
-    add     rsp, 8
-    pop     r13
-    pop     r12
-    pop     rbp
-    pop     rdi
-    pop     rsi
-    pop     rbx
-    ret
-ENDPROC_FRAME
-%else
-    pop     r13
-    pop     r12
-    pop     rbp
-    pop     rdi
-    pop     rsi
-    pop     rbx
-    ret
-%endif
+    epilogue reg_save_list, 0
+
     end

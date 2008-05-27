@@ -79,7 +79,9 @@
 ;
 ; This is an SEH Frame Function with a leaf prologue
 
-%define _SEH_
+%include "x86_64_asm.inc"
+
+%define reg_save_list       rsi, rdi
 
     bits    64
     section .text
@@ -97,18 +99,8 @@
 __gmpn_modexact_1_odd:
     mov     r9, 0       ; carry
 
-%ifdef _SEH_
-PROC_FRAME  __gmpn_modexact_1c_odd
-    push_reg    rsi
-    push_reg    rdi
-    alloc_stack 8       ; align to 16 byte boundary
-END_PROLOGUE
-%else
-__gmpn_modexact_1c_odd:
-    push    rsi
-    push    rdi
-%endif
-    mov     rsi, rdx
+prologue    __gmpn_modexact_1c_odd, reg_save_list, 0
+    movsxd  rsi, edx
     mov     rdx, r8
 
     shr     edx, 1              ; div / 2
@@ -160,16 +152,6 @@ __gmpn_modexact_1c_odd:
     imul    rax, r10
     mul     r8
     lea     rax, [rcx+rdx]
-%ifdef _SEH_
-    add     rsp, 8
-    pop     rdi
-    pop     rsi
-    ret
-ENDPROC_FRAME
-%else
-    pop     rdi
-    pop     rsi
-    ret
-%endif
+    epilogue    reg_save_list, 0 
 
     end

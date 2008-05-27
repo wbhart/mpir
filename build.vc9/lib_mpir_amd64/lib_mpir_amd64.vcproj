@@ -36,6 +36,7 @@
 			/>
 			<Tool
 				Name="YASM"
+				Defines="_WIN64_ABI"
 				IncludePaths="$(InputDir)\"
 				ObjectFileName="$(IntDir)\$(InputName).obj"
 				Debug="true"
@@ -111,6 +112,7 @@
 			/>
 			<Tool
 				Name="YASM"
+				Defines="_WIN64_ABI"
 				ObjectFileName="$(IntDir)\$(InputName).obj"
 				Debug="true"
 			/>

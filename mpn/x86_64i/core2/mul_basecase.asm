@@ -89,6 +89,10 @@
 ;
 ; BPL is bytes per limb, which is 8 in the 64-bit code here
 
+%include "..\x86_64_asm.inc"
+
+%define reg_save_list       rsi, rdi, rbx, rbp, r12, r13, r14, r15
+
 %define BPL                 8
 %define UNROLL_EXPONENT     4
 %define UNROLL_SIZE         (1 << UNROLL_EXPONENT)
@@ -118,18 +122,7 @@
     export  __gmpn_mul_basecase
 %endif
 
-PROC_FRAME  __gmpn_mul_basecase
-    push_reg    rsi
-    push_reg    rdi
-    push_reg    rbx
-    push_reg    rbp
-    push_reg    r12
-    push_reg    r13
-    push_reg    r14
-    push_reg    r15
-    alloc_stack 8
-END_PROLOGUE
-
+prologue    __gmpn_mul_basecase, reg_save_list, 0
     mov     rdi, rcx
     mov     rsi, rdx
     mov     rdx, r8
@@ -447,16 +440,6 @@ mul_loop_end:
     jnz     mul_loop
 
 exit:
-    add     rsp, 8
-    pop     r15
-    pop     r14
-    pop     r13
-    pop     r12
-    pop     rbp
-    pop     rbx
-    pop     rdi
-    pop     rsi
-    ret
-ENDPROC_FRAME
+    epilogue    reg_save_list, 0 
 
     end

@@ -34,7 +34,7 @@
 	/>
 	<UserMacro
 		Name="LIBS"
-		Value="$(BinDir)$(PlatformName)\$(ConfigurationName)\gmp.lib $(BinDir)$(PlatformName)\$(ConfigurationName)\gmpxx.lib"
+		Value="$(BinDir)$(PlatformName)\$(ConfigurationName)\mpir.lib $(BinDir)$(PlatformName)\$(ConfigurationName)\mpirxx.lib"
 		InheritsFromParent="true"
 		Delimiter=";"
 		PerformEnvironmentSet="true"

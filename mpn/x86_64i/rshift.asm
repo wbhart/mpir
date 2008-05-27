@@ -47,7 +47,7 @@
    export   __gmpn_rshift
 %endif
 
-%if 0
+%if 1
 
 __gmpn_rshift:
     movsxd  s_len,r8d
@@ -69,7 +69,7 @@ __gmpn_rshift:
     lea     d_ptr,[d_ptr+s_len*8]
     neg     s_len
     mov     rdx,[s_ptr+s_len*8]
-    mov     [rsp+0x08],rdx      ; save to shadow space
+    movq     xmm0, rdx
     shr     rdx,cl
     neg     cl
     inc     s_len
@@ -84,8 +84,8 @@ __gmpn_rshift:
     mov     [d_ptr+s_len*8-8],r_tmp
     inc     s_len
     jnz     .2
-    mov     [d_ptr-8],rax
-    mov     rax,[rsp+0x08]
+    mov     [d_ptr-8],rax 
+    movq    rax, xmm0
     shl     rax,cl
     ret
 

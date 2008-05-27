@@ -59,7 +59,7 @@
 %define UNROLL_LOG2         4
 %define UNROLL_COUNT        (1 << UNROLL_LOG2)
 %define UNROLL_MASK         (UNROLL_COUNT - 1)
-%define  UNROLL_BYTES       (8 * UNROLL_COUNT)
+%define UNROLL_BYTES        (8 * UNROLL_COUNT)
 %define UNROLL_THRESHOLD    8
 
 %if UNROLL_BYTES >= 256

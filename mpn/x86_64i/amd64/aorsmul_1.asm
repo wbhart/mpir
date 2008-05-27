@@ -44,7 +44,9 @@
 ;
 ; This is an SEH Frame Function with two leaf prologues
 
-%define _SEH_
+%include "..\x86_64_asm.inc"
+
+%define reg_save_list       rbp, rbx, rsi
 
 %define dst    rcx
 %define len     r8
@@ -134,17 +136,7 @@
 %define cry_hi rsi              ; second carry for alternate block
 
 %%3:
-%ifdef _SEH_
-PROC_FRAME  %3%4                ; unwind support needed form here on
-    push_reg    rbp
-    push_reg    rbx
-    push_reg    rsi
-END_PROLOGUE
-%else
-    push    rbp
-    push    rbx
-    push    rsi
-%endif
+prologue %3%4, reg_save_list, 0
     lea     rep_cnt,[len-2]
     dec     len
     shr     rep_cnt,UNROLL_LOG2
@@ -204,19 +196,7 @@ END_PROLOGUE
     %2      [dst-off+8],rax
     adc     rdx,len
     mov     rax,rdx
-%ifdef _SEH_
-    add     rsp, 0
-    pop     rsi
-    pop     rbx
-    pop     rbp
-    ret
-ENDPROC_FRAME
-%else
-    pop     rsi
-    pop     rbx
-    pop     rbp
-    ret
-%endif
+    epilogue reg_save_list, 0 
 
 %endmacro
 
