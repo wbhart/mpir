@@ -30,7 +30,7 @@
 ;     mp_size_t size     r8 rdx
 ;  )
 
-%define UNROLL_COUNT    31
+%define UNROLL_COUNT 300 
 
 %if UNROLL_COUNT > 31
 %define DWORD_OFFSETS
