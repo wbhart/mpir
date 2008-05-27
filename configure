@@ -32779,6 +32779,21 @@ _ACEOF
 int sqr_basecase_dummy;
 EOF
     ;;
+  *.s)
+    sqr_max=`sed -n 's/^def...(SQR_KARATSUBA_THRESHOLD_MAX, *\([0-9]*\))/\1/p' $sqr_basecase_source`
+    if test -n "$sqr_max"; then
+      TUNE_SQR_OBJ=sqr_asm.o
+
+cat >>confdefs.h <<_ACEOF
+#define TUNE_SQR_KARATSUBA_MAX $sqr_max
+_ACEOF
+
+    fi
+    cat >tune/sqr_basecase.c <<EOF
+/* not sure that an empty file can compile, so put in a dummy */
+int sqr_basecase_dummy;
+EOF
+    ;;
   *.c)
     TUNE_SQR_OBJ=
     cat >>confdefs.h <<\_ACEOF
