@@ -54,7 +54,7 @@ SUFFIXES = .s .S .asm
 	$(CCAS) $(COMPILE_FLAGS) `if test -f '$<'; then $(CYGPATH_W) '$<'; else $(CYGPATH_W) '$(srcdir)/$<'; fi`
 if TRANSITIONED
 .s.lo:
-        $(LIBTOOL) --mode=compile $(top_srcdir)/strip_fPIC.sh $(top_srcdir)$(MPIR_AS) -f elf -m amd64 `test -f '$<' || echo '$(srcdir)/'`$<
+	$(LIBTOOL) --mode=compile $(top_srcdir)/strip_fPIC.sh $(top_srcdir)$(MPIR_AS) -f elf -m amd64 `test -f '$<' || echo '$(srcdir)/'`$<
 else
 .s.lo:
 	$(LIBTOOL) --mode=compile --tag=CC $(CCAS) $(COMPILE_FLAGS) `test -f '$<' || echo '$(srcdir)/'`$<
