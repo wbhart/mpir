@@ -1271,7 +1271,7 @@ case $host in
   # mode, in case -m32 has failed not because it's an old gcc, but because
   # it's a dual 32/64-bit gcc without a 32-bit libc, or whatever.
   #
-  X86_PATTERN | x86_64-*-*)
+  X86_PATTERN | x86_64-*-* | core2-*-*)
     abilist="32"
     cclist="gcc icc"
     gcc_cflags="-O2 $fomit_frame_pointer"
@@ -1387,7 +1387,7 @@ case $host in
         gcc_cflags_cpu="-mtune=c3 -mcpu=c3 -mcpu=i486 -m486"
         gcc_cflags_arch="-march=c3 -march=pentium-mmx -march=pentium"
         ;;
-      x86_64)
+      x86_64 | core2)
         gcc_cflags_cpu="-mtune=k8 -mcpu=athlon -mcpu=pentiumpro -mcpu=i486 -m486"
         gcc_cflags_arch="-march=k8 -march=k8~-mno-sse2 -march=athlon -march=pentiumpro -march=pentium"
         ;;
@@ -1398,23 +1398,23 @@ case $host in
     esac
 
     case $host_cpu in
-      i386*)                path="x86" ;;
-      i486*)                path="x86/i486 x86" ;;
-      i586 | pentium)       path="x86/pentium x86" ;;
-      pentiummmx)           path="x86/pentium/mmx x86/pentium x86" ;;
-      i686 | pentiumpro)    path="x86/p6 x86" ;;
-      pentium2)             path="x86/p6/mmx x86/p6 x86" ;;
-      pentium3)             path="x86/p6/p3mmx x86/p6/mmx x86/p6 x86";;
-      [k6[23]])             path="x86/k6/k62mmx x86/k6/mmx x86/k6 x86" ;;
-      k6)                   path="x86/k6/mmx x86/k6 x86" ;;
+      i386*)                   path="x86" ;;
+      i486*)                   path="x86/i486 x86" ;;
+      i586 | pentium)          path="x86/pentium x86" ;;
+      pentiummmx)              path="x86/pentium/mmx x86/pentium x86" ;;
+      i686 | pentiumpro)       path="x86/p6 x86" ;;
+      pentium2)                path="x86/p6/mmx x86/p6 x86" ;;
+      pentium3)                path="x86/p6/p3mmx x86/p6/mmx x86/p6 x86";;
+      [k6[23]])                path="x86/k6/k62mmx x86/k6/mmx x86/k6 x86" ;;
+      k6)                      path="x86/k6/mmx x86/k6 x86" ;;
       # we don't have any specific 32-bit code for opteron (x86_64), the
       # athlon code should be reasonable
-      athlon | x86_64)      path="x86/k7/mmx x86/k7 x86" ;;
-      i786 | pentium4)      path="x86/pentium4/sse2 x86/pentium4/mmx x86/pentium4 x86" ;;
+      athlon | x86_64)         path="x86/k7/mmx x86/k7 x86" ;;
+      i786 | pentium4 | core2) path="x86/pentium4/sse2 x86/pentium4/mmx x86/pentium4 x86" ;;
       # VIA/Centaur processors, sold as CyrixIII and C3.
-      viac32)               path="x86/p6/p3mmx x86/p6/mmx x86/p6 x86";;
-      viac3*)               path="x86/pentium/mmx x86/pentium x86";;
-      *)                    path="x86" ;;
+      viac32)                  path="x86/p6/p3mmx x86/p6/mmx x86/p6 x86";;
+      viac3*)                  path="x86/pentium/mmx x86/pentium x86";;
+      *)                       path="x86" ;;
     esac
 
     # If the user asked for a fat build, override the path set above
@@ -1447,6 +1447,17 @@ case $host in
         SPEED_CYCLECOUNTER_OBJ_64=x86_64.lo
         cyclecounter_size_64=2
         transitioned=yes
+        ;;
+      core2-*-*)
+        abilist="64 32"
+        path_64="x86_64 x86_64/core2"
+        cclist_64="gcc"
+        gcc_64_cflags="-O2 -m64"
+        gcc_64_cflags_optlist="cpu"
+        CALLING_CONVENTIONS_OBJS_64='core2call.lo amd64check$U.lo'
+        SPEED_CYCLECOUNTER_OBJ_64=x86_64.lo
+        cyclecounter_size_64=2
+        transitioned=no
         ;;
     esac
     ;;
@@ -1997,7 +2008,7 @@ done
 # enough assembler.
 #
 case $host in
-  X86_PATTERN | x86_64-*-*)
+  X86_PATTERN | x86_64-*-* | core2-*-*)
     if test "$ABI" = 32; then
       case "$path $fat_path" in
         *mmx*)   GMP_ASM_X86_MMX( , [GMP_STRIP_PATH(*mmx*)]) ;;
@@ -2961,7 +2972,7 @@ fi
           ;;
       esac
       ;;
-    X86_PATTERN | x86_64-*-*)
+    X86_PATTERN | x86_64-*-* | core2-*-*)
       GMP_ASM_ALIGN_FILL_0x90
       case $ABI in
         32)
