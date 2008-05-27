@@ -774,7 +774,7 @@ perfsqr.h:
 .s.obj:
 	$(CCAS) $(COMPILE_FLAGS) `if test -f '$<'; then $(CYGPATH_W) '$<'; else $(CYGPATH_W) '$(srcdir)/$<'; fi`
 @TRANSITIONED_TRUE@.s.lo:
-@TRANSITIONED_TRUE@        $(LIBTOOL) --mode=compile $(top_srcdir)/strip_fPIC.sh $(top_srcdir)$(MPIR_AS) -f elf -m amd64 `test -f '$<' || echo '$(srcdir)/'`$<
+@TRANSITIONED_TRUE@	$(LIBTOOL) --mode=compile $(top_srcdir)/strip_fPIC.sh $(top_srcdir)$(MPIR_AS) -f elf -m amd64 `test -f '$<' || echo '$(srcdir)/'`$<
 @TRANSITIONED_FALSE@.s.lo:
 @TRANSITIONED_FALSE@	$(LIBTOOL) --mode=compile --tag=CC $(CCAS) $(COMPILE_FLAGS) `test -f '$<' || echo '$(srcdir)/'`$<
 
