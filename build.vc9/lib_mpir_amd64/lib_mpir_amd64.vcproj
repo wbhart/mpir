@@ -3494,6 +3494,7 @@
 							<Tool
 								Name="YASM"
 								ObjectFileName="$(IntDir)\mpn\$(InputName).obj"
+								ListFileName=""
 							/>
 						</FileConfiguration>
 					</File>
