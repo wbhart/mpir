@@ -144,9 +144,7 @@
 ..@unroll_here1:
 
 %else
-    lea     cry_hi,[cry_hi+jmp_val]
-    lea     jmp_val,[rel %%4]
-    lea     jmp_val,[jmp_val+cry_hi]
+    lea     jmp_val,[rel %%4 + jmp_val + cry_hi]
 %endif
 
     neg     len
