@@ -654,8 +654,10 @@ sparc-*-* | sparc64-*-*)
   fi
   ;;
 
-i?86-*-*)
-  cat <<EOF >${dummy}1.s
+i?86-*-*|x86_64-*-*)
+  case "$guess_cpu" in
+    i?86)
+    cat <<EOF >${dummy}1.s
 	.globl cpuid
 	.globl _cpuid
 cpuid:
@@ -673,6 +675,25 @@ _cpuid:
 	popl %esi
 	ret
 EOF
+    ;;
+    x86_64)
+  cat <<EOF >${dummy}1.s
+	.globl cpuid
+	.globl _cpuid
+cpuid:
+_cpuid:
+	pushq %rbx
+	movq %rsi,%rax
+	.byte 0x0f
+	.byte 0xa2
+	movl %ebx,(%rdi)
+	movl %edx,4(%rdi)
+	movl %ecx,8(%rdi)
+	popq %rbx
+	ret
+EOF
+    ;;
+  esac
   cat <<EOF >${dummy}2.c
 main ()
 {
@@ -687,8 +708,8 @@ main ()
 
   fms = cpuid (dummy_string, 1);
 
-  family = (fms >> 8) & 15;
-  model = (fms >> 4) & 15;
+  family = ((fms >> 8) & 15) + ((fms >> 20) & 0xff);
+  model = ((fms >> 4) & 15) + ((fms >> 12) & 0xf0);
   stepping = fms & 15;
 
   modelstr = "i486";
@@ -703,10 +724,15 @@ main ()
 	case 6:
 	  if (model == 1)	modelstr = "pentiumpro";
 	  else if (model <= 6)	modelstr = "pentium2";
-	  else			modelstr = "pentium3";
+	  else if (model <= 13) modelstr = "pentium3";
+	  else if (model == 14) modelstr = "core";
+	  else if (model == 15) modelstr = "core2"; // 64 bits
+	  else modelstr = "p6???";
 	  break;
 	case 15:
-	  modelstr = "pentium4";
+	  if (model <= 3) modelstr = "pentium4";
+	  else if (model <= 6) modelstr = "pentiumD"; // 64 bits
+	  else modelstr = "p4???";
 	  break;
 	}
     }
