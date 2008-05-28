@@ -1439,7 +1439,7 @@ case $host in
     case $host in
       x86_64-*-*)
         abilist="64 32"
-        path_64="x86_64 x86_64/amd64"
+        path_64="x86_64/amd64 x86_64"
         cclist_64="gcc"
         gcc_64_cflags="-O2 -m64"
         gcc_64_cflags_optlist="cpu"
@@ -1450,7 +1450,7 @@ case $host in
         ;;
       core2-*-*)
         abilist="64 32"
-        path_64="x86_64 x86_64/core2"
+        path_64="x86_64/core2 x86_64"
         cclist_64="gcc"
         gcc_64_cflags="-O2 -m64"
         gcc_64_cflags_optlist="cpu"
