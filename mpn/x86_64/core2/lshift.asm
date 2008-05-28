@@ -1,5 +1,4 @@
-dnl  AMD64 mpn_addmul_1 -- Multiply a limb vector with a limb and add the
-dnl  result to a second limb vector.
+dnl  AMD64 mpn_lshift
 
 dnl  Copyright 2004 Free Software Foundation, Inc.
 
@@ -20,47 +19,52 @@ dnl  along with the GNU MP Library; see the file COPYING.LIB.  If not, write
 dnl  to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 dnl  Boston, MA 02110-1301, USA.
 
-dnl
-dnl This is just a check to see if we are in my code testing sandbox
-dnl or if we are actually in the GMP source tree
-dnl
-ifdef(`__JWM_Test_Code__',`
-include(`./config.m4')
-define(`MPN_PREFIX',`orig_mpn_')',`
-include(`../config.m4')')
+include(`../config.m4')
 
 
 C         cycles/limb
-C Hammer:     4.0
+C Hammer:     2.5
 
 
 C INPUT PARAMETERS
 C rp	rdi
 C up	rsi
 C n	rdx
-C vl	rcx
+C cnt	rcx
 
 ASM_START()
-PROLOGUE(mpn_addmul_1)
-	movq	%rdx, %r11
-	leaq	(%rsi,%rdx,8), %rsi
-	leaq	(%rdi,%rdx,8), %rdi
-	negq	%r11
-	xorq	%r8, %r8
-	xorq	%r10, %r10
+PROLOGUE(mpn_lshift)
+	movq	-8(%rsi,%rdx,8), %mm7
+	movd	%ecx, %mm1
+	movl	$64, %eax
+	subl	%ecx, %eax
+	movd	%eax, %mm0
+	movq	%mm7, %mm3
+	psrlq	%mm0, %mm7
+	movd	%mm7, %rax
+	subq	$2, %rdx
+	jl	.Lendo
 
 	ALIGN(4)			C minimal alignment for claimed speed
-.Loop:	movq	(%rsi,%r11,8), %rax
-	mulq	%rcx
-	addq	(%rdi,%r11,8), %rax
-	adcq	%r10, %rdx
-	addq	%r8, %rax
-	movq	%r10, %r8
-	movq	%rax, (%rdi,%r11,8)
-	adcq	%rdx, %r8
-	incq	%r11
-	jne	.Loop
+.Loop:	movq	(%rsi,%rdx,8), %mm6
+	movq	%mm6, %mm2
+	psrlq	%mm0, %mm6
+	psllq	%mm1, %mm3
+	por	%mm6, %mm3
+	movq	%mm3, 8(%rdi,%rdx,8)
+	je	.Lende
+	movq	-8(%rsi,%rdx,8), %mm7
+	movq	%mm7, %mm3
+	psrlq	%mm0, %mm7
+	psllq	%mm1, %mm2
+	por	%mm7, %mm2
+	movq	%mm2, (%rdi,%rdx,8)
+	subq	$2, %rdx
+	jge	.Loop
 
-	movq	%r8, %rax
+.Lendo:	movq	%mm3, %mm2
+.Lende:	psllq	%mm1, %mm2
+	movq	%mm2, (%rdi)
+	emms
 	ret
 EPILOGUE()
