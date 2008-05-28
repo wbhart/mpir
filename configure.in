@@ -1454,7 +1454,7 @@ case $host in
         cclist_64="gcc"
         gcc_64_cflags="-O2 -m64"
         gcc_64_cflags_optlist="cpu"
-        CALLING_CONVENTIONS_OBJS_64='amd64call.lo amd64check$U.lo'
+        CALLING_CONVENTIONS_OBJS_64=''
         SPEED_CYCLECOUNTER_OBJ_64=x86_64.lo
         cyclecounter_size_64=2
         transitioned=no
