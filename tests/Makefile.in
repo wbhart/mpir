@@ -327,7 +327,7 @@ PREPROCESS_FLAGS = $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 # remains ahead of .s, perhaps because .c.s is a builtin rule.  .asm works
 # fine though, and mpn/mips3 uses this.
 #
-SUFFIXES = .s .S .asm
+SUFFIXES = .s .S .as .asm
 
 # can be overridden during development, eg. "make RM_TMP=: mul_1.lo"
 RM_TMP = rm -f
@@ -344,7 +344,7 @@ TESTS = $(check_PROGRAMS)
 all: all-recursive
 
 .SUFFIXES:
-.SUFFIXES: .s .S .asm .c .lo .o .obj
+.SUFFIXES: .s .S .as .asm .c .lo .o .obj
 $(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ $(srcdir)/Makefile.am $(srcdir)/../mpn/Makeasm.am $(am__configure_deps)
 	@for dep in $?; do \
 	  case '$(am__configure_deps)' in \
@@ -851,10 +851,8 @@ uninstall-info: uninstall-info-recursive
 	$(CCAS) $(COMPILE_FLAGS) `test -f '$<' || echo '$(srcdir)/'`$<
 .s.obj:
 	$(CCAS) $(COMPILE_FLAGS) `if test -f '$<'; then $(CYGPATH_W) '$<'; else $(CYGPATH_W) '$(srcdir)/$<'; fi`
-@TRANSITIONED_TRUE@.s.lo:
-@TRANSITIONED_TRUE@	$(LIBTOOL) --mode=compile $(top_srcdir)/strip_fPIC.sh $(top_srcdir)$(MPIR_AS) -f elf -m amd64 `test -f '$<' || echo '$(srcdir)/'`$<
-@TRANSITIONED_FALSE@.s.lo:
-@TRANSITIONED_FALSE@	$(LIBTOOL) --mode=compile --tag=CC $(CCAS) $(COMPILE_FLAGS) `test -f '$<' || echo '$(srcdir)/'`$<
+.s.lo:
+	$(LIBTOOL) --mode=compile --tag=CC $(CCAS) $(COMPILE_FLAGS) `test -f '$<' || echo '$(srcdir)/'`$<
 
 # .S assembler, preprocessed with cpp.
 #
@@ -902,6 +900,11 @@ uninstall-info: uninstall-info-recursive
 	$(RM_TMP) tmp-$*.s
 .asm.lo:
 	$(LIBTOOL) --mode=compile --tag=CC $(top_srcdir)/mpn/m4-ccas --m4="$(M4)" $(CCAS) $(COMPILE_FLAGS) `test -f '$<' || echo '$(srcdir)/'`$<
+
+#  .as assembler, assembled with Yasm
+
+.as.lo:
+	$(LIBTOOL) --mode=compile $(top_srcdir)/strip_fPIC.sh $(top_srcdir)$(MPIR_AS) -f elf -m amd64 `test -f '$<' || echo '$(srcdir)/'`$<
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
 .NOEXPORT:
