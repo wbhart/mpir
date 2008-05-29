@@ -43,7 +43,7 @@ PREPROCESS_FLAGS = $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 # remains ahead of .s, perhaps because .c.s is a builtin rule.  .asm works
 # fine though, and mpn/mips3 uses this.
 #
-SUFFIXES = .s .S .asm
+SUFFIXES = .s .S .as .asm
 
 
 # .s assembler, no preprocessing.
@@ -52,13 +52,8 @@ SUFFIXES = .s .S .asm
 	$(CCAS) $(COMPILE_FLAGS) `test -f '$<' || echo '$(srcdir)/'`$<
 .s.obj:
 	$(CCAS) $(COMPILE_FLAGS) `if test -f '$<'; then $(CYGPATH_W) '$<'; else $(CYGPATH_W) '$(srcdir)/$<'; fi`
-if TRANSITIONED
-.s.lo:
-	$(LIBTOOL) --mode=compile $(top_srcdir)/strip_fPIC.sh $(top_srcdir)$(MPIR_AS) -f elf -m amd64 `test -f '$<' || echo '$(srcdir)/'`$<
-else
 .s.lo:
 	$(LIBTOOL) --mode=compile --tag=CC $(CCAS) $(COMPILE_FLAGS) `test -f '$<' || echo '$(srcdir)/'`$<
-endif
 
 # can be overridden during development, eg. "make RM_TMP=: mul_1.lo"
 RM_TMP = rm -f
@@ -110,3 +105,9 @@ RM_TMP = rm -f
 	$(RM_TMP) tmp-$*.s
 .asm.lo:
 	$(LIBTOOL) --mode=compile --tag=CC $(top_srcdir)/mpn/m4-ccas --m4="$(M4)" $(CCAS) $(COMPILE_FLAGS) `test -f '$<' || echo '$(srcdir)/'`$<
+
+#  .as assembler, assembled with Yasm
+
+.as.lo:
+	$(LIBTOOL) --mode=compile $(top_srcdir)/strip_fPIC.sh $(top_srcdir)$(MPIR_AS) -f elf -m amd64 `test -f '$<' || echo '$(srcdir)/'`$<
+
