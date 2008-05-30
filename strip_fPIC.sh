@@ -17,6 +17,8 @@ while [ $# -gt 0 ]; do
 			;;
 		-fPIC)
 			;;
+		-fno-common)
+			;;
 		*)
 			command="$command $1"
 			;;
