@@ -836,7 +836,7 @@ sqr_asm.asm: $(top_builddir)/mpn/sqr_basecase.asm
 #  .as assembler, assembled with Yasm
 
 .as.lo:
-	$(LIBTOOL) --mode=compile $(top_srcdir)/strip_fPIC.sh $(top_srcdir)$(MPIR_AS) -f elf -m amd64 `test -f '$<' || echo '$(srcdir)/'`$<
+	$(LIBTOOL) --mode=compile $(top_srcdir)/strip_fPIC.sh $(top_srcdir)$(MPIR_AS) -f elf -o $@ -m amd64 `test -f '$<' || echo '$(srcdir)/'`$<
 
 # "mk" is multiplication in the karatsuba range
 # "st" is squaring in the toom-cook range, etc
