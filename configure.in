@@ -2983,8 +2983,21 @@ fi
       	  case $enable_profiling in
       	    prof | gprof)  GMP_ASM_X86_MCOUNT ;;
       	  esac
+          case $host in 
+            *-*-darwin*)
+              OBJ_FORMAT="-f macho32" ;;
+            *)
+              OBJ_FORMAT="-f elf32" ;;
+           esac
           ;;
+
         64)
+          case $host in 
+            *-*-darwin*)
+              OBJ_FORMAT="-f macho64" ;;
+            *)
+              OBJ_FORMAT="-f elf64" ;;
+           esac
           GMP_INCLUDE_MPN(x86_64/x86_64-defs.m4)
           ;;
       esac
