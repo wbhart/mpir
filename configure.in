@@ -1,5 +1,5 @@
 dnl  Process this file with autoconf to produce a configure script.
-
+ 
 
 define(GMP_COPYRIGHT,[[
 
@@ -3099,7 +3099,7 @@ AC_SUBST(gmp_srclinks)
 TUNE_SQR_OBJ=
 test -d tune || mkdir tune
 case $sqr_basecase_source in
-  *.asm)
+  *.asm | *.as)
     sqr_max=[`sed -n 's/^def...(SQR_KARATSUBA_THRESHOLD_MAX, *\([0-9]*\))/\1/p' $sqr_basecase_source`]
     if test -n "$sqr_max"; then
       TUNE_SQR_OBJ=sqr_asm.o
