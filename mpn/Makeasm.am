@@ -109,5 +109,4 @@ RM_TMP = rm -f
 #  .as assembler, assembled with Yasm
 
 .as.lo:
-	$(LIBTOOL) --mode=compile $(top_srcdir)/strip_fPIC.sh $(top_srcdir)$(MPIR_AS) -f elf -m amd64 -o $@.lo `test -f '$<' || echo '$(srcdir)/'`$<
-
+	$(LIBTOOL) --mode=compile $(top_srcdir)/strip_fPIC.sh $(top_srcdir)$(MPIR_AS) -f elf -o $@ -m amd64 `test -f '$<' || echo '$(srcdir)/'`$<
