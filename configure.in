@@ -1446,7 +1446,6 @@ case $host in
         CALLING_CONVENTIONS_OBJS_64=''
         SPEED_CYCLECOUNTER_OBJ_64=x86_64.lo
         cyclecounter_size_64=2
-        transitioned=yes
         ;;
       core2-*-*)
         abilist="64 32"
@@ -1457,7 +1456,6 @@ case $host in
         CALLING_CONVENTIONS_OBJS_64=''
         SPEED_CYCLECOUNTER_OBJ_64=x86_64.lo
         cyclecounter_size_64=2
-        transitioned=no
         ;;
     esac
     ;;
@@ -1902,8 +1900,6 @@ MPIR_AS="/yasm/yasm"
 #
 
 test -n "$CCAS" || CCAS="$CC -c"
-
-AM_CONDITIONAL(TRANSITIONED, test $transitioned = yes)
   
 AC_SUBST(CCAS)
 AC_SUBST(MPIR_AS)
@@ -2905,7 +2901,6 @@ if test $found_asm = no && test $found_S = no; then
 fi
 
 if test "$gmp_asm_syntax_testing" != no; then
-if test $transitioned != yes; then
   GMP_ASM_TEXT
   GMP_ASM_DATA
   GMP_ASM_LABEL_SUFFIX
@@ -2918,7 +2913,6 @@ if test $transitioned != yes; then
   GMP_ASM_LSYM_PREFIX
   GMP_ASM_W32
   GMP_ASM_ALIGN_LOG
-fi
   case $host in
     hppa*-*-*)
       # for both pa32 and pa64
