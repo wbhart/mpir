@@ -333,7 +333,7 @@ RM_TMP = rm -f
 INCLUDES = -I$(top_srcdir)
 LDADD = libtests.la $(top_builddir)/libgmp.la
 check_LTLIBRARIES = libtests.la
-EXTRA_libtests_la_SOURCES = amd64call.asm amd64check.c x86call.asm x86check.c
+EXTRA_libtests_la_SOURCES = amd64call.asm amd64check.c core2call.asm x86call.asm x86check.c
 libtests_la_SOURCES = tests.h \
   memory.c misc.c refmpf.c refmpn.c refmpq.c refmpz.c spinner.c trace.c
 
