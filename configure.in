@@ -1894,13 +1894,12 @@ GMP_C_FOR_BUILD_ANSI
 GMP_CHECK_LIBM_FOR_BUILD
 
 
+MPIR_AS="/yasm/yasm"
+
 # How to assemble, used with CFLAGS etc, see mpn/Makeasm.am.
 # Using the compiler is a lot easier than figuring out how to invoke the
 # assembler directly.
 #
-if test $transitioned = yes; then
-  MPIR_AS="/yasm/yasm"
-fi
 
 test -n "$CCAS" || CCAS="$CC -c"
 
