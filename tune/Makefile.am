@@ -1,5 +1,5 @@
 ## Process this file with automake to generate Makefile.in
-
+ 
 # Copyright 2000, 2001, 2002, 2003, 2005 Free Software Foundation, Inc.
 #
 # This file is part of the GNU MP Library.
