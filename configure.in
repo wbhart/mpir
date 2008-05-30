@@ -1,5 +1,5 @@
 dnl  Process this file with autoconf to produce a configure script.
-    
+     
 
 define(GMP_COPYRIGHT,[[
 
@@ -2985,22 +2985,23 @@ fi
       	  esac
           case $host in 
             *-*-darwin*)
-              OBJ_FORMAT="-f macho32" ;;
+              OBJECT_FORMAT="-f macho32" ;;
             *)
-              OBJ_FORMAT="-f elf32" ;;
+              OBJECT_FORMAT="-f elf32" ;;
            esac
           ;;
 
         64)
           case $host in 
             *-*-darwin*)
-              OBJ_FORMAT="-f macho64" ;;
-            *)
-              OBJ_FORMAT="-f elf64" ;;
-           esac
+              OBJECT_FORMAT="-f macho64" ;;
+	    *)
+	      OBJECT_FORMAT="-f elf64" ;;
+          esac
           GMP_INCLUDE_MPN(x86_64/x86_64-defs.m4)
           ;;
       esac
+      AC_SUBST(OBJECT_FORMAT)
       ;;
   esac
 fi

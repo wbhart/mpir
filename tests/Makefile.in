@@ -232,6 +232,7 @@ MAINTAINER_MODE_TRUE = @MAINTAINER_MODE_TRUE@
 MAKEINFO = @MAKEINFO@
 MPIR_AS = @MPIR_AS@
 OBJDUMP = @OBJDUMP@
+OBJECT_FORMAT = @OBJECT_FORMAT@
 OBJEXT = @OBJEXT@
 PACKAGE = @PACKAGE@
 PACKAGE_BUGREPORT = @PACKAGE_BUGREPORT@
@@ -904,7 +905,7 @@ uninstall-info: uninstall-info-recursive
 #  .as assembler, assembled with Yasm
 
 .as.lo:
-	$(LIBTOOL) --mode=compile $(top_srcdir)/strip_fPIC.sh $(top_srcdir)$(MPIR_AS) $(OBJECT_FORMAT) -o $@ -m amd64 `test -f '$<' || echo '$(srcdir)/'`$<
+	$(LIBTOOL) --mode=compile $(top_srcdir)/strip_fPIC.sh $(top_srcdir)$(MPIR_AS) $(OBJECT_FORMAT) -o $@ `test -f '$<' || echo '$(srcdir)/'`$<
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
 .NOEXPORT:

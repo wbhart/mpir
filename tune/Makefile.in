@@ -219,6 +219,7 @@ MAINTAINER_MODE_TRUE = @MAINTAINER_MODE_TRUE@
 MAKEINFO = @MAKEINFO@
 MPIR_AS = @MPIR_AS@
 OBJDUMP = @OBJDUMP@
+OBJECT_FORMAT = @OBJECT_FORMAT@
 OBJEXT = @OBJEXT@
 PACKAGE = @PACKAGE@
 PACKAGE_BUGREPORT = @PACKAGE_BUGREPORT@
@@ -836,7 +837,7 @@ sqr_asm.asm: $(top_builddir)/mpn/sqr_basecase.asm
 #  .as assembler, assembled with Yasm
 
 .as.lo:
-	$(LIBTOOL) --mode=compile $(top_srcdir)/strip_fPIC.sh $(top_srcdir)$(MPIR_AS) $(OBJECT_FORMAT) -o $@ -m amd64 `test -f '$<' || echo '$(srcdir)/'`$<
+	$(LIBTOOL) --mode=compile $(top_srcdir)/strip_fPIC.sh $(top_srcdir)$(MPIR_AS) $(OBJECT_FORMAT) -o $@ `test -f '$<' || echo '$(srcdir)/'`$<
 
 # "mk" is multiplication in the karatsuba range
 # "st" is squaring in the toom-cook range, etc
