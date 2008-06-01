@@ -32,10 +32,12 @@
 
     bits    64
     section .text
-    align   16
 
     global   __gmpn_mul_1:function
-    
+ 
+    align 16
+    db 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+
 __gmpn_mul_1:
 	mov	  r11, rdx
 	lea	  rsi, [rsi+rdx*8]
