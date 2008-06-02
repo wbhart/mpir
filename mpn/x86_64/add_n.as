@@ -53,7 +53,7 @@
 ;     mp_srcptr src1,          rsi
 ;     mp_srcptr src2,          rdx
 ;     mp_size_t len,           rcx
-;     mp_limb_t carry    [rsp+0x8]
+;     mp_limb_t carry           r8 
 ;  )
 ;
 ;  Calculate src1[size] plus(minus) src2[size] and store the result in
@@ -81,7 +81,7 @@
 %define sr2       rdx   ; source 2 pointer
 %define len       rcx   ; number of limbs
 %define lend      ecx   ; number of limbs
-%define cy       [rsp]  ; carry value
+%define cy         r8  ; carry value
 
 %define r_jmp     r10   ; temporary for jump table entry
 %define r_cnt     r11   ; temporary for loop count
