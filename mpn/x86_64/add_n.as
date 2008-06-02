@@ -74,7 +74,6 @@
 
 %define r_jmp     r10   ; temporary for jump table entry
 %define r_cnt     r11   ; temporary for loop count
-
 %else
 %define dst       rdi   ; destination pointer
 %define sr1       rsi   ; source 1 pointer
@@ -155,6 +154,8 @@
     lea     rax,[rel %%3]
     lea     r_jmp,[r_jmp+rax]
     jmp     r_jmp
+
+    align 32
 %%3:
 
 %define CHUNK_COUNT  2
@@ -173,8 +174,13 @@
 %assign i i + 1
 %endrep
 
+%if UNROLL_BYTES > 64
+    lea     sr1,[byte sr1+127]
+    inc     sr1
+%else
+    lea     sr1,[byte sr1+UNROLL_BYTES]
+%endif
     dec     r_cnt
-    lea     sr1,[sr1+UNROLL_BYTES]
     lea     sr2,[sr2+UNROLL_BYTES]
     lea     dst,[dst+UNROLL_BYTES]
     jns     %%3
