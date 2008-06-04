@@ -131,7 +131,6 @@
 %%3:
     push    rbp
     push    rbx
-    push    rsi
 
     lea     rep_cnt,[len-2]
     dec     len
@@ -213,7 +212,6 @@
     %2      [dst-off+8],rax
     adc     rdx,len
     mov     rax,rdx
-    pop     rsi
     pop     rbx
     pop     rbp
     ret
