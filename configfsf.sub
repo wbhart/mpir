@@ -329,7 +329,7 @@ case $basic_machine in
 	| msp430-* \
 	| none-* | np1-* | nv1-* | ns16k-* | ns32k-* \
 	| orion-* \
-	| pdp10-* | pdp11-* | pj-* | pjl-* | pn-* | power-* \
+	| pdp10-* |  pdp11-* | pj-* | pjl-* | pn-* | power-* \
 	| powerpc-* | powerpc64-* | powerpc64le-* | powerpcle-* | ppcbe-* \
 	| pyramid-* \
 	| romp-* | rs6000-* \
@@ -811,6 +811,10 @@ case $basic_machine in
 	pentium4-*)
 		basic_machine=i786-`echo $basic_machine | sed 's/^[^-]*-//'`
 		;;
+        pentiumD-*)
+                basic_machine=i786-`echo $basic_machine | sed 's/^[^-]*-//'`
+                ;;
+
 	pn)
 		basic_machine=pn-gould
 		;;
