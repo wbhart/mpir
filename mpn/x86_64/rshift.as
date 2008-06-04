@@ -55,6 +55,7 @@
 %define shift   r9
 
 %else
+%if 0
 %define s_len  rdx
 %define s_lend edx
 %define r_tmp  r10
@@ -62,6 +63,12 @@
 %define d_ptr  rdi
 %define s_ptr  rsi
 %define s_tmp  r11
+%else
+%define src rsi
+%define dst rdi
+%define r_tmpd ecx
+%define s_len rdx
+%endif
 %endif
 
    bits 64
@@ -73,7 +80,7 @@
    export   __gmpn_rshift
 %endif
 
-%if 1
+%if 0
 
 __gmpn_rshift:
     movsxd  s_len,s_lend
@@ -127,7 +134,7 @@ __gmpn_rshift:
     movd    mm0, eax
     movq    mm3, mm7
     psllq   mm7, mm0
-    movq    rax, mm7
+    movd    rax, mm7
     lea     src, [src+s_len*8]
     lea     dst, [dst+s_len*8]
     neg     s_len

@@ -42,17 +42,15 @@
 ; Calculate src[size] multiplied by mult[1] and add to /subtract from dst[size] and
 ; return the carry or borrow from the top of the result
 
-%define dst    rdi
-%define len    r11
-%define mlt    rcx
-%define src    rsi
-%define cry    r8
-
 %define UNROLL_LOG2        4
 %define UNROLL_COUNT       (1 << UNROLL_LOG2)
 %define UNROLL_MASK        (UNROLL_COUNT - 1)
 %define  UNROLL_BYTES      (8 * UNROLL_COUNT)
+%ifdef PIC
 %define UNROLL_THRESHOLD   9
+%else
+%define UNROLL_THRESHOLD   6
+%endif
 
 %if UNROLL_BYTES >= 256
 %error unroll count is too large
@@ -67,112 +65,159 @@
     global  %1%3:function
     global  %1%4:function
 
+    align 32
+
 %1%3:
-    xor     cry,cry         ; carry = 0
-    movsxd  len,edx
-    ;mov     src,rsi         ; source ptr
-    dec     len             ; test for one limb only
-    jnz     %%1             ; if more than one
-    mov     rax,[src]       ; get limb value
-    mul     mlt             ; rax * mlt -> rdx (hi), rax (lo)
-    %2      [dst],rax        ; add/sub from destination
-    adc     rdx,byte 0      ; add any carry into high word
+    mov     r9, rcx
+    mov     r10, rbx
+    mov     r11, rbp
+    
+    mov     rax, rsi
+    xor     rcx, rcx       ; carry = 0
+    
+    dec     rdx             ; test for one limb only
+    jnz     %%5             ; if more than one
+
+    mov     rax,[rax]       ; get limb value
+    mov     rcx, rdi
+    
+    mul     r9              ; rax * mlt -> rdx (hi), rax (lo)
+
+    %2      [rcx],rax        ; add/sub from destination
+    adc     rdx, 0          ; add any carry into high word
     mov     rax,rdx         ; and return the carry value
+
     ret
 
+    align 16
+
 %1%4:
-    ;mov     cry,r8       ; carry value
-    movsxd  len,edx
-    ;mov     src,rsi         ; source pointer
-    dec     len             ; test for one limb
+    mov     r9, rcx
+    mov     r10, rbx
+    mov     r11, rbp
+    
+    mov     rax,rsi         ; source pointer
+    
+    dec     rdx             ; test for one limb
     jnz     %%1             ; if more than one
-    mov     rax,[src]       ; get limb value
-    mul     mlt             ; rax * mlt -> rdx (hi), rax (lo)
-    add     rax,cry         ; add in input carry
-    adc     rdx,byte 0      ; propagate it into rdx
-    %2      [dst],rax       ; add or subtract rax from dest limb
-    adc     rdx,byte 0      ; propagate carry into high word
+    
+    mov     rax,[rax]       ; get limb value
+    mov     rcx, rdi
+    
+    mul     r9              ; rax * mlt -> rdx (hi), rax (lo)
+    
+    add     rax,r8          ; add in input carry
+    
+    adc     rdx, 0          ; propagate it into rdx
+    %2      [rcx],rax       ; add or subtract rax from dest limb
+    
+    adc     rdx, 0          ; propagate carry into high word
     mov     rax,rdx
     ret
 
+    align 16
 %%1:
-    cmp     len,byte UNROLL_THRESHOLD
-    mov     rax,[src]           ; first limb of source
+    mov     rcx, r8
+   
+    align 32
+%%5:
+    mov     rbx, rdx
+    cmp     rdx, UNROLL_THRESHOLD
+    mov     rbp, r9
+    mov     rax,[rsi]           ; first limb of source
     ja      %%3                 ; unroll for many limbs
-    lea     src,[src+len*8+8]   ; next source limb
-    lea     dst,[dst+len*8]     ; current dst limb
-    neg     len
+    
+    lea     rsi,[rsi+rbx*8+8]   ; next source limb
+    lea     rdi,[rdi+rbx*8]     ; current dst limb
+    neg     rbx
+
+; simple loop
+
 %%2:
-    mul     mlt                 ; multiply current src limb -> rxx, rax
-    add     rax,cry             ; add in carry
-    adc     rdx,byte 0          ; propagate carry into rdx
-    %2      [dst+len*8],rax     ; add or subtract rax from dest limb
-    mov     rax,[src+len*8]     ; get next source limb
-    adc     rdx,byte 0          ; add carry or borrow into high word
-    inc     len                 ; go to next limb
-    mov     cry,rdx             ; high word -> carry
+    mul     rbp                 ; multiply current src limb -> rxx, rax
+    add     rcx,rax             ; add in carry
+    adc     rdx, 0              ; propagate carry into rdx
+    
+    %2      [rdi+rbx*8],rcx     ; add or subtract rax from dest limb
+    mov     rax,[rsi+rbx*8]     ; get next source limb
+    adc     rdx, 0              ; add carry or borrow into high word
+    
+    inc     rbx                 ; go to next limb
+    mov     rcx,rdx             ; high word -> carry
     jnz     %%2
-    mul     mlt                 ; one more limb to do
-    add     rax,cry
-    adc     rdx,byte 0
-    %2      [dst],rax
-    adc     rdx,byte 0
+
+
+    mul     rbp                 ; one more limb to do
+    
+    mov     rbx, r10
+    mov     rbp, r11
+
+    add     rcx,rax
+    adc     rdx, 0
+
+    %2      [rdi],rcx
+    adc     rdx, 0
+
     mov     rax,rdx             ; return carry value as a limb
     ret
 
-%define  jmp_val  rbp           ; jump into code sequence
-%define rep_cnt   rbx           ; repeats for full sequence
-%define cry_hi r10              ; second carry for alternate block
+    align 32
 
 %%3:
-    push    rbp
-    push    rbx
-    push    rsi
+    sub     rbx, 2
+    dec     rdx
 
-    lea     rep_cnt,[len-2]
-    dec     len
-    shr     rep_cnt,UNROLL_LOG2
-    neg     len
-    and     len,UNROLL_MASK
-    mov     jmp_val,len
-    mov     cry_hi,len              ; cry_hi and jmp_val are temporary
-    shl     jmp_val,2               ; values for calculating the jump
-    shl     cry_hi,4                ; offset into the unrolled code
+    shr     rbx,UNROLL_LOG2
+    neg     rdx
+
+    mov     r9, rbx
+    and     rdx,UNROLL_MASK
+    
+    mov     r8,rdx
+    mov     rbx,rdx                 ; cry_hi and jmp_val are temporary
+    shl     r8,3                    ; values for calculating the jump
+    shl     rdx,4                ; offset into the unrolled code
+
 %ifdef PIC
     call    .pic_calc
 .unroll_here:
 ..@unroll_here1:
 
 %else
-    lea     jmp_val,[rel %%4 + jmp_val + cry_hi]
+    lea     rdx,[rel %%4 + rdx + r8]
 %endif
 
-    neg     len
-    mul     mlt
-    add     cry,rax                 ; initial carry, becomes low carry
-    adc     rdx,byte 0
-    mov     cry_hi,rdx
-    test    len,1
-    mov     rax,[src+8]             ; src second limb
-    lea     src,[src+len*8+off+16]
-    lea     dst,[dst+len*8+off]
-    cmovnz  cry_hi,cry              ; high, low carry other way around
-    cmovnz  cry,rdx
-    xor     len,len
-    jmp     jmp_val
+    neg     rbx
+    mov     r8, rdx
+
+    mul     rbp
+
+    add     rcx,rax                 ; initial carry, becomes low carry
+    adc     rdx, 0
+    test    bl,1
+    
+    mov     rax,[rsi+8]             ; src second limb
+    lea     rsi,[rsi+rbx*8+off+16]
+    lea     rdi,[rdi+rbx*8+off]
+    
+    mov     rbx,rdx
+    cmovnz  rbx,rcx              ; high, low carry other way around
+    cmovnz  rcx,rdx
+    
+    jmp     r8
 
 %ifdef PIC
 
 .pic_calc:
 
-	lea     cry_hi, [cry_hi+jmp_val]
-	mov     jmp_val, ..@unroll_entry1 - ..@unroll_here1
-	add     jmp_val, [rsp]
-    lea     jmp_val, [jmp_val+cry_hi]
+	lea     rdx, [rdx+r8]
+	add     rdx, ..@unroll_entry1 - ..@unroll_here1
+	add     rdx, [rsp]
 	ret
 
 %endif
 
+      align 32
 
 .unroll_entry1:
 ..@unroll_entry1:
@@ -181,37 +226,53 @@
 %assign i 0
 %rep  UNROLL_COUNT / CHUNK_COUNT
 %assign  disp0 8 * i * CHUNK_COUNT - off
+%assign  disp1 disp0 + 8
 
-    mul     mlt
-    %2      [byte dst+disp0],cry
-    mov     cry,len                 ; len = 0
-    adc     cry_hi,rax
-    mov     rax,[byte src+disp0]
-    adc     cry,rdx
-    mul     mlt
-    %2      [byte dst+disp0+8],cry_hi
-    mov     cry_hi,len              ; len = 0
-    adc     cry,rax
-    mov     rax,[byte src+disp0+8]
-    adc     cry_hi,rdx
+    mul     rbp
 
+    %2      [byte rdi+disp0],rcx
+    mov     rcx, 0                  ; len = 0
+    
+    adc     rbx,rax
+    
+    adc     rcx,rdx
+
+    mov     rax,[byte rsi+disp0]
+    
+    mul     rbp
+
+    %2      [byte rdi+disp1],rbx
+
+    mov     rbx,0                   ; len = 0
+    
+    adc     rcx,rax
+    
+    adc     rbx,rdx
+    mov     rax,[byte rsi+disp1]
+    
 %assign i   i + 1
 %endrep
 
-    dec     rep_cnt
-    lea     src,[src+UNROLL_BYTES]
-    lea     dst,[dst+UNROLL_BYTES]
+    dec     r9
+    lea     rsi,[rsi+UNROLL_BYTES]
+    lea     rdi,[rdi+UNROLL_BYTES]
+    
     jns     %%4
-    mul     mlt
-    %2      [dst-off],cry
-    adc     rax,cry_hi
-    adc     rdx,len
-    %2      [dst-off+8],rax
-    adc     rdx,len
+
+    mul     rbp
+
+    %2      [rdi-off],rcx
+    mov     rbp, r11
+
+    adc     rax,rbx
+    mov     rbx, r10
+
+    adc     rdx,0
+    %2      [rdi-off+8],rax
+
+    adc     rdx,0
+
     mov     rax,rdx
-    pop     rsi
-    pop     rbx
-    pop     rbp
     ret
 
 %endmacro
