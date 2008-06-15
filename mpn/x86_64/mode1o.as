@@ -95,10 +95,16 @@ G_LABEL __gmpn_modexact_1c_odd
     mov      r8, rdx
     shr      edx, 1
 
-%ifdef PIC
-    mov      r9, [__gmp_modlimb_invert_table wrt rip wrt ..gotpcrel]
+%ifdef GSYM_PREFIX
+%define mod_table ___gmp_modlimb_invert_table
 %else
-    lea      r9, [__gmp_modlimb_invert_table wrt rip]
+%define mod_table __gmp_modlimb_invert_table
+%endif
+
+%ifdef PIC
+    mov      r9, [mod_table wrt rip wrt ..gotpcrel]
+%else
+    lea      r9, [mod_table wrt rip]
 %endif
 
     and      edx, 127
