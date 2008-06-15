@@ -28,13 +28,14 @@
 ; cpuid is used to serialize execution.  On big measurements this won't be
 ; significant but it may help make small single measurements more accurate.
 
-    bits 64
+%include '../yasm_mac.inc'
+
+bits 64
     section .text
 
-    global speed_cyclecounter:function
+    G_EXPORT speed_cyclecounter
 
-speed_cyclecounter:
-	; rdi	p
+G_LABEL speed_cyclecounter
 
 	mov     r10, rbx
 	xor     eax, eax
