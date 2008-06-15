@@ -102,7 +102,7 @@
 %define off 0
 %endif
 
-%macro   mac_sub  4
+%macro  mac_sub  4
 
     G_EXPORT %1%4
     G_EXPORT %1%3
@@ -115,7 +115,7 @@
 G_LABEL %1%4
     mov     rax,cy
     jmp     %%0
-G_lABEL %1%3
+G_LABEL %1%3
     xor     rax,rax
 %%0:
     movsxd  len,lend
