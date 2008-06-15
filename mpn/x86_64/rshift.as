@@ -42,6 +42,8 @@
 ;
 ;  This is an SEH Leaf Function (no unwind support needed)
 
+%include '../yasm_mac.inc'
+
 %ifdef _WIN64_ABI
 %define s_len   r8
 %define s_lend r8d
@@ -74,7 +76,7 @@
    bits 64
    section .text
 
-   global __gmpn_rshift:function
+   G_EXPORT __gmpn_rshift
 
 %ifdef DLL
    export   __gmpn_rshift
@@ -82,7 +84,7 @@
 
 %if 0
 
-__gmpn_rshift:
+G_LABEL __gmpn_rshift
     movsxd  s_len,s_lend
     or      s_len,s_len
     jz      .0
@@ -126,7 +128,7 @@ __gmpn_rshift:
 
 %else
 
-__gmpn_rshift:
+G_LABEL __gmpn_rshift
     movq    mm7, [src]
     movd    mm1, r_tmpd
     mov     eax, 64

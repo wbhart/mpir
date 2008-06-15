@@ -78,18 +78,20 @@
 ; );
 ;
 
+%include '../yasm_mac.inc'
+
     bits    64
     section .text
     align   32
 
-    global   __gmpn_modexact_1_odd:function
-    global   __gmpn_modexact_1c_odd:function
-    extern   __gmp_modlimb_invert_table
+    G_EXPORT __gmpn_modexact_1_odd
+    G_EXPORT __gmpn_modexact_1c_odd
+    G_EXTERN __gmp_modlimb_invert_table
 
-__gmpn_modexact_1_odd:
+G_LABEL __gmpn_modexact_1_odd
     mov      ecx, 0       ; carry
 
-__gmpn_modexact_1c_odd:
+G_LABEL __gmpn_modexact_1c_odd
     mov      r8, rdx
     shr      edx, 1
 
