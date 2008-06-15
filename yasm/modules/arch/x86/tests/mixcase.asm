@@ -1,3 +1,0 @@
-CPU SSE5
-MOV AX,5
-
