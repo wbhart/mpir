@@ -14,7 +14,7 @@ _%1:
 %endif
 %endmacro
 
-%macro G_EXPORT 1
+%macro G_EXTERN 1
 %ifdef GSYM_PREFIX
     extern _%1
 %else
