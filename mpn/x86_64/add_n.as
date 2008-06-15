@@ -200,6 +200,10 @@
     bits    64
     section .text
 
+%ifdef GSYM_PREFIX
+    mac_sub ___g,adc,mpn_add_n,mpn_add_nc
+%else
     mac_sub __g,adc,mpn_add_n,mpn_add_nc
+%endif
 
     end

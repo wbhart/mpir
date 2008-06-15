@@ -1,5 +1,5 @@
 ## Automake asm file rules.
- 
+  
 # Copyright 1996, 1998, 1999, 2000, 2001, 2002 Free Software Foundation,
 # Inc.
 #
@@ -109,4 +109,4 @@ RM_TMP = rm -f
 #  .as assembler, assembled with Yasm
 
 .as.lo:
-	$(LIBTOOL) --mode=compile $(top_srcdir)/strip_fPIC.sh $(top_srcdir)$(MPIR_AS) $(OBJECT_FORMAT) -o $@ `test -f '$<' || echo '$(srcdir)/'`$<
+	$(LIBTOOL) --mode=compile $(top_srcdir)/strip_fPIC.sh $(top_srcdir)$(MPIR_AS) $(OBJECT_FORMAT) $(GSYM_FLAG) -o $@ `test -f '$<' || echo '$(srcdir)/'`$<
