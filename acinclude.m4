@@ -1691,10 +1691,10 @@ rm -f conftest*
 case $gmp_cv_asm_underscore in
   yes)
     GMP_DEFINE(GSYM_PREFIX, [_]) 
-    AC_DEFINE(GSYM_FLAG,"-D GSYM_PREFIX") ;;
+    GSYM_FLAG="-D GSYM_PREFIX" ;;
   no)
     GMP_DEFINE(GSYM_PREFIX, [_])
-    AC_DEFINE(GSYM_FLAG,"") ;;
+    GSYM_FLAG="" ;;
   *)
     AC_MSG_WARN([+----------------------------------------------------------])
     AC_MSG_WARN([| Cannot determine global symbol prefix.])
@@ -1706,7 +1706,7 @@ case $gmp_cv_asm_underscore in
     AC_MSG_WARN([|     ./configure gmp_cv_asm_underscore=yes])
     AC_MSG_WARN([+----------------------------------------------------------])
     GMP_DEFINE(GSYM_PREFIX, [])
-    AC_DEFINE(GSYM_FLAG,"") ;;
+    GSYM_FLAG="" ;;
 esac
    AC_SUBST(GSYM_FLAG)
 ])

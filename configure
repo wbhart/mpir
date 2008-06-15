@@ -29799,18 +29799,12 @@ case $gmp_cv_asm_underscore in
 
 echo 'define(<GSYM_PREFIX>, <_>)' >>$gmp_tmpconfigm4
 
-    cat >>confdefs.h <<\_ACEOF
-#define GSYM_FLAG "-D GSYM_PREFIX"
-_ACEOF
- ;;
+    GSYM_FLAG="-D GSYM_PREFIX" ;;
   no)
 
 echo 'define(<GSYM_PREFIX>, <_>)' >>$gmp_tmpconfigm4
 
-    cat >>confdefs.h <<\_ACEOF
-#define GSYM_FLAG ""
-_ACEOF
- ;;
+    GSYM_FLAG="" ;;
   *)
     { echo "$as_me:$LINENO: WARNING: +----------------------------------------------------------" >&5
 echo "$as_me: WARNING: +----------------------------------------------------------" >&2;}
@@ -29833,10 +29827,7 @@ echo "$as_me: WARNING: +--------------------------------------------------------
 
 echo 'define(<GSYM_PREFIX>, <>)' >>$gmp_tmpconfigm4
 
-    cat >>confdefs.h <<\_ACEOF
-#define GSYM_FLAG ""
-_ACEOF
- ;;
+    GSYM_FLAG="" ;;
 esac
 
 
