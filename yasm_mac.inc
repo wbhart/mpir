@@ -13,3 +13,13 @@ _%1:
     global %1:function
 %endif
 %endmacro
+
+%macro G_EXPORT 1
+%ifdef GSYM_PREFIX
+    extern _%1
+%else
+    extern %1
+%endif
+%endmacro
+
+
