@@ -1693,7 +1693,7 @@ case $gmp_cv_asm_underscore in
     GMP_DEFINE(GSYM_PREFIX, [_]) 
     GSYM_FLAG="-D GSYM_PREFIX" ;;
   no)
-    GMP_DEFINE(GSYM_PREFIX, [_])
+    GMP_DEFINE(GSYM_PREFIX, [])
     GSYM_FLAG="" ;;
   *)
     AC_MSG_WARN([+----------------------------------------------------------])
