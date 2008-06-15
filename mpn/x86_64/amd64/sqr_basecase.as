@@ -35,6 +35,8 @@
 ;  values with karatsuba squaring. Tuneup was observed to require a
 ;  value here of over 128. Though 150 seems ok, we set it even higher.
 
+%include '../yasm_mac.inc'
+
 %define UNROLL_COUNT 300 
 
 %if UNROLL_COUNT > 31
@@ -61,9 +63,9 @@
    bits     64
    section  .text
 
-   global   __gmpn_sqr_basecase:function
+   G_EXPORT __gmpn_sqr_basecase
 
-__gmpn_sqr_basecase:
+G_LABEL __gmpn_sqr_basecase
     movsxd  x_len,edx
     cmp     x_len,2
     je      sqr_2

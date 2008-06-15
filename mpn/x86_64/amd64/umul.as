@@ -35,6 +35,8 @@
 ;  mp_limb_t m2             rdx
 ;  );
 
+%include '../yasm_mac.inc'
+
 %ifdef _WIN64_ABI
 %define low   rcx
 %define m1    rdx
@@ -49,13 +51,13 @@
     bits    64
     section .text
 
-    global  __gmpn_umul_ppmm:function
+    G_EXPORT __gmpn_umul_ppmm
 
 %ifdef DLL
     export  __gmpn_umul_ppmm
 %endif
 
-__gmpn_umul_ppmm:
+G_LABEL __gmpn_umul_ppmm
     mov     rax,m1
     mul     m2
     mov     [low],rax

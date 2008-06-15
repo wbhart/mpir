@@ -37,6 +37,8 @@
 ;  mp_limb_t divisor            rcx
 ;  );
 
+%include '../yasm_mac.inc'
+
 %ifdef _WIN64_ABI
 %define rem   rcx
 %define high  rdx
@@ -53,13 +55,13 @@
     bits    64
     section .text
 
-    global  __gmpn_udiv_qrnnd:function
+    G_EXPORT __gmpn_udiv_qrnnd
 
 %ifdef DLL
     export  __gmpn_udiv_qrnnd
 %endif
 
-__gmpn_udiv_qrnnd:
+G_LABEL __gmpn_udiv_qrnnd
     mov     rax,low
     div     dv
     mov     [rem],high

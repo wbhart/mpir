@@ -30,15 +30,17 @@
 ; n	rdx
 ; vl	rcx
 
+%include '../yasm_mac.inc'
+
     bits    64
     section .text
 
-    global   __gmpn_mul_1:function
+    G_EXPORT __gmpn_mul_1
  
     align 16
     db 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 
-__gmpn_mul_1:
+G_LABEL __gmpn_mul_1
 	mov	  r11, rdx
 	lea	  rsi, [rsi+rdx*8]
 	lea	  rdi, [rdi+rdx*8]

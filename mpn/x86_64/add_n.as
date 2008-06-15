@@ -64,6 +64,8 @@
 ;
 ;  This is an SEH Leaf Function (no unwind support needed)
 
+%include '../yasm_mac.inc'
+
 %ifdef _WIN64_ABI
 %define dst       rcx   ; destination pointer
 %define sr1       rdx   ; source 1 pointer
@@ -102,18 +104,18 @@
 
 %macro   mac_sub  4
 
-    global  %1%4:function
-    global  %1%3:function
+    G_EXPORT %1%4
+    G_EXPORT %1%3
 
 %ifdef DLL
     export  %1%4
     export  %1%3
 %endif
 
-%1%4:
+G_LABEL %1%4
     mov     rax,cy
     jmp     %%0
-%1%3:
+G_lABEL %1%3
     xor     rax,rax
 %%0:
     movsxd  len,lend

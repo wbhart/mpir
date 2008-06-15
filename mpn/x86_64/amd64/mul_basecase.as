@@ -35,6 +35,8 @@
 ; calculations only once.  The saving is 15-25% on typical sizes coming from
 ; the Karatsuba multiply code.
 
+%include '../yasm_mac.inc'
+
 %define UNROLL_LOG2         4
 %define UNROLL_COUNT        (1 << UNROLL_LOG2)
 %define UNROLL_MASK         (UNROLL_COUNT - 1)
@@ -52,9 +54,9 @@
     section .text
     align   32
 
-    global   __gmpn_mul_basecase:function
+    G_EXPORT __gmpn_mul_basecase
 
-__gmpn_mul_basecase:
+G_LABEL __gmpn_mul_basecase
 	cmp     xsize, 2	
 	ja	    .xsize_more_than_two
 	je	    .two_by_something

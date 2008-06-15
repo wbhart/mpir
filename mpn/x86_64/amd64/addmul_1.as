@@ -42,6 +42,8 @@
 ; Calculate src[size] multiplied by mult[1] and add to /subtract from dst[size] and
 ; return the carry or borrow from the top of the result
 
+%include '../yasm_mac.inc'
+
 %define UNROLL_LOG2        4
 %define UNROLL_COUNT       (1 << UNROLL_LOG2)
 %define UNROLL_MASK        (UNROLL_COUNT - 1)
@@ -62,12 +64,12 @@
 
 %macro   mac_sub  4
 
-    global  %1%3:function
-    global  %1%4:function
+    G_EXPORT %1%3
+    G_EXPORT %1%4
 
     align 32
 
-%1%3:
+G_LABEL %1%3
     mov     r9, rcx
     mov     r10, rbx
     mov     r11, rbp
@@ -91,7 +93,7 @@
 
     align 16
 
-%1%4:
+G_LABEL %1%4
     mov     r9, rcx
     mov     r10, rbx
     mov     r11, rbp

@@ -40,6 +40,8 @@
 ;
 ;  This is an SEH Leaf Function (no unwind support needed)
 
+%include '../yasm_mac.inc'
+
 %define    UNROLL_THRESHOLD 16
 
 %ifdef _WIN64_ABI
@@ -58,13 +60,13 @@
     bits    64
     section .text
 
-    global  __gmpn_copyi
+    G_EXPORT __gmpn_copyi
 
 %ifdef DLL
     export  __gmpn_copyi
 %endif
 
-__gmpn_copyi:
+G_LABEL __gmpn_copyi
     movsxd  s_len,s_lend
     or      s_len,s_len             ; none to move?
     jz      .1
