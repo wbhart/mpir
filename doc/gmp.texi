@@ -5510,7 +5510,7 @@ between speed and randomness, and is recommended for applications with no
 special requirements.  Currently this is @code{gmp_randinit_mt}.
 @end deftypefun
 
-@deftypefun int gmp_randinit_mt (gmp_randstate_t @var{state})
+@deftypefun void gmp_randinit_mt (gmp_randstate_t @var{state})
 @cindex Mersenne twister random numbers
 Initialize @var{state} for a Mersenne Twister algorithm.  This algorithm is
 fast and has good randomness properties.
