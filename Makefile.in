@@ -455,7 +455,7 @@ LIBGMPXX_LT_AGE = 1
 LIBMP_LT_CURRENT = 4
 LIBMP_LT_REVISION = 10
 LIBMP_LT_AGE = 1
-SUBDIRS = tests mpn mpz mpq mpf printf scanf cxx mpbsd demos tune doc
+SUBDIRS = tests mpn mpz mpq mpf printf scanf cxx mpbsd demos tune doc yasmbuild
 
 # The ansi2knr setups for the build programs are the same as the normal
 # automake ansi2knr rules, but using $(CC_FOR_BUILD) instead of $(CC).
