@@ -30,11 +30,11 @@
 ; The dependent chain in the main loop is
 ;
 ;                            cycles
-; subq   %r8, %rax   1
-; imulq  %r9, %rax   4
-; mulq   %rsi      5
-;              ----
-; total            10
+; sub   rax, r8 1
+; imul  rax, r9 4
+; mul   rsi     5
+;            ----
+; total        10
 ;
 ; The movq load from src seems to need to be scheduled back before the jz to
 ; achieve this speed, out-of-order execution apparently can't completely
