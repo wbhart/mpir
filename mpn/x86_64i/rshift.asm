@@ -85,7 +85,7 @@ __gmpn_rshift:
     inc     s_len
     jnz     .2
     mov     [d_ptr-8],rax 
-    movq    rax, xmm0
+    movd    rax, xmm0
     shl     rax,cl
     ret
 
@@ -99,7 +99,7 @@ __gmpn_rshift:
     movd    mm0, eax
     movq    mm3, mm7
     psllq   mm7, mm0
-    movq    rax, mm7
+    movd    rax, mm7
     lea     rdx, [rdx+r8*8]
     lea     rcx, [rcx+r8*8]
     neg     r8

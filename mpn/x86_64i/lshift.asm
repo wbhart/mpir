@@ -83,7 +83,7 @@ __gmpn_lshift:
     shl     rax,cl
     mov     [d_ptr],rax
     neg     cl
-    movq     rax, xmm0
+    movq    rax, xmm0
     shr     rax,cl
     ret
 
@@ -98,7 +98,7 @@ __gmpn_lshift:
     movd    mm0, eax            ; >>  -> mm0
     movq    mm3, mm7
     psrlq   mm7, mm0
-    movq    rax, mm7
+    movd    rax, mm7
     sub     r8, 2
     jl      .1
 
@@ -122,7 +122,7 @@ __gmpn_lshift:
 .2: psllq   mm2, mm1
     movq    [rcx], mm2
     emms
-     ret
+    ret
 
 %endif
 

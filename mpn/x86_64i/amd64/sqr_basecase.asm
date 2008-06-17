@@ -36,6 +36,9 @@
 
 %define reg_save_list   rbx, rsi, rdi, rbp, r12, r13
 
+; IMPORTANT NOTE: This must be greater or equal to 
+; SQR_KARATSUBA_THRESHOLD - 3 (see gmp-mparam.h)
+
 %define UNROLL_COUNT    31
 
 %if UNROLL_COUNT > 31
@@ -56,7 +59,7 @@
 %define x_ptr   r9
 %define x_len   r8
 
-%define  v_ctr r12
+%define v_ctr  r12
 %define v_jmp  r13
 
    bits     64
@@ -185,28 +188,20 @@ sqr_4_plus:
     mov     rdx,rcx
 
 %ifdef DWORD_OFFSETS
-
 %define  CODE_BYTES_PER_LIMB  31    ; must be odd
 %define dsiz dword
-
     shl     rcx,5
     sub     rcx,rdx
-    lea     v_jmp,[rel .3]
-    lea     rcx,[rcx+(UNROLL_COUNT - 2) * CODE_BYTES_PER_LIMB]
-
 %else
-
 %define  CODE_BYTES_PER_LIMB  25    ; must be odd
 %define  dsiz byte
-
     shl     rcx,3
     lea     rcx,[rcx+rcx*2]
-    lea     v_jmp,[rel .3]
-    lea     rcx,[rcx+rdx+(UNROLL_COUNT - 2) * CODE_BYTES_PER_LIMB]
-
+    add     rcx,rdx
 %endif
 
-    lea     rcx,[rcx+v_jmp]
+    lea     rax,[rel .3]
+    lea     rcx,[rax+rcx+(UNROLL_COUNT - 2) * CODE_BYTES_PER_LIMB]
 .2: lea     v_jmp,[rcx+CODE_BYTES_PER_LIMB]
     mov     rbp,[rsi+rdx*8-24+ADR_BIAS]
     mov     rax,[rsi+rdx*8-16+ADR_BIAS]

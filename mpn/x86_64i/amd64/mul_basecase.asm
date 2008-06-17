@@ -44,16 +44,16 @@
 %define UNROLL_LOG2         4
 %define UNROLL_COUNT        (1 << UNROLL_LOG2)
 %define UNROLL_MASK         (UNROLL_COUNT - 1)
-%define  UNROLL_BYTES       (8 * UNROLL_COUNT)
+%define UNROLL_BYTES        (8 * UNROLL_COUNT)
 %define UNROLL_THRESHOLD    5
 
    bits 64
    section .text
 
-%define v_par  rsp + 16
-%define v_adj  rsp +  8
-%define v_xlo  rsp
-%define v_len  24
+%define v_par   16
+%define v_adj    8
+%define v_xlo    0
+%define v_len   24
 
 %define  r_ptr rcx
 %define  x_ptr r11
@@ -203,26 +203,26 @@ L_unroll:
     neg     rcx
     neg     rbx
     and     rcx,UNROLL_MASK
-    mov     [v_par],rcx
-    mov     [v_adj],rbx
+    mov     [rsp+v_par],rcx
+    mov     [rsp+v_adj],rbx
     mov     rdx,rcx
     shl     rcx,3
     lea     rcx,[rcx+rcx*2]
     lea     v_jmp,[rel .4]
     lea     v_jmp,[v_jmp+rcx]
     neg     rdx
-    mov     [v_xlo],rax
+    mov     [rsp+v_xlo],rax
     lea     rdi,[rdi+rdx*8+8]
     lea     rsi,[rsi+rdx*8+8]
     jmp     .3
-.2: mov     rbx,[v_adj]
-    mov     rax,[v_xlo]
+.2: mov     rbx,[rsp+v_adj]
+    mov     rax,[rsp+v_xlo]
     lea     rdi,[rdi+rbx*8+8]
     lea     rsi,[rsi+rbx*8]
     mov     rbp,[y_ptr+y_len*8]
 .3: mul     rbp
     sar     rbx,UNROLL_LOG2
-    mov     rcx,[v_par]
+    mov     rcx,[rsp+v_par]
     mov     v_ctr,rbx
     test    cl,1            ; low word of product + carry
     mov     rbx,dword 0     ; is in rcx on even rounds and
@@ -231,7 +231,6 @@ L_unroll:
     cmovnz  rbx,rax         ; in the right register here
     jmp     v_jmp
 .4:
-
 %define CHUNK_COUNT  2
 %assign i 0
 %rep UNROLL_COUNT / CHUNK_COUNT
