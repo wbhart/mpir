@@ -1388,9 +1388,13 @@ case $host in
         gcc_cflags_cpu="-mtune=c3 -mcpu=c3 -mcpu=i486 -m486"
         gcc_cflags_arch="-march=c3 -march=pentium-mmx -march=pentium"
         ;;
-      x86_64 | core2)
+      x86_64)
         gcc_cflags_cpu="-mtune=k8 -mcpu=athlon -mcpu=pentiumpro -mcpu=i486 -m486"
         gcc_cflags_arch="-march=k8 -march=k8~-mno-sse2 -march=athlon -march=pentiumpro -march=pentium"
+        ;;
+      core2)
+        gcc_cflags_cpu="-mtune=core2 -mtune=nocona -mtune=pentium3 -mcpu=pentiumpro -mcpu=i486 -m486"
+        gcc_cflags_arch="-march=core2 -march=nocona -march=pentium3 -march=pentiumpro -march=pentium"
         ;;
       *)
         gcc_cflags_cpu="-mtune=i486 -mcpu=i486 -m486"
