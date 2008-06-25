@@ -1272,7 +1272,7 @@ case $host in
   #
   X86_PATTERN | x86_64-*-* | core2-*-*)
     abilist="32"
-    cclist="gcc icc"
+    cclist="gcc icc cc"
     gcc_cflags="-O2 $fomit_frame_pointer"
     gcc_32_cflags_maybe="-m32"
     icc_cflags="-no-gcc"
@@ -1285,6 +1285,16 @@ case $host in
     want_yasm="yes"
     # Availability of rdtsc is checked at run-time.
     SPEED_CYCLECOUNTER_OBJ=pentium.lo
+    
+    case $host in
+      *-*-solaris* | *-*-sunos*)
+    	# Note no -g, it disables all optimizations.
+    	cc_cflags=
+    	cc_cflags_optlist="opt arch cpu"
+
+        # SunOS cc doesn't know -xO4, fallback to -O2.
+    	cc_cflags_opt="-xO4 -O2" ;;
+    esac
 
     # gcc 2.7.2 only knows i386 and i486, using -m386 or -m486.  These
     #     represent -mcpu= since -m486 doesn't generate 486 specific insns.
@@ -1445,23 +1455,30 @@ case $host in
       x86_64-*-* | i786-*-*)
         abilist="64 32"
         path_64="x86_64/amd64 x86_64"
-        cclist_64="gcc"
+        cclist_64="gcc cc"
         gcc_64_cflags="-O2 -m64"
         gcc_64_cflags_optlist="cpu"
         CALLING_CONVENTIONS_OBJS_64='amd64call.lo amd64check$U.lo'
         SPEED_CYCLECOUNTER_OBJ_64=x86_64.lo
-        cyclecounter_size_64=2
-        ;;
+        cyclecounter_size_64=2 ;;
       core2-*-*)
         abilist="64 32"
         path_64="x86_64/core2 x86_64"
-        cclist_64="gcc"
+        cclist_64="gcc cc"
         gcc_64_cflags="-O2 -m64"
         gcc_64_cflags_optlist="cpu"
         CALLING_CONVENTIONS_OBJS_64='core2call.lo amd64check$U.lo'
         SPEED_CYCLECOUNTER_OBJ_64=x86_64.lo
         cyclecounter_size_64=2
-        ;;
+        case $host in
+           *-*-solaris* | *-*-sunos*)
+           # Note no -g, it disables all optimizations.
+           cc_64_cflags="-m64"
+           cc_64_cflags_optlist="opt arch cpu"
+
+           # SunOS cc doesn't know -xO4, fallback to -O2.
+           cc_64_cflags_opt="-xO4 -O2" ;;
+        esac ;;
     esac
     ;;
 
