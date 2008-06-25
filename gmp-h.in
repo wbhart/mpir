@@ -420,14 +420,12 @@ typedef __mpq_struct *mpq_ptr;
    for an inline too, so as to correctly specify "dllimport" on windows, in
    case the function is called rather than inlined.  */
 #ifdef __GNUC__
-#if __USE_ISOC99 || __GMP_GNUC_PREREQ (4,3)
-#define __GMP_EXTERN_INLINE             static __inline__
-#define __GMP_STATIC                    static                 
-#else
-#define __GMP_EXTERN_INLINE             extern __inline__
-#define __GMP_STATIC
-#endif
-#define __GMP_EXTERN_INLINE_PROTOTYPES  1
+# if defined(__GNUC_STDC_INLINE__) || defined(__GNUC_GNU_INLINE__)
+#  define __GMP_EXTERN_INLINE extern __attribute__((gnu_inline)) inline
+# else
+#  define __GMP_EXTERN_INLINE extern __inline__
+# endif
+#define __GMP_INLINE_PROTOTYPES  1
 #endif
 
 /* DEC C (eg. version 5.9) supports "static __inline foo()", even in -std1
@@ -477,11 +475,11 @@ typedef __mpq_struct *mpq_ptr;
    version.  Note in particular that Cray C++ objects to the combination of
    prototype and inline.  */
 #ifdef __GMP_EXTERN_INLINE
-#ifndef __GMP_EXTERN_INLINE_PROTOTYPES
-#define __GMP_EXTERN_INLINE_PROTOTYPES  0
+#ifndef __GMP_INLINE_PROTOTYPES
+#define __GMP_INLINE_PROTOTYPES  0
 #endif
 #else
-#define __GMP_EXTERN_INLINE_PROTOTYPES  1
+#define __GMP_INLINE_PROTOTYPES  1
 #endif
 
 
@@ -671,8 +669,8 @@ __GMP_DECLSPEC int gmp_vsscanf __GMP_PROTO ((__gmp_const char *, __gmp_const cha
 __GMP_DECLSPEC void *_mpz_realloc __GMP_PROTO ((mpz_ptr, mp_size_t));
 
 #define mpz_abs __gmpz_abs
-#if __GMP_EXTERN_INLINE_PROTOTYPES || defined (__GMP_FORCE_mpz_abs)
-__GMP_DECLSPEC __GMP_STATIC void mpz_abs __GMP_PROTO ((mpz_ptr, mpz_srcptr));
+#if __GMP_INLINE_PROTOTYPES || defined (__GMP_FORCE_mpz_abs)
+__GMP_DECLSPEC void mpz_abs __GMP_PROTO ((mpz_ptr, mpz_srcptr));
 #endif
 
 #define mpz_add __gmpz_add
@@ -835,18 +833,18 @@ __GMP_DECLSPEC int mpz_fits_slong_p __GMP_PROTO ((mpz_srcptr)) __GMP_NOTHROW __G
 __GMP_DECLSPEC int mpz_fits_sshort_p __GMP_PROTO ((mpz_srcptr)) __GMP_NOTHROW __GMP_ATTRIBUTE_PURE;
 
 #define mpz_fits_uint_p __gmpz_fits_uint_p
-#if __GMP_EXTERN_INLINE_PROTOTYPES || defined (__GMP_FORCE_mpz_fits_uint_p)
-__GMP_DECLSPEC __GMP_STATIC int mpz_fits_uint_p __GMP_PROTO ((mpz_srcptr)) __GMP_NOTHROW __GMP_ATTRIBUTE_PURE;
+#if __GMP_INLINE_PROTOTYPES || defined (__GMP_FORCE_mpz_fits_uint_p)
+__GMP_DECLSPEC int mpz_fits_uint_p __GMP_PROTO ((mpz_srcptr)) __GMP_NOTHROW __GMP_ATTRIBUTE_PURE;
 #endif
 
 #define mpz_fits_ulong_p __gmpz_fits_ulong_p
-#if __GMP_EXTERN_INLINE_PROTOTYPES || defined (__GMP_FORCE_mpz_fits_ulong_p)
-__GMP_DECLSPEC __GMP_STATIC int mpz_fits_ulong_p __GMP_PROTO ((mpz_srcptr)) __GMP_NOTHROW __GMP_ATTRIBUTE_PURE;
+#if __GMP_INLINE_PROTOTYPES || defined (__GMP_FORCE_mpz_fits_ulong_p)
+__GMP_DECLSPEC int mpz_fits_ulong_p __GMP_PROTO ((mpz_srcptr)) __GMP_NOTHROW __GMP_ATTRIBUTE_PURE;
 #endif
 
 #define mpz_fits_ushort_p __gmpz_fits_ushort_p
-#if __GMP_EXTERN_INLINE_PROTOTYPES || defined (__GMP_FORCE_mpz_fits_ushort_p)
-__GMP_DECLSPEC __GMP_STATIC int mpz_fits_ushort_p __GMP_PROTO ((mpz_srcptr)) __GMP_NOTHROW __GMP_ATTRIBUTE_PURE;
+#if __GMP_INLINE_PROTOTYPES || defined (__GMP_FORCE_mpz_fits_ushort_p)
+__GMP_DECLSPEC int mpz_fits_ushort_p __GMP_PROTO ((mpz_srcptr)) __GMP_NOTHROW __GMP_ATTRIBUTE_PURE;
 #endif
 
 #define mpz_gcd __gmpz_gcd
@@ -871,13 +869,13 @@ __GMP_DECLSPEC /* signed */ long int mpz_get_si __GMP_PROTO ((mpz_srcptr)) __GMP
 __GMP_DECLSPEC char *mpz_get_str __GMP_PROTO ((char *, int, mpz_srcptr));
 
 #define mpz_get_ui __gmpz_get_ui
-#if __GMP_EXTERN_INLINE_PROTOTYPES || defined (__GMP_FORCE_mpz_get_ui)
-__GMP_DECLSPEC __GMP_STATIC unsigned long int mpz_get_ui __GMP_PROTO ((mpz_srcptr)) __GMP_NOTHROW __GMP_ATTRIBUTE_PURE;
+#if __GMP_INLINE_PROTOTYPES || defined (__GMP_FORCE_mpz_get_ui)
+__GMP_DECLSPEC unsigned long int mpz_get_ui __GMP_PROTO ((mpz_srcptr)) __GMP_NOTHROW __GMP_ATTRIBUTE_PURE;
 #endif
 
 #define mpz_getlimbn __gmpz_getlimbn
-#if __GMP_EXTERN_INLINE_PROTOTYPES || defined (__GMP_FORCE_mpz_getlimbn)
-__GMP_DECLSPEC __GMP_STATIC mp_limb_t mpz_getlimbn __GMP_PROTO ((mpz_srcptr, mp_size_t)) __GMP_NOTHROW __GMP_ATTRIBUTE_PURE;
+#if __GMP_INLINE_PROTOTYPES || defined (__GMP_FORCE_mpz_getlimbn)
+__GMP_DECLSPEC mp_limb_t mpz_getlimbn __GMP_PROTO ((mpz_srcptr, mp_size_t)) __GMP_NOTHROW __GMP_ATTRIBUTE_PURE;
 #endif
 
 #define mpz_hamdist __gmpz_hamdist
@@ -975,8 +973,8 @@ __GMP_DECLSPEC void mpz_mul_si __GMP_PROTO ((mpz_ptr, mpz_srcptr, long int));
 __GMP_DECLSPEC void mpz_mul_ui __GMP_PROTO ((mpz_ptr, mpz_srcptr, unsigned long int));
 
 #define mpz_neg __gmpz_neg
-#if __GMP_EXTERN_INLINE_PROTOTYPES || defined (__GMP_FORCE_mpz_neg)
-__GMP_DECLSPEC __GMP_STATIC void mpz_neg __GMP_PROTO ((mpz_ptr, mpz_srcptr));
+#if __GMP_INLINE_PROTOTYPES || defined (__GMP_FORCE_mpz_neg)
+__GMP_DECLSPEC void mpz_neg __GMP_PROTO ((mpz_ptr, mpz_srcptr));
 #endif
 
 #define mpz_nextprime __gmpz_nextprime
@@ -996,13 +994,13 @@ __GMP_DECLSPEC size_t mpz_out_str __GMP_PROTO ((FILE *, int, mpz_srcptr));
 __GMP_DECLSPEC int mpz_perfect_power_p __GMP_PROTO ((mpz_srcptr)) __GMP_ATTRIBUTE_PURE;
 
 #define mpz_perfect_square_p __gmpz_perfect_square_p
-#if __GMP_EXTERN_INLINE_PROTOTYPES || defined (__GMP_FORCE_mpz_perfect_square_p)
-__GMP_DECLSPEC __GMP_STATIC int mpz_perfect_square_p __GMP_PROTO ((mpz_srcptr)) __GMP_ATTRIBUTE_PURE;
+#if __GMP_INLINE_PROTOTYPES || defined (__GMP_FORCE_mpz_perfect_square_p)
+__GMP_DECLSPEC int mpz_perfect_square_p __GMP_PROTO ((mpz_srcptr)) __GMP_ATTRIBUTE_PURE;
 #endif
 
 #define mpz_popcount __gmpz_popcount
-#if __GMP_EXTERN_INLINE_PROTOTYPES || defined (__GMP_FORCE_mpz_popcount)
-__GMP_DECLSPEC __GMP_STATIC unsigned long int mpz_popcount __GMP_PROTO ((mpz_srcptr)) __GMP_NOTHROW __GMP_ATTRIBUTE_PURE;
+#if __GMP_INLINE_PROTOTYPES || defined (__GMP_FORCE_mpz_popcount)
+__GMP_DECLSPEC unsigned long int mpz_popcount __GMP_PROTO ((mpz_srcptr)) __GMP_NOTHROW __GMP_ATTRIBUTE_PURE;
 #endif
 
 #define mpz_pow_ui __gmpz_pow_ui
@@ -1054,8 +1052,8 @@ __GMP_DECLSPEC void mpz_set_d __GMP_PROTO ((mpz_ptr, double));
 __GMP_DECLSPEC void mpz_set_f __GMP_PROTO ((mpz_ptr, mpf_srcptr));
 
 #define mpz_set_q __gmpz_set_q
-#if __GMP_EXTERN_INLINE_PROTOTYPES || defined (__GMP_FORCE_mpz_set_q)
-__GMP_DECLSPEC __GMP_STATIC void mpz_set_q __GMP_PROTO ((mpz_ptr, mpq_srcptr));
+#if __GMP_INLINE_PROTOTYPES || defined (__GMP_FORCE_mpz_set_q)
+__GMP_DECLSPEC void mpz_set_q __GMP_PROTO ((mpz_ptr, mpq_srcptr));
 #endif
 
 #define mpz_set_si __gmpz_set_si
@@ -1071,8 +1069,8 @@ __GMP_DECLSPEC void mpz_set_ui __GMP_PROTO ((mpz_ptr, unsigned long int));
 __GMP_DECLSPEC void mpz_setbit __GMP_PROTO ((mpz_ptr, unsigned long int));
 
 #define mpz_size __gmpz_size
-#if __GMP_EXTERN_INLINE_PROTOTYPES || defined (__GMP_FORCE_mpz_size)
-__GMP_DECLSPEC __GMP_STATIC size_t mpz_size __GMP_PROTO ((mpz_srcptr)) __GMP_NOTHROW __GMP_ATTRIBUTE_PURE;
+#if __GMP_INLINE_PROTOTYPES || defined (__GMP_FORCE_mpz_size)
+__GMP_DECLSPEC size_t mpz_size __GMP_PROTO ((mpz_srcptr)) __GMP_NOTHROW __GMP_ATTRIBUTE_PURE;
 #endif
 
 #define mpz_sizeinbase __gmpz_sizeinbase
@@ -1149,8 +1147,8 @@ __GMP_DECLSPEC void mpz_xor __GMP_PROTO ((mpz_ptr, mpz_srcptr, mpz_srcptr));
 /**************** Rational (i.e. Q) routines.  ****************/
 
 #define mpq_abs __gmpq_abs
-#if __GMP_EXTERN_INLINE_PROTOTYPES || defined (__GMP_FORCE_mpq_abs)
-__GMP_DECLSPEC __GMP_STATIC void mpq_abs __GMP_PROTO ((mpq_ptr, mpq_srcptr));
+#if __GMP_INLINE_PROTOTYPES || defined (__GMP_FORCE_mpq_abs)
+__GMP_DECLSPEC void mpq_abs __GMP_PROTO ((mpq_ptr, mpq_srcptr));
 #endif
 
 #define mpq_add __gmpq_add
@@ -1210,8 +1208,8 @@ __GMP_DECLSPEC void mpq_mul __GMP_PROTO ((mpq_ptr, mpq_srcptr, mpq_srcptr));
 __GMP_DECLSPEC void mpq_mul_2exp __GMP_PROTO ((mpq_ptr, mpq_srcptr, unsigned long));
 
 #define mpq_neg __gmpq_neg
-#if __GMP_EXTERN_INLINE_PROTOTYPES || defined (__GMP_FORCE_mpq_neg)
-__GMP_DECLSPEC __GMP_STATIC void mpq_neg __GMP_PROTO ((mpq_ptr, mpq_srcptr));
+#if __GMP_INLINE_PROTOTYPES || defined (__GMP_FORCE_mpq_neg)
+__GMP_DECLSPEC void mpq_neg __GMP_PROTO ((mpq_ptr, mpq_srcptr));
 #endif
 
 #define mpq_out_str __gmpq_out_str
@@ -1459,13 +1457,13 @@ __GMP_DECLSPEC void mpf_urandomb __GMP_PROTO ((mpf_t, gmp_randstate_t, unsigned 
 /* This is ugly, but we need to make user calls reach the prefixed function. */
 
 #define mpn_add __MPN(add)
-#if __GMP_EXTERN_INLINE_PROTOTYPES || defined (__GMP_FORCE_mpn_add)
-__GMP_DECLSPEC __GMP_STATIC mp_limb_t mpn_add __GMP_PROTO ((mp_ptr, mp_srcptr, mp_size_t, mp_srcptr,mp_size_t));
+#if __GMP_INLINE_PROTOTYPES || defined (__GMP_FORCE_mpn_add)
+__GMP_DECLSPEC mp_limb_t mpn_add __GMP_PROTO ((mp_ptr, mp_srcptr, mp_size_t, mp_srcptr,mp_size_t));
 #endif
 
 #define mpn_add_1 __MPN(add_1)
-#if __GMP_EXTERN_INLINE_PROTOTYPES || defined (__GMP_FORCE_mpn_add_1)
-__GMP_DECLSPEC __GMP_STATIC mp_limb_t mpn_add_1 __GMP_PROTO ((mp_ptr, mp_srcptr, mp_size_t, mp_limb_t)) __GMP_NOTHROW;
+#if __GMP_INLINE_PROTOTYPES || defined (__GMP_FORCE_mpn_add_1)
+__GMP_DECLSPEC mp_limb_t mpn_add_1 __GMP_PROTO ((mp_ptr, mp_srcptr, mp_size_t, mp_limb_t)) __GMP_NOTHROW;
 #endif
 
 #define mpn_add_n __MPN(add_n)
@@ -1478,8 +1476,8 @@ __GMP_DECLSPEC mp_limb_t mpn_addmul_1 __GMP_PROTO ((mp_ptr, mp_srcptr, mp_size_t
 __GMP_DECLSPEC mp_limb_t mpn_bdivmod __GMP_PROTO ((mp_ptr, mp_ptr, mp_size_t, mp_srcptr, mp_size_t, unsigned long int));
 
 #define mpn_cmp __MPN(cmp)
-#if __GMP_EXTERN_INLINE_PROTOTYPES || defined (__GMP_FORCE_mpn_cmp)
-__GMP_DECLSPEC __GMP_STATIC int mpn_cmp __GMP_PROTO ((mp_srcptr, mp_srcptr, mp_size_t)) __GMP_NOTHROW __GMP_ATTRIBUTE_PURE;
+#if __GMP_INLINE_PROTOTYPES || defined (__GMP_FORCE_mpn_cmp)
+__GMP_DECLSPEC int mpn_cmp __GMP_PROTO ((mp_srcptr, mp_srcptr, mp_size_t)) __GMP_NOTHROW __GMP_ATTRIBUTE_PURE;
 #endif
 
 #define mpn_divexact_by3(dst,src,size) \
@@ -1565,13 +1563,13 @@ __GMP_DECLSPEC mp_size_t mpn_set_str __GMP_PROTO ((mp_ptr, __gmp_const unsigned 
 __GMP_DECLSPEC mp_size_t mpn_sqrtrem __GMP_PROTO ((mp_ptr, mp_ptr, mp_srcptr, mp_size_t));
 
 #define mpn_sub __MPN(sub)
-#if __GMP_EXTERN_INLINE_PROTOTYPES || defined (__GMP_FORCE_mpn_sub)
-__GMP_DECLSPEC __GMP_STATIC mp_limb_t mpn_sub __GMP_PROTO ((mp_ptr, mp_srcptr, mp_size_t, mp_srcptr,mp_size_t));
+#if __GMP_INLINE_PROTOTYPES || defined (__GMP_FORCE_mpn_sub)
+__GMP_DECLSPEC mp_limb_t mpn_sub __GMP_PROTO ((mp_ptr, mp_srcptr, mp_size_t, mp_srcptr,mp_size_t));
 #endif
 
 #define mpn_sub_1 __MPN(sub_1)
-#if __GMP_EXTERN_INLINE_PROTOTYPES || defined (__GMP_FORCE_mpn_sub_1)
-__GMP_DECLSPEC __GMP_STATIC mp_limb_t mpn_sub_1 __GMP_PROTO ((mp_ptr, mp_srcptr, mp_size_t, mp_limb_t)) __GMP_NOTHROW;
+#if __GMP_INLINE_PROTOTYPES || defined (__GMP_FORCE_mpn_sub_1)
+__GMP_DECLSPEC mp_limb_t mpn_sub_1 __GMP_PROTO ((mp_ptr, mp_srcptr, mp_size_t, mp_limb_t)) __GMP_NOTHROW;
 #endif
 
 #define mpn_sub_n __MPN(sub_n)
