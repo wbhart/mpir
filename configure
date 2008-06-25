@@ -4127,7 +4127,7 @@ echo "include_mpn(\`sparc32/sparc-defs.m4')" >> $gmp_tmpconfigm4i
     fi
 
     case $host in
-      x86_64-*-*)
+      x86_64-*-* | i786-*-*)
         abilist="64 32"
         path_64="x86_64/amd64 x86_64"
         cclist_64="gcc"
