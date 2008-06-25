@@ -3967,7 +3967,7 @@ echo "include_mpn(\`sparc32/sparc-defs.m4')" >> $gmp_tmpconfigm4i
     CALLING_CONVENTIONS_OBJS='x86call.lo x86check$U.lo'
 
     # Currently yasm is only needed to build x86 assembly files on some hosts
-    want_yasm=yes
+    want_yasm="yes"
     # Availability of rdtsc is checked at run-time.
     SPEED_CYCLECOUNTER_OBJ=pentium.lo
 
