@@ -1281,6 +1281,8 @@ case $host in
     any_32_testlist="sizeof-long-4"
     CALLING_CONVENTIONS_OBJS='x86call.lo x86check$U.lo'
 
+    # Currently yasm is only needed to build x86 assembly files on some hosts
+    want_yasm=yes
     # Availability of rdtsc is checked at run-time.
     SPEED_CYCLECOUNTER_OBJ=pentium.lo
 
@@ -1503,6 +1505,7 @@ case $host in
     ;;
 esac
 
+AM_CONDITIONAL(BUILD_YASM, test "$want_yasm" = "yes")
 
 CFLAGS_or_unset=${CFLAGS-'(unset)'}
 CPPFLAGS_or_unset=${CPPFLAGS-'(unset)'}

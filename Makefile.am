@@ -84,7 +84,11 @@ LIBMP_LT_REVISION = 10
 LIBMP_LT_AGE =      1
 
 
-SUBDIRS = tests yasmbuild mpn mpz mpq mpf printf scanf cxx mpbsd demos tune doc
+SUBDIRS = tests mpn mpz mpq mpf printf scanf cxx mpbsd demos tune doc
+
+if BUILD_YASM
+SUBDIRS += yasmbuild
+endif
 
 EXTRA_DIST = macos configfsf.guess configfsf.sub .gdbinit INSTALL.autoconf
 
