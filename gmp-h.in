@@ -412,50 +412,21 @@ typedef __mpq_struct *mpq_ptr;
 #endif
 
 
-
 /* PORTME: What other compilers have a useful "extern inline"?  "static
    inline" would be an acceptable substitute if the compiler (or linker)
    discards unused statics.  */
 
-
 /* gcc has __inline__ in all modes, including strict ansi.  Give a prototype
    for an inline too, so as to correctly specify "dllimport" on windows, in
    case the function is called rather than inlined.  */
-#ifdef defined (__GNUC__) || defined (__APPLE_CC__)
-
-/* Probably not able to use C99 semantics in gcc < 4.3.0 but who knows what
-   unofficial versions Debian or RedHat will distribute */
-#if __GNUC__ == 4 && __GNUC_MINOR__ >= 3 && defined(__GNUC_STDC_INLINE__) && !defined(C99_INLINE_SEMANTICS)
-#define C99_INLINE_SEMANTICS 1
-#endif
-
-/* Apple's gcc build >5400 (since Xcode 3.0) doesn't support GNU inline in C99 mode */
-#if __APPLE_CC__ > 5400 && !defined(C99_INLINE_SEMANTICS) && __STDC_VERSION__ >= 199901L
-#define C99_INLINE_SEMANTICS 1
-#endif
-
+#ifdef __GNUC__
 #if defined(__GNUC_STDC_INLINE__) || defined(__GNUC_GNU_INLINE__)
 #define __GMP_EXTERN_INLINE extern __attribute__((gnu_inline)) inline
 #else
 #define __GMP_EXTERN_INLINE extern __inline__
 #endif
-
-#if C99_INLINE_SEMANTICS
-# undef __GMP_EXTERN_INLINE
-
-# ifdef __GMP_WITHIN_CONFIGURE
-/* force exported copy */
-#  define __GMP_EXTERN_INLINE extern inline
-# else
-/* either inline or link to extern version at compiler's choice */
-#  define __GMP_EXTERN_INLINE inline
-# endif /* ifdef __GMP_WITHIN_CONFIGURE */
-
-#endif /* C99_INLINE_SEMANTICS */
-
 #define __GMP_INLINE_PROTOTYPES  1
-
-#endif /* __GNUC__ or __APPLE_C__ */
+#endif
 
 /* DEC C (eg. version 5.9) supports "static __inline foo()", even in -std1
    strict ANSI mode.  Inlining is done even when not optimizing (ie. -O0
