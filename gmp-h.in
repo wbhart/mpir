@@ -420,18 +420,23 @@ typedef __mpq_struct *mpq_ptr;
    case the function is called rather than inlined.  */
 
 #ifdef __GNUC__
-#if defined(__GNUC_STDC_INLINE__) || defined (__GNUC_GNU_INLINE__) 
-#define __GMP_EXTERN_INLINE extern __inline__ __attribute__((__gnu_inline__)) 
-#else
+#ifdef __APPLE_CC__
+
+#if ! (__APPLE_CC__ >= 5465 && __STDC_VERSION__ >= 199901L)
 #define __GMP_EXTERN_INLINE extern __inline__
-#endif
 #define __GMP_INLINE_PROTOTYPES  1
 #endif
 
-/* Apple's gcc build >5400 (since Xcode 3.0) doesn't support GNU inline in C99 mode */
-#if __APPLE_CC__ > 5400 && __STDC_VERSION__ >= 199901L
-#undef __GMP_EXTERN_INLINE
-#define __GMP_EXTERN_INLINE __inline__
+#else /*GNU CC*/
+
+#if defined(__GNUC_STDC_INLINE__) || defined (__GNUC_GNU_INLINE__) 
+#define __GMP_EXTERN_INLINE extern __inline__ __attribute__((__gnu_inline__)) 
+#else 
+#define __GMP_EXTERN_INLINE extern __inline__
+#endif
+#define __GMP_INLINE_PROTOTYPES  1
+
+#endif
 #endif
 
 /* DEC C (eg. version 5.9) supports "static __inline foo()", even in -std1
