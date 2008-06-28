@@ -1,10 +1,15 @@
 This is gmp.info, produced by makeinfo version 4.8 from gmp.texi.
 
-   This manual describes how to install and use the GNU multiple
-precision arithmetic library, version 4.2.1.
+   This manual describes how to install and use MPIR, the Multiple
+Precision Integers and Rationals library, version 0.9.0.
 
-   Copyright 1991, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000,
-2001, 2002, 2003, 2004, 2005, 2006 Free Software Foundation, Inc.
+   MPIR is a fork of version 4.2.1 of the GNU MP integer library. This
+manual is a modified version of the original GNU MP manual, which is
+copyright 1991, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001,
+2002, 2003, 2004, 2005, 2006 Free Software Foundation, Inc.
+
+   Modifications to the original manual, for the MPIR project, are
+copyright William Hart 2008.
 
    Permission is granted to copy, distribute and/or modify this
 document under the terms of the GNU Free Documentation License, Version
@@ -1856,12 +1861,12 @@ Concept Index
 * -finstrument-functions:                Profiling.           (line  66)
 * 2exp functions:                        Efficiency.          (line  43)
 * 68000:                                 Notes for Particular Systems.
-                                                              (line  85)
+                                                              (line  89)
 * 80x86:                                 Notes for Particular Systems.
-                                                              (line 132)
+                                                              (line 136)
 * ABI <1>:                               ABI and ISA.         (line   6)
 * ABI:                                   Build Options.       (line 171)
-* About this manual:                     Introduction to GMP. (line  58)
+* About this manual:                     Introduction to GMP. (line  57)
 * AC_CHECK_LIB:                          Autoconf.            (line  11)
 * AIX <1>:                               Notes for Particular Systems.
                                                               (line   7)
@@ -1870,7 +1875,7 @@ Concept Index
 * alloca:                                Build Options.       (line 278)
 * Allocation of memory:                  Custom Allocation.   (line   6)
 * AMD64:                                 ABI and ISA.         (line  44)
-* Anonymous FTP of latest version:       Introduction to GMP. (line  38)
+* Anonymous FTP of latest version:       Introduction to GMP. (line  37)
 * Application Binary Interface:          ABI and ISA.         (line   6)
 * Arithmetic functions <1>:              Float Arithmetic.    (line   6)
 * Arithmetic functions <2>:              Rational Arithmetic. (line   6)
@@ -1961,7 +1966,7 @@ Concept Index
 * Comparison functions:                  Integer Comparisons. (line   6)
 * Compatibility with older versions:     Compatibility with older versions.
                                                               (line   6)
-* Conditions for copying GNU MP:         Copying.             (line   6)
+* Conditions for copying MPIR:           Copying.             (line   6)
 * Configuring GMP:                       Installing GMP.      (line   6)
 * Congruence algorithm:                  Exact Remainder.     (line  30)
 * Congruence functions:                  Integer Division.    (line 131)
@@ -2005,7 +2010,7 @@ Concept Index
 * DJGPP:                                 Notes for Particular Systems.
                                                               (line  48)
 * DLLs:                                  Notes for Particular Systems.
-                                                              (line  61)
+                                                              (line  65)
 * DocBook:                               Build Options.       (line 354)
 * Documentation formats:                 Build Options.       (line 347)
 * Documentation license:                 GNU Free Documentation License.
@@ -2079,7 +2084,7 @@ Concept Index
                                                               (line   6)
 * frexp <1>:                             Converting Floats.   (line  23)
 * frexp:                                 Converting Integers. (line  42)
-* FTP of latest version:                 Introduction to GMP. (line  38)
+* FTP of latest version:                 Introduction to GMP. (line  37)
 * Function classes:                      Function Classes.    (line   6)
 * FunctionCheck:                         Profiling.           (line  77)
 * GCC Checker:                           Debugging.           (line 115)
@@ -2114,7 +2119,7 @@ Concept Index
 * Headers:                               Headers and Libraries.
                                                               (line   6)
 * Heap problems:                         Debugging.           (line  24)
-* Home page:                             Introduction to GMP. (line  34)
+* Home page:                             Introduction to GMP. (line  33)
 * Host system:                           Build Options.       (line  66)
 * HP-UX:                                 ABI and ISA.         (line  68)
 * HPPA:                                  ABI and ISA.         (line  68)
@@ -2122,7 +2127,7 @@ Concept Index
 * I/O functions <2>:                     I/O of Rationals.    (line   6)
 * I/O functions:                         I/O of Integers.     (line   6)
 * i386:                                  Notes for Particular Systems.
-                                                              (line 132)
+                                                              (line 136)
 * IA-64:                                 ABI and ISA.         (line 107)
 * Import:                                Integer Import and Export.
                                                               (line  11)
@@ -2186,7 +2191,7 @@ Concept Index
 * Integer special functions:             Integer Special Functions.
                                                               (line   6)
 * Interix:                               Notes for Particular Systems.
-                                                              (line  56)
+                                                              (line  60)
 * Internals:                             Internals.           (line   6)
 * Introduction:                          Introduction to GMP. (line   6)
 * Inverse modulo functions:              Number Theoretic Functions.
@@ -2206,7 +2211,7 @@ Concept Index
 * Kronecker symbol functions:            Number Theoretic Functions.
                                                               (line  76)
 * Language bindings:                     Language Bindings.   (line   6)
-* Latest version of GMP:                 Introduction to GMP. (line  38)
+* Latest version of GMP:                 Introduction to GMP. (line  37)
 * LCM functions:                         Number Theoretic Functions.
                                                               (line  53)
 * Least common multiple functions:       Number Theoretic Functions.
@@ -2245,7 +2250,7 @@ Concept Index
                                                               (line  43)
 * MacOS X:                               Known Build Problems.
                                                               (line  51)
-* Mailing lists:                         Introduction to GMP. (line  45)
+* Mailing lists:                         Introduction to GMP. (line  44)
 * Malloc debugger:                       Debugging.           (line  30)
 * Malloc problems:                       Debugging.           (line  24)
 * Memory allocation:                     Custom Allocation.   (line   6)
@@ -2262,7 +2267,7 @@ Concept Index
 * Miscellaneous integer functions:       Miscellaneous Integer Functions.
                                                               (line   6)
 * MMX:                                   Notes for Particular Systems.
-                                                              (line 138)
+                                                              (line 142)
 * Modular inverse functions:             Number Theoretic Functions.
                                                               (line  58)
 * Most significant bit:                  Miscellaneous Integer Functions.
@@ -2295,7 +2300,7 @@ Concept Index
 * obstack output:                        Formatted Output Functions.
                                                               (line  81)
 * OpenBSD:                               Notes for Particular Systems.
-                                                              (line  91)
+                                                              (line  95)
 * Optimizing performance:                Performance optimization.
                                                               (line   6)
 * ostream output:                        C++ Formatted Output.
@@ -2331,7 +2336,7 @@ Concept Index
 * Power/PowerPC <1>:                     Known Build Problems.
                                                               (line  63)
 * Power/PowerPC:                         Notes for Particular Systems.
-                                                              (line  97)
+                                                              (line 101)
 * Powering algorithms:                   Powering Algorithms. (line   6)
 * Powering functions <1>:                Float Arithmetic.    (line  41)
 * Powering functions:                    Integer Exponentiation.
@@ -2414,7 +2419,7 @@ Concept Index
 * Sequent Symmetry:                      Known Build Problems.
                                                               (line  68)
 * Services for Unix:                     Notes for Particular Systems.
-                                                              (line  56)
+                                                              (line  60)
 * Shared library versioning:             Notes for Package Builds.
                                                               (line   9)
 * Sign tests <1>:                        Float Comparison.    (line  30)
@@ -2427,14 +2432,14 @@ Concept Index
                                                               (line  72)
 * Solaris:                               ABI and ISA.         (line 194)
 * Sparc:                                 Notes for Particular Systems.
-                                                              (line 109)
+                                                              (line 113)
 * Sparc V9:                              ABI and ISA.         (line 194)
 * Special integer functions:             Integer Special Functions.
                                                               (line   6)
 * Square root algorithm:                 Square Root Algorithm.
                                                               (line   6)
 * SSE2:                                  Notes for Particular Systems.
-                                                              (line 138)
+                                                              (line 142)
 * Stack backtrace:                       Debugging.           (line  50)
 * Stack overflow <1>:                    Debugging.           (line   7)
 * Stack overflow:                        Build Options.       (line 278)
@@ -2447,7 +2452,7 @@ Concept Index
                                                               (line  28)
 * Sun:                                   ABI and ISA.         (line 194)
 * SunOS:                                 Notes for Particular Systems.
-                                                              (line 126)
+                                                              (line 130)
 * Systems:                               Notes for Particular Systems.
                                                               (line   6)
 * Temporary memory:                      Build Options.       (line 278)
@@ -2472,11 +2477,11 @@ Concept Index
                                                               (line   6)
 * Version number:                        Useful Macros and Constants.
                                                               (line  12)
-* Web page:                              Introduction to GMP. (line  34)
+* Web page:                              Introduction to GMP. (line  33)
 * Windows:                               Notes for Particular Systems.
                                                               (line  48)
 * x86:                                   Notes for Particular Systems.
-                                                              (line 132)
+                                                              (line 136)
 * x87:                                   Notes for Particular Systems.
                                                               (line  34)
 * XML:                                   Build Options.       (line 354)
