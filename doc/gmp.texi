@@ -2,7 +2,7 @@
 @c %**start of header
 @setfilename gmp.info
 @include version.texi
-@settitle GNU MP @value{VERSION}
+@settitle MPIR @value{VERSION}
 @synindex tp fn
 @iftex
 @afourpaper
@@ -10,10 +10,11 @@
 @comment %**end of header
 
 @copying
-This manual describes how to install and use the GNU multiple precision
-arithmetic library, version @value{VERSION}.
+This manual describes how to install and use MPIR, the Multiple Precision Integers and Rationals
+library, version @value{VERSION}.
 
-Copyright 1991, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002,
+MPIR is a fork of version 4.2.1 of the GNU MP integer library which is copyright 
+1991, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002,
 2003, 2004, 2005, 2006 Free Software Foundation, Inc.
 
 Permission is granted to copy, distribute and/or modify this document under
@@ -90,8 +91,8 @@ How to install and use the GNU multiple precision arithmetic library, version @v
 @subtitle Edition @value{EDITION}
 @subtitle @value{UPDATED}
 
-@c @author by Torbj@"orn Granlund, Swox AB
-@c @email{tege@@swox.com}
+@c @author Original version by Torbj@"orn Granlund, Swox AB - modified by William Hart
+@c @email{goodwillhart@gmail.com}
 
 @c Include the Distribution inside the titlepage so
 @c that headings are turned off.
@@ -455,17 +456,17 @@ terms of the plain General Public License version 2, see @file{COPYING}.
 @chapter Introduction to GNU MP
 @cindex Introduction
 
-GNU MP is a portable library written in C for arbitrary precision arithmetic
+MPIR is a portable library written in C for arbitrary precision arithmetic
 on integers, rational numbers, and floating-point numbers.  It aims to provide
 the fastest possible arithmetic for all applications that need higher
 precision than is directly supported by the basic C types.
 
 Many applications use just a few hundred bits of precision; but some
-applications may need thousands or even millions of bits.  GMP is designed to
+applications may need thousands or even millions of bits.  MPIR is designed to
 give good performance for both, by choosing algorithms based on the sizes of
 the operands, and by carefully keeping the overhead at a minimum.
 
-The speed of GMP is achieved by using fullwords as the basic arithmetic type,
+The speed of MPIR is achieved by using fullwords as the basic arithmetic type,
 by using sophisticated algorithms, by including carefully optimized assembly
 code for the most common inner loops for many different CPUs, and by a general
 emphasis on speed (as opposed to simplicity or elegance).
@@ -475,11 +476,11 @@ There is assembly code for these CPUs:
 ARM,
 DEC Alpha 21064, 21164, and 21264,
 AMD 29000,
-AMD K6, K6-2, Athlon, and Athlon64,
+AMD K6, K6-2, Athlon, and AMD 64,
 Hitachi SuperH and SH-2,
 HPPA 1.0, 1.1 and 2.0,
 Intel Pentium, Pentium Pro/II/III, Pentium 4, generic x86,
-Intel IA-64, i960,
+Intel IA-64, i960, Core 2
 Motorola MC68000, MC68020, MC88100, and MC88110,
 Motorola/IBM PowerPC 32 and 64,
 National NS32000,
@@ -615,7 +616,7 @@ cd /my/build/dir
 @end example
 
 Not all @samp{make} programs have the necessary features (@code{VPATH}) to
-support this.  In particular, SunOS and Slowaris @command{make} have bugs that
+support this.  In particular, SunOS and Solaris @command{make} have bugs that
 make them unable to build in a separate directory.  Use GNU @command{make}
 instead.
 
@@ -825,7 +826,8 @@ x86 family:
 @nisamp{i386},
 @nisamp{i486},
 @nisamp{i586},
-@nisamp{pentium},
+@nisamp{x86_64}
+@nisamp{core2},
 @nisamp{pentiummmx},
 @nisamp{pentiumpro},
 @nisamp{pentium2},
@@ -838,6 +840,7 @@ x86 family:
 @nisamp{amd64},
 @nisamp{viac3},
 @nisamp{viac32}
+@nisamp{x86_64}
 
 @item
 Other:
@@ -1520,7 +1523,7 @@ affects all code, including application code, not just GMP.
 
 @item MacOS 9
 @cindex MacOS 9
-The @file{macos} directory contains an unsupported port to MacOS 9 on Power
+The @file{macos} directory contains a port to MacOS 9 on Power
 Macintosh, see @file{macos/README}.  Note that MacOS X ``Darwin'' should use
 the normal Unix-style @samp{./configure}.
 
@@ -1531,9 +1534,12 @@ the normal Unix-style @samp{./configure}.
 @cindex Cygwin
 @cindex DJGPP
 @cindex MINGW
-On an MS-DOS system DJGPP can be used to build GMP, and on an MS Windows
-system Cygwin, DJGPP and MINGW can be used.  All three are excellent ports of
+On an MS-DOS system DJGPP can be used to build MPIR, and on an MS Windows
+system Cygwin, DJGPP and MINGW can all be used.  All three are excellent ports of
 GCC and the various GNU tools.
+
+In addition, project files for MSVC are provided, allowing MPIR to build on Microsoft's
+compiler. This support is provided by Brian Gladman.
 
 @display
 @uref{http://www.cygwin.com/}
@@ -1785,7 +1791,7 @@ make tuneup
 
 will generate better contents for the @file{gmp-mparam.h} parameter file.
 
-To use the results, put the output in the file file indicated in the
+To use the results, put the output in the file indicated in the
 @samp{Parameters for ...} header.  Then recompile from scratch.
 
 The @code{tuneup} program takes one useful parameter, @samp{-f NNN}, which
