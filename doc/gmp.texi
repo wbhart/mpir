@@ -3886,7 +3886,7 @@ This function is obsolete.  Use @code{mpz_rrandomb} instead.
 @code{mpz_t} variables can be converted to and from arbitrary words of binary
 data with the following functions.
 
-@deftypefun void mpz_import (mpz_t @var{rop}, size_t @var{count}, int @var{order}, int @var{size}, int @var{endian}, size_t @var{nails}, const void *@var{op})
+@deftypefun void mpz_import (mpz_t @var{rop}, size_t @var{count}, int @var{order}, size_t @var{size}, int @var{endian}, size_t @var{nails}, const void *@var{op})
 @cindex Integer import
 @cindex Import
 Set @var{rop} from an array of word data at @var{op}.
@@ -3922,7 +3922,7 @@ feature can account for this, by passing for instance
 @code{8*sizeof(int)-INT_BIT}.
 @end deftypefun
 
-@deftypefun {void *} mpz_export (void *@var{rop}, size_t *@var{countp}, int @var{order}, int @var{size}, int @var{endian}, size_t @var{nails}, mpz_t @var{op})
+@deftypefun {void *} mpz_export (void *@var{rop}, size_t *@var{countp}, int @var{order}, size_t @var{size}, int @var{endian}, size_t @var{nails}, mpz_t @var{op})
 @cindex Integer export
 @cindex Export
 Fill @var{rop} with word data from @var{op}.
