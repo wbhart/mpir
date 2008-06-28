@@ -2912,8 +2912,8 @@ File: gmp.info,  Node: Integer Import and Export,  Next: Miscellaneous Integer F
 `mpz_t' variables can be converted to and from arbitrary words of binary
 data with the following functions.
 
- -- Function: void mpz_import (mpz_t ROP, size_t COUNT, int ORDER, int
-          SIZE, int ENDIAN, size_t NAILS, const void *OP)
+ -- Function: void mpz_import (mpz_t ROP, size_t COUNT, int ORDER,
+          size_t SIZE, int ENDIAN, size_t NAILS, const void *OP)
      Set ROP from an array of word data at OP.
 
      The parameters specify the format of the data.  COUNT many words
@@ -2947,7 +2947,7 @@ data with the following functions.
      instance `8*sizeof(int)-INT_BIT'.
 
  -- Function: void * mpz_export (void *ROP, size_t *COUNTP, int ORDER,
-          int SIZE, int ENDIAN, size_t NAILS, mpz_t OP)
+          size_t SIZE, int ENDIAN, size_t NAILS, mpz_t OP)
      Fill ROP with word data from OP.
 
      The parameters specify the format of the data produced.  Each word
