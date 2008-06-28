@@ -1220,7 +1220,9 @@ case $host in
             # -fast enables different optimizations depending on compiler
             # version.  Unfortunately it does things according to the native
             # system, which may not be optimal when cross compiling (to a
-            # different sparc).  -xchip from cc_cflags_cpu will override at
+            # different sparc).  It also results in incorrect optimisations
+            # thus it has been removed
+            # -xchip from cc_cflags_cpu will override at
             # least that part of its selections.
             #
             # -fns=no and -fsimple=1 disable some transformations that
@@ -1228,7 +1230,7 @@ case $host in
             # under -fast.
             #
             cclist_64="$cclist_64 cc"
-            cc_64_cflags="-fast -fns=no -fsimple=1 -xarch=v9"
+            cc_64_cflags="-xarch=v9"
             cc_64_cflags_optlist="cpu"
             ;;
         esac
