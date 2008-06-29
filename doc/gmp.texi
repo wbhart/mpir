@@ -39,8 +39,8 @@ software''.  A copy of the license is included in
 @c  by automake (note that it's regenerated only if you configure with
 @c  --enable-maintainer-mode).
 @c
-@c  Notes discussing the present version number of GMP in relation to previous
-@c  ones (for instance in the "Compatibility" section) must be updated at
+@c  Notes discussing the present version number of GMP/MPIR in relation to previous
+@c  ones (for instance in the "Compatibility" section) must be updated
 @c  manually though.
 @c
 @c  @cindex entries have been made for function categories and programming
@@ -49,7 +49,7 @@ software''.  A copy of the license is included in
 @c  low level routines.
 @c
 @c  @cindex entries are present for processors and systems when there's
-@c  particular notes concerning them, but not just for everything GMP
+@c  particular notes concerning them, but not just for everything MPIR
 @c  supports.
 @c
 @c  Index entries for files use @code rather than @file, @samp or @option,
@@ -70,12 +70,12 @@ software''.  A copy of the license is included in
 
 @dircategory GNU libraries
 @direntry
-* gmp: (gmp).                   GNU Multiple Precision Arithmetic Library.
+* mpir: (mpir).                   MPIR Multiple Precision Integers and Rationals Library.
 @end direntry
 
 @c  html <meta name="description" content="...">
 @documentdescription
-How to install and use the GNU multiple precision arithmetic library, version @value{VERSION}.
+How to install and use the MPIR multiple precision arithmetic library, version @value{VERSION}.
 @end documentdescription
 
 @c smallbook
@@ -84,7 +84,7 @@ How to install and use the GNU multiple precision arithmetic library, version @v
 
 @ifnottex
 @node Top, Copying, (dir), (dir)
-@top GNU MP
+@top MPIR
 @end ifnottex
 
 @iftex
@@ -126,10 +126,10 @@ How to install and use the GNU multiple precision arithmetic library, version @v
 @end ifnothtml
 
 @menu
-* Copying::                    GMP Copying Conditions (LGPL).
-* Introduction to GMP::        Brief introduction to GNU MP.
-* Installing GMP::             How to configure and compile the GMP library.
-* GMP Basics::                 What every GMP user should know.
+* Copying::                    MPIR Copying Conditions (LGPL).
+* Introduction to MPIR::       Brief introduction to MPIR.
+* Installing MPIR::            How to configure and compile the MPIR library.
+* MPIR Basics::                What every MPIR user should know.
 * Reporting Bugs::             How to usefully report bugs.
 * Integer Functions::          Functions for arithmetic on signed integers.
 * Rational Number Functions::  Functions for arithmetic on rational numbers.
@@ -138,10 +138,10 @@ How to install and use the GNU multiple precision arithmetic library, version @v
 * Random Number Functions::    Functions for generating random numbers.
 * Formatted Output::           @code{printf} style output.
 * Formatted Input::            @code{scanf} style input.
-* C++ Class Interface::        Class wrappers around GMP types.
+* C++ Class Interface::        Class wrappers around MPIR types.
 * BSD Compatible Functions::   All functions found in BSD MP.
 * Custom Allocation::          How to customize the internal allocation.
-* Language Bindings::          Using GMP from other languages.
+* Language Bindings::          Using MPIR from other languages.
 * Algorithms::                 What happens behind the scenes.
 * Internals::                  How values are represented behind the scenes.
 
@@ -416,7 +416,7 @@ see @i{\title\}
 @end ifnottex
 
 
-@node Copying, Introduction to GMP, Top, Top
+@node Copying, Introduction to MPIR, Top, Top
 @comment  node-name, next, previous,  up
 @unnumbered MPIR Copying Conditions
 @cindex Copying conditions
@@ -437,8 +437,8 @@ it, that you can change this library or use pieces of it in new free programs,
 and that you know you can do these things.@refill
 
 To make sure that everyone has such rights, we have to forbid you to deprive
-anyone else of these rights.  For example, if you distribute copies of the GNU
-MP library, you must give the recipients all the rights that you have.  You
+anyone else of these rights.  For example, if you distribute copies of the MPIR
+library, you must give the recipients all the rights that you have.  You
 must make sure that they, too, receive or can get the source code.  And you
 must tell them their rights.@refill
 
@@ -454,9 +454,9 @@ see @file{COPYING.LIB}.  Certain demonstration programs are provided under the
 terms of the plain General Public License version 2, see @file{COPYING}.
 
 
-@node Introduction to GMP, Installing GMP, Copying, Top
+@node Introduction to MPIR, Installing MPIR, Copying, Top
 @comment  node-name,  next,  previous,  up
-@chapter Introduction to GNU MP
+@chapter Introduction to MPIR
 @cindex Introduction
 
 MPIR is a portable library written in C for arbitrary precision arithmetic
@@ -503,43 +503,41 @@ Pyramid AP/XP.
 @cindex Home page
 @cindex Web page
 @noindent
-For up-to-date information on GMP, please see the GMP web pages at
+For up-to-date information on MPIR, please see the MPIR web pages at
 
 @display
-@uref{http://swox.com/gmp/}
+@uref{http://www/mpir.org/}
 @end display
 
-@cindex Latest version of GMP
+@cindex Latest version of MPIR
 @cindex Anonymous FTP of latest version
 @cindex FTP of latest version
 @noindent
 The latest version of the library is available at
 
 @display
-@uref{ftp://ftp.gnu.org/gnu/gmp}
+@uref{ftp://ftp.mpir.org/mpir}
 @end display
 
 Many sites around the world mirror @samp{ftp.gnu.org}, please use a mirror
 near you, see @uref{http://www.gnu.org/order/ftp.html} for a full list.
 
 @cindex Mailing lists
-There are three public mailing lists of interest.  One for release
-announcements, one for general questions and discussions about usage of the GMP
-library and one for bug reports.  For more information, see
+There are a number of public mailing lists of interest.  The development list is at:
 
 @display
-@uref{http://swox.com/mailman/listinfo/}.
+@uref{http://groups.google.co.uk/group/mpir-devel/}.
 @end display
 
-The proper place for bug reports is @email{gmp-bugs@@swox.com}.  See
+The proper place for bug reports is @email{goodwillhart@@gmail.com}.  See
 @ref{Reporting Bugs} for information about reporting bugs.
 
 @sp 1
 @section How to use this Manual
 @cindex About this manual
 
-Everyone should read @ref{GMP Basics}.  If you need to install the library
-yourself, then read @ref{Installing GMP}.  If you have a system with multiple
+Everyone should read @ref{MPIR Basics}.  If you need to install the library
+yourself, then read @ref{Installing MPIR}.  If you have a system with multiple
 ABIs, then read @ref{ABI and ISA}, for the compiler options that must be used
 on applications.
 
@@ -547,14 +545,14 @@ The rest of the manual can be used for later reference, although it is
 probably a good idea to glance through it.
 
 
-@node Installing GMP, GMP Basics, Introduction to GMP, Top
+@node Installing MPIR, MPIR Basics, Introduction to MPIR, Top
 @comment  node-name,  next,  previous,  up
-@chapter Installing GMP
-@cindex Installing GMP
-@cindex Configuring GMP
-@cindex Building GMP
+@chapter Installing MPIR
+@cindex Installing MPIR
+@cindex Configuring MPIR
+@cindex Building MPIR
 
-GMP has an autoconf/automake/libtool based configuration system.  On a
+MPIR has an autoconf/automake/libtool based configuration system.  On a
 Unix-like system a basic build can be done with
 
 @example
@@ -576,7 +574,7 @@ And you can install (under @file{/usr/local} by default) with
 make install
 @end example
 
-If you experience problems, please report them to @email{gmp-bugs@@swox.com}.
+If you experience problems, please report them to @email{goodwillhart@@gmail.com}.
 See @ref{Reporting Bugs}, for information on what to include in useful bug
 reports.
 
@@ -590,7 +588,7 @@ reports.
 @end menu
 
 
-@node Build Options, ABI and ISA, Installing GMP, Installing GMP
+@node Build Options, ABI and ISA, Installing MPIR, Installing MPIR
 @section Build Options
 @cindex Build options
 
@@ -610,12 +608,12 @@ all the code is there, but unfortunately you'll be on your own.
 @item Build Directory
 @cindex Build directory
 To compile in a separate build directory, @command{cd} to that directory, and
-prefix the configure command with the path to the GMP source directory.  For
+prefix the configure command with the path to the MPIR source directory.  For
 example
 
 @example
 cd /my/build/dir
-/my/sources/gmp-@value{VERSION}/configure
+/my/sources/mpir-@value{VERSION}/configure
 @end example
 
 Not all @samp{make} programs have the necessary features (@code{VPATH}) to
@@ -629,7 +627,7 @@ instead.
 @cindex Install prefix
 @cindex @code{--prefix}
 @cindex @code{--exec-prefix}
-The @option{--prefix} option can be used in the normal way to direct GMP to
+The @option{--prefix} option can be used in the normal way to direct MPIR to
 install under a particular tree.  The default is @samp{/usr/local}.
 
 @option{--exec-prefix} can be used to direct architecture-dependent files like
@@ -702,18 +700,18 @@ Currently a warning is given unless an explicit @samp{--build} is used when
 cross-compiling, because it may not be possible to correctly guess the build
 system type if the @env{PATH} has only a cross-compiling @command{cc}.
 
-Note that the @samp{--target} option is not appropriate for GMP@.  It's for use
+Note that the @samp{--target} option is not appropriate for MPIR@.  It's for use
 when building compiler tools, with @samp{--host} being where they will run,
 and @samp{--target} what they'll produce code for.  Ordinary programs or
-libraries like GMP are only interested in the @samp{--host} part, being where
-they'll run.  (Some past versions of GMP used @samp{--target} incorrectly.)
+libraries like MPIR are only interested in the @samp{--host} part, being where
+they'll run.  
 
 @item CPU types
 @cindex CPU types
 In general, if you want a library that runs as fast as possible, you should
-configure GMP for the exact CPU type your system uses.  However, this may mean
+configure MPIR for the exact CPU type your system uses.  However, this may mean
 the binaries won't run on older members of the family, and might run slower on
-other members, older or newer.  The best idea is always to build GMP for the
+other members, older or newer.  The best idea is always to build MPIR for the
 exact machine type you intend to run it on.
 
 The following CPUs have specific support.  See @file{configure.in} for details
@@ -883,8 +881,8 @@ detected.  This means more code, but gives good performance on all x86 chips.
 
 @item @option{ABI}
 @cindex ABI
-On some systems GMP supports multiple ABIs (application binary interfaces),
-meaning data type sizes and calling conventions.  By default GMP chooses the
+On some systems MPIR supports multiple ABIs (application binary interfaces),
+meaning data type sizes and calling conventions.  By default MPIR chooses the
 best ABI available, but a particular ABI can be selected.  For example
 
 @example
@@ -906,7 +904,7 @@ different.
 For various systems, default compiler flags are set based on the CPU and
 compiler.  The usual @samp{CFLAGS="-whatever"} can be passed to
 @samp{./configure} to use something different or to set good flags for systems
-GMP doesn't otherwise know.
+MPIR doesn't otherwise know.
 
 The @samp{CC} and @samp{CFLAGS} used are printed during @samp{./configure},
 and can be found in each generated @file{Makefile}.  This is the easiest way
@@ -914,11 +912,11 @@ to check the defaults when considering changing or adding something.
 
 Note that when @samp{CC} and @samp{CFLAGS} are specified on a system
 supporting multiple ABIs it's important to give an explicit
-@samp{ABI=whatever}, since GMP can't determine the ABI just from the flags and
+@samp{ABI=whatever}, since MPIR can't determine the ABI just from the flags and
 won't be able to select the correct assembler code.
 
 If just @samp{CC} is selected then normal default @samp{CFLAGS} for that
-compiler will be used (if GMP recognises it).  For example @samp{CC=gcc} can
+compiler will be used (if MPIR recognises it).  For example @samp{CC=gcc} can
 be used to force the use of GCC, with default flags (and default ABI).
 
 @item @option{CPPFLAGS}
@@ -946,7 +944,7 @@ they can be included as for instance @samp{CC_FOR_BUILD="cc -whatever"}.
 @item C++ Support, @option{--enable-cxx}
 @cindex C++ support
 @cindex @code{--enable-cxx}
-C++ support in GMP can be enabled with @samp{--enable-cxx}, in which case a
+C++ support in MPIR can be enabled with @samp{--enable-cxx}, in which case a
 C++ compiler will be required.  As a convenience @samp{--enable-cxx=detect}
 can be used to enable C++ support only if a compiler can be found.  The C++
 support consists of a library @file{libgmpxx.la} and header file
@@ -958,7 +956,7 @@ bloated by a dependency on the C++ standard library, and to avoid any chance
 that the C++ compiler could be required when linking plain C programs.
 
 @file{libgmpxx.la} will use certain internals from @file{libgmp.la} and can
-only be expected to work with @file{libgmp.la} from the same GMP version.
+only be expected to work with @file{libgmp.la} from the same MPIR version.
 Future changes to the relevant internals will be accompanied by renaming, so a
 mismatch will cause unresolved symbols rather than perhaps mysterious
 misbehaviour.
@@ -998,7 +996,7 @@ building an executable or shared library from C++ object files.
 @cindex Stack overflow
 @cindex @code{alloca}
 @cindex @code{--enable-alloca}
-GMP allocates temporary workspace using one of the following three methods,
+MPIR allocates temporary workspace using one of the following three methods,
 which can be selected with for instance
 @samp{--enable-alloca=malloc-reentrant}.
 
@@ -1106,7 +1104,7 @@ Some supplementary notes can also be found in the @file{doc} subdirectory.
 
 
 @need 2000
-@node ABI and ISA, Notes for Package Builds, Build Options, Installing GMP
+@node ABI and ISA, Notes for Package Builds, Build Options, Installing MPIR
 @section ABI and ISA
 @cindex ABI
 @cindex Application Binary Interface
@@ -1119,15 +1117,15 @@ types are.  ISA (Instruction Set Architecture) refers to the instructions and
 registers a CPU has available.
 
 Some 64-bit ISA CPUs have both a 64-bit ABI and a 32-bit ABI defined, the
-latter for compatibility with older CPUs in the family.  GMP supports some
-CPUs like this in both ABIs.  In fact within GMP @samp{ABI} means a
-combination of chip ABI, plus how GMP chooses to use it.  For example in some
-32-bit ABIs, GMP may support a limb as either a 32-bit @code{long} or a 64-bit
+latter for compatibility with older CPUs in the family.  MPIR supports some
+CPUs like this in both ABIs.  In fact within MPIR @samp{ABI} means a
+combination of chip ABI, plus how MPIR chooses to use it.  For example in some
+32-bit ABIs, MPIR may support a limb as either a 32-bit @code{long} or a 64-bit
 @code{long long}.
 
-By default GMP chooses the best ABI available for a given system, and this
+By default MPIR chooses the best ABI available for a given system, and this
 generally gives significantly greater speed.  But an ABI can be chosen
-explicitly to make GMP compatible with other libraries, or particular
+explicitly to make MPIR compatible with other libraries, or particular
 application requirements.  For example,
 
 @example
@@ -1145,7 +1143,7 @@ compilers for a particular ABI will be expected to use the same limb type.
 
 Currently no attempt is made to follow whatever conventions a system has for
 installing library or header files built for a particular ABI@.  This will
-probably only matter when installing multiple builds of GMP, and it might be
+probably only matter when installing multiple builds of MPIR, and it might be
 as simple as configuring with a special @samp{libdir}, or it might require
 more than that.  Note that builds for different ABIs need to done separately,
 with a fresh @command{./configure} and @command{make} each.
@@ -1197,7 +1195,7 @@ cc  +DD64
 
 @item @samp{ABI=2.0n}
 The 2.0n ABI means the 32-bit HPPA 1.0 ABI and all its normal calling
-conventions, but with 64-bit instructions permitted within functions.  GMP
+conventions, but with 64-bit instructions permitted within functions.  MPIR
 uses a 64-bit @code{long long} for a limb.  This ABI is available on hppa64
 GNU/Linux and on HP-UX 10 or higher.  Applications must be compiled with
 
@@ -1208,7 +1206,7 @@ cc  +DA2.0 +e
 
 Note that current versions of GCC (eg.@: 3.2) don't generate 64-bit
 instructions for @code{long long} operations and so may be slower than for
-2.0w.  (The GMP assembler code is the same though.)
+2.0w.  (The MPIR assembler code is the same though.)
 
 @item @samp{ABI=1.0}
 HPPA 2.0 CPUs can run all HPPA 1.0 and 1.1 code in the 32-bit HPPA 1.0 ABI@.
@@ -1221,18 +1219,18 @@ considered.
 
 Note that GCC on HP-UX has no options to choose between 2.0n and 2.0w modes,
 unlike HP @command{cc}.  Instead it must be built for one or the other ABI@.
-GMP will detect how it was built, and skip to the corresponding @samp{ABI}.
+MPIR will detect how it was built, and skip to the corresponding @samp{ABI}.
 
 @sp 1
 @need 1500
 @item IA-64 under HP-UX (@samp{ia64*-*-hpux*}, @samp{itanium*-*-hpux*})
 @cindex IA-64
 @cindex HP-UX
-HP-UX supports two ABIs for IA-64.  GMP performance is the same in both.
+HP-UX supports two ABIs for IA-64.  MPIR performance is the same in both.
 
 @table @asis
 @item @samp{ABI=32}
-In the 32-bit ABI, pointers, @code{int}s and @code{long}s are 32 bits and GMP
+In the 32-bit ABI, pointers, @code{int}s and @code{long}s are 32 bits and MPIR
 uses a 64 bit @code{long long} for a limb.  Applications can be compiled
 without any special flags since this ABI is the default in both HP C and GCC,
 but for reference the flags are
@@ -1243,7 +1241,7 @@ cc   +DD32
 @end example
 
 @item @samp{ABI=64}
-In the 64-bit ABI, @code{long}s and pointers are 64 bits and GMP uses a
+In the 64-bit ABI, @code{long}s and pointers are 64 bits and MPIR uses a
 @code{long} for a limb.  Applications must be compiled with
 
 @example
@@ -1261,12 +1259,12 @@ choice.
 @cindex MIPS
 @cindex IRIX
 IRIX 6 always has a 64-bit MIPS 3 or better CPU, and supports ABIs o32, n32,
-and 64.  n32 or 64 are recommended, and GMP performance will be the same in
+and 64.  n32 or 64 are recommended, and MPIR performance will be the same in
 each.  The default is n32.
 
 @table @asis
 @item @samp{ABI=o32}
-The o32 ABI is 32-bit pointers and integers, and no 64-bit operations.  GMP
+The o32 ABI is 32-bit pointers and integers, and no 64-bit operations.  MPIR
 will be slower than in n32 or 64, this option only exists to support old
 compilers, eg.@: GCC 2.7.2.  Applications can be compiled with no special
 flags on an old compiler, or on a newer compiler with
@@ -1325,7 +1323,7 @@ This is the basic 32-bit PowerPC ABI, with a 32-bit limb.  No special compiler
 options are needed for applications.
 @end table
 
-GMP speed is greatest in @samp{aix64} and @samp{mode32}.  In @samp{ABI=32}
+MPIR speed is greatest in @samp{aix64} and @samp{mode32}.  In @samp{ABI=32}
 only the 32-bit ISA is used and this doesn't make full use of a 64-bit chip.
 On a suitable system we could perhaps use more of the ISA, but there are no
 plans to do so.
@@ -1359,7 +1357,7 @@ On the BSD sparc64 systems no special options are required, since 64-bits is
 the only ABI available.
 
 @item @samp{ABI=32}
-For the basic 32-bit ABI, GMP still uses as much of the V9 ISA as it can.  In
+For the basic 32-bit ABI, MPIR still uses as much of the V9 ISA as it can.  In
 the Sun documentation this combination is known as ``v8plus''.  On GNU/Linux,
 depending on the default @command{gcc} mode, applications may need to be
 compiled with
@@ -1378,7 +1376,7 @@ cc   -xarch=v8plus
 @end example
 @end table
 
-GMP speed is greatest in @samp{ABI=64}, so it's the default where available.
+MPIR speed is greatest in @samp{ABI=64}, so it's the default where available.
 The speed is partly because there are extra registers available and partly
 because 64-bits is considered the more important case and has therefore had
 better code written for it.
@@ -1401,12 +1399,12 @@ cross-compile, for example
 
 
 @need 2000
-@node Notes for Package Builds, Notes for Particular Systems, ABI and ISA, Installing GMP
+@node Notes for Package Builds, Notes for Particular Systems, ABI and ISA, Installing MPIR
 @section Notes for Package Builds
 @cindex Build notes for binary packaging
 @cindex Packaged builds
 
-GMP should present no great difficulties for packaging in a binary
+MPIR should present no great difficulties for packaging in a binary
 distribution.
 
 @cindex Libtool versioning
@@ -1416,16 +1414,16 @@ appropriately, having started from @samp{3:0:0} in GMP 3.0 (@pxref{Versioning,
 Library interface versions, Library interface versions, libtool, GNU
 Libtool}).
 
-The GMP 4 series will be upwardly binary compatible in each release and will
-be upwardly binary compatible with all of the GMP 3 series.  Additional
-function interfaces may be added in each release, so on systems where libtool
-versioning is not fully checked by the loader an auxiliary mechanism may be
+The GMP 4 series and MPIR 1 series will be upwardly binary compatible in each 
+release and will be upwardly binary compatible with all of the GMP 3 series.  
+Additional function interfaces may be added in each release, so on systems where 
+libtool versioning is not fully checked by the loader an auxiliary mechanism may be
 needed to express that a dynamic linked application depends on a new enough
-GMP.
+MPIR.
 
 An auxiliary mechanism may also be needed to express that @file{libgmpxx.la}
 (from @option{--enable-cxx}, @pxref{Build Options}) requires @file{libgmp.la}
-from the same GMP version, since this is not done by the libtool versioning,
+from the same MPIR version, since this is not done by the libtool versioning,
 nor otherwise.  A mismatch will result in unresolved symbols from the linker,
 or perhaps the loader.
 
@@ -1438,7 +1436,7 @@ For x86s, @option{--enable-fat} sets things up for a fat binary build, making a
 runtime selection of optimized low level routines.  This is a good choice for
 packaging to run on a range of x86 chips.
 
-Users who care about speed will want GMP built for their exact CPU type, to
+Users who care about speed will want MPIR built for their exact CPU type, to
 make best use of the available optimizations.  Providing a way to suitably
 rebuild a package may be useful.  This could be as simple as making it
 possible for a user to omit @samp{--build} (and @samp{--host}) so
@@ -1467,7 +1465,7 @@ preprocessor symbols and chooses the correct actual @file{gmp.h}.
 
 
 @need 2000
-@node Notes for Particular Systems, Known Build Problems, Notes for Package Builds, Installing GMP
+@node Notes for Particular Systems, Known Build Problems, Notes for Package Builds, Installing MPIR
 @section Notes for Particular Systems
 @cindex Build notes for particular systems
 @cindex Particular systems
@@ -1498,13 +1496,13 @@ available.
 @item ARM
 @cindex ARM
 On systems @samp{arm*-*-*}, versions of GCC up to and including 2.95.3 have a
-bug in unsigned division, giving wrong results for some operands.  GMP
+bug in unsigned division, giving wrong results for some operands.  MPIR
 @samp{./configure} will demand GCC 2.95.4 or later.
 
 @item Compaq C++
 @cindex Compaq C++
 Compaq C++ on OSF 5.1 has two flavours of @code{iostream}, a standard one and
-an old pre-standard one (see @samp{man iostream_intro}).  GMP can only use the
+an old pre-standard one (see @samp{man iostream_intro}).  MPIR can only use the
 standard one, which unfortunately is not the default but must be selected by
 defining @code{__USE_STD_IOSTREAM}.  Configure with for instance
 
@@ -1519,10 +1517,10 @@ defining @code{__USE_STD_IOSTREAM}.  Configure with for instance
 @cindex x87
 On some systems, the hardware floating point has a control mode which can set
 all operations to be done in a particular precision, for instance single,
-double or extended on x86 systems (x87 floating point).  The GMP functions
+double or extended on x86 systems (x87 floating point).  The MPIR functions
 involving a @code{double} cannot be expected to operate to their full
 precision when the hardware is in single precision mode.  Of course this
-affects all code, including application code, not just GMP.
+affects all code, including application code, not just MPIR.
 
 @item MacOS 9
 @cindex MacOS 9
@@ -1553,7 +1551,7 @@ compiler. This support is provided by Brian Gladman.
 @cindex Interix
 @cindex Services for Unix
 Microsoft also publishes an Interix ``Services for Unix'' which can be used to
-build GMP on Windows (with a normal @samp{./configure}), but it's not free
+build MPIR on Windows (with a normal @samp{./configure}), but it's not free
 software.
 
 @item MS Windows DLLs
@@ -1561,7 +1559,7 @@ software.
 @cindex MS Windows
 @cindex Windows
 On systems @samp{*-*-cygwin*}, @samp{*-*-mingw*} and @samp{*-*-pw32*} by
-default GMP builds only a static library, but a DLL can be built instead using
+default MPIR builds only a static library, but a DLL can be built instead using
 
 @example
 ./configure --disable-static --enable-shared
@@ -1570,7 +1568,7 @@ default GMP builds only a static library, but a DLL can be built instead using
 Static and DLL libraries can't both be built, since certain export directives
 in @file{gmp.h} must be different.
 
-A MINGW DLL build of GMP can be used with Microsoft C@.  Libtool doesn't
+A MINGW DLL build of MPIR can be used with Microsoft C@.  Libtool doesn't
 install a @file{.lib} format import library, but it can be created with MS
 @command{lib} as follows, and copied to the install directory.  Similarly for
 @file{libmp} and @file{libgmpxx}.
@@ -1581,9 +1579,9 @@ lib /def:libgmp-3.dll.def /out:libgmp-3.lib
 @end example
 
 MINGW uses the C runtime library @samp{msvcrt.dll} for I/O, so applications
-wanting to use the GMP I/O routines must be compiled with @samp{cl /MD} to do
+wanting to use the MPIR I/O routines must be compiled with @samp{cl /MD} to do
 the same.  If one of the other C runtime library choices provided by MS C is
-desired then the suggestion is to use the GMP string functions and confine I/O
+desired then the suggestion is to use the MPIR string functions and confine I/O
 to the application.
 
 @item Motorola 68k CPU Types
@@ -1602,9 +1600,9 @@ is fixed in OpenBSD 2.7, so either upgrade or use GNU m4.
 
 @item Power CPU Types
 @cindex Power/PowerPC
-In GMP, CPU types @samp{power*} and @samp{powerpc*} will each use instructions
+In MPIR, CPU types @samp{power*} and @samp{powerpc*} will each use instructions
 not available on the other, so it's important to choose the right one for the
-CPU that will be used.  Currently GMP has no assembler code support for using
+CPU that will be used.  Currently MPIR has no assembler code support for using
 just the common instruction subset.  To get executables that run on both, the
 current suggestion is to use the generic C code (CPU @samp{none}), possibly
 with appropriate compiler options (like @samp{-mcpu=common} for
@@ -1620,7 +1618,7 @@ significant performance increase over the V7 code selected by plain
 
 @item Sparc App Regs
 @cindex Sparc
-The GMP assembler code for both 32-bit and 64-bit Sparc clobbers the
+The MPIR assembler code for both 32-bit and 64-bit Sparc clobbers the
 ``application registers'' @code{g2}, @code{g3} and @code{g4}, the same way
 that the GCC default @samp{-mapp-regs} does (@pxref{SPARC Options,, SPARC
 Options, gcc, Using the GNU Compiler Collection (GCC)}).
@@ -1628,7 +1626,7 @@ Options, gcc, Using the GNU Compiler Collection (GCC)}).
 This makes that code unsuitable for use with the special V9
 @samp{-mcmodel=embmedany} (which uses @code{g4} as a data segment pointer),
 and for applications wanting to use those registers for special purposes.  In
-these cases the only suggestion currently is to build GMP with CPU @samp{none}
+these cases the only suggestion currently is to build MPIR with CPU @samp{none}
 to avoid the assembler code.
 
 @item SunOS 4
@@ -1666,14 +1664,14 @@ Install a recent @command{gas} if MMX code is wanted on these systems.
 
 
 @need 2000
-@node Known Build Problems, Performance optimization, Notes for Particular Systems, Installing GMP
+@node Known Build Problems, Performance optimization, Notes for Particular Systems, Installing MPIR
 @section Known Build Problems
 @cindex Build problems known
 
 @c This section is more or less meant for known build problems that are not
 @c otherwise worked around and require some sort of manual intervention.
 
-You might find more up-to-date information at @uref{http://swox.com/gmp/}.
+You might find more up-to-date information at @uref{http://www.mpir.org/}.
 
 @table @asis
 @item Compiler link options
@@ -1737,13 +1735,13 @@ static-only build should work though (@samp{--disable-shared}).
 @item NeXT prior to 3.3
 @cindex NeXT
 The system compiler on old versions of NeXT was a massacred and old GCC, even
-if it called itself @file{cc}.  This compiler cannot be used to build GMP, you
+if it called itself @file{cc}.  This compiler cannot be used to build MPIR, you
 need to get a real GCC, and install that.  (NeXT may have fixed this in
 release 3.3 of their system.)
 
 @item POWER and PowerPC
 @cindex Power/PowerPC
-Bugs in GCC 2.7.2 (and 2.6.3) mean it can't be used to compile GMP on POWER or
+Bugs in GCC 2.7.2 (and 2.6.3) mean it can't be used to compile MPIR on POWER or
 PowerPC@.  If you want to use GCC for these machines, get GCC 2.7.2.1 (or
 later).
 
@@ -1760,7 +1758,7 @@ but GNU @command{sed} is recommended, to avoid any doubt.
 
 @item Sparc Solaris 2.7 with gcc 2.95.2 in @samp{ABI=32}
 @cindex Solaris
-A shared library build of GMP seems to fail in this combination, it builds but
+A shared library build of MPIR seems to fail in this combination, it builds but
 then fails the tests, apparently due to some incorrect data relocations within
 @code{gmp_randinit_lc_2exp_size}.  The exact cause is unknown,
 @samp{--disable-shared} is recommended.
@@ -1768,21 +1766,21 @@ then fails the tests, apparently due to some incorrect data relocations within
 
 
 @need 2000
-@node Performance optimization, , Known Build Problems, Installing GMP
+@node Performance optimization, , Known Build Problems, Installing MPIR
 @section Performance optimization
 @cindex Optimizing performance
 
 @c At some point, this should perhaps move to a separate chapter on optimizing
 @c performance.
 
-For optimal performance, build GMP for the exact CPU type of the target
+For optimal performance, build MPIR for the exact CPU type of the target
 computer, see @ref{Build Options}.
 
 Unlike what is the case for most other programs, the compiler typically
-doesn't matter much, since GMP uses assembly language for the most critical
+doesn't matter much, since MPIR uses assembly language for the most critical
 operation.
 
-In particular for long-running GMP applications, and applications demanding
+In particular for long-running MPIR applications, and applications demanding
 extremely large numbers, building and running the @code{tuneup} program in the
 @file{tune} subdirectory, can be important.  For example,
 
@@ -1799,18 +1797,18 @@ To use the results, put the output in the file indicated in the
 
 The @code{tuneup} program takes one useful parameter, @samp{-f NNN}, which
 instructs the program how long to check FFT multiply parameters.  If you're
-going to use GMP for extremely large numbers, you may want to run @code{tuneup}
+going to use MPIR for extremely large numbers, you may want to run @code{tuneup}
 with a large NNN value.
 
 
-@node GMP Basics, Reporting Bugs, Installing GMP, Top
+@node MPIR Basics, Reporting Bugs, Installing MPIR, Top
 @comment  node-name,  next,  previous,  up
-@chapter GMP Basics
+@chapter MPIR Basics
 @cindex Basics
 
 @strong{Using functions, macros, data types, etc.@: not documented in this
 manual is strongly discouraged.  If you do so your application is guaranteed
-to be incompatible with future versions of GMP.}
+to be incompatible with future versions of MPIR.}
 
 @menu
 * Headers and Libraries::
@@ -1830,14 +1828,14 @@ to be incompatible with future versions of GMP.}
 * Emacs::
 @end menu
 
-@node Headers and Libraries, Nomenclature and Types, GMP Basics, GMP Basics
+@node Headers and Libraries, Nomenclature and Types, MPIR Basics, MPIR Basics
 @section Headers and Libraries
 @cindex Headers
 
 @cindex @file{gmp.h}
 @cindex Include files
 @cindex @code{#include}
-All declarations needed to use GMP are collected in the include file
+All declarations needed to use MPIR are collected in the include file
 @file{gmp.h}.  It is designed to work with both C and C++ compilers.
 
 @example
@@ -1845,7 +1843,7 @@ All declarations needed to use GMP are collected in the include file
 @end example
 
 @cindex @code{stdio.h}
-Note however that prototypes for GMP functions with @code{FILE *} parameters
+Note however that prototypes for MPIR functions with @code{FILE *} parameters
 are only provided if @code{<stdio.h>} is included too.
 
 @example
@@ -1862,7 +1860,7 @@ as @code{gmp_obstack_printf}, when available.
 @cindex Libraries
 @cindex Linking
 @cindex @code{libgmp}
-All programs using GMP must link against the @file{libgmp} library.  On a
+All programs using MPIR must link against the @file{libgmp} library.  On a
 typical Unix-like system this can be done with @samp{-lgmp}, for example
 
 @example
@@ -1870,7 +1868,7 @@ gcc myprogram.c -lgmp
 @end example
 
 @cindex @code{libgmpxx}
-GMP C++ functions are in a separate @file{libgmpxx} library.  This is built
+MPIR C++ functions are in a separate @file{libgmpxx} library.  This is built
 and installed if C++ support has been enabled (@pxref{Build Options}).  For
 example,
 
@@ -1879,15 +1877,15 @@ g++ mycxxprog.cc -lgmpxx -lgmp
 @end example
 
 @cindex Libtool
-GMP is built using Libtool and an application can use that to link if desired,
+MPIR is built using Libtool and an application can use that to link if desired,
 @GMPpxreftop{libtool, GNU Libtool}
 
-If GMP has been installed to a non-standard location then it may be necessary
+If MPIR has been installed to a non-standard location then it may be necessary
 to use @samp{-I} and @samp{-L} compiler options to point to the right
 directories, and some sort of run-time path for a shared library.
 
 
-@node Nomenclature and Types, Function Classes, Headers and Libraries, GMP Basics
+@node Nomenclature and Types, Function Classes, Headers and Libraries, MPIR Basics
 @section Nomenclature and Types
 @cindex Nomenclature
 @cindex Types
@@ -1895,7 +1893,7 @@ directories, and some sort of run-time path for a shared library.
 @cindex Integer
 @tindex @code{mpz_t}
 In this manual, @dfn{integer} usually means a multiple precision integer, as
-defined by the GMP library.  The C data type for such integers is @code{mpz_t}.
+defined by the MPIR library.  The C data type for such integers is @code{mpz_t}.
 Here are some examples of how to declare such integers:
 
 @example
@@ -1955,11 +1953,11 @@ Also, in general @code{unsigned long} is used for bit counts and ranges, and
 @code{size_t} is used for byte or character counts.
 
 
-@node Function Classes, Variable Conventions, Nomenclature and Types, GMP Basics
+@node Function Classes, Variable Conventions, Nomenclature and Types, MPIR Basics
 @section Function Classes
 @cindex Function classes
 
-There are six classes of functions in the GMP library:
+There are six classes of functions in the MPIR library:
 
 @enumerate
 @item
@@ -1998,16 +1996,16 @@ functions for generating random numbers.  (@pxref{Custom Allocation}, and
 @end enumerate
 
 
-@node Variable Conventions, Parameter Conventions, Function Classes, GMP Basics
+@node Variable Conventions, Parameter Conventions, Function Classes, MPIR Basics
 @section Variable Conventions
 @cindex Variable conventions
 @cindex Conventions for variables
 
-GMP functions generally have output arguments before input arguments.  This
+MPIR functions generally have output arguments before input arguments.  This
 notation is by analogy with the assignment operator.  The BSD MP compatibility
 functions are exceptions, having the output arguments last.
 
-GMP lets you use the same variable for both input and output in one call.  For
+MPIR lets you use the same variable for both input and output in one call.  For
 example, the main function for integer multiplication, @code{mpz_mul}, can be
 used to square @code{x} and put the result back in @code{x} with
 
@@ -2015,7 +2013,7 @@ used to square @code{x} and put the result back in @code{x} with
 mpz_mul (x, x, x);
 @end example
 
-Before you can assign to a GMP variable, you need to initialize it by calling
+Before you can assign to an MPIR variable, you need to initialize it by calling
 one of the special initialization functions.  When you're done with a
 variable, you need to clear it out, using one of the functions for that
 purpose.  Which function to use depends on the type of variable.  See the
@@ -2048,18 +2046,18 @@ foo (void)
 @end example
 
 
-@node Parameter Conventions, Memory Management, Variable Conventions, GMP Basics
+@node Parameter Conventions, Memory Management, Variable Conventions, MPIR Basics
 @section Parameter Conventions
 @cindex Parameter conventions
 @cindex Conventions for parameters
 
-When a GMP variable is used as a function parameter, it's effectively a
+When an MPIR variable is used as a function parameter, it's effectively a
 call-by-reference, meaning if the function stores a value there it will change
 the original in the caller.  Parameters which are input-only can be designated
 @code{const} to provoke a compiler error or warning on attempting to modify
 them.
 
-When a function is going to return a GMP result, it should designate a
+When a function is going to return an MPIR result, it should designate a
 parameter that it sets, like the library functions do.  More than one value
 can be returned by having more than one output parameter, again like the
 library functions.  A @code{return} of an @code{mpz_t} etc doesn't return the
@@ -2095,21 +2093,21 @@ main (void)
 sometimes it's tricky to make that work, and an application might not want to
 bother supporting that sort of thing.
 
-For interest, the GMP types @code{mpz_t} etc are implemented as one-element
+For interest, the MPIR types @code{mpz_t} etc are implemented as one-element
 arrays of certain structures.  This is why declaring a variable creates an
-object with the fields GMP needs, but then using it as a parameter passes a
+object with the fields MPIR needs, but then using it as a parameter passes a
 pointer to the object.  Note that the actual fields in each @code{mpz_t} etc
 are for internal use only and should not be accessed directly by code that
-expects to be compatible with future GMP releases.
+expects to be compatible with future MPIR releases.
 
 
 @need 1000
-@node Memory Management, Reentrancy, Parameter Conventions, GMP Basics
+@node Memory Management, Reentrancy, Parameter Conventions, MPIR Basics
 @section Memory Management
 @cindex Memory management
 
-The GMP types like @code{mpz_t} are small, containing only a couple of sizes,
-and pointers to allocated data.  Once a variable is initialized, GMP takes
+The MPIR types like @code{mpz_t} are small, containing only a couple of sizes,
+and pointers to allocated data.  Once a variable is initialized, MPIR takes
 care of all space allocation.  Additional space is allocated whenever a
 variable doesn't have enough.
 
@@ -2128,20 +2126,20 @@ also used (via @code{alloca}), but this can be changed at build-time if
 desired, see @ref{Build Options}.
 
 
-@node Reentrancy, Useful Macros and Constants, Memory Management, GMP Basics
+@node Reentrancy, Useful Macros and Constants, Memory Management, MPIR Basics
 @section Reentrancy
 @cindex Reentrancy
 @cindex Thread safety
 @cindex Multi-threading
 
 @noindent
-GMP is reentrant and thread-safe, with some exceptions:
+MPIR is reentrant and thread-safe, with some exceptions:
 
 @itemize @bullet
 @item
 If configured with @option{--enable-alloca=malloc-notreentrant} (or with
 @option{--enable-alloca=notreentrant} when @code{alloca} is not available),
-then naturally GMP is not reentrant.
+then naturally MPIR is not reentrant.
 
 @item
 @code{mpf_set_default_prec} and @code{mpf_init} use a global variable for the
@@ -2165,14 +2163,14 @@ memory allocation functions.
 @item
 If the memory allocation functions set by a call to
 @code{mp_set_memory_functions} (or @code{malloc} and friends by default) are
-not reentrant, then GMP will not be reentrant either.
+not reentrant, then MPIR will not be reentrant either.
 
 @item
 If the standard I/O functions such as @code{fwrite} are not reentrant then the
-GMP I/O functions using them will not be reentrant either.
+MPIR I/O functions using them will not be reentrant either.
 
 @item
-It's safe for two threads to read from the same GMP variable simultaneously,
+It's safe for two threads to read from the same MPIR variable simultaneously,
 but it's not safe for one to read while the another might be writing, nor for
 two threads to write simultaneously.  It's not safe for two threads to
 generate a random number from the same @code{gmp_randstate_t} simultaneously,
@@ -2181,7 +2179,7 @@ since this involves an update of that variable.
 
 
 @need 2000
-@node Useful Macros and Constants, Compatibility with older versions, Reentrancy, GMP Basics
+@node Useful Macros and Constants, Compatibility with older versions, Reentrancy, MPIR Basics
 @section Useful Macros and Constants
 @cindex Useful macros and constants
 @cindex Constants
@@ -2197,26 +2195,26 @@ The number of bits per limb.
 @defmacx __GNU_MP_VERSION_MINOR
 @defmacx __GNU_MP_VERSION_PATCHLEVEL
 @cindex Version number
-@cindex GMP version number
-The major and minor GMP version, and patch level, respectively, as integers.
-For GMP i.j, these numbers will be i, j, and 0, respectively.
-For GMP i.j.k, these numbers will be i, j, and k, respectively.
+@cindex MPIR version number
+The major and minor MPIR version, and patch level, respectively, as integers.
+For MPIR i.j, these numbers will be i, j, and 0, respectively.
+For MPIR i.j.k, these numbers will be i, j, and k, respectively.
 @end defmac
 
 @deftypevr {Global Constant} {const char * const} gmp_version
 @findex gmp_version
-The GMP version number, as a null-terminated string, in the form ``i.j'' or
+The MPIR version number, as a null-terminated string, in the form ``i.j'' or
 ``i.j.k''.  This release is @nicode{"@value{VERSION}"}.
 @end deftypevr
 
 
-@node Compatibility with older versions, Demonstration Programs, Useful Macros and Constants, GMP Basics
+@node Compatibility with older versions, Demonstration Programs, Useful Macros and Constants, MPIR Basics
 @section Compatibility with older versions
 @cindex Compatibility with older versions
-@cindex Past GMP versions
+@cindex Past GMP/MPIR versions
 @cindex Upward compatibility
 
-This version of GMP is upwardly binary compatible with all 4.x and 3.x
+This version of MPIR is upwardly binary compatible with all GMP 4.x and 3.x
 versions, and upwardly compatible at the source level with all 2.x versions,
 with the following exceptions.
 
@@ -2231,7 +2229,7 @@ with other @code{mpn} functions.
 @end itemize
 
 There are a number of compatibility issues between GMP 1 and GMP 2 that of
-course also apply when porting applications from GMP 1 to GMP 4.  Please
+course also apply when porting applications from GMP 1 to GMP 4 and MPIR 1.  Please
 see the GMP 2 manual for details.
 
 The Berkeley MP compatibility library (@pxref{BSD Compatible Functions}) is
@@ -2289,12 +2287,12 @@ source and binary compatible with the standard @file{libmp}.
 
 
 @need 1000
-@node Demonstration Programs, Efficiency, Compatibility with older versions, GMP Basics
+@node Demonstration Programs, Efficiency, Compatibility with older versions, MPIR Basics
 @section Demonstration programs
 @cindex Demonstration programs
 @cindex Example programs
 @cindex Sample programs
-The @file{demos} subdirectory has some sample programs using GMP@.  These
+The @file{demos} subdirectory has some sample programs using MPIR@.  These
 aren't built or installed, but there's a @file{Makefile} with rules for them.
 For instance,
 
@@ -2335,17 +2333,17 @@ function.
 class numbers.
 @item
 @cindex @code{perl}
-@cindex GMP Perl module
+@cindex MPIR Perl module
 @cindex Perl module
-The @samp{perl} subdirectory is a comprehensive perl interface to GMP@.  See
+The @samp{perl} subdirectory is a comprehensive perl interface to MPIR@.  See
 @file{demos/perl/INSTALL} for more information.  Documentation is in POD
 format in @file{demos/perl/GMP.pm}.
 @end itemize
 
 As an aside, consideration has been given at various times to some sort of
-expression evaluation within the main GMP library.  Going beyond something
+expression evaluation within the main MPIR library.  Going beyond something
 minimal quickly leads to matters like user-defined functions, looping, fixnums
-for control variables, etc, which are considered outside the scope of GMP
+for control variables, etc, which are considered outside the scope of MPIR
 (much closer to language interpreters or compilers, @xref{Language Bindings}.)
 Something simple for program input convenience may yet be a possibility, a
 combination of the @file{expr} demo and the @file{pexpr} tree back-end
@@ -2353,7 +2351,7 @@ perhaps.  But for now the above evaluators are offered as illustrations.
 
 
 @need 1000
-@node Efficiency, Debugging, Demonstration Programs, GMP Basics
+@node Efficiency, Debugging, Demonstration Programs, MPIR Basics
 @section Efficiency
 @cindex Efficiency
 
@@ -2362,7 +2360,7 @@ perhaps.  But for now the above evaluators are offered as illustrations.
 @cindex Small operands
 On small operands, the time for function call overheads and memory allocation
 can be significant in comparison to actual calculation.  This is unavoidable
-in a general purpose variable precision library, although GMP attempts to be
+in a general purpose variable precision library, although MPIR attempts to be
 as efficient as it can on both large and small operands.
 
 @item Static Linking
@@ -2444,7 +2442,7 @@ if (x != y)
 
 Note that it's never worth introducing extra @code{mpz_set} calls just to get
 in-place operations.  If a result should go to a particular variable then just
-direct it there and let GMP take care of data movement.
+direct it there and let MPIR take care of data movement.
 
 @item Divisibility Testing (Small Integers)
 @cindex Divisibility testing
@@ -2519,7 +2517,7 @@ as proposed by King Charles XII of Sweden and later reformers.
 @end table
 
 
-@node Debugging, Profiling, Efficiency, GMP Basics
+@node Debugging, Profiling, Efficiency, MPIR Basics
 @section Debugging
 @cindex Debugging
 
@@ -2537,7 +2535,7 @@ overflow is recognised by the system before too much damage is done, or
 @samp{-fstack-limit-symbol} or @samp{-fstack-limit-register} may be able to
 add checking if the system itself doesn't do any (@pxref{Code Gen Options,,
 Options for Code Generation, gcc, Using the GNU Compiler Collection (GCC)}).
-These options must be added to the @samp{CFLAGS} used in the GMP build
+These options must be added to the @samp{CFLAGS} used in the MPIR build
 (@pxref{Build Options}), adding them just to an application will have no
 effect.  Note also they're a slowdown, adding overhead to each function call
 and each stack allocation.
@@ -2545,10 +2543,10 @@ and each stack allocation.
 @item Heap Problems
 @cindex Heap problems
 @cindex Malloc problems
-The most likely cause of application problems with GMP is heap corruption.
-Failing to @code{init} GMP variables will have unpredictable effects, and
-corruption arising elsewhere in a program may well affect GMP@.  Initializing
-GMP variables more than once or failing to clear them will cause memory leaks.
+The most likely cause of application problems with MPIR is heap corruption.
+Failing to @code{init} MPIR variables will have unpredictable effects, and
+corruption arising elsewhere in a program may well affect MPIR@.  Initializing
+MPIR variables more than once or failing to clear them will cause memory leaks.
 
 @cindex Malloc debugger
 In all such cases a @code{malloc} debugger is recommended.  On a GNU or BSD
@@ -2567,14 +2565,14 @@ particular order, include
 @uref{http://www.cbmamiga.demon.co.uk/mpatrol/}
 @end display
 
-The GMP default allocation routines in @file{memory.c} also have a simple
+The MPIR default allocation routines in @file{memory.c} also have a simple
 sentinel scheme which can be enabled with @code{#define DEBUG} in that file.
-This is mainly designed for detecting buffer overruns during GMP development,
+This is mainly designed for detecting buffer overruns during MPIR development,
 but might find other uses.
 
 @item Stack Backtraces
 @cindex Stack backtrace
-On some systems the compiler options GMP uses by default can interfere with
+On some systems the compiler options MPIR uses by default can interfere with
 debugging.  In particular on x86 and 68k systems @samp{-fomit-frame-pointer}
 is used and this generally inhibits stack backtracing.  Recompiling without
 such options may help while debugging, though the usual caveats about it
@@ -2584,13 +2582,13 @@ potentially moving a memory problem or hiding a compiler bug will apply.
 @cindex GDB
 @cindex GNU Debugger
 A sample @file{.gdbinit} is included in the distribution, showing how to call
-some undocumented dump functions to print GMP variables from within GDB@.  Note
+some undocumented dump functions to print MPIR variables from within GDB@.  Note
 that these functions shouldn't be used in final application code since they're
 undocumented and may be subject to incompatible changes in future versions of
-GMP.
+MPIR.
 
 @item Source File Paths
-GMP has multiple source files with the same name, in different directories.
+MPIR has multiple source files with the same name, in different directories.
 For example @file{mpz}, @file{mpq} and @file{mpf} each have an
 @file{init.c}.  If the debugger can't already determine the right one it may
 help to build with absolute paths on each C file.  One way to do that is to
@@ -2620,17 +2618,17 @@ CPU @samp{none} should be used for maximum checking.
 
 @item Temporary Memory Checking
 The build option @option{--enable-alloca=debug} arranges that each block of
-temporary memory in GMP is allocated with a separate call to @code{malloc} (or
+temporary memory in MPIR is allocated with a separate call to @code{malloc} (or
 the allocation function set with @code{mp_set_memory_functions}).
 
 This can help a malloc debugger detect accesses outside the intended bounds,
 or detect memory not released.  In a normal build, on the other hand,
-temporary memory is allocated in blocks which GMP divides up for its own use,
+temporary memory is allocated in blocks which MPIR divides up for its own use,
 or may be allocated with a compiler builtin @code{alloca} which will go
 nowhere near any malloc debugger hooks.
 
 @item Maximum Debuggability
-To summarize the above, a GMP build for maximum debuggability would be
+To summarize the above, an MPIR build for maximum debuggability would be
 
 @example
 ./configure --disable-shared --enable-assert \
@@ -2643,10 +2641,10 @@ For C++, add @samp{--enable-cxx CXXFLAGS=-g}.
 @cindex Checker
 @cindex GCC Checker
 The GCC checker (@uref{http://savannah.gnu.org/projects/checker/}) can be used
-with GMP@.  It contains a stub library which means GMP applications compiled
-with checker can use a normal GMP build.
+with MPIR@.  It contains a stub library which means MPIR applications compiled
+with checker can use a normal MPIR build.
 
-A build of GMP with checking within GMP itself can be made.  This will run
+A build of MPIR with checking within MPIR itself can be made.  This will run
 very very slowly.  On GNU/Linux for example,
 
 @cindex @command{checkergcc}
@@ -2654,8 +2652,8 @@ very very slowly.  On GNU/Linux for example,
 ./configure --host=none-pc-linux-gnu CC=checkergcc
 @end example
 
-@samp{--host=none} must be used, since the GMP assembler code doesn't support
-the checking scheme.  The GMP C++ features cannot be used, since current
+@samp{--host=none} must be used, since the MPIR assembler code doesn't support
+the checking scheme.  The MPIR C++ features cannot be used, since current
 versions of checker (0.9.9.1) don't yet support the standard C++ library.
 
 @item Valgrind
@@ -2666,16 +2664,16 @@ strong checks for uninitialized data (at the level of individual bits), memory
 accesses through bad pointers, and memory leaks.
 
 Recent versions of Valgrind are getting support for MMX and SSE/SSE2
-instructions, for past versions GMP will need to be configured not to use
+instructions, for past versions MPIR will need to be configured not to use
 those, ie.@: for an x86 without them (for instance plain @samp{i486}).
 
 @item Other Problems
-Any suspected bug in GMP itself should be isolated to make sure it's not an
+Any suspected bug in MPIR itself should be isolated to make sure it's not an
 application problem, see @ref{Reporting Bugs}.
 @end table
 
 
-@node Profiling, Autoconf, Debugging, GMP Basics
+@node Profiling, Autoconf, Debugging, MPIR Basics
 @section Profiling
 @cindex Profiling
 @cindex Execution profiling
@@ -2683,7 +2681,7 @@ application problem, see @ref{Reporting Bugs}.
 
 Running a program under a profiler is a good way to find where it's spending
 most time and where improvements can be best sought.  The profiling choices
-for a GMP build are as follows.
+for a MPIR build are as follows.
 
 @table @asis
 @item @samp{--disable-profiling}
@@ -2691,7 +2689,7 @@ The default is to add nothing special for profiling.
 
 It should be possible to just compile the mainline of a program with @code{-p}
 and use @command{prof} to get a profile consisting of timer-based sampling of
-the program counter.  Most of the GMP assembler code has the necessary symbol
+the program counter.  Most of the MPIR assembler code has the necessary symbol
 information.
 
 This approach has the advantage of minimizing interference with normal program
@@ -2759,7 +2757,7 @@ support from an external library, such as
 @uref{http://sourceforge.net/projects/fnccheck/}
 @end display
 
-This should be included in @samp{LIBS} during the GMP configure so that test
+This should be included in @samp{LIBS} during the MPIR configure so that test
 programs will link.  For example,
 
 @example
@@ -2777,13 +2775,14 @@ attributed to their caller.
 @end table
 
 
-@node Autoconf, Emacs, Profiling, GMP Basics
+@node Autoconf, Emacs, Profiling, MPIR Basics
 @section Autoconf
 @cindex Autoconf
 
-Autoconf based applications can easily check whether GMP is installed.  The
-only thing to be noted is that GMP library symbols from version 3 onwards have
-prefixes like @code{__gmpz}.  The following therefore would be a simple test,
+Autoconf based applications can easily check whether MPIR is installed.  The
+only thing to be noted is that GMP/MPIR library symbols from version 3 of GMP
+and version 1 of MPIR onwards have prefixes like @code{__gmpz}.  The following 
+therefore would be a simple test,
 
 @cindex @code{AC_CHECK_LIB}
 @example
@@ -2791,22 +2790,22 @@ AC_CHECK_LIB(gmp, __gmpz_init)
 @end example
 
 This just uses the default @code{AC_CHECK_LIB} actions for found or not found,
-but an application that must have GMP would want to generate an error if not
+but an application that must have MPIR would want to generate an error if not
 found.  For example,
 
 @example
 AC_CHECK_LIB(gmp, __gmpz_init, ,
-  [AC_MSG_ERROR([GNU MP not found, see http://swox.com/gmp/])])
+  [AC_MSG_ERROR([MPIR not found, see http://www.mpir.org/])])
 @end example
 
-If functions added in some particular version of GMP are required, then one of
+If functions added in some particular version of GMP/MPIR are required, then one of
 those can be used when checking.  For example @code{mpz_mul_si} was added in
 GMP 3.1,
 
 @example
 AC_CHECK_LIB(gmp, __gmpz_mul_si, ,
   [AC_MSG_ERROR(
-  [GNU MP not found, or not 3.1 or up, see http://swox.com/gmp/])])
+  [GMP/MPIR not found, or not GMP 3.1 or up or MPIR 1.0 or up, see http://www.mpir.org/])])
 @end example
 
 An alternative would be to test the version number in @file{gmp.h} using say
@@ -2814,22 +2813,22 @@ An alternative would be to test the version number in @file{gmp.h} using say
 if some particular sub-minor release is known to be necessary.
 
 In general it's recommended that applications should simply demand a new
-enough GMP rather than trying to provide supplements for features not
+enough MPIR rather than trying to provide supplements for features not
 available in past versions.
 
 Occasionally an application will need or want to know the size of a type at
 configuration or preprocessing time, not just with @code{sizeof} in the code.
 This can be done in the normal way with @code{mp_limb_t} etc, but GMP 4.0 or
-up is best for this, since prior versions needed certain @samp{-D} defines on
-systems using a @code{long long} limb.  The following would suit Autoconf 2.50
-or up,
+up and MPIR 1.0 and up is best for this, since prior versions needed certain 
+@samp{-D} defines on systems using a @code{long long} limb.  The following 
+would suit Autoconf 2.50 or up,
 
 @example
 AC_CHECK_SIZEOF(mp_limb_t, , [#include <gmp.h>])
 @end example
 
 
-@node Emacs,  , Autoconf, GMP Basics
+@node Emacs,  , Autoconf, MPIR Basics
 @section Emacs
 @cindex Emacs
 @cindex @code{info-lookup-symbol}
@@ -2838,7 +2837,7 @@ AC_CHECK_SIZEOF(mp_limb_t, , [#include <gmp.h>])
 on C functions while editing (@pxref{Info Lookup, , Info Documentation Lookup,
 emacs, The Emacs Editor}).
 
-The GMP manual can be included in such lookups by putting the following in
+The MPIR manual can be included in such lookups by putting the following in
 your @file{.emacs},
 
 @c  This isn't pretty, but there doesn't seem to be a better way (in emacs
@@ -2854,25 +2853,25 @@ your @file{.emacs},
 @end example
 
 
-@node Reporting Bugs, Integer Functions, GMP Basics, Top
+@node Reporting Bugs, Integer Functions, MPIR Basics, Top
 @comment  node-name,  next,  previous,  up
 @chapter Reporting Bugs
 @cindex Reporting bugs
 @cindex Bug reporting
 
-If you think you have found a bug in the GMP library, please investigate it
+If you think you have found a bug in the MPIR library, please investigate it
 and report it.  We have made this library available to you, and it is not too
 much to ask you to report the bugs you find.
 
 Before you report a bug, check it's not already addressed in @ref{Known Build
 Problems}, or perhaps @ref{Notes for Particular Systems}.  You may also want
-to check @uref{http://swox.com/gmp/} for patches for this release.
+to check @uref{http://www.mpir.org/} for patches for this release.
 
 Please include the following in any report,
 
 @itemize @bullet
 @item
-The GMP version number, and if pre-packaged or patched then say so.
+The MPIR version number, and if pre-packaged or patched then say so.
 
 @item
 A test program that makes it possible for us to reproduce the bug.  Include
@@ -2890,7 +2889,7 @@ informative (@samp{where} in @command{gdb}, or @samp{$C} in @command{adb}).
 Please do not send core dumps, executables or @command{strace}s.
 
 @item
-The configuration options you used when building GMP, if any.
+The configuration options you used when building MPIR, if any.
 
 @item
 The name of the compiler and its version.  For @command{gcc}, get the version
@@ -2918,13 +2917,13 @@ definite that can be tested or debugged.  Vague queries or piecemeal messages
 are difficult to act on and don't help the development effort.
 
 It is not uncommon that an observed problem is actually due to a bug in the
-compiler; the GMP code tends to explore interesting corners in compilers.
+compiler; the MPIR code tends to explore interesting corners in compilers.
 
 If your bug report is good, we will do our best to help you get a corrected
 version of the library; if the bug report is poor, we won't do anything about
 it (except maybe ask you to send a better report).
 
-Send your report to: @email{gmp-bugs@@swox.com}.
+Send your report to: @email{goodwillhart@@gmail.com}.
 
 If you think something in this manual is unclear, or downright incorrect, or if
 the language needs to be improved, please send a note to the same address.
@@ -2935,10 +2934,10 @@ the language needs to be improved, please send a note to the same address.
 @chapter Integer Functions
 @cindex Integer functions
 
-This chapter describes the GMP functions for performing integer arithmetic.
+This chapter describes the MPIR functions for performing integer arithmetic.
 These functions start with the prefix @code{mpz_}.
 
-GMP integers are stored in objects of type @code{mpz_t}.
+MPIR integers are stored in objects of type @code{mpz_t}.
 
 @menu
 * Initializing Integers::
@@ -3071,7 +3070,7 @@ Swap the values @var{rop1} and @var{rop2} efficiently.
 @cindex Integer initialization functions
 @cindex Initialization functions
 
-For convenience, GMP provides a parallel series of initialize-and-set functions
+For convenience, MPIR provides a parallel series of initialize-and-set functions
 which initialize the output and then store the value there.  These functions'
 names have the form @code{mpz_init_set@dots{}}
 
@@ -3118,8 +3117,8 @@ an error occurs.  (I.e., you have to call @code{mpz_clear} for it.)
 @cindex Integer conversion functions
 @cindex Conversion functions
 
-This section describes functions for converting GMP integers to standard C
-types.  Functions for converting @emph{to} GMP integers are described in
+This section describes functions for converting MPIR integers to standard C
+types.  Functions for converting @emph{to} MPIR integers are described in
 @ref{Assigning Integers} and @ref{I/O of Integers}.
 
 @deftypefun {unsigned long int} mpz_get_ui (mpz_t @var{op})
@@ -3833,7 +3832,7 @@ machines.
 @cindex Integer random number functions
 @cindex Random number functions
 
-The random number functions of GMP come in two groups; older function
+The random number functions of MPIR come in two groups; older function
 that rely on a global state, and newer functions that accept a state
 parameter that is read and modified.  Please see the @ref{Random Number
 Functions} for more information on how to use and not to use random
@@ -3946,7 +3945,7 @@ each word are unused and set to zero, this can be 0 to produce full words.
 The number of words produced is written to @code{*@var{countp}}, or
 @var{countp} can be @code{NULL} to discard the count.  @var{rop} must have
 enough space for the data, or if @var{rop} is @code{NULL} then a result array
-of the necessary size is allocated using the current GMP allocation function
+of the necessary size is allocated using the current MPIR allocation function
 (@pxref{Custom Allocation}).  In either case the return value is the
 destination used, either @var{rop} or the allocated block.
 
@@ -4115,7 +4114,7 @@ the returned value will be zero.
 @chapter Rational Number Functions
 @cindex Rational number functions
 
-This chapter describes the GMP functions for performing arithmetic on rational
+This chapter describes the MPIR functions for performing arithmetic on rational
 numbers.  These functions start with the prefix @code{mpq_}.
 
 Rational numbers are stored in objects of type @code{mpq_t}.
@@ -4424,7 +4423,7 @@ for instance @samp{0x10/11} is @math{16/11}, whereas @samp{0x10/0x11} is
 @cindex User-defined precision
 @cindex Precision of floats
 
-GMP floating point numbers are stored in objects of type @code{mpf_t} and
+MPIR floating point numbers are stored in objects of type @code{mpf_t} and
 functions operating on them have an @code{mpf_} prefix.
 
 The mantissa of each float has a user-selectable precision, limited only by
@@ -4448,7 +4447,7 @@ Each function is defined to calculate with ``infinite precision'' followed by
 a truncation to the destination precision, but of course the work done is only
 what's needed to determine a result under that definition.
 
-The precision selected for a variable is a minimum value, GMP may increase it
+The precision selected for a variable is a minimum value, MPIR may increase it
 a little to facilitate efficient calculation.  Currently this means rounding
 up to a whole limb, and then sometimes having a further partial limb,
 depending on the high limb of the mantissa.  But applications shouldn't be
@@ -4643,7 +4642,7 @@ precisions of the two variables are swapped.
 @cindex Float initialization functions
 @cindex Initialization functions
 
-For convenience, GMP provides a parallel series of initialize-and-set functions
+For convenience, MPIR provides a parallel series of initialize-and-set functions
 which initialize the output and then store the value there.  These functions'
 names have the form @code{mpf_init_set@dots{}}
 
@@ -4972,7 +4971,7 @@ random numbers are generated when @var{max_size} is negative.
 @c zero, the returned value will be zero.  (@xref{Nomenclature}, for an
 @c explanation of the concept @dfn{limb}.)
 @c
-@c @strong{This function is obsolete.  It will disappear from future GMP
+@c @strong{This function is obsolete.  It will disappear from future MPIR
 @c releases.}
 @c @end deftypefun
 
@@ -4982,8 +4981,8 @@ random numbers are generated when @var{max_size} is negative.
 @chapter Low-level Functions
 @cindex Low-level functions
 
-This chapter describes low-level GMP functions, used to implement the
-high-level GMP functions, but also intended for time-critical user code.
+This chapter describes low-level MPIR functions, used to implement the
+high-level MPIR functions, but also intended for time-critical user code.
 
 These functions start with the prefix @code{mpn_}.
 
@@ -5105,7 +5104,7 @@ limb of the product.  @{@var{s1p}, @var{n}@} and @{@var{rp}, @var{n}@} are
 allowed to overlap provided @math{@var{rp} @le{} @var{s1p}}.
 
 This is a low-level function that is a building block for general
-multiplication as well as other operations in GMP@.  It is written in assembly
+multiplication as well as other operations in MPIR@.  It is written in assembly
 for most CPUs.
 
 Don't call this function if @var{s2limb} is a power of 2; use @code{mpn_lshift}
@@ -5119,7 +5118,7 @@ to @var{rp}.  Return the most significant limb of the product, plus carry-out
 from the addition.
 
 This is a low-level function that is a building block for general
-multiplication as well as other operations in GMP@.  It is written in assembly
+multiplication as well as other operations in MPIR@.  It is written in assembly
 for most CPUs.
 @end deftypefun
 
@@ -5130,7 +5129,7 @@ result to @var{rp}.  Return the most significant limb of the product, minus
 borrow-out from the subtraction.
 
 This is a low-level function that is a building block for general
-multiplication and division as well as other operations in GMP@.  It is written
+multiplication and division as well as other operations in MPIR@.  It is written
 in assembly for most CPUs.
 @end deftypefun
 
@@ -5420,7 +5419,7 @@ Return non-zero iff @{@var{s1p}, @var{n}@} is a perfect square.
 @cindex Nails
 
 @strong{Everything in this section is highly experimental and may disappear or
-be subject to incompatible changes in a future version of GMP.}
+be subject to incompatible changes in a future version of MPIR.}
 
 Nails are an experimental feature whereby a few bits are left unused at the
 top of each @code{mp_limb_t}.  This can significantly improve carry handling
@@ -5487,7 +5486,7 @@ propagate one or two limbs.
 @chapter Random Number Functions
 @cindex Random number functions
 
-Sequences of pseudo-random numbers in GMP are generated using a variable of
+Sequences of pseudo-random numbers in MPIR are generated using a variable of
 type @code{gmp_randstate_t}, which holds an algorithm selection and a current
 state.  Such a variable must be initialized by a call to one of the
 @code{gmp_randinit} functions, and can be seeded with one of the
@@ -5651,7 +5650,7 @@ Library Reference Manual}).  A format specification is of the form
 % [flags] [width] [.[precision]] [type] conv
 @end example
 
-GMP adds types @samp{Z}, @samp{Q} and @samp{F} for @code{mpz_t}, @code{mpq_t}
+MPIR adds types @samp{Z}, @samp{Q} and @samp{F} for @code{mpz_t}, @code{mpq_t}
 and @code{mpf_t} respectively, @samp{M} for @code{mp_limb_t}, and @samp{N} for
 an @code{mp_limb_t} array.  @samp{Z}, @samp{Q}, @samp{M} and @samp{N} behave
 like integers.  @samp{Q} will print a @samp{/} and a denominator, if needed.
@@ -5681,12 +5680,12 @@ For @samp{N} the limbs are expected least significant first, as per the
 given to print the value as a negative.
 
 All the standard C @code{printf} types behave the same as the C library
-@code{printf}, and can be freely intermixed with the GMP extensions.  In the
+@code{printf}, and can be freely intermixed with the MPIR extensions.  In the
 current implementation the standard parts of the format string are simply
-handed to @code{printf} and only the GMP extensions handled directly.
+handed to @code{printf} and only the MPIR extensions handled directly.
 
 The flags accepted are as follows.  GLIBC style @nisamp{'} is only for the
-standard C types (not the GMP types), and only if the C library supports it.
+standard C types (not the MPIR types), and only if the C library supports it.
 
 @quotation
 @multitable {(space)} {MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM}
@@ -5694,7 +5693,7 @@ standard C types (not the GMP types), and only if the C library supports it.
 @item @nicode{#} @tab show the base with @samp{0x}, @samp{0X} or @samp{0}
 @item @nicode{+} @tab always show a sign
 @item (space)    @tab show a space or a @samp{-} sign
-@item @nicode{'} @tab group digits, GLIBC style (not GMP types)
+@item @nicode{'} @tab group digits, GLIBC style (not MPIR types)
 @end multitable
 @end quotation
 
@@ -5721,7 +5720,7 @@ and the C library for the output.
 @end quotation
 
 @noindent
-The GMP types are
+The MPIR types are
 
 @quotation
 @multitable {(space)} {MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM}
@@ -5765,7 +5764,7 @@ size of @code{mp_limb_t}.  Unsigned conversions will be usual, but a signed
 conversion can be used and will interpret the value as a twos complement
 negative.
 
-@samp{n} can be used with any type, even the GMP types.
+@samp{n} can be used with any type, even the MPIR types.
 
 Other types or conversions that might be accepted by the C library
 @code{printf} cannot be used through @code{gmp_printf}, this includes for
@@ -5808,7 +5807,7 @@ va_start}.
 It should be emphasised that if a format string is invalid, or the arguments
 don't match what the format specifies, then the behaviour of any of these
 functions will be unpredictable.  GCC format string checking is not available,
-since it doesn't recognise the GMP extensions.
+since it doesn't recognise the MPIR extensions.
 
 The file based functions @code{gmp_printf} and @code{gmp_fprintf} will return
 @math{-1} to indicate a write error.  Output is not ``atomic'', so partial
@@ -5937,7 +5936,7 @@ This last form is slightly strange, but at least differentiates itself from
 decimal.
 @end deftypefun
 
-These operators mean that GMP types can be printed in the usual C++ way, for
+These operators mean that MPIR types can be printed in the usual C++ way, for
 example,
 
 @example
@@ -5948,7 +5947,7 @@ cout << "iteration " << n << " value " << z << "\n";
 @end example
 
 But note that @code{ostream} output (and @code{istream} input, @pxref{C++
-Formatted Input}) is the only overloading available for the GMP types and that
+Formatted Input}) is the only overloading available for the MPIR types and that
 for instance using @code{+} with an @code{mpz_t} will have unpredictable
 results.  For classes with overloading, see @ref{C++ Class Interface}.
 
@@ -5976,12 +5975,12 @@ Library Reference Manual}).  A format specification is of the form
 % [flags] [width] [type] conv
 @end example
 
-GMP adds types @samp{Z}, @samp{Q} and @samp{F} for @code{mpz_t}, @code{mpq_t}
+MPIR adds types @samp{Z}, @samp{Q} and @samp{F} for @code{mpz_t}, @code{mpq_t}
 and @code{mpf_t} respectively.  @samp{Z} and @samp{Q} behave like integers.
 @samp{Q} will read a @samp{/} and a denominator, if present.  @samp{F} behaves
 like a float.
 
-GMP variables don't require an @code{&} when passed to @code{gmp_scanf}, since
+MPIR variables don't require an @code{&} when passed to @code{gmp_scanf}, since
 they're already ``call-by-reference''.  For example,
 
 @example
@@ -6000,18 +5999,18 @@ gmp_scanf ("%31s (%Ff,%Ff)", buf, x, y);
 @end example
 
 All the standard C @code{scanf} types behave the same as in the C library
-@code{scanf}, and can be freely intermixed with the GMP extensions.  In the
+@code{scanf}, and can be freely intermixed with the MPIR extensions.  In the
 current implementation the standard parts of the format string are simply
-handed to @code{scanf} and only the GMP extensions handled directly.
+handed to @code{scanf} and only the MPIR extensions handled directly.
 
 The flags accepted are as follows.  @samp{a} and @samp{'} will depend on
-support from the C library, and @samp{'} cannot be used with GMP types.
+support from the C library, and @samp{'} cannot be used with MPIR types.
 
 @quotation
 @multitable {(space)} {MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM}
 @item @nicode{*} @tab read but don't store
 @item @nicode{a} @tab allocate a buffer (string conversions)
-@item @nicode{'} @tab grouped digits, GLIBC style (not GMP types)
+@item @nicode{'} @tab grouped digits, GLIBC style (not MPIR types)
 @end multitable
 @end quotation
 
@@ -6034,7 +6033,7 @@ and the C library for the input.
 @end quotation
 
 @noindent
-The GMP types are
+The MPIR types are
 
 @quotation
 @multitable {(space)} {MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM}
@@ -6079,7 +6078,7 @@ hexadecimal.
 values.  For the standard C types these are described as ``unsigned''
 conversions, but that merely affects certain overflow handling, negatives are
 still allowed (per @code{strtoul}, @pxref{Parsing of Integers,, Parsing of
-Integers, libc, The GNU C Library Reference Manual}).  For GMP types there are
+Integers, libc, The GNU C Library Reference Manual}).  For MPIR types there are
 no overflows, so @samp{d} and @samp{u} are identical.
 
 @samp{Q} type reads the numerator and (optional) denominator as given.  If the
@@ -6091,7 +6090,7 @@ Functions}).
 denominator.  For example @samp{0x10/11} would be 16/11, whereas
 @samp{0x10/0x11} would be 16/17.
 
-@samp{n} can be used with any of the types above, even the GMP types.
+@samp{n} can be used with any of the types above, even the MPIR types.
 @samp{*} to suppress assignment is allowed, though in that case it would do
 nothing at all.
 
@@ -6124,7 +6123,7 @@ va_start}.
 It should be emphasised that if a format string is invalid, or the arguments
 don't match what the format specifies, then the behaviour of any of these
 functions will be unpredictable.  GCC format string checking is not available,
-since it doesn't recognise the GMP extensions.
+since it doesn't recognise the MPIR extensions.
 
 No overlap is permitted between the @var{fmt} string and any of the results
 produced.
@@ -6156,7 +6155,7 @@ string is only an optional match and doesn't induce an @code{EOF} in this
 fashion.  Leading whitespace read and discarded for a field don't count as
 characters for that field.
 
-For the GMP types, input parsing follows C99 rules, namely one character of
+For the MPIR types, input parsing follows C99 rules, namely one character of
 lookahead is used and characters are read while they continue to meet the
 format requirements.  If this doesn't provide a complete number then the
 function terminates, with that field not stored nor counted towards the return
@@ -6165,7 +6164,7 @@ up to the @samp{X} and that character pushed back since it's not a digit.  The
 string @samp{1.23e-} would then be considered invalid since an @samp{e} must
 be followed by at least one digit.
 
-For the standard C types, in the current implementation GMP calls the C
+For the standard C types, in the current implementation MPIR calls the C
 library @code{scanf} functions, which might have looser rules about what
 constitutes a valid input.
 
@@ -6211,7 +6210,7 @@ Note that digit grouping specified by the @code{istream} locale is currently
 not accepted.  Perhaps this will change in the future.
 
 @sp 1
-These operators mean that GMP types can be read in the usual C++ way, for
+These operators mean that MPIR types can be read in the usual C++ way, for
 example,
 
 @example
@@ -6221,7 +6220,7 @@ cin >> z;
 @end example
 
 But note that @code{istream} input (and @code{ostream} output, @pxref{C++
-Formatted Output}) is the only overloading available for the GMP types and
+Formatted Output}) is the only overloading available for the MPIR types and
 that for instance using @code{+} with an @code{mpz_t} will have unpredictable
 results.  For classes with overloading, see @ref{C++ Class Interface}.
 
@@ -6231,9 +6230,9 @@ results.  For classes with overloading, see @ref{C++ Class Interface}.
 @chapter C++ Class Interface
 @cindex C++ interface
 
-This chapter describes the C++ class based interface to GMP.
+This chapter describes the C++ class based interface to MPIR.
 
-All GMP C language types and functions can be used in C++ programs, since
+All MPIR C language types and functions can be used in C++ programs, since
 @file{gmp.h} has @code{extern "C"} qualifiers, but the class interface offers
 overloaded functions and operators which may be more convenient.
 
@@ -6313,7 +6312,7 @@ C++ will promote them.
 
 Note that @code{bool} is not accepted directly, but must be explicitly cast to
 an @code{int} first.  This is because C++ will automatically convert any
-pointer to a @code{bool}, so if GMP accepted @code{bool} it would make all
+pointer to a @code{bool}, so if MPIR accepted @code{bool} it would make all
 sorts of invalid class and pointer combinations compile but almost certainly
 not do anything sensible.
 
@@ -6322,7 +6321,7 @@ automatically, instead member functions like @code{get_si} are provided (see
 the following sections for details).
 
 Also there are no automatic conversions from the classes to the corresponding
-GMP C types, instead a reference to the underlying C object can be obtained
+MPIR C types, instead a reference to the underlying C object can be obtained
 with the following functions,
 
 @deftypefun mpz_t mpz_class::get_mpz_t ()
@@ -6339,7 +6338,7 @@ mpz_class a, b, c;
 mpz_gcd (a.get_mpz_t(), b.get_mpz_t(), c.get_mpz_t());
 @end example
 
-In the other direction, a class can be initialized from the corresponding GMP
+In the other direction, a class can be initialized from the corresponding MPIR
 C type, or assigned to if an explicit constructor is used.  In both cases this
 makes a copy of the value, it doesn't create any sort of association.  For
 example,
@@ -6355,7 +6354,7 @@ y = mpz_class (z);
 There are no namespace setups in @file{gmpxx.h}, all types and functions are
 simply put into the global namespace.  This is what @file{gmp.h} has done in
 the past, and continues to do for compatibility.  The extras provided by
-@file{gmpxx.h} follow GMP naming conventions and are unlikely to clash with
+@file{gmpxx.h} follow MPIR naming conventions and are unlikely to clash with
 anything.
 
 
@@ -6364,7 +6363,7 @@ anything.
 
 @deftypefun void mpz_class::mpz_class (type @var{n})
 Construct an @code{mpz_class}.  All the standard C++ types may be used, except
-@code{long long} and @code{long double}, and all the GMP C++ classes can be
+@code{long long} and @code{long double}, and all the MPIR C++ classes can be
 used.  Any necessary conversion follows the corresponding C function, for
 example @code{double} follows @code{mpz_set_d} (@pxref{Assigning Integers}).
 @end deftypefun
@@ -6423,7 +6422,7 @@ mpz_fdiv_q (q.get_mpz_t(), a.get_mpz_t(), d.get_mpz_t());
 @deftypefunx int mpz_class::set_str (const string& @var{str}, int @var{base})
 @deftypefunx int sgn (mpz_class @var{op})
 @deftypefunx mpz_class sqrt (mpz_class @var{op})
-These functions provide a C++ class interface to the corresponding GMP C
+These functions provide a C++ class interface to the corresponding MPIR C
 routines.
 
 @code{cmp} can be used with any of the classes or the standard C++ types,
@@ -6495,7 +6494,7 @@ form, and will return results in canonical form.
 @deftypefunx int mpq_class::set_str (const char *@var{str}, int @var{base})
 @deftypefunx int mpq_class::set_str (const string& @var{str}, int @var{base})
 @deftypefunx int sgn (mpq_class @var{op})
-These functions provide a C++ class interface to the corresponding GMP C
+These functions provide a C++ class interface to the corresponding MPIR C
 routines.
 
 @code{cmp} can be used with any of the classes or the standard C++ types,
@@ -6543,7 +6542,7 @@ doesn't suit.
 @deftypefun {} mpf_class::mpf_class (type @var{op})
 @deftypefunx {} mpf_class::mpf_class (type @var{op}, unsigned long @var{prec})
 Construct an @code{mpf_class}.  Any standard C++ type can be used, except
-@code{long long} and @code{long double}, and any of the GMP C++ classes can be
+@code{long long} and @code{long double}, and any of the MPIR C++ classes can be
 used.
 
 If @var{prec} is given, the initial precision is that value, in bits.  If
@@ -6628,7 +6627,7 @@ with the builtin float types.
 @deftypefunx int sgn (mpf_class @var{op})
 @deftypefunx mpf_class sqrt (mpf_class @var{op})
 @deftypefunx mpf_class trunc (mpf_class @var{op})
-These functions provide a C++ class interface to the corresponding GMP C
+These functions provide a C++ class interface to the corresponding MPIR C
 routines.
 
 @code{cmp} can be used with any of the classes or the standard C++ types,
@@ -6654,7 +6653,7 @@ mechanism for it.
 @section C++ Interface Random Numbers
 
 @deftp Class gmp_randclass
-The C++ class interface to the GMP random number functions uses
+The C++ class interface to the MPIR random number functions uses
 @code{gmp_randclass} to hold an algorithm selection and current state, as per
 @code{gmp_randstate_t}.
 @end deftp
@@ -6732,14 +6731,14 @@ the future, maybe a preprocessor define, a global flag, or an @code{ios} flag
 pressed into service.  Or maybe, at the risk of inconsistency, the
 @code{mpq_class} @code{operator>>} could canonicalize and leave @code{mpq_t}
 @code{operator>>} not doing so, for use on those occasions when that's
-acceptable.  Send feedback or alternate ideas to @email{gmp-bugs@@swox.com}.
+acceptable.  Send feedback or alternate ideas to @email{goodwillhart@@gmail.com}.
 
 @item Subclassing
-Subclassing the GMP C++ classes works, but is not currently recommended.
+Subclassing the MPIR C++ classes works, but is not currently recommended.
 
 Expressions involving subclasses resolve correctly (or seem to), but in normal
 C++ fashion the subclass doesn't inherit constructors and assignments.
-There's many of those in the GMP classes, and a good way to reestablish them
+There's many of those in the MPIR classes, and a good way to reestablish them
 in a subclass is not yet provided.
 
 @item Templated Expressions
@@ -6806,12 +6805,12 @@ void fun (T f, T g)
 
 These functions are intended to be fully compatible with the Berkeley MP
 library which is available on many BSD derived U*ix systems.  The
-@samp{--enable-mpbsd} option must be used when building GNU MP to make these
-available (@pxref{Installing GMP}).
+@samp{--enable-mpbsd} option must be used when building MPIR to make these
+available (@pxref{Installing MPIR}).
 
 The original Berkeley MP library has a usage restriction: you cannot use the
 same variable as both source and destination in a single function call.  The
-compatible functions in GNU MP do not share this restriction---inputs and
+compatible functions in MPIR do not share this restriction---inputs and
 outputs may overlap.
 
 It is not recommended that new programs are written using these functions.
@@ -6929,27 +6928,27 @@ passed a value returned by @code{itom} or @code{xtom}.}
 @cindex Memory allocation
 @cindex Allocation of memory
 
-By default GMP uses @code{malloc}, @code{realloc} and @code{free} for memory
-allocation, and if they fail GMP prints a message to the standard error output
+By default MPIR uses @code{malloc}, @code{realloc} and @code{free} for memory
+allocation, and if they fail MPIR prints a message to the standard error output
 and terminates the program.
 
 Alternate functions can be specified, to allocate memory in a different way or
 to have a different error action on running out of memory.
 
 This feature is available in the Berkeley compatibility library (@pxref{BSD
-Compatible Functions}) as well as the main GMP library.
+Compatible Functions}) as well as the main MPIR library.
 
 @deftypefun void mp_set_memory_functions (@* void *(*@var{alloc_func_ptr}) (size_t), @* void *(*@var{realloc_func_ptr}) (void *, size_t, size_t), @* void (*@var{free_func_ptr}) (void *, size_t))
 Replace the current allocation functions from the arguments.  If an argument
 is @code{NULL}, the corresponding default function is used.
 
-These functions will be used for all memory allocation done by GMP, apart from
-temporary space from @code{alloca} if that function is available and GMP is
+These functions will be used for all memory allocation done by MPIR, apart from
+temporary space from @code{alloca} if that function is available and MPIR is
 configured to use it (@pxref{Build Options}).
 
 @strong{Be sure to call @code{mp_set_memory_functions} only when there are no
-active GMP objects allocated using the previous memory functions!  Usually
-that means calling it before any other GMP function.}
+active MPIR objects allocated using the previous memory functions!  Usually
+that means calling it before any other MPIR function.}
 @end deftypefun
 
 The functions supplied should fit the following declarations:
@@ -7001,12 +7000,12 @@ an error such as out of memory, they must terminate program execution.  A
 @code{longjmp} or throwing a C++ exception will have undefined results.  This
 may change in the future.
 
-GMP may use allocated blocks to hold pointers to other allocated blocks.  This
+MPIR may use allocated blocks to hold pointers to other allocated blocks.  This
 will limit the assumptions a conservative garbage collection scheme can make.
 
-Since the default GMP allocation uses @code{malloc} and friends, those
+Since the default MPIR allocation uses @code{malloc} and friends, those
 functions will be linked in even if the first thing a program does is an
-@code{mp_set_memory_functions}.  It's necessary to change the GMP sources if
+@code{mp_set_memory_functions}.  It's necessary to change the MPIR sources if
 this is a problem.
 
 @sp 1
@@ -7030,7 +7029,7 @@ mp_get_memory_functions (NULL, NULL, &freefunc);
 @cindex Language bindings
 @cindex Other languages
 
-The following packages and projects offer access to GMP from languages other
+The following packages and projects offer access to MPIR from languages other
 than C, though perhaps with varying levels of functionality and efficiency.
 
 @c  @spaceuref{U} is the same as @uref{U}, but with a couple of extra spaces
@@ -7051,7 +7050,7 @@ than C, though perhaps with varying levels of functionality and efficiency.
 @item C++
 @itemize @bullet
 @item
-GMP C++ class interface, @pxref{C++ Class Interface} @* Straightforward
+MPIR C++ class interface, @pxref{C++ Class Interface} @* Straightforward
 interface, expression templates to eliminate temporaries.
 @item
 ALP @spaceuref{http://www-sop.inria.fr/saga/logiciels/ALP/} @* Linear algebra and
@@ -7107,7 +7106,7 @@ Librep @spaceuref{http://librep.sourceforge.net/}
 @c  FIXME: When there's a stable release with gmp support, just refer to it
 @c  rather than bothering to talk about betas.
 XEmacs (21.5.18 beta and up) @spaceuref{http://www.xemacs.org} @* Optional
-big integers, rationals and floats using GMP.
+big integers, rationals and floats using MPIR.
 @end itemize
 
 @item M4
@@ -7152,7 +7151,7 @@ optionally using GMP.
 @item Perl
 @itemize @bullet
 @item
-GMP module, see @file{demos/perl} in the GMP sources (@pxref{Demonstration
+GMP module, see @file{demos/perl} in the MPIR sources (@pxref{Demonstration
 Programs}).
 @item
 Math::GMP @spaceuref{http://www.cpan.org/} @* Compatible with Math::BigInt, but
@@ -7238,12 +7237,12 @@ computer algebra system.
 @chapter Algorithms
 @cindex Algorithms
 
-This chapter is an introduction to some of the algorithms used for various GMP
+This chapter is an introduction to some of the algorithms used for various MPIR
 operations.  The code is likely to be hard to understand without knowing
 something about the algorithms.
 
-Some GMP internals are mentioned, but applications that expect to be
-compatible with future GMP releases should take care to use only the
+Some MPIR internals are mentioned, but applications that expect to be
+compatible with future MPIR releases should take care to use only the
 documented functions.
 
 @menu
@@ -7502,7 +7501,7 @@ The term @m{(x_1-x_0)(y_1-y_0),(x1-x0)*(y1-y0)} is best calculated as an
 absolute value, and the sign used to choose to add or subtract.  Notice the
 sum @m{\mathop{\rm high}(x_0y_0)+\mathop{\rm low}(x_1y_1),
 high(x0*y0)+low(x1*y1)} occurs twice, so it's possible to do @m{5k,5*k} limb
-additions, rather than @m{6k,6*k}, but in GMP extra function call overheads
+additions, rather than @m{6k,6*k}, but in MPIR extra function call overheads
 outweigh the saving.
 
 Squaring is similar to multiplying, but with @math{x=y} the formula reduces to
@@ -7550,7 +7549,7 @@ that sense the algorithm thresholds are merely of academic interest.
 The Karatsuba formula is the simplest case of a general approach to splitting
 inputs that leads to both Toom and FFT algorithms.  A description of
 Toom can be found in Knuth section 4.3.3, with an example 3-way
-calculation after Theorem A@.  The 3-way form used in GMP is described here.
+calculation after Theorem A@.  The 3-way form used in MPIR is described here.
 
 The operands are each considered split into 3 pieces of equal length (or the
 most significant part 1 or 2 limbs shorter than the other two).
@@ -7680,7 +7679,7 @@ nine @m{x_iy_j,x[i]*y[j]} for @math{i,j=0,1,2}, and would be equivalent merely
 to a basecase multiply.  Instead the following approach is used.
 
 @math{X(t)} and @math{Y(t)} are evaluated and multiplied at 5 points, giving
-values of @math{W(t)} at those points.  In GMP the following points are used,
+values of @math{W(t)} at those points.  In MPIR the following points are used,
 
 @quotation
 @multitable {@m{t=\infty,t=inf}M} {MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM}
@@ -7789,7 +7788,7 @@ At large to very large sizes a Fermat style FFT multiplication is used,
 following Sch@"onhage and Strassen (@pxref{References}).  Descriptions of FFTs
 in various forms can be found in many textbooks, for instance Knuth section
 4.3.3 part C or Lipson chapter IX@.  A brief description of the form used in
-GMP is given here.
+MPIR is given here.
 
 The multiplication done is @m{xy \bmod 2^N+1, x*y mod 2^N+1}, for a given
 @math{N}.  A full product @m{xy,x*y} is obtained by choosing @m{N \ge
@@ -7935,10 +7934,10 @@ fourier transform keep splitting and get to @m{O(N \log r), O(N*log(r))}.
 
 Floating point FFTs use complex numbers approximating Nth roots of unity.
 Some processors have special support for such FFTs.  But these are not used in
-GMP since it's very difficult to guarantee an exact result (to some number of
+MPIR since it's very difficult to guarantee an exact result (to some number of
 bits).  An occasional difference of 1 in the last bit might not matter to a
 typical signal processing algorithm, but is of course of vital importance to
-GMP.
+MPIR.
 
 
 @node Division Algorithms, Greatest Common Divisor Algorithms, Multiplication Algorithms, Algorithms
@@ -8239,7 +8238,7 @@ section 4.3.1 exercise 20 but with the @m{v_2 \GMPhat q > b \GMPhat r
 @node Binary GCD, Accelerated GCD, Greatest Common Divisor Algorithms, Greatest Common Divisor Algorithms
 @subsection Binary GCD
 
-At small sizes GMP uses an @math{O(N^2)} binary style GCD@.  This is described
+At small sizes MPIR uses an @math{O(N^2)} binary style GCD@.  This is described
 in many textbooks, for example Knuth section 4.5.2 algorithm B@.  It simply
 consists of successively reducing odd operands @math{a} and @math{b} using
 
@@ -8297,7 +8296,7 @@ advantageous to combine a set of divisibility tests into a GCD.
 @node Accelerated GCD, Extended GCD, Binary GCD, Greatest Common Divisor Algorithms
 @subsection Accelerated GCD
 
-For sizes above @code{GCD_ACCEL_THRESHOLD}, GMP uses the Accelerated GCD
+For sizes above @code{GCD_ACCEL_THRESHOLD}, MPIR uses the Accelerated GCD
 algorithm described independently by Weber and Jebelean (the latter as the
 ``Generalized Binary'' algorithm), @pxref{References}.  This algorithm is
 still @math{O(N^2)}, but is much faster than the binary algorithm since it
@@ -8351,7 +8350,7 @@ that often occur, and this can lead to unusually low values of
 @code{GCDEXT_THRESHOLD}, depending on the CPU.
 
 An analysis of double-limb calculations can be found in ``A Double-Digit
-Lehmer-Euclid Algorithm'' by Jebelean (@pxref{References}).  The code in GMP
+Lehmer-Euclid Algorithm'' by Jebelean (@pxref{References}).  The code in MPIR
 was developed independently.
 
 It should be noted that when a double limb calculation is used, it's used for
@@ -8444,7 +8443,7 @@ Zimmermann (@pxref{References}).
 An input @math{n} is split into four parts of @math{k} bits each, so with
 @math{b=2^k} we have @m{n = a_3b^3 + a_2b^2 + a_1b + a_0, n = a3*b^3 + a2*b^2
 + a1*b + a0}.  Part @ms{a,3} must be ``normalized'' so that either the high or
-second highest bit is set.  In GMP, @math{k} is kept on a limb boundary and
+second highest bit is set.  In MPIR, @math{k} is kept on a limb boundary and
 the input is left shifted (by an even number of bits) to normalize.
 
 The square root of the high two parts is taken, by recursive application of
@@ -8654,7 +8653,7 @@ assumes that's already available, which is the case when recursing.
 Since the base case produces digits from least to most significant but they
 want to be stored from most to least, it's necessary to calculate in advance
 how many digits there will be, or at least be sure not to underestimate that.
-For GMP the number of input bits is multiplied by @code{chars_per_bit_exactly}
+For MPIR the number of input bits is multiplied by @code{chars_per_bit_exactly}
 from @code{mp_bases}, rounding up.  The result is either correct or one too
 big.
 
@@ -8880,7 +8879,7 @@ really mattered it'd be better to extend the data table.
 
 Using a table avoids lots of calculations on small numbers, and makes small
 @math{n} go fast.  A bigger table would make more small @math{n} go fast, it's
-just a question of balancing size against desired speed.  For GMP the code is
+just a question of balancing size against desired speed.  For MPIR the code is
 kept compact, with the emphasis primarily on a good powering algorithm.
 
 @code{mpz_fib2_ui} returns both @m{F_n,F[n]} and @m{F_{n-1},F[n-1]}, but
@@ -8977,7 +8976,7 @@ The Mersenne Twister generator is by Matsumoto and Nishimura
 which is a Mersenne prime, hence the name of the generator.  The state is 624
 words of 32-bits each, which is iterated with one XOR and shift for each
 32-bit word generated, making the algorithm very fast.  Randomness properties
-are also very good and this is the default algorithm used by GMP.
+are also very good and this is the default algorithm used by MPIR.
 
 @cindex Linear congruential algorithm
 Linear congruential generators are described in many text books, for instance
@@ -8987,7 +8986,7 @@ Knuth volume 2 (@pxref{References}).  With a modulus @math{M} and parameters
 state is a linear function of the previous, mod @math{M}, hence the name of
 the generator.
 
-In GMP only moduli of the form @math{2^N} are supported, and the current
+In MPIR only moduli of the form @math{2^N} are supported, and the current
 implementation is not as well optimized as it could be.  Overheads are
 significant when @math{N} is small, and when @math{N} is large clearly the
 multiply at each step will become slow.  This is not a big concern, since the
@@ -9004,12 +9003,12 @@ cryptographic applications without further hashing or the like.
 @section Assembler Coding
 @cindex Assembler coding
 
-The assembler subroutines in GMP are the most significant source of speed at
+The assembler subroutines in MPIR are the most significant source of speed at
 small to moderate sizes.  At larger sizes algorithm selection becomes more
 important, but of course speedups in low level routines will still speed up
 everything proportionally.
 
-Carry handling and widening multiplies that are important for GMP can't be
+Carry handling and widening multiplies that are important for MPIR can't be
 easily expressed in C@.  GCC @code{asm} blocks help a lot and are provided in
 @file{longlong.h}, but hand coding low level routines invariably offers a
 speedup over generic C by a factor of anything from 2 to 10.
@@ -9052,7 +9051,7 @@ effort put into nails if they're not going to enhance a given CPU.
 @subsection Assembler Basics
 
 @code{mpn_addmul_1} and @code{mpn_submul_1} are the most important routines
-for overall GMP performance.  All multiplications and divisions come down to
+for overall MPIR performance.  All multiplications and divisions come down to
 repeated calls to these.  @code{mpn_add_n}, @code{mpn_sub_n},
 @code{mpn_lshift} and @code{mpn_rshift} are next most important.
 
@@ -9074,7 +9073,7 @@ processor, depending on the carry handling.
 @subsection Carry Propagation
 @cindex Assembler carry propagation
 
-The problem that presents most challenges in GMP is propagating carries from
+The problem that presents most challenges in MPIR is propagating carries from
 one limb to the next.  In functions like @code{mpn_addmul_1} and
 @code{mpn_add_n}, carries are the only dependencies between limb operations.
 
@@ -9108,7 +9107,7 @@ needs to be coded in assembler for best results.
 @subsection Cache Handling
 @cindex Assembler cache handling
 
-GMP aims to perform well both on operands that fit entirely in L1 cache and
+MPIR aims to perform well both on operands that fit entirely in L1 cache and
 those which don't.
 
 Basic routines like @code{mpn_add_n} or @code{mpn_lshift} are often used on
@@ -9183,7 +9182,7 @@ twiddling.
 @subsection Floating Point
 @cindex Assembler floating Point
 
-Floating point arithmetic is used in GMP for multiplications on CPUs with poor
+Floating point arithmetic is used in MPIR for multiplications on CPUs with poor
 integer multipliers.  It's mostly useful for @code{mpn_mul_1},
 @code{mpn_addmul_1} and @code{mpn_submul_1} on 64-bit machines, and
 @code{mpn_mul_basecase} on both 32-bit and 64-bit machines.
@@ -9391,10 +9390,10 @@ extends 33 bits into the high half).
 The single-instruction multiple-data support in current microprocessors is
 aimed at signal processing algorithms where each data point can be treated
 more or less independently.  There's generally not much support for
-propagating the sort of carries that arise in GMP.
+propagating the sort of carries that arise in MPIR.
 
 SIMD multiplications of say four 16@cross{}16 bit multiplies only do as much
-work as one 32@cross{}32 from GMP's point of view, and need some shifts and
+work as one 32@cross{}32 from MPIR's point of view, and need some shifts and
 adds besides.  But of course if say the SIMD form is fully pipelined and uses
 less instruction decoding then it may still be worthwhile.
 
@@ -9534,7 +9533,7 @@ suitable part of the wind-down or to special code for small sizes.
 @cindex Internals
 
 @strong{This chapter is provided only for informational purposes and the
-various internals described here may change in future GMP releases.
+various internals described here may change in future MPIR releases.
 Applications expecting to be compatible with future releases should use only
 the documented interfaces described in previous chapters.}
 
@@ -9614,7 +9613,7 @@ Knowing the numerator and denominator have no common factors can be used for
 example in @code{mpq_mul} to make only two cross GCDs necessary, not four.
 
 This general approach to common factors is badly sub-optimal in the presence
-of simple factorizations or little prospect for cancellation, but GMP has no
+of simple factorizations or little prospect for cancellation, but MPIR has no
 way to know when this will occur.  As per @ref{Efficiency}, that's left to
 applications.  The @code{mpq_t} framework might still suit, with
 @code{mpq_numref} and @code{mpq_denref} for direct access to the numerator and
@@ -9625,7 +9624,7 @@ denominator, or of course @code{mpz_t} variables can be used directly.
 @section Float Internals
 @cindex Float internals
 
-Efficient calculation is the primary aim of GMP floats and the use of whole
+Efficient calculation is the primary aim of MPIR floats and the use of whole
 limbs and simple rounding facilitates this.
 
 @code{mpf_t} floats have a variable precision mantissa and a single machine
@@ -10100,11 +10099,34 @@ Pedro Gimeno implemented the Mersenne Twister and made other random number
 improvements.
 
 (This list is chronological, not ordered after significance.  If you have
-contributed to GMP but are not listed above, please tell @email{tege@@swox.com}
-about the omission!)
+contributed to GMP/MPIR but are not listed above, please tell 
+@email{goodwillhart@@gmail.com} about the omission!)
 
 Thanks go to Hans Thorsen for donating an SGI system for the GMP test system
 environment.
+
+In 2008 GMP was forked and gave rise to the MPIR (Multiple Precision Rationals
+and Integers) project. The fork arose from the SAGE project. The following people
+have contributed to the MPIR project.
+
+William Hart did work on the build system and helped get the first release working
+on numerous systems, including adding build support for new assembly patches
+which compile using yasm.
+
+Brian Gladman wrote and maintains MSVC project files so the project can build
+on MSVC. He also did the initial conversion of Pierrick Gaudry's and Jason
+Martin's assembly patches to intel format.
+
+Pierrick Gaudry wrote some fast assembly support for AMD 64.
+
+Jason Martin wrote some fast assembly patches for Core 2 and converted them to
+intel format.
+
+Gonzalo Tornaria helped patch config.guess and associated files to distinguish
+modern processors.
+
+Michael Abshoff helped resolve some build issues on various platforms. He is the 
+release manager for the MPIR project.
 
 @node References, GNU Free Documentation License, Contributors, Top
 @comment  node-name,  next,  previous,  up
