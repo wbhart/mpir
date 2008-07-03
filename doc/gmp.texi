@@ -523,7 +523,7 @@ Many sites around the world mirror @samp{ftp.gnu.org}, please use a mirror
 near you, see @uref{http://www.gnu.org/order/ftp.html} for a full list.
 
 @cindex Mailing lists
-There are a number of public mailing lists of interest.  The development list is at:
+There are a number of public mailing lists of interest.  The development list is
 
 @display
 @uref{http://groups.google.co.uk/group/mpir-devel/}.
