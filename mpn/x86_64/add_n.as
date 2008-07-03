@@ -22,24 +22,7 @@
 
 ;  AMD64 mpn_add_n/mpn_sub_n -- mpn add or subtract.
 ;
-;  Calling interface (WIN64):
-;
-;  mp_limb_t __gmpn_<op>_n(    <op> = add OR sub
-;     mp_ptr dst,              rcx
-;     mp_srcptr src1,          rdx
-;     mp_srcptr src2,           r8
-;     mp_size_t  len            r9
-;  )
-;
-;  mp_limb_t __gmpn_<op>_nc(   <op> = add OR sub
-;     mp_ptr dst,              rcx
-;     mp_srcptr src1,          rdx
-;     mp_srcptr src2,           r8
-;     mp_size_t len,            r9
-;     mp_limb_t carry   [rsp+0x28]
-;  )
-;
-;  Calling interface (gcc):
+;  Calling interface:
 ;
 ;  mp_limb_t __gmpn_<op>_n(    <op> = add OR sub
 ;     mp_ptr dst,              rdi
@@ -61,37 +44,23 @@
 ;  (1 or 0).  The _nc version accepts 1 or 0 for an initial carry into the
 ;  low limb of the calculation.  Note values other than 1 or 0 here will
 ;  lead to garbage results.
-;
-;  This is an SEH Leaf Function (no unwind support needed)
 
 %include '../yasm_mac.inc'
 
-%ifdef _WIN64_ABI
-%define dst       rcx   ; destination pointer
-%define sr1       rdx   ; source 1 pointer
-%define sr2        r8   ; source 2 pointer
-%define len        r9   ; number of limbs
-%define lend      r9d   ; number of limbs
-%define cy  [rsp+0x28]  ; carry value
-
-%define r_jmp     r10   ; temporary for jump table entry
-%define r_cnt     r11   ; temporary for loop count
-%else
 %define dst       rdi   ; destination pointer
 %define sr1       rsi   ; source 1 pointer
 %define sr2       rdx   ; source 2 pointer
 %define len       rcx   ; number of limbs
 %define lend      ecx   ; number of limbs
-%define cy         r8  ; carry value
+%define cy         r8   ; carry value
 
 %define r_jmp     r10   ; temporary for jump table entry
 %define r_cnt     r11   ; temporary for loop count
-%endif
 
 %define UNROLL_LOG2         4
 %define UNROLL_COUNT        (1 << UNROLL_LOG2)
 %define UNROLL_MASK         (UNROLL_COUNT - 1)
-%define  UNROLL_BYTES       (8 * UNROLL_COUNT)
+%define UNROLL_BYTES        (8 * UNROLL_COUNT)
 %define UNROLL_THRESHOLD    8
 
 %if UNROLL_BYTES >= 256
@@ -106,11 +75,6 @@
 
     G_EXPORT %1%4
     G_EXPORT %1%3
-
-%ifdef DLL
-    export  %1%4
-    export  %1%3
-%endif
 
 G_LABEL %1%4
     mov     rax,cy
@@ -153,11 +117,33 @@ G_LABEL %1%3
     lea     dst,[dst+len*8+off]
     shr     rax,1
     lea     r_jmp,[r_jmp+r_jmp*2]
+
+%ifdef PIC
+    call    .pic_calc
+.unroll_here:
+..@unroll_here1:
+
+%else
     lea     rax,[rel %%3]
+%endif
+
     lea     r_jmp,[r_jmp+rax]
     jmp     r_jmp
 
+%ifdef PIC
+
+.pic_calc:
+
+	mov     rax, ..@unroll_entry1 - ..@unroll_here1
+	add     rax, [rsp]
+	ret
+
+%endif
+
     align 32
+
+.unroll_entry1:
+..@unroll_entry1:
 %%3:
 
 %define CHUNK_COUNT  2
