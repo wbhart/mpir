@@ -28,7 +28,7 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
-				CommandLine="call ..\file_copy ..\config.core2 ..\..\config.h&#x0D;&#x0A;call ..\file_copy ..\..\mpn\x86_64i\core2\gmp-mparam.h ..\..\gmp-mparam.h&#x0D;&#x0A;call ..\file_copy ..\gmp.h ..\..\gmp.h&#x0D;&#x0A;"
+				CommandLine="call ..\file_copy ..\config.core2 ..\..\config.h&#x0D;&#x0A;call ..\file_copy ..\..\mpn\x86_64w\core2\gmp-mparam.h ..\..\gmp-mparam.h&#x0D;&#x0A;call ..\file_copy ..\gmp.h ..\..\gmp.h&#x0D;&#x0A;"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -104,7 +104,7 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
-				CommandLine="call ..\file_copy ..\config.core2 ..\..\config.h&#x0D;&#x0A;call ..\file_copy ..\..\mpn\x86_64i\core2\gmp-mparam.h ..\..\gmp-mparam.h&#x0D;&#x0A;call ..\file_copy ..\gmp.h ..\..\gmp.h&#x0D;&#x0A;"
+				CommandLine="call ..\file_copy ..\config.core2 ..\..\config.h&#x0D;&#x0A;call ..\file_copy ..\..\mpn\x86_64w\core2\gmp-mparam.h ..\..\gmp-mparam.h&#x0D;&#x0A;call ..\file_copy ..\gmp.h ..\..\gmp.h&#x0D;&#x0A;"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -191,7 +191,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\mpn\x86_64i\core2\gmp-mparam.h"
+				RelativePath="..\..\mpn\x86_64w\core2\gmp-mparam.h"
 				>
 			</File>
 			<File
@@ -3357,7 +3357,7 @@
 					Name="Assembler"
 					>
 					<File
-						RelativePath="..\..\mpn\x86_64i\aors_n.asm"
+						RelativePath="..\..\mpn\x86_64w\aors_n.asm"
 						>
 						<FileConfiguration
 							Name="Debug|x64"
@@ -3378,7 +3378,7 @@
 						</FileConfiguration>
 					</File>
 					<File
-						RelativePath="..\..\mpn\x86_64i\core2\aorsmul_1.asm"
+						RelativePath="..\..\mpn\x86_64w\core2\aorsmul_1.asm"
 						>
 						<FileConfiguration
 							Name="Release|x64"
@@ -3390,27 +3390,7 @@
 						</FileConfiguration>
 					</File>
 					<File
-						RelativePath="..\..\mpn\x86_64i\copyd.asm"
-						>
-						<FileConfiguration
-							Name="Debug|x64"
-							>
-							<Tool
-								Name="YASM"
-								ObjectFileName="$(IntDir)\mpn\$(InputName).obj"
-							/>
-						</FileConfiguration>
-						<FileConfiguration
-							Name="Release|x64"
-							>
-							<Tool
-								Name="YASM"
-								ObjectFileName="$(IntDir)\mpn\$(InputName).obj"
-							/>
-						</FileConfiguration>
-					</File>
-					<File
-						RelativePath="..\..\mpn\x86_64i\copyi.asm"
+						RelativePath="..\..\mpn\x86_64w\copyd.asm"
 						>
 						<FileConfiguration
 							Name="Debug|x64"
@@ -3430,7 +3410,7 @@
 						</FileConfiguration>
 					</File>
 					<File
-						RelativePath="..\..\mpn\x86_64i\dive_1.asm"
+						RelativePath="..\..\mpn\x86_64w\copyi.asm"
 						>
 						<FileConfiguration
 							Name="Debug|x64"
@@ -3450,7 +3430,7 @@
 						</FileConfiguration>
 					</File>
 					<File
-						RelativePath="..\..\mpn\x86_64i\lshift.asm"
+						RelativePath="..\..\mpn\x86_64w\dive_1.asm"
 						>
 						<FileConfiguration
 							Name="Debug|x64"
@@ -3470,7 +3450,7 @@
 						</FileConfiguration>
 					</File>
 					<File
-						RelativePath="..\..\mpn\x86_64i\mode1o.asm"
+						RelativePath="..\..\mpn\x86_64w\lshift.asm"
 						>
 						<FileConfiguration
 							Name="Debug|x64"
@@ -3490,31 +3470,7 @@
 						</FileConfiguration>
 					</File>
 					<File
-						RelativePath="..\..\mpn\x86_64i\core2\mul_1.asm"
-						>
-						<FileConfiguration
-							Name="Release|x64"
-							>
-							<Tool
-								Name="YASM"
-								ObjectFileName="$(IntDir)\mpn\$(InputName).obj"
-							/>
-						</FileConfiguration>
-					</File>
-					<File
-						RelativePath="..\..\mpn\x86_64i\core2\mul_basecase.asm"
-						>
-						<FileConfiguration
-							Name="Release|x64"
-							>
-							<Tool
-								Name="YASM"
-								ObjectFileName="$(IntDir)\mpn\$(InputName).obj"
-							/>
-						</FileConfiguration>
-					</File>
-					<File
-						RelativePath="..\..\mpn\x86_64i\rshift.asm"
+						RelativePath="..\..\mpn\x86_64w\mode1o.asm"
 						>
 						<FileConfiguration
 							Name="Debug|x64"
@@ -3534,7 +3490,7 @@
 						</FileConfiguration>
 					</File>
 					<File
-						RelativePath="..\..\mpn\x86_64i\core2\sqr_basecase.asm"
+						RelativePath="..\..\mpn\x86_64w\core2\mul_1.asm"
 						>
 						<FileConfiguration
 							Name="Release|x64"
@@ -3546,7 +3502,7 @@
 						</FileConfiguration>
 					</File>
 					<File
-						RelativePath="..\..\mpn\x86_64i\udiv.asm"
+						RelativePath="..\..\mpn\x86_64w\core2\mul_basecase.asm"
 						>
 						<FileConfiguration
 							Name="Release|x64"
@@ -3558,7 +3514,51 @@
 						</FileConfiguration>
 					</File>
 					<File
-						RelativePath="..\..\mpn\x86_64i\umul.asm"
+						RelativePath="..\..\mpn\x86_64w\rshift.asm"
+						>
+						<FileConfiguration
+							Name="Debug|x64"
+							>
+							<Tool
+								Name="YASM"
+								ObjectFileName="$(IntDir)\mpn\$(InputName).obj"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release|x64"
+							>
+							<Tool
+								Name="YASM"
+								ObjectFileName="$(IntDir)\mpn\$(InputName).obj"
+							/>
+						</FileConfiguration>
+					</File>
+					<File
+						RelativePath="..\..\mpn\x86_64w\core2\sqr_basecase.asm"
+						>
+						<FileConfiguration
+							Name="Release|x64"
+							>
+							<Tool
+								Name="YASM"
+								ObjectFileName="$(IntDir)\mpn\$(InputName).obj"
+							/>
+						</FileConfiguration>
+					</File>
+					<File
+						RelativePath="..\..\mpn\x86_64w\udiv.asm"
+						>
+						<FileConfiguration
+							Name="Release|x64"
+							>
+							<Tool
+								Name="YASM"
+								ObjectFileName="$(IntDir)\mpn\$(InputName).obj"
+							/>
+						</FileConfiguration>
+					</File>
+					<File
+						RelativePath="..\..\mpn\x86_64w\umul.asm"
 						>
 						<FileConfiguration
 							Name="Release|x64"

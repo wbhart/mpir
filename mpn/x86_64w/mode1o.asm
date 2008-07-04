@@ -97,24 +97,28 @@
 %endif
 
 __gmpn_modexact_1_odd:
-    mov     r9, 0       ; carry
+    mov     r9, 0               ; carry
 
 prologue    __gmpn_modexact_1c_odd, reg_save_list, 0
+    
+    ; first use Newton's iteration to invert the divisor limb (d) using 
+    ; f(x) = 1/x - d  and x[i+1] = x[i] - f(x[i]) / f'(x[i]) to give
+    ; the iteration formula: x[i+1] = x[i] * (2 - d * x[i])
+    
     movsxd  rsi, edx
-    mov     rdx, r8
-
+    mov     rdx, r8    
     shr     edx, 1              ; div / 2
     lea     r10, [rel __gmp_modlimb_invert_table]
     and     edx, 127
     movzx   edx, byte [rdx+r10] ; inv -> rdx (8-bit approx)
 
-    mov     rax, [rcx]
+    mov     rax, [rcx]          ; first limb of numerator
     lea     r11, [rcx+rsi*8]    ; pointer to top of src
     mov     rdi, r8             ; save divisor
 
     lea     ecx, [rdx+rdx]
     imul    edx, edx
-    neg     rsi                 ; limb offset from top of drc
+    neg     rsi                 ; limb offset from top of src
     imul    edx, edi
     sub     ecx, edx            ; inv -> rcx (16-bit approx)
 

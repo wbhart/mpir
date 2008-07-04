@@ -28,7 +28,7 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
-				CommandLine="call ..\file_copy ..\config.p0 ..\..\config.h&#x0D;&#x0A;call ..\file_copy ..\..\mpn\x86i\gmp-mparam.h ..\..\gmp-mparam.h&#x0D;&#x0A;call ..\file_copy ..\gmp.h ..\..\gmp.h&#x0D;&#x0A;"
+				CommandLine="call ..\file_copy ..\config.p0 ..\..\config.h&#x0D;&#x0A;call ..\file_copy ..\..\mpn\x86w\gmp-mparam.h ..\..\gmp-mparam.h&#x0D;&#x0A;call ..\file_copy ..\gmp.h ..\..\gmp.h&#x0D;&#x0A;"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -111,7 +111,7 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
-				CommandLine="call ..\file_copy ..\config.p0 ..\..\config.h&#x0D;&#x0A;call ..\file_copy ..\..\mpn\x86i\gmp-mparam.h ..\..\gmp-mparam.h&#x0D;&#x0A;call ..\file_copy ..\gmp.h ..\..\gmp.h&#x0D;&#x0A;"
+				CommandLine="call ..\file_copy ..\config.p0 ..\..\config.h&#x0D;&#x0A;call ..\file_copy ..\..\mpn\x86w\gmp-mparam.h ..\..\gmp-mparam.h&#x0D;&#x0A;call ..\file_copy ..\gmp.h ..\..\gmp.h&#x0D;&#x0A;"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -7222,63 +7222,63 @@
 					Name="Assembler"
 					>
 					<File
-						RelativePath="..\..\mpn\x86i\aors_n.asm"
+						RelativePath="..\..\mpn\x86w\aors_n.asm"
 						>
 					</File>
 					<File
-						RelativePath="..\..\mpn\x86i\aorsmul_1.asm"
+						RelativePath="..\..\mpn\x86w\aorsmul_1.asm"
 						>
 					</File>
 					<File
-						RelativePath="..\..\mpn\x86i\copyd.asm"
+						RelativePath="..\..\mpn\x86w\copyd.asm"
 						>
 					</File>
 					<File
-						RelativePath="..\..\mpn\x86i\copyi.asm"
+						RelativePath="..\..\mpn\x86w\copyi.asm"
 						>
 					</File>
 					<File
-						RelativePath="..\..\mpn\x86i\dive_1.asm"
+						RelativePath="..\..\mpn\x86w\dive_1.asm"
 						>
 					</File>
 					<File
-						RelativePath="..\..\mpn\x86i\diveby3.asm"
+						RelativePath="..\..\mpn\x86w\diveby3.asm"
 						>
 					</File>
 					<File
-						RelativePath="..\..\mpn\x86i\divrem_1.asm"
+						RelativePath="..\..\mpn\x86w\divrem_1.asm"
 						>
 					</File>
 					<File
-						RelativePath="..\..\mpn\x86i\lshift.asm"
+						RelativePath="..\..\mpn\x86w\lshift.asm"
 						>
 					</File>
 					<File
-						RelativePath="..\..\mpn\x86i\mod_1.asm"
+						RelativePath="..\..\mpn\x86w\mod_1.asm"
 						>
 					</File>
 					<File
-						RelativePath="..\..\mpn\x86i\mod_34lsub1.asm"
+						RelativePath="..\..\mpn\x86w\mod_34lsub1.asm"
 						>
 					</File>
 					<File
-						RelativePath="..\..\mpn\x86i\mul_1.asm"
+						RelativePath="..\..\mpn\x86w\mul_1.asm"
 						>
 					</File>
 					<File
-						RelativePath="..\..\mpn\x86i\mul_basecase.asm"
+						RelativePath="..\..\mpn\x86w\mul_basecase.asm"
 						>
 					</File>
 					<File
-						RelativePath="..\..\mpn\x86i\rshift.asm"
+						RelativePath="..\..\mpn\x86w\rshift.asm"
 						>
 					</File>
 					<File
-						RelativePath="..\..\mpn\x86i\udiv.asm"
+						RelativePath="..\..\mpn\x86w\udiv.asm"
 						>
 					</File>
 					<File
-						RelativePath="..\..\mpn\x86i\umul.asm"
+						RelativePath="..\..\mpn\x86w\umul.asm"
 						>
 					</File>
 				</Filter>

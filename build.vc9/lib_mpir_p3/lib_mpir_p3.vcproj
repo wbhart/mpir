@@ -28,7 +28,7 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
-				CommandLine="call ..\file_copy ..\config.p3 ..\..\config.h&#x0D;&#x0A;call ..\file_copy ..\..\mpn\x86i\gmp-mparam.h ..\..\gmp-mparam.h&#x0D;&#x0A;call ..\file_copy ..\gmp.h ..\..\gmp.h&#x0D;&#x0A;"
+				CommandLine="call ..\file_copy ..\config.p3 ..\..\config.h&#x0D;&#x0A;call ..\file_copy ..\..\mpn\x86w\gmp-mparam.h ..\..\gmp-mparam.h&#x0D;&#x0A;call ..\file_copy ..\gmp.h ..\..\gmp.h&#x0D;&#x0A;"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -100,7 +100,7 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
-				CommandLine="call ..\file_copy ..\config.p3 ..\..\config.h&#x0D;&#x0A;call ..\file_copy ..\..\mpn\x86i\gmp-mparam.h ..\..\gmp-mparam.h&#x0D;&#x0A;call ..\file_copy ..\gmp.h ..\..\gmp.h&#x0D;&#x0A;"
+				CommandLine="call ..\file_copy ..\config.p3 ..\..\config.h&#x0D;&#x0A;call ..\file_copy ..\..\mpn\x86w\gmp-mparam.h ..\..\gmp-mparam.h&#x0D;&#x0A;call ..\file_copy ..\gmp.h ..\..\gmp.h&#x0D;&#x0A;"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -2998,7 +2998,7 @@
 					Name="Assembler"
 					>
 					<File
-						RelativePath="..\..\mpn\x86i\aors_n.asm"
+						RelativePath="..\..\mpn\x86w\aors_n.asm"
 						>
 						<FileConfiguration
 							Name="Debug|Win32"
@@ -3018,7 +3018,7 @@
 						</FileConfiguration>
 					</File>
 					<File
-						RelativePath="..\..\mpn\x86i\p6\aorsmul_1.asm"
+						RelativePath="..\..\mpn\x86w\p6\aorsmul_1.asm"
 						>
 						<FileConfiguration
 							Name="Debug|Win32"
@@ -3038,7 +3038,7 @@
 						</FileConfiguration>
 					</File>
 					<File
-						RelativePath="..\..\mpn\x86i\p6\copyd.asm"
+						RelativePath="..\..\mpn\x86w\p6\copyd.asm"
 						>
 						<FileConfiguration
 							Name="Debug|Win32"
@@ -3058,7 +3058,7 @@
 						</FileConfiguration>
 					</File>
 					<File
-						RelativePath="..\..\mpn\x86i\copyi.asm"
+						RelativePath="..\..\mpn\x86w\copyi.asm"
 						>
 						<FileConfiguration
 							Name="Debug|Win32"
@@ -3078,7 +3078,7 @@
 						</FileConfiguration>
 					</File>
 					<File
-						RelativePath="..\..\mpn\x86i\p6\dive_1.asm"
+						RelativePath="..\..\mpn\x86w\p6\dive_1.asm"
 						>
 						<FileConfiguration
 							Name="Debug|Win32"
@@ -3098,7 +3098,7 @@
 						</FileConfiguration>
 					</File>
 					<File
-						RelativePath="..\..\mpn\x86i\p6\diveby3.asm"
+						RelativePath="..\..\mpn\x86w\p6\diveby3.asm"
 						>
 						<FileConfiguration
 							Name="Debug|Win32"
@@ -3118,29 +3118,7 @@
 						</FileConfiguration>
 					</File>
 					<File
-						RelativePath="..\..\mpn\x86i\divrem_1.asm"
-						>
-						<FileConfiguration
-							Name="Debug|Win32"
-							ExcludedFromBuild="true"
-							>
-							<Tool
-								Name="YASM"
-								ObjectFileName="&quot;$(IntDir)\mpn\$(InputName).obj&quot;"
-							/>
-						</FileConfiguration>
-						<FileConfiguration
-							Name="Release|Win32"
-							ExcludedFromBuild="true"
-							>
-							<Tool
-								Name="YASM"
-								ObjectFileName="&quot;$(IntDir)\mpn\$(InputName).obj&quot;"
-							/>
-						</FileConfiguration>
-					</File>
-					<File
-						RelativePath="..\..\mpn\x86i\lshift.asm"
+						RelativePath="..\..\mpn\x86w\divrem_1.asm"
 						>
 						<FileConfiguration
 							Name="Debug|Win32"
@@ -3162,107 +3140,7 @@
 						</FileConfiguration>
 					</File>
 					<File
-						RelativePath="..\..\mpn\x86i\p6\mod_1.asm"
-						>
-						<FileConfiguration
-							Name="Debug|Win32"
-							>
-							<Tool
-								Name="YASM"
-								ObjectFileName="&quot;$(IntDir)\mpn\$(InputName).obj&quot;"
-							/>
-						</FileConfiguration>
-						<FileConfiguration
-							Name="Release|Win32"
-							>
-							<Tool
-								Name="YASM"
-								ObjectFileName="&quot;$(IntDir)\mpn\$(InputName).obj&quot;"
-							/>
-						</FileConfiguration>
-					</File>
-					<File
-						RelativePath="..\..\mpn\x86i\mod_34lsub1.asm"
-						>
-						<FileConfiguration
-							Name="Debug|Win32"
-							>
-							<Tool
-								Name="YASM"
-								ObjectFileName="&quot;$(IntDir)\mpn\$(InputName).obj&quot;"
-							/>
-						</FileConfiguration>
-						<FileConfiguration
-							Name="Release|Win32"
-							>
-							<Tool
-								Name="YASM"
-								ObjectFileName="&quot;$(IntDir)\mpn\$(InputName).obj&quot;"
-							/>
-						</FileConfiguration>
-					</File>
-					<File
-						RelativePath="..\..\mpn\x86i\p6\mode1o.asm"
-						>
-						<FileConfiguration
-							Name="Debug|Win32"
-							>
-							<Tool
-								Name="YASM"
-								ObjectFileName="&quot;$(IntDir)\mpn\$(InputName).obj&quot;"
-							/>
-						</FileConfiguration>
-						<FileConfiguration
-							Name="Release|Win32"
-							>
-							<Tool
-								Name="YASM"
-								ObjectFileName="&quot;$(IntDir)\mpn\$(InputName).obj&quot;"
-							/>
-						</FileConfiguration>
-					</File>
-					<File
-						RelativePath="..\..\mpn\x86i\mul_1.asm"
-						>
-						<FileConfiguration
-							Name="Debug|Win32"
-							>
-							<Tool
-								Name="YASM"
-								ObjectFileName="&quot;$(IntDir)\mpn\$(InputName).obj&quot;"
-							/>
-						</FileConfiguration>
-						<FileConfiguration
-							Name="Release|Win32"
-							>
-							<Tool
-								Name="YASM"
-								ObjectFileName="&quot;$(IntDir)\mpn\$(InputName).obj&quot;"
-							/>
-						</FileConfiguration>
-					</File>
-					<File
-						RelativePath="..\..\mpn\x86i\mul_basecase.asm"
-						>
-						<FileConfiguration
-							Name="Debug|Win32"
-							>
-							<Tool
-								Name="YASM"
-								ObjectFileName="&quot;$(IntDir)\mpn\$(InputName).obj&quot;"
-							/>
-						</FileConfiguration>
-						<FileConfiguration
-							Name="Release|Win32"
-							>
-							<Tool
-								Name="YASM"
-								ObjectFileName="&quot;$(IntDir)\mpn\$(InputName).obj&quot;"
-							/>
-						</FileConfiguration>
-					</File>
-					<File
-						RelativePath="..\..\mpn\x86i\rshift.asm"
+						RelativePath="..\..\mpn\x86w\lshift.asm"
 						>
 						<FileConfiguration
 							Name="Debug|Win32"
@@ -3284,7 +3162,7 @@
 						</FileConfiguration>
 					</File>
 					<File
-						RelativePath="..\..\mpn\x86i\p6\sqr_basecase.asm"
+						RelativePath="..\..\mpn\x86w\p6\mod_1.asm"
 						>
 						<FileConfiguration
 							Name="Debug|Win32"
@@ -3304,7 +3182,7 @@
 						</FileConfiguration>
 					</File>
 					<File
-						RelativePath="..\..\mpn\x86i\udiv.asm"
+						RelativePath="..\..\mpn\x86w\mod_34lsub1.asm"
 						>
 						<FileConfiguration
 							Name="Debug|Win32"
@@ -3324,7 +3202,129 @@
 						</FileConfiguration>
 					</File>
 					<File
-						RelativePath="..\..\mpn\x86i\umul.asm"
+						RelativePath="..\..\mpn\x86w\p6\mode1o.asm"
+						>
+						<FileConfiguration
+							Name="Debug|Win32"
+							>
+							<Tool
+								Name="YASM"
+								ObjectFileName="&quot;$(IntDir)\mpn\$(InputName).obj&quot;"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release|Win32"
+							>
+							<Tool
+								Name="YASM"
+								ObjectFileName="&quot;$(IntDir)\mpn\$(InputName).obj&quot;"
+							/>
+						</FileConfiguration>
+					</File>
+					<File
+						RelativePath="..\..\mpn\x86w\mul_1.asm"
+						>
+						<FileConfiguration
+							Name="Debug|Win32"
+							>
+							<Tool
+								Name="YASM"
+								ObjectFileName="&quot;$(IntDir)\mpn\$(InputName).obj&quot;"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release|Win32"
+							>
+							<Tool
+								Name="YASM"
+								ObjectFileName="&quot;$(IntDir)\mpn\$(InputName).obj&quot;"
+							/>
+						</FileConfiguration>
+					</File>
+					<File
+						RelativePath="..\..\mpn\x86w\mul_basecase.asm"
+						>
+						<FileConfiguration
+							Name="Debug|Win32"
+							>
+							<Tool
+								Name="YASM"
+								ObjectFileName="&quot;$(IntDir)\mpn\$(InputName).obj&quot;"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release|Win32"
+							>
+							<Tool
+								Name="YASM"
+								ObjectFileName="&quot;$(IntDir)\mpn\$(InputName).obj&quot;"
+							/>
+						</FileConfiguration>
+					</File>
+					<File
+						RelativePath="..\..\mpn\x86w\rshift.asm"
+						>
+						<FileConfiguration
+							Name="Debug|Win32"
+							ExcludedFromBuild="true"
+							>
+							<Tool
+								Name="YASM"
+								ObjectFileName="&quot;$(IntDir)\mpn\$(InputName).obj&quot;"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release|Win32"
+							ExcludedFromBuild="true"
+							>
+							<Tool
+								Name="YASM"
+								ObjectFileName="&quot;$(IntDir)\mpn\$(InputName).obj&quot;"
+							/>
+						</FileConfiguration>
+					</File>
+					<File
+						RelativePath="..\..\mpn\x86w\p6\sqr_basecase.asm"
+						>
+						<FileConfiguration
+							Name="Debug|Win32"
+							>
+							<Tool
+								Name="YASM"
+								ObjectFileName="&quot;$(IntDir)\mpn\$(InputName).obj&quot;"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release|Win32"
+							>
+							<Tool
+								Name="YASM"
+								ObjectFileName="&quot;$(IntDir)\mpn\$(InputName).obj&quot;"
+							/>
+						</FileConfiguration>
+					</File>
+					<File
+						RelativePath="..\..\mpn\x86w\udiv.asm"
+						>
+						<FileConfiguration
+							Name="Debug|Win32"
+							>
+							<Tool
+								Name="YASM"
+								ObjectFileName="&quot;$(IntDir)\mpn\$(InputName).obj&quot;"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release|Win32"
+							>
+							<Tool
+								Name="YASM"
+								ObjectFileName="&quot;$(IntDir)\mpn\$(InputName).obj&quot;"
+							/>
+						</FileConfiguration>
+					</File>
+					<File
+						RelativePath="..\..\mpn\x86w\umul.asm"
 						>
 						<FileConfiguration
 							Name="Debug|Win32"
@@ -3347,7 +3347,7 @@
 						Name="mmx"
 						>
 						<File
-							RelativePath="..\..\mpn\x86i\p6\mmx\divrem_1.asm"
+							RelativePath="..\..\mpn\x86w\p6\mmx\divrem_1.asm"
 							>
 							<FileConfiguration
 								Name="Debug|Win32"
@@ -3367,7 +3367,7 @@
 							</FileConfiguration>
 						</File>
 						<File
-							RelativePath="..\..\mpn\x86i\p6\mmx\lshift.asm"
+							RelativePath="..\..\mpn\x86w\p6\mmx\lshift.asm"
 							>
 							<FileConfiguration
 								Name="Debug|Win32"
@@ -3387,7 +3387,7 @@
 							</FileConfiguration>
 						</File>
 						<File
-							RelativePath="..\..\mpn\x86i\p6\p3mmx\popham.asm"
+							RelativePath="..\..\mpn\x86w\p6\p3mmx\popham.asm"
 							>
 							<FileConfiguration
 								Name="Debug|Win32"
@@ -3407,7 +3407,7 @@
 							</FileConfiguration>
 						</File>
 						<File
-							RelativePath="..\..\mpn\x86i\p6\mmx\popham.asm"
+							RelativePath="..\..\mpn\x86w\p6\mmx\popham.asm"
 							>
 							<FileConfiguration
 								Name="Debug|Win32"
@@ -3429,7 +3429,7 @@
 							</FileConfiguration>
 						</File>
 						<File
-							RelativePath="..\..\mpn\x86i\p6\mmx\rshift.asm"
+							RelativePath="..\..\mpn\x86w\p6\mmx\rshift.asm"
 							>
 							<FileConfiguration
 								Name="Debug|Win32"

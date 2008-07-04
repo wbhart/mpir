@@ -101,6 +101,10 @@ G_LABEL __gmpn_modexact_1c_odd
 %define mod_table __gmp_modlimb_invert_table
 %endif
 
+    ; first use Newton's iteration to invert the divisor limb (d) using 
+    ; f(x) = 1/x - d  and x[i+1] = x[i] - f(x[i]) / f'(x[i]) to give
+    ; the iteration formula: x[i+1] = x[i] * (2 - d * x[i])
+ 
 %ifdef PIC
     mov      r9, [mod_table wrt rip wrt ..gotpcrel]
 %else
@@ -110,27 +114,27 @@ G_LABEL __gmpn_modexact_1c_odd
     and      edx, 127
     mov      r10, rcx
 
-    movzx    edx, byte [rdx+r9]
+    movzx    edx, byte [rdx+r9] ; inv -> rdx (8-bit approx)
     
-    mov      rax, [rdi]
-    lea      r11, [rdi+rsi*8]
-    mov      rdi, r8
+    mov      rax, [rdi]         ; first limb of numerator
+    lea      r11, [rdi+rsi*8]   ; pointer to top of src
+    mov      rdi, r8            ; save divisor
 
     lea      ecx, [rdx+rdx] 
     imul     rdx, rdx
 
-    neg      rsi
+    neg      rsi                ; limb offset from top of src
  
     imul     edx, edi
 
-    sub      ecx, edx
+    sub      ecx, edx           ; inv -> rcx (16-bit approx)
     
     lea      edx, [rcx+rcx]
     imul     ecx, ecx
 
     imul     ecx, edi
 
-    sub      edx, ecx
+    sub      edx, ecx           ; inv -> rdx (32-bit approx)
     xor      ecx, ecx
 
     lea      r9, [rdx+rdx]
@@ -138,19 +142,17 @@ G_LABEL __gmpn_modexact_1c_odd
 
     imul     rdx, r8
 
-    sub      r9, rdx
-    mov      rdx, r10
+    sub      r9, rdx            ; inv -> r10 (64-bit approx)
+    mov      rdx, r10           ; intial carry -> rdx
 
- ; According to Brian Gladman, the
- ; following three lines are the
- ; remnant of a "dead" assert
- ; and so can be omitted 
+ ; According to Brian Gladman, the following three lines are the
+ ; remnant of a "dead" assert and so can be omitted 
  
     ;mov      r10, r8
     ;imul     r10, r9
     ;cmp      r10, 1
 
-    inc      rsi
+    inc      rsi                ; adjust limb offset
     jz       .1
     
     align    16
