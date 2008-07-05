@@ -715,7 +715,6 @@ main ()
 
   modelstr = "i486";
 
-  cat <<EOF >>${dummy}2.c
   if (strcmp (vendor_string, "GenuineIntel") == 0)
     {
       switch (family)
