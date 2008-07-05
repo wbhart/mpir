@@ -694,11 +694,12 @@ _cpuid:
 EOF
     ;;
   esac
+
   cat <<EOF >${dummy}2.c
 main ()
 {
   char vendor_string[13];
-  char dummy_string[12];
+  char features[12];
   long fms;
   int family, model, stepping;
   char *modelstr;
@@ -706,13 +707,15 @@ main ()
   cpuid (vendor_string, 0);
   vendor_string[12] = 0;
 
-  fms = cpuid (dummy_string, 1);
+  fms = cpuid (features, 1);
 
   family = ((fms >> 8) & 15) + ((fms >> 20) & 0xff);
   model = ((fms >> 4) & 15) + ((fms >> 12) & 0xf0);
   stepping = fms & 15;
 
   modelstr = "i486";
+
+  cat <<EOF >>${dummy}2.c
   if (strcmp (vendor_string, "GenuineIntel") == 0)
     {
       switch (family)
@@ -731,13 +734,32 @@ main ()
 	  else if (model == 23) modelstr = "core2"; // 64 bits
 	  else modelstr = "p6???";
 	  break;
+EOF
+  case "$guess_cpu" in
+    i?86)
+  cat <<EOF >>${dummy}2.c
 	case 15:
-	  if (model <= 3) modelstr = "pentium4";
-	  else if (model <= 6) modelstr = "pentiumD"; // 64 bits
+	  if (model <= 6) modelstr = "pentium4";
 	  else modelstr = "p4???";
+        int feat = ((int *)features)[2];
+        if (feat & 1) modelstr = "prescott";
 	  break;
 	}
     }
+EOF
+   ;;
+   x86_64)
+cat <<EOF >>${dummy}2.c
+	case 15:
+	  modelstr = "nocona";
+	  break;
+	}
+    }
+EOF
+  ;;
+  esac
+
+cat <<EOF >>${dummy}2.c  
   else if (strcmp (vendor_string, "AuthenticAMD") == 0)
     {
       switch (family)
@@ -777,6 +799,7 @@ main ()
   return 0;
 }
 EOF
+
 
   if ($CC_FOR_BUILD ${dummy}1.s ${dummy}2.c -o $dummy) >/dev/null 2>&1; then
     # On 80386 and early 80486 cpuid is not available and will result in a
