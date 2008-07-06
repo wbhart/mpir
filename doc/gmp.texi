@@ -95,7 +95,7 @@ How to install and use the MPIR multiple precision arithmetic library, version @
 @subtitle @value{UPDATED}
 
 @c @author Original version by Torbj@"orn Granlund, Swox AB - modified by William Hart
-@c @email{goodwillhart@@gmail.com}
+@c @email{goodwillhart@gmail.com}
 
 @c Include the Distribution inside the titlepage so
 @c that headings are turned off.
@@ -526,10 +526,10 @@ near you, see @uref{http://www.gnu.org/order/ftp.html} for a full list.
 There are a number of public mailing lists of interest.  The development list is
 
 @display
-@uref{http://groups.google.co.uk/group/mpir-devel/}.
+@uref{http://groups.google.com/group/mpir-devel/}.
 @end display
 
-The proper place for bug reports is @uref{http://groups.google.co.uk/group/mpir-devel}.  See
+The proper place for bug reports is @uref{http://groups.google.com/group/mpir-devel}.  See
 @ref{Reporting Bugs} for information about reporting bugs.
 
 @sp 1
@@ -574,7 +574,7 @@ And you can install (under @file{/usr/local} by default) with
 make install
 @end example
 
-If you experience problems, please report them to @uref{http://groups.google.co.uk/group/mpir-devel}.
+If you experience problems, please report them to @uref{http://groups.google.com/group/mpir-devel}.
 See @ref{Reporting Bugs}, for information on what to include in useful bug
 reports.
 
@@ -2923,7 +2923,7 @@ If your bug report is good, we will do our best to help you get a corrected
 version of the library; if the bug report is poor, we won't do anything about
 it (except maybe ask you to send a better report).
 
-Send your report to: @email{http://groups.google.co.uk/group/mpir-devel}.
+Send your report to: @uref{http://groups.google.com/group/mpir-devel}.
 
 If you think something in this manual is unclear, or downright incorrect, or if
 the language needs to be improved, please send a note to the same address.
@@ -6731,7 +6731,7 @@ the future, maybe a preprocessor define, a global flag, or an @code{ios} flag
 pressed into service.  Or maybe, at the risk of inconsistency, the
 @code{mpq_class} @code{operator>>} could canonicalize and leave @code{mpq_t}
 @code{operator>>} not doing so, for use on those occasions when that's
-acceptable.  Send feedback or alternate ideas to @uref{http://groups.google.co.uk/group/mpir-devel}.
+acceptable.  Send feedback or alternate ideas to @uref{http://groups.google.com/group/mpir-devel}.
 
 @item Subclassing
 Subclassing the MPIR C++ classes works, but is not currently recommended.
@@ -10100,7 +10100,7 @@ improvements.
 
 (This list is chronological, not ordered after significance.  If you have
 contributed to GMP/MPIR but are not listed above, please tell 
-@uref{http://groups.google.co.uk/group/mpir-devel} about the omission!)
+@uref{http://groups.google.com/group/mpir-devel} about the omission!)
 
 Thanks go to Hans Thorsen for donating an SGI system for the GMP test system
 environment.
