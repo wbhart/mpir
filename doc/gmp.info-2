@@ -21,7 +21,7 @@ is included in *Note GNU Free Documentation License::.
 
 INFO-DIR-SECTION GNU libraries
 START-INFO-DIR-ENTRY
-* gmp: (gmp).                   GNU Multiple Precision Arithmetic Library.
+* mpir: (mpir).                   MPIR Multiple Precision Integers and Rationals Library.
 END-INFO-DIR-ENTRY
 
 
@@ -68,7 +68,7 @@ case when recursing.
    Since the base case produces digits from least to most significant
 but they want to be stored from most to least, it's necessary to
 calculate in advance how many digits there will be, or at least be sure
-not to underestimate that.  For GMP the number of input bits is
+not to underestimate that.  For MPIR the number of input bits is
 multiplied by `chars_per_bit_exactly' from `mp_bases', rounding up.
 The result is either correct or one too big.
 
@@ -273,7 +273,7 @@ it'd be better to extend the data table.
 
    Using a table avoids lots of calculations on small numbers, and
 makes small n go fast.  A bigger table would make more small n go fast,
-it's just a question of balancing size against desired speed.  For GMP
+it's just a question of balancing size against desired speed.  For MPIR
 the code is kept compact, with the emphasis primarily on a good
 powering algorithm.
 
@@ -338,7 +338,7 @@ Mersenne prime, hence the name of the generator.  The state is 624
 words of 32-bits each, which is iterated with one XOR and shift for each
 32-bit word generated, making the algorithm very fast.  Randomness
 properties are also very good and this is the default algorithm used by
-GMP.
+MPIR.
 
    Linear congruential generators are described in many text books, for
 instance Knuth volume 2 (*note References::).  With a modulus M and
@@ -346,7 +346,7 @@ parameters A and C, a integer state S is iterated by the formula S <-
 A*S+C mod M.  At each step the new state is a linear function of the
 previous, mod M, hence the name of the generator.
 
-   In GMP only moduli of the form 2^N are supported, and the current
+   In MPIR only moduli of the form 2^N are supported, and the current
 implementation is not as well optimized as it could be.  Overheads are
 significant when N is small, and when N is large clearly the multiply
 at each step will become slow.  This is not a big concern, since the
@@ -365,12 +365,12 @@ File: gmp.info,  Node: Assembler Coding,  Prev: Other Algorithms,  Up: Algorithm
 16.8 Assembler Coding
 =====================
 
-The assembler subroutines in GMP are the most significant source of
+The assembler subroutines in MPIR are the most significant source of
 speed at small to moderate sizes.  At larger sizes algorithm selection
 becomes more important, but of course speedups in low level routines
 will still speed up everything proportionally.
 
-   Carry handling and widening multiplies that are important for GMP
+   Carry handling and widening multiplies that are important for MPIR
 can't be easily expressed in C.  GCC `asm' blocks help a lot and are
 provided in `longlong.h', but hand coding low level routines invariably
 offers a speedup over generic C by a factor of anything from 2 to 10.
@@ -418,8 +418,8 @@ File: gmp.info,  Node: Assembler Basics,  Next: Assembler Carry Propagation,  Pr
 -----------------------
 
 `mpn_addmul_1' and `mpn_submul_1' are the most important routines for
-overall GMP performance.  All multiplications and divisions come down to
-repeated calls to these.  `mpn_add_n', `mpn_sub_n', `mpn_lshift' and
+overall MPIR performance.  All multiplications and divisions come down
+to repeated calls to these.  `mpn_add_n', `mpn_sub_n', `mpn_lshift' and
 `mpn_rshift' are next most important.
 
    On some CPUs assembler versions of the internal functions
@@ -441,8 +441,8 @@ File: gmp.info,  Node: Assembler Carry Propagation,  Next: Assembler Cache Handl
 16.8.3 Carry Propagation
 ------------------------
 
-The problem that presents most challenges in GMP is propagating carries
-from one limb to the next.  In functions like `mpn_addmul_1' and
+The problem that presents most challenges in MPIR is propagating
+carries from one limb to the next.  In functions like `mpn_addmul_1' and
 `mpn_add_n', carries are the only dependencies between limb operations.
 
    On processors with carry flags, a straightforward CISC style `adc' is
@@ -478,8 +478,8 @@ File: gmp.info,  Node: Assembler Cache Handling,  Next: Assembler Functional Uni
 16.8.4 Cache Handling
 ---------------------
 
-GMP aims to perform well both on operands that fit entirely in L1 cache
-and those which don't.
+MPIR aims to perform well both on operands that fit entirely in L1
+cache and those which don't.
 
    Basic routines like `mpn_add_n' or `mpn_lshift' are often used on
 large operands, so L2 and main memory performance is important for them.
@@ -560,7 +560,7 @@ File: gmp.info,  Node: Assembler Floating Point,  Next: Assembler SIMD Instructi
 16.8.6 Floating Point
 ---------------------
 
-Floating point arithmetic is used in GMP for multiplications on CPUs
+Floating point arithmetic is used in MPIR for multiplications on CPUs
 with poor integer multipliers.  It's mostly useful for `mpn_mul_1',
 `mpn_addmul_1' and `mpn_submul_1' on 64-bit machines, and
 `mpn_mul_basecase' on both 32-bit and 64-bit machines.
@@ -660,10 +660,10 @@ File: gmp.info,  Node: Assembler SIMD Instructions,  Next: Assembler Software Pi
 The single-instruction multiple-data support in current microprocessors
 is aimed at signal processing algorithms where each data point can be
 treated more or less independently.  There's generally not much support
-for propagating the sort of carries that arise in GMP.
+for propagating the sort of carries that arise in MPIR.
 
    SIMD multiplications of say four 16x16 bit multiplies only do as much
-work as one 32x32 from GMP's point of view, and need some shifts and
+work as one 32x32 from MPIR's point of view, and need some shifts and
 adds besides.  But of course if say the SIMD form is fully pipelined
 and uses less instruction decoding then it may still be worthwhile.
 
@@ -810,7 +810,7 @@ File: gmp.info,  Node: Internals,  Next: Contributors,  Prev: Algorithms,  Up: T
 ************
 
 *This chapter is provided only for informational purposes and the
-various internals described here may change in future GMP releases.
+various internals described here may change in future MPIR releases.
 Applications expecting to be compatible with future releases should use
 only the documented interfaces described in previous chapters.*
 
@@ -894,7 +894,7 @@ GCDs necessary, not four.
 
    This general approach to common factors is badly sub-optimal in the
 presence of simple factorizations or little prospect for cancellation,
-but GMP has no way to know when this will occur.  As per *Note
+but MPIR has no way to know when this will occur.  As per *Note
 Efficiency::, that's left to applications.  The `mpq_t' framework might
 still suit, with `mpq_numref' and `mpq_denref' for direct access to the
 numerator and denominator, or of course `mpz_t' variables can be used
@@ -906,7 +906,7 @@ File: gmp.info,  Node: Float Internals,  Next: Raw Output Internals,  Prev: Rati
 17.3 Float Internals
 ====================
 
-Efficient calculation is the primary aim of GMP floats and the use of
+Efficient calculation is the primary aim of MPIR floats and the use of
 whole limbs and simple rounding facilitates this.
 
    `mpf_t' floats have a variable precision mantissa and a single
@@ -1280,11 +1280,34 @@ Computing Sciences, USA.
 number improvements.
 
    (This list is chronological, not ordered after significance.  If you
-have contributed to GMP but are not listed above, please tell
-<tege@swox.com> about the omission!)
+have contributed to GMP/MPIR but are not listed above, please tell
+`http://groups.google.co.uk/group/mpir-devel' about the omission!)
 
    Thanks go to Hans Thorsen for donating an SGI system for the GMP
 test system environment.
+
+   In 2008 GMP was forked and gave rise to the MPIR (Multiple Precision
+Integers and Rationals) project. The following people have contributed
+to the MPIR project.
+
+   William Hart did work on the build system and helped get the first
+release working on numerous systems, including adding build support for
+new assembly patches that compile using yasm.
+
+   Brian Gladman wrote and maintains MSVC project files so the project
+can build on MSVC. He also did the initial conversion of Pierrick
+Gaudry's and Jason Martin's assembly patches to intel format.
+
+   Pierrick Gaudry wrote some fast assembly support for AMD 64.
+
+   Jason Martin wrote some fast assembly patches for Core 2 and
+converted them to intel format.
+
+   Gonzalo Tornaria helped patch config.guess and associated files to
+distinguish modern processors.
+
+   Michael Abshoff helped resolve some build issues on various
+platforms. He is the release manager for the MPIR project.
 
 
 File: gmp.info,  Node: References,  Next: GNU Free Documentation License,  Prev: Contributors,  Up: Top
@@ -1845,37 +1868,39 @@ Concept Index
 * #include:                              Headers and Libraries.
                                                               (line   6)
 * --build:                               Build Options.       (line  52)
-* --disable-fft:                         Build Options.       (line 317)
+* --disable-fft:                         Build Options.       (line 316)
 * --disable-shared:                      Build Options.       (line  45)
 * --disable-static:                      Build Options.       (line  45)
-* --enable-alloca:                       Build Options.       (line 278)
-* --enable-assert:                       Build Options.       (line 327)
-* --enable-cxx:                          Build Options.       (line 230)
-* --enable-fat:                          Build Options.       (line 164)
-* --enable-mpbsd:                        Build Options.       (line 322)
+* --enable-alloca:                       Build Options.       (line 277)
+* --enable-assert:                       Build Options.       (line 326)
+* --enable-cxx:                          Build Options.       (line 229)
+* --enable-fat:                          Build Options.       (line 163)
+* --enable-mpbsd:                        Build Options.       (line 321)
 * --enable-profiling <1>:                Profiling.           (line   6)
-* --enable-profiling:                    Build Options.       (line 331)
+* --enable-profiling:                    Build Options.       (line 330)
 * --exec-prefix:                         Build Options.       (line  32)
 * --host:                                Build Options.       (line  66)
 * --prefix:                              Build Options.       (line  32)
 * -finstrument-functions:                Profiling.           (line  66)
 * 2exp functions:                        Efficiency.          (line  43)
 * 68000:                                 Notes for Particular Systems.
-                                                              (line  89)
+                                                              (line  90)
 * 80x86:                                 Notes for Particular Systems.
-                                                              (line 136)
+                                                              (line 137)
 * ABI <1>:                               ABI and ISA.         (line   6)
-* ABI:                                   Build Options.       (line 171)
-* About this manual:                     Introduction to GMP. (line  57)
+* ABI:                                   Build Options.       (line 170)
+* About this manual:                     Introduction to MPIR.
+                                                              (line  57)
 * AC_CHECK_LIB:                          Autoconf.            (line  11)
 * AIX <1>:                               Notes for Particular Systems.
                                                               (line   7)
 * AIX:                                   ABI and ISA.         (line 169)
 * Algorithms:                            Algorithms.          (line   6)
-* alloca:                                Build Options.       (line 278)
+* alloca:                                Build Options.       (line 277)
 * Allocation of memory:                  Custom Allocation.   (line   6)
 * AMD64:                                 ABI and ISA.         (line  44)
-* Anonymous FTP of latest version:       Introduction to GMP. (line  37)
+* Anonymous FTP of latest version:       Introduction to MPIR.
+                                                              (line  37)
 * Application Binary Interface:          ABI and ISA.         (line   6)
 * Arithmetic functions <1>:              Float Arithmetic.    (line   6)
 * Arithmetic functions <2>:              Rational Arithmetic. (line   6)
@@ -1900,7 +1925,7 @@ Concept Index
 * Assembler writing guide:               Assembler Writing Guide.
                                                               (line   6)
 * Assertion checking <1>:                Debugging.           (line  79)
-* Assertion checking:                    Build Options.       (line 327)
+* Assertion checking:                    Build Options.       (line 326)
 * Assignment functions <1>:              Simultaneous Float Init & Assign.
                                                               (line   6)
 * Assignment functions <2>:              Assigning Floats.    (line   6)
@@ -1910,10 +1935,10 @@ Concept Index
                                                               (line   6)
 * Assignment functions:                  Assigning Integers.  (line   6)
 * Autoconf:                              Autoconf.            (line   6)
-* Basics:                                GMP Basics.          (line   6)
+* Basics:                                MPIR Basics.         (line   6)
 * Berkeley MP compatible functions <1>:  BSD Compatible Functions.
                                                               (line   6)
-* Berkeley MP compatible functions:      Build Options.       (line 322)
+* Berkeley MP compatible functions:      Build Options.       (line 321)
 * Binomial coefficient algorithm:        Binomial Coefficients Algorithm.
                                                               (line   6)
 * Binomial coefficient functions:        Number Theoretic Functions.
@@ -1930,7 +1955,7 @@ Concept Index
                                                               (line   7)
 * BSD MP compatible functions <1>:       BSD Compatible Functions.
                                                               (line   6)
-* BSD MP compatible functions:           Build Options.       (line 322)
+* BSD MP compatible functions:           Build Options.       (line 321)
 * Bug reporting:                         Reporting Bugs.      (line   6)
 * Build directory:                       Build Options.       (line  19)
 * Build notes for binary packaging:      Notes for Package Builds.
@@ -1941,20 +1966,20 @@ Concept Index
 * Build problems known:                  Known Build Problems.
                                                               (line   6)
 * Build system:                          Build Options.       (line  52)
-* Building GMP:                          Installing GMP.      (line   6)
+* Building MPIR:                         Installing MPIR.     (line   6)
 * Bus error:                             Debugging.           (line   7)
-* C compiler:                            Build Options.       (line 182)
-* C++ compiler:                          Build Options.       (line 254)
+* C compiler:                            Build Options.       (line 181)
+* C++ compiler:                          Build Options.       (line 253)
 * C++ interface:                         C++ Class Interface. (line   6)
 * C++ interface internals:               C++ Interface Internals.
                                                               (line   6)
 * C++ istream input:                     C++ Formatted Input. (line   6)
 * C++ ostream output:                    C++ Formatted Output.
                                                               (line   6)
-* C++ support:                           Build Options.       (line 230)
-* CC:                                    Build Options.       (line 182)
-* CC_FOR_BUILD:                          Build Options.       (line 217)
-* CFLAGS:                                Build Options.       (line 182)
+* C++ support:                           Build Options.       (line 229)
+* CC:                                    Build Options.       (line 181)
+* CC_FOR_BUILD:                          Build Options.       (line 216)
+* CFLAGS:                                Build Options.       (line 181)
 * Checker:                               Debugging.           (line 115)
 * checkergcc:                            Debugging.           (line 122)
 * Code organisation:                     Assembler Code Organisation.
@@ -1967,7 +1992,7 @@ Concept Index
 * Compatibility with older versions:     Compatibility with older versions.
                                                               (line   6)
 * Conditions for copying MPIR:           Copying.             (line   6)
-* Configuring GMP:                       Installing GMP.      (line   6)
+* Configuring MPIR:                      Installing MPIR.     (line   6)
 * Congruence algorithm:                  Exact Remainder.     (line  30)
 * Congruence functions:                  Integer Division.    (line 131)
 * Constants:                             Useful Macros and Constants.
@@ -1982,13 +2007,14 @@ Concept Index
                                                               (line   6)
 * Conversion functions:                  Converting Integers. (line   6)
 * Copying conditions:                    Copying.             (line   6)
-* CPPFLAGS:                              Build Options.       (line 208)
-* CPU types <1>:                         Build Options.       (line 108)
-* CPU types:                             Introduction to GMP. (line  24)
+* CPPFLAGS:                              Build Options.       (line 207)
+* CPU types <1>:                         Build Options.       (line 107)
+* CPU types:                             Introduction to MPIR.
+                                                              (line  24)
 * Cross compiling:                       Build Options.       (line  66)
 * Custom allocation:                     Custom Allocation.   (line   6)
-* CXX:                                   Build Options.       (line 254)
-* CXXFLAGS:                              Build Options.       (line 254)
+* CXX:                                   Build Options.       (line 253)
+* CXXFLAGS:                              Build Options.       (line 253)
 * Cygwin:                                Notes for Particular Systems.
                                                               (line  48)
 * Darwin:                                Known Build Problems.
@@ -2011,11 +2037,11 @@ Concept Index
                                                               (line  48)
 * DLLs:                                  Notes for Particular Systems.
                                                               (line  65)
-* DocBook:                               Build Options.       (line 354)
-* Documentation formats:                 Build Options.       (line 347)
+* DocBook:                               Build Options.       (line 353)
+* Documentation formats:                 Build Options.       (line 346)
 * Documentation license:                 GNU Free Documentation License.
                                                               (line   6)
-* DVI:                                   Build Options.       (line 350)
+* DVI:                                   Build Options.       (line 349)
 * Efficiency:                            Efficiency.          (line   6)
 * Emacs:                                 Emacs.               (line   6)
 * Exact division functions:              Integer Division.    (line 108)
@@ -2024,7 +2050,7 @@ Concept Index
                                                               (line   6)
 * Exec prefix:                           Build Options.       (line  32)
 * Execution profiling <1>:               Profiling.           (line   6)
-* Execution profiling:                   Build Options.       (line 331)
+* Execution profiling:                   Build Options.       (line 330)
 * Exponentiation functions <1>:          Float Arithmetic.    (line  41)
 * Exponentiation functions:              Integer Exponentiation.
                                                               (line   6)
@@ -2042,11 +2068,11 @@ Concept Index
 * Factorization demo:                    Demonstration Programs.
                                                               (line  25)
 * Fast Fourier Transform:                FFT Multiplication.  (line   6)
-* Fat binary:                            Build Options.       (line 164)
+* Fat binary:                            Build Options.       (line 163)
 * FDL, GNU Free Documentation License:   GNU Free Documentation License.
                                                               (line   6)
 * FFT multiplication <1>:                FFT Multiplication.  (line   6)
-* FFT multiplication:                    Build Options.       (line 317)
+* FFT multiplication:                    Build Options.       (line 316)
 * Fibonacci number algorithm:            Fibonacci Numbers Algorithm.
                                                               (line   6)
 * Fibonacci sequence functions:          Number Theoretic Functions.
@@ -2084,7 +2110,8 @@ Concept Index
                                                               (line   6)
 * frexp <1>:                             Converting Floats.   (line  23)
 * frexp:                                 Converting Integers. (line  42)
-* FTP of latest version:                 Introduction to GMP. (line  37)
+* FTP of latest version:                 Introduction to MPIR.
+                                                              (line  37)
 * Function classes:                      Function Classes.    (line   6)
 * FunctionCheck:                         Profiling.           (line  77)
 * GCC Checker:                           Debugging.           (line 115)
@@ -2095,11 +2122,7 @@ Concept Index
 * GCD functions:                         Number Theoretic Functions.
                                                               (line  30)
 * GDB:                                   Debugging.           (line  58)
-* Generic C:                             Build Options.       (line 153)
-* GMP Perl module:                       Demonstration Programs.
-                                                              (line  35)
-* GMP version number:                    Useful Macros and Constants.
-                                                              (line  12)
+* Generic C:                             Build Options.       (line 152)
 * gmp.h:                                 Headers and Libraries.
                                                               (line   6)
 * gmpxx.h:                               C++ Interface General.
@@ -2119,7 +2142,8 @@ Concept Index
 * Headers:                               Headers and Libraries.
                                                               (line   6)
 * Heap problems:                         Debugging.           (line  24)
-* Home page:                             Introduction to GMP. (line  33)
+* Home page:                             Introduction to MPIR.
+                                                              (line  33)
 * Host system:                           Build Options.       (line  66)
 * HP-UX:                                 ABI and ISA.         (line  68)
 * HPPA:                                  ABI and ISA.         (line  68)
@@ -2127,7 +2151,7 @@ Concept Index
 * I/O functions <2>:                     I/O of Rationals.    (line   6)
 * I/O functions:                         I/O of Integers.     (line   6)
 * i386:                                  Notes for Particular Systems.
-                                                              (line 136)
+                                                              (line 137)
 * IA-64:                                 ABI and ISA.         (line 107)
 * Import:                                Integer Import and Export.
                                                               (line  11)
@@ -2153,7 +2177,7 @@ Concept Index
 * Input functions <3>:                   I/O of Rationals.    (line   6)
 * Input functions:                       I/O of Integers.     (line   6)
 * Install prefix:                        Build Options.       (line  32)
-* Installing GMP:                        Installing GMP.      (line   6)
+* Installing MPIR:                       Installing MPIR.     (line   6)
 * Instruction Set Architecture:          ABI and ISA.         (line   6)
 * instrument-functions:                  Profiling.           (line  66)
 * Integer:                               Nomenclature and Types.
@@ -2193,7 +2217,8 @@ Concept Index
 * Interix:                               Notes for Particular Systems.
                                                               (line  60)
 * Internals:                             Internals.           (line   6)
-* Introduction:                          Introduction to GMP. (line   6)
+* Introduction:                          Introduction to MPIR.
+                                                              (line   6)
 * Inverse modulo functions:              Number Theoretic Functions.
                                                               (line  58)
 * IRIX <1>:                              Known Build Problems.
@@ -2211,7 +2236,8 @@ Concept Index
 * Kronecker symbol functions:            Number Theoretic Functions.
                                                               (line  76)
 * Language bindings:                     Language Bindings.   (line   6)
-* Latest version of GMP:                 Introduction to GMP. (line  37)
+* Latest version of MPIR:                Introduction to MPIR.
+                                                              (line  37)
 * LCM functions:                         Number Theoretic Functions.
                                                               (line  53)
 * Least common multiple functions:       Number Theoretic Functions.
@@ -2250,7 +2276,8 @@ Concept Index
                                                               (line  43)
 * MacOS X:                               Known Build Problems.
                                                               (line  51)
-* Mailing lists:                         Introduction to GMP. (line  44)
+* Mailing lists:                         Introduction to MPIR.
+                                                              (line  44)
 * Malloc debugger:                       Debugging.           (line  30)
 * Malloc problems:                       Debugging.           (line  24)
 * Memory allocation:                     Custom Allocation.   (line   6)
@@ -2267,14 +2294,18 @@ Concept Index
 * Miscellaneous integer functions:       Miscellaneous Integer Functions.
                                                               (line   6)
 * MMX:                                   Notes for Particular Systems.
-                                                              (line 142)
+                                                              (line 143)
 * Modular inverse functions:             Number Theoretic Functions.
                                                               (line  58)
 * Most significant bit:                  Miscellaneous Integer Functions.
                                                               (line  34)
 * mp.h:                                  BSD Compatible Functions.
                                                               (line  21)
-* MPN_PATH:                              Build Options.       (line 335)
+* MPIR Perl module:                      Demonstration Programs.
+                                                              (line  35)
+* MPIR version number:                   Useful Macros and Constants.
+                                                              (line  12)
+* MPN_PATH:                              Build Options.       (line 334)
 * MS Windows:                            Notes for Particular Systems.
                                                               (line  48)
 * MS-DOS:                                Notes for Particular Systems.
@@ -2282,7 +2313,7 @@ Concept Index
 * Multi-threading:                       Reentrancy.          (line   6)
 * Multiplication algorithms:             Multiplication Algorithms.
                                                               (line   6)
-* Nails:                                 Low-level Functions. (line 419)
+* Nails:                                 Low-level Functions. (line 420)
 * Native compilation:                    Build Options.       (line  52)
 * NeXT:                                  Known Build Problems.
                                                               (line  57)
@@ -2300,7 +2331,7 @@ Concept Index
 * obstack output:                        Formatted Output Functions.
                                                               (line  81)
 * OpenBSD:                               Notes for Particular Systems.
-                                                              (line  95)
+                                                              (line  96)
 * Optimizing performance:                Performance optimization.
                                                               (line   6)
 * ostream output:                        C++ Formatted Output.
@@ -2319,9 +2350,9 @@ Concept Index
                                                               (line  15)
 * Particular systems:                    Notes for Particular Systems.
                                                               (line   6)
-* Past GMP versions:                     Compatibility with older versions.
+* Past GMP/MPIR versions:                Compatibility with older versions.
                                                               (line   6)
-* PDF:                                   Build Options.       (line 350)
+* PDF:                                   Build Options.       (line 349)
 * Perfect power algorithm:               Perfect Power Algorithm.
                                                               (line   6)
 * Perfect power functions:               Integer Roots.       (line  27)
@@ -2332,11 +2363,11 @@ Concept Index
                                                               (line  35)
 * Perl module:                           Demonstration Programs.
                                                               (line  35)
-* Postscript:                            Build Options.       (line 350)
+* Postscript:                            Build Options.       (line 349)
 * Power/PowerPC <1>:                     Known Build Problems.
                                                               (line  63)
 * Power/PowerPC:                         Notes for Particular Systems.
-                                                              (line 101)
+                                                              (line 102)
 * Powering algorithms:                   Powering Algorithms. (line   6)
 * Powering functions <1>:                Float Arithmetic.    (line  41)
 * Powering functions:                    Integer Exponentiation.
@@ -2432,17 +2463,17 @@ Concept Index
                                                               (line  72)
 * Solaris:                               ABI and ISA.         (line 194)
 * Sparc:                                 Notes for Particular Systems.
-                                                              (line 113)
+                                                              (line 114)
 * Sparc V9:                              ABI and ISA.         (line 194)
 * Special integer functions:             Integer Special Functions.
                                                               (line   6)
 * Square root algorithm:                 Square Root Algorithm.
                                                               (line   6)
 * SSE2:                                  Notes for Particular Systems.
-                                                              (line 142)
+                                                              (line 143)
 * Stack backtrace:                       Debugging.           (line  50)
 * Stack overflow <1>:                    Debugging.           (line   7)
-* Stack overflow:                        Build Options.       (line 278)
+* Stack overflow:                        Build Options.       (line 277)
 * Static linking:                        Efficiency.          (line  14)
 * stdarg.h:                              Headers and Libraries.
                                                               (line  17)
@@ -2452,11 +2483,11 @@ Concept Index
                                                               (line  28)
 * Sun:                                   ABI and ISA.         (line 194)
 * SunOS:                                 Notes for Particular Systems.
-                                                              (line 130)
+                                                              (line 131)
 * Systems:                               Notes for Particular Systems.
                                                               (line   6)
-* Temporary memory:                      Build Options.       (line 278)
-* Texinfo:                               Build Options.       (line 347)
+* Temporary memory:                      Build Options.       (line 277)
+* Texinfo:                               Build Options.       (line 346)
 * Text input/output:                     Efficiency.          (line 153)
 * Thread safety:                         Reentrancy.          (line   6)
 * Toom multiplication <1>:               Other Multiplication.
@@ -2477,14 +2508,15 @@ Concept Index
                                                               (line   6)
 * Version number:                        Useful Macros and Constants.
                                                               (line  12)
-* Web page:                              Introduction to GMP. (line  33)
+* Web page:                              Introduction to MPIR.
+                                                              (line  33)
 * Windows:                               Notes for Particular Systems.
                                                               (line  48)
 * x86:                                   Notes for Particular Systems.
-                                                              (line 136)
+                                                              (line 137)
 * x87:                                   Notes for Particular Systems.
                                                               (line  34)
-* XML:                                   Build Options.       (line 354)
+* XML:                                   Build Options.       (line 353)
 
 
 File: gmp.info,  Node: Function Index,  Prev: Concept Index,  Up: Top
@@ -2533,12 +2565,12 @@ Function and Type Index
                                                               (line  29)
 * gmp_fscanf:                            Formatted Input Functions.
                                                               (line  25)
-* GMP_LIMB_BITS:                         Low-level Functions. (line 449)
-* GMP_NAIL_BITS:                         Low-level Functions. (line 447)
-* GMP_NAIL_MASK:                         Low-level Functions. (line 457)
-* GMP_NUMB_BITS:                         Low-level Functions. (line 448)
-* GMP_NUMB_MASK:                         Low-level Functions. (line 458)
-* GMP_NUMB_MAX:                          Low-level Functions. (line 466)
+* GMP_LIMB_BITS:                         Low-level Functions. (line 450)
+* GMP_NAIL_BITS:                         Low-level Functions. (line 448)
+* GMP_NAIL_MASK:                         Low-level Functions. (line 458)
+* GMP_NUMB_BITS:                         Low-level Functions. (line 449)
+* GMP_NUMB_MASK:                         Low-level Functions. (line 459)
+* GMP_NUMB_MAX:                          Low-level Functions. (line 467)
 * gmp_obstack_printf:                    Formatted Output Functions.
                                                               (line  79)
 * gmp_obstack_vprintf:                   Formatted Output Functions.
@@ -2760,42 +2792,42 @@ Function and Type Index
 * mpf_ui_sub:                            Float Arithmetic.    (line  14)
 * mpf_urandomb:                          Miscellaneous Float Functions.
                                                               (line  27)
-* mpn_add:                               Low-level Functions. (line  69)
-* mpn_add_1:                             Low-level Functions. (line  64)
-* mpn_add_n:                             Low-level Functions. (line  54)
-* mpn_addmul_1:                          Low-level Functions. (line 122)
-* mpn_bdivmod:                           Low-level Functions. (line 245)
-* mpn_cmp:                               Low-level Functions. (line 286)
-* mpn_divexact_by3:                      Low-level Functions. (line 213)
-* mpn_divexact_by3c:                     Low-level Functions. (line 215)
-* mpn_divmod:                            Low-level Functions. (line 208)
-* mpn_divmod_1:                          Low-level Functions. (line 192)
-* mpn_divrem:                            Low-level Functions. (line 166)
-* mpn_divrem_1:                          Low-level Functions. (line 190)
-* mpn_gcd:                               Low-level Functions. (line 291)
-* mpn_gcd_1:                             Low-level Functions. (line 302)
-* mpn_gcdext:                            Low-level Functions. (line 308)
-* mpn_get_str:                           Low-level Functions. (line 343)
-* mpn_hamdist:                           Low-level Functions. (line 407)
-* mpn_lshift:                            Low-level Functions. (line 262)
-* mpn_mod_1:                             Low-level Functions. (line 239)
-* mpn_mul:                               Low-level Functions. (line 144)
-* mpn_mul_1:                             Low-level Functions. (line 107)
-* mpn_mul_n:                             Low-level Functions. (line  98)
-* mpn_perfect_square_p:                  Low-level Functions. (line 413)
-* mpn_popcount:                          Low-level Functions. (line 403)
-* mpn_random:                            Low-level Functions. (line 392)
-* mpn_random2:                           Low-level Functions. (line 393)
-* mpn_rshift:                            Low-level Functions. (line 274)
-* mpn_scan0:                             Low-level Functions. (line 377)
-* mpn_scan1:                             Low-level Functions. (line 385)
-* mpn_set_str:                           Low-level Functions. (line 358)
-* mpn_sqrtrem:                           Low-level Functions. (line 325)
-* mpn_sub:                               Low-level Functions. (line  90)
-* mpn_sub_1:                             Low-level Functions. (line  85)
-* mpn_sub_n:                             Low-level Functions. (line  76)
-* mpn_submul_1:                          Low-level Functions. (line 133)
-* mpn_tdiv_qr:                           Low-level Functions. (line 156)
+* mpn_add:                               Low-level Functions. (line  70)
+* mpn_add_1:                             Low-level Functions. (line  65)
+* mpn_add_n:                             Low-level Functions. (line  55)
+* mpn_addmul_1:                          Low-level Functions. (line 123)
+* mpn_bdivmod:                           Low-level Functions. (line 246)
+* mpn_cmp:                               Low-level Functions. (line 287)
+* mpn_divexact_by3:                      Low-level Functions. (line 214)
+* mpn_divexact_by3c:                     Low-level Functions. (line 216)
+* mpn_divmod:                            Low-level Functions. (line 209)
+* mpn_divmod_1:                          Low-level Functions. (line 193)
+* mpn_divrem:                            Low-level Functions. (line 167)
+* mpn_divrem_1:                          Low-level Functions. (line 191)
+* mpn_gcd:                               Low-level Functions. (line 292)
+* mpn_gcd_1:                             Low-level Functions. (line 303)
+* mpn_gcdext:                            Low-level Functions. (line 309)
+* mpn_get_str:                           Low-level Functions. (line 344)
+* mpn_hamdist:                           Low-level Functions. (line 408)
+* mpn_lshift:                            Low-level Functions. (line 263)
+* mpn_mod_1:                             Low-level Functions. (line 240)
+* mpn_mul:                               Low-level Functions. (line 145)
+* mpn_mul_1:                             Low-level Functions. (line 108)
+* mpn_mul_n:                             Low-level Functions. (line  99)
+* mpn_perfect_square_p:                  Low-level Functions. (line 414)
+* mpn_popcount:                          Low-level Functions. (line 404)
+* mpn_random:                            Low-level Functions. (line 393)
+* mpn_random2:                           Low-level Functions. (line 394)
+* mpn_rshift:                            Low-level Functions. (line 275)
+* mpn_scan0:                             Low-level Functions. (line 378)
+* mpn_scan1:                             Low-level Functions. (line 386)
+* mpn_set_str:                           Low-level Functions. (line 359)
+* mpn_sqrtrem:                           Low-level Functions. (line 326)
+* mpn_sub:                               Low-level Functions. (line  91)
+* mpn_sub_1:                             Low-level Functions. (line  86)
+* mpn_sub_n:                             Low-level Functions. (line  77)
+* mpn_submul_1:                          Low-level Functions. (line 134)
+* mpn_tdiv_qr:                           Low-level Functions. (line 157)
 * mpq_abs:                               Rational Arithmetic. (line  33)
 * mpq_add:                               Rational Arithmetic. (line   7)
 * mpq_canonicalize:                      Rational Number Functions.
