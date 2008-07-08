@@ -1220,16 +1220,18 @@ case $host in
             # -fast enables different optimizations depending on compiler
             # version.  Unfortunately it does things according to the native
             # system, which may not be optimal when cross compiling (to a
-            # different sparc).  It also results in incorrect optimisations
-            # thus it has been removed
-            # -xchip from cc_cflags_cpu will override at
+            # different sparc).  -xchip from cc_cflags_cpu will override at
             # least that part of its selections.
             #
-            # -fns=no and -fsimple=1 disable some transformations that
+             # -fns=no and -fsimple=1 disable some transformations that
             # conflict with IEEE 754, which some compiler versions perform
             # under -fast.
             #
-            cclist_64="$cclist_64 cc"
+            # In any case -fast can result in incorrect optimisations and so
+            # has been removed (see
+            # http://swox.com/list-archives/gmp-bugs/2008-April/000987.html)
+            #
+           cclist_64="$cclist_64 cc"
             cc_64_cflags="-xarch=v9"
             cc_64_cflags_optlist="cpu"
             ;;
