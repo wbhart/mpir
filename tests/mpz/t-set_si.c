@@ -45,13 +45,17 @@ check_data (void)
     {  1L,  1, { 1 } },
     { -1L, -1, { 1 } },
 
-#if GMP_NUMB_BITS >= BITS_PER_ULONG
+#if GMP_NUMB_BITS >= BITS_PER_ULONG - 1
     { LONG_MAX,  1, { LONG_MAX, 0 } },
     { -LONG_MAX,  -1, { LONG_MAX, 0 } },
-    { LONG_HIGHBIT,  -1, { ULONG_HIGHBIT, 0 } },
 #else
     { LONG_MAX,  2, { LONG_MAX & GMP_NUMB_MASK, LONG_MAX >> GMP_NUMB_BITS } },
-    { -LONG_MAX,  -2, { LONG_MAX & GMP_NUMB_MASK, LONG_MAX >> GMP_NUMB_BITS }},
+    { -LONG_MAX,  -2, { LONG_MAX & GMP_NUMB_MASK, LONG_MAX >> GMP_NUMB_BITS } },
+#endif
+
+#if GMP_NUMB_BITS >= BITS_PER_ULONG
+    { LONG_HIGHBIT,  -1, { ULONG_HIGHBIT, 0 } },
+#else
     { LONG_HIGHBIT,  -2, { 0, ULONG_HIGHBIT >> GMP_NUMB_BITS } },
 #endif
   };
