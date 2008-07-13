@@ -1,3 +1,6 @@
+; WARNING: This file causes errors in make check
+; Brian Gladman and Bill Hart searched for the bug but did not find it
+;
 ;  Note this file has been converted to linux/gcc calling conventions, but the PIC
 ;  friendly code does not work. The stack unwinding code has not been removed.
 
