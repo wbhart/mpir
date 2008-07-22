@@ -24,5 +24,7 @@ _%1:
 
 %macro GLOBAL_FUNC 1
 G_EXPORT __g%1
+G_EXPORT %1
 G_LABEL __g%1
+G_LABEL %1
 %endmacro
