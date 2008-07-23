@@ -166,7 +166,8 @@ sqr_4_plus:
     mov     rbx,dword 0
     dec     rcx
     neg     rcx
-label0: mov     rax,[rsi+rcx*8]
+label0: 
+    mov     rax,[rsi+rcx*8]
     mul     rbp
     add     rax,rbx
     mov     [rdi+rcx*8],rax
@@ -325,12 +326,12 @@ L_corner:
     lea     rdi,[rdi+r11*8]
     not     rax
     lea     rax,[rax+2]
-label0: 
+label3: 
     lea     r11,[rax+rax]
     rcl     qword [rdi+r11*8-8],1
     rcl     qword [rdi+r11*8],1
     inc     rax
-    jnz     label0
+    jnz     label3
     setc    al
     mov     rsi,x_ptr
     mov     [rdi-8],rax
