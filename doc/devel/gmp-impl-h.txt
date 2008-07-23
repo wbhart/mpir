@@ -1,3 +1,22 @@
+Copyright 2008, William Hart
+
+This file is part of the MPIR Library.
+
+The MPIR Library is free software; you can redistribute it and/or modify
+it under the terms of the GNU Lesser General Public License as published by
+the Free Software Foundation; either version 2.1 of the License, or (at your
+option) any later version.
+
+The MPIR Library is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public
+License for more details.
+
+You should have received a copy of the GNU Lesser General Public License
+along with the MPIR Library; see the file COPYING.LIB.  If not, write to
+the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
+02110-1301, USA.
+
 MACROS in gmp_impl.h
 ===========================================
 LIKELY(cond) - branch hint (likely), e.g. if LIKELY(x > 0)....
@@ -216,7 +235,8 @@ Note: TEMP_ALLOC calls TMP_SALLOC if bytes < 65536, otherwise TMP_BALLOC
 
 TMP_B/S/ALLOC_TYPE(n, type) - alloc space for n variables of the given type
 TMP_B/S/ALLOC_LIMBS(n) - alloc space for n limbs
-TMP_B/S/ALLOC_MP_PTRS(n) - alloc space for n mp_ptr's
+
+TMP_B/S/ALLOC_MP_PTRS(n) - alloc space for n mp_ptr's
 
 TMP_ALLOC_LIMBS_2(xp, xsize, yp, ysize) - makes two allocations at once (faster)
 

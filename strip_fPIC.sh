@@ -5,7 +5,9 @@
 # by the three clause BSD license. No accompanying copyright 
 # information was found in it. Since the file has been so
 # widely distributed without a copyright notice, I assume
-# the file is actually in the public domain. 
+# the file is actually in the public domain. I have modified
+# it considerably since and hereby place my modifications
+# in the public domain.
 #
 # libtool assumes that the compiler can handle the -fPIC flag
 # This isn't always true (for example, yasm can't handle it)
