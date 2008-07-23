@@ -92,7 +92,7 @@ endif
 
 SUBDIRS += mpn mpz mpq mpf printf scanf cxx mpbsd demos tune doc
 
-EXTRA_DIST = macos configfsf.guess configfsf.sub .gdbinit INSTALL.autoconf
+EXTRA_DIST = configfsf.guess configfsf.sub .gdbinit INSTALL.autoconf
 
 if WANT_CXX
 GMPXX_HEADERS_OPTION = gmpxx.h
