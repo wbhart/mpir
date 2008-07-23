@@ -42,15 +42,15 @@
    BITS 64
 
 GLOBAL_FUNC mpn_rshift
-    movq    mm7, [src]
-    movd    mm1, r_tmpd
+    movq    mm7, [src]               ; move bottom source into mm7
+    movd    mm1, r_tmpd              ; move shift value into mm1
     mov     eax, 64
     sub     eax, r_tmpd
-    movd    mm0, eax
-    movq    mm3, mm7
-    psllq   mm7, mm0
-    movd    rax, mm7
-    lea     src, [src+s_len*8]
+    movd    mm0, eax                 ; and 64 - shift value into mm0
+    movq    mm3, mm7                 ; save mm7 in mm3
+    psllq   mm7, mm0                 ; do shift
+    movd    rax, mm7                 ; put remainder after shift into rax for return
+    lea     src, [src+s_len*8]       
     lea     dst, [dst+s_len*8]
     neg     s_len
     add     s_len, 2
@@ -58,25 +58,25 @@ GLOBAL_FUNC mpn_rshift
 
     align   8
 label0: 
-    movq    mm6, [src+s_len*8-8]
-    movq    mm2, mm6
-    psllq   mm6, mm0
-    psrlq   mm3, mm1
-    por     mm3, mm6
-    movq    [dst+s_len*8-16], mm3
+    movq    mm6, [src+s_len*8-8]     ; load next source chunk
+    movq    mm2, mm6                 ; copy it
+    psllq   mm6, mm0                 ; shift left
+    psrlq   mm3, mm1                 ; and right
+    por     mm3, mm6                 ; and combine
+    movq    [dst+s_len*8-16], mm3    ; store result
     je      label2
-    movq    mm7, [src+s_len*8]
-    movq    mm3, mm7
-    psllq   mm7, mm0
-    psrlq   mm2, mm1
-    por     mm2, mm7
-    movq    [dst+s_len*8-8], mm2
+    movq    mm7, [src+s_len*8]       ; next source chunk
+    movq    mm3, mm7                 ; save it
+    psllq   mm7, mm0                 ; shift left
+    psrlq   mm2, mm1                 ; and right
+    por     mm2, mm7                 ; and combine
+    movq    [dst+s_len*8-8], mm2     ; store result
     add     s_len, 2
     jle     label0
 label1: 
     movq    mm2, mm3
 label2: 
-    psrlq   mm2, mm1
-    movq    [dst-8], mm2
+    psrlq   mm2, mm1                 ; final shift
+    movq    [dst-8], mm2             ; and store
     emms
     ret

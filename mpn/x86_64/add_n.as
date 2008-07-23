@@ -42,7 +42,7 @@ GLOBAL_FUNC mpn_add_n
 	xor	eax, eax		            ; clear cy
 
 	align 4                 		; minimal alignment for claimed speed
-loop1:	
+loop1:	                            ; do the addition in a loop
     mov	rax, [rsi+rcx*8]
 	mov	r10, [rdx+rcx*8]
 	adc	rax, r10
@@ -51,5 +51,5 @@ loop1:
 	jne	loop1
 
 	mov	rax, rcx		            ; zero rax
-	adc	rax, rax
+	adc	rax, rax                    ; return carry
 	ret

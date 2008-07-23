@@ -27,7 +27,7 @@
 ; INPUT PARAMETERS
 ; rp	rdi
 ; up	rsi
-; n	rdx
+; n	    rdx
 ; vl	rcx
 
 %include '../yasm_mac.inc'
@@ -44,14 +44,14 @@ GLOBAL_FUNC mpn_submul_1
 	align 8                 		; minimal alignment for claimed speed
 loop1:	
     mov	rax, [rsi+r11*8]
-	mov	r10, [rdi+r11*8]
-	mul	rcx
-	sub	r10, r8
-	mov	r8d, 0
-	adc	r8d, r8d
-	sub	r10, rax
-	adc	r8, rdx
-	mov	[rdi+r11*8], r10
+	mov	r10, [rdi+r11*8]            ; load limb from rp
+	mul	rcx                         ; multiply
+	sub	r10, r8                     ; subtract any previous high limb (stored in r8)
+	mov	r8d, 0                      ; clear r8 again
+	adc	r8d, r8d                    ; put any borrow from this iteration in r8
+	sub	r10, rax                    ; subtract low limb of product
+	adc	r8, rdx                     ; add high limb and any borrow to r8 for next iteration
+	mov	[rdi+r11*8], r10            ; store low limb
 	inc	r11
 	jne	loop1
 

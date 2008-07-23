@@ -45,14 +45,14 @@ GLOBAL_FUNC mpn_mul_1
 	xor	  r8d, r8d
 
 label0:	
-    mov	  rax, [rsi+r11*8]
-	mul	  rcx
-	add	  rax, r8
-	mov	  r8d, 0
-	adc	  r8, rdx
-	mov	  [rdi+r11*8], rax
+    mov	  rax, [rsi+r11*8]      ; load next limb from up
+	mul	  rcx                   ; multiply by vl
+	add	  rax, r8               ; add any high limb from previous iteration
+	mov	  r8d, 0                ; zero r8 again
+	adc	  r8, rdx               ; add any carry
+	mov	  [rdi+r11*8], rax      ; store low limb
 	inc	  r11
 	jne	  label0
 
-	mov   rax, r8
+	mov   rax, r8               ; return any high limb
 	ret

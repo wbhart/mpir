@@ -150,7 +150,7 @@ GLOBAL_FUNC mpn_modexact_1c_odd
     jz       label1
     
     align    16
-label0: 
+label0:                         ; now multiply through by inverse in loop
     sub      rax, rdx
     
     adc      rcx, 0
@@ -165,12 +165,12 @@ label0:
     inc      rsi
     jnz      label0
 
-label1:
+label1:                         ; do final multiply
     sub      rax, rdx
    
     adc      rcx, 0
     imul     rax, r9
 
     mul      r8
-    lea      rax, [rcx+rdx]
+    lea      rax, [rcx+rdx]     ; return remainder
     ret

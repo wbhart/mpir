@@ -42,8 +42,8 @@ GLOBAL_FUNC mpn_sub_n
 	xor	eax, eax		               ; clear cy
 
 	align 4			                   ; minimal alignment for claimed speed
-loop1:	
-      mov	rax, [rsi+rcx*8]
+loop1:	                               ; do the subtraction in a loop
+    mov	rax, [rsi+rcx*8]
 	mov	r10, [rdx+rcx*8]
 	sbb	rax, r10
 	mov	[rdi+rcx*8], rax
@@ -51,5 +51,5 @@ loop1:
 	jne	loop1
 
 	mov	rax, rcx		               ; zero rax
-	adc	rax, rax
+	adc	rax, rax                       ; return borrow
 	ret

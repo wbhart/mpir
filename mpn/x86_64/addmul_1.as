@@ -43,13 +43,13 @@ GLOBAL_FUNC mpn_addmul_1
 	align 4       		          ; minimal alignment for claimed speed
 loop1:	
     mov	rax, [rsi+r11*8]
-	mul	rcx
-	add	rax, [rdi+r11*8]
-	adc	rdx, r10
-	add	rax, r8
-	mov	r8, r10
-	mov	[rdi+r11*8], rax
-	adc	r8, rdx
+	mul	rcx                       ; multiply by vl
+	add	rax, [rdi+r11*8]          ; add to limb from rp[]
+	adc	rdx, r10                  ; add any carry to high limb
+	add	rax, r8                   ; add any previous limb (stored in r8) to low limb
+	mov	r8, r10                   ; zero r8 again
+	mov	[rdi+r11*8], rax          ; store resulting low limb
+	adc	r8, rdx                   ; set r8 to high limb plus carry from this iteration
 	inc	r11
 	jne	loop1
 
