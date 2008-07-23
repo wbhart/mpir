@@ -83,11 +83,7 @@
     BITS    64
     align   32
 
-%ifdef GSYM_PREFIX
-    G_EXTERN ___gmp_modlimb_invert_table
-%else
     G_EXTERN __gmp_modlimb_invert_table
-%endif
 
 GLOBAL_FUNC mpn_modexact_1_odd
     mov      ecx, 0       ; carry
