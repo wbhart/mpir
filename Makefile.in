@@ -480,9 +480,9 @@ SUBDIRS = tests $(am__append_1) mpn mpz mpq mpf printf scanf cxx mpbsd \
 # build-system stuff over and done with at the start.  Also, dependencies on
 # the .h files are not properly expressed for the various objects that use
 # them.
-EXTRA_DIST = macos configfsf.guess configfsf.sub .gdbinit \
-	INSTALL.autoconf gmpxx.h libmp.sym dumbmp.c gen-fac_ui.c \
-	gen-fib.c gen-bases.c gen-psqr.c
+EXTRA_DIST = configfsf.guess configfsf.sub .gdbinit INSTALL.autoconf \
+	gmpxx.h libmp.sym dumbmp.c gen-fac_ui.c gen-fib.c gen-bases.c \
+	gen-psqr.c
 @WANT_CXX_TRUE@GMPXX_HEADERS_OPTION = gmpxx.h
 
 # gmp.h and mp.h are architecture dependent, mainly since they encode the

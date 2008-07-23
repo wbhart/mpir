@@ -922,11 +922,6 @@ Floating Point Mode
      is in single precision mode.  Of course this affects all code,
      including application code, not just MPIR.
 
-MacOS 9
-     The `macos' directory contains a port to MacOS 9 on Power
-     Macintosh, see `macos/README'.  Note that MacOS X "Darwin" should
-     use the normal Unix-style `./configure'.
-
 MS-DOS and MS Windows
      On an MS-DOS system DJGPP can be used to build MPIR, and on an MS
      Windows system Cygwin, DJGPP and MINGW can all be used.  All three
