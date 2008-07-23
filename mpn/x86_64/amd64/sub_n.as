@@ -71,15 +71,12 @@
 %define off 0
 %endif
 
-%macro  mac_sub  4
+%macro  mac_sub  3
 
-    G_EXPORT %1%4
-    G_EXPORT %1%3
-
-G_LABEL %1%4
+GLOBAL_FUNC %3
     mov     rax,cy
     jmp     %%0
-G_LABEL %1%3
+GLOBAL_FUNC %2
     xor     rax,rax
 %%0:
     movsxd  len,lend
@@ -93,7 +90,7 @@ G_LABEL %1%3
 %%1:
     mov     rax,[sr1+len*8]
     mov     r10,[sr2+len*8]
-    %2      rax,r10
+    %1      rax,r10
     mov     [dst+len*8],rax
     inc     len
     jnz     %%1
@@ -154,9 +151,9 @@ G_LABEL %1%3
 
     mov     r_jmp,[byte sr1+disp0]      ; len and r_jmp registers
     mov     len,[byte sr1+disp0+8]      ; now not needed
-    %2      r_jmp,[byte sr2+disp0]
+    %1      r_jmp,[byte sr2+disp0]
     mov     [byte dst+disp0],r_jmp
-    %2      len,[byte sr2+disp0+8]
+    %1      len,[byte sr2+disp0+8]
     mov     [byte dst+disp0+8],len
 
 %assign i i + 1
@@ -177,17 +174,15 @@ G_LABEL %1%3
     dec     rax
     js      %%5
     mov     len,[sr1-off]
-    %2      len,[sr2-off]
+    %1      len,[sr2-off]
     mov     [dst-off],len
-%%5:mov     rax,dword 0
+%%5:
+    mov     rax,dword 0
     setc    al
     ret
 
 %endmacro
 
-    bits    64
-    section .text
+    BITS    64
 
-    mac_sub __g,sbb,mpn_sub_n,mpn_sub_nc
-
-    end
+    mac_sub sbb,mpn_sub_n,mpn_sub_nc

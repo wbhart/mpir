@@ -62,14 +62,11 @@
 %define off 0
 %endif
 
-%macro   mac_sub  4
-
-    G_EXPORT %1%3
-    G_EXPORT %1%4
+%macro   mac_sub  3
 
     align 32
 
-G_LABEL %1%3
+GLOBAL_FUNC %2
     mov     r9, rcx
     mov     r10, rbx
     mov     r11, rbp
@@ -85,7 +82,7 @@ G_LABEL %1%3
     
     mul     r9              ; rax * mlt -> rdx (hi), rax (lo)
 
-    %2      [rcx],rax        ; add/sub from destination
+    %1      [rcx],rax        ; add/sub from destination
     adc     rdx, 0          ; add any carry into high word
     mov     rax,rdx         ; and return the carry value
 
@@ -93,7 +90,7 @@ G_LABEL %1%3
 
     align 16
 
-G_LABEL %1%4
+GLOBAL_FUNC %3
     mov     r9, rcx
     mov     r10, rbx
     mov     r11, rbp
@@ -111,7 +108,7 @@ G_LABEL %1%4
     add     rax,r8          ; add in input carry
     
     adc     rdx, 0          ; propagate it into rdx
-    %2      [rcx],rax       ; add or subtract rax from dest limb
+    %1      [rcx],rax       ; add or subtract rax from dest limb
     
     adc     rdx, 0          ; propagate carry into high word
     mov     rax,rdx
@@ -140,7 +137,7 @@ G_LABEL %1%4
     add     rcx,rax             ; add in carry
     adc     rdx, 0              ; propagate carry into rdx
     
-    %2      [rdi+rbx*8],rcx     ; add or subtract rax from dest limb
+    %1      [rdi+rbx*8],rcx     ; add or subtract rax from dest limb
     mov     rax,[rsi+rbx*8]     ; get next source limb
     adc     rdx, 0              ; add carry or borrow into high word
     
@@ -157,7 +154,7 @@ G_LABEL %1%4
     add     rcx,rax
     adc     rdx, 0
 
-    %2      [rdi],rcx
+    %1      [rdi],rcx
     adc     rdx, 0
 
     mov     rax,rdx             ; return carry value as a limb
@@ -219,7 +216,7 @@ G_LABEL %1%4
 
 %endif
 
-      align 32
+    align 32
 
 .unroll_entry1:
 ..@unroll_entry1:
@@ -232,7 +229,7 @@ G_LABEL %1%4
 
     mul     rbp
 
-    %2      [byte rdi+disp0],rcx
+    %1      [byte rdi+disp0],rcx
     mov     rcx, 0                  ; len = 0
     
     adc     rbx,rax
@@ -243,7 +240,7 @@ G_LABEL %1%4
     
     mul     rbp
 
-    %2      [byte rdi+disp1],rbx
+    %1      [byte rdi+disp1],rbx
 
     mov     rbx,0                   ; len = 0
     
@@ -263,14 +260,14 @@ G_LABEL %1%4
 
     mul     rbp
 
-    %2      [rdi-off],rcx
+    %1      [rdi-off],rcx
     mov     rbp, r11
 
     adc     rax,rbx
     mov     rbx, r10
 
     adc     rdx,0
-    %2      [rdi-off+8],rax
+    %1      [rdi-off+8],rax
 
     adc     rdx,0
 
@@ -279,9 +276,6 @@ G_LABEL %1%4
 
 %endmacro
 
-    bits    64
-    section .text
+    BITS    64
 
-    mac_sub __g,add,mpn_addmul_1,mpn_addmul_1c
-    
-    end
+    mac_sub add,mpn_addmul_1,mpn_addmul_1c

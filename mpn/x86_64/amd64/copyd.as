@@ -22,102 +22,85 @@
 
 ; AMD64 mpn_copyd -- decrementing copy limb vector
 ;
-;  Calling interface (WIN64):
-;
-; void mpn_copyd(
-;     mp_ptr dst,    rcx
-;     mp_srcptr src, rdx
-;     mp_size_t size  r8
-; )
-;
-;  Calling interface (linux):
+;  Calling interface:
 ;
 ; void mpn_copyd(
 ;     mp_ptr dst,    rdi
 ;     mp_srcptr src, rsi
 ;     mp_size_t size rdx
 ; )
-;
-;  This is an SEH Leaf Function (no unwind support needed)
 
 %include '../yasm_mac.inc'
 
 %define    UNROLL_THRESHOLD 16
 
-%ifdef _WIN64_ABI
-%define  d_ptr rcx
-%define  s_ptr rdx
-%define s_len   r8
-%define s_lend r8d
-
-%else
-%define  d_ptr rdi
-%define  s_ptr rsi
+%define d_ptr  rdi
+%define s_ptr  rsi
 %define s_len  rdx
 %define s_lend edx
-%endif
 
-    bits    64
-    section .text
+    BITS    64
 
-    G_EXPORT __gmpn_copyd
-
-%ifdef DLL
-    export  __gmpn_copyd
-%endif
-
-G_LABEL __gmpn_copyd
+GLOBAL_FUNC mpn_copyd
     movsxd  s_len,s_lend
     cmp     s_len,byte UNROLL_THRESHOLD
-    jge     .2                  ; if many limbs to move
+    jge     label2                      ; if many limbs to move
     dec     s_len
-    jl      .1
-.0: mov     rax,[s_ptr+s_len*8] ; short move via rax
+    jl      label1
+label0: 
+    mov     rax,[s_ptr+s_len*8]         ; short move via rax
     mov     [d_ptr+s_len*8],rax
     dec     s_len
-    jge     .0                  ; avoid single byte ret that
-.1: rep     ret                 ; interferes with branch prediction
+    jge     label0                      ; avoid single byte ret that
+label1: 
+    rep     ret                         ; interferes with branch prediction
 
-.2: mov     rax,s_ptr           ; find relative alignment of
-    xor     rax,d_ptr           ; source and destination (min
+label2: 
+    mov     rax,s_ptr                   ; find relative alignment of
+    xor     rax,d_ptr                   ; source and destination (min
     test    al,8
-    jnz     .7                  ; not 16 byte aligned
+    jnz     label7                      ; not 16 byte aligned
     lea     rax,[s_ptr+s_len*8]
-    test    al,8                ; see if src is on 16 byte
-    jz      .3                  ; boundary
+    test    al,8                        ; see if src is on 16 byte
+    jz      label3                      ; boundary
     dec     s_len
-    mov     rax,[rax-8]         ; if not do a one limb copy
+    mov     rax,[rax-8]                 ; if not do a one limb copy
     mov     [d_ptr+s_len*8],rax
-.3: lea     s_len,[s_len-4]             ; now 16 byte aligned
-.4: prefetchnta [s_ptr+s_len*8+16-3*64] ; should this be -4*64 ??
+label3: 
+    lea     s_len,[s_len-4]             ; now 16 byte aligned
+label4: 
+    prefetchnta [s_ptr+s_len*8+16-3*64] ; should this be -4*64 ??
     movdqa  xmm0,[s_ptr+s_len*8+16]     ; move 32 bytes at a time
     movntdq [d_ptr+s_len*8+16],xmm0
     movdqa  xmm0,[s_ptr+s_len*8]
     movntdq [d_ptr+s_len*8],xmm0
     sub     s_len,4
-    jge     .4
+    jge     label4
     sfence
     test    s_len,2
-    jz      .5
+    jz      label5
     movdqa  xmm0,[s_ptr+s_len*8+16]     ; move 16 bytes if necessary
     movdqa  [d_ptr+s_len*8+16],xmm0
-.5: test    s_len,1
-    jz      .6
+label5: 
+    test    s_len,1
+    jz      label6
     movq    xmm0,[s_ptr]                ; move 8 bytes if necessary
     movq    [d_ptr],xmm0
-.6: ret
+label6: 
+    ret
 
-.7: lea     s_len,[s_len-2]             ; move 8 bytes at a time
-.8: movq    xmm0,[s_ptr+s_len*8+8]
+label7: 
+    lea     s_len,[s_len-2]             ; move 8 bytes at a time
+label8: 
+    movq    xmm0,[s_ptr+s_len*8+8]
     movq    xmm1,[s_ptr+s_len*8]
     movq    [d_ptr+s_len*8+8],xmm0
     movq    [d_ptr+s_len*8],xmm1
     sub     s_len,2
-    jge    .8
+    jge     label8
     test    s_len,1
-    jz      .9
+    jz      label9
     movq    xmm0,[s_ptr]
     movq    [d_ptr],xmm0
-.9: ret
-
-    end
+label9: 
+    ret

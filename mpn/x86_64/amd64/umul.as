@@ -19,15 +19,7 @@
 
 ;  mpn_umul_ppmm -- 1x1->2 limb multiplication
 ;
-;  Calling interface (WIN64):
-;
-;  mp_limb_t mpn_umul_ppmm (
-;  mp_limb_t *lowptr,       rcx
-;  mp_limb_t m1,            rdx
-;  mp_limb_t m2              r8
-;  );
-;
-;  Calling interface (linux):
+;  Calling interface:
 ;
 ;  mp_limb_t mpn_umul_ppmm (
 ;  mp_limb_t *lowptr,       rdi
@@ -37,31 +29,15 @@
 
 %include '../yasm_mac.inc'
 
-%ifdef _WIN64_ABI
-%define low   rcx
-%define m1    rdx
-%define m2     r8
-
-%else
 %define low   rdi
 %define m1    rsi
-%define m2   rdx
-%endif  
+%define m2    rdx
 
-    bits    64
-    section .text
+    BITS    64
 
-    G_EXPORT __gmpn_umul_ppmm
-
-%ifdef DLL
-    export  __gmpn_umul_ppmm
-%endif
-
-G_LABEL __gmpn_umul_ppmm
+GLOBAL_FUNC mpn_umul_ppmm
     mov     rax,m1
     mul     m2
     mov     [low],rax
     mov     rax,m1
     ret
-
-    end

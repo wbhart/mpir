@@ -60,12 +60,9 @@
 %define  v_ctr r12
 %define v_jmp  r13
 
-   bits     64
-   section  .text
+    BITS    64
 
-   G_EXPORT __gmpn_sqr_basecase
-
-G_LABEL __gmpn_sqr_basecase
+GLOBAL_FUNC mpn_sqr_basecase
     movsxd  x_len,edx
     cmp     x_len,2
     je      sqr_2
@@ -169,14 +166,14 @@ sqr_4_plus:
     mov     rbx,dword 0
     dec     rcx
     neg     rcx
-.0: mov     rax,[rsi+rcx*8]
+label0: mov     rax,[rsi+rcx*8]
     mul     rbp
     add     rax,rbx
     mov     [rdi+rcx*8],rax
     mov     rbx,dword 0
     adc     rbx,rdx
     inc     rcx
-    jnz     .0
+    jnz     label0
     mov     rcx,x_len
     mov     [rdi],rbx
     sub     rcx,4
@@ -196,9 +193,9 @@ sqr_4_plus:
     shl     rcx,5
     sub     rcx,rdx
 %ifdef PIC
-    call    .pic_calc
+    call    pic_calc
 %else
-    lea     v_jmp,[rel .3]
+    lea     v_jmp,[rel label3]
 %endif
 ..@unroll_here1:
     lea     rcx,[rcx+(UNROLL_COUNT - 2) * CODE_BYTES_PER_LIMB]
@@ -211,9 +208,9 @@ sqr_4_plus:
     shl     rcx,3
     lea     rcx,[rcx+rcx*2]
 %ifdef PIC
-    call    .pic_calc
+    call    pic_calc
 %else
-    lea     v_jmp,[rel .3]
+    lea     v_jmp,[rel label3]
 %endif
 ..@unroll_here1:
 
@@ -221,7 +218,8 @@ sqr_4_plus:
 %endif
 
     lea     rcx,[rcx+v_jmp]
-.2: lea     v_jmp,[rcx+CODE_BYTES_PER_LIMB]
+label2: 
+    lea     v_jmp,[rcx+CODE_BYTES_PER_LIMB]
     mov     rbp,[rsi+rdx*8-24+ADR_BIAS]
     mov     rax,[rsi+rdx*8-16+ADR_BIAS]
     mov     v_ctr,rdx
@@ -240,7 +238,7 @@ sqr_4_plus:
     lea     rdi,[rdi+8]
     jmp     v_jmp
 
-.pic_calc:
+pic_calc:
 
 	mov     v_jmp, ..@unroll_entry1 - ..@unroll_here1
 	add     v_jmp, [rsp]
@@ -250,7 +248,7 @@ sqr_4_plus:
 
 
    align    2
-.3:
+label3:
 ..@unroll_entry1:
 %assign  i UNROLL_COUNT
 %rep  UNROLL_COUNT
@@ -291,7 +289,7 @@ sqr_4_plus:
     mov     [rdi+ADR_BIAS],rdx
     mov     rdx,v_ctr
     inc     rdx
-    jnz     .2
+    jnz     label2
 
 %if   ADR_BIAS != 0
     add     rsi,ADR_BIAS
@@ -323,15 +321,16 @@ L_corner:
     mov     rax,x_len    ; start of shift
     mov     rdi,r_ptr
     xor     rcx,rcx
-    lea      r11,[rax+rax]
+    lea     r11,[rax+rax]
     lea     rdi,[rdi+r11*8]
     not     rax
     lea     rax,[rax+2]
-.0: lea     r11,[rax+rax]
+label0: 
+    lea     r11,[rax+rax]
     rcl     qword [rdi+r11*8-8],1
     rcl     qword [rdi+r11*8],1
     inc     rax
-    jnz     .0
+    jnz     label0
     setc    al
     mov     rsi,x_ptr
     mov     [rdi-8],rax
@@ -340,10 +339,11 @@ L_corner:
     mul     rax
     lea     rsi,[rsi+rcx*8]
     neg     rcx
-    lea      r11,[rcx+rcx]
+    lea     r11,[rcx+rcx]
     mov     [rdi+r11*8],rax
     inc     rcx
-.1: lea     r11,[rcx+rcx]
+label1: 
+    lea     r11,[rcx+rcx]
     mov     rax,[rsi+rcx*8]
     mov     rbx,rdx
     mul     rax
@@ -351,7 +351,7 @@ L_corner:
     adc     [rdi+r11*8],rax
     adc     rdx,dword 0
     inc     rcx
-    jnz     .1
+    jnz     label1
     add     [rdi-8],rdx
 sqr_exit:
     pop     r13
@@ -361,5 +361,3 @@ sqr_exit:
     pop     rsi
     pop     rbx
     ret
-
-    end

@@ -22,106 +22,89 @@
 
 ; AMD64 mpn_copyi -- incrementing copy limb vector
 ;
-;  Calling interface(WIN64):
-;
-; void mpn_copyi(
-;     mp_ptr dst,    rcx
-;     mp_srcptr src, rdx
-;     mp_size_t size  r8
-; )
-;
-;  Calling interface(linux):
+;  Calling interface:
 ;
 ; void mpn_copyi(
 ;     mp_ptr dst,    rdi
 ;     mp_srcptr src, rsi
 ;     mp_size_t size rdx
 ; )
-;
-;  This is an SEH Leaf Function (no unwind support needed)
 
 %include '../yasm_mac.inc'
 
 %define    UNROLL_THRESHOLD 16
 
-%ifdef _WIN64_ABI
-%define  d_ptr  rcx
-%define  s_ptr  rdx
-%define s_len    r8
-%define s_lend  r8d
-%else
-
 %define  d_ptr  rdi
 %define  s_ptr  rsi
 %define  s_len  rdx
 %define  s_lend edx
-%endif
 
-    bits    64
-    section .text
+    BITS    64
 
-    G_EXPORT __gmpn_copyi
-
-%ifdef DLL
-    export  __gmpn_copyi
-%endif
-
-G_LABEL __gmpn_copyi
+GLOBAL_FUNC mpn_copyi
     movsxd  s_len,s_lend
-    or      s_len,s_len             ; none to move?
-    jz      .1
-    mov     rax,s_ptr               ; find relative alignment of
-    xor     rax,d_ptr               ; source and destination (min
-    mov     r9,s_ptr                ; 8-byte alignment assumed)
+    or      s_len,s_len                 ; none to move?
+    jz      label1
+    mov     rax,s_ptr                   ; find relative alignment of
+    xor     rax,d_ptr                   ; source and destination (min
+    mov     r9,s_ptr                    ; 8-byte alignment assumed)
     lea     s_ptr,[s_ptr+s_len*8]
     lea     d_ptr,[d_ptr+s_len*8]
     neg     s_len
     cmp     s_len,byte -UNROLL_THRESHOLD
-    jbe     .2                      ; if many limbs to move
-.0: mov     rax,[s_ptr+s_len*8]     ; short move via rax
+    jbe     label2                      ; if many limbs to move
+label0: 
+    mov     rax,[s_ptr+s_len*8]         ; short move via rax
     mov     [d_ptr+s_len*8],rax
     inc     s_len
-    jnz     .0                      ; avoid single byte ret that
-.1: rep     ret                     ; interferes with branch prediction
+    jnz     label0                      ; avoid single byte ret that
+label1: 
+    rep     ret                         ; interferes with branch prediction
 
-.2: test    al,8
-    jnz     .7                      ; not 16 byte aligned
-    test    r9,8                    ; see if src is on 16 byte
-    jz      .3                      ; boundary
-    mov     rax,[s_ptr+s_len*8]     ; if not do a one limb copy
+label2: 
+    test    al,8
+    jnz     label7                      ; not 16 byte aligned
+    test    r9,8                        ; see if src is on 16 byte
+    jz      label3                      ; boundary
+    mov     rax,[s_ptr+s_len*8]         ; if not do a one limb copy
     mov     [d_ptr+s_len*8],rax
     inc     s_len
-.3: lea     s_len,[s_len+3]             ; now 16 byte aligned
-.4: prefetchnta [s_ptr+s_len*8-24+3*64] ; should this be +4*64 ??
+label3: 
+    lea     s_len,[s_len+3]             ; now 16 byte aligned
+label4: 
+    prefetchnta [s_ptr+s_len*8-24+3*64] ; should this be +4*64 ??
     movdqa  xmm0,[s_ptr+s_len*8-24]     ; move 32 bytes at a time
     movntdq [d_ptr+s_len*8-24],xmm0
     movdqa  xmm0,[s_ptr+s_len*8-8]
     movntdq [d_ptr+s_len*8-8],xmm0
     add     s_len,4
-    jl      .4
+    jl      label4
     sfence
     test    s_len,2
-    jnz     .5
+    jnz     label5
     movdqa  xmm0,[s_ptr+s_len*8-24]     ; move 16 bytes if necessary
     movdqa  [d_ptr+s_len*8-24],xmm0
     add     s_len,2
-.5  test    s_len,1
-    jnz     .6
+label5:  
+    test    s_len,1
+    jnz     label6
     movq    xmm0,[s_ptr+s_len*8-24]     ; move 8 bytes if necessary
     movq    [d_ptr+s_len*8-24],xmm0
-.6: ret
+label6: 
+    ret
 
-.7: lea     s_len,[s_len+1]             ; move 8 bytes at a time
-.8: movq    xmm0,[s_ptr+s_len*8-8]
+label7: 
+    lea     s_len,[s_len+1]             ; move 8 bytes at a time
+label8: 
+    movq    xmm0,[s_ptr+s_len*8-8]
     movq    xmm1,[s_ptr+s_len*8]
     movq    [d_ptr+s_len*8-8],xmm0
     movq    [d_ptr+s_len*8],xmm1
     add     s_len,2
-    jl      .8
+    jl      label8
     test    s_len,1
-    jnz     .9
+    jnz     label9
     movq    xmm0,[s_ptr-8]
     movq    [d_ptr-8],xmm0
-.9: ret
-
-    end
+label9: 
+    ret

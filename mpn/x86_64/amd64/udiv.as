@@ -19,16 +19,7 @@
 
 ;  x86 mpn_udiv_qrnnd -- 2 by 1 limb division
 ;
-;  Calling interface (WIN64):
-;
-;  mp_limb_t mpn_udiv_qrnnd (
-;  mp_limb_t *remptr,           rcx
-;  mp_limb_t high,              rdx
-;  mp_limb_t low,                r8
-;  mp_limb_t divisor             r9
-;  );
-;
-;  Calling interface (linux):
+;  Calling interface:
 ;
 ;  mp_limb_t mpn_udiv_qrnnd (
 ;  mp_limb_t *remptr,           rdi
@@ -39,33 +30,16 @@
 
 %include '../yasm_mac.inc'
 
-%ifdef _WIN64_ABI
-%define rem   rcx
-%define high  rdx
-%define low    r8
-%define dv     r9
-
-%else
 %define rem   rdi
 %define high  rsi
 %define low   rdx
 %define dv    rcx
-%endif  
 
-    bits    64
-    section .text
+    BITS    64
 
-    G_EXPORT __gmpn_udiv_qrnnd
-
-%ifdef DLL
-    export  __gmpn_udiv_qrnnd
-%endif
-
-G_LABEL __gmpn_udiv_qrnnd
-    mov     rax,low
+GLOBAL_FUNC mpn_udiv_qrnnd
+    mov     rax, low
     div     dv
-    mov     [rem],high
+    mov     [rem], high
     ret
-
-    end
 

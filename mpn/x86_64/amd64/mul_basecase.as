@@ -50,21 +50,18 @@
 %define wp     rdi 
 
 
-    bits    64
-    section .text
+    BITS    64
     align   32
 
-    G_EXPORT __gmpn_mul_basecase
-
-G_LABEL __gmpn_mul_basecase
+GLOBAL_FUNC mpn_mul_basecase
 	cmp     xsize, 2	
-	ja	    .xsize_more_than_two
-	je	    .two_by_something
+	ja	    xsize_more_than_two
+	je	    two_by_something
 
 ; one limb by one limb
 	
-	mov     rax, [yp]	; rax <- y0
-	mul	    qword [xp]        ; [ax:dx] <- y0*x0
+	mov     rax, [yp]	    ; rax <- y0
+	mul	    qword [xp]      ; [ax:dx] <- y0*x0
 
 	mov	    [wp], rax  
 	mov	    [wp+8], rdx
@@ -73,7 +70,7 @@ G_LABEL __gmpn_mul_basecase
 
 ;-----------------------------------------------------------------------------
 
-.two_by_something:
+two_by_something:
 
 ; xsize = 2, hence rdx is free for usage
 
@@ -81,7 +78,7 @@ G_LABEL __gmpn_mul_basecase
 	
 	mov	     r9, [yp]		; r9 <- y0
 	mov      rax, [xp]	    ; rax <- x0	
-	jnz	     .two_by_two
+	jnz	     two_by_two
 
 
 ; two limbs by one limb
@@ -107,7 +104,7 @@ G_LABEL __gmpn_mul_basecase
 
 	align 16
 
-.two_by_two:
+two_by_two:
 	; rax	x0			r8      
 	; rbx	**untouched**		r9      y0
 	; rcx	yp                      r10-11  
@@ -159,7 +156,7 @@ G_LABEL __gmpn_mul_basecase
 
 	    align 16
 
-.xsize_more_than_two:
+xsize_more_than_two:
 
 ; The first limb of yp is processed with a simple mpn_mul_1 style loop
 ; inline.  Unrolling this doesn't seem worthwhile since it's only run once
@@ -211,7 +208,7 @@ G_LABEL __gmpn_mul_basecase
 	neg     rcx
 
 
-.mul1:
+mul1:
 	; rax	scratch
 	; rbx	carry
 	; rcx	counter, negative
@@ -230,7 +227,7 @@ G_LABEL __gmpn_mul_basecase
 
 	adc     rbx, rdx
 	inc     rcx
-	jnz     .mul1
+	jnz     mul1
 
 
 	mov     rdx, YSIZE
@@ -239,7 +236,7 @@ G_LABEL __gmpn_mul_basecase
 	mov     [rdi], rbx		; final carry
 	dec     rdx
 
-	jnz     .ysize_more_than_one
+	jnz     ysize_more_than_one
 
 
 	mov     rbx, SAVE_RBX
@@ -250,11 +247,11 @@ G_LABEL __gmpn_mul_basecase
 	ret
 
 
-.ysize_more_than_one:
+ysize_more_than_one:
 	cmp     rcx, UNROLL_THRESHOLD
 	mov     rax, YP
 
-	jae     .unroll
+	jae     unroll
 
 
 ; -----------------------------------------------------------------------------
@@ -281,11 +278,11 @@ G_LABEL __gmpn_mul_basecase
 	mov     YP, rbp
 
 	mov     rbp, [rbp+rdx*8]	; yp second lowest limb - multiplier
-	jmp     .simple_outer_entry
+	jmp     simple_outer_entry
 
 
 	; this is offset ????  Align ?
-.simple_outer_top:	
+simple_outer_top:	
 	; rbp	ysize counter, negative
 
 	mov     rdx, YP
@@ -299,9 +296,9 @@ G_LABEL __gmpn_mul_basecase
 	mov     rax, [rsi+rcx*8-8]	; xp low limb
 
 
-.simple_outer_entry:
+simple_outer_entry:
 
-.simple_inner:
+simple_inner:
 	; rax	xp limb
 	; rbx	carry limb
 	; rcx	loop counter (negative)
@@ -321,7 +318,7 @@ G_LABEL __gmpn_mul_basecase
 
 	inc     rcx
 	mov     rbx, rdx
-	jnz     .simple_inner
+	jnz     simple_inner
 
 	mul     rbp
 
@@ -335,7 +332,7 @@ G_LABEL __gmpn_mul_basecase
 	inc     rbp
 
 	mov     [rdi+8], rdx
-	jnz     .simple_outer_top
+	jnz     simple_outer_top
 
 
 	mov     rbx, SAVE_RBX
@@ -380,7 +377,7 @@ G_LABEL __gmpn_mul_basecase
 %define VAR_EXTRA_SPACE  24
 
 
-.unroll: 
+unroll: 
 	; rax	yp
 	; rbx
 	; rcx	xsize
@@ -425,9 +422,9 @@ G_LABEL __gmpn_mul_basecase
 ; 24=16+8 code bytes per limb
 %ifdef PIC
 
-	call    .pic_calc
+	call    pic_calc
 
-.unroll_here:
+unroll_here:
 ..@unroll_here1:
 
 %else
@@ -440,12 +437,12 @@ G_LABEL __gmpn_mul_basecase
 	mov     XP, rcx	                	; XP used for VAR_JUMP
 	lea     rdi, [rdi+rdx*8+8]      	; wp and xp, adjust for unrolling,
 	lea     rsi, [rsi+rdx*8+8]      	;  and start at second limb
-	jmp     .unroll_outer_entry
+	jmp     unroll_outer_entry
 
 
 %ifdef PIC
 
-.pic_calc:
+pic_calc:
 
 	lea     rcx, [rcx+r10]
 	add     rcx, ..@unroll_entry1 - ..@unroll_here1
@@ -459,7 +456,7 @@ G_LABEL __gmpn_mul_basecase
 
  	align 32
 
-.unroll_outer_top:
+unroll_outer_top:
 	; ebp	ysize counter, negative
 
 	mov     rbx, VAR_ADJUST
@@ -475,7 +472,7 @@ G_LABEL __gmpn_mul_basecase
 	mov     rbp, [rdx+rbp*8]        	; yp next multiplier
 	mov     rcx, XP
 
-.unroll_outer_entry:
+unroll_outer_entry:
 	mul     rbp
 
 	mov     rcx, r12
@@ -496,7 +493,7 @@ G_LABEL __gmpn_mul_basecase
 	
     align 32
 
-.unroll_top:
+unroll_top:
 	; rax	xp limb
 	; rbx	carry high
 	; rcx	carry low
@@ -509,7 +506,7 @@ G_LABEL __gmpn_mul_basecase
 	;
 	; 24 bytes each limb
 
-.unroll_entry:
+unroll_entry:
 ..@unroll_entry1:
 
 %define CHUNK_COUNT  2
@@ -545,7 +542,7 @@ G_LABEL __gmpn_mul_basecase
 	lea     rsi, [rsi+UNROLL_BYTES]
 	lea     rdi, [rdi+UNROLL_BYTES]
 
-	jnz	    .unroll_top
+	jnz	    unroll_top
 
 
 	; rax
@@ -566,7 +563,7 @@ G_LABEL __gmpn_mul_basecase
 	inc     rbp
 
 	mov     [rdi+8], rdx
-	jnz	    .unroll_outer_top
+	jnz	    unroll_outer_top
 
     add     rsp, 24
 
@@ -576,5 +573,3 @@ G_LABEL __gmpn_mul_basecase
 	add     rsp, 24
 
 	ret
-
-  end
