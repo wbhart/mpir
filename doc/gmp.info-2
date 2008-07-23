@@ -1281,7 +1281,7 @@ number improvements.
 
    (This list is chronological, not ordered after significance.  If you
 have contributed to GMP/MPIR but are not listed above, please tell
-`http://groups.google.co.uk/group/mpir-devel' about the omission!)
+`http://groups.google.com/group/mpir-devel' about the omission!)
 
    Thanks go to Hans Thorsen for donating an SGI system for the GMP
 test system environment.
@@ -2533,6 +2533,12 @@ Function and Type Index
                                                               (line  11)
 * __GNU_MP_VERSION_PATCHLEVEL:           Useful Macros and Constants.
                                                               (line  12)
+* __MPIR_VERSION:                        Useful Macros and Constants.
+                                                              (line  19)
+* __MPIR_VERSION_MINOR:                  Useful Macros and Constants.
+                                                              (line  20)
+* __MPIR_VERSION_PATCHLEVEL:             Useful Macros and Constants.
+                                                              (line  21)
 * _mpz_realloc:                          Integer Special Functions.
                                                               (line  51)
 * abs <1>:                               C++ Interface Floats.
@@ -2628,7 +2634,7 @@ Function and Type Index
 * gmp_vasprintf:                         Formatted Output Functions.
                                                               (line  66)
 * gmp_version:                           Useful Macros and Constants.
-                                                              (line  18)
+                                                              (line  27)
 * gmp_vfprintf:                          Formatted Output Functions.
                                                               (line  30)
 * gmp_vfscanf:                           Formatted Input Functions.
@@ -2792,6 +2798,8 @@ Function and Type Index
 * mpf_ui_sub:                            Float Arithmetic.    (line  14)
 * mpf_urandomb:                          Miscellaneous Float Functions.
                                                               (line  27)
+* mpir_version:                          Useful Macros and Constants.
+                                                              (line  31)
 * mpn_add:                               Low-level Functions. (line  70)
 * mpn_add_1:                             Low-level Functions. (line  65)
 * mpn_add_n:                             Low-level Functions. (line  55)

@@ -161,10 +161,10 @@ near you, see `http://www.gnu.org/order/ftp.html' for a full list.
    There are a number of public mailing lists of interest.  The
 development list is
 
-     `http://groups.google.co.uk/group/mpir-devel/'.
+     `http://groups.google.com/group/mpir-devel/'.
 
    The proper place for bug reports is
-`http://groups.google.co.uk/group/mpir-devel'.  See *Note Reporting
+`http://groups.google.com/group/mpir-devel'.  See *Note Reporting
 Bugs:: for information about reporting bugs.
 
 
@@ -200,7 +200,7 @@ And you can install (under `/usr/local' by default) with
      make install
 
    If you experience problems, please report them to
-`http://groups.google.co.uk/group/mpir-devel'.  See *Note Reporting
+`http://groups.google.com/group/mpir-devel'.  See *Note Reporting
 Bugs::, for information on what to include in useful bug reports.
 
 * Menu:
@@ -1489,12 +1489,25 @@ File: gmp.info,  Node: Useful Macros and Constants,  Next: Compatibility with ol
  -- Macro: __GNU_MP_VERSION
  -- Macro: __GNU_MP_VERSION_MINOR
  -- Macro: __GNU_MP_VERSION_PATCHLEVEL
+     The major and minor GMP version, and patch level, respectively, as
+     integers.  For GMP i.j, these numbers will be i, j, and 0,
+     respectively.  For GMP i.j.k, these numbers will be i, j, and k,
+     respectively.  These numbers represent the version of GMP fully
+     supported by this version of MPIR.
+
+ -- Macro: __MPIR_VERSION
+ -- Macro: __MPIR_VERSION_MINOR
+ -- Macro: __MPIR_VERSION_PATCHLEVEL
      The major and minor MPIR version, and patch level, respectively,
      as integers.  For MPIR i.j, these numbers will be i, j, and 0,
      respectively.  For MPIR i.j.k, these numbers will be i, j, and k,
      respectively.
 
  -- Global Constant: const char * const gmp_version
+     The GNU MP version number, as a null-terminated string, in the
+     form "i.j" or "i.j.k".
+
+ -- Global Constant: const char * const mpir_version
      The MPIR version number, as a null-terminated string, in the form
      "i.j" or "i.j.k".  This release is "0.9.0".
 
@@ -2097,7 +2110,7 @@ compilers.
 corrected version of the library; if the bug report is poor, we won't
 do anything about it (except maybe ask you to send a better report).
 
-   Send your report to: <http://groups.google.co.uk/group/mpir-devel>.
+   Send your report to: `http://groups.google.com/group/mpir-devel'.
 
    If you think something in this manual is unclear, or downright
 incorrect, or if the language needs to be improved, please send a note
@@ -5520,7 +5533,7 @@ File: gmp.info,  Node: C++ Interface Limitations,  Prev: C++ Interface Random Nu
      the risk of inconsistency, the `mpq_class' `operator>>' could
      canonicalize and leave `mpq_t' `operator>>' not doing so, for use
      on those occasions when that's acceptable.  Send feedback or
-     alternate ideas to `http://groups.google.co.uk/group/mpir-devel'.
+     alternate ideas to `http://groups.google.com/group/mpir-devel'.
 
 Subclassing
      Subclassing the MPIR C++ classes works, but is not currently
