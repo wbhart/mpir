@@ -326,12 +326,12 @@ L_corner:
     lea     rdi,[rdi+r11*8]
     not     rax
     lea     rax,[rax+2]
-label3: 
+label4: 
     lea     r11,[rax+rax]
     rcl     qword [rdi+r11*8-8],1
     rcl     qword [rdi+r11*8],1
     inc     rax
-    jnz     label3
+    jnz     label4
     setc    al
     mov     rsi,x_ptr
     mov     [rdi-8],rax
