@@ -17,21 +17,12 @@
 ;  not, write to the Free Software Foundation, Inc., 59 Temple Place -
 ;  Suite 330, Boston, MA 02111-1307, USA.
 ;
-;  Adapted by Brian Gladman AMD64 using the Microsoft VC++ v8 64-bit
+;  Adapted by Brian Gladman for AMD64 using the Microsoft VC++ v8 64-bit
 ;  compiler and the YASM assembler.
 
 ;  AMD64 mpn_lshift -- mpn left shift
 ;
-;  Calling interface(WIN64):
-;
-; mp_limb_t mpn_lshift(
-;     mp_ptr dst,       rcx
-;     mp_srcptr src,    rdx
-;     mp_size_t size,    r8
-;     unsigned shift     r9
-; )
-;
-;  Calling interface(linux):
+;  Calling interface:
 ;
 ; mp_limb_t mpn_lshift(
 ;     mp_ptr dst,       rdi
@@ -39,113 +30,37 @@
 ;     mp_size_t size,   rdx
 ;     unsigned shift    rcx
 ; )
-;
-;  This is an SEH Leaf Function (no unwind support needed)
 
 %include '../yasm_mac.inc'
 
-%ifdef _WIN64_ABI
-%define s_len   r8
-%define s_lend r8d
-%define r_tmp   r9
-%define r_tmpd r9d
-%define d_ptr  r10
-%define s_ptr  r11
-%define dst    rcx
-%define src    rdx
-%define s_tmp  rdx
-%define shift   r9
-
-%else
-%if 0
+%define src    rsi
+%define dst    rdi
 %define s_len  rdx
-%define s_lend edx
-%define r_tmp  r10
-%define r_tmpd r10d
-%define d_ptr  rdi
-%define s_ptr  rsi
-%define s_tmp  r11
-%else
-%define src rsi
-%define dst rdi
-%define s_len rdx
 %define r_tmpd ecx
-%endif
-%endif
 
-    bits    64
-    section .text
+    BITS    64
 
-    G_EXPORT __gmpn_lshift
-
-%ifdef DLL
-    export  __gmpn_lshift
-%endif
-
-%if 0
-
-G_LABEL __gmpn_lshift
-    movsxd  s_len,s_lend
-    or      s_len,s_len
-    jz      .0
-%ifdef _WIN64_ABI
-    mov     d_ptr,dst
-    mov     s_ptr,src
-    mov     rcx,shift
-%endif
-    cmp     s_len,byte 2
-    jge     .1
-    or      s_len,s_len
-    mov     rax,[s_ptr]
-    mov     r_tmp,rax
-    shl     r_tmp,cl
-    neg     cl
-    mov     [d_ptr],r_tmp
-    shr     rax,cl
-.0: ret
-.1: dec     s_len
-    mov     s_tmp,[s_ptr+s_len*8] 
-    movq    xmm0, s_tmp              ; save value in xmm0
-.2: mov     rax,[s_ptr+s_len*8-8]
-    mov     r_tmp,rax
-    shl     s_tmp,cl
-    neg     cl
-    shr     r_tmp,cl
-    neg     cl
-    or      r_tmp,s_tmp
-    mov     s_tmp,rax
-    mov     [d_ptr+s_len*8],r_tmp
-    dec     s_len
-    jnz     .2
-    shl     rax,cl
-    mov     [d_ptr],rax
-    neg     cl
-    movq    rax,xmm0
-    shr     rax,cl
-    ret
-
-%else
-
-G_LABEL __gmpn_lshift
+GLOBAL_FUNC mpn_lshift
     movq    mm7, [src+s_len*8-8]   ; rdx  -> src
     movd    mm1, r_tmpd            ; <<  -> mm1
     mov     eax, 64
     sub     eax, r_tmpd
-    movd    mm0, eax            ; >>  -> mm0
+    movd    mm0, eax               ; >>  -> mm0
     movq    mm3, mm7
     psrlq   mm7, mm0
-    movd   rax, mm7
+    movd    rax, mm7
     sub     s_len, 2
-    jl      .1
+    jl      label1
 
     align   4
-.0: movq    mm6, [src+s_len*8]
+label0:  
+    movq    mm6, [src+s_len*8]
     movq    mm2, mm6
     psrlq   mm6, mm0
     psllq   mm3, mm1
     por     mm3, mm6
     movq    [dst+s_len*8+8], mm3
-    je      .2
+    je      label2
     movq    mm7, [src+s_len*8-8]
     movq    mm3, mm7
     psrlq   mm7, mm0
@@ -153,13 +68,11 @@ G_LABEL __gmpn_lshift
     por     mm2, mm7
     movq    [dst+s_len*8], mm2
     sub     s_len, 2
-    jge     .0
-.1: movq    mm2, mm3
-.2: psllq   mm2, mm1
+    jge     label0
+label1:  
+    movq    mm2, mm3
+label2:  
+    psllq   mm2, mm1
     movq    [dst], mm2
     emms
     ret
-
-%endif
-
-    end

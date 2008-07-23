@@ -80,18 +80,19 @@
 
 %include '../yasm_mac.inc'
 
-    bits    64
-    section .text
+    BITS    64
     align   32
 
-    G_EXPORT __gmpn_modexact_1_odd
-    G_EXPORT __gmpn_modexact_1c_odd
+%ifdef GSYM_PREFIX
+    G_EXTERN ___gmp_modlimb_invert_table
+%else
     G_EXTERN __gmp_modlimb_invert_table
+%endif
 
-G_LABEL __gmpn_modexact_1_odd
+GLOBAL_FUNC mpn_modexact_1_odd
     mov      ecx, 0       ; carry
 
-G_LABEL __gmpn_modexact_1c_odd
+GLOBAL_FUNC mpn_modexact_1c_odd
     mov      r8, rdx
     shr      edx, 1
 
@@ -145,18 +146,11 @@ G_LABEL __gmpn_modexact_1c_odd
     sub      r9, rdx            ; inv -> r10 (64-bit approx)
     mov      rdx, r10           ; intial carry -> rdx
 
- ; According to Brian Gladman, the following three lines are the
- ; remnant of a "dead" assert and so can be omitted 
- 
-    ;mov      r10, r8
-    ;imul     r10, r9
-    ;cmp      r10, 1
-
     inc      rsi                ; adjust limb offset
-    jz       .1
+    jz       label1
     
     align    16
-.0: 
+label0: 
     sub      rax, rdx
     
     adc      rcx, 0
@@ -169,9 +163,9 @@ G_LABEL __gmpn_modexact_1c_odd
     setc     cl
 
     inc      rsi
-    jnz      .0
+    jnz      label0
 
-.1:
+label1:
     sub      rax, rdx
    
     adc      rcx, 0
@@ -180,5 +174,3 @@ G_LABEL __gmpn_modexact_1c_odd
     mul      r8
     lea      rax, [rcx+rdx]
     ret
-
-    end

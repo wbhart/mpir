@@ -26,17 +26,13 @@
 ; INPUT PARAMETERS
 ; rp	rdi
 ; up	rsi
-; n	rdx
+; n	    rdx
 ; vl	rcx
 
 %include '../yasm_mac.inc'
 
-    bits    64
-    section .text
-
-    G_EXPORT __gmpn_addmul_1
- 
-G_LABEL __gmpn_addmul_1
+    BITS    64
+GLOBAL_FUNC mpn_addmul_1
 	mov	r11, rdx
 	lea	rsi, [rsi+rdx*8]
 	lea	rdi, [rdi+rdx*8]
@@ -45,8 +41,8 @@ G_LABEL __gmpn_addmul_1
 	xor	r10d, r10d
 
 	align 4       		          ; minimal alignment for claimed speed
-.loop:	
-      mov	rax, [rsi+r11*8]
+loop1:	
+    mov	rax, [rsi+r11*8]
 	mul	rcx
 	add	rax, [rdi+r11*8]
 	adc	rdx, r10
@@ -55,9 +51,7 @@ G_LABEL __gmpn_addmul_1
 	mov	[rdi+r11*8], rax
 	adc	r8, rdx
 	inc	r11
-	jne	.loop
+	jne	loop1
 
 	mov	rax, r8
 	ret
-
-    end

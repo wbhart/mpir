@@ -32,12 +32,9 @@
 
 %include '../yasm_mac.inc'
 
-    bits    64
-    section .text
-
-    G_EXPORT __gmpn_submul_1
- 
-G_LABEL __gmpn_submul_1
+    BITS    64
+    
+GLOBAL_FUNC mpn_submul_1
 	mov	r11, rdx
 	lea	rsi, [rsi+r11*8]
 	lea	rdi, [rdi+r11*8]
@@ -45,8 +42,8 @@ G_LABEL __gmpn_submul_1
 	xor	r8d, r8d
 
 	align 8                 		; minimal alignment for claimed speed
-.loop:	
-      mov	rax, [rsi+r11*8]
+loop1:	
+    mov	rax, [rsi+r11*8]
 	mov	r10, [rdi+r11*8]
 	mul	rcx
 	sub	r10, r8
@@ -56,9 +53,7 @@ G_LABEL __gmpn_submul_1
 	adc	r8, rdx
 	mov	[rdi+r11*8], r10
 	inc	r11
-	jne	.loop
+	jne	loop1
 
 	mov	rax, r8
 	ret
-
-    end

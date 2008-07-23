@@ -27,36 +27,32 @@
 ; INPUT PARAMETERS
 ; rp	rdi
 ; up	rsi
-; n	rdx
+; n	    rdx
 ; vl	rcx
 
 %include '../yasm_mac.inc'
 
-    bits    64
-    section .text
-
-    G_EXPORT __gmpn_mul_1
+    BITS    64
  
     align 16
     db 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 
-G_LABEL __gmpn_mul_1
+GLOBAL_FUNC mpn_mul_1
 	mov	  r11, rdx
 	lea	  rsi, [rsi+rdx*8]
 	lea	  rdi, [rdi+rdx*8]
 	neg	  r11
 	xor	  r8d, r8d
 
-.0:	mov	  rax, [rsi+r11*8]
+label0:	
+    mov	  rax, [rsi+r11*8]
 	mul	  rcx
 	add	  rax, r8
 	mov	  r8d, 0
 	adc	  r8, rdx
 	mov	  [rdi+r11*8], rax
 	inc	  r11
-	jne	  .0
+	jne	  label0
 
 	mov   rax, r8
 	ret
-
-    end

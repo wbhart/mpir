@@ -32,29 +32,24 @@
 
 %include '../yasm_mac.inc'
 
-    bits    64
-    section .text
-
-    G_EXPORT __gmpn_sub_n
- 
-G_LABEL __gmpn_sub_n
+    BITS    64
+    
+GLOBAL_FUNC mpn_sub_n
 	lea	rsi, [rsi+rcx*8]
 	lea	rdi, [rdi+rcx*8]
 	lea	rdx, [rdx+rcx*8]
 	neg	rcx
 	xor	eax, eax		               ; clear cy
 
-	align 4			               ; minimal alignment for claimed speed
-.loop:	
+	align 4			                   ; minimal alignment for claimed speed
+loop1:	
       mov	rax, [rsi+rcx*8]
 	mov	r10, [rdx+rcx*8]
 	sbb	rax, r10
 	mov	[rdi+rcx*8], rax
 	inc	rcx
-	jne	.loop
+	jne	loop1
 
 	mov	rax, rcx		               ; zero rax
 	adc	rax, rax
 	ret
-
-    end

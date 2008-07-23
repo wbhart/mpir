@@ -22,16 +22,7 @@
 
 ;  AMD64 mpn_rshift -- mpn right shift
 ;
-;  Calling interface(WIN64):
-;
-; mp_limb_t mpn_rshift(
-;     mp_ptr dst,       rcx
-;     mp_srcptr src,    rdx
-;     mp_size_t size,    r8
-;     unsigned shift     r9
-; )
-;
-;  Calling interface(linux):
+;  Calling interface:
 ;
 ; mp_limb_t mpn_rshift(
 ;     mp_ptr dst,       rdi
@@ -39,96 +30,18 @@
 ;     mp_size_t size,   rdx
 ;     unsigned shift    rcx
 ; )
-;
-;  This is an SEH Leaf Function (no unwind support needed)
 
 %include '../yasm_mac.inc'
 
-%ifdef _WIN64_ABI
-%define s_len   r8
-%define s_lend r8d
-%define r_tmp   r9
-%define r_tmpd r9d
-%define d_ptr  r10
-%define s_ptr  r11
-%define dst    rcx
-%define src    rdx
-%define s_tmp  rdx
-%define shift   r9
 
-%else
-%if 0
-%define s_len  rdx
-%define s_lend edx
-%define r_tmp  r10
-%define r_tmpd r10d
-%define d_ptr  rdi
-%define s_ptr  rsi
-%define s_tmp  r11
-%else
 %define src rsi
 %define dst rdi
 %define r_tmpd ecx
 %define s_len rdx
-%endif
-%endif
 
-   bits 64
-   section .text
+   BITS 64
 
-   G_EXPORT __gmpn_rshift
-
-%ifdef DLL
-   export   __gmpn_rshift
-%endif
-
-%if 0
-
-G_LABEL __gmpn_rshift
-    movsxd  s_len,s_lend
-    or      s_len,s_len
-    jz      .0
-%ifdef _WIN64_ABI
-    mov     d_ptr,rcx
-    mov     s_ptr,rdx
-    mov     rcx,shift
-%endif
-    cmp     s_len,byte 2
-    jge     .1
-    mov     rax,[s_ptr]
-    mov     r_tmp,rax
-    shr     r_tmp,cl
-    neg     cl
-    mov     [d_ptr],r_tmp
-    shl     rax,cl
-.0: ret
-.1: lea     s_ptr,[s_ptr+s_len*8]
-    lea     d_ptr,[d_ptr+s_len*8]
-    neg     s_len
-    mov     s_tmp,[s_ptr+s_len*8]
-    movq    xmm0,s_tmp     ; save to shadow space
-    shr     s_tmp,cl
-    neg     cl
-    inc     s_len
-.2: mov     rax,[s_ptr+s_len*8]
-    mov     r_tmp,rax
-    shl     r_tmp,cl
-    neg     cl
-    xor     r_tmp,s_tmp
-    shr     rax,cl
-    neg     cl
-    mov     s_tmp,rax
-    mov     [d_ptr+s_len*8-8],r_tmp
-    inc     s_len
-    jnz     .2
-    mov     [d_ptr-8],rax
-    movq    rax,xmm0
-    shl     rax,cl
-    ret
-
-%else
-
-G_LABEL __gmpn_rshift
+GLOBAL_FUNC mpn_rshift
     movq    mm7, [src]
     movd    mm1, r_tmpd
     mov     eax, 64
@@ -141,16 +54,17 @@ G_LABEL __gmpn_rshift
     lea     dst, [dst+s_len*8]
     neg     s_len
     add     s_len, 2
-    jg      .1
+    jg      label1
 
     align   8
-.0: movq    mm6, [src+s_len*8-8]
+label0: 
+    movq    mm6, [src+s_len*8-8]
     movq    mm2, mm6
     psllq   mm6, mm0
     psrlq   mm3, mm1
     por     mm3, mm6
     movq    [dst+s_len*8-16], mm3
-    je     .2
+    je      label2
     movq    mm7, [src+s_len*8]
     movq    mm3, mm7
     psllq   mm7, mm0
@@ -158,13 +72,11 @@ G_LABEL __gmpn_rshift
     por     mm2, mm7
     movq    [dst+s_len*8-8], mm2
     add     s_len, 2
-    jle     .0
-.1: movq    mm2, mm3
-.2: psrlq   mm2, mm1
+    jle     label0
+label1: 
+    movq    mm2, mm3
+label2: 
+    psrlq   mm2, mm1
     movq    [dst-8], mm2
     emms
     ret
-
-%endif
-
-    end

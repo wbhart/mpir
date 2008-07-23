@@ -28,16 +28,13 @@
 ; rp	rdi
 ; up	rsi
 ; vp	rdx
-; n	rcx
+; n	    rcx
 
 %include '../yasm_mac.inc'
 
-    bits    64
-    section .text
+    BITS    64
 
-    G_EXPORT __gmpn_add_n
- 
-G_LABEL __gmpn_add_n
+GLOBAL_FUNC mpn_add_n
 	lea	rsi, [rsi+rcx*8]
 	lea	rdi, [rdi+rcx*8]
 	lea	rdx, [rdx+rcx*8]
@@ -45,16 +42,14 @@ G_LABEL __gmpn_add_n
 	xor	eax, eax		            ; clear cy
 
 	align 4                 		; minimal alignment for claimed speed
-.loop:	
-      mov	rax, [rsi+rcx*8]
+loop1:	
+    mov	rax, [rsi+rcx*8]
 	mov	r10, [rdx+rcx*8]
 	adc	rax, r10
 	mov	[rdi+rcx*8], rax
 	inc	rcx
-	jne	.loop
+	jne	loop1
 
 	mov	rax, rcx		            ; zero rax
 	adc	rax, rax
 	ret
-
-    end
