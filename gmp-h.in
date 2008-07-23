@@ -549,6 +549,9 @@ __GMP_DECLSPEC extern int gmp_errno;
 #define gmp_version __gmp_version
 __GMP_DECLSPEC extern __gmp_const char * __gmp_const gmp_version;
 
+#define mpir_version __mpir_version
+__GMP_DECLSPEC extern __gmp_const char * __gmp_const mpir_version;
+
 
 /**************** Random number routines.  ****************/
 
@@ -2184,6 +2187,11 @@ enum
 #define __GNU_MP_VERSION 4
 #define __GNU_MP_VERSION_MINOR 2
 #define __GNU_MP_VERSION_PATCHLEVEL 1
+#define GMP_VERSION "4.2.1"
+
+#define __MPIR_VERSION 0
+#define __MPIR_VERSION_MINOR 9
+#define __MPIR_VERSION_PATCHLEVEL 0
 
 #define __GMP_H__
 #endif /* __GMP_H__ */

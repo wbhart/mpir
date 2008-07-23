@@ -1,4 +1,4 @@
-/* gmp_version -- version number compiled into the library.
+/* gmp_version and mpir_version -- version numbers compiled into the library.
 
 Copyright 1996, 1999, 2000, 2001 Free Software Foundation, Inc.
 
@@ -22,4 +22,5 @@ MA 02110-1301, USA. */
 #include "gmp.h"
 #include "gmp-impl.h"
 
-const char * const gmp_version = VERSION;
+const char * const gmp_version = GMP_VERSION;
+const char * const mpir_version = VERSION;

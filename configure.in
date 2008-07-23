@@ -28,7 +28,7 @@ AH_TOP(/*GMP_COPYRIGHT*/)
 
 AC_REVISION($Revision: 1.11 $)
 AC_PREREQ(2.59)
-AC_INIT(GNU MP, GMP_VERSION, gmp-bugs@swox.com, gmp)
+AC_INIT(MPIR, MPIR_VERSION, http://groups.google.co.uk/group/mpir-devel/, mpir)
 AC_CONFIG_SRCDIR(gmp-impl.h)
 m4_pattern_forbid([^[ \t]*GMP_])
 m4_pattern_allow(GMP_LDFLAGS)

@@ -152,6 +152,19 @@ ifelse(m4_eval(GMP_HEADER_GETVAL(__GNU_MP_VERSION_PATCHLEVEL,gmp-h.in) > 0),1,
 [.GMP_HEADER_GETVAL(__GNU_MP_VERSION_PATCHLEVEL,gmp-h.in)])])
 
 
+dnl  MPIR_VERSION
+dnl  -----------
+dnl  The mpir version number, extracted from the #defines in gmp-h.in at
+dnl  autoconf time.  Two digits like 3.0 if patchlevel <= 0, or three digits
+dnl  like 3.0.1 if patchlevel > 0.
+
+define(MPIR_VERSION,
+[GMP_HEADER_GETVAL(__MPIR_VERSION,gmp-h.in)[]dnl
+.GMP_HEADER_GETVAL(__MPIR_VERSION_MINOR,gmp-h.in)[]dnl
+ifelse(m4_eval(GMP_HEADER_GETVAL(__MPIR_VERSION_PATCHLEVEL,gmp-h.in) > 0),1,
+[.GMP_HEADER_GETVAL(__MPIR_VERSION_PATCHLEVEL,gmp-h.in)])])
+
+
 dnl  GMP_SUBST_CHECK_FUNCS(func,...)
 dnl  ------------------------------
 dnl  Setup an AC_SUBST of HAVE_FUNC_01 for each argument.

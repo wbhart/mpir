@@ -2196,6 +2196,17 @@ The number of bits per limb.
 @defmacx __GNU_MP_VERSION_PATCHLEVEL
 @cindex Version number
 @cindex MPIR version number
+The major and minor GMP version, and patch level, respectively, as integers.
+For GMP i.j, these numbers will be i, j, and 0, respectively.
+For GMP i.j.k, these numbers will be i, j, and k, respectively.
+These numbers represent the version of GMP fully supported by this version of MPIR.
+@end defmac
+
+@defmac __MPIR_VERSION
+@defmacx __MPIR_VERSION_MINOR
+@defmacx __MPIR_VERSION_PATCHLEVEL
+@cindex Version number
+@cindex MPIR version number
 The major and minor MPIR version, and patch level, respectively, as integers.
 For MPIR i.j, these numbers will be i, j, and 0, respectively.
 For MPIR i.j.k, these numbers will be i, j, and k, respectively.
@@ -2203,10 +2214,15 @@ For MPIR i.j.k, these numbers will be i, j, and k, respectively.
 
 @deftypevr {Global Constant} {const char * const} gmp_version
 @findex gmp_version
+The GNU MP version number, as a null-terminated string, in the form ``i.j'' or
+``i.j.k''.
+@end deftypevr
+
+@deftypevr {Global Constant} {const char * const} mpir_version
+@findex mpir_version
 The MPIR version number, as a null-terminated string, in the form ``i.j'' or
 ``i.j.k''.  This release is @nicode{"@value{VERSION}"}.
 @end deftypevr
-
 
 @node Compatibility with older versions, Demonstration Programs, Useful Macros and Constants, MPIR Basics
 @section Compatibility with older versions
