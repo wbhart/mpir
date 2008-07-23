@@ -162,19 +162,6 @@ purposes and are not for use in "make check".  These should be listed
 in EXTRA_PROGRAMS to get Makefile rules created, but they're never
 built or run unless an explicit "make someprog" is used.
 
-** Macos directory
-
-The macos/configure script will automatically pick up additions to
-gmp_mpn_functions, MPZ_OBJECTS, etc, but currently test programs need
-to be added to Makefile.in manually.
-
-When modifying the top-level configure.in ensure that it doesn't upset
-the macos/configure script heuristics.
-
-Unfortunately there's no way to test this stuff without getting an
-actual MacOS 9 system.
-
-
 * Adding a new CPU
 
 In general it's policy to use proper names for each CPU type

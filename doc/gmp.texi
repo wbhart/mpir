@@ -1522,12 +1522,6 @@ involving a @code{double} cannot be expected to operate to their full
 precision when the hardware is in single precision mode.  Of course this
 affects all code, including application code, not just MPIR.
 
-@item MacOS 9
-@cindex MacOS 9
-The @file{macos} directory contains a port to MacOS 9 on Power
-Macintosh, see @file{macos/README}.  Note that MacOS X ``Darwin'' should use
-the normal Unix-style @samp{./configure}.
-
 @item MS-DOS and MS Windows
 @cindex MS-DOS
 @cindex MS Windows
