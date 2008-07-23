@@ -22,7 +22,7 @@ the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
 
 
 
-                          INSTALLING GNU MP
+                          INSTALLING MPIR
                           =================
 
 
@@ -36,7 +36,7 @@ or in emacs
 	C-u C-h i gmp.info
 
 
-Here are some brief instructions on how to install GMP, and some examples to
+Here are some brief instructions on how to install MPIR, and some examples to
 help you get started using it.  First you need to compile.  Since you're
 impatient, try this
 
@@ -44,10 +44,10 @@ impatient, try this
 	make
 	make check		<= VERY IMPORTANT!!
 
-If that fails, or you care about the performance of GMP, you need to read the
-full instructions in the chapter "Installing GMP" in the manual.
+If that fails, or you care about the performance of MPIR, you need to read the
+full instructions in the chapter "Installing MPIR" in the manual.
 
-You should not skip the "make check" part; the risk that the GMP sources are
+You should not skip the "make check" part; the risk that the MPIR sources are
 miscompiled are unfortunately quite high.  And if they indeed are, "make check"
 is very likely to trigger the compiler-introduced bug.
 
@@ -60,13 +60,13 @@ to write there.
 To create the printable documentation from the texinfo source, type "make
 gmp.dvi" or "make gmp.ps".  This requires various "tex" commands.
 
-If you are new to GMP, it is a good idea you at least read the chapter "GMP
+If you are new to MPIR, it is a good idea you at least read the chapter "MPIR
 Basics" in the manual.
 
-Some known build problems are noted in the "Installing GMP" chapter of
-the manual.  Please report other problems to gmp-bugs@swox.com.
+Some known build problems are noted in the "Installing MPIR" chapter of
+the manual.  Please report other problems to http://groups.google.co.uk/group/mpir-devel/.
 
-The GMP web site is located here: http://swox.com/gmp/.
+The MPIR web site is located here: http://wwww.mpir.org/.
 
 
 ----------------
