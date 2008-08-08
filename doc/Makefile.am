@@ -21,7 +21,7 @@
 # MA 02110-1301, USA.
 
 
-EXTRA_DIST = configuration isa_abi_headache projects.html tasks.html
+EXTRA_DIST = isa_abi_headache
 
 info_TEXINFOS = gmp.texi
 gmp_TEXINFOS = fdl.texi

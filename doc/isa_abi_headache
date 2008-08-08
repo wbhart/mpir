@@ -1,19 +1,20 @@
 Copyright 2000 Free Software Foundation, Inc.
+Copyright 2008 William Hart
 
-This file is part of the GNU MP Library.
+This file is part of the MPIR Library.
 
-The GNU MP Library is free software; you can redistribute it and/or modify
+The MPIR Library is free software; you can redistribute it and/or modify
 it under the terms of the GNU Lesser General Public License as published by
 the Free Software Foundation; either version 2.1 of the License, or (at your
 option) any later version.
 
-The GNU MP Library is distributed in the hope that it will be useful, but
+The MPIR Library is distributed in the hope that it will be useful, but
 WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
 or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public
 License for more details.
 
 You should have received a copy of the GNU Lesser General Public License
-along with the GNU MP Library; see the file COPYING.LIB.  If not, write to
+along with the MPIR Library; see the file COPYING.LIB.  If not, write to
 the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
 02110-1301, USA.
 
@@ -30,9 +31,9 @@ Terms Used In This Document:
 	 are done with single instructions, not 32 bits at a time.)
   Environment = The operating system and compiler.
 
-GMP is a very complex package to build since its speed is very
+MPIR is a very complex package to build since its speed is very
 sensitive to the ISA and ABI.  For example, if the ISA provides 64-bit
-instructions, it is crucial that GMP is configured to use them.
+instructions, it is crucial that MPIR is configured to use them.
 
 Most environments that run on a 64-bit ISA provide more than one ABI.
 Typically one of the supported ABI's is a backward compatible 32-bit
@@ -40,7 +41,7 @@ ABI, and one ABI provides 64-bit addressing and `long' (sometimes
 known as LP64).  But a few environments (IRIX, HP-UX) provide
 intermediate ABI's using 32-bit addressing but allow efficient 64-bit
 operations through a `long long' type.  For the latter to be useful to
-GMP, the ABI must allow operations using the native 64-bit
+MPIR, the ABI must allow operations using the native 64-bit
 instructions provided by the ISA, and allow passing of 64-bit
 quantities atomically.
 
@@ -51,16 +52,16 @@ dominating default is to the plain 32-bit ABI in its most arcane form.
 
 The GMP 3.0.x approach was to compile using the ABI that gives the
 best performance.  That places the burden on users to pass special
-options to the compiler when they compile their GMP applications.
+options to the compiler when they compile their MPIR applications.
 That approach has its advantages and disadvantages.  The main
-advantage is that users don't unknowingly get bad GMP performance.
+advantage is that users don't unknowingly get bad MPIR performance.
 The main disadvantage is that users' compiles (actually links) will
 fail unless they pass special compiler options.
 
 ** SPARC
 
-System vendors often confuse ABI, ISA, and implementation.  The worst
-case is Solaris, were the unbundled compiler confuses ISA and ABI, and
+System vendors often confuse ABI, ISA, and implementation.  In the 
+case of Solaris, the unbundled compiler confuses ISA and ABI, and
 the options have very confusing names.
 
      option		interpretation
@@ -73,7 +74,7 @@ It's hard to believe, but the option v8plus really means ISA=V9!
 
 Solaris releases prior to version 7 running on a V9 CPU fails to
 save/restore the upper 32 bits of the `i' and `l' registers.  The
-`v8plus' option generates code that use as many V9 features as
+`v8plus' option generates code that uses as many V9 features as
 possible under such circumstances.
 
 ** MIPS
@@ -95,7 +96,7 @@ gcc  -mips4		ISA=mips4
 
 ** HP-PA
 
-HP-UX is somewhat weird, but not as broken as Solaris.
+HP-UX is somewhat weird, but easier to deal with than Solaris.
 
      option		interpretation
      ======		==============

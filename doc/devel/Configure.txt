@@ -1,0 +1,241 @@
+Copyright 2008 William Hart
+
+This file is part of the MPIR Library.
+
+The MPIR library is free software; you can redistribute it and/or modify
+it under the terms of the GNU Lesser General Public License as published by
+the Free Software Foundation; either version 2.1 of the License, or (at your
+option) any later version.
+
+The MPIR Library is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public
+License for more details.
+
+You should have received a copy of the GNU Lesser General Public License
+along with the MPIR Library; see the file COPYING.LIB.  If not, write to
+the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
+02110-1301, USA.
+
+-define MPIR_COPYRIGHT to GPL text
+
+-Initialise autotools
+
+-Various command line options to configure, including:
+
+--enable-assert enables asserts
+--enable_alloca use alloca for memory allocation
+--enable-cxx want c++ headers
+--enable-fft want FFT for large integer multiplication
+--enable-mpbsd enable berkeley mp functions
+--enable-nails enable nails
+--enable-profiling enable profiling (prof, gprof or instrumentation)
+
+set fomit_frame_pointer to -fomit-frame-pointer unless profiling is gprof
+
+--with-readline (mainly for readline support in calc demo)
+--enable-fat build a fat binary
+
+-set tmp_host to $host_cpu with .'s replaced by _'s
+
+-#undef all the HAVE_HOST_CPU possibilities (that will be tested)
+
+-set cclist to "gcc cc"
+-set gcc-cflags and gcc_64_cflags to -O3
+-set cc-cflags and cc_64_cflags to -O
+-set cyclecounter_size 2
+
+-substitute HAVE_HOST_CPU_FAMILY_power and HAVE_HOST_CPU_FAMILY_powerpc with 0
+
+-go through each architecture and set things like:
+
+X86_PATTERN | athlon64-*-* | core2-*-* | x86_64-*-*)
+-abilist 32
+-cclist gcc icc cc
+-gcc_cflags -O2 $fomit_frame_pointer
+-gcc_32_cflags_maybe -m32
+icc_cflags -no-gcc
+icc_cflags_optlist opt
+icc_cflags_opt -O3 -O2 -O1
+any_32_testlist sizeof-long-4
+CALLING_CONVENTIONS_OBJS x86call.lo c86check$U.lo
+SPEED_CYCLECOUNTER_OBJ pentium.lo
+
+-set gcc_cflags_cpu and gcc_cflags_arch for each of $host_cpu in i386*, i486*, i586, pentiummmx, i686, pentiumpro, pentium2, pentium3, k6, k62, k63, athlon, i787, pentium4, viac32, viac3*, athlon64, core2, x86_64 (default to i486 options)
+
+-set path to correct mpn directory according to type processor
+
+-override the settings above if a fat binary was selected (path becomes x86/fat)
+
+- for $host_cpu in athlon64, core2, pentium4, x86_64 (i.e. 64 bit machines) set 64 bit only options
+cclist_64 gcc
+gcc_64_cflags -O2 -m64
+gcc_64_cflags_optlist cpu
+CALLING_CONVENTIONS_OBJS_6 amd64call.lo amd64check$U.lo
+SPEED_CYCLECOUNTER_OBJ_64 x86_64.lo
+cyclecounter_size_64 2
+abilist 64 32
+path x86_64 / x86_64/pentium4 / x86_64/core2
+on pentium4 only gcc is available for cclist_64
+
+-set options for none-*-* for generic C only
+
+-if $host in *-*-mingw set gcc_cflags_optlist gcc_cflags_nocygwin appropriately
+
+-write a file(?) AC_FD_CC with User options ABI, CC, CFLAGS, CPPFLAGS, MPN_PATH and GMP: abilist, cclist
+
+-test that the CFLAGS work
+
+-set abi_last to the last thing in abilist
+
+-set ABI to the ABI the user specified if it is a valid option
+
+-set abi1, abi2 to the different possibilities
+
+-set cclist_chosen to the right cclist for this abi and default to what the user specified if they specified one
+
+-set up the CC and CFLAGS and check it works
+
+-check if longlong works for a limb if we are supposed to be using it
+
+-do various test on the CC (not relevant to x86)
+
+-exclude various bad compilers and operating systems that don't save XMM registers properly
+
+-#define HAVE_ABI_32 or 64 according to the ABI
+
+-set extra_functions according to ABI
+
+-set SPEED_CYCLECOUNTER_OBJ and cyclecounter_size according to ABI
+
+-if SPEED_CYCLECOUNTER_OBJ is defined #define HAVE_SPEED_CYCLECOUNTER to cyclecounter_size
+
+-set CALLING_CONVENTIONS_OBJS according to ABI
+
+-if CALLING_CONVENTIONS_OBJS is defined #define #HAVE_CALLING_CONVENTIONS 1
+
+-choose MPN_PATH according to ABI or use the user defined path
+
+-if limbchosen is longlong then DEFN_LONG_LONG_LIMB is set to #define _LONG_LONG_LIMB 1 else to #undef _LONG_LONG_LIMB
+
+-run the standard autoconf things for CC, etc
+
+-GMP_H_ANSI puts C compiler into ANSI mode if possible
+
+-various GMP macros which check whether CC, CPP work for build, PROG_EXTEXT works for build (??), whether ANSI C works, whether LIBM is  available for build
+
+-the assembler is invoked via CC or we use yasm for .as files
+
+-check CPP compiler works and set WANT_CXX if C++ is wanted
+
+-some path setups for the Cray
+
+-if asked for a NAILS build add the nails directory to path
+
+-if there is any sse2 or mmx in the path, remove it if the assembler doesn't support it
+
+-update the file AC_FD_CC with: ABI, CC, CFLAGS, CPPFLAGS, GMP_LDFLAGS, CXX, CXXFLAGS, path
+
+-configuration for windows dlls
+
+-enable CXX in libtool only if we want it, by setting with_tags appropriately
+
+-error if trying to build static and shared libraries at the same time when $libname.a is in $library_names_spec
+
+-check for a whole load of system specific header files, like float.h, sys/time.h, etc
+
+-check various C functions are available
+
+-check various types are available
+
+-AC_C_STRINGIZE 
+-AC_C_VOLATILE 
+-AC_C_RESTRICT 
+
+-GMP_C_STDARG
+-GMP_C_ATTRIBUTE_CONST
+-GMP_C_ATTRIBUTE_MALLOC
+-GMP_C_ATTRIBUTE_MODE
+-GMP_C_ATTRIBUTE_NORETURN
+-GMP_H_EXTERN_INLINE
+
+-These various macros above set various things that end up being substituted into files, e.g. all instances of _extern_inline_ get replaced with something like inline where they occur in header files, etc.
+
+-AC_CHECK_LIBM
+-AC_SUBST(LIBM)
+
+-GMP_FUNC_ALLOCA
+-GMP_OPTION_ALLOCA
+
+-GMP_H_HAVE_FILE
+
+-AC_C_BIGENDIAN sets HAVE_LIMB_BIG_ENDIAN or HAVE_LIMB_LITTLE_ENDIAN
+
+-GMP_C_DOUBLE_FORMAT
+
+-check for a pile of functions known to be missing in certain configurations
+
+-enable C++ tests when required
+
+-create symlinks to the required assembly files in path and link them to mpn/
+
+-take care of functions that can be provided by multifunction files, e.g. aorsmul_1
+
+-define possible mpn suffixes to S s c as
+
+-GMP_FILE_TO_FUNCTION associates the various mpn functions to actual files
+
+-pile of setups for fat binaries
+
+-for each mpn suffix, set tmp_ext to no
+
+-for each gmp_mpn_function do:
+GMP_MULFUNC_CHOICES
+find the appropriate file
+check if it supports the nails specified
+add the appropriate object file name to mpn_objects and mpn_objs_in_libgmp
+AC_CONFIG_LINKS
+add the filename to gmp_srclinks
+define the right HAVE_NATIVE_fn's
+deal with sqr_basecase if found
+
+-set up autoheader stuff to undef all the HAVE_NATIVE_*
+
+-if assembler is going to be needed, check for M4, or use yasm
+
+-the following macros are for ASM syntax checking and for various macros defined for .asm assembly files
+ the macros are defined in acinclude.m4:
+  GMP_ASM_TEXT
+  GMP_ASM_DATA
+  GMP_ASM_LABEL_SUFFIX
+  GMP_ASM_GLOBL - global symbol prefix
+  GMP_ASM_GLOBL_ATTR
+  GMP_ASM_UNDERSCORE
+  GMP_ASM_RODATA
+  GMP_ASM_TYPE
+  GMP_ASM_SIZE
+  GMP_ASM_LSYM_PREFIX - local symbol prefix
+  GMP_ASM_W32
+  GMP_ASM_ALIGN_LOG - whether alignment is logarithmic
+
+-include various m4 files and do various assembly defines per host cpu
+
+-create a link to the appropriate gmp-mparam.h file and set gmp_mparam_source and gmp_srclinks appropriately
+
+-copy SQR_KARATSUBA_THRESHOLD into config.m4
+
+-check size of some types, e.g. unsigned short, and appropriately define BITS_PER_MP_LIMB and SIZEOF_UNSIGNED
+
+-check compiler limb size matches gmp-mparam.h
+
+-define GMP_LIMB_BITS, GMP_NAIL_BITS and GMP_NUMB_BITS
+
+-exclude the mpn random functions from mpbsd
+
+-make the file tune/sqr_basecase.c if needed according to whether sqr_basecase is an assembly or C file
+
+-various configurations for the demo programs
+
+-GMP_FINISH creates config.m4
+
+-create makefiles from the Makefile.in's

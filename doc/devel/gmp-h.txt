@@ -41,6 +41,7 @@ Note: the __GMPN_ macros are redefined with nicer names in gmp-impl.h
 
 mp_bits_per_limb - number of bits per limb
 gmp_version - GMP version number i.j or i.j.k as a null terminated string
+mpir_version - MPIR version number i.j or i.j.k as a null terminated string
 gmp_errno - integer corresponding to a GMP error condition:
   0 none
   1 unsupported argument
