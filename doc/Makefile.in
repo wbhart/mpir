@@ -232,7 +232,7 @@ sbindir = @sbindir@
 sharedstatedir = @sharedstatedir@
 sysconfdir = @sysconfdir@
 target_alias = @target_alias@
-EXTRA_DIST = configuration isa_abi_headache projects.html tasks.html
+EXTRA_DIST = isa_abi_headache
 info_TEXINFOS = gmp.texi
 gmp_TEXINFOS = fdl.texi
 all: all-am
