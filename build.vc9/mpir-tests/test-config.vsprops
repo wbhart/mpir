@@ -3,6 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="test-config"
+	EnableManagedIncrementalBuild="0"
 	>
 	<Tool
 		Name="VCCLCompilerTool"
