@@ -1,5 +1,5 @@
 dnl  Process this file with autoconf to produce a configure script.
-      
+ 
 define(GMP_COPYRIGHT,[[
 
 Copyright 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006
@@ -153,8 +153,8 @@ AM_CONDITIONAL(WANT_MPBSD, test "$enable_mpbsd" = "yes")
 AC_ARG_ENABLE(nails,
 AC_HELP_STRING([--enable-nails],[use nails on limbs [[default=no]]]),
 [case $enableval in
-[yes|no|[0-9]|[0-9][0-9]]) ;;
-*) AC_MSG_ERROR([bad value $enableval for --enable-nails, need yes/no/number]) ;;
+[yes|no|[02468]|[0-9][02468]]) ;;
+*) AC_MSG_ERROR([bad value $enableval for --enable-nails, need yes/no/even number]) ;;
 esac],
 [enable_nails=no])
 
