@@ -141,16 +141,10 @@ NS32000, IBM POWER, MIPS R3000, R4000, SPARCv7, SuperSPARC, generic
 SPARCv8, UltraSPARC, DEC VAX, and Zilog Z8000.  Some optimizations also
 for Cray vector systems, Clipper, IBM ROMP (RT), and Pyramid AP/XP.
 
-For up-to-date information on MPIR, please see the MPIR web pages at
+For up-to-date information on, and latest version of, MPIR, please see
+the MPIR web pages at
 
      `http://www.mpir.org/'
-
-The latest version of the library is available at
-
-     `ftp://ftp.mpir.org/mpir'
-
-   Many sites around the world mirror `ftp.gnu.org', please use a mirror
-near you, see `http://www.gnu.org/order/ftp.html' for a full list.
 
    There are a number of public mailing lists of interest.  The
 development list is
@@ -242,13 +236,13 @@ Build Directory
      to install under a particular tree.  The default is `/usr/local'.
 
      `--exec-prefix' can be used to direct architecture-dependent files
-     like `libgmp.a' to a different location.  This can be used to share
-     architecture-independent parts like the documentation, but
-     separate the dependent parts.  Note however that `gmp.h' and
-     `mp.h' are architecture-dependent since they encode certain
-     aspects of `libgmp', so it will be necessary to ensure both
-     `$prefix/include' and `$exec_prefix/include' are available to the
-     compiler.
+     like `libgmp.a'/`libmpir.a' to a different location.  This can be
+     used to share architecture-independent parts like the
+     documentation, but separate the dependent parts.  Note however
+     that `gmp.h'/`mpir.h' and `mp.h' are architecture-dependent since
+     they encode certain aspects of `libgmp'/`libmpir', so it will be
+     necessary to ensure both `$prefix/include' and
+     `$exec_prefix/include' are available to the compiler.
 
 `--disable-shared', `--disable-static'
      By default both shared and static libraries are built (where
@@ -297,8 +291,8 @@ Cross Compilation, `--host=CPU-VENDOR-OS'
 
      In all cases the compiler must be able to produce an executable
      (of whatever format) from a standard C `main'.  Although only
-     object files will go to make up `libgmp', `./configure' uses
-     linking tests for various purposes, such as determining what
+     object files will go to make up `libgmp'/`libmpir', `./configure'
+     uses linking tests for various purposes, such as determining what
      functions are available on the host system.
 
      Currently a warning is given unless an explicit `--build' is used
@@ -439,24 +433,25 @@ C++ Support, `--enable-cxx'
      case a C++ compiler will be required.  As a convenience
      `--enable-cxx=detect' can be used to enable C++ support only if a
      compiler can be found.  The C++ support consists of a library
-     `libgmpxx.la' and header file `gmpxx.h' (*note Headers and
-     Libraries::).
+     `libgmpxx.la'/`libmpirxx.la' and header file `gmpxx.h'/`mpirxx.h'
+     (*note Headers and Libraries::).
 
-     A separate `libgmpxx.la' has been adopted rather than having C++
-     objects within `libgmp.la' in order to ensure dynamic linked C
-     programs aren't bloated by a dependency on the C++ standard
-     library, and to avoid any chance that the C++ compiler could be
-     required when linking plain C programs.
+     A separate `libgmpxx.la'/`libmpirxx.la' has been adopted rather
+     than having C++ objects within `libgmp.la'/`libmpir.la' in order
+     to ensure dynamic linked C programs aren't bloated by a dependency
+     on the C++ standard library, and to avoid any chance that the C++
+     compiler could be required when linking plain C programs.
 
-     `libgmpxx.la' will use certain internals from `libgmp.la' and can
-     only be expected to work with `libgmp.la' from the same MPIR
-     version.  Future changes to the relevant internals will be
-     accompanied by renaming, so a mismatch will cause unresolved
-     symbols rather than perhaps mysterious misbehaviour.
+     `libgmpxx.la'/`libmpirxx.la' will use certain internals from
+     `libgmp.la'/`libmpir.la' and can only be expected to work with
+     `libgmp.la'/`libmpir.la' from the same MPIR version.  Future
+     changes to the relevant internals will be accompanied by renaming,
+     so a mismatch will cause unresolved symbols rather than perhaps
+     mysterious misbehaviour.
 
-     In general `libgmpxx.la' will be usable only with the C++ compiler
-     that built it, since name mangling and runtime support are usually
-     incompatible between different compilers.
+     In general `libgmpxx.la'/`libmpirxx.la' will be usable only with
+     the C++ compiler that built it, since name mangling and runtime
+     support are usually incompatible between different compilers.
 
 `CXX', `CXXFLAGS'
      When C++ support is enabled, the C++ compiler and its flags can be
@@ -595,11 +590,11 @@ particular application requirements.  For example,
 is compiled for the same ABI.
 
    Usually a limb is implemented as a `long'.  When a `long long' limb
-is used this is encoded in the generated `gmp.h'.  This is convenient
-for applications, but it does mean that `gmp.h' will vary, and can't be
-just copied around.  `gmp.h' remains compiler independent though, since
-all compilers for a particular ABI will be expected to use the same
-limb type.
+is used this is encoded in the generated `gmp.h'/`mpir.h'.  This is
+convenient for applications, but it does mean that `gmp.h'/`mpir.h'
+will vary, and can't be just copied around.  `gmp.h'/`mpir.h' remains
+compiler independent though, since all compilers for a particular ABI
+will be expected to use the same limb type.
 
    Currently no attempt is made to follow whatever conventions a system
 has for installing library or header files built for a particular ABI.
@@ -834,10 +829,11 @@ checked by the loader an auxiliary mechanism may be needed to express
 that a dynamic linked application depends on a new enough MPIR.
 
    An auxiliary mechanism may also be needed to express that
-`libgmpxx.la' (from `--enable-cxx', *note Build Options::) requires
-`libgmp.la' from the same MPIR version, since this is not done by the
-libtool versioning, nor otherwise.  A mismatch will result in
-unresolved symbols from the linker, or perhaps the loader.
+`libgmpxx.la'/`libmpirxx.la' (from `--enable-cxx', *note Build
+Options::) requires `libgmp.la'/`libmpir.la' from the same MPIR
+version, since this is not done by the libtool versioning, nor
+otherwise.  A mismatch will result in unresolved symbols from the
+linker, or perhaps the loader.
 
    When building a package for a CPU family, care should be taken to use
 `--host' (or `--build') to choose the least common denominator among
@@ -867,12 +863,13 @@ system conventions for install locations that vary with ABI, such as
 A package build can override `libdir' and other standard variables as
 necessary.
 
-   Note that `gmp.h' is a generated file, and will be architecture and
-ABI dependent.  When attempting to install two ABIs simultaneously it
-will be important that an application compile gets the correct `gmp.h'
-for its desired ABI.  If compiler include paths don't vary with ABI
-options then it might be necessary to create a `/usr/include/gmp.h'
-which tests preprocessor symbols and chooses the correct actual `gmp.h'.
+   Note that `gmp.h'/`mpir.h' is a generated file, and will be
+architecture and ABI dependent.  When attempting to install two ABIs
+simultaneously it will be important that an application compile gets
+the correct `gmp.h'/`mpir.h' for its desired ABI.  If compiler include
+paths don't vary with ABI options then it might be necessary to create
+a `/usr/include/gmp.h' or `/usr/include/mpir.h' which tests
+preprocessor symbols and chooses the correct actual `gmp.h'/`mpir.h'.
 
 
 File: gmp.info,  Node: Notes for Particular Systems,  Next: Known Build Problems,  Prev: Notes for Package Builds,  Up: Installing MPIR
@@ -888,10 +885,10 @@ AIX 3 and 4
           ./configure --enable-shared --disable-static
 
      Note that the `--disable-static' is necessary because in a shared
-     build libtool makes `libgmp.a' a symlink to `libgmp.so',
-     apparently for the benefit of old versions of `ld' which only
-     recognise `.a', but unfortunately this is done even if a fully
-     functional `ld' is available.
+     build libtool makes `libgmp.a'/`libmpir.a' a symlink to
+     `libgmp.so'/`libmpir.so', apparently for the benefit of old
+     versions of `ld' which only recognise `.a', but unfortunately this
+     is done even if a fully functional `ld' is available.
 
 ARM
      On systems `arm*-*-*', versions of GCC up to and including 2.95.3
@@ -941,12 +938,12 @@ MS Windows DLLs
           ./configure --disable-static --enable-shared
 
      Static and DLL libraries can't both be built, since certain export
-     directives in `gmp.h' must be different.
+     directives in `gmp.h'/`mpir.h' must be different.
 
      A MINGW DLL build of MPIR can be used with Microsoft C.  Libtool
      doesn't install a `.lib' format import library, but it can be
      created with MS `lib' as follows, and copied to the install
-     directory.  Similarly for `libmp' and `libgmpxx'.
+     directory.  Similarly for `libmp' and `libgmpxx'/`libmpirxx'.
 
           cd .libs
           lib /def:libgmp-3.dll.def /out:libgmp-3.lib
@@ -1056,26 +1053,28 @@ DJGPP (`*-*-msdosdjgpp*')
 
 GNU binutils `strip' prior to 2.12
      `strip' from GNU binutils 2.11 and earlier should not be used on
-     the static libraries `libgmp.a' and `libmp.a' since it will
-     discard all but the last of multiple archive members with the same
-     name, like the three versions of `init.o' in `libgmp.a'.  Binutils
-     2.12 or higher can be used successfully.
+     the static libraries `libgmp.a'/`libmpir.a' and `libmp.a' since it
+     will discard all but the last of multiple archive members with the
+     same name, like the three versions of `init.o' in
+     `libgmp.a'/`libmpir.a'.  Binutils 2.12 or higher can be used
+     successfully.
 
-     The shared libraries `libgmp.so' and `libmp.so' are not affected by
-     this and any version of `strip' can be used on them.
+     The shared libraries `libgmp.so'/`libmpir.so' and `libmp.so' are
+     not affected by this and any version of `strip' can be used on
+     them.
 
 `make' syntax error
      On certain versions of SCO OpenServer 5 and IRIX 6.5 the native
      `make' is unable to handle the long dependencies list for
-     `libgmp.la'.  The symptom is a "syntax error" on the following
-     line of the top-level `Makefile'.
+     `libgmp.la'/`libmpir.la'.  The symptom is a "syntax error" on the
+     following line of the top-level `Makefile'.
 
           libgmp.la: $(libgmp_la_OBJECTS) $(libgmp_la_DEPENDENCIES)
 
      Either use GNU Make, or as a workaround remove
      `$(libgmp_la_DEPENDENCIES)' from that line (which will make the
-     initial build work, but if any recompiling is done `libgmp.la'
-     might not be rebuilt).
+     initial build work, but if any recompiling is done
+     `libgmp.la'/`libmpir.la' might not be rebuilt).
 
 MacOS X (`*-*-darwin*')
      Libtool currently only knows how to create shared libraries on
@@ -1100,9 +1099,9 @@ Sequent Symmetry
 
 Solaris 2.6
      The system `sed' prints an error "Output line too long" when
-     libtool builds `libgmp.la'.  This doesn't seem to cause any
-     obvious ill effects, but GNU `sed' is recommended, to avoid any
-     doubt.
+     libtool builds `libgmp.la'/`libmpir.la'.  This doesn't seem to
+     cause any obvious ill effects, but GNU `sed' is recommended, to
+     avoid any doubt.
 
 Sparc Solaris 2.7 with gcc 2.95.2 in `ABI=32'
      A shared library build of MPIR seems to fail in this combination,
@@ -1176,31 +1175,32 @@ File: gmp.info,  Node: Headers and Libraries,  Next: Nomenclature and Types,  Pr
 =========================
 
 All declarations needed to use MPIR are collected in the include file
-`gmp.h'.  It is designed to work with both C and C++ compilers.
+`gmp.h'/`mpir.h'.  It is designed to work with both C and C++ compilers.
 
-     #include <gmp.h>
+     #include <mpir.h>
 
    Note however that prototypes for MPIR functions with `FILE *'
 parameters are only provided if `<stdio.h>' is included too.
 
      #include <stdio.h>
-     #include <gmp.h>
+     #include <mpir.h>
 
    Likewise `<stdarg.h>' (or `<varargs.h>') is required for prototypes
 with `va_list' parameters, such as `gmp_vprintf'.  And `<obstack.h>'
 for prototypes with `struct obstack' parameters, such as
 `gmp_obstack_printf', when available.
 
-   All programs using MPIR must link against the `libgmp' library.  On a
-typical Unix-like system this can be done with `-lgmp', for example
+   All programs using MPIR must link against the `libgmp' or `libmpir'
+library.  On a typical Unix-like system this can be done with `-lgmp'
+or `-lmpir' respectively, for example
 
-     gcc myprogram.c -lgmp
+     gcc myprogram.c -lmpir
 
-   MPIR C++ functions are in a separate `libgmpxx' library.  This is
-built and installed if C++ support has been enabled (*note Build
-Options::).  For example,
+   MPIR C++ functions are in a separate `libgmpxx' or `libmpirxx'
+library.  This is built and installed if C++ support has been enabled
+(*note Build Options::).  For example,
 
-     g++ mycxxprog.cc -lgmpxx -lgmp
+     g++ mycxxprog.cc -lmpirxx -lmpir
 
    MPIR is built using Libtool and an application can use that to link
 if desired, *note GNU Libtool: (libtool)Top.
@@ -1586,11 +1586,12 @@ Small Operands
      both large and small operands.
 
 Static Linking
-     On some CPUs, in particular the x86s, the static `libgmp.a' should
-     be used for maximum speed, since the PIC code in the shared
-     `libgmp.so' will have a small overhead on each function call and
-     global data address.  For many programs this will be
-     insignificant, but for long calculations there's a gain to be had.
+     On some CPUs, in particular the x86s, the static
+     `libgmp.a'/`libmpir.a' should be used for maximum speed, since the
+     PIC code in the shared `libgmp.so'/`libmpir.so' will have a small
+     overhead on each function call and global data address.  For many
+     programs this will be insignificant, but for long calculations
+     there's a gain to be had.
 
 Initializing and Clearing
      Avoid excessive initializing and clearing of variables, since this
@@ -1984,26 +1985,27 @@ The only thing to be noted is that GMP/MPIR library symbols from
 version 3 of GMP and version 1 of MPIR onwards have prefixes like
 `__gmpz'.  The following therefore would be a simple test,
 
-     AC_CHECK_LIB(gmp, __gmpz_init)
+     AC_CHECK_LIB(mpir, __gmpz_init)
 
    This just uses the default `AC_CHECK_LIB' actions for found or not
 found, but an application that must have MPIR would want to generate an
 error if not found.  For example,
 
-     AC_CHECK_LIB(gmp, __gmpz_init, ,
+     AC_CHECK_LIB(mpir, __gmpz_init, ,
        [AC_MSG_ERROR([MPIR not found, see http://www.mpir.org/])])
 
    If functions added in some particular version of GMP/MPIR are
 required, then one of those can be used when checking.  For example
 `mpz_mul_si' was added in GMP 3.1,
 
-     AC_CHECK_LIB(gmp, __gmpz_mul_si, ,
+     AC_CHECK_LIB(mpir, __gmpz_mul_si, ,
        [AC_MSG_ERROR(
        [GMP/MPIR not found, or not GMP 3.1 or up or MPIR 1.0 or up, see http://www.mpir.org/])])
 
-   An alternative would be to test the version number in `gmp.h' using
-say `AC_EGREP_CPP'.  That would make it possible to test the exact
-version, if some particular sub-minor release is known to be necessary.
+   An alternative would be to test the version number in
+`gmp.h'/`mpir.h' using say `AC_EGREP_CPP'.  That would make it possible
+to test the exact version, if some particular sub-minor release is
+known to be necessary.
 
    In general it's recommended that applications should simply demand a
 new enough MPIR rather than trying to provide supplements for features
@@ -2016,7 +2018,7 @@ GMP 4.0 or up and MPIR 1.0 and up is best for this, since prior
 versions needed certain `-D' defines on systems using a `long long'
 limb.  The following would suit Autoconf 2.50 or up,
 
-     AC_CHECK_SIZEOF(mp_limb_t, , [#include <gmp.h>])
+     AC_CHECK_SIZEOF(mp_limb_t, , [#include <mpir.h>])
 
 
 File: gmp.info,  Node: Emacs,  Prev: Autoconf,  Up: MPIR Basics
@@ -2811,8 +2813,8 @@ argument to any of these functions will make them read from `stdin' and
 write to `stdout', respectively.
 
    When using any of these functions, it is a good idea to include
-`stdio.h' before `gmp.h', since that will allow `gmp.h' to define
-prototypes for these functions.
+`stdio.h' before `gmp.h'/`mpir.h', since that will allow
+`gmp.h'/`mpir.h' to define prototypes for these functions.
 
  -- Function: size_t mpz_out_str (FILE *STREAM, int BASE, mpz_t OP)
      Output OP on stdio stream STREAM, as a string of digits in base
@@ -3356,8 +3358,8 @@ File: gmp.info,  Node: I/O of Rationals,  Prev: Applying Integer Functions,  Up:
 ==============================
 
 When using any of these functions, it's a good idea to include `stdio.h'
-before `gmp.h', since that will allow `gmp.h' to define prototypes for
-these functions.
+before `gmp.h'/`mpir.h', since that will allow `gmp.h'/`mpir.h' to
+define prototypes for these functions.
 
    Passing a `NULL' pointer for a STREAM argument to any of these
 functions will make them read from `stdin' and write to `stdout',
@@ -3802,8 +3804,8 @@ argument to any of these functions will make them read from `stdin' and
 write to `stdout', respectively.
 
    When using any of these functions, it is a good idea to include
-`stdio.h' before `gmp.h', since that will allow `gmp.h' to define
-prototypes for these functions.
+`stdio.h' before `gmp.h'/`mpir.h', since that will allow
+`gmp.h'/`mpir.h' to define prototypes for these functions.
 
  -- Function: size_t mpf_out_str (FILE *STREAM, int BASE, size_t
           N_DIGITS, mpf_t OP)
@@ -4748,9 +4750,10 @@ File: gmp.info,  Node: C++ Formatted Output,  Prev: Formatted Output Functions, 
 10.3 C++ Formatted Output
 =========================
 
-The following functions are provided in `libgmpxx' (*note Headers and
-Libraries::), which is built if C++ support is enabled (*note Build
-Options::).  Prototypes are available from `<gmp.h>'.
+The following functions are provided in `libgmpxx'/`libmpirxx' (*note
+Headers and Libraries::), which is built if C++ support is enabled
+(*note Build Options::).  Prototypes are available from `<gmp.h>' or
+`<mpir.h>'.
 
  -- Function: ostream& operator<< (ostream& STREAM, mpz_t OP)
      Print OP to STREAM, using its `ios' formatting settings.
@@ -5012,9 +5015,10 @@ File: gmp.info,  Node: C++ Formatted Input,  Prev: Formatted Input Functions,  U
 11.3 C++ Formatted Input
 ========================
 
-The following functions are provided in `libgmpxx' (*note Headers and
-Libraries::), which is built only if C++ support is enabled (*note
-Build Options::).  Prototypes are available from `<gmp.h>'.
+The following functions are provided in `libgmpxx'/`libmpirxx' (*note
+Headers and Libraries::), which is built only if C++ support is enabled
+(*note Build Options::).  Prototypes are available from `<gmp.h>' or
+`<mpir.h>'.
 
  -- Function: istream& operator>> (istream& STREAM, mpz_t ROP)
      Read ROP from STREAM, using its `ios' formatting settings.
@@ -5063,8 +5067,9 @@ File: gmp.info,  Node: C++ Class Interface,  Next: BSD Compatible Functions,  Pr
 This chapter describes the C++ class based interface to MPIR.
 
    All MPIR C language types and functions can be used in C++ programs,
-since `gmp.h' has `extern "C"' qualifiers, but the class interface
-offers overloaded functions and operators which may be more convenient.
+since `gmp.h'/`mpir.h' has `extern "C"' qualifiers, but the class
+interface offers overloaded functions and operators which may be more
+convenient.
 
    Due to the implementation of this interface, a reasonably recent C++
 compiler is required, one supporting namespaces, partial specialization
@@ -5094,10 +5099,10 @@ All the C++ classes and functions are available with
 
      #include <gmpxx.h>
 
-   Programs should be linked with the `libgmpxx' and `libgmp'
-libraries.  For example,
+   Programs should be linked with the `libgmpxx'/`libmpirxx' and
+`libgmp'/`libmpir' libraries.  For example,
 
-     g++ mycxxprog.cc -lgmpxx -lgmp
+     g++ mycxxprog.cc -lmpirxx -lmpir
 
 The classes defined are
 
@@ -5170,10 +5175,10 @@ any sort of association.  For example,
      y = mpz_class (z);
 
    There are no namespace setups in `gmpxx.h', all types and functions
-are simply put into the global namespace.  This is what `gmp.h' has
-done in the past, and continues to do for compatibility.  The extras
-provided by `gmpxx.h' follow MPIR naming conventions and are unlikely
-to clash with anything.
+are simply put into the global namespace.  This is what
+`gmp.h'/`mpir.h' has done in the past, and continues to do for
+compatibility.  The extras provided by `gmpxx.h' follow MPIR naming
+conventions and are unlikely to clash with anything.
 
 
 File: gmp.info,  Node: C++ Interface Integers,  Next: C++ Interface Rationals,  Prev: C++ Interface General,  Up: C++ Class Interface
