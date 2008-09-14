@@ -276,8 +276,11 @@ mpf_set_str (mpf_ptr x, const char *str, int base)
     if (expptr != 0)
       {
 	/* Scan and convert the exponent, in base exp_base.  */
-	long dig, neg = -(long) ('-' == expptr[0]);
-	expptr -= neg;			/* conditional increment */
+	long dig, minus, plusminus;
+	c = (unsigned char) *expptr;
+	minus = -(long) (c == '-');
+	plusminus = minus | -(long) (c == '+');
+	expptr -= plusminus;			/* conditional increment */
 	c = (unsigned char) *expptr++;
 	dig = digit_value[c];
 	if (dig >= exp_base)
@@ -295,7 +298,7 @@ mpf_set_str (mpf_ptr x, const char *str, int base)
 	    c = (unsigned char) *expptr++;
 	    dig = digit_value[c];
 	  }
-	exp_in_base = (exp_in_base ^ neg) - neg; /* conditional negation */
+	exp_in_base = (exp_in_base ^ minus) - minus; /* conditional negation */
       }
     else
       exp_in_base = 0;
