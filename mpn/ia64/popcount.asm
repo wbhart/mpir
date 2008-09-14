@@ -1,6 +1,6 @@
 dnl  IA-64 mpn_popcount.
 
-dnl  Copyright 2000, 2001 Free Software Foundation, Inc.
+dnl  Copyright 2000, 2001, 2006 Free Software Foundation, Inc.
 
 dnl  This file is part of the GNU MP Library.
 
@@ -25,6 +25,10 @@ dnl  to write mpn_hamdist with the same awesome performance.
 
 include(`../config.m4')
 
+define(ABI32,
+m4_assert_onearg()
+`ifdef(`HAVE_ABI_32',`$1')')
+ 
 C INPUT PARAMETERS
 C sp = r32
 C n = r33
@@ -33,8 +37,12 @@ ASM_START()
 PROLOGUE(mpn_popcount)
 	.prologue
 	.save	ar.lc, r2
-		mov	r2 = ar.lc
+ABI32(`		addp4	r32 = 0, r32')	C M  src extend
+ 		mov	r2 = ar.lc	C I0	
+ABI32(`		zxt4	r33 = r33')	C I1  size extend
+ 		;;
 	.body
+
 		and	r22 = 3, r33
 		shr.u	r23 = r33, 2	;;
 		mov	ar.lc = r22

@@ -51,7 +51,7 @@ m4_assert_numargs(2)
 `define(`TOC_ENTRY',
 `	.toc
 tc$2:
-	.tc	$2[TC], $2[RW]')'
+	.tc	$2[TC], $2')'
 `	lwz	$1, tc$2(2)')
 
 define(`EXTERN',

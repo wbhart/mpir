@@ -836,9 +836,11 @@ case $host in
     cclist="gcc cc"
     cc_cflags="-O2"
     gcc_cflags="-O2 -mpowerpc"
-    gcc_cflags_optlist="precomp subtype cpu"
+    gcc_cflags_optlist="precomp subtype asm cpu"
     gcc_cflags_precomp="-no-cpp-precomp"
     gcc_cflags_subtype="-force_cpusubtype_ALL"	# for vmx on darwin
+    gcc_cflags_asm=""
+    gcc_cflags_cpu=""
 
     # grab this object, though it's not a true cycle counter routine
     SPEED_CYCLECOUNTER_OBJ=powerpc.lo
@@ -849,7 +851,7 @@ case $host in
         path="powerpc32/750 powerpc32" ;;
       powerpc7400)
         path="powerpc32/vmx powerpc32/750 powerpc32" ;;
-      [powerpc745?])
+      [powerpc74[45]?])
         path="powerpc32/vmx powerpc32 powerpc32" ;;
       *)
         path="powerpc32" ;;
@@ -883,8 +885,11 @@ case $host in
       powerpc630)   gcc_cflags_cpu="-mcpu=630" ;;
       powerpc740)   gcc_cflags_cpu="-mcpu=740" ;;
       powerpc7400 | powerpc7410)
-		    gcc_cflags_cpu="-mcpu=7400 -mcpu=750" ;;
-      powerpc745?)  gcc_cflags_cpu="-mcpu=7450" ;;
+		    gcc_cflags_asm="-Wa,-maltivec"
+  		    gcc_cflags_cpu="-mcpu=7400 -mcpu=750" ;;
+      powerpc74[45]?)  
+            gcc_cflags_asm="-Wa,-maltivec"
+  		    gcc_cflags_cpu="-mcpu=7450" ;;
       powerpc750)   gcc_cflags_cpu="-mcpu=750" ;;
       powerpc801)   gcc_cflags_cpu="-mcpu=801" ;;
       powerpc821)   gcc_cflags_cpu="-mcpu=821" ;;
@@ -1451,6 +1456,8 @@ case $host in
 
     # If the user asked for a fat build, override the path set above
     if test $enable_fat = yes; then
+      gcc_cflags_cpu=""
+      gcc_cflags_arch=""
       extra_functions="$extra_functions fat fat_entry"
       path="x86/fat x86"
       fat_path="x86 x86/fat x86/i486
