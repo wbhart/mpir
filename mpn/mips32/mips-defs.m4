@@ -27,6 +27,7 @@ dnl  Usage: ASM_START()
 define(`ASM_START',
 m4_assert_numargs(0)
 `	.set noreorder
+	.set noat
 	.set nomacro')
 
 dnl  Usage: X(value)

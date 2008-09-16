@@ -46,7 +46,7 @@ PROLOGUE(mpn_divrem_1)
 	daddu	$gp,$1,$25
 	move	$14,$4
 	move	$15,$5
-	addu	$4,$7,$15
+	daddu	$4,$7,$15
 	bne	$4,$0,.L176
 	move	$13,$0
 	b	.L490
@@ -55,18 +55,18 @@ PROLOGUE(mpn_divrem_1)
 	b	.L229
 	dli	$5,-1
 .L176:
-	sll	$2,$4,3
-	addu	$2,$2,-8
+	dsll	$2,$4,3
+	daddu	$2,$2,-8
 	dli	$3,0x8000000000000000
 	and	$3,$8,$3
 	beq	$3,$0,.L177
-	addu	$14,$14,$2
+	daddu	$14,$14,$2
 	beq	$7,$0,.L494
 	dsll	$2,$8,1
-	sll	$2,$7,3
-	addu	$2,$2,$6
+	dsll	$2,$7,3
+	daddu	$2,$2,$6
 	ld	$13,-8($2)
-	addu	$7,$7,-1
+	daddu	$7,$7,-1
 	sltu	$2,$13,$8
 	xori	$2,$2,0x1
 	dsll	$2,$2,32
@@ -74,7 +74,7 @@ PROLOGUE(mpn_divrem_1)
 	dsll	$2,$2,32
 	dsrl	$2,$2,32
 	sd	$2,0($14)
-	addu	$14,$14,-8
+	daddu	$14,$14,-8
 	dsubu	$2,$0,$2
 	and	$2,$8,$2
 	dsubu	$13,$13,$2
@@ -142,11 +142,11 @@ PROLOGUE(mpn_divrem_1)
 	mflo	$2
 	or	$5,$2,$5
 .L229:
-	addu	$7,$7,-1
+	daddu	$7,$7,-1
 	bltz	$7,.L257
-	addu	$25,$15,-1
-	sll	$2,$7,3
-	addu	$6,$2,$6
+	daddu	$25,$15,-1
+	dsll	$2,$7,3
+	daddu	$6,$2,$6
 .Loop1:
 	ld	$11,0($6)
 	dmultu	$13,$5
@@ -176,10 +176,10 @@ PROLOGUE(mpn_divrem_1)
 	daddu	$10,$10,1
 	move	$13,$4
 .L496:	sd	$10,0($14)
-	addu	$14,$14,-8
-	addu	$7,$7,-1
+	daddu	$14,$14,-8
+	daddu	$7,$7,-1
 	bgez	$7,.Loop1
-	addu	$6,$6,-8
+	daddu	$6,$6,-8
 .L257:
 	move	$7,$25
 	bltz	$7,.L490
@@ -212,37 +212,37 @@ PROLOGUE(mpn_divrem_1)
 	daddu	$9,$9,1
 	move	$13,$4
 .L497:	sd	$9,0($14)
-	addu	$7,$7,-1
+	daddu	$7,$7,-1
 	bgez	$7,.Loop2
-	addu	$14,$14,-8
+	daddu	$14,$14,-8
 	b	.L490
 	move	$2,$13
 .L177:
 	beq	$7,$0,.L308
-	sll	$2,$7,3
-	addu	$2,$2,$6
+	dsll	$2,$7,3
+	daddu	$2,$2,$6
 	ld	$12,-8($2)
 	sltu	$3,$12,$8
 	beq	$3,$0,.L308
-	addu	$4,$4,-1
+	daddu	$4,$4,-1
 	move	$13,$12
 	sd	$0,0($14)
 	bne	$4,$0,.L307
-	addu	$14,$14,-8
+	daddu	$14,$14,-8
 	b	.L490
 	move	$2,$13
 .L492:
 	b	.L395
 	dli	$5,-1
 .L307:
-	addu	$7,$7,-1
+	daddu	$7,$7,-1
 .L308:
 	dli	$5,0x38
 	dsrl	$2,$8,56
 	andi	$2,$2,0xff
-	la	$3,__gmpn_clz_tab
+	dla	$3,__gmpn_clz_tab
 	bne	$2,$0,.L321
-	addu	$25,$15,-1
+	daddu	$25,$15,-1
 	dsubu	$5,$5,8
 .L499:
 	beql	$5,$0,.L498
@@ -261,7 +261,7 @@ PROLOGUE(mpn_divrem_1)
 	dsrl	$2,$8,$2
 	dsll	$2,$2,32
 	dsra	$2,$2,32
-	addu	$2,$2,$3
+	daddu	$2,$2,$3
 	lbu	$4,0($2)
 	dli	$3,0x41
 	dsubu	$3,$3,$4
@@ -334,18 +334,18 @@ PROLOGUE(mpn_divrem_1)
 	or	$5,$2,$5
 .L395:
 	beq	$7,$0,.L422
-	sll	$2,$7,3
-	addu	$2,$2,$6
+	dsll	$2,$7,3
+	daddu	$2,$2,$6
 	ld	$12,-8($2)
-	addu	$7,$7,-2
+	daddu	$7,$7,-2
 	li	$2,64
 	subu	$2,$2,$24
 	dsrl	$3,$12,$2
 	bltz	$7,.L424
 	or	$13,$13,$3
 	move	$15,$2
-	sll	$2,$7,3
-	addu	$6,$2,$6
+	dsll	$2,$7,3
+	daddu	$6,$2,$6
 .Loop3:
 	ld	$11,0($6)
 	dmultu	$13,$5
@@ -377,11 +377,11 @@ PROLOGUE(mpn_divrem_1)
 	daddu	$9,$9,1
 	move	$13,$4
 .L501:	sd	$9,0($14)
-	addu	$14,$14,-8
+	daddu	$14,$14,-8
 	move	$12,$11
-	addu	$7,$7,-1
+	daddu	$7,$7,-1
 	bgez	$7,.Loop3
-	addu	$6,$6,-8
+	daddu	$6,$6,-8
 .L424:
 	dmultu	$13,$5
 	mfhi	$7
@@ -413,7 +413,7 @@ PROLOGUE(mpn_divrem_1)
 	move	$13,$4
 .L502:
 	sd	$7,0($14)
-	addu	$14,$14,-8
+	daddu	$14,$14,-8
 .L422:
 	move	$7,$25
 	bltz	$7,.L490
@@ -446,9 +446,9 @@ PROLOGUE(mpn_divrem_1)
 	daddu	$9,$9,1
 	move	$13,$4
 .L503:	sd	$9,0($14)
-	addu	$7,$7,-1
+	daddu	$7,$7,-1
 	bgez	$7,.Loop4
-	addu	$14,$14,-8
+	daddu	$14,$14,-8
 	dsrl	$2,$13,$24
 .L490:
 	ld	$28,16($sp)
