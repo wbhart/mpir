@@ -1,6 +1,6 @@
-This is gmp.info, produced by makeinfo version 4.8 from gmp.texi.
+This is gmp.info, produced by makeinfo version 4.11 from gmp.texi.
 
-   This manual describes how to install and use MPIR, the Multiple
+This manual describes how to install and use MPIR, the Multiple
 Precision Integers and Rationals library, version 0.9.0.
 
    Copyright 1991, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000,
@@ -14,7 +14,7 @@ document under the terms of the GNU Free Documentation License, Version
 with no Invariant Sections, with the Front-Cover Texts being "A GNU
 Manual", and with the Back-Cover Texts being "You have freedom to copy
 and modify this GNU Manual, like GNU software".  A copy of the license
-is included in *Note GNU Free Documentation License::.
+is included in *note GNU Free Documentation License::.
 
 INFO-DIR-SECTION GNU libraries
 START-INFO-DIR-ENTRY
@@ -284,8 +284,8 @@ formulas is used, according as n is odd or even.
      F[2k+1] = (2F[k]+F[k-1])*(2F[k]-F[k-1]) + 2*(-1)^k
 
    F[2k+1] here is the same as above, just rearranged to be a multiply.
-For interest, the 2*(-1)^k term both here and above can be applied
-just to the low limb of the calculation, without a carry or borrow into
+For interest, the 2*(-1)^k term both here and above can be applied just
+to the low limb of the calculation, without a carry or borrow into
 further limbs, which saves some code size.  See comments with
 `mpz_fib_ui' and the internal `mpn_fib2_ui' for how this is done.
 
@@ -891,7 +891,7 @@ GCDs necessary, not four.
 
    This general approach to common factors is badly sub-optimal in the
 presence of simple factorizations or little prospect for cancellation,
-but MPIR has no way to know when this will occur.  As per *Note
+but MPIR has no way to know when this will occur.  As per *note
 Efficiency::, that's left to applications.  The `mpq_t' framework might
 still suit, with `mpq_numref' and `mpq_denref' for direct access to the
 numerator and denominator, or of course `mpz_t' variables can be used
