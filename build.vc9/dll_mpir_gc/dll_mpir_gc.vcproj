@@ -702,6 +702,10 @@
 					</FileConfiguration>
 				</File>
 				<File
+					RelativePath="..\..\mpn\generic\bgcd.c"
+					>
+				</File>
+				<File
 					RelativePath="..\..\mpn\generic\cmp.c"
 					>
 					<FileConfiguration
@@ -1262,6 +1266,14 @@
 					</FileConfiguration>
 				</File>
 				<File
+					RelativePath="..\..\mpn\generic\hgcd.c"
+					>
+				</File>
+				<File
+					RelativePath="..\..\mpn\generic\hgcd2.c"
+					>
+				</File>
+				<File
 					RelativePath="..\..\mpn\generic\jacbase.c"
 					>
 					<FileConfiguration
@@ -1300,6 +1312,10 @@
 							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\mpn\generic\lgcd.c"
+					>
 				</File>
 				<File
 					RelativePath="..\..\mpn\generic\lshift.c"
@@ -1744,6 +1760,22 @@
 					</FileConfiguration>
 				</File>
 				<File
+					RelativePath="..\..\mpn\generic\ngcd.c"
+					>
+				</File>
+				<File
+					RelativePath="..\..\mpn\generic\ngcd_matrix.c"
+					>
+				</File>
+				<File
+					RelativePath="..\..\mpn\generic\ngcd_step.c"
+					>
+				</File>
+				<File
+					RelativePath="..\..\mpn\generic\nhgcd2.c"
+					>
+				</File>
+				<File
 					RelativePath="..\..\mpn\generic\perfsqr.c"
 					>
 					<FileConfiguration
@@ -2024,6 +2056,10 @@
 					</FileConfiguration>
 				</File>
 				<File
+					RelativePath="..\..\mpn\generic\rgcd.c"
+					>
+				</File>
+				<File
 					RelativePath="..\..\mpn\generic\rootrem.c"
 					>
 					<FileConfiguration
@@ -2262,6 +2298,10 @@
 							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\mpn\generic\sgcd.c"
+					>
 				</File>
 				<File
 					RelativePath="..\..\mpn\generic\sizeinbase.c"

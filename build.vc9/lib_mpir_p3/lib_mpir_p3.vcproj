@@ -2266,6 +2266,10 @@
 					</FileConfiguration>
 				</File>
 				<File
+					RelativePath="..\..\mpn\generic\bgcd.c"
+					>
+				</File>
+				<File
 					RelativePath="..\..\mpn\generic\cmp.c"
 					>
 					<FileConfiguration
@@ -2528,6 +2532,14 @@
 					</FileConfiguration>
 				</File>
 				<File
+					RelativePath="..\..\mpn\generic\hgcd.c"
+					>
+				</File>
+				<File
+					RelativePath="..\..\mpn\generic\hgcd2.c"
+					>
+				</File>
+				<File
 					RelativePath="..\..\mpn\generic\jacbase.c"
 					>
 					<FileConfiguration
@@ -2546,6 +2558,10 @@
 							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\mpn\generic\lgcd.c"
+					>
 				</File>
 				<File
 					RelativePath="..\..\mpn\generic\mul.c"
@@ -2647,6 +2663,22 @@
 							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\mpn\generic\ngcd.c"
+					>
+				</File>
+				<File
+					RelativePath="..\..\mpn\generic\ngcd_matrix.c"
+					>
+				</File>
+				<File
+					RelativePath="..\..\mpn\generic\ngcd_step.c"
+					>
+				</File>
+				<File
+					RelativePath="..\..\mpn\generic\nhgcd2.c"
+					>
 				</File>
 				<File
 					RelativePath="..\..\mpn\generic\perfsqr.c"
@@ -2751,6 +2783,10 @@
 					</FileConfiguration>
 				</File>
 				<File
+					RelativePath="..\..\mpn\generic\rgcd.c"
+					>
+				</File>
+				<File
 					RelativePath="..\..\mpn\generic\rootrem.c"
 					>
 					<FileConfiguration
@@ -2849,6 +2885,10 @@
 							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\mpn\generic\sgcd.c"
+					>
 				</File>
 				<File
 					RelativePath="..\..\mpn\generic\sizeinbase.c"
@@ -3387,26 +3427,6 @@
 							</FileConfiguration>
 						</File>
 						<File
-							RelativePath="..\..\mpn\x86w\p6\p3mmx\popham.asm"
-							>
-							<FileConfiguration
-								Name="Debug|Win32"
-								>
-								<Tool
-									Name="YASM"
-									ObjectFileName="&quot;$(IntDir)\mpn\$(InputName).obj&quot;"
-								/>
-							</FileConfiguration>
-							<FileConfiguration
-								Name="Release|Win32"
-								>
-								<Tool
-									Name="YASM"
-									ObjectFileName="&quot;$(IntDir)\mpn\$(InputName).obj&quot;"
-								/>
-							</FileConfiguration>
-						</File>
-						<File
 							RelativePath="..\..\mpn\x86w\p6\mmx\popham.asm"
 							>
 							<FileConfiguration
@@ -3421,6 +3441,26 @@
 							<FileConfiguration
 								Name="Release|Win32"
 								ExcludedFromBuild="true"
+								>
+								<Tool
+									Name="YASM"
+									ObjectFileName="&quot;$(IntDir)\mpn\$(InputName).obj&quot;"
+								/>
+							</FileConfiguration>
+						</File>
+						<File
+							RelativePath="..\..\mpn\x86w\p6\p3mmx\popham.asm"
+							>
+							<FileConfiguration
+								Name="Debug|Win32"
+								>
+								<Tool
+									Name="YASM"
+									ObjectFileName="&quot;$(IntDir)\mpn\$(InputName).obj&quot;"
+								/>
+							</FileConfiguration>
+							<FileConfiguration
+								Name="Release|Win32"
 								>
 								<Tool
 									Name="YASM"
