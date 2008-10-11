@@ -39,7 +39,9 @@ nodist_EXTRA_libmpn_la_SOURCES =					    \
   and_n.c andn_n.c bdivmod.c						    \
   cmp.c com_n.c copyd.c copyi.c						    \
   dc_divrem_n.c dive_1.c diveby3.c divis.c divrem.c divrem_1.c divrem_2.c   \
-  dump.c fib2_ui.c gcd.c						    \
+  dump.c fib2_ui.c							    \
+  bgcd.c gcd.c	hgcd.c hgcd2.c lgcd.c ngcd.c ngcd_matrix.c ngcd_step.c      \
+  nhgcd2.c rgcd.c sgcd.c                                                    \
   gcd_finda.c gcd_1.c gcdext.c get_d.c get_str.c			    \
   hamdist.c invert_limb.c				    \
   ior_n.c iorn_n.c jacbase.c lshift.c mod_1.c mod_34lsub1.c mode1o.c	    \

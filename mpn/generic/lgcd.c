@@ -1,0 +1,566 @@
+/* lgcd.c
+
+   Lehmer gcd, based on mpn_nhgcd2.
+*/
+
+#include <stdio.h>
+#include <stdlib.h>
+
+#include "gmp.h"
+#include "gmp-impl.h"
+#include "longlong.h"
+
+/* Extract one limb, shifting count bits left
+    ________  ________
+   |___xh___||___xl___|
+	  |____r____|
+   >count <
+
+   The count includes any nail bits, so it should work fine if
+   count is computed using count_leading_zeros.
+*/
+
+#define MPN_EXTRACT_LIMB(count, xh, xl) \
+  (((xh) << (count)) | ((xl) >> (GMP_LIMB_BITS - (count))))
+
+/* Use binary algorithm to compute V <-- GCD (V, U) for usize, vsize == 2.
+   Both U and V must be odd.  */
+static inline mp_size_t
+gcd_2 (mp_ptr vp, mp_srcptr up)
+{
+  mp_limb_t u0, u1, v0, v1;
+  mp_size_t vsize;
+
+  u0 = up[0];
+  u1 = up[1];
+  v0 = vp[0];
+  v1 = vp[1];
+
+  while (u1 != v1 && u0 != v0)
+    {
+      unsigned long int r;
+      if (u1 > v1)
+	{
+	  u1 -= v1 + (u0 < v0);
+	  u0 = (u0 - v0) & GMP_NUMB_MASK;
+	  count_trailing_zeros (r, u0);
+	  u0 = ((u1 << (GMP_NUMB_BITS - r)) & GMP_NUMB_MASK) | (u0 >> r);
+	  u1 >>= r;
+	}
+      else  /* u1 < v1.  */
+	{
+	  v1 -= u1 + (v0 < u0);
+	  v0 = (v0 - u0) & GMP_NUMB_MASK;
+	  count_trailing_zeros (r, v0);
+	  v0 = ((v1 << (GMP_NUMB_BITS - r)) & GMP_NUMB_MASK) | (v0 >> r);
+	  v1 >>= r;
+	}
+    }
+
+  vp[0] = v0, vp[1] = v1, vsize = 1 + (v1 != 0);
+
+  /* If U == V == GCD, done.  Otherwise, compute GCD (V, |U - V|).  */
+  if (u1 == v1 && u0 == v0)
+    return vsize;
+
+  v0 = (u0 == v0) ? (u1 > v1) ? u1-v1 : v1-u1 : (u0 > v0) ? u0-v0 : v0-u0;
+  vp[0] = mpn_gcd_1 (vp, vsize, v0);
+
+  return 1;
+}
+
+#if 1
+static void
+mul_2 (mp_ptr rp, mp_srcptr ap, mp_size_t n, mp_srcptr bp)
+{
+  mp_limb_t bh, bl;
+  
+  /* Chaining variables */
+  mp_limb_t cy, hi;
+
+  /* Temporaries */
+  mp_limb_t sh, sl;
+  mp_limb_t th, tl;
+  mp_size_t i;
+
+  ASSERT (n > 1);
+
+  bl = bp[0];
+  umul_ppmm (hi, rp[0], bl, ap[0]);
+  bh = bp[1];
+  
+  for (i = 1, cy = 0; i < n; i++)
+    {
+      umul_ppmm (sh, sl, bh, ap[i-1]);
+      umul_ppmm (th, tl, bl, ap[i]);
+
+      /* We can always add in cy and hi without overflow */
+      add_ssaaaa (sh, sl, sh, sl, cy, hi);
+
+      add_ssaaaa (hi, rp[i], th, tl, sh, sl);
+      cy = (hi < th);
+    }
+
+  umul_ppmm (sh, sl, bh, ap[n-1]);
+  add_ssaaaa (rp[n+1], rp[n], sh, sl, cy, hi);  
+}
+#else
+static void
+mul_2 (mp_ptr rp, mp_srcptr ap, mp_size_t n, mp_srcptr bp)
+{
+  rp[n] = mpn_mul_1 (rp, ap, n, bp[0]);
+  rp[n+1] = mpn_addmul_1 (rp + 1, ap, n, bp[1]);
+}  
+#endif
+
+/* Computes x . y = x_1 y_1 + x_2 y_2. No check for overflow. */
+#define dotmul_ppxxyy(ph, pl, x1, x2, y1, y2)				\
+do {									\
+  mp_limb_t dotmul_sh, dotmul_sl, dotmul_th, dotmul_tl;			\
+  umul_ppmm (dotmul_sh, dotmul_sl, (x1), (y1));				\
+  umul_ppmm (dotmul_th, dotmul_tl, (x2), (y2));				\
+  add_ssaaaa ((ph), (pl), dotmul_sh, dotmul_sl, dotmul_th, dotmul_tl);	\
+} while (0)
+
+struct ngcd_matrix2
+{
+  mp_limb_t u[2][2][2];
+};
+
+/* Performs two hgcd2 steps on the five-limb numbers ap, bp.
+   Three possible results:
+
+   0 The first nhgcd2 call failed.
+   
+   1 The first nhgcd2 call succeeded, the second failed.
+     ap, bp are updated, and the resulting matrix is returned in M1.
+
+   2 Both hgcd2 calls succeeded. ap, bp are updated. The resulting
+     matrix is returned in M.
+
+   Returns the reduced size of ap, bp, >= 3.
+*/
+
+static mp_size_t
+nhgcd5 (mp_ptr ap, mp_ptr bp, int *res,
+	struct ngcd_matrix1 *M1, struct ngcd_matrix2 *M)
+{
+  struct ngcd_matrix1 M2;
+  mp_limb_t t[5];
+  mp_size_t n;
+  mp_limb_t ah, al, bh, bl;
+  mp_limb_t mask;
+
+  mask = ap[4] | bp[4];
+  ASSERT (mask > 0);
+
+  if (mask & GMP_NUMB_HIGHBIT)
+    {
+      ah = ap[4]; al = ap[3];
+      bh = bp[4]; bl = bp[3];
+    }
+  else
+    {
+      int shift;
+
+      count_leading_zeros (shift, mask);
+      ah = MPN_EXTRACT_LIMB (shift, ap[4], ap[3]);
+      al = MPN_EXTRACT_LIMB (shift, ap[3], ap[2]);
+      bh = MPN_EXTRACT_LIMB (shift, bp[4], bp[3]);
+      bl = MPN_EXTRACT_LIMB (shift, bp[3], bp[2]);
+    }
+
+  /* Try an mpn_nhgcd2 step */
+  if (!mpn_nhgcd2 (ah, al, bh, bl, M1))
+    {
+      *res = 0;
+      return 0;
+    }
+  n = mpn_ngcd_matrix1_vector (M1, 5, ap, bp, t);
+  ASSERT (n >= 4);
+  
+  mask = ap[n-1] | bp[n-1];
+  ASSERT (mask > 0);
+  
+  if (mask & GMP_NUMB_HIGHBIT)
+    {
+      ah = ap[n-1]; al = ap[n-2];
+      bh = bp[n-1]; bl = bp[n-2];
+    }
+  else
+    {
+      int shift;
+
+      count_leading_zeros (shift, mask);
+      ah = MPN_EXTRACT_LIMB (shift, ap[n-1], ap[n-2]);
+      al = MPN_EXTRACT_LIMB (shift, ap[n-2], ap[n-3]);
+      bh = MPN_EXTRACT_LIMB (shift, bp[n-1], bp[n-2]);
+      bl = MPN_EXTRACT_LIMB (shift, bp[n-2], bp[n-3]);
+    }
+  if (!mpn_nhgcd2(ah, al, bh, bl, &M2))
+    {
+      *res = 1;
+      return n;
+    }
+  
+  n = mpn_ngcd_matrix1_vector (&M2, n, ap, bp, t);
+  ASSERT (n >= 3);
+
+  /* Multiply M = M1 M2 */
+  dotmul_ppxxyy (M->u[0][0][1], M->u[0][0][0],
+		 M1->u[0][0], M1->u[0][1], M2.u[0][0], M2.u[1][0]);
+  dotmul_ppxxyy (M->u[0][1][1], M->u[0][1][0],
+		 M1->u[0][0], M1->u[0][1], M2.u[0][1], M2.u[1][1]);
+  dotmul_ppxxyy (M->u[1][0][1], M->u[1][0][0],
+		 M1->u[1][0], M1->u[1][1], M2.u[0][0], M2.u[1][0]);
+  dotmul_ppxxyy (M->u[1][1][1], M->u[1][1][0],
+		 M1->u[1][0], M1->u[1][1], M2.u[0][1], M2.u[1][1]);
+
+  *res = 2;
+  return n;
+}
+
+/* Multiplies the least significant p limbs of a,b by M^-1, and adds
+   to the most significant n limbs. Needs temporary space p. */
+static mp_size_t
+ngcd_matrix1_adjust (struct ngcd_matrix1 *M,
+		     mp_size_t n, mp_ptr ap, mp_ptr bp,
+		     mp_size_t p, mp_ptr tp)
+{
+  /* M^-1 (a;b) = (r11, -r01; -r10, r00) (a ; b)
+     = (r11 a - r01 b; - r10 a + r00 b */
+
+  mp_limb_t ah, bh;
+  mp_limb_t cy;
+  
+  /* Copy old value */
+  MPN_COPY(tp, ap, p);
+
+  /* Update a */
+  ah = mpn_mul_1 (ap, ap, p, M->u[1][1]);
+  cy = mpn_submul_1 (ap, bp, p, M->u[0][1]);
+  if (cy > ah)
+    {
+      MPN_DECR_U (ap + p, n, cy - ah);
+      ah = 0;
+    }
+  else
+    {
+      ah -= cy;
+      if (ah > 0)
+	ah = mpn_add_1 (ap + p, ap + p, n, ah);
+    }
+  
+  /* Update b */
+  bh = mpn_mul_1 (bp, bp, p, M->u[0][0]);
+  cy = mpn_submul_1 (bp, tp, p, M->u[1][0]);
+  if(cy > bh)
+    {
+      MPN_DECR_U (bp + p, n, cy - bh);
+      bh = 0;
+    }
+  else
+    {
+      bh -= cy;
+      if (bh > 0)
+	bh = mpn_add_1 (bp + p, bp + p, n, bh);
+    }
+
+  n += p;
+
+  if (ah > 0 || bh > 0)
+    {
+      ap[n] = ah;
+      bp[n] = bh;
+      n++;
+    }
+  else
+    {
+      /* The subtraction can reduce the size by at most one limb. */
+      if (ap[n-1] == 0 && bp[n-1] == 0)
+	n--;
+    }
+  ASSERT (ap[n-1] > 0 || bp[n-1] > 0);
+  return n;  
+}
+
+/* Multiplies the least significant p limbs of a,b by M^-1, and adds
+   to the most significant n limbs. Needs temporary 2*(p + 2). */
+static mp_size_t
+ngcd_matrix2_adjust (struct ngcd_matrix2 *M,
+		     mp_size_t n, mp_ptr ap, mp_ptr bp,
+		     mp_size_t p, mp_ptr tp)
+{
+  /* M^-1 (a;b) = (r11, -r01; -r10, r00) (a ; b)
+     = (r11 a - r01 b; - r10 a + r00 b */
+
+  mp_ptr t0 = tp;
+  mp_ptr t1 = tp + p + 2;
+  mp_limb_t ah, bh;
+  mp_limb_t cy;
+
+  ASSERT (n > 2);
+  ASSERT (p >= 2);
+  
+  /* First compute the two values depending on a, before overwriting a */
+  mul_2 (t0, ap, p, M->u[1][1]);
+  mul_2 (t1, ap, p, M->u[1][0]);
+
+  /* Update a */
+  MPN_COPY (ap, t0, p);
+  ah = mpn_add (ap + p, ap + p, n, t0 + p, 2);
+
+  mpn_mul (t0, bp, p, M->u[0][1], 2);
+  cy = mpn_sub (ap, ap, n + p, t0, p + 2);
+
+  ASSERT (cy <= ah);
+  ah -= cy;
+
+  /* Update b */
+  mpn_mul (t0, bp, p, M->u[0][0], 2);
+  MPN_COPY (bp, t0, p);
+  bh = mpn_add (bp + p, bp + p, n, t0 + p, 2);
+
+  cy = mpn_sub (bp, bp, n + p, t1, p + 2);
+  ASSERT (cy <= bh);
+  bh -= cy;
+
+  n+= p;
+
+  if (ah > 0 || bh > 0)
+    {
+      ap[n] = ah;
+      bp[n] = bh;
+      n++;
+    }
+  else
+    {
+      /* The subtraction can reduce the size by at most one limb. */
+      if (ap[n-1] == 0 && bp[n-1] == 0)
+	n--;
+    }
+  ASSERT (ap[n-1] > 0 || bp[n-1] > 0);
+  return n;
+}
+
+/* Needs temporary storage for the division */
+
+/* If the gcd is found, stores it in gp and *gn, and returns zero.
+   Otherwise, compute the reduced a and b, and return the new size. */
+mp_size_t
+mpn_ngcd_subdiv_step (mp_ptr gp, mp_size_t *gn,
+		      mp_ptr ap, mp_ptr bp, mp_size_t n, mp_ptr tp)
+{
+  /* Called when nhgcd or mpn_nhgcd2 has failed. Then either one of a or b
+     is very small, or the difference is very small. Perform one
+     subtraction followed by one division. */
+
+  mp_size_t an, bn;
+
+  ASSERT (n > 0);
+  ASSERT (ap[n-1] > 0 || bp[n-1] > 0);
+
+  /* First, make sure that an >= bn, and subtract an -= bn */
+  for (an = n; an > 0; an--)
+    if (ap[an-1] != bp[an-1])
+      break;
+
+  if (an == 0)
+    {
+      /* Done */
+      MPN_COPY (gp, ap, n);
+      *gn = n;
+      return 0;
+    }
+
+  if (ap[an-1] < bp[an-1])
+    MP_PTR_SWAP (ap, bp);
+
+  bn = n;
+  MPN_NORMALIZE (bp, bn);
+  if (bn == 0)
+    {
+      MPN_COPY (gp, ap, n);
+      *gn = n;
+      return 0;
+    }
+
+  ASSERT_NOCARRY (mpn_sub_n (ap, ap, bp, an));
+  MPN_NORMALIZE (ap, an);
+
+  ASSERT (an > 0);
+	  
+  if (an < bn)
+    MPN_PTR_SWAP (ap, an, bp, bn);
+  else if (an == bn)
+    {
+      int c;
+      MPN_CMP (c, ap, bp, an);
+      if (c < 0)
+	MP_PTR_SWAP (ap, bp);
+    }
+
+  ASSERT (an >= bn);
+
+  mpn_tdiv_qr (tp + bn, tp, 0, ap, an, bp, bn);
+
+  /* Normalizing seems to be the simplest way to test if the remainder
+     is zero. */
+  an = bn;
+  MPN_NORMALIZE (tp, an);
+  if (an == 0)
+    {
+      MPN_COPY (gp, bp, bn);
+      *gn = bn;
+      return 0;
+    }
+
+  MPN_COPY (ap, tp, bn);
+
+  return bn;
+}
+
+#define EVEN_P(x) (((x) & 1) == 0)
+
+/* Needs n limbs of storage for ngcd_matrix1_vector, or n+1 for
+   division, or 2*n for ngcd_matrix2_adjust. */
+
+mp_size_t
+mpn_ngcd_lehmer (mp_ptr gp, mp_ptr ap, mp_ptr bp, mp_size_t n, mp_ptr tp)
+{
+  mp_size_t gn;
+  
+  while (ABOVE_THRESHOLD (n, NGCD_LEHMER_THRESHOLD))
+    {
+      struct ngcd_matrix1 M1;
+      struct ngcd_matrix2 M2;
+      mp_size_t p;
+      int res;
+      mp_size_t nn;
+
+      p = n - 5;
+      nn = nhgcd5 (ap + p, bp + p, &res, &M1, &M2);
+      switch (res)
+	{
+	default: abort();
+	case 0:
+	  n = mpn_ngcd_subdiv_step (gp, &gn, ap, bp, n, tp);
+	  if (n == 0)
+	    return gn;
+	  break;
+
+	case 1:
+	  n = ngcd_matrix1_adjust (&M1, nn, ap, bp, p, tp);
+	  break;
+
+	case 2:
+	  n = ngcd_matrix2_adjust (&M2, nn, ap, bp, p, tp);
+	  break;
+	}
+    }
+  while (n > 2)
+    {
+      struct ngcd_matrix1 M;
+      mp_limb_t ah, al, bh, bl;
+      mp_limb_t mask;
+
+      mask = ap[n-1] | bp[n-1];
+      ASSERT (mask > 0);
+
+      if (mask & GMP_NUMB_HIGHBIT)
+	{
+	  ah = ap[n-1]; al = ap[n-2];
+	  bh = bp[n-1]; bl = bp[n-2];
+	}
+      else
+	{
+	  int shift;
+
+	  count_leading_zeros (shift, mask);
+	  ah = MPN_EXTRACT_LIMB (shift, ap[n-1], ap[n-2]);
+	  al = MPN_EXTRACT_LIMB (shift, ap[n-2], ap[n-3]);
+	  bh = MPN_EXTRACT_LIMB (shift, bp[n-1], bp[n-2]);
+	  bl = MPN_EXTRACT_LIMB (shift, bp[n-2], bp[n-3]);
+	}
+
+      /* Try an mpn_nhgcd2 step */
+      if (mpn_nhgcd2 (ah, al, bh, bl, &M))
+	n = mpn_ngcd_matrix1_vector (&M, n, ap, bp, tp);
+
+      else
+	{
+	  n = mpn_ngcd_subdiv_step (gp, &gn, ap, bp, n, tp);
+	  if (n == 0)
+	    return gn;
+	}
+    }
+
+  ASSERT (n <= 2);
+
+  if (n == 1)
+    {
+      *gp = mpn_gcd_1 (ap, 1, bp[0]);
+      return 1;
+    }
+  
+  /* Due to the calling convention for mpn_gcd, at most one can be
+     even. */
+
+  if (EVEN_P (ap[0]))
+    MP_PTR_SWAP (ap, bp);
+
+  ASSERT (!EVEN_P (ap[0]));
+
+  if (bp[0] == 0)
+    {
+      *gp = mpn_gcd_1 (ap, 2, bp[1]);
+      return 1;
+    }
+  else if (EVEN_P (bp[0]))
+    {
+      int r;
+      count_trailing_zeros (r, bp[0]);
+      bp[0] = ((bp[1] << (GMP_NUMB_BITS - r)) & GMP_NUMB_MASK) | (bp[0] >> r);
+      bp[1] >>= r;
+    }
+
+  n = gcd_2 (ap, bp);
+  MPN_COPY (gp, ap, n);
+  return n;
+}
+
+mp_size_t
+mpn_lgcd (mp_ptr gp, mp_ptr ap, mp_size_t an, mp_ptr bp, mp_size_t bn)
+{
+  mp_size_t gn;
+  mp_ptr tp;
+  mp_size_t scratch;
+  TMP_DECL;
+
+  scratch = MPN_NGCD_LEHMER_ITCH (bn);
+  if (an >= scratch)
+    scratch = an + 1;
+
+  TMP_MARK;
+  
+  tp = TMP_ALLOC_LIMBS (scratch);
+
+  if (an > bn)
+    {
+      mpn_tdiv_qr (tp + bn, tp, 0, ap, an, bp, bn);
+      an = bn;
+      MPN_NORMALIZE (tp, an);
+      if (an == 0)
+	{
+	  MPN_COPY (gp, bp, bn);
+	  return bn;
+	}
+      else
+	MPN_COPY (ap, tp, bn);
+    }
+
+  gn = mpn_ngcd_lehmer (gp, ap, bp, bn, tp);
+  TMP_FREE;
+  return gn;
+}
+

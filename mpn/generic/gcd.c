@@ -16,9 +16,9 @@ or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public
 License for more details.
 
 You should have received a copy of the GNU Lesser General Public License
-along with the GNU MP Library; see the file COPYING.LIB.  If not, write
-to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
-Boston, MA 02110-1301, USA. */
+along with the GNU MP Library; see the file COPYING.LIB.  If not, write to
+the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,
+MA 02111-1307, USA. */
 
 /* Integer greatest common divisor of two unsigned integers, using
    the accelerated algorithm (see reference below).
@@ -188,6 +188,8 @@ mpn_gcd (mp_ptr gp, mp_ptr up, mp_size_t usize, mp_ptr vp, mp_size_t vsize)
   mp_ptr orig_vp = vp;
   mp_size_t orig_vsize = vsize;
   int binary_gcd_ctr;		/* Number of times binary gcd will execute.  */
+  mp_size_t scratch;
+  mp_ptr tp;
   TMP_DECL;
 
   ASSERT (usize >= 1);
@@ -351,9 +353,31 @@ mpn_gcd (mp_ptr gp, mp_ptr up, mp_size_t usize, mp_ptr vp, mp_size_t vsize)
   else
     binary_gcd_ctr = 1;
 
+  scratch = MPN_NGCD_LEHMER_ITCH (vsize);
+  if (usize + 1 > scratch)
+    scratch = usize + 1;
+  
+  tp = TMP_ALLOC_LIMBS (scratch);
+
   /* Finish up with the binary algorithm.  Executes once or twice.  */
   for ( ; binary_gcd_ctr--; up = orig_vp, usize = orig_vsize)
     {
+#if 1
+      if (usize > vsize)
+	{
+	  /* FIXME: Could use mpn_bdivmod. */
+	  mp_size_t rsize;
+	      
+	  mpn_tdiv_qr (tp + vsize, tp, 0, up, usize, vp, vsize);
+	  rsize = vsize;
+	  MPN_NORMALIZE (tp, rsize);
+	  if (rsize == 0)
+	    continue;
+
+	  MPN_COPY (up, tp, vsize);
+	}
+      vsize = mpn_ngcd_lehmer (vp, up, vp, vsize, tp);
+#else
       if (usize > 2)		/* First make U close to V in size.  */
 	{
 	  unsigned long int vbitsize, d;
@@ -370,7 +394,7 @@ mpn_gcd (mp_ptr gp, mp_ptr up, mp_size_t usize, mp_ptr vp, mp_size_t vsize)
 	      d /= (unsigned long int)GMP_NUMB_BITS, up += d, usize -= d;
 	    }
 	}
-
+      
       /* Start binary GCD.  */
       do
 	{
@@ -432,6 +456,7 @@ mpn_gcd (mp_ptr gp, mp_ptr up, mp_size_t usize, mp_ptr vp, mp_size_t vsize)
 	    }
 	}
       while (usize);					/* End binary GCD.  */
+#endif
     }
 
 done:

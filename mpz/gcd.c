@@ -1,7 +1,7 @@
 /* mpz/gcd.c:   Calculate the greatest common divisor of two integers.
 
-Copyright 1991, 1993, 1994, 1996, 2000, 2001, 2002, 2005 Free Software
-Foundation, Inc.
+Copyright 1991, 1993, 1994, 1996, 2000, 2001, 2002 Free Software Foundation,
+Inc.
 
 This file is part of the GNU MP Library.
 
@@ -17,149 +17,265 @@ License for more details.
 
 You should have received a copy of the GNU Lesser General Public License
 along with the GNU MP Library; see the file COPYING.LIB.  If not, write to
-the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
-MA 02110-1301, USA. */
+the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,
+MA 02111-1307, USA. */
 
 #include "gmp.h"
 #include "gmp-impl.h"
 #include "longlong.h"
 #ifdef BERKELEY_MP
-#include "mp.h"
+# error BERKELEY_MP not supported
 #endif
 
+#define GCD_BODY(MPN_GCD)							\
+{										\
+  unsigned long int g_zero_bits, u_zero_bits, v_zero_bits;			\
+  mp_size_t g_zero_limbs, u_zero_limbs, v_zero_limbs;				\
+  mp_ptr tp;									\
+  mp_ptr up = u->_mp_d;								\
+  mp_size_t usize = ABS (u->_mp_size);						\
+  mp_ptr vp = v->_mp_d;								\
+  mp_size_t vsize = ABS (v->_mp_size);						\
+  mp_size_t gsize;								\
+  TMP_DECL;								        \
+										\
+  /* GCD(0, V) == V.  */							\
+  if (usize == 0)								\
+    {										\
+      g->_mp_size = vsize;							\
+      if (g == v)								\
+	return;									\
+      if (g->_mp_alloc < vsize)							\
+	_mpz_realloc (g, vsize);						\
+      MPN_COPY (g->_mp_d, vp, vsize);						\
+      return;									\
+    }										\
+										\
+  /* GCD(U, 0) == U.  */							\
+  if (vsize == 0)								\
+    {										\
+      g->_mp_size = usize;							\
+      if (g == u)								\
+	return;									\
+      if (g->_mp_alloc < usize)							\
+	_mpz_realloc (g, usize);						\
+      MPN_COPY (g->_mp_d, up, usize);						\
+      return;									\
+    }										\
+										\
+  if (usize == 1)								\
+    {										\
+      g->_mp_size = 1;								\
+      g->_mp_d[0] = mpn_gcd_1 (vp, vsize, up[0]);				\
+      return;									\
+    }										\
+										\
+  if (vsize == 1)								\
+    {										\
+      g->_mp_size = 1;								\
+      g->_mp_d[0] = mpn_gcd_1 (up, usize, vp[0]);				\
+      return;									\
+    }										\
+										\
+  TMP_MARK;      								\
+										\
+  /*  Eliminate low zero bits from U and V and move to temporary storage.  */	\
+  while (*up == 0)								\
+    up++;									\
+  u_zero_limbs = up - u->_mp_d;							\
+  usize -= u_zero_limbs;							\
+  count_trailing_zeros (u_zero_bits, *up);					\
+  tp = up;									\
+  up = (mp_ptr) TMP_ALLOC (usize * BYTES_PER_MP_LIMB);				\
+  if (u_zero_bits != 0)								\
+    {										\
+      mpn_rshift (up, tp, usize, u_zero_bits);					\
+      usize -= up[usize - 1] == 0;						\
+    }										\
+  else										\
+    MPN_COPY (up, tp, usize);							\
+										\
+  while (*vp == 0)								\
+    vp++;									\
+  v_zero_limbs = vp - v->_mp_d;							\
+  vsize -= v_zero_limbs;							\
+  count_trailing_zeros (v_zero_bits, *vp);					\
+  tp = vp;									\
+  vp = (mp_ptr) TMP_ALLOC (vsize * BYTES_PER_MP_LIMB);				\
+  if (v_zero_bits != 0)								\
+    {										\
+      mpn_rshift (vp, tp, vsize, v_zero_bits);					\
+      vsize -= vp[vsize - 1] == 0;						\
+    }										\
+  else										\
+    MPN_COPY (vp, tp, vsize);							\
+										\
+  if (u_zero_limbs > v_zero_limbs)						\
+    {										\
+      g_zero_limbs = v_zero_limbs;						\
+      g_zero_bits = v_zero_bits;						\
+    }										\
+  else if (u_zero_limbs < v_zero_limbs)						\
+    {										\
+      g_zero_limbs = u_zero_limbs;						\
+      g_zero_bits = u_zero_bits;						\
+    }										\
+  else  /*  Equal.  */								\
+    {										\
+      g_zero_limbs = u_zero_limbs;						\
+      g_zero_bits = MIN (u_zero_bits, v_zero_bits);				\
+    }										\
+										\
+  /*  Call mpn_gcd.  The 2nd argument must not have more bits than the 1st.  */	\
+  vsize = (usize < vsize || (usize == vsize && up[usize-1] < vp[vsize-1]))	\
+    ? MPN_GCD (vp, vp, vsize, up, usize)					\
+    : MPN_GCD (vp, up, usize, vp, vsize);					\
+										\
+  /*  Here G <-- V << (g_zero_limbs*BITS_PER_MP_LIMB + g_zero_bits).  */	\
+  gsize = vsize + g_zero_limbs;							\
+  if (g_zero_bits != 0)								\
+    {										\
+      mp_limb_t cy_limb;							\
+      gsize += (vp[vsize - 1] >> (GMP_NUMB_BITS - g_zero_bits)) != 0;		\
+      if (g->_mp_alloc < gsize)							\
+	_mpz_realloc (g, gsize);						\
+      MPN_ZERO (g->_mp_d, g_zero_limbs);					\
+										\
+      tp = g->_mp_d + g_zero_limbs;						\
+      cy_limb = mpn_lshift (tp, vp, vsize, g_zero_bits);			\
+      if (cy_limb != 0)								\
+	tp[vsize] = cy_limb;							\
+    }										\
+  else										\
+    {										\
+      if (g->_mp_alloc < gsize)							\
+	_mpz_realloc (g, gsize);						\
+      MPN_ZERO (g->_mp_d, g_zero_limbs);					\
+      MPN_COPY (g->_mp_d + g_zero_limbs, vp, vsize);				\
+    }										\
+										\
+  g->_mp_size = gsize;								\
+  TMP_FREE;      								\
+}
 
 void
-#ifndef BERKELEY_MP
 mpz_gcd (mpz_ptr g, mpz_srcptr u, mpz_srcptr v)
-#else /* BERKELEY_MP */
-gcd (mpz_srcptr u, mpz_srcptr v, mpz_ptr g)
-#endif /* BERKELEY_MP */
+  GCD_BODY(mpn_gcd)
+
+void
+mpz_rgcd (mpz_ptr g, mpz_srcptr u, mpz_srcptr v)
+  GCD_BODY(mpn_rgcd)
+
+void
+mpz_bgcd (mpz_ptr g, mpz_srcptr u, mpz_srcptr v)
+  GCD_BODY(mpn_bgcd)
+
+void
+mpz_sgcd (mpz_ptr g, mpz_srcptr u, mpz_srcptr v)
+  GCD_BODY(mpn_sgcd)
+
+void
+mpz_ngcd (mpz_ptr g, mpz_srcptr u, mpz_srcptr v)
+  GCD_BODY(mpn_ngcd)
+
+void
+mpz_lgcd (mpz_ptr g, mpz_srcptr u, mpz_srcptr v)
+  GCD_BODY(mpn_lgcd)
+
+#if 0
+
+#define ODD(x) ((x) & 1)
+
+/* Returns the number of zero limbs at the least significant end of x,
+   and the number of zero bits of the first non-zero limb. If x == 0,
+   returns n and sets *bits = 0. */
+static mp_size_t
+power_of_2 (unsigned *bits, mp_srcptr xp, mp_size_t n)
 {
-  unsigned long int g_zero_bits, u_zero_bits, v_zero_bits;
-  mp_size_t g_zero_limbs, u_zero_limbs, v_zero_limbs;
-  mp_ptr tp;
-  mp_ptr up = u->_mp_d;
-  mp_size_t usize = ABS (u->_mp_size);
-  mp_ptr vp = v->_mp_d;
-  mp_size_t vsize = ABS (v->_mp_size);
-  mp_size_t gsize;
-  TMP_DECL;
+  mp_size_t zlimbs;
 
-  /* GCD(0, V) == V.  */
-  if (usize == 0)
-    {
-      g->_mp_size = vsize;
-      if (g == v)
-	return;
-      if (g->_mp_alloc < vsize)
-	_mpz_realloc (g, vsize);
-      MPN_COPY (g->_mp_d, vp, vsize);
-      return;
-    }
+  for (zlimbs = 0; zlimbs < n && xp[zlimbs] == 0; zlimbs++)
+    ;
 
-  /* GCD(U, 0) == U.  */
-  if (vsize == 0)
-    {
-      g->_mp_size = usize;
-      if (g == u)
-	return;
-      if (g->_mp_alloc < usize)
-	_mpz_realloc (g, usize);
-      MPN_COPY (g->_mp_d, up, usize);
-      return;
-    }
-
-  if (usize == 1)
-    {
-      g->_mp_size = 1;
-      g->_mp_d[0] = mpn_gcd_1 (vp, vsize, up[0]);
-      return;
-    }
-
-  if (vsize == 1)
-    {
-      g->_mp_size = 1;
-      g->_mp_d[0] = mpn_gcd_1 (up, usize, vp[0]);
-      return;
-    }
-
-  TMP_MARK;
-
-  /*  Eliminate low zero bits from U and V and move to temporary storage.  */
-  while (*up == 0)
-    up++;
-  u_zero_limbs = up - u->_mp_d;
-  usize -= u_zero_limbs;
-  count_trailing_zeros (u_zero_bits, *up);
-  tp = up;
-  up = (mp_ptr) TMP_ALLOC (usize * BYTES_PER_MP_LIMB);
-  if (u_zero_bits != 0)
-    {
-      mpn_rshift (up, tp, usize, u_zero_bits);
-      usize -= up[usize - 1] == 0;
-    }
-  else
-    MPN_COPY (up, tp, usize);
-
-  while (*vp == 0)
-    vp++;
-  v_zero_limbs = vp - v->_mp_d;
-  vsize -= v_zero_limbs;
-  count_trailing_zeros (v_zero_bits, *vp);
-  tp = vp;
-  vp = (mp_ptr) TMP_ALLOC (vsize * BYTES_PER_MP_LIMB);
-  if (v_zero_bits != 0)
-    {
-      mpn_rshift (vp, tp, vsize, v_zero_bits);
-      vsize -= vp[vsize - 1] == 0;
-    }
-  else
-    MPN_COPY (vp, tp, vsize);
-
-  if (u_zero_limbs > v_zero_limbs)
-    {
-      g_zero_limbs = v_zero_limbs;
-      g_zero_bits = v_zero_bits;
-    }
-  else if (u_zero_limbs < v_zero_limbs)
-    {
-      g_zero_limbs = u_zero_limbs;
-      g_zero_bits = u_zero_bits;
-    }
-  else  /*  Equal.  */
-    {
-      g_zero_limbs = u_zero_limbs;
-      g_zero_bits = MIN (u_zero_bits, v_zero_bits);
-    }
-
-  /*  Call mpn_gcd.  The 2nd argument must not have more bits than the 1st.  */
-  vsize = (usize < vsize || (usize == vsize && up[usize-1] < vp[vsize-1]))
-    ? mpn_gcd (vp, vp, vsize, up, usize)
-    : mpn_gcd (vp, up, usize, vp, vsize);
-
-  /*  Here G <-- V << (g_zero_limbs*BITS_PER_MP_LIMB + g_zero_bits).  */
-  gsize = vsize + g_zero_limbs;
-  if (g_zero_bits != 0)
-    {
-      mp_limb_t cy_limb;
-      gsize += (vp[vsize - 1] >> (GMP_NUMB_BITS - g_zero_bits)) != 0;
-      if (g->_mp_alloc < gsize)
-	_mpz_realloc (g, gsize);
-      MPN_ZERO (g->_mp_d, g_zero_limbs);
-
-      tp = g->_mp_d + g_zero_limbs;
-      cy_limb = mpn_lshift (tp, vp, vsize, g_zero_bits);
-      if (cy_limb != 0)
-	tp[vsize] = cy_limb;
-    }
+  if (zlimbs == n || ODD (xp[zlimbs]))
+    *bits = 0;
   else
     {
-      if (g->_mp_alloc < gsize)
-	_mpz_realloc (g, gsize);
-      MPN_ZERO (g->_mp_d, g_zero_limbs);
-      MPN_COPY (g->_mp_d + g_zero_limbs, vp, vsize);
+      int count;
+
+      count_trailing_zeros (count, xp[zlimbs]);
+      *bits = count;
     }
 
-  g->_mp_size = gsize;
-  TMP_FREE;
+  return zlimbs;
 }
+
+void
+mpz_bgcd (mpz_t g, mpz_t a, mpz_t b)
+{  
+  mp_size_t an = ABSIZ (a);
+  mp_size_t bn = ABSIZ (b);
+  mp_srcptr ap = PTR (a);
+  mp_srcptr bp = PTR (b);
+  mp_size_t bz;
+  mp_size_t az;
+  
+  mp_ptr tp;
+  
+  unsigned abits;
+  unsigned bbits;
+  unsigned power;
+  TMP_DECL (marker);
+  
+  az = power_of_2(&abits, ap, an);
+  if (az == an)
+    {
+      mpz_abs (g, b);
+      return;
+    }
+
+  bz = power_of_2(&bbits, bp, bn);
+  if (bz == bn)
+    {
+      mpz_abs (g, a);
+      return;
+    }
+
+  if (az < bz)
+    power = az * GMP_NUMB_BITS + abits;
+  else if (az > bz)
+    power = bz * GMP_NUMB_BITS + bbits;
+  else
+    power = az + MIN (abits, bbits);
+
+  an -= az; ap += az;
+  bn -= bz; bp += bz;
+
+  if (an < bn)
+    {
+      unsigned t = abits;
+      abits = bbits;
+      bbits = t;
+      
+      MPN_SRCPTR_SWAP (ap, an, bp, bn);
+    }
+
+  TMP_MARK (marker);
+  tp = TMP_ALLOC_LIMBS (an + bn);
+
+  if (abits > 0)
+    mpn_rshift (tp, ap, an, abits);
+  else
+    MPN_COPY (tp, ap, an);
+
+  if (bbits > 0)
+    mpn_rshift (tp + an, bp, bn, bbits);
+  else
+    MPN_COPY (tp + an, bp, bn);
+
+  mpz_realloc (g, bn);
+  SIZ(g) = mpn_bgcd (PTR(g), tp, an, tp + an, bn);
+
+  TMP_FREE (marker);
+}
+#endif
