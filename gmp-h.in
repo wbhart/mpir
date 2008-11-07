@@ -588,10 +588,10 @@ __GMP_DECLSPEC void gmp_randseed_ui __GMP_PROTO ((gmp_randstate_t, unsigned long
 __GMP_DECLSPEC void gmp_randclear __GMP_PROTO ((gmp_randstate_t));
 
 #define gmp_urandomb_ui __gmp_urandomb_ui
-unsigned long gmp_urandomb_ui __GMP_PROTO ((gmp_randstate_t, unsigned long));
+__GMP_DECLSPEC unsigned long gmp_urandomb_ui __GMP_PROTO ((gmp_randstate_t, unsigned long));
 
 #define gmp_urandomm_ui __gmp_urandomm_ui
-unsigned long gmp_urandomm_ui __GMP_PROTO ((gmp_randstate_t, unsigned long));
+__GMP_DECLSPEC unsigned long gmp_urandomm_ui __GMP_PROTO ((gmp_randstate_t, unsigned long));
 
 
 /**************** Formatted output routines.  ****************/
