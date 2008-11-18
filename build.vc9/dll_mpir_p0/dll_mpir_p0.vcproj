@@ -52,7 +52,6 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				EnableIntrinsicFunctions="true"
 				AdditionalIncludeDirectories="..\..\;&quot;..\$(PlatformName)\&quot;"
 				PreprocessorDefinitions="_DEBUG;HAVE_CONFIG_H;__GMP_LIBGMP_DLL;__GMP_WITHIN_GMP;__GMP_WITHIN_GMPXX"
 				BasicRuntimeChecks="3"
@@ -136,7 +135,6 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="3"
-				EnableIntrinsicFunctions="true"
 				AdditionalIncludeDirectories="..\..\;&quot;..\$(PlatformName)\&quot;"
 				PreprocessorDefinitions="NDEBUG;HAVE_CONFIG_H;__GMP_LIBGMP_DLL;__GMP_WITHIN_GMP;__GMP_WITHIN_GMPXX"
 				StringPooling="true"
