@@ -170,6 +170,11 @@ MA 02110-1301, USA. */
 #  include <intrin.h>
 
 #  if defined( _WIN64 )
+
+#pragma intrinsic(_BitScanForward64)
+#pragma intrinsic(_BitScanReverse64)
+#pragma intrinsic(_umul128)
+
 #    define count_leading_zeros(c,x)        \
       do {                                  \
         ASSERT ((x) != 0);                  \
@@ -186,6 +191,11 @@ MA 02110-1301, USA. */
         xl = _umul128( (m0), (m1), &xh);    \
       } while (0)
 #  else
+
+#pragma intrinsic(_BitScanForward)
+#pragma intrinsic(_BitScanReverse)
+#pragma intrinsic(__emulu)
+
 #    define count_leading_zeros(c,x)        \
       do {                                  \
         ASSERT ((x) != 0);                  \

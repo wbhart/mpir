@@ -54,6 +54,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
+				EnableIntrinsicFunctions="true"
 				AdditionalIncludeDirectories="..\..\;&quot;..\$(PlatformName)\&quot;"
 				PreprocessorDefinitions="_DEBUG;_LIB;HAVE_CONFIG_H"
 				BasicRuntimeChecks="3"

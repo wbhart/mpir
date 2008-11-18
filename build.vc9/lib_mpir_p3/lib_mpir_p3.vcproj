@@ -51,6 +51,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
+				EnableIntrinsicFunctions="true"
 				AdditionalIncludeDirectories="..\..\;&quot;..\$(PlatformName)\&quot;"
 				PreprocessorDefinitions="_DEBUG;_LIB;HAVE_CONFIG_H"
 				BasicRuntimeChecks="3"
@@ -123,6 +124,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="3"
+				EnableIntrinsicFunctions="true"
 				AdditionalIncludeDirectories="..\..\;&quot;..\$(PlatformName)\&quot;"
 				PreprocessorDefinitions="NDEBUG;_LIB;HAVE_CONFIG_H"
 				RuntimeLibrary="0"
@@ -3427,6 +3429,26 @@
 							</FileConfiguration>
 						</File>
 						<File
+							RelativePath="..\..\mpn\x86w\p6\p3mmx\popham.asm"
+							>
+							<FileConfiguration
+								Name="Debug|Win32"
+								>
+								<Tool
+									Name="YASM"
+									ObjectFileName="&quot;$(IntDir)\mpn\$(InputName).obj&quot;"
+								/>
+							</FileConfiguration>
+							<FileConfiguration
+								Name="Release|Win32"
+								>
+								<Tool
+									Name="YASM"
+									ObjectFileName="&quot;$(IntDir)\mpn\$(InputName).obj&quot;"
+								/>
+							</FileConfiguration>
+						</File>
+						<File
 							RelativePath="..\..\mpn\x86w\p6\mmx\popham.asm"
 							>
 							<FileConfiguration
@@ -3441,26 +3463,6 @@
 							<FileConfiguration
 								Name="Release|Win32"
 								ExcludedFromBuild="true"
-								>
-								<Tool
-									Name="YASM"
-									ObjectFileName="&quot;$(IntDir)\mpn\$(InputName).obj&quot;"
-								/>
-							</FileConfiguration>
-						</File>
-						<File
-							RelativePath="..\..\mpn\x86w\p6\p3mmx\popham.asm"
-							>
-							<FileConfiguration
-								Name="Debug|Win32"
-								>
-								<Tool
-									Name="YASM"
-									ObjectFileName="&quot;$(IntDir)\mpn\$(InputName).obj&quot;"
-								/>
-							</FileConfiguration>
-							<FileConfiguration
-								Name="Release|Win32"
 								>
 								<Tool
 									Name="YASM"
