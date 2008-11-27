@@ -23,7 +23,7 @@ Brian Gladman        Windows MSVC port and intel format x86_64 code
 William Hart         Build system modifications and intel format x86_64 code
 Pierrick Gaudry      AMD 64 assembly support
 Gonzalo Tornaria     Patches to config.guess
-Jason Worth-Martin   Core 2 assembly support
+Jason Worth Martin   Core 2 assembly support
 Michael Abshoff      Build system patches
 David Harvey         Toom 3 code
 Niels Möhler         Half GCD patches (GPL version only)
