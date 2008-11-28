@@ -391,4 +391,4 @@ My thanks to:
 3. Patrick Pelissier, Vincent Lefèvre and Paul Zimmermann for helping to resolve VC++ issues in MPFR.
 4. Michael Abshoff and Jim White for agreeing to host the pre-built binaries for GMP on Windows.
 
-       Brian Gladman, 2nd May 2008
+       Brian Gladman, November 2008
