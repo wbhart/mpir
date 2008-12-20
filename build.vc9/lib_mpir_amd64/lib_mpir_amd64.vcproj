@@ -3396,25 +3396,8 @@
 					Name="Assembler"
 					>
 					<File
-						RelativePath="..\..\mpn\x86_64w\aors_n.asm"
+						RelativePath="..\..\mpn\x86_64w\amd64\aors_n.asm"
 						>
-						<FileConfiguration
-							Name="Debug|x64"
-							>
-							<Tool
-								Name="YASM"
-								ObjectFileName="$(IntDir)\mpn\$(InputName).obj"
-							/>
-						</FileConfiguration>
-						<FileConfiguration
-							Name="Release|x64"
-							>
-							<Tool
-								Name="YASM"
-								ObjectFileName="$(IntDir)\mpn\$(InputName).obj"
-								ListFileName=""
-							/>
-						</FileConfiguration>
 					</File>
 					<File
 						RelativePath="..\..\mpn\x86_64w\amd64\aorsmul_1.asm"

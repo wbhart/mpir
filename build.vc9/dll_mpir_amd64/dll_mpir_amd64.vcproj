@@ -1588,7 +1588,7 @@
 					Name="Assembler"
 					>
 					<File
-						RelativePath="..\..\mpn\x86_64w\aors_n.asm"
+						RelativePath="..\..\mpn\x86_64w\amd64\aors_n.asm"
 						>
 					</File>
 					<File
