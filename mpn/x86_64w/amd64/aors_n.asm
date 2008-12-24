@@ -2,7 +2,8 @@
 ; AMD64 mpn_add_n/mpn_sub_n -- mpn add or subtract 
 ; Version 1.0.3.
 ;
-; Copyright 2008 Jason Moxham and Brian Gladman
+; Copyright 2008 Jason Moxham 
+; Windows conversion by Brian Gladman
 ;
 ; Windows x64 ABI
 ;

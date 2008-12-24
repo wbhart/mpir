@@ -2,7 +2,8 @@
 ; AMD64 mpn_mul_1 -- mpn by limb multiply.
 ; Version 1.0.3.
 ;
-; Copyright 2008 Jason Moxham and Brian Gladman
+; Copyright 2008 Jason Moxham 
+; Windows conversion by Brian Gladman
 ;
 ; Windows x64 ABI
 ;
