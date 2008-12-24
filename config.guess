@@ -733,7 +733,8 @@ main ()
 	  else if (model == 15) modelstr = "core2"; // 64 bits
 	  else if (model == 22) modelstr = "core2"; // 64 bits
 	  else if (model == 23) modelstr = "core2"; // 64 bits
-	  else modelstr = "p6???";
+	  else if (model == 29) modelstr = "core2"; // 64 bits
+      else modelstr = "p6???";
 	  break;
 EOF
   case "$guess_cpu" in
