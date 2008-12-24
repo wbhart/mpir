@@ -1,3 +1,6 @@
+;  YASM translation of code provided by P. Gaudry for AMD64, converted
+;  by Brian Gladman.
+;
 ;  Copyright 1999, 2000, 2001, 2002 Free Software Foundation, Inc.
 ;
 ;  This file is part of the GNU MP Library.
