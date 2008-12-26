@@ -3,6 +3,8 @@
 # Copyright 1996, 1997, 1999, 2000, 2001, 2002, 2003 Free Software
 # Foundation, Inc.
 #
+# Copyright 2008 Jason Moxham
+#
 # This file is part of the GNU MP Library.
 #
 # The GNU MP Library is free software; you can redistribute it and/or modify
@@ -32,7 +34,7 @@ check_PROGRAMS = t-addsub t-cmp t-mul t-mul_i t-tdiv t-tdiv_ui t-fdiv   \
   t-fac_ui t-fib_ui t-lucnum_ui t-scan t-fits                           \
   t-divis t-divis_2exp t-cong t-cong_2exp t-sizeinbase t-set_str        \
   t-aorsmul t-cmp_d t-cmp_si t-hamdist t-oddeven t-popcount t-set_f     \
-  t-io_raw t-import t-export t-pprime_p
+  t-io_raw t-import t-export t-pprime_p t-perfpow
 
 TESTS = $(check_PROGRAMS)
 

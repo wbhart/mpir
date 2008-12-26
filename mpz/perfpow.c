@@ -3,6 +3,8 @@
 
 Copyright 1998, 1999, 2000, 2001, 2005 Free Software Foundation, Inc.
 
+Copyright 2008 Jason Moxham
+
 This file is part of the GNU MP Library.
 
 The GNU MP Library is free software; you can redistribute it and/or modify
@@ -81,8 +83,8 @@ mpz_perfect_power_p (mpz_srcptr u)
   if (n2 == 1)
     return 0;			/* 2 divides exactly once.  */
 
-  if (n2 != 0 && (n2 & 1) == 0 && usize < 0)
-    return 0;			/* 2 has even multiplicity with negative U */
+  if (n2 > 1 && POW2_P(n2) && usize < 0)
+    return 0;			/* 2 has power of two  multiplicity with negative U */
 
   TMP_MARK;
 
@@ -117,10 +119,10 @@ mpz_perfect_power_p (mpz_srcptr u)
 	      n++;
 	    }
 
-	  if ((n & 1) == 0 && usize < 0)
+	  if ( POW2_P(n) && usize < 0)
 	    {
 	      TMP_FREE;
-	      return 0;		/* even multiplicity with negative U, reject */
+	      return 0;		/* power of two multiplicity with negative U, reject */
 	    }
 
 	  n2 = gcd (n2, n);
@@ -133,6 +135,7 @@ mpz_perfect_power_p (mpz_srcptr u)
 	  if (mpz_cmpabs_ui (u2, 1) == 0)
 	    {
 	      TMP_FREE;
+	      if(usize<0 && POW2_P(n2))return 0;/* factoring completed; not consistent power */
 	      return 1;		/* factoring completed; consistent power */
 	    }
 
@@ -161,7 +164,7 @@ mpz_perfect_power_p (mpz_srcptr u)
 	      TMP_FREE;
 	      return 1;
 	    }
-	  if (mpz_cmp_ui (q, SMALLEST_OMITTED_PRIME) < 0)
+	  if (mpz_cmpabs_ui (q, SMALLEST_OMITTED_PRIME) < 0)
 	    {
 	      TMP_FREE;
 	      return 0;
@@ -173,7 +176,7 @@ mpz_perfect_power_p (mpz_srcptr u)
       unsigned long int nth;
       /* We found some factors above.  We just need to consider values of n
 	 that divides n2.  */
-      for (nth = 2; nth <= n2; nth++)
+      for (nth = usize < 0 ? 3 : 2; nth <= n2; nth++)
 	{
 	  if (! isprime (nth))
 	    continue;
@@ -189,7 +192,7 @@ mpz_perfect_power_p (mpz_srcptr u)
 	      TMP_FREE;
 	      return 1;
 	    }
-	  if (mpz_cmp_ui (q, SMALLEST_OMITTED_PRIME) < 0)
+	  if (mpz_cmpabs_ui (q, SMALLEST_OMITTED_PRIME) < 0)
 	    {
 	      TMP_FREE;
 	      return 0;
@@ -201,6 +204,7 @@ mpz_perfect_power_p (mpz_srcptr u)
     }
 
 n2prime:
+  if(n2==2 && usize<0){TMP_FREE;return 0;}
   exact = mpz_root (NULL, u2, n2);
   TMP_FREE;
   return exact;

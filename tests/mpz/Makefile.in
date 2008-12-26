@@ -17,6 +17,8 @@
 # Copyright 1996, 1997, 1999, 2000, 2001, 2002, 2003 Free Software
 # Foundation, Inc.
 #
+# Copyright 2008 Jason Moxham
+#
 # This file is part of the GNU MP Library.
 #
 # The GNU MP Library is free software; you can redistribute it and/or modify
@@ -73,7 +75,8 @@ check_PROGRAMS = t-addsub$(EXEEXT) t-cmp$(EXEEXT) t-mul$(EXEEXT) \
 	t-set_str$(EXEEXT) t-aorsmul$(EXEEXT) t-cmp_d$(EXEEXT) \
 	t-cmp_si$(EXEEXT) t-hamdist$(EXEEXT) t-oddeven$(EXEEXT) \
 	t-popcount$(EXEEXT) t-set_f$(EXEEXT) t-io_raw$(EXEEXT) \
-	t-import$(EXEEXT) t-export$(EXEEXT) t-pprime_p$(EXEEXT)
+	t-import$(EXEEXT) t-export$(EXEEXT) t-pprime_p$(EXEEXT) \
+	t-perfpow$(EXEEXT)
 subdir = tests/mpz
 DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
@@ -284,6 +287,11 @@ t_oddeven_OBJECTS = t-oddeven$U.$(OBJEXT)
 t_oddeven_LDADD = $(LDADD)
 t_oddeven_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
 	$(top_builddir)/libgmp.la
+t_perfpow_SOURCES = t-perfpow.c
+t_perfpow_OBJECTS = t-perfpow$U.$(OBJEXT)
+t_perfpow_LDADD = $(LDADD)
+t_perfpow_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
+	$(top_builddir)/libgmp.la
 t_perfsqr_SOURCES = t-perfsqr.c
 t_perfsqr_OBJECTS = t-perfsqr$U.$(OBJEXT)
 t_perfsqr_LDADD = $(LDADD)
@@ -382,10 +390,10 @@ SOURCES = bit.c convert.c dive.c dive_ui.c io.c logic.c reuse.c \
 	t-fib_ui.c t-fits.c t-gcd.c t-gcd_ui.c t-get_d.c \
 	t-get_d_2exp.c t-get_si.c t-hamdist.c t-import.c t-inp_str.c \
 	t-io_raw.c t-jac.c t-lcm.c t-lucnum_ui.c t-mul.c t-mul_i.c \
-	t-oddeven.c t-perfsqr.c t-popcount.c t-pow.c t-powm.c \
-	t-powm_ui.c t-pprime_p.c t-root.c t-scan.c t-set_d.c t-set_f.c \
-	t-set_si.c t-set_str.c t-sizeinbase.c t-sqrtrem.c t-tdiv.c \
-	t-tdiv_ui.c
+	t-oddeven.c t-perfpow.c t-perfsqr.c t-popcount.c t-pow.c \
+	t-powm.c t-powm_ui.c t-pprime_p.c t-root.c t-scan.c t-set_d.c \
+	t-set_f.c t-set_si.c t-set_str.c t-sizeinbase.c t-sqrtrem.c \
+	t-tdiv.c t-tdiv_ui.c
 DIST_SOURCES = bit.c convert.c dive.c dive_ui.c io.c logic.c reuse.c \
 	t-addsub.c t-aorsmul.c t-bin.c t-cdiv_ui.c t-cmp.c t-cmp_d.c \
 	t-cmp_si.c t-cong.c t-cong_2exp.c t-div_2exp.c t-divis.c \
@@ -393,10 +401,10 @@ DIST_SOURCES = bit.c convert.c dive.c dive_ui.c io.c logic.c reuse.c \
 	t-fib_ui.c t-fits.c t-gcd.c t-gcd_ui.c t-get_d.c \
 	t-get_d_2exp.c t-get_si.c t-hamdist.c t-import.c t-inp_str.c \
 	t-io_raw.c t-jac.c t-lcm.c t-lucnum_ui.c t-mul.c t-mul_i.c \
-	t-oddeven.c t-perfsqr.c t-popcount.c t-pow.c t-powm.c \
-	t-powm_ui.c t-pprime_p.c t-root.c t-scan.c t-set_d.c t-set_f.c \
-	t-set_si.c t-set_str.c t-sizeinbase.c t-sqrtrem.c t-tdiv.c \
-	t-tdiv_ui.c
+	t-oddeven.c t-perfpow.c t-perfsqr.c t-popcount.c t-pow.c \
+	t-powm.c t-powm_ui.c t-pprime_p.c t-root.c t-scan.c t-set_d.c \
+	t-set_f.c t-set_si.c t-set_str.c t-sizeinbase.c t-sqrtrem.c \
+	t-tdiv.c t-tdiv_ui.c
 ETAGS = etags
 CTAGS = ctags
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
@@ -717,6 +725,9 @@ t-mul_i$(EXEEXT): $(t_mul_i_OBJECTS) $(t_mul_i_DEPENDENCIES)
 t-oddeven$(EXEEXT): $(t_oddeven_OBJECTS) $(t_oddeven_DEPENDENCIES) 
 	@rm -f t-oddeven$(EXEEXT)
 	$(LINK) $(t_oddeven_LDFLAGS) $(t_oddeven_OBJECTS) $(t_oddeven_LDADD) $(LIBS)
+t-perfpow$(EXEEXT): $(t_perfpow_OBJECTS) $(t_perfpow_DEPENDENCIES) 
+	@rm -f t-perfpow$(EXEEXT)
+	$(LINK) $(t_perfpow_LDFLAGS) $(t_perfpow_OBJECTS) $(t_perfpow_LDADD) $(LIBS)
 t-perfsqr$(EXEEXT): $(t_perfsqr_OBJECTS) $(t_perfsqr_DEPENDENCIES) 
 	@rm -f t-perfsqr$(EXEEXT)
 	$(LINK) $(t_perfsqr_LDFLAGS) $(t_perfsqr_OBJECTS) $(t_perfsqr_LDADD) $(LIBS)
@@ -865,6 +876,8 @@ t-mul_i_.c: t-mul_i.c $(ANSI2KNR)
 	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/t-mul_i.c; then echo $(srcdir)/t-mul_i.c; else echo t-mul_i.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
 t-oddeven_.c: t-oddeven.c $(ANSI2KNR)
 	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/t-oddeven.c; then echo $(srcdir)/t-oddeven.c; else echo t-oddeven.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
+t-perfpow_.c: t-perfpow.c $(ANSI2KNR)
+	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/t-perfpow.c; then echo $(srcdir)/t-perfpow.c; else echo t-perfpow.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
 t-perfsqr_.c: t-perfsqr.c $(ANSI2KNR)
 	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/t-perfsqr.c; then echo $(srcdir)/t-perfsqr.c; else echo t-perfsqr.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
 t-popcount_.c: t-popcount.c $(ANSI2KNR)
@@ -916,15 +929,16 @@ t-hamdist_.lo t-import_.$(OBJEXT) t-import_.lo t-inp_str_.$(OBJEXT) \
 t-inp_str_.lo t-io_raw_.$(OBJEXT) t-io_raw_.lo t-jac_.$(OBJEXT) \
 t-jac_.lo t-lcm_.$(OBJEXT) t-lcm_.lo t-lucnum_ui_.$(OBJEXT) \
 t-lucnum_ui_.lo t-mul_.$(OBJEXT) t-mul_.lo t-mul_i_.$(OBJEXT) \
-t-mul_i_.lo t-oddeven_.$(OBJEXT) t-oddeven_.lo t-perfsqr_.$(OBJEXT) \
-t-perfsqr_.lo t-popcount_.$(OBJEXT) t-popcount_.lo t-pow_.$(OBJEXT) \
-t-pow_.lo t-powm_.$(OBJEXT) t-powm_.lo t-powm_ui_.$(OBJEXT) \
-t-powm_ui_.lo t-pprime_p_.$(OBJEXT) t-pprime_p_.lo t-root_.$(OBJEXT) \
-t-root_.lo t-scan_.$(OBJEXT) t-scan_.lo t-set_d_.$(OBJEXT) t-set_d_.lo \
-t-set_f_.$(OBJEXT) t-set_f_.lo t-set_si_.$(OBJEXT) t-set_si_.lo \
-t-set_str_.$(OBJEXT) t-set_str_.lo t-sizeinbase_.$(OBJEXT) \
-t-sizeinbase_.lo t-sqrtrem_.$(OBJEXT) t-sqrtrem_.lo t-tdiv_.$(OBJEXT) \
-t-tdiv_.lo t-tdiv_ui_.$(OBJEXT) t-tdiv_ui_.lo : $(ANSI2KNR)
+t-mul_i_.lo t-oddeven_.$(OBJEXT) t-oddeven_.lo t-perfpow_.$(OBJEXT) \
+t-perfpow_.lo t-perfsqr_.$(OBJEXT) t-perfsqr_.lo t-popcount_.$(OBJEXT) \
+t-popcount_.lo t-pow_.$(OBJEXT) t-pow_.lo t-powm_.$(OBJEXT) t-powm_.lo \
+t-powm_ui_.$(OBJEXT) t-powm_ui_.lo t-pprime_p_.$(OBJEXT) \
+t-pprime_p_.lo t-root_.$(OBJEXT) t-root_.lo t-scan_.$(OBJEXT) \
+t-scan_.lo t-set_d_.$(OBJEXT) t-set_d_.lo t-set_f_.$(OBJEXT) \
+t-set_f_.lo t-set_si_.$(OBJEXT) t-set_si_.lo t-set_str_.$(OBJEXT) \
+t-set_str_.lo t-sizeinbase_.$(OBJEXT) t-sizeinbase_.lo \
+t-sqrtrem_.$(OBJEXT) t-sqrtrem_.lo t-tdiv_.$(OBJEXT) t-tdiv_.lo \
+t-tdiv_ui_.$(OBJEXT) t-tdiv_ui_.lo : $(ANSI2KNR)
 
 mostlyclean-libtool:
 	-rm -f *.lo
