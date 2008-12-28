@@ -1,52 +1,40 @@
-/* mpn/gcd.c: mpn_gcd for gcd of two odd integers.
+/* Schönhage's 1987 algorithm, reorganized into hgcd form */
 
-Copyright 1991, 1993, 1994, 1995, 1996, 1997, 1998, 2000, 2001, 2002 Free
-Software Foundation, Inc.
-
-This file is part of the GNU MP Library.
-
-The GNU MP Library is free software; you can redistribute it and/or modify
-it under the terms of the GNU Lesser General Public License as published by
-the Free Software Foundation; either version 2.1 of the License, or (at your
-option) any later version.
-
-The GNU MP Library is distributed in the hope that it will be useful, but
-WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
-or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public
-License for more details.
-
-You should have received a copy of the GNU Lesser General Public License
-along with the GNU MP Library; see the file COPYING.LIB.  If not, write to
-the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,
-MA 02111-1307, USA. */
-
-/* Integer greatest common divisor of two unsigned integers, using
-   the accelerated algorithm (see reference below).
-
-   mp_size_t mpn_gcd (up, usize, vp, vsize).
-
-   Preconditions [U = (up, usize) and V = (vp, vsize)]:
-
-   1.  V is odd.
-   2.  numbits(U) >= numbits(V).
-
-   Both U and V are destroyed by the operation.  The result is left at vp,
-   and its size is returned.
-
-   Ken Weber (kweber@mat.ufrgs.br, kweber@mcs.kent.edu)
-
-   Funding for this work has been partially provided by Conselho Nacional
-   de Desenvolvimento Cienti'fico e Tecnolo'gico (CNPq) do Brazil, Grant
-   301314194-2, and was done while I was a visiting reseacher in the Instituto
-   de Matema'tica at Universidade Federal do Rio Grande do Sul (UFRGS).
-
-   Refer to
-	K. Weber, The accelerated integer GCD algorithm, ACM Transactions on
-	Mathematical Software, v. 21 (March), 1995, pp. 111-122.  */
+#include <stdio.h>  /* for NULL */
 
 #include "gmp.h"
 #include "gmp-impl.h"
 #include "longlong.h"
+
+
+/* ******************************************************************
+ *    Here we are including the original GMP version of mpn_gcd
+ *    but we rename it as mpn_basic_gcd.  It needs to be available
+ *    for the ngcd algorithm to call in the base case.
+ *
+ *  Preconditions [U = (up, usize) and V = (vp, vsize)]:
+ *
+ *   1.  V is odd.
+ *   2.  numbits(U) >= numbits(V).
+ *
+ *   Both U and V are destroyed by the operation.  The result is left at vp,
+ *   and its size is returned.
+ *
+ *   Ken Weber (kweber@mat.ufrgs.br, kweber@mcs.kent.edu)
+ *
+ *   Funding for this work has been partially provided by Conselho
+ *   Nacional de Desenvolvimento Cienti'fico e Tecnolo'gico (CNPq) do
+ *   Brazil, Grant 301314194-2, and was done while I was a visiting
+ *   reseacher in the Instituto de Matema'tica at Universidade Federal
+ *   do Rio Grande do Sul (UFRGS).
+ *
+ *   Refer to K. Weber, The accelerated integer GCD algorithm, ACM
+ *	Transactions on Mathematical Software, v. 21 (March), 1995,
+ *	pp. 111-122.
+ *
+ * *****************************************************************/
+
+
 
 /* If MIN (usize, vsize) >= GCD_ACCEL_THRESHOLD, then the accelerated
    algorithm is used, otherwise the binary algorithm is used.  This may be
@@ -183,7 +171,7 @@ find_a (mp_srcptr cp)
 
 
 mp_size_t
-mpn_gcd (mp_ptr gp, mp_ptr up, mp_size_t usize, mp_ptr vp, mp_size_t vsize)
+mpn_basic_gcd (mp_ptr gp, mp_ptr up, mp_size_t usize, mp_ptr vp, mp_size_t vsize)
 {
   mp_ptr orig_vp = vp;
   mp_size_t orig_vsize = vsize;
@@ -465,3 +453,305 @@ done:
   TMP_FREE;
   return vsize;
 }
+
+
+
+/* ******************************************************************
+ *     END of original GMP mpn_gcd
+ * *****************************************************************/
+
+
+
+/*
+ * The remainder of this code is from Moller's patches.
+ *
+ * To make this code work with "make tune" we need to conditionally
+ * exclude the Moller code when this file gets included inside of
+ * gcd_bin.c in ../tune.
+ */
+#ifndef INSIDE_TUNE_GCD_BIN
+
+/* For input of size n, matrix elements are of size at most ceil(n/2)
+   - 1, but we need one limb extra. */
+
+void
+mpn_ngcd_matrix_init (struct ngcd_matrix *M, mp_size_t n, mp_ptr p)
+{
+  mp_size_t s = (n+1)/2;
+  M->alloc = s;
+  M->n = 1;
+  MPN_ZERO (p, 4 * s);
+  M->p[0][0] = p;
+  M->p[0][1] = p + s;
+  M->p[1][0] = p + 2 * s;
+  M->p[1][1] = p + 3 * s;
+  M->tp = p + 4*s;
+
+  M->p[0][0][0] = M->p[1][1][0] = 1;
+}
+
+#define NHGCD_BASE_ITCH MPN_NGCD_STEP_ITCH
+
+/* Reduces a,b until |a-b| fits in n/2 + 1 limbs. Constructs matrix M
+   with elements of size at most (n+1)/2 - 1. Returns new size of a,
+   b, or zero if no reduction is possible. */
+static mp_size_t
+nhgcd_base (mp_ptr ap, mp_ptr bp, mp_size_t n,
+	    struct ngcd_matrix *M, mp_ptr tp)
+{
+  mp_size_t s = n/2 + 1;
+  mp_size_t nn;
+
+  ASSERT (n > s);
+  ASSERT (ap[n-1] > 0 || bp[n-1] > 0);
+
+  nn = mpn_ngcd_step (n, ap, bp, s, M, tp);
+  if (!nn)
+    return 0;
+
+  for (;;)
+    {
+      n = nn;
+      ASSERT (n > s);
+      nn = mpn_ngcd_step (n, ap, bp, s, M, tp);
+      if (!nn )
+	return n;      
+    }
+}
+
+/* Size analysis for nhgcd:
+
+   For the recursive calls, we have n1 <= ceil(n / 2). Then the
+   storage need is determined by the storage for the recursive call
+   computing M1, and ngcd_matrix_adjust and ngcd_matrix_mul calls that use M1
+   (after this, the storage needed for M1 can be recycled).
+
+   Let S(r) denote the required storage. For M1 we need 5 * ceil(n1/2)
+   = 5 * ceil(n/4), and for the ngcd_matrix_adjust call, we need n + 2. In
+   total, 5 * ceil(n/4) + n + 2 <= 9 ceil(n/4) + 2.
+
+   For the recursive call, we need S(n1) = S(ceil(n/2)).
+
+   S(n) <= 9*ceil(n/4) + 2 + S(ceil(n/2))
+        <= 9*(ceil(n/4) + ... + ceil(n/2^(1+k))) + 2k + S(ceil(n/2^k))
+        <= 9*(2 ceil(n/4) + k) + 2k + S(n/2^k)   
+	<= 18 ceil(n/4) + 11k + S(n/2^k)
+	
+*/
+
+mp_size_t
+mpn_nhgcd_itch (mp_size_t n)
+{
+  unsigned k;
+  mp_size_t nn;
+
+  /* Inefficient way to almost compute
+     log_2(n/NHGCD_BASE_THRESHOLD) */
+  for (k = 0, nn = n;
+       ABOVE_THRESHOLD (nn, NHGCD_THRESHOLD);
+       nn = (nn + 1) / 2)
+    k++;
+
+  if (k == 0)
+    return NHGCD_BASE_ITCH (n);
+
+  return 18 * ((n+3) / 4) + 11 * k
+    + NHGCD_BASE_ITCH (NHGCD_THRESHOLD);
+}
+
+/* Reduces a,b until |a-b| fits in n/2 + 1 limbs. Constructs matrix M
+   with elements of size at most (n+1)/2 - 1. Returns new size of a,
+   b, or zero if no reduction is possible. */
+
+mp_size_t
+mpn_nhgcd (mp_ptr ap, mp_ptr bp, mp_size_t n,
+	   struct ngcd_matrix *M, mp_ptr tp)
+{
+  mp_size_t s = n/2 + 1;
+  mp_size_t n2 = (3*n)/4 + 1;
+  
+  mp_size_t p, nn;
+  unsigned count;
+  int success = 0;
+  
+  ASSERT (n > s);
+  ASSERT ((ap[n-1] | bp[n-1]) > 0);
+
+  ASSERT ((n+1)/2 - 1 < M->alloc);
+
+  if (BELOW_THRESHOLD (n, NHGCD_THRESHOLD))
+    return nhgcd_base (ap, bp, n, M, tp);
+
+  p = n/2;
+  nn = mpn_nhgcd (ap + p, bp + p, n - p, M, tp);
+  if (nn > 0)
+    {
+      /* Needs 2*(p + M->n) <= 2*(floor(n/2) + ceil(n/2) - 1)
+	 = 2 (n - 1) */
+      n = mpn_ngcd_matrix_adjust (M, p + nn, ap, bp, p, tp);
+      success = 1;
+    }
+  count = 0;
+  while (n > n2)
+    {
+      count++;
+      /* Needs n + 1 storage */
+      nn = mpn_ngcd_step (n, ap, bp, s, M, tp);
+      if (!nn)
+	return success ? n : 0;
+      n = nn;
+      success = 1;
+    }
+
+  if (n > s + 2)
+    {
+      struct ngcd_matrix M1;
+      mp_size_t scratch;
+
+      p = 2*s - n + 1;
+      scratch = MPN_NGCD_MATRIX_INIT_ITCH (n-p);
+
+      mpn_ngcd_matrix_init(&M1, n - p, tp);
+      nn = mpn_nhgcd (ap + p, bp + p, n - p, &M1, tp + scratch);
+      if (nn > 0)
+	{
+	  /* Needs 2 (p + M->n) <= 2 (2*s - n2 + 1 + n2 - s - 1)
+	     = 2*s <= 2*(floor(n/2) + 1) <= n + 2. */
+	  n = mpn_ngcd_matrix_adjust (&M1, p + nn, ap, bp, p, tp + scratch);
+	  /* Needs M->n <= n2 - s - 1 < n/4 */
+	  mpn_ngcd_matrix_mul (M, &M1, tp + scratch);
+	  success = 1;
+	}
+    }
+
+  /* FIXME: This really is the base case */
+  for (count = 0;; count++)
+    {
+      /* Needs s+3 < n */
+      nn = mpn_ngcd_step (n, ap, bp, s, M, tp);
+      if (!nn)
+	return success ? n : 0;
+
+      n = nn;
+      success = 1;
+    } 
+}
+
+#define EVEN_P(x) (((x) & 1) == 0)
+
+mp_size_t
+mpn_gcd (mp_ptr gp, mp_ptr ap, mp_size_t an, mp_ptr bp, mp_size_t n)
+{
+  mp_size_t init_scratch;
+  mp_size_t scratch;
+  mp_ptr tp;
+  TMP_DECL;
+  
+  ASSERT (an >= n);
+
+  if (BELOW_THRESHOLD (n, NGCD_THRESHOLD))
+    return mpn_basic_gcd (gp, ap, an, bp, n);
+
+  init_scratch = MPN_NGCD_MATRIX_INIT_ITCH ((n+1)/2);
+  scratch = mpn_nhgcd_itch ((n+1)/2);
+
+  /* Space needed for mpn_ngcd_matrix_adjust */
+  if (scratch < 2*n)
+    scratch = 2*n;
+
+  TMP_MARK;
+  
+  if (an + 1 > init_scratch + scratch)
+    tp = TMP_ALLOC_LIMBS (an + 1);
+  else
+    tp = TMP_ALLOC_LIMBS (init_scratch + scratch);
+  
+  if (an > n)
+    {
+      mp_ptr rp = tp;
+      mp_ptr qp = rp + n;
+
+      mpn_tdiv_qr (qp, rp, 0, ap, an, bp, n);
+      MPN_COPY (ap, rp, n);
+      an = n;
+      MPN_NORMALIZE (ap, an);
+      if (an == 0)
+	{	  
+	  MPN_COPY (gp, bp, n);
+	  TMP_FREE;
+	  return n;
+	}
+    }
+
+  while (ABOVE_THRESHOLD (n, NGCD_THRESHOLD))
+    {
+      struct ngcd_matrix M;
+      mp_size_t p = n/2;
+      mp_size_t nn;
+      
+      mpn_ngcd_matrix_init (&M, n - p, tp);
+      nn = mpn_nhgcd (ap + p, bp + p, n - p, &M, tp + init_scratch);
+      if (nn > 0)
+	/* Needs 2*(p + M->n) <= 2*(floor(n/2) + ceil(n/2) - 1)
+	   = 2(n-1) */
+	n = mpn_ngcd_matrix_adjust (&M, p + nn, ap, bp, p, tp + init_scratch);
+
+      else	
+	{
+	  mp_size_t gn;
+	  n = mpn_ngcd_subdiv_step (gp, &gn, ap, bp, n, tp);
+	  if (n == 0)
+	    {
+	      TMP_FREE;
+	      return gn;
+	    }
+	}
+    }
+
+  ASSERT (ap[n-1] > 0 || bp[n-1] > 0);
+#if 0
+  /* FIXME: We may want to use lehmer on some systems. */
+  n = mpn_ngcd_lehmer (gp, ap, bp, n, tp);
+
+  TMP_FREE;
+  return n;
+#endif
+
+  if (ap[n-1] < bp[n-1])
+    MP_PTR_SWAP (ap, bp);
+
+  an = n;
+  MPN_NORMALIZE (bp, n);
+
+  if (n == 0)
+    {
+      MPN_COPY (gp, ap, an);
+      TMP_FREE;
+      return an;
+    }
+
+  if (EVEN_P (bp[0]))
+    {
+      /* Then a must be odd (since the calling convention implies that
+	 there's no common factor of 2) */
+      ASSERT (!EVEN_P (ap[0]));
+
+      while (bp[0] == 0)
+	{
+	  bp++;
+	  n--;
+	}
+
+      if (EVEN_P(bp[0]))
+	{
+	  int count;
+	  count_trailing_zeros (count, bp[0]);
+	  ASSERT_NOCARRY (mpn_rshift (bp, bp, n, count));
+	  n -= (bp[n-1] == 0);
+	}
+    }
+
+  TMP_FREE;  
+  return mpn_basic_gcd (gp, ap, an, bp, n);
+}
+#endif

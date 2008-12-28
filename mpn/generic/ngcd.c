@@ -7,24 +7,15 @@
 #include "longlong.h"
 
 
+
+
+
+
 /* For input of size n, matrix elements are of size at most ceil(n/2)
    - 1, but we need one limb extra. */
 
 void
-mpn_ngcd_matrix_init (struct ngcd_matrix *M, mp_size_t n, mp_ptr p)
-{
-  mp_size_t s = (n+1)/2;
-  M->alloc = s;
-  M->n = 1;
-  MPN_ZERO (p, 4 * s);
-  M->p[0][0] = p;
-  M->p[0][1] = p + s;
-  M->p[1][0] = p + 2 * s;
-  M->p[1][1] = p + 3 * s;
-  M->tp = p + 4*s;
-
-  M->p[0][0][0] = M->p[1][1][0] = 1;
-}
+mpn_ngcd_matrix_init (struct ngcd_matrix *M, mp_size_t n, mp_ptr p);
 
 #define NHGCD_BASE_ITCH MPN_NGCD_STEP_ITCH
 
@@ -33,27 +24,7 @@ mpn_ngcd_matrix_init (struct ngcd_matrix *M, mp_size_t n, mp_ptr p)
    b, or zero if no reduction is possible. */
 static mp_size_t
 nhgcd_base (mp_ptr ap, mp_ptr bp, mp_size_t n,
-	    struct ngcd_matrix *M, mp_ptr tp)
-{
-  mp_size_t s = n/2 + 1;
-  mp_size_t nn;
-
-  ASSERT (n > s);
-  ASSERT (ap[n-1] > 0 || bp[n-1] > 0);
-
-  nn = mpn_ngcd_step (n, ap, bp, s, M, tp);
-  if (!nn)
-    return 0;
-
-  for (;;)
-    {
-      n = nn;
-      ASSERT (n > s);
-      nn = mpn_ngcd_step (n, ap, bp, s, M, tp);
-      if (!nn )
-	return n;      
-    }
-}
+	    struct ngcd_matrix *M, mp_ptr tp);
 
 /* Size analysis for nhgcd:
 
@@ -76,24 +47,8 @@ nhgcd_base (mp_ptr ap, mp_ptr bp, mp_size_t n,
 */
 
 mp_size_t
-mpn_nhgcd_itch (mp_size_t n)
-{
-  unsigned k;
-  mp_size_t nn;
+mpn_nhgcd_itch (mp_size_t n);
 
-  /* Inefficient way to almost compute
-     log_2(n/NHGCD_BASE_THRESHOLD) */
-  for (k = 0, nn = n;
-       ABOVE_THRESHOLD (nn, NHGCD_THRESHOLD);
-       nn = (nn + 1) / 2)
-    k++;
-
-  if (k == 0)
-    return NHGCD_BASE_ITCH (n);
-
-  return 18 * ((n+3) / 4) + 11 * k
-    + NHGCD_BASE_ITCH (NHGCD_THRESHOLD);
-}
 
 /* Reduces a,b until |a-b| fits in n/2 + 1 limbs. Constructs matrix M
    with elements of size at most (n+1)/2 - 1. Returns new size of a,
@@ -101,77 +56,8 @@ mpn_nhgcd_itch (mp_size_t n)
 
 mp_size_t
 mpn_nhgcd (mp_ptr ap, mp_ptr bp, mp_size_t n,
-	   struct ngcd_matrix *M, mp_ptr tp)
-{
-  mp_size_t s = n/2 + 1;
-  mp_size_t n2 = (3*n)/4 + 1;
-  
-  mp_size_t p, nn;
-  unsigned count;
-  int success = 0;
-  
-  ASSERT (n > s);
-  ASSERT ((ap[n-1] | bp[n-1]) > 0);
+	   struct ngcd_matrix *M, mp_ptr tp);
 
-  ASSERT ((n+1)/2 - 1 < M->alloc);
-
-  if (BELOW_THRESHOLD (n, NHGCD_THRESHOLD))
-    return nhgcd_base (ap, bp, n, M, tp);
-
-  p = n/2;
-  nn = mpn_nhgcd (ap + p, bp + p, n - p, M, tp);
-  if (nn > 0)
-    {
-      /* Needs 2*(p + M->n) <= 2*(floor(n/2) + ceil(n/2) - 1)
-	 = 2 (n - 1) */
-      n = mpn_ngcd_matrix_adjust (M, p + nn, ap, bp, p, tp);
-      success = 1;
-    }
-  count = 0;
-  while (n > n2)
-    {
-      count++;
-      /* Needs n + 1 storage */
-      nn = mpn_ngcd_step (n, ap, bp, s, M, tp);
-      if (!nn)
-	return success ? n : 0;
-      n = nn;
-      success = 1;
-    }
-
-  if (n > s + 2)
-    {
-      struct ngcd_matrix M1;
-      mp_size_t scratch;
-
-      p = 2*s - n + 1;
-      scratch = MPN_NGCD_MATRIX_INIT_ITCH (n-p);
-
-      mpn_ngcd_matrix_init(&M1, n - p, tp);
-      nn = mpn_nhgcd (ap + p, bp + p, n - p, &M1, tp + scratch);
-      if (nn > 0)
-	{
-	  /* Needs 2 (p + M->n) <= 2 (2*s - n2 + 1 + n2 - s - 1)
-	     = 2*s <= 2*(floor(n/2) + 1) <= n + 2. */
-	  n = mpn_ngcd_matrix_adjust (&M1, p + nn, ap, bp, p, tp + scratch);
-	  /* Needs M->n <= n2 - s - 1 < n/4 */
-	  mpn_ngcd_matrix_mul (M, &M1, tp + scratch);
-	  success = 1;
-	}
-    }
-
-  /* FIXME: This really is the base case */
-  for (count = 0;; count++)
-    {
-      /* Needs s+3 < n */
-      nn = mpn_ngcd_step (n, ap, bp, s, M, tp);
-      if (!nn)
-	return success ? n : 0;
-
-      n = nn;
-      success = 1;
-    } 
-}
 
 #define EVEN_P(x) (((x) & 1) == 0)
 
@@ -186,7 +72,7 @@ mpn_ngcd (mp_ptr gp, mp_ptr ap, mp_size_t an, mp_ptr bp, mp_size_t n)
   ASSERT (an >= n);
 
   if (BELOW_THRESHOLD (n, NGCD_THRESHOLD))
-    return mpn_gcd (gp, ap, an, bp, n);
+    return mpn_basic_gcd (gp, ap, an, bp, n);
 
   init_scratch = MPN_NGCD_MATRIX_INIT_ITCH ((n+1)/2);
   scratch = mpn_nhgcd_itch ((n+1)/2);
@@ -288,5 +174,5 @@ mpn_ngcd (mp_ptr gp, mp_ptr ap, mp_size_t an, mp_ptr bp, mp_size_t n)
     }
 
   TMP_FREE;  
-  return mpn_gcd (gp, ap, an, bp, n);
+  return mpn_basic_gcd (gp, ap, an, bp, n);
 }
