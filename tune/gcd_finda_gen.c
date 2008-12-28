@@ -27,7 +27,7 @@ MA 02110-1301, USA.
 #ifdef HAVE_NATIVE_mpn_gcd_finda
 #undef HAVE_NATIVE_mpn_gcd_finda
 #endif
-#define __gmpn_gcd  __UNWANTED_gcd
+#define mpn_basic_gcd  __UNWANTED_gcd
 
 #include "mpn/generic/gcd.c"
 
