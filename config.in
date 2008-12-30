@@ -235,6 +235,7 @@ MA 02110-1301, USA.
 #undef HAVE_NATIVE_mpn_invert_limb
 #undef HAVE_NATIVE_mpn_ior_n
 #undef HAVE_NATIVE_mpn_iorn_n
+#undef HAVE_NATIVE_mpn_lshift1
 #undef HAVE_NATIVE_mpn_lshiftc
 #undef HAVE_NATIVE_mpn_mod_1
 #undef HAVE_NATIVE_mpn_mod_1c
@@ -250,6 +251,7 @@ MA 02110-1301, USA.
 #undef HAVE_NATIVE_mpn_preinv_mod_1
 #undef HAVE_NATIVE_mpn_rsh1add_n
 #undef HAVE_NATIVE_mpn_rsh1sub_n
+#undef HAVE_NATIVE_mpn_rshift1
 #undef HAVE_NATIVE_mpn_sqr_basecase
 #undef HAVE_NATIVE_mpn_sqr_diagonal
 #undef HAVE_NATIVE_mpn_sub_n

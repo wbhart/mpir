@@ -552,6 +552,16 @@ speed_mpn_rshift (struct speed_params *s)
   SPEED_ROUTINE_MPN_UNARY_1 (mpn_rshift);
 }
 
+double
+speed_mpn_lshift1 (struct speed_params *s)
+{
+  SPEED_ROUTINE_MPN_LSHIFT1 (mpn_lshift1);
+}
+double
+speed_mpn_rshift1 (struct speed_params *s)
+{
+  SPEED_ROUTINE_MPN_RSHIFT1 (mpn_rshift1);
+}
 
 /* The carry-in variants (if available) are good for measuring because they
    won't skip a division if high<divisor.  Alternately, use -1 as a divisor

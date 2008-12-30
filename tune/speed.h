@@ -208,6 +208,7 @@ double speed_mpn_jacobi_base_3 _PROTO ((struct speed_params *s));
 double speed_mpn_kara_mul_n _PROTO ((struct speed_params *s));
 double speed_mpn_kara_sqr_n _PROTO ((struct speed_params *s));
 double speed_mpn_lshift _PROTO ((struct speed_params *s));
+double speed_mpn_lshift1 _PROTO ((struct speed_params *s));
 double speed_mpn_mod_1 _PROTO ((struct speed_params *s));
 double speed_mpn_mod_1c _PROTO ((struct speed_params *s));
 double speed_mpn_mod_1_div _PROTO ((struct speed_params *s));
@@ -237,6 +238,7 @@ double speed_redc _PROTO ((struct speed_params *s));
 double speed_mpn_rsh1add_n _PROTO ((struct speed_params *s));
 double speed_mpn_rsh1sub_n _PROTO ((struct speed_params *s));
 double speed_mpn_rshift _PROTO ((struct speed_params *s));
+double speed_mpn_rshift1 _PROTO ((struct speed_params *s));
 double speed_mpn_sb_divrem_m3 _PROTO ((struct speed_params *s));
 double speed_mpn_sb_divrem_m3_div _PROTO ((struct speed_params *s));
 double speed_mpn_sb_divrem_m3_inv _PROTO ((struct speed_params *s));
@@ -740,6 +742,60 @@ int speed_routine_count_zeros_setup _PROTO ((struct speed_params *s,
     i = s->reps;							\
     do									\
       call;								\
+    while (--i != 0);							\
+    t = speed_endtime ();						\
+									\
+    TMP_FREE;								\
+    return t;								\
+  }
+
+#define SPEED_ROUTINE_MPN_LSHIFT1(call)					\
+  {									\
+    mp_ptr    wp;							\
+    unsigned  i;							\
+    double    t;							\
+    TMP_DECL;								\
+									\
+    SPEED_RESTRICT_COND (s->size >= 1);					\
+									\
+    TMP_MARK;								\
+    SPEED_TMP_ALLOC_LIMBS (wp, s->size, s->align_wp);			\
+									\
+    speed_operand_src (s, s->xp, s->size);				\
+    speed_operand_dst (s, wp, s->size);					\
+    speed_cache_fill (s);						\
+									\
+    speed_starttime ();							\
+    i = s->reps;							\
+    do									\
+      mpn_lshift1(wp,s->xp,s->size);					\
+    while (--i != 0);							\
+    t = speed_endtime ();						\
+									\
+    TMP_FREE;								\
+    return t;								\
+  }
+
+#define SPEED_ROUTINE_MPN_RSHIFT1(call)					\
+  {									\
+    mp_ptr    wp;							\
+    unsigned  i;							\
+    double    t;							\
+    TMP_DECL;								\
+									\
+    SPEED_RESTRICT_COND (s->size >= 1);					\
+									\
+    TMP_MARK;								\
+    SPEED_TMP_ALLOC_LIMBS (wp, s->size, s->align_wp);			\
+									\
+    speed_operand_src (s, s->xp, s->size);				\
+    speed_operand_dst (s, wp, s->size);					\
+    speed_cache_fill (s);						\
+									\
+    speed_starttime ();							\
+    i = s->reps;							\
+    do									\
+      mpn_rshift1(wp,s->xp,s->size);					\
     while (--i != 0);							\
     t = speed_endtime ();						\
 									\

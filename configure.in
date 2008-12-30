@@ -2429,9 +2429,9 @@ fi
 
 gmp_mpn_functions_optional="umul udiv copyi copyd com_n
   and_n andn_n nand_n ior_n iorn_n nior_n xor_n xnor_n			\
-  gcd_finda invert_limb sqr_diagonal					\
-  bgcd hgcd hgcd2 lgcd ngcd ngcd_matrix ngcd_step      \
-  nhgcd2 rgcd sgcd                                                    \
+  gcd_finda invert_limb sqr_diagonal lshift1 rshift1			\
+  bgcd hgcd hgcd2 lgcd ngcd ngcd_matrix ngcd_step			\
+  nhgcd2 rgcd sgcd							\
   mul_2 mul_3 mul_4							\
   addmul_2 addmul_3 addmul_4 addmul_5 addmul_6 addmul_7 addmul_8	\
   addlsh1_n sublsh1_n rsh1add_n rsh1sub_n addsub_n lshiftc"
@@ -2442,7 +2442,7 @@ gmp_mpn_functions="$extra_functions					   \
   fib2_ui mod_1 mod_34lsub1 mode1o pre_divrem_1 pre_mod_1 dump		   \
   mul mul_fft mul_n mul_basecase sqr_basecase random random2 pow_1	   \
   rootrem sqrtrem get_str set_str scan0 scan1 popcount hamdist cmp perfsqr \
-  bdivmod gcd gcd_1 gcdext tdiv_qr dc_divrem_n sb_divrem_mn jacbase get_d      \
+  bdivmod gcd gcd_1 gcdext tdiv_qr dc_divrem_n sb_divrem_mn jacbase get_d  \
   mullow_n mullow_basecase				   \
   $gmp_mpn_functions_optional"
 
@@ -2905,6 +2905,7 @@ AH_VERBATIM([HAVE_NATIVE],
 #undef HAVE_NATIVE_mpn_invert_limb
 #undef HAVE_NATIVE_mpn_ior_n
 #undef HAVE_NATIVE_mpn_iorn_n
+#undef HAVE_NATIVE_mpn_lshift1
 #undef HAVE_NATIVE_mpn_lshiftc
 #undef HAVE_NATIVE_mpn_mod_1
 #undef HAVE_NATIVE_mpn_mod_1c
@@ -2920,6 +2921,7 @@ AH_VERBATIM([HAVE_NATIVE],
 #undef HAVE_NATIVE_mpn_preinv_mod_1
 #undef HAVE_NATIVE_mpn_rsh1add_n
 #undef HAVE_NATIVE_mpn_rsh1sub_n
+#undef HAVE_NATIVE_mpn_rshift1
 #undef HAVE_NATIVE_mpn_sqr_basecase
 #undef HAVE_NATIVE_mpn_sqr_diagonal
 #undef HAVE_NATIVE_mpn_sub_n
