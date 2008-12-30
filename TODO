@@ -1,0 +1,10 @@
+
+the new fn's mpn_lshift1 and mpn_rshift1 have broken the ./configure
+--enable-cxx && make , with a bad tag . GMP itself is free from this problem
+, so it's a mpir specific problem , probably the same as the previous tag
+fix??
+
+the new fns are only visible internally , to get them visible to the user we
+need to put the stuff thats in gmp-impl.h into gmp-h.in and get it to work ,
+need to bugger about with configure.in etc 
+
