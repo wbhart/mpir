@@ -1,4 +1,4 @@
-/* mpn_addsub_n -- Add and Subtract two limb vectors of equal, non-zero length.
+/* mpn_sumdiff_n -- Add and Subtract two limb vectors of equal, non-zero length.
 
 Copyright 1999, 2000, 2001, 2006 Free Software Foundation, Inc.
 
@@ -29,13 +29,13 @@ MA 02110-1301, USA. */
 #define PART_SIZE (L1_CACHE_SIZE / BYTES_PER_MP_LIMB / 6)
 
 
-/* mpn_addsub_n.
+/* mpn_sumdiff_n.
    r1[] = s1[] + s2[]
    r2[] = s1[] - s2[]
    All operands have n limbs.
    In-place operations allowed.  */
 mp_limb_t
-mpn_addsub_n (mp_ptr r1p, mp_ptr r2p, mp_srcptr s1p, mp_srcptr s2p, mp_size_t n)
+mpn_sumdiff_n (mp_ptr r1p, mp_ptr r2p, mp_srcptr s1p, mp_srcptr s2p, mp_size_t n)
 {
   mp_limb_t acyn, acyo;		/* carry for add */
   mp_limb_t scyn, scyo;		/* carry for subtract */
@@ -146,14 +146,14 @@ main (int argc, char **argv)
   s2p = malloc (n * BYTES_PER_MP_LIMB);
   TIME (t,(mpn_add_n(r1p,s1p,s2p,n),mpn_sub_n(r1p,s1p,s2p,n)));
   printf ("              separate add and sub: %.3f\n", t);
-  TIME (t,mpn_addsub_n(r1p,r2p,s1p,s2p,n));
-  printf ("combined addsub separate variables: %.3f\n", t);
-  TIME (t,mpn_addsub_n(r1p,r2p,r1p,s2p,n));
-  printf ("        combined addsub r1 overlap: %.3f\n", t);
-  TIME (t,mpn_addsub_n(r1p,r2p,r1p,s2p,n));
-  printf ("        combined addsub r2 overlap: %.3f\n", t);
-  TIME (t,mpn_addsub_n(r1p,r2p,r1p,r2p,n));
-  printf ("          combined addsub in-place: %.3f\n", t);
+  TIME (t,mpn_sumdiff_n(r1p,r2p,s1p,s2p,n));
+  printf ("combined sumdiff separate variables: %.3f\n", t);
+  TIME (t,mpn_sumdiff_n(r1p,r2p,r1p,s2p,n));
+  printf ("        combined sumdiff r1 overlap: %.3f\n", t);
+  TIME (t,mpn_sumdiff_n(r1p,r2p,r1p,s2p,n));
+  printf ("        combined sumdiff r2 overlap: %.3f\n", t);
+  TIME (t,mpn_sumdiff_n(r1p,r2p,r1p,r2p,n));
+  printf ("          combined sumdiff in-place: %.3f\n", t);
 
   return 0;
 }

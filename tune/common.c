@@ -777,11 +777,11 @@ speed_mpn_sub_n (struct speed_params *s)
 SPEED_ROUTINE_MPN_BINARY_N (mpn_sub_n);
 }
 
-#if HAVE_NATIVE_mpn_addsub_n
+#if HAVE_NATIVE_mpn_sumdiff_n
 double
-speed_mpn_addsub_n (struct speed_params *s)
+speed_mpn_sumdiff_n (struct speed_params *s)
 {
-  SPEED_ROUTINE_MPN_ADDSUB_N_CALL (mpn_addsub_n (ap, sp, s->xp, s->yp, s->size));
+  SPEED_ROUTINE_MPN_SUMDIFF_N_CALL (mpn_sumdiff_n (ap, sp, s->xp, s->yp, s->size));
 }
 #endif
 

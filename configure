@@ -29300,7 +29300,7 @@ gmp_mpn_functions_optional="umul udiv copyi copyd com_n
   nhgcd2 rgcd sgcd							\
   mul_2 mul_3 mul_4							\
   addmul_2 addmul_3 addmul_4 addmul_5 addmul_6 addmul_7 addmul_8	\
-  addlsh1_n sublsh1_n rsh1add_n rsh1sub_n addsub_n lshiftc"
+  addlsh1_n sublsh1_n rsh1add_n rsh1sub_n sumdiff_n lshiftc"
 
 gmp_mpn_functions="$extra_functions					   \
   add add_1 add_n sub sub_1 sub_n mul_1 addmul_1			   \

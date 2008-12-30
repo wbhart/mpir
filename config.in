@@ -220,7 +220,7 @@ MA 02110-1301, USA.
 #undef HAVE_NATIVE_mpn_addmul_6
 #undef HAVE_NATIVE_mpn_addmul_7
 #undef HAVE_NATIVE_mpn_addmul_8
-#undef HAVE_NATIVE_mpn_addsub_n
+#undef HAVE_NATIVE_mpn_sumdiff_n
 #undef HAVE_NATIVE_mpn_and_n
 #undef HAVE_NATIVE_mpn_andn_n
 #undef HAVE_NATIVE_mpn_com_n

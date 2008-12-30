@@ -148,7 +148,7 @@ double speed_mpf_init_clear _PROTO ((struct speed_params *s));
 
 double speed_mpn_add_n _PROTO ((struct speed_params *s));
 double speed_mpn_addlsh1_n _PROTO ((struct speed_params *s));
-double speed_mpn_addsub_n _PROTO ((struct speed_params *s));
+double speed_mpn_sumdiff_n _PROTO ((struct speed_params *s));
 double speed_mpn_and_n _PROTO ((struct speed_params *s));
 double speed_mpn_andn_n _PROTO ((struct speed_params *s));
 double speed_mpn_addmul_1 _PROTO ((struct speed_params *s));
@@ -663,7 +663,7 @@ int speed_routine_count_zeros_setup _PROTO ((struct speed_params *s,
   }
 
 /* For mpn_add_n, mpn_sub_n, or similar. */
-#define SPEED_ROUTINE_MPN_ADDSUB_N_CALL(call)				\
+#define SPEED_ROUTINE_MPN_SUMDIFF_N_CALL(call)				\
   {									\
     mp_ptr     ap, sp;							\
     mp_ptr     xp, yp;							\
@@ -1558,7 +1558,7 @@ int speed_routine_count_zeros_setup _PROTO ((struct speed_params *s,
   }
 
 
-#define SPEED_ROUTINE_MPN_ADDSUB_CALL(call)				\
+#define SPEED_ROUTINE_MPN_SUMDIFF_CALL(call)				\
   {									\
     mp_ptr    wp, wp2, xp, yp;						\
     unsigned  i;							\
@@ -1602,12 +1602,12 @@ int speed_routine_count_zeros_setup _PROTO ((struct speed_params *s,
     return t;								\
   }
 
-#define SPEED_ROUTINE_MPN_ADDSUB_N(function)				\
-  SPEED_ROUTINE_MPN_ADDSUB_CALL						\
+#define SPEED_ROUTINE_MPN_SUMDIFF_N(function)				\
+  SPEED_ROUTINE_MPN_SUMDIFF_CALL						\
     (function (wp, wp2, xp, yp, s->size));
 
-#define SPEED_ROUTINE_MPN_ADDSUB_NC(function)				\
-  SPEED_ROUTINE_MPN_ADDSUB_CALL						\
+#define SPEED_ROUTINE_MPN_SUMDIFF_NC(function)				\
+  SPEED_ROUTINE_MPN_SUMDIFF_CALL						\
     (function (wp, wp2, xp, yp, s->size, 0));
 
 
