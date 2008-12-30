@@ -1020,7 +1020,7 @@ mpn_mul_fft_full (mp_ptr op,
     cc += 1 + mpn_add_1 (pad_op, pad_op, pl2, CNST_LIMB(1));
   /* now 0 <= cc <= 2, but cc=2 cannot occur since it would give a carry
      out below */
-  mpn_rshift (pad_op, pad_op, pl2, 1); /* divide by two */
+  mpn_rshift1 (pad_op, pad_op, pl2); /* divide by two */
   if (cc) /* then cc=1 */
     pad_op [pl2 - 1] |= (mp_limb_t) 1 << (GMP_NUMB_BITS - 1);
   /* now {pad_op,pl2}-cc = (lambda-mu)/(1-2^(l*GMP_NUMB_BITS))

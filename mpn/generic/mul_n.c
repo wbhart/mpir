@@ -432,7 +432,7 @@ toom3_interpolate (mp_ptr c, mp_srcptr v1, mp_ptr v2, mp_ptr vm1,
   MPN_INCR_U (v2 + twok - 1, 2, cy << (GMP_NUMB_BITS - 1));
 #else
   v2[twok] += mpn_add_n (v2, v2, v0, twok);
-  mpn_rshift (v2, v2, kk1, 1);
+  mpn_rshift1 (v2, v2, kk1);
 #endif
 
   /* {c,2k} {c+2k,2k+1} {c+4k+1,2r-1} {t,2k+1} {t+2k+1,2k+1} {t+4k+2,2r}
@@ -449,7 +449,7 @@ toom3_interpolate (mp_ptr c, mp_srcptr v1, mp_ptr v2, mp_ptr vm1,
       mpn_rsh1add_n (vm1, v1, vm1, kk1);
 #else
       mpn_add_n (vm1, vm1, v1, kk1);
-      mpn_rshift (vm1, vm1, kk1, 1);
+      mpn_rshift1 (vm1, vm1, kk1);
 #endif
     }
   else
@@ -458,7 +458,7 @@ toom3_interpolate (mp_ptr c, mp_srcptr v1, mp_ptr v2, mp_ptr vm1,
       mpn_rsh1sub_n (vm1, v1, vm1, kk1);
 #else
       mpn_sub_n (vm1, v1, vm1, kk1);
-      mpn_rshift (vm1, vm1, kk1, 1);
+      mpn_rshift1 (vm1, vm1, kk1);
 #endif
     }
 
@@ -472,7 +472,7 @@ toom3_interpolate (mp_ptr c, mp_srcptr v1, mp_ptr v2, mp_ptr vm1,
 #ifdef HAVE_NATIVE_mpn_sublsh1_n
   cy = mpn_sublsh1_n (v2, v2, c4, twor);
 #else
-  cy = mpn_lshift (ws, c4, twor, 1);
+  cy = mpn_lshift1 (ws, c4, twor);
   cy += mpn_sub_n (v2, v2, ws, twor);
 #endif
   MPN_DECR_U (v2 + twor, kk1 - twor, cy);
@@ -689,8 +689,8 @@ mpn_toom3_mul_n (mp_ptr c, mp_srcptr a, mp_srcptr b, mp_size_t n, mp_ptr t)
   c1[0] = 2 * c1[0] + mpn_addlsh1_n (c, a, c, k);
   c5[2] = 2 * c5[2] + mpn_addlsh1_n (c4 + 2, b, c4 + 2, k);
 #else
-  c[r] = mpn_lshift (c, a + twok, r, 1);
-  c4[r + 2] = mpn_lshift (c4 + 2, b + twok, r, 1);
+  c[r] = mpn_lshift1 (c, a + twok, r);
+  c4[r + 2] = mpn_lshift1 (c4 + 2, b + twok, r);
   if (r < k)
     {
       MPN_ZERO(c + r + 1, k - r);
@@ -698,8 +698,8 @@ mpn_toom3_mul_n (mp_ptr c, mp_srcptr a, mp_srcptr b, mp_size_t n, mp_ptr t)
     }
   c1[0] += mpn_add_n (c, c, a + k, k);
   c5[2] += mpn_add_n (c4 + 2, c4 + 2, b + k, k);
-  mpn_lshift (c, c, k1, 1);
-  mpn_lshift (c4 + 2, c4 + 2, k1, 1);
+  mpn_lshift1 (c, c, k1);
+  mpn_lshift1 (c4 + 2, c4 + 2, k1);
   c1[0] += mpn_add_n (c, c, a, k);
   c5[2] += mpn_add_n (c4 + 2, c4 + 2, b, k);
 #endif
@@ -730,7 +730,7 @@ mpn_toom3_mul_n (mp_ptr c, mp_srcptr a, mp_srcptr b, mp_size_t n, mp_ptr t)
       mpn_addlsh1_n (v2, v2, c2, kk1);
 #else
       /* we can use vinf=t+4k+2 as workspace since it is not full yet */
-      mpn_lshift (vinf, c2, kk1, 1);
+      mpn_lshift1 (vinf, c2, kk1);
       mpn_add_n (v2, v2, vinf, kk1);
 #endif
     }
@@ -740,7 +740,7 @@ mpn_toom3_mul_n (mp_ptr c, mp_srcptr a, mp_srcptr b, mp_size_t n, mp_ptr t)
       mpn_sublsh1_n (v2, v2, c2, kk1);
 #else
       /* we can use vinf=t+4k+2 as workspace since it is not full yet */
-      mpn_lshift (vinf, c2, kk1, 1);
+      mpn_lshift1 (vinf, c2, kk1);
       mpn_sub_n (v2, v2, vinf, kk1);
 #endif
     }
@@ -812,11 +812,11 @@ mpn_toom3_sqr_n (mp_ptr c, mp_srcptr a, mp_size_t n, mp_ptr t)
     __GMPN_ADD_1 (c1[0], c + r, a + k + r, k - r, c1[0]);
   c1[0] = 2 * c1[0] + mpn_addlsh1_n (c, a, c, k);
 #else
-  c[r] = mpn_lshift (c, a + twok, r, 1);
+  c[r] = mpn_lshift1 (c, a + twok, r);
   if (r < k)
     MPN_ZERO(c + r + 1, k - r);
   c1[0] += mpn_add_n (c, c, a + k, k);
-  mpn_lshift (c, c, k1, 1);
+  mpn_lshift1 (c, c, k1);
   c1[0] += mpn_add_n (c, c, a, k);
 #endif
 
@@ -827,7 +827,7 @@ mpn_toom3_sqr_n (mp_ptr c, mp_srcptr a, mp_size_t n, mp_ptr t)
 #ifdef HAVE_NATIVE_mpn_addlsh1_n
   mpn_addlsh1_n (v2, v2, c2, kk1);
 #else
-  mpn_lshift (t + 4 * k + 2, c2, kk1, 1);
+  mpn_lshift1 (t + 4 * k + 2, c2, kk1);
   mpn_add_n (v2, v2, t + 4 * k + 2, kk1);
 #endif
 
