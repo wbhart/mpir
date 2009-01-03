@@ -780,6 +780,9 @@ cat <<EOF >>${dummy}2.c
 	     hammer here instead of the architecture name x86_64.  */
 	  modelstr = "x86_64";
 	  break;
+	case 16:
+	  modelstr = "x86_64";
+	  break;
 	}
     }
   else if (strcmp (vendor_string, "CyrixInstead") == 0)
