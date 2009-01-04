@@ -733,7 +733,8 @@ main ()
 	  else if (model == 15) modelstr = "core2"; // 64 bits
 	  else if (model == 22) modelstr = "core2"; // 64 bits
 	  else if (model == 23) modelstr = "core2"; // 64 bits
-	  else modelstr = "p6???";
+	  else if (model == 29) modelstr = "core2"; // 64 bits
+      else modelstr = "p6???";
 	  break;
 EOF
   case "$guess_cpu" in
@@ -777,6 +778,9 @@ cat <<EOF >>${dummy}2.c
 	case 15:
 	  /* We might want to return opteron, athlon64, or the CPU core name
 	     hammer here instead of the architecture name x86_64.  */
+	  modelstr = "x86_64";
+	  break;
+	case 16:
 	  modelstr = "x86_64";
 	  break;
 	}
