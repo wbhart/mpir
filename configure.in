@@ -1281,7 +1281,7 @@ case $host in
   # mode, in case -m32 has failed not because it's an old gcc, but because
   # it's a dual 32/64-bit gcc without a 32-bit libc, or whatever.
   #
-  X86_PATTERN | x86_64-*-* | core2-*-*)
+  X86_PATTERN | x86_64-*-* | k10-*-* | core2-*-*)
     abilist="32"
     cclist="gcc icc cc"
     gcc_cflags="-O2 $fomit_frame_pointer"
@@ -1423,6 +1423,10 @@ case $host in
         gcc_cflags_cpu="-mtune=k8 -mcpu=athlon -mcpu=pentiumpro -mcpu=i486 -m486"
         gcc_cflags_arch="-march=k8 -march=k8~-mno-sse2 -march=athlon -march=pentiumpro -march=pentium"
         ;;
+      k10)
+        gcc_cflags_cpu="-mtune=k8 -mcpu=athlon -mcpu=pentiumpro -mcpu=i486 -m486"
+        gcc_cflags_arch="-march=k8 -march=k8~-mno-sse2 -march=athlon -march=pentiumpro -march=pentium"
+        ;;
       core2)
         gcc_cflags_cpu="-mtune=core2 -mtune=nocona -mtune=pentium3 -mcpu=pentiumpro -mcpu=i486 -m486"
         gcc_cflags_arch="-march=core2 -march=nocona -march=pentium3 -march=pentiumpro -march=pentium"
@@ -1445,7 +1449,7 @@ case $host in
       k6)                      path="x86/k6/mmx x86/k6 x86" ;;
       # we don't have any specific 32-bit code for opteron (x86_64), the
       # athlon code should be reasonable
-      athlon | x86_64)         path="x86/k7/mmx x86/k7 x86" ;;
+      athlon | x86_64 | k10)   path="x86/k7/mmx x86/k7 x86" ;;
       i786 | pentium4 | core2) path="x86/pentium4/sse2 x86/pentium4/mmx x86/pentium4 x86" ;;
       prescott | nocona)       path="x86/pentium4/sse2 x86/pentium4/mmx x86/pentium4 x86" ;;
       # VIA/Centaur processors, sold as CyrixIII and C3.
@@ -1476,7 +1480,7 @@ case $host in
     fi
 
     case $host in
-      x86_64-*-* | i786-*-* | nocona-*-* | core2-*-*)
+      x86_64-*-* | k10-*-* | i786-*-* | nocona-*-* | core2-*-*)
         abilist="64 32"
         cclist_64="gcc cc"
         gcc_64_cflags="-O2 -m64"
@@ -1497,6 +1501,8 @@ case $host in
         case $host in
           x86_64-*-* | i786-*-*)
             path_64="x86_64/amd64 x86_64" ;;
+          k10-*-*)
+            path_64="x86_64/amd64/k10 x86_64/amd64 x86_64" ;;
           nocona-*-* | core2-*-*) 
             path_64="x86_64/core2 x86_64" ;;
         esac
@@ -2048,7 +2054,7 @@ done
 # enough assembler.
 #
 case $host in
-  X86_PATTERN | x86_64-*-* | core2-*-*)
+  X86_PATTERN | x86_64-*-* | core2-*-* | k10-*-*)
     if test "$ABI" = 32; then
       case "$path $fat_path" in
         *mmx*)   GMP_ASM_X86_MMX( , [GMP_STRIP_PATH(*mmx*)]) ;;
@@ -3014,7 +3020,7 @@ if test "$gmp_asm_syntax_testing" != no; then
           ;;
       esac
       ;;
-    X86_PATTERN | x86_64-*-* | core2-*-*)
+    X86_PATTERN | x86_64-*-* | k10-*-* | core2-*-*)
       GMP_ASM_ALIGN_FILL_0x90
       case $ABI in
         32)
