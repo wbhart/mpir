@@ -781,7 +781,7 @@ cat <<EOF >>${dummy}2.c
 	  modelstr = "x86_64";
 	  break;
 	case 16:
-	  modelstr = "x86_64";
+	  modelstr = "k10";
 	  break;
 	}
     }
