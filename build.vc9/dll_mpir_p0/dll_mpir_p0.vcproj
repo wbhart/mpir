@@ -362,7 +362,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\scanf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -371,7 +370,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\scanf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -384,7 +382,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\scanf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -393,7 +390,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\scanf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -406,7 +402,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\scanf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -415,7 +410,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\scanf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -428,7 +422,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\scanf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -437,7 +430,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\scanf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -450,7 +442,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\scanf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -459,7 +450,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\scanf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -472,7 +462,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\scanf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -481,7 +470,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\scanf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -494,7 +482,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\scanf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -503,7 +490,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\scanf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -516,7 +502,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\scanf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -525,7 +510,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\scanf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -538,7 +522,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\scanf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -547,7 +530,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\scanf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -564,7 +546,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -573,7 +554,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -586,7 +566,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -595,7 +574,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -608,7 +586,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -617,7 +594,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -630,7 +606,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -639,7 +614,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -652,7 +626,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -661,7 +634,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -674,7 +646,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -683,7 +654,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -696,7 +666,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -705,7 +674,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -718,7 +686,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -727,7 +694,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -740,7 +706,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -749,7 +714,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -762,7 +726,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -771,7 +734,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -784,7 +746,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -793,7 +754,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -806,7 +766,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -815,7 +774,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -828,7 +786,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -837,7 +794,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -850,7 +806,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -859,7 +814,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -872,7 +826,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -881,7 +834,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -894,7 +846,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -903,7 +854,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -916,7 +866,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -925,7 +874,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -938,7 +886,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -947,7 +894,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -960,7 +906,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -969,7 +914,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -982,7 +926,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -991,7 +934,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -1004,7 +946,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -1013,7 +954,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -1026,7 +966,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -1035,7 +974,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -1048,7 +986,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -1057,7 +994,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -1070,7 +1006,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -1079,7 +1014,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -1092,7 +1026,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -1101,7 +1034,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -1114,7 +1046,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -1123,7 +1054,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -1136,7 +1066,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -1145,7 +1074,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -1158,7 +1086,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -1167,7 +1094,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -1180,7 +1106,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -1189,7 +1114,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -1202,7 +1126,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -1211,7 +1134,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -1224,7 +1146,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -1233,7 +1154,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -1246,7 +1166,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -1255,7 +1174,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -1268,7 +1186,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -1277,7 +1194,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -1290,7 +1206,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -1299,7 +1214,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -1312,7 +1226,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -1321,7 +1234,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -1334,7 +1246,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -1343,7 +1254,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -1356,7 +1266,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -1365,7 +1274,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -1378,7 +1286,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -1387,7 +1294,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -1400,7 +1306,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -1409,7 +1314,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -1422,7 +1326,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -1431,7 +1334,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -1444,7 +1346,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -1453,7 +1354,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -1466,7 +1366,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -1475,7 +1374,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -1488,7 +1386,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -1497,7 +1394,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -1510,7 +1406,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -1519,7 +1414,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -1532,7 +1426,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -1541,7 +1434,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -1554,7 +1446,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -1563,7 +1454,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -1576,7 +1466,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -1585,7 +1474,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -1598,7 +1486,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -1607,7 +1494,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -1620,7 +1506,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -1629,7 +1514,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -1642,7 +1526,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -1651,7 +1534,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -1664,7 +1546,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -1673,7 +1554,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -1686,7 +1566,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -1695,7 +1574,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -1708,7 +1586,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -1717,7 +1594,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -1730,7 +1606,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -1739,7 +1614,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -1752,7 +1626,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -1761,7 +1634,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -1774,7 +1646,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -1783,7 +1654,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -1796,7 +1666,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -1805,7 +1674,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -1818,7 +1686,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -1827,7 +1694,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -1840,7 +1706,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -1849,7 +1714,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -1862,7 +1726,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -1871,7 +1734,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -1884,7 +1746,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -1893,7 +1754,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -1906,7 +1766,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -1915,7 +1774,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -1928,7 +1786,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -1937,7 +1794,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -1950,7 +1806,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -1959,7 +1814,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -1976,7 +1830,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpq\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -1985,7 +1838,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpq\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -1998,7 +1850,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpq\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -2007,7 +1858,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpq\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -2020,7 +1870,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpq\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -2029,7 +1878,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpq\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -2042,7 +1890,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpq\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -2051,7 +1898,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpq\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -2064,7 +1910,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpq\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -2073,7 +1918,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpq\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -2086,7 +1930,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpq\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -2095,7 +1938,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpq\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -2108,7 +1950,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpq\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -2117,7 +1958,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpq\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -2130,7 +1970,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpq\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -2139,7 +1978,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpq\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -2152,7 +1990,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpq\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -2161,7 +1998,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpq\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -2174,7 +2010,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpq\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -2183,7 +2018,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpq\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -2196,7 +2030,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpq\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -2205,7 +2038,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpq\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -2218,7 +2050,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpq\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -2227,7 +2058,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpq\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -2240,7 +2070,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpq\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -2249,7 +2078,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpq\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -2262,7 +2090,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpq\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -2271,7 +2098,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpq\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -2284,7 +2110,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpq\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -2293,7 +2118,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpq\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -2306,7 +2130,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpq\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -2315,7 +2138,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpq\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -2328,7 +2150,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpq\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -2337,7 +2158,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpq\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -2350,7 +2170,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpq\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -2359,7 +2178,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpq\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -2372,7 +2190,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpq\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -2381,7 +2198,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpq\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -2394,7 +2210,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpq\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -2403,7 +2218,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpq\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -2416,7 +2230,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpq\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -2425,7 +2238,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpq\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -2438,7 +2250,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpq\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -2447,7 +2258,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpq\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -2460,7 +2270,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpq\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -2469,7 +2278,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpq\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -2482,7 +2290,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpq\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -2491,7 +2298,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpq\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -2504,7 +2310,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpq\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -2513,7 +2318,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpq\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -2526,7 +2330,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpq\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -2535,7 +2338,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpq\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -2548,7 +2350,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpq\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -2557,7 +2358,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpq\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -2570,7 +2370,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpq\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -2579,7 +2378,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpq\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -2592,7 +2390,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpq\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -2601,7 +2398,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpq\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -2614,7 +2410,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpq\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -2623,7 +2418,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpq\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -2640,7 +2434,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -2649,7 +2442,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -2662,7 +2454,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -2671,7 +2462,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -2684,7 +2474,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -2693,7 +2482,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -2706,7 +2494,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -2715,7 +2502,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -2728,7 +2514,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -2737,7 +2522,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -2750,7 +2534,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -2759,7 +2542,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -2772,7 +2554,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -2781,7 +2562,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -2794,7 +2574,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -2803,7 +2582,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -2816,7 +2594,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -2825,7 +2602,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -2838,7 +2614,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -2847,7 +2622,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -2860,7 +2634,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -2869,7 +2642,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -2882,7 +2654,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -2891,7 +2662,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -2904,7 +2674,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -2913,7 +2682,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -2926,7 +2694,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -2935,7 +2702,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -2948,7 +2714,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -2957,7 +2722,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -2970,7 +2734,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -2979,7 +2742,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -2992,7 +2754,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -3001,7 +2762,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -3014,7 +2774,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -3023,7 +2782,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -3036,7 +2794,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -3045,7 +2802,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -3058,7 +2814,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -3067,7 +2822,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -3080,7 +2834,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -3089,7 +2842,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -3102,7 +2854,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -3111,7 +2862,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -3124,7 +2874,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -3133,7 +2882,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -3146,7 +2894,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -3155,7 +2902,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -3168,7 +2914,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -3177,7 +2922,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -3190,7 +2934,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -3199,7 +2942,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -3212,7 +2954,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -3221,7 +2962,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -3234,7 +2974,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -3243,7 +2982,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -3256,7 +2994,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -3265,7 +3002,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -3278,7 +3014,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -3287,7 +3022,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -3300,7 +3034,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -3309,7 +3042,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -3322,7 +3054,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -3331,7 +3062,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -3344,7 +3074,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -3353,7 +3082,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -3366,7 +3094,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -3375,7 +3102,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -3388,7 +3114,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -3397,7 +3122,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -3410,7 +3134,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -3419,7 +3142,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -3432,7 +3154,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -3441,7 +3162,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -3454,7 +3174,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -3463,7 +3182,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -3476,7 +3194,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -3485,7 +3202,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -3498,7 +3214,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -3507,7 +3222,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -3520,7 +3234,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -3529,7 +3242,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -3542,7 +3254,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -3551,7 +3262,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -3564,7 +3274,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -3573,7 +3282,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -3586,7 +3294,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -3595,7 +3302,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -3608,7 +3314,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -3617,7 +3322,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -3630,7 +3334,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -3639,7 +3342,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -3652,7 +3354,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -3661,7 +3362,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -3674,7 +3374,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -3683,7 +3382,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -3696,7 +3394,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -3705,7 +3402,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -3718,7 +3414,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -3727,7 +3422,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -3740,7 +3434,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -3749,7 +3442,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -3762,7 +3454,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -3771,7 +3462,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -3784,7 +3474,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -3793,7 +3482,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -3806,7 +3494,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -3815,7 +3502,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -3828,7 +3514,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -3837,7 +3522,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -3850,7 +3534,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -3859,7 +3542,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -3872,7 +3554,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -3881,7 +3562,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -3894,7 +3574,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -3903,7 +3582,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -3916,7 +3594,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -3925,7 +3602,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -3938,7 +3614,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -3947,7 +3622,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -3960,7 +3634,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -3969,7 +3642,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -3982,7 +3654,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -3991,7 +3662,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -4004,7 +3674,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -4013,7 +3682,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -4026,7 +3694,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -4035,7 +3702,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -4048,7 +3714,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -4057,7 +3722,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -4070,7 +3734,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -4079,7 +3742,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -4092,7 +3754,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -4101,7 +3762,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -4114,7 +3774,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -4123,7 +3782,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -4136,7 +3794,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -4145,7 +3802,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -4158,7 +3814,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -4167,7 +3822,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -4180,7 +3834,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -4189,7 +3842,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -4202,7 +3854,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -4211,7 +3862,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -4224,7 +3874,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -4233,7 +3882,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -4246,7 +3894,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -4255,7 +3902,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -4268,7 +3914,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -4277,7 +3922,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -4290,7 +3934,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -4299,7 +3942,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -4312,7 +3954,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -4321,7 +3962,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -4334,7 +3974,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -4343,7 +3982,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -4356,7 +3994,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -4365,7 +4002,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -4378,7 +4014,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -4387,7 +4022,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -4400,7 +4034,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -4409,7 +4042,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -4422,7 +4054,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -4431,7 +4062,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -4444,7 +4074,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -4453,7 +4082,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -4466,7 +4094,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -4475,7 +4102,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -4488,7 +4114,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -4497,7 +4122,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -4510,7 +4134,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -4519,7 +4142,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -4532,7 +4154,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -4541,7 +4162,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -4554,7 +4174,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -4563,7 +4182,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -4576,7 +4194,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -4585,7 +4202,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -4598,7 +4214,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -4607,7 +4222,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -4620,7 +4234,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -4629,7 +4242,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -4642,7 +4254,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -4651,7 +4262,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -4664,7 +4274,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -4673,7 +4282,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -4686,7 +4294,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -4695,7 +4302,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -4708,7 +4314,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -4717,7 +4322,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -4730,7 +4334,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -4739,7 +4342,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -4752,7 +4354,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -4761,7 +4362,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -4774,7 +4374,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -4783,7 +4382,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -4796,7 +4394,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -4805,7 +4402,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -4818,7 +4414,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -4827,7 +4422,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -4840,7 +4434,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -4849,7 +4442,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -4862,7 +4454,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -4871,7 +4462,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -4884,7 +4474,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -4893,7 +4482,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -4906,7 +4494,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -4915,7 +4502,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -4928,7 +4514,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -4937,7 +4522,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -4950,7 +4534,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -4959,7 +4542,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -4972,7 +4554,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -4981,7 +4562,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -4994,7 +4574,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -5003,7 +4582,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -5016,7 +4594,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -5025,7 +4602,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -5038,7 +4614,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -5047,7 +4622,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -5060,7 +4634,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -5069,7 +4642,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -5082,7 +4654,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -5091,7 +4662,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -5104,7 +4674,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -5113,7 +4682,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -5126,7 +4694,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -5135,7 +4702,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -5148,7 +4714,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -5157,7 +4722,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -5170,7 +4734,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -5179,7 +4742,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -5192,7 +4754,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -5201,7 +4762,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -5214,7 +4774,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -5223,7 +4782,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -5236,7 +4794,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -5245,7 +4802,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -5258,7 +4814,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -5267,7 +4822,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -5280,7 +4834,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -5289,7 +4842,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -5302,7 +4854,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -5311,7 +4862,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -5324,7 +4874,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -5333,7 +4882,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -5346,7 +4894,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -5355,7 +4902,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -5368,7 +4914,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -5377,7 +4922,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -5390,7 +4934,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -5399,7 +4942,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -5412,7 +4954,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -5421,7 +4962,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -5434,7 +4974,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -5443,7 +4982,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -5456,7 +4994,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -5465,7 +5002,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -5478,7 +5014,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -5487,7 +5022,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -5500,7 +5034,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -5509,7 +5042,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -5522,7 +5054,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -5531,7 +5062,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -5544,7 +5074,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -5553,7 +5082,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -5566,7 +5094,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -5575,7 +5102,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -5588,7 +5114,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -5597,7 +5122,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -5610,7 +5134,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -5619,7 +5142,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -5632,7 +5154,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -5641,7 +5162,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -5654,7 +5174,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -5663,7 +5182,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -5676,7 +5194,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -5685,7 +5202,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -5698,7 +5214,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -5707,7 +5222,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -5720,7 +5234,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -5729,7 +5242,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -5742,7 +5254,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -5751,7 +5262,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -5764,7 +5274,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -5773,7 +5282,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -5786,7 +5294,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -5795,7 +5302,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -5808,7 +5314,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -5817,7 +5322,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpz\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -5834,7 +5338,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\printf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -5843,7 +5346,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\printf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -5856,7 +5358,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\printf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -5865,7 +5366,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\printf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -5878,7 +5378,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\printf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -5887,7 +5386,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\printf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -5900,7 +5398,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\printf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -5909,7 +5406,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\printf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -5922,7 +5418,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\printf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -5931,7 +5426,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\printf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -5944,7 +5438,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\printf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -5953,7 +5446,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\printf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -5966,7 +5458,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\printf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -5975,7 +5466,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\printf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -5988,7 +5478,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\printf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -5997,7 +5486,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\printf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -6010,7 +5498,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\printf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -6019,7 +5506,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\printf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -6032,7 +5518,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\printf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -6041,7 +5526,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\printf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -6054,7 +5538,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\printf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -6063,7 +5546,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\printf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -6076,7 +5558,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\printf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -6085,7 +5566,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\printf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -6098,7 +5578,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\printf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -6107,7 +5586,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\printf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -6120,7 +5598,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\printf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -6129,7 +5606,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\printf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -6142,7 +5618,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\printf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -6151,7 +5626,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\printf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -6164,7 +5638,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\printf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -6173,7 +5646,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\printf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -6186,7 +5658,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\printf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -6195,7 +5666,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\printf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -6208,7 +5678,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\printf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -6217,7 +5686,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\printf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -6230,7 +5698,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\printf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -6239,7 +5706,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\printf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -6252,7 +5718,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\printf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -6261,7 +5726,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\printf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -6274,7 +5738,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\printf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -6283,7 +5746,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\printf\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -6300,7 +5762,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpn\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -6309,7 +5770,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpn\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -6322,7 +5782,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpn\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -6331,7 +5790,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpn\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -6344,7 +5802,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpn\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -6353,7 +5810,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpn\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -6366,7 +5822,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpn\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -6375,13 +5830,28 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpn\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
 				<File
 					RelativePath="..\..\mpn\generic\bgcd.c"
 					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
+						/>
+					</FileConfiguration>
 				</File>
 				<File
 					RelativePath="..\..\mpn\generic\cmp.c"
@@ -6392,7 +5862,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpn\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -6401,7 +5870,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpn\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -6414,7 +5882,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpn\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -6423,7 +5890,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpn\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -6437,7 +5903,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpn\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -6447,7 +5912,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpn\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -6460,7 +5924,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpn\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -6469,7 +5932,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpn\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -6482,7 +5944,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpn\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -6491,7 +5952,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpn\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -6504,7 +5964,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpn\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -6513,7 +5972,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpn\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -6526,7 +5984,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpn\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -6535,7 +5992,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpn\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -6548,7 +6004,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpn\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -6557,7 +6012,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpn\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -6570,7 +6024,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpn\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -6579,7 +6032,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpn\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -6592,7 +6044,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpn\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -6601,7 +6052,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpn\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -6614,7 +6064,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpn\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -6623,7 +6072,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpn\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -6636,7 +6084,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpn\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -6645,7 +6092,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpn\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -6658,7 +6104,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpn\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -6667,17 +6112,48 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpn\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
 				<File
 					RelativePath="..\..\mpn\generic\hgcd.c"
 					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
+						/>
+					</FileConfiguration>
 				</File>
 				<File
 					RelativePath="..\..\mpn\generic\hgcd2.c"
 					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
+						/>
+					</FileConfiguration>
 				</File>
 				<File
 					RelativePath="..\..\mpn\generic\jacbase.c"
@@ -6688,7 +6164,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpn\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -6697,13 +6172,28 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpn\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
 				<File
 					RelativePath="..\..\mpn\generic\lgcd.c"
 					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
+						/>
+					</FileConfiguration>
 				</File>
 				<File
 					RelativePath="..\..\mpn\generic\mode1o.c"
@@ -6714,7 +6204,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpn\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -6723,7 +6212,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpn\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -6736,7 +6224,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpn\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -6745,7 +6232,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpn\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -6758,7 +6244,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpn\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -6767,7 +6252,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpn\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -6780,7 +6264,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpn\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -6790,7 +6273,6 @@
 							Name="VCCLCompilerTool"
 							Optimization="3"
 							ObjectFile="$(IntDir)\mpn\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -6803,7 +6285,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpn\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -6812,7 +6293,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpn\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -6825,7 +6305,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpn\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -6834,25 +6313,88 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpn\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
 				<File
 					RelativePath="..\..\mpn\generic\ngcd.c"
 					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
+						/>
+					</FileConfiguration>
 				</File>
 				<File
 					RelativePath="..\..\mpn\generic\ngcd_matrix.c"
 					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
+						/>
+					</FileConfiguration>
 				</File>
 				<File
 					RelativePath="..\..\mpn\generic\ngcd_step.c"
 					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
+						/>
+					</FileConfiguration>
 				</File>
 				<File
 					RelativePath="..\..\mpn\generic\nhgcd2.c"
 					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
+						/>
+					</FileConfiguration>
 				</File>
 				<File
 					RelativePath="..\..\mpn\generic\perfsqr.c"
@@ -6863,7 +6405,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpn\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -6872,7 +6413,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpn\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -6885,7 +6425,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpn\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -6894,7 +6433,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpn\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -6907,7 +6445,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpn\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -6916,7 +6453,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpn\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -6929,7 +6465,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpn\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -6938,7 +6473,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpn\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -6951,7 +6485,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpn\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -6960,7 +6493,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpn\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -6973,7 +6505,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpn\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -6982,7 +6513,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpn\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -6995,7 +6525,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpn\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -7004,13 +6533,28 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpn\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
 				<File
 					RelativePath="..\..\mpn\generic\rgcd.c"
 					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
+						/>
+					</FileConfiguration>
 				</File>
 				<File
 					RelativePath="..\..\mpn\generic\rootrem.c"
@@ -7021,7 +6565,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpn\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -7030,7 +6573,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpn\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -7043,7 +6585,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpn\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -7052,7 +6593,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpn\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -7065,7 +6605,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpn\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -7074,7 +6613,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpn\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -7087,7 +6625,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpn\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -7096,7 +6633,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpn\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -7109,7 +6645,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpn\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -7118,13 +6653,28 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpn\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
 				<File
 					RelativePath="..\..\mpn\generic\sgcd.c"
 					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
+						/>
+					</FileConfiguration>
 				</File>
 				<File
 					RelativePath="..\..\mpn\generic\sizeinbase.c"
@@ -7135,7 +6685,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpn\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -7144,7 +6693,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpn\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -7157,7 +6705,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpn\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -7166,7 +6713,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpn\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -7179,7 +6725,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpn\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -7188,7 +6733,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpn\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -7201,7 +6745,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpn\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -7210,7 +6753,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpn\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -7223,7 +6765,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpn\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -7232,7 +6773,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpn\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -7245,7 +6785,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpn\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -7254,7 +6793,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)\mpn\"
-							ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 						/>
 					</FileConfiguration>
 				</File>
@@ -7334,7 +6872,6 @@
 							<Tool
 								Name="VCCLCompilerTool"
 								ObjectFile="$(IntDir)\mpn\"
-								ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 							/>
 						</FileConfiguration>
 						<FileConfiguration
@@ -7343,7 +6880,6 @@
 							<Tool
 								Name="VCCLCompilerTool"
 								ObjectFile="$(IntDir)\mpn\"
-								ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 							/>
 						</FileConfiguration>
 					</File>
@@ -7356,7 +6892,6 @@
 							<Tool
 								Name="VCCLCompilerTool"
 								ObjectFile="$(IntDir)\mpn\"
-								ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 							/>
 						</FileConfiguration>
 						<FileConfiguration
@@ -7365,7 +6900,6 @@
 							<Tool
 								Name="VCCLCompilerTool"
 								ObjectFile="$(IntDir)\mpn\"
-								ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 							/>
 						</FileConfiguration>
 					</File>
