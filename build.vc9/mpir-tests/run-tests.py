@@ -39,26 +39,23 @@ if len(exe_list) == 0 :
   print "No executable test files for this configuration"
   os._exit(-1)
 
-no_exe_list = copy.deepcopy(prj_list)
-for i in exe_list :
-  if i in no_exe_list :
-    no_exe_list.remove(i)
-
 build_fail = 0
 run_ok = 0
 run_fail = 0
 for i in prj_list :
-  if i not in no_exe_list :
+  if i in exe_list :
     ef = '.\\' + d[1] + '\\' + i + '.exe'
-    prc = subprocess.Popen(ef, stdout = subprocess.PIPE, \
-                          creationflags = 0x08000000)
+    prc = subprocess.Popen( ef, stdout = subprocess.PIPE,
+      stderr = subprocess.STDOUT, creationflags = 0x08000000 )
     output = prc.communicate()[0]
-    if not output :
-      print i, ": success(", prc.returncode, ' )'
-      run_ok += 1
-    else :
-      print i, ": ERROR (", prc.returncode, ' )'
+    if prc.returncode :
+      print i, ': ERROR (', prc.returncode, ' )'
       run_fail += 1
+    else :
+      print i, ': success'
+      run_ok += 1
+    if output :
+      print output,
   else :
     print "Build failure for %s" % i
     build_fail += 1

@@ -24,7 +24,7 @@
 			OutputDirectory="$(PlatformName)\$(ConfigurationName)"
 			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
 			ConfigurationType="1"
-			InheritedPropertySheets=".\test-config.vsprops"
+			InheritedPropertySheets="test-config.vsprops"
 			CharacterSet="0"
 			WholeProgramOptimization="0"
 			>
@@ -95,7 +95,7 @@
 			OutputDirectory="$(PlatformName)\$(ConfigurationName)"
 			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
 			ConfigurationType="1"
-			InheritedPropertySheets=".\test-config.vsprops"
+			InheritedPropertySheets="test-config.vsprops"
 			CharacterSet="0"
 			WholeProgramOptimization="0"
 			>
@@ -167,7 +167,7 @@
 			OutputDirectory="$(PlatformName)\$(ConfigurationName)"
 			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
 			ConfigurationType="1"
-			InheritedPropertySheets=".\test-config.vsprops"
+			InheritedPropertySheets="test-config.vsprops"
 			CharacterSet="0"
 			WholeProgramOptimization="0"
 			>
@@ -240,7 +240,7 @@
 			OutputDirectory="$(PlatformName)\$(ConfigurationName)"
 			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
 			ConfigurationType="1"
-			InheritedPropertySheets=".\test-config.vsprops"
+			InheritedPropertySheets="test-config.vsprops"
 			CharacterSet="0"
 			WholeProgramOptimization="0"
 			>
