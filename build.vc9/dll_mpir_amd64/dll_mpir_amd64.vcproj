@@ -338,7 +338,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\ "
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -346,7 +346,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\ "
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 				</File>
@@ -358,7 +358,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\ "
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -366,7 +366,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\ "
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 				</File>
@@ -379,7 +379,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\ "
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -388,7 +388,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\ "
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 				</File>
@@ -401,7 +401,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\ "
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -410,7 +410,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\ "
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 				</File>
@@ -422,7 +422,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\ "
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -430,7 +430,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\ "
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 				</File>
@@ -442,7 +442,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\ "
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -450,7 +450,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\ "
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 				</File>
@@ -462,7 +462,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\ "
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -470,7 +470,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\ "
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 				</File>
@@ -482,7 +482,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\ "
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -490,7 +490,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\ "
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 				</File>
@@ -504,7 +504,7 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							AssemblerOutput="0"
-							ObjectFile="$(IntDir)\mpn\ "
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -514,7 +514,7 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							AssemblerOutput="1"
-							ObjectFile="$(IntDir)\mpn\ "
+							ObjectFile="$(IntDir)\mpn\"
 							DebugInformationFormat="3"
 						/>
 					</FileConfiguration>
@@ -527,7 +527,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\ "
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -535,7 +535,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\ "
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 				</File>
@@ -547,7 +547,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\ "
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -555,7 +555,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\ "
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 				</File>
@@ -567,7 +567,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\ "
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -575,7 +575,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\ "
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 				</File>
@@ -587,7 +587,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\ "
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -595,7 +595,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\ "
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 				</File>
@@ -607,7 +607,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\ "
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -615,7 +615,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\ "
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 				</File>
@@ -627,7 +627,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\ "
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -635,7 +635,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\ "
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 				</File>
@@ -647,7 +647,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\ "
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -655,7 +655,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\ "
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 				</File>
@@ -667,7 +667,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\ "
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -675,7 +675,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\ "
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 				</File>
@@ -687,7 +687,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\ "
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -695,7 +695,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\ "
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 				</File>
@@ -707,7 +707,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\ "
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -715,7 +715,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\ "
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 				</File>
@@ -727,7 +727,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\ "
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -735,7 +735,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\ "
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 				</File>
@@ -747,7 +747,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\ "
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -755,7 +755,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\ "
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 				</File>
@@ -767,7 +767,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\ "
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -775,7 +775,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\ "
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 				</File>
@@ -787,7 +787,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\ "
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -795,7 +795,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\ "
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 				</File>
@@ -807,7 +807,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\ "
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -815,7 +815,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\ "
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 				</File>
@@ -827,7 +827,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\ "
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -835,7 +835,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\ "
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 				</File>
@@ -848,7 +848,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\ "
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -857,7 +857,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\ "
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 				</File>
@@ -869,7 +869,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\ "
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -877,7 +877,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\ "
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 				</File>
@@ -889,7 +889,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\ "
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -897,7 +897,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\ "
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 				</File>
@@ -910,7 +910,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\ "
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -919,7 +919,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\ "
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 				</File>
@@ -931,7 +931,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\ "
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -939,7 +939,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\ "
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 				</File>
@@ -952,7 +952,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\ "
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -961,7 +961,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\ "
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 				</File>
@@ -974,7 +974,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\ "
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -983,7 +983,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\ "
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 				</File>
@@ -995,7 +995,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\ "
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -1003,7 +1003,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\ "
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 				</File>
@@ -1015,7 +1015,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\ "
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -1024,7 +1024,7 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							Optimization="3"
-							ObjectFile="$(IntDir)\mpn\ "
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 				</File>
@@ -1036,7 +1036,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\ "
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -1044,7 +1044,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\ "
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 				</File>
@@ -1056,7 +1056,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\ "
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -1064,7 +1064,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\ "
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 				</File>
@@ -1076,7 +1076,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\ "
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -1084,7 +1084,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\ "
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 				</File>
@@ -1096,7 +1096,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\ "
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -1104,7 +1104,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\ "
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 				</File>
@@ -1116,7 +1116,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\ "
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -1124,7 +1124,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\ "
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 				</File>
@@ -1136,7 +1136,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\ "
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -1144,7 +1144,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\ "
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 				</File>
@@ -1156,7 +1156,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\ "
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -1164,7 +1164,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\ "
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 				</File>
@@ -1176,7 +1176,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\ "
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -1184,7 +1184,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\ "
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 				</File>
@@ -1196,7 +1196,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\ "
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -1204,7 +1204,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\ "
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 				</File>
@@ -1216,7 +1216,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\ "
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -1224,7 +1224,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\ "
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 				</File>
@@ -1236,7 +1236,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\ "
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -1244,7 +1244,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\ "
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 				</File>
@@ -1256,7 +1256,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\ "
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -1264,7 +1264,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\ "
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 				</File>
@@ -1276,7 +1276,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\ "
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -1284,7 +1284,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\ "
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 				</File>
@@ -1296,7 +1296,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\ "
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -1304,7 +1304,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\ "
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 				</File>
@@ -1316,7 +1316,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\ "
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -1324,7 +1324,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\ "
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 				</File>
@@ -1337,7 +1337,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\ "
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -1346,7 +1346,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\ "
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 				</File>
@@ -1358,7 +1358,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\ "
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -1366,7 +1366,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\ "
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 				</File>
@@ -1378,7 +1378,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\ "
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -1386,7 +1386,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\ "
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 				</File>
@@ -1398,7 +1398,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\ "
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -1406,7 +1406,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\ "
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 				</File>
@@ -1418,7 +1418,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\ "
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -1426,7 +1426,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\ "
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 				</File>
@@ -1438,7 +1438,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\ "
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -1446,7 +1446,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\ "
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 				</File>
@@ -1458,7 +1458,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\ "
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -1466,7 +1466,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\ "
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 				</File>
@@ -1479,7 +1479,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\ "
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -1488,7 +1488,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\ "
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 				</File>
@@ -1500,7 +1500,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\ "
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -1508,7 +1508,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\ "
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 				</File>
@@ -1520,7 +1520,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\ "
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -1528,7 +1528,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\ "
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 				</File>
@@ -1540,7 +1540,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\ "
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -1548,7 +1548,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\ "
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 				</File>
@@ -1561,7 +1561,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\ "
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -1570,7 +1570,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\ "
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 				</File>
@@ -1583,7 +1583,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\ "
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -1592,7 +1592,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\ "
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 				</File>
@@ -1604,7 +1604,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\ "
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -1612,7 +1612,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\ "
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 				</File>
@@ -1624,7 +1624,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\ "
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -1632,7 +1632,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\ "
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 				</File>
@@ -1640,8 +1640,44 @@
 					Name="Assembler"
 					>
 					<File
-						RelativePath="..\..\mpn\x86_64w\aors_n.asm"
+						RelativePath="..\..\mpn\x86_64w\amd64\addlsh1_n.asm"
 						>
+						<FileConfiguration
+							Name="Debug|x64"
+							>
+							<Tool
+								Name="YASM"
+								ObjectFileName="$(IntDir)\mpn\$(InputName).obj"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release|x64"
+							>
+							<Tool
+								Name="YASM"
+								ObjectFileName="$(IntDir)\mpn\$(InputName).obj"
+							/>
+						</FileConfiguration>
+					</File>
+					<File
+						RelativePath="..\..\mpn\x86_64w\amd64\aors_n.asm"
+						>
+						<FileConfiguration
+							Name="Debug|x64"
+							>
+							<Tool
+								Name="YASM"
+								ObjectFileName="$(IntDir)\mpn\$(InputName).obj"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release|x64"
+							>
+							<Tool
+								Name="YASM"
+								ObjectFileName="$(IntDir)\mpn\$(InputName).obj"
+							/>
+						</FileConfiguration>
 					</File>
 					<File
 						RelativePath="..\..\mpn\x86_64w\amd64\aorsmul_1.asm"
@@ -1651,7 +1687,35 @@
 							>
 							<Tool
 								Name="YASM"
-								Debug="true"
+								ObjectFileName="$(IntDir)\mpn\$(InputName).obj"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release|x64"
+							>
+							<Tool
+								Name="YASM"
+								ObjectFileName="$(IntDir)\mpn\$(InputName).obj"
+							/>
+						</FileConfiguration>
+					</File>
+					<File
+						RelativePath="..\..\mpn\x86_64w\amd64\com_n.asm"
+						>
+						<FileConfiguration
+							Name="Debug|x64"
+							>
+							<Tool
+								Name="YASM"
+								ObjectFileName="$(IntDir)\mpn\$(InputName).obj"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release|x64"
+							>
+							<Tool
+								Name="YASM"
+								ObjectFileName="$(IntDir)\mpn\$(InputName).obj"
 							/>
 						</FileConfiguration>
 					</File>
@@ -1663,7 +1727,15 @@
 							>
 							<Tool
 								Name="YASM"
-								Debug="true"
+								ObjectFileName="$(IntDir)\mpn\$(InputName).obj"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release|x64"
+							>
+							<Tool
+								Name="YASM"
+								ObjectFileName="$(IntDir)\mpn\$(InputName).obj"
 							/>
 						</FileConfiguration>
 					</File>
@@ -1675,7 +1747,15 @@
 							>
 							<Tool
 								Name="YASM"
-								Debug="true"
+								ObjectFileName="$(IntDir)\mpn\$(InputName).obj"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release|x64"
+							>
+							<Tool
+								Name="YASM"
+								ObjectFileName="$(IntDir)\mpn\$(InputName).obj"
 							/>
 						</FileConfiguration>
 					</File>
@@ -1687,19 +1767,56 @@
 							>
 							<Tool
 								Name="YASM"
+								ObjectFileName="$(IntDir)\mpn\$(InputName).obj"
 								Debug="true"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release|x64"
+							>
+							<Tool
+								Name="YASM"
+								ObjectFileName="$(IntDir)\mpn\$(InputName).obj"
 							/>
 						</FileConfiguration>
 					</File>
 					<File
-						RelativePath="..\..\mpn\x86_64w\lshift.asm"
+						RelativePath="..\..\mpn\x86_64w\amd64\lshift.asm"
 						>
 						<FileConfiguration
 							Name="Debug|x64"
 							>
 							<Tool
 								Name="YASM"
-								Debug="true"
+								ObjectFileName="$(IntDir)\mpn\$(InputName).obj"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release|x64"
+							>
+							<Tool
+								Name="YASM"
+								ObjectFileName="$(IntDir)\mpn\$(InputName).obj"
+							/>
+						</FileConfiguration>
+					</File>
+					<File
+						RelativePath="..\..\mpn\x86_64w\amd64\lshift1.asm"
+						>
+						<FileConfiguration
+							Name="Debug|x64"
+							>
+							<Tool
+								Name="YASM"
+								ObjectFileName="$(IntDir)\mpn\$(InputName).obj"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release|x64"
+							>
+							<Tool
+								Name="YASM"
+								ObjectFileName="$(IntDir)\mpn\$(InputName).obj"
 							/>
 						</FileConfiguration>
 					</File>
@@ -1711,7 +1828,15 @@
 							>
 							<Tool
 								Name="YASM"
-								Debug="true"
+								ObjectFileName="$(IntDir)\mpn\$(InputName).obj"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release|x64"
+							>
+							<Tool
+								Name="YASM"
+								ObjectFileName="$(IntDir)\mpn\$(InputName).obj"
 							/>
 						</FileConfiguration>
 					</File>
@@ -1723,7 +1848,15 @@
 							>
 							<Tool
 								Name="YASM"
-								Debug="true"
+								ObjectFileName="$(IntDir)\mpn\$(InputName).obj"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release|x64"
+							>
+							<Tool
+								Name="YASM"
+								ObjectFileName="$(IntDir)\mpn\$(InputName).obj"
 							/>
 						</FileConfiguration>
 					</File>
@@ -1735,19 +1868,55 @@
 							>
 							<Tool
 								Name="YASM"
-								Debug="true"
+								ObjectFileName="$(IntDir)\mpn\$(InputName).obj"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release|x64"
+							>
+							<Tool
+								Name="YASM"
+								ObjectFileName="$(IntDir)\mpn\$(InputName).obj"
 							/>
 						</FileConfiguration>
 					</File>
 					<File
-						RelativePath="..\..\mpn\x86_64w\rshift.asm"
+						RelativePath="..\..\mpn\x86_64w\amd64\rshift.asm"
 						>
 						<FileConfiguration
 							Name="Debug|x64"
 							>
 							<Tool
 								Name="YASM"
-								Debug="true"
+								ObjectFileName="$(IntDir)\mpn\$(InputName).obj"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release|x64"
+							>
+							<Tool
+								Name="YASM"
+								ObjectFileName="$(IntDir)\mpn\$(InputName).obj"
+							/>
+						</FileConfiguration>
+					</File>
+					<File
+						RelativePath="..\..\mpn\x86_64w\amd64\rshift1.asm"
+						>
+						<FileConfiguration
+							Name="Debug|x64"
+							>
+							<Tool
+								Name="YASM"
+								ObjectFileName="$(IntDir)\mpn\$(InputName).obj"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release|x64"
+							>
+							<Tool
+								Name="YASM"
+								ObjectFileName="$(IntDir)\mpn\$(InputName).obj"
 							/>
 						</FileConfiguration>
 					</File>
@@ -1759,7 +1928,35 @@
 							>
 							<Tool
 								Name="YASM"
-								Debug="true"
+								ObjectFileName="$(IntDir)\mpn\$(InputName).obj"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release|x64"
+							>
+							<Tool
+								Name="YASM"
+								ObjectFileName="$(IntDir)\mpn\$(InputName).obj"
+							/>
+						</FileConfiguration>
+					</File>
+					<File
+						RelativePath="..\..\mpn\x86_64w\amd64\sublsh1_n.asm"
+						>
+						<FileConfiguration
+							Name="Debug|x64"
+							>
+							<Tool
+								Name="YASM"
+								ObjectFileName="$(IntDir)\mpn\$(InputName).obj"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release|x64"
+							>
+							<Tool
+								Name="YASM"
+								ObjectFileName="$(IntDir)\mpn\$(InputName).obj"
 							/>
 						</FileConfiguration>
 					</File>
@@ -1771,7 +1968,15 @@
 							>
 							<Tool
 								Name="YASM"
-								Debug="true"
+								ObjectFileName="$(IntDir)\mpn\$(InputName).obj"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release|x64"
+							>
+							<Tool
+								Name="YASM"
+								ObjectFileName="$(IntDir)\mpn\$(InputName).obj"
 							/>
 						</FileConfiguration>
 					</File>
@@ -1783,7 +1988,15 @@
 							>
 							<Tool
 								Name="YASM"
-								Debug="true"
+								ObjectFileName="$(IntDir)\mpn\$(InputName).obj"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release|x64"
+							>
+							<Tool
+								Name="YASM"
+								ObjectFileName="$(IntDir)\mpn\$(InputName).obj"
 							/>
 						</FileConfiguration>
 					</File>

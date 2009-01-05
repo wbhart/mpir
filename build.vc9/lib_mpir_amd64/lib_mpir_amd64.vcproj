@@ -3556,8 +3556,36 @@
 					Name="Assembler"
 					>
 					<File
+						RelativePath="..\..\mpn\x86_64w\amd64\addlsh1_n.asm"
+						>
+						<FileConfiguration
+							Name="Debug|x64"
+							>
+							<Tool
+								Name="YASM"
+								ObjectFileName="$(IntDir)\mpn\$(InputName).obj"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release|x64"
+							>
+							<Tool
+								Name="YASM"
+								ObjectFileName="$(IntDir)\mpn\$(InputName).obj"
+							/>
+						</FileConfiguration>
+					</File>
+					<File
 						RelativePath="..\..\mpn\x86_64w\amd64\aors_n.asm"
 						>
+						<FileConfiguration
+							Name="Debug|x64"
+							>
+							<Tool
+								Name="YASM"
+								ObjectFileName="$(IntDir)\mpn\$(InputName).obj"
+							/>
+						</FileConfiguration>
 						<FileConfiguration
 							Name="Release|x64"
 							>
@@ -3569,6 +3597,26 @@
 					</File>
 					<File
 						RelativePath="..\..\mpn\x86_64w\amd64\aorsmul_1.asm"
+						>
+						<FileConfiguration
+							Name="Debug|x64"
+							>
+							<Tool
+								Name="YASM"
+								ObjectFileName="$(IntDir)\mpn\$(InputName).obj"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release|x64"
+							>
+							<Tool
+								Name="YASM"
+								ObjectFileName="$(IntDir)\mpn\$(InputName).obj"
+							/>
+						</FileConfiguration>
+					</File>
+					<File
+						RelativePath="..\..\mpn\x86_64w\amd64\com_n.asm"
 						>
 						<FileConfiguration
 							Name="Debug|x64"
@@ -3648,7 +3696,27 @@
 						</FileConfiguration>
 					</File>
 					<File
-						RelativePath="..\..\mpn\x86_64w\lshift.asm"
+						RelativePath="..\..\mpn\x86_64w\amd64\lshift.asm"
+						>
+						<FileConfiguration
+							Name="Debug|x64"
+							>
+							<Tool
+								Name="YASM"
+								ObjectFileName="$(IntDir)\mpn\$(InputName).obj"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release|x64"
+							>
+							<Tool
+								Name="YASM"
+								ObjectFileName="$(IntDir)\mpn\$(InputName).obj"
+							/>
+						</FileConfiguration>
+					</File>
+					<File
+						RelativePath="..\..\mpn\x86_64w\amd64\lshift1.asm"
 						>
 						<FileConfiguration
 							Name="Debug|x64"
@@ -3730,7 +3798,27 @@
 						</FileConfiguration>
 					</File>
 					<File
-						RelativePath="..\..\mpn\x86_64w\rshift.asm"
+						RelativePath="..\..\mpn\x86_64w\amd64\rshift.asm"
+						>
+						<FileConfiguration
+							Name="Debug|x64"
+							>
+							<Tool
+								Name="YASM"
+								ObjectFileName="$(IntDir)\mpn\$(InputName).obj"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release|x64"
+							>
+							<Tool
+								Name="YASM"
+								ObjectFileName="$(IntDir)\mpn\$(InputName).obj"
+							/>
+						</FileConfiguration>
+					</File>
+					<File
+						RelativePath="..\..\mpn\x86_64w\amd64\rshift1.asm"
 						>
 						<FileConfiguration
 							Name="Debug|x64"
@@ -3770,8 +3858,36 @@
 						</FileConfiguration>
 					</File>
 					<File
+						RelativePath="..\..\mpn\x86_64w\amd64\sublsh1_n.asm"
+						>
+						<FileConfiguration
+							Name="Debug|x64"
+							>
+							<Tool
+								Name="YASM"
+								ObjectFileName="$(IntDir)\mpn\$(InputName).obj"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release|x64"
+							>
+							<Tool
+								Name="YASM"
+								ObjectFileName="$(IntDir)\mpn\$(InputName).obj"
+							/>
+						</FileConfiguration>
+					</File>
+					<File
 						RelativePath="..\..\mpn\x86_64w\udiv.asm"
 						>
+						<FileConfiguration
+							Name="Debug|x64"
+							>
+							<Tool
+								Name="YASM"
+								ObjectFileName="$(IntDir)\mpn\$(InputName).obj"
+							/>
+						</FileConfiguration>
 						<FileConfiguration
 							Name="Release|x64"
 							>
@@ -3784,6 +3900,14 @@
 					<File
 						RelativePath="..\..\mpn\x86_64w\umul.asm"
 						>
+						<FileConfiguration
+							Name="Debug|x64"
+							>
+							<Tool
+								Name="YASM"
+								ObjectFileName="$(IntDir)\mpn\$(InputName).obj"
+							/>
+						</FileConfiguration>
 						<FileConfiguration
 							Name="Release|x64"
 							>

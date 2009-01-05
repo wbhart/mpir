@@ -26,8 +26,10 @@ PROC_FRAME %1
 %endrep
 %if ((%0 + %1) & 1) == 0
     alloc_stack 8 * (%1 + 1)
+%define stack_use 8 * (%0 + %1 - 1)  
 %elif %1 > 0
     alloc_stack 8 * %1
+%define stack_use 8 * (%0 + %1 - 2)
 %endif
 END_PROLOGUE
 %endmacro
@@ -74,3 +76,24 @@ ENDPROC_FRAME
 %endmacro
 
 %endif
+
+;  Microsoft -> GCC Calling Convention
+;
+; function( MSVC  GCC
+;   p1       rcx  rdi
+;   p2       rdx  rsi
+;   p3        r8  rdx
+;   p4        r9  rcx
+;   p5  [rsp+40]   r8
+;   p6  [rsp+48]   r9
+;   ...
+;   
+;   save    rsi, rdi in prologue
+;   mov     rdi, rcx
+;   mov     rsi, rdx
+;   mov     rdx, r8
+;   mov     rcx, r9
+;   mov     r8, [rsp + stack_use + 40]
+;   mov     r9, [rsp + stack_use + 48]
+;
+; 32 bit parameters must be loaded into 32-bit registers

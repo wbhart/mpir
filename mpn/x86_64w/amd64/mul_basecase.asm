@@ -2,9 +2,23 @@
 ; AMD64 mpn_mul_basecase -- multiply two mpn numbers.
 ; Version 1.0.3.
 ;
-; Copyright 2008 Jason Moxham 
-; Windows conversion by Brian Gladman
-;
+;  Copyright 2008 Jason Moxham 
+;  Windows converdxon by Brian Gladman
+
+;  This file is part of the MPIR Library.
+;  The MPIR Library is free software; you can redistribute it and/or modify
+;  it under the terms of the GNU Lesser General Public License as published
+;  by the Free Software Foundation; either verdxon 2.1 of the License, or (at
+;  your option) any later verdxon.
+;  The MPIR Library is distributed in the hope that it will be useful, but
+;  WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+;  or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public
+;  License for more details.
+;  You should have received a copy of the GNU Lesser General Public License
+;  along with the MPIR Library; see the file COPYING.LIB.  If not, write
+;  to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+;  Boston, MA 02110-1301, USA.
+
 ;  Calling interface:
 ;
 ; void __gmpn_mul_basecase(

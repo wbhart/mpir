@@ -1,13 +1,24 @@
+;  AMD64 mpn_add_n/mpn_sub_n -- mpn add or subtract 
+;  Version 1.0.3.
 ;
-; AMD64 mpn_add_n/mpn_sub_n -- mpn add or subtract 
-; Version 1.0.3.
-;
-; Copyright 2008 Jason Moxham 
-; Windows conversion by Brian Gladman
-;
-; Windows x64 ABI
-;
-; Calling interface:
+;  Copyright 2008 Jason Moxham 
+;  Windows conversion by Brian Gladman
+
+;  This file is part of the MPIR Library.
+;  The MPIR Library is free software; you can redistribute it and/or modify
+;  it under the terms of the GNU Lesser General Public License as published
+;  by the Free Software Foundation; either version 2.1 of the License, or (at
+;  your option) any later version.
+;  The MPIR Library is distributed in the hope that it will be useful, but
+;  WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+;  or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public
+;  License for more details.
+;  You should have received a copy of the GNU Lesser General Public License
+;  along with the MPIR Library; see the file COPYING.LIB.  If not, write
+;  to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+;  Boston, MA 02110-1301, USA.
+
+;  Calling interface:
 ;
 ;  mp_limb_t __gmpn_<op>_n(    <op> = add OR sub
 ;     mp_ptr dst,              rcx
@@ -51,8 +62,8 @@
 %1%3:
     xor     r10, r10
 
-%%0:movsxd  r9, r9d
-    mov	    rax, r9
+%%0:mov     eax, r9d
+    mov	    r9, rax
     and	    rax, 3
     shr	    r9, 2
     lea     r9,[r10+r9*2]
