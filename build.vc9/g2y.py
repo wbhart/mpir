@@ -270,6 +270,16 @@ def pass_three(code, labels, macros) :
     if m :
       l = re.sub(r"\$([0-9]+)", r"%\1", l)
 
+    m = re.search("PROLOGUE\(([a-zA-Z$_][a-zA-Z0-9$_]*)\)", l)
+    if m :
+      lo += [lp + "\twin64_gcc_start {0}".format(m.group(1))]
+      continue
+
+    m = re.search("EPILOGUE\(\)", l)
+    if m :
+      lo += [lp + "\twin64_gcc_end"]
+      continue
+
     # macro calls 
     m = r_mrf.search(l)
     if m :
@@ -349,15 +359,26 @@ def convert(s, d, l) :
         form_path(dp)
         shutil.copyfile(sp, dp)
 
-cd = os.getcwd()                    # it must run in build.vc9
-if cd.endswith("build.vc9") :
-  cd1 = cd + "\\..\\mpn\\x86_64"    # the GCC assembler directory
-  cd2 = cd + "\\..\\mpn\\x86_64w"   # the YASM (Windows) assembler directory
-  if os.path.exists(cd1) :
-    if os.path.exists(cd2) :
-      print("warning: output directory '{0}' already exists".format(cd2))
-    convert(cd1, cd2, 0)            # convert format from GAS to YASM 
+if False :
+  cd = os.getcwd()                    # it must run in build.vc9
+  if cd.endswith("build.vc9") :
+    cd1 = cd + "\\..\\mpn\\x86_64"    # the GCC assembler directory
+    cd2 = cd + "\\..\\mpn\\x86_64w"   # the YASM (Windows) assembler directory
+    if os.path.exists(cd1) :
+      if os.path.exists(cd2) :
+        print("warning: output directory '{0}' already exists".format(cd2))
+      convert(cd1, cd2, 0)            # convert format from GAS to YASM 
+    else :
+      print("cannot find input directory: '{0}'".format(cd1))
   else :
-    print("cannot find input directory: '{0}'".format(cd1))
+    print("conv.py must be run from the build.vc9 directory")
 else :
-  print("conv.py must be run from the build.vc9 directory")
+  f = open("..\\mpn\\x86_64\\amd64\\mul_basecase.asm", "r")
+  code = f.readlines()
+  f.close()
+  labels = pass_one(code)
+  macros = pass_two(code, labels)
+  code = pass_three(code, labels, macros)
+  f = open("..\\mpn\\x86_64w\\amd64c\\mul_basecase.asm", "w")
+  f.writelines(code)
+  f.close()
