@@ -202,7 +202,7 @@ __gmpn_sqr_basecase:
     mov     [rcx+40], rax
     ret
 
-prologue    sqr_basecase, reg_save_list, 0
+prologue    sqr_basecase, 0, reg_save_list
     mov     rdi, rcx
     mov     rsi, r8
     
@@ -559,6 +559,6 @@ outer_end:
     add     a_x, 2
     jnz     .2
     add     [rp+08], rdx
-    epilogue    reg_save_list, 0
+    epilogue    reg_save_list
 
     end

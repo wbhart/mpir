@@ -122,7 +122,7 @@
     export  __gmpn_mul_basecase
 %endif
 
-prologue    __gmpn_mul_basecase, reg_save_list, 0
+prologue    __gmpn_mul_basecase, 0, reg_save_list
     mov     rdi, rcx
     mov     rsi, rdx
     mov     rdx, r8
@@ -440,6 +440,6 @@ mul_loop_end:
     jnz     mul_loop
 
 exit:
-    epilogue    reg_save_list, 0 
+    epilogue    reg_save_list
 
     end

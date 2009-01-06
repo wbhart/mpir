@@ -157,7 +157,7 @@ __gmpn_%1mul_1:
 __gmpn_%1mul_1c:
     mov     a_z, [rsp+0x28]
 
-prologue    %%1, reg_save_list, 0
+prologue    %%1, 0, reg_save_list
     mov     rdi, rcx
     mov     rsi, rdx
     xor     rdx, rdx
@@ -328,7 +328,7 @@ prologue    %%1, reg_save_list, 0
     mov     [rp+index*8-8], a_z
     adc     rax, rdx
 %%13:
-    epilogue    reg_save_list, 0 
+    epilogue    reg_save_list
 %endmacro
 
     bits    64

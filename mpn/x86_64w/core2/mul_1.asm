@@ -160,7 +160,7 @@ __gmpn_mul_1:
 __gmpn_mul_1c:
     mov     a_z, [rsp+0x28]
 
-prologue    entry, reg_save_list, 0
+prologue    entry, 0, reg_save_list
     mov     rdi, rcx
     mov     rsi, rdx
     xor     rdx, rdx
@@ -314,6 +314,6 @@ prologue    entry, reg_save_list, 0
     mov     [rp+index*8-8], rax
     mov     rax, rdx
 .mul_1_exit:
-    epilogue    reg_save_list,0 
+    epilogue    reg_save_list
 
     end
