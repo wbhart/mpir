@@ -3571,7 +3571,6 @@
 							>
 							<Tool
 								Name="YASM"
-								AdditionalDependencies=""
 								ObjectFileName="$(IntDir)\mpn\$(InputName).obj"
 							/>
 						</FileConfiguration>
@@ -3592,7 +3591,6 @@
 							>
 							<Tool
 								Name="YASM"
-								AdditionalDependencies=""
 								ObjectFileName="$(IntDir)\mpn\$(InputName).obj"
 							/>
 						</FileConfiguration>
@@ -3613,7 +3611,6 @@
 							>
 							<Tool
 								Name="YASM"
-								AdditionalDependencies=""
 								ObjectFileName="$(IntDir)\mpn\$(InputName).obj"
 							/>
 						</FileConfiguration>
@@ -3634,7 +3631,6 @@
 							>
 							<Tool
 								Name="YASM"
-								AdditionalDependencies=""
 								ObjectFileName="$(IntDir)\mpn\$(InputName).obj"
 							/>
 						</FileConfiguration>
@@ -3655,7 +3651,6 @@
 							>
 							<Tool
 								Name="YASM"
-								AdditionalDependencies=""
 								ObjectFileName="$(IntDir)\mpn\$(InputName).obj"
 							/>
 						</FileConfiguration>
@@ -3676,7 +3671,6 @@
 							>
 							<Tool
 								Name="YASM"
-								AdditionalDependencies=""
 								ObjectFileName="$(IntDir)\mpn\$(InputName).obj"
 							/>
 						</FileConfiguration>
@@ -3697,7 +3691,6 @@
 							>
 							<Tool
 								Name="YASM"
-								AdditionalDependencies=""
 								ObjectFileName="$(IntDir)\mpn\$(InputName).obj"
 							/>
 						</FileConfiguration>
@@ -3718,7 +3711,6 @@
 							>
 							<Tool
 								Name="YASM"
-								AdditionalDependencies=""
 								ObjectFileName="$(IntDir)\mpn\$(InputName).obj"
 							/>
 						</FileConfiguration>
@@ -3739,7 +3731,6 @@
 							>
 							<Tool
 								Name="YASM"
-								AdditionalDependencies=""
 								ObjectFileName="$(IntDir)\mpn\$(InputName).obj"
 							/>
 						</FileConfiguration>
@@ -3760,7 +3751,6 @@
 							>
 							<Tool
 								Name="YASM"
-								AdditionalDependencies=""
 								ObjectFileName="$(IntDir)\mpn\$(InputName).obj"
 								ListFileName=""
 							/>
@@ -3782,7 +3772,6 @@
 							>
 							<Tool
 								Name="YASM"
-								AdditionalDependencies=""
 								ObjectFileName="$(IntDir)\mpn\$(InputName).obj"
 								ListFileName=""
 							/>
@@ -3804,7 +3793,6 @@
 							>
 							<Tool
 								Name="YASM"
-								AdditionalDependencies=""
 								ObjectFileName="$(IntDir)\mpn\$(InputName).obj"
 							/>
 						</FileConfiguration>
@@ -3825,7 +3813,6 @@
 							>
 							<Tool
 								Name="YASM"
-								AdditionalDependencies=""
 								ObjectFileName="$(IntDir)\mpn\$(InputName).obj"
 							/>
 						</FileConfiguration>
@@ -3846,7 +3833,6 @@
 							>
 							<Tool
 								Name="YASM"
-								AdditionalDependencies=""
 								ObjectFileName="$(IntDir)\mpn\$(InputName).obj"
 							/>
 						</FileConfiguration>
@@ -3867,7 +3853,6 @@
 							>
 							<Tool
 								Name="YASM"
-								AdditionalDependencies=""
 								ObjectFileName="$(IntDir)\mpn\$(InputName).obj"
 							/>
 						</FileConfiguration>
@@ -3888,7 +3873,6 @@
 							>
 							<Tool
 								Name="YASM"
-								AdditionalDependencies=""
 								ObjectFileName="$(IntDir)\mpn\$(InputName).obj"
 							/>
 						</FileConfiguration>
@@ -3909,7 +3893,6 @@
 							>
 							<Tool
 								Name="YASM"
-								AdditionalDependencies=""
 								ObjectFileName="$(IntDir)\mpn\$(InputName).obj"
 							/>
 						</FileConfiguration>
@@ -3930,7 +3913,6 @@
 							>
 							<Tool
 								Name="YASM"
-								AdditionalDependencies=""
 								ObjectFileName="$(IntDir)\mpn\$(InputName).obj"
 							/>
 						</FileConfiguration>
