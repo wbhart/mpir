@@ -1,3 +1,4 @@
+
 ;  Copyright 1999, 2000, 2001, 2002 Free Software Foundation, Inc.
 ;
 ;  This file is part of the GNU MP Library.
@@ -35,7 +36,7 @@
 ; Multiplying works out faster for size>=3 when the divisor is odd or size>=4
 ; when the divisor is even.
 ;
-; This is an SEH Frame Function with a leaf prologue
+; This is an SEH frame function with a leaf prologue
 
 %include "x86_64_asm.inc"
 
@@ -68,7 +69,7 @@ L_div_top:
     jnz     L_div_top
     rep     ret         ; avoid single byte return
 
-prologue    L_mul_by_inverse, reg_save_list, 0
+prologue    L_mul_by_inverse, 0, reg_save_list
     mov     rsi,rdx     ; src pointer
     mov     rdi,rcx     ; dst pointer
     mov     rax,r9
@@ -155,6 +156,6 @@ L_even_entry:
     imul    rax,r10
     mov     [rdi-8],rax
 L_exit:
-    epilogue reg_save_list, 0
+    epilogue reg_save_list
 
     end

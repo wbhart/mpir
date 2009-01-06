@@ -1,3 +1,4 @@
+
 ;  Copyright 2000, 2001, 2002, 2003, 2004, 2005, 2006 Free Software
 ;  Foundation, Inc.
 ;
@@ -99,7 +100,7 @@
 __gmpn_modexact_1_odd:
     mov     r9, 0               ; carry
 
-prologue    __gmpn_modexact_1c_odd, reg_save_list, 0
+prologue    __gmpn_modexact_1c_odd, 0, reg_save_list
     
     ; first use Newton's iteration to invert the divisor limb (d) using 
     ; f(x) = 1/x - d  and x[i+1] = x[i] - f(x[i]) / f'(x[i]) to give
@@ -156,6 +157,6 @@ prologue    __gmpn_modexact_1c_odd, reg_save_list, 0
     imul    rax, r10
     mul     r8
     lea     rax, [rcx+rdx]
-    epilogue    reg_save_list, 0 
+    epilogue    reg_save_list
 
     end

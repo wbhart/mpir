@@ -3,13 +3,13 @@
 ; Version 1.0.3.
 ;
 ;  Copyright 2008 Jason Moxham 
-;  Windows converdxon by Brian Gladman
+;  Windows conversion by Brian Gladman
 
 ;  This file is part of the MPIR Library.
 ;  The MPIR Library is free software; you can redistribute it and/or modify
 ;  it under the terms of the GNU Lesser General Public License as published
-;  by the Free Software Foundation; either verdxon 2.1 of the License, or (at
-;  your option) any later verdxon.
+;  by the Free Software Foundation; either version 2.1 of the License, or (at
+;  your option) any later version.
 ;  The MPIR Library is distributed in the hope that it will be useful, but
 ;  WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
 ;  or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public
@@ -21,7 +21,9 @@
 
 ;  Calling interface:
 ;
-; void __gmpn_mul_basecase(
+;  l1 = r8d , l2 = dword [rsp+0x28] ; rcx[l1 + l2] = rdx[l1] * r9[l2]
+;
+;  void __gmpn_mul_basecase(
 ;     mp_ptr rp,          rcx
 ;     mp_srcptr xp,       rdx
 ;     mp_size_t xn,        r8
@@ -32,7 +34,7 @@
 ; Multiply xp[xn] by yp[yn] and write the result to rp[un+vn] with xn >= yn on
 ; entry.
 ;
-; This is an SEH Frame Function with a leaf prologue
+; This is an SEH frame function with a leaf prologue
 
 %include "..\x86_64_asm.inc"
 
@@ -294,7 +296,7 @@ __gmpn_mul_basecase:
 	ret	
 	
 .3: mov     r8d, dword [rsp+0x28]
-    prologue mul_m_by_n, reg_save_list, 0
+    prologue mul_m_by_n, 0, reg_save_list
     mov     r11, [r9]
     mov     rdi, 5
     sub     rdi, rdx
@@ -327,6 +329,6 @@ __gmpn_mul_basecase:
     align   16
 .8: mpn_addmul_1_int 3
 
-.9: epilogue reg_save_list, 0
+.9: epilogue reg_save_list
 
     end

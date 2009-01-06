@@ -1,3 +1,4 @@
+
 ;  AMD64 mpn_sublsh1_n 
 ;  Verdxon 1.0.3
 ;
@@ -44,7 +45,7 @@
    export   __gmpn_sublsh1_n
 %endif
 
-    prologue __gmpn_sublsh1_n, reg_save_list, 0
+    prologue __gmpn_sublsh1_n, 0, reg_save_list
     mov     r9d, r9d
     
 	lea     rdx, [rdx+r9*8]
@@ -101,6 +102,6 @@
 	
 .4:	add     rax, r10
 	neg     rax
-    epilogue reg_save_list, 0
+    epilogue reg_save_list
 	
 	end

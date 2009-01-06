@@ -1,3 +1,4 @@
+
 ;  AMD64 mpn_rshift1 -- mpn right shift by 1
 ;  Version 1.0.4.
 ;
@@ -26,7 +27,7 @@
 ;     mp_size_t size,    r8
 ; )
 ;
-;  This is an SEH Leaf Function (no unwind support needed)
+;  This is an SEH leaf function (no unwind support needed)
 
 %include "..\x86_64_asm.inc"
 
@@ -41,7 +42,7 @@
    export   __gmpn_rshift1
 %endif
 
-    prologue __gmpn_rshift1, reg_save_list, 0
+    prologue __gmpn_rshift1, 0, reg_save_list
     mov     r8d, r8d
     
 	xor     rax, rax
@@ -123,6 +124,6 @@
 	mov     [rcx-48], r10
 
 .3: rcr     rax, 1
-    epilogue reg_save_list, 0
+    epilogue reg_save_list
 	
 	end

@@ -1,3 +1,4 @@
+
 ;  Copyright 1999, 2000, 2001, 2002 Free Software Foundation, Inc.
 ;
 ;  This file is part of the GNU MP Library.
@@ -30,7 +31,7 @@
 ;     mp_size_t size  r8
 ; )
 ;
-;  This is an SEH Leaf Function (no unwind support needed)
+;  This is an SEH leaf function (no unwind support needed)
 
 %define    UNROLL_THRESHOLD 16
 

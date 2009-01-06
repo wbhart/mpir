@@ -3,10 +3,22 @@
 ; AMD64 mpn_submul_1/mpn_submul_1c -- multiply and subtract (with carry)
 ; Version 1.0.3.
 ;
-; Copyright 2008 Jason Moxham 
-; Windows conversion by Brian Gladman
-;
-; Windows x64 ABI
+;  Copyright 2008 Jason Moxham 
+;  Windows conversion by Brian Gladman
+
+;  This file is part of the MPIR Library.
+;  The MPIR Library is free software; you can redistribute it and/or modify
+;  it under the terms of the GNU Lesser General Public License as published
+;  by the Free Software Foundation; either version 2.1 of the License, or (at
+;  your option) any later version.
+;  The MPIR Library is distributed in the hope that it will be useful, but
+;  WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+;  or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public
+;  License for more details.
+;  You should have received a copy of the GNU Lesser General Public License
+;  along with the MPIR Library; see the file COPYING.LIB.  If not, write
+;  to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+;  Boston, MA 02110-1301, USA.
 ;
 ;  Calling interface:
 ;
@@ -25,17 +37,17 @@
 ;     mp_limb_t carry    [rsp+0x28]
 ;  )
 ;
-; Calculate src[size] multiplied by mult[1] and add to /subtract from dst[size] and
-; return the carry or borrow from the top of the result
+; Calculate src[size] multiplied by mult[1] and add to /subtract from 
+; dst[size] and return the carry or borrow from the top of the result
 ;
-; This is an SEH Frame Function with two leaf prologues
+; These are SEH frame functions with two leaf prologues
 ;
 ;   %1 = __g, %2 = add, %3 = mpn_addmul_1, %4 = mpn_addmul_1c
 ;   %1 = __g, %2 = sub, %3 = mpn_submul_1, %4 = mpn_submul_1c
 
 %include "..\x86_64_asm.inc"
 
-%define reg_save_list r12,r13,r14
+%define reg_save_list r12, r13, r14
 
 %macro   mac_sub  4
 
@@ -73,7 +85,7 @@
 	mov     rax, rdx
 	ret
 
-%%1:prologue %2xx, reg_save_list, 0
+%%1:prologue %2xx, 0, reg_save_list
     xor     r13, r13
     mov     r10, rdx
     sub     r8, 5
@@ -197,7 +209,7 @@
 	%2      [32+rcx+r8*8], r11
 	adc     r13, 0
 	mov     rax, r13
-%%8:epilogue reg_save_list, 0 
+%%8:epilogue reg_save_list
 
 %endmacro
 

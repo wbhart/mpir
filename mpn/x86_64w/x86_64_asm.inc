@@ -1,50 +1,65 @@
 
 ; Windows x64 prologue macro
 ;
-;   prologue name, register list, stack space 
+;   prologue name, stack_slots, register_save_list 
 ;
-;   name:           routine name
-;   register list:  comma separated list of registers to save
-;   stack space:    stack space needed in 8 byte units
+;   name:                routine name
+;   register_save_list:  comma separated list of registers to save
+;   stack_slots:         stack space needed in 8 byte units
 
 ; Windows x64 epilogue macro
 ;
-;   epilogue register list, stack space
+;   epilogue register_save_list
 ;
-;   register list:  comma separated list of registers to save
-;                   in same order used in prologue
-;   stack space:    stack space used in 8 byte units
+;   register_save_list:  comma separated list of registers to save
+;                        in same order used in prologue
 
 %ifdef _WIN64_ABI
 
 %macro prologue 2-*
+
     PROC_FRAME %1
-    %rotate 1  
-    %rep %0 - 2
-        push_reg  %1
-        %rotate 1  
-    %endrep
-    %if ((%0 + %1) & 1) == 0
-        alloc_stack 8 * (%1 + 1)
-        %define stack_use 8 * (%0 + %1 - 1)  
+    %rotate 1
+      
+    %if %1 < 0
+        %error Negative stack allocation not allowed
     %else
-        %define stack_use 8 * (%0 + %1 - 2)
-        %if %1 > 0
-            alloc_stack 8 * %1
+        %if (%0 & 1) == (%1 & 1)
+            %assign stack_use 8 * (%1 + 1)
+        %else
+            %assign stack_use 8 * %1
         %endif
     %endif
+    %rotate 1
+
+    %if %0 > 2
+        %rep %0 - 2
+            push_reg  %1
+            %rotate 1
+        %endrep
+    %endif
+
+    %if stack_use > 0
+        alloc_stack stack_use
+    %endif
+    
+    %assign stack_use stack_use + 8 * (%0 - 2)
     END_PROLOGUE
+
 %endmacro
 
-%macro epilogue 1-*
-    %rotate -1  
-        add rsp, 8 * (%1 + ((%0 + %1) & 1))
-    %rep %0 - 1
-        %rotate -1
-        pop  %1  
-    %endrep
-        ret
+%macro epilogue 0-*
+
+    add rsp, stack_use - 8 * %0
+    %if %0 > 0
+        %rep %0
+            %rotate -1
+            pop  %1  
+        %endrep
+    %endif
+    ret
     ENDPROC_FRAME
+
 %endmacro
 
 %else
@@ -114,7 +129,7 @@
         %error NO
         %endif
         ; 64-bit parameters may need truncation
-        prologue %1, reg_save_list, stack_slots
+        prologue %1, stack_slots, reg_save_list
         %if %3 > 0
             mov     rdi, rcx
         %endif
@@ -145,7 +160,7 @@
 %macro win64_gcc_end 0-1 frame_proc
 
     %if %1 == frame_proc
-        epilogue reg_save_list, stack_slots
+        epilogue reg_save_list
     %elif %1 == leaf_proc
         ret
     %else

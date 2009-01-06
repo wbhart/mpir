@@ -1,3 +1,4 @@
+
 ;  AMD64 mpn_rshift -- mpn right shift
 ;  Version 1.0.3.
 ;
@@ -27,7 +28,7 @@
 ;     unsigned shift     r9
 ; )
 ;
-;  This is an SEH Leaf Function (no unwind support needed)
+;  This is an SEH leaf function (no unwind support needed)
 
    bits 64
    section .text

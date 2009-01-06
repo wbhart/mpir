@@ -1,3 +1,4 @@
+
 ;  AMD64 mpn_addlsh1_n 
 ;  Version 1.0.3
 ;
@@ -29,7 +30,7 @@
 ;     mp_size_t  n,        r9
 ;  )
 ;
-; This is an SEH Frame Function
+; This is an SEH frame function
 
 %include "..\x86_64_asm.inc"
 
@@ -44,7 +45,7 @@
    export   __gmpn_addlsh1_n
 %endif
 
-    prologue __gmpn_addlsh1_n, reg_save_list, 0
+    prologue __gmpn_addlsh1_n, 0, reg_save_list
     mov     r9d, r9d
 	lea     rdx, [rdx+r9*8]
 	lea     r8, [r8+r9*8]
@@ -97,6 +98,6 @@
 
 .4: add     rax, r10
 	neg     rax
-    epilogue reg_save_list, 0
+    epilogue reg_save_list
         
     end

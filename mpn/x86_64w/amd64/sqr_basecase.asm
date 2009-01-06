@@ -29,7 +29,7 @@
 ;
 ; Squuare src[size] and write the result to dst[2 * size]
 ;
-; This is an SEH Frame Function with a leaf prologue
+; This is an SEH frame function with a leaf prologue
 
 ; changes from standard mpn_mul_1
 ; change lables
@@ -40,10 +40,6 @@
 ; remove ret
 ; todo --------  could ignore small values ie mulskiploop for dx=1,2,3 we save .1 branch
 ; todo ------------- alignment of jumps etc
-
-; AMD64 mpn_sqr_basecase -- square an mpn number.
-;
-;  Calling interface:
 
 %macro mpn_mul_1_int 0
 
@@ -290,7 +286,7 @@ __gmpn_sqr_basecase:
 	mov     [rcx+8], rdx
 	ret
 
-.2: prologue __gmpn_sqr_bc, reg_save_list, 3
+.2: prologue __gmpn_sqr_bc, 0, reg_save_list
     mov     rdi, rcx
     mov     rsi, rdx
     mov     edx, r8d
@@ -323,9 +319,9 @@ __gmpn_sqr_basecase:
 	jmp     .7
 
 ; this code can not handle casess 3,2,1
-.4:	mov     [rsp], rdi          ; STACK USE HERE
-	mov     [rsp+8], rsi
-	mov     [rsp+16], rdx
+.4:	mov     [rsp+stack_use+24], rdi     ; use shadow area
+	mov     [rsp+stack_use+16], rsi
+	mov     [rsp+stack_use+ 8], rdx
 	
 	mov     r13, [rsi]
 	mov     r14, 7
@@ -360,9 +356,9 @@ __gmpn_sqr_basecase:
 	
 ; now lsh by 1 and add in the diagonal
 	
-	mov     rcx, [rsp+16]       ; STACK USE HERE
-	mov     rsi, [rsp+8]
-	mov     rdi, [rsp]
+	mov     rcx, [rsp + stack_use +  8]     ; use shadow area
+	mov     rsi, [rsp + stack_use + 16]
+	mov     rdi, [rsp + stack_use + 24]
 	
 .7: xor     rbx, rbx
 	xor     r14, r14
@@ -389,7 +385,7 @@ __gmpn_sqr_basecase:
 	inc     rcx
 	lea     rdi, [rdi+16]
 	jnz     .8
-	epilogue reg_save_list, 3
+	epilogue reg_save_list
 	
 	end
 	

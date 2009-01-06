@@ -1,13 +1,25 @@
 
-; AMD64 mpn_mul_1 -- mpn by limb multiply.
+; AMD64 mpn_mul_1 -- mpn by limb multiply (with carry)
 ; Version 1.0.3.
 ;
-; Copyright 2008 Jason Moxham 
-; Windows conversion by Brian Gladman
-;
-; Windows x64 ABI
-;
-; Calling interface:
+;  Copyright 2008 Jason Moxham 
+;  Windows conversion by Brian Gladman
+
+;  This file is part of the MPIR Library.
+;  The MPIR Library is free software; you can redistribute it and/or modify
+;  it under the terms of the GNU Lesser General Public License as published
+;  by the Free Software Foundation; either version 2.1 of the License, or (at
+;  your option) any later version.
+;  The MPIR Library is distributed in the hope that it will be useful, but
+;  WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+;  or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public
+;  License for more details.
+;  You should have received a copy of the GNU Lesser General Public License
+;  along with the MPIR Library; see the file COPYING.LIB.  If not, write
+;  to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+;  Boston, MA 02110-1301, USA.
+
+;  Calling interface:
 ;
 ;  mp_limb_t mpn_mul_1 (
 ;     mp_ptr dst,                  rcx
@@ -23,6 +35,8 @@
 ;     mp_limb_t multiplier,         r9
 ;     mp_limb_t carry       [rsp+0x28]
 ;  )
+;
+;  This is an SEH frame function with two leaf prologues
 
 %include "..\x86_64_asm.inc"
 
@@ -45,7 +59,7 @@ __gmpn_mul_1:
     xor     r11, r11
 
 start:
-    prologue _gmulmm, r12, 0
+    prologue _gmulmm, 0, r12
     movsxd  rax, r8d
     mov     r8d, 3
     lea     r10, [rdx+rax*8-24]
@@ -108,6 +122,6 @@ start:
 	mov     [rcx+r8*8], r11
 	adc     r12, rdx
 	mov     rax, r12
-.4: epilogue r12, 0 
+.4: epilogue r12 
 
     end
