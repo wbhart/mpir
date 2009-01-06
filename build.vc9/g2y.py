@@ -359,7 +359,7 @@ def convert(s, d, l) :
         form_path(dp)
         shutil.copyfile(sp, dp)
 
-if False :
+if True :
   cd = os.getcwd()                    # it must run in build.vc9
   if cd.endswith("build.vc9") :
     cd1 = cd + "\\..\\mpn\\x86_64"    # the GCC assembler directory
@@ -373,6 +373,7 @@ if False :
   else :
     print("conv.py must be run from the build.vc9 directory")
 else :
+  # for testing -- translates to directory amd64c rather than amd64
   f = open("..\\mpn\\x86_64\\amd64\\mul_basecase.asm", "r")
   code = f.readlines()
   f.close()
