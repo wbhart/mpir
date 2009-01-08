@@ -36,9 +36,9 @@
 ; change r8 to r11
 ; write top limb ax straight to mem dont return
 ; change lea offsets to match addmul
-; reorder mod4 tail parts so have "only .1 ret"
+; reorder mod4 tail parts so have "only one ret"
 ; remove ret
-; todo --------  could ignore small values ie mulskiploop for dx=1,2,3 we save .1 branch
+; todo --------  could ignore small values ie mulskiploop for dx=1,2,3 we save one branch
 ; todo ------------- alignment of jumps etc
 
 %macro mpn_mul_1_int 0
@@ -49,7 +49,7 @@
 	jnc     %%2
 	
 	align   16
-%%1:mov     rax, [rsi+r10*8+16]
+%%1:	mov     rax, [rsi+r10*8+16]
 	mov     r9d, 0
 	mul     r13
 	add     r11, rax
@@ -92,7 +92,7 @@
 	add     r10, 2
 	mov     [rdi+r10*8+8], r9
 
-%%3:test    r10, 1
+%%3:    test    r10, 1
 	jnz     %%4
 	mov     rax, [rsi+r10*8+16]
 	mov     r9d, 0
@@ -101,7 +101,7 @@
 	adc     r9, rdx
 	mov     [rdi+r10*8+24], r9
 
-%%4:mov     [rdi+r10*8+16], r11
+%%4:	mov     [rdi+r10*8+16], r11
 
 %endmacro
 
@@ -237,8 +237,8 @@
 ; change lables
 ; change r8 to r12
 ; write top limb ax straight to mem dont return  (NOTE we WRITE NOT ADD)
-; remove .1 limb special .5
-; remove push/pop , base.5 must save rbx
+; remove one limb special case
+; remove push/pop , basecase must save rbx
 ; split into mod4 types and remove rets
 ; surround with outer loop and pop ret
 ; todo ----------- can ignore small values
@@ -256,6 +256,7 @@
 	cmp     r14, 0
 	jge     %%2
 	addmulloop %1
+	
 %%2:addmulnext%1
 	inc     r14
 	lea     rdi, [rdi+8]
