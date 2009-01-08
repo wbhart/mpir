@@ -206,10 +206,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\errno.c"
-				>
-			</File>
-			<File
 				RelativePath="..\..\extract-dbl.c"
 				>
 			</File>
@@ -5545,6 +5541,10 @@
 							ObjectFile="$(IntDir)\scanf\"
 						/>
 					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\errno.c"
+					>
 				</File>
 				<File
 					RelativePath="..\..\scanf\fscanf.c"

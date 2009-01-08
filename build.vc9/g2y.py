@@ -340,7 +340,7 @@ def convert(s, d, l) :
     if os.path.isdir(sp) :
       convert(sp, dp, l + 1)
     elif os.path.isfile(sp) :
-      if os.path.exists(dp) :
+      if sp != dp and os.path.exists(dp) :
         continue
       fn = os.path.basename(f)
       x = os.path.splitext(fn)
@@ -350,6 +350,9 @@ def convert(s, d, l) :
         f = open(sp, "r")
         code = f.readlines()
         f.close()
+        if sp == dp :
+          rp = os.path.join(s, x[0] + '.old')
+          os.rename(sp, rp)
         labels = pass_one(code)
         macros = pass_two(code, labels)
         code = pass_three(code, labels, macros)
@@ -360,19 +363,25 @@ def convert(s, d, l) :
         form_path(dp)
         shutil.copyfile(sp, dp)
 
-if True :
-  cd = os.getcwd()                    # it must run in build.vc9
-  if cd.endswith("build.vc9") :
-    cd1 = cd + "\\..\\mpn\\x86_64"    # the GCC assembler directory
-    cd2 = cd + "\\..\\mpn\\x86_64w"   # the YASM (Windows) assembler directory
-    if os.path.exists(cd1) :
-      if os.path.exists(cd2) :
-        print("warning: output directory '{0}' already exists".format(cd2))
-      convert(cd1, cd2, 0)            # convert format from GAS to YASM 
-    else :
-      print("cannot find input directory: '{0}'".format(cd1))
+cd = os.getcwd()                    # it must run in build.vc9
+if cd.endswith("build.vc9") :
+  cd1 = cd + "\\..\\mpn\\x86_64"    # the GCC assembler directory
+  cd2 = cd + "\\..\\mpn\\x86_64w"   # the YASM (Windows) assembler directory
+elif cd.endswith("x86_64") :
+  if os.path.exists(cd + "\\..\\x86_64w") :
+    cd1 = cd
+    cd2 = cd + "\\..\\x86_64w"
   else :
-    print("conv.py must be run from the build.vc9 directory")
+    cd1 = cd2 = cd
+else:
+  cd1 = cd2 = None
+
+if cd1 and os.path.exists(cd1) :
+  if os.path.exists(cd2) :
+    print("warning: output directory '{0}' already exists".format(cd2))
+  convert(cd1, cd2, 0)            # convert format from GAS to YASM 
+elif cd1 :
+  print("cannot find input directory: '{0}'".format(cd1))
 else :
   # for testing -- translates to directory amd64c rather than amd64
   f = open("..\\mpn\\x86_64\\amd64\\mul_basecase.asm", "r")

@@ -38,7 +38,7 @@
 				Name="YASM"
 				Defines="_WIN64_ABI"
 				IncludePaths="$(InputDir)\"
-				ObjectFileName="$(IntDir)\$(InputName).obj"
+				ObjectFileName="&quot;$(IntDir)\mpn\$(InputName).obj&quot;"
 				Debug="true"
 			/>
 			<Tool
@@ -113,7 +113,7 @@
 			<Tool
 				Name="YASM"
 				Defines="_WIN64_ABI"
-				ObjectFileName="$(IntDir)\$(InputName).obj"
+				ObjectFileName="&quot;$(IntDir)\mpn\$(InputName).obj&quot;"
 				Debug="true"
 			/>
 			<Tool
@@ -2395,6 +2395,7 @@
 					>
 					<FileConfiguration
 						Name="Debug|x64"
+						ExcludedFromBuild="true"
 						>
 						<Tool
 							Name="VCCLCompilerTool"
@@ -2403,6 +2404,7 @@
 					</FileConfiguration>
 					<FileConfiguration
 						Name="Release|x64"
+						ExcludedFromBuild="true"
 						>
 						<Tool
 							Name="VCCLCompilerTool"
@@ -3558,200 +3560,51 @@
 					<File
 						RelativePath="..\..\mpn\x86_64w\amd64\addlsh1_n.asm"
 						>
-						<FileConfiguration
-							Name="Debug|x64"
-							>
-							<Tool
-								Name="YASM"
-								ObjectFileName="$(IntDir)\mpn\$(InputName).obj"
-							/>
-						</FileConfiguration>
-						<FileConfiguration
-							Name="Release|x64"
-							>
-							<Tool
-								Name="YASM"
-								ObjectFileName="$(IntDir)\mpn\$(InputName).obj"
-							/>
-						</FileConfiguration>
 					</File>
 					<File
 						RelativePath="..\..\mpn\x86_64w\amd64\aors_n.asm"
 						>
-						<FileConfiguration
-							Name="Debug|x64"
-							>
-							<Tool
-								Name="YASM"
-								ObjectFileName="$(IntDir)\mpn\$(InputName).obj"
-							/>
-						</FileConfiguration>
-						<FileConfiguration
-							Name="Release|x64"
-							>
-							<Tool
-								Name="YASM"
-								ObjectFileName="$(IntDir)\mpn\$(InputName).obj"
-							/>
-						</FileConfiguration>
 					</File>
 					<File
 						RelativePath="..\..\mpn\x86_64w\amd64\aorsmul_1.asm"
 						>
-						<FileConfiguration
-							Name="Debug|x64"
-							>
-							<Tool
-								Name="YASM"
-								ObjectFileName="$(IntDir)\mpn\$(InputName).obj"
-							/>
-						</FileConfiguration>
-						<FileConfiguration
-							Name="Release|x64"
-							>
-							<Tool
-								Name="YASM"
-								ObjectFileName="$(IntDir)\mpn\$(InputName).obj"
-							/>
-						</FileConfiguration>
 					</File>
 					<File
 						RelativePath="..\..\mpn\x86_64w\amd64\com_n.asm"
 						>
-						<FileConfiguration
-							Name="Debug|x64"
-							>
-							<Tool
-								Name="YASM"
-								ObjectFileName="$(IntDir)\mpn\$(InputName).obj"
-							/>
-						</FileConfiguration>
-						<FileConfiguration
-							Name="Release|x64"
-							>
-							<Tool
-								Name="YASM"
-								ObjectFileName="$(IntDir)\mpn\$(InputName).obj"
-							/>
-						</FileConfiguration>
 					</File>
 					<File
 						RelativePath="..\..\mpn\x86_64w\copyd.asm"
 						>
-						<FileConfiguration
-							Name="Debug|x64"
-							>
-							<Tool
-								Name="YASM"
-								ObjectFileName="$(IntDir)\mpn\$(InputName).obj"
-							/>
-						</FileConfiguration>
-						<FileConfiguration
-							Name="Release|x64"
-							>
-							<Tool
-								Name="YASM"
-								ObjectFileName="$(IntDir)\mpn\$(InputName).obj"
-							/>
-						</FileConfiguration>
 					</File>
 					<File
 						RelativePath="..\..\mpn\x86_64w\copyi.asm"
 						>
-						<FileConfiguration
-							Name="Debug|x64"
-							>
-							<Tool
-								Name="YASM"
-								ObjectFileName="$(IntDir)\mpn\$(InputName).obj"
-							/>
-						</FileConfiguration>
-						<FileConfiguration
-							Name="Release|x64"
-							>
-							<Tool
-								Name="YASM"
-								ObjectFileName="$(IntDir)\mpn\$(InputName).obj"
-							/>
-						</FileConfiguration>
 					</File>
 					<File
 						RelativePath="..\..\mpn\x86_64w\dive_1.asm"
 						>
-						<FileConfiguration
-							Name="Debug|x64"
-							>
-							<Tool
-								Name="YASM"
-								ObjectFileName="$(IntDir)\mpn\$(InputName).obj"
-							/>
-						</FileConfiguration>
-						<FileConfiguration
-							Name="Release|x64"
-							>
-							<Tool
-								Name="YASM"
-								ObjectFileName="$(IntDir)\mpn\$(InputName).obj"
-							/>
-						</FileConfiguration>
+					</File>
+					<File
+						RelativePath="..\..\mpn\x86_64w\amd64\diveby3.asm"
+						>
 					</File>
 					<File
 						RelativePath="..\..\mpn\x86_64w\amd64\lshift.asm"
 						>
-						<FileConfiguration
-							Name="Debug|x64"
-							>
-							<Tool
-								Name="YASM"
-								ObjectFileName="$(IntDir)\mpn\$(InputName).obj"
-							/>
-						</FileConfiguration>
-						<FileConfiguration
-							Name="Release|x64"
-							>
-							<Tool
-								Name="YASM"
-								ObjectFileName="$(IntDir)\mpn\$(InputName).obj"
-							/>
-						</FileConfiguration>
 					</File>
 					<File
 						RelativePath="..\..\mpn\x86_64w\amd64\lshift1.asm"
 						>
-						<FileConfiguration
-							Name="Debug|x64"
-							>
-							<Tool
-								Name="YASM"
-								ObjectFileName="$(IntDir)\mpn\$(InputName).obj"
-							/>
-						</FileConfiguration>
-						<FileConfiguration
-							Name="Release|x64"
-							>
-							<Tool
-								Name="YASM"
-								ObjectFileName="$(IntDir)\mpn\$(InputName).obj"
-							/>
-						</FileConfiguration>
 					</File>
 					<File
 						RelativePath="..\..\mpn\x86_64w\mode1o.asm"
 						>
 						<FileConfiguration
-							Name="Debug|x64"
-							>
-							<Tool
-								Name="YASM"
-								ObjectFileName="$(IntDir)\mpn\$(InputName).obj"
-							/>
-						</FileConfiguration>
-						<FileConfiguration
 							Name="Release|x64"
 							>
 							<Tool
 								Name="YASM"
-								ObjectFileName="$(IntDir)\mpn\$(InputName).obj"
 								ListFileName=""
 							/>
 						</FileConfiguration>
@@ -3760,19 +3613,10 @@
 						RelativePath="..\..\mpn\x86_64w\amd64\mul_1.asm"
 						>
 						<FileConfiguration
-							Name="Debug|x64"
-							>
-							<Tool
-								Name="YASM"
-								ObjectFileName="$(IntDir)\mpn\$(InputName).obj"
-							/>
-						</FileConfiguration>
-						<FileConfiguration
 							Name="Release|x64"
 							>
 							<Tool
 								Name="YASM"
-								ObjectFileName="$(IntDir)\mpn\$(InputName).obj"
 								ListFileName=""
 							/>
 						</FileConfiguration>
@@ -3780,142 +3624,30 @@
 					<File
 						RelativePath="..\..\mpn\x86_64w\amd64\mul_basecase.asm"
 						>
-						<FileConfiguration
-							Name="Debug|x64"
-							>
-							<Tool
-								Name="YASM"
-								ObjectFileName="$(IntDir)\mpn\$(InputName).obj"
-							/>
-						</FileConfiguration>
-						<FileConfiguration
-							Name="Release|x64"
-							>
-							<Tool
-								Name="YASM"
-								ObjectFileName="$(IntDir)\mpn\$(InputName).obj"
-							/>
-						</FileConfiguration>
 					</File>
 					<File
 						RelativePath="..\..\mpn\x86_64w\amd64\rshift.asm"
 						>
-						<FileConfiguration
-							Name="Debug|x64"
-							>
-							<Tool
-								Name="YASM"
-								ObjectFileName="$(IntDir)\mpn\$(InputName).obj"
-							/>
-						</FileConfiguration>
-						<FileConfiguration
-							Name="Release|x64"
-							>
-							<Tool
-								Name="YASM"
-								ObjectFileName="$(IntDir)\mpn\$(InputName).obj"
-							/>
-						</FileConfiguration>
 					</File>
 					<File
 						RelativePath="..\..\mpn\x86_64w\amd64\rshift1.asm"
 						>
-						<FileConfiguration
-							Name="Debug|x64"
-							>
-							<Tool
-								Name="YASM"
-								ObjectFileName="$(IntDir)\mpn\$(InputName).obj"
-							/>
-						</FileConfiguration>
-						<FileConfiguration
-							Name="Release|x64"
-							>
-							<Tool
-								Name="YASM"
-								ObjectFileName="$(IntDir)\mpn\$(InputName).obj"
-							/>
-						</FileConfiguration>
 					</File>
 					<File
 						RelativePath="..\..\mpn\x86_64w\amd64\sqr_basecase.asm"
 						>
-						<FileConfiguration
-							Name="Debug|x64"
-							>
-							<Tool
-								Name="YASM"
-								ObjectFileName="$(IntDir)\mpn\$(InputName).obj"
-							/>
-						</FileConfiguration>
-						<FileConfiguration
-							Name="Release|x64"
-							>
-							<Tool
-								Name="YASM"
-								ObjectFileName="$(IntDir)\mpn\$(InputName).obj"
-							/>
-						</FileConfiguration>
 					</File>
 					<File
 						RelativePath="..\..\mpn\x86_64w\amd64\sublsh1_n.asm"
 						>
-						<FileConfiguration
-							Name="Debug|x64"
-							>
-							<Tool
-								Name="YASM"
-								ObjectFileName="$(IntDir)\mpn\$(InputName).obj"
-							/>
-						</FileConfiguration>
-						<FileConfiguration
-							Name="Release|x64"
-							>
-							<Tool
-								Name="YASM"
-								ObjectFileName="$(IntDir)\mpn\$(InputName).obj"
-							/>
-						</FileConfiguration>
 					</File>
 					<File
 						RelativePath="..\..\mpn\x86_64w\udiv.asm"
 						>
-						<FileConfiguration
-							Name="Debug|x64"
-							>
-							<Tool
-								Name="YASM"
-								ObjectFileName="$(IntDir)\mpn\$(InputName).obj"
-							/>
-						</FileConfiguration>
-						<FileConfiguration
-							Name="Release|x64"
-							>
-							<Tool
-								Name="YASM"
-								ObjectFileName="$(IntDir)\mpn\$(InputName).obj"
-							/>
-						</FileConfiguration>
 					</File>
 					<File
 						RelativePath="..\..\mpn\x86_64w\umul.asm"
 						>
-						<FileConfiguration
-							Name="Debug|x64"
-							>
-							<Tool
-								Name="YASM"
-								ObjectFileName="$(IntDir)\mpn\$(InputName).obj"
-							/>
-						</FileConfiguration>
-						<FileConfiguration
-							Name="Release|x64"
-							>
-							<Tool
-								Name="YASM"
-								ObjectFileName="$(IntDir)\mpn\$(InputName).obj"
-							/>
-						</FileConfiguration>
 					</File>
 				</Filter>
 			</Filter>
