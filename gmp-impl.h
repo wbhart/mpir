@@ -3414,7 +3414,19 @@ mp_size_t
 mpn_ngcd_lehmer (mp_ptr gp, mp_ptr ap, mp_ptr bp, mp_size_t n, mp_ptr tp);
 
 mp_size_t
+mpn_ngcd (mp_ptr gp, mp_ptr ap, mp_size_t an, mp_ptr bp, mp_size_t n);
+
+mp_size_t
 mpn_lgcd (mp_ptr gp, mp_ptr ap, mp_size_t an, mp_ptr bp, mp_size_t bn);
+
+mp_size_t
+mpn_rgcd (mp_ptr gp, mp_ptr up, mp_size_t usize, mp_ptr vp, mp_size_t vsize);
+
+mp_size_t
+mpn_sgcd (mp_ptr gp, mp_ptr ap, mp_size_t an, mp_ptr bp, mp_size_t bn);
+
+mp_size_t
+mpn_bgcd (mp_ptr gp, mp_ptr ap, mp_size_t an, mp_ptr bp, mp_size_t bn);
 
 /* Default HGCD_SCHOENHAGE_THRESHOLD and GCD_SCHOENHAGE_THRESHOLD are for x86/k7 */
 #ifndef HGCD_SCHOENHAGE_THRESHOLD
