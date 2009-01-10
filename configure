@@ -2793,9 +2793,9 @@ fi
 # Check whether --enable-nails was given.
 if test "${enable_nails+set}" = set; then
   enableval=$enable_nails; case $enableval in
-yes|no|[02468]|[0-9][02468]) ;;
-*) { { echo "$as_me:$LINENO: error: bad value $enableval for --enable-nails, need yes/no/even number" >&5
-echo "$as_me: error: bad value $enableval for --enable-nails, need yes/no/even number" >&2;}
+no|[0]) ;;
+*) { { echo "$as_me:$LINENO: error: bad value $enableval for --enable-nails, Sorry nails not available in this build" >&5
+echo "$as_me: error: bad value $enableval for --enable-nails, Sorry nails not available in this build" >&2;}
    { (exit 1); exit 1; }; } ;;
 esac
 else
