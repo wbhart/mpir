@@ -41,7 +41,6 @@ MA 02110-1301, USA. */
 #include <stdexcept>
 #include <gmp.h>
 
-
 /**************** Function objects ****************/
 /* Any evaluation of a __gmp_expr ends up calling one of these functions
    all intermediate functions being inline, the evaluation should optimize
@@ -1293,18 +1292,23 @@ struct __gmp_rand_function
 /* this is much the same as gmp_allocated_string in gmp-impl.h
    since gmp-impl.h is not publicly available, I redefine it here
    I use a different name to avoid possible clashes */
-struct __gmp_alloc_cstring
+extern "C" {
+struct __gmp_alloc_cstring_c
+{
+   void (*free_func) (void *, size_t);
+};
+}
+
+struct __gmp_alloc_cstring : __gmp_alloc_cstring_c
 {
   char *str;
   __gmp_alloc_cstring(char *s) { str = s; }
   ~__gmp_alloc_cstring()
   {
-    void (*freefunc) (void *, size_t);
-    mp_get_memory_functions (NULL, NULL, &freefunc);
+    mp_get_memory_functions (NULL, NULL, &free_func);
     (*freefunc) (str, std::strlen(str)+1);
   }
 };
-
 
 // general expression template class
 template <class T, class U>
