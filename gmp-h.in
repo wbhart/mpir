@@ -26,6 +26,7 @@ MA 02110-1301, USA. */
 
 #if defined (__cplusplus)
 #include <iosfwd>   /* for std::istream, std::ostream, std::string */
+#include <cstdio>
 #endif
 
 
@@ -529,9 +530,7 @@ typedef __mpq_struct *mpq_ptr;
 
 #if defined (__cplusplus)
 extern "C" {
-#ifdef _GMP_H_HAVE_FILE
 using std::FILE;
-#endif
 #endif
 
 #define mp_set_memory_functions __gmp_set_memory_functions
