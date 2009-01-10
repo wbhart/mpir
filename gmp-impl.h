@@ -218,13 +218,13 @@ typedef unsigned long       gmp_uint_least32_t;
    is more restrictive than "pure".  See info node "(gcc)Function
    Attributes".  __GMP_NO_ATTRIBUTE_CONST_PURE lets tune/common.c etc turn
    this off when trying to write timing loops.  */
-#if HAVE_ATTRIBUTE_CONST && ! defined (__GMP_NO_ATTRIBUTE_CONST_PURE) && defined (__GNUC__)
+#if HAVE_ATTRIBUTE_CONST && ! defined (__GMP_NO_ATTRIBUTE_CONST_PURE) && !( defined (__cplusplus) && defined (__sun))
 #define ATTRIBUTE_CONST  __attribute__ ((const))
 #else
 #define ATTRIBUTE_CONST
 #endif
 
-#if HAVE_ATTRIBUTE_NORETURN && defined (__GNUC__)
+#if HAVE_ATTRIBUTE_NORETURN && !( defined (__cplusplus) && defined (__sun))
 #define ATTRIBUTE_NORETURN  __attribute__ ((noreturn))
 #else
 #define ATTRIBUTE_NORETURN
@@ -232,7 +232,7 @@ typedef unsigned long       gmp_uint_least32_t;
 
 /* "malloc" means a function behaves like malloc in that the pointer it
    returns doesn't alias anything.  */
-#if HAVE_ATTRIBUTE_MALLOC && defined (__GNUC__)
+#if HAVE_ATTRIBUTE_MALLOC && !( defined (__cplusplus) && defined (__sun))
 #define ATTRIBUTE_MALLOC  __attribute__ ((malloc))
 #else
 #define ATTRIBUTE_MALLOC
