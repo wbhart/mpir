@@ -1,27 +1,26 @@
-;  YASM translation of code provided by P. Gaudry for AMD64, converted
-;  by Brian Gladman.
-;
+
 ;  Copyright 1999, 2000, 2001, 2002 Free Software Foundation, Inc.
 ;
-;  This file is part of the GNU MP Library.
+;  Copyright 2005, 2006 Pierrick Gaudry
 ;
-;  The GNU MP Library is free software; you can redistribute it and/or
+;  Copyright 2008 Brian Gladman
+;
+;  This file is part of the MPIR Library.
+;
+;  The MPIR Library is free software; you can redistribute it and/or
 ;  modify it under the terms of the GNU Lesser General Public License as
 ;  published by the Free Software Foundation; either version 2.1 of the
 ;  License, or (at your option) any later version.
 ;
-;  The GNU MP Library is distributed in the hope that it will be useful,
+;  The MPIR Library is distributed in the hope that it will be useful,
 ;  but WITHOUT ANY WARRANTY; without even the implied warranty of
 ;  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
 ;  Lesser General Public License for more details.
 ;
 ;  You should have received a copy of the GNU Lesser General Public
-;  License along with the GNU MP Library; see the file COPYING.LIB.  If
-;  not, write to the Free Software Foundation, Inc., 59 Temple Place -
-;  Suite 330, Boston, MA 02111-1307, USA.
-;
-;  Adapted by Brian Gladman AMD64 using the Microsoft VC++ v8 64-bit
-;  compiler and the YASM assembler.
+;  License along with the MPIR Library; see the file COPYING.LIB.  If
+;  not, write to the Free Software Foundation, Inc., 51 Franklin Street,
+;  Fifth Floor, Boston, MA 02110-1301, USA.
 
 ; AMD64 mpn_mul_basecase -- multiply two mpn numbers.
 ;
@@ -133,7 +132,7 @@ mul_2_by_2:                 ; r8 (x_len) and r10 (y_len) free
 mul_m_by_n:
     mov     r10d, dword[rsp+0x28]   ; load as a 32-bit integer
 
-prologue fmul_m_by_n, reg_save_list, 3
+prologue fmul_m_by_n, 3, reg_save_list
     mov     x_ptr,rdx
     mov     r12,x_len
     mov     rbp,rax             ; y[0] -> rbp
@@ -267,6 +266,6 @@ L_unroll:
     mov     [rdi+8],rdx
     jnz     .2
 L_exit:
-    epilogue reg_save_list, 3
+    epilogue reg_save_list
 
     end

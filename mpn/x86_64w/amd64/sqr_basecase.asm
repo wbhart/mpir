@@ -1,27 +1,26 @@
-;  YASM translation of code provided by P. Gaudry for AMD64, converted
-;  by Brian Gladman.
-;
+
 ;  Copyright 1999, 2000, 2001, 2002 Free Software Foundation, Inc.
 ;
-;  This file is part of the GNU MP Library.
+;  Copyright 2005, 2006 Pierrick Gaudry
 ;
-;  The GNU MP Library is free software; you can redistribute it and/or
+;  Copyright 2008 Brian Gladman
+;
+;  This file is part of the MPIR Library.
+;
+;  The MPIR Library is free software; you can redistribute it and/or
 ;  modify it under the terms of the GNU Lesser General Public License as
 ;  published by the Free Software Foundation; either version 2.1 of the
 ;  License, or (at your option) any later version.
 ;
-;  The GNU MP Library is distributed in the hope that it will be useful,
+;  The MPIR Library is distributed in the hope that it will be useful,
 ;  but WITHOUT ANY WARRANTY; without even the implied warranty of
 ;  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
 ;  Lesser General Public License for more details.
 ;
 ;  You should have received a copy of the GNU Lesser General Public
-;  License along with the GNU MP Library; see the file COPYING.LIB.  If
-;  not, write to the Free Software Foundation, Inc., 59 Temple Place -
-;  Suite 330, Boston, MA 02111-1307, USA.
-;
-;  Adapted by Brian Gladman AMD64 using the Microsoft VC++ v8 64-bit
-;  compiler and the YASM assembler.
+;  License along with the MPIR Library; see the file COPYING.LIB.  If
+;  not, write to the Free Software Foundation, Inc., 51 Franklin Street,
+;  Fifth Floor, Boston, MA 02110-1301, USA.
 
 ; AMD64 mpn_sqr_basecase -- square an mpn number.
 ;
@@ -109,7 +108,7 @@ sqr_2:
     adc     [r_ptr+24],rcx
     ret
 
-prologue    sqr_3_plus, reg_save_list, 0
+prologue    sqr_3_plus, 0, reg_save_list
     mov     r_ptr,rcx
     mov     x_ptr,rdx
     cmp     x_len,4
@@ -328,6 +327,6 @@ L_corner:
     jnz     .1
     add     [rdi-8],rdx
 sqr_exit:
-    epilogue reg_save_list, 0
+    epilogue reg_save_list
 
     end

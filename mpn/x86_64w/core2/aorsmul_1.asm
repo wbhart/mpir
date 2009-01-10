@@ -1,19 +1,22 @@
-;  Copyright 2001, 2002 Free Software Foundation, Inc.
+
+;  Copyright 2006  Jason Worth Martin <jason.worth.martin@gmail.com>
 ;
-;  This file is part of the GNU MP Library.
+;  Copyright 2008, 2009 Brian Gladman
 ;
-;  The GNU MP Library is free software; you can redistribute it and/or
+;  This file is part of the MPIR Library.
+;
+;  The MPIR Library is free software; you can redistribute it and/or
 ;  modify it under the terms of the GNU Lesser General Public License as
 ;  published by the Free Software Foundation; either version 2.1 of the
 ;  License, or (at your option) any later version.
 ;
-;  The GNU MP Library is distributed in the hope that it will be useful,
+;  The MPIR Library is distributed in the hope that it will be useful,
 ;  but WITHOUT ANY WARRANTY; without even the implied warranty of
 ;  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
 ;  Lesser General Public License for more details.
 ;
 ;  You should have received a copy of the GNU Lesser General Public
-;  License along with the GNU MP Library; see the file COPYING.LIB.  If
+;  License along with the MPIR Library; see the file COPYING.LIB.  If
 ;  not, write to the Free Software Foundation, Inc., 51 Franklin Street,
 ;  Fifth Floor, Boston, MA 02110-1301, USA.
 ;
@@ -157,7 +160,7 @@ __gmpn_%1mul_1:
 __gmpn_%1mul_1c:
     mov     a_z, [rsp+0x28]
 
-prologue    %%1, reg_save_list, 0
+prologue    %%1, 0, reg_save_list
     mov     rdi, rcx
     mov     rsi, rdx
     xor     rdx, rdx
@@ -328,7 +331,7 @@ prologue    %%1, reg_save_list, 0
     mov     [rp+index*8-8], a_z
     adc     rax, rdx
 %%13:
-    epilogue    reg_save_list, 0 
+    epilogue    reg_save_list
 %endmacro
 
     bits    64
