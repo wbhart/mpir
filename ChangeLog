@@ -1,5 +1,7 @@
 Copyright 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001,
 	  2002, 2003, 2004, 2005, 2006 Free Software Foundation, Inc.
+
+Copyright 2009 William Hart
 .
 This file is part of the GNU MP Library.
 .
@@ -17,6 +19,10 @@ You should have received a copy of the GNU Lesser General Public License
 along with the GNU MP Library; see the file COPYING.LIB.  If not, write to
 the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 MA 02110-1301, USA.
+
+2009-01-10  mpir-devel <http://groups.google.com/group/mpir-devel>
+
+	* MPIR Version 0.9.0 released.
 
 2006-05-04  Torbjorn Granlund  <tege@swox.com>
 
