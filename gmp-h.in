@@ -529,7 +529,9 @@ typedef __mpq_struct *mpq_ptr;
 
 #if defined (__cplusplus)
 extern "C" {
+#ifdef _GMP_H_HAVE_FILE
 using std::FILE;
+#endif
 #endif
 
 #define mp_set_memory_functions __gmp_set_memory_functions
