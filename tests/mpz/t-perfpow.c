@@ -68,7 +68,10 @@ main (void)
 
   mpz_init (x);
   mpz_init (m);
-  /* check small values */
+  /* check small values 
+    -8000 picked up an error
+    -729 picked up an error
+  */
   for (i = -10000; i < 10000; i++)
     {
       mpz_set_si (x, i);
@@ -84,6 +87,7 @@ main (void)
   /* check (-1)^i.2^a.3^b.5^c.x^d where x is big */
   /* 1.0.0.0.5 picked up one error
      1.10.6.0.0 picked up another error     
+     1.0.0.15.5 picked up another error
      want a good selection of powers to try all possibilitys
    */
   for (i = 1; i <= 2; i++)
@@ -94,7 +98,7 @@ main (void)
 	    {
 	      for (b = 0; b < 11; b++)
 		{
-		  for (c = 0; c < 11; c++)
+		  for (c = 0; c < 20; c++)
 		    {
 		      mpz_set_ui (x, 1);
 		      mpz_set_si (m, -1);
