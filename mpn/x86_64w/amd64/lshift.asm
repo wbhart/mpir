@@ -2,8 +2,9 @@
 ;  AMD64 mpn_lshift -- mpn left shift
 ;  Version 1.0.3.
 ;
-;  Copyright 2008 Jason Moxham 
-;  Windows conversion by Brian Gladman
+;  Copyright 2008 Jason Moxham
+
+;  Windows Conversion CopyRight 2008 Brian Gladman
 
 ;  This file is part of the MPIR Library.
 ;  The MPIR Library is free software; you can redistribute it and/or modify
@@ -57,7 +58,7 @@ __gmpn_lshift:
 	movq    rax, mm5
 	psllq   mm3, mm0
 	jbe     .2
-	
+
 	align   16
 .1: movq    mm2, [rdx+r8*8+16]
 	movq    mm4, mm2
@@ -115,7 +116,7 @@ __gmpn_lshift:
 	movq    [rcx+r8*8+16], mm4
 	emms
 	ret
-	
+
 .4: movq    [rcx+r8*8+24], mm3
 	emms
 	ret

@@ -1,9 +1,10 @@
 
-;  AMD64 mpn_add_n/mpn_sub_n -- mpn add or subtract 
+;  AMD64 mpn_add_n/mpn_sub_n -- mpn add or subtract
 ;  Version 1.0.3.
 ;
-;  Copyright 2008 Jason Moxham 
-;  Windows conversion by Brian Gladman
+;  Copyright 2008 Jason Moxham
+
+;  Windows Conversion CopyRight 2008 Brian Gladman
 
 ;  This file is part of the MPIR Library.
 ;  The MPIR Library is free software; you can redistribute it and/or modify

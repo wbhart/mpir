@@ -2,8 +2,9 @@
 ;  AMD64 mpn_rshift -- mpn right shift
 ;  Version 1.0.3.
 ;
-;  Copyright 2008 Jason Moxham 
-;  Windows conversion by Brian Gladman
+;  Copyright 2008 Jason Moxham
+
+;  Windows Conversion CopyRight 2008 Brian Gladman
 
 ;  This file is part of the MPIR Library.
 ;  The MPIR Library is free software; you can redistribute it and/or modify
@@ -70,10 +71,10 @@ __gmpn_rshift:
 	por     mm4, mm5
 	movq    [rcx+r9*8+8], mm4
 	psrlq   mm3, mm0
-	
+
 ; got room here for another jump out , if we can arrange our r9 to be
 ; slightly different , so we can use a jz or jp here
-	
+
 	movq    mm2, [rdx+r9*8+24]
 	movq    mm4, mm2
 	psllq   mm2, mm1
@@ -89,7 +90,7 @@ __gmpn_rshift:
 	add     r9, 4
 	jnc     .1
 
-; r9 is 0,1,2,3 here , so we have 3-r9 limbs to do 
+; r9 is 0,1,2,3 here , so we have 3-r9 limbs to do
 
 .2:	test    r9, 2
 	jnz     .3
@@ -122,5 +123,5 @@ __gmpn_rshift:
 .4: movq    [rcx+r9*8], mm3
 	emms
 	ret
-	
+
 	end

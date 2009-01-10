@@ -1,3 +1,8 @@
+;
+; YASM macros for handling Windows Prologues and Epilogues
+;
+; Copyright 2008, 2009 Brian Gladman
+
 
 ; Windows x64 prologue macro
 ;
@@ -15,6 +20,42 @@
 ;                        in same order used in prologue
 
 %ifdef _WIN64_ABI
+
+%define r0  rax
+%define r1  rdx
+%define r2  rcx
+%define r3  rbx
+%define r4  rsi
+%define r5  rdi
+%define r6  rbp
+%define r7  rsp
+
+%define r0d eax
+%define r1d edx
+%define r2d ecx
+%define r3d ebx
+%define r4d esi
+%define r5d edi
+%define r6d ebp
+%define r7d esp
+
+%define r0w ax
+%define r1w dx
+%define r2w cx
+%define r3w bx
+%define r4w si
+%define r5w di
+%define r6w bp
+%define r7w sp
+
+%define r0b al
+%define r1b dl
+%define r2b cl
+%define r3b bl
+%define r4b sil
+%define r5b dil
+%define r6b bpl
+%define r7b spl
 
 %macro prologue 2-*
 
@@ -90,21 +131,38 @@
 
 %endif
 
-;  Microsoft -> GCC Calling Convention
+; Macros for using assembler code using the GCC Calling
+; Conventions in Windows.
+
+; Note that these macros loads integer parameters that 
+; are 32-bits as 64-bit integers with no zero or sign
+; extension. For such parameters either 'mov rxd, rxd'
+; (for unsigned) or 'movsxd rx, rxd' (for signed)  will
+; be needed after their use if such parameters are to
+; be used as 64-bit integers.  These macros move the 
+; first six integer input parameters in Microsoft ABI
+; calling calling conventions to those used by GCC: 
 ;
-; function( MSVC  GCC
-;   p1       rcx  rdi
-;   p2       rdx  rsi
-;   p3        r8  rdx
-;   p4        r9  rcx
-;   p5  [rsp+40]   r8
-;   p6  [rsp+48]   r9
-;   ...
+;   function(     MSVC --> GCC
+;       p1,       rcx      rdi
+;       p2,       rdx      rsi
+;       p3,        r8      rdx
+;       p4,        r9      rcx
+;       p5,  [rsp+40]       r8
+;       p6,  [rsp+48]       r9
 ;
-;   win64_gcc_start name, frame | leaf, no_of_parms
+; As alreaddy discussed, care must be taken with 32-bit 
+; values in 64-bit registers or on the stack because 
+; the upper 32-bits of such parameters are undefined.
+;
+;   win64_gcc_start name, (frame | leaf), parms
 ;
 ;   win64_gcc_end frame | leaf
-
+; 
+;     name    subroutine name
+;     type    subroutine type (frame or leaf)
+;     parms   number of parameters
+;
 %define leaf_proc    0
 %define frame_proc   1
 
@@ -125,10 +183,7 @@
         %ifndef stack_slots
             %define stack_slots 0
         %endif
-        %if %3 != 6
-        %error NO
-        %endif
-        ; 64-bit parameters may need truncation
+
         prologue %1, stack_slots, reg_save_list
         %if %3 > 0
             mov     rdi, rcx

@@ -1,9 +1,10 @@
 
-;  AMD64 mpn_sublsh1_n 
+;  AMD64 mpn_sublsh1_n
 ;  Verdxon 1.0.3
 ;
-;  Copyright 2008 Jason Moxham 
-;  Windows converdxon by Brian Gladman
+;  Copyright 2008 Jason Moxham
+
+;  Windows Conversion CopyRight 2008 Brian Gladman
 
 ;  This file is part of the MPIR Library.
 ;  The MPIR Library is free software; you can redistribute it and/or modify
@@ -47,7 +48,7 @@
 
     prologue __gmpn_sublsh1_n, 0, reg_save_list
     mov     r9d, r9d
-    
+
 	lea     rdx, [rdx+r9*8]
 	lea     r8, [r8+r9*8]
 	lea     rcx, [rcx+r9*8]
@@ -71,7 +72,7 @@
 
 .2: cmp     r9, 0
 	jz      .4
-	
+
 	align   16
 .3: mov     r11, [rdx+r9*8]
 	mov     r12, [rdx+r9*8+8]
@@ -99,9 +100,9 @@
 	mov     [rcx+r9*8+24], r14
 	add     r9, 4
 	jnz     .3
-	
+
 .4:	add     rax, r10
 	neg     rax
     epilogue reg_save_list
-	
+
 	end

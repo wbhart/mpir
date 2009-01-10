@@ -2,14 +2,15 @@
 ;  AMD64 mpn_sqr_basecase -- square an mpn number.
 ;  Version 1.0.3.
 ;
-;  Copyright 2008 Jason Moxham 
-;  Windows converdxon by Brian Gladman
+;  Copyright 2009 Jason Moxham
+
+;  Windows Conversion CopyRight 2008 Brian Gladman
 
 ;  This file is part of the MPIR Library.
 ;  The MPIR Library is free software; you can redistribute it and/or modify
 ;  it under the terms of the GNU Lesser General Public License as published
-;  by the Free Software Foundation; either verdxon 2.1 of the License, or (at
-;  your option) any later verdxon.
+;  by the Free Software Foundation; either version 2.1 of the License, or (at
+;  your option) any later version.
 ;  The MPIR Library is distributed in the hope that it will be useful, but
 ;  WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
 ;  or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public
@@ -47,8 +48,9 @@
 	sub     r10, rdx
 	mov     r11d, 0
 	jnc     %%2
-	
+
 	align   16
+
 %%1:	mov     rax, [rsi+r10*8+16]
 	mov     r9d, 0
 	mul     r13
@@ -92,7 +94,7 @@
 	add     r10, 2
 	mov     [rdi+r10*8+8], r9
 
-%%3:    test    r10, 1
+%%3:	test    r10, 1
 	jnz     %%4
 	mov     rax, [rsi+r10*8+16]
 	mov     r9d, 0
@@ -102,7 +104,6 @@
 	mov     [rdi+r10*8+24], r9
 
 %%4:	mov     [rdi+r10*8+16], r11
-
 %endmacro
 
 ; changes from standard mpn_addmul_1 internal loop
@@ -138,7 +139,7 @@
 	add     r11, 4
 	mov     rax, [rsi+r11*8+8]
 	jnc     %%1
-	
+
 %endmacro
 
 %macro addmulnext0 0
@@ -256,8 +257,8 @@
 	cmp     r14, 0
 	jge     %%2
 	addmulloop %1
-	
-%%2:addmulnext%1
+
+%%2:	addmulnext%1
 	inc     r14
 	lea     rdi, [rdi+8]
 	cmp     r14, 4
@@ -323,7 +324,7 @@ __gmpn_sqr_basecase:
 .4:	mov     [rsp+stack_use+24], rdi     ; use shadow area
 	mov     [rsp+stack_use+16], rsi
 	mov     [rsp+stack_use+ 8], rdx
-	
+
 	mov     r13, [rsi]
 	mov     r14, 7
 	sub     r14, rdx
@@ -337,7 +338,7 @@ __gmpn_sqr_basecase:
 	jp      .53
 	cmp     rax, 1
 	je      .51
-	
+
 	align   16
 .5:
 .52:mpn_addmul_1_int 2
@@ -345,7 +346,7 @@ __gmpn_sqr_basecase:
 .50:mpn_addmul_1_int 0
 .51:mpn_addmul_1_int 1
 	jmp     .5
-	
+
 ; only need to add one more line here
 
 .6:	mov     rax, [rsi+r14*8]
@@ -354,13 +355,13 @@ __gmpn_sqr_basecase:
 	add     [rdi+r14*8], rax
 	adc     rdx, 0
 	mov     [rdi+r14*8+8], rdx
-	
+
 ; now lsh by 1 and add in the diagonal
-	
+
 	mov     rcx, [rsp + stack_use +  8]     ; use shadow area
 	mov     rsi, [rsp + stack_use + 16]
 	mov     rdi, [rsp + stack_use + 24]
-	
+
 .7: xor     rbx, rbx
 	xor     r14, r14
 	lea     rsi, [rsi+rcx*8]
@@ -387,6 +388,6 @@ __gmpn_sqr_basecase:
 	lea     rdi, [rdi+16]
 	jnz     .8
 	epilogue reg_save_list
-	
+
 	end
-	
+

@@ -2,8 +2,9 @@
 ;  AMD64 mpn_rshift1 -- mpn right shift by 1
 ;  Version 1.0.4.
 ;
-;  Copyright 2008 Jason Moxham 
-;  Windows conversion by Brian Gladman
+;  Copyright 2008 Jason Moxham
+
+;  Windows Conversion CopyRight 2008 Brian Gladman
 
 ;  This file is part of the MPIR Library.
 ;  The MPIR Library is free software; you can redistribute it and/or modify
@@ -44,7 +45,7 @@
 
     prologue __gmpn_rshift1, 0, reg_save_list
     mov     r8d, r8d
-    
+
 	xor     rax, rax
 	lea     rdx, [rdx+r8*8-8]
 	lea     rcx, [rcx+r8*8-8]
@@ -55,7 +56,7 @@
 ; and clear carry flag
 	cmp     r8, 0
 	jz      .2
-	
+
 	align   16
 .1: mov     r10, [rdx]
 	mov     r11, [rdx-8]
@@ -85,7 +86,7 @@
 	dec     r8
 	lea     rcx, [rcx-64]
 	jnz     .1
-	
+
 .2: dec     r9
 	jz      .3
 ; Could suffer cache-bank conflicts in this tail part
@@ -125,5 +126,5 @@
 
 .3: rcr     rax, 1
     epilogue reg_save_list
-	
+
 	end

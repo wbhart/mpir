@@ -1,9 +1,10 @@
 
-;  AMD64 mpn_addlsh1_n 
+;  AMD64 mpn_addlsh1_n
 ;  Version 1.0.3
 ;
-;  Copyright 2008 Jason Moxham 
-;  Windows conversion by Brian Gladman
+;  Copyright 2008 Jason Moxham
+
+;  Windows Conversion CopyRight 2008 Brian Gladman
 
 ;  This file is part of the MPIR Library.
 ;  The MPIR Library is free software; you can redistribute it and/or modify
@@ -71,7 +72,7 @@
 .2: cmp     r9, 0
 	jz      .4
 ; push/pop can be moved to pro/epilog
-	
+
 	align   16
 .3: mov     r11, [r8+r9*8]
 	mov     r12, [r8+r9*8+8]
@@ -99,5 +100,5 @@
 .4: add     rax, r10
 	neg     rax
     epilogue reg_save_list
-        
+
     end

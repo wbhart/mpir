@@ -3,8 +3,9 @@
 ; AMD64 mpn_submul_1/mpn_submul_1c -- multiply and subtract (with carry)
 ; Version 1.0.3.
 ;
-;  Copyright 2008 Jason Moxham 
-;  Windows conversion by Brian Gladman
+;  Copyright 2008 Jason Moxham
+
+;  Windows Conversion CopyRight 2008 Brian Gladman
 
 ;  This file is part of the MPIR Library.
 ;  The MPIR Library is free software; you can redistribute it and/or modify
@@ -37,7 +38,7 @@
 ;     mp_limb_t carry    [rsp+0x28]
 ;  )
 ;
-; Calculate src[size] multiplied by mult[1] and add to /subtract from 
+; Calculate src[size] multiplied by mult[1] and add to /subtract from
 ; dst[size] and return the carry or borrow from the top of the result
 ;
 ; These are SEH frame functions with two leaf prologues
@@ -64,19 +65,19 @@
     movsxd  r8, r8d
     mov     rax, [rdx]
     cmp     r8, 1
-    jnz     %%1		
+    jnz     %%1
 	mul     r9
 	%2      [rcx], rax
 	adc     rdx, 0
 	mov     rax, rdx
 	ret
-    
+
 %1%4:
     mov     r11, [rsp+0x28] ; carry value
     movsxd  r8, r8d
     mov     rax, [rdx]
     cmp     r8, 1
-    jnz     %%1		
+    jnz     %%1
 	mul     r9
 	add     rax, r11
 	adc     rdx, 0
@@ -147,7 +148,7 @@
 	adc     r14, 0
 	mov     rax, r14
 	jmp     %%8
-	
+
     align   16
 %%5:mov     r12d, 0
 	mul     r9
@@ -158,7 +159,7 @@
 	adc     r12, 0
 	mov     rax, r12
 	jmp     %%8
-	
+
 	align   16
 %%6:mov     r12d, 0
 	mul     r9
@@ -182,7 +183,7 @@
 	mov     rax, r11
 	jmp     %%8
 
-    align   16	
+    align   16
 %%7:mov     r12d, 0
 	mul     r9
 	%2      [rcx+r8*8], r11

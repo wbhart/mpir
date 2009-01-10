@@ -2,8 +2,9 @@
 ; AMD64 mpn_mul_basecase -- multiply two mpn numbers.
 ; Version 1.0.3.
 ;
-;  Copyright 2008 Jason Moxham 
-;  Windows conversion by Brian Gladman
+;  Copyright 2008 Jason Moxham
+
+;  Windows Conversion CopyRight 2008 Brian Gladman
 
 ;  This file is part of the MPIR Library.
 ;  The MPIR Library is free software; you can redistribute it and/or modify
@@ -46,7 +47,7 @@
     sub     rsi, rdx
     mov     r13d, 0
     jnc     %%2
-    
+
     align   16
 %%1:mov     rax, [r10+rsi*8+16]
 	mov     r12d, 0
@@ -133,7 +134,7 @@
 	add     rsi, 4
 	mov     rax, [r10+rsi*8+8]
 	jnc     %%1
-	
+
 %endmacro
 
 %macro  add_mul_next_0 0
@@ -164,7 +165,7 @@
 	add     [rcx+rsi*8+32], r15
 	adc     r12, 0
 	mov     [rcx+rsi*8+40], r12
-	
+
 %endmacro
 
 %macro  add_mul_next_1 0
@@ -228,7 +229,7 @@
 
 %%1:mov     rax, [r10+rdi*8]
     mov     r11, [r9]
-    mov     rsi, rdi	
+    mov     rsi, rdi
     mul     r11
     mov     r15, rax
     mov     rax, [r10+rdi*8+8]
@@ -293,8 +294,8 @@ __gmpn_mul_basecase:
 	add     [rcx+16], r8
 	adc     rdx, 0
 	mov     [rcx+24], rdx
-	ret	
-	
+	ret
+
 .3: mov     r8d, dword [rsp+0x28]
     prologue mul_m_by_n, 0, reg_save_list
     mov     r11, [r9]
@@ -313,7 +314,7 @@ __gmpn_mul_basecase:
     jp      .8
     cmp     rax, 1
     je      .7
-    
+
     align   16
 .5: mpn_addmul_1_int 2
     jmp     .9

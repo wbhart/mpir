@@ -2,8 +2,9 @@
 ;  AMD64 mpn_lshift1 -- mpn right shift by 1
 ;  Version 1.0.4.
 ;
-;  Copyright 2008 Jason Moxham 
-;  Windows conversion by Brian Gladman
+;  Copyright 2008 Jason Moxham
+
+;  Windows Conversion CopyRight 2008 Brian Gladman
 
 ;  This file is part of the MPIR Library.
 ;  The MPIR Library is free software; you can redistribute it and/or modify
@@ -121,5 +122,5 @@
 .3:
 	adc     rax, rax
     epilogue reg_save_list
-    
+
     end

@@ -2,8 +2,9 @@
 ; AMD64 mpn_mul_1 -- mpn by limb multiply (with carry)
 ; Version 1.0.3.
 ;
-;  Copyright 2008 Jason Moxham 
-;  Windows conversion by Brian Gladman
+;  Copyright 2008 Jason Moxham
+
+;  Windows Conversion CopyRight 2008 Brian Gladman
 
 ;  This file is part of the MPIR Library.
 ;  The MPIR Library is free software; you can redistribute it and/or modify
@@ -67,7 +68,7 @@ start:
     lea     rcx, [rcx+rax*8-24]
     jc      .1
     jmp     .2
-    
+
     align   16
 .1:	mov     rax, [r10+r8*8]
 	mov     r12d, 0
@@ -122,6 +123,6 @@ start:
 	mov     [rcx+r8*8], r11
 	adc     r12, rdx
 	mov     rax, r12
-.4: epilogue r12 
+.4: epilogue r12
 
     end

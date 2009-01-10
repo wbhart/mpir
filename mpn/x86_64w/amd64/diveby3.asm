@@ -78,7 +78,7 @@ __g%1:
 	mov     r11, MLT%2
 	sub     r8, rax
 	jnc     %%2
-	
+
 	align   16
 %%1:mul_sub%2 0
     mul_sub%2 1
@@ -90,11 +90,11 @@ __g%1:
 ; so have 3-r8 limbs left to do
 
 %%2:test    r8, 2
-	jnz     %%3 
+	jnz     %%3
     mul_sub%2 0
     mul_sub%2 1
 	add     r8, 2
-	
+
 %%3:test    r8, 1
 	jnz     %%4
 	mul_sub%2 0
@@ -107,7 +107,7 @@ __g%1:
     bits    64
     section .text
 
-    div_by_3  mpn_divexact_by3,  1 
+    div_by_3  mpn_divexact_by3,  1
     div_by_3  mpn_divexact_by3c, 2, 1
 
     end
