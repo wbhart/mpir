@@ -2,6 +2,8 @@
 
 Copyright 2001, 2002, 2003, 2006 Free Software Foundation, Inc.
 
+Copyright 2009 William Hart
+
 This file is part of the GNU MP Library.
 
 The GNU MP Library is free software; you can redistribute it and/or modify
