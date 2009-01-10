@@ -44,7 +44,7 @@ operator<< (ostream &o, mpf_srcptr f)
 
   __gmp_doprnt_params_from_ios (&param, o);
 
-#if HAVE_STD__LOCALE
+#if HAVE_STD__LOCALE && defined (__GNUC__)
   char  point[2];
   point[0] = use_facet< numpunct<char> >(o.getloc()).decimal_point();
   point[1] = '\0';

@@ -50,7 +50,7 @@ operator>> (istream &i, mpf_ptr f)
   const char *lconv_point = localeconv()->decimal_point;
 
   // C++ decimal point
-#if HAVE_STD__LOCALE
+#if HAVE_STD__LOCALE && defined (__GNUC__)
   const locale& loc = i.getloc();
   char point_char = use_facet< numpunct<char> >(loc).decimal_point();
 #else
@@ -63,7 +63,7 @@ operator>> (istream &i, mpf_ptr f)
   if (i.flags() & ios::skipws) // skip initial whitespace
     {
       // C++ isspace
-#if HAVE_STD__LOCALE
+#if HAVE_STD__LOCALE && defined(__GNUC__)
       const ctype<char>& ct = use_facet< ctype<char> >(loc);
 #define cxx_isspace(c)  (ct.is(ctype_base::space,(c)))
 #else

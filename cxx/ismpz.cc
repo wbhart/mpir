@@ -39,7 +39,7 @@ operator>> (istream &i, mpz_ptr z)
 
   if (i.flags() & ios::skipws) // skip initial whitespace
     {
-#if HAVE_STD__LOCALE
+#if HAVE_STD__LOCALE && defined (__GNUC__)
       const ctype<char>& ct = use_facet< ctype<char> >(i.getloc());
 #define cxx_isspace(c)  (ct.is(ctype_base::space,(c)))
 #else
