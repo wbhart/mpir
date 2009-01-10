@@ -5416,6 +5416,8 @@ Return non-zero iff @{@var{s1p}, @var{n}@} is a perfect square.
 @strong{Everything in this section is highly experimental and may disappear or
 be subject to incompatible changes in a future version of MPIR.}
 
+N.B: Nails are currently disabled and not supported in MPIR. They may or may not return in a future version of MPIR.
+
 Nails are an experimental feature whereby a few bits are left unused at the
 top of each @code{mp_limb_t}.  This can significantly improve carry handling
 on some processors.

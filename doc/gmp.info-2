@@ -2560,12 +2560,12 @@ Function and Type Index
                                                               (line  29)
 * gmp_fscanf:                            Formatted Input Functions.
                                                               (line  25)
-* GMP_LIMB_BITS:                         Low-level Functions. (line 450)
-* GMP_NAIL_BITS:                         Low-level Functions. (line 448)
-* GMP_NAIL_MASK:                         Low-level Functions. (line 458)
-* GMP_NUMB_BITS:                         Low-level Functions. (line 449)
-* GMP_NUMB_MASK:                         Low-level Functions. (line 459)
-* GMP_NUMB_MAX:                          Low-level Functions. (line 467)
+* GMP_LIMB_BITS:                         Low-level Functions. (line 453)
+* GMP_NAIL_BITS:                         Low-level Functions. (line 451)
+* GMP_NAIL_MASK:                         Low-level Functions. (line 461)
+* GMP_NUMB_BITS:                         Low-level Functions. (line 452)
+* GMP_NUMB_MASK:                         Low-level Functions. (line 462)
+* GMP_NUMB_MAX:                          Low-level Functions. (line 470)
 * gmp_obstack_printf:                    Formatted Output Functions.
                                                               (line  79)
 * gmp_obstack_vprintf:                   Formatted Output Functions.
