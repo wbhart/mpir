@@ -1306,7 +1306,7 @@ struct __gmp_alloc_cstring : __gmp_alloc_cstring_c
   ~__gmp_alloc_cstring()
   {
     mp_get_memory_functions (NULL, NULL, &free_func);
-    (*freefunc) (str, std::strlen(str)+1);
+    (*free_func) (str, std::strlen(str)+1);
   }
 };
 
