@@ -10,6 +10,3 @@ need to bugger about with configure.in etc
 
 should the test program t-lorrshift1.c exist ? or should we put it in
 devel/try ? 
-
-are build.vc9/ yasm/   automatically built or do i have to edit it ?
-
