@@ -14,3 +14,6 @@ devel/try ?
 where should we put the test functions for the new functions addadd etc 
 
 should addsub return int or limb ?
+
+
+Test everything for alignment and speed on K10
