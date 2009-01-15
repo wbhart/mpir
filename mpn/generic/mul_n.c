@@ -9,6 +9,8 @@
 Copyright 1991, 1993, 1994, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003,
 2005, Free Software Foundation, Inc.
 
+Copyright 2009 Jason Moxham
+
 This file is part of the GNU MP Library.
 
 The GNU MP Library is free software; you can redistribute it and/or modify
@@ -40,7 +42,7 @@ MA 02110-1301, USA. */
 void
 mpn_kara_mul_n (mp_ptr p, mp_srcptr a, mp_srcptr b, mp_size_t n, mp_ptr ws)
 {
-  mp_limb_t w, w0, w1;
+  mp_limb_t w, w0, w1,c;
   mp_size_t n2;
   mp_srcptr x, y;
   mp_size_t i;
@@ -135,19 +137,43 @@ mpn_kara_mul_n (mp_ptr p, mp_srcptr a, mp_srcptr b, mp_size_t n, mp_ptr ws)
 	  mpn_kara_mul_n (p + n1, a + n3, b + n3, n2, ws + n1);
 	}
 
-      if (sign)
-	mpn_add_n (ws, p, ws, n1);
-      else
-	mpn_sub_n (ws, p, ws, n1);
-
       nm1 = n - 1;
-      if (mpn_add_n (ws, p + n1, ws, nm1))
+      if (sign)
 	{
-	  mp_limb_t x = (ws[nm1] + 1) & GMP_NUMB_MASK;
-	  ws[nm1] = x;
-	  if (x == 0)
-	    ws[n] = (ws[n] + 1) & GMP_NUMB_MASK;
+	 #if HAVE_NATIVE_mpn_addadd_n
+	   c=mpn_addadd_n(ws,p+n1,p,ws,nm1);
+  	   #if GMP_NAIL_BITS==0
+  	     add_ssaaaa(ws[n],ws[nm1],ws[n],ws[nm1],p[n],p[nm1]);
+  	     add_ssaaaa(ws[n],ws[nm1],ws[n],ws[nm1],0,c);
+  	   #else
+  	     mpn_add_n(ws+nm1, p+nm1, ws+nm1 ,2);
+  	     mpn_add_1(ws+nm1,ws+nm1,2,c);
+  	   #endif
+	 #else
+	   mpn_add_n (ws, p, ws, n1);
+	   c=mpn_add_n (ws, p + n1, ws, nm1);
+	   if(c){mp_limb_t x=(ws[nm1]+1) & GMP_NUMB_MASK;ws[nm1]=x;if(x==0)ws[n]=(ws[n]+1) & GMP_NUMB_MASK;}
+	 #endif
 	}
+      else
+	{
+	 #if HAVE_NATIVE_mpn_addsub_n
+           ci=mpn_addsub_n(ws,p+n1,p,ws,nm1);
+           #if GMP_NAIL_BITS==0
+             sub_ddmmss(ws[n],ws[nm1],p[n],p[nm1],ws[n],ws[nm1]);//mpn_sub_n(ws+nm1,p+nm1,ws+nm1,2);
+             if(ci==-1)sub_ddmmss(ws[n],ws[nm1],ws[n],ws[nm1],0,1);//mpn_sub_1(ws+nm1,ws+nm1,2,1);
+             if(ci== 1)add_ssaaaa(ws[n],ws[nm1],ws[n],ws[nm1],0,1);//mpn_add_1(ws+nm1,ws+nm1,2,1);
+           #else
+             mpn_sub_n(ws+nm1,p+nm1,ws+nm1,2);
+             if(ci==-1)mpn_sub_1(ws+nm1,ws+nm1,2,1);
+             if(ci== 1)mpn_add_1(ws+nm1,ws+nm1,2,1);
+           #endif
+         #else
+	   mpn_sub_n (ws, p, ws, n1);
+	   c=mpn_add_n (ws, p + n1, ws, nm1);
+	   if(c){mp_limb_t x=(ws[nm1]+1) & GMP_NUMB_MASK;ws[nm1]=x;if(x==0)ws[n]=(ws[n]+1) & GMP_NUMB_MASK;}
+         #endif
+        }      
       if (mpn_add_n (p + n3, p + n3, ws, n1))
 	{
 	  mpn_incr_u (p + n1 + n3, 1);
@@ -214,11 +240,26 @@ mpn_kara_mul_n (mp_ptr p, mp_srcptr a, mp_srcptr b, mp_size_t n, mp_ptr ws)
 	}
 
       /* Interpolate. */
+          
       if (sign)
-	w = mpn_add_n (ws, p, ws, n);
+	{
+	 #if HAVE_NATIVE_mpn_addadd_n
+	 w=mpn_addadd_n(ws,p+n,p,ws,n);
+	 #else 
+	 w = mpn_add_n (ws, p, ws, n);
+         w += mpn_add_n (ws, p + n, ws, n);
+         #endif
+        }
       else
-	w = -mpn_sub_n (ws, p, ws, n);
-      w += mpn_add_n (ws, p + n, ws, n);
+	{
+	 #if HAVE_NATIVE_mpn_addsub_n
+	 w=mpn_addsub_n(ws,p+n,p,ws,n);
+	 #else
+	 w = -mpn_sub_n (ws, p, ws, n);
+         w += mpn_add_n (ws, p + n, ws, n);
+         #endif         
+        }
+     
       w += mpn_add_n (p + n2, p + n2, ws, n);
       MPN_INCR_U (p + n2 + n, 2 * n - (n2 + n), w);
     }
@@ -227,7 +268,7 @@ mpn_kara_mul_n (mp_ptr p, mp_srcptr a, mp_srcptr b, mp_size_t n, mp_ptr ws)
 void
 mpn_kara_sqr_n (mp_ptr p, mp_srcptr a, mp_size_t n, mp_ptr ws)
 {
-  mp_limb_t w, w0, w1;
+  mp_limb_t w, w0, w1, c;
   mp_size_t n2;
   mp_srcptr x, y;
   mp_size_t i;
@@ -301,16 +342,24 @@ mpn_kara_sqr_n (mp_ptr p, mp_srcptr a, mp_size_t n, mp_ptr ws)
 	 carry from ws[n].  Further, since 2xy fits in n1 limbs there won't
 	 be any carry out of ws[n] other than cancelling that borrow. */
 
-      mpn_sub_n (ws, p, ws, n1);	     /* x^2-(x-y)^2 */
+      nm1=n-1;
+      #if HAVE_NATIVE_mpn_addsub_n
+        ci=mpn_addsub_n(ws,p+n1,p,ws,nm1);
+        #if GMP_NAIL_BITS==0
+          sub_ddmmss(ws[n],ws[nm1],p[n],p[nm1],ws[n],ws[nm1]);//mpn_sub_n(ws+nm1,p+nm1,ws+nm1,2);
+          if(ci==-1)sub_ddmmss(ws[n],ws[nm1],ws[n],ws[nm1],0,1);//mpn_sub_1(ws+nm1,ws+nm1,2,1);
+          if(ci==1)add_ssaaaa(ws[n],ws[nm1],ws[n],ws[nm1],0,1);//mpn_add_1(ws+nm1,ws+nm1,2,1);
+        #else
+          mpn_sub_n(ws+nm1,p+nm1,ws+nm1,2);
+          if(ci==-1)mpn_sub_1(ws+nm1,ws+nm1,2,1);
+          if(ci==1)mpn_add_1(ws+nm1,ws+nm1,2,1);        
+        #endif
+      #else
+        mpn_sub_n (ws, p, ws, n1);/*   x^2-(x-y)^2   */
+        c=mpn_add_n (ws, p + n1, ws, nm1);/*  x^2+y^2-(x-y)^2 = 2xy    */
+        if(c){mp_limb_t x = (ws[nm1] + 1) & GMP_NUMB_MASK;ws[nm1] = x; if (x == 0) ws[n] = (ws[n] + 1) & GMP_NUMB_MASK;}
+      #endif
 
-      nm1 = n - 1;
-      if (mpn_add_n (ws, p + n1, ws, nm1))   /* x^2+y^2-(x-y)^2 = 2xy */
-	{
-	  mp_limb_t x = (ws[nm1] + 1) & GMP_NUMB_MASK;
-	  ws[nm1] = x;
-	  if (x == 0)
-	    ws[n] = (ws[n] + 1) & GMP_NUMB_MASK;
-	}
       if (mpn_add_n (p + n3, p + n3, ws, n1))
 	{
 	  mpn_incr_u (p + n1 + n3, 1);
@@ -360,8 +409,12 @@ mpn_kara_sqr_n (mp_ptr p, mp_srcptr a, mp_size_t n, mp_ptr ws)
 	}
 
       /* Interpolate. */
+      #if HAVE_NATIVE_mpn_addsub_n
+      w=mpn_addsub_n(ws,p+n,p,ws,n);      
+      #else      
       w = -mpn_sub_n (ws, p, ws, n);
       w += mpn_add_n (ws, p + n, ws, n);
+      #endif
       w += mpn_add_n (p + n2, p + n2, ws, n);
       MPN_INCR_U (p + n2 + n, 2 * n - (n2 + n), w);
     }
