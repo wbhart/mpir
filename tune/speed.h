@@ -119,7 +119,7 @@ struct speed_params {
   struct {
     mp_ptr    ptr;
     mp_size_t size;
-  } src[2], dst[3];
+  } src[3], dst[3];
 };
 
 typedef double (*speed_function_t) _PROTO ((struct speed_params *s));
@@ -147,6 +147,7 @@ double speed_modlimb_invert_arith _PROTO ((struct speed_params *s));
 double speed_mpf_init_clear _PROTO ((struct speed_params *s));
 
 double speed_mpn_add_n _PROTO ((struct speed_params *s));
+double speed_mpn_addadd_n _PROTO ((struct speed_params *s));
 double speed_mpn_addlsh1_n _PROTO ((struct speed_params *s));
 double speed_mpn_sumdiff_n _PROTO ((struct speed_params *s));
 double speed_mpn_and_n _PROTO ((struct speed_params *s));
@@ -159,6 +160,7 @@ double speed_mpn_addmul_5 _PROTO ((struct speed_params *s));
 double speed_mpn_addmul_6 _PROTO ((struct speed_params *s));
 double speed_mpn_addmul_7 _PROTO ((struct speed_params *s));
 double speed_mpn_addmul_8 _PROTO ((struct speed_params *s));
+double speed_mpn_addsub_n _PROTO ((struct speed_params *s));
 double speed_mpn_com_n _PROTO ((struct speed_params *s));
 double speed_mpn_copyd _PROTO ((struct speed_params *s));
 double speed_mpn_copyi _PROTO ((struct speed_params *s));

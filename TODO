@@ -10,3 +10,7 @@ need to bugger about with configure.in etc
 
 should the test program t-lorrshift1.c exist ? or should we put it in
 devel/try ? 
+
+where should we put the test functions for the new functions addadd etc 
+
+should addsub return int or limb ?

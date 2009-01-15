@@ -33,7 +33,7 @@ OFILES = @mpn_objects@
 # a particular target.
 #
 nodist_EXTRA_libmpn_la_SOURCES =					    \
-  add.c add_1.c add_n.c							    \
+  add.c add_1.c add_n.c addadd_n.c addsub_n.c				    \
   addmul_1.c addmul_2.c addmul_3.c addmul_4.c addmul_5.c addmul_6.c	    \
   addmul_7.c addmul_8.c							    \
   and_n.c andn_n.c bdivmod.c						    \

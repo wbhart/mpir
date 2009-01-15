@@ -271,7 +271,7 @@ OFILES = @mpn_objects@
 # a particular target.
 #
 nodist_EXTRA_libmpn_la_SOURCES = \
-  add.c add_1.c add_n.c							    \
+  add.c add_1.c add_n.c addadd_n.c addsub_n.c				    \
   addmul_1.c addmul_2.c addmul_3.c addmul_4.c addmul_5.c addmul_6.c	    \
   addmul_7.c addmul_8.c							    \
   and_n.c andn_n.c bdivmod.c						    \
@@ -397,6 +397,8 @@ add_1_.c: add_1.c $(ANSI2KNR)
 	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/add_1.c; then echo $(srcdir)/add_1.c; else echo add_1.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
 add_n_.c: add_n.c $(ANSI2KNR)
 	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/add_n.c; then echo $(srcdir)/add_n.c; else echo add_n.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
+addadd_n_.c: addadd_n.c $(ANSI2KNR)
+	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/addadd_n.c; then echo $(srcdir)/addadd_n.c; else echo addadd_n.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
 addmul_1_.c: addmul_1.c $(ANSI2KNR)
 	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/addmul_1.c; then echo $(srcdir)/addmul_1.c; else echo addmul_1.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
 addmul_2_.c: addmul_2.c $(ANSI2KNR)
@@ -413,6 +415,8 @@ addmul_7_.c: addmul_7.c $(ANSI2KNR)
 	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/addmul_7.c; then echo $(srcdir)/addmul_7.c; else echo addmul_7.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
 addmul_8_.c: addmul_8.c $(ANSI2KNR)
 	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/addmul_8.c; then echo $(srcdir)/addmul_8.c; else echo addmul_8.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
+addsub_n_.c: addsub_n.c $(ANSI2KNR)
+	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/addsub_n.c; then echo $(srcdir)/addsub_n.c; else echo addsub_n.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
 and_n_.c: and_n.c $(ANSI2KNR)
 	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/and_n.c; then echo $(srcdir)/and_n.c; else echo and_n.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
 andn_n_.c: andn_n.c $(ANSI2KNR)
@@ -574,11 +578,12 @@ xnor_n_.c: xnor_n.c $(ANSI2KNR)
 xor_n_.c: xor_n.c $(ANSI2KNR)
 	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/xor_n.c; then echo $(srcdir)/xor_n.c; else echo xor_n.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
 add_.$(OBJEXT) add_.lo add_1_.$(OBJEXT) add_1_.lo add_n_.$(OBJEXT) \
-add_n_.lo addmul_1_.$(OBJEXT) addmul_1_.lo addmul_2_.$(OBJEXT) \
-addmul_2_.lo addmul_3_.$(OBJEXT) addmul_3_.lo addmul_4_.$(OBJEXT) \
-addmul_4_.lo addmul_5_.$(OBJEXT) addmul_5_.lo addmul_6_.$(OBJEXT) \
-addmul_6_.lo addmul_7_.$(OBJEXT) addmul_7_.lo addmul_8_.$(OBJEXT) \
-addmul_8_.lo and_n_.$(OBJEXT) and_n_.lo andn_n_.$(OBJEXT) andn_n_.lo \
+add_n_.lo addadd_n_.$(OBJEXT) addadd_n_.lo addmul_1_.$(OBJEXT) \
+addmul_1_.lo addmul_2_.$(OBJEXT) addmul_2_.lo addmul_3_.$(OBJEXT) \
+addmul_3_.lo addmul_4_.$(OBJEXT) addmul_4_.lo addmul_5_.$(OBJEXT) \
+addmul_5_.lo addmul_6_.$(OBJEXT) addmul_6_.lo addmul_7_.$(OBJEXT) \
+addmul_7_.lo addmul_8_.$(OBJEXT) addmul_8_.lo addsub_n_.$(OBJEXT) \
+addsub_n_.lo and_n_.$(OBJEXT) and_n_.lo andn_n_.$(OBJEXT) andn_n_.lo \
 bdivmod_.$(OBJEXT) bdivmod_.lo bgcd_.$(OBJEXT) bgcd_.lo cmp_.$(OBJEXT) \
 cmp_.lo com_n_.$(OBJEXT) com_n_.lo copyd_.$(OBJEXT) copyd_.lo \
 copyi_.$(OBJEXT) copyi_.lo dc_divrem_n_.$(OBJEXT) dc_divrem_n_.lo \

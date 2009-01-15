@@ -211,6 +211,7 @@ MA 02110-1301, USA.
     implementation of the corresponding routine exists.  */
 #undef HAVE_NATIVE_mpn_add_n
 #undef HAVE_NATIVE_mpn_add_nc
+#undef HAVE_NATIVE_mpn_addadd_n
 #undef HAVE_NATIVE_mpn_addlsh1_n
 #undef HAVE_NATIVE_mpn_addmul_1c
 #undef HAVE_NATIVE_mpn_addmul_2
@@ -220,6 +221,7 @@ MA 02110-1301, USA.
 #undef HAVE_NATIVE_mpn_addmul_6
 #undef HAVE_NATIVE_mpn_addmul_7
 #undef HAVE_NATIVE_mpn_addmul_8
+#undef HAVE_NATIVE_mpn_addsub_n
 #undef HAVE_NATIVE_mpn_sumdiff_n
 #undef HAVE_NATIVE_mpn_and_n
 #undef HAVE_NATIVE_mpn_andn_n
