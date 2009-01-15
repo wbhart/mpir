@@ -716,6 +716,35 @@ int speed_routine_count_zeros_setup _PROTO ((struct speed_params *s,
     return t;								\
   }
 
+// for addadd or addsub 
+#define SPEED_ROUTINE_MPN_TRINARY_N(call)				\
+  {									\
+    mp_ptr     ap, sp;							\
+    mp_ptr     xp, yp;							\
+    unsigned   i;							\
+    double     t;							\
+    TMP_DECL;								\
+    SPEED_RESTRICT_COND (s->size >= 1);					\
+    TMP_MARK;								\
+    SPEED_TMP_ALLOC_LIMBS (ap, s->size, s->align_wp);			\
+    SPEED_TMP_ALLOC_LIMBS (sp, s->size, s->align_wp2);			\
+    xp = s->xp;								\
+    yp = s->yp;								\
+    speed_operand_src (s, xp, s->size);					\
+    speed_operand_src (s, yp, s->size);					\
+    speed_operand_src (s, sp, s->size);					\
+    speed_operand_dst (s, ap, s->size);					\
+    speed_cache_fill (s);						\
+    speed_starttime ();							\
+    i = s->reps;							\
+    do									\
+      call(ap,sp,xp,yp,s->size);					\
+    while (--i != 0);							\
+    t = speed_endtime ();						\
+    TMP_FREE;								\
+    return t;								\
+  }
+
 #define SPEED_ROUTINE_MPN_BINARY_N(function)				\
    SPEED_ROUTINE_MPN_BINARY_N_CALL ((*function) (wp, xp, yp, s->size))
 

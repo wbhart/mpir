@@ -46,7 +46,7 @@ mpn_kara_mul_n (mp_ptr p, mp_srcptr a, mp_srcptr b, mp_size_t n, mp_ptr ws)
   mp_size_t n2;
   mp_srcptr x, y;
   mp_size_t i;
-  int sign;
+  int sign, ci;
 
   n2 = n >> 1;
   ASSERT (n2 > 0);
@@ -269,6 +269,7 @@ void
 mpn_kara_sqr_n (mp_ptr p, mp_srcptr a, mp_size_t n, mp_ptr ws)
 {
   mp_limb_t w, w0, w1, c;
+  int ci;
   mp_size_t n2;
   mp_srcptr x, y;
   mp_size_t i;
