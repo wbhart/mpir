@@ -57,13 +57,6 @@ MA 02110-1301, USA. */
 #include "gmp.h"
 #include "gmp-impl.h"
 
-#if 0
-#ifdef WANT_SUMDIFF
-#include "generic/sumdiff_n.c"
-#define HAVE_NATIVE_mpn_sumdiff_n 1
-#endif
-#endif
-
 /* Change this to "#define TRACE(x) x" for some traces. */
 #define TRACE(x)
 
