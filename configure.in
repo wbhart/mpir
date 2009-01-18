@@ -1506,7 +1506,7 @@ case $host in
           gcc_64_cflags_cpu=""
           gcc_64_cflags_arch=""
           extra_functions="$extra_functions fat fat_entry"
-          path_64="x86_64 x86_64/fat"
+          path_64="x86_64/fat x86_64"
           fat_path="x86_64 x86_64/fat x86_64/core2 x86_64/amd64"
           fat_functions="add_n addmul_1 copyd copyi
 		         dive_1 diveby3 divrem_1 gcd_1 lshift
