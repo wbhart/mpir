@@ -61,9 +61,9 @@ m4_assert_numargs(2)
 ifdef(`PIC',
 `	call	L(movl_eip_edx)
 L(entry_here$2):
-	addl	$_GLOBAL_OFFSET_TABLE_+[.-L(entry_here$2)], %edx
-	movl	GSYM_PREFIX`'__gmpn_cpuvec@GOT(%edx), %edx
-	jmp	*m4_empty_if_zero($2)(%edx)
+	addq	$_GLOBAL_OFFSET_TABLE_+[.-L(entry_here$2)], %rdx
+	movq	GSYM_PREFIX`'__gmpn_cpuvec@GOT(%rdx), %rdx
+	jmp	*m4_empty_if_zero($2)(%rdx)
 ',`dnl non-PIC
 	jmp	*GSYM_PREFIX`'__gmpn_cpuvec+$2
 ')
@@ -83,7 +83,7 @@ CPUVEC_FUNCS_LIST)
 ifdef(`PIC',`
 	ALIGN(8)
 L(movl_eip_edx):
-	movl	(%esp), %edx
+	movq	(%rsp), %rdx
 	ret_internal
 ')
 
@@ -120,28 +120,28 @@ EPILOGUE()
 L(fat_init):
 	C al	__gmpn_cpuvec byte offset
 
-	movsbl	%al, %eax
-	pushl	%eax
+	movsbq	%al, %rax
+	pushq	%rax
 
 ifdef(`PIC',`
-	pushl	%ebx
+	pushq	%rbx
 	call	L(movl_eip_ebx)
 L(init_here):
-	addl	$_GLOBAL_OFFSET_TABLE_+[.-L(init_here)], %ebx
+	addq	$_GLOBAL_OFFSET_TABLE_+[.-L(init_here)], %rbx
 	call	GSYM_PREFIX`'__gmpn_cpuvec_init@PLT
-	movl	GSYM_PREFIX`'__gmpn_cpuvec@GOT(%ebx), %edx
-	popl	%ebx
-	popl	%eax
-	jmp	*(%edx,%eax)
+	movq	GSYM_PREFIX`'__gmpn_cpuvec@GOT(%rbx), %rdx
+	popq	%rbx
+	popq	%rax
+	jmp	*(%rdx,%rax)
 
 L(movl_eip_ebx):
-	movl	(%esp), %ebx
+	movq	(%rsp), %rbx
 	ret_internal
 
 ',`dnl non-PIC
 	call	GSYM_PREFIX`'__gmpn_cpuvec_init
-	popl	%eax
-	jmp	*GSYM_PREFIX`'__gmpn_cpuvec(%eax)
+	popq	%rax
+	jmp	*GSYM_PREFIX`'__gmpn_cpuvec(%rax)
 ')
 
 dnl  FAT_INIT for each CPUVEC_FUNCS_LIST
@@ -164,16 +164,15 @@ defframe(PARAM_DST, 4)
 deflit(`FRAME',0)
 
 PROLOGUE(__gmpn_cpuid)
-	pushl	%esi		FRAME_pushl()
-	pushl	%ebx		FRAME_pushl()
-	movl	PARAM_ID, %eax
+	pushq	%rsi		FRAME_pushq()
+	pushq	%rbx		FRAME_pushq()
+	movq	%rsi, %rax
 	cpuid
-	movl	PARAM_DST, %esi
-	movl	%ebx, (%esi)
-	movl	%edx, 4(%esi)
-	movl	%ecx, 8(%esi)
-	popl	%ebx
-	popl	%esi
+	movl	%ebx, (%rsi)
+	movl	%edx, 4(%rsi)
+	movl	%ecx, 8(%rsi)
+	popq	%rbx
+	popq	%rsi
 	ret
 EPILOGUE()
 
@@ -192,19 +191,19 @@ C This is called only once, so just something simple and compact is fine.
 
 PROLOGUE(__gmpn_cpuid_available)
 	pushf
-	popl	%ecx		C old flags
+	popq	%rcx		C old flags
 
-	movl	%ecx, %edx
-	xorl	$0x200000, %edx
-	pushl	%edx
+	movq	%rcx, %rdx
+	xorq	$0x200000, %rdx
+	pushq	%rdx
 	popf
 	pushf
-	popl	%edx		C tweaked flags
+	popq	%rdx		C tweaked flags
 
-	movl	$1, %eax
-	cmpl	%ecx, %edx
+	movq	$1, %rax
+	cmpq	%rcx, %rdx
 	jne	L(available)
-	xorl	%eax, %eax	C not changed, so cpuid not available
+	xorq	%rax, %rax	C not changed, so cpuid not available
 
 L(available):
 	ret

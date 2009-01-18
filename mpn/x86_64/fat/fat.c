@@ -179,7 +179,7 @@ __gmpn_cpuvec_init (void)
 
   memset (&decided_cpuvec, '\0', sizeof (decided_cpuvec));
 
-  CPUVEC_SETUP_x86;
+  CPUVEC_SETUP_x86_64;
   CPUVEC_SETUP_fat;
 
   if (! __gmpn_cpuid_available ())
@@ -197,8 +197,8 @@ __gmpn_cpuvec_init (void)
       vendor_string[12] = 0;
 
       fms = __gmpn_cpuid (dummy_string, 1);
-      family = (fms >> 8) & 15;
-      model = (fms >> 4) & 15;
+      family = ((fms >> 8) & 15) + ((fms >> 20) & 0xff);
+      model = ((fms >> 4) & 15) + ((fms >> 12) & 0xf0);
 
       if (strcmp (vendor_string, "GenuineIntel") == 0)
         {
@@ -210,36 +210,29 @@ __gmpn_cpuvec_init (void)
 
             case 5:
               TRACE (printf ("  pentium\n"));
-              CPUVEC_SETUP_pentium;
               if (model >= 4)
                 {
                   TRACE (printf ("  pentiummmx\n"));
-                  CPUVEC_SETUP_pentium_mmx;
                 }
               break;
 
             case 6:
               TRACE (printf ("  pentiumpro\n"));
-              CPUVEC_SETUP_p6;
               if (model >= 2)
                 {
                   TRACE (printf ("  pentium2\n"));
-                  CPUVEC_SETUP_p6_mmx;
                 }
               if (model >= 7)
                 {
                   TRACE (printf ("  pentium3\n"));
-                  CPUVEC_SETUP_p6_p3mmx;
                 }
               break;
 
             case 15:
-              TRACE (printf ("  pentium4\n"));
-              CPUVEC_SETUP_pentium4;
-              CPUVEC_SETUP_pentium4_mmx;
-              CPUVEC_SETUP_pentium4_sse2;
+              TRACE (printf ("  nocona\n"));
+              CPUVEC_SETUP_core2;
               break;
-            }
+}
         }
       else if (strcmp (vendor_string, "AuthenticAMD") == 0)
         {
@@ -253,12 +246,9 @@ __gmpn_cpuvec_init (void)
               else
                 {
                   TRACE (printf ("  k6\n"));
-                  CPUVEC_SETUP_k6;
-                  CPUVEC_SETUP_k6_mmx;
                   if (model >= 8)
                     {
                       TRACE (printf ("  k62\n"));
-                      CPUVEC_SETUP_k6_k62mmx;
                     }
                   if (model >= 9)
                     {
@@ -269,12 +259,17 @@ __gmpn_cpuvec_init (void)
             case 6:
               TRACE (printf ("  athlon\n"));
             athlon:
-              CPUVEC_SETUP_k7;
-              CPUVEC_SETUP_k7_mmx;
               break;
-            case 15:
+
+				case 15:
               TRACE (printf ("  x86_64\n"));
-              goto athlon;
+              CPUVEC_SETUP_amd64;
+              break;
+
+				case 16:
+              TRACE (printf ("  x86_64\n"));
+              CPUVEC_SETUP_amd64;
+              break;
             }
         }
       else if (strcmp (vendor_string, "CentaurHauls") == 0)

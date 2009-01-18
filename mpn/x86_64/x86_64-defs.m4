@@ -27,6 +27,16 @@ dnl  License along with the GNU MP Library; see the file COPYING.LIB.  If
 dnl  not, write to the Free Software Foundation, Inc., 59 Temple Place -
 dnl  Suite 330, Boston, MA 02111-1307, USA.
 
+dnl  Usage: ret_internal
+dnl
+dnl  A plain "ret", without any __cyg_profile_func_exit call.  This can be
+dnl  used for a return which is internal to some function, such as when
+dnl  getting %eip for PIC.
+
+define(ret_internal,
+m4_assert_numargs(-1)
+``ret'')
+
 dnl  Usage: CPUVEC_FUNCS_LIST
 dnl
 dnl  A list of the functions from gmp-impl.h x86 struct cpuvec_t, in the
