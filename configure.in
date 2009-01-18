@@ -1505,7 +1505,7 @@ case $host in
         if test $enable_fat = yes; then
           gcc_64_cflags_cpu=""
           gcc_64_cflags_arch=""
-          extra_functions="$extra_functions fat fat_entry"
+          extra_functions_64="$extra_functions_64 fat fat_entry"
           path_64="x86_64/fat x86_64"
           fat_path="x86_64 x86_64/fat x86_64/core2 x86_64/amd64"
           fat_functions="add_n addmul_1 copyd copyi

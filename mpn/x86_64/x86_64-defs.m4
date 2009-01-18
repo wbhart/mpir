@@ -27,6 +27,32 @@ dnl  License along with the GNU MP Library; see the file COPYING.LIB.  If
 dnl  not, write to the Free Software Foundation, Inc., 59 Temple Place -
 dnl  Suite 330, Boston, MA 02111-1307, USA.
 
+dnl  Usage: CPUVEC_FUNCS_LIST
+dnl
+dnl  A list of the functions from gmp-impl.h x86 struct cpuvec_t, in the
+dnl  order they appear in that structure.
+
+define(CPUVEC_FUNCS_LIST,
+``add_n',
+`addmul_1',
+`copyd',
+`copyi',
+`divexact_1',
+`divexact_by3c',
+`divrem_1',
+`gcd_1',
+`lshift',
+`mod_1',
+`mod_34lsub1',
+`modexact_1c_odd',
+`mul_1',
+`mul_basecase',
+`preinv_divrem_1',
+`preinv_mod_1',
+`rshift',
+`sqr_basecase',
+`sub_n',
+`submul_1'')
 
 dnl  Notes:
 dnl
