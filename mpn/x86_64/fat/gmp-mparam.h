@@ -20,8 +20,8 @@ along with the GNU MP Library; see the file COPYING.LIB.  If not, write to
 the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 MA 02110-1301, USA. */
 
-#define BITS_PER_MP_LIMB 32
-#define BYTES_PER_MP_LIMB 4
+#define BITS_PER_MP_LIMB 64 
+#define BYTES_PER_MP_LIMB 8
 
 
 /* mpn_divexact_1 is faster than mpn_divrem_1 at all sizes.  The only time
