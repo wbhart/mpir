@@ -3750,7 +3750,7 @@ int __gmp_doscan _PROTO ((const struct gmp_doscan_funs_t *, void *,
    difference to the gmp code, since hopefully we arrange calls so there's
    no great need for the compiler to move things around.  */
 
-#if WANT_FAT_BINARY && HAVE_HOST_CPU_FAMILY_x86
+#if WANT_FAT_BINARY
 /* NOTE: The function pointers in this struct are also in CPUVEC_FUNCS_LIST
    in mpn/x86/x86-defs.m4.  Be sure to update that when changing here.  */
 struct cpuvec_t {
