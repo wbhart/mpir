@@ -164,15 +164,13 @@ defframe(PARAM_DST, 4)
 deflit(`FRAME',0)
 
 PROLOGUE(__gmpn_cpuid)
-	pushq	%rsi		FRAME_pushq()
 	pushq	%rbx		FRAME_pushq()
 	movq	%rsi, %rax
 	cpuid
-	movl	%ebx, (%rsi)
-	movl	%edx, 4(%rsi)
-	movl	%ecx, 8(%rsi)
+	movl	%ebx, (%rdi)
+	movl	%edx, 4(%rdi)
+	movl	%ecx, 8(%rdi)
 	popq	%rbx
-	popq	%rsi
 	ret
 EPILOGUE()
 
