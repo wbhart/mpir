@@ -25,7 +25,7 @@ LDADD = $(top_builddir)/tests/libtests.la $(top_builddir)/libgmp.la
 
 check_PROGRAMS = t-asmtype t-aors_1 t-divrem_1 t-fat t-get_d \
   t-instrument t-iord_u t-mp_bases t-perfsqr t-scan t-lorrshift1	\
-  t-divebyff
+  t-divebyff t-addadd_n t-addsub_n
 
 TESTS = $(check_PROGRAMS)
 
