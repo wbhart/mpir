@@ -50,19 +50,19 @@ skiploop:
 add $4,%rcx
 jz end
 mov -8(%rdx,%rcx,8),%r8
-not %r8
+or %r8,%r8
 xor -8(%rsi,%rcx,8),%r8
 mov %r8,-8(%rdi,%rcx,8)
 dec %rcx
 jz end
 mov -8(%rdx,%rcx,8),%r8
-not %r8
+or %r8,%r8
 xor -8(%rsi,%rcx,8),%r8
 mov %r8,-8(%rdi,%rcx,8)
 dec %rcx
 jz end
 mov -8(%rdx,%rcx,8),%r8
-not %r8
+or %r8,%r8
 xor -8(%rsi,%rcx,8),%r8
 mov %r8,-8(%rdi,%rcx,8)
 end:
