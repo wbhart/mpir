@@ -685,6 +685,12 @@ speed_mpn_divexact_by3 (struct speed_params *s)
   SPEED_ROUTINE_MPN_COPY (mpn_divexact_by3);
 }
 
+double
+speed_mpn_divexact_byff (struct speed_params *s)
+{
+  SPEED_ROUTINE_MPN_COPY (mpn_divexact_byff);
+}
+
 #if HAVE_NATIVE_mpn_modexact_1_odd
 double
 speed_mpn_modexact_1_odd (struct speed_params *s)
