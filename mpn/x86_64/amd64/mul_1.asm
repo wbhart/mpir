@@ -1,6 +1,6 @@
 dnl  AMD64 mpn_mul_1
 
-dnl  Copyright 2008 Jason Moxham
+dnl  Copyright 2008,2009 Jason Moxham
 
 dnl  This file is part of the MPIR Library.
 
@@ -26,75 +26,134 @@ C	rax=carry
 
 ASM_START()
 PROLOGUE(mpn_mul_1)
-# Version 1.0.3
-mov $3,%r10d
-lea -24(%rsi,%rdx,8),%rsi
-sub %rdx,%r10
-lea -24(%rdi,%rdx,8),%rdi
-# r8 is our carry in 
-mov $0,%r8d
-jnc skiploop
+# Version 1.0.4
+# this is just an addmul , so we can get rid off stack use
+# and simplifiy wind down , and perhaps re-do the OOO order 
+mov (%rsi),%rax
+cmp $1,%rdx
+je one		
+mov $5,%r11
+lea -40(%rsi,%rdx,8),%rsi
+lea -40(%rdi,%rdx,8),%rdi
+sub %rdx,%r11
+mul %rcx
+.byte 0x26
+mov %rax,%r8
+.byte 0x26
+mov 8(%rsi,%r11,8),%rax
+.byte 0x26
+mov %rdx,%r9
+.byte 0x26
+cmp $0,%r11
+.byte 0x26
+mov %rbx,-8(%rsp)
+.byte 0x26
+jge skiploop
 ALIGN(16)
 loop:
-	mov (%rsi,%r10,8),%rax
-	mov $0,%r9d
+	mov $0,%r10
 	mul %rcx
-	add %rax,%r8
-	mov %r8,(%rdi,%r10,8)
-	mov 8(%rsi,%r10,8),%rax
-	adc %rdx,%r9
-	mul %rcx
-	mov $0,%r8d
+	mov %r8,(%rdi,%r11,8)
 	add %rax,%r9
-	mov 16(%rsi,%r10,8),%rax
-	adc %rdx,%r8
+	.byte 0x26
+	adc %rdx,%r10
+	mov 16(%rsi,%r11,8),%rax
 	mul %rcx
-	mov %r9,8(%rdi,%r10,8)
+	mov %r9,8(%rdi,%r11,8)
+	add %rax,%r10
+	mov $0,%ebx
+	adc %rdx,%rbx
+	mov 24(%rsi,%r11,8),%rax
+	mov $0,%r8
+	mov $0,%r9
+	mul %rcx
+	mov %r10,16(%rdi,%r11,8)
+	.byte 0x26
+	add %rax,%rbx
+	.byte 0x26
+	adc %rdx,%r8
+	mov 32(%rsi,%r11,8),%rax
+ 	mul %rcx
+	mov %rbx,24(%rdi,%r11,8)
+	.byte 0x26
 	add %rax,%r8
-	mov $0,%r9d
-	mov %r8,16(%rdi,%r10,8)
-	mov 24(%rsi,%r10,8),%rax
-	mov $0,%r8d
+	.byte 0x26
 	adc %rdx,%r9
-	mul %rcx
-	add %rax,%r9
-	mov %r9,24(%rdi,%r10,8)
-	adc %rdx,%r8
-	add $4,%r10
+	add $4,%r11
+	mov 8(%rsi,%r11,8),%rax
 	jnc loop
-#ALIGN(8)
+ALIGN(16)
 skiploop:
-# here r10=3,2,1,0  so have 3-r10 limbs left to do , with r8 as our carry in
-# could copy r10 to r11 at fn entry , and test that here instead of r10 , as
-# its fixed
-test $2,%r10
-jnz skip
-	mov (%rsi,%r10,8),%rax
-	mov $0,%r9d
+mov $0,%r10d
+mul %rcx
+mov %r8,(%rdi,%r11,8)
+add %rax,%r9
+adc %rdx,%r10
+cmp $2,%r11
+jz next2
+ja next3
+jp next1
+next0:
+	mov 16(%rsi,%r11,8),%rax
 	mul %rcx
-	add %rax,%r8
-	mov %r8,(%rdi,%r10,8)
-	mov 8(%rsi,%r10,8),%rax
-	adc %rdx,%r9
-	mul %rcx
+	mov %r9,8(%rdi,%r11,8)
+	add %rax,%r10
+	mov $0,%ebx
+	adc %rdx,%rbx
+	mov 24(%rsi,%r11,8),%rax
 	mov $0,%r8d
-	add %rax,%r9
-	adc %rdx,%r8
-	add $2,%r10
-	mov %r9,-8(%rdi,%r10,8)
-skip:
-test $1,%r10
-jnz end
-	mov (%rsi,%r10,8),%rax
-	mov $0,%r9d
 	mul %rcx
+	mov %r10,16(%rdi,%r11,8)
+	add %rax,%rbx
+	adc %rdx,%r8
+	mov 32(%rsi,%r11,8),%rax
+	mul %rcx
+	mov %rbx,24(%rdi,%r11,8)
+	mov -8(%rsp),%rbx
 	add %rax,%r8
-	mov %r8,(%rdi,%r10,8)
-	adc %rdx,%r9
-	mov %r9,%rax
+	adc $0,%rdx
+	mov %r8,32(%rdi,%r11,8)
+	mov %rdx,%rax
 	ret
-end:
-mov %r8,%rax
-ret
+ALIGN(16)
+next1:
+	mov 16(%rsi,%r11,8),%rax
+	mul %rcx
+	mov %r9,8(%rdi,%r11,8)
+	add %rax,%r10
+	mov $0,%r8d
+	adc %rdx,%r8
+	mov 24(%rsi,%r11,8),%rax
+	mul %rcx
+	mov %r10,16(%rdi,%r11,8)
+	add %rax,%r8
+	adc $0,%rdx
+	mov %r8,24(%rdi,%r11,8)
+	mov -8(%rsp),%rbx
+	mov %rdx,%rax
+	ret
+ALIGN(16)
+one:
+	mul %rcx
+	mov %rax,(%rdi)
+	mov %rdx,%rax
+	ret
+ALIGN(16)
+next2:
+	mov 16(%rsi,%r11,8),%rax
+	mul %rcx
+	mov %r9,8(%rdi,%r11,8)
+	add %rax,%r10
+	mov $0,%ebx
+	adc %rdx,%rbx
+	mov %r10,16(%rdi,%r11,8)
+	mov %rbx,%rax
+	mov -8(%rsp),%rbx
+	ret
+ALIGN(16)
+next3:
+	mov -8(%rsp),%rbx
+	mov %r9,8(%rdi,%r11,8)
+	mov %r10,%rax
+	ret
 EPILOGUE()
-# see if we can improve the alignment of all these jumps
