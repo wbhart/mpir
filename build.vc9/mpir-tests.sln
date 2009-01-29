@@ -274,6 +274,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "subc", "mpir-tests\subc.vcp
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "add-test-lib", "mpir-tests\add-test-lib.vcproj", "{A742D3D1-6956-4F85-BFD6-B0E7B477041D}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.perfpow", "..\..\..\trunk\build.vc9\mpir-tests\mpz.perfpow.vcproj", "{D31C70F1-91BE-4665-BBBA-4E0BEC1FA8A7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -1241,6 +1243,14 @@ Global
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D}.Release|Win32.ActiveCfg = Release|Win32
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D}.Release|Win32.Build.0 = Release|Win32
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D}.Release|x64.ActiveCfg = Release|x64
+		{D31C70F1-91BE-4665-BBBA-4E0BEC1FA8A7}.Debug|Win32.ActiveCfg = Debug|Win32
+		{D31C70F1-91BE-4665-BBBA-4E0BEC1FA8A7}.Debug|Win32.Build.0 = Debug|Win32
+		{D31C70F1-91BE-4665-BBBA-4E0BEC1FA8A7}.Debug|x64.ActiveCfg = Debug|x64
+		{D31C70F1-91BE-4665-BBBA-4E0BEC1FA8A7}.Debug|x64.Build.0 = Debug|x64
+		{D31C70F1-91BE-4665-BBBA-4E0BEC1FA8A7}.Release|Win32.ActiveCfg = Release|Win32
+		{D31C70F1-91BE-4665-BBBA-4E0BEC1FA8A7}.Release|Win32.Build.0 = Release|Win32
+		{D31C70F1-91BE-4665-BBBA-4E0BEC1FA8A7}.Release|x64.ActiveCfg = Release|x64
+		{D31C70F1-91BE-4665-BBBA-4E0BEC1FA8A7}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
