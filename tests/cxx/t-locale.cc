@@ -21,6 +21,7 @@ MA 02110-1301, USA. */
 
 #include <clocale>
 #include <iostream>
+#include <cstdlib>
 
 #include "gmp.h"
 #include "gmp-impl.h"
