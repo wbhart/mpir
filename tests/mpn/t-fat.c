@@ -124,7 +124,7 @@ check_functions (void)
     }
 #endif
 
-  /*memcpy (&__gmpn_cpuvec, &initial_cpuvec, sizeof (__gmpn_cpuvec));
+  memcpy (&__gmpn_cpuvec, &initial_cpuvec, sizeof (__gmpn_cpuvec));
   for (i = 0; i < 2; i++)
     {
       xp[0] = 1605;
@@ -209,7 +209,7 @@ check_functions (void)
       ASSERT_ALWAYS (wp[1] == 0);
     }
 
-/*#if HAVE_NATIVE_mpn_preinv_divrem_1 && GMP_NAIL_BITS == 0
+#if HAVE_NATIVE_mpn_preinv_divrem_1 && GMP_NAIL_BITS == 0
   memcpy (&__gmpn_cpuvec, &initial_cpuvec, sizeof (__gmpn_cpuvec));
   for (i = 0; i < 2; i++)
     {
@@ -232,7 +232,7 @@ check_functions (void)
                             refmpn_invert_limb (GMP_LIMB_HIGHBIT));
       ASSERT_ALWAYS (r == 123);
     }
-#endif*/
+#endif
 
   memcpy (&__gmpn_cpuvec, &initial_cpuvec, sizeof (__gmpn_cpuvec));
   for (i = 0; i < 2; i++)
