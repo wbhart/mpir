@@ -44,6 +44,7 @@ Changes between GMP 4.2.1 and MPIR 0.9.0
   Features:
   * x86_64 code to Yasm format (Yasm supplied with MPIR)
   * Support for building on MSVC
+  * x86_64 fat binary support
 
   Changes:
   * Disabled nails support
