@@ -61,9 +61,9 @@ m4_assert_numargs(2)
 ifdef(`PIC',
 `	call	L(movl_eip_edx)
 L(entry_here$2):
-	addq	$_GLOBAL_OFFSET_TABLE_+[.-L(entry_here$2)], %rdx
-	movq	GSYM_PREFIX`'__gmpn_cpuvec@GOT(%rdx), %rdx
-	jmp	*m4_empty_if_zero($2)(%rdx)
+	addq	$_GLOBAL_OFFSET_TABLE_+[.-L(entry_here$2)], %r11
+	movq	GSYM_PREFIX`'__gmpn_cpuvec@GOT(%r11), %r11
+	jmp	*m4_empty_if_zero($2)(%r11)
 ',`dnl non-PIC
 	jmp	*GSYM_PREFIX`'__gmpn_cpuvec+$2
 ')
@@ -77,13 +77,13 @@ dnl
 define(`CPUVEC_offset',0)
 foreach(i,
 `FAT_ENTRY(MPN(i),CPUVEC_offset)
-define(`CPUVEC_offset',eval(CPUVEC_offset + 4))',
+define(`CPUVEC_offset',eval(CPUVEC_offset + 8))',
 CPUVEC_FUNCS_LIST)
 
 ifdef(`PIC',`
 	ALIGN(8)
 L(movl_eip_edx):
-	movq	(%rsp), %rdx
+	movq	(%rsp), %r11
 	ret_internal
 ')
 
@@ -112,37 +112,53 @@ dnl  something with $1 in it.
 define(FAT_INIT,
 m4_assert_numargs(2)
 `PROLOGUE($1)
-	movb	$`'$2, %al
-	jmp	L(fat_init)
+	pushq	%rax
+    pushq   %rbx
+    pushq   %rsi
+    pushq   %rdi
+    pushq   %rdx
+    pushq   %rcx
+    pushq   %r8
+    pushq   %r9
+    pushq   %rbp
+	
+ifdef(`PIC',`
+	call	L(movl_eip_ebx)
+L(init_here$2):
+	addq	$_GLOBAL_OFFSET_TABLE_+[.-L(init_here$2)], %rbx
+	call	GSYM_PREFIX`'__gmpn_cpuvec_init@PLT
+	movq	GSYM_PREFIX`'__gmpn_cpuvec@GOT(%rbx), %r11
+	popq    %rbp
+    popq    %r9
+    popq    %r8
+    popq    %rcx
+    popq    %rdx
+    popq    %rdi
+    popq    %rsi
+    popq	%rbx
+    popq	%rax
+    jmp	*m4_empty_if_zero($2)(%r11)
+
+',`dnl non-PIC
+	call	GSYM_PREFIX`'__gmpn_cpuvec_init
+	popq    %rbp
+    popq    %r9
+    popq    %r8
+    popq    %rcx
+    popq    %rdx
+    popq    %rdi
+    popq    %rsi
+    popq	%rbx
+	popq	%rax
+	jmp	*GSYM_PREFIX`'__gmpn_cpuvec+$2
+')
 EPILOGUE()
 ')
-
-L(fat_init):
-	C al	__gmpn_cpuvec byte offset
-
-	movsbq	%al, %rax
-	pushq	%rax
-
-ifdef(`PIC',`
-	pushq	%rbx
-	call	L(movl_eip_ebx)
-L(init_here):
-	addq	$_GLOBAL_OFFSET_TABLE_+[.-L(init_here)], %rbx
-	call	GSYM_PREFIX`'__gmpn_cpuvec_init@PLT
-	movq	GSYM_PREFIX`'__gmpn_cpuvec@GOT(%rbx), %rdx
-	popq	%rbx
-	popq	%rax
-	jmp	*(%rdx,%rax)
 
 L(movl_eip_ebx):
 	movq	(%rsp), %rbx
 	ret_internal
 
-',`dnl non-PIC
-	call	GSYM_PREFIX`'__gmpn_cpuvec_init
-	popq	%rax
-	jmp	*GSYM_PREFIX`'__gmpn_cpuvec(%rax)
-')
 
 dnl  FAT_INIT for each CPUVEC_FUNCS_LIST
 dnl
@@ -150,7 +166,7 @@ dnl
 define(`CPUVEC_offset',0)
 foreach(i,
 `FAT_INIT(MPN(i`'_init),CPUVEC_offset)
-define(`CPUVEC_offset',eval(CPUVEC_offset + 4))',
+define(`CPUVEC_offset',eval(CPUVEC_offset + 8))',
 CPUVEC_FUNCS_LIST)
 
 

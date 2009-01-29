@@ -68,7 +68,7 @@ MA 02110-1301, USA. */
 #define DECL_copyi(name) \
   DECL_copyd (name)
 #define DECL_divexact_1(name) \
-  mp_limb_t name __GMP_PROTO ((mp_ptr, mp_srcptr, mp_size_t, mp_limb_t))
+  void name __GMP_PROTO ((mp_ptr, mp_srcptr, mp_size_t, mp_limb_t))
 #define DECL_divexact_by3c(name) \
   mp_limb_t name __GMP_PROTO ((mp_ptr, mp_srcptr, mp_size_t, mp_limb_t))
 #define DECL_divrem_1(name) \
@@ -3752,7 +3752,8 @@ int __gmp_doscan _PROTO ((const struct gmp_doscan_funs_t *, void *,
 
 #if WANT_FAT_BINARY
 /* NOTE: The function pointers in this struct are also in CPUVEC_FUNCS_LIST
-   in mpn/x86/x86-defs.m4.  Be sure to update that when changing here.  */
+   in mpn/x86/x86-defs.m4 and in mpn/x86_64/x86_64-defs.m4.  Be sure to 
+	update them there when changing here.  */
 struct cpuvec_t {
   DECL_add_n           ((*add_n));
   DECL_addmul_1        ((*addmul_1));

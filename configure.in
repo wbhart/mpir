@@ -1471,6 +1471,7 @@ case $host in
 		     mod_1 mod_34lsub1 mode1o mul_1 mul_basecase
 		     pre_divrem_1 pre_mod_1 rshift
 		     sqr_basecase sub_n submul_1"
+      fat_exclude=""
       fat_thresholds="MUL_KARATSUBA_THRESHOLD MUL_TOOM3_THRESHOLD
 		      SQR_KARATSUBA_THRESHOLD SQR_TOOM3_THRESHOLD"
     fi
@@ -1513,6 +1514,8 @@ case $host in
 		         mod_1 mod_34lsub1 mode1o mul_1 mul_basecase
 		         pre_divrem_1 pre_mod_1 rshift
 		         sqr_basecase sub_n submul_1"
+          # The cpuvec needs all possible fat functions, but we don't 
+          # have assembly versions of the following
           fat_thresholds="MUL_KARATSUBA_THRESHOLD MUL_TOOM3_THRESHOLD
 		         SQR_KARATSUBA_THRESHOLD SQR_TOOM3_THRESHOLD"
         fi
