@@ -1508,16 +1508,7 @@ case $host in
           gcc_64_cflags_arch=""
           extra_functions_64="$extra_functions_64 fat fat_entry"
           path_64="x86_64/fat x86_64"
-          fat_path="x86_64 x86_64/fat x86_64/core2 x86_64/amd64"
-          fat_functions="add_n addmul_1 copyd copyi
-		         dive_1 diveby3 divrem_1 gcd_1 lshift
-		         mod_1 mod_34lsub1 mode1o mul_1 mul_basecase
-		         pre_divrem_1 pre_mod_1 rshift
-		         sqr_basecase sub_n submul_1"
-          # The cpuvec needs all possible fat functions, but we don't 
-          # have assembly versions of the following
-          fat_thresholds="MUL_KARATSUBA_THRESHOLD MUL_TOOM3_THRESHOLD
-		         SQR_KARATSUBA_THRESHOLD SQR_TOOM3_THRESHOLD"
+          fat_path_64="x86_64 x86_64/fat x86_64/core2 x86_64/amd64"
         fi
         ;;
 
@@ -2546,7 +2537,12 @@ esac
 # ugly.
 #
 
+
 if test -n "$fat_path"; then
+  if test "$ABI" = 64; then
+    fat_path="$fat_path_64"
+  fi
+
   # Usually the mpn build directory is created with mpn/Makefile
   # instantiation, but we want to write to it sooner.
   mkdir mpn 2>/dev/null
