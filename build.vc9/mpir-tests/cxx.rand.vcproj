@@ -24,7 +24,7 @@
 			OutputDirectory="$(PlatformName)\$(ConfigurationName)"
 			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
 			ConfigurationType="1"
-			InheritedPropertySheets="test-config.vsprops"
+			InheritedPropertySheets=".\test-config.vsprops"
 			CharacterSet="0"
 			WholeProgramOptimization="0"
 			>
@@ -52,7 +52,6 @@
 				RuntimeLibrary="1"
 				UsePrecompiledHeader="0"
 				DebugInformationFormat="0"
-				CompileAs="0"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -98,7 +97,7 @@
 			OutputDirectory="$(PlatformName)\$(ConfigurationName)"
 			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
 			ConfigurationType="1"
-			InheritedPropertySheets="test-config.vsprops"
+			InheritedPropertySheets=".\test-config.vsprops"
 			CharacterSet="0"
 			WholeProgramOptimization="0"
 			>
@@ -127,7 +126,6 @@
 				RuntimeLibrary="1"
 				UsePrecompiledHeader="0"
 				DebugInformationFormat="0"
-				CompileAs="0"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -173,7 +171,7 @@
 			OutputDirectory="$(PlatformName)\$(ConfigurationName)"
 			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
 			ConfigurationType="1"
-			InheritedPropertySheets="test-config.vsprops"
+			InheritedPropertySheets=".\test-config.vsprops"
 			CharacterSet="0"
 			WholeProgramOptimization="0"
 			>
@@ -201,7 +199,6 @@
 				RuntimeLibrary="0"
 				UsePrecompiledHeader="0"
 				DebugInformationFormat="0"
-				CompileAs="0"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -249,7 +246,7 @@
 			OutputDirectory="$(PlatformName)\$(ConfigurationName)"
 			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
 			ConfigurationType="1"
-			InheritedPropertySheets="test-config.vsprops"
+			InheritedPropertySheets=".\test-config.vsprops"
 			CharacterSet="0"
 			WholeProgramOptimization="0"
 			>
@@ -278,7 +275,6 @@
 				RuntimeLibrary="0"
 				UsePrecompiledHeader="0"
 				DebugInformationFormat="0"
-				CompileAs="0"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
