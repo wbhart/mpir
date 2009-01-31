@@ -22,7 +22,7 @@ dnl  Boston, MA 02110-1301, USA.
 include(`../config.m4')
 
 C	(rdi,rdx+r8)=(rsi,rdx)*(rcx,r8)
-# Version 1.0.4
+# Version 1.0.5
 
 # same as the addmul for now
 # changes from standard mul
@@ -89,6 +89,10 @@ adc %rdx,%r10
 	adc `$'0,%rdx
 	mov %r12,32(%rdi,%r11,8)
 	mov %rdx,40(%rdi,%r11,8)
+	inc %r8
+	#lea 8(%rdi),%rdi
+	mov (%rsi,%r14,8),%rax
+	mov %r14,%r11
 ')
 
 define(`MULNEXT1',`
@@ -110,6 +114,8 @@ adc %rdx,%r10
 	adc `$'0,%rdx
 	mov %r12,24(%rdi,%r11,8)
 	mov %rdx,32(%rdi,%r11,8)
+	inc %r8
+	lea 8(%rdi),%rdi
 ')
 
 define(`MULNEXT2',`
@@ -126,6 +132,10 @@ adc %rdx,%r10
 	adc %rdx,%rbx
 	mov %r10,16(%rdi,%r11,8)
 	mov %rbx,24(%rdi,%r11,8)
+	inc %r8
+	#lea 8(%rdi),%rdi
+	mov (%rsi,%r14,8),%rax
+	mov %r14,%r11
 ')
 
 define(`MULNEXT3',`
@@ -134,8 +144,10 @@ mul %r13
 mov %r12,(%rdi,%r11,8)
 add %rax,%r9
 adc %rdx,%r10
-mov %r9,8(%rdi,%r11,8)
-mov %r10,16(%rdi,%r11,8)
+	mov %r9,8(%rdi,%r11,8)
+	mov %r10,16(%rdi,%r11,8)
+	inc %r8
+	lea 8(%rdi),%rdi
 ')
 
 # changes from standard addmul
@@ -177,6 +189,18 @@ addmulloop$1:
 	jnc addmulloop$1
 ')
 
+define(`ADDMULPRO0',`
+#mov (%rsi,%r14,8),%rax
+mov (%rcx,%r8,8),%r13
+lea 8(%rdi),%rdi
+#mov %r14,%r11	
+mul %r13
+mov %rax,%r12
+mov 8(%rsi,%r14,8),%rax
+mov %rdx,%r9
+cmp `$'0,%r14
+')
+
 define(`ADDMULNEXT0',`
 mov `$'0,%r10d
 mul %r13
@@ -201,8 +225,23 @@ adc %rdx,%r10
 	adc %rax,%r12
 	adc `$'0,%rdx
 	add %r12,32(%rdi,%r11,8)
+	mov (%rsi,%r14,8),%rax
 	adc `$'0,%rdx
+	inc %r8
 	mov %rdx,40(%rdi,%r11,8)
+	mov %r14,%r11	
+	#lea 8(%rdi),%rdi
+')
+
+define(`ADDMULPRO1',`
+mov (%rsi,%r14,8),%rax
+mov (%rcx,%r8,8),%r13
+mov %r14,%r11	
+mul %r13
+mov %rax,%r12
+mov 8(%rsi,%r14,8),%rax
+mov %rdx,%r9
+cmp `$'0,%r14
 ')
 
 define(`ADDMULNEXT1',`
@@ -225,6 +264,18 @@ adc %rdx,%r10
 	add %r12,24(%rdi,%r11,8)
 	adc `$'0,%rdx
 	mov %rdx,32(%rdi,%r11,8)
+	inc %r8
+	lea 8(%rdi),%rdi
+')
+
+define(`ADDMULPRO2',`
+mov (%rcx,%r8,8),%r13
+lea 8(%rdi),%rdi
+mul %r13
+mov %rax,%r12
+mov 8(%rsi,%r14,8),%rax
+mov %rdx,%r9
+cmp `$'0,%r14
 ')
 
 define(`ADDMULNEXT2',`
@@ -235,33 +286,19 @@ adc %rax,%r9
 adc %rdx,%r10
 	mov 16(%rsi,%r11,8),%rax
 	mul %r13
+	mov `$'0,%ebx
 	add %r9,8(%rdi,%r11,8)
 	adc %rax,%r10
-	mov `$'0,%ebx
 	adc %rdx,%rbx
+	mov (%rsi,%r14,8),%rax
 	add %r10,16(%rdi,%r11,8)
 	adc `$'0,%rbx
 	mov %rbx,24(%rdi,%r11,8)
+	inc %r8
+	mov %r14,%r11	
 ')
 
-define(`ADDMULNEXT3',`
-mov `$'0,%r10d
-mul %r13
-add %r12,(%rdi,%r11,8)
-adc %rax,%r9
-adc %rdx,%r10
-	add %r9,8(%rdi,%r11,8)
-	adc `$'0,%r10
-	mov %r10,16(%rdi,%r11,8)
-')
-
-define(`MPN_MULADDMUL_1_INT',`
-MULNEXT$1
-inc %r8
-lea 8(%rdi),%rdi
-jz end$1
-ALIGN(16)
-loopaddmul$1:
+define(`ADDMULPRO3',`
 mov (%rsi,%r14,8),%rax
 mov (%rcx,%r8,8),%r13
 mov %r14,%r11	
@@ -270,12 +307,31 @@ mov %rax,%r12
 mov 8(%rsi,%r14,8),%rax
 mov %rdx,%r9
 cmp `$'0,%r14
+')
+
+define(`ADDMULNEXT3',`
+mul %r13
+add %r12,(%rdi,%r11,8)
+adc %rax,%r9
+mov `$'0,%r10d
+adc %rdx,%r10
+	add %r9,8(%rdi,%r11,8)
+	adc `$'0,%r10
+	mov %r10,16(%rdi,%r11,8)
+	inc %r8
+	lea 8(%rdi),%rdi
+')
+
+define(`MPN_MULADDMUL_1_INT',`
+MULNEXT$1
+jz end$1
+ALIGN(16)
+loopaddmul$1:
+ADDMULPRO$1
 jge addmulskiploop$1
 ADDMULLOOP($1)
 addmulskiploop$1:
 ADDMULNEXT$1
-inc %r8
-lea 8(%rdi),%rdi
 jnz loopaddmul$1
 end$1:
 mov -8(%rsp),%r13
