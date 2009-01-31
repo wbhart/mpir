@@ -2747,7 +2747,7 @@ include][($mpn_relative_top_srcdir/mpn/$tmp_dir/$tmp_base.asm)
             CPUVEC_SETUP="$CPUVEC_SETUP    decided_cpuvec.$tmp_fbase = __gmpn_${tmp_fbase}_${tmp_suffix}; \\
 "
             # Ditto for any preinv variant (preinv_divrem_1, preinv_mod_1).
-            if grep "^PROLOGUE(mpn_preinv_$tmp_fn)|GLOBAL_FUNC mpn_preinv_$tmp_fn" $tmp_file >/dev/null; then
+            if grep "^PROLOGUE(mpn_preinv_$tmp_fn)\|GLOBAL_FUNC mpn_preinv_$tmp_fn" $tmp_file >/dev/null; then
               echo "DECL_preinv_$tmp_fbase (__gmpn_preinv_${tmp_fbase}_$tmp_suffix);" >>fat.h
               CPUVEC_SETUP="$CPUVEC_SETUP    decided_cpuvec.preinv_$tmp_fbase = __gmpn_preinv_${tmp_fbase}_${tmp_suffix}; \\
 "
