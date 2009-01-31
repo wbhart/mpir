@@ -21,7 +21,7 @@ dnl  Boston, MA 02110-1301, USA.
 
 */
 
-#include "gmpextra.h"
+#include "gmp.h"
 #include "gmp-impl.h"
 
 /*
