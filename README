@@ -91,13 +91,12 @@ the INSTALL file in this directory.
 
 If you find a bug in the library, please make sure to tell us about it!
 
-You should first check the MPIR web pages at http://www.swox.com/gmp/,
-under "Status of the current release".  There will be patches for all known
-serious bugs there.
+You should first check the MPIR web pages at http://www.mpir.org/. There will 
+be patches for all known serious bugs there.
 
-Report bugs to bug-gmp@gnu.org.  What information is needed in a good bug
-report is described in the manual.  The same address can be used for
-suggesting modifications and enhancements.
+Report bugs to our development list: http://groups.google.com/group/mpir-devel.  
+What information is needed in a good bug report is described in the manual.  
+The same address can be used for suggesting modifications and enhancements.
 
 
 
