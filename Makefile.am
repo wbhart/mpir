@@ -29,7 +29,7 @@
 # Makefiles in subdirectories, but here we must omit it so automake gives
 # the actual ansi2knr build rule, not "cd $(top_builddir) && make ansi2knr".
 #
-AUTOMAKE_OPTIONS = 1.8 gnu no-dependencies ansi2knr
+AUTOMAKE_OPTIONS = 1.8 gnu no-dependencies
 
 
 # Libtool -version-info for libgmp.la and libmp.la.  See "Versioning" in the
