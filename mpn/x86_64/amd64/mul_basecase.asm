@@ -65,11 +65,6 @@ mulloop$1:
 ')
 
 define(`MULNEXT0',`
-mov `$'0,%r10d
-mul %r13
-mov %r12,(%rdi,%r11,8)
-add %rax,%r9
-adc %rdx,%r10
 	mov 16(%rsi,%r11,8),%rax
 	mul %r13
 	mov %r9,8(%rdi,%r11,8)
@@ -90,17 +85,11 @@ adc %rdx,%r10
 	mov %r12,32(%rdi,%r11,8)
 	mov %rdx,40(%rdi,%r11,8)
 	inc %r8
-	#lea 8(%rdi),%rdi
 	mov (%rsi,%r14,8),%rax
 	mov %r14,%r11
 ')
 
 define(`MULNEXT1',`
-mov `$'0,%r10d
-mul %r13
-mov %r12,(%rdi,%r11,8)
-add %rax,%r9
-adc %rdx,%r10
 	mov 16(%rsi,%r11,8),%rax
 	mul %r13
 	mov %r9,8(%rdi,%r11,8)
@@ -119,11 +108,6 @@ adc %rdx,%r10
 ')
 
 define(`MULNEXT2',`
-mov `$'0,%r10d
-mul %r13
-mov %r12,(%rdi,%r11,8)
-add %rax,%r9
-adc %rdx,%r10
 	mov 16(%rsi,%r11,8),%rax
 	mul %r13
 	mov %r9,8(%rdi,%r11,8)
@@ -133,17 +117,11 @@ adc %rdx,%r10
 	mov %r10,16(%rdi,%r11,8)
 	mov %rbx,24(%rdi,%r11,8)
 	inc %r8
-	#lea 8(%rdi),%rdi
 	mov (%rsi,%r14,8),%rax
 	mov %r14,%r11
 ')
 
 define(`MULNEXT3',`
-mov `$'0,%r10d
-mul %r13
-mov %r12,(%rdi,%r11,8)
-add %rax,%r9
-adc %rdx,%r10
 	mov %r9,8(%rdi,%r11,8)
 	mov %r10,16(%rdi,%r11,8)
 	inc %r8
@@ -338,7 +316,6 @@ mov -8(%rsp),%r13
 mov -16(%rsp),%r14
 mov -24(%rsp),%rbx
 mov -32(%rsp),%r12
-mov -40(%rsp),%r15
 ret
 ')
 
@@ -352,12 +329,9 @@ mov %r13,-8(%rsp)
 mov %r14,-16(%rsp)
 mov %rbx,-24(%rsp)
 mov %r12,-32(%rsp)
-mov %r15,-40(%rsp)
 mov $5,%r14
-mov %rdx,%r15
 sub %rdx,%r14
 lea -40(%rdi,%rdx,8),%rdi
-and $3,%r15
 lea (%rcx,%r8,8),%rcx
 neg %r8
 lea -40(%rsi,%rdx,8),%rsi
@@ -372,15 +346,20 @@ cmp $0,%r14
 jge mulskiploop
 MULLOOP(1)
 mulskiploop:
-cmp $2,%r15
-ja case2
-jz case3
-jp case0
-case1:
-MPN_MULADDMUL_1_INT(1)
-ALIGN(16)
+mov $0,%r10d
+mul %r13
+mov %r12,(%rdi,%r11,8)
+add %rax,%r9
+adc %rdx,%r10
+cmp $2,%r11
+ja case3
+jz case2
+jp case1
 case0:
 MPN_MULADDMUL_1_INT(0)
+ALIGN(16)
+case1:
+MPN_MULADDMUL_1_INT(1)
 ALIGN(16)
 case2:
 MPN_MULADDMUL_1_INT(2)

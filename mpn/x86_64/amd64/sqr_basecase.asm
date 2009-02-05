@@ -22,93 +22,121 @@ dnl  Boston, MA 02110-1301, USA.
 include(`../config.m4')
 
 C	(rdi,2*rdx)=(rsi,rdx)^2
-# Version 1.0.4
+# Version 1.0.5
 
-# The M4 use here is just for clarity , think of them as functions which are
-# getting inlined , with the param to differentiate the lables
-
-# changes from standard mpn_mul_1
-# change lables
-# change r8 to r11
-# write top limb ax straight to mem dont return
-# change lea offsets to match addmul
-# reorder mod4 tail parts so have "only one ret"
-# remove ret
-# todo --------  could ignore small values ie mulskiploop for dx=1,2,3 we save one branch
-# todo ------------- alignment of jumps etc
-define(`MPN_MUL_1_INT',`
-mov `$'4,%r10d
-sub %rdx,%r10
-mov `$'0,%r11d
-jnc mulskiploop
+# same as the addmul for now
+# changes from standard mul
+# change  r8 to r12   and rcx to r13
+# reemove ret and write last limb
+define(`MULLOOP',`
 ALIGN(16)
-mulloop:
-	mov 16(%rsi,%r10,8),%rax
-	mov `$'0,%r9d
+mulloop$1:
+	mov `$'0,%r10
 	mul %r13
-	add %rax,%r11
-	mov %r11,16(%rdi,%r10,8)
-	mov 24(%rsi,%r10,8),%rax
-	adc %rdx,%r9
-	mul %r13
-	mov `$'0,%r11d
+	mov %r12,(%rdi,%r11,8)
 	add %rax,%r9
-	mov 32(%rsi,%r10,8),%rax
-	adc %rdx,%r11
+	.byte 0x26
+	adc %rdx,%r10
+	mov 16(%rsi,%r11,8),%rax
 	mul %r13
-	mov %r9,24(%rdi,%r10,8)
-	add %rax,%r11
-	mov `$'0,%r9d
-	mov %r11,32(%rdi,%r10,8)
-	mov 40(%rsi,%r10,8),%rax
-	mov `$'0,%r11d
+	mov %r9,8(%rdi,%r11,8)
+	add %rax,%r10
+	mov `$'0,%ebx
+	adc %rdx,%rbx
+	mov 24(%rsi,%r11,8),%rax
+	mov `$'0,%r12
+	mov `$'0,%r9
+	mul %r13
+	mov %r10,16(%rdi,%r11,8)
+	.byte 0x26
+	add %rax,%rbx
+	.byte 0x26
+	adc %rdx,%r12
+	mov 32(%rsi,%r11,8),%rax
+ 	mul %r13
+	mov %rbx,24(%rdi,%r11,8)
+	.byte 0x26
+	add %rax,%r12
+	.byte 0x26
 	adc %rdx,%r9
-	mul %r13
-	add %rax,%r9
-	mov %r9,40(%rdi,%r10,8)
-	adc %rdx,%r11
-	add `$'4,%r10
-	jnc mulloop
-mulskiploop:
-test `$'2,%r10
-jnz mulskip
-	mov 16(%rsi,%r10,8),%rax
-	mov `$'0,%r9d
-	mul %r13
-	add %rax,%r11
-	mov %r11,16(%rdi,%r10,8)
-	mov 24(%rsi,%r10,8),%rax
-	adc %rdx,%r9
-	mul %r13
-	mov `$'0,%r11d
-	add %rax,%r9
-	adc %rdx,%r11
-	add `$'2,%r10
-	mov %r9,8(%rdi,%r10,8)
-mulskip:
-test `$'1,%r10
-jnz mulend
-	mov 16(%rsi,%r10,8),%rax
-	mov `$'0,%r9d
-	mul %r13
-	add %rax,%r11
-	adc %rdx,%r9
-	mov %r9,24(%rdi,%r10,8)
-mulend:
-	mov %r11,16(%rdi,%r10,8)
+	add `$'4,%r11
+	mov 8(%rsi,%r11,8),%rax
+	jnc mulloop$1
 ')
 
+define(`MULNEXT0',`
+	mov 16(%rsi,%r11,8),%rax
+	mul %r13
+	mov %r9,8(%rdi,%r11,8)
+	add %rax,%r10
+	mov `$'0,%ebx
+	adc %rdx,%rbx
+	mov 24(%rsi,%r11,8),%rax
+	mov `$'0,%r12d
+	mul %r13
+	mov %r10,16(%rdi,%r11,8)
+	add %rax,%rbx
+	adc %rdx,%r12
+	mov 32(%rsi,%r11,8),%rax
+	mul %r13
+	mov %rbx,24(%rdi,%r11,8)
+	add %rax,%r12
+	adc `$'0,%rdx
+	mov %r12,32(%rdi,%r11,8)
+	mov %rdx,40(%rdi,%r11,8)
+	inc %r14
+	lea 8(%rdi),%rdi
+')
 
-# changes from standard mpn_addmul_1 internal loop
-# change lables
-# change r8 to r12   , rcx to r13
+define(`MULNEXT1',`
+	mov 16(%rsi,%r11,8),%rax
+	mul %r13
+	mov %r9,8(%rdi,%r11,8)
+	add %rax,%r10
+	mov `$'0,%r12d
+	adc %rdx,%r12
+	mov 24(%rsi,%r11,8),%rax
+	mul %r13
+	mov %r10,16(%rdi,%r11,8)
+	add %rax,%r12
+	adc `$'0,%rdx
+	mov %r12,24(%rdi,%r11,8)
+	mov %rdx,32(%rdi,%r11,8)
+	inc %r14
+	lea 8(%rdi),%rdi
+')
+
+define(`MULNEXT2',`
+	mov 16(%rsi,%r11,8),%rax
+	mul %r13
+	mov %r9,8(%rdi,%r11,8)
+	add %rax,%r10
+	mov `$'0,%ebx
+	adc %rdx,%rbx
+	mov %r10,16(%rdi,%r11,8)
+	mov %rbx,24(%rdi,%r11,8)
+	inc %r14
+	lea 8(%rdi),%rdi
+')
+
+define(`MULNEXT3',`
+	mov %r9,8(%rdi,%r11,8)
+	mov %r10,16(%rdi,%r11,8)
+	inc %r14
+	lea 8(%rdi),%rdi
+')
+
+# changes from standard addmul
+# change  r8 to r12   and rcx to r13
+# reemove ret and write last limb
 define(`ADDMULLOOP',`
 ALIGN(16)
 addmulloop$1:
-	mov `$'0,%r10d
+	mov `$'0,%r10
 	mul %r13
 	add %r12,(%rdi,%r11,8)
 	adc %rax,%r9
+	.byte 0x26
 	adc %rdx,%r10
 	mov 16(%rsi,%r11,8),%rax
 	mul %r13
@@ -117,16 +145,20 @@ addmulloop$1:
 	mov `$'0,%ebx
 	adc %rdx,%rbx
 	mov 24(%rsi,%r11,8),%rax
-	mov `$'0,%r12d
-	mov `$'0,%r9d
+	mov `$'0,%r12
+	mov `$'0,%r9
 	mul %r13
 	add %r10,16(%rdi,%r11,8)
+	.byte 0x26
 	adc %rax,%rbx
+	.byte 0x26
 	adc %rdx,%r12
 	mov 32(%rsi,%r11,8),%rax
  	mul %r13
 	add %rbx,24(%rdi,%r11,8)
+	.byte 0x26
 	adc %rax,%r12
+	.byte 0x26
 	adc %rdx,%r9
 	add `$'4,%r11
 	mov 8(%rsi,%r11,8),%rax
@@ -134,118 +166,93 @@ addmulloop$1:
 ')
 
 define(`ADDMULNEXT0',`
-#here is 3 loads ie if r11=0
-	mov `$'0,%r10d
-	mul %r13
-	add %r12,(%rdi,%r11,8)
-	adc %rax,%r9
-	adc %rdx,%r10
-	mov 16(%rsi,%r11,8),%rax
-	mul %r13
-	add %r9,8(%rdi,%r11,8)
-	adc %rax,%r10
-	mov `$'0,%ebx
-	adc %rdx,%rbx
-	mov 24(%rsi,%r11,8),%rax
-	mov `$'0,%r12d
-	mov `$'0,%r9d
-	mul %r13
-	add %r10,16(%rdi,%r11,8)
-	adc %rax,%rbx
-	adc %rdx,%r12
-	mov 32(%rsi,%r11,8),%rax
-	mul %r13
-	add %rbx,24(%rdi,%r11,8)
-	adc %rax,%r12
-	adc %rdx,%r9
-	add %r12,32(%rdi,%r11,8)
-	adc `$'0,%r9
-	mov %r9,40(%rdi,%r11,8)
+mov `$'0,%r10d
+mul %r13
+add %r12,(%rdi,%r11,8)
+adc %rax,%r9
+adc %rdx,%r10
+mov 16(%rsi,%r11,8),%rax
+mul %r13
+add %r9,8(%rdi,%r11,8)
+adc %rax,%r10
+mov `$'0,%ebx
+adc %rdx,%rbx
+mov 24(%rsi,%r11,8),%rax
+mov `$'0,%r12d
+mul %r13
+add %r10,16(%rdi,%r11,8)
+adc %rax,%rbx
+adc %rdx,%r12
+mov 32(%rsi,%r11,8),%rax
+mul %r13
+add %rbx,24(%rdi,%r11,8)
+adc %rax,%r12
+adc `$'0,%rdx
+add %r12,32(%rdi,%r11,8)
+adc `$'0,%rdx
+inc %r14
+mov %rdx,40(%rdi,%r11,8)
+lea 8(%rdi),%rdi
 ')
 
 define(`ADDMULNEXT1',`
-#here is 2 loads ie if r11=1
-	mov `$'0,%r10d
-	mul %r13
-	add %r12,(%rdi,%r11,8)
-	adc %rax,%r9
-	adc %rdx,%r10
-	mov 16(%rsi,%r11,8),%rax
-	mul %r13
-	add %r9,8(%rdi,%r11,8)
-	adc %rax,%r10
-	mov `$'0,%ebx
-	adc %rdx,%rbx
-	mov 24(%rsi,%r11,8),%rax
-	mov `$'0,%r12d
-	mul %r13
-	add %r10,16(%rdi,%r11,8)
-	adc %rax,%rbx
-	adc %rdx,%r12
-	add %rbx,24(%rdi,%r11,8)
-	adc `$'0,%r12
-	mov %r12,32(%rdi,%r11,8)
+mov `$'0,%r10d
+mul %r13
+add %r12,(%rdi,%r11,8)
+adc %rax,%r9
+adc %rdx,%r10
+mov 16(%rsi,%r11,8),%rax
+mul %r13
+add %r9,8(%rdi,%r11,8)
+adc %rax,%r10
+mov `$'0,%r12d
+adc %rdx,%r12
+mov 24(%rsi,%r11,8),%rax
+mul %r13
+add %r10,16(%rdi,%r11,8)
+adc %rax,%r12
+adc `$'0,%rdx
+add %r12,24(%rdi,%r11,8)
+adc `$'0,%rdx
+mov %rdx,32(%rdi,%r11,8)
+inc %r14
+lea 8(%rdi),%rdi
 ')
 
 define(`ADDMULNEXT2',`
-#here is 1 load ie if r11=2
-	mov `$'0,%r10d
-	mul %r13
-	add %r12,(%rdi,%r11,8)
-	adc %rax,%r9
-	adc %rdx,%r10
-	mov 16(%rsi,%r11,8),%rax
-	mul %r13
-	add %r9,8(%rdi,%r11,8)
-	adc %rax,%r10
-	mov `$'0,%ebx
-	adc %rdx,%rbx
-	add %r10,16(%rdi,%r11,8)
-	adc `$'0,%rbx
-	mov %rbx,24(%rdi,%r11,8)
+mov `$'0,%r10d
+mul %r13
+add %r12,(%rdi,%r11,8)
+adc %rax,%r9
+adc %rdx,%r10
+mov 16(%rsi,%r11,8),%rax
+mul %r13
+mov `$'0,%ebx
+add %r9,8(%rdi,%r11,8)
+adc %rax,%r10
+adc %rdx,%rbx
+add %r10,16(%rdi,%r11,8)
+adc `$'0,%rbx
+mov %rbx,24(%rdi,%r11,8)
+inc %r14
+lea 8(%rdi),%rdi
 ')
 
 define(`ADDMULNEXT3',`
-#here is 0 loads ie if r11=3
-	mov `$'0,%r10d
-	mul %r13
-	add %r12,(%rdi,%r11,8)
-	adc %rax,%r9
-	adc %rdx,%r10
-	add %r9,8(%rdi,%r11,8)
-	adc `$'0,%r10
-	mov %r10,16(%rdi,%r11,8)
-')
-
-# changes from standard addmul_1
-# change lables
-# change r8 to r12
-# write top limb ax straight to mem dont return  (NOTE we WRITE NOT ADD)
-# remove one limb special case
-# remove push/pop , basecase must save rbx
-# split into mod4 types and remove rets
-# surround with outer loop and pop ret
-# todo ----------- can ignore small values
-# this addmul MUST have a param whic is 0123 which is our r11
-define(`MPN_ADDMUL_1_INT',`
-loopaddmul$1:
-mov (%rsi,%r14,8),%rax
-mov -8(%rsi,%r14,8),%r13
-mov %r14,%r11	
 mul %r13
-mov %rax,%r12
-mov 8(%rsi,%r14,8),%rax
-mov %rdx,%r9
-cmp `$'0,%r14
-jge addmulskiploop$1
-ADDMULLOOP($1)
-addmulskiploop$1:
-ADDMULNEXT$1
+add %r12,(%rdi,%r11,8)
+adc %rax,%r9
+mov `$'0,%r10d
+adc %rdx,%r10
+add %r9,8(%rdi,%r11,8)
+adc `$'0,%r10
+mov %r10,16(%rdi,%r11,8)
 inc %r14
 lea 8(%rdi),%rdi
 cmp `$'4,%r14
-jz theend
+jnz theloop
 ')
+
 
 ASM_START()
 PROLOGUE(mpn_sqr_basecase)
@@ -259,6 +266,155 @@ one:
 	mov %rax,(%rdi)
 	mov %rdx,8(%rdi)
 	ret
+ALIGN(16)
+fourormore:
+# this code can not handle cases 3,2,1
+mov %r12,-8(%rsp)
+mov %r13,-16(%rsp)
+mov %r14,-24(%rsp)
+mov %rbx,-32(%rsp)
+# save data for later
+mov %rdi,-40(%rsp)
+mov %rsi,-48(%rsp)
+mov %rdx,-56(%rsp)
+mov (%rsi),%r13
+mov 8(%rsi),%rax
+mov $6,%r14d
+sub %rdx,%r14
+lea -40(%rdi,%rdx,8),%rdi
+lea -40(%rsi,%rdx,8),%rsi
+mov %r14,%r11	
+mul %r13
+mov %rax,%r12
+mov 8(%rsi,%r14,8),%rax
+mov %rdx,%r9
+cmp `$'0,%r14
+jge mulskiploop$1
+MULLOOP($1)
+mulskiploop$1:
+mov $0,%r10d
+mul %r13
+mov %r12,(%rdi,%r11,8)
+add %rax,%r9
+adc %rdx,%r10
+# could save r9 here 
+# could update here ie lea 8(rdi),rdi and inc r14 
+cmp $2,%r11
+je mcase2
+ja mcase3
+jp mcase1
+mcase0:
+MULNEXT0
+jmp case1
+ALIGN(16)
+mcase1:
+MULNEXT1
+jmp case2
+ALIGN(16)
+mcase2:
+MULNEXT2
+jmp case3
+ALIGN(16)
+mcase3:
+MULNEXT3
+#jmp case0 just fall thru 
+ALIGN(16)
+theloop:
+case0:
+mov (%rsi,%r14,8),%rax
+mov -8(%rsi,%r14,8),%r13
+mov %r14,%r11	
+mul %r13
+mov %rax,%r12
+mov 8(%rsi,%r14,8),%rax
+mov %rdx,%r9
+cmp $0,%r14
+jge addmulskiploop0
+ADDMULLOOP(0)
+addmulskiploop0:
+ADDMULNEXT0
+case1:
+mov (%rsi,%r14,8),%rax
+mov -8(%rsi,%r14,8),%r13
+mov %r14,%r11	
+mul %r13
+mov %rax,%r12
+mov 8(%rsi,%r14,8),%rax
+mov %rdx,%r9
+cmp $0,%r14
+jge addmulskiploop1
+ADDMULLOOP(1)
+addmulskiploop1:
+ADDMULNEXT1
+case2:
+mov (%rsi,%r14,8),%rax
+mov -8(%rsi,%r14,8),%r13
+mov %r14,%r11	
+mul %r13
+mov %rax,%r12
+mov 8(%rsi,%r14,8),%rax
+mov %rdx,%r9
+cmp $0,%r14
+jge addmulskiploop2
+ADDMULLOOP(2)
+addmulskiploop2:
+ADDMULNEXT2
+case3:
+mov (%rsi,%r14,8),%rax
+mov -8(%rsi,%r14,8),%r13
+mov %r14,%r11	
+mul %r13
+mov %rax,%r12
+mov 8(%rsi,%r14,8),%rax
+mov %rdx,%r9
+cmp $0,%r14
+jge addmulskiploop3
+ADDMULLOOP(3)
+addmulskiploop3:
+ADDMULNEXT3
+# only need to add one more line here
+mov (%rsi,%r14,8),%rax
+mov -8(%rsi,%r14,8),%r13
+mul %r13
+add %rax,(%rdi,%r14,8)
+adc $0,%rdx
+mov %rdx,8(%rdi,%r14,8)
+# now lsh by 1 and add in the diagonal
+mov -40(%rsp),%rdi
+mov -48(%rsp),%rsi
+mov -56(%rsp),%rcx
+mov -8(%rsp),%r12
+mov -16(%rsp),%r13
+xor %rbx,%rbx
+xor %r11,%r11
+lea (%rsi,%rcx,8),%rsi
+mov %r11,(%rdi)
+lea (%rdi,%rcx,8),%r10
+mov %r11,-8(%r10,%rcx,8)
+neg %rcx
+ALIGN(16)
+dialoop:
+	mov (%rsi,%rcx,8),%rax
+	mul %rax
+	mov (%rdi),%r8
+	mov 8(%rdi),%r9	
+	add $1,%rbx
+	adc %r8,%r8
+	adc %r9,%r9
+	sbb %rbx,%rbx	
+	add $1,%r11
+	adc %rax,%r8
+	adc %rdx,%r9
+	sbb %r11,%r11	
+	mov %r8,(%rdi)
+	mov %r9,8(%rdi)
+	inc %rcx
+	lea 16(%rdi),%rdi
+	jnz dialoop
+mov -32(%rsp),%rbx
+mov -24(%rsp),%r14
+ret
+ALIGN(16)
 two:
 	mov (%rsi),%rax
 	mov 8(%rsi),%r9
@@ -280,6 +436,7 @@ two:
 	adc $0,%r10
 	mov %r10,24(%rdi)
 	ret
+ALIGN(16)
 three:
 	mov (%rsi),%r8
 	mov 8(%rsi),%rax
@@ -300,13 +457,12 @@ three:
 	mov %r11,24(%rdi)
 	adc %rdx,%r9
 	mov %r9,32(%rdi)
-        mov $3,%ecx
+        mov $-3,%rcx
 	xor %r10,%r10
 	xor %r11,%r11
 	lea 24(%rsi),%rsi
 	mov %r11,(%rdi)
 	mov %r11,40(%rdi)
-	neg %rcx
 	dialoop1:
 		mov (%rsi,%rcx,8),%rax
 		mul %rax
@@ -327,82 +483,5 @@ three:
 		jnz dialoop1
 	nop
 	ret
-fourormore:
-# this code can not handle cases 3,2,1
-push %r12
-push %r13
-push %r14
-push %rbx
-# save 
-push %rdi
-push %rsi
-push %rdx
-mov (%rsi),%r13
-mov $7,%r14d
-sub %rdx,%r14
-lea -40(%rdi,%rdx,8),%rdi
-lea -40(%rsi,%rdx,8),%rsi
-MPN_MUL_1_INT()
-lea 8(%rdi),%rdi
-mov %r14,%rax
-and $3,%rax
-je case0
-jp case3
-cmp $1,%rax
-je case1
-ALIGN(16)
-theloop:
-case2:
-MPN_ADDMUL_1_INT(2)
-case3:
-MPN_ADDMUL_1_INT(3)
-case0:
-MPN_ADDMUL_1_INT(0)
-case1:
-MPN_ADDMUL_1_INT(1)
-jmp theloop
-theend:
-# only need to add one more line here
-mov (%rsi,%r14,8),%rax
-mov -8(%rsi,%r14,8),%r13
-mul %r13
-add %rax,(%rdi,%r14,8)
-adc $0,%rdx
-mov %rdx,8(%rdi,%r14,8)
-# now lsh by 1 and add in the diagonal
-pop %rcx
-pop %rsi
-pop %rdi
-endish:
-xor %rbx,%rbx
-xor %r14,%r14
-lea (%rsi,%rcx,8),%rsi
-mov %r14,(%rdi)
-lea (%rdi,%rcx,8),%r10
-mov %r14,-8(%r10,%rcx,8)
-neg %rcx
-dialoop:
-	mov (%rsi,%rcx,8),%rax
-	mul %rax
-	mov (%rdi),%r8
-	mov 8(%rdi),%r9	
-	add $1,%rbx
-	adc %r8,%r8
-	adc %r9,%r9
-	sbb %rbx,%rbx	
-	add $1,%r14
-	adc %rax,%r8
-	adc %rdx,%r9
-	sbb %r14,%r14	
-	mov %r8,(%rdi)
-	mov %r9,8(%rdi)
-	inc %rcx
-	lea 16(%rdi),%rdi
-	jnz dialoop
-pop %rbx
-pop %r14
-pop %r13
-pop %r12
-ret
 EPILOGUE()
-# if we do the diag first then addmul we could remove the mul and save space
+# if we could do the diag first then addmul we could remove the mul and save space
