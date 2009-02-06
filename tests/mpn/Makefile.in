@@ -59,7 +59,8 @@ check_PROGRAMS = t-asmtype$(EXEEXT) t-aors_1$(EXEEXT) \
 	t-divrem_1$(EXEEXT) t-fat$(EXEEXT) t-get_d$(EXEEXT) \
 	t-instrument$(EXEEXT) t-iord_u$(EXEEXT) t-mp_bases$(EXEEXT) \
 	t-perfsqr$(EXEEXT) t-scan$(EXEEXT) t-lorrshift1$(EXEEXT) \
-	t-divebyff$(EXEEXT) t-addadd_n$(EXEEXT) t-addsub_n$(EXEEXT)
+	t-divebyff$(EXEEXT) t-addadd_n$(EXEEXT) t-addsub_n$(EXEEXT) \
+	t-redc_basecase$(EXEEXT)
 subdir = tests/mpn
 DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
@@ -135,6 +136,11 @@ t_perfsqr_OBJECTS = t-perfsqr$U.$(OBJEXT)
 t_perfsqr_LDADD = $(LDADD)
 t_perfsqr_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
 	$(top_builddir)/libgmp.la
+t_redc_basecase_SOURCES = t-redc_basecase.c
+t_redc_basecase_OBJECTS = t-redc_basecase$U.$(OBJEXT)
+t_redc_basecase_LDADD = $(LDADD)
+t_redc_basecase_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
+	$(top_builddir)/libgmp.la
 t_scan_SOURCES = t-scan.c
 t_scan_OBJECTS = t-scan$U.$(OBJEXT)
 t_scan_LDADD = $(LDADD)
@@ -153,10 +159,12 @@ LINK = $(LIBTOOL) --tag=CC --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) \
 	$(AM_LDFLAGS) $(LDFLAGS) -o $@
 SOURCES = t-addadd_n.c t-addsub_n.c t-aors_1.c t-asmtype.c \
 	t-divebyff.c t-divrem_1.c t-fat.c t-get_d.c t-instrument.c \
-	t-iord_u.c t-lorrshift1.c t-mp_bases.c t-perfsqr.c t-scan.c
+	t-iord_u.c t-lorrshift1.c t-mp_bases.c t-perfsqr.c \
+	t-redc_basecase.c t-scan.c
 DIST_SOURCES = t-addadd_n.c t-addsub_n.c t-aors_1.c t-asmtype.c \
 	t-divebyff.c t-divrem_1.c t-fat.c t-get_d.c t-instrument.c \
-	t-iord_u.c t-lorrshift1.c t-mp_bases.c t-perfsqr.c t-scan.c
+	t-iord_u.c t-lorrshift1.c t-mp_bases.c t-perfsqr.c \
+	t-redc_basecase.c t-scan.c
 ETAGS = etags
 CTAGS = ctags
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
@@ -391,6 +399,9 @@ t-mp_bases$(EXEEXT): $(t_mp_bases_OBJECTS) $(t_mp_bases_DEPENDENCIES)
 t-perfsqr$(EXEEXT): $(t_perfsqr_OBJECTS) $(t_perfsqr_DEPENDENCIES) 
 	@rm -f t-perfsqr$(EXEEXT)
 	$(LINK) $(t_perfsqr_LDFLAGS) $(t_perfsqr_OBJECTS) $(t_perfsqr_LDADD) $(LIBS)
+t-redc_basecase$(EXEEXT): $(t_redc_basecase_OBJECTS) $(t_redc_basecase_DEPENDENCIES) 
+	@rm -f t-redc_basecase$(EXEEXT)
+	$(LINK) $(t_redc_basecase_LDFLAGS) $(t_redc_basecase_OBJECTS) $(t_redc_basecase_LDADD) $(LIBS)
 t-scan$(EXEEXT): $(t_scan_OBJECTS) $(t_scan_DEPENDENCIES) 
 	@rm -f t-scan$(EXEEXT)
 	$(LINK) $(t_scan_LDFLAGS) $(t_scan_OBJECTS) $(t_scan_LDADD) $(LIBS)
@@ -440,6 +451,8 @@ t-mp_bases_.c: t-mp_bases.c $(ANSI2KNR)
 	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/t-mp_bases.c; then echo $(srcdir)/t-mp_bases.c; else echo t-mp_bases.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
 t-perfsqr_.c: t-perfsqr.c $(ANSI2KNR)
 	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/t-perfsqr.c; then echo $(srcdir)/t-perfsqr.c; else echo t-perfsqr.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
+t-redc_basecase_.c: t-redc_basecase.c $(ANSI2KNR)
+	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/t-redc_basecase.c; then echo $(srcdir)/t-redc_basecase.c; else echo t-redc_basecase.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
 t-scan_.c: t-scan.c $(ANSI2KNR)
 	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/t-scan.c; then echo $(srcdir)/t-scan.c; else echo t-scan.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
 t-addadd_n_.$(OBJEXT) t-addadd_n_.lo t-addsub_n_.$(OBJEXT) \
@@ -449,7 +462,8 @@ t-divrem_1_.$(OBJEXT) t-divrem_1_.lo t-fat_.$(OBJEXT) t-fat_.lo \
 t-get_d_.$(OBJEXT) t-get_d_.lo t-instrument_.$(OBJEXT) \
 t-instrument_.lo t-iord_u_.$(OBJEXT) t-iord_u_.lo \
 t-lorrshift1_.$(OBJEXT) t-lorrshift1_.lo t-mp_bases_.$(OBJEXT) \
-t-mp_bases_.lo t-perfsqr_.$(OBJEXT) t-perfsqr_.lo t-scan_.$(OBJEXT) \
+t-mp_bases_.lo t-perfsqr_.$(OBJEXT) t-perfsqr_.lo \
+t-redc_basecase_.$(OBJEXT) t-redc_basecase_.lo t-scan_.$(OBJEXT) \
 t-scan_.lo : $(ANSI2KNR)
 
 mostlyclean-libtool:
