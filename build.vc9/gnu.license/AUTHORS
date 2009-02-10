@@ -16,14 +16,3 @@ Gerardo Ballabio	gmpxx.h and C++ istream input
 Pedro Gimeno		Mersenne Twister random generator, other random number
 			revisions
 Jason Moxham		New mpz/fac_ui.c and gen-fac_ui.c
-
-Contributors to MPIR
-
-Brian Gladman        Windows MSVC port and intel format x86_64 code
-William Hart         Build system modifications and intel format x86_64 code
-Pierrick Gaudry      AMD 64 assembly support
-Gonzalo Tornaria     Patches to config.guess
-Jason Worth Martin   Core 2 assembly support, merge of Möhler's GCD patches
-Michael Abshoff      Build system patches, valgrinding, build testing
-Niels Möhler         GCD patches
-Jason Moxham	   Bug fix for perfect powers and test code
