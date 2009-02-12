@@ -34,7 +34,7 @@ libexpr_a_SOURCES = expr.h expr-impl.h \
   expr.c exprv.c exprz.c exprza.c exprq.c exprqa.c exprf.c exprfa.c
 
 EXTRA_PROGRAMS = run-expr t-expr
-LDADD = libexpr.a $(top_builddir)/libgmp.la
+LDADD = libexpr.a $(top_builddir)/libmpir.la
 t_expr_LDADD = $(top_builddir)/tests/libtests.la $(LDADD)
 
 CLEANFILES = $(EXTRA_PROGRAMS) $(EXTRA_LIBRARIES)

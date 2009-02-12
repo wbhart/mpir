@@ -52,7 +52,7 @@ libspeed_la_SOURCES =							\
   sb_div.c sb_inv.c
 
 libspeed_la_DEPENDENCIES = $(SPEED_CYCLECOUNTER_OBJ) \
-  $(top_builddir)/tests/libtests.la $(top_builddir)/libgmp.la
+  $(top_builddir)/tests/libtests.la $(top_builddir)/libmpir.la
 libspeed_la_LIBADD = $(libspeed_la_DEPENDENCIES) $(LIBM)
 libspeed_la_LDFLAGS = $(STATIC)
 

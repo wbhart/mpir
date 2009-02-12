@@ -28,8 +28,8 @@
 INCLUDES = -I$(top_srcdir) -I$(top_srcdir)/tests
 LDADD = -L$(top_builddir)/.libs \
   $(top_builddir)/tests/libtests.la \
-  $(top_builddir)/libgmpxx.la \
-  $(top_builddir)/libgmp.la
+  $(top_builddir)/libmpirxx.la \
+  $(top_builddir)/libmpir.la
 
 if WANT_CXX
 check_PROGRAMS = t-assign t-binary t-cast t-constr t-headers \

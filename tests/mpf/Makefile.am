@@ -22,7 +22,7 @@
 
 
 INCLUDES = -I$(top_srcdir) -I$(top_srcdir)/tests
-LDADD = $(top_builddir)/tests/libtests.la $(top_builddir)/libgmp.la
+LDADD = $(top_builddir)/tests/libtests.la $(top_builddir)/libmpir.la
 
 check_PROGRAMS = t-add t-sub t-conv t-sqrt t-sqrt_ui t-muldiv t-dm2exp reuse \
   t-cmp_d t-cmp_si t-div t-fits t-get_d t-get_d_2exp \

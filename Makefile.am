@@ -32,7 +32,7 @@
 AUTOMAKE_OPTIONS = 1.8 gnu no-dependencies ansi2knr
 
 
-# Libtool -version-info for libgmp.la and libmp.la.  See "Versioning" in the
+# Libtool -version-info for libmpir.la and libmp.la.  See "Versioning" in the
 # libtool manual.
 #
 # 1. No interfaces changed, only implementations (good): Increment REVISION.
@@ -113,7 +113,7 @@ EXTRA_DIST += mpirxx.h
 includeexecdir = $(exec_prefix)/include
 include_HEADERS = $(GMPXX_HEADERS_OPTION)
 nodist_includeexec_HEADERS = mpir.h $(MPBSD_HEADERS_OPTION)
-lib_LTLIBRARIES = libgmp.la $(GMPXX_LTLIBRARIES_OPTION) $(MPBSD_LTLIBRARIES_OPTION)
+lib_LTLIBRARIES = libmpir.la $(GMPXX_LTLIBRARIES_OPTION) $(MPBSD_LTLIBRARIES_OPTION)
 
 BUILT_SOURCES = mpir.h
 
@@ -234,10 +234,10 @@ MPBSD_OBJECTS = mpbsd/add$U.lo mpbsd/tdiv_qr$U.lo mpbsd/set$U.lo	\
   mpbsd/sdiv$U.lo mpbsd/sqrtrem$U.lo mpbsd/xtom$U.lo
 
 
-# In libtool 1.5 it doesn't work to build libgmp.la from the convenience
+# In libtool 1.5 it doesn't work to build libmpir.la from the convenience
 # libraries like mpz/libmpz.la.  Or rather it works, but it ends up putting
-# PIC objects into libgmp.a if shared and static are both built.  (The PIC
-# objects go into mpz/.libs/libmpz.a, and thence into .libs/libgmp.a.)
+# PIC objects into libmpir.a if shared and static are both built.  (The PIC
+# objects go into mpz/.libs/libmpz.a, and thence into .libs/libmpir.a.)
 #
 # For now the big lists of objects above are used.  Something like mpz/*.lo
 # would probably work, but might risk missing something out or getting
@@ -268,10 +268,10 @@ libgmp_la_LDFLAGS = $(GMP_LDFLAGS) $(LIBGMP_LDFLAGS) \
 # file.
 
 if WANT_CXX
-GMPXX_LTLIBRARIES_OPTION = libgmpxx.la
+GMPXX_LTLIBRARIES_OPTION = libmpirxx.la
 endif
 libgmpxx_la_SOURCES = cxx/dummy.cc
-libgmpxx_la_DEPENDENCIES = $(CXX_OBJECTS) libgmp.la
+libgmpxx_la_DEPENDENCIES = $(CXX_OBJECTS) libmpir.la
 libgmpxx_la_LIBADD = $(libgmpxx_la_DEPENDENCIES)
 libgmpxx_la_LDFLAGS = $(GMP_LDFLAGS) $(LIBGMPXX_LDFLAGS) \
   -version-info $(LIBGMPXX_LT_CURRENT):$(LIBGMPXX_LT_REVISION):$(LIBGMPXX_LT_AGE)

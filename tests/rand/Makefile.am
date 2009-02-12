@@ -21,7 +21,7 @@
 
 
 INCLUDES = -I$(top_srcdir) -I$(top_srcdir)/tests
-LDADD = $(top_builddir)/tests/libtests.la $(top_builddir)/libgmp.la
+LDADD = $(top_builddir)/tests/libtests.la $(top_builddir)/libmpir.la
 
 check_PROGRAMS = t-iset t-lc2exp t-mt t-rand t-urbui t-urmui t-urndmm
 TESTS = $(check_PROGRAMS)
@@ -35,7 +35,7 @@ stat_LDADD = libstat.la
 
 EXTRA_LTLIBRARIES = libstat.la
 libstat_la_SOURCES = gmpstat.h statlib.c zdiv_round.c
-libstat_la_LIBADD = $(top_builddir)/libgmp.la $(LIBM)
+libstat_la_LIBADD = $(top_builddir)/libmpir.la $(LIBM)
 
 CLEANFILES = $(EXTRA_PROGRAMS) $(EXTRA_LTLIBRARIES)
 

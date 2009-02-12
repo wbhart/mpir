@@ -24,13 +24,13 @@ SUBDIRS = calc expr
 EXTRA_DIST = perl
 
 INCLUDES = -I$(top_srcdir)
-LDADD = $(top_builddir)/libgmp.la
+LDADD = $(top_builddir)/libmpir.la
 
 qcn_LDADD = $(LDADD) $(LIBM)
 primes_LDADD = $(LDADD) $(LIBM)
 
 # None of these programs are built by default, but "make <whatever>" will
-# build them once libgmp.la is built.
+# build them once libmpir.la is built.
 #
 EXTRA_PROGRAMS = factorize isprime pexpr primes qcn
 

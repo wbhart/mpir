@@ -26,7 +26,7 @@ INCLUDES = -I$(top_srcdir)
 # calclex.c), but it's included here for the benefit of anyone rebuilding
 # with some other lex.
 #
-LDADD = $(top_builddir)/libgmp.la $(LIBREADLINE) $(LIBCURSES) $(LEXLIB)
+LDADD = $(top_builddir)/libmpir.la $(LIBREADLINE) $(LIBCURSES) $(LEXLIB)
 
 EXTRA_PROGRAMS = calc
 AM_YFLAGS = -d
