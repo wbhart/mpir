@@ -248,32 +248,32 @@ MPBSD_OBJECTS = mpbsd/add$U.lo mpbsd/tdiv_qr$U.lo mpbsd/set$U.lo	\
 # -export-symbols, since the tune and speed programs, and perhaps some of
 # the test programs, want to access undocumented symbols.
 
-libgmp_la_SOURCES = gmp-impl.h longlong.h randmt.h			\
+libmpir_la_SOURCES = gmp-impl.h longlong.h randmt.h			\
   assert.c compat.c errno.c extract-dbl.c invalid.c memory.c		\
   mp_bpl.c mp_clz_tab.c mp_dv_tab.c mp_minv_tab.c mp_get_fns.c mp_set_fns.c \
   rand.c randclr.c randdef.c randiset.c randlc2s.c randlc2x.c randmt.c	\
   randmts.c rands.c randsd.c randsdui.c randbui.c randmui.c version.c
-EXTRA_libgmp_la_SOURCES = tal-debug.c tal-notreent.c tal-reent.c
-libgmp_la_DEPENDENCIES = @TAL_OBJECT@		\
+EXTRA_libmpir_la_SOURCES = tal-debug.c tal-notreent.c tal-reent.c
+libmpir_la_DEPENDENCIES = @TAL_OBJECT@		\
   $(MPF_OBJECTS) $(MPZ_OBJECTS) $(MPQ_OBJECTS)	\
   $(MPN_OBJECTS) @mpn_objs_in_libgmp@		\
   $(PRINTF_OBJECTS)  $(SCANF_OBJECTS)
-libgmp_la_LIBADD = $(libgmp_la_DEPENDENCIES)
-libgmp_la_LDFLAGS = $(GMP_LDFLAGS) $(LIBGMP_LDFLAGS) \
+libmpir_la_LIBADD = $(libmpir_la_DEPENDENCIES)
+libmpir_la_LDFLAGS = $(GMP_LDFLAGS) $(LIBGMP_LDFLAGS) \
   -version-info $(LIBGMP_LT_CURRENT):$(LIBGMP_LT_REVISION):$(LIBGMP_LT_AGE)
 
 
-# We need at least one .cc file in $(libgmpxx_la_SOURCES) so automake will
+# We need at least one .cc file in $(libmpirxx_la_SOURCES) so automake will
 # use $(CXXLINK) rather than the plain C $(LINK).  cxx/dummy.cc is that
 # file.
 
 if WANT_CXX
 GMPXX_LTLIBRARIES_OPTION = libmpirxx.la
 endif
-libgmpxx_la_SOURCES = cxx/dummy.cc
-libgmpxx_la_DEPENDENCIES = $(CXX_OBJECTS) libmpir.la
-libgmpxx_la_LIBADD = $(libgmpxx_la_DEPENDENCIES)
-libgmpxx_la_LDFLAGS = $(GMP_LDFLAGS) $(LIBGMPXX_LDFLAGS) \
+libmpirxx_la_SOURCES = cxx/dummy.cc
+libmpirxx_la_DEPENDENCIES = $(CXX_OBJECTS) libmpir.la
+libmpirxx_la_LIBADD = $(libmpirxx_la_DEPENDENCIES)
+libmpirxx_la_LDFLAGS = $(GMP_LDFLAGS) $(LIBGMPXX_LDFLAGS) \
   -version-info $(LIBGMPXX_LT_CURRENT):$(LIBGMPXX_LT_REVISION):$(LIBGMPXX_LT_AGE)
 
 
