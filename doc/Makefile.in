@@ -55,9 +55,9 @@ POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
 subdir = doc
-DIST_COMMON = $(gmp_TEXINFOS) $(srcdir)/Makefile.am \
-	$(srcdir)/Makefile.in $(srcdir)/stamp-vti \
-	$(srcdir)/version.texi mdate-sh texinfo.tex
+DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in \
+	$(srcdir)/stamp-vti $(srcdir)/version.texi mdate-sh \
+	texinfo.tex
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/acinclude.m4 \
 	$(top_srcdir)/configure.in
@@ -70,13 +70,13 @@ depcomp =
 am__depfiles_maybe =
 SOURCES =
 DIST_SOURCES =
-INFO_DEPS = $(srcdir)/gmp.info
+INFO_DEPS = $(srcdir)/mpir.info
 am__TEXINFO_TEX_DIR = $(srcdir)
-DVIS = gmp.dvi
-PDFS = gmp.pdf
-PSS = gmp.ps
-HTMLS = gmp.html
-TEXINFOS = gmp.texi
+DVIS = mpir.dvi
+PDFS = mpir.pdf
+PSS = mpir.ps
+HTMLS = mpir.html
+TEXINFOS = mpir.texi
 TEXI2DVI = texi2dvi
 TEXI2PDF = $(TEXI2DVI) --pdf --batch
 MAKEINFOHTML = $(MAKEINFO) --html
@@ -234,7 +234,7 @@ sharedstatedir = @sharedstatedir@
 sysconfdir = @sysconfdir@
 target_alias = @target_alias@
 EXTRA_DIST = isa_abi_headache
-info_TEXINFOS = gmp.texi
+info_TEXINFOS = mpir.texi
 gmp_TEXINFOS = fdl.texi
 all: all-am
 
@@ -324,14 +324,14 @@ distclean-libtool:
 	    rm -rf $(@:.html=); else rm -Rf $(@:.html=.htp) $@; fi; \
 	  exit 1; \
 	fi
-$(srcdir)/gmp.info: gmp.texi $(srcdir)/version.texi $(gmp_TEXINFOS)
-gmp.dvi: gmp.texi $(srcdir)/version.texi $(gmp_TEXINFOS)
-gmp.pdf: gmp.texi $(srcdir)/version.texi $(gmp_TEXINFOS)
-gmp.html: gmp.texi $(srcdir)/version.texi $(gmp_TEXINFOS)
+$(srcdir)/mpir.info: mpir.texi $(srcdir)/version.texi
+mpir.dvi: mpir.texi $(srcdir)/version.texi
+mpir.pdf: mpir.texi $(srcdir)/version.texi
+mpir.html: mpir.texi $(srcdir)/version.texi
 $(srcdir)/version.texi: @MAINTAINER_MODE_TRUE@ $(srcdir)/stamp-vti
-$(srcdir)/stamp-vti: gmp.texi $(top_srcdir)/configure
-	@(dir=.; test -f ./gmp.texi || dir=$(srcdir); \
-	set `$(SHELL) $(srcdir)/mdate-sh $$dir/gmp.texi`; \
+$(srcdir)/stamp-vti: mpir.texi $(top_srcdir)/configure
+	@(dir=.; test -f ./mpir.texi || dir=$(srcdir); \
+	set `$(SHELL) $(srcdir)/mdate-sh $$dir/mpir.texi`; \
 	echo "@set UPDATED $$1 $$2 $$3"; \
 	echo "@set UPDATED-MONTH $$2 $$3"; \
 	echo "@set EDITION $(VERSION)"; \
@@ -389,9 +389,9 @@ dist-info: $(INFO_DEPS)
 	done
 
 mostlyclean-aminfo:
-	-rm -rf gmp.aux gmp.cp gmp.cps gmp.fn gmp.fns gmp.ky gmp.kys gmp.log gmp.pg \
-	  gmp.pgs gmp.tmp gmp.toc gmp.tp gmp.vr gmp.vrs gmp.dvi \
-	  gmp.pdf gmp.ps gmp.html
+	-rm -rf mpir.aux mpir.cp mpir.cps mpir.fn mpir.fns mpir.ky mpir.kys mpir.log \
+	  mpir.pg mpir.pgs mpir.tmp mpir.toc mpir.tp mpir.vr mpir.vrs \
+	  mpir.dvi mpir.pdf mpir.ps mpir.html
 
 maintainer-clean-aminfo:
 	@list='$(INFO_DEPS)'; for i in $$list; do \

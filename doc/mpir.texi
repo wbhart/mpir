@@ -1,6 +1,6 @@
 \input texinfo    @c -*-texinfo-*-
 @c %**start of header
-@setfilename gmp.info
+@setfilename mpir.info
 @include version.texi
 @settitle MPIR @value{VERSION}
 @synindex tp fn
@@ -616,10 +616,10 @@ The @option{--prefix} option can be used in the normal way to direct MPIR to
 install under a particular tree.  The default is @samp{/usr/local}.
 
 @option{--exec-prefix} can be used to direct architecture-dependent files like
-@file{libgmp.a}/@file{libmpir.a} to a different location.  This can be used to share
+@file{libmpir.a} to a different location.  This can be used to share
 architecture-independent parts like the documentation, but separate the
 dependent parts.  Note however that @file{mpir.h} and @file{mp.h} are
-architecture-dependent since they encode certain aspects of @file{libgmp}/@file{libmpir}, so
+architecture-dependent since they encode certain aspects of @file{libmpir}, so
 it will be necessary to ensure both @file{$prefix/include} and
 @file{$exec_prefix/include} are available to the compiler.
 
@@ -678,7 +678,7 @@ build system.
 
 In all cases the compiler must be able to produce an executable (of whatever
 format) from a standard C @code{main}.  Although only object files will go to
-make up @file{libgmp}/@file{libmpir}, @samp{./configure} uses linking tests for various
+make up @file{libmpir}, @samp{./configure} uses linking tests for various
 purposes, such as determining what functions are available on the host system.
 
 Currently a warning is given unless an explicit @samp{--build} is used when
@@ -932,21 +932,21 @@ they can be included as for instance @samp{CC_FOR_BUILD="cc -whatever"}.
 C++ support in MPIR can be enabled with @samp{--enable-cxx}, in which case a
 C++ compiler will be required.  As a convenience @samp{--enable-cxx=detect}
 can be used to enable C++ support only if a compiler can be found.  The C++
-support consists of a library @file{libgmpxx.la}/@file{libmpirxx.la} and header file
+support consists of a library @file{libmpirxx.la} and header file
 @file{mpirxx.h} (@pxref{Headers and Libraries}).
 
-A separate @file{libgmpxx.la}/@file{libmpirxx.la} has been adopted rather than having C++ objects
-within @file{libgmp.la}/@file{libmpir.la} in order to ensure dynamic linked C programs aren't
+A separate @file{libmpirxx.la} has been adopted rather than having C++ objects
+within @file{libmpir.la} in order to ensure dynamic linked C programs aren't
 bloated by a dependency on the C++ standard library, and to avoid any chance
 that the C++ compiler could be required when linking plain C programs.
 
-@file{libgmpxx.la}/@file{libmpirxx.la} will use certain internals from @file{libgmp.la}/@file{libmpir.la} and can
-only be expected to work with @file{libgmp.la}/@file{libmpir.la} from the same MPIR version.
+@file{libmpirxx.la} will use certain internals from @file{libmpir.la} and can
+only be expected to work with @file{libmpir.la} from the same MPIR version.
 Future changes to the relevant internals will be accompanied by renaming, so a
 mismatch will cause unresolved symbols rather than perhaps mysterious
 misbehaviour.
 
-In general @file{libgmpxx.la}/@file{libmpirxx.la} will be usable only with the C++ compiler that
+In general @file{libmpirxx.la} will be usable only with the C++ compiler that
 built it, since name mangling and runtime support are usually incompatible
 between different compilers.
 
@@ -1067,13 +1067,13 @@ can specify a different path.  Normally this is completely unnecessary.
 @item Documentation
 @cindex Documentation formats
 @cindex Texinfo
-The source for the document you're now reading is @file{doc/gmp.texi}, in
+The source for the document you're now reading is @file{doc/mpir.texi}, in
 Texinfo format, see @GMPreftop{texinfo, Texinfo}.
 
 @cindex Postscript
 @cindex DVI
 @cindex PDF
-Info format @samp{doc/gmp.info} is included in the distribution.  The usual
+Info format @samp{doc/mpir.info} is included in the distribution.  The usual
 automake targets are available to make PostScript, DVI, PDF and HTML (these
 will require various @TeX{} and Texinfo tools).
 
@@ -1406,8 +1406,8 @@ libtool versioning is not fully checked by the loader an auxiliary mechanism may
 needed to express that a dynamic linked application depends on a new enough
 MPIR.
 
-An auxiliary mechanism may also be needed to express that @file{libgmpxx.la}/@file{libmpirxx.la}
-(from @option{--enable-cxx}, @pxref{Build Options}) requires @file{libgmp.la}/@file{libmpir.la}
+An auxiliary mechanism may also be needed to express that @file{libmpirxx.la}
+(from @option{--enable-cxx}, @pxref{Build Options}) requires @file{libmpir.la}
 from the same MPIR version, since this is not done by the libtool versioning,
 nor otherwise.  A mismatch will result in unresolved symbols from the linker,
 or perhaps the loader.
@@ -1473,7 +1473,7 @@ used.  A shared build can be attempted with
 @end example
 
 Note that the @samp{--disable-static} is necessary because in a shared build
-libtool makes @file{libgmp.a}/@file{libmpir.a} a symlink to @file{libgmp.so}/@file{libmpir.so}, apparently for
+libtool makes @file{libmpir.a} a symlink to @file{libmpir.so}, apparently for
 the benefit of old versions of @command{ld} which only recognise @file{.a},
 but unfortunately this is done even if a fully functional @command{ld} is
 available.
@@ -1550,7 +1550,7 @@ in @file{mpir.h} must be different.
 A MINGW DLL build of MPIR can be used with Microsoft C@.  Libtool doesn't
 install a @file{.lib} format import library, but it can be created with MS
 @command{lib} as follows, and copied to the install directory.  Similarly for
-@file{libmp} and @file{libgmpxx}/@file{libmpirxx}.
+@file{libmp} and @file{libmpirxx}.
 
 @example
 cd .libs
@@ -1679,29 +1679,29 @@ various subdirectories uses up memory.
 @cindex Binutils @command{strip}
 @cindex GNU @command{strip}
 @command{strip} from GNU binutils 2.11 and earlier should not be used on the
-static libraries @file{libgmp.a}/@file{libmpir.a} and @file{libmp.a} since it will discard all
+static libraries @file{libmpir.a} and @file{libmp.a} since it will discard all
 but the last of multiple archive members with the same name, like the three
-versions of @file{init.o} in @file{libgmp.a}/@file{libmpir.a}.  Binutils 2.12 or higher can be
+versions of @file{init.o} in @file{libmpir.a}.  Binutils 2.12 or higher can be
 used successfully.
 
-The shared libraries @file{libgmp.so}/@file{libmpir.so} and @file{libmp.so} are not affected by
+The shared libraries @file{libmpir.so} and @file{libmp.so} are not affected by
 this and any version of @command{strip} can be used on them.
 
 @item @command{make} syntax error
 @cindex SCO
 @cindex IRIX
 On certain versions of SCO OpenServer 5 and IRIX 6.5 the native @command{make}
-is unable to handle the long dependencies list for @file{libgmp.la}/@file{libmpir.la}.  The
+is unable to handle the long dependencies list for @file{libmpir.la}.  The
 symptom is a ``syntax error'' on the following line of the top-level
 @file{Makefile}.
 
 @example
-libgmp.la: $(libgmp_la_OBJECTS) $(libgmp_la_DEPENDENCIES)
+libmpir.la: $(libmpir_la_OBJECTS) $(libmpir_la_DEPENDENCIES)
 @end example
 
 Either use GNU Make, or as a workaround remove
-@code{$(libgmp_la_DEPENDENCIES)} from that line (which will make the initial
-build work, but if any recompiling is done @file{libgmp.la}/@file{libmpir.la} might not be
+@code{$(libmpir_la_DEPENDENCIES)} from that line (which will make the initial
+build work, but if any recompiling is done @file{libmpir.la} might not be
 rebuilt).
 
 @item MacOS X (@samp{*-*-darwin*})
@@ -1732,7 +1732,7 @@ serious bugs.
 @item Solaris 2.6
 @cindex Solaris
 The system @command{sed} prints an error ``Output line too long'' when libtool
-builds @file{libgmp.la}/@file{libmpir.la}.  This doesn't seem to cause any obvious ill effects,
+builds @file{libmpir.la}.  This doesn't seem to cause any obvious ill effects,
 but GNU @command{sed} is recommended, to avoid any doubt.
 
 @item Sparc Solaris 2.7 with gcc 2.95.2 in @samp{ABI=32}
@@ -1838,16 +1838,16 @@ as @code{gmp_obstack_printf}, when available.
 
 @cindex Libraries
 @cindex Linking
-@cindex @code{libgmp/libmpir}
-All programs using MPIR must link against the @file{libgmp} or @file{libmpir} library.  On a
-typical Unix-like system this can be done with @samp{-lgmp} or @samp{-lmpir} respectively, for example
+@cindex @code{libmpir}
+All programs using MPIR must link against the @file{libmpir} library.  On a
+typical Unix-like system this can be done with @samp{-lmpir} respectively, for example
 
 @example
 gcc myprogram.c -lmpir
 @end example
 
-@cindex @code{libgmpxx}
-MPIR C++ functions are in a separate @file{libgmpxx} or @file{libmpirxx} library.  This is built
+@cindex @code{libmpirxx}
+MPIR C++ functions are in a separate @file{libmpirxx} library.  This is built
 and installed if C++ support has been enabled (@pxref{Build Options}).  For
 example,
 
@@ -2360,8 +2360,8 @@ as efficient as it can on both large and small operands.
 
 @item Static Linking
 @cindex Static linking
-On some CPUs, in particular the x86s, the static @file{libgmp.a}/@file{libmpir.a} should be
-used for maximum speed, since the PIC code in the shared @file{libgmp.so}/@file{libmpir.so} will
+On some CPUs, in particular the x86s, the static @file{libmpir.a} should be
+used for maximum speed, since the PIC code in the shared @file{libmpir.so} will
 have a small overhead on each function call and global data address.  For many
 programs this will be insignificant, but for long calculations there's a gain
 to be had.
@@ -5887,7 +5887,7 @@ Obstacks, libc, The GNU C Library Reference Manual}.
 @cindex C++ @code{ostream} output
 @cindex @code{ostream} output
 
-The following functions are provided in @file{libgmpxx}/@file{libmpirxx} (@pxref{Headers and
+The following functions are provided in @file{libmpirxx} (@pxref{Headers and
 Libraries}), which is built if C++ support is enabled (@pxref{Build Options}).
 Prototypes are available from @code{<mpir.h>}.
 
@@ -6176,7 +6176,7 @@ way C99 @code{sscanf} is the same as @code{fscanf}.
 @cindex C++ @code{istream} input
 @cindex @code{istream} input
 
-The following functions are provided in @file{libgmpxx}/@file{libmpirxx} (@pxref{Headers and
+The following functions are provided in @file{libmpirxx} (@pxref{Headers and
 Libraries}), which is built only if C++ support is enabled (@pxref{Build
 Options}).  Prototypes are available from @code{<mpir.h>}.
 
@@ -6262,7 +6262,7 @@ All the C++ classes and functions are available with
 #include <mpirxx.h>
 @end example
 
-Programs should be linked with the @file{libgmpxx}/@file{libmpirxx} and @file{libgmp}/@file{libmpir}
+Programs should be linked with the @file{libmpirxx} and @file{libmpir}
 libraries.  For example,
 
 @example
@@ -10288,5 +10288,5 @@ volume 43, number 8, August 1994, pp.@: 899-908.
 
 @c Local variables:
 @c fill-column: 78
-@c compile-command: "make gmp.info"
+@c compile-command: "make mpir.info"
 @c End:

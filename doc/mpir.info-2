@@ -1,4 +1,4 @@
-This is gmp.info, produced by makeinfo version 4.8 from gmp.texi.
+This is mpir.info, produced by makeinfo version 4.8 from mpir.texi.
 
    This manual describes how to install and use MPIR, the Multiple
 Precision Integers and Rationals library, version 0.9.0.
@@ -22,7 +22,7 @@ START-INFO-DIR-ENTRY
 END-INFO-DIR-ENTRY
 
 
-File: gmp.info,  Node: Binary to Radix,  Next: Radix to Binary,  Prev: Radix Conversion Algorithms,  Up: Radix Conversion Algorithms
+File: mpir.info,  Node: Binary to Radix,  Next: Radix to Binary,  Prev: Radix Conversion Algorithms,  Up: Radix Conversion Algorithms
 
 16.6.1 Binary to Radix
 ----------------------
@@ -97,7 +97,7 @@ ought to smooth out a graph of times against sizes, but may or may not
 be a net speedup.
 
 
-File: gmp.info,  Node: Radix to Binary,  Prev: Binary to Radix,  Up: Radix Conversion Algorithms
+File: mpir.info,  Node: Radix to Binary,  Prev: Binary to Radix,  Up: Radix Conversion Algorithms
 
 16.6.2 Radix to Binary
 ----------------------
@@ -136,7 +136,7 @@ corresponding `GET_STR_PRECOMPUTE_THRESHOLD' is that `mpn_mul_1' is
 much faster than `mpn_divrem_1' (often by a factor of 10, or more).
 
 
-File: gmp.info,  Node: Other Algorithms,  Next: Assembler Coding,  Prev: Radix Conversion Algorithms,  Up: Algorithms
+File: mpir.info,  Node: Other Algorithms,  Next: Assembler Coding,  Prev: Radix Conversion Algorithms,  Up: Algorithms
 
 16.7 Other Algorithms
 =====================
@@ -151,7 +151,7 @@ File: gmp.info,  Node: Other Algorithms,  Next: Assembler Coding,  Prev: Radix C
 * Random Number Algorithms::
 
 
-File: gmp.info,  Node: Prime Testing Algorithm,  Next: Factorial Algorithm,  Prev: Other Algorithms,  Up: Other Algorithms
+File: mpir.info,  Node: Prime Testing Algorithm,  Next: Factorial Algorithm,  Prev: Other Algorithms,  Up: Other Algorithms
 
 16.7.1 Prime Testing
 --------------------
@@ -177,7 +177,7 @@ powerful than this analysis would suggest, but 1/4 is all that's proven
 for an arbitrary n.
 
 
-File: gmp.info,  Node: Factorial Algorithm,  Next: Binomial Coefficients Algorithm,  Prev: Prime Testing Algorithm,  Up: Other Algorithms
+File: mpir.info,  Node: Factorial Algorithm,  Next: Binomial Coefficients Algorithm,  Prev: Prime Testing Algorithm,  Up: Other Algorithms
 
 16.7.2 Factorial
 ----------------
@@ -213,7 +213,7 @@ equal products are more efficient for the current multiply
 implementation.
 
 
-File: gmp.info,  Node: Binomial Coefficients Algorithm,  Next: Fibonacci Numbers Algorithm,  Prev: Factorial Algorithm,  Up: Other Algorithms
+File: mpir.info,  Node: Binomial Coefficients Algorithm,  Next: Fibonacci Numbers Algorithm,  Prev: Factorial Algorithm,  Up: Other Algorithms
 
 16.7.3 Binomial Coefficients
 ----------------------------
@@ -235,7 +235,7 @@ as many fit a limb, to save multi-precision operations, though for
 and n-k+i in general won't fit in a limb at all.
 
 
-File: gmp.info,  Node: Fibonacci Numbers Algorithm,  Next: Lucas Numbers Algorithm,  Prev: Binomial Coefficients Algorithm,  Up: Other Algorithms
+File: mpir.info,  Node: Fibonacci Numbers Algorithm,  Next: Lucas Numbers Algorithm,  Prev: Binomial Coefficients Algorithm,  Up: Other Algorithms
 
 16.7.4 Fibonacci Numbers
 ------------------------
@@ -290,7 +290,7 @@ further limbs, which saves some code size.  See comments with
 `mpz_fib_ui' and the internal `mpn_fib2_ui' for how this is done.
 
 
-File: gmp.info,  Node: Lucas Numbers Algorithm,  Next: Random Number Algorithms,  Prev: Fibonacci Numbers Algorithm,  Up: Other Algorithms
+File: mpir.info,  Node: Lucas Numbers Algorithm,  Next: Random Number Algorithms,  Prev: Fibonacci Numbers Algorithm,  Up: Other Algorithms
 
 16.7.5 Lucas Numbers
 --------------------
@@ -313,7 +313,7 @@ Fibonacci numbers, similar to what `mpz_fib_ui' does.
      L[2k+1] = 5*F[k-1]*(2*F[k]+F[k-1]) - 4*(-1)^k
 
 
-File: gmp.info,  Node: Random Number Algorithms,  Prev: Lucas Numbers Algorithm,  Up: Other Algorithms
+File: mpir.info,  Node: Random Number Algorithms,  Prev: Lucas Numbers Algorithm,  Up: Other Algorithms
 
 16.7.6 Random Numbers
 ---------------------
@@ -357,7 +357,7 @@ unsuitable for cryptographic applications without further hashing or
 the like.
 
 
-File: gmp.info,  Node: Assembler Coding,  Prev: Other Algorithms,  Up: Algorithms
+File: mpir.info,  Node: Assembler Coding,  Prev: Other Algorithms,  Up: Algorithms
 
 16.8 Assembler Coding
 =====================
@@ -386,7 +386,7 @@ offers a speedup over generic C by a factor of anything from 2 to 10.
 * Assembler Writing Guide::
 
 
-File: gmp.info,  Node: Assembler Code Organisation,  Next: Assembler Basics,  Prev: Assembler Coding,  Up: Assembler Coding
+File: mpir.info,  Node: Assembler Code Organisation,  Next: Assembler Basics,  Prev: Assembler Coding,  Up: Assembler Coding
 
 16.8.1 Code Organisation
 ------------------------
@@ -409,7 +409,7 @@ There's no effort put into nails if they're not going to enhance a
 given CPU.
 
 
-File: gmp.info,  Node: Assembler Basics,  Next: Assembler Carry Propagation,  Prev: Assembler Code Organisation,  Up: Assembler Coding
+File: mpir.info,  Node: Assembler Basics,  Next: Assembler Carry Propagation,  Prev: Assembler Code Organisation,  Up: Assembler Coding
 
 16.8.2 Assembler Basics
 -----------------------
@@ -433,7 +433,7 @@ of writing on superscalar processors, and loops can be vectorized on a
 vector processor, depending on the carry handling.
 
 
-File: gmp.info,  Node: Assembler Carry Propagation,  Next: Assembler Cache Handling,  Prev: Assembler Basics,  Up: Assembler Coding
+File: mpir.info,  Node: Assembler Carry Propagation,  Next: Assembler Cache Handling,  Prev: Assembler Basics,  Up: Assembler Coding
 
 16.8.3 Carry Propagation
 ------------------------
@@ -470,7 +470,7 @@ loop involving carry bits needs to be coded in assembler for best
 results.
 
 
-File: gmp.info,  Node: Assembler Cache Handling,  Next: Assembler Functional Units,  Prev: Assembler Carry Propagation,  Up: Assembler Coding
+File: mpir.info,  Node: Assembler Cache Handling,  Next: Assembler Functional Units,  Prev: Assembler Carry Propagation,  Up: Assembler Coding
 
 16.8.4 Cache Handling
 ---------------------
@@ -516,7 +516,7 @@ accesses and initiates suitable cache movements automatically, making
 life easy.
 
 
-File: gmp.info,  Node: Assembler Functional Units,  Next: Assembler Floating Point,  Prev: Assembler Cache Handling,  Up: Assembler Coding
+File: mpir.info,  Node: Assembler Functional Units,  Next: Assembler Floating Point,  Prev: Assembler Cache Handling,  Up: Assembler Coding
 
 16.8.5 Functional Units
 -----------------------
@@ -552,7 +552,7 @@ integer side, or even by doing integer to float conversions in integers
 using bit twiddling.
 
 
-File: gmp.info,  Node: Assembler Floating Point,  Next: Assembler SIMD Instructions,  Prev: Assembler Functional Units,  Up: Assembler Coding
+File: mpir.info,  Node: Assembler Floating Point,  Next: Assembler SIMD Instructions,  Prev: Assembler Functional Units,  Up: Assembler Coding
 
 16.8.6 Floating Point
 ---------------------
@@ -649,7 +649,7 @@ limb, generating a low 64-bit result limb and a high 33-bit carry limb
 (i48 extends 33 bits into the high half).
 
 
-File: gmp.info,  Node: Assembler SIMD Instructions,  Next: Assembler Software Pipelining,  Prev: Assembler Floating Point,  Up: Assembler Coding
+File: mpir.info,  Node: Assembler SIMD Instructions,  Next: Assembler Software Pipelining,  Prev: Assembler Floating Point,  Up: Assembler Coding
 
 16.8.7 SIMD Instructions
 ------------------------
@@ -670,7 +670,7 @@ the P55 `mpn_mul_1'.  SSE2 is used for Pentium 4 `mpn_mul_1',
 `mpn_addmul_1', and `mpn_submul_1'.
 
 
-File: gmp.info,  Node: Assembler Software Pipelining,  Next: Assembler Loop Unrolling,  Prev: Assembler SIMD Instructions,  Up: Assembler Coding
+File: mpir.info,  Node: Assembler Software Pipelining,  Next: Assembler Loop Unrolling,  Prev: Assembler SIMD Instructions,  Up: Assembler Coding
 
 16.8.8 Software Pipelining
 --------------------------
@@ -695,7 +695,7 @@ to use while another (or multiple others) are still in progress.
 (*note Assembler Loop Unrolling::).
 
 
-File: gmp.info,  Node: Assembler Loop Unrolling,  Next: Assembler Writing Guide,  Prev: Assembler Software Pipelining,  Up: Assembler Coding
+File: mpir.info,  Node: Assembler Loop Unrolling,  Next: Assembler Writing Guide,  Prev: Assembler Software Pipelining,  Up: Assembler Coding
 
 16.8.9 Loop Unrolling
 ---------------------
@@ -742,7 +742,7 @@ ways, for example
      difficult in combination with deep pipelining.
 
 
-File: gmp.info,  Node: Assembler Writing Guide,  Prev: Assembler Loop Unrolling,  Up: Assembler Coding
+File: mpir.info,  Node: Assembler Writing Guide,  Prev: Assembler Loop Unrolling,  Up: Assembler Coding
 
 16.8.10 Writing Guide
 ---------------------
@@ -801,7 +801,7 @@ either to a suitable part of the wind-down or to special code for small
 sizes.
 
 
-File: gmp.info,  Node: Internals,  Next: Contributors,  Prev: Algorithms,  Up: Top
+File: mpir.info,  Node: Internals,  Next: Contributors,  Prev: Algorithms,  Up: Top
 
 17 Internals
 ************
@@ -820,7 +820,7 @@ only the documented interfaces described in previous chapters.*
 * C++ Interface Internals::
 
 
-File: gmp.info,  Node: Integer Internals,  Next: Rational Internals,  Prev: Internals,  Up: Internals
+File: mpir.info,  Node: Integer Internals,  Next: Rational Internals,  Prev: Internals,  Up: Internals
 
 17.1 Integer Internals
 ======================
@@ -870,7 +870,7 @@ usually a `long'.  This is done to make the fields just 32 bits on some
 providing plenty of range.
 
 
-File: gmp.info,  Node: Rational Internals,  Next: Float Internals,  Prev: Integer Internals,  Up: Internals
+File: mpir.info,  Node: Rational Internals,  Next: Float Internals,  Prev: Integer Internals,  Up: Internals
 
 17.2 Rational Internals
 =======================
@@ -898,7 +898,7 @@ numerator and denominator, or of course `mpz_t' variables can be used
 directly.
 
 
-File: gmp.info,  Node: Float Internals,  Next: Raw Output Internals,  Prev: Rational Internals,  Up: Internals
+File: mpir.info,  Node: Float Internals,  Next: Raw Output Internals,  Prev: Rational Internals,  Up: Internals
 
 17.3 Float Internals
 ====================
@@ -1061,7 +1061,7 @@ Application Precisions
      considered simply to be 64 bits, a nice multiple of the limb size.
 
 
-File: gmp.info,  Node: Raw Output Internals,  Next: C++ Interface Internals,  Prev: Float Internals,  Up: Internals
+File: mpir.info,  Node: Raw Output Internals,  Next: C++ Interface Internals,  Prev: Float Internals,  Up: Internals
 
 17.4 Raw Output Internals
 =========================
@@ -1091,7 +1091,7 @@ reading or writing, so neither a big endian nor little endian system
 can just read and write `_mp_d'.
 
 
-File: gmp.info,  Node: C++ Interface Internals,  Prev: Raw Output Internals,  Up: Internals
+File: mpir.info,  Node: C++ Interface Internals,  Prev: Raw Output Internals,  Up: Internals
 
 17.5 C++ Interface Internals
 ============================
@@ -1182,7 +1182,7 @@ subexpressions as their arguments, like this:
 complexity and all subexpressions are evaluated to the precision of `f'.
 
 
-File: gmp.info,  Node: Contributors,  Next: References,  Prev: Internals,  Up: Top
+File: mpir.info,  Node: Contributors,  Next: References,  Prev: Internals,  Up: Top
 
 Appendix A Contributors
 ***********************
@@ -1307,7 +1307,7 @@ distinguish modern processors.
 platforms. He is the release manager for the MPIR project.
 
 
-File: gmp.info,  Node: References,  Next: GNU Free Documentation License,  Prev: Contributors,  Up: Top
+File: mpir.info,  Node: References,  Next: GNU Free Documentation License,  Prev: Contributors,  Up: Top
 
 Appendix B References
 *********************
@@ -1422,7 +1422,7 @@ B.2 Papers
      pp. 899-908.
 
 
-File: gmp.info,  Node: GNU Free Documentation License,  Next: Concept Index,  Prev: References,  Up: Top
+File: mpir.info,  Node: GNU Free Documentation License,  Next: Concept Index,  Prev: References,  Up: Top
 
 Appendix C GNU Free Documentation License
 *****************************************
@@ -1854,7 +1854,7 @@ free software license, such as the GNU General Public License, to
 permit their use in free software.
 
 
-File: gmp.info,  Node: Concept Index,  Next: Function Index,  Prev: GNU Free Documentation License,  Up: Top
+File: mpir.info,  Node: Concept Index,  Next: Function Index,  Prev: GNU Free Documentation License,  Up: Top
 
 Concept Index
 *************
@@ -1865,21 +1865,21 @@ Concept Index
 * #include:                              Headers and Libraries.
                                                               (line   6)
 * --build:                               Build Options.       (line  52)
-* --disable-fft:                         Build Options.       (line 317)
+* --disable-fft:                         Build Options.       (line 316)
 * --disable-shared:                      Build Options.       (line  45)
 * --disable-static:                      Build Options.       (line  45)
-* --enable-alloca:                       Build Options.       (line 278)
-* --enable-assert:                       Build Options.       (line 327)
+* --enable-alloca:                       Build Options.       (line 277)
+* --enable-assert:                       Build Options.       (line 326)
 * --enable-cxx:                          Build Options.       (line 229)
 * --enable-fat:                          Build Options.       (line 163)
-* --enable-mpbsd:                        Build Options.       (line 322)
+* --enable-mpbsd:                        Build Options.       (line 321)
 * --enable-profiling <1>:                Profiling.           (line   6)
-* --enable-profiling:                    Build Options.       (line 331)
+* --enable-profiling:                    Build Options.       (line 330)
 * --exec-prefix:                         Build Options.       (line  32)
 * --host:                                Build Options.       (line  66)
 * --prefix:                              Build Options.       (line  32)
 * -finstrument-functions:                Profiling.           (line  66)
-* 2exp functions:                        Efficiency.          (line  44)
+* 2exp functions:                        Efficiency.          (line  43)
 * 68000:                                 Notes for Particular Systems.
                                                               (line  85)
 * 80x86:                                 Notes for Particular Systems.
@@ -1893,7 +1893,7 @@ Concept Index
                                                               (line   7)
 * AIX:                                   ABI and ISA.         (line 169)
 * Algorithms:                            Algorithms.          (line   6)
-* alloca:                                Build Options.       (line 278)
+* alloca:                                Build Options.       (line 277)
 * Allocation of memory:                  Custom Allocation.   (line   6)
 * AMD64:                                 ABI and ISA.         (line  44)
 * Application Binary Interface:          ABI and ISA.         (line   6)
@@ -1920,7 +1920,7 @@ Concept Index
 * Assembler writing guide:               Assembler Writing Guide.
                                                               (line   6)
 * Assertion checking <1>:                Debugging.           (line  79)
-* Assertion checking:                    Build Options.       (line 327)
+* Assertion checking:                    Build Options.       (line 326)
 * Assignment functions <1>:              Simultaneous Float Init & Assign.
                                                               (line   6)
 * Assignment functions <2>:              Assigning Floats.    (line   6)
@@ -1933,7 +1933,7 @@ Concept Index
 * Basics:                                MPIR Basics.         (line   6)
 * Berkeley MP compatible functions <1>:  BSD Compatible Functions.
                                                               (line   6)
-* Berkeley MP compatible functions:      Build Options.       (line 322)
+* Berkeley MP compatible functions:      Build Options.       (line 321)
 * Binomial coefficient algorithm:        Binomial Coefficients Algorithm.
                                                               (line   6)
 * Binomial coefficient functions:        Number Theoretic Functions.
@@ -1950,7 +1950,7 @@ Concept Index
                                                               (line   7)
 * BSD MP compatible functions <1>:       BSD Compatible Functions.
                                                               (line   6)
-* BSD MP compatible functions:           Build Options.       (line 322)
+* BSD MP compatible functions:           Build Options.       (line 321)
 * Bug reporting:                         Reporting Bugs.      (line   6)
 * Build directory:                       Build Options.       (line  19)
 * Build notes for binary packaging:      Notes for Package Builds.
@@ -1964,7 +1964,7 @@ Concept Index
 * Building MPIR:                         Installing MPIR.     (line   6)
 * Bus error:                             Debugging.           (line   7)
 * C compiler:                            Build Options.       (line 181)
-* C++ compiler:                          Build Options.       (line 254)
+* C++ compiler:                          Build Options.       (line 253)
 * C++ interface:                         C++ Class Interface. (line   6)
 * C++ interface internals:               C++ Interface Internals.
                                                               (line   6)
@@ -2008,12 +2008,12 @@ Concept Index
                                                               (line  24)
 * Cross compiling:                       Build Options.       (line  66)
 * Custom allocation:                     Custom Allocation.   (line   6)
-* CXX:                                   Build Options.       (line 254)
-* CXXFLAGS:                              Build Options.       (line 254)
+* CXX:                                   Build Options.       (line 253)
+* CXXFLAGS:                              Build Options.       (line 253)
 * Cygwin:                                Notes for Particular Systems.
                                                               (line  43)
 * Darwin:                                Known Build Problems.
-                                                              (line  53)
+                                                              (line  51)
 * Debugging:                             Debugging.           (line   6)
 * Demonstration programs:                Demonstration Programs.
                                                               (line   6)
@@ -2021,7 +2021,7 @@ Concept Index
                                                               (line  23)
 * Divisibility algorithm:                Exact Remainder.     (line  30)
 * Divisibility functions:                Integer Division.    (line 118)
-* Divisibility testing:                  Efficiency.          (line  92)
+* Divisibility testing:                  Efficiency.          (line  91)
 * Division algorithms:                   Division Algorithms. (line   6)
 * Division functions <1>:                Float Arithmetic.    (line  33)
 * Division functions <2>:                Rational Arithmetic. (line  23)
@@ -2032,11 +2032,11 @@ Concept Index
                                                               (line  43)
 * DLLs:                                  Notes for Particular Systems.
                                                               (line  60)
-* DocBook:                               Build Options.       (line 354)
-* Documentation formats:                 Build Options.       (line 347)
+* DocBook:                               Build Options.       (line 353)
+* Documentation formats:                 Build Options.       (line 346)
 * Documentation license:                 GNU Free Documentation License.
                                                               (line   6)
-* DVI:                                   Build Options.       (line 350)
+* DVI:                                   Build Options.       (line 349)
 * Efficiency:                            Efficiency.          (line   6)
 * Emacs:                                 Emacs.               (line   6)
 * Exact division functions:              Integer Division.    (line 108)
@@ -2045,7 +2045,7 @@ Concept Index
                                                               (line   6)
 * Exec prefix:                           Build Options.       (line  32)
 * Execution profiling <1>:               Profiling.           (line   6)
-* Execution profiling:                   Build Options.       (line 331)
+* Execution profiling:                   Build Options.       (line 330)
 * Exponentiation functions <1>:          Float Arithmetic.    (line  41)
 * Exponentiation functions:              Integer Exponentiation.
                                                               (line   6)
@@ -2067,7 +2067,7 @@ Concept Index
 * FDL, GNU Free Documentation License:   GNU Free Documentation License.
                                                               (line   6)
 * FFT multiplication <1>:                FFT Multiplication.  (line   6)
-* FFT multiplication:                    Build Options.       (line 317)
+* FFT multiplication:                    Build Options.       (line 316)
 * Fibonacci number algorithm:            Fibonacci Numbers Algorithm.
                                                               (line   6)
 * Fibonacci sequence functions:          Number Theoretic Functions.
@@ -2144,7 +2144,7 @@ Concept Index
 * IA-64:                                 ABI and ISA.         (line 107)
 * Import:                                Integer Import and Export.
                                                               (line  11)
-* In-place operations:                   Efficiency.          (line  58)
+* In-place operations:                   Efficiency.          (line  57)
 * Include files:                         Headers and Libraries.
                                                               (line   6)
 * info-lookup-symbol:                    Emacs.               (line   6)
@@ -2159,7 +2159,7 @@ Concept Index
                                                               (line   6)
 * Initialization functions:              Initializing Integers.
                                                               (line   6)
-* Initializing and clearing:             Efficiency.          (line  22)
+* Initializing and clearing:             Efficiency.          (line  21)
 * Input functions <1>:                   Formatted Input Functions.
                                                               (line   6)
 * Input functions <2>:                   I/O of Floats.       (line   6)
@@ -2211,7 +2211,7 @@ Concept Index
 * Inverse modulo functions:              Number Theoretic Functions.
                                                               (line  58)
 * IRIX <1>:                              Known Build Problems.
-                                                              (line  40)
+                                                              (line  38)
 * IRIX:                                  ABI and ISA.         (line 132)
 * ISA:                                   ABI and ISA.         (line   6)
 * istream input:                         C++ Formatted Input. (line   6)
@@ -2231,9 +2231,9 @@ Concept Index
                                                               (line  53)
 * Legendre symbol functions:             Number Theoretic Functions.
                                                               (line  67)
-* libgmp/libmpir:                        Headers and Libraries.
+* libmpir:                               Headers and Libraries.
                                                               (line  22)
-* libgmpxx:                              Headers and Libraries.
+* libmpirxx:                             Headers and Libraries.
                                                               (line  28)
 * Libraries:                             Headers and Libraries.
                                                               (line  22)
@@ -2260,7 +2260,7 @@ Concept Index
 * Lucas number functions:                Number Theoretic Functions.
                                                               (line 118)
 * MacOS X:                               Known Build Problems.
-                                                              (line  53)
+                                                              (line  51)
 * Mailing lists:                         Introduction to MPIR.
                                                               (line  38)
 * Malloc debugger:                       Debugging.           (line  30)
@@ -2294,7 +2294,7 @@ Concept Index
                                                               (line   6)
 * mpirxx.h:                              C++ Interface General.
                                                               (line   8)
-* MPN_PATH:                              Build Options.       (line 335)
+* MPN_PATH:                              Build Options.       (line 334)
 * MS Windows:                            Notes for Particular Systems.
                                                               (line  43)
 * MS-DOS:                                Notes for Particular Systems.
@@ -2305,14 +2305,14 @@ Concept Index
 * Nails:                                 Low-level Functions. (line 420)
 * Native compilation:                    Build Options.       (line  52)
 * NeXT:                                  Known Build Problems.
-                                                              (line  59)
+                                                              (line  57)
 * Next prime function:                   Number Theoretic Functions.
                                                               (line  23)
 * Nomenclature:                          Nomenclature and Types.
                                                               (line   6)
 * Non-Unix systems:                      Build Options.       (line  11)
 * Nth root algorithm:                    Nth Root Algorithm.  (line   6)
-* Number sequences:                      Efficiency.          (line 148)
+* Number sequences:                      Efficiency.          (line 147)
 * Number theoretic functions:            Number Theoretic Functions.
                                                               (line   6)
 * Numerator and denominator:             Applying Integer Functions.
@@ -2341,7 +2341,7 @@ Concept Index
                                                               (line   6)
 * Past GMP/MPIR versions:                Compatibility with older versions.
                                                               (line   6)
-* PDF:                                   Build Options.       (line 350)
+* PDF:                                   Build Options.       (line 349)
 * Perfect power algorithm:               Perfect Power Algorithm.
                                                               (line   6)
 * Perfect power functions:               Integer Roots.       (line  27)
@@ -2352,9 +2352,9 @@ Concept Index
                                                               (line  35)
 * Perl module:                           Demonstration Programs.
                                                               (line  35)
-* Postscript:                            Build Options.       (line 350)
+* Postscript:                            Build Options.       (line 349)
 * Power/PowerPC <1>:                     Known Build Problems.
-                                                              (line  65)
+                                                              (line  63)
 * Power/PowerPC:                         Notes for Particular Systems.
                                                               (line  97)
 * Powering algorithms:                   Powering Algorithms. (line   6)
@@ -2392,7 +2392,7 @@ Concept Index
                                                               (line   6)
 * Random state:                          Nomenclature and Types.
                                                               (line  41)
-* Rational arithmetic:                   Efficiency.          (line 114)
+* Rational arithmetic:                   Efficiency.          (line 113)
 * Rational arithmetic functions:         Rational Arithmetic. (line   6)
 * Rational assignment functions:         Initializing Rationals.
                                                               (line   6)
@@ -2412,7 +2412,7 @@ Concept Index
 * Rational sign tests:                   Comparing Rationals. (line  27)
 * Raw output internals:                  Raw Output Internals.
                                                               (line   6)
-* Reallocations:                         Efficiency.          (line  31)
+* Reallocations:                         Efficiency.          (line  30)
 * Reentrancy:                            Reentrancy.          (line   6)
 * References:                            References.          (line   6)
 * Remove factor functions:               Number Theoretic Functions.
@@ -2432,12 +2432,12 @@ Concept Index
                                                               (line  40)
 * scanf formatted input:                 Formatted Input.     (line   6)
 * SCO:                                   Known Build Problems.
-                                                              (line  40)
+                                                              (line  38)
 * Seeding random numbers:                Random State Seeding.
                                                               (line   6)
 * Segmentation violation:                Debugging.           (line   7)
 * Sequent Symmetry:                      Known Build Problems.
-                                                              (line  70)
+                                                              (line  68)
 * Services for Unix:                     Notes for Particular Systems.
                                                               (line  55)
 * Shared library versioning:             Notes for Package Builds.
@@ -2449,7 +2449,7 @@ Concept Index
                                                               (line  23)
 * Small operands:                        Efficiency.          (line   7)
 * Solaris <1>:                           Known Build Problems.
-                                                              (line  74)
+                                                              (line  72)
 * Solaris:                               ABI and ISA.         (line 194)
 * Sparc:                                 Notes for Particular Systems.
                                                               (line 109)
@@ -2462,7 +2462,7 @@ Concept Index
                                                               (line 138)
 * Stack backtrace:                       Debugging.           (line  50)
 * Stack overflow <1>:                    Debugging.           (line   7)
-* Stack overflow:                        Build Options.       (line 278)
+* Stack overflow:                        Build Options.       (line 277)
 * Static linking:                        Efficiency.          (line  14)
 * stdarg.h:                              Headers and Libraries.
                                                               (line  17)
@@ -2475,9 +2475,9 @@ Concept Index
                                                               (line 126)
 * Systems:                               Notes for Particular Systems.
                                                               (line   6)
-* Temporary memory:                      Build Options.       (line 278)
-* Texinfo:                               Build Options.       (line 347)
-* Text input/output:                     Efficiency.          (line 154)
+* Temporary memory:                      Build Options.       (line 277)
+* Texinfo:                               Build Options.       (line 346)
+* Text input/output:                     Efficiency.          (line 153)
 * Thread safety:                         Reentrancy.          (line   6)
 * Toom multiplication <1>:               Other Multiplication.
                                                               (line   6)
@@ -2485,7 +2485,7 @@ Concept Index
                                                               (line   6)
 * Types:                                 Nomenclature and Types.
                                                               (line   6)
-* ui and si functions:                   Efficiency.          (line  51)
+* ui and si functions:                   Efficiency.          (line  50)
 * Upward compatibility:                  Compatibility with older versions.
                                                               (line   6)
 * Useful macros and constants:           Useful Macros and Constants.
@@ -2505,10 +2505,10 @@ Concept Index
                                                               (line 132)
 * x87:                                   Notes for Particular Systems.
                                                               (line  34)
-* XML:                                   Build Options.       (line 354)
+* XML:                                   Build Options.       (line 353)
 
 
-File: gmp.info,  Node: Function Index,  Prev: Concept Index,  Up: Top
+File: mpir.info,  Node: Function Index,  Prev: Concept Index,  Up: Top
 
 Function and Type Index
 ***********************

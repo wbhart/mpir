@@ -1,4 +1,4 @@
-This is gmp.info, produced by makeinfo version 4.8 from gmp.texi.
+This is mpir.info, produced by makeinfo version 4.8 from mpir.texi.
 
    This manual describes how to install and use MPIR, the Multiple
 Precision Integers and Rationals library, version 0.9.0.
@@ -22,7 +22,7 @@ START-INFO-DIR-ENTRY
 END-INFO-DIR-ENTRY
 
 
-File: gmp.info,  Node: Top,  Next: Copying,  Prev: (dir),  Up: (dir)
+File: mpir.info,  Node: Top,  Next: Copying,  Prev: (dir),  Up: (dir)
 
 MPIR
 ****
@@ -72,7 +72,7 @@ is included in *Note GNU Free Documentation License::.
 * Function Index::
 
 
-File: gmp.info,  Node: Copying,  Next: Introduction to MPIR,  Prev: Top,  Up: Top
+File: mpir.info,  Node: Copying,  Next: Introduction to MPIR,  Prev: Top,  Up: Top
 
 MPIR Copying Conditions
 ***********************
@@ -109,7 +109,7 @@ provided under the terms of the plain General Public License version 2,
 see `COPYING'.
 
 
-File: gmp.info,  Node: Introduction to MPIR,  Next: Installing MPIR,  Prev: Copying,  Up: Top
+File: mpir.info,  Node: Introduction to MPIR,  Next: Installing MPIR,  Prev: Copying,  Up: Top
 
 1 Introduction to MPIR
 **********************
@@ -168,7 +168,7 @@ compiler options that must be used on applications.
 is probably a good idea to glance through it.
 
 
-File: gmp.info,  Node: Installing MPIR,  Next: MPIR Basics,  Prev: Introduction to MPIR,  Up: Top
+File: mpir.info,  Node: Installing MPIR,  Next: MPIR Basics,  Prev: Introduction to MPIR,  Up: Top
 
 2 Installing MPIR
 *****************
@@ -201,7 +201,7 @@ Bugs::, for information on what to include in useful bug reports.
 * Performance optimization::
 
 
-File: gmp.info,  Node: Build Options,  Next: ABI and ISA,  Prev: Installing MPIR,  Up: Installing MPIR
+File: mpir.info,  Node: Build Options,  Next: ABI and ISA,  Prev: Installing MPIR,  Up: Installing MPIR
 
 2.1 Build Options
 =================
@@ -236,13 +236,13 @@ Build Directory
      to install under a particular tree.  The default is `/usr/local'.
 
      `--exec-prefix' can be used to direct architecture-dependent files
-     like `libgmp.a'/`libmpir.a' to a different location.  This can be
-     used to share architecture-independent parts like the
-     documentation, but separate the dependent parts.  Note however
-     that `mpir.h' and `mp.h' are architecture-dependent since they
-     encode certain aspects of `libgmp'/`libmpir', so it will be
-     necessary to ensure both `$prefix/include' and
-     `$exec_prefix/include' are available to the compiler.
+     like `libmpir.a' to a different location.  This can be used to
+     share architecture-independent parts like the documentation, but
+     separate the dependent parts.  Note however that `mpir.h' and
+     `mp.h' are architecture-dependent since they encode certain
+     aspects of `libmpir', so it will be necessary to ensure both
+     `$prefix/include' and `$exec_prefix/include' are available to the
+     compiler.
 
 `--disable-shared', `--disable-static'
      By default both shared and static libraries are built (where
@@ -291,8 +291,8 @@ Cross Compilation, `--host=CPU-VENDOR-OS'
 
      In all cases the compiler must be able to produce an executable
      (of whatever format) from a standard C `main'.  Although only
-     object files will go to make up `libgmp'/`libmpir', `./configure'
-     uses linking tests for various purposes, such as determining what
+     object files will go to make up `libmpir', `./configure' uses
+     linking tests for various purposes, such as determining what
      functions are available on the host system.
 
      Currently a warning is given unless an explicit `--build' is used
@@ -433,25 +433,24 @@ C++ Support, `--enable-cxx'
      case a C++ compiler will be required.  As a convenience
      `--enable-cxx=detect' can be used to enable C++ support only if a
      compiler can be found.  The C++ support consists of a library
-     `libgmpxx.la'/`libmpirxx.la' and header file `mpirxx.h' (*note
-     Headers and Libraries::).
+     `libmpirxx.la' and header file `mpirxx.h' (*note Headers and
+     Libraries::).
 
-     A separate `libgmpxx.la'/`libmpirxx.la' has been adopted rather
-     than having C++ objects within `libgmp.la'/`libmpir.la' in order
-     to ensure dynamic linked C programs aren't bloated by a dependency
-     on the C++ standard library, and to avoid any chance that the C++
-     compiler could be required when linking plain C programs.
+     A separate `libmpirxx.la' has been adopted rather than having C++
+     objects within `libmpir.la' in order to ensure dynamic linked C
+     programs aren't bloated by a dependency on the C++ standard
+     library, and to avoid any chance that the C++ compiler could be
+     required when linking plain C programs.
 
-     `libgmpxx.la'/`libmpirxx.la' will use certain internals from
-     `libgmp.la'/`libmpir.la' and can only be expected to work with
-     `libgmp.la'/`libmpir.la' from the same MPIR version.  Future
-     changes to the relevant internals will be accompanied by renaming,
-     so a mismatch will cause unresolved symbols rather than perhaps
-     mysterious misbehaviour.
+     `libmpirxx.la' will use certain internals from `libmpir.la' and can
+     only be expected to work with `libmpir.la' from the same MPIR
+     version.  Future changes to the relevant internals will be
+     accompanied by renaming, so a mismatch will cause unresolved
+     symbols rather than perhaps mysterious misbehaviour.
 
-     In general `libgmpxx.la'/`libmpirxx.la' will be usable only with
-     the C++ compiler that built it, since name mangling and runtime
-     support are usually incompatible between different compilers.
+     In general `libmpirxx.la' will be usable only with the C++
+     compiler that built it, since name mangling and runtime support
+     are usually incompatible between different compilers.
 
 `CXX', `CXXFLAGS'
      When C++ support is enabled, the C++ compiler and its flags can be
@@ -547,10 +546,10 @@ Execution Profiling, `--enable-profiling=prof/gprof/instrument'
      is completely unnecessary.
 
 Documentation
-     The source for the document you're now reading is `doc/gmp.texi',
+     The source for the document you're now reading is `doc/mpir.texi',
      in Texinfo format, see *Note Texinfo: (texinfo)Top.
 
-     Info format `doc/gmp.info' is included in the distribution.  The
+     Info format `doc/mpir.info' is included in the distribution.  The
      usual automake targets are available to make PostScript, DVI, PDF
      and HTML (these will require various TeX and Texinfo tools).
 
@@ -562,7 +561,7 @@ Documentation
 
 
 
-File: gmp.info,  Node: ABI and ISA,  Next: Notes for Package Builds,  Prev: Build Options,  Up: Installing MPIR
+File: mpir.info,  Node: ABI and ISA,  Next: Notes for Package Builds,  Prev: Build Options,  Up: Installing MPIR
 
 2.2 ABI and ISA
 ===============
@@ -809,7 +808,7 @@ Sparc V9 (`sparc64', `sparcv9', `ultrasparc*')
           ./configure --build=none --host=sparcv9-sun-solaris2.7 ABI=64
 
 
-File: gmp.info,  Node: Notes for Package Builds,  Next: Notes for Particular Systems,  Prev: ABI and ISA,  Up: Installing MPIR
+File: mpir.info,  Node: Notes for Package Builds,  Next: Notes for Particular Systems,  Prev: ABI and ISA,  Up: Installing MPIR
 
 2.3 Notes for Package Builds
 ============================
@@ -829,11 +828,10 @@ checked by the loader an auxiliary mechanism may be needed to express
 that a dynamic linked application depends on a new enough MPIR.
 
    An auxiliary mechanism may also be needed to express that
-`libgmpxx.la'/`libmpirxx.la' (from `--enable-cxx', *note Build
-Options::) requires `libgmp.la'/`libmpir.la' from the same MPIR
-version, since this is not done by the libtool versioning, nor
-otherwise.  A mismatch will result in unresolved symbols from the
-linker, or perhaps the loader.
+`libmpirxx.la' (from `--enable-cxx', *note Build Options::) requires
+`libmpir.la' from the same MPIR version, since this is not done by the
+libtool versioning, nor otherwise.  A mismatch will result in
+unresolved symbols from the linker, or perhaps the loader.
 
    When building a package for a CPU family, care should be taken to use
 `--host' (or `--build') to choose the least common denominator among
@@ -872,7 +870,7 @@ which tests preprocessor symbols and chooses the correct actual
 `mpir.h'.
 
 
-File: gmp.info,  Node: Notes for Particular Systems,  Next: Known Build Problems,  Prev: Notes for Package Builds,  Up: Installing MPIR
+File: mpir.info,  Node: Notes for Particular Systems,  Next: Known Build Problems,  Prev: Notes for Package Builds,  Up: Installing MPIR
 
 2.4 Notes for Particular Systems
 ================================
@@ -885,10 +883,10 @@ AIX 3 and 4
           ./configure --enable-shared --disable-static
 
      Note that the `--disable-static' is necessary because in a shared
-     build libtool makes `libgmp.a'/`libmpir.a' a symlink to
-     `libgmp.so'/`libmpir.so', apparently for the benefit of old
-     versions of `ld' which only recognise `.a', but unfortunately this
-     is done even if a fully functional `ld' is available.
+     build libtool makes `libmpir.a' a symlink to `libmpir.so',
+     apparently for the benefit of old versions of `ld' which only
+     recognise `.a', but unfortunately this is done even if a fully
+     functional `ld' is available.
 
 ARM
      On systems `arm*-*-*', versions of GCC up to and including 2.95.3
@@ -943,7 +941,7 @@ MS Windows DLLs
      A MINGW DLL build of MPIR can be used with Microsoft C.  Libtool
      doesn't install a `.lib' format import library, but it can be
      created with MS `lib' as follows, and copied to the install
-     directory.  Similarly for `libmp' and `libgmpxx'/`libmpirxx'.
+     directory.  Similarly for `libmp' and `libmpirxx'.
 
           cd .libs
           lib /def:libgmp-3.dll.def /out:libgmp-3.lib
@@ -1025,7 +1023,7 @@ x86 MMX and SSE2 Code
      systems.
 
 
-File: gmp.info,  Node: Known Build Problems,  Next: Performance optimization,  Prev: Notes for Particular Systems,  Up: Installing MPIR
+File: mpir.info,  Node: Known Build Problems,  Next: Performance optimization,  Prev: Notes for Particular Systems,  Up: Installing MPIR
 
 2.5 Known Build Problems
 ========================
@@ -1053,28 +1051,26 @@ DJGPP (`*-*-msdosdjgpp*')
 
 GNU binutils `strip' prior to 2.12
      `strip' from GNU binutils 2.11 and earlier should not be used on
-     the static libraries `libgmp.a'/`libmpir.a' and `libmp.a' since it
-     will discard all but the last of multiple archive members with the
-     same name, like the three versions of `init.o' in
-     `libgmp.a'/`libmpir.a'.  Binutils 2.12 or higher can be used
-     successfully.
+     the static libraries `libmpir.a' and `libmp.a' since it will
+     discard all but the last of multiple archive members with the same
+     name, like the three versions of `init.o' in `libmpir.a'.
+     Binutils 2.12 or higher can be used successfully.
 
-     The shared libraries `libgmp.so'/`libmpir.so' and `libmp.so' are
-     not affected by this and any version of `strip' can be used on
-     them.
+     The shared libraries `libmpir.so' and `libmp.so' are not affected
+     by this and any version of `strip' can be used on them.
 
 `make' syntax error
      On certain versions of SCO OpenServer 5 and IRIX 6.5 the native
      `make' is unable to handle the long dependencies list for
-     `libgmp.la'/`libmpir.la'.  The symptom is a "syntax error" on the
-     following line of the top-level `Makefile'.
+     `libmpir.la'.  The symptom is a "syntax error" on the following
+     line of the top-level `Makefile'.
 
-          libgmp.la: $(libgmp_la_OBJECTS) $(libgmp_la_DEPENDENCIES)
+          libmpir.la: $(libmpir_la_OBJECTS) $(libmpir_la_DEPENDENCIES)
 
      Either use GNU Make, or as a workaround remove
-     `$(libgmp_la_DEPENDENCIES)' from that line (which will make the
-     initial build work, but if any recompiling is done
-     `libgmp.la'/`libmpir.la' might not be rebuilt).
+     `$(libmpir_la_DEPENDENCIES)' from that line (which will make the
+     initial build work, but if any recompiling is done `libmpir.la'
+     might not be rebuilt).
 
 MacOS X (`*-*-darwin*')
      Libtool currently only knows how to create shared libraries on
@@ -1099,9 +1095,9 @@ Sequent Symmetry
 
 Solaris 2.6
      The system `sed' prints an error "Output line too long" when
-     libtool builds `libgmp.la'/`libmpir.la'.  This doesn't seem to
-     cause any obvious ill effects, but GNU `sed' is recommended, to
-     avoid any doubt.
+     libtool builds `libmpir.la'.  This doesn't seem to cause any
+     obvious ill effects, but GNU `sed' is recommended, to avoid any
+     doubt.
 
 Sparc Solaris 2.7 with gcc 2.95.2 in `ABI=32'
      A shared library build of MPIR seems to fail in this combination,
@@ -1110,7 +1106,7 @@ Sparc Solaris 2.7 with gcc 2.95.2 in `ABI=32'
      The exact cause is unknown, `--disable-shared' is recommended.
 
 
-File: gmp.info,  Node: Performance optimization,  Prev: Known Build Problems,  Up: Installing MPIR
+File: mpir.info,  Node: Performance optimization,  Prev: Known Build Problems,  Up: Installing MPIR
 
 2.6 Performance optimization
 ============================
@@ -1141,7 +1137,7 @@ you're going to use MPIR for extremely large numbers, you may want to
 run `tuneup' with a large NNN value.
 
 
-File: gmp.info,  Node: MPIR Basics,  Next: Reporting Bugs,  Prev: Installing MPIR,  Up: Top
+File: mpir.info,  Node: MPIR Basics,  Next: Reporting Bugs,  Prev: Installing MPIR,  Up: Top
 
 3 MPIR Basics
 *************
@@ -1169,7 +1165,7 @@ guaranteed to be incompatible with future versions of MPIR.*
 * Emacs::
 
 
-File: gmp.info,  Node: Headers and Libraries,  Next: Nomenclature and Types,  Prev: MPIR Basics,  Up: MPIR Basics
+File: mpir.info,  Node: Headers and Libraries,  Next: Nomenclature and Types,  Prev: MPIR Basics,  Up: MPIR Basics
 
 3.1 Headers and Libraries
 =========================
@@ -1190,15 +1186,15 @@ with `va_list' parameters, such as `gmp_vprintf'.  And `<obstack.h>'
 for prototypes with `struct obstack' parameters, such as
 `gmp_obstack_printf', when available.
 
-   All programs using MPIR must link against the `libgmp' or `libmpir'
-library.  On a typical Unix-like system this can be done with `-lgmp'
-or `-lmpir' respectively, for example
+   All programs using MPIR must link against the `libmpir' library.  On
+a typical Unix-like system this can be done with `-lmpir' respectively,
+for example
 
      gcc myprogram.c -lmpir
 
-   MPIR C++ functions are in a separate `libgmpxx' or `libmpirxx'
-library.  This is built and installed if C++ support has been enabled
-(*note Build Options::).  For example,
+   MPIR C++ functions are in a separate `libmpirxx' library.  This is
+built and installed if C++ support has been enabled (*note Build
+Options::).  For example,
 
      g++ mycxxprog.cc -lmpirxx -lmpir
 
@@ -1210,7 +1206,7 @@ necessary to use `-I' and `-L' compiler options to point to the right
 directories, and some sort of run-time path for a shared library.
 
 
-File: gmp.info,  Node: Nomenclature and Types,  Next: Function Classes,  Prev: Headers and Libraries,  Up: MPIR Basics
+File: mpir.info,  Node: Nomenclature and Types,  Next: Function Classes,  Prev: Headers and Libraries,  Up: MPIR Basics
 
 3.2 Nomenclature and Types
 ==========================
@@ -1259,7 +1255,7 @@ The C data type for such objects is `gmp_randstate_t'.  For example:
 and `size_t' is used for byte or character counts.
 
 
-File: gmp.info,  Node: Function Classes,  Next: Variable Conventions,  Prev: Nomenclature and Types,  Up: MPIR Basics
+File: mpir.info,  Node: Function Classes,  Next: Variable Conventions,  Prev: Nomenclature and Types,  Up: MPIR Basics
 
 3.3 Function Classes
 ====================
@@ -1296,7 +1292,7 @@ There are six classes of functions in the MPIR library:
      Custom Allocation::, and *note Random Number Functions::)
 
 
-File: gmp.info,  Node: Variable Conventions,  Next: Parameter Conventions,  Prev: Function Classes,  Up: MPIR Basics
+File: mpir.info,  Node: Variable Conventions,  Next: Parameter Conventions,  Prev: Function Classes,  Up: MPIR Basics
 
 3.4 Variable Conventions
 ========================
@@ -1343,7 +1339,7 @@ end.  For example,
      }
 
 
-File: gmp.info,  Node: Parameter Conventions,  Next: Memory Management,  Prev: Variable Conventions,  Up: MPIR Basics
+File: mpir.info,  Node: Parameter Conventions,  Next: Memory Management,  Prev: Variable Conventions,  Up: MPIR Basics
 
 3.5 Parameter Conventions
 =========================
@@ -1398,7 +1394,7 @@ accessed directly by code that expects to be compatible with future
 MPIR releases.
 
 
-File: gmp.info,  Node: Memory Management,  Next: Reentrancy,  Prev: Parameter Conventions,  Up: MPIR Basics
+File: mpir.info,  Node: Memory Management,  Next: Reentrancy,  Prev: Parameter Conventions,  Up: MPIR Basics
 
 3.6 Memory Management
 =====================
@@ -1423,7 +1419,7 @@ on the stack is also used (via `alloca'), but this can be changed at
 build-time if desired, see *Note Build Options::.
 
 
-File: gmp.info,  Node: Reentrancy,  Next: Useful Macros and Constants,  Prev: Memory Management,  Up: MPIR Basics
+File: mpir.info,  Node: Reentrancy,  Next: Useful Macros and Constants,  Prev: Memory Management,  Up: MPIR Basics
 
 3.7 Reentrancy
 ==============
@@ -1467,7 +1463,7 @@ MPIR is reentrant and thread-safe, with some exceptions:
      since this involves an update of that variable.
 
 
-File: gmp.info,  Node: Useful Macros and Constants,  Next: Compatibility with older versions,  Prev: Reentrancy,  Up: MPIR Basics
+File: mpir.info,  Node: Useful Macros and Constants,  Next: Compatibility with older versions,  Prev: Reentrancy,  Up: MPIR Basics
 
 3.8 Useful Macros and Constants
 ===============================
@@ -1501,7 +1497,7 @@ File: gmp.info,  Node: Useful Macros and Constants,  Next: Compatibility with ol
      "i.j" or "i.j.k".  This release is "0.9.0".
 
 
-File: gmp.info,  Node: Compatibility with older versions,  Next: Demonstration Programs,  Prev: Useful Macros and Constants,  Up: MPIR Basics
+File: mpir.info,  Node: Compatibility with older versions,  Next: Demonstration Programs,  Prev: Useful Macros and Constants,  Up: MPIR Basics
 
 3.9 Compatibility with older versions
 =====================================
@@ -1524,7 +1520,7 @@ and MPIR 1.  Please see the GMP 2 manual for details.
 Functions::) is source and binary compatible with the standard `libmp'.
 
 
-File: gmp.info,  Node: Demonstration Programs,  Next: Efficiency,  Prev: Compatibility with older versions,  Up: MPIR Basics
+File: mpir.info,  Node: Demonstration Programs,  Next: Efficiency,  Prev: Compatibility with older versions,  Up: MPIR Basics
 
 3.10 Demonstration programs
 ===========================
@@ -1573,7 +1569,7 @@ combination of the `expr' demo and the `pexpr' tree back-end perhaps.
 But for now the above evaluators are offered as illustrations.
 
 
-File: gmp.info,  Node: Efficiency,  Next: Debugging,  Prev: Demonstration Programs,  Up: MPIR Basics
+File: mpir.info,  Node: Efficiency,  Next: Debugging,  Prev: Demonstration Programs,  Up: MPIR Basics
 
 3.11 Efficiency
 ===============
@@ -1586,12 +1582,11 @@ Small Operands
      both large and small operands.
 
 Static Linking
-     On some CPUs, in particular the x86s, the static
-     `libgmp.a'/`libmpir.a' should be used for maximum speed, since the
-     PIC code in the shared `libgmp.so'/`libmpir.so' will have a small
-     overhead on each function call and global data address.  For many
-     programs this will be insignificant, but for long calculations
-     there's a gain to be had.
+     On some CPUs, in particular the x86s, the static `libmpir.a'
+     should be used for maximum speed, since the PIC code in the shared
+     `libmpir.so' will have a small overhead on each function call and
+     global data address.  For many programs this will be
+     insignificant, but for long calculations there's a gain to be had.
 
 Initializing and Clearing
      Avoid excessive initializing and clearing of variables, since this
@@ -1737,7 +1732,7 @@ Text Input/Output
      reformers.
 
 
-File: gmp.info,  Node: Debugging,  Next: Profiling,  Prev: Efficiency,  Up: MPIR Basics
+File: mpir.info,  Node: Debugging,  Next: Profiling,  Prev: Efficiency,  Up: MPIR Basics
 
 3.12 Debugging
 ==============
@@ -1881,7 +1876,7 @@ Other Problems
      it's not an application problem, see *Note Reporting Bugs::.
 
 
-File: gmp.info,  Node: Profiling,  Next: Autoconf,  Prev: Debugging,  Up: MPIR Basics
+File: mpir.info,  Node: Profiling,  Next: Autoconf,  Prev: Debugging,  Up: MPIR Basics
 
 3.13 Profiling
 ==============
@@ -1975,7 +1970,7 @@ profiling choices for a MPIR build are as follows.
      effectively be attributed to their caller.
 
 
-File: gmp.info,  Node: Autoconf,  Next: Emacs,  Prev: Profiling,  Up: MPIR Basics
+File: mpir.info,  Node: Autoconf,  Next: Emacs,  Prev: Profiling,  Up: MPIR Basics
 
 3.14 Autoconf
 =============
@@ -2020,7 +2015,7 @@ limb.  The following would suit Autoconf 2.50 or up,
      AC_CHECK_SIZEOF(mp_limb_t, , [#include <mpir.h>])
 
 
-File: gmp.info,  Node: Emacs,  Prev: Autoconf,  Up: MPIR Basics
+File: mpir.info,  Node: Emacs,  Prev: Autoconf,  Up: MPIR Basics
 
 3.15 Emacs
 ==========
@@ -2039,7 +2034,7 @@ following in your `.emacs',
                         (nth 3 mode-value)))))
 
 
-File: gmp.info,  Node: Reporting Bugs,  Next: Integer Functions,  Prev: MPIR Basics,  Up: Top
+File: mpir.info,  Node: Reporting Bugs,  Next: Integer Functions,  Prev: MPIR Basics,  Up: Top
 
 4 Reporting Bugs
 ****************
@@ -2107,7 +2102,7 @@ incorrect, or if the language needs to be improved, please send a note
 to the same address.
 
 
-File: gmp.info,  Node: Integer Functions,  Next: Rational Number Functions,  Prev: Reporting Bugs,  Up: Top
+File: mpir.info,  Node: Integer Functions,  Next: Rational Number Functions,  Prev: Reporting Bugs,  Up: Top
 
 5 Integer Functions
 *******************
@@ -2137,7 +2132,7 @@ arithmetic.  These functions start with the prefix `mpz_'.
 * Integer Special Functions::
 
 
-File: gmp.info,  Node: Initializing Integers,  Next: Assigning Integers,  Prev: Integer Functions,  Up: Integer Functions
+File: mpir.info,  Node: Initializing Integers,  Next: Assigning Integers,  Prev: Integer Functions,  Up: Integer Functions
 
 5.1 Initialization Functions
 ============================
@@ -2185,7 +2180,7 @@ object is initialized.
      to give memory back to the heap.
 
 
-File: gmp.info,  Node: Assigning Integers,  Next: Simultaneous Integer Init & Assign,  Prev: Initializing Integers,  Up: Integer Functions
+File: mpir.info,  Node: Assigning Integers,  Next: Simultaneous Integer Init & Assign,  Prev: Initializing Integers,  Up: Integer Functions
 
 5.2 Assignment Functions
 ========================
@@ -2224,7 +2219,7 @@ These functions assign new values to already initialized integers
      Swap the values ROP1 and ROP2 efficiently.
 
 
-File: gmp.info,  Node: Simultaneous Integer Init & Assign,  Next: Converting Integers,  Prev: Assigning Integers,  Up: Integer Functions
+File: mpir.info,  Node: Simultaneous Integer Init & Assign,  Next: Converting Integers,  Prev: Assigning Integers,  Up: Integer Functions
 
 5.3 Combined Initialization and Assignment Functions
 ====================================================
@@ -2265,7 +2260,7 @@ on a variable already initialized!
      an error occurs.  (I.e., you have to call `mpz_clear' for it.)
 
 
-File: gmp.info,  Node: Converting Integers,  Next: Integer Arithmetic,  Prev: Simultaneous Integer Init & Assign,  Up: Integer Functions
+File: mpir.info,  Node: Converting Integers,  Next: Integer Arithmetic,  Prev: Simultaneous Integer Init & Assign,  Up: Integer Functions
 
 5.4 Conversion Functions
 ========================
@@ -2327,7 +2322,7 @@ described in *Note Assigning Integers:: and *Note I/O of Integers::.
      allocated block, or the given STR.
 
 
-File: gmp.info,  Node: Integer Arithmetic,  Next: Integer Division,  Prev: Converting Integers,  Up: Integer Functions
+File: mpir.info,  Node: Integer Arithmetic,  Next: Integer Division,  Prev: Converting Integers,  Up: Integer Functions
 
 5.5 Arithmetic Functions
 ========================
@@ -2372,7 +2367,7 @@ File: gmp.info,  Node: Integer Arithmetic,  Next: Integer Division,  Prev: Conve
      Set ROP to the absolute value of OP.
 
 
-File: gmp.info,  Node: Integer Division,  Next: Integer Exponentiation,  Prev: Integer Arithmetic,  Up: Integer Functions
+File: mpir.info,  Node: Integer Division,  Next: Integer Exponentiation,  Prev: Integer Arithmetic,  Up: Integer Functions
 
 5.6 Division Functions
 ======================
@@ -2511,7 +2506,7 @@ these functions the same way as for normal C `int' arithmetic.
      congruent mod 0 only when exactly equal.
 
 
-File: gmp.info,  Node: Integer Exponentiation,  Next: Integer Roots,  Prev: Integer Division,  Up: Integer Functions
+File: mpir.info,  Node: Integer Exponentiation,  Next: Integer Roots,  Prev: Integer Division,  Up: Integer Functions
 
 5.7 Exponentiation Functions
 ============================
@@ -2533,7 +2528,7 @@ File: gmp.info,  Node: Integer Exponentiation,  Next: Integer Roots,  Prev: Inte
      Set ROP to BASE raised to EXP.  The case 0^0 yields 1.
 
 
-File: gmp.info,  Node: Integer Roots,  Next: Number Theoretic Functions,  Prev: Integer Exponentiation,  Up: Integer Functions
+File: mpir.info,  Node: Integer Roots,  Next: Number Theoretic Functions,  Prev: Integer Exponentiation,  Up: Integer Functions
 
 5.8 Root Extraction Functions
 =============================
@@ -2573,7 +2568,7 @@ File: gmp.info,  Node: Integer Roots,  Next: Number Theoretic Functions,  Prev: 
      considered to be perfect squares.
 
 
-File: gmp.info,  Node: Number Theoretic Functions,  Next: Integer Comparisons,  Prev: Integer Roots,  Up: Integer Functions
+File: mpir.info,  Node: Number Theoretic Functions,  Next: Integer Comparisons,  Prev: Integer Roots,  Up: Integer Functions
 
 5.9 Number Theoretic Functions
 ==============================
@@ -2705,7 +2700,7 @@ File: gmp.info,  Node: Number Theoretic Functions,  Next: Integer Comparisons,  
      straightforward too.
 
 
-File: gmp.info,  Node: Integer Comparisons,  Next: Integer Logic and Bit Fiddling,  Prev: Number Theoretic Functions,  Up: Integer Functions
+File: mpir.info,  Node: Integer Comparisons,  Next: Integer Logic and Bit Fiddling,  Prev: Number Theoretic Functions,  Up: Integer Functions
 
 5.10 Comparison Functions
 =========================
@@ -2738,7 +2733,7 @@ File: gmp.info,  Node: Integer Comparisons,  Next: Integer Logic and Bit Fiddlin
      its argument multiple times.
 
 
-File: gmp.info,  Node: Integer Logic and Bit Fiddling,  Next: I/O of Integers,  Prev: Integer Comparisons,  Up: Integer Functions
+File: mpir.info,  Node: Integer Logic and Bit Fiddling,  Next: I/O of Integers,  Prev: Integer Comparisons,  Up: Integer Functions
 
 5.11 Logical and Bit Manipulation Functions
 ===========================================
@@ -2801,7 +2796,7 @@ significant bit is number 0.
      Test bit BIT_INDEX in OP and return 0 or 1 accordingly.
 
 
-File: gmp.info,  Node: I/O of Integers,  Next: Integer Random Numbers,  Prev: Integer Logic and Bit Fiddling,  Up: Integer Functions
+File: mpir.info,  Node: I/O of Integers,  Next: Integer Random Numbers,  Prev: Integer Logic and Bit Fiddling,  Up: Integer Functions
 
 5.12 Input and Output Functions
 ===============================
@@ -2863,7 +2858,7 @@ prototypes for these functions.
      and 64-bit machines.
 
 
-File: gmp.info,  Node: Integer Random Numbers,  Next: Integer Import and Export,  Prev: I/O of Integers,  Up: Integer Functions
+File: mpir.info,  Node: Integer Random Numbers,  Next: Integer Import and Export,  Prev: I/O of Integers,  Up: Integer Functions
 
 5.13 Random Number Functions
 ============================
@@ -2922,7 +2917,7 @@ random number functions.
      This function is obsolete.  Use `mpz_rrandomb' instead.
 
 
-File: gmp.info,  Node: Integer Import and Export,  Next: Miscellaneous Integer Functions,  Prev: Integer Random Numbers,  Up: Integer Functions
+File: mpir.info,  Node: Integer Import and Export,  Next: Miscellaneous Integer Functions,  Prev: Integer Random Numbers,  Up: Integer Functions
 
 5.14 Integer Import and Export
 ==============================
@@ -3007,7 +3002,7 @@ data with the following functions.
           p = malloc (count * size);
 
 
-File: gmp.info,  Node: Miscellaneous Integer Functions,  Next: Integer Special Functions,  Prev: Integer Import and Export,  Up: Integer Functions
+File: mpir.info,  Node: Miscellaneous Integer Functions,  Next: Integer Special Functions,  Prev: Integer Import and Export,  Up: Integer Functions
 
 5.15 Miscellaneous Functions
 ============================
@@ -3046,7 +3041,7 @@ File: gmp.info,  Node: Miscellaneous Integer Functions,  Next: Integer Special F
      Manipulation Functions: Integer Logic and Bit Fiddling.)
 
 
-File: gmp.info,  Node: Integer Special Functions,  Prev: Miscellaneous Integer Functions,  Up: Integer Functions
+File: mpir.info,  Node: Integer Special Functions,  Prev: Miscellaneous Integer Functions,  Up: Integer Functions
 
 5.16 Special Functions
 ======================
@@ -3117,7 +3112,7 @@ applications will not need them.
      the returned value will be zero.
 
 
-File: gmp.info,  Node: Rational Number Functions,  Next: Floating-point Functions,  Prev: Integer Functions,  Up: Top
+File: mpir.info,  Node: Rational Number Functions,  Next: Floating-point Functions,  Prev: Integer Functions,  Up: Top
 
 6 Rational Number Functions
 ***************************
@@ -3151,7 +3146,7 @@ variable.
 * I/O of Rationals::
 
 
-File: gmp.info,  Node: Initializing Rationals,  Next: Rational Conversions,  Prev: Rational Number Functions,  Up: Rational Number Functions
+File: mpir.info,  Node: Initializing Rationals,  Next: Rational Conversions,  Prev: Rational Number Functions,  Up: Rational Number Functions
 
 6.1 Initialization and Assignment Functions
 ===========================================
@@ -3201,7 +3196,7 @@ File: gmp.info,  Node: Initializing Rationals,  Next: Rational Conversions,  Pre
      Swap the values ROP1 and ROP2 efficiently.
 
 
-File: gmp.info,  Node: Rational Conversions,  Next: Rational Arithmetic,  Prev: Initializing Rationals,  Up: Rational Number Functions
+File: mpir.info,  Node: Rational Conversions,  Next: Rational Arithmetic,  Prev: Initializing Rationals,  Up: Rational Number Functions
 
 6.2 Conversion Functions
 ========================
@@ -3244,7 +3239,7 @@ File: gmp.info,  Node: Rational Conversions,  Next: Rational Arithmetic,  Prev: 
      allocated block, or the given STR.
 
 
-File: gmp.info,  Node: Rational Arithmetic,  Next: Comparing Rationals,  Prev: Rational Conversions,  Up: Rational Number Functions
+File: mpir.info,  Node: Rational Arithmetic,  Next: Comparing Rationals,  Prev: Rational Conversions,  Up: Rational Number Functions
 
 6.3 Arithmetic Functions
 ========================
@@ -3283,7 +3278,7 @@ File: gmp.info,  Node: Rational Arithmetic,  Next: Comparing Rationals,  Prev: R
      this routine will divide by zero.
 
 
-File: gmp.info,  Node: Comparing Rationals,  Next: Applying Integer Functions,  Prev: Rational Arithmetic,  Up: Rational Number Functions
+File: mpir.info,  Node: Comparing Rationals,  Next: Applying Integer Functions,  Prev: Rational Arithmetic,  Up: Rational Number Functions
 
 6.4 Comparison Functions
 ========================
@@ -3320,7 +3315,7 @@ File: gmp.info,  Node: Comparing Rationals,  Next: Applying Integer Functions,  
      this function is much faster.
 
 
-File: gmp.info,  Node: Applying Integer Functions,  Next: I/O of Rationals,  Prev: Comparing Rationals,  Up: Rational Number Functions
+File: mpir.info,  Node: Applying Integer Functions,  Next: I/O of Rationals,  Prev: Comparing Rationals,  Up: Rational Number Functions
 
 6.5 Applying Integer Functions to Rationals
 ===========================================
@@ -3351,7 +3346,7 @@ applied to that `mpq_t'.
      `mpq_denref' is recommended instead of these functions.
 
 
-File: gmp.info,  Node: I/O of Rationals,  Prev: Applying Integer Functions,  Up: Rational Number Functions
+File: mpir.info,  Node: I/O of Rationals,  Prev: Applying Integer Functions,  Up: Rational Number Functions
 
 6.6 Input and Output Functions
 ==============================
@@ -3392,7 +3387,7 @@ respectively.
      whereas `0x10/0x11' is 16/17.
 
 
-File: gmp.info,  Node: Floating-point Functions,  Next: Low-level Functions,  Prev: Rational Number Functions,  Up: Top
+File: mpir.info,  Node: Floating-point Functions,  Next: Low-level Functions,  Prev: Rational Number Functions,  Up: Top
 
 7 Floating-point Functions
 **************************
@@ -3459,7 +3454,7 @@ different word size.
 * Miscellaneous Float Functions::
 
 
-File: gmp.info,  Node: Initializing Floats,  Next: Assigning Floats,  Prev: Floating-point Functions,  Up: Floating-point Functions
+File: mpir.info,  Node: Initializing Floats,  Next: Assigning Floats,  Prev: Floating-point Functions,  Up: Floating-point Functions
 
 7.1 Initialization Functions
 ============================
@@ -3546,7 +3541,7 @@ numbers.
      different precisions for different purposes during a calculation.
 
 
-File: gmp.info,  Node: Assigning Floats,  Next: Simultaneous Float Init & Assign,  Prev: Initializing Floats,  Up: Floating-point Functions
+File: mpir.info,  Node: Assigning Floats,  Next: Simultaneous Float Init & Assign,  Prev: Initializing Floats,  Up: Floating-point Functions
 
 7.2 Assignment Functions
 ========================
@@ -3601,7 +3596,7 @@ Initializing Floats::).
      precisions of the two variables are swapped.
 
 
-File: gmp.info,  Node: Simultaneous Float Init & Assign,  Next: Converting Floats,  Prev: Assigning Floats,  Up: Floating-point Functions
+File: mpir.info,  Node: Simultaneous Float Init & Assign,  Next: Converting Floats,  Prev: Assigning Floats,  Up: Floating-point Functions
 
 7.3 Combined Initialization and Assignment Functions
 ====================================================
@@ -3635,7 +3630,7 @@ a variable already initialized!
      precision, as set by `mpf_set_default_prec'.
 
 
-File: gmp.info,  Node: Converting Floats,  Next: Float Arithmetic,  Prev: Simultaneous Float Init & Assign,  Up: Floating-point Functions
+File: mpir.info,  Node: Converting Floats,  Next: Float Arithmetic,  Prev: Simultaneous Float Init & Assign,  Up: Floating-point Functions
 
 7.4 Conversion Functions
 ========================
@@ -3700,7 +3695,7 @@ File: gmp.info,  Node: Converting Floats,  Next: Float Arithmetic,  Prev: Simult
      allocated block or the given STR.
 
 
-File: gmp.info,  Node: Float Arithmetic,  Next: Float Comparison,  Prev: Converting Floats,  Up: Floating-point Functions
+File: mpir.info,  Node: Float Arithmetic,  Next: Float Comparison,  Prev: Converting Floats,  Up: Floating-point Functions
 
 7.5 Arithmetic Functions
 ========================
@@ -3757,7 +3752,7 @@ these functions in the same manner as other arithmetic exceptions.
      Set ROP to OP1 divided by 2 raised to OP2.
 
 
-File: gmp.info,  Node: Float Comparison,  Next: I/O of Floats,  Prev: Float Arithmetic,  Up: Floating-point Functions
+File: mpir.info,  Node: Float Comparison,  Next: I/O of Floats,  Prev: Float Arithmetic,  Up: Floating-point Functions
 
 7.6 Comparison Functions
 ========================
@@ -3792,7 +3787,7 @@ File: gmp.info,  Node: Float Comparison,  Next: I/O of Floats,  Prev: Float Arit
      its arguments multiple times.
 
 
-File: gmp.info,  Node: I/O of Floats,  Next: Miscellaneous Float Functions,  Prev: Float Comparison,  Up: Floating-point Functions
+File: mpir.info,  Node: I/O of Floats,  Next: Miscellaneous Float Functions,  Prev: Float Comparison,  Up: Floating-point Functions
 
 7.7 Input and Output Functions
 ==============================
@@ -3841,7 +3836,7 @@ prototypes for these functions.
      Return the number of bytes read, or if an error occurred, return 0.
 
 
-File: gmp.info,  Node: Miscellaneous Float Functions,  Prev: I/O of Floats,  Up: Floating-point Functions
+File: mpir.info,  Node: Miscellaneous Float Functions,  Prev: I/O of Floats,  Up: Floating-point Functions
 
 7.8 Miscellaneous Functions
 ===========================
@@ -3885,7 +3880,7 @@ File: gmp.info,  Node: Miscellaneous Float Functions,  Prev: I/O of Floats,  Up:
      generated when MAX_SIZE is negative.
 
 
-File: gmp.info,  Node: Low-level Functions,  Next: Random Number Functions,  Prev: Floating-point Functions,  Up: Top
+File: mpir.info,  Node: Low-level Functions,  Next: Random Number Functions,  Prev: Floating-point Functions,  Up: Top
 
 8 Low-level Functions
 *********************
@@ -4369,7 +4364,7 @@ vector.  This would help vector processors since carries would only
 ever need to propagate one or two limbs.
 
 
-File: gmp.info,  Node: Random Number Functions,  Next: Formatted Output,  Prev: Low-level Functions,  Up: Top
+File: mpir.info,  Node: Random Number Functions,  Next: Formatted Output,  Prev: Low-level Functions,  Up: Top
 
 9 Random Number Functions
 *************************
@@ -4398,7 +4393,7 @@ care about randomness.
 * Random State Miscellaneous::
 
 
-File: gmp.info,  Node: Random State Initialization,  Next: Random State Seeding,  Prev: Random Number Functions,  Up: Random Number Functions
+File: mpir.info,  Node: Random State Initialization,  Next: Random State Seeding,  Prev: Random Number Functions,  Up: Random Number Functions
 
 9.1 Random State Initialization
 ===============================
@@ -4462,7 +4457,7 @@ File: gmp.info,  Node: Random State Initialization,  Next: Random State Seeding,
      Free all memory occupied by STATE.
 
 
-File: gmp.info,  Node: Random State Seeding,  Next: Random State Miscellaneous,  Prev: Random State Initialization,  Up: Random Number Functions
+File: mpir.info,  Node: Random State Seeding,  Next: Random State Miscellaneous,  Prev: Random State Initialization,  Up: Random Number Functions
 
 9.2 Random State Seeding
 ========================
@@ -4490,7 +4485,7 @@ File: gmp.info,  Node: Random State Seeding,  Next: Random State Miscellaneous, 
      random data better suited for use as a seed.
 
 
-File: gmp.info,  Node: Random State Miscellaneous,  Prev: Random State Seeding,  Up: Random Number Functions
+File: mpir.info,  Node: Random State Miscellaneous,  Prev: Random State Seeding,  Up: Random Number Functions
 
 9.3 Random State Miscellaneous
 ==============================
@@ -4507,7 +4502,7 @@ File: gmp.info,  Node: Random State Miscellaneous,  Prev: Random State Seeding, 
      N-1, inclusive.
 
 
-File: gmp.info,  Node: Formatted Output,  Next: Formatted Input,  Prev: Random Number Functions,  Up: Top
+File: mpir.info,  Node: Formatted Output,  Next: Formatted Input,  Prev: Random Number Functions,  Up: Top
 
 10 Formatted Output
 *******************
@@ -4519,7 +4514,7 @@ File: gmp.info,  Node: Formatted Output,  Next: Formatted Input,  Prev: Random N
 * C++ Formatted Output::
 
 
-File: gmp.info,  Node: Formatted Output Strings,  Next: Formatted Output Functions,  Prev: Formatted Output,  Up: Formatted Output
+File: mpir.info,  Node: Formatted Output Strings,  Next: Formatted Output Functions,  Prev: Formatted Output,  Up: Formatted Output
 
 10.1 Format Strings
 ===================
@@ -4656,7 +4651,7 @@ do the same for standard float output.
 characters are not recognised.  Perhaps this will change in the future.
 
 
-File: gmp.info,  Node: Formatted Output Functions,  Next: C++ Formatted Output,  Prev: Formatted Output Strings,  Up: Formatted Output
+File: mpir.info,  Node: Formatted Output Functions,  Next: C++ Formatted Output,  Prev: Formatted Output Strings,  Up: Formatted Output
 
 10.2 Functions
 ==============
@@ -4747,14 +4742,14 @@ shouldn't normally occur.
      *Note Obstacks: (libc)Obstacks.
 
 
-File: gmp.info,  Node: C++ Formatted Output,  Prev: Formatted Output Functions,  Up: Formatted Output
+File: mpir.info,  Node: C++ Formatted Output,  Prev: Formatted Output Functions,  Up: Formatted Output
 
 10.3 C++ Formatted Output
 =========================
 
-The following functions are provided in `libgmpxx'/`libmpirxx' (*note
-Headers and Libraries::), which is built if C++ support is enabled
-(*note Build Options::).  Prototypes are available from `<mpir.h>'.
+The following functions are provided in `libmpirxx' (*note Headers and
+Libraries::), which is built if C++ support is enabled (*note Build
+Options::).  Prototypes are available from `<mpir.h>'.
 
  -- Function: ostream& operator<< (ostream& STREAM, mpz_t OP)
      Print OP to STREAM, using its `ios' formatting settings.
@@ -4810,7 +4805,7 @@ and that for instance using `+' with an `mpz_t' will have unpredictable
 results.  For classes with overloading, see *Note C++ Class Interface::.
 
 
-File: gmp.info,  Node: Formatted Input,  Next: C++ Class Interface,  Prev: Formatted Output,  Up: Top
+File: mpir.info,  Node: Formatted Input,  Next: C++ Class Interface,  Prev: Formatted Output,  Up: Top
 
 11 Formatted Input
 ******************
@@ -4822,7 +4817,7 @@ File: gmp.info,  Node: Formatted Input,  Next: C++ Class Interface,  Prev: Forma
 * C++ Formatted Input::
 
 
-File: gmp.info,  Node: Formatted Input Strings,  Next: Formatted Input Functions,  Prev: Formatted Input,  Up: Formatted Input
+File: mpir.info,  Node: Formatted Input Strings,  Next: Formatted Input Functions,  Prev: Formatted Input,  Up: Formatted Input
 
 11.1 Formatted Input Strings
 ============================
@@ -4948,7 +4943,7 @@ float input.
 characters are not recognised.  Perhaps this will change in the future.
 
 
-File: gmp.info,  Node: Formatted Input Functions,  Next: C++ Formatted Input,  Prev: Formatted Input Strings,  Up: Formatted Input
+File: mpir.info,  Node: Formatted Input Functions,  Next: C++ Formatted Input,  Prev: Formatted Input Strings,  Up: Formatted Input
 
 11.2 Formatted Input Functions
 ==============================
@@ -5011,14 +5006,14 @@ its entire input, it is deliberately made identical to `gmp_fscanf',
 the same way C99 `sscanf' is the same as `fscanf'.
 
 
-File: gmp.info,  Node: C++ Formatted Input,  Prev: Formatted Input Functions,  Up: Formatted Input
+File: mpir.info,  Node: C++ Formatted Input,  Prev: Formatted Input Functions,  Up: Formatted Input
 
 11.3 C++ Formatted Input
 ========================
 
-The following functions are provided in `libgmpxx'/`libmpirxx' (*note
-Headers and Libraries::), which is built only if C++ support is enabled
-(*note Build Options::).  Prototypes are available from `<mpir.h>'.
+The following functions are provided in `libmpirxx' (*note Headers and
+Libraries::), which is built only if C++ support is enabled (*note
+Build Options::).  Prototypes are available from `<mpir.h>'.
 
  -- Function: istream& operator>> (istream& STREAM, mpz_t ROP)
      Read ROP from STREAM, using its `ios' formatting settings.
@@ -5059,7 +5054,7 @@ unpredictable results.  For classes with overloading, see *Note C++
 Class Interface::.
 
 
-File: gmp.info,  Node: C++ Class Interface,  Next: BSD Compatible Functions,  Prev: Formatted Input,  Up: Top
+File: mpir.info,  Node: C++ Class Interface,  Next: BSD Compatible Functions,  Prev: Formatted Input,  Up: Top
 
 12 C++ Class Interface
 **********************
@@ -5089,7 +5084,7 @@ difficulty reveals itself.*
 * C++ Interface Limitations::
 
 
-File: gmp.info,  Node: C++ Interface General,  Next: C++ Interface Integers,  Prev: C++ Class Interface,  Up: C++ Class Interface
+File: mpir.info,  Node: C++ Interface General,  Next: C++ Interface Integers,  Prev: C++ Class Interface,  Up: C++ Class Interface
 
 12.1 C++ Interface General
 ==========================
@@ -5098,8 +5093,8 @@ All the C++ classes and functions are available with
 
      #include <mpirxx.h>
 
-   Programs should be linked with the `libgmpxx'/`libmpirxx' and
-`libgmp'/`libmpir' libraries.  For example,
+   Programs should be linked with the `libmpirxx' and `libmpir'
+libraries.  For example,
 
      g++ mycxxprog.cc -lmpirxx -lmpir
 
@@ -5180,7 +5175,7 @@ provided by `mpirxx.h' follow MPIR naming conventions and are unlikely
 to clash with anything.
 
 
-File: gmp.info,  Node: C++ Interface Integers,  Next: C++ Interface Rationals,  Prev: C++ Interface General,  Up: C++ Class Interface
+File: mpir.info,  Node: C++ Interface Integers,  Next: C++ Interface Rationals,  Prev: C++ Interface General,  Up: C++ Class Interface
 
 12.2 C++ Interface Integers
 ===========================
@@ -5256,7 +5251,7 @@ to follow the corresponding C functions `mpz_get_d' and `mpz_set_d'.
 And comparisons are always made exactly, as per `mpz_cmp_d'.
 
 
-File: gmp.info,  Node: C++ Interface Rationals,  Next: C++ Interface Floats,  Prev: C++ Interface Integers,  Up: C++ Class Interface
+File: mpir.info,  Node: C++ Interface Rationals,  Next: C++ Interface Floats,  Prev: C++ Interface Integers,  Up: C++ Class Interface
 
 12.3 C++ Interface Rationals
 ============================
@@ -5339,7 +5334,7 @@ called.
      `mpq_class::canonicalize' must be called.
 
 
-File: gmp.info,  Node: C++ Interface Floats,  Next: C++ Interface Random Numbers,  Prev: C++ Interface Rationals,  Up: C++ Class Interface
+File: mpir.info,  Node: C++ Interface Floats,  Next: C++ Interface Random Numbers,  Prev: C++ Interface Rationals,  Up: C++ Class Interface
 
 12.4 C++ Interface Floats
 =========================
@@ -5449,7 +5444,7 @@ used if this doesn't suit.
      application code, there's no automatic mechanism for it.
 
 
-File: gmp.info,  Node: C++ Interface Random Numbers,  Next: C++ Interface Limitations,  Prev: C++ Interface Floats,  Up: C++ Class Interface
+File: mpir.info,  Node: C++ Interface Random Numbers,  Next: C++ Interface Limitations,  Prev: C++ Interface Floats,  Up: C++ Class Interface
 
 12.5 C++ Interface Random Numbers
 =================================
@@ -5504,7 +5499,7 @@ File: gmp.info,  Node: C++ Interface Random Numbers,  Next: C++ Interface Limita
           f = r.get_f();           // random number, 512 bits
 
 
-File: gmp.info,  Node: C++ Interface Limitations,  Prev: C++ Interface Random Numbers,  Up: C++ Class Interface
+File: mpir.info,  Node: C++ Interface Limitations,  Prev: C++ Interface Random Numbers,  Up: C++ Class Interface
 
 12.6 C++ Interface Limitations
 ==============================
@@ -5581,7 +5576,7 @@ Templated Expressions
           }
 
 
-File: gmp.info,  Node: BSD Compatible Functions,  Next: Custom Allocation,  Prev: C++ Class Interface,  Up: Top
+File: mpir.info,  Node: BSD Compatible Functions,  Next: Custom Allocation,  Prev: C++ Class Interface,  Up: Top
 
 13 Berkeley MP Compatible Functions
 ***********************************
@@ -5689,7 +5684,7 @@ GNU `mp.h'.
      passed a value returned by `itom' or `xtom'.*
 
 
-File: gmp.info,  Node: Custom Allocation,  Next: Language Bindings,  Prev: BSD Compatible Functions,  Up: Top
+File: mpir.info,  Node: Custom Allocation,  Next: Language Bindings,  Prev: BSD Compatible Functions,  Up: Top
 
 14 Custom Allocation
 ********************
@@ -5792,7 +5787,7 @@ this is a problem.
           mp_get_memory_functions (NULL, NULL, &freefunc);
 
 
-File: gmp.info,  Node: Language Bindings,  Next: Algorithms,  Prev: Custom Allocation,  Up: Top
+File: mpir.info,  Node: Language Bindings,  Next: Algorithms,  Prev: Custom Allocation,  Up: Top
 
 15 Language Bindings
 ********************
@@ -5935,7 +5930,7 @@ Other
 
 
 
-File: gmp.info,  Node: Algorithms,  Next: Internals,  Prev: Language Bindings,  Up: Top
+File: mpir.info,  Node: Algorithms,  Next: Internals,  Prev: Language Bindings,  Up: Top
 
 16 Algorithms
 *************
@@ -5960,7 +5955,7 @@ documented functions.
 * Assembler Coding::
 
 
-File: gmp.info,  Node: Multiplication Algorithms,  Next: Division Algorithms,  Prev: Algorithms,  Up: Algorithms
+File: mpir.info,  Node: Multiplication Algorithms,  Next: Division Algorithms,  Prev: Algorithms,  Up: Algorithms
 
 16.1 Multiplication
 ===================
@@ -5991,7 +5986,7 @@ improvement in the future.
 * Other Multiplication::
 
 
-File: gmp.info,  Node: Basecase Multiplication,  Next: Karatsuba Multiplication,  Prev: Multiplication Algorithms,  Up: Multiplication Algorithms
+File: mpir.info,  Node: Basecase Multiplication,  Next: Karatsuba Multiplication,  Prev: Multiplication Algorithms,  Up: Multiplication Algorithms
 
 16.1.1 Basecase Multiplication
 ------------------------------
@@ -6036,7 +6031,7 @@ the size at which to use `mpn_sqr_basecase', this will be zero if that
 routine should be used always.
 
 
-File: gmp.info,  Node: Karatsuba Multiplication,  Next: Toom 3-Way Multiplication,  Prev: Basecase Multiplication,  Up: Multiplication Algorithms
+File: mpir.info,  Node: Karatsuba Multiplication,  Next: Toom 3-Way Multiplication,  Prev: Basecase Multiplication,  Up: Multiplication Algorithms
 
 16.1.2 Karatsuba Multiplication
 -------------------------------
@@ -6121,7 +6116,7 @@ be seen for instance when adding an optimized `mpn_sqr_diagonal' to
 that sense the algorithm thresholds are merely of academic interest.
 
 
-File: gmp.info,  Node: Toom 3-Way Multiplication,  Next: FFT Multiplication,  Prev: Karatsuba Multiplication,  Up: Multiplication Algorithms
+File: mpir.info,  Node: Toom 3-Way Multiplication,  Next: FFT Multiplication,  Prev: Karatsuba Multiplication,  Up: Multiplication Algorithms
 
 16.1.3 Toom 3-Way Multiplication
 --------------------------------
@@ -6264,7 +6259,7 @@ but again doesn't have to be implemented that way and for example with
 a bit of rearrangement just one division by 6 can be done.
 
 
-File: gmp.info,  Node: FFT Multiplication,  Next: Other Multiplication,  Prev: Toom 3-Way Multiplication,  Up: Multiplication Algorithms
+File: mpir.info,  Node: FFT Multiplication,  Next: Other Multiplication,  Prev: Toom 3-Way Multiplication,  Up: Multiplication Algorithms
 
 16.1.4 FFT Multiplication
 -------------------------
@@ -6368,7 +6363,7 @@ Something more sophisticated for `MUL_FFT_TABLE' and `SQR_FFT_TABLE'
 will be needed.
 
 
-File: gmp.info,  Node: Other Multiplication,  Prev: FFT Multiplication,  Up: Multiplication Algorithms
+File: mpir.info,  Node: Other Multiplication,  Prev: FFT Multiplication,  Up: Multiplication Algorithms
 
 16.1.5 Other Multiplication
 ---------------------------
@@ -6414,7 +6409,7 @@ last bit might not matter to a typical signal processing algorithm, but
 is of course of vital importance to MPIR.
 
 
-File: gmp.info,  Node: Division Algorithms,  Next: Greatest Common Divisor Algorithms,  Prev: Multiplication Algorithms,  Up: Algorithms
+File: mpir.info,  Node: Division Algorithms,  Next: Greatest Common Divisor Algorithms,  Prev: Multiplication Algorithms,  Up: Algorithms
 
 16.2 Division Algorithms
 ========================
@@ -6429,7 +6424,7 @@ File: gmp.info,  Node: Division Algorithms,  Next: Greatest Common Divisor Algor
 * Small Quotient Division::
 
 
-File: gmp.info,  Node: Single Limb Division,  Next: Basecase Division,  Prev: Division Algorithms,  Up: Division Algorithms
+File: mpir.info,  Node: Single Limb Division,  Next: Basecase Division,  Prev: Division Algorithms,  Up: Division Algorithms
 
 16.2.1 Single Limb Division
 ---------------------------
@@ -6483,7 +6478,7 @@ in fact if the only multiply is a half limb, and especially if it's not
 pipelined.
 
 
-File: gmp.info,  Node: Basecase Division,  Next: Divide and Conquer Division,  Prev: Single Limb Division,  Up: Division Algorithms
+File: mpir.info,  Node: Basecase Division,  Next: Divide and Conquer Division,  Prev: Single Limb Division,  Up: Division Algorithms
 
 16.2.2 Basecase Division
 ------------------------
@@ -6508,7 +6503,7 @@ multiplication, differing in fact only in the extra multiply and divide
 for each of the Q quotient limbs.
 
 
-File: gmp.info,  Node: Divide and Conquer Division,  Next: Exact Division,  Prev: Basecase Division,  Up: Division Algorithms
+File: mpir.info,  Node: Divide and Conquer Division,  Next: Exact Division,  Prev: Basecase Division,  Up: Division Algorithms
 
 16.2.3 Divide and Conquer Division
 ----------------------------------
@@ -6552,7 +6547,7 @@ should therefore be superior to divide and conquer, but it's believed
 this would only be for large to very large N.
 
 
-File: gmp.info,  Node: Exact Division,  Next: Exact Remainder,  Prev: Divide and Conquer Division,  Up: Division Algorithms
+File: mpir.info,  Node: Exact Division,  Next: Exact Remainder,  Prev: Divide and Conquer Division,  Up: Division Algorithms
 
 16.2.4 Exact Division
 ---------------------
@@ -6612,7 +6607,7 @@ long as the effect of the borrows is applied, which can help chips with
 pipelined multipliers.
 
 
-File: gmp.info,  Node: Exact Remainder,  Next: Small Quotient Division,  Prev: Exact Division,  Up: Division Algorithms
+File: mpir.info,  Node: Exact Remainder,  Next: Small Quotient Division,  Prev: Exact Division,  Up: Division Algorithms
 
 16.2.5 Exact Remainder
 ----------------------
@@ -6664,7 +6659,7 @@ factors include 5, 17 and 257, but no particular use has been found for
 this.
 
 
-File: gmp.info,  Node: Small Quotient Division,  Prev: Exact Remainder,  Up: Division Algorithms
+File: mpir.info,  Node: Small Quotient Division,  Prev: Exact Remainder,  Up: Division Algorithms
 
 16.2.6 Small Quotient Division
 ------------------------------
@@ -6696,7 +6691,7 @@ established by following the argument of Knuth section 4.3.1 exercise
 20 but with the v2*q>b*r+u2 condition appropriately relaxed.
 
 
-File: gmp.info,  Node: Greatest Common Divisor Algorithms,  Next: Powering Algorithms,  Prev: Division Algorithms,  Up: Algorithms
+File: mpir.info,  Node: Greatest Common Divisor Algorithms,  Next: Powering Algorithms,  Prev: Division Algorithms,  Up: Algorithms
 
 16.3 Greatest Common Divisor
 ============================
@@ -6709,7 +6704,7 @@ File: gmp.info,  Node: Greatest Common Divisor Algorithms,  Next: Powering Algor
 * Jacobi Symbol::
 
 
-File: gmp.info,  Node: Binary GCD,  Next: Accelerated GCD,  Prev: Greatest Common Divisor Algorithms,  Up: Greatest Common Divisor Algorithms
+File: mpir.info,  Node: Binary GCD,  Next: Accelerated GCD,  Prev: Greatest Common Divisor Algorithms,  Up: Greatest Common Divisor Algorithms
 
 16.3.1 Binary GCD
 -----------------
@@ -6768,7 +6763,7 @@ means it's not usually advantageous to combine a set of divisibility
 tests into a GCD.
 
 
-File: gmp.info,  Node: Accelerated GCD,  Next: Extended GCD,  Prev: Binary GCD,  Up: Greatest Common Divisor Algorithms
+File: mpir.info,  Node: Accelerated GCD,  Next: Extended GCD,  Prev: Binary GCD,  Up: Greatest Common Divisor Algorithms
 
 16.3.2 Accelerated GCD
 ----------------------
@@ -6805,7 +6800,7 @@ almost always small this takes very little time.
 and d.
 
 
-File: gmp.info,  Node: Extended GCD,  Next: Jacobi Symbol,  Prev: Accelerated GCD,  Up: Greatest Common Divisor Algorithms
+File: mpir.info,  Node: Extended GCD,  Next: Jacobi Symbol,  Prev: Accelerated GCD,  Up: Greatest Common Divisor Algorithms
 
 16.3.3 Extended GCD
 -------------------
@@ -6842,7 +6837,7 @@ multipliers at each step are applied to a roughly constant total number
 of limbs.
 
 
-File: gmp.info,  Node: Jacobi Symbol,  Prev: Extended GCD,  Up: Greatest Common Divisor Algorithms
+File: mpir.info,  Node: Jacobi Symbol,  Prev: Extended GCD,  Up: Greatest Common Divisor Algorithms
 
 16.3.4 Jacobi Symbol
 --------------------
@@ -6863,7 +6858,7 @@ single limb, and the whole calculation in this case is quite efficient.
 using some bit twiddling, avoiding table lookups or conditional jumps.
 
 
-File: gmp.info,  Node: Powering Algorithms,  Next: Root Extraction Algorithms,  Prev: Greatest Common Divisor Algorithms,  Up: Algorithms
+File: mpir.info,  Node: Powering Algorithms,  Next: Root Extraction Algorithms,  Prev: Greatest Common Divisor Algorithms,  Up: Algorithms
 
 16.4 Powering Algorithms
 ========================
@@ -6874,7 +6869,7 @@ File: gmp.info,  Node: Powering Algorithms,  Next: Root Extraction Algorithms,  
 * Modular Powering Algorithm::
 
 
-File: gmp.info,  Node: Normal Powering Algorithm,  Next: Modular Powering Algorithm,  Prev: Powering Algorithms,  Up: Powering Algorithms
+File: mpir.info,  Node: Normal Powering Algorithm,  Next: Modular Powering Algorithm,  Prev: Powering Algorithms,  Up: Powering Algorithms
 
 16.4.1 Normal Powering
 ----------------------
@@ -6886,7 +6881,7 @@ variant described there is used rather than algorithm A, since it's
 just as easy and can be done with somewhat less temporary memory.
 
 
-File: gmp.info,  Node: Modular Powering Algorithm,  Prev: Normal Powering Algorithm,  Up: Powering Algorithms
+File: mpir.info,  Node: Modular Powering Algorithm,  Prev: Normal Powering Algorithm,  Up: Powering Algorithms
 
 16.4.2 Modular Powering
 -----------------------
@@ -6908,7 +6903,7 @@ but rather always uses a REDC form, which is usually a full size
 operand.  And lastly it's only applied to odd moduli.
 
 
-File: gmp.info,  Node: Root Extraction Algorithms,  Next: Radix Conversion Algorithms,  Prev: Powering Algorithms,  Up: Algorithms
+File: mpir.info,  Node: Root Extraction Algorithms,  Next: Radix Conversion Algorithms,  Prev: Powering Algorithms,  Up: Algorithms
 
 16.5 Root Extraction Algorithms
 ===============================
@@ -6921,7 +6916,7 @@ File: gmp.info,  Node: Root Extraction Algorithms,  Next: Radix Conversion Algor
 * Perfect Power Algorithm::
 
 
-File: gmp.info,  Node: Square Root Algorithm,  Next: Nth Root Algorithm,  Prev: Root Extraction Algorithms,  Up: Root Extraction Algorithms
+File: mpir.info,  Node: Square Root Algorithm,  Next: Nth Root Algorithm,  Prev: Root Extraction Algorithms,  Up: Root Extraction Algorithms
 
 16.5.1 Square Root
 ------------------
@@ -6975,7 +6970,7 @@ Karatsuba and Toom-3 ranges, growing to 2 or 3 in the FFT range.
 precision given by `mpf_sqrt_ui' is obtained by padding with zero limbs.
 
 
-File: gmp.info,  Node: Nth Root Algorithm,  Next: Perfect Square Algorithm,  Prev: Square Root Algorithm,  Up: Root Extraction Algorithms
+File: mpir.info,  Node: Nth Root Algorithm,  Next: Perfect Square Algorithm,  Prev: Square Root Algorithm,  Up: Root Extraction Algorithms
 
 16.5.2 Nth Root
 ---------------
@@ -6995,7 +6990,7 @@ are needed to get good convergence.  The current implementation is not
 particularly well optimized.
 
 
-File: gmp.info,  Node: Perfect Square Algorithm,  Next: Perfect Power Algorithm,  Prev: Nth Root Algorithm,  Up: Root Extraction Algorithms
+File: mpir.info,  Node: Perfect Square Algorithm,  Next: Perfect Power Algorithm,  Prev: Nth Root Algorithm,  Up: Root Extraction Algorithms
 
 16.5.3 Perfect Square
 ---------------------
@@ -7040,7 +7035,7 @@ The assumed distribution of squares versus non-squares in the input
 would affect such considerations.
 
 
-File: gmp.info,  Node: Perfect Power Algorithm,  Prev: Perfect Square Algorithm,  Up: Root Extraction Algorithms
+File: mpir.info,  Node: Perfect Power Algorithm,  Prev: Perfect Square Algorithm,  Up: Root Extraction Algorithms
 
 16.5.4 Perfect Power
 --------------------
@@ -7056,7 +7051,7 @@ work necessary.  To this end divisibility by a set of small primes is
 checked.
 
 
-File: gmp.info,  Node: Radix Conversion Algorithms,  Next: Other Algorithms,  Prev: Root Extraction Algorithms,  Up: Algorithms
+File: mpir.info,  Node: Radix Conversion Algorithms,  Next: Other Algorithms,  Prev: Root Extraction Algorithms,  Up: Algorithms
 
 16.6 Radix Conversion
 =====================

@@ -23,5 +23,5 @@
 
 EXTRA_DIST = isa_abi_headache
 
-info_TEXINFOS = gmp.texi
+info_TEXINFOS = mpir.texi
 gmp_TEXINFOS = fdl.texi
