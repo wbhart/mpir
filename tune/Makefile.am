@@ -66,7 +66,7 @@ $(top_builddir)/tests/libtests.la:
 #
 # On Solaris 8, gcc 2.95.2 -static is somehow broken (it creates executables
 # that immediately seg fault), so -all-static is not used.  The only thing
-# -all-static does is make libc static linked as well as libgmp, and that
+# -all-static does is make libc static linked as well as libmpir, and that
 # makes a difference only when measuring malloc and friends in the speed
 # program.  This can always be forced with "make speed_LDFLAGS=-all-static
 # ..." if desired, see tune/README.

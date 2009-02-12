@@ -102,7 +102,7 @@ endif
 EXTRA_DIST += mpirxx.h
 
 # mpir.h and mp.h are architecture dependent, mainly since they encode the
-# limb size used in libgmp.  For that reason they belong under $exec_prefix
+# limb size used in libmpir.  For that reason they belong under $exec_prefix
 # not $prefix, strictly speaking.
 #
 # $exec_prefix/include is not in the default include path for gcc built to
@@ -244,7 +244,7 @@ MPBSD_OBJECTS = mpbsd/add$U.lo mpbsd/tdiv_qr$U.lo mpbsd/set$U.lo	\
 # something extra.  The source files for each .lo are listed in the
 # Makefile.am's in the subdirectories.
 #
-# Currently, for libgmp, unlike libmp below, we're not using
+# Currently, for libmpir, unlike libmp below, we're not using
 # -export-symbols, since the tune and speed programs, and perhaps some of
 # the test programs, want to access undocumented symbols.
 
