@@ -1,4 +1,4 @@
-/* Test that gmpxx.h compiles correctly.
+/* Test that mpirxx.h compiles correctly.
 
 Copyright 2001, 2002 Free Software Foundation, Inc.
 

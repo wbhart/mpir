@@ -45,7 +45,7 @@ gen-psqr.c - generates data for perfect square testing
 gmp-h.in - mpir.h with some platform dependent stuff not yet inserted (mpir.h is included by 
   programs using MPIR and by code within MPIR)
 gmp-impl.h - internal include file containing all the macros used MPIR wide
-gmpxx.h - C++ class wrapper for MPIR types
+mpirxx.h - C++ class wrapper for MPIR types
 INSTALL - basic text notes on installing MPIR
 INSTALL.AUTOCONF - more detailed text file on configuring MPIR
 install-sh - script for installing MPIR (once built)

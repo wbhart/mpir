@@ -1,4 +1,4 @@
-/* gmpxx.h -- C++ class wrapper for GMP types.  -*- C++ -*-
+/* mpirxx.h -- C++ class wrapper for GMP types.  -*- C++ -*-
 
 Copyright 2001, 2002, 2003, 2006 Free Software Foundation, Inc.
 
@@ -29,7 +29,7 @@ MA 02110-1301, USA. */
    for other compilers, I don't know */
 #ifdef __GNUC__
 #if __GNUC__ < 2 || (__GNUC__ == 2 && __GNUC_MINOR__ < 91)
-#error gmpxx.h requires g++ version 2.91 (egcs 1.1.2) or higher
+#error mpirxx.h requires g++ version 2.91 (egcs 1.1.2) or higher
 #endif
 #endif
 

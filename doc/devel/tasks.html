@@ -631,7 +631,7 @@ MA 02110-1301, USA.
      In C++ the situation is probably clearer, we demand fairly recent C++ so
      <code>long long</code> should be available always.  We'd probably prefer
      to have the C and C++ the same in respect of <code>long long</code>
-     support, but it would be possible to have it unconditionally in gmpxx.h,
+     support, but it would be possible to have it unconditionally in mpirxx.h,
      by some means or another.
 <li> <code>mpz_strtoz</code> parsing the same as <code>strtol</code>.
      Suggested by Alexander Kruppa.
@@ -723,7 +723,7 @@ MA 02110-1301, USA.
      etc.
 <li> <code>mpq_class operator+=</code>: Don't emit an unnecssary
      <code>mpq_set(q,q)</code> before <code>mpz_addmul</code> etc.
-<li> Put various bits of gmpxx.h into libgmpxx, to avoid excessive inlining.
+<li> Put various bits of mpirxx.h into libgmpxx, to avoid excessive inlining.
      Candidates for this would be,
      <ul>
      <li> <code>mpz_class(const char *)</code>, etc: since they're normally

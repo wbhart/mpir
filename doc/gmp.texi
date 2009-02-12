@@ -933,7 +933,7 @@ C++ support in MPIR can be enabled with @samp{--enable-cxx}, in which case a
 C++ compiler will be required.  As a convenience @samp{--enable-cxx=detect}
 can be used to enable C++ support only if a compiler can be found.  The C++
 support consists of a library @file{libgmpxx.la}/@file{libmpirxx.la} and header file
-@file{gmpxx.h}/@file{mpirxx.h} (@pxref{Headers and Libraries}).
+@file{mpirxx.h} (@pxref{Headers and Libraries}).
 
 A separate @file{libgmpxx.la}/@file{libmpirxx.la} has been adopted rather than having C++ objects
 within @file{libgmp.la}/@file{libmpir.la} in order to ensure dynamic linked C programs aren't
@@ -6257,9 +6257,9 @@ reveals itself.}
 @noindent
 All the C++ classes and functions are available with
 
-@cindex @code{gmpxx.h}
+@cindex @code{mpirxx.h}
 @example
-#include <gmpxx.h>
+#include <mpirxx.h>
 @end example
 
 Programs should be linked with the @file{libgmpxx}/@file{libmpirxx} and @file{libgmp}/@file{libmpir}
@@ -6348,10 +6348,10 @@ mpz_class y;
 y = mpz_class (z);
 @end example
 
-There are no namespace setups in @file{gmpxx.h}, all types and functions are
+There are no namespace setups in @file{mpirxx.h}, all types and functions are
 simply put into the global namespace.  This is what @file{mpir.h} has done in
 the past, and continues to do for compatibility.  The extras provided by
-@file{gmpxx.h} follow MPIR naming conventions and are unlikely to clash with
+@file{mpirxx.h} follow MPIR naming conventions and are unlikely to clash with
 anything.
 
 
@@ -6766,7 +6766,7 @@ fun (f, g+h);  // Bad
 @end example
 
 This is because @code{g+h} ends up being a certain expression template type
-internal to @code{gmpxx.h}, which the C++ template resolution rules are unable
+internal to @code{mpirxx.h}, which the C++ template resolution rules are unable
 to automatically convert to @code{mpz_class}.  The workaround is simply to add
 an explicit cast.
 

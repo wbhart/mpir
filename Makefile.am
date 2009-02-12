@@ -97,9 +97,9 @@ SUBDIRS += mpn mpz mpq mpf printf scanf cxx mpbsd demos tune doc
 EXTRA_DIST = configfsf.guess configfsf.sub .gdbinit INSTALL.autoconf
 
 if WANT_CXX
-GMPXX_HEADERS_OPTION = gmpxx.h
+GMPXX_HEADERS_OPTION = mpirxx.h
 endif
-EXTRA_DIST += gmpxx.h
+EXTRA_DIST += mpirxx.h
 
 # mpir.h and mp.h are architecture dependent, mainly since they encode the
 # limb size used in libgmp.  For that reason they belong under $exec_prefix
