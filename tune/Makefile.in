@@ -93,7 +93,7 @@ CONFIG_HEADER = $(top_builddir)/config.h
 CONFIG_CLEAN_FILES =
 am__DEPENDENCIES_1 =
 am__DEPENDENCIES_2 = $(am__DEPENDENCIES_1) \
-	$(top_builddir)/tests/libtests.la $(top_builddir)/libgmp.la
+	$(top_builddir)/tests/libtests.la $(top_builddir)/libmpir.la
 am_libspeed_la_OBJECTS = common$U.lo divrem1div$U.lo divrem1inv$U.lo \
 	divrem2div$U.lo divrem2inv$U.lo freq$U.lo gcd_bin$U.lo \
 	gcd_finda_gen$U.lo gcdext_single$U.lo gcdext_double$U.lo \
@@ -321,7 +321,7 @@ libspeed_la_SOURCES = \
   sb_div.c sb_inv.c
 
 libspeed_la_DEPENDENCIES = $(SPEED_CYCLECOUNTER_OBJ) \
-  $(top_builddir)/tests/libtests.la $(top_builddir)/libgmp.la
+  $(top_builddir)/tests/libtests.la $(top_builddir)/libmpir.la
 
 libspeed_la_LIBADD = $(libspeed_la_DEPENDENCIES) $(LIBM)
 libspeed_la_LDFLAGS = $(STATIC)

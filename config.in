@@ -130,13 +130,13 @@ MA 02110-1301, USA.
 #undef HAVE_GETTIMEOFDAY
 
 /* Define one of these to 1 for the host CPU family.
-   If your CPU is not in any of these families, leave all undefined.
-   For an AMD64 chip, define "x86" in ABI=32, but not in ABI=64. */
+   If your CPU is not in any of these families, leave all undefined. */
 #undef HAVE_HOST_CPU_FAMILY_alpha
 #undef HAVE_HOST_CPU_FAMILY_m68k
 #undef HAVE_HOST_CPU_FAMILY_power
 #undef HAVE_HOST_CPU_FAMILY_powerpc
 #undef HAVE_HOST_CPU_FAMILY_x86
+#undef HAVE_HOST_CPU_FAMILY_x86_64
 
 /* Define one of the following to 1 for the host CPU, as per the output of
    ./config.guess.  If your CPU is not listed here, leave all undefined.  */

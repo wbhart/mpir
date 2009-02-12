@@ -72,7 +72,7 @@ am_calc_OBJECTS = calc$U.$(OBJEXT) calclex$U.$(OBJEXT) \
 calc_OBJECTS = $(am_calc_OBJECTS)
 calc_LDADD = $(LDADD)
 am__DEPENDENCIES_1 =
-calc_DEPENDENCIES = $(top_builddir)/libgmp.la $(am__DEPENDENCIES_1) \
+calc_DEPENDENCIES = $(top_builddir)/libmpir.la $(am__DEPENDENCIES_1) \
 	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
 DEFAULT_INCLUDES = -I. -I$(srcdir) -I$(top_builddir)
 depcomp =
@@ -250,7 +250,7 @@ INCLUDES = -I$(top_srcdir)
 # calclex.c), but it's included here for the benefit of anyone rebuilding
 # with some other lex.
 #
-LDADD = $(top_builddir)/libgmp.la $(LIBREADLINE) $(LIBCURSES) $(LEXLIB)
+LDADD = $(top_builddir)/libmpir.la $(LIBREADLINE) $(LIBCURSES) $(LEXLIB)
 AM_YFLAGS = -d
 calc_SOURCES = calc.y calclex.l calcread.c calc-common.h
 BUILT_SOURCES = calc.h

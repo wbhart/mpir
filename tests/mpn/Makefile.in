@@ -73,52 +73,52 @@ t_aors_1_SOURCES = t-aors_1.c
 t_aors_1_OBJECTS = t-aors_1$U.$(OBJEXT)
 t_aors_1_LDADD = $(LDADD)
 t_aors_1_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
-	$(top_builddir)/libgmp.la
+	$(top_builddir)/libmpir.la
 t_asmtype_SOURCES = t-asmtype.c
 t_asmtype_OBJECTS = t-asmtype$U.$(OBJEXT)
 t_asmtype_LDADD = $(LDADD)
 t_asmtype_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
-	$(top_builddir)/libgmp.la
+	$(top_builddir)/libmpir.la
 t_divrem_1_SOURCES = t-divrem_1.c
 t_divrem_1_OBJECTS = t-divrem_1$U.$(OBJEXT)
 t_divrem_1_LDADD = $(LDADD)
 t_divrem_1_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
-	$(top_builddir)/libgmp.la
+	$(top_builddir)/libmpir.la
 t_fat_SOURCES = t-fat.c
 t_fat_OBJECTS = t-fat$U.$(OBJEXT)
 t_fat_LDADD = $(LDADD)
 t_fat_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
-	$(top_builddir)/libgmp.la
+	$(top_builddir)/libmpir.la
 t_get_d_SOURCES = t-get_d.c
 t_get_d_OBJECTS = t-get_d$U.$(OBJEXT)
 t_get_d_LDADD = $(LDADD)
 t_get_d_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
-	$(top_builddir)/libgmp.la
+	$(top_builddir)/libmpir.la
 t_instrument_SOURCES = t-instrument.c
 t_instrument_OBJECTS = t-instrument$U.$(OBJEXT)
 t_instrument_LDADD = $(LDADD)
 t_instrument_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
-	$(top_builddir)/libgmp.la
+	$(top_builddir)/libmpir.la
 t_iord_u_SOURCES = t-iord_u.c
 t_iord_u_OBJECTS = t-iord_u$U.$(OBJEXT)
 t_iord_u_LDADD = $(LDADD)
 t_iord_u_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
-	$(top_builddir)/libgmp.la
+	$(top_builddir)/libmpir.la
 t_mp_bases_SOURCES = t-mp_bases.c
 t_mp_bases_OBJECTS = t-mp_bases$U.$(OBJEXT)
 t_mp_bases_LDADD = $(LDADD)
 t_mp_bases_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
-	$(top_builddir)/libgmp.la
+	$(top_builddir)/libmpir.la
 t_perfsqr_SOURCES = t-perfsqr.c
 t_perfsqr_OBJECTS = t-perfsqr$U.$(OBJEXT)
 t_perfsqr_LDADD = $(LDADD)
 t_perfsqr_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
-	$(top_builddir)/libgmp.la
+	$(top_builddir)/libmpir.la
 t_scan_SOURCES = t-scan.c
 t_scan_OBJECTS = t-scan$U.$(OBJEXT)
 t_scan_LDADD = $(LDADD)
 t_scan_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
-	$(top_builddir)/libgmp.la
+	$(top_builddir)/libmpir.la
 DEFAULT_INCLUDES = -I. -I$(srcdir) -I$(top_builddir)
 depcomp =
 am__depfiles_maybe =
@@ -287,7 +287,7 @@ sharedstatedir = @sharedstatedir@
 sysconfdir = @sysconfdir@
 target_alias = @target_alias@
 INCLUDES = -I$(top_srcdir) -I$(top_srcdir)/tests
-LDADD = $(top_builddir)/tests/libtests.la $(top_builddir)/libgmp.la
+LDADD = $(top_builddir)/tests/libtests.la $(top_builddir)/libmpir.la
 TESTS = $(check_PROGRAMS)
 all: all-am
 

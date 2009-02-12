@@ -70,17 +70,17 @@ t_locale_SOURCES = t-locale.c
 t_locale_OBJECTS = t-locale$U.$(OBJEXT)
 t_locale_LDADD = $(LDADD)
 t_locale_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
-	$(top_builddir)/libgmp.la
+	$(top_builddir)/libmpir.la
 t_printf_SOURCES = t-printf.c
 t_printf_OBJECTS = t-printf$U.$(OBJEXT)
 t_printf_LDADD = $(LDADD)
 t_printf_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
-	$(top_builddir)/libgmp.la
+	$(top_builddir)/libmpir.la
 t_scanf_SOURCES = t-scanf.c
 t_scanf_OBJECTS = t-scanf$U.$(OBJEXT)
 t_scanf_LDADD = $(LDADD)
 t_scanf_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
-	$(top_builddir)/libgmp.la
+	$(top_builddir)/libmpir.la
 DEFAULT_INCLUDES = -I. -I$(srcdir) -I$(top_builddir)
 depcomp =
 am__depfiles_maybe =
@@ -247,7 +247,7 @@ sharedstatedir = @sharedstatedir@
 sysconfdir = @sysconfdir@
 target_alias = @target_alias@
 INCLUDES = -I$(top_srcdir) -I$(top_srcdir)/tests
-LDADD = $(top_builddir)/tests/libtests.la $(top_builddir)/libgmp.la
+LDADD = $(top_builddir)/tests/libtests.la $(top_builddir)/libmpir.la
 TESTS = $(check_PROGRAMS)
 
 # Temporary files used by the tests.  Removed automatically if the tests

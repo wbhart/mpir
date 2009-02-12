@@ -91,287 +91,287 @@ bit_SOURCES = bit.c
 bit_OBJECTS = bit$U.$(OBJEXT)
 bit_LDADD = $(LDADD)
 bit_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
-	$(top_builddir)/libgmp.la
+	$(top_builddir)/libmpir.la
 convert_SOURCES = convert.c
 convert_OBJECTS = convert$U.$(OBJEXT)
 convert_LDADD = $(LDADD)
 convert_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
-	$(top_builddir)/libgmp.la
+	$(top_builddir)/libmpir.la
 dive_SOURCES = dive.c
 dive_OBJECTS = dive$U.$(OBJEXT)
 dive_LDADD = $(LDADD)
 dive_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
-	$(top_builddir)/libgmp.la
+	$(top_builddir)/libmpir.la
 dive_ui_SOURCES = dive_ui.c
 dive_ui_OBJECTS = dive_ui$U.$(OBJEXT)
 dive_ui_LDADD = $(LDADD)
 dive_ui_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
-	$(top_builddir)/libgmp.la
+	$(top_builddir)/libmpir.la
 io_SOURCES = io.c
 io_OBJECTS = io$U.$(OBJEXT)
 io_LDADD = $(LDADD)
 io_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
-	$(top_builddir)/libgmp.la
+	$(top_builddir)/libmpir.la
 logic_SOURCES = logic.c
 logic_OBJECTS = logic$U.$(OBJEXT)
 logic_LDADD = $(LDADD)
 logic_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
-	$(top_builddir)/libgmp.la
+	$(top_builddir)/libmpir.la
 reuse_SOURCES = reuse.c
 reuse_OBJECTS = reuse$U.$(OBJEXT)
 reuse_LDADD = $(LDADD)
 reuse_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
-	$(top_builddir)/libgmp.la
+	$(top_builddir)/libmpir.la
 t_addsub_SOURCES = t-addsub.c
 t_addsub_OBJECTS = t-addsub$U.$(OBJEXT)
 t_addsub_LDADD = $(LDADD)
 t_addsub_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
-	$(top_builddir)/libgmp.la
+	$(top_builddir)/libmpir.la
 t_aorsmul_SOURCES = t-aorsmul.c
 t_aorsmul_OBJECTS = t-aorsmul$U.$(OBJEXT)
 t_aorsmul_LDADD = $(LDADD)
 t_aorsmul_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
-	$(top_builddir)/libgmp.la
+	$(top_builddir)/libmpir.la
 t_bin_SOURCES = t-bin.c
 t_bin_OBJECTS = t-bin$U.$(OBJEXT)
 t_bin_LDADD = $(LDADD)
 t_bin_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
-	$(top_builddir)/libgmp.la
+	$(top_builddir)/libmpir.la
 t_cdiv_ui_SOURCES = t-cdiv_ui.c
 t_cdiv_ui_OBJECTS = t-cdiv_ui$U.$(OBJEXT)
 t_cdiv_ui_LDADD = $(LDADD)
 t_cdiv_ui_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
-	$(top_builddir)/libgmp.la
+	$(top_builddir)/libmpir.la
 t_cmp_SOURCES = t-cmp.c
 t_cmp_OBJECTS = t-cmp$U.$(OBJEXT)
 t_cmp_LDADD = $(LDADD)
 t_cmp_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
-	$(top_builddir)/libgmp.la
+	$(top_builddir)/libmpir.la
 t_cmp_d_SOURCES = t-cmp_d.c
 t_cmp_d_OBJECTS = t-cmp_d$U.$(OBJEXT)
 t_cmp_d_LDADD = $(LDADD)
 t_cmp_d_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
-	$(top_builddir)/libgmp.la
+	$(top_builddir)/libmpir.la
 t_cmp_si_SOURCES = t-cmp_si.c
 t_cmp_si_OBJECTS = t-cmp_si$U.$(OBJEXT)
 t_cmp_si_LDADD = $(LDADD)
 t_cmp_si_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
-	$(top_builddir)/libgmp.la
+	$(top_builddir)/libmpir.la
 t_cong_SOURCES = t-cong.c
 t_cong_OBJECTS = t-cong$U.$(OBJEXT)
 t_cong_LDADD = $(LDADD)
 t_cong_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
-	$(top_builddir)/libgmp.la
+	$(top_builddir)/libmpir.la
 t_cong_2exp_SOURCES = t-cong_2exp.c
 t_cong_2exp_OBJECTS = t-cong_2exp$U.$(OBJEXT)
 t_cong_2exp_LDADD = $(LDADD)
 t_cong_2exp_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
-	$(top_builddir)/libgmp.la
+	$(top_builddir)/libmpir.la
 t_div_2exp_SOURCES = t-div_2exp.c
 t_div_2exp_OBJECTS = t-div_2exp$U.$(OBJEXT)
 t_div_2exp_LDADD = $(LDADD)
 t_div_2exp_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
-	$(top_builddir)/libgmp.la
+	$(top_builddir)/libmpir.la
 t_divis_SOURCES = t-divis.c
 t_divis_OBJECTS = t-divis$U.$(OBJEXT)
 t_divis_LDADD = $(LDADD)
 t_divis_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
-	$(top_builddir)/libgmp.la
+	$(top_builddir)/libmpir.la
 t_divis_2exp_SOURCES = t-divis_2exp.c
 t_divis_2exp_OBJECTS = t-divis_2exp$U.$(OBJEXT)
 t_divis_2exp_LDADD = $(LDADD)
 t_divis_2exp_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
-	$(top_builddir)/libgmp.la
+	$(top_builddir)/libmpir.la
 t_export_SOURCES = t-export.c
 t_export_OBJECTS = t-export$U.$(OBJEXT)
 t_export_LDADD = $(LDADD)
 t_export_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
-	$(top_builddir)/libgmp.la
+	$(top_builddir)/libmpir.la
 t_fac_ui_SOURCES = t-fac_ui.c
 t_fac_ui_OBJECTS = t-fac_ui$U.$(OBJEXT)
 t_fac_ui_LDADD = $(LDADD)
 t_fac_ui_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
-	$(top_builddir)/libgmp.la
+	$(top_builddir)/libmpir.la
 t_fdiv_SOURCES = t-fdiv.c
 t_fdiv_OBJECTS = t-fdiv$U.$(OBJEXT)
 t_fdiv_LDADD = $(LDADD)
 t_fdiv_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
-	$(top_builddir)/libgmp.la
+	$(top_builddir)/libmpir.la
 t_fdiv_ui_SOURCES = t-fdiv_ui.c
 t_fdiv_ui_OBJECTS = t-fdiv_ui$U.$(OBJEXT)
 t_fdiv_ui_LDADD = $(LDADD)
 t_fdiv_ui_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
-	$(top_builddir)/libgmp.la
+	$(top_builddir)/libmpir.la
 t_fib_ui_SOURCES = t-fib_ui.c
 t_fib_ui_OBJECTS = t-fib_ui$U.$(OBJEXT)
 t_fib_ui_LDADD = $(LDADD)
 t_fib_ui_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
-	$(top_builddir)/libgmp.la
+	$(top_builddir)/libmpir.la
 t_fits_SOURCES = t-fits.c
 t_fits_OBJECTS = t-fits$U.$(OBJEXT)
 t_fits_LDADD = $(LDADD)
 t_fits_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
-	$(top_builddir)/libgmp.la
+	$(top_builddir)/libmpir.la
 t_gcd_SOURCES = t-gcd.c
 t_gcd_OBJECTS = t-gcd$U.$(OBJEXT)
 t_gcd_LDADD = $(LDADD)
 t_gcd_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
-	$(top_builddir)/libgmp.la
+	$(top_builddir)/libmpir.la
 t_gcd_ui_SOURCES = t-gcd_ui.c
 t_gcd_ui_OBJECTS = t-gcd_ui$U.$(OBJEXT)
 t_gcd_ui_LDADD = $(LDADD)
 t_gcd_ui_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
-	$(top_builddir)/libgmp.la
+	$(top_builddir)/libmpir.la
 t_get_d_SOURCES = t-get_d.c
 t_get_d_OBJECTS = t-get_d$U.$(OBJEXT)
 t_get_d_LDADD = $(LDADD)
 t_get_d_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
-	$(top_builddir)/libgmp.la
+	$(top_builddir)/libmpir.la
 t_get_d_2exp_SOURCES = t-get_d_2exp.c
 t_get_d_2exp_OBJECTS = t-get_d_2exp$U.$(OBJEXT)
 t_get_d_2exp_LDADD = $(LDADD)
 t_get_d_2exp_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
-	$(top_builddir)/libgmp.la
+	$(top_builddir)/libmpir.la
 t_get_si_SOURCES = t-get_si.c
 t_get_si_OBJECTS = t-get_si$U.$(OBJEXT)
 t_get_si_LDADD = $(LDADD)
 t_get_si_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
-	$(top_builddir)/libgmp.la
+	$(top_builddir)/libmpir.la
 t_hamdist_SOURCES = t-hamdist.c
 t_hamdist_OBJECTS = t-hamdist$U.$(OBJEXT)
 t_hamdist_LDADD = $(LDADD)
 t_hamdist_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
-	$(top_builddir)/libgmp.la
+	$(top_builddir)/libmpir.la
 t_import_SOURCES = t-import.c
 t_import_OBJECTS = t-import$U.$(OBJEXT)
 t_import_LDADD = $(LDADD)
 t_import_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
-	$(top_builddir)/libgmp.la
+	$(top_builddir)/libmpir.la
 t_inp_str_SOURCES = t-inp_str.c
 t_inp_str_OBJECTS = t-inp_str$U.$(OBJEXT)
 t_inp_str_LDADD = $(LDADD)
 t_inp_str_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
-	$(top_builddir)/libgmp.la
+	$(top_builddir)/libmpir.la
 t_io_raw_SOURCES = t-io_raw.c
 t_io_raw_OBJECTS = t-io_raw$U.$(OBJEXT)
 t_io_raw_LDADD = $(LDADD)
 t_io_raw_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
-	$(top_builddir)/libgmp.la
+	$(top_builddir)/libmpir.la
 t_jac_SOURCES = t-jac.c
 t_jac_OBJECTS = t-jac$U.$(OBJEXT)
 t_jac_LDADD = $(LDADD)
 t_jac_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
-	$(top_builddir)/libgmp.la
+	$(top_builddir)/libmpir.la
 t_lcm_SOURCES = t-lcm.c
 t_lcm_OBJECTS = t-lcm$U.$(OBJEXT)
 t_lcm_LDADD = $(LDADD)
 t_lcm_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
-	$(top_builddir)/libgmp.la
+	$(top_builddir)/libmpir.la
 t_lucnum_ui_SOURCES = t-lucnum_ui.c
 t_lucnum_ui_OBJECTS = t-lucnum_ui$U.$(OBJEXT)
 t_lucnum_ui_LDADD = $(LDADD)
 t_lucnum_ui_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
-	$(top_builddir)/libgmp.la
+	$(top_builddir)/libmpir.la
 t_mul_SOURCES = t-mul.c
 t_mul_OBJECTS = t-mul$U.$(OBJEXT)
 t_mul_LDADD = $(LDADD)
 t_mul_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
-	$(top_builddir)/libgmp.la
+	$(top_builddir)/libmpir.la
 t_mul_i_SOURCES = t-mul_i.c
 t_mul_i_OBJECTS = t-mul_i$U.$(OBJEXT)
 t_mul_i_LDADD = $(LDADD)
 t_mul_i_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
-	$(top_builddir)/libgmp.la
+	$(top_builddir)/libmpir.la
 t_oddeven_SOURCES = t-oddeven.c
 t_oddeven_OBJECTS = t-oddeven$U.$(OBJEXT)
 t_oddeven_LDADD = $(LDADD)
 t_oddeven_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
-	$(top_builddir)/libgmp.la
+	$(top_builddir)/libmpir.la
 t_perfpow_SOURCES = t-perfpow.c
 t_perfpow_OBJECTS = t-perfpow$U.$(OBJEXT)
 t_perfpow_LDADD = $(LDADD)
 t_perfpow_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
-	$(top_builddir)/libgmp.la
+	$(top_builddir)/libmpir.la
 t_perfsqr_SOURCES = t-perfsqr.c
 t_perfsqr_OBJECTS = t-perfsqr$U.$(OBJEXT)
 t_perfsqr_LDADD = $(LDADD)
 t_perfsqr_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
-	$(top_builddir)/libgmp.la
+	$(top_builddir)/libmpir.la
 t_popcount_SOURCES = t-popcount.c
 t_popcount_OBJECTS = t-popcount$U.$(OBJEXT)
 t_popcount_LDADD = $(LDADD)
 t_popcount_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
-	$(top_builddir)/libgmp.la
+	$(top_builddir)/libmpir.la
 t_pow_SOURCES = t-pow.c
 t_pow_OBJECTS = t-pow$U.$(OBJEXT)
 t_pow_LDADD = $(LDADD)
 t_pow_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
-	$(top_builddir)/libgmp.la
+	$(top_builddir)/libmpir.la
 t_powm_SOURCES = t-powm.c
 t_powm_OBJECTS = t-powm$U.$(OBJEXT)
 t_powm_LDADD = $(LDADD)
 t_powm_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
-	$(top_builddir)/libgmp.la
+	$(top_builddir)/libmpir.la
 t_powm_ui_SOURCES = t-powm_ui.c
 t_powm_ui_OBJECTS = t-powm_ui$U.$(OBJEXT)
 t_powm_ui_LDADD = $(LDADD)
 t_powm_ui_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
-	$(top_builddir)/libgmp.la
+	$(top_builddir)/libmpir.la
 t_pprime_p_SOURCES = t-pprime_p.c
 t_pprime_p_OBJECTS = t-pprime_p$U.$(OBJEXT)
 t_pprime_p_LDADD = $(LDADD)
 t_pprime_p_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
-	$(top_builddir)/libgmp.la
+	$(top_builddir)/libmpir.la
 t_root_SOURCES = t-root.c
 t_root_OBJECTS = t-root$U.$(OBJEXT)
 t_root_LDADD = $(LDADD)
 t_root_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
-	$(top_builddir)/libgmp.la
+	$(top_builddir)/libmpir.la
 t_scan_SOURCES = t-scan.c
 t_scan_OBJECTS = t-scan$U.$(OBJEXT)
 t_scan_LDADD = $(LDADD)
 t_scan_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
-	$(top_builddir)/libgmp.la
+	$(top_builddir)/libmpir.la
 t_set_d_SOURCES = t-set_d.c
 t_set_d_OBJECTS = t-set_d$U.$(OBJEXT)
 t_set_d_LDADD = $(LDADD)
 t_set_d_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
-	$(top_builddir)/libgmp.la
+	$(top_builddir)/libmpir.la
 t_set_f_SOURCES = t-set_f.c
 t_set_f_OBJECTS = t-set_f$U.$(OBJEXT)
 t_set_f_LDADD = $(LDADD)
 t_set_f_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
-	$(top_builddir)/libgmp.la
+	$(top_builddir)/libmpir.la
 t_set_si_SOURCES = t-set_si.c
 t_set_si_OBJECTS = t-set_si$U.$(OBJEXT)
 t_set_si_LDADD = $(LDADD)
 t_set_si_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
-	$(top_builddir)/libgmp.la
+	$(top_builddir)/libmpir.la
 t_set_str_SOURCES = t-set_str.c
 t_set_str_OBJECTS = t-set_str$U.$(OBJEXT)
 t_set_str_LDADD = $(LDADD)
 t_set_str_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
-	$(top_builddir)/libgmp.la
+	$(top_builddir)/libmpir.la
 t_sizeinbase_SOURCES = t-sizeinbase.c
 t_sizeinbase_OBJECTS = t-sizeinbase$U.$(OBJEXT)
 t_sizeinbase_LDADD = $(LDADD)
 t_sizeinbase_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
-	$(top_builddir)/libgmp.la
+	$(top_builddir)/libmpir.la
 t_sqrtrem_SOURCES = t-sqrtrem.c
 t_sqrtrem_OBJECTS = t-sqrtrem$U.$(OBJEXT)
 t_sqrtrem_LDADD = $(LDADD)
 t_sqrtrem_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
-	$(top_builddir)/libgmp.la
+	$(top_builddir)/libmpir.la
 t_tdiv_SOURCES = t-tdiv.c
 t_tdiv_OBJECTS = t-tdiv$U.$(OBJEXT)
 t_tdiv_LDADD = $(LDADD)
 t_tdiv_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
-	$(top_builddir)/libgmp.la
+	$(top_builddir)/libmpir.la
 t_tdiv_ui_SOURCES = t-tdiv_ui.c
 t_tdiv_ui_OBJECTS = t-tdiv_ui$U.$(OBJEXT)
 t_tdiv_ui_LDADD = $(LDADD)
 t_tdiv_ui_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
-	$(top_builddir)/libgmp.la
+	$(top_builddir)/libmpir.la
 DEFAULT_INCLUDES = -I. -I$(srcdir) -I$(top_builddir)
 depcomp =
 am__depfiles_maybe =
@@ -558,7 +558,7 @@ sharedstatedir = @sharedstatedir@
 sysconfdir = @sysconfdir@
 target_alias = @target_alias@
 INCLUDES = -I$(top_srcdir) -I$(top_srcdir)/tests
-LDADD = $(top_builddir)/tests/libtests.la $(top_builddir)/libgmp.la
+LDADD = $(top_builddir)/tests/libtests.la $(top_builddir)/libmpir.la
 TESTS = $(check_PROGRAMS)
 
 # Temporary files used by the tests.  Removed automatically if the tests

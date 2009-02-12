@@ -71,7 +71,7 @@ mkinstalldirs = $(install_sh) -d
 CONFIG_HEADER = $(top_builddir)/config.h
 CONFIG_CLEAN_FILES =
 am__DEPENDENCIES_1 =
-libstat_la_DEPENDENCIES = $(top_builddir)/libgmp.la \
+libstat_la_DEPENDENCIES = $(top_builddir)/libmpir.la \
 	$(am__DEPENDENCIES_1)
 am_libstat_la_OBJECTS = statlib$U.lo zdiv_round$U.lo
 libstat_la_OBJECTS = $(am_libstat_la_OBJECTS)
@@ -82,12 +82,12 @@ gen_SOURCES = gen.c
 gen_OBJECTS = gen$U.$(OBJEXT)
 gen_LDADD = $(LDADD)
 gen_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
-	$(top_builddir)/libgmp.la
+	$(top_builddir)/libmpir.la
 am_gen_static_OBJECTS = gen$U.$(OBJEXT)
 gen_static_OBJECTS = $(am_gen_static_OBJECTS)
 gen_static_LDADD = $(LDADD)
 gen_static_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
-	$(top_builddir)/libgmp.la
+	$(top_builddir)/libmpir.la
 spect_SOURCES = spect.c
 spect_OBJECTS = spect$U.$(OBJEXT)
 spect_DEPENDENCIES = libstat.la
@@ -98,37 +98,37 @@ t_iset_SOURCES = t-iset.c
 t_iset_OBJECTS = t-iset$U.$(OBJEXT)
 t_iset_LDADD = $(LDADD)
 t_iset_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
-	$(top_builddir)/libgmp.la
+	$(top_builddir)/libmpir.la
 t_lc2exp_SOURCES = t-lc2exp.c
 t_lc2exp_OBJECTS = t-lc2exp$U.$(OBJEXT)
 t_lc2exp_LDADD = $(LDADD)
 t_lc2exp_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
-	$(top_builddir)/libgmp.la
+	$(top_builddir)/libmpir.la
 t_mt_SOURCES = t-mt.c
 t_mt_OBJECTS = t-mt$U.$(OBJEXT)
 t_mt_LDADD = $(LDADD)
 t_mt_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
-	$(top_builddir)/libgmp.la
+	$(top_builddir)/libmpir.la
 t_rand_SOURCES = t-rand.c
 t_rand_OBJECTS = t-rand$U.$(OBJEXT)
 t_rand_LDADD = $(LDADD)
 t_rand_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
-	$(top_builddir)/libgmp.la
+	$(top_builddir)/libmpir.la
 t_urbui_SOURCES = t-urbui.c
 t_urbui_OBJECTS = t-urbui$U.$(OBJEXT)
 t_urbui_LDADD = $(LDADD)
 t_urbui_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
-	$(top_builddir)/libgmp.la
+	$(top_builddir)/libmpir.la
 t_urmui_SOURCES = t-urmui.c
 t_urmui_OBJECTS = t-urmui$U.$(OBJEXT)
 t_urmui_LDADD = $(LDADD)
 t_urmui_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
-	$(top_builddir)/libgmp.la
+	$(top_builddir)/libmpir.la
 t_urndmm_SOURCES = t-urndmm.c
 t_urndmm_OBJECTS = t-urndmm$U.$(OBJEXT)
 t_urndmm_LDADD = $(LDADD)
 t_urndmm_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
-	$(top_builddir)/libgmp.la
+	$(top_builddir)/libmpir.la
 DEFAULT_INCLUDES = -I. -I$(srcdir) -I$(top_builddir)
 depcomp =
 am__depfiles_maybe =
@@ -299,7 +299,7 @@ sharedstatedir = @sharedstatedir@
 sysconfdir = @sysconfdir@
 target_alias = @target_alias@
 INCLUDES = -I$(top_srcdir) -I$(top_srcdir)/tests
-LDADD = $(top_builddir)/tests/libtests.la $(top_builddir)/libgmp.la
+LDADD = $(top_builddir)/tests/libtests.la $(top_builddir)/libmpir.la
 TESTS = $(check_PROGRAMS)
 gen_static_SOURCES = gen.c
 gen_static_LDFLAGS = -static
@@ -308,7 +308,7 @@ spect_LDADD = libstat.la
 stat_LDADD = libstat.la
 EXTRA_LTLIBRARIES = libstat.la
 libstat_la_SOURCES = gmpstat.h statlib.c zdiv_round.c
-libstat_la_LIBADD = $(top_builddir)/libgmp.la $(LIBM)
+libstat_la_LIBADD = $(top_builddir)/libmpir.la $(LIBM)
 CLEANFILES = $(EXTRA_PROGRAMS) $(EXTRA_LTLIBRARIES)
 all: all-am
 

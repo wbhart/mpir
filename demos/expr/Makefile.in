@@ -75,10 +75,10 @@ libexpr_a_OBJECTS = $(am_libexpr_a_OBJECTS)
 run_expr_SOURCES = run-expr.c
 run_expr_OBJECTS = run-expr$U.$(OBJEXT)
 run_expr_LDADD = $(LDADD)
-run_expr_DEPENDENCIES = libexpr.a $(top_builddir)/libgmp.la
+run_expr_DEPENDENCIES = libexpr.a $(top_builddir)/libmpir.la
 t_expr_SOURCES = t-expr.c
 t_expr_OBJECTS = t-expr$U.$(OBJEXT)
-am__DEPENDENCIES_1 = libexpr.a $(top_builddir)/libgmp.la
+am__DEPENDENCIES_1 = libexpr.a $(top_builddir)/libmpir.la
 t_expr_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
 	$(am__DEPENDENCIES_1)
 DEFAULT_INCLUDES = -I. -I$(srcdir) -I$(top_builddir)
@@ -258,7 +258,7 @@ EXTRA_LIBRARIES = libexpr.a
 libexpr_a_SOURCES = expr.h expr-impl.h \
   expr.c exprv.c exprz.c exprza.c exprq.c exprqa.c exprf.c exprfa.c
 
-LDADD = libexpr.a $(top_builddir)/libgmp.la
+LDADD = libexpr.a $(top_builddir)/libmpir.la
 t_expr_LDADD = $(top_builddir)/tests/libtests.la $(LDADD)
 CLEANFILES = $(EXTRA_PROGRAMS) $(EXTRA_LIBRARIES)
 all: all-am

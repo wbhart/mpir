@@ -73,52 +73,52 @@ addmul_N_SOURCES = addmul_N.c
 addmul_N_OBJECTS = addmul_N$U.$(OBJEXT)
 addmul_N_LDADD = $(LDADD)
 addmul_N_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
-	$(top_builddir)/libgmp.la
+	$(top_builddir)/libmpir.la
 anymul_1_SOURCES = anymul_1.c
 anymul_1_OBJECTS = anymul_1$U.$(OBJEXT)
 anymul_1_LDADD = $(LDADD)
 anymul_1_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
-	$(top_builddir)/libgmp.la
+	$(top_builddir)/libmpir.la
 aors_n_SOURCES = aors_n.c
 aors_n_OBJECTS = aors_n$U.$(OBJEXT)
 aors_n_LDADD = $(LDADD)
 aors_n_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
-	$(top_builddir)/libgmp.la
+	$(top_builddir)/libmpir.la
 copy_SOURCES = copy.c
 copy_OBJECTS = copy$U.$(OBJEXT)
 copy_LDADD = $(LDADD)
 copy_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
-	$(top_builddir)/libgmp.la
+	$(top_builddir)/libmpir.la
 divmod_1_SOURCES = divmod_1.c
 divmod_1_OBJECTS = divmod_1$U.$(OBJEXT)
 divmod_1_LDADD = $(LDADD)
 divmod_1_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
-	$(top_builddir)/libgmp.la
+	$(top_builddir)/libmpir.la
 divrem_SOURCES = divrem.c
 divrem_OBJECTS = divrem$U.$(OBJEXT)
 divrem_LDADD = $(LDADD)
 divrem_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
-	$(top_builddir)/libgmp.la
+	$(top_builddir)/libmpir.la
 logops_n_SOURCES = logops_n.c
 logops_n_OBJECTS = logops_n$U.$(OBJEXT)
 logops_n_LDADD = $(LDADD)
 logops_n_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
-	$(top_builddir)/libgmp.la
+	$(top_builddir)/libmpir.la
 mul_N_SOURCES = mul_N.c
 mul_N_OBJECTS = mul_N$U.$(OBJEXT)
 mul_N_LDADD = $(LDADD)
 mul_N_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
-	$(top_builddir)/libgmp.la
+	$(top_builddir)/libmpir.la
 shift_SOURCES = shift.c
 shift_OBJECTS = shift$U.$(OBJEXT)
 shift_LDADD = $(LDADD)
 shift_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
-	$(top_builddir)/libgmp.la
+	$(top_builddir)/libmpir.la
 try_SOURCES = try.c
 try_OBJECTS = try$U.$(OBJEXT)
 try_LDADD = $(LDADD)
 try_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
-	$(top_builddir)/libgmp.la
+	$(top_builddir)/libmpir.la
 DEFAULT_INCLUDES = -I. -I$(srcdir) -I$(top_builddir)
 depcomp =
 am__depfiles_maybe =
@@ -287,7 +287,7 @@ sharedstatedir = @sharedstatedir@
 sysconfdir = @sysconfdir@
 target_alias = @target_alias@
 INCLUDES = -I$(top_srcdir) -I$(top_srcdir)/tests
-LDADD = $(top_builddir)/tests/libtests.la $(top_builddir)/libgmp.la
+LDADD = $(top_builddir)/tests/libtests.la $(top_builddir)/libmpir.la
 CLEANFILES = $(EXTRA_PROGRAMS)
 all: all-am
 

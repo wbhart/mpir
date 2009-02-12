@@ -76,72 +76,72 @@ am_t_assign_OBJECTS = t-assign.$(OBJEXT)
 t_assign_OBJECTS = $(am_t_assign_OBJECTS)
 t_assign_LDADD = $(LDADD)
 t_assign_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
-	$(top_builddir)/libgmpxx.la $(top_builddir)/libgmp.la
+	$(top_builddir)/libmpirxx.la $(top_builddir)/libmpir.la
 am_t_binary_OBJECTS = t-binary.$(OBJEXT)
 t_binary_OBJECTS = $(am_t_binary_OBJECTS)
 t_binary_LDADD = $(LDADD)
 t_binary_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
-	$(top_builddir)/libgmpxx.la $(top_builddir)/libgmp.la
+	$(top_builddir)/libmpirxx.la $(top_builddir)/libmpir.la
 am_t_cast_OBJECTS = t-cast.$(OBJEXT)
 t_cast_OBJECTS = $(am_t_cast_OBJECTS)
 t_cast_LDADD = $(LDADD)
 t_cast_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
-	$(top_builddir)/libgmpxx.la $(top_builddir)/libgmp.la
+	$(top_builddir)/libmpirxx.la $(top_builddir)/libmpir.la
 am_t_constr_OBJECTS = t-constr.$(OBJEXT)
 t_constr_OBJECTS = $(am_t_constr_OBJECTS)
 t_constr_LDADD = $(LDADD)
 t_constr_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
-	$(top_builddir)/libgmpxx.la $(top_builddir)/libgmp.la
+	$(top_builddir)/libmpirxx.la $(top_builddir)/libmpir.la
 am_t_headers_OBJECTS = t-headers.$(OBJEXT)
 t_headers_OBJECTS = $(am_t_headers_OBJECTS)
 t_headers_LDADD = $(LDADD)
 t_headers_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
-	$(top_builddir)/libgmpxx.la $(top_builddir)/libgmp.la
+	$(top_builddir)/libmpirxx.la $(top_builddir)/libmpir.la
 am_t_istream_OBJECTS = t-istream.$(OBJEXT)
 t_istream_OBJECTS = $(am_t_istream_OBJECTS)
 t_istream_LDADD = $(LDADD)
 t_istream_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
-	$(top_builddir)/libgmpxx.la $(top_builddir)/libgmp.la
+	$(top_builddir)/libmpirxx.la $(top_builddir)/libmpir.la
 am_t_locale_OBJECTS = t-locale.$(OBJEXT) clocale$U.$(OBJEXT)
 t_locale_OBJECTS = $(am_t_locale_OBJECTS)
 t_locale_LDADD = $(LDADD)
 t_locale_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
-	$(top_builddir)/libgmpxx.la $(top_builddir)/libgmp.la
+	$(top_builddir)/libmpirxx.la $(top_builddir)/libmpir.la
 am_t_misc_OBJECTS = t-misc.$(OBJEXT)
 t_misc_OBJECTS = $(am_t_misc_OBJECTS)
 t_misc_LDADD = $(LDADD)
 t_misc_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
-	$(top_builddir)/libgmpxx.la $(top_builddir)/libgmp.la
+	$(top_builddir)/libmpirxx.la $(top_builddir)/libmpir.la
 am_t_ops_OBJECTS = t-ops.$(OBJEXT)
 t_ops_OBJECTS = $(am_t_ops_OBJECTS)
 t_ops_LDADD = $(LDADD)
 t_ops_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
-	$(top_builddir)/libgmpxx.la $(top_builddir)/libgmp.la
+	$(top_builddir)/libmpirxx.la $(top_builddir)/libmpir.la
 am_t_ostream_OBJECTS = t-ostream.$(OBJEXT)
 t_ostream_OBJECTS = $(am_t_ostream_OBJECTS)
 t_ostream_LDADD = $(LDADD)
 t_ostream_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
-	$(top_builddir)/libgmpxx.la $(top_builddir)/libgmp.la
+	$(top_builddir)/libmpirxx.la $(top_builddir)/libmpir.la
 am_t_prec_OBJECTS = t-prec.$(OBJEXT)
 t_prec_OBJECTS = $(am_t_prec_OBJECTS)
 t_prec_LDADD = $(LDADD)
 t_prec_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
-	$(top_builddir)/libgmpxx.la $(top_builddir)/libgmp.la
+	$(top_builddir)/libmpirxx.la $(top_builddir)/libmpir.la
 am_t_rand_OBJECTS = t-rand.$(OBJEXT)
 t_rand_OBJECTS = $(am_t_rand_OBJECTS)
 t_rand_LDADD = $(LDADD)
 t_rand_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
-	$(top_builddir)/libgmpxx.la $(top_builddir)/libgmp.la
+	$(top_builddir)/libmpirxx.la $(top_builddir)/libmpir.la
 am_t_ternary_OBJECTS = t-ternary.$(OBJEXT)
 t_ternary_OBJECTS = $(am_t_ternary_OBJECTS)
 t_ternary_LDADD = $(LDADD)
 t_ternary_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
-	$(top_builddir)/libgmpxx.la $(top_builddir)/libgmp.la
+	$(top_builddir)/libmpirxx.la $(top_builddir)/libmpir.la
 am_t_unary_OBJECTS = t-unary.$(OBJEXT)
 t_unary_OBJECTS = $(am_t_unary_OBJECTS)
 t_unary_LDADD = $(LDADD)
 t_unary_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
-	$(top_builddir)/libgmpxx.la $(top_builddir)/libgmp.la
+	$(top_builddir)/libmpirxx.la $(top_builddir)/libmpir.la
 DEFAULT_INCLUDES = -I. -I$(srcdir) -I$(top_builddir)
 depcomp =
 am__depfiles_maybe =
@@ -332,8 +332,8 @@ target_alias = @target_alias@
 INCLUDES = -I$(top_srcdir) -I$(top_srcdir)/tests
 LDADD = -L$(top_builddir)/.libs \
   $(top_builddir)/tests/libtests.la \
-  $(top_builddir)/libgmpxx.la \
-  $(top_builddir)/libgmp.la
+  $(top_builddir)/libmpirxx.la \
+  $(top_builddir)/libmpir.la
 
 @WANT_CXX_TRUE@TESTS = $(check_PROGRAMS)
 t_assign_SOURCES = t-assign.cc
@@ -362,7 +362,7 @@ t_unary_SOURCES = t-unary.cc
 # Note this fix applies only when running "make check".  The cp here should
 # be done manually if just one program is to be built and run.
 #
-TESTS_ENVIRONMENT = cp $(top_builddir)/.libs/libgmp.so.* .libs 2>/dev/null || true;
+TESTS_ENVIRONMENT = cp $(top_builddir)/.libs/libmpir.so.* .libs 2>/dev/null || true;
 all: all-am
 
 .SUFFIXES:
