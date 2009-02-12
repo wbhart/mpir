@@ -1,6 +1,6 @@
-This is gmp.info, produced by makeinfo version 4.11 from gmp.texi.
+This is gmp.info, produced by makeinfo version 4.8 from gmp.texi.
 
-This manual describes how to install and use MPIR, the Multiple
+   This manual describes how to install and use MPIR, the Multiple
 Precision Integers and Rationals library, version 0.9.0.
 
    Copyright 1991, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000,
@@ -14,7 +14,7 @@ document under the terms of the GNU Free Documentation License, Version
 with no Invariant Sections, with the Front-Cover Texts being "A GNU
 Manual", and with the Back-Cover Texts being "You have freedom to copy
 and modify this GNU Manual, like GNU software".  A copy of the license
-is included in *note GNU Free Documentation License::.
+is included in *Note GNU Free Documentation License::.
 
 INFO-DIR-SECTION GNU libraries
 START-INFO-DIR-ENTRY
@@ -41,7 +41,7 @@ document under the terms of the GNU Free Documentation License, Version
 with no Invariant Sections, with the Front-Cover Texts being "A GNU
 Manual", and with the Back-Cover Texts being "You have freedom to copy
 and modify this GNU Manual, like GNU software".  A copy of the license
-is included in *note GNU Free Documentation License::.
+is included in *Note GNU Free Documentation License::.
 
 
 * Menu:
@@ -152,16 +152,16 @@ development list is
      `http://groups.google.com/group/mpir-devel/'.
 
    The proper place for bug reports is
-`http://groups.google.com/group/mpir-devel'.  See *note Reporting
+`http://groups.google.com/group/mpir-devel'.  See *Note Reporting
 Bugs:: for information about reporting bugs.
 
 
 1.1 How to use this Manual
 ==========================
 
-Everyone should read *note MPIR Basics::.  If you need to install the
-library yourself, then read *note Installing MPIR::.  If you have a
-system with multiple ABIs, then read *note ABI and ISA::, for the
+Everyone should read *Note MPIR Basics::.  If you need to install the
+library yourself, then read *Note Installing MPIR::.  If you have a
+system with multiple ABIs, then read *Note ABI and ISA::, for the
 compiler options that must be used on applications.
 
    The rest of the manual can be used for later reference, although it
@@ -188,7 +188,7 @@ And you can install (under `/usr/local' by default) with
      make install
 
    If you experience problems, please report them to
-`http://groups.google.com/group/mpir-devel'.  See *note Reporting
+`http://groups.google.com/group/mpir-devel'.  See *Note Reporting
 Bugs::, for information on what to include in useful bug reports.
 
 * Menu:
@@ -211,7 +211,7 @@ All the usual autoconf configure options are available, run `./configure
 installation information too.
 
 Tools
-     `configure' requires various Unix-like tools.  See *note Notes for
+     `configure' requires various Unix-like tools.  See *Note Notes for
      Particular Systems::, for some options on non-Unix systems.
 
      It might be possible to build without the help of `configure',
@@ -239,8 +239,8 @@ Build Directory
      like `libgmp.a'/`libmpir.a' to a different location.  This can be
      used to share architecture-independent parts like the
      documentation, but separate the dependent parts.  Note however
-     that `gmp.h'/`mpir.h' and `mp.h' are architecture-dependent since
-     they encode certain aspects of `libgmp'/`libmpir', so it will be
+     that `mpir.h' and `mp.h' are architecture-dependent since they
+     encode certain aspects of `libgmp'/`libmpir', so it will be
      necessary to ensure both `$prefix/include' and
      `$exec_prefix/include' are available to the compiler.
 
@@ -377,7 +377,7 @@ Fat binary, `--enable-fat'
 
           ./configure --host=mips64-sgi-irix6 ABI=n32
 
-     See *note ABI and ISA::, for the available choices on relevant
+     See *Note ABI and ISA::, for the available choices on relevant
      CPUs, and what applications need to do.
 
 `CC', `CFLAGS'
@@ -433,8 +433,8 @@ C++ Support, `--enable-cxx'
      case a C++ compiler will be required.  As a convenience
      `--enable-cxx=detect' can be used to enable C++ support only if a
      compiler can be found.  The C++ support consists of a library
-     `libgmpxx.la'/`libmpirxx.la' and header file `gmpxx.h'/`mpirxx.h'
-     (*note Headers and Libraries::).
+     `libgmpxx.la'/`libmpirxx.la' and header file `mpirxx.h' (*note
+     Headers and Libraries::).
 
      A separate `libgmpxx.la'/`libmpirxx.la' has been adopted rather
      than having C++ objects within `libgmp.la'/`libmpir.la' in order
@@ -548,14 +548,14 @@ Execution Profiling, `--enable-profiling=prof/gprof/instrument'
 
 Documentation
      The source for the document you're now reading is `doc/gmp.texi',
-     in Texinfo format, see *note Texinfo: (texinfo)Top.
+     in Texinfo format, see *Note Texinfo: (texinfo)Top.
 
      Info format `doc/gmp.info' is included in the distribution.  The
      usual automake targets are available to make PostScript, DVI, PDF
      and HTML (these will require various TeX and Texinfo tools).
 
      DocBook and XML can be generated by the Texinfo `makeinfo' program
-     too, see *note Options for `makeinfo': (texinfo)makeinfo options.
+     too, see *Note Options for `makeinfo': (texinfo)makeinfo options.
 
      Some supplementary notes can also be found in the `doc'
      subdirectory.
@@ -590,11 +590,11 @@ particular application requirements.  For example,
 is compiled for the same ABI.
 
    Usually a limb is implemented as a `long'.  When a `long long' limb
-is used this is encoded in the generated `gmp.h'/`mpir.h'.  This is
-convenient for applications, but it does mean that `gmp.h'/`mpir.h'
-will vary, and can't be just copied around.  `gmp.h'/`mpir.h' remains
-compiler independent though, since all compilers for a particular ABI
-will be expected to use the same limb type.
+is used this is encoded in the generated `mpir.h'.  This is convenient
+for applications, but it does mean that `mpir.h' will vary, and can't
+be just copied around.  `mpir.h' remains compiler independent though,
+since all compilers for a particular ABI will be expected to use the
+same limb type.
 
    Currently no attempt is made to follow whatever conventions a system
 has for installing library or header files built for a particular ABI.
@@ -852,7 +852,7 @@ as making it possible for a user to omit `--build' (and `--host') so
 `--build' will be wanted for systems where `./config.guess' is inexact.
 
    On systems with multiple ABIs, a packaged build will need to decide
-which among the choices is to be provided, see *note ABI and ISA::.  A
+which among the choices is to be provided, see *Note ABI and ISA::.  A
 given run of `./configure' etc will only build one ABI.  If a second
 ABI is also required then a second run of `./configure' etc must be
 made, starting from a clean directory tree (`make distclean').
@@ -863,13 +863,13 @@ system conventions for install locations that vary with ABI, such as
 A package build can override `libdir' and other standard variables as
 necessary.
 
-   Note that `gmp.h'/`mpir.h' is a generated file, and will be
-architecture and ABI dependent.  When attempting to install two ABIs
-simultaneously it will be important that an application compile gets
-the correct `gmp.h'/`mpir.h' for its desired ABI.  If compiler include
-paths don't vary with ABI options then it might be necessary to create
-a `/usr/include/gmp.h' or `/usr/include/mpir.h' which tests
-preprocessor symbols and chooses the correct actual `gmp.h'/`mpir.h'.
+   Note that `mpir.h' is a generated file, and will be architecture and
+ABI dependent.  When attempting to install two ABIs simultaneously it
+will be important that an application compile gets the correct `mpir.h'
+for its desired ABI.  If compiler include paths don't vary with ABI
+options then it might be necessary to create a `/usr/include/mpir.h'
+which tests preprocessor symbols and chooses the correct actual
+`mpir.h'.
 
 
 File: gmp.info,  Node: Notes for Particular Systems,  Next: Known Build Problems,  Prev: Notes for Package Builds,  Up: Installing MPIR
@@ -938,7 +938,7 @@ MS Windows DLLs
           ./configure --disable-static --enable-shared
 
      Static and DLL libraries can't both be built, since certain export
-     directives in `gmp.h'/`mpir.h' must be different.
+     directives in `mpir.h' must be different.
 
      A MINGW DLL build of MPIR can be used with Microsoft C.  Libtool
      doesn't install a `.lib' format import library, but it can be
@@ -1116,7 +1116,7 @@ File: gmp.info,  Node: Performance optimization,  Prev: Known Build Problems,  U
 ============================
 
 For optimal performance, build MPIR for the exact CPU type of the target
-computer, see *note Build Options::.
+computer, see *Note Build Options::.
 
    Unlike what is the case for most other programs, the compiler
 typically doesn't matter much, since MPIR uses assembly language for
@@ -1175,7 +1175,7 @@ File: gmp.info,  Node: Headers and Libraries,  Next: Nomenclature and Types,  Pr
 =========================
 
 All declarations needed to use MPIR are collected in the include file
-`gmp.h'/`mpir.h'.  It is designed to work with both C and C++ compilers.
+`mpir.h'.  It is designed to work with both C and C++ compilers.
 
      #include <mpir.h>
 
@@ -1418,9 +1418,9 @@ of space, determined by the chosen precision and allocated at
 initialization, so their size doesn't change.
 
    All memory is allocated using `malloc' and friends by default, but
-this can be changed, see *note Custom Allocation::.  Temporary memory
+this can be changed, see *Note Custom Allocation::.  Temporary memory
 on the stack is also used (via `alloca'), but this can be changed at
-build-time if desired, see *note Build Options::.
+build-time if desired, see *Note Build Options::.
 
 
 File: gmp.info,  Node: Reentrancy,  Next: Useful Macros and Constants,  Prev: Memory Management,  Up: MPIR Basics
@@ -1745,7 +1745,7 @@ File: gmp.info,  Node: Debugging,  Next: Profiling,  Prev: Efficiency,  Up: MPIR
 Stack Overflow
      Depending on the system, a segmentation violation or bus error
      might be the only indication of stack overflow.  See
-     `--enable-alloca' choices in *note Build Options::, for how to
+     `--enable-alloca' choices in *Note Build Options::, for how to
      address this.
 
      In new enough versions of GCC, `-fstack-check' may be able to
@@ -1768,7 +1768,7 @@ Heap Problems
 
      In all such cases a `malloc' debugger is recommended.  On a GNU or
      BSD system the standard C library `malloc' has some diagnostic
-     facilities, see *note Allocation Debugging: (libc)Allocation
+     facilities, see *Note Allocation Debugging: (libc)Allocation
      Debugging, or `man 3 malloc'.  Other possibilities, in no
      particular order, include
 
@@ -1816,7 +1816,7 @@ Source File Paths
 
 Assertion Checking
      The build option `--enable-assert' is available to add some
-     consistency checks to the library (see *note Build Options::).
+     consistency checks to the library (see *Note Build Options::).
      These are likely to be of limited value to most applications.
      Assertion failures are just as likely to indicate memory
      corruption as a library or compiler bug.
@@ -1878,7 +1878,7 @@ Valgrind
 
 Other Problems
      Any suspected bug in MPIR itself should be isolated to make sure
-     it's not an application problem, see *note Reporting Bugs::.
+     it's not an application problem, see *Note Reporting Bugs::.
 
 
 File: gmp.info,  Node: Profiling,  Next: Autoconf,  Prev: Debugging,  Up: MPIR Basics
@@ -2002,10 +2002,9 @@ required, then one of those can be used when checking.  For example
        [AC_MSG_ERROR(
        [GMP/MPIR not found, or not GMP 3.1 or up or MPIR 1.0 or up, see http://www.mpir.org/])])
 
-   An alternative would be to test the version number in
-`gmp.h'/`mpir.h' using say `AC_EGREP_CPP'.  That would make it possible
-to test the exact version, if some particular sub-minor release is
-known to be necessary.
+   An alternative would be to test the version number in `mpir.h' using
+say `AC_EGREP_CPP'.  That would make it possible to test the exact
+version, if some particular sub-minor release is known to be necessary.
 
    In general it's recommended that applications should simply demand a
 new enough MPIR rather than trying to provide supplements for features
@@ -2049,8 +2048,8 @@ If you think you have found a bug in the MPIR library, please
 investigate it and report it.  We have made this library available to
 you, and it is not too much to ask you to report the bugs you find.
 
-   Before you report a bug, check it's not already addressed in *note
-Known Build Problems::, or perhaps *note Notes for Particular
+   Before you report a bug, check it's not already addressed in *Note
+Known Build Problems::, or perhaps *Note Notes for Particular
 Systems::.  You may also want to check `http://www.mpir.org/' for
 patches for this release.
 
@@ -2273,7 +2272,7 @@ File: gmp.info,  Node: Converting Integers,  Next: Integer Arithmetic,  Prev: Si
 
 This section describes functions for converting MPIR integers to
 standard C types.  Functions for converting _to_ MPIR integers are
-described in *note Assigning Integers:: and *note I/O of Integers::.
+described in *Note Assigning Integers:: and *Note I/O of Integers::.
 
  -- Function: unsigned long int mpz_get_ui (mpz_t OP)
      Return the value of OP as an `unsigned long'.
@@ -2524,7 +2523,7 @@ File: gmp.info,  Node: Integer Exponentiation,  Next: Integer Roots,  Prev: Inte
      Set ROP to (BASE raised to EXP) modulo MOD.
 
      Negative EXP is supported if an inverse BASE^-1 mod MOD exists
-     (see `mpz_invert' in *note Number Theoretic Functions::).  If an
+     (see `mpz_invert' in *Note Number Theoretic Functions::).  If an
      inverse doesn't exist then a divide by zero is raised.
 
  -- Function: void mpz_pow_ui (mpz_t ROP, mpz_t BASE, unsigned long int
@@ -2702,7 +2701,7 @@ File: gmp.info,  Node: Number Theoretic Functions,  Next: Integer Comparisons,  
      The Fibonacci numbers and Lucas numbers are related sequences, so
      it's never necessary to call both `mpz_fib2_ui' and
      `mpz_lucnum2_ui'.  The formulas for going from Fibonacci to Lucas
-     can be found in *note Lucas Numbers Algorithm::, the reverse is
+     can be found in *Note Lucas Numbers Algorithm::, the reverse is
      straightforward too.
 
 
@@ -2813,8 +2812,8 @@ argument to any of these functions will make them read from `stdin' and
 write to `stdout', respectively.
 
    When using any of these functions, it is a good idea to include
-`stdio.h' before `gmp.h'/`mpir.h', since that will allow
-`gmp.h'/`mpir.h' to define prototypes for these functions.
+`stdio.h' before `mpir.h', since that will allow `mpir.h' to define
+prototypes for these functions.
 
  -- Function: size_t mpz_out_str (FILE *STREAM, int BASE, mpz_t OP)
      Output OP on stdio stream STREAM, as a string of digits in base
@@ -2871,7 +2870,7 @@ File: gmp.info,  Node: Integer Random Numbers,  Next: Integer Import and Export,
 
 The random number functions of MPIR come in two groups; older function
 that rely on a global state, and newer functions that accept a state
-parameter that is read and modified.  Please see the *note Random
+parameter that is read and modified.  Please see the *Note Random
 Number Functions:: for more information on how to use and not to use
 random number functions.
 
@@ -2881,7 +2880,7 @@ random number functions.
      2^N-1, inclusive.
 
      The variable STATE must be initialized by calling one of the
-     `gmp_randinit' functions (*note Random State Initialization::)
+     `gmp_randinit' functions (*Note Random State Initialization::)
      before invoking this function.
 
  -- Function: void mpz_urandomm (mpz_t ROP, gmp_randstate_t STATE,
@@ -2889,7 +2888,7 @@ random number functions.
      Generate a uniform random integer in the range 0 to N-1, inclusive.
 
      The variable STATE must be initialized by calling one of the
-     `gmp_randinit' functions (*note Random State Initialization::)
+     `gmp_randinit' functions (*Note Random State Initialization::)
      before invoking this function.
 
  -- Function: void mpz_rrandomb (mpz_t ROP, gmp_randstate_t STATE,
@@ -2901,7 +2900,7 @@ random number functions.
      be in the range 0 to 2^N-1, inclusive.
 
      The variable STATE must be initialized by calling one of the
-     `gmp_randinit' functions (*note Random State Initialization::)
+     `gmp_randinit' functions (*Note Random State Initialization::)
      before invoking this function.
 
  -- Function: void mpz_random (mpz_t ROP, mp_size_t MAX_SIZE)
@@ -2940,8 +2939,8 @@ data with the following functions.
      word first or -1 for least significant first.  Within each word
      ENDIAN can be 1 for most significant byte first, -1 for least
      significant first, or 0 for the native endianness of the host CPU.
-     The most significant NAILS bits of each word are skipped, this can
-     be 0 to use the full words.
+     The most significant NAILS bits of each word are skipped, this
+     can be 0 to use the full words.
 
      There is no sign taken from the data, ROP will simply be a positive
      integer.  An application can handle any sign itself, and apply it
@@ -3358,8 +3357,8 @@ File: gmp.info,  Node: I/O of Rationals,  Prev: Applying Integer Functions,  Up:
 ==============================
 
 When using any of these functions, it's a good idea to include `stdio.h'
-before `gmp.h'/`mpir.h', since that will allow `gmp.h'/`mpir.h' to
-define prototypes for these functions.
+before `mpir.h', since that will allow `mpir.h' to define prototypes
+for these functions.
 
    Passing a `NULL' pointer for a STREAM argument to any of these
 functions will make them read from `stdin' and write to `stdout',
@@ -3804,8 +3803,8 @@ argument to any of these functions will make them read from `stdin' and
 write to `stdout', respectively.
 
    When using any of these functions, it is a good idea to include
-`stdio.h' before `gmp.h'/`mpir.h', since that will allow
-`gmp.h'/`mpir.h' to define prototypes for these functions.
+`stdio.h' before `mpir.h', since that will allow `mpir.h' to define
+prototypes for these functions.
 
  -- Function: size_t mpf_out_str (FILE *STREAM, int BASE, size_t
           N_DIGITS, mpf_t OP)
@@ -3872,7 +3871,7 @@ File: gmp.info,  Node: Miscellaneous Float Functions,  Prev: I/O of Floats,  Up:
      <= ROP < 1, with NBITS significant bits in the mantissa.
 
      The variable STATE must be initialized by calling one of the
-     `gmp_randinit' functions (*note Random State Initialization::)
+     `gmp_randinit' functions (*Note Random State Initialization::)
      before invoking this function.
 
  -- Function: void mpf_random2 (mpf_t ROP, mp_size_t MAX_SIZE, mp_exp_t
@@ -4119,8 +4118,8 @@ For example, {S1P, S1N}.
      c satisfy c*b^n + a-i = 3*q, where b=2^GMP_NUMB_BITS.  The return
      c is always 0, 1 or 2, and the initial carry i must also be 0, 1
      or 2 (these are both borrows really).  When c=0 clearly q=(a-i)/3.
-     When c!=0, the remainder (a-i) mod 3 is given by 3-c, because b ==
-     1 mod 3 (when `mp_bits_per_limb' is even, which is always so
+     When c!=0, the remainder (a-i) mod 3 is given by 3-c, because b
+     == 1 mod 3 (when `mp_bits_per_limb' is even, which is always so
      currently).
 
  -- Function: mp_limb_t mpn_mod_1 (mp_limb_t *S1P, mp_size_t S1N,
@@ -4382,7 +4381,7 @@ one of the `gmp_randinit' functions, and can be seeded with one of the
 `gmp_randseed' functions.
 
    The functions actually generating random numbers are described in
-*note Integer Random Numbers::, and *note Miscellaneous Float
+*Note Integer Random Numbers::, and *Note Miscellaneous Float
 Functions::.
 
    The older style random number functions don't accept a
@@ -4664,7 +4663,7 @@ File: gmp.info,  Node: Formatted Output Functions,  Next: C++ Formatted Output, 
 
 Each of the following functions is similar to the corresponding C
 library function.  The basic `printf' forms take a variable argument
-list.  The `vprintf' forms take an argument pointer, see *note Variadic
+list.  The `vprintf' forms take an argument pointer, see *Note Variadic
 Functions: (libc)Variadic Functions, or `man 3 va_start'.
 
    It should be emphasised that if a format string is invalid, or the
@@ -4745,7 +4744,7 @@ shouldn't normally occur.
 
      These functions are available only when the C library provides the
      obstack feature, which probably means only on GNU systems, see
-     *note Obstacks: (libc)Obstacks.
+     *Note Obstacks: (libc)Obstacks.
 
 
 File: gmp.info,  Node: C++ Formatted Output,  Prev: Formatted Output Functions,  Up: Formatted Output
@@ -4755,8 +4754,7 @@ File: gmp.info,  Node: C++ Formatted Output,  Prev: Formatted Output Functions, 
 
 The following functions are provided in `libgmpxx'/`libmpirxx' (*note
 Headers and Libraries::), which is built if C++ support is enabled
-(*note Build Options::).  Prototypes are available from `<gmp.h>' or
-`<mpir.h>'.
+(*note Build Options::).  Prototypes are available from `<mpir.h>'.
 
  -- Function: ostream& operator<< (ostream& STREAM, mpz_t OP)
      Print OP to STREAM, using its `ios' formatting settings.
@@ -4809,7 +4807,7 @@ way, for example,
    But note that `ostream' output (and `istream' input, *note C++
 Formatted Input::) is the only overloading available for the MPIR types
 and that for instance using `+' with an `mpz_t' will have unpredictable
-results.  For classes with overloading, see *note C++ Class Interface::.
+results.  For classes with overloading, see *Note C++ Class Interface::.
 
 
 File: gmp.info,  Node: Formatted Input,  Next: C++ Class Interface,  Prev: Formatted Output,  Up: Top
@@ -4957,7 +4955,7 @@ File: gmp.info,  Node: Formatted Input Functions,  Next: C++ Formatted Input,  P
 
 Each of the following functions is similar to the corresponding C
 library function.  The plain `scanf' forms take a variable argument
-list.  The `vscanf' forms take an argument pointer, see *note Variadic
+list.  The `vscanf' forms take an argument pointer, see *Note Variadic
 Functions: (libc)Variadic Functions, or `man 3 va_start'.
 
    It should be emphasised that if a format string is invalid, or the
@@ -5020,8 +5018,7 @@ File: gmp.info,  Node: C++ Formatted Input,  Prev: Formatted Input Functions,  U
 
 The following functions are provided in `libgmpxx'/`libmpirxx' (*note
 Headers and Libraries::), which is built only if C++ support is enabled
-(*note Build Options::).  Prototypes are available from `<gmp.h>' or
-`<mpir.h>'.
+(*note Build Options::).  Prototypes are available from `<mpir.h>'.
 
  -- Function: istream& operator>> (istream& STREAM, mpz_t ROP)
      Read ROP from STREAM, using its `ios' formatting settings.
@@ -5058,7 +5055,7 @@ way, for example,
    But note that `istream' input (and `ostream' output, *note C++
 Formatted Output::) is the only overloading available for the MPIR
 types and that for instance using `+' with an `mpz_t' will have
-unpredictable results.  For classes with overloading, see *note C++
+unpredictable results.  For classes with overloading, see *Note C++
 Class Interface::.
 
 
@@ -5070,9 +5067,8 @@ File: gmp.info,  Node: C++ Class Interface,  Next: BSD Compatible Functions,  Pr
 This chapter describes the C++ class based interface to MPIR.
 
    All MPIR C language types and functions can be used in C++ programs,
-since `gmp.h'/`mpir.h' has `extern "C"' qualifiers, but the class
-interface offers overloaded functions and operators which may be more
-convenient.
+since `mpir.h' has `extern "C"' qualifiers, but the class interface
+offers overloaded functions and operators which may be more convenient.
 
    Due to the implementation of this interface, a reasonably recent C++
 compiler is required, one supporting namespaces, partial specialization
@@ -5100,7 +5096,7 @@ File: gmp.info,  Node: C++ Interface General,  Next: C++ Interface Integers,  Pr
 
 All the C++ classes and functions are available with
 
-     #include <gmpxx.h>
+     #include <mpirxx.h>
 
    Programs should be linked with the `libgmpxx'/`libmpirxx' and
 `libgmp'/`libmpir' libraries.  For example,
@@ -5177,11 +5173,11 @@ any sort of association.  For example,
      mpz_class y;
      y = mpz_class (z);
 
-   There are no namespace setups in `gmpxx.h', all types and functions
-are simply put into the global namespace.  This is what
-`gmp.h'/`mpir.h' has done in the past, and continues to do for
-compatibility.  The extras provided by `gmpxx.h' follow MPIR naming
-conventions and are unlikely to clash with anything.
+   There are no namespace setups in `mpirxx.h', all types and functions
+are simply put into the global namespace.  This is what `mpir.h' has
+done in the past, and continues to do for compatibility.  The extras
+provided by `mpirxx.h' follow MPIR naming conventions and are unlikely
+to clash with anything.
 
 
 File: gmp.info,  Node: C++ Interface Integers,  Next: C++ Interface Rationals,  Prev: C++ Interface General,  Up: C++ Class Interface
@@ -5296,7 +5292,7 @@ called.
      exception is thrown.  The same applies to `operator='.
 
  -- Function: void mpq_class::canonicalize ()
-     Put an `mpq_class' into canonical form, as per *note Rational
+     Put an `mpq_class' into canonical form, as per *Note Rational
      Number Functions::.  All arithmetic operators require their
      operands in canonical form, and will return results in canonical
      form.
@@ -5562,7 +5558,7 @@ Templated Expressions
           fun (f, g+h);  // Bad
 
      This is because `g+h' ends up being a certain expression template
-     type internal to `gmpxx.h', which the C++ template resolution
+     type internal to `mpirxx.h', which the C++ template resolution
      rules are unable to automatically convert to `mpz_class'.  The
      workaround is simply to add an explicit cast.
 
@@ -6502,7 +6498,7 @@ the top end of the dividend.  With a normalized divisor (most
 significant bit set), each quotient limb can be formed with a 2x1
 division and a 1x1 multiplication plus some subtractions.  The 2x1
 division is by the high limb of the divisor and is done either with a
-hardware divide or a multiply by inverse (the same as in *note Single
+hardware divide or a multiply by inverse (the same as in *Note Single
 Limb Division::) whichever is faster.  Such a quotient is sometimes one
 too big, requiring an addback of the divisor, but that happens rarely.
 
