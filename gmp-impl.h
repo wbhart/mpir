@@ -151,7 +151,7 @@ MA 02110-1301, USA. */
        The autoconf manual says this pragma needs to be at the start of a C
        file, apart from comments and preprocessor directives.  Is that true?
        xlc on aix 4.xxx doesn't seem to mind it being after prototypes etc
-       from gmp.h.
+       from mpir.h.
 */
 
 #ifndef alloca
@@ -208,7 +208,7 @@ typedef unsigned long       gmp_uint_least32_t;
 
 
 /* const and signed must match __gmp_const and __gmp_signed, so follow the
-   decision made for those in gmp.h.    */
+   decision made for those in mpir.h.    */
 #if ! __GMP_HAVE_CONST
 #define const   /* empty */
 #define signed  /* empty */
@@ -466,7 +466,7 @@ void  __gmp_tmp_debug_free  _PROTO ((const char *, int, int,
   } while (0)
 
 
-/* From gmp.h, nicer names for internal use. */
+/* From mpir.h, nicer names for internal use. */
 #define CRAY_Pragma(str)               __GMP_CRAY_Pragma(str)
 #define MPN_CMP(result, xp, yp, size)  __GMPN_CMP(result, xp, yp, size)
 #define LIKELY(cond)                   __GMP_LIKELY(cond)
@@ -1204,7 +1204,7 @@ __GMP_DECLSPEC void mpn_copyd _PROTO ((mp_ptr, mp_srcptr, mp_size_t));
    gcc 2.95.x (for powerpc64 -maix64, or powerpc32) doesn't recognise the
    "for" loop in the generic code below can become stu/bdnz.  The do/while
    here helps it get to that.  The same caveat about plain -mpowerpc64 mode
-   applies here as to __GMPN_COPY_INCR in gmp.h.
+   applies here as to __GMPN_COPY_INCR in mpir.h.
 
    xlc 3.1 already generates stu/bdnz from the generic C, and does so from
    this loop too.

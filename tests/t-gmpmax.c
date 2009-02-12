@@ -25,7 +25,7 @@ MA 02110-1301, USA. */
 #include "mpir.h"
 
 
-/* __GMP_UINT_MAX etc are generated with expressions in gmp.h since we don't
+/* __GMP_UINT_MAX etc are generated with expressions in mpir.h since we don't
    want to demand <limits.h> or forcibly include it.  Check the expressions
    come out the same as <limits.h>.  */
 

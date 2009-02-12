@@ -44,7 +44,7 @@ MA 02110-1301, USA.
 
 <h4>Correctness and Completeness</h4>
 <ul>
-<li> <code>_LONG_LONG_LIMB</code> in gmp.h is not namespace clean.  Reported
+<li> <code>_LONG_LONG_LIMB</code> in mpir.h is not namespace clean.  Reported
      by Patrick Pelissier.
      <br>
      We sort of mentioned <code>_LONG_LONG_LIMB</code> in past releases, so
@@ -161,7 +161,7 @@ MA 02110-1301, USA.
      <code>mpn_mod_1</code> (not sure currently whether all the risc chips
      provoke the right exception there if using mul-by-inverse).
 <li> Consider inlining: <code>mpz_fits_s*_p</code>.  The setups for
-     <code>LONG_MAX</code> etc would need to go into gmp.h, and on Cray it
+     <code>LONG_MAX</code> etc would need to go into mpir.h, and on Cray it
      might, unfortunately, be necessary to forcibly include &lt;limits.h&gt;
      since there's no apparent way to get <code>SHRT_MAX</code> with an
      expression (since <code>short</code> and <code>unsigned short</code> can
@@ -230,7 +230,7 @@ MA 02110-1301, USA.
 <li> <code>mpn_add_1</code>, <code>mpn_sub_1</code>, <code>mpn_add</code>,
      <code>mpn_sub</code>: Internally use <code>__GMPN_ADD_1</code> etc
      instead of the functions, so they get inlined on all compilers, not just
-     gcc and others with <code>inline</code> recognised in gmp.h.
+     gcc and others with <code>inline</code> recognised in mpir.h.
      <code>__GMPN_ADD_1</code> etc are meant mostly to support application
      inline <code>mpn_add_1</code> etc and if they don't come out good for
      internal uses then special forms can be introduced, for instance many
@@ -521,9 +521,9 @@ MA 02110-1301, USA.
      little-endian and big-endian machines.  A format which MPFR can use too
      would be good.
 <li> <code>mpn_and_n</code> ... <code>mpn_copyd</code>: Perhaps make the mpn
-     logops and copys available in gmp.h, either as library functions or
+     logops and copys available in mpir.h, either as library functions or
      inlines, with the availability of library functions instantiated in the
-     generated gmp.h at build time.
+     generated mpir.h at build time.
 <li> <code>mpz_set_str</code> etc variants taking string lengths rather than
      null-terminators.
 <li> <code>mpz_andn</code>, <code>mpz_iorn</code>, <code>mpz_nand</code>,
@@ -538,7 +538,7 @@ MA 02110-1301, USA.
      Eg. 0xFFAA@0x5A.  A leading "0" for octal would match the integers, but
      probably something like "0.123" ought not mean octal.
 <li> <code>GMP_LONG_LONG_LIMB</code> or some such could become a documented
-     feature of gmp.h, so applications could know whether to
+     feature of mpir.h, so applications could know whether to
      <code>printf</code> a limb using <code>%lu</code> or <code>%Lu</code>.
 <li> <code>GMP_PRIdMP_LIMB</code> and similar defines following C99
      &lt;inttypes.h&gt; might be of use to applications printing limbs.  But
@@ -599,7 +599,7 @@ MA 02110-1301, USA.
      libgmp.a would be
      <ul>
      <li> Library contents vary according to the build compiler.
-     <li> gmp.h would need an ugly <code>#ifdef</code> block to decide if the
+     <li> mpir.h would need an ugly <code>#ifdef</code> block to decide if the
           application compiler could take the <code>long long</code>
           prototypes.
      <li> Some sort of <code>LIBGMP_HAS_LONGLONG</code> might be wanted to

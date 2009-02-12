@@ -56,7 +56,7 @@ GMP_INIT(config.m4)
 AC_CANONICAL_HOST
 
 dnl  Automake "no-dependencies" is used because include file dependencies
-dnl  are not useful to us.  Pretty much everything depends just on gmp.h,
+dnl  are not useful to us.  Pretty much everything depends just on mpir.h,
 dnl  gmp-impl.h and longlong.h, and yet only rarely does everything need to
 dnl  be rebuilt for changes to those files.
 dnl
@@ -342,7 +342,7 @@ AH_VERBATIM([HAVE_HOST_CPU_1],
 #
 # limb=longlong (or limb_aa=longlong) applies to all compilers within that
 # ABI.  It won't work to have some needing long long and some not, since a
-# single instantiated gmp.h will be used by both.
+# single instantiated mpir.h will be used by both.
 #
 # SPEED_CYCLECOUNTER, cyclecounter_size and CALLING_CONVENTIONS_OBJS are
 # also set here, with an ABI suffix.
@@ -1925,7 +1925,7 @@ else
 fi
 
 
-# Long long limb setup for gmp.h.
+# Long long limb setup for mpir.h.
 case $limb_chosen in
 longlong) DEFN_LONG_LONG_LIMB="#define _LONG_LONG_LIMB 1"    ;;
 *)        DEFN_LONG_LONG_LIMB="/* #undef _LONG_LONG_LIMB */" ;;
@@ -2130,7 +2130,7 @@ case $host in
     fi
     # Don't allow both static and DLL.
     if test "$enable_shared" != no && test "$enable_static" != no; then
-      AC_MSG_ERROR([cannot build both static and DLL, since gmp.h is different for each.
+      AC_MSG_ERROR([cannot build both static and DLL, since mpir.h is different for each.
 Use "--disable-static --enable-shared" to build just a DLL.])
     fi
 
@@ -3281,4 +3281,4 @@ GMP_FINISH
 # FIXME: Upcoming version of autoconf/automake don't like broken lines.
 #        Right now automake isn't accepting the new AC_CONFIG_FILES scheme.
 
-AC_OUTPUT(Makefile mpbsd/Makefile mpf/Makefile mpn/Makefile mpq/Makefile mpz/Makefile printf/Makefile scanf/Makefile cxx/Makefile tests/Makefile tests/devel/Makefile tests/mpbsd/Makefile tests/mpf/Makefile tests/mpn/Makefile tests/mpq/Makefile tests/mpz/Makefile tests/rand/Makefile tests/misc/Makefile tests/cxx/Makefile doc/Makefile tune/Makefile demos/Makefile demos/calc/Makefile demos/expr/Makefile gmp.h:gmp-h.in mp.h:mp-h.in)
+AC_OUTPUT(Makefile mpbsd/Makefile mpf/Makefile mpn/Makefile mpq/Makefile mpz/Makefile printf/Makefile scanf/Makefile cxx/Makefile tests/Makefile tests/devel/Makefile tests/mpbsd/Makefile tests/mpf/Makefile tests/mpn/Makefile tests/mpq/Makefile tests/mpz/Makefile tests/rand/Makefile tests/misc/Makefile tests/cxx/Makefile doc/Makefile tune/Makefile demos/Makefile demos/calc/Makefile demos/expr/Makefile mpir.h:gmp-h.in mp.h:mp-h.in)

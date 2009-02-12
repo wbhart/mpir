@@ -70,7 +70,7 @@ MA 02110-1301, USA. */
    bother figuring out if it works, but using it with f_cmp_divisor and
    f_cmp_fraction avoids warnings from the qsort calls. */
 
-/* Same tests as gmp.h. */
+/* Same tests as mpir.h. */
 #if  defined (__STDC__)                                 \
   || defined (__cplusplus)                              \
   || defined (_AIX)                                     \

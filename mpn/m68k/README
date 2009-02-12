@@ -70,7 +70,7 @@ could be optimized substantially.  For example,
 One novel idea for 68000 would be to use a 16-bit limb instead of 32-bits.
 This would suit the native 16x16 multiply, but might make it difficult to
 get full value from the native 32x32 add/sub/etc.  This would be an ABI
-option, and would select "__GMP_SHORT_LIMB" in gmp.h.
+option, and would select "__GMP_SHORT_LIMB" in mpir.h.
 
 Naturally an entirely new set of asm subroutines would be needed for a
 16-bit limb.  Also there's various places in the C code assuming limb>=long,

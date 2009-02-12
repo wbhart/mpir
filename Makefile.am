@@ -101,25 +101,25 @@ GMPXX_HEADERS_OPTION = gmpxx.h
 endif
 EXTRA_DIST += gmpxx.h
 
-# gmp.h and mp.h are architecture dependent, mainly since they encode the
+# mpir.h and mp.h are architecture dependent, mainly since they encode the
 # limb size used in libgmp.  For that reason they belong under $exec_prefix
 # not $prefix, strictly speaking.
 #
 # $exec_prefix/include is not in the default include path for gcc built to
-# the same $prefix and $exec_prefix, which might mean gmp.h is not found,
+# the same $prefix and $exec_prefix, which might mean mpir.h is not found,
 # but anyone knowledgable enough to be playing with exec_prefix will be able
 # to address that.
 #
 includeexecdir = $(exec_prefix)/include
 include_HEADERS = $(GMPXX_HEADERS_OPTION)
-nodist_includeexec_HEADERS = gmp.h $(MPBSD_HEADERS_OPTION)
+nodist_includeexec_HEADERS = mpir.h $(MPBSD_HEADERS_OPTION)
 lib_LTLIBRARIES = libgmp.la $(GMPXX_LTLIBRARIES_OPTION) $(MPBSD_LTLIBRARIES_OPTION)
 
-BUILT_SOURCES = gmp.h
+BUILT_SOURCES = mpir.h
 
 DISTCLEANFILES = $(BUILT_SOURCES) config.m4 @gmp_srclinks@
 
-# Tell gmp.h it's building gmp, not an application, used by windows DLL stuff.
+# Tell mpir.h it's building gmp, not an application, used by windows DLL stuff.
 INCLUDES=-D__GMP_WITHIN_GMP
 
 

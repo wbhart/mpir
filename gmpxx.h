@@ -41,7 +41,7 @@ MA 02110-1301, USA. */
 #include <cstring>  /* for strlen */
 #include <string>
 #include <stdexcept>
-#include <gmp.h>
+#include <mpir.h>
 
 /**************** Function objects ****************/
 /* Any evaluation of a __gmp_expr ends up calling one of these functions

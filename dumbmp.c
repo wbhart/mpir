@@ -25,7 +25,7 @@ MA 02110-1301, USA.  */
    will be slow, but highly portable.
 
    None of the normal GMP configure things are used, nor any of the normal
-   gmp.h or gmp-impl.h.  To use this file in a program just #include
+   mpir.h or gmp-impl.h.  To use this file in a program just #include
    "dumbmp.c".
 
    ANSI function definitions can be used here, since ansi2knr is run if

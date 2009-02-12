@@ -42,7 +42,7 @@ gen-bases.c - auto generates some hard coded macros for base conversion
 gen-facui.c - generates data tables for factorials, e.g. all factorials which fit in a limb
 gen-fib.c - generate data for Fibonnacci number tables
 gen-psqr.c - generates data for perfect square testing
-gmp-h.in - gmp.h with some platform dependent stuff not yet inserted (gmp.h is included by 
+gmp-h.in - mpir.h with some platform dependent stuff not yet inserted (mpir.h is included by 
   programs using MPIR and by code within MPIR)
 gmp-impl.h - internal include file containing all the macros used MPIR wide
 gmpxx.h - C++ class wrapper for MPIR types

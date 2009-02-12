@@ -1293,7 +1293,7 @@ m4_assert_numargs(1)
 
 dnl  Usage: mpn_add_n, etc
 dnl
-dnl  Convenience definitions using MPN(), like the #defines in gmp.h.  Each
+dnl  Convenience definitions using MPN(), like the #defines in mpir.h.  Each
 dnl  function that might be implemented in assembler is here.
 
 define(define_mpn,

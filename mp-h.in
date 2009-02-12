@@ -25,7 +25,7 @@ MA 02110-1301, USA. */
 
 
 /* The following (everything under ifndef __GNU_MP__) must be identical in
-   gmp.h and mp.h to allow both to be included in an application or during
+   mpir.h and mp.h to allow both to be included in an application or during
    the library build.  Use the t-gmp-mp-h.pl script to check.  */
 #ifndef __GNU_MP__
 #define __GNU_MP__ 4

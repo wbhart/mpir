@@ -523,7 +523,7 @@ int speed_routine_count_zeros_setup _PROTO ((struct speed_params *s,
    function pointer variable works, but stands a real risk of a
    non-optimizing compiler generating unnecessary overheads in the call.
    Currently the best idea is not to use those attributes for a timing
-   program build.  __GMP_NO_ATTRIBUTE_CONST_PURE will tell gmp.h and
+   program build.  __GMP_NO_ATTRIBUTE_CONST_PURE will tell mpir.h and
    gmp-impl.h to omit them from routines there.  */
 
 #define SPEED_RESTRICT_COND(cond)   if (!(cond)) return -1.0;

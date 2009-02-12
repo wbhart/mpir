@@ -47,7 +47,7 @@ Street, Fifth Floor, Boston, MA 02110-1301, USA. */
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "gmp.h"
+#include "mpir.h"
 #define NO_CALC_H /* because it conflicts with normal calc.c stuff */
 #include "calc-common.h"
 

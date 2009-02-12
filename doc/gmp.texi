@@ -618,7 +618,7 @@ install under a particular tree.  The default is @samp{/usr/local}.
 @option{--exec-prefix} can be used to direct architecture-dependent files like
 @file{libgmp.a}/@file{libmpir.a} to a different location.  This can be used to share
 architecture-independent parts like the documentation, but separate the
-dependent parts.  Note however that @file{gmp.h}/@file{mpir.h} and @file{mp.h} are
+dependent parts.  Note however that @file{mpir.h} and @file{mp.h} are
 architecture-dependent since they encode certain aspects of @file{libgmp}/@file{libmpir}, so
 it will be necessary to ensure both @file{$prefix/include} and
 @file{$exec_prefix/include} are available to the compiler.
@@ -1121,9 +1121,9 @@ In all cases it's vital that all object code used in a given program is
 compiled for the same ABI.
 
 Usually a limb is implemented as a @code{long}.  When a @code{long long} limb
-is used this is encoded in the generated @file{gmp.h}/@file{mpir.h}.  This is convenient for
-applications, but it does mean that @file{gmp.h}/@file{mpir.h} will vary, and can't be just
-copied around.  @file{gmp.h}/@file{mpir.h} remains compiler independent though, since all
+is used this is encoded in the generated @file{mpir.h}.  This is convenient for
+applications, but it does mean that @file{mpir.h} will vary, and can't be just
+copied around.  @file{mpir.h} remains compiler independent though, since all
 compilers for a particular ABI will be expected to use the same limb type.
 
 Currently no attempt is made to follow whatever conventions a system has for
@@ -1441,12 +1441,12 @@ conventions for install locations that vary with ABI, such as
 @samp{ABI=32}.  A package build can override @samp{libdir} and other standard
 variables as necessary.
 
-Note that @file{gmp.h}/@file{mpir.h} is a generated file, and will be architecture and ABI
+Note that @file{mpir.h} is a generated file, and will be architecture and ABI
 dependent.  When attempting to install two ABIs simultaneously it will be
-important that an application compile gets the correct @file{gmp.h}/@file{mpir.h} for its
+important that an application compile gets the correct @file{mpir.h} for its
 desired ABI@.  If compiler include paths don't vary with ABI options then it
-might be necessary to create a @file{/usr/include/gmp.h} or @file{/usr/include/mpir.h} which tests
-preprocessor symbols and chooses the correct actual @file{gmp.h}/@file{mpir.h}.
+might be necessary to create a @file{/usr/include/mpir.h} which tests
+preprocessor symbols and chooses the correct actual @file{mpir.h}.
 
 
 @need 2000
@@ -1545,7 +1545,7 @@ default MPIR builds only a static library, but a DLL can be built instead using
 @end example
 
 Static and DLL libraries can't both be built, since certain export directives
-in @file{gmp.h}/@file{mpir.h} must be different.
+in @file{mpir.h} must be different.
 
 A MINGW DLL build of MPIR can be used with Microsoft C@.  Libtool doesn't
 install a @file{.lib} format import library, but it can be created with MS
@@ -1811,11 +1811,11 @@ to be incompatible with future versions of MPIR.}
 @section Headers and Libraries
 @cindex Headers
 
-@cindex @file{gmp.h}/@file{mpir.h}
+@cindex @file{mpir.h}
 @cindex Include files
 @cindex @code{#include}
 All declarations needed to use MPIR are collected in the include file
-@file{gmp.h}/@file{mpir.h}.  It is designed to work with both C and C++ compilers.
+@file{mpir.h}.  It is designed to work with both C and C++ compilers.
 
 @example
 #include <mpir.h>
@@ -2803,7 +2803,7 @@ AC_CHECK_LIB(mpir, __gmpz_mul_si, ,
   [GMP/MPIR not found, or not GMP 3.1 or up or MPIR 1.0 or up, see http://www.mpir.org/])])
 @end example
 
-An alternative would be to test the version number in @file{gmp.h}/@file{mpir.h} using say
+An alternative would be to test the version number in @file{mpir.h} using say
 @code{AC_EGREP_CPP}.  That would make it possible to test the exact version,
 if some particular sub-minor release is known to be necessary.
 
@@ -3770,7 +3770,7 @@ these functions will make them read from @code{stdin} and write to
 @code{stdout}, respectively.
 
 When using any of these functions, it is a good idea to include @file{stdio.h}
-before @file{gmp.h}/@file{mpir.h}, since that will allow @file{gmp.h}/@file{mpir.h} to define prototypes
+before @file{mpir.h}, since that will allow @file{mpir.h} to define prototypes
 for these functions.
 
 @deftypefun size_t mpz_out_str (FILE *@var{stream}, int @var{base}, mpz_t @var{op})
@@ -4374,7 +4374,7 @@ recommended instead of these functions.
 @cindex I/O functions
 
 When using any of these functions, it's a good idea to include @file{stdio.h}
-before @file{gmp.h}/@file{mpir.h}, since that will allow @file{gmp.h}/@file{mpir.h} to define prototypes
+before @file{mpir.h}, since that will allow @file{mpir.h} to define prototypes
 for these functions.
 
 Passing a @code{NULL} pointer for a @var{stream} argument to any of these
@@ -4860,7 +4860,7 @@ any of these functions will make them read from @code{stdin} and write to
 @code{stdout}, respectively.
 
 When using any of these functions, it is a good idea to include @file{stdio.h}
-before @file{gmp.h}/@file{mpir.h}, since that will allow @file{gmp.h}/@file{mpir.h} to define prototypes
+before @file{mpir.h}, since that will allow @file{mpir.h} to define prototypes
 for these functions.
 
 @deftypefun size_t mpf_out_str (FILE *@var{stream}, int @var{base}, size_t @var{n_digits}, mpf_t @var{op})
@@ -5889,7 +5889,7 @@ Obstacks, libc, The GNU C Library Reference Manual}.
 
 The following functions are provided in @file{libgmpxx}/@file{libmpirxx} (@pxref{Headers and
 Libraries}), which is built if C++ support is enabled (@pxref{Build Options}).
-Prototypes are available from @code{<gmp.h>} or @code{<mpir.h>}.
+Prototypes are available from @code{<mpir.h>}.
 
 @deftypefun ostream& operator<< (ostream& @var{stream}, mpz_t @var{op})
 Print @var{op} to @var{stream}, using its @code{ios} formatting settings.
@@ -6178,7 +6178,7 @@ way C99 @code{sscanf} is the same as @code{fscanf}.
 
 The following functions are provided in @file{libgmpxx}/@file{libmpirxx} (@pxref{Headers and
 Libraries}), which is built only if C++ support is enabled (@pxref{Build
-Options}).  Prototypes are available from @code{<gmp.h>} or @code{<mpir.h>}.
+Options}).  Prototypes are available from @code{<mpir.h>}.
 
 @deftypefun istream& operator>> (istream& @var{stream}, mpz_t @var{rop})
 Read @var{rop} from @var{stream}, using its @code{ios} formatting settings.
@@ -6230,7 +6230,7 @@ results.  For classes with overloading, see @ref{C++ Class Interface}.
 This chapter describes the C++ class based interface to MPIR.
 
 All MPIR C language types and functions can be used in C++ programs, since
-@file{gmp.h}/@file{mpir.h} has @code{extern "C"} qualifiers, but the class interface offers
+@file{mpir.h} has @code{extern "C"} qualifiers, but the class interface offers
 overloaded functions and operators which may be more convenient.
 
 Due to the implementation of this interface, a reasonably recent C++ compiler
@@ -6349,7 +6349,7 @@ y = mpz_class (z);
 @end example
 
 There are no namespace setups in @file{gmpxx.h}, all types and functions are
-simply put into the global namespace.  This is what @file{gmp.h}/@file{mpir.h} has done in
+simply put into the global namespace.  This is what @file{mpir.h} has done in
 the past, and continues to do for compatibility.  The extras provided by
 @file{gmpxx.h} follow MPIR naming conventions and are unlikely to clash with
 anything.

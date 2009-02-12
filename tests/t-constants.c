@@ -309,7 +309,7 @@ main (int argc, char *argv[])
       int  bits;
 
       printf ("\n");
-      printf ("After gmp.h,\n");
+      printf ("After mpir.h,\n");
       printf ("  ULONG_MAX  %s\n", ulong_max_def);
       printf ("  LONG_MAX   %s\n", long_max_def);
       printf ("  UINT_MAX   %s\n", uint_max_def);

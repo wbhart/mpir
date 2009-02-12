@@ -111,11 +111,11 @@ done
 dnl  GMP_INCLUDE_GMP_H
 dnl  -----------------
 dnl  Expand to the right way to #include gmp-h.in.  This must be used
-dnl  instead of gmp.h, since that file isn't generated until the end of the
+dnl  instead of mpir.h, since that file isn't generated until the end of the
 dnl  configure.
 dnl
 dnl  Dummy values for __GMP_BITS_PER_MP_LIMB and GMP_LIMB_BITS are enough
-dnl  for all current configure-time uses of gmp.h.
+dnl  for all current configure-time uses of mpir.h.
 
 define(GMP_INCLUDE_GMP_H,
 [[#define __GMP_WITHIN_CONFIGURE 1   /* ignore template stuff */
@@ -3311,7 +3311,7 @@ dnl  HAVE_STDARG_H which could arise from AC_CHECK_HEADERS.
 dnl
 dnl  This test might be slight overkill, after all there's really only going
 dnl  to be ANSI or K&R and the two can be differentiated by AC_PROG_CC_STDC
-dnl  or very likely by the setups for _PROTO in gmp.h.  On the other hand
+dnl  or very likely by the setups for _PROTO in mpir.h.  On the other hand
 dnl  this test is nice and direct, being what we're going to actually use.
 
 AC_DEFUN([GMP_C_STDARG],
@@ -3565,7 +3565,7 @@ fi
 
 dnl  GMP_H_ANSI
 dnl  ----------
-dnl  Check whether gmp.h recognises the compiler as ANSI capable.
+dnl  Check whether mpir.h recognises the compiler as ANSI capable.
 
 AC_DEFUN([GMP_H_ANSI],
 [AC_REQUIRE([AC_PROG_CC_STDC])
@@ -3579,7 +3579,7 @@ GMP_INCLUDE_GMP_H
 die die die
 #endif
 ],,,
-    [AC_MSG_WARN([gmp.h doesnt recognise compiler as ANSI, prototypes and "const" will be unavailable])])
+    [AC_MSG_WARN([mpir.h doesnt recognise compiler as ANSI, prototypes and "const" will be unavailable])])
     ;;
 esac
 ])
@@ -3588,7 +3588,7 @@ esac
 dnl  GMP_H_EXTERN_INLINE
 dnl  -------------------
 dnl  If the compiler has an "inline" of some sort, check whether the
-dnl  #ifdef's in gmp.h recognise it.
+dnl  #ifdef's in mpir.h recognise it.
 
 AC_DEFUN([GMP_H_EXTERN_INLINE],
 [AC_REQUIRE([AC_C_INLINE])
@@ -3606,7 +3606,7 @@ die die die
   yes) tmp_inline=inline ;;
   *)   tmp_inline=$ac_cv_c_inline ;;
   esac    
-  AC_MSG_WARN([gmp.h doesnt recognise compiler "$tmp_inline", inlines will be unavailable])])
+  AC_MSG_WARN([mpir.h doesnt recognise compiler "$tmp_inline", inlines will be unavailable])])
   ;;
 esac
 ])
@@ -3614,7 +3614,7 @@ esac
 
 dnl  GMP_H_HAVE_FILE
 dnl  ---------------
-dnl  Check whether the #ifdef's in gmp.h recognise when stdio.h has been
+dnl  Check whether the #ifdef's in mpir.h recognise when stdio.h has been
 dnl  included to get FILE.
 
 AC_DEFUN([GMP_H_HAVE_FILE],
@@ -3625,7 +3625,7 @@ GMP_INCLUDE_GMP_H
 die die die
 #endif
 ],,,
-  [AC_MSG_WARN([gmp.h doesnt recognise <stdio.h>, FILE prototypes will be unavailable])])
+  [AC_MSG_WARN([mpir.h doesnt recognise <stdio.h>, FILE prototypes will be unavailable])])
 ])
 
 

@@ -21,7 +21,7 @@ the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 MA 02110-1301, USA.
 */
 
-/* This file requires the following header files: gmp.h */
+/* This file requires the following header files: mpir.h */
 
 #ifndef	__GMPSTAT_H__
 #define	__GMPSTAT_H__
