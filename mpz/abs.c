@@ -21,7 +21,7 @@ MA 02110-1301, USA. */
 
 #define __GMP_FORCE_mpz_abs 1
 
-#include "gmp.h"
+#include "mpir.h"
 #include "gmp-impl.h"
 
 void

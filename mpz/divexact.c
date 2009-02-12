@@ -31,7 +31,7 @@ MA 02110-1301, USA.  */
 	T. Jebelean, An algorithm for exact division, Journal of Symbolic
 	Computation, v. 15, 1993, pp. 169-180.	*/
 
-#include "gmp.h"
+#include "mpir.h"
 #include "gmp-impl.h"
 #include "longlong.h"
 

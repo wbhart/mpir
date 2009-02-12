@@ -51,7 +51,7 @@ Street, Fifth Floor, Boston, MA 02110-1301, USA. */
    we find possible record gaps.  Should speed up the searches tremendously.
  */
 
-#include "gmp.h"
+#include "mpir.h"
 
 struct primes
 {

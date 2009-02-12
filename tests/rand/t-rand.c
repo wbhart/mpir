@@ -23,7 +23,7 @@ MA 02110-1301, USA.
 
 #include <stdlib.h>
 #include <stdio.h>
-#include "gmp.h"
+#include "mpir.h"
 
 #define SEED 1
 #define BASE 16

@@ -29,7 +29,7 @@ MA 02110-1301, USA. */
 #include <varargs.h>
 #endif
 
-#include "gmp.h"
+#include "mpir.h"
 #include "gmp-impl.h"
 
 void

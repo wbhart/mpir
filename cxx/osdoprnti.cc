@@ -27,7 +27,7 @@ MA 02110-1301, USA. */
 #include <cstdarg>    /* for va_list and hence doprnt_funs_t */
 #include <cstring>    /* for strlen */
 
-#include "gmp.h"
+#include "mpir.h"
 #include "gmp-impl.h"
 
 using namespace std;

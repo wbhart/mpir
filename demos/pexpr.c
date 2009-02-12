@@ -57,7 +57,7 @@ Street, Fifth Floor, Boston, MA 02110-1301, USA. */
 #include <sys/resource.h>
 #endif
 
-#include "gmp.h"
+#include "mpir.h"
 
 /* SunOS 4 and HPUX 9 don't define a canonical SIGSTKSZ, use a default. */
 #ifndef SIGSTKSZ

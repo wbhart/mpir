@@ -4,7 +4,7 @@
 
 /* #define WANT_ASSERT 0 */
 
-#include "gmp.h"
+#include "mpir.h"
 #include "gmp-impl.h"
 #include "longlong.h"
 

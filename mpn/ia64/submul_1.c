@@ -25,7 +25,7 @@ execution speed of the Itanium pipeline.  With well-tuned assembly code we
 should be able to get to around 3 cycles/limb.  See README.  */
 
 
-#include "gmp.h"
+#include "mpir.h"
 #include "gmp-impl.h"
 
 mp_limb_t

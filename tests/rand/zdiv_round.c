@@ -21,7 +21,7 @@ the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 MA 02110-1301, USA.
 */
 
-#include "gmp.h"
+#include "mpir.h"
 
 void
 zdiv_round (mpz_t rop, mpz_t n, mpz_t d)

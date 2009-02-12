@@ -21,7 +21,7 @@ MA 02110-1301, USA. */
 
 #define OPERATION_divrem_1
 
-#include "gmp.h"
+#include "mpir.h"
 #include "gmp-impl.h"
 
 #undef DIVREM_1_NORM_THRESHOLD

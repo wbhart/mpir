@@ -54,7 +54,7 @@ MA 02110-1301, USA. */
    same pointers).  */
 
 #include <stdio.h>
-#include "gmp.h"
+#include "mpir.h"
 #include "gmp-impl.h"
 
 #ifdef WANT_ADDSUB

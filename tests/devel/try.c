@@ -127,7 +127,7 @@ MA 02110-1301, USA. */
 #include <sys/mman.h>
 #endif
 
-#include "gmp.h"
+#include "mpir.h"
 #include "gmp-impl.h"
 #include "longlong.h"
 #include "tests.h"

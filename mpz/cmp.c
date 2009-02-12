@@ -23,7 +23,7 @@ MA 02110-1301, USA. */
 #ifdef BERKELEY_MP
 #include "mp.h"
 #endif
-#include "gmp.h"
+#include "mpir.h"
 #include "gmp-impl.h"
 
 int

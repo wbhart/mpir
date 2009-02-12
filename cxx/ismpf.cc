@@ -26,7 +26,7 @@ MA 02110-1301, USA. */
 #include <string>
 #include <clocale>    // for localeconv
 
-#include "gmp.h"
+#include "mpir.h"
 #include "gmp-impl.h"
 
 using namespace std;

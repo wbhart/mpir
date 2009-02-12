@@ -24,7 +24,7 @@ MA 02110-1301, USA.  */
    be hard to improve upon, even with assembly code.  */
 
 #include <intrinsics.h>
-#include "gmp.h"
+#include "mpir.h"
 #include "gmp-impl.h"
 
 mp_limb_t

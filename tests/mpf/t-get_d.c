@@ -21,7 +21,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "gmp.h"
+#include "mpir.h"
 #include "tests.h"
 
 #if defined (__vax__)

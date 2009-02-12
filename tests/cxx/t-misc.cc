@@ -30,7 +30,7 @@ MA 02110-1301, USA. */
 
 #include <string>
 
-#include "gmp.h"
+#include "mpir.h"
 #include "gmpxx.h"
 #include "gmp-impl.h"
 #include "tests.h"

@@ -198,7 +198,7 @@ MA 02110-1301, USA. */
 #include <sys/times.h>  /* for times() and struct tms */
 #endif
 
-#include "gmp.h"
+#include "mpir.h"
 #include "gmp-impl.h"
 
 #include "speed.h"

@@ -36,7 +36,7 @@ MA 02110-1301, USA. */
 #include <locale.h>    /* for localeconv */
 #endif
 
-#include "gmp.h"
+#include "mpir.h"
 #include "gmp-impl.h"
 
 

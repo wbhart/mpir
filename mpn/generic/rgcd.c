@@ -1,7 +1,7 @@
 /* Schönhage algorithm, from GMP cvs */
 #include <stdio.h>  /* for NULL */
 
-#include "gmp.h"
+#include "mpir.h"
 #include "gmp-impl.h"
 #include "longlong.h"
 

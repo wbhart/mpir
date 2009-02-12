@@ -24,7 +24,7 @@ MA 02110-1301, USA. */
 #include <stdlib.h>
 #include <string.h> /* for strlen */
 
-#include "gmp.h"
+#include "mpir.h"
 #include "gmp-impl.h"
 #include "tests.h"
 

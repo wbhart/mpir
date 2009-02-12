@@ -18,7 +18,7 @@ Street, Fifth Floor, Boston, MA 02110-1301, USA. */
 
 #include <stdlib.h>
 #include <stdio.h>
-#include "gmp.h"
+#include "mpir.h"
 
 char *progname;
 

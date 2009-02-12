@@ -40,7 +40,7 @@ MA 02110-1301, USA. */
    arithmetic for computing possible roots.  */
 
 #include <stdio.h> /* for NULL */
-#include "gmp.h"
+#include "mpir.h"
 #include "gmp-impl.h"
 #include "longlong.h"
 

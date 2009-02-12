@@ -20,7 +20,7 @@ MA 02110-1301, USA.
 */
 
 #include <stdio.h>
-#include "gmp.h"
+#include "mpir.h"
 #include "gmp-impl.h"
 
 #if defined (USG) || defined (__SVR4) || defined (_UNICOS) || defined (__hpux)

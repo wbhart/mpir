@@ -34,7 +34,7 @@ MA 02110-1301, USA. */
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "gmp.h"
+#include "mpir.h"
 #include "expr.h"
 
 

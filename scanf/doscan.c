@@ -59,7 +59,7 @@ MA 02110-1301, USA. */
 #include <sys/types.h> /* for quad_t */
 #endif
 
-#include "gmp.h"
+#include "mpir.h"
 #include "gmp-impl.h"
 
 

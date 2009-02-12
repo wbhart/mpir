@@ -24,7 +24,7 @@ MA 02110-1301, USA. */
 #include <cctype>
 #include <iostream>
 #include <string>
-#include "gmp.h"
+#include "mpir.h"
 #include "gmp-impl.h"
 
 using namespace std;

@@ -23,7 +23,7 @@ MA 02110-1301, USA.  */
    That is not perfect, mainly due to vector register shortage.  */
 
 #include <intrinsics.h>
-#include "gmp.h"
+#include "mpir.h"
 #include "gmp-impl.h"
 
 void

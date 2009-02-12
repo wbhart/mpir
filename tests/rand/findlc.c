@@ -24,7 +24,7 @@ MA 02110-1301, USA.
 #include <unistd.h>
 #include <signal.h>
 #include <math.h>
-#include "gmp.h"
+#include "mpir.h"
 #include "gmpstat.h"
 
 #define RCSID(msg) \

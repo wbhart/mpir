@@ -25,7 +25,7 @@ MA 02110-1301, USA. */
 #include <float.h>  /* for DBL_MAX */
 #endif
 
-#include "gmp.h"
+#include "mpir.h"
 #include "gmp-impl.h"
 
 

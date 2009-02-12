@@ -48,7 +48,7 @@ MA 02110-1301, USA. */
        K. Weber, The accelerated integer GCD algorithm, ACM Transactions on
        Mathematical Software, v. 21 (March), 1995, pp. 111-122.  */
 
-#include "gmp.h"
+#include "mpir.h"
 #include "gmp-impl.h"
 #include "longlong.h"
 

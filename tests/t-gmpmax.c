@@ -22,7 +22,7 @@ MA 02110-1301, USA. */
 #include <stdio.h>
 #include <stdlib.h>
 #include <limits.h>
-#include "gmp.h"
+#include "mpir.h"
 
 
 /* __GMP_UINT_MAX etc are generated with expressions in gmp.h since we don't

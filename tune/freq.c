@@ -128,7 +128,7 @@ MA 02110-1301, USA. */
 #undef MAX
 #endif
 
-#include "gmp.h"
+#include "mpir.h"
 #include "gmp-impl.h"
 
 #include "speed.h"

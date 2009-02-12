@@ -22,7 +22,7 @@ MA 02110-1301, USA.
 
 #include <stdlib.h>
 #include <stdio.h>
-#include "gmp.h"
+#include "mpir.h"
 #include "gmp-impl.h"
 
 #ifdef OPERATION_and_n

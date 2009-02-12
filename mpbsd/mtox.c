@@ -22,7 +22,7 @@ MA 02110-1301, USA. */
 
 #include <string.h>
 #include "mp.h"
-#include "gmp.h"
+#include "mpir.h"
 #include "gmp-impl.h"
 #include "longlong.h"
 

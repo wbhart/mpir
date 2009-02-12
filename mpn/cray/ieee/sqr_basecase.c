@@ -22,7 +22,7 @@ MA 02110-1301, USA.  */
 /* This is just mpn_mul_basecase with trivial modifications.  */
 
 #include <intrinsics.h>
-#include "gmp.h"
+#include "mpir.h"
 #include "gmp-impl.h"
 
 void

@@ -51,7 +51,7 @@ extern char *optarg;
 extern int optind, opterr;
 #endif
 
-#include "gmp.h"
+#include "mpir.h"
 #include "gmp-impl.h"
 
 int main (argc, argv)

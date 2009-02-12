@@ -27,7 +27,7 @@ Street, Fifth Floor, Boston, MA 02110-1301, USA. */
 #include <readline/readline.h>
 #include <readline/history.h>
 
-#include "gmp.h"
+#include "mpir.h"
 
 
 /* change this to "#define TRACE(x) x" for a few diagnostics */

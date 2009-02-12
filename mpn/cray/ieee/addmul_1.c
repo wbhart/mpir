@@ -25,7 +25,7 @@ MA 02110-1301, USA.  */
    should bring it down to perhaps 7 cycles/limb.  */
 
 #include <intrinsics.h>
-#include "gmp.h"
+#include "mpir.h"
 #include "gmp-impl.h"
 
 mp_limb_t

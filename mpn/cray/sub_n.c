@@ -23,7 +23,7 @@ MA 02110-1301, USA.  */
 /* This code runs at 4 cycles/limb.  It may be possible to bring it down
    to 3 cycles/limb.  */
 
-#include "gmp.h"
+#include "mpir.h"
 #include "gmp-impl.h"
 
 mp_limb_t
