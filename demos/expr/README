@@ -44,7 +44,7 @@ enter or maintain than the equivalent written out in decimal.
 
 BUILDING
 
-Nothing in this directory is a normal part of libgmp, and nothing is built
+Nothing in this directory is a normal part of libmpir, and nothing is built
 or installed, but various Makefile rules are available to compile
 everything.
 

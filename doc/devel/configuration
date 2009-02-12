@@ -323,15 +323,15 @@ automatically if removed, it doesn't get distributed.
 
 ** C++ configuration
 
-It's intended that the contents of libgmp.la won't vary according to
+It's intended that the contents of libmpir.la won't vary according to
 whether --enable-cxx is selected.  This means that if C++ shared
 libraries don't work properly then a shared+static with --disable-cxx
 can be done for the C parts, then a static-only with --enable-cxx to
-get libgmpxx.
+get libmpirxx.
 
-libgmpxx.la uses some internals from libgmp.la, in order to share code
-between C and C++.  It's intended that libgmpxx can only be expected
-to work with libgmp from the same version of MPIR.  If some of the
+libmpirxx.la uses some internals from libmpir.la, in order to share code
+between C and C++.  It's intended that libmpirxx can only be expected
+to work with libmpir from the same version of MPIR.  If some of the
 shared internals change their interface, then it's proposed to rename
 them, for instance __gmp_doprint2 or the like, so as to provoke link
 errors rather than mysterious failures from a mismatch.
@@ -350,8 +350,8 @@ the time doesn't cost much.
 --prefix to a dummy directory followed by "make install" will show
 what's installed.
 
-"make check" acts on the libgmp just built, and will ignore any other
-/usr/lib/libgmp, or at least it should do.  Libtool does various hairy
+"make check" acts on the libmpir just built, and will ignore any other
+/usr/lib/libmpir, or at least it should do.  Libtool does various hairy
 things to ensure it hits the just-built library.
 
 ** Long long limb testing

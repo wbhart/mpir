@@ -481,7 +481,7 @@ MA 02110-1301, USA.
      On PowerPC, structures are returned in memory on AIX and Darwin.  In SVR4
      they're returned in registers, except that draft SVR4 had said memory, so
      it'd be prudent to check which is done.  We can jam the compiler into the
-     right mode if we know how, since all this is purely internal to libgmp.
+     right mode if we know how, since all this is purely internal to libmpir.
      (gcc has an option, though of course gcc doesn't matter since we use
      inline asm there.)
 </ul>
@@ -596,7 +596,7 @@ MA 02110-1301, USA.
      mixture of GMP and <code>long long</code> would probably not be too
      common.  Since <code>long long</code> is not always available (it's in
      C99 and GCC though), disadvantages of using <code>long long</code> in
-     libgmp.a would be
+     libmpir.a would be
      <ul>
      <li> Library contents vary according to the build compiler.
      <li> mpir.h would need an ugly <code>#ifdef</code> block to decide if the
@@ -618,7 +618,7 @@ MA 02110-1301, USA.
      <li> <code>mpz_get_sll</code> would be a worse inline, and would put the
           treatment of <code>-0x10..00</code> into applications (see
           <code>mpz_get_si</code> correctness above).
-     <li> Although having libgmp.a independent of the build compiler is nice,
+     <li> Although having libmpir.a independent of the build compiler is nice,
           it sort of sacrifices the capabilities of a good compiler to
           uniformity with inferior ones.
      </ul>
@@ -723,7 +723,7 @@ MA 02110-1301, USA.
      etc.
 <li> <code>mpq_class operator+=</code>: Don't emit an unnecssary
      <code>mpq_set(q,q)</code> before <code>mpz_addmul</code> etc.
-<li> Put various bits of mpirxx.h into libgmpxx, to avoid excessive inlining.
+<li> Put various bits of mpirxx.h into libmpirxx, to avoid excessive inlining.
      Candidates for this would be,
      <ul>
      <li> <code>mpz_class(const char *)</code>, etc: since they're normally
@@ -754,10 +754,10 @@ MA 02110-1301, USA.
      <code>mpz_tdiv_qr_ui</code>.  (Of course dividing multiple primes at a
      time would be better still.)
 <li> The various test programs use quite a bit of the main
-     <code>libgmp</code>.  This establishes good cross-checks, but it might be
+     <code>libmpir</code>.  This establishes good cross-checks, but it might be
      better to use simple reference routines where possible.  Where it's not
      possible some attention could be paid to the order of the tests, so a
-     <code>libgmp</code> routine is only used for tests once it seems to be
+     <code>libmpir</code> routine is only used for tests once it seems to be
      good.
 <li> <code>MUL_FFT_THRESHOLD</code> etc: the FFT thresholds should allow a
      return to a previous k at certain sizes.  This arises basically due to
@@ -824,7 +824,7 @@ near future, but are at least worth thinking about.
      possible.
 <li> longlong.h could declare when it's using, or would like to use,
      <code>mpn_umul_ppmm</code>, and the corresponding umul.asm file could be
-     included in libgmp only in that case, the same as is effectively done for
+     included in libmpir only in that case, the same as is effectively done for
      <code>__clz_tab</code>.  Likewise udiv.asm and perhaps cntlz.asm.  This
      would only be a very small space saving, so perhaps not worth the
      complexity.

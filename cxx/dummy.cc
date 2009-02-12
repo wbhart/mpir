@@ -1,4 +1,4 @@
-/* Dummy file to make automake treat libgmpxx.la as C++.
+/* Dummy file to make automake treat libmpirxx.la as C++.
 
 Copyright 2002 Free Software Foundation, Inc.
 

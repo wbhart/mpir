@@ -1113,15 +1113,15 @@ tests_$objbase.o: $tests_program
 	\$(COMPILE) \$(CFLAGS_TESTS) \\
 $renaming		-c $tests_program -o tests_$objbase.o
 
-tests_$objbase: $objbase\$U.o tests_$objbase\$U.o ../libgmp.la
-	\$(LINK) tests_$objbase\$U.o $objbase\$U.o ../libgmp.la -o tests_$objbase
+tests_$objbase: $objbase\$U.o tests_$objbase\$U.o ../libmpir.la
+	\$(LINK) tests_$objbase\$U.o $objbase\$U.o ../libmpir.la -o tests_$objbase
 
 tests_${objbase}_sp.o: $tests_program
 	\$(COMPILE) \$(CFLAGS_TESTS_SP) \\
 $renaming		-c $tests_program -o tests_${objbase}_sp.o
 
-tests_${objbase}_sp: $objbase\$U.o tests_${objbase}_sp\$U.o ../libgmp.la
-	\$(LINK) tests_${objbase}_sp\$U.o $objbase\$U.o ../libgmp.la -o tests_${objbase}_sp
+tests_${objbase}_sp: $objbase\$U.o tests_${objbase}_sp\$U.o ../libmpir.la
+	\$(LINK) tests_${objbase}_sp\$U.o $objbase\$U.o ../libmpir.la -o tests_${objbase}_sp
 
 EOF
         $CLEAN .= " tests_$objbase tests_${objbase}_sp";

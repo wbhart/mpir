@@ -1,4 +1,4 @@
-/* mpn_preinv_divrem_1 -- if not already in libgmp.
+/* mpn_preinv_divrem_1 -- if not already in libmpir.
 
 Copyright 2001 Free Software Foundation, Inc.
 

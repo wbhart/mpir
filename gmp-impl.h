@@ -27,10 +27,10 @@ MA 02110-1301, USA. */
 
 
 /* __GMP_DECLSPEC must be given on any global data that will be accessed
-   from outside libgmp, meaning from the test or development programs, or
-   from libgmpxx.  Failing to do this will result in an incorrect address
+   from outside libmpir, meaning from the test or development programs, or
+   from libmpirxx.  Failing to do this will result in an incorrect address
    being used for the accesses.  On functions __GMP_DECLSPEC makes calls
-   from outside libgmp more efficient, but they'll still work fine without
+   from outside libmpir more efficient, but they'll still work fine without
    it.  */
 
 

@@ -35,7 +35,7 @@ MA 02110-1301, USA. */
 
 #if __GMP_LIBGMP_DLL
 
-/* FIXME: When linking to a DLL libgmp, mpz_add etc can't be used as
+/* FIXME: When linking to a DLL libmpir, mpz_add etc can't be used as
    initializers for global variables because they're effectively global
    variables (function pointers) themselves.  Perhaps calling a test
    function successively with mpz_add etc would be better.  */

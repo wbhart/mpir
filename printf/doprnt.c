@@ -119,7 +119,7 @@ MA 02110-1301, USA. */
    intmax_t are supported here.  If configure is doing its job and the same
    compiler is used for gmp as for the application then there shouldn't be
    any problem, but perhaps mpir.h should have some preprocessor symbols to
-   say what libgmp can do.  */
+   say what libmpir can do.  */
 
 
 

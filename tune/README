@@ -424,7 +424,7 @@ When examining the toom3 threshold, remember it depends on the karatsuba
 threshold, so the right karatsuba threshold needs to be compiled into the
 library first.  The tune program uses specially recompiled versions of
 mpn/mul_n.c etc for this reason, but the speed program simply uses the
-normal libgmp.la.
+normal libmpir.la.
 
 Note further that the various routines may recurse into themselves on sizes
 far enough above applicable thresholds.  For example, mpn_kara_mul_n will

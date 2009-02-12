@@ -58,7 +58,7 @@
 ; Enhancements:
 ;
 ; For PIC, we shouldn't really need the GOT fetch for modlimb_invert_table,
-; it'll be in rodata or text in libgmp.so and can be accessed directly %rip
+; it'll be in rodata or text in libmpir.so and can be accessed directly %rip
 ; relative.  This would be for small model only (something we don't
 ; presently detect, but which is all that gcc 3.3.3 supports), since 8-byte
 ; PC-relative relocations are apparently not available.  Some rough

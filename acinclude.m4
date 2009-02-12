@@ -2070,8 +2070,8 @@ dnl  C functions it generates, we need to do the same for assembler
 dnl  functions.
 dnl
 dnl  This applies only to functions without __declspec(__dllimport__),
-dnl  ie. without __GMP_DECLSPEC in the case of libgmp, so it also works just
-dnl  to ensure all assembler functions used from outside libgmp have
+dnl  ie. without __GMP_DECLSPEC in the case of libmpir, so it also works just
+dnl  to ensure all assembler functions used from outside libmpir have
 dnl  __GMP_DECLSPEC on their prototypes.  But this isn't an ideal situation,
 dnl  since we don't want perfectly valid calls going wrong just because
 dnl  there wasn't a prototype in scope.

@@ -254,7 +254,7 @@ MA 02110-1301, USA. */
 #endif /* LONGLONG_STANDALONE */
 
 /* clz_tab is required in all configurations, since mpn/alpha/cntlz.asm
-   always goes into libgmp.so, even when not actually used.  */
+   always goes into libmpir.so, even when not actually used.  */
 #define COUNT_LEADING_ZEROS_NEED_CLZ_TAB
 
 #if defined (__GNUC__) && HAVE_HOST_CPU_alpha_CIX

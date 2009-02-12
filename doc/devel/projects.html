@@ -595,7 +595,7 @@ MA 02110-1301, USA.
 
 <li> <strong>Intra-Library Calls</strong>
 
-  <p> On various systems, calls within libgmp still go through the PLT, TOC or
+  <p> On various systems, calls within libmpir still go through the PLT, TOC or
       other mechanism, which makes the code bigger and slower than it needs to
       be.
 
@@ -612,7 +612,7 @@ MA 02110-1301, USA.
       <code>internal</code>.
 
   <p> Unfortunately, on i386 it seems <code>protected</code> ends up causing
-      text segment relocations within libgmp.so, meaning the library code can't
+      text segment relocations within libmpir.so, meaning the library code can't
       be shared between processes, defeating the purpose of a shared library.
       Perhaps this is just a gremlin in binutils (debian packaged
       2.13.90.0.16-1).
@@ -622,7 +622,7 @@ MA 02110-1301, USA.
       course, but it does mean calls are resolved directly to their targets,
       avoiding a PLT entry.
 
-  <p> Keeping symbols private to libgmp.so is probably a good thing in general
+  <p> Keeping symbols private to libmpir.so is probably a good thing in general
       too, to stop anyone even attempting to access them.  But some
       undocumented things will need or want to be kept visible, for use by
       mpfr, or the test and tune programs.  Libtool has a standard option for

@@ -67,7 +67,7 @@ check_mem (void)
   s = mtox (m);
   if (! tests_memory_valid (s))
     {
-      printf ("Skipping t-mtox, cannot test libgmp and libmp memory together\n");
+      printf ("Skipping t-mtox, cannot test libmpir and libmp memory together\n");
       exit (0);
     }
   mfree (m);

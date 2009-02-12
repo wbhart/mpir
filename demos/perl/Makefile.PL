@@ -43,9 +43,9 @@ $LIBS = "-lgmp";
 $OBJECT = "GMP.o";
 
 if (defined $GMP_BUILDDIR) {
-  if (! -f "$GMP_BUILDDIR/libgmp.la") {
-    die "$GMP_BUILDDIR doesn't contain libgmp.la\n" .
-	"if it's really a gmp build directory then go there and run \"make libgmp.la\"\n";
+  if (! -f "$GMP_BUILDDIR/libmpir.la") {
+    die "$GMP_BUILDDIR doesn't contain libmpir.la\n" .
+	"if it's really a gmp build directory then go there and run \"make libmpir.la\"\n";
   }
   $INC = "-I$GMP_BUILDDIR $INC";
   $LIBS = "-L$GMP_BUILDDIR/.libs $LIBS";

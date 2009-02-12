@@ -116,19 +116,19 @@ MA 02110-1301, USA. */
 #endif
 
 
-/* __GMP_DECLSPEC supports Windows DLL versions of libgmp, and is empty in
+/* __GMP_DECLSPEC supports Windows DLL versions of libmpir, and is empty in
    all other circumstances.
 
-   When compiling objects for libgmp, __GMP_DECLSPEC is an export directive,
+   When compiling objects for libmpir, __GMP_DECLSPEC is an export directive,
    or when compiling for an application it's an import directive.  The two
    cases are differentiated by __GMP_WITHIN_GMP defined by the GMP Makefiles
    (and not defined from an application).
 
-   __GMP_DECLSPEC_XX is similarly used for libgmpxx.  __GMP_WITHIN_GMPXX
-   indicates when building libgmpxx, and in that case libgmpxx functions are
-   exports, but libgmp functions which might get called are imports.
+   __GMP_DECLSPEC_XX is similarly used for libmpirxx.  __GMP_WITHIN_GMPXX
+   indicates when building libmpirxx, and in that case libmpirxx functions are
+   exports, but libmpir functions which might get called are imports.
 
-   libmp.la uses __GMP_DECLSPEC, just as if it were libgmp.la.  libgmp and
+   libmp.la uses __GMP_DECLSPEC, just as if it were libmpir.la.  libmpir and
    libmp don't call each other, so there's no conflict or confusion.
 
    Libtool DLL_EXPORT define is not used.
@@ -175,10 +175,10 @@ MA 02110-1301, USA. */
 
 #if __GMP_LIBGMP_DLL
 #if __GMP_WITHIN_GMP
-/* compiling to go into a DLL libgmp */
+/* compiling to go into a DLL libmpir */
 #define __GMP_DECLSPEC  __GMP_DECLSPEC_EXPORT
 #else
-/* compiling to go into an application which will link to a DLL libgmp */
+/* compiling to go into an application which will link to a DLL libmpir */
 #define __GMP_DECLSPEC  __GMP_DECLSPEC_IMPORT
 #endif
 #else
@@ -289,10 +289,10 @@ typedef __mpq_struct *mpq_ptr;
    section. */
 #if __GMP_LIBGMP_DLL
 #if __GMP_WITHIN_GMPXX
-/* compiling to go into a DLL libgmpxx */
+/* compiling to go into a DLL libmpirxx */
 #define __GMP_DECLSPEC_XX  __GMP_DECLSPEC_EXPORT
 #else
-/* compiling to go into a application which will link to a DLL libgmpxx */
+/* compiling to go into a application which will link to a DLL libmpirxx */
 #define __GMP_DECLSPEC_XX  __GMP_DECLSPEC_IMPORT
 #endif
 #else
@@ -460,7 +460,7 @@ typedef __mpq_struct *mpq_ptr;
    or not, which is wasteful.  "extern inline foo()" isn't useful, the
    "extern" is apparently ignored, so foo is inlined if possible but also
    emitted as a global, which causes multiple definition errors when
-   building a shared libgmp.  */
+   building a shared libmpir.  */
 #ifdef __SCO_VERSION__
 #if __SCO_VERSION__ > 400000000 && __STDC__ != 1 \
   && ! defined (__GMP_EXTERN_INLINE)

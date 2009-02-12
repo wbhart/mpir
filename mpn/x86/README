@@ -245,26 +245,26 @@ POSITION INDEPENDENT CODE
 
   Scope
 
-    It's intended, as a matter of policy, that references within libgmp are
-    resolved within libgmp.  Certainly there's no need for an application to
+    It's intended, as a matter of policy, that references within libmpir are
+    resolved within libmpir.  Certainly there's no need for an application to
     replace any internals, and we take the view that there's no value in an
     application subverting anything documented either.
 
-    Resolving references within libgmp in theory means calls can be made with a
+    Resolving references within libmpir in theory means calls can be made with a
     plain PC-relative call instruction, which is faster and smaller than going
     through the PLT, and data references can be similarly PC-relative, saving a
     GOT entry and fetch from there.  Unfortunately the normal linker behaviour
     doesn't allow us to do this.
 
     By default an R_386_PC32 PC-relative reference, either for a call or for
-    data, is left in libgmp.so by the linker so that it can be resolved at
+    data, is left in libmpir.so by the linker so that it can be resolved at
     runtime to a location in the application or another shared library.  This
     means a text segment relocation which we don't want.
 
   -Bsymbolic
 
     Under the "-Bsymbolic" option, the linker resolves references to symbols
-    within libgmp.so.  This gives us the desired effect for R_386_PC32,
+    within libmpir.so.  This gives us the desired effect for R_386_PC32,
     ie. it's resolved at link time.  It also resolves R_386_PLT32 calls
     directly to their target without creating a PLT entry (though if this is
     done to normal compiler-generated code it still leaves a setup of %ebx
@@ -297,7 +297,7 @@ POSITION INDEPENDENT CODE
     module.
 
     Unfortunately, as of debian binutils 2.13.90.0.16 at least, the
-    resulting libgmp.so comes out with text segment relocations, references
+    resulting libmpir.so comes out with text segment relocations, references
     are not resolved at link time.  If the gcc description is to be believed
     this is this not how it should work.  If a symbol cannot be overridden
     by another module then surely references within that module can be

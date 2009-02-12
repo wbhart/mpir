@@ -45,7 +45,7 @@ run
 
 	perl -Iblib/arch sample.pl
 
-If you built a shared version of libgmp but haven't yet installed it,
+If you built a shared version of libmpir but haven't yet installed it,
 then it might be necessary to add a run-time path to it.  For example
 
 	LD_LIBRARY_PATH=/my/gmp/build/.libs perl -Iblib/arch sample.pl

@@ -1190,7 +1190,7 @@ refmpn_preinv_mod_1 (mp_srcptr sp, mp_size_t size, mp_limb_t divisor,
 }
 
 /* This implementation will be rather slow, but has the advantage of being
-   in a different style than the libgmp versions.  */
+   in a different style than the libmpir versions.  */
 mp_limb_t
 refmpn_mod_34lsub1 (mp_srcptr p, mp_size_t n)
 {
