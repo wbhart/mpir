@@ -20,7 +20,7 @@ the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 MA 02110-1301, USA. */
 
 #include "mpir.h"
-#include "gmpxx.h"
+#include "mpirxx.h"
 
 
 /* This code doesn't do anything when run, it just expands various C macros
