@@ -1,147 +1,187 @@
-/* mpn_divexact_by3c -- mpn exact division by 3.
+/* mpn_divexact_by3c exact division by 3.
 
-Copyright 2000, 2001, 2002, 2003, 2006 Free Software Foundation, Inc.
+  Copyright 2009 Jason Moxham
 
-This file is part of the GNU MP Library.
+  This file is part of the MPIR Library.
 
-The GNU MP Library is free software; you can redistribute it and/or modify
-it under the terms of the GNU Lesser General Public License as published by
-the Free Software Foundation; either version 2.1 of the License, or (at your
-option) any later version.
+  The MPIR Library is free software; you can redistribute it and/or modify
+  it under the terms of the GNU Lesser General Public License as published
+  by the Free Software Foundation; either version 2.1 of the License, or (at
+  your option) any later version.
 
-The GNU MP Library is distributed in the hope that it will be useful, but
-WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
-or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public
-License for more details.
+  The MPIR Library is distributed in the hope that it will be useful, but
+  WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+  or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public
+  License for more details.
 
-You should have received a copy of the GNU Lesser General Public License
-along with the GNU MP Library; see the file COPYING.LIB.  If not, write to
-the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
-MA 02110-1301, USA. */
+  You should have received a copy of the GNU Lesser General Public License
+  along with the MPIR Library; see the file COPYING.LIB.  If not, write
+  to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+  Boston, MA 02110-1301, USA.
+*/
 
 #include "gmp.h"
 #include "gmp-impl.h"
 
-#if 1
+mp_limb_t	mpn_divexact_by3c(mp_ptr qp,mp_ptr xp,mp_size_t n,mp_limb_t ci)
+{mp_size_t j;mp_limb_t c,m,acc,ax,dx;
 
-/* The algorithm here is basically the same as mpn_divexact_1, as described
-   in the manual.  Namely at each step q = (src[i]-c)*inverse, and new c =
-   borrow(src[i]-c) + high(divisor*q).  But because the divisor is just 3,
-   high(divisor*q) can be determined with two comparisons instead of a
-   multiply.
-
-   The "c += ..."s add the high limb of 3*l to c.  That high limb will be 0,
-   1 or 2.  Doing two separate "+="s seems to give better code on gcc (as of
-   2.95.2 at least).
-
-   It will be noted that the new c is formed by adding three values each 0
-   or 1.  But the total is only 0, 1 or 2.  When the subtraction src[i]-c
-   causes a borrow, that leaves a limb value of either 0xFF...FF or
-   0xFF...FE.  The multiply by MODLIMB_INVERSE_3 gives 0x55...55 or
-   0xAA...AA respectively, and in those cases high(3*q) is only 0 or 1
-   respectively, hence a total of no more than 2.
-
-   Alternatives:
-
-   This implementation has each multiply on the dependent chain, due to
-   "l=s-c".  See below for alternative code which avoids that.  */
-
-mp_limb_t
-mpn_divexact_by3c (mp_ptr rp, mp_srcptr up, mp_size_t un, mp_limb_t c)
-{
-  mp_limb_t  l, q, s;
-  mp_size_t  i;
-
-  ASSERT (un >= 1);
-  ASSERT (c == 0 || c == 1 || c == 2);
-  ASSERT (MPN_SAME_OR_SEPARATE_P (rp, up, un));
-
-  i = 0;
-  do
-    {
-      s = up[i];
-      SUBC_LIMB (c, l, s, c);
-
-      q = (l * MODLIMB_INVERSE_3) & GMP_NUMB_MASK;
-      rp[i] = q;
-
-      c += (q >= GMP_NUMB_CEIL_MAX_DIV3);
-      c += (q >= GMP_NUMB_CEIL_2MAX_DIV3);
-    }
-  while (++i < un);
-
-  ASSERT (c == 0 || c == 1 || c == 2);
-  return c;
-}
+ASSERT(n>0);
+ASSERT_MPN(xp,n);
+ASSERT(MPN_SAME_OR_SEPARATE_P(qp,xp,n));
+m=0;m=~m;m=m/3;// m=(B-1)/3
+acc=ci*m;
+for(j=0;j<=n-1;j++)
+   {umul_ppmm(dx,ax,xp[j],m);
+    SUBC_LIMB(c,acc,acc,ax);
+    qp[j]=acc;
+    acc-=dx+c;}
+// return next quotient*-3    
+return acc*-3;}   // so  (xp,n) = (qp,n)*3 -ret*B^n    and 0 <= ret < 3
 
 
-#else
 
-/* The following alternative code re-arranges the quotient calculation from
-   (src[i]-c)*inverse to instead
 
-       q = src[i]*inverse - c*inverse
+#if 0
+#define ADD ADDC_LIMB
+#define SUB SUBC_LIMB
 
-   thereby allowing src[i]*inverse to be scheduled back as far as desired,
-   making full use of multiplier throughput and leaving just some carry
-   handing on the dependent chain.
+#define ADC(co,w,x,y,ci) do{mp_limb_t c1,c2,t;ADD(c1,t,x,y);ADD(c2,w,t,ci);co=c1|c2;}while(0)
+#define SBB(co,w,x,y,ci) do{mp_limb_t c1,c2,t;SUB(c1,t,x,y);SUB(c2,w,t,ci);co=c1|c2;}while(0)
 
-   The carry handling consists of determining the c for the next iteration.
-   This is the same as described above, namely look for any borrow from
-   src[i]-c, and at the high of 3*q.
+// basic divexact
+mp_limb_t	divexact_basic(mp_ptr qp,mp_ptr xp,mp_size_t n,mp_limb_t d)
+{int j;mp_limb_t c,h,q,dummy,h1,t,m;
 
-   high(3*q) is done with two comparisons as above (in c2 and c3).  The
-   borrow from src[i]-c is incorporated into those by noting that if there's
-   a carry then then we have src[i]-c == 0xFF..FF or 0xFF..FE, in turn
-   giving q = 0x55..55 or 0xAA..AA.  Adding 1 to either of those q values is
-   enough to make high(3*q) come out 1 bigger, as required.
+ASSERT(n>0);ASSERT(d!=0);ASSERT_MPN(xp,n);ASSERT(MPN_SAME_OR_SEPARATE_P(qp,xp,n));
+ASSERT(d%2==1);modlimb_invert(m,d);
+c=0;h=0;t=0;
+for(j=0;j<=n-1;j++)
+   {h1=xp[j];
+    t=h+c;if(t>h1){h1=h1-t;c=1;}else{h1=h1-t;c=0;}// set borrow to c ; sbb t,h1 ; set c to borrow
+    q=h1*m;
+    qp[j]=q;
+    umul_ppmm(h,dummy,q,d);
+    ASSERT(dummy==h1);}
+// ie returns next quotient*-d
+return h+c;}   // so  (xp,n) = (qp,n)*d -ret*B^n    and 0 <= ret < d
 
-   l = -c*inverse is calculated at the same time as c, since for most chips
-   it can be more conveniently derived from separate c1/c2/c3 values than
-   from a combined c equal to 0, 1 or 2.
+/*
+  A divexact by 3 can be obtained via   X * ((B-1)/3)  / (B-1)
+  The advantage of this is that the multiplications are taken out of the dependant chain.
+  The exact division by B-1 can be done like mpn_divexact_byff and can be thought of as a 
+  multi-limb subtraction but with an accumulator instead of a destination.
+  Combining the multiplication and exact division together we get the function below which
+  is the usual mpn_submul_1 but with an accumulator instead of a destination.
+*/
 
-   The net effect is that with good pipelining this loop should be able to
-   run at perhaps 4 cycles/limb, depending on available execute resources
-   etc.
 
-   Usage:
+mp_limb_t	divexact_submul(mp_ptr qp,mp_ptr xp,mp_size_t n)
+{int j;mp_limb_t c,m,t1,t2,t3,acc,ax,dx,t;
 
-   This code is not used by default, since we really can't rely on the
-   compiler generating a good software pipeline, nor on such an approach
-   even being worthwhile on all CPUs.
+ASSERT(n>0);ASSERT_MPN(xp,n);ASSERT(MPN_SAME_OR_SEPARATE_P(qp,xp,n));
+m=0;m=~m;m=m/3;// m=(B-1)/3
+c=0;t1=t2=t3=acc=0;
+    umul_ppmm(dx,ax,xp[0],m);
+    SUB(c,acc,0,t1);
+    ADC(c,t2,0,ax,c);
+    ADC(c,t3,0,dx,c);
+    ASSERT(c==0);
+    t1=t2;t2=t3;
+for(j=1;j<=n-1;j++)
+   {
+    t3=0;
+    umul_ppmm(dx,ax,xp[j],m);
+    SUB(c,acc,acc,t1);
+    qp[j-1]=acc;
+    ADC(c,t2,t2,ax,c);
+    ADC(c,t3,t3,dx,c);
+    ASSERT(c==0);
+    t1=t2;t2=t3;
+   }
+    SUB(c,acc,acc,t1);
+    qp[n-1]=acc;
+    ADC(c,t2,t2,0,c);
+    t=(t2-acc)*3;
+// return next quotient*-3    
+return t;}   // so  (xp,n) = (qp,n)*3 -ret*B^n    and 0 <= ret < 3
 
-   Itanium is one chip where this algorithm helps though, see
-   mpn/ia64/diveby3.asm.  */
 
-mp_limb_t
-mpn_divexact_by3c (mp_ptr rp, mp_srcptr up, mp_size_t un, mp_limb_t cy)
-{
-  mp_limb_t  s, sm, cl, q, qx, c2, c3;
-  mp_size_t  i;
+/*
+Looking at the above submul type function we can see that for each quotient limb we 
+subtract the high part of one mul and the low part of the next mul from the accumulator.
+*/
 
-  ASSERT (un >= 1);
-  ASSERT (cy == 0 || cy == 1 || cy == 2);
-  ASSERT (MPN_SAME_OR_SEPARATE_P (rp, up, un));
+mp_limb_t	divexact3_direct(mp_ptr qp,mp_ptr xp,mp_size_t n)
+{int j;mp_limb_t c,m,acc,ax,dx;
 
-  cl = cy == 0 ? 0 : cy == 1 ? -MODLIMB_INVERSE_3 : -2*MODLIMB_INVERSE_3;
+ASSERT(n>0);ASSERT_MPN(xp,n);ASSERT(MPN_SAME_OR_SEPARATE_P(qp,xp,n));
+m=0;m=~m;m=m/3;// m=(B-1)/3
+c=0;t1=t2=t3=acc=0;
+for(j=0;j<=n-1;j++)
+   {
+    umul_ppmm(dx,ax,xp[j],m);
+    SBB(c,acc,acc,ax,c);
+    qp[j]=acc;
+    SBB(c,acc,acc,dx,c);
+   }
+    SBB(c,acc,acc,0,c);
+// return next quotient*-3    
+return acc*-3;}   // so  (xp,n) = (qp,n)*3 -ret*B^n    and 0 <= ret < 3
 
-  for (i = 0; i < un; i++)
-    {
-      s = up[i];
-      sm = (s * MODLIMB_INVERSE_3) & GMP_NUMB_MASK;
+/*
+   Using supernatural powers we discover that the second carry is always zero 
+   , ie like below , leading to the used algorithm
 
-      q = (cl + sm) & GMP_NUMB_MASK;
-      rp[i] = q;
-      qx = q + (s < cy);
+*/
 
-      c2 = qx >= GMP_NUMB_CEIL_MAX_DIV3;
-      c3 = qx >= GMP_NUMB_CEIL_2MAX_DIV3 ;
+mp_limb_t	divexact3_byluck(mp_ptr qp,mp_ptr xp,mp_size_t n)
+{int j;mp_limb_t c,m,acc,ax,dx;
 
-      cy = c2 + c3;
-      cl = (-c2 & -MODLIMB_INVERSE_3) + (-c3 & -MODLIMB_INVERSE_3);
-    }
+ASSERT(n>0);ASSERT_MPN(xp,n);ASSERT(MPN_SAME_OR_SEPARATE_P(qp,xp,n));
+m=0;m=~m;m=m/3;// m=(B-1)/3
+c=0;acc=0;
+for(j=0;j<=n-1;j++)
+   {   
+    umul_ppmm(dx,ax,xp[j],m);	// line 1
+    SUB(c,acc,acc,ax);		// line 2
+    qp[j]=acc;			// line 3
+    SBB(c,acc,acc,dx,c);	// line 4
+    if(c!=0){printf("c not zero\n");abort();}
+   }
+// return next quotient*-3    
+return acc*-3;}   // so  (xp,n) = (qp,n)*3 -ret*B^n    and 0 <= ret < 3
 
-  return cy;
-}
+/*
+  Not wanting to rely on the above comments , a proof below
 
+*/
 #endif
+
+/*
+
+Consider one iteration
+
+let m=(B-1)/3
+
+at line 1  acc=m*some_ret 
+
+write  xp[j]=3*p+d    with  0 < d <= 3      ie division but with remainder+1  and p<(B-1)/3=m
+
+dx:ax = xp[j]*m = (3p+d)*(B-1)/3 = p(B-1)+d*(B-1)/3 = pB+(d(B-1)/3-p) so dx=p and ax=d(B-1)/3-p    (*)
+
+at line 2 we have two cases if (1) ax>acc  or (2) ax<=acc
+and we want to show that the carry at line 4 is zero , ie dx+c<=acc 
+so we get 
+case (1)   show that dx+1<=acc-ax+B  ie  ax+dx <= B-1+acc
+case (2)   show that dx+0<=acc-ax    ie  ax+dx <=     acc
+
+from (*) ax+dx=d(B-1)/3 = d*m <= 3(B-1)/3=B-1  
+
+so case (1) is OK
+
+case (2) says ax<=acc=m*r for some r : 0 <= r < 3
+             as ax+dx=m*d   so r<=d 
+             and as dx=p<m so d<r+1   therefore d=r so ax+dx=mr=acc<=acc
+             so case is OK
+*/
