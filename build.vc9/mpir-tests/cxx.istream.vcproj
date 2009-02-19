@@ -50,6 +50,7 @@
 				PreprocessorDefinitions="_DEBUG;_CONSOLE"
 				RuntimeLibrary="1"
 				UsePrecompiledHeader="0"
+				CompileAs="2"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -122,6 +123,7 @@
 				PreprocessorDefinitions="_DEBUG;_CONSOLE"
 				RuntimeLibrary="1"
 				UsePrecompiledHeader="0"
+				CompileAs="2"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -192,6 +194,7 @@
 				AdditionalIncludeDirectories=""
 				PreprocessorDefinitions="NDEBUG;_CONSOLE"
 				UsePrecompiledHeader="0"
+				CompileAs="2"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -265,6 +268,7 @@
 				AdditionalIncludeDirectories=""
 				PreprocessorDefinitions="NDEBUG;_CONSOLE"
 				UsePrecompiledHeader="0"
+				CompileAs="2"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"

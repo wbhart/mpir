@@ -66,14 +66,14 @@ mpz_lucnum2_ui (mpz_ptr ln, mpz_ptr lnsub1, unsigned long n)
 #if HAVE_NATIVE_mpn_addlsh1_n
   c = mpn_addlsh1_n (lp, l1p, f1p, size);
 #else
-  c = mpn_lshift (lp, f1p, size, 1);
+  c = mpn_lshift1 (lp, f1p, size);
   c += mpn_add_n (lp, lp, l1p, size);
 #endif
   lp[size] = c;
   SIZ(ln) = size + (c != 0);
 
   /* L[n-1] = 2F[n] - F[n-1] */
-  c = mpn_lshift (l1p, l1p, size, 1);
+  c = mpn_lshift1 (l1p, l1p, size);
   c -= mpn_sub_n (l1p, l1p, f1p, size);
   ASSERT ((mp_limb_signed_t) c >= 0);
   l1p[size] = c;

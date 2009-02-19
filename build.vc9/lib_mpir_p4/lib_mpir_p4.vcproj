@@ -36,7 +36,7 @@
 			/>
 			<Tool
 				Name="YASM"
-				ObjectFileName="&quot;$(IntDir)\$(InputName).obj&quot;"
+				ObjectFileName="&quot;$(IntDir)\mpn\$(InputName).obj&quot;"
 				Debug="true"
 			/>
 			<Tool
@@ -108,7 +108,7 @@
 			/>
 			<Tool
 				Name="YASM"
-				ObjectFileName="&quot;$(IntDir)\$(InputName).obj&quot;"
+				ObjectFileName="&quot;$(IntDir)\mpn\$(InputName).obj&quot;"
 				Debug="true"
 			/>
 			<Tool
@@ -1806,26 +1806,6 @@
 					</FileConfiguration>
 				</File>
 				<File
-					RelativePath="..\..\mpn\generic\addsub_n.c"
-					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\"
-						/>
-					</FileConfiguration>
-				</File>
-				<File
 					RelativePath="..\..\mpn\generic\bdivmod.c"
 					>
 					<FileConfiguration
@@ -2751,6 +2731,26 @@
 					</FileConfiguration>
 				</File>
 				<File
+					RelativePath="..\..\mpn\generic\sumdiff_n.c"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
 					RelativePath="..\..\mpn\generic\tdiv_qr.c"
 					>
 					<FileConfiguration
@@ -2782,7 +2782,6 @@
 							>
 							<Tool
 								Name="YASM"
-								ObjectFileName="&quot;$(IntDir)\mpn\$(InputName).obj&quot;"
 							/>
 						</FileConfiguration>
 						<FileConfiguration
@@ -2791,7 +2790,6 @@
 							>
 							<Tool
 								Name="YASM"
-								ObjectFileName="&quot;$(IntDir)\mpn\$(InputName).obj&quot;"
 							/>
 						</FileConfiguration>
 					</File>
@@ -2804,7 +2802,6 @@
 							>
 							<Tool
 								Name="YASM"
-								ObjectFileName="&quot;$(IntDir)\mpn\$(InputName).obj&quot;"
 							/>
 						</FileConfiguration>
 						<FileConfiguration
@@ -2813,49 +2810,16 @@
 							>
 							<Tool
 								Name="YASM"
-								ObjectFileName="&quot;$(IntDir)\mpn\$(InputName).obj&quot;"
 							/>
 						</FileConfiguration>
 					</File>
 					<File
 						RelativePath="..\..\mpn\x86w\pentium4\copyd.asm"
 						>
-						<FileConfiguration
-							Name="Debug|Win32"
-							>
-							<Tool
-								Name="YASM"
-								ObjectFileName="&quot;$(IntDir)\mpn\$(InputName).obj&quot;"
-							/>
-						</FileConfiguration>
-						<FileConfiguration
-							Name="Release|Win32"
-							>
-							<Tool
-								Name="YASM"
-								ObjectFileName="&quot;$(IntDir)\mpn\$(InputName).obj&quot;"
-							/>
-						</FileConfiguration>
 					</File>
 					<File
 						RelativePath="..\..\mpn\x86w\pentium4\copyi.asm"
 						>
-						<FileConfiguration
-							Name="Debug|Win32"
-							>
-							<Tool
-								Name="YASM"
-								ObjectFileName="&quot;$(IntDir)\mpn\$(InputName).obj&quot;"
-							/>
-						</FileConfiguration>
-						<FileConfiguration
-							Name="Release|Win32"
-							>
-							<Tool
-								Name="YASM"
-								ObjectFileName="&quot;$(IntDir)\mpn\$(InputName).obj&quot;"
-							/>
-						</FileConfiguration>
 					</File>
 					<File
 						RelativePath="..\..\mpn\x86w\dive_1.asm"
@@ -2866,7 +2830,6 @@
 							>
 							<Tool
 								Name="YASM"
-								ObjectFileName="&quot;$(IntDir)\mpn\$(InputName).obj&quot;"
 							/>
 						</FileConfiguration>
 						<FileConfiguration
@@ -2875,7 +2838,6 @@
 							>
 							<Tool
 								Name="YASM"
-								ObjectFileName="&quot;$(IntDir)\mpn\$(InputName).obj&quot;"
 							/>
 						</FileConfiguration>
 					</File>
@@ -2888,7 +2850,6 @@
 							>
 							<Tool
 								Name="YASM"
-								ObjectFileName="&quot;$(IntDir)\mpn\$(InputName).obj&quot;"
 							/>
 						</FileConfiguration>
 						<FileConfiguration
@@ -2897,29 +2858,12 @@
 							>
 							<Tool
 								Name="YASM"
-								ObjectFileName="&quot;$(IntDir)\mpn\$(InputName).obj&quot;"
 							/>
 						</FileConfiguration>
 					</File>
 					<File
 						RelativePath="..\..\mpn\x86w\divrem_1.asm"
 						>
-						<FileConfiguration
-							Name="Debug|Win32"
-							>
-							<Tool
-								Name="YASM"
-								ObjectFileName="&quot;$(IntDir)\mpn\$(InputName).obj&quot;"
-							/>
-						</FileConfiguration>
-						<FileConfiguration
-							Name="Release|Win32"
-							>
-							<Tool
-								Name="YASM"
-								ObjectFileName="&quot;$(IntDir)\mpn\$(InputName).obj&quot;"
-							/>
-						</FileConfiguration>
 					</File>
 					<File
 						RelativePath="..\..\mpn\x86w\lshift.asm"
@@ -2930,7 +2874,6 @@
 							>
 							<Tool
 								Name="YASM"
-								ObjectFileName="&quot;$(IntDir)\mpn\$(InputName).obj&quot;"
 							/>
 						</FileConfiguration>
 						<FileConfiguration
@@ -2939,29 +2882,12 @@
 							>
 							<Tool
 								Name="YASM"
-								ObjectFileName="&quot;$(IntDir)\mpn\$(InputName).obj&quot;"
 							/>
 						</FileConfiguration>
 					</File>
 					<File
 						RelativePath="..\..\mpn\x86w\mod_1.asm"
 						>
-						<FileConfiguration
-							Name="Debug|Win32"
-							>
-							<Tool
-								Name="YASM"
-								ObjectFileName="&quot;$(IntDir)\mpn\$(InputName).obj&quot;"
-							/>
-						</FileConfiguration>
-						<FileConfiguration
-							Name="Release|Win32"
-							>
-							<Tool
-								Name="YASM"
-								ObjectFileName="&quot;$(IntDir)\mpn\$(InputName).obj&quot;"
-							/>
-						</FileConfiguration>
 					</File>
 					<File
 						RelativePath="..\..\mpn\x86w\mod_34lsub1.asm"
@@ -2972,7 +2898,6 @@
 							>
 							<Tool
 								Name="YASM"
-								ObjectFileName="&quot;$(IntDir)\mpn\$(InputName).obj&quot;"
 							/>
 						</FileConfiguration>
 						<FileConfiguration
@@ -2981,7 +2906,6 @@
 							>
 							<Tool
 								Name="YASM"
-								ObjectFileName="&quot;$(IntDir)\mpn\$(InputName).obj&quot;"
 							/>
 						</FileConfiguration>
 					</File>
@@ -2994,7 +2918,6 @@
 							>
 							<Tool
 								Name="YASM"
-								ObjectFileName="&quot;$(IntDir)\mpn\$(InputName).obj&quot;"
 							/>
 						</FileConfiguration>
 						<FileConfiguration
@@ -3003,7 +2926,6 @@
 							>
 							<Tool
 								Name="YASM"
-								ObjectFileName="&quot;$(IntDir)\mpn\$(InputName).obj&quot;"
 							/>
 						</FileConfiguration>
 					</File>
@@ -3016,7 +2938,6 @@
 							>
 							<Tool
 								Name="YASM"
-								ObjectFileName="&quot;$(IntDir)\mpn\$(InputName).obj&quot;"
 							/>
 						</FileConfiguration>
 						<FileConfiguration
@@ -3025,7 +2946,6 @@
 							>
 							<Tool
 								Name="YASM"
-								ObjectFileName="&quot;$(IntDir)\mpn\$(InputName).obj&quot;"
 							/>
 						</FileConfiguration>
 					</File>
@@ -3038,7 +2958,6 @@
 							>
 							<Tool
 								Name="YASM"
-								ObjectFileName="&quot;$(IntDir)\mpn\$(InputName).obj&quot;"
 							/>
 						</FileConfiguration>
 						<FileConfiguration
@@ -3047,49 +2966,16 @@
 							>
 							<Tool
 								Name="YASM"
-								ObjectFileName="&quot;$(IntDir)\mpn\$(InputName).obj&quot;"
 							/>
 						</FileConfiguration>
 					</File>
 					<File
 						RelativePath="..\..\mpn\x86w\udiv.asm"
 						>
-						<FileConfiguration
-							Name="Debug|Win32"
-							>
-							<Tool
-								Name="YASM"
-								ObjectFileName="&quot;$(IntDir)\mpn\$(InputName).obj&quot;"
-							/>
-						</FileConfiguration>
-						<FileConfiguration
-							Name="Release|Win32"
-							>
-							<Tool
-								Name="YASM"
-								ObjectFileName="&quot;$(IntDir)\mpn\$(InputName).obj&quot;"
-							/>
-						</FileConfiguration>
 					</File>
 					<File
 						RelativePath="..\..\mpn\x86w\umul.asm"
 						>
-						<FileConfiguration
-							Name="Debug|Win32"
-							>
-							<Tool
-								Name="YASM"
-								ObjectFileName="&quot;$(IntDir)\mpn\$(InputName).obj&quot;"
-							/>
-						</FileConfiguration>
-						<FileConfiguration
-							Name="Release|Win32"
-							>
-							<Tool
-								Name="YASM"
-								ObjectFileName="&quot;$(IntDir)\mpn\$(InputName).obj&quot;"
-							/>
-						</FileConfiguration>
 					</File>
 					<Filter
 						Name="mmx"
@@ -3097,62 +2983,14 @@
 						<File
 							RelativePath="..\..\mpn\x86w\pentium4\mmx\lshift.asm"
 							>
-							<FileConfiguration
-								Name="Debug|Win32"
-								>
-								<Tool
-									Name="YASM"
-									ObjectFileName="&quot;$(IntDir)\mpn\$(InputName).obj&quot;"
-								/>
-							</FileConfiguration>
-							<FileConfiguration
-								Name="Release|Win32"
-								>
-								<Tool
-									Name="YASM"
-									ObjectFileName="&quot;$(IntDir)\mpn\$(InputName).obj&quot;"
-								/>
-							</FileConfiguration>
 						</File>
 						<File
 							RelativePath="..\..\mpn\x86w\pentium4\mmx\popham.asm"
 							>
-							<FileConfiguration
-								Name="Debug|Win32"
-								>
-								<Tool
-									Name="YASM"
-									ObjectFileName="&quot;$(IntDir)\mpn\$(InputName).obj&quot;"
-								/>
-							</FileConfiguration>
-							<FileConfiguration
-								Name="Release|Win32"
-								>
-								<Tool
-									Name="YASM"
-									ObjectFileName="&quot;$(IntDir)\mpn\$(InputName).obj&quot;"
-								/>
-							</FileConfiguration>
 						</File>
 						<File
 							RelativePath="..\..\mpn\x86w\pentium4\mmx\rshift.asm"
 							>
-							<FileConfiguration
-								Name="Debug|Win32"
-								>
-								<Tool
-									Name="YASM"
-									ObjectFileName="&quot;$(IntDir)\mpn\$(InputName).obj&quot;"
-								/>
-							</FileConfiguration>
-							<FileConfiguration
-								Name="Release|Win32"
-								>
-								<Tool
-									Name="YASM"
-									ObjectFileName="&quot;$(IntDir)\mpn\$(InputName).obj&quot;"
-								/>
-							</FileConfiguration>
 						</File>
 					</Filter>
 					<Filter
@@ -3161,222 +2999,46 @@
 						<File
 							RelativePath="..\..\mpn\x86w\pentium4\sse2\add_n.asm"
 							>
-							<FileConfiguration
-								Name="Debug|Win32"
-								>
-								<Tool
-									Name="YASM"
-									ObjectFileName="&quot;$(IntDir)\mpn\$(InputName).obj&quot;"
-								/>
-							</FileConfiguration>
-							<FileConfiguration
-								Name="Release|Win32"
-								>
-								<Tool
-									Name="YASM"
-									ObjectFileName="&quot;$(IntDir)\mpn\$(InputName).obj&quot;"
-								/>
-							</FileConfiguration>
 						</File>
 						<File
 							RelativePath="..\..\mpn\x86w\pentium4\sse2\addmul_1.asm"
 							>
-							<FileConfiguration
-								Name="Debug|Win32"
-								>
-								<Tool
-									Name="YASM"
-									ObjectFileName="&quot;$(IntDir)\mpn\$(InputName).obj&quot;"
-								/>
-							</FileConfiguration>
-							<FileConfiguration
-								Name="Release|Win32"
-								>
-								<Tool
-									Name="YASM"
-									ObjectFileName="&quot;$(IntDir)\mpn\$(InputName).obj&quot;"
-								/>
-							</FileConfiguration>
 						</File>
 						<File
 							RelativePath="..\..\mpn\x86w\pentium4\sse2\dive_1.asm"
 							>
-							<FileConfiguration
-								Name="Debug|Win32"
-								>
-								<Tool
-									Name="YASM"
-									ObjectFileName="&quot;$(IntDir)\mpn\$(InputName).obj&quot;"
-								/>
-							</FileConfiguration>
-							<FileConfiguration
-								Name="Release|Win32"
-								>
-								<Tool
-									Name="YASM"
-									ObjectFileName="&quot;$(IntDir)\mpn\$(InputName).obj&quot;"
-								/>
-							</FileConfiguration>
 						</File>
 						<File
 							RelativePath="..\..\mpn\x86w\pentium4\sse2\diveby3.asm"
 							>
-							<FileConfiguration
-								Name="Debug|Win32"
-								>
-								<Tool
-									Name="YASM"
-									ObjectFileName="&quot;$(IntDir)\mpn\$(InputName).obj&quot;"
-								/>
-							</FileConfiguration>
-							<FileConfiguration
-								Name="Release|Win32"
-								>
-								<Tool
-									Name="YASM"
-									ObjectFileName="&quot;$(IntDir)\mpn\$(InputName).obj&quot;"
-								/>
-							</FileConfiguration>
 						</File>
 						<File
 							RelativePath="..\..\mpn\x86w\pentium4\sse2\mod_34lsub1.asm"
 							>
-							<FileConfiguration
-								Name="Debug|Win32"
-								>
-								<Tool
-									Name="YASM"
-									ObjectFileName="&quot;$(IntDir)\mpn\$(InputName).obj&quot;"
-								/>
-							</FileConfiguration>
-							<FileConfiguration
-								Name="Release|Win32"
-								>
-								<Tool
-									Name="YASM"
-									ObjectFileName="&quot;$(IntDir)\mpn\$(InputName).obj&quot;"
-								/>
-							</FileConfiguration>
 						</File>
 						<File
 							RelativePath="..\..\mpn\x86w\pentium4\sse2\mode1o.asm"
 							>
-							<FileConfiguration
-								Name="Debug|Win32"
-								>
-								<Tool
-									Name="YASM"
-									ObjectFileName="&quot;$(IntDir)\mpn\$(InputName).obj&quot;"
-								/>
-							</FileConfiguration>
-							<FileConfiguration
-								Name="Release|Win32"
-								>
-								<Tool
-									Name="YASM"
-									ObjectFileName="&quot;$(IntDir)\mpn\$(InputName).obj&quot;"
-								/>
-							</FileConfiguration>
 						</File>
 						<File
 							RelativePath="..\..\mpn\x86w\pentium4\sse2\mul_1.asm"
 							>
-							<FileConfiguration
-								Name="Debug|Win32"
-								>
-								<Tool
-									Name="YASM"
-									ObjectFileName="&quot;$(IntDir)\mpn\$(InputName).obj&quot;"
-								/>
-							</FileConfiguration>
-							<FileConfiguration
-								Name="Release|Win32"
-								>
-								<Tool
-									Name="YASM"
-									ObjectFileName="&quot;$(IntDir)\mpn\$(InputName).obj&quot;"
-								/>
-							</FileConfiguration>
 						</File>
 						<File
 							RelativePath="..\..\mpn\x86w\pentium4\sse2\mul_basecase.asm"
 							>
-							<FileConfiguration
-								Name="Debug|Win32"
-								>
-								<Tool
-									Name="YASM"
-									ObjectFileName="&quot;$(IntDir)\mpn\$(InputName).obj&quot;"
-								/>
-							</FileConfiguration>
-							<FileConfiguration
-								Name="Release|Win32"
-								>
-								<Tool
-									Name="YASM"
-									ObjectFileName="&quot;$(IntDir)\mpn\$(InputName).obj&quot;"
-								/>
-							</FileConfiguration>
 						</File>
 						<File
 							RelativePath="..\..\mpn\x86w\pentium4\sse2\sqr_basecase.asm"
 							>
-							<FileConfiguration
-								Name="Debug|Win32"
-								>
-								<Tool
-									Name="YASM"
-									ObjectFileName="&quot;$(IntDir)\mpn\$(InputName).obj&quot;"
-								/>
-							</FileConfiguration>
-							<FileConfiguration
-								Name="Release|Win32"
-								>
-								<Tool
-									Name="YASM"
-									ObjectFileName="&quot;$(IntDir)\mpn\$(InputName).obj&quot;"
-								/>
-							</FileConfiguration>
 						</File>
 						<File
 							RelativePath="..\..\mpn\x86w\pentium4\sse2\sub_n.asm"
 							>
-							<FileConfiguration
-								Name="Debug|Win32"
-								>
-								<Tool
-									Name="YASM"
-									ObjectFileName="&quot;$(IntDir)\mpn\$(InputName).obj&quot;"
-								/>
-							</FileConfiguration>
-							<FileConfiguration
-								Name="Release|Win32"
-								>
-								<Tool
-									Name="YASM"
-									ObjectFileName="&quot;$(IntDir)\mpn\$(InputName).obj&quot;"
-								/>
-							</FileConfiguration>
 						</File>
 						<File
 							RelativePath="..\..\mpn\x86w\pentium4\sse2\submul_1.asm"
 							>
-							<FileConfiguration
-								Name="Debug|Win32"
-								>
-								<Tool
-									Name="YASM"
-									ObjectFileName="&quot;$(IntDir)\mpn\$(InputName).obj&quot;"
-								/>
-							</FileConfiguration>
-							<FileConfiguration
-								Name="Release|Win32"
-								>
-								<Tool
-									Name="YASM"
-									ObjectFileName="&quot;$(IntDir)\mpn\$(InputName).obj&quot;"
-								/>
-							</FileConfiguration>
 						</File>
 					</Filter>
 				</Filter>

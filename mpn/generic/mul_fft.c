@@ -57,11 +57,6 @@ MA 02110-1301, USA. */
 #include "mpir.h"
 #include "gmp-impl.h"
 
-#ifdef WANT_ADDSUB
-#include "generic/addsub_n.c"
-#define HAVE_NATIVE_mpn_addsub_n 1
-#endif
-
 /* Change this to "#define TRACE(x) x" for some traces. */
 #define TRACE(x)
 
@@ -306,8 +301,8 @@ mpn_fft_fft_sqr (mp_ptr *Ap, mp_size_t K, int **ll,
   if (K == 2)
     {
       mp_limb_t cy;
-#if HAVE_NATIVE_mpn_addsub_n
-      cy = mpn_addsub_n (Ap[0], Ap[inc], Ap[0], Ap[inc], n + 1) & 1;
+#if HAVE_NATIVE_mpn_sumdiff_n
+      cy = mpn_sumdiff_n (Ap[0], Ap[inc], Ap[0], Ap[inc], n + 1) & 1;
 #else
       MPN_COPY (tp, Ap[0], n + 1);
       mpn_add_n (Ap[0], Ap[0], Ap[inc], n + 1);
@@ -393,9 +388,9 @@ mpn_fft_fft (mp_ptr *Ap, mp_ptr *Bp, mp_size_t K, int **ll,
   if (K == 2)
     {
       mp_limb_t ca, cb;
-#if HAVE_NATIVE_mpn_addsub_n
-      ca = mpn_addsub_n (Ap[0], Ap[inc], Ap[0], Ap[inc], n + 1) & 1;
-      cb = mpn_addsub_n (Bp[0], Bp[inc], Bp[0], Bp[inc], n + 1) & 1;
+#if HAVE_NATIVE_mpn_sumdiff_n
+      ca = mpn_sumdiff_n (Ap[0], Ap[inc], Ap[0], Ap[inc], n + 1) & 1;
+      cb = mpn_sumdiff_n (Bp[0], Bp[inc], Bp[0], Bp[inc], n + 1) & 1;
 #else
       MPN_COPY (tp, Ap[0], n + 1);
       mpn_add_n (Ap[0], Ap[0], Ap[inc], n + 1);
@@ -558,8 +553,8 @@ mpn_fft_fftinv (mp_ptr *Ap, int K, mp_size_t omega, mp_size_t n, mp_ptr tp)
   if (K == 2)
     {
       mp_limb_t cy;
-#if HAVE_NATIVE_mpn_addsub_n
-      cy = mpn_addsub_n (Ap[0], Ap[1], Ap[0], Ap[1], n + 1) & 1;
+#if HAVE_NATIVE_mpn_sumdiff_n
+      cy = mpn_sumdiff_n (Ap[0], Ap[1], Ap[0], Ap[1], n + 1) & 1;
 #else
       MPN_COPY (tp, Ap[0], n + 1);
       mpn_add_n (Ap[0], Ap[0], Ap[1], n + 1);
@@ -986,8 +981,8 @@ mpn_mul_fft_full (mp_ptr op,
   /* 0 <= cc <= 1 */
   /* now lambda-mu = {pad_op, pl2} - cc mod 2^(pl2*GMP_NUMB_BITS)+1 */
   oldcc = cc;
-#if HAVE_NATIVE_mpn_addsub_n
-  c2 = mpn_addsub_n (pad_op + l, pad_op, pad_op, pad_op + l, l);
+#if HAVE_NATIVE_mpn_sumdiff_n
+  c2 = mpn_sumdiff_n (pad_op + l, pad_op, pad_op, pad_op + l, l);
   /* c2 & 1 is the borrow, c2 & 2 is the carry */
   cc += c2 >> 1; /* carry out from high <- low + high */
   c2 = c2 & 1; /* borrow out from low <- low - high */
@@ -1020,7 +1015,7 @@ mpn_mul_fft_full (mp_ptr op,
     cc += 1 + mpn_add_1 (pad_op, pad_op, pl2, CNST_LIMB(1));
   /* now 0 <= cc <= 2, but cc=2 cannot occur since it would give a carry
      out below */
-  mpn_rshift (pad_op, pad_op, pl2, 1); /* divide by two */
+  mpn_rshift1 (pad_op, pad_op, pl2); /* divide by two */
   if (cc) /* then cc=1 */
     pad_op [pl2 - 1] |= (mp_limb_t) 1 << (GMP_NUMB_BITS - 1);
   /* now {pad_op,pl2}-cc = (lambda-mu)/(1-2^(l*GMP_NUMB_BITS))

@@ -1,0 +1,54 @@
+/* Test mpn_addsub_n
+
+dnl  Copyright 2009 Jason Moxham
+
+dnl  This file is part of the MPIR Library.
+
+dnl  The MPIR Library is free software; you can redistribute it and/or modify
+dnl  it under the terms of the GNU Lesser General Public License as published
+dnl  by the Free Software Foundation; either version 2.1 of the License, or (at
+dnl  your option) any later version.
+
+dnl  The MPIR Library is distributed in the hope that it will be useful, but
+dnl  WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+dnl  or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public
+dnl  License for more details.
+
+dnl  You should have received a copy of the GNU Lesser General Public License
+dnl  along with the MPIR Library; see the file COPYING.LIB.  If not, write
+dnl  to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+dnl  Boston, MA 02110-1301, USA.
+*/
+
+#include <stdio.h>
+#include <stdlib.h>
+#include "mpir.h"
+#include "gmp-impl.h"
+#include "tests.h"
+
+int
+main (void)
+{unsigned long n;gmp_randstate_ptr rands;int j,k,i,i1;
+ 
+  tests_start ();
+  rands=RANDS;
+
+mp_limb_t sp[10000],tp[10000],xp[10000],yp[10000],zp[10000];
+
+#if HAVE_NATIVE_mpn_addsub_n
+for(i1=0;i1<2;i1++){
+for(n=1;n<100;n++)
+   {for(j=1;j<5;j++)
+       {if(i1==0){mpn_random(xp,n);mpn_random(yp,n);mpn_random(zp,n);}else{mpn_random2(xp,n);mpn_random2(yp,n);mpn_random2(zp,n);}
+        k=mpn_addsub_n(sp,xp,yp,zp,n);
+        i=mpn_add_n(tp,xp,yp,n);i-=mpn_sub_n(tp,tp,zp,n);
+        if(k!=i){printf("mpn_addsub_n ret wrong\n");abort();}
+        if(mpn_cmp(sp,tp,n)!=0){printf("mpn_addsub_n sum wrong\n");abort();}
+       }
+   }
+}
+#endif
+
+  tests_end ();
+  exit (0);
+}

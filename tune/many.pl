@@ -371,7 +371,7 @@ my @table =
      },
 
      {
-       'regexp'=> 'addsub_n',
+       'regexp'=> 'sumdiff_n',
        'ret'   => 'mp_limb_t',
        'args'  => 'mp_ptr sum, mp_ptr diff, mp_srcptr xp, mp_srcptr yp, mp_size_t size',
        'speed_flags'=> 'FLAG_R_OPTIONAL',

@@ -2054,7 +2054,7 @@ bgcd (mp_ptr gp, mp_ptr ap, mp_size_t an, mp_ptr bp, mp_size_t bn, mp_ptr tp)
 	  if (cy > 0)
 	    {
 	      ASSERT (cy == 1);
-	      mpn_rshift (ap, ap, an, 1);
+	      mpn_rshift1 (ap, ap, an);
 	      ap[an-1] |= GMP_NUMB_HIGHBIT;
 	    }
 	}

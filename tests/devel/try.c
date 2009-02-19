@@ -577,8 +577,8 @@ validate_sqrtrem (void)
 #define TYPE_ADDMUL_7         19
 #define TYPE_ADDMUL_8         20
 
-#define TYPE_ADDSUB_N         21
-#define TYPE_ADDSUB_NC        22
+#define TYPE_SUMDIFF_N        21
+#define TYPE_SUMDIFF_NC       22
 
 #define TYPE_RSHIFT           23
 #define TYPE_LSHIFT           24
@@ -829,18 +829,18 @@ param_init (void)
   REFERENCE (refmpn_xnor_n);
 
 
-  p = &param[TYPE_ADDSUB_N];
+  p = &param[TYPE_SUMDIFF_N];
   p->retval = 1;
   p->dst[0] = 1;
   p->dst[1] = 1;
   p->src[0] = 1;
   p->src[1] = 1;
-  REFERENCE (refmpn_addsub_n);
+  REFERENCE (refmpn_sumdiff_n);
 
-  p = &param[TYPE_ADDSUB_NC];
-  COPY (TYPE_ADDSUB_N);
+  p = &param[TYPE_SUMDIFF_NC];
+  COPY (TYPE_SUMDIFF_N);
   p->carry = CARRY_4;
-  REFERENCE (refmpn_addsub_nc);
+  REFERENCE (refmpn_sumdiff_nc);
 
 
   p = &param[TYPE_COPY];
@@ -1319,11 +1319,11 @@ const struct choice_t choice_array[] = {
   { TRY(mpn_sub_nc),    TYPE_SUB_NC },
 #endif
 
-#if HAVE_NATIVE_mpn_addsub_n
-  { TRY(mpn_addsub_n),  TYPE_ADDSUB_N  },
+#if HAVE_NATIVE_mpn_sumdiff_n
+  { TRY(mpn_sumdiff_n),  TYPE_SUMDIFF_N  },
 #endif
-#if HAVE_NATIVE_mpn_addsub_nc
-  { TRY(mpn_addsub_nc), TYPE_ADDSUB_NC },
+#if HAVE_NATIVE_mpn_sumdiff_nc
+  { TRY(mpn_sumdiff_nc), TYPE_SUMDIFF_NC },
 #endif
 
   { TRY(mpn_addmul_1),  TYPE_ADDMUL_1  },
@@ -1990,11 +1990,11 @@ call (struct each_t *e, tryfun_t function)
     CALLING_CONVENTIONS (function) (e->d[0].p, e->s[0].p, e->s[1].p, size);
     break;
 
-  case TYPE_ADDSUB_N:
+  case TYPE_SUMDIFF_N:
     e->retval = CALLING_CONVENTIONS (function)
       (e->d[0].p, e->d[1].p, e->s[0].p, e->s[1].p, size);
     break;
-  case TYPE_ADDSUB_NC:
+  case TYPE_SUMDIFF_NC:
     e->retval = CALLING_CONVENTIONS (function)
       (e->d[0].p, e->d[1].p, e->s[0].p, e->s[1].p, size, carry);
     break;

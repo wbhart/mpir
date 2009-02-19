@@ -155,8 +155,14 @@ const struct routine_t {
   { "mpn_add_n",         speed_mpn_add_n,     FLAG_R_OPTIONAL },
   { "mpn_sub_n",         speed_mpn_sub_n,     FLAG_R_OPTIONAL },
 
+#if HAVE_NATIVE_mpn_sumdiff_n
+  { "mpn_sumdiff_n",      speed_mpn_sumdiff_n,     FLAG_R_OPTIONAL },
+#endif
+#if HAVE_NATIVE_mpn_addadd_n
+  { "mpn_addadd_n",      speed_mpn_addadd_n,  },
+#endif
 #if HAVE_NATIVE_mpn_addsub_n
-  { "mpn_addsub_n",      speed_mpn_addsub_n,     FLAG_R_OPTIONAL },
+  { "mpn_addsub_n",      speed_mpn_addsub_n,  },
 #endif
 
   { "mpn_addmul_1",      speed_mpn_addmul_1,  FLAG_R },
@@ -215,6 +221,7 @@ const struct routine_t {
 
   { "mpn_divexact_1",    speed_mpn_divexact_1,    FLAG_R },
   { "mpn_divexact_by3",  speed_mpn_divexact_by3          },
+  { "mpn_divexact_byff", speed_mpn_divexact_byff         },
 
 #if HAVE_NATIVE_mpn_modexact_1_odd
   { "mpn_modexact_1_odd",  speed_mpn_modexact_1_odd,  FLAG_R },
@@ -237,6 +244,8 @@ const struct routine_t {
 
   { "mpn_lshift",        speed_mpn_lshift, FLAG_R   },
   { "mpn_rshift",        speed_mpn_rshift, FLAG_R   },
+  { "mpn_lshift1",       speed_mpn_lshift1,   },
+  { "mpn_rshift1",       speed_mpn_rshift1,   },
 
   { "mpn_and_n",         speed_mpn_and_n,  FLAG_R_OPTIONAL },
   { "mpn_andn_n",        speed_mpn_andn_n, FLAG_R_OPTIONAL },

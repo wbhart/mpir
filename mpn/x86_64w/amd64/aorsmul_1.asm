@@ -1,28 +1,25 @@
 
-;  Copyright 1999, 2000, 2001, 2002 Free Software Foundation, Inc.
+; AMD64 mpn_addmul_1/mpn_addmul_1c -- multiply and add (with carry)
+; AMD64 mpn_submul_1/mpn_submul_1c -- multiply and subtract (with carry)
+; Version 1.0.3.
 ;
-;  Copyright 2005, 2006 Pierrick Gaudry
-;
-;  Copyright 2008 Brian Gladman
-;
-;  This file is part of the MPIR Library.
-;
-;  The MPIR Library is free software; you can redistribute it and/or
-;  modify it under the terms of the GNU Lesser General Public License as
-;  published by the Free Software Foundation; either version 2.1 of the
-;  License, or (at your option) any later version.
-;
-;  The MPIR Library is distributed in the hope that it will be useful,
-;  but WITHOUT ANY WARRANTY; without even the implied warranty of
-;  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-;  Lesser General Public License for more details.
-;
-;  You should have received a copy of the GNU Lesser General Public
-;  License along with the MPIR Library; see the file COPYING.LIB.  If
-;  not, write to the Free Software Foundation, Inc., 51 Franklin Street,
-;  Fifth Floor, Boston, MA 02110-1301, USA.
+;  Copyright 2008 Jason Moxham
 
-; AMD64 mpn_add_n/mpn_sub_n -- mpn add or subtract.
+;  Windows Conversion CopyRight 2008 Brian Gladman
+
+;  This file is part of the MPIR Library.
+;  The MPIR Library is free software; you can redistribute it and/or modify
+;  it under the terms of the GNU Lesser General Public License as published
+;  by the Free Software Foundation; either version 2.1 of the License, or (at
+;  your option) any later version.
+;  The MPIR Library is distributed in the hope that it will be useful, but
+;  WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+;  or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public
+;  License for more details.
+;  You should have received a copy of the GNU Lesser General Public License
+;  along with the MPIR Library; see the file COPYING.LIB.  If not, write
+;  to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+;  Boston, MA 02110-1301, USA.
 ;
 ;  Calling interface:
 ;
@@ -41,34 +38,17 @@
 ;     mp_limb_t carry    [rsp+0x28]
 ;  )
 ;
-; Calculate src[size] multiplied by mult[1] and add to /subtract from dst[size] and
-; return the carry or borrow from the top of the result
+; Calculate src[size] multiplied by mult[1] and add to /subtract from
+; dst[size] and return the carry or borrow from the top of the result
 ;
-; This is an SEH Frame Function with two leaf prologues
+; These are SEH frame functions with two leaf prologues
+;
+;   %1 = __g, %2 = add, %3 = mpn_addmul_1, %4 = mpn_addmul_1c
+;   %1 = __g, %2 = sub, %3 = mpn_submul_1, %4 = mpn_submul_1c
 
 %include "..\x86_64_asm.inc"
 
-%define reg_save_list       rbp, rbx, rsi
-
-%define dst    rcx
-%define len     r8
-%define mlt     r9
-%define src    r10
-%define cry    r11
-
-%define UNROLL_LOG2        4
-%define UNROLL_COUNT       (1 << UNROLL_LOG2)
-%define UNROLL_MASK        (UNROLL_COUNT - 1)
-%define  UNROLL_BYTES      (8 * UNROLL_COUNT)
-%define UNROLL_THRESHOLD   9
-
-%if UNROLL_BYTES >= 256
-%error unroll count is too large
-%elif UNROLL_BYTES >= 128
-%define off 128
-%else
-%define off 0
-%endif
+%define reg_save_list r12, r13, r14
 
 %macro   mac_sub  4
 
@@ -81,124 +61,156 @@
 %endif
 
 %1%3:
-    xor     cry,cry         ; carry = 0
-    movsxd  len,r8d
-    mov     src,rdx         ; source ptr
-    dec     len             ; test for one limb only
-    jnz     %%1             ; if more than one
-    mov     rax,[src]       ; get limb value
-    mul     mlt             ; rax * mlt -> rdx (hi), rax (lo)
-    %2     [dst],rax        ; add/sub from destination
-    adc     rdx,byte 0      ; add any carry into high word
-    mov     rax,rdx         ; and return the carry value
-    ret
+    xor     r11, r11        ; carry (0)
+    movsxd  r8, r8d
+    mov     rax, [rdx]
+    cmp     r8, 1
+    jnz     %%1
+	mul     r9
+	%2      [rcx], rax
+	adc     rdx, 0
+	mov     rax, rdx
+	ret
 
 %1%4:
-    mov     cry,[rsp+0x28]  ; carry value
-    movsxd  len,r8d
-    mov     src,rdx         ; source pointer
-    dec     len             ; test for one limb
-    jnz     %%1             ; if more than one
-    mov     rax,[src]       ; get limb value
-    mul     mlt             ; rax * mlt -> rdx (hi), rax (lo)
-    add     rax,cry         ; add in input carry
-    adc     rdx,byte 0      ; propagate it into rdx
-    %2      [dst],rax       ; add or subtract rax from dest limb
-    adc     rdx,byte 0      ; propagate carry into high word
-    mov     rax,rdx
-    ret
+    mov     r11, [rsp+0x28] ; carry value
+    movsxd  r8, r8d
+    mov     rax, [rdx]
+    cmp     r8, 1
+    jnz     %%1
+	mul     r9
+	add     rax, r11
+	adc     rdx, 0
+	%2      [rcx], rax
+	adc     rdx, 0
+	mov     rax, rdx
+	ret
 
-%%1:
-    cmp     len,byte UNROLL_THRESHOLD
-    mov     rax,[src]           ; first limb of source
-    ja      %%3                 ; unroll for many limbs
-    lea     src,[src+len*8+8]   ; next source limb
-    lea     dst,[dst+len*8]     ; current dst limb
-    neg     len
-%%2:
-    mul     mlt                 ; multiply current src limb -> rxx, rax
-    add     rax,cry             ; add in carry
-    adc     rdx,byte 0          ; propagate carry into rdx
-    %2      [dst+len*8],rax     ; add or subtract rax from dest limb
-    mov     rax,[src+len*8]     ; get next source limb
-    adc     rdx,byte 0          ; add carry or borrow into high word
-    inc     len                 ; go to next limb
-    mov     cry,rdx             ; high word -> carry
-    jnz     %%2
-    mul     mlt                 ; one more limb to do
-    add     rax,cry
-    adc     rdx,byte 0
-    %2      [dst],rax
-    adc     rdx,byte 0
-    mov     rax,rdx             ; return carry value as a limb
-    ret
+%%1:prologue %2xx, 0, reg_save_list
+    xor     r13, r13
+    mov     r10, rdx
+    sub     r8, 5
+    lea     r10, [r10+r8*8]
+    lea     rcx, [rcx+r8*8]
+    neg     r8
+    mul     r9
+    add     r11, rax
+    mov     rax, [8+r10+r8*8]
+    adc     r13, rdx
+    cmp     r8, 0
+    jge     %%3
 
-%define  jmp_val  rbp           ; jump into code sequence
-%define rep_cnt   rbx           ; repeats for full sequence
-%define cry_hi rsi              ; second carry for alternate block
+    align   16
+%%2:mov     r12d, 0
+	mul     r9
+	%2      [rcx+r8*8], r11
+	adc     r13, rax
+	adc     r12, rdx
+	mov     rax, [16+r10+r8*8]
+	mul     r9
+	%2     [8+rcx+r8*8], r13
+	adc     r12, rax
+	mov     r14d, 0
+	adc     r14, rdx
+	mov     rax, [24+r10+r8*8]
+	mov     r11d, 0
+	mov     r13d, 0
+	mul     r9
+	%2      [16+rcx+r8*8], r12
+	adc     r14, rax
+	adc     r11, rdx
+	mov     rax, [32+r10+r8*8]
+ 	mul     r9
+	%2      [24+rcx+r8*8], r14
+	adc     r11, rax
+	adc     r13, rdx
+	add     r8, 4
+	mov     rax, [8+r10+r8*8]
+	jnc     %%2
 
-%%3:
-prologue %3%4, 0, reg_save_list
-    lea     rep_cnt,[len-2]
-    dec     len
-    shr     rep_cnt,UNROLL_LOG2
-    neg     len
-    and     len,UNROLL_MASK
-    mov     jmp_val,len
-    mov     cry_hi,len              ; cry_hi and jmp_val are temporary
-    shl     jmp_val,2               ; values for calculating the jump
-    shl     cry_hi,4                ; offset into the unrolled code
-    lea     cry_hi,[cry_hi+jmp_val]
-    lea     jmp_val,[rel %%4]
-    lea     jmp_val,[jmp_val+cry_hi]
-    neg     len
-    mul     mlt
-    add     cry,rax                 ; initial carry, becomes low carry
-    adc     rdx,byte 0
-    mov     cry_hi,rdx
-    test    len,1
-    mov     rax,[src+8]             ; src second limb
-    lea     src,[src+len*8+off+16]
-    lea     dst,[dst+len*8+off]
-    cmovnz  cry_hi,cry              ; high, low carry other way around
-    cmovnz  cry,rdx
-    xor     len,len
-    jmp     jmp_val
+%%3:jz      %%7
+    jp      %%5
+    cmp     r8, 1
+    je      %%6
 
-%%4:
-%define CHUNK_COUNT  2
-%assign i 0
-%rep  UNROLL_COUNT / CHUNK_COUNT
-%assign  disp0 8 * i * CHUNK_COUNT - off
+%%4:mov     r12d, 0
+	mul     r9
+	%2      [rcx+r8*8],r11
+	adc     r13, rax
+	adc     r12, rdx
+	mov     rax, [16+r10+r8*8]
+	mul     r9
+	%2      [8+rcx+r8*8], r13
+	adc     r12, rax
+	mov     r14d, 0
+	adc     r14, rdx
+	%2      [16+rcx+r8*8], r12
+	adc     r14, 0
+	mov     rax, r14
+	jmp     %%8
 
-    mul     mlt
-    %2      [byte dst+disp0],cry
-    mov     cry,len                 ; len = 0
-    adc     cry_hi,rax
-    mov     rax,[byte src+disp0]
-    adc     cry,rdx
-    mul     mlt
-    %2      [byte dst+disp0+8],cry_hi
-    mov     cry_hi,len              ; len = 0
-    adc     cry,rax
-    mov     rax,[byte src+disp0+8]
-    adc     cry_hi,rdx
+    align   16
+%%5:mov     r12d, 0
+	mul     r9
+	%2      [rcx+r8*8], r11
+	adc     r13, rax
+	adc     r12, rdx
+	%2      [8+rcx+r8*8], r13
+	adc     r12, 0
+	mov     rax, r12
+	jmp     %%8
 
-%assign i   i + 1
-%endrep
+	align   16
+%%6:mov     r12d, 0
+	mul     r9
+	%2      [rcx+r8*8], r11
+	adc     r13, rax
+	adc     r12, rdx
+	mov     rax, [16+r10+r8*8]
+	mul     r9
+	%2      [8+rcx+r8*8], r13
+	adc     r12, rax
+	mov     r14d, 0
+	adc     r14, rdx
+	mov     rax, [24+r10+r8*8]
+	mov     r11d, 0
+	mul     r9
+	%2      [16+rcx+r8*8], r12
+	adc     r14, rax
+	adc     r11, rdx
+	%2      [24+rcx+r8*8], r14
+	adc     r11, 0
+	mov     rax, r11
+	jmp     %%8
 
-    dec     rep_cnt
-    lea     src,[src+UNROLL_BYTES]
-    lea     dst,[dst+UNROLL_BYTES]
-    jns     %%4
-    mul     mlt
-    %2      [dst-off],cry
-    adc     rax,cry_hi
-    adc     rdx,len
-    %2      [dst-off+8],rax
-    adc     rdx,len
-    mov     rax,rdx
-    epilogue reg_save_list 
+    align   16
+%%7:mov     r12d, 0
+	mul     r9
+	%2      [rcx+r8*8], r11
+	adc     r13, rax
+	adc     r12, rdx
+	mov     rax, [16+r10+r8*8]
+	mul     r9
+	%2      [8+rcx+r8*8], r13
+	adc     r12, rax
+	mov     r14d, 0
+	adc     r14, rdx
+	mov     rax, [24+r10+r8*8]
+	mov     r11d, 0
+	mov     r13d, 0
+	mul     r9
+	%2      [16+rcx+r8*8], r12
+	adc     r14, rax
+	adc     r11, rdx
+	mov     rax, [32+r10+r8*8]
+	mul     r9
+	%2      [24+rcx+r8*8], r14
+	adc     r11, rax
+	adc     r13, rdx
+	%2      [32+rcx+r8*8], r11
+	adc     r13, 0
+	mov     rax, r13
+%%8:epilogue reg_save_list
 
 %endmacro
 

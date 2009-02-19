@@ -80,14 +80,14 @@ mpz_fib_ui (mpz_ptr fn, unsigned long n)
       /* F[2k+1] = (2F[k]+F[k-1])*(2F[k]-F[k-1]) + 2*(-1)^k  */
       mp_size_t  xsize, ysize;
 
-#if HAVE_NATIVE_mpn_addsub_n
-      xp[size] = mpn_lshift (xp, xp, size, 1);
+#if HAVE_NATIVE_mpn_sumdiff_n
+      xp[size] = mpn_lshift1 (xp, xp, size);
       yp[size] = 0;
-      ASSERT_NOCARRY (mpn_addsub_n (xp, yp, xp, yp, size+1));
+      ASSERT_NOCARRY (mpn_sumdiff_n (xp, yp, xp, yp, size+1));
       xsize = size + (xp[size] != 0);
       ysize = size + (yp[size] != 0);
 #else
-      c2 = mpn_lshift (fp, xp, size, 1);
+      c2 = mpn_lshift1 (fp, xp, size);
       c = c2 + mpn_add_n (xp, fp, yp, size);
       xp[size] = c;
       xsize = size + (c != 0);
@@ -123,7 +123,7 @@ mpz_fib_ui (mpz_ptr fn, unsigned long n)
       /* F[2k] = F[k]*(F[k]+2F[k-1]) */
 
       mp_size_t  xsize, ysize;
-      c = mpn_lshift (yp, yp, size, 1);
+      c = mpn_lshift1 (yp, yp, size);
       c += mpn_add_n (yp, yp, xp, size);
       yp[size] = c;
       xsize = size;

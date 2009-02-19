@@ -52,6 +52,7 @@
 				RuntimeLibrary="1"
 				UsePrecompiledHeader="0"
 				DebugInformationFormat="0"
+				CompileAs="2"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -126,6 +127,7 @@
 				RuntimeLibrary="1"
 				UsePrecompiledHeader="0"
 				DebugInformationFormat="0"
+				CompileAs="2"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -199,6 +201,7 @@
 				RuntimeLibrary="0"
 				UsePrecompiledHeader="0"
 				DebugInformationFormat="0"
+				CompileAs="2"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -275,6 +278,7 @@
 				RuntimeLibrary="0"
 				UsePrecompiledHeader="0"
 				DebugInformationFormat="0"
+				CompileAs="2"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"

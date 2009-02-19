@@ -552,6 +552,16 @@ speed_mpn_rshift (struct speed_params *s)
   SPEED_ROUTINE_MPN_UNARY_1 (mpn_rshift);
 }
 
+double
+speed_mpn_lshift1 (struct speed_params *s)
+{
+  SPEED_ROUTINE_MPN_LSHIFT1 (mpn_lshift1);
+}
+double
+speed_mpn_rshift1 (struct speed_params *s)
+{
+  SPEED_ROUTINE_MPN_RSHIFT1 (mpn_rshift1);
+}
 
 /* The carry-in variants (if available) are good for measuring because they
    won't skip a division if high<divisor.  Alternately, use -1 as a divisor
@@ -675,6 +685,12 @@ speed_mpn_divexact_by3 (struct speed_params *s)
   SPEED_ROUTINE_MPN_COPY (mpn_divexact_by3);
 }
 
+double
+speed_mpn_divexact_byff (struct speed_params *s)
+{
+  SPEED_ROUTINE_MPN_COPY (mpn_divexact_byff);
+}
+
 #if HAVE_NATIVE_mpn_modexact_1_odd
 double
 speed_mpn_modexact_1_odd (struct speed_params *s)
@@ -740,7 +756,7 @@ speed_mpz_mod (struct speed_params *s)
 double
 speed_redc (struct speed_params *s)
 {
-  SPEED_ROUTINE_REDC (redc);
+  SPEED_ROUTINE_REDC (mpn_redc_basecase);
 }
 
 
@@ -767,11 +783,27 @@ speed_mpn_sub_n (struct speed_params *s)
 SPEED_ROUTINE_MPN_BINARY_N (mpn_sub_n);
 }
 
+#if HAVE_NATIVE_mpn_addadd_n
+double
+speed_mpn_addadd_n (struct speed_params *s)
+{
+  SPEED_ROUTINE_MPN_TRINARY_N (mpn_addadd_n);
+}
+#endif
+  
 #if HAVE_NATIVE_mpn_addsub_n
 double
 speed_mpn_addsub_n (struct speed_params *s)
 {
-  SPEED_ROUTINE_MPN_ADDSUB_N_CALL (mpn_addsub_n (ap, sp, s->xp, s->yp, s->size));
+  SPEED_ROUTINE_MPN_TRINARY_N (mpn_addsub_n);
+}
+#endif
+
+#if HAVE_NATIVE_mpn_sumdiff_n
+double
+speed_mpn_sumdiff_n (struct speed_params *s)
+{
+  SPEED_ROUTINE_MPN_SUMDIFF_N_CALL (mpn_sumdiff_n (ap, sp, s->xp, s->yp, s->size));
 }
 #endif
 

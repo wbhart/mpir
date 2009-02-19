@@ -33,22 +33,22 @@ OFILES = @mpn_objects@
 # a particular target.
 #
 nodist_EXTRA_libmpn_la_SOURCES =					    \
-  add.c add_1.c add_n.c							    \
+  add.c add_1.c add_n.c addadd_n.c addsub_n.c				    \
   addmul_1.c addmul_2.c addmul_3.c addmul_4.c addmul_5.c addmul_6.c	    \
   addmul_7.c addmul_8.c							    \
   and_n.c andn_n.c bdivmod.c						    \
   cmp.c com_n.c copyd.c copyi.c						    \
-  dc_divrem_n.c dive_1.c diveby3.c divis.c divrem.c divrem_1.c divrem_2.c   \
-  dump.c fib2_ui.c							    \
+  dc_divrem_n.c dive_1.c diveby3.c divebyff.c divis.c divrem.c divrem_1.c	\
+  divrem_2.c dump.c fib2_ui.c							\
   bgcd.c gcd.c	hgcd.c hgcd2.c lgcd.c ngcd.c ngcd_matrix.c ngcd_step.c      \
   nhgcd2.c rgcd.c sgcd.c                                                    \
   gcd_finda.c gcd_1.c gcdext.c get_d.c get_str.c			    \
-  hamdist.c invert_limb.c				    \
+  hamdist.c invert_limb.c lshift1.c rshift1.c				    \
   ior_n.c iorn_n.c jacbase.c lshift.c mod_1.c mod_34lsub1.c mode1o.c	    \
   mul.c mul_1.c mul_2.c mul_fft.c mul_n.c mul_basecase.c		    \
   mullow_n.c mullow_basecase.c nand_n.c nior_n.c perfsqr.c popcount.c	    \
   pre_divrem_1.c pre_mod_1.c pow_1.c random.c random2.c rshift.c   \
-  rootrem.c sb_divrem_mn.c scan0.c scan1.c set_str.c			    \
+  rootrem.c redc_basecase.c sb_divrem_mn.c scan0.c scan1.c set_str.c	    \
   sqr_basecase.c sqr_diagonal.c						    \
   sqrtrem.c sub.c sub_1.c sub_n.c submul_1.c				    \
   tdiv_qr.c udiv_qrnnd.c udiv_w_sdiv.c xor_n.c xnor_n.c

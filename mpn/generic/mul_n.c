@@ -9,6 +9,8 @@
 Copyright 1991, 1993, 1994, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003,
 2005, Free Software Foundation, Inc.
 
+Copyright 2009 Jason Moxham
+
 This file is part of the GNU MP Library.
 
 The GNU MP Library is free software; you can redistribute it and/or modify
@@ -40,11 +42,11 @@ MA 02110-1301, USA. */
 void
 mpn_kara_mul_n (mp_ptr p, mp_srcptr a, mp_srcptr b, mp_size_t n, mp_ptr ws)
 {
-  mp_limb_t w, w0, w1;
+  mp_limb_t w, w0, w1,c;
   mp_size_t n2;
   mp_srcptr x, y;
   mp_size_t i;
-  int sign;
+  int sign, ci;
 
   n2 = n >> 1;
   ASSERT (n2 > 0);
@@ -135,19 +137,43 @@ mpn_kara_mul_n (mp_ptr p, mp_srcptr a, mp_srcptr b, mp_size_t n, mp_ptr ws)
 	  mpn_kara_mul_n (p + n1, a + n3, b + n3, n2, ws + n1);
 	}
 
-      if (sign)
-	mpn_add_n (ws, p, ws, n1);
-      else
-	mpn_sub_n (ws, p, ws, n1);
-
       nm1 = n - 1;
-      if (mpn_add_n (ws, p + n1, ws, nm1))
+      if (sign)
 	{
-	  mp_limb_t x = (ws[nm1] + 1) & GMP_NUMB_MASK;
-	  ws[nm1] = x;
-	  if (x == 0)
-	    ws[n] = (ws[n] + 1) & GMP_NUMB_MASK;
+	 #if HAVE_NATIVE_mpn_addadd_n
+	   c=mpn_addadd_n(ws,p+n1,p,ws,nm1);
+  	   #if GMP_NAIL_BITS==0
+  	     add_ssaaaa(ws[n],ws[nm1],ws[n],ws[nm1],p[n],p[nm1]);
+  	     add_ssaaaa(ws[n],ws[nm1],ws[n],ws[nm1],0,c);
+  	   #else
+  	     mpn_add_n(ws+nm1, p+nm1, ws+nm1 ,2);
+  	     mpn_add_1(ws+nm1,ws+nm1,2,c);
+  	   #endif
+	 #else
+	   mpn_add_n (ws, p, ws, n1);
+	   c=mpn_add_n (ws, p + n1, ws, nm1);
+	   if(c){mp_limb_t x=(ws[nm1]+1) & GMP_NUMB_MASK;ws[nm1]=x;if(x==0)ws[n]=(ws[n]+1) & GMP_NUMB_MASK;}
+	 #endif
 	}
+      else
+	{
+	 #if HAVE_NATIVE_mpn_addsub_n
+           ci=mpn_addsub_n(ws,p+n1,p,ws,nm1);
+           #if GMP_NAIL_BITS==0
+             sub_ddmmss(ws[n],ws[nm1],p[n],p[nm1],ws[n],ws[nm1]);//mpn_sub_n(ws+nm1,p+nm1,ws+nm1,2);
+             if(ci==-1)sub_ddmmss(ws[n],ws[nm1],ws[n],ws[nm1],0,1);//mpn_sub_1(ws+nm1,ws+nm1,2,1);
+             if(ci== 1)add_ssaaaa(ws[n],ws[nm1],ws[n],ws[nm1],0,1);//mpn_add_1(ws+nm1,ws+nm1,2,1);
+           #else
+             mpn_sub_n(ws+nm1,p+nm1,ws+nm1,2);
+             if(ci==-1)mpn_sub_1(ws+nm1,ws+nm1,2,1);
+             if(ci== 1)mpn_add_1(ws+nm1,ws+nm1,2,1);
+           #endif
+         #else
+	   mpn_sub_n (ws, p, ws, n1);
+	   c=mpn_add_n (ws, p + n1, ws, nm1);
+	   if(c){mp_limb_t x=(ws[nm1]+1) & GMP_NUMB_MASK;ws[nm1]=x;if(x==0)ws[n]=(ws[n]+1) & GMP_NUMB_MASK;}
+         #endif
+        }      
       if (mpn_add_n (p + n3, p + n3, ws, n1))
 	{
 	  mpn_incr_u (p + n1 + n3, 1);
@@ -214,11 +240,26 @@ mpn_kara_mul_n (mp_ptr p, mp_srcptr a, mp_srcptr b, mp_size_t n, mp_ptr ws)
 	}
 
       /* Interpolate. */
+          
       if (sign)
-	w = mpn_add_n (ws, p, ws, n);
+	{
+	 #if HAVE_NATIVE_mpn_addadd_n
+	 w=mpn_addadd_n(ws,p+n,p,ws,n);
+	 #else 
+	 w = mpn_add_n (ws, p, ws, n);
+         w += mpn_add_n (ws, p + n, ws, n);
+         #endif
+        }
       else
-	w = -mpn_sub_n (ws, p, ws, n);
-      w += mpn_add_n (ws, p + n, ws, n);
+	{
+	 #if HAVE_NATIVE_mpn_addsub_n
+	 w=mpn_addsub_n(ws,p+n,p,ws,n);
+	 #else
+	 w = -mpn_sub_n (ws, p, ws, n);
+         w += mpn_add_n (ws, p + n, ws, n);
+         #endif         
+        }
+     
       w += mpn_add_n (p + n2, p + n2, ws, n);
       MPN_INCR_U (p + n2 + n, 2 * n - (n2 + n), w);
     }
@@ -227,7 +268,8 @@ mpn_kara_mul_n (mp_ptr p, mp_srcptr a, mp_srcptr b, mp_size_t n, mp_ptr ws)
 void
 mpn_kara_sqr_n (mp_ptr p, mp_srcptr a, mp_size_t n, mp_ptr ws)
 {
-  mp_limb_t w, w0, w1;
+  mp_limb_t w, w0, w1, c;
+  int ci;
   mp_size_t n2;
   mp_srcptr x, y;
   mp_size_t i;
@@ -301,16 +343,24 @@ mpn_kara_sqr_n (mp_ptr p, mp_srcptr a, mp_size_t n, mp_ptr ws)
 	 carry from ws[n].  Further, since 2xy fits in n1 limbs there won't
 	 be any carry out of ws[n] other than cancelling that borrow. */
 
-      mpn_sub_n (ws, p, ws, n1);	     /* x^2-(x-y)^2 */
+      nm1=n-1;
+      #if HAVE_NATIVE_mpn_addsub_n
+        ci=mpn_addsub_n(ws,p+n1,p,ws,nm1);
+        #if GMP_NAIL_BITS==0
+          sub_ddmmss(ws[n],ws[nm1],p[n],p[nm1],ws[n],ws[nm1]);//mpn_sub_n(ws+nm1,p+nm1,ws+nm1,2);
+          if(ci==-1)sub_ddmmss(ws[n],ws[nm1],ws[n],ws[nm1],0,1);//mpn_sub_1(ws+nm1,ws+nm1,2,1);
+          if(ci==1)add_ssaaaa(ws[n],ws[nm1],ws[n],ws[nm1],0,1);//mpn_add_1(ws+nm1,ws+nm1,2,1);
+        #else
+          mpn_sub_n(ws+nm1,p+nm1,ws+nm1,2);
+          if(ci==-1)mpn_sub_1(ws+nm1,ws+nm1,2,1);
+          if(ci==1)mpn_add_1(ws+nm1,ws+nm1,2,1);        
+        #endif
+      #else
+        mpn_sub_n (ws, p, ws, n1);/*   x^2-(x-y)^2   */
+        c=mpn_add_n (ws, p + n1, ws, nm1);/*  x^2+y^2-(x-y)^2 = 2xy    */
+        if(c){mp_limb_t x = (ws[nm1] + 1) & GMP_NUMB_MASK;ws[nm1] = x; if (x == 0) ws[n] = (ws[n] + 1) & GMP_NUMB_MASK;}
+      #endif
 
-      nm1 = n - 1;
-      if (mpn_add_n (ws, p + n1, ws, nm1))   /* x^2+y^2-(x-y)^2 = 2xy */
-	{
-	  mp_limb_t x = (ws[nm1] + 1) & GMP_NUMB_MASK;
-	  ws[nm1] = x;
-	  if (x == 0)
-	    ws[n] = (ws[n] + 1) & GMP_NUMB_MASK;
-	}
       if (mpn_add_n (p + n3, p + n3, ws, n1))
 	{
 	  mpn_incr_u (p + n1 + n3, 1);
@@ -360,8 +410,12 @@ mpn_kara_sqr_n (mp_ptr p, mp_srcptr a, mp_size_t n, mp_ptr ws)
 	}
 
       /* Interpolate. */
+      #if HAVE_NATIVE_mpn_addsub_n
+      w=mpn_addsub_n(ws,p+n,p,ws,n);      
+      #else      
       w = -mpn_sub_n (ws, p, ws, n);
       w += mpn_add_n (ws, p + n, ws, n);
+      #endif
       w += mpn_add_n (p + n2, p + n2, ws, n);
       MPN_INCR_U (p + n2 + n, 2 * n - (n2 + n), w);
     }
@@ -432,7 +486,7 @@ toom3_interpolate (mp_ptr c, mp_srcptr v1, mp_ptr v2, mp_ptr vm1,
   MPN_INCR_U (v2 + twok - 1, 2, cy << (GMP_NUMB_BITS - 1));
 #else
   v2[twok] += mpn_add_n (v2, v2, v0, twok);
-  mpn_rshift (v2, v2, kk1, 1);
+  mpn_rshift1 (v2, v2, kk1);
 #endif
 
   /* {c,2k} {c+2k,2k+1} {c+4k+1,2r-1} {t,2k+1} {t+2k+1,2k+1} {t+4k+2,2r}
@@ -449,7 +503,7 @@ toom3_interpolate (mp_ptr c, mp_srcptr v1, mp_ptr v2, mp_ptr vm1,
       mpn_rsh1add_n (vm1, v1, vm1, kk1);
 #else
       mpn_add_n (vm1, vm1, v1, kk1);
-      mpn_rshift (vm1, vm1, kk1, 1);
+      mpn_rshift1 (vm1, vm1, kk1);
 #endif
     }
   else
@@ -458,7 +512,7 @@ toom3_interpolate (mp_ptr c, mp_srcptr v1, mp_ptr v2, mp_ptr vm1,
       mpn_rsh1sub_n (vm1, v1, vm1, kk1);
 #else
       mpn_sub_n (vm1, v1, vm1, kk1);
-      mpn_rshift (vm1, vm1, kk1, 1);
+      mpn_rshift1 (vm1, vm1, kk1);
 #endif
     }
 
@@ -472,7 +526,7 @@ toom3_interpolate (mp_ptr c, mp_srcptr v1, mp_ptr v2, mp_ptr vm1,
 #ifdef HAVE_NATIVE_mpn_sublsh1_n
   cy = mpn_sublsh1_n (v2, v2, c4, twor);
 #else
-  cy = mpn_lshift (ws, c4, twor, 1);
+  cy = mpn_lshift1 (ws, c4, twor);
   cy += mpn_sub_n (v2, v2, ws, twor);
 #endif
   MPN_DECR_U (v2 + twor, kk1 - twor, cy);
@@ -689,8 +743,8 @@ mpn_toom3_mul_n (mp_ptr c, mp_srcptr a, mp_srcptr b, mp_size_t n, mp_ptr t)
   c1[0] = 2 * c1[0] + mpn_addlsh1_n (c, a, c, k);
   c5[2] = 2 * c5[2] + mpn_addlsh1_n (c4 + 2, b, c4 + 2, k);
 #else
-  c[r] = mpn_lshift (c, a + twok, r, 1);
-  c4[r + 2] = mpn_lshift (c4 + 2, b + twok, r, 1);
+  c[r] = mpn_lshift1 (c, a + twok, r);
+  c4[r + 2] = mpn_lshift1 (c4 + 2, b + twok, r);
   if (r < k)
     {
       MPN_ZERO(c + r + 1, k - r);
@@ -698,8 +752,8 @@ mpn_toom3_mul_n (mp_ptr c, mp_srcptr a, mp_srcptr b, mp_size_t n, mp_ptr t)
     }
   c1[0] += mpn_add_n (c, c, a + k, k);
   c5[2] += mpn_add_n (c4 + 2, c4 + 2, b + k, k);
-  mpn_lshift (c, c, k1, 1);
-  mpn_lshift (c4 + 2, c4 + 2, k1, 1);
+  mpn_lshift1 (c, c, k1);
+  mpn_lshift1 (c4 + 2, c4 + 2, k1);
   c1[0] += mpn_add_n (c, c, a, k);
   c5[2] += mpn_add_n (c4 + 2, c4 + 2, b, k);
 #endif
@@ -730,7 +784,7 @@ mpn_toom3_mul_n (mp_ptr c, mp_srcptr a, mp_srcptr b, mp_size_t n, mp_ptr t)
       mpn_addlsh1_n (v2, v2, c2, kk1);
 #else
       /* we can use vinf=t+4k+2 as workspace since it is not full yet */
-      mpn_lshift (vinf, c2, kk1, 1);
+      mpn_lshift1 (vinf, c2, kk1);
       mpn_add_n (v2, v2, vinf, kk1);
 #endif
     }
@@ -740,7 +794,7 @@ mpn_toom3_mul_n (mp_ptr c, mp_srcptr a, mp_srcptr b, mp_size_t n, mp_ptr t)
       mpn_sublsh1_n (v2, v2, c2, kk1);
 #else
       /* we can use vinf=t+4k+2 as workspace since it is not full yet */
-      mpn_lshift (vinf, c2, kk1, 1);
+      mpn_lshift1 (vinf, c2, kk1);
       mpn_sub_n (v2, v2, vinf, kk1);
 #endif
     }
@@ -812,11 +866,11 @@ mpn_toom3_sqr_n (mp_ptr c, mp_srcptr a, mp_size_t n, mp_ptr t)
     __GMPN_ADD_1 (c1[0], c + r, a + k + r, k - r, c1[0]);
   c1[0] = 2 * c1[0] + mpn_addlsh1_n (c, a, c, k);
 #else
-  c[r] = mpn_lshift (c, a + twok, r, 1);
+  c[r] = mpn_lshift1 (c, a + twok, r);
   if (r < k)
     MPN_ZERO(c + r + 1, k - r);
   c1[0] += mpn_add_n (c, c, a + k, k);
-  mpn_lshift (c, c, k1, 1);
+  mpn_lshift1 (c, c, k1);
   c1[0] += mpn_add_n (c, c, a, k);
 #endif
 
@@ -827,7 +881,7 @@ mpn_toom3_sqr_n (mp_ptr c, mp_srcptr a, mp_size_t n, mp_ptr t)
 #ifdef HAVE_NATIVE_mpn_addlsh1_n
   mpn_addlsh1_n (v2, v2, c2, kk1);
 #else
-  mpn_lshift (t + 4 * k + 2, c2, kk1, 1);
+  mpn_lshift1 (t + 4 * k + 2, c2, kk1);
   mpn_add_n (v2, v2, t + 4 * k + 2, kk1);
 #endif
 
