@@ -22,6 +22,7 @@
 
 #include "mpir.h"
 #include "gmp-impl.h"
+#include "longlong.h"
 
 mp_limb_t	mpn_divexact_by3c(mp_ptr qp,mp_srcptr xp,mp_size_t n,mp_limb_t ci)
 {mp_size_t j;mp_limb_t c,m,acc,ax,dx;
