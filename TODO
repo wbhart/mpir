@@ -14,3 +14,9 @@ need proper speed tuning for redc_basecase and powm , not the hack that we
 have at the mo
 
 for K10 , check tests/try does the different alignments for the shifts
+
+tune params
+
+test on core2
+
+go thru our changes list see what merge did
