@@ -19,7 +19,7 @@
 ;  License along with the MPIR Library; see the file COPYING.LIB.  If
 ;  not, write to the Free Software Foundation, Inc., 51 Franklin Street,
 ;  Fifth Floor, Boston, MA 02110-1301, USA.
-
+;
 ; mp_limb_t mpn_modexact_1_odd (mp_srcptr src, mp_size_t size,
 ;                               mp_limb_t divisor);
 ; mp_limb_t mpn_modexact_1c_odd (mp_srcptr src, mp_size_t size,

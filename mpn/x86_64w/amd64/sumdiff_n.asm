@@ -4,8 +4,8 @@
 ;
 ;  Copyright 2008 Jason Moxham
 ;
-;  Windows Converdxon CopyRight 2008 Brian Gladman
-
+;  Windows Converdxon Copyright 2008 Brian Gladman
+;
 ;  This file is part of the MPIR Library.
 ;  The MPIR Library is free software; you can redistribute it and/or modify
 ;  it under the terms of the GNU Lesser General Public License as published
@@ -19,7 +19,7 @@
 ;  along with the MPIR Library; see the file COPYING.LIB.  If not, write
 ;  to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 ;  Boston, MA 02110-1301, USA.
-
+;
 ;  Calling interface (GCC):
 ;
 ;       rcx[r10] = r8[r10] + r9[r10]

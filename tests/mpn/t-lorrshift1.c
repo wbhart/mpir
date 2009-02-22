@@ -33,11 +33,11 @@ main (void)
   unsigned long n;
   gmp_randstate_ptr rands;
   int j, i1, k1, k2;
+  mp_limb_t xp[10000], zp[10000], cp[10000];
 
   tests_start ();
   rands = RANDS;
 
-  mp_limb_t xp[10000], zp[10000], cp[10000];
 
   for (i1 = 0; i1 < 2; i1++)
     {

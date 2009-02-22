@@ -29,11 +29,11 @@ dnl  Boston, MA 02110-1301, USA.
 int
 main (void)
 {unsigned long n;gmp_randstate_ptr rands;int j,k,i,i1;
+ mp_limb_t sp[10000],tp[10000],xp[10000],yp[10000],zp[10000];
  
   tests_start ();
   rands=RANDS;
 
-mp_limb_t sp[10000],tp[10000],xp[10000],yp[10000],zp[10000];
 
 #if HAVE_NATIVE_mpn_addsub_n
 for(i1=0;i1<2;i1++){

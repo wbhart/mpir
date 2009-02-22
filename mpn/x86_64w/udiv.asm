@@ -17,7 +17,7 @@
 ;  License along with the MPIR Library; see the file COPYING.LIB.  If
 ;  not, write to the Free Software Foundation, Inc., 51 Franklin Street,
 ;  Fifth Floor, Boston, MA 02110-1301, USA.
-
+;
 ;  x86 mpn_udiv_qrnnd -- 2 by 1 limb division
 ;
 ;  mp_limb_t mpn_udiv_qrnnd (

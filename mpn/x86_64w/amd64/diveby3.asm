@@ -3,7 +3,7 @@
 ; Version 1.0.4.
 ;
 ;  Copyright 2008 Jason Moxham and Brian Gladman
-
+;
 ;  This file is part of the MPIR Library.
 ;  The MPIR Library is free software; you can redistribute it and/or modify
 ;  it under the terms of the GNU Lesser General Public License as published
@@ -17,7 +17,7 @@
 ;  along with the MPIR Library; see the file COPYING.LIB.  If not, write
 ;  to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 ;  Boston, MA 02110-1301, USA.
-
+;
 ;  Calling interface:
 ;
 ; mp_limb_t mpn_divexact_by3c (
@@ -72,10 +72,12 @@ __g%1:
 	mov     r8d, 3
 	lea     r10, [rdx+rax*8-24]
 	lea     rcx, [rcx+rax*8-24]
+	mov     r11, MLT%2
 %if %0 == 2
     xor     r9, r9
+%else
+	imul    r9, r11
 %endif
-	mov     r11, MLT%2
 	sub     r8, rax
 	jnc     %%2
 
@@ -99,7 +101,8 @@ __g%1:
 	jnz     %%4
 	mul_sub%2 0
 
-%%4:mov     rax, r9
+%%4:lea     rax, [r9+r9*2]
+    neg     rax
 	ret
 
 %endmacro
@@ -108,6 +111,6 @@ __g%1:
     section .text
 
     div_by_3  mpn_divexact_by3,  1
-    div_by_3  mpn_divexact_by3c, 2, 1
+    div_by_3  mpn_divexact_by3c, 1, 1
 
     end

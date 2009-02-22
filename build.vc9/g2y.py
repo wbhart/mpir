@@ -325,7 +325,7 @@ def pass_three(code, labels, macros) :
   return lo
 
 def form_path(p) :
-  n = string.rfind(p, '\\', 0, -1)
+  n = str.rfind(p, '\\', 0, -1)
   if n != -1 :
     if not os.path.exists(p[ : n + 1]) :
       form_path(p[ : n + 1])

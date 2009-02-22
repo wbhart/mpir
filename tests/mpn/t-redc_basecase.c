@@ -46,9 +46,9 @@ main (void)
 { 
   gmp_randstate_ptr rands;
   int j,n;
+  mp_limb_t cp1[1000], cp2[1000], mp[1000],tp1[1000],tp2[1000],inv;
   tests_start ();
   rands = RANDS;
-  mp_limb_t cp1[1000], cp2[1000], mp[1000],tp1[1000],tp2[1000],inv;
 
   for(n=1;n<100;n++)
      {for(j=1;j<100;j++)

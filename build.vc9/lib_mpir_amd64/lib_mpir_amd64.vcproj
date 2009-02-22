@@ -2413,6 +2413,28 @@
 					</FileConfiguration>
 				</File>
 				<File
+					RelativePath="..\..\mpn\generic\divebyff.c"
+					>
+					<FileConfiguration
+						Name="Debug|x64"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|x64"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
 					RelativePath="..\..\mpn\generic\divis.c"
 					>
 					<FileConfiguration
@@ -3162,6 +3184,28 @@
 					</FileConfiguration>
 				</File>
 				<File
+					RelativePath="..\..\mpn\generic\redc_basecase.c"
+					>
+					<FileConfiguration
+						Name="Debug|x64"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|x64"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
 					RelativePath="..\..\mpn\generic\rgcd.c"
 					>
 					<FileConfiguration
@@ -3600,6 +3644,10 @@
 						>
 					</File>
 					<File
+						RelativePath="..\..\mpn\x86_64w\amd64\divebyff.asm"
+						>
+					</File>
+					<File
 						RelativePath="..\..\mpn\x86_64w\amd64\lshift.asm"
 						>
 					</File>
@@ -3634,6 +3682,24 @@
 					<File
 						RelativePath="..\..\mpn\x86_64w\amd64\mul_basecase.asm"
 						>
+					</File>
+					<File
+						RelativePath="..\..\mpn\x86_64w\amd64\redc_basecase.asm"
+						>
+						<FileConfiguration
+							Name="Debug|x64"
+							>
+							<Tool
+								Name="YASM"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release|x64"
+							>
+							<Tool
+								Name="YASM"
+							/>
+						</FileConfiguration>
 					</File>
 					<File
 						RelativePath="..\..\mpn\x86_64w\amd64\rshift.asm"
