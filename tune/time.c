@@ -948,7 +948,7 @@ speed_time_init (void)
       use_cycles = 1;
       DEFAULT (speed_cycletime, 1.0);
       speed_unittime = speed_cycletime;
-      DEFAULT (speed_precision, 10000);
+      DEFAULT (speed_precision, 1000000);
       strcpy (speed_time_string, "CPU cycle counter");
 
       /* only used if a supplementary method is chosen below */

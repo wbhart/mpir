@@ -1,10 +1,6 @@
 should addsub return int or limb ?
 
-Test everything for alignment and speed on K10
-
 should the new function be entered in the fat structure?
-
-for K10 , check tests/try does the different alignments for the shifts
 
 tune params on K8,K10,core2,Pentium D
 
