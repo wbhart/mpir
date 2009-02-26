@@ -77,7 +77,7 @@
 .2:	cmp     r10, 0
 	jz      .4
 
-	align   16
+	alignb  16, nop
 .3:	add     rax, 1
 	mov     r12, [r8+r10*8]
 	mov     r14, [r8+r10*8+8]

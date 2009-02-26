@@ -61,7 +61,7 @@ __gmpn_divexact_byff:
 .1: sbb     rax, 0
 	ret
 
-	align   16
+	alignb  16, nop
 .2:	sbb     rax, [rdx]
 	mov     [rcx], rax
 	sbb     rax, [rdx+8]

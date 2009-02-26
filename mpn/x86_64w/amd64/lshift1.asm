@@ -52,9 +52,9 @@
 ; and clear carry flag
 	cmp     r8, 0
 	jz      .2
-	align   16
-.1:
-	mov     r10, [rdx]
+	
+	alignb  16, nop
+.1:	mov     r10, [rdx]
 	mov     r11, [rdx+8]
 	mov     r12, [rdx+16]
 	mov     r13, [rdx+24]

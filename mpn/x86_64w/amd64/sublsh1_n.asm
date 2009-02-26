@@ -73,7 +73,7 @@
 .2: cmp     r9, 0
 	jz      .4
 
-	align   16
+	alignb  16, nop
 .3: mov     r11, [rdx+r9*8]
 	mov     r12, [rdx+r9*8+8]
 	mov     r13, [rdx+r9*8+16]

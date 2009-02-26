@@ -59,7 +59,7 @@ __gmpn_lshift:
 	psllq   mm3, mm0
 	jbe     .2
 
-	align   16
+	alignb  16, nop
 .1: movq    mm2, [rdx+r8*8+16]
 	movq    mm4, mm2
 	psrlq   mm2, mm1

@@ -80,7 +80,7 @@
 .2:	cmp     r10, 0
 	jz      .4
 
-	align   16
+	alignb  16, nop
 .3:	mov     rax, [r8+r10*8]
 	mov     rsi, [r8+r10*8+8]
 	mov     rdi, [r8+r10*8+16]

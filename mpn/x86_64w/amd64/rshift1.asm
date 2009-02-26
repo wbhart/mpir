@@ -57,7 +57,7 @@
 	cmp     r8, 0
 	jz      .2
 
-	align   16
+	alignb  16, nop
 .1: mov     r10, [rdx]
 	mov     r11, [rdx-8]
 	mov     r12, [rdx-16]

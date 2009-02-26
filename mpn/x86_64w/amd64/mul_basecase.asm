@@ -48,7 +48,7 @@
     mov     r13d, 0
     jnc     %%2
 
-    align   16
+	alignb  16, nop
 %%1:mov     rax, [r10+rsi*8+16]
 	mov     r12d, 0
 	mul     r11
@@ -107,7 +107,7 @@
 
 %macro  add_mul_loop 0
 
-    align   16
+	alignb  16, nop
 %%1:mov     r13d, 0
 	mul     r11
 	add     [rcx+rsi*8], r15
@@ -315,19 +315,19 @@ __gmpn_mul_basecase:
     cmp     rax, 1
     je      .7
 
-    align   16
+	alignb  16, nop
 .5: mpn_addmul_1_int 2
     jmp     .9
 
-    align   16
+	alignb  16, nop
 .6: mpn_addmul_1_int 0
     jmp     .9
 
-    align   16
+	alignb  16, nop
 .7: mpn_addmul_1_int 1
     jmp     .9
 
-    align   16
+	alignb  16, nop
 .8: mpn_addmul_1_int 3
 
 .9: epilogue reg_save_list

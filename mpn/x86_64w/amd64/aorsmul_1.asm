@@ -62,7 +62,7 @@
 
 %1%3:
     xor     r11, r11        ; carry (0)
-    movsxd  r8, r8d
+    mov     r8d, r8d
     mov     rax, [rdx]
     cmp     r8, 1
     jnz     %%1
@@ -74,7 +74,7 @@
 
 %1%4:
     mov     r11, [rsp+0x28] ; carry value
-    movsxd  r8, r8d
+    mov     r8d, r8d
     mov     rax, [rdx]
     cmp     r8, 1
     jnz     %%1
@@ -100,7 +100,7 @@
     cmp     r8, 0
     jge     %%3
 
-    align   16
+	alignb  16, nop
 %%2:mov     r12d, 0
 	mul     r9
 	%2      [rcx+r8*8], r11

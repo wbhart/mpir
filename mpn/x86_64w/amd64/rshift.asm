@@ -57,8 +57,8 @@ __gmpn_rshift:
 	movq    rax, mm5
 	psrlq   mm3, mm0
 	jnc     .2
-	align   16
-
+	
+	alignb  16, nop
 .1: movq    mm2, [rdx+r9*8+8]
 	movq    mm4, mm2
 	psllq   mm2, mm1

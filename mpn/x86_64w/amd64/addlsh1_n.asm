@@ -73,7 +73,7 @@
 	jz      .4
 ; push/pop can be moved to pro/epilog
 
-	align   16
+	alignb  16, nop
 .3: mov     r11, [r8+r9*8]
 	mov     r12, [r8+r9*8+8]
 	mov     r13, [r8+r9*8+16]

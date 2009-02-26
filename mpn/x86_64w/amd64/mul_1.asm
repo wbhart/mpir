@@ -69,7 +69,7 @@ start:
     jc      .1
     jmp     .2
 
-    align   16
+	alignb  16, nop
 .1:	mov     rax, [r10+r8*8]
 	mov     r12d, 0
 	mul     r9

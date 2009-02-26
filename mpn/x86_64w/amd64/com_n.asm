@@ -45,8 +45,8 @@ __gmpn_com_n:
     mov     r8d, r8d
 	sub     r8, 4
 	jc      .2
-
-	align   8
+	
+	alignb  8, nop
 .1: mov     rax, [rdx+r8*8+24]
 	mov     r9, [rdx+r8*8+16]
 	not     rax

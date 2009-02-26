@@ -81,7 +81,7 @@ __g%1:
 	sub     r8, rax
 	jnc     %%2
 
-	align   16
+	alignb  16, nop
 %%1:mul_sub%2 0
     mul_sub%2 1
     mul_sub%2 2

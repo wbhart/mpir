@@ -89,7 +89,7 @@
 %%1:adc	    rax, rax
     ret
 
-    align   8
+	alignb  8, nop
 %%2:mov	    r10, [rdx]
 	mov	    r11, [rdx+8]
 	lea	    rdx, [rdx+32]
