@@ -1,5 +1,5 @@
 
-;  AMD64 mpn_com_n
+;  Core2 mpn_com_n
 ;  Version 1.0.4
 ;
 ;  Copyright 2008 Jason Moxham
@@ -70,12 +70,12 @@ __gmpn_com_n:
 	mov     r8, [rdx+rax*8-8]
 	not     r8
 	mov     [rcx+rax*8-8], r8
-	dec     rax
+	sub     rax, 1
 	jz      .3
 	mov     r8, [rdx+rax*8-8]
 	not     r8
 	mov     [rcx+rax*8-8], r8
-	dec     rax
+	sub     rax, 1
 	jz      .3
 	mov     r8, [rdx+rax*8-8]
 	not     r8

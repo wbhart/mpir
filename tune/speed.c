@@ -38,7 +38,7 @@ MA 02110-1301, USA. */
 #include <stdlib.h>
 #include <string.h>
 
-#if HAVE_UNISTD_H
+#if HAVE_UNISTD_H || _MSC_VER
 #include <unistd.h>  /* for getpid, R_OK */
 #endif
 
@@ -64,6 +64,12 @@ MA 02110-1301, USA. */
 #include "tests.h"
 #include "speed.h"
 
+#if 1 && defined( _MSC_VER)
+#define HAVE_GETRUSAGE      1
+#define HAVE_GETTIMEOFDAY   1
+#include "getrusage.h"
+#include "gettimeofday.h"
+#endif
 
 #if !HAVE_DECL_OPTARG
 extern char *optarg;

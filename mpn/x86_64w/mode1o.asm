@@ -96,7 +96,7 @@ prologue    __gmpn_modexact_1c_odd, 0, reg_save_list
     sub     r10, rdx            ; inv -> r10 (64-bit approx)
 
     mov     rdx, r9             ; intial carry -> rdx
-    inc     rsi                 ; adjust limb offset
+    add     rsi, 1              ; adjust limb offset
     jz      .1
 
     mov     r9, r11

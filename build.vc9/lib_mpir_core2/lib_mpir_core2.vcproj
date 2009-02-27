@@ -2395,6 +2395,7 @@
 					>
 					<FileConfiguration
 						Name="Debug|x64"
+						ExcludedFromBuild="true"
 						>
 						<Tool
 							Name="VCCLCompilerTool"
@@ -2403,6 +2404,29 @@
 					</FileConfiguration>
 					<FileConfiguration
 						Name="Release|x64"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\mpn\generic\divebyff.c"
+					>
+					<FileConfiguration
+						Name="Debug|x64"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|x64"
+						ExcludedFromBuild="true"
 						>
 						<Tool
 							Name="VCCLCompilerTool"
@@ -3160,6 +3184,28 @@
 					</FileConfiguration>
 				</File>
 				<File
+					RelativePath="..\..\mpn\generic\redc_basecase.c"
+					>
+					<FileConfiguration
+						Name="Debug|x64"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|x64"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
 					RelativePath="..\..\mpn\generic\rgcd.c"
 					>
 					<FileConfiguration
@@ -3472,6 +3518,7 @@
 					>
 					<FileConfiguration
 						Name="Debug|x64"
+						ExcludedFromBuild="true"
 						>
 						<Tool
 							Name="VCCLCompilerTool"
@@ -3480,6 +3527,7 @@
 					</FileConfiguration>
 					<FileConfiguration
 						Name="Release|x64"
+						ExcludedFromBuild="true"
 						>
 						<Tool
 							Name="VCCLCompilerTool"
@@ -3556,35 +3604,50 @@
 					Name="Assembler"
 					>
 					<File
-						RelativePath="..\..\mpn\x86_64w\aors_n.asm"
+						RelativePath="..\..\mpn\x86_64w\core2\addadd_n.asm"
 						>
-						<FileConfiguration
-							Name="Release|x64"
-							>
-							<Tool
-								Name="YASM"
-								ListFileName=""
-							/>
-						</FileConfiguration>
+					</File>
+					<File
+						RelativePath="..\..\mpn\x86_64w\core2\addlsh1_n.asm"
+						>
+					</File>
+					<File
+						RelativePath="..\..\mpn\x86_64w\core2\addsub_n.asm"
+						>
+					</File>
+					<File
+						RelativePath="..\..\mpn\x86_64w\core2\aors_n.asm"
+						>
 					</File>
 					<File
 						RelativePath="..\..\mpn\x86_64w\core2\aorsmul_1.asm"
 						>
 					</File>
 					<File
-						RelativePath="..\..\mpn\x86_64w\copyd.asm"
-						>
-					</File>
-					<File
-						RelativePath="..\..\mpn\x86_64w\copyi.asm"
+						RelativePath="..\..\mpn\x86_64w\core2\com_n.asm"
 						>
 					</File>
 					<File
 						RelativePath="..\..\mpn\x86_64w\dive_1.asm"
 						>
+						<FileConfiguration
+							Name="Release|x64"
+							>
+							<Tool
+								Name="YASM"
+							/>
+						</FileConfiguration>
 					</File>
 					<File
-						RelativePath="..\..\mpn\x86_64w\lshift.asm"
+						RelativePath="..\..\mpn\x86_64w\core2\diveby3.asm"
+						>
+					</File>
+					<File
+						RelativePath="..\..\mpn\x86_64w\core2\divebyff.asm"
+						>
+					</File>
+					<File
+						RelativePath="..\..\mpn\x86_64w\core2\lshift.asm"
 						>
 					</File>
 					<File
@@ -3600,11 +3663,23 @@
 						>
 					</File>
 					<File
-						RelativePath="..\..\mpn\x86_64w\rshift.asm"
+						RelativePath="..\..\mpn\x86_64w\core2\redc_basecase.asm"
+						>
+					</File>
+					<File
+						RelativePath="..\..\mpn\x86_64w\core2\rshift.asm"
 						>
 					</File>
 					<File
 						RelativePath="..\..\mpn\x86_64w\core2\sqr_basecase.asm"
+						>
+					</File>
+					<File
+						RelativePath="..\..\mpn\x86_64w\core2\sublsh1_n.asm"
+						>
+					</File>
+					<File
+						RelativePath="..\..\mpn\x86_64w\core2\sumdiff_n.asm"
 						>
 					</File>
 					<File

@@ -68,4 +68,4 @@ if run_ok > 0 :
   print("\t%i ran correctly" % run_ok)
 if run_fail > 0 :
   print("\t%i failed" % run_fail) 
-code.InteractiveConsole.raw_input(".. completed - press ENTER")
+raw_input(".. completed - press ENTER")

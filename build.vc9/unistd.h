@@ -9,5 +9,7 @@
 
 #define random rand
 #define SIGHUP 1
+#define access _access
+#define R_OK   4
 
 #endif

@@ -468,7 +468,7 @@ MA 02111-1307, USA. */
 #define HAVE_SSTREAM 1
 
 /* Name of package */
-#define PACKAGE			"gmp"
+#define PACKAGE			"mpir"
 
 /* Define if compiler has function prototypes */
 #define PROTOTYPES			1
@@ -529,14 +529,17 @@ MA 02111-1307, USA. */
 
 /* Define as `__inline' if that's what the C compiler calls it, or to nothing
    if it is not supported. */
+#ifndef __cplusplus
 #define inline	__inline
+#endif
 
 /* Define to empty if the keyword `volatile' does not work. Warning: valid
    code using `volatile' can become incorrect without. Disable with care. */
 #undef volatile
 
 #ifdef _MSC_VER
-#define strcasecmp	_stricmp
+#define access _access
+#define strcasecmp _stricmp
 #define strncasecmp	_strnicmp
 #define alloca _alloca
 #define HAVE_STRCASECMP		1

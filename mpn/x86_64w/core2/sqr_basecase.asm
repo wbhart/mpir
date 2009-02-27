@@ -1,567 +1,426 @@
 
-;  Copyright 2006  Jason Worth Martin <jason.worth.martin@gmail.com>
+;  Core2 mpn_sqr_basecase -- square an mpn number.
+;  Version 1.0.4.
 ;
-;  Copyright 2008, 2009 Brian Gladman
+;  Copyright 2008 Jason Moxham
+;
+;  Windows Conversion Copyright 2008 Brian Gladman
 ;
 ;  This file is part of the MPIR Library.
+;  The MPIR Library is free software; you can redistribute it and/or modify
+;  it under the terms of the GNU Lesser General Public License as published
+;  by the Free Software Foundation; either verdxon 2.1 of the License, or (at
+;  your option) any later verdxon.
+;  The MPIR Library is distributed in the hope that it will be useful, but
+;  WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+;  or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public
+;  License for more details.
+;  You should have received a copy of the GNU Lesser General Public License
+;  along with the MPIR Library; see the file COPYING.LIB.  If not, write
+;  to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+;  Boston, MA 02110-1301, USA.
 ;
-;  The MPIR Library is free software; you can redistribute it and/or
-;  modify it under the terms of the GNU Lesser General Public License as
-;  published by the Free Software Foundation; either version 2.1 of the
-;  License, or (at your option) any later version.
+;  Calling interface:
 ;
-;  The MPIR Library is distributed in the hope that it will be useful,
-;  but WITHOUT ANY WARRANTY; without even the implied warranty of
-;  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-;  Lesser General Public License for more details.
-;
-;  You should have received a copy of the GNU Lesser General Public
-;  License along with the MPIR Library; see the file COPYING.LIB.  If
-;  not, write to the Free Software Foundation, Inc., 51 Franklin Street,
-;  Fifth Floor, Boston, MA 02110-1301, USA.
-;
-; CREDITS
-;
-; The code used here is derived from that provided by ct35z at:
-;
-;    http://www.geocities.jp/ct35z/gmp-core2-en.html
-;
-; This code is based largely on Pierrick Gaudry's excellent assembly
-; support for the AMD64 architecture.  (Note that Intel64 and AMD64,
-; while using the same instruction set, have very different
-; microarchitectures.  So, this code performs very poorly on AMD64
-; machines even though it is near-optimal on Intel64.)
-;
-; Roger Golliver works for Intel and provided insightful improvements
-; particularly in using the "lea" instruction to perform additions
-; and register-to-register moves.
-;
-; Jason Worth Martin's excellent assembly support for the Intel64
-; architecture has been used where appropriate.
-;
-; Eric Bainville has a brilliant exposition of optimizing arithmetic for
-; AMD64 (http://www.bealto.it).  I adapted many of the ideas he
-; describes to Intel64.
-;
-; Agner Fog is a demigod in the x86 world.  If you are reading assembly
-; code files and you haven't heard of Agner Fog, then take a minute to
-; look over his software optimization manuals (http://www.agner.org/).
-; They are superb.
-;
-; Adapted for use with VC++ and YASM using a special mode in which NASM
-; preprocessing is used with AT&T assembler syntax. I am very grateful
-; for the support that Peter Johnson (one of the authors of YASM) has
-; provided in getting this special YASM mode working.  Without his
-; support this port would have been a great deal more difficult.
-;
-; The principle issues that I have had to address is the difference
-; between GCC and MSVC in their register saving and parameter passing
-; conventions.  Registers that have to be preserved across function
-; calls are:
-;
-; GCC:             rbx, rbp, r12..r15
-; MSVC:  rsi, rdi, rbx, rbp, r12..r15 xmm6..xmm15
-;
-; Parameter passing conventions for non floating point parameters:
-;
-;   function(   GCC     MSVC
-;       p1,     rdi      rcx
-;       p2,     rsi      rdx
-;       p3,     rdx       r8
-;       p4,     rcx       r9
-;       p5,      r8 [rsp+40]
-;       p6,      r9 [rsp+48]
-;
-; Care must be taken with 32-bit values in 64-bit register or on the
-; stack because the upper 32-bits of such parameters are undefined.
-;
-;       Brian Gladman
-;
-;
-; Intel64 mpn_sqr_basecase -- square an mpn number.
-;
-;  void mpn_sqr_basecase(  MSVC  GCC
-;     mp_ptr dst,           rcx  rdi
-;     mp_srcptr src,        rdx  rsi
-;     mp_size_t size         r8  rdx
+;  void mpn_sqr_basecase(
+;     mp_ptr dst,       rcx
+;     mp_srcptr src,    rdx
+;     mp_size_t size     r8
 ;  )
 ;
-; BPL is bytes per limb, which is 8 in the 64-bit code here
+; Squuare src[size] and write the result to dst[2 * size]
+;
+; This is an SEH frame function with a leaf prologue
+
+%macro mpn_mul_1_int 0
+
+	mov     r10d, 4
+	sub     r10, rdx
+	mov     r11d, 0
+	jnc     %%2
+	
+	alignb  16, nop
+%%1:mov     rax, [rsi+r10*8+16]
+	mov     r9d, 0
+	mul     r13
+	add     r11, rax
+	mov     [rdi+r10*8+16], r11
+	mov     rax, [rsi+r10*8+24]
+	adc     r9, rdx
+	mul     r13
+	mov     r11d, 0
+	add     r9, rax
+	mov     rax, [rsi+r10*8+32]
+	adc     r11, rdx
+	mul     r13
+	mov     [rdi+r10*8+24], r9
+	add     r11, rax
+	mov     r9d, 0
+	mov     [rdi+r10*8+32], r11
+	mov     rax, [rsi+r10*8+40]
+	mov     r11d, 0
+	adc     r9, rdx
+	mul     r13
+	add     r9, rax
+	mov     [rdi+r10*8+40], r9
+	adc     r11, rdx
+	add     r10, 4
+	jnc     %%1
+
+%%2:test    r10, 2
+	jnz     %%3
+	mov     rax, [rsi+r10*8+16]
+	mov     r9d, 0
+	mul     r13
+	add     r11, rax
+	mov     [rdi+r10*8+16], r11
+	mov     rax, [rsi+r10*8+24]
+	adc     r9, rdx
+	mul     r13
+	mov     r11d, 0
+	add     r9, rax
+	adc     r11, rdx
+	add     r10, 2
+	mov     [rdi+r10*8+8], r9
+
+%%3:test    r10, 1
+	jnz     %%4
+	mov     rax, [rsi+r10*8+16]
+	mov     r9d, 0
+	mul     r13
+	add     r11, rax
+	adc     r9, rdx
+	mov     [rdi+r10*8+24], r9
+
+%%4:mov     [rdi+r10*8+16], r11
+
+%endmacro
+
+; changes from standard mpn_addmul_1 internal loop
+; change lables
+; change r8 to r12   , rcx to r13
+
+%macro addmulloop 1
+
+	alignb  16, nop
+%%1:mov     r10d, 0
+	mul     r13
+	add     [rdi+r11*8], r12
+	adc     r9, rax
+	adc     r10, rdx
+	mov     rax, [rsi+r11*8+16]
+	mul     r13
+	add     [rdi+r11*8+8], r9
+	adc     r10, rax
+	mov     ebx, 0
+	adc     rbx, rdx
+	mov     rax, [rsi+r11*8+24]
+	mov     r12d, 0
+	mov     r9d, 0
+	mul     r13
+	add     [rdi+r11*8+16], r10
+	adc     rbx, rax
+	adc     r12, rdx
+	mov     rax, [rsi+r11*8+32]
+	mul     r13
+	add     [rdi+r11*8+24], rbx
+	adc     r12, rax
+	adc     r9, rdx
+	add     r11, 4
+	mov     rax, [rsi+r11*8+8]
+	jnc     %%1
+
+%endmacro
+
+%macro addmulnext0 0
+
+; here is 3 loads ie if r11=0
+	mov     r10d, 0
+	mul     r13
+	add     [rdi+r11*8], r12
+	adc     r9, rax
+	adc     r10, rdx
+	mov     rax, [rsi+r11*8+16]
+	mul     r13
+	add     [rdi+r11*8+8], r9
+	adc     r10, rax
+	mov     ebx, 0
+	adc     rbx, rdx
+	mov     rax, [rsi+r11*8+24]
+	mov     r12d, 0
+	mov     r9d, 0
+	mul     r13
+	add     [rdi+r11*8+16], r10
+	adc     rbx, rax
+	adc     r12, rdx
+	mov     rax, [rsi+r11*8+32]
+	mul     r13
+	add     [rdi+r11*8+24], rbx
+	adc     r12, rax
+	adc     r9, rdx
+	add     [rdi+r11*8+32], r12
+	adc     r9, 0
+	mov     [rdi+r11*8+40], r9
+
+%endmacro
+
+%macro addmulnext1 0
+
+; here is 2 loads ie if r11=1
+	mov     r10d, 0
+	mul     r13
+	add     [rdi+r11*8], r12
+	adc     r9, rax
+	adc     r10, rdx
+	mov     rax, [rsi+r11*8+16]
+	mul     r13
+	add     [rdi+r11*8+8], r9
+	adc     r10, rax
+	mov     ebx, 0
+	adc     rbx, rdx
+	mov     rax, [rsi+r11*8+24]
+	mov     r12d, 0
+	mul     r13
+	add     [rdi+r11*8+16], r10
+	adc     rbx, rax
+	adc     r12, rdx
+	add     [rdi+r11*8+24], rbx
+	adc     r12, 0
+	mov     [rdi+r11*8+32], r12
+
+%endmacro
+
+%macro addmulnext2 0
+
+; here is 1 load ie if r11=2
+	mov     r10d, 0
+	mul     r13
+	add     [rdi+r11*8], r12
+	adc     r9, rax
+	adc     r10, rdx
+	mov     rax, [rsi+r11*8+16]
+	mul     r13
+	add     [rdi+r11*8+8], r9
+	adc     r10, rax
+	mov     ebx, 0
+	adc     rbx, rdx
+	add     [rdi+r11*8+16], r10
+	adc     rbx, 0
+	mov     [rdi+r11*8+24], rbx
+
+%endmacro
+
+%macro addmulnext3 0
+
+; here is 0 loads ie if r11=3
+	mov     r10d, 0
+	mul     r13
+	add     [rdi+r11*8], r12
+	adc     r9, rax
+	adc     r10, rdx
+	add     [rdi+r11*8+8], r9
+	adc     r10, 0
+	mov     [rdi+r11*8+16], r10
+
+%endmacro
+
+; changes from standard addmul_1
+; change lables
+; change r8 to r12
+; write top limb ax straight to mem dont return  (NOTE we WRITE NOT ADD)
+; remove one limb special case
+; remove push/pop , basecase must save rbx
+; split into mod4 types and remove rets
+; surround with outer loop and pop ret
+; todo ----------- can ignore small values
+; this addmul MUST have a param whic is 0123 which is our r11
+
+%macro mpn_addmul_1_int 1
+
+%%1:mov     rax, [rsi+r14*8]
+	mov     r13, [rsi+r14*8-8]
+	mov     r11, r14
+	mul     r13
+	mov     r12, rax
+	mov     rax, [rsi+r14*8+8]
+	mov     r9, rdx
+	cmp     r14, 0
+	jge     %%2
+	addmulloop %1
+%%2:addmulnext%1
+	inc     r14
+	lea     rdi, [rdi+8]
+	cmp     r14, 4
+	jz      .7
+
+%endmacro
 
 %include "..\x86_64_asm.inc"
 
-%define reg_save_list       rsi, rdi, rbx, r12, r13, r14, r15
+%define reg_save_list   rbx, rsi, rdi, r12, r13, r14
 
-%define BPL                 8
-%define UNROLL_EXPONENT     4
-%define UNROLL_SIZE         (1 << UNROLL_EXPONENT)
-%define UNROLL_MASK         (UNROLL_SIZE - 1)
+   bits     64
+   section  .text
 
-; variables in main   prologue
-%define s2limb  rcx ; rdi
-%define s1p     rsi ;  r8
-%define rp      rdi ; rcx
-%define a_x      r8 ; rsi
-%define a_y      r9
-%define a_z     r10
-%define b_x     r11
-%define b_y     r12
-%define b_z     r13
-%define temp    r14
-%define index   r15
-
-%define PARAM_SIZE  %xmm2
-
-    bits    64
-    section .text
-    align   16
-    global  __gmpn_sqr_basecase
+   global   __gmpn_sqr_basecase
 
 %ifdef DLL
-    export  __gmpn_sqr_basecase
+   export   __gmpn_sqr_basecase
 %endif
 
 __gmpn_sqr_basecase:
-    xor     rax, rax
-    mov     eax, r8d
-    mov     r8, rdx
-    mov     rdx, rax
-    mov     rax, [r8]
-    cmp     rdx, 2
-    je     .0
-    ja     .1
-    mul     rax         ; 1 limb
-    mov     [rcx], rax
-    mov     [rcx+8], rdx
-    ret
+    cmp     r8d, 3
+	jnb     .3
+	jp      .2
 
-.0: mul     rax         ; 2 limbs
-    mov     [rcx], rax
-    mov     rax, [r8+8]
-    mov     a_y, rdx
-    mul     rax
-    mov     a_z, rax
-    mov     rax, [r8]
-    mov     b_x, rdx
-    mul     qword [r8+8]
-    add     a_y, rax
-    adc     a_z, rdx
-    adc     b_x, 0
-    add     rax, a_y
-    adc     rdx, a_z
-    adc     b_x, 0
-    mov     [rcx+8], rax
-    mov     [rcx+24], b_x
-    mov     [rcx+16], rdx
-    ret
+.1: mov     rax, [rdx]
+	mul     rax
+	mov     [rcx], rax
+	mov     [rcx+8], rdx
+	ret
 
-.1: cmp     rdx, 4
-    jae     sqr_basecase
-    mul     rax         ; 3 limbs
-    mov     [rcx], rax
-    mov     [rcx+8], rdx
-    mov     rax, [r8+8]
-    xor     b_x, b_x
-    mul     rax
-    mov     [rcx+16], rax
-    mov     [rcx+24], rdx
-    mov     rax, [r8+16]
-    mul     rax
-    mov     [rcx+32], rax
-    mov     [rcx+40], rdx
-    mov     rax, [r8]
-    mul     qword [r8+8]
-    mov     a_y, rax
-    mov     a_z, rdx
-    mov     rax, [r8]
-    mul     qword [r8+16]
-    add     a_z, rax
-    mov     b_x, rdx
-    adc     b_x, 0
-    mov     rax, [r8+8]
-    mul     qword [r8+16]
-    xor     r8, r8
-    add     b_x, rax
-    adc     rdx, 0
-    add     a_y, a_y
-    adc     a_z, a_z
-    adc     b_x, b_x
-    adc     rdx, rdx
-    mov     rax, [rcx+8]
-    adc     r8, 0
-    add     rax, a_y
-    mov     [rcx+8], rax
-    mov     rax, [rcx+16]
-    adc     rax, a_z
-    mov     a_y, [rcx+24]
-    adc     a_y, b_x
-    mov     a_z, [rcx+32]
-    mov     [rcx+16], rax
-    mov     [rcx+24], a_y
-    adc     a_z, rdx
-    mov     rax, [rcx+40]
-    mov     [rcx+32], a_z
-    adc     rax, r8
-    mov     [rcx+40], rax
-    ret
+.2: mov     rax, [rdx]
+	mov     r9, [rdx+8]
+	mov     r8, rax
+	mul     rax
+	mov     [rcx], rax
+	mov     rax, r9
+	mov     [rcx+8], rdx
+	mul     rax
+	mov     [rcx+16], rax
+	mov     rax, r8
+	mov     r10, rdx
+	mul     r9
+	add     rax, rax
+	adc     rdx, rdx
+	adc     r10, 0
+	add     [rcx+8], rax
+	adc     [rcx+16], rdx
+	adc     r10, 0
+	mov     [rcx+24], r10
+	ret
 
-prologue    sqr_basecase, 0, reg_save_list
+.3  ja      sqr_main
+    prologue sqr_3, 0, rsi, rdi
+    mov     rsi, rdx
+    mov     r8, [rsi]
+	mov     rax, [rsi+8]
+	mul     r8
+	mov     r11d, 0
+	mov     [rcx+8], rax
+	mov     rax, [rsi+16]
+	mov     r9, rdx
+	mul     r8
+	mov     r8, [rsi+8]
+	add     r9, rax
+	mov     rax, [rsi+16]
+	adc     r11, rdx
+	mul     r8
+	mov     [rcx+16], r9
+	add     r11, rax
+	mov     r9d, 0
+	mov     [rcx+24], r11
+	adc     r9, rdx
+	mov     [rcx+32], r9
+	mov     edi, 3
+	xor     r10, r10
+	xor     r11, r11
+	lea     rsi, [rsi+24]
+	mov     [rcx], r11
+	mov     [rcx+40], r11
+	neg     rdi
+
+.4: mov     rax, [rsi+rdi*8]
+	mul     rax
+	mov     r8, [rcx]
+	mov     r9, [rcx+8]
+	add     r10, 1
+	adc     r8, r8
+	adc     r9, r9
+	sbb     r10, r10
+	add     r11, 1
+	adc     r8, rax
+	adc     r9, rdx
+	sbb     r11, r11
+	mov     [rcx], r8
+	mov     [rcx+8], r9
+	add     rdi, 1
+	lea     rcx, [rcx+16]
+	jnz     .4
+	epilogue rsi, rdi
+
+; this code can not handle cases 3,2,1
+    prologue sqr_main, 0, reg_save_list
     mov     rdi, rcx
-    mov     rsi, r8
+    mov     rsi, rdx
+    mov     edx, r8d
 
-    movq    xmm2, rdx
-    add     s1p, 8
-    add     rp, 8
-    sub     rdx, 1
-    mov     s2limb, rax
-    lea     s1p, [s1p+rdx*8]
-    lea     rp, [rp+rdx*8]
-    xor     index, index
-    sub     index, rdx
-    cmp     rdx, 4
-    jge     main_loop
-    lea     rax, [rel jt1]
-    add     rax, [rax+rdx*8]
-    jmp     rax
+    mov     [rsp+stack_use+24], rdi     ; use shadow area
+	mov     [rsp+stack_use+16], rsi
+	mov     [rsp+stack_use+ 8], rdx
 
-    align   8
-jt1:dq      .0 - jt1
-    dq      .1 - jt1
-    dq      .2 - jt1
-    dq      .3 - jt1
+	mov     r13, [rsi]
+	mov     r14d, 7
+	sub     r14, rdx
+	lea     rdi, [rdi+rdx*8-40]
+	lea     rsi, [rsi+rdx*8-40]
+	mpn_mul_1_int
+	lea     rdi, [rdi+8]
+	mov     rax, r14
+	and     rax, 3
+	je      .60
+	jp      .63
+	cmp     rax, 1
+	je      .61
+	alignb  16, nop
+.6:
+.62:mpn_addmul_1_int 2
+.63:mpn_addmul_1_int 3
+.60:mpn_addmul_1_int 0
+.61:mpn_addmul_1_int 1
+	jmp     .6
 
-.0: xor     rax, rax
-    jmp     l1_exit
+; only need to add .1 more line here
 
-.1: mov     rax, [s1p+index*8]
-    mul     s2limb
-    mov     [rp+index*8], rax
-    mov     rax, rdx
-    mov     [rp+index*8+8], rax
-    jmp     l1_exit
+.7:	mov     rax, [rsi+r14*8]
+	mov     r13, [rsi+r14*8-8]
+	mul     r13
+	add     [rdi+r14*8], rax
+	adc     rdx, 0
+	mov     [rdi+r14*8+8], rdx
 
-.2: mov     rax, [s1p+index*8]
-    mul     s2limb
-    mov     a_x, rax
-    mov     a_y, rdx
-    mov     rax, [s1p+index*8+8]
-    mul     s2limb
-    add     rax, a_y
-    mov     [rp+index*8], a_x
-    adc     rdx, 0
-    mov     [rp+index*8+8], rax
-    mov     rax, rdx
-    mov     [rp+index*8+16], rax
-    jmp     l1_exit
+; now lsh by 1 and add in the diagonal
 
-.3: mov     rax, [s1p+index*8]
-    mul     s2limb
-    mov     a_x, rax
-    mov     a_y, rdx
-    mov     rax, [s1p+index*8+8]
-    mul     s2limb
-    mov     b_x, rax
-    mov     b_y, rdx
-    mov     rax, [s1p+index*8+16]
-    mul     s2limb
-    add     b_x, a_y
-    mov     [rp+index*8], a_x
-    adc     b_y, 0
-    add     rax, b_y
-    mov     [rp+index*8+8], b_x
-    adc     rdx, 0
-    mov     [rp+index*8+16], rax
-    mov     [rp+index*8+24], rdx
-    jmp     l1_exit
+	mov     rcx, [rsp + stack_use +  8]     ; use shadow area
+	mov     rsi, [rsp + stack_use + 16]
+	mov     rdi, [rsp + stack_use + 24]
 
-main_loop:
-    mov     temp, rdx
-    test    rdx, 1
-    jz      .1
-    mov     rax, [s1p+index*8]
-    mul     s2limb
-    mov     a_x, rax
-    mov     a_y, rdx
-    mov     rax, [s1p+index*8+8]
-    mul     s2limb
-    mov     b_x, rax
-    mov     b_y, rdx
-    jmp     .2
+.8: xor     rbx, rbx
+	xor     r14, r14
+	lea     rsi, [rsi+rcx*8]
+	mov     [rdi], r14
+	lea     r10, [rdi+rcx*8]
+	mov     [r10+rcx*8-8], r14
+	neg     rcx
 
-.1: mov     rax, [s1p+index*8]
-    mul     s2limb
-    mov     b_x, rax
-    mov     b_y, rdx
-    mov     rax, [s1p+index*8+8]
-    mul     s2limb
-    mov     a_x, rax
-    mov     a_y, rdx
+.9: mov     rax, [rsi+rcx*8]
+	mul     rax
+	mov     r8, [rdi]
+	mov     r9, [rdi+8]
+	add     rbx, 1
+	adc     r8, r8
+	adc     r9, r9
+	sbb     rbx, rbx
+	add     r14, 1
+	adc     r8, rax
+	adc     r9, rdx
+	sbb     r14, r14
+	mov     [rdi], r8
+	mov     [rdi+8], r9
+	add     rcx, 1
+	lea     rdi, [rdi+16]
+	jnz     .9
 
-.2: sub     temp, 4
-    and     temp, UNROLL_MASK
-    inc     temp
-    mov     rax, (l1_end - l1_start) >> UNROLL_EXPONENT
-    mul     temp
-    lea     rdx, [rel l1_end]
-    sub     rdx, rax
-    mov     rax, [s1p+index*8+16]
-    lea     index, [index+temp+3-UNROLL_SIZE]
-    jmp     rdx
+.10:epilogue reg_save_list
 
-%macro seq_1 6
-    mul     s2limb
-    mov     %3, %1
-    lea     %1, [rax]
-    mov     rax, [byte s1p+index*8+8*%6]
-    add     %4, %2
-    mov     [byte rp+index*8+8*(%6-3)], %3
-    lea     %2, [rdx]
-    adc     %5, 0
-%endmacro
-
-    align   16
-l1_start:
-%assign i 0
-%rep 16
-%if (i & 1)
-    seq_1 b_x, b_y, b_z, a_x, a_y, i
-%else
-    seq_1 a_x, a_y, a_z, b_x, b_y, i
-%endif
-%assign i i + 1
-%endrep
-l1_end:
-    add     index, UNROLL_SIZE
-    jnz     l1_start
-
-l1_finish:
-    mul     s2limb
-    mov     [rp+index*8-24], a_x
-    add     b_x, a_y
-    adc     b_y, 0
-    mov     [rp+index*8-16], b_x
-    add     rax, b_y
-    adc     rdx, 0
-    mov     [rp+index*8-8], rax
-    mov     [rp+index*8], rdx
-
-l1_exit:
-    movq     rbx, xmm2
-    sub     rbx, 4
-    jz      outer_end
-    neg     rbx
-
-    align   16
-outer_top:
-    mov     edx, 2
-    sub     rdx, rbx
-    mov     s2limb, [s1p+rbx*8-24]
-    add     rp, 8
-    xor     index, index
-    sub     index, rdx
-    cmp     rdx, 4
-    jge     loop_2
-    lea     rax, [rel .0]
-    add     rax, [rax+rdx*8]
-    jmp     rax
-
-   align 8
-.0: dq      .1 - .0
-    dq      .2 - .0
-    dq      .3 - .0
-    dq      .4 - .0
-
-.1: xor     rax, rax
-    jmp     l2_exit
-
-.2: mov     rax, [s1p+index*8]
-    mul     s2limb
-    mov     a_z, [rp+index*8]
-    add     a_z, rax
-    mov     rax, 0
-    mov     [rp+index*8], a_z
-    adc     rax, rdx
-    mov     [rp+index*8+8], rax
-    jmp     l2_exit
-
-.3: mov     rax, [s1p+index*8]
-    mul     s2limb
-    mov     a_z, [rp+index*8]
-    mov     a_x, rax
-    mov     a_y, rdx
-    mov     rax, [s1p+index*8+8]
-    mul     s2limb
-    mov     b_z, [rp+index*8+8]
-    add     a_z, a_x
-    adc     rax, a_y
-    mov     [rp+index*8], a_z
-    adc     rdx, 0
-    add     b_z, rax
-    mov     rax, 0
-    mov     [rp+index*8+8], b_z
-    adc     rax, rdx
-    mov     [rp+index*8+16], rax
-    jmp     l2_exit
-
-.4: mov     rax, [s1p+index*8]
-    mul     s2limb
-    mov     a_z, [rp+index*8]
-    mov     a_x, rax
-    mov     a_y, rdx
-    mov     rax, [s1p+index*8+8]
-    mul     s2limb
-    mov     b_z, [rp+index*8+8]
-    mov     b_x, rax
-    mov     b_y, rdx
-    mov     rax, [s1p+index*8+16]
-    mul     s2limb
-    add     a_z, a_x
-    adc     b_x, a_y
-    mov     [rp+index*8], a_z
-    mov     a_z, [rp+index*8+16]
-    adc     b_y, 0
-    add     b_z, b_x
-    adc     rax, b_y
-    mov     [rp+index*8+8], b_z
-    adc     rdx, 0
-    add     a_z, rax
-    mov     rax, 0
-    mov     [rp+index*8+16], a_z
-    adc     rax, rdx
-    mov     [rp+index*8+24], rax
-    jmp     l2_exit
-
-loop_2:
-    mov     temp, rdx
-    test    rdx, 1
-    jz      .1
-    mov     rax, [s1p+index*8]
-    mul     s2limb
-    mov     a_z, [rp+index*8]
-    mov     a_x, rax
-    mov     a_y, rdx
-    mov     rax, [s1p+index*8+8]
-    mul     s2limb
-    mov     b_z, [rp+index*8+8]
-    mov     b_x, rax
-    mov     b_y, rdx
-    jmp     .2
-
-.1: mov     rax, [s1p+index*8]
-    mul     s2limb
-    mov     b_z, [rp+index*8]
-    mov     b_x, rax
-    mov     b_y, rdx
-    mov     rax, [s1p+index*8+8]
-    mul     s2limb
-    mov     a_z, [rp+index*8+8]
-    mov     a_x, rax
-    mov     a_y, rdx
-
-.2: sub     temp, 4
-    and     temp, UNROLL_MASK
-    inc     temp
-    mov     rax, (l2_end - l2_start) >> UNROLL_EXPONENT
-    mul     temp
-    lea     rdx, [rel l2_end]
-    sub     rdx, rax
-    mov     rax, [s1p+index*8+16]
-    lea     index, [index+temp+3-UNROLL_SIZE]
-    jmp     rdx
-
-%macro seq_2 6
-    mul     s2limb
-    add     %3, %1
-    lea     %1, [rax]
-    mov     rax, [byte s1p+index*8+8*%6]
-    adc     %4, %2
-    mov     [byte rp+index*8+8*(%6-3)], %3
-    mov     %3, [byte rp+index*8+8*(%6-1)]
-    lea     %2, [rdx]
-    adc     %5, 0
-%endmacro
-
-    align   16
-l2_start
-%assign  i 0
-%rep 16
-%if (i & 1)
-    seq_2 b_x, b_y, b_z, a_x, a_y, i
-%else
-    seq_2 a_x, a_y, a_z, b_x, b_y, i
-%endif
-%assign i i + 1
-%endrep
-l2_end:
-    add     index, UNROLL_SIZE
-    jnz     l2_start
-
-    mul     s2limb
-    add     a_z, a_x
-    mov     [rp+index*8-24], a_z
-    mov     a_z, [rp+index*8-8]
-    adc     b_x, a_y
-    adc     b_y, 0
-    add     b_z, b_x
-    mov     [rp+index*8-16], b_z
-    adc     rax, b_y
-    adc     rdx, 0
-    add     a_z, rax
-    mov     rax, 0
-    mov     [rp+index*8-8], a_z
-    adc     rax, rdx
-    mov     [rp+index*8], rax
-
-l2_exit:
-    inc     rbx
-    jnz     outer_top
-
-outer_end:
-    mov     rax, [s1p-24]
-    mul     qword [s1p-16]
-    add     [rp-8], rax
-    mov     rax, [s1p-24]
-    mov     rbx, 0
-    adc     rbx, rdx
-    mul     qword [s1p-8]
-    add     rbx, rax
-    mov     rax, [s1p-16]
-    adc     rdx, 0
-    add     [rp], rbx
-    mov     rbx, 0
-    adc     rbx, rdx
-    mul     qword [s1p-8]
-    movq     s2limb, xmm2
-    add     rax, rbx
-    adc     rdx, 0
-    mov     [rp+8], rax
-    mov     [rp+16], rdx
-    lea     s2limb, [s2limb+s2limb-2]
-    add     rp, 16
-    neg     s2limb
-    mov     a_x, s2limb
-    xor     rax, rax
-
-.0: rcl     qword [rp+s2limb*8+8], 1
-    rcl     qword [rp+s2limb*8+16], 1
-    lea     s2limb, [s2limb+2]
-    jrcxz   .1
-    jmp     .0
-.1: adc     rax, rax
-    mov     [rp+8], rax
-    mov     rax, [s1p+a_x*4-8]
-    mul     rax
-    mov     [rp+a_x*8], rax
-
-.2: mov     rax, [s1p+a_x*4]
-    mov     rbx, rdx
-    mul     rax
-    add     [rp+a_x*8+8], rbx
-    adc     [rp+a_x*8+16], rax
-    adc     rdx, 0
-    add     a_x, 2
-    jnz     .2
-    add     [rp+08], rdx
-    epilogue    reg_save_list
-
-    end
+	end

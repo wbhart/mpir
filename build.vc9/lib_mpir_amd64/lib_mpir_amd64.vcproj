@@ -3626,14 +3626,14 @@
 					<File
 						RelativePath="..\..\mpn\x86_64w\amd64\com_n.asm"
 						>
-					</File>
-					<File
-						RelativePath="..\..\mpn\x86_64w\copyd.asm"
-						>
-					</File>
-					<File
-						RelativePath="..\..\mpn\x86_64w\copyi.asm"
-						>
+						<FileConfiguration
+							Name="Release|x64"
+							>
+							<Tool
+								Name="YASM"
+								ListFileName="&quot;$(IntDir)\mpn\$(InputName).lst&quot;"
+							/>
+						</FileConfiguration>
 					</File>
 					<File
 						RelativePath="..\..\mpn\x86_64w\dive_1.asm"
@@ -3686,20 +3686,6 @@
 					<File
 						RelativePath="..\..\mpn\x86_64w\amd64\redc_basecase.asm"
 						>
-						<FileConfiguration
-							Name="Debug|x64"
-							>
-							<Tool
-								Name="YASM"
-							/>
-						</FileConfiguration>
-						<FileConfiguration
-							Name="Release|x64"
-							>
-							<Tool
-								Name="YASM"
-							/>
-						</FileConfiguration>
 					</File>
 					<File
 						RelativePath="..\..\mpn\x86_64w\amd64\rshift.asm"

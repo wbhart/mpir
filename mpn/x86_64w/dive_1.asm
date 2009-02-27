@@ -52,37 +52,32 @@
 %endif
 
 __gmpn_divexact_1:
-    movsxd  r8,r8d
-    mov     r10,rdx
-    mov     rax,r9
-    and     rax,byte 1
-    add     rax,r8
-    cmp     rax,byte 4
+    mov     r8d, r8d
+    mov     r10, rdx
+    mov     rax, r9
+    and     rax, byte 1
+    add     rax, r8
+    cmp     rax, byte 4
     jae     L_mul_by_inverse
     xor     rdx,rdx
-L_div_top:
-    mov     rax,[r10+r8*8-8]
+
+.1: mov     rax, [r10+r8*8-8]
     div     r9
-    mov     [rcx+r8*8-8],rax
-    dec     r8
-    jnz     L_div_top
-    rep     ret         ; avoid single byte return
+    mov     [rcx+r8*8-8], rax
+    sub     r8, 1
+    jnz     .1
+    ret                     ; avoid single byte return
 
 prologue    L_mul_by_inverse, 0, reg_save_list
-    mov     rsi,rdx     ; src pointer
-    mov     rdi,rcx     ; dst pointer
-    mov     rax,r9
-    stc
-    sbb     rcx,rcx     ; -1 -> rcx, r11
-    mov     r11,rcx
-L_strip_twos:
-    shr     rax,1
-    inc     rcx
-    jnc     L_strip_twos
-    lea     r9,[rax+rax+1]
-    and     rax,byte 127
-    lea     rdx,[rel __gmp_modlimb_invert_table]
-    movzx   rax,byte [rdx+rax]
+    mov     rsi, rdx        ; src pointer
+    mov     rdi, rcx        ; dst pointer
+    bsf     rcx, r9         ; remove powers of two
+    shr     r9, cl
+    mov     rax, r9
+    shr     rax, 1
+    and     rax, 127
+    lea     rdx, [rel __gmp_modlimb_invert_table]
+    movzx   rax, byte [rdx+rax]
 
 ; If f(x) = 0, then x[n+1] = x[n] - f(x) / f'(x) is Newton's iteration for a
 ; root. With f(x) = 1/x - v we obtain x[n + 1] = 2 * x[n] - v * x[n] * x[n]
@@ -93,68 +88,65 @@ L_strip_twos:
     lea     edx, [rax+rax]
     imul    eax, eax
     imul    eax, r9d
-    sub     edx, eax           ; inv -> rdx (16-bit approx)
+    sub     edx, eax            ; inv -> rdx (16-bit approx)
 
     lea     eax, [rdx+rdx]
     imul    edx, edx
     imul    edx, r9d
-    sub     eax, edx           ; inv -> rcx (32-bit approx)
+    sub     eax, edx            ; inv -> rdx (32-bit approx)
 
     lea     rdx, [rax+rax]
     imul    rax, rax
     imul    rax, r9
-    sub     rdx, rax           ; inv -> rcx (64-bit approx)
+    sub     rdx, rax            ; inv -> rdx (64-bit approx)
 
-    mov     r8,r8
-    lea     rsi,[rsi+r8*8]
-    lea     rdi,[rdi+r8*8]
+    lea     rsi, [rsi+r8*8]
+    lea     rdi, [rdi+r8*8]
     neg     r8
 
-    mov     r10,rdx
-    xor     r11,r11
-    mov     rax,[rsi+r8*8]
-    or      rcx,rcx
-    mov     rdx,[rsi+r8*8+8]
-    jz      L_odd_entry
+    mov     r10, rdx            ; inverse multiplier -> r10
+    xor     r11, r11
+    mov     rax, [rsi+r8*8]
+    or      rcx, rcx
+    mov     rdx, [rsi+r8*8+8]
+    jz      .3                  ; if divisor is odd
     shrd    rax, rdx, cl
-    inc     r8
-    jmp     L_even_entry
+    add     r8, 1
+    jmp     .5
 
-L_odd_top:
-    mul     r9
-    mov     rax,[rsi+r8*8]
-    sub     rdx,r11
-    sub     rax,rdx
-    sbb     r11,r11
-L_odd_entry:
-    imul    rax,r10
-    mov     [rdi+r8*8],rax
-    inc     r8
-    jnz     L_odd_top
-    jmp     L_exit
+    alignb  16, nop
+.2: mul     r9                  ; divisor is odd
+    mov     rax, [rsi+r8*8]
+    sub     rdx, r11
+    sub     rax, rdx
+    sbb     r11, r11
+.3: imul    rax, r10
+    mov     [rdi+r8*8], rax
+    add     r8, 1
+    jnz     .2
+    jmp     .6
 
-L_even_top:
-    mul     r9
-    sub     rdx,r11
-    mov     rax,[rsi+r8*8-8]
-    mov     r11,[rsi+r8*8]
-    shrd    rax,r11,cl
-    sub     rax,rdx
-    sbb     r11,r11
-
-L_even_entry:
-    imul    rax,r10
+    alignb  16, nop
+.4: mul     r9                  ; divisor is even
+    sub     rdx, r11
+    mov     rax, [rsi+r8*8-8]
+    mov     r11, [rsi+r8*8]
+    shrd    rax, r11, cl
+    sub     rax, rdx
+    sbb     r11, r11
+.5: imul    rax, r10
     mov     [rdi+r8*8-8],rax
-    inc     r8
-    jnz     L_even_top
+    add     r8, 1
+    jnz     .4
+
     mul     r9
-    mov     rax,[rsi-8]
-    sub     rdx,r11
-    shr     rax,cl
-    sub     rax,rdx
-    imul    rax,r10
-    mov     [rdi-8],rax
-L_exit:
-    epilogue reg_save_list
+    mov     rax, [rsi-8]
+    sub     rdx, r11
+    shr     rax, cl
+    sub     rax, rdx
+    imul    rax, r10
+    mov     [rdi-8], rax
+
+.6: epilogue reg_save_list
 
     end

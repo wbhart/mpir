@@ -524,6 +524,7 @@
 					>
 					<FileConfiguration
 						Name="Debug|x64"
+						ExcludedFromBuild="true"
 						>
 						<Tool
 							Name="VCCLCompilerTool"
@@ -532,6 +533,7 @@
 					</FileConfiguration>
 					<FileConfiguration
 						Name="Release|x64"
+						ExcludedFromBuild="true"
 						>
 						<Tool
 							Name="VCCLCompilerTool"
@@ -544,6 +546,7 @@
 					>
 					<FileConfiguration
 						Name="Debug|x64"
+						ExcludedFromBuild="true"
 						>
 						<Tool
 							Name="VCCLCompilerTool"
@@ -552,6 +555,7 @@
 					</FileConfiguration>
 					<FileConfiguration
 						Name="Release|x64"
+						ExcludedFromBuild="true"
 						>
 						<Tool
 							Name="VCCLCompilerTool"
@@ -1313,6 +1317,7 @@
 					>
 					<FileConfiguration
 						Name="Debug|x64"
+						ExcludedFromBuild="true"
 						>
 						<Tool
 							Name="VCCLCompilerTool"
@@ -1321,6 +1326,7 @@
 					</FileConfiguration>
 					<FileConfiguration
 						Name="Release|x64"
+						ExcludedFromBuild="true"
 						>
 						<Tool
 							Name="VCCLCompilerTool"
@@ -1641,6 +1647,7 @@
 					>
 					<FileConfiguration
 						Name="Debug|x64"
+						ExcludedFromBuild="true"
 						>
 						<Tool
 							Name="VCCLCompilerTool"
@@ -1649,6 +1656,7 @@
 					</FileConfiguration>
 					<FileConfiguration
 						Name="Release|x64"
+						ExcludedFromBuild="true"
 						>
 						<Tool
 							Name="VCCLCompilerTool"
@@ -1680,44 +1688,28 @@
 					Name="Assembler"
 					>
 					<File
-						RelativePath="..\..\mpn\x86_64w\aors_n.asm"
+						RelativePath="..\..\mpn\x86_64w\core2\addadd_n.asm"
 						>
-						<FileConfiguration
-							Name="Debug|x64"
-							>
-							<Tool
-								Name="YASM"
-								Debug="true"
-							/>
-						</FileConfiguration>
+					</File>
+					<File
+						RelativePath="..\..\mpn\x86_64w\core2\addlsh1_n.asm"
+						>
+					</File>
+					<File
+						RelativePath="..\..\mpn\x86_64w\core2\addsub_n.asm"
+						>
+					</File>
+					<File
+						RelativePath="..\..\mpn\x86_64w\core2\aors_n.asm"
+						>
 					</File>
 					<File
 						RelativePath="..\..\mpn\x86_64w\core2\aorsmul_1.asm"
 						>
 					</File>
 					<File
-						RelativePath="..\..\mpn\x86_64w\copyd.asm"
+						RelativePath="..\..\mpn\x86_64w\core2\com_n.asm"
 						>
-						<FileConfiguration
-							Name="Debug|x64"
-							>
-							<Tool
-								Name="YASM"
-								Debug="true"
-							/>
-						</FileConfiguration>
-					</File>
-					<File
-						RelativePath="..\..\mpn\x86_64w\copyi.asm"
-						>
-						<FileConfiguration
-							Name="Debug|x64"
-							>
-							<Tool
-								Name="YASM"
-								Debug="true"
-							/>
-						</FileConfiguration>
 					</File>
 					<File
 						RelativePath="..\..\mpn\x86_64w\dive_1.asm"
@@ -1727,33 +1719,31 @@
 							>
 							<Tool
 								Name="YASM"
-								Debug="true"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release|x64"
+							>
+							<Tool
+								Name="YASM"
 							/>
 						</FileConfiguration>
 					</File>
 					<File
-						RelativePath="..\..\mpn\x86_64w\lshift.asm"
+						RelativePath="..\..\mpn\x86_64w\core2\diveby3.asm"
 						>
-						<FileConfiguration
-							Name="Debug|x64"
-							>
-							<Tool
-								Name="YASM"
-								Debug="true"
-							/>
-						</FileConfiguration>
+					</File>
+					<File
+						RelativePath="..\..\mpn\x86_64w\core2\divebyff.asm"
+						>
+					</File>
+					<File
+						RelativePath="..\..\mpn\x86_64w\core2\lshift.asm"
+						>
 					</File>
 					<File
 						RelativePath="..\..\mpn\x86_64w\mode1o.asm"
 						>
-						<FileConfiguration
-							Name="Debug|x64"
-							>
-							<Tool
-								Name="YASM"
-								Debug="true"
-							/>
-						</FileConfiguration>
 					</File>
 					<File
 						RelativePath="..\..\mpn\x86_64w\core2\mul_1.asm"
@@ -1764,44 +1754,32 @@
 						>
 					</File>
 					<File
-						RelativePath="..\..\mpn\x86_64w\rshift.asm"
+						RelativePath="..\..\mpn\x86_64w\core2\redc_basecase.asm"
 						>
-						<FileConfiguration
-							Name="Debug|x64"
-							>
-							<Tool
-								Name="YASM"
-								Debug="true"
-							/>
-						</FileConfiguration>
+					</File>
+					<File
+						RelativePath="..\..\mpn\x86_64w\core2\rshift.asm"
+						>
 					</File>
 					<File
 						RelativePath="..\..\mpn\x86_64w\core2\sqr_basecase.asm"
 						>
 					</File>
 					<File
+						RelativePath="..\..\mpn\x86_64w\core2\sublsh1_n.asm"
+						>
+					</File>
+					<File
+						RelativePath="..\..\mpn\x86_64w\core2\sumdiff_n.asm"
+						>
+					</File>
+					<File
 						RelativePath="..\..\mpn\x86_64w\udiv.asm"
 						>
-						<FileConfiguration
-							Name="Debug|x64"
-							>
-							<Tool
-								Name="YASM"
-								Debug="true"
-							/>
-						</FileConfiguration>
 					</File>
 					<File
 						RelativePath="..\..\mpn\x86_64w\umul.asm"
 						>
-						<FileConfiguration
-							Name="Debug|x64"
-							>
-							<Tool
-								Name="YASM"
-								Debug="true"
-							/>
-						</FileConfiguration>
 					</File>
 				</Filter>
 				<Filter

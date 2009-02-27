@@ -1612,6 +1612,9 @@ tune_fft_sqr (void)
   fft (&param);
 }
 
+#ifdef _MSC_VER
+#define GMP_MPARAM_H_SUGGEST "vc_gmp_mparam.h"
+#endif
 
 void
 all (void)

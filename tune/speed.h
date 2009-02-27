@@ -304,8 +304,14 @@ double speed_umul_ppmm _PROTO ((struct speed_params *s));
 
 /* Prototypes for other routines */
 
+#ifdef _MSC_VER
+#include <intrin.h>
+#pragma intrinsic(__rdtsc)
+__inline void speed_cyclecounter(unsigned long p[2]) { *(unsigned long long*)p = __rdtsc(); }
+#else
 /* low 32-bits in p[0], high 32-bits in p[1] */
 void speed_cyclecounter _PROTO ((unsigned p[2]));
+#endif
 
 void mftb_function _PROTO ((unsigned p[2]));
 

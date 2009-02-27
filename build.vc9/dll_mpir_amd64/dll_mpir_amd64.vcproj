@@ -1710,14 +1710,6 @@
 						>
 					</File>
 					<File
-						RelativePath="..\..\mpn\x86_64w\copyd.asm"
-						>
-					</File>
-					<File
-						RelativePath="..\..\mpn\x86_64w\copyi.asm"
-						>
-					</File>
-					<File
 						RelativePath="..\..\mpn\x86_64w\dive_1.asm"
 						>
 						<FileConfiguration

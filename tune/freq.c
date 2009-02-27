@@ -131,6 +131,13 @@ MA 02110-1301, USA. */
 #include "mpir.h"
 #include "gmp-impl.h"
 
+#if defined( _MSC_VER)
+#define HAVE_GETRUSAGE      1
+#define HAVE_GETTIMEOFDAY   1
+#include "getrusage.h"
+#include "gettimeofday.h"
+#endif
+
 #include "speed.h"
 
 
@@ -809,6 +816,9 @@ freq_measure_gettimeofday (int help)
 static int
 freq_all (int help)
 {
+#ifdef _MSC_VER
+    return freq_environment (help) || freq_measure_gettimeofday (help) || freq_measure_getrusage (help);
+#else
   return
     /* This should be first, so an environment variable can override
        anything the system gives. */
@@ -833,6 +843,7 @@ freq_all (int help)
     || freq_sunos_sysinfo (help)
     || freq_measure_getrusage (help)
     || freq_measure_gettimeofday (help);
+#endif
 }
 
 
