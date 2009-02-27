@@ -80,7 +80,7 @@ struct cpuvec_t  initial_cpuvec;
 void
 check_functions (void)
 {
-  mp_limb_t  wp[2], xp[2], yp[2], r;
+  mp_limb_t  wp[2], wp2[2], xp[2], yp[2], r;
   int  i;
 
   memcpy (&__gmpn_cpuvec, &initial_cpuvec, sizeof (__gmpn_cpuvec));
@@ -233,6 +233,32 @@ check_functions (void)
       ASSERT_ALWAYS (r == 123);
     }
 #endif
+
+
+ memcpy (&__gmpn_cpuvec, &initial_cpuvec, sizeof (__gmpn_cpuvec));
+   for (i = 0; i < 2; i++)
+       {
+        xp[0] = 5;
+        modlimb_invert(r,xp[0]);
+        r=-r;
+        yp[0]=43;
+        yp[1]=75;
+        mpn_redc_basecase (wp, xp, (mp_size_t) 1,r,yp);
+        //printf("%ld\n",wp[0]);
+        ASSERT_ALWAYS (wp[0] == 78);
+       }
+
+
+ memcpy (&__gmpn_cpuvec, &initial_cpuvec, sizeof (__gmpn_cpuvec));
+   for (i = 0; i < 2; i++)
+       {
+        xp[0]=5;
+        yp[0]=3;
+        mpn_sumdiff_n (wp, wp2,xp, yp,1);
+        ASSERT_ALWAYS (wp[0] == 8);
+        ASSERT_ALWAYS (wp2[0] == 2);
+       }
+
 
   memcpy (&__gmpn_cpuvec, &initial_cpuvec, sizeof (__gmpn_cpuvec));
   for (i = 0; i < 2; i++)

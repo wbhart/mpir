@@ -91,6 +91,8 @@ MA 02110-1301, USA. */
   mp_limb_t name __GMP_PROTO ((mp_ptr, mp_size_t, mp_srcptr, mp_size_t, mp_limb_t, mp_limb_t, int))
 #define DECL_preinv_mod_1(name) \
   mp_limb_t name __GMP_PROTO ((mp_srcptr, mp_size_t, mp_limb_t, mp_limb_t))
+#define DECL_redc_basecase(name) \
+  void name __GMP_PROTO ((mp_ptr, mp_srcptr, mp_size_t, mp_limb_t, mp_ptr))
 #define DECL_rshift(name) \
   DECL_lshift (name)
 #define DECL_sqr_basecase(name) \
@@ -99,6 +101,8 @@ MA 02110-1301, USA. */
   DECL_add_n (name)
 #define DECL_submul_1(name) \
   DECL_addmul_1 (name)
+#define DECL_sumdiff_n(name) \
+  mp_limb_t name __GMP_PROTO ((mp_ptr, mp_ptr, mp_srcptr,mp_srcptr,mp_size_t))
 
 #if ! __GMP_WITHIN_CONFIGURE
 #include "config.h"
@@ -835,8 +839,10 @@ __GMP_DECLSPEC mp_limb_t mpn_addadd_n __GMP_PROTO ((mp_ptr, mp_srcptr, mp_srcptr
 #define mpn_addsub_n __MPN(addsub_n)
 __GMP_DECLSPEC int mpn_addsub_n __GMP_PROTO ((mp_ptr, mp_srcptr, mp_srcptr, mp_srcptr, mp_size_t));
 
+#ifndef mpn_sumdiff_n  /* if not done with cpuvec in a fat binary */
 #define mpn_sumdiff_n __MPN(sumdiff_n)
 __GMP_DECLSPEC mp_limb_t mpn_sumdiff_n __GMP_PROTO ((mp_ptr, mp_ptr, mp_srcptr, mp_srcptr, mp_size_t));
+#endif
 
 #define mpn_sumdiff_nc __MPN(sumdiff_nc)
 __GMP_DECLSPEC mp_limb_t mpn_sumdiff_nc __GMP_PROTO ((mp_ptr, mp_ptr, mp_srcptr, mp_srcptr, mp_size_t, mp_limb_t));
@@ -883,8 +889,10 @@ __GMP_DECLSPEC void mpn_mullow_n __GMP_PROTO ((mp_ptr, mp_srcptr, mp_srcptr, mp_
 #define mpn_mullow_basecase __MPN(mullow_basecase)
 __GMP_DECLSPEC void mpn_mullow_basecase __GMP_PROTO ((mp_ptr, mp_srcptr, mp_srcptr, mp_size_t));
 
+#ifndef mpn_redc_basecase  /* if not done with cpuvec in a fat binary */
 #define mpn_redc_basecase __MPN(redc_basecase)
 __GMP_DECLSPEC void mpn_redc_basecase __GMP_PROTO ((mp_ptr, mp_srcptr, mp_size_t,mp_limb_t , mp_ptr));
+#endif
 
 #define mpn_sqr_n __MPN(sqr_n)
 __GMP_DECLSPEC void mpn_sqr_n __GMP_PROTO ((mp_ptr, mp_srcptr, mp_size_t));
@@ -3796,10 +3804,13 @@ struct cpuvec_t {
   DECL_mul_basecase    ((*mul_basecase));
   DECL_preinv_divrem_1 ((*preinv_divrem_1));
   DECL_preinv_mod_1    ((*preinv_mod_1));
+  DECL_redc_basecase   ((*redc_basecase));
   DECL_rshift          ((*rshift));
   DECL_sqr_basecase    ((*sqr_basecase));
   DECL_sub_n           ((*sub_n));
   DECL_submul_1        ((*submul_1));
+  DECL_sumdiff_n       ((*sumdiff_n));
+
   int                  initialized;
   mp_size_t            mul_karatsuba_threshold;
   mp_size_t            mul_toom3_threshold;

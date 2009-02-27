@@ -1473,8 +1473,8 @@ case $host in
       fat_functions="add_n addmul_1 copyd copyi
 		     dive_1 diveby3 divrem_1 gcd_1 lshift
 		     mod_1 mod_34lsub1 mode1o mul_1 mul_basecase
-		     pre_divrem_1 pre_mod_1 rshift
-		     sqr_basecase sub_n submul_1"
+		     pre_divrem_1 pre_mod_1 redc_basecase rshift
+		     sqr_basecase sub_n submul_1 sumdiff_n"
       fat_exclude=""
       fat_thresholds="MUL_KARATSUBA_THRESHOLD MUL_TOOM3_THRESHOLD
 		      SQR_KARATSUBA_THRESHOLD SQR_TOOM3_THRESHOLD"

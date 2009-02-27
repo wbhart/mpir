@@ -59,10 +59,12 @@ define(CPUVEC_FUNCS_LIST,
 `mul_basecase',
 `preinv_divrem_1',
 `preinv_mod_1',
+`redc_basecase',
 `rshift',
 `sqr_basecase',
 `sub_n',
-`submul_1'')
+`submul_1',
+`sumdiff_n'')
 
 dnl  Notes:
 dnl
