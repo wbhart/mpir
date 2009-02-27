@@ -201,6 +201,13 @@ MA 02110-1301, USA. */
 #include "mpir.h"
 #include "gmp-impl.h"
 
+#if 1 && defined( _MSC_VER)
+#define HAVE_GETRUSAGE      1
+#define HAVE_GETTIMEOFDAY   1
+#include "getrusage.h"
+#include "gettimeofday.h"
+#endif
+
 #include "speed.h"
 
 
