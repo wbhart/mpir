@@ -1487,7 +1487,7 @@ case $host in
         gcc_64_cflags="-O2 -m64"
         gcc_64_cflags_optlist="opt arch cpu"
         SPEED_CYCLECOUNTER_OBJ_64=x86_64.lo
-        CALLING_CONVENTIONS_OBJS_64='x86_64call.lo x86_64check$U.lo'
+        #CALLING_CONVENTIONS_OBJS_64='x86_64call.lo x86_64check$U.lo'
         cyclecounter_size_64=2 
         case $host in
            *-*-solaris* | *-*-sunos*)
