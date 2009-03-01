@@ -88,9 +88,11 @@ LIBMP_LT_AGE =      1
 
 SUBDIRS = tests
 
-if BUILD_YASM
-SUBDIRS += yasmbuild
-endif
+#if BUILD_YASM
+#SUBDIRS += yasmbuild
+#endif
+
+SUBDIRS += yasm
 
 SUBDIRS += mpn mpz mpq mpf printf scanf cxx mpbsd demos tune doc
 
