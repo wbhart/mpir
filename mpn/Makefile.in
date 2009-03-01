@@ -80,7 +80,7 @@ build_triplet = @build@
 host_triplet = @host@
 ANSI2KNR = $(top_builddir)/ansi2knr
 DIST_COMMON = README $(srcdir)/Makeasm.am $(srcdir)/Makefile.am \
-	$(srcdir)/Makefile.in $(srcdir)/yasm_mac.inc.root
+	$(srcdir)/Makefile.in
 subdir = mpn
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/acinclude.m4 \

@@ -34135,7 +34135,13 @@ echo "define(\`__CONFIG_M4_INCLUDED__')" >> $gmp_configm4
 subdirs="$subdirs yasm"
 
 #fi
-ac_config_links="$ac_config_links yasm_mac.inc:mpn/yasm_mac.inc.root"
+
+if test $enable_fat = yes; then
+YASM_MAC_INC=yasm_mac.inc.fat
+else
+YASM_MAC_INC=yasm_mac.inc.nofat
+fi
+ac_config_links="$ac_config_links yasm_mac.inc:$YASM_MAC_INC"
 
 
 ac_config_files="$ac_config_files Makefile mpbsd/Makefile mpf/Makefile mpn/Makefile mpq/Makefile mpz/Makefile printf/Makefile scanf/Makefile cxx/Makefile tests/Makefile tests/devel/Makefile tests/mpbsd/Makefile tests/mpf/Makefile tests/mpn/Makefile tests/mpq/Makefile tests/mpz/Makefile tests/rand/Makefile tests/misc/Makefile tests/cxx/Makefile doc/Makefile tune/Makefile demos/Makefile demos/calc/Makefile demos/expr/Makefile mpir.h:gmp-h.in mp.h:mp-h.in"
@@ -34737,7 +34743,7 @@ do
     "gmp-mparam.h") CONFIG_LINKS="$CONFIG_LINKS gmp-mparam.h:mpn/$gmp_mparam_dir/gmp-mparam.h" ;;
     "demos/pexpr-config.h") CONFIG_FILES="$CONFIG_FILES demos/pexpr-config.h:demos/pexpr-config-h.in" ;;
     "demos/calc/calc-config.h") CONFIG_FILES="$CONFIG_FILES demos/calc/calc-config.h:demos/calc/calc-config-h.in" ;;
-    "yasm_mac.inc") CONFIG_LINKS="$CONFIG_LINKS yasm_mac.inc:mpn/yasm_mac.inc.root" ;;
+    "yasm_mac.inc") CONFIG_LINKS="$CONFIG_LINKS yasm_mac.inc:$YASM_MAC_INC" ;;
     "Makefile") CONFIG_FILES="$CONFIG_FILES Makefile" ;;
     "mpbsd/Makefile") CONFIG_FILES="$CONFIG_FILES mpbsd/Makefile" ;;
     "mpf/Makefile") CONFIG_FILES="$CONFIG_FILES mpf/Makefile" ;;
