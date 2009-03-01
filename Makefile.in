@@ -60,6 +60,7 @@ POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
 ANSI2KNR = @ANSI2KNR@
+@BUILD_YASM_TRUE@am__append_1 = yasm
 DIST_COMMON = README $(am__configure_deps) $(am__include_HEADERS_DIST) \
 	$(srcdir)/Makefile.am $(srcdir)/Makefile.in \
 	$(srcdir)/config.in $(srcdir)/gmp-h.in $(srcdir)/mp-h.in \
@@ -242,7 +243,8 @@ nodist_includeexecHEADERS_INSTALL = $(INSTALL_HEADER)
 HEADERS = $(include_HEADERS) $(nodist_includeexec_HEADERS)
 ETAGS = etags
 CTAGS = ctags
-DIST_SUBDIRS = $(SUBDIRS)
+DIST_SUBDIRS = tests yasm mpn mpz mpq mpf printf scanf cxx mpbsd demos \
+	tune doc
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 distdir = $(PACKAGE)-$(VERSION)
 top_distdir = $(distdir)
@@ -462,11 +464,9 @@ LIBMP_LT_CURRENT = 4
 LIBMP_LT_REVISION = 10
 LIBMP_LT_AGE = 1
 
-#if BUILD_YASM
-#SUBDIRS += yasmbuild
-#endif
-SUBDIRS = tests yasm mpn mpz mpq mpf printf scanf cxx mpbsd demos tune \
-	doc
+#SUBDIRS += yasm
+SUBDIRS = tests $(am__append_1) mpn mpz mpq mpf printf scanf cxx mpbsd \
+	demos tune doc
 
 # The ansi2knr setups for the build programs are the same as the normal
 # automake ansi2knr rules, but using $(CC_FOR_BUILD) instead of $(CC).
