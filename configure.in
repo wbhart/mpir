@@ -3295,11 +3295,8 @@ GMP_FINISH
 # FIXME: Upcoming version of autoconf/automake don't like broken lines.
 #        Right now automake isn't accepting the new AC_CONFIG_FILES scheme.
 
-# AC_CONFIG_COMMANDS_POST(/bin/bash -c "cd yasm ; ./configure")
-#if test "$want_yasm" = "yes"; then
 #     allways configure all subdirectorys , even if there are not going to be built , 
 AC_CONFIG_SUBDIRS([yasm])
-#fi
 
 if test $enable_fat = yes; then
 YASM_MAC_INC=yasm_mac.inc.fat

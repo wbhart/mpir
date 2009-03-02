@@ -463,8 +463,6 @@ LIBGMPXX_LT_AGE = 1
 LIBMP_LT_CURRENT = 4
 LIBMP_LT_REVISION = 10
 LIBMP_LT_AGE = 1
-
-#SUBDIRS += yasm
 SUBDIRS = tests $(am__append_1) mpn mpz mpq mpf printf scanf cxx mpbsd \
 	demos tune doc
 

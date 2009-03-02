@@ -92,8 +92,6 @@ if BUILD_YASM
 SUBDIRS += yasm
 endif
 
-#SUBDIRS += yasm
-
 SUBDIRS += mpn mpz mpq mpf printf scanf cxx mpbsd demos tune doc
 
 EXTRA_DIST = configfsf.guess configfsf.sub .gdbinit INSTALL.autoconf

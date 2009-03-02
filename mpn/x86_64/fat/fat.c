@@ -229,6 +229,12 @@ __gmpn_cpuvec_init (void)
                 {
                   TRACE (printf ("  pentium3\n"));
                 }
+              if (model==15 || model==22 || model==23 || model==29)
+                 {TRACE (printf ("  core2\n"));
+                  CPUVEC_SETUP_core2;
+                  break;
+                 }
+
               break;
 
             case 15:
