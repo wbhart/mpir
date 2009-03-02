@@ -32,7 +32,7 @@
 ; n	    rdx
 ; vl	rcx
 
-%include '../yasm_mac.inc'
+%include 'yasm_mac.inc'
 
     BITS    64
     

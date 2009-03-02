@@ -32,7 +32,7 @@
 ;     mp_size_t size rdx
 ; )
 
-%include '../yasm_mac.inc'
+%include 'yasm_mac.inc'
 
 %define    UNROLL_THRESHOLD 16
 

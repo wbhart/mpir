@@ -80,7 +80,7 @@
 ; );
 ;
 
-%include '../yasm_mac.inc'
+%include 'yasm_mac.inc'
 
     BITS    64
     align   32

@@ -44,7 +44,7 @@
 ;
 ; *********************************************************************
 
-%include '../yasm_mac.inc'
+%include 'yasm_mac.inc'
 
 ;
 ; If YASM supports lahf and sahf instructions, then we'll get rid

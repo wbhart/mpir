@@ -29,7 +29,7 @@
 ;  mp_limb_t m2             rdx
 ;  );
 
-%include '../yasm_mac.inc'
+%include 'yasm_mac.inc'
 
 %define low   rdi
 %define m1    rsi
