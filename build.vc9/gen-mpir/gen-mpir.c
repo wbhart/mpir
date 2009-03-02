@@ -13,7 +13,7 @@ char *add =
 "#          undef _LONG_LONG_LIMB\n"
 "#        endif\n"
 "#    else\n"
-"#        error This is the wrong version of gmp.h\n"
+"#        error This is the wrong version of mpir.h\n"
 "#    endif\n"
 "#  endif\n"
 "#  define GMP_LIMB_BITS            (SIZEOF_MP_LIMB_T << 3)\n"
@@ -22,7 +22,7 @@ char *add =
 "#endif\n";
 
 #define IN_FILE "..\\..\\gmp-h.in"
-#define OUT_FILE "gmp.h"
+#define OUT_FILE "..\\..\\mpir.h"
 
 int main()
 {   FILE *fin, *fout;

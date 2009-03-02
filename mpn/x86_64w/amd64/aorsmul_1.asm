@@ -1,6 +1,6 @@
 
-; AMD64 mpn_addmul_1/mpn_addmul_1c -- multiply and add (with carry)
-; AMD64 mpn_submul_1/mpn_submul_1c -- multiply and subtract (with carry)
+; AMD64 mpn_addmul_1 -- multiply and add
+; AMD64 mpn_submul_1 -- multiply and subtract
 ; Version 1.0.3.
 ;
 ;  Copyright 2008 Jason Moxham
@@ -42,61 +42,41 @@
 ; dst[size] and return the carry or borrow from the top of the result
 ;
 ; These are SEH frame functions with two leaf prologues
-;
-;   %1 = __g, %2 = add, %3 = mpn_addmul_1, %4 = mpn_addmul_1c
-;   %1 = __g, %2 = sub, %3 = mpn_submul_1, %4 = mpn_submul_1c
 
 %include "..\x86_64_asm.inc"
 
 %define reg_save_list r12, r13, r14
 
-%macro   mac_sub  4
+%macro   mac_sub  2
 
-    global  %1%3
-    global  %1%4
+    global  %1
 
 %ifdef DLL
-    export  %1%3
-    export  %1%4
+    export  %1
 %endif
 
-%1%3:
-    xor     r11, r11        ; carry (0)
-    mov     r8d, r8d
+    alignb  16, nop
+%1: mov     r8d, r8d
     mov     rax, [rdx]
     cmp     r8, 1
-    jnz     %%1
+    jnz     %1x
 	mul     r9
 	%2      [rcx], rax
 	adc     rdx, 0
 	mov     rax, rdx
 	ret
-
-%1%4:
-    mov     r11, [rsp+0x28] ; carry value
-    mov     r8d, r8d
-    mov     rax, [rdx]
-    cmp     r8, 1
-    jnz     %%1
-	mul     r9
-	add     rax, r11
-	adc     rdx, 0
-	%2      [rcx], rax
-	adc     rdx, 0
-	mov     rax, rdx
-	ret
-
-%%1:prologue %2xx, 0, reg_save_list
-    xor     r13, r13
+	
+    align   16
+    prologue %1x, 0, reg_save_list
     mov     r10, rdx
     sub     r8, 5
     lea     r10, [r10+r8*8]
     lea     rcx, [rcx+r8*8]
     neg     r8
     mul     r9
-    add     r11, rax
+    mov     r11, rax
     mov     rax, [8+r10+r8*8]
-    adc     r13, rdx
+    mov     r13, rdx
     cmp     r8, 0
     jge     %%3
 
@@ -149,7 +129,7 @@
 	mov     rax, r14
 	jmp     %%8
 
-    align   16
+    alignb  16, nop
 %%5:mov     r12d, 0
 	mul     r9
 	%2      [rcx+r8*8], r11
@@ -160,7 +140,7 @@
 	mov     rax, r12
 	jmp     %%8
 
-	align   16
+    alignb  16, nop
 %%6:mov     r12d, 0
 	mul     r9
 	%2      [rcx+r8*8], r11
@@ -183,7 +163,7 @@
 	mov     rax, r11
 	jmp     %%8
 
-    align   16
+    alignb  16, nop
 %%7:mov     r12d, 0
 	mul     r9
 	%2      [rcx+r8*8], r11
@@ -217,7 +197,7 @@
     bits    64
     section .text
 
-    mac_sub __g,add,mpn_addmul_1,mpn_addmul_1c
-    mac_sub __g,sub,mpn_submul_1,mpn_submul_1c
+    mac_sub __gmpn_addmul_1, add
+    mac_sub __gmpn_submul_1, sub
 
     end

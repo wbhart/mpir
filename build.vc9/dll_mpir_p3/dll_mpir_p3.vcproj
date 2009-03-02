@@ -28,7 +28,7 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
-				CommandLine="call ..\file_copy ..\config.p3 ..\..\config.h&#x0D;&#x0A;call ..\file_copy ..\..\mpn\x86w\gmp-mparam.h ..\..\gmp-mparam.h&#x0D;&#x0A;call ..\file_copy ..\gmp.h ..\..\gmp.h&#x0D;&#x0A;"
+				CommandLine="call ..\file_copy ..\config.p3 ..\..\config.h&#x0D;&#x0A;call ..\file_copy ..\..\mpn\x86w\gmp-mparam.h ..\..\gmp-mparam.h&#x0D;&#x0A;"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -99,7 +99,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="if not exist ..\dll\$(OutDir)\ md ..\dll\$(OutDir)\&#x0D;&#x0A;&#x0D;&#x0A;call ..\out_copy_rename &quot;..\..\gmp.h&quot; &quot;$(TargetDir)&quot; mpir.h&#x0D;&#x0A;call ..\out_copy_rename &quot;..\..\gmpxx.h&quot; &quot;$(TargetDir)&quot; mpirxx.h&#x0D;&#x0A;call ..\out_copy &quot;..\..\config.h&quot; &quot;$(TargetDir)&quot;&#x0D;&#x0A;call ..\out_copy &quot;..\..\gmp-mparam.h&quot; &quot;$(TargetDir)&quot;&#x0D;&#x0A;&#x0D;&#x0A;call ..\out_copy_rename &quot;..\..\gmp.h&quot; ..\dll\$(OutDir)\ mpir.h&#x0D;&#x0A;call ..\out_copy_rename &quot;..\..\gmpxx.h&quot; ..\dll\$(OutDir)\ mpirxx.h&#x0D;&#x0A;call ..\out_copy &quot;..\..\config.h&quot; ..\dll\$(OutDir)\&#x0D;&#x0A;call ..\out_copy &quot;..\..\gmp-mparam.h&quot; ..\dll\$(OutDir)\&#x0D;&#x0A;call ..\out_copy &quot;$(TargetDir)$(TargetName).dll&quot; ..\dll\$(OutDir)\&#x0D;&#x0A;call ..\out_copy &quot;$(TargetDir)$(TargetName).exp&quot;  ..\dll\$(OutDir)\&#x0D;&#x0A;call ..\out_copy &quot;$(TargetDir)$(TargetName).lib&quot; ..\dll\$(OutDir)\&#x0D;&#x0A;call ..\out_copy &quot;$(TargetDir)$(TargetName).pdb&quot; ..\dll\$(OutDir)\&#x0D;&#x0A;&#x0D;&#x0A;echo $(ProjectDir)+$(OutDir)+$(TargetName)+$(TargetExt) &gt; ..\last_build.txt&#x0D;&#x0A;"
+				CommandLine="if not exist ..\dll\$(OutDir)\ md ..\dll\$(OutDir)\&#x0D;&#x0A;&#x0D;&#x0A;call ..\out_copy &quot;..\..\mpir.h&quot; &quot;$(TargetDir)&quot;&#x0D;&#x0A;call ..\out_copy  &quot;..\..\mpirxx.h&quot; &quot;$(TargetDir)&quot;&#x0D;&#x0A;call ..\out_copy &quot;..\..\config.h&quot; &quot;$(TargetDir)&quot;&#x0D;&#x0A;call ..\out_copy &quot;..\..\gmp-mparam.h&quot; &quot;$(TargetDir)&quot;&#x0D;&#x0A;&#x0D;&#x0A;call ..\out_copy &quot;..\..\mpir.h&quot; ..\dll\$(OutDir)\&#x0D;&#x0A;call ..\out_copy &quot;..\..\mpirxx.h&quot; ..\dll\$(OutDir)\&#x0D;&#x0A;call ..\out_copy &quot;..\..\config.h&quot; ..\dll\$(OutDir)\&#x0D;&#x0A;call ..\out_copy &quot;..\..\gmp-mparam.h&quot; ..\dll\$(OutDir)\&#x0D;&#x0A;&#x0D;&#x0A;call ..\out_copy &quot;$(TargetDir)$(TargetName).dll&quot; ..\dll\$(OutDir)\&#x0D;&#x0A;call ..\out_copy &quot;$(TargetDir)$(TargetName).exp&quot;  ..\dll\$(OutDir)\&#x0D;&#x0A;call ..\out_copy &quot;$(TargetDir)$(TargetName).lib&quot; ..\dll\$(OutDir)\&#x0D;&#x0A;call ..\out_copy &quot;$(TargetDir)$(TargetName).pdb&quot; ..\dll\$(OutDir)\&#x0D;&#x0A;&#x0D;&#x0A;echo $(ProjectDir)+$(OutDir)+$(TargetName)+$(TargetExt) &gt; ..\last_build.txt&#x0D;&#x0A;"
 			/>
 		</Configuration>
 		<Configuration
@@ -111,7 +111,7 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
-				CommandLine="call ..\file_copy ..\config.p3 ..\..\config.h&#x0D;&#x0A;call ..\file_copy ..\..\mpn\x86w\gmp-mparam.h ..\..\gmp-mparam.h&#x0D;&#x0A;call ..\file_copy ..\gmp.h ..\..\gmp.h&#x0D;&#x0A;"
+				CommandLine="call ..\file_copy ..\config.p3 ..\..\config.h&#x0D;&#x0A;call ..\file_copy ..\..\mpn\x86w\gmp-mparam.h ..\..\gmp-mparam.h&#x0D;&#x0A;"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -185,7 +185,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="if not exist ..\dll\$(OutDir)\ md ..\dll\$(OutDir)\&#x0D;&#x0A;&#x0D;&#x0A;call ..\out_copy_rename &quot;..\..\gmp.h&quot; &quot;$(TargetDir)&quot; mpir.h&#x0D;&#x0A;call ..\out_copy_rename &quot;..\..\gmpxx.h&quot; &quot;$(TargetDir)&quot; mpirxx.h&#x0D;&#x0A;call ..\out_copy &quot;..\..\config.h&quot; &quot;$(TargetDir)&quot;&#x0D;&#x0A;call ..\out_copy &quot;..\..\gmp-mparam.h&quot; &quot;$(TargetDir)&quot;&#x0D;&#x0A;&#x0D;&#x0A;call ..\out_copy_rename &quot;..\..\gmp.h&quot; ..\dll\$(OutDir)\ mpir.h&#x0D;&#x0A;call ..\out_copy_rename &quot;..\..\gmpxx.h&quot; ..\dll\$(OutDir)\ mpirxx.h&#x0D;&#x0A;call ..\out_copy &quot;..\..\config.h&quot; ..\dll\$(OutDir)\&#x0D;&#x0A;call ..\out_copy &quot;..\..\gmp-mparam.h&quot; ..\dll\$(OutDir)\&#x0D;&#x0A;call ..\out_copy &quot;$(TargetDir)$(TargetName).dll&quot; ..\dll\$(OutDir)\&#x0D;&#x0A;call ..\out_copy &quot;$(TargetDir)$(TargetName).exp&quot;  ..\dll\$(OutDir)\&#x0D;&#x0A;call ..\out_copy &quot;$(TargetDir)$(TargetName).lib&quot; ..\dll\$(OutDir)\&#x0D;&#x0A;call ..\out_copy &quot;$(TargetDir)$(TargetName).pdb&quot; ..\dll\$(OutDir)\&#x0D;&#x0A;&#x0D;&#x0A;echo $(ProjectDir)+$(OutDir)+$(TargetName)+$(TargetExt) &gt; ..\last_build.txt&#x0D;&#x0A;"
+				CommandLine="if not exist ..\dll\$(OutDir)\ md ..\dll\$(OutDir)\&#x0D;&#x0A;&#x0D;&#x0A;call ..\out_copy &quot;..\..\mpir.h&quot; &quot;$(TargetDir)&quot;&#x0D;&#x0A;call ..\out_copy  &quot;..\..\mpirxx.h&quot; &quot;$(TargetDir)&quot;&#x0D;&#x0A;call ..\out_copy &quot;..\..\config.h&quot; &quot;$(TargetDir)&quot;&#x0D;&#x0A;call ..\out_copy &quot;..\..\gmp-mparam.h&quot; &quot;$(TargetDir)&quot;&#x0D;&#x0A;&#x0D;&#x0A;call ..\out_copy &quot;..\..\mpir.h&quot; ..\dll\$(OutDir)\&#x0D;&#x0A;call ..\out_copy &quot;..\..\mpirxx.h&quot; ..\dll\$(OutDir)\&#x0D;&#x0A;call ..\out_copy &quot;..\..\config.h&quot; ..\dll\$(OutDir)\&#x0D;&#x0A;call ..\out_copy &quot;..\..\gmp-mparam.h&quot; ..\dll\$(OutDir)\&#x0D;&#x0A;&#x0D;&#x0A;call ..\out_copy &quot;$(TargetDir)$(TargetName).dll&quot; ..\dll\$(OutDir)\&#x0D;&#x0A;call ..\out_copy &quot;$(TargetDir)$(TargetName).exp&quot;  ..\dll\$(OutDir)\&#x0D;&#x0A;call ..\out_copy &quot;$(TargetDir)$(TargetName).lib&quot; ..\dll\$(OutDir)\&#x0D;&#x0A;call ..\out_copy &quot;$(TargetDir)$(TargetName).pdb&quot; ..\dll\$(OutDir)\&#x0D;&#x0A;&#x0D;&#x0A;echo $(ProjectDir)+$(OutDir)+$(TargetName)+$(TargetExt) &gt; ..\last_build.txt&#x0D;&#x0A;"
 			/>
 		</Configuration>
 	</Configurations>
@@ -1488,6 +1488,10 @@
 							>
 						</File>
 						<File
+							RelativePath="..\..\mpn\x86w\p6\p3mmx\popham.asm"
+							>
+						</File>
+						<File
 							RelativePath="..\..\mpn\x86w\p6\mmx\popham.asm"
 							>
 							<FileConfiguration
@@ -1506,10 +1510,6 @@
 									Name="YASM"
 								/>
 							</FileConfiguration>
-						</File>
-						<File
-							RelativePath="..\..\mpn\x86w\p6\p3mmx\popham.asm"
-							>
 						</File>
 						<File
 							RelativePath="..\..\mpn\x86w\p6\mmx\rshift.asm"

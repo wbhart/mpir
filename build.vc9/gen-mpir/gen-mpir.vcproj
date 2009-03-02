@@ -87,7 +87,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="&quot;$(TargetPath)&quot;&#x0D;&#x0A;call ..\file_copy gmp.h ..\gmp.h&#x0D;&#x0A;call ..\file_copy gmp.h ..\..\gmp.h&#x0D;&#x0A;call ..\file_copy gmp.h ..\mpir.h&#x0D;&#x0A;call ..\file_copy gmp.h ..\..\mpir.h&#x0D;&#x0A;"
+				CommandLine="&quot;$(TargetPath)&quot;"
 			/>
 		</Configuration>
 		<Configuration
@@ -162,7 +162,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="&quot;$(TargetPath)&quot;&#x0D;&#x0A;call ..\file_copy gmp.h ..\gmp.h&#x0D;&#x0A;call ..\file_copy gmp.h ..\..\gmp.h&#x0D;&#x0A;call ..\file_copy gmp.h ..\mpir.h&#x0D;&#x0A;call ..\file_copy gmp.h ..\..\mpir.h&#x0D;&#x0A;"
+				CommandLine="&quot;$(TargetPath)&quot;"
 			/>
 		</Configuration>
 	</Configurations>

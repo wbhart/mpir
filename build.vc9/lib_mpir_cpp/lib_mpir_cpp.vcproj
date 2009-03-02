@@ -81,7 +81,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="if not exist ..\lib\$(OutDir)\ md ..\lib\$(OutDir)\&#x0D;&#x0A;&#x0D;&#x0A;call ..\out_copy_rename ..\..\gmpxx.h &quot;$(TargetDir)&quot; mpirxx.h&#x0D;&#x0A;call ..\out_copy_rename ..\..\gmpxx.h ..\lib\$(OutDir)\ mpirxx.h&#x0D;&#x0A;call ..\out_copy &quot;$(TargetDir)$(TargetName).lib&quot; ..\lib\$(OutDir)\&#x0D;&#x0A;call ..\out_copy &quot;$(TargetDir)$(TargetName).pdb&quot; ..\lib\$(OutDir)\&#x0D;&#x0A;"
+				CommandLine="if not exist ..\lib\$(OutDir)\ md ..\lib\$(OutDir)\&#x0D;&#x0A;&#x0D;&#x0A;call ..\out_copy ..\..\mpirxx.h &quot;$(TargetDir)&quot;&#x0D;&#x0A;call ..\out_copy ..\..\mpirxx.h ..\lib\$(OutDir)\&#x0D;&#x0A;&#x0D;&#x0A;call ..\out_copy &quot;$(TargetDir)$(TargetName).lib&quot; ..\lib\$(OutDir)\&#x0D;&#x0A;call ..\out_copy &quot;$(TargetDir)$(TargetName).pdb&quot; ..\lib\$(OutDir)\&#x0D;&#x0A;"
 			/>
 		</Configuration>
 		<Configuration
@@ -150,7 +150,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="if not exist ..\lib\$(OutDir)\ md ..\lib\$(OutDir)\&#x0D;&#x0A;&#x0D;&#x0A;call ..\out_copy_rename ..\..\gmpxx.h &quot;$(TargetDir)&quot; mpirxx.h&#x0D;&#x0A;call ..\out_copy_rename ..\..\gmpxx.h ..\lib\$(OutDir)\ mpirxx.h&#x0D;&#x0A;call ..\out_copy &quot;$(TargetDir)$(TargetName).lib&quot; ..\lib\$(OutDir)\&#x0D;&#x0A;call ..\out_copy &quot;$(TargetDir)$(TargetName).pdb&quot; ..\lib\$(OutDir)\&#x0D;&#x0A;"
+				CommandLine="if not exist ..\lib\$(OutDir)\ md ..\lib\$(OutDir)\&#x0D;&#x0A;&#x0D;&#x0A;call ..\out_copy ..\..\mpirxx.h &quot;$(TargetDir)&quot;&#x0D;&#x0A;call ..\out_copy ..\..\mpirxx.h ..\lib\$(OutDir)\&#x0D;&#x0A;&#x0D;&#x0A;call ..\out_copy &quot;$(TargetDir)$(TargetName).lib&quot; ..\lib\$(OutDir)\&#x0D;&#x0A;call ..\out_copy &quot;$(TargetDir)$(TargetName).pdb&quot; ..\lib\$(OutDir)\&#x0D;&#x0A;"
 			/>
 		</Configuration>
 		<Configuration
@@ -215,7 +215,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="if not exist ..\lib\$(OutDir)\ md ..\lib\$(OutDir)\&#x0D;&#x0A;&#x0D;&#x0A;call ..\out_copy_rename ..\..\gmpxx.h &quot;$(TargetDir)&quot; mpirxx.h&#x0D;&#x0A;call ..\out_copy_rename ..\..\gmpxx.h ..\lib\$(OutDir)\ mpirxx.h&#x0D;&#x0A;call ..\out_copy &quot;$(TargetDir)$(TargetName).lib&quot; ..\lib\$(OutDir)\&#x0D;&#x0A;call ..\out_copy &quot;$(TargetDir)$(TargetName).pdb&quot; ..\lib\$(OutDir)\&#x0D;&#x0A;"
+				CommandLine="if not exist ..\lib\$(OutDir)\ md ..\lib\$(OutDir)\&#x0D;&#x0A;&#x0D;&#x0A;call ..\out_copy ..\..\mpirxx.h &quot;$(TargetDir)&quot;&#x0D;&#x0A;call ..\out_copy ..\..\mpirxx.h ..\lib\$(OutDir)\&#x0D;&#x0A;&#x0D;&#x0A;call ..\out_copy &quot;$(TargetDir)$(TargetName).lib&quot; ..\lib\$(OutDir)\&#x0D;&#x0A;call ..\out_copy &quot;$(TargetDir)$(TargetName).pdb&quot; ..\lib\$(OutDir)\&#x0D;&#x0A;"
 			/>
 		</Configuration>
 		<Configuration
@@ -285,7 +285,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="if not exist ..\lib\$(OutDir)\ md ..\lib\$(OutDir)\&#x0D;&#x0A;&#x0D;&#x0A;call ..\out_copy_rename ..\..\gmpxx.h &quot;$(TargetDir)&quot; mpirxx.h&#x0D;&#x0A;call ..\out_copy_rename ..\..\gmpxx.h ..\lib\$(OutDir)\ mpirxx.h&#x0D;&#x0A;call ..\out_copy &quot;$(TargetDir)$(TargetName).lib&quot; ..\lib\$(OutDir)\&#x0D;&#x0A;call ..\out_copy &quot;$(TargetDir)$(TargetName).pdb&quot; ..\lib\$(OutDir)\&#x0D;&#x0A;"
+				CommandLine="if not exist ..\lib\$(OutDir)\ md ..\lib\$(OutDir)\&#x0D;&#x0A;&#x0D;&#x0A;call ..\out_copy ..\..\mpirxx.h &quot;$(TargetDir)&quot;&#x0D;&#x0A;call ..\out_copy ..\..\mpirxx.h ..\lib\$(OutDir)\&#x0D;&#x0A;&#x0D;&#x0A;call ..\out_copy &quot;$(TargetDir)$(TargetName).lib&quot; ..\lib\$(OutDir)\&#x0D;&#x0A;call ..\out_copy &quot;$(TargetDir)$(TargetName).pdb&quot; ..\lib\$(OutDir)\&#x0D;&#x0A;"
 			/>
 		</Configuration>
 	</Configurations>

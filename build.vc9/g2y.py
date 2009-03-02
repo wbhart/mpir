@@ -9,7 +9,7 @@ r_q = r"(?:r[abcd]x|r[sd]i|r[bsi]p)|(?:r8|r9|r1[012345])|"
 r_d = r"(?:e[abcd]x|e[sd]i|e[bsi]p|r[89]d|r1[012345]d)|"
 r_w = r"(?:[abcd]x|[sd]i|[bsi]p|r[89]w|r1[012345]w)|"
 r_b = r"(?:[abcd]l|[ds]il|[bsi]pl|r[89]l|r1[012345]l)|"
-r_x = r"(?:mm\d|mm1[0-5])|(?:mmx\d|mmx1[0-5])|(?:st\([0-7]\))" 
+r_x = r"(?:x?mm\d|x?mm1[0-5])|(?:mmx\d|mmx1[0-5])|(?:st\([0-7]\))"  
 
 p_rg = r"(?:\s*%(" + r_b + r_w + r_d + r_q + r_x + r"))"
 
@@ -21,7 +21,7 @@ p_t1 = p_di + r"\s*\(" + p_rg + r"(?:\s*\)|\s*,*" + p_rg + p_mu + r"\s*\))"
 
 # regular expression for immediate (numeric, not symbolic)
 
-p_im = r"\s+\`{0,1}\$\'{0,1}([\+\-]{0,1}[a-zA-Z0-9]+)"
+p_im = r"\s+\`{0,1}\$\'{0,1}([\+\-]{0,1}[0-9]+|0x[a-zA-Z0-9]+)"
 
 # regular expression for labels
 
@@ -231,6 +231,12 @@ def pass_three(code, labels, macros) :
       lo += [lp + '\t{0[0]:7s} {0[1]}'.format(v)]
       continue
 
+    m = re.search(r"\s*\.byte\s+((?:0x|0X)[0-9a-fA-F]+|[0-9]+)\s*", l)
+    if m :
+      v = list(m.groups())
+      lo += [lp + '\tdb      {0[0]}'.format(v)]
+      continue
+    
     # jump label  
     m = m_f9.search(l)
     if m :
@@ -383,13 +389,15 @@ if cd1 and os.path.exists(cd1) :
 elif cd1 :
   print("cannot find input directory: '{0}'".format(cd1))
 else :
-  # for testing -- translates to directory amd64c rather than amd64
-  f = open("..\\mpn\\x86_64\\amd64\\mul_basecase.asm", "r")
-  code = f.readlines()
-  f.close()
-  labels = pass_one(code)
-  macros = pass_two(code, labels)
-  code = pass_three(code, labels, macros)
-  f = open("..\\mpn\\x86_64w\\amd64c\\mul_basecase.asm", "w")
-  f.writelines(code)
-  f.close()
+  convert(cd, cd + "\\convert\\", 0)
+  if False :
+    # for testing -- translates to directory amd64c rather than amd64
+    f = open("..\\mpn\\x86_64\\amd64\\mul_basecase.asm", "r")
+    code = f.readlines()
+    f.close()
+    labels = pass_one(code)
+    macros = pass_two(code, labels)
+    code = pass_three(code, labels, macros)
+    f = open("..\\mpn\\x86_64w\\amd64c\\mul_basecase.asm", "w")
+    f.writelines(code)
+    f.close()

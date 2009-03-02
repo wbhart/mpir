@@ -47,62 +47,62 @@
 %endif
 
     prologue __gmpn_sublsh1_n, 0, reg_save_list
-    mov     r9d, r9d
+    mov eax, r9d
 
-	lea     rdx, [rdx+r9*8]
-	lea     r8, [r8+r9*8]
-	lea     rcx, [rcx+r9*8]
-	neg     r9
-	xor     r10, r10
+	lea     rsi, [rdx+rax*8]
+	lea     rdx, [r8+rax*8]
+	lea     rdi, [rcx+rax*8]
+	mov     rcx, rax
+	
+	neg     rcx
+	xor     r9, r9
 	xor     rax, rax
-	test    r9, 3
+	test    rcx, 3
 	jz      .2
 
-.1: mov     r11, [rdx+r9*8]
-	add     r10, 1
-	sbb     r11, [r8+r9*8]
-	sbb     r10, r10
-	add     rax, 1
-	sbb     r11, [r8+r9*8]
-	sbb     rax, rax
-	mov     [rcx+r9*8], r11
+.1: mov     r10, [rsi+rcx*8]
 	add     r9, 1
-	test    r9, 3
+	sbb     r10, [rdx+rcx*8]
+	sbb     r9, r9
+	add     rax, 1
+	sbb     r10, [rdx+rcx*8]
+	sbb     rax, rax
+	mov     [rdi+rcx*8], r10
+	add     rcx, 1              ; ***
+	test    rcx, 3
 	jnz     .1
-
-.2: cmp     r9, 0
+.2: cmp     rcx, 0
 	jz      .4
 
 	alignb  16, nop
-.3: mov     r11, [rdx+r9*8]
-	mov     r12, [rdx+r9*8+8]
-	mov     r13, [rdx+r9*8+16]
-	mov     r14, [rdx+r9*8+24]
-	mov     r15, [r8+r9*8]
-	mov     rbx, [r8+r9*8+8]
-	mov     rsi, [r8+r9*8+16]
-	mov     rdi, [r8+r9*8+24]
-	add     r10, 1
-	sbb     r11, r15
-	sbb     r12, rbx
-	sbb     r13, rsi
-	sbb     r14, rdi
-	sbb     r10, r10
+.3: mov     r10, [rsi+rcx*8]
+	mov     rbx, [rsi+rcx*8+8]
+	mov     r11, [rsi+rcx*8+16]
+	mov     r8, [rsi+rcx*8+24]
+	mov     r12, [rdx+rcx*8]
+	mov     r13, [rdx+rcx*8+8]
+	mov     r14, [rdx+rcx*8+16]
+	mov     r15, [rdx+rcx*8+24]
+	add     r9, 1
+	sbb     r10, r12
+	sbb     rbx, r13
+	sbb     r11, r14
+	sbb     r8, r15
+	sbb     r9, r9
 	add     rax, 1
-	sbb     r11, r15
-	sbb     r12, rbx
-	sbb     r13, rsi
-	sbb     r14, rdi
+	sbb     r10, r12
+	sbb     rbx, r13
+	sbb     r11, r14
+	sbb     r8, r15
 	sbb     rax, rax
-	mov     [rcx+r9*8], r11
-	mov     [rcx+r9*8+8], r12
-	mov     [rcx+r9*8+16], r13
-	mov     [rcx+r9*8+24], r14
-	add     r9, 4
+	mov     [rdi+rcx*8], r10
+	mov     [rdi+rcx*8+8], rbx
+	mov     [rdi+rcx*8+16], r11
+	mov     [rdi+rcx*8+24], r8
+	add     rcx, 4
 	jnz     .3
-
-.4:	add     rax, r10
+.4:	add     rax, r9
 	neg     rax
-    epilogue reg_save_list
-
+	epilogue reg_save_list
+	
 	end

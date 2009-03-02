@@ -58,9 +58,12 @@
     export  %1%3
 %endif
 
+    alignb  8, nop
 %1%4:
     mov     r10,[rsp+0x28]
     jmp     %%0
+    
+    alignb  8, nop
 %1%3:
     xor     r10, r10
 

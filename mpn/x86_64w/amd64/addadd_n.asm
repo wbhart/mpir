@@ -1,4 +1,3 @@
-
 ;  AMD64 mpn_addadd_n
 ;  Verdxon 1.0.4
 ;
@@ -22,23 +21,23 @@
 ;
 ;  Calling interface (GCC):
 ;
-;     rcx[r10] = rdx[r10] + r8[r10] + r9[r10]
+;     rcx[rbx] = rdx[rbx] + r8[rbx] + r9[rbx]
 ;
 ;  return carry
 ;
-;  mp_limb_t __gmpn_subsub_n(
+;  mp_limb_t __gmpn_addadd_n(
 ;     mp_ptr dp,            rcx
 ;     mp_srcptr sp1,        rdx
 ;     mp_srcptr sp2,         r8
 ;     mp_size_t sp3,         r9
-;     mp_size_t len  [rsp+0x28] -> r10d
+;     mp_size_t len  [rsp+0x28] -> rbxd
 ; )
 ;
 ; This is an SEH frame function
 
 %include "..\x86_64_asm.inc"
 
-%define reg_save_list   r12, r13, r14, r15
+%define reg_save_list   rbx, rbp, rsi, rdi
 
    bits 64
    section .text
@@ -50,59 +49,56 @@
 %endif
 
 	prologue __gmpn_addadd_n, 0, reg_save_list
-    mov     r10d, dword [rsp+stack_use+40]
-
-	lea     rdx, [rdx+r10*8]
-	lea     r8, [r8+r10*8]
-	lea     rcx, [rcx+r10*8]
-	lea     r9, [r9+r10*8]
-	neg     r10
+    mov     ebx, dword [rsp+stack_use+40]
+    
+	lea     rdx, [rdx+rbx*8]
+	lea     r8, [r8+rbx*8]
+	lea     rcx, [rcx+rbx*8]
+	lea     r9, [r9+rbx*8]
+	neg     rbx
 	xor     rax, rax
 	xor     r11, r11
-	test    r10, 3
+	test    rbx, 3
 	jz      .2
-
-.1:	mov     r12, [r8+r10*8]
+.1:	mov     rsi, [r8+rbx*8]
 	add     rax, 1
-	adc     r12, [r9+r10*8]
+	adc     rsi, [r9+rbx*8]
 	sbb     rax, rax
 	add     r11, 1
-	adc     r12, [rdx+r10*8]
+	adc     rsi, [rdx+rbx*8]
 	sbb     r11, r11
-	mov     [rcx+r10*8], r12
-	inc     r10
-	test    r10, 3
+	mov     [rcx+rbx*8], rsi
+	inc     rbx
+	test    rbx, 3
 	jnz     .1
-
-.2:	cmp     r10, 0
+.2:	cmp     rbx, 0
 	jz      .4
 
 	alignb  16, nop
-.3:	add     rax, 1
-	mov     r12, [r8+r10*8]
-	mov     r14, [r8+r10*8+8]
-	mov     r15, [r8+r10*8+16]
-	mov     r13, [r8+r10*8+24]
-	adc     r12, [r9+r10*8]
-	adc     r14, [r9+r10*8+8]
-	adc     r15, [r9+r10*8+16]
-	adc     r13, [r9+r10*8+24]
+.3: add     rax, 1
+	mov     rsi, [r8+rbx*8]
+	mov     rdi, [r8+rbx*8+8]
+	mov     rbp, [r8+rbx*8+16]
+	mov     r10, [r8+rbx*8+24]
+	adc     rsi, [r9+rbx*8]
+	adc     rdi, [r9+rbx*8+8]
+	adc     rbp, [r9+rbx*8+16]
+	adc     r10, [r9+rbx*8+24]
 	sbb     rax, rax
 	add     r11, 1
-	adc     r12, [rdx+r10*8]
-	adc     r14, [rdx+r10*8+8]
-	adc     r15, [rdx+r10*8+16]
-	adc     r13, [rdx+r10*8+24]
-	mov     [rcx+r10*8], r12
-	mov     [rcx+r10*8+8], r14
-	mov     [rcx+r10*8+16], r15
-	mov     [rcx+r10*8+24], r13
+	adc     rsi, [rdx+rbx*8]
+	adc     rdi, [rdx+rbx*8+8]
+	adc     rbp, [rdx+rbx*8+16]
+	adc     r10, [rdx+rbx*8+24]
+	mov     [rcx+rbx*8], rsi
+	mov     [rcx+rbx*8+8], rdi
+	mov     [rcx+rbx*8+16], rbp
+	mov     [rcx+rbx*8+24], r10
 	sbb     r11, r11
-	add     r10, 4
+	add     rbx, 4
 	jnz     .3
-
-.4:	add     rax, r11
+.4: add     rax, r11
 	neg     rax
-
-	epilogue reg_save_list
-	end
+.5: epilogue reg_save_list
+    
+    end
