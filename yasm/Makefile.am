@@ -15,7 +15,7 @@ noinst_LIBRARIES = libyasm.a
 #noinst_LTLIBRARIES =
 #noinst_SCRIPTS =
 #noinst_DATA =
-noinst_HEADERS = util.h libyasm.h libyasm-stdint.h libyasm/*.h
+noinst_HEADERS = util.h libyasm.h libyasm-stdint.h libyasm/arch.h libyasm/assocdat.h libyasm/bitvect.h libyasm/bytecode.h libyasm/compat-queue.h libyasm/coretype.h libyasm/dbgfmt.h libyasm/errwarn.h libyasm/expr.h  libyasm/file.h libyasm/floatnum.h libyasm/hamt.h libyasm/insn.h libyasm/intnum.h libyasm/inttree.h libyasm/linemap.h libyasm/listfmt.h libyasm/md5.h libyasm/module.h libyasm/objfmt.h libyasm/parser.h libyasm/phash.h libyasm/preproc.h libyasm/section.h libyasm/symrec.h libyasm/valparam.h libyasm/value.h
 #noinst_TEXINFOS =
 noinst_MANS = yasm.1 yasm_arch.7 yasm_parsers.7 yasm_dbgfmts.7 yasm_objfmts.7
 
