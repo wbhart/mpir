@@ -41,6 +41,7 @@ m_f6 = re.compile(p_in + p_rg + r"\s*," + p_rg)
 m_f7 = re.compile(p_in + p_rg)
 m_f8 = re.compile(p_in + p_im)
 m_f9 = re.compile(p_in + p_lr)
+m_fa = re.compile(p_in + p_im + r"\s*," + p_rg + r"\s*," + p_rg)
 
 m_la = re.compile(p_la)
 
@@ -159,6 +160,14 @@ def pass_three(code, labels, macros) :
       lo += [lp + ';{0}'.format(m.group(1))]
       continue
 
+    m = m_fa.search(l)
+    if m :
+      v = list(m.groups())
+      if debug :
+        print(l, end = '')
+      lo += [lp + '\t{0[0]:7s} {0[3]}, {0[2]}, {0[1]}'.format(v)]
+      continue
+
     # ins reg, dis(reg, reg, off)
     m = m_f1.search(l)
     if m :
@@ -231,12 +240,6 @@ def pass_three(code, labels, macros) :
       lo += [lp + '\t{0[0]:7s} {0[1]}'.format(v)]
       continue
 
-    m = re.search(r"\s*\.byte\s+((?:0x|0X)[0-9a-fA-F]+|[0-9]+)\s*", l)
-    if m :
-      v = list(m.groups())
-      lo += [lp + '\tdb      {0[0]}'.format(v)]
-      continue
-    
     # jump label  
     m = m_f9.search(l)
     if m :
@@ -256,6 +259,12 @@ def pass_three(code, labels, macros) :
           lo += [lp + '\t{0[0]:7s} {1}'.format(v, lab)]
         continue
 
+    m = re.search(r"\s*\.byte\s+((?:0x|0X)[0-9a-fA-F]+|[0-9]+)\s*", l)
+    if m :
+      v = list(m.groups())
+      lo += [lp + '\tdb      {0[0]}'.format(v)]
+      continue
+    
     # macro definitions
     m = r_mac.search(l)
     if m :
