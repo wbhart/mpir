@@ -63,7 +63,7 @@
 ; or if we are actually in the GMP source tree
 ;
 
-%include '../yasm_mac.inc'
+%include 'yasm_mac.inc'
 
 
 

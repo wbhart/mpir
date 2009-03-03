@@ -33,7 +33,7 @@
 ;     unsigned shift    rcx
 ; )
 
-%include '../yasm_mac.inc'
+%include 'yasm_mac.inc'
 
 
 %define src rsi

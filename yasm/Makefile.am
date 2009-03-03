@@ -9,16 +9,22 @@ bin_PROGRAMS =
 dist_man_MANS =
 TESTS =
 TESTS_ENVIRONMENT =
-noinst_PROGRAMS = genstring
+
+noinst_PROGRAMS = genstring yasm
+noinst_LIBRARIES = libyasm.a
+#noinst_LTLIBRARIES =
+#noinst_SCRIPTS =
+#noinst_DATA =
+noinst_HEADERS = util.h libyasm.h libyasm-stdint.h libyasm/arch.h libyasm/assocdat.h libyasm/bitvect.h libyasm/bytecode.h libyasm/compat-queue.h libyasm/coretype.h libyasm/dbgfmt.h libyasm/errwarn.h libyasm/expr.h  libyasm/file.h libyasm/floatnum.h libyasm/hamt.h libyasm/insn.h libyasm/intnum.h libyasm/inttree.h libyasm/linemap.h libyasm/listfmt.h libyasm/md5.h libyasm/module.h libyasm/objfmt.h libyasm/parser.h libyasm/phash.h libyasm/preproc.h libyasm/section.h libyasm/symrec.h libyasm/valparam.h libyasm/value.h
+#noinst_TEXINFOS =
+noinst_MANS = yasm.1 yasm_arch.7 yasm_parsers.7 yasm_dbgfmts.7 yasm_objfmts.7
 
 check_PROGRAMS = test_hd
 
 test_hd_SOURCES = test_hd.c
 
-include_HEADERS = libyasm.h
-nodist_include_HEADERS = libyasm-stdint.h
-
-noinst_HEADERS = util.h
+#include_HEADERS = libyasm.h
+#nodist_include_HEADERS = libyasm-stdint.h
 
 BUILT_SOURCES =
 MAINTAINERCLEANFILES =
@@ -43,7 +49,7 @@ EXTRA_DIST += frontends/Makefile.inc
 include tools/Makefile.inc
 
 YASM_MODULES = 
-lib_LIBRARIES = libyasm.a
+#lib_LIBRARIES = libyasm.a
 libyasm_a_SOURCES =
 nodist_libyasm_a_SOURCES =
 include modules/Makefile.inc

@@ -2957,6 +2957,7 @@ AH_VERBATIM([HAVE_NATIVE],
 #undef HAVE_NATIVE_mpn_mul_2
 #undef HAVE_NATIVE_mpn_mul_3
 #undef HAVE_NATIVE_mpn_mul_4
+#undef HAVE_NATIVE_mpn_mul_basecase
 #undef HAVE_NATIVE_mpn_nand_n
 #undef HAVE_NATIVE_mpn_nior_n
 #undef HAVE_NATIVE_mpn_preinv_divrem_1
@@ -3293,5 +3294,16 @@ GMP_FINISH
 # Create Makefiles
 # FIXME: Upcoming version of autoconf/automake don't like broken lines.
 #        Right now automake isn't accepting the new AC_CONFIG_FILES scheme.
+
+#     allways configure all subdirectorys , even if there are not going to be built , 
+AC_CONFIG_SUBDIRS([yasm])
+
+if test $enable_fat = yes; then
+YASM_MAC_INC=yasm_mac.inc.fat
+else
+YASM_MAC_INC=yasm_mac.inc.nofat
+fi
+AC_CONFIG_LINKS(yasm_mac.inc:$YASM_MAC_INC)
+AC_CONFIG_LINKS(mpn/yasm_mac.inc:$YASM_MAC_INC)
 
 AC_OUTPUT(Makefile mpbsd/Makefile mpf/Makefile mpn/Makefile mpq/Makefile mpz/Makefile printf/Makefile scanf/Makefile cxx/Makefile tests/Makefile tests/devel/Makefile tests/mpbsd/Makefile tests/mpf/Makefile tests/mpn/Makefile tests/mpq/Makefile tests/mpz/Makefile tests/rand/Makefile tests/misc/Makefile tests/cxx/Makefile doc/Makefile tune/Makefile demos/Makefile demos/calc/Makefile demos/expr/Makefile mpir.h:gmp-h.in mp.h:mp-h.in)

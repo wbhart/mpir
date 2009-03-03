@@ -22,7 +22,7 @@
 ;  Fifth Floor, Boston, MA 02110-1301, USA.
 
 
-%include '../yasm_mac.inc'
+%include 'yasm_mac.inc'
 
 %ifdef GSYM_PREFIX
 %define G_EX(a) _ %+ a

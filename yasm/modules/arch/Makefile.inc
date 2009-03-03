@@ -6,7 +6,7 @@ EXTRA_DIST += modules/arch/lc3b/Makefile.inc
 include modules/arch/x86/Makefile.inc
 include modules/arch/lc3b/Makefile.inc
 
-dist_man_MANS += yasm_arch.7
+#dist_man_MANS += yasm_arch.7
 
 if BUILD_MAN
 yasm_arch.7: modules/arch/yasm_arch.xml

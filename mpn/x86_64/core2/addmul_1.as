@@ -62,7 +62,7 @@
 ; This is just a check to see if we are in my code testing sandbox
 ; or if we are actually in the GMP source tree
 
-%include '../yasm_mac.inc'
+%include 'yasm_mac.inc'
 
 
 ; *********************************************************************
