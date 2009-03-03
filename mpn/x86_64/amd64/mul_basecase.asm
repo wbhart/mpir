@@ -22,12 +22,12 @@ dnl  Boston, MA 02110-1301, USA.
 include(`../config.m4')
 
 C	(rdi,rdx+r8)=(rsi,rdx)*(rcx,r8)
-# Version 1.0.5
+C Version 1.0.5
 
-# same as the addmul for now
-# changes from standard mul
-# change  r8 to r12   and rcx to r13
-# reemove ret and write last limb
+C same as the addmul for now
+C changes from standard mul
+C change  r8 to r12   and rcx to r13
+C reemove ret and write last limb
 define(`MULLOOP',`
 ALIGN(16)
 mulloop$1:
@@ -128,9 +128,9 @@ define(`MULNEXT3',`
 	lea 8(%rdi),%rdi
 ')
 
-# changes from standard addmul
-# change  r8 to r12   and rcx to r13
-# reemove ret and write last limb
+C changes from standard addmul
+C change  r8 to r12   and rcx to r13
+C reemove ret and write last limb
 define(`ADDMULLOOP',`
 ALIGN(16)
 addmulloop$1:
@@ -168,10 +168,8 @@ addmulloop$1:
 ')
 
 define(`ADDMULPRO0',`
-#mov (%rsi,%r14,8),%rax
 mov (%rcx,%r8,8),%r13
 lea 8(%rdi),%rdi
-#mov %r14,%r11	
 mul %r13
 mov %rax,%r12
 mov 8(%rsi,%r14,8),%rax
@@ -208,7 +206,6 @@ adc %rdx,%r10
 	inc %r8
 	mov %rdx,40(%rdi,%r11,8)
 	mov %r14,%r11	
-	#lea 8(%rdi),%rdi
 ')
 
 define(`ADDMULPRO1',`
@@ -321,7 +318,7 @@ ret
 
 ASM_START()
 PROLOGUE(mpn_mul_basecase)
-# the current mul does not handle case one 
+C  the current mul does not handle case one 
 cmp $2,%rdx
 jz two
 jb one

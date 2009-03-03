@@ -23,7 +23,6 @@ include(`../config.m4')
 
 ASM_START()
 PROLOGUE(mpn_hamdist)
-# Version 1.0.4
 xor %eax,%eax
 sub $4,%rdx
 jc skiploop

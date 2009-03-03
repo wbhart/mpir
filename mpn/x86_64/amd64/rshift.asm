@@ -26,7 +26,6 @@ C	rax=carry
 
 ASM_START()
 PROLOGUE(mpn_rshift)
-# Version 1.0.3
 mov $64,%eax
 lea -32(%rsi,%rdx,8),%rsi
 lea -32(%rdi,%rdx,8),%rdi
@@ -57,8 +56,8 @@ loop:
 	movq %mm4,8(%rdi,%r8,8)
 	psrlq %mm0,%mm3
 
-# got room here for another jump out , if we can arrange our r8 to be
-# slightly different , so we can use a jz or jp here
+C got room here for another jump out , if we can arrange our r8 to be
+C slightly different , so we can use a jz or jp here
 	movq 24(%rsi,%r8,8),%mm2
 	movq %mm2,%mm4
 	psllq %mm1,%mm2
@@ -76,7 +75,6 @@ loop:
 	add $4,%r8
 	jnc loop
 skiploop:
-# r8 is 0,1,2,3 here , so we have 3-r8 limbs to do 
 test $2,%r8
 jnz next
 	movq 8(%rsi,%r8,8),%mm2

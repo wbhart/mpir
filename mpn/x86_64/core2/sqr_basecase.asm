@@ -22,12 +22,11 @@ dnl  Boston, MA 02110-1301, USA.
 include(`../config.m4')
 
 C	(rdi,2*rdx)=(rsi,rdx)^2
-# Version 1.0.5
 
-# same as the addmul for now
-# changes from standard mul
-# change  r8 to r12   and rcx to r13
-# reemove ret and write last limb
+C same as the addmul for now
+C changes from standard mul
+C change  r8 to r12   and rcx to r13
+C reemove ret and write last limb
 define(`MULLOOP',`
 ALIGN(16)
 mulloop$1:
@@ -84,7 +83,6 @@ define(`MULNEXT0',`
 	adc `$'0,%rdx
 	mov %r12,32(%rdi,%r11,8)
 	mov %rdx,40(%rdi,%r11,8)
-	#inc %r14
 	add `$'1,%r14
 	lea 8(%rdi),%rdi
 ')
@@ -103,7 +101,6 @@ define(`MULNEXT1',`
 	adc `$'0,%rdx
 	mov %r12,24(%rdi,%r11,8)
 	mov %rdx,32(%rdi,%r11,8)
-	#inc %r14
 	add `$'1,%r14
 	lea 8(%rdi),%rdi
 ')
@@ -117,7 +114,6 @@ define(`MULNEXT2',`
 	adc %rdx,%rbx
 	mov %r10,16(%rdi,%r11,8)
 	mov %rbx,24(%rdi,%r11,8)
-	#inc %r14
 	add `$'1,%r14
 	lea 8(%rdi),%rdi
 ')
@@ -125,14 +121,13 @@ define(`MULNEXT2',`
 define(`MULNEXT3',`
 	mov %r9,8(%rdi,%r11,8)
 	mov %r10,16(%rdi,%r11,8)
-	#inc %r14
 	add `$'1,%r14
 	lea 8(%rdi),%rdi
 ')
 
-# changes from standard addmul
-# change  r8 to r12   and rcx to r13
-# reemove ret and write last limb
+C changes from standard addmul
+C change  r8 to r12   and rcx to r13
+C reemove ret and write last limb
 define(`ADDMULLOOP',`
 ALIGN(16)
 addmulloop$1:
@@ -194,7 +189,6 @@ adc %rax,%r12
 adc `$'0,%rdx
 add %r12,32(%rdi,%r11,8)
 adc `$'0,%rdx
-#inc %r14
 add `$'1,%r14
 mov %rdx,40(%rdi,%r11,8)
 lea 8(%rdi),%rdi
@@ -220,7 +214,6 @@ adc `$'0,%rdx
 add %r12,24(%rdi,%r11,8)
 adc `$'0,%rdx
 mov %rdx,32(%rdi,%r11,8)
-#inc %r14
 add `$'1,%r14
 lea 8(%rdi),%rdi
 ')
@@ -240,7 +233,6 @@ adc %rdx,%rbx
 add %r10,16(%rdi,%r11,8)
 adc `$'0,%rbx
 mov %rbx,24(%rdi,%r11,8)
-#inc %r14
 add `$'1,%r14
 lea 8(%rdi),%rdi
 ')
@@ -254,7 +246,6 @@ adc %rdx,%r10
 add %r9,8(%rdi,%r11,8)
 adc `$'0,%r10
 mov %r10,16(%rdi,%r11,8)
-#inc %r14
 add `$'1,%r14
 lea 8(%rdi),%rdi
 cmp `$'4,%r14
@@ -276,12 +267,12 @@ one:
 	ret
 ALIGN(16)
 fourormore:
-# this code can not handle cases 3,2,1
+C this code can not handle cases 3,2,1
 mov %r12,-8(%rsp)
 mov %r13,-16(%rsp)
 mov %r14,-24(%rsp)
 mov %rbx,-32(%rsp)
-# save data for later
+C save data for later
 mov %rdi,-40(%rsp)
 mov %rsi,-48(%rsp)
 mov %rdx,-56(%rsp)
@@ -305,8 +296,8 @@ mul %r13
 mov %r12,(%rdi,%r11,8)
 add %rax,%r9
 adc %rdx,%r10
-# could save r9 here 
-# could update here ie lea 8(rdi),rdi and inc r14 
+C could save r9 here 
+C could update here ie lea 8(rdi),rdi and inc r14 
 cmp $2,%r11
 je mcase2
 ja mcase3
@@ -325,7 +316,7 @@ jmp case3
 ALIGN(16)
 mcase3:
 MULNEXT3
-#jmp case0 just fall thru 
+C jmp case0 just fall thru 
 ALIGN(16)
 theloop:
 case0:
@@ -380,14 +371,13 @@ jge addmulskiploop3
 ADDMULLOOP(3)
 addmulskiploop3:
 ADDMULNEXT3
-# only need to add one more line here
 mov (%rsi,%r14,8),%rax
 mov -8(%rsi,%r14,8),%r13
 mul %r13
 add %rax,(%rdi,%r14,8)
 adc $0,%rdx
 mov %rdx,8(%rdi,%r14,8)
-# now lsh by 1 and add in the diagonal
+C now lsh by 1 and add in the diagonal
 mov -40(%rsp),%rdi
 mov -48(%rsp),%rsi
 mov -56(%rsp),%rcx
@@ -416,7 +406,6 @@ dialoop:
 	sbb %r11,%r11	
 	mov %r8,(%rdi)
 	mov %r9,8(%rdi)
-	#inc %rcx
 	add $1,%rcx
 	lea 16(%rdi),%rdi
 	jnz dialoop
@@ -487,11 +476,9 @@ three:
 		sbb %r11,%r11	
 		mov %r8,(%rdi)
 		mov %r9,8(%rdi)
-		#inc %rcx
 		add $1,%rcx
 		lea 16(%rdi),%rdi
 		jnz dialoop1
 	nop
 	ret
 EPILOGUE()
-# if we could do the diag first then addmul we could remove the mul and save space

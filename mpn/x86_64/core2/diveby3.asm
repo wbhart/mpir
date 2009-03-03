@@ -30,7 +30,6 @@ C   drop backwards compatibilty and just dump the two imuls
 
 ASM_START()
 PROLOGUE(mpn_divexact_by3c)
-# Version 1.0.5
 mov $3,%r9d
 lea -24(%rsi,%rdx,8),%rsi
 lea -24(%rdi,%rdx,8),%rdi
@@ -63,7 +62,6 @@ loop:
 	add $4,%r9
 	jnc loop
 skiploop:
-# so have 3-r9 limbs left to do
 test $2,%r9
 jnz skip
 	mov (%rsi,%r9,8),%rax
@@ -86,7 +84,7 @@ jnz end
 	mov %rcx,(%rdi,%r9,8)
 	sbb %rdx,%rcx
 end:
-#imul $-3,%rcx,%rax
+C the lea below is instead of imul $-3,%rcx,%rax
 lea (%rcx,%rcx,2),%rax
 neg %rax
 ret

@@ -26,7 +26,6 @@ C	return 2*add_carry+sub_borrow
 
 ASM_START()
 PROLOGUE(mpn_sumdiff_n)
-# Version 1.0.4
 lea	(%rsi,%r8,8),%rsi
 lea	(%rdx,%r8,8),%rdx
 lea	(%rdi,%r8,8),%rdi
@@ -47,14 +46,12 @@ lp1:
 	sbb	%r10,%r10
 	mov	%rax,(%rdi,%r8,8)
 	mov	%r11,(%rsi,%r8,8)
-	#inc	%r8
 	add	$1,%r8
 	test	$3,%r8
 	jnz lp1
 next:
 cmp	$0,%r8
 jz	skiploop
-# linux red zone , change to push/pop and can move to pro/epilog
 mov %rbx,-8(%rsp)
 mov %rbp,-16(%rsp)
 mov %r12,-24(%rsp)

@@ -21,17 +21,17 @@ dnl  Boston, MA 02110-1301, USA.
 
 include(`../config.m4')
 
-# Version 1.0.4
+C Version 1.0.4
 
-#	(rdi,rcx)=(rsi,rcx)+(rdx,rcx)   with the carry flag set for the carry
-# this is the usual mpn_add_n with the final dec rax;adc rax,rax;ret  removed 
-# and a jump where we have two rets
+C	(rdi,rcx)=(rsi,rcx)+(rdx,rcx)   with the carry flag set for the carry
+C this is the usual mpn_add_n with the final dec rax;adc rax,rax;ret  removed 
+C and a jump where we have two rets
 define(`MPN_ADD',`
 mov	%rcx,%rax
 and	`$'3,%rax
 shr	`$'2,%rcx
 cmp	`$'0,%rcx	
-# carry flag is clear here
+C carry flag is clear here
 jnz	addloop
 mov	(%rsi),%r11
 add	(%rdx),%r11
@@ -85,13 +85,13 @@ mov	%r11,16(%rdi)
 addend:
 ')
 
-# (rbx,rbp)=(rsi,rbp)-(rdx,rbp)
+C (rbx,rbp)=(rsi,rbp)-(rdx,rbp)
 define(`MPN_SUB',`
 mov	%rbp,%rax
 and	`$'3,%rax
 shr	`$'2,%rbp
 cmp	`$'0,%rbp	
-# carry flag is clear here
+C  carry flag is clear here
 jnz	subloop
 mov	(%rsi),%r11
 sub	(%rdx),%r11
@@ -145,9 +145,9 @@ mov	%r11,16(%rbx)
 subend:
 ')
 
-# changes from standard addmul
-# change  r8 to r12   and rcx to r13   and rdi to r8
-# reemove ret and write last limb but to beginning
+C changes from standard addmul
+C change  r8 to r12   and rcx to r13   and rdi to r8
+C reemove ret and write last limb but to beginning
 define(`ADDMULLOOP',`
 ALIGN(16)
 addmulloop$1:
@@ -334,8 +334,8 @@ lea 8(%r8),%r8
 dec %r15
 ')
 
-# change r8 to r12
-# write top limb ax straight to mem dont return  (NOTE we WRITE NOT ADD)
+C change r8 to r12
+C write top limb ax straight to mem dont return  (NOTE we WRITE NOT ADD)
 define(`MPN_ADDMUL_1_INT',`
 ADDMULPROPRO$1
 ALIGN(16)
@@ -361,7 +361,7 @@ push %r15
 push %rbp
 mov $5,%r14
 sub %rdx,%r14
-# store copys
+C store copys
 push %rsi
 push %r8
 lea -40(%r8,%rdx,8),%r8
@@ -375,7 +375,6 @@ je case0
 jp case3
 cmp $1,%rax
 je case1
-#ALIGN(16)
 case2:
 MPN_ADDMUL_1_INT(2)
 ALIGN(16)
@@ -394,12 +393,12 @@ pop %rdx
 lea (%rdx,%rbp,8),%rsi
 mov %rdi,%rbx
 MPN_ADD()
-#mpnadd(rdi,rsi,rdx,rcx)
+C     mpnadd(rdi,rsi,rdx,rcx)
 pop %rdx
 jnc skip
 mov %rbx,%rsi
 MPN_SUB()
-#mpn_sub_n(rbx,rsi,rdx,rbp) we can certainly improve this sub
+C    mpn_sub_n(rbx,rsi,rdx,rbp) we can certainly improve this sub
 skip:
 pop %rbp
 pop %r15
@@ -416,7 +415,7 @@ one:
 	mov %rcx,%rax
 	mul %r11
 	add %r9,%rax
-	# rax is zero here
+	C rax is zero here
 	adc 8(%r8),%rdx
 	cmovnc %rax,%r11
 	sub %r11,%rdx

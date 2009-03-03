@@ -22,12 +22,11 @@ dnl  Boston, MA 02110-1301, USA.
 include(`../config.m4')
 
 C	(rdi,rdx+r8)=(rsi,rdx)*(rcx,r8)
-# Version 1.0.5
 
-# same as the addmul for now
-# changes from standard mul
-# change  r8 to r12   and rcx to r13
-# reemove ret and write last limb
+C same as the addmul for now
+C changes from standard mul
+C change  r8 to r12   and rcx to r13
+C reemove ret and write last limb
 define(`MULLOOP',`
 ALIGN(16)
 mulloop$1:
@@ -84,7 +83,6 @@ define(`MULNEXT0',`
 	adc `$'0,%rdx
 	mov %r12,32(%rdi,%r11,8)
 	mov %rdx,40(%rdi,%r11,8)
-	#inc %r8
 	add `$'1,%r8
 	mov (%rsi,%r14,8),%rax
 	mov %r14,%r11
@@ -104,7 +102,6 @@ define(`MULNEXT1',`
 	adc `$'0,%rdx
 	mov %r12,24(%rdi,%r11,8)
 	mov %rdx,32(%rdi,%r11,8)
-	#inc %r8
 	add `$'1,%r8
 	lea 8(%rdi),%rdi
 ')
@@ -118,7 +115,6 @@ define(`MULNEXT2',`
 	adc %rdx,%rbx
 	mov %r10,16(%rdi,%r11,8)
 	mov %rbx,24(%rdi,%r11,8)
-	#inc %r8
 	add `$'1,%r8
 	mov (%rsi,%r14,8),%rax
 	mov %r14,%r11
@@ -127,14 +123,13 @@ define(`MULNEXT2',`
 define(`MULNEXT3',`
 	mov %r9,8(%rdi,%r11,8)
 	mov %r10,16(%rdi,%r11,8)
-	#inc %r8
 	add `$'1,%r8
 	lea 8(%rdi),%rdi
 ')
 
-# changes from standard addmul
-# change  r8 to r12   and rcx to r13
-# reemove ret and write last limb
+C changes from standard addmul
+C change  r8 to r12   and rcx to r13
+C reemove ret and write last limb
 define(`ADDMULLOOP',`
 ALIGN(16)
 addmulloop$1:
@@ -172,10 +167,8 @@ addmulloop$1:
 ')
 
 define(`ADDMULPRO0',`
-#mov (%rsi,%r14,8),%rax
 mov (%rcx,%r8,8),%r13
 lea 8(%rdi),%rdi
-#mov %r14,%r11	
 mul %r13
 mov %rax,%r12
 mov 8(%rsi,%r14,8),%rax
@@ -209,11 +202,9 @@ adc %rdx,%r10
 	add %r12,32(%rdi,%r11,8)
 	mov (%rsi,%r14,8),%rax
 	adc `$'0,%rdx
-	#inc %r8
 	add `$'1,%r8
 	mov %rdx,40(%rdi,%r11,8)
 	mov %r14,%r11	
-	#lea 8(%rdi),%rdi
 ')
 
 define(`ADDMULPRO1',`
@@ -247,7 +238,6 @@ adc %rdx,%r10
 	add %r12,24(%rdi,%r11,8)
 	adc `$'0,%rdx
 	mov %rdx,32(%rdi,%r11,8)
-	#inc %r8
 	add `$'1,%r8
 	lea 8(%rdi),%rdi
 ')
@@ -278,7 +268,6 @@ adc %rdx,%r10
 	add %r10,16(%rdi,%r11,8)
 	adc `$'0,%rbx
 	mov %rbx,24(%rdi,%r11,8)
-	#inc %r8
 	add `$'1,%r8
 	mov %r14,%r11	
 ')
@@ -303,7 +292,6 @@ adc %rdx,%r10
 	add %r9,8(%rdi,%r11,8)
 	adc `$'0,%r10
 	mov %r10,16(%rdi,%r11,8)
-	#inc %r8
 	add `$'1,%r8
 	lea 8(%rdi),%rdi
 ')
@@ -329,7 +317,7 @@ ret
 
 ASM_START()
 PROLOGUE(mpn_mul_basecase)
-# the current mul does not handle case one 
+C the current mul does not handle case one 
 cmp $2,%rdx
 jz two
 jb one

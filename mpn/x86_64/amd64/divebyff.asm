@@ -28,16 +28,16 @@ C	where (rsi,rdx) = (rdi,rdx)*(B-1) -rax*B^rdx    and 0 <= rax < B-1      B=0xFF
 
 ASM_START()
 PROLOGUE(mpn_divexact_byff)
-# this is good but suffers from alignment slowdown
-# we dont seem to have much freedom to re-arrange the instructions to avoid
-# it , I suppose we could detect alignment at the start and have different
-# routines for different alignments
+C this is good but suffers from alignment slowdown
+C we dont seem to have much freedom to re-arrange the instructions to avoid
+C it , I suppose we could detect alignment at the start and have different
+C routines for different alignments
 xor %eax,%eax
 mov %rdx,%rcx
 and $3,%rcx
 shr $2,%rdx
 cmp $0,%rdx
-# carry flag is clear here
+C carry flag is clear here
 jnz loop
 sbb (%rsi),%rax
 mov %rax,(%rdi)

@@ -26,7 +26,6 @@ C	rax=carry
 
 ASM_START()
 PROLOGUE(mpn_rshift)
-# Version 1.0.4
 cmp $2,%rdx
 ja threeormore
 jz two
@@ -73,7 +72,6 @@ je aligned
 	por %xmm5,%xmm4
 	movq %xmm4,(%rdi)
 	lea 8(%rdi),%rdi	
-	#dec %rdx
 	sub $1,%rdx
 	movq %xmm2,%rax
 aligned:
@@ -103,7 +101,6 @@ loop:
 	add $4,%r8
 	jnc loop
 skiploop:
-# have 3-r8 limbs left to do
 cmp $2,%r8
 ja left0
 jz left1

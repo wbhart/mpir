@@ -27,7 +27,6 @@ C	rax=carry
 
 ASM_START()
 PROLOGUE(mpn_lshift)
-# Version 1.0.3
 mov $64,%eax
 sub %rcx,%rax
 movq %rcx,%mm0
@@ -68,7 +67,6 @@ loop:
 	sub $4,%rdx
 	ja loop
 skiploop:
-# rdx is 0,-1,-2,-3 here , so we have 3+rdx limbs to do
 cmp $-1,%rdx
 jl next
 	movq 16(%rsi,%rdx,8),%mm2

@@ -26,9 +26,8 @@ C	rax=carry
 
 ASM_START()
 PROLOGUE(mpn_mul_1)
-# Version 1.0.4
-# this is just an addmul , so we can get rid off stack use
-# and simplifiy wind down , and perhaps re-do the OOO order 
+C this is just an addmul , so we can get rid off stack use
+C and simplifiy wind down , and perhaps re-do the OOO order 
 mov (%rsi),%rax
 cmp $1,%rdx
 je one		

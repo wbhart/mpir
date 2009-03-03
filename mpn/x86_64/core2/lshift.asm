@@ -26,7 +26,6 @@ C	rax=carry
 
 ASM_START()
 PROLOGUE(mpn_lshift)
-# Version 1.0.4
 cmp $2,%rdx
 ja threeormore
 jz two
@@ -75,7 +74,6 @@ je aligned
 	psllq %xmm0,%xmm4
 	por %xmm3,%xmm4
 	movq %xmm4,-8(%rdi,%r8,8)
-	#dec %r8
 	sub $1,%r8
 aligned:
 sub $5,%r8
@@ -108,7 +106,7 @@ je left2
 jg left3
 jp left1
 left0:
-# may be easier to bswap xmm5 first , same with other cases
+C may be easier to bswap xmm5 first , same with other cases
 	pxor %xmm2,%xmm2 
 	psllq %xmm0,%xmm5
 	movhlps %xmm2,%xmm3

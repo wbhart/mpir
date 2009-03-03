@@ -25,7 +25,6 @@ C	(rdi,rcx)=(rsi,rcx)|(rdx,rcx)
 
 ASM_START()
 PROLOGUE(mpn_ior_n)
-# Version 1.0.4
 mov	%rcx,%rax
 and	$3,%rax
 shr	$2,%rcx

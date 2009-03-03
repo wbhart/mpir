@@ -26,7 +26,6 @@ C	rax=carry
 
 ASM_START()
 PROLOGUE(mpn_addmul_1)
-# Version 1.0.4
 mov (%rsi),%rax
 cmp $1,%rdx
 je one		

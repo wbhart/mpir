@@ -23,7 +23,6 @@ include(`../config.m4')
 
 ASM_START()
 PROLOGUE(mpn_nior_n)
-# Version 1.0.4
 sub $4,%rcx
 jb skiploop
 ALIGN(16)
@@ -53,14 +52,12 @@ mov -8(%rdx,%rcx,8),%r8
 or  -8(%rsi,%rcx,8),%r8
 not %r8
 mov %r8,-8(%rdi,%rcx,8)
-#dec %rcx
 sub $1,%rcx
 jz end
 mov -8(%rdx,%rcx,8),%r8
 or  -8(%rsi,%rcx,8),%r8
 not %r8
 mov %r8,-8(%rdi,%rcx,8)
-#dec %rcx
 sub $1,%rcx
 jz end
 mov -8(%rdx,%rcx,8),%r8

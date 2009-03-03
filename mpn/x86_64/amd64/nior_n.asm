@@ -23,7 +23,6 @@ include(`../config.m4')
 
 ASM_START()
 PROLOGUE(mpn_nior_n)
-# Version 1.0.4
 sub $4,%rcx
 jb skiploop
 ALIGN(16)

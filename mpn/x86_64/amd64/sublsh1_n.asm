@@ -26,7 +26,6 @@ C	rax=borrow
 
 ASM_START()
 PROLOGUE(mpn_sublsh1_n)
-# Version 1.0.3
 lea	(%rsi,%rcx,8),%rsi
 lea	(%rdx,%rcx,8),%rdx
 lea	(%rdi,%rcx,8),%rdi
@@ -50,7 +49,6 @@ lp1:
 next:
 cmp	$0,%rcx
 jz	end
-# push/pops can be moved to pro/epilog
 push %r15
 push %r14
 push %r13

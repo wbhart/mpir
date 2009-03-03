@@ -23,7 +23,6 @@ include(`../config.m4')
 
 ASM_START()
 PROLOGUE(mpn_com_n)
-# Version 1.0.4
 sub	$4,%rdx
 jc	next
 ALIGN(8)
@@ -45,7 +44,6 @@ loop:
 next:
 add	$4,%rdx
 jz	end
-# Could still have potential cache-bank conflicts in this tail part
 mov	-8(%rsi,%rdx,8),%rax
 not	%rax
 mov	%rax,-8(%rdi,%rdx,8)

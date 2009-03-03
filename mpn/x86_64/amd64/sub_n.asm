@@ -26,12 +26,11 @@ C	rax=borrow
 
 ASM_START()
 PROLOGUE(mpn_sub_n)
-# Version 1.0.3
 mov	%rcx,%rax
 and	$3,%rax
 shr	$2,%rcx
 cmp	$0,%rcx	
-# carry flag is clear here
+C carry flag is clear here
 jnz	loop
 mov	(%rsi),%r11
 sub	(%rdx),%r11

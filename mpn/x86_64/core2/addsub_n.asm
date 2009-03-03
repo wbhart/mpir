@@ -32,7 +32,6 @@ C	return carry-borrow
 
 ASM_START()
 PROLOGUE(mpn_addsub_n)
-# Version 1.0.4
 lea	(%rsi,%r8,8),%rsi
 lea	(%rdx,%r8,8),%rdx
 lea	(%rdi,%r8,8),%rdi
@@ -51,14 +50,12 @@ lp1:
 	adc	(%rsi,%r8,8),%r9
 	sbb	%r10,%r10
 	mov	%r9,(%rdi,%r8,8)
-	#inc	%r8
 	add	$1,%r8
 	test	$3,%r8
 	jnz lp1
 next:
 cmp	$0,%r8
 jz	end
-# push/pop can be moved to pro/epilog
 push %rbx
 push %rbp
 ALIGN(16)

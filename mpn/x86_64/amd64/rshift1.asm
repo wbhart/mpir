@@ -26,7 +26,6 @@ C	rax=carry
 
 ASM_START()
 PROLOGUE(mpn_rshift1)
-# Version 1.0.4
 xor	%rax,%rax
 lea	-8(%rsi,%rdx,8),%rsi
 lea	-8(%rdi,%rdx,8),%rdi
@@ -34,7 +33,7 @@ mov	%rdx,%r11
 and	$7,%r11
 inc	%r11
 shr	$3,%rdx
-# and clear carry flag
+C and clear carry flag
 cmp	$0,%rdx	
 jz	next
 ALIGN(16)
@@ -70,7 +69,7 @@ loop:
 next:
 dec	%r11
 jz	end
-# Could suffer cache-bank conflicts in this tail part
+C Could suffer cache-bank conflicts in this tail part
 	mov	(%rsi),%rcx
 	rcr	$1,%rcx
 	mov	%rcx,(%rdi)

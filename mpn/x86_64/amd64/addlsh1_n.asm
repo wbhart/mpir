@@ -26,7 +26,6 @@ C	rax=carry
 
 ASM_START()
 PROLOGUE(mpn_addlsh1_n)
-# Version 1.0.3
 lea	(%rsi,%rcx,8),%rsi
 lea	(%rdx,%rcx,8),%rdx
 lea	(%rdi,%rcx,8),%rdi
@@ -50,7 +49,6 @@ lp1:
 next:
 cmp	$0,%rcx
 jz	end
-# push/pop can be moved to pro/epilog
 push %rbx
 ALIGN(16)
 lp:

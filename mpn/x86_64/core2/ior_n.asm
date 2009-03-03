@@ -25,7 +25,6 @@ C	(rdi,rcx)=(rsi,rcx)|(rdx,rcx)
 
 ASM_START()
 PROLOGUE(mpn_ior_n)
-# Version 1.0.4
 mov	%rcx,%rax
 and	$3,%rax
 shr	$2,%rcx
@@ -46,25 +45,20 @@ loop:
 	or	-16(%rdx),%r9
 	or	-8(%rdx),%r10
 	mov	%r9,-16(%rdi)
-	#dec	%rcx
 	sub	$1,%rcx
 	mov	%r10,-8(%rdi)
 	jnz	loop
 skiploop:
-#inc	%rax
-#dec	%rax
 cmp	$0,%rax
 jz	end
 mov	(%rsi),%r11
 or	(%rdx),%r11
 mov	%r11,(%rdi)
-#dec	%rax
 sub	$1,%rax
 jz	end
 mov	8(%rsi),%r11
 or	8(%rdx),%r11
 mov	%r11,8(%rdi)
-#dec	%rax
 sub	$1,%rax
 jz	end
 mov	16(%rsi),%r11
