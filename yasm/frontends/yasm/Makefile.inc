@@ -1,7 +1,7 @@
 # $Id: Makefile.inc 1463 2006-04-05 05:39:23Z peter $
 
-bin_PROGRAMS += yasm
-dist_man_MANS += yasm.1
+#bin_PROGRAMS += yasm
+#dist_man_MANS += yasm.1
 
 if BUILD_MAN
 yasm.1: frontends/yasm/yasm.xml

@@ -168,6 +168,9 @@
 
 # $Id: Makefile.inc 1463 2006-04-05 05:39:23Z peter $
 
+#bin_PROGRAMS += yasm
+#dist_man_MANS += yasm.1
+
 
 
 srcdir = @srcdir@
@@ -192,16 +195,16 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
-bin_PROGRAMS = yasm$(EXEEXT)
-noinst_PROGRAMS = genstring$(EXEEXT) re2c$(EXEEXT) genmacro$(EXEEXT) \
-	genperf$(EXEEXT) genversion$(EXEEXT) genmodule$(EXEEXT)
+bin_PROGRAMS =
+noinst_PROGRAMS = genstring$(EXEEXT) yasm$(EXEEXT) re2c$(EXEEXT) \
+	genmacro$(EXEEXT) genperf$(EXEEXT) genversion$(EXEEXT) \
+	genmodule$(EXEEXT)
 check_PROGRAMS = test_hd$(EXEEXT) bitvect_test$(EXEEXT) \
 	floatnum_test$(EXEEXT) leb128_test$(EXEEXT) \
 	splitpath_test$(EXEEXT) combpath_test$(EXEEXT) \
 	uncstring_test$(EXEEXT)
 DIST_COMMON = README $(am__configure_deps) $(dist_man_MANS) \
-	$(include_HEADERS) $(modinclude_HEADERS) $(noinst_HEADERS) \
-	$(srcdir)/Makefile.am $(srcdir)/Makefile.in \
+	$(noinst_HEADERS) $(srcdir)/Makefile.am $(srcdir)/Makefile.in \
 	$(srcdir)/config.h.in $(srcdir)/frontends/Makefile.inc \
 	$(srcdir)/frontends/yasm/Makefile.inc \
 	$(srcdir)/libyasm/Makefile.inc \
@@ -296,18 +299,7 @@ am__CONFIG_DISTCLEAN_FILES = config.status config.cache config.log \
  configure.lineno configure.status.lineno
 mkinstalldirs = $(SHELL) $(top_srcdir)/config/mkinstalldirs
 CONFIG_HEADER = config.h
-am__vpath_adj_setup = srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`;
-am__vpath_adj = case $$p in \
-    $(srcdir)/*) f=`echo "$$p" | sed "s|^$$srcdirstrip/||"`;; \
-    *) f=$$p;; \
-  esac;
-am__strip_dir = `echo $$p | sed -e 's|^.*/||'`;
-am__installdirs = "$(DESTDIR)$(libdir)" "$(DESTDIR)$(bindir)" \
-	"$(DESTDIR)$(man1dir)" "$(DESTDIR)$(man7dir)" \
-	"$(DESTDIR)$(includedir)" "$(DESTDIR)$(modincludedir)" \
-	"$(DESTDIR)$(includedir)"
-libLIBRARIES_INSTALL = $(INSTALL_DATA)
-LIBRARIES = $(lib_LIBRARIES)
+LIBRARIES = $(noinst_LIBRARIES)
 AR = ar
 ARFLAGS = cru
 libyasm_a_AR = $(AR) $(ARFLAGS)
@@ -341,6 +333,7 @@ am_libyasm_a_OBJECTS = x86arch.$(OBJEXT) x86bc.$(OBJEXT) \
 nodist_libyasm_a_OBJECTS = gas-token.$(OBJEXT) nasm-token.$(OBJEXT)
 libyasm_a_OBJECTS = $(am_libyasm_a_OBJECTS) \
 	$(nodist_libyasm_a_OBJECTS)
+am__installdirs = "$(DESTDIR)$(bindir)"
 binPROGRAMS_INSTALL = $(INSTALL_PROGRAM)
 PROGRAMS = $(bin_PROGRAMS) $(noinst_PROGRAMS)
 am_bitvect_test_OBJECTS = bitvect_test.$(OBJEXT)
@@ -418,15 +411,7 @@ RECURSIVE_TARGETS = all-recursive check-recursive dvi-recursive \
 	install-recursive installcheck-recursive installdirs-recursive \
 	pdf-recursive ps-recursive uninstall-info-recursive \
 	uninstall-recursive
-man1dir = $(mandir)/man1
-man7dir = $(mandir)/man7
-NROFF = nroff
-MANS = $(dist_man_MANS)
-includeHEADERS_INSTALL = $(INSTALL_HEADER)
-modincludeHEADERS_INSTALL = $(INSTALL_HEADER)
-nodist_includeHEADERS_INSTALL = $(INSTALL_HEADER)
-HEADERS = $(include_HEADERS) $(modinclude_HEADERS) \
-	$(nodist_include_HEADERS) $(noinst_HEADERS)
+HEADERS = $(noinst_HEADERS)
 ETAGS = etags
 CTAGS = ctags
 DIST_SUBDIRS = $(SUBDIRS)
@@ -573,10 +558,7 @@ target_alias = @target_alias@
 SUBDIRS = po .
 AM_YFLAGS = -d
 AM_CFLAGS = @MORE_CFLAGS@
-
-#!include modules/objfmts/omf/Makefile.inc
-dist_man_MANS = yasm_arch.7 yasm_parsers.7 yasm_dbgfmts.7 \
-	yasm_objfmts.7 yasm.1
+dist_man_MANS = 
 TESTS = $(am__append_3) modules/arch/x86/tests/x86_test.sh \
 	modules/arch/x86/tests/gas32/x86_gas32_test.sh \
 	modules/arch/x86/tests/gas64/x86_gas64_test.sh \
@@ -609,10 +591,17 @@ TESTS = $(am__append_3) modules/arch/x86/tests/x86_test.sh \
 	floatnum_test leb128_test splitpath_test combpath_test \
 	uncstring_test libyasm/tests/libyasm_test.sh
 TESTS_ENVIRONMENT = $(am__append_2)
+noinst_LIBRARIES = libyasm.a
+#noinst_LTLIBRARIES =
+#noinst_SCRIPTS =
+#noinst_DATA =
+noinst_HEADERS = util.h libyasm.h libyasm-stdint.h libyasm/*.h
+#noinst_TEXINFOS =
+noinst_MANS = yasm.1 yasm_arch.7 yasm_parsers.7 yasm_dbgfmts.7 yasm_objfmts.7
 test_hd_SOURCES = test_hd.c
-include_HEADERS = libyasm.h
-nodist_include_HEADERS = libyasm-stdint.h
-noinst_HEADERS = util.h
+
+#include_HEADERS = libyasm.h
+#nodist_include_HEADERS = libyasm-stdint.h
 BUILT_SOURCES = x86insns.c x86insn_nasm.gperf x86insn_gas.gperf \
 	x86insn_nasm.c x86insn_gas.c x86cpu.c x86regtmod.c lc3bid.c \
 	gas-token.c nasm-token.c nasm-macros.c nasm-version.c \
@@ -634,6 +623,34 @@ CLEANFILES = configure.lineno $(am__append_1) x86insn_nasm.c \
 
 # automake doesn't distribute mkinstalldirs?
 #!EXTRA_DIST += modules/objfmts/omf/Makefile.inc
+
+#modinclude_HEADERS  = libyasm/arch.h
+#modinclude_HEADERS += libyasm/assocdat.h
+#modinclude_HEADERS += libyasm/bitvect.h
+#modinclude_HEADERS += libyasm/bytecode.h
+#modinclude_HEADERS += libyasm/compat-queue.h
+#modinclude_HEADERS += libyasm/coretype.h
+#modinclude_HEADERS += libyasm/dbgfmt.h
+#modinclude_HEADERS += libyasm/errwarn.h
+#modinclude_HEADERS += libyasm/expr.h
+#modinclude_HEADERS += libyasm/file.h
+#modinclude_HEADERS += libyasm/floatnum.h
+#modinclude_HEADERS += libyasm/hamt.h
+#modinclude_HEADERS += libyasm/insn.h
+#modinclude_HEADERS += libyasm/intnum.h
+#modinclude_HEADERS += libyasm/inttree.h
+#modinclude_HEADERS += libyasm/linemap.h
+#modinclude_HEADERS += libyasm/listfmt.h
+#modinclude_HEADERS += libyasm/md5.h
+#modinclude_HEADERS += libyasm/module.h
+#modinclude_HEADERS += libyasm/objfmt.h
+#modinclude_HEADERS += libyasm/parser.h
+#modinclude_HEADERS += libyasm/phash.h
+#modinclude_HEADERS += libyasm/preproc.h
+#modinclude_HEADERS += libyasm/section.h
+#modinclude_HEADERS += libyasm/symrec.h
+#modinclude_HEADERS += libyasm/valparam.h
+#modinclude_HEADERS += libyasm/value.h
 EXTRA_DIST = config/config.rpath config/mkinstalldirs \
 	tools/Makefile.inc libyasm/Makefile.inc modules/Makefile.inc \
 	frontends/Makefile.inc tools/re2c/Makefile.inc \
@@ -1527,7 +1544,7 @@ YASM_MODULES = arch_x86 arch_lc3b listfmt_nasm parser_gas parser_gnu \
 	objfmt_elf objfmt_elf32 objfmt_elf64 objfmt_coff objfmt_macho \
 	objfmt_macho32 objfmt_macho64 objfmt_rdf objfmt_win32 \
 	objfmt_win64 objfmt_x64 objfmt_xdf
-lib_LIBRARIES = libyasm.a
+#lib_LIBRARIES = libyasm.a
 libyasm_a_SOURCES = modules/arch/x86/x86arch.c \
 	modules/arch/x86/x86arch.h modules/arch/x86/x86bc.c \
 	modules/arch/x86/x86expr.c modules/arch/x86/x86id.c x86cpu.c \
@@ -1589,16 +1606,6 @@ genmodule_SOURCES =
 genmodule_LDADD = genmodule.$(OBJEXT)
 genmodule_LINK = $(CCLD_FOR_BUILD) -o $@
 modincludedir = $(includedir)/libyasm
-modinclude_HEADERS = libyasm/arch.h libyasm/assocdat.h \
-	libyasm/bitvect.h libyasm/bytecode.h libyasm/compat-queue.h \
-	libyasm/coretype.h libyasm/dbgfmt.h libyasm/errwarn.h \
-	libyasm/expr.h libyasm/file.h libyasm/floatnum.h \
-	libyasm/hamt.h libyasm/insn.h libyasm/intnum.h \
-	libyasm/inttree.h libyasm/linemap.h libyasm/listfmt.h \
-	libyasm/md5.h libyasm/module.h libyasm/objfmt.h \
-	libyasm/parser.h libyasm/phash.h libyasm/preproc.h \
-	libyasm/section.h libyasm/symrec.h libyasm/valparam.h \
-	libyasm/value.h
 bitvect_test_SOURCES = libyasm/tests/bitvect_test.c
 bitvect_test_LDADD = libyasm.a $(INTLLIBS)
 floatnum_test_SOURCES = libyasm/tests/floatnum_test.c
@@ -1675,35 +1682,9 @@ $(srcdir)/config.h.in: @MAINTAINER_MODE_TRUE@ $(am__configure_deps)
 
 distclean-hdr:
 	-rm -f config.h stamp-h1
-install-libLIBRARIES: $(lib_LIBRARIES)
-	@$(NORMAL_INSTALL)
-	test -z "$(libdir)" || $(mkdir_p) "$(DESTDIR)$(libdir)"
-	@list='$(lib_LIBRARIES)'; for p in $$list; do \
-	  if test -f $$p; then \
-	    f=$(am__strip_dir) \
-	    echo " $(libLIBRARIES_INSTALL) '$$p' '$(DESTDIR)$(libdir)/$$f'"; \
-	    $(libLIBRARIES_INSTALL) "$$p" "$(DESTDIR)$(libdir)/$$f"; \
-	  else :; fi; \
-	done
-	@$(POST_INSTALL)
-	@list='$(lib_LIBRARIES)'; for p in $$list; do \
-	  if test -f $$p; then \
-	    p=$(am__strip_dir) \
-	    echo " $(RANLIB) '$(DESTDIR)$(libdir)/$$p'"; \
-	    $(RANLIB) "$(DESTDIR)$(libdir)/$$p"; \
-	  else :; fi; \
-	done
 
-uninstall-libLIBRARIES:
-	@$(NORMAL_UNINSTALL)
-	@list='$(lib_LIBRARIES)'; for p in $$list; do \
-	  p=$(am__strip_dir) \
-	  echo " rm -f '$(DESTDIR)$(libdir)/$$p'"; \
-	  rm -f "$(DESTDIR)$(libdir)/$$p"; \
-	done
-
-clean-libLIBRARIES:
-	-test -z "$(lib_LIBRARIES)" || rm -f $(lib_LIBRARIES)
+clean-noinstLIBRARIES:
+	-test -z "$(noinst_LIBRARIES)" || rm -f $(noinst_LIBRARIES)
 libyasm.a: $(libyasm_a_OBJECTS) $(libyasm_a_DEPENDENCIES) 
 	-rm -f libyasm.a
 	$(libyasm_a_AR) libyasm.a $(libyasm_a_OBJECTS) $(libyasm_a_LIBADD)
@@ -2903,147 +2884,6 @@ yasm-options.obj: frontends/yasm/yasm-options.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o yasm-options.obj `if test -f 'frontends/yasm/yasm-options.c'; then $(CYGPATH_W) 'frontends/yasm/yasm-options.c'; else $(CYGPATH_W) '$(srcdir)/frontends/yasm/yasm-options.c'; fi`
 uninstall-info-am:
-install-man1: $(man1_MANS) $(man_MANS)
-	@$(NORMAL_INSTALL)
-	test -z "$(man1dir)" || $(mkdir_p) "$(DESTDIR)$(man1dir)"
-	@list='$(man1_MANS) $(dist_man1_MANS) $(nodist_man1_MANS)'; \
-	l2='$(man_MANS) $(dist_man_MANS) $(nodist_man_MANS)'; \
-	for i in $$l2; do \
-	  case "$$i" in \
-	    *.1*) list="$$list $$i" ;; \
-	  esac; \
-	done; \
-	for i in $$list; do \
-	  if test -f $(srcdir)/$$i; then file=$(srcdir)/$$i; \
-	  else file=$$i; fi; \
-	  ext=`echo $$i | sed -e 's/^.*\\.//'`; \
-	  case "$$ext" in \
-	    1*) ;; \
-	    *) ext='1' ;; \
-	  esac; \
-	  inst=`echo $$i | sed -e 's/\\.[0-9a-z]*$$//'`; \
-	  inst=`echo $$inst | sed -e 's/^.*\///'`; \
-	  inst=`echo $$inst | sed '$(transform)'`.$$ext; \
-	  echo " $(INSTALL_DATA) '$$file' '$(DESTDIR)$(man1dir)/$$inst'"; \
-	  $(INSTALL_DATA) "$$file" "$(DESTDIR)$(man1dir)/$$inst"; \
-	done
-uninstall-man1:
-	@$(NORMAL_UNINSTALL)
-	@list='$(man1_MANS) $(dist_man1_MANS) $(nodist_man1_MANS)'; \
-	l2='$(man_MANS) $(dist_man_MANS) $(nodist_man_MANS)'; \
-	for i in $$l2; do \
-	  case "$$i" in \
-	    *.1*) list="$$list $$i" ;; \
-	  esac; \
-	done; \
-	for i in $$list; do \
-	  ext=`echo $$i | sed -e 's/^.*\\.//'`; \
-	  case "$$ext" in \
-	    1*) ;; \
-	    *) ext='1' ;; \
-	  esac; \
-	  inst=`echo $$i | sed -e 's/\\.[0-9a-z]*$$//'`; \
-	  inst=`echo $$inst | sed -e 's/^.*\///'`; \
-	  inst=`echo $$inst | sed '$(transform)'`.$$ext; \
-	  echo " rm -f '$(DESTDIR)$(man1dir)/$$inst'"; \
-	  rm -f "$(DESTDIR)$(man1dir)/$$inst"; \
-	done
-install-man7: $(man7_MANS) $(man_MANS)
-	@$(NORMAL_INSTALL)
-	test -z "$(man7dir)" || $(mkdir_p) "$(DESTDIR)$(man7dir)"
-	@list='$(man7_MANS) $(dist_man7_MANS) $(nodist_man7_MANS)'; \
-	l2='$(man_MANS) $(dist_man_MANS) $(nodist_man_MANS)'; \
-	for i in $$l2; do \
-	  case "$$i" in \
-	    *.7*) list="$$list $$i" ;; \
-	  esac; \
-	done; \
-	for i in $$list; do \
-	  if test -f $(srcdir)/$$i; then file=$(srcdir)/$$i; \
-	  else file=$$i; fi; \
-	  ext=`echo $$i | sed -e 's/^.*\\.//'`; \
-	  case "$$ext" in \
-	    7*) ;; \
-	    *) ext='7' ;; \
-	  esac; \
-	  inst=`echo $$i | sed -e 's/\\.[0-9a-z]*$$//'`; \
-	  inst=`echo $$inst | sed -e 's/^.*\///'`; \
-	  inst=`echo $$inst | sed '$(transform)'`.$$ext; \
-	  echo " $(INSTALL_DATA) '$$file' '$(DESTDIR)$(man7dir)/$$inst'"; \
-	  $(INSTALL_DATA) "$$file" "$(DESTDIR)$(man7dir)/$$inst"; \
-	done
-uninstall-man7:
-	@$(NORMAL_UNINSTALL)
-	@list='$(man7_MANS) $(dist_man7_MANS) $(nodist_man7_MANS)'; \
-	l2='$(man_MANS) $(dist_man_MANS) $(nodist_man_MANS)'; \
-	for i in $$l2; do \
-	  case "$$i" in \
-	    *.7*) list="$$list $$i" ;; \
-	  esac; \
-	done; \
-	for i in $$list; do \
-	  ext=`echo $$i | sed -e 's/^.*\\.//'`; \
-	  case "$$ext" in \
-	    7*) ;; \
-	    *) ext='7' ;; \
-	  esac; \
-	  inst=`echo $$i | sed -e 's/\\.[0-9a-z]*$$//'`; \
-	  inst=`echo $$inst | sed -e 's/^.*\///'`; \
-	  inst=`echo $$inst | sed '$(transform)'`.$$ext; \
-	  echo " rm -f '$(DESTDIR)$(man7dir)/$$inst'"; \
-	  rm -f "$(DESTDIR)$(man7dir)/$$inst"; \
-	done
-install-includeHEADERS: $(include_HEADERS)
-	@$(NORMAL_INSTALL)
-	test -z "$(includedir)" || $(mkdir_p) "$(DESTDIR)$(includedir)"
-	@list='$(include_HEADERS)'; for p in $$list; do \
-	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
-	  f=$(am__strip_dir) \
-	  echo " $(includeHEADERS_INSTALL) '$$d$$p' '$(DESTDIR)$(includedir)/$$f'"; \
-	  $(includeHEADERS_INSTALL) "$$d$$p" "$(DESTDIR)$(includedir)/$$f"; \
-	done
-
-uninstall-includeHEADERS:
-	@$(NORMAL_UNINSTALL)
-	@list='$(include_HEADERS)'; for p in $$list; do \
-	  f=$(am__strip_dir) \
-	  echo " rm -f '$(DESTDIR)$(includedir)/$$f'"; \
-	  rm -f "$(DESTDIR)$(includedir)/$$f"; \
-	done
-install-modincludeHEADERS: $(modinclude_HEADERS)
-	@$(NORMAL_INSTALL)
-	test -z "$(modincludedir)" || $(mkdir_p) "$(DESTDIR)$(modincludedir)"
-	@list='$(modinclude_HEADERS)'; for p in $$list; do \
-	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
-	  f=$(am__strip_dir) \
-	  echo " $(modincludeHEADERS_INSTALL) '$$d$$p' '$(DESTDIR)$(modincludedir)/$$f'"; \
-	  $(modincludeHEADERS_INSTALL) "$$d$$p" "$(DESTDIR)$(modincludedir)/$$f"; \
-	done
-
-uninstall-modincludeHEADERS:
-	@$(NORMAL_UNINSTALL)
-	@list='$(modinclude_HEADERS)'; for p in $$list; do \
-	  f=$(am__strip_dir) \
-	  echo " rm -f '$(DESTDIR)$(modincludedir)/$$f'"; \
-	  rm -f "$(DESTDIR)$(modincludedir)/$$f"; \
-	done
-install-nodist_includeHEADERS: $(nodist_include_HEADERS)
-	@$(NORMAL_INSTALL)
-	test -z "$(includedir)" || $(mkdir_p) "$(DESTDIR)$(includedir)"
-	@list='$(nodist_include_HEADERS)'; for p in $$list; do \
-	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
-	  f=$(am__strip_dir) \
-	  echo " $(nodist_includeHEADERS_INSTALL) '$$d$$p' '$(DESTDIR)$(includedir)/$$f'"; \
-	  $(nodist_includeHEADERS_INSTALL) "$$d$$p" "$(DESTDIR)$(includedir)/$$f"; \
-	done
-
-uninstall-nodist_includeHEADERS:
-	@$(NORMAL_UNINSTALL)
-	@list='$(nodist_include_HEADERS)'; for p in $$list; do \
-	  f=$(am__strip_dir) \
-	  echo " rm -f '$(DESTDIR)$(includedir)/$$f'"; \
-	  rm -f "$(DESTDIR)$(includedir)/$$f"; \
-	done
 
 # This directory's subdirectories are mostly independent; you can cd
 # into them and run `make' without going through this Makefile.
@@ -3397,11 +3237,11 @@ check-am: all-am
 	$(MAKE) $(AM_MAKEFLAGS) check-TESTS
 check: $(BUILT_SOURCES)
 	$(MAKE) $(AM_MAKEFLAGS) check-recursive
-all-am: Makefile $(LIBRARIES) $(PROGRAMS) $(MANS) $(HEADERS) config.h \
+all-am: Makefile $(LIBRARIES) $(PROGRAMS) $(HEADERS) config.h \
 		all-local
 installdirs: installdirs-recursive
 installdirs-am:
-	for dir in "$(DESTDIR)$(libdir)" "$(DESTDIR)$(bindir)" "$(DESTDIR)$(man1dir)" "$(DESTDIR)$(man7dir)" "$(DESTDIR)$(includedir)" "$(DESTDIR)$(modincludedir)" "$(DESTDIR)$(includedir)"; do \
+	for dir in "$(DESTDIR)$(bindir)"; do \
 	  test -z "$$dir" || $(mkdir_p) "$$dir"; \
 	done
 install: $(BUILT_SOURCES)
@@ -3436,7 +3276,7 @@ maintainer-clean-generic:
 clean: clean-recursive
 
 clean-am: clean-binPROGRAMS clean-checkPROGRAMS clean-generic \
-	clean-libLIBRARIES clean-noinstPROGRAMS mostlyclean-am
+	clean-noinstLIBRARIES clean-noinstPROGRAMS mostlyclean-am
 
 distclean: distclean-recursive
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
@@ -3455,16 +3295,15 @@ info: info-recursive
 
 info-am:
 
-install-data-am: install-includeHEADERS install-man \
-	install-modincludeHEADERS install-nodist_includeHEADERS
+install-data-am:
 
-install-exec-am: install-binPROGRAMS install-libLIBRARIES
+install-exec-am: install-binPROGRAMS
 	@$(NORMAL_INSTALL)
 	$(MAKE) $(AM_MAKEFLAGS) install-exec-hook
 
 install-info: install-info-recursive
 
-install-man: install-man1 install-man7
+install-man:
 
 installcheck-am:
 
@@ -3487,19 +3326,15 @@ ps: ps-recursive
 
 ps-am:
 
-uninstall-am: uninstall-binPROGRAMS uninstall-includeHEADERS \
-	uninstall-info-am uninstall-libLIBRARIES uninstall-man \
-	uninstall-modincludeHEADERS uninstall-nodist_includeHEADERS
+uninstall-am: uninstall-binPROGRAMS uninstall-info-am
 	@$(NORMAL_INSTALL)
 	$(MAKE) $(AM_MAKEFLAGS) uninstall-hook
 
 uninstall-info: uninstall-info-recursive
 
-uninstall-man: uninstall-man1 uninstall-man7
-
 .PHONY: $(RECURSIVE_TARGETS) CTAGS GTAGS all all-am all-local \
 	am--refresh check check-TESTS check-am clean clean-binPROGRAMS \
-	clean-checkPROGRAMS clean-generic clean-libLIBRARIES \
+	clean-checkPROGRAMS clean-generic clean-noinstLIBRARIES \
 	clean-noinstPROGRAMS clean-recursive ctags ctags-recursive \
 	dist dist-all dist-bzip2 dist-gzip dist-shar dist-tarZ \
 	dist-zip distcheck distclean distclean-compile \
@@ -3508,18 +3343,13 @@ uninstall-man: uninstall-man1 uninstall-man7
 	distuninstallcheck dvi dvi-am html html-am info info-am \
 	install install-am install-binPROGRAMS install-data \
 	install-data-am install-exec install-exec-am install-exec-hook \
-	install-includeHEADERS install-info install-info-am \
-	install-libLIBRARIES install-man install-man1 install-man7 \
-	install-modincludeHEADERS install-nodist_includeHEADERS \
-	install-strip installcheck installcheck-am installdirs \
-	installdirs-am maintainer-clean maintainer-clean-generic \
+	install-info install-info-am install-man install-strip \
+	installcheck installcheck-am installdirs installdirs-am \
+	maintainer-clean maintainer-clean-generic \
 	maintainer-clean-recursive mostlyclean mostlyclean-compile \
 	mostlyclean-generic mostlyclean-recursive pdf pdf-am ps ps-am \
 	tags tags-recursive uninstall uninstall-am \
-	uninstall-binPROGRAMS uninstall-hook uninstall-includeHEADERS \
-	uninstall-info-am uninstall-libLIBRARIES uninstall-man \
-	uninstall-man1 uninstall-man7 uninstall-modincludeHEADERS \
-	uninstall-nodist_includeHEADERS
+	uninstall-binPROGRAMS uninstall-hook uninstall-info-am
 
 
 re2c-main.$(OBJEXT): tools/re2c/main.c
@@ -3632,6 +3462,8 @@ x86regtmod.c: $(srcdir)/modules/arch/x86/x86regtmod.gperf genperf$(EXEEXT)
 lc3bid.c: $(srcdir)/modules/arch/lc3b/lc3bid.re re2c$(EXEEXT)
 	$(top_builddir)/re2c$(EXEEXT) -s -o $@ $(srcdir)/modules/arch/lc3b/lc3bid.re
 
+#dist_man_MANS += yasm_arch.7
+
 @BUILD_MAN_TRUE@yasm_arch.7: modules/arch/yasm_arch.xml
 @BUILD_MAN_TRUE@	$(XMLTO) -o $(top_builddir) man $(srcdir)/modules/arch/yasm_arch.xml
 
@@ -3650,6 +3482,8 @@ $(top_srcdir)/modules/parsers/nasm/nasm-parser.c: nasm-macros.c
 nasm-macros.c: $(srcdir)/modules/parsers/nasm/nasm-std.mac genmacro$(EXEEXT)
 	$(top_builddir)/genmacro$(EXEEXT) $@ nasm_standard_mac $(srcdir)/modules/parsers/nasm/nasm-std.mac
 
+#dist_man_MANS += yasm_parsers.7
+
 @BUILD_MAN_TRUE@yasm_parsers.7: modules/parsers/yasm_parsers.xml
 @BUILD_MAN_TRUE@	$(XMLTO) -o $(top_builddir) man $(srcdir)/modules/parsers/yasm_parsers.xml
 
@@ -3667,6 +3501,8 @@ genversion.$(OBJEXT): modules/preprocs/nasm/genversion.c
 #EXTRA_DIST += modules/dbgfmts/codeview/tests/Makefile.inc
 #include modules/dbgfmts/codeview/tests/Makefile.inc
 
+#dist_man_MANS += yasm_dbgfmts.7
+
 @BUILD_MAN_TRUE@yasm_dbgfmts.7: modules/dbgfmts/yasm_dbgfmts.xml
 @BUILD_MAN_TRUE@	$(XMLTO) -o $(top_builddir) man $(srcdir)/modules/dbgfmts/yasm_dbgfmts.xml
 
@@ -3677,6 +3513,10 @@ win64-nasm.c: $(srcdir)/modules/objfmts/coff/win64-nasm.mac genmacro$(EXEEXT)
 
 win64-gas.c: $(srcdir)/modules/objfmts/coff/win64-gas.mac genmacro$(EXEEXT)
 	$(top_builddir)/genmacro$(EXEEXT) $@ win64_gas_stdmac $(srcdir)/modules/objfmts/coff/win64-gas.mac
+
+#!include modules/objfmts/omf/Makefile.inc
+
+#dist_man_MANS += yasm_objfmts.7
 
 @BUILD_MAN_TRUE@yasm_objfmts.7: modules/objfmts/yasm_objfmts.xml
 @BUILD_MAN_TRUE@	$(XMLTO) -o $(top_builddir) man $(srcdir)/modules/objfmts/yasm_objfmts.xml
