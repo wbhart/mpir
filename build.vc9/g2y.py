@@ -3,6 +3,10 @@ from __future__ import print_function
 
 import string, re, os, sys, shutil
 
+debug = False
+dot_labels = False
+is_linux = False
+  
 # regular expression for registers 
 
 r_q = r"(?:r[abcd]x|r[sd]i|r[bsi]p)|(?:r8|r9|r1[012345])|"
@@ -116,8 +120,6 @@ def proc_m(m, i, j) :
 def pass_three(code, labels, macros) :
 
   lo = []
-  debug = False
-  dot_labels = False
   mac_name = ''
   for l in code :
     lp = '\n'
@@ -287,19 +289,25 @@ def pass_three(code, labels, macros) :
 
     m = re.search("PROLOGUE\(([a-zA-Z$_][a-zA-Z0-9$_]*)\)", l)
     if m :
-      lo += [lp + "\twin64_gcc_start {0}".format(m.group(1))]
+      if is_linux :
+        lo += [lp + "\tGLOBAL_FUNC {0}".format(m.group(1))]
+      else :
+        lo += [lp + "\twin64_gcc_start {0}".format(m.group(1))]
       continue
 
     m = re.search("EPILOGUE\(\)", l)
     if m :
-      lo += [lp + "\twin64_gcc_end"]
+      if is_linux :
+        lo += [lp + "\tend"]
+      else :
+        lo += [lp + "\twin64_gcc_end"]
       continue
 
     # macro calls 
     m = r_mrf.search(l)
     if m :
       if m.group(1).lower() == 'align' :
-        lo += [lp + '\talign   {0}'.format(m.group(2))]
+        lo += [lp + '\talignb  {0}, nop'.format(m.group(2))]
         continue
       elif m.group(1) in macros :
         lp += '\t{0:7s}'.format(m.group(1).lower())
@@ -323,15 +331,27 @@ def pass_three(code, labels, macros) :
     m = re.search(p_in + r"\s+(.*)", l)
     if m :
       v = list(m.groups())
+      print(v)
       if debug :
         print(l, end = '')
       if len(v) == 1 or len(v) == 2 and v[1] == '' :
-        lo += [lp + '\t{0[0]}'.format(v)]
+        if v[0] in macros :
+          lo += [lp + '\t{0}'.format(v[0].lower())]
+        else :
+          lo += [lp + '\t{0[0]}'.format(v)]
         continue
       elif v[0] == 'C' :
         lo += [lp + ';\t{0}'.format(v[1])]
         continue
- 
+
+    m = re.search(r"include\(.+config.m4.+\)", l)
+    if m :
+      if is_linux :
+        lo += [lp + '%include "..\yasm_mac.inc"']
+      else :
+        lo += [lp + '%include "..\x86_64_asm.inc"']
+      continue
+
     m = re.search(r"\s*(\S+)", l)
     if m :
       lo += [lp + '{0} ; < not translated >'.format(l[:-1])]
