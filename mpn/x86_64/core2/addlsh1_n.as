@@ -15,7 +15,7 @@
 ;  to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 ;  Boston, MA 02110-1301, USA.
 
-%include '../yasm_mac.inc'
+%include 'yasm_mac.inc'
 
 ;	(rdi, rcx) = (rsi, rcx) + (rdx, rcx)<<1
 ;	rax = carry
@@ -47,7 +47,7 @@ next:
 	cmp     rcx, 0
 	jz      end
 	push    rbx
-	alignb  16, nop
+	align 16
 lp:
 	mov     r10, [rdx+rcx*8]
 	mov     rbx, [rdx+rcx*8+8]

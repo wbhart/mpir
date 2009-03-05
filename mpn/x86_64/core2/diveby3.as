@@ -15,7 +15,7 @@
 ;  to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 ;  Boston, MA 02110-1301, USA.
 
-%include '../yasm_mac.inc'
+%include 'yasm_mac.inc'
 
 ;	(rdi, rdx) = (rsi, rdx)  rcx = carry in
 ;	rax = carry out
@@ -33,7 +33,7 @@
 	imul    rcx, r8
 	sub     r9, rdx
 	jnc     skiploop
-	alignb  16, nop
+	align 16
 loop1:
 	mov     rax, [rsi+r9*8]
 	mul     r8

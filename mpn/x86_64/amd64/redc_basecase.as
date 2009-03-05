@@ -20,7 +20,7 @@
 ;	this is the usual mpn_add_n with the final dec rax;adc rax,rax;ret  removed 
 ;	and a jump where we have two rets
 
-%include '../yasm_mac.inc'
+%include 'yasm_mac.inc'
 
     BITS    64
 

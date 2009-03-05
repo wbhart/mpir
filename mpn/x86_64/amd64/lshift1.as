@@ -18,7 +18,7 @@
 ;	(rdi,rdx) = (rsi,rdx)<<1
 ;	rax = carry
 
-%include '../yasm_mac.inc'
+%include 'yasm_mac.inc'
 
     BITS    64
 

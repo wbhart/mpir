@@ -19,7 +19,7 @@
 ;	rax = "remainder"
 ;	where (rsi, rdx) = (rdi, rdx)*(B-1) -rax*B^rdx    and 0 <= rax < B - 1      B = 0xFFFFFFFFFFFFFFFF
 	
-%include '../yasm_mac.inc'
+%include 'yasm_mac.inc'
 
     BITS    64
 

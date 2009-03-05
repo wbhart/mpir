@@ -15,7 +15,7 @@
 ;  to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 ;  Boston, MA 02110-1301, USA.
 
-%include '../yasm_mac.inc'
+%include 'yasm_mac.inc'
 
 ;	(rdi, rdx) = (rsi, rdx)*rcx
 ;	rax = carry
@@ -45,7 +45,7 @@
 	mov     [rsp-8], rbx
 	db      0x26
 	jge     skiploop
-	alignb  16, nop
+	align 16
 loop1:
 	mov     r10, 0
 	mul     rcx
@@ -78,7 +78,7 @@ loop1:
 	add     r11, 4
 	mov     rax, [rsi+r11*8+8]
 	jnc     loop1
-	alignb  16, nop
+	align 16
 skiploop:
 	mov     r10d, 0
 	mul     rcx
@@ -111,7 +111,7 @@ next0:
 	mov     [rdi+r11*8+32], r8
 	mov     rax, rdx
 	ret
-	alignb  16, nop
+	align 16
 next1:
 	mov     rax, [rsi+r11*8+16]
 	mul     rcx
@@ -128,13 +128,13 @@ next1:
 	mov     rbx, [rsp-8]
 	mov     rax, rdx
 	ret
-	alignb  16, nop
+	align 16
 one:
 	mul     rcx
 	mov     [rdi], rax
 	mov     rax, rdx
 	ret
-	alignb  16, nop
+	align 16
 next2:
 	mov     rax, [rsi+r11*8+16]
 	mul     rcx
@@ -146,7 +146,7 @@ next2:
 	mov     rax, rbx
 	mov     rbx, [rsp-8]
 	ret
-	alignb  16, nop
+	align 16
 next3:
 	mov     rbx, [rsp-8]
 	mov     [rdi+r11*8+8], r9

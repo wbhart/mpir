@@ -18,7 +18,7 @@
 ;	(rdi,rcx)=(rsi,rcx)-(rdx,rcx)
 ;	rax=borrow
 	
-%include '../yasm_mac.inc'
+%include 'yasm_mac.inc'
 
     BITS    64
 

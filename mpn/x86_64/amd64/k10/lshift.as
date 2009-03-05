@@ -22,7 +22,7 @@
 ;	assembler.  Needed for movq reg64,mediareg and movq mediareg,reg64
 ;	only , where mediareg is xmm or mm
 
-%include '../yasm_mac.inc'
+%include 'yasm_mac.inc'
 
 %define MOVQ movd
 

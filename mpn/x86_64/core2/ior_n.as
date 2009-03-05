@@ -15,7 +15,7 @@
 ;  to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 ;  Boston, MA 02110-1301, USA.
 
-%include '../yasm_mac.inc'
+%include 'yasm_mac.inc'
 
 ;	(rdi, rcx) = (rsi, rcx) | (rdx, rcx)
 	
@@ -26,7 +26,7 @@
 	and     rax, 3
 	shr     rcx, 2
 	jz      skiploop
-	alignb  8, nop
+	align 8
 loop1:
 	mov     r11, [rsi]
 	mov     r8, [rsi+8]

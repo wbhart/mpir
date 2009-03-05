@@ -15,7 +15,7 @@
 ;  to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 ;  Boston, MA 02110-1301, USA.
 
-%include '../yasm_mac.inc'
+%include 'yasm_mac.inc'
 
 ;	(rdi, rdx) = (rsi, rdx)/0xFFFFFFFFFFFFFFFF
 ;	rax = "remainder"
@@ -49,7 +49,7 @@
 end1:
 	sbb     rax, 0
 	ret
-	alignb  16, nop
+	align 16
 loop1:
 	sbb     rax, [rsi]
 	mov     [rdi], rax

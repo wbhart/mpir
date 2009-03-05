@@ -21,7 +21,7 @@
 ;	be mpn_divexact_by_ff_over_c , and change imul at end , or
 ;	drop backwards compatibilty and just dump the two imuls
 	
-%include '../yasm_mac.inc'
+%include 'yasm_mac.inc'
 
     BITS    64
 

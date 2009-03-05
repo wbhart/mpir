@@ -25,7 +25,7 @@
 ;	(rdi, r8) = (rsi, r8) + (rdx, r8) - (rcx, r8)
 ;	return carry-borrow
 
-%include '../yasm_mac.inc'
+%include 'yasm_mac.inc'
 
     BITS    64
 

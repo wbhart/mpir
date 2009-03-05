@@ -18,7 +18,7 @@
 ;	(rdi, r8) = (rdx, r8) + (rcx, r8)  (rsi, r8) = (rdx, r8) - (rcx, r8)
 ;	return 2*add_carry + sub_borrow
 	
-%include '../yasm_mac.inc'
+%include 'yasm_mac.inc'
 
     BITS    64
 

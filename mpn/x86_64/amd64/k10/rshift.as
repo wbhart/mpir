@@ -24,7 +24,7 @@
 
 %define MOVQ movd
 
-%include '../yasm_mac.inc'
+%include 'yasm_mac.inc'
 
 	BITS 64
    GLOBAL_FUNC mpn_rshift

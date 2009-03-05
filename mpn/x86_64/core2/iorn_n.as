@@ -15,14 +15,14 @@
 ;  to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 ;  Boston, MA 02110-1301, USA.
 
-%include '../yasm_mac.inc'
+%include 'yasm_mac.inc'
 
 	BITS 64
    
    GLOBAL_FUNC mpn_iorn_n
 	sub     rcx, 4
 	jb      skiploop
-	alignb  16, nop
+	align 16
 loop1:
 	mov     r8, [rdx+rcx*8+24]
 	mov     r9, [rdx+rcx*8+16]

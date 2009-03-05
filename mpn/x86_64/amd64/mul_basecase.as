@@ -22,7 +22,7 @@
 ;	change  r8 to r12   and rcx to r13
 ;	reemove ret and write last limb
 
-%include '../yasm_mac.inc'
+%include 'yasm_mac.inc'
 
     BITS    64
 

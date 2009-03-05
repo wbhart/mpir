@@ -15,7 +15,7 @@
 ;  to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 ;  Boston, MA 02110-1301, USA.
 
-%include '../yasm_mac.inc'
+%include 'yasm_mac.inc'
 
 ;	INPUT PARAMETERS
 ;	rp	rdi
@@ -55,7 +55,7 @@ next:
 	jz      end
 	push    rbx
 	push    rbp
-	alignb  16, nop
+	align 16
 lp:
 	add     rax, 1
 	mov     r9, [rdx+r8*8]

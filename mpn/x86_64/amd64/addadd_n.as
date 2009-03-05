@@ -18,7 +18,7 @@
 ;	(rdi,r8) = (rsi, r8) + (rdx, r8) + (rcx,r8)
 ;	rax = carry
 	
-%include '../yasm_mac.inc'
+%include 'yasm_mac.inc'
 
     BITS    64
 

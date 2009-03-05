@@ -15,7 +15,7 @@
 ;  to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 ;  Boston, MA 02110-1301, USA.
 
-%include '../yasm_mac.inc'
+%include 'yasm_mac.inc'
 
 ;	(rdi, rdx) = (rsi,rdx)>>rcx
 ;	rax = carry
@@ -83,7 +83,7 @@ aligned:
 	mov     r8d, 5
 	sub     r8, rdx
 	jnc     skiploop
-	alignb  16, nop
+	align 16
 loop1:
 	movdqa  xmm2, [rsi+r8*8+16]
 	movdqa  xmm4, xmm2
@@ -129,7 +129,7 @@ left3:
 	por     xmm3, xmm5
 	movq    [rdi+r8*8+32], xmm3
 	ret
-	alignb  16, nop
+	align 16
 left2:
 	movdqa  xmm2, [rsi+r8*8+16]
 	movdqa  xmm4, xmm2
@@ -144,7 +144,7 @@ left2:
 	movq    [rdi+r8*8+16], xmm4
 	movhpd  [rdi+r8*8+24], xmm4
 	ret
-	alignb  16, nop
+	align 16
 left1:
 	movq    xmm2, [rsi+r8*8+16]
 	movq    xmm4, xmm2
@@ -158,7 +158,7 @@ left1:
 	por     xmm4, xmm2
 	movq    [rdi+r8*8+16], xmm4
 	ret
-	alignb  16, nop
+	align 16
 left0:
 	psrldq  xmm5, 8
 	por     xmm3, xmm5

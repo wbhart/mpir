@@ -15,7 +15,7 @@
 ;  to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 ;  Boston, MA 02110-1301, USA.
 
-%include '../yasm_mac.inc'
+%include 'yasm_mac.inc'
 
 ;	(rdi, rdx + r8) = (rsi, rdx)*(rcx, r8)
 ;	same as the addmul for now
@@ -24,7 +24,7 @@
 ;	reemove ret and write last limb
 
 %macro mulloop 1
-	alignb  16, nop
+	align 16
 %%1:
 	mov     r10, 0
 	mul     r13
@@ -127,7 +127,7 @@
 ;	change  r8 to r12   and rcx to r13
 ;	reemove ret and write last limb
 %macro addmulloop 1
-	alignb  16, nop
+	align 16
 %%1:
 	mov     r10, 0
 	mul     r13
@@ -295,7 +295,7 @@
 %macro mpn_muladdmul_1_int 1
 	mulnext%1
 	jz      %%3
-	alignb  16, nop
+	align 16
 %%1:
 	addmulpro%1
 	jge     %%2
@@ -350,23 +350,23 @@ mulskiploop:
 	jp      case1
 case0:
 	mpn_muladdmul_1_int 0
-	alignb  16, nop
+	align 16
 case1:
 	mpn_muladdmul_1_int 1
-	alignb  16, nop
+	align 16
 case2:
 	mpn_muladdmul_1_int 2
-	alignb  16, nop
+	align 16
 case3:
 	mpn_muladdmul_1_int 3
-	alignb  16, nop
+	align 16
 one:
 	mov     rax, [rsi]
 	mul     qword [rcx]
 	mov     [rdi], rax
 	mov     [rdi+8], rdx
 	ret
-	alignb  16, nop
+	align 16
 two:
 	mov     r10, [rcx]
 	mov     rax, [rsi]

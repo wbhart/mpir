@@ -15,7 +15,7 @@
 ;  to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 ;  Boston, MA 02110-1301, USA.
 
-%include '../yasm_mac.inc'
+%include 'yasm_mac.inc'
 
 ;	(rdi, r8) = (rdx, r8) + (rcx, r8)  (rsi, r8) = (rdx, r8) - (rcx, r8)
 ;	return 2*add_carry+sub_borrow
@@ -55,7 +55,7 @@ next:
 	mov     [rsp-32], r13
 	mov     [rsp-40], r14
 	mov     [rsp-48], r15
-	alignb  16, nop
+	align 16
 loop1:
 	mov     rax, [rdx+r8*8]
 	mov     rbx, [rdx+r8*8+8]

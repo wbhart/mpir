@@ -15,7 +15,7 @@
 ;  to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 ;  Boston, MA 02110-1301, USA.
 
-%include '../yasm_mac.inc'
+%include 'yasm_mac.inc'
 
 ;	(rdi, 2*rdx) = (rsi, rdx)^2
 ;	same as the addmul for now
@@ -24,7 +24,7 @@
 ;	reemove ret and write last limb
 
 %macro mulloop 1
-	alignb  16, nop
+	align 16
 %%1:
 	mov     r10, 0
 	mul     r13
@@ -125,7 +125,7 @@
 ;	change  r8 to r12   and rcx to r13
 ;	reemove ret and write last limb
 %macro addmulloop 1
-	alignb  16, nop
+	align 16
 %%1:
 	mov     r10, 0
 	mul     r13
@@ -261,7 +261,7 @@ one:
 	mov     [rdi], rax
 	mov     [rdi+8], rdx
 	ret
-	alignb  16, nop
+	align 16
 fourormore:
 ;	this code can not handle cases 3,2,1
 	mov     [rsp-8], r12
@@ -301,19 +301,19 @@ mulskiploop1:
 mcase0:
 	mulnext0
 	jmp     case1
-	alignb  16, nop
+	align 16
 mcase1:
 	mulnext1
 	jmp     case2
-	alignb  16, nop
+	align 16
 mcase2:
 	mulnext2
 	jmp     case3
-	alignb  16, nop
+	align 16
 mcase3:
 	mulnext3
 ;	jmp case0 just fall thru 
-	alignb  16, nop
+	align 16
 theloop:
 case0:
 	mov     rax, [rsi+r14*8]
@@ -386,7 +386,7 @@ addmulskiploop3:
 	lea     r10, [rdi+rcx*8]
 	mov     [r10+rcx*8-8], r11
 	neg     rcx
-	alignb  16, nop
+	align 16
 dialoop:
 	mov     rax, [rsi+rcx*8]
 	mul     rax
@@ -408,7 +408,7 @@ dialoop:
 	mov     rbx, [rsp-32]
 	mov     r14, [rsp-24]
 	ret
-	alignb  16, nop
+	align 16
 two:
 	mov     rax, [rsi]
 	mov     r9, [rsi+8]
@@ -430,7 +430,7 @@ two:
 	adc     r10, 0
 	mov     [rdi+24], r10
 	ret
-	alignb  16, nop
+	align 16
 three:
 	mov     r8, [rsi]
 	mov     rax, [rsi+8]

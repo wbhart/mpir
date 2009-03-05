@@ -15,7 +15,7 @@
 ;  to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 ;  Boston, MA 02110-1301, USA.
 
-%include '../yasm_mac.inc'
+%include 'yasm_mac.inc'
 
 ;	(rdi, rcx) = (rsi, rcx) + (rdx, rcx)   with the carry flag set for the carry
 ;	this is the usual mpn_add_n with the final dec rax;adc rax,rax;ret  removed 
@@ -42,7 +42,7 @@
 	adc     r11, [rdx+16]
 	mov     [rdi+16], r11
 	jmp     %%2
-	alignb  16, nop
+	align 16
 %%1:
 	mov     r11, [rsi]
 	mov     r8, [rsi+8]
@@ -102,7 +102,7 @@
 	sbb     r11, [rdx+16]
 	mov     [rbx+16], r11
 	jmp     %%2
-	alignb  16, nop
+	align 16
 %%1:
 	mov     r11, [rsi]
 	mov     r8, [rsi+8]
@@ -144,7 +144,7 @@
 ;	change  r8 to r12   and rcx to r13   and rdi to r8
 ;	reemove ret and write last limb but to beginning
 %macro addmulloop 1
-	alignb  16, nop
+	align 16
 %%1:
 	mov     r10, 0
 	mul     r13
@@ -333,7 +333,7 @@
 ;	write top limb ax straight to mem dont return  (NOTE we WRITE NOT ADD)
 %macro mpn_addmul_1_int 1
 	addmulpropro%1
-	alignb  16, nop
+	align 16
 %%1:
 	addmulpro%1
 	jge     %%2
@@ -373,16 +373,16 @@
 	je      case1
 case2:
 	mpn_addmul_1_int 2
-	alignb  16, nop
+	align 16
 case0:
 	mpn_addmul_1_int 0
-	alignb  16, nop
+	align 16
 case1:
 	mpn_addmul_1_int 1
-	alignb  16, nop
+	align 16
 case3:
 	mpn_addmul_1_int 3
-	alignb  16, nop
+	align 16
 end:
 	mov     rcx, rbp
 	pop     rdx
@@ -403,7 +403,7 @@ skip:
 	pop     r14
 	pop     r13
 	ret
-	alignb  16, nop
+	align 16
 one:
 	mov     r9, [r8]
 	mov     r11, [rsi]
