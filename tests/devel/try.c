@@ -241,7 +241,7 @@ struct region_t {
 int trap_location = TRAP_NOWHERE;
 
 
-#define NUM_SOURCES  2
+#define NUM_SOURCES  3
 #define NUM_DESTS    2
 
 struct source_t {
@@ -645,6 +645,13 @@ validate_sqrtrem (void)
 #define TYPE_POPCOUNT         103
 #define TYPE_HAMDIST          104
 
+#define TYPE_DIVEXACT_BYFF    105
+#define TYPE_LSHIFT1	      106
+#define TYPE_RSHIFT1	      107
+
+#define TYPE_ADDADD_N	      108
+#define TYPE_ADDSUB_N	      109
+
 #define TYPE_EXTRA            110
 
 struct try_t  param[150];
@@ -837,6 +844,22 @@ param_init (void)
   p->src[1] = 1;
   REFERENCE (refmpn_sumdiff_n);
 
+  p = &param[TYPE_ADDADD_N];
+  p->retval = 1;
+  p->dst[0] = 1;
+  p->src[0] = 1;
+  p->src[1] = 1;
+  p->src[2] = 1;
+  REFERENCE (refmpn_addadd_n);
+
+  p = &param[TYPE_ADDSUB_N];
+  p->retval = 1;
+  p->dst[0] = 1;
+  p->src[0] = 1;
+  p->src[1] = 1;
+  p->src[2] = 1;
+  REFERENCE (refmpn_addsub_n);
+
   p = &param[TYPE_SUMDIFF_NC];
   COPY (TYPE_SUMDIFF_N);
   p->carry = CARRY_4;
@@ -965,6 +988,24 @@ param_init (void)
   p->dst[0] = 1;
   p->src[0] = 1;
   REFERENCE (refmpn_divexact_by3);
+
+  p = &param[TYPE_DIVEXACT_BYFF];
+  p->retval = 1;
+  p->dst[0] = 1;
+  p->src[0] = 1;
+  REFERENCE (refmpn_divexact_byff);
+
+  p = &param[TYPE_LSHIFT1];
+  p->retval = 1;
+  p->dst[0] = 1;
+  p->src[0] = 1;
+  REFERENCE (refmpn_lshift1);
+
+  p = &param[TYPE_RSHIFT1];
+  p->retval = 1;
+  p->dst[0] = 1;
+  p->src[0] = 1;
+  REFERENCE (refmpn_rshift1);
 
   p = &param[TYPE_DIVEXACT_BY3C];
   COPY (TYPE_DIVEXACT_BY3);
@@ -1234,6 +1275,18 @@ mpn_divexact_by3_fun (mp_ptr rp, mp_srcptr sp, mp_size_t size)
 }
 
 mp_limb_t
+mpn_lshift1_fun (mp_ptr rp, mp_srcptr sp, mp_size_t size)
+{
+  return mpn_lshift1 (rp, sp, size);
+}
+
+mp_limb_t
+mpn_rshift1_fun (mp_ptr rp, mp_srcptr sp, mp_size_t size)
+{
+  return mpn_rshift1 (rp, sp, size);
+}
+
+mp_limb_t
 mpn_modexact_1_odd_fun (mp_srcptr ptr, mp_size_t size, mp_limb_t divisor)
 {
   return mpn_modexact_1_odd (ptr, size, divisor);
@@ -1324,6 +1377,13 @@ const struct choice_t choice_array[] = {
 #endif
 #if HAVE_NATIVE_mpn_sumdiff_nc
   { TRY(mpn_sumdiff_nc), TYPE_SUMDIFF_NC },
+#endif
+
+#if HAVE_NATIVE_mpn_addadd_n
+  { TRY(mpn_addadd_n),  TYPE_ADDADD_N  },
+#endif
+#if HAVE_NATIVE_mpn_addsub_n
+  { TRY(mpn_addsub_n),  TYPE_ADDSUB_N  },
 #endif
 
   { TRY(mpn_addmul_1),  TYPE_ADDMUL_1  },
@@ -1425,6 +1485,9 @@ const struct choice_t choice_array[] = {
 
   { TRY(mpn_divexact_1),          TYPE_DIVEXACT_1 },
   { TRY_FUNFUN(mpn_divexact_by3), TYPE_DIVEXACT_BY3 },
+  { TRY(mpn_divexact_byff),       TYPE_DIVEXACT_BYFF },
+  { TRY_FUNFUN(mpn_lshift1),	  TYPE_LSHIFT1 },
+  { TRY_FUNFUN(mpn_rshift1),	  TYPE_RSHIFT1 },
   { TRY(mpn_divexact_by3c),       TYPE_DIVEXACT_BY3C },
 
   { TRY_FUNFUN(mpn_modexact_1_odd), TYPE_MODEXACT_1_ODD },
@@ -1999,6 +2062,13 @@ call (struct each_t *e, tryfun_t function)
       (e->d[0].p, e->d[1].p, e->s[0].p, e->s[1].p, size, carry);
     break;
 
+  case TYPE_ADDSUB_N:
+  case TYPE_ADDADD_N:
+    e->retval = CALLING_CONVENTIONS (function)
+      (e->d[0].p, e->s[0].p, e->s[1].p, e->s[2].p,size);
+    break;
+    
+
   case TYPE_COPY:
   case TYPE_COPYI:
   case TYPE_COPYD:
@@ -2010,6 +2080,17 @@ call (struct each_t *e, tryfun_t function)
   case TYPE_DIVEXACT_BY3:
     e->retval = CALLING_CONVENTIONS (function) (e->d[0].p, e->s[0].p, size);
     break;
+  case TYPE_DIVEXACT_BYFF:
+    e->retval = CALLING_CONVENTIONS (function) (e->d[0].p, e->s[0].p, size);
+    break;
+  case TYPE_LSHIFT1:
+    e->retval = CALLING_CONVENTIONS (function) (e->d[0].p, e->s[0].p, size);
+    break;
+  case TYPE_RSHIFT1:
+    e->retval = CALLING_CONVENTIONS (function) (e->d[0].p, e->s[0].p, size);
+    break;
+    
+
   case TYPE_DIVEXACT_BY3C:
     e->retval = CALLING_CONVENTIONS (function) (e->d[0].p, e->s[0].p, size,
 						carry);
