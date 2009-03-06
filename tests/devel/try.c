@@ -376,6 +376,61 @@ struct try_t {
 struct try_t  *tr;
 
 
+// jayjay
+
+mp_limb_t refmpn_addadd_n(mp_ptr rp,mp_srcptr xp,mp_srcptr yp,mp_srcptr zp,mp_size_t n)
+{mp_limb_t r=0,tp[n];
+r=mpn_add_n(tp,yp,zp,n);
+r+=mpn_add_n(rp,tp,xp,n);
+return r;}
+
+mp_limb_t refmpn_addsub_n(mp_ptr rp,mp_srcptr xp,mp_srcptr yp,mp_srcptr zp,mp_size_t n)
+{mp_limb_t r=0,tp[n];
+r=-mpn_sub_n(tp,yp,zp,n);
+r+=mpn_add_n(rp,tp,xp,n);
+return r;}
+
+mp_limb_t refmpn_lshift1(mp_ptr rp,mp_srcptr xp,mp_size_t n)
+{return mpn_lshift(rp,xp,n,1);}
+
+mp_limb_t refmpn_rshift1(mp_ptr rp,mp_srcptr xp,mp_size_t n)
+{return mpn_rshift(rp,xp,n,1);}
+
+
+mp_limb_t refmpn_divexact_byff(mp_ptr rp,mp_srcptr xp,mp_size_t n)
+{mpn_divexact_1(rp,xp,n,0xFFFFFFFFFFFFFFFF);return 0;}
+
+
+
+void refmpn_redc_basecase (mp_ptr cp, mp_srcptr mp, mp_size_t n, mp_limb_t Nprim, mp_ptr tp)
+{
+  mp_limb_t cy;
+    mp_limb_t q;
+      mp_size_t j;
+      
+        ASSERT_MPN (tp, 2*n);
+        
+          for (j = 0; j < n; j++)
+              {
+                    q = (tp[0] * Nprim) & GMP_NUMB_MASK;
+                          tp[0] = mpn_addmul_1 (tp, mp, n, q);
+                                tp++;
+                                    }
+                                      cy = mpn_add_n (cp, tp, tp - n, n);
+                                        if (cy != 0)
+                                            mpn_sub_n (cp, cp, mp, n);
+                                            }
+                                            
+                                            
+
+
+
+
+
+
+
+// jayjay
+
 void
 validate_mod_34lsub1 (void)
 {
@@ -652,7 +707,9 @@ validate_sqrtrem (void)
 #define TYPE_ADDADD_N	      108
 #define TYPE_ADDSUB_N	      109
 
-#define TYPE_EXTRA            110
+#define TYPE_REDC_BASECASE	110
+
+#define TYPE_EXTRA            120
 
 struct try_t  param[150];
 
@@ -835,7 +892,6 @@ param_init (void)
   COPY (TYPE_AND_N);
   REFERENCE (refmpn_xnor_n);
 
-
   p = &param[TYPE_SUMDIFF_N];
   p->retval = 1;
   p->dst[0] = 1;
@@ -843,6 +899,11 @@ param_init (void)
   p->src[0] = 1;
   p->src[1] = 1;
   REFERENCE (refmpn_sumdiff_n);
+
+  p = &param[TYPE_SUMDIFF_NC];
+  COPY (TYPE_SUMDIFF_N);
+  p->carry = CARRY_4;
+  REFERENCE (refmpn_sumdiff_nc);
 
   p = &param[TYPE_ADDADD_N];
   p->retval = 1;
@@ -860,10 +921,6 @@ param_init (void)
   p->src[2] = 1;
   REFERENCE (refmpn_addsub_n);
 
-  p = &param[TYPE_SUMDIFF_NC];
-  COPY (TYPE_SUMDIFF_N);
-  p->carry = CARRY_4;
-  REFERENCE (refmpn_sumdiff_nc);
 
 
   p = &param[TYPE_COPY];
@@ -1087,6 +1144,12 @@ param_init (void)
   COPY (TYPE_MPZ_KRONECKER_UI);
   REFERENCE (refmpz_si_kronecker);
 
+  p = &param[TYPE_REDC_BASECASE];
+  p->dst[0] = 1;
+  p->src[0] = 1;
+  p->src[1] = 1;
+  p->overlap = OVERLAP_NONE;
+  REFERENCE (refmpn_redc_basecase);
 
   p = &param[TYPE_SQR];
   p->dst[0] = 1;
@@ -1510,6 +1573,7 @@ const struct choice_t choice_array[] = {
 
 
   { TRY(mpn_mul_basecase), TYPE_MUL_BASECASE },
+  { TRY(mpn_redc_basecase), TYPE_REDC_BASECASE },
 #if SQR_KARATSUBA_THRESHOLD > 0
   { TRY(mpn_sqr_basecase), TYPE_SQR },
 #endif
@@ -2247,6 +2311,31 @@ call (struct each_t *e, tryfun_t function)
   case TYPE_MUL_BASECASE:
     CALLING_CONVENTIONS (function)
       (e->d[0].p, e->s[0].p, size, e->s[1].p, size2);
+    break;
+  case TYPE_REDC_BASECASE:
+    /* Sources are destroyed, so they're saved and replaced, but a general
+       approach to this might be better.  Note that it's still e->s[0].p and
+       e->s[1].p that are passed, to get the desired alignments. */
+    {
+      mp_limb_t Np;
+      mp_ptr  s0 = refmpn_malloc_limbs (size);
+      mp_ptr  s1 = refmpn_malloc_limbs (size2);
+      e->s[0].p[0] |= 1;
+      modlimb_invert(Np,e->s[0].p[0]);
+      refmpn_copyi (s0, e->s[0].p, size);
+      refmpn_copyi (s1, e->s[1].p, size2);
+
+      mprotect_region (&s[0].region, PROT_READ|PROT_WRITE);
+      mprotect_region (&s[1].region, PROT_READ|PROT_WRITE);
+      e->retval = CALLING_CONVENTIONS (function) (e->d[0].p,
+						  e->s[0].p, size,Np,
+						  e->s[1].p);
+      refmpn_copyi (e->s[0].p, s0, size);
+      refmpn_copyi (e->s[1].p, s1, size2);
+      free (s0);
+      free (s1);
+    }
+  
     break;
   case TYPE_MUL_N:
     CALLING_CONVENTIONS (function) (e->d[0].p, e->s[0].p, e->s[1].p, size);
