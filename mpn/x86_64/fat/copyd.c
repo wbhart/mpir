@@ -19,6 +19,10 @@ along with the GNU MP Library; see the file COPYING.LIB.  If not, write to
 the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 MA 02110-1301, USA. */
 
+#include "mpir.h"
+#include "gmp-impl.h"
 
+#ifndef mpn_copyd
 void	mpn_copyd(mp_ptr rp,mp_srcptr sp,mp_size_t n)
 {MPN_COPY_DECR(rp,sp,n);return;}
+#endif
