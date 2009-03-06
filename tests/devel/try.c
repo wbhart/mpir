@@ -321,6 +321,7 @@ struct try_t {
 #define SIZE_CEIL_HALF   13
 #define SIZE_GET_STR     14
 #define SIZE_PLUS_MSIZE_SUB_1 15  /* size+msize-1 */
+#define SIZE_DOUBLE	16
   char  size;
   char  size2;
   char  dst_size[2];
@@ -356,6 +357,7 @@ struct try_t {
 #define DATA_SRC1_HIGHBIT     4
 #define DATA_MULTIPLE_DIVISOR 5
 #define DATA_UDIV_QRNND       6
+#define DATA_SRC0_ODD	      7
   char  data;
 
 /* Default is allow full overlap. */
@@ -376,7 +378,9 @@ struct try_t {
 struct try_t  *tr;
 
 
-// jayjay
+/*
+
+// BILL delete this
 
 mp_limb_t refmpn_addadd_n(mp_ptr rp,mp_srcptr xp,mp_srcptr yp,mp_srcptr zp,mp_size_t n)
 {mp_limb_t r=0,tp[n];
@@ -398,9 +402,7 @@ mp_limb_t refmpn_rshift1(mp_ptr rp,mp_srcptr xp,mp_size_t n)
 
 
 mp_limb_t refmpn_divexact_byff(mp_ptr rp,mp_srcptr xp,mp_size_t n)
-{mpn_divexact_1(rp,xp,n,0xFFFFFFFFFFFFFFFF);return 0;}
-
-
+{mpn_divexact_1(rp,xp,n,0xFFFFFFFFFFFFFFFF);return 0;}// this is bollocks
 
 void refmpn_redc_basecase (mp_ptr cp, mp_srcptr mp, mp_size_t n, mp_limb_t Nprim, mp_ptr tp)
 {
@@ -410,26 +412,19 @@ void refmpn_redc_basecase (mp_ptr cp, mp_srcptr mp, mp_size_t n, mp_limb_t Nprim
       
         ASSERT_MPN (tp, 2*n);
         
-          for (j = 0; j < n; j++)
-              {
-                    q = (tp[0] * Nprim) & GMP_NUMB_MASK;
-                          tp[0] = mpn_addmul_1 (tp, mp, n, q);
-                                tp++;
-                                    }
-                                      cy = mpn_add_n (cp, tp, tp - n, n);
-                                        if (cy != 0)
-                                            mpn_sub_n (cp, cp, mp, n);
-                                            }
-                                            
-                                            
+ for (j = 0; j < n; j++)
+   {
+     q = (tp[0] * Nprim) & GMP_NUMB_MASK;
+      tp[0] = mpn_addmul_1 (tp, mp, n, q);
+       tp++;
+    }
+   cy = mpn_add_n (cp, tp, tp - n, n);
+    if (cy != 0)
+   mpn_sub_n (cp, cp, mp, n);
+      }
 
-
-
-
-
-
-
-// jayjay
+// END BILL delete this
+*/
 
 void
 validate_mod_34lsub1 (void)
@@ -1148,6 +1143,8 @@ param_init (void)
   p->dst[0] = 1;
   p->src[0] = 1;
   p->src[1] = 1;
+  p->data = DATA_SRC0_ODD ;
+  p->size2 = SIZE_DOUBLE;
   p->overlap = OVERLAP_NONE;
   REFERENCE (refmpn_redc_basecase);
 
@@ -2320,8 +2317,8 @@ call (struct each_t *e, tryfun_t function)
       mp_limb_t Np;
       mp_ptr  s0 = refmpn_malloc_limbs (size);
       mp_ptr  s1 = refmpn_malloc_limbs (size2);
-      e->s[0].p[0] |= 1;
       modlimb_invert(Np,e->s[0].p[0]);
+      Np=-Np;
       refmpn_copyi (s0, e->s[0].p, size);
       refmpn_copyi (s1, e->s[1].p, size2);
 
@@ -2641,6 +2638,11 @@ try_one (void)
 	if (i == 1)
 	  s[i].p[0] |= 1;
 	break;
+	
+      case DATA_SRC0_ODD:
+	if (i == 0)
+	  s[i].p[0] |= 1;
+	break;
 
       case DATA_SRC1_HIGHBIT:
 	if (i == 1)
@@ -2744,6 +2746,7 @@ try_one (void)
 #define SIZE2_FIRST                                     \
   (tr->size2 == SIZE_2 ? 2                              \
    : tr->size2 == SIZE_FRACTION ? option_firstsize2     \
+   : tr->size2 == SIZE_DOUBLE ? size*2			\
    : tr->size2 ?                                        \
    MAX (choice->minsize, (option_firstsize2 != 0        \
 			  ? option_firstsize2 : 1))     \
@@ -2752,6 +2755,7 @@ try_one (void)
 #define SIZE2_LAST                                      \
   (tr->size2 == SIZE_2 ? 2                              \
    : tr->size2 == SIZE_FRACTION ? FRACTION_COUNT-1      \
+   : tr->size2 == SIZE_DOUBLE ? size*2			\
    : tr->size2 ? size                                   \
    : 0)
 
@@ -2785,6 +2789,7 @@ try_many (void)
     total *= option_repetitions;
     total *= option_lastsize;
     if (tr->size2 == SIZE_FRACTION) total *= FRACTION_COUNT;
+    else if (tr->size2 == SIZE_DOUBLE) total *= 1;
     else if (tr->size2)             total *= (option_lastsize+1)/2;
 
     total *= SHIFT_LIMIT;
