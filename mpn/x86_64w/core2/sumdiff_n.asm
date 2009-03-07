@@ -37,20 +37,13 @@
 ;
 ; This is an SEH frame function
 
-%include "..\x86_64_asm.inc"
+%include "..\yasm_mac.inc"
 
 %define reg_save_list   rsi, rdi, r12, r13, r14, r15, rbx, rbp
 
-   bits 64
-   section .text
-   
-    global  __gmpn_sumdiff_n
-
-%ifdef DLL
-    export  __gmpn_sumdiff_n
-%endif
-
-	prologue __gmpn_sumdiff_n, 0, reg_save_list
+    BITS 64
+    
+	FRAME_PROC mpn_sumdiff_n, 0, reg_save_list
     mov     r10d, dword [rsp+stack_use+40]
 
 	lea     rdx, [rdx+r10*8]
@@ -114,6 +107,6 @@
 
 .4:	lea     rax, [r11+r12*2]
 	neg     rax
+	END_PROC reg_save_list
 	
-	epilogue reg_save_list
 	end

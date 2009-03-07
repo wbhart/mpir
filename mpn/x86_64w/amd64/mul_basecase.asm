@@ -37,10 +37,12 @@
 ;
 ; This is an SEH frame function with a leaf prologue
 
-%include "..\x86_64_asm.inc"
+%include "..\yasm_mac.inc"
 
 %define reg_save_list   rbx, rsi, rdi, r12, r13, r14
 
+    BITS 64
+    
 %macro mulloop 1
 
 	alignb  16, nop
@@ -352,21 +354,12 @@
 
 %endmacro
 
-   bits 64
-   section .text
-
-   global   __gmpn_mul_basecase
-
-%ifdef DLL
-   export   __gmpn_mul_basecase
-%endif
-
-__gmpn_mul_basecase:
+    LEAF_PROC mpn_mul_basecase
 	cmp     r8d, 2
 	jz      two
 	jb      one
 	
-    prologue mul_m_by_n, 0, reg_save_list
+    FRAME_PROC mul_m_by_n, 0, reg_save_list
     mov     rdi, rcx
     mov     rsi, rdx
     mov     edx, r8d
@@ -417,7 +410,7 @@ case2:
 case3:
 	mpn_muladdmul_1_int 3
 xit:
-    epilogue reg_save_list
+    END_PROC reg_save_list
 
 	alignb  16, nop	
 one:mov     rax, [rdx]

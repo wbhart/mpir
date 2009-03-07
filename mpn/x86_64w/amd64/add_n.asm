@@ -48,95 +48,81 @@
 ;   %1 = __g, %2 = adc, %3 = mpn_add_n, %4 = mpn_add_nc
 ;   %1 = __g, %2 = sbb, %3 = mpn_sub_n, %4 = mpn_sub_nc
 
-%macro   mac_sub  4
+%include "..\yasm_mac.inc"
 
-    global  %1%4
-    global  %1%3
-
-%ifdef DLL
-    export  %1%4
-    export  %1%3
-%endif
-
-    alignb  8, nop
-%1%4:
-    mov     r10,[rsp+0x28]
-    jmp     %%0
+    BITS 64
     
     alignb  8, nop
-%1%3:
+    LEAF_PROC mpn_add_nc
+    mov     r10,[rsp+0x28]
+    jmp     entry
+    
+    alignb  8, nop
+    LEAF_PROC mpn_add_n
     xor     r10, r10
-
-%%0:mov     eax, r9d
+entry:
+    mov     eax, r9d
     mov	    r9, rax
     and	    rax, 3
     shr	    r9, 2
     lea     r9,[r10+r9*2]
     shr     r9, 1
-    jnz	    %%2
+    jnz	    .2
 
     mov	    r10, [rdx]
-    %2      r10, [r8]
+    adc     r10, [r8]
     mov	    [rcx], r10
     dec	    rax
-    jz	    %%1
+    jz	    .1
     mov	    r10, [rdx+8]
-    %2      r10, [r8+8]
+    adc     r10, [r8+8]
     mov	    [rcx+8], r10
     dec	    rax
-    jz	    %%1
+    jz	    .1
     mov	    r10, [rdx+16]
-    %2      r10, [r8+16]
+    adc     r10, [r8+16]
     mov	    [rcx+16], r10
     dec	    rax
-%%1:adc	    rax, rax
+.1: adc	    rax, rax
     ret
 
 	alignb  8, nop
-%%2:mov	    r10, [rdx]
+.2: mov	    r10, [rdx]
 	mov	    r11, [rdx+8]
 	lea	    rdx, [rdx+32]
-	%2	    r10, [r8]
-	%2	    r11, [r8+8]
+	adc	    r10, [r8]
+    adc	    r11, [r8+8]
 	lea	    r8, [r8+32]
 	mov	    [rcx], r10
 	mov	    [rcx+8], r11
 	lea	    rcx, [rcx+32]
 	mov	    r10, [rdx-16]
 	mov	    r11, [rdx-8]
-	%2	    r10, [r8-16]
-	%2	    r11, [r8-8]
+	adc	    r10, [r8-16]
+	adc	    r11, [r8-8]
 	mov	    [rcx-16], r10
 	dec	    r9
 	mov	    [rcx-8], r11
-	jnz	    %%2
+	jnz	    .2
 
     inc	    rax
     dec	    rax
-    jz	    %%3
+    jz	    .3
     mov	    r10, [rdx]
-    %2      r10, [r8]
+    adc     r10, [r8]
     mov	    [rcx], r10
     dec	    rax
-    jz	    %%3
+    jz	    .3
     mov	    r10, [rdx+8]
-    %2      r10, [r8+8]
+    adc     r10, [r8+8]
     mov	    [rcx+8], r10
     dec	    rax
-    jz	    %%3
+    jz	    .3
     mov	    r10, [rdx+16]
-    %2      r10, [r8+16]
+    adc     r10, [r8+16]
     mov	    [rcx+16], r10
     dec	    rax
-%%3:adc	    rax, rax
+.3: adc	    rax, rax
     ret
-
-%endmacro
-
-    bits    64
-    section .text
-
-    mac_sub __g,adc,mpn_add_n,mpn_add_nc
-    mac_sub __g,sbb,mpn_sub_n,mpn_sub_nc
 
     end

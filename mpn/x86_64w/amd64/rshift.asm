@@ -31,16 +31,11 @@
 ;
 ;  This is an SEH leaf function (no unwind support needed)
 
-   bits 64
-   section .text
+%include "..\yasm_mac.inc"
 
-   global __gmpn_rshift
+    BITS 64
 
-%ifdef DLL
-   export   __gmpn_rshift
-%endif
-
-__gmpn_rshift:
+    LEAF_PROC mpn_rshift
     mov     r8d, r8d
     mov     r9d, r9d
 	mov     eax, 64

@@ -1686,6 +1686,10 @@
 					Name="Assembler"
 					>
 					<File
+						RelativePath="..\..\mpn\x86_64w\amd64\add_n.asm"
+						>
+					</File>
+					<File
 						RelativePath="..\..\mpn\x86_64w\amd64\addadd_n.asm"
 						>
 					</File>
@@ -1694,15 +1698,11 @@
 						>
 					</File>
 					<File
+						RelativePath="..\..\mpn\x86_64w\amd64\addmul_1.asm"
+						>
+					</File>
+					<File
 						RelativePath="..\..\mpn\x86_64w\amd64\addsub_n.asm"
-						>
-					</File>
-					<File
-						RelativePath="..\..\mpn\x86_64w\amd64\aors_n.asm"
-						>
-					</File>
-					<File
-						RelativePath="..\..\mpn\x86_64w\amd64\aorsmul_1.asm"
 						>
 					</File>
 					<File
@@ -1766,7 +1766,15 @@
 						>
 					</File>
 					<File
+						RelativePath="..\..\mpn\x86_64w\amd64\sub_n.asm"
+						>
+					</File>
+					<File
 						RelativePath="..\..\mpn\x86_64w\amd64\sublsh1_n.asm"
+						>
+					</File>
+					<File
+						RelativePath="..\..\mpn\x86_64w\amd64\submul_1.asm"
 						>
 					</File>
 					<File
@@ -1781,6 +1789,42 @@
 						RelativePath="..\..\mpn\x86_64w\umul.asm"
 						>
 					</File>
+					<Filter
+						Name="Logic"
+						>
+						<File
+							RelativePath="..\..\mpn\x86_64w\amd64\and_n.asm"
+							>
+						</File>
+						<File
+							RelativePath="..\..\mpn\x86_64w\amd64\andn_n.asm"
+							>
+						</File>
+						<File
+							RelativePath="..\..\mpn\x86_64w\amd64\ior_n.asm"
+							>
+						</File>
+						<File
+							RelativePath="..\..\mpn\x86_64w\amd64\iorn_n.asm"
+							>
+						</File>
+						<File
+							RelativePath="..\..\mpn\x86_64w\amd64\nand_n.asm"
+							>
+						</File>
+						<File
+							RelativePath="..\..\mpn\x86_64w\amd64\nior_n.asm"
+							>
+						</File>
+						<File
+							RelativePath="..\..\mpn\x86_64w\amd64\xnor_n.asm"
+							>
+						</File>
+						<File
+							RelativePath="..\..\mpn\x86_64w\amd64\xor_n.asm"
+							>
+						</File>
+					</Filter>
 				</Filter>
 				<Filter
 					Name="x64"

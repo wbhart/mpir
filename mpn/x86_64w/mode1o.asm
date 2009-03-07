@@ -41,27 +41,18 @@
 ;
 ; This is an SEH Frame Function with a leaf prologue
 
-%include "x86_64_asm.inc"
+%include "yasm_mac.inc"
 
 %define reg_save_list       rsi, rdi
 
-    bits    64
-    section .text
-    align   32
-
-    global  __gmpn_modexact_1_odd
-    global  __gmpn_modexact_1c_odd
+    BITS 64
+    
     extern  __gmp_modlimb_invert_table
 
-%ifdef DLL
-    export  __gmpn_modexact_1_odd
-    export  __gmpn_modexact_1c_odd
-%endif
-
-__gmpn_modexact_1_odd:
+    LEAF_PROC mpn_modexact_1_odd
     mov     r9, 0               ; carry
 
-prologue    __gmpn_modexact_1c_odd, 0, reg_save_list
+    FRAME_PROC mpn_modexact_1c_odd, 0, reg_save_list
     
     ; first use Newton's iteration to invert the divisor limb (d) using 
     ; f(x) = 1/x - d  and x[i+1] = x[i] - f(x[i]) / f'(x[i]) to give
@@ -118,6 +109,6 @@ prologue    __gmpn_modexact_1c_odd, 0, reg_save_list
     imul    rax, r10
     mul     r8
     lea     rax, [rcx+rdx]
-    epilogue    reg_save_list
+    END_PROC reg_save_list
 
     end

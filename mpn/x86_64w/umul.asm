@@ -26,16 +26,11 @@
 ;  mp_limb_t m2              r8
 ;  );
 
-    bits    64
-    section .text
+%include "yasm_mac.inc"
 
-    global  __gmpn_umul_ppmm
+    BITS 64
 
-%ifdef DLL
-    export  __gmpn_umul_ppmm
-%endif
-
-__gmpn_umul_ppmm:
+    LEAF_PROC mpn_umul_ppmm
     mov     rax,rdx
     mul     r8
     mov     [rcx],rax

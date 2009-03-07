@@ -37,38 +37,32 @@
 ;
 ; This is an SEH Frame Function with a leaf prologue
 
-%include "x86_64_asm.inc"
+%include "yasm_mac.inc"
 
 %define reg_save_list       rsi, rdi
 
-    bits    64
-    section .text
+    BITS 64
 
     extern  __gmp_modlimb_invert_table
-    global  __gmpn_divexact_1
-
-%ifdef DLL
-    export  __gmpn_divexact_1
-%endif
-
-__gmpn_divexact_1:
+    
+    LEAF_PROC mpn_divexact_1
     mov     r8d, r8d
     mov     r10, rdx
     mov     rax, r9
     and     rax, byte 1
     add     rax, r8
     cmp     rax, byte 4
-    jae     L_mul_by_inverse
+    jae     .1
     xor     rdx,rdx
 
-.1: mov     rax, [r10+r8*8-8]
+.0: mov     rax, [r10+r8*8-8]
     div     r9
     mov     [rcx+r8*8-8], rax
     sub     r8, 1
-    jnz     .1
+    jnz     .0
     ret                     ; avoid single byte return
-
-prologue    L_mul_by_inverse, 0, reg_save_list
+.1:
+    FRAME_PROC mul_by_inverse, 0, reg_save_list
     mov     rsi, rdx        ; src pointer
     mov     rdi, rcx        ; dst pointer
     bsf     rcx, r9         ; remove powers of two
@@ -147,6 +141,6 @@ prologue    L_mul_by_inverse, 0, reg_save_list
     imul    rax, r10
     mov     [rdi-8], rax
 
-.6: epilogue reg_save_list
+.6: END_PROC reg_save_list
 
     end

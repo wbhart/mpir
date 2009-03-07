@@ -32,6 +32,12 @@
 ;
 ; This is an SEH frame function with a leaf prologue
 
+%include "..\yasm_mac.inc"
+
+%define reg_save_list   rbx, rsi, rdi, r12, r13, r14
+
+    BITS 64
+
 %macro mulloop 0
 
 	alignb  16, nop
@@ -269,20 +275,7 @@
 
 %endmacro
 
-%include "..\x86_64_asm.inc"
-
-%define reg_save_list   rbx, rsi, rdi, r12, r13, r14
-
-   bits     64
-   section  .text
-
-   global   __gmpn_sqr_basecase
-
-%ifdef DLL
-   export   __gmpn_sqr_basecase
-%endif
-
-__gmpn_sqr_basecase:
+    LEAF_PROC mpn_sqr_basecase
 	cmp     r8d, 3
 	ja      fourormore
 	jz      three
@@ -294,8 +287,8 @@ __gmpn_sqr_basecase:
 	ret
 	
 	alignb  16, nop
-	
-    prologue fourormore, 0, reg_save_list
+fourormore:
+    FRAME_PROC fourormore, 0, reg_save_list
     mov     rdi, rcx
     mov     rsi, rdx
     mov     edx, r8d
@@ -428,7 +421,7 @@ L43:addmulnext3
 	add     rcx, 1          ; ***
 	lea     rdi, [rdi+16]
 	jnz     .6
-	epilogue reg_save_list
+	END_PROC reg_save_list
 	
 	alignb  16, nop
 two:
@@ -454,7 +447,8 @@ two:
 	ret
 	
 	align   16
-    prologue three, 0, rsi, rdi
+three:
+    FRAME_PROC three, 0, rsi, rdi
     mov     rdi, rcx
     mov     rsi, rdx
     
@@ -501,6 +495,6 @@ two:
 	add     rdi, 1      ; ***
 	lea     rcx, [rcx+16]
 	jnz     .1
-	epilogue rsi, rdi
+	END_PROC rsi, rdi
 	
 	end

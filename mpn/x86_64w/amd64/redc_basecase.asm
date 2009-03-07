@@ -28,10 +28,11 @@
 ; )
 ;
 
-%include "..\x86_64_asm.inc"
+%include "..\yasm_mac.inc"
 
 %define reg_save_list   rbx, rsi, rdi, rbp, r12, r13, r14, r15
 
+    BITS 64
 
 %macro mpn_add 0
 
@@ -372,18 +373,10 @@
 
 %endmacro
 
-   bits 64
-   section .text
-
-   global   __gmpn_redc_basecase
-%ifdef DLL
-   export   __gmpn_redc_basecase
-%endif
-
-__gmpn_redc_basecase:
+    LEAF_PROC mpn_redc_basecase
 	cmp     r8d, 1
 	je      one
-	prologue redc_bc, 0, reg_save_list
+	FRAME_PROC redc_bc, 0, reg_save_list
     mov rdi, rcx
     mov rsi, rdx
     mov edx, r8d
@@ -433,7 +426,8 @@ __gmpn_redc_basecase:
 	mov     rsi, rbx
 	mpn_sub
 
-.3: epilogue reg_save_list
+.3: 
+    END_PROC reg_save_list
 
 	alignb  16, nop
 one:mov     r8,[rsp+0x28]

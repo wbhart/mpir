@@ -32,16 +32,10 @@
 ;
 ;  This is an SEH leaf function (no unwind support needed)
 
-   bits 64
-   section .text
+%include "..\yasm_mac.inc"
 
-   global   __gmpn_com_n
-
-%ifdef DLL
-   export   __gmpn_com_n
-%endif
-
-__gmpn_com_n:
+    BITS 64
+    LEAF_PROC mpn_com_n
     mov     eax, r8d
 	sub     rax, 4
 	jc      .2

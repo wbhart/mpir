@@ -30,20 +30,13 @@
 ;
 ;  This is an SEH leaf function (no unwind support needed)
 
-%include "..\x86_64_asm.inc"
+%include "..\yasm_mac.inc"
+
+    BITS 64
 
 %define reg_save_list r12, r13
 
-   bits 64
-   section .text
-
-   global __gmpn_rshift1
-
-%ifdef DLL
-   export   __gmpn_rshift1
-%endif
-
-    prologue __gmpn_rshift1, 0, reg_save_list
+    FRAME_PROC mpn_rshift1, 0, reg_save_list
     mov     r8d, r8d
 
 	xor     rax, rax
@@ -125,6 +118,6 @@
 	mov     [rcx-48], r10
 
 .3: rcr     rax, 1
-    epilogue reg_save_list
+    END_PROC reg_save_list
 
 	end

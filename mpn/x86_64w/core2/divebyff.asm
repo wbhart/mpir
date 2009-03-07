@@ -29,16 +29,11 @@
 ;
 ;  This is an SEH leaf function (no unwind support needed)
 
-   bits 64
-   section .text
+%include "..\yasm_mac.inc"
 
-   global __gmpn_divexact_byff
-
-%ifdef DLL
-   export   __gmpn_divexact_byff
-%endif
-
-__gmpn_divexact_byff:
+    BITS 64
+    
+    LEAF_PROC mpn_divexact_byff
     mov     r8d, r8d
 
 	xor     eax, eax

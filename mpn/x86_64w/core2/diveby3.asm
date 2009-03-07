@@ -29,6 +29,10 @@
 ;
 ; This is an SEH leaf function
 
+%include "..\yasm_mac.inc"
+
+    BITS 64
+
 %define MLT1 0x5555555555555555
 
 %macro  mul_sub1 1
@@ -61,13 +65,7 @@
 
 %macro div_by_3 2-3
 
-    global  __g%1
-
-%ifdef DLL
-    export  __g%1
-%endif
-
-__g%1:
+    LEAF_PROC %1
     mov     eax, r8d
 	mov     r8d, 3
 	lea     r10, [rdx+rax*8-24]
@@ -106,9 +104,6 @@ __g%1:
 	ret
 
 %endmacro
-
-    bits    64
-    section .text
 
     div_by_3  mpn_divexact_by3,  1
     div_by_3  mpn_divexact_by3c, 1, 1

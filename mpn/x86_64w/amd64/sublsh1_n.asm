@@ -33,20 +33,13 @@
 ;
 ; This is an SEH Frame Function
 
-%include "..\x86_64_asm.inc"
+%include "..\yasm_mac.inc"
 
 %define reg_save_list rbx, rsi, rdi, r12, r13, r14, r15
 
-   bits 64
-   section .text
+    BITS 64
 
-   global   __gmpn_sublsh1_n
-
-%ifdef DLL
-   export   __gmpn_sublsh1_n
-%endif
-
-    prologue __gmpn_sublsh1_n, 0, reg_save_list
+    FRAME_PROC mpn_sublsh1_n, 0, reg_save_list
     mov eax, r9d
 
 	lea     rsi, [rdx+rax*8]
@@ -103,6 +96,6 @@
 	jnz     .3
 .4:	add     rax, r9
 	neg     rax
-	epilogue reg_save_list
+	END_PROC reg_save_list
 	
 	end

@@ -39,30 +39,21 @@
 ;
 ;  This is an SEH frame function with two leaf prologues
 
-%include "..\x86_64_asm.inc"
+%include "..\yasm_mac.inc"
 
-    bits    64
-    section .text
-
-    global  __gmpn_mul_1
-    global  __gmpn_mul_1c
-
-%ifdef DLL
-    export  __gmpn_mul_1
-    export  __gmpn_mul_1c
-%endif
-
-__gmpn_mul_1c:
+    BITS 64
+    
+    LEAF_PROC mpn_mul_1c
     mov     r11, [rsp+0x28]
     jmp     start
 
-__gmpn_mul_1:
+    LEAF_PROC mpn_mul_1
     xor     r11, r11
     jmp     start
 
     align   16
 start:
-    prologue _gmulmm, 0, rbx
+    FRAME_PROC mulmm, 0, rbx
     mov     eax, r8d
     mov     r8d, 3
     lea     r10, [rdx+rax*8-24]
@@ -125,6 +116,6 @@ start:
 	mov     [rcx+r8*8], r11
 	adc     rbx, rdx
 	mov     rax, rbx
-.4: epilogue rbx
+.4: END_PROC rbx
 
     end

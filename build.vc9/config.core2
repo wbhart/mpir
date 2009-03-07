@@ -137,60 +137,47 @@ MA 02111-1307, USA. */
 
 #define HAVE_NATIVE_mpn_add_n				1
 #define HAVE_NATIVE_mpn_add_nc				1
-#define HAVE_NATIVE_mpn_sub_n				1
-#define HAVE_NATIVE_mpn_sub_nc				1
-
-#define HAVE_NATIVE_mpn_addmul_1			1		
-#define HAVE_NATIVE_mpn_submul_1			1	
-
-#define HAVE_NATIVE_mpn_addlsh1_n			1		
-#define HAVE_NATIVE_mpn_sublsh1_n			1	
 #define HAVE_NATIVE_mpn_addadd_n            1	
+#define HAVE_NATIVE_mpn_addlsh1_n			1		
+#define HAVE_NATIVE_mpn_addmul_1			1		
 #define HAVE_NATIVE_mpn_addsub_n            1		
-#define HAVE_NATIVE_mpn_sumdiff_n           1		
-
-#undef HAVE_NATIVE_mpn_copyd											
-#undef HAVE_NATIVE_mpn_copyi				
-
-#define HAVE_NATIVE_mpn_divexact_1			1
-
 #define HAVE_NATIVE_mpn_com_n               1
-
+#define HAVE_NATIVE_mpn_divexact_1			1
 #define HAVE_NATIVE_mpn_divexact_by3        1
 #define HAVE_NATIVE_mpn_divexact_by3c       1
 #define HAVE_NATIVE_mpn_divexact_byff       1
-#define HAVE_NATIVE_mpn_redc_basecase       1
-
-#undef HAVE_NATIVE_mpn_divrem_1
-#undef HAVE_NATIVE_mpn_divrem_1c
-
-#undef HAVE_NATIVE_mpn_hamdist
-#undef HAVE_NATIVE_mpn_popcount
-
 #define HAVE_NATIVE_mpn_lshift				1			
-#define HAVE_NATIVE_mpn_rshift				1
-
-#undef HAVE_NATIVE_mpn_mod_1
-#undef HAVE_NATIVE_mpn_mod_1c
+#define HAVE_NATIVE_mpn_lshift1				1			
 #define HAVE_NATIVE_mpn_modexact_1_odd		1
 #define HAVE_NATIVE_mpn_modexact_1c_odd		1
-
 #define HAVE_NATIVE_mpn_mul_1				1
 #define HAVE_NATIVE_mpn_mul_1c				1
 #define HAVE_NATIVE_mpn_mul_basecase		1			
+#define HAVE_NATIVE_mpn_redc_basecase       1
+#define HAVE_NATIVE_mpn_rshift				1
+#define HAVE_NATIVE_mpn_rshift1				1
 #define HAVE_NATIVE_mpn_sqr_basecase		1	
-
+#define HAVE_NATIVE_mpn_sub_n				1
+#define HAVE_NATIVE_mpn_sub_nc				1
+#define HAVE_NATIVE_mpn_sublsh1_n			1	
+#define HAVE_NATIVE_mpn_submul_1			1	
+#define HAVE_NATIVE_mpn_sumdiff_n           1		
 #define HAVE_NATIVE_mpn_umul_ppmm           1
 #define HAVE_NATIVE_mpn_udiv_qrnnd          1
 
-/* For the generic C code */
-
-#define HAVE_NATIVE_mpn_add_n				1
-#define HAVE_NATIVE_mpn_sub_n				1
+#if 1
+#define HAVE_NATIVE_mpn_and_n               1
+#define HAVE_NATIVE_mpn_andn_n              1
+#define HAVE_NATIVE_mpn_ior_n               1
+#define HAVE_NATIVE_mpn_iorn_n              1
+#define HAVE_NATIVE_mpn_nand_n              1
+#define HAVE_NATIVE_mpn_nior_n              1
+#define HAVE_NATIVE_mpn_xnor_n              1
+#define HAVE_NATIVE_mpn_xor_n               1
+#endif
 
 /* a dummy to make autoheader happy */
 #undef HAVE_NATIVE_
-
 
 /* The gmp-mparam.h to update when tuning. */
 #undef GMP_MPARAM_H_SUGGEST

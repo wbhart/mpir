@@ -27,16 +27,11 @@
 ;  mp_limb_t divisor             r9
 ;  );
 
-    bits    64
-    section .text
+%include "yasm_mac.inc"
 
-    global  __gmpn_udiv_qrnnd
+    BITS 64
 
-%ifdef DLL
-    export  __gmpn_udiv_qrnnd
-%endif
-
-__gmpn_udiv_qrnnd:
+    LEAF_PROC mpn_udiv_qrnnd
     mov     rax,r8
     div     r9
     mov     [rcx],rdx

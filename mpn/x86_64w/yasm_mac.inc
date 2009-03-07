@@ -2,8 +2,7 @@
 ; YASM macros for handling Windows Prologues and Epilogues
 ;
 ; Copyright 2008, 2009 Brian Gladman
-
-
+;
 ; Windows x64 prologue macro
 ;
 ;   prologue name, stack_slots, register_save_list 
@@ -18,8 +17,6 @@
 ;
 ;   register_save_list:  comma separated list of registers to save
 ;                        in same order used in prologue
-
-%ifdef _WIN64_ABI
 
 %define r0  rax
 %define r1  rdx
@@ -57,9 +54,15 @@
 %define r6b bpl
 %define r7b spl
 
-%macro prologue 2-*
+%macro FRAME_PROC 2-*
 
-    PROC_FRAME %1
+    global  __g%1
+    
+%ifdef DLL
+    export  __g%1
+%endif
+
+    PROC_FRAME __g%1
     %rotate 1
       
     %if %1 < 0
@@ -89,7 +92,7 @@
 
 %endmacro
 
-%macro epilogue 0-*
+%macro END_PROC 0-*
 
     add rsp, stack_use - 8 * %0
     %if %0 > 0
@@ -103,33 +106,17 @@
 
 %endmacro
 
-%else
-
-%macro prologue 1-*
-%1:
-%rotate 1  
-%rep %0 - 2
-    push  %1
-    %rotate 1  
-%endrep
-%if %1 > 0
-    sub rsp, 8 * %1
+%macro LEAF_PROC 1
+    
+    global  __g%1
+    
+%ifdef DLL
+    export  __g%1
 %endif
+
+__g%1:
+
 %endmacro
-
-%macro epilogue 1-*
-%rotate -1
-%if %1 > 0  
-    add rsp, 8 * %1
-%endif
-%rep %0 - 1
-    %rotate -1
-    pop  %1  
-%endrep
-    ret
-%endmacro
-
-%endif
 
 ; Macros for using assembler code using the GCC Calling
 ; Conventions in Windows.
@@ -137,11 +124,11 @@
 ; Note that these macros loads integer parameters that 
 ; are 32-bits as 64-bit integers with no zero or sign
 ; extension. For such parameters either 'mov rxd, rxd'
-; (for unsigned) or 'movsxd rx, rxd' (for signed)  will
-; be needed after their use if such parameters are to
-; be used as 64-bit integers.  These macros move the 
-; first six integer input parameters in Microsoft ABI
-; calling calling conventions to those used by GCC: 
+; (for unsigned) or 'movsxd rx, rxd' (for signed) will
+; be needed before they are used as 64-bit integers.  
+; These macros move the first six integer parameters 
+; from Microsoft ABI calling calling conventions to 
+; those used by GCC: 
 ;
 ;   function(     MSVC --> GCC
 ;       p1,       rcx      rdi
@@ -151,30 +138,24 @@
 ;       p5,  [rsp+40]       r8
 ;       p6,  [rsp+48]       r9
 ;
-; As alreaddy discussed, care must be taken with 32-bit 
+; As already discussed, care must be taken with 32-bit 
 ; values in 64-bit registers or on the stack because 
 ; the upper 32-bits of such parameters are undefined.
 ;
-;   win64_gcc_start name, (frame | leaf), parms
+;   WIN64_GCC_PROC name, (frame | leaf), parms
 ;
-;   win64_gcc_end frame | leaf
+;   WIN64_GCC_END frame | leaf
 ; 
 ;     name    subroutine name
 ;     type    subroutine type (frame or leaf)
 ;     parms   number of parameters
 ;
-%define leaf_proc    0
-%define frame_proc   1
+%define leaf_fun    0
+%define frame_fun   1
 
-%macro win64_gcc_start 1-3 frame_proc, 6
+%macro WIN64_GCC_PROC 1-3 frame_fun, 6
 
-    global  %1
-    
-    %ifdef DLL
-        export %1
-    %endif
-    
-    %if %2 == frame_proc
+    %if %3 == frame_fun
 
         %ifndef reg_save_list
             %define reg_save_list rsi, rdi
@@ -184,39 +165,39 @@
             %define stack_slots 0
         %endif
 
-        prologue %1, stack_slots, reg_save_list
-        %if %3 > 0
+        FRAME_PROC %1, stack_slots, reg_save_list
+        %if %2 > 0
             mov     rdi, rcx
         %endif
-        %if %3 > 1
+        %if %2 > 1
             mov     rsi, rdx
         %endif
-        %if %3 > 2
+        %if %2 > 2
             mov     rdx, r8
         %endif
-        %if %3 > 3
+        %if %2 > 3
             mov     rcx, r9
         %endif
-        %if %3 > 4
+        %if %2 > 4
             mov     r8, [rsp + stack_use + 40]
         %endif
-        %if %3 > 5
+        %if %2 > 5
             mov     r9, [rsp + stack_use + 48]
         %endif
         
-    %elif %2 == leaf_proc
-        %1:
+    %elif %3 == leaf_fun
+        LEAF_PROC %1
     %else
         %error no (or wrong) function type defined 
     %endif
 
 %endmacro
 
-%macro win64_gcc_end 0-1 frame_proc
+%macro WIN64_GCC_END 0-1 frame_fun
 
-    %if %1 == frame_proc
-        epilogue reg_save_list
-    %elif %1 == leaf_proc
+    %if %1 == frame_fun
+        proc_end reg_save_list
+    %elif %1 == leaf_fun
         ret
     %else
         %error no (or wrong) function type defined 
