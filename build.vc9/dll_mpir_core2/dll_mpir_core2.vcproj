@@ -1728,10 +1728,6 @@
 						>
 					</File>
 					<File
-						RelativePath="..\..\mpn\x86_64w\core2\lshift1.asm"
-						>
-					</File>
-					<File
 						RelativePath="..\..\mpn\x86_64w\mode1o.asm"
 						>
 					</File>
@@ -1749,10 +1745,6 @@
 					</File>
 					<File
 						RelativePath="..\..\mpn\x86_64w\core2\rshift.asm"
-						>
-					</File>
-					<File
-						RelativePath="..\..\mpn\x86_64w\core2\rshift1.asm"
 						>
 					</File>
 					<File
