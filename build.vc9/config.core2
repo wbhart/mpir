@@ -83,7 +83,7 @@ MA 02111-1307, USA. */
 #undef HAVE_HOST_CPU_FAMILY_powerpc
 #define HAVE_HOST_CPU_FAMILY_x86	1
 
-/* Define if we have native implementation of function. 
+/* Define if we have native implementation of function.
    (use just one of the three following defines)
 */
 
@@ -136,30 +136,30 @@ MA 02111-1307, USA. */
 #undef HAVE_NATIVE_mpn_xnor_n
 
 #define HAVE_NATIVE_mpn_add_n				1
-#define HAVE_NATIVE_mpn_add_nc				1
-#define HAVE_NATIVE_mpn_addadd_n            1	
-#define HAVE_NATIVE_mpn_addlsh1_n			1		
-#define HAVE_NATIVE_mpn_addmul_1			1		
-#define HAVE_NATIVE_mpn_addsub_n            1		
+#define HAVE_NATIVE_mpn_addadd_n            1
+#define HAVE_NATIVE_mpn_addlsh1_n			1
+#define HAVE_NATIVE_mpn_addmul_1			1
+#define HAVE_NATIVE_mpn_addmul_1c			1
+#define HAVE_NATIVE_mpn_addsub_n            1
 #define HAVE_NATIVE_mpn_com_n               1
 #define HAVE_NATIVE_mpn_divexact_1			1
 #define HAVE_NATIVE_mpn_divexact_by3        1
 #define HAVE_NATIVE_mpn_divexact_by3c       1
 #define HAVE_NATIVE_mpn_divexact_byff       1
-#define HAVE_NATIVE_mpn_lshift				1			
+#define HAVE_NATIVE_mpn_lshift				1
 #define HAVE_NATIVE_mpn_modexact_1_odd		1
 #define HAVE_NATIVE_mpn_modexact_1c_odd		1
 #define HAVE_NATIVE_mpn_mul_1				1
 #define HAVE_NATIVE_mpn_mul_1c				1
-#define HAVE_NATIVE_mpn_mul_basecase		1			
+#define HAVE_NATIVE_mpn_mul_basecase		1
 #define HAVE_NATIVE_mpn_redc_basecase       1
 #define HAVE_NATIVE_mpn_rshift				1
-#define HAVE_NATIVE_mpn_sqr_basecase		1	
+#define HAVE_NATIVE_mpn_sqr_basecase		1
 #define HAVE_NATIVE_mpn_sub_n				1
-#define HAVE_NATIVE_mpn_sub_nc				1
-#define HAVE_NATIVE_mpn_sublsh1_n			1	
-#define HAVE_NATIVE_mpn_submul_1			1	
-#define HAVE_NATIVE_mpn_sumdiff_n           1		
+#define HAVE_NATIVE_mpn_sublsh1_n			1
+#define HAVE_NATIVE_mpn_submul_1			1
+#define HAVE_NATIVE_mpn_submul_1c			1
+#define HAVE_NATIVE_mpn_sumdiff_n           1
 #define HAVE_NATIVE_mpn_umul_ppmm           1
 #define HAVE_NATIVE_mpn_udiv_qrnnd          1
 

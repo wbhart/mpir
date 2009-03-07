@@ -7,6 +7,12 @@ if exist dll\win32\release call :sub dll\win32\release
 if exist dll\win32\debug   call :sub dll\win32\debug
 if exist dll\x64\release   call :sub dll\x64\release
 if exist dll\x64\debug     call :sub dll\x64\debug
+
+cd ..\
+if exist gmp.h   (ren gmp.h   mpir.h)
+if exist gmpxx.h (ren gmpxx.h mpirxx.h)
+cd build.vc9
+
 exit /b 0
 
 :sub

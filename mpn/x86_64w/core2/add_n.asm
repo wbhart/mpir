@@ -1,128 +1,180 @@
-
-;  Core2 mpn_add_n/mpn_sub_n -- mpn add or subtract
-;  Version 1.0.3.
+; **************************************************************************
+;  x86_64 mpn_add_n -- Add two limb vectors of the same length > 0 and store
+;  sum in a third limb vector.
 ;
-;  Copyright 2008 Jason Moxham
+;  Copyright (C) 2006  Jason Worth Martin <jason.worth.martin@gmail.com>
 ;
-;  Windows Conversion Copyright 2008 Brian Gladman
-;
-;  This file is part of the MPIR Library.
-;  The MPIR Library is free software; you can redistribute it and/or modify
+;  This program is free software; you can redistribute it and/or modify
 ;  it under the terms of the GNU Lesser General Public License as published
-;  by the Free Software Foundation; either version 2.1 of the License, or (at
-;  your option) any later version.
-;  The MPIR Library is distributed in the hope that it will be useful, but
-;  WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
-;  or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public
-;  License for more details.
+;  by the Free Software Foundation; either version 2 of the License, or
+;  (at your option) any later version.
+;
+;  This program is distributed in the hope that it will be useful,
+;  but WITHOUT ANY WARRANTY; without even the implied warranty of
+;  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;  GNU General Public License for more details.
+;
 ;  You should have received a copy of the GNU Lesser General Public License
-;  along with the MPIR Library; see the file COPYING.LIB.  If not, write
-;  to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
-;  Boston, MA 02110-1301, USA.
+;  along with this program; if not, write to the Free Software Foundation,
+;  Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 ;
-;  Calling interface:
+; **************************************************************************
 ;
-;  mp_limb_t __gmpn_<op>_n(    <op> = add OR sub
-;     mp_ptr dst,              rcx
-;     mp_srcptr src1,          rdx
-;     mp_srcptr src2,           r8
-;     mp_size_t  len            r9
-;  )
 ;
-;  mp_limb_t __gmpn_<op>_nc(   <op> = add OR sub
-;     mp_ptr dst,              rcx
-;     mp_srcptr src1,          rdx
-;     mp_srcptr src2,           r8
-;     mp_size_t len,            r9
-;     mp_limb_t carry   [rsp+0x28]
-;  )
+; CREDITS
 ;
-;  Calculate src1[size] plus(minus) src2[size] and store the result in
-;  dst[size].  The return value is the carry bit from the top of the result
-;  (1 or 0).  The _nc version accepts 1 or 0 for an initial carry into the
-;  low limb of the calculation.  Note values other than 1 or 0 here will
-;  lead to garbage results.
+; This code is based largely on Pierrick Gaudry's excellent assembly
+; support for the AMD64 architecture.  (Note that Intel64 and AMD64,
+; while using the same instruction set, have very different
+; microarchitectures.  So, this code performs very poorly on AMD64
+; machines even though it is near-optimal on Intel64.)
 ;
-;  This is an SEH leaf function (no unwind support needed)
+; Roger Golliver works for Intel and provided insightful improvements
+; particularly in using the "lea" instruction to perform additions
+; and register-to-register moves.
 ;
-;   %1 = __g, %2 = adc, %3 = mpn_add_n, %4 = mpn_add_nc
-;   %1 = __g, %2 = sbb, %3 = mpn_sub_n, %4 = mpn_sub_nc
+; Eric Bainville has a brilliant exposition of optimizing arithmetic for
+; AMD64 (http://www.bealto.it).  I adapted many of the ideas he
+; describes to Intel64.
+;
+; Agner Fog is a demigod in the x86 world.  If you are reading assembly
+; code files and you haven't heard of Agner Fog, then take a minute to
+; look over his software optimization manuals (http://www.agner.org/).
+; They are superb.
+;
+; *********************************************************************
 
 %include "..\yasm_mac.inc"
 
-    BITS 64
+;
+; If YASM supports lahf and sahf instructions, then we'll get rid
+; of this.
+;
+%define save_CF_to_reg_a  db	0x9f
+%define get_CF_from_reg_a db	0x9e
+
+
+;         cycles/limb
+; Hammer:     2.5 (for 1024 limbs)
+; Woodcrest:  2.6 (for 1024 limbs)	
+
+; INPUT PARAMETERS
+; rp	rdi
+; up	rsi
+; vp	rdx
+; n	rcx
+	
+%define reg_save_list rsi, rdi, rbx, rbp, r12, r13, r14, r15
+
+	BITS	64
+
+	FRAME_PROC mpn_add_n, 0, reg_save_list
+    mov rdi, rcx
+    mov rsi, rdx
+    mov rdx,  r8
+    mov ecx, r9d
     
-    alignb  8, nop
-    LEAF_PROC mpn_add_nc
-    mov     r10,[rsp+0x28]
-    jmp     entry
-    
-    alignb  8, nop
-    LEAF_PROC mpn_add_n
-    xor     r10, r10
-entry:
-    mov     eax, r9d
-    mov	    r9, rax
-    and	    rax, 3
-    shr	    r9, 2
-    lea     r9,[r10+r9*2]
-    shr     r9, 1
-    jnz	    .2
+	xor	r15,r15			; r15 will be our index, so
+					; I'll call it i here after
+	save_CF_to_reg_a		; Save CF
 
-    mov	    r10, [rdx]
-    adc     r10, [r8]
-    mov	    [rcx], r10
-    dec	    rax
-    jz	    .1
-    mov	    r10, [rdx+8]
-    adc     r10, [r8+8]
-    mov	    [rcx+8], r10
-    dec	    rax
-    jz	    .1
-    mov	    r10, [rdx+16]
-    adc     r10, [r8+16]
-    mov	    [rcx+16], r10
-    dec	    rax
-.1: adc	    rax, rax
-    ret
+	mov	r9,rcx
+	sub	r9,4			; r9 = n-(i+4)
 
-	alignb  8, nop
-.2: mov	    r10, [rdx]
-	mov	    r11, [rdx+8]
-	lea	    rdx, [rdx+32]
-	adc	    r10, [r8]
-	adc	    r11, [r8+8]
-	lea	    r8, [r8+32]
-	mov	    [rcx], r10
-	mov	    [rcx+8], r11
-	lea	    rcx, [rcx+32]
-	mov	    r10, [rdx-16]
-	mov	    r11, [rdx-8]
-	adc	    r10, [r8-16]
-	adc	    r11, [r8-8]
-	mov	    [rcx-16], r10
-	dec	    r9
-	mov	    [rcx-8], r11
-	jnz	    .2
+	alignb 16, nop      ; aligning for loop
+L_mpn_add_n_main_loop:
+	; The goal of our main unrolled loop is to keep all the
+	; execution units as busy as possible.  Since
+	; there are three ALUs, we try to perform three
+	; adds at a time.  Of course, we will have the
+	; carry dependency, so there is at least one
+	; clock cycle between each adc.  However, we'll
+	; try to keep the other execution units busy
+	; with loads and stores at the same time so that
+	; our net throughput is close to one add per clock
+	; cycle.  Hopefully this function will have asymptotic
+	; behavior of taking 3*n clock cycles where n is the
+	; number of limbs to add.
+	; 
+	; Note that I'm using FOUR adds at a time, this is just
+	; because I wanted to use up all available registers since
+	; I'm hoping the out-of-order and loop-pipeline logic in
+	; the Xeon will help us out.
 
-    inc	    rax
-    dec	    rax
-    jz	    .3
-    mov	    r10, [rdx]
-    adc     r10, [r8]
-    mov	    [rcx], r10
-    dec	    rax
-    jz	    .3
-    mov	    r10, [rdx+8]
-    adc     r10, [r8+8]
-    mov	    [rcx+8], r10
-    dec	    rax
-    jz	    .3
-    mov	    r10, [rdx+16]
-    adc     r10, [r8+16]
-    mov	    [rcx+16], r10
-    dec	    rax
-.3: adc	    rax, rax
-    ret
+	; See if we are still looping
+	jle	L_mpn_add_n_loop_done
 
-    end
+	get_CF_from_reg_a		; recover CF
+	
+	; Load inputs into rbx and r8
+	; add with carry, and put result in r8
+	; then store r8 to output.
+	mov	rbx,[rsi+r15*8]
+	mov	r8,[rdx+r15*8]
+	adc	r8,rbx
+	mov	[rdi+r15*8],r8
+	
+	; Load inputs into r9 and r10
+	; add with carry, and put result in r10
+	; then store r10 to output.
+	mov	r9,[8+rsi+r15*8]
+	mov	r10,[8+rdx+r15*8]
+	adc	r10,r9
+	mov	[8+rdi+r15*8],r10
+	
+	; Load inputs into r11 and r12
+	; add with carry, and put result in r12
+	; then store r12 to output.
+	mov	r11,[16+rsi+r15*8]
+	mov	r12,[16+rdx+r15*8]
+	adc	r12,r11
+	mov	[16+rdi+r15*8],r12
+
+	; Load inputs into r13 and r14
+	; add with carry, and put result in r14
+	; then store r14 to output.
+	mov	r13,[24+rsi+r15*8]
+	mov	r14,[24+rdx+r15*8]
+	adc	r14,r13
+	mov	[24+rdi+r15*8],r14
+
+	save_CF_to_reg_a		; save CF
+
+	mov	r10,r15
+	add	r10,8
+	add	r15,4		; increment by 4.
+	
+	mov	r9,rcx
+	sub	r9,r10		; r9 = n-(i+4)
+	jmp	L_mpn_add_n_main_loop
+
+L_mpn_add_n_loop_done:
+	mov	r15,rcx		; 
+	sub	r15,r9		; r15 = n-(n-(i+4))=i+4
+	sub	r15,4		; r15 = i
+	cmp	r15,rcx
+L_mpn_add_n_post_loop:
+	je	L_mpn_add_n_exit
+	get_CF_from_reg_a		; recover CF
+	
+	; Load inputs into rbx and r8
+	; add with carry, and put result in r8
+	; then store r8 to output.
+	mov	rbx,[rsi+r15*8]
+	mov	r8,[rdx+r15*8]
+	adc	r8,rbx
+	mov	[rdi+r15*8],r8
+	save_CF_to_reg_a		; save CF
+	add	r15,1
+	cmp	r15,rcx
+	jmp	L_mpn_add_n_post_loop
+	
+	
+L_mpn_add_n_exit:
+	xor	rcx,rcx
+	get_CF_from_reg_a	; recover the CF
+	mov	rax,rcx		; Clears rax without affecting carry flag 
+	adc	rax,rax		; returns carry status.
+	END_PROC reg_save_list
+	
+	end
