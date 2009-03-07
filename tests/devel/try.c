@@ -303,8 +303,8 @@ typedef mp_limb_t (*tryfun_t) _PROTO ((ANYARGS));
 struct try_t {
   char  retval;
 
-  char  src[2];
-  char  dst[2];
+  char  src[NUM_SOURCES];
+  char  dst[NUM_DESTS];
 
 #define SIZE_YES          1
 #define SIZE_ALLOW_ZERO   2
@@ -324,12 +324,12 @@ struct try_t {
 #define SIZE_DOUBLE	16
   char  size;
   char  size2;
-  char  dst_size[2];
+  char  dst_size[NUM_DESTS];
 
   /* multiplier_N size in limbs */
   mp_size_t  msize;
 
-  char  dst_bytes[2];
+  char  dst_bytes[NUM_DESTS];
 
   char  dst0_from_src1;
 
@@ -1773,6 +1773,8 @@ struct overlap_t {
 
 struct overlap_t  *overlap, *overlap_limit;
 
+// FIXME : should this depend on NUM_SOURCES  ?
+// FIXME : we are indexing a C array shouldn't these numbers be one less ?
 #define OVERLAP_COUNT                   \
   (tr->overlap & OVERLAP_NONE       ? 1 \
    : tr->overlap & OVERLAP_NOT_SRCS ? 3 \
@@ -2756,11 +2758,17 @@ try_many (void)
     total *= HIGH_COUNT (tr->dst[1]);
     total *= HIGH_COUNT (tr->src[0]);
     total *= HIGH_COUNT (tr->src[1]);
-
+    total *= HIGH_COUNT (tr->src[2]);
+    
     total *= ALIGN_COUNT (tr->dst[0]);
     total *= ALIGN_COUNT (tr->dst[1]);
     total *= ALIGN_COUNT (tr->src[0]);
     total *= ALIGN_COUNT (tr->src[1]);
+    total *= ALIGN_COUNT (tr->src[2]);
+
+#if NUM_SOURCES > 3 || NUM_DESTS > 2
+#error Need to adjust high_count and align_count above
+#endif
 
     total *= OVERLAP_COUNT;
 
@@ -2783,11 +2791,17 @@ try_many (void)
       HIGH_ITERATION(d,1, tr->dst[1])
       HIGH_ITERATION(s,0, tr->src[0])
       HIGH_ITERATION(s,1, tr->src[1])
+      HIGH_ITERATION(s,2, tr->src[2])
 
       ALIGN_ITERATION(d,0, tr->dst[0])
       ALIGN_ITERATION(d,1, tr->dst[1])
       ALIGN_ITERATION(s,0, tr->src[0])
       ALIGN_ITERATION(s,1, tr->src[1])
+      ALIGN_ITERATION(s,2, tr->src[2])
+
+#if NUM_SOURCES > 3 || NUM_DESTS > 2
+#error Need to adjust high_iteration and align_iteration above
+#endif
 
       OVERLAP_ITERATION
       try_one();
