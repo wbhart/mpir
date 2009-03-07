@@ -179,7 +179,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\gmp.h"
+				RelativePath="..\..\mpir.h"
 				>
 			</File>
 		</Filter>

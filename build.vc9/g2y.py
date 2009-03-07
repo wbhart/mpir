@@ -331,7 +331,6 @@ def pass_three(code, labels, macros) :
     m = re.search(p_in + r"\s+(.*)", l)
     if m :
       v = list(m.groups())
-      print(v)
       if debug :
         print(l, end = '')
       if len(v) == 1 or len(v) == 2 and v[1] == '' :

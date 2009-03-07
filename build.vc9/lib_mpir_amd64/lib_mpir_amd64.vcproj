@@ -194,11 +194,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\gmp.h"
+				RelativePath="..\..\longlong.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\longlong.h"
+				RelativePath="..\..\mpir.h"
 				>
 			</File>
 		</Filter>

@@ -6960,15 +6960,15 @@
 				>
 			</File>
 			<File
-				RelativePath="..\gmp.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\gmpxx.h"
-				>
-			</File>
-			<File
 				RelativePath="..\..\longlong.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\mpir.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\mpirxx.h"
 				>
 			</File>
 			<File

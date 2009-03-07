@@ -179,7 +179,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\gmp.h"
+				RelativePath="..\..\mpir.h"
 				>
 			</File>
 		</Filter>
@@ -3365,6 +3365,10 @@
 							>
 						</File>
 						<File
+							RelativePath="..\..\mpn\x86w\p6\p3mmx\popham.asm"
+							>
+						</File>
+						<File
 							RelativePath="..\..\mpn\x86w\p6\mmx\popham.asm"
 							>
 							<FileConfiguration
@@ -3383,10 +3387,6 @@
 									Name="YASM"
 								/>
 							</FileConfiguration>
-						</File>
-						<File
-							RelativePath="..\..\mpn\x86w\p6\p3mmx\popham.asm"
-							>
 						</File>
 						<File
 							RelativePath="..\..\mpn\x86w\p6\mmx\rshift.asm"
