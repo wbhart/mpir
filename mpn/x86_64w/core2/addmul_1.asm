@@ -75,7 +75,7 @@
 	adc     r12, rdx
 	mov     rax, [16+r10+r8*8]
 	mul     r9
-	%1     [8+rcx+r8*8], r13
+	add    [8+rcx+r8*8], r13
 	adc     r12, rax
 	mov     r14d, 0
 	adc     r14, rdx
