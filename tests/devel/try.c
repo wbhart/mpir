@@ -2075,6 +2075,9 @@ call (struct each_t *e, tryfun_t function)
     break;
 
   case TYPE_ADDSUB_N:
+    e->retval = (int)CALLING_CONVENTIONS (function)
+      (e->d[0].p, e->s[0].p, e->s[1].p, e->s[2].p,size);
+    break;
   case TYPE_ADDADD_N:
     e->retval = CALLING_CONVENTIONS (function)
       (e->d[0].p, e->s[0].p, e->s[1].p, e->s[2].p,size);
