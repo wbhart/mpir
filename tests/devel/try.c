@@ -377,55 +377,6 @@ struct try_t {
 
 struct try_t  *tr;
 
-
-/*
-
-// BILL delete this
-
-mp_limb_t refmpn_addadd_n(mp_ptr rp,mp_srcptr xp,mp_srcptr yp,mp_srcptr zp,mp_size_t n)
-{mp_limb_t r=0,tp[n];
-r=mpn_add_n(tp,yp,zp,n);
-r+=mpn_add_n(rp,tp,xp,n);
-return r;}
-
-mp_limb_t refmpn_addsub_n(mp_ptr rp,mp_srcptr xp,mp_srcptr yp,mp_srcptr zp,mp_size_t n)
-{mp_limb_t r=0,tp[n];
-r=-mpn_sub_n(tp,yp,zp,n);
-r+=mpn_add_n(rp,tp,xp,n);
-return r;}
-
-mp_limb_t refmpn_lshift1(mp_ptr rp,mp_srcptr xp,mp_size_t n)
-{return mpn_lshift(rp,xp,n,1);}
-
-mp_limb_t refmpn_rshift1(mp_ptr rp,mp_srcptr xp,mp_size_t n)
-{return mpn_rshift(rp,xp,n,1);}
-
-
-mp_limb_t refmpn_divexact_byff(mp_ptr rp,mp_srcptr xp,mp_size_t n)
-{mpn_divexact_1(rp,xp,n,0xFFFFFFFFFFFFFFFF);return 0;}// this is bollocks
-
-void refmpn_redc_basecase (mp_ptr cp, mp_srcptr mp, mp_size_t n, mp_limb_t Nprim, mp_ptr tp)
-{
-  mp_limb_t cy;
-    mp_limb_t q;
-      mp_size_t j;
-      
-        ASSERT_MPN (tp, 2*n);
-        
- for (j = 0; j < n; j++)
-   {
-     q = (tp[0] * Nprim) & GMP_NUMB_MASK;
-      tp[0] = mpn_addmul_1 (tp, mp, n, q);
-       tp++;
-    }
-   cy = mpn_add_n (cp, tp, tp - n, n);
-    if (cy != 0)
-   mpn_sub_n (cp, cp, mp, n);
-      }
-
-// END BILL delete this
-*/
-
 void
 validate_mod_34lsub1 (void)
 {

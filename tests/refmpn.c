@@ -606,10 +606,29 @@ refmpn_add_n (mp_ptr rp, mp_srcptr s1p, mp_srcptr s2p, mp_size_t size)
 {
   return refmpn_add_nc (rp, s1p, s2p, size, CNST_LIMB(0));
 }
+
 mp_limb_t
 refmpn_sub_n (mp_ptr rp, mp_srcptr s1p, mp_srcptr s2p, mp_size_t size)
 {
   return refmpn_sub_nc (rp, s1p, s2p, size, CNST_LIMB(0));
+}
+
+mp_limb_t 
+refmpn_addadd_n(mp_ptr rp, mp_srcptr xp, mp_srcptr yp, mp_srcptr zp, mp_size_t n)
+{
+  mp_limb_t r;
+  mp_limb_t * tp = refmpn_malloc_limbs (n);
+  r = refmpn_add_n (tp, yp, zp, n);
+  return r + mpn_add_n (rp, tp, xp, n);
+}
+
+int 
+refmpn_addsub_n(mp_ptr rp, mp_srcptr xp, mp_srcptr yp, mp_srcptr zp, mp_size_t n)
+{
+  mp_limb_t r;
+  mp_limb_t * tp = refmpn_malloc_limbs (n);
+  r = - mpn_sub_n (tp, yp, zp, n);
+  return r + mpn_add_n (rp, tp, xp, n);
 }
 
 mp_limb_t
@@ -1015,6 +1034,17 @@ refmpn_lshift (mp_ptr rp, mp_srcptr sp, mp_size_t size, unsigned shift)
   return ret;
 }
 
+mp_limb_t 
+refmpn_lshift1(mp_ptr rp, mp_srcptr xp, mp_size_t n)
+{
+	return refmpn_lshift (rp, xp, n, 1);
+}
+
+mp_limb_t 
+refmpn_rshift1(mp_ptr rp, mp_srcptr xp, mp_size_t n)
+{
+	return refmpn_rshift (rp, xp, n, 1);
+}
 
 /* accepting shift==0 and doing a plain copyi or copyd in that case */
 mp_limb_t
@@ -1221,6 +1251,12 @@ refmpn_divrem_1 (mp_ptr rp, mp_size_t xsize,
                  mp_srcptr sp, mp_size_t size, mp_limb_t divisor)
 {
   return refmpn_divrem_1c (rp, xsize, sp, size, divisor, CNST_LIMB(0));
+}
+
+mp_limb_t 
+refmpn_divexact_byff(mp_ptr rp, mp_srcptr xp, mp_size_t n)
+{
+  return refmpn_divrem_1 (rp, 0, xp, n, ~CNST_LIMB(0));
 }
 
 mp_limb_t
@@ -1973,4 +2009,24 @@ refmpn_sqrtrem (mp_ptr sp, mp_ptr rp, mp_srcptr np, mp_size_t nsize)
   free (dp);
   free (tp);
   return ret;
+}
+
+void 
+refmpn_redc_basecase (mp_ptr cp, mp_srcptr mp, mp_size_t n, mp_limb_t Nd, mp_ptr tp)
+{
+  mp_limb_t cy, q;
+  mp_size_t j;
+      
+  ASSERT_MPN (tp, 2*n);
+        
+  for (j = 0; j < n; j++)
+  {
+    q = (tp[0] * Nd) & GMP_NUMB_MASK;
+    tp[0] = refmpn_addmul_1 (tp, mp, n, q);
+    tp++;
+  }
+   
+  cy = refmpn_add_n (cp, tp, tp - n, n);
+  
+  if (cy) refmpn_sub_n (cp, cp, mp, n);
 }
