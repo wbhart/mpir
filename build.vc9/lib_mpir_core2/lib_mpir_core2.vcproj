@@ -128,15 +128,15 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
+				AdditionalOptions="/favor:INTEL64"
 				Optimization="3"
-				InlineFunctionExpansion="0"
+				EnableIntrinsicFunctions="true"
 				FavorSizeOrSpeed="1"
 				AdditionalIncludeDirectories="..\..\;&quot;..\$(PlatformName)\&quot;"
 				PreprocessorDefinitions="NDEBUG;_LIB;HAVE_CONFIG_H;PIC"
 				ExceptionHandling="0"
 				RuntimeLibrary="0"
 				BufferSecurityCheck="false"
-				EnableEnhancedInstructionSet="0"
 				UsePrecompiledHeader="0"
 				ProgramDataBaseFileName="$(TargetDir)$(TargetName).pdb"
 				WarningLevel="3"

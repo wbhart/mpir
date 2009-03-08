@@ -128,8 +128,10 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
+				AdditionalOptions="/favor:AMD64"
 				Optimization="3"
 				InlineFunctionExpansion="0"
+				EnableIntrinsicFunctions="true"
 				FavorSizeOrSpeed="1"
 				AdditionalIncludeDirectories="..\..\;&quot;..\$(PlatformName)\&quot;"
 				PreprocessorDefinitions="NDEBUG;_LIB;HAVE_CONFIG_H;PIC"
