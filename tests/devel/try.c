@@ -119,11 +119,6 @@ MA 02110-1301, USA. */
 #include <string.h>
 #include <time.h>
 
-#if defined( _MSC_VER )
-#define WINDOWS_LEAN_AND_MEAN
-#include <windows.h>
-#endif
-
 #if HAVE_UNISTD_H
 #include <unistd.h>
 #endif
@@ -147,7 +142,7 @@ extern int optind, opterr;
 extern int sys_nerr;
 #endif
 
-#if ! HAVE_DECL_SYS_ERRLIST && !defined( _MSC_VER )
+#if ! HAVE_DECL_SYS_ERRLIST
 extern char *sys_errlist[];
 #endif
 
@@ -2860,19 +2855,17 @@ try_init (void)
   /* Prefer getpagesize() over sysconf(), since on SunOS 4 sysconf() doesn't
      know _SC_PAGESIZE. */
   pagesize = getpagesize ();
-#elif HAVE_SYSCONF
+#else
+#if HAVE_SYSCONF
   if ((pagesize = sysconf (_SC_PAGESIZE)) == -1)
     {
       /* According to the linux man page, sysconf doesn't set errno */
       fprintf (stderr, "Cannot get sysconf _SC_PAGESIZE\n");
       exit (1);
     }
-#elif defined( _MSC_VER )
-    SYSTEM_INFO si;
-    GetSystemInfo(&si);
-    return si.dwPageSize;
 #else
-#error Error, error, cannot get page size
+Error, error, cannot get page size
+#endif
 #endif
 
   printf ("pagesize is 0x%lX bytes\n", pagesize);
