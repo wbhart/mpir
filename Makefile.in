@@ -356,6 +356,8 @@ U_FOR_BUILD = @U_FOR_BUILD@
 VERSION = @VERSION@
 WANT_CXX_FALSE = @WANT_CXX_FALSE@
 WANT_CXX_TRUE = @WANT_CXX_TRUE@
+WANT_GMPLINK_FALSE = @WANT_GMPLINK_FALSE@
+WANT_GMPLINK_TRUE = @WANT_GMPLINK_TRUE@
 WANT_MPBSD_FALSE = @WANT_MPBSD_FALSE@
 WANT_MPBSD_TRUE = @WANT_MPBSD_TRUE@
 WITH_READLINE_01 = @WITH_READLINE_01@
@@ -1268,6 +1270,8 @@ install-data-am: install-includeHEADERS
 
 install-exec-am: install-libLTLIBRARIES \
 	install-nodist_includeexecHEADERS
+	@$(NORMAL_INSTALL)
+	$(MAKE) $(AM_MAKEFLAGS) install-exec-hook
 
 install-info: install-info-recursive
 
@@ -1309,8 +1313,8 @@ uninstall-info: uninstall-info-recursive
 	distcleancheck distdir distuninstallcheck dvi dvi-am html \
 	html-am info info-am install install-am install-data \
 	install-data-am install-data-hook install-exec install-exec-am \
-	install-includeHEADERS install-info install-info-am \
-	install-libLTLIBRARIES install-man \
+	install-exec-hook install-includeHEADERS install-info \
+	install-info-am install-libLTLIBRARIES install-man \
 	install-nodist_includeexecHEADERS install-strip installcheck \
 	installcheck-am installdirs installdirs-am maintainer-clean \
 	maintainer-clean-generic maintainer-clean-recursive \
@@ -1322,6 +1326,8 @@ uninstall-info: uninstall-info-recursive
 
 
 install-data-hook:
+@WANT_GMPLINK_TRUE@	(cd $(DESTDIR)$(includedir)  && rm -f gmp.h   && $(LN_S) mpir.h   gmp.h)
+@WANT_CXX_TRUE@@WANT_GMPLINK_TRUE@	(cd $(DESTDIR)$(includedir)  && rm -f gmpxx.h   && $(LN_S) mpirxx.h   gmpxx.h)
 	@echo ''
 	@echo '+-------------------------------------------------------------+'
 	@echo '| CAUTION:                                                    |'
@@ -1336,6 +1342,18 @@ install-data-hook:
 	@echo '|                                                             |'
 	@echo '+-------------------------------------------------------------+'
 	@echo ''
+
+install-exec-hook:
+@WANT_GMPLINK_TRUE@	(cd $(DESTDIR)$(libdir) && rm -f libgmp.a          && $(LN_S) libmpir.a          libgmp.a)
+@WANT_GMPLINK_TRUE@	(cd $(DESTDIR)$(libdir) && rm -f libgmp.la         && $(LN_S) libmpir.la         libgmp.la)
+@WANT_GMPLINK_TRUE@	(cd $(DESTDIR)$(libdir) && rm -f libgmp.so         && $(LN_S) libmpir.so         libgmp.so)
+@WANT_GMPLINK_TRUE@	(cd $(DESTDIR)$(libdir) && rm -f libgmp.so.3       && $(LN_S) libmpir.so.3       libgmp.so.3)
+@WANT_GMPLINK_TRUE@	(cd $(DESTDIR)$(libdir) && rm -f libgmp.so.3.4.1   && $(LN_S) libmpir.so.3.4.1   libgmp.so.3.4.1)
+@WANT_CXX_TRUE@@WANT_GMPLINK_TRUE@	(cd $(DESTDIR)$(libdir) && rm -f libgmpxx.a        && $(LN_S) libmpirxx.a        libgmpxx.a)
+@WANT_CXX_TRUE@@WANT_GMPLINK_TRUE@	(cd $(DESTDIR)$(libdir) && rm -f libgmpxx.la       && $(LN_S) libmpirxx.la       libgmpxx.la)
+@WANT_CXX_TRUE@@WANT_GMPLINK_TRUE@	(cd $(DESTDIR)$(libdir) && rm -f libgmpxx.so       && $(LN_S) libmpirxx.so       libgmpxx.so)
+@WANT_CXX_TRUE@@WANT_GMPLINK_TRUE@	(cd $(DESTDIR)$(libdir) && rm -f libgmpxx.so.3     && $(LN_S) libmpirxx.so.3     libgmpxx.so.3)
+@WANT_CXX_TRUE@@WANT_GMPLINK_TRUE@	(cd $(DESTDIR)$(libdir) && rm -f libgmpxx.so.3.1.1 && $(LN_S) libmpirxx.so.3.1.1 libgmpxx.so.3.1.1)
 
 mpz/fac_ui.h: gen-fac_ui$(EXEEXT_FOR_BUILD)
 	./gen-fac_ui $(BITS_PER_MP_LIMB) $(GMP_NAIL_BITS) >mpz/fac_ui.h || (rm -f mpz/fac_ui.h; exit 1)

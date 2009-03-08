@@ -301,6 +301,12 @@ EXTRA_DIST += libmp.sym
 
 
 install-data-hook:
+if WANT_GMPLINK
+	(cd $(DESTDIR)$(includedir)  && rm -f gmp.h   && $(LN_S) mpir.h   gmp.h)
+if WANT_CXX
+	(cd $(DESTDIR)$(includedir)  && rm -f gmpxx.h   && $(LN_S) mpirxx.h   gmpxx.h)
+endif
+endif
 	@echo ''
 	@echo '+-------------------------------------------------------------+'
 	@echo '| CAUTION:                                                    |'
@@ -315,6 +321,22 @@ install-data-hook:
 	@echo '|                                                             |'
 	@echo '+-------------------------------------------------------------+'
 	@echo ''
+
+install-exec-hook:
+if WANT_GMPLINK
+	(cd $(DESTDIR)$(libdir) && rm -f libgmp.a          && $(LN_S) libmpir.a          libgmp.a)
+	(cd $(DESTDIR)$(libdir) && rm -f libgmp.la         && $(LN_S) libmpir.la         libgmp.la)
+	(cd $(DESTDIR)$(libdir) && rm -f libgmp.so         && $(LN_S) libmpir.so         libgmp.so)
+	(cd $(DESTDIR)$(libdir) && rm -f libgmp.so.3       && $(LN_S) libmpir.so.3       libgmp.so.3)
+	(cd $(DESTDIR)$(libdir) && rm -f libgmp.so.3.4.1   && $(LN_S) libmpir.so.3.4.1   libgmp.so.3.4.1)
+if WANT_CXX
+	(cd $(DESTDIR)$(libdir) && rm -f libgmpxx.a        && $(LN_S) libmpirxx.a        libgmpxx.a)
+	(cd $(DESTDIR)$(libdir) && rm -f libgmpxx.la       && $(LN_S) libmpirxx.la       libgmpxx.la)
+	(cd $(DESTDIR)$(libdir) && rm -f libgmpxx.so       && $(LN_S) libmpirxx.so       libgmpxx.so)
+	(cd $(DESTDIR)$(libdir) && rm -f libgmpxx.so.3     && $(LN_S) libmpirxx.so.3     libgmpxx.so.3)
+	(cd $(DESTDIR)$(libdir) && rm -f libgmpxx.so.3.1.1 && $(LN_S) libmpirxx.so.3.1.1 libgmpxx.so.3.1.1)
+endif
+endif
 
 
 # The ansi2knr setups for the build programs are the same as the normal
