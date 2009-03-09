@@ -30,7 +30,7 @@
 ; cpuid is used to serialize execution.  On big measurements this won't be
 ; significant but it may help make small single measurements more accurate.
 
-%include '../yasm_mac.inc'
+%include 'yasm_mac.inc'
 
 bits 64
     section .text
