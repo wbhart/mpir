@@ -377,11 +377,11 @@
 	cmp     r8d, 1
 	je      one
 	FRAME_PROC redc_bc, 0, reg_save_list
-    mov rdi, rcx
-    mov rsi, rdx
-    mov edx, r8d
-    mov rcx, r9
-    mov  r8, [rsp+stack_use+0x28]
+    mov     rdi, rcx
+    mov     rsi, rdx
+    movsxd  rdx, r8d
+    mov     rcx, r9
+    mov     r8, [rsp+stack_use+0x28]
 
 	mov     r14, 5
 	sub     r14, rdx

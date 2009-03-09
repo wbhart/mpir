@@ -37,7 +37,7 @@
 %define reg_save_list r12, r13
 
     FRAME_PROC mpn_rshift1, 0, reg_save_list
-    mov     r8d, r8d
+    movsxd  r8, r8d
 
 	xor     rax, rax
 	lea     rdx, [rdx+r8*8-8]

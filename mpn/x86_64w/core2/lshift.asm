@@ -41,7 +41,7 @@
 
     LEAF_PROC mpn_lshift
     mov     r10, rcx
-    mov     ecx, r9d
+    movsxd  rcx, r9d
 	cmp     r8d, 2
 	ja      threeormore
 	jz      two

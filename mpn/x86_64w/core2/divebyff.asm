@@ -34,7 +34,7 @@
     BITS 64
     
     LEAF_PROC mpn_divexact_byff
-    mov     r8d, r8d
+    movsxd  r8, r8d
 
 	xor     eax, eax
 	mov     r9, r8

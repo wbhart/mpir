@@ -66,7 +66,7 @@
 %macro div_by_3 2-3
 
     LEAF_PROC %1
-    mov     eax, r8d
+    movsxd  rax, r8d
 	mov     r8d, 3
 	lea     r10, [rdx+rax*8-24]
 	lea     rcx, [rcx+rax*8-24]

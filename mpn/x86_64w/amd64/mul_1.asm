@@ -54,7 +54,7 @@
     align   16
 start:
     FRAME_PROC mulmm, 0, rbx
-    mov     eax, r8d
+    movsxd  rax, r8d
     mov     r8d, 3
     lea     r10, [rdx+rax*8-24]
     sub     r8, rax

@@ -1,6 +1,5 @@
 
 ; AMD64 mpn_addmul_1 -- multiply and add
-; AMD64 mpn_submul_1 -- multiply and subtract
 ; Version 1.0.3.
 ;
 ;  Copyright 2008 Jason Moxham
@@ -42,7 +41,7 @@
 %define reg_save_list r12, r13, r14
 
     LEAF_PROC mpn_addmul_1
-    mov     r8d, r8d
+    movsxd  r8, r8d
     mov     rax, [rdx]
     cmp     r8, 1
     jnz     .1

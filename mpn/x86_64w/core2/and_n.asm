@@ -37,7 +37,7 @@
 %define T4      r11
 
     LEAF_PROC mpn_and_n
-    mov     r9d, r9d
+    movsxd  r9, r9d
 	mov     rax, r9
 	and     rax, 3
 	shr     r9, 2

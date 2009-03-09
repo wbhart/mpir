@@ -40,7 +40,7 @@
     BITS 64
 
     FRAME_PROC mpn_addlsh1_n, 0, reg_save_list
-    mov     r9d, r9d
+    movsxd  r9, r9d
     
 	lea     rdx, [rdx+r9*8]
 	lea     r8, [r8+r9*8]

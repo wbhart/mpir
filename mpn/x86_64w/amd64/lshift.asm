@@ -40,7 +40,7 @@
     BITS 64
     
     LEAF_PROC mpn_lshift
-    mov     r8d, r8d
+    movsxd  r8, r8d
     mov     r9d, r9d
 	mov     eax, 64
 	sub     rax, r9

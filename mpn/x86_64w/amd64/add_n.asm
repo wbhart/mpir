@@ -1,5 +1,5 @@
 
-;  AMD64 mpn_add_n/mpn_sub_n -- mpn add or subtract
+;  AMD64 mpn_add_n -- mpn add or subtract
 ;  Version 1.0.3.
 ;
 ;  Copyright 2008 Jason Moxham
@@ -44,9 +44,6 @@
 ;  lead to garbage results.
 ;
 ;  This is an SEH leaf function (no unwind support needed)
-;
-;   %1 = __g, %2 = adc, %3 = mpn_add_n, %4 = mpn_add_nc
-;   %1 = __g, %2 = sbb, %3 = mpn_sub_n, %4 = mpn_sub_nc
 
 %include "..\yasm_mac.inc"
 

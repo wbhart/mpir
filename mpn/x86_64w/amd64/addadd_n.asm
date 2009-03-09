@@ -29,7 +29,7 @@
 ;     mp_ptr dp,            rcx
 ;     mp_srcptr sp1,        rdx
 ;     mp_srcptr sp2,         r8
-;     mp_size_t sp3,         r9
+;     mp_srcptr sp3,         r9
 ;     mp_size_t len  [rsp+0x28] -> rbxd
 ; )
 ;
@@ -42,7 +42,7 @@
     BITS 64
     
     FRAME_PROC mpn_addadd_n, 0, reg_save_list
-    mov     ebx, dword [rsp+stack_use+40]
+    movsxd  rbx, dword [rsp+stack_use+40]
     
 	lea     rdx, [rdx+rbx*8]
 	lea     r8, [r8+rbx*8]

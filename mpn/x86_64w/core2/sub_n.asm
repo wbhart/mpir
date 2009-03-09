@@ -68,12 +68,12 @@
 	BITS	64
 
 	FRAME_PROC mpn_sub_n, 0, reg_save_list
-    mov rdi, rcx
-    mov rsi, rdx
-    mov rdx,  r8
-    mov ecx, r9d
+    mov     rdi, rcx
+    mov     rsi, rdx
+    mov     rdx,  r8
+    movsxd  rcx, r9d
 
-	xor	r15,r15			; r15 will be our index, so
+	xor	    r15,r15			; r15 will be our index, so
 					; I'll call it i here after
 	save_CF_to_reg_a				; Save CF
 

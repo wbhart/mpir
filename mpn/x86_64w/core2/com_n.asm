@@ -36,7 +36,7 @@
 
     BITS 64
     LEAF_PROC mpn_com_n
-    mov     eax, r8d
+    movsxd  rax, r8d
 	sub     rax, 4
 	jc      .2
 	

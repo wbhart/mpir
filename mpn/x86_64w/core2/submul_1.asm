@@ -155,7 +155,7 @@ entry:
     mov     rdi, rcx
     mov     rsi, rdx
     xor     rdx, rdx
-    mov     edx, r8d
+    movsxd  rdx, r8d
     mov     rcx, r9
 
     lea     s1p, [s1p+rdx*8]

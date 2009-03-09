@@ -362,7 +362,7 @@
     FRAME_PROC mul_m_by_n, 0, reg_save_list
     mov     rdi, rcx
     mov     rsi, rdx
-    mov     edx, r8d
+    movsxd  rdx, r8d
     mov     rcx, r9
     mov     r8d, dword [rsp + stack_use + 40]
     

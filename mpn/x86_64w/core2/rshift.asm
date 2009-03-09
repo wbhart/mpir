@@ -66,7 +66,7 @@ two:mov     r8, [rdx]
 
 threeormore:
     mov     r11, rdx
-	mov     edx, r8d
+	movsxd  rdx, r8d
 	
 	mov     eax, 64
 	lea     r9, [r11+8]

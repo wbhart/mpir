@@ -31,7 +31,7 @@
 ;       mp_ptr dps,         rcx
 ;       mp_ptr dpd,         rdx
 ;       mp_srcptr src1,      r8
-;       mp_size_t src2,      r9
+;       mp_srcptr src2,      r9
 ;       mp_size_t n        r10d
 ; )
 ;
@@ -44,7 +44,7 @@
     BITS 64
     
 	FRAME_PROC mpn_sumdiff_n, 0, reg_save_list
-    mov     r10d, dword [rsp+stack_use+40]
+    movsxd  r10, dword [rsp+stack_use+40]
 
 	lea     rdx, [rdx+r10*8]
 	lea     r8, [r8+r10*8]

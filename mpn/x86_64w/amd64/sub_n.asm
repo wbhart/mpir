@@ -1,5 +1,5 @@
 
-;  AMD64 mpn_add_n/mpn_sub_n -- mpn add or subtract
+;  AMD64 mpn_sub_n -- mpn add or subtract
 ;  Version 1.0.3.
 ;
 ;  Copyright 2008 Jason Moxham
@@ -58,7 +58,7 @@
     LEAF_PROC mpn_sub_n
     xor     r10, r10
 entry:
-    mov     eax, r9d
+    movsxd  rax, r9d
     mov	    r9, rax
     and	    rax, 3
     shr	    r9, 2

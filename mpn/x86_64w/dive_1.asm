@@ -46,7 +46,7 @@
     extern  __gmp_modlimb_invert_table
     
     LEAF_PROC mpn_divexact_1
-    mov     r8d, r8d
+    movsxd  r8, r8d
     mov     r10, rdx
     mov     rax, r9
     and     rax, byte 1

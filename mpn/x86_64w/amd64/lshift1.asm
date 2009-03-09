@@ -37,6 +37,7 @@
     BITS 64
     
     FRAME_PROC mpn_lshift1, 0, reg_save_list
+    movsxd  r8, r8d
 	xor     rax, rax
 	mov     r9, r8
 	and     r9, 7
