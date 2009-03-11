@@ -130,7 +130,7 @@ mp_size_t  option_step = 1;
 int        option_gnuplot = 0;
 char      *option_gnuplot_basename;
 struct size_array_t {
-  mp_size_t start, end;
+  mp_size_t start, end, inc;
 } *size_array = NULL;
 mp_size_t  size_num = 0;
 mp_size_t  size_allocnum = 0;
@@ -679,8 +679,11 @@ run_all (FILE *fp)
               if (step < 1)
                 step = 1;
             }
+          else if(size_array[i].inc > 0)
+              step = size_array[i].inc;
           else
             step = 1;
+
           if (step < option_step)
             step = option_step;
 
@@ -930,21 +933,21 @@ usage (void)
   printf ("Measure the speed of some routines.\n");
   printf ("Times are in seconds, accuracy is shown.\n");
   printf ("\n");
-  printf ("   -p num     set precision as number of time units each routine must run\n");
-  printf ("   -s size[-end][,size[-end]]...   sizes to measure\n");
-  printf ("              single sizes or ranges, sep with comma or use multiple -s\n");
-  printf ("   -t step    step through sizes by given amount\n");
-  printf ("   -f factor  step through sizes by given factor (eg. 1.05)\n");
-  printf ("   -r         show times as ratios of the first routine\n");
-  printf ("   -d         show times as difference from the first routine\n");
-  printf ("   -D         show times as difference from previous size shown\n");
-  printf ("   -c         show times in CPU cycles\n");
-  printf ("   -C         show times in cycles per limb\n");
-  printf ("   -u         print resource usage (memory) at end\n");
-  printf ("   -P name    output plot files \"name.gnuplot\" and \"name.data\"\n");
-  printf ("   -a <type>  use given data: random(default), random2, zeros, aas, ffs, 2fd\n");
+  printf ("   -p num       set precision as number of time units each routine must run\n");
+  printf ("   -s x [,x]... sizes to measure: x = <size> | <start-end> | <start(step)end>\n");
+  printf ("                single sizes or ranges, sep with comma or use multiple -s\n");
+  printf ("   -t step      step through sizes by given amount\n");
+  printf ("   -f factor    step through sizes by given factor (eg. 1.05)\n");
+  printf ("   -r           show times as ratios of the first routine\n");
+  printf ("   -d           show times as difference from the first routine\n");
+  printf ("   -D           show times as difference from previous size shown\n");
+  printf ("   -c           show times in CPU cycles\n");
+  printf ("   -C           show times in cycles per limb\n");
+  printf ("   -u           print resource usage (memory) at end\n");
+  printf ("   -P name      output plot files \"name.gnuplot\" and \"name.data\"\n");
+  printf ("   -a <type>    use given data: random(default), random2, zeros, aas, ffs, 2fd\n");
   printf ("   -x, -y, -w, -W <align>  specify data alignments, sources and dests\n");
-  printf ("   -o addrs   print addresses of data blocks\n");
+  printf ("   -o addrs     print addresses of data blocks\n");
   printf ("\n");
   printf ("If both -t and -f are used, it means step by the factor or the step, whichever\n");
   printf ("is greater.\n");
@@ -1100,13 +1103,21 @@ main (int argc, char *argv[])
                      (size_allocnum+10) * sizeof(size_array[0]));
                   size_allocnum += 10;
                 }
-              if (sscanf (s, "%ld-%ld",
+              size_array[size_num].inc = 0;
+              if (sscanf (s, "%ld(%ld)%ld",
                           &size_array[size_num].start,
-                          &size_array[size_num].end) != 2)
+                          &size_array[size_num].inc,
+                          &size_array[size_num].end) != 3)
                 {
-                  size_array[size_num].start = size_array[size_num].end
-                    = atol (s);
-                }
+
+                  if (sscanf (s, "%ld-%ld",
+                              &size_array[size_num].start,
+                              &size_array[size_num].end) != 2)
+                    {
+                      size_array[size_num].start = size_array[size_num].end
+                        = atol (s);
+                    }
+               }
 
               if (size_array[size_num].start < 0
                   || size_array[size_num].end < 0
