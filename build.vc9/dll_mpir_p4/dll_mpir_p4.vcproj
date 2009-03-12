@@ -7307,6 +7307,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\mpn\x86w\gmp-mparam.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\longlong.h"
 				>
 			</File>

@@ -179,6 +179,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\mpn\x86w\gmp-mparam.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\mpir.h"
 				>
 			</File>
