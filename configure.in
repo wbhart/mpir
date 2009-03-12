@@ -2593,7 +2593,7 @@ DECL_$tmp_fbase (__MPN(${tmp_fbase}_init));" >>fat.h
   echo "/* variable thresholds */" >>fat.h
   for tmp_tn in $fat_thresholds; do
     echo "#undef  $tmp_tn" >>fat.h
-    echo "#define $tmp_tn  CPUVEC_THRESHOLD (`echo $tmp_tn | tr A-Z a-z`)" >>fat.h
+    echo "#define $tmp_tn  CPUVEC_THRESHOLD (`echo $tmp_tn | tr '[A-Z]' '[a-z]'`)" >>fat.h
   done
 
   echo "
@@ -2609,7 +2609,7 @@ DECL_$tmp_fbase (__MPN(${tmp_fbase}_init));" >>fat.h
     echo "    p->$tmp_fbase = vec.$tmp_fbase; \\" >>fat.h
   done
   for tmp_tn in $fat_thresholds; do
-    tmp_field_name=`echo $tmp_tn | tr A-Z a-z`
+    tmp_field_name=`echo $tmp_tn | tr '[A-Z]' '[a-z]'`
     echo "    p->$tmp_field_name = vec.$tmp_field_name; \\" >>fat.h
   done
   echo "  } while (0)" >>fat.h
@@ -2623,7 +2623,7 @@ DECL_$tmp_fbase (__MPN(${tmp_fbase}_init));" >>fat.h
     echo "    ASSERT (vec.$tmp_fbase != NULL); \\" >>fat.h
   done
   for tmp_tn in $fat_thresholds; do
-    tmp_field_name=`echo $tmp_tn | tr A-Z a-z`
+    tmp_field_name=`echo $tmp_tn | tr '[A-Z]' '[a-z]'`
     echo "    ASSERT (vec.$tmp_field_name != 0); \\" >>fat.h
   done
   echo "  } while (0)" >>fat.h
@@ -2633,7 +2633,7 @@ DECL_$tmp_fbase (__MPN(${tmp_fbase}_init));" >>fat.h
 #define ITERATE_FAT_THRESHOLDS() \\
   do { \\" >>fat.h
   for tmp_tn in $fat_thresholds; do
-    tmp_field_name=`echo $tmp_tn | tr A-Z a-z`
+    tmp_field_name=`echo $tmp_tn | tr '[A-Z]' '[a-z]'`
     echo "    ITERATE ($tmp_tn, $tmp_field_name); \\" >>fat.h
   done
   echo "  } while (0)" >>fat.h
@@ -2669,7 +2669,7 @@ DECL_$tmp_fbase (__MPN(${tmp_fbase}_init));" >>fat.h
         if test -n "$tmp_thresh"; then
           THRESH_ASM_SETUP=["${THRESH_ASM_SETUP}define($tmp_tn,$tmp_thresh)
 "]
-          CPUVEC_SETUP="$CPUVEC_SETUP    decided_cpuvec.`echo $tmp_tn | tr A-Z a-z` = $tmp_thresh; \\
+          CPUVEC_SETUP="$CPUVEC_SETUP    decided_cpuvec.`echo $tmp_tn | tr '[A-Z]' '[a-z]'` = $tmp_thresh; \\
 "
           eval tmp_limit=\$${tmp_tn}_LIMIT
           if test -z "$tmp_limit"; then
