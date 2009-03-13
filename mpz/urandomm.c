@@ -36,6 +36,7 @@ mpz_urandomm (mpz_ptr rop, gmp_randstate_t rstate, mpz_srcptr n)
   int count;
   int pow2;
   int cmp;
+  int overlap=0;
 
   size = ABSIZ (n);
   if (size == 0)
@@ -52,7 +53,6 @@ mpz_urandomm (mpz_ptr rop, gmp_randstate_t rstate, mpz_srcptr n)
 	  pow2 = 0;		/* Mark n as `not a power of two'.  */
 	  break;
 	}
-
   count_leading_zeros (count, *nlast);
   nbits = size * GMP_NUMB_BITS - (count - GMP_NAIL_BITS) - pow2;
   if (nbits == 0)		/* nbits == 0 means that n was == 1.  */
@@ -61,6 +61,13 @@ mpz_urandomm (mpz_ptr rop, gmp_randstate_t rstate, mpz_srcptr n)
       return;
     }
 
+  np=PTR(n);
+  rp=PTR(rop);
+  if(np==rp)
+    {overlap=1;
+     np=__GMP_ALLOCATE_FUNC_LIMBS(size);
+     MPN_COPY(np,PTR(n),size);
+    }
   /* Here the allocated size can be one too much if n is a power of
      (2^GMP_NUMB_BITS) but it's convenient for using mpn_cmp below.  */
   rp = MPZ_REALLOC (rop, size);
@@ -71,14 +78,15 @@ mpz_urandomm (mpz_ptr rop, gmp_randstate_t rstate, mpz_srcptr n)
   do
     {
       _gmp_rand (rp, rstate, nbits);
-      MPN_CMP (cmp, rp, PTR (n), size);
+      MPN_CMP (cmp, rp, np, size);
     }
   while (cmp >= 0 && --count != 0);
 
   if (count == 0)
     /* Too many iterations; return result mod n == result - n */
-    mpn_sub_n (rp, rp, PTR (n), size);
+    mpn_sub_n (rp, rp, np, size);
 
+  if(overlap)__GMP_FREE_FUNC_LIMBS(np,size);
   MPN_NORMALIZE (rp, size);
   SIZ (rop) = size;
 }
