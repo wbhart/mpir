@@ -42,7 +42,7 @@
 %include "..\yasm_mac.inc"
 
     BITS 64
-    
+
     LEAF_PROC mpn_mul_1c
     mov     r11, [rsp+0x28]
     jmp     start
@@ -62,60 +62,60 @@ start:
     jc      .1
     jmp     .2
 
-	alignb  16, nop
-.1:	mov     rax, [r10+r8*8]
-	mov     ebx, 0
-	mul     r9
-	add     r11, rax
-	mov     [rcx+r8*8], r11
-	mov     rax, [r10+r8*8+8]
-	adc     rbx, rdx
-	mul     r9
-	mov     r11d, 0
-	add     rbx, rax
-	mov     rax, [r10+r8*8+16]
-	adc     r11, rdx
-	mul     r9
-	mov     [rcx+r8*8+8], rbx
-	add     r11, rax
-	mov     ebx, 0
-	mov     [rcx+r8*8+16], r11
-	mov     rax, [r10+r8*8+24]
-	mov     r11d, 0
-	adc     rbx, rdx
-	mul     r9
-	add     rbx, rax
-	mov     [rcx+r8*8+24], rbx
-	adc     r11, rdx
-	add     r8, 4
-	jnc     .1
+    alignb  16, nop
+.1: mov     rax, [r10+r8*8]
+    mov     ebx, 0
+    mul     r9
+    add     r11, rax
+    mov     [rcx+r8*8], r11
+    mov     rax, [r10+r8*8+8]
+    adc     rbx, rdx
+    mul     r9
+    mov     r11d, 0
+    add     rbx, rax
+    mov     rax, [r10+r8*8+16]
+    adc     r11, rdx
+    mul     r9
+    mov     [rcx+r8*8+8], rbx
+    add     r11, rax
+    mov     ebx, 0
+    mov     [rcx+r8*8+16], r11
+    mov     rax, [r10+r8*8+24]
+    mov     r11d, 0
+    adc     rbx, rdx
+    mul     r9
+    add     rbx, rax
+    mov     [rcx+r8*8+24], rbx
+    adc     r11, rdx
+    add     r8, 4
+    jnc     .1
 
 .2: test    r8, 2
     jnz     .3
-	mov     rax, [r10+r8*8]
-	mov     ebx, 0
-	mul     r9
-	add     r11, rax
-	mov     [rcx+r8*8], r11
-	mov     rax, [r10+r8*8+8]
-	adc     rbx, rdx
-	mul     r9
-	mov     r11d, 0
-	add     rbx, rax
-	adc     r11, rdx
-	add     r8, 2
-	mov     [rcx+r8*8-8], rbx
+    mov     rax, [r10+r8*8]
+    mov     ebx, 0
+    mul     r9
+    add     r11, rax
+    mov     [rcx+r8*8], r11
+    mov     rax, [r10+r8*8+8]
+    adc     rbx, rdx
+    mul     r9
+    mov     r11d, 0
+    add     rbx, rax
+    adc     r11, rdx
+    add     r8, 2
+    mov     [rcx+r8*8-8], rbx
 
 .3: test    r8, 1
     mov     rax, r11
     jnz     .4
-	mov     rax, [r10+r8*8]
-	mov     ebx, 0
-	mul     r9
-	add     r11, rax
-	mov     [rcx+r8*8], r11
-	adc     rbx, rdx
-	mov     rax, rbx
+    mov     rax, [r10+r8*8]
+    mov     ebx, 0
+    mul     r9
+    add     r11, rax
+    mov     [rcx+r8*8], r11
+    adc     rbx, rdx
+    mov     rax, rbx
 .4: END_PROC rbx
 
     end

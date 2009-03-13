@@ -32,58 +32,58 @@
 %include "..\yasm_mac.inc"
 
     BITS 64
-    
+
     LEAF_PROC mpn_divexact_byff
     movsxd  r8, r8d
 
-	xor     eax, eax
-	mov     r9, r8
-	and     r9, 3
-	shr     r8, 2
-	cmp     r8, 0
-	jnz     .2      ; carry flag is clear here
-	sbb     rax, [rdx]
-	mov     [rcx], rax
-	dec     r9
-	jz      .1
-	sbb     rax, [rdx+8]
-	mov     [rcx+8], rax
-	dec     r9
-	jz      .1
-	sbb     rax, [rdx+16]
-	mov     [rcx+16], rax
-	dec     r9
+    xor     eax, eax
+    mov     r9, r8
+    and     r9, 3
+    shr     r8, 2
+    cmp     r8, 0
+    jnz     .2      ; carry flag is clear here
+    sbb     rax, [rdx]
+    mov     [rcx], rax
+    dec     r9
+    jz      .1
+    sbb     rax, [rdx+8]
+    mov     [rcx+8], rax
+    dec     r9
+    jz      .1
+    sbb     rax, [rdx+16]
+    mov     [rcx+16], rax
+    dec     r9
 .1: sbb     rax, 0
-	ret
+    ret
 
-	alignb  16, nop
-.2:	sbb     rax, [rdx]
-	mov     [rcx], rax
-	sbb     rax, [rdx+8]
-	mov     [rcx+8], rax
-	sbb     rax, [rdx+16]
-	mov     [rcx+16], rax
-	sbb     rax, [rdx+24]
-	mov     [rcx+24], rax
-	lea     rdx, [rdx+32]
-	dec     r8
-	lea     rcx, [rcx+32]
-	jnz     .2
-	inc     r9
-	dec     r9
-	jz      .3
-	sbb     rax, [rdx]
-	mov     [rcx], rax
-	dec     r9
-	jz      .3
-	sbb     rax, [rdx+8]
-	mov     [rcx+8], rax
-	dec     r9
-	jz      .3
-	sbb     rax, [rdx+16]
-	mov     [rcx+16], rax
-	dec     r9
-.3:	sbb     rax, 0
-	ret
+    alignb  16, nop
+.2: sbb     rax, [rdx]
+    mov     [rcx], rax
+    sbb     rax, [rdx+8]
+    mov     [rcx+8], rax
+    sbb     rax, [rdx+16]
+    mov     [rcx+16], rax
+    sbb     rax, [rdx+24]
+    mov     [rcx+24], rax
+    lea     rdx, [rdx+32]
+    dec     r8
+    lea     rcx, [rcx+32]
+    jnz     .2
+    inc     r9
+    dec     r9
+    jz      .3
+    sbb     rax, [rdx]
+    mov     [rcx], rax
+    dec     r9
+    jz      .3
+    sbb     rax, [rdx+8]
+    mov     [rcx+8], rax
+    dec     r9
+    jz      .3
+    sbb     rax, [rdx+16]
+    mov     [rcx+16], rax
+    dec     r9
+.3: sbb     rax, 0
+    ret
 
     end

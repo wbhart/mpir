@@ -33,33 +33,33 @@
 
     LEAF_PROC mpn_popcount
     mov     edx, edx
-	xor     eax, eax
-	sub     rdx, 4
-	jc      .2
+    xor     eax, eax
+    sub     rdx, 4
+    jc      .2
 
-	alignb  16, nop
-.1:	popcnt  r8, [rcx+rdx*8+24]
-	add     rax, r8
-	popcnt  r9, [rcx+rdx*8+16]
-	add     rax, r9
-	popcnt  r10, [rcx+rdx*8+8]
-	add     rax, r10
-	popcnt  r11, [rcx+rdx*8]
-	add     rax, r11
-	sub     rdx, 4
-	jnc     .1
+    alignb  16, nop
+.1: popcnt  r8, [rcx+rdx*8+24]
+    add     rax, r8
+    popcnt  r9, [rcx+rdx*8+16]
+    add     rax, r9
+    popcnt  r10, [rcx+rdx*8+8]
+    add     rax, r10
+    popcnt  r11, [rcx+rdx*8]
+    add     rax, r11
+    sub     rdx, 4
+    jnc     .1
 .2: add     rdx, 4
-	jz      .3
-	popcnt  r8, [rcx+rdx*8-8]
-	add     rax, r8
-	dec     rdx
-	jz      .3
-	popcnt  r9, [rcx+rdx*8-8]
-	add     rax, r9
-	dec     rdx
-	jz      .3
-	popcnt  r10, [rcx+rdx*8-8]
-	add     rax, r10
+    jz      .3
+    popcnt  r8, [rcx+rdx*8-8]
+    add     rax, r8
+    dec     rdx
+    jz      .3
+    popcnt  r9, [rcx+rdx*8-8]
+    add     rax, r9
+    dec     rdx
+    jz      .3
+    popcnt  r10, [rcx+rdx*8-8]
+    add     rax, r10
 .3: ret
 
     end

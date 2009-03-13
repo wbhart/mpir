@@ -37,7 +37,7 @@
 %include "..\yasm_mac.inc"
 
     BITS 64
-    
+
 %define reg_save_list r12, r13, r14
 
     LEAF_PROC mpn_submul_1
@@ -45,12 +45,12 @@
     mov     rax, [rdx]
     cmp     r8, 1
     jnz     .1
-	mul     r9
-	sub     [rcx], rax
-	adc     rdx, 0
-	mov     rax, rdx
-	ret
-	
+    mul     r9
+    sub     [rcx], rax
+    adc     rdx, 0
+    mov     rax, rdx
+    ret
+
     align   16
 .1:
     FRAME_PROC mpn_submul_1x, 0, reg_save_list
@@ -66,33 +66,33 @@
     cmp     r8, 0
     jge     .3
 
-	alignb  16, nop
+    alignb  16, nop
 .2: mov     r12d, 0
-	mul     r9
-	sub     [rcx+r8*8], r11
-	adc     r13, rax
-	adc     r12, rdx
-	mov     rax, [16+r10+r8*8]
-	mul     r9
-	sub     [8+rcx+r8*8], r13
-	adc     r12, rax
-	mov     r14d, 0
-	adc     r14, rdx
-	mov     rax, [24+r10+r8*8]
-	mov     r11d, 0
-	mov     r13d, 0
-	mul     r9
-	sub     [16+rcx+r8*8], r12
-	adc     r14, rax
-	adc     r11, rdx
-	mov     rax, [32+r10+r8*8]
- 	mul     r9
-	sub     [24+rcx+r8*8], r14
-	adc     r11, rax
-	adc     r13, rdx
-	add     r8, 4
-	mov     rax, [8+r10+r8*8]
-	jnc     .2
+    mul     r9
+    sub     [rcx+r8*8], r11
+    adc     r13, rax
+    adc     r12, rdx
+    mov     rax, [16+r10+r8*8]
+    mul     r9
+    sub     [8+rcx+r8*8], r13
+    adc     r12, rax
+    mov     r14d, 0
+    adc     r14, rdx
+    mov     rax, [24+r10+r8*8]
+    mov     r11d, 0
+    mov     r13d, 0
+    mul     r9
+    sub     [16+rcx+r8*8], r12
+    adc     r14, rax
+    adc     r11, rdx
+    mov     rax, [32+r10+r8*8]
+    mul     r9
+    sub     [24+rcx+r8*8], r14
+    adc     r11, rax
+    adc     r13, rdx
+    add     r8, 4
+    mov     rax, [8+r10+r8*8]
+    jnc     .2
 
 .3: jz      .7
     jp      .5
@@ -100,82 +100,82 @@
     je      .6
 
 .4: mov     r12d, 0
-	mul     r9
-	sub     [rcx+r8*8],r11
-	adc     r13, rax
-	adc     r12, rdx
-	mov     rax, [16+r10+r8*8]
-	mul     r9
-	sub     [8+rcx+r8*8], r13
-	adc     r12, rax
-	mov     r14d, 0
-	adc     r14, rdx
-	sub     [16+rcx+r8*8], r12
-	adc     r14, 0
-	mov     rax, r14
-	jmp     .8
+    mul     r9
+    sub     [rcx+r8*8],r11
+    adc     r13, rax
+    adc     r12, rdx
+    mov     rax, [16+r10+r8*8]
+    mul     r9
+    sub     [8+rcx+r8*8], r13
+    adc     r12, rax
+    mov     r14d, 0
+    adc     r14, rdx
+    sub     [16+rcx+r8*8], r12
+    adc     r14, 0
+    mov     rax, r14
+    jmp     .8
 
     alignb  16, nop
 .5: mov     r12d, 0
-	mul     r9
-	sub     [rcx+r8*8], r11
-	adc     r13, rax
-	adc     r12, rdx
-	sub     [8+rcx+r8*8], r13
-	adc     r12, 0
-	mov     rax, r12
-	jmp     .8
+    mul     r9
+    sub     [rcx+r8*8], r11
+    adc     r13, rax
+    adc     r12, rdx
+    sub     [8+rcx+r8*8], r13
+    adc     r12, 0
+    mov     rax, r12
+    jmp     .8
 
     alignb  16, nop
 .6: mov     r12d, 0
-	mul     r9
-	sub     [rcx+r8*8], r11
-	adc     r13, rax
-	adc     r12, rdx
-	mov     rax, [16+r10+r8*8]
-	mul     r9
-	sub     [8+rcx+r8*8], r13
-	adc     r12, rax
-	mov     r14d, 0
-	adc     r14, rdx
-	mov     rax, [24+r10+r8*8]
-	mov     r11d, 0
-	mul     r9
-	sub     [16+rcx+r8*8], r12
-	adc     r14, rax
-	adc     r11, rdx
-	sub     [24+rcx+r8*8], r14
-	adc     r11, 0
-	mov     rax, r11
-	jmp     .8
+    mul     r9
+    sub     [rcx+r8*8], r11
+    adc     r13, rax
+    adc     r12, rdx
+    mov     rax, [16+r10+r8*8]
+    mul     r9
+    sub     [8+rcx+r8*8], r13
+    adc     r12, rax
+    mov     r14d, 0
+    adc     r14, rdx
+    mov     rax, [24+r10+r8*8]
+    mov     r11d, 0
+    mul     r9
+    sub     [16+rcx+r8*8], r12
+    adc     r14, rax
+    adc     r11, rdx
+    sub     [24+rcx+r8*8], r14
+    adc     r11, 0
+    mov     rax, r11
+    jmp     .8
 
     alignb  16, nop
 .7: mov     r12d, 0
-	mul     r9
-	sub     [rcx+r8*8], r11
-	adc     r13, rax
-	adc     r12, rdx
-	mov     rax, [16+r10+r8*8]
-	mul     r9
-	sub     [8+rcx+r8*8], r13
-	adc     r12, rax
-	mov     r14d, 0
-	adc     r14, rdx
-	mov     rax, [24+r10+r8*8]
-	mov     r11d, 0
-	mov     r13d, 0
-	mul     r9
-	sub     [16+rcx+r8*8], r12
-	adc     r14, rax
-	adc     r11, rdx
-	mov     rax, [32+r10+r8*8]
-	mul     r9
-	sub     [24+rcx+r8*8], r14
-	adc     r11, rax
-	adc     r13, rdx
-	sub     [32+rcx+r8*8], r11
-	adc     r13, 0
-	mov     rax, r13
+    mul     r9
+    sub     [rcx+r8*8], r11
+    adc     r13, rax
+    adc     r12, rdx
+    mov     rax, [16+r10+r8*8]
+    mul     r9
+    sub     [8+rcx+r8*8], r13
+    adc     r12, rax
+    mov     r14d, 0
+    adc     r14, rdx
+    mov     rax, [24+r10+r8*8]
+    mov     r11d, 0
+    mov     r13d, 0
+    mul     r9
+    sub     [16+rcx+r8*8], r12
+    adc     r14, rax
+    adc     r11, rdx
+    mov     rax, [32+r10+r8*8]
+    mul     r9
+    sub     [24+rcx+r8*8], r14
+    adc     r11, rax
+    adc     r13, rdx
+    sub     [32+rcx+r8*8], r11
+    adc     r13, 0
+    mov     rax, r13
 .8:
     END_PROC reg_save_list
 

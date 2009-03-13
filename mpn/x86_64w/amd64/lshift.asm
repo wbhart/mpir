@@ -38,82 +38,82 @@
 %include "..\yasm_mac.inc"
 
     BITS 64
-    
+
     LEAF_PROC mpn_lshift
     movsxd  r8, r8d
     mov     r9d, r9d
-	mov     eax, 64
-	sub     rax, r9
-	movq    mm0, r9
-	sub     r8, 4
-	movq    mm1, rax
-	movq    mm5, [rdx+r8*8+24]
-	movq    mm3, mm5
-	psrlq   mm5, mm1
-	movq    rax, mm5
-	psllq   mm3, mm0
-	jbe     .2
+    mov     eax, 64
+    sub     rax, r9
+    movq    mm0, r9
+    sub     r8, 4
+    movq    mm1, rax
+    movq    mm5, [rdx+r8*8+24]
+    movq    mm3, mm5
+    psrlq   mm5, mm1
+    movq    rax, mm5
+    psllq   mm3, mm0
+    jbe     .2
 
-	alignb  16, nop
+    alignb  16, nop
 .1: movq    mm2, [rdx+r8*8+16]
-	movq    mm4, mm2
-	psrlq   mm2, mm1
-	por     mm3, mm2
-	movq    [rcx+r8*8+24], mm3
-	psllq   mm4, mm0
-	movq    mm5, [rdx+r8*8+8]
-	movq    mm3, mm5
-	psrlq   mm5, mm1
-	por     mm4, mm5
-	movq    [rcx+r8*8+16], mm4
-	psllq   mm3, mm0
-	movq    mm2, [rdx+r8*8]
-	movq    mm4, mm2
-	psrlq   mm2, mm1
-	por     mm3, mm2
-	movq    [rcx+r8*8+8], mm3
-	psllq   mm4, mm0
-	movq    mm5, [rdx+r8*8-8]
-	movq    mm3, mm5
-	psrlq   mm5, mm1
-	por     mm4, mm5
-	movq    [rcx+r8*8], mm4
-	psllq   mm3, mm0
-	sub     r8, 4
-	ja      .1
+    movq    mm4, mm2
+    psrlq   mm2, mm1
+    por     mm3, mm2
+    movq    [rcx+r8*8+24], mm3
+    psllq   mm4, mm0
+    movq    mm5, [rdx+r8*8+8]
+    movq    mm3, mm5
+    psrlq   mm5, mm1
+    por     mm4, mm5
+    movq    [rcx+r8*8+16], mm4
+    psllq   mm3, mm0
+    movq    mm2, [rdx+r8*8]
+    movq    mm4, mm2
+    psrlq   mm2, mm1
+    por     mm3, mm2
+    movq    [rcx+r8*8+8], mm3
+    psllq   mm4, mm0
+    movq    mm5, [rdx+r8*8-8]
+    movq    mm3, mm5
+    psrlq   mm5, mm1
+    por     mm4, mm5
+    movq    [rcx+r8*8], mm4
+    psllq   mm3, mm0
+    sub     r8, 4
+    ja      .1
 
 ; r8 is 0,-1,-2,-3 here , so we have 3+r8 limbs to do
 
-.2:	cmp     r8, -1
-	jl      .3
-	movq    mm2, [rdx+r8*8+16]
-	movq    mm4, mm2
-	psrlq   mm2, mm1
-	por     mm3, mm2
-	movq    [rcx+r8*8+24], mm3
-	psllq   mm4, mm0
-	movq    mm5, [rdx+r8*8+8]
-	movq    mm3, mm5
-	psrlq   mm5, mm1
-	por     mm4, mm5
-	movq    [rcx+r8*8+16], mm4
-	psllq   mm3, mm0
-	sub     r8, 2
+.2: cmp     r8, -1
+    jl      .3
+    movq    mm2, [rdx+r8*8+16]
+    movq    mm4, mm2
+    psrlq   mm2, mm1
+    por     mm3, mm2
+    movq    [rcx+r8*8+24], mm3
+    psllq   mm4, mm0
+    movq    mm5, [rdx+r8*8+8]
+    movq    mm3, mm5
+    psrlq   mm5, mm1
+    por     mm4, mm5
+    movq    [rcx+r8*8+16], mm4
+    psllq   mm3, mm0
+    sub     r8, 2
 
 .3: test    r8, 1
-	jnz     .4
-	movq    mm2, [rdx+r8*8+16]
-	movq    mm4, mm2
-	psrlq   mm2, mm1
-	por     mm3, mm2
-	movq    [rcx+r8*8+24], mm3
-	psllq   mm4, mm0
-	movq    [rcx+r8*8+16], mm4
-	emms
-	ret
+    jnz     .4
+    movq    mm2, [rdx+r8*8+16]
+    movq    mm4, mm2
+    psrlq   mm2, mm1
+    por     mm3, mm2
+    movq    [rcx+r8*8+24], mm3
+    psllq   mm4, mm0
+    movq    [rcx+r8*8+16], mm4
+    emms
+    ret
 
 .4: movq    [rcx+r8*8+24], mm3
-	emms
-	ret
+    emms
+    ret
 
     end

@@ -38,85 +38,85 @@
     LEAF_PROC mpn_rshift
     movsxd  r8, r8d
     mov     r9d, r9d
-	mov     eax, 64
-	lea     rdx, [rdx+r8*8-32]
-	lea     rcx, [rcx+r8*8-32]
-	sub     rax, r9
-	movq    mm0, r9
-	mov     r9d, 4
-	sub     r9, r8
-	movq    mm1, rax
-	movq    mm5, [rdx+r9*8]
-	movq    mm3, mm5
-	psllq   mm5, mm1
-	movq    rax, mm5
-	psrlq   mm3, mm0
-	jnc     .2
-	
-	alignb  16, nop
+    mov     eax, 64
+    lea     rdx, [rdx+r8*8-32]
+    lea     rcx, [rcx+r8*8-32]
+    sub     rax, r9
+    movq    mm0, r9
+    mov     r9d, 4
+    sub     r9, r8
+    movq    mm1, rax
+    movq    mm5, [rdx+r9*8]
+    movq    mm3, mm5
+    psllq   mm5, mm1
+    movq    rax, mm5
+    psrlq   mm3, mm0
+    jnc     .2
+
+    alignb  16, nop
 .1: movq    mm2, [rdx+r9*8+8]
-	movq    mm4, mm2
-	psllq   mm2, mm1
-	por     mm3, mm2
-	movq    [rcx+r9*8], mm3
-	psrlq   mm4, mm0
-	movq    mm5, [rdx+r9*8+16]
-	movq    mm3, mm5
-	psllq   mm5, mm1
-	por     mm4, mm5
-	movq    [rcx+r9*8+8], mm4
-	psrlq   mm3, mm0
+    movq    mm4, mm2
+    psllq   mm2, mm1
+    por     mm3, mm2
+    movq    [rcx+r9*8], mm3
+    psrlq   mm4, mm0
+    movq    mm5, [rdx+r9*8+16]
+    movq    mm3, mm5
+    psllq   mm5, mm1
+    por     mm4, mm5
+    movq    [rcx+r9*8+8], mm4
+    psrlq   mm3, mm0
 
 ; got room here for another jump out , if we can arrange our r9 to be
 ; slightly different , so we can use a jz or jp here
 
-	movq    mm2, [rdx+r9*8+24]
-	movq    mm4, mm2
-	psllq   mm2, mm1
-	por     mm3, mm2
-	movq    [rcx+r9*8+16], mm3
-	psrlq   mm4, mm0
-	movq    mm5, [rdx+r9*8+32]
-	movq    mm3, mm5
-	psllq   mm5, mm1
-	por     mm4, mm5
-	movq    [rcx+r9*8+24], mm4
-	psrlq   mm3, mm0
-	add     r9, 4
-	jnc     .1
+    movq    mm2, [rdx+r9*8+24]
+    movq    mm4, mm2
+    psllq   mm2, mm1
+    por     mm3, mm2
+    movq    [rcx+r9*8+16], mm3
+    psrlq   mm4, mm0
+    movq    mm5, [rdx+r9*8+32]
+    movq    mm3, mm5
+    psllq   mm5, mm1
+    por     mm4, mm5
+    movq    [rcx+r9*8+24], mm4
+    psrlq   mm3, mm0
+    add     r9, 4
+    jnc     .1
 
 ; r9 is 0,1,2,3 here , so we have 3-r9 limbs to do
 
-.2:	test    r9, 2
-	jnz     .3
-	movq    mm2, [rdx+r9*8+8]
-	movq    mm4, mm2
-	psllq   mm2, mm1
-	por     mm3, mm2
-	movq    [rcx+r9*8], mm3
-	psrlq   mm4, mm0
-	movq    mm5, [rdx+r9*8+16]
-	movq    mm3, mm5
-	psllq   mm5, mm1
-	por     mm4, mm5
-	movq    [rcx+r9*8+8], mm4
-	psrlq   mm3, mm0
-	add     r9, 2
+.2: test    r9, 2
+    jnz     .3
+    movq    mm2, [rdx+r9*8+8]
+    movq    mm4, mm2
+    psllq   mm2, mm1
+    por     mm3, mm2
+    movq    [rcx+r9*8], mm3
+    psrlq   mm4, mm0
+    movq    mm5, [rdx+r9*8+16]
+    movq    mm3, mm5
+    psllq   mm5, mm1
+    por     mm4, mm5
+    movq    [rcx+r9*8+8], mm4
+    psrlq   mm3, mm0
+    add     r9, 2
 
 .3: test    r9, 1
-	jnz     .4
-	movq    mm2, [rdx+r9*8+8]
-	movq    mm4, mm2
-	psllq   mm2, mm1
-	por     mm3, mm2
-	movq    [rcx+r9*8], mm3
-	psrlq   mm4, mm0
-	movq    [rcx+r9*8+8], mm4
-	emms
-	ret
+    jnz     .4
+    movq    mm2, [rdx+r9*8+8]
+    movq    mm4, mm2
+    psllq   mm2, mm1
+    por     mm3, mm2
+    movq    [rcx+r9*8], mm3
+    psrlq   mm4, mm0
+    movq    [rcx+r9*8+8], mm4
+    emms
+    ret
 
 .4: movq    [rcx+r9*8], mm3
-	emms
-	ret
+    emms
+    ret
 
-	end
+    end

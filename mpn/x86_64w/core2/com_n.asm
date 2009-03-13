@@ -37,43 +37,43 @@
     BITS 64
     LEAF_PROC mpn_com_n
     movsxd  rax, r8d
-	sub     rax, 4
-	jc      .2
-	
-	alignb  8, nop
+    sub     rax, 4
+    jc      .2
+
+    alignb  8, nop
 .1: mov     r8, [rdx+rax*8+24]
-	mov     r9, [rdx+rax*8+16]
-	not     r8
-	not     r9
-	mov     [rcx+rax*8+24], r8
-	mov     [rcx+rax*8+16], r9
-	mov     r8, [rdx+rax*8+8]
-	mov     r9, [rdx+rax*8]
-	not     r8
-	not     r9
-	mov     [rcx+rax*8+8], r8
-	mov     [rcx+rax*8], r9
-	sub     rax, 4
-	jae     .1
+    mov     r9, [rdx+rax*8+16]
+    not     r8
+    not     r9
+    mov     [rcx+rax*8+24], r8
+    mov     [rcx+rax*8+16], r9
+    mov     r8, [rdx+rax*8+8]
+    mov     r9, [rdx+rax*8]
+    not     r8
+    not     r9
+    mov     [rcx+rax*8+8], r8
+    mov     [rcx+rax*8], r9
+    sub     rax, 4
+    jae     .1
 
 .2: add     rax, 4
-	jz      .3
+    jz      .3
 
 ; Could still have potential cache-bank conflicts in this tail part
 
-	mov     r8, [rdx+rax*8-8]
-	not     r8
-	mov     [rcx+rax*8-8], r8
-	sub     rax, 1
-	jz      .3
-	mov     r8, [rdx+rax*8-8]
-	not     r8
-	mov     [rcx+rax*8-8], r8
-	sub     rax, 1
-	jz      .3
-	mov     r8, [rdx+rax*8-8]
-	not     r8
-	mov     [rcx+rax*8-8], r8
+    mov     r8, [rdx+rax*8-8]
+    not     r8
+    mov     [rcx+rax*8-8], r8
+    sub     rax, 1
+    jz      .3
+    mov     r8, [rdx+rax*8-8]
+    not     r8
+    mov     [rcx+rax*8-8], r8
+    sub     rax, 1
+    jz      .3
+    mov     r8, [rdx+rax*8-8]
+    not     r8
+    mov     [rcx+rax*8-8], r8
 
 .3: ret
 

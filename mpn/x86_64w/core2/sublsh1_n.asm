@@ -42,60 +42,60 @@
     FRAME_PROC mpn_sublsh1_n, 0, reg_save_list
     movsxd  rax, r9d
 
-	lea     rsi, [rdx+rax*8]
-	lea     rdx, [r8+rax*8]
-	lea     rdi, [rcx+rax*8]
-	mov     rcx, rax
-	
-	neg     rcx
-	xor     r9, r9
-	xor     rax, rax
-	test    rcx, 3
-	jz      .2
+    lea     rsi, [rdx+rax*8]
+    lea     rdx, [r8+rax*8]
+    lea     rdi, [rcx+rax*8]
+    mov     rcx, rax
+
+    neg     rcx
+    xor     r9, r9
+    xor     rax, rax
+    test    rcx, 3
+    jz      .2
 
 .1: mov     r10, [rsi+rcx*8]
-	add     r9, 1
-	sbb     r10, [rdx+rcx*8]
-	sbb     r9, r9
-	add     rax, 1
-	sbb     r10, [rdx+rcx*8]
-	sbb     rax, rax
-	mov     [rdi+rcx*8], r10
-	add     rcx, 1              ; ***
-	test    rcx, 3
-	jnz     .1
+    add     r9, 1
+    sbb     r10, [rdx+rcx*8]
+    sbb     r9, r9
+    add     rax, 1
+    sbb     r10, [rdx+rcx*8]
+    sbb     rax, rax
+    mov     [rdi+rcx*8], r10
+    add     rcx, 1              ; ***
+    test    rcx, 3
+    jnz     .1
 .2: cmp     rcx, 0
-	jz      .4
+    jz      .4
 
-	alignb  16, nop
+    alignb  16, nop
 .3: mov     r10, [rsi+rcx*8]
-	mov     rbx, [rsi+rcx*8+8]
-	mov     r11, [rsi+rcx*8+16]
-	mov     r8, [rsi+rcx*8+24]
-	mov     r12, [rdx+rcx*8]
-	mov     r13, [rdx+rcx*8+8]
-	mov     r14, [rdx+rcx*8+16]
-	mov     r15, [rdx+rcx*8+24]
-	add     r9, 1
-	sbb     r10, r12
-	sbb     rbx, r13
-	sbb     r11, r14
-	sbb     r8, r15
-	sbb     r9, r9
-	add     rax, 1
-	sbb     r10, r12
-	sbb     rbx, r13
-	sbb     r11, r14
-	sbb     r8, r15
-	sbb     rax, rax
-	mov     [rdi+rcx*8], r10
-	mov     [rdi+rcx*8+8], rbx
-	mov     [rdi+rcx*8+16], r11
-	mov     [rdi+rcx*8+24], r8
-	add     rcx, 4
-	jnz     .3
-.4:	add     rax, r9
-	neg     rax
-	END_PROC reg_save_list
-	
-	end
+    mov     rbx, [rsi+rcx*8+8]
+    mov     r11, [rsi+rcx*8+16]
+    mov     r8, [rsi+rcx*8+24]
+    mov     r12, [rdx+rcx*8]
+    mov     r13, [rdx+rcx*8+8]
+    mov     r14, [rdx+rcx*8+16]
+    mov     r15, [rdx+rcx*8+24]
+    add     r9, 1
+    sbb     r10, r12
+    sbb     rbx, r13
+    sbb     r11, r14
+    sbb     r8, r15
+    sbb     r9, r9
+    add     rax, 1
+    sbb     r10, r12
+    sbb     rbx, r13
+    sbb     r11, r14
+    sbb     r8, r15
+    sbb     rax, rax
+    mov     [rdi+rcx*8], r10
+    mov     [rdi+rcx*8+8], rbx
+    mov     [rdi+rcx*8+16], r11
+    mov     [rdi+rcx*8+24], r8
+    add     rcx, 4
+    jnz     .3
+.4: add     rax, r9
+    neg     rax
+    END_PROC reg_save_list
+
+    end

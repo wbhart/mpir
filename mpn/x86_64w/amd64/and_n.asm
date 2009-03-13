@@ -38,46 +38,46 @@
 
     LEAF_PROC mpn_and_n
     movsxd  r9, r9d
-	mov     rax, r9
-	and     rax, 3
-	shr     r9, 2
-	jz      .2
-	
-	alignb  8, nop
-.1: mov     r10, [rdx]
-	mov     r11, [rdx+8]
-	lea     rdx, [rdx+32]
-	and     r10, [r8]
-	and     r11, [r8+8]
-	lea     r8, [r8+32]
-	mov     [rcx], r10
-	mov     [rcx+8], r11
-	lea     rcx, [rcx+32]
-	mov     T3, [rdx-16]
-	mov     T4, [rdx-8]
-	and     T3, [r8-16]
-	and     T4, [r8-8]
-	mov     [rcx-16], T3
-	dec     r9
-	mov     [rcx-8], T4
-	jnz     .1
+    mov     rax, r9
+    and     rax, 3
+    shr     r9, 2
+    jz      .2
 
-.2:	inc     rax
-	dec     rax
-	jz      .3
-	mov     r10, [rdx]
-	and     r10, [r8]
-	mov     [rcx], r10
-	dec     rax
-	jz      .3
-	mov     r10, [rdx+8]
-	and     r10, [r8+8]
-	mov     [rcx+8], r10
-	dec     rax
-	jz      .3
-	mov     r10, [rdx+16]
-	and     r10, [r8+16]
-	mov     [rcx+16], r10
+    alignb  8, nop
+.1: mov     r10, [rdx]
+    mov     r11, [rdx+8]
+    lea     rdx, [rdx+32]
+    and     r10, [r8]
+    and     r11, [r8+8]
+    lea     r8, [r8+32]
+    mov     [rcx], r10
+    mov     [rcx+8], r11
+    lea     rcx, [rcx+32]
+    mov     T3, [rdx-16]
+    mov     T4, [rdx-8]
+    and     T3, [r8-16]
+    and     T4, [r8-8]
+    mov     [rcx-16], T3
+    dec     r9
+    mov     [rcx-8], T4
+    jnz     .1
+
+.2: inc     rax
+    dec     rax
+    jz      .3
+    mov     r10, [rdx]
+    and     r10, [r8]
+    mov     [rcx], r10
+    dec     rax
+    jz      .3
+    mov     r10, [rdx+8]
+    and     r10, [r8+8]
+    mov     [rcx+8], r10
+    dec     rax
+    jz      .3
+    mov     r10, [rdx+16]
+    and     r10, [r8+16]
+    mov     [rcx+16], r10
 .3: ret
-	
-	end
+
+    end

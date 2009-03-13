@@ -50,131 +50,131 @@
 ; If YASM supports lahf and sahf instructions, then we'll get rid
 ; of this.
 ;
-%define save_CF_to_reg_a  db	0x9f
-%define get_CF_from_reg_a db	0x9e
+%define save_CF_to_reg_a  db    0x9f
+%define get_CF_from_reg_a db    0x9e
 
 
 ;         cycles/limb
 ; Hammer:     2.5 (for 1024 limbs)
-; Woodcrest:  2.6 (for 1024 limbs)	
+; Woodcrest:  2.6 (for 1024 limbs)
 
 ; INPUT PARAMETERS
-; rp	rdi
-; up	rsi
-; vp	rdx
-; n	rcx
-	
+; rp    rdi
+; up    rsi
+; vp    rdx
+; n rcx
+
 %define reg_save_list rsi, rdi, rbx, rbp, r12, r13, r14, r15
 
-	BITS	64
+    BITS    64
 
-	FRAME_PROC mpn_add_n, 0, reg_save_list
+    FRAME_PROC mpn_add_n, 0, reg_save_list
     mov     rdi, rcx
     mov     rsi, rdx
     mov     rdx,  r8
     movsxd  rcx, r9d
-    
-	xor	r15,r15			; r15 will be our index, so
-					; I'll call it i here after
-	save_CF_to_reg_a		; Save CF
 
-	mov	r9,rcx
-	sub	r9,4			; r9 = n-(i+4)
+    xor r15,r15         ; r15 will be our index, so
+                    ; I'll call it i here after
+    save_CF_to_reg_a        ; Save CF
 
-	alignb 16, nop      ; aligning for loop
+    mov r9,rcx
+    sub r9,4            ; r9 = n-(i+4)
+
+    alignb 16, nop      ; aligning for loop
 L_mpn_add_n_main_loop:
-	; The goal of our main unrolled loop is to keep all the
-	; execution units as busy as possible.  Since
-	; there are three ALUs, we try to perform three
-	; adds at a time.  Of course, we will have the
-	; carry dependency, so there is at least one
-	; clock cycle between each adc.  However, we'll
-	; try to keep the other execution units busy
-	; with loads and stores at the same time so that
-	; our net throughput is close to one add per clock
-	; cycle.  Hopefully this function will have asymptotic
-	; behavior of taking 3*n clock cycles where n is the
-	; number of limbs to add.
-	; 
-	; Note that I'm using FOUR adds at a time, this is just
-	; because I wanted to use up all available registers since
-	; I'm hoping the out-of-order and loop-pipeline logic in
-	; the Xeon will help us out.
+    ; The goal of our main unrolled loop is to keep all the
+    ; execution units as busy as possible.  Since
+    ; there are three ALUs, we try to perform three
+    ; adds at a time.  Of course, we will have the
+    ; carry dependency, so there is at least one
+    ; clock cycle between each adc.  However, we'll
+    ; try to keep the other execution units busy
+    ; with loads and stores at the same time so that
+    ; our net throughput is close to one add per clock
+    ; cycle.  Hopefully this function will have asymptotic
+    ; behavior of taking 3*n clock cycles where n is the
+    ; number of limbs to add.
+    ;
+    ; Note that I'm using FOUR adds at a time, this is just
+    ; because I wanted to use up all available registers since
+    ; I'm hoping the out-of-order and loop-pipeline logic in
+    ; the Xeon will help us out.
 
-	; See if we are still looping
-	jle	L_mpn_add_n_loop_done
+    ; See if we are still looping
+    jle L_mpn_add_n_loop_done
 
-	get_CF_from_reg_a		; recover CF
-	
-	; Load inputs into rbx and r8
-	; add with carry, and put result in r8
-	; then store r8 to output.
-	mov	rbx,[rsi+r15*8]
-	mov	r8,[rdx+r15*8]
-	adc	r8,rbx
-	mov	[rdi+r15*8],r8
-	
-	; Load inputs into r9 and r10
-	; add with carry, and put result in r10
-	; then store r10 to output.
-	mov	r9,[8+rsi+r15*8]
-	mov	r10,[8+rdx+r15*8]
-	adc	r10,r9
-	mov	[8+rdi+r15*8],r10
-	
-	; Load inputs into r11 and r12
-	; add with carry, and put result in r12
-	; then store r12 to output.
-	mov	r11,[16+rsi+r15*8]
-	mov	r12,[16+rdx+r15*8]
-	adc	r12,r11
-	mov	[16+rdi+r15*8],r12
+    get_CF_from_reg_a       ; recover CF
 
-	; Load inputs into r13 and r14
-	; add with carry, and put result in r14
-	; then store r14 to output.
-	mov	r13,[24+rsi+r15*8]
-	mov	r14,[24+rdx+r15*8]
-	adc	r14,r13
-	mov	[24+rdi+r15*8],r14
+    ; Load inputs into rbx and r8
+    ; add with carry, and put result in r8
+    ; then store r8 to output.
+    mov rbx,[rsi+r15*8]
+    mov r8,[rdx+r15*8]
+    adc r8,rbx
+    mov [rdi+r15*8],r8
 
-	save_CF_to_reg_a		; save CF
+    ; Load inputs into r9 and r10
+    ; add with carry, and put result in r10
+    ; then store r10 to output.
+    mov r9,[8+rsi+r15*8]
+    mov r10,[8+rdx+r15*8]
+    adc r10,r9
+    mov [8+rdi+r15*8],r10
 
-	mov	r10,r15
-	add	r10,8
-	add	r15,4		; increment by 4.
-	
-	mov	r9,rcx
-	sub	r9,r10		; r9 = n-(i+4)
-	jmp	L_mpn_add_n_main_loop
+    ; Load inputs into r11 and r12
+    ; add with carry, and put result in r12
+    ; then store r12 to output.
+    mov r11,[16+rsi+r15*8]
+    mov r12,[16+rdx+r15*8]
+    adc r12,r11
+    mov [16+rdi+r15*8],r12
+
+    ; Load inputs into r13 and r14
+    ; add with carry, and put result in r14
+    ; then store r14 to output.
+    mov r13,[24+rsi+r15*8]
+    mov r14,[24+rdx+r15*8]
+    adc r14,r13
+    mov [24+rdi+r15*8],r14
+
+    save_CF_to_reg_a        ; save CF
+
+    mov r10,r15
+    add r10,8
+    add r15,4       ; increment by 4.
+
+    mov r9,rcx
+    sub r9,r10      ; r9 = n-(i+4)
+    jmp L_mpn_add_n_main_loop
 
 L_mpn_add_n_loop_done:
-	mov	r15,rcx		; 
-	sub	r15,r9		; r15 = n-(n-(i+4))=i+4
-	sub	r15,4		; r15 = i
-	cmp	r15,rcx
+    mov r15,rcx     ;
+    sub r15,r9      ; r15 = n-(n-(i+4))=i+4
+    sub r15,4       ; r15 = i
+    cmp r15,rcx
 L_mpn_add_n_post_loop:
-	je	L_mpn_add_n_exit
-	get_CF_from_reg_a		; recover CF
-	
-	; Load inputs into rbx and r8
-	; add with carry, and put result in r8
-	; then store r8 to output.
-	mov	rbx,[rsi+r15*8]
-	mov	r8,[rdx+r15*8]
-	adc	r8,rbx
-	mov	[rdi+r15*8],r8
-	save_CF_to_reg_a		; save CF
-	add	r15,1
-	cmp	r15,rcx
-	jmp	L_mpn_add_n_post_loop
-	
-	
+    je  L_mpn_add_n_exit
+    get_CF_from_reg_a       ; recover CF
+
+    ; Load inputs into rbx and r8
+    ; add with carry, and put result in r8
+    ; then store r8 to output.
+    mov rbx,[rsi+r15*8]
+    mov r8,[rdx+r15*8]
+    adc r8,rbx
+    mov [rdi+r15*8],r8
+    save_CF_to_reg_a        ; save CF
+    add r15,1
+    cmp r15,rcx
+    jmp L_mpn_add_n_post_loop
+
+
 L_mpn_add_n_exit:
-	xor	rcx,rcx
-	get_CF_from_reg_a	; recover the CF
-	mov	rax,rcx		; Clears rax without affecting carry flag 
-	adc	rax,rax		; returns carry status.
-	END_PROC reg_save_list
-	
-	end
+    xor rcx,rcx
+    get_CF_from_reg_a   ; recover the CF
+    mov rax,rcx     ; Clears rax without affecting carry flag
+    adc rax,rax     ; returns carry status.
+    END_PROC reg_save_list
+
+    end

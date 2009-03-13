@@ -38,48 +38,48 @@
 
     LEAF_PROC mpn_andn_n
     movsxd  r9, r9d
-	sub     r9, 4
-	jb      .2
+    sub     r9, 4
+    jb      .2
 
-	alignb  16, nop
-.1:	mov     r10, [r8+r9*8+24]
-	mov     r11, [r8+r9*8+16]
-	not     r10
-	not     r11
-	and     r10, [rdx+r9*8+24]
-	and     r11, [rdx+r9*8+16]
-	mov     [rcx+r9*8+24], r10
-	mov     [rcx+r9*8+16], r11
-	mov     T3, [r8+r9*8+8]
-	mov     T4, [r8+r9*8]
-	not     T3
-	not     T4
-	and     T3, [rdx+r9*8+8]
-	and     T4, [rdx+r9*8]
-	mov     [rcx+r9*8+8], T3
-	mov     [rcx+r9*8], T4
-	sub     r9, 4
-	jnc     .1
+    alignb  16, nop
+.1: mov     r10, [r8+r9*8+24]
+    mov     r11, [r8+r9*8+16]
+    not     r10
+    not     r11
+    and     r10, [rdx+r9*8+24]
+    and     r11, [rdx+r9*8+16]
+    mov     [rcx+r9*8+24], r10
+    mov     [rcx+r9*8+16], r11
+    mov     T3, [r8+r9*8+8]
+    mov     T4, [r8+r9*8]
+    not     T3
+    not     T4
+    and     T3, [rdx+r9*8+8]
+    and     T4, [rdx+r9*8]
+    mov     [rcx+r9*8+8], T3
+    mov     [rcx+r9*8], T4
+    sub     r9, 4
+    jnc     .1
 
-.2:	add     r9, 4
-	jz      .3
-	mov     r10, [r8+r9*8-8]
-	not     r10
-	and     r10, [rdx+r9*8-8]
-	mov     [rcx+r9*8-8], r10
-	sub     r9, 1           ; ***
-	jz      .3
-	mov     r10, [r8+r9*8-8]
-	not     r10
-	and     r10, [rdx+r9*8-8]
-	mov     [rcx+r9*8-8], r10
-	sub     r9, 1           ; ***
-	jz      .3
-	mov     r10, [r8+r9*8-8]
-	not     r10
-	and     r10, [rdx+r9*8-8]
-	mov     [rcx+r9*8-8], r10
+.2: add     r9, 4
+    jz      .3
+    mov     r10, [r8+r9*8-8]
+    not     r10
+    and     r10, [rdx+r9*8-8]
+    mov     [rcx+r9*8-8], r10
+    sub     r9, 1           ; ***
+    jz      .3
+    mov     r10, [r8+r9*8-8]
+    not     r10
+    and     r10, [rdx+r9*8-8]
+    mov     [rcx+r9*8-8], r10
+    sub     r9, 1           ; ***
+    jz      .3
+    mov     r10, [r8+r9*8-8]
+    not     r10
+    and     r10, [rdx+r9*8-8]
+    mov     [rcx+r9*8-8], r10
 
-.3:	ret
+.3: ret
 
-	end
+    end

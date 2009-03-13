@@ -42,71 +42,71 @@
 %define reg_save_list   rsi, rdi, r12, r13, r14, r15, rbx, rbp
 
     BITS 64
-    
-	FRAME_PROC mpn_sumdiff_n, 0, reg_save_list
+
+    FRAME_PROC mpn_sumdiff_n, 0, reg_save_list
     movsxd  r10, dword [rsp+stack_use+40]
 
-	lea     rdx, [rdx+r10*8]
-	lea     r8, [r8+r10*8]
-	lea     rcx, [rcx+r10*8]
-	lea     r9, [r9+r10*8]
-	neg     r10
-	xor     r12, r12
-	xor     r11, r11
-	test    r10, 3
-	jz      .2
+    lea     rdx, [rdx+r10*8]
+    lea     r8, [r8+r10*8]
+    lea     rcx, [rcx+r10*8]
+    lea     r9, [r9+r10*8]
+    neg     r10
+    xor     r12, r12
+    xor     r11, r11
+    test    r10, 3
+    jz      .2
 
 .1: mov     rax, [r8+r10*8]
-	mov     r13, rax
-	add     r12, 1
-	adc     rax, [r9+r10*8]
-	sbb     r12, r12
-	add     r11, 1
-	sbb     r13, [r9+r10*8]
-	sbb     r11, r11
-	mov     [rcx+r10*8], rax
-	mov     [rdx+r10*8], r13
-	inc     r10
-	test    r10, 3
-	jnz     .1
+    mov     r13, rax
+    add     r12, 1
+    adc     rax, [r9+r10*8]
+    sbb     r12, r12
+    add     r11, 1
+    sbb     r13, [r9+r10*8]
+    sbb     r11, r11
+    mov     [rcx+r10*8], rax
+    mov     [rdx+r10*8], r13
+    inc     r10
+    test    r10, 3
+    jnz     .1
 
-.2:	cmp     r10, 0
-	jz      .4
+.2: cmp     r10, 0
+    jz      .4
 
-	alignb  16, nop
-.3:	mov     rax, [r8+r10*8]
-	mov     rsi, [r8+r10*8+8]
-	mov     rdi, [r8+r10*8+16]
-	mov     rbp, [r8+r10*8+24]
-	mov     r13, rax
-	mov     r14, rsi
-	mov     r15, rdi
-	mov     rbx, rbp
-	add     r12, 1
-	adc     rax, [r9+r10*8]
-	adc     rsi, [r9+r10*8+8]
-	adc     rdi, [r9+r10*8+16]
-	adc     rbp, [r9+r10*8+24]
-	sbb     r12, r12
-	add     r11, 1
-	sbb     r13, [r9+r10*8]
-	sbb     r14, [r9+r10*8+8]
-	sbb     r15, [r9+r10*8+16]
-	sbb     rbx, [r9+r10*8+24]
-	sbb     r11, r11
-	mov     [rcx+r10*8], rax
-	mov     [rcx+r10*8+8], rsi
-	mov     [rcx+r10*8+16], rdi
-	mov     [rcx+r10*8+24], rbp
-	mov     [rdx+r10*8], r13
-	mov     [rdx+r10*8+8], r14
-	mov     [rdx+r10*8+16], r15
-	mov     [rdx+r10*8+24], rbx
-	add     r10, 4
-	jnz     .3
+    alignb  16, nop
+.3: mov     rax, [r8+r10*8]
+    mov     rsi, [r8+r10*8+8]
+    mov     rdi, [r8+r10*8+16]
+    mov     rbp, [r8+r10*8+24]
+    mov     r13, rax
+    mov     r14, rsi
+    mov     r15, rdi
+    mov     rbx, rbp
+    add     r12, 1
+    adc     rax, [r9+r10*8]
+    adc     rsi, [r9+r10*8+8]
+    adc     rdi, [r9+r10*8+16]
+    adc     rbp, [r9+r10*8+24]
+    sbb     r12, r12
+    add     r11, 1
+    sbb     r13, [r9+r10*8]
+    sbb     r14, [r9+r10*8+8]
+    sbb     r15, [r9+r10*8+16]
+    sbb     rbx, [r9+r10*8+24]
+    sbb     r11, r11
+    mov     [rcx+r10*8], rax
+    mov     [rcx+r10*8+8], rsi
+    mov     [rcx+r10*8+16], rdi
+    mov     [rcx+r10*8+24], rbp
+    mov     [rdx+r10*8], r13
+    mov     [rdx+r10*8+8], r14
+    mov     [rdx+r10*8+16], r15
+    mov     [rdx+r10*8+24], rbx
+    add     r10, 4
+    jnz     .3
 
-.4:	lea     rax, [r11+r12*2]
-	neg     rax
-	END_PROC reg_save_list
-	
-	end
+.4: lea     rax, [r11+r12*2]
+    neg     rax
+    END_PROC reg_save_list
+
+    end

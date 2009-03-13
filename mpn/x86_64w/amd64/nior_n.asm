@@ -38,48 +38,48 @@
 
     LEAF_PROC mpn_nior_n
     movsxd  r9, r9d
-	sub     r9, 4
-	jb      .2
+    sub     r9, 4
+    jb      .2
 
-	alignb  16, nop
+    alignb  16, nop
 .1: mov     r10, [r8+r9*8+24]
-	mov     r11, [r8+r9*8+16]
-	or      r10, [rdx+r9*8+24]
-	or      r11, [rdx+r9*8+16]
-	not     r10
-	not     r11
-	mov     [rcx+r9*8+24], r10
-	mov     [rcx+r9*8+16], r11
-	mov     T3, [r8+r9*8+8]
-	mov     T4, [r8+r9*8]
-	or      T3, [rdx+r9*8+8]
-	or      T4, [rdx+r9*8]
-	not     T3
-	not     T4
-	mov     [rcx+r9*8+8], T3
-	mov     [rcx+r9*8], T4
-	sub     r9, 4
-	jnc     .1
+    mov     r11, [r8+r9*8+16]
+    or      r10, [rdx+r9*8+24]
+    or      r11, [rdx+r9*8+16]
+    not     r10
+    not     r11
+    mov     [rcx+r9*8+24], r10
+    mov     [rcx+r9*8+16], r11
+    mov     T3, [r8+r9*8+8]
+    mov     T4, [r8+r9*8]
+    or      T3, [rdx+r9*8+8]
+    or      T4, [rdx+r9*8]
+    not     T3
+    not     T4
+    mov     [rcx+r9*8+8], T3
+    mov     [rcx+r9*8], T4
+    sub     r9, 4
+    jnc     .1
 
 .2: add     r9, 4
-	jz      .3
-	mov     r10, [r8+r9*8-8]
-	or      r10, [rdx+r9*8-8]
-	not     r10
-	mov     [rcx+r9*8-8], r10
-	dec     r9
-	jz      .3
-	mov     r10, [r8+r9*8-8]
-	or      r10, [rdx+r9*8-8]
-	not     r10
-	mov     [rcx+r9*8-8], r10
-	dec     r9
-	jz      .3
-	mov     r10, [r8+r9*8-8]
-	or      r10, [rdx+r9*8-8]
-	not     r10
-	mov     [rcx+r9*8-8], r10
+    jz      .3
+    mov     r10, [r8+r9*8-8]
+    or      r10, [rdx+r9*8-8]
+    not     r10
+    mov     [rcx+r9*8-8], r10
+    dec     r9
+    jz      .3
+    mov     r10, [r8+r9*8-8]
+    or      r10, [rdx+r9*8-8]
+    not     r10
+    mov     [rcx+r9*8-8], r10
+    dec     r9
+    jz      .3
+    mov     r10, [r8+r9*8-8]
+    or      r10, [rdx+r9*8-8]
+    not     r10
+    mov     [rcx+r9*8-8], r10
 
 .3: ret
 
-	end
+    end

@@ -48,78 +48,78 @@
 %include "..\yasm_mac.inc"
 
     BITS 64
-    
+
     alignb  8, nop
     LEAF_PROC mpn_add_nc
     mov     r10,[rsp+0x28]
     jmp     entry
-    
+
     alignb  8, nop
     LEAF_PROC mpn_add_n
     xor     r10, r10
 entry:
     mov     eax, r9d
-    mov	    r9, rax
-    and	    rax, 3
-    shr	    r9, 2
+    mov     r9, rax
+    and     rax, 3
+    shr     r9, 2
     lea     r9,[r10+r9*2]
     shr     r9, 1
-    jnz	    .2
+    jnz     .2
 
-    mov	    r10, [rdx]
+    mov     r10, [rdx]
     adc     r10, [r8]
-    mov	    [rcx], r10
-    dec	    rax
-    jz	    .1
-    mov	    r10, [rdx+8]
+    mov     [rcx], r10
+    dec     rax
+    jz      .1
+    mov     r10, [rdx+8]
     adc     r10, [r8+8]
-    mov	    [rcx+8], r10
-    dec	    rax
-    jz	    .1
-    mov	    r10, [rdx+16]
+    mov     [rcx+8], r10
+    dec     rax
+    jz      .1
+    mov     r10, [rdx+16]
     adc     r10, [r8+16]
-    mov	    [rcx+16], r10
-    dec	    rax
-.1: adc	    rax, rax
+    mov     [rcx+16], r10
+    dec     rax
+.1: adc     rax, rax
     ret
 
-	alignb  8, nop
-.2: mov	    r10, [rdx]
-	mov	    r11, [rdx+8]
-	lea	    rdx, [rdx+32]
-	adc	    r10, [r8]
-    adc	    r11, [r8+8]
-	lea	    r8, [r8+32]
-	mov	    [rcx], r10
-	mov	    [rcx+8], r11
-	lea	    rcx, [rcx+32]
-	mov	    r10, [rdx-16]
-	mov	    r11, [rdx-8]
-	adc	    r10, [r8-16]
-	adc	    r11, [r8-8]
-	mov	    [rcx-16], r10
-	dec	    r9
-	mov	    [rcx-8], r11
-	jnz	    .2
-
-    inc	    rax
-    dec	    rax
-    jz	    .3
-    mov	    r10, [rdx]
+    alignb  8, nop
+.2: mov     r10, [rdx]
+    mov     r11, [rdx+8]
+    lea     rdx, [rdx+32]
     adc     r10, [r8]
-    mov	    [rcx], r10
-    dec	    rax
-    jz	    .3
-    mov	    r10, [rdx+8]
+    adc     r11, [r8+8]
+    lea     r8, [r8+32]
+    mov     [rcx], r10
+    mov     [rcx+8], r11
+    lea     rcx, [rcx+32]
+    mov     r10, [rdx-16]
+    mov     r11, [rdx-8]
+    adc     r10, [r8-16]
+    adc     r11, [r8-8]
+    mov     [rcx-16], r10
+    dec     r9
+    mov     [rcx-8], r11
+    jnz     .2
+
+    inc     rax
+    dec     rax
+    jz      .3
+    mov     r10, [rdx]
+    adc     r10, [r8]
+    mov     [rcx], r10
+    dec     rax
+    jz      .3
+    mov     r10, [rdx+8]
     adc     r10, [r8+8]
-    mov	    [rcx+8], r10
-    dec	    rax
-    jz	    .3
-    mov	    r10, [rdx+16]
+    mov     [rcx+8], r10
+    dec     rax
+    jz      .3
+    mov     r10, [rdx+16]
     adc     r10, [r8+16]
-    mov	    [rcx+16], r10
-    dec	    rax
-.3: adc	    rax, rax
+    mov     [rcx+16], r10
+    dec     rax
+.3: adc     rax, rax
     ret
 
     end

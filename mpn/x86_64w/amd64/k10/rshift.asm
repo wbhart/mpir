@@ -38,143 +38,143 @@
     LEAF_PROC mpn_rshift
     mov     r10, rcx
     mov     ecx, r9d
-	cmp     r8d, 2
-	ja      threeormore
-	jz      two
+    cmp     r8d, 2
+    ja      threeormore
+    jz      two
 
 one:mov     rdx, [rdx]
-	mov     rax, rdx
-	shr     rdx, cl
-	neg     rcx
-	shl     rax, cl
-	mov     [r10], rdx
-	ret
+    mov     rax, rdx
+    shr     rdx, cl
+    neg     rcx
+    shl     rax, cl
+    mov     [r10], rdx
+    ret
 
 two:mov     r8, [rdx]
-	mov     r9, [rdx+8]
-	mov     rax, r8
-	mov     r11, r9
-	shr     r8, cl
-	shr     r9, cl
-	neg     rcx
-	shl     r11, cl
-	shl     rax, cl
-	or      r8, r11
-	mov     [r10], r8
-	mov     [r10+8], r9
-	ret
+    mov     r9, [rdx+8]
+    mov     rax, r8
+    mov     r11, r9
+    shr     r8, cl
+    shr     r9, cl
+    neg     rcx
+    shl     r11, cl
+    shl     rax, cl
+    or      r8, r11
+    mov     [r10], r8
+    mov     [r10+8], r9
+    ret
 
 threeormore:
     mov     r11, rdx
-	mov     edx, r8d
-	
-	mov     eax, 64
-	lea     r9, [r11+8]
-	sub     rax, rcx
-	and     r9, -16
-	movq    xmm0, rcx
-	movq    xmm1, rax
-	movdqa  xmm5, [r9]
-	movdqa  xmm3, xmm5
-	psllq   xmm5, xmm1
-	movq    rax, xmm5
-	cmp     r11, r9
-	lea     r11, [r11+rdx*8-40]
-	je      .1
-	movq    xmm2, [r9-8]
-	movq    xmm4, xmm2
-	psllq   xmm2, xmm1
-	psrlq   xmm4, xmm0
-	por     xmm4, xmm5
-	movq    [r10], xmm4
-	lea     r10, [r10+8]
-	dec     rdx
-	movq    rax, xmm2
-.1:	lea     r10, [r10+rdx*8-40]
-	psrlq   xmm3, xmm0
-	mov     r8d, 5
-	sub     r8, rdx
-	jnc     .3
-	
-	alignb  16, nop
+    mov     edx, r8d
+
+    mov     eax, 64
+    lea     r9, [r11+8]
+    sub     rax, rcx
+    and     r9, -16
+    movq    xmm0, rcx
+    movq    xmm1, rax
+    movdqa  xmm5, [r9]
+    movdqa  xmm3, xmm5
+    psllq   xmm5, xmm1
+    movq    rax, xmm5
+    cmp     r11, r9
+    lea     r11, [r11+rdx*8-40]
+    je      .1
+    movq    xmm2, [r9-8]
+    movq    xmm4, xmm2
+    psllq   xmm2, xmm1
+    psrlq   xmm4, xmm0
+    por     xmm4, xmm5
+    movq    [r10], xmm4
+    lea     r10, [r10+8]
+    dec     rdx
+    movq    rax, xmm2
+.1: lea     r10, [r10+rdx*8-40]
+    psrlq   xmm3, xmm0
+    mov     r8d, 5
+    sub     r8, rdx
+    jnc     .3
+
+    alignb  16, nop
 .2: movdqa  xmm2, [r11+r8*8+16]
-	movdqa  xmm4, xmm2
-	psllq   xmm2, xmm1
-	shufpd  xmm5, xmm2, 1
-	por     xmm3, xmm5
-	movq    [r10+r8*8], xmm3
-	movhpd  [r10+r8*8+8], xmm3
-	psrlq   xmm4, xmm0
-	movdqa  xmm5, [r11+r8*8+32]
-	movdqa  xmm3, xmm5
-	psllq   xmm5, xmm1
-	shufpd  xmm2, xmm5, 1
-	psrlq   xmm3, xmm0
-	por     xmm4, xmm2
-	movq    [r10+r8*8+16], xmm4
-	movhpd  [r10+r8*8+24], xmm4
-	add     r8, 4
-	jnc     .2
-.3:	cmp     r8, 2
-	ja      .40
-	jz      .41
-	jp      .42
+    movdqa  xmm4, xmm2
+    psllq   xmm2, xmm1
+    shufpd  xmm5, xmm2, 1
+    por     xmm3, xmm5
+    movq    [r10+r8*8], xmm3
+    movhpd  [r10+r8*8+8], xmm3
+    psrlq   xmm4, xmm0
+    movdqa  xmm5, [r11+r8*8+32]
+    movdqa  xmm3, xmm5
+    psllq   xmm5, xmm1
+    shufpd  xmm2, xmm5, 1
+    psrlq   xmm3, xmm0
+    por     xmm4, xmm2
+    movq    [r10+r8*8+16], xmm4
+    movhpd  [r10+r8*8+24], xmm4
+    add     r8, 4
+    jnc     .2
+.3: cmp     r8, 2
+    ja      .40
+    jz      .41
+    jp      .42
 
 .43:movdqa  xmm2, [r11+r8*8+16]
-	movdqa  xmm4, xmm2
-	psllq   xmm2, xmm1
-	shufpd  xmm5, xmm2, 1
-	por     xmm3, xmm5
-	movq    [r10+r8*8], xmm3
-	movhpd  [r10+r8*8+8], xmm3
-	psrlq   xmm4, xmm0
-	movq    xmm5, [r11+r8*8+32]
-	movq    xmm3, xmm5
-	psllq   xmm5, xmm1
-	shufpd  xmm2, xmm5, 1
-	psrlq   xmm3, xmm0
-	por     xmm4, xmm2
-	movq    [r10+r8*8+16], xmm4
-	movhpd  [r10+r8*8+24], xmm4
-	psrldq  xmm5, 8
-	por     xmm3, xmm5
-	movq    [r10+r8*8+32], xmm3
-	ret
-	
-	alignb  16, nop
+    movdqa  xmm4, xmm2
+    psllq   xmm2, xmm1
+    shufpd  xmm5, xmm2, 1
+    por     xmm3, xmm5
+    movq    [r10+r8*8], xmm3
+    movhpd  [r10+r8*8+8], xmm3
+    psrlq   xmm4, xmm0
+    movq    xmm5, [r11+r8*8+32]
+    movq    xmm3, xmm5
+    psllq   xmm5, xmm1
+    shufpd  xmm2, xmm5, 1
+    psrlq   xmm3, xmm0
+    por     xmm4, xmm2
+    movq    [r10+r8*8+16], xmm4
+    movhpd  [r10+r8*8+24], xmm4
+    psrldq  xmm5, 8
+    por     xmm3, xmm5
+    movq    [r10+r8*8+32], xmm3
+    ret
+
+    alignb  16, nop
 .42:movdqa  xmm2, [r11+r8*8+16]
-	movdqa  xmm4, xmm2
-	psllq   xmm2, xmm1
-	shufpd  xmm5, xmm2, 1
-	por     xmm3, xmm5
-	movq    [r10+r8*8], xmm3
-	movhpd  [r10+r8*8+8], xmm3
-	psrlq   xmm4, xmm0
-	psrldq  xmm2, 8
-	por     xmm4, xmm2
-	movq    [r10+r8*8+16], xmm4
-	movhpd  [r10+r8*8+24], xmm4
-	ret
-	
-	alignb  16, nop
+    movdqa  xmm4, xmm2
+    psllq   xmm2, xmm1
+    shufpd  xmm5, xmm2, 1
+    por     xmm3, xmm5
+    movq    [r10+r8*8], xmm3
+    movhpd  [r10+r8*8+8], xmm3
+    psrlq   xmm4, xmm0
+    psrldq  xmm2, 8
+    por     xmm4, xmm2
+    movq    [r10+r8*8+16], xmm4
+    movhpd  [r10+r8*8+24], xmm4
+    ret
+
+    alignb  16, nop
 .41:movq    xmm2, [r11+r8*8+16]
-	movq    xmm4, xmm2
-	psllq   xmm2, xmm1
-	shufpd  xmm5, xmm2, 1
-	por     xmm3, xmm5
-	movq    [r10+r8*8], xmm3
-	movhpd  [r10+r8*8+8], xmm3
-	psrlq   xmm4, xmm0
-	psrldq  xmm2, 8
-	por     xmm4, xmm2
-	movq    [r10+r8*8+16], xmm4
-	ret
-	
-	alignb  16, nop
+    movq    xmm4, xmm2
+    psllq   xmm2, xmm1
+    shufpd  xmm5, xmm2, 1
+    por     xmm3, xmm5
+    movq    [r10+r8*8], xmm3
+    movhpd  [r10+r8*8+8], xmm3
+    psrlq   xmm4, xmm0
+    psrldq  xmm2, 8
+    por     xmm4, xmm2
+    movq    [r10+r8*8+16], xmm4
+    ret
+
+    alignb  16, nop
 .40:psrldq  xmm5, 8
-	por     xmm3, xmm5
-	movq    [r10+r8*8], xmm3
-	movhpd  [r10+r8*8+8], xmm3
-	ret
-	
-	end
+    por     xmm3, xmm5
+    movq    [r10+r8*8], xmm3
+    movhpd  [r10+r8*8+8], xmm3
+    ret
+
+    end

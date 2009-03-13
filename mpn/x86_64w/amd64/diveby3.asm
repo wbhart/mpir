@@ -37,10 +37,10 @@
 
 %macro  mul_sub1 1
     mov     rax, [r10+r8*8+8*%1]
-	mul     r11
-	sub     r9, rax
-	mov     [rcx+r8*8+8*%1], r9
-	sbb     r9, rdx
+    mul     r11
+    sub     r9, rax
+    mov     [rcx+r8*8+8*%1], r9
+    sbb     r9, rdx
 %endmacro
 
 %define MLT2 0xaaaaaaaaaaaaaaab
@@ -50,15 +50,15 @@
     sub     rax, r9
     mov     r9, 0
     adc     r9, r9
-	mul     r11
-	mov     [rcx+r8*8+8*%1], rax
+    mul     r11
+    mov     [rcx+r8*8+8*%1], rax
     mov     rdx, r11
     dec     rdx
     cmp     rdx, rax
-	adc     r9, 0
-	shr     rdx, 1
+    adc     r9, 0
+    shr     rdx, 1
     cmp     rdx, rax
-	adc     r9, 0
+    adc     r9, 0
 %endmacro
 
 ;  div_by_3 name, algorithm, carry_input (if present use carry)
@@ -67,41 +67,41 @@
 
     LEAF_PROC %1
     movsxd  rax, r8d
-	mov     r8d, 3
-	lea     r10, [rdx+rax*8-24]
-	lea     rcx, [rcx+rax*8-24]
-	mov     r11, MLT%2
+    mov     r8d, 3
+    lea     r10, [rdx+rax*8-24]
+    lea     rcx, [rcx+rax*8-24]
+    mov     r11, MLT%2
 %if %0 == 2
     xor     r9, r9
 %else
-	imul    r9, r11
+    imul    r9, r11
 %endif
-	sub     r8, rax
-	jnc     %%2
+    sub     r8, rax
+    jnc     %%2
 
-	alignb  16, nop
+    alignb  16, nop
 %%1:mul_sub%2 0
     mul_sub%2 1
     mul_sub%2 2
     mul_sub%2 3
-	add     r8, 4
-	jnc     %%1
+    add     r8, 4
+    jnc     %%1
 
 ; so have 3-r8 limbs left to do
 
 %%2:test    r8, 2
-	jnz     %%3
+    jnz     %%3
     mul_sub%2 0
     mul_sub%2 1
-	add     r8, 2
+    add     r8, 2
 
 %%3:test    r8, 1
-	jnz     %%4
-	mul_sub%2 0
+    jnz     %%4
+    mul_sub%2 0
 
 %%4:lea     rax, [r9+r9*2]
     neg     rax
-	ret
+    ret
 
 %endmacro
 

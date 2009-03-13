@@ -145,7 +145,7 @@
 %define index   r15
 
     BITS 64
-    
+
     LEAF_PROC mpn_addmul_1
     xor     a_z, a_z
     jmp     entry

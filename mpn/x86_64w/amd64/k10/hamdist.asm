@@ -34,48 +34,48 @@
 
     FRAME_PROC mpn_hamdist, 0, rbx
     mov     ebx, r8d
-	xor     eax, eax
-	sub     rbx, 4
-	jc      .2
-	
-	alignb  16, nop
-.1: mov     r8, [rcx+rbx*8+24]
-	mov     r9, [rcx+rbx*8+16]
-	xor     r8, [rdx+rbx*8+24]
-	popcnt  r8, r8
-	add     rax, r8
-	xor     r9, [rdx+rbx*8+16]
-	popcnt  r9, r9
-	add     rax, r9
-	mov     r10, [rcx+rbx*8+8]
-	mov     r11, [rcx+rbx*8]
-	xor     r10, [rdx+rbx*8+8]
-	popcnt  r10, r10
-	add     rax, r10
-	xor     r11, [rdx+rbx*8]
-	popcnt  r11, r11
-	add     rax, r11
-	sub     rbx, 4
-	jnc     .1
+    xor     eax, eax
+    sub     rbx, 4
+    jc      .2
 
-.2:	add     rbx, 4
-	jz      .3
-	mov     r8, [rcx+rbx*8-8]
-	xor     r8, [rdx+rbx*8-8]
-	popcnt  r8, r8
-	add     rax, r8
-	dec     rbx
-	jz      .3
-	mov     r9, [rcx+rbx*8-8]
-	xor     r9, [rdx+rbx*8-8]
-	popcnt  r9, r9
-	add     rax, r9
-	dec     rbx
-	jz      .3
-	mov     r10, [rcx+rbx*8-8]
-	xor     r10, [rdx+rbx*8-8]
-	popcnt  r10, r10
-	add     rax, r10
+    alignb  16, nop
+.1: mov     r8, [rcx+rbx*8+24]
+    mov     r9, [rcx+rbx*8+16]
+    xor     r8, [rdx+rbx*8+24]
+    popcnt  r8, r8
+    add     rax, r8
+    xor     r9, [rdx+rbx*8+16]
+    popcnt  r9, r9
+    add     rax, r9
+    mov     r10, [rcx+rbx*8+8]
+    mov     r11, [rcx+rbx*8]
+    xor     r10, [rdx+rbx*8+8]
+    popcnt  r10, r10
+    add     rax, r10
+    xor     r11, [rdx+rbx*8]
+    popcnt  r11, r11
+    add     rax, r11
+    sub     rbx, 4
+    jnc     .1
+
+.2: add     rbx, 4
+    jz      .3
+    mov     r8, [rcx+rbx*8-8]
+    xor     r8, [rdx+rbx*8-8]
+    popcnt  r8, r8
+    add     rax, r8
+    dec     rbx
+    jz      .3
+    mov     r9, [rcx+rbx*8-8]
+    xor     r9, [rdx+rbx*8-8]
+    popcnt  r9, r9
+    add     rax, r9
+    dec     rbx
+    jz      .3
+    mov     r10, [rcx+rbx*8-8]
+    xor     r10, [rdx+rbx*8-8]
+    popcnt  r10, r10
+    add     rax, r10
 .3: END_PROC rbx
 
     end
