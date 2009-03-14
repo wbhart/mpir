@@ -721,6 +721,10 @@ main ()
     {
       switch (family)
 	{
+EOF
+  case "$guess_cpu" in
+    i?86)
+  cat <<EOF >>${dummy}2.c
 	case 5:
 	  if (model <= 2)	modelstr = "pentium";
 	  else if (model >= 4)	modelstr = "pentiummmx";
@@ -738,10 +742,6 @@ main ()
 	  else if (model == 29) modelstr = "core2"; // 64 bits
       else modelstr = "p6???";
 	  break;
-EOF
-  case "$guess_cpu" in
-    i?86)
-  cat <<EOF >>${dummy}2.c
 	case 15:
 	  if (model <= 6) modelstr = "pentium4";
 	  else modelstr = "p4???";
@@ -754,6 +754,9 @@ EOF
    ;;
    x86_64)
 cat <<EOF >>${dummy}2.c
+	case 6:
+	  modelstr = "core2";
+	  break;
 	case 15:
 	  modelstr = "nocona";
 	  break;
