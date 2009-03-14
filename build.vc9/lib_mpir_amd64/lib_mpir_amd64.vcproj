@@ -3729,35 +3729,35 @@
 						Name="Logic"
 						>
 						<File
-							RelativePath="..\..\mpn\x86_64w\core2\and_n.asm"
+							RelativePath="..\..\mpn\x86_64w\amd64\and_n.asm"
 							>
 						</File>
 						<File
-							RelativePath="..\..\mpn\x86_64w\core2\andn_n.asm"
+							RelativePath="..\..\mpn\x86_64w\amd64\andn_n.asm"
 							>
 						</File>
 						<File
-							RelativePath="..\..\mpn\x86_64w\core2\ior_n.asm"
+							RelativePath="..\..\mpn\x86_64w\amd64\ior_n.asm"
 							>
 						</File>
 						<File
-							RelativePath="..\..\mpn\x86_64w\core2\iorn_n.asm"
+							RelativePath="..\..\mpn\x86_64w\amd64\iorn_n.asm"
 							>
 						</File>
 						<File
-							RelativePath="..\..\mpn\x86_64w\core2\nand_n.asm"
+							RelativePath="..\..\mpn\x86_64w\amd64\nand_n.asm"
 							>
 						</File>
 						<File
-							RelativePath="..\..\mpn\x86_64w\core2\nior_n.asm"
+							RelativePath="..\..\mpn\x86_64w\amd64\nior_n.asm"
 							>
 						</File>
 						<File
-							RelativePath="..\..\mpn\x86_64w\core2\xnor_n.asm"
+							RelativePath="..\..\mpn\x86_64w\amd64\xnor_n.asm"
 							>
 						</File>
 						<File
-							RelativePath="..\..\mpn\x86_64w\core2\xor_n.asm"
+							RelativePath="..\..\mpn\x86_64w\amd64\xor_n.asm"
 							>
 						</File>
 					</Filter>
