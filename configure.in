@@ -149,16 +149,6 @@ esac],
 [enable_mpbsd=no])
 AM_CONDITIONAL(WANT_MPBSD, test "$enable_mpbsd" = "yes")
 
-AC_ARG_ENABLE(gmplink,
-AC_HELP_STRING([--enable-gmplink],
-               [create symbolic links named gmp that point to mpir [[default=no]]]),
-[case $enableval in
-yes|no) ;;
-*) AC_MSG_ERROR([bad value $enableval for --enable-gmplink, need yes or no]) ;;
-esac],
-[enable_gmplink=no])
-AM_CONDITIONAL(WANT_GMPLINK, test "$enable_gmplink" = "yes")
-
 
 AC_ARG_ENABLE(nails,
 AC_HELP_STRING([--enable-nails],[use nails on limbs [[default=no]]]),
@@ -1291,7 +1281,7 @@ case $host in
   # mode, in case -m32 has failed not because it's an old gcc, but because
   # it's a dual 32/64-bit gcc without a 32-bit libc, or whatever.
   #
-  X86_PATTERN | x86_64-*-* | k10-*-* | core2-*-*)
+  X86_PATTERN | x86_64-*-* | k10-*-* | core2-*-* | nocona-*-*)
     abilist="32"
     cclist="gcc icc cc"
     gcc_cflags="-O2 $fomit_frame_pointer"
@@ -2593,7 +2583,7 @@ DECL_$tmp_fbase (__MPN(${tmp_fbase}_init));" >>fat.h
   echo "/* variable thresholds */" >>fat.h
   for tmp_tn in $fat_thresholds; do
     echo "#undef  $tmp_tn" >>fat.h
-    echo "#define $tmp_tn  CPUVEC_THRESHOLD (`echo $tmp_tn | tr '[A-Z]' '[a-z]'`)" >>fat.h
+    echo "#define $tmp_tn  CPUVEC_THRESHOLD (`echo $tmp_tn | tr A-Z a-z`)" >>fat.h
   done
 
   echo "
@@ -2609,7 +2599,7 @@ DECL_$tmp_fbase (__MPN(${tmp_fbase}_init));" >>fat.h
     echo "    p->$tmp_fbase = vec.$tmp_fbase; \\" >>fat.h
   done
   for tmp_tn in $fat_thresholds; do
-    tmp_field_name=`echo $tmp_tn | tr '[[A-Z]]' '[[a-z]]'`
+    tmp_field_name=`echo $tmp_tn | tr A-Z a-z`
     echo "    p->$tmp_field_name = vec.$tmp_field_name; \\" >>fat.h
   done
   echo "  } while (0)" >>fat.h
@@ -2623,7 +2613,7 @@ DECL_$tmp_fbase (__MPN(${tmp_fbase}_init));" >>fat.h
     echo "    ASSERT (vec.$tmp_fbase != NULL); \\" >>fat.h
   done
   for tmp_tn in $fat_thresholds; do
-    tmp_field_name=`echo $tmp_tn | tr '[[A-Z]]' '[[a-z]]'`
+    tmp_field_name=`echo $tmp_tn | tr A-Z a-z`
     echo "    ASSERT (vec.$tmp_field_name != 0); \\" >>fat.h
   done
   echo "  } while (0)" >>fat.h
@@ -2633,7 +2623,7 @@ DECL_$tmp_fbase (__MPN(${tmp_fbase}_init));" >>fat.h
 #define ITERATE_FAT_THRESHOLDS() \\
   do { \\" >>fat.h
   for tmp_tn in $fat_thresholds; do
-    tmp_field_name=`echo $tmp_tn | tr '[[A-Z]]' '[[a-z]]'`
+    tmp_field_name=`echo $tmp_tn | tr A-Z a-z`
     echo "    ITERATE ($tmp_tn, $tmp_field_name); \\" >>fat.h
   done
   echo "  } while (0)" >>fat.h
@@ -2669,7 +2659,7 @@ DECL_$tmp_fbase (__MPN(${tmp_fbase}_init));" >>fat.h
         if test -n "$tmp_thresh"; then
           THRESH_ASM_SETUP=["${THRESH_ASM_SETUP}define($tmp_tn,$tmp_thresh)
 "]
-          CPUVEC_SETUP="$CPUVEC_SETUP    decided_cpuvec.`echo $tmp_tn | tr '[[A-Z]]' '[[a-z]]'` = $tmp_thresh; \\
+          CPUVEC_SETUP="$CPUVEC_SETUP    decided_cpuvec.`echo $tmp_tn | tr A-Z a-z` = $tmp_thresh; \\
 "
           eval tmp_limit=\$${tmp_tn}_LIMIT
           if test -z "$tmp_limit"; then
@@ -3069,7 +3059,7 @@ if test "$gmp_asm_syntax_testing" != no; then
           ;;
       esac
       ;;
-    X86_PATTERN | x86_64-*-* | k10-*-* | core2-*-*)
+    X86_PATTERN | x86_64-*-* | k10-*-* | core2-*-* | nonona-*-*)
       GMP_ASM_ALIGN_FILL_0x90
       case $ABI in
         32)
