@@ -77,10 +77,10 @@
 
 %macro  mac_sub  3
 
-GLOBAL_FUNC %3
-    mov     rax,cy
-    jmp     %%0
-GLOBAL_FUNC %2
+;LOBAL_FUNC mpn_add_nc
+;    mov     rax,cy
+;    jmp     %%0
+GLOBAL_FUNC mpn_add_n
     xor     rax,rax
 %%0:
     movsxd  len,lend
