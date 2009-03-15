@@ -22,8 +22,8 @@
 
 INCLUDES = -I$(top_srcdir) -I$(top_srcdir)/tests
 
-EXTRA_DIST = alpha.asm core2call.asm pentium.asm sparcv9.asm hppa.asm hppa2.asm hppa2w.asm \
-  ia64.asm powerpc.asm powerpc64.asm x86_64.asm many.pl
+EXTRA_DIST = alpha.asm pentium.asm sparcv9.asm hppa.asm hppa2.asm hppa2w.asm \
+  ia64.asm powerpc.asm powerpc64.asm x86_64.as many.pl
 noinst_HEADERS = speed.h
 
 # Prefer -static on the speed and tune programs, since that can avoid

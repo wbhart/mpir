@@ -343,7 +343,7 @@ RM_TMP = rm -f
 INCLUDES = -I$(top_srcdir)
 LDADD = libtests.la $(top_builddir)/libmpir.la
 check_LTLIBRARIES = libtests.la
-EXTRA_libtests_la_SOURCES = amd64call.asm amd64check.c core2call.asm x86call.asm x86check.c
+EXTRA_libtests_la_SOURCES = x86_64call.as x86_64check.c x86call.asm x86check.c
 libtests_la_SOURCES = tests.h \
   memory.c misc.c refmpf.c refmpn.c refmpq.c refmpz.c spinner.c trace.c
 
@@ -448,8 +448,6 @@ mostlyclean-kr:
 
 .c.lo:
 	$(LTCOMPILE) -c -o $@ $<
-amd64check_.c: amd64check.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/amd64check.c; then echo $(srcdir)/amd64check.c; else echo amd64check.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
 memory_.c: memory.c $(ANSI2KNR)
 	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/memory.c; then echo $(srcdir)/memory.c; else echo memory.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
 misc_.c: misc.c $(ANSI2KNR)
@@ -484,19 +482,21 @@ t-sub_.c: t-sub.c $(ANSI2KNR)
 	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/t-sub.c; then echo $(srcdir)/t-sub.c; else echo t-sub.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
 trace_.c: trace.c $(ANSI2KNR)
 	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/trace.c; then echo $(srcdir)/trace.c; else echo trace.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
+x86_64check_.c: x86_64check.c $(ANSI2KNR)
+	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/x86_64check.c; then echo $(srcdir)/x86_64check.c; else echo x86_64check.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
 x86check_.c: x86check.c $(ANSI2KNR)
 	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/x86check.c; then echo $(srcdir)/x86check.c; else echo x86check.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-amd64check_.$(OBJEXT) amd64check_.lo memory_.$(OBJEXT) memory_.lo \
-misc_.$(OBJEXT) misc_.lo refmpf_.$(OBJEXT) refmpf_.lo \
-refmpn_.$(OBJEXT) refmpn_.lo refmpq_.$(OBJEXT) refmpq_.lo \
-refmpz_.$(OBJEXT) refmpz_.lo spinner_.$(OBJEXT) spinner_.lo \
-t-bswap_.$(OBJEXT) t-bswap_.lo t-constants_.$(OBJEXT) t-constants_.lo \
-t-count_zeros_.$(OBJEXT) t-count_zeros_.lo t-gmpmax_.$(OBJEXT) \
-t-gmpmax_.lo t-hightomask_.$(OBJEXT) t-hightomask_.lo \
-t-modlinv_.$(OBJEXT) t-modlinv_.lo t-parity_.$(OBJEXT) t-parity_.lo \
-t-popc_.$(OBJEXT) t-popc_.lo t-sub_.$(OBJEXT) t-sub_.lo \
-trace_.$(OBJEXT) trace_.lo x86check_.$(OBJEXT) x86check_.lo : \
-$(ANSI2KNR)
+memory_.$(OBJEXT) memory_.lo misc_.$(OBJEXT) misc_.lo \
+refmpf_.$(OBJEXT) refmpf_.lo refmpn_.$(OBJEXT) refmpn_.lo \
+refmpq_.$(OBJEXT) refmpq_.lo refmpz_.$(OBJEXT) refmpz_.lo \
+spinner_.$(OBJEXT) spinner_.lo t-bswap_.$(OBJEXT) t-bswap_.lo \
+t-constants_.$(OBJEXT) t-constants_.lo t-count_zeros_.$(OBJEXT) \
+t-count_zeros_.lo t-gmpmax_.$(OBJEXT) t-gmpmax_.lo \
+t-hightomask_.$(OBJEXT) t-hightomask_.lo t-modlinv_.$(OBJEXT) \
+t-modlinv_.lo t-parity_.$(OBJEXT) t-parity_.lo t-popc_.$(OBJEXT) \
+t-popc_.lo t-sub_.$(OBJEXT) t-sub_.lo trace_.$(OBJEXT) trace_.lo \
+x86_64check_.$(OBJEXT) x86_64check_.lo x86check_.$(OBJEXT) \
+x86check_.lo : $(ANSI2KNR)
 
 mostlyclean-libtool:
 	-rm -f *.lo

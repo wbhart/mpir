@@ -29,7 +29,7 @@ LDADD = libtests.la $(top_builddir)/libmpir.la
 
 check_LTLIBRARIES = libtests.la
 
-EXTRA_libtests_la_SOURCES = amd64call.asm amd64check.c core2call.asm x86call.asm x86check.c
+EXTRA_libtests_la_SOURCES = x86_64call.as x86_64check.c x86call.asm x86check.c
 libtests_la_SOURCES = tests.h \
   memory.c misc.c refmpf.c refmpn.c refmpq.c refmpz.c spinner.c trace.c
 libtests_la_DEPENDENCIES = @CALLING_CONVENTIONS_OBJS@
