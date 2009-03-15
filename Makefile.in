@@ -400,7 +400,9 @@ SUBDIRS = tests $(am__append_1) mpn mpz mpq mpf printf scanf cxx mpbsd \
 # the .h files are not properly expressed for the various objects that use
 # them.
 EXTRA_DIST = configfsf.guess configfsf.sub .gdbinit INSTALL.autoconf \
-	mpirxx.h libmp.sym dumbmp.c gen-fac_ui.c gen-fib.c gen-bases.c \
+	mpirxx.h yasm_mac.inc.fat yasm_mac.inc.nofat strip_fPIC.sh \
+	mpn/x86w mpn/x86_64w build.vc9 doc/devel doc/fdl.texi \
+	libmp.sym dumbmp.c gen-fac_ui.c gen-fib.c gen-bases.c \
 	gen-psqr.c
 @WANT_CXX_TRUE@GMPXX_HEADERS_OPTION = mpirxx.h
 
