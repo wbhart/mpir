@@ -2192,8 +2192,8 @@ enum
 #define __GNU_MP_VERSION_PATCHLEVEL 1
 #define GMP_VERSION "4.2.1"
 
-#define __MPIR_VERSION 0
-#define __MPIR_VERSION_MINOR 9
+#define __MPIR_VERSION 1
+#define __MPIR_VERSION_MINOR 0
 #define __MPIR_VERSION_PATCHLEVEL 0
 
 #define __GMP_H__
