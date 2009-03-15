@@ -7,13 +7,11 @@ A Note On Licensing
 
 The GMP files used in this distribution have been derived from 
 the GMP 4.2.1 distribution and are all licensed under Gnu LGPL 
-v2.1 license terms. The license under which these files are 
-distributed here are set out in the files in the directory 
-<build.vc9\gnu.license>.
+v2.1 license terms. 
 
 Other files in this distribution that have been created by me 
-for use in building GMP, MPIR and/or MPFR using Microsoft Visual 
-Studio 2008 are provided under the same license terms.
+for use in building MPIR using Microsoft Visual  Studio 2008 
+are provided under the same license terms.
 
 Using the Assembler Based Build Projects
 ========================================
@@ -29,19 +27,16 @@ VC++, which, for Visual Stduio 2008, is typically:
 
  C:\Program Files (x86)\Microsoft Visual Studio 9.0\VC\bin
  
-You will also need to move the yasm.rules file from this 
-distribution into the directory where Visual Studio 2008 
-expects to find it, which is typically:
+It should be names yasm.exe.  You will also need to move the 
+yasm.rules file from this distribution into the directory 
+where Visual Studio 2008 expects to find it, which is 
+typically:
 
 C:\Program Files (x86)\Microsoft Visual Studio 9.0
 			  \VC\VCProjectDefaults
  
 Alternatively you can configure the path for rules files in 
 the VC++ configuration dialogue.
-
-The NASM assembler is no longer supported as it has problems
-with include file directory handling that the NASM team are
-not willing to fix.
 
 You will need to install Python if you wish to use the scripts
 that automate the MPIR and MPFR tests. Otherwise these have to 
@@ -157,7 +152,10 @@ gmp.lib and gmp.pdb within the 'dll' sub-directory.
 This means that the 'dll' and 'lib' sub-directories respectively 
 contain the last MPIR DLLs and static libraries built.  These are
 then the libraries used in build any other libraries that are built
-later.
+later.  If you use the mpir-tests, the speed, the tune or the try 
+programs it is very important to do so immediately after the MPIR
+library in question is built because these projects link to the 
+last library built.   
 
 The MPIR DLL projects include the C++ files. If you do not want 
 these the relevent files needed to be excluded from the DLL(s) you 
@@ -186,6 +184,27 @@ platform to be easily located.  The individual project sub-
 directories also contain the libraries once they have been built 
 (the 'dll' and 'lib' directories are just used to hold the latest 
 built versions for linking the tests that are described later). 
+
+Building for the AMD K10
+========================
+
+The standard AMD64 build is for the K8 architecture. If you wish 
+to use the K10 assembler you will need to change the AMD64 build
+projects by including the four K10 assembler files in 
+
+   Source Files\mpn\Assembler\K10 
+
+and removing lshift.asm and rshift.asm in 
+
+   Source Files\mpn\Assembler\
+   
+And in config.amd64 change: 
+
+   #if 0       /* for AMD K10 processor */
+
+to:
+
+   #if 1       /* for AMD K10 processor */
 
 C++ Interface
 =============
@@ -391,4 +410,4 @@ My thanks to:
 3. Patrick Pelissier, Vincent Lefèvre and Paul Zimmermann for helping to resolve VC++ issues in MPFR.
 4. Michael Abshoff and Jim White for agreeing to host the pre-built binaries for GMP on Windows.
 
-       Brian Gladman, November 2008
+       Brian Gladman, March 2009
