@@ -430,3 +430,5 @@ gen-psqr_.c: gen-psqr.c $(ANSI2KNR)
 dist-hook:
 	-find $(distdir) \( -name CVS -type d \) -o -name "*~" -o -name ".#*" \
 		| xargs rm -rf
+	touch $(distdir)/demos/calc/calc.c $(distdir)/demos/calc/calcread.c $(distdir)/demos/calc/calc-common.h $(distdir)/demos/calc/calc.h $(distdir)/demos/calc/calclex.c
+	
