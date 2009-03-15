@@ -1333,7 +1333,7 @@ gen-psqr_.c: gen-psqr.c $(ANSI2KNR)
 # is distributed, like "doc" or the mpn cpu subdirectories.
 #
 dist-hook:
-	-find $(distdir) \( -name CVS -type d \) -o -name "*~" -o -name ".#*" \
+	-find $(distdir) \( -name CVS -type d \) -o -name "*~" -o -name ".#*" -o -name ".svn" \
 		| xargs rm -rf
 	touch $(distdir)/demos/calc/calc.c $(distdir)/demos/calc/calcread.c $(distdir)/demos/calc/calc-common.h $(distdir)/demos/calc/calc.h $(distdir)/demos/calc/calclex.c
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
