@@ -239,7 +239,7 @@ __gmpn_cpuvec_init (void)
 
             case 15:
               TRACE (printf ("  nocona\n"));
-              __gmpn_cpuid (dummy_string, 0x8000 0001);
+              __gmpn_cpuid (dummy_string, 0x80000001);
               if( (dummy_string[8] & 1) )
                 {CPUVEC_SETUP_core2_lahf; break;}
               else
