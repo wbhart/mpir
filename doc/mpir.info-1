@@ -188,12 +188,12 @@ And you can install (under `/usr/local' by default) with
      make install
 
    Important note: by default MPIR produces libraries named libmpir,
-etc., and the header file mpir.h. If you wish to have MPIR emit
-binaries named libgmp, etc., and a gmp.h header file, so that you can
-use mpir with programs designed to only work with GMP, then use the
-`--gmp-compat' option when invoking configure:
+etc., and the header file mpir.h. If you wish to have MPIR to install
+links named libgmp, etc., and a gmp.h header file, so that you can use
+mpir with programs designed to only work with GMP, then use the
+`--enable-gmplink' option when invoking configure:
 
-     ./configure --gmp-compat
+     ./configure --enable-gmplink
 
    If you experience problems, please report them to
 `http://groups.google.com/group/mpir-devel'.  See *note Reporting
@@ -252,11 +252,12 @@ Build Directory
      `$prefix/include' and `$exec_prefix/include' are available to the
      compiler.
 
-`--gmp-compat'
+`--enable-gmplink'
      By default make builds libmpir library files (and libmpirxx if C++
      headers are requested) and the mpir.h header file. This option
-     allows you to specify that you want libgmp (and libgmpxx)
-     libraries and gmp.h for compatibility with GMP.
+     allows you to specify that you want symbolic links created called
+     libgmp (and libgmpxx), etc., for libraries and gmp.h for
+     compatibility with GMP.
 
 `--disable-shared', `--disable-static'
      By default both shared and static libraries are built (where
