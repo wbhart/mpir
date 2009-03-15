@@ -231,7 +231,7 @@ __gmpn_cpuvec_init (void)
                 }
               if (model==15 || model==22 || model==23 || model==29 || model==26 || model==28)
                  {TRACE (printf ("  core2\n"));
-                  CPUVEC_SETUP_core2;
+                  CPUVEC_SETUP_core2_lahf;
                   break;
                  }
 
@@ -239,8 +239,11 @@ __gmpn_cpuvec_init (void)
 
             case 15:
               TRACE (printf ("  nocona\n"));
-              CPUVEC_SETUP_core2;
-              break;
+              __gmpn_cpuid (dummy_string, 0x8000 0001);
+              if( (dummy_string[8] & 1) )
+                {CPUVEC_SETUP_core2_lahf; break;}
+              else
+                {CPUVEC_SETUP_core2; break;}
 }
         }
       else if (strcmp (vendor_string, "AuthenticAMD") == 0)

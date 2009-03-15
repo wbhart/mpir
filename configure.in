@@ -1514,8 +1514,10 @@ case $host in
             path_64="x86_64/amd64 x86_64" ;;
           k10-*-*)
             path_64="x86_64/amd64/k10 x86_64/amd64 x86_64" ;;
-          nocona-*-* | core2-*-*) 
+          nocona-*-*) 
             path_64="x86_64/core2 x86_64" ;;
+          core2-*-*) 
+            path_64="x86_64/core2/lahf x86_64/core2 x86_64" ;;
         esac
 
         # If the user asked for a fat build, override the path set above
@@ -1524,7 +1526,7 @@ case $host in
           gcc_64_cflags_arch=""
           extra_functions_64="$extra_functions_64 fat fat_entry"
           path_64="x86_64/fat x86_64"
-          fat_path_64="x86_64 x86_64/fat x86_64/core2 x86_64/amd64"
+          fat_path_64="x86_64 x86_64/fat x86_64/core2/lahf x86_64/core2 x86_64/amd64"
         fi
         ;;
 
@@ -3069,7 +3071,7 @@ if test "$gmp_asm_syntax_testing" != no; then
           ;;
       esac
       ;;
-    X86_PATTERN | x86_64-*-* | k10-*-* | core2-*-*)
+    X86_PATTERN | x86_64-*-* | k10-*-* | core2-*-* | nocona-*-*)
       GMP_ASM_ALIGN_FILL_0x90
       case $ABI in
         32)

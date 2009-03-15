@@ -758,7 +758,9 @@ cat <<EOF >>${dummy}2.c
 	  modelstr = "core2";
 	  break;
 	case 15:
-	  modelstr = "nocona";
+	  cpuid (features, 0x80000001);
+	  modelstr = "nocona";// nocona with NO lahf 
+	  if ( (features[8] & 1) ) modelstr = "core2"; // nocona with lahf so pretend to be core2
 	  break;
 	}
     }
