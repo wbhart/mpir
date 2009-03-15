@@ -1,4 +1,4 @@
-This is mpir.info, produced by makeinfo version 4.13 from mpir.texi.
+This is mpir.info, produced by makeinfo version 4.11 from mpir.texi.
 
 This manual describes how to install and use MPIR, the Multiple
 Precision Integers and Rationals library, version 1.0.
@@ -133,7 +133,7 @@ many different CPUs, and by a general emphasis on speed (as opposed to
 simplicity or elegance).
 
    There is assembly code for these CPUs: ARM, DEC Alpha 21064, 21164,
-and 21264, AMD 29000, AMD K6, K6-2, Athlon, and AMD 64, Hitachi SuperH
+and 21264, AMD 29000, AMD K6, K6-2, Athlon, K8 and K10, Hitachi SuperH
 and SH-2, HPPA 1.0, 1.1 and 2.0, Intel Pentium, Pentium Pro/II/III,
 Pentium 4, generic x86, Intel IA-64, i960, Core 2 Motorola MC68000,
 MC68020, MC88100, and MC88110, Motorola/IBM PowerPC 32 and 64, National
@@ -186,6 +186,14 @@ Some self-tests can be run with
 And you can install (under `/usr/local' by default) with
 
      make install
+
+   Important note: by default MPIR produces libraries named libmpir,
+etc., and the header file mpir.h. If you wish to have MPIR emit
+binaries named libgmp, etc., and a gmp.h header file, so that you can
+use mpir with programs designed to only work with GMP, then use the
+`--gmp-compat' option when invoking configure:
+
+     ./configure --gmp-compat
 
    If you experience problems, please report them to
 `http://groups.google.com/group/mpir-devel'.  See *note Reporting
@@ -243,6 +251,12 @@ Build Directory
      aspects of `libmpir', so it will be necessary to ensure both
      `$prefix/include' and `$exec_prefix/include' are available to the
      compiler.
+
+`--gmp-compat'
+     By default make builds libmpir library files (and libmpirxx if C++
+     headers are requested) and the mpir.h header file. This option
+     allows you to specify that you want libgmp (and libgmpxx)
+     libraries and gmp.h for compatibility with GMP.
 
 `--disable-shared', `--disable-static'
      By default both shared and static libraries are built (where
@@ -342,9 +356,9 @@ CPU types
         * SPARC: sparc, sparcv8, microsparc, supersparc, sparcv9,
           ultrasparc, ultrasparc2, ultrasparc2i, ultrasparc3, sparc64
 
-        * x86 family: i386, i486, i586, core2, pentium, pentiummmx,
-          pentiumpro, pentium2, pentium3, pentium4, k6, k62, k63,
-          athlon, amd64, viac3, viac32 x86_64
+        * x86 family: i386, i486, i586, nocona core2, pentium,
+          pentiummmx, pentiumpro, pentium2, pentium3, pentium4, k6, k62,
+          k63, athlon, k10 viac3, viac32 x86_64
 
         * Other: a29k, arm, clipper, i960, ns32k, pyramid, sh, sh2, vax,
           z8k
@@ -363,11 +377,12 @@ Generic C Build
      all else fails.
 
 Fat binary, `--enable-fat'
-     Using `--enable-fat' selects a "fat binary" build on x86, where
-     optimized low level subroutines are chosen at runtime according to
-     the CPU detected.  This means more code, but gives good
-     performance on all x86 chips.  (This option might become available
-     for more architectures in the future.)
+     Using `--enable-fat' selects a "fat binary" build on x86 or x86_64
+     systems, where optimized low level subroutines are chosen at
+     runtime according to the CPU detected.  This means more code, but
+     gives reasonable performance from a single binary for all x86
+     chips, or simililarly for all x86_64 chips. (This option might
+     become available for more architectures in the future.)
 
 `ABI'
      On some systems MPIR supports multiple ABIs (application binary
@@ -916,13 +931,13 @@ MS-DOS and MS Windows
      Windows system Cygwin, DJGPP and MINGW can all be used.  All three
      are excellent ports of GCC and the various GNU tools.
 
-     In addition, project files for MSVC are provided, allowing MPIR to
-     build on Microsoft's compiler. This support is provided by Brian
-     Gladman.
-
           `http://www.cygwin.com/'
           `http://www.delorie.com/djgpp/'
           `http://www.mingw.org/'
+
+     In addition, project files for MSVC are provided, allowing MPIR to
+     build on Microsoft's compiler. This support is provided by Brian
+     Gladman.
 
      Microsoft also publishes an Interix "Services for Unix" which can
      be used to build MPIR on Windows (with a normal `./configure'),

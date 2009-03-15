@@ -477,7 +477,7 @@ There is assembly code for these CPUs:
 ARM,
 DEC Alpha 21064, 21164, and 21264,
 AMD 29000,
-AMD K6, K6-2, Athlon, and AMD 64,
+AMD K6, K6-2, Athlon, K8 and K10,
 Hitachi SuperH and SH-2,
 HPPA 1.0, 1.1 and 2.0,
 Intel Pentium, Pentium Pro/II/III, Pentium 4, generic x86,
@@ -559,6 +559,12 @@ And you can install (under @file{/usr/local} by default) with
 make install
 @end example
 
+Important note: by default MPIR produces libraries named libmpir, etc., and the header file mpir.h. If you wish to have MPIR emit binaries named libgmp, etc., and a gmp.h header file, so that you can use mpir with programs designed to only work with GMP, then use the @samp{--gmp-compat} option when invoking configure:
+
+@example
+./configure --gmp-compat
+@end example
+
 If you experience problems, please report them to @uref{http://groups.google.com/group/mpir-devel}.
 See @ref{Reporting Bugs}, for information on what to include in useful bug
 reports.
@@ -622,6 +628,10 @@ dependent parts.  Note however that @file{mpir.h} and @file{mp.h} are
 architecture-dependent since they encode certain aspects of @file{libmpir}, so
 it will be necessary to ensure both @file{$prefix/include} and
 @file{$exec_prefix/include} are available to the compiler.
+
+@item @option{--gmp-compat}
+@cindex @code{--gmp-compat}
+By default make builds libmpir library files (and libmpirxx if C++ headers are requested) and the mpir.h header file. This option allows you to specify that you want libgmp (and libgmpxx) libraries and gmp.h for compatibility with GMP.
 
 @item @option{--disable-shared}, @option{--disable-static}
 @cindex @code{--disable-shared}
@@ -812,6 +822,7 @@ x86 family:
 @nisamp{i386},
 @nisamp{i486},
 @nisamp{i586},
+@nisamp{nocona}
 @nisamp{core2},
 @nisamp{pentium},
 @nisamp{pentiummmx},
@@ -823,7 +834,7 @@ x86 family:
 @nisamp{k62},
 @nisamp{k63},
 @nisamp{athlon},
-@nisamp{amd64},
+@nisamp{k10}
 @nisamp{viac3},
 @nisamp{viac32}
 @nisamp{x86_64}
@@ -859,10 +870,7 @@ least make it possible to get something running if all else fails.
 @item Fat binary, @option{--enable-fat}
 @cindex Fat binary
 @cindex @option{--enable-fat}
-Using @option{--enable-fat} selects a ``fat binary'' build on x86, where
-optimized low level subroutines are chosen at runtime according to the CPU
-detected.  This means more code, but gives good performance on all x86 chips.
-(This option might become available for more architectures in the future.)
+Using @option{--enable-fat} selects a ``fat binary'' build on x86 or x86_64 systems, where optimized low level subroutines are chosen at runtime according to the CPU detected.  This means more code, but gives reasonable performance from a single binary for all x86 chips, or simililarly for all x86_64 chips. (This option might become available for more architectures in the future.)
 
 @item @option{ABI}
 @cindex ABI
@@ -1518,14 +1526,14 @@ On an MS-DOS system DJGPP can be used to build MPIR, and on an MS Windows
 system Cygwin, DJGPP and MINGW can all be used.  All three are excellent ports of
 GCC and the various GNU tools.
 
-In addition, project files for MSVC are provided, allowing MPIR to build on Microsoft's
-compiler. This support is provided by Brian Gladman.
-
 @display
 @uref{http://www.cygwin.com/}
 @uref{http://www.delorie.com/djgpp/}
 @uref{http://www.mingw.org/}
 @end display
+
+In addition, project files for MSVC are provided, allowing MPIR to build on Microsoft's
+compiler. This support is provided by Brian Gladman.
 
 @cindex Interix
 @cindex Services for Unix
