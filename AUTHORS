@@ -26,4 +26,5 @@ Gonzalo Tornaria     Patches to config.guess
 Jason Worth Martin   Core 2 assembly support, merge of Möhler's GCD patches
 Michael Abshoff      Build system patches, valgrinding, build testing
 Niels Möhler         GCD patches
-Jason Moxham	   Bug fix for perfect powers and test code
+Jason Moxham	   Dramatic speed improvements for K8, K10 and Core 2 assembler
+                     code. Numerous bug and build fixes.

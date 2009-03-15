@@ -3,14 +3,14 @@ Foundation, Inc.
 
 Copyright 2009 William Hart
 
-This file is part of the GNU MP Library.
+This file is part of the MPIR Library.
 
-The GNU MP Library is free software; you can redistribute it and/or modify
+The MPIR Library is free software; you can redistribute it and/or modify
 it under the terms of the GNU Lesser General Public License as published by
 the Free Software Foundation; either version 2.1 of the License, or (at your
 option) any later version.
 
-The GNU MP Library is distributed in the hope that it will be useful, but
+The MPIR Library is distributed in the hope that it will be useful, but
 WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
 or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public
 License for more details.
@@ -19,6 +19,31 @@ You should have received a copy of the GNU Lesser General Public License
 along with the GNU MP Library; see the file COPYING.LIB.  If not, write to
 the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 MA 02110-1301, USA.
+
+Changes between MPIR 0.9.0 and MPIR 1.0.0
+
+  Bugs:
+  * Building outside the source tree is now possible
+  * Bug removed from Windows Assembler file dive_1.asm
+  * Fat binary support for Core 2 64 bit fixed
+  * x86_64 fat binary support on Sun machines with gcc fixed
+  * Build failure on Sun machines using later versions of gcc fixed  
+  * Aliasing bug in mpz_urandomm fixed
+
+  Speedups:
+  * Dramatic speedups for K8 assembly code (due primarily to Jason Moxham)
+  * Assembly support for K10
+  * Significant speedups for Core 2 assembly (due primarily to Jason Moxham)
+  * Some mpn assembler functions were not being used in mpz layer due to 
+    missing HAVE_NATIVE flags
+  * Nocona processors now use Core 2 assembly functions instead of generic C
+
+  Features:
+  * Emit mpir binaries and mpir.h and offer support for gmp compatibility
+  * Build support for Intel Atom
+  * Unrecognised Intel 64 machines now default to Core 2 assembly support
+  * Some new, undocumented mpn functions
+  * Try, speed and tune now available for Windows MSVC build
 
 Changes between GMP 4.2.1 and MPIR 0.9.0
 
