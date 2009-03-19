@@ -50,6 +50,8 @@ define(POWERPC64_PATTERN,
 define(X86_PATTERN,
 [[i?86*-*-* | k[5-8]*-*-* | pentium*-*-* | athlon-*-* | viac3*-*-*]])
 
+define(X86_64_PATTERN,
+[[x86_64-*-* | netburst-*-* | netburstlahf-*-* | k8-*-* | k10-*-* | core2-*-* | penryn-*-* | nehalem-*-* | atom-*-*]])
 
 dnl  GMP_FAT_SUFFIX(DSTVAR, DIRECTORY)
 dnl  ---------------------------------

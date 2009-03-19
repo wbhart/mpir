@@ -801,7 +801,7 @@ case $basic_machine in
 	pentium | p5 | k5 | k6 | nexgen | viac3)
 		basic_machine=i586-pc
 		;;
-	pentiumpro | p6 | 6x86 | athlon | athlon_*)
+	pentiumpro | p6 | 6x86 | athlon | k7 | k7_* |athlon_*)
 		basic_machine=i686-pc
 		;;
 	pentiumii | pentium2 | pentiumiii | pentium3)
@@ -810,7 +810,7 @@ case $basic_machine in
 	pentium-* | p5-* | k5-* | k6-* | nexgen-* | viac3-*)
 		basic_machine=i586-`echo $basic_machine | sed 's/^[^-]*-//'`
 		;;
-	pentiumpro-* | p6-* | 6x86-* | athlon-*)
+	pentiumpro-* | p6-* | 6x86-* | athlon-* | k7-*)
 		basic_machine=i686-`echo $basic_machine | sed 's/^[^-]*-//'`
 		;;
 	pentiumii-* | pentium2-* | pentiumiii-* | pentium3-*)

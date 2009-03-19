@@ -36,6 +36,7 @@
 
 # Expect to find configfsf.guess in the same directory as this config.guess
 configfsf_guess="`echo \"$0\" | sed 's/config.guess$/configfsf.guess/'`"
+cpuid_c_path="`echo \"$0\" | sed 's/config.guess$/cpuid.c/'`"
 if test "$configfsf_guess" = "$0"; then
   echo "Cannot derive configfsf.guess from $0" 1>&2
   exit 1
@@ -698,120 +699,41 @@ EOF
   esac
 
   cat <<EOF >${dummy}2.c
-main ()
-{
-  char vendor_string[13];
-  char features[12];
-  long fms;
-  int family, model, stepping;
-  char *modelstr;
-
-  cpuid (vendor_string, 0);
-  vendor_string[12] = 0;
-
-  fms = cpuid (features, 1);
-
-  family = ((fms >> 8) & 15) + ((fms >> 20) & 0xff);
-  model = ((fms >> 4) & 15) + ((fms >> 12) & 0xf0);
-  stepping = fms & 15;
-
-  modelstr = "i486";
-
-  if (strcmp (vendor_string, "GenuineIntel") == 0)
-    {
-      switch (family)
-	{
+#define CONFIG_GUESS		1
+#define CONFIG_GUESS_32BIT	0
+#define CONFIG_GUESS_64BIT	0
+#define FAT32			0
+#define FAT64			0
+#define INFAT			0
 EOF
   case "$guess_cpu" in
-    i?86)
+      i?86)
   cat <<EOF >>${dummy}2.c
-	case 5:
-	  if (model <= 2)	modelstr = "pentium";
-	  else if (model >= 4)	modelstr = "pentiummmx";
-	  break;
-	case 6:
-	  if (model == 1)	modelstr = "pentiumpro";
-	  else if (model <= 6)	modelstr = "pentium2";
-	  else if (model <= 13) modelstr = "pentium3";
-	  else if (model == 14) modelstr = "core";
-	  else if (model == 15) modelstr = "core2"; // 64 bits
-	  else if (model == 22) modelstr = "core2"; // 64 bits
-	  else if (model == 23) modelstr = "core2"; // 64 bits
-	  else if (model == 26) modelstr = "core2"; // Nehalem
-	  else if (model == 28) modelstr = "core2"; // Atom 
-	  else if (model == 29) modelstr = "core2"; // 64 bits
-      else modelstr = "p6???";
-	  break;
-	case 15:
-	  if (model <= 6) modelstr = "pentium4";
-	  else modelstr = "p4???";
-        int feat = ((int *)features)[2];
-        if (feat & 1) modelstr = "prescott";
-	  break;
-	}
-    }
+#undef  CONFIG_GUESS_32BIT
+#define CONFIG_GUESS_32BIT	1
 EOF
    ;;
-   x86_64)
-cat <<EOF >>${dummy}2.c
-	case 6:
-	  modelstr = "core2";
-	  break;
-	case 15:
-	  cpuid (features, 0x80000001);
-	  modelstr = "nocona";// nocona with NO lahf 
-	  if ( (features[8] & 1) ) modelstr = "core2"; // nocona with lahf so pretend to be core2
-	  break;
-	}
-    }
+      x86_64)
+  cat <<EOF >>${dummy}2.c
+#undef  CONFIG_GUESS_64BIT
+#define CONFIG_GUESS_64BIT	1
 EOF
-  ;;
-  esac
+    ;;
+      esac
+      
+      cat <<EOF >>${dummy}2.c
 
-cat <<EOF >>${dummy}2.c  
-  else if (strcmp (vendor_string, "AuthenticAMD") == 0)
-    {
-      switch (family)
-	{
-	case 5:
-	  if (model <= 3)	modelstr = "k5";
-	  else if (model <= 7)	modelstr = "k6";
-	  else if (model <= 8)	modelstr = "k62";
-	  else if (model <= 9)	modelstr = "k63";
-	  break;
-	case 6:
-	  modelstr = "athlon";
-	  break;
-	case 15:
-	  /* We might want to return opteron, athlon64, or the CPU core name
-	     hammer here instead of the architecture name x86_64.  */
-	  modelstr = "x86_64";
-	  break;
-	case 16:
-	  modelstr = "k10";
-	  break;
-	}
-    }
-  else if (strcmp (vendor_string, "CyrixInstead") == 0)
-    {
-      /* Should recognize Cyrix' processors too.  */
-    }
-  else if (strcmp (vendor_string, "CentaurHauls") == 0)
-    {
-      switch (family)
-	{
-	case 6:
-	  if (model < 9)	modelstr = "viac3";
-	  else			modelstr = "viac32";
-	  break;
-	}
-    }
+main ()
+{
+EOF
+echo "#include \"$cpuid_c_path\"" >> ${dummy}2.c
+   cat <<EOF >>${dummy}2.c
 
   printf ("%s\n", modelstr);
+  
   return 0;
 }
 EOF
-
 
   if ($CC_FOR_BUILD ${dummy}1.s ${dummy}2.c -o $dummy) >/dev/null 2>&1; then
     # On 80386 and early 80486 cpuid is not available and will result in a

@@ -1,191 +1,183 @@
-;  Copyright 1999, 2000, 2001, 2002 Free Software Foundation, Inc.
+; **************************************************************************
+;  x86_64 mpn_add_n -- Add two limb vectors of the same length > 0 and store
+;  sum in a third limb vector.
 ;
-;  Copyright 2005, 2006 Pierrick Gaudry
+;  Copyright (C) 2006  Jason Worth Martin <jason.worth.martin@gmail.com>
 ;
-;  Copyright 2008 Brian Gladman, William Hart
+;  This program is free software; you can redistribute it and/or modify
+;  it under the terms of the GNU Lesser General Public License as published
+;  by the Free Software Foundation; either version 2 of the License, or
+;  (at your option) any later version.
 ;
-;  This file is part of the MPIR Library.
-;
-;  The MPIR Library is free software; you can redistribute it and/or
-;  modify it under the terms of the GNU Lesser General Public License as
-;  published by the Free Software Foundation; either version 2.1 of the
-;  License, or (at your option) any later version.
-;
-;  The MPIR Library is distributed in the hope that it will be useful,
+;  This program is distributed in the hope that it will be useful,
 ;  but WITHOUT ANY WARRANTY; without even the implied warranty of
-;  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-;  Lesser General Public License for more details.
+;  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;  GNU General Public License for more details.
 ;
-;  You should have received a copy of the GNU Lesser General Public
-;  License along with the MPIR Library; see the file COPYING.LIB.  If
-;  not, write to the Free Software Foundation, Inc., 51 Franklin Street,
-;  Fifth Floor, Boston, MA 02110-1301, USA.
+;  You should have received a copy of the GNU Lesser General Public License
+;  along with this program; if not, write to the Free Software Foundation,
+;  Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 ;
-;  Adapted by Brian Gladman AMD64 using the Microsoft VC++ v8 64-bit
-;  compiler and the YASM assembler.
-
-;  AMD64 mpn_add_n/mpn_sub_n -- mpn add or subtract.
+; **************************************************************************
 ;
-;  Calling interface:
 ;
-;  mp_limb_t __gmpn_<op>_n(    <op> = add OR sub
-;     mp_ptr dst,              rdi
-;     mp_srcptr src1,          rsi
-;     mp_srcptr src2,          rdx
-;     mp_size_t  len           rcx
-;  )
+; CREDITS
 ;
-;  mp_limb_t __gmpn_<op>_nc(   <op> = add OR sub
-;     mp_ptr dst,              rdi
-;     mp_srcptr src1,          rsi
-;     mp_srcptr src2,          rdx
-;     mp_size_t len,           rcx
-;     mp_limb_t carry           r8 
-;  )
+; This code is based largely on Pierrick Gaudry's excellent assembly
+; support for the AMD64 architecture.  (Note that Intel64 and AMD64,
+; while using the same instruction set, have very different
+; microarchitectures.  So, this code performs very poorly on AMD64
+; machines even though it is near-optimal on Intel64.)
 ;
-;  Calculate src1[size] plus(minus) src2[size] and store the result in
-;  dst[size].  The return value is the carry bit from the top of the result
-;  (1 or 0).  The _nc version accepts 1 or 0 for an initial carry into the
-;  low limb of the calculation.  Note values other than 1 or 0 here will
-;  lead to garbage results.
+; Roger Golliver works for Intel and provided insightful improvements
+; particularly in using the "lea" instruction to perform additions
+; and register-to-register moves.
+;
+; Eric Bainville has a brilliant exposition of optimizing arithmetic for
+; AMD64 (http://www.bealto.it).  I adapted many of the ideas he
+; describes to Intel64.
+;
+; Agner Fog is a demigod in the x86 world.  If you are reading assembly
+; code files and you haven't heard of Agner Fog, then take a minute to
+; look over his software optimization manuals (http://www.agner.org/).
+; They are superb.
+;
+; *********************************************************************
 
 %include 'yasm_mac.inc'
 
-%define dst       rdi   ; destination pointer
-%define sr1       rsi   ; source 1 pointer
-%define sr2       rdx   ; source 2 pointer
-%define len       rcx   ; number of limbs
-%define lend      ecx   ; number of limbs
-%define cy         r8   ; carry value
+;
+; If YASM supports lahf and sahf instructions, then we'll get rid
+; of this.
+;
+%define save_CF_to_reg_a  db	0x9f
+%define get_CF_from_reg_a db	0x9e
 
-%define r_jmp     r10   ; temporary for jump table entry
-%define r_cnt     r11   ; temporary for loop count
 
-%define UNROLL_LOG2         4
-%define UNROLL_COUNT        (1 << UNROLL_LOG2)
-%define UNROLL_MASK         (UNROLL_COUNT - 1)
-%define UNROLL_BYTES        (8 * UNROLL_COUNT)
-%define UNROLL_THRESHOLD    8
+;         cycles/limb
+; Hammer:     2.5 (for 1024 limbs)
+; Woodcrest:  2.6 (for 1024 limbs)	
 
-%if UNROLL_BYTES >= 256
-%error unroll count is too large
-%elif UNROLL_BYTES >= 128
-%define off 128
-%else
-%define off 0
-%endif
-
-%macro  mac_sub  3
-
-;LOBAL_FUNC mpn_add_nc
-;    mov     rax,cy
-;    jmp     %%0
+; INPUT PARAMETERS
+; rp	rdi
+; up	rsi
+; vp	rdx
+; n	rcx
+	BITS	64
 GLOBAL_FUNC mpn_add_n
-    xor     rax,rax
-%%0:
-    movsxd  len,lend
-    cmp     len,UNROLL_THRESHOLD
-    jae     %%2
-    lea     sr1,[sr1+len*8]
-    lea     sr2,[sr2+len*8]
-    lea     dst,[dst+len*8]
-    neg     len
-    shr     rax,1
-%%1:
-    mov     rax,[sr1+len*8]
-    mov     r10,[sr2+len*8]
-    %1      rax,r10
-    mov     [dst+len*8],rax
-    inc     len
-    jnz     %%1
-    mov     rax,dword 0
-    setc    al
-    ret
-%%2:
-    mov     r_cnt,1
-    and     r_cnt,len
-    push    r_cnt
-    and     len,-2
-    mov     r_cnt,len
-    dec     r_cnt
-    shr     r_cnt,UNROLL_LOG2
-    neg     len
-    and     len,UNROLL_MASK
-    lea     r_jmp,[len*4]
-    neg     len
-    lea     sr1,[sr1+len*8+off]
-    lea     sr2,[sr2+len*8+off]
-    lea     dst,[dst+len*8+off]
-    shr     rax,1
-    lea     r_jmp,[r_jmp+r_jmp*2]
+	push	rbp		; Save off callee-save registers
+	push	rbx
+	push	r12
+	push	r13
+	push	r14
+	push	r15
 
-%ifdef PIC
-    call    .pic_calc
-.unroll_here:
-..@unroll_here1:
+	xor	r15,r15			; r15 will be our index, so
+					; I'll call it i here after
+	save_CF_to_reg_a		; Save CF
 
-%else
-    lea     rax,[rel %%3]
-%endif
+	mov	r9,rcx
+	sub	r9,4			; r9 = n-(i+4)
 
-    lea     r_jmp,[r_jmp+rax]
-    jmp     r_jmp
+	align	16			; aligning for loop
+L_mpn_add_n_main_loop:
+	; The goal of our main unrolled loop is to keep all the
+	; execution units as busy as possible.  Since
+	; there are three ALUs, we try to perform three
+	; adds at a time.  Of course, we will have the
+	; carry dependency, so there is at least one
+	; clock cycle between each adc.  However, we'll
+	; try to keep the other execution units busy
+	; with loads and stores at the same time so that
+	; our net throughput is close to one add per clock
+	; cycle.  Hopefully this function will have asymptotic
+	; behavior of taking 3*n clock cycles where n is the
+	; number of limbs to add.
+	; 
+	; Note that I'm using FOUR adds at a time, this is just
+	; because I wanted to use up all available registers since
+	; I'm hoping the out-of-order and loop-pipeline logic in
+	; the Xeon will help us out.
 
-%ifdef PIC
+	; See if we are still looping
+	jle	L_mpn_add_n_loop_done
 
-.pic_calc:
+	get_CF_from_reg_a		; recover CF
+	
+	; Load inputs into rbx and r8
+	; add with carry, and put result in r8
+	; then store r8 to output.
+	mov	rbx,[rsi+r15*8]
+	mov	r8,[rdx+r15*8]
+	adc	r8,rbx
+	mov	[rdi+r15*8],r8
+	
+	; Load inputs into r9 and r10
+	; add with carry, and put result in r10
+	; then store r10 to output.
+	mov	r9,[8+rsi+r15*8]
+	mov	r10,[8+rdx+r15*8]
+	adc	r10,r9
+	mov	[8+rdi+r15*8],r10
+	
+	; Load inputs into r11 and r12
+	; add with carry, and put result in r12
+	; then store r12 to output.
+	mov	r11,[16+rsi+r15*8]
+	mov	r12,[16+rdx+r15*8]
+	adc	r12,r11
+	mov	[16+rdi+r15*8],r12
 
-	mov     rax, ..@unroll_entry1 - ..@unroll_here1
-	add     rax, [rsp]
+	; Load inputs into r13 and r14
+	; add with carry, and put result in r14
+	; then store r14 to output.
+	mov	r13,[24+rsi+r15*8]
+	mov	r14,[24+rdx+r15*8]
+	adc	r14,r13
+	mov	[24+rdi+r15*8],r14
+
+	save_CF_to_reg_a		; save CF
+
+	mov	r10,r15
+	add	r10,8
+	add	r15,4		; increment by 4.
+	
+	mov	r9,rcx
+	sub	r9,r10		; r9 = n-(i+4)
+	jmp	L_mpn_add_n_main_loop
+
+L_mpn_add_n_loop_done:
+	mov	r15,rcx		; 
+	sub	r15,r9		; r15 = n-(n-(i+4))=i+4
+	sub	r15,4		; r15 = i
+	cmp	r15,rcx
+L_mpn_add_n_post_loop:
+	je	L_mpn_add_n_exit
+	get_CF_from_reg_a		; recover CF
+	
+	; Load inputs into rbx and r8
+	; add with carry, and put result in r8
+	; then store r8 to output.
+	mov	rbx,[rsi+r15*8]
+	mov	r8,[rdx+r15*8]
+	adc	r8,rbx
+	mov	[rdi+r15*8],r8
+	save_CF_to_reg_a		; save CF
+	add	r15,1
+	cmp	r15,rcx
+	jmp	L_mpn_add_n_post_loop
+	
+	
+L_mpn_add_n_exit:
+	xor	rcx,rcx
+	get_CF_from_reg_a	; recover the CF
+	mov	rax,rcx		; Clears rax without affecting carry flag 
+	adc	rax,rax		; returns carry status.
+	
+	pop	r15		; restore callee-save registers
+	pop	r14
+	pop	r13
+	pop	r12
+	pop	rbx
+	pop	rbp
 	ret
-
-%endif
-
-    align 32
-
-.unroll_entry1:
-..@unroll_entry1:
-%%3:
-
-%define CHUNK_COUNT  2
-%assign i 0
-
-%rep  UNROLL_COUNT / CHUNK_COUNT
-%assign  disp0 8 * i * CHUNK_COUNT - off
-
-    mov     r_jmp,[byte sr1+disp0]      ; len and r_jmp registers
-    mov     len,[byte sr1+disp0+8]      ; now not needed
-    %1      r_jmp,[byte sr2+disp0]
-    mov     [byte dst+disp0],r_jmp
-    %1      len,[byte sr2+disp0+8]
-    mov     [byte dst+disp0+8],len
-
-%assign i i + 1
-%endrep
-
-%if UNROLL_BYTES > 64
-    lea     sr1,[byte sr1+127]
-    inc     sr1
-%else
-    lea     sr1,[byte sr1+UNROLL_BYTES]
-%endif
-    dec     r_cnt
-    lea     sr2,[sr2+UNROLL_BYTES]
-    lea     dst,[dst+UNROLL_BYTES]
-    jns     %%3
-
-    pop     rax
-    dec     rax
-    js      %%5
-    mov     len,[sr1-off]
-    %1      len,[sr2-off]
-    mov     [dst-off],len
-%%5:mov     rax,dword 0
-    setc    al
-    ret
-
-%endmacro
-
-    BITS    64
-
-    mac_sub adc,mpn_add_n,mpn_add_nc

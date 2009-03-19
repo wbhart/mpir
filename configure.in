@@ -1291,7 +1291,7 @@ case $host in
   # mode, in case -m32 has failed not because it's an old gcc, but because
   # it's a dual 32/64-bit gcc without a 32-bit libc, or whatever.
   #
-  X86_PATTERN | x86_64-*-* | k10-*-* | core2-*-* | nocona-*-*)
+  X86_PATTERN | X86_64_PATTERN)
     abilist="32"
     cclist="gcc icc cc"
     gcc_cflags="-O2 $fomit_frame_pointer"
@@ -1393,7 +1393,7 @@ case $host in
         gcc_cflags_cpu="-mtune=k6-3 -mcpu=k6-3 -mcpu=k6 -mcpu=i486 -m486"
         gcc_cflags_arch="-march=k6-3 -march=k6"
         ;;
-      athlon)
+      k7 | athlon)
         # Athlon instruction costs are close to P6 (3 cycle load latency,
         # 4-6 cycle mul, 40 cycle div, pairable adc, etc) so if gcc doesn't
         # know athlon (eg. 2.95.2 doesn't) then fall back on pentiumpro.
@@ -1413,7 +1413,7 @@ case $host in
         gcc_cflags_cpu="-mtune=prescott -mtune=pentium4 -mcpu=pentium4 -mcpu=pentiumpro -mcpu=i486 -m486"
         gcc_cflags_arch="-march=prescott -march=pentium4~-mno-sse2 -march=pentiumpro -march=pentium"
         ;;
-      nocona)
+      netburst | netburstlahf)
         # prescott is defined for our purposes as 32 bit pentium4 with SSE3
         gcc_cflags_cpu="-mtune=nocona -mtune=pentium4 -mcpu=pentium4 -mcpu=pentiumpro -mcpu=i486 -m486"
         gcc_cflags_arch="-march=nocona -march=pentium4~-mno-sse2 -march=pentiumpro -march=pentium"
@@ -1429,15 +1429,11 @@ case $host in
         gcc_cflags_cpu="-mtune=c3 -mcpu=c3 -mcpu=i486 -m486"
         gcc_cflags_arch="-march=c3 -march=pentium-mmx -march=pentium"
         ;;
-      x86_64)
+      x86_64 | k8 | k10 | atom)
         gcc_cflags_cpu="-mtune=k8 -mcpu=athlon -mcpu=pentiumpro -mcpu=i486 -m486"
         gcc_cflags_arch="-march=k8 -march=k8~-mno-sse2 -march=athlon -march=pentiumpro -march=pentium"
         ;;
-      k10)
-        gcc_cflags_cpu="-mtune=k8 -mcpu=athlon -mcpu=pentiumpro -mcpu=i486 -m486"
-        gcc_cflags_arch="-march=k8 -march=k8~-mno-sse2 -march=athlon -march=pentiumpro -march=pentium"
-        ;;
-      core2)
+      core2 | penryn | nehalem)
         gcc_cflags_cpu="-mtune=core2 -mtune=nocona -mtune=pentium3 -mcpu=pentiumpro -mcpu=i486 -m486"
         gcc_cflags_arch="-march=core2 -march=nocona -march=pentium3 -march=pentiumpro -march=pentium"
         ;;
@@ -1459,9 +1455,9 @@ case $host in
       k6)                      path="x86/k6/mmx x86/k6 x86" ;;
       # we don't have any specific 32-bit code for opteron (x86_64), the
       # athlon code should be reasonable
-      athlon | x86_64 | k10)   path="x86/k7/mmx x86/k7 x86" ;;
-      i786 | pentium4 | core2) path="x86/pentium4/sse2 x86/pentium4/mmx x86/pentium4 x86" ;;
-      prescott | nocona)       path="x86/pentium4/sse2 x86/pentium4/mmx x86/pentium4 x86" ;;
+      athlon | k7 | x86_64 | k8 | k10 | atom)   path="x86/k7/mmx x86/k7 x86" ;;
+      i786 | pentium4 | core2 | penryn | nehalem) path="x86/pentium4/sse2 x86/pentium4/mmx x86/pentium4 x86" ;;
+      prescott | netburst | netburstlahf)       path="x86/pentium4/sse2 x86/pentium4/mmx x86/pentium4 x86" ;;
       # VIA/Centaur processors, sold as CyrixIII and C3.
       viac32)                  path="x86/p6/p3mmx x86/p6/mmx x86/p6 x86";;
       viac3*)                  path="x86/pentium/mmx x86/pentium x86";;
@@ -1491,7 +1487,7 @@ case $host in
     fi
 
     case $host in
-      x86_64-*-* | k10-*-* | i786-*-* | nocona-*-* | core2-*-*)
+      X86_64_PATTERN)
         abilist="64 32"
         cclist_64="gcc cc"
         gcc_64_cflags="-O2 -m64"
@@ -1510,14 +1506,24 @@ case $host in
         esac
 
         case $host in
-          x86_64-*-* | i786-*-*)
-            path_64="x86_64/amd64 x86_64" ;;
+          x86_64-*-*)
+            path_64="x86_64" ;;
+          netburst-*-*)
+            path_64="x86_64/netburst x86_64" ;;
+          netburstlahf-*-*)
+            path_64="x86_64/netburst/netburstlahf x86_64/netburst x86_64" ;;
+          k8-*-*)
+            path_64="x86_64/k8 x86_64" ;;
           k10-*-*)
-            path_64="x86_64/amd64/k10 x86_64/amd64 x86_64" ;;
-          nocona-*-*) 
-            path_64="x86_64/core2 x86_64" ;;
+            path_64="x86_64/k8/k10 x86_64/k8 x86_64" ;;
           core2-*-*) 
-            path_64="x86_64/core2/lahf x86_64/core2 x86_64" ;;
+            path_64="x86_64/core2 x86_64" ;;
+          penryn-*-*) 
+            path_64="x86_64/core2/penryn x86_64/core2 x86_64" ;;
+          nehalem-*-*) 
+            path_64="x86_64/nehalem x86_64" ;;
+          atom-*-*) 
+            path_64="x86_64/atom x86_64" ;;
         esac
 
         # If the user asked for a fat build, override the path set above
@@ -1526,7 +1532,7 @@ case $host in
           gcc_64_cflags_arch=""
           extra_functions_64="$extra_functions_64 fat fat_entry"
           path_64="x86_64/fat x86_64"
-          fat_path_64="x86_64 x86_64/fat x86_64/core2/lahf x86_64/core2 x86_64/amd64"
+          fat_path_64="x86_64 x86_64/fat x86_64/netburst x86_64/netburst/netburstlahf x86_64/k8 x86_64/k8/k10 x86_64/core2 x86_64/core2/penryn x86_64/nehalem x86_64/atom"
         fi
         ;;
 
@@ -2077,7 +2083,7 @@ done
 # enough assembler.
 #
 case $host in
-  X86_PATTERN | x86_64-*-* | core2-*-* | k10-*-* | nocona-*-*)
+  X86_PATTERN | X86_64_PATTERN)
     if test "$ABI" = 32; then
       case "$path $fat_path" in
         *mmx*)   GMP_ASM_X86_MMX( , [GMP_STRIP_PATH(*mmx*)]) ;;
@@ -3071,7 +3077,7 @@ if test "$gmp_asm_syntax_testing" != no; then
           ;;
       esac
       ;;
-    X86_PATTERN | x86_64-*-* | k10-*-* | core2-*-* | nocona-*-*)
+    X86_PATTERN | X86_64_PATTERN)
       GMP_ASM_ALIGN_FILL_0x90
       case $ABI in
         32)

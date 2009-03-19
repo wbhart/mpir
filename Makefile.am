@@ -99,7 +99,7 @@ EXTRA_DIST = configfsf.guess configfsf.sub .gdbinit INSTALL.autoconf
 if WANT_CXX
 GMPXX_HEADERS_OPTION = mpirxx.h
 endif
-EXTRA_DIST += mpirxx.h yasm_mac.inc.fat yasm_mac.inc.nofat strip_fPIC.sh mpn/x86w mpn/x86_64w build.vc9 doc/devel doc/fdl.texi
+EXTRA_DIST += mpirxx.h yasm_mac.inc.fat yasm_mac.inc.nofat strip_fPIC.sh mpn/x86w mpn/x86_64w build.vc9 doc/devel doc/fdl.texi cpuid.c
 
 # mpir.h and mp.h are architecture dependent, mainly since they encode the
 # limb size used in libmpir.  For that reason they belong under $exec_prefix

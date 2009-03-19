@@ -91,7 +91,7 @@ given_full="$given_cpu$given_rest"
 case "$given_cpu" in
 itanium | itanium2)
   test_cpu=ia64 ;;
-pentium | pentiummmx | pentiumpro | pentium[234] | k[56] | k6[23] | athlon | viac3*)
+pentium | pentiummmx | pentiumpro | pentium[234] | k[56] | k6[23] | athlon | k7 | viac3*)
   test_cpu=i386 ;;
 power[2-9] | power2sc)
   test_cpu=power ;;
