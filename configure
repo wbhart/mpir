@@ -35197,7 +35197,7 @@ fi
 ac_config_links="$ac_config_links yasm_mac.inc:$YASM_MAC_INC"
 
 
-ac_config_files="$ac_config_files Makefile mpbsd/Makefile mpf/Makefile mpn/Makefile mpq/Makefile mpz/Makefile printf/Makefile scanf/Makefile cxx/Makefile tests/Makefile tests/devel/Makefile tests/mpbsd/Makefile tests/mpf/Makefile tests/mpn/Makefile tests/mpq/Makefile tests/mpz/Makefile tests/rand/Makefile tests/misc/Makefile tests/cxx/Makefile doc/Makefile tune/Makefile demos/Makefile demos/calc/Makefile demos/expr/Makefile mpir.h:gmp-h.in mp.h:mp-h.in"
+ac_config_files="$ac_config_files Makefile mpbsd/Makefile mpf/Makefile mpn/Makefile mpq/Makefile mpz/Makefile printf/Makefile scanf/Makefile cxx/Makefile tests/Makefile tests/devel/Makefile tests/mpbsd/Makefile tests/mpf/Makefile tests/mpn/Makefile tests/mpq/Makefile tests/mpz/Makefile tests/rand/Makefile tests/misc/Makefile tests/cxx/Makefile doc/Makefile tune/Makefile bench/Makefile demos/Makefile demos/calc/Makefile demos/expr/Makefile mpir.h:gmp-h.in mp.h:mp-h.in"
 
 cat >confcache <<\_ACEOF
 # This file is a shell script that caches the results of configure
@@ -35869,6 +35869,7 @@ do
     "tests/cxx/Makefile") CONFIG_FILES="$CONFIG_FILES tests/cxx/Makefile" ;;
     "doc/Makefile") CONFIG_FILES="$CONFIG_FILES doc/Makefile" ;;
     "tune/Makefile") CONFIG_FILES="$CONFIG_FILES tune/Makefile" ;;
+    "bench/Makefile") CONFIG_FILES="$CONFIG_FILES bench/Makefile" ;;
     "demos/Makefile") CONFIG_FILES="$CONFIG_FILES demos/Makefile" ;;
     "demos/calc/Makefile") CONFIG_FILES="$CONFIG_FILES demos/calc/Makefile" ;;
     "demos/expr/Makefile") CONFIG_FILES="$CONFIG_FILES demos/expr/Makefile" ;;
