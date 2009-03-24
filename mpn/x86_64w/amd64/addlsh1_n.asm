@@ -37,6 +37,7 @@
 
 %define reg_save_list rbx, rsi, rdi
 
+    CPU  Athlon64
     BITS 64
 
     FRAME_PROC mpn_addlsh1_n, 0, reg_save_list
@@ -66,7 +67,7 @@
 .2: cmp     r9, 0
     jz      .4
 
-    alignb  16, nop
+    xalign  16
 .3: mov     rdi, [r8+r9*8]
     mov     rbx, [r8+r9*8+8]
     mov     r10, [r8+r9*8+16]

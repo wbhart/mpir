@@ -29,6 +29,7 @@
 
 %include "..\..\yasm_mac.inc"
 
+    CPU  Athlon64
     BITS 64
 
     LEAF_PROC mpn_popcount
@@ -37,7 +38,7 @@
     sub     rdx, 4
     jc      .2
 
-    alignb  16, nop
+    xalign  16
 .1: popcnt  r8, [rcx+rdx*8+24]
     add     rax, r8
     popcnt  r9, [rcx+rdx*8+16]

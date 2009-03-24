@@ -34,13 +34,14 @@
 
 %include "..\yasm_mac.inc"
 
+    CPU  Athlon64
     BITS 64
     LEAF_PROC mpn_com_n
     movsxd  rax, r8d
     sub     rax, 4
     jc      .2
 
-    alignb  8, nop
+    xalign  8
 .1: mov     r8, [rdx+rax*8+24]
     mov     r9, [rdx+rax*8+16]
     not     r8

@@ -36,11 +36,12 @@
 
 %define reg_save_list   rbx, rsi, rdi, r12, r13, r14
 
+    CPU  Core2
     BITS 64
 
 %macro mulloop 0
 
-    alignb  16, nop
+    xalign  16
 %%1:mov     r10, 0
     mul     r13
     mov     [rdi+r11*8], r12
@@ -146,7 +147,7 @@
 
 %macro addmulloop 0
 
-    alignb  16, nop
+    xalign  16
 %%1:mov     r10, 0
     mul     r13
     add     [rdi+r11*8], r12
@@ -286,7 +287,7 @@
     mov     [rcx+8], rdx
     ret
 
-    alignb  16, nop
+    xalign  16
 fourormore:
     FRAME_PROC fourormore, 0, reg_save_list
     mov     rdi, rcx
@@ -324,18 +325,18 @@ fourormore:
 L20:mulnext0
     jmp     L51
 
-    alignb  16, nop
+    xalign  16
 L21:mulnext1
     jmp     L52
 
-    alignb  16, nop
+    xalign  16
 L22:mulnext2
     jmp     L53
 
-    alignb  16, nop
+    xalign  16
 L23:mulnext3
 
-    alignb  16, nop
+    xalign  16
 L3: mov     rax, [rsi+r14*8]
     mov     r13, [rsi+r14*8-8]
     mov     r11, r14
@@ -403,7 +404,7 @@ L43:addmulnext3
     mov     [r10+rcx*8-8], r11
     neg     rcx
 
-    alignb  16, nop
+    xalign  16
 .6: mov     rax, [rsi+rcx*8]
     mul     rax
     mov     r8, [rdi]
@@ -423,7 +424,7 @@ L43:addmulnext3
     jnz     .6
     END_PROC reg_save_list
 
-    alignb  16, nop
+    xalign  16
 two:
     mov     rax, [rdx]
     mov     r9, [rdx+8]
@@ -446,7 +447,7 @@ two:
     mov     [rcx+24], r10
     ret
 
-    align   16
+    xalign  16
 three:
     FRAME_PROC three, 0, rsi, rdi
     mov     rdi, rcx

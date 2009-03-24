@@ -47,14 +47,15 @@
 
 %include "..\yasm_mac.inc"
 
+    CPU  Athlon64
     BITS 64
 
-    alignb  8, nop
+    xalign  8
     LEAF_PROC mpn_add_nc
     mov     r10,[rsp+0x28]
     jmp     entry
 
-    alignb  8, nop
+    xalign  8
     LEAF_PROC mpn_add_n
     xor     r10, r10
 entry:
@@ -83,7 +84,7 @@ entry:
 .1: adc     rax, rax
     ret
 
-    alignb  8, nop
+    xalign  8
 .2: mov     r10, [rdx]
     mov     r11, [rdx+8]
     lea     rdx, [rdx+32]

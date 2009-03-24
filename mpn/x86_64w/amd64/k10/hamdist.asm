@@ -30,6 +30,7 @@
 
 %include "..\..\yasm_mac.inc"
 
+    CPU  Athlon64
     BITS 64
 
     FRAME_PROC mpn_hamdist, 0, rbx
@@ -38,7 +39,7 @@
     sub     rbx, 4
     jc      .2
 
-    alignb  16, nop
+    xalign  16
 .1: mov     r8, [rcx+rbx*8+24]
     mov     r9, [rcx+rbx*8+16]
     xor     r8, [rdx+rbx*8+24]

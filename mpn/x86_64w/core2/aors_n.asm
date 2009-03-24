@@ -154,6 +154,7 @@
 
 %endmacro
 
+    CPU  Core2
     BITS 64
 
     mac_sub adc,mpn_add_n,mpn_add_nc

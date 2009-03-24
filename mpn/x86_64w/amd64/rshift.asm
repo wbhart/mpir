@@ -33,6 +33,7 @@
 
 %include "..\yasm_mac.inc"
 
+    CPU  Athlon64
     BITS 64
 
     LEAF_PROC mpn_rshift
@@ -53,7 +54,7 @@
     psrlq   mm3, mm0
     jnc     .2
 
-    alignb  16, nop
+    xalign  16
 .1: movq    mm2, [rdx+r9*8+8]
     movq    mm4, mm2
     psllq   mm2, mm1

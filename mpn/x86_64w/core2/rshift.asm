@@ -33,6 +33,7 @@
 
 %include "..\yasm_mac.inc"
 
+    CPU  Core2
     BITS 64
 
     LEAF_PROC mpn_rshift
@@ -96,7 +97,7 @@ threeormore:
     sub     r8, rdx
     jnc     .3
 
-    alignb  16, nop
+    xalign  16
 .2: movdqa  xmm2, [r11+r8*8+16]
     movdqa  xmm4, xmm2
     psllq   xmm2, xmm1
@@ -141,7 +142,7 @@ threeormore:
     movq    [r10+r8*8+32], xmm3
     ret
 
-    alignb  16, nop
+    xalign  16
 .42:movdqa  xmm2, [r11+r8*8+16]
     movdqa  xmm4, xmm2
     psllq   xmm2, xmm1
@@ -156,7 +157,7 @@ threeormore:
     movhpd  [r10+r8*8+24], xmm4
     ret
 
-    alignb  16, nop
+    xalign  16
 .41:movq    xmm2, [r11+r8*8+16]
     movq    xmm4, xmm2
     psllq   xmm2, xmm1
@@ -170,7 +171,7 @@ threeormore:
     movq    [r10+r8*8+16], xmm4
     ret
 
-    alignb  16, nop
+    xalign  16
 .40:psrldq  xmm5, 8
     por     xmm3, xmm5
     movq    [r10+r8*8], xmm3

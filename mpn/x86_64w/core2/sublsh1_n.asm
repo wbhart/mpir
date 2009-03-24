@@ -37,6 +37,7 @@
 
 %define reg_save_list rbx, rsi, rdi, r12, r13, r14, r15
 
+    CPU  Core2
     BITS 64
 
     FRAME_PROC mpn_sublsh1_n, 0, reg_save_list
@@ -67,7 +68,7 @@
 .2: cmp     rcx, 0
     jz      .4
 
-    alignb  16, nop
+    xalign  16
 .3: mov     r10, [rsi+rcx*8]
     mov     rbx, [rsi+rcx*8+8]
     mov     r11, [rsi+rcx*8+16]

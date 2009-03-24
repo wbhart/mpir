@@ -41,6 +41,7 @@
 
 %include "..\yasm_mac.inc"
 
+    CPU  Core2
     BITS 64
 
     LEAF_PROC mpn_mul_1c
@@ -51,7 +52,7 @@
     xor     r11, r11
     jmp     start
 
-    align   16
+    xalign  16
 start:
     FRAME_PROC mulmm, 0, rbx
     movsxd  rax, r8d
@@ -62,7 +63,7 @@ start:
     jc      .1
     jmp     .2
 
-    alignb  16, nop
+    xalign  16
 .1: mov     rax, [r10+r8*8]
     mov     ebx, 0
     mul     r9

@@ -108,7 +108,7 @@
     add     r8, 1
     jmp     .5
 
-    alignb  16, nop
+    xalign  16
 .2: mul     r9                  ; divisor is odd
     mov     rax, [rsi+r8*8]
     sub     rdx, r11
@@ -120,7 +120,7 @@
     jnz     .2
     jmp     .6
 
-    alignb  16, nop
+    xalign  16
 .4: mul     r9                  ; divisor is even
     sub     rdx, r11
     mov     rax, [rsi+r8*8-8]

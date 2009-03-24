@@ -34,6 +34,7 @@
 
 %define reg_save_list r12, r13
 
+    CPU  Athlon64
     BITS 64
 
     FRAME_PROC mpn_lshift1, 0, reg_save_list
@@ -47,7 +48,7 @@
     cmp     r8, 0
     jz      .2
 
-    alignb  16, nop
+    xalign  16
 .1: mov     r10, [rdx]
     mov     r11, [rdx+8]
     mov     r12, [rdx+16]

@@ -54,6 +54,10 @@
 %define r6b bpl
 %define r7b spl
 
+%macro xalign 1
+    align %1
+%endmacro
+
 %macro FRAME_PROC 2-*
 
     global  __g%1

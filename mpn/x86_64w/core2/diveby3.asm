@@ -31,6 +31,7 @@
 
 %include "..\yasm_mac.inc"
 
+    CPU  Core2
     BITS 64
 
 %define MLT1 0x5555555555555555
@@ -79,7 +80,7 @@
     sub     r8, rax
     jnc     %%2
 
-    alignb  16, nop
+    xalign  16
 %%1:mul_sub%2 0
     mul_sub%2 1
     mul_sub%2 2

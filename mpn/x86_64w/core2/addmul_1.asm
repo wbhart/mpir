@@ -144,6 +144,7 @@
 %define temp    r14
 %define index   r15
 
+    CPU  Core2
     BITS 64
 
     LEAF_PROC mpn_addmul_1
@@ -170,7 +171,7 @@ entry:
     add     rax, [rax+rdx*8]
     jmp     rax
 
-    align   8
+    xalign  8
 .2:
     dq      .3 - .2
     dq      .4 - .2

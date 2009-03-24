@@ -31,6 +31,7 @@
 
 %include "..\yasm_mac.inc"
 
+    CPU  Core2
     BITS 64
 
     LEAF_PROC mpn_divexact_byff
@@ -56,7 +57,7 @@
 .1: sbb     rax, 0
     ret
 
-    alignb  16, nop
+    xalign  16
 .2: sbb     rax, [rdx]
     mov     [rcx], rax
     sbb     rax, [rdx+8]

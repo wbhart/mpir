@@ -32,6 +32,7 @@
 
 %define reg_save_list   rbx, rsi, rdi, rbp, r12, r13, r14, r15
 
+    CPU  Core2
     BITS 64
 
 %macro mpn_add 0
@@ -56,7 +57,7 @@
     mov     [rdi+16], r11
     jmp     %%2
 
-    alignb  16, nop
+    xalign  16
 %%1:mov     r11, [rsi]
     mov     r8, [rsi+8]
     lea     rsi, [rsi+32]
@@ -115,7 +116,7 @@
     sbb     r11, [rdx+16]
     mov     [rbx+16], r11
     jmp     %%2
-    alignb  16, nop
+    xalign  16
 %%1:mov     r11, [rsi]
     mov     r8, [rsi+8]
     lea     rsi, [rsi+32]
@@ -155,7 +156,7 @@
 
 %macro addmulloop 1
 
-    alignb  16, nop
+    xalign  16
 %%1:mov     r10, 0
     mul     r13
     add     [r8+r11*8], r12
@@ -364,7 +365,7 @@
 %macro mpn_addmul_1_int 1
 
     addmulpropro%1
-    alignb  16, nop
+    xalign  16
 %%1:addmulpro%1
     jge     %%2
     addmulloop %1
@@ -403,18 +404,18 @@
 .12:mpn_addmul_1_int 2
     jmp     .2
 
-    alignb  16, nop
+    xalign  16
 .10:mpn_addmul_1_int 0
     jmp     .2
 
-    alignb  16, nop
+    xalign  16
 .11:mpn_addmul_1_int 1
     jmp     .2
 
-    alignb  16, nop
+    xalign  16
 .13:mpn_addmul_1_int 3
 
-    alignb  16, nop
+    xalign  16
 .2:
     mov     rcx, rbp
     mov     rdx, [rsp+stack_use+0x28]
@@ -429,7 +430,7 @@
 .3:
     END_PROC reg_save_list
 
-    alignb  16, nop
+    xalign  16
 one:mov     r8,[rsp+0x28]
     mov     r10, [r8]
     mov     r11, [rdx]

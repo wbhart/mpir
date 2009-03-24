@@ -36,6 +36,7 @@
 
 %include "..\yasm_mac.inc"
 
+    CPU  Athlon64
     BITS 64
 
 %define reg_save_list r12, r13, r14
@@ -66,7 +67,7 @@
     cmp     r8, 0
     jge     .3
 
-    alignb  16, nop
+    xalign  16
 .2: mov     r12d, 0
     mul     r9
     add     [rcx+r8*8], r11
@@ -115,7 +116,7 @@
     mov     rax, r14
     jmp     .8
 
-    alignb  16, nop
+    xalign  16
 .5: mov     r12d, 0
     mul     r9
     add     [rcx+r8*8], r11
@@ -126,7 +127,7 @@
     mov     rax, r12
     jmp     .8
 
-    alignb  16, nop
+    xalign  16
 .6: mov     r12d, 0
     mul     r9
     add     [rcx+r8*8], r11
@@ -149,7 +150,7 @@
     mov     rax, r11
     jmp     .8
 
-    alignb  16, nop
+    xalign  16
 .7: mov     r12d, 0
     mul     r9
     add     [rcx+r8*8], r11

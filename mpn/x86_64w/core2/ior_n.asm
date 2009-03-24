@@ -31,6 +31,7 @@
 
 %include "..\yasm_mac.inc"
 
+    CPU  Core2
     BITS 64
 
 %define T3      r10
@@ -43,7 +44,7 @@
     shr     r9, 2
     jz      .2
 
-    alignb  8, nop
+    xalign  8
 .1: mov     r10, [rdx]
     mov     r11, [rdx+8]
     lea     rdx, [rdx+32]

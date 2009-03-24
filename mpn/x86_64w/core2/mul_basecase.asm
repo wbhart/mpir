@@ -41,11 +41,12 @@
 
 %define reg_save_list   rbx, rsi, rdi, r12, r13, r14
 
+    CPU  Core2
     BITS 64
 
 %macro mulloop 1
 
-    alignb  16, nop
+    xalign  16
 %%1:
     mov     r10, 0
     mul     r13
@@ -156,7 +157,7 @@
 ; reemove ret and write last limb
 
 %macro addmulloop 1
-    alignb  16, nop
+    xalign  16
 %%1:
     mov     r10, 0
     mul     r13
@@ -342,7 +343,7 @@
 %macro mpn_muladdmul_1_int 1
     mulnext%1
     jz      %%3
-    alignb  16, nop
+    xalign  16
 %%1:
     addmulpro%1
     jge     %%2
@@ -396,30 +397,30 @@ case0:
     mpn_muladdmul_1_int 0
     jmp     xit
 
-    alignb  16, nop
+    xalign  16
 case1:
     mpn_muladdmul_1_int 1
     jmp     xit
 
-    alignb  16, nop
+    xalign  16
 case2:
     mpn_muladdmul_1_int 2
     jmp     xit
 
-    alignb  16, nop
+    xalign  16
 case3:
     mpn_muladdmul_1_int 3
 xit:
     END_PROC reg_save_list
 
-    alignb  16, nop
+    xalign  16
 one:mov     rax, [rdx]
     mul     qword [r9]
     mov     [rcx], rax
     mov     [rcx+8], rdx
     ret
 
-    alignb  16, nop
+    xalign  16
 two:mov     r10, rdx
     mov     r11, [r9]
     mov     rax, [r10]

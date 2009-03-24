@@ -1,70 +1,71 @@
+/*  This file is part of the MPIR Library.
+
+    The MPIR Library is free software; you can redistribute it and/or modify
+    it under the terms of the GNU Lesser General Public License as published
+    by the Free Software Foundation; either version 2.1 of the License, or (at
+    your option) any later version.
+    The MPIR Library is distributed in the hope that it will be useful, but
+    WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+    or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public
+    License for more details.
+    You should have received a copy of the GNU Lesser General Public License
+    along with the MPIR Library; see the file COPYING.LIB.  If not, write
+    to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+    Boston, MA 02110-1301, USA.
+*/
 
 #define WIN32_LEAN_AND_MEAN
 
 #include <windows.h>
-#include <winperf.h>
-#include <Psapi.h>
-#include <stdlib.h>
-#include <stdio.h>
+#include <psapi.h>
 #include <errno.h>
 
 #include "getrusage.h"
 
-#ifndef ENODATA
-#define ENODATA 61
-#endif
+typedef union file_t
+{   FILETIME ft;
+    long long lt;
+} file_t;
 
-/* The function GetPerformanceInfo() may or may not exist (e.g. Windows 2003 has it) in Psapi.dll */
-typedef BOOL(*pfnGetPerformanceInfo) (PPERFORMANCE_INFORMATION pPerformanceInformation, DWORD cb);
-
-int getrusage(int who, struct rusage * usage)
+int getrusage(int who, rusage *usage)
 {
-    HANDLE process_handle;
-    HMODULE hm;
-    FILETIME create_time, exit_time, kernel_time, user_time;
-    PROCESS_MEMORY_COUNTERS pmc;
-    DWORD cb = 0;
-    size_t page_size = 8192;
-    PPERFORMANCE_INFORMATION PerformanceInformation = {0};
-    pfnGetPerformanceInfo fnGetPerformanceInfo = 0;
-
-    if(hm = GetModuleHandle("Psapi.DLL"))
-        fnGetPerformanceInfo = (pfnGetPerformanceInfo) GetProcAddress(hm, "GetPerformanceInfo");
+    HANDLE proc_hand;
+    file_t c_time, x_time, s_time, u_time;
+    int cb = 0, err = -1;
 
     if(who != RUSAGE_SELF) 
     {
-        errno = (who == RUSAGE_CHILDREN ? ENODATA : EINVAL);
-        return -1;
+        errno = (who == RUSAGE_CHILDREN ? ENODATA : EINVAL); 
+        return err;
     }
 
-    process_handle = OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, FALSE, GetCurrentProcessId());
+    proc_hand = OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, FALSE, GetCurrentProcessId());
 
-    if(GetProcessTimes(process_handle, &create_time, &exit_time, &kernel_time, &user_time)) 
+    if(GetProcessTimes(proc_hand, &(c_time.ft), &(x_time.ft), &(s_time.ft), &(u_time.ft))) 
     {
-        long long u_time = (*(long long *) & user_time);
-        long long k_time = (*(long long *) & kernel_time);
-        usage->ru_utime.tv_sec = (long) (u_time / 1000000);
-        usage->ru_stime.tv_sec = (long) (k_time / 1000000);
-        usage->ru_utime.tv_usec = (long) (u_time % 1000000);
-        usage->ru_stime.tv_usec = (long) (k_time % 1000000);
+        PROCESS_MEMORY_COUNTERS ctrs;
+        
+        /* The units returned by GetProcessTimes are 100 nanoseconds */
+        u_time.lt = (u_time.lt + 5) / 10;
+        s_time.lt = (s_time.lt + 5) / 10;
 
-        if(fnGetPerformanceInfo && fnGetPerformanceInfo(PerformanceInformation, cb)) 
-            page_size = PerformanceInformation->PageSize;
+        usage->ru_utime.tv_sec  = (long)(u_time.lt / 1000000ll);
+        usage->ru_stime.tv_sec  = (long)(s_time.lt / 1000000ll);
+        usage->ru_utime.tv_usec = (long)(u_time.lt % 1000000ll);
+        usage->ru_stime.tv_usec = (long)(s_time.lt % 1000000ll);
 
-        if(GetProcessMemoryInfo(process_handle, &pmc, sizeof(pmc))) 
+        if(GetProcessMemoryInfo(proc_hand, &ctrs, sizeof(ctrs))) 
         {
-            usage->ru_maxrss = (DWORD) (pmc.WorkingSetSize / page_size);
-            usage->ru_majflt = pmc.PageFaultCount;
-            if(hm) 
-                FreeLibrary(hm);
-            CloseHandle(process_handle);
-            return 0;
-        } 
-    } 
+            PERFORMANCE_INFORMATION perf_info;
+            GetPerformanceInfo(&perf_info, sizeof(perf_info));
+            usage->ru_maxrss = (DWORD) (ctrs.WorkingSetSize / perf_info.PageSize);
+            usage->ru_majflt = ctrs.PageFaultCount;
+            err = 0;
+        }
+    }
 
-    if(hm) 
-        FreeLibrary(hm);
-    CloseHandle(process_handle);
-    errno = EACCES;
-    return -1;
+    if(err)
+        errno = EACCES;
+    CloseHandle(proc_hand);
+    return err;
 }
