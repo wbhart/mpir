@@ -168,7 +168,7 @@ entry:
     add     rax, [rax+rdx*8]
     jmp     rax
 
-    align   8
+    xalign  8
 .2:
     dq      .3 - .2
     dq      .4 - .2
