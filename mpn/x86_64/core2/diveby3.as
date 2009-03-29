@@ -80,7 +80,6 @@ skip:
 	mov     [rdi+r9*8], rcx
 	sbb     rcx, rdx
 end:
-	imul    rax, rcx, -3
 	lea     rax, [rcx+rcx*2]
 	neg     rax
 	ret
