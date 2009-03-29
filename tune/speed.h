@@ -148,6 +148,7 @@ double speed_mpf_init_clear _PROTO ((struct speed_params *s));
 
 double speed_mpn_add_n _PROTO ((struct speed_params *s));
 double speed_mpn_addadd_n _PROTO ((struct speed_params *s));
+double speed_mpn_subadd_n _PROTO ((struct speed_params *s));
 double speed_mpn_addlsh1_n _PROTO ((struct speed_params *s));
 double speed_mpn_sumdiff_n _PROTO ((struct speed_params *s));
 double speed_mpn_and_n _PROTO ((struct speed_params *s));
@@ -723,7 +724,7 @@ int speed_routine_count_zeros_setup _PROTO ((struct speed_params *s,
     return t;								\
   }
 
-// for addadd or addsub 
+// for addadd or addsub or subadd
 #define SPEED_ROUTINE_MPN_TRINARY_N(call)				\
   {									\
     mp_ptr     ap, sp;							\

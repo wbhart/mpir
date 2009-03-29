@@ -635,6 +635,17 @@ refmpn_addsub_n(mp_ptr rp, mp_srcptr xp, mp_srcptr yp, mp_srcptr zp, mp_size_t n
   return r;
 }
 
+mp_limb_t 
+refmpn_subadd_n(mp_ptr rp, mp_srcptr xp, mp_srcptr yp, mp_srcptr zp, mp_size_t n)
+{
+  mp_limb_t r;
+  mp_limb_t * tp = refmpn_malloc_limbs (n);
+  r =  mpn_sub_n (tp, xp, zp, n);
+  r += mpn_sub_n (rp, tp, yp, n);
+  free(tp);
+  return r;
+}
+
 mp_limb_t
 refmpn_addlsh1_n (mp_ptr rp, mp_srcptr up, mp_srcptr vp, mp_size_t n)
 {

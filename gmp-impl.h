@@ -839,6 +839,9 @@ __GMP_DECLSPEC mp_limb_t mpn_addadd_n __GMP_PROTO ((mp_ptr, mp_srcptr, mp_srcptr
 #define mpn_addsub_n __MPN(addsub_n)
 __GMP_DECLSPEC int mpn_addsub_n __GMP_PROTO ((mp_ptr, mp_srcptr, mp_srcptr, mp_srcptr, mp_size_t));
 
+#define mpn_subadd_n __MPN(subadd_n)
+__GMP_DECLSPEC mp_limb_t mpn_subadd_n __GMP_PROTO ((mp_ptr, mp_srcptr, mp_srcptr, mp_srcptr, mp_size_t));
+
 #ifndef mpn_sumdiff_n  /* if not done with cpuvec in a fat binary */
 #define mpn_sumdiff_n __MPN(sumdiff_n)
 __GMP_DECLSPEC mp_limb_t mpn_sumdiff_n __GMP_PROTO ((mp_ptr, mp_ptr, mp_srcptr, mp_srcptr, mp_size_t));

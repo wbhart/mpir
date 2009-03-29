@@ -289,7 +289,7 @@ nodist_EXTRA_libmpn_la_SOURCES = \
   pre_divrem_1.c pre_mod_1.c pow_1.c random.c random2.c rshift.c   \
   rootrem.c redc_basecase.c sb_divrem_mn.c scan0.c scan1.c set_str.c	    \
   sqr_basecase.c sqr_diagonal.c						    \
-  sqrtrem.c sub.c sub_1.c sub_n.c submul_1.c				    \
+  sqrtrem.c sub.c sub_1.c sub_n.c subadd_n.c submul_1.c				    \
   tdiv_qr.c udiv_qrnnd.c udiv_w_sdiv.c xor_n.c xnor_n.c
 
 noinst_LTLIBRARIES = libmpn.la
@@ -570,6 +570,8 @@ sub_1_.c: sub_1.c $(ANSI2KNR)
 	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/sub_1.c; then echo $(srcdir)/sub_1.c; else echo sub_1.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
 sub_n_.c: sub_n.c $(ANSI2KNR)
 	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/sub_n.c; then echo $(srcdir)/sub_n.c; else echo sub_n.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
+subadd_n_.c: subadd_n.c $(ANSI2KNR)
+	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/subadd_n.c; then echo $(srcdir)/subadd_n.c; else echo subadd_n.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
 submul_1_.c: submul_1.c $(ANSI2KNR)
 	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/submul_1.c; then echo $(srcdir)/submul_1.c; else echo submul_1.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
 tdiv_qr_.c: tdiv_qr.c $(ANSI2KNR)
@@ -625,10 +627,10 @@ set_str_.$(OBJEXT) set_str_.lo sgcd_.$(OBJEXT) sgcd_.lo \
 sqr_basecase_.$(OBJEXT) sqr_basecase_.lo sqr_diagonal_.$(OBJEXT) \
 sqr_diagonal_.lo sqrtrem_.$(OBJEXT) sqrtrem_.lo sub_.$(OBJEXT) sub_.lo \
 sub_1_.$(OBJEXT) sub_1_.lo sub_n_.$(OBJEXT) sub_n_.lo \
-submul_1_.$(OBJEXT) submul_1_.lo tdiv_qr_.$(OBJEXT) tdiv_qr_.lo \
-udiv_qrnnd_.$(OBJEXT) udiv_qrnnd_.lo udiv_w_sdiv_.$(OBJEXT) \
-udiv_w_sdiv_.lo xnor_n_.$(OBJEXT) xnor_n_.lo xor_n_.$(OBJEXT) \
-xor_n_.lo : $(ANSI2KNR)
+subadd_n_.$(OBJEXT) subadd_n_.lo submul_1_.$(OBJEXT) submul_1_.lo \
+tdiv_qr_.$(OBJEXT) tdiv_qr_.lo udiv_qrnnd_.$(OBJEXT) udiv_qrnnd_.lo \
+udiv_w_sdiv_.$(OBJEXT) udiv_w_sdiv_.lo xnor_n_.$(OBJEXT) xnor_n_.lo \
+xor_n_.$(OBJEXT) xor_n_.lo : $(ANSI2KNR)
 
 mostlyclean-libtool:
 	-rm -f *.lo

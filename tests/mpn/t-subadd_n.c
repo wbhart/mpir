@@ -1,4 +1,4 @@
-/* Test mpn_addsub_n
+/* Test mpn_subadd_n
 
 dnl  Copyright 2009 Jason Moxham
 
@@ -38,7 +38,7 @@ main (void)
   rands = RANDS;
 
 
-#if HAVE_NATIVE_mpn_addsub_n
+#if HAVE_NATIVE_mpn_subadd_n
   for (i1 = 0; i1 < 2; i1++)
     {
       for (n = 1; n < 100; n++)
@@ -57,17 +57,17 @@ main (void)
 		  mpn_random2 (yp, n);
 		  mpn_random2 (zp, n);
 		}
-	      k = mpn_addsub_n (sp, xp, yp, zp, n);
-	      i = mpn_add_n (tp, xp, yp, n);
-	      i -= mpn_sub_n (tp, tp, zp, n);
+	      k = mpn_subadd_n (sp, xp, yp, zp, n);
+	      i = mpn_sub_n (tp, xp, yp, n);
+	      i += mpn_sub_n (tp, tp, zp, n);
 	      if (k != i)
 		{
-		  printf ("mpn_addsub_n ret wrong\n");
+		  printf ("mpn_subadd_n ret wrong\n");
 		  abort ();
 		}
 	      if (mpn_cmp (sp, tp, n) != 0)
 		{
-		  printf ("mpn_addsub_n sum wrong\n");
+		  printf ("mpn_subadd_n sum wrong\n");
 		  abort ();
 		}
 	    }

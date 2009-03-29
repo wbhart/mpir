@@ -790,6 +790,14 @@ speed_mpn_addadd_n (struct speed_params *s)
   SPEED_ROUTINE_MPN_TRINARY_N (mpn_addadd_n);
 }
 #endif
+
+#if HAVE_NATIVE_mpn_subadd_n
+double
+speed_mpn_subadd_n (struct speed_params *s)
+{
+  SPEED_ROUTINE_MPN_TRINARY_N (mpn_subadd_n);
+}
+#endif
   
 #if HAVE_NATIVE_mpn_addsub_n
 double

@@ -657,8 +657,9 @@ validate_sqrtrem (void)
 
 #define TYPE_ADDADD_N	      108
 #define TYPE_ADDSUB_N	      109
+#define TYPE_SUBADD_N	      110
 
-#define TYPE_REDC_BASECASE	110
+#define TYPE_REDC_BASECASE	111
 
 #define TYPE_EXTRA            120
 
@@ -872,7 +873,13 @@ param_init (void)
   p->src[2] = 1;
   REFERENCE (refmpn_addsub_n);
 
-
+  p = &param[TYPE_SUBADD_N];
+  p->retval = 1;
+  p->dst[0] = 1;
+  p->src[0] = 1;
+  p->src[1] = 1;
+  p->src[2] = 1;
+  REFERENCE (refmpn_subadd_n);
 
   p = &param[TYPE_COPY];
   p->dst[0] = 1;
@@ -1400,6 +1407,9 @@ const struct choice_t choice_array[] = {
 #endif
 #if HAVE_NATIVE_mpn_addsub_n
   { TRY(mpn_addsub_n),  TYPE_ADDSUB_N  },
+#endif
+#if HAVE_NATIVE_mpn_subadd_n
+  { TRY(mpn_subadd_n),  TYPE_SUBADD_N  },
 #endif
 
   { TRY(mpn_addmul_1),  TYPE_ADDMUL_1  },
@@ -2086,6 +2096,10 @@ call (struct each_t *e, tryfun_t function)
       (e->d[0].p, e->s[0].p, e->s[1].p, e->s[2].p,size);
     break;
   case TYPE_ADDADD_N:
+    e->retval = CALLING_CONVENTIONS (function)
+      (e->d[0].p, e->s[0].p, e->s[1].p, e->s[2].p,size);
+    break;
+  case TYPE_SUBADD_N:
     e->retval = CALLING_CONVENTIONS (function)
       (e->d[0].p, e->s[0].p, e->s[1].p, e->s[2].p,size);
     break;
