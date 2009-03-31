@@ -78,7 +78,7 @@ mpz_tdiv_qr_ui (mpz_ptr quot, mpz_ptr rem, mpz_srcptr dividend, unsigned long in
   else
 #endif
     {
-      rl = mpn_divrem_1 (qp, (mp_size_t) 0, np, nn, (mp_limb_t) divisor);
+      rl = mpn_divrem_euclidean_qr_1 (qp, np, nn, (mp_limb_t) divisor);
       if (rl == 0)
 	SIZ(rem) = 0;
       else

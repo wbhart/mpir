@@ -1208,6 +1208,12 @@ refmpn_divmod_1 (mp_ptr rp, mp_srcptr sp, mp_size_t size, mp_limb_t divisor)
   return refmpn_divmod_1c (rp, sp, size, divisor, CNST_LIMB(0));
 }
 
+mp_limb_t
+refmpn_divrem_euclidean_qr_1 (mp_ptr rp, mp_srcptr sp, mp_size_t size, mp_limb_t divisor)
+{
+  return refmpn_divmod_1c (rp, sp, size, divisor, CNST_LIMB(0));
+}
+
 
 mp_limb_t
 refmpn_mod_1c (mp_srcptr sp, mp_size_t size, mp_limb_t divisor,
@@ -1221,6 +1227,12 @@ refmpn_mod_1c (mp_srcptr sp, mp_size_t size, mp_limb_t divisor,
 
 mp_limb_t
 refmpn_mod_1 (mp_srcptr sp, mp_size_t size, mp_limb_t divisor)
+{
+  return refmpn_mod_1c (sp, size, divisor, CNST_LIMB(0));
+}
+
+mp_limb_t
+refmpn_divrem_euclidean_r_1 (mp_srcptr sp, mp_size_t size, mp_limb_t divisor)
 {
   return refmpn_mod_1c (sp, size, divisor, CNST_LIMB(0));
 }

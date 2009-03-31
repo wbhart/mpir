@@ -62,8 +62,8 @@ DIST_COMMON = README $(am__configure_deps) $(am__include_HEADERS_DIST) \
 	$(srcdir)/Makefile.am $(srcdir)/Makefile.in \
 	$(srcdir)/config.in $(srcdir)/gmp-h.in $(srcdir)/mp-h.in \
 	$(top_srcdir)/configure AUTHORS COPYING COPYING.LIB ChangeLog \
-	INSTALL NEWS ansi2knr.1 ansi2knr.c config.guess config.sub \
-	install-sh ltmain.sh missing ylwrap
+	INSTALL NEWS TODO ansi2knr.1 ansi2knr.c config.guess \
+	config.sub install-sh ltmain.sh missing ylwrap
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/acinclude.m4 \
 	$(top_srcdir)/configure.in

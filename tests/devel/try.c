@@ -660,6 +660,9 @@ validate_sqrtrem (void)
 #define TYPE_SUBADD_N	      110
 
 #define TYPE_REDC_BASECASE	111
+#define TYPE_DIVREM_EUCLIDEAN_QR_1	112
+#define TYPE_DIVREM_EUCLIDEAN_R_1	113
+//#define TYPE_DIVEXACT_BYBM1OF 114
 
 #define TYPE_EXTRA            120
 
@@ -941,6 +944,21 @@ param_init (void)
   COPY (TYPE_MOD_1);
   p->dst[0] = 1;
   REFERENCE (refmpn_divmod_1);
+
+  p = &param[TYPE_DIVREM_EUCLIDEAN_QR_1];
+  p->retval = 1;
+  p->src[0] = 1;
+  //p->size = SIZE_ALLOW_ZERO;
+  p->divisor = DIVISOR_LIMB;
+  p->dst[0] = 1;
+  REFERENCE (refmpn_divrem_euclidean_qr_1);
+
+  p = &param[TYPE_DIVREM_EUCLIDEAN_R_1];
+  p->retval = 1;
+  p->src[0] = 1;
+  //p->size = SIZE_ALLOW_ZERO;
+  p->divisor = DIVISOR_LIMB;
+  REFERENCE (refmpn_divrem_euclidean_r_1);
 
   p = &param[TYPE_DIVMOD_1C];
   COPY (TYPE_DIVMOD_1);
@@ -1484,6 +1502,10 @@ const struct choice_t choice_array[] = {
   { TRY_FUNFUN(mpn_xnor_n), TYPE_XNOR_N },
 
   { TRY(mpn_divrem_1),     TYPE_DIVREM_1 },
+  { TRY(mpn_divrem_euclidean_qr_1),     TYPE_DIVREM_EUCLIDEAN_QR_1 },
+  { TRY(mpn_divrem_euclidean_r_1),     TYPE_DIVREM_EUCLIDEAN_R_1 },
+  
+
 #if USE_PREINV_DIVREM_1
   { TRY(mpn_preinv_divrem_1), TYPE_PREINV_DIVREM_1 },
 #endif
@@ -2132,7 +2154,7 @@ call (struct each_t *e, tryfun_t function)
 						carry);
     break;
 
-
+  case TYPE_DIVREM_EUCLIDEAN_QR_1:
   case TYPE_DIVMOD_1:
   case TYPE_DIVEXACT_1:
     e->retval = CALLING_CONVENTIONS (function)
@@ -2160,6 +2182,7 @@ call (struct each_t *e, tryfun_t function)
 	(e->d[0].p, size2, e->s[0].p, size, divisor, dinv, shift);
     }
     break;
+  case TYPE_DIVREM_EUCLIDEAN_R_1:
   case TYPE_MOD_1:
   case TYPE_MODEXACT_1_ODD:
     e->retval = CALLING_CONVENTIONS (function)

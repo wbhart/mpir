@@ -56,7 +56,8 @@ check_PROGRAMS = t-asmtype$(EXEEXT) t-aors_1$(EXEEXT) \
 	t-instrument$(EXEEXT) t-iord_u$(EXEEXT) t-mp_bases$(EXEEXT) \
 	t-perfsqr$(EXEEXT) t-scan$(EXEEXT) t-lorrshift1$(EXEEXT) \
 	t-divebyff$(EXEEXT) t-addadd_n$(EXEEXT) t-addsub_n$(EXEEXT) \
-	t-subadd_n$(EXEEXT) t-redc_basecase$(EXEEXT)
+	t-subadd_n$(EXEEXT) t-redc_basecase$(EXEEXT) \
+	t-divebyBm1of$(EXEEXT)
 subdir = tests/mpn
 DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
@@ -86,6 +87,11 @@ t_asmtype_SOURCES = t-asmtype.c
 t_asmtype_OBJECTS = t-asmtype$U.$(OBJEXT)
 t_asmtype_LDADD = $(LDADD)
 t_asmtype_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
+	$(top_builddir)/libmpir.la
+t_divebyBm1of_SOURCES = t-divebyBm1of.c
+t_divebyBm1of_OBJECTS = t-divebyBm1of$U.$(OBJEXT)
+t_divebyBm1of_LDADD = $(LDADD)
+t_divebyBm1of_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
 	$(top_builddir)/libmpir.la
 t_divebyff_SOURCES = t-divebyff.c
 t_divebyff_OBJECTS = t-divebyff$U.$(OBJEXT)
@@ -160,13 +166,13 @@ LINK = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
 	--mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) \
 	$(LDFLAGS) -o $@
 SOURCES = t-addadd_n.c t-addsub_n.c t-aors_1.c t-asmtype.c \
-	t-divebyff.c t-divrem_1.c t-fat.c t-get_d.c t-instrument.c \
-	t-iord_u.c t-lorrshift1.c t-mp_bases.c t-perfsqr.c \
-	t-redc_basecase.c t-scan.c t-subadd_n.c
+	t-divebyBm1of.c t-divebyff.c t-divrem_1.c t-fat.c t-get_d.c \
+	t-instrument.c t-iord_u.c t-lorrshift1.c t-mp_bases.c \
+	t-perfsqr.c t-redc_basecase.c t-scan.c t-subadd_n.c
 DIST_SOURCES = t-addadd_n.c t-addsub_n.c t-aors_1.c t-asmtype.c \
-	t-divebyff.c t-divrem_1.c t-fat.c t-get_d.c t-instrument.c \
-	t-iord_u.c t-lorrshift1.c t-mp_bases.c t-perfsqr.c \
-	t-redc_basecase.c t-scan.c t-subadd_n.c
+	t-divebyBm1of.c t-divebyff.c t-divrem_1.c t-fat.c t-get_d.c \
+	t-instrument.c t-iord_u.c t-lorrshift1.c t-mp_bases.c \
+	t-perfsqr.c t-redc_basecase.c t-scan.c t-subadd_n.c
 ETAGS = etags
 CTAGS = ctags
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
@@ -378,6 +384,9 @@ t-aors_1$(EXEEXT): $(t_aors_1_OBJECTS) $(t_aors_1_DEPENDENCIES)
 t-asmtype$(EXEEXT): $(t_asmtype_OBJECTS) $(t_asmtype_DEPENDENCIES) 
 	@rm -f t-asmtype$(EXEEXT)
 	$(LINK) $(t_asmtype_OBJECTS) $(t_asmtype_LDADD) $(LIBS)
+t-divebyBm1of$(EXEEXT): $(t_divebyBm1of_OBJECTS) $(t_divebyBm1of_DEPENDENCIES) 
+	@rm -f t-divebyBm1of$(EXEEXT)
+	$(LINK) $(t_divebyBm1of_OBJECTS) $(t_divebyBm1of_LDADD) $(LIBS)
 t-divebyff$(EXEEXT): $(t_divebyff_OBJECTS) $(t_divebyff_DEPENDENCIES) 
 	@rm -f t-divebyff$(EXEEXT)
 	$(LINK) $(t_divebyff_OBJECTS) $(t_divebyff_LDADD) $(LIBS)
@@ -442,6 +451,8 @@ t-aors_1_.c: t-aors_1.c $(ANSI2KNR)
 	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/t-aors_1.c; then echo $(srcdir)/t-aors_1.c; else echo t-aors_1.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
 t-asmtype_.c: t-asmtype.c $(ANSI2KNR)
 	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/t-asmtype.c; then echo $(srcdir)/t-asmtype.c; else echo t-asmtype.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
+t-divebyBm1of_.c: t-divebyBm1of.c $(ANSI2KNR)
+	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/t-divebyBm1of.c; then echo $(srcdir)/t-divebyBm1of.c; else echo t-divebyBm1of.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
 t-divebyff_.c: t-divebyff.c $(ANSI2KNR)
 	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/t-divebyff.c; then echo $(srcdir)/t-divebyff.c; else echo t-divebyff.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
 t-divrem_1_.c: t-divrem_1.c $(ANSI2KNR)
@@ -468,14 +479,15 @@ t-subadd_n_.c: t-subadd_n.c $(ANSI2KNR)
 	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/t-subadd_n.c; then echo $(srcdir)/t-subadd_n.c; else echo t-subadd_n.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
 t-addadd_n_.$(OBJEXT) t-addadd_n_.lo t-addsub_n_.$(OBJEXT) \
 t-addsub_n_.lo t-aors_1_.$(OBJEXT) t-aors_1_.lo t-asmtype_.$(OBJEXT) \
-t-asmtype_.lo t-divebyff_.$(OBJEXT) t-divebyff_.lo \
-t-divrem_1_.$(OBJEXT) t-divrem_1_.lo t-fat_.$(OBJEXT) t-fat_.lo \
-t-get_d_.$(OBJEXT) t-get_d_.lo t-instrument_.$(OBJEXT) \
-t-instrument_.lo t-iord_u_.$(OBJEXT) t-iord_u_.lo \
-t-lorrshift1_.$(OBJEXT) t-lorrshift1_.lo t-mp_bases_.$(OBJEXT) \
-t-mp_bases_.lo t-perfsqr_.$(OBJEXT) t-perfsqr_.lo \
-t-redc_basecase_.$(OBJEXT) t-redc_basecase_.lo t-scan_.$(OBJEXT) \
-t-scan_.lo t-subadd_n_.$(OBJEXT) t-subadd_n_.lo : $(ANSI2KNR)
+t-asmtype_.lo t-divebyBm1of_.$(OBJEXT) t-divebyBm1of_.lo \
+t-divebyff_.$(OBJEXT) t-divebyff_.lo t-divrem_1_.$(OBJEXT) \
+t-divrem_1_.lo t-fat_.$(OBJEXT) t-fat_.lo t-get_d_.$(OBJEXT) \
+t-get_d_.lo t-instrument_.$(OBJEXT) t-instrument_.lo \
+t-iord_u_.$(OBJEXT) t-iord_u_.lo t-lorrshift1_.$(OBJEXT) \
+t-lorrshift1_.lo t-mp_bases_.$(OBJEXT) t-mp_bases_.lo \
+t-perfsqr_.$(OBJEXT) t-perfsqr_.lo t-redc_basecase_.$(OBJEXT) \
+t-redc_basecase_.lo t-scan_.$(OBJEXT) t-scan_.lo t-subadd_n_.$(OBJEXT) \
+t-subadd_n_.lo : $(ANSI2KNR)
 
 mostlyclean-libtool:
 	-rm -f *.lo

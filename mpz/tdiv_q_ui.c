@@ -67,7 +67,7 @@ mpz_tdiv_q_ui (mpz_ptr quot, mpz_srcptr dividend, unsigned long int divisor)
   else
 #endif
     {
-      rl = mpn_divrem_1 (qp, (mp_size_t) 0, np, nn, (mp_limb_t) divisor);
+      rl = mpn_divrem_euclidean_qr_1 (qp, np, nn, (mp_limb_t) divisor);
       qn = nn - (qp[nn - 1] == 0);
     }
 

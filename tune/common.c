@@ -563,6 +563,20 @@ speed_mpn_rshift1 (struct speed_params *s)
   SPEED_ROUTINE_MPN_RSHIFT1 (mpn_rshift1);
 }
 
+
+double
+speed_mpn_divrem_euclidean_qr_1 (struct speed_params *s)
+{
+  SPEED_ROUTINE_MPN_UNARY_1 (mpn_divrem_euclidean_qr_1);
+}
+
+double
+speed_mpn_divrem_euclidean_r_1 (struct speed_params *s)
+{
+  SPEED_ROUTINE_MPN_MOD_1 (mpn_divrem_euclidean_r_1);
+}
+
+
 /* The carry-in variants (if available) are good for measuring because they
    won't skip a division if high<divisor.  Alternately, use -1 as a divisor
    with the plain _1 forms. */
@@ -571,6 +585,7 @@ speed_mpn_divrem_1 (struct speed_params *s)
 {
   SPEED_ROUTINE_MPN_DIVREM_1 (mpn_divrem_1);
 }
+
 double
 speed_mpn_divrem_1f (struct speed_params *s)
 {
@@ -689,6 +704,12 @@ double
 speed_mpn_divexact_byff (struct speed_params *s)
 {
   SPEED_ROUTINE_MPN_COPY (mpn_divexact_byff);
+}
+
+double
+speed_mpn_divexact_byBm1of (struct speed_params *s)
+{
+  SPEED_ROUTINE_MPN_DIVEXACT_BYBM1OF (mpn_divexact_byBm1of);
 }
 
 #if HAVE_NATIVE_mpn_modexact_1_odd

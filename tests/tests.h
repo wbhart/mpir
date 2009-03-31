@@ -247,6 +247,9 @@ mp_limb_t refmpn_divexact_byff __GMP_PROTO ((mp_ptr rp, mp_srcptr xp, mp_size_t 
 
 mp_limb_t refmpn_divmod_1 __GMP_PROTO ((mp_ptr rp, mp_srcptr sp, mp_size_t size,
                                    mp_limb_t divisor));
+mp_limb_t refmpn_divrem_euclidean_qr_1 __GMP_PROTO ((mp_ptr rp, mp_srcptr sp, mp_size_t size,mp_limb_t divisor));
+mp_limb_t refmpn_divrem_euclidean_r_1 __GMP_PROTO ((mp_srcptr sp, mp_size_t size,mp_limb_t divisor));
+
 mp_limb_t refmpn_divmod_1c __GMP_PROTO ((mp_ptr rp, mp_srcptr sp, mp_size_t size,
                                     mp_limb_t divisor, mp_limb_t carry));
 mp_limb_t refmpn_divrem_1 __GMP_PROTO ((mp_ptr rp, mp_size_t xsize,

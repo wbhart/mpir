@@ -69,6 +69,10 @@ mpn_mod_1 (mp_srcptr up, mp_size_t un, mp_limb_t d)
   if (un == 0)
     return 0;
 
+  #if HAVE_NATIVE_mpn_divrem_euclidean_r_1
+  return mpn_divrem_euclidean_r_1(up,un,d);
+  #endif
+
   d <<= GMP_NAIL_BITS;
 
   if ((d & GMP_LIMB_HIGHBIT) != 0)

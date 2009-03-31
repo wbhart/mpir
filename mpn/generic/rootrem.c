@@ -150,7 +150,7 @@ mpn_rootrem (mp_ptr rootp, mp_ptr remp,
       qp[xn] = cy;
       qn = xn + (cy != 0);
 
-      mpn_divrem_1 (xp, (mp_size_t) 0, qp, qn, nth);
+      mpn_divrem_euclidean_qr_1 (xp, qp, qn, nth);
       n_valid_bits = n_valid_bits * 2 - adj;
     }
 
