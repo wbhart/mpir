@@ -48,8 +48,6 @@ MA 02110-1301, USA. */
 #define TC4_TIME 0 
 #endif
 
-#define MUL_TOOM4_INTERNAL_THRESHOLD 550 // Unfortunately current tuning code cannot handle tuning this
-
 void
 mpn_toom4_mul_n (mp_ptr rp, mp_srcptr up,
 		          mp_srcptr vp, mp_size_t n);

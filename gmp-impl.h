@@ -1033,6 +1033,7 @@ __GMP_DECLSPEC extern gmp_randstate_t  __gmp_rands;
 #define MPN_TOOM3_MUL_N_MINSIZE   17
 #define MPN_TOOM4_MUL_N_MINSIZE   32
 #define MPN_TOOM3_SQR_N_MINSIZE   17
+#define MUL_TOOM4_INTERNAL_THRESHOLD 550
 
 #define mpn_sqr_diagonal __MPN(sqr_diagonal)
 void mpn_sqr_diagonal _PROTO ((mp_ptr, mp_srcptr, mp_size_t));
@@ -1431,7 +1432,7 @@ __GMP_DECLSPEC extern const mp_limb_t __gmp_fib_table[];
 #endif
 
 #ifndef MUL_TOOM4_THRESHOLD
-#define MUL_TOOM4_THRESHOLD 550
+#define MUL_TOOM4_THRESHOLD 300
 #endif
 
 /* MUL_KARATSUBA_THRESHOLD_LIMIT is the maximum for MUL_KARATSUBA_THRESHOLD.
