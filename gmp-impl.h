@@ -3869,6 +3869,10 @@ extern mp_size_t                     mul_karatsuba_threshold;
 #define MUL_TOOM3_THRESHOLD          mul_toom3_threshold
 extern mp_size_t                     mul_toom3_threshold;
 
+#undef  MUL_TOOM4_THRESHOLD
+#define MUL_TOOM4_THRESHOLD          mul_toom4_threshold
+extern mp_size_t                     mul_toom4_threshold;
+
 #undef  MUL_FFT_THRESHOLD
 #define MUL_FFT_THRESHOLD            mul_fft_threshold
 extern mp_size_t                     mul_fft_threshold;
