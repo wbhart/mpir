@@ -117,7 +117,7 @@ def proc_m(m, i, j) :
     ss = v[i + 1] + ss
   return (v[ 0 : i ] + v[ j : ], '[' + ss)
 
-def pass_three(code, labels, macros) :
+def pass_three(code, labels, macros, level) :
 
   lo = []
   mac_name = ''
@@ -307,7 +307,8 @@ def pass_three(code, labels, macros) :
     m = r_mrf.search(l)
     if m :
       if m.group(1).lower() == 'align' :
-        lo += [lp + '\talignb  {0}, nop'.format(m.group(2))]
+        fs = '\talign   {0}' if is_linux else '\txalign  {0}'
+        lo += [lp + fs.format(m.group(2))]
         continue
       elif m.group(1) in macros :
         lp += '\t{0:7s}'.format(m.group(1).lower())
@@ -346,9 +347,10 @@ def pass_three(code, labels, macros) :
     m = re.search(r"include\(.+config.m4.+\)", l)
     if m :
       if is_linux :
-        lo += [lp + '%include "..\yasm_mac.inc"']
+        lo += [lp + '%include "yasm_mac.inc"']
       else :
-        lo += [lp + '%include "..\x86_64_asm.inc"']
+        lo += [lp + '%include "'
+               + ''.join(['..\\'] * level) + 'yasm_mac.inc"']
       continue
 
     m = re.search(r"\s*(\S+)", l)
@@ -385,11 +387,11 @@ def convert(s, d, l) :
         code = f.readlines()
         f.close()
         if sp == dp :
-          rp = os.path.join(s, x[0] + '.old')
+          rp = os.path.join(s, x[0] + ('.as' if is_linux else '.old'))
           os.rename(sp, rp)
         labels = pass_one(code)
         macros = pass_two(code, labels)
-        code = pass_three(code, labels, macros)
+        code = pass_three(code, labels, macros, l)
         f = open(dp, "w")
         f.writelines(code)
         f.close()
@@ -397,11 +399,11 @@ def convert(s, d, l) :
         form_path(dp)
         shutil.copyfile(sp, dp)
 
-cd = os.getcwd()                    # it must run in build.vc9
+cd = os.getcwd()                    # if run in the build.vc9 directory
 if cd.endswith("build.vc9") :
-  cd1 = cd + "\\..\\mpn\\x86_64"    # the GCC assembler directory
+  cd1 = cd + "\\..\\mpn\\x86_64"    # the GAS assembler directory
   cd2 = cd + "\\..\\mpn\\x86_64w"   # the YASM (Windows) assembler directory
-elif cd.endswith("x86_64") :
+elif cd.endswith("x86_64") :        # if run in the GAS assembler directory
   if os.path.exists(cd + "\\..\\x86_64w") :
     cd1 = cd
     cd2 = cd + "\\..\\x86_64w"
@@ -413,19 +415,8 @@ else:
 if cd1 and os.path.exists(cd1) :
   if os.path.exists(cd2) :
     print("warning: output directory '{0}' already exists".format(cd2))
-  convert(cd1, cd2, 0)            # convert format from GAS to YASM 
+  convert(cd1, cd2, 0)              # convert format from GAS to YASM 
 elif cd1 :
   print("cannot find input directory: '{0}'".format(cd1))
 else :
-  convert(cd, cd + "\\convert\\", 0)
-  if False :
-    # for testing -- translates to directory amd64c rather than amd64
-    f = open("..\\mpn\\x86_64\\amd64\\mul_basecase.asm", "r")
-    code = f.readlines()
-    f.close()
-    labels = pass_one(code)
-    macros = pass_two(code, labels)
-    code = pass_three(code, labels, macros)
-    f = open("..\\mpn\\x86_64w\\amd64c\\mul_basecase.asm", "w")
-    f.writelines(code)
-    f.close()
+  convert(cd, cd, 0)

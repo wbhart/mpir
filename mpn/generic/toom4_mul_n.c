@@ -541,8 +541,9 @@ void tc4_addlsh1_unsigned(mp_ptr rp, mp_size_t * rn, mp_srcptr xp, mp_size_t xn)
 	{
 		if (xn >= *rn)
 		{
+            mp_limb_t cy;
 			if (xn > *rn) MPN_ZERO(rp + *rn, xn - *rn);
-			mp_limb_t cy = mpn_addlsh1_n(rp, rp, xp, xn);
+			cy = mpn_addlsh1_n(rp, rp, xp, xn);
 			if (cy) 
 			{
 				rp[xn] = cy;
@@ -821,7 +822,7 @@ void tc4_copy (mp_ptr yp, mp_size_t * yn, mp_size_t offset, mp_srcptr xp, mp_siz
    do \
    { \
       if ((n1xx != 0) && (n2xx != 0)) \
-      { \
+      { mp_size_t len; \
 	      if (n1xx == n2xx) \
 		   { \
 			   if (n1xx > MUL_TOOM4_THRESHOLD) mpn_toom4_mul_n(r3xx, r1xx, r2xx, n1xx); \
@@ -830,7 +831,7 @@ void tc4_copy (mp_ptr yp, mp_size_t * yn, mp_size_t offset, mp_srcptr xp, mp_siz
 		      tc4_mpn_mul(r3xx, r1xx, n1xx, r2xx, n2xx, tempxx); \
 		   else \
 		      tc4_mpn_mul(r3xx, r2xx, n2xx, r1xx, n1xx, tempxx); \
-	      mp_size_t len = n1xx + n2xx; \
+	      len = n1xx + n2xx; \
 		   MPN_NORMALIZE(r3xx, len); \
 		   n3xx = len; \
       } else \
@@ -889,19 +890,20 @@ void
 mpn_toom4_mul_n (mp_ptr rp, mp_srcptr up,
 		          mp_srcptr vp, mp_size_t n)
 {
+  mp_size_t len1, len2;
+  mp_limb_t cy;
+  mp_ptr tp;
+  mp_size_t a0n, a1n, a2n, a3n, b0n, b1n, b2n, b3n, sn, n1, n2, n3, n4, n5, n6, n7, rpn;
+
+  len1 = n;
+  len2 = n;
   ASSERT (n >= 1);
   ASSERT (!MPN_OVERLAP_P(rp, 2*n, up, n));
   ASSERT (!MPN_OVERLAP_P(rp, 2*n, vp, n));
 
-  mp_size_t len1, len2;
-  len1 = n;
-  len2 = n;
   MPN_NORMALIZE(up, len1);
   MPN_NORMALIZE(vp, len2);
 
-  mp_limb_t cy;
-  mp_ptr tp;
-  mp_size_t a0n, a1n, a2n, a3n, b0n, b1n, b2n, b3n, sn, n1, n2, n3, n4, n5, n6, n7, rpn;
   
   sn = (n - 1) / 4 + 1;
   

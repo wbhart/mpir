@@ -20,10 +20,13 @@ dnl  Boston, MA 02110-1301, USA.
 
 */
 
+#include "mpir.h"
+#include "gmp-impl.h"
+#include "longlong.h"
 
 // basic divrem_hensel_1
 // divisor is 1 limb and odd
-mp_limb_t	mpn_divrem_hensel_1(mp_ptr qp,mp_ptr xp,mp_size_t n,mp_limb_t d,mp_limb_t m)
+mp_limb_t mpn_divrem_hensel_1(mp_ptr qp, mp_ptr xp, mp_size_t n, mp_limb_t d, mp_limb_t m)
 {int j;mp_limb_t c,h,q,dummy,h1,t;
 
 ASSERT(n>0);ASSERT_MPN(xp,n);ASSERT(MPN_SAME_OR_SEPARATE_P(qp,xp,n));

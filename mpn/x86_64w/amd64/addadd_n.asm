@@ -93,6 +93,6 @@
     jnz     .3
 .4: add     rax, r11
     neg     rax
-.5: END_PROC reg_save_list
+    END_PROC reg_save_list
 
     end

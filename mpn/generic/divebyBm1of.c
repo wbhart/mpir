@@ -38,7 +38,6 @@ for(j=0;j<=n-1;j++)
     qp[j]=acc;
     acc-=dx+c;}
 // return next quotient*-f    
-// we could save this mul here , we dont really need it , just left in for mathematical clarity
 return acc*-f;}   // so  (xp,n) = (qp,n)*f -ret*B^n    and 0 <= ret < f
 
 // Note the divexact_by3 code is just a special case of this

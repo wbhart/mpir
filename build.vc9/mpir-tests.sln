@@ -286,6 +286,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.perfpow", "mpir-tests\m
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpn.redc_basecase", "mpir-tests\mpn.redc_basecase.vcproj", "{6B43B380-BFD2-4542-93B1-0FCCB41C784C}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpn.divebybm1of", "mpir-tests\mpn.divebybm1of.vcproj", "{EEEF41E8-5252-4EC8-B7F7-4613C15B647F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -1301,6 +1303,14 @@ Global
 		{6B43B380-BFD2-4542-93B1-0FCCB41C784C}.Release|Win32.Build.0 = Release|Win32
 		{6B43B380-BFD2-4542-93B1-0FCCB41C784C}.Release|x64.ActiveCfg = Release|x64
 		{6B43B380-BFD2-4542-93B1-0FCCB41C784C}.Release|x64.Build.0 = Release|x64
+		{EEEF41E8-5252-4EC8-B7F7-4613C15B647F}.Debug|Win32.ActiveCfg = Debug|Win32
+		{EEEF41E8-5252-4EC8-B7F7-4613C15B647F}.Debug|Win32.Build.0 = Debug|Win32
+		{EEEF41E8-5252-4EC8-B7F7-4613C15B647F}.Debug|x64.ActiveCfg = Debug|x64
+		{EEEF41E8-5252-4EC8-B7F7-4613C15B647F}.Debug|x64.Build.0 = Debug|x64
+		{EEEF41E8-5252-4EC8-B7F7-4613C15B647F}.Release|Win32.ActiveCfg = Release|Win32
+		{EEEF41E8-5252-4EC8-B7F7-4613C15B647F}.Release|Win32.Build.0 = Release|Win32
+		{EEEF41E8-5252-4EC8-B7F7-4613C15B647F}.Release|x64.ActiveCfg = Release|x64
+		{EEEF41E8-5252-4EC8-B7F7-4613C15B647F}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

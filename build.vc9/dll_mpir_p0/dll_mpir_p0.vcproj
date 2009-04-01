@@ -5896,6 +5896,10 @@
 					</FileConfiguration>
 				</File>
 				<File
+					RelativePath="..\..\mpn\generic\divebyBm1of.c"
+					>
+				</File>
+				<File
 					RelativePath="..\..\mpn\generic\divebyff.c"
 					>
 					<FileConfiguration
@@ -5974,6 +5978,18 @@
 							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\mpn\generic\divrem_euclidean_qr_1.c"
+					>
+				</File>
+				<File
+					RelativePath="..\..\mpn\generic\divrem_euclidean_r_1.c"
+					>
+				</File>
+				<File
+					RelativePath="..\..\mpn\generic\divrem_hensel_1.c"
+					>
 				</File>
 				<File
 					RelativePath="..\..\mpn\generic\dump.c"
@@ -6835,6 +6851,10 @@
 							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\mpn\generic\toom4_mul_n.c"
+					>
 				</File>
 				<Filter
 					Name="Assembler"
