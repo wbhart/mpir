@@ -123,7 +123,8 @@ am_tuneup_OBJECTS = tuneup$U.$(OBJEXT)
 am__objects_1 = dc_divrem_n$U.$(OBJEXT) divrem_2$U.$(OBJEXT) \
 	gcd$U.$(OBJEXT) gcdext$U.$(OBJEXT) get_str$U.$(OBJEXT) \
 	mul_n$U.$(OBJEXT) mullow_n$U.$(OBJEXT) mul_fft$U.$(OBJEXT) \
-	mul$U.$(OBJEXT) sb_divrem_mn$U.$(OBJEXT) tdiv_qr$U.$(OBJEXT)
+	mul$U.$(OBJEXT) sb_divrem_mn$U.$(OBJEXT) tdiv_qr$U.$(OBJEXT) \
+	toom4_mul_n$U.$(OBJEXT)
 am__objects_2 = $(am__objects_1) divrem_1$U.$(OBJEXT) \
 	mod_1$U.$(OBJEXT)
 nodist_tuneup_OBJECTS = sqr_basecase$U.$(OBJEXT) $(am__objects_2)
@@ -378,7 +379,7 @@ DISTCLEANFILES = sqr_basecase.c  $(MANY_DISTCLEAN)
 # recompiled object will be rebuilt if that file changes.
 TUNE_MPN_SRCS = $(TUNE_MPN_SRCS_BASIC) divrem_1.c mod_1.c
 TUNE_MPN_SRCS_BASIC = dc_divrem_n.c divrem_2.c gcd.c gcdext.c get_str.c \
-  mul_n.c mullow_n.c mul_fft.c mul.c sb_divrem_mn.c tdiv_qr.c
+  mul_n.c mullow_n.c mul_fft.c mul.c sb_divrem_mn.c tdiv_qr.c toom4_mul_n.c
 
 
 # COMPILE minus CC.
@@ -562,6 +563,8 @@ tdiv_qr_.c: tdiv_qr.c $(ANSI2KNR)
 	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/tdiv_qr.c; then echo $(srcdir)/tdiv_qr.c; else echo tdiv_qr.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
 time_.c: time.c $(ANSI2KNR)
 	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/time.c; then echo $(srcdir)/time.c; else echo time.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
+toom4_mul_n_.c: toom4_mul_n.c $(ANSI2KNR)
+	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/toom4_mul_n.c; then echo $(srcdir)/toom4_mul_n.c; else echo toom4_mul_n.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
 tuneup_.c: tuneup.c $(ANSI2KNR)
 	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/tuneup.c; then echo $(srcdir)/tuneup.c; else echo tuneup.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
 common_.$(OBJEXT) common_.lo dc_divrem_n_.$(OBJEXT) dc_divrem_n_.lo \
@@ -586,8 +589,8 @@ sb_divrem_mn_.$(OBJEXT) sb_divrem_mn_.lo sb_inv_.$(OBJEXT) sb_inv_.lo \
 set_strb_.$(OBJEXT) set_strb_.lo set_strs_.$(OBJEXT) set_strs_.lo \
 speed_.$(OBJEXT) speed_.lo speed-ext_.$(OBJEXT) speed-ext_.lo \
 sqr_basecase_.$(OBJEXT) sqr_basecase_.lo tdiv_qr_.$(OBJEXT) \
-tdiv_qr_.lo time_.$(OBJEXT) time_.lo tuneup_.$(OBJEXT) tuneup_.lo : \
-$(ANSI2KNR)
+tdiv_qr_.lo time_.$(OBJEXT) time_.lo toom4_mul_n_.$(OBJEXT) \
+toom4_mul_n_.lo tuneup_.$(OBJEXT) tuneup_.lo : $(ANSI2KNR)
 
 mostlyclean-libtool:
 	-rm -f *.lo
