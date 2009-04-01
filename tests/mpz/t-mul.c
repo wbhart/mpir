@@ -198,7 +198,7 @@ ref_mpn_mul (mp_ptr wp, mp_srcptr up, mp_size_t un, mp_srcptr vp, mp_size_t vn)
 
   if (vn < FFT_THRESHOLD)
     {
-      /* In the mpn_toom3_mul_n range, use mpn_kara_mul_n.  */
+      /* In the mpn_toom3_mul_n and mpn_toom4_mul_n range, use mpn_kara_mul_n.  */
       tn = 2 * vn + MPN_KARA_MUL_N_TSIZE (vn);
       tp = __GMP_ALLOCATE_FUNC_LIMBS (tn);
       mpn_kara_mul_n (tp, up, vp, vn, tp + 2 * vn);

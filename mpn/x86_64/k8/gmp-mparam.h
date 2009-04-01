@@ -2,6 +2,7 @@
 
 #define MUL_KARATSUBA_THRESHOLD          28
 #define MUL_TOOM3_THRESHOLD              86
+#define MUL_TOOM4_THRESHOLD             249
 
 #define SQR_BASECASE_THRESHOLD            0  /* always (native) */
 #define SQR_KARATSUBA_THRESHOLD          33

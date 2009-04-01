@@ -915,11 +915,7 @@ mpn_mul_n (mp_ptr p, mp_srcptr a, mp_srcptr b, mp_size_t n)
       ASSERT (MUL_TOOM3_THRESHOLD <= MUL_TOOM3_THRESHOLD_LIMIT);
       mpn_kara_mul_n (p, a, b, n, ws);
     }
-#if WANT_FFT || TUNE_PROGRAM_BUILD
-  else if (BELOW_THRESHOLD (n, MUL_FFT_THRESHOLD))
-#else
-  else if (BELOW_THRESHOLD (n, MPN_TOOM3_MAX_N))
-#endif
+  else if (BELOW_THRESHOLD (n, MUL_TOOM4_THRESHOLD))
     {
       mp_ptr ws;
       TMP_SDECL;
@@ -928,6 +924,12 @@ mpn_mul_n (mp_ptr p, mp_srcptr a, mp_srcptr b, mp_size_t n)
       mpn_toom3_mul_n (p, a, b, n, ws);
       TMP_SFREE;
     }
+#if WANT_FFT || TUNE_PROGRAM_BUILD
+  else if (BELOW_THRESHOLD (n, MUL_FFT_THRESHOLD))
+    {
+      mpn_toom4_mul_n (p, a, b, n);
+    }
+#endif
   else
 #if WANT_FFT || TUNE_PROGRAM_BUILD
     {
@@ -937,14 +939,8 @@ mpn_mul_n (mp_ptr p, mp_srcptr a, mp_srcptr b, mp_size_t n)
     }
 #else
     {
-      /* Toom3 for large operands.  Use workspace from the heap, as stack space
-      may be limited.  Since n is at least MUL_TOOM3_THRESHOLD, multiplication
-      will take much longer than malloc()/free().  */
-      mp_ptr ws;  mp_size_t ws_size;
-      ws_size = MPN_TOOM3_MUL_N_TSIZE (n);
-      ws = __GMP_ALLOCATE_FUNC_LIMBS (ws_size);
-      mpn_toom3_mul_n (p, a, b, n, ws);
-      __GMP_FREE_FUNC_LIMBS (ws, ws_size);
+      /* Toom4 for large operands. */
+      mpn_toom4_mul_n (p, a, b, n);
     }
 #endif
 }

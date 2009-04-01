@@ -261,6 +261,7 @@ double speed_mpn_sub_n _PROTO ((struct speed_params *s));
 double speed_mpn_sublsh1_n _PROTO ((struct speed_params *s));
 double speed_mpn_submul_1 _PROTO ((struct speed_params *s));
 double speed_mpn_toom3_mul_n _PROTO ((struct speed_params *s));
+double speed_mpn_toom4_mul_n _PROTO ((struct speed_params *s));
 double speed_mpn_toom3_sqr_n _PROTO ((struct speed_params *s));
 double speed_mpn_udiv_qrnnd _PROTO ((struct speed_params *s));
 double speed_mpn_udiv_qrnnd_r _PROTO ((struct speed_params *s));
@@ -433,9 +434,11 @@ mp_size_t mpn_set_str_subquad _PROTO ((mp_ptr, const unsigned char *, size_t, in
 
 void mpn_toom3_mul_n_open _PROTO ((mp_ptr, mp_srcptr, mp_srcptr, mp_size_t,
 				   mp_ptr));
+void mpn_toom4_mul_n_open _PROTO ((mp_ptr, mp_srcptr, mp_srcptr, mp_size_t));
 void mpn_toom3_sqr_n_open _PROTO ((mp_ptr, mp_srcptr, mp_size_t, mp_ptr));
 void mpn_toom3_mul_n_mpn _PROTO ((mp_ptr, mp_srcptr, mp_srcptr, mp_size_t,
 				  mp_ptr));
+void mpn_toom4_mul_n_mpn _PROTO ((mp_ptr, mp_srcptr, mp_srcptr, mp_size_t));
 void mpn_toom3_sqr_n_mpn _PROTO((mp_ptr, mp_srcptr, mp_size_t, mp_ptr));
 
 void mpz_powm_mod _PROTO ((mpz_ptr res, mpz_srcptr base, mpz_srcptr e,
@@ -1105,6 +1108,34 @@ int speed_routine_count_zeros_setup _PROTO ((struct speed_params *s,
     return t;								\
   }
 
+#define SPEED_ROUTINE_MPN_MUL_N_SIZE(call, minsize)		\
+  {									\
+    mp_ptr    wp;						\
+    unsigned  i;							\
+    double    t;							\
+    TMP_DECL;								\
+									\
+    SPEED_RESTRICT_COND (s->size >= minsize);				\
+									\
+    TMP_MARK;								\
+    SPEED_TMP_ALLOC_LIMBS (wp, 2*s->size, s->align_wp);			\
+    								\
+    speed_operand_src (s, s->xp, s->size);				\
+    speed_operand_src (s, s->yp, s->size);				\
+    speed_operand_dst (s, wp, 2*s->size);				\
+    speed_cache_fill (s);						\
+									\
+    speed_starttime ();							\
+    i = s->reps;							\
+    do									\
+      call;								\
+    while (--i != 0);							\
+    t = speed_endtime ();						\
+									\
+    TMP_FREE;								\
+    return t;								\
+  }
+
 #define SPEED_ROUTINE_MPN_KARA_MUL_N(function)				\
   SPEED_ROUTINE_MPN_MUL_N_TSPACE					\
     (function (wp, s->xp, s->xp, s->size, tspace),			\
@@ -1116,6 +1147,11 @@ int speed_routine_count_zeros_setup _PROTO ((struct speed_params *s,
     (function (wp, s->xp, s->yp, s->size, tspace),			\
      MPN_TOOM3_MUL_N_TSIZE (s->size),					\
      MPN_TOOM3_MUL_N_MINSIZE)
+
+#define SPEED_ROUTINE_MPN_TOOM4_MUL_N(function)				\
+  SPEED_ROUTINE_MPN_MUL_N_SIZE					                  \
+    (function (wp, s->xp, s->yp, s->size),			\
+     MPN_TOOM4_MUL_N_MINSIZE)
 
 
 #define SPEED_ROUTINE_MPN_SQR_CALL(call)				\

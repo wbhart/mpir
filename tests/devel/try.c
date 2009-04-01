@@ -1362,6 +1362,11 @@ mpn_toom3_mul_n_fun (mp_ptr dst, mp_srcptr src1, mp_srcptr src2, mp_size_t size)
   mpn_toom3_mul_n (dst, src1, src2, size, tspace);
 }
 void
+mpn_toom4_mul_n_fun (mp_ptr dst, mp_srcptr src1, mp_srcptr src2, mp_size_t size)
+{
+  mpn_toom4_mul_n (dst, src1, src2, size);
+}
+void
 mpn_toom3_sqr_n_fun (mp_ptr dst, mp_srcptr src, mp_size_t size)
 {
   mp_ptr tspace;
@@ -1578,6 +1583,7 @@ const struct choice_t choice_array[] = {
   { TRY_FUNFUN(mpn_kara_mul_n),  TYPE_MUL_N, MPN_KARA_MUL_N_MINSIZE },
   { TRY_FUNFUN(mpn_kara_sqr_n),  TYPE_SQR,   MPN_KARA_SQR_N_MINSIZE },
   { TRY_FUNFUN(mpn_toom3_mul_n), TYPE_MUL_N, MPN_TOOM3_MUL_N_MINSIZE },
+  { TRY_FUNFUN(mpn_toom4_mul_n), TYPE_MUL_N, MPN_TOOM4_MUL_N_MINSIZE },
   { TRY_FUNFUN(mpn_toom3_sqr_n), TYPE_SQR,   MPN_TOOM3_SQR_N_MINSIZE },
 
   { TRY(mpn_gcd_1),        TYPE_GCD_1            },

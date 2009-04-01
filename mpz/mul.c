@@ -50,13 +50,7 @@ mult (mpz_srcptr u, mpz_srcptr v, mpz_ptr w)
   usize = ABS (usize);
   vsize = ABS (vsize);
 
-  if (usize < vsize)
-    {
-      MPZ_SRCPTR_SWAP (u, v);
-      MP_SIZE_T_SWAP (usize, vsize);
-    }
-
-  if (vsize == 0)
+  if ((usize == 0) || (vsize == 0))
     {
       SIZ(w) = 0;
       return;
@@ -92,6 +86,25 @@ mult (mpz_srcptr u, mpz_srcptr v, mpz_ptr w)
     }
 #endif
 
+  wsize = usize + vsize;
+  
+  if ((wsize <= 32) && (w != u) && (w != v))
+  {
+	  MPZ_REALLOC (w, wsize);
+     wp = PTR(w);
+     if (usize > vsize) mpn_mul_basecase(wp, PTR(u), usize, PTR(v), vsize);
+	  else mpn_mul_basecase(wp, PTR(v), vsize, PTR(u), usize);
+	  wsize -= (wp[wsize - 1] == 0);
+	  SIZ(w) = (sign_product >= 0 ? wsize : -wsize);
+     return;
+  }
+
+  if (usize < vsize)
+    {
+      MPZ_SRCPTR_SWAP (u, v);
+      MP_SIZE_T_SWAP (usize, vsize);
+    }
+
   TMP_MARK;
   free_me = NULL;
   up = u->_mp_d;
@@ -99,7 +112,6 @@ mult (mpz_srcptr u, mpz_srcptr v, mpz_ptr w)
   wp = w->_mp_d;
 
   /* Ensure W has space enough to store the result.  */
-  wsize = usize + vsize;
   if (w->_mp_alloc < wsize)
     {
       if (wp == up || wp == vp)
