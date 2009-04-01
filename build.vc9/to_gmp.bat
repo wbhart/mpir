@@ -9,23 +9,16 @@ if exist dll\win32\debug   call :sub dll\win32\debug
 if exist dll\x64\release   call :sub dll\x64\release
 if exist dll\x64\debug     call :sub dll\x64\debug
 
-cd ..\
-if exist mpir.h   (ren mpir.h   gmp.h)
-if exist mpirxx.h (ren mpirxx.h gmpxx.h)
-cd build.vc9
-
 exit /b 0
 
 :sub
 echo off
 if not exist %1 exit /b 0
 cd %1
-if exist mpir.h     (ren mpir.h     gmp.h)
 if exist mpir.dll   (ren mpir.dll   gmp.dll)
 if exist mpir.lib   (ren mpir.lib   gmp.lib)
 if exist mpir.pdb   (ren mpir.pdb   gmp.pdb)
 if exist mpir.exp   (ren mpir.exp   gmp.exp)
-if exist mpirxx.h   (ren mpirxx.h   gmpxx.h)
 if exist mpirxx.lib (ren mpirxx.lib gmpxx.lib)
 if exist mpirxx.pdb (ren mpirxx.pdb gmpxx.pdb)
 cd ..
