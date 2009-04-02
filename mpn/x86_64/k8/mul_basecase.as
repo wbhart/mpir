@@ -317,7 +317,6 @@
    GLOBAL_FUNC mpn_mul_basecase
 ;	the current mul does not handle case one 
 	cmp     rdx, 2
-	jz      two
 	jb      one
 	mov     [rsp-8], r13
 	mov     [rsp-16], r14
@@ -366,35 +365,4 @@ one:
 	mul     qword [rcx]
 	mov     [rdi], rax
 	mov     [rdi+8], rdx
-	ret
-	align   16
-two:
-	mov     r10, [rcx]
-	mov     rax, [rsi]
-	mul     r10
-	mov     [rdi], rax
-	mov     rax, [rsi+8]
-	mov     r9, rdx
-	mul     r10
-	add     r9, rax
-	adc     rdx, 0
-	mov     [rdi+8], r9
-	mov     [rdi+16], rdx
-	cmp     r8, 2
-	jz      twobytwo
-	ret
-twobytwo:
-	mov     r9d, 0
-	mov     r10, [rcx+8]
-	mov     rax, [rsi]
-	mul     r10
-	add     [rdi+8], rax
-	mov     rax, [rsi+8]
-	adc     r9, rdx
-	mul     r10
-	add     r9, rax
-	adc     rdx, 0
-	add     [rdi+16], r9
-	adc     rdx, 0
-	mov     [rdi+24], rdx
 	ret
