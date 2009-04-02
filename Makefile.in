@@ -289,6 +289,8 @@ ECHO_C = @ECHO_C@
 ECHO_N = @ECHO_N@
 ECHO_T = @ECHO_T@
 EGREP = @EGREP@
+ENABLE_SHARED_FALSE = @ENABLE_SHARED_FALSE@
+ENABLE_SHARED_TRUE = @ENABLE_SHARED_TRUE@
 ENABLE_STATIC_FALSE = @ENABLE_STATIC_FALSE@
 ENABLE_STATIC_TRUE = @ENABLE_STATIC_TRUE@
 EXEEXT = @EXEEXT@
@@ -1348,16 +1350,16 @@ install-data-hook:
 	@echo ''
 
 install-exec-hook:
-@WANT_GMPLINK_TRUE@	(cd $(DESTDIR)$(libdir) && rm -f libgmp.a          && $(LN_S) libmpir.a          libgmp.a)
-@WANT_GMPLINK_TRUE@	(cd $(DESTDIR)$(libdir) && rm -f libgmp.la         && $(LN_S) libmpir.la         libgmp.la)
-@WANT_GMPLINK_TRUE@	(cd $(DESTDIR)$(libdir) && rm -f libgmp.so         && $(LN_S) libmpir.so         libgmp.so)
-@WANT_GMPLINK_TRUE@	(cd $(DESTDIR)$(libdir) && rm -f libgmp.so.3       && $(LN_S) libmpir.so.3       libgmp.so.3)
-@WANT_GMPLINK_TRUE@	(cd $(DESTDIR)$(libdir) && rm -f libgmp.so.3.4.1   && $(LN_S) libmpir.so.3.4.1   libgmp.so.3.4.1)
-@WANT_CXX_TRUE@@WANT_GMPLINK_TRUE@	(cd $(DESTDIR)$(libdir) && rm -f libgmpxx.a        && $(LN_S) libmpirxx.a        libgmpxx.a)
-@WANT_CXX_TRUE@@WANT_GMPLINK_TRUE@	(cd $(DESTDIR)$(libdir) && rm -f libgmpxx.la       && $(LN_S) libmpirxx.la       libgmpxx.la)
-@WANT_CXX_TRUE@@WANT_GMPLINK_TRUE@	(cd $(DESTDIR)$(libdir) && rm -f libgmpxx.so       && $(LN_S) libmpirxx.so       libgmpxx.so)
-@WANT_CXX_TRUE@@WANT_GMPLINK_TRUE@	(cd $(DESTDIR)$(libdir) && rm -f libgmpxx.so.3     && $(LN_S) libmpirxx.so.3     libgmpxx.so.3)
-@WANT_CXX_TRUE@@WANT_GMPLINK_TRUE@	(cd $(DESTDIR)$(libdir) && rm -f libgmpxx.so.3.1.1 && $(LN_S) libmpirxx.so.3.1.1 libgmpxx.so.3.1.1)
+@ENABLE_STATIC_TRUE@@WANT_GMPLINK_TRUE@	(cd $(DESTDIR)$(libdir) && rm -f libgmp.a          && $(LN_S) libmpir.a          libgmp.a)
+@ENABLE_STATIC_TRUE@@WANT_GMPLINK_TRUE@	(cd $(DESTDIR)$(libdir) && rm -f libgmp.la         && $(LN_S) libmpir.la         libgmp.la)
+@ENABLE_SHARED_TRUE@@WANT_GMPLINK_TRUE@	(cd $(DESTDIR)$(libdir) && rm -f libgmp.so         && $(LN_S) libmpir.so         libgmp.so)
+@ENABLE_SHARED_TRUE@@WANT_GMPLINK_TRUE@	(cd $(DESTDIR)$(libdir) && rm -f libgmp.so.3       && $(LN_S) libmpir.so.3       libgmp.so.3)
+@ENABLE_SHARED_TRUE@@WANT_GMPLINK_TRUE@	(cd $(DESTDIR)$(libdir) && rm -f libgmp.so.3.4.1   && $(LN_S) libmpir.so.3.4.1   libgmp.so.3.4.1)
+@ENABLE_STATIC_TRUE@@WANT_CXX_TRUE@@WANT_GMPLINK_TRUE@	(cd $(DESTDIR)$(libdir) && rm -f libgmpxx.a        && $(LN_S) libmpirxx.a        libgmpxx.a)
+@ENABLE_STATIC_TRUE@@WANT_CXX_TRUE@@WANT_GMPLINK_TRUE@	(cd $(DESTDIR)$(libdir) && rm -f libgmpxx.la       && $(LN_S) libmpirxx.la       libgmpxx.la)
+@ENABLE_SHARED_TRUE@@WANT_CXX_TRUE@@WANT_GMPLINK_TRUE@	(cd $(DESTDIR)$(libdir) && rm -f libgmpxx.so       && $(LN_S) libmpirxx.so       libgmpxx.so)
+@ENABLE_SHARED_TRUE@@WANT_CXX_TRUE@@WANT_GMPLINK_TRUE@	(cd $(DESTDIR)$(libdir) && rm -f libgmpxx.so.3     && $(LN_S) libmpirxx.so.3     libgmpxx.so.3)
+@ENABLE_SHARED_TRUE@@WANT_CXX_TRUE@@WANT_GMPLINK_TRUE@	(cd $(DESTDIR)$(libdir) && rm -f libgmpxx.so.3.1.1 && $(LN_S) libmpirxx.so.3.1.1 libgmpxx.so.3.1.1)
 
 mpz/fac_ui.h: gen-fac_ui$(EXEEXT_FOR_BUILD)
 	./gen-fac_ui $(BITS_PER_MP_LIMB) $(GMP_NAIL_BITS) >mpz/fac_ui.h || (rm -f mpz/fac_ui.h; exit 1)

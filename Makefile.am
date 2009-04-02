@@ -324,17 +324,25 @@ endif
 
 install-exec-hook:
 if WANT_GMPLINK
+if ENABLE_STATIC
 	(cd $(DESTDIR)$(libdir) && rm -f libgmp.a          && $(LN_S) libmpir.a          libgmp.a)
 	(cd $(DESTDIR)$(libdir) && rm -f libgmp.la         && $(LN_S) libmpir.la         libgmp.la)
+endif
+if ENABLE_SHARED
 	(cd $(DESTDIR)$(libdir) && rm -f libgmp.so         && $(LN_S) libmpir.so         libgmp.so)
 	(cd $(DESTDIR)$(libdir) && rm -f libgmp.so.3       && $(LN_S) libmpir.so.3       libgmp.so.3)
 	(cd $(DESTDIR)$(libdir) && rm -f libgmp.so.3.4.1   && $(LN_S) libmpir.so.3.4.1   libgmp.so.3.4.1)
+endif
 if WANT_CXX
+if ENABLE_STATIC
 	(cd $(DESTDIR)$(libdir) && rm -f libgmpxx.a        && $(LN_S) libmpirxx.a        libgmpxx.a)
 	(cd $(DESTDIR)$(libdir) && rm -f libgmpxx.la       && $(LN_S) libmpirxx.la       libgmpxx.la)
+endif
+if ENABLE_SHARED
 	(cd $(DESTDIR)$(libdir) && rm -f libgmpxx.so       && $(LN_S) libmpirxx.so       libgmpxx.so)
 	(cd $(DESTDIR)$(libdir) && rm -f libgmpxx.so.3     && $(LN_S) libmpirxx.so.3     libgmpxx.so.3)
 	(cd $(DESTDIR)$(libdir) && rm -f libgmpxx.so.3.1.1 && $(LN_S) libmpirxx.so.3.1.1 libgmpxx.so.3.1.1)
+endif
 endif
 endif
 

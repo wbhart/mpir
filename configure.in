@@ -2248,6 +2248,7 @@ if test "$enable_shared" = yes && test "$enable_static" = yes; then
 fi
 
 AM_CONDITIONAL(ENABLE_STATIC, test "$enable_static" = yes)
+AM_CONDITIONAL(ENABLE_SHARED, test "$enable_shared" = yes)
 
 
 # Many of these library and header checks are for the benefit of
