@@ -38,7 +38,7 @@ MA 02110-1301, USA. */
 #include "gmp-impl.h"
 #include "longlong.h"
 
-#define TC7_LIB 0 // library build only
+#define TC7_LIB 1 // library build only
 
 #if !TC7_LIB
 #include <stdio.h>
