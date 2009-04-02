@@ -3210,6 +3210,10 @@
 					RelativePath="..\..\mpn\generic\toom4_mul_n.c"
 					>
 				</File>
+				<File
+					RelativePath="..\..\mpn\generic\toom7_mul_n.c"
+					>
+				</File>
 				<Filter
 					Name="win32"
 					>
@@ -3385,10 +3389,6 @@
 							>
 						</File>
 						<File
-							RelativePath="..\..\mpn\x86w\p6\p3mmx\popham.asm"
-							>
-						</File>
-						<File
 							RelativePath="..\..\mpn\x86w\p6\mmx\popham.asm"
 							>
 							<FileConfiguration
@@ -3407,6 +3407,10 @@
 									Name="YASM"
 								/>
 							</FileConfiguration>
+						</File>
+						<File
+							RelativePath="..\..\mpn\x86w\p6\p3mmx\popham.asm"
+							>
 						</File>
 						<File
 							RelativePath="..\..\mpn\x86w\p6\mmx\rshift.asm"

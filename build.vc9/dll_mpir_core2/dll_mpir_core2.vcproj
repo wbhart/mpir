@@ -1752,6 +1752,10 @@
 					RelativePath="..\..\mpn\generic\toom4_mul_n.c"
 					>
 				</File>
+				<File
+					RelativePath="..\..\mpn\generic\toom7_mul_n.c"
+					>
+				</File>
 				<Filter
 					Name="Assembler"
 					>
