@@ -308,6 +308,7 @@ const struct routine_t {
   { "mpn_kara_mul_n",    speed_mpn_kara_mul_n       },
   { "mpn_kara_sqr_n",    speed_mpn_kara_sqr_n       },
   { "mpn_toom3_mul_n",   speed_mpn_toom3_mul_n      },
+  { "mpn_toom7_mul_n",   speed_mpn_toom7_mul_n      },
   { "mpn_toom4_mul_n",   speed_mpn_toom4_mul_n      },
   { "mpn_toom3_sqr_n",   speed_mpn_toom3_sqr_n      },
   { "mpn_mul_fft_full",      speed_mpn_mul_fft_full      },

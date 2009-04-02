@@ -151,6 +151,7 @@ int  allocdat = 0;
 mp_size_t  mul_karatsuba_threshold      = MP_SIZE_T_MAX;
 mp_size_t  mul_toom3_threshold          = MUL_TOOM3_THRESHOLD_LIMIT;
 mp_size_t  mul_toom4_threshold          = MUL_TOOM4_THRESHOLD_LIMIT;
+mp_size_t  mul_toom7_threshold          = MUL_TOOM7_THRESHOLD_LIMIT;
 mp_size_t  mul_fft_threshold            = MP_SIZE_T_MAX;
 mp_size_t  mul_fft_modf_threshold       = MP_SIZE_T_MAX;
 mp_size_t  sqr_basecase_threshold       = MP_SIZE_T_MAX;
@@ -839,6 +840,11 @@ tune_mul (void)
   param.min_size = MAX (mul_toom3_threshold, MPN_TOOM4_MUL_N_MINSIZE);
   param.max_size = MUL_TOOM4_THRESHOLD_LIMIT-1;
   one (&mul_toom4_threshold, &param);
+
+  param.name = "MUL_TOOM7_THRESHOLD";
+  param.min_size = MAX (mul_toom4_threshold, MPN_TOOM7_MUL_N_MINSIZE);
+  param.max_size = MUL_TOOM7_THRESHOLD_LIMIT-1;
+  one (&mul_toom7_threshold, &param);
 
   /* disabled until tuned */
   MUL_FFT_THRESHOLD = MP_SIZE_T_MAX;

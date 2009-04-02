@@ -924,10 +924,14 @@ mpn_mul_n (mp_ptr p, mp_srcptr a, mp_srcptr b, mp_size_t n)
       mpn_toom3_mul_n (p, a, b, n, ws);
       TMP_SFREE;
     }
+  else if (BELOW_THRESHOLD (n, MUL_TOOM7_THRESHOLD))
+    {
+       mpn_toom4_mul_n (p, a, b, n);
+    }
 #if WANT_FFT || TUNE_PROGRAM_BUILD
   else if (BELOW_THRESHOLD (n, MUL_FFT_THRESHOLD))
     {
-      mpn_toom4_mul_n (p, a, b, n);
+      mpn_toom7_mul_n (p, a, b, n);
     }
 #endif
   else
@@ -939,8 +943,8 @@ mpn_mul_n (mp_ptr p, mp_srcptr a, mp_srcptr b, mp_size_t n)
     }
 #else
     {
-      /* Toom4 for large operands. */
-      mpn_toom4_mul_n (p, a, b, n);
+      /* Toom7 for large operands. */
+      mpn_toom7_mul_n (p, a, b, n);
     }
 #endif
 }

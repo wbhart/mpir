@@ -1032,8 +1032,10 @@ __GMP_DECLSPEC extern gmp_randstate_t  __gmp_rands;
 /* Need l>=1, ls>=1, and 2*ls > l (the latter for the tD MPN_INCR_U) */
 #define MPN_TOOM3_MUL_N_MINSIZE   17
 #define MPN_TOOM4_MUL_N_MINSIZE   32
+#define MPN_TOOM7_MUL_N_MINSIZE   56
 #define MPN_TOOM3_SQR_N_MINSIZE   17
 #define MUL_TOOM4_INTERNAL_THRESHOLD 550
+#define MUL_TOOM7_INTERNAL_THRESHOLD 1000
 
 #define mpn_sqr_diagonal __MPN(sqr_diagonal)
 void mpn_sqr_diagonal _PROTO ((mp_ptr, mp_srcptr, mp_size_t));
@@ -1432,7 +1434,11 @@ __GMP_DECLSPEC extern const mp_limb_t __gmp_fib_table[];
 #endif
 
 #ifndef MUL_TOOM4_THRESHOLD
-#define MUL_TOOM4_THRESHOLD 300
+#define MUL_TOOM4_THRESHOLD 550
+#endif
+
+#ifndef MUL_TOOM7_THRESHOLD
+#define MUL_TOOM7_THRESHOLD 1000
 #endif
 
 /* MUL_KARATSUBA_THRESHOLD_LIMIT is the maximum for MUL_KARATSUBA_THRESHOLD.
@@ -1448,6 +1454,9 @@ __GMP_DECLSPEC extern const mp_limb_t __gmp_fib_table[];
 #endif
 #ifndef MUL_TOOM4_THRESHOLD_LIMIT
 #define MUL_TOOM4_THRESHOLD_LIMIT  MUL_TOOM4_THRESHOLD
+#endif
+#ifndef MUL_TOOM7_THRESHOLD_LIMIT
+#define MUL_TOOM7_THRESHOLD_LIMIT  MUL_TOOM7_THRESHOLD
 #endif
 #ifndef MULLOW_BASECASE_THRESHOLD_LIMIT
 #define MULLOW_BASECASE_THRESHOLD_LIMIT  MULLOW_BASECASE_THRESHOLD
@@ -3874,6 +3883,10 @@ extern mp_size_t                     mul_toom3_threshold;
 #define MUL_TOOM4_THRESHOLD          mul_toom4_threshold
 extern mp_size_t                     mul_toom4_threshold;
 
+#undef  MUL_TOOM7_THRESHOLD
+#define MUL_TOOM7_THRESHOLD          mul_toom7_threshold
+extern mp_size_t                     mul_toom7_threshold;
+
 #undef  MUL_FFT_THRESHOLD
 #define MUL_FFT_THRESHOLD            mul_fft_threshold
 extern mp_size_t                     mul_fft_threshold;
@@ -3994,12 +4007,14 @@ extern mp_size_t  mpn_fft_table[2][MPN_FFT_TABLE_SIZE];
 #undef MUL_KARATSUBA_THRESHOLD_LIMIT
 #undef MUL_TOOM3_THRESHOLD_LIMIT
 #undef MUL_TOOM4_THRESHOLD_LIMIT
+#undef MUL_TOOM7_THRESHOLD_LIMIT
 #undef MULLOW_BASECASE_THRESHOLD_LIMIT
 #undef SQR_TOOM3_THRESHOLD_LIMIT
 #define SQR_KARATSUBA_MAX_GENERIC       200
 #define MUL_KARATSUBA_THRESHOLD_LIMIT   700
 #define MUL_TOOM3_THRESHOLD_LIMIT       700
 #define MUL_TOOM4_THRESHOLD_LIMIT       40000
+#define MUL_TOOM7_THRESHOLD_LIMIT       1000000
 #define MULLOW_BASECASE_THRESHOLD_LIMIT 200
 #define SQR_TOOM3_THRESHOLD_LIMIT       400
 #define GET_STR_THRESHOLD_LIMIT         150

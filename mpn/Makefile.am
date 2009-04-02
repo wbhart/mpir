@@ -46,7 +46,7 @@ nodist_EXTRA_libmpn_la_SOURCES =					    \
   gcd_finda.c gcd_1.c gcdext.c get_d.c get_str.c			    \
   hamdist.c invert_limb.c lshift1.c rshift1.c				    \
   ior_n.c iorn_n.c jacbase.c lshift.c mod_1.c mod_34lsub1.c mode1o.c	    \
-  mul.c mul_1.c mul_2.c mul_fft.c mul_n.c mul_basecase.c toom4_mul_n.c      \
+  mul.c mul_1.c mul_2.c mul_fft.c mul_n.c mul_basecase.c toom4_mul_n.c toom7_mul_n.c    \
   mullow_n.c mullow_basecase.c nand_n.c nior_n.c perfsqr.c popcount.c	    \
   pre_divrem_1.c pre_mod_1.c pow_1.c random.c random2.c rshift.c	    \
   rootrem.c redc_basecase.c sb_divrem_mn.c scan0.c scan1.c set_str.c	    \
