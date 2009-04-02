@@ -29775,7 +29775,7 @@ gmp_mpn_functions="$extra_functions					   \
   rootrem sqrtrem get_str set_str scan0 scan1 popcount hamdist cmp perfsqr \
   bdivmod gcd gcd_1 gcdext tdiv_qr dc_divrem_n sb_divrem_mn jacbase get_d  \
   mullow_n mullow_basecase redc_basecase	   \
-  $gmp_mpn_functions_optional toom4_mul_n"
+  $gmp_mpn_functions_optional toom4_mul_n toom7_mul_n"
 
 
 
