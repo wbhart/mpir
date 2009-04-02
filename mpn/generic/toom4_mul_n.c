@@ -612,6 +612,26 @@ void tc4_divexact_by3(mp_ptr rp, mp_size_t * rn, mp_ptr x, mp_size_t xn)
 	} else *rn = 0;
 }
 
+#if HAVE_NATIVE_mpn_divexact_byBm1of
+void tc4_divexact_by15(mp_ptr rp, mp_size_t * rn, mp_ptr x, mp_size_t xn)
+{
+	if (xn)
+	{
+		mp_size_t xu = ABS(xn);
+		mpn_divexact_byBm1of(rp, x, xu, CNST_LIMB(15), CNST_LIMB((~0)/15)); // works for 32 and 64 bits
+		if (xn > 0)
+		{
+			if (rp[xu - 1] == CNST_LIMB(0)) *rn = xn - 1;
+			else *rn = xn;
+		} else
+		{
+			if (rp[xu - 1] == CNST_LIMB(0)) *rn = xn + 1;
+			else *rn = xn;
+		}	
+	} else *rn = 0;
+}
+#endif
+
 #if HAVE_NATIVE_mpn_mul_1c
 #define MPN_MUL_1C(cout, dst, src, size, n, cin)        \
   do {                                                  \
@@ -1037,8 +1057,13 @@ mpn_toom4_mul_n (mp_ptr rp, mp_srcptr up,
    tc4_sub(r3, &n3, r3, n3, r5, n5);
 	tc4_sub(r4, &n4, r4, n4, r2, n2);
 	
+#if HAVE_NATIVE_mpn_divexact_byBm1of
+	tc4_divexact_by15(r6, &n6, r6, n6);
+	tc4_rshift_inplace(r6, &n6, 1);
+#else
 	tc4_divexact_ui(r6, &n6, r6, n6, 30);
-   
+#endif
+
 	tc4_add(r6, &n6, r6, n6, r2, n2);
 	tc4_rshift_inplace(r6, &n6, 1);
    
