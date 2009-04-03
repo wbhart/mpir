@@ -44,7 +44,7 @@
     BITS 64
 
     extern  __gmp_modlimb_invert_table
-    
+
     LEAF_PROC mpn_divexact_1
     movsxd  r8, r8d
     mov     r10, rdx
@@ -62,7 +62,7 @@
     jnz     .0
     ret                     ; avoid single byte return
 .1:
-    FRAME_PROC mul_by_inverse, 0, reg_save_list
+    FRAME_PROC ?mpn_divexact, 0, reg_save_list
     mov     rsi, rdx        ; src pointer
     mov     rdi, rcx        ; dst pointer
     bsf     rcx, r9         ; remove powers of two

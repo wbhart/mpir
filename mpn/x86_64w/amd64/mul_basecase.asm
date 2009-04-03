@@ -360,7 +360,7 @@
     jz      two
     jb      one
 
-    FRAME_PROC mul_m_by_n, 0, reg_save_list
+    FRAME_PROC ?mpn_mul_basecase, 0, reg_save_list
     mov     rdi, rcx
     mov     rsi, rdx
     movsxd  rdx, r8d

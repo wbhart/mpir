@@ -48,6 +48,9 @@
 
 %include "..\yasm_mac.inc"
 
+    CPU  Core2
+    BITS 64
+
 %define dst       rcx   ; destination pointer
 %define sr1       rdx   ; source 1 pointer
 %define sr2        r8   ; source 2 pointer
@@ -71,35 +74,34 @@
 %define off 0
 %endif
 
-%macro   mac_sub  3
-
-    LEAF_PROC %3
+    LEAF_PROC mpn_add_nc
     mov     rax,[rsp+0x28]
-    jmp     %%0
+    jmp     entry
     
-    LEAF_PROC %2
+    LEAF_PROC mpn_add_n
     xor     rax,rax
-%%0:
+
+entry:
     movsxd  len,r9d
     cmp     len,UNROLL_THRESHOLD
-    jae     %%2
+    jae     .2
     lea     sr1,[sr1+len*8]
     lea     sr2,[sr2+len*8]
     lea     dst,[dst+len*8]
     neg     len
     shr     rax,1
-%%1:
-    mov     rax,[sr1+len*8]
+
+.1: mov     rax,[sr1+len*8]
     mov     r10,[sr2+len*8]
-    %1      rax,r10
+    adc     rax,r10
     mov     [dst+len*8],rax
     inc     len
-    jnz     %%1
+    jnz     .1
     mov     rax,dword 0
     setc    al
     ret
-%%2:
-    mov     r_cnt,1
+
+.2: mov     r_cnt,1
     and     r_cnt,len
     mov     [rsp+0x08], r_cnt
     and     len,-2
@@ -115,11 +117,11 @@
     lea     dst,[dst+len*8+off]
     shr     rax,1
     lea     r_jmp,[r_jmp+r_jmp*2]
-    lea     rax,[rel %%3]
+    lea     rax,[rel .3]
     lea     r_jmp,[r_jmp+rax]
     jmp     r_jmp
-%%3:
 
+.3:
 %define CHUNK_COUNT  2
 %assign i 0
 
@@ -128,9 +130,9 @@
 
     mov     r_jmp,[byte sr1+disp0]      ; len and r_jmp registers
     mov     len,[byte sr1+disp0+8]      ; now not needed
-    %1      r_jmp,[byte sr2+disp0]
+    adc     r_jmp,[byte sr2+disp0]
     mov     [byte dst+disp0],r_jmp
-    %1      len,[byte sr2+disp0+8]
+    adc     len,[byte sr2+disp0+8]
     mov     [byte dst+disp0+8],len
 
 %assign i i + 1
@@ -140,24 +142,17 @@
     lea     sr1,[sr1+UNROLL_BYTES]
     lea     sr2,[sr2+UNROLL_BYTES]
     lea     dst,[dst+UNROLL_BYTES]
-    jns     %%3
+    jns     .3
 
     mov     rax,[rsp+0x08]
     dec     rax
-    js      %%5
+    js      .5
     mov     len,[sr1-off]
-    %1      len,[sr2-off]
+    adc     len,[sr2-off]
     mov     [dst-off],len
-%%5:mov     rax,dword 0
+
+.5: mov     rax,dword 0
     setc    al
     ret
-
-%endmacro
-
-    CPU  Core2
-    BITS 64
-
-    mac_sub adc,mpn_add_n,mpn_add_nc
-    mac_sub sbb,mpn_sub_n,mpn_sub_nc
 
     end

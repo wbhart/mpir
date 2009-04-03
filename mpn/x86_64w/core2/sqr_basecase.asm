@@ -289,7 +289,7 @@
 
     xalign  16
 fourormore:
-    FRAME_PROC fourormore, 0, reg_save_list
+    FRAME_PROC ?mpn_sqr_1, 0, reg_save_list
     mov     rdi, rcx
     mov     rsi, rdx
     movsxd  rdx, r8d
@@ -449,7 +449,7 @@ two:
 
     xalign  16
 three:
-    FRAME_PROC three, 0, rsi, rdi
+    FRAME_PROC ?mpn_sqr_2, 0, rsi, rdi
     mov     rdi, rcx
     mov     rsi, rdx
 

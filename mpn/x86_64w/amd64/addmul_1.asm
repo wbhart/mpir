@@ -54,7 +54,7 @@
 
     align   16
 .1:
-    FRAME_PROC mpn_addmul_1x, 0, reg_save_list
+    FRAME_PROC ?mpn_addmul, 0, reg_save_list
     mov     r10, rdx
     sub     r8, 5
     lea     r10, [r10+r8*8]

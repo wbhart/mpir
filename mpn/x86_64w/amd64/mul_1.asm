@@ -54,7 +54,7 @@
 
     align   16
 start:
-    FRAME_PROC mulmm, 0, rbx
+    FRAME_PROC ?mpn_mul, 0, rbx
     movsxd  rax, r8d
     mov     r8d, 3
     lea     r10, [rdx+rax*8-24]
