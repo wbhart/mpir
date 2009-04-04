@@ -845,7 +845,7 @@ void tc4_copy (mp_ptr yp, mp_size_t * yn, mp_size_t offset, mp_srcptr xp, mp_siz
       { mp_size_t len; \
 	      if (n1xx == n2xx) \
 		   { \
-			   if (n1xx > MUL_TOOM4_INTERNAL_THRESHOLD) mpn_toom4_mul_n(r3xx, r1xx, r2xx, n1xx); \
+			   if (n1xx > MUL_TOOM4_THRESHOLD) mpn_toom4_mul_n(r3xx, r1xx, r2xx, n1xx); \
             else tc4_mpn_mul_n(r3xx, r1xx, r2xx, n1xx, tempxx); \
 		   } else if (n1xx > n2xx) \
 		      tc4_mpn_mul(r3xx, r1xx, n1xx, r2xx, n2xx, tempxx); \
