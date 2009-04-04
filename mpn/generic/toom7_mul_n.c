@@ -8,6 +8,7 @@
 /* Implementation of the Bodrato-Zanoni algorithm for Toom-Cook 7-way.
 
 Copyright 2001, 2002, 2004, 2005, 2006 Free Software Foundation, Inc.
+Copyright Marco Bodrato, November 2006
 Copyright 2009 William Hart
 
 This file is part of the GNU MP Library.
@@ -1131,8 +1132,9 @@ mpn_toom7_mul_n (mp_ptr rp, mp_srcptr up,
 
    MUL_TC7 (r1, n1, a6, a6n, b6, b6n, temp);        
 
-   MUL_TC7 (r13, n13, a0, a0n, b0, b0n, temp);       
+   MUL_TC7 (r13, n13, a0, a0n, b0, b0n, temp);   
 
+#if 1 // Marco Bodrato's auto generated sequence
    tc7_sub (r9, &n9, r4, n4, r9, n9);	
    tc7_rshift_inplace (r9, &n9, 1);	
    tc7_submul_1 (r4, &n4, r1, n1, 16777216);	
@@ -1238,6 +1240,295 @@ mpn_toom7_mul_n (mp_ptr rp, mp_srcptr up,
 	tc7_copy(rp, &rpn, 10*sn, r4, n4);
 	tc7_copy(rp, &rpn, 11*sn, r12, n12);
 	tc7_copy(rp, &rpn, 12*sn, r1, n1);
+
+#else // Bill Hart's hand derived sequence (very slightly slower)
+
+/*
+   The following code verifies this sequence in Sage:
+
+A=Matrix(ZZ,13)
+A[0]=[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+A[1]=[16777216, 4194304, 1048576, 262144, 65536, 16384, 4096, 1024, 256, 64, 16, 4, 1]
+A[2]=[16777216, -4194304, 1048576, -262144, 65536, -16384, 4096, -1024, 256, -64, 16, -4, 1] 
+A[3]=[531441, 177147, 59049, 19683, 6561, 2187, 729, 243, 81, 27, 9, 3, 1]
+A[4]=[4096, 2048, 1024, 512, 256, 128, 64, 32, 16, 8, 4, 2, 1]
+A[5]=[4096, -2048, 1024, -512, 256, -128, 64, -32, 16, -8, 4, -2, 1] 
+A[6]=[1, 4, 16, 64, 256, 1024, 4096, 16384, 65536, 262144, 1048576, 4194304, 16777216] 
+A[7]=[1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096]
+A[8]=[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+A[9]=[1, -1, 1, -1, 1, -1, 1, -1, 1, -1, 1, -1, 1]
+A[10]=[1, -2, 4, -8, 16, -32, 64, -128, 256, -512, 1024, -2048, 4096]
+A[11]=[1, -4, 16, -64, 256, -1024, 4096, -16384, 65536, -262144, 1048576, -4194304, 16777216] 
+A[12]=[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+
+A[1]=A[1]-A[2]  
+A[1]=A[1]/8  
+A[2]=A[2]-16777216*A[0]
+A[4]=A[4]-A[5]
+A[5]=A[5]-4096*A[0]
+
+A[3]=A[3]-531441*A[0]
+A[6]=A[6]-A[11]
+A[11]=A[11]-16777216*A[12]
+A[10]=A[10]-A[7]
+
+A[7]=A[7]-4096*A[12]
+A[8]=A[8]-A[9]
+A[8]=A[8]/2
+A[10]=A[10]/4
+A[6]=A[6]+16384*A[10]
+A[2]=A[2]+4*A[1]  
+
+A[6]=A[6]/8
+A[11]=A[11]-4*A[6]
+A[6]=A[6]-1024*A[10]
+A[7]=A[7]+2*A[10]
+A[11]=A[11]-1024*A[7]
+A[9]=A[9]+A[8]
+
+A[4]=A[4]+2*A[5]
+A[4]=A[4]/2
+A[5]=A[5]-A[4]
+A[1]=A[1]+512*A[5]  
+A[5]=A[5]+2048*A[8]
+A[10]=A[10]+A[8]
+A[5]=A[5]+2*A[10]
+A[5]=A[5]/90
+A[11]=A[11]+1023*A[0]
+
+A[7]=A[7]-A[0]
+A[1]=A[1]-A[10]   
+A[1]=A[1]+11565*A[5] 
+
+A[9]=A[9]-A[0]
+A[9]=A[9]-A[12]
+A[4]=A[4]-A[12]
+A[2]=A[2]-1024*A[4]
+A[2]=A[2]-A[12]
+
+A[10]=A[10]+1023*A[8]
+A[11]=A[11]-8*A[10]
+A[6]=A[6]+A[10]
+A[6]=A[6]+11520*A[5]
+A[6]=A[6]/11340
+A[5]=A[5]-A[6]
+A[11]=A[11]-92160*A[5]
+A[1]=A[1]-11340*A[5]   
+A[1]=A[1]/170100
+A[7]=A[7]-4*A[9]
+
+A[5]=A[5]-A[1]
+A[8]=A[8]-A[1]
+A[10]=A[10]+15*A[5]
+A[10]=A[10]-1023*A[8]
+A[10]=A[10]+3*A[6]
+A[10]=A[10]-1068*A[1]
+                                        
+A[2]=A[2]+4*A[7]
+A[2]=A[2]/720    
+                                        
+A[4]=A[4]-4*A[9]
+A[11]=A[11]+4*A[4]
+A[11]=A[11]-9360*A[2]
+A[11]=A[11]-1440*A[6]
+
+A[7]=A[7]-1020*A[9]
+A[7]=A[7]+A[4]
+A[7]=A[7]-36*A[2]
+A[11]=A[11]-280*A[7]
+A[11]=A[11]/129600
+
+A[7]=A[7]/432
+A[4]=A[4]-12*A[7]
+A[2]=A[2]+13*A[7]
+A[2]=A[2]+20*A[11]
+A[2]=A[2]/21
+      A[2]=-A[2]
+
+A[7]=A[7]-5*A[11]
+A[7]=A[7]/21
+
+A[9]=A[9]-A[11]
+A[9]=A[9]-A[7]
+A[6]=A[6]-16*A[1]
+
+A[5]=A[5]-17*A[8]
+A[5]=A[5]+A[6]
+A[5]=A[5]-4*A[1]
+
+A[4]=A[4]-12*A[2]
+A[4]=A[4]/1020
+
+A[9]=A[9]-A[2]
+A[5]=A[5]/17
+    A[5]=-A[5]
+A[8]=A[8]-A[5]
+A[9]=A[9]-A[4]
+
+A[3]=A[3]-A[12]
+A[3]=A[3]-3*A[5]
+A[3]=A[3]-9*A[9]
+A[3]=A[3]-27*A[8]
+A[3]=A[3]-81*A[2]
+A[3]=A[3]-243*A[1]
+A[3]=A[3]-729*A[11]
+A[3]=A[3]-486*A[6]
+A[3]=A[3]-6561*A[7]
+A[10]=A[10]+1023*A[5]
+A[3]=A[3]-59049*A[4]
+A[3]=A[3]*31-A[10]*5368
+A[3]=A[3]/95550
+A[6]=A[6]-17*A[3]
+A[10]=A[10]-48*A[3]
+A[10]=A[10]/1023
+A[6]=A[6]/4
+A[1]=A[1]-A[6]
+A[8]=A[8]-A[3]
+A[5]=A[5]-A[10]
+*/
+
+   tc7_sub(r4, &n4, r4, n4, r9, n9);
+   tc7_rshift_inplace(r4, &n4, 3);
+   tc7_submul_1(r9, &n9, r1, n1, 16777216);
+   tc7_sub(r5, &n5, r5, n5, r2, n2);
+   tc7_submul_1(r2, &n2, r1, n1, 4096);
+
+   tc7_submul_1(r12, &n12, r1, n1, 531441);
+   tc7_sub(r10, &n10, r10, n10, r11, n11);
+   tc7_submul_1(r11, &n11, r13, n13, 16777216);
+   tc7_sub(r8, &n8, r8, n8, r3, n3);
+
+   tc7_submul_1(r3, &n3, r13, n13, 4096);
+   tc7_sub(r7, &n7, r7, n7, r6, n6);
+   tc7_rshift_inplace(r7, &n7, 1);
+   tc7_rshift_inplace(r8, &n8, 2);
+   tc7_addmul_1(r10, &n10, r8, n8, 16384);
+   tc7_addmul_1(r9, &n9, r4, n4, 4);
+
+   tc7_rshift_inplace(r10, &n10, 3);
+   tc7_submul_1(r11, &n11, r10, n10, 4);
+   tc7_submul_1(r10, &n10, r8, n8, 1024);
+   tc7_addmul_1(r3, &n3, r8, n8, 2);
+   tc7_submul_1(r11, &n11, r3, n3, 1024);
+   tc7_add(r6, &n6, r6, n6, r7, n7);
+
+   tc7_addmul_1(r5, &n5, r2, n2, 2);
+   tc7_rshift_inplace(r5, &n5, 1);
+   tc7_sub(r2, &n2, r2, n2, r5, n5);
+   tc7_addmul_1(r4, &n4, r2, n2, 512);
+   tc7_addmul_1(r2, &n2, r7, n7, 2048);
+   tc7_add(r8, &n8, r8, n8, r7, n7);
+   tc7_addmul_1(r2, &n2, r8, n8, 2);
+   tc7_divexact_1(r2, &n2, r2, n2, 90);
+   tc7_addmul_1(r11, &n11, r1, n1, 1023);
+
+   tc7_sub(r3, &n3, r3, n3, r1, n1);
+   tc7_sub(r4, &n4, r4, n4, r8, n8); 
+   tc7_addmul_1(r4, &n4, r2, n2, 11565);
+
+   tc7_sub(r6, &n6, r6, n6, r1, n1);
+   tc7_sub(r6, &n6, r6, n6, r13, n13);
+   tc7_sub(r5, &n5, r5, n5, r13, n13);
+   tc7_submul_1(r9, &n9, r5, n5, 1024);
+   tc7_sub(r9, &n9, r9, n9, r13, n13);
+
+   tc7_addmul_1(r8, &n8, r7, n7, 1023);
+   tc7_submul_1(r11, &n11, r8, n8, 8);
+   tc7_add(r10, &n10, r10, n10, r8, n8);
+   tc7_addmul_1(r10, &n10, r2, n2, 11520);
+   tc7_divexact_1(r10, &n10, r10, n10, 11340);
+   tc7_sub(r2, &n2, r2, n2, r10, n10);
+   tc7_submul_1(r11, &n11, r2, n2, 92160);
+   tc7_submul_1(r4, &n4, r2, n2, 11340);
+   tc7_divexact_1(r4, &n4, r4, n4, 170100);
+   tc7_submul_1(r3, &n3, r6, n6, 4);
+
+   tc7_sub(r2, &n2, r2, n2, r4, n4);
+   tc7_sub(r7, &n7, r7, n7, r4, n4);
+   tc7_addmul_1(r8, &n8, r2, n2, 15);
+   tc7_submul_1(r8, &n8, r7, n7, 1023);
+   tc7_addmul_1(r8, &n8, r10, n10, 3);
+   tc7_submul_1(r8, &n8, r4, n4, 1068);
+                                        
+   tc7_addmul_1(r9, &n9, r3, n3, 4);
+   tc7_divexact_1(r9, &n9, r9, n9, 720);   
+                                        
+   tc7_submul_1(r5, &n5, r6, n6, 4);
+   tc7_addmul_1(r11, &n11, r5, n5, 4);
+   tc7_submul_1(r11, &n11, r9, n9, 9360);
+   tc7_submul_1(r11, &n11, r10, n10, 1440);
+
+   tc7_submul_1(r3, &n3, r6, n6, 1020);
+   tc7_add(r3, &n3, r3, n3, r5, n5);
+   tc7_submul_1(r3, &n3, r9, n9, 36);
+   tc7_submul_1(r11, &n11, r3, n3, 280);
+   tc7_divexact_1(r11, &n11, r11, n11, 129600);
+
+   tc7_divexact_1(r3, &n3, r3, n3, 432);
+   tc7_submul_1(r5, &n5, r3, n3, 12);
+   tc7_addmul_1(r9, &n9, r3, n3, 13);
+   tc7_addmul_1(r9, &n9, r11, n11, 20);
+   tc7_divexact_1(r9, &n9, r9, n9, 21);
+   n9 = -n9;
+
+   tc7_submul_1(r3, &n3, r11, n11, 5);
+   tc7_divexact_1(r3, &n3, r3, n3, 21);
+
+   tc7_sub(r6, &n6, r6, n6, r11, n11);
+   tc7_sub(r6, &n6, r6, n6, r3, n3);
+   tc7_submul_1(r10, &n10, r4, n4, 16);
+
+   tc7_submul_1(r2, &n2, r7, n7, 17);
+   tc7_add(r2, &n2, r2, n2, r10, n10);
+   tc7_submul_1(r2, &n2, r4, n4, 4);
+
+   tc7_submul_1(r5, &n5, r9, n9, 12);
+   tc7_divexact_1(r5, &n5, r5, n5, 1020);
+
+   tc7_sub(r6, &n6, r6, n6, r9, n9);
+   tc7_divexact_1(r2, &n2, r2, n2, 17);
+   n2 = -n2;
+   tc7_sub(r7, &n7, r7, n7, r2, n2);
+   tc7_sub(r6, &n6, r6, n6, r5, n5);
+
+   tc7_sub(r12, &n12, r12, n12, r13, n13);
+   tc7_submul_1(r12, &n12, r2, n2, 3);
+   tc7_submul_1(r12, &n12, r6, n6, 9);
+   tc7_submul_1(r12, &n12, r7, n7, 27);
+   tc7_submul_1(r12, &n12, r9, n9, 81);
+   tc7_submul_1(r12, &n12, r4, n4, 243);
+   tc7_submul_1(r12, &n12, r11, n11, 729);
+   tc7_submul_1(r12, &n12, r10, n10, 486);
+   tc7_submul_1(r12, &n12, r3, n3, 6561);
+   tc7_addmul_1(r8, &n8, r2, n2, 1023);
+   tc7_submul_1(r12, &n12, r5, n5, 59049);
+   tc7_mul_1(r12, &n12, r12, n12, 31);
+   tc7_submul_1(r12, &n12, r8, n8, 5368);
+   tc7_divexact_1(r12, &n12, r12, n12, 95550);
+   tc7_submul_1(r10, &n10, r12, n12, 17);
+   tc7_submul_1(r8, &n8, r12, n12, 48);
+   tc7_divexact_1(r8, &n8, r8, n8, 1023);
+   tc7_rshift_inplace(r10, &n10, 2);
+   tc7_sub(r4, &n4, r4, n4, r10, n10);
+   tc7_sub(r7, &n7, r7, n7, r12, n12);
+	tc7_sub(r2, &n2, r2, n2, r8, n8);
+
+	rpn = 0;
+	tc7_copy(rp, &rpn, 0, r13, n13);
+   tc7_copy(rp, &rpn, sn, r2, n2);
+   tc7_copy(rp, &rpn, 2*sn, r6, n6);
+   tc7_copy(rp, &rpn, 3*sn, r7, n7);
+   tc7_copy(rp, &rpn, 4*sn, r9, n9);
+   tc7_copy(rp, &rpn, 5*sn, r4, n4);
+	tc7_copy(rp, &rpn, 6*sn, r11, n11);
+	tc7_copy(rp, &rpn, 7*sn, r10, n10);
+	tc7_copy(rp, &rpn, 8*sn, r3, n3);
+	tc7_copy(rp, &rpn, 9*sn, r12, n12);
+	tc7_copy(rp, &rpn, 10*sn, r5, n5);
+	tc7_copy(rp, &rpn, 11*sn, r8, n8);
+	tc7_copy(rp, &rpn, 12*sn, r1, n1);
+
+#endif
    
 	if (rpn != 2*n) 
 	{
