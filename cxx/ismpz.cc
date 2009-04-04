@@ -41,7 +41,7 @@ operator>> (istream &i, mpz_ptr z)
 
   if (i.flags() & ios::skipws) // skip initial whitespace
     {
-#if HAVE_STD__LOCALE && !defined (__sun)
+#if HAVE_STD__LOCALE && !defined (__sun) && !(defined(__APPLE_CC__) && (__APPLE_CC__ > 1))
       const ctype<char>& ct = use_facet< ctype<char> >(i.getloc());
 #define cxx_isspace(c)  (ct.is(ctype_base::space,(c)))
 #else
