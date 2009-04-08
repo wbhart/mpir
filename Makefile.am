@@ -114,6 +114,9 @@ includeexecdir = $(exec_prefix)/include
 include_HEADERS = $(GMPXX_HEADERS_OPTION)
 nodist_includeexec_HEADERS = mpir.h $(MPBSD_HEADERS_OPTION)
 lib_LTLIBRARIES = libmpir.la $(GMPXX_LTLIBRARIES_OPTION) $(MPBSD_LTLIBRARIES_OPTION)
+if WANT_GMPCOMPAT
+lib_LTLIBRARIES += libgmp.la
+endif
 
 BUILT_SOURCES = mpir.h
 
@@ -262,6 +265,16 @@ libmpir_la_LIBADD = $(libmpir_la_DEPENDENCIES)
 libmpir_la_LDFLAGS = $(GMP_LDFLAGS) $(LIBGMP_LDFLAGS) \
   -version-info $(LIBGMP_LT_CURRENT):$(LIBGMP_LT_REVISION):$(LIBGMP_LT_AGE)
 
+libgmp_la_SOURCES = $(libmpir_la_SOURCES)
+EXTRA_libgmp_la_SOURCES = $(EXTRA_libmpir_la_SOURCES)
+libgmp_la_DEPENDENCIES = @TAL_OBJECT@		\
+  $(MPF_OBJECTS) $(MPZ_OBJECTS) $(MPQ_OBJECTS)	\
+  $(MPN_OBJECTS) @mpn_objs_in_libgmp@		\
+  $(PRINTF_OBJECTS)  $(SCANF_OBJECTS)
+libgmp_la_LIBADD = $(libgmp_la_DEPENDENCIES)
+libgmp_la_LDFLAGS = $(GMP_LDFLAGS) $(LIBGMP_LDFLAGS) \
+  -version-info $(LIBGMP_LT_CURRENT):$(LIBGMP_LT_REVISION):$(LIBGMP_LT_AGE)
+
 
 # We need at least one .cc file in $(libmpirxx_la_SOURCES) so automake will
 # use $(CXXLINK) rather than the plain C $(LINK).  cxx/dummy.cc is that
@@ -269,12 +282,20 @@ libmpir_la_LDFLAGS = $(GMP_LDFLAGS) $(LIBGMP_LDFLAGS) \
 
 if WANT_CXX
 GMPXX_LTLIBRARIES_OPTION = libmpirxx.la
+if WANT_GMPCOMPAT
+GMPXX_LTLIBRARIES_OPTION += libgmpxx.la
+endif
 endif
 libmpirxx_la_SOURCES = cxx/dummy.cc
 libmpirxx_la_DEPENDENCIES = $(CXX_OBJECTS) libmpir.la
 libmpirxx_la_LIBADD = $(libmpirxx_la_DEPENDENCIES)
 libmpirxx_la_LDFLAGS = $(GMP_LDFLAGS) $(LIBGMPXX_LDFLAGS) \
   -version-info $(LIBGMPXX_LT_CURRENT):$(LIBGMPXX_LT_REVISION):$(LIBGMPXX_LT_AGE)
+
+libgmpxx_la_SOURCES = $(libmpirxx_la_SOURCES)
+libgmpxx_la_DEPENDENCIES = $(CXX_OBJECTS) libmpir.la
+libgmpxx_la_LIBADD = $(libgmpxx_la_DEPENDENCIES)
+libgmpxx_la_LDFLAGS = $(libmpirxx_la_LDFLAGS)
 
 
 # The selected mpz objects here support mpz/powm.c (built as mpbsd/powm.lo)
@@ -301,10 +322,10 @@ EXTRA_DIST += libmp.sym
 
 
 install-data-hook:
-if WANT_GMPLINK
-	(cd $(DESTDIR)$(includedir)  && rm -f gmp.h   && $(LN_S) mpir.h   gmp.h)
+if WANT_GMPCOMPAT
+	(cd $(DESTDIR)$(includedir)  && rm -f gmp.h   && cp mpir.h   gmp.h)
 if WANT_CXX
-	(cd $(DESTDIR)$(includedir)  && rm -f gmpxx.h   && $(LN_S) mpirxx.h   gmpxx.h)
+	(cd $(DESTDIR)$(includedir)  && rm -f gmpxx.h   && cp mpirxx.h   gmpxx.h)
 endif
 endif
 	@echo ''
@@ -321,31 +342,6 @@ endif
 	@echo '|                                                             |'
 	@echo '+-------------------------------------------------------------+'
 	@echo ''
-
-install-exec-hook:
-if WANT_GMPLINK
-if ENABLE_STATIC
-	(cd $(DESTDIR)$(libdir) && rm -f libgmp.a          && $(LN_S) libmpir.a          libgmp.a)
-	(cd $(DESTDIR)$(libdir) && rm -f libgmp.la         && $(LN_S) libmpir.la         libgmp.la)
-endif
-if ENABLE_SHARED
-	(cd $(DESTDIR)$(libdir) && rm -f libgmp.so         && $(LN_S) libmpir.so         libgmp.so)
-	(cd $(DESTDIR)$(libdir) && rm -f libgmp.so.3       && $(LN_S) libmpir.so.3       libgmp.so.3)
-	(cd $(DESTDIR)$(libdir) && rm -f libgmp.so.3.4.1   && $(LN_S) libmpir.so.3.4.1   libgmp.so.3.4.1)
-endif
-if WANT_CXX
-if ENABLE_STATIC
-	(cd $(DESTDIR)$(libdir) && rm -f libgmpxx.a        && $(LN_S) libmpirxx.a        libgmpxx.a)
-	(cd $(DESTDIR)$(libdir) && rm -f libgmpxx.la       && $(LN_S) libmpirxx.la       libgmpxx.la)
-endif
-if ENABLE_SHARED
-	(cd $(DESTDIR)$(libdir) && rm -f libgmpxx.so       && $(LN_S) libmpirxx.so       libgmpxx.so)
-	(cd $(DESTDIR)$(libdir) && rm -f libgmpxx.so.3     && $(LN_S) libmpirxx.so.3     libgmpxx.so.3)
-	(cd $(DESTDIR)$(libdir) && rm -f libgmpxx.so.3.1.1 && $(LN_S) libmpirxx.so.3.1.1 libgmpxx.so.3.1.1)
-endif
-endif
-endif
-
 
 # The ansi2knr setups for the build programs are the same as the normal
 # automake ansi2knr rules, but using $(CC_FOR_BUILD) instead of $(CC).

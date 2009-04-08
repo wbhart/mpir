@@ -1,4 +1,4 @@
-This is mpir.info, produced by makeinfo version 4.11 from mpir.texi.
+This is mpir.info, produced by makeinfo version 4.13 from mpir.texi.
 
 This manual describes how to install and use MPIR, the Multiple
 Precision Integers and Rationals library, version 1.0.
@@ -189,11 +189,11 @@ And you can install (under `/usr/local' by default) with
 
    Important note: by default MPIR produces libraries named libmpir,
 etc., and the header file mpir.h. If you wish to have MPIR to install
-links named libgmp, etc., and a gmp.h header file, so that you can use
-mpir with programs designed to only work with GMP, then use the
-`--enable-gmplink' option when invoking configure:
+as a library named libgmp as well, etc., and a gmp.h header file, so
+that you can use mpir with programs designed to only work with GMP,
+then use the `--enable-gmpcompat' option when invoking configure:
 
-     ./configure --enable-gmplink
+     ./configure --enable-gmpcompat
 
    If you experience problems, please report them to
 `http://groups.google.com/group/mpir-devel'.  See *note Reporting
@@ -252,11 +252,11 @@ Build Directory
      `$prefix/include' and `$exec_prefix/include' are available to the
      compiler.
 
-`--enable-gmplink'
+`--enable-gmpcompat'
      By default make builds libmpir library files (and libmpirxx if C++
      headers are requested) and the mpir.h header file. This option
-     allows you to specify that you want symbolic links created called
-     libgmp (and libgmpxx), etc., for libraries and gmp.h for
+     allows you to specify that you want additional librarys created
+     called libgmp (and libgmpxx), etc., for libraries and gmp.h for
      compatibility with GMP.
 
 `--disable-shared', `--disable-static'

@@ -1,4 +1,4 @@
-This is mpir.info, produced by makeinfo version 4.11 from mpir.texi.
+This is mpir.info, produced by makeinfo version 4.13 from mpir.texi.
 
 This manual describes how to install and use MPIR, the Multiple
 Precision Integers and Rationals library, version 1.0.
@@ -1872,7 +1872,7 @@ Concept Index
 * --enable-assert:                       Build Options.       (line 334)
 * --enable-cxx:                          Build Options.       (line 237)
 * --enable-fat:                          Build Options.       (line 170)
-* --enable-gmplink:                      Build Options.       (line  45)
+* --enable-gmpcompat:                    Build Options.       (line  45)
 * --enable-mpbsd:                        Build Options.       (line 329)
 * --enable-profiling <1>:                Profiling.           (line   6)
 * --enable-profiling:                    Build Options.       (line 338)

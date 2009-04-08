@@ -149,16 +149,15 @@ esac],
 [enable_mpbsd=no])
 AM_CONDITIONAL(WANT_MPBSD, test "$enable_mpbsd" = "yes")
 
-AC_ARG_ENABLE(gmplink,
-AC_HELP_STRING([--enable-gmplink],
-               [create symbolic links named gmp that point to mpir [[default=no]]]),
+AC_ARG_ENABLE(gmpcompat,
+AC_HELP_STRING([--enable-gmpcompat],
+               [create library and header files named gmp as well as mpir [[default=no]]]),
 [case $enableval in
 yes|no) ;;
-*) AC_MSG_ERROR([bad value $enableval for --enable-gmplink, need yes or no]) ;;
+*) AC_MSG_ERROR([bad value $enableval for --enable-gmpcompat, need yes or no]) ;;
 esac],
-[enable_gmplink=no])
-AM_CONDITIONAL(WANT_GMPLINK, test "$enable_gmplink" = "yes")
-
+[enable_gmpcompat=no])
+AM_CONDITIONAL(WANT_GMPCOMPAT, test "$enable_gmpcompat" = "yes")
 
 AC_ARG_ENABLE(nails,
 AC_HELP_STRING([--enable-nails],[use nails on limbs [[default=no]]]),

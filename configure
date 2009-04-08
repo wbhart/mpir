@@ -866,8 +866,8 @@ MAINTAINER_MODE_FALSE
 MAINT
 WANT_MPBSD_TRUE
 WANT_MPBSD_FALSE
-WANT_GMPLINK_TRUE
-WANT_GMPLINK_FALSE
+WANT_GMPCOMPAT_TRUE
+WANT_GMPCOMPAT_FALSE
 GMP_NAIL_BITS
 ABI
 HAVE_HOST_CPU_FAMILY_power
@@ -1559,8 +1559,8 @@ Optional Features:
   --enable-fft            enable FFTs for multiplication [default=yes]
   --enable-mpbsd          build Berkeley MP compatibility library
                           [default=no]
-  --enable-gmplink        create symbolic links named gmp that point to mpir
-                          [default=no]
+  --enable-gmpcompat      create library and header files named gmp as well as
+                          mpir [default=no]
   --enable-nails          use nails on limbs [default=no]
   --enable-profiling      build with profiler support [default=no]
   --enable-fat            build a fat binary on systems that support it
@@ -2798,28 +2798,27 @@ else
 fi
 
 
-# Check whether --enable-gmplink was given.
-if test "${enable_gmplink+set}" = set; then
-  enableval=$enable_gmplink; case $enableval in
+# Check whether --enable-gmpcompat was given.
+if test "${enable_gmpcompat+set}" = set; then
+  enableval=$enable_gmpcompat; case $enableval in
 yes|no) ;;
-*) { { echo "$as_me:$LINENO: error: bad value $enableval for --enable-gmplink, need yes or no" >&5
-echo "$as_me: error: bad value $enableval for --enable-gmplink, need yes or no" >&2;}
+*) { { echo "$as_me:$LINENO: error: bad value $enableval for --enable-gmpcompat, need yes or no" >&5
+echo "$as_me: error: bad value $enableval for --enable-gmpcompat, need yes or no" >&2;}
    { (exit 1); exit 1; }; } ;;
 esac
 else
-  enable_gmplink=no
+  enable_gmpcompat=no
 fi
 
 
 
-if test "$enable_gmplink" = "yes"; then
-  WANT_GMPLINK_TRUE=
-  WANT_GMPLINK_FALSE='#'
+if test "$enable_gmpcompat" = "yes"; then
+  WANT_GMPCOMPAT_TRUE=
+  WANT_GMPCOMPAT_FALSE='#'
 else
-  WANT_GMPLINK_TRUE='#'
-  WANT_GMPLINK_FALSE=
+  WANT_GMPCOMPAT_TRUE='#'
+  WANT_GMPCOMPAT_FALSE=
 fi
-
 
 
 # Check whether --enable-nails was given.
@@ -11464,7 +11463,7 @@ ia64-*-hpux*)
   ;;
 *-*-irix6*)
   # Find out which ABI we are using.
-  echo '#line 11467 "configure"' > conftest.$ac_ext
+  echo '#line 11466 "configure"' > conftest.$ac_ext
   if { (eval echo "$as_me:$LINENO: \"$ac_compile\"") >&5
   (eval $ac_compile) 2>&5
   ac_status=$?
@@ -13608,11 +13607,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:13611: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:13610: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>conftest.err)
    ac_status=$?
    cat conftest.err >&5
-   echo "$as_me:13615: \$? = $ac_status" >&5
+   echo "$as_me:13614: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s "$ac_outfile"; then
      # The compiler can only warn and ignore the option if not recognized
      # So say no if there are warnings other than the usual output.
@@ -13898,11 +13897,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:13901: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:13900: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>conftest.err)
    ac_status=$?
    cat conftest.err >&5
-   echo "$as_me:13905: \$? = $ac_status" >&5
+   echo "$as_me:13904: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s "$ac_outfile"; then
      # The compiler can only warn and ignore the option if not recognized
      # So say no if there are warnings other than the usual output.
@@ -14002,11 +14001,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:14005: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:14004: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>out/conftest.err)
    ac_status=$?
    cat out/conftest.err >&5
-   echo "$as_me:14009: \$? = $ac_status" >&5
+   echo "$as_me:14008: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s out/conftest2.$ac_objext
    then
      # The compiler can only warn and ignore the option if not recognized
@@ -16373,7 +16372,7 @@ else
   lt_dlunknown=0; lt_dlno_uscore=1; lt_dlneed_uscore=2
   lt_status=$lt_dlunknown
   cat > conftest.$ac_ext <<EOF
-#line 16376 "configure"
+#line 16375 "configure"
 #include "confdefs.h"
 
 #if HAVE_DLFCN_H
@@ -16473,7 +16472,7 @@ else
   lt_dlunknown=0; lt_dlno_uscore=1; lt_dlneed_uscore=2
   lt_status=$lt_dlunknown
   cat > conftest.$ac_ext <<EOF
-#line 16476 "configure"
+#line 16475 "configure"
 #include "confdefs.h"
 
 #if HAVE_DLFCN_H
@@ -18874,11 +18873,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:18877: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:18876: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>conftest.err)
    ac_status=$?
    cat conftest.err >&5
-   echo "$as_me:18881: \$? = $ac_status" >&5
+   echo "$as_me:18880: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s "$ac_outfile"; then
      # The compiler can only warn and ignore the option if not recognized
      # So say no if there are warnings other than the usual output.
@@ -18978,11 +18977,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:18981: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:18980: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>out/conftest.err)
    ac_status=$?
    cat out/conftest.err >&5
-   echo "$as_me:18985: \$? = $ac_status" >&5
+   echo "$as_me:18984: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s out/conftest2.$ac_objext
    then
      # The compiler can only warn and ignore the option if not recognized
@@ -20568,11 +20567,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:20571: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:20570: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>conftest.err)
    ac_status=$?
    cat conftest.err >&5
-   echo "$as_me:20575: \$? = $ac_status" >&5
+   echo "$as_me:20574: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s "$ac_outfile"; then
      # The compiler can only warn and ignore the option if not recognized
      # So say no if there are warnings other than the usual output.
@@ -20672,11 +20671,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:20675: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:20674: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>out/conftest.err)
    ac_status=$?
    cat out/conftest.err >&5
-   echo "$as_me:20679: \$? = $ac_status" >&5
+   echo "$as_me:20678: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s out/conftest2.$ac_objext
    then
      # The compiler can only warn and ignore the option if not recognized
@@ -22886,11 +22885,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:22889: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:22888: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>conftest.err)
    ac_status=$?
    cat conftest.err >&5
-   echo "$as_me:22893: \$? = $ac_status" >&5
+   echo "$as_me:22892: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s "$ac_outfile"; then
      # The compiler can only warn and ignore the option if not recognized
      # So say no if there are warnings other than the usual output.
@@ -23176,11 +23175,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:23179: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:23178: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>conftest.err)
    ac_status=$?
    cat conftest.err >&5
-   echo "$as_me:23183: \$? = $ac_status" >&5
+   echo "$as_me:23182: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s "$ac_outfile"; then
      # The compiler can only warn and ignore the option if not recognized
      # So say no if there are warnings other than the usual output.
@@ -23280,11 +23279,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:23283: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:23282: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>out/conftest.err)
    ac_status=$?
    cat out/conftest.err >&5
-   echo "$as_me:23287: \$? = $ac_status" >&5
+   echo "$as_me:23286: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s out/conftest2.$ac_objext
    then
      # The compiler can only warn and ignore the option if not recognized
@@ -34716,10 +34715,10 @@ echo "$as_me: error: conditional \"WANT_MPBSD\" was never defined.
 Usually this means the macro was only invoked conditionally." >&2;}
    { (exit 1); exit 1; }; }
 fi
-if test -z "${WANT_GMPLINK_TRUE}" && test -z "${WANT_GMPLINK_FALSE}"; then
-  { { echo "$as_me:$LINENO: error: conditional \"WANT_GMPLINK\" was never defined.
+if test -z "${WANT_GMPCOMPAT_TRUE}" && test -z "${WANT_GMPCOMPAT_FALSE}"; then
+  { { echo "$as_me:$LINENO: error: conditional \"WANT_GMPCOMPAT\" was never defined.
 Usually this means the macro was only invoked conditionally." >&5
-echo "$as_me: error: conditional \"WANT_GMPLINK\" was never defined.
+echo "$as_me: error: conditional \"WANT_GMPCOMPAT\" was never defined.
 Usually this means the macro was only invoked conditionally." >&2;}
    { (exit 1); exit 1; }; }
 fi
@@ -35377,8 +35376,8 @@ MAINTAINER_MODE_FALSE!$MAINTAINER_MODE_FALSE$ac_delim
 MAINT!$MAINT$ac_delim
 WANT_MPBSD_TRUE!$WANT_MPBSD_TRUE$ac_delim
 WANT_MPBSD_FALSE!$WANT_MPBSD_FALSE$ac_delim
-WANT_GMPLINK_TRUE!$WANT_GMPLINK_TRUE$ac_delim
-WANT_GMPLINK_FALSE!$WANT_GMPLINK_FALSE$ac_delim
+WANT_GMPCOMPAT_TRUE!$WANT_GMPCOMPAT_TRUE$ac_delim
+WANT_GMPCOMPAT_FALSE!$WANT_GMPCOMPAT_FALSE$ac_delim
 GMP_NAIL_BITS!$GMP_NAIL_BITS$ac_delim
 ABI!$ABI$ac_delim
 HAVE_HOST_CPU_FAMILY_power!$HAVE_HOST_CPU_FAMILY_power$ac_delim

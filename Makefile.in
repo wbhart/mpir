@@ -61,6 +61,8 @@ build_triplet = @build@
 host_triplet = @host@
 ANSI2KNR = @ANSI2KNR@
 @BUILD_YASM_TRUE@am__append_1 = yasm
+@WANT_GMPCOMPAT_TRUE@am__append_2 = libgmp.la
+@WANT_CXX_TRUE@@WANT_GMPCOMPAT_TRUE@am__append_3 = libgmpxx.la
 DIST_COMMON = README $(am__configure_deps) $(am__include_HEADERS_DIST) \
 	$(srcdir)/Makefile.am $(srcdir)/Makefile.in \
 	$(srcdir)/config.in $(srcdir)/gmp-h.in $(srcdir)/mp-h.in \
@@ -88,23 +90,7 @@ am__installdirs = "$(DESTDIR)$(libdir)" "$(DESTDIR)$(includedir)" \
 	"$(DESTDIR)$(includeexecdir)"
 libLTLIBRARIES_INSTALL = $(INSTALL)
 LTLIBRARIES = $(lib_LTLIBRARIES)
-am__DEPENDENCIES_1 = mpbsd/add$U.lo mpbsd/tdiv_qr$U.lo mpbsd/set$U.lo \
-	mpbsd/powm$U.lo mpbsd/sub$U.lo mpbsd/cmp$U.lo mpbsd/mfree$U.lo \
-	mpbsd/mtox$U.lo mpbsd/realloc$U.lo mpbsd/gcd$U.lo \
-	mpbsd/itom$U.lo mpbsd/min$U.lo mpbsd/mul$U.lo mpbsd/mout$U.lo \
-	mpbsd/rpow$U.lo mpbsd/sdiv$U.lo mpbsd/sqrtrem$U.lo \
-	mpbsd/xtom$U.lo
-am__DEPENDENCIES_2 = mpn/fib_table$U.lo mpn/mp_bases$U.lo
-am__DEPENDENCIES_3 = $(srcdir)/libmp.sym $(am__DEPENDENCIES_1) \
-	$(am__DEPENDENCIES_2) mpz/add$U.lo mpz/gcdext$U.lo \
-	mpz/invert$U.lo mpz/mul$U.lo mpz/n_pow_ui$U.lo \
-	mpz/realloc$U.lo mpz/set$U.lo mpz/sub$U.lo mpz/tdiv_q$U.lo
-am_libmp_la_OBJECTS = assert$U.lo errno$U.lo memory$U.lo mp_bpl$U.lo \
-	mp_clz_tab$U.lo mp_dv_tab$U.lo mp_minv_tab$U.lo \
-	mp_get_fns$U.lo mp_set_fns$U.lo
-libmp_la_OBJECTS = $(am_libmp_la_OBJECTS)
-@WANT_MPBSD_TRUE@am_libmp_la_rpath = -rpath $(libdir)
-am__DEPENDENCIES_4 = mpf/init$U.lo mpf/init2$U.lo mpf/set$U.lo \
+am__DEPENDENCIES_1 = mpf/init$U.lo mpf/init2$U.lo mpf/set$U.lo \
 	mpf/set_ui$U.lo mpf/set_si$U.lo mpf/set_str$U.lo \
 	mpf/set_d$U.lo mpf/set_z$U.lo mpf/iset$U.lo mpf/iset_ui$U.lo \
 	mpf/iset_si$U.lo mpf/iset_str$U.lo mpf/iset_d$U.lo \
@@ -123,7 +109,7 @@ am__DEPENDENCIES_4 = mpf/init$U.lo mpf/init2$U.lo mpf/set$U.lo \
 	mpf/fits_sint$U.lo mpf/fits_slong$U.lo mpf/fits_sshort$U.lo \
 	mpf/fits_uint$U.lo mpf/fits_ulong$U.lo mpf/fits_ushort$U.lo \
 	mpf/get_si$U.lo mpf/get_ui$U.lo mpf/int_p$U.lo
-am__DEPENDENCIES_5 = mpz/abs$U.lo mpz/add$U.lo mpz/add_ui$U.lo \
+am__DEPENDENCIES_2 = mpz/abs$U.lo mpz/add$U.lo mpz/add_ui$U.lo \
 	mpz/aorsmul$U.lo mpz/aorsmul_i$U.lo mpz/and$U.lo \
 	mpz/array_init$U.lo mpz/bin_ui$U.lo mpz/bin_uiui$U.lo \
 	mpz/cdiv_q$U.lo mpz/cdiv_q_ui$U.lo mpz/cdiv_qr$U.lo \
@@ -169,7 +155,7 @@ am__DEPENDENCIES_5 = mpz/abs$U.lo mpz/add$U.lo mpz/add_ui$U.lo \
 	mpz/tdiv_r_2exp$U.lo mpz/tdiv_r_ui$U.lo mpz/tstbit$U.lo \
 	mpz/ui_pow_ui$U.lo mpz/ui_sub$U.lo mpz/urandomb$U.lo \
 	mpz/urandomm$U.lo mpz/xor$U.lo
-am__DEPENDENCIES_6 = mpq/abs$U.lo mpq/aors$U.lo mpq/canonicalize$U.lo \
+am__DEPENDENCIES_3 = mpq/abs$U.lo mpq/aors$U.lo mpq/canonicalize$U.lo \
 	mpq/clear$U.lo mpq/cmp$U.lo mpq/cmp_si$U.lo mpq/cmp_ui$U.lo \
 	mpq/div$U.lo mpq/get_d$U.lo mpq/get_den$U.lo mpq/get_num$U.lo \
 	mpq/get_str$U.lo mpq/init$U.lo mpq/inp_str$U.lo mpq/inv$U.lo \
@@ -177,7 +163,8 @@ am__DEPENDENCIES_6 = mpq/abs$U.lo mpq/aors$U.lo mpq/canonicalize$U.lo \
 	mpq/set$U.lo mpq/set_den$U.lo mpq/set_num$U.lo mpq/set_si$U.lo \
 	mpq/set_str$U.lo mpq/set_ui$U.lo mpq/equal$U.lo mpq/set_z$U.lo \
 	mpq/set_d$U.lo mpq/set_f$U.lo mpq/swap$U.lo
-am__DEPENDENCIES_7 = printf/asprintf$U.lo printf/asprntffuns$U.lo \
+am__DEPENDENCIES_4 = mpn/fib_table$U.lo mpn/mp_bases$U.lo
+am__DEPENDENCIES_5 = printf/asprintf$U.lo printf/asprntffuns$U.lo \
 	printf/doprnt$U.lo printf/doprntf$U.lo printf/doprnti$U.lo \
 	printf/fprintf$U.lo printf/obprintf$U.lo printf/obvprintf$U.lo \
 	printf/obprntffuns$U.lo printf/printf$U.lo \
@@ -186,13 +173,47 @@ am__DEPENDENCIES_7 = printf/asprintf$U.lo printf/asprntffuns$U.lo \
 	printf/sprintffuns$U.lo printf/vasprintf$U.lo \
 	printf/vfprintf$U.lo printf/vprintf$U.lo printf/vsnprintf$U.lo \
 	printf/vsprintf$U.lo printf/repl-vsnprintf$U.lo
-am__DEPENDENCIES_8 = scanf/doscan$U.lo scanf/fscanf$U.lo \
+am__DEPENDENCIES_6 = scanf/doscan$U.lo scanf/fscanf$U.lo \
 	scanf/fscanffuns$U.lo scanf/scanf$U.lo scanf/sscanf$U.lo \
 	scanf/sscanffuns$U.lo scanf/vfscanf$U.lo scanf/vscanf$U.lo \
 	scanf/vsscanf$U.lo
-am__DEPENDENCIES_9 = $(am__DEPENDENCIES_4) $(am__DEPENDENCIES_5) \
-	$(am__DEPENDENCIES_6) $(am__DEPENDENCIES_2) \
-	$(am__DEPENDENCIES_7) $(am__DEPENDENCIES_8)
+am__DEPENDENCIES_7 = $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_2) \
+	$(am__DEPENDENCIES_3) $(am__DEPENDENCIES_4) \
+	$(am__DEPENDENCIES_5) $(am__DEPENDENCIES_6)
+am__objects_1 = assert$U.lo compat$U.lo errno$U.lo extract-dbl$U.lo \
+	invalid$U.lo memory$U.lo mp_bpl$U.lo mp_clz_tab$U.lo \
+	mp_dv_tab$U.lo mp_minv_tab$U.lo mp_get_fns$U.lo \
+	mp_set_fns$U.lo rand$U.lo randclr$U.lo randdef$U.lo \
+	randiset$U.lo randlc2s$U.lo randlc2x$U.lo randmt$U.lo \
+	randmts$U.lo rands$U.lo randsd$U.lo randsdui$U.lo randbui$U.lo \
+	randmui$U.lo version$U.lo
+am_libgmp_la_OBJECTS = $(am__objects_1)
+libgmp_la_OBJECTS = $(am_libgmp_la_OBJECTS)
+@WANT_GMPCOMPAT_TRUE@am_libgmp_la_rpath = -rpath $(libdir)
+am__DEPENDENCIES_8 = cxx/isfuns.lo cxx/ismpf.lo cxx/ismpq.lo \
+	cxx/ismpz.lo cxx/ismpznw.lo cxx/osdoprnti.lo cxx/osfuns.lo \
+	cxx/osmpf.lo cxx/osmpq.lo cxx/osmpz.lo
+am__DEPENDENCIES_9 = $(am__DEPENDENCIES_8) libmpir.la
+am__objects_3 = dummy.lo
+am_libgmpxx_la_OBJECTS = $(am__objects_3)
+libgmpxx_la_OBJECTS = $(am_libgmpxx_la_OBJECTS)
+@WANT_CXX_TRUE@@WANT_GMPCOMPAT_TRUE@am_libgmpxx_la_rpath = -rpath \
+@WANT_CXX_TRUE@@WANT_GMPCOMPAT_TRUE@	$(libdir)
+am__DEPENDENCIES_10 = mpbsd/add$U.lo mpbsd/tdiv_qr$U.lo mpbsd/set$U.lo \
+	mpbsd/powm$U.lo mpbsd/sub$U.lo mpbsd/cmp$U.lo mpbsd/mfree$U.lo \
+	mpbsd/mtox$U.lo mpbsd/realloc$U.lo mpbsd/gcd$U.lo \
+	mpbsd/itom$U.lo mpbsd/min$U.lo mpbsd/mul$U.lo mpbsd/mout$U.lo \
+	mpbsd/rpow$U.lo mpbsd/sdiv$U.lo mpbsd/sqrtrem$U.lo \
+	mpbsd/xtom$U.lo
+am__DEPENDENCIES_11 = $(srcdir)/libmp.sym $(am__DEPENDENCIES_10) \
+	$(am__DEPENDENCIES_4) mpz/add$U.lo mpz/gcdext$U.lo \
+	mpz/invert$U.lo mpz/mul$U.lo mpz/n_pow_ui$U.lo \
+	mpz/realloc$U.lo mpz/set$U.lo mpz/sub$U.lo mpz/tdiv_q$U.lo
+am_libmp_la_OBJECTS = assert$U.lo errno$U.lo memory$U.lo mp_bpl$U.lo \
+	mp_clz_tab$U.lo mp_dv_tab$U.lo mp_minv_tab$U.lo \
+	mp_get_fns$U.lo mp_set_fns$U.lo
+libmp_la_OBJECTS = $(am_libmp_la_OBJECTS)
+@WANT_MPBSD_TRUE@am_libmp_la_rpath = -rpath $(libdir)
 am_libmpir_la_OBJECTS = assert$U.lo compat$U.lo errno$U.lo \
 	extract-dbl$U.lo invalid$U.lo memory$U.lo mp_bpl$U.lo \
 	mp_clz_tab$U.lo mp_dv_tab$U.lo mp_minv_tab$U.lo \
@@ -201,10 +222,6 @@ am_libmpir_la_OBJECTS = assert$U.lo compat$U.lo errno$U.lo \
 	randmt$U.lo randmts$U.lo rands$U.lo randsd$U.lo randsdui$U.lo \
 	randbui$U.lo randmui$U.lo version$U.lo
 libmpir_la_OBJECTS = $(am_libmpir_la_OBJECTS)
-am__DEPENDENCIES_10 = cxx/isfuns.lo cxx/ismpf.lo cxx/ismpq.lo \
-	cxx/ismpz.lo cxx/ismpznw.lo cxx/osdoprnti.lo cxx/osfuns.lo \
-	cxx/osmpf.lo cxx/osmpq.lo cxx/osmpz.lo
-am__DEPENDENCIES_11 = $(am__DEPENDENCIES_10) libmpir.la
 am_libmpirxx_la_OBJECTS = dummy.lo
 libmpirxx_la_OBJECTS = $(am_libmpirxx_la_OBJECTS)
 @WANT_CXX_TRUE@am_libmpirxx_la_rpath = -rpath $(libdir)
@@ -227,10 +244,14 @@ LTCXXCOMPILE = $(LIBTOOL) --tag=CXX --mode=compile $(CXX) $(DEFS) \
 CXXLD = $(CXX)
 CXXLINK = $(LIBTOOL) --tag=CXX --mode=link $(CXXLD) $(AM_CXXFLAGS) \
 	$(CXXFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
-SOURCES = $(libmp_la_SOURCES) $(libmpir_la_SOURCES) \
-	$(EXTRA_libmpir_la_SOURCES) $(libmpirxx_la_SOURCES)
-DIST_SOURCES = $(libmp_la_SOURCES) $(libmpir_la_SOURCES) \
-	$(EXTRA_libmpir_la_SOURCES) $(libmpirxx_la_SOURCES)
+SOURCES = $(libgmp_la_SOURCES) $(EXTRA_libgmp_la_SOURCES) \
+	$(libgmpxx_la_SOURCES) $(libmp_la_SOURCES) \
+	$(libmpir_la_SOURCES) $(EXTRA_libmpir_la_SOURCES) \
+	$(libmpirxx_la_SOURCES)
+DIST_SOURCES = $(libgmp_la_SOURCES) $(EXTRA_libgmp_la_SOURCES) \
+	$(libgmpxx_la_SOURCES) $(libmp_la_SOURCES) \
+	$(libmpir_la_SOURCES) $(EXTRA_libmpir_la_SOURCES) \
+	$(libmpirxx_la_SOURCES)
 RECURSIVE_TARGETS = all-recursive check-recursive dvi-recursive \
 	html-recursive info-recursive install-data-recursive \
 	install-exec-recursive install-info-recursive \
@@ -360,8 +381,8 @@ U_FOR_BUILD = @U_FOR_BUILD@
 VERSION = @VERSION@
 WANT_CXX_FALSE = @WANT_CXX_FALSE@
 WANT_CXX_TRUE = @WANT_CXX_TRUE@
-WANT_GMPLINK_FALSE = @WANT_GMPLINK_FALSE@
-WANT_GMPLINK_TRUE = @WANT_GMPLINK_TRUE@
+WANT_GMPCOMPAT_FALSE = @WANT_GMPCOMPAT_FALSE@
+WANT_GMPCOMPAT_TRUE = @WANT_GMPCOMPAT_TRUE@
 WANT_MPBSD_FALSE = @WANT_MPBSD_FALSE@
 WANT_MPBSD_TRUE = @WANT_MPBSD_TRUE@
 WITH_READLINE_01 = @WITH_READLINE_01@
@@ -509,7 +530,8 @@ EXTRA_DIST = configfsf.guess configfsf.sub .gdbinit INSTALL.autoconf \
 includeexecdir = $(exec_prefix)/include
 include_HEADERS = $(GMPXX_HEADERS_OPTION)
 nodist_includeexec_HEADERS = mpir.h $(MPBSD_HEADERS_OPTION)
-lib_LTLIBRARIES = libmpir.la $(GMPXX_LTLIBRARIES_OPTION) $(MPBSD_LTLIBRARIES_OPTION)
+lib_LTLIBRARIES = libmpir.la $(GMPXX_LTLIBRARIES_OPTION) \
+	$(MPBSD_LTLIBRARIES_OPTION) $(am__append_2)
 BUILT_SOURCES = mpir.h mp.h mpz/fac_ui.h fib_table.h mpn/fib_table.c \
 	mp_bases.h mpn/mp_bases.c mpn/perfsqr.h
 DISTCLEANFILES = $(BUILT_SOURCES) config.m4 @gmp_srclinks@ \
@@ -658,17 +680,32 @@ libmpir_la_LIBADD = $(libmpir_la_DEPENDENCIES)
 libmpir_la_LDFLAGS = $(GMP_LDFLAGS) $(LIBGMP_LDFLAGS) \
   -version-info $(LIBGMP_LT_CURRENT):$(LIBGMP_LT_REVISION):$(LIBGMP_LT_AGE)
 
+libgmp_la_SOURCES = $(libmpir_la_SOURCES)
+EXTRA_libgmp_la_SOURCES = $(EXTRA_libmpir_la_SOURCES)
+libgmp_la_DEPENDENCIES = @TAL_OBJECT@		\
+  $(MPF_OBJECTS) $(MPZ_OBJECTS) $(MPQ_OBJECTS)	\
+  $(MPN_OBJECTS) @mpn_objs_in_libgmp@		\
+  $(PRINTF_OBJECTS)  $(SCANF_OBJECTS)
+
+libgmp_la_LIBADD = $(libgmp_la_DEPENDENCIES)
+libgmp_la_LDFLAGS = $(GMP_LDFLAGS) $(LIBGMP_LDFLAGS) \
+  -version-info $(LIBGMP_LT_CURRENT):$(LIBGMP_LT_REVISION):$(LIBGMP_LT_AGE)
+
 
 # We need at least one .cc file in $(libmpirxx_la_SOURCES) so automake will
 # use $(CXXLINK) rather than the plain C $(LINK).  cxx/dummy.cc is that
 # file.
-@WANT_CXX_TRUE@GMPXX_LTLIBRARIES_OPTION = libmpirxx.la
+@WANT_CXX_TRUE@GMPXX_LTLIBRARIES_OPTION = libmpirxx.la $(am__append_3)
 libmpirxx_la_SOURCES = cxx/dummy.cc
 libmpirxx_la_DEPENDENCIES = $(CXX_OBJECTS) libmpir.la
 libmpirxx_la_LIBADD = $(libmpirxx_la_DEPENDENCIES)
 libmpirxx_la_LDFLAGS = $(GMP_LDFLAGS) $(LIBGMPXX_LDFLAGS) \
   -version-info $(LIBGMPXX_LT_CURRENT):$(LIBGMPXX_LT_REVISION):$(LIBGMPXX_LT_AGE)
 
+libgmpxx_la_SOURCES = $(libmpirxx_la_SOURCES)
+libgmpxx_la_DEPENDENCIES = $(CXX_OBJECTS) libmpir.la
+libgmpxx_la_LIBADD = $(libgmpxx_la_DEPENDENCIES)
+libgmpxx_la_LDFLAGS = $(libmpirxx_la_LDFLAGS)
 
 # The selected mpz objects here support mpz/powm.c (built as mpbsd/powm.lo)
 # and can probably be removed when that switches to an mpn implementation.
@@ -775,6 +812,10 @@ clean-libLTLIBRARIES:
 	  echo "rm -f \"$${dir}/so_locations\""; \
 	  rm -f "$${dir}/so_locations"; \
 	done
+libgmp.la: $(libgmp_la_OBJECTS) $(libgmp_la_DEPENDENCIES) 
+	$(LINK) $(am_libgmp_la_rpath) $(libgmp_la_LDFLAGS) $(libgmp_la_OBJECTS) $(libgmp_la_LIBADD) $(LIBS)
+libgmpxx.la: $(libgmpxx_la_OBJECTS) $(libgmpxx_la_DEPENDENCIES) 
+	$(CXXLINK) $(am_libgmpxx_la_rpath) $(libgmpxx_la_LDFLAGS) $(libgmpxx_la_OBJECTS) $(libgmpxx_la_LIBADD) $(LIBS)
 libmp.la: $(libmp_la_OBJECTS) $(libmp_la_DEPENDENCIES) 
 	$(LINK) $(am_libmp_la_rpath) $(libmp_la_LDFLAGS) $(libmp_la_OBJECTS) $(libmp_la_LIBADD) $(LIBS)
 libmpir.la: $(libmpir_la_OBJECTS) $(libmpir_la_DEPENDENCIES) 
@@ -1276,8 +1317,6 @@ install-data-am: install-includeHEADERS
 
 install-exec-am: install-libLTLIBRARIES \
 	install-nodist_includeexecHEADERS
-	@$(NORMAL_INSTALL)
-	$(MAKE) $(AM_MAKEFLAGS) install-exec-hook
 
 install-info: install-info-recursive
 
@@ -1319,8 +1358,8 @@ uninstall-info: uninstall-info-recursive
 	distcleancheck distdir distuninstallcheck dvi dvi-am html \
 	html-am info info-am install install-am install-data \
 	install-data-am install-data-hook install-exec install-exec-am \
-	install-exec-hook install-includeHEADERS install-info \
-	install-info-am install-libLTLIBRARIES install-man \
+	install-includeHEADERS install-info install-info-am \
+	install-libLTLIBRARIES install-man \
 	install-nodist_includeexecHEADERS install-strip installcheck \
 	installcheck-am installdirs installdirs-am maintainer-clean \
 	maintainer-clean-generic maintainer-clean-recursive \
@@ -1332,8 +1371,8 @@ uninstall-info: uninstall-info-recursive
 
 
 install-data-hook:
-@WANT_GMPLINK_TRUE@	(cd $(DESTDIR)$(includedir)  && rm -f gmp.h   && $(LN_S) mpir.h   gmp.h)
-@WANT_CXX_TRUE@@WANT_GMPLINK_TRUE@	(cd $(DESTDIR)$(includedir)  && rm -f gmpxx.h   && $(LN_S) mpirxx.h   gmpxx.h)
+@WANT_GMPCOMPAT_TRUE@	(cd $(DESTDIR)$(includedir)  && rm -f gmp.h   && cp mpir.h   gmp.h)
+@WANT_CXX_TRUE@@WANT_GMPCOMPAT_TRUE@	(cd $(DESTDIR)$(includedir)  && rm -f gmpxx.h   && cp mpirxx.h   gmpxx.h)
 	@echo ''
 	@echo '+-------------------------------------------------------------+'
 	@echo '| CAUTION:                                                    |'
@@ -1348,18 +1387,6 @@ install-data-hook:
 	@echo '|                                                             |'
 	@echo '+-------------------------------------------------------------+'
 	@echo ''
-
-install-exec-hook:
-@ENABLE_STATIC_TRUE@@WANT_GMPLINK_TRUE@	(cd $(DESTDIR)$(libdir) && rm -f libgmp.a          && $(LN_S) libmpir.a          libgmp.a)
-@ENABLE_STATIC_TRUE@@WANT_GMPLINK_TRUE@	(cd $(DESTDIR)$(libdir) && rm -f libgmp.la         && $(LN_S) libmpir.la         libgmp.la)
-@ENABLE_SHARED_TRUE@@WANT_GMPLINK_TRUE@	(cd $(DESTDIR)$(libdir) && rm -f libgmp.so         && $(LN_S) libmpir.so         libgmp.so)
-@ENABLE_SHARED_TRUE@@WANT_GMPLINK_TRUE@	(cd $(DESTDIR)$(libdir) && rm -f libgmp.so.3       && $(LN_S) libmpir.so.3       libgmp.so.3)
-@ENABLE_SHARED_TRUE@@WANT_GMPLINK_TRUE@	(cd $(DESTDIR)$(libdir) && rm -f libgmp.so.3.4.1   && $(LN_S) libmpir.so.3.4.1   libgmp.so.3.4.1)
-@ENABLE_STATIC_TRUE@@WANT_CXX_TRUE@@WANT_GMPLINK_TRUE@	(cd $(DESTDIR)$(libdir) && rm -f libgmpxx.a        && $(LN_S) libmpirxx.a        libgmpxx.a)
-@ENABLE_STATIC_TRUE@@WANT_CXX_TRUE@@WANT_GMPLINK_TRUE@	(cd $(DESTDIR)$(libdir) && rm -f libgmpxx.la       && $(LN_S) libmpirxx.la       libgmpxx.la)
-@ENABLE_SHARED_TRUE@@WANT_CXX_TRUE@@WANT_GMPLINK_TRUE@	(cd $(DESTDIR)$(libdir) && rm -f libgmpxx.so       && $(LN_S) libmpirxx.so       libgmpxx.so)
-@ENABLE_SHARED_TRUE@@WANT_CXX_TRUE@@WANT_GMPLINK_TRUE@	(cd $(DESTDIR)$(libdir) && rm -f libgmpxx.so.3     && $(LN_S) libmpirxx.so.3     libgmpxx.so.3)
-@ENABLE_SHARED_TRUE@@WANT_CXX_TRUE@@WANT_GMPLINK_TRUE@	(cd $(DESTDIR)$(libdir) && rm -f libgmpxx.so.3.1.1 && $(LN_S) libmpirxx.so.3.1.1 libgmpxx.so.3.1.1)
 
 mpz/fac_ui.h: gen-fac_ui$(EXEEXT_FOR_BUILD)
 	./gen-fac_ui $(BITS_PER_MP_LIMB) $(GMP_NAIL_BITS) >mpz/fac_ui.h || (rm -f mpz/fac_ui.h; exit 1)

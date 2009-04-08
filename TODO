@@ -1,6 +1,3 @@
-
-fake cpuid to test all paths
-
 new function mpn_divexact_byBm1of   generic and x86_64 versions done
 done speed, tests
 not done try , fat
@@ -12,10 +9,8 @@ new functions divrem_euclidean_qr_1 asm and c (qr,r version)
 done try 
 not done speed,tests,fat
 
-
 mpn_divrem_1 with qxn=0 now calls mpn_divrem_euclidean_qr_1 always
 replace all internel calls to mpn_divrem_1 with the new euclidean
 we could replace mpn_mod_1   as well   !!!
 
-
-copy core2/*.asm to netburstlafh
+tune netburst,and all again
