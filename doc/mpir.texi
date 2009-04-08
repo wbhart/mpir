@@ -631,7 +631,7 @@ it will be necessary to ensure both @file{$prefix/include} and
 
 @item @option{--enable-gmpcompat}
 @cindex @code{--enable-gmpcompat}
-By default make builds libmpir library files (and libmpirxx if C++ headers are requested) and the mpir.h header file. This option allows you to specify that you want additional librarys created called libgmp (and libgmpxx), etc., for libraries and gmp.h for compatibility with GMP.
+By default make builds libmpir library files (and libmpirxx if C++ headers are requested) and the mpir.h header file. This option allows you to specify that you want additional libraries created called libgmp (and libgmpxx), etc., for libraries and gmp.h for compatibility with GMP.
 
 @item @option{--disable-shared}, @option{--disable-static}
 @cindex @code{--disable-shared}
