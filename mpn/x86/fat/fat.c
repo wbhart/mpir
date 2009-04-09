@@ -72,7 +72,7 @@ static struct {
   { "k6",         "AuthenticAMD", MAKE_FMS (5, 3) },
   { "k62",        "AuthenticAMD", MAKE_FMS (5, 8) },
   { "k63",        "AuthenticAMD", MAKE_FMS (5, 9) },
-  { "athlon",     "AuthenticAMD", MAKE_FMS (6, 0) },
+  { "k7",         "AuthenticAMD", MAKE_FMS (6, 0) },
   { "x86_64",     "AuthenticAMD", MAKE_FMS (15, 0) },
 
   { "viac3",      "CentaurHauls", MAKE_FMS (6, 0) },
@@ -215,7 +215,7 @@ __gmpn_cpuvec_init (void)
 #define CPUSETUP_k6		CPUVEC_SETUP_k6;CPUVEC_SETUP_k6_mmx
 #define CPUSETUP_k62		CPUVEC_SETUP_k6;CPUVEC_SETUP_k6_mmx;CPUVEC_SETUP_k6_k62mmx
 #define CPUSETUP_k63		CPUVEC_SETUP_k6;CPUVEC_SETUP_k6_mmx;CPUVEC_SETUP_k6_k62mmx
-#define CPUSETUP_athlon		CPUVEC_SETUP_k7;CPUVEC_SETUP_k7_mmx
+#define CPUSETUP_k7		CPUVEC_SETUP_k7;CPUVEC_SETUP_k7_mmx
 #define CPUSETUP_k8		CPUVEC_SETUP_k7;CPUVEC_SETUP_k7_mmx
 #define CPUSETUP_k10		CPUVEC_SETUP_k7;CPUVEC_SETUP_k7_mmx
 #define CPUSETUP_viac3		do{}while(0)
