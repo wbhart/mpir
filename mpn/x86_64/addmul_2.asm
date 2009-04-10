@@ -2,6 +2,23 @@ dnl  k8 mpn_addmul_2
 
 dnl  Copyright 2009 Jason Moxham
 
+dnl  This file is part of the MPIR Library.
+
+dnl  The MPIR Library is free software; you can redistribute it and/or modify
+dnl  it under the terms of the GNU Lesser General Public License as published
+dnl  by the Free Software Foundation; either version 2.1 of the License, or (at
+dnl  your option) any later version.
+
+dnl  The MPIR Library is distributed in the hope that it will be useful, but
+dnl  WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+dnl  or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public
+dnl  License for more details.
+
+dnl  You should have received a copy of the GNU Lesser General Public License
+dnl  along with the MPIR Library; see the file COPYING.LIB.  If not, write
+dnl  to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+dnl  Boston, MA 02110-1301, USA.
+
 include(`../config.m4')
 
 ASM_START()
@@ -72,6 +89,8 @@ lp:
 	add $4,%rbx
 	jnc lp
 skiplp:
+mov (%rsi,%rbx,8),%rax
+mul %r8
 cmp $2,%rbx
 ja case0
 jz case1
@@ -79,8 +98,6 @@ jp case2
 # case 3 3 more src so 24(rsi) is last
 #ALIGN(16)
 case3:
-	mov (%rsi,%rbx,8),%rax
-	mul %r8
 	add %rax,%r9
 	mov 8(%rsi,%rbx,8),%rax
 	adc %rdx,%r10
@@ -129,8 +146,6 @@ case3:
 # case 2 2 more src so 16(rsi) is last
 ALIGN(16)
 case2:
-	mov (%rsi,%rbx,8),%rax
-	mul %r8
 	add %rax,%r9
 	mov 8(%rsi,%rbx,8),%rax
 	adc %rdx,%r10
@@ -164,8 +179,6 @@ case2:
 # case 1 1 more src so 8(rsi) is last
 ALIGN(16)
 case1:
-	mov (%rsi,%rbx,8),%rax
-	mul %r8
 	add %rax,%r9
 	mov 8(%rsi,%rbx,8),%rax
 	adc %rdx,%r10
@@ -189,8 +202,6 @@ case1:
 # case 0 no more src so (rsi) is last
 ALIGN(16)
 case0:
-	mov (%rsi,%rbx,8),%rax
-	mul %r8
 	add %r12,(%rdi,%rbx,8)
 	adc %rax,%r9
 	adc %rdx,%r10
