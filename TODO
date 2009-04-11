@@ -2,9 +2,6 @@ new function mpn_divexact_byBm1of   generic and x86_64 versions done
 done speed, tests
 not done try , fat
 
-new function divrem_hensel_1 asm and c  , not linked to the system  ie just
-a loose file , no test function etc
-
 new functions divrem_euclidean_qr_1 asm and c (qr,r version)  
 done try 
 not done speed,tests,fat
