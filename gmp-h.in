@@ -2196,5 +2196,14 @@ enum
 #define __MPIR_VERSION_MINOR 0
 #define __MPIR_VERSION_PATCHLEVEL 0
 
+/* These are for programs like MPFR to use the same CC and CFLAGS as MPIR */
+
+#if ! defined (__GMP_WITHIN_CONFIGURE)
+@GMP_CC@
+@GMP_CFLAGS@
+#define __MPIR_CC "@CC@"
+#define __MPIR_CFLAGS "@CFLAGS@"
+#endif
+
 #define __GMP_H__
 #endif /* __GMP_H__ */

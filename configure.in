@@ -38,6 +38,7 @@ m4_pattern_allow(GMP_LIMB_BITS)
 m4_pattern_allow(GMP_MPARAM_H_SUGGEST)
 m4_pattern_allow(GMP_NAIL_BITS)
 m4_pattern_allow(GMP_NUMB_BITS)
+m4_pattern_allow(WANT_GMP_CC)
 
 # If --target is not used then $target_alias is empty, but if say
 # "./configure athlon-pc-freebsd3.5" is used, then all three of
@@ -1884,7 +1885,16 @@ if test $found_compiler = yes; then
   CC="$cc"
   CFLAGS="$cflags"
   CPPFLAGS="$cppflags"
+  if test $enable_gmpcompat = yes; then
+    GMP_CC="#define __GMP_CC \"$cc\" "
+    GMP_CFLAGS="#define __GMP_CFLAGS \"$cflags\" "
+  else
+    GMP_CC="/* No __GMP_CC here as --enable-gmpcompat option not selected */"
+    GMP_CFLAGS=""
+  fi    
 
+   AC_SUBST(GMP_CC)
+   AC_SUBST(GMP_CFLAGS)
 
   # Could easily have this in config.h too, if desired.
   ABI_nodots=`echo $ABI | sed 's/\./_/'`
