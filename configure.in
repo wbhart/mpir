@@ -797,12 +797,11 @@ case $host in
 
     case $host in
       [mips64*-*-* | mips*-*-irix[6789]*])
-        abilist="n32 64 o32"
+        abilist="64 n32 o32"
 
-        cclist_n32="pathcc gcc cc"
-        gcc_n32_cflags="-O2 -mabi=n32"
+        cclist_n32="gcc cc"
+	gcc_n32_cflags="-O2 -mabi=n32"
         cc_n32_cflags="-O2 -n32"	# no -g, it disables all optimizations
-        pathcc_n32_cflags="-O0"
         limb_n32=longlong
         path_n32="mips64"
 
@@ -811,7 +810,7 @@ case $host in
         gcc_64_ldflags="-Wc,-mabi=64"
         cc_64_cflags="-O2 -64"		# no -g, it disables all optimizations
         cc_64_ldflags="-Wc,-64"
-        pathcc_64_cflags="-O0"
+        pathcc_64_cflags="-O0 -mabi=64"
         pathcc_64_ldflags="-Wc,-mabi=64"
         path_64="mips64"
         ;;

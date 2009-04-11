@@ -911,7 +911,7 @@ dnl  problems with syntax checking cpp's used on NeXT and Apple systems.
 
 AC_DEFUN([GMP_PROG_CC_IS_GNU],
 [cat >conftest.c <<EOF
-#if ! defined (__GNUC__) || defined (__INTEL_COMPILER)
+#if ! defined (__GNUC__) || defined (__INTEL_COMPILER) || defined (__PATHCC__)
   choke me
 #endif
 EOF
