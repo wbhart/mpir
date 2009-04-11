@@ -12,5 +12,3 @@ not done speed,tests,fat
 mpn_divrem_1 with qxn=0 now calls mpn_divrem_euclidean_qr_1 always
 replace all internel calls to mpn_divrem_1 with the new euclidean
 we could replace mpn_mod_1   as well   !!!
-
-tune netburst,and all again
