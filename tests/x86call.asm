@@ -115,3 +115,13 @@ L(return):
 
 EPILOGUE()
 
+C void gmp_x86check_workaround_apple_ld_bug() 
+C 
+C Apple ld has an annoying bug that causes it to only load members from 
+C static archives that satisfy text symbol dependencies.  This procedure 
+C creates a bogus dependency on a text symbol in x86check.o (in libtests.a) 
+C to ensure that ld loads it, also making all of the needed non-text 
+C symbols available. 
+PROLOGUE(gmp_x86check_workaround_apple_ld_bug) 
+       jmp     *G(calling_conventions_check) 
+EPILOGUE() 
