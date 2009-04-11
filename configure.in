@@ -802,7 +802,7 @@ case $host in
         cclist_n32="pathcc gcc cc"
         gcc_n32_cflags="-O2 -mabi=n32"
         cc_n32_cflags="-O2 -n32"	# no -g, it disables all optimizations
-        pathcc_cflags="-O0"
+        pathcc_n32_cflags="-O0"
         limb_n32=longlong
         path_n32="mips64"
 
