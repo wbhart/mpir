@@ -603,14 +603,16 @@ void tc7_mul_1(mp_ptr rp, mp_size_t * rn, mp_srcptr xp, mp_size_t xn, mp_limb_t 
 
 void tc7_divexact_1(mp_ptr rp, mp_size_t * rn, mp_ptr x, mp_size_t xn, mp_limb_t c)
 {
-	mpz_t xm, rm;
-   xm->_mp_d = x;
-	xm->_mp_size = xn;
-	rm->_mp_d = rp;
-	rm->_mp_size = *rn;
-	rm->_mp_alloc = ABS(xn);
-	mpz_divexact_ui(rm, xm, c);
-	(*rn) = rm->_mp_size;
+  if (xn == 0)
+    {
+      *rn = 0;
+      return;
+    }
+  mp_size_t abs_size = ABS (xn);
+
+  MPN_DIVREM_OR_DIVEXACT_1 (rp, x, abs_size, c);
+  abs_size -= (rp[abs_size-1] == 0);
+  *rn = (xn >= 0 ? abs_size : -abs_size);
 }
 
 void tc7_divexact_by3(mp_ptr rp, mp_size_t * rn, mp_ptr x, mp_size_t xn)
