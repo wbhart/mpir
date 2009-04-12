@@ -1809,26 +1809,56 @@ int        divisor_index;
 struct overlap_t {
   int  s[NUM_SOURCES];
 } overlap_array[] = {
-  { { -1, -1 } },
-  { {  0, -1 } },
-  { { -1,  0 } },
-  { {  0,  0 } },
-  { {  1, -1 } },
-  { { -1,  1 } },
-  { {  1,  1 } },
-  { {  0,  1 } },
-  { {  1,  0 } },
+  { { -1, -1, -1 } },
+  { {  0, -1, -1 } },
+  { { -1,  0, -1 } },
+  { {  0,  0, -1 } },
+  { {  1, -1, -1 } },
+  { { -1,  1, -1 } },
+  { {  1,  1, -1 } },
+  { {  0,  1, -1 } },
+  { {  1,  0, -1 } },
+  { { -1, -1, 0 } },
+  { {  0, -1, 0 } },
+  { { -1,  0, 0 } },
+  { {  0,  0, 0 } },
+  { {  1, -1, 0 } },
+  { { -1,  1, 0 } },
+  { {  1,  1, 0 } },
+  { {  0,  1, 0 } },
+  { {  1,  0, 0 } },
+  { { -1, -1, 1 } },
+  { {  0, -1, 1 } },
+  { { -1,  0, 1 } },
+  { {  0,  0, 1 } },
+  { {  1, -1, 1 } },
+  { { -1,  1, 1 } },
+  { {  1,  1, 1 } },
+  { {  0,  1, 1 } },
+  { {  1,  0, 1 } },
 };
 
 struct overlap_t  *overlap, *overlap_limit;
 
-// FIXME : should this depend on NUM_SOURCES  ?
-// FIXME : we are indexing a C array shouldn't these numbers be one less ?
+/* 
+   This is a count of the number of overlaps from the above table to try. 
+   Each source operand can be overlapped with each destination operand (which 
+	are fixed and cannot be overlapped) or put in a non-overlapping block all
+	to itself. Some functions require that source operands don't overlap. They
+	can't go beyond the first three entries of the table, as after that, this 
+	starts to happen.
+
+	Three source operands are available, but only those which are used by the
+	function are actually filled with data and made part of the test. The rest
+	are ignored.
+*/
+
 #define OVERLAP_COUNT                   \
   (tr->overlap & OVERLAP_NONE       ? 1 \
    : tr->overlap & OVERLAP_NOT_SRCS ? 3 \
    : tr->overlap & OVERLAP_NOT_SRC2 ? 2 \
    : tr->dst[1]                     ? 9 \
+   : tr->src[2]                     ? 27 \
    : tr->src[1]                     ? 4 \
    : tr->dst[0]                     ? 2 \
    : 1)
