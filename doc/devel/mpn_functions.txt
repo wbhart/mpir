@@ -1,0 +1,123 @@
+New assembly mpn functions since MPIR 0.9 = GMP 4.2.1 + Gaudry + Martin patches
+================================================================
+/* 
+   {rp, n + 1} = {rp, n} + {up, n}*(vl1, vl2)  and return carry limb
+*/
+mp_limb_t mpn_addmul_2 (mp_ptr rp, mp_srcptr up, mp_size_t n, mp_limb_t vl1, mp_limb_t vl2)
+
+/* {qp, n} = {xp, n}/3 if ci = 0
+   {xp, n} = {qp, n}*3 - return*B^n for 0 <= return < 3
+   ci can be used to chain these together
+*/ 
+mp_limb_t mpn_divexact_by3c(mp_ptr qp, mp_srcptr xp, mp_size_t n, mp_limb_t ci)
+
+/* 
+   {qp, n} = {xp, n}/(B-1) 
+   {xp, n} = {qp, n}*(B-1) - return*B^n for 0 <= return < B - 1
+*/ 
+mp_limb_t
+mpn_divexact_byff (mp_ptr qp, mp_srcptr xp, mp_size_t n)
+
+/* 
+   {qp, n} = {xp, n}/((B-1)/f) 
+   Caller must set Bm1of to (B-1)/f
+   {xp, n} = {qp, n}*((B-1)/f) - return*B^n for 0 <= return < (B - 1)/f
+*/ 
+mp_limb_t	 mpn_divexact_byBm1of(mp_ptr qp, mp_srcptr xp, mp_size_t n, mp_limb_t f, mp_limb_t Bm1of)
+
+
+divrem_euclidean_qr_1
+divrem_hensel_1
+
+/*
+  {rp, n} = {up, n}*vl and return carry limb
+*/
+mp_limb_t mpn_mul_1 (mp_ptr rp, mp_srcptr up, mp_size_t n, mp_limb_t vl)
+
+/*
+  {rp, n+1} = {up, n}*(vl1, vl2) and return carry limb
+*/
+mp_limb_t mpn_mul_2 (mp_ptr rp, mp_srcptr up, mp_size_t n, mp_limb_t vl1, mp_limb_t vl2)
+
+/*
+  {rp, n} = {up, n} + {vp, n} + {wp, n} and return carry limb
+*/
+mp_limb_t mpn_addadd_n(mp_ptr rp, mp_srcptr up, mp_srcptr vp, mp_srcptr wp, mp_size_t n)
+
+/*
+  {rp, n} = {up, n} + {vp, n} - {wp, n} and return carry/borrow limb (1 for carry, -1 for borrow)
+*/
+mp_limb_t mpn_addsub_n(mp_ptr rp, mp_srcptr up, mp_srcptr vp, mp_srcptr wp, mp_size_t n)
+
+/*
+  {rp, n} = (twos) complement of {up, n}
+*/
+void mpn_com_n (mp_ptr rp, mp_srcptr up, mp_size_t n)
+
+/*
+  {rp, n} = {up, n} + 2*{vp, n} and return carry
+*/
+mp_limb_t mpn_addlsh1(mp_ptr rp, mp_srcptr up, mp_srcptr vp, mp_size_t n)
+
+/*
+  {rp, n} = 2^shift*{up, n} with 0 < shift < BITS_PER_LIMB and return carry
+*/
+mp_limb_t mpn_lshift(mp_ptr rp, mp_srcptr up, mp_size_t n, mp_size_t shift)
+
+/*
+  {rp, n} = 2*{up, n} and return carry
+*/
+mp_limb_t mpn_lshift1(mp_ptr rp, mp_srcptr up, mp_size_t n)
+
+redc_basecase
+
+/*
+  {rp, n} = {up, n}/2^shift with 0 < shift < BITS_PER_LIMB and return msl
+*/
+mp_limb_t mpn_rshift(mp_ptr rp, mp_srcptr up, mp_size_t n, mp_size_t shift)
+
+/*
+  {rp, n} = {up, n}/2 and return msl
+*/
+mp_limb_t mpn_rshift1(mp_ptr rp, mp_srcptr up, mp_size_t n)
+
+/*
+  {rp, n} = {up, n} - ({vp, n} + {wp, n}) and return borrow
+*/
+mp_limb_t mpn_subadd_n(mp_ptr rp, mp_srcptr up, mp_srcptr vp, mp_srcptr wp, mp_size_t n)
+
+/*
+  {rp, n} = {up, n} - 2*{vp, n} and return borrow
+*/
+mp_limb_t mpn_sublsh1(mp_ptr rp, mp_srcptr up, mp_srcptr vp, mp_size_t n)
+
+/*
+  {rp1, n} = {up, n} + {vp, n} with carry = c
+  {rp2, n} = {up, n} - {vp, n} with borrow = b
+  return 2*c+b
+  
+*/
+mp_limb_t mpn_sumdiff_n(mp_ptr rp1, mp_ptr rp2, mp_srcptr up, mp_srcptr vp, mp_size_t n)
+
+/*
+  {rp, n} = {up, n} xxx {vp, n} 
+  where (xxx) is one of:
+  and = u and v, andn = u and (not v), nand = not (u and v), ior = u inclusive or v, iorn = u inclusive or (not b), 
+  nior = not (u inclusive or v), xnor = u exclusive or (not v), xor = u exclusive or v  
+*/
+void mpn_xxx_n(mp_ptr rp, mp_srcptr up, mp_srcptr vp, mp_size_t n)
+
+New C level mpn functions since MPIR 0.9
+================================
+
+/* 
+   Multiply {up, n} by {vp, n} and store the result at {rp, 2n} using Toom 4 algorithm 
+*/
+void
+ mpn_toom4_mul_n (mp_ptr rp, mp_srcptr up, mp_srcptr vp, mp_size_t n)
+
+/* 
+   Multiply {up, n} by {vp, n} and store the result at {rp, 2n} using Toom 7 algorithm 
+*/
+mpn_toom7_mul_nvoid
+ mpn_toom4_mul_n (mp_ptr rp, mp_srcptr up, mp_srcptr vp, mp_size_t n)
