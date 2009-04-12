@@ -1,4 +1,4 @@
-This is mpir.info, produced by makeinfo version 4.13 from mpir.texi.
+This is mpir.info, produced by makeinfo version 4.11 from mpir.texi.
 
 This manual describes how to install and use MPIR, the Multiple
 Precision Integers and Rationals library, version 1.0.
@@ -357,9 +357,10 @@ CPU types
         * SPARC: sparc, sparcv8, microsparc, supersparc, sparcv9,
           ultrasparc, ultrasparc2, ultrasparc2i, ultrasparc3, sparc64
 
-        * x86 family: i386, i486, i586, nocona core2, pentium,
-          pentiummmx, pentiumpro, pentium2, pentium3, pentium4, k6, k62,
-          k63, athlon, k10 viac3, viac32 x86_64
+        * x86 family: pentium, pentiummmx, pentiumpro, pentium2,
+          pentium3, pentium4, netburst, netburstlahf, prescott, core,
+          core2, penryn, nehalem, atom, k5, k6, k62, k63, k7, k8, k10
+          viac3, viac32
 
         * Other: a29k, arm, clipper, i960, ns32k, pyramid, sh, sh2, vax,
           z8k
@@ -382,7 +383,7 @@ Fat binary, `--enable-fat'
      systems, where optimized low level subroutines are chosen at
      runtime according to the CPU detected.  This means more code, but
      gives reasonable performance from a single binary for all x86
-     chips, or simililarly for all x86_64 chips. (This option might
+     chips, or simililarly for all x86_64 chips.  (This option might
      become available for more architectures in the future.)
 
 `ABI'
