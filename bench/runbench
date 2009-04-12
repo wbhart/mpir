@@ -1,0 +1,153 @@
+#!/bin/sh
+
+# Copyright 2003 Free Software Foundation, Inc.
+# Copyright 2009 William Hart
+# Copyright 2009 Gonzalo Tornaria
+
+# This file is part of the MPIRbench.
+
+# This program is free software; you can redistribute it and/or modify it under
+# the terms of the GNU General Public License as published by the Free Software
+# Foundation; either version 2 of the License, or (at your option) any later
+# version.
+
+# This program is distributed in the hope that it will be useful, but WITHOUT
+# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+# FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+# details.
+
+# You should have received a copy of the GNU General Public License along with
+# this program; if not, write to the Free Software Foundation, Inc., 59 Temple
+# Place - Suite 330, Boston, MA 02111-1307, USA.
+
+die() {
+  echo "$1" >&2
+  exit 1
+}
+
+echo "***** MPIRbench version `cat version` *****"
+
+if [ "$1" == "clean" ]
+then
+  echo rm RES-*
+  rm RES-*
+  echo rm mpirver gexpr multiply divide rsa
+  rm mpirver gexpr multiply divide rsa
+  exit 0
+fi
+
+
+MPIR_DIR="$1"
+[ -d "$MPIR_DIR" ] || die "Usage: $0 <path-to-mpir-compile-dir>"
+
+if [ -r "$MPIR_DIR"/mpir.h ]
+then
+  MPIR_NAME=mpir
+elif [ -r "$MPIR_DIR"/gmp.h ]
+then
+  MPIR_NAME=gmp
+fi
+
+[ -r "$MPIR_DIR"/${MPIR_NAME}.h ] || die "${MPIR_NAME}.h not found"
+[ -r "$MPIR_DIR"/.libs/lib${MPIR_NAME}.a ] || die "lib${MPIR_NAME}.a not found"
+
+default=false
+
+if [ -z "$CFLAGS" ]
+  then
+    CFLAGS="-O2 -fomit-frame-pointer -I$MPIR_DIR -include ${MPIR_NAME}.h"
+    echo "Using default CFLAGS = \"$CFLAGS\""
+    default=true
+  else
+    echo "Using CFLAGS = \"$CFLAGS\" from your environment"
+  fi
+if [ -z "$CC" ]
+  then
+    CC="gcc"
+    echo "Using default CC = \"$CC\""
+    default=true
+  else
+    echo "Using CC = \"$CC\" from your environment"
+  fi
+if [ -z "$LIBS" ]
+  then
+    LIBS="-static -L$MPIR_DIR/.libs/ -l$MPIR_NAME"
+    echo "Using default LIBS = \"$LIBS\""
+    default=true
+  else
+    echo "Using LIBS = \"$LIBS\" from your environment"
+  fi
+
+echo "Using compilation command: $CC $CFLAGS foo.c -o foo $LIBS"
+
+if $default
+  then
+    echo "You may want to override CC, CFLAGS, and LIBS"
+  fi
+
+$CC $CFLAGS mpirver.c -o mpirver $LIBS || die "error compling mpirver"
+echo "Using `./mpirver`"
+$CC --version | head -1
+
+echo "Compiling benchmarks"
+$CC $CFLAGS gexpr.c -o gexpr $LIBS -lm || die "error compiling gexpr"
+$CC $CFLAGS multiply.c -o multiply $LIBS || die "error compiling multiply"
+$CC $CFLAGS divide.c -o divide $LIBS || die "error compiling divide"
+$CC $CFLAGS rsa.c -o rsa $LIBS || die "error compiling rsa"
+
+
+multiply_args="128,128 512,512 8192,8192 131072,131072 2097152,2097152"
+divide_args="8192,32 8192,64 8192,128 8192,4096 8192,8064 131072,8192 131072,65536 8388608,4194304"
+rsa_args="512 1024 2048"
+
+base_tests="multiply divide"
+app_tests="rsa"
+
+tests="base app"
+
+echo "Running benchmarks"
+
+acc2=1
+n2=0
+for cat in $tests
+  do
+    echo "  Category $cat"
+    eval tests=\$${cat}_tests
+
+    acc1=1
+    n1=0
+    for t in $tests
+      do
+	echo "    Program $t"
+	eval args=\$${t}_args
+
+	acc=1
+	n=0
+	for a in $args
+	  do
+	    ta=`echo $a | sed 's;,; ;g'`
+	    echo "      $t $ta"
+	    ./$t $ta >RES-$t-$a
+	    res=`grep "^RESULT" RES-$t-$a | sed 's;^RESULT: \([0-9.]*\).*$;\1;'`
+	    echo "      MPIRbench.$cat.$t.$a result: $res"
+	    acc=`./gexpr -prec 10 "$acc*$res"`
+	    n=`./gexpr $n+1`
+	  done
+
+	out=`./gexpr "$acc^(1/$n)"`
+	echo "    MPIRbench.$cat.$t result: $out"
+	acc1=`./gexpr -prec 10 "$acc1*$acc^(1/$n)"`
+	n1=`./gexpr $n1+1`
+      done
+
+    out=`./gexpr "$acc1^(1/$n1)"`
+    echo "  MPIRbench.$cat result: $out"
+    acc2=`./gexpr -prec 10 "$acc2*$acc1^(1/$n1)"`
+    n2=`./gexpr $n2+1`
+  done
+
+
+out=`./gexpr "$acc2^(1/$n2)"`
+echo "MPIRbench result: $out"
+
+exit 0
