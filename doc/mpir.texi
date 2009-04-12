@@ -819,25 +819,29 @@ SPARC:
 
 @item
 x86 family:
-@nisamp{i386},
-@nisamp{i486},
-@nisamp{i586},
-@nisamp{nocona}
-@nisamp{core2},
 @nisamp{pentium},
 @nisamp{pentiummmx},
 @nisamp{pentiumpro},
 @nisamp{pentium2},
 @nisamp{pentium3},
 @nisamp{pentium4},
+@nisamp{netburst},
+@nisamp{netburstlahf},
+@nisamp{prescott},
+@nisamp{core},
+@nisamp{core2},
+@nisamp{penryn},
+@nisamp{nehalem},
+@nisamp{atom},
+@nisamp{k5},
 @nisamp{k6},
 @nisamp{k62},
 @nisamp{k63},
-@nisamp{athlon},
+@nisamp{k7},
+@nisamp{k8},
 @nisamp{k10}
 @nisamp{viac3},
 @nisamp{viac32}
-@nisamp{x86_64}
 
 @item
 Other:
@@ -870,7 +874,11 @@ least make it possible to get something running if all else fails.
 @item Fat binary, @option{--enable-fat}
 @cindex Fat binary
 @cindex @option{--enable-fat}
-Using @option{--enable-fat} selects a ``fat binary'' build on x86 or x86_64 systems, where optimized low level subroutines are chosen at runtime according to the CPU detected.  This means more code, but gives reasonable performance from a single binary for all x86 chips, or simililarly for all x86_64 chips. (This option might become available for more architectures in the future.)
+Using @option{--enable-fat} selects a ``fat binary'' build on x86 or x86_64 
+systems, where optimized low level subroutines are chosen at runtime according 
+to the CPU detected.  This means more code, but gives reasonable performance 
+from a single binary for all x86 chips, or simililarly for all x86_64 chips. 
+(This option might become available for more architectures in the future.)
 
 @item @option{ABI}
 @cindex ABI
