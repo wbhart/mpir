@@ -1,18 +1,7 @@
-new function mpn_divexact_byBm1of   generic and x86_64 versions done
-done speed, tests , fat
-not done try 
+new function mpn_divexact_byBm1of  , not done try yet 
 
-new functions divrem_euclidean_qr_1 asm and c (qr,r version)  
-done try , fat
-not done speed,tests
 
-mpn_divrem_1 with qxn=0 now calls mpn_divrem_euclidean_qr_1 always
-replace all internel calls to mpn_divrem_1 with the new euclidean
-we could replace mpn_mod_1   as well   !!!
-
-yasm'ify addmul_2.asm 
+yasm'ify addmul_2.asm  and move to the individual dirs so that fat wont use
+it as it's an optional function
 and remove x86_defs , why did I think I could delete this , its needed for
 fat 
-
-
-

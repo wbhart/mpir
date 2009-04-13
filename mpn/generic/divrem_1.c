@@ -98,7 +98,9 @@ mpn_divrem_1 (mp_ptr qp, mp_size_t qxn,
 
   d <<= GMP_NAIL_BITS;
 
+  #if HAVE_NATIVE_mpn_divrem_euclidean_qr_1
   if(qxn==0)return mpn_divrem_euclidean_qr_1(qp,up,un,d);
+  #endif
 
   qp += (n - 1);   /* Make qp point at most significant quotient limb */
 
