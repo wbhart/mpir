@@ -29,13 +29,13 @@ the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
 
 
 These instructions are only for the impatient.  Others should read the install
-instructions in gmp.info.  Use
+instructions in mpir.info.  Use
 
-	info -f ./gmp.info
+	info -f ./mpir.info
 
 or in emacs
 
-	C-u C-h i gmp.info
+	C-u C-h i mpir.info
 
 
 Here are some brief instructions on how to install MPIR, and some examples to
@@ -60,7 +60,7 @@ to write there.
 	make install
 
 To create the printable documentation from the texinfo source, type "make
-gmp.dvi" or "make gmp.ps".  This requires various "tex" commands.
+mpir.dvi" or "make mpir.ps".  This requires various "tex" commands.
 
 If you are new to MPIR, it is a good idea you at least read the chapter "MPIR
 Basics" in the manual.
