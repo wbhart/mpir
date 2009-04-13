@@ -144,11 +144,29 @@ check_functions (void)
   memcpy (&__gmpn_cpuvec, &initial_cpuvec, sizeof (__gmpn_cpuvec));
   for (i = 0; i < 2; i++)
     {
+      xp[0] = 578;
+      r = mpn_divexact_byBm1of (wp, xp, (mp_size_t) 1, CNST_LIMB(17));
+      ASSERT_ALWAYS (wp[0] == 34);
+      ASSERT_ALWAYS (r == 0);
+    }
+
+  memcpy (&__gmpn_cpuvec, &initial_cpuvec, sizeof (__gmpn_cpuvec));
+  for (i = 0; i < 2; i++)
+    {
       xp[0] = 287;
       r = mpn_divrem_1 (wp, (mp_size_t) 1, xp, (mp_size_t) 1, CNST_LIMB(7));
       ASSERT_ALWAYS (wp[1] == 41);
       ASSERT_ALWAYS (wp[0] == 0);
       ASSERT_ALWAYS (r == 0);
+    }
+
+  memcpy (&__gmpn_cpuvec, &initial_cpuvec, sizeof (__gmpn_cpuvec));
+  for (i = 0; i < 2; i++)
+    {
+      xp[0] = 290;
+      r = mpn_divrem_euclidean_qr_1 (wp, xp, (mp_size_t) 1, CNST_LIMB(7));
+      ASSERT_ALWAYS (wp[0] == 41);
+      ASSERT_ALWAYS (r == 3);
     }
 
   memcpy (&__gmpn_cpuvec, &initial_cpuvec, sizeof (__gmpn_cpuvec));
@@ -244,7 +262,6 @@ check_functions (void)
         yp[0]=43;
         yp[1]=75;
         mpn_redc_basecase (wp, xp, (mp_size_t) 1,r,yp);
-        //printf("%ld\n",wp[0]);
         ASSERT_ALWAYS (wp[0] == 78);
        }
 

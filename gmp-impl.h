@@ -71,8 +71,12 @@ MA 02110-1301, USA. */
   void name __GMP_PROTO ((mp_ptr, mp_srcptr, mp_size_t, mp_limb_t))
 #define DECL_divexact_by3c(name) \
   mp_limb_t name __GMP_PROTO ((mp_ptr, mp_srcptr, mp_size_t, mp_limb_t))
+#define DECL_divexact_byBm1of(name) \
+  mp_limb_t name __GMP_PROTO ((mp_ptr, mp_srcptr, mp_size_t, mp_limb_t,mp_limb_t))
 #define DECL_divrem_1(name) \
   mp_limb_t name __GMP_PROTO ((mp_ptr, mp_size_t, mp_srcptr, mp_size_t, mp_limb_t))
+#define DECL_divrem_euclidean_qr_1(name) \
+  mp_limb_t name __GMP_PROTO ((mp_ptr, mp_srcptr, mp_size_t, mp_limb_t))
 #define DECL_gcd_1(name) \
   mp_limb_t name __GMP_PROTO ((mp_srcptr, mp_size_t, mp_limb_t))
 #define DECL_lshift(name) \
@@ -853,8 +857,10 @@ __GMP_DECLSPEC mp_limb_t mpn_sumdiff_nc __GMP_PROTO ((mp_ptr, mp_ptr, mp_srcptr,
 #define mpn_divexact_byff __MPN(divexact_byff)
 __GMP_DECLSPEC mp_limb_t mpn_divexact_byff __GMP_PROTO ((mp_ptr, mp_srcptr, mp_size_t));
 
+#ifndef mpn_divexact_byBm1of      /* if not done with cpuvec in a fat binary */
 #define mpn_divexact_byBm1of __MPN(divexact_byBm1of)
 __GMP_DECLSPEC mp_limb_t mpn_divexact_byBm1of __GMP_PROTO ((mp_ptr, mp_srcptr, mp_size_t,mp_limb_t,mp_limb_t));
+#endif
 
 #define mpn_divrem_1c __MPN(divrem_1c)
 __GMP_DECLSPEC mp_limb_t mpn_divrem_1c __GMP_PROTO ((mp_ptr, mp_size_t, mp_srcptr, mp_size_t, mp_limb_t, mp_limb_t));
@@ -923,8 +929,10 @@ __GMP_DECLSPEC void mpn_redc_1 __GMP_PROTO ((mp_ptr, mp_ptr, mp_srcptr, mp_size_
 #define mpn_redc_2 __MPN(redc_2)
 __GMP_DECLSPEC void mpn_redc_2 __GMP_PROTO ((mp_ptr, mp_ptr, mp_srcptr, mp_size_t, mp_srcptr));
 
+#ifndef mpn_divrem_euclidean_qr_1    /* if not done with cpuvec in a fat binary */
 #define mpn_divrem_euclidean_qr_1 __MPN(divrem_euclidean_qr_1)
 __GMP_DECLSPEC mp_limb_t mpn_divrem_euclidean_qr_1 __GMP_PROTO ((mp_ptr, mp_srcptr, mp_size_t,mp_limb_t));
+#endif
 
 #define mpn_divrem_euclidean_r_1 __MPN(divrem_euclidean_r_1)
 __GMP_DECLSPEC mp_limb_t mpn_divrem_euclidean_r_1 __GMP_PROTO ((mp_srcptr, mp_size_t,mp_limb_t));
@@ -3827,7 +3835,9 @@ struct cpuvec_t {
   DECL_copyi           ((*copyi));
   DECL_divexact_1      ((*divexact_1));
   DECL_divexact_by3c   ((*divexact_by3c));
+  DECL_divexact_byBm1of   ((*divexact_byBm1of));
   DECL_divrem_1        ((*divrem_1));
+  DECL_divrem_euclidean_qr_1        ((*divrem_euclidean_qr_1)); 
   DECL_gcd_1           ((*gcd_1));
   DECL_lshift          ((*lshift));
   DECL_mod_1           ((*mod_1));
