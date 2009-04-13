@@ -293,7 +293,7 @@ libmpirxx_la_LDFLAGS = $(GMP_LDFLAGS) $(LIBGMPXX_LDFLAGS) \
   -version-info $(LIBGMPXX_LT_CURRENT):$(LIBGMPXX_LT_REVISION):$(LIBGMPXX_LT_AGE)
 
 libgmpxx_la_SOURCES = $(libmpirxx_la_SOURCES)
-libgmpxx_la_DEPENDENCIES = $(CXX_OBJECTS) libmpir.la
+libgmpxx_la_DEPENDENCIES = $(CXX_OBJECTS) libgmp.la
 libgmpxx_la_LIBADD = $(libgmpxx_la_DEPENDENCIES)
 libgmpxx_la_LDFLAGS = $(libmpirxx_la_LDFLAGS)
 
@@ -439,8 +439,17 @@ dist-hook:
 	(  VAR=0 ; IFS=$(echo -e "\n") ; cat $(srcdir)/yasm/Makefile.in | while read -r LINE ; do \
 	   if test `echo $$LINE | grep -ce "^[[:alpha:]]"` -eq 1  ; then VAR=0 ; fi ;  \
 	   if test `echo $$LINE | grep -ce "^install:"` -eq 1  ; then VAR=1 ; echo "install:" ; fi ; \
-	   if test `echo $$VAR` -eq 0  ; then /bin/echo -E "$$LINE" ; fi ; done ) |	\
+	   if test `echo $$VAR` -eq 0 ; then /bin/echo -E "$$LINE" ; fi ; done ) |	\
 	(  VAR=0 ; IFS=$(echo -e "\n") ; while read -r LINE ; do \
 	   if test `echo $$LINE | grep -ce "^[[:alpha:]]"` -eq 1  ; then VAR=0 ; fi ;  \
 	   if test `echo $$LINE | grep -ce "^check:"` -eq 1  ; then VAR=1 ; echo "check:" ; fi ; \
-	   if test `echo $$VAR` -eq 0  ; then /bin/echo -E "$$LINE" ; fi ; done ) > $(distdir)/yasm/Makefile.in
+	   if test `echo $$VAR` -eq 0 ; then /bin/echo -E "$$LINE" ; fi ; done ) > $(distdir)/yasm/Makefile.in
+
+	rm -f $(distdir)/Makefile.in
+	(  VAR=0 ; IFS=$(echo -e "\n") ; cat $(srcdir)/Makefile.in | while read -r LINE ; do \
+	   if test `echo $$LINE | grep -ce "^[[:alpha:]]"` -eq 1  ; then \
+	   	if test `echo $$VAR` -eq 1 ; then /bin/echo -E "$$COPY" ; fi ; \
+	   	 VAR=0 ; fi ; \
+	   if test `echo $$VAR` -eq 1 ; then COPY=`/bin/echo -e "$$COPY\n$$LINE"` ; fi ; \
+	   if test `echo $$LINE | grep -ce "^install:"` -eq 1  ; then VAR=1 ; COPY=`/bin/echo -E $$LINE | sed s/^install:/install-gmpcompat:/` ; fi ; \
+	   /bin/echo -E "$$LINE" ; done ) > $(distdir)/Makefile.in
