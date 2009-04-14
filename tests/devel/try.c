@@ -280,6 +280,7 @@ mp_size_t       size2;
 unsigned long   shift;
 mp_limb_t       carry;
 mp_limb_t       divisor;
+mp_limb_t	altdiv;
 mp_limb_t       multiplier;
 mp_limb_t       multiplier_N[8];
 
@@ -354,6 +355,7 @@ struct try_t {
 #define DIVISOR_LIMB  1
 #define DIVISOR_NORM  2
 #define DIVISOR_ODD   3
+#define DIVISOR_DIVBM1	4
   char  divisor;
 
 #define DATA_NON_ZERO         1
@@ -662,7 +664,7 @@ validate_sqrtrem (void)
 #define TYPE_REDC_BASECASE	111
 #define TYPE_DIVREM_EUCLIDEAN_QR_1	112
 #define TYPE_DIVREM_EUCLIDEAN_R_1	113
-//#define TYPE_DIVEXACT_BYBM1OF 114
+#define TYPE_DIVEXACT_BYBM1OF 114
 
 #define TYPE_EXTRA            120
 
@@ -948,7 +950,6 @@ param_init (void)
   p = &param[TYPE_DIVREM_EUCLIDEAN_QR_1];
   p->retval = 1;
   p->src[0] = 1;
-  //p->size = SIZE_ALLOW_ZERO;
   p->divisor = DIVISOR_LIMB;
   p->dst[0] = 1;
   REFERENCE (refmpn_divrem_euclidean_qr_1);
@@ -956,9 +957,15 @@ param_init (void)
   p = &param[TYPE_DIVREM_EUCLIDEAN_R_1];
   p->retval = 1;
   p->src[0] = 1;
-  //p->size = SIZE_ALLOW_ZERO;
   p->divisor = DIVISOR_LIMB;
   REFERENCE (refmpn_divrem_euclidean_r_1);
+
+  p = &param[TYPE_DIVEXACT_BYBM1OF];
+  p->retval = 1;
+  p->src[0] = 1;
+  p->divisor = DIVISOR_DIVBM1;
+  p->dst[0] = 1;
+  REFERENCE (refmpn_divexact_byBm1of);
 
   p = &param[TYPE_DIVMOD_1C];
   COPY (TYPE_DIVMOD_1);
@@ -1544,6 +1551,8 @@ const struct choice_t choice_array[] = {
   { TRY(mpn_divexact_1),          TYPE_DIVEXACT_1 },
   { TRY_FUNFUN(mpn_divexact_by3), TYPE_DIVEXACT_BY3 },
   { TRY(mpn_divexact_byff),       TYPE_DIVEXACT_BYFF },
+  { TRY(mpn_divexact_byBm1of),    TYPE_DIVEXACT_BYBM1OF },
+  
   { TRY_FUNFUN(mpn_lshift1),	  TYPE_LSHIFT1 },
   { TRY_FUNFUN(mpn_rshift1),	  TYPE_RSHIFT1 },
   { TRY(mpn_divexact_by3c),       TYPE_DIVEXACT_BY3C },
@@ -1773,6 +1782,12 @@ mp_limb_t  divisor_array[] = {
 
 int        divisor_index;
 
+mp_limb_t  altdiv_array[]={1,3,5,15,17,51,85,255,65535,
+GMP_NUMB_MAX/1,GMP_NUMB_MAX/3,GMP_NUMB_MAX/5,GMP_NUMB_MAX/15,
+GMP_NUMB_MAX/17,GMP_NUMB_MAX/51,GMP_NUMB_MAX/85,GMP_NUMB_MAX/255,GMP_NUMB_MAX/65535};
+
+int 	altdiv_index;
+
 /* The dummy value after MPN_RANDOM_ALT ensures both sides of the ":" have
    the same type */
 #define ARRAY_ITERATION(var, index, limit, array, randoms, cond)        \
@@ -1793,13 +1808,24 @@ int        divisor_index;
 		  multiplier_array, MULTIPLIER_RANDOMS, TRY_MULTIPLIER)
 
 #define DIVISOR_COUNT                           \
-  (tr->divisor                                  \
-   ? numberof (divisor_array) + DIVISOR_RANDOMS \
-   : 1)
+  (tr->divisor == 0 ? 1 :			\
+   tr->divisor == DIVISOR_DIVBM1 		\
+   ? 1			 			\
+   : numberof (divisor_array) + DIVISOR_RANDOMS )
+
+#define ALTDIV_COUNT                           \
+  (tr->divisor == 0 ? 1 :			\
+   tr->divisor == DIVISOR_DIVBM1 		\
+   ? numberof (divisor_array) : 1 )
 
 #define DIVISOR_ITERATION                                               \
-  ARRAY_ITERATION(divisor, divisor_index, DIVISOR_COUNT, divisor_array, \
+  ARRAY_ITERATION(divisor, divisor_index, DIVISOR_COUNT,divisor_array , \
 		  DIVISOR_RANDOMS, TRY_DIVISOR)
+
+
+#define ALTDIV_ITERATION                                        \
+  ARRAY_ITERATION(altdiv, altdiv_index, ALTDIV_COUNT, altdiv_array, \
+		  0 , TRY_DIVISOR)
 
 
 /* overlap_array[].s[i] is where s[i] should be, 0 or 1 means overlapping
@@ -2201,6 +2227,9 @@ call (struct each_t *e, tryfun_t function)
   case TYPE_DIVEXACT_1:
     e->retval = CALLING_CONVENTIONS (function)
       (e->d[0].p, e->s[0].p, size, divisor);
+    break;
+  case TYPE_DIVEXACT_BYBM1OF:
+    e->retval = CALLING_CONVENTIONS (function) (e->d[0].p, e->s[0].p, size, altdiv,GMP_NUMB_MAX/altdiv);
     break;
   case TYPE_DIVMOD_1C:
     e->retval = CALLING_CONVENTIONS (function)
@@ -2835,6 +2864,7 @@ try_many (void)
     total *= SHIFT_LIMIT;
     total *= MULTIPLIER_COUNT;
     total *= DIVISOR_COUNT;
+    total *= ALTDIV_COUNT;
     total *= CARRY_COUNT;
     total *= T_RAND_COUNT;
 
@@ -2867,6 +2897,7 @@ try_many (void)
 
       SHIFT_ITERATION
       MULTIPLIER_ITERATION
+      ALTDIV_ITERATION
       DIVISOR_ITERATION
       CARRY_ITERATION /* must be after divisor */
       T_RAND_ITERATION

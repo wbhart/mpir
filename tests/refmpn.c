@@ -1315,12 +1315,13 @@ refmpn_divexact_byff(mp_ptr rp, mp_srcptr xp, mp_size_t n)
 
 mp_limb_t 
 refmpn_divexact_byBm1of(mp_ptr qp, mp_srcptr xp, mp_size_t n, mp_limb_t f,mp_limb_t Bm1of)
-{mp_size_t j;mp_limb_t c,acc,ax,dx,*tp;
+{mp_size_t j;mp_limb_t c,acc,ax,dx,*tp,*tp1;
 
 ASSERT(n>0);
 ASSERT(qp==xp || !refmpn_overlap_p(xp,n,qp,n));
 ASSERT(Bm1of*f+1==0);
 acc=0*Bm1of;
+tp1 = refmpn_malloc_limbs (n);refmpn_copy(tp1,xp,n);
 for(j=0;j<=n-1;j++)
    {dx=refmpn_umul_ppmm(&ax,xp[j],Bm1of);
     c=ref_subc_limb(&acc,acc,ax);
@@ -1332,8 +1333,8 @@ ASSERT(acc<f);
 tp = refmpn_malloc_limbs (n);
 c=refmpn_mul_1(tp,qp,n,f);
 ASSERT(c==acc);
-ASSERT(refmpn_cmp(xp,tp,n)==0);
-free(tp);
+ASSERT(refmpn_cmp(tp1,tp,n)==0);
+free(tp);free(tp1);
 return acc;}   // so  (xp,n) = (qp,n)*f -ret*B^n    and 0 <= ret < f 
 
 mp_limb_t
