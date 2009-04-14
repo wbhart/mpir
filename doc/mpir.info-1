@@ -1,4 +1,4 @@
-This is mpir.info, produced by makeinfo version 4.13 from mpir.texi.
+This is mpir.info, produced by makeinfo version 4.11 from mpir.texi.
 
 This manual describes how to install and use MPIR, the Multiple
 Precision Integers and Rationals library, version 1.0.
@@ -188,12 +188,18 @@ And you can install (under `/usr/local' by default) with
      make install
 
    Important note: by default MPIR produces libraries named libmpir,
-etc., and the header file mpir.h. If you wish to have MPIR to install
-as a library named libgmp as well, etc., and a gmp.h header file, so
-that you can use mpir with programs designed to only work with GMP,
-then use the `--enable-gmpcompat' option when invoking configure:
+etc., and the header file mpir.h. If you wish to have MPIR to build a
+library named libgmp as well, etc., and a gmp.h header file, so that
+you can use mpir with programs designed to only work with GMP, then use
+the `--enable-gmpcompat' option when invoking configure:
 
      ./configure --enable-gmpcompat
+
+   If you wish to install the GMP compatible libraries you must
+explicitly indicate this:
+
+     make install
+     make install-gmpcompat
 
    If you experience problems, please report them to
 `http://groups.google.com/group/mpir-devel'.  See *note Reporting
