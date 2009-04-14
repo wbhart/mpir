@@ -67,7 +67,10 @@ mp_limb_t	mpn_divrem_euclidean_r_1(mp_srcptr xp,mp_size_t n,mp_limb_t d)
 #endif
 {int j;mp_limb_t r=0,s=0,h,l,q,i;
 
-ASSERT(n>0);ASSERT(d!=0);ASSERT_MPN(xp,n);ASSERT(MPN_SAME_OR_SEPARATE_P(qp,xp,n));
+ASSERT(n>0);ASSERT(d!=0);ASSERT_MPN(xp,n);
+#if STORE_QUOTIENT
+ASSERT(MPN_SAME_OR_SEPARATE_P(qp,xp,n));
+#endif
 // for n=1 or n=2 probably faster to do a special case
 #if NORMALIZE==1
 count_leading_zeros(s,d);d=d<<s;
