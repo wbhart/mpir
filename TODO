@@ -1,7 +1,0 @@
-new function mpn_divexact_byBm1of  , not done try yet 
-
-
-yasm'ify addmul_2.asm  and move to the individual dirs so that fat wont use
-it as it's an optional function
-and remove x86_defs , why did I think I could delete this , its needed for
-fat 
