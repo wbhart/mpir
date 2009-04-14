@@ -587,10 +587,6 @@
 					>
 				</File>
 				<File
-					RelativePath="..\..\mpn\generic\divrem_hensel_1.c"
-					>
-				</File>
-				<File
 					RelativePath="..\..\mpn\generic\dump.c"
 					>
 					<FileConfiguration
@@ -1512,10 +1508,6 @@
 							>
 						</File>
 						<File
-							RelativePath="..\..\mpn\x86w\p6\p3mmx\popham.asm"
-							>
-						</File>
-						<File
 							RelativePath="..\..\mpn\x86w\p6\mmx\popham.asm"
 							>
 							<FileConfiguration
@@ -1534,6 +1526,10 @@
 									Name="YASM"
 								/>
 							</FileConfiguration>
+						</File>
+						<File
+							RelativePath="..\..\mpn\x86w\p6\p3mmx\popham.asm"
+							>
 						</File>
 						<File
 							RelativePath="..\..\mpn\x86w\p6\mmx\rshift.asm"

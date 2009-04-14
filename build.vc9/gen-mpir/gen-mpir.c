@@ -34,7 +34,7 @@ int main()
         if(fout = fopen(OUT_FILE, "w"))
         {
             while(fgets(buf, 1000, fin))
-                if(!strncmp(buf, "/* Instantiated by configure. */", 32))
+                if(!strncmp(buf, "#if ! defined (__GMP_WITHIN_CONFIGURE)", 38))
                 {
                     while(fgets(buf, 1000, fin))
                     {

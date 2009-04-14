@@ -584,12 +584,13 @@ void tc4_divexact_ui(mp_ptr rp, mp_size_t * rn, mp_srcptr x, mp_size_t xn, mp_li
 
 void tc4_divexact_ui(mp_ptr rp, mp_size_t * rn, mp_ptr x, mp_size_t xn, mp_limb_t c)
 {
+  mp_size_t abs_size;
   if (xn == 0)
     {
       *rn = 0;
       return;
     }
-  mp_size_t abs_size = ABS (xn);
+  abs_size = ABS (xn);
 
   MPN_DIVREM_OR_DIVEXACT_1 (rp, x, abs_size, c);
   abs_size -= (rp[abs_size-1] == 0);

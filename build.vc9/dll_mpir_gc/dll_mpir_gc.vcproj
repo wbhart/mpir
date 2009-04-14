@@ -1014,10 +1014,6 @@
 					>
 				</File>
 				<File
-					RelativePath="..\..\mpn\generic\divrem_hensel_1.c"
-					>
-				</File>
-				<File
 					RelativePath="..\..\mpn\generic\fib2_ui.c"
 					>
 					<FileConfiguration

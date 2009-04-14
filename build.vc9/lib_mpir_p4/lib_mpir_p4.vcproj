@@ -2004,10 +2004,6 @@
 					>
 				</File>
 				<File
-					RelativePath="..\..\mpn\generic\divrem_hensel_1.c"
-					>
-				</File>
-				<File
 					RelativePath="..\..\mpn\generic\dump.c"
 					>
 					<FileConfiguration
