@@ -1,6 +1,7 @@
 Authors of GNU MP (in chronological order of initial contribution)
 
 Torbjörn Granlund	Main author
+
 John Amanatides		Original version of mpz/pprime_p.c
 Paul Zimmermann		mpn/generic/mul_fft.c, mpn/generic/dc_divrem_n.c,
 			new mpz/powm.c, improved Toom3 code.
@@ -17,14 +18,19 @@ Pedro Gimeno		Mersenne Twister random generator, other random number
 			revisions
 Jason Moxham		New mpz/fac_ui.c and gen-fac_ui.c
 
-Contributors to MPIR
+Contributors to MPIR (and authors whose code we use)
 
 Brian Gladman        Windows MSVC port and intel format x86_64 code
+                     Port of tune, speed, try to MSVC.
 William Hart         Build system modifications and intel format x86_64 code
-Pierrick Gaudry      AMD 64 assembly support
-Gonzalo Tornaria     Patches to config.guess
+                     Added mpn version of Toom 4 and Toom 7 multiplication routines.
+Gonzalo Tornaria     Patches to config.guess and mpirbench
+Mariah Lennow        Patches to mpirbench and build failure reports
 Jason Worth Martin   Core 2 assembly support, merge of Möhler's GCD patches
-Michael Abshoff      Build system patches, valgrinding, build testing
+Michael Abshoff      Build system patches and failure reports, valgrinding, build testing
 Niels Möhler         GCD patches
 Jason Moxham	   Dramatic speed improvements for K8, K10 and Core 2 assembler
-                     code. Numerous bug and build fixes.
+                     code. Refactoring CPU detection code. Numerous bug and build fixes.
+Pierrick Gaudry      AMD 64 assembly support
+Paul Zimmermann      mpz implementation of Toom 4 
+Marco Bodrato        mpz implementation of Toom 7 

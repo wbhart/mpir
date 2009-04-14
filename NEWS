@@ -20,6 +20,34 @@ along with the GNU MP Library; see the file COPYING.LIB.  If not, write to
 the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 MA 02110-1301, USA.
 
+Changes between MPIR 1.0.0 and MPIR 1.1.0
+
+  Bugs:
+  * Work around a linker bug in Apple Darwin Tiger
+  * Resolve an issue causing a build failure on recent Cygwin32's
+  * Fixed development test code to do proper overlap tests for functions with 
+    three source operands
+
+  Speedups:
+  * Added numerous assembly optimised linear division functions (Jason Moxham)
+  * Optimised mul_2 and addmul_2 (Jason Moxham)
+  * Added Toom 4 and Toom 7 multiplication for balanced operands (William Hart)
+  * Small speedup for mpz_mul for small operands when not aliased
+  
+  Features:
+  * Complete rearrangement of cpu detection code to explicitly support k8, k10, 
+    pentium4, prescott, netburst, netburstlahf, core2, core, penryn, atom, nehalem
+  * factored out x86/x86_64 detection for both ordinary and fat builds into cpuid.c
+  * Distribute mpirbench with mpir (new make bench option)
+  * Added __GMP_CC and __GMP_CFLAGS, __MPIR_CC and __MPIR_CFLAGS to gmp/mpir.h 
+  * Report when CPU is not identified (try sensible defaults)
+  * Support Pentium 4's that do not support LAHF/SAHF instructions
+  * Support Pathscale gcc on MIPS64
+  * Addition of assembly optimised subadd_n function
+
+  Changes:
+  * Re-enabled mpbsd functionality
+
 Changes between MPIR 0.9.0 and MPIR 1.0.0
 
   Bugs:
@@ -29,6 +57,7 @@ Changes between MPIR 0.9.0 and MPIR 1.0.0
   * x86_64 fat binary support on Sun machines with gcc fixed
   * Build failure on Sun machines using later versions of gcc fixed  
   * Aliasing bug in mpz_urandomm fixed
+  * Fixed numerous build bugs on OSX (reported by Michael Abshoff)
 
   Speedups:
   * Dramatic speedups for K8 assembly code (due primarily to Jason Moxham)
