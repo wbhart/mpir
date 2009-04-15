@@ -942,8 +942,6 @@ mpn_toom7_mul_n (mp_ptr rp, mp_srcptr up,
   len1 = n;
   len2 = n;
   ASSERT (n >= 1);
-  ASSERT (!MPN_OVERLAP_P(rp, 2*n, up, n));
-  ASSERT (!MPN_OVERLAP_P(rp, 2*n, vp, n));
 
   MPN_NORMALIZE(up, len1);
   MPN_NORMALIZE(vp, len2);
