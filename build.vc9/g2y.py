@@ -292,7 +292,7 @@ def pass_three(code, labels, macros, level) :
       if is_linux :
         lo += [lp + "\tGLOBAL_FUNC {0}".format(m.group(1))]
       else :
-        lo += [lp + "\twin64_gcc_start {0}".format(m.group(1))]
+        lo += [lp + "\tWIN64_GCC_PROC {0}".format(m.group(1))]
       continue
 
     m = re.search("EPILOGUE\(\)", l)
@@ -300,7 +300,7 @@ def pass_three(code, labels, macros, level) :
       if is_linux :
         lo += [lp + "\tend"]
       else :
-        lo += [lp + "\twin64_gcc_end"]
+        lo += [lp + "\tWIN64_GCC_END"]
       continue
 
     # macro calls 
