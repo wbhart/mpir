@@ -658,9 +658,7 @@ sparc-*-* | sparc64-*-*)
   ;;
 
 i?86-*-*|x86_64-*-*)
-  case "$guess_cpu" in
-    i?86)
-    cat <<EOF >${dummy}1.s
+    cat <<EOF >${dummy}032.s
 	.globl cpuid
 	.globl _cpuid
 cpuid:
@@ -678,9 +676,7 @@ _cpuid:
 	popl %esi
 	ret
 EOF
-    ;;
-    x86_64)
-  cat <<EOF >${dummy}1.s
+  cat <<EOF >${dummy}064.s
 	.globl cpuid
 	.globl _cpuid
 cpuid:
@@ -695,47 +691,36 @@ _cpuid:
 	popq %rbx
 	ret
 EOF
-    ;;
-  esac
-
-  cat <<EOF >${dummy}2.c
+  cat <<EOF >${dummy}32.c
 #define CONFIG_GUESS		1
-#define CONFIG_GUESS_32BIT	0
+#define CONFIG_GUESS_32BIT	1
 #define CONFIG_GUESS_64BIT	0
 #define FAT32			0
 #define FAT64			0
 #define INFAT			0
+main (){
 EOF
-  case "$guess_cpu" in
-      i?86)
-  cat <<EOF >>${dummy}2.c
-#undef  CONFIG_GUESS_32BIT
-#define CONFIG_GUESS_32BIT	1
-EOF
-   ;;
-      x86_64)
-  cat <<EOF >>${dummy}2.c
-#undef  CONFIG_GUESS_64BIT
-#define CONFIG_GUESS_64BIT	1
-EOF
-    ;;
-      esac
-      
-      cat <<EOF >>${dummy}2.c
-
-main ()
-{
-EOF
-echo "#include \"$cpuid_c_path\"" >> ${dummy}2.c
-   cat <<EOF >>${dummy}2.c
-
+cat $cpuid_c_path  >> ${dummy}32.c
+  cat <<EOF >>${dummy}32.c
   printf ("%s\n", modelstr);
-  
-  return 0;
-}
+  return 0;}
+EOF
+  cat <<EOF >${dummy}64.c
+#define CONFIG_GUESS		1
+#define CONFIG_GUESS_32BIT	0
+#define CONFIG_GUESS_64BIT	1
+#define FAT32			0
+#define FAT64			0
+#define INFAT			0
+main (){
+EOF
+cat $cpuid_c_path  >> ${dummy}64.c
+  cat <<EOF >>${dummy}64.c
+  printf ("%s\n", modelstr);
+  return 0;}
 EOF
 
-  if ($CC_FOR_BUILD ${dummy}1.s ${dummy}2.c -o $dummy) >/dev/null 2>&1; then
+  if ($CC_FOR_BUILD ${dummy}064.s ${dummy}64.c -o $dummy) >/dev/null 2>&1; then
     # On 80386 and early 80486 cpuid is not available and will result in a
     # SIGILL message, hence 2>/dev/null.
     #
@@ -748,10 +733,26 @@ EOF
       exact_cpu=$x
     fi
   fi
-
+  if test -z "$exact_cpu"; then  
+  if ($CC_FOR_BUILD ${dummy}032.s ${dummy}32.c -o $dummy) >/dev/null 2>&1; then
+    # On 80386 and early 80486 cpuid is not available and will result in a
+    # SIGILL message, hence 2>/dev/null.
+    #
+    # On i386-unknown-freebsd4.9, "/bin/sh -c ./dummy" seems to send an
+    # "Illegal instruction (core dumped)" message to stdout, so we test $?
+    # to check if the program run was successful.
+    #
+    #  NOTE : Pathscale CC doesn't like name1.s name2.c with name1==name2
+    x=`$SHELL -c ./$dummy 2>/dev/null`
+    if test $? = 0 && test -n "$x"; then
+      exact_cpu=$x
+    fi
+  fi
+  fi
+  
   # We need to remove some .o files here since lame C compilers
   # generate these even when not asked.
-  rm -f ${dummy}1.s ${dummy}1.o ${dummy}2.c ${dummy}2.o $dummy
+  rm -f ${dummy}032.s ${dummy}32.o ${dummy}32.c ${dummy}032.o ${dummy}064.s ${dummy}64.o ${dummy}64.c ${dummy}064.o $dummy
   ;;
 
 esac
