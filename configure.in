@@ -1967,6 +1967,7 @@ longlong) DEFN_LONG_LONG_LIMB="#define _LONG_LONG_LIMB 1"    ;;
 esac
 AC_SUBST(DEFN_LONG_LONG_LIMB)
 
+AC_GNU_SOURCE
 
 # The C compiler and preprocessor, put into ANSI mode if possible.
 AC_PROG_CC

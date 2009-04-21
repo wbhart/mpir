@@ -512,6 +512,11 @@ MA 02110-1301, USA.
    `char[]'. */
 #undef YYTEXT_POINTER
 
+/* Enable GNU extensions on systems that have them.  */
+#ifndef _GNU_SOURCE
+# undef _GNU_SOURCE
+#endif
+
 /* Define like PROTOTYPES; this can be used by system headers. */
 #undef __PROTOTYPES
 
