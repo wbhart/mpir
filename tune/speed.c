@@ -110,6 +110,7 @@ SPEED_EXTRA_PROTOS2
 #define CMP_DIFFERENCE   3
 #define CMP_DIFFPREV     4
 int  option_cmp = CMP_ABSOLUTE;
+int option_cmp_pos = 0;
 
 #define UNIT_SECONDS        1
 #define UNIT_CYCLES         2
@@ -542,6 +543,9 @@ run_one (FILE *fp, struct speed_params *s, mp_size_t prev_size)
         choice[i].prev_time = t;
       }
 
+    }
+  for (i = 0; i < num_choices; i++)
+    {
       if (choice[i].no_time)
         continue;
 
@@ -575,23 +579,32 @@ run_one (FILE *fp, struct speed_params *s, mp_size_t prev_size)
             choice[i].time /= speed_cycletime;
           else if (option_unit == UNIT_CYCLESPERLIMB)
             choice[i].time /= (speed_cycletime * SIZE_TO_DIVISOR(s->size));
+        }
+    }    
+  for (i = 0; i < num_choices; i++)
+    {
+      if (choice[i].no_time)
+        continue;
 
-          if (option_cmp == CMP_RATIO && i > 0)
+      if (option_cmp != CMP_DIFFPREV)
+        {
+        
+          if (option_cmp == CMP_RATIO && i != option_cmp_pos)
             {
               /* A ratio isn't affected by the units chosen. */
-              if (choice[0].no_time || choice[0].time == 0.0)
+              if (choice[option_cmp_pos].no_time || choice[option_cmp_pos].time == 0.0)
                 choice[i].no_time = 1;
               else
-                choice[i].time /= choice[0].time;
+                choice[i].time /= choice[option_cmp_pos].time;
             }
-          else if (option_cmp == CMP_DIFFERENCE && i > 0)
+          else if (option_cmp == CMP_DIFFERENCE && i != option_cmp_pos)
             {
-              if (choice[0].no_time)
+              if (choice[option_cmp_pos].no_time)
                 {
                   choice[i].no_time = 1;
                   continue;
                 }
-              choice[i].time -= choice[0].time;
+              choice[i].time -= choice[option_cmp_pos].time;
             }
         }
     }
@@ -601,7 +614,7 @@ run_one (FILE *fp, struct speed_params *s, mp_size_t prev_size)
       /* In CMP_DIFFPREV, don't print anything for the first size, start
          with the second where an actual difference is available.
 
-         In CMP_RATIO, print the first column as 1.0.
+         In CMP_RATIO, print the "first" ie option_cmp_pos column as 1.0.
 
          The 9 decimals printed is much more than the expected precision of
          the measurements actually. */
@@ -612,7 +625,7 @@ run_one (FILE *fp, struct speed_params *s, mp_size_t prev_size)
           for (i = 0; i < num_choices; i++)
             fprintf (fp, "  %.9e",
                      choice[i].no_time ? 0.0
-                     : (option_cmp == CMP_RATIO && i == 0) ? 1.0
+                     : (option_cmp == CMP_RATIO && i == option_cmp_pos) ? 1.0
                      : choice[i].time);
           fprintf (fp, "\n");
         }
@@ -631,7 +644,7 @@ run_one (FILE *fp, struct speed_params *s, mp_size_t prev_size)
             }
           else
             {if (option_unit == UNIT_CYCLESPERLIMB
-                 || (option_cmp == CMP_RATIO && i > 0))
+                 || (option_cmp == CMP_RATIO && i != option_cmp_pos))
                 decimals = 4;
               else if (option_unit == UNIT_CYCLES)
                 decimals = 2;
@@ -946,8 +959,13 @@ usage (void)
   printf ("                single sizes or ranges, sep with comma or use multiple -s\n");
   printf ("   -t step      step through sizes by given amount\n");
   printf ("   -f factor    step through sizes by given factor (eg. 1.05)\n");
-  printf ("   -r           show times as ratios of the first routine\n");
-  printf ("   -d           show times as difference from the first routine\n");
+#if _GNU_SOURCE
+  printf ("   -r [col]     show times as ratios of the routine in column col(default column 1)\n");
+  printf ("   -d [col]     show times as difference from the routine in column col(default column 1)\n");
+#else
+  printf ("   -r col       show times as ratios of the routine in column col\n");
+  printf ("   -d col       show times as difference from the routine in column col\n");
+#endif
   printf ("   -D           show times as difference from previous size shown\n");
   printf ("   -c           show times in CPU cycles\n");
   printf ("   -C           show times in cycles per limb\n");
@@ -1021,7 +1039,11 @@ main (int argc, char *argv[])
 
   for (;;)
     {
-      opt = getopt(argc, argv, "a:CcDdEFf:o:p:P:rRs:t:ux:y:w:W:z");
+      #if _GNU_SOURCE
+      opt = getopt(argc, argv, "a:CcDd::EFf:o:p:P:r::Rs:t:ux:y:w:W:z");
+      #else
+      opt = getopt(argc, argv, "a:CcDd:EFf:o:p:P:r:Rs:t:ux:y:w:W:z");
+      #endif
       if (opt == EOF)
         break;
 
@@ -1064,6 +1086,8 @@ main (int argc, char *argv[])
             exit (1);
           }
         option_cmp = CMP_DIFFERENCE;
+        option_cmp_pos=0;
+        if(optarg!=0)option_cmp_pos=atoi(optarg)-1;        
         break;
       case 'E':
         option_square = 1;
@@ -1096,6 +1120,8 @@ main (int argc, char *argv[])
         if (option_cmp != CMP_ABSOLUTE)
           goto bad_cmp;
         option_cmp = CMP_RATIO;
+        option_cmp_pos=0;
+        if(optarg!=0)option_cmp_pos = atoi(optarg)-1;
         break;
       case 's':
         {
