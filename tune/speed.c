@@ -553,7 +553,7 @@ run_one (FILE *fp, struct speed_params *s, mp_size_t prev_size)
     }
   for (i = 0; i < num_choices; i++)
      {if(choice[i].nsum==0)continue;
-      choice[i].time=0;
+      choice[i].time=0;choice[i].no_time=0;
       for(j=0;j<choice[i].nsum;j++)
          {choice[i].time+=choice[choice[i].sum[j]].time;
           if(choice[choice[i].sum[j]].no_time)choice[i].no_time=1;
@@ -1001,6 +1001,7 @@ usage (void)
   printf ("   -o addrs     print addresses of data blocks\n");
   printf ("   colsum=A+B+...+Z   Sums the columns A,B,.. upto a max of %d columns\n",SUMMAX);
   printf ("\n");
+  printf ("float*routine prefix can be used to multiply a column by a scale factor float.\n\n");
   printf ("If both -t and -f are used, it means step by the factor or the step, whichever\n");
   printf ("is greater.\n");
   printf ("If both -C and -D are used, it means cycles per however many limbs between a\n");
