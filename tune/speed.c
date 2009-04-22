@@ -138,6 +138,9 @@ mp_size_t  size_allocnum = 0;
 int        option_resource_usage = 0;
 long       option_seed = 123456789;
 
+#define XCOLMAX		16
+int	xcoln,xcol[XCOLMAX];
+
 struct speed_params  sp;
 
 #define COLUMN_WIDTH  13  /* for the free-form output */
@@ -425,6 +428,7 @@ const struct routine_t {
 #endif
 };
 
+#define SUMMAX	4
 
 struct choice_t {
   const struct routine_t  *p;
@@ -434,6 +438,8 @@ struct choice_t {
   int                     no_time;
   double                  prev_time;
   const char              *name;
+  int 			  nsum;
+  int			  sum[SUMMAX];
 };
 struct choice_t  *choice;
 int  num_choices = 0;
@@ -480,7 +486,7 @@ void
 run_one (FILE *fp, struct speed_params *s, mp_size_t prev_size)
 {
   const char  *first_open_fastest, *first_open_notfastest, *first_close;
-  int         i, fastest, want_data;
+  int         j,i, fastest, want_data;
   double      fastest_time;
   TMP_DECL;
 
@@ -522,6 +528,7 @@ run_one (FILE *fp, struct speed_params *s, mp_size_t prev_size)
   fastest_time = -1.0;
   for (i = 0; i < num_choices; i++)
     {
+      if( choice[i].nsum!=0)continue;
       s->r = choice[i].r;
       choice[i].time = speed_measure (choice[i].p->fun, s);
       choice[i].no_time = (choice[i].time == -1.0);
@@ -545,6 +552,14 @@ run_one (FILE *fp, struct speed_params *s, mp_size_t prev_size)
 
     }
   for (i = 0; i < num_choices; i++)
+     {if(choice[i].nsum==0)continue;
+      choice[i].time=0;
+      for(j=0;j<choice[i].nsum;j++)
+         {choice[i].time+=choice[choice[i].sum[j]].time;
+          if(choice[choice[i].sum[j]].no_time)choice[i].no_time=1;
+         }
+     }
+  for (i = 0; i < num_choices; i++)
     {
       if (choice[i].no_time)
         continue;
@@ -552,7 +567,8 @@ run_one (FILE *fp, struct speed_params *s, mp_size_t prev_size)
       /* Look for the fastest after CMP_DIFFPREV has been applied, but
          before CMP_RATIO or CMP_DIFFERENCE.  There's only a fastest shown
          if there's more than one routine.  */
-      if (num_choices > 1 && (fastest == -1 || choice[i].time < fastest_time))
+      for(j=0;j<xcoln;j++)if(xcol[j]==i)break;   // excluded from fastest choice
+      if (j==xcoln && num_choices > 1 && (fastest == -1 || choice[i].time < fastest_time))
         {
           fastest = i;
           fastest_time = choice[i].time;
@@ -885,6 +901,7 @@ routine_find (struct choice_t *c, const char *s_orig)
   size_t  nlen;
 
   c->name = s_orig;
+  c->nsum=0;
   s = strchr (s_orig, '*');
   if (s != NULL)
     {
@@ -937,7 +954,15 @@ routine_find (struct choice_t *c, const char *s_orig)
           return;
         }
     }
-
+  #if SUMMAX > 4
+  #error Change line below as summax > 4  
+  #endif
+  c->nsum=sscanf(s,"colsum=%d+%d+%d+%d",&c->sum[0],&c->sum[1],&c->sum[2],&c->sum[3]);
+  for(i=0;i<c->nsum;i++)c->sum[i]--;
+  for(i=0;i<c->nsum;i++)
+     {xcol[xcoln++]=c->sum[i];
+      if(xcoln>XCOLMAX){fprintf(stderr,"XCOLMAX not big enough\n");exit(1);}}
+  if(c->nsum!=0)return;
   fprintf (stderr, "Choice %s unrecognised\n", s_orig);
   exit (1);
 }
@@ -974,6 +999,7 @@ usage (void)
   printf ("   -a <type>    use given data: random(default), random2, zeros, aas, ffs, 2fd\n");
   printf ("   -x, -y, -w, -W <align>  specify data alignments, sources and dests\n");
   printf ("   -o addrs     print addresses of data blocks\n");
+  printf ("   colsum=A+B+...+Z   Sums the columns A,B,.. upto a max of %d columns\n",SUMMAX);
   printf ("\n");
   printf ("If both -t and -f are used, it means step by the factor or the step, whichever\n");
   printf ("is greater.\n");
@@ -1006,7 +1032,8 @@ usage (void)
   printf ("N one bits, or \"aas\" for 0xAA..AA.\n");
   printf ("\n");
   printf ("Times for sizes out of the range accepted by a routine are shown as 0.\n");
-  printf ("The fastest routine at each size is marked with a # (free form output only).\n");
+  printf ("The fastest routine at each size is marked with a # (free form output only)\n");
+  printf ("but columns that are summed are excluded.\n");
   printf ("\n");
   printf ("%s", speed_time_string);
   printf ("\n");
