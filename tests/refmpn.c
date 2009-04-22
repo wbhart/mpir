@@ -833,7 +833,7 @@ refmpn_mul_2 (mp_ptr dst, mp_srcptr src, mp_size_t size, mp_srcptr mult)
 
   ASSERT (refmpn_overlap_fullonly_p (dst, src, size));
   ASSERT (! refmpn_overlap_p (dst, size+1, mult, (mp_size_t) 2));
-  ASSERT (size >= 1);
+  ASSERT (size >= 2);
   ASSERT_MPN (mult, 2);
 
   /* in case dst==src */

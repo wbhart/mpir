@@ -57,7 +57,7 @@ mult (mpz_srcptr u, mpz_srcptr v, mpz_ptr w)
     }
 
 #if HAVE_NATIVE_mpn_mul_2
-  if (vsize <= 2)
+  if (vsize <= 2 && usize >= vsize)
     {
       MPZ_REALLOC (w, usize+vsize);
       wp = PTR(w);
