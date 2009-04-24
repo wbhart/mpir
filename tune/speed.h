@@ -864,8 +864,33 @@ int speed_routine_count_zeros_setup _PROTO ((struct speed_params *s,
 #define SPEED_ROUTINE_MPN_DIVEXACT_1(function)				\
   SPEED_ROUTINE_MPN_UNARY_1_CALL ((*function) (wp, s->xp, s->size, s->r))
 
-#define SPEED_ROUTINE_MPN_DIVEXACT_BYBM1OF(function)				\
-  SPEED_ROUTINE_MPN_UNARY_1_CALL ((*function) (wp, s->xp, s->size, s->r,MP_LIMB_T_MAX/s->r))
+#define SPEED_ROUTINE_MPN_DIVEXACT_BYBM1OF(function)			\
+  {									\
+    mp_ptr    wp;							\
+    unsigned  i;							\
+    double    t;							\
+    mp_limb_t inv=MP_LIMB_T_MAX/s->r;					\
+    TMP_DECL;								\
+									\
+    SPEED_RESTRICT_COND (s->size >= 1);					\
+									\
+    TMP_MARK;								\
+    SPEED_TMP_ALLOC_LIMBS (wp, s->size, s->align_wp);			\
+									\
+    speed_operand_src (s, s->xp, s->size);				\
+    speed_operand_dst (s, wp, s->size);					\
+    speed_cache_fill (s);						\
+									\
+    speed_starttime ();							\
+    i = s->reps;							\
+    do									\
+      (*function) (wp, s->xp, s->size, s->r,inv);			\
+    while (--i != 0);							\
+    t = speed_endtime ();						\
+									\
+    TMP_FREE;								\
+    return t;								\
+  }
 
 #define SPEED_ROUTINE_MPN_DIVREM_1(function)				\
   SPEED_ROUTINE_MPN_UNARY_1_CALL ((*function) (wp, 0, s->xp, s->size, s->r))
