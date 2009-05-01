@@ -21,7 +21,8 @@ char *add =
 "#  define GMP_NAIL_BITS            0\n"
 "#endif\n";
 
-#define IN_FILE "..\\..\\gmp-h.in"
+#define GMP_IN_FILE "..\\..\\gmp-h.in"
+#define MPIR_IN_FILE "..\\..\\mpir-h.in"
 #define MPIR_OUT_FILE "..\\..\\mpir.h"
 #define GMP_OUT_FILE "..\\..\\gmp.h"
 
@@ -60,7 +61,6 @@ int gen_file(char *in_file, char *out_file)
 
 int main()
 {
-    gen_file(IN_FILE, MPIR_OUT_FILE);
-    gen_file(IN_FILE, GMP_OUT_FILE);
+    gen_file(GMP_IN_FILE, MPIR_OUT_FILE);
     return 0;
 }

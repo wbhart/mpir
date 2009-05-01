@@ -87,7 +87,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="&quot;$(TargetPath)&quot;"
+				CommandLine="&quot;$(TargetPath)&quot;&#x0D;&#x0A;call ..\out_copy_rename ..\..\mpir.h ..\..\  gmp.h"
 			/>
 		</Configuration>
 		<Configuration
@@ -162,7 +162,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="&quot;$(TargetPath)&quot;"
+				CommandLine="&quot;$(TargetPath)&quot;&#x0D;&#x0A;call ..\out_copy_rename ..\..\mpir.h ..\..\  gmp.h"
 			/>
 		</Configuration>
 	</Configurations>
