@@ -22,16 +22,17 @@ char *add =
 "#endif\n";
 
 #define IN_FILE "..\\..\\gmp-h.in"
-#define OUT_FILE "..\\..\\mpir.h"
+#define MPIR_OUT_FILE "..\\..\\mpir.h"
+#define GMP_OUT_FILE "..\\..\\gmp.h"
 
-int main()
+int gen_file(char *in_file, char *out_file)
 {   FILE *fin, *fout;
     char buf[1000];
     int first = 0;
 
-    if(fin = fopen(IN_FILE, "r"))
+    if(fin = fopen(in_file, "r"))
     {
-        if(fout = fopen(OUT_FILE, "w"))
+        if(fout = fopen(out_file, "w"))
         {
             while(fgets(buf, 1000, fin))
                 if(!strncmp(buf, "#if ! defined (__GMP_WITHIN_CONFIGURE)", 38))
@@ -54,5 +55,12 @@ int main()
         fclose(fin);
     }
 
+    return 0;
+}
+
+int main()
+{
+    gen_file(IN_FILE, MPIR_OUT_FILE);
+    gen_file(IN_FILE, GMP_OUT_FILE);
     return 0;
 }

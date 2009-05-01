@@ -522,4 +522,5 @@ MA 02111-1307, USA. */
 #define alloca _alloca
 #define HAVE_STRCASECMP		1
 #define HAVE_STRNCASECMP	1
+#define va_copy(d, s) (d) = (s)
 #endif
