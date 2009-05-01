@@ -146,7 +146,7 @@ __g%1:
 ; values in 64-bit registers or on the stack because 
 ; the upper 32-bits of such parameters are undefined.
 ;
-;   WIN64_GCC_PROC name, (frame | leaf), parms
+;   WIN64_GCC_PROC name, n_parms, (frame | leaf)
 ;
 ;   WIN64_GCC_END frame | leaf
 ; 
@@ -154,12 +154,10 @@ __g%1:
 ;     type    subroutine type (frame or leaf)
 ;     parms   number of parameters
 ;
-%define leaf_fun    0
-%define frame_fun   1
 
-%macro WIN64_GCC_PROC 1-3 frame_fun, 6
+%macro WIN64_GCC_PROC 1-3 6, frame
 
-    %if %3 == frame_fun
+    %ifidn %3, frame
 
         %ifndef reg_save_list
             %define reg_save_list rsi, rdi
@@ -170,6 +168,17 @@ __g%1:
         %endif
 
         FRAME_PROC %1, stack_slots, reg_save_list
+        
+    %elifidn %3, leaf
+
+        LEAF_PROC %1
+
+    %else
+
+        %error no (or wrong) function type defined 
+
+    %endif
+
         %if %2 > 0
             mov     rdi, rcx
         %endif
@@ -189,19 +198,13 @@ __g%1:
             mov     r9, [rsp + stack_use + 48]
         %endif
         
-    %elif %3 == leaf_fun
-        LEAF_PROC %1
-    %else
-        %error no (or wrong) function type defined 
-    %endif
-
 %endmacro
 
-%macro WIN64_GCC_END 0-1 frame_fun
+%macro WIN64_GCC_END 0-1 frame
 
-    %if %1 == frame_fun
-        proc_end reg_save_list
-    %elif %1 == leaf_fun
+    %ifidn %1, frame
+        END_PROC reg_save_list
+    %elifidn %1, leaf
         ret
     %else
         %error no (or wrong) function type defined 
