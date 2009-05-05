@@ -140,7 +140,7 @@ MPN_FFT_STORE (void *dst, long int n, long int d)
 }
 #else
 void static inline
-MPN_FFT_STORE (mp_limb_t *dst, long int n, mp_limb_t d)
+MPN_FFT_STORE (mp_limb_t *dst, mp_size_t n, mp_limb_t d)
 {
     ASSERT(n >= 0);
     for (; n > 0; n--)
@@ -180,7 +180,7 @@ MPN_FFT_COPY (void *dst, const void *src, long int n)
 #define LOG2_GMP_NUMB_BITS 6
 #endif
 
-static inline unsigned int mpn_mul_fft_lcm (unsigned int, unsigned int);
+static inline mp_size_t mpn_mul_fft_lcm (mp_size_t, mp_size_t);
 
 /* quotient, remainder, product by GMP_NUMB_BITS */
 #ifdef LOG2_GMP_NUMB_BITS
@@ -216,9 +216,15 @@ FFT_TABLE_ATTRS mp_size_t mpn_fft_table[2][MPN_FFT_TABLE_SIZE] =
 };
 
 static int mpn_mul_fft_internal
-_PROTO ((mp_ptr, mp_size_t, mp_srcptr, mp_size_t, mp_srcptr, mp_size_t, int,
+_PROTO ((mp_ptr, mp_size_t, mp_srcptr, mp_size_t, mp_srcptr, mp_size_t, mp_size_t,
          mp_ptr *, mp_ptr *, mp_ptr, mp_ptr, mp_size_t, mp_size_t, 
-         int **, mp_ptr, int, int));
+         mp_size_t **, mp_ptr, mp_size_t, int));
+
+int
+mpn_mul_fft_aux (mp_ptr op, mp_size_t pl,
+		 mp_srcptr n, mp_size_t nl,
+		 mp_srcptr m, mp_size_t ml,
+		 mp_size_t k, int b);
 
 
 /* Find the best k to use for a mod 2^(m*GMP_NUMB_BITS)+1 FFT for m >= n.
@@ -326,10 +332,10 @@ mpn_fft_next_size (mp_size_t pl, int k)
 /* Initialize l[i][j] with bitrev(j) */
 
 static void
-mpn_fft_initl (int **l, int k)
+mpn_fft_initl (mp_size_t **l, mp_size_t k)
 {
-  int i, j, K;
-  int *li;
+  mp_size_t i, j, K;
+  mp_size_t *li;
 
   l[0][0] = 0;
   for (i = 1, K = 1; i <= k; i++, K *= 2)
@@ -416,7 +422,7 @@ mpn_fft_normalize (mp_ptr ap, mp_size_t n)
    r and a must have n+1 limbs, and not overlap.
 */
 static void
-mpn_fft_mul_2exp_modF (mp_ptr r, mp_srcptr a, unsigned int d, mp_size_t n)
+mpn_fft_mul_2exp_modF (mp_ptr r, mp_srcptr a, mp_size_t d, mp_size_t n)
 {
   int sh, negate;
   mp_limb_t cc, rd;
@@ -523,7 +529,7 @@ mpn_fft_mul_2exp_modF (mp_ptr r, mp_srcptr a, unsigned int d, mp_size_t n)
    Returns r semi-normalized.
    r and a must have n+1 limbs, and may overlap (if so, r=a). */
 static void
-mpn_fft_mul_2exp_modFa (mp_ptr r, mp_srcptr a, unsigned int d, mp_size_t n)
+mpn_fft_mul_2exp_modFa (mp_ptr r, mp_srcptr a, mp_size_t d, mp_size_t n)
 {
   mp_limb_t c;
 
@@ -567,7 +573,7 @@ mpn_fft_sub_modF (mp_ptr r, mp_srcptr a, mp_srcptr b, mp_size_t n)
    mpn_fft_mul_2exp_modF (r, tmp, d * GMP_NUMB_BITS, n);
 */
 static inline void
-mpn_fft_lshsub_modF (mp_ptr r, mp_srcptr a, mp_srcptr b, unsigned int d,
+mpn_fft_lshsub_modF (mp_ptr r, mp_srcptr a, mp_srcptr b, mp_size_t d,
 		     mp_size_t n)
 {
   ASSERT (0 <= d && d < 2 * n);
@@ -620,10 +626,10 @@ mpn_fft_lshsub_modF (mp_ptr r, mp_srcptr a, mp_srcptr b, unsigned int d,
    Calls mpn_fft_mul_2exp_modF() and mpn_fft_sub_modF().
 */
 static void
-mpn_fft_mul_sqrt2exp_modF (mp_ptr r, mp_srcptr a, unsigned int d, mp_size_t n)
+mpn_fft_mul_sqrt2exp_modF (mp_ptr r, mp_srcptr a, mp_size_t d, mp_size_t n)
 {
-  unsigned int e = d >> 1;
-  unsigned int N = MUL_GMP_NUMB_BITS(n); /* n * GMP_NUMB_BITS */
+  mp_size_t e = d >> 1;
+  mp_size_t N = MUL_GMP_NUMB_BITS(n); /* n * GMP_NUMB_BITS */
   mp_ptr tmp;
   mp_srcptr b;
   mp_limb_t ca, cc;
@@ -767,11 +773,11 @@ mpn_mul_fft_reduce (mp_ptr tmp, mp_srcptr A, mp_srcptr n, mp_size_t nl, mp_size_
    We need Mp so that ord(sqrt(2)^Mp) == K, with K = 2^k.
 */
 static void
-mpn_mul_fft_decompose (mp_ptr A, mp_ptr *Ap, int K, int offset, 
-		       int stride, int nprime, mp_srcptr n, 
-		       mp_size_t nl, int l, int Mp, mp_ptr T, int b)
+mpn_mul_fft_decompose (mp_ptr A, mp_ptr *Ap, mp_size_t K, mp_size_t offset, 
+		       mp_size_t stride, mp_size_t nprime, mp_srcptr n, 
+		       mp_size_t nl, mp_size_t l, mp_size_t Mp, mp_ptr T, int b)
 {
-  int i, j;
+  mp_size_t i, j;
   mp_ptr tmp;
   const mp_size_t Kl = K * l;
   TMP_DECL;
@@ -833,9 +839,9 @@ mpn_mul_fft_decompose (mp_ptr A, mp_ptr *Ap, int K, int offset,
 	      /* i * Mp / 2 is even, so weight signal is 
 		 sqrt(2)^(i * Mp / 2) = 2^(i * Mp / 4).
                  Shift directly into A. */
-	      const int c = (i * Mp) / 4;
-	      const int d = c % GMP_NUMB_BITS;
-	      const int e = c / GMP_NUMB_BITS;
+	      const mp_size_t c = (i * Mp) / 4;
+	      const mp_size_t d = c % GMP_NUMB_BITS;
+	      const mp_size_t e = c / GMP_NUMB_BITS;
 
 #undef DECOMPOSE_CAREFUL_CHECK
 #ifdef DECOMPOSE_CAREFUL_CHECK
@@ -979,9 +985,9 @@ mpn_mul_fft_decompose (mp_ptr A, mp_ptr *Ap, int K, int offset,
 
 static inline void
 mpn_fft_butterfly_rotbuf (mp_ptr *A, mp_size_t i0, mp_size_t i1,
-			  unsigned int e0, mp_ptr *rotbuf, mp_size_t n)
+			  mp_size_t e0, mp_ptr *rotbuf, mp_size_t n)
 {
-  unsigned int d, e = e0;
+  mp_size_t d, e = e0;
 
   ASSERT(e0 != 0);
   DIVMOD_2GMP_NUMB_BITS(d, e); /* 0 <= d < 2*n, 0 <= e0 < 2*GMP_NUMB_BITS */
@@ -1015,10 +1021,10 @@ mpn_fft_butterfly_rotbuf0 (mp_ptr *A, mp_size_t i0, mp_size_t i1,
 
 static inline void
 mpn_fft_butterfly_rotbufN (mp_ptr *A, mp_size_t i0, mp_size_t i1,
-			   unsigned int e0, mp_ptr *rotbuf, mp_size_t n)
+			   mp_size_t e0, mp_ptr *rotbuf, mp_size_t n)
 {
   mp_size_t N = MUL_4GMP_NUMB_BITS(n); /* 4 * n * GMP_NUMB_BITS */
-  unsigned int d;
+  mp_size_t d;
 
   if (e0 >= N)
     e0 -= N;
@@ -1157,15 +1163,15 @@ mpn_fft_fft_radix4Neg (mp_ptr *Ap, mp_size_t k, mp_size_t omega,
 
 static void 
 mpn_fft_fft_radix4Inv(mp_ptr *Ap, mp_size_t k, mp_size_t omega,
-    mp_size_t n, mp_ptr *rotbuf, int **ll)
+    mp_size_t n, mp_ptr *rotbuf, mp_size_t **ll)
 {
-  int i;
+  mp_size_t i;
 
   /* Bit-reverse table Ap.
      FIXME: these bit-rev copies might be avaoided. But do they really cost? */
   for (i = 0; i < 1<<k; ++i) {
     mp_ptr tmp;
-    int j = ll[k][i];
+    mp_size_t j = ll[k][i];
     if (i < j) {
       tmp = Ap[i];
       Ap[i] = Ap[j];
@@ -1178,7 +1184,7 @@ mpn_fft_fft_radix4Inv(mp_ptr *Ap, mp_size_t k, mp_size_t omega,
   /* Bit-reverse table Ap (again!) */
   for (i = 0; i < 1<<k; ++i) {
     mp_ptr tmp;
-    int j = ll[k][i];
+    mp_size_t j = ll[k][i];
     if (i < j) {
       tmp = Ap[i];
       Ap[i] = Ap[j];
@@ -1200,7 +1206,7 @@ static void mpn_fft_fftR4_twistedRec(mp_ptr * Ap, mp_size_t ind, mp_size_t k,
 {
   const mp_size_t stride = 1<<(k-1);
   const mp_size_t stride2 = 1<<(k-2);
-  int i;
+  mp_size_t i;
   
   if (k == 0)
     return;
@@ -1295,7 +1301,7 @@ static void mpn_fft_fftR4_twistedRecNeg(mp_ptr * Ap, mp_size_t ind, mp_size_t k,
 {
   mp_size_t stride = 1<<(k-1);
   mp_size_t stride2 = 1<<(k-2);
-  int i;
+  mp_size_t i;
   mp_size_t N = MUL_4GMP_NUMB_BITS(n); /* 4 * n * GMP_NUMB_BITS */
 
     
@@ -1351,7 +1357,7 @@ static void mpn_fft_fft_twistedRec(mp_ptr * Ap, mp_size_t ind, mp_size_t k,
     mp_size_t omega, mp_size_t om_curr, mp_size_t om_mult, mp_size_t n, mp_ptr *rotbuf)
 {
   const mp_size_t stride = 1<<(k-1);
-  int i;
+  mp_size_t i;
     
   if (k == 0)
     return;
@@ -1388,7 +1394,7 @@ mpn_fft_fft_bailey (mp_ptr * Ap, mp_size_t k, mp_size_t omega,
 { 
   const mp_size_t k1 = k >> 1;
   const mp_size_t k2 = k - k1;
-  int i, j;
+  mp_size_t i, j;
   const mp_size_t K1 = 1 << k1;
   const mp_size_t K2 = 1 << k2;
   mp_size_t omegai;
@@ -1421,17 +1427,17 @@ mpn_fft_fft_bailey (mp_ptr * Ap, mp_size_t k, mp_size_t omega,
 static void 
 mpn_fft_fft_bailey_decompose (mp_ptr A, mp_ptr *Ap, mp_size_t k, 
 			      mp_size_t omega, mp_size_t nprime, mp_srcptr n, 
-			      mp_size_t nl, int l, mp_ptr *rotbuf, int b)
+			      mp_size_t nl, mp_size_t l, mp_ptr *rotbuf, int b)
 { 
   const mp_size_t k1 = k >> 1;
   const mp_size_t k2 = k - k1;
-  int i, j;
+  mp_size_t i, j;
   const mp_size_t K1 = 1 << k1;
   const mp_size_t K2 = 1 << k2;
   mp_size_t omegai;
   mp_ptr *BufA; 
   mp_ptr T, tmp;
-  const int Kl = l << k;
+  const mp_size_t Kl = l << k;
     
   TMP_DECL;
   TMP_MARK; 
@@ -1480,11 +1486,11 @@ mpn_fft_fft_bailey_decompose (mp_ptr A, mp_ptr *Ap, mp_size_t k,
 
 static void 
 mpn_fft_fft_baileyInv (mp_ptr * Ap, mp_size_t k, mp_size_t omega,
-    mp_size_t n, mp_ptr * rotbuf, int ** ll)
+    mp_size_t n, mp_ptr * rotbuf, mp_size_t ** ll)
 { 
   const mp_size_t k1 = k >> 1;
   const mp_size_t k2 = k - k1;
-  int i, j;
+  mp_size_t i, j;
   const mp_size_t K1 = 1 << k1;
   const mp_size_t K2 = 1 << k2;
   mp_size_t omegai;
@@ -1498,7 +1504,7 @@ mpn_fft_fft_baileyInv (mp_ptr * Ap, mp_size_t k, mp_size_t omega,
   // FIXME: these bit-rev copies might be avoided. But do they really cost?
   for (i = 0; i < 1<<k; ++i) {
     mp_ptr tmp;
-    int j = ll[k][i];
+    mp_size_t j = ll[k][i];
     if (i < j) {
       tmp = Ap[i];
       Ap[i] = Ap[j];
@@ -1527,7 +1533,7 @@ mpn_fft_fft_baileyInv (mp_ptr * Ap, mp_size_t k, mp_size_t omega,
   // Bit-reverse table Ap (again...)
   for (i = 0; i < 1<<k; ++i) {
     mp_ptr tmp;
-    int j = ll[k][i];
+    mp_size_t j = ll[k][i];
     if (i < j) {
       tmp = Ap[i];
       Ap[i] = Ap[j];
@@ -1540,9 +1546,9 @@ mpn_fft_fft_baileyInv (mp_ptr * Ap, mp_size_t k, mp_size_t omega,
 
 /* a[i] <- a[i]*b[i] mod 2^(n*GMP_NUMB_BITS)+1 for 0 <= i < K */
 static void
-mpn_fft_mul_modF_K (mp_ptr *ap, mp_ptr *bp, mp_size_t n, int K)
+mpn_fft_mul_modF_K (mp_ptr *ap, mp_ptr *bp, mp_size_t n, mp_size_t K)
 {
-  int i;
+  mp_size_t i;
   int sqr = (ap == bp);
   TMP_DECL;
 
@@ -1550,8 +1556,8 @@ mpn_fft_mul_modF_K (mp_ptr *ap, mp_ptr *bp, mp_size_t n, int K)
 
   if (n >= (sqr ? SQR_FFT_MODF_THRESHOLD : MUL_FFT_MODF_THRESHOLD))
     {
-      int k, K2, nprime2, Nprime2, M2, maxLK, l;
-      int **_fft_l;
+      mp_size_t k, K2, nprime2, Nprime2, M2, maxLK, l;
+      mp_size_t **_fft_l;
       mp_ptr *Ap, *Bp, A, B, T;
 
       k = mpn_fft_best_k (n, sqr);
@@ -1567,7 +1573,7 @@ mpn_fft_mul_modF_K (mp_ptr *ap, mp_ptr *bp, mp_size_t n, int K)
       /* we should ensure that nprime2 is a multiple of the next K */
       if (nprime2 >= (sqr ? SQR_FFT_MODF_THRESHOLD : MUL_FFT_MODF_THRESHOLD))
 	{
-	  unsigned long K3;
+	  mp_size_t K3;
 	  for (;;)
 	    {
 	      K3 = 1L << mpn_fft_best_k (nprime2, sqr);
@@ -1585,9 +1591,9 @@ mpn_fft_mul_modF_K (mp_ptr *ap, mp_ptr *bp, mp_size_t n, int K)
       A = TMP_ALLOC_LIMBS (2 * K2 * (nprime2 + 1));
       T = TMP_ALLOC_LIMBS (2 * (nprime2 + 1));
       B = A + K2 * (nprime2 + 1);
-      _fft_l = TMP_ALLOC_TYPE (k + 1, int *);
+      _fft_l = TMP_ALLOC_TYPE (k + 1, mp_size_t *);
       for (i = 0; i <= k; i++)
-	_fft_l[i] = TMP_ALLOC_TYPE (1<<i, int);
+	_fft_l[i] = TMP_ALLOC_TYPE (1<<i, mp_size_t);
       mpn_fft_initl (_fft_l, k);
 
       TRACE (printf ("recurse: %dx%d limbs -> %d times %dx%d (%1.2f)\n", n,
@@ -1605,7 +1611,7 @@ mpn_fft_mul_modF_K (mp_ptr *ap, mp_ptr *bp, mp_size_t n, int K)
     {
       mp_ptr a, b, tp, tpn;
       mp_limb_t cc;
-      int n2 = 2 * n;
+      mp_size_t n2 = 2 * n;
       tp = TMP_ALLOC_LIMBS (n2);
       tpn = tp + n;
       TRACE (printf ("mpn_fft_mul_modF_K:  mpn_mul_n %d of %d limbs\n", K, n));
@@ -1655,10 +1661,10 @@ mpn_fft_mul_modF_K (mp_ptr *ap, mp_ptr *bp, mp_size_t n, int K)
  *
  */
 static void
-mpn_fft_mul_modF_K_fftInv (mp_ptr *ap, mp_ptr *bp, mp_size_t n, mp_size_t Mp, int old_k,
-    mp_ptr *rotbuf, int**ll)
+mpn_fft_mul_modF_K_fftInv (mp_ptr *ap, mp_ptr *bp, mp_size_t n, mp_size_t Mp, mp_size_t old_k,
+    mp_ptr *rotbuf, mp_size_t**ll)
 {
-  int i, j;
+  mp_size_t i, j;
   int sqr = (ap == bp);
   mp_size_t K = 1<<old_k;
   TMP_DECL;
@@ -1667,8 +1673,8 @@ mpn_fft_mul_modF_K_fftInv (mp_ptr *ap, mp_ptr *bp, mp_size_t n, mp_size_t Mp, in
 
   if (n >= (sqr ? SQR_FFT_MODF_THRESHOLD : MUL_FFT_MODF_THRESHOLD))
     {
-      int k, K2, nprime2, Nprime2, M2, maxLK, l;
-      int **_fft_l;
+      mp_size_t k, K2, nprime2, Nprime2, M2, maxLK, l;
+      mp_size_t **_fft_l;
       mp_ptr *Ap, *Bp, A, B, T;
 
       k = mpn_fft_best_k (n, sqr);
@@ -1684,7 +1690,7 @@ mpn_fft_mul_modF_K_fftInv (mp_ptr *ap, mp_ptr *bp, mp_size_t n, mp_size_t Mp, in
       /* we should ensure that nprime2 is a multiple of the next K */
       if (nprime2 >= (sqr ? SQR_FFT_MODF_THRESHOLD : MUL_FFT_MODF_THRESHOLD))
 	{
-	  unsigned long K3;
+	  mp_size_t K3;
 	  for (;;)
 	    {
 	      K3 = 1L << mpn_fft_best_k (nprime2, sqr);
@@ -1702,9 +1708,9 @@ mpn_fft_mul_modF_K_fftInv (mp_ptr *ap, mp_ptr *bp, mp_size_t n, mp_size_t Mp, in
       A = TMP_ALLOC_LIMBS (2 * K2 * (nprime2 + 1));
       T = TMP_ALLOC_LIMBS (2 * (nprime2 + 1));
       B = A + K2 * (nprime2 + 1);
-      _fft_l = TMP_ALLOC_TYPE (k + 1, int *);
+      _fft_l = TMP_ALLOC_TYPE (k + 1, mp_size_t *);
       for (i = 0; i <= k; i++)
-	_fft_l[i] = TMP_ALLOC_TYPE (1<<i, int);
+	_fft_l[i] = TMP_ALLOC_TYPE (1<<i, mp_size_t);
       mpn_fft_initl (_fft_l, k);
 
       TRACE (printf ("recurse: %dx%d limbs -> %d times %dx%d (%1.2f)\n", n,
@@ -1712,9 +1718,8 @@ mpn_fft_mul_modF_K_fftInv (mp_ptr *ap, mp_ptr *bp, mp_size_t n, mp_size_t Mp, in
       
       {
     mp_size_t k1, k2, N, K1, omega, omegai;
-	mp_ptr a, b, tp, tpn, *BufA;
-	mp_limb_t cc;
-	int n2 = n << 1;
+	mp_ptr tp, tpn, *BufA;
+	mp_size_t n2 = n << 1;
 	tp = TMP_ALLOC_LIMBS (n2);
 	tpn = tp + n;
 
@@ -1734,7 +1739,7 @@ mpn_fft_mul_modF_K_fftInv (mp_ptr *ap, mp_ptr *bp, mp_size_t n, mp_size_t Mp, in
 	    // Do the point-wise multiplication, the bitreverse and the
 	    // column selection at once. Should help locality (not
 	    // readibility).
-	    int ind = ll[old_k][i+K2*j];
+	    mp_size_t ind = ll[old_k][i+K2*j];
 
 	    mpn_fft_normalize (ap[ind], n);
 	    if (!sqr)
@@ -1754,7 +1759,7 @@ mpn_fft_mul_modF_K_fftInv (mp_ptr *ap, mp_ptr *bp, mp_size_t n, mp_size_t Mp, in
 
 	for (i = 0; i < 1<<old_k; ++i) {
 	  mp_ptr tmp; 
-	  int j = ll[old_k][i];
+	  mp_size_t j = ll[old_k][i];
 	  if (i < j) {
 	    tmp = ap[i];
 	    ap[i] = ap[j];
@@ -1769,7 +1774,7 @@ mpn_fft_mul_modF_K_fftInv (mp_ptr *ap, mp_ptr *bp, mp_size_t n, mp_size_t Mp, in
 	// Bit-reverse table Ap (again...)
 	for (i = 0; i < 1<<old_k; ++i) {
 	  mp_ptr tmp;
-	  int j = ll[old_k][i];
+	  mp_size_t j = ll[old_k][i];
 	  if (i < j) { 
 	    tmp = ap[i];
 	    ap[i] = ap[j];
@@ -1783,7 +1788,7 @@ mpn_fft_mul_modF_K_fftInv (mp_ptr *ap, mp_ptr *bp, mp_size_t n, mp_size_t Mp, in
       mp_size_t k1, k2, N, K1, K2, omega, omegai;
       mp_ptr a, b, tp, tpn, *BufA;
       mp_limb_t cc;
-      int n2 = 2 * n;
+      mp_size_t n2 = 2 * n;
       tp = TMP_ALLOC_LIMBS (n2);
       tpn = tp + n;
       
@@ -1836,7 +1841,7 @@ mpn_fft_mul_modF_K_fftInv (mp_ptr *ap, mp_ptr *bp, mp_size_t n, mp_size_t Mp, in
 
       for (i = 0; i < 1<<old_k; ++i) {
 	mp_ptr tmp; 
-	int j = ll[old_k][i];
+	mp_size_t j = ll[old_k][i];
 	if (i < j) {
 	  tmp = ap[i];
 	  ap[i] = ap[j];
@@ -1851,7 +1856,7 @@ mpn_fft_mul_modF_K_fftInv (mp_ptr *ap, mp_ptr *bp, mp_size_t n, mp_size_t Mp, in
       // Bit-reverse table Ap (again...)
       for (i = 0; i < 1<<old_k; ++i) {
 	mp_ptr tmp;
-	int j = ll[old_k][i];
+	mp_size_t j = ll[old_k][i];
 	if (i < j) { 
 	  tmp = ap[i];
 	  ap[i] = ap[j];
@@ -1870,7 +1875,7 @@ mpn_fft_mul_modF_K_fftInv (mp_ptr *ap, mp_ptr *bp, mp_size_t n, mp_size_t Mp, in
    {r, n+1} and {a, n+1} may overlap, provided r <= a (like mpn_rshift).
 */
 static void
-mpn_fft_div_2exp_modF (mp_ptr r, mp_srcptr a, unsigned int k, mp_size_t n)
+mpn_fft_div_2exp_modF (mp_ptr r, mp_srcptr a, mp_size_t k, mp_size_t n)
 {
   mp_limb_t cc;
 
@@ -1895,7 +1900,7 @@ mpn_fft_div_2exp_modF (mp_ptr r, mp_srcptr a, unsigned int k, mp_size_t n)
    Assumes 0 < k < 4*n*GMP_NUMB_BITS.
    FIXME: can we use the trick used in mpn_fft_div_sqrt2exp_modF above? */
 static void
-mpn_fft_div_sqrt2exp_modF (mp_ptr r, mp_srcptr a, unsigned int k, mp_size_t n)
+mpn_fft_div_sqrt2exp_modF (mp_ptr r, mp_srcptr a, mp_size_t k, mp_size_t n)
 {
   ASSERT (r != a);
 #ifdef NO_SQRT_2
@@ -1929,7 +1934,7 @@ mpn_fft_norm_modF (mp_ptr rp, mp_size_t n, mp_srcptr ap, mp_size_t an, int b)
     {
       mp_size_t l;
       mp_limb_t cc;
-      int i;
+      mp_size_t i;
 
       l = (an <= 2 * n) ? an - n : n;
       if (b == -1)
@@ -1976,18 +1981,20 @@ static int
 mpn_mul_fft_internal (mp_ptr op, mp_size_t pl,
                       mp_srcptr n, mp_size_t nl,
                       mp_srcptr m, mp_size_t ml,
-		      int k,
+		      mp_size_t k,
 		      mp_ptr *Ap, mp_ptr *Bp,
 		      mp_ptr A, mp_ptr B,
 		      mp_size_t nprime, mp_size_t l,
-		      int **_fft_l,
-		      mp_ptr T, int rec, int b)
+		      mp_size_t **_fft_l,
+		      mp_ptr T, mp_size_t rec, int b)
 {
-  const int K = 1<<k; /* K = the transform length */
+  const mp_size_t K = 1<<k; /* K = the transform length */
   /* Choose Mp so that sqrt(2)^Mp has order 2^k.
      Remember: sqrt(2) has order 4*Nprime (mod 2^Nprime + 1) */
   const mp_size_t Mp = (4 * nprime * GMP_LIMB_BITS) >> k;
-  int i, sqr, pla, lo, sh, j;
+  mp_size_t i, pla, lo, sh, j;
+  int ii;
+  int sqr;
   mp_ptr p;
   mp_limb_t cc;
   mp_ptr rotbufA[1], rotbufB[1]; /* we need two rotating buffers, otherwise
@@ -2127,20 +2134,20 @@ mpn_mul_fft_internal (mp_ptr op, mp_size_t pl,
   /* here p < 2^(2M) [K 2^(M(K-1)) + (K-1) 2^(M(K-2)) + ... ]
      < K 2^(2M) [2^(M(K-1)) + 2^(M(K-2)) + ... ]
      < K 2^(2M) 2^(M(K-1))*2 = 2^(M*K+M+k+1) */
-  i = mpn_fft_norm_modF (op, pl, p, pla, b);
+  ii = (int) mpn_fft_norm_modF (op, pl, p, pla, b);
   if (rec) /* store the carry out */
-    op[pl] = i;
+    op[pl] = ii;
 
   TMP_FREE;
 
-  return i;
+  return ii;
 }
 
 /* return the lcm of a and 2^k */
-static inline unsigned int
-mpn_mul_fft_lcm (unsigned int a, unsigned int k)
+static inline mp_size_t
+mpn_mul_fft_lcm (mp_size_t a, mp_size_t k)
 {
-  unsigned int l = k;
+  mp_size_t l = k;
 
   while ((a & 1) == 0 && k > 0)
     {
@@ -2167,7 +2174,7 @@ int
 mpn_mul_fft_mersenne (mp_ptr op, mp_size_t pl,
                       mp_srcptr n, mp_size_t nl,
                       mp_srcptr m, mp_size_t ml,
-                      int k)
+                      mp_size_t k)
 {
   return mpn_mul_fft_aux (op, pl, n, nl, m, ml, k, -1);
 }
@@ -2179,13 +2186,13 @@ int
 mpn_mul_fft_aux (mp_ptr op, mp_size_t pl,
 		 mp_srcptr n, mp_size_t nl,
 		 mp_srcptr m, mp_size_t ml,
-		 int k, int b)
+		 mp_size_t k, int b)
 {
-  int maxLK, i, c;
-  const int K = 1 << k;
+  mp_size_t maxLK, i, c;
+  const mp_size_t K = 1 << k;
   mp_size_t N, Nprime, nprime, M, l;
   mp_ptr *Ap, *Bp, A, T, B;
-  int **_fft_l;
+  mp_size_t **_fft_l;
   int sqr = (n == m && nl == ml);
   TMP_DECL;
 
@@ -2200,7 +2207,7 @@ mpn_mul_fft_aux (mp_ptr op, mp_size_t pl,
     {
       mp_ptr nn = TMP_ALLOC_LIMBS(pl + (b == 1));
       if ((i = mpn_fft_norm_modF (nn, pl, n, nl, b)))
-	nn[pl] = 1;
+	nn[pl] = CNST_LIMB(1);
       n = nn;
       nl = pl + i;
     }
@@ -2208,16 +2215,16 @@ mpn_mul_fft_aux (mp_ptr op, mp_size_t pl,
     {
       mp_ptr mm = TMP_ALLOC_LIMBS(pl + (b == 1));
       if ((i = mpn_fft_norm_modF (mm, pl, m, ml, b)))
-	mm[pl] = 1;
+	mm[pl] = CNST_LIMB(1);
       m = mm;
       ml = pl + i;
     }
   /* now nl,ml <= pl if b=-1, nl,ml <= pl+1 if b=1 */
 
   N = MUL_GMP_NUMB_BITS(pl); /* The entire integer product will be mod 2^N+b */
-  _fft_l = TMP_ALLOC_TYPE (k + 1, int *);
+  _fft_l = TMP_ALLOC_TYPE (k + 1, mp_size_t *);
   for (i = 0; i <= k; i++)
-    _fft_l[i] = TMP_ALLOC_TYPE (1 << i, int);
+    _fft_l[i] = TMP_ALLOC_TYPE (1 << i, mp_size_t);
   mpn_fft_initl (_fft_l, k);
   M = N >> k;	/* The number of bits we need to be able to store in each 
                    of the 2^k pieces */
@@ -2254,7 +2261,7 @@ mpn_mul_fft_aux (mp_ptr op, mp_size_t pl,
   /* we should ensure that recursively, nprime is a multiple of the next K */
   if (nprime >= (sqr ? SQR_FFT_MODF_THRESHOLD : MUL_FFT_MODF_THRESHOLD))
     {
-      unsigned long K2;
+      mp_size_t K2;
       for (;;)
 	{
 	  K2 = 1L << mpn_fft_best_k (nprime, sqr);
@@ -2300,7 +2307,7 @@ mpn_mul_fft_full_a (mp_ptr op,
   int sqr = n == m && nl == ml;
   mp_size_t l, h;
   mp_limb_t muh, cc;
-  int k1, k2, i;
+  mp_size_t k1, k2, i;
   mp_ptr tp;
   
   while (1)
