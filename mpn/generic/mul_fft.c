@@ -144,7 +144,7 @@ MPN_FFT_STORE (void *dst, long int n, long int d)
 {
     ASSERT(n >= 0);
     for (; n > 0; n--)
-	*dst++ = d;
+	*((unsigned long*)dst)++ = d;
 }
 #endif
 
@@ -1001,9 +1001,10 @@ static inline void
 mpn_fft_butterfly_rotbuf0 (mp_ptr *A, mp_size_t i0, mp_size_t i1,
 			   mp_ptr *rotbuf, mp_size_t n)
 {
+  mp_ptr tmp;
   mpn_fft_sub_modF (rotbuf[0], A[i0], A[i1], n);
   mpn_fft_add_modF (A[i0], A[i0], A[i1], n);
-  mp_ptr tmp = rotbuf[0];
+  tmp = rotbuf[0];
   rotbuf[0] = A[i1];
   A[i1] = tmp;
 }
@@ -1710,21 +1711,20 @@ mpn_fft_mul_modF_K_fftInv (mp_ptr *ap, mp_ptr *bp, mp_size_t n, mp_size_t Mp, in
 		    n, K2, nprime2, nprime2, 2.0*(double)n/nprime2/K2));
       
       {
-	mp_ptr a, b, tp, tpn;
+    mp_size_t k1, k2, N, K1, omega, omegai;
+	mp_ptr a, b, tp, tpn, *BufA;
 	mp_limb_t cc;
 	int n2 = n << 1;
 	tp = TMP_ALLOC_LIMBS (n2);
 	tpn = tp + n;
 
-	mp_size_t k1 = old_k >> 1;
-	mp_size_t k2 = old_k - k1;
-	mp_size_t N = MUL_4GMP_NUMB_BITS(n); /* 4 * n * GMP_NUMB_BITS */
-	mp_size_t K1 = 1 << k1;
+	k1 = old_k >> 1;
+	k2 = old_k - k1;
+	N = MUL_4GMP_NUMB_BITS(n); /* 4 * n * GMP_NUMB_BITS */
+	K1 = 1 << k1;
 	K2 = 1 << k2; /* we overwrite the previous variable, here,
 			 but it is no longer used */
-	mp_size_t omega = Mp;
-	mp_size_t omegai;
-	mp_ptr *BufA; 
+	omega = Mp;
 
 	BufA = TMP_ALLOC_MP_PTRS (K1);
 
@@ -1780,20 +1780,19 @@ mpn_fft_mul_modF_K_fftInv (mp_ptr *ap, mp_ptr *bp, mp_size_t n, mp_size_t Mp, in
     }
   else
     {
-      mp_ptr a, b, tp, tpn;
+      mp_size_t k1, k2, N, K1, K2, omega, omegai;
+      mp_ptr a, b, tp, tpn, *BufA;
       mp_limb_t cc;
       int n2 = 2 * n;
       tp = TMP_ALLOC_LIMBS (n2);
       tpn = tp + n;
       
-      mp_size_t k1 = old_k / 2;
-      mp_size_t k2 = old_k-k1;
-      mp_size_t N = MUL_4GMP_NUMB_BITS(n); /* 4 * n * GMP_NUMB_BITS */
-      mp_size_t K1 = 1<<k1;
-      mp_size_t K2 = 1<<k2;
-      mp_size_t omega = Mp;
-      mp_size_t omegai;
-      mp_ptr *BufA; 
+      k1 = old_k / 2;
+      k2 = old_k-k1;
+      N = MUL_4GMP_NUMB_BITS(n); /* 4 * n * GMP_NUMB_BITS */
+      K1 = 1<<k1;
+      K2 = 1<<k2;
+      omega = Mp;
 
       BufA = TMP_ALLOC_MP_PTRS (K1);
 
