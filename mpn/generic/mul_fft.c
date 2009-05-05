@@ -140,11 +140,11 @@ MPN_FFT_STORE (void *dst, long int n, long int d)
 }
 #else
 void static inline
-MPN_FFT_STORE (void *dst, long int n, long int d)
+MPN_FFT_STORE (mp_limb_t *dst, long int n, mp_limb_t d)
 {
     ASSERT(n >= 0);
     for (; n > 0; n--)
-	*((unsigned long*)dst)++ = d;
+	 *(dst++) = d;
 }
 #endif
 
@@ -2303,11 +2303,9 @@ mpn_mul_fft_full_a (mp_ptr op,
   int k1, k2, i;
   mp_ptr tp;
   
-  a++;
-  
-  do
+  while (1)
   {
-  a--;	 
+
   ASSERT_ALWAYS(a > 0);
   l = (pl + a + (a > 1)) / (a + 1); /* ceil(pl/(a+1)) */
   /* Warning: for a > 1, the product may be larger than (2^N-1) * (2^(aN)+1),
@@ -2347,7 +2345,9 @@ mpn_mul_fft_full_a (mp_ptr op,
      with 0 <= A < 2^(aN)+1 and 0 <= B < 2^N-1.
      Then mu = A, and lambda = (B-A)/2 mod (2^N-1). */
 
-  } while (h >= pl);
+     if (h < pl) break;
+	  a--;
+  } 
 
   muh = mpn_mul_fft (op, h, n, nl, m, ml, k2); /* mu = muh+{op,h} */
 
