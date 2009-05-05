@@ -367,14 +367,29 @@ def form_path(p) :
       form_path(p[ : n + 1])
   if p[-1] == '\\' and not os.path.exists(p) :
     os.mkdir(p)
-    
-def convert(s, d, l) :
+
+def conv_lines(code, l) :
+  labels = pass_one(code)
+  macros = pass_two(code, labels)
+  code = pass_three(code, labels, macros, l)
+  return (labels, macros, code)
+
+def conv_file(f_in, f_out, l) :
+  f = open(f_in, "r")
+  code = f.readlines()
+  f.close()
+  labels, macros, code = conv_lines(code, l)
+  f = open(f_out, "w")
+  f.writelines(code)
+  f.close()
+
+def conv_dirs(s, d, l) :
   fd = os.listdir(s)
   for f in fd :
     sp = os.path.join(s,f)
     dp = os.path.join(d,f)
     if os.path.isdir(sp) :
-      convert(sp, dp, l + 1)
+      conv_dirs(sp, dp, l + 1)
     elif os.path.isfile(sp) :
       if sp != dp and os.path.exists(dp) :
         continue
@@ -389,9 +404,7 @@ def convert(s, d, l) :
         if sp == dp :
           rp = os.path.join(s, x[0] + ('.as' if is_linux else '.old'))
           os.rename(sp, rp)
-        labels = pass_one(code)
-        macros = pass_two(code, labels)
-        code = pass_three(code, labels, macros, l)
+        labels, macros, code = conv_lines(code, l)
         f = open(dp, "w")
         f.writelines(code)
         f.close()
@@ -399,24 +412,30 @@ def convert(s, d, l) :
         form_path(dp)
         shutil.copyfile(sp, dp)
 
-cd = os.getcwd()                    # if run in the build.vc9 directory
-if cd.endswith("build.vc9") :
-  cd1 = cd + "\\..\\mpn\\x86_64"    # the GAS assembler directory
-  cd2 = cd + "\\..\\mpn\\x86_64w"   # the YASM (Windows) assembler directory
-elif cd.endswith("x86_64") :        # if run in the GAS assembler directory
-  if os.path.exists(cd + "\\..\\x86_64w") :
-    cd1 = cd
-    cd2 = cd + "\\..\\x86_64w"
-  else :
-    cd1 = cd2 = cd
-else:
+if len(sys.argv) == 1 :
+  cd = os.getcwd()                    # if run in the build.vc9 directory
+  if cd.endswith("build.vc9") :
+    cd1 = cd + "\\..\\mpn\\x86_64"    # the GAS assembler directory
+    cd2 = cd + "\\..\\mpn\\x86_64w"   # the YASM (Windows) assembler directory
+  elif cd.endswith("x86_64") :        # if run in the GAS assembler directory
+    if os.path.exists(cd + "\\..\\x86_64w") :
+      cd1 = cd
+      cd2 = cd + "\\..\\x86_64w"
+    else :
+      cd1 = cd2 = cd
+elif len(sys.argv) == 3 :
+  cd1 = sys.argv[1]
+  cd2 = sys.argv[2]
+else :
   cd1 = cd2 = None
 
 if cd1 and os.path.exists(cd1) :
-  if os.path.exists(cd2) :
-    print("warning: output directory '{0}' already exists".format(cd2))
-  convert(cd1, cd2, 0)              # convert format from GAS to YASM 
-elif cd1 :
-  print("cannot find input directory: '{0}'".format(cd1))
+  if os.path.isdir(cd1) :
+    if os.path.exists(cd2) and os.path.isdir(cd2) :
+      print("warning: output directory '{0}' already exists".format(cd2))
+    conv_dirs(cd1, cd2, 0)          # convert format from GAS to YASM
+  elif os.path.isfile(cd1) :
+    if not os.path.exists(cd2) :
+      conv_file(cd1, cd2, 0)
 else :
-  convert(cd, cd, 0)
+  print('{0} is not a file or directory'.format(cd1))
