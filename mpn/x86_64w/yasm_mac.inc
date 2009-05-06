@@ -1,22 +1,5 @@
-;
-; YASM macros for handling Windows Prologues and Epilogues
-;
-; Copyright 2008, 2009 Brian Gladman
-;
-; Windows x64 prologue macro
-;
-;   prologue name, stack_slots, register_save_list 
-;
-;   name:                routine name
-;   register_save_list:  comma separated list of registers to save
-;   stack_slots:         stack space needed in 8 byte units
 
-; Windows x64 epilogue macro
-;
-;   epilogue register_save_list
-;
-;   register_save_list:  comma separated list of registers to save
-;                        in same order used in prologue
+; Standardised register numbering scheme
 
 %define r0  rax
 %define r1  rdx
@@ -54,9 +37,36 @@
 %define r6b bpl
 %define r7b spl
 
+; Standard macro for alignment (used to allow easy subsititution of
+; alternative padding schemes)
+
 %macro xalign 1
     align %1
 %endmacro
+
+; YASM macros for handling Windows Prologues and Epilogues
+;
+; Copyright 2008, 2009 Brian Gladman
+;
+; Windows x64 prologue macro
+;
+;   prologue name, stack_slots, register_save_list 
+;
+;   name:                routine name
+;   register_save_list:  comma separated list of registers to save
+;   stack_slots:         stack space needed in 8 byte units
+
+; Windows x64 epilogue macro
+;
+;   epilogue register_save_list
+;
+;   register_save_list:  comma separated list of registers to save
+;                        in same order used in prologue
+;
+; On return the macro variable 'stack_use' gives the total number 
+; of bytes used on the stack. This allows the function parameters
+; to be accessed at [rsp + stack_use + 8 * n] where n starts at 1
+; (for n = 1..4 this is shadow space for a register parameter)  
 
 %macro FRAME_PROC 2-*
 
@@ -151,9 +161,16 @@ __g%1:
 ;   WIN64_GCC_END frame | leaf
 ; 
 ;     name    subroutine name
-;     type    subroutine type (frame or leaf)
-;     parms   number of parameters
+;     n_parms number of parameters (default 6)
+;     type    frame or leaf function (default frame)
 ;
+; These defines are also used:
+;
+;     reg_save_list   list of registers to be saved
+;                     and restored
+;     stack_slots     number of 8 byte slots needed
+;                     on the stack (excluding the 
+;                     register save/restore space)
 
 %macro WIN64_GCC_PROC 1-3 6, frame
 

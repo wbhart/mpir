@@ -6,58 +6,84 @@ import string, re, os, sys, shutil
 debug = False
 dot_labels = False
 is_linux = False
-  
+
+# translate 64 bit registers to 8 bit form
+
+r08 = { 'rax' :   'al', 'rbx' :   'bl', 'rcx' :   'cl', 'rdx' :   'dl',
+        'rsi' :  'sil', 'rdi' :  'dil', 'rbp' :  'bpl',
+         'r8' :  'r8b',  'r9' :  'r9b', 'r10' : 'r10b', 'r11' : 'r11b',
+        'r12' : 'r12b', 'r13' : 'r13b', 'r14' : 'r14b', 'r15' : 'r15b' }
+
+# translate 64 bit registers to 32 bit form
+
+r32 = { 'rax' :  'eax', 'rbx' :  'ebx', 'rcx' :  'ecx', 'rdx' :  'edx',
+        'rsi' :  'esi', 'rdi' :  'edi', 'rbp' :  'ebp',
+         'r8' :  'r8d',  'r9' :  'r9d', 'r10' : 'r10d', 'r11' : 'r11d',
+        'r12' : 'r12d', 'r13' : 'r13d', 'r14' : 'r14d', 'r15' : 'r15d' }
+
 # regular expression for registers 
 
-r_q = r"(?:r[abcd]x|r[sd]i|r[bsi]p)|(?:r8|r9|r1[012345])|"
-r_d = r"(?:e[abcd]x|e[sd]i|e[bsi]p|r[89]d|r1[012345]d)|"
-r_w = r"(?:[abcd]x|[sd]i|[bsi]p|r[89]w|r1[012345]w)|"
-r_b = r"(?:[abcd]l|[ds]il|[bsi]pl|r[89]l|r1[012345]l)|"
-r_x = r"(?:x?mm\d|x?mm1[0-5])|(?:mmx\d|mmx1[0-5])|(?:st\([0-7]\))"  
+r_q = r'(?:r[abcd]x|r[sd]i|r[bsi]p)|(?:r8|r9|r1[0-5])'  # 64 bit
+r_d = r'(?:e[abcd]x|e[sd]i|e[bsi]p|r[89]d|r1[0-5]d)|'   # 32 bit
+r_w = r'(?:[abcd]x|[sd]i|[bsi]p|r[89]w|r1[0-5]w)|'      # 16 bit
+r_b = r'(?:[abcd]l|[ds]il|[bsi]pl|r[89]b|r1[0-5]b)|'    #  8 bit
+r_x = r'(?:x?mm\d|x?mm1[0-5])|(?:mmx\d|mmx1[0-5])|(?:st\([0-7]\))'  
 
-p_rg = r"(?:\s*%(" + r_b + r_w + r_d + r_q + r_x + r"))"
+p_rg = r'(?:\s*%(' + r_b + r_w + r_d + r_q + '|' + r_x + r'))'
 
 # regular expression for dis(r1, r2, mul) forms
 
-p_mu = r"(?:\s*,\s*([1248])){0,1}\s*(?=\))"
-p_di = r"(?:\s*([\+\-]{0,1}[0-9]*)(?=\()){0,1}"
-p_t1 = p_di + r"\s*\(" + p_rg + r"(?:\s*\)|\s*,*" + p_rg + p_mu + r"\s*\))"
+p_di = r'(?:\s*([-+]?[0-9]*)(?=\())?'     # numeric displacement
+p_mu = r'(?:\s*,\s*([1248]))?\s*(?=\))'   # multiplier (1, 2, 4, 8)
+p_t1 = p_di + r'\s*\(' + p_rg + r'(?:\s*\)|\s*,' + p_rg + p_mu + r'\s*\))'
 
 # regular expression for immediate (numeric, not symbolic)
 
-p_im = r"\s+\`{0,1}\$\'{0,1}([\+\-]{0,1}[0-9]+|0x[a-zA-Z0-9]+)"
+p_im = r'\s+\`?\$\'?([\+\-]?[0-9]+|0x[a-zA-Z0-9]+)'
 
-# regular expression for labels
+# regular expressions for labels
 
-p_la = r"\s*([a-zA-Z$_][a-zA-Z0-9\$_]*|\.[0-9]+)(:)"
-p_lr = r"\s+([a-zA-Z$_][a-zA-Z0-9\$_]*|\.[0-9]+)"
+if True :
+  p_lr = r'\s*([a-zA-Z$_][a-zA-Z0-9\$_]*|\.[0-9]+)'
+else :
+  p_lr = r'\s*L\(([a-zA-Z0-9\$_]+)\)'
+
+p_la = p_lr + r'(:)'
+p_ri = p_lr + r'\(\%rip\)'
+p_jt = r'\s+\.long\s+' + p_lr + r'\-' + p_lr
 
 # regular expression for instructions
 
-p_in = r"\s*([a-zA-Z][a-zA-Z0-9]*)"
+p_in = r'\s*([a-zA-Z][a-zA-Z0-9]*)'
 
-m_f1 = re.compile(p_in + p_rg + r"\s*," + p_t1)
-m_f2 = re.compile(p_in + p_t1 + r"\s*," + p_rg)
+p_def = r'define\s*\(\s*\`([a-zA-Z_][a-zA-Z0-9_]*)\'\s*\,\s*\`' + p_rg + '\'\s*\)'
+
+m_f1 = re.compile(p_in + p_rg + r'\s*,' + p_t1)
+m_f2 = re.compile(p_in + p_t1 + r'\s*,' + p_rg)
 m_f3 = re.compile(p_in + p_t1)
-m_f4 = re.compile(p_in + p_im + r"\s*," + p_t1)
-m_f5 = re.compile(p_in + p_im + r"\s*," + p_rg)
-m_f6 = re.compile(p_in + p_rg + r"\s*," + p_rg)
+m_f4 = re.compile(p_in + p_im + r'\s*,' + p_t1)
+m_f5 = re.compile(p_in + p_im + r'\s*,' + p_rg)
+m_f6 = re.compile(p_in + p_rg + r'\s*,' + p_rg)
 m_f7 = re.compile(p_in + p_rg)
+m_g7 = re.compile(p_in + r'\s+\*' + p_rg)
 m_f8 = re.compile(p_in + p_im)
 m_f9 = re.compile(p_in + p_lr)
-m_fa = re.compile(p_in + p_im + r"\s*," + p_rg + r"\s*," + p_rg)
+m_fa = re.compile(p_in + '(?:' + p_im + '|' + p_rg + r')\s*,' + p_rg + r'\s*,' + p_rg)
 
 m_la = re.compile(p_la)
+m_jt = re.compile(p_jt)
+m_ri = re.compile(p_in + p_ri)
 
 r_mac = re.compile(r"^\s*(?:define|DEFINE)\s*\(\s*`"
                    "([A-Z$_][A-Z0-9$_]*)'\s*,\s*`\s*$")
 r_mnd = re.compile(r"^\s*'\s*\)\s*$")
-r_dlr = re.compile(r"\$([0-9]+)")
+r_dlr = re.compile(r'\$([0-9]+)')
+r_def = re.compile(p_def)
 
-r1 = r"\s*(\%{0,1}[0-9]+){0,1}\s*"
-r2 = r"(?:,\s*(\%{0,1}[0-9]+))?\s*"
-r_mrf = re.compile(r"([A-Z$_][A-Z0-9$_]*)\s*\(" + r1 + r2 +
-                  r2 + r2 + r2 + r2 + r2 + r2 + r2 + r2 + r"\)")
+r1 = r'\s*(\%{0,1}[0-9]+){0,1}\s*'
+r2 = r'(?:,\s*(\%{0,1}[0-9]+))?\s*'
+r_mrf = re.compile(r'([A-Z$_][A-Z0-9$_]*)\s*\(' + r1 + r2 +
+                  r2 + r2 + r2 + r2 + r2 + r2 + r2 + r2 + r'\)')
 
 def pass_one(code) :
   labels = []
@@ -131,7 +157,7 @@ def pass_three(code, labels, macros, level) :
         if m.group(1) in macros[mac_name][3] :
           ii = macros[mac_name][3][m.group(1)]
         else :
-          print("internal error")
+          print('internal error')
       else :      
         ii = labels.index(m.group(1))
       lab = re.sub('\$', '%', m.group(1))
@@ -141,7 +167,7 @@ def pass_three(code, labels, macros, level) :
         elif dot_labels :
           lo += ['\n.{0}:'.format(ii)]
         else :
-          lo += ['\n{0}:'.format(lab)]
+          lo += ['\nL_{0}:'.format(lab)]
         continue
       else :
         if mac_name :
@@ -149,26 +175,31 @@ def pass_three(code, labels, macros, level) :
         elif dot_labels :
           lp = '\n.{0}:'.format(ii)
         else :
-          lp = '\n{0}:'.format(lab)
+          lp = '\nL_{0}:'.format(lab)
 
-    m = re.search(r"(\s*)#\s*(.*)", l)
+    m = re.search(r'(\s*)#\s*(.*)', l)
     if m :
       v = list(m.groups())
       lo += [lp + '{0[0]}; {0[1]}'.format(v)]
       continue
 
-    m = re.search(r"dnl(.*)", l)
+    m = re.search(r'dnl(.*)', l)
     if m :
       lo += [lp + ';{0}'.format(m.group(1))]
       continue
 
+    # three operand instructions
     m = m_fa.search(l)
     if m :
       v = list(m.groups())
       if debug :
         print(l, end = '')
-      lo += [lp + '\t{0[0]:7s} {0[3]}, {0[2]}, {0[1]}'.format(v)]
-      continue
+      if v[1] == None or v[2] == None :
+        if v[1] == None :
+          lo += [lp + '\t{0[0]:7s} {0[4]}, {0[3]}, {0[2]}'.format(v)]
+        else :
+          lo += [lp + '\t{0[0]:7s} {0[4]}, {0[3]}, {0[1]}'.format(v)]
+        continue
 
     # ins reg, dis(reg, reg, off)
     m = m_f1.search(l)
@@ -233,6 +264,15 @@ def pass_three(code, labels, macros, level) :
       lo += [lp + '\t{0[0]:7s} {0[1]}'.format(v)]
       continue
 
+    # ins *reg
+    m = m_g7.search(l)
+    if m :
+      v = list(m.groups())
+      if debug :
+        print(l, end = '')
+      lo += [lp + '\t{0[0]:7s} {0[1]}'.format(v)]
+      continue
+
     # ins imm  
     m = m_f8.search(l)
     if m :
@@ -241,6 +281,53 @@ def pass_three(code, labels, macros, level) :
         print(l, end = '')
       lo += [lp + '\t{0[0]:7s} {0[1]}'.format(v)]
       continue
+
+    # jump table
+    m = m_jt.search(l)
+    if m :
+      v = list(m.groups())
+      if v[1] in labels :
+        if debug :
+          print(l, end = '')
+        if mac_name and v[0] in macros[mac_name][3] :
+          ii = macros[mac_name][3][v[0]]
+          st1 = '%%{0}'.format(ii)
+        elif dot_labels :
+          ii = labels.index(v[0])
+          st1 = '.{0}'.format(ii)
+        else :
+          lab = re.sub('\$', '%', v[0])
+          st1 = 'L_{0}'.format(lab)
+        if mac_name and v[1] in macros[mac_name][3] :
+          ii = macros[mac_name][3][v[1]]
+          st2 = '%%{1}'.format(ii)
+        elif dot_labels :
+          ii = labels.index(v[1])
+          st2 = '.{1}'.format(ii)
+        else :
+          lab = re.sub('\$', '%', v[1])
+          st2 = 'L_{0}'.format(lab)
+        lo += [lp + '\tdd     ' + st1 + ' - ' + st2]
+      continue
+
+    # RIP relative jump
+    m = m_ri.search(l)
+    if m :
+      v = list(m.groups())
+      if v[1] in labels :
+        if debug :
+          print(l, end = '')
+        if mac_name and v[1] in macros[mac_name][3] :
+          ii = macros[mac_name][3][v[1]]
+          lo += [lp + '\t{0[0]:7s} %%{1}[rip]'.format(v, ii)]
+          continue
+        if dot_labels :
+          ii = labels.index(v[1])
+          lo += [lp + '\t{0[0]:7s} .{1}[rip]'.format(v, ii)]
+        else :
+          lab = re.sub('\$', '%', v[1])
+          lo += [lp + '\t{0[0]:7s} L_{1}[rip]'.format(v, lab)]
+        continue
 
     # jump label  
     m = m_f9.search(l)
@@ -258,10 +345,10 @@ def pass_three(code, labels, macros, level) :
           lo += [lp + '\t{0[0]:7s} .{1}'.format(v, ii)]
         else :
           lab = re.sub('\$', '%', v[1])
-          lo += [lp + '\t{0[0]:7s} {1}'.format(v, lab)]
+          lo += [lp + '\t{0[0]:7s} L_{1}'.format(v, lab)]
         continue
 
-    m = re.search(r"\s*\.byte\s+((?:0x|0X)[0-9a-fA-F]+|[0-9]+)\s*", l)
+    m = re.search(r'\s*\.byte\s+((?:0x|0X)[0-9a-fA-F]+|[0-9]+)\s*', l)
     if m :
       v = list(m.groups())
       lo += [lp + '\tdb      {0[0]}'.format(v)]
@@ -280,27 +367,27 @@ def pass_three(code, labels, macros, level) :
     if m and mac_name :
       mac_name = ''
       lab_ofs = 0
-      lo += [lp + "%endmacro"]
+      lo += [lp + '%endmacro']
       continue
 
     m = r_dlr.findall(l)
     if m :
-      l = re.sub(r"\$([0-9]+)", r"%\1", l)
+      l = re.sub(r'\$([0-9]+)', r'%\1', l)
 
-    m = re.search("PROLOGUE\(([a-zA-Z$_][a-zA-Z0-9$_]*)\)", l)
+    m = re.search('PROLOGUE\(([a-zA-Z$_][a-zA-Z0-9$_]*)\)', l)
     if m :
       if is_linux :
-        lo += [lp + "\tGLOBAL_FUNC {0}".format(m.group(1))]
+        lo += [lp + '\tGLOBAL_FUNC {0}'.format(m.group(1))]
       else :
-        lo += [lp + "\tWIN64_GCC_PROC {0}".format(m.group(1))]
+        lo += [lp + '\tWIN64_GCC_PROC {0}'.format(m.group(1))]
       continue
 
-    m = re.search("EPILOGUE\(\)", l)
+    m = re.search('EPILOGUE\(\)', l)
     if m :
       if is_linux :
-        lo += [lp + "\tend"]
+        lo += [lp + '\tend']
       else :
-        lo += [lp + "\tWIN64_GCC_END"]
+        lo += [lp + '\tWIN64_GCC_END']
       continue
 
     # macro calls 
@@ -323,13 +410,13 @@ def pass_three(code, labels, macros, level) :
         continue
       
     if mac_name :
-      m = re.search(r"\s*([^%]+)%([0-9]+)\s*", l)
+      m = re.search(r'\s*([^%]+)%([0-9]+)\s*', l)
       if m and m.lastindex == 2 and int(m.group(2)) <= macros[mac_name][2] :
         lo += [lp + '\t{0}%{1}'.format(m.group(1).lower(),m.group(2))]
         continue
 
     # ins  
-    m = re.search(p_in + r"\s+(.*)", l)
+    m = re.search(p_in + r'\s+(.*)', l)
     if m :
       v = list(m.groups())
       if debug :
@@ -344,18 +431,19 @@ def pass_three(code, labels, macros, level) :
         lo += [lp + ';\t{0}'.format(v[1])]
         continue
 
-    m = re.search(r"include\(.+config.m4.+\)", l)
+    m = re.search(r'include\(.+config.m4.+\)', l)
     if m :
       if is_linux :
-        lo += [lp + '%include "yasm_mac.inc"']
+        lo += [lp + "%include 'yasm_mac.inc'"]
       else :
-        lo += [lp + '%include "'
-               + ''.join(['..\\'] * level) + 'yasm_mac.inc"']
+        lo += [lp + "%include '"
+               + ''.join(['..\\'] * level) + "yasm_mac.inc'"]
       continue
 
-    m = re.search(r"\s*(\S+)", l)
+    m = re.search(r'\s*(\S+)', l)
     if m :
-      lo += [lp + '{0} ; < not translated >'.format(l[:-1])]
+      t = None if l[-1].isprintable() else None
+      lo += [lp + '{0} ; < not translated >'.format(l[:t])]
     else :
       lo += ['']
   return lo
@@ -375,11 +463,11 @@ def conv_lines(code, l) :
   return (labels, macros, code)
 
 def conv_file(f_in, f_out, l) :
-  f = open(f_in, "r")
+  f = open(f_in, 'r')
   code = f.readlines()
   f.close()
   labels, macros, code = conv_lines(code, l)
-  f = open(f_out, "w")
+  f = open(f_out, 'w')
   f.writelines(code)
   f.close()
 
@@ -398,14 +486,14 @@ def conv_dirs(s, d, l) :
       if x[1] == '.asm' :
         form_path(dp)
         print("translating '{0}'".format(sp))
-        f = open(sp, "r")
+        f = open(sp, 'r')
         code = f.readlines()
         f.close()
         if sp == dp :
           rp = os.path.join(s, x[0] + ('.as' if is_linux else '.old'))
           os.rename(sp, rp)
         labels, macros, code = conv_lines(code, l)
-        f = open(dp, "w")
+        f = open(dp, 'w')
         f.writelines(code)
         f.close()
       elif False :
@@ -414,13 +502,13 @@ def conv_dirs(s, d, l) :
 
 if len(sys.argv) == 1 :
   cd = os.getcwd()                    # if run in the build.vc9 directory
-  if cd.endswith("build.vc9") :
-    cd1 = cd + "\\..\\mpn\\x86_64"    # the GAS assembler directory
-    cd2 = cd + "\\..\\mpn\\x86_64w"   # the YASM (Windows) assembler directory
-  elif cd.endswith("x86_64") :        # if run in the GAS assembler directory
-    if os.path.exists(cd + "\\..\\x86_64w") :
+  if cd.endswith('build.vc9') :
+    cd1 = cd + '\\..\\mpn\\x86_64'    # the GAS assembler directory
+    cd2 = cd + '\\..\\mpn\\x86_64w'   # the YASM (Windows) assembler directory
+  elif cd.endswith('x86_64') :        # if run in the GAS assembler directory
+    if os.path.exists(cd + '\\..\\x86_64w') :
       cd1 = cd
-      cd2 = cd + "\\..\\x86_64w"
+      cd2 = cd + '\\..\\x86_64w'
     else :
       cd1 = cd2 = cd
 elif len(sys.argv) == 3 :
