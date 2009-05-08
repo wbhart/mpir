@@ -62,7 +62,12 @@ void
 mpn_toom7_mul_n (mp_ptr rp, mp_srcptr up,
 		          mp_srcptr vp, mp_size_t n);
 
-void _tc7_add(mp_ptr rp, mp_size_t * rn, mp_srcptr r1, mp_size_t r1n, mp_srcptr r2, mp_size_t r2n)
+void mpn_toom7_interpolate(mp_ptr rp, mp_size_t * rpn, mp_size_t sn,  
+				mp_ptr tp, mp_size_t s7, mp_size_t n2, mp_size_t n6, 
+				mp_size_t n8, mp_size_t n9, mp_size_t n11);
+
+void _tc7_add(mp_ptr rp, mp_size_t * rn, mp_srcptr r1, 
+				  mp_size_t r1n, mp_srcptr r2, mp_size_t r2n)
 {
    mp_limb_t cy;
    mp_size_t s1 = ABS(r1n);
@@ -840,46 +845,19 @@ void tc7_copy (mp_ptr yp, mp_size_t * yn, mp_size_t offset, mp_srcptr xp, mp_siz
   }
 }
 
-#define tc7_mpn_mul_n(r3xx, r1xx, r2xx, n1xx, tempxx) \
-	do \
-   { \
-	   if ((r3xx == r1xx) || (r3xx == r2xx)) \
-      { \
-		   mpn_mul_n(tempxx, r1xx, r2xx, n1xx); \
-			MPN_COPY(r3xx, tempxx, 2*n1xx); \
-      } else \
-      { \
-		   mpn_mul_n(r3xx, r1xx, r2xx, n1xx); \
-      } \
-   } while (0)
-
-#define tc7_mpn_mul(r3xx, r1xx, n1xx, r2xx, n2xx, tempxx) \
-	do \
-   { \
-	   if ((r3xx == r1xx) || (r3xx == r2xx)) \
-      { \
-		   mpn_mul(tempxx, r1xx, n1xx, r2xx, n2xx); \
-			MPN_COPY(r3xx, tempxx, n1xx + n2xx); \
-      } else \
-      { \
-		   mpn_mul(r3xx, r1xx, n1xx, r2xx, n2xx); \
-      } \
-   } while (0)
-
-
-#define MUL_TC7_UNSIGNED(r3xx, n3xx, r1xx, n1xx, r2xx, n2xx, tempxx) \
+#define MUL_TC7_UNSIGNED(r3xx, n3xx, r1xx, n1xx, r2xx, n2xx) \
    do \
    { \
       if ((n1xx != 0) && (n2xx != 0)) \
-      { mp_size_t len; \
+      {  mp_size_t len; \
 	      if (n1xx == n2xx) \
 		   { \
 			   if (n1xx > MUL_TOOM7_THRESHOLD) mpn_toom7_mul_n(r3xx, r1xx, r2xx, n1xx); \
-            else tc7_mpn_mul_n(r3xx, r1xx, r2xx, n1xx, tempxx); \
+            else mpn_mul_n(r3xx, r1xx, r2xx, n1xx); \
 		   } else if (n1xx > n2xx) \
-		      tc7_mpn_mul(r3xx, r1xx, n1xx, r2xx, n2xx, tempxx); \
+		      mpn_mul(r3xx, r1xx, n1xx, r2xx, n2xx); \
 		   else \
-		      tc7_mpn_mul(r3xx, r2xx, n2xx, r1xx, n1xx, tempxx); \
+		      mpn_mul(r3xx, r2xx, n2xx, r1xx, n1xx); \
 	      len = n1xx + n2xx; \
 		   MPN_NORMALIZE(r3xx, len); \
 		   n3xx = len; \
@@ -887,13 +865,13 @@ void tc7_copy (mp_ptr yp, mp_size_t * yn, mp_size_t offset, mp_srcptr xp, mp_siz
          n3xx = 0; \
    } while (0)
 
-#define MUL_TC7(r3xx, n3xx, r1xx, n1xx, r2xx, n2xx, tempxx) \
+#define MUL_TC7(r3xx, n3xx, r1xx, n1xx, r2xx, n2xx) \
 	do \
 	{ \
 	   mp_size_t sign = n1xx ^ n2xx; \
 	   mp_size_t un1 = ABS(n1xx); \
 	   mp_size_t un2 = ABS(n2xx); \
-		MUL_TC7_UNSIGNED(r3xx, n3xx, r1xx, un1, r2xx, un2, tempxx); \
+		MUL_TC7_UNSIGNED(r3xx, n3xx, r1xx, un1, r2xx, un2); \
 		if (sign < 0) n3xx = -n3xx; \
 	} while (0)
 
@@ -928,6 +906,50 @@ void tc7_copy (mp_ptr yp, mp_size_t * yn, mp_size_t offset, mp_srcptr xp, mp_siz
    } while (0)
 #endif
 
+/* Zero out limbs past end of integer */
+#define TC7_DENORM(rxx, nxx, sxx) \
+	do { \
+	MPN_ZERO(rxx + ABS(nxx), sxx - ABS(nxx)); \
+	} while (0)
+
+/* Two's complement divexact by power of 2 */
+#define TC7_DIVEXACT_2EXP(rxx, nxx, sxx) \
+	do { \
+	   mp_limb_t sign = (LIMB_HIGHBIT_TO_MASK(rxx[nxx-1]) << (GMP_LIMB_BITS - sxx)); \
+      mpn_rshift(rxx, rxx, nxx, sxx); \
+	   rxx[nxx-1] |= sign; \
+	} while (0)
+
+#if HAVE_NATIVE_mpn_rshift1
+#define TC7_RSHIFT1(rxx, nxx) \
+	do { \
+	   mp_limb_t sign = (LIMB_HIGHBIT_TO_MASK(rxx[nxx-1]) << (GMP_LIMB_BITS - 1)); \
+       mpn_rshift1(rxx, rxx, nxx); \
+	   rxx[nxx-1] |= sign; \
+	} while (0)
+#else
+#define TC7_RSHIFT1(rxx, nxx) \
+	do { \
+	   mp_limb_t sign = (LIMB_HIGHBIT_TO_MASK(rxx[nxx-1]) << (GMP_LIMB_BITS - 1)); \
+       mpn_rshift(rxx, rxx, nxx, 1); \
+	   rxx[nxx-1] |= sign; \
+	} while (0)
+#endif
+
+#define r1 (tp)
+#define r2 (tp + t7)
+#define r3 (tp + 2*t7)
+#define r4 (tp + 3*t7)
+#define r5 (tp + 4*t7)
+#define r6 (tp + 5*t7)
+#define r7 (tp + 6*t7)
+#define r8 (tp + 7*t7)
+#define r9 (tp + 8*t7)
+#define r10 (tp + 9*t7)
+#define r11 (tp + 10*t7)
+#define r12 (tp + 11*t7)
+#define r13 (tp + 12*t7)
+
 /* Multiply {up, n} by {vp, n} and write the result to
    {prodp, 2n}.
 
@@ -944,7 +966,7 @@ mpn_toom7_mul_n (mp_ptr rp, mp_srcptr up,
   mp_ptr tp;
   mp_size_t a0n, a1n, a2n, a3n, a4n, a5n, a6n;
   mp_size_t b0n, b1n, b2n, b3n, b4n, b5n, b6n;
-  mp_size_t sn, n1, n2, n3, n4, n5, n6, n7, n8, n9, n10, n11, n12, n13, rpn;
+  mp_size_t sn, n1, n2, n3, n4, n5, n6, n7, n8, n9, n10, n11, n12, n13, rpn, t7;
 
   len1 = n;
   len2 = n;
@@ -985,101 +1007,98 @@ mpn_toom7_mul_n (mp_ptr rp, mp_srcptr up,
 	TC7_NORM(b5, b5n, sn);
 	TC7_NORM(b6, b6n, n - 6*sn); 
 
-#define t7 (2*sn+2) // allows mult of 2 integers of sn + 1 limbs
+   t7 = 2*sn+2; // allows mult of 2 integers of sn + 1 limbs
 
-   tp = __GMP_ALLOCATE_FUNC_LIMBS(14*t7);
+   tp = __GMP_ALLOCATE_FUNC_LIMBS(14*t7 + 11*(sn+2));
 
-#define r1 (tp)
-#define r2 (tp + t7)
-#define r3 (tp + 2*t7)
-#define r4 (tp + 3*t7)
-#define r5 (tp + 4*t7)
-#define r6 (tp + 5*t7)
-#define r7 (tp + 6*t7)
-#define r8 (tp + 7*t7)
-#define r9 (tp + 8*t7)
-#define r10 (tp + 9*t7)
-#define r11 (tp + 10*t7)
-#define r12 (tp + 11*t7)
-#define r13 (tp + 12*t7)
-#define temp (tp + 13*t7)
+#define u2 (tp + 14*t7)
+#define u3 (tp + 14*t7 + (sn+2))
+#define u4 (tp + 14*t7 + 2*(sn+2))
+#define u5 (tp + 14*t7 + 3*(sn+2))
+#define u6 (tp + 14*t7 + 4*(sn+2))
+#define u7 (tp + 14*t7 + 5*(sn+2))
+#define u8 (tp + 14*t7 + 6*(sn+2))
+#define u9 (tp + 14*t7 + 7*(sn+2))
+#define u10 (tp + 14*t7 + 8*(sn+2))
+#define u11 (tp + 14*t7 + 9*(sn+2))
+#define u12 (tp + 14*t7 + 10*(sn+2))
 
    tc7_lshift (r6, &n6, a2, a2n, 4);
    tc7_lshift (r7, &n7, b2, b2n, 4); 
 
-   tc7_lshift (r10, &n10, a4, a4n, 4);
-   tc7_lshift (r11, &n11, b4, b4n, 4);
-
-   tc7_lshift (r5, &n5, a3, a3n, 3);
-   tc7_lshift (r2, &n2, b3, b3n, 3);
+   tc7_lshift (u10, &n10, a4, a4n, 4);
+   tc7_lshift (u11, &n11, b4, b4n, 4);
+   
+   tc7_lshift (u5, &n5, a3, a3n, 3);
+   tc7_lshift (u2, &n2, b3, b3n, 3);
 
    tc7_lshift (r1, &n1, a1, a1n, 5);
-   tc7_add (r1, &n1, r1, n1, r5, n5);
+   tc7_add (r1, &n1, r1, n1, u5, n5);
    tc7_addmul_1 (r1, &n1, a5, a5n, 2);
-   tc7_add (r3, &n3, r6, n6, a6, a6n);
-   tc7_addmul_1 (r3, &n3, a0, a0n, 64);
-   tc7_addmul_1 (r3, &n3, a4, a4n, 4);
+   tc7_add (u3, &n3, r6, n6, a6, a6n);
+   tc7_addmul_1 (u3, &n3, a0, a0n, 64);
+   tc7_addmul_1 (u3, &n3, a4, a4n, 4);
   
-   tc7_sub (r13, &n13, r1, n1, r3, n3);
-   tc7_add (r3, &n3, r3, n3, r1, n1);
+   tc7_sub (r13, &n13, r1, n1, u3, n3);
+   tc7_add (u3, &n3, u3, n3, r1, n1);
 
    tc7_lshift (r1, &n1, b1, b1n, 5);
-   tc7_add (r1, &n1, r1, n1, r2, n2);
+   tc7_add (r1, &n1, r1, n1, u2, n2);
    tc7_addmul_1 (r1, &n1, b5, b5n, 2);
-   tc7_add (r8, &n8, r7, n7, b6, b6n);
-   tc7_addmul_1 (r8, &n8, b0, b0n, 64);
-   tc7_addmul_1 (r8, &n8, b4, b4n, 4);
+   tc7_add (u8, &n8, r7, n7, b6, b6n);
+   tc7_addmul_1 (u8, &n8, b0, b0n, 64);
+   tc7_addmul_1 (u8, &n8, b4, b4n, 4);
   
-   tc7_add (r12, &n12, r1, n1, r8, n8);  
-   tc7_sub (r8, &n8, r1, n1, r8, n8);   
+   tc7_add (r12, &n12, r1, n1, u8, n8);
+	tc7_sub (u8, &n8, r1, n1, u8, n8);   
 
-   MUL_TC7 (r3, n3, r3, n3, r12, n12, temp);  
-   MUL_TC7 (r8, n8, r8, n8, r13, n13, temp);   
+   MUL_TC7 (r3, n3, u3, n3, r12, n12);  
+   MUL_TC7 (r8, n8, u8, n8, r13, n13);   
 
-   tc7_add (r1, &n1, r10, n10, a0, a0n);
+   tc7_add (r1, &n1, u10, n10, a0, a0n);
    tc7_addmul_1 (r1, &n1, a6, a6n,64);
    tc7_addmul_1 (r1, &n1, a2, a2n, 4); 
-   tc7_addmul_1 (r5, &n5, a1, a1n, 2);
-   tc7_addmul_1 (r5, &n5, a5, a5n, 32); 
+   tc7_addmul_1 (u5, &n5, a1, a1n, 2);
+   tc7_addmul_1 (u5, &n5, a5, a5n, 32); 
   
-   tc7_sub (r13, &n13, r1, n1, r5, n5);     
-   tc7_add (r5, &n5, r5, n5, r1, n1);     
+   tc7_sub (r13, &n13, r1, n1, u5, n5);     
+   tc7_add (u5, &n5, u5, n5, r1, n1);     
 
-   tc7_add (r1, &n1, r11, n11, b0, b0n);
+   tc7_add (r1, &n1, u11, n11, b0, b0n);
    tc7_addmul_1 (r1, &n1, b6, b6n,64);
    tc7_addmul_1 (r1, &n1, b2, b2n, 4); 
-   tc7_addmul_1 (r2, &n2, b1, b1n, 2);
-   tc7_addmul_1 (r2, &n2, b5, b5n, 32); 
+   tc7_addmul_1 (u2, &n2, b1, b1n, 2);
+   tc7_addmul_1 (u2, &n2, b5, b5n, 32); 
   
-   tc7_add (r12, &n12, r2, n2, r1, n1);   
-   tc7_sub (r2, &n2, r1, n1, r2, n2);     
+   tc7_add (r12, &n12, u2, n2, r1, n1);   
+   tc7_sub (u2, &n2, r1, n1, u2, n2);     
 
-   MUL_TC7 (r5, n5, r5, n5, r12, n12, temp);   
-   MUL_TC7 (r2, n2, r2, n2, r13, n13, temp);    
+   MUL_TC7 (r5, n5, u5, n5, r12, n12);   
+   MUL_TC7 (r2, n2, u2, n2, r13, n13);    
 
    tc7_add (r1, &n1, r6, n6, a0, a0n);
-   tc7_addmul_1 (r1, &n1, r10, n10, 16);
+   tc7_addmul_1 (r1, &n1, u10, n10, 16);
    tc7_addmul_1 (r1, &n1, a6, a6n, 4096); 
-   tc7_add (r10, &n10, r10, n10, a6, a6n);
-   tc7_addmul_1 (r10, &n10, r6, n6, 16);
-   tc7_addmul_1 (r10, &n10, a0, a0n, 4096); 
-   tc7_lshift  (r6, &n6, a3, a3n, 4);   
-   tc7_add (r4, &n4, r6, n6, a1, a1n);
-   tc7_addmul_1 (r4, &n4, a5, a5n, 256);
-   tc7_lshift  (r4, &n4, r4, n4, 2);   
-   tc7_add (r6, &n6, r6, n6, a5, a5n);
-   tc7_addmul_1 (r6, &n6, a1, a1n, 256);
-   tc7_lshift  (r6, &n6, r6, n6, 2);   
+   tc7_add (u10, &n10, u10, n10, a6, a6n);
+   tc7_addmul_1 (u10, &n10, r6, n6, 16);
+   tc7_addmul_1 (u10, &n10, a0, a0n, 4096); 
+   tc7_lshift  (u6, &n6, a3, a3n, 4);   
+   tc7_add (u4, &n4, u6, n6, a1, a1n);
+   tc7_addmul_1 (u4, &n4, a5, a5n, 256);
+   tc7_lshift  (u4, &n4, u4, n4, 2);   
+   tc7_add (u6, &n6, u6, n6, a5, a5n);
+   tc7_addmul_1 (u6, &n6, a1, a1n, 256);
+   tc7_lshift  (u6, &n6, u6, n6, 2);   
    
-   tc7_sub (r9, &n9, r4, n4, r1, n1);    
-   tc7_add (r4, &n4, r4, n4, r1, n1);       
+   tc7_sub (u9, &n9, u4, n4, r1, n1);    
+   tc7_add (u4, &n4, u4, n4, r1, n1);       
 
    tc7_add (r1, &n1, r7, n7, b0, b0n);
-   tc7_addmul_1 (r1, &n1, r11, n11, 16);
+   tc7_addmul_1 (r1, &n1, u11, n11, 16);
    tc7_addmul_1 (r1, &n1, b6, b6n, 4096); 
-   tc7_add (r11, &n11, r11, n11, b6, b6n);
-   tc7_addmul_1 (r11, &n11, r7, n7, 16);
-   tc7_addmul_1 (r11, &n11, b0, b0n, 4096); 
+   tc7_add (u11, &n11, u11, n11, b6, b6n);
+   tc7_addmul_1 (u11, &n11, r7, n7, 16);
+   tc7_addmul_1 (u11, &n11, b0, b0n, 4096); 
    tc7_lshift  (r7, &n7, b3, b3n, 4);     
    tc7_add (r13, &n13, r7, n7, b1, b1n);
    tc7_addmul_1 (r13, &n13, b5, b5n, 256);
@@ -1091,43 +1110,43 @@ mpn_toom7_mul_n (mp_ptr rp, mp_srcptr up,
    tc7_sub (r12, &n12, r13, n13, r1, n1);       
    tc7_add (r13, &n13, r13, n13, r1, n1);       
 
-   MUL_TC7 (r9, n9, r9, n9, r12, n12, temp);       
-   MUL_TC7 (r4, n4, r4, n4, r13, n13, temp);      
+   MUL_TC7 (r9, n9, u9, n9, r12, n12);       
+   MUL_TC7 (r4, n4, u4, n4, r13, n13);      
   
-   tc7_sub (r12, &n12, r10, n10, r6, n6);       
-   tc7_add (r10, &n10, r10, n10, r6, n6);       
+   tc7_sub (r12, &n12, u10, n10, u6, n6);       
+   tc7_add (u10, &n10, u10, n10, u6, n6);       
 
-   tc7_add (r13, &n13, r11, n11, r7, n7);       
-   tc7_sub (r11, &n11, r11, n11, r7, n7);      
+   tc7_add (r13, &n13, u11, n11, r7, n7);       
+   tc7_sub (u11, &n11, u11, n11, r7, n7);      
+   
+   MUL_TC7 (r10, n10, u10, n10, r13, n13);       
+   MUL_TC7 (r11, n11, u11, n11, r12, n12);       
 
-   MUL_TC7 (r10, n10, r10, n10, r13, n13, temp);       
-   MUL_TC7 (r11, n11, r11, n11, r12, n12, temp);       
-
-   tc7_add (r7, &n7, a3, a3n, a1, a1n);
-   tc7_add (r6, &n6, a2, a2n, a0, a0n);
-   tc7_add (r6, &n6, r6, n6, a4, a4n);
-   tc7_add (r6, &n6, r6, n6, a6, a6n);
-   tc7_add (r7, &n7, r7, n7, a5, a5n);
-   tc7_add (r1, &n1, r7, n7, r6, n6); 
-   tc7_sub (r6, &n6, r6, n6, r7, n7); 
-   tc7_add (r7, &n7, b3, b3n, b1, b1n);
+   tc7_add (u7, &n7, a3, a3n, a1, a1n);
+   tc7_add (u6, &n6, a2, a2n, a0, a0n);
+   tc7_add (u6, &n6, u6, n6, a4, a4n);
+   tc7_add (u6, &n6, u6, n6, a6, a6n);
+   tc7_add (u7, &n7, u7, n7, a5, a5n);
+   tc7_add (r1, &n1, u7, n7, u6, n6); 
+   tc7_sub (u6, &n6, u6, n6, u7, n7); 
+   tc7_add (u7, &n7, b3, b3n, b1, b1n);
    tc7_add (r13, &n13, b2, b2n, b0, b0n);
    tc7_add (r13, &n13, r13, n13, b4, b4n);
    tc7_add (r13, &n13, r13, n13, b6, b6n);
-   tc7_add (r7, &n7, r7, n7, b5, b5n);
-   tc7_sub (r12, &n12, r13, n13, r7, n7); 
-   tc7_add (r7, &n7, r7, n7, r13, n13); 
+   tc7_add (u7, &n7, u7, n7, b5, b5n);
+   tc7_sub (r12, &n12, r13, n13, u7, n7); 
+   tc7_add (u7, &n7, u7, n7, r13, n13); 
 
-   MUL_TC7 (r7, n7, r7, n7, r1, n1, temp); 
-   MUL_TC7 (r6, n6, r6, n6, r12, n12, temp);
+   MUL_TC7 (r7, n7, u7, n7, r1, n1); 
+   MUL_TC7 (r6, n6, u6, n6, r12, n12);
 
-   tc7_mul_1 (r12, &n12, b6, b6n, 729);
-   tc7_addmul_1 (r12, &n12, b5, b5n, 243);
-   tc7_addmul_1 (r12, &n12, b4, b4n, 81);
-   tc7_addmul_1 (r12, &n12, b3, b3n, 27);
-   tc7_addmul_1 (r12, &n12, b2, b2n, 9);
-   tc7_addmul_1 (r12, &n12, b1, b1n, 3);
-   tc7_add (r12, &n12, r12, n12, b0, b0n);       
+   tc7_mul_1 (u12, &n12, b6, b6n, 729);
+   tc7_addmul_1 (u12, &n12, b5, b5n, 243);
+   tc7_addmul_1 (u12, &n12, b4, b4n, 81);
+   tc7_addmul_1 (u12, &n12, b3, b3n, 27);
+   tc7_addmul_1 (u12, &n12, b2, b2n, 9);
+   tc7_addmul_1 (u12, &n12, b1, b1n, 3);
+   tc7_add (u12, &n12, u12, n12, b0, b0n);       
    tc7_mul_1 (r13, &n13, a6, a6n, 729);
    tc7_addmul_1 (r13, &n13, a5, a5n, 243);
    tc7_addmul_1 (r13, &n13, a4, a4n, 81);
@@ -1136,122 +1155,406 @@ mpn_toom7_mul_n (mp_ptr rp, mp_srcptr up,
    tc7_addmul_1 (r13, &n13, a1, a1n, 3);
    tc7_add (r13, &n13, r13, n13, a0, a0n);
 
-   MUL_TC7 (r12, n12, r12, n12, r13, n13, temp);       
+   MUL_TC7 (r12, n12, u12, n12, r13, n13);       
 
-   MUL_TC7 (r1, n1, a6, a6n, b6, b6n, temp);        
+   MUL_TC7 (r1, n1, a6, a6n, b6, b6n);        
 
-   MUL_TC7 (r13, n13, a0, a0n, b0, b0n, temp);   
+   MUL_TC7 (r13, n13, a0, a0n, b0, b0n);   
 
-#if 1 // Marco Bodrato's auto generated sequence
-   tc7_sub (r9, &n9, r4, n4, r9, n9);	
-   tc7_rshift_inplace (r9, &n9, 1);	
-   tc7_submul_1 (r4, &n4, r1, n1, 16777216);	
-   tc7_sub (r12, &n12, r12, n12, r5, n5);	
-   tc7_sub (r4, &n4, r4, n4, r9, n9);	
-   tc7_sub (r4, &n4, r4, n4, r13, n13);	
-   tc7_sub (r2, &n2, r5, n5, r2, n2);	
-   tc7_rshift_inplace (r2, &n2, 1);	
-   tc7_sub (r5, &n5, r5, n5, r13, n13);	
-   tc7_sub (r5, &n5, r5, n5, r2, n2);	
-   tc7_submul_1 (r5, &n5, r1, n1, 4096);	
-   tc7_sub (r6, &n6, r7, n7, r6, n6);	
-   tc7_rshift_inplace (r6, &n6, 1);	
-   tc7_sub (r7, &n7, r7, n7, r13, n13);	
-   tc7_sub (r12, &n12, r12, n12, r7, n7);	
-   tc7_sub (r7, &n7, r7, n7, r6, n6);	
-   tc7_sub (r7, &n7, r7, n7, r1, n1);	
-   tc7_sub (r8, &n8, r3, n3, r8, n8);	
-   tc7_rshift_inplace (r8, &n8, 1);	
-   tc7_sub (r3, &n3, r3, n3, r8, n8);	
-   tc7_sub (r3, &n3, r3, n3, r1, n1);	
-   tc7_add (r3, &n3, r5, n5, r3, n3);	
-   tc7_submul_1 (r3, &n3, r13, n13, 4096);	
-   tc7_submul_1 (r3, &n3, r7, n7, 128);	
-   tc7_sub (r11, &n11, r10, n10, r11, n11);	
-   tc7_rshift_inplace (r11, &n11, 1);	
-   tc7_sub (r10, &n10, r10, n10, r11, n11);	
-   tc7_sub (r10, &n10, r10, n10, r1, n1);	
-   tc7_add (r10, &n10, r4, n4, r10, n10);	
-   tc7_submul_1 (r10, &n10, r13, n13, 16777216);	
-   tc7_submul_1 (r10, &n10, r7, n7, 8192);	
-   tc7_submul_1 (r10, &n10, r3, n3, 400);	
-   tc7_divexact_1 (r10, &n10, r10, n10, 680400);	
-   tc7_submul_1 (r3, &n3, r10, n10, 900);	
-   tc7_divexact_1 (r3, &n3, r3, n3, 144);	
-   tc7_submul_1 (r5, &n5, r3, n3, 16);	
-   tc7_sub (r12, &n12, r12, n12, r5, n5);	
-   tc7_submul_1 (r12, &n12, r3, n3, 64);	
-   tc7_sub (r7, &n7, r7, n7, r3, n3);	
-   tc7_sub (r7, &n7, r7, n7, r10, n10);	
-   tc7_submul_1 (r5, &n5, r7, n7, 64);	
-   tc7_submul_1 (r4, &n4, r7, n7, 4096);	
-   tc7_submul_1 (r4, &n4, r5, n5, 4);	
-   tc7_submul_1 (r4, &n4, r3, n3, 256);	
-   tc7_submul_1 (r5, &n5, r10, n10, 4);	
-   tc7_submul_1 (r4, &n4, r5, n5, 268);	
-   tc7_divexact_1 (r4, &n4, r4, n4, 771120);	
-   tc7_submul_1 (r12, &n12, r5, n5, 25);	
-   tc7_submul_1 (r12, &n12, r7, n7, 600);	
-   tc7_submul_1 (r12, &n12, r4, n4, 31500);	
-   tc7_submul_1 (r12, &n12, r1, n1, 527344);	
-   tc7_submul_1 (r5, &n5, r4, n4, 1020);	
-   tc7_divexact_1 (r5, &n5, r5, n5, 240);	
-   tc7_sub (r10, &n10, r10, n10, r4, n4);	
-   tc7_sub (r3, &n3, r3, n3, r5, n5);	
-   tc7_add (r11, &n11, r9, n9, r11, n11);	
-   tc7_add (r8, &n8, r2, n2, r8, n8);	
-   tc7_submul_1 (r11, &n11, r6, n6, 17408);	
-   tc7_submul_1 (r8, &n8, r6, n6, 160);	
-   tc7_submul_1 (r11, &n11, r8, n8, 680);	
-   tc7_divexact_1 (r11, &n11, r11, n11, 2891700);	
-   tc7_submul_1 (r8, &n8, r11, n11, 1890);	
-   tc7_divexact_1 (r8, &n8, r8, n8, 360);	
-   tc7_sub (r6, &n6, r6, n6, r11, n11);	
-   tc7_sub (r6, &n6, r6, n6, r8, n8);	
-   tc7_submul_1 (r12, &n12, r6, n6, 210);	
-   tc7_submul_1 (r12, &n12, r8, n8, 18);	
-   tc7_submul_1 (r9, &n9, r6, n6, 1024);	
-   tc7_submul_1 (r9, &n9, r8, n8, 64);	
-   tc7_submul_1 (r9, &n9, r11, n11, 4);	
-   tc7_submul_1 (r2, &n2, r6, n6, 32);	
-   tc7_submul_1 (r2, &n2, r8, n8, 8);	
-   tc7_submul_1 (r2, &n2, r11, n11, 2);	
-   tc7_submul_1 (r9, &n9, r2, n2, 160);	
-   tc7_divexact_1 (r9, &n9, r9, n9, 11340);	
-   tc7_divexact_1 (r2, &n2, r2, n2, 6);	
-   tc7_sub (r2, &n2, r2, n2, r9, n9);	
-   tc7_lshift (r12, &n12, r12, n12, 3);	
-   tc7_submul_1 (r12, &n12, r9, n9, 5649);	
-   n12 = -n12;	
-   tc7_addmul_1 (r12, &n12, r2, n2, 924);	
-   tc7_divexact_1 (r12, &n12, r12, n12, 525525);	
-   tc7_submul_1 (r9, &n9, r12, n12, 341);	
-   tc7_sub (r11, &n11, r11, n11, r12, n12);	
-   tc7_rshift_inplace (r9, &n9, 4);	
-   tc7_submul_1 (r2, &n2, r9, n9, 68);	
-   tc7_sub (r8, &n8, r8, n8, r9, n9);	
+	TC7_DENORM(r1, n1,  t7);
+   TC7_DENORM(r2, n2,  t7);
+   TC7_DENORM(r3, n3,  t7);
+   TC7_DENORM(r4, n4,  t7);
+   TC7_DENORM(r5, n5,  t7);
+   TC7_DENORM(r6, n6,  t7);
+   TC7_DENORM(r7, n7,  t7);
+   TC7_DENORM(r8, n8,  t7);
+   TC7_DENORM(r9, n9,  t7);
+   TC7_DENORM(r10, n10,  t7);
+   TC7_DENORM(r11, n11,  t7);
+   TC7_DENORM(r12, n12,  t7);
+   TC7_DENORM(r13, n13,  t7);
 
-   tc7_rshift_inplace (r2, &n2, 4);
-   tc7_sub (r6, &n6, r6, n6, r2, n2);
-    
-   rpn = 0;
-	tc7_copy(rp, &rpn, 0, r13, n13);
-   tc7_copy(rp, &rpn, sn, r11, n11);
-   tc7_copy(rp, &rpn, 2*sn, r10, n10);
-   tc7_copy(rp, &rpn, 3*sn, r8, n8);
-   tc7_copy(rp, &rpn, 4*sn, r3, n3);
-   tc7_copy(rp, &rpn, 5*sn, r6, n6);
-	tc7_copy(rp, &rpn, 6*sn, r7, n7);
-	tc7_copy(rp, &rpn, 7*sn, r2, n2);
-	tc7_copy(rp, &rpn, 8*sn, r5, n5);
-	tc7_copy(rp, &rpn, 9*sn, r9, n9);
-	tc7_copy(rp, &rpn, 10*sn, r4, n4);
-	tc7_copy(rp, &rpn, 11*sn, r12, n12);
-	tc7_copy(rp, &rpn, 12*sn, r1, n1);
+	mpn_toom7_interpolate(rp, &rpn, sn, tp, t7 - 1, n2, n6, n8, n9, n11);
 
-#else // Bill Hart's hand derived sequence (very slightly slower)
+	if (rpn != 2*n) 
+	{
+		MPN_ZERO((rp + rpn), 2*n - rpn);
+	}
+
+   __GMP_FREE_FUNC_LIMBS (tp, 14*t7 + 11*(sn+2));
+}
 
 /*
+   Toom 7 interpolation. Interpolates the value at 2^(sn*B) of a 
+	polynomial p(x) with 13 coefficients given the values
+	p(oo), p(-2), 2^12*p(1/2), p(4), p(2), p(-1), p(1), 
+	2^12*p(-1/2), p(-4), 4^12*p(1/4), 4^12*p(-1/4), p(3), p(0)
+	The values are assumed to be stored in tp, each separated by 
+	s7 + 1 limbs, each of no more than s7 limbs.
+	The output is placed in rp and the final number of limbs of the
+	output is given in rpn.
+   The 2nd, 6th, 8th, 9th and 11th values may be negative, and if so, 
+	n2, n6, n8, n9 and n11 should be set to a negative value respectively.
+
+*/
+
+void mpn_toom7_interpolate(mp_ptr rp, mp_size_t * rpn, mp_size_t sn, 
+		            mp_ptr tp, mp_size_t s7, mp_size_t n2, mp_size_t n6, 
+		                        mp_size_t n8, mp_size_t n9, mp_size_t n11)
+{
+	
+   mp_size_t n1, n3, n4, n5, n7, n10, n12, n13, t7;
+
+   t7 = s7 + 1;
+
+	// Marco Bodrato's auto generated sequence
+
+	if (n9 < 0) 
+		mpn_add_n(r9, r4, r9, s7);  	
+   else
+		mpn_sub_n(r9, r4, r9, s7);
+	/* r9 is now in 2s complement form */
+
+	TC7_RSHIFT1(r9, s7); 
+
+   mpn_submul_1(r4, r1, s7, 16777216); 
+
+   mpn_sub_n(r12, r12, r5, s7); 	   
+
+#if HAVE_NATIVE_mpn_subadd_n
+	mpn_subadd_n(r4, r4, r9, r13, s7);
+#else
+	mpn_sub_n(r4, r4, r9, s7);
+	mpn_sub_n(r4, r4, r13, s7);
+#endif
+
+	if (n2 < 0)
+		mpn_add_n(r2, r5, r2, s7); 	
+	else
+		mpn_sub_n(r2, r5, r2, s7);
+   /* r2 is now in 2s complement form */
+
+   TC7_RSHIFT1(r2, s7); 
+
+#if HAVE_NATIVE_mpn_subadd_n
+	mpn_subadd_n(r5, r5, r13, r2, s7);
+#else
+	mpn_sub_n(r5, r5, r13, s7);
+	mpn_sub_n(r5, r5, r2, s7);
+#endif
+
+   mpn_submul_1(r5, r1, s7, 4096);  
+
+   if (n6 < 0) 
+      mpn_add_n(r6, r7, r6, s7);
+	else
+      mpn_sub_n(r6, r7, r6, s7);
+   /* r6 is now in 2s complement form */
+
+   TC7_RSHIFT1(r6, s7); 
+
+   mpn_sub_n(r7, r7, r13, s7); 	
+   
+	mpn_sub_n(r12, r12, r7, s7); 	
+   
+#if HAVE_NATIVE_mpn_subadd_n
+	mpn_subadd_n(r7, r7, r6, r1, s7);
+#else
+	mpn_sub_n(r7, r7, r6, s7);
+	mpn_sub_n(r7, r7, r1, s7);
+#endif
+
+   if (n8 < 0) 
+      mpn_add_n(r8, r3, r8, s7);
+	else
+      mpn_sub_n(r8, r3, r8, s7);
+   /* r8 is now in 2s complement form */
+
+	TC7_RSHIFT1(r8, s7); 
+
+#if HAVE_NATIVE_mpn_subadd_n
+	mpn_subadd_n(r3, r3, r8, r1, s7);
+#else
+	mpn_sub_n(r3, r3, r8, s7);
+	mpn_sub_n(r3, r3, r1, s7);
+#endif
+
+	mpn_add_n(r3, r5, r3, s7); 	
+   
+	mpn_submul_1(r3, r13, s7, 4096); 
+   
+	mpn_submul_1(r3, r7, s7, 128); 	
+
+   if (n11 < 0) 	
+		mpn_add_n(r11, r10, r11, s7);
+	else
+		mpn_sub_n(r11, r10, r11, s7);
+   /* r11 is now in 2s complement form */
+
+   TC7_RSHIFT1(r11, s7); 
+   
+#if HAVE_NATIVE_mpn_subadd_n
+	mpn_subadd_n(r10, r10, r11, r1, s7);
+#else
+	mpn_sub_n(r10, r10, r11, s7);
+	mpn_sub_n(r10, r10, r1, s7);
+#endif
+
+   mpn_add_n(r10, r4, r10, s7); 	
+
+	mpn_submul_1(r10, r13, s7, 16777216); 	
+
+	mpn_submul_1(r10, r7, s7, 8192); 
+
+	mpn_submul_1(r10, r3, s7, 400); 	
+
+	mpn_divexact_1(r10, r10, s7, 680400); 
+
+	mpn_submul_1(r3, r10, s7, 900); 	
+
+	mpn_divexact_1(r3, r3, s7, 144); 	
+
+	mpn_submul_1(r5, r3, s7, 16); 	
+
+	mpn_sub_n(r12, r12, r5, s7); 	
+
+	mpn_submul_1(r12, r3, s7, 64);	
+
+#if HAVE_NATIVE_mpn_subadd_n
+	mpn_subadd_n(r7, r7, r3, r10, s7);
+#else
+	mpn_sub_n(r7, r7, r3, s7);
+	mpn_sub_n(r7, r7, r10, s7);
+#endif
+	
+	mpn_submul_1(r5, r7, s7, 64); 	
+
+	mpn_submul_1(r4, r7, s7, 4096); 	
+
+	mpn_submul_1(r4, r5, s7, 4); 	
+
+	mpn_submul_1(r4, r3, s7, 256); 	
+
+	mpn_submul_1(r5, r10, s7, 4); 	
+
+	mpn_submul_1(r4, r5, s7, 268); 	
+
+	mpn_divexact_1(r4, r4, s7, 771120); 
+
+	mpn_submul_1(r12, r5, s7, 25);	
+
+	mpn_submul_1(r12, r7, s7, 600); 	
+
+	mpn_submul_1(r12, r4, s7, 31500); 	
+
+	mpn_submul_1(r12, r1, s7, 527344); 	
+
+	mpn_submul_1(r5, r4, s7, 1020); 	
+
+	mpn_divexact_byBm1of(r5, r5, s7, CNST_LIMB(15), CNST_LIMB(~0/15));
+	
+	TC7_DIVEXACT_2EXP(r5, s7, 4);
+
+	mpn_sub_n(r10, r10, r4, s7); 	
+
+	mpn_sub_n(r3, r3, r5, s7); 	
+
+	mpn_add_n(r11, r9, r11, s7); 
+
+	mpn_add_n(r8, r2, r8, s7); 	
+
+	mpn_submul_1(r11, r6, s7, 17408); 	
+
+	mpn_submul_1(r8, r6, s7, 160); 	
+
+	mpn_submul_1(r11, r8, s7, 680); 	
+
+	mpn_divexact_1(r11, r11, s7, 2891700); 
+
+	mpn_submul_1(r8, r11, s7, 1890); 	
+   
+	mpn_divexact_1(r8, r8, s7, 360); 	
+   
+#if HAVE_NATIVE_mpn_subadd_n
+	mpn_subadd_n(r6, r6, r11, r8, s7);
+#else
+	mpn_sub_n(r6, r6, r11, s7);
+	mpn_sub_n(r6, r6, r8, s7);
+#endif
+	
+	mpn_submul_1(r12, r6, s7, 210); 	
+
+	mpn_submul_1(r12, r8, s7, 18); 	
+
+	mpn_submul_1(r9, r6, s7, 1024); 	
+
+	mpn_submul_1(r9, r8, s7, 64); 	
+
+	mpn_submul_1(r9, r11, s7, 4); 
+
+	mpn_submul_1(r2, r6, s7, 32); 	
+
+	mpn_submul_1(r2, r8, s7, 8); 
+
+	mpn_submul_1(r2, r11, s7, 2); 
+
+	mpn_submul_1(r9, r2, s7, 160); 
+
+	mpn_divexact_1(r9, r9, s7, 11340); 	
+	
+	mpn_divexact_by3(r2, r2, s7);
+
+   TC7_RSHIFT1(r2, s7);
+
+	mpn_sub_n(r2, r2, r9, s7); 	
+
+	mpn_lshift(r12, r12, s7, 3); 
+
+	mpn_submul_1(r12, r9, s7, 5649); 	
+
+	mpn_com_n(r12, r12, s7); //r12 = -r12;	
+
+	mpn_add_1(r12, r12, s7, 1);
+
+	mpn_addmul_1(r12, r2, s7, 924); 	
+
+	mpn_divexact_1(r12, r12, s7, 525525); 	
+
+	mpn_submul_1(r9, r12, s7, 341); 	
+
+	mpn_sub_n(r11, r11, r12, s7); 	
+
+	TC7_DIVEXACT_2EXP(r9, s7, 4); 	
+
+	mpn_submul_1(r2, r9, s7, 68); 	
+
+	mpn_sub_n(r8, r8, r9, s7); 	
+
+   TC7_DIVEXACT_2EXP(r2, s7, 4); 
+   
+	mpn_sub_n(r6, r6, r2, s7); 
+
+	TC7_NORM(r1, n1, s7);
+   TC7_NORM(r2, n2, s7);
+   TC7_NORM(r3, n3, s7);
+   TC7_NORM(r4, n4, s7);
+   TC7_NORM(r5, n5, s7);
+   TC7_NORM(r6, n6, s7);
+   TC7_NORM(r7, n7, s7);
+   TC7_NORM(r8, n8, s7);
+   TC7_NORM(r9, n9, s7);
+   TC7_NORM(r10, n10, s7);
+   TC7_NORM(r11, n11, s7);
+   TC7_NORM(r12, n12, s7);
+   TC7_NORM(r13, n13, s7);
+  
+   *rpn = 0;
+	tc7_copy(rp, rpn, 0, r13, n13);
+   tc7_copy(rp, rpn, sn, r11, n11);
+   tc7_copy(rp, rpn, 2*sn, r10, n10);
+   tc7_copy(rp, rpn, 3*sn, r8, n8);
+   tc7_copy(rp, rpn, 4*sn, r3, n3);
+   tc7_copy(rp, rpn, 5*sn, r6, n6);
+	tc7_copy(rp, rpn, 6*sn, r7, n7);
+	tc7_copy(rp, rpn, 7*sn, r2, n2);
+	tc7_copy(rp, rpn, 8*sn, r5, n5);
+	tc7_copy(rp, rpn, 9*sn, r9, n9);
+	tc7_copy(rp, rpn, 10*sn, r4, n4);
+	tc7_copy(rp, rpn, 11*sn, r12, n12);
+	tc7_copy(rp, rpn, 12*sn, r1, n1);  
+}
+
+#if TC7_TEST
+int tc7_test(mp_ptr up, mp_ptr vp, mp_size_t n)
+{
+	mp_limb_t * rp1 = malloc(2*n*sizeof(mp_limb_t));
+   mp_limb_t * rp2 = malloc(2*n*sizeof(mp_limb_t));
+
+	mpn_mul_n(rp1, up, vp, n);
+   mpn_toom7_mul_n(rp2, up, vp, n);
+
+	mp_size_t i;
+	for (i = 0; i < 2*n; i++)
+	{
+		if (rp1[i] != rp2[i]) 
+		{
+			printf("First error in limb %d\n", i);
+			free(rp1);
+	      free(rp2);
+	      return 0;
+		}
+	}
+	
+	free(rp1);
+	free(rp2);
+	return 1;
+}
+
+mp_size_t randsize(mp_size_t limit) 
+{
+    static uint64_t randval = 4035456057U;
+    randval = ((uint64_t)randval*(uint64_t)1025416097U+(uint64_t)286824430U)%(uint64_t)4294967311U;
+    
+    if (limit == 0L) return (mp_size_t) randval;
+    
+    return (mp_size_t) randval%limit;
+}
+
+int main(void)
+{
+   mp_limb_t * up = malloc(20000*sizeof(mp_limb_t));
+   mp_limb_t * vp = malloc(20000*sizeof(mp_limb_t));
+   
+	mp_size_t i, n;
+   for (i = 0; i < 20000; i++)
+	{
+	   n = randsize(15000) + 500;
+		printf("n = %d\n", n);
+		mpn_random2(up, n);
+		mpn_random2(vp, n);
+      if (!tc7_test(up, vp, n)) break;
+	}
+
+	free(up);
+	free(vp);
+
+	return 0;
+}
+#endif
+
+#if TC7_TIME
+int main(void)
+{
+   mp_limb_t * up = malloc(40096*sizeof(mp_limb_t));
+   mp_limb_t * vp = malloc(40096*sizeof(mp_limb_t));
+   mp_limb_t * rp = malloc(80192*sizeof(mp_limb_t));
+
+	mp_size_t i, n;
+   n = 2048;
+	mpn_random(up, n);
+	mpn_random(vp, n);
+   for (i = 0; i < 50000; i++)
+	{
+	   if ((i & 31) == 0)
+		{
+			mpn_random(up, n);
+	      mpn_random(vp, n);
+		}
+		//mpn_mul_n(rp, up, vp, n);
+		mpn_toom7_mul_n(rp, up, vp, n);
+	}
+
+	free(up);
+	free(vp);
+   free(rp);
+
+	return 0;
+}
+#endif
+
+/* Bill Hart's hand derived interpolation sequence (slightly slower than Bodrato's)
+
    The following code verifies this sequence in Sage:
 
 A=Matrix(ZZ,13)
@@ -1393,7 +1696,6 @@ A[6]=A[6]/4
 A[1]=A[1]-A[6]
 A[8]=A[8]-A[3]
 A[5]=A[5]-A[10]
-*/
 
    tc7_sub(r4, &n4, r4, n4, r9, n9);
    tc7_rshift_inplace(r4, &n4, 3);
@@ -1536,100 +1838,4 @@ A[5]=A[5]-A[10]
 	tc7_copy(rp, &rpn, 11*sn, r8, n8);
 	tc7_copy(rp, &rpn, 12*sn, r1, n1);
 
-#endif
-   
-	if (rpn != 2*n) 
-	{
-		MPN_ZERO((rp + rpn), 2*n - rpn);
-	}
-
-   __GMP_FREE_FUNC_LIMBS (tp, 14*t7);
-}
-
-#if TC7_TEST
-int tc7_test(mp_ptr up, mp_ptr vp, mp_size_t n)
-{
-	mp_limb_t * rp1 = malloc(2*n*sizeof(mp_limb_t));
-   mp_limb_t * rp2 = malloc(2*n*sizeof(mp_limb_t));
-
-	mpn_mul_n(rp1, up, vp, n);
-   mpn_toom7_mul_n(rp2, up, vp, n);
-
-	mp_size_t i;
-	for (i = 0; i < 2*n; i++)
-	{
-		if (rp1[i] != rp2[i]) 
-		{
-			printf("First error in limb %d\n", i);
-			free(rp1);
-	      free(rp2);
-	      return 0;
-		}
-	}
-	
-	free(rp1);
-	free(rp2);
-	return 1;
-}
-
-mp_size_t randsize(mp_size_t limit) 
-{
-    static uint64_t randval = 4035456057U;
-    randval = ((uint64_t)randval*(uint64_t)1025416097U+(uint64_t)286824430U)%(uint64_t)4294967311U;
-    
-    if (limit == 0L) return (mp_size_t) randval;
-    
-    return (mp_size_t) randval%limit;
-}
-
-int main(void)
-{
-   mp_limb_t * up = malloc(20000*sizeof(mp_limb_t));
-   mp_limb_t * vp = malloc(20000*sizeof(mp_limb_t));
-   
-	mp_size_t i, n;
-   for (i = 0; i < 20000; i++)
-	{
-	   n = randsize(15000) + 500;
-		printf("n = %d\n", n);
-		mpn_random2(up, n);
-		mpn_random2(vp, n);
-      if (!tc7_test(up, vp, n)) break;
-	}
-
-	free(up);
-	free(vp);
-
-	return 0;
-}
-#endif
-
-#if TC7_TIME
-int main(void)
-{
-   mp_limb_t * up = malloc(40096*sizeof(mp_limb_t));
-   mp_limb_t * vp = malloc(40096*sizeof(mp_limb_t));
-   mp_limb_t * rp = malloc(80192*sizeof(mp_limb_t));
-
-	mp_size_t i, n;
-   n = 2048;
-	mpn_random(up, n);
-	mpn_random(vp, n);
-   for (i = 0; i < 50000; i++)
-	{
-	   if ((i & 31) == 0)
-		{
-			mpn_random(up, n);
-	      mpn_random(vp, n);
-		}
-		//mpn_mul_n(rp, up, vp, n);
-		mpn_toom7_mul_n(rp, up, vp, n);
-	}
-
-	free(up);
-	free(vp);
-   free(rp);
-
-	return 0;
-}
-#endif
+*/
