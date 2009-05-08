@@ -697,8 +697,11 @@ void tc7_addmul_1(mp_ptr wp, mp_size_t * wn, mp_srcptr xp, mp_size_t xn, mp_limb
   {
       /* nothing to add to, just set x*y, "sign" gives the sign */
       cy = mpn_mul_1 (wp, xp, xu, y);
-      wp[xu] = cy;
-      xu = xu + (cy != 0);
+      if (cy)
+		{
+			wp[xu] = cy;
+         xu = xu + 1;
+		} 
       *wn = (sign >= 0 ? xu : -xu);
       return;
   }
@@ -739,8 +742,11 @@ void tc7_addmul_1(mp_ptr wp, mp_size_t * wn, mp_srcptr xp, mp_size_t xn, mp_limb
       }
 #endif
 
-      wp[dsize + min_size] = cy;
-      new_wn += (cy != 0);
+      if (cy)
+		{
+			wp[dsize + min_size] = cy;
+         new_wn ++;
+		}
    } else
    {
       /* submul of absolute values */
@@ -1009,19 +1015,19 @@ mpn_toom7_mul_n (mp_ptr rp, mp_srcptr up,
 
    t7 = 2*sn+2; // allows mult of 2 integers of sn + 1 limbs
 
-   tp = __GMP_ALLOCATE_FUNC_LIMBS(14*t7 + 11*(sn+2));
+   tp = __GMP_ALLOCATE_FUNC_LIMBS(13*t7 + 11*(sn+1));
 
-#define u2 (tp + 14*t7)
-#define u3 (tp + 14*t7 + (sn+2))
-#define u4 (tp + 14*t7 + 2*(sn+2))
-#define u5 (tp + 14*t7 + 3*(sn+2))
-#define u6 (tp + 14*t7 + 4*(sn+2))
-#define u7 (tp + 14*t7 + 5*(sn+2))
-#define u8 (tp + 14*t7 + 6*(sn+2))
-#define u9 (tp + 14*t7 + 7*(sn+2))
-#define u10 (tp + 14*t7 + 8*(sn+2))
-#define u11 (tp + 14*t7 + 9*(sn+2))
-#define u12 (tp + 14*t7 + 10*(sn+2))
+#define u2 (tp + 13*t7)
+#define u3 (tp + 13*t7 + (sn+1))
+#define u4 (tp + 13*t7 + 2*(sn+1))
+#define u5 (tp + 13*t7 + 3*(sn+1))
+#define u6 (tp + 13*t7 + 4*(sn+1))
+#define u7 (tp + 13*t7 + 5*(sn+1))
+#define u8 (tp + 13*t7 + 6*(sn+1))
+#define u9 (tp + 13*t7 + 7*(sn+1))
+#define u10 (tp + 13*t7 + 8*(sn+1))
+#define u11 (tp + 13*t7 + 9*(sn+1))
+#define u12 (tp + 13*t7 + 10*(sn+1))
 
    tc7_lshift (r6, &n6, a2, a2n, 4);
    tc7_lshift (r7, &n7, b2, b2n, 4); 
@@ -1182,7 +1188,7 @@ mpn_toom7_mul_n (mp_ptr rp, mp_srcptr up,
 		MPN_ZERO((rp + rpn), 2*n - rpn);
 	}
 
-   __GMP_FREE_FUNC_LIMBS (tp, 14*t7 + 11*(sn+2));
+   __GMP_FREE_FUNC_LIMBS (tp, 13*t7 + 11*(sn+1));
 }
 
 /*

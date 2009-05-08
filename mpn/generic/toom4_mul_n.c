@@ -670,8 +670,11 @@ void tc4_addmul_1(mp_ptr wp, mp_size_t * wn, mp_srcptr xp, mp_size_t xn, mp_limb
   {
       /* nothing to add to, just set x*y, "sign" gives the sign */
       cy = mpn_mul_1 (wp, xp, xu, y);
-      wp[xu] = cy;
-      xu = xu + (cy != 0);
+      if (cy)
+		{
+			wp[xu] = cy;
+         xu = xu + 1;
+		} 
       *wn = (sign >= 0 ? xu : -xu);
       return;
   }
@@ -712,8 +715,11 @@ void tc4_addmul_1(mp_ptr wp, mp_size_t * wn, mp_srcptr xp, mp_size_t xn, mp_limb
       }
 #endif
 
-      wp[dsize + min_size] = cy;
-      new_wn += (cy != 0);
+      if (cy)
+		{
+			wp[dsize + min_size] = cy;
+         new_wn ++;
+		}
    } else
    {
       /* submul of absolute values */
