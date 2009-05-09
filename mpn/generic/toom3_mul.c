@@ -162,9 +162,14 @@ toom3_interpolate (mp_ptr c, mp_ptr v1, mp_ptr v2, mp_ptr vm1,
   */
   mpn_sub_n(v1, v1, vm1, kk1);
 
-  /* vm1 = vm1 - v2
-  */
+  /* vm1 = vm1 - v2 and add vm1 in {c+k, ...} */
+#if HAVE_NATIVE_mpn_addsub_n
+  cy = mpn_addsub_n(c1, c1, vm1, v2, kk1);
+#else
   mpn_sub_n(vm1, vm1, v2, kk1);
+  cy = mpn_add_n (c1, c1, vm1, kk1);
+#endif
+  mpn_add_1(c3 + 1, c3 + 1, rr2 + k - 1, cy); /* 4k+rr2-(3k+1) = rr2+k-1 */
 
   /* don't forget to add vinf0 in {c+4k, ...} */
   mpn_add_1(c4, c4, rr2, vinf0);
@@ -173,10 +178,6 @@ toom3_interpolate (mp_ptr c, mp_ptr v1, mp_ptr v2, mp_ptr vm1,
   /* add v2 in {c+3k, ...} */
   cy = mpn_add_n (c3, c3, v2, kk1);
   mpn_add_1(c5 + 1, c5 + 1, rr2 - k - 1, cy); /* 4k+rr2-(5k+1) = rr2-k-1 */
-
-  /* add vm1 in {c+k, ...} */
-  cy = mpn_add_n (c1, c1, vm1, kk1);
-  mpn_add_1(c3 + 1, c3 + 1, rr2 + k - 1, cy); /* 4k+rr2-(3k+1) = rr2+k-1 */
 
 #undef v0
 }
