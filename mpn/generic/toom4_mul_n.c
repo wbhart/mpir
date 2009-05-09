@@ -52,10 +52,6 @@ void
 mpn_toom4_mul_n (mp_ptr rp, mp_srcptr up,
 		          mp_srcptr vp, mp_size_t n);
 
-void 
-mpn_toom4_interpolate(mp_ptr rp, mp_size_t * rpn, mp_size_t sn,  
-		       mp_ptr tp, mp_size_t s4, mp_size_t n4, mp_size_t n6);
-
 void _tc4_add(mp_ptr rp, mp_size_t * rn, mp_srcptr r1, mp_size_t r1n, mp_srcptr r2, mp_size_t r2n)
 {
    mp_limb_t cy;
@@ -670,11 +666,8 @@ void tc4_addmul_1(mp_ptr wp, mp_size_t * wn, mp_srcptr xp, mp_size_t xn, mp_limb
   {
       /* nothing to add to, just set x*y, "sign" gives the sign */
       cy = mpn_mul_1 (wp, xp, xu, y);
-      if (cy)
-		{
-			wp[xu] = cy;
-         xu = xu + 1;
-		} 
+      wp[xu] = cy;
+      xu = xu + (cy != 0);
       *wn = (sign >= 0 ? xu : -xu);
       return;
   }
@@ -715,11 +708,8 @@ void tc4_addmul_1(mp_ptr wp, mp_size_t * wn, mp_srcptr xp, mp_size_t xn, mp_limb
       }
 #endif
 
-      if (cy)
-		{
-			wp[dsize + min_size] = cy;
-         new_wn ++;
-		}
+      wp[dsize + min_size] = cy;
+      new_wn += (cy != 0);
    } else
    {
       /* submul of absolute values */
@@ -899,29 +889,13 @@ void tc4_copy (mp_ptr yp, mp_size_t * yn, mp_size_t offset, mp_srcptr xp, mp_siz
 	   rxx[nxx-1] |= sign; \
 	} while (0)
 
-#if HAVE_NATIVE_mpn_rshift1
 #define TC4_RSHIFT1(rxx, nxx) \
 	do { \
 	   mp_limb_t sign = (LIMB_HIGHBIT_TO_MASK(rxx[nxx-1]) << (GMP_LIMB_BITS - 1)); \
-       mpn_rshift1(rxx, rxx, nxx); \
+      mpn_rshift1(rxx, rxx, nxx); \
 	   rxx[nxx-1] |= sign; \
 	} while (0)
-#else
-#define TC4_RSHIFT1(rxx, nxx) \
-	do { \
-	   mp_limb_t sign = (LIMB_HIGHBIT_TO_MASK(rxx[nxx-1]) << (GMP_LIMB_BITS - 1)); \
-       mpn_rshift(rxx, rxx, nxx, 1); \
-	   rxx[nxx-1] |= sign; \
-	} while (0)
-#endif
 
-#define r1 (tp)
-#define r2 (tp + t4)
-#define r3 (tp + 2*t4)
-#define r4 (tp + 3*t4)
-#define r5 (tp + 4*t4)
-#define r6 (tp + 5*t4)
-#define r7 (tp + 6*t4)
 
 /* Multiply {up, n} by {vp, n} and write the result to
    {prodp, 2n}.
@@ -937,7 +911,7 @@ mpn_toom4_mul_n (mp_ptr rp, mp_srcptr up,
   mp_size_t len1, len2;
   mp_limb_t cy;
   mp_ptr tp;
-  mp_size_t a0n, a1n, a2n, a3n, b0n, b1n, b2n, b3n, sn, n1, n2, n3, n4, n5, n6, n7, rpn, t4;
+  mp_size_t a0n, a1n, a2n, a3n, b0n, b1n, b2n, b3n, sn, n1, n2, n3, n4, n5, n6, n7, rpn;
 
   len1 = n;
   len2 = n;
@@ -967,10 +941,17 @@ mpn_toom4_mul_n (mp_ptr rp, mp_srcptr up,
 	TC4_NORM(b2, b2n, sn);
 	TC4_NORM(b3, b3n, n - 3*sn); 
 
-   t4 = 2*sn+2; // allows mult of 2 integers of sn + 1 limbs
+#define t4 (2*sn+2) // allows mult of 2 integers of sn + 1 limbs
 
    tp = __GMP_ALLOCATE_FUNC_LIMBS(7*t4 + 5*(sn + 1));
 
+#define r1 (tp)
+#define r2 (tp + t4)
+#define r3 (tp + 2*t4)
+#define r4 (tp + 3*t4)
+#define r5 (tp + 4*t4)
+#define r6 (tp + 5*t4)
+#define r7 (tp + 6*t4)
 #define u2 (tp + 7*t4)
 #define u3 (tp + 7*t4 + (sn+1))
 #define u4 (tp + 7*t4 + 2*(sn+1))
@@ -1050,102 +1031,72 @@ mpn_toom4_mul_n (mp_ptr rp, mp_srcptr up,
    TC4_DENORM(r6, n6,  t4);
    TC4_DENORM(r7, n7,  t4);
 
-	mpn_toom4_interpolate(rp, &rpn, sn, tp, t4 - 1, n4, n6);
-
-	if (rpn != 2*n) 
-	{
-		MPN_ZERO((rp + rpn), 2*n - rpn);
-	}
-
-   __GMP_FREE_FUNC_LIMBS (tp, 7*t4 + 5*(sn+1));
-}
-
 /*
-   Toom 4 interpolation. Interpolates the value at 2^(sn*B) of a 
-	polynomial p(x) with 7 coefficients given the values 
-	p(oo), p(2), p(1), p(-1), 2^6*p(1/2), 2^6*p(-1/2), p(0).
-	The values are assumed to be stored in tp, each separated by 
-	s4 + 1 limbs, each of no more than s4 limbs.
-	The output is placed in rp and the final number of limbs of the
-	output is given in rpn.
-	The 4th and 6th values may be negative, and if so, n4 and n6 
-	should be set to a negative value respectively.
+   r1 + 
+	r2 +
+	r3 +
+	r4   +
+	r5 +
+	r6   +
+	r7 +
 */
-void mpn_toom4_interpolate(mp_ptr rp, mp_size_t * rpn, mp_size_t sn,  
-		       mp_ptr tp, mp_size_t s4, mp_size_t n4, mp_size_t n6)
-{
-	mp_size_t n1, n2, n3, n5, n7, t4;
 
-   t4 = s4 + 1; 
+
+#define s4 (t4 - 1) // maximum size of any r*
    
-	mpn_add_n(r2, r2, r5, s4);
-
-   if (n6 < 0) 
+	mpn_add_n(r2, r2, r5, s4);// tc4_add(r2, &n2, r2, n2, r5, n5);
+   if (n6 < 0) //tc4_sub(r6, &n6, r5, n5, r6, n6);
 		mpn_add_n(r6, r5, r6, s4);
 	else
       mpn_sub_n(r6, r5, r6, s4);
 	/* r6 is now in twos complement format */
 
-	if (n4 < 0) 
+	if (n4 < 0) //tc4_sub(r4, &n4, r3, n3, r4, n4);
 		mpn_add_n(r4, r3, r4, s4);
 	else
       mpn_sub_n(r4, r3, r4, s4);
 	/* r4 is now in twos complement format */
 	
-	mpn_sub_n(r5, r5, r1, s4);
-
-	mpn_submul_1(r5, r7, s4, 64);
-
-   TC4_RSHIFT1(r4, s4); 
+	mpn_sub_n(r5, r5, r1, s4);// tc4_sub(r5, &n5, r5, n5, r1, n1);
+	mpn_submul_1(r5, r7, s4, 64);// tc4_submul_1(r5, &n5, r7, n7, 64);
+   TC4_RSHIFT1(r4, s4); //tc4_rshift_inplace(r4, &n4, 1);
 	
-	mpn_sub_n(r3, r3, r4, s4);
+	mpn_sub_n(r3, r3, r4, s4);// tc4_sub(r3, &n3, r3, n3, r4, n4);
+	mpn_lshift(r5, r5, s4, 1); //tc4_lshift(r5, &n5, r5, n5, 1); 
+	mpn_sub_n(r5, r5, r6, s4);// tc4_sub(r5, &n5, r5, n5, r6, n6);
 
-#if HAVE_NATIVE_mpn_lshift1
-	mpn_lshift1(r5, r5, s4); 
-#else
-	mpn_lshift(r5, r5, s4, 1);
-#endif
+   mpn_submul_1(r2, r3, s4, 65);// tc4_submul_1(r2, &n2, r3, n3, 65);
 
-	mpn_sub_n(r5, r5, r6, s4);
-
-   mpn_submul_1(r2, r3, s4, 65);
-
-#if HAVE_NATIVE_mpn_subadd_n
+   //mpn_sub_n(r3, r3, r7, s4);// tc4_sub(r3, &n3, r3, n3, r7, n7); 
+   //mpn_sub_n(r3, r3, r1, s4);// tc4_sub(r3, &n3, r3, n3, r1, n1);
 	mpn_subadd_n(r3, r3, r7, r1, s4);
-#else
-	mpn_sub_n(r3, r3, r7, s4);
-	mpn_sub_n(r3, r3, r1, s4);
-#endif
 
-   mpn_addmul_1(r2, r3, s4, 45);
-
-   mpn_submul_1(r5, r3, s4, 8);
+   mpn_addmul_1(r2, r3, s4, 45);// tc4_addmul_1(r2, &n2, r3, n3, 45);
+   mpn_submul_1(r5, r3, s4, 8);// tc4_submul_1(r5, &n5, r3, n3, 8);
    
-	TC4_DIVEXACT_2EXP(r5, s4, 3); 
-
-	mpn_divexact_by3(r5, r5, s4); 
+	//tc4_divexact_ui(r5, &n5, r5, n5, 24);
+   //mpn_divexact_1(r5, r5, s4, 24); 
+	TC4_DIVEXACT_2EXP(r5, s4, 3); //tc4_rshift_inplace(r5, &n5, 3);
+	mpn_divexact_by3(r5, r5, s4); //tc4_divexact_by3(r5, &n5, r5, n5);
    
-	mpn_sub_n(r6, r6, r2, s4);
-
-	mpn_submul_1(r2, r4, s4, 16);
+	mpn_sub_n(r6, r6, r2, s4);// tc4_sub(r6, &n6, r6, n6, r2, n2);
+	mpn_submul_1(r2, r4, s4, 16);// tc4_submul_1(r2, &n2, r4, n4, 16);
    
-   TC4_RSHIFT1(r2, s4); 
-
-	mpn_divexact_by3(r2, r2, s4); 
-
-   mpn_divexact_by3(r2, r2, s4); 
+   //tc4_divexact_ui(r2, &n2, r2, n2, 18);
+   //mpn_divexact_1(r2, r2, s4, 18); 
+	TC4_RSHIFT1(r2, s4); //tc4_rshift_inplace(r2, &n2, 1);
+	mpn_divexact_by3(r2, r2, s4); //tc4_divexact_by3(r2, &n2, r2, n2);
+   mpn_divexact_by3(r2, r2, s4); //tc4_divexact_by3(r2, &n2, r2, n2);
    
-   mpn_sub_n(r3, r3, r5, s4);
-
-	mpn_sub_n(r4, r4, r2, s4);
+   mpn_sub_n(r3, r3, r5, s4);// tc4_sub(r3, &n3, r3, n3, r5, n5);
+	mpn_sub_n(r4, r4, r2, s4);// tc4_sub(r4, &n4, r4, n4, r2, n2);
 	
-	mpn_addmul_1(r6, r2, s4, 30);
-
-   mpn_divexact_byBm1of(r6, r6, s4, CNST_LIMB(15), CNST_LIMB(~0/15));
-
+	mpn_addmul_1(r6, r2, s4, 30);// tc4_addmul_1(r2, &n2, r4, n4, 30);
+	//mpn_divexact_1(r6, r6, s4, 60); //tc4_divexact_ui(r6, &n6, r6, n6, 30);
+   mpn_divexact_byBm1of(r6, r6, s4, CNST_LIMB(15), CNST_LIMB(1229782938247303441));
 	TC4_DIVEXACT_2EXP(r6, s4, 2);
 
-	mpn_sub_n(r2, r2, r6, s4);
+	mpn_sub_n(r2, r2, r6, s4);// tc4_sub(r2, &n2, r2, n2, r6, n6);
 
 	TC4_NORM(r1, n1, s4);
    TC4_NORM(r2, n2, s4);
@@ -1155,14 +1106,21 @@ void mpn_toom4_interpolate(mp_ptr rp, mp_size_t * rpn, mp_size_t sn,
    TC4_NORM(r6, n6, s4);
    TC4_NORM(r7, n7, s4);
    
-   *rpn = 0;
-	tc4_copy(rp, rpn, 0, r7, n7);
-   tc4_copy(rp, rpn, sn, r6, n6);
-   tc4_copy(rp, rpn, 2*sn, r5, n5);
-   tc4_copy(rp, rpn, 3*sn, r4, n4);
-   tc4_copy(rp, rpn, 4*sn, r3, n3);
-   tc4_copy(rp, rpn, 5*sn, r2, n2);
-   tc4_copy(rp, rpn, 6*sn, r1, n1);
+   rpn = 0;
+	tc4_copy(rp, &rpn, 0, r7, n7);
+   tc4_copy(rp, &rpn, sn, r6, n6);
+   tc4_copy(rp, &rpn, 2*sn, r5, n5);
+   tc4_copy(rp, &rpn, 3*sn, r4, n4);
+   tc4_copy(rp, &rpn, 4*sn, r3, n3);
+   tc4_copy(rp, &rpn, 5*sn, r2, n2);
+   tc4_copy(rp, &rpn, 6*sn, r1, n1);
+   
+	if (rpn != 2*n) 
+	{
+		MPN_ZERO((rp + rpn), 2*n - rpn);
+	}
+
+   __GMP_FREE_FUNC_LIMBS (tp, 7*t4 + 5*(sn+1));
 }
 
 #if TC4_TEST
