@@ -442,6 +442,10 @@ typedef __mpq_struct *mpq_ptr;
 #endif
 #endif
 
+#ifdef _MSC_VER
+#define __GMP_EXTERN_INLINE __inline
+#endif
+
 /* DEC C (eg. version 5.9) supports "static __inline foo()", even in -std1
    strict ANSI mode.  Inlining is done even when not optimizing (ie. -O0
    mode, which is the default), but an unnecessary local copy of foo is

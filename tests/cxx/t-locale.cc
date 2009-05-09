@@ -29,8 +29,10 @@ MA 02110-1301, USA. */
 
 using namespace std;
 
-
-char point_string[2];
+extern "C"
+{
+    char point_string[2];
+};
 
 #if HAVE_STD__LOCALE
 // Like std::numpunct, but with decimal_point coming from point_string[].

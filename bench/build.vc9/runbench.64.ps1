@@ -40,19 +40,19 @@ foreach ($cat in $tests)
 	    	"      $t $parms" | Out-Host
 			$out = Invoke-Expression ".\$dir\$t $parms" 
 			foreach ($s in $out) { if($s -match "RESULT: [0-9]*") { $res = $s.Split(' ')[1] } }
-			"      GMPbench.$cat.$t.$pcm result: $res" | Out-Host
+			"      MPIRbench.$cat.$t.$pcm result: $res" | Out-Host
 			$acc = Invoke-Expression ".\$dir\gexpr -prec 10 `"$acc*$res`""
 			$n++
 		}
 		$out = Invoke-Expression ".\$dir\gexpr `"$acc^(1/$n)`""
-		"    GMPbench.$cat.$t result: $out" | Out-Host
+		"    MPIRbench.$cat.$t result: $out" | Out-Host
 		$acc1 = Invoke-Expression ".\$dir\gexpr -prec 10 `"$acc1*$acc^(1/$n)`""
 		$n1++
 	}
 	$out = Invoke-Expression ".\$dir\gexpr `"$acc1^(1/$n1)`""
-	"  GMPbench.$cat result: $out" | Out-Host
+	"  MPIRbench.$cat result: $out" | Out-Host
 	$acc2 = Invoke-Expression ".\$dir\gexpr -round -prec 10 `"$acc2*$acc1^(1/$n1)`""
 	$n2++
 }
 $out = Invoke-Expression ".\$dir\gexpr -round -prec 10 `"$acc2^(1/$n2)`""
-"GMPbench result: $out" | Out-Host
+"MPIRbench result: $out" | Out-Host

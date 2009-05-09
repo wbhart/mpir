@@ -116,6 +116,10 @@ MPN_FFT_ZERO (void *dst, long int n)
     __asm__ __volatile__ ("rep stosl" : "+c" (n), "+D" (dst) : "a" (0) : 
 			  "memory");
 }
+#elif defined( _MSC_VER ) && defined( _M_X64 )
+#include <intrin.h>
+#pragma intrinsic(__stosq)
+#define MPN_FFT_ZERO(d, l) __stosq(d, 0, l)
 #else
   /* Fall back to GMP's MPN_ZERO() macro */
   #define MPN_FFT_ZERO(dst, n) MPN_ZERO(dst,n)
@@ -140,6 +144,10 @@ MPN_FFT_STORE (void *dst, long int n, long int d)
     __asm__ __volatile__ ("rep stosl" : "+c" (n), "+D" (dst) : "a" (d) :
 			  "memory");
 }
+#elif defined( _MSC_VER ) && defined( _M_X64 )
+#include <intrin.h>
+#pragma intrinsic(__stosq)
+#define MPN_FFT_STORE(d, l, v) __stosq(d, v, l)
 #else
 void static inline
 MPN_FFT_STORE (mp_limb_t *dst, mp_size_t n, mp_limb_t d)
@@ -168,6 +176,10 @@ MPN_FFT_COPY (void *dst, const void *src, long int n)
     __asm__ __volatile__ ("rep movsl" : "+c" (n), "+S" (src), "+D" (dst) :
 			  "memory");
 }
+#elif defined( _MSC_VER ) && defined( _M_X64 )
+#include <intrin.h>
+#pragma intrinsic(__movsq)
+#define MPN_FFT_COPY(d, s, l) __movsq(d, s, l)
 #else
   /* Fall back to GMP's MPN_COPY() macro */
   #define MPN_FFT_COPY(dst, src, n) MPN_COPY(dst,src,n)
