@@ -638,7 +638,7 @@ toom3_interpolate (mp_ptr c, mp_srcptr v1, mp_ptr v2, mp_ptr vm1,
    We need in addition 2*r for mpn_sublsh1_n, so the total is at most
    8/3*n+8*log2(n).
 */
-
+#if 0
 void
 mpn_toom3_mul_n (mp_ptr c, mp_srcptr a, mp_srcptr b, mp_size_t n, mp_ptr t)
 {
@@ -815,6 +815,7 @@ mpn_toom3_mul_n (mp_ptr c, mp_srcptr a, mp_srcptr b, mp_size_t n, mp_ptr t)
 #undef v2
 #undef vinf
 }
+#endif
 
 void
 mpn_toom3_sqr_n (mp_ptr c, mp_srcptr a, mp_size_t n, mp_ptr t)
@@ -920,7 +921,7 @@ mpn_mul_n (mp_ptr p, mp_srcptr a, mp_srcptr b, mp_size_t n)
       mp_ptr ws;
       TMP_SDECL;
       TMP_SMARK;
-      ws = TMP_SALLOC_LIMBS (MPN_TOOM3_MUL_N_TSIZE (n));
+      ws = TMP_SALLOC_LIMBS (3*n);//MPN_TOOM3_MUL_N_TSIZE (n));
       mpn_toom3_mul_n (p, a, b, n, ws);
       TMP_SFREE;
     }

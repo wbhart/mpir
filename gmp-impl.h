@@ -1016,10 +1016,10 @@ __GMP_DECLSPEC extern gmp_randstate_t  __gmp_rands;
    suggests that these limits are acceptable.  */
 #if WANT_FFT
 #if HAVE_NATIVE_mpn_sublsh1_n
-#define MPN_TOOM3_MUL_N_TSIZE(n)  (2*(n) + 63)
+#define MPN_TOOM3_MUL_N_TSIZE(n)  (3*(n) + 63)
 #define MPN_TOOM3_SQR_N_TSIZE(n)  (2*(n) + 63)
 #else
-#define MPN_TOOM3_MUL_N_TSIZE(n)  (2*(n) + 2*(n/3) + 63)
+#define MPN_TOOM3_MUL_N_TSIZE(n)  (3*(n) + 2*(n/3) + 63)
 #define MPN_TOOM3_SQR_N_TSIZE(n)  (2*(n) + 2*(n/3) + 63)
 #endif
 #else /* WANT_FFT */
@@ -1038,7 +1038,7 @@ __GMP_DECLSPEC extern gmp_randstate_t  __gmp_rands;
 #define MPN_KARA_SQR_N_MINSIZE    2
 
 /* Need l>=1, ls>=1, and 2*ls > l (the latter for the tD MPN_INCR_U) */
-#define MPN_TOOM3_MUL_N_MINSIZE   17
+#define MPN_TOOM3_MUL_N_MINSIZE   30 
 #define MPN_TOOM4_MUL_N_MINSIZE   32
 #define MPN_TOOM7_MUL_N_MINSIZE   56
 #define MPN_TOOM3_SQR_N_MINSIZE   17
