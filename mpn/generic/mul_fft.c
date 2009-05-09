@@ -64,6 +64,8 @@ MA 02110-1301, USA. */
 #include "gmp-impl.h"
 #include "longlong.h"		/* for count_trailing_zeros */
 
+#define FFT_FIRST_K 4
+
 /* #define WANT_ADDSUB */
 
 #ifdef WANT_ADDSUB
@@ -274,12 +276,11 @@ mpn_fft_best_k (mp_size_t n, int sqr)
 {
   int i;
 
-  for (i = 0; mpn_fft_table[sqr][i] != 0; i++)
-    if (n < mpn_fft_table[sqr][i])
+  for (i = 0; mpn_fft_table[sqr&1][i] != 0; i++)
+    if (n < mpn_fft_table[sqr&1][i])
       return i + FFT_FIRST_K;
-
   /* treat 4*last as one further entry */
-  if (i == 0 || n < 4 * mpn_fft_table[sqr][i - 1])
+  if (i == 0 || n < 4 * mpn_fft_table[sqr&1][i - 1])
     return i + FFT_FIRST_K;
   else
     return i + FFT_FIRST_K + 1;
@@ -2339,7 +2340,6 @@ mpn_mul_fft_full_a (mp_ptr op,
     }
 
   h = a * l;
-
   /* now mpn_fft_next_size (l, k1) = l
      and mpn_fft_next_size (h, k2) = h with h = a * l */
 
