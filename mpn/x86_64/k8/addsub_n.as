@@ -1,6 +1,8 @@
 
 ;  AMD64 mpn_addsub_n
+
 ;  Copyright 2009 Jason Moxham
+
 ;  This file is part of the MPIR Library.
 ;  The MPIR Library is free software; you can redistribute it and/or modify
 ;  it under the terms of the GNU Lesser General Public License as published
@@ -15,73 +17,128 @@
 ;  to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 ;  Boston, MA 02110-1301, USA.
 
-;	INPUT PARAMETERS
-;	rp	rdi
-;	xp	rsi
-;	yp	rdx
-;	zp	rcx
-;	n	r8
-
-;	(rdi, r8) = (rsi, r8) + (rdx, r8) - (rcx, r8)
-;	return carry-borrow
-
 %include 'yasm_mac.inc'
 
-    BITS    64
+;	(rdi,r8)=(rsi,r8)+(rdx,r8)-(rcx,r8)  return carry-borrow
 
-   GLOBAL_FUNC mpn_addsub_n
-	lea     rsi, [rsi+r8*8]
-	lea     rdx, [rdx+r8*8]
-	lea     rdi, [rdi+r8*8]
-	lea     rcx, [rcx+r8*8]
-	neg     r8
+	GLOBAL_FUNC mpn_addsub_n
+	lea     rdx, [rdx+r8*8-56]
+	lea     rcx, [rcx+r8*8-56]
+	lea     rsi, [rsi+r8*8-56]
+	lea     rdi, [rdi+r8*8-56]
+	mov     r9, 3
 	xor     rax, rax
 	xor     r10, r10
-	test    r8, 3
-	jz      next
-lp1:
-	mov     r9, [rdx+r8*8]
-	add     rax, 1
-	sbb     r9, [rcx+r8*8]
-	sbb     rax, rax
-	add     r10, 1
-	adc     r9, [rsi+r8*8]
-	sbb     r10, r10
-	mov     [rdi+r8*8], r9
-	inc     r8
-	test    r8, 3
-	jnz     lp1
-next:
-	cmp     r8, 0
-	jz      end
-	push    rbx
+	sub     r9, r8
+	push    r12
 	push    rbp
+	jge     L_skip
+	add     r9, 4
+	mov     rbp, [rdx+r9*8+16]
+	mov     r11, [rdx+r9*8+24]
+	mov     r12, [rdx+r9*8]
+	mov     r8, [rdx+r9*8+8]
+	jc      L_skiplp
 	align   16
-lp:
+L_lp:
 	add     rax, 1
-	mov     r9, [rdx+r8*8]
-	mov     rbx, [rdx+r8*8+8]
-	mov     rbp, [rdx+r8*8+16]
-	mov     r11, [rdx+r8*8+24]
-	sbb     r9, [rcx+r8*8]
-	sbb     rbx, [rcx+r8*8+8]
-	sbb     rbp, [rcx+r8*8+16]
-	sbb     r11, [rcx+r8*8+24]
+	sbb     r12, [rcx+r9*8]
+	sbb     r8, [rcx+r9*8+8]
+	sbb     rbp, [rcx+r9*8+16]
+	sbb     r11, [rcx+r9*8+24]
 	sbb     rax, rax
 	add     r10, 1
-	adc     r9, [rsi+r8*8]
-	adc     rbx, [rsi+r8*8+8]
-	adc     rbp, [rsi+r8*8+16]
-	adc     r11, [rsi+r8*8+24]
-	mov     [rdi+r8*8], r9
-	mov     [rdi+r8*8+8], rbx
-	mov     [rdi+r8*8+16], rbp
-	mov     [rdi+r8*8+24], r11
+	adc     r12, [rsi+r9*8]
+	adc     r8, [rsi+r9*8+8]
+	adc     rbp, [rsi+r9*8+16]
+	adc     r11, [rsi+r9*8+24]
 	sbb     r10, r10
-	add     r8, 4
-	jnz     lp
+	mov     [rdi+r9*8], r12
+	mov     [rdi+r9*8+24], r11
+	mov     [rdi+r9*8+8], r8
+	mov     [rdi+r9*8+16], rbp
+	mov     rbp, [rdx+r9*8+48]
+	mov     r11, [rdx+r9*8+56]
+	add     r9, 4
+	mov     r12, [rdx+r9*8]
+	mov     r8, [rdx+r9*8+8]
+	jnc     L_lp
+L_skiplp:
+	add     rax, 1
+	sbb     r12, [rcx+r9*8]
+	sbb     r8, [rcx+r9*8+8]
+	sbb     rbp, [rcx+r9*8+16]
+	sbb     r11, [rcx+r9*8+24]
+	sbb     rax, rax
+	add     r10, 1
+	adc     r12, [rsi+r9*8]
+	adc     r8, [rsi+r9*8+8]
+	adc     rbp, [rsi+r9*8+16]
+	adc     r11, [rsi+r9*8+24]
+	sbb     r10, r10
+	mov     [rdi+r9*8], r12
+	mov     [rdi+r9*8+24], r11
+	mov     [rdi+r9*8+8], r8
+	mov     [rdi+r9*8+16], rbp
+L_skip:
+	cmp     r9, 2
+	ja      L_case0
+	jz      L_case1
+	jp      L_case2
+L_case3:
+	mov     rbp, [rdx+r9*8+48]
+	mov     r12, [rdx+r9*8+32]
+	mov     r8, [rdx+r9*8+40]
+	add     rax, 1
+	sbb     r12, [rcx+r9*8+32]
+	sbb     r8, [rcx+r9*8+40]
+	sbb     rbp, [rcx+r9*8+48]
+	sbb     rax, rax
+	add     r10, 1
+	adc     r12, [rsi+r9*8+32]
+	adc     r8, [rsi+r9*8+40]
+	adc     rbp, [rsi+r9*8+48]
+	mov     [rdi+r9*8+32], r12
+	mov     [rdi+r9*8+40], r8
+	mov     [rdi+r9*8+48], rbp
+	adc     rax, 0
 	pop     rbp
-	pop     rbx
-end:
-	sub     rax, r10
+	pop     r12
 	ret
+	align   16
+L_case2:
+	mov     r12, [rdx+r9*8+32]
+	mov     r8, [rdx+r9*8+40]
+	add     rax, 1
+	sbb     r12, [rcx+r9*8+32]
+	sbb     r8, [rcx+r9*8+40]
+	sbb     rax, rax
+	add     r10, 1
+	adc     r12, [rsi+r9*8+32]
+	adc     r8, [rsi+r9*8+40]
+	mov     [rdi+r9*8+32], r12
+	mov     [rdi+r9*8+40], r8
+	adc     rax, 0
+	pop     rbp
+	pop     r12
+	ret
+	align   16
+L_case1:
+	mov     r12, [rdx+r9*8+32]
+	add     rax, 1
+	sbb     r12, [rcx+r9*8+32]
+	sbb     rax, rax
+	add     r10, 1
+	adc     r12, [rsi+r9*8+32]
+	mov     [rdi+r9*8+32], r12
+	adc     rax, 0
+	pop     rbp
+	pop     r12
+	ret
+	align   16
+L_case0:
+	sub     rax, r10
+	pop     rbp
+	pop     r12
+	ret
+	end
