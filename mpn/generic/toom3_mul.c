@@ -337,14 +337,14 @@ mpn_toom3_mul (mp_ptr c, mp_srcptr a, mp_size_t an, mp_srcptr b, mp_size_t bn, m
   c2[1] = 2 * c2[1] + mpn_addlsh1_n (c1 + 1, b, c1 + 1, k);
 #else
   c[r] = mpn_lshift1 (c, a + twok, r);
-  c1[r + 1] = mpn_lshift1 (c1 + 1, b + twok, r2);
+  c1[r2 + 1] = mpn_lshift1 (c1 + 1, b + twok, r2);
   if (r  < k)
     {
       MPN_ZERO(c + r + 1, k - r);
     }
   if (r2 < k)
     {
-      MPN_ZERO(c1 + r + 2, k - r2);
+      MPN_ZERO(c1 + r2 + 2, k - r2);
     }
   c1[0] += mpn_add_n (c, c, a + k, k);
   c2[1] += mpn_add_n (c1 + 1, c1 + 1, b + k, k);
@@ -405,10 +405,4 @@ mpn_toom3_mul (mp_ptr c, mp_srcptr a, mp_size_t an, mp_srcptr b, mp_size_t bn, m
 
 #undef v2
 #undef vinf
-}
-
-void
-mpn_toom3_mul_n (mp_ptr c, mp_srcptr a, mp_srcptr b, mp_size_t n, mp_ptr t)
-{
-   mpn_toom3_mul (c, a, n, b, n, t);
 }

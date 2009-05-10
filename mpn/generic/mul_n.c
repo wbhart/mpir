@@ -600,6 +600,149 @@ toom3_interpolate (mp_ptr c, mp_srcptr v1, mp_ptr v2, mp_ptr vm1,
 #undef t2
 }
 
+/*
+   We have
+
+	{v0,2k} {v1,2k+1} {c+4k+1,r+r2-1} 
+		v0 	v1       {-}vinf
+
+	vinf0 is the first limb of vinf, which is overwritten by v1
+
+	{vm1,2k+1} {v2, 2k+1}
+
+	ws is temporary space
+
+	sa is the sign of vm1
+
+	rr2 is r+r2
+
+	We want to compute
+
+     t1   <- (3*v0+2*vm1+v2)/6-2*vinf
+     t2   <- (v1+vm1)/2
+  then the result is c0+c1*t+c2*t^2+c3*t^3+c4*t^4 where
+     c0   <- v0
+     c1   <- v1 - t1
+     c2   <- t2 - v0 - vinf
+     c3   <- t1 - t2
+     c4   <- vinf
+*/ 
+static void
+toom3_n_interpolate (mp_ptr c, mp_ptr v1, mp_ptr v2, mp_ptr vm1,
+		                 mp_ptr vinf, mp_size_t k, mp_size_t rr2, int sa,
+		                                       mp_limb_t vinf0, mp_ptr ws)
+{
+  mp_limb_t cy, saved;
+  unsigned long twok = k + k;
+  unsigned long kk1 = twok + 1;
+  mp_ptr c1, c2, c3, c4, c5;
+  mp_limb_t cout; /* final carry, should be zero at the end */
+
+  c1 = c + k;
+  c2 = c1 + k;
+  c3 = c2 + k;
+  c4 = c3 + k;
+  c5 = c4 + k;
+
+#define v0 (c)
+
+/* {c,2k} {c+2k,2k+1} {c+4k+1,r+r2-1} 
+		v0 	 v1          {-}vinf
+
+	{vm1,2k+1} {v2, 2k+1}
+*/
+
+  /* v2 <- v2 - vm1 */
+  if (sa < 0)
+  {
+	  mpn_add_n(v2, v2, vm1, kk1);
+  } else
+  {
+	  mpn_sub_n(v2, v2, vm1, kk1);
+  }
+
+  ASSERT_NOCARRY (mpn_divexact_by3 (v2, v2, kk1));    /* v2 <- v2 / 3 */
+
+ /* vm1 <- t2 := (v1 - sa*vm1) / 2
+ */
+  if (sa < 0)
+    {
+#ifdef HAVE_NATIVE_mpn_rsh1add_n
+      mpn_rsh1add_n (vm1, v1, vm1, kk1);
+#else
+      mpn_add_n (vm1, vm1, v1, kk1);
+      mpn_rshift1 (vm1, vm1, kk1);
+#endif
+    }
+  else
+    {
+#ifdef HAVE_NATIVE_mpn_rsh1sub_n
+      mpn_rsh1sub_n (vm1, v1, vm1, kk1);
+#else
+      mpn_sub_n (vm1, v1, vm1, kk1);
+      mpn_rshift1 (vm1, vm1, kk1);
+#endif
+    }
+
+  /* v1 <- v1 - v0 - vinf */
+
+  saved = c4[0];
+  c4[0] = vinf0;
+#if HAVE_NATIVE_mpn_subadd_n
+  cy = mpn_subadd_n(v1, v1, v0, c4, rr2);
+#else
+  cy = mpn_sub_n(v1, v1, v0, rr2);
+  cy += mpn_sub_n(v1, v1, c4, rr2);
+#endif
+  c4[0] = saved;
+  if (rr2 < twok)
+  {
+	  v1[twok] -= mpn_sub_n(v1 + rr2, v1 + rr2, v0 + rr2, twok - rr2); 
+	  MPN_DECR_U(v1 + rr2, kk1 - rr2, cy);
+  }
+  else v1[twok] -= cy;
+
+  saved = c4[0];
+  c4[0] = vinf0;
+/* subtract 5*vinf from v2,
+  */
+  cy = mpn_submul_1 (v2, c4, rr2, CNST_LIMB(5));
+  MPN_DECR_U (v2 + rr2, kk1 - rr2, cy);
+  c4[0] = saved;
+
+  /* v2 = (v2 - v1)/2 (exact)
+  */
+#ifdef HAVE_NATIVE_mpn_rsh1sub_n
+  mpn_rsh1sub_n (v2, v2, v1, kk1);
+#else
+  mpn_sub_n (v2, v2, v1, kk1);
+  mpn_rshift1 (v2, v2, kk1);
+#endif
+
+  /* v1 = v1 - vm1
+  */
+  mpn_sub_n(v1, v1, vm1, kk1);
+
+  /* vm1 = vm1 - v2 and add vm1 in {c+k, ...} */
+#if HAVE_NATIVE_mpn_addsub_n
+  cy = mpn_addsub_n(c1, c1, vm1, v2, kk1);
+#else
+  mpn_sub_n(vm1, vm1, v2, kk1);
+  cy = mpn_add_n (c1, c1, vm1, kk1);
+#endif
+  mpn_add_1(c3 + 1, c3 + 1, rr2 + k - 1, cy); /* 4k+rr2-(3k+1) = rr2+k-1 */
+
+  /* don't forget to add vinf0 in {c+4k, ...} */
+  mpn_add_1(c4, c4, rr2, vinf0);
+
+ 
+  /* add v2 in {c+3k, ...} */
+  cy = mpn_add_n (c3, c3, v2, kk1);
+  mpn_add_1(c5 + 1, c5 + 1, rr2 - k - 1, cy); /* 4k+rr2-(5k+1) = rr2-k-1 */
+
+#undef v0
+}
+
 #define TOOM3_MUL_REC(p, a, b, n, ws) \
   do {								\
     if (MUL_TOOM3_THRESHOLD / 3 < MUL_KARATSUBA_THRESHOLD	\
@@ -638,101 +781,88 @@ toom3_interpolate (mp_ptr c, mp_srcptr v1, mp_ptr v2, mp_ptr vm1,
    We need in addition 2*r for mpn_sublsh1_n, so the total is at most
    8/3*n+8*log2(n).
 */
-#if 0
 void
 mpn_toom3_mul_n (mp_ptr c, mp_srcptr a, mp_srcptr b, mp_size_t n, mp_ptr t)
 {
-  mp_size_t k, k1, kk1, r, twok, twor;
-  mp_limb_t cy, cc, saved, vinf0, cinf0;
+  mp_size_t k, k1, kk1, r, r2, twok, rr2;
+  mp_limb_t cy, cc, saved, vinf0;
   mp_ptr trec;
   int sa, sb;
-  mp_ptr c1, c2, c3, c4, c5;
+  mp_ptr c1, c2, c3, c4, c5, t1, t2, t3, t4;
 
+  ASSERT(GMP_NUMB_BITS >= 6);
+
+  k = (n + 2) / 3; /* ceil(n/3) */
   ASSERT(GMP_NUMB_BITS >= 6);
   ASSERT(n >= 17); /* so that r <> 0 and 5k+3 <= 2n */
 
-  /*
-  The algorithm is the following:
-
-  0. k = ceil(n/3), r = n - 2k, B = 2^(GMP_NUMB_BITS), t = B^k
-  1. split a and b in three parts each a0, a1, a2 and b0, b1, b2
-     with a0, a1, b0, b1 of k limbs, and a2, b2 of r limbs
-  2. v0   <- a0*b0
-     v1   <- (a0+a1+a2)*(b0+b1+b2)
-     v2   <- (a0+2*a1+4*a2)*(b0+2*b1+4*b2)
-     vm1  <- (a0-a1+a2)*(b0-b1+b2)
-     vinf <- a2*b2
-     t1   <- (3*v0+2*vm1+v2)/6-2*vinf
-     t2   <- (v1+vm1)/2
-  3. result is c0+c1*t+c2*t^2+c3*t^3+c4*t^4 where
-     c0   <- v0
-     c1   <- v1 - t1
-     c2   <- t2 - v0 - vinf
-     c3   <- t1 - t2
-     c4   <- vinf
-  */
-
-  k = (n + 2) / 3; /* ceil(n/3) */
   twok = 2 * k;
   k1 = k + 1;
   kk1 = k + k1;
   r = n - twok;   /* last chunk */
-  twor = 2 * r;
+  rr2 = 2*r;
 
   c1 = c + k;
   c2 = c1 + k;
   c3 = c2 + k;
   c4 = c3 + k;
   c5 = c4 + k;
+  
+  t1 = t + k;
+  t2 = t1 + k;
+  t3 = t2 + k;
+  t4 = t3 + k;
 
-  trec = t + 4 * k + 3; /* trec = v2 + (2k+2) */
+  trec = t + 4 * k + 3; 
 
-  /* put a0+a2 in {c, k+1}, and b0+b2 in {c+k+1, k+1};
-     put a0+a1+a2 in {c+2k+2, k+1} and b0+b1+b2 in {c+3k+3,k+1}
-     [requires 4k+4 <= 2n, ie. n >= 8] */
+  /* put a0+a2 in {c, k+1}, and b0+b2 in {c4 + 2, k+1};
+     put a0+a1+a2 in {t2 + 1, k+1} and b0+b1+b2 in {t3 + 2,k+1}
+  */
   cy = mpn_add_n (c, a, a + twok, r);
-  cc = mpn_add_n (c1 + 1, b, b + twok, r);
+  cc = mpn_add_n (c4 + 2, b, b + twok, r);
   if (r < k)
     {
       __GMPN_ADD_1 (cy, c + r, a + r, k - r, cy);
-      __GMPN_ADD_1 (cc, c1 + 1 + r, b + r, k - r, cc);
+	   __GMPN_ADD_1 (cc, c4 + 2 + r, b + r, k - r, cc);
     }
-  c3[2] = (c1[0] = cy) + mpn_add_n (c2 + 2, c, a + k, k);
-  c4[3] = (c2[1] = cc) + mpn_add_n (c3 + 3, c1 + 1, b + k, k);
+  t3[1] = (c1[0] = cy) + mpn_add_n (t2 + 1, c, a + k, k);
+  t4[2] = (c5[2] = cc) + mpn_add_n (t3 + 2, c4 + 2, b + k, k);
 
-#define v2 (t+2*k+1)
-#define vinf (t+4*k+2)
-
-  /* compute v1 := (a0+a1+a2)*(b0+b1+b2) in {t, 2k+1};
+  /* compute v1 := (a0+a1+a2)*(b0+b1+b2) in {c2, 2k+1};
      since v1 < 9*B^(2k), v1 uses only 2k+1 words if GMP_NUMB_BITS >= 4 */
-  TOOM3_MUL_REC (t, c2 + 2, c3 + 3, k1, trec);
+  TOOM3_MUL_REC (c2, t2 + 1, t3 + 2, k1, trec);
 
-  /* {c,2k} {c+2k,2k+1} {c+4k+1,2r-1} {t,2k+1} {t+2k+1,2k+1} {t+4k+2,2r}
+  /* {c,2k} {c+2k,2k+1} {c+4k+1,r+r2-1} 
 					v1
   */
 
-  /* put |a0-a1+a2| in {c, k+1} and |b0-b1+b2| in {c+4k+2,k+1} */
+  /* put |a0-a1+a2| in {c,k+1} and |b0-b1+b2| in {c4 + 2,k+1} */
   /* sa = sign(a0-a1+a2) */
+  /* sb = sign(b0-b1+b2) */
   sa = (c[k] != 0) ? 1 : mpn_cmp (c, a + k, k);
   c[k] = (sa >= 0) ? c[k] - mpn_sub_n (c, c, a + k, k)
 		   : mpn_sub_n (c, a + k, c, k);
-  /* b0+b2 is in {c+k+1, k+1} now */
-  sb = (c2[1] != 0) ? 1 : mpn_cmp (c1 + 1, b + k, k);
-  c5[2] = (sb >= 0) ? c2[1] - mpn_sub_n (c4 + 2, c1 + 1, b + k, k)
-		    : mpn_sub_n (c4 + 2, b + k, c1 + 1, k);
+  /* b0+b2 is in {c4+2, k+1} now */
+  sb = (c5[2] != 0) ? 1 : mpn_cmp (c4 + 2, b + k, k);
+  c5[2] = (sb >= 0) ? c5[2] - mpn_sub_n (c4 + 2, c4 + 2, b + k, k)
+		    : mpn_sub_n (c4 + 2, b + k, c4 + 2, k);
   sa *= sb; /* sign of vm1 */
 
-  /* compute vm1 := (a0-a1+a2)*(b0-b1+b2) in {c+2k, 2k+1};
+  /* compute vm1 := (a0-a1+a2)*(b0-b1+b2) in {t, 2k+1};
      since |vm1| < 4*B^(2k), vm1 uses only 2k+1 limbs */
-  TOOM3_MUL_REC (c2, c, c4 + 2, k1, trec);
+  TOOM3_MUL_REC (t, c, c4 + 2, k1, trec);
 
-  /* {c,2k} {c+2k,2k+1} {c+4k+1,2r-1} {t,2k+1} {t+2k+1,2k+1} {t+4k+2,2r}
-		vm1                      v1
+  /* {c,2k} {c+2k,2k+1} {c+4k+1,r+r2-1} 
+					v1
+
+	  {t, 2k+1} {t+2k+1, 2k + 1}
+	     vm1
   */
 
-  /* compute a0+2a1+4a2 in {c, k+1} and b0+2b1+4b2 in {c+4k+2, k+1}
-     [requires 5k+3 <= 2n, i.e. n >= 17] */
-#ifdef HAVE_NATIVE_mpn_addlsh1_n
+  /* 
+     compute a0+2a1+4a2 in {c, k+1} and b0+2b1+4b2 in {c4 + 2, k+1}
+  */
+#if HAVE_NATIVE_mpn_addlsh1_n
   c1[0] = mpn_addlsh1_n (c, a + k, a + twok, r);
   c5[2] = mpn_addlsh1_n (c4 + 2, b + k, b + twok, r);
   if (r < k)
@@ -758,64 +888,54 @@ mpn_toom3_mul_n (mp_ptr c, mp_srcptr a, mp_srcptr b, mp_size_t n, mp_ptr t)
   c5[2] += mpn_add_n (c4 + 2, c4 + 2, b, k);
 #endif
 
+#define v2 (t+2*k+1)
+
   /* compute v2 := (a0+2a1+4a2)*(b0+2b1+4b2) in {t+2k+1, 2k+1}
      v2 < 49*B^k so v2 uses at most 2k+1 limbs if GMP_NUMB_BITS >= 6 */
   TOOM3_MUL_REC (v2, c, c4 + 2, k1, trec);
 
-  /* {c,2k} {c+2k,2k+1} {c+4k+1,2r-1} {t,2k+1} {t+2k+1,2k+1} {t+4k+2,2r}
-		vm1                      v1         v2
+  /* {c,2k} {c+2k,2k+1} {c+4k+1,r+r2-1} 
+					v1
+
+	  {t, 2k+1} {t+2k+1, 2k + 1}
+	     vm1        v2
   */
 
   /* compute v0 := a0*b0 in {c, 2k} */
   TOOM3_MUL_REC (c, a, b, k, trec);
 
-  /* {c,2k} {c+2k,2k+1} {c+4k+1,2r-1} {t,2k+1} {t+2k+1,2k+1} {t+4k+2,2r}
-       v0       vm1                      v1         v2
+ /* {c,2k} {c+2k,2k+1} {c+4k+1,r+r2-1} 
+		v0 		v1
+
+	  {t, 2k+1} {t+2k+1, 2k + 1}
+	     vm1        v2
   */
 
-  /* now compute (3v0+2vm1+v2)/6 = [v0 + (2vm1+v2)/3]/2
-     v2 <- v2+2vm1 = 3*(a0*b0+2*a0*b2+2*a1*b1+2*a1*b2+2*a2*b0+2*a2*b1+6*a2*b2),
-     thus 0 <= v2 < 51*B^(2k) < 2^6*B^(2k)
-     Uses temporary space {t+4k+2,2k+1}, requires T(n) >= 6k+3.
+#define vinf (c+4*k)
+
+  /* compute vinf := a2*b2 in {c4, r + r2},
   */
-  if (sa >= 0)
-    {
-#ifdef HAVE_NATIVE_mpn_addlsh1_n
-      mpn_addlsh1_n (v2, v2, c2, kk1);
-#else
-      /* we can use vinf=t+4k+2 as workspace since it is not full yet */
-      mpn_lshift1 (vinf, c2, kk1);
-      mpn_add_n (v2, v2, vinf, kk1);
-#endif
-    }
-  else
-    {
-#ifdef HAVE_NATIVE_mpn_sublsh1_n
-      mpn_sublsh1_n (v2, v2, c2, kk1);
-#else
-      /* we can use vinf=t+4k+2 as workspace since it is not full yet */
-      mpn_lshift1 (vinf, c2, kk1);
-      mpn_sub_n (v2, v2, vinf, kk1);
-#endif
-    }
-
-  /* {c,2k} {c+2k,2k+1} {c+4k+1,2r-1} {t,2k+1} {t+2k+1,2k+1} {t+4k+2,2r}
-       v0       vm1                      v1       v2+2vm1             */
-
-  /* compute vinf := a2*b2 in {t+4k+2, 2r}: first put it in {c4, 2r},
-     then copy it in {t+4k+2,2r} */
   saved = c4[0];
+
   TOOM3_MUL_REC (c4, a + twok, b + twok, r, trec);
-  cinf0 = mpn_add_n (vinf, c4, c, twor); /* {v0,2r} + {vinf,2r} */
+  
   vinf0 = c4[0];
   c4[0] = saved;
 
-  toom3_interpolate (c, t, v2, c2, vinf, k, r, sa, vinf0, cinf0, vinf + twor);
+ /* {c,2k} {c+2k,2k+1} {c+4k+1,r+r2-1} 
+		v0 		v1        {-}vinf
+
+	  {t, 2k+1} {t+2k+1, 2k + 1}
+	     vm1        v2
+
+	  vinf0 = {-}
+  */
+
+  toom3_n_interpolate (c, c2, v2, t, vinf, k, rr2, sa, vinf0, t4+2);
 
 #undef v2
 #undef vinf
 }
-#endif
 
 void
 mpn_toom3_sqr_n (mp_ptr c, mp_srcptr a, mp_size_t n, mp_ptr t)
