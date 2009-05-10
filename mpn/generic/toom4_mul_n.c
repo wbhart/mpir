@@ -54,7 +54,7 @@ mpn_toom4_mul_n (mp_ptr rp, mp_srcptr up,
 
 void 
 toom4_interpolate(mp_ptr rp, mp_size_t * rpn, mp_size_t sn,  
-		       mp_ptr tp, mp_size_t s4, mp_size_t n4, mp_size_t n6);
+		       mp_ptr tp, mp_size_t s4, mp_size_t n4, mp_size_t n6, mp_limb_t r30);
 
 void _tc4_add(mp_ptr rp, mp_size_t * rn, mp_srcptr r1, mp_size_t r1n, mp_srcptr r2, mp_size_t r2n)
 {
@@ -885,7 +885,7 @@ void tc4_copy (mp_ptr yp, mp_size_t * yn, mp_size_t offset, mp_srcptr xp, mp_siz
    } while (0)
 #endif
 
-/* Zero out limbs past end of integer */
+/* Zero out limbs to end of integer */
 #define TC4_DENORM(rxx, nxx, sxx) \
 	do { \
 	MPN_ZERO(rxx + ABS(nxx), sxx - ABS(nxx)); \
@@ -917,11 +917,12 @@ void tc4_copy (mp_ptr yp, mp_size_t * yn, mp_size_t offset, mp_srcptr xp, mp_siz
 
 #define r1 (tp)
 #define r2 (tp + t4)
-#define r3 (tp + 2*t4)
-#define r4 (tp + 3*t4)
-#define r5 (tp + 4*t4)
-#define r6 (tp + 5*t4)
-#define r7 (tp + 6*t4)
+#define r4 (tp + 2*t4)
+#define r6 (tp + 3*t4)
+
+#define r3 (rp + 4*sn)
+#define r5 (rp + 2*sn)
+#define r7 (rp)
 
 /* Multiply {up, n} by {vp, n} and write the result to
    {prodp, 2n}.
@@ -935,9 +936,9 @@ mpn_toom4_mul_n (mp_ptr rp, mp_srcptr up,
 		          mp_srcptr vp, mp_size_t n)
 {
   mp_size_t len1, len2;
-  mp_limb_t cy;
+  mp_limb_t cy, r30, r31;
   mp_ptr tp;
-  mp_size_t a0n, a1n, a2n, a3n, b0n, b1n, b2n, b3n, sn, n1, n2, n3, n4, n5, n6, n7, rpn, t4;
+  mp_size_t a0n, a1n, a2n, a3n, b0n, b1n, b2n, b3n, sn, n1, n2, n3, n4, n5, n6, n7, n8, rpn, t4;
 
   len1 = n;
   len2 = n;
@@ -969,13 +970,13 @@ mpn_toom4_mul_n (mp_ptr rp, mp_srcptr up,
 
    t4 = 2*sn+2; // allows mult of 2 integers of sn + 1 limbs
 
-   tp = __GMP_ALLOCATE_FUNC_LIMBS(7*t4 + 5*(sn + 1));
+   tp = __GMP_ALLOCATE_FUNC_LIMBS(4*t4 + 5*(sn + 1));
 
-#define u2 (tp + 7*t4)
-#define u3 (tp + 7*t4 + (sn+1))
-#define u4 (tp + 7*t4 + 2*(sn+1))
-#define u5 (tp + 7*t4 + 3*(sn+1))
-#define u6 (tp + 7*t4 + 4*(sn+1))
+#define u2 (tp + 4*t4)
+#define u3 (tp + 4*t4 + (sn+1))
+#define u4 (tp + 4*t4 + 2*(sn+1))
+#define u5 (tp + 4*t4 + 3*(sn+1))
+#define u6 (tp + 4*t4 + 4*(sn+1))
 
    tc4_add_unsigned(u6, &n6, a3, a3n, a1, a1n); 
    tc4_add_unsigned(u5, &n5, a2, a2n, a0, a0n); 
@@ -988,13 +989,13 @@ mpn_toom4_mul_n (mp_ptr rp, mp_srcptr up,
 	tc4_add_unsigned(u6, &n6, b3, b3n, b1, b1n);
    tc4_add_unsigned(u5, &n5, b2, b2n, b0, b0n);
 #if HAVE_NATIVE_mpn_sumdiff_n
-   tc4_sumdiff_unsigned(r7, &n7, u5, &n5, u5, n5, u6, n6); 
+   tc4_sumdiff_unsigned(r2, &n8, u5, &n5, u5, n5, u6, n6); 
 #else
-   tc4_add_unsigned(r7, &n7, u5, n5, u6, n6); 
+   tc4_add_unsigned(r2, &n8, u5, n5, u6, n6); 
    tc4_sub(u5, &n5, u5, n5, u6, n6);
 #endif
 
-	MUL_TC4_UNSIGNED(r3, n3, u3, n3, r7, n7);
+	MUL_TC4_UNSIGNED(r3, n3, u3, n3, r2, n8);
 	MUL_TC4(r4, n4, u4, n4, u5, n5);
    
 	tc4_lshift(r1, &n1, a0, a0n, 3);
@@ -1003,24 +1004,27 @@ mpn_toom4_mul_n (mp_ptr rp, mp_srcptr up,
 #else
 	tc4_addmul_1(r1, &n1, a2, a2n, 2);
 #endif
- 	tc4_lshift(r7, &n7, a1, a1n, 2);
-   tc4_add(r7, &n7, r7, n7, a3, a3n);
-   tc4_add(u5, &n5, r1, n1, r7, n7);
-   tc4_sub(u6, &n6, r1, n1, r7, n7);
+ 	tc4_lshift(r2, &n8, a1, a1n, 2);
+   tc4_add(r2, &n8, r2, n8, a3, a3n);
+   tc4_add(u5, &n5, r1, n1, r2, n8);
+   tc4_sub(u6, &n6, r1, n1, r2, n8);
    tc4_lshift(r1, &n1, b0, b0n, 3);
 #if HAVE_NATIVE_mpn_addlsh1_n
 	tc4_addlsh1_unsigned(r1, &n1, b2, b2n);
 #else
 	tc4_addmul_1(r1, &n1, b2, b2n, 2);
 #endif
-   tc4_lshift(r7, &n7, b1, b1n, 2);
-   tc4_add(r7, &n7, r7, n7, b3, b3n);
-   tc4_add(u2, &n2, r1, n1, r7, n7);
-   tc4_sub(r7, &n7, r1, n1, r7, n7);
+   tc4_lshift(r2, &n8, b1, b1n, 2);
+   tc4_add(r2, &n8, r2, n8, b3, b3n);
+   tc4_add(u2, &n2, r1, n1, r2, n8);
+   tc4_sub(r2, &n8, r1, n1, r2, n8);
    
+	r30 = r3[0];
+   r31 = r3[1];
 	MUL_TC4_UNSIGNED(r5, n5, u5, n5, u2, n2);
-   MUL_TC4(r6, n6, u6, n6, r7, n7);
-   
+   MUL_TC4(r6, n6, u6, n6, r2, n8);
+   r3[1] = r31;
+
    tc4_lshift(u2, &n2, a3, a3n, 3);
    tc4_addmul_1(u2, &n2, a2, a2n, 4);
 #if HAVE_NATIVE_mpn_addlsh1_n
@@ -1029,52 +1033,71 @@ mpn_toom4_mul_n (mp_ptr rp, mp_srcptr up,
 	tc4_addmul_1(u2, &n2, a1, a1n, 2);
 #endif
 	tc4_add(u2, &n2, u2, n2, a0, a0n);
-   tc4_lshift(r7, &n7, b3, b3n, 3);
-	tc4_addmul_1(r7, &n7, b2, b2n, 4);
+   tc4_lshift(r1, &n1, b3, b3n, 3);
+	tc4_addmul_1(r1, &n1, b2, b2n, 4);
 #if HAVE_NATIVE_mpn_addlsh1_n
-   tc4_addlsh1_unsigned(r7, &n7, b1, b1n);
+   tc4_addlsh1_unsigned(r1, &n1, b1, b1n);
 #else
-   tc4_addmul_1(r7, &n7, b1, b1n, 2);
+   tc4_addmul_1(r1, &n1, b1, b1n, 2);
 #endif
-	tc4_add(r7, &n7, r7, n7, b0, b0n);
+	tc4_add(r1, &n1, r1, n1, b0, b0n);
    
-	MUL_TC4_UNSIGNED(r2, n2, u2, n2, r7, n7);
+	MUL_TC4_UNSIGNED(r2, n2, u2, n2, r1, n1);
    MUL_TC4_UNSIGNED(r1, n1, a3, a3n, b3, b3n);
    MUL_TC4_UNSIGNED(r7, n7, a0, a0n, b0, b0n);
 
-	TC4_DENORM(r1, n1,  t4);
-   TC4_DENORM(r2, n2,  t4);
-   TC4_DENORM(r3, n3,  t4);
-   TC4_DENORM(r4, n4,  t4);
-   TC4_DENORM(r5, n5,  t4);
-   TC4_DENORM(r6, n6,  t4);
-   TC4_DENORM(r7, n7,  t4);
+	TC4_DENORM(r1, n1,  t4 - 1);
+   TC4_DENORM(r2, n2,  t4 - 1);
+   if (n3 == 0) MPN_ZERO(r3 + 1, t4 - 2); /* don't overwrite last limb of r5 */
+	else TC4_DENORM(r3, n3,  t4 - 1);
+	TC4_DENORM(r4, n4,  t4 - 1);
+   TC4_DENORM(r5, n5,  t4 - 1);
+   TC4_DENORM(r6, n6,  t4 - 1);
+   TC4_DENORM(r7, n7,  t4 - 2); // we treat r7 differently (it cannot exceed t4-2 in length)
 
-	toom4_interpolate(rp, &rpn, sn, tp, t4 - 1, n4, n6);
+/*	rp        rp1          rp2           rp3          rp4           rp5         rp6           rp7
+<----------- r7-----------><------------r5-------------->            
+                                                       <-------------r3------------->
+
+              <-------------r6------------->                        < -----------r2------------>{           }
+                                         <-------------r4-------------->         <--------------r1---->
+*/
+
+	toom4_interpolate(rp, &rpn, sn, tp, t4 - 1, n4, n6, r30);
 
 	if (rpn != 2*n) 
 	{
 		MPN_ZERO((rp + rpn), 2*n - rpn);
 	}
 
-   __GMP_FREE_FUNC_LIMBS (tp, 7*t4 + 5*(sn+1));
+   __GMP_FREE_FUNC_LIMBS (tp, 4*t4 + 5*(sn+1));
 }
 
 /*
    Toom 4 interpolation. Interpolates the value at 2^(sn*B) of a 
 	polynomial p(x) with 7 coefficients given the values 
 	p(oo), p(2), p(1), p(-1), 2^6*p(1/2), 2^6*p(-1/2), p(0).
-	The values are assumed to be stored in tp, each separated by 
-	s4 + 1 limbs, each of no more than s4 limbs.
 	The output is placed in rp and the final number of limbs of the
 	output is given in rpn.
 	The 4th and 6th values may be negative, and if so, n4 and n6 
 	should be set to a negative value respectively.
+   To save space we pass r3, r5, r7 in place in the output rp.
+	The other r's are stored separately in space tp.
+	The low limb of r3 is stored in r30, as it will be overwritten
+	by the high limb of r5.
+
+rp          rp1          rp2           rp3          rp4           rp5         rp6           rp7
+<----------- r7-----------><------------r5-------------->            
+                                                      <-------------r3------------->
+
+   We assume that r1 is stored at tp, r2 at (tp + t4), r4 at (tp + 2*t4) 
+	and r6 (tp + 3*t4). Each of these r's has t4 = s4 + 1 limbs allocated.
 */
 void toom4_interpolate(mp_ptr rp, mp_size_t * rpn, mp_size_t sn,  
-		       mp_ptr tp, mp_size_t s4, mp_size_t n4, mp_size_t n6)
+		       mp_ptr tp, mp_size_t s4, mp_size_t n4, mp_size_t n6, mp_limb_t r30)
 {
 	mp_size_t n1, n2, n3, n5, n7, t4;
+	mp_limb_t saved, saved2, cy;
 
    t4 = s4 + 1; 
    
@@ -1086,36 +1109,54 @@ void toom4_interpolate(mp_ptr rp, mp_size_t * rpn, mp_size_t sn,
       mpn_sub_n(r6, r5, r6, s4);
 	/* r6 is now in twos complement format */
 
+	saved = r3[0];
+	r3[0] = r30;
 	if (n4 < 0) 
 		mpn_add_n(r4, r3, r4, s4);
 	else
       mpn_sub_n(r4, r3, r4, s4);
+	r3[0] = saved;
 	/* r4 is now in twos complement format */
 	
 	mpn_sub_n(r5, r5, r1, s4);
 
-	mpn_submul_1(r5, r7, s4, 64);
-
+	r5[s4-1] -= mpn_submul_1(r5, r7, s4-1, 64);
+   
    TC4_RSHIFT1(r4, s4); 
 	
+	saved = r3[0];
+	r3[0] = r30;
 	mpn_sub_n(r3, r3, r4, s4);
+	r30 = r3[0];
+	r3[0] = saved;
 
 	mpn_lshift1(r5, r5, s4); 
 
 	mpn_sub_n(r5, r5, r6, s4);
 
-   mpn_submul_1(r2, r3, s4, 65);
-
+   saved = r3[0];
+	r3[0] = r30;
+	mpn_submul_1(r2, r3, s4, 65);
+   r3[0] = saved;
+	
+	saved2 = r7[s4-1];
+	r7[s4-1] = 0;
+	saved = r3[0];
+	r3[0] = r30;
 #if HAVE_NATIVE_mpn_subadd_n
 	mpn_subadd_n(r3, r3, r7, r1, s4);
 #else
 	mpn_sub_n(r3, r3, r7, s4);
 	mpn_sub_n(r3, r3, r1, s4);
 #endif
-
+	r7[s4-1] = saved2;
+   r30 = r3[0];
+	
    mpn_addmul_1(r2, r3, s4, 45);
 
-   mpn_submul_1(r5, r3, s4, 8);
+   cy = mpn_submul_1(r5, r3, s4 - 1, 8);
+   r3[0] = saved;
+	r3[0] -= (cy + 8*r3[s4-1]);
    
 	TC4_DIVEXACT_2EXP(r5, s4, 3); 
 
@@ -1131,8 +1172,13 @@ void toom4_interpolate(mp_ptr rp, mp_size_t * rpn, mp_size_t sn,
 
    mpn_divexact_by3(r2, r2, s4); 
    
-   mpn_sub_n(r3, r3, r5, s4);
-
+   saved = r3[0];
+	r3[0] = r30;
+   cy = mpn_sub_n(r3, r3, r5, s4 - 1);
+   r30 = r3[0];
+	r3[0] = saved;
+	r3[s4-1] -= (cy + r5[s4-1]);
+   
 	mpn_sub_n(r4, r4, r2, s4);
 	
 	mpn_addmul_1(r6, r2, s4, 30);
@@ -1145,20 +1191,20 @@ void toom4_interpolate(mp_ptr rp, mp_size_t * rpn, mp_size_t sn,
 
 	TC4_NORM(r1, n1, s4);
    TC4_NORM(r2, n2, s4);
-   TC4_NORM(r3, n3, s4);
-   TC4_NORM(r4, n4, s4);
-   TC4_NORM(r5, n5, s4);
-   TC4_NORM(r6, n6, s4);
-   TC4_NORM(r7, n7, s4);
    
-   *rpn = 0;
-	tc4_copy(rp, rpn, 0, r7, n7);
-   tc4_copy(rp, rpn, sn, r6, n6);
-   tc4_copy(rp, rpn, 2*sn, r5, n5);
-   tc4_copy(rp, rpn, 3*sn, r4, n4);
-   tc4_copy(rp, rpn, 4*sn, r3, n3);
-   tc4_copy(rp, rpn, 5*sn, r2, n2);
+   (*rpn) = 6*sn+1;
+	tc4_copy(rp, rpn, 5*sn, r2, n2);
    tc4_copy(rp, rpn, 6*sn, r1, n1);
+
+   cy = mpn_add_1(r3, r3, *rpn - 4*sn, r30); /* don't forget to add r3[0] back in */
+   if (cy) 
+	{
+		rp[*rpn] = cy;
+	   (*rpn)++;
+	}
+
+	tc4_copy(rp, rpn, sn, r6, s4);
+   tc4_copy(rp, rpn, 3*sn, r4, s4); 
 }
 
 #if TC4_TEST
