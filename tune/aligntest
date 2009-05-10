@@ -1,0 +1,24 @@
+#!/bin/bash
+if [ $# -ne 3 ] ; then
+	echo "$0 mpn_fn max_time size"
+	exit 1
+fi
+for x in 0 1 2 3 4 5 6 7
+do
+for y in 0 1 2 3 4 5 6 7
+do
+for w in 0 1 2 3 4 5 6 7
+do
+for W in 0 1 2 3 4 5 6 7
+do
+while true
+do
+c=$(./speed -x $x -y $y -w $w -W $W -c -s $3 $1 | tail -n 1 | tr -s " " | cut -d " " -f 2 | cut -d . -f 1)
+if [ $c -lt $2 ] ; then break ; fi
+echo "$x $y $w $W $c"
+done
+
+done
+done
+done
+done
