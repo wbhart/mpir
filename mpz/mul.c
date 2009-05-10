@@ -21,7 +21,7 @@ the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 MA 02110-1301, USA. */
 
 #include <stdio.h> /* for NULL */
-#include "gmp.h"
+#include "mpir.h"
 #include "gmp-impl.h"
 #ifdef BERKELEY_MP
 #include "mp.h"
@@ -145,3 +145,4 @@ mult (mpz_srcptr u, mpz_srcptr v, mpz_ptr w)
     (*__gmp_free_func) (free_me, free_me_size * BYTES_PER_MP_LIMB);
   TMP_FREE;
 }
+
