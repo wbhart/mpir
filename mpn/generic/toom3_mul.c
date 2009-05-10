@@ -66,8 +66,8 @@ MA 02110-1301, USA. */
      c3   <- t1 - t2
      c4   <- vinf
 */ 
-static void
-toom3_interpolate (mp_ptr c, mp_ptr v1, mp_ptr v2, mp_ptr vm1,
+void
+mpn_toom3_interpolate (mp_ptr c, mp_ptr v1, mp_ptr v2, mp_ptr vm1,
 		                 mp_ptr vinf, mp_size_t k, mp_size_t rr2, int sa,
 		                                       mp_limb_t vinf0, mp_ptr ws)
 {
@@ -401,7 +401,7 @@ mpn_toom3_mul (mp_ptr c, mp_srcptr a, mp_size_t an, mp_srcptr b, mp_size_t bn, m
 	  vinf0 = {-}
   */
 
-  toom3_interpolate (c, c2, v2, t, vinf, k, rr2, sa, vinf0, t4+2);
+  mpn_toom3_interpolate (c, c2, v2, t, vinf, k, rr2, sa, vinf0, t4+2);
 
 #undef v2
 #undef vinf

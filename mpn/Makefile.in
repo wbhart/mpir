@@ -293,12 +293,13 @@ nodist_EXTRA_libmpn_la_SOURCES = \
   gcd_finda.c gcd_1.c gcdext.c get_d.c get_str.c			    \
   hamdist.c invert_limb.c lshift1.c rshift1.c				    \
   ior_n.c iorn_n.c jacbase.c lshift.c mod_1.c mod_34lsub1.c mode1o.c	    \
-  mul.c mul_1.c mul_2.c mul_fft.c mul_n.c mul_basecase.c toom3_mul.c toom4_mul_n.c toom7_mul_n.c    \
+  mul.c mul_1.c mul_2.c mul_fft.c mul_n.c mul_basecase.c toom3_mul.c        \
+  toom3_mul_n.c toom4_mul_n.c toom7_mul_n.c                                 \
   mullow_n.c mullow_basecase.c nand_n.c nior_n.c perfsqr.c popcount.c	    \
   pre_divrem_1.c pre_mod_1.c pow_1.c random.c random2.c rshift.c	    \
   rootrem.c redc_basecase.c sb_divrem_mn.c scan0.c scan1.c set_str.c	    \
   sqr_basecase.c sqr_diagonal.c						    \
-  sqrtrem.c sub.c sub_1.c sub_n.c subadd_n.c submul_1.c				    \
+  sqrtrem.c sub.c sub_1.c sub_n.c subadd_n.c submul_1.c			    \
   tdiv_qr.c udiv_qrnnd.c udiv_w_sdiv.c xor_n.c xnor_n.c
 
 noinst_LTLIBRARIES = libmpn.la
@@ -593,6 +594,8 @@ tdiv_qr_.c: tdiv_qr.c $(ANSI2KNR)
 	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/tdiv_qr.c; then echo $(srcdir)/tdiv_qr.c; else echo tdiv_qr.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
 toom3_mul_.c: toom3_mul.c $(ANSI2KNR)
 	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/toom3_mul.c; then echo $(srcdir)/toom3_mul.c; else echo toom3_mul.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
+toom3_mul_n_.c: toom3_mul_n.c $(ANSI2KNR)
+	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/toom3_mul_n.c; then echo $(srcdir)/toom3_mul_n.c; else echo toom3_mul_n.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
 toom4_mul_n_.c: toom4_mul_n.c $(ANSI2KNR)
 	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/toom4_mul_n.c; then echo $(srcdir)/toom4_mul_n.c; else echo toom4_mul_n.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
 toom7_mul_n_.c: toom7_mul_n.c $(ANSI2KNR)
@@ -653,10 +656,11 @@ sqr_diagonal_.lo sqrtrem_.$(OBJEXT) sqrtrem_.lo sub_.$(OBJEXT) sub_.lo \
 sub_1_.$(OBJEXT) sub_1_.lo sub_n_.$(OBJEXT) sub_n_.lo \
 subadd_n_.$(OBJEXT) subadd_n_.lo submul_1_.$(OBJEXT) submul_1_.lo \
 tdiv_qr_.$(OBJEXT) tdiv_qr_.lo toom3_mul_.$(OBJEXT) toom3_mul_.lo \
-toom4_mul_n_.$(OBJEXT) toom4_mul_n_.lo toom7_mul_n_.$(OBJEXT) \
-toom7_mul_n_.lo udiv_qrnnd_.$(OBJEXT) udiv_qrnnd_.lo \
-udiv_w_sdiv_.$(OBJEXT) udiv_w_sdiv_.lo xnor_n_.$(OBJEXT) xnor_n_.lo \
-xor_n_.$(OBJEXT) xor_n_.lo : $(ANSI2KNR)
+toom3_mul_n_.$(OBJEXT) toom3_mul_n_.lo toom4_mul_n_.$(OBJEXT) \
+toom4_mul_n_.lo toom7_mul_n_.$(OBJEXT) toom7_mul_n_.lo \
+udiv_qrnnd_.$(OBJEXT) udiv_qrnnd_.lo udiv_w_sdiv_.$(OBJEXT) \
+udiv_w_sdiv_.lo xnor_n_.$(OBJEXT) xnor_n_.lo xor_n_.$(OBJEXT) \
+xor_n_.lo : $(ANSI2KNR)
 
 mostlyclean-libtool:
 	-rm -f *.lo
