@@ -1060,7 +1060,14 @@ void mpn_kara_sqr_n _PROTO ((mp_ptr, mp_srcptr, mp_size_t, mp_ptr));
 void mpn_toom3_mul_n _PROTO ((mp_ptr, mp_srcptr, mp_srcptr, mp_size_t,mp_ptr));
 
 #define mpn_toom3_mul  __MPN(toom3_mul)
-void mpn_toom3_mul _PROTO ((mp_ptr, mp_srcptr, mp_size_t, mp_srcptr, mp_size_t,mp_ptr));
+void mpn_toom3_mul _PROTO ((mp_ptr, mp_srcptr, mp_size_t, mp_srcptr, 
+                                                           mp_size_t,mp_ptr));
+
+#define mpn_toom3_interpolate __MPN(toom3_interpolate)
+void
+mpn_toom3_interpolate _PROTO ((mp_ptr c, mp_ptr v1, mp_ptr v2, mp_ptr vm1,
+		             mp_ptr vinf, mp_size_t k, mp_size_t rr2, int sa,
+		                                  mp_limb_t vinf0, mp_ptr ws));
 
 #define mpn_toom42_mul  __MPN(toom42_mul)
 void mpn_toom42_mul _PROTO ((mp_ptr, mp_srcptr, mp_size_t, mp_srcptr, mp_size_t,mp_ptr));

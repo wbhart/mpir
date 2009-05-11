@@ -59,11 +59,19 @@ mpn_mul (mp_ptr prodp,
   ASSERT (! MPN_OVERLAP_P (prodp, un+vn, up, un));
   ASSERT (! MPN_OVERLAP_P (prodp, un+vn, vp, vn));
 
-  if (up == vp && un == vn)
+  if (un == vn)
+   {
+    if (up == vp)
     {
       mpn_sqr_n (prodp, up, un);
       return prodp[2 * un - 1];
     }
+    else
+    {
+      mpn_mul_n (prodp, up, vp, un);
+      return prodp[2 * un - 1];
+    }
+   }
 
   if (vn < MUL_KARATSUBA_THRESHOLD)
     { /* plain schoolbook multiplication */
@@ -135,7 +143,7 @@ mpn_mul (mp_ptr prodp,
       return prodp[un + vn - 1];
     }
 
-  /*k = (un + 3)/4; // ceil(un/3)
+  k = (un + 3)/4; // ceil(un/3)
   
   if ((un + vn >= 2*MUL_TOOM3_THRESHOLD) && (vn > k)) 
   {
@@ -161,7 +169,7 @@ mpn_mul (mp_ptr prodp,
         TMP_FREE;
         return prodp[un + vn - 1];
 	  }
-  }*/
+  }
 
   mpn_mul_n (prodp, up, vp, vn);
 
