@@ -135,7 +135,7 @@ mpn_mul (mp_ptr prodp,
       return prodp[un + vn - 1];
     }
 
-  k = (un + 3)/4; // ceil(un/3)
+  /*k = (un + 3)/4; // ceil(un/3)
   
   if ((un + vn >= 2*MUL_TOOM3_THRESHOLD) && (vn > k)) 
   {
@@ -161,7 +161,7 @@ mpn_mul (mp_ptr prodp,
         TMP_FREE;
         return prodp[un + vn - 1];
 	  }
-  }
+  }*/
 
   mpn_mul_n (prodp, up, vp, vn);
 
