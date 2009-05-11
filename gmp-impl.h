@@ -1017,17 +1017,21 @@ __GMP_DECLSPEC extern gmp_randstate_t  __gmp_rands;
 #if WANT_FFT
 #if HAVE_NATIVE_mpn_sublsh1_n
 #define MPN_TOOM3_MUL_N_TSIZE(n)  (2*(n) + 63)
+#define MPN_TOOM3_MUL_TSIZE(n)    (3*(n) + 63)
 #define MPN_TOOM3_SQR_N_TSIZE(n)  (2*(n) + 63)
 #else
 #define MPN_TOOM3_MUL_N_TSIZE(n)  (2*(n) + 2*(n/3) + 63)
+#define MPN_TOOM3_MUL_TSIZE(n)    (3*(n) + 3*(n/3) + 63)
 #define MPN_TOOM3_SQR_N_TSIZE(n)  (2*(n) + 2*(n/3) + 63)
 #endif
 #else /* WANT_FFT */
 #if HAVE_NATIVE_mpn_sublsh1_n
 #define MPN_TOOM3_MUL_N_TSIZE(n)  (2*(n) + 255)
+#define MPN_TOOM3_MUL_TSIZE(n)    (3*(n) + 255)
 #define MPN_TOOM3_SQR_N_TSIZE(n)  (2*(n) + 255)
 #else
 #define MPN_TOOM3_MUL_N_TSIZE(n)  (2*(n) + 2*(n/3) + 255)
+#define MPN_TOOM3_MUL_TSIZE(n)    (3*(n) + 3*(n/3) + 255)
 #define MPN_TOOM3_SQR_N_TSIZE(n)  (2*(n) + 2*(n/3) + 255)
 #endif
 #define MPN_TOOM3_MAX_N 285405
@@ -1054,6 +1058,13 @@ void mpn_kara_sqr_n _PROTO ((mp_ptr, mp_srcptr, mp_size_t, mp_ptr));
 
 #define mpn_toom3_mul_n  __MPN(toom3_mul_n)
 void mpn_toom3_mul_n _PROTO ((mp_ptr, mp_srcptr, mp_srcptr, mp_size_t,mp_ptr));
+
+#define mpn_toom3_mul  __MPN(toom3_mul)
+void mpn_toom3_mul _PROTO ((mp_ptr, mp_srcptr, mp_size_t, mp_srcptr, mp_size_t,mp_ptr));
+
+#define mpn_toom42_mul  __MPN(toom42_mul)
+void mpn_toom42_mul _PROTO ((mp_ptr, mp_srcptr, mp_size_t, mp_srcptr, mp_size_t,mp_ptr));
+
 
 #define mpn_toom4_mul_n  __MPN(toom4_mul_n)
 void mpn_toom4_mul_n _PROTO ((mp_ptr, mp_srcptr, mp_srcptr, mp_size_t));
