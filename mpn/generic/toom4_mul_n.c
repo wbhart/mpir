@@ -1020,6 +1020,7 @@ mpn_toom4_mul_n (mp_ptr rp, mp_srcptr up,
    tc4_sub(r2, &n8, r1, n1, r2, n8);
    
 	r30 = r3[0];
+	if (!n3) r30 = CNST_LIMB(0);
    r31 = r3[1];
 	MUL_TC4_UNSIGNED(r5, n5, u5, n5, u2, n2);
    MUL_TC4(r6, n6, u6, n6, r2, n8);
@@ -1140,7 +1141,7 @@ void toom4_interpolate(mp_ptr rp, mp_size_t * rpn, mp_size_t sn,
    r3[0] = saved;
 	
 	saved2 = r7[s4-1];
-	r7[s4-1] = 0;
+	r7[s4-1] = CNST_LIMB(0); // r7 is always positive so no sign extend needed
 	saved = r3[0];
 	r3[0] = r30;
 #if HAVE_NATIVE_mpn_subadd_n
@@ -1193,15 +1194,15 @@ void toom4_interpolate(mp_ptr rp, mp_size_t * rpn, mp_size_t sn,
    TC4_NORM(r2, n2, s4);
    
    (*rpn) = 6*sn+1;
-	tc4_copy(rp, rpn, 5*sn, r2, n2);
-   tc4_copy(rp, rpn, 6*sn, r1, n1);
-
-   cy = mpn_add_1(r3, r3, *rpn - 4*sn, r30); /* don't forget to add r3[0] back in */
+	cy = mpn_add_1(r3, r3, *rpn - 4*sn, r30); /* don't forget to add r3[0] back in */
    if (cy) 
 	{
 		rp[*rpn] = cy;
 	   (*rpn)++;
 	}
+
+	tc4_copy(rp, rpn, 5*sn, r2, n2);
+   tc4_copy(rp, rpn, 6*sn, r1, n1);
 
 	tc4_copy(rp, rpn, sn, r6, s4);
    tc4_copy(rp, rpn, 3*sn, r4, s4); 
