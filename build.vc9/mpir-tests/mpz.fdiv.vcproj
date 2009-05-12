@@ -24,7 +24,7 @@
 			OutputDirectory="$(PlatformName)\$(ConfigurationName)"
 			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
 			ConfigurationType="1"
-			InheritedPropertySheets="test-config.vsprops"
+			InheritedPropertySheets=".\test-config.vsprops"
 			CharacterSet="0"
 			WholeProgramOptimization="0"
 			>
@@ -95,7 +95,7 @@
 			OutputDirectory="$(PlatformName)\$(ConfigurationName)"
 			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
 			ConfigurationType="1"
-			InheritedPropertySheets="test-config.vsprops"
+			InheritedPropertySheets=".\test-config.vsprops"
 			CharacterSet="0"
 			WholeProgramOptimization="0"
 			>
@@ -121,6 +121,7 @@
 				PreprocessorDefinitions="_DEBUG;_CONSOLE"
 				RuntimeLibrary="1"
 				UsePrecompiledHeader="0"
+				DebugInformationFormat="0"
 				CompileAs="0"
 			/>
 			<Tool
@@ -135,6 +136,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				OutputFile="$(TestDir)$(OutDir)\$(ProjectName).exe"
+				GenerateDebugInformation="false"
 				SubSystem="1"
 				RandomizedBaseAddress="1"
 				DataExecutionPrevention="0"
@@ -167,7 +169,7 @@
 			OutputDirectory="$(PlatformName)\$(ConfigurationName)"
 			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
 			ConfigurationType="1"
-			InheritedPropertySheets="test-config.vsprops"
+			InheritedPropertySheets=".\test-config.vsprops"
 			CharacterSet="0"
 			WholeProgramOptimization="0"
 			>
@@ -240,7 +242,7 @@
 			OutputDirectory="$(PlatformName)\$(ConfigurationName)"
 			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
 			ConfigurationType="1"
-			InheritedPropertySheets="test-config.vsprops"
+			InheritedPropertySheets=".\test-config.vsprops"
 			CharacterSet="0"
 			WholeProgramOptimization="0"
 			>

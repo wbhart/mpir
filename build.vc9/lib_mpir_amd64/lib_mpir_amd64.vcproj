@@ -2423,6 +2423,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -2431,6 +2432,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 				</File>
@@ -2540,17 +2542,42 @@
 					RelativePath="..\..\mpn\generic\divrem_euclidean_qr_1.c"
 					>
 					<FileConfiguration
+						Name="Debug|x64"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
 						Name="Release|x64"
 						ExcludedFromBuild="true"
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 				</File>
 				<File
 					RelativePath="..\..\mpn\generic\divrem_euclidean_r_1.c"
 					>
+					<FileConfiguration
+						Name="Debug|x64"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|x64"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
+						/>
+					</FileConfiguration>
 				</File>
 				<File
 					RelativePath="..\..\mpn\generic\dump.c"
@@ -3595,12 +3622,84 @@
 					</FileConfiguration>
 				</File>
 				<File
+					RelativePath="..\..\mpn\generic\toom3_mul.c"
+					>
+					<FileConfiguration
+						Name="Debug|x64"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|x64"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\mpn\generic\toom3_mul_n.c"
+					>
+					<FileConfiguration
+						Name="Debug|x64"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|x64"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
 					RelativePath="..\..\mpn\generic\toom4_mul_n.c"
 					>
+					<FileConfiguration
+						Name="Debug|x64"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|x64"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
+						/>
+					</FileConfiguration>
 				</File>
 				<File
 					RelativePath="..\..\mpn\generic\toom7_mul_n.c"
 					>
+					<FileConfiguration
+						Name="Debug|x64"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|x64"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
+						/>
+					</FileConfiguration>
 				</File>
 				<Filter
 					Name="x64"
@@ -3686,6 +3785,30 @@
 						</FileConfiguration>
 					</File>
 					<File
+						RelativePath="..\..\mpn\x86_64w\amd64\copyd.asm"
+						>
+						<FileConfiguration
+							Name="Release|x64"
+							ExcludedFromBuild="true"
+							>
+							<Tool
+								Name="YASM"
+							/>
+						</FileConfiguration>
+					</File>
+					<File
+						RelativePath="..\..\mpn\x86_64w\amd64\copyi.asm"
+						>
+						<FileConfiguration
+							Name="Release|x64"
+							ExcludedFromBuild="true"
+							>
+							<Tool
+								Name="YASM"
+							/>
+						</FileConfiguration>
+					</File>
+					<File
 						RelativePath="..\..\mpn\x86_64w\dive_1.asm"
 						>
 					</File>
@@ -3747,6 +3870,14 @@
 					</File>
 					<File
 						RelativePath="..\..\mpn\x86_64w\amd64\redc_basecase.asm"
+						>
+					</File>
+					<File
+						RelativePath="..\..\mpn\x86_64w\amd64\rsh1add_n.asm"
+						>
+					</File>
+					<File
+						RelativePath="..\..\mpn\x86_64w\amd64\rsh1sub_n.asm"
 						>
 					</File>
 					<File

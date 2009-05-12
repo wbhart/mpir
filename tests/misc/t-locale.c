@@ -48,6 +48,9 @@ char *decimal_point;
 
 /* Replace the libc localeconv with one we can manipulate. */
 #if HAVE_LOCALECONV
+#ifdef _MSC_VER
+static 
+#endif
 struct lconv *
 localeconv (void)
 {

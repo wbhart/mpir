@@ -1,15 +1,13 @@
 
-;  AMD64 mpn_divexact_byff
-;
-;  Copyright 2008 Jason Moxham
-;
-;  Windows Conversion Copyright 2008 Brian Gladman
-;
+;  mpn_divexact_byff
+
+;  Copyright 2009 Jason Moxham
+
 ;  This file is part of the MPIR Library.
 ;  The MPIR Library is free software; you can redistribute it and/or modify
 ;  it under the terms of the GNU Lesser General Public License as published
-;  by the Free Software Foundation; either version 2.1 of the License, or (at
-;  your option) any later version.
+;  by the Free Software Foundation; either verdxon 2.1 of the License, or (at
+;  your option) any later verdxon.
 ;  The MPIR Library is distributed in the hope that it will be useful, but
 ;  WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
 ;  or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public
@@ -19,15 +17,7 @@
 ;  to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 ;  Boston, MA 02110-1301, USA.
 ;
-;  Calling interface:
-;
-; mp_limb_t mpn_divexact_byff(
-;     mp_ptr dst,       rcx
-;     mp_srcptr src,    rdx
-;     mp_size_t size,    r8
-; )
-;
-;  This is an SEH leaf function (no unwind support needed)
+;	ret mpn_divexact_byff(mp_ptr,mp_ptr,mp_size_t)
 
 %include "..\yasm_mac.inc"
 
@@ -35,56 +25,49 @@
     BITS 64
 
     LEAF_PROC mpn_divexact_byff
-    movsxd  r8, r8d
-
-    xor     eax, eax
-    mov     r9, r8
-    and     r9, 3
-    shr     r8, 2
-    cmp     r8, 0
-    jnz     .2      ; carry flag is clear here
-    sbb     rax, [rdx]
-    mov     [rcx], rax
-    dec     r9
-    jz      .1
-    sbb     rax, [rdx+8]
-    mov     [rcx+8], rax
-    dec     r9
-    jz      .1
-    sbb     rax, [rdx+16]
-    mov     [rcx+16], rax
-    dec     r9
-.1: sbb     rax, 0
-    ret
-
-    xalign  16
-.2: sbb     rax, [rdx]
-    mov     [rcx], rax
-    sbb     rax, [rdx+8]
-    mov     [rcx+8], rax
-    sbb     rax, [rdx+16]
-    mov     [rcx+16], rax
-    sbb     rax, [rdx+24]
-    mov     [rcx+24], rax
-    lea     rdx, [rdx+32]
-    dec     r8
-    lea     rcx, [rcx+32]
-    jnz     .2
-    inc     r9
-    dec     r9
-    jz      .3
-    sbb     rax, [rdx]
-    mov     [rcx], rax
-    dec     r9
-    jz      .3
-    sbb     rax, [rdx+8]
-    mov     [rcx+8], rax
-    dec     r9
-    jz      .3
-    sbb     rax, [rdx+16]
-    mov     [rcx+16], rax
-    dec     r9
-.3: sbb     rax, 0
-    ret
-
-    end
+	movsxd  r8, r8d
+	mov     rax, 3
+	and     rax, r8
+	mov     [rsp+0x18], rax
+	xor     eax, eax
+	shr     r8, 2
+	cmp     r8, 0
+	je      L_skiplp
+; want carry clear here
+	xalign  16
+L_lp:
+	sbb     rax, [rdx]
+	lea     rcx, [rcx+32]
+	mov     r9, rax
+	sbb     rax, [rdx+8]
+	mov     r10, rax
+	sbb     rax, [rdx+16]
+	mov     r11, rax
+	sbb     rax, [rdx+24]
+	dec     r8
+	mov     [rcx-32], r9
+	mov     [rcx-24], r10
+	mov     [rcx-16], r11
+	mov     [rcx-8], rax
+	lea     rdx, [rdx+32]
+	jnz     L_lp
+L_skiplp:
+    mov     r8, [rsp+0x18]
+; dont want to change the carry
+	inc     r8
+	dec     r8
+	jz      L_end
+	sbb     rax, [rdx]
+	mov     [rcx], rax
+	dec     r8
+	jz      L_end
+	sbb     rax, [rdx+8]
+	mov     [rcx+8], rax
+	dec     r8
+	jz      L_end
+	sbb     rax, [rdx+16]
+	mov     [rcx+16], rax
+L_end:
+	sbb     rax, 0
+	ret
+	end

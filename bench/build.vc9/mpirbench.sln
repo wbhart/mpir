@@ -11,6 +11,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gexpr", "gexpr\gexpr.vcproj
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpirver", "mpirver\mpirver.vcproj", "{02454367-2C23-4CFB-A7FC-5EB4616A8311}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "new_bench", "new_bench\new_bench.vcproj", "{775FE3D2-EBC0-4AE1-BF8F-E1DB1FC09380}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -59,6 +61,13 @@ Global
 		{02454367-2C23-4CFB-A7FC-5EB4616A8311}.Release|Win32.Build.0 = Release|Win32
 		{02454367-2C23-4CFB-A7FC-5EB4616A8311}.Release|x64.ActiveCfg = Release|x64
 		{02454367-2C23-4CFB-A7FC-5EB4616A8311}.Release|x64.Build.0 = Release|x64
+		{775FE3D2-EBC0-4AE1-BF8F-E1DB1FC09380}.Debug|Win32.ActiveCfg = Debug|Win32
+		{775FE3D2-EBC0-4AE1-BF8F-E1DB1FC09380}.Debug|Win32.Build.0 = Debug|Win32
+		{775FE3D2-EBC0-4AE1-BF8F-E1DB1FC09380}.Debug|x64.ActiveCfg = Debug|Win32
+		{775FE3D2-EBC0-4AE1-BF8F-E1DB1FC09380}.Release|Win32.ActiveCfg = Release|Win32
+		{775FE3D2-EBC0-4AE1-BF8F-E1DB1FC09380}.Release|Win32.Build.0 = Release|Win32
+		{775FE3D2-EBC0-4AE1-BF8F-E1DB1FC09380}.Release|x64.ActiveCfg = Release|x64
+		{775FE3D2-EBC0-4AE1-BF8F-E1DB1FC09380}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

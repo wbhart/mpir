@@ -1,9 +1,8 @@
 
 ;  AMD64 mpn_subadd_n
-;  Version 1.0.4
-;
-;  Copyright 2008 Jason Moxham
-;
+
+;  Copyright 2009 Jason Moxham
+
 ;  Windows Conversion Copyright 2008 Brian Gladman
 ;
 ;  This file is part of the MPIR Library.
@@ -20,21 +19,7 @@
 ;  to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 ;  Boston, MA 02110-1301, USA.
 ;
-;  Calling interface (GCC):
-;
-;     rcx[rbx] = rdx[rbx] - r8[rbx] + r9[rbx]
-;
-;  return carry
-;
-;  mp_limb_t __gmpn_subadd_n(
-;     mp_ptr dp,            rcx
-;     mp_srcptr sp1,        rdx
-;     mp_srcptr sp2,         r8
-;     mp_srcptr sp3,         r9
-;     mp_size_t len  [rsp+0x28] -> rbx
-; )
-;
-; This is an SEH frame function
+;	(rdi,rbx)=(rsi,rbx)-(rdx,rbx)-(rcx,rbx) return borrow+borrow
 
 %include "..\yasm_mac.inc"
 
@@ -45,55 +30,118 @@
 
     FRAME_PROC mpn_subadd_n, 0, reg_save_list
     movsxd  rbx, dword [rsp+stack_use+40]
-
-	lea     rdx, [rdx+rbx*8]
-	lea     r8, [r8+rbx*8]
-	lea     rcx, [rcx+rbx*8]
-	lea     r9, [r9+rbx*8]
-	neg     rbx
+	lea     rdi, [rcx+rbx*8-56]
+	lea     rsi, [rdx+rbx*8-56]
+	lea     rdx, [r8+rbx*8-56]
+	lea     rcx, [r9+rbx*8-56]
+	mov     r9, 3
 	xor     rax, rax
-	xor     r11, r11
-	test    rbx, 3
-	jz      .2
-.1: mov     rsi, [rdx+rbx*8]
-	add     rax, 1
-	sbb     rsi, [r9+rbx*8]
-	sbb     rax, rax
-	add     r11, 1
-	sbb     rsi, [r8+rbx*8]
-	sbb     r11, r11
-	mov     [rcx+rbx*8], rsi
-	inc     rbx
-	test    rbx, 3
-	jnz     .1
-.2: cmp     rbx, 0
-	jz      .4
-
+	xor     r10, r10
+	sub     r9, rbx
+	jge     L_skip
+	add     r9, 4
+	mov     rbp, [rsi+r9*8+16]
+	mov     r11, [rsi+r9*8+24]
+	mov     r8, [rsi+r9*8]
+	mov     rbx, [rsi+r9*8+8]
+	jc      L_skiplp
 	xalign  16
-.3: add     rax, 1
-	mov     rsi,  [rdx+rbx*8]
-	mov     rdi, [rdx+rbx*8+8]
-	mov     rbp, [rdx+rbx*8+16]
-	mov     r10, [rdx+rbx*8+24]
-	sbb     rsi,  [r9+rbx*8]
-	sbb     rdi, [r9+rbx*8+8]
-	sbb     rbp, [r9+rbx*8+16]
-	sbb     r10, [r9+rbx*8+24]
+L_lp:
+	add     rax, 1
+	sbb     r8, [rcx+r9*8]
+	sbb     rbx, [rcx+r9*8+8]
+	sbb     rbp, [rcx+r9*8+16]
+	sbb     r11, [rcx+r9*8+24]
 	sbb     rax, rax
-	add     r11, 1
-	sbb     rsi,  [r8+rbx*8]
-	sbb     rdi, [r8+rbx*8+8]
-	sbb     rbp, [r8+rbx*8+16]
-	sbb     r10, [r8+rbx*8+24]
-	mov     [rcx+rbx*8], rsi
-	mov     [rcx+rbx*8+8], rdi
-	mov     [rcx+rbx*8+16], rbp
-	mov     [rcx+rbx*8+24], r10
-	sbb     r11, r11
-	add     rbx, 4
-	jnz     .3
-.4: add     rax, r11
-	neg	    rax
+	add     r10, 1
+	sbb     r8, [rdx+r9*8]
+	sbb     rbx, [rdx+r9*8+8]
+	sbb     rbp, [rdx+r9*8+16]
+	sbb     r11, [rdx+r9*8+24]
+	sbb     r10, r10
+	mov     [rdi+r9*8], r8
+	mov     [rdi+r9*8+24], r11
+	mov     [rdi+r9*8+8], rbx
+	mov     [rdi+r9*8+16], rbp
+	mov     rbp, [rsi+r9*8+48]
+	mov     r11, [rsi+r9*8+56]
+	add     r9, 4
+	mov     r8, [rsi+r9*8]
+	mov     rbx, [rsi+r9*8+8]
+	jnc     L_lp
+L_skiplp:
+	add     rax, 1
+	sbb     r8, [rcx+r9*8]
+	sbb     rbx, [rcx+r9*8+8]
+	sbb     rbp, [rcx+r9*8+16]
+	sbb     r11, [rcx+r9*8+24]
+	sbb     rax, rax
+	add     r10, 1
+	sbb     r8, [rdx+r9*8]
+	sbb     rbx, [rdx+r9*8+8]
+	sbb     rbp, [rdx+r9*8+16]
+	sbb     r11, [rdx+r9*8+24]
+	sbb     r10, r10
+	mov     [rdi+r9*8], r8
+	mov     [rdi+r9*8+24], r11
+	mov     [rdi+r9*8+8], rbx
+	mov     [rdi+r9*8+16], rbp
+L_skip:
+	cmp     r9, 2
+	ja      L_case0
+	jz      L_case1
+	jp      L_case2
+L_case3:
+	mov     rbp, [rsi+r9*8+48]
+	mov     r8, [rsi+r9*8+32]
+	mov     rbx, [rsi+r9*8+40]
+	add     rax, 1
+	sbb     r8, [rcx+r9*8+32]
+	sbb     rbx, [rcx+r9*8+40]
+	sbb     rbp, [rcx+r9*8+48]
+	sbb     rax, rax
+	add     r10, 1
+	sbb     r8, [rdx+r9*8+32]
+	sbb     rbx, [rdx+r9*8+40]
+	sbb     rbp, [rdx+r9*8+48]
+	mov     [rdi+r9*8+32], r8
+	mov     [rdi+r9*8+40], rbx
+	mov     [rdi+r9*8+48], rbp
+	sbb     rax, 0
+	neg     rax
+	jmp     L_xit
+	xalign  16
+L_case2:
+	mov     r8, [rsi+r9*8+32]
+	mov     rbx, [rsi+r9*8+40]
+	add     rax, 1
+	sbb     r8, [rcx+r9*8+32]
+	sbb     rbx, [rcx+r9*8+40]
+	sbb     rax, rax
+	add     r10, 1
+	sbb     r8, [rdx+r9*8+32]
+	sbb     rbx, [rdx+r9*8+40]
+	mov     [rdi+r9*8+32], r8
+	mov     [rdi+r9*8+40], rbx
+	sbb     rax, 0
+	neg     rax
+	jmp     L_xit
+	xalign  16
+L_case1:
+	mov     r8, [rsi+r9*8+32]
+	add     rax, 1
+	sbb     r8, [rcx+r9*8+32]
+	sbb     rax, rax
+	add     r10, 1
+	sbb     r8, [rdx+r9*8+32]
+	mov     [rdi+r9*8+32], r8
+	sbb     rax, 0
+	neg     rax
+	jmp     L_xit
+	xalign  16
+L_case0:
+	add     rax, r10
+	neg     rax
+L_xit:
     END_PROC reg_save_list
-
     end
