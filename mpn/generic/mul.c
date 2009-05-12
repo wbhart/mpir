@@ -152,22 +152,22 @@ mpn_mul (mp_ptr prodp,
 	  if (vn < 2*k) // un/2 >= vn > un/4
 	  {
 		  TMP_DECL;
-        TMP_MARK; 
-		  ws = TMP_ALLOC_LIMBS (MPN_TOOM3_MUL_TSIZE(un));
+                  TMP_MARK;
+                  ws = TMP_ALLOC_LIMBS (MPN_TOOM3_MUL_TSIZE(un));
 		  mpn_toom42_mul(prodp, up, un, vp, vn, ws);
-		  TMP_FREE;
-        return prodp[un + vn - 1];
+                  TMP_FREE;
+                  return prodp[un + vn - 1];
 	  } 
 
 	  k = (un+2)/3; //ceil(u/3)
 	  if (vn > 2*k) // un >= vn > 2un/3
 	  {
 		  TMP_DECL;
-        TMP_MARK; 
-		  ws = TMP_ALLOC_LIMBS (MPN_TOOM3_MUL_TSIZE(un));
+                  TMP_MARK;
+                  ws = TMP_ALLOC_LIMBS (MPN_TOOM3_MUL_TSIZE(un));
 		  mpn_toom3_mul(prodp, up, un, vp, vn, ws);
-        TMP_FREE;
-        return prodp[un + vn - 1];
+                  TMP_FREE;
+                  return prodp[un + vn - 1];
 	  }
   }
 

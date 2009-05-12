@@ -72,8 +72,8 @@ mpn_toom3_interpolate (mp_ptr c, mp_ptr v1, mp_ptr v2, mp_ptr vm1,
 		                                       mp_limb_t vinf0, mp_ptr ws)
 {
   mp_limb_t cy, saved;
-  unsigned long twok = k + k;
-  unsigned long kk1 = twok + 1;
+  mp_size_t twok = k + k;
+  mp_size_t kk1 = twok + 1;
   mp_ptr c1, c2, c3, c4, c5;
   mp_limb_t cout; /* final carry, should be zero at the end */
 
@@ -169,15 +169,19 @@ mpn_toom3_interpolate (mp_ptr c, mp_ptr v1, mp_ptr v2, mp_ptr vm1,
   mpn_sub_n(vm1, vm1, v2, kk1);
   cy = mpn_add_n (c1, c1, vm1, kk1);
 #endif
-  mpn_add_1(c3 + 1, c3 + 1, rr2 + k - 1, cy); /* 4k+rr2-(3k+1) = rr2+k-1 */
+  ASSERT_NOCARRY (mpn_add_1(c3 + 1, c3 + 1, rr2 + k - 1, cy)); /* 4k+rr2-(3k+1) = rr2+k-1 */
 
   /* don't forget to add vinf0 in {c+4k, ...} */
-  mpn_add_1(c4, c4, rr2, vinf0);
+  ASSERT_NOCARRY (mpn_add_1(c4, c4, rr2, vinf0));
 
- 
   /* add v2 in {c+3k, ...} */
-  cy = mpn_add_n (c3, c3, v2, MIN(kk1, k+rr2));
-  if (cy) mpn_add_1(c5 + 1, c5 + 1, rr2 - k - 1, cy); /* 4k+rr2-(5k+1) = rr2-k-1 */
+  if (rr2 <= k + 1)
+     ASSERT_NOCARRY (mpn_add_n (c3, c3, v2, k+rr2));
+  else
+  {
+	  cy = mpn_add_n (c3, c3, v2, kk1);
+     if (cy) ASSERT_NOCARRY (mpn_add_1(c5 + 1, c5 + 1, rr2 - k - 1, cy)); /* 4k+rr2-(5k+1) = rr2-k-1 */
+  }
 
 #undef v0
 }
@@ -411,7 +415,7 @@ mpn_toom3_mul (mp_ptr c, mp_srcptr a, mp_size_t an, mp_srcptr b, mp_size_t bn, m
 void
 mpn_toom42_mul (mp_ptr c, mp_srcptr a, mp_size_t an, mp_srcptr b, mp_size_t bn, mp_ptr t)
 {
-  mp_size_t k, k1, kk1, r, r2, twok, threek, rr2, n1;
+  mp_size_t k, k1, kk1, r, r2, twok, threek, rr2, n1, n2;
   mp_limb_t cy, cc, saved, vinf0, c20, c21;
   mp_ptr trec;
   int sa, sb;
@@ -421,7 +425,7 @@ mpn_toom42_mul (mp_ptr c, mp_srcptr a, mp_size_t an, mp_srcptr b, mp_size_t bn, 
 
   k = (an + 3) / 4; /* ceil(an/4) */
   ASSERT(bn > k);
-  ASSERT(bn < 3*k);
+  ASSERT(bn <= 2*k);
   ASSERT(an >= 20);
   
   twok = 2 * k;
@@ -460,8 +464,10 @@ mpn_toom42_mul (mp_ptr c, mp_srcptr a, mp_size_t an, mp_srcptr b, mp_size_t bn, 
 	  t2[1] = mpn_add_1(t1 + 1 + r2, b + r2, k - r2, t2[1]);
 
   /* compute v1 := (a0+a1+a2+a3)*(b0+b1) in {c2, 2k+1};
-     since v1 < 9*B^(2k), v1 uses only 2k+1 words if GMP_NUMB_BITS >= 4 */
+     since v1 < 6*B^(2k), v1 uses only 2k+1 words if GMP_NUMB_BITS >= 3 */
   TOOM3_MUL_REC (c2, t2 + 2, t1 + 1, k1, trec);
+
+  ASSERT(c2[k+k] < 6);
 
   /* {c,2k} {c+2k,2k+1} {c+4k+1,r+r2-1} 
 					v1
@@ -475,14 +481,16 @@ mpn_toom42_mul (mp_ptr c, mp_srcptr a, mp_size_t an, mp_srcptr b, mp_size_t bn, 
   else mpn_sub_n (t2 + 2, t3 + 3, t, k1);
 
   n1 = k;
+  n2 = r2;
   MPN_NORMALIZE(b, n1);
-  if (n1 != r2) sb = (n1 > r2) ? 1 : -1;
-  else sb = mpn_cmp (b, b + k, r2);
+  MPN_NORMALIZE(b+k, n2);
+  if (n1 != n2) sb = (n1 > n2) ? 1 : -1;
+  else sb = mpn_cmp (b, b + k, n2);
 
   if (sb >= 0) 
   {
 	  t4[3] = mpn_sub_n (t3 + 3, b, b + k, r2);
-	  if (k > r2) t4[3] = mpn_sub_1(t3 + 3 + r2, b + r2, k - r2, t4[3]);
+	  if (k > r2) t4[3] = -mpn_sub_1(t3 + 3 + r2, b + r2, k - r2, t4[3]);
   } else
   {
 	  mpn_sub_n (t3 + 3, b + k, b, r2);
@@ -491,9 +499,10 @@ mpn_toom42_mul (mp_ptr c, mp_srcptr a, mp_size_t an, mp_srcptr b, mp_size_t bn, 
   sa *= sb; /* sign of vm1 */
 
   /* compute vm1 := (a0-a1+a2-a3)*(b0-b1) in {t, 2k+1};
-     since |vm1| < 4*B^(2k), vm1 uses only 2k+1 limbs */
+     since |vm1| < 2*B^(2k), vm1 uses only 2k+1 limbs */
   TOOM3_MUL_REC (t, t2 + 2, t3 + 3, k1, trec);
 
+  ASSERT(t[k+k] < 2);
   /* {c,2k} {c+2k,2k+1} {c+4k+1,r+r2-1} 
 					v1
 
@@ -511,7 +520,7 @@ mpn_toom42_mul (mp_ptr c, mp_srcptr a, mp_size_t an, mp_srcptr b, mp_size_t bn, 
   c1[0] = mpn_addlsh1_n (c, a + twok, a + threek, r);
   if (r < k)
     {
-      __GMPN_ADD_1 (c1[0], c + r, a + twok + r, k - r, c1[0]);
+      c1[0] = mpn_add_1 (c + r, a + twok + r, k - r, c1[0]);
     }
   c1[0] = 2 * c1[0] + mpn_addlsh1_n (c, a + k, c, k);
   c1[0] = 2 * c1[0] + mpn_addlsh1_n (c, a, c, k);
@@ -544,9 +553,10 @@ mpn_toom42_mul (mp_ptr c, mp_srcptr a, mp_size_t an, mp_srcptr b, mp_size_t bn, 
 #define v2 (t+2*k+1)
 
   /* compute v2 := (a0+2a1+4a2+8a3)*(b0+2b1) in {t+2k+1, 2k+1}
-     v2 < 49*B^k so v2 uses at most 2k+1 limbs if GMP_NUMB_BITS >= 6 */
+     v2 < 45*B^k so v2 uses at most 2k+1 limbs if GMP_NUMB_BITS >= 6 */
   TOOM3_MUL_REC (v2, c, c1 + 1, k1, trec);
 
+  ASSERT(v2[k+k] < 45);
   /* {c,2k} {c+2k,2k+1} {c+4k+1,r+r2-1} 
 					v1
 
