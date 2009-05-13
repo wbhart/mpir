@@ -575,42 +575,6 @@ mov -40(%rsp),%r15
 ret
 ')
 
-define(`OLDMULLOOP',`
-ALIGN(16)
-oldmulloop:
-	mov `$'0,%r10
-	mul %r13
-	mov %r12,(%rdi,%r11,8)
-	add %rax,%r9
-	.byte 0x26
-	adc %rdx,%r10
-	mov 16(%rsi,%r11,8),%rax
-	mul %r13
-	mov %r9,8(%rdi,%r11,8)
-	add %rax,%r10
-	mov `$'0,%ebx
-	adc %rdx,%rbx
-	mov 24(%rsi,%r11,8),%rax
-	mov `$'0,%r12
-	mov `$'0,%r9
-	mul %r13
-	mov %r10,16(%rdi,%r11,8)
-	.byte 0x26
-	add %rax,%rbx
-	.byte 0x26
-	adc %rdx,%r12
-	mov 32(%rsi,%r11,8),%rax
- 	mul %r13
-	mov %rbx,24(%rdi,%r11,8)
-	.byte 0x26
-	add %rax,%r12
-	.byte 0x26
-	adc %rdx,%r9
-	add `$'4,%r11
-	mov 8(%rsi,%r11,8),%rax
-	jnc oldmulloop
-')
-
 define(`OLDMULNEXT0',`
 	mov 16(%rsi,%r11,8),%rax
 	mul %r13
@@ -678,45 +642,6 @@ define(`OLDMULNEXT3',`
 	mov %r14,%r11
 ')
 
-C changes from standard addmul
-C change  r8 to r12   and rcx to r13
-C reemove ret and write last limb
-define(`OLDADDMULLOOP',`
-ALIGN(16)
-oldaddmulloop$1:
-	mov `$'0,%r10
-	mul %r13
-	add %r12,(%rdi,%r11,8)
-	adc %rax,%r9
-	.byte 0x26
-	adc %rdx,%r10
-	mov 16(%rsi,%r11,8),%rax
-	mul %r13
-	add %r9,8(%rdi,%r11,8)
-	adc %rax,%r10
-	mov `$'0,%ebx
-	adc %rdx,%rbx
-	mov 24(%rsi,%r11,8),%rax
-	mov `$'0,%r12
-	mov `$'0,%r9
-	mul %r13
-	add %r10,16(%rdi,%r11,8)
-	.byte 0x26
-	adc %rax,%rbx
-	.byte 0x26
-	adc %rdx,%r12
-	mov 32(%rsi,%r11,8),%rax
- 	mul %r13
-	add %rbx,24(%rdi,%r11,8)
-	.byte 0x26
-	adc %rax,%r12
-	.byte 0x26
-	adc %rdx,%r9
-	add `$'4,%r11
-	mov 8(%rsi,%r11,8),%rax
-	jnc oldaddmulloop$1
-')
-
 define(`OLDADDMULPRO0',`
 mov (%rcx,%r8,8),%r13
 .byte 0x26
@@ -726,8 +651,6 @@ mov %rax,%r12
 mov 8(%rsi,%r14,8),%rax
 .byte 0x26
 mov %rdx,%r9
-.byte 0x26
-cmp `$'0,%r14
 lea 8(%rdi),%rdi
 ')
 
@@ -768,7 +691,6 @@ mul %r13
 mov %rax,%r12
 mov 8(%rsi,%r14,8),%rax
 mov %rdx,%r9
-cmp `$'0,%r14
 ')
 
 define(`OLDADDMULNEXT1',`
@@ -804,7 +726,6 @@ mul %r13
 mov %rax,%r12
 mov 8(%rsi,%r14,8),%rax
 mov %rdx,%r9
-cmp `$'0,%r14
 ')
 
 define(`OLDADDMULNEXT2',`
@@ -838,7 +759,6 @@ lea 8(%rdi),%rdi
 .byte 0x26
 mov %rdx,%r9
 mov 8(%rsi,%r14,8),%rax
-cmp `$'0,%r14
 ')
 
 define(`OLDADDMULNEXT3',`
@@ -860,9 +780,6 @@ jz oldend$1
 ALIGN(16)
 oldloopaddmul$1:
 OLDADDMULPRO$1
-jge oldaddmulskiploop$1
-OLDADDMULLOOP($1)
-oldaddmulskiploop$1:
 OLDADDMULNEXT$1
 jnz oldloopaddmul$1
 oldend$1:
@@ -897,10 +814,6 @@ mul %r13
 mov %rax,%r12
 mov 8(%rsi,%r14,8),%rax
 mov %rdx,%r9
-cmp $0,%r14
-jge oldmulskiploop
-OLDMULLOOP
-oldmulskiploop:
 mov $0,%r10d
 mul %r13
 mov %r12,(%rdi,%r11,8)
