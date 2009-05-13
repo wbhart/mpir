@@ -1091,6 +1091,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="3"
 							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
@@ -1860,6 +1861,14 @@
 						>
 					</File>
 					<File
+						RelativePath="..\..\mpn\x86_64w\core2\copyd.asm"
+						>
+					</File>
+					<File
+						RelativePath="..\..\mpn\x86_64w\core2\copyi.asm"
+						>
+					</File>
+					<File
 						RelativePath="..\..\mpn\x86_64w\dive_1.asm"
 						>
 					</File>
@@ -1904,6 +1913,14 @@
 						>
 					</File>
 					<File
+						RelativePath="..\..\mpn\x86_64w\core2\rsh1add_n.asm"
+						>
+					</File>
+					<File
+						RelativePath="..\..\mpn\x86_64w\core2\rsh1sub_n.asm"
+						>
+					</File>
+					<File
 						RelativePath="..\..\mpn\x86_64w\core2\rshift.asm"
 						>
 					</File>
@@ -1925,10 +1942,6 @@
 					</File>
 					<File
 						RelativePath="..\..\mpn\x86_64w\core2\submul_1.asm"
-						>
-					</File>
-					<File
-						RelativePath="..\..\mpn\x86_64w\core2\sumdiff_n.asm"
 						>
 					</File>
 					<File

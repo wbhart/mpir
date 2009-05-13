@@ -2963,6 +2963,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="3"
 							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
@@ -3788,6 +3789,14 @@
 						RelativePath="..\..\mpn\x86_64w\amd64\copyd.asm"
 						>
 						<FileConfiguration
+							Name="Debug|x64"
+							ExcludedFromBuild="true"
+							>
+							<Tool
+								Name="YASM"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
 							Name="Release|x64"
 							ExcludedFromBuild="true"
 							>
@@ -3799,6 +3808,14 @@
 					<File
 						RelativePath="..\..\mpn\x86_64w\amd64\copyi.asm"
 						>
+						<FileConfiguration
+							Name="Debug|x64"
+							ExcludedFromBuild="true"
+							>
+							<Tool
+								Name="YASM"
+							/>
+						</FileConfiguration>
 						<FileConfiguration
 							Name="Release|x64"
 							ExcludedFromBuild="true"

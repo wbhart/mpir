@@ -36,6 +36,7 @@
 
     CPU  Core2
     BITS 64
+    
     LEAF_PROC mpn_com_n
     movsxd  rax, r8d
     sub     rax, 4

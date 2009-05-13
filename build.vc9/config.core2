@@ -136,7 +136,6 @@ MA 02111-1307, USA. */
 #undef HAVE_NATIVE_mpn_xnor_n
 
 #define HAVE_NATIVE_mpn_add_n				1
-#define HAVE_NATIVE_mpn_add_nc				1
 #define HAVE_NATIVE_mpn_addadd_n            1
 #define HAVE_NATIVE_mpn_subadd_n            1
 #define HAVE_NATIVE_mpn_addlsh1_n			1
@@ -162,13 +161,18 @@ MA 02111-1307, USA. */
 #define HAVE_NATIVE_mpn_rshift				1
 #define HAVE_NATIVE_mpn_sqr_basecase		1
 #define HAVE_NATIVE_mpn_sub_n				1
-#define HAVE_NATIVE_mpn_sub_nc				1
 #define HAVE_NATIVE_mpn_sublsh1_n			1
 #define HAVE_NATIVE_mpn_submul_1			1
 #define HAVE_NATIVE_mpn_submul_1c			1
-#define HAVE_NATIVE_mpn_sumdiff_n           1
 #define HAVE_NATIVE_mpn_umul_ppmm           1
 #define HAVE_NATIVE_mpn_udiv_qrnnd          1
+#define HAVE_NATIVE_mpn_rsh1add_n           1
+#define HAVE_NATIVE_mpn_rsh1sub_n           1
+
+#if 1
+#define HAVE_NATIVE_mpn_copyi               1
+#define HAVE_NATIVE_mpn_copyd               1
+#endif
 
 #if 1
 #define HAVE_NATIVE_mpn_and_n               1

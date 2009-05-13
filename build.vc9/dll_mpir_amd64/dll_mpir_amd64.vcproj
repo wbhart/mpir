@@ -1089,6 +1089,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="3"
 							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>

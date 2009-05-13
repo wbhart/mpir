@@ -265,7 +265,7 @@ check_functions (void)
         ASSERT_ALWAYS (wp[0] == 78);
        }
 
-
+#if HAVE_NATIVE_mpn_sumdiff_n
  memcpy (&__gmpn_cpuvec, &initial_cpuvec, sizeof (__gmpn_cpuvec));
    for (i = 0; i < 2; i++)
        {
@@ -275,7 +275,7 @@ check_functions (void)
         ASSERT_ALWAYS (wp[0] == 8);
         ASSERT_ALWAYS (wp2[0] == 2);
        }
-
+#endif
 
   memcpy (&__gmpn_cpuvec, &initial_cpuvec, sizeof (__gmpn_cpuvec));
   for (i = 0; i < 2; i++)

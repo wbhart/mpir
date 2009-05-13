@@ -1,9 +1,9 @@
 
-;  Copyright 1999, 2000, 2001, 2002 Free Software Foundation, Inc.
-;
-;  Copyright 2005, 2006 Pierrick Gaudry
-;
-;  Copyright 2008 Brian Gladman
+;  mpn_add_n
+
+;  Copyright 2009 Jason Moxham
+
+;  Windows Conversion Copyright 2008 Brian Gladman
 ;
 ;  This file is part of the MPIR Library.
 ;  The MPIR Library is free software; you can redistribute it and/or modify
@@ -19,140 +19,90 @@
 ;  to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 ;  Boston, MA 02110-1301, USA.
 ;
-;  AMD64 mpn_add_n/mpn_sub_n -- mpn add or subtract.
-;
-;  Calling interface:
-;
-;  mp_limb_t __gmpn_<op>_n(    <op> = add OR sub
-;     mp_ptr dst,              rcx
-;     mp_srcptr src1,          rdx
-;     mp_srcptr src2,           r8
-;     mp_size_t  len            r9
-;  )
-;
-;  mp_limb_t __gmpn_<op>_nc(   <op> = add OR sub
-;     mp_ptr dst,              rcx
-;     mp_srcptr src1,          rdx
-;     mp_srcptr src2,           r8
-;     mp_size_t len,            r9
-;     mp_limb_t carry   [rsp+0x28]
-;  )
-;
-;  Calculate src1[size] plus(minus) src2[size] and store the result in
-;  dst[size].  The return value is the carry bit from the top of the result
-;  (1 or 0).  The _nc version accepts 1 or 0 for an initial carry into the
-;  low limb of the calculation.  Note values other than 1 or 0 here will
-;  lead to garbage results.
-;
-;  This is an SEH Leaf Function (no unwind support needed)
+;	rax=mpn_add_n(mp_ptr r9 ,mp_ptr rdx ,mp_ptr r8 ,mp_size_t rcx)
+;	(r9,rcx)=(rdx,rcx)+(r8,rcx)  return rax=carry
 
 %include "..\yasm_mac.inc"
+
+%define TR2 r10
+%define TR4 r10
 
     CPU  Core2
     BITS 64
 
-%define dst       rcx   ; destination pointer
-%define sr1       rdx   ; source 1 pointer
-%define sr2        r8   ; source 2 pointer
-%define len        r9   ; number of limbs
-%define cry [rsp+0x28]  ; carry value
-
-%define r_jmp     r10   ; temporary for jump table entry
-%define r_cnt     r11   ; temporary for loop count
-
-%define UNROLL_LOG2         4
-%define UNROLL_COUNT        (1 << UNROLL_LOG2)
-%define UNROLL_MASK         (UNROLL_COUNT - 1)
-%define UNROLL_BYTES        (8 * UNROLL_COUNT)
-%define UNROLL_THRESHOLD    8
-
-%if UNROLL_BYTES >= 256
-%error unroll count is too large
-%elif UNROLL_BYTES >= 128
-%define off 128
-%else
-%define off 0
-%endif
-
-    LEAF_PROC mpn_add_nc
-    mov     rax,[rsp+0x28]
-    jmp     entry
-    
-    LEAF_PROC mpn_add_n
-    xor     rax,rax
-
-entry:
-    movsxd  len,r9d
-    cmp     len,UNROLL_THRESHOLD
-    jae     .2
-    lea     sr1,[sr1+len*8]
-    lea     sr2,[sr2+len*8]
-    lea     dst,[dst+len*8]
-    neg     len
-    shr     rax,1
-
-.1: mov     rax,[sr1+len*8]
-    mov     r10,[sr2+len*8]
-    adc     rax,r10
-    mov     [dst+len*8],rax
-    inc     len
-    jnz     .1
-    mov     rax,dword 0
-    setc    al
-    ret
-
-.2: mov     r_cnt,1
-    and     r_cnt,len
-    mov     [rsp+0x08], r_cnt
-    and     len,-2
-    mov     r_cnt,len
-    dec     r_cnt
-    shr     r_cnt,UNROLL_LOG2
-    neg     len
-    and     len,UNROLL_MASK
-    lea     r_jmp,[len*4]
-    neg     len
-    lea     sr1,[sr1+len*8+off]
-    lea     sr2,[sr2+len*8+off]
-    lea     dst,[dst+len*8+off]
-    shr     rax,1
-    lea     r_jmp,[r_jmp+r_jmp*2]
-    lea     rax,[rel .3]
-    lea     r_jmp,[r_jmp+rax]
-    jmp     r_jmp
-
-.3:
-%define CHUNK_COUNT  2
-%assign i 0
-
-%rep  UNROLL_COUNT / CHUNK_COUNT
-%assign  disp0 8 * i * CHUNK_COUNT - off
-
-    mov     r_jmp,[byte sr1+disp0]      ; len and r_jmp registers
-    mov     len,[byte sr1+disp0+8]      ; now not needed
-    adc     r_jmp,[byte sr2+disp0]
-    mov     [byte dst+disp0],r_jmp
-    adc     len,[byte sr2+disp0+8]
-    mov     [byte dst+disp0+8],len
-
-%assign i i + 1
-%endrep
-
-    dec     r_cnt
-    lea     sr1,[sr1+UNROLL_BYTES]
-    lea     sr2,[sr2+UNROLL_BYTES]
-    lea     dst,[dst+UNROLL_BYTES]
-    jns     .3
-
-    mov     rax,[rsp+0x08]
-    dec     rax
-    js      .5
-    mov     len,[sr1-off]
-    adc     len,[sr2-off]
-    mov     [dst-off],len
-
-.5: mov     rax,dword 0
-    setc    al
-    ret
-
-    end
+	LEAF_PROC mpn_add_n	
+	movsxd  rax, r9d
+	mov     r9, rcx
+	mov     rcx, rax
+	and     rax, 3
+	sub     rcx, rax
+	lea     r9, [r9+rcx*8]
+	lea     rdx, [rdx+rcx*8]
+	lea     r8, [r8+rcx*8]
+	neg     rcx
+	cmp     rcx, 0
+	jz      L_skiplp
+	xalign  16
+L_lp:
+	mov     r10, [rdx+rcx*8]
+	mov     r11, [rdx+rcx*8+16]
+	adc     r10, [r8+rcx*8]
+	mov     [r9+rcx*8], r10
+	mov     TR2, [rdx+rcx*8+8]
+	adc     TR2, [r8+rcx*8+8]
+	mov     [r9+rcx*8+8], TR2
+	lea     rcx, [rcx+4]
+	mov     TR4, [rdx+rcx*8-8]
+	adc     r11, [r8+rcx*8-16]
+	adc     TR4, [r8+rcx*8-8]
+	mov     [r9+rcx*8-16], r11
+	mov     [r9+rcx*8-8], TR4
+	jrcxz   L_exitlp
+	jmp     L_lp
+L_exitlp:
+	sbb     rcx, rcx
+L_skiplp:
+	cmp     rax, 2
+	ja      L_case3
+	jz      L_case2
+	jp      L_case1
+L_case0:
+	sub     rax, rcx
+	ret
+	xalign  16
+L_case1:
+	add     rcx, rcx
+	mov     r10, [rdx]
+	adc     r10, [r8]
+	mov     [r9], r10
+	sbb     rax, rax
+	neg     rax
+	ret
+	xalign  16
+L_case3:
+	add     rcx, rcx
+	mov     r10, [rdx]
+	mov     r11, [rdx+16]
+	adc     r10, [r8]
+	mov     [r9], r10
+	mov     TR2, [rdx+8]
+	adc     TR2, [r8+8]
+	mov     [r9+8], TR2
+	adc     r11, [r8+16]
+	mov     [r9+16], r11
+	sbb     rax, rax
+	neg     rax
+	ret
+	xalign  16
+L_case2:
+	add     rcx, rcx
+	mov     r10, [rdx]
+	adc     r10, [r8]
+	mov     [r9], r10
+	mov     TR2, [rdx+8]
+	adc     TR2, [r8+8]
+	mov     [r9+8], TR2
+	sbb     rax, rax
+	neg     rax
+	ret
+	end

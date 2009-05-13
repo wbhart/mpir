@@ -579,6 +579,9 @@ mpn_fft_sub_modF (mp_ptr r, mp_srcptr a, mp_srcptr b, mp_size_t n)
   MPN_INCR_U (r, n + 1, r[n] - c);
 }
 
+#ifdef _MSC_VER
+#pragma optimize( "", off )
+#endif
 /* r <- (a-b)*B^d mod B^n+1, where B=2^GMP_NUMB_BITS.
    Assumes a and b are semi-normalized.
    It is equivalent to:
@@ -631,6 +634,9 @@ mpn_fft_lshsub_modF (mp_ptr r, mp_srcptr a, mp_srcptr b, mp_size_t d,
       MPN_INCR_U (r, n + 1, cc + r[n]);
     }
 }
+#ifdef _MSC_VER
+#pragma optimize( "", on )
+#endif
 
 /* r <- a*sqrt(2)^d mod 2^(n*GMP_NUMB_BITS)+1 with a = {a, n+1}
    Assumes a is semi-normalized, i.e. a[n] <= 1.
