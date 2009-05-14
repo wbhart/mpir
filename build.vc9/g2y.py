@@ -446,7 +446,7 @@ def pass_three(code, labels, macros, level) :
       lo += [lp + '{0} ; < not translated >'.format(l[:t])]
     else :
       lo += ['']
-  return lo
+  return lo + ['\n']
 
 def form_path(p) :
   n = str.rfind(p, '\\', 0, -1)
