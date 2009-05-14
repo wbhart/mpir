@@ -351,6 +351,7 @@ const struct routine_t {
 
   { "mpz_mod",           speed_mpz_mod              },
   { "redc",              speed_redc                 },
+  { "mpn_store",         speed_mpn_store },
 
   { "MPN_COPY",          speed_MPN_COPY             },
   { "MPN_COPY_INCR",     speed_MPN_COPY_INCR        },

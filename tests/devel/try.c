@@ -668,6 +668,7 @@ validate_sqrtrem (void)
 
 #define TYPE_LSHIFT2	      115
 #define TYPE_RSHIFT2	      116
+#define TYPE_STORE		117
 
 #define TYPE_EXTRA            120
 
@@ -1245,6 +1246,11 @@ param_init (void)
   p->size = SIZE_ALLOW_ZERO;
   REFERENCE (refmpn_zero);
 
+  p = &param[TYPE_STORE];
+  p->dst[0] = 1;
+  p->size = SIZE_ALLOW_ZERO;
+  REFERENCE (refmpn_store);
+
   p = &param[TYPE_GET_STR];
   p->retval = 1;
   p->src[0] = 1;
@@ -1427,6 +1433,9 @@ void
 MPN_ZERO_fun (mp_ptr ptr, mp_size_t size)
 { MPN_ZERO (ptr, size); }
 
+void
+mpn_store_fun (mp_ptr ptr, mp_size_t size,mp_limb_t val)
+{ mpn_store (ptr, size,val); }
 
 struct choice_t {
   const char  *name;
@@ -1647,6 +1656,7 @@ const struct choice_t choice_array[] = {
   { TRY(mpn_sqrtrem),    TYPE_SQRTREM },
 
   { TRY_FUNFUN(MPN_ZERO), TYPE_ZERO },
+  { TRY_FUNFUN(mpn_store), TYPE_STORE },
 
   { TRY(mpn_get_str),    TYPE_GET_STR },
 
@@ -2470,6 +2480,9 @@ call (struct each_t *e, tryfun_t function)
 
   case TYPE_ZERO:
     CALLING_CONVENTIONS (function) (e->d[0].p, size);
+    break;
+  case TYPE_STORE:
+    CALLING_CONVENTIONS (function) (e->d[0].p, size,4354);
     break;
 
   case TYPE_GET_STR:

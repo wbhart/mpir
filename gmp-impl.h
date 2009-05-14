@@ -1263,55 +1263,6 @@ __GMP_DECLSPEC void mpn_copyd _PROTO ((mp_ptr, mp_srcptr, mp_size_t));
   } while (0)
 
 
-/* Zero n limbs at dst.
-
-   For power and powerpc we want an inline stu/bdnz loop for zeroing.  On
-   ppc630 for instance this is optimal since it can sustain only 1 store per
-   cycle.
-
-   gcc 2.95.x (for powerpc64 -maix64, or powerpc32) doesn't recognise the
-   "for" loop in the generic code below can become stu/bdnz.  The do/while
-   here helps it get to that.  The same caveat about plain -mpowerpc64 mode
-   applies here as to __GMPN_COPY_INCR in mpir.h.
-
-   xlc 3.1 already generates stu/bdnz from the generic C, and does so from
-   this loop too.
-
-   Enhancement: GLIBC does some trickery with dcbz to zero whole cache lines
-   at a time.  MPN_ZERO isn't all that important in GMP, so it might be more
-   trouble than it's worth to do the same, though perhaps a call to memset
-   would be good when on a GNU system.  */
-
-#if HAVE_HOST_CPU_FAMILY_power || HAVE_HOST_CPU_FAMILY_powerpc
-#define MPN_ZERO(dst, n)			\
-  do {						\
-    ASSERT ((n) >= 0);				\
-    if ((n) != 0)				\
-      {						\
-	mp_ptr __dst = (dst) - 1;		\
-	mp_size_t __n = (n);			\
-	do					\
-	  *++__dst = 0;				\
-	while (--__n);				\
-      }						\
-  } while (0)
-#endif
-
-#ifndef MPN_ZERO
-#define MPN_ZERO(dst, n)			\
-  do {						\
-    ASSERT ((n) >= 0);				\
-    if ((n) != 0)				\
-      {						\
-	mp_ptr __dst = (dst);			\
-	mp_size_t __n = (n);			\
-	do					\
-	  *__dst++ = 0;				\
-	while (--__n);				\
-      }						\
-  } while (0)
-#endif
-
 
 /* On the x86s repe/scasl doesn't seem useful, since it takes many cycles to
    start up and would need to strip a lot of zeros before it'd be faster
@@ -1886,6 +1837,26 @@ mp_limb_t mpn_rshift2 _PROTO ((mp_ptr,mp_srcptr,mp_size_t));
 #else
 #define mpn_rshift2(__xp,__yp,__n) mpn_rshift((__xp),(__yp),(__n),2)
 #endif
+
+#if HAVE_NATIVE_mpn_store
+#define mpn_store __MPN(store)
+mp_limb_t mpn_store _PROTO ((mp_ptr,mp_size_t,mp_limb_t));
+#else
+#define mpn_store(dst, n,val)			\
+  do {						\
+    ASSERT ((n) >= 0);				\
+    if ((n) != 0)				\
+      {						\
+	mp_ptr __dst = (dst);			\
+	mp_size_t __n = (n);			\
+	do					\
+	  *__dst++ = val;			\
+	while (--__n);				\
+      }						\
+  } while (0)
+#endif
+
+#define MPN_ZERO(dst,n)	mpn_store(dst,n,0)
 
 /* ADDC_LIMB sets w=x+y and cout to 0 or 1 for a carry from that addition. */
 #if GMP_NAIL_BITS == 0

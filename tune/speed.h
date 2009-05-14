@@ -273,6 +273,7 @@ double speed_mpn_umul_ppmm_r _PROTO ((struct speed_params *s));
 double speed_mpn_xnor_n _PROTO ((struct speed_params *s));
 double speed_mpn_xor_n _PROTO ((struct speed_params *s));
 double speed_MPN_ZERO _PROTO ((struct speed_params *s));
+double speed_mpn_store _PROTO ((struct speed_params *s));
 
 double speed_mpq_init_clear _PROTO ((struct speed_params *s));
 

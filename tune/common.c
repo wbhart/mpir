@@ -2006,6 +2006,11 @@ speed_MPN_ZERO (struct speed_params *s)
   SPEED_ROUTINE_MPN_ZERO_CALL (MPN_ZERO (wp, s->size));
 }
 
+double
+speed_mpn_store (struct speed_params *s)
+{
+  SPEED_ROUTINE_MPN_ZERO_CALL (mpn_store (wp, s->size,7654));
+}
 
 int
 speed_randinit (struct speed_params *s, gmp_randstate_ptr rstate)

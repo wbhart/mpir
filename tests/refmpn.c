@@ -157,6 +157,12 @@ refmpn_zero (mp_ptr ptr, mp_size_t size)
 }
 
 void
+refmpn_store (mp_ptr ptr, mp_size_t size,mp_limb_t val)
+{
+  refmpn_fill (ptr, size, val);
+}
+
+void
 refmpn_zero_extend (mp_ptr ptr, mp_size_t oldsize, mp_size_t newsize)
 {
   ASSERT (newsize >= oldsize);
