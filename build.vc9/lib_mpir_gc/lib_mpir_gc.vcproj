@@ -5163,7 +5163,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="0"
+							Optimization="3"
 							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
@@ -5172,7 +5172,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="0"
+							Optimization="3"
 							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
