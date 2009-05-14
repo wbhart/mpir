@@ -1873,6 +1873,20 @@ mp_limb_t mpn_rshift1 _PROTO ((mp_ptr,mp_srcptr,mp_size_t));
 #define mpn_rshift1(__xp,__yp,__n) mpn_rshift((__xp),(__yp),(__n),1)
 #endif
 
+#if HAVE_NATIVE_mpn_lshift2
+#define mpn_lshift2 __MPN(lshift2)
+mp_limb_t mpn_lshift2 _PROTO ((mp_ptr,mp_srcptr,mp_size_t));
+#else
+#define mpn_lshift2(__xp,__yp,__n) mpn_lshift((__xp),(__yp),(__n),2)
+#endif
+
+#if HAVE_NATIVE_mpn_rshift2
+#define mpn_rshift2 __MPN(rshift2)
+mp_limb_t mpn_rshift2 _PROTO ((mp_ptr,mp_srcptr,mp_size_t));
+#else
+#define mpn_rshift2(__xp,__yp,__n) mpn_rshift((__xp),(__yp),(__n),2)
+#endif
+
 /* ADDC_LIMB sets w=x+y and cout to 0 or 1 for a carry from that addition. */
 #if GMP_NAIL_BITS == 0
 #define ADDC_LIMB(cout, w, x, y)        \

@@ -262,6 +262,8 @@ const struct routine_t {
   { "mpn_rshift",        speed_mpn_rshift, FLAG_R   },
   { "mpn_lshift1",       speed_mpn_lshift1,   },
   { "mpn_rshift1",       speed_mpn_rshift1,   },
+  { "mpn_lshift2",       speed_mpn_lshift2,   },
+  { "mpn_rshift2",       speed_mpn_rshift2,   },
 
   { "mpn_and_n",         speed_mpn_and_n,  FLAG_R_OPTIONAL },
   { "mpn_andn_n",        speed_mpn_andn_n, FLAG_R_OPTIONAL },

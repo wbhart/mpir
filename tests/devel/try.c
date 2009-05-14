@@ -666,6 +666,9 @@ validate_sqrtrem (void)
 #define TYPE_DIVREM_EUCLIDEAN_R_1	113
 #define TYPE_DIVEXACT_BYBM1OF 114
 
+#define TYPE_LSHIFT2	      115
+#define TYPE_RSHIFT2	      116
+
 #define TYPE_EXTRA            120
 
 struct try_t  param[150];
@@ -1047,6 +1050,18 @@ param_init (void)
   p->src[0] = 1;
   REFERENCE (refmpn_rshift1);
 
+  p = &param[TYPE_LSHIFT2];
+  p->retval = 1;
+  p->dst[0] = 1;
+  p->src[0] = 1;
+  REFERENCE (refmpn_lshift2);
+
+  p = &param[TYPE_RSHIFT2];
+  p->retval = 1;
+  p->dst[0] = 1;
+  p->src[0] = 1;
+  REFERENCE (refmpn_rshift2);
+
   p = &param[TYPE_DIVEXACT_BY3C];
   COPY (TYPE_DIVEXACT_BY3);
   p->carry = CARRY_3;
@@ -1335,6 +1350,18 @@ mpn_rshift1_fun (mp_ptr rp, mp_srcptr sp, mp_size_t size)
 }
 
 mp_limb_t
+mpn_lshift2_fun (mp_ptr rp, mp_srcptr sp, mp_size_t size)
+{
+  return mpn_lshift2 (rp, sp, size);
+}
+
+mp_limb_t
+mpn_rshift2_fun (mp_ptr rp, mp_srcptr sp, mp_size_t size)
+{
+  return mpn_rshift2 (rp, sp, size);
+}
+
+mp_limb_t
 mpn_modexact_1_odd_fun (mp_srcptr ptr, mp_size_t size, mp_limb_t divisor)
 {
   return mpn_modexact_1_odd (ptr, size, divisor);
@@ -1555,6 +1582,8 @@ const struct choice_t choice_array[] = {
   
   { TRY_FUNFUN(mpn_lshift1),	  TYPE_LSHIFT1 },
   { TRY_FUNFUN(mpn_rshift1),	  TYPE_RSHIFT1 },
+  { TRY_FUNFUN(mpn_lshift2),	  TYPE_LSHIFT2 },
+  { TRY_FUNFUN(mpn_rshift2),	  TYPE_RSHIFT2 },
   { TRY(mpn_divexact_by3c),       TYPE_DIVEXACT_BY3C },
 
   { TRY_FUNFUN(mpn_modexact_1_odd), TYPE_MODEXACT_1_ODD },
@@ -2209,13 +2238,13 @@ call (struct each_t *e, tryfun_t function)
   case TYPE_DIVEXACT_BYFF:
     e->retval = CALLING_CONVENTIONS (function) (e->d[0].p, e->s[0].p, size);
     break;
+
   case TYPE_LSHIFT1:
-    e->retval = CALLING_CONVENTIONS (function) (e->d[0].p, e->s[0].p, size);
-    break;
   case TYPE_RSHIFT1:
+  case TYPE_LSHIFT2:
+  case TYPE_RSHIFT2:
     e->retval = CALLING_CONVENTIONS (function) (e->d[0].p, e->s[0].p, size);
-    break;
-    
+    break;    
 
   case TYPE_DIVEXACT_BY3C:
     e->retval = CALLING_CONVENTIONS (function) (e->d[0].p, e->s[0].p, size,

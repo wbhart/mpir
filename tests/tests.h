@@ -290,6 +290,7 @@ mp_limb_t refmpn_lshift_or_copy_any __GMP_PROTO ((mp_ptr wp,
                                                   mp_srcptr xp, mp_size_t size,
                                                   unsigned shift));
 mp_limb_t refmpn_lshift1 __GMP_PROTO ((mp_ptr rp, mp_srcptr xp, mp_size_t n));
+mp_limb_t refmpn_lshift2 __GMP_PROTO ((mp_ptr rp, mp_srcptr xp, mp_size_t n));
 
 mp_ptr refmpn_malloc_limbs __GMP_PROTO ((mp_size_t size));
 mp_ptr refmpn_malloc_limbs_aligned __GMP_PROTO ((mp_size_t n, size_t m));
@@ -353,6 +354,7 @@ mp_limb_t refmpn_rshift_or_copy_any __GMP_PROTO ((mp_ptr wp,
                                                   mp_srcptr xp, mp_size_t size,
                                                   unsigned shift));
 mp_limb_t refmpn_rshift1 __GMP_PROTO ((mp_ptr rp, mp_srcptr xp, mp_size_t n));
+mp_limb_t refmpn_rshift2 __GMP_PROTO ((mp_ptr rp, mp_srcptr xp, mp_size_t n));
 
 mp_limb_t refmpn_sb_divrem_mn __GMP_PROTO ((mp_ptr qp,
                                        mp_ptr np, mp_size_t nsize,

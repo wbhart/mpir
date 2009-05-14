@@ -21,8 +21,8 @@ dnl  Boston, MA 02110-1301, USA.
 
 include(`../config.m4')
 
-C	(rdi,rdx+r8)=(rsi,rdx)*(rcx,r8)
-C Version 1.0.7
+#C	(rdi,rdx+r8)=(rsi,rdx)*(rcx,r8)
+#C Version 1.0.7
 
 
 define(`ADDMUL2LP',`
@@ -825,13 +825,10 @@ jz oldcase2
 jp oldcase1
 oldcase0:
 OLDMPN_MULADDMUL_1_INT(0)
-ALIGN(16)
 oldcase1:
 OLDMPN_MULADDMUL_1_INT(1)
-ALIGN(16)
 oldcase2:
 OLDMPN_MULADDMUL_1_INT(2)
-ALIGN(16)
 oldcase3:
 OLDMPN_MULADDMUL_1_INT(3)
 ALIGN(16)

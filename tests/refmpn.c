@@ -1061,6 +1061,18 @@ refmpn_rshift1(mp_ptr rp, mp_srcptr xp, mp_size_t n)
 	return refmpn_rshift (rp, xp, n, 1);
 }
 
+mp_limb_t 
+refmpn_lshift2(mp_ptr rp, mp_srcptr xp, mp_size_t n)
+{
+	return refmpn_lshift (rp, xp, n, 2);
+}
+
+mp_limb_t 
+refmpn_rshift2(mp_ptr rp, mp_srcptr xp, mp_size_t n)
+{
+	return refmpn_rshift (rp, xp, n, 2);
+}
+
 /* accepting shift==0 and doing a plain copyi or copyd in that case */
 mp_limb_t
 refmpn_rshift_or_copy (mp_ptr rp, mp_srcptr sp, mp_size_t size, unsigned shift)

@@ -129,7 +129,7 @@ mpn_fib2_ui (mp_ptr fp, mp_ptr f1p, unsigned long int n)
 
 	  /* Calculate F[2k+1] = 4*F[k]^2 - F[k-1]^2 + 2*(-1)^k.
 	     n&mask is the low bit of our implied k.  */
-	  c = mpn_lshift (fp, xp, size, 2);
+	  c = mpn_lshift2 (fp, xp, size);
 	  fp[0] |= (n & mask ? 0 : 2);	 /* possible +2 */
 	  c -= mpn_sub_n (fp, fp, yp, size);
 	  ASSERT (n & (mask << 1) ? fp[0] != 0 && fp[0] != 1 : 1);

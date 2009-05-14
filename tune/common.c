@@ -555,12 +555,23 @@ speed_mpn_rshift (struct speed_params *s)
 double
 speed_mpn_lshift1 (struct speed_params *s)
 {
-  SPEED_ROUTINE_MPN_LSHIFT1 (mpn_lshift1);
+  SPEED_ROUTINE_MPN_SHIFTX (mpn_lshift1);
 }
 double
 speed_mpn_rshift1 (struct speed_params *s)
 {
-  SPEED_ROUTINE_MPN_RSHIFT1 (mpn_rshift1);
+  SPEED_ROUTINE_MPN_SHIFTX (mpn_rshift1);
+}
+
+double
+speed_mpn_lshift2 (struct speed_params *s)
+{
+  SPEED_ROUTINE_MPN_SHIFTX (mpn_lshift2);
+}
+double
+speed_mpn_rshift2 (struct speed_params *s)
+{
+  SPEED_ROUTINE_MPN_SHIFTX (mpn_rshift2);
 }
 
 
