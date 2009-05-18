@@ -854,6 +854,27 @@ void tc4_copy (mp_ptr yp, mp_size_t * yn, mp_size_t offset, mp_srcptr xp, mp_siz
 		if (sign < 0) n3xx = -n3xx; \
 	} while (0)
 
+#define SQR_TC4_UNSIGNED(r3xx, n3xx, r1xx, n1xx) \
+   do \
+   { \
+      if (n1xx != 0) \
+      { mp_size_t len; \
+	      if (n1xx > MUL_TOOM4_THRESHOLD) mpn_toom4_sqr_n(r3xx, r1xx, n1xx); \
+         else mpn_sqr_n(r3xx, r1xx, n1xx); \
+		   len = 2*n1xx; \
+		   MPN_NORMALIZE(r3xx, len); \
+		   n3xx = len; \
+      } else \
+         n3xx = 0; \
+   } while (0)
+
+#define SQR_TC4(r3xx, n3xx, r1xx, n1xx) \
+	do \
+	{ \
+	   mp_size_t un1 = ABS(n1xx); \
+	   SQR_TC4_UNSIGNED(r3xx, n3xx, r1xx, un1); \
+	} while (0)
+
 #define TC4_NORM(rxx, nxx, sxx) \
 	do \
 	{ \
@@ -1046,6 +1067,108 @@ mpn_toom4_mul_n (mp_ptr rp, mp_srcptr up,
 	MUL_TC4_UNSIGNED(r2, n2, u2, n2, r1, n1);
    MUL_TC4_UNSIGNED(r1, n1, a3, a3n, b3, b3n);
    MUL_TC4_UNSIGNED(r7, n7, a0, a0n, b0, b0n);
+
+	TC4_DENORM(r1, n1,  t4 - 1);
+   TC4_DENORM(r2, n2,  t4 - 1);
+   if (n3 == 0) MPN_ZERO(r3 + 1, t4 - 2); /* don't overwrite last limb of r5 */
+	else TC4_DENORM(r3, n3,  t4 - 1);
+	TC4_DENORM(r4, n4,  t4 - 1);
+   TC4_DENORM(r5, n5,  t4 - 1);
+   TC4_DENORM(r6, n6,  t4 - 1);
+   TC4_DENORM(r7, n7,  t4 - 2); // we treat r7 differently (it cannot exceed t4-2 in length)
+
+/*	rp        rp1          rp2           rp3          rp4           rp5         rp6           rp7
+<----------- r7-----------><------------r5-------------->            
+                                                       <-------------r3------------->
+
+              <-------------r6------------->                        < -----------r2------------>{           }
+                                         <-------------r4-------------->         <--------------r1---->
+*/
+
+	toom4_interpolate(rp, &rpn, sn, tp, t4 - 1, n4, n6, r30);
+
+	if (rpn != 2*n) 
+	{
+		MPN_ZERO((rp + rpn), 2*n - rpn);
+	}
+
+   __GMP_FREE_FUNC_LIMBS (tp, 4*t4 + 5*(sn+1));
+}
+
+/* Square {up, n} and write the result to {prodp, 2n}.
+
+   Note that prodp gets 2n limbs stored, even if the actual result
+   only needs 2n - 1.
+*/
+
+void
+mpn_toom4_sqr_n (mp_ptr rp, mp_srcptr up, mp_size_t n)
+{
+  mp_size_t len1;
+  mp_limb_t cy, r30, r31;
+  mp_ptr tp;
+  mp_size_t a0n, a1n, a2n, a3n, sn, n1, n2, n3, n4, n5, n6, n7, n8, n9, rpn, t4;
+
+  len1 = n;
+  ASSERT (n >= 1);
+
+  MPN_NORMALIZE(up, len1);
+  
+  sn = (n - 1) / 4 + 1;
+
+  /* a0 - a3 are defined in mpn_toom4_mul_n above */
+  
+   TC4_NORM(a0, a0n, sn);
+	TC4_NORM(a1, a1n, sn);
+	TC4_NORM(a2, a2n, sn);
+	TC4_NORM(a3, a3n, n - 3*sn); 
+
+   t4 = 2*sn+2; // allows mult of 2 integers of sn + 1 limbs
+
+   tp = __GMP_ALLOCATE_FUNC_LIMBS(4*t4 + 5*(sn + 1));
+
+   tc4_add_unsigned(u5, &n5, a3, a3n, a1, a1n); 
+   tc4_add_unsigned(u4, &n4, a2, a2n, a0, a0n); 
+#if HAVE_NATIVE_mpn_sumdiff_n
+	tc4_sumdiff_unsigned(u2, &n2, u3, &n3, u4, n4, u5, n5); 
+#else
+	tc4_add_unsigned(u2, &n2, u4, n4, u5, n5); 
+   tc4_sub(u3, &n3, u4, n4, u5, n5);
+#endif
+
+	SQR_TC4(r4, n4, u3, n3);
+   SQR_TC4_UNSIGNED(r3, n3, u2, n2);
+	
+	tc4_lshift(r1, &n1, a0, a0n, 3);
+#if HAVE_NATIVE_mpn_addlsh1_n
+	tc4_addlsh1_unsigned(r1, &n1, a2, a2n);
+#else
+	tc4_addmul_1(r1, &n1, a2, a2n, 2);
+#endif
+ 	tc4_lshift(r2, &n8, a1, a1n, 2);
+   tc4_add(r2, &n8, r2, n8, a3, a3n);
+   tc4_add(u4, &n9, r1, n1, r2, n8);
+   tc4_sub(u5, &n5, r1, n1, r2, n8);
+   
+	r30 = r3[0];
+	if (!n3) r30 = CNST_LIMB(0);
+   r31 = r3[1];
+	SQR_TC4(r6, n6, u5, n5);
+   SQR_TC4_UNSIGNED(r5, n5, u4, n9);
+   r3[1] = r31;
+
+   tc4_lshift(u2, &n8, a3, a3n, 3);
+   tc4_addmul_1(u2, &n8, a2, a2n, 4);
+#if HAVE_NATIVE_mpn_addlsh1_n
+	tc4_addlsh1_unsigned(u2, &n8, a1, a1n);
+#else
+	tc4_addmul_1(u2, &n8, a1, a1n, 2);
+#endif
+	tc4_add(u2, &n8, u2, n8, a0, a0n);
+   
+	SQR_TC4_UNSIGNED(r2, n2, u2, n8);
+   SQR_TC4_UNSIGNED(r1, n1, a3, a3n);
+   SQR_TC4_UNSIGNED(r7, n7, a0, a0n);
 
 	TC4_DENORM(r1, n1,  t4 - 1);
    TC4_DENORM(r2, n2,  t4 - 1);

@@ -1085,6 +1085,8 @@ void mpn_toom7_mul_n _PROTO ((mp_ptr, mp_srcptr, mp_srcptr, mp_size_t));
 #define mpn_toom3_sqr_n  __MPN(toom3_sqr_n)
 void mpn_toom3_sqr_n _PROTO((mp_ptr, mp_srcptr, mp_size_t, mp_ptr));
 
+#define mpn_toom4_sqr_n  __MPN(toom4_sqr_n)
+void mpn_toom4_sqr_n _PROTO((mp_ptr, mp_srcptr, mp_size_t));
 
 #define mpn_fft_best_k __MPN(fft_best_k)
 int     mpn_fft_best_k _PROTO ((mp_size_t n, int sqr)) ATTRIBUTE_CONST;

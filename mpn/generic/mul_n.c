@@ -500,11 +500,7 @@ mpn_sqr_n (mp_ptr p, mp_srcptr a, mp_size_t n)
       ASSERT (SQR_TOOM3_THRESHOLD <= SQR_TOOM3_THRESHOLD_LIMIT);
       mpn_kara_sqr_n (p, a, n, ws);
     }
-#if WANT_FFT || TUNE_PROGRAM_BUILD
-  else if (BELOW_THRESHOLD (n, SQR_FFT_THRESHOLD))
-#else
-  else if (BELOW_THRESHOLD (n, MPN_TOOM3_MAX_N))
-#endif
+  else if (BELOW_THRESHOLD (n, MUL_TOOM4_THRESHOLD))
     {
       mp_ptr ws;
       TMP_SDECL;
@@ -513,23 +509,20 @@ mpn_sqr_n (mp_ptr p, mp_srcptr a, mp_size_t n)
       mpn_toom3_sqr_n (p, a, n, ws);
       TMP_SFREE;
     }
-  else
 #if WANT_FFT || TUNE_PROGRAM_BUILD
+  else if (BELOW_THRESHOLD (n, SQR_FFT_THRESHOLD))
+#else
+  else 
+#endif
+    {
+		 mpn_toom4_sqr_n (p, a, n);
+    }
+#if WANT_FFT || TUNE_PROGRAM_BUILD
+  else
     {
       /* The current FFT code allocates its own space.  That should probably
 	 change.  */
       mpn_mul_fft_full (p, a, n, a, n);
-    }
-#else
-    {
-      /* Toom3 for large operands.  Use workspace from the heap, as stack space
-      may be limited.  Since n is at least MUL_TOOM3_THRESHOLD, multiplication
-      will take much longer than malloc()/free().  */
-      mp_ptr ws;  mp_size_t ws_size;
-      ws_size = MPN_TOOM3_SQR_N_TSIZE (n);
-      ws = __GMP_ALLOCATE_FUNC_LIMBS (ws_size);
-      mpn_toom3_sqr_n (p, a, n, ws);
-      __GMP_FREE_FUNC_LIMBS (ws, ws_size);
     }
 #endif
 }
