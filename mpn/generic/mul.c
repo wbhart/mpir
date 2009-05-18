@@ -8,6 +8,7 @@
 
 Copyright 1991, 1993, 1994, 1996, 1997, 1999, 2000, 2001, 2002, 2003, 2005
 Free Software Foundation, Inc.
+Copyright William Hart 2009
 
 This file is part of the GNU MP Library.
 
@@ -137,7 +138,7 @@ mpn_mul (mp_ptr prodp,
       return prodp[un + vn - 1];
   }
 
-  if (ABOVE_THRESHOLD (vn, MUL_FFT_THRESHOLD))
+  if (ABOVE_THRESHOLD (un + vn, 2*MUL_FFT_THRESHOLD))
     {
       mpn_mul_fft_full (prodp, up, un, vp, vn);
       return prodp[un + vn - 1];
@@ -145,7 +146,7 @@ mpn_mul (mp_ptr prodp,
 
   k = (un + 3)/4; // ceil(un/3)
 
-  if ((un + vn >= 2*MUL_TOOM3_THRESHOLD) && (vn > k))
+  if (ABOVE_THRESHOLD (un + vn, 2*MUL_TOOM3_THRESHOLD) && (vn > k))
   {
           mp_ptr ws;
           TMP_DECL;

@@ -509,13 +509,17 @@ mpn_sqr_n (mp_ptr p, mp_srcptr a, mp_size_t n)
       mpn_toom3_sqr_n (p, a, n, ws);
       TMP_SFREE;
     }
+  else if (BELOW_THRESHOLD (n, MUL_TOOM7_THRESHOLD))
+    {
+       mpn_toom4_sqr_n (p, a, n);
+    }
 #if WANT_FFT || TUNE_PROGRAM_BUILD
   else if (BELOW_THRESHOLD (n, SQR_FFT_THRESHOLD))
 #else
   else 
 #endif
     {
-		 mpn_toom4_sqr_n (p, a, n);
+		 mpn_toom7_sqr_n (p, a, n);
     }
 #if WANT_FFT || TUNE_PROGRAM_BUILD
   else
