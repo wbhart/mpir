@@ -1125,7 +1125,7 @@ mpn_toom4_sqr_n (mp_ptr rp, mp_srcptr up, mp_size_t n)
 
    t4 = 2*sn+2; // allows mult of 2 integers of sn + 1 limbs
 
-   tp = __GMP_ALLOCATE_FUNC_LIMBS(4*t4 + 5*(sn + 1));
+   tp = __GMP_ALLOCATE_FUNC_LIMBS(4*t4 + 4*(sn + 1));
 
    tc4_add_unsigned(u5, &n5, a3, a3n, a1, a1n); 
    tc4_add_unsigned(u4, &n4, a2, a2n, a0, a0n); 
@@ -1194,7 +1194,7 @@ mpn_toom4_sqr_n (mp_ptr rp, mp_srcptr up, mp_size_t n)
 		MPN_ZERO((rp + rpn), 2*n - rpn);
 	}
 
-   __GMP_FREE_FUNC_LIMBS (tp, 4*t4 + 5*(sn+1));
+   __GMP_FREE_FUNC_LIMBS (tp, 4*t4 + 4*(sn+1));
 }
 
 /*
