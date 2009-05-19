@@ -30,7 +30,7 @@ mp_limb_t	mpn_divrem_euclidean_qr_2(mp_ptr qp,mp_ptr xp,mp_size_t xn,mp_srcptr d
 
 ASSERT(xn>=2);ASSERT_MPN(dp,2);ASSERT_MPN(xp,xn);ASSERT(dp[1]!=0);
 qn=xn-1;
-ASSERT(!MPN_OVERLAP_P(qp,qn,xp,xn));ASSERT(!MPN_OVERLAP_P(qp,qn,dp,2));// these overlaps are wrong for compat
+//ASSERT(!MPN_OVERLAP_P(qp,qn,xp,xn));//     correct this overlap requirement
 ASSERT((dp[1]>>(GMP_NUMB_BITS-1))!=0);
 h=0;d1=dp[1];d2=dp[0];invert_limb(i,d1);l=xp[xn-1];
 
@@ -41,7 +41,7 @@ qn=xn-2;
        umul_ppmm(t1[1],t1[0],q,d2);
        if(mpn_sub_n(t,t,t1,2))
          {q--;if(mpn_add_n(t,t,dp,2)==0)
-                {q--;ASSERT(mpn_add_n(t,t,dp,2)!=0);}}
+                {q--;ASSERT_CARRY(mpn_add_n(t,t,dp,2));}}
       }
     else
       {ASSERT(h==d1);q=-1;t[1]=l;
@@ -66,7 +66,7 @@ for(qn=xn-3;qn>=0;qn--)
        umul_ppmm(t1[1],t1[0],q,d2);
        if(mpn_sub_n(t,t,t1,2))
          {q--;if(mpn_add_n(t,t,dp,2)==0)
-                {q--;ASSERT(mpn_add_n(t,t,dp,2)!=0);}}
+                {q--;ASSERT_CARRY(mpn_add_n(t,t,dp,2));}}
       }
     else
       {ASSERT(h==d1);q=-1;t[1]=l;
@@ -82,5 +82,5 @@ for(qn=xn-3;qn>=0;qn--)
       }
     h=t[1];l=t[0];qp[qn]=q;
    }
-xp[1]=t[1];xp[0]=t[0];qp[0]=q;
+xp[1]=t[1];xp[0]=t[0];
 return qf;}
