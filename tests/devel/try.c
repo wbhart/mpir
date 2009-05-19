@@ -669,6 +669,7 @@ validate_sqrtrem (void)
 #define TYPE_LSHIFT2	      115
 #define TYPE_RSHIFT2	      116
 #define TYPE_STORE		117
+//#define TYPE_DIVREM_EUCLIDEAN_QR_2	118
 
 #define TYPE_EXTRA            120
 

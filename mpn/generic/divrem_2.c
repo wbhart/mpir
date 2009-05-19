@@ -80,6 +80,10 @@ mpn_divrem_2 (mp_ptr qp, mp_size_t qxn,
   ASSERT_MPN (np, nn);
   ASSERT_MPN (dp, 2);
 
+#if HAVE_NATIVE_mpn_divrem_euclidean_qr_2    ||      1    
+if(qxn==0)return mpn_divrem_euclidean_qr_2(qp,np,nn,dp);
+#endif
+
   np += nn - 2;
   d1 = dp[1];
   d0 = dp[0];

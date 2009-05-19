@@ -1479,7 +1479,8 @@ case $host in
 		x86/p6 x86/p6/mmx x86/p6/p3mmx
 		x86/pentium4 x86/pentium4/mmx x86/pentium4/sse2"
       fat_functions="add_n addmul_1 copyd copyi
-		     dive_1 diveby3 divebyBm1of divrem_1 divrem_euclidean_qr_1 gcd_1 lshift
+		     dive_1 diveby3 divebyBm1of divrem_1 divrem_euclidean_qr_1 
+			divrem_euclidean_qr_2 gcd_1 lshift
 		     mod_1 mod_34lsub1 mode1o mul_1 mul_basecase
 		     pre_divrem_1 pre_mod_1 redc_basecase rshift
 		     sqr_basecase sub_n submul_1 sumdiff_n"
@@ -2488,7 +2489,7 @@ gmp_mpn_functions_optional="umul udiv copyi copyd com_n
 gmp_mpn_functions="$extra_functions					   \
   add add_1 add_n sub sub_1 sub_n mul_1 addmul_1 submul_1 lshift rshift    \
   dive_1 diveby3 divebyff divebyBm1of divis divrem divrem_1 divrem_2       \
-  divrem_euclidean_qr_1 divrem_euclidean_r_1					\
+  divrem_euclidean_qr_1 divrem_euclidean_qr_2 divrem_euclidean_r_1	\
   fib2_ui mod_1 mod_34lsub1 mode1o pre_divrem_1 pre_mod_1 dump		   \
   mul mul_fft mul_n mul_basecase sqr_basecase random random2 pow_1	   \
   rootrem sqrtrem get_str set_str scan0 scan1 popcount hamdist cmp perfsqr \
@@ -2974,6 +2975,7 @@ AH_VERBATIM([HAVE_NATIVE],
 #undef HAVE_NATIVE_mpn_copyi
 #undef HAVE_NATIVE_mpn_divexact_1
 #undef HAVE_NATIVE_mpn_divrem_euclidean_qr_1
+#undef HAVE_NATIVE_mpn_divrem_euclidean_qr_2
 #undef HAVE_NATIVE_mpn_divrem_euclidean_r_1
 #undef HAVE_NATIVE_mpn_divrem_1
 #undef HAVE_NATIVE_mpn_divrem_1c

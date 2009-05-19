@@ -178,6 +178,7 @@ double speed_mpn_divexact_by3 _PROTO ((struct speed_params *s));
 double speed_mpn_divexact_byff _PROTO ((struct speed_params *s));
 double speed_mpn_divexact_byBm1of _PROTO ((struct speed_params *s));
 double speed_mpn_divrem_euclidean_qr_1 _PROTO ((struct speed_params *s));
+double speed_mpn_divrem_euclidean_qr_2 _PROTO ((struct speed_params *s));
 double speed_mpn_divrem_euclidean_r_1 _PROTO ((struct speed_params *s));
 double speed_mpn_divrem_1 _PROTO ((struct speed_params *s));
 double speed_mpn_divrem_1f _PROTO ((struct speed_params *s));
@@ -2097,6 +2098,43 @@ int speed_routine_count_zeros_setup _PROTO ((struct speed_params *s,
     i = s->reps;							\
     do									\
       function (wp, 0, xp, s->size, yp);				\
+    while (--i != 0);							\
+    t = speed_endtime ();						\
+									\
+    TMP_FREE;								\
+    return t;								\
+  }
+
+#define SPEED_ROUTINE_MPN_DIVREME_2(function)				\
+  {									\
+    mp_ptr    wp, xp;							\
+    mp_limb_t yp[2];							\
+    unsigned  i;							\
+    double    t;							\
+    TMP_DECL;								\
+									\
+    SPEED_RESTRICT_COND (s->size >= 2);					\
+									\
+    TMP_MARK;								\
+    SPEED_TMP_ALLOC_LIMBS (xp, s->size, s->align_xp);			\
+    SPEED_TMP_ALLOC_LIMBS (wp, s->size, s->align_wp);			\
+									\
+    /* source is destroyed */						\
+    MPN_COPY (xp, s->xp, s->size);					\
+									\
+    /* divisor must be normalized */					\
+    MPN_COPY (yp, s->yp_block, 2);					\
+    yp[1] |= GMP_NUMB_HIGHBIT;						\
+									\
+    speed_operand_src (s, xp, s->size);					\
+    speed_operand_src (s, yp, 2);					\
+    speed_operand_dst (s, wp, s->size);					\
+    speed_cache_fill (s);						\
+									\
+    speed_starttime ();							\
+    i = s->reps;							\
+    do									\
+      function (wp, xp, s->size, yp);					\
     while (--i != 0);							\
     t = speed_endtime ();						\
 									\

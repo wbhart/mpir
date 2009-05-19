@@ -207,6 +207,7 @@ const struct routine_t {
   { "mpn_mul_2",         speed_mpn_mul_2,     FLAG_R_OPTIONAL },
 #endif
   { "mpn_divrem_euclidean_qr_1",      speed_mpn_divrem_euclidean_qr_1,  FLAG_R },
+  { "mpn_divrem_euclidean_qr_2",      speed_mpn_divrem_euclidean_qr_2, },
   { "mpn_divrem_euclidean_r_1",       speed_mpn_divrem_euclidean_r_1,  FLAG_R },
 
   { "mpn_divrem_1",      speed_mpn_divrem_1,  FLAG_R },

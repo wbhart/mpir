@@ -4173,7 +4173,8 @@ echo "include_mpn(\`sparc32/sparc-defs.m4')" >> $gmp_tmpconfigm4i
 		x86/p6 x86/p6/mmx x86/p6/p3mmx
 		x86/pentium4 x86/pentium4/mmx x86/pentium4/sse2"
       fat_functions="add_n addmul_1 copyd copyi
-		     dive_1 diveby3 divebyBm1of divrem_1 divrem_euclidean_qr_1 gcd_1 lshift
+		     dive_1 diveby3 divebyBm1of divrem_1 divrem_euclidean_qr_1
+			divrem_euclidean_qr_2 gcd_1 lshift
 		     mod_1 mod_34lsub1 mode1o mul_1 mul_basecase
 		     pre_divrem_1 pre_mod_1 redc_basecase rshift
 		     sqr_basecase sub_n submul_1 sumdiff_n"
@@ -11483,7 +11484,7 @@ ia64-*-hpux*)
   ;;
 *-*-irix6*)
   # Find out which ABI we are using.
-  echo '#line 11486 "configure"' > conftest.$ac_ext
+  echo '#line 11487 "configure"' > conftest.$ac_ext
   if { (eval echo "$as_me:$LINENO: \"$ac_compile\"") >&5
   (eval $ac_compile) 2>&5
   ac_status=$?
@@ -13627,11 +13628,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:13630: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:13631: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>conftest.err)
    ac_status=$?
    cat conftest.err >&5
-   echo "$as_me:13634: \$? = $ac_status" >&5
+   echo "$as_me:13635: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s "$ac_outfile"; then
      # The compiler can only warn and ignore the option if not recognized
      # So say no if there are warnings other than the usual output.
@@ -13917,11 +13918,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:13920: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:13921: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>conftest.err)
    ac_status=$?
    cat conftest.err >&5
-   echo "$as_me:13924: \$? = $ac_status" >&5
+   echo "$as_me:13925: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s "$ac_outfile"; then
      # The compiler can only warn and ignore the option if not recognized
      # So say no if there are warnings other than the usual output.
@@ -14021,11 +14022,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:14024: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:14025: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>out/conftest.err)
    ac_status=$?
    cat out/conftest.err >&5
-   echo "$as_me:14028: \$? = $ac_status" >&5
+   echo "$as_me:14029: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s out/conftest2.$ac_objext
    then
      # The compiler can only warn and ignore the option if not recognized
@@ -16392,7 +16393,7 @@ else
   lt_dlunknown=0; lt_dlno_uscore=1; lt_dlneed_uscore=2
   lt_status=$lt_dlunknown
   cat > conftest.$ac_ext <<EOF
-#line 16395 "configure"
+#line 16396 "configure"
 #include "confdefs.h"
 
 #if HAVE_DLFCN_H
@@ -16492,7 +16493,7 @@ else
   lt_dlunknown=0; lt_dlno_uscore=1; lt_dlneed_uscore=2
   lt_status=$lt_dlunknown
   cat > conftest.$ac_ext <<EOF
-#line 16495 "configure"
+#line 16496 "configure"
 #include "confdefs.h"
 
 #if HAVE_DLFCN_H
@@ -18893,11 +18894,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:18896: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:18897: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>conftest.err)
    ac_status=$?
    cat conftest.err >&5
-   echo "$as_me:18900: \$? = $ac_status" >&5
+   echo "$as_me:18901: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s "$ac_outfile"; then
      # The compiler can only warn and ignore the option if not recognized
      # So say no if there are warnings other than the usual output.
@@ -18997,11 +18998,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:19000: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:19001: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>out/conftest.err)
    ac_status=$?
    cat out/conftest.err >&5
-   echo "$as_me:19004: \$? = $ac_status" >&5
+   echo "$as_me:19005: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s out/conftest2.$ac_objext
    then
      # The compiler can only warn and ignore the option if not recognized
@@ -20587,11 +20588,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:20590: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:20591: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>conftest.err)
    ac_status=$?
    cat conftest.err >&5
-   echo "$as_me:20594: \$? = $ac_status" >&5
+   echo "$as_me:20595: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s "$ac_outfile"; then
      # The compiler can only warn and ignore the option if not recognized
      # So say no if there are warnings other than the usual output.
@@ -20691,11 +20692,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:20694: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:20695: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>out/conftest.err)
    ac_status=$?
    cat out/conftest.err >&5
-   echo "$as_me:20698: \$? = $ac_status" >&5
+   echo "$as_me:20699: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s out/conftest2.$ac_objext
    then
      # The compiler can only warn and ignore the option if not recognized
@@ -22905,11 +22906,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:22908: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:22909: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>conftest.err)
    ac_status=$?
    cat conftest.err >&5
-   echo "$as_me:22912: \$? = $ac_status" >&5
+   echo "$as_me:22913: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s "$ac_outfile"; then
      # The compiler can only warn and ignore the option if not recognized
      # So say no if there are warnings other than the usual output.
@@ -23195,11 +23196,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:23198: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:23199: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>conftest.err)
    ac_status=$?
    cat conftest.err >&5
-   echo "$as_me:23202: \$? = $ac_status" >&5
+   echo "$as_me:23203: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s "$ac_outfile"; then
      # The compiler can only warn and ignore the option if not recognized
      # So say no if there are warnings other than the usual output.
@@ -23299,11 +23300,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:23302: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:23303: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>out/conftest.err)
    ac_status=$?
    cat out/conftest.err >&5
-   echo "$as_me:23306: \$? = $ac_status" >&5
+   echo "$as_me:23307: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s out/conftest2.$ac_objext
    then
      # The compiler can only warn and ignore the option if not recognized
@@ -29800,7 +29801,7 @@ gmp_mpn_functions_optional="umul udiv copyi copyd com_n
 gmp_mpn_functions="$extra_functions					   \
   add add_1 add_n sub sub_1 sub_n mul_1 addmul_1 submul_1 lshift rshift    \
   dive_1 diveby3 divebyff divebyBm1of divis divrem divrem_1 divrem_2       \
-  divrem_euclidean_qr_1 divrem_euclidean_r_1					\
+  divrem_euclidean_qr_1 divrem_euclidean_qr_2 divrem_euclidean_r_1	\
   fib2_ui mod_1 mod_34lsub1 mode1o pre_divrem_1 pre_mod_1 dump		   \
   mul mul_fft mul_n mul_basecase sqr_basecase random random2 pow_1	   \
   rootrem sqrtrem get_str set_str scan0 scan1 popcount hamdist cmp perfsqr \
