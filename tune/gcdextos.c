@@ -27,6 +27,7 @@ MA 02110-1301, USA.
 #undef GCDEXT_THRESHOLD
 #define GCDEXT_THRESHOLD  MP_SIZE_T_MAX
 #define WANT_GCDEXT_ONE_STEP 1
-#define __gmpn_gcdext  mpn_gcdext_one_single
+#define __gmpn_basic_gcdext mpn_gcdext_one_single
+#define INSIDE_TUNE_GCDEXT_BIN 1
 
 #include "../mpn/generic/gcdext.c"

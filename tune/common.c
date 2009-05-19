@@ -987,6 +987,16 @@ speed_mpn_toom3_sqr_n (struct speed_params *s)
 {
   SPEED_ROUTINE_MPN_TOOM3_SQR_N (mpn_toom3_sqr_n);
 }
+double
+speed_mpn_toom4_sqr_n (struct speed_params *s)
+{
+  SPEED_ROUTINE_MPN_TOOM4_SQR_N (mpn_toom4_sqr_n);
+}
+double
+speed_mpn_toom7_sqr_n (struct speed_params *s)
+{
+  SPEED_ROUTINE_MPN_TOOM7_SQR_N (mpn_toom7_sqr_n);
+}
 
 double
 speed_mpn_mul_fft_full (struct speed_params *s)
@@ -1091,7 +1101,7 @@ speed_mpn_gcd_finda (struct speed_params *s)
 double
 speed_mpn_gcdext (struct speed_params *s)
 {
-  SPEED_ROUTINE_MPN_GCDEXT (mpn_gcdext);
+  SPEED_ROUTINE_MPN_GCDEXT (mpn_basic_gcdext);
 }
 #if 0
 double

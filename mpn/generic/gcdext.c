@@ -38,7 +38,7 @@ int arr[GMP_LIMB_BITS + 1];
 #endif
 
 
-/* mpn_gcdext (GP, SP, SSIZE, UP, USIZE, VP, VSIZE)
+/* mpn_basic_gcdext (GP, SP, SSIZE, UP, USIZE, VP, VSIZE)
 
    Compute the extended GCD of {UP,USIZE} and {VP,VSIZE} and store the
    greatest common divisor at GP (unless it is 0), and the first cofactor at
@@ -788,7 +788,15 @@ mpn_basic_gcdext (mp_ptr gp, mp_ptr s0p, mp_size_t *s0size,
 	If the gcd is found, stores it in gp and *gn, and the associated 
    cofactor in {sp, *un} and returns zero.
    Otherwise, compute the reduced a and b, update u0p and u1p,
-	and return the new size. */
+	and return the new size. /*
+ 
+ *
+ * To make this code work with "make tune" we need to conditionally
+ * exclude the Moller code when this file gets included inside of
+ * gcdext*.c in ../tune.
+ */
+#ifndef INSIDE_TUNE_GCDEXT_BIN
+
 mp_size_t
 mpn_ngcdext_subdiv_step (mp_ptr gp, mp_size_t *gn, mp_ptr s0p, mp_ptr u0, mp_ptr u1, 
 		             mp_size_t *un, mp_ptr ap, mp_ptr bp, mp_size_t n, mp_ptr tp)
@@ -1336,3 +1344,4 @@ mpn_gcdext (mp_ptr gp, mp_ptr s0p, mp_size_t *s0size,
      return gn;
   }
 }
+#endif
