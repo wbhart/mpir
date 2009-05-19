@@ -445,7 +445,7 @@ mpn_mul_n (mp_ptr p, mp_srcptr a, mp_srcptr b, mp_size_t n)
       mp_ptr ws;
       TMP_SDECL;
       TMP_SMARK;
-      ws = TMP_SALLOC_LIMBS (3*n);//MPN_TOOM3_MUL_N_TSIZE (n));
+      ws = TMP_SALLOC_LIMBS (MPN_TOOM3_MUL_N_TSIZE (n));
       mpn_toom3_mul_n (p, a, b, n, ws);
       TMP_SFREE;
     }
