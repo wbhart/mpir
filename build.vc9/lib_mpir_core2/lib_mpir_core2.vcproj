@@ -2559,6 +2559,10 @@
 					</FileConfiguration>
 				</File>
 				<File
+					RelativePath="..\..\mpn\generic\divrem_euclidean_qr_2.c"
+					>
+				</File>
+				<File
 					RelativePath="..\..\mpn\generic\divrem_euclidean_r_1.c"
 					>
 					<FileConfiguration

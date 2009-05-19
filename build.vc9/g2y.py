@@ -82,6 +82,7 @@ r_def = re.compile(p_def)
 
 r1 = r'\s*(\%{0,1}[0-9]+){0,1}\s*'
 r2 = r'(?:,\s*(\%{0,1}[0-9]+))?\s*'
+r_mrz = re.compile(r'([A-Z$_][A-Z0-9$_]*)\s*$')
 r_mrf = re.compile(r'([A-Z$_][A-Z0-9$_]*)\s*\(' + r1 + r2 +
                   r2 + r2 + r2 + r2 + r2 + r2 + r2 + r2 + r'\)')
 
@@ -391,7 +392,9 @@ def pass_three(code, labels, macros, level) :
       continue
 
     # macro calls 
-    m = r_mrf.search(l)
+    m = r_mrz.search(l)
+    if not m :
+      m = r_mrf.search(l)
     if m :
       if m.group(1).lower() == 'align' :
         fs = '\talign   {0}' if is_linux else '\txalign  {0}'
@@ -442,10 +445,13 @@ def pass_three(code, labels, macros, level) :
 
     m = re.search(r'\s*(\S+)', l)
     if m :
-      t = None if l[-1].isprintable() else None
-      lo += [lp + '{0} ; < not translated >'.format(l[:t])]
+      if len(l) :
+        t = None if l[-1].isprintable() else None
+        lo += [lp + '{0} ; < not translated >'.format(l[:t])]
+      else :
+        lo += [lp]
     else :
-      lo += ['']
+      lo += [lp]
   return lo + ['\n']
 
 def form_path(p) :
