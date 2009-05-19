@@ -944,10 +944,10 @@ void ngcdext_cofactor_adjust(mp_ptr u0, mp_ptr u1, mp_size_t * un, struct ngcd_m
 	   We make a copy of u0 at tp and update u0 first
 	*/
 
-	ASSERT(tp > M->p[1][1] + M->n);
-
    mp_limb_t cy, cy2;
 	mp_ptr t2p =(tp + (*un)); /* second temporary space */
+	ASSERT(tp > M->p[1][1] + M->n);
+
 
 	MPN_COPY(tp, u0, *un);
 
@@ -1043,6 +1043,9 @@ mpn_gcdext (mp_ptr gp, mp_ptr s0p, mp_size_t *s0size,
   mp_size_t scratch, un, u0n, u1n;
   mp_ptr tp, u0, u1;
   int swapped = 0;
+    struct ngcd_matrix M;
+    mp_size_t p;
+    mp_size_t nn;
   TMP_DECL;
   
   ASSERT (an >= n);
@@ -1097,9 +1100,7 @@ mpn_gcdext (mp_ptr gp, mp_ptr s0p, mp_size_t *s0size,
 
     /* First iteration, setup u0 and u1 */
 
-    struct ngcd_matrix M;
-    mp_size_t p = P_SIZE(n);
-    mp_size_t nn;
+    p = P_SIZE(n);
   
     mpn_ngcd_matrix_init (&M, n - p, tp);
 	 ASSERT(tp + init_scratch > M.p[1][1] + M.n);
@@ -1158,7 +1159,6 @@ mpn_gcdext (mp_ptr gp, mp_ptr s0p, mp_size_t *s0size,
 	      (*s0size) = un;
 			ASSERT(((*s0size) == 0) || (s0p[ABS(*s0size) - 1] != 0));
 		   TMP_FREE;
-			mpz_t u0t;
 			return gn;
 	    }
 	}
