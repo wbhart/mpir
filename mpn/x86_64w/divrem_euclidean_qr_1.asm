@@ -21,19 +21,11 @@
 ;
 ;  Calling interface:
 ;
-;  dst[] = src[] / f    
-;
-;  mp_limb_tmpn_divexact_byBm1of (
-;     mp_ptr dst,                rcx
-;     mp_srcptr src,             rdx
-;     mp_size_t len,              r8
-;     mp_limb_t f                 r9
-;     mp_limb_t bm1of   [rsp + 0x28] = 1 / f
-;  )
+;  dst[] = src[] / f
 ;
 ;  This is an SEH frame function
 ;
-;  This function "replaces" divrem_1 mod_1 
+;  This function "replaces" divrem_1 mod_1
 
 %include "yasm_mac.inc"
 
@@ -41,64 +33,64 @@
 
     BITS 64
 
-	FRAME_PROC mpn_divrem_euclidean_qr_1, 0, reg_save_list
-	mov     rdi, rcx
-	mov     rsi, rdx
-	movsxd  r14, r8d
-	
-	xor     r15, r15
-	bsr     rcx, r9
-	xor     rcx, 63
-	shl     r9, cl
-	xor     r11, r11
+    FRAME_PROC mpn_divrem_euclidean_qr_1, 0, reg_save_list
+    mov     rdi, rcx
+    mov     rsi, rdx
+    movsxd  r14, r8d
 
-	mov     rdx, r9
-	not     rdx
-	xor     rax, rax
-	not     rax
-	div     r9
-	mov     r8, rax
-	xor     rax, rax
-	xor     rbp, rbp
+    xor     r15, r15
+    bsr     rcx, r9
+    xor     rcx, 63
+    shl     r9, cl
+    xor     r11, r11
 
-	align   16
-.1:	mov     r13, [rsi+r14*8-8]
-	mov     r12, r13
-	neg     rcx
-	cmovnc  r13, r15
-	shr     r13, cl
-	neg     rcx
-	shl     r12, cl
-	mov     r10, r12
-	sar     r10, 63
-	add     rax, r13
-	sub     rax, r10
-	add     rax, r11
-	add     r11, r13
-	add     r11, rbp
-	mul     r8
-	mov     r13, r11
-	and     r10, r9
-	add     r10, r12
-	add     rax, r10
-	mov     r10, r11
-	adc     r10, rdx
-	not     r10
-	mov     rax, r9
-	mul     r10
-	sub     r13, r9
-	add     rax, r12
-	mov     r11, r9
-	adc     rdx, r13
-	and     r11, rdx
-	mov     rbp, rax
-	sub     rdx, r10
-	mov     [rdi+r14*8-8], rdx
-	dec     r14
-	jnz     .1
-	add     r11, rax
-	shr     r11, cl
-	mov     rax, r11
+    mov     rdx, r9
+    not     rdx
+    xor     rax, rax
+    not     rax
+    div     r9
+    mov     r8, rax
+    xor     rax, rax
+    xor     rbp, rbp
+
+    align   16
+.1: mov     r13, [rsi+r14*8-8]
+    mov     r12, r13
+    neg     rcx
+    cmovnc  r13, r15
+    shr     r13, cl
+    neg     rcx
+    shl     r12, cl
+    mov     r10, r12
+    sar     r10, 63
+    add     rax, r13
+    sub     rax, r10
+    add     rax, r11
+    add     r11, r13
+    add     r11, rbp
+    mul     r8
+    mov     r13, r11
+    and     r10, r9
+    add     r10, r12
+    add     rax, r10
+    mov     r10, r11
+    adc     r10, rdx
+    not     r10
+    mov     rax, r9
+    mul     r10
+    sub     r13, r9
+    add     rax, r12
+    mov     r11, r9
+    adc     rdx, r13
+    and     r11, rdx
+    mov     rbp, rax
+    sub     rdx, r10
+    mov     [rdi+r14*8-8], rdx
+    dec     r14
+    jnz     .1
+    add     r11, rax
+    shr     r11, cl
+    mov     rax, r11
     END_PROC reg_save_list
 
-	end
+    end

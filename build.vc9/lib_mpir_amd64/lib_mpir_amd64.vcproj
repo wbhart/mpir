@@ -2562,6 +2562,22 @@
 				<File
 					RelativePath="..\..\mpn\generic\divrem_euclidean_qr_2.c"
 					>
+					<FileConfiguration
+						Name="Debug|x64"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|x64"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+						/>
+					</FileConfiguration>
 				</File>
 				<File
 					RelativePath="..\..\mpn\generic\divrem_euclidean_r_1.c"
@@ -3850,6 +3866,24 @@
 						>
 					</File>
 					<File
+						RelativePath="..\..\mpn\x86_64w\divrem_euclidean_qr_2.asm"
+						>
+						<FileConfiguration
+							Name="Debug|x64"
+							>
+							<Tool
+								Name="YASM"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release|x64"
+							>
+							<Tool
+								Name="YASM"
+							/>
+						</FileConfiguration>
+					</File>
+					<File
 						RelativePath="..\..\mpn\x86_64w\amd64\lshift.asm"
 						>
 					</File>
@@ -3912,26 +3946,6 @@
 					<File
 						RelativePath="..\..\mpn\x86_64w\amd64\sqr_basecase.asm"
 						>
-					</File>
-					<File
-						RelativePath="..\..\mpn\x86_64w\amd64\store.asm"
-						>
-						<FileConfiguration
-							Name="Debug|x64"
-							ExcludedFromBuild="true"
-							>
-							<Tool
-								Name="YASM"
-							/>
-						</FileConfiguration>
-						<FileConfiguration
-							Name="Release|x64"
-							ExcludedFromBuild="true"
-							>
-							<Tool
-								Name="YASM"
-							/>
-						</FileConfiguration>
 					</File>
 					<File
 						RelativePath="..\..\mpn\x86_64w\amd64\sub_n.asm"
