@@ -21,8 +21,8 @@ dnl  Boston, MA 02110-1301, USA.
 
 include(`../config.m4')
 
-C	(rdi,rdx+r8)=(rsi,rdx)*(rcx,r8)
-C Version 1.0.7
+#C	(rdi,rdx+r8)=(rsi,rdx)*(rcx,r8)
+#C Version 1.0.7
 
 
 define(`ADDMUL2LP',`
@@ -560,6 +560,7 @@ define(`MULNEXT3',`
 ')
 
 define(`MPN_ADDMUL_2_INT',`
+jz end$1
 ALIGN(16)
 loopaddmul$1:
 ADDMUL2PRO$1
@@ -825,13 +826,10 @@ jz oldcase2
 jp oldcase1
 oldcase0:
 OLDMPN_MULADDMUL_1_INT(0)
-ALIGN(16)
 oldcase1:
 OLDMPN_MULADDMUL_1_INT(1)
-ALIGN(16)
 oldcase2:
 OLDMPN_MULADDMUL_1_INT(2)
-ALIGN(16)
 oldcase3:
 OLDMPN_MULADDMUL_1_INT(3)
 ALIGN(16)
@@ -898,22 +896,18 @@ even:
 	mul2case3:
 	MUL2EPI3
 	case3:
-	jz end3
 	MPN_ADDMUL_2_INT(3)
 	mul2case2:
 	MUL2EPI2
 	case2:
-	jz end2
 	MPN_ADDMUL_2_INT(2)
 	mul2case1:
 	MUL2EPI1
 	case1:
-	jz end1
 	MPN_ADDMUL_2_INT(1)
 	mul2case0:
 	MUL2EPI0
 	case0:
-	jz end0
 	MPN_ADDMUL_2_INT(0)
 ALIGN(16)
 one:
