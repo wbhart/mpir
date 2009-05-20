@@ -34,11 +34,11 @@ qn=xn-1;
 ASSERT((dp[1]>>(GMP_NUMB_BITS-1))!=0);
 h=0;d1=dp[1];d2=dp[0];invert_limb(i,d1);l=xp[xn-1];
 qn=xn-2;t[0]=xp[qn];
-if(l<d1){h=l;l=xp[qn];qf=0;}
+if(l<d1){h=t[1]=l;l=t[0]=xp[qn];qf=0;}
 else
-  {q=1;t[1]=l-d1;t1[1]=0;t1[0]=d2;
-   if(mpn_sub_n(t,t,t1,2)){q--;mpn_add_n(t,t,dp,2);}
-   h=t[1];l=t[0];qf=q;}
+  {qf=1;t[1]=l-d1;t1[1]=0;t1[0]=d2;
+   if(mpn_sub_n(t,t,t1,2)){qf--;mpn_add_n(t,t,dp,2);}
+   h=t[1];l=t[0];}
 for(qn=xn-3;qn>=0;qn--)
    {t[0]=xp[qn];
     if(h<d1)
