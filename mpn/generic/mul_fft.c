@@ -2228,7 +2228,7 @@ mpn_mul_fft_aux (mp_ptr op, mp_size_t pl,
       n = nn;
       nl = pl + i;
     }
-  if (ml > pl)
+  if ((!sqr) && (ml > pl))
     {
       mp_ptr mm = TMP_ALLOC_LIMBS(pl + (b == 1));
       if ((i = (mp_size_t)mpn_fft_norm_modF (mm, pl, m, ml, b)))
@@ -2236,6 +2236,11 @@ mpn_mul_fft_aux (mp_ptr op, mp_size_t pl,
       m = mm;
       ml = pl + i;
     }
+  else if (sqr)
+  {
+	  m = n;
+	  ml = nl;
+  }
   /* now nl,ml <= pl if b=-1, nl,ml <= pl+1 if b=1 */
 
   N = MUL_GMP_NUMB_BITS(pl); /* The entire integer product will be mod 2^N+b */
