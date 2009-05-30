@@ -952,11 +952,18 @@ void tc4_copy (mp_ptr yp, mp_size_t * yn, mp_size_t offset, mp_srcptr xp, mp_siz
    only needs 2n - 1.
 */
 
+#define mpn_clearit(rxx, nxx) \
+  do { \
+     mp_size_t ind = 0; \
+     for ( ; ind < nxx; ind++) \
+        (rxx)[ind] = CNST_LIMB(0); \
+  } while (0)
+
 void
 mpn_toom4_mul_n (mp_ptr rp, mp_srcptr up,
 		          mp_srcptr vp, mp_size_t n)
 {
-  mp_size_t len1, len2;
+  mp_size_t len1, len2, ind;
   mp_limb_t cy, r30, r31;
   mp_ptr tp;
   mp_size_t a0n, a1n, a2n, a3n, b0n, b1n, b2n, b3n, sn, n1, n2, n3, n4, n5, n6, n7, n8, rpn, t4;
@@ -1070,9 +1077,14 @@ mpn_toom4_mul_n (mp_ptr rp, mp_srcptr up,
 
 	TC4_DENORM(r1, n1,  t4 - 1);
    TC4_DENORM(r2, n2,  t4 - 1);
-   if (n3 == 0) MPN_ZERO(r3 + 1, t4 - 2); /* don't overwrite last limb of r5 */
-	else TC4_DENORM(r3, n3,  t4 - 1);
-	TC4_DENORM(r4, n4,  t4 - 1);
+   if (n3)
+     TC4_DENORM(r3, n3,  t4 - 1); 
+   else {
+     /* MPN_ZERO defeats gcc 4.1.2 here, hence the explicit for loop */
+     for (ind = 1 ; ind < t4 - 1; ind++) 
+        (r3)[ind] = CNST_LIMB(0); 
+   }
+   TC4_DENORM(r4, n4,  t4 - 1);
    TC4_DENORM(r5, n5,  t4 - 1);
    TC4_DENORM(r6, n6,  t4 - 1);
    TC4_DENORM(r7, n7,  t4 - 2); // we treat r7 differently (it cannot exceed t4-2 in length)
@@ -1104,7 +1116,7 @@ mpn_toom4_mul_n (mp_ptr rp, mp_srcptr up,
 void
 mpn_toom4_sqr_n (mp_ptr rp, mp_srcptr up, mp_size_t n)
 {
-  mp_size_t len1;
+  mp_size_t len1, ind;
   mp_limb_t cy, r30, r31;
   mp_ptr tp;
   mp_size_t a0n, a1n, a2n, a3n, sn, n1, n2, n3, n4, n5, n6, n7, n8, n9, rpn, t4;
@@ -1172,9 +1184,14 @@ mpn_toom4_sqr_n (mp_ptr rp, mp_srcptr up, mp_size_t n)
 
 	TC4_DENORM(r1, n1,  t4 - 1);
    TC4_DENORM(r2, n2,  t4 - 1);
-   if (n3 == 0) MPN_ZERO(r3 + 1, t4 - 2); /* don't overwrite last limb of r5 */
-	else TC4_DENORM(r3, n3,  t4 - 1);
-	TC4_DENORM(r4, n4,  t4 - 1);
+   if (n3)
+     TC4_DENORM(r3, n3,  t4 - 1);
+   else {
+     /* MPN_ZERO defeats gcc 4.1.2 here, hence the explicit for loop */
+     for (ind = 1 ; ind < t4 - 1; ind++)
+        (r3)[ind] = CNST_LIMB(0);
+   }
+   TC4_DENORM(r4, n4,  t4 - 1);
    TC4_DENORM(r5, n5,  t4 - 1);
    TC4_DENORM(r6, n6,  t4 - 1);
    TC4_DENORM(r7, n7,  t4 - 2); // we treat r7 differently (it cannot exceed t4-2 in length)
