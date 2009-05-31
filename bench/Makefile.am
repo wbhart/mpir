@@ -21,7 +21,7 @@
 
 INCLUDES = -I$(top_srcdir) -I$(top_srcdir)/tests
 
-EXTRA_DIST =  README  divide.c  gexpr.c  mpirbench.sln  mpirver.c  multiply.c  rsa.c  runbench  runbench.py  timing.h  version
+EXTRA_DIST =  README  divide.c  gexpr.c  build.vc9  mpirver.c  multiply.c  rsa.c  runbench  runbench.py  timing.h  version
 noinst_HEADERS = timing.h
 
 # Prefer -static on the speed and tune programs, since that can avoid
