@@ -20,6 +20,28 @@ along with the GNU MP Library; see the file COPYING.LIB.  If not, write to
 the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 MA 02110-1301, USA.
 
+Changes between MPIR 1.1.0 and MPIR 1.2.0
+
+  Bugs:
+  * None
+
+  Speedups:
+  * Add new FFT code written by Paul Zimmermann as revised by Paul Zimmermann, Pierrick Gaudry, Alexander Kruppa and Torbjorn Granlund, with numerous bug fixes due to William Hart
+  * Add tuning parameters for new FFT for most modern processors
+  * Write tuning code for new FFT
+  * Implement Toom32, unbalanced Toom3, Toom42
+  * Optimise Toom3 and Toom3 squaring code using better sequences
+  * Factor out Toom4/7 interpolate sequences and switch to twos complement
+  * Optimise memory usage in Toom 3, 4 and 7 routines
+  * Many new highly optimised assembly routines for x86_64 architectures
+  * Fast XGCD based on Moller's ngcd algorithm
+
+  Features:
+  * Modified speed program to be able to add values from columns together
+
+  Changes:
+  * None
+
 Changes between MPIR 1.0.0 and MPIR 1.1.0
 
   Bugs:

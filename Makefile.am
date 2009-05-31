@@ -67,6 +67,7 @@ AUTOMAKE_OPTIONS = 1.8 gnu no-dependencies ansi2knr
 #        0.9.0    7:1:4    4:1:1   4:10:1   WRONG, same as GMP 4.2.1
 #        1.0.0    7:2:4    4:2:1   4:11:1
 #        1.1.0    7:3:4    4:3:1   4:12:1
+#        1.2.0    7:4:4    4:4:1   4:13:1
 #
 # Starting at 3:0:0 is a slight abuse of the versioning system, but it
 # ensures we're past soname libgmp.so.2, which was used on Debian GNU/Linux
@@ -80,15 +81,15 @@ AUTOMAKE_OPTIONS = 1.8 gnu no-dependencies ansi2knr
 # libgmpxx.so.3.0.4) incrementing, to make it clear which GMP it's from.
 
 LIBGMP_LT_CURRENT =  7
-LIBGMP_LT_REVISION = 3
+LIBGMP_LT_REVISION = 4
 LIBGMP_LT_AGE =      4
 
 LIBGMPXX_LT_CURRENT =  4
-LIBGMPXX_LT_REVISION = 3
+LIBGMPXX_LT_REVISION = 4
 LIBGMPXX_LT_AGE =      1
 
 LIBMP_LT_CURRENT =  4
-LIBMP_LT_REVISION = 12
+LIBMP_LT_REVISION = 13
 LIBMP_LT_AGE =      1
 
 
