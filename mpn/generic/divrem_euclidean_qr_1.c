@@ -65,7 +65,8 @@ mp_limb_t	mpn_divrem_euclidean_qr_1(mp_ptr qp,mp_srcptr xp,mp_size_t n,mp_limb_t
 #else
 mp_limb_t	mpn_divrem_euclidean_r_1(mp_srcptr xp,mp_size_t n,mp_limb_t d)
 #endif
-{int j;mp_limb_t r=0,s=0,h,l,q,i;
+{mp_size_t j;
+ mp_limb_t r=0,s=0,h,l,q,i;
 
 ASSERT(n>0);ASSERT(d!=0);ASSERT_MPN(xp,n);
 #if STORE_QUOTIENT
