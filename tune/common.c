@@ -126,13 +126,13 @@ double
 speed_measure (double (*fun) _PROTO ((struct speed_params *s)),
                struct speed_params *s)
 {
-#define TOLERANCE    1.005  /* 0.5% */
+#define TOLERANCE    1.05  /* 0.5% */
   const int max_zeros = 10;
 
   struct speed_params  s_dummy;
   int     i, j, e;
-  double  t[30];
-  double  t_unsorted[30];
+  double  t[100];
+  double  t_unsorted[100];
   double  reps_d;
   int     zeros = 0;
 
