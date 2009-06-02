@@ -29,7 +29,9 @@ MA 02110-1301, USA. */
   3. Use mpn_tdiv_qr instead of mpn_lshift+mpn_divrem.
 */
 
+#ifndef _GNU_SOURCE
 #define _GNU_SOURCE    /* for DECIMAL_POINT in langinfo.h */
+#endif
 
 #include "config.h"
 

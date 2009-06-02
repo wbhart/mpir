@@ -28,8 +28,9 @@ MA 02110-1301, USA. */
 
 #if ! HAVE_VSNPRINTF   /* only need this file if we don't have vsnprintf */
 
-
+#ifndef _GNU_SOURCE
 #define _GNU_SOURCE    /* for strnlen prototype */
+#endif
 
 #if HAVE_STDARG
 #include <stdarg.h>

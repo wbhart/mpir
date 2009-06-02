@@ -19,7 +19,9 @@ along with the GNU MP Library; see the file COPYING.LIB.  If not, write to
 the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 MA 02110-1301, USA. */
 
+#ifndef _GNU_SOURCE
 #define _GNU_SOURCE    /* for DECIMAL_POINT in glibc langinfo.h */
+#endif
 
 #include "config.h"
 

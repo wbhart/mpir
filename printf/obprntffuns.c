@@ -28,7 +28,9 @@ MA 02110-1301, USA. */
 
 #if HAVE_OBSTACK_VPRINTF
 
+#ifndef _GNU_SOURCE
 #define _GNU_SOURCE   /* ask glibc <stdio.h> for obstack_vprintf */
+#endif
 
 #if HAVE_STDARG
 #include <stdarg.h>
