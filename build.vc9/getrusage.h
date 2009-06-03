@@ -2,6 +2,11 @@
 #ifndef _GETRUSAGE_H
 #define _GETRUSAGE_H
 
+#if defined(__cplusplus)
+extern "C"
+{
+#endif
+
 #define ENODATA         61
 #define	RUSAGE_SELF	     0
 #define	RUSAGE_CHILDREN	-1
@@ -33,5 +38,9 @@ typedef struct rusage
 } rusage;
 
 int getrusage(int who, rusage *usage);
+
+#if defined(__cplusplus)
+}
+#endif
 
 #endif

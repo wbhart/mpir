@@ -274,7 +274,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				Optimization="3"
+				Optimization="0"
 				EnableIntrinsicFunctions="true"
 				AdditionalIncludeDirectories=".\;..\;..\..\;..\..\tests\;&quot;..\$(PlatformName)\&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE;HAVE_GETRUSAGE;HAVE_GETTIMEOFDAY"

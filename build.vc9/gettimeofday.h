@@ -6,13 +6,17 @@
  * By Wu Yongwei
  *
  */
-
 #ifndef _TIMEVAL_H
 #define _TIMEVAL_H
 
+#include <winsock2.h>
+
 #define EPOCHFILETIME (116444736000000000LL)
 
-#include <winsock2.h>
+#if defined(__cplusplus)
+extern "C"
+{
+#endif
 
 struct timezone 
 {
@@ -22,4 +26,9 @@ struct timezone
 
 int gettimeofday(struct timeval *tv, struct timezone *tz);
 
+#if defined(__cplusplus)
+}
+#endif
+
 #endif /* _TIMEVAL_H */
+
