@@ -35,7 +35,22 @@ MA 02110-1301, USA. */
 
 /* References:
 
-   Schnelle Multiplikation grosser Zahlen, by Arnold Scho"nhage and Volker
+   For the recent ideas used in the FFT, see:
+  
+   @InProceedings{GaKrZi07,
+      author    =     {Pierrick Gaudry and Alexander Kruppa and Paul Zimmermann},
+      title     =     {A {GMP}-based implementation of {S}ch\"onhage-{S}trassen's
+                      large integer multiplication algorithm},
+      booktitle =     {Proceedings of the 2007 International Symposium on
+                      Symbolic and Algebraic Computation, {ISSAC'2007}},
+      year      =     2007,
+      address   =     {Waterloo, Ontario, Canada},
+      pages     =     "167--174",
+      editor    =     "C. W. Brown",
+      annote    =     {\url{http://hal.inria.fr/inria-00126462}}
+   }
+   
+	Schnelle Multiplikation grosser Zahlen, by Arnold Scho"nhage and Volker
    Strassen, Computing 7, p. 281-292, 1971.
 
    Asymptotically fast algorithms for the numerical multiplication
