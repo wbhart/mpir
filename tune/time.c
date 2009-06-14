@@ -656,7 +656,7 @@ int
 getrusage_backwards_p (void)
 {
   static int result = -1;
-  struct rusage  start, prev, next;
+  struct_rusage  start, prev, next;
   long  d;
   int   i;
 
