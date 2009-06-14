@@ -752,7 +752,7 @@ EOF
   
   # We need to remove some .o files here since lame C compilers
   # generate these even when not asked.
-  rm -f ${dummy}032.s ${dummy}32.o ${dummy}32.c ${dummy}032.o ${dummy}064.s ${dummy}64.o ${dummy}64.c ${dummy}064.o $dummy
+  rm -f ${dummy}032.s ${dummy}32.o ${dummy}32.c ${dummy}032.o ${dummy}064.s ${dummy}64.o ${dummy}64.c ${dummy}064.o $dummy ${dummy}.exe
   ;;
 
 esac
