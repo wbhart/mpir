@@ -10,7 +10,7 @@ the GMP 4.2.1 distribution and are all licensed under Gnu LGPL
 v2.1 license terms. 
 
 Other files in this distribution that have been created by me 
-for use in building MPIR using Microsoft Visual  Studio 2008 
+for use in building MPIR with Microsoft Visual Studio 2008 
 are provided under the same license terms.
 
 Using the Assembler Based Build Projects
@@ -27,7 +27,7 @@ VC++, which, for Visual Stduio 2008, is typically:
 
  C:\Program Files (x86)\Microsoft Visual Studio 9.0\VC\bin
  
-It should be names yasm.exe.  You will also need to move the 
+It should be named yasm.exe.  You will also need to move the 
 yasm.rules file from this distribution into the directory 
 where Visual Studio 2008 expects to find it, which is 
 typically:
@@ -46,10 +46,8 @@ Compiling MPIR with the Visual Studio C/C++
 ===========================================
 
 These VC++ build projects are primarily designed to work with 
-Microsoft Visual Studio 2008 Professional. They do not work 
-directly with Microsoft Visual C++ 2008 Express but a Python 
-program is provided to convert them into a form that can be 
-used. 
+Microsoft Visual Studio 2008 Professional. They also work with
+Microsoft Visual C++ 2008 Express SP1 or later.
 
 Building with Visual Studio 2005
 ================================
@@ -77,44 +75,36 @@ in which not all projects are to be converted.
 Building with Visual Studio Express
 ===================================
 
-If you wish to convert these files for use with VC++ Express, 
-you will need to install Python and then run vc9_to_express.py. 
-This will create a new directory 'build.vc9x' that will contain 
-the project files for VC++ 2008 Express. There will be two errors
-when the solution is loaded because Express cannot handle two
-64-bit projects.  But these should not prevent other projects 
-in the solution loading. The two unavailable 64-bit projects
-should then be deleted to prevent future loading errors.
+Visual C++ 2008 Express Edition SP1 or newer is required to build
+MPIR.  Since the Express Edition cannot build 64bit binaries,
+there there will be four errors when the mpir.sln solution is
+loaded.  Click on "OK" and the solution will continue to load.
+All of the 32bit projects will be available.  The four unavailable
+64-bit projects should then be deleted to prevent future loading
+errors.  Highlight the projects marked (unavailable) and press the
+Delete key.
+
+If you do not have the 2008 Express SP1 or newer release, it can
+be downloaded free from Microsoft:
+
+  http://www.microsoft.com/express/download/
 
 Building MPIR
 =============
 
-The MPIR build is started by opening the Visual Studion C/C++ 
-solution file 'mpir.sln'.
-
-If you wish to convert these files for use with VC++ Express, 
-you will need to install Python and then run vc9toxpr.py. This
-will create a new directory 'build.vc9x' that will contain the
-project files for VC++ 2008 Express.  If you are using VC++ 
-Express you must build the projects manually in the following
-order:
-
-1. Build gen-mpir first.
-2. the gen-* projects.
-3. Then the remainder as needed. 
+The MPIR build is started by opening the Visual Studio C/C++ 
+solution file 'mpir.sln' in the build.vc9 directory.
 
 The 64-bit build projects won't be available with VC++ Express.
 
-Visual Studiio 2008 can be started for building the 32 or 64 bit 
-versions of MPIR by clicking on the mpir.sln file in the build.vc9 
-directory. If you wish to use the Intel compiler, you need to 
-convert the build files by right clicking on the MPIR top level 
-solution and then selecting the conversion option.  Before building 
-for the first time with the Intel compiler after such a conversion, 
-it is advisable to clean all the build projects and to delete any 
-files in the build.vc9\Win32 and build.vc9\x64 sub-directories.
+If you wish to use the Intel compiler, you need to convert the
+build files by right clicking on the MPIR top level solution and
+then selecting the conversion option.  Before building for the 
+first time with the Intel compiler after such a conversion, it is
+advisable to clean all the build projects and to delete any files
+in the build.vc9\Win32 and build.vc9\x64 sub-directories.
 
-Before MPIR is built by using the appropriate build projects. 
+MPIR is built by using the appropriate build projects. 
 Select the desired DLL or static library and then set the desired 
 configuration:
 
@@ -146,22 +136,21 @@ static library is built its config.h file is copied into the output
 directory; the library and its associated files are then copied to 
 the 'lib' sub-directory within the VC++ solution folder (build.vc9).
 Simlarly when a DLL is built, the resulting DLL, its export libraries
-and its debug symbol file are copied to the files gmp.dll, gmp.exp, 
-gmp.lib and gmp.pdb within the 'dll' sub-directory.
+and its debug symbol file are copied to the files mpir.dll, mpir.exp, 
+mpir.lib and mpir.pdb within the 'dll' sub-directory.
  
 This means that the 'dll' and 'lib' sub-directories respectively 
 contain the last MPIR DLLs and static libraries built.  These are
-then the libraries used in build any other libraries that are built
-later.  If you use the mpir-tests, the speed, the tune or the try 
-programs it is very important to do so immediately after the MPIR
-library in question is built because these projects link to the 
-last library built.   
+then the libraries used to build software that requires MPIR or GMP.
+If you use the mpir-tests, the speed, the tune or the try programs
+it is very important to do so immediately after the MPIR library
+in question is built because these projects link to the last
+library built.   
 
-The MPIR DLL projects include the C++ files. If you do not want 
-these the relevent files needed to be excluded from the DLL(s) you 
-build. Go to the 'cpp' subdirectory of their build project in the 
-IDE and exclude all the files in this subdirectory from the build 
-process.
+The MPIR DLL projects include the C++ files. If you want the relevent
+files excluded from the DLL(s) you build, go to the 'cpp' subdirectory
+of their build project in the IDE and exclude all the files in this
+subdirectory from the build process.
 
 All the DLLs and static libraries are multi-threaded and are 
 linked to the multi-threaded Microsoft run-time libraries (DLLs are 
@@ -219,12 +208,11 @@ The Tests
 =========
 
 There is a separate solution for the MPIR tests: mpir-tests.sln. In 
-Visual Studio 2008 these are in the mpir-tests project folder.  These
-tests should be run immediately after the DLL or static library 
-under test has been built.  Before running the tests it is necessary
-to build the add-test-lib project in the 'mpir tests' solution folder 
-(note that the Win32/x64 and Debug/Release configuration built must 
-match the intended test configuration). 
+Visual Studio 2008 these are in build.vc9 folder.  These tests should
+be run immediately after the DLL or static library to be tested has
+been built.  Before running the tests it is necessary to build the
+add-test-lib project (note that the Win32/x64 and Debug/Release
+configuration built must match the intended test configuration). 
 
 The MPIR tests are all configured using the property file:
 
@@ -247,12 +235,12 @@ changed to
 to link the test to the DLL libraries.  A second macro $(LIBS)
 is also needed to set the libaries to be used:
 
-	$(BinDir)$(PlatformName)\$(ConfigurationName)\gmp.lib 
+	$(BinDir)$(PlatformName)\$(ConfigurationName)\mpir.lib 
 
 for testing the DLL and 
 
-	$(BinDir)$(PlatformName)\$(ConfigurationName)\gmp.lib 	
-	$(BinDir)$(PlatformName)\$(ConfigurationName)\gmpxx.lib
+	$(BinDir)$(PlatformName)\$(ConfigurationName)\mpir.lib 	
+	$(BinDir)$(PlatformName)\$(ConfigurationName)\mpirxx.lib
 
 for testing the static libraries (enter these with a ' ' between 
 them when setting up the macro).
@@ -270,9 +258,9 @@ Test Automation
 
 After they have been built the tests cn be run using the 
 Python script run-tests.py in the build.vc9\mpir-tests
-directory (build.vc9x\mpir-tests for VC++ express). To 
-see the test output the python script should be run in
-a command window from within these sub-directories:
+directory. To see the test output the python script
+should be run in a command window from within these
+sub-directories:
 
 	cmd>mpir-tests.py 
 	
@@ -405,9 +393,11 @@ ACKNOWLEDGEMENTS
 
 My thanks to:
 
-1. The GMP team for their work on GMP and the MPFR team for their work on MPFR
-2. Sam Krasnik and Mike Loehr for suggestions on how to improve and correct errors in earlier releases.
-3. Patrick Pelissier, Vincent Lefèvre and Paul Zimmermann for helping to resolve VC++ issues in MPFR.
-4. Michael Abshoff and Jim White for agreeing to host the pre-built binaries for GMP on Windows.
+1. The GMP team for their work on GMP and the MPFR team 
+   for their work on MPFR
+3. Patrick Pelissier, Vincent Lefèvre and Paul Zimmermann
+   for helping to resolve VC++ issues in MPFR.
+4. Jeff Gilcrist for his help in testing, debugging and 
+   improving the readme giving the VC++ build instructions
 
-       Brian Gladman, March 2009
+       Brian Gladman, June 2009
