@@ -42,12 +42,12 @@ cd mpir-tests
 python --version >nul 2>&1
 if not errorlevel 1 goto :got
 if exist c:\Python26 (
-        set PATH=%PATH%;c:\Python26
+        set "PATH=%PATH%;c:\Python26"
         python --version >nul 2>&1
         if not errorlevel 1 goto :got
 )
 if exist c:\Python30 (
-        set PATH=%PATH%;c:\Python30
+        set "PATH=%PATH%;c:\Python30"
         python --version >nul 2>&1
         if not errorlevel 1 goto :got
 )
