@@ -35,9 +35,6 @@ goto :EOF
 :check
 :: this gives an error if we dont build the c++ stuff
 vcbuild mpir-tests.sln "Release|%ARCHW%"
-::copy gmp-mparam.h %LIBTYPE%\%ARCHW%\Release\gmp-mparam.h
-::vcbuild /override:mpir-tests\test-config.vsprops mpir-tests\add-test-lib.vcproj "Release|%ARCHW%"
-::vcbuild mpir-tests\add-test-lib.vcproj "Release|%ARCHW%"
 cd mpir-tests
 python --version >nul 2>&1
 if not errorlevel 1 goto :got
@@ -73,11 +70,11 @@ goto :EOF
 
 :clean
 del config_params.bat config.guess.bat config.guess.exe config.guess.obj last_build.txt
-set LIBBUILD=%LIBTYPE%_mpir_%BCPU%
-del /q/s gen-psqr\gen-psqr.exe gen-fac_ui\gen-fac_ui.exe gen-bases\gen-bases.exe
-del /q/s gen-fib\gen-fib.exe gen-mpir\gen-mpir.exe gen-mpir\gen-mpir.pdb
-rmdir /s/q x64 win32 %LIBBUILD%\%ARCHW% lib_mpir_cpp\%ARCHW% lib\%ARCHW% dll\%ARCHW% mpir-tests\%ARCHW%
-rmdir /s/q gen-psqr\%ARCHW% gen-fac_ui\%ARCHW% gen-bases\%ARCHW% gen-fib\%ARCHW% gen-mpir\%ARCHW%
+del ..\config.h ..\mpir.h ..\gmp.h ..\gmp-mparam.h
+del gen-psqr\gen-psqr.exe gen-fac_ui\gen-fac_ui.exe gen-bases\gen-bases.exe
+del gen-fib\gen-fib.exe gen-mpir\gen-mpir.exe gen-mpir\gen-mpir.pdb
+rmdir /s/q x64 win32 %LIBTYPE%_mpir_%BCPU%\%ARCHW% lib_mpir_cpp\%ARCHW% lib\%ARCHW% dll\%ARCHW% mpir-tests\%ARCHW%
+rmdir /s/q gen-psqr\Win32 gen-fac_ui\Win32 gen-bases\Win32 gen-fib\Win32 gen-mpir\Win32
 rmdir /s/q lib_speed\%ARCHW% speed\%ARCHW% tune\%ARCHW% try\%ARCHW%
 goto :EOF
 
