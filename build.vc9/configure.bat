@@ -67,20 +67,20 @@ call config.guess.bat
 if %GBITS% == %BITS% goto :gotcc
 :nocc
 echo Cant find a compiler for %ARCH%
-goto :EOF
+exit /b 1
 :gotcc
 
 set YASM="%VCINSTALLDIR%\bin\yasm.exe"
 if not exist %YASM% (
 	echo Cant find %YASM%
 	echo Download from http://www.tortall.net/projects/yasm/ and install to above
-	goto :EOF
+	exit /b 1
 )
 set YASMRULES="%VCINSTALLDIR%\VCProjectDefaults\yasm.rules"
 if not exist %YASMRULES% (
 	echo Cant find %YASMRULES%
 	echo copy from this directory to above
-	goto :EOF
+	exit /b 1
 )
 
 if %CPU% == ? (	set CPU=%GCPU%)
@@ -129,4 +129,4 @@ echo (set ARCHW=%ARCHW%) >> config_params.bat
 echo (set BCPU=%BCPU%) >> config_params.bat
 echo setting params to
 type config_params.bat
-:EOF
+exit /b 0
