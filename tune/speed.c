@@ -444,6 +444,8 @@ struct choice_t {
   int                     no_time;
   double                  prev_time;
   const char              *name;
+  char		  	  *filename;
+  int			  colfile;
   int 			  nsum;
   int			  sum[SUMMAX];
 };
@@ -536,13 +538,33 @@ run_one (FILE *fp, struct speed_params *s, mp_size_t prev_size)
     {
       if( choice[i].nsum!=0)continue;
       s->r = choice[i].r;
-      choice[i].time = speed_measure (choice[i].p->fun, s);
+      if( choice[i].colfile==-1)
+        {choice[i].time = speed_measure (choice[i].p->fun, s);}
+      else
+        {FILE *fp;char buf[1024],buf2[1024],*p;int got=0;
+         choice[i].time==-1.0;
+         fp=fopen(choice[i].filename,"rt");
+         if(fp==0){printf("Cant open %s\n",choice[i].filename);exit(1);}
+         while(fgets(buf,1024,fp)!=0)
+              if(atoi(buf)==s->size)
+                {p=buf;
+                 for(j=0;j<=choice[i].colfile;j++)
+                    {if(sscanf(p," %s",buf2)!=1)break;                
+                     p=strstr(p,buf2)+strlen(buf2);}
+                 if(j==choice[i].colfile+1)
+                   {while((p=strstr(buf2,"#"))!=0)*p=' ';// exclude #
+                    choice[i].time=atof(buf2);                  
+                   }         
+                 break;}
+         fclose(fp);
+         }
       choice[i].no_time = (choice[i].time == -1.0);
       if (! choice[i].no_time)
         choice[i].time *= choice[i].scale;
 
       /* Apply the effect of CMP_DIFFPREV, but the new choice[i].prev_time
          is before any differences.  */
+      if(choice[i].colfile==-1)   
       {
         double     t;
         t = choice[i].time;
@@ -579,7 +601,11 @@ run_one (FILE *fp, struct speed_params *s, mp_size_t prev_size)
           fastest = i;
           fastest_time = choice[i].time;
         }
-
+    }
+  for (i = 0; i < num_choices; i++)
+    {
+      if (choice[i].no_time || choice[i].colfile!=-1)
+        continue;
       if (option_cmp == CMP_DIFFPREV)
         {
           /* Conversion for UNIT_CYCLESPERLIMB differs in CMP_DIFFPREV. */
@@ -605,7 +631,7 @@ run_one (FILE *fp, struct speed_params *s, mp_size_t prev_size)
     }    
   for (i = 0; i < num_choices; i++)
     {
-      if (choice[i].no_time)
+      if (choice[i].no_time || choice[i].colfile!=-1)
         continue;
 
       if (option_cmp != CMP_DIFFPREV)
@@ -908,6 +934,7 @@ routine_find (struct choice_t *c, const char *s_orig)
 
   c->name = s_orig;
   c->nsum=0;
+  c->colfile=-1;
   s = strchr (s_orig, '*');
   if (s != NULL)
     {
@@ -969,6 +996,10 @@ routine_find (struct choice_t *c, const char *s_orig)
      {xcol[xcoln++]=c->sum[i];
       if(xcoln>XCOLMAX){fprintf(stderr,"XCOLMAX not big enough\n");exit(1);}}
   if(c->nsum!=0)return;
+  
+  c->filename=malloc(1024);// bit of a over kill , but remember what if we have two colfile's , these pointer can get lost
+  if(sscanf(s,"colfile=%d,%s",&i,c->filename)==2)
+    {c->colfile=i;return;}
   fprintf (stderr, "Choice %s unrecognised\n", s_orig);
   exit (1);
 }
@@ -1006,6 +1037,7 @@ usage (void)
   printf ("   -x, -y, -w, -W <align>  specify data alignments, sources and dests\n");
   printf ("   -o addrs     print addresses of data blocks\n");
   printf ("   colsum=A+B+...+Z   Sums the columns A,B,.. upto a max of %d columns\n",SUMMAX);
+  printf ("   colfile=col,filename Use the data in column col from file filename\n");
   printf ("\n");
   printf ("float*routine prefix can be used to multiply a column by a scale factor float.\n\n");
   printf ("If both -t and -f are used, it means step by the factor or the step, whichever\n");
