@@ -84,3 +84,5 @@ tal-debug.c - debug versions of TMP_ALLOC
 tal-notreent.c - non-reentrant versions of the TMP_ALLOC functions
 tal-reent.c - reentrant versions of TMP_ALLOC functions
 version.c - defines gmp_version and mpir_version
+
+This document, FILES, is contained in the /doc/devel directory of the MPIR source tree.
