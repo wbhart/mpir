@@ -239,3 +239,5 @@ deal with sqr_basecase if found
 -GMP_FINISH creates config.m4
 
 -create makefiles from the Makefile.in's
+
+This document, configure.txt can be found in /doc/devel of the MPIR source tree.
