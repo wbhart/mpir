@@ -1032,6 +1032,50 @@ void gcdext_get_t(mp_ptr t, mp_size_t * tn, mp_ptr gp, mp_size_t gn, mp_ptr ap,
 	(*tn) -= (t[(*tn) - 1] == 0);
 }
 
+mp_limb_t mpn_gcdinv_1(mp_limb_t * a, mp_limb_signed_t x, mp_limb_signed_t y)
+{
+   mp_limb_signed_t u1 = CNST_LIMB(1); 
+   mp_limb_signed_t u2 = CNST_LIMB(0); 
+   mp_limb_signed_t t1; 
+   mp_limb_t u3, v3;
+   mp_limb_t quot, rem;
+   mp_limb_signed_t xsign = 0;
+   
+   u3 = x, v3 = y;
+
+   while (v3) {
+      quot=u3-v3;
+      if (u3 < (v3<<2))
+      {
+         if (quot < v3)
+         {
+            t1 = u2; u2 = u1 - u2; u1 = t1; u3 = v3;
+            v3 = quot;
+         } else if (quot < (v3<<1))
+         {  
+            t1 = u2; u2 = u1 - (u2<<1); u1 = t1; u3 = v3;
+            v3 = quot-u3;
+         } else
+         {
+            t1 = u2; u2 = u1 - 3*u2; u1 = t1; u3 = v3;
+            v3 = quot-(u3<<1);
+         }
+      } else
+      {
+         quot=u3/v3;
+         rem = u3 - v3*quot;
+         t1 = u2; u2 = u1 - quot*u2; u1 = t1; u3 = v3;
+         v3 = rem;
+      }
+   }
+   
+   if (u1 < (mp_limb_signed_t) 0) u1 += y;
+   *a = u1;
+   
+   return u3;
+}
+
+
 #define P_SIZE(n) (n/2)
 #define NGCDEXT_THRESHOLD 400
 
@@ -1041,6 +1085,7 @@ mpn_gcdext (mp_ptr gp, mp_ptr s0p, mp_size_t *s0size,
 {
   mp_size_t init_scratch, orig_n = n;
   mp_size_t scratch, un, u0n, u1n;
+  mp_limb_t t;
   mp_ptr tp, u0, u1;
   int swapped = 0;
     struct ngcd_matrix M;
@@ -1049,6 +1094,20 @@ mpn_gcdext (mp_ptr gp, mp_ptr s0p, mp_size_t *s0size,
   TMP_DECL;
   
   ASSERT (an >= n);
+  
+  if (an == 1)
+  {
+    if (!n)
+    {
+       gp[0] = ap[0];
+       s0p[0] = 1;
+       *s0size = 1;
+       return 1;
+    }
+    gp[0] = mpn_gcdinv_1(s0p, ap[0], bp[0]);
+    *s0size = 1;
+    return 1;
+  }
 
   if (BELOW_THRESHOLD (n, NGCDEXT_THRESHOLD))
     return mpn_basic_gcdext (gp, s0p, s0size, ap, an, bp, n);

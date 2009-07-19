@@ -110,7 +110,7 @@ MA 02110-1301, USA. */
    presumably previous versions) so we try to define quicker functions 
    here. For now we simply use the string store/copy instruction which is 
    ok, although not optimal (MMX or XMM would probably do better). */
-#define OWN_MPN_FFT_ZERO
+//#define OWN_MPN_FFT_ZERO
 /* REP MOVSL/MOVSQ seems to be no faster or slower than MPN_COPY() */
 /* #define OWN_MPN_FFT_COPY */
 
