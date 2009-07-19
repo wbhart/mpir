@@ -639,6 +639,8 @@ mpn_nhgcd (mp_ptr ap, mp_ptr bp, mp_size_t n,
 
 #define EVEN_P(x) (((x) & 1) == 0)
 
+#define LGCD_THRESHOLD 64
+
 mp_size_t
 mpn_gcd (mp_ptr gp, mp_ptr ap, mp_size_t an, mp_ptr bp, mp_size_t n)
 {
@@ -650,14 +652,22 @@ mpn_gcd (mp_ptr gp, mp_ptr ap, mp_size_t an, mp_ptr bp, mp_size_t n)
   ASSERT (an >= n);
 
   if (BELOW_THRESHOLD (n, NGCD_THRESHOLD))
+  {    
+    if (BELOW_THRESHOLD (n, LGCD_THRESHOLD))
+       return mpn_lgcd (gp, ap, an, bp, n);
+       
     return mpn_basic_gcd (gp, ap, an, bp, n);
-
+  }
+  
   init_scratch = MPN_NGCD_MATRIX_INIT_ITCH ((n+1)/2);
   scratch = mpn_nhgcd_itch ((n+1)/2);
 
   /* Space needed for mpn_ngcd_matrix_adjust */
   if (scratch < 2*n)
     scratch = 2*n;
+    
+  if (scratch < MPN_NGCD_LEHMER_ITCH(n)) /* Space needed by Lehmer GCD */
+    scratch = MPN_NGCD_LEHMER_ITCH(n);
 
   TMP_MARK;
   
@@ -709,16 +719,17 @@ mpn_gcd (mp_ptr gp, mp_ptr ap, mp_size_t an, mp_ptr bp, mp_size_t n)
     }
 
   ASSERT (ap[n-1] > 0 || bp[n-1] > 0);
-#if 0
-  /* FIXME: We may want to use lehmer on some systems. */
-  n = mpn_ngcd_lehmer (gp, ap, bp, n, tp);
-
-  TMP_FREE;
-  return n;
-#endif
-
+  
   if (ap[n-1] < bp[n-1])
     MP_PTR_SWAP (ap, bp);
+    
+  if (BELOW_THRESHOLD (n, LGCD_THRESHOLD))  
+  {
+    n = mpn_ngcd_lehmer (gp, ap, bp, n, tp);
+
+    TMP_FREE;
+    return n;
+  }
 
   an = n;
   MPN_NORMALIZE (bp, n);
