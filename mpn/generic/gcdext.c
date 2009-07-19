@@ -1084,7 +1084,7 @@ mpn_gcdext (mp_ptr gp, mp_ptr s0p, mp_size_t *s0size,
       mp_ptr rp = tp;
       mp_ptr qp = rp + n;
 
-      mpn_tdiv_qr (qp, rp, 0, ap, an, bp, n); /* ap -= qp * bp, u1 += qp * u0, but u0 is 0 and u1 is 1  at this point */
+      mpn_tdiv_qr (qp, rp, 0, ap, an, bp, n);
       
 		MPN_COPY (ap, rp, n);
       an = n;
@@ -1108,6 +1108,14 @@ mpn_gcdext (mp_ptr gp, mp_ptr s0p, mp_size_t *s0size,
   if (nn > 0)
 	 {
 		 n = mpn_ngcd_matrix_adjust (&M, p + nn, ap, bp, p, tp + init_scratch);
+		 
+		 /* 
+            (ap'', bp'')^T = M^-1(ap', bp')^T 
+		    and (ap', bp') = (1*ap + ?*bp, 0*ap + ?*bp) 
+		    We let u0 be minus the factor of ap appearing 
+            in the expression for bp'' and u1 be the 
+            factor of ap appearing in the expression for ap''
+        */
 
        MPN_COPY(u0, M.p[1][0], M.n);
 	    MPN_COPY(u1, M.p[1][1], M.n);
@@ -1120,8 +1128,8 @@ mpn_gcdext (mp_ptr gp, mp_ptr s0p, mp_size_t *s0size,
 	   mp_size_t gn;
 
 		un = 1;
-	   u0[0] = 0;
-	   u1[0] = 1;
+	   u0[0] = 0; /* bp = 0*ap + ?*bp, thus u0 = -0 */
+	   u1[0] = 1; /* ap = 1*ap + ?*bp, thus u1 = 1 */
    
 	   n = mpn_ngcdext_subdiv_step (gp, &gn, s0p, u0, u1, &un, ap, bp, n, tp);
 	 if (n == 0)
@@ -1146,6 +1154,14 @@ mpn_gcdext (mp_ptr gp, mp_ptr s0p, mp_size_t *s0size,
 	   n = mpn_ngcd_matrix_adjust (&M, p + nn, ap, bp, p, tp + init_scratch);
 
 		ngcdext_cofactor_adjust(u0, u1, &un, &M, tp + init_scratch);
+		
+		/* 
+            (ap'', bp'')^T = M^-1(ap', bp')^T 
+		    and (ap', bp') = (u1*ap + ?*bp, -u0*ap + ?*bp) 
+		    So we need u0' = -(-c*u1 + a*-u0) = a*u0 + c*u1
+            and we need u1' = (d*u1 -b*-u0) = b*u0 + d*u1 
+        */
+
      
 		ASSERT(un <= orig_n + 1);
 
@@ -1194,13 +1210,9 @@ mpn_gcdext (mp_ptr gp, mp_ptr s0p, mp_size_t *s0size,
 
   /* 
      If at this point we have s*ap' + t*bp' = gp where gp is the gcd
-	  and ap', bp' are the current values of ap, bp
-	  then as (ap, bp) is (ap', bp')M, if we let M = (t0 u0) 
-                                                    (t1 u1) 
-	  then (ap', bp') = (ap, bp)M^-1 = (ap, bp)(u1 -u0) = (u1*ap-t1*bp, -u0*ap+t0*bp)
-	                                           (-t1 t0)
-	  i.e. g = s*(u1*ap-t1*bp)-t*(u0*ap-t0*bp) = (s*u1-t*u0)ap-(s*t1-t*t0)bp
-	  in other words, the cofactor we want is (s*u1-t*u0).
+	  and (ap', bp') = (u1*ap + ?*bp, -u0*ap + ?*bp)
+	  then gp = s*u1*ap - t*u0*ap + ?*bp
+	  and the cofactor we want is (s*u1-t*u0).
 
 	  First there is the special case u0 = 0, u1 = 1 in which case we do not need 
 	  to compute t...
@@ -1323,7 +1335,7 @@ mpn_gcdext (mp_ptr gp, mp_ptr s0p, mp_size_t *s0size,
 
 	  ASSERT(u1[u1n - 1] > 0);
 
-	  /* Recall t is now positive so s*u1 - t*u0 
+	  /* Recall t is now negated so s*u1 - t*u0 
 	     involves an *addition* 
 	  */
 
