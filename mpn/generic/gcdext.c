@@ -1102,7 +1102,7 @@ mp_limb_t mpn_gcdinv_1(mp_limb_t * a, mp_limb_t x, mp_limb_t y)
 
 
 #define P_SIZE(n) (n/2)
-#define NGCDEXT_THRESHOLD 600
+#define NGCDEXT_THRESHOLD 400
 
 mp_size_t
 mpn_gcdext (mp_ptr gp, mp_ptr s0p, mp_size_t *s0size,
@@ -1328,23 +1328,14 @@ mpn_gcdext (mp_ptr gp, mp_ptr s0p, mp_size_t *s0size,
 	  mp_limb_t cy;
 	  int negate = 0;
 	  
-	  /*if (an > n)
-      {
-         mpn_tdiv_qr(tp, ap, (mp_size_t) 0, ap, an, bp, n);
-         MP_PTR_SWAP (ap, bp);
-	     MP_PTR_SWAP (u0, u1);
-	     swapped = 1;
-	     an = n;
-      }*/
-      
       /* Save an, bn first as gcdext destroys inputs */
 	  s = tp;
-	  tp += (an + 1);
+	  tp += an;
 	  
      MPN_COPY(tp, ap, an);
-	  MPN_COPY(tp + an + 1, bp, n);
+	  MPN_COPY(tp + an, bp, an);
 	  
-      gn = mpn_ngcdext_lehmer (gp, s, &sn, tp, tp + an + 1, an, tp + an + n + 1);
+      gn = mpn_ngcdext_lehmer (gp, s, &sn, tp, tp + an, an, tp + 2*an);
       
 	  /* Special case, s == 0, t == 1, cofactor = -u0 */
 
