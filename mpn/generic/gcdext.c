@@ -1032,20 +1032,44 @@ void gcdext_get_t(mp_ptr t, mp_size_t * tn, mp_ptr gp, mp_size_t gn, mp_ptr ap,
 	(*tn) -= (t[(*tn) - 1] == 0);
 }
 
-mp_limb_t mpn_gcdinv_1(mp_limb_t * a, mp_limb_signed_t x, mp_limb_signed_t y)
+mp_limb_t mpn_gcdinv_1(mp_limb_t * a, mp_limb_t x, mp_limb_t y)
 {
    mp_limb_signed_t u1 = CNST_LIMB(1); 
    mp_limb_signed_t u2 = CNST_LIMB(0); 
    mp_limb_signed_t t1; 
    mp_limb_t u3, v3;
    mp_limb_t quot, rem;
-   mp_limb_signed_t xsign = 0;
    
    u3 = x, v3 = y;
+   
+   if ((mp_limb_signed_t) (x & y) < (mp_limb_signed_t) CNST_LIMB(0)) /* x and y both have top bit set */ 
+   {
+     quot=u3-v3;
+     t1 = u2; u2 = u1 - u2; u1 = t1; u3 = v3;
+     v3 = quot;
+   }
 
+   while ((mp_limb_signed_t) (v3<<1) < (mp_limb_signed_t) CNST_LIMB(0)) /* second value has second msb set */
+   {
+     quot=u3-v3;
+     if (quot < v3)
+     {
+        t1 = u2; u2 = u1 - u2; u1 = t1; u3 = v3;
+        v3 = quot;
+     } else if (quot < (v3<<1))
+     {  
+        t1 = u2; u2 = u1 - (u2<<1); u1 = t1; u3 = v3;
+        v3 = quot-u3;
+     } else
+     {
+        t1 = u2; u2 = u1 - 3*u2; u1 = t1; u3 = v3;
+        v3 = quot-(u3<<1);
+     }
+   }
+   
    while (v3) {
       quot=u3-v3;
-      if (u3 < (v3<<2))
+      if (u3 < (v3<<2)) /* overflow not possible due to top 2 bits of v3 not being set */
       {
          if (quot < v3)
          {
@@ -1069,6 +1093,7 @@ mp_limb_t mpn_gcdinv_1(mp_limb_t * a, mp_limb_signed_t x, mp_limb_signed_t y)
       }
    }
    
+   /* Quite remarkably, this always has |u1| < x/2 at this point, thus comparison with 0 is valid */
    if (u1 < (mp_limb_signed_t) 0) u1 += y;
    *a = u1;
    
