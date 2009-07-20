@@ -1102,7 +1102,7 @@ mp_limb_t mpn_gcdinv_1(mp_limb_t * a, mp_limb_t x, mp_limb_t y)
 
 
 #define P_SIZE(n) (n/2)
-#define NGCDEXT_THRESHOLD 400
+#define NGCDEXT_THRESHOLD 600
 
 mp_size_t
 mpn_gcdext (mp_ptr gp, mp_ptr s0p, mp_size_t *s0size,
@@ -1134,9 +1134,6 @@ mpn_gcdext (mp_ptr gp, mp_ptr s0p, mp_size_t *s0size,
     return 1;
   }
 
-  if (BELOW_THRESHOLD (n, NGCDEXT_THRESHOLD))
-    return mpn_basic_gcdext (gp, s0p, s0size, ap, an, bp, n);
-  
   init_scratch = MPN_NGCD_MATRIX_INIT_ITCH ((n+1)/2);
   scratch = mpn_nhgcd_itch ((n+1)/2);
 
@@ -1155,14 +1152,7 @@ mpn_gcdext (mp_ptr gp, mp_ptr s0p, mp_size_t *s0size,
     tp = TMP_ALLOC_LIMBS (7*n+5); /* 3n+1 for get_t, 2n+2 for s, t, 2n+2 for u0, u1 */
   else
     tp = TMP_ALLOC_LIMBS (2*(n+1) + init_scratch + scratch);
-
-  u0 = tp; /* Cofactor space */
-  u1 = tp + n + 1;
-
-  MPN_ZERO(tp, 2*(n+1));
-
-  tp += 2*(n+1);
-  
+    
   if (an > n)
     {
       mp_ptr rp = tp;
@@ -1182,6 +1172,20 @@ mpn_gcdext (mp_ptr gp, mp_ptr s0p, mp_size_t *s0size,
 	}
     }
 
+    if (BELOW_THRESHOLD (n, NGCDEXT_THRESHOLD))
+    {
+      n = mpn_ngcdext_lehmer (gp, s0p, s0size, ap, bp, n, tp);
+      TMP_FREE;
+      return n;
+    }
+  
+    u0 = tp; /* Cofactor space */
+    u1 = tp + n + 1;
+
+    MPN_ZERO(tp, 2*(n+1));
+
+    tp += 2*(n+1);
+  
     /* First iteration, setup u0 and u1 */
 
     p = P_SIZE(n);
@@ -1310,7 +1314,7 @@ mpn_gcdext (mp_ptr gp, mp_ptr s0p, mp_size_t *s0size,
   {
 	  mp_size_t gn;
 	 
-	  gn = mpn_basic_gcdext (gp, s0p, s0size, ap, an, bp, n);
+	  gn = mpn_ngcdext_lehmer (gp, s0p, s0size, ap, bp, n, tp);
 	  if (swapped) (*s0size) = -(*s0size);
 	  TMP_FREE;
 	  return gn;
@@ -1323,17 +1327,25 @@ mpn_gcdext (mp_ptr gp, mp_ptr s0p, mp_size_t *s0size,
 	  mp_ptr s, t;
 	  mp_limb_t cy;
 	  int negate = 0;
-
-	  /* Save an, bn first as gcdext destroys inputs */
-		  
+	  
+	  /*if (an > n)
+      {
+         mpn_tdiv_qr(tp, ap, (mp_size_t) 0, ap, an, bp, n);
+         MP_PTR_SWAP (ap, bp);
+	     MP_PTR_SWAP (u0, u1);
+	     swapped = 1;
+	     an = n;
+      }*/
+      
+      /* Save an, bn first as gcdext destroys inputs */
 	  s = tp;
 	  tp += (an + 1);
-   
+	  
      MPN_COPY(tp, ap, an);
 	  MPN_COPY(tp + an + 1, bp, n);
-
-	  gn = mpn_basic_gcdext (gp, s, &sn, tp, an, tp + an + 1, n); /* {s, sn} is normalised */
-     
+	  
+      gn = mpn_ngcdext_lehmer (gp, s, &sn, tp, tp + an + 1, an, tp + an + n + 1);
+      
 	  /* Special case, s == 0, t == 1, cofactor = -u0 */
 
 	  if (sn == 0)

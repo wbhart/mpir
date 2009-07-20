@@ -3471,6 +3471,15 @@ mpn_nhgcd2 (mp_limb_t ah, mp_limb_t al, mp_limb_t bh, mp_limb_t bl,
 	    struct ngcd_matrix1 *M);
 
 mp_size_t
+mpn_ngcdext_lehmer (mp_ptr gp, mp_ptr s0p, mp_size_t *s0size, 
+                  mp_ptr ap, mp_ptr bp, mp_size_t n, mp_ptr tp);
+
+mp_size_t
+mpn_ngcdext_subdiv_step (mp_ptr gp, mp_size_t *gn, mp_ptr s0p, 
+            mp_ptr u0, mp_ptr u1, mp_size_t *un, mp_ptr ap, 
+                             mp_ptr bp, mp_size_t n, mp_ptr tp);
+
+mp_size_t
 mpn_ngcd_matrix1_vector (struct ngcd_matrix1 *M, mp_size_t n, mp_ptr ap, mp_ptr bp, mp_ptr tp);
 
 struct ngcd_matrix

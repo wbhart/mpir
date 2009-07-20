@@ -564,3 +564,240 @@ mpn_lgcd (mp_ptr gp, mp_ptr ap, mp_size_t an, mp_ptr bp, mp_size_t bn)
   return gn;
 }
 
+/*
+   Set (u0, u1) = (u0, u1) M 
+	Requires temporary space un
+*/
+void ngcdext_cofactor1_adjust(mp_ptr u0, mp_ptr u1, mp_size_t * un, struct ngcd_matrix1 *M, mp_ptr tp)
+{
+	/* Let M = (r00, r01)
+	           (r10, r11)
+	   We want u0 = u0 * r00 + u1 * r10
+		        u1 = u0 * r01 + u1 * r11
+	   We make a copy of u0 at tp and update u0 first
+	*/
+
+    mp_limb_t cy, cy2;
+   	
+	MPN_COPY(tp, u0, *un);
+
+	cy = mpn_mul_1(u0, u0, *un, M->u[0][0]); 
+	cy += mpn_addmul_1(u0, u1, *un, M->u[1][0]);
+	
+	cy2 = mpn_mul_1(u1, u1, *un, M->u[1][1]); 
+	cy2 += mpn_addmul_1(u1, tp, *un, M->u[0][1]); 
+	
+	if ((cy) || (cy2)) /* normalise u0, u1 */
+	{
+		u0[*un] = cy;
+		u1[*un] = cy2;
+		(*un) ++;
+	} 
+}
+
+mp_limb_t mpn_gcdext_1(mp_limb_t * a, mp_limb_t *b, mp_limb_t x, mp_limb_t y)
+{
+   mp_limb_signed_t u1 = CNST_LIMB(1); 
+   mp_limb_signed_t u2 = CNST_LIMB(0); 
+   mp_limb_signed_t v1 = CNST_LIMB(0); 
+   mp_limb_signed_t v2 = CNST_LIMB(1); 
+   mp_limb_signed_t t1, t2; 
+   mp_limb_t u3, v3;
+   mp_limb_t quot, rem;
+   
+   u3 = x, v3 = y;
+   
+   if (v3 > u3)
+   {
+         rem = u3;
+         t1 = u2; u2 = u1; u1 = t1; u3 = v3;
+         t2 = v2; v2 = v1; v1 = t2; v3 = rem;
+   }
+   
+   if ((mp_limb_signed_t) (x & y) < (mp_limb_signed_t) CNST_LIMB(0)) // x and y both have top bit set  
+   {
+     quot=u3-v3;
+     t2 = v2; 
+     t1 = u2; u2 = u1 - u2; u1 = t1; u3 = v3;
+     v2 = v1 - v2; v1 = t2; v3 = quot;
+   }
+
+   while ((mp_limb_signed_t) (v3<<1) < (mp_limb_signed_t) CNST_LIMB(0)) // second value has second msb set 
+   {
+     quot=u3-v3;
+     if (quot < v3)
+     {
+        t2 = v2; 
+        t1 = u2; u2 = u1 - u2; u1 = t1; u3 = v3;
+        v2 = v1 - v2; v1 = t2; v3 = quot;
+     } else if (quot < (v3<<1))
+     {  
+        t1 = u2; u2 = u1 - (u2<<1); u1 = t1; u3 = v3;
+        t2 = v2; v2 = v1 - (v2<<1); v1 = t2; v3 = quot-u3;
+     } else
+     {
+        t1 = u2; u2 = u1 - 3*u2; u1 = t1; u3 = v3;
+        t2 = v2; v2 = v1 - 3*v2; v1 = t2; v3 = quot-(u3<<1);
+     }
+   }
+   
+   while (v3) {
+      quot=u3-v3;
+      if (u3 < (v3<<2)) // overflow not possible due to top 2 bits of v3 not being set 
+      {
+         if (quot < v3)
+         {
+            t2 = v2; 
+            t1 = u2; u2 = u1 - u2; u1 = t1; u3 = v3;
+            v2 = v1 - v2; v1 = t2; v3 = quot;
+         } else if (quot < (v3<<1))
+         {  
+            t1 = u2; u2 = u1 - (u2<<1); u1 = t1; u3 = v3;
+            t2 = v2; v2 = v1 - (v2<<1); v1 = t2; v3 = quot-u3;
+         } else
+         {
+            t1 = u2; u2 = u1 - 3*u2; u1 = t1; u3 = v3;
+            t2 = v2; v2 = v1 - 3*v2; v1 = t2; v3 = quot-(u3<<1);
+         }
+      } else
+      {
+         quot=u3/v3;
+         rem = u3 - v3*quot;
+         t1 = u2; u2 = u1 - quot*u2; u1 = t1; u3 = v3;
+         t2 = v2; v2 = v1 - quot*v2; v1 = t2; v3 = rem;
+      }
+   }
+   
+   // Quite remarkably, this always has |u1| < x/2 at this point, thus comparison with 0 is valid 
+   if (u1 <= (mp_limb_signed_t) 0) 
+   {
+     u1 += y;
+     v1 -= x;
+   }
+   *a = u1;
+   *b = -v1;
+   
+   return u3;
+}
+
+mp_size_t
+mpn_ngcdext_lehmer (mp_ptr gp, mp_ptr s0p, mp_size_t *s0size, mp_ptr ap, mp_ptr bp, mp_size_t n, mp_ptr tp)
+{
+  mp_size_t gn, un;
+  mp_ptr u0, u1;
+  mp_limb_t cy, cy2;
+  
+  MPN_ZERO(tp, 2*n+2);
+  u0 = tp;
+  u1 = tp + n + 1;
+  tp += 2*n + 2;
+  
+  un = 1;
+  u0[0] = CNST_LIMB(0); /* bp = 0*ap + ?*bp, thus u0 = -0 */
+  u1[0] = CNST_LIMB(1); /* ap = 1*ap + ?*bp, thus u1 = 1 */
+
+  while (n >= 2)
+    {
+      struct ngcd_matrix1 M;
+      mp_limb_t ah, al, bh, bl;
+      mp_limb_t mask;
+
+      mask = ap[n-1] | bp[n-1];
+      ASSERT (mask > 0);
+
+      if (mask & GMP_NUMB_HIGHBIT)
+	{
+	  ah = ap[n-1]; al = ap[n-2];
+	  bh = bp[n-1]; bl = bp[n-2];
+	}
+      else
+	{
+	  int shift;
+
+	  count_leading_zeros (shift, mask);
+	  ah = MPN_EXTRACT_LIMB (shift, ap[n-1], ap[n-2]);
+	  bh = MPN_EXTRACT_LIMB (shift, bp[n-1], bp[n-2]);
+	  if (n == 2) /* special case for n = 2 */
+      {
+        al = ap[0] << shift;
+	    bl = bp[0] << shift;
+      } else
+      {
+        al = MPN_EXTRACT_LIMB (shift, ap[n-2], ap[n-3]);
+	    bl = MPN_EXTRACT_LIMB (shift, bp[n-2], bp[n-3]);
+	  }
+    }
+
+      /* Try an mpn_nhgcd2 step */
+      if (mpn_nhgcd2 (ah, al, bh, bl, &M))
+	  {
+        n = mpn_ngcd_matrix1_vector (&M, n, ap, bp, tp);
+        ngcdext_cofactor1_adjust(u0, u1, &un, &M, tp);
+      }
+
+      else
+	{
+	  n = mpn_ngcdext_subdiv_step (gp, &gn, s0p, u0, u1, &un, ap, bp, n, tp);
+	  if (n == 0)
+	    {
+	      (*s0size) = un;
+			ASSERT(((*s0size) == 0) || (s0p[ABS(*s0size) - 1] != 0));
+		   return gn;
+	    }
+	}
+    }
+
+  ASSERT (n < 2);
+  
+  if (!ap[0])
+  {
+      /* 
+        If ap == 0 then gp = bp
+		with cofactor -u0
+	  */
+	  gp[0] = bp[0];
+	  MPN_NORMALIZE(u0, un);
+	  MPN_COPY(s0p, u0, un);
+      (*s0size) = -un;
+      return 1;
+  } else if (!bp[0])
+  {
+      /* 
+        If bp == 0 then gp = ap
+		with cofactor u1
+	  */
+	  gp[0] = ap[0];
+	  MPN_NORMALIZE(u1, un);
+	  MPN_COPY(s0p, u1, un);
+      (*s0size) = un;
+      return 1;
+  } 
+  
+  mp_limb_t s, t;
+  gp[0] = mpn_gcdext_1 (&s, &t, ap[0], bp[0]);
+      
+  /* 
+     We want to compute s*u1 + t*u0.
+  */
+
+  cy = mpn_mul_1(s0p, u0, un, t);
+  cy2 = mpn_addmul_1(s0p, u1, un, s);
+  
+  if (cy | cy2) /* u0 is bigger than un limbs */
+  {
+    cy +=cy2;
+    s0p[un] = cy;
+    un++;
+    if (cy < cy2) /* overflow on addition */
+    {
+      s0p[un] = CNST_LIMB(1);
+      un++;
+    }
+  }
+  
+  MPN_NORMALIZE(s0p, un);
+  (*s0size) = un;
+      
+  return 1;
+}
+
