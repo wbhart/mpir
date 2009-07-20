@@ -680,6 +680,9 @@ mp_limb_t mpn_gcdext_1(mp_limb_t * a, mp_limb_t *b, mp_limb_t x, mp_limb_t y)
    return u3;
 }
 
+/* 
+   Requires temporary space MPN_GCD_LEHMER_N_ITCH(n) + 2*n+2
+*/
 mp_size_t
 mpn_ngcdext_lehmer (mp_ptr gp, mp_ptr s0p, mp_size_t *s0size, mp_ptr ap, mp_ptr bp, mp_size_t n, mp_ptr tp)
 {

@@ -3495,6 +3495,8 @@ struct ngcd_matrix
 
 #define MPN_NGCD_MATRIX_INIT_ITCH(n) (5 * ((n+1)/2))
 
+#define MPN_GCD_LEHMER_N_ITCH(n) (n)
+
 void
 mpn_ngcd_matrix_init (struct ngcd_matrix *M, mp_size_t n, mp_ptr p);
 

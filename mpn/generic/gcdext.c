@@ -780,10 +780,9 @@ mpn_basic_gcdext (mp_ptr gp, mp_ptr s0p, mp_size_t *s0size,
 ----------------------------------------------------------*/
 
 /* Needs temporary storage for the division and multiplication
-   The division has quotient + remainder of size an - bn + 1 + bn
-	= an + 1
-	quotient is no bigger than an
-	Thus we need space at most 2*n + un + 1
+   The division has quotient of size an - bn + 1
+	product needs an + un at most
+	Thus we need space at most n + un + 1
 
 	If the gcd is found, stores it in gp and *gn, and the associated 
    cofactor in {sp, *un} and returns zero.
@@ -883,12 +882,12 @@ mpn_ngcdext_subdiv_step (mp_ptr gp, mp_size_t *gn, mp_ptr s0p, mp_ptr u0, mp_ptr
   ASSERT (an >= bn);
 
   qn = an - bn + 1;
-  mpn_tdiv_qr (tp, tp + qn, 0, ap, an, bp, bn); /* ap -= q * bp, u1 += q * u0 */
+  mpn_tdiv_qr (tp, ap, 0, ap, an, bp, bn); /* ap -= q * bp, u1 += q * u0 */
 
   /* Normalizing seems to be the simplest way to test if the remainder
      is zero. */
   an = bn;
-  MPN_NORMALIZE (tp + qn, an);
+  MPN_NORMALIZE (ap, an);
   if (an == 0)
     {
       /* gcd = bp */
@@ -899,8 +898,6 @@ mpn_ngcdext_subdiv_step (mp_ptr gp, mp_size_t *gn, mp_ptr s0p, mp_ptr u0, mp_ptr
       (*gn) = bn;
       return 0;
     }
-
-  MPN_COPY (ap, tp + qn, bn); /* must copy all bn limbs here, else the top limbs won't be zero */
 
   qn2 = qn;
   u0n = (*un);
@@ -990,7 +987,7 @@ void ngcdext_cofactor_adjust(mp_ptr u0, mp_ptr u1, mp_size_t * un, struct ngcd_m
 
 /*
    Computes |t| where t = (gp - s*ap)/bp 
-	Requires temporary space sn + an + n
+	Requires temporary space sn + an
 */
 
 void gcdext_get_t(mp_ptr t, mp_size_t * tn, mp_ptr gp, mp_size_t gn, mp_ptr ap, 
@@ -1024,9 +1021,9 @@ void gcdext_get_t(mp_ptr t, mp_size_t * tn, mp_ptr gp, mp_size_t gn, mp_ptr ap,
 		return;
 	}
 
-	mpn_tdiv_qr(t, tp + (*tn), 0, tp, (*tn), bp, n);
+	mpn_tdiv_qr(t, tp, 0, tp, (*tn), bp, n);
 
-	ASSERT_MPN_ZERO_P(tp + (*tn), n);
+	ASSERT_MPN_ZERO_P(tp, n);
 
    (*tn) -= (n - 1);
 	(*tn) -= (t[(*tn) - 1] == 0);
@@ -1140,27 +1137,26 @@ mpn_gcdext (mp_ptr gp, mp_ptr s0p, mp_size_t *s0size,
   /* Space needed for mpn_ngcd_matrix_adjust */
   if (scratch < 2*n)
     scratch = 2*n;
-  if (scratch < an + n - 1) /* the first division can sometimes be selfish!! */
-	 scratch = an + n - 1;
+  if (scratch < an - n + 1) /* the first division can sometimes be selfish!! */
+	 scratch = an - n + 1;
 
  /* Space needed for cofactor adjust */
   scratch = MAX(scratch, 2*(n+1) + P_SIZE(n) + 1);
 
   TMP_MARK;
   
-  if (5*n + 5 > init_scratch + scratch) 
-    tp = TMP_ALLOC_LIMBS (7*n+5); /* 3n+1 for get_t, 2n+2 for s, t, 2n+2 for u0, u1 */
+  if (5*n + 2 + MPN_GCD_LEHMER_N_ITCH(n) > init_scratch + scratch) 
+    tp = TMP_ALLOC_LIMBS (7*n+4+MPN_GCD_LEHMER_N_ITCH(n)); /* 2n+2 for u0, u1, 5*n+2 + MPN_GCD_LEHMER_N_ITCH(n) for Lehmer
+                                                              and copies of ap and bp and s (and finally 3*n+1 for t and get_t) */
   else
     tp = TMP_ALLOC_LIMBS (2*(n+1) + init_scratch + scratch);
     
   if (an > n)
     {
-      mp_ptr rp = tp;
-      mp_ptr qp = rp + n;
+      mp_ptr qp = tp;
 
-      mpn_tdiv_qr (qp, rp, 0, ap, an, bp, n);
+      mpn_tdiv_qr (qp, ap, 0, ap, an, bp, n);
       
-		MPN_COPY (ap, rp, n);
       an = n;
       MPN_NORMALIZE (ap, an);
       if (an == 0)
