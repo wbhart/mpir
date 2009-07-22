@@ -1098,8 +1098,8 @@ mp_limb_t mpn_gcdinv_1(mp_limb_t * a, mp_limb_t x, mp_limb_t y)
 }
 
 
-#define P_SIZE(n) (n/2)
-#define NGCDEXT_THRESHOLD 400
+#define P_SIZE(n) (n/3)
+#define NGCDEXT_THRESHOLD 600
 
 mp_size_t
 mpn_gcdext (mp_ptr gp, mp_ptr s0p, mp_size_t *s0size,
@@ -1131,7 +1131,7 @@ mpn_gcdext (mp_ptr gp, mp_ptr s0p, mp_size_t *s0size,
     return 1;
   }
 
-  init_scratch = MPN_NGCD_MATRIX_INIT_ITCH ((n+1)/2);
+  init_scratch = MPN_NGCD_MATRIX_INIT_ITCH (n-P_SIZE(n));
   scratch = mpn_nhgcd_itch ((n+1)/2);
 
   /* Space needed for mpn_ngcd_matrix_adjust */

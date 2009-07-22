@@ -642,6 +642,8 @@ mpn_nhgcd (mp_ptr ap, mp_ptr bp, mp_size_t n,
 
 #define LGCD_THRESHOLD 64
 
+#define P_SIZE(n) (n/2)
+
 mp_size_t
 mpn_gcd (mp_ptr gp, mp_ptr ap, mp_size_t an, mp_ptr bp, mp_size_t n)
 {
@@ -660,7 +662,7 @@ mpn_gcd (mp_ptr gp, mp_ptr ap, mp_size_t an, mp_ptr bp, mp_size_t n)
     return mpn_basic_gcd (gp, ap, an, bp, n);
   }
   
-  init_scratch = MPN_NGCD_MATRIX_INIT_ITCH ((n+1)/2);
+  init_scratch = MPN_NGCD_MATRIX_INIT_ITCH (n-P_SIZE(n));
   scratch = mpn_nhgcd_itch ((n+1)/2);
 
   /* Space needed for mpn_ngcd_matrix_adjust */
@@ -697,7 +699,7 @@ mpn_gcd (mp_ptr gp, mp_ptr ap, mp_size_t an, mp_ptr bp, mp_size_t n)
   while (ABOVE_THRESHOLD (n, NGCD_THRESHOLD))
     {
       struct ngcd_matrix M;
-      mp_size_t p = n/2;
+      mp_size_t p = P_SIZE(n);
       mp_size_t nn;
       
       mpn_ngcd_matrix_init (&M, n - p, tp);

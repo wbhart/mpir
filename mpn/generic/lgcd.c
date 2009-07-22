@@ -402,20 +402,18 @@ mpn_ngcd_subdiv_step (mp_ptr gp, mp_size_t *gn,
 
   ASSERT (an >= bn);
 
-  mpn_tdiv_qr (tp + bn, tp, 0, ap, an, bp, bn);
+  mpn_tdiv_qr (tp, ap, 0, ap, an, bp, bn);
 
   /* Normalizing seems to be the simplest way to test if the remainder
      is zero. */
   an = bn;
-  MPN_NORMALIZE (tp, an);
+  MPN_NORMALIZE (ap, an);
   if (an == 0)
     {
       MPN_COPY (gp, bp, bn);
       *gn = bn;
       return 0;
     }
-
-  MPN_COPY (ap, tp, bn);
 
   return bn;
 }
