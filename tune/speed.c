@@ -587,21 +587,7 @@ run_one (FILE *fp, struct speed_params *s, mp_size_t prev_size)
           if(choice[choice[i].sum[j]].no_time)choice[i].no_time=1;
          }
      }
-  for (i = 0; i < num_choices; i++)
-    {
-      if (choice[i].no_time)
-        continue;
 
-      /* Look for the fastest after CMP_DIFFPREV has been applied, but
-         before CMP_RATIO or CMP_DIFFERENCE.  There's only a fastest shown
-         if there's more than one routine.  */
-      for(j=0;j<xcoln;j++)if(xcol[j]==i)break;   // excluded from fastest choice
-      if (j==xcoln && num_choices > 1 && (fastest == -1 || choice[i].time < fastest_time))
-        {
-          fastest = i;
-          fastest_time = choice[i].time;
-        }
-    }
   for (i = 0; i < num_choices; i++)
     {
       if (choice[i].no_time || choice[i].colfile!=-1)
@@ -631,7 +617,23 @@ run_one (FILE *fp, struct speed_params *s, mp_size_t prev_size)
     }    
   for (i = 0; i < num_choices; i++)
     {
-      if (choice[i].no_time || choice[i].colfile!=-1)
+      if (choice[i].no_time)
+        continue;
+
+      /* Look for the fastest after CMP_DIFFPREV has been applied, but
+         before CMP_RATIO or CMP_DIFFERENCE.  There's only a fastest shown
+         if there's more than one routine.  */
+      for(j=0;j<xcoln;j++)if(xcol[j]==i)break;   // excluded from fastest choice
+      if (j==xcoln && num_choices > 1 && (fastest == -1 || choice[i].time < fastest_time))
+        {
+          fastest = i;
+          fastest_time = choice[i].time;
+        }
+    }
+
+  for (i = 0; i < num_choices; i++)
+    {
+      if (choice[i].no_time )
         continue;
 
       if (option_cmp != CMP_DIFFPREV)
