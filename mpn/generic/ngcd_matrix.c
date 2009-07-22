@@ -80,12 +80,239 @@ addmul2_n (mp_ptr rp,
   return n;
 }
 
+void _strassen_add(mp_ptr rp, mp_size_t * rn, mp_srcptr r1, 
+				  mp_size_t r1n, mp_srcptr r2, mp_size_t r2n)
+{
+   mp_limb_t cy;
+   mp_size_t s1 = ABS(r1n);
+   mp_size_t s2 = ABS(r2n);
+   
+   if (!s1)
+   {
+      *rn = 0;
+   } else if (!s2)
+   {
+      if (rp != r1) MPN_COPY(rp, r1, s1);
+		*rn = r1n;
+   } else if ((r1n ^ r2n) >= 0)
+   {
+      *rn = r1n;
+      cy = mpn_add(rp, r1, s1, r2, s2);
+      if (cy) 
+      {
+         rp[s1] = cy;
+         if ((*rn) < 0) (*rn)--;
+         else (*rn)++;
+      }
+   } else
+   {
+      mp_size_t ct;
+		if (s1 != s2) ct = 1;
+		else MPN_CMP(ct, r1, r2, s1); 
+		    
+      if (!ct) *rn = 0;
+      else if (ct > 0) 
+      {
+         mpn_sub(rp, r1, s1, r2, s2);
+         *rn = s1;
+         MPN_NORMALIZE(rp, (*rn));
+			if (r1n < 0) *rn = -(*rn);
+      }
+      else
+      {
+         mpn_sub_n(rp, r2, r1, s1);
+         *rn = s1;
+         MPN_NORMALIZE(rp, (*rn));
+			if (r1n > 0) *rn = -(*rn);
+      }
+   }
+}
+
+void strassen_add(mp_ptr rp, mp_size_t * rn, mp_srcptr r1, mp_size_t r1n, mp_srcptr r2, mp_size_t r2n)
+{
+   mp_size_t s1 = ABS(r1n);
+   mp_size_t s2 = ABS(r2n);
+   
+   if (s1 < s2) _strassen_add(rp, rn, r2, r2n, r1, r1n);
+	else _strassen_add(rp, rn, r1, r1n, r2, r2n);
+} 
+
+void _strassen_add_unsigned(mp_ptr rp, mp_size_t * rn, mp_srcptr r1, mp_size_t r1n, mp_srcptr r2, mp_size_t r2n)
+{
+   mp_limb_t cy;
+   mp_size_t s1 = r1n;
+   mp_size_t s2 = r2n;
+   
+   if (!s2)
+   {
+      if (!s1) *rn = 0;
+      else
+      {
+         if (rp != r1) MPN_COPY(rp, r1, s1);
+		   *rn = r1n;
+		}
+   } else
+   {
+      *rn = r1n;
+      cy = mpn_add(rp, r1, s1, r2, s2);
+      if (cy) 
+      {
+         rp[s1] = cy;
+         if ((*rn) < 0) (*rn)--;
+         else (*rn)++;
+      }
+   } 
+}
+
+void strassen_add_unsigned(mp_ptr rp, mp_size_t * rn, mp_srcptr r1, mp_size_t r1n, mp_srcptr r2, mp_size_t r2n)
+{
+   if (r1n < r2n) _strassen_add_unsigned(rp, rn, r2, r2n, r1, r1n);
+	else _strassen_add_unsigned(rp, rn, r1, r1n, r2, r2n);
+} 
+
+void strassen_sub(mp_ptr rp, mp_size_t * rn, mp_ptr r1, mp_size_t r1n, mp_ptr r2, mp_size_t r2n)
+{
+   strassen_add(rp, rn, r1, r1n, r2, -r2n);
+}
+
+#define MUL_STRASSEN_UNSIGNED(r3xx, n3xx, r1xx, n1xx, r2xx, n2xx) \
+   do \
+   { \
+      if ((n1xx != 0) && (n2xx != 0)) \
+      {   mp_size_t len; \
+	      if (n1xx == n2xx) \
+		      mpn_mul_n(r3xx, r1xx, r2xx, n1xx); \
+		  else if (n1xx > n2xx) \
+		      mpn_mul(r3xx, r1xx, n1xx, r2xx, n2xx); \
+		  else \
+		      mpn_mul(r3xx, r2xx, n2xx, r1xx, n1xx); \
+	      len = n1xx + n2xx; \
+		  MPN_NORMALIZE(r3xx, len); \
+		  n3xx = len; \
+      } else \
+         n3xx = 0; \
+   } while (0)
+
+#define MUL_STRASSEN(r3xx, n3xx, r1xx, n1xx, r2xx, n2xx) \
+	do \
+	{ \
+	   mp_size_t sign = n1xx ^ n2xx; \
+	   mp_size_t un1 = ABS(n1xx); \
+	   mp_size_t un2 = ABS(n2xx); \
+	   MUL_STRASSEN_UNSIGNED(r3xx, n3xx, r1xx, un1, r2xx, un2); \
+	   if (sign < 0) n3xx = -n3xx; \
+	} while (0)
+
+#define STRASSEN_DENORM(rxx, nxx, sxx) \
+	do { \
+	MPN_ZERO(rxx + ABS(nxx), sxx - ABS(nxx)); \
+	} while (0)
+
+/* Multiply M by M1 from the right. Needs 2*Mn + 3*Rn temporary storage
+   (and additionally uses M->tp, of size Rn), where Mn is the size of the
+   entries in M and Rn is the possible size of the entries in the output
+   (computed naively, i.e. M1n + Mn + 1). */
+void
+mpn_ngcd_matrix_mul_strassen (struct ngcd_matrix *M, const struct ngcd_matrix *M1,
+		     mp_ptr tp)
+{
+  mp_ptr m00 = M1->p[0][0];
+  mp_ptr m01 = M1->p[0][1];
+  mp_ptr m10 = M1->p[1][0];
+  mp_ptr m11 = M1->p[1][1];
+  mp_ptr r00 = M->p[0][0];
+  mp_ptr r01 = M->p[0][1];
+  mp_ptr r10 = M->p[1][0];
+  mp_ptr r11 = M->p[1][1];
+  mp_size_t n00, n01, n10, n11;
+  mp_size_t s00, s01, s10, s11;
+  mp_size_t x0n, x1n, tan, tbn, tcn, tdn;
+
+  mp_size_t Rn = M->n + M1->n + 1;
+  mp_size_t sn;
+  
+  mp_ptr x0 = tp;
+  mp_ptr x1 = tp + Rn;
+  mp_ptr temp_a = tp + 2*Rn;
+  mp_ptr temp_b = tp + 3*Rn;
+  mp_ptr temp_d = tp + 3*Rn + M->n;
+  mp_ptr temp_c = M->tp;
+
+  s00 = s01 = s10 = s11 = M->n;
+  n00 = n01 = n10 = n11 = M1->n;
+
+  MPN_NORMALIZE (m00, n00);
+  MPN_NORMALIZE (m01, n01);
+  MPN_NORMALIZE (m10, n10);
+  MPN_NORMALIZE (m11, n11);
+
+  MPN_NORMALIZE (r00, s00);
+  MPN_NORMALIZE (r01, s01);
+  MPN_NORMALIZE (r10, s10);
+  MPN_NORMALIZE (r11, s11);
+
+  strassen_sub(x0, &x0n, r00, s00, r10, s10);
+  strassen_sub(x1, &x1n, m11, n11, m01, n01);
+  MUL_STRASSEN(temp_c, tcn, x0, x0n, x1, x1n); 
+
+  strassen_add_unsigned(x0, &x0n, r10, s10, r11, s11); 
+  strassen_sub(x1, &x1n, m01, n01, m00, n00);
+	
+  MPN_COPY (temp_d, r11, s11);
+  tdn = s11; 
+  MUL_STRASSEN(r11, s11, x0, x0n, x1, x1n); 
+
+  strassen_sub(x0, &x0n, x0, x0n, r00, s00);
+  strassen_sub(x1, &x1n, m11, n11, x1, x1n);
+	
+  MPN_COPY (temp_b, r01, s01);
+  tbn = s01;
+  MUL_STRASSEN(r01, s01, x0, x0n, x1, x1n);
+
+  strassen_sub(x0, &x0n, temp_b, tbn, x0, x0n);
+  MUL_STRASSEN(temp_a, tan, x0, x0n, m11, n11); 
+
+  MUL_STRASSEN(x0, x0n, r00, s00, m00, n00); 
+
+  strassen_add(r01, &s01, x0, x0n, r01, s01);
+  strassen_add(r10, &s10, r01, s01, temp_c, tcn); 
+  strassen_add(r01, &s01, r01, s01, r11, s11);
+  strassen_add(r11, &s11, r10, s10, r11, s11);
+  strassen_add(r01, &s01, r01, s01, temp_a, tan); 
+  strassen_sub(x1, &x1n, x1, x1n, m10, n10);
+	
+  MUL_STRASSEN(temp_a, tan, temp_d, tdn, x1, x1n); 
+  strassen_sub(r10, &s10, r10, s10, temp_a, tan); 
+	
+  MUL_STRASSEN(r00, s00, temp_b, tbn, m10, n10); 
+
+  strassen_add(r00, &s00, r00, s00, x0, x0n);
+  
+  sn = MAX(s00, s01);
+  sn = MAX(s10, sn);
+  sn = MAX(s11, sn);
+  M->n = sn;
+  
+  STRASSEN_DENORM(r00, s00, sn);
+  STRASSEN_DENORM(r01, s01, sn);
+  STRASSEN_DENORM(r10, s10, sn);
+  STRASSEN_DENORM(r11, s11, sn);
+}
+
+#define MPN_NGCD_MATRIX_CUTOFF 25
+
 /* Multiply M by M1 from the right. Needs 2*M->n temporary storage
    (and additionally uses M->tp). */
 void
 mpn_ngcd_matrix_mul (struct ngcd_matrix *M, const struct ngcd_matrix *M1,
 		     mp_ptr tp)
 {
+  if ((M->n > MPN_NGCD_MATRIX_CUTOFF) && (M1->n > MPN_NGCD_MATRIX_CUTOFF))
+  {
+    mpn_ngcd_matrix_mul_strassen(M, M1, tp);
+    return;
+  }
+  
   unsigned row;
 
   mp_ptr m00 = M1->p[0][0];

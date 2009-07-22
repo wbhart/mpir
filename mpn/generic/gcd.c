@@ -527,15 +527,16 @@ nhgcd_base (mp_ptr ap, mp_ptr bp, mp_size_t n,
    (after this, the storage needed for M1 can be recycled).
 
    Let S(r) denote the required storage. For M1 we need 5 * ceil(n1/2)
-   = 5 * ceil(n/4), and for the ngcd_matrix_adjust call, we need n + 2. In
-   total, 5 * ceil(n/4) + n + 2 <= 9 ceil(n/4) + 2.
+   = 5 * ceil(n/4), and for the ngcd_matrix_adjust call, we need n + 2. For the 
+   matrix multiplication we need 4*n1 + 3*ceil(n1/2) + 3, so 3n + 3 will do.
+   In total, 5 * ceil(n/4) + 3n + 3 <= 17 ceil(n/4) + 3.
 
    For the recursive call, we need S(n1) = S(ceil(n/2)).
 
-   S(n) <= 9*ceil(n/4) + 2 + S(ceil(n/2))
-        <= 9*(ceil(n/4) + ... + ceil(n/2^(1+k))) + 2k + S(ceil(n/2^k))
-        <= 9*(2 ceil(n/4) + k) + 2k + S(n/2^k)   
-	<= 18 ceil(n/4) + 11k + S(n/2^k)
+   S(n) <= 17*ceil(n/4) + 3 + S(ceil(n/2))
+        <= 17*(ceil(n/4) + ... + ceil(n/2^(1+k))) + 3k + S(ceil(n/2^k))
+        <= 17*(2 ceil(n/4) + k) + 3k + S(n/2^k)   
+	<= 34 ceil(n/4) + 20k + S(n/2^k)
 	
 */
 
@@ -555,7 +556,7 @@ mpn_nhgcd_itch (mp_size_t n)
   if (k == 0)
     return NHGCD_BASE_ITCH (n);
 
-  return 18 * ((n+3) / 4) + 11 * k
+  return 35 * ((n+3) / 4) + 20 * k
     + NHGCD_BASE_ITCH (NHGCD_THRESHOLD);
 }
 

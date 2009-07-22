@@ -124,7 +124,7 @@ main (int argc, char **argv)
 	 of that other ASSERTs are triggered before it.  */
 
       mpz_urandomb (bs, rands, 32);
-      size_range = mpz_get_ui (bs) % 13 + 2;
+      size_range = mpz_get_ui (bs) % 16 + 2;
 
       mpz_urandomb (bs, rands, size_range);
       mpz_urandomb (op1, rands, mpz_get_ui (bs) + MIN_OPERAND_BITSIZE);
@@ -163,7 +163,7 @@ main (int argc, char **argv)
 	  mpz_add (op1, op1, temp1);
 
 	  /* Don't generate overly huge operands.  */
-	  if (SIZ (op1) > 400)
+	  if (SIZ (op1) > 1000)
 	    break;
 
 	  mpz_urandomb (bs, rands, 32);
@@ -174,7 +174,7 @@ main (int argc, char **argv)
 	  mpz_add (op2, op2, temp1);
 
 	  /* Don't generate overly huge operands.  */
-	  if (SIZ (op2) > 400)
+	  if (SIZ (op2) > 1000)
 	    break;
 	}
       one_test (op1, op2, ref, i);
