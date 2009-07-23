@@ -1092,6 +1092,15 @@ void mpn_toom42_mul _PROTO ((mp_ptr, mp_srcptr, mp_size_t, mp_srcptr, mp_size_t,
 #define mpn_toom4_mul_n  __MPN(toom4_mul_n)
 void mpn_toom4_mul_n _PROTO ((mp_ptr, mp_srcptr, mp_srcptr, mp_size_t));
 
+#define mpn_toom4_mul  __MPN(toom4_mul)
+void mpn_toom4_mul _PROTO ((mp_ptr, mp_srcptr, mp_size_t, mp_srcptr,
+                                                           mp_size_t));
+
+#define mpn_toom4_interpolate __MPN(toom4_interpolate)
+void mpn_toom4_interpolate _PROTO ((mp_ptr rp, mp_size_t * rpn, mp_size_t sn,
+               mp_ptr tp, mp_size_t s4, mp_size_t n4, mp_size_t n6, 
+               mp_limb_t r30));
+
 #define mpn_toom7_mul_n  __MPN(toom7_mul_n)
 void mpn_toom7_mul_n _PROTO ((mp_ptr, mp_srcptr, mp_srcptr, mp_size_t));
 
@@ -3629,9 +3638,6 @@ void tc4_addmul_1(mp_ptr wp, mp_size_t * wn, mp_srcptr xp, mp_size_t xn, mp_limb
 void tc4_submul_1(mp_ptr wp, mp_size_t * wn, mp_srcptr x, mp_size_t xn, mp_limb_t y);
 
 void tc4_copy (mp_ptr yp, mp_size_t * yn, mp_size_t offset, mp_srcptr xp, mp_size_t xn);
-
-void mpn_toom4_interpolate(mp_ptr rp, mp_size_t * rpn, mp_size_t sn,  
-               mp_ptr tp, mp_size_t s4, mp_size_t n4, mp_size_t n6, mp_limb_t r30);
 
 /* __GMPF_BITS_TO_PREC applies a minimum 53 bits, rounds upwards to a whole
    limb and adds an extra limb.  __GMPF_PREC_TO_BITS drops that extra limb,
