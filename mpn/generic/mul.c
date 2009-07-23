@@ -155,7 +155,9 @@ mpn_mul (mp_ptr prodp,
           } else
           {
              l = (un + 4)/5; // ceil(un/5)
-             if ((vn > 2*l) && (vn <= 3*l))
+             if ((((vn > 9*k/4) && (un+vn <= 6*MUL_TOOM4_THRESHOLD)) 
+                 || ((vn > 2*l) && (un+vn > 6*MUL_TOOM4_THRESHOLD)))
+                 && (vn <= 3*l))
              {
                 mpn_toom53_mul(prodp, up, un, vp, vn);
                 return prodp[un + vn - 1];
