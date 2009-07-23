@@ -129,7 +129,7 @@ void tc4_add_unsigned(mp_ptr rp, mp_size_t * rn, mp_srcptr r1, mp_size_t r1n, mp
 	else _tc4_add_unsigned(rp, rn, r1, r1n, r2, r2n);
 } 
 
-void tc4_sub(mp_ptr rp, mp_size_t * rn, mp_ptr r1, mp_size_t r1n, mp_ptr r2, mp_size_t r2n)
+void tc4_sub(mp_ptr rp, mp_size_t * rn, mp_srcptr r1, mp_size_t r1n, mp_srcptr r2, mp_size_t r2n)
 {
    tc4_add(rp, rn, r1, r1n, r2, -r2n);
 }

@@ -144,13 +144,26 @@ mpn_mul (mp_ptr prodp,
       return prodp[un + vn - 1];
     }
 
-  k = (un + 3)/4; // ceil(un/3)
-
-  if (ABOVE_THRESHOLD (un + vn, 2*MUL_TOOM4_THRESHOLD) && (vn > 3*k))
+  k = (un + 3)/4; // ceil(un/4)
+            
+  if (ABOVE_THRESHOLD (un + vn, 2*MUL_TOOM4_THRESHOLD))
   {
-          mpn_toom4_mul(prodp, up, un, vp, vn);
-          return prodp[un + vn - 1];
-  } else if (ABOVE_THRESHOLD (un + vn, 2*MUL_TOOM3_THRESHOLD) && (vn > k))
+          if (vn > 3*k)
+          {
+             mpn_toom4_mul(prodp, up, un, vp, vn);
+             return prodp[un + vn - 1];
+          } else
+          {
+             l = (un + 4)/5; // ceil(un/5)
+             if ((vn > 2*l) && (vn <= 3*l))
+             {
+                mpn_toom53_mul(prodp, up, un, vp, vn);
+                return prodp[un + vn - 1];
+             }
+          }
+  } 
+  
+  if (ABOVE_THRESHOLD (un + vn, 2*MUL_TOOM3_THRESHOLD) && (vn > k))
   {
           mp_ptr ws;
           TMP_DECL;
@@ -164,18 +177,20 @@ mpn_mul (mp_ptr prodp,
                   return prodp[un + vn - 1];
           }
 
-          k = (un+2)/3; //ceil(u/3)
-          if (vn > 2*k) // un >= vn > 2un/3
+          l = (un+2)/3; //ceil(u/3)
+          if (vn > 2*l) // un >= vn > 2un/3
           {
                   ws = TMP_ALLOC_LIMBS (MPN_TOOM3_MUL_TSIZE(un));
                   mpn_toom3_mul(prodp, up, un, vp, vn, ws);
-          } else
+                  TMP_FREE;
+                  return prodp[un + vn - 1];
+          } else // 2un/3 >= vn > un/3
           {
                   ws = TMP_ALLOC_LIMBS (MPN_TOOM3_MUL_TSIZE(un));
                   mpn_toom32_mul(prodp, up, un, vp, vn, ws);
+                  TMP_FREE;
+                  return prodp[un + vn - 1];
           }
-          TMP_FREE;
-          return prodp[un + vn - 1];
   }
 
   mpn_mul_n (prodp, up, vp, vn);

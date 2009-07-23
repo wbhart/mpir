@@ -120,7 +120,7 @@ MA 02110-1301, USA. */
   } while (0)
 
 /* Multiply {up, un} by {vp, vn} and write the result to
-   {prodp, un + vn}.
+   {prodp, un + vn} assuming vn > 3*ceil(un/4).
 
    Note that prodp gets un + vn limbs stored, even if the actual 
    result only needs un + vn - 1.
@@ -168,40 +168,24 @@ mpn_toom4_mul (mp_ptr rp, mp_srcptr up, mp_size_t un,
 
    tc4_add_unsigned(u6, &n6, a3, a3n, a1, a1n); 
    tc4_add_unsigned(u5, &n5, a2, a2n, a0, a0n); 
-#if HAVE_NATIVE_mpn_sumdiff_n
-   tc4_sumdiff_unsigned(u3, &n3, u4, &n4, u5, n5, u6, n6); 
-#else
    tc4_add_unsigned(u3, &n3, u5, n5, u6, n6); 
    tc4_sub(u4, &n4, u5, n5, u6, n6);
-#endif
    tc4_add_unsigned(u6, &n6, b3, b3n, b1, b1n);
    tc4_add_unsigned(u5, &n5, b2, b2n, b0, b0n);
-#if HAVE_NATIVE_mpn_sumdiff_n
-   tc4_sumdiff_unsigned(r2, &n8, u5, &n5, u5, n5, u6, n6); 
-#else
    tc4_add_unsigned(r2, &n8, u5, n5, u6, n6); 
    tc4_sub(u5, &n5, u5, n5, u6, n6);
-#endif
 
    MUL_TC4_UNSIGNED(r3, n3, u3, n3, r2, n8);
    MUL_TC4(r4, n4, u4, n4, u5, n5);
    
    tc4_lshift(r1, &n1, a0, a0n, 3);
-#if HAVE_NATIVE_mpn_addlsh1_n
    tc4_addlsh1_unsigned(r1, &n1, a2, a2n);
-#else
-   tc4_addmul_1(r1, &n1, a2, a2n, 2);
-#endif
    tc4_lshift(r2, &n8, a1, a1n, 2);
    tc4_add(r2, &n8, r2, n8, a3, a3n);
    tc4_add(u5, &n5, r1, n1, r2, n8);
    tc4_sub(u6, &n6, r1, n1, r2, n8);
    tc4_lshift(r1, &n1, b0, b0n, 3);
-#if HAVE_NATIVE_mpn_addlsh1_n
    tc4_addlsh1_unsigned(r1, &n1, b2, b2n);
-#else
-   tc4_addmul_1(r1, &n1, b2, b2n, 2);
-#endif
    tc4_lshift(r2, &n8, b1, b1n, 2);
    tc4_add(r2, &n8, r2, n8, b3, b3n);
    tc4_add(u2, &n2, r1, n1, r2, n8);
@@ -216,19 +200,11 @@ mpn_toom4_mul (mp_ptr rp, mp_srcptr up, mp_size_t un,
 
    tc4_lshift(u2, &n2, a3, a3n, 3);
    tc4_addmul_1(u2, &n2, a2, a2n, 4);
-#if HAVE_NATIVE_mpn_addlsh1_n
    tc4_addlsh1_unsigned(u2, &n2, a1, a1n);
-#else
-   tc4_addmul_1(u2, &n2, a1, a1n, 2);
-#endif
    tc4_add(u2, &n2, u2, n2, a0, a0n);
    tc4_lshift(r1, &n1, b3, b3n, 3);
    tc4_addmul_1(r1, &n1, b2, b2n, 4);
-#if HAVE_NATIVE_mpn_addlsh1_n
    tc4_addlsh1_unsigned(r1, &n1, b1, b1n);
-#else
-   tc4_addmul_1(r1, &n1, b1, b1n, 2);
-#endif
    tc4_add(r1, &n1, r1, n1, b0, b0n);
    
    MUL_TC4_UNSIGNED(r2, n2, u2, n2, r1, n1);
@@ -265,6 +241,134 @@ mpn_toom4_mul (mp_ptr rp, mp_srcptr up, mp_size_t un,
    }
 
    __GMP_FREE_FUNC_LIMBS (tp, 4*t4 + 5*(sn+1));
+}
+
+/* Multiply {up, un} by {vp, vn} and write the result to
+   {prodp, un + vn} assuming vn > 2*ceil(un/5).
+
+   Note that prodp gets un + vn limbs stored, even if the actual 
+   result only needs un + vn - 1.
+*/
+void
+mpn_toom53_mul (mp_ptr rp, mp_srcptr up, mp_size_t un,
+		          mp_srcptr vp, mp_size_t vn)
+{
+  mp_size_t ind;
+  mp_limb_t cy, r30, r31;
+  mp_ptr tp;
+  mp_size_t a0n, a1n, a2n, a3n, a4n, b0n, b1n, b2n, sn, n1, n2, n3, n4, n5, n6, n7, n8, n9, n10, rpn, t4;
+
+  sn = (un + 4) / 5;
+
+  ASSERT (vn > 2*sn);
+  
+#define a0 (up)
+#define a1 (up + sn)
+#define a2 (up + 2*sn)
+#define a3 (up + 3*sn)
+#define a4 (up + 4*sn)
+#define b0 (vp)
+#define b1 (vp + sn)
+#define b2 (vp + 2*sn)
+
+   TC4_NORM(a0, a0n, sn);
+   TC4_NORM(a1, a1n, sn);
+   TC4_NORM(a2, a2n, sn);
+   TC4_NORM(a3, a3n, sn);
+   TC4_NORM(a4, a4n, un - 4*sn); 
+   TC4_NORM(b0, b0n, sn);
+   TC4_NORM(b1, b1n, sn);
+   TC4_NORM(b2, b2n, vn - 2*sn); 
+
+   t4 = 2*sn+2; // allows mult of 2 integers of sn + 1 limbs
+
+   tp = __GMP_ALLOCATE_FUNC_LIMBS(4*t4 + 4*(sn + 1));
+
+#define u2 (tp + 4*t4)
+#define u3 (tp + 4*t4 + (sn+1))
+#define u4 (tp + 4*t4 + 2*(sn+1))
+#define u5 (tp + 4*t4 + 3*(sn+1))
+
+   tc4_add_unsigned(u2, &n2, a3, a3n, a1, a1n); 
+   tc4_add_unsigned(u5, &n5, a2, a2n, a0, a0n); 
+   tc4_add_unsigned(u5, &n5, u5, n5, a4, a4n); 
+   tc4_add_unsigned(u3, &n3, u5, n5, u2, n2); 
+   tc4_sub(u4, &n4, u5, n5, u2, n2);
+
+   tc4_add_unsigned(u5, &n5, b2, b2n, b0, b0n);
+   tc4_add_unsigned(r2, &n8, u5, n5, b1, b1n); 
+   tc4_sub(u5, &n5, u5, n5, b1, b1n);
+
+   MUL_TC4_UNSIGNED(r3, n3, u3, n3, r2, n8); /* 1 */
+   MUL_TC4(r4, n4, u4, n4, u5, n5); /* -1 */
+   
+   tc4_lshift(r1, &n1, a0, a0n, 4);
+   tc4_lshift(u3, &n9, a2, a2n, 2);
+   tc4_add_unsigned(r1, &n1, r1, n1, u3, n9);
+   tc4_add_unsigned(r1, &n1, r1, n1, a4, a4n);
+   tc4_lshift(r2, &n8, a1, a1n, 3);
+   tc4_addlsh1_unsigned(r2, &n8, a3, a3n);
+   tc4_add_unsigned(u5, &n5, r1, n1, r2, n8);
+   tc4_sub(u3, &n9, r1, n1, r2, n8);
+
+   tc4_lshift(r1, &n1, b0, b0n, 2);
+   tc4_add_unsigned(r1, &n1, r1, n1, b2, b2n);
+   tc4_lshift(u4, &n10, b1, b1n, 1);
+   tc4_add_unsigned(u2, &n2, r1, n1, u4, n10);
+   tc4_sub(r2, &n8, r1, n1, u4, n10);
+   
+   r30 = r3[0];
+   if (!n3) r30 = CNST_LIMB(0);
+   r31 = r3[1];
+   MUL_TC4_UNSIGNED(r5, n5, u5, n5, u2, n2); /* 1/2 */
+   MUL_TC4(r6, n6, u3, n9, r2, n8); /* -1/2 */
+   r3[1] = r31;
+
+   tc4_lshift(u2, &n2, a4, a4n, 4);
+   tc4_addmul_1(u2, &n2, a3, a3n, 8);
+   tc4_addmul_1(u2, &n2, a2, a2n, 4);
+   tc4_addlsh1_unsigned(u2, &n2, a1, a1n);
+   tc4_add(u2, &n2, u2, n2, a0, a0n);
+
+   tc4_lshift(r1, &n1, b2, b2n, 2);
+   tc4_addlsh1_unsigned(r1, &n1, b1, b1n);
+   tc4_add(r1, &n1, r1, n1, b0, b0n);
+   
+   MUL_TC4_UNSIGNED(r2, n2, u2, n2, r1, n1); /* 2 */
+
+   MUL_TC4_UNSIGNED(r1, n1, a4, a4n, b2, b2n); /* oo */
+   MUL_TC4_UNSIGNED(r7, n7, a0, a0n, b0, b0n); /* 0 */
+
+   TC4_DENORM(r1, n1,  t4 - 1);
+   TC4_DENORM(r2, n2,  t4 - 1);
+   if (n3)
+     TC4_DENORM(r3, n3,  t4 - 1); 
+   else {
+     /* MPN_ZERO defeats gcc 4.1.2 here, hence the explicit for loop */
+     for (ind = 1 ; ind < t4 - 1; ind++) 
+        (r3)[ind] = CNST_LIMB(0); 
+   }
+   TC4_DENORM(r4, n4,  t4 - 1);
+   TC4_DENORM(r5, n5,  t4 - 1);
+   TC4_DENORM(r6, n6,  t4 - 1);
+   TC4_DENORM(r7, n7,  t4 - 2); // we treat r7 differently (it cannot exceed t4-2 in length)
+
+/*	rp        rp1          rp2           rp3          rp4           rp5         rp6           rp7
+<----------- r7-----------><------------r5-------------->            
+                                                       <-------------r3------------->
+
+              <-------------r6------------->                        < -----------r2------------>{           }
+                                         <-------------r4-------------->         <--------------r1---->
+*/
+
+   mpn_toom4_interpolate(rp, &rpn, sn, tp, t4 - 1, n4, n6, r30);
+
+   if (rpn != un + vn) 
+   {
+	  MPN_ZERO((rp + rpn), un + vn - rpn);
+   }
+
+   __GMP_FREE_FUNC_LIMBS (tp, 4*t4 + 4*(sn+1));
 }
 
 /*

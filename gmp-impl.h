@@ -1096,6 +1096,10 @@ void mpn_toom4_mul_n _PROTO ((mp_ptr, mp_srcptr, mp_srcptr, mp_size_t));
 void mpn_toom4_mul _PROTO ((mp_ptr, mp_srcptr, mp_size_t, mp_srcptr,
                                                            mp_size_t));
 
+#define mpn_toom53_mul __MPN(toom53_mul)
+void mpn_toom53_mul _PROTO ((mp_ptr rp, mp_srcptr up, mp_size_t un,
+                                           mp_srcptr vp, mp_size_t vn));
+
 #define mpn_toom4_interpolate __MPN(toom4_interpolate)
 void mpn_toom4_interpolate _PROTO ((mp_ptr rp, mp_size_t * rpn, mp_size_t sn,
                mp_ptr tp, mp_size_t s4, mp_size_t n4, mp_size_t n6, 
@@ -3619,7 +3623,7 @@ void _tc4_add_unsigned(mp_ptr rp, mp_size_t * rn, mp_srcptr r1, mp_size_t r1n, m
 
 void tc4_add_unsigned(mp_ptr rp, mp_size_t * rn, mp_srcptr r1, mp_size_t r1n, mp_srcptr r2, mp_size_t r2n);
 
-void tc4_sub(mp_ptr rp, mp_size_t * rn, mp_ptr r1, mp_size_t r1n, mp_ptr r2, mp_size_t r2n);
+void tc4_sub(mp_ptr rp, mp_size_t * rn, mp_srcptr r1, mp_size_t r1n, mp_srcptr r2, mp_size_t r2n);
 
 void tc4_lshift(mp_ptr rp, mp_size_t * rn, mp_srcptr xp, mp_size_t xn, mp_size_t bits);
 
