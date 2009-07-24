@@ -61,7 +61,8 @@ check_PROGRAMS = t-asmtype$(EXEEXT) t-aors_1$(EXEEXT) \
 	t-mp_bases$(EXEEXT) t-perfsqr$(EXEEXT) t-scan$(EXEEXT) \
 	t-lorrshift1$(EXEEXT) t-divebyff$(EXEEXT) t-addadd_n$(EXEEXT) \
 	t-addsub_n$(EXEEXT) t-subadd_n$(EXEEXT) \
-	t-redc_basecase$(EXEEXT) t-divebyBm1of$(EXEEXT)
+	t-redc_basecase$(EXEEXT) t-divebyBm1of$(EXEEXT) \
+	t-mullowhigh$(EXEEXT) t-mullow_basecase$(EXEEXT)
 subdir = tests/mpn
 DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
@@ -137,6 +138,16 @@ t_mp_bases_OBJECTS = t-mp_bases$U.$(OBJEXT)
 t_mp_bases_LDADD = $(LDADD)
 t_mp_bases_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
 	$(top_builddir)/libmpir.la
+t_mullow_basecase_SOURCES = t-mullow_basecase.c
+t_mullow_basecase_OBJECTS = t-mullow_basecase$U.$(OBJEXT)
+t_mullow_basecase_LDADD = $(LDADD)
+t_mullow_basecase_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
+	$(top_builddir)/libmpir.la
+t_mullowhigh_SOURCES = t-mullowhigh.c
+t_mullowhigh_OBJECTS = t-mullowhigh$U.$(OBJEXT)
+t_mullowhigh_LDADD = $(LDADD)
+t_mullowhigh_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
+	$(top_builddir)/libmpir.la
 t_mulmid_SOURCES = t-mulmid.c
 t_mulmid_OBJECTS = t-mulmid$U.$(OBJEXT)
 t_mulmid_LDADD = $(LDADD)
@@ -176,11 +187,13 @@ LINK = $(LIBTOOL) --tag=CC --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) \
 SOURCES = t-addadd_n.c t-addsub_n.c t-aors_1.c t-asmtype.c \
 	t-divebyBm1of.c t-divebyff.c t-divrem_1.c t-fat.c t-get_d.c \
 	t-instrument.c t-iord_u.c t-lorrshift1.c t-mp_bases.c \
-	t-mulmid.c t-perfsqr.c t-redc_basecase.c t-scan.c t-subadd_n.c
+	t-mullow_basecase.c t-mullowhigh.c t-mulmid.c t-perfsqr.c \
+	t-redc_basecase.c t-scan.c t-subadd_n.c
 DIST_SOURCES = t-addadd_n.c t-addsub_n.c t-aors_1.c t-asmtype.c \
 	t-divebyBm1of.c t-divebyff.c t-divrem_1.c t-fat.c t-get_d.c \
 	t-instrument.c t-iord_u.c t-lorrshift1.c t-mp_bases.c \
-	t-mulmid.c t-perfsqr.c t-redc_basecase.c t-scan.c t-subadd_n.c
+	t-mullow_basecase.c t-mullowhigh.c t-mulmid.c t-perfsqr.c \
+	t-redc_basecase.c t-scan.c t-subadd_n.c
 ETAGS = etags
 CTAGS = ctags
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
@@ -422,6 +435,12 @@ t-lorrshift1$(EXEEXT): $(t_lorrshift1_OBJECTS) $(t_lorrshift1_DEPENDENCIES)
 t-mp_bases$(EXEEXT): $(t_mp_bases_OBJECTS) $(t_mp_bases_DEPENDENCIES) 
 	@rm -f t-mp_bases$(EXEEXT)
 	$(LINK) $(t_mp_bases_LDFLAGS) $(t_mp_bases_OBJECTS) $(t_mp_bases_LDADD) $(LIBS)
+t-mullow_basecase$(EXEEXT): $(t_mullow_basecase_OBJECTS) $(t_mullow_basecase_DEPENDENCIES) 
+	@rm -f t-mullow_basecase$(EXEEXT)
+	$(LINK) $(t_mullow_basecase_LDFLAGS) $(t_mullow_basecase_OBJECTS) $(t_mullow_basecase_LDADD) $(LIBS)
+t-mullowhigh$(EXEEXT): $(t_mullowhigh_OBJECTS) $(t_mullowhigh_DEPENDENCIES) 
+	@rm -f t-mullowhigh$(EXEEXT)
+	$(LINK) $(t_mullowhigh_LDFLAGS) $(t_mullowhigh_OBJECTS) $(t_mullowhigh_LDADD) $(LIBS)
 t-mulmid$(EXEEXT): $(t_mulmid_OBJECTS) $(t_mulmid_DEPENDENCIES) 
 	@rm -f t-mulmid$(EXEEXT)
 	$(LINK) $(t_mulmid_LDFLAGS) $(t_mulmid_OBJECTS) $(t_mulmid_LDADD) $(LIBS)
@@ -483,6 +502,10 @@ t-lorrshift1_.c: t-lorrshift1.c $(ANSI2KNR)
 	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/t-lorrshift1.c; then echo $(srcdir)/t-lorrshift1.c; else echo t-lorrshift1.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
 t-mp_bases_.c: t-mp_bases.c $(ANSI2KNR)
 	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/t-mp_bases.c; then echo $(srcdir)/t-mp_bases.c; else echo t-mp_bases.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
+t-mullow_basecase_.c: t-mullow_basecase.c $(ANSI2KNR)
+	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/t-mullow_basecase.c; then echo $(srcdir)/t-mullow_basecase.c; else echo t-mullow_basecase.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
+t-mullowhigh_.c: t-mullowhigh.c $(ANSI2KNR)
+	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/t-mullowhigh.c; then echo $(srcdir)/t-mullowhigh.c; else echo t-mullowhigh.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
 t-mulmid_.c: t-mulmid.c $(ANSI2KNR)
 	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/t-mulmid.c; then echo $(srcdir)/t-mulmid.c; else echo t-mulmid.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
 t-perfsqr_.c: t-perfsqr.c $(ANSI2KNR)
@@ -501,7 +524,9 @@ t-divrem_1_.lo t-fat_.$(OBJEXT) t-fat_.lo t-get_d_.$(OBJEXT) \
 t-get_d_.lo t-instrument_.$(OBJEXT) t-instrument_.lo \
 t-iord_u_.$(OBJEXT) t-iord_u_.lo t-lorrshift1_.$(OBJEXT) \
 t-lorrshift1_.lo t-mp_bases_.$(OBJEXT) t-mp_bases_.lo \
-t-mulmid_.$(OBJEXT) t-mulmid_.lo t-perfsqr_.$(OBJEXT) t-perfsqr_.lo \
+t-mullow_basecase_.$(OBJEXT) t-mullow_basecase_.lo \
+t-mullowhigh_.$(OBJEXT) t-mullowhigh_.lo t-mulmid_.$(OBJEXT) \
+t-mulmid_.lo t-perfsqr_.$(OBJEXT) t-perfsqr_.lo \
 t-redc_basecase_.$(OBJEXT) t-redc_basecase_.lo t-scan_.$(OBJEXT) \
 t-scan_.lo t-subadd_n_.$(OBJEXT) t-subadd_n_.lo : $(ANSI2KNR)
 
