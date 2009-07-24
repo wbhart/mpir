@@ -864,6 +864,18 @@ __GMP_DECLSPEC mp_limb_t mpn_divexact_byff __GMP_PROTO ((mp_ptr, mp_srcptr, mp_s
 __GMP_DECLSPEC mp_limb_t mpn_divexact_byBm1of __GMP_PROTO ((mp_ptr, mp_srcptr, mp_size_t,mp_limb_t,mp_limb_t));
 #endif
 
+#define mpn_add_err1_n  __MPN(add_err1_n)
+mp_limb_t mpn_add_err1_n (mp_ptr, mp_srcptr, mp_srcptr, mp_ptr, mp_srcptr, mp_size_t, mp_limb_t);
+
+#define mpn_sub_err1_n  __MPN(sub_err1_n)
+mp_limb_t mpn_sub_err1_n (mp_ptr, mp_srcptr, mp_srcptr, mp_ptr, mp_srcptr, mp_size_t, mp_limb_t);
+
+#define mpn_add_err2_n  __MPN(add_err2_n)
+mp_limb_t mpn_add_err2_n (mp_ptr, mp_srcptr, mp_srcptr, mp_ptr, mp_srcptr, mp_srcptr, mp_size_t, mp_limb_t);
+
+#define mpn_sub_err2_n  __MPN(sub_err2_n)
+mp_limb_t mpn_sub_err2_n (mp_ptr, mp_srcptr, mp_srcptr, mp_ptr, mp_srcptr, mp_srcptr, mp_size_t, mp_limb_t);
+
 #define mpn_divrem_1c __MPN(divrem_1c)
 __GMP_DECLSPEC mp_limb_t mpn_divrem_1c __GMP_PROTO ((mp_ptr, mp_size_t, mp_srcptr, mp_size_t, mp_limb_t, mp_limb_t));
 
@@ -903,6 +915,9 @@ __GMP_DECLSPEC void mpn_mul_basecase __GMP_PROTO ((mp_ptr, mp_srcptr, mp_size_t,
 
 #define mpn_mullow_n __MPN(mullow_n)
 __GMP_DECLSPEC void mpn_mullow_n __GMP_PROTO ((mp_ptr, mp_srcptr, mp_srcptr, mp_size_t));
+
+#define mpn_mulmid_basecase __MPN(mulmid_basecase)
+__GMP_DECLSPEC void mpn_mulmid_basecase __GMP_PROTO ((mp_ptr, mp_srcptr, mp_size_t, mp_srcptr, mp_size_t));
 
 #define mpn_mullow_basecase __MPN(mullow_basecase)
 __GMP_DECLSPEC void mpn_mullow_basecase __GMP_PROTO ((mp_ptr, mp_srcptr, mp_srcptr, mp_size_t));
@@ -1008,6 +1023,13 @@ __GMP_DECLSPEC extern gmp_randstate_t  __gmp_rands;
       }                                 \
   } while (0)
 
+static inline mp_size_t
+mpn_toom42_mulmid_itch (mp_size_t n)
+{
+  /* Each level needs 3 * floor(n/2) + 1 limbs, plus whatever is needed
+     for recursive calls, i.e. at most 3*n, plus one limb for each layer. */
+  return 3*n + (n < 1024 ? 10 : BITS_PER_ULONG);
+}
 
 /* kara uses n+1 limbs of temporary space and then recurses with the balance,
    so need (n+1) + (ceil(n/2)+1) + (ceil(n/4)+1) + ...  This can be solved to
@@ -1113,6 +1135,9 @@ void mpn_toom3_sqr_n _PROTO((mp_ptr, mp_srcptr, mp_size_t, mp_ptr));
 
 #define mpn_toom4_sqr_n  __MPN(toom4_sqr_n)
 void mpn_toom4_sqr_n _PROTO((mp_ptr, mp_srcptr, mp_size_t));
+
+#define   mpn_toom42_mulmid __MPN(toom42_mulmid)
+void      mpn_toom42_mulmid __GMP_PROTO ((mp_ptr, mp_srcptr, mp_srcptr, mp_size_t, mp_ptr));
 
 #define mpn_toom7_sqr_n  __MPN(toom7_sqr_n)
 void mpn_toom7_sqr_n _PROTO((mp_ptr, mp_srcptr, mp_size_t));
@@ -1447,6 +1472,10 @@ __GMP_DECLSPEC extern const mp_limb_t __gmp_fib_table[];
 
 #ifndef MUL_TOOM4_THRESHOLD
 #define MUL_TOOM4_THRESHOLD 400 
+#endif
+
+#ifndef MULMID_TOOM42_THRESHOLD
+#define MULMID_TOOM42_THRESHOLD 36
 #endif
 
 #ifndef MUL_TOOM7_THRESHOLD
