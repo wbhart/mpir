@@ -105,35 +105,6 @@ MA 02110-1301, USA. */
 
 */
 
-/* The following license applies to refmpn_mulmid -- middle product *only*
-
-Copyright (C) 2009, David Harvey
-
-All rights reserved.
-
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions are met:
-
-1. Redistributions of source code must retain the above copyright notice, this
-   list of conditions and the following disclaimer.
-
-2. Redistributions in binary form must reproduce the above copyright notice,
-   this list of conditions and the following disclaimer in the documentation
-   and/or other materials provided with the distribution.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS IS''
-AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR CONTRIBUTORS BE LIABLE
-FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
-DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
-SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
-CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
-OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
-*/
-
 /* always do assertion checking */
 #define WANT_ASSERT 1
 
@@ -348,15 +319,17 @@ struct try_t {
 #define SIZE_FRACTION     6  /* size2 is fraction for divrem etc */
 #define SIZE_SIZE2        7
 #define SIZE_PLUS_1       8
-#define SIZE_SUM          9
-#define SIZE_DIFF        10
-#define SIZE_DIFF_PLUS_1 11
-#define SIZE_DIFF_PLUS_3 12
-#define SIZE_RETVAL      13
-#define SIZE_CEIL_HALF   14
-#define SIZE_GET_STR     15
-#define SIZE_PLUS_MSIZE_SUB_1 16  /* size+msize-1 */
-#define SIZE_DOUBLE	17
+#define SIZE_PLUS_2       9
+#define SIZE_SUM         10
+#define SIZE_DIFF        11
+#define SIZE_DIFF_PLUS_1 12
+#define SIZE_DIFF_PLUS_3 13
+#define SIZE_RETVAL      14
+#define SIZE_CEIL_HALF   15
+#define SIZE_GET_STR     16
+#define SIZE_PLUS_MSIZE_SUB_1 17  /* size+msize-1 */
+#define SIZE_DOUBLE	18
+#define SIZE_DOUBLE_MINUS_1	19
   char  size;
   char  size2;
   char  dst_size[NUM_DESTS];
@@ -669,11 +642,12 @@ validate_sqrtrem (void)
 
 #define TYPE_MUL_BASECASE     80
 #define TYPE_MUL_N            81
-#define TYPE_MULMID           82
-#define TYPE_MULMID_N         83
-#define TYPE_SQR              84
-#define TYPE_UMUL_PPMM        85
-#define TYPE_UMUL_PPMM_R      86
+#define TYPE_MULMID_BASECASE  82
+#define TYPE_MULMID           83
+#define TYPE_MULMID_N         84
+#define TYPE_SQR              85
+#define TYPE_UMUL_PPMM        86
+#define TYPE_UMUL_PPMM_R      87
 
 #define TYPE_SB_DIVREM_MN     90
 #define TYPE_TDIV_QR          91
@@ -1196,17 +1170,23 @@ param_init (void)
   p->src[1] = 1;
   REFERENCE (refmpn_mul_n);
 
-  p = &param[TYPE_MULMID];
+  p = &param[TYPE_MULMID_BASECASE];
   COPY (TYPE_MUL_BASECASE);
   p->dst_size[0] = SIZE_DIFF_PLUS_3;
   p->size2 = 1;
   p->overlap = OVERLAP_NONE;
+  REFERENCE (refmpn_mulmid_basecase);
+
+  p = &param[TYPE_MULMID];
+  COPY (TYPE_MULMID_BASECASE);
   REFERENCE (refmpn_mulmid);
 
   p = &param[TYPE_MULMID_N];
-  COPY (TYPE_MUL_N);
-  p->dst_size[0] = SIZE_DIFF_PLUS_3;
-  p->size2 = 1;
+  p->dst[0] = 1;
+  p->src[0] = 1;
+  p->src[1] = 1;
+  p->dst_size[0] = SIZE_PLUS_2;
+  p->size2 = SIZE_DOUBLE_MINUS_1;
   p->overlap = OVERLAP_NONE;
   REFERENCE (refmpn_mulmid_n);
 
@@ -1670,7 +1650,9 @@ const struct choice_t choice_array[] = {
   { TRY(mpn_mul),    TYPE_MUL_BASECASE },
   { TRY(mpn_mul_n),  TYPE_MUL_N },
   { TRY(mpn_sqr_n),  TYPE_SQR },
+  { TRY(mpn_mulmid_basecase), TYPE_MULMID_BASECASE },
   { TRY(mpn_mulmid), TYPE_MULMID },
+  { TRY(mpn_mulmid_n), TYPE_MULMID_N },
   
   { TRY_FUNFUN(umul_ppmm), TYPE_UMUL_PPMM, 2 },
 #if HAVE_NATIVE_mpn_umul_ppmm
@@ -2465,13 +2447,17 @@ call (struct each_t *e, tryfun_t function)
     CALLING_CONVENTIONS (function)
       (e->d[0].p, e->s[0].p, size, e->s[1].p, size2);
     break;
+  case TYPE_MULMID_BASECASE:
+    CALLING_CONVENTIONS (function)
+      (e->d[0].p, e->s[0].p, size, e->s[1].p, size2);
+    break;
   case TYPE_MULMID:
     CALLING_CONVENTIONS (function)
       (e->d[0].p, e->s[0].p, size, e->s[1].p, size2);
     break;
   case TYPE_MULMID_N:
     CALLING_CONVENTIONS (function)
-      (e->d[0].p, e->s[0].p, e->s[1].p, size);
+      (e->d[0].p, e->s[1].p, e->s[0].p, size);
     break;
   case TYPE_REDC_BASECASE:
     /* Sources are destroyed, so they're saved and replaced, but a general
@@ -2610,6 +2596,9 @@ pointer_setup (struct each_t *e)
 
       case SIZE_PLUS_1:
 	d[i].size = size+1;
+	break;
+      case SIZE_PLUS_2:
+	d[i].size = size+2;
 	break;
       case SIZE_PLUS_MSIZE_SUB_1:
 	d[i].size = size + tr->msize - 1;
@@ -2918,6 +2907,7 @@ try_one (void)
   (tr->size2 == SIZE_2 ? 2                              \
    : tr->size2 == SIZE_FRACTION ? option_firstsize2     \
    : tr->size2 == SIZE_DOUBLE ? size*2			\
+   : tr->size2 == SIZE_DOUBLE_MINUS_1 ? size*2-1		\
    : tr->size2 ?                                        \
    MAX (choice->minsize, (option_firstsize2 != 0        \
 			  ? option_firstsize2 : 1))     \
@@ -2926,7 +2916,8 @@ try_one (void)
 #define SIZE2_LAST                                      \
   (tr->size2 == SIZE_2 ? 2                              \
    : tr->size2 == SIZE_FRACTION ? FRACTION_COUNT-1      \
-   : tr->size2 == SIZE_DOUBLE ? size*2			\
+   : tr->size2 == SIZE_DOUBLE ? size*2		        	\
+   : tr->size2 == SIZE_DOUBLE_MINUS_1 ? size*2-1		\
    : tr->size2 ? size                                   \
    : 0)
 

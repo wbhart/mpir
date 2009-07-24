@@ -320,6 +320,8 @@ void refmpn_mul_any __GMP_PROTO ((mp_ptr prodp,
                              mp_srcptr vp, mp_size_t vsize));
 void refmpn_mul_n __GMP_PROTO ((mp_ptr prodp, mp_srcptr up, mp_srcptr vp,
                            mp_size_t size));
+void refmpn_mulmid_basecase __GMP_PROTO ((mp_ptr rp, mp_srcptr up, mp_size_t un,
+               mp_srcptr vp, mp_size_t vn));
 void refmpn_mulmid __GMP_PROTO ((mp_ptr rp, mp_srcptr up, mp_size_t un,
                mp_srcptr vp, mp_size_t vn));
 void refmpn_mulmid_n __GMP_PROTO ((mp_ptr rp, mp_srcptr up, 
