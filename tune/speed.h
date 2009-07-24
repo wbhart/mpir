@@ -236,7 +236,8 @@ double speed_mpn_mul_fft_full_sqr _PROTO ((struct speed_params *s));
 double speed_mpn_mul_n _PROTO ((struct speed_params *s));
 double speed_mpn_mul_n_sqr _PROTO ((struct speed_params *s));
 double speed_mpn_mullow_n _PROTO ((struct speed_params *s));
-double speed_mpn_mullow_basecase _PROTO ((struct speed_params *s));
+double speed_mpn_mulhigh_n _PROTO ((struct speed_params *s));
+double speed_mpn_mullow_n_basecase _PROTO ((struct speed_params *s));
 double speed_mpn_nand_n _PROTO ((struct speed_params *s));
 double speed_mpn_nior_n _PROTO ((struct speed_params *s));
 double speed_mpn_popcount _PROTO ((struct speed_params *s));
@@ -1029,66 +1030,6 @@ int speed_routine_count_zeros_setup _PROTO ((struct speed_params *s,
 
 #define SPEED_ROUTINE_MPN_MUL_N(function)				\
   SPEED_ROUTINE_MPN_MUL_N_CALL (function (wp, s->xp, s->yp, s->size));
-
-#define SPEED_ROUTINE_MPN_MULLOW_N_CALL(call)				\
-  {									\
-    mp_ptr    wp;							\
-    unsigned  i;							\
-    double    t;							\
-    TMP_DECL;								\
-									\
-    SPEED_RESTRICT_COND (s->size >= 1);					\
-									\
-    TMP_MARK;								\
-    SPEED_TMP_ALLOC_LIMBS (wp, s->size, s->align_wp);			\
-									\
-    speed_operand_src (s, s->xp, s->size);				\
-    speed_operand_src (s, s->yp, s->size);				\
-    speed_operand_dst (s, wp, s->size);					\
-    speed_cache_fill (s);						\
-									\
-    speed_starttime ();							\
-    i = s->reps;							\
-    do									\
-      call;								\
-    while (--i != 0);							\
-    t = speed_endtime ();						\
-									\
-    TMP_FREE;								\
-    return t;								\
-  }
-
-#define SPEED_ROUTINE_MPN_MULLOW_N(function)				\
-  SPEED_ROUTINE_MPN_MULLOW_N_CALL (function (wp, s->xp, s->yp, s->size));
-
-/* For mpn_mul_basecase, xsize=r, ysize=s->size. */
-#define SPEED_ROUTINE_MPN_MULLOW_BASECASE(function)			\
-  {									\
-    mp_ptr    wp;							\
-    unsigned  i;							\
-    double    t;							\
-    TMP_DECL;								\
-									\
-    SPEED_RESTRICT_COND (s->size >= 1);					\
-									\
-    TMP_MARK;								\
-    SPEED_TMP_ALLOC_LIMBS (wp, s->size, s->align_wp);			\
-									\
-    speed_operand_src (s, s->xp, s->size);				\
-    speed_operand_src (s, s->yp, s->size);				\
-    speed_operand_dst (s, wp, s->size);					\
-    speed_cache_fill (s);						\
-									\
-    speed_starttime ();							\
-    i = s->reps;							\
-    do									\
-      function (wp, s->xp, s->yp, s->size);				\
-    while (--i != 0);							\
-    t = speed_endtime ();						\
-									\
-    TMP_FREE;								\
-    return t;								\
-  }
 
 #define SPEED_ROUTINE_MPN_MUL_N_TSPACE(call, tsize, minsize)		\
   {									\

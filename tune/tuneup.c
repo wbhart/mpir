@@ -164,7 +164,10 @@ mp_size_t  sqr_fft_threshold            = MP_SIZE_T_MAX;
 mp_size_t  sqr_fft_modf_threshold       = MP_SIZE_T_MAX;
 mp_size_t  mullow_basecase_threshold    = MP_SIZE_T_MAX;
 mp_size_t  mullow_dc_threshold          = MP_SIZE_T_MAX;
-mp_size_t  mullow_mul_n_threshold       = MP_SIZE_T_MAX;
+mp_size_t  mullow_mul_threshold         = MP_SIZE_T_MAX;
+mp_size_t  mulhigh_basecase_threshold   = MP_SIZE_T_MAX;
+mp_size_t  mulhigh_dc_threshold         = MP_SIZE_T_MAX;
+mp_size_t  mulhigh_mul_threshold        = MP_SIZE_T_MAX;
 mp_size_t  div_sb_preinv_threshold      = MP_SIZE_T_MAX;
 mp_size_t  div_dc_threshold             = MP_SIZE_T_MAX;
 mp_size_t  powm_threshold               = MP_SIZE_T_MAX;
@@ -865,20 +868,50 @@ tune_mullow (void)
   param.name = "MULLOW_BASECASE_THRESHOLD";
   param.min_size = 3;
   param.min_is_always = 1;
-  param.max_size = MULLOW_BASECASE_THRESHOLD_LIMIT-1;
+  //param.max_size = MULLOW_BASECASE_THRESHOLD_LIMIT-1;
   one (&mullow_basecase_threshold, &param);
 
   param.min_is_always = 0;	/* ??? */
 
   param.name = "MULLOW_DC_THRESHOLD";
-  param.min_size = mul_karatsuba_threshold;
+  param.min_size = mullow_basecase_threshold;
   param.max_size = 1000;
   one (&mullow_dc_threshold, &param);
 
-  param.name = "MULLOW_MUL_N_THRESHOLD";
+  param.name = "MULLOW_MUL_THRESHOLD";
   param.min_size = mullow_dc_threshold;
-  param.max_size = 2000;
-  one (&mullow_mul_n_threshold, &param);
+  param.max_size = 10000;
+  one (&mullow_mul_threshold, &param);
+
+  /* disabled until tuned */
+  MUL_FFT_THRESHOLD = MP_SIZE_T_MAX;
+}
+
+
+void
+tune_mulhigh (void)
+{
+  static struct param_t  param;
+
+  param.function = speed_mpn_mulhigh_n;
+
+  param.name = "MULHIGH_BASECASE_THRESHOLD";
+  param.min_size = 3;
+  param.min_is_always = 1;
+  //param.max_size = MULHIGH_BASECASE_THRESHOLD_LIMIT-1;
+  one (&mulhigh_basecase_threshold, &param);
+
+  param.min_is_always = 0;	/* ??? */
+
+  param.name = "MULHIGH_DC_THRESHOLD";
+  param.min_size = mulhigh_basecase_threshold;
+  param.max_size = 1000;
+  one (&mulhigh_dc_threshold, &param);
+
+  param.name = "MULHIGH_MUL_THRESHOLD";
+  param.min_size = mulhigh_dc_threshold;
+  param.max_size = 10000;
+  one (&mulhigh_mul_threshold, &param);
 
   /* disabled until tuned */
   MUL_FFT_THRESHOLD = MP_SIZE_T_MAX;
@@ -1721,6 +1754,8 @@ all (void)
   printf("\n");
 
   tune_mullow ();
+  printf("\n");
+  tune_mulhigh ();
   printf("\n");
 
   tune_sb_preinv ();

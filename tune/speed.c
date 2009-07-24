@@ -327,7 +327,8 @@ const struct routine_t {
   { "mpn_mul_fft_sqr",   speed_mpn_mul_fft_sqr, FLAG_R_OPTIONAL },
 
   { "mpn_mullow_n",      speed_mpn_mullow_n         },
-  { "mpn_mullow_basecase", speed_mpn_mullow_basecase},
+  { "mpn_mullow_n_basecase", speed_mpn_mullow_n_basecase},
+  { "mpn_mulhigh_n",      speed_mpn_mulhigh_n         },
 
   { "mpn_get_str",       speed_mpn_get_str,  FLAG_R_OPTIONAL },
 

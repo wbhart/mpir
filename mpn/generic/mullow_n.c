@@ -49,7 +49,7 @@ mpn_mullow_n (mp_ptr rp, mp_srcptr xp, mp_srcptr yp, mp_size_t n)
       mpn_mullow_n_basecase (rp, xp, yp, n);
       return;
     }
-  if (ABOVE_THRESHOLD (n, MULLOW_MUL_N_THRESHOLD))
+  if (ABOVE_THRESHOLD (n, MULLOW_MUL_THRESHOLD))
     {
       mpn_mul_n (rp, xp, yp, n);
       return;

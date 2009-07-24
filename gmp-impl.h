@@ -916,6 +916,15 @@ __GMP_DECLSPEC void mpn_mul_basecase __GMP_PROTO ((mp_ptr, mp_srcptr, mp_size_t,
 #define mpn_mullow_n __MPN(mullow_n)
 __GMP_DECLSPEC void mpn_mullow_n __GMP_PROTO ((mp_ptr, mp_srcptr, mp_srcptr, mp_size_t));
 
+#define mpn_mullow_n_basecase __MPN(mullow_n_basecase)
+__GMP_DECLSPEC void mpn_mullow_n_basecase __GMP_PROTO ((mp_ptr, mp_srcptr, mp_srcptr, mp_size_t));
+
+#define mpn_mulhigh_n __MPN(mulhigh_n)
+__GMP_DECLSPEC void mpn_mulhigh_n __GMP_PROTO ((mp_ptr, mp_srcptr, mp_srcptr, mp_size_t));
+
+#define mpn_mullow_basecase __MPN(mullow_basecase)
+__GMP_DECLSPEC void mpn_mullow_basecase __GMP_PROTO ((mp_ptr, mp_srcptr,mp_size_t, mp_srcptr, mp_size_t,mp_size_t));
+
 #define mpn_mulmid_basecase __MPN(mulmid_basecase)
 __GMP_DECLSPEC void mpn_mulmid_basecase __GMP_PROTO ((mp_ptr, mp_srcptr, mp_size_t, mp_srcptr, mp_size_t));
 
@@ -925,8 +934,6 @@ __GMP_DECLSPEC void mpn_mulmid __GMP_PROTO ((mp_ptr, mp_srcptr, mp_size_t, mp_sr
 #define mpn_mulmid_n __MPN(mulmid_n)
 __GMP_DECLSPEC void mpn_mulmid_n __GMP_PROTO ((mp_ptr, mp_srcptr, mp_srcptr, mp_size_t));
 
-#define mpn_mullow_basecase __MPN(mullow_basecase)
-__GMP_DECLSPEC void mpn_mullow_basecase __GMP_PROTO ((mp_ptr, mp_srcptr, mp_srcptr, mp_size_t));
 
 #ifndef mpn_redc_basecase  /* if not done with cpuvec in a fat binary */
 #define mpn_redc_basecase __MPN(redc_basecase)
@@ -1486,6 +1493,30 @@ __GMP_DECLSPEC extern const mp_limb_t __gmp_fib_table[];
 
 #ifndef MUL_TOOM7_THRESHOLD
 #define MUL_TOOM7_THRESHOLD 700
+#endif
+
+#ifndef MULLOW_BASECASE_THRESHOLD
+#define MULLOW_BASECASE_THRESHOLD	8
+#endif
+
+#ifndef MULLOW_DC_THRESHOLD
+#define MULLOW_DC_THRESHOLD	32
+#endif
+
+#ifndef MULLOW_MUL_THRESHOLD
+#define MULLOW_MUL_THRESHOLD	8192
+#endif
+
+#ifndef MULHIGH_BASECASE_THRESHOLD
+#define MULHIGH_BASECASE_THRESHOLD	16
+#endif
+
+#ifndef MULHIGH_DC_THRESHOLD
+#define MULHIGH_DC_THRESHOLD	32
+#endif
+
+#ifndef MULHIGH_MUL_THRESHOLD
+#define MULHIGH_MUL_THRESHOLD	8192
 #endif
 
 /* MUL_KARATSUBA_THRESHOLD_LIMIT is the maximum for MUL_KARATSUBA_THRESHOLD.
@@ -4084,10 +4115,21 @@ extern mp_size_t                     mullow_basecase_threshold;
 #define MULLOW_DC_THRESHOLD          mullow_dc_threshold
 extern mp_size_t                     mullow_dc_threshold;
 
-#undef  MULLOW_MUL_N_THRESHOLD
-#define MULLOW_MUL_N_THRESHOLD       mullow_mul_n_threshold
-extern mp_size_t                     mullow_mul_n_threshold;
+#undef  MULLOW_MUL_THRESHOLD
+#define MULLOW_MUL_THRESHOLD         mullow_mul_threshold
+extern mp_size_t                     mullow_mul_threshold;
 
+#undef  MULHIGH_BASECASE_THRESHOLD
+#define MULHIGH_BASECASE_THRESHOLD   mulhigh_basecase_threshold
+extern mp_size_t                     mulhigh_basecase_threshold;
+
+#undef  MULHIGH_DC_THRESHOLD
+#define MULHIGH_DC_THRESHOLD         mulhigh_dc_threshold
+extern mp_size_t                     mulhigh_dc_threshold;
+
+#undef  MULHIGH_MUL_THRESHOLD
+#define MULHIGH_MUL_THRESHOLD        mulhigh_mul_threshold
+extern mp_size_t                     mulhigh_mul_threshold;
 
 #if ! UDIV_PREINV_ALWAYS
 #undef  DIV_SB_PREINV_THRESHOLD

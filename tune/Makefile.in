@@ -118,9 +118,10 @@ speed_ext_DEPENDENCIES = $(am__DEPENDENCIES_3)
 am_tuneup_OBJECTS = tuneup$U.$(OBJEXT)
 am__objects_1 = dc_divrem_n$U.$(OBJEXT) divrem_2$U.$(OBJEXT) \
 	gcd$U.$(OBJEXT) gcdext$U.$(OBJEXT) get_str$U.$(OBJEXT) \
-	mul_n$U.$(OBJEXT) mullow_n$U.$(OBJEXT) mul_fft$U.$(OBJEXT) \
-	mul$U.$(OBJEXT) sb_divrem_mn$U.$(OBJEXT) tdiv_qr$U.$(OBJEXT) \
-	toom4_mul_n$U.$(OBJEXT) toom7_mul_n$U.$(OBJEXT)
+	mul_n$U.$(OBJEXT) mullow_n$U.$(OBJEXT) mulhigh_n$U.$(OBJEXT) \
+	mul_fft$U.$(OBJEXT) mul$U.$(OBJEXT) sb_divrem_mn$U.$(OBJEXT) \
+	tdiv_qr$U.$(OBJEXT) toom4_mul_n$U.$(OBJEXT) \
+	toom7_mul_n$U.$(OBJEXT)
 am__objects_2 = $(am__objects_1) divrem_1$U.$(OBJEXT) \
 	mod_1$U.$(OBJEXT)
 nodist_tuneup_OBJECTS = sqr_basecase$U.$(OBJEXT) $(am__objects_2)
@@ -374,7 +375,7 @@ DISTCLEANFILES = sqr_basecase.c  $(MANY_DISTCLEAN)
 # recompiled object will be rebuilt if that file changes.
 TUNE_MPN_SRCS = $(TUNE_MPN_SRCS_BASIC) divrem_1.c mod_1.c
 TUNE_MPN_SRCS_BASIC = dc_divrem_n.c divrem_2.c gcd.c gcdext.c get_str.c \
-  mul_n.c mullow_n.c mul_fft.c mul.c sb_divrem_mn.c tdiv_qr.c toom4_mul_n.c \
+  mul_n.c mullow_n.c mulhigh_n.c mul_fft.c mul.c sb_divrem_mn.c tdiv_qr.c toom4_mul_n.c \
   toom7_mul_n.c
 
 
@@ -529,6 +530,8 @@ mul_fft_.c: mul_fft.c $(ANSI2KNR)
 	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/mul_fft.c; then echo $(srcdir)/mul_fft.c; else echo mul_fft.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
 mul_n_.c: mul_n.c $(ANSI2KNR)
 	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/mul_n.c; then echo $(srcdir)/mul_n.c; else echo mul_n.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
+mulhigh_n_.c: mulhigh_n.c $(ANSI2KNR)
+	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/mulhigh_n.c; then echo $(srcdir)/mulhigh_n.c; else echo mulhigh_n.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
 mullow_n_.c: mullow_n.c $(ANSI2KNR)
 	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/mullow_n.c; then echo $(srcdir)/mullow_n.c; else echo mullow_n.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
 noop_.c: noop.c $(ANSI2KNR)
@@ -580,16 +583,16 @@ jacbase2_.lo jacbase3_.$(OBJEXT) jacbase3_.lo mod_1_.$(OBJEXT) \
 mod_1_.lo mod_1_div_.$(OBJEXT) mod_1_div_.lo mod_1_inv_.$(OBJEXT) \
 mod_1_inv_.lo modlinv_.$(OBJEXT) modlinv_.lo mul_.$(OBJEXT) mul_.lo \
 mul_fft_.$(OBJEXT) mul_fft_.lo mul_n_.$(OBJEXT) mul_n_.lo \
-mullow_n_.$(OBJEXT) mullow_n_.lo noop_.$(OBJEXT) noop_.lo \
-powm_mod_.$(OBJEXT) powm_mod_.lo powm_redc_.$(OBJEXT) powm_redc_.lo \
-pre_divrem_1_.$(OBJEXT) pre_divrem_1_.lo sb_div_.$(OBJEXT) sb_div_.lo \
-sb_divrem_mn_.$(OBJEXT) sb_divrem_mn_.lo sb_inv_.$(OBJEXT) sb_inv_.lo \
-set_strb_.$(OBJEXT) set_strb_.lo set_strs_.$(OBJEXT) set_strs_.lo \
-speed_.$(OBJEXT) speed_.lo speed-ext_.$(OBJEXT) speed-ext_.lo \
-sqr_basecase_.$(OBJEXT) sqr_basecase_.lo tdiv_qr_.$(OBJEXT) \
-tdiv_qr_.lo time_.$(OBJEXT) time_.lo toom4_mul_n_.$(OBJEXT) \
-toom4_mul_n_.lo toom7_mul_n_.$(OBJEXT) toom7_mul_n_.lo \
-tuneup_.$(OBJEXT) tuneup_.lo : $(ANSI2KNR)
+mulhigh_n_.$(OBJEXT) mulhigh_n_.lo mullow_n_.$(OBJEXT) mullow_n_.lo \
+noop_.$(OBJEXT) noop_.lo powm_mod_.$(OBJEXT) powm_mod_.lo \
+powm_redc_.$(OBJEXT) powm_redc_.lo pre_divrem_1_.$(OBJEXT) \
+pre_divrem_1_.lo sb_div_.$(OBJEXT) sb_div_.lo sb_divrem_mn_.$(OBJEXT) \
+sb_divrem_mn_.lo sb_inv_.$(OBJEXT) sb_inv_.lo set_strb_.$(OBJEXT) \
+set_strb_.lo set_strs_.$(OBJEXT) set_strs_.lo speed_.$(OBJEXT) \
+speed_.lo speed-ext_.$(OBJEXT) speed-ext_.lo sqr_basecase_.$(OBJEXT) \
+sqr_basecase_.lo tdiv_qr_.$(OBJEXT) tdiv_qr_.lo time_.$(OBJEXT) \
+time_.lo toom4_mul_n_.$(OBJEXT) toom4_mul_n_.lo toom7_mul_n_.$(OBJEXT) \
+toom7_mul_n_.lo tuneup_.$(OBJEXT) tuneup_.lo : $(ANSI2KNR)
 
 mostlyclean-libtool:
 	-rm -f *.lo
