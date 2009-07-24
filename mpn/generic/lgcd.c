@@ -551,6 +551,7 @@ mpn_lgcd (mp_ptr gp, mp_ptr ap, mp_size_t an, mp_ptr bp, mp_size_t bn)
       if (an == 0)
 	{
 	  MPN_COPY (gp, bp, bn);
+	  TMP_FREE;
 	  return bn;
 	}
       else
