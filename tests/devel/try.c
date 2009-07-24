@@ -105,6 +105,34 @@ MA 02110-1301, USA. */
 
 */
 
+/* The following license applies to refmpn_mulmid -- middle product *only*
+
+Copyright (C) 2009, David Harvey
+
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+
+1. Redistributions of source code must retain the above copyright notice, this
+   list of conditions and the following disclaimer.
+
+2. Redistributions in binary form must reproduce the above copyright notice,
+   this list of conditions and the following disclaimer in the documentation
+   and/or other materials provided with the distribution.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS IS''
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR CONTRIBUTORS BE LIABLE
+FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+*/
 
 /* always do assertion checking */
 #define WANT_ASSERT 1
@@ -323,11 +351,12 @@ struct try_t {
 #define SIZE_SUM          9
 #define SIZE_DIFF        10
 #define SIZE_DIFF_PLUS_1 11
-#define SIZE_RETVAL      12
-#define SIZE_CEIL_HALF   13
-#define SIZE_GET_STR     14
-#define SIZE_PLUS_MSIZE_SUB_1 15  /* size+msize-1 */
-#define SIZE_DOUBLE	16
+#define SIZE_DIFF_PLUS_3 12
+#define SIZE_RETVAL      13
+#define SIZE_CEIL_HALF   14
+#define SIZE_GET_STR     15
+#define SIZE_PLUS_MSIZE_SUB_1 16  /* size+msize-1 */
+#define SIZE_DOUBLE	17
   char  size;
   char  size2;
   char  dst_size[NUM_DESTS];
@@ -640,9 +669,11 @@ validate_sqrtrem (void)
 
 #define TYPE_MUL_BASECASE     80
 #define TYPE_MUL_N            81
-#define TYPE_SQR              82
-#define TYPE_UMUL_PPMM        83
-#define TYPE_UMUL_PPMM_R      84
+#define TYPE_MULMID           82
+#define TYPE_MULMID_N         83
+#define TYPE_SQR              84
+#define TYPE_UMUL_PPMM        85
+#define TYPE_UMUL_PPMM_R      86
 
 #define TYPE_SB_DIVREM_MN     90
 #define TYPE_TDIV_QR          91
@@ -1165,11 +1196,26 @@ param_init (void)
   p->src[1] = 1;
   REFERENCE (refmpn_mul_n);
 
+  p = &param[TYPE_MULMID];
+  COPY (TYPE_MUL_BASECASE);
+  p->dst_size[0] = SIZE_DIFF_PLUS_3;
+  p->size2 = 1;
+  p->overlap = OVERLAP_NONE;
+  REFERENCE (refmpn_mulmid);
+
+  p = &param[TYPE_MULMID_N];
+  COPY (TYPE_MUL_N);
+  p->dst_size[0] = SIZE_DIFF_PLUS_3;
+  p->size2 = 1;
+  p->overlap = OVERLAP_NONE;
+  REFERENCE (refmpn_mulmid_n);
+
   p = &param[TYPE_MUL_BASECASE];
   COPY (TYPE_MUL_N);
+  p->dst_size[0] = SIZE_SUM;
   p->size2 = 1;
   REFERENCE (refmpn_mul_basecase);
-
+  
   p = &param[TYPE_UMUL_PPMM];
   p->retval = 1;
   p->src[0] = 1;
@@ -1624,7 +1670,8 @@ const struct choice_t choice_array[] = {
   { TRY(mpn_mul),    TYPE_MUL_BASECASE },
   { TRY(mpn_mul_n),  TYPE_MUL_N },
   { TRY(mpn_sqr_n),  TYPE_SQR },
-
+  { TRY(mpn_mulmid), TYPE_MULMID },
+  
   { TRY_FUNFUN(umul_ppmm), TYPE_UMUL_PPMM, 2 },
 #if HAVE_NATIVE_mpn_umul_ppmm
   { TRY(mpn_umul_ppmm),    TYPE_UMUL_PPMM, 2 },
@@ -2418,6 +2465,14 @@ call (struct each_t *e, tryfun_t function)
     CALLING_CONVENTIONS (function)
       (e->d[0].p, e->s[0].p, size, e->s[1].p, size2);
     break;
+  case TYPE_MULMID:
+    CALLING_CONVENTIONS (function)
+      (e->d[0].p, e->s[0].p, size, e->s[1].p, size2);
+    break;
+  case TYPE_MULMID_N:
+    CALLING_CONVENTIONS (function)
+      (e->d[0].p, e->s[0].p, e->s[1].p, size);
+    break;
   case TYPE_REDC_BASECASE:
     /* Sources are destroyed, so they're saved and replaced, but a general
        approach to this might be better.  Note that it's still e->s[0].p and
@@ -2577,6 +2632,10 @@ pointer_setup (struct each_t *e)
 
       case SIZE_DIFF_PLUS_1:
 	d[i].size = size - size2 + 1;
+	break;
+
+      case SIZE_DIFF_PLUS_3:
+	d[i].size = size - size2 + 3;
 	break;
 
       case SIZE_CEIL_HALF:

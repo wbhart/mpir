@@ -1499,6 +1499,78 @@ refmpn_mul_any (mp_ptr prodp,
 }
 
 
+/* Reference implementation of mpn_mulmid for testing.
+
+   Algorithm: use mpn_mul and then subtract off O(n) cross-terms.
+   Must have un >= vn >= 1. */
+void
+refmpn_mulmid (mp_ptr rp,
+               mp_srcptr up, mp_size_t un,
+               mp_srcptr vp, mp_size_t vn)
+{
+  mp_ptr temp;
+  mp_limb_t diag[4];
+  mp_limb_t hi;
+  mp_size_t i, k;
+
+  ASSERT (un >= vn);
+  ASSERT (vn >= 1);
+
+  /* special case */
+  if (vn == 1)
+    {
+      rp[un] = mpn_mul_1 (rp, up, un, vp[0]);
+      rp[un+1] = 0;
+      return;
+    }
+
+  /* compute plain product */
+  temp = refmpn_malloc_limbs (un + vn);
+  ASSERT (temp != NULL);
+  mpn_mul (temp, up, un, vp, vn);
+
+  /* remove the cross-terms that interfere with the result we want, i.e. in
+     the following diagram, we want only contributions from O's, but mpn_mul
+     has given us all of O, A and X, and we will remove the A's.
+
+     OOOOAAXX
+     AOOOOAAX
+     AAOOOOAA
+     XAAOOOOA
+     XXAAOOOO
+  */
+
+  /* bottom-left diagonal */
+  diag[0] = diag[3] = 0;
+  diag[2] = mpn_mul_1 (diag + 1, up, 1, vp[vn-2]);
+  for (i = 0; i < vn - 2; i++)
+    {
+      hi = mpn_addmul_1 (diag, up + vn - i - 3, 2, vp[i]);
+      mpn_add_1 (diag + 2, diag + 2, 2, hi);
+    }
+  k = (vn == 2);
+  mpn_sub (temp + vn - 3 + k, temp + vn - 3 + k, un - vn + 5 - k,
+           diag + k, 4 - k);
+
+  /* top-right diagonal */
+  diag[1] = mpn_mul_1 (diag, up + un - 1, 1, vp[1]);
+  for (i = 2; i < vn; i++)
+    mpn_addmul_1 (diag, up + un - i, 2, vp[i]);
+  mpn_sub (temp + un, temp + un, 2, diag, 2);
+
+  /* copy result to rp */
+  refmpn_copy (rp, temp + vn - 1, un - vn + 3);
+  refmpn_free_limbs (temp);
+}
+
+void
+refmpn_mulmid_n (mp_ptr rp,
+               mp_srcptr up, mp_srcptr vp, mp_size_t n)
+{
+  refmpn_mulmid(rp, up, n, vp, n);
+}
+
+
 mp_limb_t
 refmpn_gcd_1 (mp_srcptr xp, mp_size_t xsize, mp_limb_t y)
 {
