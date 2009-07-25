@@ -41,8 +41,7 @@ nodist_EXTRA_libmpn_la_SOURCES =					    \
   dc_divrem_n.c dive_1.c diveby3.c divebyff.c divis.c divrem.c divrem_1.c   \
   divrem_euclidean_qr_1.c divrem_euclidean_qr_2.c divrem_euclidean_r_1.c	\
   divebyBm1of.c divrem_2.c dump.c fib2_ui.c				    \
-  bgcd.c gcd.c	hgcd.c hgcd2.c lgcd.c ngcd.c ngcd_matrix.c ngcd_step.c      \
-  nhgcd2.c rgcd.c sgcd.c                                                    \
+  gcd.c	lgcd.c ngcd.c ngcd_matrix.c ngcd_step.c nhgcd2.c     \
   gcd_finda.c gcd_1.c gcdext.c get_d.c get_str.c			    \
   hamdist.c invert_limb.c lshift1.c rshift1.c lshift2.c rshift2.c	    \
   ior_n.c iorn_n.c jacbase.c lshift.c mod_1.c mod_34lsub1.c mode1o.c	    \
