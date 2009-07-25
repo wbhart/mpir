@@ -49,7 +49,8 @@ mpn_sub_err2_n (mp_ptr rp, mp_srcptr up, mp_srcptr vp,
   ASSERT (n >= 1);
   ASSERT (MPN_SAME_OR_SEPARATE_P (rp, up, n));
   ASSERT (MPN_SAME_OR_SEPARATE_P (rp, vp, n));
-  ASSERT (MPN_SAME_OR_SEPARATE_P (rp, yp, n));
+  ASSERT (MPN_SAME_OR_SEPARATE_P (rp, yp1, n));
+  ASSERT (MPN_SAME_OR_SEPARATE_P (rp, yp2, n));
 
   /* FIXME: first addition into eh:el is redundant */
 
