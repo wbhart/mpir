@@ -2488,7 +2488,6 @@ fi
 gmp_mpn_functions_optional="umul udiv copyi copyd com_n
   and_n andn_n nand_n ior_n iorn_n nior_n xor_n xnor_n			\
   gcd_finda invert_limb sqr_diagonal lshift1 rshift1 lshift2 rshift2	\
-  lgcd ngcd ngcd_matrix ngcd_step nhgcd2			\
   mul_2 mul_3 mul_4 store						\
   addmul_2 addmul_3 addmul_4 addmul_5 addmul_6 addmul_7 addmul_8	\
   addlsh1_n sublsh1_n rsh1add_n rsh1sub_n sumdiff_n lshiftc		\
@@ -2500,6 +2499,7 @@ gmp_mpn_functions="$extra_functions					   \
   divrem_euclidean_qr_1 divrem_euclidean_qr_2 divrem_euclidean_r_1	\
   add_err1_n add_err2_n sub_err1_n sub_err2_n				   \
   fib2_ui mod_1 mod_34lsub1 mode1o pre_divrem_1 pre_mod_1 dump		   \
+  lgcd ngcd ngcd_matrix ngcd_step nhgcd2                        \
   mulmid_basecase mulmid mulmid_n toom42_mulmid				   \
   mul mul_fft mul_n mul_basecase sqr_basecase random random2 pow_1	   \
   rootrem sqrtrem get_str set_str scan0 scan1 popcount hamdist cmp perfsqr \

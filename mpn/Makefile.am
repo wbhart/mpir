@@ -39,20 +39,21 @@ nodist_EXTRA_libmpn_la_SOURCES =					    \
   and_n.c andn_n.c bdivmod.c						    \
   cmp.c com_n.c copyd.c copyi.c						    \
   dc_divrem_n.c dive_1.c diveby3.c divebyff.c divis.c divrem.c divrem_1.c   \
-  divrem_euclidean_qr_1.c divrem_euclidean_qr_2.c divrem_euclidean_r_1.c	\
+  divrem_euclidean_qr_1.c divrem_euclidean_qr_2.c divrem_euclidean_r_1.c    \
   divebyBm1of.c divrem_2.c dump.c fib2_ui.c				    \
-  gcd.c	lgcd.c ngcd.c ngcd_matrix.c ngcd_step.c nhgcd2.c     \
+  gcd.c	lgcd.c ngcd.c ngcd_matrix.c ngcd_step.c nhgcd2.c                    \
   gcd_finda.c gcd_1.c gcdext.c get_d.c get_str.c			    \
   hamdist.c invert_limb.c lshift1.c rshift1.c lshift2.c rshift2.c	    \
   ior_n.c iorn_n.c jacbase.c lshift.c mod_1.c mod_34lsub1.c mode1o.c	    \
   mul.c mul_1.c mul_2.c mul_fft.c mul_n.c mul_basecase.c toom3_mul.c        \
-  toom3_mul_n.c toom4_mul_n.c toom4.c toom7_mul_n.c                      	\
-  mullow_n.c mullow_n_basecase.c mullow_basecase.c mulhigh_n.c			\
-  nand_n.c nior_n.c perfsqr.c popcount.c	    				\
-  pre_divrem_1.c pre_mod_1.c pow_1.c random.c random2.c rshift.c	    	\
-  rootrem.c redc_basecase.c sb_divrem_mn.c scan0.c scan1.c set_str.c	    	\
-  sqr_basecase.c sqr_diagonal.c	store.c					    	\
-  sqrtrem.c sub.c sub_1.c sub_n.c subadd_n.c submul_1.c				\
+  toom3_mul_n.c toom4_mul_n.c toom4.c toom7_mul_n.c                         \
+  mullow_n.c mullow_n_basecase.c mullow_basecase.c mulhigh_n.c              \
+  midmul.c midmul_n.c midmul_basecase.c toom42_midmul.c                     \
+  nand_n.c nior_n.c perfsqr.c popcount.c	    			    \
+  pre_divrem_1.c pre_mod_1.c pow_1.c random.c random2.c rshift.c	    \
+  rootrem.c redc_basecase.c sb_divrem_mn.c scan0.c scan1.c set_str.c	    \
+  sqr_basecase.c sqr_diagonal.c	store.c					    \
+  sqrtrem.c sub.c sub_1.c sub_n.c subadd_n.c submul_1.c			    \
   tdiv_qr.c udiv_qrnnd.c udiv_w_sdiv.c xor_n.c xnor_n.c
 
 noinst_LTLIBRARIES = libmpn.la
