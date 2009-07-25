@@ -1354,7 +1354,6 @@ mpn_gcdext (mp_ptr gp, mp_ptr s0p, mp_size_t *s0size,
 
 	  ASSERT((tn == 0) || (t[tn - 1] > 0)); /* {t, tn} is normalised */
 
-	  ASSERT(tn > 0);
 	  ASSERT(tn <= an + 1);
 
 	  /* We want to compute s*u1 - t*u0, so if s is negative
