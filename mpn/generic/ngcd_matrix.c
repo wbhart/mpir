@@ -307,24 +307,30 @@ void
 mpn_ngcd_matrix_mul (struct ngcd_matrix *M, const struct ngcd_matrix *M1,
 		     mp_ptr tp)
 {
+  unsigned int row;
+
+  mp_ptr m00, m01, m10, m11;
+  mp_size_t n00, n01, n10, n11;
+  
+  mp_size_t n;
+
+  mp_ptr up, vp;
+  
   if ((M->n > MPN_NGCD_MATRIX_CUTOFF) && (M1->n > MPN_NGCD_MATRIX_CUTOFF))
   {
     mpn_ngcd_matrix_mul_strassen(M, M1, tp);
     return;
   }
   
-  unsigned row;
-
-  mp_ptr m00 = M1->p[0][0];
-  mp_ptr m01 = M1->p[0][1];
-  mp_ptr m10 = M1->p[1][0];
-  mp_ptr m11 = M1->p[1][1];
-  mp_size_t n00, n01, n10, n11;
-
-  mp_size_t n;
-
-  mp_ptr up = tp;
-  mp_ptr vp = tp + M->n;
+  
+  m00 = M1->p[0][0];
+  m01 = M1->p[0][1];
+  m10 = M1->p[1][0];
+  m11 = M1->p[1][1];
+  
+  
+  up = tp;
+  vp = tp + M->n;
 
   /* About the new size of M:s elements. Since M1's diagonal elements
      are > 0, no element can decrease. The typical case is that the
