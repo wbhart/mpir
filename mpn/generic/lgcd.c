@@ -688,6 +688,7 @@ mpn_ngcdext_lehmer (mp_ptr gp, mp_ptr s0p, mp_size_t *s0size, mp_ptr ap, mp_ptr 
   mp_size_t gn, un;
   mp_ptr u0, u1;
   mp_limb_t cy, cy2;
+  mp_limb_t s, t;
   
   MPN_ZERO(tp, 2*n+2);
   u0 = tp;
@@ -775,7 +776,6 @@ mpn_ngcdext_lehmer (mp_ptr gp, mp_ptr s0p, mp_size_t *s0size, mp_ptr ap, mp_ptr 
       return 1;
   } 
   
-  mp_limb_t s, t;
   gp[0] = mpn_gcdext_1 (&s, &t, ap[0], bp[0]);
       
   /* 
