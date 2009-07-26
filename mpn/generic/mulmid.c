@@ -121,36 +121,37 @@ mpn_mulmid (mp_ptr rp,
 	 ...BBBBB.
 	 ....CCCCC
       */
+      {
+          TMP_DECL;
+          TMP_MARK;
 
-      TMP_DECL;
-      TMP_MARK;
+          temp = TMP_ALLOC_LIMBS (rn + 2);
 
-      temp = TMP_ALLOC_LIMBS (rn + 2);
+          /* first chunk (marked A in the above diagram) */
+          bp += bn - CHUNK, an -= bn - CHUNK;
+          mpn_mulmid_basecase (rp, ap, an, bp, CHUNK);
 
-      /* first chunk (marked A in the above diagram) */
-      bp += bn - CHUNK, an -= bn - CHUNK;
-      mpn_mulmid_basecase (rp, ap, an, bp, CHUNK);
+          /* remaining chunks (B, C, etc) */
+          bn -= CHUNK;
 
-      /* remaining chunks (B, C, etc) */
-      bn -= CHUNK;
+          while (bn >= CHUNK)
+	    {
+	      ap += CHUNK, bp -= CHUNK;
+	      mpn_mulmid_basecase (temp, ap, an, bp, CHUNK);
+	      mpn_add_n (rp, rp, temp, rn + 2);
+	      bn -= CHUNK;
+	    }
 
-      while (bn >= CHUNK)
-	{
-	  ap += CHUNK, bp -= CHUNK;
-	  mpn_mulmid_basecase (temp, ap, an, bp, CHUNK);
-	  mpn_add_n (rp, rp, temp, rn + 2);
-	  bn -= CHUNK;
-	}
+          if (bn)
+	    {
+	      /* last remaining chunk */
+	      ap += CHUNK, bp -= bn;
+	      mpn_mulmid_basecase (temp, ap, rn + bn - 1, bp, bn);
+	      mpn_add_n (rp, rp, temp, rn + 2);
+	    }
 
-      if (bn)
-	{
-	  /* last remaining chunk */
-	  ap += CHUNK, bp -= bn;
-	  mpn_mulmid_basecase (temp, ap, rn + bn - 1, bp, bn);
-	  mpn_add_n (rp, rp, temp, rn + 2);
-	}
-
-      TMP_FREE;
+          TMP_FREE;
+      }
       return;
     }
 

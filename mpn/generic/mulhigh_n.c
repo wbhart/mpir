@@ -99,6 +99,9 @@ inline static void
 mpn_mulshort_n_basecase (mp_ptr rp, mp_srcptr xp, mp_srcptr yp, mp_size_t n)
 {
   mp_size_t i, k;
+#if GMP_NAIL_BITS==0
+  mp_limb_t t1, t2, t3;
+#endif
 
   ASSERT (n >= 3);
   ASSERT_MPN (xp, n);
@@ -109,7 +112,6 @@ mpn_mulshort_n_basecase (mp_ptr rp, mp_srcptr xp, mp_srcptr yp, mp_size_t n)
 #if GMP_NAIL_BITS!=0
   rp[n] = mpn_mul_1 (rp + k, xp + k, 2, yp[0]);
 #else
-  mp_limb_t t1, t2, t3;
   umul_ppmm (t1, rp[k], xp[k], yp[0]);
   umul_ppmm (t3, t2, xp[k + 1], yp[0]);
   add_ssaaaa (rp[n], rp[k + 1], t3, t2, 0, t1);
