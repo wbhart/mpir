@@ -32,11 +32,11 @@ int
 main (void)
 {
   unsigned long yn, xn, n, b, zn, c;
+  mp_limb_t xp[1000], yp[1000], mp[1000], lp[1000];
   gmp_randstate_ptr rands;
   tests_start ();
   rands = RANDS;
 
-  mp_limb_t xp[1000], yp[1000], mp[1000], lp[1000];
 
 
   for (xn = 1; xn <= 100; xn++)

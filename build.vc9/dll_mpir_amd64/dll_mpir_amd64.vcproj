@@ -371,6 +371,14 @@
 					</FileConfiguration>
 				</File>
 				<File
+					RelativePath="..\..\mpn\generic\add_err1_n.c"
+					>
+				</File>
+				<File
+					RelativePath="..\..\mpn\generic\add_err2_n.c"
+					>
+				</File>
+				<File
 					RelativePath="..\..\mpn\generic\add_n.c"
 					>
 					<FileConfiguration
@@ -416,26 +424,6 @@
 				</File>
 				<File
 					RelativePath="..\..\mpn\generic\bdivmod.c"
-					>
-					<FileConfiguration
-						Name="Debug|x64"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|x64"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\"
-						/>
-					</FileConfiguration>
-				</File>
-				<File
-					RelativePath="..\..\mpn\generic\bgcd.c"
 					>
 					<FileConfiguration
 						Name="Debug|x64"
@@ -866,46 +854,6 @@
 					</FileConfiguration>
 				</File>
 				<File
-					RelativePath="..\..\mpn\generic\hgcd.c"
-					>
-					<FileConfiguration
-						Name="Debug|x64"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|x64"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\"
-						/>
-					</FileConfiguration>
-				</File>
-				<File
-					RelativePath="..\..\mpn\generic\hgcd2.c"
-					>
-					<FileConfiguration
-						Name="Debug|x64"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|x64"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\"
-						/>
-					</FileConfiguration>
-				</File>
-				<File
 					RelativePath="..\..\mpn\generic\jacbase.c"
 					>
 					<FileConfiguration
@@ -1136,6 +1084,10 @@
 					</FileConfiguration>
 				</File>
 				<File
+					RelativePath="..\..\mpn\generic\mulhigh_n.c"
+					>
+				</File>
+				<File
 					RelativePath="..\..\mpn\generic\mullow_basecase.c"
 					>
 					<FileConfiguration
@@ -1174,6 +1126,22 @@
 							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\mpn\generic\mullow_n_basecase.c"
+					>
+				</File>
+				<File
+					RelativePath="..\..\mpn\generic\mulmid.c"
+					>
+				</File>
+				<File
+					RelativePath="..\..\mpn\generic\mulmid_basecase.c"
+					>
+				</File>
+				<File
+					RelativePath="..\..\mpn\generic\mulmid_n.c"
+					>
 				</File>
 				<File
 					RelativePath="..\..\mpn\generic\ngcd.c"
@@ -1418,26 +1386,6 @@
 					</FileConfiguration>
 				</File>
 				<File
-					RelativePath="..\..\mpn\generic\rgcd.c"
-					>
-					<FileConfiguration
-						Name="Debug|x64"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|x64"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\"
-						/>
-					</FileConfiguration>
-				</File>
-				<File
 					RelativePath="..\..\mpn\generic\rootrem.c"
 					>
 					<FileConfiguration
@@ -1560,26 +1508,6 @@
 					</FileConfiguration>
 				</File>
 				<File
-					RelativePath="..\..\mpn\generic\sgcd.c"
-					>
-					<FileConfiguration
-						Name="Debug|x64"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|x64"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\"
-						/>
-					</FileConfiguration>
-				</File>
-				<File
 					RelativePath="..\..\mpn\generic\sizeinbase.c"
 					>
 					<FileConfiguration
@@ -1680,6 +1608,14 @@
 							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\mpn\generic\sub_err1_n.c"
+					>
+				</File>
+				<File
+					RelativePath="..\..\mpn\generic\sub_err2_n.c"
+					>
 				</File>
 				<File
 					RelativePath="..\..\mpn\generic\sub_n.c"
@@ -1808,6 +1744,14 @@
 					</FileConfiguration>
 				</File>
 				<File
+					RelativePath="..\..\mpn\generic\toom42_mulmid.c"
+					>
+				</File>
+				<File
+					RelativePath="..\..\mpn\generic\toom4_mul.c"
+					>
+				</File>
+				<File
 					RelativePath="..\..\mpn\generic\toom4_mul_n.c"
 					>
 					<FileConfiguration
@@ -1881,42 +1825,10 @@
 					<File
 						RelativePath="..\..\mpn\x86_64w\amd64\copyd.asm"
 						>
-						<FileConfiguration
-							Name="Debug|x64"
-							ExcludedFromBuild="true"
-							>
-							<Tool
-								Name="YASM"
-							/>
-						</FileConfiguration>
-						<FileConfiguration
-							Name="Release|x64"
-							ExcludedFromBuild="true"
-							>
-							<Tool
-								Name="YASM"
-							/>
-						</FileConfiguration>
 					</File>
 					<File
 						RelativePath="..\..\mpn\x86_64w\amd64\copyi.asm"
 						>
-						<FileConfiguration
-							Name="Debug|x64"
-							ExcludedFromBuild="true"
-							>
-							<Tool
-								Name="YASM"
-							/>
-						</FileConfiguration>
-						<FileConfiguration
-							Name="Release|x64"
-							ExcludedFromBuild="true"
-							>
-							<Tool
-								Name="YASM"
-							/>
-						</FileConfiguration>
 					</File>
 					<File
 						RelativePath="..\..\mpn\x86_64w\dive_1.asm"

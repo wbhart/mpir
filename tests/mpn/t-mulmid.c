@@ -36,6 +36,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "longlong.h"
 #include "tests.h"
 
+#ifdef _MSC_VER
+#define random rand
+#endif
+
 int compare_ul(const void* a, const void* b)
 {
   unsigned long aa = * (unsigned long*) a;
