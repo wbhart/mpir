@@ -657,7 +657,7 @@ sparc-*-* | sparc64-*-*)
   fi
   ;;
 
-i?86-*-*|x86_64-*-*)
+i?86-*-*|x86_64-*-*|amd64-*-*)
     cat <<EOF >${dummy}032.s
 	.globl cpuid
 	.globl _cpuid
