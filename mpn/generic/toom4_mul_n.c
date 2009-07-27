@@ -174,7 +174,12 @@ void tc4_addlsh1_unsigned(mp_ptr rp, mp_size_t * rn, mp_srcptr xp, mp_size_t xn)
 		{
             mp_limb_t cy;
 			if (xn > *rn) MPN_ZERO(rp + *rn, xn - *rn);
-			cy = mpn_addlsh1_n(rp, rp, xp, xn);
+#if HAVE_NATIVE_mpn_addlsh1_n
+            cy = mpn_addlsh1_n(rp, rp, xp, xn);
+#else
+            cy = mpn_add_n(rp, rp, xp, xn);
+            cy += mpn_add_n(rp, rp, xp, xn);
+#endif
 			if (cy) 
 			{
 				rp[xn] = cy;
@@ -182,7 +187,13 @@ void tc4_addlsh1_unsigned(mp_ptr rp, mp_size_t * rn, mp_srcptr xp, mp_size_t xn)
 			} else *rn = xn;
 		} else
 	   {
-		   mp_limb_t cy = mpn_addlsh1_n(rp, rp, xp, xn);
+		   mp_limb_t cy;
+#if HAVE_NATIVE_mpn_addlsh1_n
+            cy = mpn_addlsh1_n(rp, rp, xp, xn);
+#else
+            cy = mpn_add_n(rp, rp, xp, xn);
+            cy += mpn_add_n(rp, rp, xp, xn);
+#endif
 	      if (cy) cy = mpn_add_1(rp + xn, rp + xn, *rn - xn, cy);
 		   if (cy) 
 		   {
@@ -829,7 +840,12 @@ void mpn_toom4_interpolate(mp_ptr rp, mp_size_t * rpn, mp_size_t sn,
 	r7[s4-1] = CNST_LIMB(0); // r7 is always positive so no sign extend needed
 	saved = r3[0];
 	r3[0] = r30;
+#if HAVE_NATIVE_mpn_subadd_n
 	mpn_subadd_n(r3, r3, r7, r1, s4);
+#else
+    mpn_sub_n(r3, r3, r7, s4);
+    mpn_sub_n(r3, r3, r1, s4);
+#endif
 	r7[s4-1] = saved2;
    r30 = r3[0];
 	
