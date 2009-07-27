@@ -120,10 +120,11 @@ EXTRA_DIST += mpirxx.h yasm_mac.inc.fat yasm_mac.inc.nofat strip_fPIC.sh mpn/x86
 includeexecdir = $(exec_prefix)/include
 include_HEADERS = $(GMPXX_HEADERS_OPTION)
 nodist_includeexec_HEADERS = mpir.h $(MPBSD_HEADERS_OPTION)
-lib_LTLIBRARIES = libmpir.la $(GMPXX_LTLIBRARIES_OPTION) $(MPBSD_LTLIBRARIES_OPTION)
+lib_LTLIBRARIES = libmpir.la
 if WANT_GMPCOMPAT
 lib_LTLIBRARIES += libgmp.la
 endif
+lib_LTLIBRARIES += $(GMPXX_LTLIBRARIES_OPTION) $(MPBSD_LTLIBRARIES_OPTION)
 
 BUILT_SOURCES = mpir.h
 

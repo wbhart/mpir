@@ -538,8 +538,8 @@ EXTRA_DIST = configfsf.guess configfsf.sub .gdbinit INSTALL.autoconf \
 includeexecdir = $(exec_prefix)/include
 include_HEADERS = $(GMPXX_HEADERS_OPTION)
 nodist_includeexec_HEADERS = mpir.h $(MPBSD_HEADERS_OPTION)
-lib_LTLIBRARIES = libmpir.la $(GMPXX_LTLIBRARIES_OPTION) \
-	$(MPBSD_LTLIBRARIES_OPTION) $(am__append_2)
+lib_LTLIBRARIES = libmpir.la $(am__append_2) \
+	$(GMPXX_LTLIBRARIES_OPTION) $(MPBSD_LTLIBRARIES_OPTION)
 BUILT_SOURCES = mpir.h mp.h mpz/fac_ui.h fib_table.h mpn/fib_table.c \
 	mp_bases.h mpn/mp_bases.c mpn/perfsqr.h
 DISTCLEANFILES = $(BUILT_SOURCES) config.m4 @gmp_srclinks@ \
