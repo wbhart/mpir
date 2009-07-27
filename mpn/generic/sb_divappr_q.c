@@ -27,6 +27,7 @@ MA 02110-1301, USA. */
 
 #include "mpir.h"
 #include "gmp-impl.h"
+#include "longlong.h"
 
 /*
    Given n = {np, nn} and d = {dp, dn} and a 2 limb inverse
@@ -115,7 +116,6 @@ mpn_sb_divappr_q (mp_ptr qp, mp_ptr np, mp_size_t nn,
 
   di1 = dip[1]; 
   di0 = dip[0];
-  dp2 = dp + dn - 2;
   for (i = qn - 2; i >= 0; i--)
   {
      /*

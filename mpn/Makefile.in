@@ -297,7 +297,7 @@ nodist_EXTRA_libmpn_la_SOURCES = \
   nand_n.c nior_n.c perfsqr.c popcount.c	    			    \
   pre_divrem_1.c pre_mod_1.c pow_1.c random.c random2.c rshift.c	    \
   rootrem.c redc_basecase.c sb_divrem_mn.c scan0.c scan1.c set_str.c	    \
-  sqr_basecase.c sqr_diagonal.c	store.c					    \
+  sqr_basecase.c sqr_diagonal.c	store.c sb_divappr_q.c			    \
   sqrtrem.c sub.c sub_1.c sub_n.c subadd_n.c submul_1.c			    \
   tdiv_qr.c udiv_qrnnd.c udiv_w_sdiv.c xor_n.c xnor_n.c
 
@@ -571,6 +571,8 @@ rshift1_.c: rshift1.c $(ANSI2KNR)
 	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/rshift1.c; then echo $(srcdir)/rshift1.c; else echo rshift1.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
 rshift2_.c: rshift2.c $(ANSI2KNR)
 	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/rshift2.c; then echo $(srcdir)/rshift2.c; else echo rshift2.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
+sb_divappr_q_.c: sb_divappr_q.c $(ANSI2KNR)
+	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/sb_divappr_q.c; then echo $(srcdir)/sb_divappr_q.c; else echo sb_divappr_q.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
 sb_divrem_mn_.c: sb_divrem_mn.c $(ANSI2KNR)
 	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/sb_divrem_mn.c; then echo $(srcdir)/sb_divrem_mn.c; else echo sb_divrem_mn.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
 scan0_.c: scan0.c $(ANSI2KNR)
@@ -662,8 +664,9 @@ pre_divrem_1_.lo pre_mod_1_.$(OBJEXT) pre_mod_1_.lo random_.$(OBJEXT) \
 random_.lo random2_.$(OBJEXT) random2_.lo redc_basecase_.$(OBJEXT) \
 redc_basecase_.lo rootrem_.$(OBJEXT) rootrem_.lo rshift_.$(OBJEXT) \
 rshift_.lo rshift1_.$(OBJEXT) rshift1_.lo rshift2_.$(OBJEXT) \
-rshift2_.lo sb_divrem_mn_.$(OBJEXT) sb_divrem_mn_.lo scan0_.$(OBJEXT) \
-scan0_.lo scan1_.$(OBJEXT) scan1_.lo set_str_.$(OBJEXT) set_str_.lo \
+rshift2_.lo sb_divappr_q_.$(OBJEXT) sb_divappr_q_.lo \
+sb_divrem_mn_.$(OBJEXT) sb_divrem_mn_.lo scan0_.$(OBJEXT) scan0_.lo \
+scan1_.$(OBJEXT) scan1_.lo set_str_.$(OBJEXT) set_str_.lo \
 sqr_basecase_.$(OBJEXT) sqr_basecase_.lo sqr_diagonal_.$(OBJEXT) \
 sqr_diagonal_.lo sqrtrem_.$(OBJEXT) sqrtrem_.lo store_.$(OBJEXT) \
 store_.lo sub_.$(OBJEXT) sub_.lo sub_1_.$(OBJEXT) sub_1_.lo \
