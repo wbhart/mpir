@@ -66,7 +66,7 @@ L_lp:
 	jnc     L_lp
 L_skiplp:
 	cmp     rcx, 2
-	ja      L_case0
+	ja      L_xit
 	je      L_case1
 	jp      L_case2
 L_case3:
@@ -86,8 +86,6 @@ L_case3:
 	mov     [rdi+rcx*8], r8
 	mov     [rdi+rcx*8+8], r9
 	mov     [rdi+rcx*8+16], r10
-	lea     rax, [rdx+rax*2]
-	neg     rax
 	jmp     L_xit
 	xalign  16
 L_case2:
@@ -103,8 +101,6 @@ L_case2:
 	sbb     rdx, rdx
 	mov     [rdi+rcx*8], r8
 	mov     [rdi+rcx*8+8], r9
-	lea     rax, [rdx+rax*2]
-	neg     rax
 	jmp     L_xit
 	xalign  16
 L_case1:
@@ -116,14 +112,9 @@ L_case1:
 	adc     r8, r8
 	sbb     rdx, rdx
 	mov     [rdi+rcx*8], r8
-	lea     rax, [rdx+rax*2]
-	neg     rax
-	ret
-	xalign  16
-L_case0:
-	lea     rax, [rdx+rax*2]
-	neg     rax
 L_xit:
+	lea     rax, [rdx+rax*2]
+	neg     rax
     END_PROC reg_save_list
 
     end
