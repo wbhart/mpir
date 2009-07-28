@@ -527,7 +527,8 @@ if cd1 and os.path.exists(cd1) :
   if os.path.isdir(cd1) :
     if os.path.exists(cd2) and os.path.isdir(cd2) :
       print("warning: output directory '{0}' already exists".format(cd2))
-    conv_dirs(cd1, cd2, 0)          # convert format from GAS to YASM
+    if cd1 != cd2 :
+      conv_dirs(cd1, cd2, 0)          # convert format from GAS to YASM
   elif os.path.isfile(cd1) :
     if not os.path.exists(cd2) :
       conv_file(cd1, cd2, 0)

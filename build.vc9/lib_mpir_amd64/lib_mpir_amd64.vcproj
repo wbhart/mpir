@@ -3271,6 +3271,10 @@
 					</FileConfiguration>
 				</File>
 				<File
+					RelativePath="..\..\mpn\generic\sb_divappr_q.c"
+					>
+				</File>
+				<File
 					RelativePath="..\..\mpn\generic\sb_divrem_mn.c"
 					>
 					<FileConfiguration
@@ -3759,6 +3763,10 @@
 						>
 					</File>
 					<File
+						RelativePath="..\..\mpn\x86_64w\amd64\lshift2.asm"
+						>
+					</File>
+					<File
 						RelativePath="..\..\mpn\x86_64w\mode1o.asm"
 						>
 						<FileConfiguration
@@ -3808,6 +3816,10 @@
 					</File>
 					<File
 						RelativePath="..\..\mpn\x86_64w\amd64\rshift1.asm"
+						>
+					</File>
+					<File
+						RelativePath="..\..\mpn\x86_64w\amd64\rshift2.asm"
 						>
 					</File>
 					<File

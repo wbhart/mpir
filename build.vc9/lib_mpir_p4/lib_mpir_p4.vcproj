@@ -2796,6 +2796,10 @@
 					</FileConfiguration>
 				</File>
 				<File
+					RelativePath="..\..\mpn\generic\sb_divappr_q.c"
+					>
+				</File>
+				<File
 					RelativePath="..\..\mpn\generic\sb_divrem_mn.c"
 					>
 					<FileConfiguration
