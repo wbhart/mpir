@@ -195,12 +195,6 @@ the `--enable-gmpcompat' option when invoking configure:
 
      ./configure --enable-gmpcompat
 
-   If you wish to install the GMP compatible libraries you must
-explicitly indicate this:
-
-     make install
-     make install-gmpcompat
-
    If you experience problems, please report them to
 `http://groups.google.com/group/mpir-devel'.  See *note Reporting
 Bugs::, for information on what to include in useful bug reports.

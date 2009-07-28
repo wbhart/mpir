@@ -568,13 +568,6 @@ then use the @samp{--enable-gmpcompat} option when invoking configure:
 ./configure --enable-gmpcompat
 @end example
 
-If you wish to install the GMP compatible libraries you must explicitly indicate this:
-
-@example
-make install
-make install-gmpcompat
-@end example
-
 If you experience problems, please report them to @uref{http://groups.google.com/group/mpir-devel}.
 See @ref{Reporting Bugs}, for information on what to include in useful bug
 reports.
