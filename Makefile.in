@@ -1458,15 +1458,6 @@ dist-hook:
 	   if test `echo $$LINE | grep -ce "^[[:alpha:]]"` -eq 1  ; then VAR=0 ; fi ;  \
 	   if test `echo $$LINE | grep -ce "^check:"` -eq 1  ; then VAR=1 ; echo "check:" ; fi ; \
 	   if test `echo $$VAR` -eq 0 ; then /bin/echo -E "$$LINE" ; fi ; done ) > $(distdir)/yasm/Makefile.in
-
-	rm -f $(distdir)/Makefile.in
-	(  VAR=0 ; IFS=$(echo -e "\n") ; cat $(srcdir)/Makefile.in | while read -r LINE ; do \
-	   if test `echo $$LINE | grep -ce "^[[:alpha:]]"` -eq 1  ; then \
-	   	if test `echo $$VAR` -eq 1 ; then /bin/echo -E "$$COPY" ; fi ; \
-	   	 VAR=0 ; fi ; \
-	   if test `echo $$VAR` -eq 1 ; then COPY=`/bin/echo -e "$$COPY\n$$LINE"` ; fi ; \
-	   if test `echo $$LINE | grep -ce "^install:"` -eq 1  ; then VAR=1 ; COPY=`/bin/echo -E $$LINE | sed s/^install:/install-gmpcompat:/` ; fi ; \
-	   /bin/echo -E "$$LINE" ; done ) > $(distdir)/Makefile.in
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
 .NOEXPORT:
