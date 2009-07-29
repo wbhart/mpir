@@ -128,7 +128,7 @@ lib_LTLIBRARIES += $(GMPXX_LTLIBRARIES_OPTION) $(MPBSD_LTLIBRARIES_OPTION)
 
 BUILT_SOURCES = mpir.h
 
-DISTCLEANFILES = $(BUILT_SOURCES) config.m4 @gmp_srclinks@
+DISTCLEANFILES = $(BUILT_SOURCES) config.m4 fat.h @gmp_srclinks@
 
 # Tell mpir.h it's building gmp, not an application, used by windows DLL stuff.
 INCLUDES=-D__GMP_WITHIN_GMP
