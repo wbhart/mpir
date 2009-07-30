@@ -36,6 +36,16 @@ check_PROGRAMS = t-addsub t-cmp t-mul t-mul_i t-tdiv t-tdiv_ui t-fdiv   \
   t-aorsmul t-cmp_d t-cmp_si t-hamdist t-oddeven t-popcount t-set_f     \
   t-io_raw t-import t-export t-pprime_p t-perfpow
 
+if ENABLE_STATIC
+if ENABLE_SHARED
+check_PROGRAMS += st_hamdist st_popcount
+st_hamdist_SOURCES = t-hamdist.c
+st_hamdist_LDFLAGS = -static
+st_popcount_SOURCES = t-popcount.c
+st_popcount_LDFLAGS = -static
+endif
+endif
+
 TESTS = $(check_PROGRAMS)
 
 # Temporary files used by the tests.  Removed automatically if the tests

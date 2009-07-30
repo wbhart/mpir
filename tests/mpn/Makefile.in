@@ -62,7 +62,9 @@ check_PROGRAMS = t-asmtype$(EXEEXT) t-aors_1$(EXEEXT) \
 	t-lorrshift1$(EXEEXT) t-divebyff$(EXEEXT) t-addadd_n$(EXEEXT) \
 	t-addsub_n$(EXEEXT) t-subadd_n$(EXEEXT) \
 	t-redc_basecase$(EXEEXT) t-divebyBm1of$(EXEEXT) \
-	t-mullowhigh$(EXEEXT) t-mullow_basecase$(EXEEXT)
+	t-mullowhigh$(EXEEXT) t-mullow_basecase$(EXEEXT) \
+	$(am__EXEEXT_1)
+@ENABLE_SHARED_TRUE@@ENABLE_STATIC_TRUE@am__append_1 = st_fat st_instrument
 subdir = tests/mpn
 DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
@@ -73,6 +75,22 @@ am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 mkinstalldirs = $(install_sh) -d
 CONFIG_HEADER = $(top_builddir)/config.h
 CONFIG_CLEAN_FILES =
+@ENABLE_SHARED_TRUE@@ENABLE_STATIC_TRUE@am__EXEEXT_1 =  \
+@ENABLE_SHARED_TRUE@@ENABLE_STATIC_TRUE@	st_fat$(EXEEXT) \
+@ENABLE_SHARED_TRUE@@ENABLE_STATIC_TRUE@	st_instrument$(EXEEXT)
+am__st_fat_SOURCES_DIST = t-fat.c
+@ENABLE_SHARED_TRUE@@ENABLE_STATIC_TRUE@am_st_fat_OBJECTS =  \
+@ENABLE_SHARED_TRUE@@ENABLE_STATIC_TRUE@	t-fat$U.$(OBJEXT)
+st_fat_OBJECTS = $(am_st_fat_OBJECTS)
+st_fat_LDADD = $(LDADD)
+st_fat_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
+	$(top_builddir)/libmpir.la
+am__st_instrument_SOURCES_DIST = t-instrument.c
+@ENABLE_SHARED_TRUE@@ENABLE_STATIC_TRUE@am_st_instrument_OBJECTS = t-instrument$U.$(OBJEXT)
+st_instrument_OBJECTS = $(am_st_instrument_OBJECTS)
+st_instrument_LDADD = $(LDADD)
+st_instrument_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
+	$(top_builddir)/libmpir.la
 t_addadd_n_SOURCES = t-addadd_n.c
 t_addadd_n_OBJECTS = t-addadd_n$U.$(OBJEXT)
 t_addadd_n_LDADD = $(LDADD)
@@ -184,16 +202,18 @@ LTCOMPILE = $(LIBTOOL) --tag=CC --mode=compile $(CC) $(DEFS) \
 CCLD = $(CC)
 LINK = $(LIBTOOL) --tag=CC --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) \
 	$(AM_LDFLAGS) $(LDFLAGS) -o $@
-SOURCES = t-addadd_n.c t-addsub_n.c t-aors_1.c t-asmtype.c \
-	t-divebyBm1of.c t-divebyff.c t-divrem_1.c t-fat.c t-get_d.c \
-	t-instrument.c t-iord_u.c t-lorrshift1.c t-mp_bases.c \
-	t-mullow_basecase.c t-mullowhigh.c t-mulmid.c t-perfsqr.c \
-	t-redc_basecase.c t-scan.c t-subadd_n.c
-DIST_SOURCES = t-addadd_n.c t-addsub_n.c t-aors_1.c t-asmtype.c \
-	t-divebyBm1of.c t-divebyff.c t-divrem_1.c t-fat.c t-get_d.c \
-	t-instrument.c t-iord_u.c t-lorrshift1.c t-mp_bases.c \
-	t-mullow_basecase.c t-mullowhigh.c t-mulmid.c t-perfsqr.c \
-	t-redc_basecase.c t-scan.c t-subadd_n.c
+SOURCES = $(st_fat_SOURCES) $(st_instrument_SOURCES) t-addadd_n.c \
+	t-addsub_n.c t-aors_1.c t-asmtype.c t-divebyBm1of.c \
+	t-divebyff.c t-divrem_1.c t-fat.c t-get_d.c t-instrument.c \
+	t-iord_u.c t-lorrshift1.c t-mp_bases.c t-mullow_basecase.c \
+	t-mullowhigh.c t-mulmid.c t-perfsqr.c t-redc_basecase.c \
+	t-scan.c t-subadd_n.c
+DIST_SOURCES = $(am__st_fat_SOURCES_DIST) \
+	$(am__st_instrument_SOURCES_DIST) t-addadd_n.c t-addsub_n.c \
+	t-aors_1.c t-asmtype.c t-divebyBm1of.c t-divebyff.c \
+	t-divrem_1.c t-fat.c t-get_d.c t-instrument.c t-iord_u.c \
+	t-lorrshift1.c t-mp_bases.c t-mullow_basecase.c t-mullowhigh.c \
+	t-mulmid.c t-perfsqr.c t-redc_basecase.c t-scan.c t-subadd_n.c
 ETAGS = etags
 CTAGS = ctags
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
@@ -355,6 +375,10 @@ sysconfdir = @sysconfdir@
 target_alias = @target_alias@
 INCLUDES = -I$(top_srcdir) -I$(top_srcdir)/tests
 LDADD = $(top_builddir)/tests/libtests.la $(top_builddir)/libmpir.la
+@ENABLE_SHARED_TRUE@@ENABLE_STATIC_TRUE@st_fat_SOURCES = t-fat.c
+@ENABLE_SHARED_TRUE@@ENABLE_STATIC_TRUE@st_fat_LDFLAGS = -static
+@ENABLE_SHARED_TRUE@@ENABLE_STATIC_TRUE@st_instrument_SOURCES = t-instrument.c
+@ENABLE_SHARED_TRUE@@ENABLE_STATIC_TRUE@st_instrument_LDFLAGS = -static
 TESTS = $(check_PROGRAMS)
 all: all-am
 
@@ -396,6 +420,12 @@ clean-checkPROGRAMS:
 	  echo " rm -f $$p $$f"; \
 	  rm -f $$p $$f ; \
 	done
+st_fat$(EXEEXT): $(st_fat_OBJECTS) $(st_fat_DEPENDENCIES) 
+	@rm -f st_fat$(EXEEXT)
+	$(LINK) $(st_fat_LDFLAGS) $(st_fat_OBJECTS) $(st_fat_LDADD) $(LIBS)
+st_instrument$(EXEEXT): $(st_instrument_OBJECTS) $(st_instrument_DEPENDENCIES) 
+	@rm -f st_instrument$(EXEEXT)
+	$(LINK) $(st_instrument_LDFLAGS) $(st_instrument_OBJECTS) $(st_instrument_LDADD) $(LIBS)
 t-addadd_n$(EXEEXT): $(t_addadd_n_OBJECTS) $(t_addadd_n_DEPENDENCIES) 
 	@rm -f t-addadd_n$(EXEEXT)
 	$(LINK) $(t_addadd_n_LDFLAGS) $(t_addadd_n_OBJECTS) $(t_addadd_n_LDADD) $(LIBS)

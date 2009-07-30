@@ -76,7 +76,8 @@ check_PROGRAMS = t-addsub$(EXEEXT) t-cmp$(EXEEXT) t-mul$(EXEEXT) \
 	t-cmp_si$(EXEEXT) t-hamdist$(EXEEXT) t-oddeven$(EXEEXT) \
 	t-popcount$(EXEEXT) t-set_f$(EXEEXT) t-io_raw$(EXEEXT) \
 	t-import$(EXEEXT) t-export$(EXEEXT) t-pprime_p$(EXEEXT) \
-	t-perfpow$(EXEEXT)
+	t-perfpow$(EXEEXT) $(am__EXEEXT_1)
+@ENABLE_SHARED_TRUE@@ENABLE_STATIC_TRUE@am__append_1 = st_hamdist st_popcount
 subdir = tests/mpz
 DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
@@ -87,6 +88,9 @@ am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 mkinstalldirs = $(install_sh) -d
 CONFIG_HEADER = $(top_builddir)/config.h
 CONFIG_CLEAN_FILES =
+@ENABLE_SHARED_TRUE@@ENABLE_STATIC_TRUE@am__EXEEXT_1 =  \
+@ENABLE_SHARED_TRUE@@ENABLE_STATIC_TRUE@	st_hamdist$(EXEEXT) \
+@ENABLE_SHARED_TRUE@@ENABLE_STATIC_TRUE@	st_popcount$(EXEEXT)
 bit_SOURCES = bit.c
 bit_OBJECTS = bit$U.$(OBJEXT)
 bit_LDADD = $(LDADD)
@@ -121,6 +125,19 @@ reuse_SOURCES = reuse.c
 reuse_OBJECTS = reuse$U.$(OBJEXT)
 reuse_LDADD = $(LDADD)
 reuse_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
+	$(top_builddir)/libmpir.la
+am__st_hamdist_SOURCES_DIST = t-hamdist.c
+@ENABLE_SHARED_TRUE@@ENABLE_STATIC_TRUE@am_st_hamdist_OBJECTS =  \
+@ENABLE_SHARED_TRUE@@ENABLE_STATIC_TRUE@	t-hamdist$U.$(OBJEXT)
+st_hamdist_OBJECTS = $(am_st_hamdist_OBJECTS)
+st_hamdist_LDADD = $(LDADD)
+st_hamdist_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
+	$(top_builddir)/libmpir.la
+am__st_popcount_SOURCES_DIST = t-popcount.c
+@ENABLE_SHARED_TRUE@@ENABLE_STATIC_TRUE@am_st_popcount_OBJECTS = t-popcount$U.$(OBJEXT)
+st_popcount_OBJECTS = $(am_st_popcount_OBJECTS)
+st_popcount_LDADD = $(LDADD)
+st_popcount_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
 	$(top_builddir)/libmpir.la
 t_addsub_SOURCES = t-addsub.c
 t_addsub_OBJECTS = t-addsub$U.$(OBJEXT)
@@ -384,17 +401,18 @@ CCLD = $(CC)
 LINK = $(LIBTOOL) --tag=CC --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) \
 	$(AM_LDFLAGS) $(LDFLAGS) -o $@
 SOURCES = bit.c convert.c dive.c dive_ui.c io.c logic.c reuse.c \
-	t-addsub.c t-aorsmul.c t-bin.c t-cdiv_ui.c t-cmp.c t-cmp_d.c \
-	t-cmp_si.c t-cong.c t-cong_2exp.c t-div_2exp.c t-divis.c \
-	t-divis_2exp.c t-export.c t-fac_ui.c t-fdiv.c t-fdiv_ui.c \
-	t-fib_ui.c t-fits.c t-gcd.c t-gcd_ui.c t-get_d.c \
-	t-get_d_2exp.c t-get_si.c t-hamdist.c t-import.c t-inp_str.c \
-	t-io_raw.c t-jac.c t-lcm.c t-lucnum_ui.c t-mul.c t-mul_i.c \
-	t-oddeven.c t-perfpow.c t-perfsqr.c t-popcount.c t-pow.c \
-	t-powm.c t-powm_ui.c t-pprime_p.c t-root.c t-scan.c t-set_d.c \
-	t-set_f.c t-set_si.c t-set_str.c t-sizeinbase.c t-sqrtrem.c \
-	t-tdiv.c t-tdiv_ui.c
+	$(st_hamdist_SOURCES) $(st_popcount_SOURCES) t-addsub.c \
+	t-aorsmul.c t-bin.c t-cdiv_ui.c t-cmp.c t-cmp_d.c t-cmp_si.c \
+	t-cong.c t-cong_2exp.c t-div_2exp.c t-divis.c t-divis_2exp.c \
+	t-export.c t-fac_ui.c t-fdiv.c t-fdiv_ui.c t-fib_ui.c t-fits.c \
+	t-gcd.c t-gcd_ui.c t-get_d.c t-get_d_2exp.c t-get_si.c \
+	t-hamdist.c t-import.c t-inp_str.c t-io_raw.c t-jac.c t-lcm.c \
+	t-lucnum_ui.c t-mul.c t-mul_i.c t-oddeven.c t-perfpow.c \
+	t-perfsqr.c t-popcount.c t-pow.c t-powm.c t-powm_ui.c \
+	t-pprime_p.c t-root.c t-scan.c t-set_d.c t-set_f.c t-set_si.c \
+	t-set_str.c t-sizeinbase.c t-sqrtrem.c t-tdiv.c t-tdiv_ui.c
 DIST_SOURCES = bit.c convert.c dive.c dive_ui.c io.c logic.c reuse.c \
+	$(am__st_hamdist_SOURCES_DIST) $(am__st_popcount_SOURCES_DIST) \
 	t-addsub.c t-aorsmul.c t-bin.c t-cdiv_ui.c t-cmp.c t-cmp_d.c \
 	t-cmp_si.c t-cong.c t-cong_2exp.c t-div_2exp.c t-divis.c \
 	t-divis_2exp.c t-export.c t-fac_ui.c t-fdiv.c t-fdiv_ui.c \
@@ -566,6 +584,10 @@ sysconfdir = @sysconfdir@
 target_alias = @target_alias@
 INCLUDES = -I$(top_srcdir) -I$(top_srcdir)/tests
 LDADD = $(top_builddir)/tests/libtests.la $(top_builddir)/libmpir.la
+@ENABLE_SHARED_TRUE@@ENABLE_STATIC_TRUE@st_hamdist_SOURCES = t-hamdist.c
+@ENABLE_SHARED_TRUE@@ENABLE_STATIC_TRUE@st_hamdist_LDFLAGS = -static
+@ENABLE_SHARED_TRUE@@ENABLE_STATIC_TRUE@st_popcount_SOURCES = t-popcount.c
+@ENABLE_SHARED_TRUE@@ENABLE_STATIC_TRUE@st_popcount_LDFLAGS = -static
 TESTS = $(check_PROGRAMS)
 
 # Temporary files used by the tests.  Removed automatically if the tests
@@ -633,6 +655,12 @@ logic$(EXEEXT): $(logic_OBJECTS) $(logic_DEPENDENCIES)
 reuse$(EXEEXT): $(reuse_OBJECTS) $(reuse_DEPENDENCIES) 
 	@rm -f reuse$(EXEEXT)
 	$(LINK) $(reuse_LDFLAGS) $(reuse_OBJECTS) $(reuse_LDADD) $(LIBS)
+st_hamdist$(EXEEXT): $(st_hamdist_OBJECTS) $(st_hamdist_DEPENDENCIES) 
+	@rm -f st_hamdist$(EXEEXT)
+	$(LINK) $(st_hamdist_LDFLAGS) $(st_hamdist_OBJECTS) $(st_hamdist_LDADD) $(LIBS)
+st_popcount$(EXEEXT): $(st_popcount_OBJECTS) $(st_popcount_DEPENDENCIES) 
+	@rm -f st_popcount$(EXEEXT)
+	$(LINK) $(st_popcount_LDFLAGS) $(st_popcount_OBJECTS) $(st_popcount_LDADD) $(LIBS)
 t-addsub$(EXEEXT): $(t_addsub_OBJECTS) $(t_addsub_DEPENDENCIES) 
 	@rm -f t-addsub$(EXEEXT)
 	$(LINK) $(t_addsub_LDFLAGS) $(t_addsub_OBJECTS) $(t_addsub_LDADD) $(LIBS)

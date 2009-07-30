@@ -28,6 +28,16 @@ check_PROGRAMS = t-asmtype t-aors_1 t-divrem_1 t-fat t-get_d \
   t-lorrshift1 t-divebyff t-addadd_n t-addsub_n t-subadd_n \
   t-redc_basecase t-divebyBm1of t-mullowhigh t-mullow_basecase
 
+if ENABLE_STATIC
+if ENABLE_SHARED
+check_PROGRAMS += st_fat st_instrument
+st_fat_SOURCES = t-fat.c
+st_fat_LDFLAGS = -static
+st_instrument_SOURCES = t-instrument.c
+st_instrument_LDFLAGS = -static
+endif
+endif
+
 TESTS = $(check_PROGRAMS)
 
 $(top_builddir)/tests/libtests.la:
