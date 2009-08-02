@@ -58,7 +58,8 @@ ANSI2KNR = $(top_builddir)/ansi2knr
 EXTRA_PROGRAMS = aors_n$(EXEEXT) anymul_1$(EXEEXT) copy$(EXEEXT) \
 	divmod_1$(EXEEXT) divrem$(EXEEXT) shift$(EXEEXT) \
 	logops_n$(EXEEXT) mul_N$(EXEEXT) addmul_N$(EXEEXT) \
-	try$(EXEEXT)
+	try$(EXEEXT) $(am__EXEEXT_1)
+@ENABLE_SHARED_TRUE@@ENABLE_STATIC_TRUE@am__append_1 = static_try
 subdir = tests/devel
 DIST_COMMON = README $(srcdir)/Makefile.am $(srcdir)/Makefile.in
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
@@ -69,6 +70,8 @@ am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 mkinstalldirs = $(install_sh) -d
 CONFIG_HEADER = $(top_builddir)/config.h
 CONFIG_CLEAN_FILES =
+@ENABLE_SHARED_TRUE@@ENABLE_STATIC_TRUE@am__EXEEXT_1 =  \
+@ENABLE_SHARED_TRUE@@ENABLE_STATIC_TRUE@	static_try$(EXEEXT)
 addmul_N_SOURCES = addmul_N.c
 addmul_N_OBJECTS = addmul_N$U.$(OBJEXT)
 addmul_N_LDADD = $(LDADD)
@@ -114,6 +117,13 @@ shift_OBJECTS = shift$U.$(OBJEXT)
 shift_LDADD = $(LDADD)
 shift_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
 	$(top_builddir)/libmpir.la
+am__static_try_SOURCES_DIST = try.c
+@ENABLE_SHARED_TRUE@@ENABLE_STATIC_TRUE@am_static_try_OBJECTS =  \
+@ENABLE_SHARED_TRUE@@ENABLE_STATIC_TRUE@	try$U.$(OBJEXT)
+static_try_OBJECTS = $(am_static_try_OBJECTS)
+static_try_LDADD = $(LDADD)
+static_try_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
+	$(top_builddir)/libmpir.la
 try_SOURCES = try.c
 try_OBJECTS = try$U.$(OBJEXT)
 try_LDADD = $(LDADD)
@@ -131,9 +141,10 @@ CCLD = $(CC)
 LINK = $(LIBTOOL) --tag=CC --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) \
 	$(AM_LDFLAGS) $(LDFLAGS) -o $@
 SOURCES = addmul_N.c anymul_1.c aors_n.c copy.c divmod_1.c divrem.c \
-	logops_n.c mul_N.c shift.c try.c
+	logops_n.c mul_N.c shift.c $(static_try_SOURCES) try.c
 DIST_SOURCES = addmul_N.c anymul_1.c aors_n.c copy.c divmod_1.c \
-	divrem.c logops_n.c mul_N.c shift.c try.c
+	divrem.c logops_n.c mul_N.c shift.c \
+	$(am__static_try_SOURCES_DIST) try.c
 ETAGS = etags
 CTAGS = ctags
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
@@ -295,6 +306,8 @@ sysconfdir = @sysconfdir@
 target_alias = @target_alias@
 INCLUDES = -I$(top_srcdir) -I$(top_srcdir)/tests
 LDADD = $(top_builddir)/tests/libtests.la $(top_builddir)/libmpir.la
+@ENABLE_SHARED_TRUE@@ENABLE_STATIC_TRUE@static_try_SOURCES = try.c
+@ENABLE_SHARED_TRUE@@ENABLE_STATIC_TRUE@static_try_LDFLAGS = -static
 CLEANFILES = $(EXTRA_PROGRAMS)
 all: all-am
 
@@ -356,6 +369,9 @@ mul_N$(EXEEXT): $(mul_N_OBJECTS) $(mul_N_DEPENDENCIES)
 shift$(EXEEXT): $(shift_OBJECTS) $(shift_DEPENDENCIES) 
 	@rm -f shift$(EXEEXT)
 	$(LINK) $(shift_LDFLAGS) $(shift_OBJECTS) $(shift_LDADD) $(LIBS)
+static_try$(EXEEXT): $(static_try_OBJECTS) $(static_try_DEPENDENCIES) 
+	@rm -f static_try$(EXEEXT)
+	$(LINK) $(static_try_LDFLAGS) $(static_try_OBJECTS) $(static_try_LDADD) $(LIBS)
 try$(EXEEXT): $(try_OBJECTS) $(try_DEPENDENCIES) 
 	@rm -f try$(EXEEXT)
 	$(LINK) $(try_LDFLAGS) $(try_OBJECTS) $(try_LDADD) $(LIBS)

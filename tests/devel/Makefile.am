@@ -26,6 +26,14 @@ LDADD = $(top_builddir)/tests/libtests.la $(top_builddir)/libmpir.la
 EXTRA_PROGRAMS = \
   aors_n anymul_1 copy divmod_1 divrem shift logops_n mul_N addmul_N try
 
+if ENABLE_STATIC
+if ENABLE_SHARED
+EXTRA_PROGRAMS += static_try
+static_try_SOURCES = try.c
+static_try_LDFLAGS = -static
+endif
+endif
+
 allprogs: $(EXTRA_PROGRAMS)
 
 CLEANFILES = $(EXTRA_PROGRAMS)
