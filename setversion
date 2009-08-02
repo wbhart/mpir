@@ -1,0 +1,72 @@
+#!/bin/bash
+
+
+# set version number ie here is 1.2.2
+VERSION=1
+VERSION_MINOR=2
+VERSION_PATCHLEVEL=2
+
+
+# these are the library soname numbers , can derive these from  above?
+LIBGMP_LT_CURRENT=7
+LIBGMP_LT_REVISION=4
+LIBGMP_LT_AGE=4
+
+LIBGMPXX_LT_CURRENT=4
+LIBGMPXX_LT_REVISION=4
+LIBGMPXX_LT_AGE=1
+
+LIBMP_LT_CURRENT=4
+LIBMP_LT_REVISION=13
+LIBMP_LT_AGE=1
+
+
+# calculate stuff
+
+VERSION_STR=$VERSION.$VERSION_MINOR.$VERSION_PATCHLEVEL
+TMPFILE=$(tempfile)
+
+#update gmp-h.in
+cat gmp-h.in \
+| sed s/"#define[[:space:]]\+__MPIR_VERSION[[:space:]]\+.*"/"#define __MPIR_VERSION "$VERSION/ \
+| sed s/"#define[[:space:]]\+__MPIR_VERSION_MINOR[[:space:]]\+.*"/"#define __MPIR_VERSION_MINOR "$VERSION_MINOR/ \
+| sed s/"#define[[:space:]]\+__MPIR_VERSION_PATCHLEVEL[[:space:]]\+.*"/"#define __MPIR_VERSION_PATCHLEVEL "$VERSION_PATCHLEVEL/ > $TMPFILE
+mv $TMPFILE gmp-h.in
+
+#update build.vc9/config.*
+for i in build.vc9/config.*
+do
+	if [ "$i" == "build.vc9/config.guess.c" ] ; then continue; fi
+	cat $i | sed s/"#define[[:space:]]\+VERSION[[:space:]]\+.*"/"#define VERSION "\"$VERSION_STR\"/ > $TMPFILE
+	mv $TMPFILE $i
+done
+
+#update Makefile.am
+cat Makefile.am \
+| sed s/"LIBGMP_LT_CURRENT[[:space:]]*=[[:space:]]*.*"/"LIBGMP_LT_CURRENT = "$LIBGMP_LT_CURRENT/ \
+| sed s/"LIBGMP_LT_REVISION[[:space:]]*=[[:space:]]*.*"/"LIBGMP_LT_REVISION = "$LIBGMP_LT_REVISION/ \
+| sed s/"LIBGMP_LT_AGE[[:space:]]*=[[:space:]]*.*"/"LIBGMP_LT_AGE = "$LIBGMP_LT_AGE/ \
+| sed s/"LIBGMPXX_LT_CURRENT[[:space:]]*=[[:space:]]*.*"/"LIBGMPXX_LT_CURRENT = "$LIBGMPXX_LT_CURRENT/ \
+| sed s/"LIBGMPXX_LT_REVISION[[:space:]]*=[[:space:]]*.*"/"LIBGMPXX_LT_REVISION = "$LIBGMPXX_LT_REVISION/ \
+| sed s/"LIBGMPXX_LT_AGE[[:space:]]*=[[:space:]]*.*"/"LIBGMPXX_LT_AGE = "$LIBGMPXX_LT_AGE/ \
+| sed s/"LIBMP_LT_CURRENT[[:space:]]*=[[:space:]]*.*"/"LIBMP_LT_CURRENT = "$LIBMP_LT_CURRENT/ \
+| sed s/"LIBMP_LT_REVISION[[:space:]]*=[[:space:]]*.*"/"LIBMP_LT_REVISION = "$LIBMP_LT_REVISION/ \
+| sed s/"LIBMP_LT_AGE[[:space:]]*=[[:space:]]*.*"/"LIBMP_LT_AGE = "$LIBMP_LT_AGE/ > $TMPFILE
+mv $TMPFILE Makefile.am
+
+#update doc/version
+echo -n "@set UPDATED " > doc/version.texi
+date "+%d %B %Y" >> doc/version.texi
+echo -n "@set UPDATED-MONTH " >> doc/version.texi
+date "+%B %Y" >> doc/version.texi
+echo "@set EDITION $VERSION_STR" >> doc/version.texi
+echo "@set VERSION $VERSION_STR" >> doc/version.texi
+
+#update makeinfo
+cd doc
+makeinfo mpir.texi
+makeinfo version.texi
+cd ..
+
+autoreconf -f
+rm -f $TMPFILE
