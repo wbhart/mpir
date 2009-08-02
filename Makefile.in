@@ -1448,7 +1448,7 @@ gen-psqr_.c: gen-psqr.c $(ANSI2KNR)
 dist-hook:
 	-find $(distdir) \( -name CVS -type d \) -o -name "*~" -o -name ".#*" -o -name ".svn" | xargs rm -rf
 	touch $(distdir)/demos/calc/calc.c $(distdir)/demos/calc/calcread.c $(distdir)/demos/calc/calc-common.h $(distdir)/demos/calc/calc.h $(distdir)/demos/calc/calclex.c
-	chmod 755 config.guess configfsf.guess configfsf.sub config.sub
+	chmod 755 $(distdir)/config.guess $(distdir)/configfsf.guess $(distdir)/configfsf.sub $(distdir)/config.sub
 	rm -f $(distdir)/yasm/Makefile.in
 	(  VAR=0 ; IFS=$(echo -e "\n") ; cat $(srcdir)/yasm/Makefile.in | while read -r LINE ; do \
 	   if test `echo $$LINE | grep -ce "^[[:alpha:]]"` -eq 1  ; then VAR=0 ; fi ;  \
