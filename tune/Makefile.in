@@ -100,7 +100,8 @@ am_libspeed_la_OBJECTS = common$U.lo divrem1div$U.lo divrem1inv$U.lo \
 	gcdextod$U.lo gcdextos$U.lo jacbase1$U.lo jacbase2$U.lo \
 	jacbase3$U.lo mod_1_div$U.lo mod_1_inv$U.lo modlinv$U.lo \
 	noop$U.lo powm_mod$U.lo powm_redc$U.lo pre_divrem_1$U.lo \
-	set_strb$U.lo set_strs$U.lo time$U.lo sb_div$U.lo sb_inv$U.lo
+	fac_ui_large$U.lo fac_ui_small$U.lo set_strb$U.lo \
+	set_strs$U.lo time$U.lo sb_div$U.lo sb_inv$U.lo
 libspeed_la_OBJECTS = $(am_libspeed_la_OBJECTS)
 am_speed_OBJECTS = speed$U.$(OBJEXT)
 speed_OBJECTS = $(am_speed_OBJECTS)
@@ -326,6 +327,7 @@ libspeed_la_SOURCES = \
   jacbase1.c jacbase2.c jacbase3.c					\
   mod_1_div.c mod_1_inv.c modlinv.c					\
   noop.c powm_mod.c powm_redc.c pre_divrem_1.c				\
+  fac_ui_large.c fac_ui_small.c						\
   set_strb.c set_strs.c time.c						\
   sb_div.c sb_inv.c
 
@@ -490,6 +492,10 @@ divrem_1_.c: divrem_1.c $(ANSI2KNR)
 	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/divrem_1.c; then echo $(srcdir)/divrem_1.c; else echo divrem_1.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
 divrem_2_.c: divrem_2.c $(ANSI2KNR)
 	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/divrem_2.c; then echo $(srcdir)/divrem_2.c; else echo divrem_2.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
+fac_ui_large_.c: fac_ui_large.c $(ANSI2KNR)
+	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/fac_ui_large.c; then echo $(srcdir)/fac_ui_large.c; else echo fac_ui_large.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
+fac_ui_small_.c: fac_ui_small.c $(ANSI2KNR)
+	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/fac_ui_small.c; then echo $(srcdir)/fac_ui_small.c; else echo fac_ui_small.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
 freq_.c: freq.c $(ANSI2KNR)
 	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/freq.c; then echo $(srcdir)/freq.c; else echo freq.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
 gcd_.c: gcd.c $(ANSI2KNR)
@@ -572,19 +578,20 @@ common_.$(OBJEXT) common_.lo dc_divrem_n_.$(OBJEXT) dc_divrem_n_.lo \
 divrem1div_.$(OBJEXT) divrem1div_.lo divrem1inv_.$(OBJEXT) \
 divrem1inv_.lo divrem2div_.$(OBJEXT) divrem2div_.lo \
 divrem2inv_.$(OBJEXT) divrem2inv_.lo divrem_1_.$(OBJEXT) divrem_1_.lo \
-divrem_2_.$(OBJEXT) divrem_2_.lo freq_.$(OBJEXT) freq_.lo \
-gcd_.$(OBJEXT) gcd_.lo gcd_bin_.$(OBJEXT) gcd_bin_.lo \
-gcd_finda_gen_.$(OBJEXT) gcd_finda_gen_.lo gcdext_.$(OBJEXT) \
-gcdext_.lo gcdext_double_.$(OBJEXT) gcdext_double_.lo \
-gcdext_single_.$(OBJEXT) gcdext_single_.lo gcdextod_.$(OBJEXT) \
-gcdextod_.lo gcdextos_.$(OBJEXT) gcdextos_.lo get_str_.$(OBJEXT) \
-get_str_.lo jacbase1_.$(OBJEXT) jacbase1_.lo jacbase2_.$(OBJEXT) \
-jacbase2_.lo jacbase3_.$(OBJEXT) jacbase3_.lo mod_1_.$(OBJEXT) \
-mod_1_.lo mod_1_div_.$(OBJEXT) mod_1_div_.lo mod_1_inv_.$(OBJEXT) \
-mod_1_inv_.lo modlinv_.$(OBJEXT) modlinv_.lo mul_.$(OBJEXT) mul_.lo \
-mul_fft_.$(OBJEXT) mul_fft_.lo mul_n_.$(OBJEXT) mul_n_.lo \
-mulhigh_n_.$(OBJEXT) mulhigh_n_.lo mullow_n_.$(OBJEXT) mullow_n_.lo \
-noop_.$(OBJEXT) noop_.lo powm_mod_.$(OBJEXT) powm_mod_.lo \
+divrem_2_.$(OBJEXT) divrem_2_.lo fac_ui_large_.$(OBJEXT) \
+fac_ui_large_.lo fac_ui_small_.$(OBJEXT) fac_ui_small_.lo \
+freq_.$(OBJEXT) freq_.lo gcd_.$(OBJEXT) gcd_.lo gcd_bin_.$(OBJEXT) \
+gcd_bin_.lo gcd_finda_gen_.$(OBJEXT) gcd_finda_gen_.lo \
+gcdext_.$(OBJEXT) gcdext_.lo gcdext_double_.$(OBJEXT) \
+gcdext_double_.lo gcdext_single_.$(OBJEXT) gcdext_single_.lo \
+gcdextod_.$(OBJEXT) gcdextod_.lo gcdextos_.$(OBJEXT) gcdextos_.lo \
+get_str_.$(OBJEXT) get_str_.lo jacbase1_.$(OBJEXT) jacbase1_.lo \
+jacbase2_.$(OBJEXT) jacbase2_.lo jacbase3_.$(OBJEXT) jacbase3_.lo \
+mod_1_.$(OBJEXT) mod_1_.lo mod_1_div_.$(OBJEXT) mod_1_div_.lo \
+mod_1_inv_.$(OBJEXT) mod_1_inv_.lo modlinv_.$(OBJEXT) modlinv_.lo \
+mul_.$(OBJEXT) mul_.lo mul_fft_.$(OBJEXT) mul_fft_.lo mul_n_.$(OBJEXT) \
+mul_n_.lo mulhigh_n_.$(OBJEXT) mulhigh_n_.lo mullow_n_.$(OBJEXT) \
+mullow_n_.lo noop_.$(OBJEXT) noop_.lo powm_mod_.$(OBJEXT) powm_mod_.lo \
 powm_redc_.$(OBJEXT) powm_redc_.lo pre_divrem_1_.$(OBJEXT) \
 pre_divrem_1_.lo sb_div_.$(OBJEXT) sb_div_.lo sb_divrem_mn_.$(OBJEXT) \
 sb_divrem_mn_.lo sb_inv_.$(OBJEXT) sb_inv_.lo set_strb_.$(OBJEXT) \

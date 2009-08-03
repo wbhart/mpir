@@ -284,6 +284,8 @@ double speed_mpq_init_clear _PROTO ((struct speed_params *s));
 double speed_mpz_add _PROTO ((struct speed_params *s));
 double speed_mpz_bin_uiui _PROTO ((struct speed_params *s));
 double speed_mpz_fac_ui _PROTO ((struct speed_params *s));
+double speed_mpz_fac_ui_small _PROTO ((struct speed_params *s));
+double speed_mpz_fac_ui_large _PROTO ((struct speed_params *s));
 double speed_mpz_fib_ui _PROTO ((struct speed_params *s));
 double speed_mpz_fib2_ui _PROTO ((struct speed_params *s));
 double speed_mpz_init_clear _PROTO ((struct speed_params *s));
@@ -462,6 +464,8 @@ void mpz_powm_redc _PROTO ((mpz_ptr res, mpz_srcptr base, mpz_srcptr e,
 			    mpz_srcptr mod));
 void redc _PROTO ((mp_ptr cp, mp_srcptr mp, mp_size_t n, mp_limb_t Nprim,
 		   mp_ptr tp));
+void mpz_fac_ui_small _PROTO ((mpz_ptr,unsigned long));
+void mpz_fac_ui_large _PROTO ((mpz_ptr,unsigned long));
 
 int speed_routine_count_zeros_setup _PROTO ((struct speed_params *s,
 					     mp_ptr xp, int leading,

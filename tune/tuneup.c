@@ -171,6 +171,7 @@ mp_size_t  mulhigh_mul_threshold        = MP_SIZE_T_MAX;
 mp_size_t  div_sb_preinv_threshold      = MP_SIZE_T_MAX;
 mp_size_t  div_dc_threshold             = MP_SIZE_T_MAX;
 mp_size_t  powm_threshold               = MP_SIZE_T_MAX;
+mp_size_t  fac_ui_threshold             = MP_SIZE_T_MAX;
 mp_size_t  gcd_accel_threshold          = MP_SIZE_T_MAX;
 mp_size_t  gcdext_threshold		= MP_SIZE_T_MAX;
 mp_size_t  divrem_1_norm_threshold      = MP_SIZE_T_MAX;
@@ -1073,6 +1074,21 @@ tune_powm (void)
 }
 
 void
+tune_fac_ui (void)
+{
+  static struct param_t  param;
+  param.name = "FAC_UI_THRESHOLD";
+  param.function = speed_mpz_fac_ui_small;
+  param.function2 = speed_mpz_fac_ui_large;
+  //param.step_factor = 0.03;
+  //param.stop_factor = 1.1;
+  param.min_size = 1024;
+  param.max_size = 32768;
+  //param.min_is_always=1;
+  one (&fac_ui_threshold, &param);
+}
+
+void
 tune_gcd_accel (void)
 {
   static struct param_t  param;
@@ -1761,6 +1777,7 @@ all (void)
   tune_sb_preinv ();
   tune_dc ();
   tune_powm ();
+  tune_fac_ui();
   printf("\n");
 
   tune_gcd_accel ();

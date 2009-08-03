@@ -1516,6 +1516,11 @@ __GMP_DECLSPEC extern const mp_limb_t __gmp_fib_table[];
 #define MULHIGH_MUL_THRESHOLD	8192
 #endif
 
+#ifndef FAC_UI_THRESHOLD
+#define FAC_UI_THRESHOLD	8192
+#endif
+
+
 /* MUL_KARATSUBA_THRESHOLD_LIMIT is the maximum for MUL_KARATSUBA_THRESHOLD.
    In a normal build MUL_KARATSUBA_THRESHOLD is a constant and we use that.
    In a fat binary or tune program build MUL_KARATSUBA_THRESHOLD is a
@@ -3941,6 +3946,10 @@ extern mp_size_t                     div_dc_threshold;
 #undef  POWM_THRESHOLD
 #define POWM_THRESHOLD               powm_threshold
 extern mp_size_t                     powm_threshold;
+
+#undef  FAC_UI_THRESHOLD
+#define FAC_UI_THRESHOLD             fac_ui_threshold
+extern mp_size_t                     fac_ui_threshold;
 
 #undef  GCD_ACCEL_THRESHOLD
 #define GCD_ACCEL_THRESHOLD          gcd_accel_threshold

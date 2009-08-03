@@ -1200,6 +1200,17 @@ speed_mpz_fac_ui (struct speed_params *s)
 {
   SPEED_ROUTINE_MPZ_FAC_UI (mpz_fac_ui);
 }
+double
+speed_mpz_fac_ui_small (struct speed_params *s)
+{
+  SPEED_ROUTINE_MPZ_FAC_UI (mpz_fac_ui_small);
+}
+
+double
+speed_mpz_fac_ui_large (struct speed_params *s)
+{
+  SPEED_ROUTINE_MPZ_FAC_UI (mpz_fac_ui_large);
+}
 
 
 double

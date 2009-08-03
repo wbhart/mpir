@@ -29,7 +29,9 @@ MA 02110-1301, USA. */
 
 static void odd_product _PROTO ((unsigned long low, unsigned long high, mpz_t * st));
 static void ap_product_small _PROTO ((mpz_t ret, mp_limb_t start, mp_limb_t step, unsigned long count, unsigned long nm));
-
+static void binary_splitting _PROTO ((mpz_ptr result,unsigned long int *a,unsigned long int L));
+static void large_mpz_fac_ui _PROTO ((mpz_ptr result, unsigned long int n));
+static unsigned long int ulsqrt _PROTO ((unsigned long int n));
 
 /* must be >=2	*/
 #define APCONST	5
@@ -189,6 +191,8 @@ mpz_fac_ui (mpz_ptr x, unsigned long n)
       return;
     }
 
+  if (ABOVE_THRESHOLD(n,FAC_UI_THRESHOLD)){large_mpz_fac_ui(x,n);return;}
+  
   count_leading_zeros (stt, (mp_limb_t) n);
   stt = GMP_LIMB_BITS - stt + 1 - APCONST;
 
@@ -396,3 +400,146 @@ odd_product (unsigned long low, unsigned long high, mpz_t * st)
   ASSERT (stn == 1);
   return;
 }
+
+
+// Computation of n factorial by computing the prime factoriation of n!,
+// using iterated squaring and multiplication by a "small" number idea and binary splitting
+// written by Robert Gerbicz
+
+
+/* mpz_fac_ui(result, n) -- Set RESULT to N!.
+
+Copyright 1991, 1993, 1994, 1995, 2000, 2001, 2002, 2003 Free Software
+Foundation, Inc.
+
+This file is part of the GNU MP Library.
+
+The GNU MP Library is free software; you can redistribute it and/or modify
+it under the terms of the GNU Lesser General Public License as published by
+the Free Software Foundation; either version 2.1 of the License, or (at your
+option) any later version.
+
+The GNU MP Library is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public
+License for more details.
+
+You should have received a copy of the GNU Lesser General Public License
+along with the GNU MP Library; see the file COPYING.LIB.  If not, write to
+the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+MA 02110-1301, USA. */
+
+
+static void binary_splitting (mpz_ptr result,unsigned long int *a,unsigned long int L)  {
+// mulptiplication by binary splitting
+  unsigned long int i,L0,L1;
+  mpz_t temp;
+
+  if(L==0)  {
+     mpz_set_ui (result, 1);
+     return;
+  }
+
+  if(L<=3)  {
+     mpz_set_ui(result,a[0]);
+     for(i=1;i<L;i++)
+          mpz_mul_ui(result,result,a[i]);
+     return;
+  }
+
+  L0=L/2;
+  L1=L-L0;
+  binary_splitting(result,a,L1);
+  mpz_init(temp);
+  binary_splitting(temp,a+L1,L0);
+  mpz_mul(result,result,temp);
+  mpz_clear(temp);
+  return;
+}
+
+static unsigned long int ulsqrt(unsigned long int n) 
+{unsigned long int x,y;
+
+x=y=n;
+do{x=y;
+   y=(n/x+x)/2;
+  }while(y<x);
+return x;}
+
+static void large_mpz_fac_ui(mpz_ptr result, unsigned long int n)  {
+   unsigned long int Bit[32],e,N,g,p2,*S,*exponent,*isprime,*primes,count,i,p,primepi,sq,n2=(n-1)>>1,n64=(n>>6)+1,memalloc;
+   int h,expo;
+   mpz_t temp;
+   mpz_init(temp);
+   isprime=__GMP_ALLOCATE_FUNC_TYPE(n64,unsigned long int);
+   ASSERT(n>=2);// cant handle n<2
+   Bit[0]=1;
+   for(i=1;i<32;i++)  Bit[i]=Bit[i-1]<<1; // Bit[i]=2^i
+   
+   // determine all odd primes up to n by sieve
+   for(i=0;i<n64;i++) isprime[i]=0xffffffff;
+   
+   sq=ulsqrt(n)+1;
+   for(p=3;p<=sq;p+=2)  {
+       if(isprime[p>>6]&Bit[(p>>1)&31])  {
+          for(i=(p*p-1)>>1;i<=n2;i+=p)  isprime[i>>5]&=~Bit[i&31];
+       }
+   }
+   
+   primepi=0;
+   for(i=0;i<=n2;i++)
+       primepi+=((isprime[i>>5]&Bit[i&31])>0);
+   
+   memalloc=primepi;
+   primes=__GMP_ALLOCATE_FUNC_TYPE(memalloc,unsigned long int);
+   S=__GMP_ALLOCATE_FUNC_TYPE(memalloc,unsigned long int);
+   exponent=__GMP_ALLOCATE_FUNC_TYPE(memalloc,unsigned long int);
+
+   primepi=0;
+   // 1 is not prime and hasn't cancelled, so start from 1*2+1=3
+   for(i=1;i<=n2;i++)
+      if((isprime[i>>5]&Bit[i&31])>0)  {
+          p=2*i+1;
+          N=n;
+          e=0;
+          while(N)  N/=p,e+=N;
+          primes[primepi]=p;      // store prime
+          exponent[primepi]=e;    // exponent of p in the factorization of n!      
+          primepi++;
+      }
+          
+   __GMP_FREE_FUNC_TYPE(isprime,n64,unsigned long int);
+  
+   mpz_set_ui(result,1);
+   
+   expo=0,p2=1;
+   N=n;
+   while(N)  N>>=1,p2<<=1,expo++;
+   for(h=expo;h>=0;h--)  {
+       // collect all primes for which in the factorization of n! the primes[g]'s exponent's h-th bit is 1
+       count=0;
+       // note that exponent[] is a decreasing array
+       for(g=0;(g<primepi)&&(exponent[g]>=p2);g++)
+           if(((exponent[g]>>h)&1)==1)  {
+                S[count]=primes[g];
+                count++;
+           }
+       binary_splitting(temp,S,count); // build the product by binary splitting
+       mpz_pow_ui(result,result,2); // squaring
+       mpz_mul(result,result,temp); // multiplcation by a not so large number
+       p2>>=1;
+   }
+   
+   N=n;
+   e=0;
+   while(N)  N>>=1,e+=N;
+   mpz_mul_2exp(result,result,e);  // shift the number to finally get n!
+   
+   __GMP_FREE_FUNC_TYPE(S,memalloc,unsigned long int);
+   __GMP_FREE_FUNC_TYPE(primes,memalloc,unsigned long int);
+   __GMP_FREE_FUNC_TYPE(exponent,memalloc,unsigned long int);
+   mpz_clear(temp);
+   return;
+}
+
+
