@@ -27,7 +27,7 @@ LDADD = $(top_builddir)/tests/libtests.la $(top_builddir)/libmpir.la
 check_PROGRAMS = t-add t-sub t-conv t-sqrt t-sqrt_ui t-muldiv t-dm2exp reuse \
   t-cmp_d t-cmp_si t-div t-fits t-get_d t-get_d_2exp \
   t-get_si t-get_ui t-gsprec t-inp_str t-int_p t-mul_ui \
-  t-set t-set_q t-set_si t-set_ui t-trunc t-ui_div
+  t-set t-set_q t-set_si t-set_ui t-trunc t-ui_div t-eq
 TESTS = $(check_PROGRAMS)
 
 $(top_builddir)/tests/libtests.la:

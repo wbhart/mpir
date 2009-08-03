@@ -49,7 +49,7 @@ nodist_EXTRA_libmpn_la_SOURCES =					    \
   toom3_mul_n.c toom4_mul_n.c toom4.c toom7_mul_n.c                         \
   mullow_n.c mullow_n_basecase.c mullow_basecase.c mulhigh_n.c              \
   midmul.c midmul_n.c midmul_basecase.c toom42_midmul.c                     \
-  nand_n.c nior_n.c perfsqr.c popcount.c	    			    \
+  neg_n.c nand_n.c nior_n.c perfsqr.c popcount.c	    		\
   pre_divrem_1.c pre_mod_1.c pow_1.c random.c random2.c rshift.c	    \
   rootrem.c redc_basecase.c sb_divrem_mn.c scan0.c scan1.c set_str.c	    \
   sqr_basecase.c sqr_diagonal.c	store.c sb_divappr_q.c			    \

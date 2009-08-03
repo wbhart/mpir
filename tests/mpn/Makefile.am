@@ -26,8 +26,9 @@ LDADD = $(top_builddir)/tests/libtests.la $(top_builddir)/libmpir.la
 check_PROGRAMS = t-asmtype t-aors_1 t-divrem_1 t-fat t-get_d \
   t-instrument t-iord_u t-mulmid t-mp_bases t-perfsqr t-scan \
   t-lorrshift1 t-divebyff t-addadd_n t-addsub_n t-subadd_n \
-  t-redc_basecase t-divebyBm1of t-mullowhigh t-mullow_basecase
-
+  t-redc_basecase t-divebyBm1of t-mullowhigh t-mullow_basecase \
+  t-neg
+  
 if ENABLE_STATIC
 if ENABLE_SHARED
 check_PROGRAMS += st_fat st_instrument

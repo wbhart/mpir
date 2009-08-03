@@ -63,7 +63,7 @@ check_PROGRAMS = t-asmtype$(EXEEXT) t-aors_1$(EXEEXT) \
 	t-addsub_n$(EXEEXT) t-subadd_n$(EXEEXT) \
 	t-redc_basecase$(EXEEXT) t-divebyBm1of$(EXEEXT) \
 	t-mullowhigh$(EXEEXT) t-mullow_basecase$(EXEEXT) \
-	$(am__EXEEXT_1)
+	t-neg$(EXEEXT) $(am__EXEEXT_1)
 @ENABLE_SHARED_TRUE@@ENABLE_STATIC_TRUE@am__append_1 = st_fat st_instrument
 subdir = tests/mpn
 DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in
@@ -171,6 +171,11 @@ t_mulmid_OBJECTS = t-mulmid$U.$(OBJEXT)
 t_mulmid_LDADD = $(LDADD)
 t_mulmid_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
 	$(top_builddir)/libmpir.la
+t_neg_SOURCES = t-neg.c
+t_neg_OBJECTS = t-neg$U.$(OBJEXT)
+t_neg_LDADD = $(LDADD)
+t_neg_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
+	$(top_builddir)/libmpir.la
 t_perfsqr_SOURCES = t-perfsqr.c
 t_perfsqr_OBJECTS = t-perfsqr$U.$(OBJEXT)
 t_perfsqr_LDADD = $(LDADD)
@@ -206,14 +211,15 @@ SOURCES = $(st_fat_SOURCES) $(st_instrument_SOURCES) t-addadd_n.c \
 	t-addsub_n.c t-aors_1.c t-asmtype.c t-divebyBm1of.c \
 	t-divebyff.c t-divrem_1.c t-fat.c t-get_d.c t-instrument.c \
 	t-iord_u.c t-lorrshift1.c t-mp_bases.c t-mullow_basecase.c \
-	t-mullowhigh.c t-mulmid.c t-perfsqr.c t-redc_basecase.c \
-	t-scan.c t-subadd_n.c
+	t-mullowhigh.c t-mulmid.c t-neg.c t-perfsqr.c \
+	t-redc_basecase.c t-scan.c t-subadd_n.c
 DIST_SOURCES = $(am__st_fat_SOURCES_DIST) \
 	$(am__st_instrument_SOURCES_DIST) t-addadd_n.c t-addsub_n.c \
 	t-aors_1.c t-asmtype.c t-divebyBm1of.c t-divebyff.c \
 	t-divrem_1.c t-fat.c t-get_d.c t-instrument.c t-iord_u.c \
 	t-lorrshift1.c t-mp_bases.c t-mullow_basecase.c t-mullowhigh.c \
-	t-mulmid.c t-perfsqr.c t-redc_basecase.c t-scan.c t-subadd_n.c
+	t-mulmid.c t-neg.c t-perfsqr.c t-redc_basecase.c t-scan.c \
+	t-subadd_n.c
 ETAGS = etags
 CTAGS = ctags
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
@@ -474,6 +480,9 @@ t-mullowhigh$(EXEEXT): $(t_mullowhigh_OBJECTS) $(t_mullowhigh_DEPENDENCIES)
 t-mulmid$(EXEEXT): $(t_mulmid_OBJECTS) $(t_mulmid_DEPENDENCIES) 
 	@rm -f t-mulmid$(EXEEXT)
 	$(LINK) $(t_mulmid_LDFLAGS) $(t_mulmid_OBJECTS) $(t_mulmid_LDADD) $(LIBS)
+t-neg$(EXEEXT): $(t_neg_OBJECTS) $(t_neg_DEPENDENCIES) 
+	@rm -f t-neg$(EXEEXT)
+	$(LINK) $(t_neg_LDFLAGS) $(t_neg_OBJECTS) $(t_neg_LDADD) $(LIBS)
 t-perfsqr$(EXEEXT): $(t_perfsqr_OBJECTS) $(t_perfsqr_DEPENDENCIES) 
 	@rm -f t-perfsqr$(EXEEXT)
 	$(LINK) $(t_perfsqr_LDFLAGS) $(t_perfsqr_OBJECTS) $(t_perfsqr_LDADD) $(LIBS)
@@ -538,6 +547,8 @@ t-mullowhigh_.c: t-mullowhigh.c $(ANSI2KNR)
 	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/t-mullowhigh.c; then echo $(srcdir)/t-mullowhigh.c; else echo t-mullowhigh.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
 t-mulmid_.c: t-mulmid.c $(ANSI2KNR)
 	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/t-mulmid.c; then echo $(srcdir)/t-mulmid.c; else echo t-mulmid.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
+t-neg_.c: t-neg.c $(ANSI2KNR)
+	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/t-neg.c; then echo $(srcdir)/t-neg.c; else echo t-neg.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
 t-perfsqr_.c: t-perfsqr.c $(ANSI2KNR)
 	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/t-perfsqr.c; then echo $(srcdir)/t-perfsqr.c; else echo t-perfsqr.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
 t-redc_basecase_.c: t-redc_basecase.c $(ANSI2KNR)
@@ -556,9 +567,10 @@ t-iord_u_.$(OBJEXT) t-iord_u_.lo t-lorrshift1_.$(OBJEXT) \
 t-lorrshift1_.lo t-mp_bases_.$(OBJEXT) t-mp_bases_.lo \
 t-mullow_basecase_.$(OBJEXT) t-mullow_basecase_.lo \
 t-mullowhigh_.$(OBJEXT) t-mullowhigh_.lo t-mulmid_.$(OBJEXT) \
-t-mulmid_.lo t-perfsqr_.$(OBJEXT) t-perfsqr_.lo \
-t-redc_basecase_.$(OBJEXT) t-redc_basecase_.lo t-scan_.$(OBJEXT) \
-t-scan_.lo t-subadd_n_.$(OBJEXT) t-subadd_n_.lo : $(ANSI2KNR)
+t-mulmid_.lo t-neg_.$(OBJEXT) t-neg_.lo t-perfsqr_.$(OBJEXT) \
+t-perfsqr_.lo t-redc_basecase_.$(OBJEXT) t-redc_basecase_.lo \
+t-scan_.$(OBJEXT) t-scan_.lo t-subadd_n_.$(OBJEXT) t-subadd_n_.lo : \
+$(ANSI2KNR)
 
 mostlyclean-libtool:
 	-rm -f *.lo
