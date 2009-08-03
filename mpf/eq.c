@@ -84,8 +84,6 @@ mpf_eq (mpf_srcptr u, mpf_srcptr v, unsigned long int n_bits)
     vval = vp[vsize - n];
   if ((uval >> k) != (vval >> k))
     return 0;
-  if (n == 1)
-    return 1;
 // compair rest of limbs
   for (i = usize - n + 1; i < usize ; i++)
     {
