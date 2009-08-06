@@ -293,6 +293,7 @@ nodist_EXTRA_libmpn_la_SOURCES = \
   mul.c mul_1.c mul_2.c mul_fft.c mul_n.c mul_basecase.c toom3_mul.c        \
   toom3_mul_n.c toom4_mul_n.c toom4.c toom7_mul_n.c                         \
   mullow_n.c mullow_n_basecase.c mullow_basecase.c mulhigh_n.c              \
+  mulmod_2expp1.c							\
   midmul.c midmul_n.c midmul_basecase.c toom42_midmul.c                     \
   neg_n.c nand_n.c nior_n.c perfsqr.c popcount.c	    		\
   pre_divrem_1.c pre_mod_1.c pow_1.c random.c random2.c rshift.c	    \
@@ -535,6 +536,8 @@ mullow_n_.c: mullow_n.c $(ANSI2KNR)
 	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/mullow_n.c; then echo $(srcdir)/mullow_n.c; else echo mullow_n.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
 mullow_n_basecase_.c: mullow_n_basecase.c $(ANSI2KNR)
 	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/mullow_n_basecase.c; then echo $(srcdir)/mullow_n_basecase.c; else echo mullow_n_basecase.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
+mulmod_2expp1_.c: mulmod_2expp1.c $(ANSI2KNR)
+	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/mulmod_2expp1.c; then echo $(srcdir)/mulmod_2expp1.c; else echo mulmod_2expp1.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
 nand_n_.c: nand_n.c $(ANSI2KNR)
 	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/nand_n.c; then echo $(srcdir)/nand_n.c; else echo nand_n.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
 neg_n_.c: neg_n.c $(ANSI2KNR)
@@ -657,10 +660,11 @@ mul_basecase_.$(OBJEXT) mul_basecase_.lo mul_fft_.$(OBJEXT) \
 mul_fft_.lo mul_n_.$(OBJEXT) mul_n_.lo mulhigh_n_.$(OBJEXT) \
 mulhigh_n_.lo mullow_basecase_.$(OBJEXT) mullow_basecase_.lo \
 mullow_n_.$(OBJEXT) mullow_n_.lo mullow_n_basecase_.$(OBJEXT) \
-mullow_n_basecase_.lo nand_n_.$(OBJEXT) nand_n_.lo neg_n_.$(OBJEXT) \
-neg_n_.lo ngcd_.$(OBJEXT) ngcd_.lo ngcd_matrix_.$(OBJEXT) \
-ngcd_matrix_.lo ngcd_step_.$(OBJEXT) ngcd_step_.lo nhgcd2_.$(OBJEXT) \
-nhgcd2_.lo nior_n_.$(OBJEXT) nior_n_.lo perfsqr_.$(OBJEXT) perfsqr_.lo \
+mullow_n_basecase_.lo mulmod_2expp1_.$(OBJEXT) mulmod_2expp1_.lo \
+nand_n_.$(OBJEXT) nand_n_.lo neg_n_.$(OBJEXT) neg_n_.lo \
+ngcd_.$(OBJEXT) ngcd_.lo ngcd_matrix_.$(OBJEXT) ngcd_matrix_.lo \
+ngcd_step_.$(OBJEXT) ngcd_step_.lo nhgcd2_.$(OBJEXT) nhgcd2_.lo \
+nior_n_.$(OBJEXT) nior_n_.lo perfsqr_.$(OBJEXT) perfsqr_.lo \
 popcount_.$(OBJEXT) popcount_.lo pow_1_.$(OBJEXT) pow_1_.lo \
 pre_divrem_1_.$(OBJEXT) pre_divrem_1_.lo pre_mod_1_.$(OBJEXT) \
 pre_mod_1_.lo random_.$(OBJEXT) random_.lo random2_.$(OBJEXT) \

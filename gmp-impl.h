@@ -925,6 +925,9 @@ __GMP_DECLSPEC void mpn_mullow_n_basecase __GMP_PROTO ((mp_ptr, mp_srcptr, mp_sr
 #define mpn_mulhigh_n __MPN(mulhigh_n)
 __GMP_DECLSPEC void mpn_mulhigh_n __GMP_PROTO ((mp_ptr, mp_srcptr, mp_srcptr, mp_size_t));
 
+#define mpn_mulmod_2expp1 __MPN(mulmod_2expp1)
+__GMP_DECLSPEC int mpn_mulmod_2expp1 __GMP_PROTO ((mp_ptr, mp_srcptr, mp_srcptr,int,unsigned long, mp_ptr));
+
 #define mpn_mullow_basecase __MPN(mullow_basecase)
 __GMP_DECLSPEC void mpn_mullow_basecase __GMP_PROTO ((mp_ptr, mp_srcptr,mp_size_t, mp_srcptr, mp_size_t,mp_size_t));
 
