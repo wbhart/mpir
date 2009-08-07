@@ -162,6 +162,7 @@ mp_size_t  sqr_toom4_threshold          = SQR_TOOM4_THRESHOLD_LIMIT;
 mp_size_t  sqr_toom7_threshold          = SQR_TOOM7_THRESHOLD_LIMIT;
 mp_size_t  sqr_fft_threshold            = MP_SIZE_T_MAX;
 mp_size_t  sqr_fft_modf_threshold       = MP_SIZE_T_MAX;
+mp_size_t  mulmod_2expm1_threshold	= MP_SIZE_T_MAX;
 mp_size_t  mullow_basecase_threshold    = MP_SIZE_T_MAX;
 mp_size_t  mullow_dc_threshold          = MP_SIZE_T_MAX;
 mp_size_t  mullow_mul_threshold         = MP_SIZE_T_MAX;
@@ -888,6 +889,18 @@ tune_mullow (void)
   MUL_FFT_THRESHOLD = MP_SIZE_T_MAX;
 }
 
+void
+tune_mulmod_2expm1 (void)
+{
+  static struct param_t  param;
+  param.function = speed_mpn_mulmod_2expm1;
+  param.name = "MULMOD_2EXPM1_THRESHOLD";
+  param.min_size = 1;
+  //param.max_size =  ?? ;
+  one (&mulmod_2expm1_threshold, &param);
+  /* disabled until tuned */
+  MUL_FFT_THRESHOLD = MP_SIZE_T_MAX;    // ??????????????
+}
 
 void
 tune_mulhigh (void)
@@ -1774,6 +1787,9 @@ all (void)
   tune_mulhigh ();
   printf("\n");
 
+  tune_mulmod_2expm1();
+  printf("\n");
+  
   tune_sb_preinv ();
   tune_dc ();
   tune_powm ();

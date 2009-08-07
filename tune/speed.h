@@ -237,6 +237,8 @@ double speed_mpn_mul_n _PROTO ((struct speed_params *s));
 double speed_mpn_mul_n_sqr _PROTO ((struct speed_params *s));
 double speed_mpn_mullow_n _PROTO ((struct speed_params *s));
 double speed_mpn_mulhigh_n _PROTO ((struct speed_params *s));
+double speed_mpn_mulmod_2expm1 _PROTO ((struct speed_params *s));
+double speed_mpn_mulmod_2expp1 _PROTO ((struct speed_params *s));
 double speed_mpn_mullow_n_basecase _PROTO ((struct speed_params *s));
 double speed_mpn_nand_n _PROTO ((struct speed_params *s));
 double speed_mpn_nior_n _PROTO ((struct speed_params *s));
@@ -1086,6 +1088,66 @@ int speed_routine_count_zeros_setup _PROTO ((struct speed_params *s,
     i = s->reps;							\
     do									\
       call;								\
+    while (--i != 0);							\
+    t = speed_endtime ();						\
+									\
+    TMP_FREE;								\
+    return t;								\
+  }
+
+/* For mpn_mulmod_2expm1 , xsize=r, ysize=s->size. */
+#define SPEED_ROUTINE_MPN_MULMOD_2EXPM1(function)			\
+  {									\
+    mp_ptr    wp,temps;							\
+    unsigned  i;							\
+    double    t;							\
+    TMP_DECL;								\
+									\
+    SPEED_RESTRICT_COND (s->size >= 1);					\
+									\
+    TMP_MARK;								\
+    SPEED_TMP_ALLOC_LIMBS (wp, s->size, s->align_wp);			\
+    SPEED_TMP_ALLOC_LIMBS (temps,5*s->size+64, s->align_wp);		\
+									\
+    speed_operand_src (s, s->xp, s->size);				\
+    speed_operand_src (s, s->yp, s->size);				\
+    speed_operand_dst (s, wp, s->size);					\
+    speed_cache_fill (s);						\
+									\
+    speed_starttime ();							\
+    i = s->reps;							\
+    do									\
+      function (wp, s->xp, s->yp, GMP_NUMB_BITS*s->size,temps);		\
+    while (--i != 0);							\
+    t = speed_endtime ();						\
+									\
+    TMP_FREE;								\
+    return t;								\
+  }
+
+/* For mpn_mulmod_2expp1 , xsize=r, ysize=s->size. */
+#define SPEED_ROUTINE_MPN_MULMOD_2EXPP1(function)			\
+  {									\
+    mp_ptr    wp,temps;							\
+    unsigned  i;							\
+    double    t;							\
+    TMP_DECL;								\
+									\
+    SPEED_RESTRICT_COND (s->size >= 1);					\
+									\
+    TMP_MARK;								\
+    SPEED_TMP_ALLOC_LIMBS (wp, s->size, s->align_wp);			\
+    SPEED_TMP_ALLOC_LIMBS (temps,2*s->size, s->align_wp);		\
+									\
+    speed_operand_src (s, s->xp, s->size);				\
+    speed_operand_src (s, s->yp, s->size);				\
+    speed_operand_dst (s, wp, s->size);					\
+    speed_cache_fill (s);						\
+									\
+    speed_starttime ();							\
+    i = s->reps;							\
+    do									\
+      function (wp, s->xp, s->yp,0, GMP_NUMB_BITS*s->size,temps);		\
     while (--i != 0);							\
     t = speed_endtime ();						\
 									\

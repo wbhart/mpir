@@ -928,6 +928,9 @@ __GMP_DECLSPEC void mpn_mulhigh_n __GMP_PROTO ((mp_ptr, mp_srcptr, mp_srcptr, mp
 #define mpn_mulmod_2expp1 __MPN(mulmod_2expp1)
 __GMP_DECLSPEC int mpn_mulmod_2expp1 __GMP_PROTO ((mp_ptr, mp_srcptr, mp_srcptr,int,unsigned long, mp_ptr));
 
+#define mpn_mulmod_2expm1 __MPN(mulmod_2expm1)
+__GMP_DECLSPEC void mpn_mulmod_2expm1 __GMP_PROTO ((mp_ptr, mp_ptr, mp_ptr,unsigned long, mp_ptr));
+
 #define mpn_mullow_basecase __MPN(mullow_basecase)
 __GMP_DECLSPEC void mpn_mullow_basecase __GMP_PROTO ((mp_ptr, mp_srcptr,mp_size_t, mp_srcptr, mp_size_t,mp_size_t));
 
@@ -1517,6 +1520,10 @@ __GMP_DECLSPEC extern const mp_limb_t __gmp_fib_table[];
 
 #ifndef MULHIGH_MUL_THRESHOLD
 #define MULHIGH_MUL_THRESHOLD	8192
+#endif
+
+#ifndef MULMOD_2EXPM1_THRESHOLD
+#define MULMOD_2EXPM1_THRESHOLD	16
 #endif
 
 #ifndef FAC_UI_THRESHOLD
@@ -3935,6 +3942,10 @@ extern mp_size_t                     mulhigh_dc_threshold;
 #undef  MULHIGH_MUL_THRESHOLD
 #define MULHIGH_MUL_THRESHOLD        mulhigh_mul_threshold
 extern mp_size_t                     mulhigh_mul_threshold;
+
+#undef  MULMOD_2EXPM1_THRESHOLD
+#define MULMOD_2EXPM1_THRESHOLD      mulmod_2expm1_threshold
+extern mp_size_t                     mulmod_2expm1_threshold;
 
 #if ! UDIV_PREINV_ALWAYS
 #undef  DIV_SB_PREINV_THRESHOLD
