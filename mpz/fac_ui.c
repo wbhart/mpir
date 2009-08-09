@@ -24,8 +24,9 @@ MA 02110-1301, USA. */
 #include "gmp-impl.h"
 #include "longlong.h"
 
+#ifndef MPZ_FAC_IS_TUNING
 #include "fac_ui.h"
-
+#endif
 
 static void odd_product _PROTO ((unsigned long low, unsigned long high, mpz_t * st));
 static void ap_product_small _PROTO ((mpz_t ret, mp_limb_t start, mp_limb_t step, unsigned long count, unsigned long nm));

@@ -28,4 +28,6 @@ MA 02110-1301, USA.
 #define FAC_UI_THRESHOLD    MP_SIZE_T_MAX
 #define __gmpz_fac_ui  mpz_fac_ui_small
 
+#define MPZ_FAC_IS_TUNING
+#include "../mpz/fac_ui.h"
 #include "../mpz/fac_ui.c"
