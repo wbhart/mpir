@@ -30,7 +30,14 @@
     CPU  Core2
     BITS 64
 
+	LEAF_PROC mpn_sub_nc
+    mov     r10, [rsp+0x28]
+    jmp     mpn_sub_entry
+
 	LEAF_PROC mpn_sub_n
+	xor     r10, r10	
+
+mpn_sub_entry:
 	movsxd  rax, r9d
 	mov     r9, rcx
 	mov     rcx, rax
@@ -40,8 +47,10 @@
 	lea     rdx, [rdx+rcx*8]
 	lea     r8, [r8+rcx*8]
 	neg     rcx
-	cmp     rcx, 0
-	jz      L_skiplp
+	lea     rcx, [r10+rcx*2]
+	sar     rcx, 1
+	jz      L_exitlp
+	
 	xalign  16
 L_lp:
 	mov     r10, [rdx+rcx*8]

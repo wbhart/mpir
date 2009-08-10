@@ -64,7 +64,7 @@ entry:
     and     rax, 3
     shr     r9, 2
     lea     r9,[r10+r9*2]
-    shr     r9, 1
+	sar     r9, 1
     jnz     .2
 
     mov     r10, [rdx]
