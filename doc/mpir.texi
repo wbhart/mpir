@@ -3882,26 +3882,6 @@ The variable @var{state} must be initialized by calling one of the
 before invoking this function.
 @end deftypefun
 
-@deftypefun void mpz_random (mpz_t @var{rop}, mp_size_t @var{max_size})
-Generate a random integer of at most @var{max_size} limbs.  The generated
-random number doesn't satisfy any particular requirements of randomness.
-Negative random numbers are generated when @var{max_size} is negative.
-
-This function is obsolete.  Use @code{mpz_urandomb} or
-@code{mpz_urandomm} instead.
-@end deftypefun
-
-@deftypefun void mpz_random2 (mpz_t @var{rop}, mp_size_t @var{max_size})
-Generate a random integer of at most @var{max_size} limbs, with long strings
-of zeros and ones in the binary representation.  Useful for testing functions
-and algorithms, since this kind of random numbers have proven to be more
-likely to trigger corner-case bugs.  Negative random numbers are generated
-when @var{max_size} is negative.
-
-This function is obsolete.  Use @code{mpz_rrandomb} instead.
-@end deftypefun
-
-
 @node Integer Import and Export, Miscellaneous Integer Functions, Integer Random Numbers, Integer Functions
 @section Integer Import and Export
 
@@ -5169,30 +5149,6 @@ The @var{qxn} operand must be zero.
 @comment FIXME: Relax overlap requirements!
 @end deftypefun
 
-@deftypefun mp_limb_t mpn_divrem (mp_limb_t *@var{r1p}, mp_size_t @var{qxn}, mp_limb_t *@var{rs2p}, mp_size_t @var{rs2n}, const mp_limb_t *@var{s3p}, mp_size_t @var{s3n})
-[This function is obsolete.  Please call @code{mpn_tdiv_qr} instead for best
-performance.]
-
-Divide @{@var{rs2p}, @var{rs2n}@} by @{@var{s3p}, @var{s3n}@}, and write the
-quotient at @var{r1p}, with the exception of the most significant limb, which
-is returned.  The remainder replaces the dividend at @var{rs2p}; it will be
-@var{s3n} limbs long (i.e., as many limbs as the divisor).
-
-In addition to an integer quotient, @var{qxn} fraction limbs are developed, and
-stored after the integral limbs.  For most usages, @var{qxn} will be zero.
-
-It is required that @var{rs2n} is greater than or equal to @var{s3n}.  It is
-required that the most significant bit of the divisor is set.
-
-If the quotient is not needed, pass @var{rs2p} + @var{s3n} as @var{r1p}.  Aside
-from that special case, no overlap between arguments is permitted.
-
-Return the most significant limb of the quotient, either 0 or 1.
-
-The area at @var{r1p} needs to be @var{rs2n} @minus{} @var{s3n} + @var{qxn}
-limbs large.
-@end deftypefun
-
 @deftypefn Function mp_limb_t mpn_divrem_1 (mp_limb_t *@var{r1p}, mp_size_t @var{qxn}, @w{mp_limb_t *@var{s2p}}, mp_size_t @var{s2n}, mp_limb_t @var{s3limb})
 @deftypefnx Macro mp_limb_t mpn_divmod_1 (mp_limb_t *@var{r1p}, mp_limb_t *@var{s2p}, @w{mp_size_t @var{s2n}}, @w{mp_limb_t @var{s3limb}})
 Divide @{@var{s2p}, @var{s2n}@} by @var{s3limb}, and write the quotient at
@@ -5209,11 +5165,6 @@ macro calling @code{mpn_divrem_1} with a @var{qxn} of 0.
 The areas at @var{r1p} and @var{s2p} have to be identical or completely
 separate, not partially overlapping.
 @end deftypefn
-
-@deftypefun mp_limb_t mpn_divmod (mp_limb_t *@var{r1p}, mp_limb_t *@var{rs2p}, mp_size_t @var{rs2n}, const mp_limb_t *@var{s3p}, mp_size_t @var{s3n})
-[This function is obsolete.  Please call @code{mpn_tdiv_qr} instead for best
-performance.]
-@end deftypefun
 
 @deftypefn Macro mp_limb_t mpn_divexact_by3 (mp_limb_t *@var{rp}, mp_limb_t *@var{sp}, @w{mp_size_t @var{n}})
 @deftypefnx Function mp_limb_t mpn_divexact_by3c (mp_limb_t *@var{rp}, mp_limb_t *@var{sp}, @w{mp_size_t @var{n}}, mp_limb_t @var{carry})
@@ -5574,29 +5525,6 @@ Initialize @var{rop} with a copy of the algorithm and state from @var{op}.
 @c  Although gmp_randinit, gmp_errno and related constants are obsolete, we
 @c  still put @findex entries for them, since they're still documented and
 @c  someone might be looking them up when perusing old application code.
-
-@deftypefun void gmp_randinit (gmp_randstate_t @var{state}, @w{gmp_randalg_t @var{alg}}, @dots{})
-@strong{This function is obsolete.}
-
-@findex GMP_RAND_ALG_LC
-@findex GMP_RAND_ALG_DEFAULT
-Initialize @var{state} with an algorithm selected by @var{alg}.  The only
-choice is @code{GMP_RAND_ALG_LC}, which is @code{gmp_randinit_lc_2exp_size}
-described above.  A third parameter of type @code{unsigned long} is required,
-this is the @var{size} for that function.  @code{GMP_RAND_ALG_DEFAULT} or 0
-are the same as @code{GMP_RAND_ALG_LC}.
-
-@c  For reference, this is the only place gmp_errno has been documented, and
-@c  due to being non thread safe we won't be adding to it's uses.
-@findex gmp_errno
-@findex GMP_ERROR_UNSUPPORTED_ARGUMENT
-@findex GMP_ERROR_INVALID_ARGUMENT
-@code{gmp_randinit} sets bits in the global variable @code{gmp_errno} to
-indicate an error.  @code{GMP_ERROR_UNSUPPORTED_ARGUMENT} if @var{alg} is
-unsupported, or @code{GMP_ERROR_INVALID_ARGUMENT} if the @var{size} parameter
-is too big.  It may be noted this error reporting is not thread safe (a good
-reason to use @code{gmp_randinit_lc_2exp_size} instead).
-@end deftypefun
 
 @deftypefun void gmp_randclear (gmp_randstate_t @var{state})
 Free all memory occupied by @var{state}.
@@ -6689,12 +6617,6 @@ gmp_randclass r4 (gmp_randinit_mt);
 
 @code{gmp_randinit_lc_2exp_size} will fail if the size requested is too big,
 an @code{std::length_error} exception is thrown in that case.
-@end deftypefun
-
-@deftypefun {} gmp_randclass::gmp_randclass (gmp_randalg_t @var{alg}, @dots{})
-Construct a @code{gmp_randclass} using the same parameters as
-@code{gmp_randinit} (@pxref{Random State Initialization}).  This function is
-obsolete and the above @var{randinit} style should be preferred.
 @end deftypefun
 
 @deftypefun void gmp_randclass::seed (unsigned long int @var{s})
