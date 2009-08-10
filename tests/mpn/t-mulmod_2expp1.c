@@ -31,10 +31,10 @@ Boston, MA 02110-1301, USA.
 int
 main (void)
 {unsigned long bp,xn,n,yn,b,zn,c,dn;gmp_randstate_ptr rands;int qpn,j,k,i,l,i1,k1,j1,i2,k2,j2,cc;
+mp_limb_t xp[10000],dp[10000],qp[10000],yp[10000],rp[10000],zp[10000],tp[10000],tb;
   tests_start ();
   rands=RANDS;
 
-mp_limb_t xp[10000],dp[10000],qp[10000],yp[10000],rp[10000],zp[10000],tp[10000],tb;
 
 b=1;tb=1;tb<<=b;
 for(   ;b<600;b++,tb*=2)

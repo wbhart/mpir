@@ -1730,6 +1730,18 @@
 					>
 				</File>
 				<File
+					RelativePath="..\..\mpn\generic\mulmod_2expm1.c"
+					>
+				</File>
+				<File
+					RelativePath="..\..\mpn\generic\mulmod_2expp1.c"
+					>
+				</File>
+				<File
+					RelativePath="..\..\mpn\generic\neg_n.c"
+					>
+				</File>
+				<File
 					RelativePath="..\..\mpn\generic\ngcd.c"
 					>
 					<FileConfiguration

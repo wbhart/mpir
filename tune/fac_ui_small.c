@@ -29,5 +29,9 @@ MA 02110-1301, USA.
 #define __gmpz_fac_ui  mpz_fac_ui_small
 
 #define MPZ_FAC_IS_TUNING
+#ifndef _MSC_VER
 #include "../mpz/fac_ui.h"
+#else
+#include "fac_ui.h"
+#endif
 #include "../mpz/fac_ui.c"

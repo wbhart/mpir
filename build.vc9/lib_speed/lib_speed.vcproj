@@ -337,6 +337,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\tune\fac_ui_large.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\tune\fac_ui_small.c"
+				>
+			</File>
+			<File
 				RelativePath="..\..\tune\freq.c"
 				>
 			</File>

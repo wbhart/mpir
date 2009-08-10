@@ -1101,6 +1101,18 @@
 					>
 				</File>
 				<File
+					RelativePath="..\..\mpn\generic\mulmod_2expm1.c"
+					>
+				</File>
+				<File
+					RelativePath="..\..\mpn\generic\mulmod_2expp1.c"
+					>
+				</File>
+				<File
+					RelativePath="..\..\mpn\generic\neg_n.c"
+					>
+				</File>
+				<File
 					RelativePath="..\..\mpn\generic\ngcd.c"
 					>
 					<FileConfiguration
@@ -1873,6 +1885,10 @@
 							>
 						</File>
 						<File
+							RelativePath="..\..\mpn\x86w\p6\p3mmx\popham.asm"
+							>
+						</File>
+						<File
 							RelativePath="..\..\mpn\x86w\p6\mmx\popham.asm"
 							>
 							<FileConfiguration
@@ -1891,10 +1907,6 @@
 									Name="YASM"
 								/>
 							</FileConfiguration>
-						</File>
-						<File
-							RelativePath="..\..\mpn\x86w\p6\p3mmx\popham.asm"
-							>
 						</File>
 						<File
 							RelativePath="..\..\mpn\x86w\p6\mmx\rshift.asm"
