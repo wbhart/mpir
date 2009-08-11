@@ -2145,16 +2145,6 @@ selected precision.  @code{mpf_init2} can be used instead, and in the C++
 interface an explicit precision to the @code{mpf_class} constructor.
 
 @item
-@code{mpz_random} and the other old random number functions use a global
-random state and are hence not reentrant.  The newer random number functions
-that accept a @code{gmp_randstate_t} parameter can be used instead.
-
-@item
-@code{gmp_randinit} (obsolete) returns an error indication through a global
-variable, which is not thread safe.  Applications are advised to use
-@code{gmp_randinit_default} or @code{gmp_randinit_lc_2exp} instead.
-
-@item
 @code{mp_set_memory_functions} uses global variables to store the selected
 memory allocation functions.
 

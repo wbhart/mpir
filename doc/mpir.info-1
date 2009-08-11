@@ -1451,16 +1451,6 @@ MPIR is reentrant and thread-safe, with some exceptions:
      selected precision.  `mpf_init2' can be used instead, and in the
      C++ interface an explicit precision to the `mpf_class' constructor.
 
-   * `mpz_random' and the other old random number functions use a global
-     random state and are hence not reentrant.  The newer random number
-     functions that accept a `gmp_randstate_t' parameter can be used
-     instead.
-
-   * `gmp_randinit' (obsolete) returns an error indication through a
-     global variable, which is not thread safe.  Applications are
-     advised to use `gmp_randinit_default' or `gmp_randinit_lc_2exp'
-     instead.
-
    * `mp_set_memory_functions' uses global variables to store the
      selected memory allocation functions.
 
