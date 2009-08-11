@@ -407,8 +407,6 @@ SUFFIXES = .s .S .as .asm
 
 # can be overridden during development, eg. "make RM_TMP=: mul_1.lo"
 RM_TMP = rm -f
-MTS = -s 50-150 -c
-STS = -s 50-150 -c
 all: all-am
 
 .SUFFIXES:
@@ -869,51 +867,6 @@ sqr_asm.asm: $(top_builddir)/mpn/sqr_basecase.asm
 
 .as.lo:
 	$(LIBTOOL) --mode=compile --tag=CC $(top_srcdir)/strip_fPIC.sh $(top_builddir)$(MPIR_AS) -I $(top_builddir) $(OBJECT_FORMAT) $(GSYM_FLAG) -o $@ `test -f '$<' || echo '$(srcdir)/'`$<
-
-# "mk" is multiplication in the karatsuba range
-# "st" is squaring in the toom-cook range, etc
-# "g" forms produce graphs
-
-mk:
-	./speed -s 5-40 -c mpn_mul_basecase mpn_kara_mul_n
-mt:
-	./speed $(MTS) mpn_kara_mul_n mpn_toom3_mul_n
-mtg:
-	./speed $(MTS) -P mtg mpn_kara_mul_n mpn_toom3_mul_n
-
-sk:
-	./speed -s 5-40 -c mpn_sqr_basecase mpn_kara_sqr_n
-st:
-	./speed $(STS) mpn_kara_sqr_n mpn_toom3_sqr_n
-stg:
-	./speed $(STS) -P stg mpn_kara_sqr_n mpn_toom3_sqr_n
-
-dc:
-	./speed -s 5-40 -c mpn_dc_divrem_sb mpn_dc_divrem_n mpn_dc_tdiv_qr
-
-fib:
-	./speed -s 40-60 -c mpz_fib_ui
-fibg:
-	./speed -s 10-300 -P fibg mpz_fib_ui
-
-gcd:
-	./speed -s 1-20 -c mpn_gcd
-
-udiv:
-	./speed -s 1 -c udiv_qrnnd udiv_qrnnd_preinv udiv_qrnnd_preinv2norm invert_limb udiv_qrnnd_c
-
-divn:
-	./speed -s 1-30 -c mpn_divrem_1_div.-1 mpn_divrem_1_inv.-1
-divun:
-	./speed -s 1-30 -c mpn_divrem_1_div.12345 mpn_divrem_1_inv.12345
-modn:
-	./speed -s 1-30 -c mpn_mod_1_div.-1 mpn_mod_1_inv.-1
-modun:
-	./speed -s 1-30 -c mpn_mod_1_div.12345 mpn_mod_1_inv.12345
-
-graph:
-	./speed -s 1-5000 -f 1.02 -P graph mpn_mul_n mpn_sqr
-	gnuplot graph.gnuplot
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
 .NOEXPORT:

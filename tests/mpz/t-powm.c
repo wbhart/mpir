@@ -1,4 +1,4 @@
-/* Test mpz_powm, mpz_mul. mpz_mod, mpz_mod_ui, mpz_div_ui.
+/* Test mpz_powm, mpz_mul. mpz_mod, mpz_mod_ui, mpz_fdiv_q_ui.
 
 Copyright 1991, 1993, 1994, 1996, 1999, 2000, 2001 Free Software Foundation,
 Inc.
@@ -107,7 +107,7 @@ main (int argc, char **argv)
 	    }
 	  mpz_mul (base2, base2, base2);
 	  mpz_mod (base2, base2, mod);
-	  mpz_div_ui (exp2, exp2, 2);
+	  mpz_fdiv_q_ui (exp2, exp2, 2);
 	}
 
       if (mpz_cmp (r1, r2) != 0)
