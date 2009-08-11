@@ -558,10 +558,6 @@ __GMP_DECLSPEC extern __gmp_const char * __gmp_const mpir_version;
 
 /**************** Random number routines.  ****************/
 
-/* obsolete */
-#define gmp_randinit __gmp_randinit
-__GMP_DECLSPEC void gmp_randinit __GMP_PROTO ((gmp_randstate_t, gmp_randalg_t, ...));
-
 #define gmp_randinit_default __gmp_randinit_default
 __GMP_DECLSPEC void gmp_randinit_default __GMP_PROTO ((gmp_randstate_t));
 

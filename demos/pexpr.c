@@ -273,7 +273,7 @@ main (int argc, char **argv)
 
   setup_error_handler ();
 
-  gmp_randinit (rstate, GMP_RAND_ALG_LC, 128);
+  gmp_randinit_lc_2exp_size (rstate,128);
 
   {
 #if HAVE_GETTIMEOFDAY

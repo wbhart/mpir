@@ -3224,7 +3224,7 @@ public:
       {
       case GMP_RAND_ALG_LC: // no other cases for now
       default:
-	gmp_randinit(state, alg, size);
+	gmp_randinit_lc_2exp_size(state, size);
 	break;
       }
   }

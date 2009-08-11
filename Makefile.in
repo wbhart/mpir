@@ -182,10 +182,10 @@ am__DEPENDENCIES_7 = $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_2) \
 am__objects_1 = assert$U.lo compat$U.lo errno$U.lo extract-dbl$U.lo \
 	invalid$U.lo memory$U.lo mp_bpl$U.lo mp_clz_tab$U.lo \
 	mp_dv_tab$U.lo mp_minv_tab$U.lo mp_get_fns$U.lo \
-	mp_set_fns$U.lo rand$U.lo randclr$U.lo randdef$U.lo \
-	randiset$U.lo randlc2s$U.lo randlc2x$U.lo randmt$U.lo \
-	randmts$U.lo rands$U.lo randsd$U.lo randsdui$U.lo randbui$U.lo \
-	randmui$U.lo version$U.lo
+	mp_set_fns$U.lo randclr$U.lo randdef$U.lo randiset$U.lo \
+	randlc2s$U.lo randlc2x$U.lo randmt$U.lo randmts$U.lo \
+	rands$U.lo randsd$U.lo randsdui$U.lo randbui$U.lo randmui$U.lo \
+	version$U.lo
 am_libgmp_la_OBJECTS = $(am__objects_1)
 libgmp_la_OBJECTS = $(am_libgmp_la_OBJECTS)
 @WANT_GMPCOMPAT_TRUE@am_libgmp_la_rpath = -rpath $(libdir)
@@ -216,10 +216,10 @@ libmp_la_OBJECTS = $(am_libmp_la_OBJECTS)
 am_libmpir_la_OBJECTS = assert$U.lo compat$U.lo errno$U.lo \
 	extract-dbl$U.lo invalid$U.lo memory$U.lo mp_bpl$U.lo \
 	mp_clz_tab$U.lo mp_dv_tab$U.lo mp_minv_tab$U.lo \
-	mp_get_fns$U.lo mp_set_fns$U.lo rand$U.lo randclr$U.lo \
-	randdef$U.lo randiset$U.lo randlc2s$U.lo randlc2x$U.lo \
-	randmt$U.lo randmts$U.lo rands$U.lo randsd$U.lo randsdui$U.lo \
-	randbui$U.lo randmui$U.lo version$U.lo
+	mp_get_fns$U.lo mp_set_fns$U.lo randclr$U.lo randdef$U.lo \
+	randiset$U.lo randlc2s$U.lo randlc2x$U.lo randmt$U.lo \
+	randmts$U.lo rands$U.lo randsd$U.lo randsdui$U.lo randbui$U.lo \
+	randmui$U.lo version$U.lo
 libmpir_la_OBJECTS = $(am_libmpir_la_OBJECTS)
 am__DEPENDENCIES_12 = $(am__DEPENDENCIES_8) libmpir.la
 am_libmpirxx_la_OBJECTS = dummy.lo
@@ -674,7 +674,7 @@ MPBSD_OBJECTS = mpbsd/add$U.lo mpbsd/tdiv_qr$U.lo mpbsd/set$U.lo	\
 libmpir_la_SOURCES = gmp-impl.h longlong.h randmt.h			\
   assert.c compat.c errno.c extract-dbl.c invalid.c memory.c		\
   mp_bpl.c mp_clz_tab.c mp_dv_tab.c mp_minv_tab.c mp_get_fns.c mp_set_fns.c \
-  rand.c randclr.c randdef.c randiset.c randlc2s.c randlc2x.c randmt.c	\
+  randclr.c randdef.c randiset.c randlc2s.c randlc2x.c randmt.c	\
   randmts.c rands.c randsd.c randsdui.c randbui.c randmui.c version.c
 
 EXTRA_libmpir_la_SOURCES = tal-debug.c tal-notreent.c tal-reent.c
@@ -877,8 +877,6 @@ mp_minv_tab_.c: mp_minv_tab.c $(ANSI2KNR)
 	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/mp_minv_tab.c; then echo $(srcdir)/mp_minv_tab.c; else echo mp_minv_tab.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
 mp_set_fns_.c: mp_set_fns.c $(ANSI2KNR)
 	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/mp_set_fns.c; then echo $(srcdir)/mp_set_fns.c; else echo mp_set_fns.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-rand_.c: rand.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/rand.c; then echo $(srcdir)/rand.c; else echo rand.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
 randbui_.c: randbui.c $(ANSI2KNR)
 	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/randbui.c; then echo $(srcdir)/randbui.c; else echo randbui.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
 randclr_.c: randclr.c $(ANSI2KNR)
@@ -917,16 +915,15 @@ invalid_.$(OBJEXT) invalid_.lo memory_.$(OBJEXT) memory_.lo \
 mp_bpl_.$(OBJEXT) mp_bpl_.lo mp_clz_tab_.$(OBJEXT) mp_clz_tab_.lo \
 mp_dv_tab_.$(OBJEXT) mp_dv_tab_.lo mp_get_fns_.$(OBJEXT) \
 mp_get_fns_.lo mp_minv_tab_.$(OBJEXT) mp_minv_tab_.lo \
-mp_set_fns_.$(OBJEXT) mp_set_fns_.lo rand_.$(OBJEXT) rand_.lo \
-randbui_.$(OBJEXT) randbui_.lo randclr_.$(OBJEXT) randclr_.lo \
-randdef_.$(OBJEXT) randdef_.lo randiset_.$(OBJEXT) randiset_.lo \
-randlc2s_.$(OBJEXT) randlc2s_.lo randlc2x_.$(OBJEXT) randlc2x_.lo \
-randmt_.$(OBJEXT) randmt_.lo randmts_.$(OBJEXT) randmts_.lo \
-randmui_.$(OBJEXT) randmui_.lo rands_.$(OBJEXT) rands_.lo \
-randsd_.$(OBJEXT) randsd_.lo randsdui_.$(OBJEXT) randsdui_.lo \
-tal-debug_.$(OBJEXT) tal-debug_.lo tal-notreent_.$(OBJEXT) \
-tal-notreent_.lo tal-reent_.$(OBJEXT) tal-reent_.lo version_.$(OBJEXT) \
-version_.lo : $(ANSI2KNR)
+mp_set_fns_.$(OBJEXT) mp_set_fns_.lo randbui_.$(OBJEXT) randbui_.lo \
+randclr_.$(OBJEXT) randclr_.lo randdef_.$(OBJEXT) randdef_.lo \
+randiset_.$(OBJEXT) randiset_.lo randlc2s_.$(OBJEXT) randlc2s_.lo \
+randlc2x_.$(OBJEXT) randlc2x_.lo randmt_.$(OBJEXT) randmt_.lo \
+randmts_.$(OBJEXT) randmts_.lo randmui_.$(OBJEXT) randmui_.lo \
+rands_.$(OBJEXT) rands_.lo randsd_.$(OBJEXT) randsd_.lo \
+randsdui_.$(OBJEXT) randsdui_.lo tal-debug_.$(OBJEXT) tal-debug_.lo \
+tal-notreent_.$(OBJEXT) tal-notreent_.lo tal-reent_.$(OBJEXT) \
+tal-reent_.lo version_.$(OBJEXT) version_.lo : $(ANSI2KNR)
 
 .cc.o:
 	$(CXXCOMPILE) -c -o $@ $<
