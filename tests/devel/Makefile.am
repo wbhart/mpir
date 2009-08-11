@@ -24,7 +24,7 @@ INCLUDES = -I$(top_srcdir) -I$(top_srcdir)/tests
 LDADD = $(top_builddir)/tests/libtests.la $(top_builddir)/libmpir.la
 
 EXTRA_PROGRAMS = \
-  aors_n anymul_1 copy divmod_1 divrem shift logops_n mul_N addmul_N try
+  aors_n anymul_1 copy divmod_1 shift logops_n mul_N addmul_N try
 
 if ENABLE_STATIC
 if ENABLE_SHARED

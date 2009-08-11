@@ -283,7 +283,7 @@ nodist_EXTRA_libmpn_la_SOURCES = \
   addmul_7.c addmul_8.c							    \
   and_n.c andn_n.c bdivmod.c						    \
   cmp.c com_n.c copyd.c copyi.c						    \
-  dc_divrem_n.c dive_1.c diveby3.c divebyff.c divis.c divrem.c divrem_1.c   \
+  dc_divrem_n.c dive_1.c diveby3.c divebyff.c divis.c divrem_1.c		\
   divrem_euclidean_qr_1.c divrem_euclidean_qr_2.c divrem_euclidean_r_1.c    \
   divebyBm1of.c divrem_2.c dump.c fib2_ui.c				    \
   gcd.c	lgcd.c ngcd.c ngcd_matrix.c ngcd_step.c nhgcd2.c                    \
@@ -454,8 +454,6 @@ divebyff_.c: divebyff.c $(ANSI2KNR)
 	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/divebyff.c; then echo $(srcdir)/divebyff.c; else echo divebyff.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
 divis_.c: divis.c $(ANSI2KNR)
 	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/divis.c; then echo $(srcdir)/divis.c; else echo divis.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-divrem_.c: divrem.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/divrem.c; then echo $(srcdir)/divrem.c; else echo divrem.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
 divrem_1_.c: divrem_1.c $(ANSI2KNR)
 	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/divrem_1.c; then echo $(srcdir)/divrem_1.c; else echo divrem_1.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
 divrem_2_.c: divrem_2.c $(ANSI2KNR)
@@ -640,12 +638,12 @@ com_n_.lo copyd_.$(OBJEXT) copyd_.lo copyi_.$(OBJEXT) copyi_.lo \
 dc_divrem_n_.$(OBJEXT) dc_divrem_n_.lo dive_1_.$(OBJEXT) dive_1_.lo \
 diveby3_.$(OBJEXT) diveby3_.lo divebyBm1of_.$(OBJEXT) divebyBm1of_.lo \
 divebyff_.$(OBJEXT) divebyff_.lo divis_.$(OBJEXT) divis_.lo \
-divrem_.$(OBJEXT) divrem_.lo divrem_1_.$(OBJEXT) divrem_1_.lo \
-divrem_2_.$(OBJEXT) divrem_2_.lo divrem_euclidean_qr_1_.$(OBJEXT) \
-divrem_euclidean_qr_1_.lo divrem_euclidean_qr_2_.$(OBJEXT) \
-divrem_euclidean_qr_2_.lo divrem_euclidean_r_1_.$(OBJEXT) \
-divrem_euclidean_r_1_.lo dump_.$(OBJEXT) dump_.lo fib2_ui_.$(OBJEXT) \
-fib2_ui_.lo fib_table_.$(OBJEXT) fib_table_.lo gcd_.$(OBJEXT) gcd_.lo \
+divrem_1_.$(OBJEXT) divrem_1_.lo divrem_2_.$(OBJEXT) divrem_2_.lo \
+divrem_euclidean_qr_1_.$(OBJEXT) divrem_euclidean_qr_1_.lo \
+divrem_euclidean_qr_2_.$(OBJEXT) divrem_euclidean_qr_2_.lo \
+divrem_euclidean_r_1_.$(OBJEXT) divrem_euclidean_r_1_.lo \
+dump_.$(OBJEXT) dump_.lo fib2_ui_.$(OBJEXT) fib2_ui_.lo \
+fib_table_.$(OBJEXT) fib_table_.lo gcd_.$(OBJEXT) gcd_.lo \
 gcd_1_.$(OBJEXT) gcd_1_.lo gcd_finda_.$(OBJEXT) gcd_finda_.lo \
 gcdext_.$(OBJEXT) gcdext_.lo get_d_.$(OBJEXT) get_d_.lo \
 get_str_.$(OBJEXT) get_str_.lo hamdist_.$(OBJEXT) hamdist_.lo \

@@ -48,7 +48,6 @@ check_macros (void)
   limb = GMP_NUMB_MAX;
   limb = GMP_NAIL_MASK;
 
-  mpn_divmod (&limb, &limb, 1, &limb, 1);
   mpn_divexact_by3 (&limb, &limb, 1);
 }
 

@@ -1500,9 +1500,6 @@ __GMP_DECLSPEC mp_limb_t mpn_divexact_by3c __GMP_PROTO ((mp_ptr, mp_srcptr, mp_s
 #define mpn_divmod_1(qp,np,nsize,dlimb) \
   mpn_divrem_1 (qp, __GMP_CAST (mp_size_t, 0), np, nsize, dlimb)
 
-#define mpn_divrem __MPN(divrem)
-__GMP_DECLSPEC mp_limb_t mpn_divrem __GMP_PROTO ((mp_ptr, mp_size_t, mp_ptr, mp_size_t, mp_srcptr, mp_size_t));
-
 #define mpn_divrem_1 __MPN(divrem_1)
 __GMP_DECLSPEC mp_limb_t mpn_divrem_1 __GMP_PROTO ((mp_ptr, mp_size_t, mp_srcptr, mp_size_t, mp_limb_t));
 
@@ -2147,11 +2144,6 @@ __GMP_DECLSPEC_XX std::istream& operator>> (std::istream &, mpz_ptr);
 __GMP_DECLSPEC_XX std::istream& operator>> (std::istream &, mpq_ptr);
 __GMP_DECLSPEC_XX std::istream& operator>> (std::istream &, mpf_ptr);
 #endif
-
-
-/* Source-level compatibility with GMP 2 and earlier. */
-#define mpn_divmod(qp,np,nsize,dp,dsize) \
-  mpn_divrem (qp, __GMP_CAST (mp_size_t, 0), np, nsize, dp, dsize)
 
 /* Source-level compatibility with GMP 1.  */
 #define mpz_mdiv	mpz_fdiv_q

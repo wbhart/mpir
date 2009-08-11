@@ -56,9 +56,8 @@ build_triplet = @build@
 host_triplet = @host@
 ANSI2KNR = $(top_builddir)/ansi2knr
 EXTRA_PROGRAMS = aors_n$(EXEEXT) anymul_1$(EXEEXT) copy$(EXEEXT) \
-	divmod_1$(EXEEXT) divrem$(EXEEXT) shift$(EXEEXT) \
-	logops_n$(EXEEXT) mul_N$(EXEEXT) addmul_N$(EXEEXT) \
-	try$(EXEEXT) $(am__EXEEXT_1)
+	divmod_1$(EXEEXT) shift$(EXEEXT) logops_n$(EXEEXT) \
+	mul_N$(EXEEXT) addmul_N$(EXEEXT) try$(EXEEXT) $(am__EXEEXT_1)
 @ENABLE_SHARED_TRUE@@ENABLE_STATIC_TRUE@am__append_1 = static_try
 subdir = tests/devel
 DIST_COMMON = README $(srcdir)/Makefile.am $(srcdir)/Makefile.in
@@ -96,11 +95,6 @@ divmod_1_SOURCES = divmod_1.c
 divmod_1_OBJECTS = divmod_1$U.$(OBJEXT)
 divmod_1_LDADD = $(LDADD)
 divmod_1_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
-	$(top_builddir)/libmpir.la
-divrem_SOURCES = divrem.c
-divrem_OBJECTS = divrem$U.$(OBJEXT)
-divrem_LDADD = $(LDADD)
-divrem_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
 	$(top_builddir)/libmpir.la
 logops_n_SOURCES = logops_n.c
 logops_n_OBJECTS = logops_n$U.$(OBJEXT)
@@ -140,11 +134,11 @@ LTCOMPILE = $(LIBTOOL) --tag=CC --mode=compile $(CC) $(DEFS) \
 CCLD = $(CC)
 LINK = $(LIBTOOL) --tag=CC --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) \
 	$(AM_LDFLAGS) $(LDFLAGS) -o $@
-SOURCES = addmul_N.c anymul_1.c aors_n.c copy.c divmod_1.c divrem.c \
-	logops_n.c mul_N.c shift.c $(static_try_SOURCES) try.c
+SOURCES = addmul_N.c anymul_1.c aors_n.c copy.c divmod_1.c logops_n.c \
+	mul_N.c shift.c $(static_try_SOURCES) try.c
 DIST_SOURCES = addmul_N.c anymul_1.c aors_n.c copy.c divmod_1.c \
-	divrem.c logops_n.c mul_N.c shift.c \
-	$(am__static_try_SOURCES_DIST) try.c
+	logops_n.c mul_N.c shift.c $(am__static_try_SOURCES_DIST) \
+	try.c
 ETAGS = etags
 CTAGS = ctags
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
@@ -357,9 +351,6 @@ copy$(EXEEXT): $(copy_OBJECTS) $(copy_DEPENDENCIES)
 divmod_1$(EXEEXT): $(divmod_1_OBJECTS) $(divmod_1_DEPENDENCIES) 
 	@rm -f divmod_1$(EXEEXT)
 	$(LINK) $(divmod_1_LDFLAGS) $(divmod_1_OBJECTS) $(divmod_1_LDADD) $(LIBS)
-divrem$(EXEEXT): $(divrem_OBJECTS) $(divrem_DEPENDENCIES) 
-	@rm -f divrem$(EXEEXT)
-	$(LINK) $(divrem_LDFLAGS) $(divrem_OBJECTS) $(divrem_LDADD) $(LIBS)
 logops_n$(EXEEXT): $(logops_n_OBJECTS) $(logops_n_DEPENDENCIES) 
 	@rm -f logops_n$(EXEEXT)
 	$(LINK) $(logops_n_LDFLAGS) $(logops_n_OBJECTS) $(logops_n_LDADD) $(LIBS)
@@ -405,8 +396,6 @@ copy_.c: copy.c $(ANSI2KNR)
 	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/copy.c; then echo $(srcdir)/copy.c; else echo copy.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
 divmod_1_.c: divmod_1.c $(ANSI2KNR)
 	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/divmod_1.c; then echo $(srcdir)/divmod_1.c; else echo divmod_1.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-divrem_.c: divrem.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/divrem.c; then echo $(srcdir)/divrem.c; else echo divrem.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
 logops_n_.c: logops_n.c $(ANSI2KNR)
 	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/logops_n.c; then echo $(srcdir)/logops_n.c; else echo logops_n.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
 mul_N_.c: mul_N.c $(ANSI2KNR)
@@ -417,9 +406,9 @@ try_.c: try.c $(ANSI2KNR)
 	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/try.c; then echo $(srcdir)/try.c; else echo try.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
 addmul_N_.$(OBJEXT) addmul_N_.lo anymul_1_.$(OBJEXT) anymul_1_.lo \
 aors_n_.$(OBJEXT) aors_n_.lo copy_.$(OBJEXT) copy_.lo \
-divmod_1_.$(OBJEXT) divmod_1_.lo divrem_.$(OBJEXT) divrem_.lo \
-logops_n_.$(OBJEXT) logops_n_.lo mul_N_.$(OBJEXT) mul_N_.lo \
-shift_.$(OBJEXT) shift_.lo try_.$(OBJEXT) try_.lo : $(ANSI2KNR)
+divmod_1_.$(OBJEXT) divmod_1_.lo logops_n_.$(OBJEXT) logops_n_.lo \
+mul_N_.$(OBJEXT) mul_N_.lo shift_.$(OBJEXT) shift_.lo try_.$(OBJEXT) \
+try_.lo : $(ANSI2KNR)
 
 mostlyclean-libtool:
 	-rm -f *.lo
