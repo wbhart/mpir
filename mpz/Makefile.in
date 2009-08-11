@@ -93,16 +93,15 @@ am_libmpz_la_OBJECTS = add$U.lo add_ui$U.lo abs$U.lo aorsmul$U.lo \
 	mul_2exp$U.lo mul_si$U.lo mul_ui$U.lo n_pow_ui$U.lo neg$U.lo \
 	nextprime$U.lo out_raw$U.lo out_str$U.lo perfpow$U.lo \
 	perfsqr$U.lo popcount$U.lo pow_ui$U.lo powm$U.lo powm_ui$U.lo \
-	pprime_p$U.lo random$U.lo random2$U.lo realloc$U.lo \
-	realloc2$U.lo remove$U.lo root$U.lo rootrem$U.lo rrandomb$U.lo \
-	scan0$U.lo scan1$U.lo set$U.lo set_d$U.lo set_f$U.lo \
-	set_q$U.lo set_si$U.lo set_str$U.lo set_ui$U.lo setbit$U.lo \
-	size$U.lo sizeinbase$U.lo sqrt$U.lo sqrtrem$U.lo sub$U.lo \
-	sub_ui$U.lo swap$U.lo tdiv_ui$U.lo tdiv_q$U.lo \
-	tdiv_q_2exp$U.lo tdiv_q_ui$U.lo tdiv_qr$U.lo tdiv_qr_ui$U.lo \
-	tdiv_r$U.lo tdiv_r_2exp$U.lo tdiv_r_ui$U.lo tstbit$U.lo \
-	ui_pow_ui$U.lo ui_sub$U.lo urandomb$U.lo urandomm$U.lo \
-	xor$U.lo
+	pprime_p$U.lo realloc$U.lo realloc2$U.lo remove$U.lo root$U.lo \
+	rootrem$U.lo rrandomb$U.lo scan0$U.lo scan1$U.lo set$U.lo \
+	set_d$U.lo set_f$U.lo set_q$U.lo set_si$U.lo set_str$U.lo \
+	set_ui$U.lo setbit$U.lo size$U.lo sizeinbase$U.lo sqrt$U.lo \
+	sqrtrem$U.lo sub$U.lo sub_ui$U.lo swap$U.lo tdiv_ui$U.lo \
+	tdiv_q$U.lo tdiv_q_2exp$U.lo tdiv_q_ui$U.lo tdiv_qr$U.lo \
+	tdiv_qr_ui$U.lo tdiv_r$U.lo tdiv_r_2exp$U.lo tdiv_r_ui$U.lo \
+	tstbit$U.lo ui_pow_ui$U.lo ui_sub$U.lo urandomb$U.lo \
+	urandomm$U.lo xor$U.lo
 libmpz_la_OBJECTS = $(am_libmpz_la_OBJECTS)
 DEFAULT_INCLUDES = -I. -I$(srcdir) -I$(top_builddir)
 depcomp =
@@ -301,7 +300,7 @@ libmpz_la_SOURCES = aors.h aors_ui.h fits_s.h mul_i.h \
   lcm.c lcm_ui.c lucnum_ui.c lucnum2_ui.c millerrabin.c \
   mod.c mul.c mul_2exp.c mul_si.c mul_ui.c n_pow_ui.c neg.c nextprime.c \
   out_raw.c out_str.c perfpow.c perfsqr.c popcount.c pow_ui.c powm.c \
-  powm_ui.c pprime_p.c random.c random2.c \
+  powm_ui.c pprime_p.c \
   realloc.c realloc2.c remove.c root.c rootrem.c rrandomb.c \
   scan0.c scan1.c set.c set_d.c set_f.c set_q.c set_si.c set_str.c \
   set_ui.c setbit.c size.c sizeinbase.c sqrt.c sqrtrem.c sub.c sub_ui.c \
@@ -583,10 +582,6 @@ powm_ui_.c: powm_ui.c $(ANSI2KNR)
 	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/powm_ui.c; then echo $(srcdir)/powm_ui.c; else echo powm_ui.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
 pprime_p_.c: pprime_p.c $(ANSI2KNR)
 	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/pprime_p.c; then echo $(srcdir)/pprime_p.c; else echo pprime_p.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-random_.c: random.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/random.c; then echo $(srcdir)/random.c; else echo random.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-random2_.c: random2.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/random2.c; then echo $(srcdir)/random2.c; else echo random2.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
 realloc_.c: realloc.c $(ANSI2KNR)
 	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/realloc.c; then echo $(srcdir)/realloc.c; else echo realloc.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
 realloc2_.c: realloc2.c $(ANSI2KNR)
@@ -714,7 +709,6 @@ out_str_.$(OBJEXT) out_str_.lo perfpow_.$(OBJEXT) perfpow_.lo \
 perfsqr_.$(OBJEXT) perfsqr_.lo popcount_.$(OBJEXT) popcount_.lo \
 pow_ui_.$(OBJEXT) pow_ui_.lo powm_.$(OBJEXT) powm_.lo \
 powm_ui_.$(OBJEXT) powm_ui_.lo pprime_p_.$(OBJEXT) pprime_p_.lo \
-random_.$(OBJEXT) random_.lo random2_.$(OBJEXT) random2_.lo \
 realloc_.$(OBJEXT) realloc_.lo realloc2_.$(OBJEXT) realloc2_.lo \
 remove_.$(OBJEXT) remove_.lo root_.$(OBJEXT) root_.lo \
 rootrem_.$(OBJEXT) rootrem_.lo rrandomb_.$(OBJEXT) rrandomb_.lo \

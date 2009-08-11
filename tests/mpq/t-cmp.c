@@ -31,6 +31,24 @@ MA 02110-1301, USA. */
 
 #define SGN(x) ((x) < 0 ? -1 : (x) > 0 ? 1 : 0)
 
+void
+mpz_intrandom2 (mpz_ptr x, mp_size_t size)
+{
+  mp_size_t abs_size;
+
+  abs_size = ABS (size);
+  if (abs_size != 0)
+    {
+      if (x->_mp_alloc < abs_size)
+	_mpz_realloc (x, abs_size);
+
+      mpn_random2 (x->_mp_d, abs_size);
+    }
+
+  x->_mp_size = size;
+}
+
+
 int
 ref_mpq_cmp (mpq_t a, mpq_t b)
 {
@@ -72,20 +90,20 @@ main (int argc, char **argv)
   for (i = 0; i < reps; i++)
     {
       size = urandom () % SIZE - SIZE/2;
-      mpz_random2 (NUM (a), size);
+      mpz_intrandom2 (NUM (a), size);
       do
 	{
 	  size = urandom () % SIZE - SIZE/2;
-	  mpz_random2 (DEN (a), size);
+	  mpz_intrandom2 (DEN (a), size);
 	}
       while (mpz_cmp_ui (DEN (a), 0) == 0);
 
       size = urandom () % SIZE - SIZE/2;
-      mpz_random2 (NUM (b), size);
+      mpz_intrandom2 (NUM (b), size);
       do
 	{
 	  size = urandom () % SIZE - SIZE/2;
-	  mpz_random2 (DEN (b), size);
+	  mpz_intrandom2 (DEN (b), size);
 	}
       while (mpz_cmp_ui (DEN (b), 0) == 0);
 

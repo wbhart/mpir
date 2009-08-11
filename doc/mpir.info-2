@@ -22,81 +22,6 @@ START-INFO-DIR-ENTRY
 END-INFO-DIR-ENTRY
 
 
-File: mpir.info,  Node: Binary to Radix,  Next: Radix to Binary,  Prev: Radix Conversion Algorithms,  Up: Radix Conversion Algorithms
-
-16.6.1 Binary to Radix
-----------------------
-
-Conversions from binary to a power-of-2 radix use a simple and fast
-O(N) bit extraction algorithm.
-
-   Conversions from binary to other radices use one of two algorithms.
-Sizes below `GET_STR_PRECOMPUTE_THRESHOLD' use a basic O(N^2) method.
-Repeated divisions by b^n are made, where b is the radix and n is the
-biggest power that fits in a limb.  But instead of simply using the
-remainder r from such divisions, an extra divide step is done to give a
-fractional limb representing r/b^n.  The digits of r can then be
-extracted using multiplications by b rather than divisions.  Special
-case code is provided for decimal, allowing multiplications by 10 to
-optimize to shifts and adds.
-
-   Above `GET_STR_PRECOMPUTE_THRESHOLD' a sub-quadratic algorithm is
-used.  For an input t, powers b^(n*2^i) of the radix are calculated,
-until a power between t and sqrt(t) is reached.  t is then divided by
-that largest power, giving a quotient which is the digits above that
-power, and a remainder which is those below.  These two parts are in
-turn divided by the second highest power, and so on recursively.  When
-a piece has been divided down to less than `GET_STR_DC_THRESHOLD'
-limbs, the basecase algorithm described above is used.
-
-   The advantage of this algorithm is that big divisions can make use
-of the sub-quadratic divide and conquer division (*note Divide and
-Conquer Division::), and big divisions tend to have less overheads than
-lots of separate single limb divisions anyway.  But in any case the
-cost of calculating the powers b^(n*2^i) must first be overcome.
-
-   `GET_STR_PRECOMPUTE_THRESHOLD' and `GET_STR_DC_THRESHOLD' represent
-the same basic thing, the point where it becomes worth doing a big
-division to cut the input in half.  `GET_STR_PRECOMPUTE_THRESHOLD'
-includes the cost of calculating the radix power required, whereas
-`GET_STR_DC_THRESHOLD' assumes that's already available, which is the
-case when recursing.
-
-   Since the base case produces digits from least to most significant
-but they want to be stored from most to least, it's necessary to
-calculate in advance how many digits there will be, or at least be sure
-not to underestimate that.  For MPIR the number of input bits is
-multiplied by `chars_per_bit_exactly' from `mp_bases', rounding up.
-The result is either correct or one too big.
-
-   Examining some of the high bits of the input could increase the
-chance of getting the exact number of digits, but an exact result every
-time would not be practical, since in general the difference between
-numbers 100... and 99... is only in the last few bits and the work to
-identify 99...  might well be almost as much as a full conversion.
-
-   `mpf_get_str' doesn't currently use the algorithm described here, it
-multiplies or divides by a power of b to move the radix point to the
-just above the highest non-zero digit (or at worst one above that
-location), then multiplies by b^n to bring out digits.  This is O(N^2)
-and is certainly not optimal.
-
-   The r/b^n scheme described above for using multiplications to bring
-out digits might be useful for more than a single limb.  Some brief
-experiments with it on the base case when recursing didn't give a
-noticeable improvement, but perhaps that was only due to the
-implementation.  Something similar would work for the sub-quadratic
-divisions too, though there would be the cost of calculating a bigger
-radix power.
-
-   Another possible improvement for the sub-quadratic part would be to
-arrange for radix powers that balanced the sizes of quotient and
-remainder produced, ie. the highest power would be an b^(n*k)
-approximately equal to sqrt(t), not restricted to a 2^i factor.  That
-ought to smooth out a graph of times against sizes, but may or may not
-be a net speedup.
-
-
 File: mpir.info,  Node: Radix to Binary,  Prev: Binary to Radix,  Up: Radix Conversion Algorithms
 
 16.6.2 Radix to Binary
@@ -2303,7 +2228,7 @@ Concept Index
 * Multi-threading:                       Reentrancy.          (line   6)
 * Multiplication algorithms:             Multiplication Algorithms.
                                                               (line   6)
-* Nails:                                 Low-level Functions. (line 420)
+* Nails:                                 Low-level Functions. (line 390)
 * Native compilation:                    Build Options.       (line  59)
 * NeXT:                                  Known Build Problems.
                                                               (line  57)
@@ -2551,48 +2476,36 @@ Function and Type Index
                                                               (line  82)
 * gmp_asprintf:                          Formatted Output Functions.
                                                               (line  65)
-* gmp_errno:                             Random State Initialization.
-                                                              (line  55)
-* GMP_ERROR_INVALID_ARGUMENT:            Random State Initialization.
-                                                              (line  55)
-* GMP_ERROR_UNSUPPORTED_ARGUMENT:        Random State Initialization.
-                                                              (line  55)
 * gmp_fprintf:                           Formatted Output Functions.
                                                               (line  29)
 * gmp_fscanf:                            Formatted Input Functions.
                                                               (line  25)
-* GMP_LIMB_BITS:                         Low-level Functions. (line 453)
-* GMP_NAIL_BITS:                         Low-level Functions. (line 451)
-* GMP_NAIL_MASK:                         Low-level Functions. (line 461)
-* GMP_NUMB_BITS:                         Low-level Functions. (line 452)
-* GMP_NUMB_MASK:                         Low-level Functions. (line 462)
-* GMP_NUMB_MAX:                          Low-level Functions. (line 470)
+* GMP_LIMB_BITS:                         Low-level Functions. (line 423)
+* GMP_NAIL_BITS:                         Low-level Functions. (line 421)
+* GMP_NAIL_MASK:                         Low-level Functions. (line 431)
+* GMP_NUMB_BITS:                         Low-level Functions. (line 422)
+* GMP_NUMB_MASK:                         Low-level Functions. (line 432)
+* GMP_NUMB_MAX:                          Low-level Functions. (line 440)
 * gmp_obstack_printf:                    Formatted Output Functions.
                                                               (line  79)
 * gmp_obstack_vprintf:                   Formatted Output Functions.
                                                               (line  81)
 * gmp_printf:                            Formatted Output Functions.
                                                               (line  24)
-* GMP_RAND_ALG_DEFAULT:                  Random State Initialization.
-                                                              (line  49)
-* GMP_RAND_ALG_LC:                       Random State Initialization.
-                                                              (line  49)
 * gmp_randclass:                         C++ Interface Random Numbers.
                                                               (line   7)
 * gmp_randclass::get_f:                  C++ Interface Random Numbers.
-                                                              (line  45)
+                                                              (line  39)
 * gmp_randclass::get_z_bits:             C++ Interface Random Numbers.
-                                                              (line  38)
+                                                              (line  32)
 * gmp_randclass::get_z_range:            C++ Interface Random Numbers.
-                                                              (line  42)
+                                                              (line  36)
 * gmp_randclass::gmp_randclass:          C++ Interface Random Numbers.
                                                               (line  13)
 * gmp_randclass::seed:                   C++ Interface Random Numbers.
-                                                              (line  33)
+                                                              (line  27)
 * gmp_randclear:                         Random State Initialization.
-                                                              (line  62)
-* gmp_randinit:                          Random State Initialization.
-                                                              (line  47)
+                                                              (line  46)
 * gmp_randinit_default:                  Random State Initialization.
                                                               (line   7)
 * gmp_randinit_lc_2exp:                  Random State Initialization.
@@ -2794,33 +2707,31 @@ Function and Type Index
 * mpn_add_1:                             Low-level Functions. (line  65)
 * mpn_add_n:                             Low-level Functions. (line  55)
 * mpn_addmul_1:                          Low-level Functions. (line 123)
-* mpn_bdivmod:                           Low-level Functions. (line 246)
-* mpn_cmp:                               Low-level Functions. (line 287)
-* mpn_divexact_by3:                      Low-level Functions. (line 214)
-* mpn_divexact_by3c:                     Low-level Functions. (line 216)
-* mpn_divmod:                            Low-level Functions. (line 209)
-* mpn_divmod_1:                          Low-level Functions. (line 193)
-* mpn_divrem:                            Low-level Functions. (line 167)
-* mpn_divrem_1:                          Low-level Functions. (line 191)
-* mpn_gcd:                               Low-level Functions. (line 292)
-* mpn_gcd_1:                             Low-level Functions. (line 303)
-* mpn_gcdext:                            Low-level Functions. (line 309)
-* mpn_get_str:                           Low-level Functions. (line 344)
-* mpn_hamdist:                           Low-level Functions. (line 408)
-* mpn_lshift:                            Low-level Functions. (line 263)
-* mpn_mod_1:                             Low-level Functions. (line 240)
+* mpn_bdivmod:                           Low-level Functions. (line 216)
+* mpn_cmp:                               Low-level Functions. (line 257)
+* mpn_divexact_by3:                      Low-level Functions. (line 184)
+* mpn_divexact_by3c:                     Low-level Functions. (line 186)
+* mpn_divmod_1:                          Low-level Functions. (line 168)
+* mpn_divrem_1:                          Low-level Functions. (line 166)
+* mpn_gcd:                               Low-level Functions. (line 262)
+* mpn_gcd_1:                             Low-level Functions. (line 273)
+* mpn_gcdext:                            Low-level Functions. (line 279)
+* mpn_get_str:                           Low-level Functions. (line 314)
+* mpn_hamdist:                           Low-level Functions. (line 378)
+* mpn_lshift:                            Low-level Functions. (line 233)
+* mpn_mod_1:                             Low-level Functions. (line 210)
 * mpn_mul:                               Low-level Functions. (line 145)
 * mpn_mul_1:                             Low-level Functions. (line 108)
 * mpn_mul_n:                             Low-level Functions. (line  99)
-* mpn_perfect_square_p:                  Low-level Functions. (line 414)
-* mpn_popcount:                          Low-level Functions. (line 404)
-* mpn_random:                            Low-level Functions. (line 393)
-* mpn_random2:                           Low-level Functions. (line 394)
-* mpn_rshift:                            Low-level Functions. (line 275)
-* mpn_scan0:                             Low-level Functions. (line 378)
-* mpn_scan1:                             Low-level Functions. (line 386)
-* mpn_set_str:                           Low-level Functions. (line 359)
-* mpn_sqrtrem:                           Low-level Functions. (line 326)
+* mpn_perfect_square_p:                  Low-level Functions. (line 384)
+* mpn_popcount:                          Low-level Functions. (line 374)
+* mpn_random:                            Low-level Functions. (line 363)
+* mpn_random2:                           Low-level Functions. (line 364)
+* mpn_rshift:                            Low-level Functions. (line 245)
+* mpn_scan0:                             Low-level Functions. (line 348)
+* mpn_scan1:                             Low-level Functions. (line 356)
+* mpn_set_str:                           Low-level Functions. (line 329)
+* mpn_sqrtrem:                           Low-level Functions. (line 296)
 * mpn_sub:                               Low-level Functions. (line  91)
 * mpn_sub_1:                             Low-level Functions. (line  86)
 * mpn_sub_n:                             Low-level Functions. (line  77)
@@ -3088,10 +2999,6 @@ Function and Type Index
                                                               (line  10)
 * mpz_probab_prime_p:                    Number Theoretic Functions.
                                                               (line   7)
-* mpz_random:                            Integer Random Numbers.
-                                                              (line  42)
-* mpz_random2:                           Integer Random Numbers.
-                                                              (line  51)
 * mpz_realloc2:                          Initializing Integers.
                                                               (line  41)
 * mpz_remove:                            Number Theoretic Functions.

@@ -2915,24 +2915,6 @@ random number functions.
      `gmp_randinit' functions (*note Random State Initialization::)
      before invoking this function.
 
- -- Function: void mpz_random (mpz_t ROP, mp_size_t MAX_SIZE)
-     Generate a random integer of at most MAX_SIZE limbs.  The generated
-     random number doesn't satisfy any particular requirements of
-     randomness.  Negative random numbers are generated when MAX_SIZE
-     is negative.
-
-     This function is obsolete.  Use `mpz_urandomb' or `mpz_urandomm'
-     instead.
-
- -- Function: void mpz_random2 (mpz_t ROP, mp_size_t MAX_SIZE)
-     Generate a random integer of at most MAX_SIZE limbs, with long
-     strings of zeros and ones in the binary representation.  Useful
-     for testing functions and algorithms, since this kind of random
-     numbers have proven to be more likely to trigger corner-case bugs.
-     Negative random numbers are generated when MAX_SIZE is negative.
-
-     This function is obsolete.  Use `mpz_rrandomb' instead.
-
 
 File: mpir.info,  Node: Integer Import and Export,  Next: Miscellaneous Integer Functions,  Prev: Integer Random Numbers,  Up: Integer Functions
 
@@ -4060,31 +4042,6 @@ For example, {S1P, S1N}.
      than or equal to DN.  The most significant limb of DP must be
      non-zero.  The QXN operand must be zero.
 
- -- Function: mp_limb_t mpn_divrem (mp_limb_t *R1P, mp_size_t QXN,
-          mp_limb_t *RS2P, mp_size_t RS2N, const mp_limb_t *S3P,
-          mp_size_t S3N)
-     [This function is obsolete.  Please call `mpn_tdiv_qr' instead for
-     best performance.]
-
-     Divide {RS2P, RS2N} by {S3P, S3N}, and write the quotient at R1P,
-     with the exception of the most significant limb, which is
-     returned.  The remainder replaces the dividend at RS2P; it will be
-     S3N limbs long (i.e., as many limbs as the divisor).
-
-     In addition to an integer quotient, QXN fraction limbs are
-     developed, and stored after the integral limbs.  For most usages,
-     QXN will be zero.
-
-     It is required that RS2N is greater than or equal to S3N.  It is
-     required that the most significant bit of the divisor is set.
-
-     If the quotient is not needed, pass RS2P + S3N as R1P.  Aside from
-     that special case, no overlap between arguments is permitted.
-
-     Return the most significant limb of the quotient, either 0 or 1.
-
-     The area at R1P needs to be RS2N - S3N + QXN limbs large.
-
  -- Function: mp_limb_t mpn_divrem_1 (mp_limb_t *R1P, mp_size_t QXN,
           mp_limb_t *S2P, mp_size_t S2N, mp_limb_t S3LIMB)
  -- Macro: mp_limb_t mpn_divmod_1 (mp_limb_t *R1P, mp_limb_t *S2P,
@@ -4102,11 +4059,6 @@ For example, {S1P, S1N}.
 
      The areas at R1P and S2P have to be identical or completely
      separate, not partially overlapping.
-
- -- Function: mp_limb_t mpn_divmod (mp_limb_t *R1P, mp_limb_t *RS2P,
-          mp_size_t RS2N, const mp_limb_t *S3P, mp_size_t S3N)
-     [This function is obsolete.  Please call `mpn_tdiv_qr' instead for
-     best performance.]
 
  -- Macro: mp_limb_t mpn_divexact_by3 (mp_limb_t *RP, mp_limb_t *SP,
           mp_size_t N)
@@ -4453,22 +4405,6 @@ File: mpir.info,  Node: Random State Initialization,  Next: Random State Seeding
  -- Function: int gmp_randinit_set (gmp_randstate_t ROP,
           gmp_randstate_t OP)
      Initialize ROP with a copy of the algorithm and state from OP.
-
- -- Function: void gmp_randinit (gmp_randstate_t STATE,
-          gmp_randalg_t ALG, ...)
-     *This function is obsolete.*
-
-     Initialize STATE with an algorithm selected by ALG.  The only
-     choice is `GMP_RAND_ALG_LC', which is `gmp_randinit_lc_2exp_size'
-     described above.  A third parameter of type `unsigned long' is
-     required, this is the SIZE for that function.
-     `GMP_RAND_ALG_DEFAULT' or 0 are the same as `GMP_RAND_ALG_LC'.
-
-     `gmp_randinit' sets bits in the global variable `gmp_errno' to
-     indicate an error.  `GMP_ERROR_UNSUPPORTED_ARGUMENT' if ALG is
-     unsupported, or `GMP_ERROR_INVALID_ARGUMENT' if the SIZE parameter
-     is too big.  It may be noted this error reporting is not thread
-     safe (a good reason to use `gmp_randinit_lc_2exp_size' instead).
 
  -- Function: void gmp_randclear (gmp_randstate_t STATE)
      Free all memory occupied by STATE.
@@ -5485,12 +5421,6 @@ File: mpir.info,  Node: C++ Interface Random Numbers,  Next: C++ Interface Limit
 
      `gmp_randinit_lc_2exp_size' will fail if the size requested is too
      big, an `std::length_error' exception is thrown in that case.
-
- -- Function:  gmp_randclass::gmp_randclass (gmp_randalg_t ALG, ...)
-     Construct a `gmp_randclass' using the same parameters as
-     `gmp_randinit' (*note Random State Initialization::).  This
-     function is obsolete and the above RANDINIT style should be
-     preferred.
 
  -- Function: void gmp_randclass::seed (unsigned long int S)
  -- Function: void gmp_randclass::seed (mpz_class S)
@@ -7081,4 +7011,79 @@ representation.
 
 * Binary to Radix::
 * Radix to Binary::
+
+
+File: mpir.info,  Node: Binary to Radix,  Next: Radix to Binary,  Prev: Radix Conversion Algorithms,  Up: Radix Conversion Algorithms
+
+16.6.1 Binary to Radix
+----------------------
+
+Conversions from binary to a power-of-2 radix use a simple and fast
+O(N) bit extraction algorithm.
+
+   Conversions from binary to other radices use one of two algorithms.
+Sizes below `GET_STR_PRECOMPUTE_THRESHOLD' use a basic O(N^2) method.
+Repeated divisions by b^n are made, where b is the radix and n is the
+biggest power that fits in a limb.  But instead of simply using the
+remainder r from such divisions, an extra divide step is done to give a
+fractional limb representing r/b^n.  The digits of r can then be
+extracted using multiplications by b rather than divisions.  Special
+case code is provided for decimal, allowing multiplications by 10 to
+optimize to shifts and adds.
+
+   Above `GET_STR_PRECOMPUTE_THRESHOLD' a sub-quadratic algorithm is
+used.  For an input t, powers b^(n*2^i) of the radix are calculated,
+until a power between t and sqrt(t) is reached.  t is then divided by
+that largest power, giving a quotient which is the digits above that
+power, and a remainder which is those below.  These two parts are in
+turn divided by the second highest power, and so on recursively.  When
+a piece has been divided down to less than `GET_STR_DC_THRESHOLD'
+limbs, the basecase algorithm described above is used.
+
+   The advantage of this algorithm is that big divisions can make use
+of the sub-quadratic divide and conquer division (*note Divide and
+Conquer Division::), and big divisions tend to have less overheads than
+lots of separate single limb divisions anyway.  But in any case the
+cost of calculating the powers b^(n*2^i) must first be overcome.
+
+   `GET_STR_PRECOMPUTE_THRESHOLD' and `GET_STR_DC_THRESHOLD' represent
+the same basic thing, the point where it becomes worth doing a big
+division to cut the input in half.  `GET_STR_PRECOMPUTE_THRESHOLD'
+includes the cost of calculating the radix power required, whereas
+`GET_STR_DC_THRESHOLD' assumes that's already available, which is the
+case when recursing.
+
+   Since the base case produces digits from least to most significant
+but they want to be stored from most to least, it's necessary to
+calculate in advance how many digits there will be, or at least be sure
+not to underestimate that.  For MPIR the number of input bits is
+multiplied by `chars_per_bit_exactly' from `mp_bases', rounding up.
+The result is either correct or one too big.
+
+   Examining some of the high bits of the input could increase the
+chance of getting the exact number of digits, but an exact result every
+time would not be practical, since in general the difference between
+numbers 100... and 99... is only in the last few bits and the work to
+identify 99...  might well be almost as much as a full conversion.
+
+   `mpf_get_str' doesn't currently use the algorithm described here, it
+multiplies or divides by a power of b to move the radix point to the
+just above the highest non-zero digit (or at worst one above that
+location), then multiplies by b^n to bring out digits.  This is O(N^2)
+and is certainly not optimal.
+
+   The r/b^n scheme described above for using multiplications to bring
+out digits might be useful for more than a single limb.  Some brief
+experiments with it on the base case when recursing didn't give a
+noticeable improvement, but perhaps that was only due to the
+implementation.  Something similar would work for the sub-quadratic
+divisions too, though there would be the cost of calculating a bigger
+radix power.
+
+   Another possible improvement for the sub-quadratic part would be to
+arrange for radix powers that balanced the sizes of quotient and
+remainder produced, ie. the highest power would be an b^(n*k)
+approximately equal to sqrt(t), not restricted to a 2^i factor.  That
+ought to smooth out a graph of times against sizes, but may or may not
+be a net speedup.
 

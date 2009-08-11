@@ -44,6 +44,24 @@ MA 02110-1301, USA. */
 void dump _PROTO ((mpq_t));
 
 void
+mpz_intrandom2 (mpz_ptr x, mp_size_t size)
+{
+  mp_size_t abs_size;
+
+  abs_size = ABS (size);
+  if (abs_size != 0)
+    {
+      if (x->_mp_alloc < abs_size)
+	_mpz_realloc (x, abs_size);
+
+      mpn_random2 (x->_mp_d, abs_size);
+    }
+
+  x->_mp_size = size;
+}
+
+
+void
 check_monotonic (int argc, char **argv)
 {
   mpq_t a;
@@ -68,11 +86,11 @@ check_monotonic (int argc, char **argv)
   for (i = 0; i < reps; i++)
     {
       size = urandom () % SIZE - SIZE/2;
-      mpz_random2 (mpq_numref (a), size);
+      mpz_intrandom2 (mpq_numref (a), size);
       do
 	{
 	  size = urandom () % SIZE - SIZE/2;
-	  mpz_random2 (mpq_denref (a), size);
+	  mpz_intrandom2 (mpq_denref (a), size);
 	}
       while (mpz_cmp_ui (mpq_denref (a), 0) == 0);
 
@@ -83,9 +101,9 @@ check_monotonic (int argc, char **argv)
       for (j = 0; j < 10; j++)
 	{
 	  size = urandom () % EPSIZE + 1;
-	  mpz_random2 (mpq_numref (eps), size);
+	  mpz_intrandom2 (mpq_numref (eps), size);
 	  size = urandom () % EPSIZE + 1;
-	  mpz_random2 (mpq_denref (eps), size);
+	  mpz_intrandom2 (mpq_denref (eps), size);
 	  mpq_canonicalize (eps);
 
 	  mpq_add (a, a, eps);

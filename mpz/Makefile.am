@@ -47,7 +47,7 @@ libmpz_la_SOURCES = aors.h aors_ui.h fits_s.h mul_i.h \
   lcm.c lcm_ui.c lucnum_ui.c lucnum2_ui.c millerrabin.c \
   mod.c mul.c mul_2exp.c mul_si.c mul_ui.c n_pow_ui.c neg.c nextprime.c \
   out_raw.c out_str.c perfpow.c perfsqr.c popcount.c pow_ui.c powm.c \
-  powm_ui.c pprime_p.c random.c random2.c \
+  powm_ui.c pprime_p.c \
   realloc.c realloc2.c remove.c root.c rootrem.c rrandomb.c \
   scan0.c scan1.c set.c set_d.c set_f.c set_q.c set_si.c set_str.c \
   set_ui.c setbit.c size.c sizeinbase.c sqrt.c sqrtrem.c sub.c sub_ui.c \

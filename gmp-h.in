@@ -1032,12 +1032,6 @@ __GMP_DECLSPEC void mpz_powm_ui __GMP_PROTO ((mpz_ptr, mpz_srcptr, unsigned long
 #define mpz_probab_prime_p __gmpz_probab_prime_p
 __GMP_DECLSPEC int mpz_probab_prime_p __GMP_PROTO ((mpz_srcptr, int)) __GMP_ATTRIBUTE_PURE;
 
-#define mpz_random __gmpz_random
-__GMP_DECLSPEC void mpz_random __GMP_PROTO ((mpz_ptr, mp_size_t));
-
-#define mpz_random2 __gmpz_random2
-__GMP_DECLSPEC void mpz_random2 __GMP_PROTO ((mpz_ptr, mp_size_t));
-
 #define mpz_realloc2 __gmpz_realloc2
 __GMP_DECLSPEC void mpz_realloc2 __GMP_PROTO ((mpz_ptr, unsigned long));
 

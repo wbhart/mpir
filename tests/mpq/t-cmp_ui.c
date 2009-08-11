@@ -31,6 +31,24 @@ MA 02110-1301, USA. */
 
 #define SGN(x) ((x) < 0 ? -1 : (x) > 0 ? 1 : 0)
 
+void
+mpz_intrandom2 (mpz_ptr x, mp_size_t size)
+{
+  mp_size_t abs_size;
+
+  abs_size = ABS (size);
+  if (abs_size != 0)
+    {
+      if (x->_mp_alloc < abs_size)
+	_mpz_realloc (x, abs_size);
+
+      mpn_random2 (x->_mp_d, abs_size);
+    }
+
+  x->_mp_size = size;
+}
+
+
 int
 ref_mpq_cmp_ui (mpq_t a, unsigned long int bn, unsigned long int bd)
 {
@@ -73,19 +91,19 @@ main (int argc, char **argv)
   for (i = 0; i < reps; i++)
     {
       size = urandom () % SIZE - SIZE/2;
-      mpz_random2 (NUM (a), size);
+      mpz_intrandom2 (NUM (a), size);
       do
 	{
 	  size = urandom () % SIZE - SIZE/2;
-	  mpz_random2 (DEN (a), size);
+	  mpz_intrandom2 (DEN (a), size);
 	}
       while (mpz_cmp_ui (DEN (a), 0) == 0);
 
-      mpz_random2 (NUM (b), (mp_size_t) 1);
+      mpz_intrandom2 (NUM (b), (mp_size_t) 1);
       mpz_mod_ui (NUM (b), NUM (b), ~(unsigned long int) 0);
       mpz_add_ui (NUM (b), NUM (b), 1);
 
-      mpz_random2 (DEN (b), (mp_size_t) 1);
+      mpz_intrandom2 (DEN (b), (mp_size_t) 1);
       mpz_mod_ui (DEN (b), DEN (b), ~(unsigned long int) 0);
       mpz_add_ui (DEN (b), DEN (b), 1);
 

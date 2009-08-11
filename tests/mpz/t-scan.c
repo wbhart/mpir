@@ -72,7 +72,8 @@ check_ref (void)
     {
       for (size = 0; size < 5; size++)
         {
-          mpz_random2 (z, size);
+          mpz_urandomb (z, RANDS, (unsigned long) (ABS (size) * GMP_NUMB_BITS));
+          if (size < 0)SIZ(z) = -SIZ(z);               
 
           for (neg = 0; neg <= 1; neg++)
             {
