@@ -839,8 +839,10 @@ __GMP_DECLSPEC mp_limb_t mpn_rsh1add_n __GMP_PROTO ((mp_ptr, mp_srcptr, mp_srcpt
 #define mpn_rsh1sub_n __MPN(rsh1sub_n)
 __GMP_DECLSPEC mp_limb_t mpn_rsh1sub_n __GMP_PROTO ((mp_ptr, mp_srcptr, mp_srcptr, mp_size_t));
 
+#if HAVE_NATIVE_mpn_lshiftc
 #define mpn_lshiftc __MPN(lshiftc)
 __GMP_DECLSPEC mp_limb_t mpn_lshiftc __GMP_PROTO ((mp_ptr, mp_srcptr, mp_size_t,unsigned int));
+#endif
 
 #define mpn_addadd_n __MPN(addadd_n)
 __GMP_DECLSPEC mp_limb_t mpn_addadd_n __GMP_PROTO ((mp_ptr, mp_srcptr, mp_srcptr, mp_srcptr, mp_size_t));

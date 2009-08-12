@@ -261,7 +261,9 @@ const struct routine_t {
 
   { "mpn_lshift",        speed_mpn_lshift, FLAG_R   },
   { "mpn_rshift",        speed_mpn_rshift, FLAG_R   },
+#if HAVE_NATIVE_mpn_lshiftc
   { "mpn_lshiftc",       speed_mpn_lshiftc, FLAG_R   },
+#endif
   { "mpn_lshift1",       speed_mpn_lshift1,   },
   { "mpn_rshift1",       speed_mpn_rshift1,   },
   { "mpn_lshift2",       speed_mpn_lshift2,   },

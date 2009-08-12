@@ -283,6 +283,8 @@ void refmpn_iorn_n __GMP_PROTO ((mp_ptr wp, mp_srcptr xp, mp_srcptr yp,
 
 mp_limb_t refmpn_lshift __GMP_PROTO ((mp_ptr wp, mp_srcptr xp, mp_size_t size,
                                  unsigned shift));
+mp_limb_t refmpn_lshiftc __GMP_PROTO ((mp_ptr wp, mp_srcptr xp, mp_size_t size,
+                                 unsigned shift));
 mp_limb_t refmpn_lshift_or_copy __GMP_PROTO ((mp_ptr wp,
                                          mp_srcptr xp, mp_size_t size,
                                          unsigned shift));
