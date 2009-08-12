@@ -553,6 +553,12 @@ speed_mpn_rshift (struct speed_params *s)
 }
 
 double
+speed_mpn_lshiftc (struct speed_params *s)
+{
+  SPEED_ROUTINE_MPN_UNARY_1 (mpn_lshiftc);
+}
+
+double
 speed_mpn_lshift1 (struct speed_params *s)
 {
   SPEED_ROUTINE_MPN_SHIFTX (mpn_lshift1);

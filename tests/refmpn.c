@@ -1083,6 +1083,21 @@ refmpn_lshift (mp_ptr rp, mp_srcptr sp, mp_size_t size, unsigned shift)
   return ret;
 }
 
+mp_limb_t
+refmpn_lshiftc (mp_ptr rp, mp_srcptr sp, mp_size_t size, unsigned shift)
+{
+  mp_limb_t  ret;
+
+  ASSERT (refmpn_overlap_high_to_low_p (rp, sp, size));
+  ASSERT (size >= 1);
+  ASSERT (shift >= 1 && shift < GMP_NUMB_BITS);
+  ASSERT_MPN (sp, size);
+
+  ret=refmpn_lshift(rp,sp,size,shift);
+  refmpn_com_n(rp,rp,size);
+  return ret;
+}
+
 mp_limb_t 
 refmpn_lshift1(mp_ptr rp, mp_srcptr xp, mp_size_t n)
 {

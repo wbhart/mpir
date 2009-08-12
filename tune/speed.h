@@ -218,6 +218,7 @@ double speed_mpn_kara_sqr_n _PROTO ((struct speed_params *s));
 double speed_mpn_lshift _PROTO ((struct speed_params *s));
 double speed_mpn_lshift1 _PROTO ((struct speed_params *s));
 double speed_mpn_lshift2 _PROTO ((struct speed_params *s));
+double speed_mpn_lshiftc _PROTO ((struct speed_params *s));
 double speed_mpn_mod_1 _PROTO ((struct speed_params *s));
 double speed_mpn_mod_1c _PROTO ((struct speed_params *s));
 double speed_mpn_mod_1_div _PROTO ((struct speed_params *s));
