@@ -288,7 +288,7 @@ nodist_EXTRA_libmpn_la_SOURCES = \
   divebyBm1of.c divrem_2.c dump.c fib2_ui.c				    \
   gcd.c	lgcd.c ngcd.c ngcd_matrix.c ngcd_step.c nhgcd2.c                    \
   gcd_finda.c gcd_1.c gcdext.c get_d.c get_str.c			    \
-  hamdist.c invert_limb.c lshift1.c rshift1.c lshift2.c rshift2.c	    \
+  hamdist.c invert_limb.c lshift1.c rshift1.c lshift2.c rshift2.c lshiftc.c	\
   ior_n.c iorn_n.c jacbase.c lshift.c mod_1.c mod_34lsub1.c mode1o.c	    \
   mul.c mul_1.c mul_2.c mul_fft.c mul_n.c mul_basecase.c toom3_mul.c        \
   toom3_mul_n.c toom4_mul_n.c toom4.c toom7_mul_n.c                         \
@@ -500,6 +500,8 @@ lshift1_.c: lshift1.c $(ANSI2KNR)
 	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/lshift1.c; then echo $(srcdir)/lshift1.c; else echo lshift1.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
 lshift2_.c: lshift2.c $(ANSI2KNR)
 	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/lshift2.c; then echo $(srcdir)/lshift2.c; else echo lshift2.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
+lshiftc_.c: lshiftc.c $(ANSI2KNR)
+	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/lshiftc.c; then echo $(srcdir)/lshiftc.c; else echo lshiftc.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
 midmul_.c: midmul.c $(ANSI2KNR)
 	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/midmul.c; then echo $(srcdir)/midmul.c; else echo midmul.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
 midmul_basecase_.c: midmul_basecase.c $(ANSI2KNR)
@@ -651,40 +653,41 @@ invert_limb_.$(OBJEXT) invert_limb_.lo ior_n_.$(OBJEXT) ior_n_.lo \
 iorn_n_.$(OBJEXT) iorn_n_.lo jacbase_.$(OBJEXT) jacbase_.lo \
 lgcd_.$(OBJEXT) lgcd_.lo lshift_.$(OBJEXT) lshift_.lo \
 lshift1_.$(OBJEXT) lshift1_.lo lshift2_.$(OBJEXT) lshift2_.lo \
-midmul_.$(OBJEXT) midmul_.lo midmul_basecase_.$(OBJEXT) \
-midmul_basecase_.lo midmul_n_.$(OBJEXT) midmul_n_.lo mod_1_.$(OBJEXT) \
-mod_1_.lo mod_34lsub1_.$(OBJEXT) mod_34lsub1_.lo mode1o_.$(OBJEXT) \
-mode1o_.lo mp_bases_.$(OBJEXT) mp_bases_.lo mul_.$(OBJEXT) mul_.lo \
-mul_1_.$(OBJEXT) mul_1_.lo mul_2_.$(OBJEXT) mul_2_.lo \
-mul_basecase_.$(OBJEXT) mul_basecase_.lo mul_fft_.$(OBJEXT) \
-mul_fft_.lo mul_n_.$(OBJEXT) mul_n_.lo mulhigh_n_.$(OBJEXT) \
-mulhigh_n_.lo mullow_basecase_.$(OBJEXT) mullow_basecase_.lo \
-mullow_n_.$(OBJEXT) mullow_n_.lo mullow_n_basecase_.$(OBJEXT) \
-mullow_n_basecase_.lo mulmod_2expm1_.$(OBJEXT) mulmod_2expm1_.lo \
-mulmod_2expp1_.$(OBJEXT) mulmod_2expp1_.lo nand_n_.$(OBJEXT) \
-nand_n_.lo neg_n_.$(OBJEXT) neg_n_.lo ngcd_.$(OBJEXT) ngcd_.lo \
-ngcd_matrix_.$(OBJEXT) ngcd_matrix_.lo ngcd_step_.$(OBJEXT) \
-ngcd_step_.lo nhgcd2_.$(OBJEXT) nhgcd2_.lo nior_n_.$(OBJEXT) \
-nior_n_.lo perfsqr_.$(OBJEXT) perfsqr_.lo popcount_.$(OBJEXT) \
-popcount_.lo pow_1_.$(OBJEXT) pow_1_.lo pre_divrem_1_.$(OBJEXT) \
-pre_divrem_1_.lo pre_mod_1_.$(OBJEXT) pre_mod_1_.lo random_.$(OBJEXT) \
-random_.lo random2_.$(OBJEXT) random2_.lo redc_basecase_.$(OBJEXT) \
-redc_basecase_.lo rootrem_.$(OBJEXT) rootrem_.lo rshift_.$(OBJEXT) \
-rshift_.lo rshift1_.$(OBJEXT) rshift1_.lo rshift2_.$(OBJEXT) \
-rshift2_.lo sb_divappr_q_.$(OBJEXT) sb_divappr_q_.lo \
-sb_divrem_mn_.$(OBJEXT) sb_divrem_mn_.lo scan0_.$(OBJEXT) scan0_.lo \
-scan1_.$(OBJEXT) scan1_.lo set_str_.$(OBJEXT) set_str_.lo \
-sqr_basecase_.$(OBJEXT) sqr_basecase_.lo sqr_diagonal_.$(OBJEXT) \
-sqr_diagonal_.lo sqrtrem_.$(OBJEXT) sqrtrem_.lo store_.$(OBJEXT) \
-store_.lo sub_.$(OBJEXT) sub_.lo sub_1_.$(OBJEXT) sub_1_.lo \
-sub_n_.$(OBJEXT) sub_n_.lo subadd_n_.$(OBJEXT) subadd_n_.lo \
-submul_1_.$(OBJEXT) submul_1_.lo tdiv_qr_.$(OBJEXT) tdiv_qr_.lo \
-toom3_mul_.$(OBJEXT) toom3_mul_.lo toom3_mul_n_.$(OBJEXT) \
-toom3_mul_n_.lo toom4_.$(OBJEXT) toom4_.lo toom42_midmul_.$(OBJEXT) \
-toom42_midmul_.lo toom4_mul_n_.$(OBJEXT) toom4_mul_n_.lo \
-toom7_mul_n_.$(OBJEXT) toom7_mul_n_.lo udiv_qrnnd_.$(OBJEXT) \
-udiv_qrnnd_.lo udiv_w_sdiv_.$(OBJEXT) udiv_w_sdiv_.lo \
-xnor_n_.$(OBJEXT) xnor_n_.lo xor_n_.$(OBJEXT) xor_n_.lo : $(ANSI2KNR)
+lshiftc_.$(OBJEXT) lshiftc_.lo midmul_.$(OBJEXT) midmul_.lo \
+midmul_basecase_.$(OBJEXT) midmul_basecase_.lo midmul_n_.$(OBJEXT) \
+midmul_n_.lo mod_1_.$(OBJEXT) mod_1_.lo mod_34lsub1_.$(OBJEXT) \
+mod_34lsub1_.lo mode1o_.$(OBJEXT) mode1o_.lo mp_bases_.$(OBJEXT) \
+mp_bases_.lo mul_.$(OBJEXT) mul_.lo mul_1_.$(OBJEXT) mul_1_.lo \
+mul_2_.$(OBJEXT) mul_2_.lo mul_basecase_.$(OBJEXT) mul_basecase_.lo \
+mul_fft_.$(OBJEXT) mul_fft_.lo mul_n_.$(OBJEXT) mul_n_.lo \
+mulhigh_n_.$(OBJEXT) mulhigh_n_.lo mullow_basecase_.$(OBJEXT) \
+mullow_basecase_.lo mullow_n_.$(OBJEXT) mullow_n_.lo \
+mullow_n_basecase_.$(OBJEXT) mullow_n_basecase_.lo \
+mulmod_2expm1_.$(OBJEXT) mulmod_2expm1_.lo mulmod_2expp1_.$(OBJEXT) \
+mulmod_2expp1_.lo nand_n_.$(OBJEXT) nand_n_.lo neg_n_.$(OBJEXT) \
+neg_n_.lo ngcd_.$(OBJEXT) ngcd_.lo ngcd_matrix_.$(OBJEXT) \
+ngcd_matrix_.lo ngcd_step_.$(OBJEXT) ngcd_step_.lo nhgcd2_.$(OBJEXT) \
+nhgcd2_.lo nior_n_.$(OBJEXT) nior_n_.lo perfsqr_.$(OBJEXT) perfsqr_.lo \
+popcount_.$(OBJEXT) popcount_.lo pow_1_.$(OBJEXT) pow_1_.lo \
+pre_divrem_1_.$(OBJEXT) pre_divrem_1_.lo pre_mod_1_.$(OBJEXT) \
+pre_mod_1_.lo random_.$(OBJEXT) random_.lo random2_.$(OBJEXT) \
+random2_.lo redc_basecase_.$(OBJEXT) redc_basecase_.lo \
+rootrem_.$(OBJEXT) rootrem_.lo rshift_.$(OBJEXT) rshift_.lo \
+rshift1_.$(OBJEXT) rshift1_.lo rshift2_.$(OBJEXT) rshift2_.lo \
+sb_divappr_q_.$(OBJEXT) sb_divappr_q_.lo sb_divrem_mn_.$(OBJEXT) \
+sb_divrem_mn_.lo scan0_.$(OBJEXT) scan0_.lo scan1_.$(OBJEXT) scan1_.lo \
+set_str_.$(OBJEXT) set_str_.lo sqr_basecase_.$(OBJEXT) \
+sqr_basecase_.lo sqr_diagonal_.$(OBJEXT) sqr_diagonal_.lo \
+sqrtrem_.$(OBJEXT) sqrtrem_.lo store_.$(OBJEXT) store_.lo \
+sub_.$(OBJEXT) sub_.lo sub_1_.$(OBJEXT) sub_1_.lo sub_n_.$(OBJEXT) \
+sub_n_.lo subadd_n_.$(OBJEXT) subadd_n_.lo submul_1_.$(OBJEXT) \
+submul_1_.lo tdiv_qr_.$(OBJEXT) tdiv_qr_.lo toom3_mul_.$(OBJEXT) \
+toom3_mul_.lo toom3_mul_n_.$(OBJEXT) toom3_mul_n_.lo toom4_.$(OBJEXT) \
+toom4_.lo toom42_midmul_.$(OBJEXT) toom42_midmul_.lo \
+toom4_mul_n_.$(OBJEXT) toom4_mul_n_.lo toom7_mul_n_.$(OBJEXT) \
+toom7_mul_n_.lo udiv_qrnnd_.$(OBJEXT) udiv_qrnnd_.lo \
+udiv_w_sdiv_.$(OBJEXT) udiv_w_sdiv_.lo xnor_n_.$(OBJEXT) xnor_n_.lo \
+xor_n_.$(OBJEXT) xor_n_.lo : $(ANSI2KNR)
 
 mostlyclean-libtool:
 	-rm -f *.lo
