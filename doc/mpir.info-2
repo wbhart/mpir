@@ -22,144 +22,6 @@ START-INFO-DIR-ENTRY
 END-INFO-DIR-ENTRY
 
 
-File: mpir.info,  Node: Radix to Binary,  Prev: Binary to Radix,  Up: Radix Conversion Algorithms
-
-16.6.2 Radix to Binary
-----------------------
-
-Conversions from a power-of-2 radix into binary use a simple and fast
-O(N) bitwise concatenation algorithm.
-
-   Conversions from other radices use one of two algorithms.  Sizes
-below `SET_STR_THRESHOLD' use a basic O(N^2) method.  Groups of n
-digits are converted to limbs, where n is the biggest power of the base
-b which will fit in a limb, then those groups are accumulated into the
-result by multiplying by b^n and adding.  This saves multi-precision
-operations, as per Knuth section 4.4 part E (*note References::).  Some
-special case code is provided for decimal, giving the compiler a chance
-to optimize multiplications by 10.
-
-   Above `SET_STR_THRESHOLD' a sub-quadratic algorithm is used.  First
-groups of n digits are converted into limbs.  Then adjacent limbs are
-combined into limb pairs with x*b^n+y, where x and y are the limbs.
-Adjacent limb pairs are combined into quads similarly with x*b^(2n)+y.
-This continues until a single block remains, that being the result.
-
-   The advantage of this method is that the multiplications for each x
-are big blocks, allowing Karatsuba and higher algorithms to be used.
-But the cost of calculating the powers b^(n*2^i) must be overcome.
-`SET_STR_THRESHOLD' usually ends up quite big, around 5000 digits, and
-on some processors much bigger still.
-
-   `SET_STR_THRESHOLD' is based on the input digits (and tuned for
-decimal), though it might be better based on a limb count, so as to be
-independent of the base.  But that sort of count isn't used by the base
-case and so would need some sort of initial calculation or estimate.
-
-   The main reason `SET_STR_THRESHOLD' is so much bigger than the
-corresponding `GET_STR_PRECOMPUTE_THRESHOLD' is that `mpn_mul_1' is
-much faster than `mpn_divrem_1' (often by a factor of 10, or more).
-
-
-File: mpir.info,  Node: Other Algorithms,  Next: Assembler Coding,  Prev: Radix Conversion Algorithms,  Up: Algorithms
-
-16.7 Other Algorithms
-=====================
-
-* Menu:
-
-* Prime Testing Algorithm::
-* Factorial Algorithm::
-* Binomial Coefficients Algorithm::
-* Fibonacci Numbers Algorithm::
-* Lucas Numbers Algorithm::
-* Random Number Algorithms::
-
-
-File: mpir.info,  Node: Prime Testing Algorithm,  Next: Factorial Algorithm,  Prev: Other Algorithms,  Up: Other Algorithms
-
-16.7.1 Prime Testing
---------------------
-
-The primality testing in `mpz_probab_prime_p' (*note Number Theoretic
-Functions::) first does some trial division by small factors and then
-uses the Miller-Rabin probabilistic primality testing algorithm, as
-described in Knuth section 4.5.4 algorithm P (*note References::).
-
-   For an odd input n, and with n = q*2^k+1 where q is odd, this
-algorithm selects a random base x and tests whether x^q mod n is 1 or
--1, or an x^(q*2^j) mod n is 1, for 1<=j<=k.  If so then n is probably
-prime, if not then n is definitely composite.
-
-   Any prime n will pass the test, but some composites do too.  Such
-composites are known as strong pseudoprimes to base x.  No n is a
-strong pseudoprime to more than 1/4 of all bases (see Knuth exercise
-22), hence with x chosen at random there's no more than a 1/4 chance a
-"probable prime" will in fact be composite.
-
-   In fact strong pseudoprimes are quite rare, making the test much more
-powerful than this analysis would suggest, but 1/4 is all that's proven
-for an arbitrary n.
-
-
-File: mpir.info,  Node: Factorial Algorithm,  Next: Binomial Coefficients Algorithm,  Prev: Prime Testing Algorithm,  Up: Other Algorithms
-
-16.7.2 Factorial
-----------------
-
-Factorials are calculated by a combination of removal of twos,
-powering, and binary splitting.  The procedure can be best illustrated
-with an example,
-
-     23! = 1.2.3.4.5.6.7.8.9.10.11.12.13.14.15.16.17.18.19.20.21.22.23
-
-has factors of two removed,
-
-     23! = 2^19.1.1.3.1.5.3.7.1.9.5.11.3.13.7.15.1.17.9.19.5.21.11.23
-
-and the resulting terms collected up according to their multiplicity,
-
-     23! = 2^19.(3.5)^3.(7.9.11)^2.(13.15.17.19.21.23)
-
-   Each sequence such as 13.15.17.19.21.23 is evaluated by splitting
-into every second term, as for instance (13.17.21).(15.19.23), and the
-same recursively on each half.  This is implemented iteratively using
-some bit twiddling.
-
-   Such splitting is more efficient than repeated Nx1 multiplies since
-it forms big multiplies, allowing Karatsuba and higher algorithms to be
-used.  And even below the Karatsuba threshold a big block of work can
-be more efficient for the basecase algorithm.
-
-   Splitting into subsequences of every second term keeps the resulting
-products more nearly equal in size than would the simpler approach of
-say taking the first half and second half of the sequence.  Nearly
-equal products are more efficient for the current multiply
-implementation.
-
-
-File: mpir.info,  Node: Binomial Coefficients Algorithm,  Next: Fibonacci Numbers Algorithm,  Prev: Factorial Algorithm,  Up: Other Algorithms
-
-16.7.3 Binomial Coefficients
-----------------------------
-
-Binomial coefficients C(n,k) are calculated by first arranging k <= n/2
-using C(n,k) = C(n,n-k) if necessary, and then evaluating the following
-product simply from i=2 to i=k.
-
-                           k  (n-k+i)
-     C(n,k) =  (n-k+1) * prod -------
-                          i=2    i
-
-   It's easy to show that each denominator i will divide the product so
-far, so the exact division algorithm is used (*note Exact Division::).
-
-   The numerators n-k+i and denominators i are first accumulated into
-as many fit a limb, to save multi-precision operations, though for
-`mpz_bin_ui' this applies only to the divisors, since n is an `mpz_t'
-and n-k+i in general won't fit in a limb at all.
-
-
 File: mpir.info,  Node: Fibonacci Numbers Algorithm,  Next: Lucas Numbers Algorithm,  Prev: Binomial Coefficients Algorithm,  Up: Other Algorithms
 
 16.7.4 Fibonacci Numbers
@@ -1794,13 +1656,12 @@ Concept Index
 * --disable-shared:                      Build Options.       (line  52)
 * --disable-static:                      Build Options.       (line  52)
 * --enable-alloca:                       Build Options.       (line 286)
-* --enable-assert:                       Build Options.       (line 335)
+* --enable-assert:                       Build Options.       (line 330)
 * --enable-cxx:                          Build Options.       (line 238)
 * --enable-fat:                          Build Options.       (line 171)
 * --enable-gmpcompat:                    Build Options.       (line  45)
-* --enable-mpbsd:                        Build Options.       (line 330)
 * --enable-profiling <1>:                Profiling.           (line   6)
-* --enable-profiling:                    Build Options.       (line 339)
+* --enable-profiling:                    Build Options.       (line 334)
 * --exec-prefix:                         Build Options.       (line  32)
 * --host:                                Build Options.       (line  73)
 * --prefix:                              Build Options.       (line  32)
@@ -1846,7 +1707,7 @@ Concept Index
 * Assembler writing guide:               Assembler Writing Guide.
                                                               (line   6)
 * Assertion checking <1>:                Debugging.           (line  79)
-* Assertion checking:                    Build Options.       (line 335)
+* Assertion checking:                    Build Options.       (line 330)
 * Assignment functions <1>:              Simultaneous Float Init & Assign.
                                                               (line   6)
 * Assignment functions <2>:              Assigning Floats.    (line   6)
@@ -1857,9 +1718,8 @@ Concept Index
 * Assignment functions:                  Assigning Integers.  (line   6)
 * Autoconf:                              Autoconf.            (line   6)
 * Basics:                                MPIR Basics.         (line   6)
-* Berkeley MP compatible functions <1>:  BSD Compatible Functions.
+* Berkeley MP compatible functions:      BSD Compatible Functions.
                                                               (line   6)
-* Berkeley MP compatible functions:      Build Options.       (line 330)
 * Binomial coefficient algorithm:        Binomial Coefficients Algorithm.
                                                               (line   6)
 * Binomial coefficient functions:        Number Theoretic Functions.
@@ -1874,9 +1734,8 @@ Concept Index
 * Bit shift right:                       Integer Division.    (line  59)
 * Bits per limb:                         Useful Macros and Constants.
                                                               (line   7)
-* BSD MP compatible functions <1>:       BSD Compatible Functions.
+* BSD MP compatible functions:           BSD Compatible Functions.
                                                               (line   6)
-* BSD MP compatible functions:           Build Options.       (line 330)
 * Bug reporting:                         Reporting Bugs.      (line   6)
 * Build directory:                       Build Options.       (line  19)
 * Build notes for binary packaging:      Notes for Package Builds.
@@ -1958,11 +1817,11 @@ Concept Index
                                                               (line  43)
 * DLLs:                                  Notes for Particular Systems.
                                                               (line  60)
-* DocBook:                               Build Options.       (line 362)
-* Documentation formats:                 Build Options.       (line 355)
+* DocBook:                               Build Options.       (line 357)
+* Documentation formats:                 Build Options.       (line 350)
 * Documentation license:                 GNU Free Documentation License.
                                                               (line   6)
-* DVI:                                   Build Options.       (line 358)
+* DVI:                                   Build Options.       (line 353)
 * Efficiency:                            Efficiency.          (line   6)
 * Emacs:                                 Emacs.               (line   6)
 * Exact division functions:              Integer Division.    (line 108)
@@ -1971,7 +1830,7 @@ Concept Index
                                                               (line   6)
 * Exec prefix:                           Build Options.       (line  32)
 * Execution profiling <1>:               Profiling.           (line   6)
-* Execution profiling:                   Build Options.       (line 339)
+* Execution profiling:                   Build Options.       (line 334)
 * Exponentiation functions <1>:          Float Arithmetic.    (line  41)
 * Exponentiation functions:              Integer Exponentiation.
                                                               (line   6)
@@ -2210,8 +2069,6 @@ Concept Index
                                                               (line  58)
 * Most significant bit:                  Miscellaneous Integer Functions.
                                                               (line  34)
-* mp.h:                                  BSD Compatible Functions.
-                                                              (line  21)
 * MPIR Perl module:                      Demonstration Programs.
                                                               (line  35)
 * MPIR version number:                   Useful Macros and Constants.
@@ -2220,7 +2077,7 @@ Concept Index
                                                               (line   6)
 * mpirxx.h:                              C++ Interface General.
                                                               (line   8)
-* MPN_PATH:                              Build Options.       (line 343)
+* MPN_PATH:                              Build Options.       (line 338)
 * MS Windows:                            Notes for Particular Systems.
                                                               (line  43)
 * MS-DOS:                                Notes for Particular Systems.
@@ -2267,7 +2124,7 @@ Concept Index
                                                               (line   6)
 * Past GMP/MPIR versions:                Compatibility with older versions.
                                                               (line   6)
-* PDF:                                   Build Options.       (line 358)
+* PDF:                                   Build Options.       (line 353)
 * Perfect power algorithm:               Perfect Power Algorithm.
                                                               (line   6)
 * Perfect power functions:               Integer Roots.       (line  27)
@@ -2278,7 +2135,7 @@ Concept Index
                                                               (line  35)
 * Perl module:                           Demonstration Programs.
                                                               (line  35)
-* Postscript:                            Build Options.       (line 358)
+* Postscript:                            Build Options.       (line 353)
 * Power/PowerPC <1>:                     Known Build Problems.
                                                               (line  63)
 * Power/PowerPC:                         Notes for Particular Systems.
@@ -2402,7 +2259,7 @@ Concept Index
 * Systems:                               Notes for Particular Systems.
                                                               (line   6)
 * Temporary memory:                      Build Options.       (line 286)
-* Texinfo:                               Build Options.       (line 355)
+* Texinfo:                               Build Options.       (line 350)
 * Text input/output:                     Efficiency.          (line 153)
 * Thread safety:                         Reentrancy.          (line   6)
 * Toom multiplication <1>:               Other Multiplication.
@@ -2431,7 +2288,7 @@ Concept Index
                                                               (line 132)
 * x87:                                   Notes for Particular Systems.
                                                               (line  34)
-* XML:                                   Build Options.       (line 362)
+* XML:                                   Build Options.       (line 357)
 
 
 File: mpir.info,  Node: Function Index,  Prev: Concept Index,  Up: Top
@@ -2472,8 +2329,6 @@ Function and Type Index
                                                               (line  43)
 * floor:                                 C++ Interface Floats.
                                                               (line  80)
-* gcd:                                   BSD Compatible Functions.
-                                                              (line  82)
 * gmp_asprintf:                          Formatted Output Functions.
                                                               (line  65)
 * gmp_fprintf:                           Formatted Output Functions.
@@ -2554,32 +2409,14 @@ Function and Type Index
                                                               (line  31)
 * hypot:                                 C++ Interface Floats.
                                                               (line  81)
-* itom:                                  BSD Compatible Functions.
-                                                              (line  29)
-* madd:                                  BSD Compatible Functions.
-                                                              (line  43)
-* mcmp:                                  BSD Compatible Functions.
-                                                              (line  85)
-* mdiv:                                  BSD Compatible Functions.
-                                                              (line  53)
-* mfree:                                 BSD Compatible Functions.
-                                                              (line 105)
-* min:                                   BSD Compatible Functions.
-                                                              (line  89)
-* MINT:                                  BSD Compatible Functions.
-                                                              (line  21)
-* mout:                                  BSD Compatible Functions.
-                                                              (line  94)
-* move:                                  BSD Compatible Functions.
-                                                              (line  39)
 * mp_bits_per_limb:                      Useful Macros and Constants.
                                                               (line   7)
 * mp_exp_t:                              Nomenclature and Types.
                                                               (line  27)
-* mp_get_memory_functions:               Custom Allocation.   (line  93)
+* mp_get_memory_functions:               Custom Allocation.   (line  90)
 * mp_limb_t:                             Nomenclature and Types.
                                                               (line  31)
-* mp_set_memory_functions:               Custom Allocation.   (line  21)
+* mp_set_memory_functions:               Custom Allocation.   (line  18)
 * mp_size_t:                             Nomenclature and Types.
                                                               (line  37)
 * mpf_abs:                               Float Arithmetic.    (line  47)
@@ -3058,14 +2895,6 @@ Function and Type Index
                                                               (line  23)
 * mpz_xor:                               Integer Logic and Bit Fiddling.
                                                               (line  17)
-* msqrt:                                 BSD Compatible Functions.
-                                                              (line  63)
-* msub:                                  BSD Compatible Functions.
-                                                              (line  46)
-* mtox:                                  BSD Compatible Functions.
-                                                              (line  98)
-* mult:                                  BSD Compatible Functions.
-                                                              (line  49)
 * operator%:                             C++ Interface Integers.
                                                               (line  30)
 * operator/:                             C++ Interface Integers.
@@ -3075,12 +2904,6 @@ Function and Type Index
 * operator>> <1>:                        C++ Interface Rationals.
                                                               (line  77)
 * operator>>:                            C++ Formatted Input. (line  11)
-* pow:                                   BSD Compatible Functions.
-                                                              (line  71)
-* rpow:                                  BSD Compatible Functions.
-                                                              (line  79)
-* sdiv:                                  BSD Compatible Functions.
-                                                              (line  55)
 * sgn <1>:                               C++ Interface Floats.
                                                               (line  89)
 * sgn <2>:                               C++ Interface Rationals.
@@ -3093,7 +2916,5 @@ Function and Type Index
                                                               (line  58)
 * trunc:                                 C++ Interface Floats.
                                                               (line  91)
-* xtom:                                  BSD Compatible Functions.
-                                                              (line  34)
 
 

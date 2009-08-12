@@ -1050,14 +1050,6 @@ By default multiplications are done using Karatsuba, 3-way Toom, and
 Fermat FFT@.  The FFT is only used on large to very large operands and can be
 disabled to save code size if desired.
 
-@item Berkeley MP, @option{--enable-mpbsd}
-@cindex Berkeley MP compatible functions
-@cindex BSD MP compatible functions
-@cindex @code{--enable-mpbsd}
-The Berkeley MP compatibility library (@file{libmp}) and header file
-(@file{mp.h}) are built and installed only if @option{--enable-mpbsd} is used.
-@xref{BSD Compatible Functions}.
-
 @item Assertion Checking, @option{--enable-assert}
 @cindex Assertion checking
 @cindex @code{--enable-assert}
@@ -1569,7 +1561,7 @@ in @file{mpir.h} must be different.
 A MINGW DLL build of MPIR can be used with Microsoft C@.  Libtool doesn't
 install a @file{.lib} format import library, but it can be created with MS
 @command{lib} as follows, and copied to the install directory.  Similarly for
-@file{libmp} and @file{libmpirxx}.
+@file{libmpir} and @file{libmpirxx}.
 
 @example
 cd .libs
@@ -1955,7 +1947,7 @@ Also, in general @code{unsigned long} is used for bit counts and ranges, and
 @section Function Classes
 @cindex Function classes
 
-There are six classes of functions in the MPIR library:
+There are five classes of functions in the MPIR library:
 
 @enumerate
 @item
@@ -1974,11 +1966,6 @@ Functions})
 Functions for floating-point arithmetic, with names beginning with
 @code{mpf_}.  The associated type is @code{mpf_t}.  There are about 60
 functions is this class.  (@pxref{Floating-point Functions})
-
-@item
-Functions compatible with Berkeley MP, such as @code{itom}, @code{madd}, and
-@code{mult}.  The associated type is @code{MINT}.  (@pxref{BSD Compatible
-Functions})
 
 @item
 Fast low-level functions that operate on natural numbers.  These are used by
@@ -2000,8 +1987,7 @@ functions for generating random numbers.  (@pxref{Custom Allocation}, and
 @cindex Conventions for variables
 
 MPIR functions generally have output arguments before input arguments.  This
-notation is by analogy with the assignment operator.  The BSD MP compatibility
-functions are exceptions, having the output arguments last.
+notation is by analogy with the assignment operator.
 
 MPIR lets you use the same variable for both input and output in one call.  For
 example, the main function for integer multiplication, @code{mpz_mul}, can be
@@ -2235,9 +2221,6 @@ with other @code{mpn} functions.
 There are a number of compatibility issues between GMP 1 and GMP 2 that of
 course also apply when porting applications from GMP 1 to GMP 4 and MPIR 1.  Please
 see the GMP 2 manual for details.
-
-The Berkeley MP compatibility library (@pxref{BSD Compatible Functions}) is
-source and binary compatible with the standard @file{libmp}.
 
 @c @enumerate
 @c @item Integer division functions round the result differently.  The obsolete
@@ -6731,123 +6714,7 @@ void fun (T f, T g)
 @cindex Berkeley MP compatible functions
 @cindex BSD MP compatible functions
 
-These functions are intended to be fully compatible with the Berkeley MP
-library which is available on many BSD derived U*ix systems.  The
-@samp{--enable-mpbsd} option must be used when building MPIR to make these
-available (@pxref{Installing MPIR}).
-
-The original Berkeley MP library has a usage restriction: you cannot use the
-same variable as both source and destination in a single function call.  The
-compatible functions in MPIR do not share this restriction---inputs and
-outputs may overlap.
-
-It is not recommended that new programs are written using these functions.
-Apart from the incomplete set of functions, the interface for initializing
-@code{MINT} objects is more error prone, and the @code{pow} function collides
-with @code{pow} in @file{libm.a}.
-
-@cindex @code{mp.h}
-@tindex MINT
-Include the header @file{mp.h} to get the definition of the necessary types and
-functions.  If you are on a BSD derived system, make sure to include GNU
-@file{mp.h} if you are going to link the GNU @file{libmp.a} to your program.
-This means that you probably need to give the @samp{-I<dir>} option to the
-compiler, where @samp{<dir>} is the directory where you have GNU @file{mp.h}.
-
-@deftypefun {MINT *} itom (signed short int @var{initial_value})
-Allocate an integer consisting of a @code{MINT} object and dynamic limb space.
-Initialize the integer to @var{initial_value}.  Return a pointer to the
-@code{MINT} object.
-@end deftypefun
-
-@deftypefun {MINT *} xtom (char *@var{initial_value})
-Allocate an integer consisting of a @code{MINT} object and dynamic limb space.
-Initialize the integer from @var{initial_value}, a hexadecimal,
-null-terminated C string.  Return a pointer to the @code{MINT} object.
-@end deftypefun
-
-@deftypefun void move (MINT *@var{src}, MINT *@var{dest})
-Set @var{dest} to @var{src} by copying.  Both variables must be previously
-initialized.
-@end deftypefun
-
-@deftypefun void madd (MINT *@var{src_1}, MINT *@var{src_2}, MINT *@var{destination})
-Add @var{src_1} and @var{src_2} and put the sum in @var{destination}.
-@end deftypefun
-
-@deftypefun void msub (MINT *@var{src_1}, MINT *@var{src_2}, MINT *@var{destination})
-Subtract @var{src_2} from @var{src_1} and put the difference in
-@var{destination}.
-@end deftypefun
-
-@deftypefun void mult (MINT *@var{src_1}, MINT *@var{src_2}, MINT *@var{destination})
-Multiply @var{src_1} and @var{src_2} and put the product in @var{destination}.
-@end deftypefun
-
-@deftypefun void mdiv (MINT *@var{dividend}, MINT *@var{divisor}, MINT *@var{quotient}, MINT *@var{remainder})
-@deftypefunx void sdiv (MINT *@var{dividend}, signed short int @var{divisor}, MINT *@var{quotient}, signed short int *@var{remainder})
-Set @var{quotient} to @var{dividend}/@var{divisor}, and @var{remainder} to
-@var{dividend} mod @var{divisor}.  The quotient is rounded towards zero; the
-remainder has the same sign as the dividend unless it is zero.
-
-Some implementations of these functions work differently---or not at all---for
-negative arguments.
-@end deftypefun
-
-@deftypefun void msqrt (MINT *@var{op}, MINT *@var{root}, MINT *@var{remainder})
-Set @var{root} to @m{\lfloor\sqrt{@var{op}}\rfloor, the truncated integer part
-of the square root of @var{op}}, like @code{mpz_sqrt}.  Set @var{remainder} to
-@m{(@var{op} - @var{root}^2), @var{op}@minus{}@var{root}*@var{root}}, i.e.
-zero if @var{op} is a perfect square.
-
-If @var{root} and @var{remainder} are the same variable, the results are
-undefined.
-@end deftypefun
-
-@deftypefun void pow (MINT *@var{base}, MINT *@var{exp}, MINT *@var{mod}, MINT *@var{dest})
-Set @var{dest} to (@var{base} raised to @var{exp}) modulo @var{mod}.
-
-Note that the name @code{pow} clashes with @code{pow} from the standard C math
-library (@pxref{Exponents and Logarithms,, Exponentiation and Logarithms,
-libc, The GNU C Library Reference Manual}).  An application will only be able
-to use one or the other.
-@end deftypefun
-
-@deftypefun void rpow (MINT *@var{base}, signed short int @var{exp}, MINT *@var{dest})
-Set @var{dest} to @var{base} raised to @var{exp}.
-@end deftypefun
-
-@deftypefun void gcd (MINT *@var{op1}, MINT *@var{op2}, MINT *@var{res})
-Set @var{res} to the greatest common divisor of @var{op1} and @var{op2}.
-@end deftypefun
-
-@deftypefun int mcmp (MINT *@var{op1}, MINT *@var{op2})
-Compare @var{op1} and @var{op2}.  Return a positive value if @var{op1} >
-@var{op2}, zero if @var{op1} = @var{op2}, and a negative value if @var{op1} <
-@var{op2}.
-@end deftypefun
-
-@deftypefun void min (MINT *@var{dest})
-Input a decimal string from @code{stdin}, and put the read integer in
-@var{dest}.  SPC and TAB are allowed in the number string, and are ignored.
-@end deftypefun
-
-@deftypefun void mout (MINT *@var{src})
-Output @var{src} to @code{stdout}, as a decimal string.  Also output a newline.
-@end deftypefun
-
-@deftypefun {char *} mtox (MINT *@var{op})
-Convert @var{op} to a hexadecimal string, and return a pointer to the string.
-The returned string is allocated using the default memory allocation function,
-@code{malloc} by default.  It will be @code{strlen(str)+1} bytes, that being
-exactly enough for the string and null-terminator.
-@end deftypefun
-
-@deftypefun void mfree (MINT *@var{op})
-De-allocate, the space used by @var{op}.  @strong{This function should only be
-passed a value returned by @code{itom} or @code{xtom}.}
-@end deftypefun
-
+EMPTY SECTION PLEASE DELETE
 
 @node Custom Allocation, Language Bindings, BSD Compatible Functions, Top
 @comment  node-name,  next,  previous,  up
@@ -6862,9 +6729,6 @@ and terminates the program.
 
 Alternate functions can be specified, to allocate memory in a different way or
 to have a different error action on running out of memory.
-
-This feature is available in the Berkeley compatibility library (@pxref{BSD
-Compatible Functions}) as well as the main MPIR library.
 
 @deftypefun void mp_set_memory_functions (@* void *(*@var{alloc_func_ptr}) (size_t), @* void *(*@var{realloc_func_ptr}) (void *, size_t, size_t), @* void (*@var{free_func_ptr}) (void *, size_t))
 Replace the current allocation functions from the arguments.  If an argument

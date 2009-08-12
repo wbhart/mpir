@@ -537,11 +537,6 @@ FFT Multiplication, `--disable-fft'
      and Fermat FFT.  The FFT is only used on large to very large
      operands and can be disabled to save code size if desired.
 
-Berkeley MP, `--enable-mpbsd'
-     The Berkeley MP compatibility library (`libmp') and header file
-     (`mp.h') are built and installed only if `--enable-mpbsd' is used.
-     *Note BSD Compatible Functions::.
-
 Assertion Checking, `--enable-assert'
      This option enables some consistency checking within the library.
      This can be of use while debugging, *note Debugging::.
@@ -958,7 +953,7 @@ MS Windows DLLs
      A MINGW DLL build of MPIR can be used with Microsoft C.  Libtool
      doesn't install a `.lib' format import library, but it can be
      created with MS `lib' as follows, and copied to the install
-     directory.  Similarly for `libmp' and `libmpirxx'.
+     directory.  Similarly for `libmpir' and `libmpirxx'.
 
           cd .libs
           lib /def:libgmp-3.dll.def /out:libgmp-3.lib
@@ -1277,7 +1272,7 @@ File: mpir.info,  Node: Function Classes,  Next: Variable Conventions,  Prev: No
 3.3 Function Classes
 ====================
 
-There are six classes of functions in the MPIR library:
+There are five classes of functions in the MPIR library:
 
   1. Functions for signed integer arithmetic, with names beginning with
      `mpz_'.  The associated type is `mpz_t'.  There are about 150
@@ -1293,18 +1288,14 @@ There are six classes of functions in the MPIR library:
      `mpf_'.  The associated type is `mpf_t'.  There are about 60
      functions is this class.  (*note Floating-point Functions::)
 
-  4. Functions compatible with Berkeley MP, such as `itom', `madd', and
-     `mult'.  The associated type is `MINT'.  (*note BSD Compatible
-     Functions::)
-
-  5. Fast low-level functions that operate on natural numbers.  These
+  4. Fast low-level functions that operate on natural numbers.  These
      are used by the functions in the preceding groups, and you can
      also call them directly from very time-critical user programs.
      These functions' names begin with `mpn_'.  The associated type is
      array of `mp_limb_t'.  There are about 30 (hard-to-use) functions
      in this class.  (*note Low-level Functions::)
 
-  6. Miscellaneous functions.  Functions for setting up custom
+  5. Miscellaneous functions.  Functions for setting up custom
      allocation and functions for generating random numbers.  (*note
      Custom Allocation::, and *note Random Number Functions::)
 
@@ -1315,9 +1306,7 @@ File: mpir.info,  Node: Variable Conventions,  Next: Parameter Conventions,  Pre
 ========================
 
 MPIR functions generally have output arguments before input arguments.
-This notation is by analogy with the assignment operator.  The BSD MP
-compatibility functions are exceptions, having the output arguments
-last.
+This notation is by analogy with the assignment operator.
 
    MPIR lets you use the same variable for both input and output in one
 call.  For example, the main function for integer multiplication,
@@ -1522,9 +1511,6 @@ versions, with the following exceptions.
    There are a number of compatibility issues between GMP 1 and GMP 2
 that of course also apply when porting applications from GMP 1 to GMP 4
 and MPIR 1.  Please see the GMP 2 manual for details.
-
-   The Berkeley MP compatibility library (*note BSD Compatible
-Functions::) is source and binary compatible with the standard `libmp'.
 
 
 File: mpir.info,  Node: Demonstration Programs,  Next: Efficiency,  Prev: Compatibility with older versions,  Up: MPIR Basics
@@ -5518,107 +5504,7 @@ File: mpir.info,  Node: BSD Compatible Functions,  Next: Custom Allocation,  Pre
 13 Berkeley MP Compatible Functions
 ***********************************
 
-These functions are intended to be fully compatible with the Berkeley MP
-library which is available on many BSD derived U*ix systems.  The
-`--enable-mpbsd' option must be used when building MPIR to make these
-available (*note Installing MPIR::).
-
-   The original Berkeley MP library has a usage restriction: you cannot
-use the same variable as both source and destination in a single
-function call.  The compatible functions in MPIR do not share this
-restriction--inputs and outputs may overlap.
-
-   It is not recommended that new programs are written using these
-functions.  Apart from the incomplete set of functions, the interface
-for initializing `MINT' objects is more error prone, and the `pow'
-function collides with `pow' in `libm.a'.
-
-   Include the header `mp.h' to get the definition of the necessary
-types and functions.  If you are on a BSD derived system, make sure to
-include GNU `mp.h' if you are going to link the GNU `libmp.a' to your
-program.  This means that you probably need to give the `-I<dir>'
-option to the compiler, where `<dir>' is the directory where you have
-GNU `mp.h'.
-
- -- Function: MINT * itom (signed short int INITIAL_VALUE)
-     Allocate an integer consisting of a `MINT' object and dynamic limb
-     space.  Initialize the integer to INITIAL_VALUE.  Return a pointer
-     to the `MINT' object.
-
- -- Function: MINT * xtom (char *INITIAL_VALUE)
-     Allocate an integer consisting of a `MINT' object and dynamic limb
-     space.  Initialize the integer from INITIAL_VALUE, a hexadecimal,
-     null-terminated C string.  Return a pointer to the `MINT' object.
-
- -- Function: void move (MINT *SRC, MINT *DEST)
-     Set DEST to SRC by copying.  Both variables must be previously
-     initialized.
-
- -- Function: void madd (MINT *SRC_1, MINT *SRC_2, MINT *DESTINATION)
-     Add SRC_1 and SRC_2 and put the sum in DESTINATION.
-
- -- Function: void msub (MINT *SRC_1, MINT *SRC_2, MINT *DESTINATION)
-     Subtract SRC_2 from SRC_1 and put the difference in DESTINATION.
-
- -- Function: void mult (MINT *SRC_1, MINT *SRC_2, MINT *DESTINATION)
-     Multiply SRC_1 and SRC_2 and put the product in DESTINATION.
-
- -- Function: void mdiv (MINT *DIVIDEND, MINT *DIVISOR, MINT *QUOTIENT,
-          MINT *REMAINDER)
- -- Function: void sdiv (MINT *DIVIDEND, signed short int DIVISOR, MINT
-          *QUOTIENT, signed short int *REMAINDER)
-     Set QUOTIENT to DIVIDEND/DIVISOR, and REMAINDER to DIVIDEND mod
-     DIVISOR.  The quotient is rounded towards zero; the remainder has
-     the same sign as the dividend unless it is zero.
-
-     Some implementations of these functions work differently--or not
-     at all--for negative arguments.
-
- -- Function: void msqrt (MINT *OP, MINT *ROOT, MINT *REMAINDER)
-     Set ROOT to the truncated integer part of the square root of OP,
-     like `mpz_sqrt'.  Set REMAINDER to OP-ROOT*ROOT, i.e.  zero if OP
-     is a perfect square.
-
-     If ROOT and REMAINDER are the same variable, the results are
-     undefined.
-
- -- Function: void pow (MINT *BASE, MINT *EXP, MINT *MOD, MINT *DEST)
-     Set DEST to (BASE raised to EXP) modulo MOD.
-
-     Note that the name `pow' clashes with `pow' from the standard C
-     math library (*note Exponentiation and Logarithms: (libc)Exponents
-     and Logarithms.).  An application will only be able to use one or
-     the other.
-
- -- Function: void rpow (MINT *BASE, signed short int EXP, MINT *DEST)
-     Set DEST to BASE raised to EXP.
-
- -- Function: void gcd (MINT *OP1, MINT *OP2, MINT *RES)
-     Set RES to the greatest common divisor of OP1 and OP2.
-
- -- Function: int mcmp (MINT *OP1, MINT *OP2)
-     Compare OP1 and OP2.  Return a positive value if OP1 > OP2, zero
-     if OP1 = OP2, and a negative value if OP1 < OP2.
-
- -- Function: void min (MINT *DEST)
-     Input a decimal string from `stdin', and put the read integer in
-     DEST.  SPC and TAB are allowed in the number string, and are
-     ignored.
-
- -- Function: void mout (MINT *SRC)
-     Output SRC to `stdout', as a decimal string.  Also output a
-     newline.
-
- -- Function: char * mtox (MINT *OP)
-     Convert OP to a hexadecimal string, and return a pointer to the
-     string.  The returned string is allocated using the default memory
-     allocation function, `malloc' by default.  It will be
-     `strlen(str)+1' bytes, that being exactly enough for the string
-     and null-terminator.
-
- -- Function: void mfree (MINT *OP)
-     De-allocate, the space used by OP.  *This function should only be
-     passed a value returned by `itom' or `xtom'.*
+EMPTY SECTION PLEASE DELETE
 
 
 File: mpir.info,  Node: Custom Allocation,  Next: Language Bindings,  Prev: BSD Compatible Functions,  Up: Top
@@ -5633,9 +5519,6 @@ error output and terminates the program.
    Alternate functions can be specified, to allocate memory in a
 different way or to have a different error action on running out of
 memory.
-
-   This feature is available in the Berkeley compatibility library
-(*note BSD Compatible Functions::) as well as the main MPIR library.
 
  -- Function: void mp_set_memory_functions (
           void *(*ALLOC_FUNC_PTR) (size_t),
@@ -7076,4 +6959,142 @@ remainder produced, ie. the highest power would be an b^(n*k)
 approximately equal to sqrt(t), not restricted to a 2^i factor.  That
 ought to smooth out a graph of times against sizes, but may or may not
 be a net speedup.
+
+
+File: mpir.info,  Node: Radix to Binary,  Prev: Binary to Radix,  Up: Radix Conversion Algorithms
+
+16.6.2 Radix to Binary
+----------------------
+
+Conversions from a power-of-2 radix into binary use a simple and fast
+O(N) bitwise concatenation algorithm.
+
+   Conversions from other radices use one of two algorithms.  Sizes
+below `SET_STR_THRESHOLD' use a basic O(N^2) method.  Groups of n
+digits are converted to limbs, where n is the biggest power of the base
+b which will fit in a limb, then those groups are accumulated into the
+result by multiplying by b^n and adding.  This saves multi-precision
+operations, as per Knuth section 4.4 part E (*note References::).  Some
+special case code is provided for decimal, giving the compiler a chance
+to optimize multiplications by 10.
+
+   Above `SET_STR_THRESHOLD' a sub-quadratic algorithm is used.  First
+groups of n digits are converted into limbs.  Then adjacent limbs are
+combined into limb pairs with x*b^n+y, where x and y are the limbs.
+Adjacent limb pairs are combined into quads similarly with x*b^(2n)+y.
+This continues until a single block remains, that being the result.
+
+   The advantage of this method is that the multiplications for each x
+are big blocks, allowing Karatsuba and higher algorithms to be used.
+But the cost of calculating the powers b^(n*2^i) must be overcome.
+`SET_STR_THRESHOLD' usually ends up quite big, around 5000 digits, and
+on some processors much bigger still.
+
+   `SET_STR_THRESHOLD' is based on the input digits (and tuned for
+decimal), though it might be better based on a limb count, so as to be
+independent of the base.  But that sort of count isn't used by the base
+case and so would need some sort of initial calculation or estimate.
+
+   The main reason `SET_STR_THRESHOLD' is so much bigger than the
+corresponding `GET_STR_PRECOMPUTE_THRESHOLD' is that `mpn_mul_1' is
+much faster than `mpn_divrem_1' (often by a factor of 10, or more).
+
+
+File: mpir.info,  Node: Other Algorithms,  Next: Assembler Coding,  Prev: Radix Conversion Algorithms,  Up: Algorithms
+
+16.7 Other Algorithms
+=====================
+
+* Menu:
+
+* Prime Testing Algorithm::
+* Factorial Algorithm::
+* Binomial Coefficients Algorithm::
+* Fibonacci Numbers Algorithm::
+* Lucas Numbers Algorithm::
+* Random Number Algorithms::
+
+
+File: mpir.info,  Node: Prime Testing Algorithm,  Next: Factorial Algorithm,  Prev: Other Algorithms,  Up: Other Algorithms
+
+16.7.1 Prime Testing
+--------------------
+
+The primality testing in `mpz_probab_prime_p' (*note Number Theoretic
+Functions::) first does some trial division by small factors and then
+uses the Miller-Rabin probabilistic primality testing algorithm, as
+described in Knuth section 4.5.4 algorithm P (*note References::).
+
+   For an odd input n, and with n = q*2^k+1 where q is odd, this
+algorithm selects a random base x and tests whether x^q mod n is 1 or
+-1, or an x^(q*2^j) mod n is 1, for 1<=j<=k.  If so then n is probably
+prime, if not then n is definitely composite.
+
+   Any prime n will pass the test, but some composites do too.  Such
+composites are known as strong pseudoprimes to base x.  No n is a
+strong pseudoprime to more than 1/4 of all bases (see Knuth exercise
+22), hence with x chosen at random there's no more than a 1/4 chance a
+"probable prime" will in fact be composite.
+
+   In fact strong pseudoprimes are quite rare, making the test much more
+powerful than this analysis would suggest, but 1/4 is all that's proven
+for an arbitrary n.
+
+
+File: mpir.info,  Node: Factorial Algorithm,  Next: Binomial Coefficients Algorithm,  Prev: Prime Testing Algorithm,  Up: Other Algorithms
+
+16.7.2 Factorial
+----------------
+
+Factorials are calculated by a combination of removal of twos,
+powering, and binary splitting.  The procedure can be best illustrated
+with an example,
+
+     23! = 1.2.3.4.5.6.7.8.9.10.11.12.13.14.15.16.17.18.19.20.21.22.23
+
+has factors of two removed,
+
+     23! = 2^19.1.1.3.1.5.3.7.1.9.5.11.3.13.7.15.1.17.9.19.5.21.11.23
+
+and the resulting terms collected up according to their multiplicity,
+
+     23! = 2^19.(3.5)^3.(7.9.11)^2.(13.15.17.19.21.23)
+
+   Each sequence such as 13.15.17.19.21.23 is evaluated by splitting
+into every second term, as for instance (13.17.21).(15.19.23), and the
+same recursively on each half.  This is implemented iteratively using
+some bit twiddling.
+
+   Such splitting is more efficient than repeated Nx1 multiplies since
+it forms big multiplies, allowing Karatsuba and higher algorithms to be
+used.  And even below the Karatsuba threshold a big block of work can
+be more efficient for the basecase algorithm.
+
+   Splitting into subsequences of every second term keeps the resulting
+products more nearly equal in size than would the simpler approach of
+say taking the first half and second half of the sequence.  Nearly
+equal products are more efficient for the current multiply
+implementation.
+
+
+File: mpir.info,  Node: Binomial Coefficients Algorithm,  Next: Fibonacci Numbers Algorithm,  Prev: Factorial Algorithm,  Up: Other Algorithms
+
+16.7.3 Binomial Coefficients
+----------------------------
+
+Binomial coefficients C(n,k) are calculated by first arranging k <= n/2
+using C(n,k) = C(n,n-k) if necessary, and then evaluating the following
+product simply from i=2 to i=k.
+
+                           k  (n-k+i)
+     C(n,k) =  (n-k+1) * prod -------
+                          i=2    i
+
+   It's easy to show that each denominator i will divide the product so
+far, so the exact division algorithm is used (*note Exact Division::).
+
+   The numerators n-k+i and denominators i are first accumulated into
+as many fit a limb, to save multi-precision operations, though for
+`mpz_bin_ui' this applies only to the divisors, since n is an `mpz_t'
+and n-k+i in general won't fit in a limb at all.
 
