@@ -20,7 +20,7 @@
 # MA 02110-1301, USA.
 
 
-SUBDIRS = . devel mpn mpz mpq mpf rand misc cxx mpbsd
+SUBDIRS = . devel mpn mpz mpq mpf rand misc cxx
 
 include ../mpn/Makeasm.am
 

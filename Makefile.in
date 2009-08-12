@@ -65,10 +65,10 @@ ANSI2KNR = @ANSI2KNR@
 @WANT_CXX_TRUE@@WANT_GMPCOMPAT_TRUE@am__append_3 = libgmpxx.la
 DIST_COMMON = README $(am__configure_deps) $(am__include_HEADERS_DIST) \
 	$(srcdir)/Makefile.am $(srcdir)/Makefile.in \
-	$(srcdir)/config.in $(srcdir)/gmp-h.in $(srcdir)/mp-h.in \
-	$(top_srcdir)/configure AUTHORS COPYING COPYING.LIB ChangeLog \
-	INSTALL NEWS ansi2knr.1 ansi2knr.c config.guess config.sub \
-	install-sh ltmain.sh missing
+	$(srcdir)/config.in $(srcdir)/gmp-h.in $(top_srcdir)/configure \
+	AUTHORS COPYING COPYING.LIB ChangeLog INSTALL NEWS ansi2knr.1 \
+	ansi2knr.c config.guess config.sub install-sh ltmain.sh \
+	missing
 subdir = .
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/acinclude.m4 \
@@ -79,7 +79,7 @@ am__CONFIG_DISTCLEAN_FILES = config.status config.cache config.log \
  configure.lineno configure.status.lineno
 mkinstalldirs = $(install_sh) -d
 CONFIG_HEADER = config.h
-CONFIG_CLEAN_FILES = mpir.h mp.h gmp-mparam.h yasm_mac.inc
+CONFIG_CLEAN_FILES = mpir.h gmp-mparam.h yasm_mac.inc
 am__vpath_adj_setup = srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`;
 am__vpath_adj = case $$p in \
     $(srcdir)/*) f=`echo "$$p" | sed "s|^$$srcdirstrip/||"`;; \
@@ -198,21 +198,6 @@ am_libgmpxx_la_OBJECTS = $(am__objects_3)
 libgmpxx_la_OBJECTS = $(am_libgmpxx_la_OBJECTS)
 @WANT_CXX_TRUE@@WANT_GMPCOMPAT_TRUE@am_libgmpxx_la_rpath = -rpath \
 @WANT_CXX_TRUE@@WANT_GMPCOMPAT_TRUE@	$(libdir)
-am__DEPENDENCIES_10 = mpbsd/add$U.lo mpbsd/tdiv_qr$U.lo mpbsd/set$U.lo \
-	mpbsd/powm$U.lo mpbsd/sub$U.lo mpbsd/cmp$U.lo mpbsd/mfree$U.lo \
-	mpbsd/mtox$U.lo mpbsd/realloc$U.lo mpbsd/gcd$U.lo \
-	mpbsd/itom$U.lo mpbsd/min$U.lo mpbsd/mul$U.lo mpbsd/mout$U.lo \
-	mpbsd/rpow$U.lo mpbsd/sdiv$U.lo mpbsd/sqrtrem$U.lo \
-	mpbsd/xtom$U.lo
-am__DEPENDENCIES_11 = $(srcdir)/libmp.sym $(am__DEPENDENCIES_10) \
-	$(am__DEPENDENCIES_4) mpz/add$U.lo mpz/gcdext$U.lo \
-	mpz/invert$U.lo mpz/mul$U.lo mpz/n_pow_ui$U.lo \
-	mpz/realloc$U.lo mpz/set$U.lo mpz/sub$U.lo mpz/tdiv_q$U.lo
-am_libmp_la_OBJECTS = assert$U.lo errno$U.lo memory$U.lo mp_bpl$U.lo \
-	mp_clz_tab$U.lo mp_dv_tab$U.lo mp_minv_tab$U.lo \
-	mp_get_fns$U.lo mp_set_fns$U.lo
-libmp_la_OBJECTS = $(am_libmp_la_OBJECTS)
-@WANT_MPBSD_TRUE@am_libmp_la_rpath = -rpath $(libdir)
 am_libmpir_la_OBJECTS = assert$U.lo compat$U.lo errno$U.lo \
 	extract-dbl$U.lo invalid$U.lo memory$U.lo mp_bpl$U.lo \
 	mp_clz_tab$U.lo mp_dv_tab$U.lo mp_minv_tab$U.lo \
@@ -221,7 +206,7 @@ am_libmpir_la_OBJECTS = assert$U.lo compat$U.lo errno$U.lo \
 	randmts$U.lo rands$U.lo randsd$U.lo randsdui$U.lo randbui$U.lo \
 	randmui$U.lo version$U.lo
 libmpir_la_OBJECTS = $(am_libmpir_la_OBJECTS)
-am__DEPENDENCIES_12 = $(am__DEPENDENCIES_8) libmpir.la
+am__DEPENDENCIES_10 = $(am__DEPENDENCIES_8) libmpir.la
 am_libmpirxx_la_OBJECTS = dummy.lo
 libmpirxx_la_OBJECTS = $(am_libmpirxx_la_OBJECTS)
 @WANT_CXX_TRUE@am_libmpirxx_la_rpath = -rpath $(libdir)
@@ -245,13 +230,11 @@ CXXLD = $(CXX)
 CXXLINK = $(LIBTOOL) --tag=CXX --mode=link $(CXXLD) $(AM_CXXFLAGS) \
 	$(CXXFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
 SOURCES = $(libgmp_la_SOURCES) $(EXTRA_libgmp_la_SOURCES) \
-	$(libgmpxx_la_SOURCES) $(libmp_la_SOURCES) \
-	$(libmpir_la_SOURCES) $(EXTRA_libmpir_la_SOURCES) \
-	$(libmpirxx_la_SOURCES)
+	$(libgmpxx_la_SOURCES) $(libmpir_la_SOURCES) \
+	$(EXTRA_libmpir_la_SOURCES) $(libmpirxx_la_SOURCES)
 DIST_SOURCES = $(libgmp_la_SOURCES) $(EXTRA_libgmp_la_SOURCES) \
-	$(libgmpxx_la_SOURCES) $(libmp_la_SOURCES) \
-	$(libmpir_la_SOURCES) $(EXTRA_libmpir_la_SOURCES) \
-	$(libmpirxx_la_SOURCES)
+	$(libgmpxx_la_SOURCES) $(libmpir_la_SOURCES) \
+	$(EXTRA_libmpir_la_SOURCES) $(libmpirxx_la_SOURCES)
 RECURSIVE_TARGETS = all-recursive check-recursive dvi-recursive \
 	html-recursive info-recursive install-data-recursive \
 	install-exec-recursive install-info-recursive \
@@ -264,8 +247,8 @@ nodist_includeexecHEADERS_INSTALL = $(INSTALL_HEADER)
 HEADERS = $(include_HEADERS) $(nodist_includeexec_HEADERS)
 ETAGS = etags
 CTAGS = ctags
-DIST_SUBDIRS = tests yasm mpn mpz mpq mpf printf scanf cxx mpbsd demos \
-	tune doc bench
+DIST_SUBDIRS = tests yasm mpn mpz mpq mpf printf scanf cxx demos tune \
+	doc bench
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 distdir = $(PACKAGE)-$(VERSION)
 top_distdir = $(distdir)
@@ -383,8 +366,6 @@ WANT_CXX_FALSE = @WANT_CXX_FALSE@
 WANT_CXX_TRUE = @WANT_CXX_TRUE@
 WANT_GMPCOMPAT_FALSE = @WANT_GMPCOMPAT_FALSE@
 WANT_GMPCOMPAT_TRUE = @WANT_GMPCOMPAT_TRUE@
-WANT_MPBSD_FALSE = @WANT_MPBSD_FALSE@
-WANT_MPBSD_TRUE = @WANT_MPBSD_TRUE@
 WITH_READLINE_01 = @WITH_READLINE_01@
 YACC = @YACC@
 YFLAGS = @YFLAGS@
@@ -422,7 +403,6 @@ mandir = @mandir@
 mkdir_p = @mkdir_p@
 mpn_objects = @mpn_objects@
 mpn_objs_in_libgmp = @mpn_objs_in_libgmp@
-mpn_objs_in_libmp = @mpn_objs_in_libmp@
 oldincludedir = @oldincludedir@
 pdfdir = @pdfdir@
 prefix = @prefix@
@@ -497,8 +477,8 @@ LIBGMPXX_LT_AGE = 1
 LIBMP_LT_CURRENT = 4
 LIBMP_LT_REVISION = 13
 LIBMP_LT_AGE = 1
-SUBDIRS = tests $(am__append_1) mpn mpz mpq mpf printf scanf cxx mpbsd \
-	demos tune doc bench
+SUBDIRS = tests $(am__append_1) mpn mpz mpq mpf printf scanf cxx demos \
+	tune doc bench
 
 # The ansi2knr setups for the build programs are the same as the normal
 # automake ansi2knr rules, but using $(CC_FOR_BUILD) instead of $(CC).
@@ -521,8 +501,7 @@ SUBDIRS = tests $(am__append_1) mpn mpz mpq mpf printf scanf cxx mpbsd \
 EXTRA_DIST = configfsf.guess configfsf.sub .gdbinit INSTALL.autoconf \
 	mpirxx.h yasm_mac.inc.fat yasm_mac.inc.nofat strip_fPIC.sh \
 	mpn/x86w mpn/x86_64w build.vc9 doc/devel doc/fdl.texi cpuid.c \
-	libmp.sym dumbmp.c gen-fac_ui.c gen-fib.c gen-bases.c \
-	gen-psqr.c
+	dumbmp.c gen-fac_ui.c gen-fib.c gen-bases.c gen-psqr.c
 @WANT_CXX_TRUE@GMPXX_HEADERS_OPTION = mpirxx.h
 
 # mpir.h and mp.h are architecture dependent, mainly since they encode the
@@ -536,10 +515,10 @@ EXTRA_DIST = configfsf.guess configfsf.sub .gdbinit INSTALL.autoconf \
 #
 includeexecdir = $(exec_prefix)/include
 include_HEADERS = $(GMPXX_HEADERS_OPTION)
-nodist_includeexec_HEADERS = mpir.h $(MPBSD_HEADERS_OPTION)
+nodist_includeexec_HEADERS = mpir.h
 lib_LTLIBRARIES = libmpir.la $(am__append_2) \
-	$(GMPXX_LTLIBRARIES_OPTION) $(MPBSD_LTLIBRARIES_OPTION)
-BUILT_SOURCES = mpir.h mp.h mpz/fac_ui.h fib_table.h mpn/fib_table.c \
+	$(GMPXX_LTLIBRARIES_OPTION)
+BUILT_SOURCES = mpir.h mpz/fac_ui.h fib_table.h mpn/fib_table.c \
 	mp_bases.h mpn/mp_bases.c mpn/perfsqr.h
 DISTCLEANFILES = $(BUILT_SOURCES) config.m4 fat.h @gmp_srclinks@ \
 	gen-fac_ui$(EXEEXT_FOR_BUILD) gen-fib$(EXEEXT_FOR_BUILD) \
@@ -651,12 +630,6 @@ CXX_OBJECTS = \
   cxx/osdoprnti.lo cxx/osfuns.lo					\
   cxx/osmpf.lo cxx/osmpq.lo cxx/osmpz.lo
 
-MPBSD_OBJECTS = mpbsd/add$U.lo mpbsd/tdiv_qr$U.lo mpbsd/set$U.lo	\
-  mpbsd/powm$U.lo mpbsd/sub$U.lo mpbsd/cmp$U.lo mpbsd/mfree$U.lo	\
-  mpbsd/mtox$U.lo mpbsd/realloc$U.lo mpbsd/gcd$U.lo mpbsd/itom$U.lo	\
-  mpbsd/min$U.lo mpbsd/mul$U.lo mpbsd/mout$U.lo mpbsd/rpow$U.lo		\
-  mpbsd/sdiv$U.lo mpbsd/sqrtrem$U.lo mpbsd/xtom$U.lo
-
 
 # In libtool 1.5 it doesn't work to build libmpir.la from the convenience
 # libraries like mpz/libmpz.la.  Or rather it works, but it ends up putting
@@ -713,26 +686,6 @@ libgmpxx_la_SOURCES = $(libmpirxx_la_SOURCES)
 libgmpxx_la_DEPENDENCIES = $(CXX_OBJECTS) libgmp.la
 libgmpxx_la_LIBADD = $(libgmpxx_la_DEPENDENCIES)
 libgmpxx_la_LDFLAGS = $(libmpirxx_la_LDFLAGS)
-
-# The selected mpz objects here support mpz/powm.c (built as mpbsd/powm.lo)
-# and can probably be removed when that switches to an mpn implementation.
-# (Apart from mpz/n_pow_ui$U.lo, which supports mpbsd/rpow.c)
-@WANT_MPBSD_TRUE@MPBSD_HEADERS_OPTION = mp.h
-@WANT_MPBSD_TRUE@MPBSD_LTLIBRARIES_OPTION = libmp.la
-libmp_la_SOURCES = assert.c errno.c memory.c mp_bpl.c mp_clz_tab.c	\
-  mp_dv_tab.c mp_minv_tab.c mp_get_fns.c mp_set_fns.c
-
-libmp_la_DEPENDENCIES = $(srcdir)/libmp.sym				\
-  @TAL_OBJECT@ $(MPBSD_OBJECTS) $(MPN_OBJECTS) @mpn_objs_in_libmp@	\
-  mpz/add$U.lo mpz/gcdext$U.lo mpz/invert$U.lo mpz/mul$U.lo		\
-  mpz/n_pow_ui$U.lo mpz/realloc$U.lo mpz/set$U.lo mpz/sub$U.lo		\
-  mpz/tdiv_q$U.lo
-
-libmp_la_LIBADD = $(libmp_la_DEPENDENCIES)
-libmp_la_LDFLAGS = $(GMP_LDFLAGS) \
-  -version-info $(LIBMP_LT_CURRENT):$(LIBMP_LT_REVISION):$(LIBMP_LT_AGE) \
-  -export-symbols $(srcdir)/libmp.sym
-
 all: $(BUILT_SOURCES) config.h
 	$(MAKE) $(AM_MAKEFLAGS) all-recursive
 
@@ -790,8 +743,6 @@ distclean-hdr:
 	-rm -f config.h stamp-h1
 mpir.h: $(top_builddir)/config.status $(srcdir)/gmp-h.in
 	cd $(top_builddir) && $(SHELL) ./config.status $@
-mp.h: $(top_builddir)/config.status $(srcdir)/mp-h.in
-	cd $(top_builddir) && $(SHELL) ./config.status $@
 install-libLTLIBRARIES: $(lib_LTLIBRARIES)
 	@$(NORMAL_INSTALL)
 	test -z "$(libdir)" || $(mkdir_p) "$(DESTDIR)$(libdir)"
@@ -823,8 +774,6 @@ libgmp.la: $(libgmp_la_OBJECTS) $(libgmp_la_DEPENDENCIES)
 	$(LINK) $(am_libgmp_la_rpath) $(libgmp_la_LDFLAGS) $(libgmp_la_OBJECTS) $(libgmp_la_LIBADD) $(LIBS)
 libgmpxx.la: $(libgmpxx_la_OBJECTS) $(libgmpxx_la_DEPENDENCIES) 
 	$(CXXLINK) $(am_libgmpxx_la_rpath) $(libgmpxx_la_LDFLAGS) $(libgmpxx_la_OBJECTS) $(libgmpxx_la_LIBADD) $(LIBS)
-libmp.la: $(libmp_la_OBJECTS) $(libmp_la_DEPENDENCIES) 
-	$(LINK) $(am_libmp_la_rpath) $(libmp_la_LDFLAGS) $(libmp_la_OBJECTS) $(libmp_la_LIBADD) $(LIBS)
 libmpir.la: $(libmpir_la_OBJECTS) $(libmpir_la_DEPENDENCIES) 
 	$(LINK) -rpath $(libdir) $(libmpir_la_LDFLAGS) $(libmpir_la_OBJECTS) $(libmpir_la_LIBADD) $(LIBS)
 libmpirxx.la: $(libmpirxx_la_OBJECTS) $(libmpirxx_la_DEPENDENCIES) 

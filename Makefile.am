@@ -99,7 +99,7 @@ if BUILD_YASM
 SUBDIRS += yasm
 endif
 
-SUBDIRS += mpn mpz mpq mpf printf scanf cxx mpbsd demos tune doc bench
+SUBDIRS += mpn mpz mpq mpf printf scanf cxx demos tune doc bench
 
 EXTRA_DIST = configfsf.guess configfsf.sub .gdbinit INSTALL.autoconf
 
@@ -119,12 +119,12 @@ EXTRA_DIST += mpirxx.h yasm_mac.inc.fat yasm_mac.inc.nofat strip_fPIC.sh mpn/x86
 #
 includeexecdir = $(exec_prefix)/include
 include_HEADERS = $(GMPXX_HEADERS_OPTION)
-nodist_includeexec_HEADERS = mpir.h $(MPBSD_HEADERS_OPTION)
+nodist_includeexec_HEADERS = mpir.h
 lib_LTLIBRARIES = libmpir.la
 if WANT_GMPCOMPAT
 lib_LTLIBRARIES += libgmp.la
 endif
-lib_LTLIBRARIES += $(GMPXX_LTLIBRARIES_OPTION) $(MPBSD_LTLIBRARIES_OPTION)
+lib_LTLIBRARIES += $(GMPXX_LTLIBRARIES_OPTION)
 
 BUILT_SOURCES = mpir.h
 
@@ -238,13 +238,6 @@ CXX_OBJECTS =								\
   cxx/osdoprnti.lo cxx/osfuns.lo					\
   cxx/osmpf.lo cxx/osmpq.lo cxx/osmpz.lo
 
-MPBSD_OBJECTS = mpbsd/add$U.lo mpbsd/tdiv_qr$U.lo mpbsd/set$U.lo	\
-  mpbsd/powm$U.lo mpbsd/sub$U.lo mpbsd/cmp$U.lo mpbsd/mfree$U.lo	\
-  mpbsd/mtox$U.lo mpbsd/realloc$U.lo mpbsd/gcd$U.lo mpbsd/itom$U.lo	\
-  mpbsd/min$U.lo mpbsd/mul$U.lo mpbsd/mout$U.lo mpbsd/rpow$U.lo		\
-  mpbsd/sdiv$U.lo mpbsd/sqrtrem$U.lo mpbsd/xtom$U.lo
-
-
 # In libtool 1.5 it doesn't work to build libmpir.la from the convenience
 # libraries like mpz/libmpz.la.  Or rather it works, but it ends up putting
 # PIC objects into libmpir.a if shared and static are both built.  (The PIC
@@ -304,30 +297,6 @@ libgmpxx_la_SOURCES = $(libmpirxx_la_SOURCES)
 libgmpxx_la_DEPENDENCIES = $(CXX_OBJECTS) libgmp.la
 libgmpxx_la_LIBADD = $(libgmpxx_la_DEPENDENCIES)
 libgmpxx_la_LDFLAGS = $(libmpirxx_la_LDFLAGS)
-
-
-# The selected mpz objects here support mpz/powm.c (built as mpbsd/powm.lo)
-# and can probably be removed when that switches to an mpn implementation.
-# (Apart from mpz/n_pow_ui$U.lo, which supports mpbsd/rpow.c)
-
-if WANT_MPBSD
-MPBSD_HEADERS_OPTION = mp.h
-MPBSD_LTLIBRARIES_OPTION = libmp.la
-endif
-BUILT_SOURCES += mp.h
-libmp_la_SOURCES = assert.c errno.c memory.c mp_bpl.c mp_clz_tab.c	\
-  mp_dv_tab.c mp_minv_tab.c mp_get_fns.c mp_set_fns.c
-libmp_la_DEPENDENCIES = $(srcdir)/libmp.sym				\
-  @TAL_OBJECT@ $(MPBSD_OBJECTS) $(MPN_OBJECTS) @mpn_objs_in_libmp@	\
-  mpz/add$U.lo mpz/gcdext$U.lo mpz/invert$U.lo mpz/mul$U.lo		\
-  mpz/n_pow_ui$U.lo mpz/realloc$U.lo mpz/set$U.lo mpz/sub$U.lo		\
-  mpz/tdiv_q$U.lo
-libmp_la_LIBADD = $(libmp_la_DEPENDENCIES)
-libmp_la_LDFLAGS = $(GMP_LDFLAGS) \
-  -version-info $(LIBMP_LT_CURRENT):$(LIBMP_LT_REVISION):$(LIBMP_LT_AGE) \
-  -export-symbols $(srcdir)/libmp.sym
-EXTRA_DIST += libmp.sym
-
 
 install-data-hook:
 if WANT_GMPCOMPAT

@@ -864,8 +864,6 @@ am__untar
 MAINTAINER_MODE_TRUE
 MAINTAINER_MODE_FALSE
 MAINT
-WANT_MPBSD_TRUE
-WANT_MPBSD_FALSE
 WANT_GMPCOMPAT_TRUE
 WANT_GMPCOMPAT_FALSE
 GMP_NAIL_BITS
@@ -927,7 +925,6 @@ M4
 GSYM_FLAG
 OBJECT_FORMAT
 BITS_PER_MP_LIMB
-mpn_objs_in_libmp
 mpn_objects
 mpn_objs_in_libgmp
 gmp_srclinks
@@ -1557,8 +1554,6 @@ Optional Features:
   --enable-alloca         how to get temp memory [default=reentrant]
   --enable-cxx            enable C++ support [default=no]
   --enable-fft            enable FFTs for multiplication [default=yes]
-  --enable-mpbsd          build Berkeley MP compatibility library
-                          [default=no]
   --enable-gmpcompat      create library and header files named gmp as well as
                           mpir [default=no]
   --enable-nails          use nails on limbs [default=no]
@@ -2774,30 +2769,6 @@ cat >>confdefs.h <<\_ACEOF
 _ACEOF
 
 fi
-
-
-# Check whether --enable-mpbsd was given.
-if test "${enable_mpbsd+set}" = set; then
-  enableval=$enable_mpbsd; case $enableval in
-yes|no) ;;
-*) { { echo "$as_me:$LINENO: error: bad value $enableval for --enable-mpbsd, need yes or no" >&5
-echo "$as_me: error: bad value $enableval for --enable-mpbsd, need yes or no" >&2;}
-   { (exit 1); exit 1; }; } ;;
-esac
-else
-  enable_mpbsd=no
-fi
-
-
-
-if test "$enable_mpbsd" = "yes"; then
-  WANT_MPBSD_TRUE=
-  WANT_MPBSD_FALSE='#'
-else
-  WANT_MPBSD_TRUE='#'
-  WANT_MPBSD_FALSE=
-fi
-
 
 # Check whether --enable-gmpcompat was given.
 if test "${enable_gmpcompat+set}" = set; then
@@ -11482,7 +11453,7 @@ ia64-*-hpux*)
   ;;
 *-*-irix6*)
   # Find out which ABI we are using.
-  echo '#line 11485 "configure"' > conftest.$ac_ext
+  echo '#line 11456 "configure"' > conftest.$ac_ext
   if { (eval echo "$as_me:$LINENO: \"$ac_compile\"") >&5
   (eval $ac_compile) 2>&5
   ac_status=$?
@@ -13308,11 +13279,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:13311: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:13282: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>conftest.err)
    ac_status=$?
    cat conftest.err >&5
-   echo "$as_me:13315: \$? = $ac_status" >&5
+   echo "$as_me:13286: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s "$ac_outfile"; then
      # The compiler can only warn and ignore the option if not recognized
      # So say no if there are warnings other than the usual output.
@@ -13598,11 +13569,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:13601: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:13572: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>conftest.err)
    ac_status=$?
    cat conftest.err >&5
-   echo "$as_me:13605: \$? = $ac_status" >&5
+   echo "$as_me:13576: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s "$ac_outfile"; then
      # The compiler can only warn and ignore the option if not recognized
      # So say no if there are warnings other than the usual output.
@@ -13702,11 +13673,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:13705: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:13676: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>out/conftest.err)
    ac_status=$?
    cat out/conftest.err >&5
-   echo "$as_me:13709: \$? = $ac_status" >&5
+   echo "$as_me:13680: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s out/conftest2.$ac_objext
    then
      # The compiler can only warn and ignore the option if not recognized
@@ -16051,7 +16022,7 @@ else
   lt_dlunknown=0; lt_dlno_uscore=1; lt_dlneed_uscore=2
   lt_status=$lt_dlunknown
   cat > conftest.$ac_ext <<EOF
-#line 16054 "configure"
+#line 16025 "configure"
 #include "confdefs.h"
 
 #if HAVE_DLFCN_H
@@ -16151,7 +16122,7 @@ else
   lt_dlunknown=0; lt_dlno_uscore=1; lt_dlneed_uscore=2
   lt_status=$lt_dlunknown
   cat > conftest.$ac_ext <<EOF
-#line 16154 "configure"
+#line 16125 "configure"
 #include "confdefs.h"
 
 #if HAVE_DLFCN_H
@@ -18571,11 +18542,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:18574: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:18545: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>conftest.err)
    ac_status=$?
    cat conftest.err >&5
-   echo "$as_me:18578: \$? = $ac_status" >&5
+   echo "$as_me:18549: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s "$ac_outfile"; then
      # The compiler can only warn and ignore the option if not recognized
      # So say no if there are warnings other than the usual output.
@@ -18675,11 +18646,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:18678: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:18649: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>out/conftest.err)
    ac_status=$?
    cat out/conftest.err >&5
-   echo "$as_me:18682: \$? = $ac_status" >&5
+   echo "$as_me:18653: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s out/conftest2.$ac_objext
    then
      # The compiler can only warn and ignore the option if not recognized
@@ -20237,11 +20208,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:20240: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:20211: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>conftest.err)
    ac_status=$?
    cat conftest.err >&5
-   echo "$as_me:20244: \$? = $ac_status" >&5
+   echo "$as_me:20215: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s "$ac_outfile"; then
      # The compiler can only warn and ignore the option if not recognized
      # So say no if there are warnings other than the usual output.
@@ -20341,11 +20312,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:20344: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:20315: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>out/conftest.err)
    ac_status=$?
    cat out/conftest.err >&5
-   echo "$as_me:20348: \$? = $ac_status" >&5
+   echo "$as_me:20319: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s out/conftest2.$ac_objext
    then
      # The compiler can only warn and ignore the option if not recognized
@@ -22528,11 +22499,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:22531: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:22502: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>conftest.err)
    ac_status=$?
    cat conftest.err >&5
-   echo "$as_me:22535: \$? = $ac_status" >&5
+   echo "$as_me:22506: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s "$ac_outfile"; then
      # The compiler can only warn and ignore the option if not recognized
      # So say no if there are warnings other than the usual output.
@@ -22818,11 +22789,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:22821: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:22792: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>conftest.err)
    ac_status=$?
    cat conftest.err >&5
-   echo "$as_me:22825: \$? = $ac_status" >&5
+   echo "$as_me:22796: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s "$ac_outfile"; then
      # The compiler can only warn and ignore the option if not recognized
      # So say no if there are warnings other than the usual output.
@@ -22922,11 +22893,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:22925: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:22896: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>out/conftest.err)
    ac_status=$?
    cat out/conftest.err >&5
-   echo "$as_me:22929: \$? = $ac_status" >&5
+   echo "$as_me:22900: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s out/conftest2.$ac_objext
    then
      # The compiler can only warn and ignore the option if not recognized
@@ -33246,21 +33217,6 @@ echo "define(<GMP_NUMB_BITS>,eval(GMP_LIMB_BITS-GMP_NAIL_BITS))" >> $gmp_tmpconf
 
 
 
-# Exclude the mpn random functions from mpbsd since that would drag in the
-# top-level rand things, all of which are unnecessary for libmp.  There's
-# other unnecessary objects too actually, if we could be bothered figuring
-# out exactly which they are.
-#
-mpn_objs_in_libmp=
-for i in $mpn_objs_in_libgmp; do
-  case $i in
-  *random*) ;;
-  *) mpn_objs_in_libmp="$mpn_objs_in_libmp $i" ;;
-  esac
-done
-
-
-
 
 
 
@@ -34323,7 +34279,7 @@ fi
 ac_config_links="$ac_config_links yasm_mac.inc:$YASM_MAC_INC"
 
 
-ac_config_files="$ac_config_files Makefile mpbsd/Makefile mpf/Makefile mpn/Makefile mpq/Makefile mpz/Makefile printf/Makefile scanf/Makefile cxx/Makefile tests/Makefile tests/devel/Makefile tests/mpbsd/Makefile tests/mpf/Makefile tests/mpn/Makefile tests/mpq/Makefile tests/mpz/Makefile tests/rand/Makefile tests/misc/Makefile tests/cxx/Makefile doc/Makefile tune/Makefile bench/Makefile demos/Makefile demos/calc/Makefile demos/expr/Makefile mpir.h:gmp-h.in mp.h:mp-h.in"
+ac_config_files="$ac_config_files Makefile mpf/Makefile mpn/Makefile mpq/Makefile mpz/Makefile printf/Makefile scanf/Makefile cxx/Makefile tests/Makefile tests/devel/Makefile tests/mpf/Makefile tests/mpn/Makefile tests/mpq/Makefile tests/mpz/Makefile tests/rand/Makefile tests/misc/Makefile tests/cxx/Makefile doc/Makefile tune/Makefile bench/Makefile demos/Makefile demos/calc/Makefile demos/expr/Makefile mpir.h:gmp-h.in"
 
 cat >confcache <<\_ACEOF
 # This file is a shell script that caches the results of configure
@@ -34425,13 +34381,6 @@ if test -z "${MAINTAINER_MODE_TRUE}" && test -z "${MAINTAINER_MODE_FALSE}"; then
   { { echo "$as_me:$LINENO: error: conditional \"MAINTAINER_MODE\" was never defined.
 Usually this means the macro was only invoked conditionally." >&5
 echo "$as_me: error: conditional \"MAINTAINER_MODE\" was never defined.
-Usually this means the macro was only invoked conditionally." >&2;}
-   { (exit 1); exit 1; }; }
-fi
-if test -z "${WANT_MPBSD_TRUE}" && test -z "${WANT_MPBSD_FALSE}"; then
-  { { echo "$as_me:$LINENO: error: conditional \"WANT_MPBSD\" was never defined.
-Usually this means the macro was only invoked conditionally." >&5
-echo "$as_me: error: conditional \"WANT_MPBSD\" was never defined.
 Usually this means the macro was only invoked conditionally." >&2;}
    { (exit 1); exit 1; }; }
 fi
@@ -34938,7 +34887,6 @@ do
     "demos/calc/calc-config.h") CONFIG_FILES="$CONFIG_FILES demos/calc/calc-config.h:demos/calc/calc-config-h.in" ;;
     "yasm_mac.inc") CONFIG_LINKS="$CONFIG_LINKS yasm_mac.inc:$YASM_MAC_INC" ;;
     "Makefile") CONFIG_FILES="$CONFIG_FILES Makefile" ;;
-    "mpbsd/Makefile") CONFIG_FILES="$CONFIG_FILES mpbsd/Makefile" ;;
     "mpf/Makefile") CONFIG_FILES="$CONFIG_FILES mpf/Makefile" ;;
     "mpn/Makefile") CONFIG_FILES="$CONFIG_FILES mpn/Makefile" ;;
     "mpq/Makefile") CONFIG_FILES="$CONFIG_FILES mpq/Makefile" ;;
@@ -34948,7 +34896,6 @@ do
     "cxx/Makefile") CONFIG_FILES="$CONFIG_FILES cxx/Makefile" ;;
     "tests/Makefile") CONFIG_FILES="$CONFIG_FILES tests/Makefile" ;;
     "tests/devel/Makefile") CONFIG_FILES="$CONFIG_FILES tests/devel/Makefile" ;;
-    "tests/mpbsd/Makefile") CONFIG_FILES="$CONFIG_FILES tests/mpbsd/Makefile" ;;
     "tests/mpf/Makefile") CONFIG_FILES="$CONFIG_FILES tests/mpf/Makefile" ;;
     "tests/mpn/Makefile") CONFIG_FILES="$CONFIG_FILES tests/mpn/Makefile" ;;
     "tests/mpq/Makefile") CONFIG_FILES="$CONFIG_FILES tests/mpq/Makefile" ;;
@@ -34963,7 +34910,6 @@ do
     "demos/calc/Makefile") CONFIG_FILES="$CONFIG_FILES demos/calc/Makefile" ;;
     "demos/expr/Makefile") CONFIG_FILES="$CONFIG_FILES demos/expr/Makefile" ;;
     "mpir.h") CONFIG_FILES="$CONFIG_FILES mpir.h:gmp-h.in" ;;
-    "mp.h") CONFIG_FILES="$CONFIG_FILES mp.h:mp-h.in" ;;
 
   *) { { echo "$as_me:$LINENO: error: invalid argument: $ac_config_target" >&5
 echo "$as_me: error: invalid argument: $ac_config_target" >&2;}
@@ -35095,8 +35041,6 @@ am__untar!$am__untar$ac_delim
 MAINTAINER_MODE_TRUE!$MAINTAINER_MODE_TRUE$ac_delim
 MAINTAINER_MODE_FALSE!$MAINTAINER_MODE_FALSE$ac_delim
 MAINT!$MAINT$ac_delim
-WANT_MPBSD_TRUE!$WANT_MPBSD_TRUE$ac_delim
-WANT_MPBSD_FALSE!$WANT_MPBSD_FALSE$ac_delim
 WANT_GMPCOMPAT_TRUE!$WANT_GMPCOMPAT_TRUE$ac_delim
 WANT_GMPCOMPAT_FALSE!$WANT_GMPCOMPAT_FALSE$ac_delim
 GMP_NAIL_BITS!$GMP_NAIL_BITS$ac_delim
@@ -35123,6 +35067,8 @@ OBJEXT!$OBJEXT$ac_delim
 CPP!$CPP$ac_delim
 CC_FOR_BUILD!$CC_FOR_BUILD$ac_delim
 CPP_FOR_BUILD!$CPP_FOR_BUILD$ac_delim
+EXEEXT_FOR_BUILD!$EXEEXT_FOR_BUILD$ac_delim
+U_FOR_BUILD!$U_FOR_BUILD$ac_delim
 _ACEOF
 
   if test `sed -n "s/.*$ac_delim\$/X/p" conf$$subs.sed | grep -c X` = 97; then
@@ -35164,8 +35110,6 @@ _ACEOF
 ac_delim='%!_!# '
 for ac_last_try in false false false false false :; do
   cat >conf$$subs.sed <<_ACEOF
-EXEEXT_FOR_BUILD!$EXEEXT_FOR_BUILD$ac_delim
-U_FOR_BUILD!$U_FOR_BUILD$ac_delim
 LIBM_FOR_BUILD!$LIBM_FOR_BUILD$ac_delim
 CCAS!$CCAS$ac_delim
 MPIR_AS!$MPIR_AS$ac_delim
@@ -35199,7 +35143,6 @@ M4!$M4$ac_delim
 GSYM_FLAG!$GSYM_FLAG$ac_delim
 OBJECT_FORMAT!$OBJECT_FORMAT$ac_delim
 BITS_PER_MP_LIMB!$BITS_PER_MP_LIMB$ac_delim
-mpn_objs_in_libmp!$mpn_objs_in_libmp$ac_delim
 mpn_objects!$mpn_objects$ac_delim
 mpn_objs_in_libgmp!$mpn_objs_in_libgmp$ac_delim
 gmp_srclinks!$gmp_srclinks$ac_delim
@@ -35226,7 +35169,7 @@ LIBOBJS!$LIBOBJS$ac_delim
 LTLIBOBJS!$LTLIBOBJS$ac_delim
 _ACEOF
 
-  if test `sed -n "s/.*$ac_delim\$/X/p" conf$$subs.sed | grep -c X` = 60; then
+  if test `sed -n "s/.*$ac_delim\$/X/p" conf$$subs.sed | grep -c X` = 57; then
     break
   elif $ac_last_try; then
     { { echo "$as_me:$LINENO: error: could not make $CONFIG_STATUS" >&5

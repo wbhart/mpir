@@ -139,17 +139,6 @@ if test "$enable_fft" = "yes"; then
   [Define to 1 to enable FFTs for multiplication, per --enable-fft])
 fi
 
-
-AC_ARG_ENABLE(mpbsd,
-AC_HELP_STRING([--enable-mpbsd],
-               [build Berkeley MP compatibility library [[default=no]]]),
-[case $enableval in
-yes|no) ;;
-*) AC_MSG_ERROR([bad value $enableval for --enable-mpbsd, need yes or no]) ;;
-esac],
-[enable_mpbsd=no])
-AM_CONDITIONAL(WANT_MPBSD, test "$enable_mpbsd" = "yes")
-
 AC_ARG_ENABLE(gmpcompat,
 AC_HELP_STRING([--enable-gmpcompat],
                [create library and header files named gmp as well as mpir [[default=no]]]),
@@ -3233,21 +3222,6 @@ GMP_DEFINE_RAW(["define(<GMP_LIMB_BITS>,$BITS_PER_MP_LIMB)"])
 GMP_DEFINE_RAW(["define(<GMP_NAIL_BITS>,$GMP_NAIL_BITS)"])
 GMP_DEFINE_RAW(["define(<GMP_NUMB_BITS>,eval(GMP_LIMB_BITS-GMP_NAIL_BITS))"])
 
-
-# Exclude the mpn random functions from mpbsd since that would drag in the
-# top-level rand things, all of which are unnecessary for libmp.  There's
-# other unnecessary objects too actually, if we could be bothered figuring
-# out exactly which they are.
-#
-mpn_objs_in_libmp=
-for i in $mpn_objs_in_libgmp; do
-  case $i in
-  *random*) ;;
-  *) mpn_objs_in_libmp="$mpn_objs_in_libmp $i" ;;
-  esac
-done
-AC_SUBST(mpn_objs_in_libmp)
-
 AC_SUBST(mpn_objects)
 AC_SUBST(mpn_objs_in_libgmp)
 AC_SUBST(gmp_srclinks)
@@ -3363,4 +3337,4 @@ YASM_MAC_INC=yasm_mac.inc.nofat
 fi
 AC_CONFIG_LINKS(yasm_mac.inc:$YASM_MAC_INC)
 
-AC_OUTPUT(Makefile mpbsd/Makefile mpf/Makefile mpn/Makefile mpq/Makefile mpz/Makefile printf/Makefile scanf/Makefile cxx/Makefile tests/Makefile tests/devel/Makefile tests/mpbsd/Makefile tests/mpf/Makefile tests/mpn/Makefile tests/mpq/Makefile tests/mpz/Makefile tests/rand/Makefile tests/misc/Makefile tests/cxx/Makefile doc/Makefile tune/Makefile bench/Makefile demos/Makefile demos/calc/Makefile demos/expr/Makefile mpir.h:gmp-h.in mp.h:mp-h.in)
+AC_OUTPUT(Makefile mpf/Makefile mpn/Makefile mpq/Makefile mpz/Makefile printf/Makefile scanf/Makefile cxx/Makefile tests/Makefile tests/devel/Makefile tests/mpf/Makefile tests/mpn/Makefile tests/mpq/Makefile tests/mpz/Makefile tests/rand/Makefile tests/misc/Makefile tests/cxx/Makefile doc/Makefile tune/Makefile bench/Makefile demos/Makefile demos/calc/Makefile demos/expr/Makefile mpir.h:gmp-h.in)

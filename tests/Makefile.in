@@ -265,8 +265,6 @@ WANT_CXX_FALSE = @WANT_CXX_FALSE@
 WANT_CXX_TRUE = @WANT_CXX_TRUE@
 WANT_GMPCOMPAT_FALSE = @WANT_GMPCOMPAT_FALSE@
 WANT_GMPCOMPAT_TRUE = @WANT_GMPCOMPAT_TRUE@
-WANT_MPBSD_FALSE = @WANT_MPBSD_FALSE@
-WANT_MPBSD_TRUE = @WANT_MPBSD_TRUE@
 WITH_READLINE_01 = @WITH_READLINE_01@
 YACC = @YACC@
 YFLAGS = @YFLAGS@
@@ -304,7 +302,6 @@ mandir = @mandir@
 mkdir_p = @mkdir_p@
 mpn_objects = @mpn_objects@
 mpn_objs_in_libgmp = @mpn_objs_in_libgmp@
-mpn_objs_in_libmp = @mpn_objs_in_libmp@
 oldincludedir = @oldincludedir@
 pdfdir = @pdfdir@
 prefix = @prefix@
@@ -315,7 +312,7 @@ sharedstatedir = @sharedstatedir@
 subdirs = @subdirs@
 sysconfdir = @sysconfdir@
 target_alias = @target_alias@
-SUBDIRS = . devel mpn mpz mpq mpf rand misc cxx mpbsd
+SUBDIRS = . devel mpn mpz mpq mpf rand misc cxx
 
 # COMPILE minus CC.
 #
