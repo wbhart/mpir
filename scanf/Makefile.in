@@ -55,7 +55,6 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
-ANSI2KNR = $(top_builddir)/ansi2knr
 subdir = scanf
 DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
@@ -68,9 +67,8 @@ CONFIG_HEADER = $(top_builddir)/config.h
 CONFIG_CLEAN_FILES =
 LTLIBRARIES = $(noinst_LTLIBRARIES)
 libscanf_la_LIBADD =
-am_libscanf_la_OBJECTS = doscan$U.lo fscanf$U.lo fscanffuns$U.lo \
-	scanf$U.lo sscanf$U.lo sscanffuns$U.lo vfscanf$U.lo \
-	vscanf$U.lo vsscanf$U.lo
+am_libscanf_la_OBJECTS = doscan.lo fscanf.lo fscanffuns.lo scanf.lo \
+	sscanf.lo sscanffuns.lo vfscanf.lo vscanf.lo vsscanf.lo
 libscanf_la_OBJECTS = $(am_libscanf_la_OBJECTS)
 DEFAULT_INCLUDES = -I. -I$(srcdir) -I$(top_builddir)
 depcomp =
@@ -187,7 +185,6 @@ SPEED_CYCLECOUNTER_OBJ = @SPEED_CYCLECOUNTER_OBJ@
 STRIP = @STRIP@
 TAL_OBJECT = @TAL_OBJECT@
 TUNE_SQR_OBJ = @TUNE_SQR_OBJ@
-U = @U@
 U_FOR_BUILD = @U_FOR_BUILD@
 VERSION = @VERSION@
 WANT_CXX_FALSE = @WANT_CXX_FALSE@
@@ -297,11 +294,6 @@ mostlyclean-compile:
 
 distclean-compile:
 	-rm -f *.tab.c
-$(top_builddir)/ansi2knr:
-	cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) ansi2knr
-
-mostlyclean-kr:
-	-test "$U" = "" || rm -f *_.c
 
 .c.o:
 	$(COMPILE) -c $<
@@ -311,29 +303,6 @@ mostlyclean-kr:
 
 .c.lo:
 	$(LTCOMPILE) -c -o $@ $<
-doscan_.c: doscan.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/doscan.c; then echo $(srcdir)/doscan.c; else echo doscan.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-fscanf_.c: fscanf.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/fscanf.c; then echo $(srcdir)/fscanf.c; else echo fscanf.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-fscanffuns_.c: fscanffuns.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/fscanffuns.c; then echo $(srcdir)/fscanffuns.c; else echo fscanffuns.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-scanf_.c: scanf.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/scanf.c; then echo $(srcdir)/scanf.c; else echo scanf.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-sscanf_.c: sscanf.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/sscanf.c; then echo $(srcdir)/sscanf.c; else echo sscanf.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-sscanffuns_.c: sscanffuns.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/sscanffuns.c; then echo $(srcdir)/sscanffuns.c; else echo sscanffuns.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-vfscanf_.c: vfscanf.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/vfscanf.c; then echo $(srcdir)/vfscanf.c; else echo vfscanf.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-vscanf_.c: vscanf.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/vscanf.c; then echo $(srcdir)/vscanf.c; else echo vscanf.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-vsscanf_.c: vsscanf.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/vsscanf.c; then echo $(srcdir)/vsscanf.c; else echo vsscanf.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-doscan_.$(OBJEXT) doscan_.lo fscanf_.$(OBJEXT) fscanf_.lo \
-fscanffuns_.$(OBJEXT) fscanffuns_.lo scanf_.$(OBJEXT) scanf_.lo \
-sscanf_.$(OBJEXT) sscanf_.lo sscanffuns_.$(OBJEXT) sscanffuns_.lo \
-vfscanf_.$(OBJEXT) vfscanf_.lo vscanf_.$(OBJEXT) vscanf_.lo \
-vsscanf_.$(OBJEXT) vsscanf_.lo : $(ANSI2KNR)
 
 mostlyclean-libtool:
 	-rm -f *.lo
@@ -484,7 +453,7 @@ maintainer-clean-am: distclean-am maintainer-clean-generic
 
 mostlyclean: mostlyclean-am
 
-mostlyclean-am: mostlyclean-compile mostlyclean-generic mostlyclean-kr \
+mostlyclean-am: mostlyclean-compile mostlyclean-generic \
 	mostlyclean-libtool
 
 pdf: pdf-am
@@ -505,9 +474,9 @@ uninstall-am: uninstall-info-am
 	install-exec-am install-info install-info-am install-man \
 	install-strip installcheck installcheck-am installdirs \
 	maintainer-clean maintainer-clean-generic mostlyclean \
-	mostlyclean-compile mostlyclean-generic mostlyclean-kr \
-	mostlyclean-libtool pdf pdf-am ps ps-am tags uninstall \
-	uninstall-am uninstall-info-am
+	mostlyclean-compile mostlyclean-generic mostlyclean-libtool \
+	pdf pdf-am ps ps-am tags uninstall uninstall-am \
+	uninstall-info-am
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

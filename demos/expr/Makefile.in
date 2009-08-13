@@ -54,7 +54,6 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
-ANSI2KNR = $(top_builddir)/ansi2knr
 EXTRA_PROGRAMS = run-expr$(EXEEXT) t-expr$(EXEEXT)
 subdir = demos/expr
 DIST_COMMON = README $(srcdir)/Makefile.am $(srcdir)/Makefile.in
@@ -68,16 +67,16 @@ CONFIG_HEADER = $(top_builddir)/config.h
 CONFIG_CLEAN_FILES =
 libexpr_a_AR = $(AR) $(ARFLAGS)
 libexpr_a_LIBADD =
-am_libexpr_a_OBJECTS = expr$U.$(OBJEXT) exprv$U.$(OBJEXT) \
-	exprz$U.$(OBJEXT) exprza$U.$(OBJEXT) exprq$U.$(OBJEXT) \
-	exprqa$U.$(OBJEXT) exprf$U.$(OBJEXT) exprfa$U.$(OBJEXT)
+am_libexpr_a_OBJECTS = expr.$(OBJEXT) exprv.$(OBJEXT) exprz.$(OBJEXT) \
+	exprza.$(OBJEXT) exprq.$(OBJEXT) exprqa.$(OBJEXT) \
+	exprf.$(OBJEXT) exprfa.$(OBJEXT)
 libexpr_a_OBJECTS = $(am_libexpr_a_OBJECTS)
 run_expr_SOURCES = run-expr.c
-run_expr_OBJECTS = run-expr$U.$(OBJEXT)
+run_expr_OBJECTS = run-expr.$(OBJEXT)
 run_expr_LDADD = $(LDADD)
 run_expr_DEPENDENCIES = libexpr.a $(top_builddir)/libmpir.la
 t_expr_SOURCES = t-expr.c
-t_expr_OBJECTS = t-expr$U.$(OBJEXT)
+t_expr_OBJECTS = t-expr.$(OBJEXT)
 am__DEPENDENCIES_1 = libexpr.a $(top_builddir)/libmpir.la
 t_expr_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
 	$(am__DEPENDENCIES_1)
@@ -196,7 +195,6 @@ SPEED_CYCLECOUNTER_OBJ = @SPEED_CYCLECOUNTER_OBJ@
 STRIP = @STRIP@
 TAL_OBJECT = @TAL_OBJECT@
 TUNE_SQR_OBJ = @TUNE_SQR_OBJ@
-U = @U@
 U_FOR_BUILD = @U_FOR_BUILD@
 VERSION = @VERSION@
 WANT_CXX_FALSE = @WANT_CXX_FALSE@
@@ -314,11 +312,6 @@ mostlyclean-compile:
 
 distclean-compile:
 	-rm -f *.tab.c
-$(top_builddir)/ansi2knr:
-	cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) ansi2knr
-
-mostlyclean-kr:
-	-test "$U" = "" || rm -f *_.c
 
 .c.o:
 	$(COMPILE) -c $<
@@ -328,31 +321,6 @@ mostlyclean-kr:
 
 .c.lo:
 	$(LTCOMPILE) -c -o $@ $<
-expr_.c: expr.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/expr.c; then echo $(srcdir)/expr.c; else echo expr.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-exprf_.c: exprf.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/exprf.c; then echo $(srcdir)/exprf.c; else echo exprf.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-exprfa_.c: exprfa.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/exprfa.c; then echo $(srcdir)/exprfa.c; else echo exprfa.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-exprq_.c: exprq.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/exprq.c; then echo $(srcdir)/exprq.c; else echo exprq.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-exprqa_.c: exprqa.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/exprqa.c; then echo $(srcdir)/exprqa.c; else echo exprqa.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-exprv_.c: exprv.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/exprv.c; then echo $(srcdir)/exprv.c; else echo exprv.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-exprz_.c: exprz.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/exprz.c; then echo $(srcdir)/exprz.c; else echo exprz.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-exprza_.c: exprza.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/exprza.c; then echo $(srcdir)/exprza.c; else echo exprza.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-run-expr_.c: run-expr.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/run-expr.c; then echo $(srcdir)/run-expr.c; else echo run-expr.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-t-expr_.c: t-expr.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/t-expr.c; then echo $(srcdir)/t-expr.c; else echo t-expr.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-expr_.$(OBJEXT) expr_.lo exprf_.$(OBJEXT) exprf_.lo exprfa_.$(OBJEXT) \
-exprfa_.lo exprq_.$(OBJEXT) exprq_.lo exprqa_.$(OBJEXT) exprqa_.lo \
-exprv_.$(OBJEXT) exprv_.lo exprz_.$(OBJEXT) exprz_.lo \
-exprza_.$(OBJEXT) exprza_.lo run-expr_.$(OBJEXT) run-expr_.lo \
-t-expr_.$(OBJEXT) t-expr_.lo : $(ANSI2KNR)
 
 mostlyclean-libtool:
 	-rm -f *.lo
@@ -503,7 +471,7 @@ maintainer-clean-am: distclean-am maintainer-clean-generic
 
 mostlyclean: mostlyclean-am
 
-mostlyclean-am: mostlyclean-compile mostlyclean-generic mostlyclean-kr \
+mostlyclean-am: mostlyclean-compile mostlyclean-generic \
 	mostlyclean-libtool
 
 pdf: pdf-am
@@ -524,8 +492,8 @@ uninstall-am: uninstall-info-am
 	install-info install-info-am install-man install-strip \
 	installcheck installcheck-am installdirs maintainer-clean \
 	maintainer-clean-generic mostlyclean mostlyclean-compile \
-	mostlyclean-generic mostlyclean-kr mostlyclean-libtool pdf \
-	pdf-am ps ps-am tags uninstall uninstall-am uninstall-info-am
+	mostlyclean-generic mostlyclean-libtool pdf pdf-am ps ps-am \
+	tags uninstall uninstall-am uninstall-info-am
 
 
 allprogs: $(EXTRA_PROGRAMS)

@@ -54,7 +54,6 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
-ANSI2KNR = $(top_builddir)/ansi2knr
 check_PROGRAMS = t-aors$(EXEEXT) t-cmp$(EXEEXT) t-cmp_ui$(EXEEXT) \
 	t-cmp_si$(EXEEXT) t-equal$(EXEEXT) t-get_d$(EXEEXT) \
 	t-get_str$(EXEEXT) t-inp_str$(EXEEXT) t-md_2exp$(EXEEXT) \
@@ -70,57 +69,57 @@ mkinstalldirs = $(install_sh) -d
 CONFIG_HEADER = $(top_builddir)/config.h
 CONFIG_CLEAN_FILES =
 t_aors_SOURCES = t-aors.c
-t_aors_OBJECTS = t-aors$U.$(OBJEXT)
+t_aors_OBJECTS = t-aors.$(OBJEXT)
 t_aors_LDADD = $(LDADD)
 t_aors_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
 	$(top_builddir)/libmpir.la
 t_cmp_SOURCES = t-cmp.c
-t_cmp_OBJECTS = t-cmp$U.$(OBJEXT)
+t_cmp_OBJECTS = t-cmp.$(OBJEXT)
 t_cmp_LDADD = $(LDADD)
 t_cmp_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
 	$(top_builddir)/libmpir.la
 t_cmp_si_SOURCES = t-cmp_si.c
-t_cmp_si_OBJECTS = t-cmp_si$U.$(OBJEXT)
+t_cmp_si_OBJECTS = t-cmp_si.$(OBJEXT)
 t_cmp_si_LDADD = $(LDADD)
 t_cmp_si_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
 	$(top_builddir)/libmpir.la
 t_cmp_ui_SOURCES = t-cmp_ui.c
-t_cmp_ui_OBJECTS = t-cmp_ui$U.$(OBJEXT)
+t_cmp_ui_OBJECTS = t-cmp_ui.$(OBJEXT)
 t_cmp_ui_LDADD = $(LDADD)
 t_cmp_ui_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
 	$(top_builddir)/libmpir.la
 t_equal_SOURCES = t-equal.c
-t_equal_OBJECTS = t-equal$U.$(OBJEXT)
+t_equal_OBJECTS = t-equal.$(OBJEXT)
 t_equal_LDADD = $(LDADD)
 t_equal_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
 	$(top_builddir)/libmpir.la
 t_get_d_SOURCES = t-get_d.c
-t_get_d_OBJECTS = t-get_d$U.$(OBJEXT)
+t_get_d_OBJECTS = t-get_d.$(OBJEXT)
 t_get_d_LDADD = $(LDADD)
 t_get_d_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
 	$(top_builddir)/libmpir.la
 t_get_str_SOURCES = t-get_str.c
-t_get_str_OBJECTS = t-get_str$U.$(OBJEXT)
+t_get_str_OBJECTS = t-get_str.$(OBJEXT)
 t_get_str_LDADD = $(LDADD)
 t_get_str_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
 	$(top_builddir)/libmpir.la
 t_inp_str_SOURCES = t-inp_str.c
-t_inp_str_OBJECTS = t-inp_str$U.$(OBJEXT)
+t_inp_str_OBJECTS = t-inp_str.$(OBJEXT)
 t_inp_str_LDADD = $(LDADD)
 t_inp_str_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
 	$(top_builddir)/libmpir.la
 t_md_2exp_SOURCES = t-md_2exp.c
-t_md_2exp_OBJECTS = t-md_2exp$U.$(OBJEXT)
+t_md_2exp_OBJECTS = t-md_2exp.$(OBJEXT)
 t_md_2exp_LDADD = $(LDADD)
 t_md_2exp_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
 	$(top_builddir)/libmpir.la
 t_set_f_SOURCES = t-set_f.c
-t_set_f_OBJECTS = t-set_f$U.$(OBJEXT)
+t_set_f_OBJECTS = t-set_f.$(OBJEXT)
 t_set_f_LDADD = $(LDADD)
 t_set_f_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
 	$(top_builddir)/libmpir.la
 t_set_str_SOURCES = t-set_str.c
-t_set_str_OBJECTS = t-set_str$U.$(OBJEXT)
+t_set_str_OBJECTS = t-set_str.$(OBJEXT)
 t_set_str_LDADD = $(LDADD)
 t_set_str_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
 	$(top_builddir)/libmpir.la
@@ -242,7 +241,6 @@ SPEED_CYCLECOUNTER_OBJ = @SPEED_CYCLECOUNTER_OBJ@
 STRIP = @STRIP@
 TAL_OBJECT = @TAL_OBJECT@
 TUNE_SQR_OBJ = @TUNE_SQR_OBJ@
-U = @U@
 U_FOR_BUILD = @U_FOR_BUILD@
 VERSION = @VERSION@
 WANT_CXX_FALSE = @WANT_CXX_FALSE@
@@ -383,11 +381,6 @@ mostlyclean-compile:
 
 distclean-compile:
 	-rm -f *.tab.c
-$(top_builddir)/ansi2knr:
-	cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) ansi2knr
-
-mostlyclean-kr:
-	-test "$U" = "" || rm -f *_.c
 
 .c.o:
 	$(COMPILE) -c $<
@@ -397,34 +390,6 @@ mostlyclean-kr:
 
 .c.lo:
 	$(LTCOMPILE) -c -o $@ $<
-t-aors_.c: t-aors.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/t-aors.c; then echo $(srcdir)/t-aors.c; else echo t-aors.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-t-cmp_.c: t-cmp.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/t-cmp.c; then echo $(srcdir)/t-cmp.c; else echo t-cmp.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-t-cmp_si_.c: t-cmp_si.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/t-cmp_si.c; then echo $(srcdir)/t-cmp_si.c; else echo t-cmp_si.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-t-cmp_ui_.c: t-cmp_ui.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/t-cmp_ui.c; then echo $(srcdir)/t-cmp_ui.c; else echo t-cmp_ui.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-t-equal_.c: t-equal.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/t-equal.c; then echo $(srcdir)/t-equal.c; else echo t-equal.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-t-get_d_.c: t-get_d.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/t-get_d.c; then echo $(srcdir)/t-get_d.c; else echo t-get_d.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-t-get_str_.c: t-get_str.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/t-get_str.c; then echo $(srcdir)/t-get_str.c; else echo t-get_str.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-t-inp_str_.c: t-inp_str.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/t-inp_str.c; then echo $(srcdir)/t-inp_str.c; else echo t-inp_str.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-t-md_2exp_.c: t-md_2exp.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/t-md_2exp.c; then echo $(srcdir)/t-md_2exp.c; else echo t-md_2exp.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-t-set_f_.c: t-set_f.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/t-set_f.c; then echo $(srcdir)/t-set_f.c; else echo t-set_f.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-t-set_str_.c: t-set_str.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/t-set_str.c; then echo $(srcdir)/t-set_str.c; else echo t-set_str.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-t-aors_.$(OBJEXT) t-aors_.lo t-cmp_.$(OBJEXT) t-cmp_.lo \
-t-cmp_si_.$(OBJEXT) t-cmp_si_.lo t-cmp_ui_.$(OBJEXT) t-cmp_ui_.lo \
-t-equal_.$(OBJEXT) t-equal_.lo t-get_d_.$(OBJEXT) t-get_d_.lo \
-t-get_str_.$(OBJEXT) t-get_str_.lo t-inp_str_.$(OBJEXT) t-inp_str_.lo \
-t-md_2exp_.$(OBJEXT) t-md_2exp_.lo t-set_f_.$(OBJEXT) t-set_f_.lo \
-t-set_str_.$(OBJEXT) t-set_str_.lo : $(ANSI2KNR)
 
 mostlyclean-libtool:
 	-rm -f *.lo
@@ -651,7 +616,7 @@ maintainer-clean-am: distclean-am maintainer-clean-generic
 
 mostlyclean: mostlyclean-am
 
-mostlyclean-am: mostlyclean-compile mostlyclean-generic mostlyclean-kr \
+mostlyclean-am: mostlyclean-compile mostlyclean-generic \
 	mostlyclean-libtool
 
 pdf: pdf-am
@@ -673,8 +638,8 @@ uninstall-am: uninstall-info-am
 	install-info-am install-man install-strip installcheck \
 	installcheck-am installdirs maintainer-clean \
 	maintainer-clean-generic mostlyclean mostlyclean-compile \
-	mostlyclean-generic mostlyclean-kr mostlyclean-libtool pdf \
-	pdf-am ps ps-am tags uninstall uninstall-am uninstall-info-am
+	mostlyclean-generic mostlyclean-libtool pdf pdf-am ps ps-am \
+	tags uninstall uninstall-am uninstall-info-am
 
 
 $(top_builddir)/tests/libtests.la:

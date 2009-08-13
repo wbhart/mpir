@@ -54,7 +54,6 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
-ANSI2KNR = $(top_builddir)/ansi2knr
 EXTRA_PROGRAMS = calc$(EXEEXT)
 subdir = demos/calc
 DIST_COMMON = README $(srcdir)/Makefile.am $(srcdir)/Makefile.in \
@@ -67,8 +66,7 @@ am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 mkinstalldirs = $(install_sh) -d
 CONFIG_HEADER = $(top_builddir)/config.h
 CONFIG_CLEAN_FILES = calc-config.h
-am_calc_OBJECTS = calc$U.$(OBJEXT) calclex$U.$(OBJEXT) \
-	calcread$U.$(OBJEXT)
+am_calc_OBJECTS = calc.$(OBJEXT) calclex.$(OBJEXT) calcread.$(OBJEXT)
 calc_OBJECTS = $(am_calc_OBJECTS)
 calc_LDADD = $(LDADD)
 am__DEPENDENCIES_1 =
@@ -194,7 +192,6 @@ SPEED_CYCLECOUNTER_OBJ = @SPEED_CYCLECOUNTER_OBJ@
 STRIP = @STRIP@
 TAL_OBJECT = @TAL_OBJECT@
 TUNE_SQR_OBJ = @TUNE_SQR_OBJ@
-U = @U@
 U_FOR_BUILD = @U_FOR_BUILD@
 VERSION = @VERSION@
 WANT_CXX_FALSE = @WANT_CXX_FALSE@
@@ -309,11 +306,6 @@ mostlyclean-compile:
 
 distclean-compile:
 	-rm -f *.tab.c
-$(top_builddir)/ansi2knr:
-	cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) ansi2knr
-
-mostlyclean-kr:
-	-test "$U" = "" || rm -f *_.c
 
 .c.o:
 	$(COMPILE) -c $<
@@ -323,14 +315,6 @@ mostlyclean-kr:
 
 .c.lo:
 	$(LTCOMPILE) -c -o $@ $<
-calc_.c: calc.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/calc.c; then echo $(srcdir)/calc.c; else echo calc.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-calclex_.c: calclex.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/calclex.c; then echo $(srcdir)/calclex.c; else echo calclex.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-calcread_.c: calcread.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/calcread.c; then echo $(srcdir)/calcread.c; else echo calcread.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-calc_.$(OBJEXT) calc_.lo calclex_.$(OBJEXT) calclex_.lo \
-calcread_.$(OBJEXT) calcread_.lo : $(ANSI2KNR)
 
 .l.c:
 	$(LEXCOMPILE) $<
@@ -513,7 +497,7 @@ maintainer-clean-am: distclean-am maintainer-clean-generic
 
 mostlyclean: mostlyclean-am
 
-mostlyclean-am: mostlyclean-compile mostlyclean-generic mostlyclean-kr \
+mostlyclean-am: mostlyclean-compile mostlyclean-generic \
 	mostlyclean-libtool
 
 pdf: pdf-am
@@ -534,8 +518,8 @@ uninstall-am: uninstall-info-am
 	install-info install-info-am install-man install-strip \
 	installcheck installcheck-am installdirs maintainer-clean \
 	maintainer-clean-generic mostlyclean mostlyclean-compile \
-	mostlyclean-generic mostlyclean-kr mostlyclean-libtool pdf \
-	pdf-am ps ps-am tags uninstall uninstall-am uninstall-info-am
+	mostlyclean-generic mostlyclean-libtool pdf pdf-am ps ps-am \
+	tags uninstall uninstall-am uninstall-info-am
 
 
 allprogs: $(EXTRA_PROGRAMS)

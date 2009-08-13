@@ -55,7 +55,6 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
-ANSI2KNR = $(top_builddir)/ansi2knr
 subdir = printf
 DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
@@ -68,12 +67,12 @@ CONFIG_HEADER = $(top_builddir)/config.h
 CONFIG_CLEAN_FILES =
 LTLIBRARIES = $(noinst_LTLIBRARIES)
 libprintf_la_LIBADD =
-am_libprintf_la_OBJECTS = asprintf$U.lo asprntffuns$U.lo doprnt$U.lo \
-	doprntf$U.lo doprnti$U.lo fprintf$U.lo obprintf$U.lo \
-	obvprintf$U.lo obprntffuns$U.lo printf$U.lo printffuns$U.lo \
-	snprintf$U.lo snprntffuns$U.lo sprintf$U.lo sprintffuns$U.lo \
-	vasprintf$U.lo vfprintf$U.lo vprintf$U.lo vsnprintf$U.lo \
-	vsprintf$U.lo repl-vsnprintf$U.lo
+am_libprintf_la_OBJECTS = asprintf.lo asprntffuns.lo doprnt.lo \
+	doprntf.lo doprnti.lo fprintf.lo obprintf.lo obvprintf.lo \
+	obprntffuns.lo printf.lo printffuns.lo snprintf.lo \
+	snprntffuns.lo sprintf.lo sprintffuns.lo vasprintf.lo \
+	vfprintf.lo vprintf.lo vsnprintf.lo vsprintf.lo \
+	repl-vsnprintf.lo
 libprintf_la_OBJECTS = $(am_libprintf_la_OBJECTS)
 DEFAULT_INCLUDES = -I. -I$(srcdir) -I$(top_builddir)
 depcomp =
@@ -190,7 +189,6 @@ SPEED_CYCLECOUNTER_OBJ = @SPEED_CYCLECOUNTER_OBJ@
 STRIP = @STRIP@
 TAL_OBJECT = @TAL_OBJECT@
 TUNE_SQR_OBJ = @TUNE_SQR_OBJ@
-U = @U@
 U_FOR_BUILD = @U_FOR_BUILD@
 VERSION = @VERSION@
 WANT_CXX_FALSE = @WANT_CXX_FALSE@
@@ -303,11 +301,6 @@ mostlyclean-compile:
 
 distclean-compile:
 	-rm -f *.tab.c
-$(top_builddir)/ansi2knr:
-	cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) ansi2knr
-
-mostlyclean-kr:
-	-test "$U" = "" || rm -f *_.c
 
 .c.o:
 	$(COMPILE) -c $<
@@ -317,60 +310,6 @@ mostlyclean-kr:
 
 .c.lo:
 	$(LTCOMPILE) -c -o $@ $<
-asprintf_.c: asprintf.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/asprintf.c; then echo $(srcdir)/asprintf.c; else echo asprintf.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-asprntffuns_.c: asprntffuns.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/asprntffuns.c; then echo $(srcdir)/asprntffuns.c; else echo asprntffuns.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-doprnt_.c: doprnt.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/doprnt.c; then echo $(srcdir)/doprnt.c; else echo doprnt.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-doprntf_.c: doprntf.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/doprntf.c; then echo $(srcdir)/doprntf.c; else echo doprntf.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-doprnti_.c: doprnti.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/doprnti.c; then echo $(srcdir)/doprnti.c; else echo doprnti.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-fprintf_.c: fprintf.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/fprintf.c; then echo $(srcdir)/fprintf.c; else echo fprintf.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-obprintf_.c: obprintf.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/obprintf.c; then echo $(srcdir)/obprintf.c; else echo obprintf.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-obprntffuns_.c: obprntffuns.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/obprntffuns.c; then echo $(srcdir)/obprntffuns.c; else echo obprntffuns.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-obvprintf_.c: obvprintf.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/obvprintf.c; then echo $(srcdir)/obvprintf.c; else echo obvprintf.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-printf_.c: printf.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/printf.c; then echo $(srcdir)/printf.c; else echo printf.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-printffuns_.c: printffuns.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/printffuns.c; then echo $(srcdir)/printffuns.c; else echo printffuns.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-repl-vsnprintf_.c: repl-vsnprintf.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/repl-vsnprintf.c; then echo $(srcdir)/repl-vsnprintf.c; else echo repl-vsnprintf.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-snprintf_.c: snprintf.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/snprintf.c; then echo $(srcdir)/snprintf.c; else echo snprintf.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-snprntffuns_.c: snprntffuns.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/snprntffuns.c; then echo $(srcdir)/snprntffuns.c; else echo snprntffuns.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-sprintf_.c: sprintf.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/sprintf.c; then echo $(srcdir)/sprintf.c; else echo sprintf.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-sprintffuns_.c: sprintffuns.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/sprintffuns.c; then echo $(srcdir)/sprintffuns.c; else echo sprintffuns.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-vasprintf_.c: vasprintf.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/vasprintf.c; then echo $(srcdir)/vasprintf.c; else echo vasprintf.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-vfprintf_.c: vfprintf.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/vfprintf.c; then echo $(srcdir)/vfprintf.c; else echo vfprintf.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-vprintf_.c: vprintf.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/vprintf.c; then echo $(srcdir)/vprintf.c; else echo vprintf.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-vsnprintf_.c: vsnprintf.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/vsnprintf.c; then echo $(srcdir)/vsnprintf.c; else echo vsnprintf.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-vsprintf_.c: vsprintf.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/vsprintf.c; then echo $(srcdir)/vsprintf.c; else echo vsprintf.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-asprintf_.$(OBJEXT) asprintf_.lo asprntffuns_.$(OBJEXT) \
-asprntffuns_.lo doprnt_.$(OBJEXT) doprnt_.lo doprntf_.$(OBJEXT) \
-doprntf_.lo doprnti_.$(OBJEXT) doprnti_.lo fprintf_.$(OBJEXT) \
-fprintf_.lo obprintf_.$(OBJEXT) obprintf_.lo obprntffuns_.$(OBJEXT) \
-obprntffuns_.lo obvprintf_.$(OBJEXT) obvprintf_.lo printf_.$(OBJEXT) \
-printf_.lo printffuns_.$(OBJEXT) printffuns_.lo \
-repl-vsnprintf_.$(OBJEXT) repl-vsnprintf_.lo snprintf_.$(OBJEXT) \
-snprintf_.lo snprntffuns_.$(OBJEXT) snprntffuns_.lo sprintf_.$(OBJEXT) \
-sprintf_.lo sprintffuns_.$(OBJEXT) sprintffuns_.lo \
-vasprintf_.$(OBJEXT) vasprintf_.lo vfprintf_.$(OBJEXT) vfprintf_.lo \
-vprintf_.$(OBJEXT) vprintf_.lo vsnprintf_.$(OBJEXT) vsnprintf_.lo \
-vsprintf_.$(OBJEXT) vsprintf_.lo : $(ANSI2KNR)
 
 mostlyclean-libtool:
 	-rm -f *.lo
@@ -521,7 +460,7 @@ maintainer-clean-am: distclean-am maintainer-clean-generic
 
 mostlyclean: mostlyclean-am
 
-mostlyclean-am: mostlyclean-compile mostlyclean-generic mostlyclean-kr \
+mostlyclean-am: mostlyclean-compile mostlyclean-generic \
 	mostlyclean-libtool
 
 pdf: pdf-am
@@ -542,9 +481,9 @@ uninstall-am: uninstall-info-am
 	install-exec-am install-info install-info-am install-man \
 	install-strip installcheck installcheck-am installdirs \
 	maintainer-clean maintainer-clean-generic mostlyclean \
-	mostlyclean-compile mostlyclean-generic mostlyclean-kr \
-	mostlyclean-libtool pdf pdf-am ps ps-am tags uninstall \
-	uninstall-am uninstall-info-am
+	mostlyclean-compile mostlyclean-generic mostlyclean-libtool \
+	pdf pdf-am ps ps-am tags uninstall uninstall-am \
+	uninstall-info-am
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

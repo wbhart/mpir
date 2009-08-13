@@ -59,16 +59,14 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
-ANSI2KNR = @ANSI2KNR@
 @BUILD_YASM_TRUE@am__append_1 = yasm
 @WANT_GMPCOMPAT_TRUE@am__append_2 = libgmp.la
 @WANT_CXX_TRUE@@WANT_GMPCOMPAT_TRUE@am__append_3 = libgmpxx.la
 DIST_COMMON = README $(am__configure_deps) $(am__include_HEADERS_DIST) \
 	$(srcdir)/Makefile.am $(srcdir)/Makefile.in \
 	$(srcdir)/config.in $(srcdir)/gmp-h.in $(top_srcdir)/configure \
-	AUTHORS COPYING COPYING.LIB ChangeLog INSTALL NEWS ansi2knr.1 \
-	ansi2knr.c config.guess config.sub install-sh ltmain.sh \
-	missing
+	AUTHORS COPYING COPYING.LIB ChangeLog INSTALL NEWS \
+	config.guess config.sub install-sh ltmain.sh missing
 subdir = .
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/acinclude.m4 \
@@ -179,13 +177,11 @@ am__DEPENDENCIES_6 = scanf/doscan$U.lo scanf/fscanf$U.lo \
 am__DEPENDENCIES_7 = $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_2) \
 	$(am__DEPENDENCIES_3) $(am__DEPENDENCIES_4) \
 	$(am__DEPENDENCIES_5) $(am__DEPENDENCIES_6)
-am__objects_1 = assert$U.lo compat$U.lo errno$U.lo extract-dbl$U.lo \
-	invalid$U.lo memory$U.lo mp_bpl$U.lo mp_clz_tab$U.lo \
-	mp_dv_tab$U.lo mp_minv_tab$U.lo mp_get_fns$U.lo \
-	mp_set_fns$U.lo randclr$U.lo randdef$U.lo randiset$U.lo \
-	randlc2s$U.lo randlc2x$U.lo randmt$U.lo randmts$U.lo \
-	rands$U.lo randsd$U.lo randsdui$U.lo randbui$U.lo randmui$U.lo \
-	version$U.lo
+am__objects_1 = assert.lo compat.lo errno.lo extract-dbl.lo invalid.lo \
+	memory.lo mp_bpl.lo mp_clz_tab.lo mp_dv_tab.lo mp_minv_tab.lo \
+	mp_get_fns.lo mp_set_fns.lo randclr.lo randdef.lo randiset.lo \
+	randlc2s.lo randlc2x.lo randmt.lo randmts.lo rands.lo \
+	randsd.lo randsdui.lo randbui.lo randmui.lo version.lo
 am_libgmp_la_OBJECTS = $(am__objects_1)
 libgmp_la_OBJECTS = $(am_libgmp_la_OBJECTS)
 @WANT_GMPCOMPAT_TRUE@am_libgmp_la_rpath = -rpath $(libdir)
@@ -198,13 +194,12 @@ am_libgmpxx_la_OBJECTS = $(am__objects_3)
 libgmpxx_la_OBJECTS = $(am_libgmpxx_la_OBJECTS)
 @WANT_CXX_TRUE@@WANT_GMPCOMPAT_TRUE@am_libgmpxx_la_rpath = -rpath \
 @WANT_CXX_TRUE@@WANT_GMPCOMPAT_TRUE@	$(libdir)
-am_libmpir_la_OBJECTS = assert$U.lo compat$U.lo errno$U.lo \
-	extract-dbl$U.lo invalid$U.lo memory$U.lo mp_bpl$U.lo \
-	mp_clz_tab$U.lo mp_dv_tab$U.lo mp_minv_tab$U.lo \
-	mp_get_fns$U.lo mp_set_fns$U.lo randclr$U.lo randdef$U.lo \
-	randiset$U.lo randlc2s$U.lo randlc2x$U.lo randmt$U.lo \
-	randmts$U.lo rands$U.lo randsd$U.lo randsdui$U.lo randbui$U.lo \
-	randmui$U.lo version$U.lo
+am_libmpir_la_OBJECTS = assert.lo compat.lo errno.lo extract-dbl.lo \
+	invalid.lo memory.lo mp_bpl.lo mp_clz_tab.lo mp_dv_tab.lo \
+	mp_minv_tab.lo mp_get_fns.lo mp_set_fns.lo randclr.lo \
+	randdef.lo randiset.lo randlc2s.lo randlc2x.lo randmt.lo \
+	randmts.lo rands.lo randsd.lo randsdui.lo randbui.lo \
+	randmui.lo version.lo
 libmpir_la_OBJECTS = $(am_libmpir_la_OBJECTS)
 am__DEPENDENCIES_10 = $(am__DEPENDENCIES_8) libmpir.la
 am_libmpirxx_la_OBJECTS = dummy.lo
@@ -359,7 +354,6 @@ SPEED_CYCLECOUNTER_OBJ = @SPEED_CYCLECOUNTER_OBJ@
 STRIP = @STRIP@
 TAL_OBJECT = @TAL_OBJECT@
 TUNE_SQR_OBJ = @TUNE_SQR_OBJ@
-U = @U@
 U_FOR_BUILD = @U_FOR_BUILD@
 VERSION = @VERSION@
 WANT_CXX_FALSE = @WANT_CXX_FALSE@
@@ -414,12 +408,8 @@ subdirs = @subdirs@
 sysconfdir = @sysconfdir@
 target_alias = @target_alias@
 
-# The following options are the same as AM_INIT_AUTOMAKE in configure.in,
-# except no $(top_builddir) on ansi2knr.  That directory is wanted for the
-# Makefiles in subdirectories, but here we must omit it so automake gives
-# the actual ansi2knr build rule, not "cd $(top_builddir) && make ansi2knr".
-#
-AUTOMAKE_OPTIONS = 1.8 gnu no-dependencies ansi2knr
+# The following options are the same as AM_INIT_AUTOMAKE in configure.in.
+AUTOMAKE_OPTIONS = 1.8 gnu no-dependencies
 
 # Libtool -version-info for libmpir.la and libmp.la.  See "Versioning" in the
 # libtool manual.
@@ -480,9 +470,6 @@ LIBMP_LT_AGE = 1
 SUBDIRS = tests $(am__append_1) mpn mpz mpq mpf printf scanf cxx demos \
 	tune doc bench
 
-# The ansi2knr setups for the build programs are the same as the normal
-# automake ansi2knr rules, but using $(CC_FOR_BUILD) instead of $(CC).
-#
 # The "test -f" support for srcdir!=builddir is similar to the automake .c.o
 # etc rules, but with each foo.c explicitly, since $< is not portable
 # outside an inference rule.
@@ -784,15 +771,6 @@ mostlyclean-compile:
 
 distclean-compile:
 	-rm -f *.tab.c
-ansi2knr: ansi2knr.$(OBJEXT)
-	$(LINK) ansi2knr.$(OBJEXT) $(LIBS)
-ansi2knr.$(OBJEXT): $(CONFIG_HEADER)
-
-clean-krextra:
-	-rm -f ansi2knr
-
-mostlyclean-kr:
-	-test "$U" = "" || rm -f *_.c
 
 .c.o:
 	$(COMPILE) -c $<
@@ -802,77 +780,6 @@ mostlyclean-kr:
 
 .c.lo:
 	$(LTCOMPILE) -c -o $@ $<
-assert_.c: assert.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/assert.c; then echo $(srcdir)/assert.c; else echo assert.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-compat_.c: compat.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/compat.c; then echo $(srcdir)/compat.c; else echo compat.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-errno_.c: errno.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/errno.c; then echo $(srcdir)/errno.c; else echo errno.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-extract-dbl_.c: extract-dbl.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/extract-dbl.c; then echo $(srcdir)/extract-dbl.c; else echo extract-dbl.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-invalid_.c: invalid.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/invalid.c; then echo $(srcdir)/invalid.c; else echo invalid.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-memory_.c: memory.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/memory.c; then echo $(srcdir)/memory.c; else echo memory.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-mp_bpl_.c: mp_bpl.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/mp_bpl.c; then echo $(srcdir)/mp_bpl.c; else echo mp_bpl.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-mp_clz_tab_.c: mp_clz_tab.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/mp_clz_tab.c; then echo $(srcdir)/mp_clz_tab.c; else echo mp_clz_tab.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-mp_dv_tab_.c: mp_dv_tab.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/mp_dv_tab.c; then echo $(srcdir)/mp_dv_tab.c; else echo mp_dv_tab.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-mp_get_fns_.c: mp_get_fns.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/mp_get_fns.c; then echo $(srcdir)/mp_get_fns.c; else echo mp_get_fns.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-mp_minv_tab_.c: mp_minv_tab.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/mp_minv_tab.c; then echo $(srcdir)/mp_minv_tab.c; else echo mp_minv_tab.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-mp_set_fns_.c: mp_set_fns.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/mp_set_fns.c; then echo $(srcdir)/mp_set_fns.c; else echo mp_set_fns.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-randbui_.c: randbui.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/randbui.c; then echo $(srcdir)/randbui.c; else echo randbui.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-randclr_.c: randclr.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/randclr.c; then echo $(srcdir)/randclr.c; else echo randclr.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-randdef_.c: randdef.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/randdef.c; then echo $(srcdir)/randdef.c; else echo randdef.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-randiset_.c: randiset.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/randiset.c; then echo $(srcdir)/randiset.c; else echo randiset.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-randlc2s_.c: randlc2s.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/randlc2s.c; then echo $(srcdir)/randlc2s.c; else echo randlc2s.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-randlc2x_.c: randlc2x.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/randlc2x.c; then echo $(srcdir)/randlc2x.c; else echo randlc2x.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-randmt_.c: randmt.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/randmt.c; then echo $(srcdir)/randmt.c; else echo randmt.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-randmts_.c: randmts.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/randmts.c; then echo $(srcdir)/randmts.c; else echo randmts.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-randmui_.c: randmui.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/randmui.c; then echo $(srcdir)/randmui.c; else echo randmui.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-rands_.c: rands.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/rands.c; then echo $(srcdir)/rands.c; else echo rands.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-randsd_.c: randsd.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/randsd.c; then echo $(srcdir)/randsd.c; else echo randsd.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-randsdui_.c: randsdui.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/randsdui.c; then echo $(srcdir)/randsdui.c; else echo randsdui.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-tal-debug_.c: tal-debug.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/tal-debug.c; then echo $(srcdir)/tal-debug.c; else echo tal-debug.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-tal-notreent_.c: tal-notreent.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/tal-notreent.c; then echo $(srcdir)/tal-notreent.c; else echo tal-notreent.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-tal-reent_.c: tal-reent.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/tal-reent.c; then echo $(srcdir)/tal-reent.c; else echo tal-reent.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-version_.c: version.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/version.c; then echo $(srcdir)/version.c; else echo version.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-assert_.$(OBJEXT) assert_.lo compat_.$(OBJEXT) compat_.lo \
-errno_.$(OBJEXT) errno_.lo extract-dbl_.$(OBJEXT) extract-dbl_.lo \
-invalid_.$(OBJEXT) invalid_.lo memory_.$(OBJEXT) memory_.lo \
-mp_bpl_.$(OBJEXT) mp_bpl_.lo mp_clz_tab_.$(OBJEXT) mp_clz_tab_.lo \
-mp_dv_tab_.$(OBJEXT) mp_dv_tab_.lo mp_get_fns_.$(OBJEXT) \
-mp_get_fns_.lo mp_minv_tab_.$(OBJEXT) mp_minv_tab_.lo \
-mp_set_fns_.$(OBJEXT) mp_set_fns_.lo randbui_.$(OBJEXT) randbui_.lo \
-randclr_.$(OBJEXT) randclr_.lo randdef_.$(OBJEXT) randdef_.lo \
-randiset_.$(OBJEXT) randiset_.lo randlc2s_.$(OBJEXT) randlc2s_.lo \
-randlc2x_.$(OBJEXT) randlc2x_.lo randmt_.$(OBJEXT) randmt_.lo \
-randmts_.$(OBJEXT) randmts_.lo randmui_.$(OBJEXT) randmui_.lo \
-rands_.$(OBJEXT) rands_.lo randsd_.$(OBJEXT) randsd_.lo \
-randsdui_.$(OBJEXT) randsdui_.lo tal-debug_.$(OBJEXT) tal-debug_.lo \
-tal-notreent_.$(OBJEXT) tal-notreent_.lo tal-reent_.$(OBJEXT) \
-tal-reent_.lo version_.$(OBJEXT) version_.lo : $(ANSI2KNR)
 
 .cc.o:
 	$(CXXCOMPILE) -c -o $@ $<
@@ -1210,7 +1117,7 @@ distcleancheck: distclean
 check-am: all-am
 check: $(BUILT_SOURCES)
 	$(MAKE) $(AM_MAKEFLAGS) check-recursive
-all-am: Makefile $(ANSI2KNR) $(LTLIBRARIES) $(HEADERS) config.h
+all-am: Makefile $(LTLIBRARIES) $(HEADERS) config.h
 installdirs: installdirs-recursive
 installdirs-am:
 	for dir in "$(DESTDIR)$(libdir)" "$(DESTDIR)$(includedir)" "$(DESTDIR)$(includeexecdir)"; do \
@@ -1245,8 +1152,8 @@ maintainer-clean-generic:
 	-test -z "$(BUILT_SOURCES)" || rm -f $(BUILT_SOURCES)
 clean: clean-recursive
 
-clean-am: clean-generic clean-krextra clean-libLTLIBRARIES \
-	clean-libtool mostlyclean-am
+clean-am: clean-generic clean-libLTLIBRARIES clean-libtool \
+	mostlyclean-am
 
 distclean: distclean-recursive
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
@@ -1285,7 +1192,7 @@ maintainer-clean-am: distclean-am maintainer-clean-generic
 
 mostlyclean: mostlyclean-recursive
 
-mostlyclean-am: mostlyclean-compile mostlyclean-generic mostlyclean-kr \
+mostlyclean-am: mostlyclean-compile mostlyclean-generic \
 	mostlyclean-libtool
 
 pdf: pdf-recursive
@@ -1302,23 +1209,23 @@ uninstall-am: uninstall-includeHEADERS uninstall-info-am \
 uninstall-info: uninstall-info-recursive
 
 .PHONY: $(RECURSIVE_TARGETS) CTAGS GTAGS all all-am am--refresh check \
-	check-am clean clean-generic clean-krextra \
-	clean-libLTLIBRARIES clean-libtool clean-recursive ctags \
-	ctags-recursive dist dist-all dist-bzip2 dist-gzip dist-hook \
-	dist-shar dist-tarZ dist-zip distcheck distclean \
-	distclean-compile distclean-generic distclean-hdr \
-	distclean-libtool distclean-recursive distclean-tags \
-	distcleancheck distdir distuninstallcheck dvi dvi-am html \
-	html-am info info-am install install-am install-data \
-	install-data-am install-data-hook install-exec install-exec-am \
+	check-am clean clean-generic clean-libLTLIBRARIES \
+	clean-libtool clean-recursive ctags ctags-recursive dist \
+	dist-all dist-bzip2 dist-gzip dist-hook dist-shar dist-tarZ \
+	dist-zip distcheck distclean distclean-compile \
+	distclean-generic distclean-hdr distclean-libtool \
+	distclean-recursive distclean-tags distcleancheck distdir \
+	distuninstallcheck dvi dvi-am html html-am info info-am \
+	install install-am install-data install-data-am \
+	install-data-hook install-exec install-exec-am \
 	install-includeHEADERS install-info install-info-am \
 	install-libLTLIBRARIES install-man \
 	install-nodist_includeexecHEADERS install-strip installcheck \
 	installcheck-am installdirs installdirs-am maintainer-clean \
 	maintainer-clean-generic maintainer-clean-recursive \
 	mostlyclean mostlyclean-compile mostlyclean-generic \
-	mostlyclean-kr mostlyclean-libtool mostlyclean-recursive pdf \
-	pdf-am ps ps-am tags tags-recursive uninstall uninstall-am \
+	mostlyclean-libtool mostlyclean-recursive pdf pdf-am ps ps-am \
+	tags tags-recursive uninstall uninstall-am \
 	uninstall-includeHEADERS uninstall-info-am \
 	uninstall-libLTLIBRARIES uninstall-nodist_includeexecHEADERS
 
@@ -1347,8 +1254,8 @@ mpz/fac_ui.h: gen-fac_ui$(EXEEXT_FOR_BUILD)
 gen-fac_ui$(EXEEXT_FOR_BUILD): gen-fac_ui$(U_FOR_BUILD).c dumbmp.c
 	$(CC_FOR_BUILD) `test -f 'gen-fac_ui$(U_FOR_BUILD).c' || echo '$(srcdir)/'`gen-fac_ui$(U_FOR_BUILD).c -o gen-fac_ui$(EXEEXT_FOR_BUILD)
 
-gen-fac_ui_.c: gen-fac_ui.c $(ANSI2KNR)
-	$(CPP_FOR_BUILD) `if test -f $(srcdir)/gen-fac_ui.c; then echo $(srcdir)/gen-fac_ui.c; else echo gen-fac_ui.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > gen-fac_ui_.c || rm -f gen-fac_ui_.c
+gen-fac_ui_.c: gen-fac_ui.c
+	$(CPP_FOR_BUILD) `if test -f $(srcdir)/gen-fac_ui.c; then echo $(srcdir)/gen-fac_ui.c; else echo gen-fac_ui.c; fi` | sed 's/^# \([0-9]\)/#line \1/' > gen-fac_ui_.c || rm -f gen-fac_ui_.c
 
 fib_table.h: gen-fib$(EXEEXT_FOR_BUILD)
 	./gen-fib header $(BITS_PER_MP_LIMB) $(GMP_NAIL_BITS) >fib_table.h || (rm -f fib_table.h; exit 1)
@@ -1359,8 +1266,8 @@ mpn/fib_table.c: gen-fib$(EXEEXT_FOR_BUILD)
 gen-fib$(EXEEXT_FOR_BUILD): gen-fib$(U_FOR_BUILD).c dumbmp.c
 	$(CC_FOR_BUILD) `test -f 'gen-fib$(U_FOR_BUILD).c' || echo '$(srcdir)/'`gen-fib$(U_FOR_BUILD).c -o gen-fib$(EXEEXT_FOR_BUILD)
 
-gen-fib_.c: gen-fib.c $(ANSI2KNR)
-	$(CPP_FOR_BUILD) `if test -f $(srcdir)/gen-fib.c; then echo $(srcdir)/gen-fib.c; else echo gen-fib.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > gen-fib_.c || rm -f gen-fib_.c
+gen-fib_.c: gen-fib.c
+	$(CPP_FOR_BUILD) `if test -f $(srcdir)/gen-fib.c; then echo $(srcdir)/gen-fib.c; else echo gen-fib.c; fi` | sed 's/^# \([0-9]\)/#line \1/' > gen-fib_.c || rm -f gen-fib_.c
 
 mp_bases.h: gen-bases$(EXEEXT_FOR_BUILD)
 	./gen-bases header $(BITS_PER_MP_LIMB) $(GMP_NAIL_BITS) >mp_bases.h || (rm -f mp_bases.h; exit 1)
@@ -1371,8 +1278,8 @@ mpn/mp_bases.c: gen-bases$(EXEEXT_FOR_BUILD)
 gen-bases$(EXEEXT_FOR_BUILD): gen-bases$(U_FOR_BUILD).c dumbmp.c
 	$(CC_FOR_BUILD) `test -f 'gen-bases$(U_FOR_BUILD).c' || echo '$(srcdir)/'`gen-bases$(U_FOR_BUILD).c -o gen-bases$(EXEEXT_FOR_BUILD) $(LIBM_FOR_BUILD)
 
-gen-bases_.c: gen-bases.c $(ANSI2KNR)
-	$(CPP_FOR_BUILD) `if test -f $(srcdir)/gen-bases.c; then echo $(srcdir)/gen-bases.c; else echo gen-bases.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > gen-bases_.c || rm -f gen-bases_.c
+gen-bases_.c: gen-bases.c
+	$(CPP_FOR_BUILD) `if test -f $(srcdir)/gen-bases.c; then echo $(srcdir)/gen-bases.c; else echo gen-bases.c; fi` | sed 's/^# \([0-9]\)/#line \1/' > gen-bases_.c || rm -f gen-bases_.c
 
 mpn/perfsqr.h: gen-psqr$(EXEEXT_FOR_BUILD)
 	./gen-psqr $(BITS_PER_MP_LIMB) $(GMP_NAIL_BITS) >mpn/perfsqr.h || (rm -f mpn/perfsqr.h; exit 1)
@@ -1380,8 +1287,8 @@ mpn/perfsqr.h: gen-psqr$(EXEEXT_FOR_BUILD)
 gen-psqr$(EXEEXT_FOR_BUILD): gen-psqr$(U_FOR_BUILD).c dumbmp.c
 	$(CC_FOR_BUILD) `test -f 'gen-psqr$(U_FOR_BUILD).c' || echo '$(srcdir)/'`gen-psqr$(U_FOR_BUILD).c -o gen-psqr$(EXEEXT_FOR_BUILD) $(LIBM_FOR_BUILD)
 
-gen-psqr_.c: gen-psqr.c $(ANSI2KNR)
-	$(CPP_FOR_BUILD) `if test -f $(srcdir)/gen-psqr.c; then echo $(srcdir)/gen-psqr.c; else echo gen-psqr.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > gen-psqr_.c || rm -f gen-psqr_.c
+gen-psqr_.c: gen-psqr.c
+	$(CPP_FOR_BUILD) `if test -f $(srcdir)/gen-psqr.c; then echo $(srcdir)/gen-psqr.c; else echo gen-psqr.c; fi` | sed 's/^# \([0-9]\)/#line \1/' > gen-psqr_.c || rm -f gen-psqr_.c
 
 # Avoid: CVS - cvs directories
 #        *~  - emacs backups

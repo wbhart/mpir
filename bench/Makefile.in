@@ -55,7 +55,6 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
-ANSI2KNR = $(top_builddir)/ansi2knr
 EXTRA_PROGRAMS = gexpr$(EXEEXT) rsa$(EXEEXT) multiply$(EXEEXT) \
 	divide$(EXEEXT) mpirver$(EXEEXT)
 subdir = bench
@@ -70,24 +69,24 @@ mkinstalldirs = $(install_sh) -d
 CONFIG_HEADER = $(top_builddir)/config.h
 CONFIG_CLEAN_FILES =
 divide_SOURCES = divide.c
-divide_OBJECTS = divide$U.$(OBJEXT)
+divide_OBJECTS = divide.$(OBJEXT)
 divide_LDADD = $(LDADD)
 am__DEPENDENCIES_1 = $(top_builddir)/libmpir.la
 divide_DEPENDENCIES = $(am__DEPENDENCIES_1)
 gexpr_SOURCES = gexpr.c
-gexpr_OBJECTS = gexpr$U.$(OBJEXT)
+gexpr_OBJECTS = gexpr.$(OBJEXT)
 gexpr_LDADD = $(LDADD)
 gexpr_DEPENDENCIES = $(am__DEPENDENCIES_1)
 mpirver_SOURCES = mpirver.c
-mpirver_OBJECTS = mpirver$U.$(OBJEXT)
+mpirver_OBJECTS = mpirver.$(OBJEXT)
 mpirver_LDADD = $(LDADD)
 mpirver_DEPENDENCIES = $(am__DEPENDENCIES_1)
 multiply_SOURCES = multiply.c
-multiply_OBJECTS = multiply$U.$(OBJEXT)
+multiply_OBJECTS = multiply.$(OBJEXT)
 multiply_LDADD = $(LDADD)
 multiply_DEPENDENCIES = $(am__DEPENDENCIES_1)
 rsa_SOURCES = rsa.c
-rsa_OBJECTS = rsa$U.$(OBJEXT)
+rsa_OBJECTS = rsa.$(OBJEXT)
 rsa_LDADD = $(LDADD)
 rsa_DEPENDENCIES = $(am__DEPENDENCIES_1)
 DEFAULT_INCLUDES = -I. -I$(srcdir) -I$(top_builddir)
@@ -206,7 +205,6 @@ SPEED_CYCLECOUNTER_OBJ = @SPEED_CYCLECOUNTER_OBJ@
 STRIP = @STRIP@
 TAL_OBJECT = @TAL_OBJECT@
 TUNE_SQR_OBJ = @TUNE_SQR_OBJ@
-U = @U@
 U_FOR_BUILD = @U_FOR_BUILD@
 VERSION = @VERSION@
 WANT_CXX_FALSE = @WANT_CXX_FALSE@
@@ -344,11 +342,6 @@ mostlyclean-compile:
 
 distclean-compile:
 	-rm -f *.tab.c
-$(top_builddir)/ansi2knr:
-	cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) ansi2knr
-
-mostlyclean-kr:
-	-test "$U" = "" || rm -f *_.c
 
 .c.o:
 	$(COMPILE) -c $<
@@ -358,19 +351,6 @@ mostlyclean-kr:
 
 .c.lo:
 	$(LTCOMPILE) -c -o $@ $<
-divide_.c: divide.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/divide.c; then echo $(srcdir)/divide.c; else echo divide.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-gexpr_.c: gexpr.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/gexpr.c; then echo $(srcdir)/gexpr.c; else echo gexpr.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-mpirver_.c: mpirver.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/mpirver.c; then echo $(srcdir)/mpirver.c; else echo mpirver.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-multiply_.c: multiply.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/multiply.c; then echo $(srcdir)/multiply.c; else echo multiply.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-rsa_.c: rsa.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/rsa.c; then echo $(srcdir)/rsa.c; else echo rsa.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-divide_.$(OBJEXT) divide_.lo gexpr_.$(OBJEXT) gexpr_.lo \
-mpirver_.$(OBJEXT) mpirver_.lo multiply_.$(OBJEXT) multiply_.lo \
-rsa_.$(OBJEXT) rsa_.lo : $(ANSI2KNR)
 
 mostlyclean-libtool:
 	-rm -f *.lo
@@ -522,7 +502,7 @@ maintainer-clean-am: distclean-am maintainer-clean-generic
 
 mostlyclean: mostlyclean-am
 
-mostlyclean-am: mostlyclean-compile mostlyclean-generic mostlyclean-kr \
+mostlyclean-am: mostlyclean-compile mostlyclean-generic \
 	mostlyclean-libtool
 
 pdf: pdf-am
@@ -543,8 +523,8 @@ uninstall-am: uninstall-info-am
 	install-info install-info-am install-man install-strip \
 	installcheck installcheck-am installdirs maintainer-clean \
 	maintainer-clean-generic mostlyclean mostlyclean-compile \
-	mostlyclean-generic mostlyclean-kr mostlyclean-libtool pdf \
-	pdf-am ps ps-am tags uninstall uninstall-am uninstall-info-am
+	mostlyclean-generic mostlyclean-libtool pdf pdf-am ps ps-am \
+	tags uninstall uninstall-am uninstall-info-am
 
 
 $(top_builddir)/tests/libtests.la:

@@ -55,7 +55,6 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
-ANSI2KNR = $(top_builddir)/ansi2knr
 check_PROGRAMS = t-add$(EXEEXT) t-sub$(EXEEXT) t-conv$(EXEEXT) \
 	t-sqrt$(EXEEXT) t-sqrt_ui$(EXEEXT) t-muldiv$(EXEEXT) \
 	t-dm2exp$(EXEEXT) reuse$(EXEEXT) t-cmp_d$(EXEEXT) \
@@ -76,137 +75,137 @@ mkinstalldirs = $(install_sh) -d
 CONFIG_HEADER = $(top_builddir)/config.h
 CONFIG_CLEAN_FILES =
 reuse_SOURCES = reuse.c
-reuse_OBJECTS = reuse$U.$(OBJEXT)
+reuse_OBJECTS = reuse.$(OBJEXT)
 reuse_LDADD = $(LDADD)
 reuse_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
 	$(top_builddir)/libmpir.la
 t_add_SOURCES = t-add.c
-t_add_OBJECTS = t-add$U.$(OBJEXT)
+t_add_OBJECTS = t-add.$(OBJEXT)
 t_add_LDADD = $(LDADD)
 t_add_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
 	$(top_builddir)/libmpir.la
 t_cmp_d_SOURCES = t-cmp_d.c
-t_cmp_d_OBJECTS = t-cmp_d$U.$(OBJEXT)
+t_cmp_d_OBJECTS = t-cmp_d.$(OBJEXT)
 t_cmp_d_LDADD = $(LDADD)
 t_cmp_d_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
 	$(top_builddir)/libmpir.la
 t_cmp_si_SOURCES = t-cmp_si.c
-t_cmp_si_OBJECTS = t-cmp_si$U.$(OBJEXT)
+t_cmp_si_OBJECTS = t-cmp_si.$(OBJEXT)
 t_cmp_si_LDADD = $(LDADD)
 t_cmp_si_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
 	$(top_builddir)/libmpir.la
 t_conv_SOURCES = t-conv.c
-t_conv_OBJECTS = t-conv$U.$(OBJEXT)
+t_conv_OBJECTS = t-conv.$(OBJEXT)
 t_conv_LDADD = $(LDADD)
 t_conv_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
 	$(top_builddir)/libmpir.la
 t_div_SOURCES = t-div.c
-t_div_OBJECTS = t-div$U.$(OBJEXT)
+t_div_OBJECTS = t-div.$(OBJEXT)
 t_div_LDADD = $(LDADD)
 t_div_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
 	$(top_builddir)/libmpir.la
 t_dm2exp_SOURCES = t-dm2exp.c
-t_dm2exp_OBJECTS = t-dm2exp$U.$(OBJEXT)
+t_dm2exp_OBJECTS = t-dm2exp.$(OBJEXT)
 t_dm2exp_LDADD = $(LDADD)
 t_dm2exp_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
 	$(top_builddir)/libmpir.la
 t_eq_SOURCES = t-eq.c
-t_eq_OBJECTS = t-eq$U.$(OBJEXT)
+t_eq_OBJECTS = t-eq.$(OBJEXT)
 t_eq_LDADD = $(LDADD)
 t_eq_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
 	$(top_builddir)/libmpir.la
 t_fits_SOURCES = t-fits.c
-t_fits_OBJECTS = t-fits$U.$(OBJEXT)
+t_fits_OBJECTS = t-fits.$(OBJEXT)
 t_fits_LDADD = $(LDADD)
 t_fits_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
 	$(top_builddir)/libmpir.la
 t_get_d_SOURCES = t-get_d.c
-t_get_d_OBJECTS = t-get_d$U.$(OBJEXT)
+t_get_d_OBJECTS = t-get_d.$(OBJEXT)
 t_get_d_LDADD = $(LDADD)
 t_get_d_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
 	$(top_builddir)/libmpir.la
 t_get_d_2exp_SOURCES = t-get_d_2exp.c
-t_get_d_2exp_OBJECTS = t-get_d_2exp$U.$(OBJEXT)
+t_get_d_2exp_OBJECTS = t-get_d_2exp.$(OBJEXT)
 t_get_d_2exp_LDADD = $(LDADD)
 t_get_d_2exp_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
 	$(top_builddir)/libmpir.la
 t_get_si_SOURCES = t-get_si.c
-t_get_si_OBJECTS = t-get_si$U.$(OBJEXT)
+t_get_si_OBJECTS = t-get_si.$(OBJEXT)
 t_get_si_LDADD = $(LDADD)
 t_get_si_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
 	$(top_builddir)/libmpir.la
 t_get_ui_SOURCES = t-get_ui.c
-t_get_ui_OBJECTS = t-get_ui$U.$(OBJEXT)
+t_get_ui_OBJECTS = t-get_ui.$(OBJEXT)
 t_get_ui_LDADD = $(LDADD)
 t_get_ui_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
 	$(top_builddir)/libmpir.la
 t_gsprec_SOURCES = t-gsprec.c
-t_gsprec_OBJECTS = t-gsprec$U.$(OBJEXT)
+t_gsprec_OBJECTS = t-gsprec.$(OBJEXT)
 t_gsprec_LDADD = $(LDADD)
 t_gsprec_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
 	$(top_builddir)/libmpir.la
 t_inp_str_SOURCES = t-inp_str.c
-t_inp_str_OBJECTS = t-inp_str$U.$(OBJEXT)
+t_inp_str_OBJECTS = t-inp_str.$(OBJEXT)
 t_inp_str_LDADD = $(LDADD)
 t_inp_str_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
 	$(top_builddir)/libmpir.la
 t_int_p_SOURCES = t-int_p.c
-t_int_p_OBJECTS = t-int_p$U.$(OBJEXT)
+t_int_p_OBJECTS = t-int_p.$(OBJEXT)
 t_int_p_LDADD = $(LDADD)
 t_int_p_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
 	$(top_builddir)/libmpir.la
 t_mul_ui_SOURCES = t-mul_ui.c
-t_mul_ui_OBJECTS = t-mul_ui$U.$(OBJEXT)
+t_mul_ui_OBJECTS = t-mul_ui.$(OBJEXT)
 t_mul_ui_LDADD = $(LDADD)
 t_mul_ui_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
 	$(top_builddir)/libmpir.la
 t_muldiv_SOURCES = t-muldiv.c
-t_muldiv_OBJECTS = t-muldiv$U.$(OBJEXT)
+t_muldiv_OBJECTS = t-muldiv.$(OBJEXT)
 t_muldiv_LDADD = $(LDADD)
 t_muldiv_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
 	$(top_builddir)/libmpir.la
 t_set_SOURCES = t-set.c
-t_set_OBJECTS = t-set$U.$(OBJEXT)
+t_set_OBJECTS = t-set.$(OBJEXT)
 t_set_LDADD = $(LDADD)
 t_set_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
 	$(top_builddir)/libmpir.la
 t_set_q_SOURCES = t-set_q.c
-t_set_q_OBJECTS = t-set_q$U.$(OBJEXT)
+t_set_q_OBJECTS = t-set_q.$(OBJEXT)
 t_set_q_LDADD = $(LDADD)
 t_set_q_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
 	$(top_builddir)/libmpir.la
 t_set_si_SOURCES = t-set_si.c
-t_set_si_OBJECTS = t-set_si$U.$(OBJEXT)
+t_set_si_OBJECTS = t-set_si.$(OBJEXT)
 t_set_si_LDADD = $(LDADD)
 t_set_si_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
 	$(top_builddir)/libmpir.la
 t_set_ui_SOURCES = t-set_ui.c
-t_set_ui_OBJECTS = t-set_ui$U.$(OBJEXT)
+t_set_ui_OBJECTS = t-set_ui.$(OBJEXT)
 t_set_ui_LDADD = $(LDADD)
 t_set_ui_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
 	$(top_builddir)/libmpir.la
 t_sqrt_SOURCES = t-sqrt.c
-t_sqrt_OBJECTS = t-sqrt$U.$(OBJEXT)
+t_sqrt_OBJECTS = t-sqrt.$(OBJEXT)
 t_sqrt_LDADD = $(LDADD)
 t_sqrt_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
 	$(top_builddir)/libmpir.la
 t_sqrt_ui_SOURCES = t-sqrt_ui.c
-t_sqrt_ui_OBJECTS = t-sqrt_ui$U.$(OBJEXT)
+t_sqrt_ui_OBJECTS = t-sqrt_ui.$(OBJEXT)
 t_sqrt_ui_LDADD = $(LDADD)
 t_sqrt_ui_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
 	$(top_builddir)/libmpir.la
 t_sub_SOURCES = t-sub.c
-t_sub_OBJECTS = t-sub$U.$(OBJEXT)
+t_sub_OBJECTS = t-sub.$(OBJEXT)
 t_sub_LDADD = $(LDADD)
 t_sub_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
 	$(top_builddir)/libmpir.la
 t_trunc_SOURCES = t-trunc.c
-t_trunc_OBJECTS = t-trunc$U.$(OBJEXT)
+t_trunc_OBJECTS = t-trunc.$(OBJEXT)
 t_trunc_LDADD = $(LDADD)
 t_trunc_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
 	$(top_builddir)/libmpir.la
 t_ui_div_SOURCES = t-ui_div.c
-t_ui_div_OBJECTS = t-ui_div$U.$(OBJEXT)
+t_ui_div_OBJECTS = t-ui_div.$(OBJEXT)
 t_ui_div_LDADD = $(LDADD)
 t_ui_div_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
 	$(top_builddir)/libmpir.la
@@ -333,7 +332,6 @@ SPEED_CYCLECOUNTER_OBJ = @SPEED_CYCLECOUNTER_OBJ@
 STRIP = @STRIP@
 TAL_OBJECT = @TAL_OBJECT@
 TUNE_SQR_OBJ = @TUNE_SQR_OBJ@
-U = @U@
 U_FOR_BUILD = @U_FOR_BUILD@
 VERSION = @VERSION@
 WANT_CXX_FALSE = @WANT_CXX_FALSE@
@@ -517,11 +515,6 @@ mostlyclean-compile:
 
 distclean-compile:
 	-rm -f *.tab.c
-$(top_builddir)/ansi2knr:
-	cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) ansi2knr
-
-mostlyclean-kr:
-	-test "$U" = "" || rm -f *_.c
 
 .c.o:
 	$(COMPILE) -c $<
@@ -531,74 +524,6 @@ mostlyclean-kr:
 
 .c.lo:
 	$(LTCOMPILE) -c -o $@ $<
-reuse_.c: reuse.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/reuse.c; then echo $(srcdir)/reuse.c; else echo reuse.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-t-add_.c: t-add.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/t-add.c; then echo $(srcdir)/t-add.c; else echo t-add.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-t-cmp_d_.c: t-cmp_d.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/t-cmp_d.c; then echo $(srcdir)/t-cmp_d.c; else echo t-cmp_d.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-t-cmp_si_.c: t-cmp_si.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/t-cmp_si.c; then echo $(srcdir)/t-cmp_si.c; else echo t-cmp_si.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-t-conv_.c: t-conv.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/t-conv.c; then echo $(srcdir)/t-conv.c; else echo t-conv.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-t-div_.c: t-div.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/t-div.c; then echo $(srcdir)/t-div.c; else echo t-div.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-t-dm2exp_.c: t-dm2exp.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/t-dm2exp.c; then echo $(srcdir)/t-dm2exp.c; else echo t-dm2exp.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-t-eq_.c: t-eq.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/t-eq.c; then echo $(srcdir)/t-eq.c; else echo t-eq.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-t-fits_.c: t-fits.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/t-fits.c; then echo $(srcdir)/t-fits.c; else echo t-fits.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-t-get_d_.c: t-get_d.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/t-get_d.c; then echo $(srcdir)/t-get_d.c; else echo t-get_d.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-t-get_d_2exp_.c: t-get_d_2exp.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/t-get_d_2exp.c; then echo $(srcdir)/t-get_d_2exp.c; else echo t-get_d_2exp.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-t-get_si_.c: t-get_si.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/t-get_si.c; then echo $(srcdir)/t-get_si.c; else echo t-get_si.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-t-get_ui_.c: t-get_ui.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/t-get_ui.c; then echo $(srcdir)/t-get_ui.c; else echo t-get_ui.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-t-gsprec_.c: t-gsprec.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/t-gsprec.c; then echo $(srcdir)/t-gsprec.c; else echo t-gsprec.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-t-inp_str_.c: t-inp_str.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/t-inp_str.c; then echo $(srcdir)/t-inp_str.c; else echo t-inp_str.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-t-int_p_.c: t-int_p.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/t-int_p.c; then echo $(srcdir)/t-int_p.c; else echo t-int_p.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-t-mul_ui_.c: t-mul_ui.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/t-mul_ui.c; then echo $(srcdir)/t-mul_ui.c; else echo t-mul_ui.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-t-muldiv_.c: t-muldiv.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/t-muldiv.c; then echo $(srcdir)/t-muldiv.c; else echo t-muldiv.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-t-set_.c: t-set.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/t-set.c; then echo $(srcdir)/t-set.c; else echo t-set.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-t-set_q_.c: t-set_q.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/t-set_q.c; then echo $(srcdir)/t-set_q.c; else echo t-set_q.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-t-set_si_.c: t-set_si.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/t-set_si.c; then echo $(srcdir)/t-set_si.c; else echo t-set_si.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-t-set_ui_.c: t-set_ui.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/t-set_ui.c; then echo $(srcdir)/t-set_ui.c; else echo t-set_ui.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-t-sqrt_.c: t-sqrt.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/t-sqrt.c; then echo $(srcdir)/t-sqrt.c; else echo t-sqrt.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-t-sqrt_ui_.c: t-sqrt_ui.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/t-sqrt_ui.c; then echo $(srcdir)/t-sqrt_ui.c; else echo t-sqrt_ui.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-t-sub_.c: t-sub.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/t-sub.c; then echo $(srcdir)/t-sub.c; else echo t-sub.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-t-trunc_.c: t-trunc.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/t-trunc.c; then echo $(srcdir)/t-trunc.c; else echo t-trunc.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-t-ui_div_.c: t-ui_div.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/t-ui_div.c; then echo $(srcdir)/t-ui_div.c; else echo t-ui_div.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-reuse_.$(OBJEXT) reuse_.lo t-add_.$(OBJEXT) t-add_.lo \
-t-cmp_d_.$(OBJEXT) t-cmp_d_.lo t-cmp_si_.$(OBJEXT) t-cmp_si_.lo \
-t-conv_.$(OBJEXT) t-conv_.lo t-div_.$(OBJEXT) t-div_.lo \
-t-dm2exp_.$(OBJEXT) t-dm2exp_.lo t-eq_.$(OBJEXT) t-eq_.lo \
-t-fits_.$(OBJEXT) t-fits_.lo t-get_d_.$(OBJEXT) t-get_d_.lo \
-t-get_d_2exp_.$(OBJEXT) t-get_d_2exp_.lo t-get_si_.$(OBJEXT) \
-t-get_si_.lo t-get_ui_.$(OBJEXT) t-get_ui_.lo t-gsprec_.$(OBJEXT) \
-t-gsprec_.lo t-inp_str_.$(OBJEXT) t-inp_str_.lo t-int_p_.$(OBJEXT) \
-t-int_p_.lo t-mul_ui_.$(OBJEXT) t-mul_ui_.lo t-muldiv_.$(OBJEXT) \
-t-muldiv_.lo t-set_.$(OBJEXT) t-set_.lo t-set_q_.$(OBJEXT) t-set_q_.lo \
-t-set_si_.$(OBJEXT) t-set_si_.lo t-set_ui_.$(OBJEXT) t-set_ui_.lo \
-t-sqrt_.$(OBJEXT) t-sqrt_.lo t-sqrt_ui_.$(OBJEXT) t-sqrt_ui_.lo \
-t-sub_.$(OBJEXT) t-sub_.lo t-trunc_.$(OBJEXT) t-trunc_.lo \
-t-ui_div_.$(OBJEXT) t-ui_div_.lo : $(ANSI2KNR)
 
 mostlyclean-libtool:
 	-rm -f *.lo
@@ -824,7 +749,7 @@ maintainer-clean-am: distclean-am maintainer-clean-generic
 
 mostlyclean: mostlyclean-am
 
-mostlyclean-am: mostlyclean-compile mostlyclean-generic mostlyclean-kr \
+mostlyclean-am: mostlyclean-compile mostlyclean-generic \
 	mostlyclean-libtool
 
 pdf: pdf-am
@@ -846,8 +771,8 @@ uninstall-am: uninstall-info-am
 	install-info-am install-man install-strip installcheck \
 	installcheck-am installdirs maintainer-clean \
 	maintainer-clean-generic mostlyclean mostlyclean-compile \
-	mostlyclean-generic mostlyclean-kr mostlyclean-libtool pdf \
-	pdf-am ps ps-am tags uninstall uninstall-am uninstall-info-am
+	mostlyclean-generic mostlyclean-libtool pdf pdf-am ps ps-am \
+	tags uninstall uninstall-am uninstall-info-am
 
 
 $(top_builddir)/tests/libtests.la:

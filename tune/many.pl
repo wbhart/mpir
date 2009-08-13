@@ -181,10 +181,6 @@
 # This can be ignored for routines that don't differ for PIC, or for CPUs
 # where everything is PIC anyway.
 #
-# K&R compilers are supported via the same ansi2knr mechanism used by
-# automake, though it's hard to believe anyone will have much interest in
-# measuring a compiler so old that it doesn't even have an ANSI mode.
-#
 # The "-t" option can be used to print a trace of the files found and what's
 # done with them.  A great deal of obscure output is produced, but it can
 # indicate where or why some files aren't being recognised etc.  For
@@ -875,8 +871,8 @@ sub print_ansi2knr {
   if (! defined $includes) { $includes = ""; }
 
   print MAKEFILE <<EOF;
-${base}_.c: $file \$(ANSI2KNR)
-	\$(CPP) \$(DEFS) \$(INCLUDES) $includes \$(AM_CPPFLAGS) \$(CPPFLAGS) $file | sed 's/^# \([0-9]\)/#line \\1/' | \$(ANSI2KNR) >${base}_.c
+${base}_.c: $file
+	\$(CPP) \$(DEFS) \$(INCLUDES) $includes \$(AM_CPPFLAGS) \$(CPPFLAGS) $file | sed 's/^# \([0-9]\)/#line \\1/' >${base}_.c
 
 EOF
 }

@@ -26,37 +26,6 @@ INCLUDES = -D__GMP_WITHIN_GMP -I$(top_srcdir) \
 
 OFILES = @mpn_objects@
 
-
-# All possible mpn normal and optional function files are listed here, to
-# get automake to generate ansi2knr rules for each.  Such rules will be
-# ignored for any that are instead implemented with a .asm (or whatever) for
-# a particular target.
-#
-nodist_EXTRA_libmpn_la_SOURCES =					    \
-  add.c add_1.c add_n.c addadd_n.c addsub_n.c				    \
-  addmul_1.c addmul_2.c addmul_3.c addmul_4.c addmul_5.c addmul_6.c	    \
-  addmul_7.c addmul_8.c							    \
-  and_n.c andn_n.c bdivmod.c						    \
-  cmp.c com_n.c copyd.c copyi.c						    \
-  dc_divrem_n.c dive_1.c diveby3.c divebyff.c divis.c divrem_1.c		\
-  divrem_euclidean_qr_1.c divrem_euclidean_qr_2.c divrem_euclidean_r_1.c    \
-  divebyBm1of.c divrem_2.c dump.c fib2_ui.c				    \
-  gcd.c	lgcd.c ngcd.c ngcd_matrix.c ngcd_step.c nhgcd2.c                    \
-  gcd_finda.c gcd_1.c gcdext.c get_d.c get_str.c			    \
-  hamdist.c invert_limb.c lshift1.c rshift1.c lshift2.c rshift2.c lshiftc.c	\
-  ior_n.c iorn_n.c jacbase.c lshift.c mod_1.c mod_34lsub1.c mode1o.c	    \
-  mul.c mul_1.c mul_2.c mul_fft.c mul_n.c mul_basecase.c toom3_mul.c        \
-  toom3_mul_n.c toom4_mul_n.c toom4.c toom7_mul_n.c                         \
-  mullow_n.c mullow_n_basecase.c mullow_basecase.c mulhigh_n.c              \
-  mulmod_2expp1.c mulmod_2expm1.c					\
-  midmul.c midmul_n.c midmul_basecase.c toom42_midmul.c                     \
-  neg_n.c nand_n.c nior_n.c perfsqr.c popcount.c	    		\
-  pre_divrem_1.c pre_mod_1.c pow_1.c random.c random2.c rshift.c	    \
-  rootrem.c redc_basecase.c sb_divrem_mn.c scan0.c scan1.c set_str.c	    \
-  sqr_basecase.c sqr_diagonal.c	store.c sb_divappr_q.c			    \
-  sqrtrem.c sub.c sub_1.c sub_n.c subadd_n.c submul_1.c			    \
-  tdiv_qr.c udiv_qrnnd.c udiv_w_sdiv.c xor_n.c xnor_n.c
-
 noinst_LTLIBRARIES = libmpn.la
 nodist_libmpn_la_SOURCES = fib_table.c mp_bases.c
 libmpn_la_LIBADD = $(OFILES)

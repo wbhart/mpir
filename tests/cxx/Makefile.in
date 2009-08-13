@@ -54,7 +54,6 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
-ANSI2KNR = $(top_builddir)/ansi2knr
 @WANT_CXX_TRUE@check_PROGRAMS = t-assign$(EXEEXT) t-binary$(EXEEXT) \
 @WANT_CXX_TRUE@	t-cast$(EXEEXT) t-constr$(EXEEXT) \
 @WANT_CXX_TRUE@	t-headers$(EXEEXT) t-istream$(EXEEXT) \
@@ -102,7 +101,7 @@ t_istream_OBJECTS = $(am_t_istream_OBJECTS)
 t_istream_LDADD = $(LDADD)
 t_istream_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
 	$(top_builddir)/libmpirxx.la $(top_builddir)/libmpir.la
-am_t_locale_OBJECTS = t-locale.$(OBJEXT) clocale$U.$(OBJEXT)
+am_t_locale_OBJECTS = t-locale.$(OBJEXT) clocale.$(OBJEXT)
 t_locale_OBJECTS = $(am_t_locale_OBJECTS)
 t_locale_LDADD = $(LDADD)
 t_locale_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
@@ -273,7 +272,6 @@ SPEED_CYCLECOUNTER_OBJ = @SPEED_CYCLECOUNTER_OBJ@
 STRIP = @STRIP@
 TAL_OBJECT = @TAL_OBJECT@
 TUNE_SQR_OBJ = @TUNE_SQR_OBJ@
-U = @U@
 U_FOR_BUILD = @U_FOR_BUILD@
 VERSION = @VERSION@
 WANT_CXX_FALSE = @WANT_CXX_FALSE@
@@ -455,11 +453,6 @@ mostlyclean-compile:
 
 distclean-compile:
 	-rm -f *.tab.c
-$(top_builddir)/ansi2knr:
-	cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) ansi2knr
-
-mostlyclean-kr:
-	-test "$U" = "" || rm -f *_.c
 
 .c.o:
 	$(COMPILE) -c $<
@@ -469,9 +462,6 @@ mostlyclean-kr:
 
 .c.lo:
 	$(LTCOMPILE) -c -o $@ $<
-clocale_.c: clocale.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/clocale.c; then echo $(srcdir)/clocale.c; else echo clocale.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-clocale_.$(OBJEXT) clocale_.lo : $(ANSI2KNR)
 
 .cc.o:
 	$(CXXCOMPILE) -c -o $@ $<
@@ -706,7 +696,7 @@ maintainer-clean-am: distclean-am maintainer-clean-generic
 
 mostlyclean: mostlyclean-am
 
-mostlyclean-am: mostlyclean-compile mostlyclean-generic mostlyclean-kr \
+mostlyclean-am: mostlyclean-compile mostlyclean-generic \
 	mostlyclean-libtool
 
 pdf: pdf-am
@@ -728,8 +718,8 @@ uninstall-am: uninstall-info-am
 	install-info-am install-man install-strip installcheck \
 	installcheck-am installdirs maintainer-clean \
 	maintainer-clean-generic mostlyclean mostlyclean-compile \
-	mostlyclean-generic mostlyclean-kr mostlyclean-libtool pdf \
-	pdf-am ps ps-am tags uninstall uninstall-am uninstall-info-am
+	mostlyclean-generic mostlyclean-libtool pdf pdf-am ps ps-am \
+	tags uninstall uninstall-am uninstall-info-am
 
 
 $(top_builddir)/tests/libtests.la:

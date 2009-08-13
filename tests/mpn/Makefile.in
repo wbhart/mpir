@@ -54,7 +54,6 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
-ANSI2KNR = $(top_builddir)/ansi2knr
 check_PROGRAMS = t-asmtype$(EXEEXT) t-aors_1$(EXEEXT) \
 	t-divrem_1$(EXEEXT) t-fat$(EXEEXT) t-get_d$(EXEEXT) \
 	t-instrument$(EXEEXT) t-iord_u$(EXEEXT) t-mulmid$(EXEEXT) \
@@ -81,129 +80,129 @@ CONFIG_CLEAN_FILES =
 @ENABLE_SHARED_TRUE@@ENABLE_STATIC_TRUE@	st_instrument$(EXEEXT)
 am__st_fat_SOURCES_DIST = t-fat.c
 @ENABLE_SHARED_TRUE@@ENABLE_STATIC_TRUE@am_st_fat_OBJECTS =  \
-@ENABLE_SHARED_TRUE@@ENABLE_STATIC_TRUE@	t-fat$U.$(OBJEXT)
+@ENABLE_SHARED_TRUE@@ENABLE_STATIC_TRUE@	t-fat.$(OBJEXT)
 st_fat_OBJECTS = $(am_st_fat_OBJECTS)
 st_fat_LDADD = $(LDADD)
 st_fat_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
 	$(top_builddir)/libmpir.la
 am__st_instrument_SOURCES_DIST = t-instrument.c
-@ENABLE_SHARED_TRUE@@ENABLE_STATIC_TRUE@am_st_instrument_OBJECTS = t-instrument$U.$(OBJEXT)
+@ENABLE_SHARED_TRUE@@ENABLE_STATIC_TRUE@am_st_instrument_OBJECTS = t-instrument.$(OBJEXT)
 st_instrument_OBJECTS = $(am_st_instrument_OBJECTS)
 st_instrument_LDADD = $(LDADD)
 st_instrument_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
 	$(top_builddir)/libmpir.la
 t_addadd_n_SOURCES = t-addadd_n.c
-t_addadd_n_OBJECTS = t-addadd_n$U.$(OBJEXT)
+t_addadd_n_OBJECTS = t-addadd_n.$(OBJEXT)
 t_addadd_n_LDADD = $(LDADD)
 t_addadd_n_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
 	$(top_builddir)/libmpir.la
 t_addsub_n_SOURCES = t-addsub_n.c
-t_addsub_n_OBJECTS = t-addsub_n$U.$(OBJEXT)
+t_addsub_n_OBJECTS = t-addsub_n.$(OBJEXT)
 t_addsub_n_LDADD = $(LDADD)
 t_addsub_n_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
 	$(top_builddir)/libmpir.la
 t_aors_1_SOURCES = t-aors_1.c
-t_aors_1_OBJECTS = t-aors_1$U.$(OBJEXT)
+t_aors_1_OBJECTS = t-aors_1.$(OBJEXT)
 t_aors_1_LDADD = $(LDADD)
 t_aors_1_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
 	$(top_builddir)/libmpir.la
 t_asmtype_SOURCES = t-asmtype.c
-t_asmtype_OBJECTS = t-asmtype$U.$(OBJEXT)
+t_asmtype_OBJECTS = t-asmtype.$(OBJEXT)
 t_asmtype_LDADD = $(LDADD)
 t_asmtype_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
 	$(top_builddir)/libmpir.la
 t_divebyBm1of_SOURCES = t-divebyBm1of.c
-t_divebyBm1of_OBJECTS = t-divebyBm1of$U.$(OBJEXT)
+t_divebyBm1of_OBJECTS = t-divebyBm1of.$(OBJEXT)
 t_divebyBm1of_LDADD = $(LDADD)
 t_divebyBm1of_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
 	$(top_builddir)/libmpir.la
 t_divebyff_SOURCES = t-divebyff.c
-t_divebyff_OBJECTS = t-divebyff$U.$(OBJEXT)
+t_divebyff_OBJECTS = t-divebyff.$(OBJEXT)
 t_divebyff_LDADD = $(LDADD)
 t_divebyff_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
 	$(top_builddir)/libmpir.la
 t_divrem_1_SOURCES = t-divrem_1.c
-t_divrem_1_OBJECTS = t-divrem_1$U.$(OBJEXT)
+t_divrem_1_OBJECTS = t-divrem_1.$(OBJEXT)
 t_divrem_1_LDADD = $(LDADD)
 t_divrem_1_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
 	$(top_builddir)/libmpir.la
 t_fat_SOURCES = t-fat.c
-t_fat_OBJECTS = t-fat$U.$(OBJEXT)
+t_fat_OBJECTS = t-fat.$(OBJEXT)
 t_fat_LDADD = $(LDADD)
 t_fat_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
 	$(top_builddir)/libmpir.la
 t_get_d_SOURCES = t-get_d.c
-t_get_d_OBJECTS = t-get_d$U.$(OBJEXT)
+t_get_d_OBJECTS = t-get_d.$(OBJEXT)
 t_get_d_LDADD = $(LDADD)
 t_get_d_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
 	$(top_builddir)/libmpir.la
 t_instrument_SOURCES = t-instrument.c
-t_instrument_OBJECTS = t-instrument$U.$(OBJEXT)
+t_instrument_OBJECTS = t-instrument.$(OBJEXT)
 t_instrument_LDADD = $(LDADD)
 t_instrument_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
 	$(top_builddir)/libmpir.la
 t_iord_u_SOURCES = t-iord_u.c
-t_iord_u_OBJECTS = t-iord_u$U.$(OBJEXT)
+t_iord_u_OBJECTS = t-iord_u.$(OBJEXT)
 t_iord_u_LDADD = $(LDADD)
 t_iord_u_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
 	$(top_builddir)/libmpir.la
 t_lorrshift1_SOURCES = t-lorrshift1.c
-t_lorrshift1_OBJECTS = t-lorrshift1$U.$(OBJEXT)
+t_lorrshift1_OBJECTS = t-lorrshift1.$(OBJEXT)
 t_lorrshift1_LDADD = $(LDADD)
 t_lorrshift1_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
 	$(top_builddir)/libmpir.la
 t_mp_bases_SOURCES = t-mp_bases.c
-t_mp_bases_OBJECTS = t-mp_bases$U.$(OBJEXT)
+t_mp_bases_OBJECTS = t-mp_bases.$(OBJEXT)
 t_mp_bases_LDADD = $(LDADD)
 t_mp_bases_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
 	$(top_builddir)/libmpir.la
 t_mullow_basecase_SOURCES = t-mullow_basecase.c
-t_mullow_basecase_OBJECTS = t-mullow_basecase$U.$(OBJEXT)
+t_mullow_basecase_OBJECTS = t-mullow_basecase.$(OBJEXT)
 t_mullow_basecase_LDADD = $(LDADD)
 t_mullow_basecase_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
 	$(top_builddir)/libmpir.la
 t_mullowhigh_SOURCES = t-mullowhigh.c
-t_mullowhigh_OBJECTS = t-mullowhigh$U.$(OBJEXT)
+t_mullowhigh_OBJECTS = t-mullowhigh.$(OBJEXT)
 t_mullowhigh_LDADD = $(LDADD)
 t_mullowhigh_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
 	$(top_builddir)/libmpir.la
 t_mulmid_SOURCES = t-mulmid.c
-t_mulmid_OBJECTS = t-mulmid$U.$(OBJEXT)
+t_mulmid_OBJECTS = t-mulmid.$(OBJEXT)
 t_mulmid_LDADD = $(LDADD)
 t_mulmid_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
 	$(top_builddir)/libmpir.la
 t_mulmod_2expm1_SOURCES = t-mulmod_2expm1.c
-t_mulmod_2expm1_OBJECTS = t-mulmod_2expm1$U.$(OBJEXT)
+t_mulmod_2expm1_OBJECTS = t-mulmod_2expm1.$(OBJEXT)
 t_mulmod_2expm1_LDADD = $(LDADD)
 t_mulmod_2expm1_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
 	$(top_builddir)/libmpir.la
 t_mulmod_2expp1_SOURCES = t-mulmod_2expp1.c
-t_mulmod_2expp1_OBJECTS = t-mulmod_2expp1$U.$(OBJEXT)
+t_mulmod_2expp1_OBJECTS = t-mulmod_2expp1.$(OBJEXT)
 t_mulmod_2expp1_LDADD = $(LDADD)
 t_mulmod_2expp1_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
 	$(top_builddir)/libmpir.la
 t_neg_SOURCES = t-neg.c
-t_neg_OBJECTS = t-neg$U.$(OBJEXT)
+t_neg_OBJECTS = t-neg.$(OBJEXT)
 t_neg_LDADD = $(LDADD)
 t_neg_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
 	$(top_builddir)/libmpir.la
 t_perfsqr_SOURCES = t-perfsqr.c
-t_perfsqr_OBJECTS = t-perfsqr$U.$(OBJEXT)
+t_perfsqr_OBJECTS = t-perfsqr.$(OBJEXT)
 t_perfsqr_LDADD = $(LDADD)
 t_perfsqr_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
 	$(top_builddir)/libmpir.la
 t_redc_basecase_SOURCES = t-redc_basecase.c
-t_redc_basecase_OBJECTS = t-redc_basecase$U.$(OBJEXT)
+t_redc_basecase_OBJECTS = t-redc_basecase.$(OBJEXT)
 t_redc_basecase_LDADD = $(LDADD)
 t_redc_basecase_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
 	$(top_builddir)/libmpir.la
 t_scan_SOURCES = t-scan.c
-t_scan_OBJECTS = t-scan$U.$(OBJEXT)
+t_scan_OBJECTS = t-scan.$(OBJEXT)
 t_scan_LDADD = $(LDADD)
 t_scan_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
 	$(top_builddir)/libmpir.la
 t_subadd_n_SOURCES = t-subadd_n.c
-t_subadd_n_OBJECTS = t-subadd_n$U.$(OBJEXT)
+t_subadd_n_OBJECTS = t-subadd_n.$(OBJEXT)
 t_subadd_n_LDADD = $(LDADD)
 t_subadd_n_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
 	$(top_builddir)/libmpir.la
@@ -333,7 +332,6 @@ SPEED_CYCLECOUNTER_OBJ = @SPEED_CYCLECOUNTER_OBJ@
 STRIP = @STRIP@
 TAL_OBJECT = @TAL_OBJECT@
 TUNE_SQR_OBJ = @TUNE_SQR_OBJ@
-U = @U@
 U_FOR_BUILD = @U_FOR_BUILD@
 VERSION = @VERSION@
 WANT_CXX_FALSE = @WANT_CXX_FALSE@
@@ -515,11 +513,6 @@ mostlyclean-compile:
 
 distclean-compile:
 	-rm -f *.tab.c
-$(top_builddir)/ansi2knr:
-	cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) ansi2knr
-
-mostlyclean-kr:
-	-test "$U" = "" || rm -f *_.c
 
 .c.o:
 	$(COMPILE) -c $<
@@ -529,67 +522,6 @@ mostlyclean-kr:
 
 .c.lo:
 	$(LTCOMPILE) -c -o $@ $<
-t-addadd_n_.c: t-addadd_n.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/t-addadd_n.c; then echo $(srcdir)/t-addadd_n.c; else echo t-addadd_n.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-t-addsub_n_.c: t-addsub_n.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/t-addsub_n.c; then echo $(srcdir)/t-addsub_n.c; else echo t-addsub_n.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-t-aors_1_.c: t-aors_1.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/t-aors_1.c; then echo $(srcdir)/t-aors_1.c; else echo t-aors_1.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-t-asmtype_.c: t-asmtype.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/t-asmtype.c; then echo $(srcdir)/t-asmtype.c; else echo t-asmtype.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-t-divebyBm1of_.c: t-divebyBm1of.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/t-divebyBm1of.c; then echo $(srcdir)/t-divebyBm1of.c; else echo t-divebyBm1of.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-t-divebyff_.c: t-divebyff.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/t-divebyff.c; then echo $(srcdir)/t-divebyff.c; else echo t-divebyff.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-t-divrem_1_.c: t-divrem_1.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/t-divrem_1.c; then echo $(srcdir)/t-divrem_1.c; else echo t-divrem_1.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-t-fat_.c: t-fat.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/t-fat.c; then echo $(srcdir)/t-fat.c; else echo t-fat.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-t-get_d_.c: t-get_d.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/t-get_d.c; then echo $(srcdir)/t-get_d.c; else echo t-get_d.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-t-instrument_.c: t-instrument.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/t-instrument.c; then echo $(srcdir)/t-instrument.c; else echo t-instrument.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-t-iord_u_.c: t-iord_u.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/t-iord_u.c; then echo $(srcdir)/t-iord_u.c; else echo t-iord_u.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-t-lorrshift1_.c: t-lorrshift1.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/t-lorrshift1.c; then echo $(srcdir)/t-lorrshift1.c; else echo t-lorrshift1.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-t-mp_bases_.c: t-mp_bases.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/t-mp_bases.c; then echo $(srcdir)/t-mp_bases.c; else echo t-mp_bases.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-t-mullow_basecase_.c: t-mullow_basecase.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/t-mullow_basecase.c; then echo $(srcdir)/t-mullow_basecase.c; else echo t-mullow_basecase.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-t-mullowhigh_.c: t-mullowhigh.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/t-mullowhigh.c; then echo $(srcdir)/t-mullowhigh.c; else echo t-mullowhigh.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-t-mulmid_.c: t-mulmid.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/t-mulmid.c; then echo $(srcdir)/t-mulmid.c; else echo t-mulmid.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-t-mulmod_2expm1_.c: t-mulmod_2expm1.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/t-mulmod_2expm1.c; then echo $(srcdir)/t-mulmod_2expm1.c; else echo t-mulmod_2expm1.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-t-mulmod_2expp1_.c: t-mulmod_2expp1.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/t-mulmod_2expp1.c; then echo $(srcdir)/t-mulmod_2expp1.c; else echo t-mulmod_2expp1.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-t-neg_.c: t-neg.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/t-neg.c; then echo $(srcdir)/t-neg.c; else echo t-neg.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-t-perfsqr_.c: t-perfsqr.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/t-perfsqr.c; then echo $(srcdir)/t-perfsqr.c; else echo t-perfsqr.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-t-redc_basecase_.c: t-redc_basecase.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/t-redc_basecase.c; then echo $(srcdir)/t-redc_basecase.c; else echo t-redc_basecase.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-t-scan_.c: t-scan.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/t-scan.c; then echo $(srcdir)/t-scan.c; else echo t-scan.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-t-subadd_n_.c: t-subadd_n.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/t-subadd_n.c; then echo $(srcdir)/t-subadd_n.c; else echo t-subadd_n.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-t-addadd_n_.$(OBJEXT) t-addadd_n_.lo t-addsub_n_.$(OBJEXT) \
-t-addsub_n_.lo t-aors_1_.$(OBJEXT) t-aors_1_.lo t-asmtype_.$(OBJEXT) \
-t-asmtype_.lo t-divebyBm1of_.$(OBJEXT) t-divebyBm1of_.lo \
-t-divebyff_.$(OBJEXT) t-divebyff_.lo t-divrem_1_.$(OBJEXT) \
-t-divrem_1_.lo t-fat_.$(OBJEXT) t-fat_.lo t-get_d_.$(OBJEXT) \
-t-get_d_.lo t-instrument_.$(OBJEXT) t-instrument_.lo \
-t-iord_u_.$(OBJEXT) t-iord_u_.lo t-lorrshift1_.$(OBJEXT) \
-t-lorrshift1_.lo t-mp_bases_.$(OBJEXT) t-mp_bases_.lo \
-t-mullow_basecase_.$(OBJEXT) t-mullow_basecase_.lo \
-t-mullowhigh_.$(OBJEXT) t-mullowhigh_.lo t-mulmid_.$(OBJEXT) \
-t-mulmid_.lo t-mulmod_2expm1_.$(OBJEXT) t-mulmod_2expm1_.lo \
-t-mulmod_2expp1_.$(OBJEXT) t-mulmod_2expp1_.lo t-neg_.$(OBJEXT) \
-t-neg_.lo t-perfsqr_.$(OBJEXT) t-perfsqr_.lo \
-t-redc_basecase_.$(OBJEXT) t-redc_basecase_.lo t-scan_.$(OBJEXT) \
-t-scan_.lo t-subadd_n_.$(OBJEXT) t-subadd_n_.lo : $(ANSI2KNR)
 
 mostlyclean-libtool:
 	-rm -f *.lo
@@ -815,7 +747,7 @@ maintainer-clean-am: distclean-am maintainer-clean-generic
 
 mostlyclean: mostlyclean-am
 
-mostlyclean-am: mostlyclean-compile mostlyclean-generic mostlyclean-kr \
+mostlyclean-am: mostlyclean-compile mostlyclean-generic \
 	mostlyclean-libtool
 
 pdf: pdf-am
@@ -837,8 +769,8 @@ uninstall-am: uninstall-info-am
 	install-info-am install-man install-strip installcheck \
 	installcheck-am installdirs maintainer-clean \
 	maintainer-clean-generic mostlyclean mostlyclean-compile \
-	mostlyclean-generic mostlyclean-kr mostlyclean-libtool pdf \
-	pdf-am ps ps-am tags uninstall uninstall-am uninstall-info-am
+	mostlyclean-generic mostlyclean-libtool pdf pdf-am ps ps-am \
+	tags uninstall uninstall-am uninstall-info-am
 
 
 $(top_builddir)/tests/libtests.la:

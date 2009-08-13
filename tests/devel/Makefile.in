@@ -54,7 +54,6 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
-ANSI2KNR = $(top_builddir)/ansi2knr
 EXTRA_PROGRAMS = aors_n$(EXEEXT) anymul_1$(EXEEXT) copy$(EXEEXT) \
 	divmod_1$(EXEEXT) shift$(EXEEXT) logops_n$(EXEEXT) \
 	mul_N$(EXEEXT) addmul_N$(EXEEXT) try$(EXEEXT) $(am__EXEEXT_1)
@@ -72,54 +71,54 @@ CONFIG_CLEAN_FILES =
 @ENABLE_SHARED_TRUE@@ENABLE_STATIC_TRUE@am__EXEEXT_1 =  \
 @ENABLE_SHARED_TRUE@@ENABLE_STATIC_TRUE@	static_try$(EXEEXT)
 addmul_N_SOURCES = addmul_N.c
-addmul_N_OBJECTS = addmul_N$U.$(OBJEXT)
+addmul_N_OBJECTS = addmul_N.$(OBJEXT)
 addmul_N_LDADD = $(LDADD)
 addmul_N_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
 	$(top_builddir)/libmpir.la
 anymul_1_SOURCES = anymul_1.c
-anymul_1_OBJECTS = anymul_1$U.$(OBJEXT)
+anymul_1_OBJECTS = anymul_1.$(OBJEXT)
 anymul_1_LDADD = $(LDADD)
 anymul_1_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
 	$(top_builddir)/libmpir.la
 aors_n_SOURCES = aors_n.c
-aors_n_OBJECTS = aors_n$U.$(OBJEXT)
+aors_n_OBJECTS = aors_n.$(OBJEXT)
 aors_n_LDADD = $(LDADD)
 aors_n_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
 	$(top_builddir)/libmpir.la
 copy_SOURCES = copy.c
-copy_OBJECTS = copy$U.$(OBJEXT)
+copy_OBJECTS = copy.$(OBJEXT)
 copy_LDADD = $(LDADD)
 copy_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
 	$(top_builddir)/libmpir.la
 divmod_1_SOURCES = divmod_1.c
-divmod_1_OBJECTS = divmod_1$U.$(OBJEXT)
+divmod_1_OBJECTS = divmod_1.$(OBJEXT)
 divmod_1_LDADD = $(LDADD)
 divmod_1_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
 	$(top_builddir)/libmpir.la
 logops_n_SOURCES = logops_n.c
-logops_n_OBJECTS = logops_n$U.$(OBJEXT)
+logops_n_OBJECTS = logops_n.$(OBJEXT)
 logops_n_LDADD = $(LDADD)
 logops_n_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
 	$(top_builddir)/libmpir.la
 mul_N_SOURCES = mul_N.c
-mul_N_OBJECTS = mul_N$U.$(OBJEXT)
+mul_N_OBJECTS = mul_N.$(OBJEXT)
 mul_N_LDADD = $(LDADD)
 mul_N_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
 	$(top_builddir)/libmpir.la
 shift_SOURCES = shift.c
-shift_OBJECTS = shift$U.$(OBJEXT)
+shift_OBJECTS = shift.$(OBJEXT)
 shift_LDADD = $(LDADD)
 shift_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
 	$(top_builddir)/libmpir.la
 am__static_try_SOURCES_DIST = try.c
 @ENABLE_SHARED_TRUE@@ENABLE_STATIC_TRUE@am_static_try_OBJECTS =  \
-@ENABLE_SHARED_TRUE@@ENABLE_STATIC_TRUE@	try$U.$(OBJEXT)
+@ENABLE_SHARED_TRUE@@ENABLE_STATIC_TRUE@	try.$(OBJEXT)
 static_try_OBJECTS = $(am_static_try_OBJECTS)
 static_try_LDADD = $(LDADD)
 static_try_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
 	$(top_builddir)/libmpir.la
 try_SOURCES = try.c
-try_OBJECTS = try$U.$(OBJEXT)
+try_OBJECTS = try.$(OBJEXT)
 try_LDADD = $(LDADD)
 try_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
 	$(top_builddir)/libmpir.la
@@ -241,7 +240,6 @@ SPEED_CYCLECOUNTER_OBJ = @SPEED_CYCLECOUNTER_OBJ@
 STRIP = @STRIP@
 TAL_OBJECT = @TAL_OBJECT@
 TUNE_SQR_OBJ = @TUNE_SQR_OBJ@
-U = @U@
 U_FOR_BUILD = @U_FOR_BUILD@
 VERSION = @VERSION@
 WANT_CXX_FALSE = @WANT_CXX_FALSE@
@@ -369,11 +367,6 @@ mostlyclean-compile:
 
 distclean-compile:
 	-rm -f *.tab.c
-$(top_builddir)/ansi2knr:
-	cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) ansi2knr
-
-mostlyclean-kr:
-	-test "$U" = "" || rm -f *_.c
 
 .c.o:
 	$(COMPILE) -c $<
@@ -383,29 +376,6 @@ mostlyclean-kr:
 
 .c.lo:
 	$(LTCOMPILE) -c -o $@ $<
-addmul_N_.c: addmul_N.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/addmul_N.c; then echo $(srcdir)/addmul_N.c; else echo addmul_N.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-anymul_1_.c: anymul_1.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/anymul_1.c; then echo $(srcdir)/anymul_1.c; else echo anymul_1.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-aors_n_.c: aors_n.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/aors_n.c; then echo $(srcdir)/aors_n.c; else echo aors_n.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-copy_.c: copy.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/copy.c; then echo $(srcdir)/copy.c; else echo copy.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-divmod_1_.c: divmod_1.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/divmod_1.c; then echo $(srcdir)/divmod_1.c; else echo divmod_1.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-logops_n_.c: logops_n.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/logops_n.c; then echo $(srcdir)/logops_n.c; else echo logops_n.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-mul_N_.c: mul_N.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/mul_N.c; then echo $(srcdir)/mul_N.c; else echo mul_N.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-shift_.c: shift.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/shift.c; then echo $(srcdir)/shift.c; else echo shift.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-try_.c: try.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/try.c; then echo $(srcdir)/try.c; else echo try.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-addmul_N_.$(OBJEXT) addmul_N_.lo anymul_1_.$(OBJEXT) anymul_1_.lo \
-aors_n_.$(OBJEXT) aors_n_.lo copy_.$(OBJEXT) copy_.lo \
-divmod_1_.$(OBJEXT) divmod_1_.lo logops_n_.$(OBJEXT) logops_n_.lo \
-mul_N_.$(OBJEXT) mul_N_.lo shift_.$(OBJEXT) shift_.lo try_.$(OBJEXT) \
-try_.lo : $(ANSI2KNR)
 
 mostlyclean-libtool:
 	-rm -f *.lo
@@ -556,7 +526,7 @@ maintainer-clean-am: distclean-am maintainer-clean-generic
 
 mostlyclean: mostlyclean-am
 
-mostlyclean-am: mostlyclean-compile mostlyclean-generic mostlyclean-kr \
+mostlyclean-am: mostlyclean-compile mostlyclean-generic \
 	mostlyclean-libtool
 
 pdf: pdf-am
@@ -577,8 +547,8 @@ uninstall-am: uninstall-info-am
 	install-info install-info-am install-man install-strip \
 	installcheck installcheck-am installdirs maintainer-clean \
 	maintainer-clean-generic mostlyclean mostlyclean-compile \
-	mostlyclean-generic mostlyclean-kr mostlyclean-libtool pdf \
-	pdf-am ps ps-am tags uninstall uninstall-am uninstall-info-am
+	mostlyclean-generic mostlyclean-libtool pdf pdf-am ps ps-am \
+	tags uninstall uninstall-am uninstall-info-am
 
 
 allprogs: $(EXTRA_PROGRAMS)

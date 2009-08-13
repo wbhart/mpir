@@ -54,7 +54,6 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
-ANSI2KNR = $(top_builddir)/ansi2knr
 EXTRA_PROGRAMS = factorize$(EXEEXT) isprime$(EXEEXT) pexpr$(EXEEXT) \
 	primes$(EXEEXT) qcn$(EXEEXT)
 subdir = demos
@@ -69,24 +68,24 @@ mkinstalldirs = $(install_sh) -d
 CONFIG_HEADER = $(top_builddir)/config.h
 CONFIG_CLEAN_FILES = pexpr-config.h
 factorize_SOURCES = factorize.c
-factorize_OBJECTS = factorize$U.$(OBJEXT)
+factorize_OBJECTS = factorize.$(OBJEXT)
 factorize_LDADD = $(LDADD)
 factorize_DEPENDENCIES = $(top_builddir)/libmpir.la
 isprime_SOURCES = isprime.c
-isprime_OBJECTS = isprime$U.$(OBJEXT)
+isprime_OBJECTS = isprime.$(OBJEXT)
 isprime_LDADD = $(LDADD)
 isprime_DEPENDENCIES = $(top_builddir)/libmpir.la
 pexpr_SOURCES = pexpr.c
-pexpr_OBJECTS = pexpr$U.$(OBJEXT)
+pexpr_OBJECTS = pexpr.$(OBJEXT)
 pexpr_LDADD = $(LDADD)
 pexpr_DEPENDENCIES = $(top_builddir)/libmpir.la
 primes_SOURCES = primes.c
-primes_OBJECTS = primes$U.$(OBJEXT)
+primes_OBJECTS = primes.$(OBJEXT)
 am__DEPENDENCIES_1 = $(top_builddir)/libmpir.la
 am__DEPENDENCIES_2 =
 primes_DEPENDENCIES = $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_2)
 qcn_SOURCES = qcn.c
-qcn_OBJECTS = qcn$U.$(OBJEXT)
+qcn_OBJECTS = qcn.$(OBJEXT)
 qcn_DEPENDENCIES = $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_2)
 DEFAULT_INCLUDES = -I. -I$(srcdir) -I$(top_builddir)
 depcomp =
@@ -210,7 +209,6 @@ SPEED_CYCLECOUNTER_OBJ = @SPEED_CYCLECOUNTER_OBJ@
 STRIP = @STRIP@
 TAL_OBJECT = @TAL_OBJECT@
 TUNE_SQR_OBJ = @TUNE_SQR_OBJ@
-U = @U@
 U_FOR_BUILD = @U_FOR_BUILD@
 VERSION = @VERSION@
 WANT_CXX_FALSE = @WANT_CXX_FALSE@
@@ -327,11 +325,6 @@ mostlyclean-compile:
 
 distclean-compile:
 	-rm -f *.tab.c
-$(top_builddir)/ansi2knr:
-	cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) ansi2knr
-
-mostlyclean-kr:
-	-test "$U" = "" || rm -f *_.c
 
 .c.o:
 	$(COMPILE) -c $<
@@ -341,19 +334,6 @@ mostlyclean-kr:
 
 .c.lo:
 	$(LTCOMPILE) -c -o $@ $<
-factorize_.c: factorize.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/factorize.c; then echo $(srcdir)/factorize.c; else echo factorize.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-isprime_.c: isprime.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/isprime.c; then echo $(srcdir)/isprime.c; else echo isprime.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-pexpr_.c: pexpr.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/pexpr.c; then echo $(srcdir)/pexpr.c; else echo pexpr.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-primes_.c: primes.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/primes.c; then echo $(srcdir)/primes.c; else echo primes.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-qcn_.c: qcn.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/qcn.c; then echo $(srcdir)/qcn.c; else echo qcn.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > $@ || rm -f $@
-factorize_.$(OBJEXT) factorize_.lo isprime_.$(OBJEXT) isprime_.lo \
-pexpr_.$(OBJEXT) pexpr_.lo primes_.$(OBJEXT) primes_.lo qcn_.$(OBJEXT) \
-qcn_.lo : $(ANSI2KNR)
 
 mostlyclean-libtool:
 	-rm -f *.lo
@@ -604,7 +584,7 @@ maintainer-clean-am: distclean-am maintainer-clean-generic
 
 mostlyclean: mostlyclean-recursive
 
-mostlyclean-am: mostlyclean-compile mostlyclean-generic mostlyclean-kr \
+mostlyclean-am: mostlyclean-compile mostlyclean-generic \
 	mostlyclean-libtool
 
 pdf: pdf-recursive
@@ -629,9 +609,9 @@ uninstall-info: uninstall-info-recursive
 	installcheck installcheck-am installdirs installdirs-am \
 	maintainer-clean maintainer-clean-generic \
 	maintainer-clean-recursive mostlyclean mostlyclean-compile \
-	mostlyclean-generic mostlyclean-kr mostlyclean-libtool \
-	mostlyclean-recursive pdf pdf-am ps ps-am tags tags-recursive \
-	uninstall uninstall-am uninstall-info-am
+	mostlyclean-generic mostlyclean-libtool mostlyclean-recursive \
+	pdf pdf-am ps ps-am tags tags-recursive uninstall uninstall-am \
+	uninstall-info-am
 
 
 allprogs: $(EXTRA_PROGRAMS)

@@ -28,8 +28,8 @@ MA 02110-1301, USA.  */
    mpir.h or gmp-impl.h.  To use this file in a program just #include
    "dumbmp.c".
 
-   ANSI function definitions can be used here, since ansi2knr is run if
-   necessary.  But other ANSI-isms like "const" should be avoided.
+   ANSI function definitions can be used here but other ANSI-isms like 
+   "const" should be avoided.
 
    mp_limb_t here is an unsigned long, since that's a sensible type
    everywhere we know of, with 8*sizeof(unsigned long) giving the number of
