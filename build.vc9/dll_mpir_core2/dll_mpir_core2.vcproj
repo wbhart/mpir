@@ -1887,6 +1887,10 @@
 						>
 					</File>
 					<File
+						RelativePath="..\..\mpn\x86_64w\core2\store.asm"
+						>
+					</File>
+					<File
 						RelativePath="..\..\mpn\x86_64w\core2\sub_n.asm"
 						>
 					</File>
