@@ -22,7 +22,7 @@
 ;  probaly want to tweek it , that should do most of the work ;
 ;  below small loop is not much help
 
-%define SMALL_LOOP  0
+%define SMALL_LOOP  1
 
 %include "..\yasm_mac.inc"
 
@@ -31,7 +31,8 @@
 
 	LEAF_PROC mpn_copyi
 	movsxd  r8, r8d
-
+    cmp     r8, 0
+	jz      .8
 %if SMALL_LOOP <> 0
 	cmp     r8, 10
 	jge     .1
@@ -43,9 +44,6 @@
 	sub     r8, 1
 	jnz     .0
 	ret
-%else	
-    cmp     r8, 0
-	jz      .8
 %endif
 
 .1:	mov     rax, rcx
