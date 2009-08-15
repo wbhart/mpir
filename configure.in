@@ -1444,9 +1444,9 @@ case $host in
       pentium3)                path="x86/p6/p3mmx x86/p6/mmx x86/p6 x86";;
       [k6[23]])                path="x86/k6/k62mmx x86/k6/mmx x86/k6 x86" ;;
       k6)                      path="x86/k6/mmx x86/k6 x86" ;;
-      # we don't have any specific 32-bit code for opteron (x86_64), the
-      # athlon code should be reasonable
-      athlon | k7 | x86_64 | k8 | k10 | atom)   path="x86/k7/mmx x86/k7 x86" ;;
+      athlon | k7 | x86_64 | atom)   path="x86/k7/mmx x86/k7 x86" ;;
+      k10)			path="x86/k7/mmx/k8/k10 x86/k7/mmx/k8 x86/k7/mmx x86/k7 x86" ;;
+      k8)			path="x86/k7/mmx/k8 x86/k7/mmx x86/k7 x86" ;;
       i786 | pentium4 | core2 | penryn | nehalem) path="x86/pentium4/sse2 x86/pentium4/mmx x86/pentium4 x86" ;;
       prescott | netburst | netburstlahf)       path="x86/pentium4/sse2 x86/pentium4/mmx x86/pentium4 x86" ;;
       # VIA/Centaur processors, sold as CyrixIII and C3.
