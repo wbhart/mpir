@@ -38,6 +38,9 @@ static int isprime _PROTO ((unsigned long int t));
    value congruent to r*2^n mod d.  Since all the primes being tested are
    odd, r*2^n mod p will be 0 if and only if r mod p is 0.  */
 
+
+//  This function is obsolete     17/08/2009
+
 int
 mpz_probab_prime_p (mpz_srcptr n, int reps)
 {

@@ -23,6 +23,8 @@ Boston, MA 02110-1301, USA.
 #include "mpir.h"
 #include "gmp-impl.h"
 
+
+// This function is Obsolete  17/8/2009
 void	mpz_nextprime(mpz_ptr x,mpz_srcptr y)
 {gmp_randstate_t rnd;
 

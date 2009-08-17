@@ -2582,6 +2582,9 @@ File: mpir.info,  Node: Number Theoretic Functions,  Next: Integer Comparisons, 
      few composites pass, hence those which pass are considered
      probably prime.
 
+     *This function is obsolete.  It will disappear from future MPIR
+     releases.*
+
  -- Function: void mpz_nextprime (mpz_t ROP, mpz_t OP)
      Set ROP to the next prime greater than OP.
 
