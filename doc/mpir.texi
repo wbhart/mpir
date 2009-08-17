@@ -3478,6 +3478,21 @@ Set @var{rop} to the next prime greater than @var{op}.
 This function uses a probabilistic algorithm to identify primes.  For
 practical purposes it's adequate, the chance of a composite passing will be
 extremely small.
+
+@strong{This function is obsolete.  It will disappear from future MPIR releases.}
+@end deftypefun
+
+@deftypefun void mpz_next_probable_prime (mpz_t @var{rop}, mpz_t @var{op}, gmp_randstate_t @var{state})
+@cindex Next probable prime function
+Set @var{rop} to the next probable prime greater than @var{op}.
+
+This function uses a probabilistic algorithm to identify primes.  For
+practical purposes it's adequate, the chance of a composite passing will be
+extremely small.
+
+The variable @var{state} must be initialized by calling one of the
+@code{gmp_randinit} functions (@ref{Random State Initialization})
+before invoking this function.
 @end deftypefun
 
 @c mpz_prime_p not implemented as of gmp 3.0.
@@ -3830,8 +3845,8 @@ Generate a uniformly distributed random integer in the range 0 to @m{2^n-1,
 2^@var{n}@minus{}1}, inclusive.
 
 The variable @var{state} must be initialized by calling one of the
-@code{gmp_randinit} functions (@ref{Random State Initialization}) before
-invoking this function.
+@code{gmp_randinit} functions (@ref{Random State Initialization})
+before invoking this function.
 @end deftypefun
 
 @deftypefun void mpz_urandomm (mpz_t @var{rop}, gmp_randstate_t @var{state}, mpz_t @var{n})
@@ -4798,8 +4813,7 @@ Return non-zero if the first @var{op3} bits of @var{op1} and @var{op2} are
 equal, zero otherwise.  I.e., test if @var{op1} and @var{op2} are approximately
 equal.
 
-Caution: Currently only whole limbs are compared, and only in an exact
-fashion.  In the future values like 1000 and 0111 may be considered the same
+In the future values like 1000 and 0111 may be considered the same
 to 3 bits (on the basis that their difference is that small).
 @end deftypefun
 

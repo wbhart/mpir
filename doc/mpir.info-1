@@ -2589,6 +2589,21 @@ File: mpir.info,  Node: Number Theoretic Functions,  Next: Integer Comparisons, 
      For practical purposes it's adequate, the chance of a composite
      passing will be extremely small.
 
+     *This function is obsolete.  It will disappear from future MPIR
+     releases.*
+
+ -- Function: void mpz_next_probable_prime (mpz_t ROP, mpz_t OP,
+          gmp_randstate_t STATE)
+     Set ROP to the next probable prime greater than OP.
+
+     This function uses a probabilistic algorithm to identify primes.
+     For practical purposes it's adequate, the chance of a composite
+     passing will be extremely small.
+
+     The variable STATE must be initialized by calling one of the
+     `gmp_randinit' functions (*note Random State Initialization::)
+     before invoking this function.
+
  -- Function: void mpz_gcd (mpz_t ROP, mpz_t OP1, mpz_t OP2)
      Set ROP to the greatest common divisor of OP1 and OP2.  The result
      is always positive even if one or both input operands are negative.
@@ -3746,10 +3761,8 @@ File: mpir.info,  Node: Float Comparison,  Next: I/O of Floats,  Prev: Float Ari
      Return non-zero if the first OP3 bits of OP1 and OP2 are equal,
      zero otherwise.  I.e., test if OP1 and OP2 are approximately equal.
 
-     Caution: Currently only whole limbs are compared, and only in an
-     exact fashion.  In the future values like 1000 and 0111 may be
-     considered the same to 3 bits (on the basis that their difference
-     is that small).
+     In the future values like 1000 and 0111 may be considered the same
+     to 3 bits (on the basis that their difference is that small).
 
  -- Function: void mpf_reldiff (mpf_t ROP, mpf_t OP1, mpf_t OP2)
      Compute the relative difference between OP1 and OP2 and store the
@@ -7075,26 +7088,4 @@ products more nearly equal in size than would the simpler approach of
 say taking the first half and second half of the sequence.  Nearly
 equal products are more efficient for the current multiply
 implementation.
-
-
-File: mpir.info,  Node: Binomial Coefficients Algorithm,  Next: Fibonacci Numbers Algorithm,  Prev: Factorial Algorithm,  Up: Other Algorithms
-
-16.7.3 Binomial Coefficients
-----------------------------
-
-Binomial coefficients C(n,k) are calculated by first arranging k <= n/2
-using C(n,k) = C(n,n-k) if necessary, and then evaluating the following
-product simply from i=2 to i=k.
-
-                           k  (n-k+i)
-     C(n,k) =  (n-k+1) * prod -------
-                          i=2    i
-
-   It's easy to show that each denominator i will divide the product so
-far, so the exact division algorithm is used (*note Exact Division::).
-
-   The numerators n-k+i and denominators i are first accumulated into
-as many fit a limb, to save multi-precision operations, though for
-`mpz_bin_ui' this applies only to the divisors, since n is an `mpz_t'
-and n-k+i in general won't fit in a limb at all.
 
