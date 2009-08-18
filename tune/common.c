@@ -459,6 +459,11 @@ speed_mpn_com_n (struct speed_params *s)
   SPEED_ROUTINE_MPN_COPY (mpn_com_n);
 }
 
+double
+speed_mpn_add_err1_n (struct speed_params *s)
+{
+  SPEED_ROUTINE_MPN_ADD_ERR1_N (mpn_add_err1_n);
+}
 
 double
 speed_mpn_addmul_1 (struct speed_params *s)

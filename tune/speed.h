@@ -145,6 +145,7 @@ double speed_modlimb_invert_cond _PROTO ((struct speed_params *s));
 double speed_modlimb_invert_arith _PROTO ((struct speed_params *s));
 
 double speed_mpf_init_clear _PROTO ((struct speed_params *s));
+double speed_mpn_add_err1_n _PROTO ((struct speed_params *s));
 
 double speed_mpn_add_n _PROTO ((struct speed_params *s));
 double speed_mpn_addadd_n _PROTO ((struct speed_params *s));
@@ -752,7 +753,7 @@ int speed_routine_count_zeros_setup _PROTO ((struct speed_params *s,
     return t;								\
   }
 
-// for addadd or addsub or subadd
+// for addadd or addsub or subadd 
 #define SPEED_ROUTINE_MPN_TRINARY_N(call)				\
   {									\
     mp_ptr     ap, sp;							\
@@ -780,6 +781,36 @@ int speed_routine_count_zeros_setup _PROTO ((struct speed_params *s,
     TMP_FREE;								\
     return t;								\
   }
+
+#define SPEED_ROUTINE_MPN_ADD_ERR1_N(call)				\
+  {									\
+    mp_ptr     ap, sp;							\
+    mp_ptr     xp, yp;							\
+    mp_limb_t  ep[2];							\
+    unsigned   i;							\
+    double     t;							\
+    TMP_DECL;								\
+    SPEED_RESTRICT_COND (s->size >= 1);					\
+    TMP_MARK;								\
+    SPEED_TMP_ALLOC_LIMBS (ap, s->size, s->align_wp);			\
+    SPEED_TMP_ALLOC_LIMBS (sp, s->size, s->align_wp2);			\
+    xp = s->xp;								\
+    yp = s->yp;								\
+    speed_operand_src (s, xp, s->size);					\
+    speed_operand_src (s, yp, s->size);					\
+    speed_operand_src (s, sp, s->size);					\
+    speed_operand_dst (s, ap, s->size);					\
+    speed_cache_fill (s);						\
+    speed_starttime ();							\
+    i = s->reps;							\
+    do									\
+      call(ap,sp,xp,ep,yp,s->size,0);					\
+    while (--i != 0);							\
+    t = speed_endtime ();						\
+    TMP_FREE;								\
+    return t;								\
+  }
+
 
 #define SPEED_ROUTINE_MPN_BINARY_N(function)				\
    SPEED_ROUTINE_MPN_BINARY_N_CALL ((*function) (wp, xp, yp, s->size))

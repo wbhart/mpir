@@ -224,6 +224,8 @@ const struct routine_t {
   { "mpn_preinv_divrem_1f", speed_mpn_preinv_divrem_1f, FLAG_R },
   { "mpn_preinv_mod_1",  speed_mpn_preinv_mod_1, FLAG_R },
 
+  { "mpn_add_err1_n",  speed_mpn_add_err1_n, },
+
   { "mpn_divrem_1_div",  speed_mpn_divrem_1_div,  FLAG_R },
   { "mpn_divrem_1_inv",  speed_mpn_divrem_1_inv,  FLAG_R },
   { "mpn_divrem_1f_div", speed_mpn_divrem_1f_div, FLAG_R },
