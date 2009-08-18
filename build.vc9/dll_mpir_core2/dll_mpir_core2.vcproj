@@ -5992,6 +5992,10 @@
 					</FileConfiguration>
 				</File>
 				<File
+					RelativePath="..\..\mpz\nextprobprime.c"
+					>
+				</File>
+				<File
 					RelativePath="..\..\mpz\out_raw.c"
 					>
 					<FileConfiguration
