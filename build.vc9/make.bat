@@ -31,7 +31,7 @@ if "%1" == "speed"   goto :speed
 if "%1" == "tune"    goto :speed
 if "%1" == "try"     goto :try
 if "%1" == "help" (
-	echo Usage : make [clean|install|check|speed|tune|try|help]
+	echo Usage : make [clean^|install^|check^|speed^|tune^|try^|help]
 	exit /b 0
 )
 echo Unkwown option
