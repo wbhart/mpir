@@ -23,6 +23,7 @@ MA 02110-1301, USA. */
 #include "mpir.h"
 #include "gmp-impl.h"
 
+// This function is obsolete 19/08/09
 void
 mpz_array_init (mpz_ptr arr, mp_size_t arr_size, mp_size_t nbits)
 {

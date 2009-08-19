@@ -3083,6 +3083,9 @@ applications will not need them.
      calculate in a regular `mpz_init' variable and copy the result to
      an array variable with `mpz_set'.
 
+     *This function is obsolete.  It will disappear from future MPIR
+     releases.*
+
  -- Function: void * _mpz_realloc (mpz_t INTEGER, mp_size_t NEW_ALLOC)
      Change the space for INTEGER to NEW_ALLOC limbs.  The value in
      INTEGER is preserved if it fits, or is set to 0 if not.  The return

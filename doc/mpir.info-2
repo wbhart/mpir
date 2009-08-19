@@ -2336,7 +2336,7 @@ Function and Type Index
 * __MPIR_VERSION_PATCHLEVEL:             Useful Macros and Constants.
                                                               (line  21)
 * _mpz_realloc:                          Integer Special Functions.
-                                                              (line  51)
+                                                              (line  54)
 * abs <1>:                               C++ Interface Floats.
                                                               (line  70)
 * abs <2>:                               C++ Interface Rationals.
@@ -2792,7 +2792,7 @@ Function and Type Index
 * mpz_get_str:                           Converting Integers. (line  46)
 * mpz_get_ui:                            Converting Integers. (line  11)
 * mpz_getlimbn:                          Integer Special Functions.
-                                                              (line  60)
+                                                              (line  63)
 * mpz_hamdist:                           Integer Logic and Bit Fiddling.
                                                               (line  29)
 * mpz_import:                            Integer Import and Export.
@@ -2887,7 +2887,7 @@ Function and Type Index
 * mpz_si_kronecker:                      Number Theoretic Functions.
                                                               (line  93)
 * mpz_size:                              Integer Special Functions.
-                                                              (line  68)
+                                                              (line  71)
 * mpz_sizeinbase:                        Miscellaneous Integer Functions.
                                                               (line  23)
 * mpz_sqrt:                              Integer Roots.       (line  17)

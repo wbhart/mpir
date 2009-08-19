@@ -4000,6 +4000,8 @@ array and a normal variable.
 For other functions, or if in doubt, the suggestion is to calculate in a
 regular @code{mpz_init} variable and copy the result to an array variable with
 @code{mpz_set}.
+
+@strong{This function is obsolete.  It will disappear from future MPIR releases.}
 @end deftypefun
 
 @deftypefun {void *} _mpz_realloc (mpz_t @var{integer}, mp_size_t @var{new_alloc})
