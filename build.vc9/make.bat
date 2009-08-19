@@ -89,11 +89,11 @@ echo try.exe is in try\%ARCHW%\Release\
 exit /b 0
 
 :clean
-del config_params.bat config.guess.bat config.guess.exe config.guess.obj last_build.txt
-del ..\config.h ..\mpir.h ..\gmp.h ..\gmp-mparam.h
-del gen-psqr\gen-psqr.exe gen-fac_ui\gen-fac_ui.exe gen-bases\gen-bases.exe
-del gen-fib\gen-fib.exe gen-mpir\gen-mpir.exe gen-mpir\gen-mpir.pdb
-rmdir /s/q x64 win32 %LIBTYPE%_mpir_%BCPU%\%ARCHW% lib_mpir_cpp\%ARCHW% lib\%ARCHW% dll\%ARCHW% mpir-tests\%ARCHW%
-rmdir /s/q gen-psqr\Win32 gen-fac_ui\Win32 gen-bases\Win32 gen-fib\Win32 gen-mpir\Win32
-rmdir /s/q lib_speed\%ARCHW% speed\%ARCHW% tune\%ARCHW% try\%ARCHW%
+del config_params.bat config.guess.bat config.guess.exe config.guess.obj last_build.txt >nul 2>&1
+del ..\config.h ..\mpir.h ..\gmp.h ..\gmp-mparam.h >nul 2>&1
+del gen-psqr\gen-psqr.exe gen-fac_ui\gen-fac_ui.exe gen-bases\gen-bases.exe >nul 2>&1
+del gen-fib\gen-fib.exe gen-mpir\gen-mpir.exe gen-mpir\gen-mpir.pdb >nul 2>&1
+rmdir /s/q x64 win32 %LIBTYPE%_mpir_%BCPU%\%ARCHW% lib_mpir_cpp\%ARCHW% lib\%ARCHW% dll\%ARCHW% mpir-tests\%ARCHW% >nul 2>&1
+rmdir /s/q gen-psqr\Win32 gen-fac_ui\Win32 gen-bases\Win32 gen-fib\Win32 gen-mpir\Win32 >nul 2>&1
+rmdir /s/q lib_speed\%ARCHW% speed\%ARCHW% tune\%ARCHW% try\%ARCHW% >nul 2>&1
 exit /b 0
