@@ -70,7 +70,7 @@ if exist c:\Python30 (
 echo ERROR Could not find PYTHON
 exit /b 1
 :got
-python run-tests.py
+python run-tests.py noenter
 cd ..
 exit /b 0
 

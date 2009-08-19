@@ -10,6 +10,7 @@ import string
 import copy
 import subprocess
 import code
+import sys
 
 f = open("..\\last_build.txt")
 l = f.readline()
@@ -68,4 +69,5 @@ if run_ok > 0 :
   print("\t%i ran correctly" % run_ok)
 if run_fail > 0 :
   print("\t%i failed" % run_fail) 
-input(".. completed - press ENTER")
+if len(sys.argv) == 1 :
+  input(".. completed - press ENTER")
