@@ -676,8 +676,12 @@ validate_sqrtrem (void)
 #define TYPE_STORE		117
 #define TYPE_LSHIFTC		118
 //#define TYPE_DIVREM_EUCLIDEAN_QR_2	118
+#define TYPE_ADDLSH_N		120
+#define TYPE_SUBLSH_N		121
+#define TYPE_INCLSH_N		122
+#define TYPE_DECLSH_N		123
 
-#define TYPE_EXTRA            120
+#define TYPE_EXTRA            150
 
 struct try_t  param[150];
 
@@ -923,7 +927,32 @@ param_init (void)
   p->src[0] = 1;
   REFERENCE (refmpn_com_n);
 
+  p = &param[TYPE_ADDLSH_N];
+  p->dst[0]=1;
+  p->src[0]=1;
+  p->src[1]=1;
+  p->shift=1;
+  REFERENCE (refmpn_addlsh_n);
 
+  p = &param[TYPE_SUBLSH_N];
+  p->dst[0]=1;
+  p->src[0]=1;
+  p->src[1]=1;
+  p->shift=1;
+  REFERENCE (refmpn_sublsh_n);
+  
+  p = &param[TYPE_INCLSH_N];
+  p->dst[0]=1;
+  p->src[0]=1;
+  p->shift=1;
+  REFERENCE (refmpn_inclsh_n);
+
+  p = &param[TYPE_DECLSH_N];
+  p->dst[0]=1;
+  p->src[0]=1;
+  p->shift=1;
+  REFERENCE (refmpn_declsh_n);  
+  
   p = &param[TYPE_ADDLSH1_N];
   COPY (TYPE_ADD_N);
   REFERENCE (refmpn_addlsh1_n);
@@ -1569,6 +1598,19 @@ const struct choice_t choice_array[] = {
 #if HAVE_NATIVE_mpn_sublsh1_n
   { TRY(mpn_sublsh1_n), TYPE_SUBLSH1_N },
 #endif
+#if HAVE_NATIVE_mpn_addlsh_n
+  { TRY(mpn_addlsh_n), TYPE_ADDLSH_N },
+#endif
+#if HAVE_NATIVE_mpn_sublsh_n
+  { TRY(mpn_sublsh_n), TYPE_SUBLSH_N },
+#endif
+#if HAVE_NATIVE_mpn_inclsh_n
+  { TRY(mpn_inclsh_n), TYPE_INCLSH_N },
+#endif
+#if HAVE_NATIVE_mpn_declsh_n
+  { TRY(mpn_declsh_n), TYPE_DECLSH_N },
+#endif
+
 #if HAVE_NATIVE_mpn_rsh1add_n
   { TRY(mpn_rsh1add_n), TYPE_RSH1ADD_N },
 #endif
@@ -2196,6 +2238,16 @@ call (struct each_t *e, tryfun_t function)
   case TYPE_RSH1SUB_N:
     e->retval = CALLING_CONVENTIONS (function)
       (e->d[0].p, e->s[0].p, e->s[1].p, size);
+    break;
+  case TYPE_ADDLSH_N:
+  case TYPE_SUBLSH_N:
+    e->retval = CALLING_CONVENTIONS (function)
+      (e->d[0].p, e->s[0].p, e->s[1].p, size,shift);
+    break;
+  case TYPE_INCLSH_N:
+  case TYPE_DECLSH_N:
+    e->retval = CALLING_CONVENTIONS (function)
+      (e->d[0].p, e->s[0].p, size,shift);
     break;
   case TYPE_ADD_NC:
   case TYPE_SUB_NC:

@@ -697,6 +697,7 @@ refmpn_addlsh1_n (mp_ptr rp, mp_srcptr up, mp_srcptr vp, mp_size_t n)
   free (tp);
   return cy;
 }
+
 mp_limb_t
 refmpn_sublsh1_n (mp_ptr rp, mp_srcptr up, mp_srcptr vp, mp_size_t n)
 {
@@ -714,6 +715,83 @@ refmpn_sublsh1_n (mp_ptr rp, mp_srcptr up, mp_srcptr vp, mp_size_t n)
   free (tp);
   return cy;
 }
+
+mp_limb_t
+refmpn_addlsh_n (mp_ptr rp, mp_srcptr up, mp_srcptr vp, mp_size_t n,unsigned int c)
+{
+  mp_limb_t cy;
+  mp_ptr tp;
+
+  ASSERT (refmpn_overlap_fullonly_two_p (rp, up, vp, n));
+  ASSERT (n >= 1);
+  ASSERT_MPN (up, n);
+  ASSERT_MPN (vp, n);
+  ASSERT(c>0);ASSERT(c<GMP_NUMB_BITS);
+
+  tp = refmpn_malloc_limbs (n);
+  cy  = refmpn_lshift (tp, vp, n, c);
+  cy += refmpn_add_n (rp, up, tp, n);
+  free (tp);
+  return cy;
+}
+
+mp_limb_t
+refmpn_sublsh_n (mp_ptr rp, mp_srcptr up, mp_srcptr vp, mp_size_t n,unsigned int c)
+{
+  mp_limb_t cy;
+  mp_ptr tp;
+
+  ASSERT (refmpn_overlap_fullonly_two_p (rp, up, vp, n));
+  ASSERT (n >= 1);
+  ASSERT_MPN (up, n);
+  ASSERT_MPN (vp, n);
+  ASSERT(c>0);ASSERT(c<GMP_NUMB_BITS);
+
+  tp = refmpn_malloc_limbs (n);
+  cy  = refmpn_lshift (tp, vp, n, c);
+  cy += refmpn_sub_n (rp, up, tp, n);
+  free (tp);
+  return cy;
+}
+
+mp_limb_t
+refmpn_inclsh_n (mp_ptr rp, mp_srcptr up, mp_size_t n,unsigned int c)
+{
+  mp_limb_t cy;
+  mp_ptr tp;
+
+  ASSERT (refmpn_overlap_fullonly_p (rp, up, n));
+  ASSERT (n >= 1);
+  ASSERT_MPN (up, n);
+  ASSERT_MPN (rp, n);
+  ASSERT(c>0);ASSERT(c<GMP_NUMB_BITS);
+
+  tp = refmpn_malloc_limbs (n);
+  cy  = refmpn_lshift (tp, up, n, c);
+  cy += refmpn_add_n (rp, rp, tp, n);
+  free (tp);
+  return cy;
+}
+
+mp_limb_t
+refmpn_declsh_n (mp_ptr rp, mp_srcptr up, mp_size_t n,unsigned int c)
+{
+  mp_limb_t cy;
+  mp_ptr tp;
+
+  ASSERT (refmpn_overlap_fullonly_p (rp, up, n));
+  ASSERT (n >= 1);
+  ASSERT_MPN (up, n);
+  ASSERT_MPN (rp, n);
+  ASSERT(c>0);ASSERT(c<GMP_NUMB_BITS);
+
+  tp = refmpn_malloc_limbs (n);
+  cy  = refmpn_lshift (tp, up, n, c);
+  cy += refmpn_sub_n (rp, rp, tp, n);
+  free (tp);
+  return cy;
+}
+
 mp_limb_t
 refmpn_rsh1add_n (mp_ptr rp, mp_srcptr up, mp_srcptr vp, mp_size_t n)
 {
