@@ -55,7 +55,7 @@ default=false
 
 if [ -z "$CFLAGS" ]
   then
-    CFLAGS="-O2 -fomit-frame-pointer -I$MPIR_DIR -include ${MPIR_NAME}.h"
+    CFLAGS="-m32 -O2 -fomit-frame-pointer -I$MPIR_DIR -include ${MPIR_NAME}.h"
     echo "Using default CFLAGS = \"$CFLAGS\""
     default=true
   else

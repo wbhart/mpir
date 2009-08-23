@@ -898,14 +898,14 @@ speed_mpn_sublsh_n (struct speed_params *s)
 double
 speed_mpn_inclsh_n (struct speed_params *s)
 {
-  SPEED_ROUTINE_MPN_UNARY_1 (mpn_inclsh_n);
+  SPEED_ROUTINE_MPN_UNARY_1_CALL (mpn_inclsh_n(wp,s->xp,s->size,s->r));
 }
 #endif
 #if HAVE_NATIVE_mpn_declsh_n
 double
 speed_mpn_declsh_n (struct speed_params *s)
 {
-  SPEED_ROUTINE_MPN_UNARY_1 (mpn_declsh_n);
+  SPEED_ROUTINE_MPN_UNARY_1_CALL (mpn_declsh_n(wp,s->xp,s->size,s->r));
 }
 #endif
 #if HAVE_NATIVE_mpn_rsh1add_n
