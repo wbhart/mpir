@@ -870,14 +870,14 @@ speed_mpn_sumdiff_n (struct speed_params *s)
 double
 speed_mpn_addlsh1_n (struct speed_params *s)
 {
-  SPEED_ROUTINE_MPN_BINARY_N (mpn_addlsh1_n);
+  SPEED_ROUTINE_MPN_BINARY_N_CALL (mpn_addlsh1_n(wp,xp,yp,s->size));
 }
 #endif
 #if HAVE_NATIVE_mpn_sublsh1_n
 double
 speed_mpn_sublsh1_n (struct speed_params *s)
 {
-  SPEED_ROUTINE_MPN_BINARY_N (mpn_sublsh1_n);
+  SPEED_ROUTINE_MPN_BINARY_N_CALL (mpn_sublsh1_n(wp,xp,yp,s->size));
 }
 #endif
 #if HAVE_NATIVE_mpn_addlsh_n
