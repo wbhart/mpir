@@ -823,6 +823,12 @@ __GMP_DECLSPEC mp_limb_t mpn_addlsh_n __GMP_PROTO ((mp_ptr, mp_srcptr, mp_srcptr
 #define mpn_sublsh_n __MPN(sublsh_n)
 __GMP_DECLSPEC mp_limb_t mpn_sublsh_n __GMP_PROTO ((mp_ptr, mp_srcptr, mp_srcptr, mp_size_t,unsigned int));
 
+#define mpn_addlsh_nc __MPN(addlsh_nc)
+__GMP_DECLSPEC mp_limb_t mpn_addlsh_nc __GMP_PROTO ((mp_ptr, mp_srcptr, mp_srcptr, mp_size_t,unsigned int, mp_limb_t));
+
+#define mpn_sublsh_nc __MPN(sublsh_nc)
+__GMP_DECLSPEC mp_limb_t mpn_sublsh_nc __GMP_PROTO ((mp_ptr, mp_srcptr, mp_srcptr, mp_size_t,unsigned int, mp_limb_t));
+
 /* mpn_rsh1add_n(c,a,b,n), when it exists, sets {c,n} to ({a,n} + {b,n}) >> 1,
    and returns the bit rshifted out (0 or 1).  */
 #define mpn_rsh1add_n __MPN(rsh1add_n)
