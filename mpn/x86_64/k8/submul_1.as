@@ -21,7 +21,12 @@
 %include 'yasm_mac.inc'
 
     BITS    64
-
+       align 16
+	GLOBAL_FUNC mpn_declsh_n
+	mov $1,%eax
+	shl %cl,%rax
+	mov %rax,%rcx
+	align 16
    GLOBAL_FUNC mpn_submul_1
 	mov     rax, [rsi]
 	cmp     rdx, 1
