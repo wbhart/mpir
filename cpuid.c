@@ -116,7 +116,7 @@ Boston, MA 02110-1301, USA.
 	  break;
 	case 16:
 	  if (model == 2) { CPUIS(k10);break;} // phenom
-	  if (model == 4) { CPUIS(k10);break;} //phenom II
+	  if (model == 4) { CPUIS(k10-2);break;} //phenom II
 	  break;
         }
     }

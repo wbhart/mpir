@@ -1420,7 +1420,7 @@ case $host in
         gcc_cflags_cpu="-mtune=c3 -mcpu=c3 -mcpu=i486 -m486"
         gcc_cflags_arch="-march=c3 -march=pentium-mmx -march=pentium"
         ;;
-      x86_64 | k8 | k10 | atom)
+      x86_64 | k8 | k10 | k10_2 | atom)
         gcc_cflags_cpu="-mtune=k8 -mcpu=athlon -mcpu=pentiumpro -mcpu=i486 -m486"
         gcc_cflags_arch="-march=k8 -march=k8~-mno-sse2 -march=athlon -march=pentiumpro -march=pentium"
         ;;
@@ -1445,6 +1445,7 @@ case $host in
       [k6[23]])                path="x86/k6/k62mmx x86/k6/mmx x86/k6 x86" ;;
       k6)                      path="x86/k6/mmx x86/k6 x86" ;;
       athlon | k7 | x86_64 | atom)   path="x86/k7/mmx x86/k7 x86" ;;
+      k10_2)		     path="x86/k7/mmx/k8/k10/k10_2  x86/k7/mmx/k8/k10 x86/k7/mmx/k8 x86/k7/mmx x86/k7 x86" ;; 
       k10)			path="x86/k7/mmx/k8/k10 x86/k7/mmx/k8 x86/k7/mmx x86/k7 x86" ;;
       k8)			path="x86/k7/mmx/k8 x86/k7/mmx x86/k7 x86" ;;
       core2 | penryn)		path="x86/core2 x86" ;;
@@ -1464,7 +1465,7 @@ case $host in
       path="x86/fat x86"
       fat_path="x86 x86/fat x86/i486
 		x86/k6 x86/k6/mmx x86/k6/k62mmx
-		x86/k7 x86/k7/mmx x86/k7/mmx/k8 x86/k7/mmx/k8/k10
+		x86/k7 x86/k7/mmx x86/k7/mmx/k8 x86/k7/mmx/k8/k10 x86/k7/mmx/k8/k10/k10_2
 		x86/pentium x86/pentium/mmx
 		x86/p6 x86/p6/mmx x86/p6/p3mmx
 		x86/pentium4 x86/pentium4/mmx x86/pentium4/sse2
@@ -1508,6 +1509,8 @@ case $host in
             path_64="x86_64/netburst/netburstlahf x86_64/netburst x86_64" ;;
           k8-*-*)
             path_64="x86_64/k8 x86_64" ;;
+          k10_2-*-*)
+            path_64="x86_64/k8/k10/k10_2 x86_64/k8/k10 x86_64/k8 x86_64" ;;
           k10-*-*)
             path_64="x86_64/k8/k10 x86_64/k8 x86_64" ;;
           core2-*-*) 
@@ -1526,7 +1529,7 @@ case $host in
           gcc_64_cflags_arch=""
           extra_functions_64="$extra_functions_64 fat fat_entry"
           path_64="x86_64/fat x86_64"
-          fat_path_64="x86_64 x86_64/fat x86_64/netburst x86_64/netburst/netburstlahf x86_64/k8 x86_64/k8/k10 x86_64/core2 x86_64/core2/penryn x86_64/nehalem x86_64/atom"
+          fat_path_64="x86_64 x86_64/fat x86_64/netburst x86_64/netburst/netburstlahf x86_64/k8 x86_64/k8/k10 x86_64/k8/k10/k10_2  x86_64/core2 x86_64/core2/penryn x86_64/nehalem x86_64/atom"
         fi
         ;;
 
