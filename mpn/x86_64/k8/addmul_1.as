@@ -24,9 +24,9 @@
 
 	align 16
 	GLOBAL_FUNC mpn_inclsh_n
-	mov $1,%eax
-	shl %cl,%rax
-	mov %rax,%rcx
+	mov eax,1
+	shl rax,cl
+	mov rcx,rax
 	align 16
    GLOBAL_FUNC mpn_addmul_1
 	mov     rax, [rsi]
