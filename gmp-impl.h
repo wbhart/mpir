@@ -1969,7 +1969,7 @@ mp_limb_t mpn_rshift2 _PROTO ((mp_ptr,mp_srcptr,mp_size_t));
 __GMP_DECLSPEC mp_limb_t mpn_addlsh1_n __GMP_PROTO ((mp_ptr, mp_srcptr, mp_srcptr, mp_size_t));
 #elif HAVE_NATIVE_mpn_addlsh_n  
 #define mpn_addlsh1_n(__xp,__yp,__zp,__n) mpn_addlsh_n((__xp),(__yp),(__zp),(__n),1)
-#define HAVE_NATIVE_mpn_addlsh1_n
+#define HAVE_NATIVE_mpn_addlsh1_n 1
 #endif
 
 #if HAVE_NATIVE_mpn_sublsh1_n
@@ -1977,7 +1977,7 @@ __GMP_DECLSPEC mp_limb_t mpn_addlsh1_n __GMP_PROTO ((mp_ptr, mp_srcptr, mp_srcpt
 __GMP_DECLSPEC mp_limb_t mpn_sublsh1_n __GMP_PROTO ((mp_ptr, mp_srcptr, mp_srcptr, mp_size_t));
 #elif HAVE_NATIVE_mpn_sublsh_n  
 #define mpn_sublsh1_n(__xp,__yp,__zp,__n) mpn_sublsh_n((__xp),(__yp),(__zp),(__n),1)
-#define HAVE_NATIVE_mpn_sublsh1_n
+#define HAVE_NATIVE_mpn_sublsh1_n 1
 #endif
 
 #if HAVE_NATIVE_mpn_inclsh_n
