@@ -817,6 +817,18 @@ __GMP_DECLSPEC mp_limb_t mpn_addmul_7 _PROTO ((mp_ptr, mp_srcptr, mp_size_t, mp_
 #define mpn_addmul_8 __MPN(addmul_8)
 __GMP_DECLSPEC mp_limb_t mpn_addmul_8 _PROTO ((mp_ptr, mp_srcptr, mp_size_t, mp_srcptr));
 
+#define mpn_addlsh_n __MPN(addlsh_n)
+__GMP_DECLSPEC mp_limb_t mpn_addlsh_n __GMP_PROTO ((mp_ptr, mp_srcptr, mp_srcptr, mp_size_t,unsigned int));
+
+#define mpn_sublsh_n __MPN(sublsh_n)
+__GMP_DECLSPEC mp_limb_t mpn_sublsh_n __GMP_PROTO ((mp_ptr, mp_srcptr, mp_srcptr, mp_size_t,unsigned int));
+
+#define mpn_inclsh_n __MPN(inclsh_n)
+__GMP_DECLSPEC mp_limb_t mpn_inclsh_n __GMP_PROTO ((mp_ptr, mp_srcptr, mp_size_t,unsigned int));
+
+#define mpn_declsh_n __MPN(declsh_n)
+__GMP_DECLSPEC mp_limb_t mpn_declsh_n __GMP_PROTO ((mp_ptr, mp_srcptr, mp_size_t,unsigned int));
+
 /* mpn_addlsh1_n(c,a,b,n), when it exists, sets {c,n} to {a,n}+2*{b,n}, and
    returns the carry out (0, 1 or 2).  */
 #define mpn_addlsh1_n __MPN(addlsh1_n)

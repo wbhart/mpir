@@ -213,6 +213,7 @@ MA 02110-1301, USA.
 #undef HAVE_NATIVE_mpn_add_nc
 #undef HAVE_NATIVE_mpn_addadd_n
 #undef HAVE_NATIVE_mpn_addlsh1_n
+#undef HAVE_NATIVE_mpn_addlsh_n
 #undef HAVE_NATIVE_mpn_addmul_1c
 #undef HAVE_NATIVE_mpn_addmul_2
 #undef HAVE_NATIVE_mpn_addmul_3
@@ -228,6 +229,7 @@ MA 02110-1301, USA.
 #undef HAVE_NATIVE_mpn_com_n
 #undef HAVE_NATIVE_mpn_copyd
 #undef HAVE_NATIVE_mpn_copyi
+#undef HAVE_NATIVE_mpn_declsh_n
 #undef HAVE_NATIVE_mpn_divexact_1
 #undef HAVE_NATIVE_mpn_divrem_euclidean_qr_1
 #undef HAVE_NATIVE_mpn_divrem_euclidean_qr_2
@@ -237,6 +239,7 @@ MA 02110-1301, USA.
 #undef HAVE_NATIVE_mpn_divrem_2
 #undef HAVE_NATIVE_mpn_gcd_1
 #undef HAVE_NATIVE_mpn_gcd_finda
+#undef HAVE_NATIVE_mpn_inclsh_n
 #undef HAVE_NATIVE_mpn_invert_limb
 #undef HAVE_NATIVE_mpn_ior_n
 #undef HAVE_NATIVE_mpn_iorn_n
@@ -269,6 +272,7 @@ MA 02110-1301, USA.
 #undef HAVE_NATIVE_mpn_sub_nc
 #undef HAVE_NATIVE_mpn_subadd_n
 #undef HAVE_NATIVE_mpn_sublsh1_n
+#undef HAVE_NATIVE_mpn_sublsh_n
 #undef HAVE_NATIVE_mpn_submul_1c
 #undef HAVE_NATIVE_mpn_umul_ppmm
 #undef HAVE_NATIVE_mpn_umul_ppmm_r

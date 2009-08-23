@@ -880,6 +880,34 @@ speed_mpn_sublsh1_n (struct speed_params *s)
   SPEED_ROUTINE_MPN_BINARY_N (mpn_sublsh1_n);
 }
 #endif
+#if HAVE_NATIVE_mpn_addlsh_n
+double
+speed_mpn_addlsh_n (struct speed_params *s)
+{
+  SPEED_ROUTINE_MPN_BINARY_N_CALL (mpn_addlsh_n(wp, xp, yp, s->size, s->r));
+}
+#endif
+#if HAVE_NATIVE_mpn_sublsh_n
+double
+speed_mpn_sublsh_n (struct speed_params *s)
+{
+  SPEED_ROUTINE_MPN_BINARY_N_CALL (mpn_sublsh_n(wp, xp, yp, s->size, s->r));
+}
+#endif
+#if HAVE_NATIVE_mpn_inclsh_n
+double
+speed_mpn_inclsh_n (struct speed_params *s)
+{
+  SPEED_ROUTINE_MPN_UNARY_1 (mpn_inclsh_n);
+}
+#endif
+#if HAVE_NATIVE_mpn_declsh_n
+double
+speed_mpn_declsh_n (struct speed_params *s)
+{
+  SPEED_ROUTINE_MPN_UNARY_1 (mpn_declsh_n);
+}
+#endif
 #if HAVE_NATIVE_mpn_rsh1add_n
 double
 speed_mpn_rsh1add_n (struct speed_params *s)
