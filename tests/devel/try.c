@@ -1427,6 +1427,38 @@ mpn_rshift2_fun (mp_ptr rp, mp_srcptr sp, mp_size_t size)
   return mpn_rshift2 (rp, sp, size);
 }
 
+#if HAVE_NATIVE_mpn_addlsh1_n
+mp_limb_t
+mpn_addlsh1_n_fun (mp_ptr rp, mp_srcptr sp, mp_srcptr sp1,mp_size_t size)
+{
+  return mpn_addlsh1_n (rp, sp,sp1, size);
+}
+#endif
+
+#if HAVE_NATIVE_mpn_sublsh1_n
+mp_limb_t
+mpn_sublsh1_n_fun (mp_ptr rp, mp_srcptr sp, mp_srcptr sp1,mp_size_t size)
+{
+  return mpn_sublsh1_n (rp, sp,sp1, size);
+}
+#endif
+
+#if HAVE_NATIVE_mpn_inclsh_n
+mp_limb_t
+mpn_inclsh_n_fun (mp_ptr rp, mp_srcptr sp,mp_size_t size,unsigned int c)
+{
+  return mpn_inclsh_n (rp, sp, size,c);
+}
+#endif
+
+#if HAVE_NATIVE_mpn_declsh_n
+mp_limb_t
+mpn_declsh_n_fun (mp_ptr rp, mp_srcptr sp,mp_size_t size,unsigned int c)
+{
+  return mpn_declsh_n (rp, sp, size,c);
+}
+#endif
+
 mp_limb_t
 mpn_modexact_1_odd_fun (mp_srcptr ptr, mp_size_t size, mp_limb_t divisor)
 {
@@ -1593,10 +1625,10 @@ const struct choice_t choice_array[] = {
 #endif
 
 #if HAVE_NATIVE_mpn_addlsh1_n
-  { TRY(mpn_addlsh1_n), TYPE_ADDLSH1_N },
+  { TRY_FUNFUN(mpn_addlsh1_n), TYPE_ADDLSH1_N },
 #endif
 #if HAVE_NATIVE_mpn_sublsh1_n
-  { TRY(mpn_sublsh1_n), TYPE_SUBLSH1_N },
+  { TRY_FUNFUN(mpn_sublsh1_n), TYPE_SUBLSH1_N },
 #endif
 #if HAVE_NATIVE_mpn_addlsh_n
   { TRY(mpn_addlsh_n), TYPE_ADDLSH_N },
@@ -1605,10 +1637,10 @@ const struct choice_t choice_array[] = {
   { TRY(mpn_sublsh_n), TYPE_SUBLSH_N },
 #endif
 #if HAVE_NATIVE_mpn_inclsh_n
-  { TRY(mpn_inclsh_n), TYPE_INCLSH_N },
+  { TRY_FUNFUN(mpn_inclsh_n), TYPE_INCLSH_N },
 #endif
 #if HAVE_NATIVE_mpn_declsh_n
-  { TRY(mpn_declsh_n), TYPE_DECLSH_N },
+  { TRY_FUNFUN(mpn_declsh_n), TYPE_DECLSH_N },
 #endif
 
 #if HAVE_NATIVE_mpn_rsh1add_n
