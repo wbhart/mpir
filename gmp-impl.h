@@ -823,22 +823,6 @@ __GMP_DECLSPEC mp_limb_t mpn_addlsh_n __GMP_PROTO ((mp_ptr, mp_srcptr, mp_srcptr
 #define mpn_sublsh_n __MPN(sublsh_n)
 __GMP_DECLSPEC mp_limb_t mpn_sublsh_n __GMP_PROTO ((mp_ptr, mp_srcptr, mp_srcptr, mp_size_t,unsigned int));
 
-#define mpn_inclsh_n __MPN(inclsh_n)
-__GMP_DECLSPEC mp_limb_t mpn_inclsh_n __GMP_PROTO ((mp_ptr, mp_srcptr, mp_size_t,unsigned int));
-
-#define mpn_declsh_n __MPN(declsh_n)
-__GMP_DECLSPEC mp_limb_t mpn_declsh_n __GMP_PROTO ((mp_ptr, mp_srcptr, mp_size_t,unsigned int));
-
-/* mpn_addlsh1_n(c,a,b,n), when it exists, sets {c,n} to {a,n}+2*{b,n}, and
-   returns the carry out (0, 1 or 2).  */
-#define mpn_addlsh1_n __MPN(addlsh1_n)
-__GMP_DECLSPEC mp_limb_t mpn_addlsh1_n __GMP_PROTO ((mp_ptr, mp_srcptr, mp_srcptr, mp_size_t));
-
-/* mpn_sublsh1_n(c,a,b,n), when it exists, sets {c,n} to {a,n}-2*{b,n}, and
-   returns the borrow out (0, 1 or 2).  */
-#define mpn_sublsh1_n __MPN(sublsh1_n)
-__GMP_DECLSPEC mp_limb_t mpn_sublsh1_n __GMP_PROTO ((mp_ptr, mp_srcptr, mp_srcptr, mp_size_t));
-
 /* mpn_rsh1add_n(c,a,b,n), when it exists, sets {c,n} to ({a,n} + {b,n}) >> 1,
    and returns the bit rshifted out (0 or 1).  */
 #define mpn_rsh1add_n __MPN(rsh1add_n)
@@ -1978,6 +1962,36 @@ mp_limb_t mpn_lshift2 _PROTO ((mp_ptr,mp_srcptr,mp_size_t));
 mp_limb_t mpn_rshift2 _PROTO ((mp_ptr,mp_srcptr,mp_size_t));
 #else
 #define mpn_rshift2(__xp,__yp,__n) mpn_rshift((__xp),(__yp),(__n),2)
+#endif
+
+#if HAVE_NATIVE_mpn_addlsh1_n
+#define mpn_addlsh1_n __MPN(addlsh1_n)
+__GMP_DECLSPEC mp_limb_t mpn_addlsh1_n __GMP_PROTO ((mp_ptr, mp_srcptr, mp_srcptr, mp_size_t));
+#elif HAVE_NATIVE_mpn_addlsh_n  
+#define mpn_addlsh1_n(__xp,__yp,__zp,__n) mpn_addlsh_n((__xp),(__yp),(__zp),(__n),1)
+#endif
+
+#if HAVE_NATIVE_mpn_sublsh1_n
+#define mpn_sublsh1_n __MPN(sublsh1_n)
+__GMP_DECLSPEC mp_limb_t mpn_sublsh1_n __GMP_PROTO ((mp_ptr, mp_srcptr, mp_srcptr, mp_size_t));
+#elif HAVE_NATIVE_mpn_sublsh_n  
+#define mpn_sublsh1_n(__xp,__yp,__zp,__n) mpn_sublsh_n((__xp),(__yp),(__zp),(__n),1)
+#endif
+
+#if HAVE_NATIVE_mpn_inclsh_n
+#define mpn_inclsh_n __MPN(inclsh_n)
+__GMP_DECLSPEC mp_limb_t mpn_inclsh_n __GMP_PROTO ((mp_ptr, mp_srcptr, mp_size_t, unsigned int));
+#elif HAVE_NATIVE_mpn_addlsh_n  
+#define mpn_inclsh_n(__xp,__yp,__n,__c) mpn_addlsh_n((__xp),(__xp),(__yp),(__n),(__c))
+#define HAVE_NATIVE_mpn_inclsh_n 1
+#endif
+
+#if HAVE_NATIVE_mpn_declsh_n
+#define mpn_declsh_n __MPN(declsh_n)
+__GMP_DECLSPEC mp_limb_t mpn_declsh_n __GMP_PROTO ((mp_ptr, mp_srcptr, mp_size_t, unsigned int));
+#elif HAVE_NATIVE_mpn_sublsh_n  
+#define mpn_declsh_n(__xp,__yp,__n,__c) mpn_sublsh_n((__xp),(__xp),(__yp),(__n),(__c))
+#define HAVE_NATIVE_mpn_declsh_n 1
 #endif
 
 #if HAVE_NATIVE_mpn_store
