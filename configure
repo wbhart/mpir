@@ -3954,7 +3954,7 @@ echo "include_mpn(\`sparc32/sparc-defs.m4')" >> $gmp_tmpconfigm4i
   # mode, in case -m32 has failed not because it's an old gcc, but because
   # it's a dual 32/64-bit gcc without a 32-bit libc, or whatever.
   #
-  i?86*-*-* | k[5-8]*-*-* | pentium*-*-* | athlon-*-* | viac3*-*-* | x86_64-*-* | netburst-*-* | netburstlahf-*-* | k8-*-* | k10-*-* | core2-*-* | penryn-*-* | nehalem-*-* | atom-*-*)
+  i?86*-*-* | k[5-8]*-*-* | pentium*-*-* | athlon-*-* | viac3*-*-* | x86_64-*-* | netburst-*-* | netburstlahf-*-* | k8-*-* | k10-*-* | k10_2-*-* | core2-*-* | penryn-*-* | nehalem-*-* | atom-*-*)
     abilist="32"
     cclist="gcc icc cc"
     gcc_cflags="-O2 $fomit_frame_pointer"
@@ -4154,7 +4154,7 @@ echo "include_mpn(\`sparc32/sparc-defs.m4')" >> $gmp_tmpconfigm4i
     fi
 
     case $host in
-      x86_64-*-* | netburst-*-* | netburstlahf-*-* | k8-*-* | k10-*-* | core2-*-* | penryn-*-* | nehalem-*-* | atom-*-*)
+      x86_64-*-* | netburst-*-* | netburstlahf-*-* | k8-*-* | k10-*-* | k10_2-*-* | core2-*-* | penryn-*-* | nehalem-*-* | atom-*-*)
         abilist="64 32"
         cclist_64="gcc cc"
         gcc_64_cflags="-O2 -m64"
@@ -9957,7 +9957,7 @@ done
 # enough assembler.
 #
 case $host in
-  i?86*-*-* | k[5-8]*-*-* | pentium*-*-* | athlon-*-* | viac3*-*-* | x86_64-*-* | netburst-*-* | netburstlahf-*-* | k8-*-* | k10-*-* | core2-*-* | penryn-*-* | nehalem-*-* | atom-*-*)
+  i?86*-*-* | k[5-8]*-*-* | pentium*-*-* | athlon-*-* | viac3*-*-* | x86_64-*-* | netburst-*-* | netburstlahf-*-* | k8-*-* | k10-*-* | k10_2-*-* | core2-*-* | penryn-*-* | nehalem-*-* | atom-*-*)
     if test "$ABI" = 32; then
       case "$path $fat_path" in
         *mmx*)   { echo "$as_me:$LINENO: checking if the assembler knows about MMX instructions" >&5
@@ -30973,7 +30973,7 @@ echo "define(<HAVE_REGISTER>,<$gmp_cv_asm_sparc_register>)" >> $gmp_tmpconfigm4
           ;;
       esac
       ;;
-    i?86*-*-* | k[5-8]*-*-* | pentium*-*-* | athlon-*-* | viac3*-*-* | x86_64-*-* | netburst-*-* | netburstlahf-*-* | k8-*-* | k10-*-* | core2-*-* | penryn-*-* | nehalem-*-* | atom-*-*)
+    i?86*-*-* | k[5-8]*-*-* | pentium*-*-* | athlon-*-* | viac3*-*-* | x86_64-*-* | netburst-*-* | netburstlahf-*-* | k8-*-* | k10-*-* | k10_2-*-* | core2-*-* | penryn-*-* | nehalem-*-* | atom-*-*)
 
 { echo "$as_me:$LINENO: checking if the .align directive accepts an 0x90 fill in .text" >&5
 echo $ECHO_N "checking if the .align directive accepts an 0x90 fill in .text... $ECHO_C" >&6; }
