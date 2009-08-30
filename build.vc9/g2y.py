@@ -446,8 +446,8 @@ def pass_three(code, labels, macros, level) :
     m = re.search(r'\s*(\S+)', l)
     if m :
       if len(l) :
-        t = None if l[-1].isprintable() else None
-        lo += [lp + '{0} ; < not translated >'.format(l[:t])]
+        lo += [lp + '{0} ; < not translated >'
+               .format(l.rstrip(string.whitespace))]
       else :
         lo += [lp]
     else :
