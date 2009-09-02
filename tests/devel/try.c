@@ -886,6 +886,7 @@ param_init (void)
   p->src[1]=1;
   p->src[2]=1;
   p->carry=CARRY_BIT;
+  p->overlap=OVERLAP_NONE;
   REFERENCE (refmpn_add_err1_n);
   
   p = &param[TYPE_SUBERR1_N];
@@ -897,6 +898,7 @@ param_init (void)
   p->src[1]=1;
   p->src[2]=1;
   p->carry=CARRY_BIT;
+  p->overlap=OVERLAP_NONE;
   REFERENCE (refmpn_sub_err1_n);
   
   p = &param[TYPE_ADDERR2_N];
@@ -909,6 +911,7 @@ param_init (void)
   p->src[2]=1;
   p->src[3]=1;//FIXME
   p->carry=CARRY_BIT;
+  p->overlap=OVERLAP_NONE;
   REFERENCE (refmpn_add_err2_n);
   
   p = &param[TYPE_SUBERR2_N];
@@ -921,6 +924,7 @@ param_init (void)
   p->src[2]=1;
   p->src[3]=1;//FIXME
   p->carry=CARRY_BIT;
+  p->overlap=OVERLAP_NONE;
   REFERENCE (refmpn_sub_err2_n);
   
   p = &param[TYPE_SUMDIFF_NC];
