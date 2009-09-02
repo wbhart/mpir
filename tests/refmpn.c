@@ -718,6 +718,14 @@ refmpn_sublsh1_n (mp_ptr rp, mp_srcptr up, mp_srcptr vp, mp_size_t n)
 
 mp_limb_t
 refmpn_addlsh_n (mp_ptr rp, mp_srcptr up, mp_srcptr vp, mp_size_t n,unsigned int c)
+{return refmpn_addlsh_nc(rp,up,vp,n,c,0);}
+
+mp_limb_t
+refmpn_sublsh_n (mp_ptr rp, mp_srcptr up, mp_srcptr vp, mp_size_t n,unsigned int c)
+{return refmpn_sublsh_nc(rp,up,vp,n,c,0);}
+
+mp_limb_t
+refmpn_addlsh_nc (mp_ptr rp, mp_srcptr up, mp_srcptr vp, mp_size_t n,unsigned int c,mp_limb_t cin)
 {
   mp_limb_t cy;
   mp_ptr tp;
@@ -730,13 +738,14 @@ refmpn_addlsh_n (mp_ptr rp, mp_srcptr up, mp_srcptr vp, mp_size_t n,unsigned int
 
   tp = refmpn_malloc_limbs (n);
   cy  = refmpn_lshift (tp, vp, n, c);
+  tp[0] |= cin >> (GMP_NUMB_BITS-c);
   cy += refmpn_add_n (rp, up, tp, n);
   free (tp);
   return cy;
 }
 
 mp_limb_t
-refmpn_sublsh_n (mp_ptr rp, mp_srcptr up, mp_srcptr vp, mp_size_t n,unsigned int c)
+refmpn_sublsh_nc (mp_ptr rp, mp_srcptr up, mp_srcptr vp, mp_size_t n,unsigned int c,mp_limb_t cin)
 {
   mp_limb_t cy;
   mp_ptr tp;
@@ -749,6 +758,7 @@ refmpn_sublsh_n (mp_ptr rp, mp_srcptr up, mp_srcptr vp, mp_size_t n,unsigned int
 
   tp = refmpn_malloc_limbs (n);
   cy  = refmpn_lshift (tp, vp, n, c);
+  tp[0] |= cin >> (GMP_NUMB_BITS-c);
   cy += refmpn_sub_n (rp, up, tp, n);
   free (tp);
   return cy;

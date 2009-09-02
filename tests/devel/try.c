@@ -679,12 +679,15 @@ validate_sqrtrem (void)
 //#define TYPE_DIVREM_EUCLIDEAN_QR_2	118
 #define TYPE_ADDLSH_N		120
 #define TYPE_SUBLSH_N		121
+
 #define TYPE_INCLSH_N		122
 #define TYPE_DECLSH_N		123
 #define TYPE_ADDERR1_N		124
 #define TYPE_SUBERR1_N		125
 #define TYPE_ADDERR2_N		126
 #define TYPE_SUBERR2_N		127
+#define TYPE_ADDLSH_NC		128
+#define TYPE_SUBLSH_NC		129
 
 #define TYPE_EXTRA            150
 
@@ -995,6 +998,22 @@ param_init (void)
   p->src[1]=1;
   p->shift=1;
   REFERENCE (refmpn_sublsh_n);
+
+  p = &param[TYPE_ADDLSH_NC];
+  p->dst[0]=1;
+  p->src[0]=1;
+  p->src[1]=1;
+  p->shift=1;
+  p->carry=CARRY_LIMB;
+  REFERENCE (refmpn_addlsh_nc);
+
+  p = &param[TYPE_SUBLSH_NC];
+  p->dst[0]=1;
+  p->src[0]=1;
+  p->src[1]=1;
+  p->shift=1;
+  p->carry=CARRY_LIMB;
+  REFERENCE (refmpn_sublsh_nc);
   
   p = &param[TYPE_INCLSH_N];
   p->dst[0]=1;
@@ -1691,6 +1710,12 @@ const struct choice_t choice_array[] = {
 #if HAVE_NATIVE_mpn_sublsh_n
   { TRY(mpn_sublsh_n), TYPE_SUBLSH_N },
 #endif
+#if HAVE_NATIVE_mpn_addlsh_nc
+  { TRY(mpn_addlsh_nc), TYPE_ADDLSH_NC },
+#endif
+#if HAVE_NATIVE_mpn_sublsh_nc
+  { TRY(mpn_sublsh_nc), TYPE_SUBLSH_NC },
+#endif
 #if HAVE_NATIVE_mpn_inclsh_n
   { TRY_FUNFUN(mpn_inclsh_n), TYPE_INCLSH_N },
 #endif
@@ -2344,6 +2369,11 @@ call (struct each_t *e, tryfun_t function)
   case TYPE_SUBLSH_N:
     e->retval = CALLING_CONVENTIONS (function)
       (e->d[0].p, e->s[0].p, e->s[1].p, size,shift);
+    break;
+  case TYPE_ADDLSH_NC:
+  case TYPE_SUBLSH_NC:
+    e->retval = CALLING_CONVENTIONS (function)
+      (e->d[0].p, e->s[0].p, e->s[1].p, size,shift,carry);
     break;
   case TYPE_INCLSH_N:
   case TYPE_DECLSH_N:

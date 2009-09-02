@@ -191,6 +191,8 @@ int refmpn_addsub_n __GMP_PROTO ((mp_ptr rp, mp_srcptr xp, mp_srcptr yp, mp_srcp
 mp_limb_t refmpn_addlsh1_n __GMP_PROTO ((mp_ptr wp, mp_srcptr xp, mp_srcptr yp, mp_size_t size));
 mp_limb_t refmpn_addlsh_n __GMP_PROTO ((mp_ptr wp, mp_srcptr xp, mp_srcptr yp, mp_size_t size,unsigned int));
 mp_limb_t refmpn_sublsh_n __GMP_PROTO ((mp_ptr wp, mp_srcptr xp, mp_srcptr yp, mp_size_t size,unsigned int));
+mp_limb_t refmpn_addlsh_nc __GMP_PROTO ((mp_ptr wp, mp_srcptr xp, mp_srcptr yp, mp_size_t size,unsigned int,mp_limb_t));
+mp_limb_t refmpn_sublsh_nc __GMP_PROTO ((mp_ptr wp, mp_srcptr xp, mp_srcptr yp, mp_size_t size,unsigned int,mp_limb_t));
 mp_limb_t refmpn_inclsh_n __GMP_PROTO ((mp_ptr wp, mp_srcptr xp, mp_size_t size,unsigned int));
 mp_limb_t refmpn_declsh_n __GMP_PROTO ((mp_ptr wp, mp_srcptr xp, mp_size_t size,unsigned int));
 mp_limb_t refmpn_addmul_1 __GMP_PROTO ((mp_ptr wp, mp_srcptr xp, mp_size_t size,
