@@ -51,7 +51,7 @@ mpn_sub_err1_n (mp_ptr rp, mp_srcptr up, mp_srcptr vp, mp_ptr ep, mp_srcptr yp,
   ASSERT (n >= 1);
   ASSERT (MPN_SAME_OR_SEPARATE_P (rp, up, n));
   ASSERT (MPN_SAME_OR_SEPARATE_P (rp, vp, n));
-  ASSERT (MPN_SAME_OR_SEPARATE_P (rp, yp, n));
+  ASSERT (!MPN_OVERLAP_P (rp, n, yp, n));
 
   /* FIXME: first addition into eh:el is redundant */
 
