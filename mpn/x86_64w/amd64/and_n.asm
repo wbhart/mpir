@@ -21,7 +21,7 @@
 ;
 ;  void mpn_and_n(mp_ptr, mp_srcptr, mp_srcptr, mp_size_t)
 ;                    rdi        rsi        rdx        rcx
-;                    rcx        rdx         r8         r9
+;                    rcx        rdx         r8        r9d
 
 %include "..\yasm_mac.inc"
 

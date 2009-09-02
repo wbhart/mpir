@@ -20,7 +20,7 @@
 ;
 ;  void lshiftc(mp_ptr, mp_ptr, mp_size_t, mp_uint)
 ;                  rdi     rsi        rdx      rcx
-;                  rcx     rdx         r8       r9
+;                  rcx     rdx        r8d      r9d
 
 %include "..\yasm_mac.inc"
 

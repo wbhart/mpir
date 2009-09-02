@@ -369,10 +369,42 @@
 				<File
 					RelativePath="..\..\mpn\generic\add_err1_n.c"
 					>
+					<FileConfiguration
+						Name="Debug|x64"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|x64"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+						/>
+					</FileConfiguration>
 				</File>
 				<File
 					RelativePath="..\..\mpn\generic\add_err2_n.c"
 					>
+					<FileConfiguration
+						Name="Debug|x64"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|x64"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+						/>
+					</FileConfiguration>
 				</File>
 				<File
 					RelativePath="..\..\mpn\generic\add_n.c"
@@ -1803,7 +1835,6 @@
 						>
 						<FileConfiguration
 							Name="Debug|x64"
-							ExcludedFromBuild="true"
 							>
 							<Tool
 								Name="YASM"
@@ -1811,7 +1842,6 @@
 						</FileConfiguration>
 						<FileConfiguration
 							Name="Release|x64"
-							ExcludedFromBuild="true"
 							>
 							<Tool
 								Name="YASM"
@@ -1835,7 +1865,6 @@
 						>
 						<FileConfiguration
 							Name="Debug|x64"
-							ExcludedFromBuild="true"
 							>
 							<Tool
 								Name="YASM"
@@ -1843,7 +1872,6 @@
 						</FileConfiguration>
 						<FileConfiguration
 							Name="Release|x64"
-							ExcludedFromBuild="true"
 							>
 							<Tool
 								Name="YASM"
@@ -1855,7 +1883,6 @@
 						>
 						<FileConfiguration
 							Name="Debug|x64"
-							ExcludedFromBuild="true"
 							>
 							<Tool
 								Name="YASM"
@@ -1863,7 +1890,6 @@
 						</FileConfiguration>
 						<FileConfiguration
 							Name="Release|x64"
-							ExcludedFromBuild="true"
 							>
 							<Tool
 								Name="YASM"

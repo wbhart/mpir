@@ -26,7 +26,7 @@
 ;
 ;  void mpn_divexact_1(mp_ptr, mp_ptr, mp_size_t, mp_limb_t)
 ;                         rdi     rsi        rdx        rcx
-;                         rcx     rdx         r8         r9
+;                         rcx     rdx        r8d         r9
 
 %include "yasm_mac.inc"
 

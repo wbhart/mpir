@@ -20,7 +20,7 @@
 ;
 ;  mp_limb_t mpn_rshift(mp_ptr, mp_ptr, mp_size_t)
 ;  rax                     rdi     rsi        rdx
-;  rax                     rcx     rdx         r8
+;  rax                     rcx     rdx        r8d
 
 %include "..\yasm_mac.inc"
 

@@ -23,7 +23,7 @@
 ;  mp_limb_t  mpn_sublsh_n(mp_ptr, mp_ptr, mp_ptr, mp_size_t, mp_uint, mp_limb_t)
 ;  mp_limb_t mpn_sublsh_nc(mp_ptr, mp_ptr, mp_ptr, mp_size_t, mp_uint)
 ;  rax                        rdi     rsi     rdx        rcx       r8         r9
-;  rax                        rcx     rdx      r8         r9 [rsp+40]   [rsp+48]
+;  rax                        rcx     rdx      r8        r9d [rsp+40]   [rsp+48]
 
 %include "..\yasm_mac.inc"
 

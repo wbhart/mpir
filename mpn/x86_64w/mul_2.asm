@@ -19,19 +19,10 @@
 ;  to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 ;  Boston, MA 02110-1301, USA.
 ;
-;  Calling interface:
-;
-;  dst[] = src[] / f    
-;
-;  mp_limb_tmpn_divexact_byBm1of (
-;     mp_ptr dst,                rcx
-;     mp_srcptr src1,            rdx
-;     mp_size_t len,              r8
-;     mp_srcptr src2              r9
-;  )
-;
-;  This is an SEH frame function
-;
+;  mp_limb_t  mpn_mul_2(mp_ptr, mp_ptr, mp_size_t, mp_limb_t)
+;  rax                     rdi     rsi        rdx        rcx
+;  rax                     rcx     rdx        r8d         r9
+
 %include "yasm_mac.inc"
 
 %define reg_save_list rsi, rdi, rbx

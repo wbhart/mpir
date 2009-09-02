@@ -19,7 +19,7 @@
 ;
 ;  mp_limb_t mpn_divexact_byBm1of(mp_ptr, mp_ptr, mp_size_t, mp_limb_t, mp_limb_t)
 ;  rax                               rdi     rsi        rdx        rcx         r8  
-;  rax                               rcx     rdx         r8         r9   [rsp+40]
+;  rax                               rcx     rdx        r8d         r9   [rsp+40]
 
 %include "yasm_mac.inc"
 

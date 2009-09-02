@@ -1,5 +1,4 @@
 
-;  AMD64 mpn_hamdist
 ;  Version 1.0.4
 ;
 ;  Copyright 2008 Jason Moxham
@@ -20,13 +19,9 @@
 ;  to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 ;  Boston, MA 02110-1301, USA.
 ;
-;  Calling interface:
-;
-;  unsigned long __gmpn_hamdist(
-;     mp_srcptr sp1,        rcx
-;     mp_srcptr sp1,        rdx
-;     mp_size_t  n,         r8d
-; );
+;  void mpn_hamdist(mp_ptr, mp_ptr, mp_size_t)
+;                      rdi     rsi        rdx
+;                      rcx     rdx        r8d
 
 %include "..\..\yasm_mac.inc"
 

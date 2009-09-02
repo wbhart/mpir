@@ -21,7 +21,7 @@
 ;
 ;  mp_limb_t mpn_lshift(mp_ptr, mp_ptr, mp_size_t, mp_uint)
 ;  rax                     rdi     rsi        rdx      rcx
-;  rax                     rcx     rdx         r8       r9
+;  rax                     rcx     rdx        r8d      r9d
 
 %include "..\yasm_mac.inc"
 

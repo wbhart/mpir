@@ -19,7 +19,7 @@
 ;
 ;  void mpn_copyd(mp_ptr, mp_ptr, mp_size_t)
 ;                    rdi     rsi        rdx
-;                    rcx     rdx         r8 
+;                    rcx     rdx        r8d 
 
 %include "..\yasm_mac.inc"
 

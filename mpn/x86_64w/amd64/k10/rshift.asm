@@ -1,5 +1,4 @@
 
-;  AMD64 mpn_rshift -- mpn right shift
 ;  Version 1.0.4.
 ;
 ;  Copyright 2008 Jason Moxham
@@ -20,16 +19,9 @@
 ;  to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 ;  Boston, MA 02110-1301, USA.
 ;
-;  Calling interface:
-;
-; mp_limb_t mpn_rshift(
-;     mp_ptr dst,       rcx
-;     mp_srcptr src,    rdx
-;     mp_size_t size,    r8
-;     unsigned shift     r9
-; )
-;
-;  This is an SEH leaf function (no unwind support needed)
+;  mp_limb_t  mpn_rshift(mp_ptr, mp_ptr, mp_size_t, mp_uint)
+;  rax                     rdi      rsi        rdx      rcx
+;  rax                     rcx      rdx        r8d      r9d
 
 %include "..\..\yasm_mac.inc"
 
