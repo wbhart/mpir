@@ -33,18 +33,22 @@
 %define reg_save_list rbx, rsi, rdi, rbp, r12, r13, r14, r15
 
 	LEAF_PROC mpn_addlsh_n
+	movsxd  r10, r9d
 	xor     r9, r9
     jmp     entry
     
 	LEAF_PROC mpn_addlsh_nc
 	movsxd  r10, r9d
 	mov     r9, [rsp+48]
+    jmp     entry
+    
+    xalign 16
 entry:
 	FRAME_PROC ?mpn_addlsh, 0, reg_save_list
 	lea     rdi, [rcx+r10*8]
 	lea     rsi, [rdx+r10*8]
 	lea     rdx, [r8+r10*8]
-	movsxd  rcx, dword [rsp+stack_use+40]
+	mov     ecx, dword [rsp+stack_use+40]
 
 	neg     rcx
 	shr     r9, cl
@@ -71,6 +75,7 @@ L_lp:
 L_next:
 	cmp     r10, 0
 	jz      L_end
+	
 	xalign  16
 L_loop:
 	mov     r8, [rdx+r10*8]
