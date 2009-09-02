@@ -1,10 +1,9 @@
 
-;  AMD64 mpn_rshift -- mpn right shift
 ;  Verdxon 1.0.3.
 ;
 ;  Copyright 2008 Jason Moxham
 ;
-;  Windows Converdxon Copyright 2008 Brian Gladman
+;  Windows Conversion Copyright 2008 Brian Gladman
 ;
 ;  This file is part of the MPIR Library.
 ;  The MPIR Library is free software; you can redistribute it and/or modify
@@ -20,16 +19,9 @@
 ;  to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 ;  Boston, MA 02110-1301, USA.
 ;
-;  Calling interface:
-;
-; mp_limb_t mpn_rshift(
-;     mp_ptr dst,        r8
-;     mp_srcptr src,    rdx
-;     mp_size_t size,    r8
-;     unsigned shift     r9
-; )
-;
-;  This is an SEH leaf function (no unwind support needed)
+;  mp_limb_t mpn_rshift(mp_ptr, mp_ptr, mp_size_t, mp_uint)
+;  rax                     rdi     rsi        rdx      rcx
+;  rax                     rcx     rdx         r8       r9
 
 %include "..\yasm_mac.inc"
 

@@ -1,5 +1,4 @@
 
-;  AMD64 mpn_sumdiff_n
 ;  Version 1.0.4
 ;
 ;  Copyright 2008 Jason Moxham
@@ -7,6 +6,7 @@
 ;  Windows Conversion Copyright 2008 Brian Gladman
 ;
 ;  This file is part of the MPIR Library.
+;
 ;  The MPIR Library is free software; you can redistribute it and/or modify
 ;  it under the terms of the GNU Lesser General Public License as published
 ;  by the Free Software Foundation; either version 2.1 of the License, or (at
@@ -20,22 +20,14 @@
 ;  to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 ;  Boston, MA 02110-1301, USA.
 ;
-;  Calling interface (GCC):
-;
 ;       rcx[r10] = r8[r10] + r9[r10]
 ;       rdx[r10] = r8[r10] - r9[r10]
 ;
 ;  return 2 * add_carry + sub_borrow
 ;
-;  mp_limb_t __gmpn_sumdiff_n(
-;       mp_ptr dps,         rcx
-;       mp_ptr dpd,         rdx
-;       mp_srcptr src1,      r8
-;       mp_srcptr src2,      r9
-;       mp_size_t n        r10d
-; )
-;
-; This is an SEH frame function
+;  mp_limb_t mpn_sumdiff_n(mp_ptr, mp_ptr, mp_ptr, mp_ptr,  mp_size_t)
+;  rax                        rdi     rsi     rdx     rcx          r8
+;  rax                        rcx     rdx      r8      r9    [rsp+40]
 
 %include "..\yasm_mac.inc"
 

@@ -1,5 +1,4 @@
 
-;  AMD64 mpn_addlsh1_n 
 ;  Copyright 2008 Jason Moxham
 ;
 ;  This file is part of the MPIR Library.
@@ -19,8 +18,9 @@
 ;  to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 ;  Boston, MA 02110-1301, USA.
 ;
-;	(rdi, rcx) = (rsi, rcx) + (rdx, rcx)<<1
-;	rax = carry
+;  mp_limb_t mpn_addlsh1_n(mp_ptr, mp_ptr, mp_ptr, mp_size_t)
+;  rax                        rdi     rsi     rdx        rcx
+;  rax                        rcx     rdx      r8         r9
 	
 %include "..\yasm_mac.inc"
 

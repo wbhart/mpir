@@ -1,5 +1,4 @@
 
-;  AMD64 mpn_add_n -- mpn add or subtract
 ;  Version 1.0.3.
 ;
 ;  Copyright 2008 Jason Moxham
@@ -20,30 +19,16 @@
 ;  to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 ;  Boston, MA 02110-1301, USA.
 ;
-;  Calling interface:
-;
-;  mp_limb_t __gmpn_<op>_n(    <op> = add OR sub
-;     mp_ptr dst,              rcx
-;     mp_srcptr src1,          rdx
-;     mp_srcptr src2,           r8
-;     mp_size_t  len            r9
-;  )
-;
-;  mp_limb_t __gmpn_<op>_nc(   <op> = add OR sub
-;     mp_ptr dst,              rcx
-;     mp_srcptr src1,          rdx
-;     mp_srcptr src2,           r8
-;     mp_size_t len,            r9
-;     mp_limb_t carry   [rsp+0x28]
-;  )
-;
 ;  Calculate src1[size] plus(minus) src2[size] and store the result in
 ;  dst[size].  The return value is the carry bit from the top of the result
 ;  (1 or 0).  The _nc version accepts 1 or 0 for an initial carry into the
 ;  low limb of the calculation.  Note values other than 1 or 0 here will
 ;  lead to garbage results.
 ;
-;  This is an SEH leaf function (no unwind support needed)
+;  mp_limb_t  mpn_add_n(mp_ptr, mp_srcptr, mp_srcptr, mp_size_t)
+;  mp_limb_t mpn_add_nc(mp_ptr, mp_srcptr, mp_srcptr, mp_size_t, mp_limb_t)
+;  rax                     rdi        rsi        rdx        rcx         r8
+;  rax                     rcx        rdx         r8         r9   [rsp+40]
 
 %include "..\yasm_mac.inc"
 
@@ -52,7 +37,7 @@
 
     xalign  8
     LEAF_PROC mpn_add_nc
-    mov     r10,[rsp+0x28]
+    mov     r10,[rsp+40]
     jmp     entry
 
     xalign  8

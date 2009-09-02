@@ -175,6 +175,16 @@ MA 02111-1307, USA. */
 #define HAVE_NATIVE_mpn_udiv_qrnnd          1
 #define HAVE_NATIVE_mpn_rsh1add_n			1
 #define HAVE_NATIVE_mpn_rsh1sub_n			1
+#define HAVE_NATIVE_mpn_declsh_n            1 
+#define HAVE_NATIVE_mpn_inclsh_n            1 
+#define HAVE_NATIVE_mpn_add_err1            1 
+#define HAVE_NATIVE_mpn_sub_err1            1 
+#define HAVE_NATIVE_mpn_add_err2            1 
+#define HAVE_NATIVE_mpn_sub_err2            1
+#define HAVE_NATIVE_mpn_addlsh_n            1 
+#define HAVE_NATIVE_mpn_addlsh_nc           1 
+#define HAVE_NATIVE_mpn_sublsh_n            1 
+#define HAVE_NATIVE_mpn_sublsh_nc           1 
 
 #if 0
 #define HAVE_NATIVE_mpn_copyi               1

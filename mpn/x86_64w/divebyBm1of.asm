@@ -1,6 +1,4 @@
 
-; X86_64 mpn_diveby (B-1)/f
-;
 ;  Copyright 2008 Jason Moxham and Brian Gladman
 ;
 ;  This file is part of the MPIR Library.
@@ -17,19 +15,11 @@
 ;  to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 ;  Boston, MA 02110-1301, USA.
 ;
-;  Calling interface:
+;  dst[] = src[] / ((B - 1) / f)          [rsp+40] = (B - 1) / f
 ;
-; mp_limb_t mpn_divexact_byBm1of (
-;     mp_ptr dst,                rcx
-;     mp_srcptr src,             rdx
-;     mp_size_t len,              r8
-;     mp_limb_t f                 r9
-;     mp_limb_t bm1of    [rsp+ 0x28] = (B - 1) / f
-; )
-;
-;     dst[] = src[] / ((B - 1) / f)
-;
-; This is an SEH leaf function
+;  mp_limb_t mpn_divexact_byBm1of(mp_ptr, mp_ptr, mp_size_t, mp_limb_t, mp_limb_t)
+;  rax                               rdi     rsi        rdx        rcx         r8  
+;  rax                               rcx     rdx         r8         r9   [rsp+40]
 
 %include "yasm_mac.inc"
 
@@ -39,10 +29,12 @@
 
     LEAF_PROC mpn_divexact_byBm1of
     movsxd  rax, r8d
-    mov     r8, [rsp+0x28]
+    mov     r8, [rsp+40]
+    
 %ifdef CARRY_OUT
-    mov     [rsp+0x20], r9  ; this needs changing if there is a carry in
+    mov     [rsp+32], r9    ; this needs changing if there is a carry in
 %endif
+
     lea     r10, [rdx+rax*8-24]
     lea     r11, [rcx+rax*8-24]
     mov     ecx, 3
@@ -100,9 +92,11 @@
     mov     [r11+rcx*8], r9
     sbb     r9, rdx
 .4: 
+
 %ifdef CARRY_OUT
-    imul    r9, [rsp+0x20]
+    imul    r9, [rsp+32]
 %endif
+
     mov     rax, r9
     neg     rax
     ret

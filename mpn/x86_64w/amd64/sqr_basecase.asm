@@ -1,5 +1,4 @@
 
-;  AMD64 mpn_sqr_baseL5 -- square an mpn number.
 ;  Version 1.0L5
 ;
 ;  Copyright 2008 Jason Moxham
@@ -20,17 +19,9 @@
 ;  to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 ;  Boston, MA 02110-1301, USA.
 ;
-;  Calling interface:
-;
-;  void mpn_sqr_baseL5(
-;     mp_ptr dst,       rcx
-;     mp_srcptr src,    rdx
-;     mp_size_t size     r8
-;  )
-;
-; Squuare src[size] and write the result to dst[2 * size]
-;
-; This is an SEH frame function with a leaf prologue
+;  mp_limb_t mpn_sqr_basecase(mp_ptr, mp_ptr, mp_size_t)
+;  rax                           rdi     rsi        rdx
+;  rax                           rcx     rdx         r8
 
 %include "..\yasm_mac.inc"
 

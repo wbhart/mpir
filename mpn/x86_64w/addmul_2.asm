@@ -1,6 +1,4 @@
 
-;  mpn_addmul_2
-;
 ;  Copyright 2008 Jason Moxham
 ;
 ;  Windows Conversion Copyright 2008 Brian Gladman
@@ -19,22 +17,9 @@
 ;  to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 ;  Boston, MA 02110-1301, USA.
 ;
-;  Calling interface:
-;
-;  mp_limb_t __gmpn_addmul_2(          <op> = add or sub
-;     mp_ptr dst,               rcx
-;     mp_srcptr src,            rdx
-;     mp_size_t size,            r8
-;     mp_limb_t mult             r9
-;  )
-;
-; rdi ,rsi, rdx, rcx, 
-
-; (rdi,rdx+1) = (rdi,rdx) + (rsi,rdx)*(rcx,2) return carrylimb
-; Calculate src[size] multiplied by mult[1] and add to /subtract from
-; dst[size] and return the carry or borrow from the top of the result
-;
-; These are SEH frame functions with two leaf prologues
+;  mp_limb_t mpn_addmul_2(mp_ptr, mp_ptr, mp_size_t, mp_ptr)
+;  rax                       rdi     rsi        rdx     rcx
+;  rax                       rcx     rdx         r8      r9
 
 %include "yasm_mac.inc"
 

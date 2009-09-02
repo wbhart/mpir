@@ -1,8 +1,8 @@
 
-;  mpn_copyi
-
 ;  Copyright 2009 Jason Moxham
-
+;
+;  Windows Conversion Copyright 2008 Brian Gladman
+;
 ;  This file is part of the MPIR Library.
 ;  The MPIR Library is free software; you can redistribute it and/or modify
 ;  it under the terms of the GNU Lesser General Public License as published
@@ -16,6 +16,10 @@
 ;  along with the MPIR Library; see the file COPYING.LIB.  If not, write
 ;  to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 ;  Boston, MA 02110-1301, USA.
+;
+;  void mpn_copyi(mp_ptr, mp_ptr, mp_size_t)
+;                    rdi     rsi        rdx
+;                    rcx     rdx         r8 
 
 %include "..\yasm_mac.inc"
 

@@ -1,5 +1,4 @@
 
-; AMD64 mpn_divexact_by3c -- divide exact by 3
 ; Version 1.0.4.
 ;
 ;  Copyright 2008 Jason Moxham and Brian Gladman
@@ -18,22 +17,10 @@
 ;  to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 ;  Boston, MA 02110-1301, USA.
 ;
-;  Calling interface:
-;
-; mp_limb_t mpn_divexact_by3c (
-;     mp_ptr rp,                rcx
-;     mp_srcptr up,             rdx
-;     mp_size_t un,              r8
-;     mp_limb_t c                r9
-; )
-;
-; mp_limb_t mpn_divexact_by3 (
-;     mp_ptr rp,                rcx
-;     mp_srcptr up,             rdx
-;     mp_size_t un               r8
-; )
-;
-; This is an SEH leaf function
+;  mp_limb_t mpn_divexact_by3c(mp_ptr, mp_ptr, mp_size_t, mp_limb_t)
+;  mp_limb_t  mpn_divexact_by3(mp_ptr, mp_ptr, mp_size_t)
+;  rax                            rdi     rsi        rdx        rcx
+;  rax                            rcx     rdx         r8         r9
 
 %include "yasm_mac.inc"
 

@@ -20,22 +20,13 @@
 ;  not, write to the Free Software Foundation, Inc., 51 Franklin Street,
 ;  Fifth Floor, Boston, MA 02110-1301, USA.
 ;
-; AMD64 mpn_divexact_1 -- mpn by limb exact division
-;
-;  Calling interface:
-;
-; void mpn_divexact_1(
-;     mp_ptr dst,           rcx
-;       mp_srcptr src,      rdx
-;       mp_size_t size,      r8
-;       mp_limb_t divisor    r9
-; )
-;
 ; since the inverse takes a while to setup,plain division is used for small
 ; Multiplying works out faster for size>=3 when the divisor is odd or size>=4
 ; when the divisor is even.
 ;
-; This is an SEH Frame Function with a leaf prologue
+;  void mpn_divexact_1(mp_ptr, mp_ptr, mp_size_t, mp_limb_t)
+;                         rdi     rsi        rdx        rcx
+;                         rcx     rdx         r8         r9
 
 %include "yasm_mac.inc"
 

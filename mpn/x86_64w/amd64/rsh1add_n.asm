@@ -1,8 +1,6 @@
 
-;  AMD64 mpn_rsh1add_n
-
 ;  Copyright 2009 Jason Moxham
-
+;
 ;  Windows Conversion Copyright 2008 Brian Gladman
 ;
 ;  This file is part of the MPIR Library.
@@ -19,7 +17,9 @@
 ;  to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 ;  Boston, MA 02110-1301, USA.
 ;
-;	(rdi,rcx)=((rsi,rcx)+(rdx,rcx))/2 return low bit of sum
+;  mp_limb_t mpn_rsh1add_n(mp_ptr, mp_ptr, mp_ptr, mp_size_t)
+;  rax                        rdi     rsi     rdx        rcx
+;  rax                        rcx     rdx      r8         r9
 
 %include "..\yasm_mac.inc"
 

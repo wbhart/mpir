@@ -1,8 +1,6 @@
 
-;  AMD64 mpn_addsub_n
-
 ;  Copyright 2009 Jason Moxham
-
+;
 ;  Windows Conversion Copyright 2008 Brian Gladman
 ;
 ;  This file is part of the MPIR Library.
@@ -19,7 +17,9 @@
 ;  to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 ;  Boston, MA 02110-1301, USA.
 ;
-;	(rdi,rbx)=(rsi,rbx)+(rdx,rbx)-(rcx,rbx)  return carry-borrow
+;  mp_limb_t mpn_addsub_n(mp_ptr, mp_ptr, mp_ptr, mp_ptr, mp_size_t)
+;  rax                       rdi     rsi     rdx     rcx         r8
+;  rax                       rcx     rdx      r8      r9   [rsp+40]
 
 %include "..\yasm_mac.inc"
 

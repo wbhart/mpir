@@ -18,13 +18,9 @@
 ;  not, write to the Free Software Foundation, Inc., 51 Franklin Street,
 ;  Fifth Floor, Boston, MA 02110-1301, USA.
 ;
-;  mpn_umul_ppmm -- 1x1->2 limb multiplication
-;
-;  mp_limb_t mpn_umul_ppmm (
-;  mp_limb_t *lowptr,       rcx
-;  mp_limb_t m1,            rdx
-;  mp_limb_t m2              r8
-;  );
+;  mp_limb_t mpn_umul_ppmm(mp_ptr, mp_limb_t, mp_limb_t)
+;  rax                        rdi        rsi        rdx
+;  rax                        rcx        rdx         r8
 
 %include "yasm_mac.inc"
 

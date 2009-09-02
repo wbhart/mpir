@@ -20,26 +20,10 @@
 ;  not, write to the Free Software Foundation, Inc., 51 Franklin Street,
 ;  Fifth Floor, Boston, MA 02110-1301, USA.
 ;
-; mp_limb_t mpn_modexact_1_odd (mp_srcptr src, mp_size_t size,
-;                               mp_limb_t divisor);
-; mp_limb_t mpn_modexact_1c_odd (mp_srcptr src, mp_size_t size,
-;                                mp_limb_t divisor, mp_limb_t carry);
-;
-;  AMD64 mpn_modexact_1_odd -- exact division style remainder.
-;
-; mp_limb_t mpn_modexact_1_odd (
-;  mp_srcptr src,           rcx
-;  mp_size_t size,          rdx
-;  mp_limb_t divisor         r8
-; );
-; mp_limb_t mpn_modexact_1c_odd (
-;  mp_srcptr src,           rcx
-;  mp_size_t size,          rdx
-;  mp_limb_t divisor,        r8
-;  mp_limb_t carry           r9
-; );
-;
-; This is an SEH Frame Function with a leaf prologue
+;  mp_limb_t  mpn_modexact_1_odd(mp_ptr, mp_size_t, mp_limb_t)
+;  mp_limb_t mpn_modexact_1c_odd(mp_ptr, mp_size_t, mp_limb_t, mp_limb_t)
+;  rax                              rdi        rsi        rdx        rcx
+;  rax                              rcx        rdx         r8         r9
 
 %include "yasm_mac.inc"
 

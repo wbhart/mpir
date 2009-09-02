@@ -1,5 +1,4 @@
 
-; AMD64 mpn_mul_1 -- mpn by limb multiply (with carry)
 ; Version 1.0.3.
 ;
 ;  Copyright 2008 Jason Moxham
@@ -20,24 +19,10 @@
 ;  to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 ;  Boston, MA 02110-1301, USA.
 ;
-;  Calling interface:
-;
-;  mp_limb_t mpn_mul_1 (
-;     mp_ptr dst,                  rcx
-;     mp_srcptr src,               rdx
-;     mp_size_t size,               r8
-;     mp_limb_t multiplier          r9
-;  )
-;
-;  mp_limb_t mpn_mul_1c (
-;     mp_ptr dst,                  rcx
-;     mp_srcptr src,               rdx
-;     mp_size_t size,               r8
-;     mp_limb_t multiplier,         r9
-;     mp_limb_t carry       [rsp+0x28]
-;  )
-;
-;  This is an SEH frame function with two leaf prologues
+;  mp_limb_t  mpn_mul_1(mp_ptr, mp_ptr, mp_size_t, mp_limb_t)
+;  mp_limb_t mpn_mul_1c(mp_ptr, mp_ptr, mp_size_t, mp_limb_t, mp_limb_t)
+;  rax                     rdi     rsi        rdx        rcx         r8
+;  rax                     rcx     rdx         r8         r9   [rsp+40]
 
 %include "..\yasm_mac.inc"
 
@@ -45,7 +30,7 @@
     BITS 64
 
     LEAF_PROC mpn_mul_1c
-    mov     r11, [rsp+0x28]
+    mov     r11, [rsp+40]
     jmp     start
 
     LEAF_PROC mpn_mul_1

@@ -18,14 +18,9 @@
 ;  not, write to the Free Software Foundation, Inc., 51 Franklin Street,
 ;  Fifth Floor, Boston, MA 02110-1301, USA.
 ;
-;  x86 mpn_udiv_qrnnd -- 2 by 1 limb division
-;
-;  mp_limb_t mpn_udiv_qrnnd (
-;  mp_limb_t *remptr,           rcx
-;  mp_limb_t high,              rdx
-;  mp_limb_t low,                r8
-;  mp_limb_t divisor             r9
-;  );
+;  mp_limb_t mpn_udiv_qrnnd(mp_ptr, mp_limb_t, mp_limb_t, mp_limb_t)
+;  rax                         rdi        rsi        rdx        rcx
+;  rax                         rcx        rdx         r8         r9
 
 %include "yasm_mac.inc"
 

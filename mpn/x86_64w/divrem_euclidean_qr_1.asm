@@ -1,11 +1,10 @@
 
-;  X86_64 mpn_divrem_euclidean_1
-;
 ;  Copyright 2008 Jason Moxham
 ;
 ;  Windows Conversion Copyright 2008 Brian Gladman
 ;
 ;  This file is part of the MPIR Library.
+;
 ;  The MPIR Library is free software; you can redistribute it and/or modify
 ;  it under the terms of the GNU Lesser General Public License as published
 ;  by the Free Software Foundation; either version 2.1 of the License, or (at
@@ -19,13 +18,9 @@
 ;  to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 ;  Boston, MA 02110-1301, USA.
 ;
-;  Calling interface:
-;
-;  dst[] = src[] / f
-;
-;  This is an SEH frame function
-;
-;  This function "replaces" divrem_1 mod_1
+;  mp_limb_t mpn_divrem_euclidean_qr_1(mp_ptr, mp_ptr, mp_size_t, mp_limb_t)
+;  rax                                    rdi     rsi        rdx        rcx
+;  rax                                    rcx     rdx         r8         r9
 
 %include "yasm_mac.inc"
 
@@ -53,7 +48,7 @@
     xor     rax, rax
     xor     rbp, rbp
 
-    align   16
+    xalign   16
 .1: mov     r13, [rsi+r14*8-8]
     mov     r12, r13
     neg     rcx

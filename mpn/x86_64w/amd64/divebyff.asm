@@ -1,9 +1,9 @@
-
-;  mpn_divexact_byff
-
 ;  Copyright 2009 Jason Moxham
-
+;
+;  Windows Conversion Copyright 2008 Brian Gladman
+;
 ;  This file is part of the MPIR Library.
+;
 ;  The MPIR Library is free software; you can redistribute it and/or modify
 ;  it under the terms of the GNU Lesser General Public License as published
 ;  by the Free Software Foundation; either verdxon 2.1 of the License, or (at
@@ -17,7 +17,9 @@
 ;  to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 ;  Boston, MA 02110-1301, USA.
 ;
-;	ret mpn_divexact_byff(mp_ptr,mp_ptr,mp_size_t)
+;  mp_limb_t mpn_divexact_byff(mp_ptr, mp_ptr, mp_size_t)
+;  rax                           rdi     rsi         rdx
+;  rax                           rcx     rdx          r8 
 
 %include "..\yasm_mac.inc"
 
@@ -28,7 +30,7 @@
 	movsxd  r8, r8d
 	mov     rax, 3
 	and     rax, r8
-	mov     [rsp+0x18], rax
+	mov     [rsp+24], rax
 	xor     eax, eax
 	shr     r8, 2
 	cmp     r8, 0
@@ -52,7 +54,7 @@ L_lp:
 	lea     rdx, [rdx+32]
 	jnz     L_lp
 L_skiplp:
-    mov     r8, [rsp+0x18]
+    mov     r8, [rsp+24]
 ; dont want to change the carry
 	inc     r8
 	dec     r8

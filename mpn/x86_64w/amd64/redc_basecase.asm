@@ -1,9 +1,10 @@
 
-;  Core2 mpn_redc_basecase
-;  Version 1.0.4
-;
 ;  Copyright 2009 Jason Moxham
+;
+;  Windows Conversion Copyright 2008 Brian Gladman
+;
 ;  This file is part of the MPIR Library.
+;
 ;  The MPIR Library is free software; you can redistribute it and/or modify
 ;  it under the terms of the GNU Lesser General Public License as published
 ;  by the Free Software Foundation; either version 2.1 of the License, or (at
@@ -17,16 +18,9 @@
 ;  to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 ;  Boston, MA 02110-1301, USA.
 ;
-;  Calling interface:
-;
-;  mp_limb_t __gmpn_redc_basecase(
-;     mp_ptr dst,               rcx
-;     mp_srcptr src,            rdx
-;     mp_size_t len,             r8
-;     mp_limb_t npr,             r9
-;     mp_ptr tp          [rsp + 40]
-; )
-;
+;  mp_limb_t mpn_redc_basecase(mp_ptr, mp_ptr, mp_size_t, mp_limb_t,  mp_ptr)
+;  rax                            rdi     rsi        rdx        rcx       r8
+;  rax                            rcx     rdx         r8         r9 [rsp+40] 
 
 %include "..\yasm_mac.inc"
 
@@ -382,13 +376,13 @@
     mov     rsi, rdx
     movsxd  rdx, r8d
     mov     rcx, r9
-    mov     r8, [rsp+stack_use+0x28]
+    mov     r8, [rsp+stack_use+40]
 
     mov     r14, 5
     sub     r14, rdx
 
-    mov     [rsp+stack_use+0x10], rsi
-    mov     r8, [rsp+stack_use+0x28]
+    mov     [rsp+stack_use+16], rsi
+    mov     r8, [rsp+stack_use+40]
 
     lea     r8, [r8+rdx*8-40]
     lea     rsi, [rsi+rdx*8-40]
@@ -418,11 +412,11 @@
     xalign  16
 .2:
     mov     rcx, rbp
-    mov     rdx, [rsp+stack_use+0x28]
+    mov     rdx, [rsp+stack_use+40]
     lea     rsi, [rdx+rbp*8]
     mov     rbx, rdi
     mpn_add
-    mov     rdx, [rsp+stack_use+0x10]
+    mov     rdx, [rsp+stack_use+16]
     jnc     .3
     mov     rsi, rbx
     mpn_sub
@@ -431,7 +425,7 @@
     END_PROC reg_save_list
 
     xalign  16
-one:mov     r8,[rsp+0x28]
+one:mov     r8,[rsp+40]
     mov     r10, [r8]
     mov     r11, [rdx]
     imul    r9, r10

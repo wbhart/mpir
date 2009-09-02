@@ -1,10 +1,10 @@
 
-;  mpn_lshift2
-
 ;  Copyright 2009 Jason Moxham
-
+;
+;  Windows Conversion Copyright 2008 Brian Gladman
+;
 ;  This file is part of the MPIR Library.
-
+;
 ;  The MPIR Library is free software; you can redistribute it and/or modify
 ;  it under the terms of the GNU Lesser General Public License as published
 ;  by the Free Software Foundation; either version 2.1 of the License, or (at
@@ -20,8 +20,9 @@
 ;  to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 ;  Boston, MA 02110-1301, USA.
 ;
-;	ret mpn_lshidft2(mp_ptr,mp_ptr,mp_size_t)
-;	rax                 rcx,   rdx,      r8d
+;  mp_limb_t mpn_lshift1(mp_ptr, mp_ptr, mp_size_t)
+;  rax                      rdi     rsi        rdx
+;  rax                      rcx     rdx         r8
 
 %include "..\yasm_mac.inc"
 
