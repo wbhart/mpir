@@ -212,6 +212,12 @@ mp_limb_t refmpn_addmul_7 __GMP_PROTO ((mp_ptr dst, mp_srcptr src,
 mp_limb_t refmpn_addmul_8 __GMP_PROTO ((mp_ptr dst, mp_srcptr src,
                                         mp_size_t size, mp_srcptr mult));
 
+mp_limb_t refmpn_add_err1_n __GMP_PROTO ((mp_ptr rp, mp_srcptr up, mp_srcptr vp, mp_ptr ep, mp_srcptr yp,mp_size_t n, mp_limb_t cy));
+mp_limb_t refmpn_sub_err1_n __GMP_PROTO ((mp_ptr rp, mp_srcptr up, mp_srcptr vp, mp_ptr ep, mp_srcptr yp,mp_size_t n, mp_limb_t cy));
+
+mp_limb_t refmpn_add_err2_n __GMP_PROTO ((mp_ptr rp, mp_srcptr up, mp_srcptr vp,mp_ptr ep, mp_srcptr yp1, mp_srcptr yp2,mp_size_t n, mp_limb_t cy));
+mp_limb_t refmpn_sub_err2_n __GMP_PROTO ((mp_ptr rp, mp_srcptr up, mp_srcptr vp,mp_ptr ep, mp_srcptr yp1, mp_srcptr yp2,mp_size_t n, mp_limb_t cy));
+
 mp_limb_t refmpn_sumdiff_n __GMP_PROTO ((mp_ptr r1p, mp_ptr r2p,
                                    mp_srcptr s1p, mp_srcptr s2p,
                                    mp_size_t size));

@@ -316,6 +316,7 @@ struct try_t {
 #define SIZE_1            3  /* 1 limb  */
 #define SIZE_2            4  /* 2 limbs */
 #define SIZE_3            5  /* 3 limbs */
+#define SIZE_4		  20 /* 4 limbs */
 #define SIZE_FRACTION     6  /* size2 is fraction for divrem etc */
 #define SIZE_SIZE2        7
 #define SIZE_PLUS_1       8
@@ -680,6 +681,10 @@ validate_sqrtrem (void)
 #define TYPE_SUBLSH_N		121
 #define TYPE_INCLSH_N		122
 #define TYPE_DECLSH_N		123
+#define TYPE_ADDERR1_N		124
+#define TYPE_SUBERR1_N		125
+#define TYPE_ADDERR2_N		126
+#define TYPE_SUBERR2_N		127
 
 #define TYPE_EXTRA            150
 
@@ -872,6 +877,52 @@ param_init (void)
   p->src[1] = 1;
   REFERENCE (refmpn_sumdiff_n);
 
+  p = &param[TYPE_ADDERR1_N];
+  p->retval=1;
+  p->dst[0]=1;
+  p->dst[1]=1;
+  p->dst_size[1]=SIZE_2;
+  p->src[0]=1;
+  p->src[1]=1;
+  p->src[2]=1;
+  p->carry=CARRY_BIT;
+  REFERENCE (refmpn_add_err1_n);
+  
+  p = &param[TYPE_SUBERR1_N];
+  p->retval=1;
+  p->dst[0]=1;
+  p->dst[1]=1;
+  p->dst_size[1]=SIZE_2;
+  p->src[0]=1;
+  p->src[1]=1;
+  p->src[2]=1;
+  p->carry=CARRY_BIT;
+  REFERENCE (refmpn_sub_err1_n);
+  
+  p = &param[TYPE_ADDERR2_N];
+  p->retval=1;
+  p->dst[0]=1;
+  p->dst[1]=1;
+  p->dst_size[1]=SIZE_4;
+  p->src[0]=1;
+  p->src[1]=1;
+  p->src[2]=1;
+  p->src[3]=1;//FIXME
+  p->carry=CARRY_BIT;
+  REFERENCE (refmpn_add_err2_n);
+  
+  p = &param[TYPE_SUBERR2_N];
+  p->retval=1;
+  p->dst[0]=1;
+  p->dst[1]=1;
+  p->dst_size[1]=SIZE_4;
+  p->src[0]=1;
+  p->src[1]=1;
+  p->src[2]=1;
+  p->src[3]=1;//FIXME
+  p->carry=CARRY_BIT;
+  REFERENCE (refmpn_sub_err2_n);
+  
   p = &param[TYPE_SUMDIFF_NC];
   COPY (TYPE_SUMDIFF_N);
   p->carry = CARRY_4;
@@ -1662,8 +1713,11 @@ const struct choice_t choice_array[] = {
   { TRY(mpn_divrem_1),     TYPE_DIVREM_1 },
   { TRY(mpn_divrem_euclidean_qr_1),     TYPE_DIVREM_EUCLIDEAN_QR_1 },
   { TRY(mpn_divrem_euclidean_r_1),     TYPE_DIVREM_EUCLIDEAN_R_1 },
-  
 
+  { TRY(mpn_add_err1_n),	TYPE_ADDERR1_N},  
+  { TRY(mpn_sub_err1_n),	TYPE_SUBERR1_N},
+  { TRY(mpn_add_err2_n),	TYPE_ADDERR2_N},  
+  { TRY(mpn_sub_err2_n),	TYPE_SUBERR2_N},
 #if USE_PREINV_DIVREM_1
   { TRY(mpn_preinv_divrem_1), TYPE_PREINV_DIVREM_1 },
 #endif
@@ -2262,6 +2316,17 @@ call (struct each_t *e, tryfun_t function)
       (e->d[0].p, e->s[0].p, size, e->s[1].p, size2);
     break;
 
+  case TYPE_ADDERR1_N:
+  case TYPE_SUBERR1_N:
+     e->retval =CALLING_CONVENTIONS(function)
+         (e->d[0].p, e->s[0].p, e->s[1].p, e->d[1].p, e->s[2].p , size,carry);
+     break;
+  case TYPE_ADDERR2_N:
+  case TYPE_SUBERR2_N:
+     e->retval =CALLING_CONVENTIONS(function)
+         (e->d[0].p, e->s[0].p, e->s[1].p, e->d[1].p, e->s[2].p ,e->s[3].p, size,carry);
+     break;
+  
   case TYPE_ADD_N:
   case TYPE_SUB_N:
   case TYPE_ADDLSH1_N:
@@ -2683,6 +2748,9 @@ pointer_setup (struct each_t *e)
 	break;
       case SIZE_3:
 	d[i].size = 3;
+	break;
+      case SIZE_4:
+	d[i].size = 4;
 	break;
 
       case SIZE_PLUS_1:
