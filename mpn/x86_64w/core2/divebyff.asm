@@ -1,11 +1,9 @@
-
-;  core2 mpn_divexact_byff
-
 ;  Copyright 2009 Jason Moxham
-
-;  Windows Converdxon Copyright 2008 Brian Gladman
+;
+;  Windows Conversion Copyright 2008 Brian Gladman
 ;
 ;  This file is part of the MPIR Library.
+;
 ;  The MPIR Library is free software; you can redistribute it and/or modify
 ;  it under the terms of the GNU Lesser General Public License as published
 ;  by the Free Software Foundation; either verdxon 2.1 of the License, or (at
@@ -19,14 +17,9 @@
 ;  to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 ;  Boston, MA 02110-1301, USA.
 ;
-;	(rcx, r8) = (rdx, r8)/0xFFFFFFFFFFFFFFFF
-;	rax = "remainder"
-;	where (rdx, r8) = (rcx, r8)*(B - 1) -rax*B^r8    and 0 <= rax < B - 1      B = 0xFFFFFFFFFFFFFFFF
-;
-;	this is good but suffers from alignment slowdown
-;	we dont seem to have much freedom to re-arrange the instructions to avoid
-;	it , I suppose we could detect alignment at the start and have different
-;	routines for different alignments
+;  mp_limb_t mpn_divexact_byff(mp_ptr, mp_ptr, mp_size_t)
+;  rax                           rdi     rsi         rdx
+;  rax                           rcx     rdx         r8d
 
 %include "..\yasm_mac.inc"
 

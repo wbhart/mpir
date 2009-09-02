@@ -1,9 +1,10 @@
 
-;  Core2 mpn_redc_basecase
-;  Version 1.0.4
-;
 ;  Copyright 2009 Jason Moxham
+;
+;  Windows Conversion Copyright 2008 Brian Gladman
+;
 ;  This file is part of the MPIR Library.
+;
 ;  The MPIR Library is free software; you can redistribute it and/or modify
 ;  it under the terms of the GNU Lesser General Public License as published
 ;  by the Free Software Foundation; either version 2.1 of the License, or (at
@@ -17,16 +18,9 @@
 ;  to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 ;  Boston, MA 02110-1301, USA.
 ;
-;  Calling interface:
-;
-;  mp_limb_t __gmpn_redc_basecase(
-;     mp_ptr dst,               rcx
-;     mp_srcptr src,            rdx
-;     mp_size_t len,             r8
-;     mp_limb_t npr,             r9
-;     mp_ptr tp          [rsp + 40]
-; )
-;
+;  mp_limb_t mpn_redc_basecase(mp_ptr, mp_ptr, mp_size_t, mp_limb_t,  mp_ptr)
+;  rax                            rdi     rsi        rdx        rcx       r8
+;  rax                            rcx     rdx        r8d         r9 [rsp+40]
 
 %include "..\yasm_mac.inc"
 

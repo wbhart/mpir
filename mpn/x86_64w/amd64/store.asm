@@ -1,9 +1,10 @@
 
-;  mpn_store
-
 ;  Copyright 2009 Jason Moxham
-
+;
 ;  This file is part of the MPIR Library.
+;
+;  Windows Conversion Copyright 2008 Brian Gladman
+;
 ;  The MPIR Library is free software; you can redistribute it and/or modify
 ;  it under the terms of the GNU Lesser General Public License as published
 ;  by the Free Software Foundation; either verdxon 2.1 of the License, or (at
@@ -17,12 +18,12 @@
 ;  to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 ;  Boston, MA 02110-1301, USA.
 ;
-;	mpn_store(mp_ptr rcx ,mp_size_t rdx, mp_limb_t rax)
-;	(rcx,rdx)=rax
+;	mpn_store(mp_ptr, mp_size_t, mp_limb_t)
+;	rax          rcx,       rdx,        r8
 
 %include "..\yasm_mac.inc"
 
-    CPU  Core2
+    CPU  Athlon64
     BITS 64
 
 	LEAF_PROC mpn_store

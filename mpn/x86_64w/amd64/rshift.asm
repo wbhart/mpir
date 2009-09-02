@@ -6,6 +6,7 @@
 ;  Windows Conversion Copyright 2008 Brian Gladman
 ;
 ;  This file is part of the MPIR Library.
+;
 ;  The MPIR Library is free software; you can redistribute it and/or modify
 ;  it under the terms of the GNU Lesser General Public License as published
 ;  by the Free Software Foundation; either verdxon 2.1 of the License, or (at
@@ -14,6 +15,7 @@
 ;  WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
 ;  or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public
 ;  License for more details.
+;
 ;  You should have received a copy of the GNU Lesser General Public License
 ;  along with the MPIR Library; see the file COPYING.LIB.  If not, write
 ;  to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
@@ -29,24 +31,24 @@
     BITS 64
 
     LEAF_PROC mpn_rshift
-    mov     r9d, r9d	
+    mov     r9d, r9d
 	movq    mm0, r9
 	mov     rax, 64
 	sub     rax, r9
 	movq    mm1, rax
     movsxd  rax, r8d
-	mov     r8, 4	
+	mov     r8, 4
 	lea     rdx, [rdx+rax*8-32]
 	lea     rcx, [rcx+rax*8-32]
 	sub     r8, rax
-	
+
 	movq    mm5, [rdx+r8*8]
 	movq    mm3, mm5
 	psllq   mm5, mm1
 	movq    rax, mm5
 	psrlq   mm3, mm0
 	jge     .1
-	
+
 	xalign  16
 .0: movq    mm2, [rdx+r8*8+8]
 	movq    mm4, mm2
@@ -101,7 +103,7 @@
 	movq    [rcx+r8*8+24], mm4
 	emms
 	ret
-	
+
 	xalign  16
 .3: movq    mm2, [rdx+r8*8+8]
 	movq    mm4, mm2
@@ -118,7 +120,7 @@
 	movq    [rcx+r8*8+16], mm3
 	emms
 	ret
-	
+
 	xalign  16
 .4: movq    mm2, [rdx+r8*8+8]
 	movq    mm4, mm2
@@ -129,7 +131,7 @@
 	movq    [rcx+r8*8+8], mm4
 	emms
 	ret
-	
+
 	xalign  16
 .5: movq    [rcx+r8*8], mm3
 	emms

@@ -1,8 +1,8 @@
 
-;  mpn_add_n
-
-;  Copyright 2009 Jason Moxham
-
+;  Version 1.0.3.
+;
+;  Copyright 2008 Jason Moxham
+;
 ;  Windows Conversion Copyright 2008 Brian Gladman
 ;
 ;  This file is part of the MPIR Library.
@@ -19,8 +19,10 @@
 ;  to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 ;  Boston, MA 02110-1301, USA.
 ;
-;	rax=mpn_add_n(mp_ptr r9 ,mp_ptr rdx ,mp_ptr r8 ,mp_size_t rcx)
-;	(r9,rcx)=(rdx,rcx)+(r8,rcx)  return rax=carry
+;  mp_limb_t  mpn_add_n(mp_ptr, mp_srcptr, mp_srcptr, mp_size_t)
+;  mp_limb_t mpn_add_nc(mp_ptr, mp_srcptr, mp_srcptr, mp_size_t, mp_limb_t)
+;  rax                     rdi        rsi        rdx        rcx         r8
+;  rax                     rcx        rdx         r8        r9d   [rsp+40]
 
 %include "..\yasm_mac.inc"
 
@@ -30,12 +32,12 @@
     CPU  Core2
     BITS 64
 
-	LEAF_PROC mpn_add_nc	
+	LEAF_PROC mpn_add_nc
     mov     r10, [rsp+0x28]
     jmp     mpn_add_entry
-    
+
 	LEAF_PROC mpn_add_n
-	xor     r10, r10	
+	xor     r10, r10
 
 mpn_add_entry:
 	movsxd  rax, r9d
@@ -50,7 +52,7 @@ mpn_add_entry:
 	lea     rcx, [r10+rcx*2]
 	sar     rcx, 1
 	jz      L_exitlp
-	
+
 	xalign  16
 L_lp:
 	mov     r10, [rdx+rcx*8]

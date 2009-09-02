@@ -1,11 +1,12 @@
 
-;  mpn_sub_n
-
-;  Copyright 2009 Jason Moxham
-
+;  Version 1.0.3.
+;
+;  Copyright 2008 Jason Moxham
+;
 ;  Windows Conversion Copyright 2008 Brian Gladman
 ;
 ;  This file is part of the MPIR Library.
+;
 ;  The MPIR Library is free software; you can redistribute it and/or modify
 ;  it under the terms of the GNU Lesser General Public License as published
 ;  by the Free Software Foundation; either version 2.1 of the License, or (at
@@ -19,8 +20,10 @@
 ;  to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 ;  Boston, MA 02110-1301, USA.
 ;
-;	ret mpn_sub_n(mp_ptr,mp_ptr,mp_ptr,mp_size_t)
-;	(r9,rcx)=(rdx,rcx)-(r8,rcx) return rax=borrow
+;  mp_limb_t  mpn_sub_n(mp_ptr, mp_srcptr, mp_srcptr, mp_size_t)
+;  mp_limb_t mpn_sub_nc(mp_ptr, mp_srcptr, mp_srcptr, mp_size_t, mp_limb_t)
+;  rax                     rdi        rsi        rdx        rcx         r8
+;  rax                     rcx        rdx         r8        r9d   [rsp+40]
 
 %include "..\yasm_mac.inc"
 
@@ -35,7 +38,7 @@
     jmp     mpn_sub_entry
 
 	LEAF_PROC mpn_sub_n
-	xor     r10, r10	
+	xor     r10, r10
 
 mpn_sub_entry:
 	movsxd  rax, r9d
@@ -50,7 +53,7 @@ mpn_sub_entry:
 	lea     rcx, [r10+rcx*2]
 	sar     rcx, 1
 	jz      L_exitlp
-	
+
 	xalign  16
 L_lp:
 	mov     r10, [rdx+rcx*8]

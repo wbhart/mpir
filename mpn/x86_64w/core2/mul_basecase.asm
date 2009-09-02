@@ -1,10 +1,10 @@
 
-;  AMD64 mpn_mul_basecase
-
-;  Copyright 2008,2009 Jason Moxham
-
+;  Copyright 2009 Jason Moxham
+;
+;  Windows Conversion Copyright 2008 Brian Gladman
+;
 ;  This file is part of the MPIR Library.
-
+;
 ;  The MPIR Library is free software; you can redistribute it and/or modify
 ;  it under the terms of the GNU Lesser General Public License as published
 ;  by the Free Software Foundation; either version 2.1 of the License, or (at
@@ -20,8 +20,9 @@
 ;  to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 ;  Boston, MA 02110-1301, USA.
 ;
-;   (rcx,r8+[rsp+0x28])=(rdx,r8)*(r9,[rsp+0x28])
-;   Version 1.0.7
+;  mp_limb_t mpn_mul_basecase(mp_ptr, mp_ptr, mp_size_t, mp_ptr, mp_size_t)
+;  rax                           rdi     rsi        rdx     rcx         r8
+;  rax                           rcx     rdx        r8d      r9   [rsp+40]
 
 %include "..\yasm_mac.inc"
 

@@ -1,5 +1,4 @@
 
-;  Core2 mpn_com_n
 ;  Version 1.0.4
 ;
 ;  Copyright 2008 Jason Moxham
@@ -20,23 +19,15 @@
 ;  to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 ;  Boston, MA 02110-1301, USA.
 ;
-;  Calling interface:
-;
-;  r9[r9] = rax[r9] + 2 * rax[r9]
-;
-;  void __gmpn_com_n(
-;     mp_ptr rp,          rcx
-;     mp_srcptr xp,       rdx
-;     mp_size_t  n,        r8
-;  )
-;
-;  This is an SEH leaf function (no unwind support needed)
+;  void mpn_com_n(mp_ptr, mp_ptr, mp_size_t)
+;                     rdi     rsi       rdx
+;                     rcx     rdx       r8d
 
 %include "..\yasm_mac.inc"
 
     CPU  Core2
     BITS 64
-    
+
     LEAF_PROC mpn_com_n
     movsxd  rax, r8d
     sub     rax, 4

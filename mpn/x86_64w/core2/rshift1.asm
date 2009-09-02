@@ -1,5 +1,3 @@
-
-;  Core2 mpn_rshift1 -- mpn right shift by 1
 ;  Version 1.0.4.
 ;
 ;  Copyright 2008 Jason Moxham
@@ -20,15 +18,9 @@
 ;  to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 ;  Boston, MA 02110-1301, USA.
 ;
-;  Calling interface:
-;
-; mp_limb_t mpn_rshift1(
-;     mp_ptr dst,       rcx
-;     mp_srcptr src,    rdx
-;     mp_size_t size,    r8
-; )
-;
-;  This is an SEH leaf function (no unwind support needed)
+;  mp_limb_t mpn_rshift(mp_ptr, mp_ptr, mp_size_t)
+;  rax                     rdi     rsi        rdx
+;  rax                     rcx     rdx        r8d
 
 %include "..\yasm_mac.inc"
 

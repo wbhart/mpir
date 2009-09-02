@@ -1,12 +1,10 @@
 
-;  Core2 mpn_addlsh1_n
-;  Version 1.0.3
-;
 ;  Copyright 2008 Jason Moxham
+;
+;  This file is part of the MPIR Library.
 ;
 ;  Windows Conversion Copyright 2008 Brian Gladman
 ;
-;  This file is part of the MPIR Library.
 ;  The MPIR Library is free software; you can redistribute it and/or modify
 ;  it under the terms of the GNU Lesser General Public License as published
 ;  by the Free Software Foundation; either version 2.1 of the License, or (at
@@ -20,18 +18,9 @@
 ;  to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 ;  Boston, MA 02110-1301, USA.
 ;
-;  Calling interface:
-;
-;  rcx[r9] = rdx[r9] + 2 * r8[r9]
-;
-;  void __gmpn_addlsh1_n(
-;     mp_ptr rp,          rcx
-;     mp_srcptr xp,       rdx
-;     mp_srcptr yp,        r8
-;     mp_size_t  n,        r9
-;  )
-;
-; This is an SEH frame function
+;  mp_limb_t mpn_addlsh1_n(mp_ptr, mp_ptr, mp_ptr, mp_size_t)
+;  rax                        rdi     rsi     rdx        rcx
+;  rax                        rcx     rdx      r8        r9d
 
 %include "..\yasm_mac.inc"
 

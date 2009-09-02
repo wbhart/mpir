@@ -77,31 +77,15 @@
 ;
 ;       Brian Gladman
 ;
-
-; Intel64 mpn_addmul_1 -- Multiply a limb vector with a limb and
-; add the result to a second limb vector.
-;
-;  Calling interface:
-;
-;  mp_limb_t __gmpn_<op>mul_1(          <op> = add or sub
-;     mp_ptr dst,               rcx
-;     mp_srcptr src,            rdx
-;     mp_size_t size,            r8
-;     mp_limb_t mult             r9
-;  )
-;
-;  mp_limb_t __gmpn_<op>mul_1c(
-;     mp_ptr dst,               rcx
-;     mp_srcptr src,            rdx
-;     mp_size_t size,            r8
-;     mp_limb_t mult,            r9
-;     mp_limb_t carry    [rsp+0x28]
-;  )
-;
 ; Calculate src[size] multiplied by mult[1] and add to /subtract from dst[size] and
 ; return the carry or borrow from the top of the result
 ;
 ; BPL is bytes per limb, which is 8 in the 64-bit code here
+;
+;  mp_limb_t mpn_addmul_1(mp_ptr, mp_ptr, mp_size_t, mp_limb_t)
+;  mp_limb_t mpn_inclsh_n(mp_ptr, mp_ptr, mp_size_t,   mp_uint)
+;  rax                       rdi     rsi        rdx        rcx
+;  rax                       rcx     rdx        r8d        r9d
 
 %define BPL                 8
 %define UNROLL_EXPONENT     4

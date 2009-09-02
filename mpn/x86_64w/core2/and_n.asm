@@ -1,9 +1,8 @@
 
-;  Core2 mpn_and_n
 ;  Version 1.0.4
 ;
 ;  Copyright 2008 Jason Moxham
-
+;
 ;  Windows Conversion Copyright 2008 Brian Gladman
 
 ;  This file is part of the MPIR Library.
@@ -19,15 +18,10 @@
 ;  along with the MPIR Library; see the file COPYING.LIB.  If not, write
 ;  to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 ;  Boston, MA 02110-1301, USA.
-
-;  Calling interface:
 ;
-;  mp_limb_t __gmpn_<op>_n(    <op> = and
-;     mp_ptr rcx,              rcx
-;     mp_srcptr src1,          rdx
-;     mp_srcptr src2,           r8
-;     mp_size_t  len            r9
-;  )
+;  void mpn_and_n(mp_ptr, mp_srcptr, mp_srcptr, mp_size_t)
+;                    rdi        rsi        rdx        rcx
+;                    rcx        rdx         r8        r9d
 
 %include "..\yasm_mac.inc"
 

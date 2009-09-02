@@ -1,8 +1,5 @@
 
-;  Core2 mpn_addsub_n
-;  Version 1.0.4
-;
-;  Copyright 2008 Jason Moxham
+;  Copyright 2009 Jason Moxham
 ;
 ;  Windows Conversion Copyright 2008 Brian Gladman
 ;
@@ -20,21 +17,9 @@
 ;  to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 ;  Boston, MA 02110-1301, USA.
 ;
-;  Calling interface (GCC):
-;
-;     rcx[rbx] = rdx[rbx] + r8[rbx] - r9[rbx]
-;
-;  return carry - borrow
-;
-;  mp_limb_t __gmpn_addsub_n(
-;     mp_ptr dp,           rcx
-;     mp_srcptr sp1,       rdx
-;     mp_srcptr sp2,        r8
-;     mp_size_t sp3,        r9
-;     mp_size_t n   [rsp+0x28] -> rbxd
-; )
-;
-; This is an SEH frame function
+;  mp_limb_t mpn_addsub_n(mp_ptr, mp_ptr, mp_ptr, mp_ptr, mp_size_t)
+;  rax                       rdi     rsi     rdx     rcx         r8
+;  rax                       rcx     rdx      r8      r9   [rsp+40]
 
 %include "..\yasm_mac.inc"
 

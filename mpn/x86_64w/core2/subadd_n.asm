@@ -1,12 +1,10 @@
 
-;  AMD64 mpn_subadd_n
-;  Version 1.0.4
-;
-;  Copyright 2008 Jason Moxham
+;  Copyright 2009 Jason Moxham
 ;
 ;  Windows Conversion Copyright 2008 Brian Gladman
 ;
 ;  This file is part of the MPIR Library.
+;
 ;  The MPIR Library is free software; you can redistribute it and/or modify
 ;  it under the terms of the GNU Lesser General Public License as published
 ;  by the Free Software Foundation; either version 2.1 of the License, or (at
@@ -20,21 +18,9 @@
 ;  to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 ;  Boston, MA 02110-1301, USA.
 ;
-;  Calling interface (GCC):
-;
-;     rcx[rbx] = rdx[rbx] - r8[rbx] + r9[rbx]
-;
-;  return carry
-;
-;  mp_limb_t __gmpn_subadd_n(
-;     mp_ptr dp,            rcx
-;     mp_srcptr sp1,        rdx
-;     mp_srcptr sp2,         r8
-;     mp_srcptr sp3,         r9
-;     mp_size_t len  [rsp+0x28] -> rbx
-; )
-;
-; This is an SEH frame function
+;  mp_limb_t mpn_subadd_n(mp_ptr, mp_ptr, mp_ptr, mp_ptr,  mp_size_t)
+;  rax                       rdi     rsi     rdx     rcx          r8
+;  rax                       rcx     rdx      r8      r9    [rsp+40]
 
 %include "..\yasm_mac.inc"
 

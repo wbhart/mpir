@@ -1,15 +1,13 @@
 
-;  mpn_copyd
-
 ;  Copyright 2009 Jason Moxham
-
+;
 ;  Windows Conversion Copyright 2008 Brian Gladman
 ;
 ;  This file is part of the MPIR Library.
 ;  The MPIR Library is free software; you can redistribute it and/or modify
 ;  it under the terms of the GNU Lesser General Public License as published
-;  by the Free Software Foundation; either verdxon 2.1 of the License, or (at
-;  your option) any later verdxon.
+;  by the Free Software Foundation; either version 2.1 of the License, or (at
+;  your option) any later version.
 ;  The MPIR Library is distributed in the hope that it will be useful, but
 ;  WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
 ;  or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public
@@ -19,8 +17,9 @@
 ;  to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 ;  Boston, MA 02110-1301, USA.
 ;
-;	mpn_copyd(mp_ptr rcx,mp_ptr rdx,mp_size_t r8)
-;	(rcx,r8)=(rdx,r8)
+;  void mpn_copyd(mp_ptr, mp_ptr, mp_size_t)
+;                    rdi     rsi        rdx
+;                    rcx     rdx        r8d
 
 %include "..\yasm_mac.inc"
 

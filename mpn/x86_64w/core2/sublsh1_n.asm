@@ -1,12 +1,10 @@
 
-;  Core2 mpn_sublsh1_n
-;  Version 1.0.3
-;
-;  Copyright 2008 Jason Moxham
+;  Copyright 2009 Jason Moxham
 ;
 ;  Windows Conversion Copyright 2008 Brian Gladman
 ;
 ;  This file is part of the MPIR Library.
+;
 ;  The MPIR Library is free software; you can redistribute it and/or modify
 ;  it under the terms of the GNU Lesser General Public License as published
 ;  by the Free Software Foundation; either version 2.1 of the License, or (at
@@ -20,18 +18,9 @@
 ;  to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 ;  Boston, MA 02110-1301, USA.
 ;
-;  Calling interface:
-;
-;  rcx[r10] = rdx[r10] - 2 * r14[r10]
-;
-;  void __gmpn_sublsh1_n(
-;     mp_ptr rp,          rcx
-;     mp_srcptr xp,       rdx
-;     mp_srcptr yp,        r8
-;     mp_size_t  n,        r9
-;  )
-;
-; This is an SEH Frame Function
+;  mp_limb_t mpn_sublsh1_n(mp_ptr, mp_ptr, mp_ptr, mp_size_t)
+;  rax                        rdi     rsi     rdx        rcx
+;  rax                        rcx     rdx      r8        r9d
 
 %include "..\yasm_mac.inc"
 

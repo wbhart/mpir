@@ -1,11 +1,13 @@
 
-;  mpn_copyi
 ;  Copyright 2009 Jason Moxham
+;
+;  Windows Conversion Copyright 2008 Brian Gladman
+;
 ;  This file is part of the MPIR Library.
 ;  The MPIR Library is free software; you can redistribute it and/or modify
 ;  it under the terms of the GNU Lesser General Public License as published
-;  by the Free Software Foundation; either verdxon 2.1 of the License, or (at
-;  your option) any later verdxon.
+;  by the Free Software Foundation; either version 2.1 of the License, or (at
+;  your option) any later version.
 ;  The MPIR Library is distributed in the hope that it will be useful, but
 ;  WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
 ;  or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public
@@ -15,12 +17,9 @@
 ;  to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 ;  Boston, MA 02110-1301, USA.
 ;
-;	ret mpn_copyi(mp_ptr,mp_ptr,mp_size_t)
-;	rax             rcx,   rdx,      r8
-;
-;  for <20 limbs this is slower than core2/copyi for rev 2257 ;
-;  probaly want to tweek it , that should do most of the work ;
-;  below small loop is not much help
+;  void mpn_copyi(mp_ptr, mp_ptr, mp_size_t)
+;                    rdi     rsi        rdx
+;                    rcx     rdx        r8d
 
 %define SMALL_LOOP  1
 
@@ -65,7 +64,7 @@
 %endif
 	cmp     r9, 0
 	jge     .3
-	
+
 	xalign  16
 .2:	movapd  xmm0, [rdx+r9*8+16]
 	add     r9, 4
@@ -130,7 +129,7 @@
 	ja      .15
 	jz      .14
 	jp      .13
-	
+
 	xalign  16
 .12:movapd  xmm0, [rdx+r9*8+16]
 	shufpd  xmm1, xmm0, 1
@@ -139,7 +138,7 @@
 	shufpd  xmm0, xmm1, 1
 	movapd  [rcx+r9*8+16], xmm0
 	ret
-	
+
 	xalign  16
 .13:movapd  xmm0, [rdx+r9*8+16]
 	shufpd  xmm1, xmm0, 1
@@ -151,7 +150,7 @@
 	shufpd  xmm1, xmm0, 1
 	movapd  [rcx+r9*8], xmm1
 	ret
-	
+
 	xalign  16
 .15:movhpd  [rcx+r9*8], xmm1
 	ret
@@ -168,7 +167,7 @@
 	add     r9, 1
 .17:cmp     r9, 0
 	jge     .19
-	
+
 	xalign  16
 .18:add     r9, 4
 	movapd  xmm0, [rdx+r9*8-32]
@@ -181,7 +180,7 @@
 	ja      .21
 	je      .23
 	jp      .22
-	
+
 .20:movapd  xmm0, [rdx+r9*8]
 	movapd  [rcx+r9*8], xmm0
 	mov     rax, [rdx+r9*8+16]
@@ -192,10 +191,10 @@
 .22:movapd  xmm0, [rdx+r9*8]
 	movapd  [rcx+r9*8], xmm0
 	ret
-	
+
 	xalign  16
 .23:mov     rax, [rdx+r9*8]
 	mov     [rcx+r9*8], rax
 	ret
-	
+
 	end
