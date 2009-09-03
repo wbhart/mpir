@@ -893,9 +893,10 @@ mp_size_t mpn_rootrem(mp_ptr xp, mp_ptr r, mp_srcptr y,mp_size_t yn, mp_limb_t k
   unsigned long b, clgk;
   signed long d, tp, zp;
   mpz_t t4, t3;
-  //mp_ptr x;
+  mp_ptr x,t1,t2;
   mp_size_t t2n,xn,rn;
-
+  mp_limb_t val;mp_size_t pos, bit;
+  
   if(BELOW_THRESHOLD(yn,ROOTREM_THRESHOLD))return mpn_rootrem_basecase(xp,r,y,yn,k);
 
   d = 8;			// any d>=1 will do , for testing to its limits use d=1 TUNEME
@@ -903,9 +904,9 @@ mp_size_t mpn_rootrem(mp_ptr xp, mp_ptr r, mp_srcptr y,mp_size_t yn, mp_limb_t k
   b = (b + k - 1) / k + 2 + d;
   clgk = clg (k);
 
-  mp_limb_t x[BITS_TO_LIMBS(b+7+GMP_NUMB_BITS)];
-  mp_limb_t t1[BITS_TO_LIMBS (2 * b + 12 + GMP_NUMB_BITS)];
-  mp_limb_t t2[BITS_TO_LIMBS (b + 6 + clgk + 1 + GMP_NUMB_BITS)];
+  x=__GMP_ALLOCATE_FUNC_LIMBS(BITS_TO_LIMBS(b+7+GMP_NUMB_BITS));
+  t1=__GMP_ALLOCATE_FUNC_LIMBS(BITS_TO_LIMBS (2 * b + 12 + GMP_NUMB_BITS));
+  t2=__GMP_ALLOCATE_FUNC_LIMBS(BITS_TO_LIMBS (b + 6 + clgk + 1 + GMP_NUMB_BITS));
   mpz_init2 (t3, b + 6 + GMP_NUMB_BITS * 2);
   mpz_init2 (t4, b + 6 + GMP_NUMB_BITS);
   zp = nroot (t2, &t2n, y, yn, 0, b, k, clgk, t1, PTR (t3), PTR (t4));
@@ -913,8 +914,6 @@ mp_size_t mpn_rootrem(mp_ptr xp, mp_ptr r, mp_srcptr y,mp_size_t yn, mp_limb_t k
   tp = finv_fast (PTR (t3), &SIZ (t3), t2, t2n, zp, b, t1, PTR (t4));	// t3 is our approx root
 /*  2^b <= t3 <= 2^(b+1)    tp=-sizetwo(t2,t2n)-b-zp  */
   ASSERT (tp <= -d - 1);
-  mp_limb_t val;
-  mp_size_t pos, bit;
   pos = (-tp - d - 1 + 1) / GMP_NUMB_BITS;
   bit = (-tp - d - 1 + 1) % GMP_NUMB_BITS;
   val = (((mp_limb_t) 1) << bit);
@@ -950,6 +949,9 @@ mp_size_t mpn_rootrem(mp_ptr xp, mp_ptr r, mp_srcptr y,mp_size_t yn, mp_limb_t k
       mpz_clear (t4);
       mpz_clear (t3);
       MPN_COPY(xp,x,(yn+k-1)/k);
+      __GMP_FREE_FUNC_LIMBS(x,BITS_TO_LIMBS(b+7+GMP_NUMB_BITS));
+      __GMP_FREE_FUNC_LIMBS(t1,BITS_TO_LIMBS(2*b+12+GMP_NUMB_BITS));
+      __GMP_FREE_FUNC_LIMBS(t2,BITS_TO_LIMBS(b+6+clgk+1+GMP_NUMB_BITS));
       return rn;
     }
   mpz_pow_ui (t4, t3, k);
@@ -968,6 +970,9 @@ mp_size_t mpn_rootrem(mp_ptr xp, mp_ptr r, mp_srcptr y,mp_size_t yn, mp_limb_t k
       mpz_clear (t4);
       mpz_clear (t3);
       MPN_COPY(xp,x,(yn+k-1)/k);
+      __GMP_FREE_FUNC_LIMBS(x,BITS_TO_LIMBS(b+7+GMP_NUMB_BITS));
+      __GMP_FREE_FUNC_LIMBS(t1,BITS_TO_LIMBS(2*b+12+GMP_NUMB_BITS));
+      __GMP_FREE_FUNC_LIMBS(t2,BITS_TO_LIMBS(b+6+clgk+1+GMP_NUMB_BITS));
       return rn;
     }
   xn = SIZ (t3);
@@ -981,4 +986,7 @@ mp_size_t mpn_rootrem(mp_ptr xp, mp_ptr r, mp_srcptr y,mp_size_t yn, mp_limb_t k
   mpz_clear (t4);
   mpz_clear (t3);
   MPN_COPY(xp,x,(yn+k-1)/k);
+  __GMP_FREE_FUNC_LIMBS(x,BITS_TO_LIMBS(b+7+GMP_NUMB_BITS));
+  __GMP_FREE_FUNC_LIMBS(t1,BITS_TO_LIMBS(2*b+12+GMP_NUMB_BITS));
+  __GMP_FREE_FUNC_LIMBS(t2,BITS_TO_LIMBS(b+6+clgk+1+GMP_NUMB_BITS));
   return rn;}
