@@ -32,7 +32,7 @@ int
 main (int argc, char **argv)
 {
   mpz_t x2;
-  mpz_t root1, root2, rem2;
+  mpz_t root1, root2, root3, rem2;
   mpz_t temp, temp2;
   mp_size_t x2_size;
   int i;
@@ -53,6 +53,7 @@ main (int argc, char **argv)
   mpz_init (x2);
   mpz_init (root1);
   mpz_init (root2);
+  mpz_init (root3);
   mpz_init (rem2);
   mpz_init (temp);
   mpz_init (temp2);
@@ -70,7 +71,9 @@ main (int argc, char **argv)
       nth = mpz_getlimbn (bs, 0) % mpz_sizeinbase (x2, 2) + 2;
 
       mpz_root (root1, x2, nth);
-
+      mpz_nthroot(root3,x2,nth);
+      if(mpz_cmp(root1,root3)!=0){printf("nthroot to root mismatch\n");abort();}
+      
       mpz_urandomb (bs, rands, 4);
       bsi = mpz_get_ui (bs);
       if ((bsi & 1) != 0)
@@ -85,6 +88,8 @@ main (int argc, char **argv)
 	  else
 	    mpz_add_ui (x2, x2, bsi >> 2);
 	  mpz_root (root1, x2, nth);
+	  mpz_nthroot(root3,x2,nth);
+          if(mpz_cmp(root1,root3)!=0){printf("nthroot to root mismatch\n");abort();}
 	}
 
       /* printf ("%ld %lu\n", SIZ (x2), nth); */
@@ -134,6 +139,7 @@ main (int argc, char **argv)
   mpz_clear (x2);
   mpz_clear (root1);
   mpz_clear (root2);
+  mpz_clear (root3);
   mpz_clear (rem2);
   mpz_clear (temp);
   mpz_clear (temp2);

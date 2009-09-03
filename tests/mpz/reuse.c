@@ -392,6 +392,16 @@ main (int argc, char **argv)
 
       if (mpz_sgn (in1) >= 0)
 	{
+	  mpz_nthroot (ref1, in1, in2i % 0x1000 + 1);
+
+	  mpz_set (res1, in1);
+	  mpz_nthroot (res1, res1, in2i % 0x1000 + 1);
+	  if (mpz_cmp (ref1, res1) != 0)
+	    FAIL2 (mpz_nthroot, in1, in2, NULL);
+	}
+
+      if (mpz_sgn (in1) >= 0)
+	{
 	  mpz_rootrem (ref1, ref2, in1, in2i % 0x1000 + 1);
 
 	  mpz_set (res1, in1);
