@@ -183,6 +183,7 @@ mp_size_t  divrem_2_threshold           = MP_SIZE_T_MAX;
 mp_size_t  get_str_dc_threshold         = MP_SIZE_T_MAX;
 mp_size_t  get_str_precompute_threshold = MP_SIZE_T_MAX;
 mp_size_t  set_str_threshold            = MP_SIZE_T_MAX;
+mp_size_t  rootrem_threshold            = MP_SIZE_T_MAX;
 
 mp_size_t  fft_modf_sqr_threshold = MP_SIZE_T_MAX;
 mp_size_t  fft_modf_mul_threshold = MP_SIZE_T_MAX;
@@ -931,6 +932,18 @@ tune_mulhigh (void)
   MUL_FFT_THRESHOLD = MP_SIZE_T_MAX;
 }
 
+void
+tune_rootrem (void)
+{
+
+  static struct param_t  param;
+  s.r=5;   // tune for 5th root
+  param.function = speed_mpn_rootrem;
+  param.name = "ROOTREM_THRESHOLD";
+  param.min_size = 1;
+  one (&rootrem_threshold, &param);
+  // how do set which root ?????
+}
 
 /* Start the basecase from 3, since 1 is a special case, and if mul_basecase
    is faster only at size==2 then we don't want to bother with extra code
@@ -1808,6 +1821,9 @@ all (void)
   tune_divrem_2 ();
   tune_divexact_1 ();
   tune_modexact_1_odd ();
+  printf("\n");
+  
+  tune_rootrem();
   printf("\n");
 
   tune_get_str ();
