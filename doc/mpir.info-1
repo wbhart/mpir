@@ -2531,6 +2531,10 @@ File: mpir.info,  Node: Integer Roots,  Next: Number Theoretic Functions,  Prev:
      Return non-zero if the computation was exact, i.e., if OP is ROP
      to the Nth power.
 
+ -- Function: void mpz_nthroot (mpz_t ROP, mpz_t OP, unsigned long int
+          N)
+     Set ROP to  the truncated integer part of the Nth root of OP.
+
  -- Function: void mpz_rootrem (mpz_t ROOT, mpz_t REM, mpz_t U,
           unsigned long int N)
      Set ROOT to  the truncated integer part of the Nth root of U.  Set

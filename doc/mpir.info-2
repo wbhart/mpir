@@ -2151,10 +2151,10 @@ Concept Index
 * PDF:                                   Build Options.       (line 353)
 * Perfect power algorithm:               Perfect Power Algorithm.
                                                               (line   6)
-* Perfect power functions:               Integer Roots.       (line  27)
+* Perfect power functions:               Integer Roots.       (line  31)
 * Perfect square algorithm:              Perfect Square Algorithm.
                                                               (line   6)
-* Perfect square functions:              Integer Roots.       (line  36)
+* Perfect square functions:              Integer Roots.       (line  40)
 * perl:                                  Demonstration Programs.
                                                               (line  35)
 * Perl module:                           Demonstration Programs.
@@ -2230,7 +2230,7 @@ Concept Index
                                                               (line   6)
 * Root extraction functions <1>:         Float Arithmetic.    (line  37)
 * Root extraction functions:             Integer Roots.       (line   6)
-* Root testing functions:                Integer Roots.       (line  27)
+* Root testing functions:                Integer Roots.       (line  31)
 * Rounding functions:                    Miscellaneous Float Functions.
                                                               (line   9)
 * Sample programs:                       Demonstration Programs.
@@ -2846,12 +2846,13 @@ Function and Type Index
                                                               (line  37)
 * mpz_nextprime:                         Number Theoretic Functions.
                                                               (line  26)
+* mpz_nthroot:                           Integer Roots.       (line  13)
 * mpz_odd_p:                             Miscellaneous Integer Functions.
                                                               (line  17)
 * mpz_out_raw:                           I/O of Integers.     (line  38)
 * mpz_out_str:                           I/O of Integers.     (line  16)
-* mpz_perfect_power_p:                   Integer Roots.       (line  27)
-* mpz_perfect_square_p:                  Integer Roots.       (line  36)
+* mpz_perfect_power_p:                   Integer Roots.       (line  31)
+* mpz_perfect_square_p:                  Integer Roots.       (line  40)
 * mpz_popcount:                          Integer Logic and Bit Fiddling.
                                                               (line  23)
 * mpz_pow_ui:                            Integer Exponentiation.
@@ -2867,7 +2868,7 @@ Function and Type Index
 * mpz_remove:                            Number Theoretic Functions.
                                                               (line 107)
 * mpz_root:                              Integer Roots.       (line   7)
-* mpz_rootrem:                           Integer Roots.       (line  13)
+* mpz_rootrem:                           Integer Roots.       (line  17)
 * mpz_rrandomb:                          Integer Random Numbers.
                                                               (line  31)
 * mpz_scan0:                             Integer Logic and Bit Fiddling.
@@ -2890,8 +2891,8 @@ Function and Type Index
                                                               (line  71)
 * mpz_sizeinbase:                        Miscellaneous Integer Functions.
                                                               (line  23)
-* mpz_sqrt:                              Integer Roots.       (line  17)
-* mpz_sqrtrem:                           Integer Roots.       (line  20)
+* mpz_sqrt:                              Integer Roots.       (line  21)
+* mpz_sqrtrem:                           Integer Roots.       (line  24)
 * mpz_sub:                               Integer Arithmetic.  (line  12)
 * mpz_sub_ui:                            Integer Arithmetic.  (line  14)
 * mpz_submul:                            Integer Arithmetic.  (line  30)
