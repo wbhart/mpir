@@ -20,7 +20,6 @@ along with the GNU MP Library; see the file COPYING.LIB.  If not, write to
 the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 MA 02110-1301, USA. */
 
-#include <stdio.h>  /* for NULL */
 #include "mpir.h"
 #include "gmp-impl.h"
 
@@ -44,7 +43,7 @@ mpz_rootrem (mpz_ptr root, mpz_ptr rem, mpz_srcptr u, unsigned long int nth)
 
   if (us == 0)
     {
-      if (root != NULL)
+      if (root != 0)
 	SIZ(root) = 0;
       SIZ(rem) = 0;
       return;
@@ -53,7 +52,7 @@ mpz_rootrem (mpz_ptr root, mpz_ptr rem, mpz_srcptr u, unsigned long int nth)
   un = ABS (us);
   rootn = (un - 1) / nth + 1;
 
-  if (root != NULL)
+  if (root != 0)
     {
       rootp = MPZ_REALLOC (root, rootn);
       up = PTR(u);
@@ -76,7 +75,7 @@ mpz_rootrem (mpz_ptr root, mpz_ptr rem, mpz_srcptr u, unsigned long int nth)
       remn = mpn_rootrem (rootp, remp, up, un, nth);
     }
 
-  if (root != NULL)
+  if (root != 0)
     SIZ(root) = us >= 0 ? rootn : -rootn;
   else
     __GMP_FREE_FUNC_LIMBS (rootp, rootn);

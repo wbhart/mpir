@@ -20,14 +20,13 @@ along with the GNU MP Library; see the file COPYING.LIB.  If not, write to
 the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 MA 02110-1301, USA. */
 
-#include <stdio.h>  /* for NULL */
 #include "mpir.h"
 #include "gmp-impl.h"
 
 int
 mpz_root (mpz_ptr root, mpz_srcptr u, unsigned long int nth)
 {
-  mp_ptr rootp, up;
+  mp_ptr rootp, up, remp;
   mp_size_t us, un, rootn, remn;
 
   up = PTR(u);
@@ -44,7 +43,7 @@ mpz_root (mpz_ptr root, mpz_srcptr u, unsigned long int nth)
 
   if (us == 0)
     {
-      if (root != NULL)
+      if (root != 0)
 	SIZ(root) = 0;
       return 1;			/* exact result */
     }
@@ -52,7 +51,7 @@ mpz_root (mpz_ptr root, mpz_srcptr u, unsigned long int nth)
   un = ABS (us);
   rootn = (un - 1) / nth + 1;
 
-  if (root != NULL)
+  if (root != 0)
     {
       rootp = MPZ_REALLOC (root, rootn);
       up = PTR(u);
@@ -69,10 +68,12 @@ mpz_root (mpz_ptr root, mpz_srcptr u, unsigned long int nth)
     }
   else
     {
-      remn = mpn_rootrem (rootp, NULL, up, un, (mp_limb_t) nth);
+      remp=__GMP_ALLOCATE_FUNC_LIMBS(un);
+      remn = mpn_rootrem (rootp, remp, up, un, (mp_limb_t) nth);
+      __GMP_FREE_FUNC_LIMBS(remp,un);
     }
 
-  if (root != NULL)
+  if (root != 0)
     SIZ(root) = us >= 0 ? rootn : -rootn;
   else
     __GMP_FREE_FUNC_LIMBS (rootp, rootn);
