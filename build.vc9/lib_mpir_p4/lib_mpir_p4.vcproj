@@ -5992,6 +5992,10 @@
 					>
 				</File>
 				<File
+					RelativePath="..\..\mpz\nthroot.c"
+					>
+				</File>
+				<File
 					RelativePath="..\..\mpz\out_raw.c"
 					>
 					<FileConfiguration

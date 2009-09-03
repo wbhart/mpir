@@ -3734,6 +3734,10 @@
 							>
 						</File>
 						<File
+							RelativePath="..\..\mpn\x86w\p6\p3mmx\popham.asm"
+							>
+						</File>
+						<File
 							RelativePath="..\..\mpn\x86w\p6\mmx\popham.asm"
 							>
 							<FileConfiguration
@@ -3752,10 +3756,6 @@
 									Name="YASM"
 								/>
 							</FileConfiguration>
-						</File>
-						<File
-							RelativePath="..\..\mpn\x86w\p6\p3mmx\popham.asm"
-							>
 						</File>
 						<File
 							RelativePath="..\..\mpn\x86w\p6\mmx\rshift.asm"
@@ -5689,6 +5689,10 @@
 				</File>
 				<File
 					RelativePath="..\..\mpz\nextprobprime.c"
+					>
+				</File>
+				<File
+					RelativePath="..\..\mpz\nthroot.c"
 					>
 				</File>
 				<File

@@ -3741,20 +3741,6 @@
 					<File
 						RelativePath="..\..\mpn\x86_64w\amd64\add_err1_n.asm"
 						>
-						<FileConfiguration
-							Name="Debug|x64"
-							>
-							<Tool
-								Name="YASM"
-							/>
-						</FileConfiguration>
-						<FileConfiguration
-							Name="Release|x64"
-							>
-							<Tool
-								Name="YASM"
-							/>
-						</FileConfiguration>
 					</File>
 					<File
 						RelativePath="..\..\mpn\x86_64w\amd64\add_n.asm"
@@ -3771,20 +3757,6 @@
 					<File
 						RelativePath="..\..\mpn\x86_64w\amd64\addlsh_n.asm"
 						>
-						<FileConfiguration
-							Name="Debug|x64"
-							>
-							<Tool
-								Name="YASM"
-							/>
-						</FileConfiguration>
-						<FileConfiguration
-							Name="Release|x64"
-							>
-							<Tool
-								Name="YASM"
-							/>
-						</FileConfiguration>
 					</File>
 					<File
 						RelativePath="..\..\mpn\x86_64w\amd64\addmul_1.asm"
@@ -3801,20 +3773,6 @@
 					<File
 						RelativePath="..\..\mpn\x86_64w\aors_err2_n.asm"
 						>
-						<FileConfiguration
-							Name="Debug|x64"
-							>
-							<Tool
-								Name="YASM"
-							/>
-						</FileConfiguration>
-						<FileConfiguration
-							Name="Release|x64"
-							>
-							<Tool
-								Name="YASM"
-							/>
-						</FileConfiguration>
 					</File>
 					<File
 						RelativePath="..\..\mpn\x86_64w\amd64\com_n.asm"
@@ -3939,20 +3897,6 @@
 					<File
 						RelativePath="..\..\mpn\x86_64w\amd64\sub_err1_n.asm"
 						>
-						<FileConfiguration
-							Name="Debug|x64"
-							>
-							<Tool
-								Name="YASM"
-							/>
-						</FileConfiguration>
-						<FileConfiguration
-							Name="Release|x64"
-							>
-							<Tool
-								Name="YASM"
-							/>
-						</FileConfiguration>
 					</File>
 					<File
 						RelativePath="..\..\mpn\x86_64w\amd64\sub_n.asm"
@@ -3969,20 +3913,6 @@
 					<File
 						RelativePath="..\..\mpn\x86_64w\amd64\sublsh_n.asm"
 						>
-						<FileConfiguration
-							Name="Debug|x64"
-							>
-							<Tool
-								Name="YASM"
-							/>
-						</FileConfiguration>
-						<FileConfiguration
-							Name="Release|x64"
-							>
-							<Tool
-								Name="YASM"
-							/>
-						</FileConfiguration>
 					</File>
 					<File
 						RelativePath="..\..\mpn\x86_64w\amd64\submul_1.asm"
@@ -6047,6 +5977,10 @@
 				</File>
 				<File
 					RelativePath="..\..\mpz\nextprobprime.c"
+					>
+				</File>
+				<File
+					RelativePath="..\..\mpz\nthroot.c"
 					>
 				</File>
 				<File

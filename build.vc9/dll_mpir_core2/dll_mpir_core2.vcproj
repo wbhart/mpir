@@ -1833,20 +1833,6 @@
 					<File
 						RelativePath="..\..\mpn\x86_64w\core2\addlsh_n.asm"
 						>
-						<FileConfiguration
-							Name="Debug|x64"
-							>
-							<Tool
-								Name="YASM"
-							/>
-						</FileConfiguration>
-						<FileConfiguration
-							Name="Release|x64"
-							>
-							<Tool
-								Name="YASM"
-							/>
-						</FileConfiguration>
 					</File>
 					<File
 						RelativePath="..\..\mpn\x86_64w\core2\addmul_1.asm"
@@ -1863,38 +1849,10 @@
 					<File
 						RelativePath="..\..\mpn\x86_64w\aors_err1_n.asm"
 						>
-						<FileConfiguration
-							Name="Debug|x64"
-							>
-							<Tool
-								Name="YASM"
-							/>
-						</FileConfiguration>
-						<FileConfiguration
-							Name="Release|x64"
-							>
-							<Tool
-								Name="YASM"
-							/>
-						</FileConfiguration>
 					</File>
 					<File
 						RelativePath="..\..\mpn\x86_64w\aors_err2_n.asm"
 						>
-						<FileConfiguration
-							Name="Debug|x64"
-							>
-							<Tool
-								Name="YASM"
-							/>
-						</FileConfiguration>
-						<FileConfiguration
-							Name="Release|x64"
-							>
-							<Tool
-								Name="YASM"
-							/>
-						</FileConfiguration>
 					</File>
 					<File
 						RelativePath="..\..\mpn\x86_64w\core2\com_n.asm"
@@ -6079,6 +6037,10 @@
 				</File>
 				<File
 					RelativePath="..\..\mpz\nextprobprime.c"
+					>
+				</File>
+				<File
+					RelativePath="..\..\mpz\nthroot.c"
 					>
 				</File>
 				<File
