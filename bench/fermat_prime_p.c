@@ -24,6 +24,8 @@ Boston, MA 02110-1301, USA.
 #include <stdlib.h>
 #include "mpir.h"
 #include "gmp-impl.h"
+//#define BITS_PER_ULONG	(8*sizeof(unsigned long))
+//#define BITS_TO_LIMBS(x)	(((x)+GMP_NUMB_BITS-1)/GMP_NUMB_BITS)
 
 /*
 Pepin's Test for k>=1
