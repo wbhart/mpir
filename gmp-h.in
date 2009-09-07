@@ -686,6 +686,7 @@ __GMP_DECLSPEC void *_mpz_realloc __GMP_PROTO ((mpz_ptr, mp_size_t));
 __GMP_DECLSPEC void mpz_abs __GMP_PROTO ((mpz_ptr, mpz_srcptr));
 #endif
 
+#define __GMP_MPZ_ADD_MIN_ALLOC(x,y,z) (MAX(ABSIZ(y),ABSIZ(z))+1)
 #define mpz_add __gmpz_add
 __GMP_DECLSPEC void mpz_add __GMP_PROTO ((mpz_ptr, mpz_srcptr, mpz_srcptr));
 
