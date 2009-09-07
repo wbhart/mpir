@@ -3470,9 +3470,9 @@ extremely small.
 @strong{This function is obsolete.  It will disappear from future MPIR releases.}
 @end deftypefun
 
-@deftypefun void mpz_next_probable_prime (mpz_t @var{rop}, mpz_t @var{op}, gmp_randstate_t @var{state})
-@cindex Next probable prime function
-Set @var{rop} to the next probable prime greater than @var{op}.
+@deftypefun void mpz_next_likely_prime (mpz_t @var{rop}, mpz_t @var{op}, gmp_randstate_t @var{state})
+@cindex Next likely prime function
+Set @var{rop} to the next likely prime greater than @var{op}.
 
 This function uses a probabilistic algorithm to identify primes.  For
 practical purposes it's adequate, the chance of a composite passing will be

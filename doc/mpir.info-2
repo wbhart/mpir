@@ -2147,10 +2147,10 @@ Concept Index
 * Native compilation:                    Build Options.       (line  59)
 * NeXT:                                  Known Build Problems.
                                                               (line  57)
+* Next likely prime function:            Number Theoretic Functions.
+                                                              (line  71)
 * Next prime function:                   Number Theoretic Functions.
                                                               (line  60)
-* Next probable prime function:          Number Theoretic Functions.
-                                                              (line  71)
 * Nomenclature:                          Nomenclature and Types.
                                                               (line   6)
 * Non-Unix systems:                      Build Options.       (line  11)
@@ -2880,7 +2880,7 @@ Function and Type Index
 * mpz_mul_si:                            Integer Arithmetic.  (line  20)
 * mpz_mul_ui:                            Integer Arithmetic.  (line  22)
 * mpz_neg:                               Integer Arithmetic.  (line  40)
-* mpz_next_probable_prime:               Number Theoretic Functions.
+* mpz_next_likely_prime:                 Number Theoretic Functions.
                                                               (line  71)
 * mpz_nextprime:                         Number Theoretic Functions.
                                                               (line  60)

@@ -29,6 +29,6 @@ void	mpz_nextprime(mpz_ptr x,mpz_srcptr y)
 {gmp_randstate_t rnd;
 
 gmp_randinit_default(rnd);
-mpz_next_probable_prime(x,y,rnd);
+mpz_next_likely_prime(x,y,rnd);
 gmp_randclear(rnd);
 return;}

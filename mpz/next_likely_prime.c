@@ -1,4 +1,4 @@
-/* mpz_next_probable_prime(p,t,rnd) - compute the next probable prime > t and store that in p.
+/* mpz_next_likely_prime(p,t,rnd) - compute the next likely prime > t and store that in p.
 
 Copyright 1999, 2000, 2001 Free Software Foundation, Inc.
 Copyright 2009 Jason Moxham
@@ -24,10 +24,10 @@ Boston, MA 02110-1301, USA.
 #include "mpir.h"
 #include "gmp-impl.h"
 
-void mpz_next_probable_prime (mpz_ptr p, mpz_srcptr t,gmp_randstate_t rnd)
+void mpz_next_likely_prime (mpz_ptr p, mpz_srcptr t,gmp_randstate_t rnd)
 {
   mpz_add_ui (p, t, 1L);
-  while (! mpz_probab_prime_p (p, 5))
+  while (! mpz_likely_prime_p (p, rnd,0))
     mpz_add_ui (p, p, 1L);
 }
 
