@@ -2867,6 +2867,8 @@ Function and Type Index
                                                               (line 105)
 * mpz_legendre:                          Number Theoretic Functions.
                                                               (line 119)
+* mpz_likely_prime_p:                    Number Theoretic Functions.
+                                                              (line  25)
 * mpz_lucnum2_ui:                        Number Theoretic Functions.
                                                               (line 170)
 * mpz_lucnum_ui:                         Number Theoretic Functions.
@@ -2897,8 +2899,6 @@ Function and Type Index
                                                               (line   8)
 * mpz_powm_ui:                           Integer Exponentiation.
                                                               (line  10)
-* mpz_practical_prime_p:                 Number Theoretic Functions.
-                                                              (line  25)
 * mpz_probab_prime_p:                    Number Theoretic Functions.
                                                               (line  41)
 * mpz_probable_prime_p:                  Number Theoretic Functions.

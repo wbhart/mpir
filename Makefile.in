@@ -128,7 +128,7 @@ am__DEPENDENCIES_2 = mpz/abs$U.lo mpz/add$U.lo mpz/add_ui$U.lo \
 	mpz/fits_ushort$U.lo mpz/gcd$U.lo mpz/gcd_ui$U.lo \
 	mpz/gcdext$U.lo mpz/get_d$U.lo mpz/get_d_2exp$U.lo \
 	mpz/get_si$U.lo mpz/get_str$U.lo mpz/get_ui$U.lo \
-	mpz/getlimbn$U.lo mpz/hamdist$U.lo mpz/practical_prime_p$U.lo \
+	mpz/getlimbn$U.lo mpz/hamdist$U.lo mpz/likely_prime_p$U.lo \
 	mpz/probable_prime_p$U.lo mpz/import$U.lo mpz/init$U.lo \
 	mpz/init2$U.lo mpz/inp_raw$U.lo mpz/inp_str$U.lo \
 	mpz/invert$U.lo mpz/ior$U.lo mpz/iset$U.lo mpz/iset_d$U.lo \
@@ -557,7 +557,7 @@ MPZ_OBJECTS = mpz/abs$U.lo mpz/add$U.lo mpz/add_ui$U.lo			\
   mpz/fits_ulong$U.lo mpz/fits_ushort$U.lo mpz/gcd$U.lo			\
   mpz/gcd_ui$U.lo mpz/gcdext$U.lo mpz/get_d$U.lo mpz/get_d_2exp$U.lo	\
   mpz/get_si$U.lo mpz/get_str$U.lo mpz/get_ui$U.lo mpz/getlimbn$U.lo	\
-  mpz/hamdist$U.lo mpz/practical_prime_p$U.lo mpz/probable_prime_p$U.lo	\
+  mpz/hamdist$U.lo mpz/likely_prime_p$U.lo mpz/probable_prime_p$U.lo	\
   mpz/import$U.lo mpz/init$U.lo mpz/init2$U.lo mpz/inp_raw$U.lo		\
   mpz/inp_str$U.lo mpz/invert$U.lo					\
   mpz/ior$U.lo mpz/iset$U.lo mpz/iset_d$U.lo mpz/iset_si$U.lo		\

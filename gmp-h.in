@@ -1034,8 +1034,8 @@ __GMP_DECLSPEC int mpz_probab_prime_p __GMP_PROTO ((mpz_srcptr, int)) __GMP_ATTR
 #define mpz_probable_prime_p __gmpz_probable_prime_p
 __GMP_DECLSPEC int mpz_probable_prime_p __GMP_PROTO ((mpz_srcptr,gmp_randstate_t, int,unsigned long));
 
-#define mpz_practical_prime_p __gmpz_practical_prime_p
-__GMP_DECLSPEC int mpz_practical_prime_p __GMP_PROTO ((mpz_srcptr,gmp_randstate_t, unsigned long));
+#define mpz_likely_prime_p __gmpz_likely_prime_p
+__GMP_DECLSPEC int mpz_likely_prime_p __GMP_PROTO ((mpz_srcptr,gmp_randstate_t, unsigned long));
 
 #define mpz_realloc2 __gmpz_realloc2
 __GMP_DECLSPEC void mpz_realloc2 __GMP_PROTO ((mpz_ptr, unsigned long));

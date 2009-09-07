@@ -2587,15 +2587,15 @@ File: mpir.info,  Node: Number Theoretic Functions,  Next: Integer Comparisons, 
      *This function interface is preliminary and may change in the
      future.*
 
- -- Function: int mpz_practical_prime_p (mpz_t N, gmp_randstate_t
-          STATE, unsigned long DIV)
-     Determine whether N is practically a prime , ie you can consider
-     it a prime for practical purposies.  return true if N can be
-     considered prime , or return 0 if N is definitely composite.
+ -- Function: int mpz_likely_prime_p (mpz_t N, gmp_randstate_t STATE,
+          unsigned long DIV)
+     Determine whether N is likely a prime , ie you can consider it a
+     prime for practical purposies.  return true if N can be considered
+     prime , or return 0 if N is definitely composite.
 
      This function does some trial divisions to speed up the average
-     case , then some probabilistic primality tests.Practical in the
-     sense of this function means for "Factoring".
+     case , then some probabilistic primality tests.Likely in the sense
+     of this function means for "Factoring".
 
      DIV can be used to inform the function that trial division up to
      DIV has allready been performed on N and so N has NO divisors <=

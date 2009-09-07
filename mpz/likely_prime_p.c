@@ -22,13 +22,13 @@ Boston, MA 02110-1301, USA.
 #include "mpir.h"
 #include "gmp-impl.h"
 
-// could have another parameter to specify what practical means
+// could have another parameter to specify what likely means
 // ie for factoring , for RSA 
 // or to state that we have allready done trial div
 
-// could call it mpz_practical_composite_p then when true we could return more info about it , ie a factor
+// could call it mpz_likely_composite_p then when true we could return more info about it , ie a factor
 int
-mpz_practical_prime_p (mpz_srcptr N, gmp_randstate_t STATE, unsigned long td)
+mpz_likely_prime_p (mpz_srcptr N, gmp_randstate_t STATE, unsigned long td)
 {
   int d, t, r;
   mpz_t base, nm1, x, e, n;
