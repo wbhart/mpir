@@ -225,6 +225,10 @@ double speed_mpn_lshift1 _PROTO ((struct speed_params *s));
 double speed_mpn_lshift2 _PROTO ((struct speed_params *s));
 double speed_mpn_lshiftc _PROTO ((struct speed_params *s));
 double speed_mpn_mod_1 _PROTO ((struct speed_params *s));
+double speed_mpn_mod_1_1 _PROTO ((struct speed_params *s));
+double speed_mpn_mod_1_2 _PROTO ((struct speed_params *s));
+double speed_mpn_mod_1_3 _PROTO ((struct speed_params *s));
+double speed_mpn_mod_1_k _PROTO ((struct speed_params *s));
 double speed_mpn_mod_1c _PROTO ((struct speed_params *s));
 double speed_mpn_mod_1_div _PROTO ((struct speed_params *s));
 double speed_mpn_mod_1_inv _PROTO ((struct speed_params *s));
@@ -1338,6 +1342,25 @@ int speed_routine_count_zeros_setup _PROTO ((struct speed_params *s,
 									\
     return speed_endtime ();						\
   }
+
+#define SPEED_ROUTINE_MPN_MOD_1_K(call)				\
+  {									\
+    unsigned   i;							\
+									\
+    SPEED_RESTRICT_COND (s->size >= 0);					\
+									\
+    speed_operand_src (s, s->xp, s->size);				\
+    speed_cache_fill (s);						\
+									\
+    speed_starttime ();							\
+    i = s->reps;							\
+    do									\
+      mpn_mod_1_k(s->xp,s->size,2333,s->r);				\
+    while (--i != 0);							\
+									\
+    return speed_endtime ();						\
+  }
+
 
 #define SPEED_ROUTINE_MPN_MOD_1(function)				\
    SPEED_ROUTINE_MPN_MOD_CALL ((*function) (s->xp, s->size, s->r))

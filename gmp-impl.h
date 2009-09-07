@@ -944,6 +944,18 @@ __GMP_DECLSPEC void mpn_mullow_basecase __GMP_PROTO ((mp_ptr, mp_srcptr,mp_size_
 #define mpn_mulmid_basecase __MPN(mulmid_basecase)
 __GMP_DECLSPEC void mpn_mulmid_basecase __GMP_PROTO ((mp_ptr, mp_srcptr, mp_size_t, mp_srcptr, mp_size_t));
 
+#define mpn_mod_1_1 __MPN(mod_1_1)
+__GMP_DECLSPEC mp_limb_t mpn_mod_1_1 __GMP_PROTO ((mp_srcptr, mp_size_t, mp_limb_t));
+
+#define mpn_mod_1_2 __MPN(mod_1_2)
+__GMP_DECLSPEC mp_limb_t mpn_mod_1_2 __GMP_PROTO ((mp_srcptr, mp_size_t, mp_limb_t));
+
+#define mpn_mod_1_3 __MPN(mod_1_3)
+__GMP_DECLSPEC mp_limb_t mpn_mod_1_3 __GMP_PROTO ((mp_srcptr, mp_size_t, mp_limb_t));
+
+#define mpn_mod_1_k __MPN(mod_1_k)
+__GMP_DECLSPEC mp_limb_t mpn_mod_1_k __GMP_PROTO ((mp_srcptr, mp_size_t, mp_limb_t,mp_size_t));
+
 #define mpn_mulmid __MPN(mulmid)
 __GMP_DECLSPEC void mpn_mulmid __GMP_PROTO ((mp_ptr, mp_srcptr, mp_size_t, mp_srcptr, mp_size_t));
 
@@ -1539,6 +1551,18 @@ __GMP_DECLSPEC extern const mp_limb_t __gmp_fib_table[];
 
 #ifndef ROOTREM_THRESHOLD
 #define ROOTREM_THRESHOLD	8
+#endif
+
+#ifndef MOD_1_1_THRESHOLD
+#define MOD_1_1_THRESHOLD	16
+#endif
+
+#ifndef MOD_1_2_THRESHOLD
+#define MOD_1_2_THRESHOLD	32
+#endif
+
+#ifndef MOD_1_3_THRESHOLD
+#define MOD_1_3_THRESHOLD	64
 #endif
 
 /* MUL_KARATSUBA_THRESHOLD_LIMIT is the maximum for MUL_KARATSUBA_THRESHOLD.
@@ -4010,6 +4034,18 @@ extern mp_size_t                     fac_ui_threshold;
 #undef  ROOTREM_THRESHOLD
 #define ROOTREM_THRESHOLD            rootrem_threshold
 extern mp_size_t                     rootrem_threshold;
+
+#undef  MOD_1_1_THRESHOLD
+#define MOD_1_1_THRESHOLD            mod_1_1_threshold
+extern mp_size_t                     mod_1_1_threshold;
+
+#undef  MOD_1_2_THRESHOLD
+#define MOD_1_2_THRESHOLD            mod_1_2_threshold
+extern mp_size_t                     mod_1_2_threshold;
+
+#undef  MOD_1_3_THRESHOLD
+#define MOD_1_3_THRESHOLD            mod_1_3_threshold
+extern mp_size_t                     mod_1_3_threshold;
 
 #undef  GCD_ACCEL_THRESHOLD
 #define GCD_ACCEL_THRESHOLD          gcd_accel_threshold

@@ -705,6 +705,31 @@ speed_mpn_mod_1 (struct speed_params *s)
 {
   SPEED_ROUTINE_MPN_MOD_1 (mpn_mod_1);
 }
+
+double
+speed_mpn_mod_1_1 (struct speed_params *s)
+{
+  SPEED_ROUTINE_MPN_MOD_1 (mpn_mod_1_1);
+}
+
+double
+speed_mpn_mod_1_2 (struct speed_params *s)
+{
+  SPEED_ROUTINE_MPN_MOD_1 (mpn_mod_1_2);
+}
+
+double
+speed_mpn_mod_1_3 (struct speed_params *s)
+{
+  SPEED_ROUTINE_MPN_MOD_1 (mpn_mod_1_3);
+}
+
+double
+speed_mpn_mod_1_k (struct speed_params *s)
+{
+  SPEED_ROUTINE_MPN_MOD_1_K (mpn_mod_1_k);
+}
+
 #if HAVE_NATIVE_mpn_mod_1c
 double
 speed_mpn_mod_1c (struct speed_params *s)

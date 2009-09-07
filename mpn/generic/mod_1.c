@@ -26,7 +26,6 @@ MA 02110-1301, USA. */
 #include "gmp-impl.h"
 #include "longlong.h"
 
-
 /* The size where udiv_qrnnd_preinv should be used rather than udiv_qrnnd,
    meaning the quotient size where that should happen, the quotient size
    being how many udiv divisions will be done.

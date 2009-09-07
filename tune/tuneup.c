@@ -178,6 +178,9 @@ mp_size_t  gcdext_threshold		= MP_SIZE_T_MAX;
 mp_size_t  divrem_1_norm_threshold      = MP_SIZE_T_MAX;
 mp_size_t  divrem_1_unnorm_threshold    = MP_SIZE_T_MAX;
 mp_size_t  mod_1_norm_threshold         = MP_SIZE_T_MAX;
+mp_size_t  mod_1_1_threshold            = MP_SIZE_T_MAX;
+mp_size_t  mod_1_2_threshold            = MP_SIZE_T_MAX;
+mp_size_t  mod_1_3_threshold            = MP_SIZE_T_MAX;
 mp_size_t  mod_1_unnorm_threshold       = MP_SIZE_T_MAX;
 mp_size_t  divrem_2_threshold           = MP_SIZE_T_MAX;
 mp_size_t  get_str_dc_threshold         = MP_SIZE_T_MAX;
@@ -942,8 +945,32 @@ tune_rootrem (void)
   param.name = "ROOTREM_THRESHOLD";
   param.min_size = 1;
   one (&rootrem_threshold, &param);
-  // how do set which root ?????
 }
+
+// for tuning  we dont care if the divisors go out of range as it doesn't affect the runtime
+void tune_mod_1_k (void)
+{
+  static struct param_t  param;
+
+  param.function = speed_mpn_mod_1;
+
+  param.name = "MOD_1_1_THRESHOLD";
+  param.min_size = 3;
+  one (&mod_1_1_threshold, &param);
+
+  param.name = "MOD_1_2_THRESHOLD";
+  param.min_size = mod_1_1_threshold;
+  //param.max_size = 1000;
+  one (&mod_1_2_threshold, &param);
+
+  param.name = "MOD_1_3_THRESHOLD";
+  param.min_size = mod_1_2_threshold;
+  //param.max_size = 10000;
+  one (&mod_1_3_threshold, &param);
+
+}
+
+
 
 /* Start the basecase from 3, since 1 is a special case, and if mul_basecase
    is faster only at size==2 then we don't want to bother with extra code
@@ -1821,6 +1848,7 @@ all (void)
   tune_divrem_2 ();
   tune_divexact_1 ();
   tune_modexact_1_odd ();
+  tune_mod_1_k();
   printf("\n");
   
   tune_rootrem();
