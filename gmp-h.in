@@ -682,14 +682,16 @@ __GMP_DECLSPEC int gmp_vsscanf __GMP_PROTO ((__gmp_const char *, __gmp_const cha
 __GMP_DECLSPEC void *_mpz_realloc __GMP_PROTO ((mpz_ptr, mp_size_t));
 
 #define mpz_abs __gmpz_abs
+#define __GMP_MPZ_ABS_MIN_ALLOC(x,y) (__GMP_ABS(y->_mp_size))
 #if __GMP_INLINE_PROTOTYPES || defined (__GMP_FORCE_mpz_abs)
 __GMP_DECLSPEC void mpz_abs __GMP_PROTO ((mpz_ptr, mpz_srcptr));
 #endif
 
-#define __GMP_MPZ_ADD_MIN_ALLOC(x,y,z) (MAX(ABSIZ(y),ABSIZ(z))+1)
+#define __GMP_MPZ_ADD_MIN_ALLOC(x,y,z) (__GMP_MAX(__GMP_ABS(y->_mp_size),__GMP_ABS(z->_mp_size))+1)
 #define mpz_add __gmpz_add
 __GMP_DECLSPEC void mpz_add __GMP_PROTO ((mpz_ptr, mpz_srcptr, mpz_srcptr));
 
+//#define __GMP_MPZ_ADD_UI_MIN_ALLOC(x,y,z) (__GMP_ABS(y->_mp_size)+1) // WRONG this assumes unsigned long < mp_limb_t  ie nails
 #define mpz_add_ui __gmpz_add_ui
 __GMP_DECLSPEC void mpz_add_ui __GMP_PROTO ((mpz_ptr, mpz_srcptr, unsigned long int));
 
@@ -987,6 +989,7 @@ __GMP_DECLSPEC void mpz_mul_si __GMP_PROTO ((mpz_ptr, mpz_srcptr, long int));
 __GMP_DECLSPEC void mpz_mul_ui __GMP_PROTO ((mpz_ptr, mpz_srcptr, unsigned long int));
 
 #define mpz_neg __gmpz_neg
+#define __GMP_MPZ_NEG_MIN_ALLOC(x,y) (__GMP_ABS(y->_mp_size))
 #if __GMP_INLINE_PROTOTYPES || defined (__GMP_FORCE_mpz_neg)
 __GMP_DECLSPEC void mpz_neg __GMP_PROTO ((mpz_ptr, mpz_srcptr));
 #endif
@@ -1102,12 +1105,15 @@ __GMP_DECLSPEC void mpz_sqrt __GMP_PROTO ((mpz_ptr, mpz_srcptr));
 #define mpz_sqrtrem __gmpz_sqrtrem
 __GMP_DECLSPEC void mpz_sqrtrem __GMP_PROTO ((mpz_ptr, mpz_ptr, mpz_srcptr));
 
+#define __GMP_MPZ_SUB_MIN_ALLOC(x,y,z) (__GMP_MAX(__GMP_ABS(y->_mp_size),__GMP_ABS(z->_mp_size))+1)
 #define mpz_sub __gmpz_sub
 __GMP_DECLSPEC void mpz_sub __GMP_PROTO ((mpz_ptr, mpz_srcptr, mpz_srcptr));
 
+//#define __GMP_MPZ_SUB_UI_MIN_ALLOC(x,y,z) (__GMP_ABS(y->_mp_size)+1)) // WRONG this assumes unsigned long < mp_limb_t  ie nails
 #define mpz_sub_ui __gmpz_sub_ui
 __GMP_DECLSPEC void mpz_sub_ui __GMP_PROTO ((mpz_ptr, mpz_srcptr, unsigned long int));
 
+//#define __GMP_MPZ_UI_SUB_MIN_ALLOC(x,y,z) (__GMP_ABS(z->_mp_size)+1)) // WRONG this assumes unsigned long < mp_limb_t  ie nails
 #define mpz_ui_sub __gmpz_ui_sub
 __GMP_DECLSPEC void mpz_ui_sub __GMP_PROTO ((mpz_ptr, unsigned long int, mpz_srcptr));
 
