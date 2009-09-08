@@ -209,6 +209,7 @@ __gmpn_cpuvec_init (void)
 #define CPUSETUP_netburstlahf	CPUVEC_SETUP_netburst;CPUVEC_SETUP_netburst_netburstlahf
 #define CPUSETUP_k8		CPUVEC_SETUP_k8
 #define CPUSETUP_k10		CPUVEC_SETUP_k8;CPUVEC_SETUP_k8_k10
+#define CPUSETUP_k10_2		CPUVEC_SETUP_k8;CPUVEC_SETUP_k8_k10;CPUVEC_SETUP_K8_K10_K10_2
 
 #include "cpuid.c"
 
