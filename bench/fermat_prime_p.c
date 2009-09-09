@@ -23,9 +23,18 @@ Boston, MA 02110-1301, USA.
 #include <stdio.h>
 #include <stdlib.h>
 #include "mpir.h"
-#include "gmp-impl.h"
-//#define BITS_PER_ULONG	(8*sizeof(unsigned long))
-//#define BITS_TO_LIMBS(x)	(((x)+GMP_NUMB_BITS-1)/GMP_NUMB_BITS)
+//#include "gmp-impl.h"
+#define BITS_PER_ULONG	(8*sizeof(unsigned long))
+#define BITS_TO_LIMBS(x)	(((x)+GMP_NUMB_BITS-1)/GMP_NUMB_BITS)
+#ifndef MPN_ZERO
+#define MPN_ZERO(xp,xn)	do{mp_size_t __i;for(__i=(xn)-1;__i>=0;__i--)(xp)[__i]=0;}while(0)
+#endif
+#ifndef __GMP_ALLOCATE_FUNC_LIMBS
+#define __GMP_ALLOCATE_FUNC_LIMBS(x)	malloc((x)*sizeof(mp_limb_t))
+#endif
+#ifndef __GMP_FREE_FUNC_LIMBS
+#define __GMP_FREE_FUNC_LIMBS(x,y)	free(x)
+#endif
 
 /*
 Pepin's Test for k>=1

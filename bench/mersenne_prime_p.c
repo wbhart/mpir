@@ -23,8 +23,25 @@ Boston, MA 02110-1301, USA.
 #include <stdio.h>
 #include <stdlib.h>
 #include "mpir.h"
-#include "gmp-impl.h"
-#include "longlong.h"
+//#include "gmp-impl.h"
+//#include "longlong.h"
+#define BITS_PER_ULONG	(8*sizeof(unsigned long))
+#define BITS_TO_LIMBS(x)	(((x)+GMP_NUMB_BITS-1)/GMP_NUMB_BITS)
+#ifndef MPN_ZERO
+#define MPN_ZERO(xp,xn)	do{mp_size_t __i;for(__i=(xn)-1;__i>=0;__i--)(xp)[__i]=0;}while(0)
+#endif
+#ifndef __GMP_ALLOCATE_FUNC_LIMBS
+#define __GMP_ALLOCATE_FUNC_LIMBS(x)	malloc((x)*sizeof(mp_limb_t))
+#endif
+#ifndef __GMP_FREE_FUNC_LIMBS
+#define __GMP_FREE_FUNC_LIMBS(x,y)	free(x)
+#endif
+#ifndef ASSERT_NOCARRY
+#define ASSERT_NOCARRY(x)	(x)
+#endif
+#ifndef count_leading_zeros
+#define count_leading_zeros(c,y)	do{mp_limb_t __c=0,__x=(y);while(__x!=0){__c++;__x/=2;}(c)=GMP_LIMB_BITS-__c;}while(0)
+#endif
 
 static int
 isprime (unsigned long x)
