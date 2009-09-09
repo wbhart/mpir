@@ -677,6 +677,8 @@ __GMP_DECLSPEC int gmp_vsscanf __GMP_PROTO ((__gmp_const char *, __gmp_const cha
 
 /**************** Integer (i.e. Z) routines.  ****************/
 
+#define __GMP_BITS_PER_ULONG	(8*sizeof(unsigned long))
+
 #define _mpz_realloc __gmpz_realloc
 #define mpz_realloc __gmpz_realloc
 __GMP_DECLSPEC void *_mpz_realloc __GMP_PROTO ((mpz_ptr, mp_size_t));
@@ -691,7 +693,7 @@ __GMP_DECLSPEC void mpz_abs __GMP_PROTO ((mpz_ptr, mpz_srcptr));
 #define mpz_add __gmpz_add
 __GMP_DECLSPEC void mpz_add __GMP_PROTO ((mpz_ptr, mpz_srcptr, mpz_srcptr));
 
-//#define __GMP_MPZ_ADD_UI_MIN_ALLOC(x,y,z) (__GMP_ABS(y->_mp_size)+1) // WRONG this assumes unsigned long < mp_limb_t  ie nails
+#define __GMP_MPZ_ADD_UI_MIN_ALLOC(x,y,z) (__GMP_MAX(__GMP_ABS(y->_mp_size),1+(__GMP_BITS_PER_ULONG-1)/GMP_NUMB_BITS)+1)
 #define mpz_add_ui __gmpz_add_ui
 __GMP_DECLSPEC void mpz_add_ui __GMP_PROTO ((mpz_ptr, mpz_srcptr, unsigned long int));
 
@@ -976,15 +978,18 @@ __GMP_DECLSPEC void mpz_mod __GMP_PROTO ((mpz_ptr, mpz_srcptr, mpz_srcptr));
 
 #define mpz_mod_ui mpz_fdiv_r_ui /* same as fdiv_r because divisor unsigned */
 
+#define __GMP_MPZ_MUL_MIN_ALLOC(x,y,z) (__GMP_ABS(y->_mp_size)+__GMP_ABS(z->_mp_size)+1)
 #define mpz_mul __gmpz_mul
 __GMP_DECLSPEC void mpz_mul __GMP_PROTO ((mpz_ptr, mpz_srcptr, mpz_srcptr));
 
 #define mpz_mul_2exp __gmpz_mul_2exp
 __GMP_DECLSPEC void mpz_mul_2exp __GMP_PROTO ((mpz_ptr, mpz_srcptr, unsigned long int));
 
+#define __GMP_MPZ_MUL_SI_MIN_ALLOC(x,y,z) (__GMP_ABS(y->_mp_size)+(__GMP_BITS_PER_ULONG-1)/GMP_NUMB_BITS+1)
 #define mpz_mul_si __gmpz_mul_si
 __GMP_DECLSPEC void mpz_mul_si __GMP_PROTO ((mpz_ptr, mpz_srcptr, long int));
 
+#define __GMP_MPZ_MUL_UI_MIN_ALLOC(x,y,z) (__GMP_ABS(y->_mp_size)+(__GMP_BITS_PER_ULONG-1)/GMP_NUMB_BITS+1)
 #define mpz_mul_ui __gmpz_mul_ui
 __GMP_DECLSPEC void mpz_mul_ui __GMP_PROTO ((mpz_ptr, mpz_srcptr, unsigned long int));
 
@@ -1065,6 +1070,7 @@ __GMP_DECLSPEC unsigned long int mpz_scan0 __GMP_PROTO ((mpz_srcptr, unsigned lo
 #define mpz_scan1 __gmpz_scan1
 __GMP_DECLSPEC unsigned long int mpz_scan1 __GMP_PROTO ((mpz_srcptr, unsigned long int)) __GMP_NOTHROW __GMP_ATTRIBUTE_PURE;
 
+#define __GMP_MPZ_SET_MIN_ALLOC(x,y) __GMP_ABS(y->_mp_size)
 #define mpz_set __gmpz_set
 __GMP_DECLSPEC void mpz_set __GMP_PROTO ((mpz_ptr, mpz_srcptr));
 
@@ -1079,12 +1085,14 @@ __GMP_DECLSPEC void mpz_set_f __GMP_PROTO ((mpz_ptr, mpf_srcptr));
 __GMP_DECLSPEC void mpz_set_q __GMP_PROTO ((mpz_ptr, mpq_srcptr));
 #endif
 
+#define __GMP_MPZ_SET_SI_MIN_ALLOC(x,y) (1+(__GMP_BITS_PER_ULONG-1)/GMP_NUMB_BITS)
 #define mpz_set_si __gmpz_set_si
 __GMP_DECLSPEC void mpz_set_si __GMP_PROTO ((mpz_ptr, signed long int));
 
 #define mpz_set_str __gmpz_set_str
 __GMP_DECLSPEC int mpz_set_str __GMP_PROTO ((mpz_ptr, __gmp_const char *, int));
 
+#define __GMP_MPZ_SET_UI_MIN_ALLOC(x,y) (1+(__GMP_BITS_PER_ULONG-1)/GMP_NUMB_BITS)
 #define mpz_set_ui __gmpz_set_ui
 __GMP_DECLSPEC void mpz_set_ui __GMP_PROTO ((mpz_ptr, unsigned long int));
 
@@ -1109,11 +1117,11 @@ __GMP_DECLSPEC void mpz_sqrtrem __GMP_PROTO ((mpz_ptr, mpz_ptr, mpz_srcptr));
 #define mpz_sub __gmpz_sub
 __GMP_DECLSPEC void mpz_sub __GMP_PROTO ((mpz_ptr, mpz_srcptr, mpz_srcptr));
 
-//#define __GMP_MPZ_SUB_UI_MIN_ALLOC(x,y,z) (__GMP_ABS(y->_mp_size)+1)) // WRONG this assumes unsigned long < mp_limb_t  ie nails
+#define __GMP_MPZ_SUB_UI_MIN_ALLOC(x,y,z) (__GMP_MAX(__GMP_ABS(y->_mp_size),1+(__GMP_BITS_PER_ULONG-1)/GMP_NUMB_BITS)+1)
 #define mpz_sub_ui __gmpz_sub_ui
 __GMP_DECLSPEC void mpz_sub_ui __GMP_PROTO ((mpz_ptr, mpz_srcptr, unsigned long int));
 
-//#define __GMP_MPZ_UI_SUB_MIN_ALLOC(x,y,z) (__GMP_ABS(z->_mp_size)+1)) // WRONG this assumes unsigned long < mp_limb_t  ie nails
+#define __GMP_MPZ_UI_SUB_MIN_ALLOC(x,y,z) (__GMP_MAX(__GMP_ABS(z->_mp_size),1+(__GMP_BITS_PER_ULONG-1)/GMP_NUMB_BITS)+1)
 #define mpz_ui_sub __gmpz_ui_sub
 __GMP_DECLSPEC void mpz_ui_sub __GMP_PROTO ((mpz_ptr, unsigned long int, mpz_srcptr));
 
