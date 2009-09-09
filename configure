@@ -29287,7 +29287,7 @@ gmp_mpn_functions_optional="umul udiv copyi copyd com_n neg_n
 
 gmp_mpn_functions="$extra_functions					   \
   add add_1 add_n sub sub_1 sub_n mul_1 addmul_1 submul_1 lshift rshift    \
-  dive_1 diveby3 divebyff divebyBm1of divis divrem_1 divrem_2       \
+  dive_1 diveby3 divebyff divebyBm1of divis divrem divrem_1 divrem_2       \
   divrem_euclidean_qr_1 divrem_euclidean_qr_2 divrem_euclidean_r_1	\
   add_err1_n add_err2_n sub_err1_n sub_err2_n				   \
   fib2_ui mod_1 mod_34lsub1 mode1o pre_divrem_1 pre_mod_1 dump		   \

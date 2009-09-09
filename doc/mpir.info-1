@@ -4075,6 +4075,31 @@ For example, {S1P, S1N}.
      than or equal to DN.  The most significant limb of DP must be
      non-zero.  The QXN operand must be zero.
 
+ -- Function: mp_limb_t mpn_divrem (mp_limb_t *R1P, mp_size_t QXN,
+          mp_limb_t *RS2P, mp_size_t RS2N, const mp_limb_t *S3P,
+          mp_size_t S3N)
+     [This function is obsolete.  Please call `mpn_tdiv_qr' instead for
+     best performance.]
+
+     Divide {RS2P, RS2N} by {S3P, S3N}, and write the quotient at R1P,
+     with the exception of the most significant limb, which is
+     returned.  The remainder replaces the dividend at RS2P; it will be
+     S3N limbs long (i.e., as many limbs as the divisor).
+
+     In addition to an integer quotient, QXN fraction limbs are
+     developed, and stored after the integral limbs.  For most usages,
+     QXN will be zero.
+
+     It is required that RS2N is greater than or equal to S3N.  It is
+     required that the most significant bit of the divisor is set.
+
+     If the quotient is not needed, pass RS2P + S3N as R1P.  Aside from
+     that special case, no overlap between arguments is permitted.
+
+     Return the most significant limb of the quotient, either 0 or 1.
+
+     The area at R1P needs to be RS2N - S3N + QXN limbs large.
+
  -- Function: mp_limb_t mpn_divrem_1 (mp_limb_t *R1P, mp_size_t QXN,
           mp_limb_t *S2P, mp_size_t S2N, mp_limb_t S3LIMB)
  -- Macro: mp_limb_t mpn_divmod_1 (mp_limb_t *R1P, mp_limb_t *S2P,
@@ -7070,30 +7095,4 @@ File: mpir.info,  Node: Other Algorithms,  Next: Assembler Coding,  Prev: Radix 
 * Fibonacci Numbers Algorithm::
 * Lucas Numbers Algorithm::
 * Random Number Algorithms::
-
-
-File: mpir.info,  Node: Prime Testing Algorithm,  Next: Factorial Algorithm,  Prev: Other Algorithms,  Up: Other Algorithms
-
-16.7.1 Prime Testing
---------------------
-
-The primality testing in `mpz_probab_prime_p' (*note Number Theoretic
-Functions::) first does some trial division by small factors and then
-uses the Miller-Rabin probabilistic primality testing algorithm, as
-described in Knuth section 4.5.4 algorithm P (*note References::).
-
-   For an odd input n, and with n = q*2^k+1 where q is odd, this
-algorithm selects a random base x and tests whether x^q mod n is 1 or
--1, or an x^(q*2^j) mod n is 1, for 1<=j<=k.  If so then n is probably
-prime, if not then n is definitely composite.
-
-   Any prime n will pass the test, but some composites do too.  Such
-composites are known as strong pseudoprimes to base x.  No n is a
-strong pseudoprime to more than 1/4 of all bases (see Knuth exercise
-22), hence with x chosen at random there's no more than a 1/4 chance a
-"probable prime" will in fact be composite.
-
-   In fact strong pseudoprimes are quite rare, making the test much more
-powerful than this analysis would suggest, but 1/4 is all that's proven
-for an arbitrary n.
 
