@@ -653,7 +653,7 @@ refmpn_addadd_n(mp_ptr rp, mp_srcptr xp, mp_srcptr yp, mp_srcptr zp, mp_size_t n
   mp_limb_t r;
   mp_limb_t * tp = refmpn_malloc_limbs (n);
   r = refmpn_add_n (tp, yp, zp, n);
-  r += mpn_add_n (rp, tp, xp, n);
+  r += refmpn_add_n (rp, tp, xp, n);
   free(tp);
   return r;
 }
@@ -663,8 +663,8 @@ refmpn_addsub_n(mp_ptr rp, mp_srcptr xp, mp_srcptr yp, mp_srcptr zp, mp_size_t n
 {
   mp_limb_t r;
   mp_limb_t * tp = refmpn_malloc_limbs (n);
-  r = - mpn_sub_n (tp, yp, zp, n);
-  r += mpn_add_n (rp, tp, xp, n);
+  r = - refmpn_sub_n (tp, yp, zp, n);
+  r += refmpn_add_n (rp, tp, xp, n);
   free(tp);
   return r;
 }
@@ -674,8 +674,8 @@ refmpn_subadd_n(mp_ptr rp, mp_srcptr xp, mp_srcptr yp, mp_srcptr zp, mp_size_t n
 {
   mp_limb_t r;
   mp_limb_t * tp = refmpn_malloc_limbs (n);
-  r =  mpn_sub_n (tp, xp, zp, n);
-  r += mpn_sub_n (rp, tp, yp, n);
+  r =  refmpn_sub_n (tp, xp, zp, n);
+  r += refmpn_sub_n (rp, tp, yp, n);
   free(tp);
   return r;
 }
@@ -710,8 +710,8 @@ refmpn_sublsh1_n (mp_ptr rp, mp_srcptr up, mp_srcptr vp, mp_size_t n)
   ASSERT_MPN (vp, n);
 
   tp = refmpn_malloc_limbs (n);
-  cy  = mpn_lshift (tp, vp, n, 1);
-  cy += mpn_sub_n (rp, up, tp, n);
+  cy  = refmpn_lshift (tp, vp, n, 1);
+  cy += refmpn_sub_n (rp, up, tp, n);
   free (tp);
   return cy;
 }
@@ -812,8 +812,8 @@ refmpn_rsh1add_n (mp_ptr rp, mp_srcptr up, mp_srcptr vp, mp_size_t n)
   ASSERT_MPN (up, n);
   ASSERT_MPN (vp, n);
 
-  cya = mpn_add_n (rp, up, vp, n);
-  cys = mpn_rshift (rp, rp, n, 1) >> (GMP_NUMB_BITS - 1);
+  cya = refmpn_add_n (rp, up, vp, n);
+  cys = refmpn_rshift (rp, rp, n, 1) >> (GMP_NUMB_BITS - 1);
   rp[n - 1] |= cya << (GMP_NUMB_BITS - 1);
   return cys;
 }
@@ -827,8 +827,8 @@ refmpn_rsh1sub_n (mp_ptr rp, mp_srcptr up, mp_srcptr vp, mp_size_t n)
   ASSERT_MPN (up, n);
   ASSERT_MPN (vp, n);
 
-  cya = mpn_sub_n (rp, up, vp, n);
-  cys = mpn_rshift (rp, rp, n, 1) >> (GMP_NUMB_BITS - 1);
+  cya = refmpn_sub_n (rp, up, vp, n);
+  cys = refmpn_rshift (rp, rp, n, 1) >> (GMP_NUMB_BITS - 1);
   rp[n - 1] |= cya << (GMP_NUMB_BITS - 1);
   return cys;
 }
@@ -1787,7 +1787,7 @@ mp_limb_t
 refmpn_mod_34lsub1 (mp_srcptr p, mp_size_t n)
 {
   ASSERT ((GMP_NUMB_BITS % 4) == 0);
-  return mpn_mod_1 (p, n, (CNST_LIMB(1) << (3 * GMP_NUMB_BITS / 4)) - 1);
+  return refmpn_mod_1 (p, n, (CNST_LIMB(1) << (3 * GMP_NUMB_BITS / 4)) - 1);
 }
 
 
@@ -2036,7 +2036,7 @@ refmpn_mulmid_basecase (mp_ptr rp,
   /* special case */
   if (vn == 1)
     {
-      rp[un] = mpn_mul_1 (rp, up, un, vp[0]);
+      rp[un] = refmpn_mul_1 (rp, up, un, vp[0]);
       rp[un+1] = 0;
       return;
     }
@@ -2044,7 +2044,7 @@ refmpn_mulmid_basecase (mp_ptr rp,
   /* compute plain product */
   temp = refmpn_malloc_limbs (un + vn);
   ASSERT (temp != NULL);
-  mpn_mul (temp, up, un, vp, vn);
+  refmpn_mul_any (temp, up, un, vp, vn);
 
   /* remove the cross-terms that interfere with the result we want, i.e. in
      the following diagram, we want only contributions from O's, but mpn_mul
@@ -2062,18 +2062,18 @@ refmpn_mulmid_basecase (mp_ptr rp,
   diag[2] = mpn_mul_1 (diag + 1, up, 1, vp[vn-2]);
   for (i = 0; i < vn - 2; i++)
     {
-      hi = mpn_addmul_1 (diag, up + vn - i - 3, 2, vp[i]);
-      mpn_add_1 (diag + 2, diag + 2, 2, hi);
+      hi = refmpn_addmul_1 (diag, up + vn - i - 3, 2, vp[i]);
+      refmpn_add_1 (diag + 2, diag + 2, 2, hi);
     }
   k = (vn == 2);
-  mpn_sub (temp + vn - 3 + k, temp + vn - 3 + k, un - vn + 5 - k,
+  refmpn_sub (temp + vn - 3 + k, temp + vn - 3 + k, un - vn + 5 - k,
            diag + k, 4 - k);
 
   /* top-right diagonal */
-  diag[1] = mpn_mul_1 (diag, up + un - 1, 1, vp[1]);
+  diag[1] = refmpn_mul_1 (diag, up + un - 1, 1, vp[1]);
   for (i = 2; i < vn; i++)
-    mpn_addmul_1 (diag, up + un - i, 2, vp[i]);
-  mpn_sub (temp + un, temp + un, 2, diag, 2);
+    refmpn_addmul_1 (diag, up + un - i, 2, vp[i]);
+  refmpn_sub (temp + un, temp + un, 2, diag, 2);
 
   /* copy result to rp */
   refmpn_copy (rp, temp + vn - 1, un - vn + 3);
