@@ -833,391 +833,96 @@ refmpn_rsh1sub_n (mp_ptr rp, mp_srcptr up, mp_srcptr vp, mp_size_t n)
   return cys;
 }
 
-/* mpn_add_err1_n -- add_n with single error term
-
-Copyright (C) 2009, David Harvey
-
-All rights reserved.
-
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions are met:
-
-1. Redistributions of source code must retain the above copyright notice, this
-   list of conditions and the following disclaimer.
-
-2. Redistributions in binary form must reproduce the above copyright notice,
-   this list of conditions and the following disclaimer in the documentation
-   and/or other materials provided with the distribution.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS IS''
-AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR CONTRIBUTORS BE LIABLE
-FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
-DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
-SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
-CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
-OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
-*/
-
-//#include "mpir.h"
-//#include "gmp-impl.h"
-
-
-/*
-  Computes:
-
-  (1) {rp,n} := {up,n} + {vp,n} (just like mpn_add_n) with incoming carry cy,
-  return value is carry out.
-
-  (2) Let c[i+1] = carry from i-th limb addition (c[0] = cy).
-  Computes c[1]*yp[n-1] + ... + c[n]*yp[0], stores two-limb result at ep.
-
-  Assumes n >= 1.
- */
-mp_limb_t
-refmpn_add_err1_n (mp_ptr rp, mp_srcptr up, mp_srcptr vp, mp_ptr ep, mp_srcptr yp,
-                mp_size_t n, mp_limb_t cy)
-{
-  mp_limb_t el, eh, ul, vl, yl, zl, rl, sl, cy1, cy2;
-
-  ASSERT (n >= 1);
-  ASSERT (MPN_SAME_OR_SEPARATE_P (rp, up, n));
-  ASSERT (MPN_SAME_OR_SEPARATE_P (rp, vp, n));
-  ASSERT (MPN_SAME_OR_SEPARATE_P (rp, yp, n));
-
-  /* FIXME: first addition into eh:el is redundant */
-
-  yp += n - 1;
-  el = eh = 0;
-
-  do
-    {
-      yl = *yp--;
-      ul = *up++;
-      vl = *vp++;
-
-      /* ordinary add_n */
-      ADDC_LIMB (cy1, sl, ul, vl);
-      ADDC_LIMB (cy2, rl, sl, cy);
-      cy = cy1 | cy2;
-      *rp++ = rl;
-
-      /* update (eh:el) */
-      zl = cy ? yl : 0;
-      /* FIXME: consider alternative:
-            zl = (-cy) & yl;
-         Might be better on some machines?
-         Ditto for sub_err1_n, add_err2_n etc. */
-      el += zl;
-      eh += el < zl;
-    }
-  while (--n != 0);
-
-#if GMP_NAIL_BITS != 0
-  eh = (eh << GMP_NAIL_BITS) + (el >> GMP_NUMB_BITS);
-  el &= GMP_NUMB_MASK;
-#endif
-
-  ep[0] = el;
-  ep[1] = eh;
-
-  return cy;
-}
-
-/* mpn_sub_err1_n -- sub_n with single error term
-
-Copyright (C) 2009, David Harvey
-
-All rights reserved.
-
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions are met:
-
-1. Redistributions of source code must retain the above copyright notice, this
-   list of conditions and the following disclaimer.
-
-2. Redistributions in binary form must reproduce the above copyright notice,
-   this list of conditions and the following disclaimer in the documentation
-   and/or other materials provided with the distribution.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS IS''
-AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR CONTRIBUTORS BE LIABLE
-FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
-DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
-SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
-CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
-OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
-*/
-
-//#include "mpir.h"
-//#include "gmp-impl.h"
-
-
-/*
-  Computes:
-
-  (1) {rp,n} := {up,n} - {vp,n} (just like mpn_sub_n) with incoming borrow cy,
-  return value is borrow out.
-
-  (2) Let c[i+1] = borrow from i-th limb subtraction (c[0] = cy).
-  Computes c[1]*yp[n-1] + ... + c[n]*yp[0], stores two-limb result at ep.
-
-  Assumes n >= 1.
- */
-mp_limb_t
-refmpn_sub_err1_n (mp_ptr rp, mp_srcptr up, mp_srcptr vp, mp_ptr ep, mp_srcptr yp,
-                mp_size_t n, mp_limb_t cy)
-{
-  mp_limb_t el, eh, ul, vl, yl, zl, rl, sl, cy1, cy2;
-
-  ASSERT (n >= 1);
-  ASSERT (MPN_SAME_OR_SEPARATE_P (rp, up, n));
-  ASSERT (MPN_SAME_OR_SEPARATE_P (rp, vp, n));
-  ASSERT (MPN_SAME_OR_SEPARATE_P (rp, yp, n));
-
-  /* FIXME: first addition into eh:el is redundant */
-
-  yp += n - 1;
-  el = eh = 0;
-
-  do
-    {
-      yl = *yp--;
-      ul = *up++;
-      vl = *vp++;
-
-      /* ordinary sub_n */
-      SUBC_LIMB (cy1, sl, ul, vl);
-      SUBC_LIMB (cy2, rl, sl, cy);
-      cy = cy1 | cy2;
-      *rp++ = rl;
-
-      /* update (eh:el) */
-      zl = cy ? yl : 0;
-      el += zl;
-      eh += el < zl;
-    }
-  while (--n != 0);
-
-#if GMP_NAIL_BITS != 0
-  eh = (eh << GMP_NAIL_BITS) + (el >> GMP_NUMB_BITS);
-  el &= GMP_NUMB_MASK;
-#endif
-
-  ep[0] = el;
-  ep[1] = eh;
-
-  return cy;
-}
-
-/* mpn_add_err2_n -- add_n with two error terms
-
-Copyright (C) 2009, David Harvey
-
-All rights reserved.
-
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions are met:
-
-1. Redistributions of source code must retain the above copyright notice, this
-   list of conditions and the following disclaimer.
-
-2. Redistributions in binary form must reproduce the above copyright notice,
-   this list of conditions and the following disclaimer in the documentation
-   and/or other materials provided with the distribution.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS IS''
-AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR CONTRIBUTORS BE LIABLE
-FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
-DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
-SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
-CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
-OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
-*/
-
-//#include "mpir.h"
-//#include "gmp-impl.h"
-
-/*
-  Same as mpn_add_err1_n, but computes both
-
-          c[1]*yp1[n-1] + ... + c[n]*yp1[0]
-    and   c[1]*yp2[n-1] + ... + c[n]*yp2[0],
-
-  storing results at {ep,2}, {ep+2,2} respectively.
- */
-mp_limb_t
-refmpn_add_err2_n (mp_ptr rp, mp_srcptr up, mp_srcptr vp,
-                mp_ptr ep, mp_srcptr yp1, mp_srcptr yp2,
-                mp_size_t n, mp_limb_t cy)
-{
-  mp_limb_t el1, eh1, el2, eh2, ul, vl, yl1, yl2, zl1, zl2, rl, sl, cy1, cy2;
-
-  ASSERT (n >= 1);
-  ASSERT (MPN_SAME_OR_SEPARATE_P (rp, up, n));
-  ASSERT (MPN_SAME_OR_SEPARATE_P (rp, vp, n));
-  ASSERT (MPN_SAME_OR_SEPARATE_P (rp, yp1, n));
-  ASSERT (MPN_SAME_OR_SEPARATE_P (rp, yp2, n));
-
-  /* FIXME: first addition into eh:el is redundant */
-
-  yp1 += n - 1;
-  yp2 += n - 1;
-  el1 = eh1 = 0;
-  el2 = eh2 = 0;
-
-  do
-    {
-      yl1 = *yp1--;
-      yl2 = *yp2--;
-      ul = *up++;
-      vl = *vp++;
-
-      /* ordinary add_n */
-      ADDC_LIMB (cy1, sl, ul, vl);
-      ADDC_LIMB (cy2, rl, sl, cy);
-      cy = cy1 | cy2;
-      *rp++ = rl;
-
-      /* update (eh1:el1) */
-      zl1 = cy ? yl1 : 0;
-      el1 += zl1;
-      eh1 += el1 < zl1;
-
-      /* update (eh2:el2) */
-      zl2 = cy ? yl2 : 0;
-      el2 += zl2;
-      eh2 += el2 < zl2;
-    }
-  while (--n != 0);
-
-#if GMP_NAIL_BITS != 0
-  eh1 = (eh1 << GMP_NAIL_BITS) + (el1 >> GMP_NUMB_BITS);
-  el1 &= GMP_NUMB_MASK;
-  eh2 = (eh2 << GMP_NAIL_BITS) + (el2 >> GMP_NUMB_BITS);
-  el2 &= GMP_NUMB_MASK;
-#endif
-
-  ep[0] = el1;
-  ep[1] = eh1;
-  ep[2] = el2;
-  ep[3] = eh2;
-
-  return cy;
-}
-
-/* mpn_sub_err2_n -- sub_n with two error terms
-
-Copyright (C) 2009, David Harvey
-
-All rights reserved.
-
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions are met:
-
-1. Redistributions of source code must retain the above copyright notice, this
-   list of conditions and the following disclaimer.
-
-2. Redistributions in binary form must reproduce the above copyright notice,
-   this list of conditions and the following disclaimer in the documentation
-   and/or other materials provided with the distribution.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS IS''
-AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR CONTRIBUTORS BE LIABLE
-FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
-DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
-SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
-CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
-OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
-*/
-
-//#include "mpir.h"
-//#include "gmp-impl.h"
-
-
-/*
-  Same as mpn_sub_err1_n, but computes both
-
-          c[1]*yp1[n-1] + ... + c[n]*yp1[0]
-    and   c[1]*yp2[n-1] + ... + c[n]*yp2[0],
-
-  storing results at {ep,2}, {ep+2,2} respectively.
- */
-mp_limb_t
-refmpn_sub_err2_n (mp_ptr rp, mp_srcptr up, mp_srcptr vp,
-                mp_ptr ep, mp_srcptr yp1, mp_srcptr yp2,
-                mp_size_t n, mp_limb_t cy)
-{
-  mp_limb_t el1, eh1, el2, eh2, ul, vl, yl1, yl2, zl1, zl2, rl, sl, cy1, cy2;
-
-  ASSERT (n >= 1);
-  ASSERT (MPN_SAME_OR_SEPARATE_P (rp, up, n));
-  ASSERT (MPN_SAME_OR_SEPARATE_P (rp, vp, n));
-  ASSERT (MPN_SAME_OR_SEPARATE_P (rp, yp1, n));
-  ASSERT (MPN_SAME_OR_SEPARATE_P (rp, yp2, n));
-
-  /* FIXME: first addition into eh:el is redundant */
-
-  yp1 += n - 1;
-  yp2 += n - 1;
-  el1 = eh1 = 0;
-  el2 = eh2 = 0;
-
-  do
-    {
-      yl1 = *yp1--;
-      yl2 = *yp2--;
-      ul = *up++;
-      vl = *vp++;
-
-      /* ordinary sub_n */
-      SUBC_LIMB (cy1, sl, ul, vl);
-      SUBC_LIMB (cy2, rl, sl, cy);
-      cy = cy1 | cy2;
-      *rp++ = rl;
-
-      /* update (eh1:el1) */
-      zl1 = cy ? yl1 : 0;
-      el1 += zl1;
-      eh1 += el1 < zl1;
-
-      /* update (eh2:el2) */
-      zl2 = cy ? yl2 : 0;
-      el2 += zl2;
-      eh2 += el2 < zl2;
-    }
-  while (--n != 0);
-
-#if GMP_NAIL_BITS != 0
-  eh1 = (eh1 << GMP_NAIL_BITS) + (el1 >> GMP_NUMB_BITS);
-  el1 &= GMP_NUMB_MASK;
-  eh2 = (eh2 << GMP_NAIL_BITS) + (el2 >> GMP_NUMB_BITS);
-  el2 &= GMP_NUMB_MASK;
-#endif
-
-  ep[0] = el1;
-  ep[1] = eh1;
-  ep[2] = el2;
-  ep[3] = eh2;
-
-  return cy;
-}
-
+mp_limb_t refmpn_add_err1_n (mp_ptr rp, mp_srcptr up, mp_srcptr vp, mp_ptr ep, mp_srcptr yp,mp_size_t n, mp_limb_t cy)
+{mp_limb_t  h=0,l=0;
+ mp_size_t i,j=n-1;
+ 
+ ASSERT(n>=1);
+ ASSERT(refmpn_overlap_fullonly_p(rp,up,n));
+ ASSERT(refmpn_overlap_fullonly_p(rp,vp,n));
+ ASSERT(!refmpn_overlap_p(rp,n,ep,2));
+ ASSERT(!refmpn_overlap_p(rp,n,yp,n));
+ ASSERT(!refmpn_overlap_p(up,n,ep,2));
+ ASSERT(!refmpn_overlap_p(vp,n,ep,2));
+ ASSERT(!refmpn_overlap_p(yp,n,ep,2));
+for(i=0;i<n;i++,j--)
+   {cy=adc(&rp[i],up[i],vp[i],cy);
+    if(cy!=0)
+      {h+=adc(&l,l,yp[j],0);
+      }
+   }
+ep[0]=l;ep[1]=h;
+return cy;}
+
+mp_limb_t refmpn_sub_err1_n (mp_ptr rp, mp_srcptr up, mp_srcptr vp, mp_ptr ep, mp_srcptr yp,mp_size_t n, mp_limb_t cy)
+{mp_limb_t  h=0,l=0;
+ mp_size_t i,j=n-1;
+ 
+ ASSERT(n>=1);
+ ASSERT(refmpn_overlap_fullonly_p(rp,up,n));
+ ASSERT(refmpn_overlap_fullonly_p(rp,vp,n));
+ ASSERT(!refmpn_overlap_p(rp,n,ep,2));
+ ASSERT(!refmpn_overlap_p(rp,n,yp,n));
+ ASSERT(!refmpn_overlap_p(up,n,ep,2));
+ ASSERT(!refmpn_overlap_p(vp,n,ep,2));
+ ASSERT(!refmpn_overlap_p(yp,n,ep,2));
+for(i=0;i<n;i++,j--)
+   {cy=sbb(&rp[i],up[i],vp[i],cy);
+    if(cy!=0)
+      {h+=adc(&l,l,yp[j],0);
+      }
+   }
+ep[0]=l;ep[1]=h;
+return cy;}
+
+
+mp_limb_t refmpn_add_err2_n (mp_ptr rp, mp_srcptr up, mp_srcptr vp, mp_ptr ep, mp_srcptr yp1,mp_srcptr yp2,mp_size_t n, mp_limb_t cy)
+{mp_limb_t  h1=0,l1=0,h2=0,l2=0;
+ mp_size_t i,j=n-1;
+ 
+ ASSERT(n>=1);
+ ASSERT(refmpn_overlap_fullonly_p(rp,up,n));
+ ASSERT(refmpn_overlap_fullonly_p(rp,vp,n));
+ ASSERT(!refmpn_overlap_p(rp,n,ep,4));
+ ASSERT(!refmpn_overlap_p(rp,n,yp1,n));
+ ASSERT(!refmpn_overlap_p(rp,n,yp2,n));
+ ASSERT(!refmpn_overlap_p(up,n,ep,4));
+ ASSERT(!refmpn_overlap_p(vp,n,ep,4));
+ ASSERT(!refmpn_overlap_p(yp1,n,ep,4));
+ ASSERT(!refmpn_overlap_p(yp2,n,ep,4));
+for(i=0;i<n;i++,j--)
+   {cy=adc(&rp[i],up[i],vp[i],cy);
+    if(cy!=0)
+      {h1+=adc(&l1,l1,yp1[j],0);
+       h2+=adc(&l2,l2,yp2[j],0);
+      }
+   }
+ep[0]=l1;ep[1]=h1;ep[2]=l2;ep[3]=h2;
+return cy;}
+
+mp_limb_t refmpn_sub_err2_n (mp_ptr rp, mp_srcptr up, mp_srcptr vp, mp_ptr ep, mp_srcptr yp1,mp_srcptr yp2,mp_size_t n, mp_limb_t cy)
+{mp_limb_t  h1=0,l1=0,h2=0,l2=0;
+ mp_size_t i,j=n-1;
+ 
+ ASSERT(n>=1);
+ ASSERT(refmpn_overlap_fullonly_p(rp,up,n));
+ ASSERT(refmpn_overlap_fullonly_p(rp,vp,n));
+ ASSERT(!refmpn_overlap_p(rp,n,ep,4));
+ ASSERT(!refmpn_overlap_p(rp,n,yp1,n));
+ ASSERT(!refmpn_overlap_p(rp,n,yp2,n));
+ ASSERT(!refmpn_overlap_p(up,n,ep,4));
+ ASSERT(!refmpn_overlap_p(vp,n,ep,4));
+ ASSERT(!refmpn_overlap_p(yp1,n,ep,4));
+ ASSERT(!refmpn_overlap_p(yp2,n,ep,4));
+for(i=0;i<n;i++,j--)
+   {cy=sbb(&rp[i],up[i],vp[i],cy);
+    if(cy!=0)
+      {h1+=adc(&l1,l1,yp1[j],0);
+       h2+=adc(&l2,l2,yp2[j],0);
+      }
+   }
+ep[0]=l1;ep[1]=h1;ep[2]=l2;ep[3]=h2;
+return cy;}
 
 /* Twos complement, return borrow. */
 mp_limb_t
