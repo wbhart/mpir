@@ -1,5 +1,6 @@
 #!/bin/bash
 
+#
 
 # set version number ie here is 1.2.2
 VERSION=1
@@ -7,7 +8,10 @@ VERSION_MINOR=2
 VERSION_PATCHLEVEL=2
 
 
-# these are the library soname numbers , can derive these from  above?
+# these are the library soname numbers see
+# http://sources.redhat.com/autobook/autobook/autobook_91.html
+# or the start of Makefile.am to see what was done before
+
 LIBGMP_LT_CURRENT=7
 LIBGMP_LT_REVISION=4
 LIBGMP_LT_AGE=4
@@ -16,12 +20,19 @@ LIBGMPXX_LT_CURRENT=4
 LIBGMPXX_LT_REVISION=4
 LIBGMPXX_LT_AGE=1
 
+# DONT NEED THESE ANYMORE 
 LIBMP_LT_CURRENT=4
 LIBMP_LT_REVISION=13
 LIBMP_LT_AGE=1
 
+echo "Setting MPIR to"
+echo "MPIR-$VERSION.$VERSION_MINOR.$VERSION_PATCHLEVEL"
+echo "GMP-soname-$LIBGMP_LT_CURRENT.$LIBGMP_LT_REVISION.$LIBGMP_LT_AGE"
+echo "GMPXX-soname-$LIBGMPXX_LT_CURRENT.$LIBGMPXX_LT_REVISION.$LIBGMPXX_LT_AGE"
 
-# calculate stuff
+
+###############################################################
+##############################################################
 
 VERSION_STR=$VERSION.$VERSION_MINOR.$VERSION_PATCHLEVEL
 TMPFILE=$(tempfile)
