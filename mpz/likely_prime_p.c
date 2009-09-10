@@ -46,16 +46,11 @@ mpz_likely_prime_p (mpz_srcptr N, gmp_randstate_t STATE, unsigned long td)
 // therefore it has a good chance of factoring by small divisiors , so try trial division as its fast and it checks small divisors
 // checking for other divisors is not worth it even if the test is fast as we have random integer so only small divisors are common
 // enough , remember this is not exact so it doesn't matter if we miss a few divisors
-#define LIM 255
-  for (d = 2; d <= LIM; d++)
-    {
-      if (mpz_divisible_ui_p (n, d))
-	{
-	  if (mpz_cmp_ui (n, d) == 0)
-	    return 1;
-	  return 0;
-	}
-    }
+#define LIM 257
+  d=mpz_trial_division(n,3,LIM);
+  if(d!=0)
+    {if(mpz_cmp_ui(n, d) == 0)return 1;
+     return 0;}
   if (mpz_cmp_ui (n, LIM * LIM) < 0)
     return 1;
   ASSERT (mpz_odd_p (n));

@@ -970,6 +970,9 @@ __GMP_DECLSPEC void mpn_sqr_n __GMP_PROTO ((mp_ptr, mp_srcptr, mp_size_t));
 __GMP_DECLSPEC void mpn_sqr_basecase __GMP_PROTO ((mp_ptr, mp_srcptr, mp_size_t));
 #endif
 
+#define mpz_trial_division __gmpz_trial_division
+__GMP_DECLSPEC unsigned long mpz_trial_division __GMP_PROTO ((mpz_srcptr,unsigned long, unsigned long));
+
 #define mpn_sub_nc __MPN(sub_nc)
 __GMP_DECLSPEC mp_limb_t mpn_sub_nc __GMP_PROTO ((mp_ptr, mp_srcptr, mp_srcptr, mp_size_t, mp_limb_t));
 
