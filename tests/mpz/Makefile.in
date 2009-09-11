@@ -75,7 +75,7 @@ check_PROGRAMS = t-addsub$(EXEEXT) t-cmp$(EXEEXT) t-mul$(EXEEXT) \
 	t-cmp_si$(EXEEXT) t-hamdist$(EXEEXT) t-oddeven$(EXEEXT) \
 	t-popcount$(EXEEXT) t-set_f$(EXEEXT) t-io_raw$(EXEEXT) \
 	t-import$(EXEEXT) t-export$(EXEEXT) t-pprime_p$(EXEEXT) \
-	t-perfpow$(EXEEXT) $(am__EXEEXT_1)
+	t-perfpow$(EXEEXT) t-trial_division$(EXEEXT) $(am__EXEEXT_1)
 @ENABLE_SHARED_TRUE@@ENABLE_STATIC_TRUE@am__append_1 = st_hamdist st_popcount
 subdir = tests/mpz
 DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in
@@ -389,6 +389,11 @@ t_tdiv_ui_OBJECTS = t-tdiv_ui.$(OBJEXT)
 t_tdiv_ui_LDADD = $(LDADD)
 t_tdiv_ui_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
 	$(top_builddir)/libmpir.la
+t_trial_division_SOURCES = t-trial_division.c
+t_trial_division_OBJECTS = t-trial_division.$(OBJEXT)
+t_trial_division_LDADD = $(LDADD)
+t_trial_division_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
+	$(top_builddir)/libmpir.la
 DEFAULT_INCLUDES = -I. -I$(srcdir) -I$(top_builddir)
 depcomp =
 am__depfiles_maybe =
@@ -410,7 +415,8 @@ SOURCES = bit.c convert.c dive.c dive_ui.c io.c logic.c reuse.c \
 	t-lucnum_ui.c t-mul.c t-mul_i.c t-oddeven.c t-perfpow.c \
 	t-perfsqr.c t-popcount.c t-pow.c t-powm.c t-powm_ui.c \
 	t-pprime_p.c t-root.c t-scan.c t-set_d.c t-set_f.c t-set_si.c \
-	t-set_str.c t-sizeinbase.c t-sqrtrem.c t-tdiv.c t-tdiv_ui.c
+	t-set_str.c t-sizeinbase.c t-sqrtrem.c t-tdiv.c t-tdiv_ui.c \
+	t-trial_division.c
 DIST_SOURCES = bit.c convert.c dive.c dive_ui.c io.c logic.c reuse.c \
 	$(am__st_hamdist_SOURCES_DIST) $(am__st_popcount_SOURCES_DIST) \
 	t-addsub.c t-aorsmul.c t-bin.c t-cdiv_ui.c t-cmp.c t-cmp_d.c \
@@ -422,7 +428,7 @@ DIST_SOURCES = bit.c convert.c dive.c dive_ui.c io.c logic.c reuse.c \
 	t-oddeven.c t-perfpow.c t-perfsqr.c t-popcount.c t-pow.c \
 	t-powm.c t-powm_ui.c t-pprime_p.c t-root.c t-scan.c t-set_d.c \
 	t-set_f.c t-set_si.c t-set_str.c t-sizeinbase.c t-sqrtrem.c \
-	t-tdiv.c t-tdiv_ui.c
+	t-tdiv.c t-tdiv_ui.c t-trial_division.c
 ETAGS = etags
 CTAGS = ctags
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
@@ -807,6 +813,9 @@ t-tdiv$(EXEEXT): $(t_tdiv_OBJECTS) $(t_tdiv_DEPENDENCIES)
 t-tdiv_ui$(EXEEXT): $(t_tdiv_ui_OBJECTS) $(t_tdiv_ui_DEPENDENCIES) 
 	@rm -f t-tdiv_ui$(EXEEXT)
 	$(LINK) $(t_tdiv_ui_LDFLAGS) $(t_tdiv_ui_OBJECTS) $(t_tdiv_ui_LDADD) $(LIBS)
+t-trial_division$(EXEEXT): $(t_trial_division_OBJECTS) $(t_trial_division_DEPENDENCIES) 
+	@rm -f t-trial_division$(EXEEXT)
+	$(LINK) $(t_trial_division_LDFLAGS) $(t_trial_division_OBJECTS) $(t_trial_division_LDADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)

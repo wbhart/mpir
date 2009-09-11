@@ -29,6 +29,7 @@ unsigned long mpz_trial_division(mpz_srcptr N,unsigned long start,unsigned long 
 {unsigned long i,dd;
 //ASSERT N has no divisors <start excluding 1
 
+ASSERT(mpz_cmp_ui(N,0)!=0);ASSERT(mpz_cmp_ui(N,1)!=0);ASSERT(mpz_cmp_si(N,-1)!=0);
 if(start<=2 && 2<stop && mpz_even_p(N))return 2;
 if(start<=3 && 3<stop && mpz_divisible_ui_p(N,3))return 3;
 if(start<5)start=5;// dont be daft
