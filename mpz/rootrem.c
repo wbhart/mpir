@@ -81,4 +81,5 @@ mpz_rootrem (mpz_ptr root, mpz_ptr rem, mpz_srcptr u, unsigned long int nth)
     __GMP_FREE_FUNC_LIMBS (rootp, rootn);
 
   SIZ(rem) = remn;
+  if(us<0)SIZ(rem)=-SIZ(rem);
 }
