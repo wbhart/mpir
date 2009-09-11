@@ -169,6 +169,8 @@ MA 02110-1301, USA. */
 #ifdef _MSC_VER
 #  include <intrin.h>
 
+#define COUNT_LEADING_ZEROS_NEED_CLZ_TAB
+
 #  if defined( _WIN64 )
 
 #pragma intrinsic(_BitScanForward64)
