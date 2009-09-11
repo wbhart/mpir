@@ -4122,6 +4122,10 @@
 					</FileConfiguration>
 				</File>
 				<File
+					RelativePath="..\..\mpz\likely_prime_p.c"
+					>
+				</File>
+				<File
 					RelativePath="..\..\mpz\lucnum2_ui.c"
 					>
 					<FileConfiguration
@@ -4322,6 +4326,10 @@
 					</FileConfiguration>
 				</File>
 				<File
+					RelativePath="..\..\mpz\next_likely_prime.c"
+					>
+				</File>
+				<File
 					RelativePath="..\..\mpz\nextprime.c"
 					>
 					<FileConfiguration
@@ -4340,10 +4348,6 @@
 							ObjectFile="$(IntDir)\mpz\"
 						/>
 					</FileConfiguration>
-				</File>
-				<File
-					RelativePath="..\..\mpz\nextprobprime.c"
-					>
 				</File>
 				<File
 					RelativePath="..\..\mpz\nthroot.c"
@@ -5170,6 +5174,10 @@
 					</FileConfiguration>
 				</File>
 				<File
+					RelativePath="..\..\mpz\trial_division.c"
+					>
+				</File>
+				<File
 					RelativePath="..\..\mpz\tstbit.c"
 					>
 					<FileConfiguration
@@ -5966,6 +5974,10 @@
 							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\mpn\generic\divrem.c"
+					>
 				</File>
 				<File
 					RelativePath="..\..\mpn\generic\divrem_1.c"

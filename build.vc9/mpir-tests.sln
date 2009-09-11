@@ -729,6 +729,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpn.mulmod_2expm1", "mpir-t
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpn.mulmod_2expp1", "mpir-tests\mpn.mulmod_2expp1.vcproj", "{2C6D4AFC-84FF-46B5-86DB-26078521434C}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.trial_division", "mpir-tests\mpz.trial_division.vcproj", "{B47E6162-390F-46A4-B5F3-25AF63F39305}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -1659,6 +1661,14 @@ Global
 		{2C6D4AFC-84FF-46B5-86DB-26078521434C}.Release|Win32.Build.0 = Release|Win32
 		{2C6D4AFC-84FF-46B5-86DB-26078521434C}.Release|x64.ActiveCfg = Release|x64
 		{2C6D4AFC-84FF-46B5-86DB-26078521434C}.Release|x64.Build.0 = Release|x64
+		{B47E6162-390F-46A4-B5F3-25AF63F39305}.Debug|Win32.ActiveCfg = Debug|Win32
+		{B47E6162-390F-46A4-B5F3-25AF63F39305}.Debug|Win32.Build.0 = Debug|Win32
+		{B47E6162-390F-46A4-B5F3-25AF63F39305}.Debug|x64.ActiveCfg = Debug|x64
+		{B47E6162-390F-46A4-B5F3-25AF63F39305}.Debug|x64.Build.0 = Debug|x64
+		{B47E6162-390F-46A4-B5F3-25AF63F39305}.Release|Win32.ActiveCfg = Release|Win32
+		{B47E6162-390F-46A4-B5F3-25AF63F39305}.Release|Win32.Build.0 = Release|Win32
+		{B47E6162-390F-46A4-B5F3-25AF63F39305}.Release|x64.ActiveCfg = Release|x64
+		{B47E6162-390F-46A4-B5F3-25AF63F39305}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
