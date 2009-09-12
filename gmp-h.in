@@ -236,7 +236,6 @@ typedef struct
   __mpz_struct _mp_den;
 } __mpq_struct;
 
-typedef __mpq_struct MP_RAT;    /* gmp 1 source compatibility */
 typedef __mpq_struct mpq_t[1];
 
 typedef struct
@@ -252,7 +251,6 @@ typedef struct
   mp_limb_t *_mp_d;		/* Pointer to the limbs.  */
 } __mpf_struct;
 
-/* typedef __mpf_struct MP_FLOAT; */
 typedef __mpf_struct mpf_t[1];
 
 /* Available random number generation algorithms.  */
