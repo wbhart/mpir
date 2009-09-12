@@ -183,8 +183,6 @@ usage: t-rand [function nbits]\n\
       for (a = zarr; a->s != NULL; a++)
 	{
 	  gmp_randinit_lc_2exp_size (rstate, a->nbits);
-	  if (gmp_errno != GMP_ERROR_NONE)
-	    exit (1);
 	  gmp_randseed_ui (rstate, SEED);
 
 	  for (i = 0; i < ENTS; i++)
@@ -213,8 +211,6 @@ usage: t-rand [function nbits]\n\
       for (a = farr; a->s != NULL; a++)
 	{
 	  gmp_randinit_lc_2exp_size (rstate, a->nbits);
-	  if (gmp_errno != GMP_ERROR_NONE)
-	    exit (1);
 	  gmp_randseed_ui (rstate, SEED);
 
 	  mpf_init2 (f, a->nbits);
@@ -248,8 +244,6 @@ usage: t-rand [function nbits]\n\
   else				/* Print mode.  */
     {
       gmp_randinit_lc_2exp_size (rstate, nbits);
-      if (gmp_errno != GMP_ERROR_NONE)
-	exit (1);
       gmp_randseed_ui (rstate, SEED);
 
       switch (func)
