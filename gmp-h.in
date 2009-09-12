@@ -546,9 +546,6 @@ __GMP_DECLSPEC void mp_get_memory_functions __GMP_PROTO ((void *(**) (size_t),
 #define mp_bits_per_limb __gmp_bits_per_limb
 __GMP_DECLSPEC extern __gmp_const int mp_bits_per_limb;
 
-#define gmp_errno __gmp_errno
-__GMP_DECLSPEC extern int gmp_errno;
-
 #define gmp_version __gmp_version
 __GMP_DECLSPEC extern __gmp_const char * __gmp_const gmp_version;
 

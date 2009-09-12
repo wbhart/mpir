@@ -27,8 +27,6 @@ MA 02110-1301, USA. */
 #include "mpir.h"
 #include "gmp-impl.h"
 
-int gmp_errno = 0;
-
 
 /* The deliberate divide by zero triggers an exception on most systems.  On
    those where it doesn't, for example power and powerpc, use abort instead.
@@ -40,7 +38,6 @@ int gmp_errno = 0;
 void
 __gmp_exception (int error_bit)
 {
-  gmp_errno |= error_bit;
   __gmp_junk = 10 / __gmp_0;
   abort ();
 }
