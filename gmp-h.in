@@ -215,8 +215,6 @@ typedef struct
 
 #endif /* __GNU_MP__ */
 
-
-typedef __mpz_struct MP_INT;    /* gmp 1 source compatibility */
 typedef __mpz_struct mpz_t[1];
 
 typedef mp_limb_t *		mp_ptr;
