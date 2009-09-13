@@ -3911,6 +3911,9 @@ File: mpir.info,  Node: Miscellaneous Float Functions,  Prev: I/O of Floats,  Up
      to trigger corner-case bugs.  Negative random numbers are
      generated when MAX_SIZE is negative.
 
+     *This function is obsolete.  It will disappear from future MPIR
+     releases.*
+
 
 File: mpir.info,  Node: Low-level Functions,  Next: Random Number Functions,  Prev: Floating-point Functions,  Up: Top
 
@@ -4306,7 +4309,8 @@ For example, {S1P, S1N}.
      strings of zeros and ones in the binary representation.
 
      `mpn_random2' is intended for testing the correctness of the `mpn'
-     routines.
+     routines.  *These functions are obsolete. They will disappear from
+     future MPIR releases.*
 
  -- Function: unsigned long int mpn_popcount (const mp_limb_t *S1P,
           mp_size_t N)

@@ -35,6 +35,7 @@ static void gmp_rrandomb _PROTO ((mp_ptr rp, gmp_randstate_t rstate, unsigned lo
 #define BITS_PER_RANDCALL 32
 #endif
 
+// This function is obsolete 13/09/2009
 void
 mpn_random2 (mp_ptr rp, mp_size_t n)
 {

@@ -24,7 +24,7 @@ MA 02110-1301, USA. */
 #include "mpir.h"
 #include "gmp-impl.h"
 
-
+// This function is Obsolete 13/09/2009
 void
 mpf_random2 (mpf_ptr x, mp_size_t xs, mp_exp_t exp)
 {

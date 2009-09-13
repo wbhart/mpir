@@ -4922,6 +4922,8 @@ the interval @minus{}@var{exp} to @var{exp} (in limbs).  This function is
 useful for testing functions and algorithms, since these kind of random
 numbers have proven to be more likely to trigger corner-case bugs.  Negative
 random numbers are generated when @var{max_size} is negative.
+
+@strong{This function is obsolete.  It will disappear from future MPIR releases.}
 @end deftypefun
 
 @node Low-level Functions, Random Number Functions, Floating-point Functions, Top
@@ -5341,6 +5343,7 @@ zeros and ones in the binary representation.
 
 @code{mpn_random2} is intended for testing the correctness of the @code{mpn}
 routines.
+@strong{These functions are obsolete. They will disappear from future MPIR releases.}
 @end deftypefun
 
 @deftypefun {unsigned long int} mpn_popcount (const mp_limb_t *@var{s1p}, mp_size_t @var{n})
