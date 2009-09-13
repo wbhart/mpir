@@ -31,7 +31,7 @@ libmpf_la_SOURCES = \
   add.c add_ui.c sub.c sub_ui.c ui_sub.c mul.c mul_ui.c div.c div_ui.c \
   cmp.c cmp_d.c cmp_si.c cmp_ui.c mul_2exp.c div_2exp.c abs.c neg.c get_d.c \
   get_d_2exp.c set_dfl_prec.c set_prc.c set_prc_raw.c get_dfl_prec.c get_prc.c \
-  ui_div.c sqrt_ui.c \
+  ui_div.c sqrt_ui.c rrandomb.c \
   pow_ui.c urandomb.c swap.c get_si.c get_ui.c int_p.c \
   ceilfloor.c trunc.c \
   fits_sint.c fits_slong.c fits_sshort.c \

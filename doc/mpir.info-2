@@ -22,6 +22,21 @@ START-INFO-DIR-ENTRY
 END-INFO-DIR-ENTRY
 
 
+File: mpir.info,  Node: Other Algorithms,  Next: Assembler Coding,  Prev: Radix Conversion Algorithms,  Up: Algorithms
+
+16.7 Other Algorithms
+=====================
+
+* Menu:
+
+* Prime Testing Algorithm::
+* Factorial Algorithm::
+* Binomial Coefficients Algorithm::
+* Fibonacci Numbers Algorithm::
+* Lucas Numbers Algorithm::
+* Random Number Algorithms::
+
+
 File: mpir.info,  Node: Prime Testing Algorithm,  Next: Factorial Algorithm,  Prev: Other Algorithms,  Up: Other Algorithms
 
 16.7.1 Prime Testing
@@ -2598,8 +2613,10 @@ Function and Type Index
 * mpf_out_str:                           I/O of Floats.       (line  17)
 * mpf_pow_ui:                            Float Arithmetic.    (line  41)
 * mpf_random2:                           Miscellaneous Float Functions.
-                                                              (line  36)
+                                                              (line  49)
 * mpf_reldiff:                           Float Comparison.    (line  24)
+* mpf_rrandomb:                          Miscellaneous Float Functions.
+                                                              (line  36)
 * mpf_set:                               Assigning Floats.    (line  10)
 * mpf_set_d:                             Assigning Floats.    (line  13)
 * mpf_set_default_prec:                  Initializing Floats. (line   7)

@@ -76,10 +76,10 @@ am_libmpf_la_OBJECTS = init.lo init2.lo set.lo set_ui.lo set_si.lo \
 	mul_ui.lo div.lo div_ui.lo cmp.lo cmp_d.lo cmp_si.lo cmp_ui.lo \
 	mul_2exp.lo div_2exp.lo abs.lo neg.lo get_d.lo get_d_2exp.lo \
 	set_dfl_prec.lo set_prc.lo set_prc_raw.lo get_dfl_prec.lo \
-	get_prc.lo ui_div.lo sqrt_ui.lo pow_ui.lo urandomb.lo swap.lo \
-	get_si.lo get_ui.lo int_p.lo ceilfloor.lo trunc.lo \
-	fits_sint.lo fits_slong.lo fits_sshort.lo fits_uint.lo \
-	fits_ulong.lo fits_ushort.lo
+	get_prc.lo ui_div.lo sqrt_ui.lo rrandomb.lo pow_ui.lo \
+	urandomb.lo swap.lo get_si.lo get_ui.lo int_p.lo ceilfloor.lo \
+	trunc.lo fits_sint.lo fits_slong.lo fits_sshort.lo \
+	fits_uint.lo fits_ulong.lo fits_ushort.lo
 libmpf_la_OBJECTS = $(am_libmpf_la_OBJECTS)
 DEFAULT_INCLUDES = -I. -I$(srcdir) -I$(top_builddir)
 depcomp =
@@ -258,7 +258,7 @@ libmpf_la_SOURCES = \
   add.c add_ui.c sub.c sub_ui.c ui_sub.c mul.c mul_ui.c div.c div_ui.c \
   cmp.c cmp_d.c cmp_si.c cmp_ui.c mul_2exp.c div_2exp.c abs.c neg.c get_d.c \
   get_d_2exp.c set_dfl_prec.c set_prc.c set_prc_raw.c get_dfl_prec.c get_prc.c \
-  ui_div.c sqrt_ui.c \
+  ui_div.c sqrt_ui.c rrandomb.c \
   pow_ui.c urandomb.c swap.c get_si.c get_ui.c int_p.c \
   ceilfloor.c trunc.c \
   fits_sint.c fits_slong.c fits_sshort.c \

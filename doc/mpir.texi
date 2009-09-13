@@ -4915,6 +4915,17 @@ The variable @var{state} must be initialized by calling one of the
 invoking this function.
 @end deftypefun
 
+@deftypefun void mpf_rrandomb (mpf_t @var{rop}, gmp_randstate_t @var{state}, mp_size_t @var{max_size}, mp_exp_t @var{exp})
+Generate a random float of at most @var{max_size} limbs, with long strings of
+zeros and ones in the binary representation.  The exponent of the number is in
+the interval @minus{}@var{exp} to @var{exp} (in limbs).  This function is
+useful for testing functions and algorithms, since these kind of random
+numbers have proven to be more likely to trigger corner-case bugs.  Negative
+random numbers are generated when @var{max_size} is negative.
+
+@strong{This interface is preliminary.  It might change incompatibly in future revisions.}
+@end deftypefun
+
 @deftypefun void mpf_random2 (mpf_t @var{rop}, mp_size_t @var{max_size}, mp_exp_t @var{exp})
 Generate a random float of at most @var{max_size} limbs, with long strings of
 zeros and ones in the binary representation.  The exponent of the number is in
@@ -5194,8 +5205,7 @@ with this difference, provided @math{@var{rp} @le{} @var{s1p}}.
 This function requires that @math{@var{s1n} * @nicode{mp\_bits\_per\_limb}
 @ge{} @var{D}}, and that @{@var{s2p}, @var{s2n}@} is odd.
 
-@strong{This interface is preliminary.  It might change incompatibly in future
-revisions.}
+@strong{This interface is preliminary.  It might change incompatibly in future revisions.}
 @end deftypefun
 
 @deftypefun mp_limb_t mpn_lshift (mp_limb_t *@var{rp}, const mp_limb_t *@var{sp}, mp_size_t @var{n}, unsigned int @var{count})
