@@ -63,7 +63,7 @@ check_rand (void)
       prec = min_prec + gmp_urandomm_ui (rands, 15L);
       refmpf_set_prec_limbs (u, prec);
       do {
-        mpf_random2 (u, PREC(u), (mp_exp_t) 20);
+        mpf_rrandomb (u, rands, PREC(u), (mp_exp_t) 20);
       } while (SIZ(u) == 0);
       if (gmp_urandomb_ui (rands, 1L))
         mpf_neg (u, u);
@@ -72,7 +72,7 @@ check_rand (void)
       prec = min_prec + gmp_urandomm_ui (rands, 15L);
       refmpf_set_prec_limbs (v, prec);
       do {
-        mpf_random2 (v, PREC(v), (mp_exp_t) 20);
+        mpf_rrandomb (v, rands, PREC(v), (mp_exp_t) 20);
       } while (SIZ(v) == 0);
       if (gmp_urandomb_ui (rands, 1L))
         mpf_neg (v, v);
@@ -125,7 +125,7 @@ check_reuse_three (void)
       /* input, non-zero, possibly negative */
       PREC(got) = input_prec;
       do {
-        mpf_random2 (got, input_prec, (mp_exp_t) 20);
+        mpf_rrandomb (got, rands, input_prec, (mp_exp_t) 20);
       } while (SIZ(got) == 0);
       if (gmp_urandomb_ui (rands, 1L))
         mpf_neg (got, got);

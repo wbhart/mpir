@@ -87,7 +87,7 @@ check_rand (void)
       refmpf_set_prec_limbs (u, prec);
 
       /* u, possibly negative */
-      mpf_random2 (u, PREC(u), (mp_exp_t) 20);
+      mpf_rrandomb (u, rands, PREC(u), (mp_exp_t) 20);
       if (gmp_urandomb_ui (rands, 1L))
         mpf_neg (u, u);
 

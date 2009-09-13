@@ -68,11 +68,11 @@ main (int argc, char **argv)
     {
       size = urandom () % (2 * SIZE) - SIZE;
       exp = urandom () % SIZE;
-      mpf_random2 (u, size, exp);
+      mpf_rrandomb (u, RANDS, size, exp);
 
       size = urandom () % (2 * SIZE) - SIZE;
       exp = urandom () % SIZE;
-      mpf_random2 (v, size, exp);
+      mpf_rrandomb (v, RANDS, size, exp);
 
       mpf_add (w, u, v);
       refmpf_add (wref, u, v);

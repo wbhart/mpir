@@ -65,7 +65,7 @@ check_rand1 (int argc, char **argv)
     {
       size = urandom () % SIZE;
       exp = urandom () % SIZE;
-      mpf_random2 (x, size, exp);
+      mpf_rrandomb (x, RANDS, size, exp);
 
       mpf_sqrt (y, x);
       MPF_CHECK_FORMAT (y);
@@ -132,7 +132,7 @@ check_rand2 (void)
       r_prec = gmp_urandomm_ui (rands, max_prec-min_prec) + min_prec;
       refmpf_set_prec_limbs (r, r_prec);
 
-      mpf_random2 (x, x_prec, 1000);
+      mpf_rrandomb (x, rands, x_prec, 1000);
 
       mpf_sqrt (r, x);
       MPF_CHECK_FORMAT (r);

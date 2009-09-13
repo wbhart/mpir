@@ -122,8 +122,8 @@ main (int argc, char **argv)
 
   for (pass = 1; pass <= reps; pass++)
     {
-      mpf_random2 (in1, urandom () % SIZE - SIZE/2, urandom () % EXPO);
-      mpf_random2 (in2, urandom () % SIZE - SIZE/2, urandom () % EXPO);
+      mpf_rrandomb (in1, RANDS, urandom () % SIZE - SIZE/2, urandom () % EXPO);
+      mpf_rrandomb (in2, RANDS, urandom () % SIZE - SIZE/2, urandom () % EXPO);
 
       for (i = 0; i < sizeof (dss_funcs) / sizeof (dss_func); i++)
 	{

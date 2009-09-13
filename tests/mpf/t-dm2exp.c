@@ -80,7 +80,7 @@ main (int argc, char **argv)
 
       un = urandom () % (2 * SIZE) - SIZE;
       ue = urandom () % SIZE;
-      mpf_random2 (u, un, ue);
+      mpf_rrandomb (u, RANDS, un, ue);
 
       mpf_div_2exp (w1, u, pow2);
       mpf_div (w2, u, v);

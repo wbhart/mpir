@@ -84,7 +84,7 @@ main (int argc, char **argv)
         {
           size = urandom () % (2 * SIZE) - SIZE;
           exp = urandom () % EXPO;
-          mpf_random2 (x, size, exp);
+          mpf_rrandomb (x, RANDS, size, exp);
           base = urandom () % 61 + 2;
         }
 

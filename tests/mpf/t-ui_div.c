@@ -82,7 +82,7 @@ check_rand (void)
 
       /* v, non-zero */
       do {
-        mpf_random2 (v, PREC(v), (mp_exp_t) 20);
+        mpf_rrandomb (v, rands, PREC(v), (mp_exp_t) 20);
       } while (SIZ(v) == 0);
 
       /* v possibly negative */
