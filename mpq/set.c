@@ -23,7 +23,7 @@ MA 02110-1301, USA. */
 #include "gmp-impl.h"
 
 void
-mpq_set (MP_RAT *dest, const MP_RAT *src)
+mpq_set (mpq_ptr dest, mpq_srcptr src)
 {
   mp_size_t num_size, den_size;
   mp_size_t abs_num_size;

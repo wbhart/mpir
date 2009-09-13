@@ -75,7 +75,7 @@ Street, Fifth Floor, Boston, MA 02110-1301, USA. */
 
 /* GMP version 1.x compatibility.  */
 #if ! (__GNU_MP_VERSION >= 2)
-typedef MP_INT __mpz_struct;
+//typedef MP_INT __mpz_struct;
 typedef __mpz_struct mpz_t[1];
 typedef __mpz_struct *mpz_ptr;
 #define mpz_fdiv_q	mpz_div

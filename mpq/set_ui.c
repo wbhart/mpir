@@ -24,7 +24,7 @@ MA 02110-1301, USA. */
 #include "gmp-impl.h"
 
 void
-mpq_set_ui (MP_RAT *dest, unsigned long int num, unsigned long int den)
+mpq_set_ui (mpq_ptr dest, unsigned long int num, unsigned long int den)
 {
   if (GMP_NUMB_BITS < BITS_PER_ULONG)
     {

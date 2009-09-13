@@ -75,17 +75,17 @@ AUTOMAKE_OPTIONS = 1.8 gnu no-dependencies
 # it's still good to get the shared library filename (like
 # libgmpxx.so.3.0.4) incrementing, to make it clear which GMP it's from.
 
-LIBGMP_LT_CURRENT =  7
+LIBGMP_LT_CURRENT = 7
 LIBGMP_LT_REVISION = 4
-LIBGMP_LT_AGE =      4
+LIBGMP_LT_AGE = 4
 
-LIBGMPXX_LT_CURRENT =  4
+LIBGMPXX_LT_CURRENT = 4
 LIBGMPXX_LT_REVISION = 4
-LIBGMPXX_LT_AGE =      1
+LIBGMPXX_LT_AGE = 1
 
-LIBMP_LT_CURRENT =  4
+LIBMP_LT_CURRENT = 4
 LIBMP_LT_REVISION = 13
-LIBMP_LT_AGE =      1
+LIBMP_LT_AGE = 1
 
 
 SUBDIRS = tests

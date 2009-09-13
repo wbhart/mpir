@@ -93,7 +93,7 @@ MA 02110-1301, USA. */
    like to have helping everywhere that uses a quotient-only division. */
 
 double
-mpq_get_d (const MP_RAT *src)
+mpq_get_d (mpq_srcptr src)
 {
   double res;
   mp_srcptr np, dp;

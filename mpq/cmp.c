@@ -25,7 +25,7 @@ MA 02110-1301, USA. */
 #include "longlong.h"
 
 int
-mpq_cmp (const MP_RAT *op1, const MP_RAT *op2)
+mpq_cmp (mpq_srcptr op1, mpq_srcptr op2)
 {
   mp_size_t num1_size = op1->_mp_num._mp_size;
   mp_size_t den1_size = op1->_mp_den._mp_size;

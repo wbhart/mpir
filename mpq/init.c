@@ -23,7 +23,7 @@ MA 02110-1301, USA. */
 #include "gmp-impl.h"
 
 void
-mpq_init (MP_RAT *x)
+mpq_init (mpq_ptr x)
 {
   x->_mp_num._mp_alloc = 1;
   x->_mp_num._mp_d = (mp_ptr) (*__gmp_allocate_func) (BYTES_PER_MP_LIMB);

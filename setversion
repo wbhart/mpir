@@ -2,10 +2,10 @@
 
 #
 
-# set version number ie here is 1.2.2
+# set version number ie here is 1.3.0
 VERSION=1
-VERSION_MINOR=2
-VERSION_PATCHLEVEL=2
+VERSION_MINOR=3
+VERSION_PATCHLEVEL=0
 
 
 # these are the library soname numbers see

@@ -25,7 +25,7 @@ MA 02110-1301, USA. */
 #include "gmp-impl.h"
 
 void
-mpq_canonicalize (MP_RAT *op)
+mpq_canonicalize (mpq_ptr op)
 {
   mpz_t gcd;
   TMP_DECL;
