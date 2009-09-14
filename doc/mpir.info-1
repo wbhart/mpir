@@ -4322,8 +4322,44 @@ For example, {S1P, S1N}.
      strings of zeros and ones in the binary representation.
 
      `mpn_random2' is intended for testing the correctness of the `mpn'
-     routines.  *These functions are obsolete. They will disappear from
-     future MPIR releases.*
+     routines.
+
+     *These functions are obsolete. They will disappear from future
+     MPIR releases.*
+
+ -- Function: void mpn_urandomb (mp_limb_t *RP, gmp_randstate_t STATE,
+          unsigned long N)
+     Generate a uniform random number of length N bits and store it at
+     RP.
+
+     *This function interface is preliminary and may change in the
+     future.*
+
+ -- Function: void mpn_urandomm (mp_limb_t *RP, gmp_randstate_t STATE,
+          const mp_limb_t *MP, mp_size_t N)
+     Generate a uniform random number modulo (MP,N) of length N limbs
+     and store it at RP.
+
+     *This function interface is preliminary and may change in the
+     future.*
+
+ -- Function: void mpn_randomb (mp_limb_t *RP, gmp_randstate_t STATE,
+          mp_size_t N)
+     Generate a random number of length N limbs and store it at RP.
+     The most significant limb is always non-zero.
+
+     *This function interface is preliminary and may change in the
+     future.*
+
+ -- Function: void mpn_rrandom (mp_limb_t *RP, gmp_randstate_t STATE,
+          mp_size_t N)
+     Generate a random number of length N limbs and store it at RP.
+     The most significant limb is always non-zero. Generates long
+     strings of zeros and ones in the binary representation and is
+     intended for testing the correctness of the `mpn' routines.
+
+     *This function interface is preliminary and may change in the
+     future.*
 
  -- Function: unsigned long int mpn_popcount (const mp_limb_t *S1P,
           mp_size_t N)
@@ -7058,43 +7094,4 @@ remainder produced, ie. the highest power would be an b^(n*k)
 approximately equal to sqrt(t), not restricted to a 2^i factor.  That
 ought to smooth out a graph of times against sizes, but may or may not
 be a net speedup.
-
-
-File: mpir.info,  Node: Radix to Binary,  Prev: Binary to Radix,  Up: Radix Conversion Algorithms
-
-16.6.2 Radix to Binary
-----------------------
-
-Conversions from a power-of-2 radix into binary use a simple and fast
-O(N) bitwise concatenation algorithm.
-
-   Conversions from other radices use one of two algorithms.  Sizes
-below `SET_STR_THRESHOLD' use a basic O(N^2) method.  Groups of n
-digits are converted to limbs, where n is the biggest power of the base
-b which will fit in a limb, then those groups are accumulated into the
-result by multiplying by b^n and adding.  This saves multi-precision
-operations, as per Knuth section 4.4 part E (*note References::).  Some
-special case code is provided for decimal, giving the compiler a chance
-to optimize multiplications by 10.
-
-   Above `SET_STR_THRESHOLD' a sub-quadratic algorithm is used.  First
-groups of n digits are converted into limbs.  Then adjacent limbs are
-combined into limb pairs with x*b^n+y, where x and y are the limbs.
-Adjacent limb pairs are combined into quads similarly with x*b^(2n)+y.
-This continues until a single block remains, that being the result.
-
-   The advantage of this method is that the multiplications for each x
-are big blocks, allowing Karatsuba and higher algorithms to be used.
-But the cost of calculating the powers b^(n*2^i) must be overcome.
-`SET_STR_THRESHOLD' usually ends up quite big, around 5000 digits, and
-on some processors much bigger still.
-
-   `SET_STR_THRESHOLD' is based on the input digits (and tuned for
-decimal), though it might be better based on a limb count, so as to be
-independent of the base.  But that sort of count isn't used by the base
-case and so would need some sort of initial calculation or estimate.
-
-   The main reason `SET_STR_THRESHOLD' is so much bigger than the
-corresponding `GET_STR_PRECOMPUTE_THRESHOLD' is that `mpn_mul_1' is
-much faster than `mpn_divrem_1' (often by a factor of 10, or more).
 

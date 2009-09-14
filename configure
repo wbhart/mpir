@@ -29294,6 +29294,7 @@ gmp_mpn_functions="$extra_functions					   \
   lgcd ngcd ngcd_matrix ngcd_step nhgcd2                        \
   mulmid_basecase mulmid mulmid_n toom42_mulmid	mulmod_2expp1 mulmod_2expm1	\
   mul mul_fft mul_n mul_basecase sqr_basecase random random2 pow_1	   \
+  urandomb urandomm randomb rrandom						\
   rootrem sqrtrem get_str set_str scan0 scan1 popcount hamdist cmp perfsqr \
   bdivmod gcd gcd_1 gcdext tdiv_qr dc_divrem_n sb_divrem_mn jacbase get_d  \
   mullow_n mulhigh_n mullow_n_basecase mullow_basecase redc_basecase 	\

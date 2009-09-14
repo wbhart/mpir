@@ -22,6 +22,45 @@ START-INFO-DIR-ENTRY
 END-INFO-DIR-ENTRY
 
 
+File: mpir.info,  Node: Radix to Binary,  Prev: Binary to Radix,  Up: Radix Conversion Algorithms
+
+16.6.2 Radix to Binary
+----------------------
+
+Conversions from a power-of-2 radix into binary use a simple and fast
+O(N) bitwise concatenation algorithm.
+
+   Conversions from other radices use one of two algorithms.  Sizes
+below `SET_STR_THRESHOLD' use a basic O(N^2) method.  Groups of n
+digits are converted to limbs, where n is the biggest power of the base
+b which will fit in a limb, then those groups are accumulated into the
+result by multiplying by b^n and adding.  This saves multi-precision
+operations, as per Knuth section 4.4 part E (*note References::).  Some
+special case code is provided for decimal, giving the compiler a chance
+to optimize multiplications by 10.
+
+   Above `SET_STR_THRESHOLD' a sub-quadratic algorithm is used.  First
+groups of n digits are converted into limbs.  Then adjacent limbs are
+combined into limb pairs with x*b^n+y, where x and y are the limbs.
+Adjacent limb pairs are combined into quads similarly with x*b^(2n)+y.
+This continues until a single block remains, that being the result.
+
+   The advantage of this method is that the multiplications for each x
+are big blocks, allowing Karatsuba and higher algorithms to be used.
+But the cost of calculating the powers b^(n*2^i) must be overcome.
+`SET_STR_THRESHOLD' usually ends up quite big, around 5000 digits, and
+on some processors much bigger still.
+
+   `SET_STR_THRESHOLD' is based on the input digits (and tuned for
+decimal), though it might be better based on a limb count, so as to be
+independent of the base.  But that sort of count isn't used by the base
+case and so would need some sort of initial calculation or estimate.
+
+   The main reason `SET_STR_THRESHOLD' is so much bigger than the
+corresponding `GET_STR_PRECOMPUTE_THRESHOLD' is that `mpn_mul_1' is
+much faster than `mpn_divrem_1' (often by a factor of 10, or more).
+
+
 File: mpir.info,  Node: Other Algorithms,  Next: Assembler Coding,  Prev: Radix Conversion Algorithms,  Up: Algorithms
 
 16.7 Other Algorithms
@@ -2184,7 +2223,7 @@ Concept Index
 * Multi-threading:                       Reentrancy.          (line   6)
 * Multiplication algorithms:             Multiplication Algorithms.
                                                               (line   6)
-* Nails:                                 Low-level Functions. (line 416)
+* Nails:                                 Low-level Functions. (line 452)
 * Native compilation:                    Build Options.       (line  59)
 * NeXT:                                  Known Build Problems.
                                                               (line  57)
@@ -2436,12 +2475,12 @@ Function and Type Index
                                                               (line  29)
 * gmp_fscanf:                            Formatted Input Functions.
                                                               (line  25)
-* GMP_LIMB_BITS:                         Low-level Functions. (line 449)
-* GMP_NAIL_BITS:                         Low-level Functions. (line 447)
-* GMP_NAIL_MASK:                         Low-level Functions. (line 457)
-* GMP_NUMB_BITS:                         Low-level Functions. (line 448)
-* GMP_NUMB_MASK:                         Low-level Functions. (line 458)
-* GMP_NUMB_MAX:                          Low-level Functions. (line 466)
+* GMP_LIMB_BITS:                         Low-level Functions. (line 485)
+* GMP_NAIL_BITS:                         Low-level Functions. (line 483)
+* GMP_NAIL_MASK:                         Low-level Functions. (line 493)
+* GMP_NUMB_BITS:                         Low-level Functions. (line 484)
+* GMP_NUMB_MASK:                         Low-level Functions. (line 494)
+* GMP_NUMB_MAX:                          Low-level Functions. (line 502)
 * gmp_obstack_printf:                    Formatted Output Functions.
                                                               (line  79)
 * gmp_obstack_vprintf:                   Formatted Output Functions.
@@ -2658,16 +2697,18 @@ Function and Type Index
 * mpn_gcd_1:                             Low-level Functions. (line 298)
 * mpn_gcdext:                            Low-level Functions. (line 304)
 * mpn_get_str:                           Low-level Functions. (line 339)
-* mpn_hamdist:                           Low-level Functions. (line 404)
+* mpn_hamdist:                           Low-level Functions. (line 440)
 * mpn_lshift:                            Low-level Functions. (line 258)
 * mpn_mod_1:                             Low-level Functions. (line 235)
 * mpn_mul:                               Low-level Functions. (line 145)
 * mpn_mul_1:                             Low-level Functions. (line 108)
 * mpn_mul_n:                             Low-level Functions. (line  99)
-* mpn_perfect_square_p:                  Low-level Functions. (line 410)
-* mpn_popcount:                          Low-level Functions. (line 400)
+* mpn_perfect_square_p:                  Low-level Functions. (line 446)
+* mpn_popcount:                          Low-level Functions. (line 436)
 * mpn_random:                            Low-level Functions. (line 388)
 * mpn_random2:                           Low-level Functions. (line 389)
+* mpn_randomb:                           Low-level Functions. (line 418)
+* mpn_rrandom:                           Low-level Functions. (line 426)
 * mpn_rshift:                            Low-level Functions. (line 270)
 * mpn_scan0:                             Low-level Functions. (line 373)
 * mpn_scan1:                             Low-level Functions. (line 381)
@@ -2678,6 +2719,8 @@ Function and Type Index
 * mpn_sub_n:                             Low-level Functions. (line  77)
 * mpn_submul_1:                          Low-level Functions. (line 134)
 * mpn_tdiv_qr:                           Low-level Functions. (line 157)
+* mpn_urandomb:                          Low-level Functions. (line 402)
+* mpn_urandomm:                          Low-level Functions. (line 410)
 * mpq_abs:                               Rational Arithmetic. (line  33)
 * mpq_add:                               Rational Arithmetic. (line   7)
 * mpq_canonicalize:                      Rational Number Functions.

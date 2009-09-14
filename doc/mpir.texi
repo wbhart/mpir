@@ -5353,8 +5353,38 @@ zeros and ones in the binary representation.
 
 @code{mpn_random2} is intended for testing the correctness of the @code{mpn}
 routines.
+
 @strong{These functions are obsolete. They will disappear from future MPIR releases.}
 @end deftypefun
+
+@deftypefun void mpn_urandomb (mp_limb_t *@var{rp}, gmp_randstate_t @var{state}, unsigned long @var{n})
+Generate a uniform random number of length @var{n} bits and store it at @var{rp}.
+
+@strong{This function interface is preliminary and may change in the future.}
+@end deftypefun
+
+@deftypefun void mpn_urandomm (mp_limb_t *@var{rp}, gmp_randstate_t @var{state}, const mp_limb_t *@var{mp}, mp_size_t @var{n})
+Generate a uniform random number modulo (@var{mp},@var{n}) of length @var{n} limbs and store it at @var{rp}.
+
+@strong{This function interface is preliminary and may change in the future.}
+@end deftypefun
+
+@deftypefun void mpn_randomb (mp_limb_t *@var{rp}, gmp_randstate_t @var{state}, mp_size_t @var{n})
+Generate a random number of length @var{n} limbs and store it at @var{rp}.
+The most significant limb is always non-zero.
+
+@strong{This function interface is preliminary and may change in the future.}
+@end deftypefun
+
+@deftypefun void mpn_rrandom (mp_limb_t *@var{rp}, gmp_randstate_t @var{state}, mp_size_t @var{n})
+Generate a random number of length @var{n} limbs and store it at @var{rp}.
+The most significant limb is always non-zero. Generates long strings of
+zeros and ones in the binary representation and is intended for testing the correctness of the @code{mpn}
+routines.
+
+@strong{This function interface is preliminary and may change in the future.}
+@end deftypefun
+
 
 @deftypefun {unsigned long int} mpn_popcount (const mp_limb_t *@var{s1p}, mp_size_t @var{n})
 Count the number of set bits in @{@var{s1p}, @var{n}@}.
