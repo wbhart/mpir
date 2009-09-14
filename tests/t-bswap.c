@@ -32,13 +32,15 @@ main (void)
 {
   mp_limb_t  src, want, got;
   int        i;
-
+  gmp_randstate_t rands;
+  
   tests_start ();
+  gmp_randinit_default(rands);
   mp_trace_base = -16;
 
   for (i = 0; i < 1000; i++)
     {
-      mpn_random (&src, (mp_size_t) 1);
+      mpn_randomb (&src, rands, (mp_size_t) 1);
 
       want = ref_bswap_limb (src);
 
@@ -67,7 +69,7 @@ main (void)
           goto error;
         }
     }
-
+  gmp_randclear(rands);
   tests_end ();
   exit (0);
 }

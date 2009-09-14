@@ -46,7 +46,7 @@ main (void)
     {
       for (c = 0; c < 10; c++)
 	{
-	  mpn_random (xp, n);
+	  mpn_randomb (xp, rands, n);
 	  r1 = mpn_divexact_byff (qp, xp, n);
 	  r2 = mpn_mul_1 (tp, qp, n, GMP_NUMB_MAX);
 	  if (r1 != r2)
@@ -66,7 +66,7 @@ main (void)
     {
       for (c = 0; c < 10; c++)
 	{
-	  mpn_random (xp, n);
+	  mpn_randomb (xp, rands, n);
 	  xp[n] = mpn_mul_1 (xp, xp, n - 1, GMP_NUMB_MAX);
 	  r1 = mpn_divexact_byff (qp, xp, n);
 	  r2 = mpn_mul_1 (tp, qp, n, GMP_NUMB_MAX);

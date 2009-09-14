@@ -45,8 +45,8 @@ main (void)
 	{
 	  for (n = xn; n <= xn + yn; n++)
 	    {
-	      mpn_random (xp, xn);
-	      mpn_random (yp, yn);
+	      mpn_randomb (xp, rands ,xn);
+	      mpn_randomb (yp, rands, yn);
 	      mpn_mul (mp, xp, xn, yp, yn);
 	      mpn_mullow_basecase (lp, xp, xn, yp, yn, n);
 	      if (mpn_cmp (mp, lp, n) != 0)

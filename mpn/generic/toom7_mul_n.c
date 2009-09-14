@@ -1700,15 +1700,17 @@ int main(void)
    mp_limb_t * rp = malloc(80192*sizeof(mp_limb_t));
 
 	mp_size_t i, n;
+	gmp_randstate_t rands;
+	gmp_randinit_default(rands);
    n = 2048;
-	mpn_random(up, n);
-	mpn_random(vp, n);
+	mpn_randomb(up, rands, n);
+	mpn_randomb(vp, rands, n);
    for (i = 0; i < 50000; i++)
 	{
 	   if ((i & 31) == 0)
 		{
-			mpn_random(up, n);
-	      mpn_random(vp, n);
+			mpn_randomb(up, rands, n);
+	      mpn_randomb(vp, rands, n);
 		}
 		//mpn_mul_n(rp, up, vp, n);
 		mpn_toom7_mul_n(rp, up, vp, n);

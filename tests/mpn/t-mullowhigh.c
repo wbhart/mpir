@@ -44,8 +44,8 @@ main (void)
     {
       for (c = 0; c < 10; c++)
 	{
-	  mpn_random (xp, n);
-	  mpn_random (yp, n);
+	  mpn_randomb (xp, rands, n);
+	  mpn_randomb (yp, rands, n);
 	  mpn_mul_n (mp, xp, yp, n);
 	  mpn_mullow_n (lp, xp, yp, n);
 	  mpn_mulhigh_n (hp, xp, yp, n);

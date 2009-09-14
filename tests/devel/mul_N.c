@@ -145,10 +145,10 @@ main (int argc, char **argv)
       rp[size + N - 1] = 0x12345678;
       rp[-1] = 0x87654321;
 
-      mpn_random (vp, N);
+      mpn_randomb (vp, rands, N);
 
 #if TIMES != 1			/* run timing tests unless asked not to */
-      mpn_random (up, size);
+      mpn_randomb (up, rands, size);
 
       MPN_COPY (ref, rp, size + N - 1);
       t0 = cputime();

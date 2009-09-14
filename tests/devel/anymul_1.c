@@ -140,8 +140,8 @@ main (int argc, char **argv)
 #endif
 
 #if TIMES != 1
-      mpn_random (s1, size);
-      mpn_random (rp, size);
+      mpn_randomb (s1, rands, size);
+      mpn_randomb (rp, rands, size);
 
       MPN_COPY (ref, rp, size);
       t0 = cputime();

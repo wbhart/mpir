@@ -158,8 +158,8 @@ main (int argc, char **argv)
       dy[size+1] = 0x12345678;
 
 #if TIMES != 1
-      mpn_random (s1, size);
-      mpn_random (s2, size);
+      mpn_randomb (s1, rands, size);
+      mpn_randomb (s2, rands, size);
 
       t0 = cputime();
       for (i = 0; i < TIMES; i++)

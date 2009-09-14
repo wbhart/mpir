@@ -47,9 +47,9 @@ main (void)
 	    {
 	      if (i1 == 0)
 		{
-		  mpn_random (xp, n);
-		  mpn_random (yp, n);
-		  mpn_random (zp, n);
+		  mpn_randomb (xp, rands, n);
+		  mpn_randomb (yp, rands, n);
+		  mpn_randomb (zp, rands, n);
 		}
 	      else
 		{

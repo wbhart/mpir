@@ -47,7 +47,7 @@ main (void)
 	    {
 	      if (i1 == 0)
 		{
-		  mpn_random (xp, n);
+		  mpn_randomb (xp,rands, n);
 		}
 	      else
 		{
@@ -113,7 +113,7 @@ main (void)
 	    {
 	      if (i1 == 0)
 		{
-		  mpn_random (xp, n);
+		  mpn_randomb (xp,rands, n);
 		}
 	      else
 		{
@@ -143,7 +143,7 @@ main (void)
 	    {
 	      if (i1 == 0)
 		{
-		  mpn_random (xp, n);
+		  mpn_randomb (xp, rands,n);
 		}
 	      else
 		{
@@ -172,7 +172,7 @@ main (void)
 	    {
 	      if (i1 == 0)
 		{
-		  mpn_random (xp, n);
+		  mpn_randomb (xp,rands, n);
 		}
 	      else
 		{
@@ -202,7 +202,7 @@ main (void)
 	    {
 	      if (i1 == 0)
 		{
-		  mpn_random (xp, n);
+		  mpn_randomb (xp, rands,n);
 		}
 	      else
 		{

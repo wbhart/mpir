@@ -440,7 +440,7 @@ check_rand (void)
 
       /* mant_bits worth of random at np */
       if (rep & 1)
-        mpn_random (np, nalloc);
+        mpn_randomb (np, rands, nalloc);
       else
         mpn_rrandom (np, rands,nalloc);
       nsize = nalloc;
