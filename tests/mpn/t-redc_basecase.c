@@ -63,7 +63,7 @@ main (void)
      }
   for(n=1;n<100;n++)
      {for(j=1;j<100;j++)
-         {mpn_random2(mp,n);mp[0]|=1;modlimb_invert(inv,mp[0]);inv=-inv;mpn_random2(tp1,2*n);
+         {mpn_rrandom(mp,rands,n);mp[0]|=1;modlimb_invert(inv,mp[0]);inv=-inv;mpn_rrandom(tp1,rands,2*n);
           MPN_COPY(tp2,tp1,2*n);
           ref_redc_basecase(cp1,mp,n,inv,tp1);
           mpn_redc_basecase(cp2,mp,n,inv,tp2);

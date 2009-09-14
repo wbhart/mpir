@@ -32,7 +32,7 @@ MA 02110-1301, USA. */
 #define SGN(x) ((x) < 0 ? -1 : (x) > 0 ? 1 : 0)
 
 void
-mpz_intrandom2 (mpz_ptr x, mp_size_t size)
+mpz_intrandom2 (mpz_ptr x, gmp_randstate_t rands, mp_size_t size)
 {
   mp_size_t abs_size;
 
@@ -42,7 +42,7 @@ mpz_intrandom2 (mpz_ptr x, mp_size_t size)
       if (x->_mp_alloc < abs_size)
 	_mpz_realloc (x, abs_size);
 
-      mpn_random2 (x->_mp_d, abs_size);
+      mpn_rrandom (x->_mp_d, rands, abs_size);
     }
 
   x->_mp_size = size;
@@ -78,9 +78,11 @@ main (int argc, char **argv)
   int reps = 10000;
   int i;
   int cc, ccref;
-
+  gmp_randstate_t rands;
+  
   tests_start ();
-
+  gmp_randinit_default(rands);
+  
   if (argc == 2)
      reps = atoi (argv[1]);
 
@@ -90,20 +92,20 @@ main (int argc, char **argv)
   for (i = 0; i < reps; i++)
     {
       size = urandom () % SIZE - SIZE/2;
-      mpz_intrandom2 (NUM (a), size);
+      mpz_intrandom2 (NUM (a), rands, size);
       do
 	{
 	  size = urandom () % SIZE - SIZE/2;
-	  mpz_intrandom2 (DEN (a), size);
+	  mpz_intrandom2 (DEN (a), rands, size);
 	}
       while (mpz_cmp_ui (DEN (a), 0) == 0);
 
       size = urandom () % SIZE - SIZE/2;
-      mpz_intrandom2 (NUM (b), size);
+      mpz_intrandom2 (NUM (b), rands, size);
       do
 	{
 	  size = urandom () % SIZE - SIZE/2;
-	  mpz_intrandom2 (DEN (b), size);
+	  mpz_intrandom2 (DEN (b), rands, size);
 	}
       while (mpz_cmp_ui (DEN (b), 0) == 0);
 
@@ -119,7 +121,7 @@ main (int argc, char **argv)
 
   mpq_clear (a);
   mpq_clear (b);
-
+  gmp_randclear(rands);
   tests_end ();
   exit (0);
 }

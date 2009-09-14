@@ -95,7 +95,9 @@ main ()
   mp_limb_t dlimb, rlimb, plimb;
   mp_size_t nsize, qsize, psize;
   int test;
-
+  gmp_randstate_t rands;
+  gmp_randinit_default(rands);
+  
   for (test = 0; ; test++)
     {
 #ifdef RANDOM
@@ -104,9 +106,9 @@ main ()
       nsize = SIZE;
 #endif
 
-      mpn_random2 (nptr, nsize);
+      mpn_rrandom (nptr,rands,  nsize);
 
-      mpn_random2 (&dlimb, 1);
+      mpn_rrandom (&dlimb,rands, 1);
       if (dlimb == 0)
 	abort ();
 

@@ -40,7 +40,7 @@ for(b=1;b<600;b++)
    {xn=BITS_TO_LIMBS(b);k=xn*GMP_NUMB_BITS-b;
     MPN_ZERO(dp,xn);mpn_com_n(dp,dp,xn);dp[xn-1]&=GMP_NUMB_MASK>>k;// dp is 2^b-1
     for(c=0;c<5*b;c++)
-       {mpn_random2(xp,xn);mpn_random2(yp,xn);
+       {mpn_rrandom(xp,rands,xn);mpn_rrandom(yp,rands,xn);
         xp[xn-1]&=GMP_NUMB_MASK>>k;
         yp[xn-1]&=GMP_NUMB_MASK>>k;
         mpn_mul_n(zp,xp,yp,xn);zn=xn*2;MPN_NORMALIZE(zp,zn);
@@ -55,7 +55,7 @@ for(b=MULMOD_2EXPM1_THRESHOLD*GMP_NUMB_BITS;b<2*MULMOD_2EXPM1_THRESHOLD*GMP_NUMB
    {xn=BITS_TO_LIMBS(b);k=xn*GMP_NUMB_BITS-b;
     MPN_ZERO(dp,xn);mpn_com_n(dp,dp,xn);dp[xn-1]&=GMP_NUMB_MASK>>k;// dp is 2^b-1
     for(c=0;c<5;c++)
-       {mpn_random2(xp,xn);mpn_random2(yp,xn);
+       {mpn_rrandom(xp,rands,xn);mpn_rrandom(yp,rands,xn);
         xp[xn-1]&=GMP_NUMB_MASK>>k;
         yp[xn-1]&=GMP_NUMB_MASK>>k;
         mpn_mul_n(zp,xp,yp,xn);zn=xn*2;MPN_NORMALIZE(zp,zn);

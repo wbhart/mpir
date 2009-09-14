@@ -1672,14 +1672,16 @@ int main(void)
 {
    mp_limb_t * up = malloc(20000*sizeof(mp_limb_t));
    mp_limb_t * vp = malloc(20000*sizeof(mp_limb_t));
+   gmp_randstate_t rands;
+   gmp_randinit_default(rands);
    
 	mp_size_t i, n;
    for (i = 0; i < 20000; i++)
 	{
 	   n = randsize(15000) + 500;
 		printf("n = %d\n", n);
-		mpn_random2(up, n);
-		mpn_random2(vp, n);
+		mpn_rrandom(up, rands, n);
+		mpn_rrandom(vp, rands, n);
       if (!tc7_test(up, vp, n)) break;
 	}
 

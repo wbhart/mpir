@@ -51,7 +51,7 @@ main (void)
 		}
 	      else
 		{
-		  mpn_random2 (xp, n);
+		  mpn_rrandom (xp, rands, n);
 		}
 	      k1 = mpn_lshift1 (zp, xp, n);
 	      k2 = mpn_lshift (cp, xp, n, 1);
@@ -117,7 +117,7 @@ main (void)
 		}
 	      else
 		{
-		  mpn_random2 (xp, n);
+		  mpn_rrandom (xp, rands, n);
 		}
 	      k2 = mpn_lshift (cp, xp, n, 1);
 	      k1 = mpn_lshift1 (xp, xp, n);
@@ -147,7 +147,7 @@ main (void)
 		}
 	      else
 		{
-		  mpn_random2 (xp, n);
+		  mpn_rrandom (xp, rands, n);
 		}
 	      k2 = mpn_rshift (cp, xp, n, 1);
 	      k1 = mpn_rshift1 (xp, xp, n);
@@ -176,7 +176,7 @@ main (void)
 		}
 	      else
 		{
-		  mpn_random2 (xp, n);
+		  mpn_rrandom (xp, rands ,n);
 		}
 	      k2 = mpn_lshift (cp, xp, n, 2);
 	      k1 = mpn_lshift2 (xp, xp, n);
@@ -206,7 +206,7 @@ main (void)
 		}
 	      else
 		{
-		  mpn_random2 (xp, n);
+		  mpn_rrandom (xp, rands, n);
 		}
 	      k2 = mpn_rshift (cp, xp, n, 2);
 	      k1 = mpn_rshift2 (xp, xp, n);

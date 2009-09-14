@@ -42,7 +42,7 @@ for(   ;b<600;b++,tb*=2)
     MPN_ZERO(dp,xn);mpn_com_n(dp,dp,xn);dp[xn-1]&=GMP_NUMB_MASK>>k;// dp is 2^b-1
     dn=xn;dp[xn]=mpn_add_1(dp,dp,xn,2);if(dp[dn]!=0)dn++;// dp is 2^b+1 
     for(c=0;c<20;c++)
-       {mpn_random2(xp,xn);mpn_random2(yp,xn);
+       {mpn_rrandom(xp,rands,xn);mpn_rrandom(yp,rands,xn);
         xp[xn-1]&=GMP_NUMB_MASK>>k;
         yp[xn-1]&=GMP_NUMB_MASK>>k;
         ASSERT_MPN(xp,xn);ASSERT_MPN(yp,xn);ASSERT_MPN(zp,zn);ASSERT_MPN(dp,dn);
@@ -60,7 +60,7 @@ for(   ;b<600;b++,tb*=2)
     MPN_ZERO(dp,xn);mpn_com_n(dp,dp,xn);dp[xn-1]&=GMP_NUMB_MASK>>k;// dp is 2^b-1
     dn=xn;dp[xn]=mpn_add_1(dp,dp,xn,2);if(dp[dn]!=0)dn++;// dp is 2^b+1 
     for(c=0;c<20;c++)
-       {mpn_random2(xp,xn);MPN_ZERO(yp,xn);// set yp to 2^b
+       {mpn_rrandom(xp,rands,xn);MPN_ZERO(yp,xn);// set yp to 2^b
         xp[xn-1]&=GMP_NUMB_MASK>>k;
         yp[xn-1]&=GMP_NUMB_MASK>>k;
         yn=xn;if(tb==1)yn++;
@@ -83,7 +83,7 @@ for(   ;b<600;b++,tb*=2)
     MPN_ZERO(dp,xn);mpn_com_n(dp,dp,xn);dp[xn-1]&=GMP_NUMB_MASK>>k;// dp is 2^b-1
     dn=xn;dp[xn]=mpn_add_1(dp,dp,xn,2);if(dp[dn]!=0)dn++;// dp is 2^b+1 
     for(c=0;c<20;c++)
-       {mpn_random2(xp,xn);MPN_ZERO(yp,xn);// set yp to 2^b
+       {mpn_rrandom(xp,rands,xn);MPN_ZERO(yp,xn);// set yp to 2^b
         xp[xn-1]&=GMP_NUMB_MASK>>k;
         yp[xn-1]&=GMP_NUMB_MASK>>k;
         yn=xn;if(tb==1)yn++;

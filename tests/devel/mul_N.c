@@ -119,7 +119,9 @@ main (int argc, char **argv)
   mp_size_t size;
   double cyc;
   unsigned ntests;
-
+  gmp_randstate_t rands;
+  gmp_randinit_default(rands);
+  
   ntests = ~(unsigned) 0;
   if (argc == 2)
     ntests = strtol (argv[1], 0, 0);
@@ -161,10 +163,10 @@ main (int argc, char **argv)
 #ifdef ZEROu
       MPN_ZERO (up, size);
 #else
-      mpn_random2 (up, size);
+      mpn_rrandom (up, rands, size);
 #endif
-      mpn_random2 (vp, N);
-      mpn_random2 (rp, size + N - 1);
+      mpn_rrandom (vp, rands ,N);
+      mpn_rrandom (rp, rands ,size + N - 1);
 
 #if defined (PRINT) || defined (PRINTV)
       printf ("vp=");

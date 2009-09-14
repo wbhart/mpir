@@ -102,7 +102,9 @@ main (int argc, char **argv)
   mp_size_t size;
   double cyc;
   unsigned int ntests;
-
+  gmp_randstate_t rands;
+  gmp_randinit_default(rands);
+  
   s1 = malloc (SIZE * sizeof (mp_limb_t));
   ref = malloc (SIZE * sizeof (mp_limb_t));
   rp = malloc ((SIZE + 2) * sizeof (mp_limb_t));
@@ -134,7 +136,7 @@ main (int argc, char **argv)
 #ifdef FIXED_XLIMB
       xlimb = FIXED_XLIMB;
 #else
-      mpn_random2 (&xlimb, 1);
+      mpn_rrandom (&xlimb, rands,1);
 #endif
 
 #if TIMES != 1
@@ -153,11 +155,11 @@ main (int argc, char **argv)
 #endif
 
 #ifndef NOCHECK
-      mpn_random2 (s1, size);
+      mpn_rrandom (s1, rands,size);
 #ifdef ZERO
       memset (rp, 0, size * sizeof *rp);
 #else
-      mpn_random2 (rp, size);
+      mpn_rrandom (rp, rands,size);
 #endif
 #if defined (PRINT) || defined (XPRINT)
       printf ("xlimb=");

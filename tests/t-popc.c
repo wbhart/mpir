@@ -32,8 +32,10 @@ main (void)
 {
   mp_limb_t  src, want, got;
   int        i;
+  gmp_randstate_t rands;
 
   tests_start ();
+  gmp_randinit_default(rands);
   mp_trace_base = -16;
 
   for (i = 0; i < GMP_LIMB_BITS; i++)
@@ -55,14 +57,14 @@ main (void)
 
   for (i = 0; i < 100; i++)
     {
-      mpn_random2 (&src, (mp_size_t) 1);
+      mpn_rrandom (&src, rands, (mp_size_t) 1);
       want = ref_popc_limb (src);
 
       popc_limb (got, src);
       if (got != want)
         goto error;
     }
-
+  gmp_randclear(rands);
   tests_end ();
   exit (0);
 }

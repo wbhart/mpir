@@ -442,7 +442,7 @@ check_rand (void)
       if (rep & 1)
         mpn_random (np, nalloc);
       else
-        mpn_random2 (np, nalloc);
+        mpn_rrandom (np, rands,nalloc);
       nsize = nalloc;
       np[nsize-1] &= nhigh_mask;
       MPN_NORMALIZE (np, nsize);

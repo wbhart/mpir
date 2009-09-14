@@ -65,17 +65,20 @@ main (int argc, char* argv[])
   mp_limb_t ref[SIZE + 3];
   mp_limb_t scratch[10*SIZE + 100];
   mp_size_t un, vn;
-
+  gmp_randstate_t rands;
+  
   const mp_limb_t sentry = 0x012345678;
   
   int i, j;
+  gmp_randinit_default(rands);
+  
   for (i = 0; i < REPEAT; i++)
     {
       vn = (random() % SIZE) + 1;
       un = (random() % (SIZE + 1 - vn)) + vn;
 
-      mpn_random2 (up, un);
-      mpn_random2 (vp, vn);
+      mpn_rrandom (up, rands, un);
+      mpn_rrandom (vp, rands, vn);
 
       refmpn_mulmid (ref, up, un, vp, vn);
 
@@ -106,8 +109,8 @@ main (int argc, char* argv[])
       vn = (random() % SIZE) + 1;
       un = (random() % (SIZE + 1 - vn)) + vn;
 
-      mpn_random2 (up, un);
-      mpn_random2 (vp, vn);
+      mpn_rrandom (up, rands, un);
+      mpn_rrandom (vp, rands, vn);
 
       refmpn_mulmid (ref, up, un, vp, vn);
 
@@ -138,8 +141,8 @@ main (int argc, char* argv[])
       vn = (random() % (SIZE - 4)) + 4;
       un = 2*vn - 1;
 
-      mpn_random2 (up, un);
-      mpn_random2 (vp, vn);
+      mpn_rrandom (up, rands, un);
+      mpn_rrandom (vp, rands, vn);
 
       refmpn_mulmid (ref, up, un, vp, vn);
 

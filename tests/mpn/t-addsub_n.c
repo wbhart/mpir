@@ -53,9 +53,9 @@ main (void)
 		}
 	      else
 		{
-		  mpn_random2 (xp, n);
-		  mpn_random2 (yp, n);
-		  mpn_random2 (zp, n);
+		  mpn_rrandom (xp, rands, n);
+		  mpn_rrandom (yp, rands, n);
+		  mpn_rrandom (zp, rands, n);
 		}
 	      k = mpn_addsub_n (sp, xp, yp, zp, n);
 	      i = mpn_add_n (tp, xp, yp, n);

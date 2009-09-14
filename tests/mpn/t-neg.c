@@ -62,7 +62,7 @@ main (void)
 		}
 	      else
 		{
-		  mpn_random2 (xp, n);
+		  mpn_rrandom (xp, rands,n);
 		}
 	      k1 = mpn_sub_n (cp, zp, xp, n);
 	      k2 = mpn_neg_n (yp, xp, n);
@@ -102,7 +102,7 @@ main (void)
 		}
 	      else
 		{
-		  mpn_random2 (xp, n);
+		  mpn_rrandom (xp, rands,n);
 		}
 	      k1 = mpn_sub_n (cp, zp, xp, n);
 	      k2 = mpn_neg_n (xp, xp, n);

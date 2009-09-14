@@ -48,7 +48,7 @@ mpf_rrandomb (mpf_ptr x, gmp_randstate_t rnd,mp_size_t xs, mp_exp_t exp)
     xn = prec + 1;
 
   /* General random mantissa.  */
-  mpn_random2 (PTR(x), xn);
+  mpn_rrandom (PTR(x), rnd, xn);
 
   /* Generate random exponent.  */
   _gmp_rand (&elimb, rnd, GMP_NUMB_BITS);

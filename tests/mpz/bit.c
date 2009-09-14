@@ -31,7 +31,7 @@ MA 02110-1301, USA. */
 #endif
 
 void
-mpz_intrandom2 (mpz_ptr x, mp_size_t size)
+mpz_intrandom2 (mpz_ptr x, gmp_randstate_t rands, mp_size_t size)
 {
   mp_size_t abs_size;
 
@@ -41,7 +41,7 @@ mpz_intrandom2 (mpz_ptr x, mp_size_t size)
       if (x->_mp_alloc < abs_size)
 	_mpz_realloc (x, abs_size);
 
-      mpn_random2 (x->_mp_d, abs_size);
+      mpn_rrandom (x->_mp_d, rands, abs_size);
     }
 
   x->_mp_size = size;
@@ -160,7 +160,7 @@ check_com_negs (void)
 /* See that mpz_tstbit matches a twos complement calculated explicitly, for
    various low zeros.  */
 void
-check_tstbit (void)
+check_tstbit (gmp_randstate_t rands)
 {
 #define MAX_ZEROS  3
 #define NUM_LIMBS  3
@@ -176,7 +176,7 @@ check_tstbit (void)
   for (zeros = 0; zeros <= MAX_ZEROS; zeros++)
     {
       MPN_ZERO (pos, numberof(pos));
-      mpn_random2 (pos+zeros, (mp_size_t) NUM_LIMBS);
+      mpn_rrandom (pos+zeros, rands, (mp_size_t) NUM_LIMBS);
 
       for (low1 = 0; low1 <= 1; low1++)
         {
@@ -275,7 +275,7 @@ check_single (void)
 
 
 void
-check_random (int argc, char *argv[])
+check_random (int argc, gmp_randstate_t rands, char *argv[])
 {
   mpz_t x, s0, s1, s2, s3, m;
   mp_size_t xsize;
@@ -298,7 +298,7 @@ check_random (int argc, char *argv[])
   for (i = 0; i < reps; i++)
     {
       xsize = urandom () % (2 * SIZE) - SIZE;
-      mpz_intrandom2 (x, xsize);
+      mpz_intrandom2 (x, rands,xsize);
       bitindex = urandom () % SIZE;
 
       mpz_set (s0, x);
@@ -376,16 +376,17 @@ check_random (int argc, char *argv[])
 
 int
 main (int argc, char *argv[])
-{
+{gmp_randstate_t rands;
   tests_start ();
+gmp_randinit_default(rands);
   mp_trace_base = -16;
 
   check_clr_extend ();
   check_com_negs ();
-  check_tstbit ();
-  check_random (argc, argv);
+  check_tstbit (rands);
+  check_random (argc, rands,argv);
   check_single ();
-
+gmp_randclear(rands);
   tests_end ();
   exit (0);
 }

@@ -44,7 +44,7 @@ MA 02110-1301, USA. */
 void dump _PROTO ((mpq_t));
 
 void
-mpz_intrandom2 (mpz_ptr x, mp_size_t size)
+mpz_intrandom2 (mpz_ptr x, gmp_randstate_t rands, mp_size_t size)
 {
   mp_size_t abs_size;
 
@@ -54,7 +54,7 @@ mpz_intrandom2 (mpz_ptr x, mp_size_t size)
       if (x->_mp_alloc < abs_size)
 	_mpz_realloc (x, abs_size);
 
-      mpn_random2 (x->_mp_d, abs_size);
+      mpn_rrandom (x->_mp_d, rands, abs_size);
     }
 
   x->_mp_size = size;
@@ -62,7 +62,7 @@ mpz_intrandom2 (mpz_ptr x, mp_size_t size)
 
 
 void
-check_monotonic (int argc, char **argv)
+check_monotonic (int argc, gmp_randstate_t rands, char **argv)
 {
   mpq_t a;
   mp_size_t size;
@@ -86,11 +86,11 @@ check_monotonic (int argc, char **argv)
   for (i = 0; i < reps; i++)
     {
       size = urandom () % SIZE - SIZE/2;
-      mpz_intrandom2 (mpq_numref (a), size);
+      mpz_intrandom2 (mpq_numref (a), rands, size);
       do
 	{
 	  size = urandom () % SIZE - SIZE/2;
-	  mpz_intrandom2 (mpq_denref (a), size);
+	  mpz_intrandom2 (mpq_denref (a), rands, size);
 	}
       while (mpz_cmp_ui (mpq_denref (a), 0) == 0);
 
@@ -101,9 +101,9 @@ check_monotonic (int argc, char **argv)
       for (j = 0; j < 10; j++)
 	{
 	  size = urandom () % EPSIZE + 1;
-	  mpz_intrandom2 (mpq_numref (eps), size);
+	  mpz_intrandom2 (mpq_numref (eps), rands, size);
 	  size = urandom () % EPSIZE + 1;
-	  mpz_intrandom2 (mpq_denref (eps), size);
+	  mpz_intrandom2 (mpq_denref (eps), rands, size);
 	  mpq_canonicalize (eps);
 
 	  mpq_add (a, a, eps);
@@ -174,7 +174,7 @@ my_ldexp (double d, int e)
 }
 
 void
-check_random (int argc, char **argv)
+check_random (int argc, gmp_randstate_t rands, char **argv)
 {
   double d, d2, nd, dd;
   mpq_t q;
@@ -189,7 +189,7 @@ check_random (int argc, char **argv)
 
   for (test = 0; test < reps; test++)
     {
-      mpn_random2 (rp, LIMBS_PER_DOUBLE + 1);
+      mpn_rrandom (rp, rands, LIMBS_PER_DOUBLE + 1);
       d = 0.0;
       for (i = LIMBS_PER_DOUBLE - 1; i >= 0; i--)
 	d = d * MP_BASE_AS_DOUBLE + rp[i];
@@ -280,13 +280,14 @@ check_onebit (void)
 
 int
 main (int argc, char **argv)
-{
+{gmp_randstate_t rands;
+
   tests_start ();
-
+  gmp_randinit_default(rands);
   check_onebit ();
-  check_monotonic (argc, argv);
-  check_random (argc, argv);
-
+  check_monotonic (argc,rands,  argv);
+  check_random (argc,rands,  argv);
+  gmp_randclear(rands);
   tests_end ();
   exit (0);
 }

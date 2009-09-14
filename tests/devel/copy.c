@@ -88,7 +88,9 @@ main (int argc, char **argv)
   unsigned int test;
   mp_size_t size;
   unsigned int ntests;
-
+  gmp_randstate_t rands;
+  gmp_randinit_default(rands);
+  
   s1 = malloc (SIZE * sizeof (mp_limb_t));
   dx = malloc ((SIZE + 2) * sizeof (mp_limb_t));
   dy = malloc ((SIZE + 2) * sizeof (mp_limb_t));
@@ -130,7 +132,7 @@ main (int argc, char **argv)
 #endif
 
 #ifndef NOCHECK
-      mpn_random2 (s1, size);
+      mpn_rrandom (s1, rands,size);
 
 #ifdef PRINT
       mpn_print (s1, size);
