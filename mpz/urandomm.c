@@ -25,9 +25,6 @@ MA 02110-1301, USA. */
 #include "gmp-impl.h"
 #include "longlong.h" /* for count_leading_zeros */
 
-
-#define MAX_URANDOMM_ITER  80
-
 void
 mpz_urandomm (mpz_ptr rop, gmp_randstate_t rstate, mpz_srcptr n)
 {
@@ -74,17 +71,12 @@ mpz_urandomm (mpz_ptr rop, gmp_randstate_t rstate, mpz_srcptr n)
   /* Clear last limb to prevent the case in which size is one too much.  */
   rp[size - 1] = 0;
 
-  count = MAX_URANDOMM_ITER;	/* Set iteration count limit.  */
   do
     {
       _gmp_rand (rp, rstate, nbits);
       MPN_CMP (cmp, rp, np, size);
     }
-  while (cmp >= 0 && --count != 0);
-
-  if (count == 0)
-    /* Too many iterations; return result mod n == result - n */
-    mpn_sub_n (rp, rp, np, size);
+  while (cmp >= 0);
 
   if(overlap)__GMP_FREE_FUNC_LIMBS(np,size);
   MPN_NORMALIZE (rp, size);
