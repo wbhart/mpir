@@ -34,11 +34,10 @@ int
 main (void)
 {
   unsigned long n, c;
-  gmp_randstate_ptr rands;
+  gmp_randstate_t rands;
   mp_limb_t xp[10000], qp[10000], tp[10000], r1, r2;
   tests_start ();
-  rands = RANDS;
-
+  gmp_randinit_default(rands);
 
 // where (xp,n) = (qp,n)*(B-1) -ret*B^n    and 0 <= ret < B-1      B=2^GMP_NUMB_BITS
 // this assumes we use a divexact algorithm , a bi-directional algorithm would give different results
@@ -99,7 +98,7 @@ main (void)
 	  abort ();
 	}
     }
-
+  gmp_randclear(rands);
   tests_end ();
   exit (0);
 }

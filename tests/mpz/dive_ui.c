@@ -30,7 +30,7 @@ MA 02110-1301, USA. */
 void
 check_random (int argc, char *argv[])
 {
-  gmp_randstate_ptr rands = RANDS;
+  gmp_randstate_t rands;
   int    reps = 5000;
   mpz_t  a, q, got;
   int    i, qneg;
@@ -42,6 +42,7 @@ check_random (int argc, char *argv[])
   mpz_init (a);
   mpz_init (q);
   mpz_init (got);
+  gmp_randinit_default(rands);
 
   for (i = 0; i < reps; i++)
     {
@@ -72,6 +73,7 @@ check_random (int argc, char *argv[])
   mpz_clear (a);
   mpz_clear (q);
   mpz_clear (got);
+  gmp_randclear(rands);
 }
 
 

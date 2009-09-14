@@ -101,9 +101,10 @@ main (int argc, char **argv)
   unsigned long int in1i, in2i;
   mpf_t res1, res2, res3;
   mp_size_t bprec = 100;
-
+  gmp_randstate_t rands;
+  
   tests_start ();
-
+  gmp_randinit_default(rands);
   if (argc > 1)
     {
       reps = strtol (argv[1], 0, 0);
@@ -122,8 +123,8 @@ main (int argc, char **argv)
 
   for (pass = 1; pass <= reps; pass++)
     {
-      mpf_rrandomb (in1, RANDS, urandom () % SIZE - SIZE/2, urandom () % EXPO);
-      mpf_rrandomb (in2, RANDS, urandom () % SIZE - SIZE/2, urandom () % EXPO);
+      mpf_rrandomb (in1, rands, urandom () % SIZE - SIZE/2, urandom () % EXPO);
+      mpf_rrandomb (in2, rands, urandom () % SIZE - SIZE/2, urandom () % EXPO);
 
       for (i = 0; i < sizeof (dss_funcs) / sizeof (dss_func); i++)
 	{
@@ -190,7 +191,7 @@ main (int argc, char **argv)
   mpf_clear (res1);
   mpf_clear (res2);
   mpf_clear (res3);
-
+  gmp_randclear(rands);
   tests_end ();
   exit (0);
 }

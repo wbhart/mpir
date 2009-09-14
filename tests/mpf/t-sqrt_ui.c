@@ -32,13 +32,14 @@ check_rand (void)
 {
   unsigned long      max_prec = 15;
   unsigned long      min_prec = __GMPF_BITS_TO_PREC (1);
-  gmp_randstate_ptr  rands = RANDS;
+  gmp_randstate_t  rands;
   unsigned long      x, prec;
   mpf_t              r, s;
   int                i;
 
   mpf_init (r);
   mpf_init (s);
+  gmp_randinit_default(rands);
   refmpf_set_prec_limbs (s, 2*max_prec+10);
 
   for (i = 0; i < 50; i++)
@@ -100,6 +101,7 @@ check_rand (void)
 
   mpf_clear (r);
   mpf_clear (s);
+  gmp_randclear(rands);
 }
 
 int

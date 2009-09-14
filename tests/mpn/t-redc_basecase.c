@@ -44,11 +44,11 @@ void ref_redc_basecase (mp_ptr cp, mp_srcptr mp, mp_size_t n, mp_limb_t Nprim, m
 int
 main (void)
 { 
-  gmp_randstate_ptr rands;
+  gmp_randstate_t rands;
   int j,n;
   mp_limb_t cp1[1000], cp2[1000], mp[1000],tp1[1000],tp2[1000],inv;
   tests_start ();
-  rands = RANDS;
+  gmp_randinit_default(rands);
 
   for(n=1;n<100;n++)
      {for(j=1;j<100;j++)
@@ -73,8 +73,7 @@ main (void)
          }
      }
 
-
-
+  gmp_randclear(rands);
   tests_end ();
   exit (0);
 }

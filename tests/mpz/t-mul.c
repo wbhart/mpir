@@ -73,12 +73,12 @@ main (int argc, char **argv)
   mpz_t op1, op2;
   int i;
 
-  gmp_randstate_ptr rands;
+  gmp_randstate_t rands;
   mpz_t bs;
   unsigned long bsi, size_range, fsize_range;
 
   tests_start ();
-  rands = RANDS;
+  gmp_randinit_default(rands);
 
   extra_fft = getenv ("GMP_CHECK_FFT");
 
@@ -127,7 +127,7 @@ main (int argc, char **argv)
   mpz_clear (bs);
   mpz_clear (op1);
   mpz_clear (op2);
-
+  gmp_randclear(rands);
   tests_end ();
   exit (0);
 }

@@ -188,7 +188,7 @@ check_various (void)
 void
 check_random (int argc, char *argv[])
 {
-  gmp_randstate_ptr  rands = RANDS;
+  gmp_randstate_t  rands;
   int            reps = 100;
   mpz_t          a;
   unsigned long  d;
@@ -198,6 +198,7 @@ check_random (int argc, char *argv[])
     reps = atoi (argv[1]);
 
   mpz_init (a);
+  gmp_randinit_default(rands);
 
   for (i = 0; i < reps; i++)
     {
@@ -210,6 +211,7 @@ check_random (int argc, char *argv[])
     }
 
   mpz_clear (a);
+  gmp_randclear(rands);
 }
 
 

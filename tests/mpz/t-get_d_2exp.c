@@ -136,7 +136,7 @@ check_round (void)
 static void
 check_rand (void)
 {
-  gmp_randstate_ptr rands = RANDS;
+  gmp_randstate_t rands;
   int     i;
   mpz_t   z;
   double  got;
@@ -144,6 +144,7 @@ check_rand (void)
   unsigned long  bits;
 
   mpz_init (z);
+  gmp_randinit_default(rands);
 
   for (i = 0; i < 200; i++)
     {
@@ -180,6 +181,7 @@ check_rand (void)
 #endif
     }
   mpz_clear (z);
+  gmp_randclear(rands);
 }
 
 

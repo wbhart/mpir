@@ -377,10 +377,11 @@ check_data (void)
 void
 check_random (int argc, char *argv[])
 {
-  gmp_randstate_ptr rands = RANDS;
+  gmp_randstate_t rands;
   mpz_t  w, x, y;
   int    i, reps = 2000;
 
+  gmp_randinit_default(rands);
   mpz_init (w);
   mpz_init (x);
   mpz_init (y);
@@ -406,6 +407,7 @@ check_random (int argc, char *argv[])
   mpz_clear (w);
   mpz_clear (x);
   mpz_clear (y);
+  gmp_randclear(rands);
 }
 
 

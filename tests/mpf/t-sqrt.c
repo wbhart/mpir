@@ -31,7 +31,7 @@ MA 02110-1301, USA. */
 #endif
 
 void
-check_rand1 (int argc, char **argv)
+check_rand1 (int argc, gmp_randstate_t rands,char **argv)
 {
   mp_size_t size;
   mp_exp_t exp;
@@ -65,7 +65,7 @@ check_rand1 (int argc, char **argv)
     {
       size = urandom () % SIZE;
       exp = urandom () % SIZE;
-      mpf_rrandomb (x, RANDS, size, exp);
+      mpf_rrandomb (x, rands, size, exp);
 
       mpf_sqrt (y, x);
       MPF_CHECK_FORMAT (y);
@@ -108,11 +108,10 @@ check_rand1 (int argc, char **argv)
 }
 
 void
-check_rand2 (void)
+check_rand2 (gmp_randstate_t rands)
 {
   unsigned long      max_prec = 20;
   unsigned long      min_prec = __GMPF_BITS_TO_PREC (1);
-  gmp_randstate_ptr  rands = RANDS;
   unsigned long      x_prec, r_prec;
   mpf_t              x, r, s;
   int                i;
@@ -184,13 +183,14 @@ check_rand2 (void)
 
 int
 main (int argc, char **argv)
-{
+{gmp_randstate_t rands;
   tests_start ();
+  gmp_randinit_default(rands);
   mp_trace_base = -16;
 
-  check_rand1 (argc, argv);
-  check_rand2 ();
-
+  check_rand1 (argc,rands, argv);
+  check_rand2 (rands);
+  gmp_randclear(rands);
   tests_end ();
   exit (0);
 }

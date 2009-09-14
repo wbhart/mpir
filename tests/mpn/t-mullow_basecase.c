@@ -33,11 +33,9 @@ main (void)
 {
   unsigned long yn, xn, n, b, zn, c;
   mp_limb_t xp[1000], yp[1000], mp[1000], lp[1000];
-  gmp_randstate_ptr rands;
+  gmp_randstate_t rands;
   tests_start ();
-  rands = RANDS;
-
-
+  gmp_randinit_default(rands);
 
   for (xn = 1; xn <= 100; xn++)
     {
@@ -57,7 +55,7 @@ main (void)
 	    }
 	}
     }
-
+  gmp_randclear(rands);
   tests_end ();
   exit (0);
 }

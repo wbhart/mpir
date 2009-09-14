@@ -78,13 +78,14 @@ check_twobits (void)
 void
 check_rand (void)
 {
-  gmp_randstate_ptr  rands = RANDS;
+  gmp_randstate_t  rands;
   unsigned long  got, want;
   int    i;
   mpz_t  x, y;
 
   mpz_init (x);
   mpz_init (y);
+  gmp_randinit_default(rands);
 
   for (i = 0; i < 2000; i++)
     {
@@ -110,6 +111,7 @@ check_rand (void)
     }
   mpz_clear (x);
   mpz_clear (y);
+  gmp_randclear(rands);
 }
 
 int

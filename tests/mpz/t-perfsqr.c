@@ -99,7 +99,7 @@ check_sqrt (int reps)
   int res;
   int i;
   /* int cnt = 0; */
-  gmp_randstate_ptr rands = RANDS;
+  gmp_randstate_t rands;
   mpz_t bs;
 
   mpz_init (bs);
@@ -107,6 +107,7 @@ check_sqrt (int reps)
   mpz_init (x2);
   mpz_init (x);
   mpz_init (x2t);
+  gmp_randinit_default(rands);
 
   for (i = 0; i < reps; i++)
     {
@@ -138,6 +139,7 @@ check_sqrt (int reps)
   mpz_clear (x2);
   mpz_clear (x);
   mpz_clear (x2t);
+  gmp_randclear(rands);
 }
 
 

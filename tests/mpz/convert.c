@@ -39,12 +39,12 @@ main (int argc, char **argv)
   int reps = 10000;
   char *str, *buf;
   int base;
-  gmp_randstate_ptr rands;
+  gmp_randstate_t rands;
   mpz_t bs;
   unsigned long bsi, size_range;
 
   tests_start ();
-  rands = RANDS;
+  gmp_randinit_default(rands);
 
   mpz_init (bs);
 
@@ -120,7 +120,7 @@ main (int argc, char **argv)
   mpz_clear (bs);
   mpz_clear (op1);
   mpz_clear (op2);
-
+  gmp_randclear(rands);
   tests_end ();
   exit (0);
 }

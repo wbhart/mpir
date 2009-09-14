@@ -40,6 +40,7 @@ check_rand (int argc, char **argv)
   mpf_t u, v, w, wref;
   mp_size_t bprec = 100;
   mpf_t rerr, max_rerr, limit_rerr;
+  gmp_randstate_t rands;
 
   if (argc > 1)
     {
@@ -49,7 +50,7 @@ check_rand (int argc, char **argv)
     }
 
   mpf_set_default_prec (bprec);
-
+  gmp_randinit_default(rands);
   mpf_init_set_ui (limit_rerr, 1);
   mpf_div_2exp (limit_rerr, limit_rerr, bprec);
 #if VERBOSE
@@ -66,11 +67,11 @@ check_rand (int argc, char **argv)
     {
       size = urandom () % (2 * SIZE) - SIZE;
       exp = urandom () % SIZE;
-      mpf_rrandomb (u, RANDS, size, exp);
+      mpf_rrandomb (u, rands, size, exp);
 
       size = urandom () % (2 * SIZE) - SIZE;
       exp = urandom () % SIZE;
-      mpf_rrandomb (v, RANDS, size, exp);
+      mpf_rrandomb (v, rands, size, exp);
 
       if ((urandom () & 1) != 0)
 	mpf_add_ui (u, v, 1);
@@ -107,6 +108,7 @@ check_rand (int argc, char **argv)
   mpf_clear (v);
   mpf_clear (w);
   mpf_clear (wref);
+  gmp_randclear(rands);
 }
 
 

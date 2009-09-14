@@ -30,12 +30,11 @@ Boston, MA 02110-1301, USA.
 
 int
 main (void)
-{unsigned long bp,xn,n,b,zn,c;gmp_randstate_ptr rands;int qpn,j,k,i,l,i1,k1,j1,i2,k2,j2;
+{unsigned long bp,xn,n,b,zn,c;gmp_randstate_t rands;int qpn,j,k,i,l,i1,k1,j1,i2,k2,j2;
 mp_limb_t xp[10000],dp[10000],qp[10000],yp[10000],rp[10000],zp[10000],tp[10000];
   tests_start ();
-  rands=RANDS;
-
-
+  gmp_randinit_default(rands);
+  
 for(b=1;b<600;b++)
    {xn=BITS_TO_LIMBS(b);k=xn*GMP_NUMB_BITS-b;
     MPN_ZERO(dp,xn);mpn_com_n(dp,dp,xn);dp[xn-1]&=GMP_NUMB_MASK>>k;// dp is 2^b-1
@@ -66,6 +65,7 @@ for(b=MULMOD_2EXPM1_THRESHOLD*GMP_NUMB_BITS;b<2*MULMOD_2EXPM1_THRESHOLD*GMP_NUMB
        }
    }
 
+  gmp_randclear(rands);
   tests_end ();
   exit (0);
 }

@@ -409,7 +409,7 @@ check_0x81c25113 (void)
 void
 check_rand (void)
 {
-  gmp_randstate_ptr rands = RANDS;
+  gmp_randstate_t rands;
   int            rep, i;
   unsigned long  mant_bits;
   long           exp, exp_min, exp_max;
@@ -417,7 +417,9 @@ check_rand (void)
   mp_size_t      nalloc, nsize, sign;
   mp_limb_t      nhigh_mask;
   mp_ptr         np;
-
+  
+  gmp_randinit_default(rands);
+  
   mant_bits = tests_dbl_mant_bits ();
   if (mant_bits == 0)
     return;
@@ -481,6 +483,7 @@ check_rand (void)
     }
 
   free (np);
+  gmp_randclear(rands);
 }
 
 

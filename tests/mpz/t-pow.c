@@ -165,10 +165,11 @@ check_random (int reps)
   mp_size_t          base_size;
   int                i;
   unsigned long      size_range, exp;
-  gmp_randstate_ptr  rands = RANDS;
+  gmp_randstate_t  rands;
   
   mpz_init (base);
   mpz_init (want);
+  gmp_randinit_default(rands);
 
   for (i = 0; i < reps; i++)
     {
@@ -194,6 +195,7 @@ check_random (int reps)
 
   mpz_clear (base);
   mpz_clear (want);
+  gmp_randclear(rands);
 }
 
 int

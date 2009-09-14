@@ -31,13 +31,12 @@ int
 main (void)
 {
   unsigned long n;
-  gmp_randstate_ptr rands;
+  gmp_randstate_t rands;
   int j, k, i, l, i1, k1, j1, i2, k2, j2, d;
   mp_limb_t xp[10000], yp[10000], zp[10000], cp[10000];
 
-
   tests_start ();
-  rands = RANDS;
+  gmp_randinit_default(rands);
 
   MPN_ZERO (zp, 10000);
   for (i1 = 0; i1 < 2; i1++)
@@ -120,7 +119,7 @@ main (void)
 	}
     }
 
-
+  gmp_randclear(rands);
   tests_end ();
   exit (0);
 }

@@ -40,12 +40,12 @@ main (int argc, char **argv)
   mp_size_t dividend_size, divisor_size;
   int i;
   int reps = 200;
-  gmp_randstate_ptr rands;
+  gmp_randstate_t rands;
   mpz_t bs;
   unsigned long bsi, size_range;
 
   tests_start ();
-  rands = RANDS;
+  gmp_randinit_default(rands);
 
   mpz_init (bs);
 
@@ -128,7 +128,7 @@ main (int argc, char **argv)
   mpz_clear (quotient2);
   mpz_clear (remainder2);
   mpz_clear (temp);
-
+  gmp_randclear(rands);
   tests_end ();
   exit (0);
 }

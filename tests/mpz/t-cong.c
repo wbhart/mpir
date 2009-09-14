@@ -131,7 +131,7 @@ check_data (void)
 void
 check_random (int argc, char *argv[])
 {
-  gmp_randstate_ptr rands = RANDS;
+  gmp_randstate_t rands;
   mpz_t   a, c, d, ra, rc;
   int     i;
   int     want;
@@ -145,6 +145,7 @@ check_random (int argc, char *argv[])
   mpz_init (d);
   mpz_init (ra);
   mpz_init (rc);
+  gmp_randinit_default(rands);
 
   for (i = 0; i < reps; i++)
     {
@@ -183,6 +184,7 @@ check_random (int argc, char *argv[])
   mpz_clear (d);
   mpz_clear (ra);
   mpz_clear (rc);
+  gmp_randclear(rands);
 }
 
 

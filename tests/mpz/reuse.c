@@ -196,12 +196,12 @@ main (int argc, char **argv)
   mpz_t t;
   unsigned long int r1, r2;
   long failures = 0;
-  gmp_randstate_ptr rands;
+  gmp_randstate_t rands;
   mpz_t bs;
   unsigned long bsi, size_range;
 
   tests_start ();
-  rands = RANDS;
+  gmp_randinit_default(rands);
 
   mpz_init (bs);
 
@@ -595,7 +595,7 @@ main (int argc, char **argv)
   mpz_clear (res2);
   mpz_clear (res3);
   mpz_clear (t);
-
+  gmp_randclear(rands);
   tests_end ();
   exit (0);
 }

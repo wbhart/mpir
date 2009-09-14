@@ -34,12 +34,12 @@ main (int argc, char **argv)
   mp_size_t size;
   int i;
   int reps = 20000;
-  gmp_randstate_ptr rands;
+  gmp_randstate_t rands;
   mpz_t bs;
   unsigned long bsi, size_range;
 
   tests_start ();
-  rands = RANDS;
+  gmp_randinit_default(rands);
 
   mp_trace_base = -16;
 
@@ -98,7 +98,7 @@ main (int argc, char **argv)
   mpz_clear (op2);
   mpz_clear (prod);
   mpz_clear (quot);
-
+  gmp_randclear(rands);
   tests_end ();
   exit (0);
 }

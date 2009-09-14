@@ -91,7 +91,7 @@ main (int argc, char **argv)
 {
   mpz_t op1, op2, ref;
   int i, j, chain_len;
-  gmp_randstate_ptr rands;
+  gmp_randstate_t rands;
   mpz_t bs;
   unsigned long bsi, size_range;
   int reps = 200;
@@ -100,7 +100,7 @@ main (int argc, char **argv)
      reps = atoi (argv[1]);
 
   tests_start ();
-  rands = RANDS;
+  gmp_randinit_default(rands);
 
   check_data ();
 
@@ -190,7 +190,7 @@ main (int argc, char **argv)
   mpz_clear (temp2);
   mpz_clear (s);
   mpz_clear (t);
-
+  gmp_randclear(rands);
   tests_end ();
   exit (0);
 }

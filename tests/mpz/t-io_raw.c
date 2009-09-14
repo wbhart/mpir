@@ -224,7 +224,7 @@ check_out (void)
 void
 check_rand (void)
 {
-  gmp_randstate_ptr  rands = RANDS;
+  gmp_randstate_t  rands;
   int        i, error = 0;
   mpz_t      got, want;
   size_t     inp_ret, out_ret;
@@ -232,6 +232,7 @@ check_rand (void)
 
   mpz_init (want);
   mpz_init (got);
+  gmp_randinit_default(rands);
 
   for (i = 0; i < 500; i++)
     {
@@ -269,6 +270,7 @@ check_rand (void)
 
   mpz_clear (got);
   mpz_clear (want);
+  gmp_randclear(rands);
 }
 
 

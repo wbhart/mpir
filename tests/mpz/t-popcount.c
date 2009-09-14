@@ -119,14 +119,14 @@ refmpz_popcount (mpz_t arg)
 void
 check_random (void)
 {
-  gmp_randstate_ptr rands;
+  gmp_randstate_t rands;
   mpz_t bs;
   mpz_t arg;
   unsigned long arg_size, size_range;
   unsigned long got, ref;
   int i;
 
-  rands = RANDS;
+  gmp_randinit_default(rands);
 
   mpz_init (bs);
   mpz_init (arg);
@@ -155,6 +155,7 @@ check_random (void)
     }
   mpz_clear (arg);
   mpz_clear (bs);
+  gmp_randclear(rands);
 }
 
 int

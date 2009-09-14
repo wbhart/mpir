@@ -40,9 +40,11 @@ main (int argc, char **argv)
   mpf_t rerr, limit_rerr;
   mp_size_t un;
   mp_exp_t ue;
-
+  gmp_randstate_t rands;
+  
   tests_start ();
-
+  gmp_randinit_default(rands);
+  
   if (argc > 1)
     {
       reps = strtol (argv[1], 0, 0);
@@ -80,7 +82,7 @@ main (int argc, char **argv)
 
       un = urandom () % (2 * SIZE) - SIZE;
       ue = urandom () % SIZE;
-      mpf_rrandomb (u, RANDS, un, ue);
+      mpf_rrandomb (u, rands, un, ue);
 
       mpf_div_2exp (w1, u, pow2);
       mpf_div (w2, u, v);
@@ -115,7 +117,7 @@ main (int argc, char **argv)
   mpf_clear (w1);
   mpf_clear (w2);
   mpf_clear (w3);
-
+  gmp_randclear(rands);
   tests_end ();
   exit (0);
 }

@@ -53,7 +53,7 @@ void
 check_rand (void)
 {
   unsigned long  min_prec = __GMPF_BITS_TO_PREC (1);
-  gmp_randstate_ptr  rands = RANDS;
+  gmp_randstate_t  rands;
   unsigned long  prec;
   mpf_t  got;
   mpq_t  q;
@@ -61,6 +61,7 @@ check_rand (void)
 
   mpf_init (got);
   mpq_init (q);
+  gmp_randinit_default(rands);
 
   for (i = 0; i < 400; i++)
     {
@@ -87,6 +88,7 @@ check_rand (void)
 
   mpf_clear (got);
   mpq_clear (q);
+  gmp_randclear(rands);
 }
 
 void

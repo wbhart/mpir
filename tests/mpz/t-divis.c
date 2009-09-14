@@ -117,11 +117,12 @@ check_data (void)
 void
 check_random (int reps)
 {
-  gmp_randstate_ptr rands = RANDS;
+  gmp_randstate_t rands;
   mpz_t   a, d, r;
   int     i;
   int     want;
-
+ 
+  gmp_randinit_default(rands);
   mpz_init (a);
   mpz_init (d);
   mpz_init (r);
@@ -149,6 +150,7 @@ check_random (int reps)
   mpz_clear (a);
   mpz_clear (d);
   mpz_clear (r);
+  gmp_randclear(rands);
 }
 
 

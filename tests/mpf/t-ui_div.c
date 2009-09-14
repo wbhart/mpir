@@ -58,13 +58,14 @@ void
 check_rand (void)
 {
   unsigned long  min_prec = __GMPF_BITS_TO_PREC (1);
-  gmp_randstate_ptr  rands = RANDS;
+  gmp_randstate_t  rands;
   unsigned long  prec, u;
   mpf_t  got, v;
   int    i;
 
   mpf_init (got);
   mpf_init (v);
+  gmp_randinit_default(rands);
 
   for (i = 0; i < 200; i++)
     {
@@ -108,6 +109,7 @@ check_rand (void)
 
   mpf_clear (got);
   mpf_clear (v);
+  gmp_randclear(rands);
 }
 
 void

@@ -40,10 +40,9 @@ check_one (const char *desc, mpf_ptr got, mpf_srcptr u, mpf_srcptr v)
 }
 
 void
-check_rand (void)
+check_rand (gmp_randstate_t rands)
 {
   unsigned long  min_prec = __GMPF_BITS_TO_PREC (1);
-  gmp_randstate_ptr  rands = RANDS;
   unsigned long  prec;
   mpf_t  got, u, v;
   int    i;
@@ -51,6 +50,7 @@ check_rand (void)
   mpf_init (got);
   mpf_init (u);
   mpf_init (v);
+  //gmp_randinit_default(rands);
 
   /* separate */
   for (i = 0; i < 100; i++)
@@ -100,14 +100,14 @@ check_rand (void)
   mpf_clear (got);
   mpf_clear (u);
   mpf_clear (v);
+  //gmp_randclear(rands);
 }
 
 /* Exercise calls mpf(x,x,x) */
 void
-check_reuse_three (void)
+check_reuse_three (gmp_randstate_t rands)
 {
   unsigned long  min_prec = __GMPF_BITS_TO_PREC (1);
-  gmp_randstate_ptr  rands = RANDS;
   unsigned long  result_prec, input_prec, set_prec;
   mpf_t  got;
   int    i;
@@ -176,13 +176,13 @@ check_various (void)
 
 int
 main (void)
-{
+{gmp_randstate_t rands;
   tests_start ();
-
+  gmp_randinit_default(rands);
   check_various ();
-  check_rand ();
-  check_reuse_three ();
-
+  check_rand (rands);
+  check_reuse_three (rands);
+  gmp_randclear(rands);
   tests_end ();
   exit (0);
 }

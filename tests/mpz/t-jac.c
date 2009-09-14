@@ -640,7 +640,7 @@ check_data (void)
 void
 check_squares_zi (void)
 {
-  gmp_randstate_ptr rands = RANDS;
+  gmp_randstate_t rands;
   mpz_t  a, b, g;
   int    i, answer;
   mp_size_t size_range, an, bn;
@@ -650,6 +650,7 @@ check_squares_zi (void)
   mpz_init (a);
   mpz_init (b);
   mpz_init (g);
+  gmp_randinit_default(rands);
 
   for (i = 0; i < 50; i++)
     {
@@ -679,6 +680,7 @@ check_squares_zi (void)
   mpz_clear (a);
   mpz_clear (b);
   mpz_clear (g);
+  gmp_randclear(rands);
 }
 
 

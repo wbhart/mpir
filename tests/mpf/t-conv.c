@@ -48,9 +48,11 @@ main (int argc, char **argv)
   long size, exp;
   int base;
   char buf[SIZE * BITS_PER_MP_LIMB + 5];
+  gmp_randstate_t rands;
 
   tests_start ();
-
+  gmp_randinit_default(rands);
+  
   if (argc > 1)
     {
       reps = strtol (argv[1], 0, 0);
@@ -84,7 +86,7 @@ main (int argc, char **argv)
         {
           size = urandom () % (2 * SIZE) - SIZE;
           exp = urandom () % EXPO;
-          mpf_rrandomb (x, RANDS, size, exp);
+          mpf_rrandomb (x, rands, size, exp);
           base = urandom () % 61 + 2;
         }
 
@@ -123,7 +125,7 @@ main (int argc, char **argv)
   mpf_clear (x);
   mpf_clear (y);
   mpf_clear (d);
-
+  gmp_randclear(rands);
   tests_end ();
   exit (0);
 }

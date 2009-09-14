@@ -30,14 +30,13 @@ int
 main (void)
 {
   unsigned long n;
-  gmp_randstate_ptr rands;
+  gmp_randstate_t rands;
   int j, k, i, i1;
   mp_limb_t sp[10000], tp[10000], xp[10000], yp[10000], zp[10000];
 
   tests_start ();
-  rands = RANDS;
-
-
+  gmp_randinit_default(rands);
+  
 #if HAVE_NATIVE_mpn_subadd_n
   for (i1 = 0; i1 < 2; i1++)
     {
@@ -74,7 +73,7 @@ main (void)
 	}
     }
 #endif
-
+  gmp_randclear(rands);
   tests_end ();
   exit (0);
 }
