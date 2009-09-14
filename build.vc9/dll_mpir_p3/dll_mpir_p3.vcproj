@@ -302,47 +302,207 @@
 				>
 			</File>
 			<Filter
-				Name="cpp"
+				Name="cxx"
 				>
 				<File
 					RelativePath="..\..\cxx\isfuns.cc"
 					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\cxx\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\cxx\"
+						/>
+					</FileConfiguration>
 				</File>
 				<File
 					RelativePath="..\..\cxx\ismpf.cc"
 					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\cxx\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\cxx\"
+						/>
+					</FileConfiguration>
 				</File>
 				<File
 					RelativePath="..\..\cxx\ismpq.cc"
 					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\cxx\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\cxx\"
+						/>
+					</FileConfiguration>
 				</File>
 				<File
 					RelativePath="..\..\cxx\ismpz.cc"
 					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\cxx\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\cxx\"
+						/>
+					</FileConfiguration>
 				</File>
 				<File
 					RelativePath="..\..\cxx\ismpznw.cc"
 					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\cxx\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\cxx\"
+						/>
+					</FileConfiguration>
 				</File>
 				<File
 					RelativePath="..\..\cxx\osdoprnti.cc"
 					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\cxx\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\cxx\"
+						/>
+					</FileConfiguration>
 				</File>
 				<File
 					RelativePath="..\..\cxx\osfuns.cc"
 					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\cxx\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\cxx\"
+						/>
+					</FileConfiguration>
 				</File>
 				<File
 					RelativePath="..\..\cxx\osmpf.cc"
 					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\cxx\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\cxx\"
+						/>
+					</FileConfiguration>
 				</File>
 				<File
 					RelativePath="..\..\cxx\osmpq.cc"
 					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\cxx\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\cxx\"
+						/>
+					</FileConfiguration>
 				</File>
 				<File
 					RelativePath="..\..\cxx\osmpz.cc"
 					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\cxx\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\cxx\"
+						/>
+					</FileConfiguration>
 				</File>
 			</Filter>
 			<Filter
@@ -391,10 +551,42 @@
 				<File
 					RelativePath="..\..\mpn\generic\add_err1_n.c"
 					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
+						/>
+					</FileConfiguration>
 				</File>
 				<File
 					RelativePath="..\..\mpn\generic\add_err2_n.c"
 					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
+						/>
+					</FileConfiguration>
 				</File>
 				<File
 					RelativePath="..\..\mpn\generic\add_n.c"
@@ -405,6 +597,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -413,6 +606,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 				</File>
@@ -425,6 +619,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -433,6 +628,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 				</File>
@@ -505,6 +701,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -513,6 +710,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 				</File>
@@ -601,6 +799,22 @@
 				<File
 					RelativePath="..\..\mpn\generic\divrem.c"
 					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
+						/>
+					</FileConfiguration>
 				</File>
 				<File
 					RelativePath="..\..\mpn\generic\divrem_1.c"
@@ -611,6 +825,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -619,6 +834,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 				</File>
@@ -665,6 +881,22 @@
 				<File
 					RelativePath="..\..\mpn\generic\divrem_euclidean_qr_2.c"
 					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
+						/>
+					</FileConfiguration>
 				</File>
 				<File
 					RelativePath="..\..\mpn\generic\divrem_euclidean_r_1.c"
@@ -827,10 +1059,6 @@
 					</FileConfiguration>
 				</File>
 				<File
-					RelativePath="..\..\mpn\generic\gmp-mparam.h"
-					>
-				</File>
-				<File
 					RelativePath="..\..\mpn\generic\jacbase.c"
 					>
 					<FileConfiguration
@@ -879,6 +1107,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -887,6 +1116,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 				</File>
@@ -899,6 +1129,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -907,6 +1138,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 				</File>
@@ -919,6 +1151,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -927,6 +1160,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 				</File>
@@ -939,6 +1173,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -947,6 +1182,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 				</File>
@@ -979,6 +1215,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -987,6 +1224,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 				</File>
@@ -999,6 +1237,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -1007,6 +1246,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 				</File>
@@ -1055,42 +1295,202 @@
 				<File
 					RelativePath="..\..\mpn\generic\mulhigh_n.c"
 					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
+						/>
+					</FileConfiguration>
 				</File>
 				<File
 					RelativePath="..\..\mpn\generic\mullow_basecase.c"
 					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
+						/>
+					</FileConfiguration>
 				</File>
 				<File
 					RelativePath="..\..\mpn\generic\mullow_n.c"
 					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
+						/>
+					</FileConfiguration>
 				</File>
 				<File
 					RelativePath="..\..\mpn\generic\mullow_n_basecase.c"
 					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
+						/>
+					</FileConfiguration>
 				</File>
 				<File
 					RelativePath="..\..\mpn\generic\mulmid.c"
 					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
+						/>
+					</FileConfiguration>
 				</File>
 				<File
 					RelativePath="..\..\mpn\generic\mulmid_basecase.c"
 					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
+						/>
+					</FileConfiguration>
 				</File>
 				<File
 					RelativePath="..\..\mpn\generic\mulmid_n.c"
 					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
+						/>
+					</FileConfiguration>
 				</File>
 				<File
 					RelativePath="..\..\mpn\generic\mulmod_2expm1.c"
 					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
+						/>
+					</FileConfiguration>
 				</File>
 				<File
 					RelativePath="..\..\mpn\generic\mulmod_2expp1.c"
 					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
+						/>
+					</FileConfiguration>
 				</File>
 				<File
 					RelativePath="..\..\mpn\generic\neg_n.c"
 					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
+						/>
+					</FileConfiguration>
 				</File>
 				<File
 					RelativePath="..\..\mpn\generic\ngcd.c"
@@ -1243,6 +1643,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -1251,6 +1652,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 				</File>
@@ -1263,6 +1665,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -1271,6 +1674,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 				</File>
@@ -1296,6 +1700,26 @@
 				</File>
 				<File
 					RelativePath="..\..\mpn\generic\random2.c"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\mpn\generic\randomb.c"
 					>
 					<FileConfiguration
 						Name="Debug|Win32"
@@ -1355,6 +1779,26 @@
 					</FileConfiguration>
 				</File>
 				<File
+					RelativePath="..\..\mpn\generic\rrandom.c"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
 					RelativePath="..\..\mpn\generic\rshift.c"
 					>
 					<FileConfiguration
@@ -1363,6 +1807,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -1371,12 +1816,29 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 				</File>
 				<File
 					RelativePath="..\..\mpn\generic\sb_divappr_q.c"
 					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
+						/>
+					</FileConfiguration>
 				</File>
 				<File
 					RelativePath="..\..\mpn\generic\sb_divrem_mn.c"
@@ -1487,6 +1949,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -1495,6 +1958,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 				</File>
@@ -1561,10 +2025,42 @@
 				<File
 					RelativePath="..\..\mpn\generic\sub_err1_n.c"
 					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
+						/>
+					</FileConfiguration>
 				</File>
 				<File
 					RelativePath="..\..\mpn\generic\sub_err2_n.c"
 					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
+						/>
+					</FileConfiguration>
 				</File>
 				<File
 					RelativePath="..\..\mpn\generic\sub_n.c"
@@ -1575,6 +2071,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -1583,6 +2080,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 				</File>
@@ -1595,6 +2093,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -1603,6 +2102,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
 				</File>
@@ -1689,10 +2189,42 @@
 				<File
 					RelativePath="..\..\mpn\generic\toom42_mulmid.c"
 					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
+						/>
+					</FileConfiguration>
 				</File>
 				<File
 					RelativePath="..\..\mpn\generic\toom4_mul.c"
 					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
+						/>
+					</FileConfiguration>
 				</File>
 				<File
 					RelativePath="..\..\mpn\generic\toom4_mul_n.c"
@@ -1716,6 +2248,46 @@
 				</File>
 				<File
 					RelativePath="..\..\mpn\generic\toom7_mul_n.c"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\mpn\generic\urandomb.c"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\mpn\generic\urandomm.c"
 					>
 					<FileConfiguration
 						Name="Debug|Win32"
@@ -1865,10 +2437,6 @@
 							>
 						</File>
 						<File
-							RelativePath="..\..\mpn\x86w\p6\p3mmx\popham.asm"
-							>
-						</File>
-						<File
 							RelativePath="..\..\mpn\x86w\p6\mmx\popham.asm"
 							>
 							<FileConfiguration
@@ -1887,6 +2455,10 @@
 									Name="YASM"
 								/>
 							</FileConfiguration>
+						</File>
+						<File
+							RelativePath="..\..\mpn\x86w\p6\p3mmx\popham.asm"
+							>
 						</File>
 						<File
 							RelativePath="..\..\mpn\x86w\p6\mmx\rshift.asm"
@@ -2988,6 +3560,26 @@
 				</File>
 				<File
 					RelativePath="..\..\mpf\reldiff.c"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpf\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpf\"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\mpf\rrandomb.c"
 					>
 					<FileConfiguration
 						Name="Debug|Win32"
@@ -5717,6 +6309,22 @@
 				<File
 					RelativePath="..\..\mpz\likely_prime_p.c"
 					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpz\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpz\"
+						/>
+					</FileConfiguration>
 				</File>
 				<File
 					RelativePath="..\..\mpz\lucnum2_ui.c"
@@ -5921,6 +6529,22 @@
 				<File
 					RelativePath="..\..\mpz\next_likely_prime.c"
 					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpz\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpz\"
+						/>
+					</FileConfiguration>
 				</File>
 				<File
 					RelativePath="..\..\mpz\nextprime.c"
@@ -5945,6 +6569,22 @@
 				<File
 					RelativePath="..\..\mpz\nthroot.c"
 					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpz\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpz\"
+						/>
+					</FileConfiguration>
 				</File>
 				<File
 					RelativePath="..\..\mpz\out_raw.c"
@@ -6769,6 +7409,22 @@
 				<File
 					RelativePath="..\..\mpz\trial_division.c"
 					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpz\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpz\"
+						/>
+					</FileConfiguration>
 				</File>
 				<File
 					RelativePath="..\..\mpz\tstbit.c"
@@ -7327,6 +7983,10 @@
 			</File>
 			<File
 				RelativePath="..\..\gmp-impl.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\mpn\generic\gmp-mparam.h"
 				>
 			</File>
 			<File

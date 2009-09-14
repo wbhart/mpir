@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
-	Name="lib_mpir_cpp"
+	Name="lib_mpir_cxx"
 	ProjectGUID="{C82A62DB-DDB4-4072-832F-6DD841C6D80E}"
-	RootNamespace="lib_mpir_cpp"
+	RootNamespace="lib_mpir_cxx"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="131072"
 	>
@@ -306,6 +306,7 @@
 						AdditionalIncludeDirectories="..\;..\..\;..\..\mpn\generic"
 						PreprocessorDefinitions="_WIN32"
 						RuntimeLibrary="1"
+						ObjectFile="$(IntDir)\cxx\"
 						DebugInformationFormat="3"
 					/>
 				</FileConfiguration>
@@ -317,6 +318,7 @@
 						AdditionalIncludeDirectories="..\;..\..\;..\..\mpn\generic"
 						PreprocessorDefinitions="_WIN32"
 						RuntimeLibrary="1"
+						ObjectFile="$(IntDir)\cxx\"
 						DebugInformationFormat="3"
 					/>
 				</FileConfiguration>
@@ -328,6 +330,7 @@
 						AdditionalIncludeDirectories="..\;..\..\;..\..\mpn\generic"
 						PreprocessorDefinitions="_WIN32"
 						RuntimeLibrary="0"
+						ObjectFile="$(IntDir)\cxx\"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -338,6 +341,7 @@
 						AdditionalIncludeDirectories="..\;..\..\;..\..\mpn\generic"
 						PreprocessorDefinitions="_WIN32"
 						RuntimeLibrary="0"
+						ObjectFile="$(IntDir)\cxx\"
 					/>
 				</FileConfiguration>
 			</File>
@@ -352,6 +356,7 @@
 						AdditionalIncludeDirectories="..\;..\..\;..\..\mpn\generic"
 						PreprocessorDefinitions="_WIN32"
 						RuntimeLibrary="1"
+						ObjectFile="$(IntDir)\cxx\"
 						DebugInformationFormat="3"
 					/>
 				</FileConfiguration>
@@ -363,6 +368,7 @@
 						AdditionalIncludeDirectories="..\;..\..\;..\..\mpn\generic"
 						PreprocessorDefinitions="_WIN32"
 						RuntimeLibrary="1"
+						ObjectFile="$(IntDir)\cxx\"
 						DebugInformationFormat="3"
 					/>
 				</FileConfiguration>
@@ -374,6 +380,7 @@
 						AdditionalIncludeDirectories="..\;..\..\;..\..\mpn\generic"
 						PreprocessorDefinitions="_WIN32"
 						RuntimeLibrary="0"
+						ObjectFile="$(IntDir)\cxx\"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -384,6 +391,7 @@
 						AdditionalIncludeDirectories="..\;..\..\;..\..\mpn\generic"
 						PreprocessorDefinitions="_WIN32"
 						RuntimeLibrary="0"
+						ObjectFile="$(IntDir)\cxx\"
 					/>
 				</FileConfiguration>
 			</File>
@@ -398,6 +406,7 @@
 						AdditionalIncludeDirectories="..\;..\..\;..\..\mpn\generic"
 						PreprocessorDefinitions="_WIN32"
 						RuntimeLibrary="1"
+						ObjectFile="$(IntDir)\cxx\"
 						DebugInformationFormat="3"
 					/>
 				</FileConfiguration>
@@ -409,6 +418,7 @@
 						AdditionalIncludeDirectories="..\;..\..\;..\..\mpn\generic"
 						PreprocessorDefinitions="_WIN32"
 						RuntimeLibrary="1"
+						ObjectFile="$(IntDir)\cxx\"
 						DebugInformationFormat="3"
 					/>
 				</FileConfiguration>
@@ -420,6 +430,7 @@
 						AdditionalIncludeDirectories="..\;..\..\;..\..\mpn\generic"
 						PreprocessorDefinitions="_WIN32"
 						RuntimeLibrary="0"
+						ObjectFile="$(IntDir)\cxx\"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -430,6 +441,7 @@
 						AdditionalIncludeDirectories="..\;..\..\;..\..\mpn\generic"
 						PreprocessorDefinitions="_WIN32"
 						RuntimeLibrary="0"
+						ObjectFile="$(IntDir)\cxx\"
 					/>
 				</FileConfiguration>
 			</File>
@@ -444,6 +456,7 @@
 						AdditionalIncludeDirectories="..\;..\..\;..\..\mpn\generic"
 						PreprocessorDefinitions="_WIN32"
 						RuntimeLibrary="1"
+						ObjectFile="$(IntDir)\cxx\"
 						DebugInformationFormat="3"
 					/>
 				</FileConfiguration>
@@ -455,6 +468,7 @@
 						AdditionalIncludeDirectories="..\;..\..\;..\..\mpn\generic"
 						PreprocessorDefinitions="_WIN32"
 						RuntimeLibrary="1"
+						ObjectFile="$(IntDir)\cxx\"
 						DebugInformationFormat="3"
 					/>
 				</FileConfiguration>
@@ -466,6 +480,7 @@
 						AdditionalIncludeDirectories="..\;..\..\;..\..\mpn\generic"
 						PreprocessorDefinitions="_WIN32"
 						RuntimeLibrary="0"
+						ObjectFile="$(IntDir)\cxx\"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -476,12 +491,45 @@
 						AdditionalIncludeDirectories="..\;..\..\;..\..\mpn\generic"
 						PreprocessorDefinitions="_WIN32"
 						RuntimeLibrary="0"
+						ObjectFile="$(IntDir)\cxx\"
 					/>
 				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\cxx\ismpznw.cc"
 				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)\cxx\"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|x64"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)\cxx\"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)\cxx\"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|x64"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)\cxx\"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\cxx\osdoprnti.cc"
@@ -494,6 +542,7 @@
 						AdditionalIncludeDirectories="..\;..\..\;..\..\mpn\generic"
 						PreprocessorDefinitions="_WIN32"
 						RuntimeLibrary="1"
+						ObjectFile="$(IntDir)\cxx\"
 						DebugInformationFormat="3"
 					/>
 				</FileConfiguration>
@@ -505,6 +554,7 @@
 						AdditionalIncludeDirectories="..\;..\..\;..\..\mpn\generic"
 						PreprocessorDefinitions="_WIN32"
 						RuntimeLibrary="1"
+						ObjectFile="$(IntDir)\cxx\"
 						DebugInformationFormat="3"
 					/>
 				</FileConfiguration>
@@ -516,6 +566,7 @@
 						AdditionalIncludeDirectories="..\;..\..\;..\..\mpn\generic"
 						PreprocessorDefinitions="_WIN32"
 						RuntimeLibrary="0"
+						ObjectFile="$(IntDir)\cxx\"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -526,6 +577,7 @@
 						AdditionalIncludeDirectories="..\;..\..\;..\..\mpn\generic"
 						PreprocessorDefinitions="_WIN32"
 						RuntimeLibrary="0"
+						ObjectFile="$(IntDir)\cxx\"
 					/>
 				</FileConfiguration>
 			</File>
@@ -540,6 +592,7 @@
 						AdditionalIncludeDirectories="..\;..\..\;..\..\mpn\generic"
 						PreprocessorDefinitions="_WIN32"
 						RuntimeLibrary="1"
+						ObjectFile="$(IntDir)\cxx\"
 						DebugInformationFormat="3"
 					/>
 				</FileConfiguration>
@@ -551,6 +604,7 @@
 						AdditionalIncludeDirectories="..\;..\..\;..\..\mpn\generic"
 						PreprocessorDefinitions="_WIN32"
 						RuntimeLibrary="1"
+						ObjectFile="$(IntDir)\cxx\"
 						DebugInformationFormat="3"
 					/>
 				</FileConfiguration>
@@ -562,6 +616,7 @@
 						AdditionalIncludeDirectories="..\;..\..\;..\..\mpn\generic"
 						PreprocessorDefinitions="_WIN32"
 						RuntimeLibrary="0"
+						ObjectFile="$(IntDir)\cxx\"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -572,6 +627,7 @@
 						AdditionalIncludeDirectories="..\;..\..\;..\..\mpn\generic"
 						PreprocessorDefinitions="_WIN32"
 						RuntimeLibrary="0"
+						ObjectFile="$(IntDir)\cxx\"
 					/>
 				</FileConfiguration>
 			</File>
@@ -586,6 +642,7 @@
 						AdditionalIncludeDirectories="..\;..\..\;..\..\mpn\generic"
 						PreprocessorDefinitions="_WIN32"
 						RuntimeLibrary="1"
+						ObjectFile="$(IntDir)\cxx\"
 						DebugInformationFormat="3"
 					/>
 				</FileConfiguration>
@@ -597,6 +654,7 @@
 						AdditionalIncludeDirectories="..\;..\..\;..\..\mpn\generic"
 						PreprocessorDefinitions="_WIN32"
 						RuntimeLibrary="1"
+						ObjectFile="$(IntDir)\cxx\"
 						DebugInformationFormat="3"
 					/>
 				</FileConfiguration>
@@ -608,6 +666,7 @@
 						AdditionalIncludeDirectories="..\;..\..\;..\..\mpn\generic"
 						PreprocessorDefinitions="_WIN32"
 						RuntimeLibrary="0"
+						ObjectFile="$(IntDir)\cxx\"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -618,6 +677,7 @@
 						AdditionalIncludeDirectories="..\;..\..\;..\..\mpn\generic"
 						PreprocessorDefinitions="_WIN32"
 						RuntimeLibrary="0"
+						ObjectFile="$(IntDir)\cxx\"
 					/>
 				</FileConfiguration>
 			</File>
@@ -632,6 +692,7 @@
 						AdditionalIncludeDirectories="..\;..\..\;..\..\mpn\generic"
 						PreprocessorDefinitions="_WIN32"
 						RuntimeLibrary="1"
+						ObjectFile="$(IntDir)\cxx\"
 						DebugInformationFormat="3"
 					/>
 				</FileConfiguration>
@@ -643,6 +704,7 @@
 						AdditionalIncludeDirectories="..\;..\..\;..\..\mpn\generic"
 						PreprocessorDefinitions="_WIN32"
 						RuntimeLibrary="1"
+						ObjectFile="$(IntDir)\cxx\"
 						DebugInformationFormat="3"
 					/>
 				</FileConfiguration>
@@ -654,6 +716,7 @@
 						AdditionalIncludeDirectories="..\;..\..\;..\..\mpn\generic"
 						PreprocessorDefinitions="_WIN32"
 						RuntimeLibrary="0"
+						ObjectFile="$(IntDir)\cxx\"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -664,6 +727,7 @@
 						AdditionalIncludeDirectories="..\;..\..\;..\..\mpn\generic"
 						PreprocessorDefinitions="_WIN32"
 						RuntimeLibrary="0"
+						ObjectFile="$(IntDir)\cxx\"
 					/>
 				</FileConfiguration>
 			</File>
@@ -678,6 +742,7 @@
 						AdditionalIncludeDirectories="..\;..\..\;..\..\mpn\generic"
 						PreprocessorDefinitions="_WIN32"
 						RuntimeLibrary="1"
+						ObjectFile="$(IntDir)\cxx\"
 						DebugInformationFormat="3"
 					/>
 				</FileConfiguration>
@@ -689,6 +754,7 @@
 						AdditionalIncludeDirectories="..\;..\..\;..\..\mpn\generic"
 						PreprocessorDefinitions="_WIN32"
 						RuntimeLibrary="1"
+						ObjectFile="$(IntDir)\cxx\"
 						DebugInformationFormat="3"
 					/>
 				</FileConfiguration>
@@ -700,6 +766,7 @@
 						AdditionalIncludeDirectories="..\;..\..\;..\..\mpn\generic"
 						PreprocessorDefinitions="_WIN32"
 						RuntimeLibrary="0"
+						ObjectFile="$(IntDir)\cxx\"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -710,6 +777,7 @@
 						AdditionalIncludeDirectories="..\;..\..\;..\..\mpn\generic"
 						PreprocessorDefinitions="_WIN32"
 						RuntimeLibrary="0"
+						ObjectFile="$(IntDir)\cxx\"
 					/>
 				</FileConfiguration>
 			</File>
