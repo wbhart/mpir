@@ -367,16 +367,17 @@ mpz_negrandom (mpz_ptr rop, gmp_randstate_t rstate)
     mpz_neg (rop, rop);
 }
 
+
 mp_limb_t
-urandom (void)
+urandom (gmp_randstate_t rands)
 {
 #if GMP_NAIL_BITS == 0
   mp_limb_t  n;
-  _gmp_rand (&n, RANDS, BITS_PER_MP_LIMB);
+  _gmp_rand (&n, rands, BITS_PER_MP_LIMB);
   return n;
 #else
   mp_limb_t n[2];
-  _gmp_rand (n, RANDS, BITS_PER_MP_LIMB);
+  _gmp_rand (n, rands, BITS_PER_MP_LIMB);
   return n[0] + (n[1] << GMP_NUMB_BITS);
 #endif
 }

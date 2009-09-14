@@ -130,10 +130,10 @@ check_random (int argc, char *argv[])
     {
       mpz_errandomb (a, rands, 8*BITS_PER_MP_LIMB);
       mpz_errandomb (c, rands, 8*BITS_PER_MP_LIMB);
-      d = urandom() % (8*BITS_PER_MP_LIMB);
+      d = urandom(rands) % (8*BITS_PER_MP_LIMB);
 
-      mpz_mul_2exp (a, a, urandom() % (2*BITS_PER_MP_LIMB));
-      mpz_mul_2exp (c, c, urandom() % (2*BITS_PER_MP_LIMB));
+      mpz_mul_2exp (a, a, urandom(rands) % (2*BITS_PER_MP_LIMB));
+      mpz_mul_2exp (c, c, urandom(rands) % (2*BITS_PER_MP_LIMB));
 
       mpz_negrandom (a, rands);
       mpz_negrandom (c, rands);

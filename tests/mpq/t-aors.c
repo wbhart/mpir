@@ -141,12 +141,13 @@ check_rand (void)
 {
   mpq_t  x, y, want_add, want_sub;
   int i;
-  gmp_randstate_ptr  rands = RANDS;
+  gmp_randstate_t  rands;
 
   mpq_init (x);
   mpq_init (y);
   mpq_init (want_add);
   mpq_init (want_sub);
+  gmp_randinit_default(rands);
 
   for (i = 0; i < 500; i++)
     {
@@ -168,6 +169,7 @@ check_rand (void)
   mpq_clear (y);
   mpq_clear (want_add);
   mpq_clear (want_sub);
+  gmp_randclear(rands);
 }
 
 

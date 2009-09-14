@@ -125,7 +125,7 @@ void *__gmp_allocate_or_reallocate __GMP_PROTO ((void *ptr,
                                           size_t oldsize, size_t newsize));
 char *__gmp_allocate_strdup __GMP_PROTO ((const char *s));
 char *strtoupper __GMP_PROTO ((char *s_orig));
-mp_limb_t urandom __GMP_PROTO ((void));
+mp_limb_t urandom __GMP_PROTO ((gmp_randstate_t));
 void call_rand_algs __GMP_PROTO ((void (*func) (const char *, gmp_randstate_t)));
 
 

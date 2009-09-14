@@ -92,11 +92,11 @@ main (int argc, char **argv)
 
   for (i = 0; i < reps; i++)
     {
-      size = urandom () % SIZE - SIZE/2;
+      size = urandom (rands) % SIZE - SIZE/2;
       mpz_intrandom2 (NUM (a), rands, size);
       do
 	{
-	  size = urandom () % SIZE - SIZE/2;
+	  size = urandom (rands) % SIZE - SIZE/2;
 	  mpz_intrandom2 (DEN (a), rands, size);
 	}
       while (mpz_cmp_ui (DEN (a), 0) == 0);

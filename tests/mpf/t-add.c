@@ -67,12 +67,12 @@ main (int argc, char **argv)
   mpf_init (wref);
   for (i = 0; i < reps; i++)
     {
-      size = urandom () % (2 * SIZE) - SIZE;
-      exp = urandom () % SIZE;
+      size = urandom (rands) % (2 * SIZE) - SIZE;
+      exp = urandom (rands) % SIZE;
       mpf_rrandomb (u, rands, size, exp);
 
-      size = urandom () % (2 * SIZE) - SIZE;
-      exp = urandom () % SIZE;
+      size = urandom (rands) % (2 * SIZE) - SIZE;
+      exp = urandom (rands) % SIZE;
       mpf_rrandomb (v, rands, size, exp);
 
       mpf_add (w, u, v);

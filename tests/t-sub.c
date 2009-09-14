@@ -75,13 +75,16 @@ check_random (void)
 {
   mp_limb_t  want_dh,want_dl, got_dh,got_dl, mh,ml, sh,sl;
   int  i;
+  gmp_randstate_t rands;
+  
+  gmp_randinit_default(rands);
 
   for (i = 0; i < 20; i++)
     {
-      mh = urandom ();
-      ml = urandom ();
-      sh = urandom ();
-      sl = urandom ();
+      mh = urandom (rands);
+      ml = urandom (rands);
+      sh = urandom (rands);
+      sl = urandom (rands);
 
       refmpn_sub_ddmmss (&want_dh,&want_dl, mh,ml, sh,sl);
 
@@ -101,6 +104,7 @@ check_random (void)
           abort ();
         }
     }
+    gmp_randclear(rands);
 }
 
 int

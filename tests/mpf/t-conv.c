@@ -84,10 +84,10 @@ main (int argc, char **argv)
         }
       else
         {
-          size = urandom () % (2 * SIZE) - SIZE;
-          exp = urandom () % EXPO;
+          size = urandom (rands) % (2 * SIZE) - SIZE;
+          exp = urandom (rands) % EXPO;
           mpf_rrandomb (x, rands, size, exp);
-          base = urandom () % 61 + 2;
+          base = urandom (rands) % 61 + 2;
         }
 
       str = mpf_get_str (0, &bexp, base, 0, x);

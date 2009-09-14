@@ -91,11 +91,11 @@ check_rand (void)
     {
       mpz_erandomb (x, rands, 6 * GMP_NUMB_BITS);
       mpz_negrandom (x, rands);
-      mpz_mul_2exp (x, x, urandom() % (4 * GMP_NUMB_BITS));
+      mpz_mul_2exp (x, x, urandom(rands) % (4 * GMP_NUMB_BITS));
 
       mpz_erandomb (y, rands, 6 * GMP_NUMB_BITS);
       mpz_negrandom (y, rands);
-      mpz_mul_2exp (y, y, urandom() % (4 * GMP_NUMB_BITS));
+      mpz_mul_2exp (y, y, urandom(rands) % (4 * GMP_NUMB_BITS));
 
       want = refmpz_hamdist (x, y);
       got = mpz_hamdist (x, y);

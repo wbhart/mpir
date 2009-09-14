@@ -297,9 +297,9 @@ check_random (int argc, gmp_randstate_t rands, char *argv[])
 
   for (i = 0; i < reps; i++)
     {
-      xsize = urandom () % (2 * SIZE) - SIZE;
+      xsize = urandom (rands) % (2 * SIZE) - SIZE;
       mpz_intrandom2 (x, rands,xsize);
-      bitindex = urandom () % SIZE;
+      bitindex = urandom (rands) % SIZE;
 
       mpz_set (s0, x);
       bit0 = mpz_tstbit (x, bitindex);

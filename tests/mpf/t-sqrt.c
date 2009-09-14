@@ -63,8 +63,8 @@ check_rand1 (int argc, gmp_randstate_t rands,char **argv)
   mpf_init (y2);
   for (i = 0; i < reps; i++)
     {
-      size = urandom () % SIZE;
-      exp = urandom () % SIZE;
+      size = urandom (rands) % SIZE;
+      exp = urandom (rands) % SIZE;
       mpf_rrandomb (x, rands, size, exp);
 
       mpf_sqrt (y, x);

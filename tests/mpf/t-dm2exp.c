@@ -68,7 +68,7 @@ main (int argc, char **argv)
       unsigned long int res_prec;
       unsigned long int pow2;
 
-      res_prec = urandom () % (bprec + 100);
+      res_prec = urandom (rands) % (bprec + 100);
       mpf_set_prec (w1, res_prec);
       mpf_set_prec (w2, res_prec);
       mpf_set_prec (w3, res_prec);
@@ -76,12 +76,12 @@ main (int argc, char **argv)
       mpf_set_ui (limit_rerr, 1);
       mpf_div_2exp (limit_rerr, limit_rerr, res_prec);
 
-      pow2 = urandom () % 0x10000;
+      pow2 = urandom (rands) % 0x10000;
       mpf_set_ui (v, 1);
       mpf_mul_2exp (v, v, pow2);
 
-      un = urandom () % (2 * SIZE) - SIZE;
-      ue = urandom () % SIZE;
+      un = urandom (rands) % (2 * SIZE) - SIZE;
+      ue = urandom (rands) % SIZE;
       mpf_rrandomb (u, rands, un, ue);
 
       mpf_div_2exp (w1, u, pow2);

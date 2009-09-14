@@ -68,7 +68,7 @@ main (int argc, char **argv)
     {
       mp_size_t res_prec;
 
-      res_prec = urandom () % bprec + 1;
+      res_prec = urandom (rands) % bprec + 1;
       mpf_set_prec (w, res_prec);
       mpf_set_prec (x, res_prec);
 
@@ -77,28 +77,28 @@ main (int argc, char **argv)
 
       single_flag = 0;
 
-      if ((urandom () & 1) != 0)
+      if ((urandom (rands) & 1) != 0)
 	{
-	  size = urandom () % (2 * SIZE) - SIZE;
-	  exp = urandom () % SIZE;
+	  size = urandom (rands) % (2 * SIZE) - SIZE;
+	  exp = urandom (rands) % SIZE;
 	  mpf_rrandomb (u, rands, size, exp);
 	}
       else
 	{
-	  ulimb = urandom ();
+	  ulimb = urandom (rands);
 	  mpf_set_ui (u, ulimb);
 	  single_flag = 1;
 	}
 
-      if ((urandom () & 1) != 0)
+      if ((urandom (rands) & 1) != 0)
 	{
-	  size = urandom () % (2 * SIZE) - SIZE;
-	  exp = urandom () % SIZE;
+	  size = urandom (rands) % (2 * SIZE) - SIZE;
+	  exp = urandom (rands) % SIZE;
 	  mpf_rrandomb (v, rands, size, exp);
 	}
       else
 	{
-	  vlimb = urandom ();
+	  vlimb = urandom (rands);
 	  mpf_set_ui (v, vlimb);
 	  single_flag = 2;
 	}

@@ -174,7 +174,7 @@ check_random (int argc, char *argv[])
 
       if (! mpz_pow2abs_p (d))
         {
-          refmpz_combit (a, urandom() % (8*BITS_PER_MP_LIMB));
+          refmpz_combit (a, urandom(rands) % (8*BITS_PER_MP_LIMB));
           check_one (a, c, d, 0);
         }
     }

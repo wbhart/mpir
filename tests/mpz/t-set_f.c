@@ -92,10 +92,11 @@ check_one (mpz_srcptr z)
 
 void
 check_various (void)
-{
+{gmp_randstate_t rands;
   mpz_t  z;
 
   mpz_init (z);
+  gmp_randinit_default(rands);
 
   mpz_set_ui (z, 0L);
   check_one (z);
@@ -103,13 +104,14 @@ check_various (void)
   mpz_set_si (z, 123L);
   check_one (z);
 
-  mpz_rrandomb (z, RANDS, 2*BITS_PER_MP_LIMB);
+  mpz_rrandomb (z, rands, 2*BITS_PER_MP_LIMB);
   check_one (z);
 
-  mpz_rrandomb (z, RANDS, 5*BITS_PER_MP_LIMB);
+  mpz_rrandomb (z, rands, 5*BITS_PER_MP_LIMB);
   check_one (z);
 
   mpz_clear (z);
+  gmp_randclear(rands);
 }
 
 

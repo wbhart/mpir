@@ -66,13 +66,15 @@ check_ref (void)
   int            test, neg, sought, oindex, o;
   mp_size_t      size, isize;
   unsigned long  start, got, want;
+  gmp_randstate_t rands;
 
   mpz_init (z);
+  gmp_randinit_default(rands);
   for (test = 0; test < 5; test++)
     {
       for (size = 0; size < 5; size++)
         {
-          mpz_urandomb (z, RANDS, (unsigned long) (ABS (size) * GMP_NUMB_BITS));
+          mpz_urandomb (z, rands, (unsigned long) (ABS (size) * GMP_NUMB_BITS));
           if (size < 0)SIZ(z) = -SIZ(z);               
 
           for (neg = 0; neg <= 1; neg++)
@@ -119,7 +121,7 @@ check_ref (void)
             }
         }
     }
-  mpz_clear (z);
+  mpz_clear (z);gmp_randclear(rands);
 }
 
 

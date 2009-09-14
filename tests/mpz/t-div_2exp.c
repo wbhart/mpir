@@ -203,9 +203,9 @@ check_random (int argc, char *argv[])
   for (i = 0; i < reps; i++)
     {
       /* exponentially within 2 to 257 bits */
-      mpz_erandomb (a, rands, urandom () % 8 + 2);
+      mpz_erandomb (a, rands, urandom (rands) % 8 + 2);
 
-      d = urandom () % 256;
+      d = urandom (rands) % 256;
 
       check_all (a, d);
     }

@@ -123,8 +123,8 @@ main (int argc, char **argv)
 
   for (pass = 1; pass <= reps; pass++)
     {
-      mpf_rrandomb (in1, rands, urandom () % SIZE - SIZE/2, urandom () % EXPO);
-      mpf_rrandomb (in2, rands, urandom () % SIZE - SIZE/2, urandom () % EXPO);
+      mpf_rrandomb (in1, rands, urandom (rands) % SIZE - SIZE/2, urandom (rands) % EXPO);
+      mpf_rrandomb (in2, rands, urandom (rands) % SIZE - SIZE/2, urandom (rands) % EXPO);
 
       for (i = 0; i < sizeof (dss_funcs) / sizeof (dss_func); i++)
 	{
@@ -148,7 +148,7 @@ main (int argc, char **argv)
 	    dump_abort (dss_func_names[i], res1, res3);
 	}
 
-      in2i = urandom ();
+      in2i = urandom (rands);
       for (i = 0; i < sizeof (dsi_funcs) / sizeof (dsi_func); i++)
 	{
 	  /* Don't divide by 0.  */
@@ -165,7 +165,7 @@ main (int argc, char **argv)
 	    dump_abort (dsi_func_names[i], res1, res2);
 	}
 
-      in1i = urandom ();
+      in1i = urandom (rands);
       for (i = 0; i < sizeof (dis_funcs) / sizeof (dis_func); i++)
 	{
 	  /* Don't divide by 0.  */

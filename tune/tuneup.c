@@ -247,10 +247,10 @@ struct param_t {
 #define MAX3(a,b,c)  MAX (MAX (a, b), c)
 
 mp_limb_t
-randlimb_norm (void)
+randlimb_norm (gmp_randstate_t rands)
 {
   mp_limb_t  n;
-  mpn_random (&n, 1);
+  mpn_randomb (&n,rands, 1);
   n |= GMP_NUMB_HIGHBIT;
   return n;
 }
@@ -258,10 +258,10 @@ randlimb_norm (void)
 #define GMP_NUMB_HALFMASK  ((CNST_LIMB(1) << (GMP_NUMB_BITS/2)) - 1)
 
 mp_limb_t
-randlimb_half (void)
+randlimb_half (gmp_randstate_t rands)
 {
   mp_limb_t  n;
-  mpn_random (&n, 1);
+  mpn_randomb (&n, rands,1);
   n &= GMP_NUMB_HALFMASK;
   n += (n==0);
   return n;
@@ -355,7 +355,7 @@ speed_mpn_divrem_1_tune (struct speed_params *s)
 
 
 double
-tuneup_measure (speed_function_t fun,
+tuneup_measure (speed_function_t fun,gmp_randstate_t rands,
                 const struct param_t *param,
                 struct speed_params *s)
 {
@@ -372,8 +372,8 @@ tuneup_measure (speed_function_t fun,
   SPEED_TMP_ALLOC_LIMBS (s->xp, s->size, 0);
   SPEED_TMP_ALLOC_LIMBS (s->yp, s->size, 0);
 
-  mpn_random (s->xp, s->size);
-  mpn_random (s->yp, s->size);
+  mpn_randomb (s->xp, rands, s->size);
+  mpn_randomb (s->yp, rands, s->size);
 
   switch (param->data_high) {
   case DATA_HIGH_LT_R:
@@ -450,7 +450,7 @@ print_define_remark (const char *name, mp_size_t value, const char *remark)
 
 
 void
-one (mp_size_t *threshold, struct param_t *param)
+one (mp_size_t *threshold, gmp_randstate_t rands,struct param_t *param)
 {
   int  since_positive, since_thresh_change;
   int  thresh_idx, new_thresh_idx;
@@ -471,10 +471,10 @@ one (mp_size_t *threshold, struct param_t *param)
       s.size = param->check_size;
 
       *threshold = s.size+1;
-      t1 = tuneup_measure (param->function, param, &s);
+      t1 = tuneup_measure (param->function, rands,param, &s);
 
       *threshold = s.size;
-      t2 = tuneup_measure (param->function2, param, &s);
+      t2 = tuneup_measure (param->function2, rands, param, &s);
       if (t1 == -1.0 || t2 == -1.0)
         {
           printf ("Oops, can't run both functions at size %ld\n",
@@ -537,14 +537,14 @@ one (mp_size_t *threshold, struct param_t *param)
 
       /* using method A at this size */
       *threshold = s.size+1;
-      ti = tuneup_measure (param->function, param, &s);
+      ti = tuneup_measure (param->function, rands,param, &s);
       if (ti == -1.0)
         abort ();
       ti *= param->function_fudge;
 
       /* using method B at this size */
       *threshold = s.size;
-      tiplus1 = tuneup_measure (param->function2, param, &s);
+      tiplus1 = tuneup_measure (param->function2, rands, param, &s);
       if (tiplus1 == -1.0)
         abort ();
 
@@ -705,7 +705,7 @@ fft_next_size (mp_size_t pl, int k)
 }
 
 void
-fft (struct fft_param_t *p)
+fft (struct fft_param_t *p,gmp_randstate_t rands)
 {
   mp_size_t  size;
   int        i, k;
@@ -738,12 +738,12 @@ fft (struct fft_param_t *p)
       /* compare k to k+1 in the middle of the current k+1 step */
       s.size = size + fft_step_size (k+1) / 2;
       s.r = k;
-      tk = tuneup_measure (p->function, NULL, &s);
+      tk = tuneup_measure (p->function, rands, NULL, &s);
       if (tk == -1.0)
         abort ();
 
       s.r = k+1;
-      tk1 = tuneup_measure (p->function, NULL, &s);
+      tk1 = tuneup_measure (p->function, rands, NULL, &s);
       if (tk1 == -1.0)
         abort ();
 
@@ -793,12 +793,12 @@ fft (struct fft_param_t *p)
 
       s.size = size + fft_step_size (k) / 2;
       s.r = k;
-      tk = tuneup_measure (p->function, NULL, &s);
+      tk = tuneup_measure (p->function, rands, NULL, &s);
       if (tk == -1.0)
         abort ();
 
       if (!modf)  s.size /= 2;
-      tm = tuneup_measure (p->mul_function, NULL, &s);
+      tm = tuneup_measure (p->mul_function, rands, NULL, &s);
       if (tm == -1.0)
         abort ();
 
@@ -831,7 +831,7 @@ fft (struct fft_param_t *p)
 /* Start karatsuba from 4, since the Cray t90 ieee code is much faster at 2,
    giving wrong results.  */
 void
-tune_mul (void)
+tune_mul (gmp_randstate_t rands)
 {
   static struct param_t  param;
 
@@ -840,22 +840,22 @@ tune_mul (void)
   param.name = "MUL_KARATSUBA_THRESHOLD";
   param.min_size = MAX (4, MPN_KARA_MUL_N_MINSIZE);
   param.max_size = MUL_KARATSUBA_THRESHOLD_LIMIT-1;
-  one (&mul_karatsuba_threshold, &param);
+  one (&mul_karatsuba_threshold, rands,&param);
 
   param.name = "MUL_TOOM3_THRESHOLD";
   param.min_size = MAX (mul_karatsuba_threshold, MPN_TOOM3_MUL_N_MINSIZE);
   param.max_size = MUL_TOOM3_THRESHOLD_LIMIT-1;
-  one (&mul_toom3_threshold, &param);
+  one (&mul_toom3_threshold, rands, &param);
 
   param.name = "MUL_TOOM4_THRESHOLD";
   param.min_size = MAX (mul_toom3_threshold, MPN_TOOM4_MUL_N_MINSIZE);
   param.max_size = MUL_TOOM4_THRESHOLD_LIMIT-1;
-  one (&mul_toom4_threshold, &param);
+  one (&mul_toom4_threshold, rands, &param);
 
   param.name = "MUL_TOOM7_THRESHOLD";
   param.min_size = MAX (mul_toom4_threshold, MPN_TOOM7_MUL_N_MINSIZE);
   param.max_size = MUL_TOOM7_THRESHOLD_LIMIT-1;
-  one (&mul_toom7_threshold, &param);
+  one (&mul_toom7_threshold, rands, &param);
 
   /* disabled until tuned */
   MUL_FFT_THRESHOLD = MP_SIZE_T_MAX;
@@ -865,7 +865,7 @@ tune_mul (void)
 /* This was written by the tuneup challenged tege.  Kevin, please delete
    this comment when you've reviewed/rewritten this.  :-) */
 void
-tune_mullow (void)
+tune_mullow (gmp_randstate_t rands)
 {
   static struct param_t  param;
 
@@ -875,39 +875,39 @@ tune_mullow (void)
   param.min_size = 3;
   param.min_is_always = 1;
   //param.max_size = MULLOW_BASECASE_THRESHOLD_LIMIT-1;
-  one (&mullow_basecase_threshold, &param);
+  one (&mullow_basecase_threshold, rands, &param);
 
   param.min_is_always = 0;	/* ??? */
 
   param.name = "MULLOW_DC_THRESHOLD";
   param.min_size = mullow_basecase_threshold;
   param.max_size = 1000;
-  one (&mullow_dc_threshold, &param);
+  one (&mullow_dc_threshold, rands, &param);
 
   param.name = "MULLOW_MUL_THRESHOLD";
   param.min_size = mullow_dc_threshold;
   param.max_size = 10000;
-  one (&mullow_mul_threshold, &param);
+  one (&mullow_mul_threshold, rands, &param);
 
   /* disabled until tuned */
   MUL_FFT_THRESHOLD = MP_SIZE_T_MAX;
 }
 
 void
-tune_mulmod_2expm1 (void)
+tune_mulmod_2expm1 (gmp_randstate_t rands)
 {
   static struct param_t  param;
   param.function = speed_mpn_mulmod_2expm1;
   param.name = "MULMOD_2EXPM1_THRESHOLD";
   param.min_size = 1;
   //param.max_size =  ?? ;
-  one (&mulmod_2expm1_threshold, &param);
+  one (&mulmod_2expm1_threshold, rands, &param);
   /* disabled until tuned */
   MUL_FFT_THRESHOLD = MP_SIZE_T_MAX;    // ??????????????
 }
 
 void
-tune_mulhigh (void)
+tune_mulhigh (gmp_randstate_t rands)
 {
   static struct param_t  param;
 
@@ -917,26 +917,26 @@ tune_mulhigh (void)
   param.min_size = 3;
   param.min_is_always = 1;
   //param.max_size = MULHIGH_BASECASE_THRESHOLD_LIMIT-1;
-  one (&mulhigh_basecase_threshold, &param);
+  one (&mulhigh_basecase_threshold, rands, &param);
 
   param.min_is_always = 0;	/* ??? */
 
   param.name = "MULHIGH_DC_THRESHOLD";
   param.min_size = mulhigh_basecase_threshold;
   param.max_size = 1000;
-  one (&mulhigh_dc_threshold, &param);
+  one (&mulhigh_dc_threshold, rands, &param);
 
   param.name = "MULHIGH_MUL_THRESHOLD";
   param.min_size = mulhigh_dc_threshold;
   param.max_size = 10000;
-  one (&mulhigh_mul_threshold, &param);
+  one (&mulhigh_mul_threshold, rands, &param);
 
   /* disabled until tuned */
   MUL_FFT_THRESHOLD = MP_SIZE_T_MAX;
 }
 
 void
-tune_rootrem (void)
+tune_rootrem (gmp_randstate_t rands)
 {
 
   static struct param_t  param;
@@ -944,11 +944,11 @@ tune_rootrem (void)
   param.function = speed_mpn_rootrem;
   param.name = "ROOTREM_THRESHOLD";
   param.min_size = 1;
-  one (&rootrem_threshold, &param);
+  one (&rootrem_threshold, rands, &param);
 }
 
 // for tuning  we dont care if the divisors go out of range as it doesn't affect the runtime
-void tune_mod_1_k (void)
+void tune_mod_1_k (gmp_randstate_t rands)
 {
   static struct param_t  param;
 
@@ -956,17 +956,17 @@ void tune_mod_1_k (void)
 
   param.name = "MOD_1_1_THRESHOLD";
   param.min_size = 3;
-  one (&mod_1_1_threshold, &param);
+  one (&mod_1_1_threshold, rands, &param);
 
   param.name = "MOD_1_2_THRESHOLD";
   param.min_size = mod_1_1_threshold;
   //param.max_size = 1000;
-  one (&mod_1_2_threshold, &param);
+  one (&mod_1_2_threshold, rands, &param);
 
   param.name = "MOD_1_3_THRESHOLD";
   param.min_size = mod_1_2_threshold;
   //param.max_size = 10000;
-  one (&mod_1_3_threshold, &param);
+  one (&mod_1_3_threshold, rands, &param);
 
 }
 
@@ -977,7 +977,7 @@ void tune_mod_1_k (void)
    just for that.  Start karatsuba from 4 same as MUL above.  */
 
 void
-tune_sqr (void)
+tune_sqr (gmp_randstate_t rands)
 {
   /* disabled until tuned */
   SQR_FFT_THRESHOLD = MP_SIZE_T_MAX;
@@ -996,7 +996,7 @@ tune_sqr (void)
       param.min_is_always = 1;
       param.max_size = TUNE_SQR_KARATSUBA_MAX;
       param.noprint = 1;
-      one (&sqr_basecase_threshold, &param);
+      one (&sqr_basecase_threshold, rands, &param);
     }
 
   {
@@ -1006,7 +1006,7 @@ tune_sqr (void)
     param.min_size = MAX (4, MPN_KARA_SQR_N_MINSIZE);
     param.max_size = TUNE_SQR_KARATSUBA_MAX;
     param.noprint = 1;
-    one (&sqr_karatsuba_threshold, &param);
+    one (&sqr_karatsuba_threshold, rands, &param);
 
     if (! HAVE_NATIVE_mpn_sqr_basecase
         && sqr_karatsuba_threshold < sqr_basecase_threshold)
@@ -1041,7 +1041,7 @@ tune_sqr (void)
     param.min_size = MAX3 (MPN_TOOM3_SQR_N_MINSIZE,
                            SQR_KARATSUBA_THRESHOLD, SQR_BASECASE_THRESHOLD);
     param.max_size = SQR_TOOM3_THRESHOLD_LIMIT-1;
-    one (&sqr_toom3_threshold, &param);
+    one (&sqr_toom3_threshold, rands, &param);
   }
 
   {
@@ -1050,7 +1050,7 @@ tune_sqr (void)
     param.function = speed_mpn_sqr_n;
     param.min_size = MAX (MPN_TOOM4_SQR_N_MINSIZE, sqr_toom3_threshold);
     param.max_size = SQR_TOOM4_THRESHOLD_LIMIT-1;
-    one (&sqr_toom4_threshold, &param);
+    one (&sqr_toom4_threshold, rands, &param);
   }
 
   {
@@ -1059,13 +1059,13 @@ tune_sqr (void)
     param.function = speed_mpn_sqr_n;
     param.min_size = MAX (MPN_TOOM7_SQR_N_MINSIZE, sqr_toom4_threshold);
     param.max_size = SQR_TOOM7_THRESHOLD_LIMIT-1;
-    one (&sqr_toom7_threshold, &param);
+    one (&sqr_toom7_threshold, rands, &param);
   }
 }
 
 
 void
-tune_sb_preinv (void)
+tune_sb_preinv (gmp_randstate_t rands)
 {
   static struct param_t  param;
 
@@ -1090,18 +1090,18 @@ tune_sb_preinv (void)
   param.stop_factor = 2.0;
   param.name = "DIV_SB_PREINV_THRESHOLD";
   param.function = speed_mpn_sb_divrem_m3;
-  one (&div_sb_preinv_threshold, &param);
+  one (&div_sb_preinv_threshold, rands, &param);
 }
 
 
 void
-tune_dc (void)
+tune_dc (gmp_randstate_t rands)
 {
   static struct param_t  param;
   param.name = "DIV_DC_THRESHOLD";
   param.function = speed_mpn_dc_tdiv_qr;
   param.step_factor = 0.02;
-  one (&div_dc_threshold, &param);
+  one (&div_dc_threshold, rands, &param);
 }
 
 
@@ -1114,7 +1114,7 @@ tune_dc (void)
    (threshold should be around 650).  */
 
 void
-tune_powm (void)
+tune_powm (gmp_randstate_t rands)
 {
   static struct param_t  param;
   param.name = "POWM_THRESHOLD";
@@ -1123,11 +1123,11 @@ tune_powm (void)
   param.step_factor = 0.03;
   param.stop_factor = 1.1;
   param.function_fudge = 1.04;
-  one (&powm_threshold, &param);
+  one (&powm_threshold, rands, &param);
 }
 
 void
-tune_fac_ui (void)
+tune_fac_ui (gmp_randstate_t rands)
 {
   static struct param_t  param;
   param.name = "FAC_UI_THRESHOLD";
@@ -1138,17 +1138,17 @@ tune_fac_ui (void)
   param.min_size = 1024;
   param.max_size = 32768;
   //param.min_is_always=1;
-  one (&fac_ui_threshold, &param);
+  one (&fac_ui_threshold, rands, &param);
 }
 
 void
-tune_gcd_accel (void)
+tune_gcd_accel (gmp_randstate_t rands)
 {
   static struct param_t  param;
   param.name = "GCD_ACCEL_THRESHOLD";
   param.function = speed_mpn_gcd;
   param.min_size = 1;
-  one (&gcd_accel_threshold, &param);
+  one (&gcd_accel_threshold, rands, &param);
 }
 
 
@@ -1157,7 +1157,7 @@ tune_gcd_accel (void)
    equal a double step, or on a 64-bit limb about 2.09.  (These were found
    from counting the steps on a 10000 limb gcdext.  */
 void
-tune_gcdext (void)
+tune_gcdext (gmp_randstate_t rands)
 {
   static struct param_t  param;
   param.name = "GCDEXT_THRESHOLD";
@@ -1175,7 +1175,7 @@ tune_gcdext (void)
   param.min_is_always = 1;
   param.max_size = 300;
   param.check_size = 300;
-  one (&gcdext_threshold, &param);
+  one (&gcdext_threshold, rands, &param);
 }
 
 
@@ -1200,7 +1200,7 @@ tune_gcdext (void)
 double (*tuned_speed_mpn_divrem_1) _PROTO ((struct speed_params *s));
 
 void
-tune_divrem_1 (void)
+tune_divrem_1 (gmp_randstate_t rands)
 {
   /* plain version by default */
   tuned_speed_mpn_divrem_1 = speed_mpn_divrem_1;
@@ -1236,17 +1236,17 @@ tune_divrem_1 (void)
     static struct param_t  param;
     param.name = "DIVREM_1_NORM_THRESHOLD";
     DIV_1_PARAMS;
-    s.r = randlimb_norm ();
+    s.r = randlimb_norm (rands);
     param.function = speed_mpn_divrem_1_tune;
-    one (&divrem_1_norm_threshold, &param);
+    one (&divrem_1_norm_threshold, rands, &param);
   }
   {
     static struct param_t  param;
     param.name = "DIVREM_1_UNNORM_THRESHOLD";
     DIV_1_PARAMS;
-    s.r = randlimb_half ();
+    s.r = randlimb_half (rands);
     param.function = speed_mpn_divrem_1_tune;
-    one (&divrem_1_unnorm_threshold, &param);
+    one (&divrem_1_unnorm_threshold, rands, &param);
   }
 }
 
@@ -1254,7 +1254,7 @@ tune_divrem_1 (void)
 double (*tuned_speed_mpn_mod_1) _PROTO ((struct speed_params *s));
 
 void
-tune_mod_1 (void)
+tune_mod_1 (gmp_randstate_t rands)
 {
   /* plain version by default */
   tuned_speed_mpn_mod_1 = speed_mpn_mod_1;
@@ -1287,17 +1287,17 @@ tune_mod_1 (void)
     static struct param_t  param;
     param.name = "MOD_1_NORM_THRESHOLD";
     DIV_1_PARAMS;
-    s.r = randlimb_norm ();
+    s.r = randlimb_norm (rands);
     param.function = speed_mpn_mod_1_tune;
-    one (&mod_1_norm_threshold, &param);
+    one (&mod_1_norm_threshold, rands, &param);
   }
   {
     static struct param_t  param;
     param.name = "MOD_1_UNNORM_THRESHOLD";
     DIV_1_PARAMS;
-    s.r = randlimb_half ();
+    s.r = randlimb_half (rands);
     param.function = speed_mpn_mod_1_tune;
-    one (&mod_1_unnorm_threshold, &param);
+    one (&mod_1_unnorm_threshold, rands, &param);
   }
 }
 
@@ -1308,7 +1308,7 @@ tune_mod_1 (void)
    directly.  */
 
 void
-tune_preinv_divrem_1 (void)
+tune_preinv_divrem_1 (gmp_randstate_t rands)
 {
   static struct param_t  param;
   speed_function_t  divrem_1;
@@ -1355,11 +1355,11 @@ tune_preinv_divrem_1 (void)
   /* Divisor, nonzero.  Unnormalized so as to exercise the shift!=0 case,
      since in general that's probably most common, though in fact for a
      64-bit limb mp_bases[10].big_base is normalized.  */
-  s.r = urandom() & (GMP_NUMB_MASK >> 4);
+  s.r = urandom(rands) & (GMP_NUMB_MASK >> 4);
   if (s.r == 0) s.r = 123;
 
-  t1 = tuneup_measure (speed_mpn_preinv_divrem_1, &param, &s);
-  t2 = tuneup_measure (divrem_1, &param, &s);
+  t1 = tuneup_measure (speed_mpn_preinv_divrem_1, rands, &param, &s);
+  t2 = tuneup_measure (divrem_1, rands, &param, &s);
   if (t1 == -1.0 || t2 == -1.0)
     {
       printf ("Oops, can't measure mpn_preinv_divrem_1 and %s at %ld\n",
@@ -1379,7 +1379,7 @@ tune_preinv_divrem_1 (void)
    to compare mpn_preinv_mod_1 and mpn_mod_1_div directly.  */
 
 void
-tune_preinv_mod_1 (void)
+tune_preinv_mod_1 (gmp_randstate_t rands)
 {
   static struct param_t  param;
   speed_function_t  mod_1;
@@ -1423,10 +1423,10 @@ tune_preinv_mod_1 (void)
 
   param.data_high = DATA_HIGH_LT_R; /* let mpn_mod_1 skip one division */
   s.size = 200;                     /* generous but not too big */
-  s.r = randlimb_norm();            /* divisor */
+  s.r = randlimb_norm(rands);            /* divisor */
 
-  t1 = tuneup_measure (speed_mpn_preinv_mod_1, &param, &s);
-  t2 = tuneup_measure (mod_1, &param, &s);
+  t1 = tuneup_measure (speed_mpn_preinv_mod_1, rands, &param, &s);
+  t2 = tuneup_measure (mod_1, rands, &param, &s);
   if (t1 == -1.0 || t2 == -1.0)
     {
       printf ("Oops, can't measure mpn_preinv_mod_1 and %s at %ld\n",
@@ -1442,7 +1442,7 @@ tune_preinv_mod_1 (void)
 
 
 void
-tune_divrem_2 (void)
+tune_divrem_2 (gmp_randstate_t rands)
 {
   static struct param_t  param;
 
@@ -1478,9 +1478,9 @@ tune_divrem_2 (void)
   param.size_extra = 2;      /* does qsize==nsize-2 divisions */
   param.stop_factor = 2.0;
 
-  s.r = randlimb_norm ();
+  s.r = randlimb_norm (rands);
   param.function = speed_mpn_divrem_2;
-  one (&divrem_2_threshold, &param);
+  one (&divrem_2_threshold, rands, &param);
 }
 
 
@@ -1493,7 +1493,7 @@ tune_divrem_2 (void)
    expected to occur often with small divisors.  */
 
 void
-tune_divexact_1 (void)
+tune_divexact_1 (gmp_randstate_t rands)
 {
   static struct param_t  param;
   mp_size_t  thresh[2], average;
@@ -1522,13 +1522,13 @@ tune_divexact_1 (void)
 
   for (low = 0; low <= 1; low++)
     {
-      s.r = randlimb_half();
+      s.r = randlimb_half(rands);
       if (low == 0)
         s.r |= 1;
       else
         s.r &= ~CNST_LIMB(7);
 
-      one (&thresh[low], &param);
+      one (&thresh[low], rands, &param);
       if (option_trace)
         printf ("low=%d thresh %ld\n", low, (long) thresh[low]);
 
@@ -1571,7 +1571,7 @@ tune_divexact_1 (void)
    always, so as to reduce code size and conditional jumps.  */
 
 void
-tune_modexact_1_odd (void)
+tune_modexact_1_odd (gmp_randstate_t rands)
 {
   static struct param_t  param;
   mp_size_t  thresh_lt, thresh_ge, average;
@@ -1593,12 +1593,12 @@ tune_modexact_1_odd (void)
   param.function  = tuned_speed_mpn_mod_1;
   param.function2 = speed_mpn_modexact_1c_odd;
   param.noprint = 1;
-  s.r = randlimb_half () | 1;
+  s.r = randlimb_half (rands) | 1;
 
   print_define_start (param.name);
 
   param.data_high = DATA_HIGH_LT_R;
-  one (&thresh_lt, &param);
+  one (&thresh_lt, rands, &param);
   if (option_trace)
     printf ("lt thresh %ld\n", (long) thresh_lt);
 
@@ -1606,7 +1606,7 @@ tune_modexact_1_odd (void)
   if (thresh_lt != MP_SIZE_T_MAX)
     {
       param.data_high = DATA_HIGH_GE_R;
-      one (&thresh_ge, &param);
+      one (&thresh_ge, rands, &param);
       if (option_trace)
         printf ("ge thresh %ld\n", (long) thresh_ge);
 
@@ -1623,7 +1623,7 @@ tune_modexact_1_odd (void)
 
 
 void
-tune_jacobi_base (void)
+tune_jacobi_base (gmp_randstate_t rands)
 {
   static struct param_t  param;
   double   t1, t2, t3;
@@ -1631,15 +1631,15 @@ tune_jacobi_base (void)
 
   s.size = BITS_PER_MP_LIMB * 3 / 4;
 
-  t1 = tuneup_measure (speed_mpn_jacobi_base_1, &param, &s);
+  t1 = tuneup_measure (speed_mpn_jacobi_base_1, rands, &param, &s);
   if (option_trace >= 1)
     printf ("size=%ld, mpn_jacobi_base_1 %.9f\n", (long) s.size, t1);
 
-  t2 = tuneup_measure (speed_mpn_jacobi_base_2, &param, &s);
+  t2 = tuneup_measure (speed_mpn_jacobi_base_2, rands, &param, &s);
   if (option_trace >= 1)
     printf ("size=%ld, mpn_jacobi_base_2 %.9f\n", (long) s.size, t2);
 
-  t3 = tuneup_measure (speed_mpn_jacobi_base_3, &param, &s);
+  t3 = tuneup_measure (speed_mpn_jacobi_base_3, rands, &param, &s);
   if (option_trace >= 1)
     printf ("size=%ld, mpn_jacobi_base_3 %.9f\n", (long) s.size, t3);
 
@@ -1662,7 +1662,7 @@ tune_jacobi_base (void)
 
 
 void
-tune_get_str (void)
+tune_get_str (gmp_randstate_t rands)
 {
   /* Tune for decimal, it being most common.  Some rough testing suggests
      other bases are different, but not by very much.  */
@@ -1674,7 +1674,7 @@ tune_get_str (void)
     param.function = speed_mpn_get_str;
     param.min_size = 2;
     param.max_size = GET_STR_THRESHOLD_LIMIT;
-    one (&get_str_dc_threshold, &param);
+    one (&get_str_dc_threshold, rands, &param);
   }
   {
     static struct param_t  param;
@@ -1682,13 +1682,13 @@ tune_get_str (void)
     param.function = speed_mpn_get_str;
     param.min_size = GET_STR_DC_THRESHOLD;
     param.max_size = GET_STR_THRESHOLD_LIMIT;
-    one (&get_str_precompute_threshold, &param);
+    one (&get_str_precompute_threshold, rands, &param);
   }
 }
 
 
 void
-tune_set_str (void)
+tune_set_str (gmp_randstate_t rands)
 {
   static struct param_t  param;
 
@@ -1699,12 +1699,12 @@ tune_set_str (void)
   param.function2 = speed_mpn_set_str_subquad;
   param.min_size = 100;
   param.max_size = 150000;
-  one (&set_str_threshold, &param);
+  one (&set_str_threshold, rands, &param);
 }
 
 
 void
-tune_fft_mul (void)
+tune_fft_mul (gmp_randstate_t rands)
 {
   static struct fft_param_t  param;
 
@@ -1721,12 +1721,12 @@ tune_fft_mul (void)
   param.function            = speed_mpn_mul_fft;
   param.mul_function        = speed_mpn_mul_n;
   param.sqr = 0;
-  fft (&param);
+  fft (&param,rands);
 }
 
 
 void
-tune_fft_sqr (void)
+tune_fft_sqr (gmp_randstate_t rands)
 {
   static struct fft_param_t  param;
 
@@ -1743,7 +1743,7 @@ tune_fft_sqr (void)
   param.function            = speed_mpn_mul_fft_sqr;
   param.mul_function        = speed_mpn_sqr_n;
   param.sqr = 0;
-  fft (&param);
+  fft (&param,rands);
 }
 
 #ifdef _MSC_VER
@@ -1751,7 +1751,7 @@ tune_fft_sqr (void)
 #endif
 
 void
-all (void)
+all (gmp_randstate_t rands)
 {
   time_t  start_time, end_time;
   TMP_DECL;
@@ -1760,8 +1760,8 @@ all (void)
   SPEED_TMP_ALLOC_LIMBS (s.xp_block, SPEED_BLOCK_SIZE, 0);
   SPEED_TMP_ALLOC_LIMBS (s.yp_block, SPEED_BLOCK_SIZE, 0);
 
-  mpn_random (s.xp_block, SPEED_BLOCK_SIZE);
-  mpn_random (s.yp_block, SPEED_BLOCK_SIZE);
+  mpn_randomb (s.xp_block, rands, SPEED_BLOCK_SIZE);
+  mpn_randomb (s.yp_block, rands, SPEED_BLOCK_SIZE);
 
   fprintf (stderr, "Parameters for %s\n", GMP_MPARAM_H_SUGGEST);
 
@@ -1816,52 +1816,52 @@ all (void)
   }
   printf ("\n");
 
-  tune_mul ();
+  tune_mul (rands);
   printf("\n");
 
-  tune_sqr ();
+  tune_sqr (rands);
   printf("\n");
 
-  tune_mullow ();
+  tune_mullow (rands);
   printf("\n");
-  tune_mulhigh ();
+  tune_mulhigh (rands);
   printf("\n");
 
-  tune_mulmod_2expm1();
+  tune_mulmod_2expm1(rands);
   printf("\n");
   
-  tune_sb_preinv ();
-  tune_dc ();
-  tune_powm ();
-  tune_fac_ui();
+  tune_sb_preinv (rands);
+  tune_dc (rands);
+  tune_powm (rands);
+  tune_fac_ui(rands);
   printf("\n");
 
-  tune_gcd_accel ();
-  tune_gcdext ();
-  tune_jacobi_base ();
+  tune_gcd_accel (rands);
+  tune_gcdext (rands);
+  tune_jacobi_base (rands);
   printf("\n");
 
-  tune_divrem_1 ();
-  tune_mod_1 ();
-  tune_preinv_divrem_1 ();
-  tune_preinv_mod_1 ();
-  tune_divrem_2 ();
-  tune_divexact_1 ();
-  tune_modexact_1_odd ();
-  tune_mod_1_k();
+  tune_divrem_1 (rands);
+  tune_mod_1 (rands);
+  tune_preinv_divrem_1 (rands);
+  tune_preinv_mod_1 (rands);
+  tune_divrem_2 (rands);
+  tune_divexact_1 (rands);
+  tune_modexact_1_odd (rands);
+  tune_mod_1_k(rands);
   printf("\n");
   
-  tune_rootrem();
+  tune_rootrem(rands);
   printf("\n");
 
-  tune_get_str ();
-  tune_set_str ();
+  tune_get_str (rands);
+  tune_set_str (rands);
   printf("\n");
 
-  tune_fft_mul ();
+  tune_fft_mul (rands);
   printf("\n");
 
-  tune_fft_sqr ();
+  tune_fft_sqr (rands);
   printf ("\n");
 
   time (&end_time);
@@ -1876,7 +1876,9 @@ int
 main (int argc, char *argv[])
 {
   int  opt;
+  gmp_randstate_t rands;
 
+  gmp_randinit_default(rands);
   /* Unbuffered so if output is redirected to a file it isn't lost if the
      program is killed part way through.  */
   setbuf (stdout, NULL);
@@ -1905,6 +1907,6 @@ main (int argc, char *argv[])
       }
     }
 
-  all ();
+  all (rands);
   exit (0);
 }

@@ -85,11 +85,11 @@ check_monotonic (int argc, gmp_randstate_t rands, char **argv)
 
   for (i = 0; i < reps; i++)
     {
-      size = urandom () % SIZE - SIZE/2;
+      size = urandom (rands) % SIZE - SIZE/2;
       mpz_intrandom2 (mpq_numref (a), rands, size);
       do
 	{
-	  size = urandom () % SIZE - SIZE/2;
+	  size = urandom (rands) % SIZE - SIZE/2;
 	  mpz_intrandom2 (mpq_denref (a), rands, size);
 	}
       while (mpz_cmp_ui (mpq_denref (a), 0) == 0);
@@ -100,9 +100,9 @@ check_monotonic (int argc, gmp_randstate_t rands, char **argv)
       mpq_set_d (qlast_d, last_d);
       for (j = 0; j < 10; j++)
 	{
-	  size = urandom () % EPSIZE + 1;
+	  size = urandom (rands) % EPSIZE + 1;
 	  mpz_intrandom2 (mpq_numref (eps), rands, size);
-	  size = urandom () % EPSIZE + 1;
+	  size = urandom (rands) % EPSIZE + 1;
 	  mpz_intrandom2 (mpq_denref (eps), rands, size);
 	  mpq_canonicalize (eps);
 
