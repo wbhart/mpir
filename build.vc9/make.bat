@@ -47,7 +47,7 @@ set LIBBUILD=%LIBTYPE%_mpir_%BCPU%
 vcbuild %LIBBUILD%\%LIBBUILD%.vcproj "Release|%ARCHW%"
 :: c++ to build  if static
 if %LIBTYPE% == lib (
-	vcbuild lib_mpir_cpp\lib_mpir_cpp.vcproj "Release|%ARCHW%"
+	vcbuild lib_mpir_cxx\lib_mpir_cxx.vcproj "Release|%ARCHW%"
 )
 exit /b 0
 
@@ -93,7 +93,7 @@ del config_params.bat config.guess.bat config.guess.exe config.guess.obj last_bu
 del ..\config.h ..\mpir.h ..\gmp.h ..\gmp-mparam.h >nul 2>&1
 del gen-psqr\gen-psqr.exe gen-fac_ui\gen-fac_ui.exe gen-bases\gen-bases.exe >nul 2>&1
 del gen-fib\gen-fib.exe gen-mpir\gen-mpir.exe gen-mpir\gen-mpir.pdb >nul 2>&1
-rmdir /s/q x64 win32 %LIBTYPE%_mpir_%BCPU%\%ARCHW% lib_mpir_cpp\%ARCHW% lib\%ARCHW% dll\%ARCHW% mpir-tests\%ARCHW% >nul 2>&1
+rmdir /s/q x64 win32 %LIBTYPE%_mpir_%BCPU%\%ARCHW% lib_mpir_cxx\%ARCHW% lib\%ARCHW% dll\%ARCHW% mpir-tests\%ARCHW% >nul 2>&1
 rmdir /s/q gen-psqr\Win32 gen-fac_ui\Win32 gen-bases\Win32 gen-fib\Win32 gen-mpir\Win32 >nul 2>&1
 rmdir /s/q lib_speed\%ARCHW% speed\%ARCHW% tune\%ARCHW% try\%ARCHW% >nul 2>&1
 exit /b 0
