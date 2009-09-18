@@ -5,7 +5,7 @@ TMPFILE=$(tempfile)
 for fn in mpn_add_n mpn_sub_n mpn_mul_1.333 mpn_addmul_1.333 mpn_submul_1.333 mpn_mul_2 mpn_addmul_2 mpn_submul_2 \
 	mpn_addadd_n mpn_addsub_n mpn_subadd_n mpn_lshift.3 mpn_rshift.3 mpn_lshift2 mpn_rshift2 mpn_lshift1 mpn_rshift1 \
 	mpn_addlsh1_n mpn_sublsh1_n mpn_addlsh_n.3 mpn_sublsh_n.3 mpn_inclsh_n.3 mpn_declsh_n.3 \
-	mpn_rsh1add_n mpn_rsh1sub_n mpn_sumdiff_n mpn_store mpn_copyi mpn_copyd \
+	mpn_rsh1add_n mpn_rsh1sub_n mpn_sumdiff_n mpn_store MPN_ZERO mpn_copyi MPN_COPY_INCR mpn_copyd MPN_COPY_DECR \
 	mpn_popcount mpn_hamdist mpn_com_n mpn_neg_n mpn_and_n mpn_xor_n mpn_ior_n mpn_nand_n mpn_nior_n mpn_xnor_n mpn_andn_n \
 	mpn_iorn_n mpn_lshiftc mpn_divexact_byff mpn_divexact_byBm1of.3 mpn_divexact_by3 mpn_divexact_1.3333 mpn_modexact_1c_odd.334333 \
 	mpn_add_err1_n mpn_sub_err1_n \
