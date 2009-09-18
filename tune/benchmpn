@@ -1,4 +1,5 @@
 #!/bin/bash
+echo -ne "cpu                  \t"
 ../config.guess | cut -d - -f 1
 TMPFILE=$(tempfile)
 for fn in mpn_add_n mpn_sub_n mpn_mul_1.333 mpn_addmul_1.333 mpn_submul_1.333 mpn_mul_2 mpn_addmul_2 mpn_submul_2 \
@@ -6,10 +7,12 @@ for fn in mpn_add_n mpn_sub_n mpn_mul_1.333 mpn_addmul_1.333 mpn_submul_1.333 mp
 	mpn_addlsh1_n mpn_sublsh1_n mpn_addlsh_n.3 mpn_sublsh_n.3 mpn_inclsh_n.3 mpn_declsh_n.3 \
 	mpn_rsh1add_n mpn_rsh1sub_n mpn_sumdiff_n mpn_store mpn_copyi mpn_copyd \
 	mpn_popcount mpn_hamdist mpn_com_n mpn_neg_n mpn_and_n mpn_xor_n mpn_ior_n mpn_nand_n mpn_nior_n mpn_xnor_n mpn_andn_n \
-	mpn_iorn_n mpn_lshiftc mpn_divexact_byff mpn_divexact_byc mpn_divexact_by2c mpn_add_err1_n
+	mpn_iorn_n mpn_lshiftc mpn_divexact_byff mpn_divexact_byBm1of.3 mpn_divexact_by3 mpn_divexact_1.3333 mpn_modexact_1_odd.334333 \
+	mpn_add_err1_n mpn_sub_err1_n \
+	mpn_divrem_euclidean_qr_1.77777 mpn_divrem_euclidean_qr_2 mpn_divrem_euclidean_r_1.77777 mpn_mod_34lsub1
 do
 	fnc=$(echo $fn | cut -d _ -f 2- | cut -d . -f 1)
-	while [ $(echo "$fnc" | wc -c) -le 10 ]
+	while [ $(echo "$fnc" | wc -c) -le 21 ]
 	do 
 		fnc=$(echo " $fnc")
 	done
