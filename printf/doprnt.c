@@ -215,7 +215,7 @@ __gmp_doprnt (const struct doprnt_funs_t *funs, void *data,
   
       param.base = 10;
       param.conv = 0;
-      param.expfmt = "e%c%02d";
+      param.expfmt = "e%c%02ld";
       param.exptimes4 = 0;
       param.fill = ' ';
       param.justify = DOPRNT_JUSTIFY_RIGHT;
@@ -243,11 +243,11 @@ __gmp_doprnt (const struct doprnt_funs_t *funs, void *data,
                and there's no leading zeros on the exponent (which is in
                fact bit-based) */
             param.base = 16;
-            param.expfmt = "p%c%d";
+            param.expfmt = "p%c%ld";
             goto conv_a;
           case 'A':
             param.base = -16;
-            param.expfmt = "P%c%d";
+            param.expfmt = "P%c%ld";
           conv_a:
             param.conv = DOPRNT_CONV_SCIENTIFIC;
             param.exptimes4 = 1;
@@ -354,7 +354,7 @@ __gmp_doprnt (const struct doprnt_funs_t *funs, void *data,
 
           case 'E':
             param.base = -10;
-            param.expfmt = "E%c%02d";
+            param.expfmt = "E%c%02ld";
             /*FALLTHRU*/
           case 'e':
             param.conv = DOPRNT_CONV_SCIENTIFIC;
@@ -407,7 +407,7 @@ __gmp_doprnt (const struct doprnt_funs_t *funs, void *data,
 
           case 'G':
             param.base = -10;
-            param.expfmt = "E%c%02d";
+            param.expfmt = "E%c%02ld";
             /*FALLTHRU*/
           case 'g':
             param.conv = DOPRNT_CONV_GENERAL;

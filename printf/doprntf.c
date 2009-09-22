@@ -233,7 +233,7 @@ __gmp_doprnt_mpf (const struct doprnt_funs_t *funs,
 
   case DOPRNT_CONV_SCIENTIFIC:
     {
-      int   expval;
+      long  expval;
       char  expsign;
 
       if (prec <= -1)
