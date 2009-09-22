@@ -24,6 +24,8 @@ Boston, MA 02110-1301, USA.
 #include "mpir.h"
 #include "gmp-impl.h"
 
+#if 1
+
 void mpz_next_likely_prime (mpz_ptr p, mpz_srcptr t,gmp_randstate_t rnd)
 {
   mpz_add_ui (p, t, 1L);
@@ -31,10 +33,11 @@ void mpz_next_likely_prime (mpz_ptr p, mpz_srcptr t,gmp_randstate_t rnd)
     mpz_add_ui (p, p, 1L);
 }
 
-#if 0
+#else
+
 /* This code is not yet tested.  Will be enabled some time. */
 
-status unsigned short primes[] =
+static unsigned short primes[] =
 {
 3,5,7,11,13,17,19,23,29,31,37,41,43,47,53,59,61,67,71,73,79,83,89,97,
 101,103,107,109,113,127,131,137,139,149,151,157,163,167,173,179,181,
@@ -53,11 +56,11 @@ status unsigned short primes[] =
 void
 mpz_nextprime (mpz_ptr p, mpz_srcptr n)
 {
-  mpz_t tmp;
   unsigned short *moduli;
   unsigned long difference;
-  int i;
+  int i, prime_limit;
   int composite;
+  TMP_DECL;
 
   /* First handle tiny numbers */
   if (mpz_cmp_ui (n, 2) < 0)
@@ -77,6 +80,7 @@ mpz_nextprime (mpz_ptr p, mpz_srcptr n)
     prime_limit = 3;
   if (prime_limit)
     {
+      TMP_MARK;
       /* Compute residues modulo small odd primes */
       moduli = (unsigned short *) TMP_ALLOC (prime_limit * sizeof moduli[0]);
       for (i = 0; i < prime_limit; i++)
@@ -105,5 +109,7 @@ mpz_nextprime (mpz_ptr p, mpz_srcptr n)
       if (mpz_millerrabin (p, 2))
 	break;
     }
+  TMP_FREE;
 }
+
 #endif
