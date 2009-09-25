@@ -146,6 +146,7 @@ double speed_modlimb_invert_arith _PROTO ((struct speed_params *s));
 
 double speed_mpf_init_clear _PROTO ((struct speed_params *s));
 double speed_mpn_add_err1_n _PROTO ((struct speed_params *s));
+double speed_mpn_sub_err1_n _PROTO ((struct speed_params *s));
 
 double speed_mpn_add_n _PROTO ((struct speed_params *s));
 double speed_mpn_addadd_n _PROTO ((struct speed_params *s));

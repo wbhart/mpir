@@ -466,6 +466,12 @@ speed_mpn_add_err1_n (struct speed_params *s)
 }
 
 double
+speed_mpn_sub_err1_n (struct speed_params *s)
+{
+  SPEED_ROUTINE_MPN_ADD_ERR1_N (mpn_sub_err1_n);
+}
+
+double
 speed_mpn_addmul_1 (struct speed_params *s)
 {
   SPEED_ROUTINE_MPN_UNARY_1 (mpn_addmul_1);
