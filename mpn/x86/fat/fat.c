@@ -210,7 +210,7 @@ __gmpn_cpuvec_init (void)
 #define CPUSETUP_core		CPUVEC_SETUP_p6;CPUVEC_SETUP_p6_mmx;CPUVEC_SETUP_p6_p3mmx
 #define CPUSETUP_core2		CPUVEC_SETUP_core2
 #define CPUSETUP_penryn		CPUVEC_SETUP_p6;CPUVEC_SETUP_p6_mmx;CPUVEC_SETUP_p6_p3mmx
-#define CPUSETUP_nehalem	CPUVEC_SETUP_p6;CPUVEC_SETUP_p6_mmx;CPUVEC_SETUP_p6_p3mmx
+#define CPUSETUP_nehalem	CPUVEC_SETUP_nehalem
 #define CPUSETUP_atom		CPUVEC_SETUP_p6;CPUVEC_SETUP_p6_mmx;CPUVEC_SETUP_p6_p3mmx
 #define CPUSETUP_pentium4	CPUVEC_SETUP_pentium4;CPUVEC_SETUP_pentium4_mmx;CPUVEC_SETUP_pentium4_sse2
 #define CPUSETUP_prescott	CPUVEC_SETUP_pentium4;CPUVEC_SETUP_pentium4_mmx;CPUVEC_SETUP_pentium4_sse2

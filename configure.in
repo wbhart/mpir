@@ -1449,7 +1449,8 @@ case $host in
       k10)			path="x86/k7/mmx/k8/k10 x86/k7/mmx/k8 x86/k7/mmx x86/k7 x86" ;;
       k8)			path="x86/k7/mmx/k8 x86/k7/mmx x86/k7 x86" ;;
       core2 | penryn)		path="x86/core2 x86" ;;
-      i786 | pentium4 | nehalem) path="x86/pentium4/sse2 x86/pentium4/mmx x86/pentium4 x86" ;;
+      i786 | pentium4)		path="x86/pentium4/sse2 x86/pentium4/mmx x86/pentium4 x86" ;;
+      nehalem)			path="x86/nehalem x86" ;;
       prescott | netburst | netburstlahf)       path="x86/pentium4/sse2 x86/pentium4/mmx x86/pentium4 x86" ;;
       # VIA/Centaur processors, sold as CyrixIII and C3.
       viac32)                  path="x86/p6/p3mmx x86/p6/mmx x86/p6 x86";;
@@ -1469,7 +1470,7 @@ case $host in
 		x86/pentium x86/pentium/mmx
 		x86/p6 x86/p6/mmx x86/p6/p3mmx
 		x86/pentium4 x86/pentium4/mmx x86/pentium4/sse2
-		x86/core2"
+		x86/core2 x86/nehalem"
       fat_functions="add_n addmul_1 copyd copyi
 		     dive_1 diveby3 divebyBm1of divrem_1 divrem_euclidean_qr_1 
 			divrem_euclidean_qr_2 gcd_1 lshift
