@@ -29,7 +29,7 @@ Boston, MA 02110-1301, USA.
 // this should return the microarchitecture , NOT which code path we think is best
 
 #if CONFIG_GUESS
-// use's the stringinzing directive  #x   so MODELSTR(teddy)  expands to modelstr="teddy"
+// use's the stringinzing directive  #x   ie #x expands to "x"
 #define CPUIS(x)	modelstr=#x
 #define __gmpn_cpuid	cpuid
 #endif
@@ -115,19 +115,21 @@ Boston, MA 02110-1301, USA.
 	  CPUIS(k8);
 	  break;
 	case 16:
-	  if (model == 2) { CPUIS(k10);break;} // phenom
-	  if (model == 4) { CPUIS(k102);break;} //phenom II
+	  if (model == 2) { CPUIS(k10);break;}
+	  if (model == 4) { CPUIS(k102);break;}
 	  break;
         }
     }
-  #if CONFIG_GUESS_32 || FAT32
   else if (strcmp (vendor_string, "CentaurHauls") == 0)
     {
       switch (family)
 	{
 	case 6:
+	  if (model == 15){CPUIS(nano);break;}
+	#if CONFIG_GUESS_32BIT || FAT32
 	  if (model < 9) { CPUIS(viac3);break;}
 	  CPUIS(viac32);break;
+        #endif
 	}
     }
-  #endif
+
