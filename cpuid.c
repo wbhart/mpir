@@ -121,10 +121,6 @@ Boston, MA 02110-1301, USA.
         }
     }
   #if CONFIG_GUESS_32 || FAT32
-  else if (strcmp (vendor_string, "CyrixInstead") == 0)
-    {
-      /* Should recognize Cyrix' processors too.  */
-    }
   else if (strcmp (vendor_string, "CentaurHauls") == 0)
     {
       switch (family)
