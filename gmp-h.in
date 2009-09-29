@@ -1534,6 +1534,13 @@ __GMP_DECLSPEC mp_limb_t mpn_divrem_1 __GMP_PROTO ((mp_ptr, mp_size_t, mp_srcptr
 #define mpn_divrem_2 __MPN(divrem_2)
 __GMP_DECLSPEC mp_limb_t mpn_divrem_2 __GMP_PROTO ((mp_ptr, mp_size_t, mp_ptr, mp_size_t, mp_srcptr));
 
+#define mpn_invert __MPN(invert)
+__GMP_DECLSPEC void mpn_invert __GMP_PROTO ((mp_ptr xp, mp_srcptr ap, mp_size_t n));
+
+#define mpn_sb_divappr_q __MPN(sb_divappr_q)
+__GMP_DECLSPEC mp_limb_t mpn_sb_divappr_q __GMP_PROTO ((mp_ptr qp, mp_ptr np, mp_size_t nn,
+		  mp_srcptr dp, mp_size_t dn, mp_srcptr dip)); 
+
 #define mpn_gcd __MPN(gcd)
 __GMP_DECLSPEC mp_size_t mpn_gcd __GMP_PROTO ((mp_ptr, mp_ptr, mp_size_t, mp_ptr, mp_size_t));
 

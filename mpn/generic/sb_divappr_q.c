@@ -110,13 +110,13 @@ mpn_sb_divappr_q (mp_ptr qp, mp_ptr np, mp_size_t nn,
   if (mpn_cmp(np + nn - dn, dp, dn) >= 0)
   {
      ret = CNST_LIMB(1);
-	 mpn_sub_n(np + nn - dn, np + nn - dn, dp, nn);
+	 mpn_sub_n(np + nn - dn, np + nn - dn, dp, dn);
   } else 
      ret = CNST_LIMB(0);
 
   di1 = dip[1]; 
   di0 = dip[0];
-  for (i = qn - 2; i >= 0; i--)
+  for (i = qn - 2; i >= 0L; i--)
   {
      /*
 	    Compute n2 + top two limbs of n2*di, but
@@ -125,7 +125,7 @@ mpn_sb_divappr_q (mp_ptr qp, mp_ptr np, mp_size_t nn,
 	 */
      n21 = np[nn - 1];
 	 n20 = np[nn - 2];
-	 umul_ppmm(p2, p1, di0, n21);
+    umul_ppmm(p2, p1, di0, n21);
 	 umul_ppmm(p4, p3, di1, n20);
 	 add_ssaaaa(q, q0, n21, p2, CNST_LIMB(0), p4);
 	 umul_ppmm(p1, p2, di1, n21);
@@ -143,8 +143,14 @@ mpn_sb_divappr_q (mp_ptr qp, mp_ptr np, mp_size_t nn,
 	 }
 
 	 qp[i] = q;
-	 dn--;
-     nn--;
+
+	 if (dn > i + 1)
+    {
+       dp++;
+       dn--;
+    }
+
+    nn--;
   }
 	
   return ret;
