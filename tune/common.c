@@ -601,6 +601,24 @@ speed_mpn_divrem_euclidean_qr_1 (struct speed_params *s)
 }
 
 double
+speed_mpn_divrem_hensel_qr_1 (struct speed_params *s)
+{
+  SPEED_ROUTINE_MPN_UNARY_1 (mpn_divrem_hensel_qr_1);
+}
+
+double
+speed_mpn_divrem_hensel_rsh_qr_1 (struct speed_params *s)
+{
+  SPEED_ROUTINE_MPN_UNARY_1_CALL (mpn_divrem_hensel_rsh_qr_1(wp,s->xp,s->size,s->r,19));
+}
+
+double
+speed_mpn_rsh_divrem_hensel_qr_1 (struct speed_params *s)
+{
+  SPEED_ROUTINE_MPN_UNARY_1_CALL (mpn_rsh_divrem_hensel_qr_1(wp,s->xp,s->size,s->r,19));
+}
+
+double
 speed_mpn_divrem_euclidean_qr_2 (struct speed_params *s)
 {
   SPEED_ROUTINE_MPN_DIVREME_2 (mpn_divrem_euclidean_qr_2);
@@ -612,6 +630,11 @@ speed_mpn_divrem_euclidean_r_1 (struct speed_params *s)
   SPEED_ROUTINE_MPN_MOD_1 (mpn_divrem_euclidean_r_1);
 }
 
+double
+speed_mpn_divrem_hensel_r_1 (struct speed_params *s)
+{
+  SPEED_ROUTINE_MPN_MOD_1 (mpn_divrem_hensel_r_1);
+}
 
 /* The carry-in variants (if available) are good for measuring because they
    won't skip a division if high<divisor.  Alternately, use -1 as a divisor

@@ -1001,6 +1001,18 @@ __GMP_DECLSPEC mp_limb_t mpn_divrem_euclidean_qr_2 __GMP_PROTO ((mp_ptr, mp_ptr,
 #define mpn_divrem_euclidean_r_1 __MPN(divrem_euclidean_r_1)
 __GMP_DECLSPEC mp_limb_t mpn_divrem_euclidean_r_1 __GMP_PROTO ((mp_srcptr, mp_size_t,mp_limb_t));
 
+#define mpn_divrem_hensel_qr_1 __MPN(divrem_hensel_qr_1)
+__GMP_DECLSPEC mp_limb_t mpn_divrem_hensel_qr_1 __GMP_PROTO ((mp_ptr, mp_srcptr, mp_size_t,mp_limb_t));
+
+#define mpn_divrem_hensel_rsh_qr_1 __MPN(divrem_hensel_rsh_qr_1)
+__GMP_DECLSPEC mp_limb_t mpn_divrem_hensel_rsh_qr_1 __GMP_PROTO ((mp_ptr, mp_srcptr, mp_size_t,mp_limb_t,int));
+
+#define mpn_rsh_divrem_hensel_qr_1 __MPN(rsh_divrem_hensel_qr_1)
+__GMP_DECLSPEC mp_limb_t mpn_rsh_divrem_hensel_qr_1 __GMP_PROTO ((mp_ptr, mp_srcptr, mp_size_t,mp_limb_t,int));
+
+#define mpn_divrem_hensel_r_1 __MPN(divrem_hensel_r_1)
+__GMP_DECLSPEC mp_limb_t mpn_divrem_hensel_r_1 __GMP_PROTO ((mp_srcptr, mp_size_t,mp_limb_t));
+
 typedef __gmp_randstate_struct *gmp_randstate_ptr;
 typedef const __gmp_randstate_struct *gmp_randstate_srcptr;
 

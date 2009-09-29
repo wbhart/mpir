@@ -209,7 +209,11 @@ const struct routine_t {
   { "mpn_divrem_euclidean_qr_1",      speed_mpn_divrem_euclidean_qr_1,  FLAG_R },
   { "mpn_divrem_euclidean_qr_2",      speed_mpn_divrem_euclidean_qr_2, },
   { "mpn_divrem_euclidean_r_1",       speed_mpn_divrem_euclidean_r_1,  FLAG_R },
-
+  { "mpn_divrem_hensel_qr_1",         speed_mpn_divrem_hensel_qr_1, FLAG_R},
+  { "mpn_divrem_hensel_r_1",          speed_mpn_divrem_hensel_r_1,  FLAG_R },
+  { "mpn_rsh_divrem_hensel_qr_1",     speed_mpn_rsh_divrem_hensel_qr_1, FLAG_R},
+  { "mpn_divrem_hensel_rsh_qr_1",     speed_mpn_divrem_hensel_rsh_qr_1, FLAG_R},
+  
   { "mpn_divrem_1",      speed_mpn_divrem_1,  FLAG_R },
   { "mpn_divrem_1f",     speed_mpn_divrem_1f, FLAG_R },
 #if HAVE_NATIVE_mpn_divrem_1c

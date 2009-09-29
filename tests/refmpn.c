@@ -1454,6 +1454,58 @@ refmpn_divrem_euclidean_qr_1 (mp_ptr rp, mp_srcptr sp, mp_size_t size, mp_limb_t
   return refmpn_divmod_1c (rp, sp, size, divisor, CNST_LIMB(0));
 }
 
+mp_limb_t refmpn_divrem_hensel_qr_1(mp_ptr qp, mp_srcptr xp, mp_size_t n, mp_limb_t d)
+{mp_size_t j;mp_limb_t c,h,q,dummy,h1,t,m,r;mp_ptr tp,tqp;
+
+ASSERT(n>0);ASSERT_MPN(xp,n);ASSERT(refmpn_overlap_fullonly_p(qp,xp,n));
+ASSERT(d%2==1);modlimb_invert(m,d);
+c=0;h=0;t=0;tqp=refmpn_malloc_limbs(n);
+for(j=0;j<=n-1;j++)
+   {h1=xp[j];
+    t=h+c;if(t>h1){h1=h1-t;c=1;}else{h1=h1-t;c=0;}
+    q=h1*m;
+    tqp[j]=q;
+    h=refmpn_umul_ppmm(&dummy,q,d);
+    ASSERT(dummy==h1);}
+r=h+c;   //  (xp,n) = (tqp,n)*d -ret*B^n    and 0 <= ret < d
+tp=refmpn_malloc_limbs(n);
+ASSERT(r==refmpn_mul_1(tp,tqp,n,d));
+ASSERT(r<d);
+ASSERT(refmpn_cmp(tp,xp,n)==0);
+refmpn_copy(qp,tqp,n);
+free(tp);
+free(tqp);
+return r;}
+
+mp_limb_t
+refmpn_divrem_hensel_rsh_qr_1 (mp_ptr rp, mp_srcptr sp, mp_size_t size, mp_limb_t divisor,int shift)
+{
+ASSERT(divisor%2==1);ASSERT(shift>=0);// do we want shift ==0 ??
+ASSERT(size>0);ASSERT_MPN(sp,size);
+ASSERT(refmpn_overlap_fullonly_p(rp,sp,size));
+refmpn_rshift(rp,sp,size,shift);
+return refmpn_divrem_hensel_qr_1(rp,rp,size,divisor);
+}
+
+mp_limb_t
+refmpn_rsh_divrem_hensel_qr_1 (mp_ptr rp, mp_srcptr sp, mp_size_t size, mp_limb_t divisor,int shift)
+{mp_limb_t r;
+ASSERT(divisor%2==1);ASSERT(shift>=0);// do we want shift ==0 ??
+ASSERT(size>0);ASSERT_MPN(sp,size);
+ASSERT(refmpn_overlap_fullonly_p(rp,sp,size));
+r=refmpn_divrem_hensel_qr_1(rp,sp,size,divisor);
+refmpn_rshift(rp,rp,size,shift);
+return r;}
+
+mp_limb_t
+refmpn_divrem_hensel_r_1 (mp_srcptr sp, mp_size_t size, mp_limb_t divisor)
+{mp_limb_t r;mp_ptr rp;
+ASSERT(divisor%2==1);
+ASSERT(size>0);ASSERT_MPN(sp,size);
+rp=refmpn_malloc_limbs(size);
+r=refmpn_divrem_hensel_qr_1(rp,sp,size,divisor);
+free(rp);
+return r;}
 
 mp_limb_t
 refmpn_mod_1c (mp_srcptr sp, mp_size_t size, mp_limb_t divisor,
