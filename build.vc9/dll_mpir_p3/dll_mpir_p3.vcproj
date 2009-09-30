@@ -673,6 +673,26 @@
 					</FileConfiguration>
 				</File>
 				<File
+					RelativePath="..\..\mpn\generic\dc_divappr_q_n.c"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
 					RelativePath="..\..\mpn\generic\dc_divrem_n.c"
 					>
 					<FileConfiguration
@@ -919,6 +939,106 @@
 					</FileConfiguration>
 				</File>
 				<File
+					RelativePath="..\..\mpn\generic\divrem_hensel_qr_1.c"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\mpn\generic\divrem_hensel_qr_1_1.c"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\mpn\generic\divrem_hensel_qr_1_2.c"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\mpn\generic\divrem_hensel_r_1.c"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\mpn\generic\divrem_hensel_rsh_qr_1.c"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
 					RelativePath="..\..\mpn\generic\dump.c"
 					>
 					<FileConfiguration
@@ -1040,6 +1160,26 @@
 				</File>
 				<File
 					RelativePath="..\..\mpn\generic\get_str.c"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\mpn\generic\invert.c"
 					>
 					<FileConfiguration
 						Name="Debug|Win32"
@@ -1799,6 +1939,26 @@
 					</FileConfiguration>
 				</File>
 				<File
+					RelativePath="..\..\mpn\generic\rsh_divrem_hensel_qr_1.c"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
 					RelativePath="..\..\mpn\generic\rshift.c"
 					>
 					<FileConfiguration
@@ -2437,6 +2597,10 @@
 							>
 						</File>
 						<File
+							RelativePath="..\..\mpn\x86w\p6\p3mmx\popham.asm"
+							>
+						</File>
+						<File
 							RelativePath="..\..\mpn\x86w\p6\mmx\popham.asm"
 							>
 							<FileConfiguration
@@ -2455,10 +2619,6 @@
 									Name="YASM"
 								/>
 							</FileConfiguration>
-						</File>
-						<File
-							RelativePath="..\..\mpn\x86w\p6\p3mmx\popham.asm"
-							>
 						</File>
 						<File
 							RelativePath="..\..\mpn\x86w\p6\mmx\rshift.asm"

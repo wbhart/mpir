@@ -125,7 +125,7 @@ mpn_sb_divappr_q (mp_ptr qp, mp_ptr np, mp_size_t nn,
 	 */
      n21 = np[nn - 1];
 	 n20 = np[nn - 2];
-    umul_ppmm(p2, p1, di0, n21);
+     umul_ppmm(p2, p1, di0, n21);
 	 umul_ppmm(p4, p3, di1, n20);
 	 add_ssaaaa(q, q0, n21, p2, CNST_LIMB(0), p4);
 	 umul_ppmm(p1, p2, di1, n21);

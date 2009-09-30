@@ -27,6 +27,10 @@ MA 02110-1301, USA. */
 #include "gmp-impl.h"
 #include "tests.h"
 
+#ifdef _MSC_VER
+#define random rand
+#endif
+
 #define MAX_LIMBS 200
 #define ITERS 1000
    

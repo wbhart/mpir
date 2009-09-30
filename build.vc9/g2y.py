@@ -178,7 +178,7 @@ def pass_three(code, labels, macros, level) :
         else :
           lp = '\nL_{0}:'.format(lab)
 
-    m = re.search(r'(\s*)#\s*(.*)', l)
+    m = re.search(r'^(\s*)#\s*(.*)', l)
     if m :
       v = list(m.groups())
       lo += [lp + '{0[0]}; {0[1]}'.format(v)]
