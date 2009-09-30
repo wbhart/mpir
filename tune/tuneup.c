@@ -187,6 +187,7 @@ mp_size_t  get_str_dc_threshold         = MP_SIZE_T_MAX;
 mp_size_t  get_str_precompute_threshold = MP_SIZE_T_MAX;
 mp_size_t  set_str_threshold            = MP_SIZE_T_MAX;
 mp_size_t  rootrem_threshold            = MP_SIZE_T_MAX;
+mp_size_t  divrem_hensel_qr_1_threshold = MP_SIZE_T_MAX;
 
 mp_size_t  fft_modf_sqr_threshold = MP_SIZE_T_MAX;
 mp_size_t  fft_modf_mul_threshold = MP_SIZE_T_MAX;
@@ -945,6 +946,16 @@ tune_rootrem (gmp_randstate_t rands)
   param.name = "ROOTREM_THRESHOLD";
   param.min_size = 1;
   one (&rootrem_threshold, rands, &param);
+}
+
+void
+tune_divrem_hensel_qr_1 (gmp_randstate_t rands)
+{
+  static struct param_t  param;
+  param.function = speed_mpn_divrem_hensel_qr_1;
+  param.name = "DIVREM_HENSEL_QR_1_THRESHOLD";
+  param.min_size = 2;
+  one (&divrem_hensel_qr_1_threshold, rands, &param);
 }
 
 // for tuning  we dont care if the divisors go out of range as it doesn't affect the runtime
@@ -1849,6 +1860,7 @@ all (gmp_randstate_t rands)
   tune_divexact_1 (rands);
   tune_modexact_1_odd (rands);
   tune_mod_1_k(rands);
+  tune_divrem_hensel_qr_1(rands);
   printf("\n");
   
   tune_rootrem(rands);

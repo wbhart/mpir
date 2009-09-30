@@ -689,10 +689,12 @@ validate_sqrtrem (void)
 #define TYPE_ADDLSH_NC		128
 #define TYPE_SUBLSH_NC		129
 
-#define TYPE_DIVREM_HENSEL_QR_1	130
-#define TYPE_DIVREM_HENSEL_R_1	131
-#define TYPE_RSH_DIVREM_HENSEL_QR_1	132
-#define TYPE_DIVREM_HENSEL_RSH_QR_1	133
+#define TYPE_DIVREM_HENSEL_QR_1		130
+#define TYPE_DIVREM_HENSEL_QR_1_1	131
+#define TYPE_DIVREM_HENSEL_QR_1_2	132
+#define TYPE_DIVREM_HENSEL_R_1	133
+#define TYPE_RSH_DIVREM_HENSEL_QR_1	134
+#define TYPE_DIVREM_HENSEL_RSH_QR_1	135
 
 #define TYPE_EXTRA            150
 
@@ -1080,6 +1082,20 @@ param_init (void)
   REFERENCE (refmpn_divrem_euclidean_r_1);
 
   p = &param[TYPE_DIVREM_HENSEL_QR_1];
+  p->retval = 1;
+  p->src[0] = 1;
+  p->divisor = DIVISOR_ODD;
+  p->dst[0] = 1;
+  REFERENCE (refmpn_divrem_hensel_qr_1);
+
+  p = &param[TYPE_DIVREM_HENSEL_QR_1_1];
+  p->retval = 1;
+  p->src[0] = 1;
+  p->divisor = DIVISOR_ODD;
+  p->dst[0] = 1;
+  REFERENCE (refmpn_divrem_hensel_qr_1);
+
+  p = &param[TYPE_DIVREM_HENSEL_QR_1_2];
   p->retval = 1;
   p->src[0] = 1;
   p->divisor = DIVISOR_ODD;
@@ -1777,6 +1793,8 @@ const struct choice_t choice_array[] = {
   { TRY(mpn_divrem_euclidean_qr_1),     TYPE_DIVREM_EUCLIDEAN_QR_1 },
   { TRY(mpn_divrem_euclidean_r_1),     TYPE_DIVREM_EUCLIDEAN_R_1 },
   { TRY(mpn_divrem_hensel_qr_1),     TYPE_DIVREM_HENSEL_QR_1 },
+  { TRY(mpn_divrem_hensel_qr_1_1),     TYPE_DIVREM_HENSEL_QR_1_1 },
+  { TRY(mpn_divrem_hensel_qr_1_2),     TYPE_DIVREM_HENSEL_QR_1_2 },
   { TRY(mpn_divrem_hensel_r_1),     TYPE_DIVREM_HENSEL_R_1 },
   { TRY(mpn_rsh_divrem_hensel_qr_1),     TYPE_RSH_DIVREM_HENSEL_QR_1 },
   { TRY(mpn_divrem_hensel_rsh_qr_1),     TYPE_DIVREM_HENSEL_RSH_QR_1 },
@@ -2518,7 +2536,10 @@ call (struct each_t *e, tryfun_t function)
 						carry);
     break;
 
+
   case TYPE_DIVREM_HENSEL_QR_1:
+  case TYPE_DIVREM_HENSEL_QR_1_1:
+  case TYPE_DIVREM_HENSEL_QR_1_2:
   case TYPE_DIVREM_EUCLIDEAN_QR_1:
   case TYPE_DIVMOD_1:
   case TYPE_DIVEXACT_1:

@@ -234,6 +234,8 @@ MA 02110-1301, USA.
 #undef HAVE_NATIVE_mpn_divexact_1
 #undef HAVE_NATIVE_mpn_divrem_euclidean_qr_1
 #undef HAVE_NATIVE_mpn_divrem_hensel_qr_1
+#undef HAVE_NATIVE_mpn_divrem_hensel_qr_1_1
+#undef HAVE_NATIVE_mpn_divrem_hensel_qr_1_2
 #undef HAVE_NATIVE_mpn_divrem_hensel_r_1
 #undef HAVE_NATIVE_mpn_divrem_hensel_rsh_qr_1
 #undef HAVE_NATIVE_mpn_rsh_divrem_hensel_qr_1

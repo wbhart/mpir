@@ -605,6 +605,16 @@ speed_mpn_divrem_hensel_qr_1 (struct speed_params *s)
 {
   SPEED_ROUTINE_MPN_UNARY_1 (mpn_divrem_hensel_qr_1);
 }
+double
+speed_mpn_divrem_hensel_qr_1_1 (struct speed_params *s)
+{
+  SPEED_ROUTINE_MPN_UNARY_1 (mpn_divrem_hensel_qr_1_1);
+}
+double
+speed_mpn_divrem_hensel_qr_1_2 (struct speed_params *s)
+{
+  SPEED_ROUTINE_MPN_UNARY_1 (mpn_divrem_hensel_qr_1_2);
+}
 
 double
 speed_mpn_divrem_hensel_rsh_qr_1 (struct speed_params *s)
