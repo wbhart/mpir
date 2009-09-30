@@ -1100,6 +1100,7 @@ param_init (void)
   p->src[0] = 1;
   p->divisor = DIVISOR_ODD;
   p->dst[0] = 1;
+  p->msize = 2;
   REFERENCE (refmpn_divrem_hensel_qr_1);
 
   p = &param[TYPE_DIVREM_HENSEL_R_1];
