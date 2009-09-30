@@ -1,4 +1,4 @@
-dnl  X86_64 mpn_divrem_hensel_qr_1
+dnl  X86_64 mpn_divrem_hensel_qr_1_1
 
 dnl  Copyright 2009 Jason Moxham
 
@@ -31,7 +31,7 @@ C	This function "replaces" divexact_1 and modexact_1_odd
 C	This is same as the shifting version but with  no shifting
 
 ASM_START()
-PROLOGUE(mpn_divrem_hensel_qr_1)
+PROLOGUE(mpn_divrem_hensel_qr_1_1)
 mov $0,%r9
 sub %rdx,%r9
 lea (%rdi,%rdx,8),%rdi
