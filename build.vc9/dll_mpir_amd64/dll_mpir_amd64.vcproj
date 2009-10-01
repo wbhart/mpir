@@ -792,6 +792,7 @@
 					>
 					<FileConfiguration
 						Name="Debug|x64"
+						ExcludedFromBuild="true"
 						>
 						<Tool
 							Name="VCCLCompilerTool"
@@ -800,6 +801,7 @@
 					</FileConfiguration>
 					<FileConfiguration
 						Name="Release|x64"
+						ExcludedFromBuild="true"
 						>
 						<Tool
 							Name="VCCLCompilerTool"
@@ -812,6 +814,7 @@
 					>
 					<FileConfiguration
 						Name="Debug|x64"
+						ExcludedFromBuild="true"
 						>
 						<Tool
 							Name="VCCLCompilerTool"
@@ -820,6 +823,7 @@
 					</FileConfiguration>
 					<FileConfiguration
 						Name="Release|x64"
+						ExcludedFromBuild="true"
 						>
 						<Tool
 							Name="VCCLCompilerTool"
@@ -832,6 +836,7 @@
 					>
 					<FileConfiguration
 						Name="Debug|x64"
+						ExcludedFromBuild="true"
 						>
 						<Tool
 							Name="VCCLCompilerTool"
@@ -840,6 +845,7 @@
 					</FileConfiguration>
 					<FileConfiguration
 						Name="Release|x64"
+						ExcludedFromBuild="true"
 						>
 						<Tool
 							Name="VCCLCompilerTool"
@@ -2381,7 +2387,6 @@
 						>
 						<FileConfiguration
 							Name="Debug|x64"
-							ExcludedFromBuild="true"
 							>
 							<Tool
 								Name="YASM"
@@ -2389,7 +2394,6 @@
 						</FileConfiguration>
 						<FileConfiguration
 							Name="Release|x64"
-							ExcludedFromBuild="true"
 							>
 							<Tool
 								Name="YASM"
@@ -2397,11 +2401,14 @@
 						</FileConfiguration>
 					</File>
 					<File
+						RelativePath="..\..\mpn\x86_64w\amd64\divrem_hensel_qr_1_2.asm"
+						>
+					</File>
+					<File
 						RelativePath="..\..\mpn\x86_64w\amd64\divrem_hensel_r_1.asm"
 						>
 						<FileConfiguration
 							Name="Debug|x64"
-							ExcludedFromBuild="true"
 							>
 							<Tool
 								Name="YASM"
@@ -2409,7 +2416,6 @@
 						</FileConfiguration>
 						<FileConfiguration
 							Name="Release|x64"
-							ExcludedFromBuild="true"
 							>
 							<Tool
 								Name="YASM"
