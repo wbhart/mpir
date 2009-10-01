@@ -939,13 +939,13 @@ __GMP_DECLSPEC void mpn_mullow_basecase __GMP_PROTO ((mp_ptr, mp_srcptr,mp_size_
 __GMP_DECLSPEC void mpn_mulmid_basecase __GMP_PROTO ((mp_ptr, mp_srcptr, mp_size_t, mp_srcptr, mp_size_t));
 
 #define mpn_mod_1_1 __MPN(mod_1_1)
-__GMP_DECLSPEC mp_limb_t mpn_mod_1_1 __GMP_PROTO ((mp_srcptr, mp_size_t, mp_limb_t));
+__GMP_DECLSPEC void mpn_mod_1_1 __GMP_PROTO ((mp_ptr,mp_srcptr, mp_size_t, mp_ptr));
 
 #define mpn_mod_1_2 __MPN(mod_1_2)
-__GMP_DECLSPEC mp_limb_t mpn_mod_1_2 __GMP_PROTO ((mp_srcptr, mp_size_t, mp_limb_t));
+__GMP_DECLSPEC void mpn_mod_1_2 __GMP_PROTO ((mp_ptr,mp_srcptr, mp_size_t, mp_ptr));
 
 #define mpn_mod_1_3 __MPN(mod_1_3)
-__GMP_DECLSPEC mp_limb_t mpn_mod_1_3 __GMP_PROTO ((mp_srcptr, mp_size_t, mp_limb_t));
+__GMP_DECLSPEC void mpn_mod_1_3 __GMP_PROTO ((mp_ptr,mp_srcptr, mp_size_t, mp_ptr));
 
 #define mpn_mod_1_k __MPN(mod_1_k)
 __GMP_DECLSPEC mp_limb_t mpn_mod_1_k __GMP_PROTO ((mp_srcptr, mp_size_t, mp_limb_t,mp_size_t));

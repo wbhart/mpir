@@ -25,8 +25,8 @@ dnl  Boston, MA 02110-1301, USA.
 #include "gmp-impl.h"
 #include "longlong.h"
 
-mp_limb_t mpn_mod_1_1(mp_srcptr xp,mp_size_t xn,mp_limb_t d)// in each round we hack off a limb from the body , ie k=1
-{mp_limb_t crap,h,l,sh,sl,ret,i,c,ds,db[2];
+mp_limb_t mpn_mod_1_1_wrap(mp_srcptr xp,mp_size_t xn,mp_limb_t d)// in each round we hack off a limb from the body , ie k=1
+{mp_limb_t crap,h,l,sh,sl,ret,i,c,ds,db[2],rem[2];
  mp_size_t j;
  
 ASSERT_MPN(xp,xn);
@@ -38,6 +38,9 @@ invert_limb(i,ds);
 udiv_qrnnd_preinv(crap,db[0],((mp_limb_t)1)<<c,0,ds,i);  // is B%ds
 udiv_qrnnd_preinv(crap,db[1],db[0],0,ds,i);//  is B^2%ds  could calc indep of db[0]
 db[0]>>=c;db[1]>>=c;// are now B^i %d
+
+mpn_mod_1_1(rem,xp,xn,db);
+/*
 h=xp[xn-1];l=xp[xn-2];
 for(j=xn-3;j>=0;j--)
    {umul_ppmm(sh,sl,l,db[0]);
@@ -46,12 +49,14 @@ for(j=xn-3;j>=0;j--)
     add_ssaaaa(h,l,h,l,sh,sl);}
 umul_ppmm(sh,sl,h,db[0]);
 add_ssaaaa(sh,sl,sh,sl,0,l);
+*/
+sh=rem[1];sl=rem[0];
 ASSERT(sh<d);
 udiv_qrnnd_preinv(crap,ret,(sh<<c)|((sl>>(GMP_LIMB_BITS-1-c))>>1),sl<<c,ds,i);
 return ret>>c;}
 
-mp_limb_t mpn_mod_1_2(mp_srcptr xp,mp_size_t xn,mp_limb_t d)// in each round we hack off two limbs from the body , ie k=2
-{mp_limb_t crap,h,l,sh,sl,th,tl,i,ret,ds,c,db[3];
+mp_limb_t mpn_mod_1_2_wrap(mp_srcptr xp,mp_size_t xn,mp_limb_t d)// in each round we hack off two limbs from the body , ie k=2
+{mp_limb_t crap,h,l,sh,sl,th,tl,i,ret,ds,c,db[3],rem[2];
  mp_size_t j;
  
 ASSERT_MPN(xp,xn);
@@ -63,7 +68,11 @@ invert_limb(i,ds);
 udiv_qrnnd_preinv(crap,db[0],((mp_limb_t)1)<<c,0,ds,i);
 udiv_qrnnd_preinv(crap,db[1],db[0],0,ds,i);db[0]>>=c;
 udiv_qrnnd_preinv(crap,db[2],db[1],0,ds,i);db[1]>>=c;
-db[2]>>=c;tl=xp[xn-2];th=xp[xn-1];
+db[2]>>=c;
+mpn_mod_1_2(rem,xp,xn,db);
+h=rem[1];l=rem[0];
+/*
+tl=xp[xn-2];th=xp[xn-1];
 for(j=xn-4;j>=0;j-=2)
    {umul_ppmm(sh,sl,xp[j+1],db[0]);
     add_ssaaaa(sh,sl,sh,sl,0,xp[j]);
@@ -78,12 +87,13 @@ if(j>-2)// we have at least three limbs to do still ie xp[0],...,tl,th
    add_ssaaaa(th,tl,th,tl,sh,sl);}
 umul_ppmm(h,l,th,db[0]);
 add_ssaaaa(h,l,h,l,0,tl);
+*/
 ASSERT(h<d);
 udiv_qrnnd_preinv(crap,ret,(h<<c)|((l>>(GMP_LIMB_BITS-1-c))>>1),l<<c,ds,i);
 return ret>>c;}
 
-mp_limb_t mpn_mod_1_3(mp_srcptr xp,mp_size_t xn,mp_limb_t d)// in each round we hack off 3 limbs from the body
-{mp_limb_t crap,h,l,sh,sl,th,tl,i,ret,ds,c,db[4];
+mp_limb_t mpn_mod_1_3_wrap(mp_srcptr xp,mp_size_t xn,mp_limb_t d)// in each round we hack off 3 limbs from the body
+{mp_limb_t crap,h,l,sh,sl,th,tl,i,ret,ds,c,db[4],rem[2];
  mp_size_t j,jj;
  
 ASSERT_MPN(xp,xn);
@@ -96,7 +106,11 @@ udiv_qrnnd_preinv(crap,db[0],((mp_limb_t)1)<<c,0,ds,i);
 udiv_qrnnd_preinv(crap,db[1],db[0],0,ds,i);db[0]>>=c;
 udiv_qrnnd_preinv(crap,db[2],db[1],0,ds,i);db[1]>>=c;
 udiv_qrnnd_preinv(crap,db[3],db[2],0,ds,i);db[2]>>=c;
-db[3]>>=c;tl=xp[xn-2];th=xp[xn-1];
+db[3]>>=c;
+mpn_mod_1_3(rem,xp,xn,db);
+h=rem[1];l=rem[0];
+/*
+tl=xp[xn-2];th=xp[xn-1];
 for(j=xn-5;j>=0;j-=3)
    {umul_ppmm(sh,sl,xp[j+1],db[0]);
     add_ssaaaa(sh,sl,sh,sl,0,xp[j]);
@@ -118,6 +132,7 @@ if(j>-3)// we have at least three limbs to do still ie xp[0],...,tl,th
    add_ssaaaa(th,tl,th,tl,sh,sl);}
 umul_ppmm(h,l,th,db[0]);
 add_ssaaaa(h,l,h,l,0,tl);
+*/
 ASSERT(h<d);
 udiv_qrnnd_preinv(crap,ret,(h<<c)|((l>>(GMP_LIMB_BITS-1-c))>>1),l<<c,ds,i);
 return ret>>c;}
@@ -209,9 +224,9 @@ ASSERT(n>0);ASSERT(d!=0);ASSERT_MPN(xp,n);
 ASSERT(MPN_SAME_OR_SEPARATE_P(qp,xp,n));
 #endif
 
-if(d<=GMP_LIMB_HIGHBIT/2+1 && ABOVE_THRESHOLD(n,MOD_1_3_THRESHOLD))return mpn_mod_1_3(xp,n,d);
-if(d<=MP_LIMB_T_MAX/3+1 && ABOVE_THRESHOLD(n,MOD_1_2_THRESHOLD))return mpn_mod_1_2(xp,n,d);
-if(d<=GMP_LIMB_HIGHBIT+1 && ABOVE_THRESHOLD(n,MOD_1_1_THRESHOLD))return mpn_mod_1_1(xp,n,d);
+if(d<=GMP_LIMB_HIGHBIT/2+1 && ABOVE_THRESHOLD(n,MOD_1_3_THRESHOLD))return mpn_mod_1_3_wrap(xp,n,d);
+if(d<=MP_LIMB_T_MAX/3+1 && ABOVE_THRESHOLD(n,MOD_1_2_THRESHOLD))return mpn_mod_1_2_wrap(xp,n,d);
+if(d<=GMP_LIMB_HIGHBIT+1 && ABOVE_THRESHOLD(n,MOD_1_1_THRESHOLD))return mpn_mod_1_1_wrap(xp,n,d);
 
 // for n=1 or n=2 probably faster to do a special case
 #if NORMALIZE==1
