@@ -1100,7 +1100,6 @@ param_init (void)
   p->src[0] = 1;
   p->divisor = DIVISOR_ODD;
   p->dst[0] = 1;
-  p->msize = 2;
   REFERENCE (refmpn_divrem_hensel_qr_1);
 
   p = &param[TYPE_DIVREM_HENSEL_R_1];
@@ -1795,7 +1794,7 @@ const struct choice_t choice_array[] = {
   { TRY(mpn_divrem_euclidean_r_1),     TYPE_DIVREM_EUCLIDEAN_R_1 },
   { TRY(mpn_divrem_hensel_qr_1),     TYPE_DIVREM_HENSEL_QR_1 },
   { TRY(mpn_divrem_hensel_qr_1_1),     TYPE_DIVREM_HENSEL_QR_1_1 },
-  { TRY(mpn_divrem_hensel_qr_1_2),     TYPE_DIVREM_HENSEL_QR_1_2 },
+  { TRY(mpn_divrem_hensel_qr_1_2),     TYPE_DIVREM_HENSEL_QR_1_2 ,2},
   { TRY(mpn_divrem_hensel_r_1),     TYPE_DIVREM_HENSEL_R_1 },
   { TRY(mpn_rsh_divrem_hensel_qr_1),     TYPE_RSH_DIVREM_HENSEL_QR_1 },
   { TRY(mpn_divrem_hensel_rsh_qr_1),     TYPE_DIVREM_HENSEL_RSH_QR_1 },
