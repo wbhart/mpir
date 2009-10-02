@@ -302,6 +302,10 @@
 				RelativePath="..\..\tune\speed.h"
 				>
 			</File>
+			<File
+				RelativePath="..\win_timing.h"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Source Files"
@@ -347,6 +351,38 @@
 			<File
 				RelativePath="..\..\tune\freq.c"
 				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|x64"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|x64"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\tune\gcd_bin.c"
@@ -374,14 +410,6 @@
 			</File>
 			<File
 				RelativePath="..\getopt.c"
-				>
-			</File>
-			<File
-				RelativePath="..\getrusage.c"
-				>
-			</File>
-			<File
-				RelativePath="..\gettimeofday.c"
 				>
 			</File>
 			<File
@@ -476,13 +504,42 @@
 				RelativePath="..\..\tune\time.c"
 				>
 				<FileConfiguration
+					Name="Debug|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|x64"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
 					Name="Release|x64"
+					ExcludedFromBuild="true"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="3"
 					/>
 				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\win_timing.c"
+				>
 			</File>
 		</Filter>
 	</Files>

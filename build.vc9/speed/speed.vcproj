@@ -380,6 +380,10 @@
 				RelativePath="..\..\tune\speed.h"
 				>
 			</File>
+			<File
+				RelativePath="..\win_timing.h"
+				>
+			</File>
 		</Filter>
 	</Files>
 	<Globals>
