@@ -748,19 +748,19 @@ speed_mpn_mod_1 (struct speed_params *s)
 double
 speed_mpn_mod_1_1 (struct speed_params *s)
 {
-  SPEED_ROUTINE_MPN_MOD_1 (mpn_mod_1_1);
+  SPEED_ROUTINE_MPN_BINARY_N_CALL (mpn_mod_1_1(wp,xp,s->size,yp));
 }
 
 double
 speed_mpn_mod_1_2 (struct speed_params *s)
 {
-  SPEED_ROUTINE_MPN_MOD_1 (mpn_mod_1_2);
+  SPEED_ROUTINE_MPN_BINARY_N_CALL (mpn_mod_1_2(wp,xp,s->size,yp));
 }
 
 double
 speed_mpn_mod_1_3 (struct speed_params *s)
 {
-  SPEED_ROUTINE_MPN_MOD_1 (mpn_mod_1_3);
+  SPEED_ROUTINE_MPN_BINARY_N_CALL (mpn_mod_1_3(wp,xp,s->size,yp));
 }
 
 double

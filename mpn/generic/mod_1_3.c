@@ -27,7 +27,7 @@ dnl  Boston, MA 02110-1301, USA.
 
 void mpn_mod_1_3(mp_ptr rem,mp_srcptr xp,mp_size_t xn,mp_srcptr db)// in each round we hack off a limb from the body , ie k=1
 {mp_limb_t h,l,sh,sl,th,tl;
- mp_size_t j;
+ mp_size_t j,jj;
  
 ASSERT(xn>=5);
 ASSERT_MPN(xp,xn);
