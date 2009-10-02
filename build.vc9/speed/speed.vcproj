@@ -369,14 +369,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\getrusage.h"
-				>
-			</File>
-			<File
-				RelativePath="..\gettimeofday.h"
-				>
-			</File>
-			<File
 				RelativePath="..\..\tune\speed.h"
 				>
 			</File>

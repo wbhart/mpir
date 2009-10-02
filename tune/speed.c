@@ -65,10 +65,7 @@ MA 02110-1301, USA. */
 #include "speed.h"
 
 #if 1 && defined( _MSC_VER)
-#define HAVE_GETRUSAGE      1
-#define HAVE_GETTIMEOFDAY   1
-#include "getrusage.h"
-#include "gettimeofday.h"
+#include "win_timing.h"
 #endif
 
 #if !HAVE_DECL_OPTARG

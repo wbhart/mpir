@@ -11,11 +11,13 @@
 
 #include "win_timing.h"
 
-char    speed_time_string[] = { "Windows Perfromance Counter" };
-double  speed_cycletime = 0.0;
-double  speed_unittime;
-int     need_cycles = 0;
-int     speed_precision = 1000;
+double  seconds_per_cycle = 0.0; /* seconds per processor cycle */
+double  seconds_per_tick;        /* seconds per clock tick      */
+int     need_cycles = 1;
+
+char    speed_time_string[] = { "Windows Performance Counter" };
+int     speed_precision = 100000;
+double  speed_cycletime;
 static double start;
 
 #if defined( _WIN64 )
@@ -60,7 +62,7 @@ int unlock_thread_from_core(void)
 	return EXIT_FAILURE;
 }
 
-void speed_time_init(void)
+void init_timing(void)
 {   unsigned long long cycles;
     LARGE_INTEGER ll;
 
@@ -69,16 +71,16 @@ void speed_time_init(void)
     Sleep(1000);
     cycles = __rdtsc() - cycles;
     unlock_thread_from_core();
-    speed_cycletime = 1.0 / (double)cycles;
+    seconds_per_cycle = 1.0 / (double)cycles;
     QueryPerformanceFrequency(&ll);
-    speed_unittime = 1.0 / (double)ll.QuadPart;
+    seconds_per_tick = 1.0 / (double)ll.QuadPart;
     QueryPerformanceCounter(&ll);
-    start = speed_unittime * ll.QuadPart;
+    start = seconds_per_tick * ll.QuadPart;
 }
 
-void speed_starttime(void)
+void start_timing(void)
 {
-    if(speed_cycletime == 0.0)
+    if(seconds_per_cycle == 0.0)
         speed_time_init();
 
     if(need_cycles)
@@ -89,11 +91,11 @@ void speed_starttime(void)
     else
     {   LARGE_INTEGER ll;
         QueryPerformanceCounter(&ll);
-        start = speed_unittime * ll.QuadPart;
+        start = seconds_per_tick * ll.QuadPart;
     }
 }
 
-double speed_endtime(void)
+double end_timing(void)
 {
     if(need_cycles)
     {   double t = (double)__rdtsc() - start;
@@ -103,19 +105,21 @@ double speed_endtime(void)
     else
     {   LARGE_INTEGER ll;
         QueryPerformanceCounter(&ll);
-        return speed_unittime * ll.QuadPart - start;
+        return seconds_per_tick * ll.QuadPart - start;
     }
 }
 
-void speed_cycletime_need_cycles(void)
+void set_timing_cycles(void)
 {
     need_cycles = 1;
+    speed_cycletime = 1.0;
     speed_precision = 100000;
 }
 
-void speed_cycletime_need_seconds(void)
+void set_timing_seconds(void)
 {
     need_cycles = 0;
+    speed_cycletime = seconds_per_cycle;
     speed_precision = 1000;
 }
 
@@ -238,7 +242,7 @@ int main(void)
         printf("\n%s", b1);
         printf("\n%s", b2);
         printf("\nSpeed: %lld", cps);
-        printf("\nSpeed: %.0f", 1.0 / speed_cycletime);
+        printf("\nSpeed: %.0f", 1.0 / seconds_per_cycle);
         return 0;
     }
     else

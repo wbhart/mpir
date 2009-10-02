@@ -84,7 +84,9 @@ MA 02110-1301, USA. */
 
 #define SPEED_BLOCK_SIZE   512 /* limbs */
 
-
+#ifdef _MSC_VER
+#include "win_timing.h"
+#else
 extern double  speed_unittime;
 extern double  speed_cycletime;
 extern int     speed_precision;
@@ -96,7 +98,7 @@ void speed_cycletime_need_cycles _PROTO ((void));
 void speed_cycletime_need_seconds _PROTO ((void));
 void speed_starttime _PROTO ((void));
 double speed_endtime _PROTO ((void));
-
+#endif
 
 struct speed_params {
   unsigned   reps;	/* how many times to run the routine */

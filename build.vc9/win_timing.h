@@ -49,23 +49,29 @@ typedef struct rusage
     long     ru_nivcsw;  /* involuntary context switches        */
 } rusage;
 
-__inline unsigned long long get_tsc(void)
-{
-    return __rdtsc();
-}
+/* Windows Timing Using The Performance & Time Stamp Counters */
 
-extern char speed_time_string[];
-extern double  speed_cycletime;
-extern double  speed_unittime;
-extern int     speed_precision;
+extern double  seconds_per_cycle;
+extern double  seconds_per_tick;
 
 int lock_thread_to_core(void);
 int unlock_thread_from_core(void);
-void speed_time_init(void);
-void speed_starttime(void);
-double speed_endtime(void);
-void speed_cycletime_need_cycles(void);
-void speed_cycletime_need_seconds(void);
+void init_timing(void);
+void start_timing(void);
+double end_timing(void);
+void set_timing_cycles(void);
+void set_timing_seconds(void);
+
+/* Map to Linux Timing Interface */
+extern char speed_time_string[];
+extern int     speed_precision;
+extern double  speed_cycletime;
+#define speed_unittime                  seconds_per_tick
+#define speed_time_init                 init_timing
+#define speed_starttime                 start_timing
+#define speed_endtime                   end_timing
+#define speed_cycletime_need_cycles     set_timing_cycles
+#define speed_cycletime_need_seconds    set_timing_seconds
 
 int get_processor_info(char *cpu_id, char *cpu_name, double *cycles_per_second);
 int gettimeofday(struct timeval *tv, struct timezone *tz);
