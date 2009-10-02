@@ -36,10 +36,10 @@ mov %rdx,%rcx
 sub $2,%rcx
 ALIGN(16)
 lp:
-	mov $0,%r11
-	mul %r8
 	mov -8(%rsi,%rcx,8),%r10
+	mul %r8
 	add %rax,%r10
+	mov $0,%r11
 	adc %rdx,%r11
 	mov %r13,%rax
 	mul %r9

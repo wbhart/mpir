@@ -970,12 +970,12 @@ void tune_mod_1_k (gmp_randstate_t rands)
   one (&mod_1_1_threshold, rands, &param);
 
   param.name = "MOD_1_2_THRESHOLD";
-  param.min_size = mod_1_1_threshold;
+  param.min_size = MAX(mod_1_1_threshold,4);
   //param.max_size = 1000;
   one (&mod_1_2_threshold, rands, &param);
 
   param.name = "MOD_1_3_THRESHOLD";
-  param.min_size = mod_1_2_threshold;
+  param.min_size = MAX(mod_1_2_threshold,5);
   //param.max_size = 10000;
   one (&mod_1_3_threshold, rands, &param);
 
