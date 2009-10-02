@@ -39,6 +39,7 @@ MA 02110-1301, USA. */
 
    Requires d = {dp, dn} to be normalised, i.e. the most 
    significant bit of the most significant limb must be set.
+   Also requires that d is at least two limbs. 
 
    n = {np, nn} is destroyed.
 */
