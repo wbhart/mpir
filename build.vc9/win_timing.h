@@ -67,7 +67,7 @@ double speed_endtime(void);
 void speed_cycletime_need_cycles(void);
 void speed_cycletime_need_seconds(void);
 
-int get_processor_info(char *cpu_id, char *cpu_name, unsigned long long *cycles_per_second);
+int get_processor_info(char *cpu_id, char *cpu_name, double *cycles_per_second);
 int gettimeofday(struct timeval *tv, struct timezone *tz);
 int getrusage(int who, rusage *usage);
 

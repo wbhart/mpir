@@ -119,7 +119,7 @@ void speed_cycletime_need_seconds(void)
     speed_precision = 1000;
 }
 
-int get_processor_info(char *cpu_id, char *cpu_name, unsigned long long *cycles_per_second)
+int get_processor_info(char *cpu_id, char *cpu_name, double *cycles_per_second)
 {
     DWORD   mhz, bsize;
     HKEY    hKey;
@@ -140,7 +140,7 @@ int get_processor_info(char *cpu_id, char *cpu_name, unsigned long long *cycles_
     if(RegQueryValueEx(hKey, "ProcessorNameString", NULL, NULL, cpu_name, &bsize) != ERROR_SUCCESS)
         return EXIT_FAILURE;
 
-    *cycles_per_second = 1000000ull * mhz;
+    *cycles_per_second = 1.0e6 * mhz;
     return EXIT_SUCCESS;
 }
 
