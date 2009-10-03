@@ -694,7 +694,9 @@ validate_sqrtrem (void)
 #define TYPE_DIVREM_HENSEL_QR_1_2	132
 #define TYPE_DIVREM_HENSEL_R_1	133
 #define TYPE_RSH_DIVREM_HENSEL_QR_1	134
-#define TYPE_DIVREM_HENSEL_RSH_QR_1	135
+#define TYPE_RSH_DIVREM_HENSEL_QR_1_1	135
+#define TYPE_RSH_DIVREM_HENSEL_QR_1_2	136
+#define TYPE_DIVREM_HENSEL_RSH_QR_1	137
 
 #define TYPE_EXTRA            150
 
@@ -1117,6 +1119,22 @@ param_init (void)
   REFERENCE (refmpn_divrem_hensel_rsh_qr_1);
 
   p = &param[TYPE_RSH_DIVREM_HENSEL_QR_1];
+  p->retval = 1;
+  p->src[0] = 1;
+  p->divisor = DIVISOR_ODD;
+  p->dst[0] = 1;
+  p->shift=1;
+  REFERENCE (refmpn_rsh_divrem_hensel_qr_1);
+
+  p = &param[TYPE_RSH_DIVREM_HENSEL_QR_1_1];
+  p->retval = 1;
+  p->src[0] = 1;
+  p->divisor = DIVISOR_ODD;
+  p->dst[0] = 1;
+  p->shift=1;
+  REFERENCE (refmpn_rsh_divrem_hensel_qr_1);
+
+  p = &param[TYPE_RSH_DIVREM_HENSEL_QR_1_2];
   p->retval = 1;
   p->src[0] = 1;
   p->divisor = DIVISOR_ODD;
@@ -1797,6 +1815,9 @@ const struct choice_t choice_array[] = {
   { TRY(mpn_divrem_hensel_qr_1_2),     TYPE_DIVREM_HENSEL_QR_1_2 ,2},
   { TRY(mpn_divrem_hensel_r_1),     TYPE_DIVREM_HENSEL_R_1 },
   { TRY(mpn_rsh_divrem_hensel_qr_1),     TYPE_RSH_DIVREM_HENSEL_QR_1 },
+  { TRY(mpn_rsh_divrem_hensel_qr_1_1),     TYPE_RSH_DIVREM_HENSEL_QR_1_1 },
+  { TRY(mpn_rsh_divrem_hensel_qr_1_2),     TYPE_RSH_DIVREM_HENSEL_QR_1_2 ,3},
+  
   { TRY(mpn_divrem_hensel_rsh_qr_1),     TYPE_DIVREM_HENSEL_RSH_QR_1 },
 
   { TRY(mpn_add_err1_n),	TYPE_ADDERR1_N},  
@@ -2546,8 +2567,11 @@ call (struct each_t *e, tryfun_t function)
     e->retval = CALLING_CONVENTIONS (function)
       (e->d[0].p, e->s[0].p, size, divisor);
     break;
+
   case TYPE_RSH_DIVREM_HENSEL_QR_1:
   case TYPE_DIVREM_HENSEL_RSH_QR_1:
+  case TYPE_RSH_DIVREM_HENSEL_QR_1_1:
+  case TYPE_RSH_DIVREM_HENSEL_QR_1_2:
     e->retval = CALLING_CONVENTIONS (function)
       (e->d[0].p, e->s[0].p, size, divisor,shift);
     break;

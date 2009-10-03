@@ -629,6 +629,18 @@ speed_mpn_rsh_divrem_hensel_qr_1 (struct speed_params *s)
 }
 
 double
+speed_mpn_rsh_divrem_hensel_qr_1_1 (struct speed_params *s)
+{
+  SPEED_ROUTINE_MPN_UNARY_1_CALL (mpn_rsh_divrem_hensel_qr_1_1(wp,s->xp,s->size,s->r,19));
+}
+
+double
+speed_mpn_rsh_divrem_hensel_qr_1_2 (struct speed_params *s)
+{
+  SPEED_ROUTINE_MPN_UNARY_1_CALL (mpn_rsh_divrem_hensel_qr_1_2(wp,s->xp,s->size,s->r,19));
+}
+
+double
 speed_mpn_divrem_euclidean_qr_2 (struct speed_params *s)
 {
   SPEED_ROUTINE_MPN_DIVREME_2 (mpn_divrem_euclidean_qr_2);

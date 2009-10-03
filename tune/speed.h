@@ -193,6 +193,8 @@ double speed_mpn_divrem_hensel_qr_1_1 _PROTO ((struct speed_params *s));
 double speed_mpn_divrem_hensel_qr_1_2 _PROTO ((struct speed_params *s));
 double speed_mpn_divrem_hensel_r_1 _PROTO ((struct speed_params *s));
 double speed_mpn_rsh_divrem_hensel_qr_1 _PROTO ((struct speed_params *s));
+double speed_mpn_rsh_divrem_hensel_qr_1_1 _PROTO ((struct speed_params *s));
+double speed_mpn_rsh_divrem_hensel_qr_1_2 _PROTO ((struct speed_params *s));
 double speed_mpn_divrem_hensel_rsh_qr_1 _PROTO ((struct speed_params *s));
 double speed_mpn_divrem_1 _PROTO ((struct speed_params *s));
 double speed_mpn_divrem_1f _PROTO ((struct speed_params *s));

@@ -2493,6 +2493,7 @@ gmp_mpn_functions="$extra_functions					   \
   divrem_euclidean_qr_1 divrem_euclidean_qr_2 divrem_euclidean_r_1	\
   divrem_hensel_qr_1 divrem_hensel_qr_1_1 divrem_hensel_qr_1_2		\
   divrem_hensel_r_1 divrem_hensel_rsh_qr_1 rsh_divrem_hensel_qr_1	\
+  rsh_divrem_hensel_qr_1_1 rsh_divrem_hensel_qr_1_2			\
   add_err1_n add_err2_n sub_err1_n sub_err2_n				   \
   fib2_ui mod_1 mod_34lsub1 mode1o pre_divrem_1 pre_mod_1 dump		   \
   lgcd ngcd ngcd_matrix ngcd_step nhgcd2                        \
@@ -2997,6 +2998,8 @@ AH_VERBATIM([HAVE_NATIVE],
 #undef HAVE_NATIVE_mpn_divrem_hensel_r_1
 #undef HAVE_NATIVE_mpn_divrem_hensel_rsh_qr_1
 #undef HAVE_NATIVE_mpn_rsh_divrem_hensel_qr_1
+#undef HAVE_NATIVE_mpn_rsh_divrem_hensel_qr_1_1
+#undef HAVE_NATIVE_mpn_rsh_divrem_hensel_qr_1_2
 #undef HAVE_NATIVE_mpn_divrem_euclidean_qr_2
 #undef HAVE_NATIVE_mpn_divrem_euclidean_r_1
 #undef HAVE_NATIVE_mpn_divrem_1

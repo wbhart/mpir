@@ -1016,6 +1016,12 @@ __GMP_DECLSPEC mp_limb_t mpn_divrem_hensel_rsh_qr_1 __GMP_PROTO ((mp_ptr, mp_src
 #define mpn_rsh_divrem_hensel_qr_1 __MPN(rsh_divrem_hensel_qr_1)
 __GMP_DECLSPEC mp_limb_t mpn_rsh_divrem_hensel_qr_1 __GMP_PROTO ((mp_ptr, mp_srcptr, mp_size_t,mp_limb_t,int));
 
+#define mpn_rsh_divrem_hensel_qr_1_1 __MPN(rsh_divrem_hensel_qr_1_1)
+__GMP_DECLSPEC mp_limb_t mpn_rsh_divrem_hensel_qr_1_1 __GMP_PROTO ((mp_ptr, mp_srcptr, mp_size_t,mp_limb_t,int));
+
+#define mpn_rsh_divrem_hensel_qr_1_2 __MPN(rsh_divrem_hensel_qr_1_2)
+__GMP_DECLSPEC mp_limb_t mpn_rsh_divrem_hensel_qr_1_2 __GMP_PROTO ((mp_ptr, mp_srcptr, mp_size_t,mp_limb_t,int));
+
 #define mpn_divrem_hensel_r_1 __MPN(divrem_hensel_r_1)
 __GMP_DECLSPEC mp_limb_t mpn_divrem_hensel_r_1 __GMP_PROTO ((mp_srcptr, mp_size_t,mp_limb_t));
 
@@ -1570,6 +1576,10 @@ __GMP_DECLSPEC extern const mp_limb_t __gmp_fib_table[];
 
 #ifndef DIVREM_HENSEL_QR_1_THRESHOLD
 #define DIVREM_HENSEL_QR_1_THRESHOLD 8
+#endif
+
+#ifndef RSH_DIVREM_HENSEL_QR_1_THRESHOLD
+#define RSH_DIVREM_HENSEL_QR_1_THRESHOLD 8
 #endif
 
 #ifndef MOD_1_1_THRESHOLD
@@ -4057,6 +4067,10 @@ extern mp_size_t                     rootrem_threshold;
 #undef DIVREM_HENSEL_QR_1_THRESHOLD
 #define DIVREM_HENSEL_QR_1_THRESHOLD divrem_hensel_qr_1_threshold
 extern mp_size_t		     divrem_hensel_qr_1_threshold;
+
+#undef RSH_DIVREM_HENSEL_QR_1_THRESHOLD
+#define RSH_DIVREM_HENSEL_QR_1_THRESHOLD rsh_divrem_hensel_qr_1_threshold
+extern mp_size_t		     rsh_divrem_hensel_qr_1_threshold;
 
 #undef  MOD_1_1_THRESHOLD
 #define MOD_1_1_THRESHOLD            mod_1_1_threshold

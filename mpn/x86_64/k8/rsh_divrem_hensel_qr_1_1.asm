@@ -1,4 +1,4 @@
-dnl  X86_64 mpn_rsh_divrem_hensel_qr_1
+dnl  X86_64 mpn_rsh_divrem_hensel_qr_1_1
 
 dnl  Copyright 2009 Jason Moxham
 
@@ -30,7 +30,7 @@ C	fn for that. And on K8/K10 this runs at 10c/l which is optimal
 C	This function "replaces" divexact_1 and modexact_1_odd
 
 ASM_START()
-PROLOGUE(mpn_rsh_divrem_hensel_qr_1)
+PROLOGUE(mpn_rsh_divrem_hensel_qr_1_1)
 mov $1,%r9
 sub %rdx,%r9
 lea (%rdi,%rdx,8),%rdi

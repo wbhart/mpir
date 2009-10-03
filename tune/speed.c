@@ -211,6 +211,10 @@ const struct routine_t {
   { "mpn_divrem_hensel_qr_1_2",       speed_mpn_divrem_hensel_qr_1_2, FLAG_R},
   { "mpn_divrem_hensel_r_1",          speed_mpn_divrem_hensel_r_1,  FLAG_R },
   { "mpn_rsh_divrem_hensel_qr_1",     speed_mpn_rsh_divrem_hensel_qr_1, FLAG_R},
+  { "mpn_rsh_divrem_hensel_qr_1_1",     speed_mpn_rsh_divrem_hensel_qr_1_1, FLAG_R},
+  { "mpn_rsh_divrem_hensel_qr_1_2",     speed_mpn_rsh_divrem_hensel_qr_1_2, FLAG_R},
+  
+
   { "mpn_divrem_hensel_rsh_qr_1",     speed_mpn_divrem_hensel_rsh_qr_1, FLAG_R},
   
   { "mpn_divrem_1",      speed_mpn_divrem_1,  FLAG_R },
