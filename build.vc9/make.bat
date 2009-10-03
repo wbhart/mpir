@@ -71,8 +71,9 @@ echo ERROR Could not find PYTHON
 exit /b 1
 :got
 python run-tests.py noenter
+set RET=%ERRORLEVEL%
 cd ..
-exit /b 0
+exit /b %RET%
 
 :install
 echo HOW???
