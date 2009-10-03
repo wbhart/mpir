@@ -1120,6 +1120,7 @@
 					>
 					<FileConfiguration
 						Name="Debug|x64"
+						ExcludedFromBuild="true"
 						>
 						<Tool
 							Name="VCCLCompilerTool"
@@ -1128,6 +1129,7 @@
 					</FileConfiguration>
 					<FileConfiguration
 						Name="Release|x64"
+						ExcludedFromBuild="true"
 						>
 						<Tool
 							Name="VCCLCompilerTool"
@@ -1140,6 +1142,7 @@
 					>
 					<FileConfiguration
 						Name="Debug|x64"
+						ExcludedFromBuild="true"
 						>
 						<Tool
 							Name="VCCLCompilerTool"
@@ -1148,6 +1151,7 @@
 					</FileConfiguration>
 					<FileConfiguration
 						Name="Release|x64"
+						ExcludedFromBuild="true"
 						>
 						<Tool
 							Name="VCCLCompilerTool"
@@ -2468,6 +2472,14 @@
 					</File>
 					<File
 						RelativePath="..\..\mpn\x86_64w\amd64\lshiftc.asm"
+						>
+					</File>
+					<File
+						RelativePath="..\..\mpn\x86_64w\amd64\mod_1_1.asm"
+						>
+					</File>
+					<File
+						RelativePath="..\..\mpn\x86_64w\amd64\mod_1_2.asm"
 						>
 					</File>
 					<File
