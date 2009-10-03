@@ -12,7 +12,7 @@ for fn in mpn_add_n mpn_sub_n mpn_mul_1.333 mpn_addmul_1.333 mpn_submul_1.333 mp
 	mpn_divrem_euclidean_qr_1.77777 mpn_divrem_euclidean_qr_2 mpn_divrem_euclidean_r_1.77777 mpn_divrem_1.77777 mpn_divrem_2 \
 	mpn_divrem_hensel_qr_1.3333 mpn_divrem_hensel_qr_1_1.3333 mpn_divrem_hensel_qr_1_2.3333  \
 	mpn_divrem_hensel_r_1.3333 mpn_divrem_hensel_rsh_qr_1.3333 mpn_rsh_divrem_hensel_qr_1.3333 \
-	mpn_mod_34lsub1
+	mpn_mod_1_1 mpn_mod_1_2 mpn_mod_1_3 mpn_mod_34lsub1
 do
 	fnc=$(echo $fn | cut -d _ -f 2- | cut -d . -f 1)
 	while [ $(echo "$fnc" | wc -c) -le 22 ]
