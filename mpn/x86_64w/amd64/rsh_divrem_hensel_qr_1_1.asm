@@ -20,9 +20,9 @@
 ;  to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 ;  Boston, MA 02110-1301, USA.
 ;
-;  mp_limb_t  mpn_rsh_divrem_hensel_qr_1(mp_ptr, mp_ptr, mp_size_t, mp_limb_t, mp_uint)
-;  rax                                      rdi     rsi        rdx        rcx       r8
-;  rax                                      rcx     rdx        r8d         r9 [rsp+40]
+;  mp_limb_t  mpn_rsh_divrem_hensel_qr_1_1(mp_ptr, mp_ptr, mp_size_t, mp_limb_t,  mp_int, mp_limb_t)
+;  rax                                        rdi     rsi        rdx        rcx       r8         r9
+;  rax                                        rcx     rdx        r8d         r9 [rsp+40]   [rsp+48]
 
 %include "..\yasm_mac.inc"
 
@@ -31,18 +31,17 @@
 
 %define reg_save_list rsi, rdi
 
-	FRAME_PROC mpn_rsh_divrem_hensel_qr_1, 0, reg_save_list
+	FRAME_PROC mpn_rsh_divrem_hensel_qr_1_1, 0, reg_save_list
     movsxd  rax, r8d
 	lea     rdi, [rcx+rax*8]
 	lea     rsi, [rdx+rax*8]
     mov     rcx, r9
-    movsxd  r8, dword[rsp+stack_use+40]
-
+	mov     rdx, r9
 	mov     r9, 1
 	sub     r9, rax
-     
-	mov     rdx, rcx
-	
+    movsxd  r8, dword [rsp+stack_use+40]
+    mov     r10, qword [rsp+stack_use+48]
+    
 	mov     rax, rdx
 	imul    edx, ecx
 	mov     r11, 2
@@ -78,6 +77,8 @@
 	movq    mm0, r8
 	movq    mm1, rax
 	mov     rax, [rsi+r9*8-8]
+	sub     rax, r10
+	sbb     r8, r8
 	imul    rax, r11
 	movq    mm4, rax
 	movq    mm5, mm4
@@ -85,10 +86,9 @@
 	psllq   mm5, mm1
 	psrlq   mm5, mm1
 	mul     rcx
-	mov     r8, 1
-; cmp below clears carry
 	cmp     r9, 0
-	jz      L_skiploop
+	je      L_one
+	add     r8, r8
 	xalign  16
 L_loop:
 	movq    mm2, mm4
@@ -103,13 +103,21 @@ L_loop:
 	por     mm2, mm3
 	movq    [rdi+r9*8-8], mm2
 	mul     rcx
-	add     r8, 1
+	add     r8, r8
 	inc     r9
 	jnz     L_loop
 L_skiploop:
 	movq    [rdi+r9*8-8], mm4
 	mov     rax, 0
 	adc     rax, rdx
+	jmp     L_xit
+L_one:
+	movq    [rdi+r9*8-8], mm4
+	add     r8, r8
+	mov     rax, 0
+	adc     rax, rdx
+L_xit:
 	emms
 	END_PROC reg_save_list
-	end
+
+    end

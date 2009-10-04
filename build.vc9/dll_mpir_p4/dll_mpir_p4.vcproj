@@ -7509,6 +7509,46 @@
 					</FileConfiguration>
 				</File>
 				<File
+					RelativePath="..\..\mpn\generic\rsh_divrem_hensel_qr_1_1.c"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\mpn\generic\rsh_divrem_hensel_qr_1_2.c"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
 					RelativePath="..\..\mpn\generic\rshift.c"
 					>
 					<FileConfiguration
