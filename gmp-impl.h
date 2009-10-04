@@ -1582,6 +1582,10 @@ __GMP_DECLSPEC extern const mp_limb_t __gmp_fib_table[];
 #define RSH_DIVREM_HENSEL_QR_1_THRESHOLD 8
 #endif
 
+#ifndef DIVREM_EUCLID_HENSEL_THRESHOLD
+#define DIVREM_EUCLID_HENSEL_THRESHOLD 32
+#endif
+
 #ifndef MOD_1_1_THRESHOLD
 #define MOD_1_1_THRESHOLD	16
 #endif
@@ -4071,6 +4075,10 @@ extern mp_size_t		     divrem_hensel_qr_1_threshold;
 #undef RSH_DIVREM_HENSEL_QR_1_THRESHOLD
 #define RSH_DIVREM_HENSEL_QR_1_THRESHOLD rsh_divrem_hensel_qr_1_threshold
 extern mp_size_t		     rsh_divrem_hensel_qr_1_threshold;
+
+#undef DIVREM_EUCLID_HENSEL_THRESHOLD
+#define DIVREM_EUCLID_HENSEL_THRESHOLD divrem_euclid_hensel_threshold
+extern mp_size_t		       divrem_euclid_hensel_threshold;
 
 #undef  MOD_1_1_THRESHOLD
 #define MOD_1_1_THRESHOLD            mod_1_1_threshold

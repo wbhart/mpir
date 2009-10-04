@@ -98,10 +98,17 @@ mpn_divrem_1 (mp_ptr qp, mp_size_t qxn,
 
   d <<= GMP_NAIL_BITS;
 
+  if(qxn==0)
+    {
+     if(d<=GMP_LIMB_HIGHBIT/2+1 && ABOVE_THRESHOLD(un,DIVREM_EUCLID_HENSEL_THRESHOLD))
+       {r=mpn_divrem_euclidean_r_1(up,un,d);
+        count_trailing_zeros(i,d);
+        mpn_rsh_divrem_hensel_qr_1(qp,up,un,d>>i,i,r);
+        return r;}
   #if HAVE_NATIVE_mpn_divrem_euclidean_qr_1
-  if(qxn==0)return mpn_divrem_euclidean_qr_1(qp,up,un,d);
+     if(qxn==0)return mpn_divrem_euclidean_qr_1(qp,up,un,d);
   #endif
-
+    }
   qp += (n - 1);   /* Make qp point at most significant quotient limb */
 
   if ((d & GMP_LIMB_HIGHBIT) != 0)
