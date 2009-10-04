@@ -21,7 +21,7 @@ dnl  Boston, MA 02110-1301, USA.
 
 include(`../config.m4')
 
-C	(rdi,rdx)=((rsi,rdx) / rcx ) >> r8 
+C	(rdi,rdx)=( (rsi,rdx)-r9  / rcx ) >> r8 
 C	rax=hensel remainder from div 
 
 C	This is divrem_hensel_1 with shifting on the output of the quotient
@@ -31,6 +31,7 @@ C	This function "replaces" divexact_1 and modexact_1_odd
 
 ASM_START()
 PROLOGUE(mpn_rsh_divrem_hensel_qr_1_1)
+mov %r9,%r10
 mov $1,%r9
 sub %rdx,%r9
 lea (%rdi,%rdx,8),%rdi
@@ -73,6 +74,8 @@ sub %r8,%rax
 movq %r8,%mm0
 movq %rax,%mm1
 mov -8(%rsi,%r9,8),%rax
+sub %r10,%rax
+sbb %r8,%r8
 imul %r11,%rax
 movq %rax,%mm4
 movq %mm4,%mm5
@@ -80,10 +83,9 @@ psrlq %mm0,%mm4
 psllq %mm1,%mm5
 psrlq %mm1,%mm5
 mul %rcx
-mov $1,%r8
-# cmp below clears carry
 cmp $0,%r9
-jz skiploop
+je one
+add %r8,%r8
 ALIGN(16)
 loop:
     movq %mm4,%mm2
@@ -98,11 +100,18 @@ loop:
     por %mm3,%mm2
     movq %mm2,-8(%rdi,%r9,8)
     mul %rcx
-    add $1,%r8
+    add %r8,%r8
     inc %r9
     jnz loop
 skiploop:
 movq %mm4,-8(%rdi,%r9,8)
+mov $0,%rax
+adc %rdx,%rax
+emms
+ret
+one:
+movq %mm4,-8(%rdi,%r9,8)
+add %r8,%r8
 mov $0,%rax
 adc %rdx,%rax
 emms

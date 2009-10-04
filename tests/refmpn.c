@@ -1488,14 +1488,17 @@ return refmpn_divrem_hensel_qr_1(rp,rp,size,divisor);
 }
 
 mp_limb_t
-refmpn_rsh_divrem_hensel_qr_1 (mp_ptr rp, mp_srcptr sp, mp_size_t size, mp_limb_t divisor,int shift)
-{mp_limb_t r;
+refmpn_rsh_divrem_hensel_qr_1 (mp_ptr rp, mp_srcptr sp, mp_size_t size, mp_limb_t divisor,int shift,mp_limb_t cin)
+{mp_limb_t r;mp_ptr tp;
 ASSERT(divisor%2==1);ASSERT(shift>=0);// do we want shift ==0 ??
 ASSERT(size>0);ASSERT_MPN(sp,size);
 ASSERT(refmpn_overlap_fullonly_p(rp,sp,size));
-r=refmpn_divrem_hensel_qr_1(rp,sp,size,divisor);
+tp=refmpn_malloc_limbs(size);
+cin=refmpn_sub_1(tp,sp,size,cin);
+r=refmpn_divrem_hensel_qr_1(rp,tp,size,divisor);
 refmpn_rshift(rp,rp,size,shift);
-return r;}
+free(tp);
+return r+cin;}
 
 mp_limb_t
 refmpn_divrem_hensel_r_1 (mp_srcptr sp, mp_size_t size, mp_limb_t divisor)

@@ -16,7 +16,7 @@ for fn in mpn_add_n mpn_sub_n mpn_mul_1.333 mpn_addmul_1.333 mpn_submul_1.333 mp
 	mpn_mod_1_1 mpn_mod_1_2 mpn_mod_1_3 mpn_mod_34lsub1
 do
 	fnc=$(echo $fn | cut -d _ -f 2- | cut -d . -f 1)
-	while [ $(echo "$fnc" | wc -c) -le 22 ]
+	while [ $(echo "$fnc" | wc -c) -le 24 ]
 	do 
 		fnc=$(echo " $fnc")
 	done

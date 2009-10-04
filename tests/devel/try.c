@@ -1124,6 +1124,7 @@ param_init (void)
   p->divisor = DIVISOR_ODD;
   p->dst[0] = 1;
   p->shift=1;
+  p->carry=CARRY_LIMB;
   REFERENCE (refmpn_rsh_divrem_hensel_qr_1);
 
   p = &param[TYPE_RSH_DIVREM_HENSEL_QR_1_1];
@@ -1132,6 +1133,7 @@ param_init (void)
   p->divisor = DIVISOR_ODD;
   p->dst[0] = 1;
   p->shift=1;
+  p->carry=CARRY_LIMB;
   REFERENCE (refmpn_rsh_divrem_hensel_qr_1);
 
   p = &param[TYPE_RSH_DIVREM_HENSEL_QR_1_2];
@@ -1140,6 +1142,7 @@ param_init (void)
   p->divisor = DIVISOR_ODD;
   p->dst[0] = 1;
   p->shift=1;
+  p->carry=CARRY_LIMB;
   REFERENCE (refmpn_rsh_divrem_hensel_qr_1);
 
   p = &param[TYPE_DIVEXACT_BYBM1OF];
@@ -2569,9 +2572,13 @@ call (struct each_t *e, tryfun_t function)
     break;
 
   case TYPE_RSH_DIVREM_HENSEL_QR_1:
-  case TYPE_DIVREM_HENSEL_RSH_QR_1:
   case TYPE_RSH_DIVREM_HENSEL_QR_1_1:
   case TYPE_RSH_DIVREM_HENSEL_QR_1_2:
+    e->retval = CALLING_CONVENTIONS (function)
+      (e->d[0].p, e->s[0].p, size, divisor,shift,carry);
+    break;
+
+  case TYPE_DIVREM_HENSEL_RSH_QR_1:
     e->retval = CALLING_CONVENTIONS (function)
       (e->d[0].p, e->s[0].p, size, divisor,shift);
     break;

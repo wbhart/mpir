@@ -21,7 +21,7 @@ dnl  Boston, MA 02110-1301, USA.
 
 include(`../config.m4')
 
-C	(rdi,rdx)=( (rsi,rdx) / rcx ) >> r8    rdx>=1
+C	(rdi,rdx)=( (rsi,rdx)-r9 / rcx ) >> r8    rdx>=1
 C	rax=hensel remainder from div 
 
 C	This is divrem_hensel_1_2 with shifting on the output of the quotient
@@ -29,6 +29,7 @@ C	This is divrem_hensel_1_2 with shifting on the output of the quotient
 ASM_START()
 PROLOGUE(mpn_rsh_divrem_hensel_qr_1_2)
 #// 3limb minimum for the mo
+mov %r9,%r10
 mov $2,%r9
 sub %rdx,%r9
 lea -16(%rdi,%rdx,8),%rdi
@@ -91,6 +92,8 @@ mov %r12,%r14
 
 
 mov (%rsi,%r9,8),%r11
+sub %r10,%r11
+sbb %r10,%r10
 
 imul %r13,%r11
 movq %r11,%mm2
@@ -99,7 +102,8 @@ mov %rcx,%rax
 mul %r11
 mov 8(%rsi,%r9,8),%r11
 mov 16(%rsi,%r9,8),%r12
-sub %rdx,%r11
+add %r10,%r10
+sbb %rdx,%r11
 sbb $0,%r12
 sbb %r10,%r10
 
