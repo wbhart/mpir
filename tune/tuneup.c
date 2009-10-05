@@ -977,6 +977,7 @@ tune_divrem_euclid_hensel (gmp_randstate_t rands)
   param.function = speed_mpn_divrem_1;
   param.name = "DIVREM_EUCLID_HENSEL_THRESHOLD";
   param.min_size = 8;
+  s.r=0x81234567;// tune for this divisor
   one (&divrem_euclid_hensel_threshold, rands, &param);
 }
 
