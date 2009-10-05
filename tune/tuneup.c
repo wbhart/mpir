@@ -985,7 +985,7 @@ void tune_mod_1_k (gmp_randstate_t rands)
 {
   static struct param_t  param;
 
-  param.function = speed_mpn_mod_1;
+  param.function = speed_mpn_divrem_euclidean_r_1;
 
   param.name = "MOD_1_1_THRESHOLD";
   param.min_size = 3;
