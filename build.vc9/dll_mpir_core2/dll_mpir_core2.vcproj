@@ -814,6 +814,7 @@
 					>
 					<FileConfiguration
 						Name="Debug|x64"
+						ExcludedFromBuild="true"
 						>
 						<Tool
 							Name="VCCLCompilerTool"
@@ -822,6 +823,7 @@
 					</FileConfiguration>
 					<FileConfiguration
 						Name="Release|x64"
+						ExcludedFromBuild="true"
 						>
 						<Tool
 							Name="VCCLCompilerTool"
@@ -1116,6 +1118,7 @@
 					>
 					<FileConfiguration
 						Name="Debug|x64"
+						ExcludedFromBuild="true"
 						>
 						<Tool
 							Name="VCCLCompilerTool"
@@ -1124,6 +1127,7 @@
 					</FileConfiguration>
 					<FileConfiguration
 						Name="Release|x64"
+						ExcludedFromBuild="true"
 						>
 						<Tool
 							Name="VCCLCompilerTool"
@@ -1136,6 +1140,7 @@
 					>
 					<FileConfiguration
 						Name="Debug|x64"
+						ExcludedFromBuild="true"
 						>
 						<Tool
 							Name="VCCLCompilerTool"
@@ -1144,6 +1149,7 @@
 					</FileConfiguration>
 					<FileConfiguration
 						Name="Release|x64"
+						ExcludedFromBuild="true"
 						>
 						<Tool
 							Name="VCCLCompilerTool"
@@ -1156,6 +1162,7 @@
 					>
 					<FileConfiguration
 						Name="Debug|x64"
+						ExcludedFromBuild="true"
 						>
 						<Tool
 							Name="VCCLCompilerTool"
@@ -1164,6 +1171,7 @@
 					</FileConfiguration>
 					<FileConfiguration
 						Name="Release|x64"
+						ExcludedFromBuild="true"
 						>
 						<Tool
 							Name="VCCLCompilerTool"
@@ -1866,6 +1874,7 @@
 					>
 					<FileConfiguration
 						Name="Debug|x64"
+						ExcludedFromBuild="true"
 						>
 						<Tool
 							Name="VCCLCompilerTool"
@@ -1874,6 +1883,7 @@
 					</FileConfiguration>
 					<FileConfiguration
 						Name="Release|x64"
+						ExcludedFromBuild="true"
 						>
 						<Tool
 							Name="VCCLCompilerTool"
@@ -2465,7 +2475,23 @@
 						>
 					</File>
 					<File
+						RelativePath="..\..\mpn\x86_64w\core2\divrem_hensel_qr_1_2.asm"
+						>
+					</File>
+					<File
 						RelativePath="..\..\mpn\x86_64w\core2\lshift.asm"
+						>
+					</File>
+					<File
+						RelativePath="..\..\mpn\x86_64w\core2\mod_1_1.asm"
+						>
+					</File>
+					<File
+						RelativePath="..\..\mpn\x86_64w\core2\mod_1_2.asm"
+						>
+					</File>
+					<File
+						RelativePath="..\..\mpn\x86_64w\core2\mod_1_3.asm"
 						>
 					</File>
 					<File
@@ -2494,6 +2520,10 @@
 					</File>
 					<File
 						RelativePath="..\..\mpn\x86_64w\core2\rsh1sub_n.asm"
+						>
+					</File>
+					<File
+						RelativePath="..\..\mpn\x86_64w\core2\rsh_divrem_hensel_qr_1_2.asm"
 						>
 					</File>
 					<File
