@@ -99,100 +99,28 @@ MA 02110-1301, USA. */
    Bailey's algorithm for better data locality */
 #define MERGED_BAILEY_DECOMPOSE
 
-/* The MPN_ZERO and MPN_COPY macros are pretty slow in GMP 4.2 (and 
-   presumably previous versions) so we try to define quicker functions 
-   here. For now we simply use the string store/copy instruction which is 
-   ok, although not optimal (MMX or XMM would probably do better). */
-//#define OWN_MPN_FFT_ZERO
-/* REP MOVSL/MOVSQ seems to be no faster or slower than MPN_COPY() */
-/* #define OWN_MPN_FFT_COPY */
-
-#if defined(__x86_64__) && defined(__GNUC__) && defined(OWN_MPN_FFT_ZERO)
-void static inline 
-MPN_FFT_ZERO (void *dst, long int n)
-{
-    __asm__ __volatile__ ("rep stosq": "+c" (n), "+D" (dst): "a" (0L) :
-			  "memory");
-    /* Put n in %rcx, which will also be written (decreased to 0) by the 
-       instruction and put dst in %rdi which will also be written 
-       (increased by 8*n).
-       Put 0 in %rax.
-       FIXME: should "memory" go in the clobbered list? */
-}
-#elif defined(__i386__) && defined(__GNUC__) && defined(OWN_MPN_FFT_ZERO)
-void static inline
-MPN_FFT_ZERO (void *dst, long int n)
-{
-    __asm__ __volatile__ ("rep stosl" : "+c" (n), "+D" (dst) : "a" (0) : 
-			  "memory");
-}
-#elif defined( _MSC_VER ) && defined( _M_X64 )
+#if defined( _MSC_VER ) && defined( _M_X64 )
 #include <intrin.h>
 #pragma intrinsic(__stosq)
 #define MPN_FFT_ZERO(d, l) __stosq(d, 0, l)
 #else
-  /* Fall back to GMP's MPN_ZERO() macro */
-  #define MPN_FFT_ZERO(dst, n) MPN_ZERO(dst,n)
+#define MPN_FFT_ZERO(dst, n) MPN_ZERO(dst,n)
 #endif
 
-#if defined(__x86_64__) && defined(__GNUC__) && defined(OWN_MPN_FFT_ZERO)
-void static inline 
-MPN_FFT_STORE (void *dst, long int n, long int d)
-{
-    __asm__ __volatile__ ("rep stosq": "+c" (n), "+D" (dst): "a" (d) :
-			  "memory");
-    /* Put n in %rcx, which will also be written (decreased to 0) by the 
-       instruction and put dst in %rdi which will also be written 
-       (increased by 8*n).
-       Put 0 in %rax.
-       FIXME: should "memory" go in the clobbered list? */
-}
-#elif defined(__i386__) && defined(__GNUC__) && defined(OWN_MPN_FFT_ZERO)
-void static inline
-MPN_FFT_STORE (void *dst, long int n, long int d)
-{
-    __asm__ __volatile__ ("rep stosl" : "+c" (n), "+D" (dst) : "a" (d) :
-			  "memory");
-}
-#elif defined( _MSC_VER ) && defined( _M_X64 )
+#if defined( _MSC_VER ) && defined( _M_X64 )
 #include <intrin.h>
 #pragma intrinsic(__stosq)
 #define MPN_FFT_STORE(d, l, v) __stosq(d, v, l)
 #else
-void static inline
-MPN_FFT_STORE (mp_limb_t *dst, mp_size_t n, mp_limb_t d)
-{
-    ASSERT(n >= 0);
-    for (; n > 0; n--)
-	 *(dst++) = d;
-}
+#define MPN_FFT_STORE(dst, n,d)  mpn_store(dst,n,d)
 #endif
 
-#if defined(__x86_64__) && defined(__GNUC__) && defined(OWN_MPN_FFT_COPY)
-void static inline 
-MPN_FFT_COPY (void *dst, const void *src, long int n)
-{
-    __asm__ __volatile__ ("rep movsq": "+c" (n), "+S" (src), "+D" (dst) :
-			  "memory");
-    /* Put n in %rcx, which will also be written (decreased to 0) by the 
-       instruction, put src in %rsi and put dst in %rdi which will both also 
-       be written (each increased by 8*n).
-       FIXME: should "memory" go in the clobbered list? */
-}
-#elif defined(__i386__) && defined(__GNUC__) && defined(OWN_MPN_FFT_COPY)
-void static inline
-MPN_FFT_COPY (void *dst, const void *src, long int n)
-{
-    __asm__ __volatile__ ("rep movsl" : "+c" (n), "+S" (src), "+D" (dst) :
-			  "memory");
-}
-#elif defined( _MSC_VER ) && defined( _M_X64 )
+#if defined( _MSC_VER ) && defined( _M_X64 )
 #include <intrin.h>
 #pragma intrinsic(__movsq)
 #define MPN_FFT_COPY(d, s, l) __movsq(d, s, l)
 #else
-  /* Fall back to GMP's MPN_COPY() macro */
-  #define MPN_FFT_COPY(dst, src, n) MPN_COPY(dst,src,n)
+#define MPN_FFT_COPY(dst, src, n) MPN_COPY(dst,src,n)
 #endif
 
 
