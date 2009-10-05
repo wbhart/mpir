@@ -83,13 +83,6 @@ MA 02110-1301, USA. */
 
 #define FFT_FIRST_K 4
 
-/* #define WANT_ADDSUB */
-
-#ifdef WANT_ADDSUB
-#include "generic/sumdiff_n.c"
-#define HAVE_NATIVE_mpn_sumdiff_n 1
-#endif
-
 /* Uncomment this define to disable to use of sqrt(2) as a root of unity for 
    the transform/weight signal. The function mpn_fft_mul_sqrt2exp_modF() 
    will still get called, but parameters for the transform will be chosen 
