@@ -70,5 +70,9 @@ if run_ok > 0 :
 if run_fail > 0 :
   print("\t%i failed" % run_fail) 
 if len(sys.argv) == 1 :
-  input(".. completed - press ENTER")
-sys.exit(build_fail + run_fail)
+  try :
+    input(".. completed - press ENTER")
+  except :
+    pass
+else :
+  sys.exit(build_fail + run_fail)
