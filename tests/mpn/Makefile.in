@@ -63,8 +63,9 @@ check_PROGRAMS = t-asmtype$(EXEEXT) t-aors_1$(EXEEXT) \
 	t-redc_basecase$(EXEEXT) t-divebyBm1of$(EXEEXT) \
 	t-mullowhigh$(EXEEXT) t-mullow_basecase$(EXEEXT) \
 	t-neg$(EXEEXT) t-mulmod_2expp1$(EXEEXT) \
-	t-mulmod_2expm1$(EXEEXT) t-sb_divappr_q$(EXEEXT) \
-	t-dc_divappr_q_n$(EXEEXT) $(am__EXEEXT_1)
+	t-mulmod_2expm1$(EXEEXT) t-tdiv_q$(EXEEXT) \
+	t-sb_divappr_q$(EXEEXT) t-dc_divappr_q_n$(EXEEXT) \
+	$(am__EXEEXT_1)
 @ENABLE_SHARED_TRUE@@ENABLE_STATIC_TRUE@am__append_1 = st_fat st_instrument
 subdir = tests/mpn
 DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in
@@ -217,6 +218,11 @@ t_subadd_n_OBJECTS = t-subadd_n.$(OBJEXT)
 t_subadd_n_LDADD = $(LDADD)
 t_subadd_n_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
 	$(top_builddir)/libmpir.la
+t_tdiv_q_SOURCES = t-tdiv_q.c
+t_tdiv_q_OBJECTS = t-tdiv_q.$(OBJEXT)
+t_tdiv_q_LDADD = $(LDADD)
+t_tdiv_q_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
+	$(top_builddir)/libmpir.la
 DEFAULT_INCLUDES = -I. -I$(srcdir) -I$(top_builddir)
 depcomp =
 am__depfiles_maybe =
@@ -234,7 +240,8 @@ SOURCES = $(st_fat_SOURCES) $(st_instrument_SOURCES) t-addadd_n.c \
 	t-instrument.c t-iord_u.c t-lorrshift1.c t-mp_bases.c \
 	t-mullow_basecase.c t-mullowhigh.c t-mulmid.c \
 	t-mulmod_2expm1.c t-mulmod_2expp1.c t-neg.c t-perfsqr.c \
-	t-redc_basecase.c t-sb_divappr_q.c t-scan.c t-subadd_n.c
+	t-redc_basecase.c t-sb_divappr_q.c t-scan.c t-subadd_n.c \
+	t-tdiv_q.c
 DIST_SOURCES = $(am__st_fat_SOURCES_DIST) \
 	$(am__st_instrument_SOURCES_DIST) t-addadd_n.c t-addsub_n.c \
 	t-aors_1.c t-asmtype.c t-dc_divappr_q_n.c t-divebyBm1of.c \
@@ -242,7 +249,7 @@ DIST_SOURCES = $(am__st_fat_SOURCES_DIST) \
 	t-iord_u.c t-lorrshift1.c t-mp_bases.c t-mullow_basecase.c \
 	t-mullowhigh.c t-mulmid.c t-mulmod_2expm1.c t-mulmod_2expp1.c \
 	t-neg.c t-perfsqr.c t-redc_basecase.c t-sb_divappr_q.c \
-	t-scan.c t-subadd_n.c
+	t-scan.c t-subadd_n.c t-tdiv_q.c
 ETAGS = etags
 CTAGS = ctags
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
@@ -526,6 +533,9 @@ t-scan$(EXEEXT): $(t_scan_OBJECTS) $(t_scan_DEPENDENCIES)
 t-subadd_n$(EXEEXT): $(t_subadd_n_OBJECTS) $(t_subadd_n_DEPENDENCIES) 
 	@rm -f t-subadd_n$(EXEEXT)
 	$(LINK) $(t_subadd_n_LDFLAGS) $(t_subadd_n_OBJECTS) $(t_subadd_n_LDADD) $(LIBS)
+t-tdiv_q$(EXEEXT): $(t_tdiv_q_OBJECTS) $(t_tdiv_q_DEPENDENCIES) 
+	@rm -f t-tdiv_q$(EXEEXT)
+	$(LINK) $(t_tdiv_q_LDFLAGS) $(t_tdiv_q_OBJECTS) $(t_tdiv_q_LDADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
