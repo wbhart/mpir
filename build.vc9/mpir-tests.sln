@@ -735,6 +735,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpn.sb_divappr_q", "mpir-te
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpn.dc_divappr_q_n", "mpir-tests\mpn.dc_divappr_q_n.vcproj", "{D93FB003-B8E1-489A-ADC8-AE329B3B5F02}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpn.tdiv_q", "mpir-tests\mpn.tdiv_q.vcproj", "{3933D0DE-F5E0-4487-BC1E-31A96987E586}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -1689,6 +1691,14 @@ Global
 		{D93FB003-B8E1-489A-ADC8-AE329B3B5F02}.Release|Win32.Build.0 = Release|Win32
 		{D93FB003-B8E1-489A-ADC8-AE329B3B5F02}.Release|x64.ActiveCfg = Release|x64
 		{D93FB003-B8E1-489A-ADC8-AE329B3B5F02}.Release|x64.Build.0 = Release|x64
+		{3933D0DE-F5E0-4487-BC1E-31A96987E586}.Debug|Win32.ActiveCfg = Debug|Win32
+		{3933D0DE-F5E0-4487-BC1E-31A96987E586}.Debug|Win32.Build.0 = Debug|Win32
+		{3933D0DE-F5E0-4487-BC1E-31A96987E586}.Debug|x64.ActiveCfg = Debug|x64
+		{3933D0DE-F5E0-4487-BC1E-31A96987E586}.Debug|x64.Build.0 = Debug|x64
+		{3933D0DE-F5E0-4487-BC1E-31A96987E586}.Release|Win32.ActiveCfg = Release|Win32
+		{3933D0DE-F5E0-4487-BC1E-31A96987E586}.Release|Win32.Build.0 = Release|Win32
+		{3933D0DE-F5E0-4487-BC1E-31A96987E586}.Release|x64.ActiveCfg = Release|x64
+		{3933D0DE-F5E0-4487-BC1E-31A96987E586}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
