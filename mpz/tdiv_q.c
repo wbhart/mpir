@@ -76,7 +76,7 @@ mpz_tdiv_q (mpz_ptr quot, mpz_srcptr num, mpz_srcptr den)
       np = tp;
     }
 
-  mpn_tdiv_qr (qp, rp, 0L, np, nl, dp, dl);
+  mpn_tdiv_q (qp, np, nl, dp, dl);
 
   ql -=  qp[ql - 1] == 0;
 
