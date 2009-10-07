@@ -54,7 +54,7 @@ check_tdiv_q (void)
   
    for (i = 0; i < ITERS; i++)
    {
-      dn = (random() % (MAX_LIMBS - 2)) + 2;
+      dn = (random() % (MAX_LIMBS - 1)) + 1;
       nn = (random() % MAX_LIMBS) + dn;
          
       mpn_rrandom (np, rands, nn);
@@ -64,11 +64,8 @@ check_tdiv_q (void)
       qn2 = nn - dn + 1;
       rn = dn;
    
-      printf("start %ld, %ld, %ld\n", qn, nn, dn);
       mpn_tdiv_q(qp, np, nn, dp, dn);
-      printf("end\n");
       mpn_tdiv_qr(qp2, rp, 0, np, nn, dp, dn);
-      printf("end2\n");
       
       MPN_NORMALIZE(qp, qn);
       MPN_NORMALIZE(qp2, qn2);

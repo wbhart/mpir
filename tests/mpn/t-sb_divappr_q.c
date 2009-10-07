@@ -32,7 +32,7 @@ MA 02110-1301, USA. */
 #endif
 
 #define MAX_LIMBS 40
-#define ITERS 1000
+#define ITERS 10000
    
 /* Check schoolboy division routine. */
 void
@@ -42,7 +42,7 @@ check_sb_divappr_q (void)
    mp_limb_t np2[2*MAX_LIMBS];
    mp_limb_t rp[2*MAX_LIMBS];
    mp_limb_t dp[MAX_LIMBS];
-   mp_limb_t qp[MAX_LIMBS];
+   mp_limb_t qp[2*MAX_LIMBS];
    mp_limb_t dip[2];
 
    mp_size_t nn, rn, dn, qn;
