@@ -125,7 +125,7 @@ mpn_sb_divappr_q (mp_ptr qp, mp_ptr np, mp_size_t nn,
 		allow to be off by up to 1.
 	 */
      n21 = np[nn - 1];
-	 n20 = np[nn - 2];
+	  n20 = np[nn - 2];
      umul_ppmm(p2, p1, di0, n21);
 	 umul_ppmm(p4, p3, di1, n20);
 	 add_ssaaaa(q, q0, n21, p2, CNST_LIMB(0), p4);
@@ -139,10 +139,13 @@ mpn_sb_divappr_q (mp_ptr qp, mp_ptr np, mp_size_t nn,
 
 	 if ((np[nn-1] > cy) || (mpn_cmp(np + nn - dn - 1, dp, dn) >= 0))
 	 {
-	    q++; /* q can't overflow */
-        mpn_sub_n(np + nn - dn - 1, np + nn - dn - 1, dp, dn);
+	    q++; /* beware: q *can* overflow */
+       if (q == 0) 
+          q--;
+       else
+          mpn_sub_n(np + nn - dn - 1, np + nn - dn - 1, dp, dn);
 	 }
-
+    
 	 qp[i] = q;
 
 	 if (dn > i + 1)
@@ -152,6 +155,17 @@ mpn_sb_divappr_q (mp_ptr qp, mp_ptr np, mp_size_t nn,
     }
 
     nn--;
+
+    /* If what is left is equal to the denominator then the 
+       rest of the quotient has to be all 1's. Without this 
+       step the remainder gets screwed up
+    */
+    if (mpn_cmp(np + nn - dn, dp, dn) == 0)
+    {
+       i--;
+       for ( ; i >= 0L; i--) qp[i] = ~CNST_LIMB(0);
+       break;
+    }
   }
 	
   return ret;
