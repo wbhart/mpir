@@ -39,7 +39,7 @@ main (int argc, char **argv)
   mpz_t temp;
   mp_size_t dividend_size, divisor_size;
   int i;
-  int reps = 20000;
+  int reps = 10000;
   gmp_randstate_t rands;
   mpz_t bs;
   unsigned long bsi, size_range;
@@ -93,7 +93,7 @@ main (int argc, char **argv)
       /* First determine that the quotients and remainders computed
 	 with different functions are equal.  */
       if (mpz_cmp (quotient, quotient2) != 0)
-	dump_abort (dividend, divisor);
+   dump_abort (dividend, divisor);
       if (mpz_cmp (remainder, remainder2) != 0)
 	dump_abort (dividend, divisor);
 

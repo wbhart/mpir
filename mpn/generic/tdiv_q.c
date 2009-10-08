@@ -302,14 +302,15 @@ mpn_tdiv_q (mp_ptr qp, mp_srcptr np, mp_size_t nn,
        }
 	    else             
        {
-           mp_limb_t dip[2];
+           mp_limb_t dip[2], cy;
            mp_ptr tp = TMP_ALLOC_LIMBS (10*qn);
            MPN_COPY(n3p, n2p, 2 * qn);
            mpn_invert(dip, d2p + qn - 2, 2);
 
-           //mpn_dc_divrem_n(qp, n3p, d2p, qn);
+           //mpn_dc_divrem_n(qp2, n4p, d2p, qn);
            mpn_dc_divappr_q_n (qp, n3p, d2p, qn, dip, tp);
        }
+       
        /* At this point the quotient may be correct or up to 3 too large.
           It could be one too large from the approximate quotient and
           up to a further two too large from the fact that we didn't have
@@ -330,7 +331,11 @@ mpn_tdiv_q (mp_ptr qp, mp_srcptr np, mp_size_t nn,
           mp_limb_t p[2];
           mp_limb_t d1, d2, dl, cy;
           long i;
-          mp_limb_t max_carries = qn + in - 2;
+          mp_limb_t max_carries;
+
+try_again:
+                
+          max_carries = qn + in - 2;
           if (max_carries > qn) max_carries = qn; 
           
           for (i = qn - 1; i >= 1L; i--)
@@ -351,6 +356,14 @@ mpn_tdiv_q (mp_ptr qp, mp_srcptr np, mp_size_t nn,
           /* If the product is too large, the quotient must be too large */
           while ((mp_limb_signed_t) (lp[2] - n2p[qn]) > 0L)
           {
+             if (qp[0] == CNST_LIMB(0))
+             {
+                mpn_decr_u (qp, (mp_limb_t) 1);
+                lp[0] = CNST_LIMB(0);
+                lp[1] = CNST_LIMB(0);
+                lp[2] = CNST_LIMB(0);
+                goto try_again;
+             }
              mpn_decr_u (qp, (mp_limb_t) 1);
              sub_ddmmss(lp[2], lp[1], lp[2], lp[1], CNST_LIMB(0), d2p[qn - 1]);
           }
@@ -395,6 +408,14 @@ mpn_tdiv_q (mp_ptr qp, mp_srcptr np, mp_size_t nn,
 
           while ((mp_limb_signed_t) (lp[2] - n2p[qn]) > 0L)
           {
+             if (qp[0] == CNST_LIMB(0))
+             {
+                mpn_decr_u (qp, (mp_limb_t) 1);
+                lp[0] = CNST_LIMB(0);
+                lp[1] = CNST_LIMB(0);
+                lp[2] = CNST_LIMB(0);
+                goto try_again;
+             }
              mpn_decr_u (qp, (mp_limb_t) 1);
              sub_ddmmss(lp[2], lp[1], lp[2], lp[1], CNST_LIMB(0), d2p[qn - 1]);
           }
@@ -412,6 +433,7 @@ mpn_tdiv_q (mp_ptr qp, mp_srcptr np, mp_size_t nn,
                 TMP_FREE;
                 return;
              }
+             
              goto skip;
           }
           
@@ -426,8 +448,12 @@ mpn_tdiv_q (mp_ptr qp, mp_srcptr np, mp_size_t nn,
 
              if (cy)
              {
-                TMP_FREE;
-                return;
+                if (max_carries < n2p[qn - 1] - lp[1])
+                {
+                   TMP_FREE;
+                   return;
+                } else
+                   goto skip;
              }
           }
 

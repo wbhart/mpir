@@ -32,7 +32,7 @@ MA 02110-1301, USA. */
 #endif
 
 #define MAX_LIMBS 200
-#define ITERS 1000
+#define ITERS 2000
    
 /* Check divide and conquer division routine. */
 void
