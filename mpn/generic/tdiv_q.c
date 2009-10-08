@@ -300,7 +300,7 @@ mpn_tdiv_q (mp_ptr qp, mp_srcptr np, mp_size_t nn,
            //mpn_sb_divrem_mn(qp, n3p, 2*qn, d2p, qn);
            mpn_sb_divappr_q (qp, n3p, 2 * qn, d2p, qn, dip);
        }
-	    else
+	    else             
        {
            mp_limb_t dip[2];
            mp_ptr tp = TMP_ALLOC_LIMBS (10*qn);
@@ -365,6 +365,8 @@ mpn_tdiv_q (mp_ptr qp, mp_srcptr np, mp_size_t nn,
              return;
           }
 
+          if (qn == 1) goto skip;
+
           if (max_carries > in + qn - 3) max_carries--;
 
           /* That proved inconclusive, so we compute the next limb of the
@@ -410,7 +412,6 @@ mpn_tdiv_q (mp_ptr qp, mp_srcptr np, mp_size_t nn,
                 TMP_FREE;
                 return;
              }
-
              goto skip;
           }
           
@@ -453,11 +454,11 @@ skip:
           n2p[nn - 1] = 0L;
           mpn_mul(n2p, dp, dn, qp, qn);
           MPN_NORMALIZE (n2p, n2n);
-          if ((n2n > nn) || (mpn_cmp(n2p, np, n2n) > 0))
+          if ((n2n > nn) || (mpn_cmp(n2p, np, nn) > 0))
           {
              mpn_decr_u (qp, (mp_limb_t) 1);
           }
-
+          
           TMP_FREE;
           return;
 
