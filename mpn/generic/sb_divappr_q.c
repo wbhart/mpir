@@ -84,9 +84,26 @@ mpn_sb_divappr_q (mp_ptr qp, mp_ptr np, mp_size_t nn,
   mp_size_t i;
   
   /* 
-     We only need to use the top qn limbs of the 
+    We only need to use the top qn limbs of the 
 	 denominator and the same applies for the 
-	 numerator.
+	 numerator. As we correct at each step for the
+    error from the precomputed inverse, the only 
+    error at the end of the algorithm is from 
+    truncating. 
+    
+    Truncation of the denominator means that at 
+    each step we may be subtracting an amount which
+    is slightly too small from the numerator to get
+    the partial remainder at each step. But as we
+    use a normalised denominator, this can only 
+    cause the quotient to be tipped over and made 
+    one too large. 
+
+    Truncating the numerator cannot cause the 
+    quotient to be computed one too small as we
+    are also truncating the denominator so that 
+    any truncated limbs from the numerator are 
+    irrelevant.
   */
   
   if (qn < dn)
@@ -139,7 +156,7 @@ mpn_sb_divappr_q (mp_ptr qp, mp_ptr np, mp_size_t nn,
 
 	 if ((np[nn-1] > cy) || (mpn_cmp(np + nn - dn - 1, dp, dn) >= 0))
 	 {
-	    q++; /* beware: q *can* overflow */
+	    q++; /* beware: q *can* overflow - see below */
        if (q == 0) 
           q--;
        else
@@ -156,9 +173,13 @@ mpn_sb_divappr_q (mp_ptr qp, mp_ptr np, mp_size_t nn,
 
     nn--;
 
-    /* If what is left is equal to the denominator then the 
-       rest of the quotient has to be all 1's. Without this 
-       step the remainder gets screwed up
+    /* This is a special case which showed up in testing. It 
+       may be that truncating the denominator leads to a quotient
+       which overflows. The above code picks this up and does 
+       nothing. Here we check for this and deal with it. As
+       we know that the overflow wouldn't have occurred before
+       the truncation happened, we can safely just set all remaining
+       limbs of the quotient to all binary ones.
     */
     if (mpn_cmp(np + nn - dn, dp, dn) == 0)
     {
