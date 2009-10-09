@@ -38,22 +38,34 @@ echo Unkwown option
 exit /b 1
 
 :make
-vcbuild gen-mpir\gen-mpir.vcproj "Release|Win32"
-vcbuild gen-bases\gen-bases.vcproj "Release|Win32"
-vcbuild gen-fac_ui\gen-fac_ui.vcproj "Release|Win32%"
-vcbuild gen-fib\gen-fib.vcproj "Release|Win32"
-vcbuild gen-psqr\gen-psqr.vcproj "Release|Win32"
 set LIBBUILD=%LIBTYPE%_mpir_%BCPU%
+vcbuild gen-mpir\gen-mpir.vcproj "Release|Win32" && vcbuild gen-bases\gen-bases.vcproj "Release|Win32" && vcbuild gen-fac_ui\gen-fac_ui.vcproj "Release|Win32%" && vcbuild gen-fib\gen-fib.vcproj "Release|Win32" && vcbuild gen-psqr\gen-psqr.vcproj "Release|Win32"
+if errorlevel 1 (
+	echo "ERROR PREBUILD"
+	exit /b 1
+)
 vcbuild %LIBBUILD%\%LIBBUILD%.vcproj "Release|%ARCHW%"
+if errorlevel 1 (
+	echo "ERROR BUILDING"
+	exit /b 1
+)
 :: c++ to build  if static
 if %LIBTYPE% == lib (
 	vcbuild lib_mpir_cxx\lib_mpir_cxx.vcproj "Release|%ARCHW%"
+	if errorlevel 1 (
+		echo "ERROR BUILDING CXX"
+		exit /b 1
+	)
 )
 exit /b 0
 
 :check
 :: this gives an error if we dont build the c++ stuff
 vcbuild mpir-tests.sln "Release|%ARCHW%"
+if errorlevel 1 (
+	echo "ERROR BUILDING TESTS"
+	exit /b 1
+)
 cd mpir-tests
 python --version >nul 2>&1
 if not errorlevel 1 goto :got
