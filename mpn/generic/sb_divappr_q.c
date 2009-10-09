@@ -3,7 +3,7 @@
    THE FUNCTIONS IN THIS FILE ARE INTERNAL FUNCTIONS WITH MUTABLE
    INTERFACES.  IT IS ONLY SAFE TO REACH THEM THROUGH DOCUMENTED INTERFACES.
    IN FACT, IT IS ALMOST GUARANTEED THAT THEY'LL CHANGE OR DISAPPEAR IN A
-   FUTURE GNU MP RELEASE.
+   FUTURE MPIR RELEASE.
 
 
 Copyright 2009 William Hart.
@@ -39,7 +39,9 @@ MA 02110-1301, USA. */
 
    Requires d = {dp, dn} to be normalised, i.e. the most 
    significant bit of the most significant limb must be set.
-   Also requires that d is at least two limbs. 
+   Also requires that d is at least two limbs and the 
+   numerator be at least as many limbs as the denominator
+   (this may change in a future release). 
 
    n = {np, nn} is destroyed.
 */
