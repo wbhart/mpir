@@ -15,7 +15,7 @@
 #define MULLOW_DC_THRESHOLD              35
 #define MULLOW_MUL_THRESHOLD           9970
 
-#define MULHIGH_BASECASE_THRESHOLD        0  /* always */
+#define MULHIGH_BASECASE_THRESHOLD        3  /* always */
 #define MULHIGH_DC_THRESHOLD             34
 #define MULHIGH_MUL_THRESHOLD          9970
 

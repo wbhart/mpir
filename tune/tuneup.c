@@ -918,14 +918,14 @@ tune_mulhigh (gmp_randstate_t rands)
 
   param.name = "MULHIGH_BASECASE_THRESHOLD";
   param.min_size = 3;
-  param.min_is_always = 1;
+  param.min_is_always = 3;
   //param.max_size = MULHIGH_BASECASE_THRESHOLD_LIMIT-1;
   one (&mulhigh_basecase_threshold, rands, &param);
 
   param.min_is_always = 0;	/* ??? */
 
   param.name = "MULHIGH_DC_THRESHOLD";
-  param.min_size = mulhigh_basecase_threshold;
+  param.min_size = MAX(mulhigh_basecase_threshold,4);
   param.max_size = 1000;
   one (&mulhigh_dc_threshold, rands, &param);
 

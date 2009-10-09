@@ -103,7 +103,7 @@ mpn_mulshort_n_basecase (mp_ptr rp, mp_srcptr xp, mp_srcptr yp, mp_size_t n)
   mp_limb_t t1, t2, t3;
 #endif
 
-  ASSERT (n >= 3);
+  ASSERT (n >= 3);  // this restriction doesn't make a lot of sense in general
   ASSERT_MPN (xp, n);
   ASSERT_MPN (yp, n);
   ASSERT (!MPN_OVERLAP_P (rp, 2 * n, xp, n));
