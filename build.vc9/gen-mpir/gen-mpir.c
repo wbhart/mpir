@@ -1,5 +1,6 @@
 
 #include <stdio.h>
+#include <string.h>
 
 char *add = 
 "#if ! defined (__GMP_WITHIN_CONFIGURE)\n"
