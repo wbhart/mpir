@@ -21,6 +21,12 @@ dnl  to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 dnl  Boston, MA 02110-1301, USA.
 
 
+
+
+dnl THIS CODE IS BROKEN FOR ONE LIMB 
+
+
+
 include(`../config.m4')
 
 C INPUT PARAMETERS
