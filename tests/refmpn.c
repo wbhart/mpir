@@ -2224,6 +2224,37 @@ refmpn_tdiv_qr (mp_ptr qp, mp_ptr rp, mp_size_t qxn,
     }
 }
 
+void
+refmpn_tdiv_q (mp_ptr qp, mp_ptr np, mp_size_t nsize,
+                mp_srcptr dp, mp_size_t dsize)
+{
+  ASSERT_MPN (np, nsize);
+  ASSERT_MPN (dp, dsize);
+  ASSERT (dsize > 0);
+  ASSERT (dp[dsize-1] != 0);
+
+  if (dsize == 1)
+    {
+      refmpn_divmod_1 (qp, np, nsize, dp[0]);
+      return;
+    }
+  else
+    {
+      mp_ptr  n2p = refmpn_malloc_limbs (nsize+1);
+      mp_ptr  d2p = refmpn_malloc_limbs (dsize);
+      int     norm = refmpn_count_leading_zeros (dp[dsize-1]);
+
+      n2p[nsize] = refmpn_lshift_or_copy (n2p, np, nsize, norm);
+      ASSERT_NOCARRY (refmpn_lshift_or_copy (d2p, dp, dsize, norm));
+
+      refmpn_sb_divrem_mn (qp, n2p, nsize+1, d2p, dsize);
+      
+      /* ASSERT (refmpn_zero_p (tp+dsize, nsize-dsize)); */
+      free (n2p);
+      free (d2p);
+    }
+}
+
 
 size_t
 refmpn_get_str (unsigned char *dst, int base, mp_ptr src, mp_size_t size)

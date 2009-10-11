@@ -652,6 +652,7 @@ validate_sqrtrem (void)
 
 #define TYPE_SB_DIVREM_MN     90
 #define TYPE_TDIV_QR          91
+#define TYPE_TDIV_Q           92
 
 #define TYPE_SQRTREM          100
 #define TYPE_ZERO             101
@@ -1435,6 +1436,15 @@ param_init (void)
   p->overlap = OVERLAP_NONE;
   REFERENCE (refmpn_tdiv_qr);
 
+  p = &param[TYPE_TDIV_Q];
+  p->dst[0] = 1;
+  p->src[0] = 1;
+  p->src[1] = 1;
+  p->size2 = 1;
+  p->dst_size[0] = SIZE_DIFF_PLUS_1;
+  p->overlap = OVERLAP_NONE;
+  REFERENCE (refmpn_tdiv_q);
+
   p = &param[TYPE_SQRTREM];
   p->retval = 1;
   p->dst[0] = 1;
@@ -1869,6 +1879,7 @@ const struct choice_t choice_array[] = {
 
   { TRY(mpn_sb_divrem_mn), TYPE_SB_DIVREM_MN, 3},
   { TRY(mpn_tdiv_qr),      TYPE_TDIV_QR },
+  { TRY(mpn_tdiv_q),      TYPE_TDIV_Q },
 
   { TRY(mpn_mul_1),      TYPE_MUL_1 },
 #if HAVE_NATIVE_mpn_mul_1c
@@ -2646,6 +2657,10 @@ call (struct each_t *e, tryfun_t function)
   case TYPE_TDIV_QR:
     CALLING_CONVENTIONS (function) (e->d[0].p, e->d[1].p, 0,
 				    e->s[0].p, size, e->s[1].p, size2);
+    break;
+case TYPE_TDIV_Q:
+    CALLING_CONVENTIONS (function) (e->d[0].p, e->s[0].p, 
+                                 size, e->s[1].p, size2);
     break;
 
   case TYPE_GCD_1:

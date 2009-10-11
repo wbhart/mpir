@@ -307,7 +307,7 @@ mpn_tdiv_q (mp_ptr qp, mp_srcptr np, mp_size_t nn,
            MPN_COPY(n3p, n2p, 2 * qn);
            mpn_invert(dip, d2p + qn - 2, 2);
 
-           //mpn_dc_divrem_n(qp2, n4p, d2p, qn);
+           //mpn_dc_divrem_n(qp, n3p, d2p, qn);
            mpn_dc_divappr_q_n (qp, n3p, d2p, qn, dip, tp);
        }
        
@@ -332,10 +332,10 @@ mpn_tdiv_q (mp_ptr qp, mp_srcptr np, mp_size_t nn,
           mp_limb_t d1, d2, dl, cy;
           long i;
           mp_limb_t max_carries;
-
+        
 try_again:
                 
-          max_carries = qn + in - 2;
+          max_carries = qn + in - 1;
           if (max_carries > qn) max_carries = qn; 
           
           for (i = qn - 1; i >= 1L; i--)
@@ -377,10 +377,8 @@ try_again:
              TMP_FREE;
              return;
           }
-
-          if (qn == 1) goto skip;
-
-          if (max_carries > in + qn - 3) max_carries--;
+          
+          if (max_carries > in + qn - 2) max_carries--;
 
           /* That proved inconclusive, so we compute the next limb of the
              product and perform a similar comparison
@@ -418,8 +416,10 @@ try_again:
              }
              mpn_decr_u (qp, (mp_limb_t) 1);
              sub_ddmmss(lp[2], lp[1], lp[2], lp[1], CNST_LIMB(0), d2p[qn - 1]);
+             if (qn > 1) mpn_sub_1(lp, lp, 3, d2p[qn - 2]);
+             else mpn_sub_1(lp, lp, 3, d1);
           }
-
+          
           if ((mp_limb_signed_t) (n2p[qn] - lp[2]) > 0L)
           {
              if (n2p[qn] > lp[2] + 1)
@@ -428,7 +428,7 @@ try_again:
                 return;
              }
 
-             if (n2p[qn - 1] + max_carries >= lp[1])
+             if (n2p[qn - 1] + max_carries > lp[1])
              {
                 TMP_FREE;
                 return;
@@ -436,15 +436,28 @@ try_again:
              
              goto skip;
           }
-          
+
           /* Now the top limb is known to be correct, so check next limb 
              If the product is too large, the quotient must be too large 
           */
           
-          if (lp[1] > n2p[qn - 1])
+          while (lp[1] > n2p[qn - 1])
           {
+             if (qp[0] == CNST_LIMB(0))
+             {
+                mpn_decr_u (qp, (mp_limb_t) 1);
+                lp[0] = CNST_LIMB(0);
+                lp[1] = CNST_LIMB(0);
+                lp[2] = CNST_LIMB(0);
+                goto try_again;
+             }
              mpn_decr_u (qp, (mp_limb_t) 1);
-             cy = mpn_sub_n(lp, lp, d2p + qn - 2, 2);
+             if (qn > 1) cy = mpn_sub_n(lp, lp, d2p + qn - 2, 2);
+             else
+             {
+                sub_ddmmss(cy, lp[1], (mp_limb_t) 0, lp[1], (mp_limb_t) 0, d2p[0]);
+                cy += mpn_sub_1(lp, lp, 2, d1);
+             }
 
              if (cy)
              {
@@ -456,7 +469,7 @@ try_again:
                    goto skip;
              }
           }
-
+          
           /* If carries can't take this up to the value of the limb in the
              numerator, we must have the right quotient
           */
@@ -466,7 +479,7 @@ try_again:
              TMP_FREE;
              return;
           }
-
+          
 skip:
           /* We have been unable to determine the quotient so multiply out
              and see whether it is correct or one too large.

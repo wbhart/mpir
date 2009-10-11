@@ -410,6 +410,8 @@ mp_limb_t refmpn_submul_1c __GMP_PROTO ((mp_ptr wp, mp_srcptr xp, mp_size_t size
 void refmpn_tdiv_qr __GMP_PROTO ((mp_ptr qp, mp_ptr rp, mp_size_t qxn,
                              mp_ptr np, mp_size_t nsize,
                              mp_srcptr dp, mp_size_t dsize));
+void refmpn_tdiv_q __GMP_PROTO ((mp_ptr qp, mp_ptr np, mp_size_t nsize,
+                             mp_srcptr dp, mp_size_t dsize));
 int refmpn_tstbit __GMP_PROTO ((mp_srcptr, unsigned long));
 
 mp_limb_t refmpn_udiv_qrnnd __GMP_PROTO ((mp_limb_t *, mp_limb_t, mp_limb_t, mp_limb_t));
