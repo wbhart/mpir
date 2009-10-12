@@ -31,6 +31,7 @@ int
 mpz_likely_prime_p (mpz_srcptr N, gmp_randstate_t STATE, unsigned long td)
 {
   int d, t, r;
+  unsigned long tdlim;
   mpz_t base, nm1, x, e, n;
 
   ALLOC (n) = ALLOC (N);
@@ -46,13 +47,14 @@ mpz_likely_prime_p (mpz_srcptr N, gmp_randstate_t STATE, unsigned long td)
 // therefore it has a good chance of factoring by small divisiors , so try trial division as its fast and it checks small divisors
 // checking for other divisors is not worth it even if the test is fast as we have random integer so only small divisors are common
 // enough , remember this is not exact so it doesn't matter if we miss a few divisors
-#define LIM 257
-  d=mpz_trial_division(n,3,LIM);
+  tdlim=mpz_sizeinbase(n,2);
+  tdlim=MAX(1000,tdlim);
+  d=mpz_trial_division(n,3,tdlim);
   if(d!=0)
     {if(mpz_cmp_ui(n, d) == 0)return 1;
      return 0;}
-  if (mpz_cmp_ui (n, LIM * LIM) < 0)
-    return 1;
+  if (mpz_cmp_ui (n, tdlim * tdlim) < 0)
+    return 1;	// if tdlim*tdlim overflows then n is not a single limb so cant be true anyway
   ASSERT (mpz_odd_p (n));
   ASSERT (mpz_cmp_ui (n, 5) >= 0);	// so we can choose a base
 // now do strong pseudoprime test 
