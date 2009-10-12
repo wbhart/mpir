@@ -84,6 +84,7 @@ mpn_sb_divappr_q (mp_ptr qp, mp_ptr np, mp_size_t nn,
   mp_limb_t ret, di0, di1, p1, p2, p3, p4, q, q0, n21, n20, cy;
   mp_size_t qn = nn - dn + 1;
   mp_size_t i;
+  mp_limb_t dnpr = 0;
   
   /* 
     We only need to use the top qn limbs of the 
@@ -101,11 +102,9 @@ mpn_sb_divappr_q (mp_ptr qp, mp_ptr np, mp_size_t nn,
     cause the quotient to be tipped over and made 
     one too large. 
 
-    Truncating the numerator cannot cause the 
-    quotient to be computed one too small as we
-    are also truncating the denominator so that 
-    any truncated limbs from the numerator are 
-    irrelevant.
+    Truncating the numerator can cause the 
+    quotient to be computed one too small in very
+    rare instances. We detect this and correct.
   */
   
   if (qn < dn)
@@ -141,7 +140,9 @@ mpn_sb_divappr_q (mp_ptr qp, mp_ptr np, mp_size_t nn,
      /*
 	    Compute n2 + top two limbs of n2*di, but
 		caring only about the top limb q, which we
-		allow to be off by up to 1.
+		allow to be off by up to 1. We must be 
+      careful to truncate the numerator when taking
+      the quotient.
 	 */
      n21 = np[nn - 1];
 	  n20 = np[nn - 2];
@@ -152,11 +153,14 @@ mpn_sb_divappr_q (mp_ptr qp, mp_ptr np, mp_size_t nn,
 	 add_ssaaaa(q, q0, q, q0, p1, p2);
      add_ssaaaa(q, q0, q, q0, CNST_LIMB(0), n20);
 
-	 cy = mpn_submul_1(np + nn - dn - 1, dp, dn, q);
+     cy = mpn_submul_1(np + nn - dn - 1, dp, dn, q);
 
 	 /* Either q was correct or too small by 1 */
-
-	 if ((np[nn-1] > cy) || (mpn_cmp(np + nn - dn - 1, dp, dn) >= 0))
+    if (UNLIKELY(np[nn-1] < cy))
+    {
+       mpn_add_n(np + nn - dn - 1, np + nn - dn - 1, dp, dn);
+       q--;
+    } else if ((np[nn-1] > cy) || (mpn_cmp(np + nn - dn - 1, dp, dn) >= 0))
 	 {
 	    q++; /* beware: q *can* overflow - see below */
        if (q == 0) 
@@ -166,7 +170,7 @@ mpn_sb_divappr_q (mp_ptr qp, mp_ptr np, mp_size_t nn,
 	 }
     
 	 qp[i] = q;
-
+    
 	 if (dn > i + 1)
     {
        dp++;
@@ -177,11 +181,9 @@ mpn_sb_divappr_q (mp_ptr qp, mp_ptr np, mp_size_t nn,
 
     /* This is a special case which showed up in testing. It 
        may be that truncating the denominator leads to a quotient
-       which overflows. The above code picks this up and does 
-       nothing. Here we check for this and deal with it. As
-       we know that the overflow wouldn't have occurred before
-       the truncation happened, we can safely just set all remaining
-       limbs of the quotient to all binary ones.
+       which overflows. As we know that the overflow wouldn't have 
+       occurred before the truncation happened, we can safely just 
+       set all remaining limbs of the quotient to all binary ones.
     */
     if (mpn_cmp(np + nn - dn, dp, dn) == 0)
     {
