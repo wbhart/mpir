@@ -13,21 +13,22 @@
    complexity of multiplication.
 
 Copyright 1997, 2000, 2001, 2002, 2005 Free Software Foundation, Inc.
+Copyright 2009 William Hart
 
-This file is part of the GNU MP Library.
+This file is part of the MPIR Library.
 
-The GNU MP Library is free software; you can redistribute it and/or modify
+The MPIR Library is free software; you can redistribute it and/or modify
 it under the terms of the GNU Lesser General Public License as published by
 the Free Software Foundation; either version 2.1 of the License, or (at your
 option) any later version.
 
-The GNU MP Library is distributed in the hope that it will be useful, but
+The MPIR Library is distributed in the hope that it will be useful, but
 WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
 or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public
 License for more details.
 
 You should have received a copy of the GNU Lesser General Public License
-along with the GNU MP Library; see the file COPYING.LIB.  If not, write to
+along with the MPIR Library; see the file COPYING.LIB.  If not, write to
 the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 MA 02110-1301, USA. */
 
@@ -165,7 +166,7 @@ mpn_tdiv_q (mp_ptr qp, mp_srcptr np, mp_size_t nn,
 		       operands?  */
 		    ql = qp[nn - dn]; /* preserve quotient limb... */
 		    mpn_tdiv_q (qp, n2p, nn, d2p, dn);
-		    qp[nn - dn] = ql; /* ...restore it again */
+          qp[nn - dn] = ql; /* ...restore it again */
 		  }
 	      }
 
@@ -294,11 +295,12 @@ mpn_tdiv_q (mp_ptr qp, mp_srcptr np, mp_size_t nn,
        }
        else if (qn < DIV_DC_THRESHOLD)
        {
-	        mp_limb_t dip[2];
+	        mp_limb_t dip[2], cy;
            MPN_COPY(n3p, n2p, 2 * qn);
            mpn_invert(dip, d2p + qn - 2, 2);
            //mpn_sb_divrem_mn(qp, n3p, 2*qn, d2p, qn);
-           mpn_sb_divappr_q (qp, n3p, 2 * qn, d2p, qn, dip);
+           cy = mpn_sb_divappr_q (qp, n3p, 2 * qn, d2p, qn, dip);
+           if (cy) mpn_sub_1(qp, qp, qn, 1);
        }
 	    else             
        {
@@ -308,7 +310,8 @@ mpn_tdiv_q (mp_ptr qp, mp_srcptr np, mp_size_t nn,
            mpn_invert(dip, d2p + qn - 2, 2);
 
            //mpn_dc_divrem_n(qp, n3p, d2p, qn);
-           mpn_dc_divappr_q_n (qp, n3p, d2p, qn, dip, tp);
+           cy = mpn_dc_divappr_q_n (qp, n3p, d2p, qn, dip, tp);
+           if (cy) mpn_sub_1(qp, qp, qn, 1);
        }
        
        /* At this point the quotient may be correct or up to 3 too large.
