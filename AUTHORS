@@ -36,7 +36,10 @@ Jason Moxham	     Dramatic speed improvements for K8, K10 and Core 2
                      code. Refactoring CPU detection code. Numerous bug and 
                      build fixes. Improvements to speed program.
 Pierrick Gaudry      AMD 64 assembly support, revised FFT code
-Paul Zimmermann      mpz implementation of Toom 4, FFT code
+Paul Zimmermann      mpz implementation of Toom 4, FFT code, invert.c
 Alexander Kruppa     revised FFT code
 Torbjorn Granlund    revised FFT code
-Marco Bodrato        mpz implementation of Toom 7 
+Marco Bodrato        mpz implementation of Toom 7
+Robert Gerbicz       fast factorial code
+David Harvey         mulmid and dc_divappr_q
+
