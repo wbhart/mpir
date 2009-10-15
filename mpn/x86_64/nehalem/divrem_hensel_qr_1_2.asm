@@ -35,49 +35,56 @@ PROLOGUE(mpn_divrem_hensel_qr_1_2)
 mov $1,%r9
 sub %rdx,%r9
 lea -8(%rdi,%rdx,8),%rdi
-lea -8(%rsi,%rdx,8),%rsi	#// last use of rdx
+lea -8(%rsi,%rdx,8),%rsi
 
 push %r12
 push %r13
 push %r14
 
-mov %rcx,%rdx	#// rdx is 3 bit inverse
+mov %rcx,%rdx	
+C // rdx is 3 bit inverse
 
 mov %rdx,%rax
 imul %ecx,%edx
 mov $2,%r11
 sub %rdx,%r11
-imul %eax,%r11d	#//r11 has 4 bits
+imul %eax,%r11d	
+C //r11 has 4 bits
 
 mov %r11,%rax
 imul %ecx,%r11d 
 mov $2,%rdx
 sub %r11,%rdx		
-imul %eax,%edx	#//rdx has 8 bits
+imul %eax,%edx	
+C //rdx has 8 bits
 
 mov %rdx,%rax
 imul %ecx,%edx
 mov $2,%r11
 sub %rdx,%r11
-imul %eax,%r11d	#//r11 has 16 bits
+imul %eax,%r11d	
+C //r11 has 16 bits
 
 mov %r11,%rax
 imul %ecx,%r11d 
 mov $2,%rdx
 sub %r11,%rdx		
-imul %eax,%edx	#// rdx has 32 bits
+imul %eax,%edx	
+C // rdx has 32 bits
 
 mov %rdx,%rax
 imul %rcx,%rdx
 mov $2,%r11
 sub %rdx,%r11
-imul %rax,%r11	#//r11 has 64 bits
+imul %rax,%r11	
+C //r11 has 64 bits
 
 mov %r11,%rax
 mov %r11,%r12
 mul %rcx
 neg %rdx
-imul %rdx,%r12	#// r12,r11 has 128 bits
+imul %rdx,%r12	
+C // r12,r11 has 128 bits
 
 mov %r11,%r13
 mov %r12,%r14
@@ -90,34 +97,34 @@ jc skiplp
 ALIGN(16)
 lp:
 	mov %r12,%r8
-	mov %r13,%rax		#// r13 low inverse
+	mov %r13,%rax
 	mul %r11
-	mov %rax,-16(%rdi,%r9,8)	#// store low quotient
-	imul %r14,%r11		#// r14 high inverse
+	mov %rax,-16(%rdi,%r9,8)
+	imul %r14,%r11
 	imul %r13,%r12
 	add %r11,%rdx
 	add %r12,%rdx
 		mov (%rsi,%r9,8),%r11
 		mov 8(%rsi,%r9,8),%r12
-	mov %rdx,-8(%rdi,%r9,8)	#// store high quotient
-	mov %rcx,%rax		#// rcx is divisor
-	mul %rdx		#// (*) divisor*high quotient
+	mov %rdx,-8(%rdi,%r9,8)
+	mov %rcx,%rax
+	mul %rdx
 		add %r10,%r10
 		sbb $0,%r11
 		sbb $0,%r12
 		sbb %r10,%r10
-	cmp %rax,%r8		#// (*) and corrrection
-		sbb %rdx,%r11	#// (*) to give our "carry" not including old r10
+	cmp %rax,%r8
+		sbb %rdx,%r11
 		sbb $0,%r12
 		sbb $0,%r10
 	add $2,%r9
 	jnc lp
 skiplp:
 mov %r12,%r8
-mov %r13,%rax		#// r13 low inverse
+mov %r13,%rax	
 mul %r11
-mov %rax,-16(%rdi,%r9,8)	#// store low quotient
-imul %r14,%r11		#// r14 high inverse
+mov %rax,-16(%rdi,%r9,8)
+imul %r14,%r11	
 imul %r13,%r12
 add %r11,%rdx
 add %r12,%rdx
@@ -125,14 +132,14 @@ cmp $0,%r9
 jne case0
 case1:
 		mov (%rsi,%r9,8),%r11
-	mov %rdx,-8(%rdi,%r9,8)	#// store high quotient
-	mov %rcx,%rax		#// rcx is divisor
-	mul %rdx		#// (*) divisor*high quotient
+	mov %rdx,-8(%rdi,%r9,8)
+	mov %rcx,%rax
+	mul %rdx
 		add %r10,%r10
 		sbb $0,%r11
 		sbb %r10,%r10
-	cmp %rax,%r8		#// (*) and corrrection
-		sbb %rdx,%r11	#// (*) to give our "carry" not including old r10
+	cmp %rax,%r8
+		sbb %rdx,%r11
 		sbb $0,%r10
 	mov %r11,%rax
 	imul %r13,%rax
@@ -146,12 +153,12 @@ case1:
 	pop %r12
 	ret
 case0:
-	mov %rdx,-8(%rdi,%r9,8)	#// store high quotient
-	mov %rcx,%rax		#// rcx is divisor
-	mul %rdx		#// (*) divisor*high quotient
-	cmp %rax,%r8		#// (*) and corrrection
+	mov %rdx,-8(%rdi,%r9,8)	
+	mov %rcx,%rax	
+	mul %rdx	
+	cmp %rax,%r8	
 	mov $0,%rax
-	adc %rdx,%rax		#// (*) to give our "carry" not including old r10
+	adc %rdx,%rax
 	sub %r10,%rax
 	pop %r14
 	pop %r13

@@ -26,22 +26,22 @@ C	rax             rdi,   rsi,      rdx
 
 ASM_START()
 PROLOGUE(mpn_copyi)
-# for <20 limbs this is slower than core2/copyi for rev 2257
-# probaly want to tweek it , that should do most of the work
-# below small loop is not much help
-#cmp $10,%rdx
-#jge large
-#ALIGN(16)
-#lp:	mov (%rsi),%rax
-#	mov %rax,(%rdi)
-#	lea 8(%rsi),%rsi
-#	lea 8(%rdi),%rdi
-#	sub $1,%rdx
-#	jnz lp
-#	ret
-#large:
-cmp $0,%rdx		#needed for case n=0
-jz endfn		#needed for case n=0
+C // for <20 limbs this is slower than core2/copyi for rev 2257
+C // probaly want to tweek it , that should do most of the work
+C //below small loop is not much help
+C //cmp $10,%rdx
+C //jge large
+C //ALIGN(16)
+C //lp:	mov (%rsi),%rax
+C //	mov %rax,(%rdi)
+C //	lea 8(%rsi),%rsi
+C //	lea 8(%rdi),%rdi
+C //	sub $1,%rdx
+C //	jnz lp
+C //	ret
+C // large:
+cmp $0,%rdx
+jz endfn
 mov %rdi,%rax
 sub %rsi,%rax
 test $0xF,%rax
@@ -55,8 +55,8 @@ lea -40(%rdi,%rdx,8),%rdi
 movapd (%rsi,%rcx,8),%xmm1
 movq %xmm1,(%rdi,%rcx,8)
 add $8,%rdi
-cmp $1,%rdx		#needed for case n=1
-jz endfn		#needed for case n=1
+cmp $1,%rdx
+jz endfn
 cmp $0,%rcx
 jge skiplpud
 ALIGN(16)
@@ -77,7 +77,7 @@ ALIGN(16)
 case3d:	movapd 16(%rsi,%rcx,8),%xmm0
 	shufpd $1,%xmm0,%xmm1
 	movapd %xmm1,(%rdi,%rcx,8)
-	movapd 32(%rsi,%rcx,8),%xmm1  	# top is read past
+	movapd 32(%rsi,%rcx,8),%xmm1  
 	shufpd $1,%xmm1,%xmm0
 	movapd %xmm0,16(%rdi,%rcx,8)
 	ret
@@ -88,14 +88,14 @@ case2d:	movapd 16(%rsi,%rcx,8),%xmm0
 	movhpd %xmm0,16(%rdi,%rcx,8)
 	ret
 ALIGN(16)
-case1d:	movapd 16(%rsi,%rcx,8),%xmm0	# top read past
+case1d:	movapd 16(%rsi,%rcx,8),%xmm0
 	shufpd $1,%xmm0,%xmm1
 	movapd %xmm1,(%rdi,%rcx,8)
 	ret
 ALIGN(16)
 case0d:	movhpd %xmm1,(%rdi,%rcx,8)
 endfn:	ret
-#//////////////////////////
+C //////////////////////////
 srcisodd:
 mov $4,%rcx
 sub %rdx,%rcx
@@ -123,7 +123,7 @@ ALIGN(16)
 case3s:	movapd 16(%rsi,%rcx,8),%xmm0
 	shufpd $1,%xmm0,%xmm1
 	movapd %xmm1,(%rdi,%rcx,8)
-	movapd 32(%rsi,%rcx,8),%xmm1  	# read past
+	movapd 32(%rsi,%rcx,8),%xmm1
 	shufpd $1,%xmm1,%xmm0
 	movapd %xmm0,16(%rdi,%rcx,8)
 	ret
@@ -134,14 +134,14 @@ case2s: movapd 16(%rsi,%rcx,8),%xmm0
 	movhpd %xmm0,16(%rdi,%rcx,8)
 	ret
 ALIGN(16)
-case1s:	movapd 16(%rsi,%rcx,8),%xmm0	# read past
+case1s:	movapd 16(%rsi,%rcx,8),%xmm0
 	shufpd $1,%xmm0,%xmm1
 	movapd %xmm1,(%rdi,%rcx,8)
 	ret
 ALIGN(16)
 case0s:	movhpd %xmm1,(%rdi,%rcx,8)
 	ret
-#//////////////////////////
+C //////////////////////////
 ALIGN(16)
 aligned:
 mov $3,%rcx

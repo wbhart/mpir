@@ -27,7 +27,7 @@ C	where (rcx,3)  contains B^i % divisor
 
 ASM_START()
 PROLOGUE(mpn_mod_1_2)
-#// require rdx >=4
+C // require rdx >=4
 push %r12
 push %r13
 push %r14
@@ -103,6 +103,3 @@ pop %r13
 pop %r12
 ret
 EPILOGUE()
-
-
-

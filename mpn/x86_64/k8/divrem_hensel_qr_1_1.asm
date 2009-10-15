@@ -35,41 +35,41 @@ PROLOGUE(mpn_divrem_hensel_qr_1_1)
 mov $0,%r9
 sub %rdx,%r9
 lea (%rdi,%rdx,8),%rdi
-lea (%rsi,%rdx,8),%rsi	#// last use of rdx
+lea (%rsi,%rdx,8),%rsi
 
-mov %rcx,%rdx	#// rdx is 3 bit inverse
-
-mov %rdx,%rax
-imul %ecx,%edx
-mov $2,%r11
-sub %rdx,%r11
-imul %eax,%r11d	#//r11 has 4 bits
-
-mov %r11,%rax
-imul %ecx,%r11d 
-mov $2,%rdx
-sub %r11,%rdx		
-imul %eax,%edx	#//rdx has 8 bits
+mov %rcx,%rdx
 
 mov %rdx,%rax
 imul %ecx,%edx
 mov $2,%r11
 sub %rdx,%r11
-imul %eax,%r11d	#//r11 has 16 bits
+imul %eax,%r11d
 
 mov %r11,%rax
 imul %ecx,%r11d 
 mov $2,%rdx
 sub %r11,%rdx		
-imul %eax,%edx	#// rdx has 32 bits
+imul %eax,%edx
+
+mov %rdx,%rax
+imul %ecx,%edx
+mov $2,%r11
+sub %rdx,%r11
+imul %eax,%r11d
+
+mov %r11,%rax
+imul %ecx,%r11d 
+mov $2,%rdx
+sub %r11,%rdx		
+imul %eax,%edx
 
 mov %rdx,%rax
 imul %rcx,%rdx
 mov $2,%r11
 sub %rdx,%r11
-imul %rax,%r11	#//r11 has 64 bits
+imul %rax,%r11
 
-#clear carry
+C //clear carry
 xor %rdx,%rdx
 ALIGN(16)
 loop:

@@ -26,7 +26,7 @@ C	where (rcx,4)  contains B^i % divisor
 
 ASM_START()
 PROLOGUE(mpn_mod_1_3)
-#// require rdx >=5
+C // require rdx >=5
 push %r12
 push %r13
 push %r14
@@ -43,7 +43,7 @@ mov %rdx,%rcx
 sub $8,%rcx
 jc skiplp
 ALIGN(16)
-#// r15 r14 -8() -16()=rax -24()=r12
+C // r15 r14 -8() -16()=rax -24()=r12
 lp:
 	mul %r8
 	add %rax,%r12
@@ -69,14 +69,14 @@ lp:
 	sub $3,%rcx
 	jnc lp
 skiplp:
-#// we have loaded up the next two limbs
-#// but because they are out of order we can have to do 3 limbs min
+C // we have loaded up the next two limbs
+C // but because they are out of order we can have to do 3 limbs min
 cmp $-2,%rcx
 jl case1
 je case2
 case3:
-	#//two more limbs is 4 limbs
-	#// r15 r14 40() 8+24()=rax 0+24()=r12
+	C //two more limbs is 4 limbs
+	C // r15 r14 40() 8+24()=rax 0+24()=r12
 	mul %r8
 	add %rax,%r12
 	mov 40(%rsi,%rcx,8),%rax
@@ -98,7 +98,7 @@ case3:
 	mov %r13,%r15
 	mov 16(%rsi,%rcx,8),%rax
 	adc %rdx,%r15
-	#// r15 r14 rax r12
+	C // r15 r14 rax r12
 	mov $0,%r13
 	mul %r8
 	add %rax,%r12
@@ -111,7 +111,7 @@ case3:
 	mul %r15
 	add %rax,%r12
 	adc %rdx,%r13
-	#// r13 r12
+	C // r13 r12
 	mov %r8,%rax
 	mul %r13
 	add %rax,%r12
@@ -125,8 +125,8 @@ case3:
 	ret
 ALIGN(16)
 case2:
-	#//two more limbs is 4 limbs
-	#// r15 r14 40() 8+24()=rax 0+24()=r12
+	C //two more limbs is 4 limbs
+	C // r15 r14 40() 8+24()=rax 0+24()=r12
 	mul %r8
 	add %rax,%r12
 	mov 40(%rsi,%rcx,8),%rax
@@ -147,7 +147,7 @@ case2:
 	mov 16(%rsi,%rcx,8),%r12
 	mov %r13,%r15
 	adc %rdx,%r15
-	#// r15 r14 r12
+	C // r15 r14 r12
 	mov $0,%r13
 	mov %r8,%rax
 	mul %r14
@@ -157,7 +157,7 @@ case2:
 	mul %r15
 	add %rax,%r12
 	adc %rdx,%r13
-	#// r13 r12
+	C // r13 r12
 	mov %r8,%rax
 	mul %r13
 	add %rax,%r12
@@ -171,8 +171,8 @@ case2:
 	ret
 ALIGN(16)
 case1:
-	#// one more is 3 limbs
-	#// r15 r14 40() 8+24()=rax 0+24()=r12 
+	C // one more is 3 limbs
+	C // r15 r14 40() 8+24()=rax 0+24()=r12 
 	mul %r8
 	add %rax,%r12
 	mov 40(%rsi,%rcx,8),%rax

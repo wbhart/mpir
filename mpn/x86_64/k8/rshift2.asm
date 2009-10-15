@@ -26,7 +26,6 @@ C	rax                 rdi,   rsi,      rdx
 
 ASM_START()
 PROLOGUE(mpn_rshift2)
-# mpn_rshift2
 mov %rdx,%rcx
 lea 24(%rsi),%rsi
 lea 24(%rdi),%rdi

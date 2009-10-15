@@ -26,8 +26,8 @@ C rax                 rdi,   rsi,   rdx,   rcx,      r8        r9    8(rsp)
 
 ASM_START()
 PROLOGUE(mpn_sub_err1_n)
-# if we rearrange the params we could save some moves
-#(rdi,r9)=(rsi,r9)+(rdx,r9)  sum=carry*(r8)
+C // if we rearrange the params we could save some moves
+C // (rdi,r9)=(rsi,r9)+(rdx,r9)  sum=carry*(r8)
 mov 8(%rsp),%r10
 mov %rbp,-16(%rsp)
 lea -24(%rdi,%r9,8),%rdi

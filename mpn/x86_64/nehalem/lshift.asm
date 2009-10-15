@@ -26,7 +26,7 @@ C	rax=carry
 
 ASM_START()
 PROLOGUE(mpn_lshift)
-# odd and even n seem to have different runtimes
+C // odd and even n seem to have different runtimes
 push %rbx
 mov %rdx,%rbx
 lea 24(%rsi),%rsi
@@ -58,7 +58,6 @@ cmp $-2,%rbx
 ja case3
 je case2
 jp case1
-#ALIGN(16)
 case0:
 	shl %cl,%rdx
 	mov %rdx,8(%rdi,%rbx,8)

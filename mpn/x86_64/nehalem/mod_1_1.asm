@@ -48,7 +48,7 @@ lp:
 	adc %rdx,%r13
 	dec %rcx
 	jnz lp
-#// r13,rax
+C // r13,rax
 mov %rax,(%rdi)
 mov %r8,%rax
 mul %r13
