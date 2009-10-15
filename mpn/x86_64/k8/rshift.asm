@@ -26,10 +26,15 @@ C	rax                 rdi,   rsi,      rdx
 
 ASM_START()
 PROLOGUE(mpn_rshift)
-movq %rcx,%mm0
+C below really a movq
+movd %rcx,%mm0
+
 mov $64,%rax
 sub %rcx,%rax
-movq %rax,%mm1
+
+C below really a movq
+movd %rax,%mm1
+
 mov $4,%rcx
 lea -32(%rsi,%rdx,8),%rsi
 lea -32(%rdi,%rdx,8),%rdi
@@ -37,7 +42,10 @@ sub %rdx,%rcx
 movq (%rsi,%rcx,8),%mm5
 movq %mm5,%mm3
 psllq %mm1,%mm5
-movq %mm5,%rax
+
+C below really a movq
+movd %mm5,%rax
+
 psrlq %mm0,%mm3
 jge skiplp
 ALIGN(16)
