@@ -202,17 +202,26 @@ After a MPIR library has been built, other libraries can be built.
 These always use the last MPIR library (of the same type, static or 
 DLL) that has been built. To build the MPIR C+ library wrapper use:
 
-    lib_mpir_cpp  - MPIR C++ wrapper static library (win32 & x64)
+    lib_mpir_cxx  - MPIR C++ wrapper static library (win32 & x64)
 
 The Tests
 =========
 
+The tests are not useful for DLL versions of MPIR because they use 
+internal features of MPIR that are not exported by the DLLs. Hence 
+they fail to link in almost all cases.  The tests also use the C++
+library so for testing MPIR static libraries both the desired 
+version of MPIR and the C++ library must be built before the tests
+are run.  This is not necessary for MPIR DLLs as they contain the
+C++ routines.
+
 There is a separate solution for the MPIR tests: mpir-tests.sln. In 
-Visual Studio 2008 these are in build.vc9 folder.  These tests should
-be run immediately after the DLL or static library to be tested has
-been built.  Before running the tests it is necessary to build the
-add-test-lib project (note that the Win32/x64 and Debug/Release
-configuration built must match the intended test configuration). 
+Visual Studio 2008 these are in build.vc9 folder.  These tests must
+be run immediately after the DLL or the static C and C++ libraries
+have been built because they test the most recently built versions.
+Before running the tests it is necessary to build the add-test-lib 
+project.  Note also that the Win32/x64 and Debug/Release choices
+for the tests must match that of the libraries under test.
 
 The MPIR tests are all configured using the property file:
 
@@ -262,11 +271,11 @@ directory. To see the test output the python script
 should be run in a command window from within these
 sub-directories:
 
-	cmd>mpir-tests.py 
+	cmd>run-tests.py 
 	
 and the output can be directed to a file:
 
-	cmd>mpir-tests.py >out.txt 
+	cmd>run-tests.py >out.txt 
 	
 When an MPIR library is built the file 'last_build.txt' is  
 written to the buid.vc9 subdirectory giving details of the 
@@ -397,7 +406,7 @@ My thanks to:
    for their work on MPFR
 3. Patrick Pelissier, Vincent Lefèvre and Paul Zimmermann
    for helping to resolve VC++ issues in MPFR.
-4. Jeff Gilcrist for his help in testing, debugging and 
+4. Jeff Gilchrist for his help in testing, debugging and 
    improving the readme giving the VC++ build instructions
 
        Brian Gladman, June 2009
