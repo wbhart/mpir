@@ -26,6 +26,8 @@ C	rax=hensel remainder from div
 
 C	This is divrem_hensel_1_2 with shifting on the output of the quotient
 
+define(`MOVQ',`movd')
+
 ASM_START()
 PROLOGUE(mpn_rsh_divrem_hensel_qr_1_2)
 C	// 3limb minimum for the mo
@@ -44,8 +46,8 @@ C // rdx is 3 bit inverse
 
 mov $64,%rax
 sub %r8,%rax
-movq %r8,%mm0
-movq %rax,%mm1
+MOVQ %r8,%mm0
+MOVQ %rax,%mm1
 
 mov %rdx,%rax
 imul %ecx,%edx
@@ -103,7 +105,7 @@ sub %r10,%r11
 sbb %r10,%r10
 
 imul %r13,%r11
-movq %r11,%mm2
+MOVQ %r11,%mm2
 psrlq %mm0,%mm2
 mov %rcx,%rax
 mul %r11
@@ -123,7 +125,7 @@ lp:
 	mov %r13,%rax
 	mul %r11
 
-	movq %rax,%mm3
+	MOVQ %rax,%mm3
 	movq %mm3,%mm4
 	psllq %mm1,%mm3
 	psrlq %mm0,%mm4
@@ -137,7 +139,7 @@ lp:
 		mov 8(%rsi,%r9,8),%r11
 		mov 16(%rsi,%r9,8),%r12
 
-	movq %rdx,%mm3
+	MOVQ %rdx,%mm3
 	movq %mm3,%mm2
 	psllq %mm1,%mm3
 	psrlq %mm0,%mm2
@@ -161,7 +163,7 @@ mov %r12,%r8
 mov %r13,%rax
 mul %r11
 
-movq %rax,%mm3
+MOVQ %rax,%mm3
 movq %mm3,%mm4
 psllq %mm1,%mm3
 psrlq %mm0,%mm4
@@ -176,7 +178,7 @@ cmp $0,%r9
 jne case0
 case1:
 		mov 8(%rsi,%r9,8),%r11
-	movq %rdx,%mm3
+	MOVQ %rdx,%mm3
 	movq %mm3,%mm2
 	psllq %mm1,%mm3
 	psrlq %mm0,%mm2
@@ -194,7 +196,7 @@ case1:
 	mov %r11,%rax
 	imul %r13,%rax
 
-	movq %rax,%mm3
+	MOVQ %rax,%mm3
 	movq %mm3,%mm4
 	psllq %mm1,%mm3
 	psrlq %mm0,%mm4
@@ -212,7 +214,7 @@ case1:
 	emms
 	ret
 case0:
-	movq %rdx,%mm3
+	MOVQ %rdx,%mm3
 	movq %mm3,%mm2
 	psllq %mm1,%mm3
 	psrlq %mm0,%mm2

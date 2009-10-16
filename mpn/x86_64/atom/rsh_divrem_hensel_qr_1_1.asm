@@ -29,6 +29,8 @@ C	On k8/k10 the shifting comes for free so no need to have different
 C	fn for that. And on K8/K10 this runs at 10c/l which is optimal
 C	This function "replaces" divexact_1 and modexact_1_odd
 
+define(`MOVQ',`movd')
+
 ASM_START()
 PROLOGUE(mpn_rsh_divrem_hensel_qr_1_1)
 mov %r9,%r10
@@ -71,13 +73,13 @@ imul %rax,%r11
 
 mov $64,%rax
 sub %r8,%rax
-movq %r8,%mm0
-movq %rax,%mm1
+MOVQ %r8,%mm0
+MOVQ %rax,%mm1
 mov -8(%rsi,%r9,8),%rax
 sub %r10,%rax
 sbb %r8,%r8
 imul %r11,%rax
-movq %rax,%mm4
+MOVQ %rax,%mm4
 movq %mm4,%mm5
 psrlq %mm0,%mm4
 psllq %mm1,%mm5
@@ -93,7 +95,7 @@ loop:
     sbb %rdx,%rax
     sbb %r8,%r8
     imul %r11,%rax
-    movq %rax,%mm3
+    MOVQ %rax,%mm3
     movq %mm3,%mm4
     psllq %mm1,%mm3
     psrlq %mm0,%mm4

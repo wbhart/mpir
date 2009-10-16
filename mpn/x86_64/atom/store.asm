@@ -21,6 +21,8 @@ dnl  Boston, MA 02110-1301, USA.
 
 include(`../config.m4')
 
+define(`MOVQ',`movd')
+
 C	mpn_store(mp_ptr,mp_size_t,mp_limb_t val)
 C	rax          rdi,      rsi,         rdx
 
@@ -28,7 +30,7 @@ ASM_START()
 PROLOGUE(mpn_store)
 cmp $0,%rsi
 jz case0
-movq %rdx,%xmm0
+MOVQ %rdx,%xmm0
 movddup %xmm0,%xmm0
 lea -16(%rdi),%rdi
 test $0xF,%rdi

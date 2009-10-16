@@ -21,20 +21,22 @@ dnl  Boston, MA 02110-1301, USA.
 
 include(`../config.m4')
 
+define(`MOVQ',`movd')
+
 ASM_START()
 PROLOGUE(mpn_lshiftc)
-movq %rcx,%mm0
+MOVQ %rcx,%mm0
 mov $64,%rax
 sub %rcx,%rax
 pcmpeqb %mm6,%mm6
-movq %rax,%mm1
+MOVQ %rax,%mm1
 lea 8(%rsi),%rsi
 lea 8(%rdi),%rdi
 sub $5,%rdx
 movq 24(%rsi,%rdx,8),%mm5
 movq %mm5,%mm3
 psrlq %mm1,%mm5
-movq %mm5,%rax
+MOVQ %mm5,%rax
 psllq %mm0,%mm3
 jc skiplp
 ALIGN(16)
