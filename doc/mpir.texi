@@ -3414,15 +3414,15 @@ be perfect squares.
 @deftypefun int mpz_probable_prime_p (mpz_t @var{n}, gmp_randstate_t @var{state}, int @var{prob}, unsigned long @var{div})
 @cindex Prime testing functions
 @cindex Probable prime testing functions
-Determine whether @var{n} is probable prime with the chance of error being at most 1 in 2^prob.
-return true if @var{n} is probably prime , or return 0 if
+Determine whether @var{n} is a probable prime with the chance of error being at most 1 in 2^prob.
+return value is 1 if @var{n} is probably prime, or 0 if
 @var{n} is definitely composite.
 
-This function does some trial divisions to speed up the average case , then some probabilistic
-primality tests to achieve to desired level of error.
+This function does some trial divisions to speed up the average case, then some probabilistic
+primality tests to achieve the desired level of error.
 
 @var{div} can be used to inform the function that trial division up to @var{div} has
-allready been performed on @var{n} and so @var{n} has NO divisors <= @var{div}
+already been performed on @var{n} and so @var{n} has NO divisors <= @var{div}.
 
 @strong{This function interface is preliminary and may change in the future.}
 @end deftypefun
@@ -3430,15 +3430,15 @@ allready been performed on @var{n} and so @var{n} has NO divisors <= @var{div}
 @deftypefun int mpz_likely_prime_p (mpz_t @var{n}, gmp_randstate_t @var{state}, unsigned long @var{div})
 @cindex Prime testing functions
 @cindex Probable prime testing functions
-Determine whether @var{n} is likely a prime , ie you can consider it a prime for practical purposies.
-return true if @var{n} can be considered prime , or return 0 if
+Determine whether @var{n} is likely a prime, i.e. you can consider it a prime for practical purposes.
+return value is 1 if @var{n} can be considered prime, or 0 if
 @var{n} is definitely composite.
 
-This function does some trial divisions to speed up the average case , then some probabilistic
-primality tests.Likely in the sense of this function means for "Factoring".
+This function does some trial divisions to speed up the average case, then some probabilistic
+primality tests. The term ``likely'' refers to the fact that the number will not have small factors.
 
 @var{div} can be used to inform the function that trial division up to @var{div} has
-allready been performed on @var{n} and so @var{n} has NO divisors <= @var{div}
+already been performed on @var{n} and so @var{n} has NO divisors <= @var{div}
 
 @strong{This function interface is preliminary and may change in the future.}
 @end deftypefun

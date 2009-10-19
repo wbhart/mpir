@@ -1006,6 +1006,10 @@ Sparc App Regs
      purposes.  In these cases the only suggestion currently is to
      build MPIR with CPU `none' to avoid the assembler code.
 
+Solaris 10 First Release on SPARC
+     MPIR fails to build with Solaris 10 first release. Patch 123647-01
+     for SPARC, released by Sun in August 2006 fixes this problem.
+
 SunOS 4
      `/usr/bin/m4' lacks various features needed to process `.asm'
      files, and instead `./configure' will automatically use
@@ -2572,34 +2576,33 @@ File: mpir.info,  Node: Number Theoretic Functions,  Next: Integer Comparisons, 
 
  -- Function: int mpz_probable_prime_p (mpz_t N, gmp_randstate_t STATE,
           int PROB, unsigned long DIV)
-     Determine whether N is probable prime with the chance of error
-     being at most 1 in 2^prob.  return true if N is probably prime ,
-     or return 0 if N is definitely composite.
+     Determine whether N is a probable prime with the chance of error
+     being at most 1 in 2^prob.  return value is 1 if N is probably
+     prime, or 0 if N is definitely composite.
 
      This function does some trial divisions to speed up the average
-     case , then some probabilistic primality tests to achieve to
+     case, then some probabilistic primality tests to achieve the
      desired level of error.
 
      DIV can be used to inform the function that trial division up to
-     DIV has allready been performed on N and so N has NO divisors <=
-     DIV
+     DIV has already been performed on N and so N has NO divisors <=
+     DIV.
 
      *This function interface is preliminary and may change in the
      future.*
 
  -- Function: int mpz_likely_prime_p (mpz_t N, gmp_randstate_t STATE,
           unsigned long DIV)
-     Determine whether N is likely a prime , ie you can consider it a
-     prime for practical purposies.  return true if N can be considered
-     prime , or return 0 if N is definitely composite.
+     Determine whether N is likely a prime, i.e. you can consider it a
+     prime for practical purposes.  return value is 1 if N can be
+     considered prime, or 0 if N is definitely composite.
 
      This function does some trial divisions to speed up the average
-     case , then some probabilistic primality tests.Likely in the sense
-     of this function means for "Factoring".
+     case, then some probabilistic primality tests. The term "likely"
+     refers to the fact that the number will not have small factors.
 
      DIV can be used to inform the function that trial division up to
-     DIV has allready been performed on N and so N has NO divisors <=
-     DIV
+     DIV has already been performed on N and so N has NO divisors <= DIV
 
      *This function interface is preliminary and may change in the
      future.*
