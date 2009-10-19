@@ -1214,22 +1214,64 @@ to the MPIR project.
 
    William Hart did work on the build system and helped get the first
 release working on numerous systems, including adding build support for
-new assembly patches that compile using yasm.
+new assembly patches that compile using yasm. He provided mpn
+implementations of Toom 4 and 7 routines. He also wrote an extended GCD
+version of Niels Moller's fast GCD patches and a fast `mpn_tdiv_q'
+routine.
 
    Brian Gladman wrote and maintains MSVC project files so the project
 can build on MSVC. He also did the initial conversion of Pierrick
-Gaudry's and Jason Martin's assembly patches to intel format.
+Gaudry's and Jason Martin's assembly patches to intel format. He
+rewrote the benchmark program in C and developed MSVC ports of tune,
+speed, try and the benchmark.
 
    Pierrick Gaudry wrote some fast assembly support for AMD 64.
 
    Jason Martin wrote some fast assembly patches for Core 2 and
-converted them to intel format.
+converted them to intel format. He also did the initial merge of Niels
+Moller's fast GCD patches.
 
    Gonzalo Tornaria helped patch config.guess and associated files to
-distinguish modern processors.
+distinguish modern processors. He also patched mpirbench.
 
    Michael Abshoff helped resolve some build issues on various
-platforms. He is the release manager for the MPIR project.
+platforms. He served for a while as release manager for the MPIR
+project.
+
+   Mariah Lennox contributed patches to mpirbench and various build
+failure reports.
+
+   Niels Moller wrote the fast ngcd code for computing integer GCD.
+
+   Jason Moxham contributed dramatic speed improvements for x86_64
+platforms. He refactored the CPU detection code, improved the speed
+program and contributed many new assembler functions, including
+division functions. He contributed improved root code and mulhi and
+mullo routines. He implemented Peter Montgomery's single limb remainder
+code.
+
+   Pierrick Gaudry provided initial AMD 64 assembly support and revised
+the FFT code.
+
+   Paul Zimmermann provided an mpz implementation of Toom 4, wrote much
+of the FFT code and contributed invert.c for computing precomputed
+inverses.
+
+   Alexander Kruppa revised the FFT code.
+
+   Torbjorn Granlund revised the FFT code.
+
+   Marco Bodrato wrote an mpz implementation of the Toom 7 code.
+
+   Robert Gerbicz contributed fast factorial code.
+
+   David Harvey wrot fast middle product code and divide and conquer
+approximate quotient code.
+
+   T. R. Nicely wrote primality tests used in the benchmark code.
+
+   Jeff Gilchrist assisted with the porting of T. R. Nicely's primality
+code to MPIR.
 
 
 File: mpir.info,  Node: References,  Next: GNU Free Documentation License,  Prev: Contributors,  Up: Top

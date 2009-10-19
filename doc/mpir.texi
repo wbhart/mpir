@@ -7086,6 +7086,8 @@ Some MPIR internals are mentioned, but applications that expect to be
 compatible with future MPIR releases should take care to use only the
 documented functions.
 
+Warning: this section is somewhat out-of-date.
+
 @menu
 * Multiplication Algorithms::
 * Division Algorithms::
@@ -7102,7 +7104,7 @@ documented functions.
 @section Multiplication
 @cindex Multiplication algorithms
 
-N@cross{}N limb multiplications and squares are done using one of four
+N@cross{}N limb multiplications and squares are done using one of six 
 algorithms, as the size N increases.
 
 @quotation
@@ -7111,6 +7113,8 @@ algorithms, as the size N increases.
 @item Basecase  @tab (none)
 @item Karatsuba @tab @code{MUL_KARATSUBA_THRESHOLD}
 @item Toom-3    @tab @code{MUL_TOOM3_THRESHOLD}
+@item Toom-4    @tab @code{MUL_TOOM4_THRESHOLD}
+@item Toom-7    @tab @code{MUL_TOOM7_THRESHOLD}
 @item FFT       @tab @code{MUL_FFT_THRESHOLD}
 @end multitable
 @end quotation
@@ -7119,7 +7123,7 @@ Similarly for squaring, with the @code{SQR} thresholds.
 
 N@cross{}M multiplications of operands with different sizes above
 @code{MUL_KARATSUBA_THRESHOLD} are currently done by splitting into M@cross{}M
-pieces.  The Karatsuba and Toom-3 routines then operate only on equal size
+pieces.  The Karatsuba and Toom routines then operate only on equal size
 operands.  This is not very efficient, and is slated for improvement in the
 future.
 
@@ -7741,9 +7745,7 @@ needed.
 
 The 3-way Toom algorithm described above (@pxref{Toom 3-Way
 Multiplication}) generalizes to split into an arbitrary number of pieces, as
-per Knuth section 4.3.3 algorithm C@.  This is not currently used, though it's
-possible a Toom-4 might fit in between Toom-3 and the FFTs.  The notes here
-are merely for interest.
+per Knuth section 4.3.3 algorithm C@. MPIR currently implements Toom 4 and 7 routines. 
 
 In general a split into @math{r+1} pieces is made, and evaluations and
 pointwise multiplications done at @m{2r+1,2*r+1} points.  A 4-way split does 7
@@ -9951,22 +9953,45 @@ and Rationals) project. The following people have contributed to the MPIR projec
 
 William Hart did work on the build system and helped get the first release working
 on numerous systems, including adding build support for new assembly patches
-that compile using yasm.
+that compile using yasm. He provided mpn implementations of Toom 4 and 7 routines. He also wrote an extended GCD version of Niels Moller's fast GCD patches and a fast @code{mpn_tdiv_q} routine.
 
 Brian Gladman wrote and maintains MSVC project files so the project can build
 on MSVC. He also did the initial conversion of Pierrick Gaudry's and Jason
-Martin's assembly patches to intel format.
+Martin's assembly patches to intel format. He rewrote the benchmark program in C and developed MSVC ports of tune, speed, try and the benchmark.
 
 Pierrick Gaudry wrote some fast assembly support for AMD 64.
 
 Jason Martin wrote some fast assembly patches for Core 2 and converted them to
-intel format.
+intel format. He also did the initial merge of Niels Moller's fast GCD patches.
 
 Gonzalo Tornaria helped patch config.guess and associated files to distinguish
-modern processors.
+modern processors. He also patched mpirbench.
 
-Michael Abshoff helped resolve some build issues on various platforms. He is the 
-release manager for the MPIR project.
+Michael Abshoff helped resolve some build issues on various platforms. He served for a while as release manager for the MPIR project.
+
+Mariah Lennox contributed patches to mpirbench and various build failure reports.
+
+Niels Moller wrote the fast ngcd code for computing integer GCD.
+
+Jason Moxham contributed dramatic speed improvements for x86_64 platforms. He refactored the CPU detection code, improved the speed program and contributed many new assembler functions, including division functions. He contributed improved root code and mulhi and mullo routines. He implemented Peter Montgomery's single limb remainder code.
+
+Pierrick Gaudry provided initial AMD 64 assembly support and revised the FFT code.
+
+Paul Zimmermann provided an mpz implementation of Toom 4, wrote much of the FFT code and contributed invert.c for computing precomputed inverses.
+
+Alexander Kruppa revised the FFT code.
+
+Torbjorn Granlund revised the FFT code.
+
+Marco Bodrato wrote an mpz implementation of the Toom 7 code.
+
+Robert Gerbicz contributed fast factorial code.
+
+David Harvey wrot fast middle product code and divide and conquer approximate quotient code.
+
+T. R. Nicely wrote primality tests used in the benchmark code.
+
+Jeff Gilchrist assisted with the porting of T. R. Nicely's primality code to MPIR.
 
 @node References, GNU Free Documentation License, Contributors, Top
 @comment  node-name,  next,  previous,  up

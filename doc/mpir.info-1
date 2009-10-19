@@ -5901,6 +5901,8 @@ without knowing something about the algorithms.
 compatible with future MPIR releases should take care to use only the
 documented functions.
 
+   Warning: this section is somewhat out-of-date.
+
 * Menu:
 
 * Multiplication Algorithms::
@@ -5918,22 +5920,24 @@ File: mpir.info,  Node: Multiplication Algorithms,  Next: Division Algorithms,  
 16.1 Multiplication
 ===================
 
-NxN limb multiplications and squares are done using one of four
+NxN limb multiplications and squares are done using one of six
 algorithms, as the size N increases.
 
      Algorithm      Threshold
      Basecase       (none)
      Karatsuba      `MUL_KARATSUBA_THRESHOLD'
      Toom-3         `MUL_TOOM3_THRESHOLD'
+     Toom-4         `MUL_TOOM4_THRESHOLD'
+     Toom-7         `MUL_TOOM7_THRESHOLD'
      FFT            `MUL_FFT_THRESHOLD'
 
    Similarly for squaring, with the `SQR' thresholds.
 
    NxM multiplications of operands with different sizes above
 `MUL_KARATSUBA_THRESHOLD' are currently done by splitting into MxM
-pieces.  The Karatsuba and Toom-3 routines then operate only on equal
-size operands.  This is not very efficient, and is slated for
-improvement in the future.
+pieces.  The Karatsuba and Toom routines then operate only on equal size
+operands.  This is not very efficient, and is slated for improvement in
+the future.
 
 * Menu:
 
@@ -6328,9 +6332,8 @@ File: mpir.info,  Node: Other Multiplication,  Prev: FFT Multiplication,  Up: Mu
 
 The 3-way Toom algorithm described above (*note Toom 3-Way
 Multiplication::) generalizes to split into an arbitrary number of
-pieces, as per Knuth section 4.3.3 algorithm C.  This is not currently
-used, though it's possible a Toom-4 might fit in between Toom-3 and the
-FFTs.  The notes here are merely for interest.
+pieces, as per Knuth section 4.3.3 algorithm C. MPIR currently
+implements Toom 4 and 7 routines.
 
    In general a split into r+1 pieces is made, and evaluations and
 pointwise multiplications done at 2*r+1 points.  A 4-way split does 7
