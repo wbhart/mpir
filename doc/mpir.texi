@@ -1619,6 +1619,10 @@ and for applications wanting to use those registers for special purposes.  In
 these cases the only suggestion currently is to build MPIR with CPU @samp{none}
 to avoid the assembler code.
 
+@item Solaris 10 First Release on SPARC
+@cindex Solaris
+MPIR fails to build with Solaris 10 first release. Patch 123647-01 for SPARC, released by Sun in August 2006 fixes this problem.
+
 @item SunOS 4
 @cindex SunOS
 @command{/usr/bin/m4} lacks various features needed to process @file{.asm}
