@@ -2,7 +2,6 @@
 
 Copyright 1996, 1998, 2000, 2001, 2002 Free Software Foundation, Inc.
 Copyright 2004, 2005 Niels Möller
-Copyright 2008 Jason Martin
 Copyright 2009 William Hart
 
 This file is part of the GNU MP Library.
