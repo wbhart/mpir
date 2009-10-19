@@ -3,20 +3,22 @@
 Copyright 1991, 1993, 1994, 1995, 2000, 2001, 2002, 2003 Free Software
 Foundation, Inc.
 
-This file is part of the GNU MP Library.
+Copyright 2009 Robert Gerbicz
 
-The GNU MP Library is free software; you can redistribute it and/or modify
+This file is part of the MPIR Library.
+
+The MPIR Library is free software; you can redistribute it and/or modify
 it under the terms of the GNU Lesser General Public License as published by
 the Free Software Foundation; either version 2.1 of the License, or (at your
 option) any later version.
 
-The GNU MP Library is distributed in the hope that it will be useful, but
+The MPIR Library is distributed in the hope that it will be useful, but
 WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
 or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public
 License for more details.
 
 You should have received a copy of the GNU Lesser General Public License
-along with the GNU MP Library; see the file COPYING.LIB.  If not, write to
+along with the MPIR Library; see the file COPYING.LIB.  If not, write to
 the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 MA 02110-1301, USA. */
 
@@ -406,30 +408,6 @@ odd_product (unsigned long low, unsigned long high, mpz_t * st)
 // Computation of n factorial by computing the prime factoriation of n!,
 // using iterated squaring and multiplication by a "small" number idea and binary splitting
 // written by Robert Gerbicz
-
-
-/* mpz_fac_ui(result, n) -- Set RESULT to N!.
-
-Copyright 1991, 1993, 1994, 1995, 2000, 2001, 2002, 2003 Free Software
-Foundation, Inc.
-
-This file is part of the GNU MP Library.
-
-The GNU MP Library is free software; you can redistribute it and/or modify
-it under the terms of the GNU Lesser General Public License as published by
-the Free Software Foundation; either version 2.1 of the License, or (at your
-option) any later version.
-
-The GNU MP Library is distributed in the hope that it will be useful, but
-WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
-or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public
-License for more details.
-
-You should have received a copy of the GNU Lesser General Public License
-along with the GNU MP Library; see the file COPYING.LIB.  If not, write to
-the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
-MA 02110-1301, USA. */
-
 
 static void binary_splitting (mpz_ptr result,unsigned long int *a,unsigned long int L)  {
 // mulptiplication by binary splitting
