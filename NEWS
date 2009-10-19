@@ -20,6 +20,93 @@ along with the GNU MP Library; see the file COPYING.LIB.  If not, write to
 the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 MA 02110-1301, USA.
 
+Changes between MPIR 1.2.0 and MPIR 1.3.0
+
+Bug Fixes:
+
+ * Fixes to the build system to better support MinGW
+ * Fixed a memory leak in lehmer GCD code
+ * Fixed a CPU misidentification on BSD
+ * Fixed a BSD install issue
+ * Fixed a make try warning on Solaris
+ * Fixed make distclean to clean up properly after a fat binary build
+ * Fixed a bug in make distcheck
+ * Fixed mpf_eq bug (reported on GMP list)
+ * Fixed non-uniformness of mpz_urandomm
+ * Fixed mpf exponent printing issue (reported on GMP list)
+ * Fixed bug in sparc32/v9 add/sub code
+ 
+Speedups:
+
+ * Unbalanced Toom 4 multiplication
+ * Toom 53 multiplication 
+ * New fast single limb gcd and gcdext routines
+ * Switched on ngcd based Lehmer GCD routine
+ * Strassen multiplication for 2x2 matrices to speed up ngcd and ngcdext
+ * Switched on new MPN_ZERO and mpn_store assembly routines in FFT code
+ * Left and right shift assembly code for x86_64
+ * Rewrote generic mullow and mulhi functions
+ * New mpz factorial code and tuning (contributed by Robert Gerbicz)
+ * Updating of 32 bit Windows support for AMD64, p3 and p4
+ * Core2/penryn and nehalem mpn_store assembly code
+ * Core2/penryn copyi assembly code
+ * Better 32 bit k8/k10 and Nehalem assembly code
+ * Initial support for via Nano
+ * New mpn_rootrem code
+ * Select better assembly code for Atom 64 bit
+ * New faster mpz_tdiv_q code
+ * Faster division and exact division by a single limb on x86_64 
+ * Core2/penryn and nehalem addlsh_n assembly code
+ * K8/k10 addlsh_n, sublsh_n assembly functions, including carry in variants
+ * K8/k10 inclsh_n, declsh_n assembly code 
+ 
+Features:
+
+ * Middle product multiplication (by David Harvey)
+ * Optimised k8/k10 and Nehalem assembly code for add_err1_n, sub_err1_n used by mulmid
+ * Speed program accepts lines of data from a text file
+ * A batch script to build MPIR using MSVC using a configure/make like syntax
+ * Complete rewrite of the benchmark program in C by Brian Gladman
+ * New primality test code written by T. R. Nicely used as a benchmark case, adapted with the help of Jeff Gilchrist
+ * mpn_lshift2 and mpn_rshift2 assembly functions
+ * Latest Yasm assembler
+ * sb_divappr_q, schoolbook approximate quotient
+ * dc_divappr_q, divide and conquer approximate quotient (by David Harvey)
+ * Script for setting all version numbers automatically when doing a release
+ * mpn_neg_n function
+ * New mpn_mulmod_2expp1 and mpn_mulmod_2expm1 functions
+ * Benchmark for mpn functions
+ * New k8 mpn_lshiftc assembler function
+ * Macro functions inclsh1, declsh1
+ * The try program now tests macro functions
+ * Macros for memory managers to determine when reallocations are likely to occur
+ * New function mpz_nthroot
+ * New mpz_next_likely_prime, mpz_probable_prime_p and mpz_likely_prime functions
+ * Factor out trial division function from primality test code
+ * New mpf_rrandomb without global state
+ * New mpn_urandomb, mpn_urandomm, mpn_rrandom and mpn_randomb functions without global state
+ * New mpn invert code (contributed by Paul Zimmermann), used in division code
+ * New generic divrem_hensel functions
+ * Implement Peter Montgomery's mpn_mod_1_k algorithms
+ * Optimised AMD, core2/penryn, atom, nehalem assembly functions for mpn_mod_1_?
+ * New assembly code for AMD divrem_hensel_qr_1, divrem_hensel_r_1
+ * New AMD, core2/penryn, atom, nehalem assembly functions  mpn_rsh_divrem_hensel_qr_1_2
+ * New optimised AMD, core2/penryn, atom, nehalem assembly functions mpn_divrem_hensel_qr_1_2
+ * New generic functions mpn_rsh_divrem_hensel_qr_1_?
+ * New generic mpn_tdiv_q function (based on mulmid/dc_divappr_q code)
+ * Improved Windows timing code
+ 
+Changes:
+
+ * Removed requirement to type make install-gmpcompat
+ * Make check tests both static and dynamic libraries where code differs
+ * Changed library version numbers from x.y to x.y.z when doing a new minor release
+ * Removed numerous extremely old deprecated functions
+ * Removed mpbsd support from MPIR
+ * Removed ancient ansi2knr conversion
+ * Added architecture directory k102 for Phenom II assembly code
+
+
 Changes between MPIR 1.1.0 and MPIR 1.2.0
 
   Bugs:
