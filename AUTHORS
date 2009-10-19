@@ -21,25 +21,32 @@ Jason Moxham		New mpz/fac_ui.c and gen-fac_ui.c
 Contributors to MPIR (and authors whose code we use)
 
 Brian Gladman        Windows MSVC port and intel format x86_64 code
-                     Port of tune, speed, try and nechmark code to MSVC.
+                     Port of tune, speed, try and benchmark code to MSVC. 
+                     Complete rewrite of benchmark code in C.
 William Hart         Build system modifications and intel format x86_64 code
                      Added mpn version of Toom 4 and Toom 7 multiplication 
                      routines. Numerous FFT bugfixes, improvements to Toom3, 
-                     4, 7 routines, toom squaring routines. Extended GCD code.
+                     4, 7 routines, toom squaring routines. Extended GCD code, 
+                     improvements to GCD code. Fast mpn_tdiv_q code.
 Gonzalo Tornaria     Patches to config.guess and mpirbench
-Mariah Lennow        Patches to mpirbench and build failure reports
+Mariah Lennox        Patches to mpirbench and build failure reports
 Jason Worth Martin   Core 2 assembly support, merge of Moller's GCD patches
-Michael Abshoff      Build system patches and failure reports, valgrinding, build testing
+Michael Abshoff      Build system patches and failure reports, valgrinding,
+                     build testing
 Niels Moller         GCD patches
 Jason Moxham	     Dramatic speed improvements for K8, K10 and Core 2 
                      assembler code and improvements to other x86_64 assembly 
                      code. Refactoring CPU detection code. Numerous bug and 
-                     build fixes. Improvements to speed program.
+                     build fixes. Improvements to speed program. Many new 
+                     assembly functions including division functions. Improved
+                     root code, mulhi and mullo. Implementation of Peter 
+                     Montgomery's single limb remainder code.
 Pierrick Gaudry      AMD 64 assembly support, revised FFT code
 Paul Zimmermann      mpz implementation of Toom 4, FFT code, invert.c
 Alexander Kruppa     revised FFT code
 Torbjorn Granlund    revised FFT code
 Marco Bodrato        mpz implementation of Toom 7
 Robert Gerbicz       fast factorial code
-David Harvey         mulmid and dc_divappr_q
-
+David Harvey         middle product and dc_divappr_q code
+T. R. Nicely         primality tests used in benchmark
+Jeff Gilchrist       porting of T. R. Nicely's code to MPIR
