@@ -3,6 +3,8 @@
 Copyright 1991, 1993, 1994, 1996, 2000, 2001, 2005 Free Software Foundation,
 Inc.
 
+Copyright 2009, William Hart
+
 This file is part of the GNU MP Library.
 
 The GNU MP Library is free software; you can redistribute it and/or modify
