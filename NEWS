@@ -35,6 +35,7 @@ Bug Fixes:
  * Fixed non-uniformness of mpz_urandomm
  * Fixed mpf exponent printing issue (reported on GMP list)
  * Fixed bug in sparc32/v9 add/sub code
+ * Fixed bug in rootrem code
  
 Speedups:
 
