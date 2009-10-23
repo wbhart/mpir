@@ -2483,14 +2483,6 @@
 					<File
 						RelativePath="..\..\mpn\x86_64w\dive_1.asm"
 						>
-						<FileConfiguration
-							Name="Debug|x64"
-							>
-							<Tool
-								Name="YASM"
-								Debug="true"
-							/>
-						</FileConfiguration>
 					</File>
 					<File
 						RelativePath="..\..\mpn\x86_64w\diveby3.asm"

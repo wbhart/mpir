@@ -4411,14 +4411,6 @@
 					<File
 						RelativePath="..\..\mpn\x86_64w\amd64\com_n.asm"
 						>
-						<FileConfiguration
-							Name="Release|x64"
-							>
-							<Tool
-								Name="YASM"
-								ListFileName="&quot;$(IntDir)\mpn\$(InputName).lst&quot;"
-							/>
-						</FileConfiguration>
 					</File>
 					<File
 						RelativePath="..\..\mpn\x86_64w\amd64\copyd.asm"
@@ -4495,26 +4487,10 @@
 					<File
 						RelativePath="..\..\mpn\x86_64w\mode1o.asm"
 						>
-						<FileConfiguration
-							Name="Release|x64"
-							>
-							<Tool
-								Name="YASM"
-								ListFileName=""
-							/>
-						</FileConfiguration>
 					</File>
 					<File
 						RelativePath="..\..\mpn\x86_64w\amd64\mul_1.asm"
 						>
-						<FileConfiguration
-							Name="Release|x64"
-							>
-							<Tool
-								Name="YASM"
-								ListFileName=""
-							/>
-						</FileConfiguration>
 					</File>
 					<File
 						RelativePath="..\..\mpn\x86_64w\mul_2.asm"
