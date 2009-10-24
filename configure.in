@@ -1458,6 +1458,11 @@ case $host in
       *)                       path="x86" ;;
     esac
 
+    # 32bit apple darwin doesn't like our PIC format asm code
+    if test $host = core2-apple-darwin; then
+	path="x86/applenopic/core2 x86/applenopic"
+    fi
+
     # If the user asked for a fat build, override the path set above
     if test $enable_fat = yes; then
       gcc_cflags_cpu=""
