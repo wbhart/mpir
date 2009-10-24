@@ -2195,6 +2195,7 @@ Use "--disable-static --enable-shared" to build just a DLL.])
     # inline isascii (used in gmp).  It gives an extern inline for
     # __isascii, but for some reason not the plain isascii.
     #
+    LDFLAGS="$LDFLAGS -Wl,--enable-auto-import"
     if test "$enable_shared" = yes; then
       GMP_LDFLAGS="$GMP_LDFLAGS -no-undefined -Wl,--export-all-symbols"
       LIBGMP_LDFLAGS="$LIBGMP_LDFLAGS -Wl,--output-def,.libs/libmpir-3.dll.def"
