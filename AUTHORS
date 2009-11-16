@@ -50,3 +50,4 @@ Robert Gerbicz       fast factorial code
 David Harvey         middle product and dc_divappr_q code
 T. R. Nicely         primality tests used in benchmark
 Jeff Gilchrist       porting of T. R. Nicely's code to MPIR
+
