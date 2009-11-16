@@ -30,7 +30,7 @@ William Hart         Build system modifications and intel format x86_64 code
                      improvements to GCD code. Fast mpn_tdiv_q code.
 Gonzalo Tornaria     Patches to config.guess and mpirbench
 Mariah Lennox        Patches to mpirbench and build failure reports
-Jason Worth Martin   Core 2 assembly support, merge of Moller's GCD patches
+Jason Worth Martin   Core 2 assembly support,  merge of Moller's GCD patches
 Michael Abshoff      Build system patches and failure reports, valgrinding,
                      build testing
 Niels Moller         GCD patches
