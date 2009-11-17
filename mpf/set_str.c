@@ -2,8 +2,8 @@
    in base BASE to a float in dest.  If BASE is zero, the leading characters
    of STRING is used to figure out the base.
 
-Copyright 1993, 1994, 1995, 1996, 1997, 2000, 2001, 2002, 2003, 2005, 2007, 
-2008 Free Software Foundation, Inc.
+Copyright 1993, 1994, 1995, 1996, 1997, 2000, 2001, 2002, 2003, 2005 Free
+Software Foundation, Inc.
 
 This file is part of the GNU MP Library.
 
@@ -29,9 +29,7 @@ MA 02110-1301, USA. */
   3. Use mpn_tdiv_qr instead of mpn_lshift+mpn_divrem.
 */
 
-#ifndef _GNU_SOURCE
 #define _GNU_SOURCE    /* for DECIMAL_POINT in langinfo.h */
-#endif
 
 #include "config.h"
 
@@ -47,83 +45,9 @@ MA 02110-1301, USA. */
 #include <locale.h>    /* for localeconv */
 #endif
 
-#include "mpir.h"
+#include "gmp.h"
 #include "gmp-impl.h"
 #include "longlong.h"
-
-static mp_limb_t mpn_intdivrem (mp_ptr qp, mp_size_t qxn,
-	    mp_ptr np, mp_size_t nn,
-	    mp_srcptr dp, mp_size_t dn)
-{
-  ASSERT (qxn >= 0);
-  ASSERT (nn >= dn);
-  ASSERT (dn >= 1);
-  ASSERT (dp[dn-1] & GMP_NUMB_HIGHBIT);
-  ASSERT (! MPN_OVERLAP_P (np, nn, dp, dn));
-  ASSERT (! MPN_OVERLAP_P (qp, nn-dn+qxn, np, nn) || qp==np+dn+qxn);
-  ASSERT (! MPN_OVERLAP_P (qp, nn-dn+qxn, dp, dn));
-  ASSERT_MPN (np, nn);
-  ASSERT_MPN (dp, dn);
-
-  if (dn == 1)
-    {
-      mp_limb_t ret;
-      mp_ptr q2p;
-      mp_size_t qn;
-      TMP_DECL;
-
-      TMP_MARK;
-      q2p = (mp_ptr) TMP_ALLOC ((nn + qxn) * BYTES_PER_MP_LIMB);
-
-      np[0] = mpn_divrem_1 (q2p, qxn, np, nn, dp[0]);
-      qn = nn + qxn - 1;
-      MPN_COPY (qp, q2p, qn);
-      ret = q2p[qn];
-
-      TMP_FREE;
-      return ret;
-    }
-  else if (dn == 2)
-    {
-      return mpn_divrem_2 (qp, qxn, np, nn, dp);
-    }
-  else
-    {
-      mp_ptr rp, q2p;
-      mp_limb_t qhl;
-      mp_size_t qn;
-      TMP_DECL;
-
-      TMP_MARK;
-      if (UNLIKELY (qxn != 0))
-	{
-	  mp_ptr n2p;
-	  n2p = (mp_ptr) TMP_ALLOC ((nn + qxn) * BYTES_PER_MP_LIMB);
-	  MPN_ZERO (n2p, qxn);
-	  MPN_COPY (n2p + qxn, np, nn);
-	  q2p = (mp_ptr) TMP_ALLOC ((nn - dn + qxn + 1) * BYTES_PER_MP_LIMB);
-	  rp = (mp_ptr) TMP_ALLOC (dn * BYTES_PER_MP_LIMB);
-	  mpn_tdiv_qr (q2p, rp, 0L, n2p, nn + qxn, dp, dn);
-	  MPN_COPY (np, rp, dn);
-	  qn = nn - dn + qxn;
-	  MPN_COPY (qp, q2p, qn);
-	  qhl = q2p[qn];
-	}
-      else
-	{
-	  q2p = (mp_ptr) TMP_ALLOC ((nn - dn + 1) * BYTES_PER_MP_LIMB);
-	  rp = (mp_ptr) TMP_ALLOC (dn * BYTES_PER_MP_LIMB);
-	  mpn_tdiv_qr (q2p, rp, 0L, np, nn, dp, dn);
-	  MPN_COPY (np, rp, dn);	/* overwrite np area with remainder */
-	  qn = nn - dn;
-	  MPN_COPY (qp, q2p, qn);
-	  qhl = q2p[qn];
-	}
-      TMP_FREE;
-      return qhl;
-    }
-}
-
 
 extern const unsigned char __gmp_digit_value_tab[];
 #define digit_value_tab __gmp_digit_value_tab
@@ -327,8 +251,7 @@ mpf_set_str (mpf_ptr x, const char *str, int base)
       str_size = n_chars_needed;
 #endif
 
-    ma = (((mp_size_t) (str_size / mp_bases[base].chars_per_bit_exactly))
-	  / GMP_NUMB_BITS + 2);
+    ma = 2 * (prec + 1);
     mp = TMP_ALLOC_LIMBS (ma);
     mn = mpn_set_str (mp, (unsigned char *) begs, str_size, base);
 
@@ -350,32 +273,8 @@ mpf_set_str (mpf_ptr x, const char *str, int base)
       }
 
     if (expptr != 0)
-      {
-	/* Scan and convert the exponent, in base exp_base.  */
-	long dig, minus, plusminus;
-	c = (unsigned char) *expptr;
-	minus = -(long) (c == '-');
-	plusminus = minus | -(long) (c == '+');
-	expptr -= plusminus;			/* conditional increment */
-	c = (unsigned char) *expptr++;
-	dig = digit_value[c];
-	if (dig >= exp_base)
-	  {
-	    TMP_FREE;
-	    return -1;
-	  }
-	exp_in_base = dig;
-	c = (unsigned char) *expptr++;
-	dig = digit_value[c];
-	while (dig < exp_base)
-	  {
-	    exp_in_base = exp_in_base * exp_base;
-	    exp_in_base += dig;
-	    c = (unsigned char) *expptr++;
-	    dig = digit_value[c];
-	  }
-	exp_in_base = (exp_in_base ^ minus) - minus; /* conditional negation */
-      }
+      /* FIXME: Should do some error checking here.  */
+      exp_in_base = strtol (expptr, (char **) 0, exp_base);
     else
       exp_in_base = 0;
     if (dotpos != 0)
@@ -427,7 +326,7 @@ mpf_set_str (mpf_ptr x, const char *str, int base)
 	  }
 
 	qp = TMP_ALLOC_LIMBS (prec + 1);
-	qlimb = mpn_intdivrem (qp, prec - (mn - rn), mp, mn, rp, rn);
+	qlimb = mpn_divrem (qp, prec - (mn - rn), mp, mn, rp, rn);
 	tp = qp;
 	exp_in_limbs = qlimb + (mn - rn) + (madj - radj);
 	rn = prec;
