@@ -234,7 +234,7 @@ mpf_set_str (mpf_ptr x, const char *str, int base)
     }
 
   /* Require at least one digit, possibly after an initial decimal point.  */
-  if (digit_value[c] >= (base == 0 ? 10 : base))
+  if (digit_value[c] >= base)
     {
       /* not a digit, must be a decimal point */
       for (i = 0; i < pointlen; i++)
@@ -349,7 +349,7 @@ mpf_set_str (mpf_ptr x, const char *str, int base)
     exp_in_base = 0;
     if (expptr != 0)
     {   char sgn = '+';
-        int digit = 0;
+        int digit = 0, cnt = 0;
         
         if(*expptr == '+' || *expptr == '-')
             sgn = *expptr++;
@@ -358,11 +358,12 @@ mpf_set_str (mpf_ptr x, const char *str, int base)
         {
             exp_in_base = exp_in_base * exp_base + digit;
             digit = digit_value[*(unsigned char*)expptr++];
+            cnt++;
         }
         while
             (digit < exp_base);
 
-        if(exp_in_base == 0)
+        if(!exp_in_base && cnt > 2)
         {
             TMP_FREE;
             return -1;
