@@ -8254,3 +8254,4 @@
 	<Globals>
 	</Globals>
 </VisualStudioProject>
+>>>>>>> correct minor windows build issues:build.vc9/lib_mpir_amd64/lib_mpir_amd64.vcproj
