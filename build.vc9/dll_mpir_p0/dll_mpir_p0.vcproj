@@ -37,7 +37,7 @@
 			<Tool
 				Name="YASM"
 				Defines="DLL"
-				ObjectFileName="&quot;$(IntDir)\mpn\$(InputName).obj&quot;"
+				ObjectFileName="$(IntDir)\mpn\$(InputName).obj"
 				Debug="true"
 			/>
 			<Tool
@@ -52,7 +52,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\..\;&quot;..\$(PlatformName)\&quot;"
+				AdditionalIncludeDirectories="..\..\;&quot;..\$(PlatformName)&quot;"
 				PreprocessorDefinitions="_DEBUG;HAVE_CONFIG_H;__GMP_LIBGMP_DLL;__GMP_WITHIN_GMP;__GMP_WITHIN_GMPXX"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -120,7 +120,7 @@
 			<Tool
 				Name="YASM"
 				Defines="DLL"
-				ObjectFileName="&quot;$(IntDir)\mpn\$(InputName).obj&quot;"
+				ObjectFileName="$(IntDir)\mpn\$(InputName).obj"
 				Debug="true"
 			/>
 			<Tool
@@ -135,7 +135,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="3"
-				AdditionalIncludeDirectories="..\..\;&quot;..\$(PlatformName)\&quot;"
+				AdditionalIncludeDirectories="..\..\;&quot;..\$(PlatformName)&quot;"
 				PreprocessorDefinitions="NDEBUG;HAVE_CONFIG_H;__GMP_LIBGMP_DLL;__GMP_WITHIN_GMP;__GMP_WITHIN_GMPXX"
 				StringPooling="true"
 				ExceptionHandling="1"

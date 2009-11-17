@@ -38,7 +38,7 @@
 				Name="YASM"
 				Defines="_WIN64_ABI"
 				IncludePaths="$(InputDir)\"
-				ObjectFileName="&quot;$(IntDir)\mpn\$(InputName).obj&quot;"
+				ObjectFileName="$(IntDir)\mpn\$(InputName).obj"
 				Debug="true"
 			/>
 			<Tool
@@ -54,7 +54,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\..\;&quot;..\$(PlatformName)\&quot;"
+				AdditionalIncludeDirectories="..\..\;&quot;..\$(PlatformName)&quot;"
 				PreprocessorDefinitions="_DEBUG;_LIB;HAVE_CONFIG_H"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="1"
@@ -113,7 +113,7 @@
 			<Tool
 				Name="YASM"
 				Defines="_WIN64_ABI"
-				ObjectFileName="&quot;$(IntDir)\mpn\$(InputName).obj&quot;"
+				ObjectFileName="$(IntDir)\mpn\$(InputName).obj"
 				Debug="true"
 			/>
 			<Tool
@@ -133,7 +133,7 @@
 				InlineFunctionExpansion="0"
 				EnableIntrinsicFunctions="true"
 				FavorSizeOrSpeed="1"
-				AdditionalIncludeDirectories="..\..\;&quot;..\$(PlatformName)\&quot;"
+				AdditionalIncludeDirectories="..\..\;&quot;..\$(PlatformName)&quot;"
 				PreprocessorDefinitions="NDEBUG;_LIB;HAVE_CONFIG_H;PIC"
 				ExceptionHandling="0"
 				RuntimeLibrary="0"
@@ -4160,7 +4160,6 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="3"
 							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>

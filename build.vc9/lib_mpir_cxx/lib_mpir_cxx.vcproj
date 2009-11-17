@@ -45,7 +45,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\..\;&quot;..\$(PlatformName)\&quot;"
+				AdditionalIncludeDirectories="..\..\;&quot;..\$(PlatformName)&quot;"
 				PreprocessorDefinitions="_DEBUG;_LIB;HAVE_CONFIG_H"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="1"
@@ -111,7 +111,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\..\;&quot;..\$(PlatformName)\&quot;"
+				AdditionalIncludeDirectories="..\..\;&quot;..\$(PlatformName)&quot;"
 				PreprocessorDefinitions="_DEBUG;_LIB;HAVE_CONFIG_H"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="1"
@@ -178,7 +178,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="3"
-				AdditionalIncludeDirectories="..\..\;&quot;..\$(PlatformName)\&quot;"
+				AdditionalIncludeDirectories="..\..\;&quot;..\$(PlatformName)&quot;"
 				PreprocessorDefinitions="NDEBUG;_LIB;HAVE_CONFIG_H"
 				RuntimeLibrary="0"
 				BufferSecurityCheck="false"
@@ -244,7 +244,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="3"
-				AdditionalIncludeDirectories="..\..\;&quot;..\$(PlatformName)\&quot;"
+				AdditionalIncludeDirectories="..\..\;&quot;..\$(PlatformName)&quot;"
 				PreprocessorDefinitions="NDEBUG;_LIB;HAVE_CONFIG_H"
 				RuntimeLibrary="0"
 				UsePrecompiledHeader="0"

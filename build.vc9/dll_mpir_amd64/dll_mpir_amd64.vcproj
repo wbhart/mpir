@@ -37,7 +37,7 @@
 			<Tool
 				Name="YASM"
 				Defines="DLL;_WIN64_ABI"
-				ObjectFileName="&quot;$(IntDir)\mpn\$(InputName).obj&quot;"
+				ObjectFileName="$(IntDir)\mpn\$(InputName).obj"
 				Debug="true"
 			/>
 			<Tool
@@ -53,7 +53,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\..\;&quot;..\$(PlatformName)\&quot;"
+				AdditionalIncludeDirectories="..\..\;&quot;..\$(PlatformName)&quot;"
 				PreprocessorDefinitions="_DEBUG;HAVE_CONFIG_H;__GMP_LIBGMP_DLL;__GMP_WITHIN_GMP;__GMP_WITHIN_GMPXX"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -123,7 +123,7 @@
 			<Tool
 				Name="YASM"
 				Defines="DLL;_WIN64_ABI"
-				ObjectFileName="&quot;$(IntDir)\mpn\$(InputName).obj&quot;"
+				ObjectFileName="$(IntDir)\mpn\$(InputName).obj"
 				Debug="true"
 			/>
 			<Tool
@@ -142,7 +142,7 @@
 				Name="VCCLCompilerTool"
 				ExecutionBucket="6"
 				Optimization="3"
-				AdditionalIncludeDirectories="..\..\;&quot;..\$(PlatformName)\&quot;"
+				AdditionalIncludeDirectories="..\..\;&quot;..\$(PlatformName)&quot;"
 				PreprocessorDefinitions="NDEBUG;HAVE_CONFIG_H;__GMP_LIBGMP_DLL;__GMP_WITHIN_GMP;__GMP_WITHIN_GMPXX"
 				StringPooling="true"
 				ExceptionHandling="1"
@@ -543,7 +543,6 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							AssemblerOutput="0"
 							ObjectFile="$(IntDir)\mpn\"
 						/>
 					</FileConfiguration>
@@ -553,9 +552,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							AssemblerOutput="1"
 							ObjectFile="$(IntDir)\mpn\"
-							DebugInformationFormat="3"
 						/>
 					</FileConfiguration>
 				</File>
@@ -564,6 +561,7 @@
 					>
 					<FileConfiguration
 						Name="Debug|x64"
+						ExcludedFromBuild="true"
 						>
 						<Tool
 							Name="VCCLCompilerTool"
@@ -572,6 +570,7 @@
 					</FileConfiguration>
 					<FileConfiguration
 						Name="Release|x64"
+						ExcludedFromBuild="true"
 						>
 						<Tool
 							Name="VCCLCompilerTool"
@@ -8270,7 +8269,7 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							PreprocessorDefinitions="__GMP_WITHIN_GMPXX"
-							ObjectFile="$(IntDir)\cxx"
+							ObjectFile="$(IntDir)\cxx\"
 							CompileAs="0"
 						/>
 					</FileConfiguration>
@@ -8281,7 +8280,7 @@
 							Name="VCCLCompilerTool"
 							PreprocessorDefinitions="__GMP_WITHIN_GMPXX"
 							ExceptionHandling="1"
-							ObjectFile="$(IntDir)\cxx"
+							ObjectFile="$(IntDir)\cxx\"
 							CompileAs="0"
 						/>
 					</FileConfiguration>
@@ -8295,7 +8294,7 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							PreprocessorDefinitions="__GMP_WITHIN_GMPXX"
-							ObjectFile="$(IntDir)\cxx"
+							ObjectFile="$(IntDir)\cxx\"
 							CompileAs="0"
 						/>
 					</FileConfiguration>
@@ -8306,7 +8305,7 @@
 							Name="VCCLCompilerTool"
 							PreprocessorDefinitions="__GMP_WITHIN_GMPXX"
 							ExceptionHandling="1"
-							ObjectFile="$(IntDir)\cxx"
+							ObjectFile="$(IntDir)\cxx\"
 							CompileAs="0"
 						/>
 					</FileConfiguration>
@@ -8320,7 +8319,7 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							PreprocessorDefinitions="__GMP_WITHIN_GMPXX"
-							ObjectFile="$(IntDir)\cxx"
+							ObjectFile="$(IntDir)\cxx\"
 							CompileAs="0"
 						/>
 					</FileConfiguration>
@@ -8331,7 +8330,7 @@
 							Name="VCCLCompilerTool"
 							PreprocessorDefinitions="__GMP_WITHIN_GMPXX"
 							ExceptionHandling="1"
-							ObjectFile="$(IntDir)\cxx"
+							ObjectFile="$(IntDir)\cxx\"
 							CompileAs="0"
 						/>
 					</FileConfiguration>
@@ -8345,7 +8344,7 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							PreprocessorDefinitions="__GMP_WITHIN_GMPXX"
-							ObjectFile="$(IntDir)\cxx"
+							ObjectFile="$(IntDir)\cxx\"
 							CompileAs="0"
 						/>
 					</FileConfiguration>
@@ -8356,7 +8355,7 @@
 							Name="VCCLCompilerTool"
 							PreprocessorDefinitions="__GMP_WITHIN_GMPXX"
 							ExceptionHandling="1"
-							ObjectFile="$(IntDir)\cxx"
+							ObjectFile="$(IntDir)\cxx\"
 							CompileAs="0"
 						/>
 					</FileConfiguration>
@@ -8369,7 +8368,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\cxx"
+							ObjectFile="$(IntDir)\cxx\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -8377,7 +8376,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\cxx"
+							ObjectFile="$(IntDir)\cxx\"
 						/>
 					</FileConfiguration>
 				</File>
@@ -8390,7 +8389,7 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							PreprocessorDefinitions="__GMP_WITHIN_GMPXX"
-							ObjectFile="$(IntDir)\cxx"
+							ObjectFile="$(IntDir)\cxx\"
 							CompileAs="0"
 						/>
 					</FileConfiguration>
@@ -8401,7 +8400,7 @@
 							Name="VCCLCompilerTool"
 							PreprocessorDefinitions="__GMP_WITHIN_GMPXX"
 							ExceptionHandling="1"
-							ObjectFile="$(IntDir)\cxx"
+							ObjectFile="$(IntDir)\cxx\"
 							CompileAs="0"
 						/>
 					</FileConfiguration>
@@ -8415,7 +8414,7 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							PreprocessorDefinitions="__GMP_WITHIN_GMPXX"
-							ObjectFile="$(IntDir)\cxx"
+							ObjectFile="$(IntDir)\cxx\"
 							CompileAs="0"
 						/>
 					</FileConfiguration>
@@ -8426,7 +8425,7 @@
 							Name="VCCLCompilerTool"
 							PreprocessorDefinitions="__GMP_WITHIN_GMPXX"
 							ExceptionHandling="1"
-							ObjectFile="$(IntDir)\cxx"
+							ObjectFile="$(IntDir)\cxx\"
 							CompileAs="0"
 						/>
 					</FileConfiguration>
@@ -8440,7 +8439,7 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							PreprocessorDefinitions="__GMP_WITHIN_GMPXX"
-							ObjectFile="$(IntDir)\cxx"
+							ObjectFile="$(IntDir)\cxx\"
 							CompileAs="0"
 						/>
 					</FileConfiguration>
@@ -8451,7 +8450,7 @@
 							Name="VCCLCompilerTool"
 							PreprocessorDefinitions="__GMP_WITHIN_GMPXX"
 							ExceptionHandling="1"
-							ObjectFile="$(IntDir)\cxx"
+							ObjectFile="$(IntDir)\cxx\"
 							CompileAs="0"
 						/>
 					</FileConfiguration>
@@ -8465,7 +8464,7 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							PreprocessorDefinitions="__GMP_WITHIN_GMPXX"
-							ObjectFile="$(IntDir)\cxx"
+							ObjectFile="$(IntDir)\cxx\"
 							CompileAs="0"
 						/>
 					</FileConfiguration>
@@ -8476,7 +8475,7 @@
 							Name="VCCLCompilerTool"
 							PreprocessorDefinitions="__GMP_WITHIN_GMPXX"
 							ExceptionHandling="1"
-							ObjectFile="$(IntDir)\cxx"
+							ObjectFile="$(IntDir)\cxx\"
 							CompileAs="0"
 						/>
 					</FileConfiguration>
@@ -8490,7 +8489,7 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							PreprocessorDefinitions="__GMP_WITHIN_GMPXX"
-							ObjectFile="$(IntDir)\cxx"
+							ObjectFile="$(IntDir)\cxx\"
 							CompileAs="0"
 						/>
 					</FileConfiguration>
@@ -8501,7 +8500,7 @@
 							Name="VCCLCompilerTool"
 							PreprocessorDefinitions="__GMP_WITHIN_GMPXX"
 							ExceptionHandling="1"
-							ObjectFile="$(IntDir)\cxx"
+							ObjectFile="$(IntDir)\cxx\"
 							CompileAs="0"
 						/>
 					</FileConfiguration>

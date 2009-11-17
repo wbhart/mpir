@@ -7,7 +7,7 @@
 	>
 	<Tool
 		Name="VCCLCompilerTool"
-		AdditionalIncludeDirectories="&quot;$(SolutionDir)..\&quot;;&quot;$(SolutionDir)$(PlatformName)\&quot;;&quot;$(SolutionDir)..\tests&quot;"
+		AdditionalIncludeDirectories="&quot;$(SolutionDir)..\&quot;;&quot;$(SolutionDir)$(PlatformName)&quot;;&quot;$(SolutionDir)..\tests&quot;"
 		RuntimeLibrary="0"
 	/>
 	<Tool
