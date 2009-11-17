@@ -5,6 +5,8 @@
 Copyright 1993, 1994, 1995, 1996, 1997, 2000, 2001, 2002, 2003, 2005 Free
 Software Foundation, Inc.
 
+Copyright 2009 B R Gladman
+
 This file is part of the GNU MP Library.
 
 The GNU MP Library is free software; you can redistribute it and/or modify
@@ -242,7 +244,6 @@ mpf_set_str (mpf_ptr x, const char *str, int base)
       if (digit_value[(unsigned char) str[pointlen]] >= (base == 0 ? 10 : base))
 	return -1;
     }
-
 
   /* Locate exponent part of the input.  Look from the right of the string,
      since the exponent is usually a lot shorter than the mantissa.  */
