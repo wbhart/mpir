@@ -36,6 +36,13 @@ MA 02110-1301, USA. */
 #include "gmp-impl.h"
 #include "longlong.h"
 
+/* 
+   dc_divappr_q requires the divisor be << GMP_NUMBMAX limbs
+   the asymptotics of midmul are also only toom42 asymptotics,
+   thus for performance reasons we limit the size of divisors
+   used in dc_divapp_q
+*/
+#define DC_DIVAPPR_Q_LIMIT 32768
 
 void
 mpn_tdiv_q (mp_ptr qp, mp_srcptr np, mp_size_t nn, 
@@ -305,13 +312,18 @@ mpn_tdiv_q (mp_ptr qp, mp_srcptr np, mp_size_t nn,
 	    else             
        {
            mp_limb_t dip[2], cy;
-           mp_ptr tp = TMP_ALLOC_LIMBS (10*qn);
            MPN_COPY(n3p, n2p, 2 * qn);
-           mpn_invert(dip, d2p + qn - 2, 2);
-
-           //mpn_dc_divrem_n(qp, n3p, d2p, qn);
-           cy = mpn_dc_divappr_q_n (qp, n3p, d2p, qn, dip, tp);
-           if (cy) mpn_sub_1(qp, qp, qn, 1);
+           
+           // dc_divappr_q_n requires qn << GMP_NUMBMAX
+           if (qn < DC_DIVAPPR_Q_LIMIT) 
+           {
+              mp_ptr tp = TMP_ALLOC_LIMBS (10*qn);
+              mpn_invert(dip, d2p + qn - 2, 2);
+              cy = mpn_dc_divappr_q_n (qp, n3p, d2p, qn, dip, tp);
+              // quotient can overflow as it is approx.
+              if (cy) mpn_sub_1(qp, qp, qn, 1); 
+           } else
+              mpn_dc_divrem_n(qp, n3p, d2p, qn);
        }
        
        /* At this point the quotient may be correct or up to 3 too large.
