@@ -32,7 +32,14 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
 /*
-  Middle product of {ap,2n-1} and {bp,n}, output written to {rp,n+2}.
+  Let a = sum_0^{m-1} a_i B^i and b = sum_0^{n-1} b_j B^j
+
+  then MP(a, m, b, n) = sum_{0<=i<m, 0<=j<n, n-1<=i+j<=m-1} a_ib_j B^{i+j-n+1}
+
+  Note there are m-n+1 different values of i+j and each product a_ib_j will be two limbs. Thus when added together, the sum must take up n-m+3 limbs of space.
+
+  This function computes the middle product of {ap,2n-1} and {bp,n}, 
+  output written to {rp,n+2}, i.e. it computes MP(ap,2n-1,bp,n).
 
   Neither ap nor bp may overlap rp.
 
@@ -42,7 +49,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
   FIXME: this code assumes that n is small compared to GMP_NUMB_MAX. The exact
   requirements should be clarified.
- */
+*/
 void
 mpn_toom42_mulmid (mp_ptr rp, mp_srcptr ap, mp_srcptr bp, mp_size_t n,
                    mp_ptr scratch)

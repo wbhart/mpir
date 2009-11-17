@@ -31,10 +31,19 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "gmp-impl.h"
 #include "longlong.h"
 
-/* Middle product of {up,un} and {vp,vn}, write result to {rp,un-vn+3}.
+/* Let a = sum_0^{m-1} a_i B^i and b = sum_0^{n-1} b_j B^j
+
+   then MP(a, m, b, n) = sum_{0<=i<m, 0<=j<n, n-1<=i+j<=m-1} a_ib_j B^{i+j-n+1}
+
+   Note there are m-n+1 different values of i+j and each product a_ib_j will be two limbs. Thus when added together, the sum must take up n-m+3 limbs of space.
+
+   This function computes MP(up,un,vp,vn), writing the result to {rp,un-vn+3}.
    Must have un >= vn >= 1.
 
-   Neither input buffer may overlap with the output buffer. */
+   Neither input buffer may overlap with the output buffer. 
+
+   It is required that vn << GMP_NUMBMAX. 
+*/
 
 void
 mpn_mulmid_basecase (mp_ptr rp,
