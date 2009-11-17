@@ -215,22 +215,21 @@ mpf_set_str (mpf_ptr x, const char *str, int base)
       c = (unsigned char) *++str;
     }
 
+  digit_value = digit_value_tab;
+  exp_base = base;
   if (base <= 0)
     {
       exp_base = 10;
-      base = (base == 0) ? 10 : -base;
+      base = base ? -base : 10;
     }
-  else
-      exp_base = base;
 
-  digit_value = digit_value_tab;
-  if (base > 36)
+  if(base < 2 || base > 62)
+      return -1;
+  else if(base > 36)
     {
       /* For bases > 36, use the collating sequence
 	 0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz.  */
       digit_value += 224;
-      if (base > 62)
-	return -1;		/* too large base */
     }
 
   /* Require at least one digit, possibly after an initial decimal point.  */
