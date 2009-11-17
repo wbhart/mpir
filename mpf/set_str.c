@@ -29,7 +29,9 @@ MA 02110-1301, USA. */
   3. Use mpn_tdiv_qr instead of mpn_lshift+mpn_divrem.
 */
 
+#ifndef _GNU_SOURCE
 #define _GNU_SOURCE    /* for DECIMAL_POINT in langinfo.h */
+#endif
 
 #include "config.h"
 
@@ -45,9 +47,83 @@ MA 02110-1301, USA. */
 #include <locale.h>    /* for localeconv */
 #endif
 
-#include "gmp.h"
+#include "mpir.h"
 #include "gmp-impl.h"
 #include "longlong.h"
+
+static mp_limb_t mpn_intdivrem (mp_ptr qp, mp_size_t qxn,
+	    mp_ptr np, mp_size_t nn,
+	    mp_srcptr dp, mp_size_t dn)
+{
+  ASSERT (qxn >= 0);
+  ASSERT (nn >= dn);
+  ASSERT (dn >= 1);
+  ASSERT (dp[dn-1] & GMP_NUMB_HIGHBIT);
+  ASSERT (! MPN_OVERLAP_P (np, nn, dp, dn));
+  ASSERT (! MPN_OVERLAP_P (qp, nn-dn+qxn, np, nn) || qp==np+dn+qxn);
+  ASSERT (! MPN_OVERLAP_P (qp, nn-dn+qxn, dp, dn));
+  ASSERT_MPN (np, nn);
+  ASSERT_MPN (dp, dn);
+
+  if (dn == 1)
+    {
+      mp_limb_t ret;
+      mp_ptr q2p;
+      mp_size_t qn;
+      TMP_DECL;
+
+      TMP_MARK;
+      q2p = (mp_ptr) TMP_ALLOC ((nn + qxn) * BYTES_PER_MP_LIMB);
+
+      np[0] = mpn_divrem_1 (q2p, qxn, np, nn, dp[0]);
+      qn = nn + qxn - 1;
+      MPN_COPY (qp, q2p, qn);
+      ret = q2p[qn];
+
+      TMP_FREE;
+      return ret;
+    }
+  else if (dn == 2)
+    {
+      return mpn_divrem_2 (qp, qxn, np, nn, dp);
+    }
+  else
+    {
+      mp_ptr rp, q2p;
+      mp_limb_t qhl;
+      mp_size_t qn;
+      TMP_DECL;
+
+      TMP_MARK;
+      if (UNLIKELY (qxn != 0))
+	{
+	  mp_ptr n2p;
+	  n2p = (mp_ptr) TMP_ALLOC ((nn + qxn) * BYTES_PER_MP_LIMB);
+	  MPN_ZERO (n2p, qxn);
+	  MPN_COPY (n2p + qxn, np, nn);
+	  q2p = (mp_ptr) TMP_ALLOC ((nn - dn + qxn + 1) * BYTES_PER_MP_LIMB);
+	  rp = (mp_ptr) TMP_ALLOC (dn * BYTES_PER_MP_LIMB);
+	  mpn_tdiv_qr (q2p, rp, 0L, n2p, nn + qxn, dp, dn);
+	  MPN_COPY (np, rp, dn);
+	  qn = nn - dn + qxn;
+	  MPN_COPY (qp, q2p, qn);
+	  qhl = q2p[qn];
+	}
+      else
+	{
+	  q2p = (mp_ptr) TMP_ALLOC ((nn - dn + 1) * BYTES_PER_MP_LIMB);
+	  rp = (mp_ptr) TMP_ALLOC (dn * BYTES_PER_MP_LIMB);
+	  mpn_tdiv_qr (q2p, rp, 0L, np, nn, dp, dn);
+	  MPN_COPY (np, rp, dn);	/* overwrite np area with remainder */
+	  qn = nn - dn;
+	  MPN_COPY (qp, q2p, qn);
+	  qhl = q2p[qn];
+	}
+      TMP_FREE;
+      return qhl;
+    }
+}
+
 
 extern const unsigned char __gmp_digit_value_tab[];
 #define digit_value_tab __gmp_digit_value_tab
@@ -139,12 +215,13 @@ mpf_set_str (mpf_ptr x, const char *str, int base)
       c = (unsigned char) *++str;
     }
 
-  exp_base = base;
-  if (base < 0)
+  if (base <= 0)
     {
       exp_base = 10;
-      base = -base;
+      base = (base == 0) ? 10 : -base;
     }
+  else
+      exp_base = base;
 
   digit_value = digit_value_tab;
   if (base > 36)
@@ -167,9 +244,6 @@ mpf_set_str (mpf_ptr x, const char *str, int base)
 	return -1;
     }
 
-  /* Default base to decimal.  */
-  if (base == 0)
-    base = 10;
 
   /* Locate exponent part of the input.  Look from the right of the string,
      since the exponent is usually a lot shorter than the mantissa.  */
@@ -251,8 +325,8 @@ mpf_set_str (mpf_ptr x, const char *str, int base)
       str_size = n_chars_needed;
 #endif
 
-    ma = 2 * (prec + 1);
-    mp = TMP_ALLOC_LIMBS (ma);
+    ma = (mp_size_t) (str_size / mp_bases[base].chars_per_bit_exactly);
+    mp = TMP_ALLOC_LIMBS (ma / GMP_NUMB_BITS + 2);
     mn = mpn_set_str (mp, (unsigned char *) begs, str_size, base);
 
     if (mn == 0)
@@ -272,11 +346,32 @@ mpf_set_str (mpf_ptr x, const char *str, int base)
 	mn = prec;
       }
 
+    exp_in_base = 0;
     if (expptr != 0)
-      /* FIXME: Should do some error checking here.  */
-      exp_in_base = strtol (expptr, (char **) 0, exp_base);
-    else
-      exp_in_base = 0;
+    {   char sgn = '+';
+        int digit = 0;
+        
+        if(*expptr == '+' || *expptr == '-')
+            sgn = *expptr++;
+
+        do
+        {
+            exp_in_base = exp_in_base * exp_base + digit;
+            digit = digit_value[*(unsigned char*)expptr++];
+        }
+        while
+            (digit < exp_base);
+
+        if(exp_in_base == 0)
+        {
+            TMP_FREE;
+            return -1;
+        }
+
+        if(sgn == '-')
+            exp_in_base = -exp_in_base;
+    }
+
     if (dotpos != 0)
       exp_in_base -= s - dotpos;
     divflag = exp_in_base < 0;
@@ -326,7 +421,7 @@ mpf_set_str (mpf_ptr x, const char *str, int base)
 	  }
 
 	qp = TMP_ALLOC_LIMBS (prec + 1);
-	qlimb = mpn_divrem (qp, prec - (mn - rn), mp, mn, rp, rn);
+	qlimb = mpn_intdivrem (qp, prec - (mn - rn), mp, mn, rp, rn);
 	tp = qp;
 	exp_in_limbs = qlimb + (mn - rn) + (madj - radj);
 	rn = prec;
