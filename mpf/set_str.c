@@ -349,7 +349,7 @@ mpf_set_str (mpf_ptr x, const char *str, int base)
     exp_in_base = 0;
     if (expptr != 0)
     {   char sgn = '+';
-        int digit = 0, cnt = 0;
+        int digit = 0, cnt = -1;
         
         if(*expptr == '+' || *expptr == '-')
             sgn = *expptr++;
@@ -363,7 +363,7 @@ mpf_set_str (mpf_ptr x, const char *str, int base)
         while
             (digit < exp_base);
 
-        if(!exp_in_base && cnt > 2)
+        if(!cnt)
         {
             TMP_FREE;
             return -1;
