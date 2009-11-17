@@ -224,8 +224,6 @@ mpf_set_str (mpf_ptr x, const char *str, int base)
       exp_base = 10;
       base = base ? -base : 10;
     }
-  else
-      exp_base = base;
 
   if(base < 2 || base > 62)
       return -1;
