@@ -26,22 +26,8 @@ C	rax             rdi,   rsi,      rdx
 
 ASM_START()
 PROLOGUE(mpn_copyi)
-C // for <20 limbs this is slower than core2/copyi for rev 2257
-C // probaly want to tweek it , that should do most of the work
-C //below small loop is not much help
-C //cmp $10,%rdx
-C //jge large
-C //ALIGN(16)
-C //lp:	mov (%rsi),%rax
-C //	mov %rax,(%rdi)
-C //	lea 8(%rsi),%rsi
-C //	lea 8(%rdi),%rdi
-C //	sub $1,%rdx
-C //	jnz lp
-C //	ret
-C // large:
-cmp $0,%rdx
-jz endfn
+cmp $0,%rdx		#needed for case n=0
+jz endfn		#needed for case n=0
 mov %rdi,%rax
 sub %rsi,%rax
 test $0xF,%rax
@@ -55,8 +41,8 @@ lea -40(%rdi,%rdx,8),%rdi
 movapd (%rsi,%rcx,8),%xmm1
 movq %xmm1,(%rdi,%rcx,8)
 add $8,%rdi
-cmp $1,%rdx
-jz endfn
+cmp $1,%rdx		#needed for case n=1
+jz endfn		#needed for case n=1
 cmp $0,%rcx
 jge skiplpud
 ALIGN(16)
@@ -77,7 +63,7 @@ ALIGN(16)
 case3d:	movapd 16(%rsi,%rcx,8),%xmm0
 	shufpd $1,%xmm0,%xmm1
 	movapd %xmm1,(%rdi,%rcx,8)
-	movapd 32(%rsi,%rcx,8),%xmm1  
+	movapd 32(%rsi,%rcx,8),%xmm1  	# top is read past
 	shufpd $1,%xmm1,%xmm0
 	movapd %xmm0,16(%rdi,%rcx,8)
 	ret
@@ -88,14 +74,16 @@ case2d:	movapd 16(%rsi,%rcx,8),%xmm0
 	movhpd %xmm0,16(%rdi,%rcx,8)
 	ret
 ALIGN(16)
-case1d:	movapd 16(%rsi,%rcx,8),%xmm0
+case1d:	movapd 16(%rsi,%rcx,8),%xmm0	# top read past
 	shufpd $1,%xmm0,%xmm1
 	movapd %xmm1,(%rdi,%rcx,8)
 	ret
 ALIGN(16)
 case0d:	movhpd %xmm1,(%rdi,%rcx,8)
 endfn:	ret
-C //////////////////////////
+
+
+
 srcisodd:
 mov $4,%rcx
 sub %rdx,%rcx
@@ -123,7 +111,7 @@ ALIGN(16)
 case3s:	movapd 16(%rsi,%rcx,8),%xmm0
 	shufpd $1,%xmm0,%xmm1
 	movapd %xmm1,(%rdi,%rcx,8)
-	movapd 32(%rsi,%rcx,8),%xmm1
+	movapd 32(%rsi,%rcx,8),%xmm1  	# read past
 	shufpd $1,%xmm1,%xmm0
 	movapd %xmm0,16(%rdi,%rcx,8)
 	ret
@@ -134,51 +122,51 @@ case2s: movapd 16(%rsi,%rcx,8),%xmm0
 	movhpd %xmm0,16(%rdi,%rcx,8)
 	ret
 ALIGN(16)
-case1s:	movapd 16(%rsi,%rcx,8),%xmm0
+case1s:	movapd 16(%rsi,%rcx,8),%xmm0	# read past
 	shufpd $1,%xmm0,%xmm1
 	movapd %xmm1,(%rdi,%rcx,8)
 	ret
 ALIGN(16)
 case0s:	movhpd %xmm1,(%rdi,%rcx,8)
 	ret
-C //////////////////////////
+
+
 ALIGN(16)
 aligned:
-mov $3,%rcx
-sub %rdx,%rcx
+sub $4,%rdx
 test $0xF,%rdi
-lea -24(%rsi,%rdx,8),%rsi
-lea -24(%rdi,%rdx,8),%rdi
 jz notodda
-	mov (%rsi,%rcx,8),%rax
-	mov %rax,(%rdi,%rcx,8)
-	add $1,%rcx
+	mov (%rsi),%rax
+	mov %rax,(%rdi)
+	sub $1,%rdx
+	lea 8(%rsi),%rsi
+	lea 8(%rdi),%rdi
 notodda:
-cmp $0,%rcx
-jge skiplpa
+cmp $0,%rdx
+jl skiplpa
 ALIGN(16)
-lpa:	add $4,%rcx
-	movapd -32(%rsi,%rcx,8),%xmm0
-	movapd %xmm0,-32(%rdi,%rcx,8)
-	movapd 16-32(%rsi,%rcx,8),%xmm1
-	movapd %xmm1,16-32(%rdi,%rcx,8)
+lpa:	movdqa (%rsi),%xmm0
+	sub $4,%rdx
+	movdqa 16(%rsi),%xmm1
+	lea 32(%rsi),%rsi
+	movdqa %xmm0,(%rdi)
+	lea 32(%rdi),%rdi
+	movdqa %xmm1,16-32(%rdi)
 	jnc lpa
 skiplpa:
-cmp $2,%rcx
-ja casea0
-je casea1
-jp casea2
-casea3:	movapd (%rsi,%rcx,8),%xmm0
-	movapd %xmm0,(%rdi,%rcx,8)
-	mov 16(%rsi,%rcx,8),%rax
-	mov %rax,16(%rdi,%rcx,8)
-casea0:	ret
-ALIGN(16)
-casea2:	movapd (%rsi,%rcx,8),%xmm0
-	movapd %xmm0,(%rdi,%rcx,8)
+cmp $-2,%rdx
+jg casea3
+je casea2
+jnp casea0
+casea1:	mov (%rsi),%rax
+	mov %rax,(%rdi)
 	ret
-ALIGN(16)
-casea1:	mov (%rsi,%rcx,8),%rax
-	mov %rax,(%rdi,%rcx,8)
+casea3:	movdqa (%rsi),%xmm0
+	mov 16(%rsi),%rax
+	movdqa %xmm0,(%rdi)
+	mov %rax,16(%rdi)
+casea0:	ret
+casea2:	movdqa (%rsi),%xmm0
+	movdqa %xmm0,(%rdi)
 	ret
 EPILOGUE()
