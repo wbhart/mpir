@@ -1,4 +1,4 @@
-dnl  mpn_lshift2
+dnl  mpn_lshift3
 
 dnl  Copyright 2009 Jason Moxham
 
@@ -21,11 +21,11 @@ dnl  Boston, MA 02110-1301, USA.
 
 include(`../config.m4')
 
-C	ret mpn_lshift2(mp_ptr,mp_ptr,mp_size_t)
+C	ret mpn_lshift3(mp_ptr,mp_ptr,mp_size_t)
 C	rax                 rdi,   rsi,      rdx
 
 ASM_START()
-PROLOGUE(mpn_lshift2)
+PROLOGUE(mpn_lshift3)
 mov $3,%rcx
 lea -24(%rsi,%rdx,8),%rsi
 lea -24(%rdi,%rdx,8),%rdi
@@ -35,20 +35,20 @@ jnc skiplp
 ALIGN(16)
 lp:
 	mov (%rsi,%rcx,8),%r9
-	lea (%r8,%r9,4),%r8
-	shr $62,%r9
+	lea (%r8,%r9,8),%r8
+	shr $61,%r9
 	mov 8(%rsi,%rcx,8),%r10
-	lea (%r9,%r10,4),%r9
-	shr $62,%r10
+	lea (%r9,%r10,8),%r9
+	shr $61,%r10
 	mov 16(%rsi,%rcx,8),%r11
 	mov %r8,(%rdi,%rcx,8)
-	lea (%r10,%r11,4),%r10
+	lea (%r10,%r11,8),%r10
 	mov %r10,16(%rdi,%rcx,8)
-	shr $62,%r11
+	shr $61,%r11
 	mov 24(%rsi,%rcx,8),%r8
-	lea (%r11,%r8,4),%r11
+	lea (%r11,%r8,8),%r11
 	mov %r11,24(%rdi,%rcx,8)
-	shr $62,%r8
+	shr $61,%r8
 	add $4,%rcx
 	mov %r9,8-32(%rdi,%rcx,8)
 	jnc lp
@@ -58,34 +58,34 @@ ja case0
 je case1
 jp case2
 case3:	mov (%rsi,%rcx,8),%r9
-	lea (%r8,%r9,4),%r8
-	shr $62,%r9
+	lea (%r8,%r9,8),%r8
+	shr $61,%r9
 	mov 8(%rsi,%rcx,8),%r10
-	lea (%r9,%r10,4),%r9
-	shr $62,%r10
+	lea (%r9,%r10,8),%r9
+	shr $61,%r10
 	mov 16(%rsi,%rcx,8),%r11
 	mov %r8,(%rdi,%rcx,8)
-	lea (%r10,%r11,4),%r10
+	lea (%r10,%r11,8),%r10
 	mov %r10,16(%rdi,%rcx,8)
-	shr $62,%r11
+	shr $61,%r11
 	mov %r11,%rax
 	mov %r9,8(%rdi,%rcx,8)
 	ret
 ALIGN(16)
 case2:	mov (%rsi,%rcx,8),%r9
-	lea (%r8,%r9,4),%r8
-	shr $62,%r9
+	lea (%r8,%r9,8),%r8
+	shr $61,%r9
 	mov 8(%rsi,%rcx,8),%r10
-	lea (%r9,%r10,4),%r9
-	shr $62,%r10
+	lea (%r9,%r10,8),%r9
+	shr $61,%r10
 	mov %r8,(%rdi,%rcx,8)
 	mov %r10,%rax
 	mov %r9,8(%rdi,%rcx,8)
 	ret
 ALIGN(16)
 case1:	mov (%rsi,%rcx,8),%r9
-	lea (%r8,%r9,4),%r8
-	shr $62,%r9
+	lea (%r8,%r9,8),%r8
+	shr $61,%r9
 	mov %r8,(%rdi,%rcx,8)
 	mov %r9,%rax
 	ret
