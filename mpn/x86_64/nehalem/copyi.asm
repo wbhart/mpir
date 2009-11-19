@@ -44,21 +44,15 @@ cmp $2,%rcx
 ja case0
 je case1
 jp case2	
-case3:
-	# rcx=0
-	movdqu (%rsi,%rcx,8),%xmm0
+case3:	movdqu (%rsi,%rcx,8),%xmm0
 	mov 16(%rsi,%rcx,8),%rax
 	mov %rax,16(%rdi,%rcx,8)
 	movdqu %xmm0,(%rdi,%rcx,8)
 	ret
-case2:
-	# rcx=1
-	movdqu (%rsi,%rcx,8),%xmm0
+case2:	movdqu (%rsi,%rcx,8),%xmm0
 	movdqu %xmm0,(%rdi,%rcx,8)
 	ret
-case1:
-	# rcx=2
-	mov (%rsi,%rcx,8),%rax
+case1:	mov (%rsi,%rcx,8),%rax
 	mov %rax,(%rdi,%rcx,8)
 case0:	ret
 EPILOGUE()

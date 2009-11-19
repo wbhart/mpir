@@ -47,24 +47,18 @@ cmp $2,%rcx
 ja case0
 je case1
 jp case2	
-case3:
-	# rcx=0
-	movdqu (%rsi,%rcx,8),%xmm0
+case3:	movdqu (%rsi,%rcx,8),%xmm0
 	mov 16(%rsi,%rcx,8),%rax
 	pxor %xmm2,%xmm0
 	not %rax
 	movdqu %xmm0,(%rdi)
 	mov %rax,16(%rdi)
 	ret
-case2:
-	# rcx=1
-	movdqu (%rsi,%rcx,8),%xmm0
+case2:	movdqu (%rsi,%rcx,8),%xmm0
 	pxor %xmm2,%xmm0
 	movdqu %xmm0,(%rdi)
 	ret
-case1:
-	# rcx=2
-	mov (%rsi,%rcx,8),%rax
+case1:	mov (%rsi,%rcx,8),%rax
 	not %rax
 	mov %rax,(%rdi)
 case0:	ret

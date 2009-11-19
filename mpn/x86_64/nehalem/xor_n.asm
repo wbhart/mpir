@@ -30,7 +30,6 @@ mov $3,%r8
 lea -24(%rsi,%rcx,8),%rsi
 lea -24(%rdx,%rcx,8),%rdx
 lea -24(%rdi,%rcx,8),%rdi
-#pcmpeqb %xmm4,%xmm4
 sub %rcx,%r8
 jnc skiplp
 ALIGN(16)
