@@ -1,741 +1,741 @@
 Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "bswap", "mpir-tests\bswap.vcproj", "{50EFC9E8-FB88-44C3-9F30-075547E22992}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "bswap", "mpir-tests\bswap\bswap.vcproj", "{50EFC9E8-FB88-44C3-9F30-075547E22992}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "constants", "mpir-tests\constants.vcproj", "{5495242E-29D4-4C4E-9176-4A69F8CBD667}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "constants", "mpir-tests\constants\constants.vcproj", "{5495242E-29D4-4C4E-9176-4A69F8CBD667}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "count_zeros", "mpir-tests\count_zeros.vcproj", "{8E9450F9-5523-4164-A1C9-F04103F2AA92}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "count_zeros", "mpir-tests\count_zeros\count_zeros.vcproj", "{8E9450F9-5523-4164-A1C9-F04103F2AA92}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cxx.assign", "mpir-tests\cxx.assign.vcproj", "{9A0DCCB2-7C15-4C79-AF77-DB6BE7E428A4}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cxx.assign", "mpir-tests\cxx.assign\cxx.assign.vcproj", "{9A0DCCB2-7C15-4C79-AF77-DB6BE7E428A4}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cxx.binary", "mpir-tests\cxx.binary.vcproj", "{43FDB176-8A70-4C03-8F67-3EDD796B8EDA}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cxx.binary", "mpir-tests\cxx.binary\cxx.binary.vcproj", "{43FDB176-8A70-4C03-8F67-3EDD796B8EDA}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cxx.cast", "mpir-tests\cxx.cast.vcproj", "{2A2FBA68-8B49-42C5-AC8C-4A33F7951FB4}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cxx.cast", "mpir-tests\cxx.cast\cxx.cast.vcproj", "{2A2FBA68-8B49-42C5-AC8C-4A33F7951FB4}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cxx.constr", "mpir-tests\cxx.constr.vcproj", "{FB8E3538-C2D1-4A13-994A-D32593300F77}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cxx.constr", "mpir-tests\cxx.constr\cxx.constr.vcproj", "{FB8E3538-C2D1-4A13-994A-D32593300F77}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cxx.headers", "mpir-tests\cxx.headers.vcproj", "{7DFBC4AB-9BE2-4F0A-B2F5-38FB0B2D2DB5}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cxx.headers", "mpir-tests\cxx.headers\cxx.headers.vcproj", "{7DFBC4AB-9BE2-4F0A-B2F5-38FB0B2D2DB5}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cxx.istream", "mpir-tests\cxx.istream.vcproj", "{9A0FA918-A2DF-4C5E-80EB-583173AC1341}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cxx.istream", "mpir-tests\cxx.istream\cxx.istream.vcproj", "{9A0FA918-A2DF-4C5E-80EB-583173AC1341}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cxx.locale", "mpir-tests\cxx.locale.vcproj", "{9FDDFF38-0A83-40D3-B492-02846102F8F8}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cxx.locale", "mpir-tests\cxx.locale\cxx.locale.vcproj", "{9FDDFF38-0A83-40D3-B492-02846102F8F8}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cxx.misc", "mpir-tests\cxx.misc.vcproj", "{D885564A-E7CA-4493-A9BB-B451049CFA73}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cxx.misc", "mpir-tests\cxx.misc\cxx.misc.vcproj", "{D885564A-E7CA-4493-A9BB-B451049CFA73}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cxx.ops", "mpir-tests\cxx.ops.vcproj", "{A4B8BD41-C07F-4913-82A4-D24D6DD73377}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cxx.ops", "mpir-tests\cxx.ops\cxx.ops.vcproj", "{A4B8BD41-C07F-4913-82A4-D24D6DD73377}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cxx.ostream", "mpir-tests\cxx.ostream.vcproj", "{330F7738-C84C-4DEE-AA13-1324A7118F29}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cxx.ostream", "mpir-tests\cxx.ostream\cxx.ostream.vcproj", "{330F7738-C84C-4DEE-AA13-1324A7118F29}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cxx.prec", "mpir-tests\cxx.prec.vcproj", "{1B9F8C94-3D66-4734-BBDA-43B1A1360BA9}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cxx.prec", "mpir-tests\cxx.prec\cxx.prec.vcproj", "{1B9F8C94-3D66-4734-BBDA-43B1A1360BA9}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cxx.rand", "mpir-tests\cxx.rand.vcproj", "{B313A86A-CFE8-4E56-A7FA-AD1B962EC96B}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cxx.rand", "mpir-tests\cxx.rand\cxx.rand.vcproj", "{B313A86A-CFE8-4E56-A7FA-AD1B962EC96B}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cxx.ternary", "mpir-tests\cxx.ternary.vcproj", "{0CE3F5B5-CC35-4DF3-8457-489C843A7843}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cxx.ternary", "mpir-tests\cxx.ternary\cxx.ternary.vcproj", "{0CE3F5B5-CC35-4DF3-8457-489C843A7843}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cxx.unary", "mpir-tests\cxx.unary.vcproj", "{20050A94-78F8-4783-B66A-88905E32CA7E}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cxx.unary", "mpir-tests\cxx.unary\cxx.unary.vcproj", "{20050A94-78F8-4783-B66A-88905E32CA7E}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gmpmax", "mpir-tests\gmpmax.vcproj", "{080D15EE-2C04-44A1-94DE-B70917E64E85}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gmpmax", "mpir-tests\gmpmax\gmpmax.vcproj", "{080D15EE-2C04-44A1-94DE-B70917E64E85}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "hightomask", "mpir-tests\hightomask.vcproj", "{D9399AF5-90FC-4010-ABFC-408314AB04A9}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "hightomask", "mpir-tests\hightomask\hightomask.vcproj", "{D9399AF5-90FC-4010-ABFC-408314AB04A9}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "misc.locale", "mpir-tests\misc.locale.vcproj", "{A0DCC844-F0FB-420C-9B41-E557845411AC}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "misc.locale", "mpir-tests\misc.locale\misc.locale.vcproj", "{A0DCC844-F0FB-420C-9B41-E557845411AC}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "misc.printf", "mpir-tests\misc.printf.vcproj", "{5E8E3F00-79A9-4635-AE04-452B7D5497F6}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "misc.printf", "mpir-tests\misc.printf\misc.printf.vcproj", "{5E8E3F00-79A9-4635-AE04-452B7D5497F6}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "misc.scanf", "mpir-tests\misc.scanf.vcproj", "{6A036179-4726-40C2-89C9-2E18D4030E28}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "misc.scanf", "mpir-tests\misc.scanf\misc.scanf.vcproj", "{6A036179-4726-40C2-89C9-2E18D4030E28}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "modlinv", "mpir-tests\modlinv.vcproj", "{2961C03E-0B57-483D-A4A6-622D07337E5B}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "modlinv", "mpir-tests\modlinv\modlinv.vcproj", "{2961C03E-0B57-483D-A4A6-622D07337E5B}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpf.add", "mpir-tests\mpf.add.vcproj", "{7B2432C6-051D-4667-94E4-0521B4B3821D}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpf.add", "mpir-tests\mpf.add\mpf.add.vcproj", "{7B2432C6-051D-4667-94E4-0521B4B3821D}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpf.cmp_d", "mpir-tests\mpf.cmp_d.vcproj", "{50B96CD6-FE47-4DEE-B15B-B86E7F46872E}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpf.cmp_d", "mpir-tests\mpf.cmp_d\mpf.cmp_d.vcproj", "{50B96CD6-FE47-4DEE-B15B-B86E7F46872E}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpf.cmp_si", "mpir-tests\mpf.cmp_si.vcproj", "{12F90F29-06C8-4EE1-AC2C-C8B9F902C32E}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpf.cmp_si", "mpir-tests\mpf.cmp_si\mpf.cmp_si.vcproj", "{12F90F29-06C8-4EE1-AC2C-C8B9F902C32E}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpf.conv", "mpir-tests\mpf.conv.vcproj", "{AEF3C73D-9952-45D6-949E-7CFE0D3BE892}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpf.conv", "mpir-tests\mpf.conv\mpf.conv.vcproj", "{AEF3C73D-9952-45D6-949E-7CFE0D3BE892}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpf.div", "mpir-tests\mpf.div.vcproj", "{825A5F4A-CF89-4A29-B778-E035B442225A}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpf.div", "mpir-tests\mpf.div\mpf.div.vcproj", "{825A5F4A-CF89-4A29-B778-E035B442225A}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpf.dm2exp", "mpir-tests\mpf.dm2exp.vcproj", "{489480B1-F26B-412F-8A36-70D07159E5BC}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpf.dm2exp", "mpir-tests\mpf.dm2exp\mpf.dm2exp.vcproj", "{489480B1-F26B-412F-8A36-70D07159E5BC}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpf.fits", "mpir-tests\mpf.fits.vcproj", "{BEFC2B0F-67E8-4637-A4D8-B977654F25D8}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpf.fits", "mpir-tests\mpf.fits\mpf.fits.vcproj", "{BEFC2B0F-67E8-4637-A4D8-B977654F25D8}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpf.get_d", "mpir-tests\mpf.get_d.vcproj", "{FC3B266B-F1B4-4495-B348-5FDABCA36D99}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpf.get_d", "mpir-tests\mpf.get_d\mpf.get_d.vcproj", "{FC3B266B-F1B4-4495-B348-5FDABCA36D99}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpf.get_d_2exp", "mpir-tests\mpf.get_d_2exp.vcproj", "{B74F08C9-D7DF-46E9-9583-A82ACE4809AB}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpf.get_d_2exp", "mpir-tests\mpf.get_d_2exp\mpf.get_d_2exp.vcproj", "{B74F08C9-D7DF-46E9-9583-A82ACE4809AB}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpf.get_si", "mpir-tests\mpf.get_si.vcproj", "{41011670-B1AC-4B77-ABB3-AE6568674A37}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpf.get_si", "mpir-tests\mpf.get_si\mpf.get_si.vcproj", "{41011670-B1AC-4B77-ABB3-AE6568674A37}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpf.get_ui", "mpir-tests\mpf.get_ui.vcproj", "{9643E4ED-1F10-4A16-890D-E20240ADC190}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpf.get_ui", "mpir-tests\mpf.get_ui\mpf.get_ui.vcproj", "{9643E4ED-1F10-4A16-890D-E20240ADC190}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpf.gsprec", "mpir-tests\mpf.gsprec.vcproj", "{3831E9F2-FDAA-4C48-B394-9F3A1CEC5759}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpf.gsprec", "mpir-tests\mpf.gsprec\mpf.gsprec.vcproj", "{3831E9F2-FDAA-4C48-B394-9F3A1CEC5759}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpf.inp_str", "mpir-tests\mpf.inp_str.vcproj", "{7C40A774-EEF0-4681-A453-A38F67B460D2}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpf.inp_str", "mpir-tests\mpf.inp_str\mpf.inp_str.vcproj", "{7C40A774-EEF0-4681-A453-A38F67B460D2}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpf.int_p", "mpir-tests\mpf.int_p.vcproj", "{A8A8CD5C-54F4-4F22-B01E-A6985A0CC263}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpf.int_p", "mpir-tests\mpf.int_p\mpf.int_p.vcproj", "{A8A8CD5C-54F4-4F22-B01E-A6985A0CC263}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpf.muldiv", "mpir-tests\mpf.muldiv.vcproj", "{D3711C7C-8B57-49D4-89AB-B7EFE4CFD734}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpf.muldiv", "mpir-tests\mpf.muldiv\mpf.muldiv.vcproj", "{D3711C7C-8B57-49D4-89AB-B7EFE4CFD734}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpf.mul_ui", "mpir-tests\mpf.mul_ui.vcproj", "{6635CF18-5122-4950-A395-5AC8AFAC5B6C}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpf.mul_ui", "mpir-tests\mpf.mul_ui\mpf.mul_ui.vcproj", "{6635CF18-5122-4950-A395-5AC8AFAC5B6C}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpf.reuse", "mpir-tests\mpf.reuse.vcproj", "{210299CF-6040-4F8E-88D1-BAEC0E9C9FEE}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpf.reuse", "mpir-tests\mpf.reuse\mpf.reuse.vcproj", "{210299CF-6040-4F8E-88D1-BAEC0E9C9FEE}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpf.set", "mpir-tests\mpf.set.vcproj", "{7A4352A7-59A4-43D5-9DB1-5B8FFEDBA487}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpf.set", "mpir-tests\mpf.set\mpf.set.vcproj", "{7A4352A7-59A4-43D5-9DB1-5B8FFEDBA487}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpf.set_q", "mpir-tests\mpf.set_q.vcproj", "{96006E4E-6BA3-45D3-BD0C-1C6948A7B190}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpf.set_q", "mpir-tests\mpf.set_q\mpf.set_q.vcproj", "{96006E4E-6BA3-45D3-BD0C-1C6948A7B190}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpf.set_si", "mpir-tests\mpf.set_si.vcproj", "{CBB339EA-F9A1-4E40-9E17-CFC2410D0C38}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpf.set_si", "mpir-tests\mpf.set_si\mpf.set_si.vcproj", "{CBB339EA-F9A1-4E40-9E17-CFC2410D0C38}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpf.set_ui", "mpir-tests\mpf.set_ui.vcproj", "{D96A11B7-CBA8-492B-BAB0-2176930A7B2D}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpf.set_ui", "mpir-tests\mpf.set_ui\mpf.set_ui.vcproj", "{D96A11B7-CBA8-492B-BAB0-2176930A7B2D}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpf.sqrt", "mpir-tests\mpf.sqrt.vcproj", "{BCEEA3E0-567A-4946-A47F-8E300920BA24}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpf.sqrt", "mpir-tests\mpf.sqrt\mpf.sqrt.vcproj", "{BCEEA3E0-567A-4946-A47F-8E300920BA24}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpf.sqrt_ui", "mpir-tests\mpf.sqrt_ui.vcproj", "{6C478B62-1737-4F87-B54C-89363C4FA5D8}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpf.sqrt_ui", "mpir-tests\mpf.sqrt_ui\mpf.sqrt_ui.vcproj", "{6C478B62-1737-4F87-B54C-89363C4FA5D8}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpf.sub", "mpir-tests\mpf.sub.vcproj", "{3869AF45-1841-47C8-B6FA-10FF36EB43D4}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpf.sub", "mpir-tests\mpf.sub\mpf.sub.vcproj", "{3869AF45-1841-47C8-B6FA-10FF36EB43D4}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpf.trunc", "mpir-tests\mpf.trunc.vcproj", "{55E03CF1-A4CE-415A-AF58-9708A9037B73}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpf.trunc", "mpir-tests\mpf.trunc\mpf.trunc.vcproj", "{55E03CF1-A4CE-415A-AF58-9708A9037B73}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpf.ui_div", "mpir-tests\mpf.ui_div.vcproj", "{FED2FE89-EBD6-4A98-A854-8336288241C5}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpf.ui_div", "mpir-tests\mpf.ui_div\mpf.ui_div.vcproj", "{FED2FE89-EBD6-4A98-A854-8336288241C5}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpn.aors_1", "mpir-tests\mpn.aors_1.vcproj", "{9CCB91C8-CE8A-43E7-B818-C50B69CBEA52}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpn.aors_1", "mpir-tests\mpn.aors_1\mpn.aors_1.vcproj", "{9CCB91C8-CE8A-43E7-B818-C50B69CBEA52}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpn.asmtype", "mpir-tests\mpn.asmtype.vcproj", "{83284438-103B-4D2C-A1F3-9A10F2856893}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpn.asmtype", "mpir-tests\mpn.asmtype\mpn.asmtype.vcproj", "{83284438-103B-4D2C-A1F3-9A10F2856893}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpn.divrem_1", "mpir-tests\mpn.divrem_1.vcproj", "{9B1DFC22-D63F-41C0-8A1E-DE1D7E9A0E9A}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpn.divrem_1", "mpir-tests\mpn.divrem_1\mpn.divrem_1.vcproj", "{9B1DFC22-D63F-41C0-8A1E-DE1D7E9A0E9A}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpn.get_d", "mpir-tests\mpn.get_d.vcproj", "{463F78C3-F5E5-4D64-9F7E-B3B6C6635238}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpn.get_d", "mpir-tests\mpn.get_d\mpn.get_d.vcproj", "{463F78C3-F5E5-4D64-9F7E-B3B6C6635238}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpn.instrument", "mpir-tests\mpn.instrument.vcproj", "{C56DAF55-9456-4E18-9E81-6A637F402B21}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpn.instrument", "mpir-tests\mpn.instrument\mpn.instrument.vcproj", "{C56DAF55-9456-4E18-9E81-6A637F402B21}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpn.iord_u", "mpir-tests\mpn.iord_u.vcproj", "{DA880260-0151-4AA4-83B8-F2EE9A398621}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpn.iord_u", "mpir-tests\mpn.iord_u\mpn.iord_u.vcproj", "{DA880260-0151-4AA4-83B8-F2EE9A398621}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpn.mp_bases", "mpir-tests\mpn.mp_bases.vcproj", "{06BD0427-4DB1-4EDC-8E57-DDFF92918E17}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpn.mp_bases", "mpir-tests\mpn.mp_bases\mpn.mp_bases.vcproj", "{06BD0427-4DB1-4EDC-8E57-DDFF92918E17}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpn.perfsqr", "mpir-tests\mpn.perfsqr.vcproj", "{2285C976-4710-4A60-85BC-49086DF1A2FF}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpn.perfsqr", "mpir-tests\mpn.perfsqr\mpn.perfsqr.vcproj", "{2285C976-4710-4A60-85BC-49086DF1A2FF}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpn.scan", "mpir-tests\mpn.scan.vcproj", "{1E489EFC-9E68-4C46-9EF7-29BA7B7E5C76}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpn.scan", "mpir-tests\mpn.scan\mpn.scan.vcproj", "{1E489EFC-9E68-4C46-9EF7-29BA7B7E5C76}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpq.aors", "mpir-tests\mpq.aors.vcproj", "{6A53F65C-D46D-41F8-8E0F-AF7372067EA8}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpq.aors", "mpir-tests\mpq.aors\mpq.aors.vcproj", "{6A53F65C-D46D-41F8-8E0F-AF7372067EA8}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpq.cmp", "mpir-tests\mpq.cmp.vcproj", "{71A7F1E1-72A8-40FD-B2F5-1CE1D0121370}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpq.cmp", "mpir-tests\mpq.cmp\mpq.cmp.vcproj", "{71A7F1E1-72A8-40FD-B2F5-1CE1D0121370}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpq.cmp_si", "mpir-tests\mpq.cmp_si.vcproj", "{4AAE926D-951C-48A0-A868-F0D205BED488}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpq.cmp_si", "mpir-tests\mpq.cmp_si\mpq.cmp_si.vcproj", "{4AAE926D-951C-48A0-A868-F0D205BED488}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpq.cmp_ui", "mpir-tests\mpq.cmp_ui.vcproj", "{8AE05377-17AE-4898-9A0F-85797908901D}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpq.cmp_ui", "mpir-tests\mpq.cmp_ui\mpq.cmp_ui.vcproj", "{8AE05377-17AE-4898-9A0F-85797908901D}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpq.equal", "mpir-tests\mpq.equal.vcproj", "{1F954DB3-3957-43D3-B27D-A2A49552D3E9}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpq.equal", "mpir-tests\mpq.equal\mpq.equal.vcproj", "{1F954DB3-3957-43D3-B27D-A2A49552D3E9}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpq.get_d", "mpir-tests\mpq.get_d.vcproj", "{BF459A20-A1BA-41B9-A4A9-54938F08434E}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpq.get_d", "mpir-tests\mpq.get_d\mpq.get_d.vcproj", "{BF459A20-A1BA-41B9-A4A9-54938F08434E}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpq.get_str", "mpir-tests\mpq.get_str.vcproj", "{89BB9690-8656-4A53-AACF-721D4B50A0DC}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpq.get_str", "mpir-tests\mpq.get_str\mpq.get_str.vcproj", "{89BB9690-8656-4A53-AACF-721D4B50A0DC}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpq.inp_str", "mpir-tests\mpq.inp_str.vcproj", "{36577F9B-0E3C-4962-86DB-E65711488D06}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpq.inp_str", "mpir-tests\mpq.inp_str\mpq.inp_str.vcproj", "{36577F9B-0E3C-4962-86DB-E65711488D06}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpq.md_2exp", "mpir-tests\mpq.md_2exp.vcproj", "{7559AA0F-D574-4810-AB5B-6A4F6E6D600E}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpq.md_2exp", "mpir-tests\mpq.md_2exp\mpq.md_2exp.vcproj", "{7559AA0F-D574-4810-AB5B-6A4F6E6D600E}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpq.set_f", "mpir-tests\mpq.set_f.vcproj", "{FD75348C-4A4F-4167-A730-67EE3B986619}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpq.set_f", "mpir-tests\mpq.set_f\mpq.set_f.vcproj", "{FD75348C-4A4F-4167-A730-67EE3B986619}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpq.set_str", "mpir-tests\mpq.set_str.vcproj", "{21C2CA09-DF0A-48A1-B12C-C8630A355CA1}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpq.set_str", "mpir-tests\mpq.set_str\mpq.set_str.vcproj", "{21C2CA09-DF0A-48A1-B12C-C8630A355CA1}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.addsub", "mpir-tests\mpz.addsub.vcproj", "{F7350B52-3C26-4F8D-87F5-46461CF9AA21}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.addsub", "mpir-tests\mpz.addsub\mpz.addsub.vcproj", "{F7350B52-3C26-4F8D-87F5-46461CF9AA21}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.aorsmul", "mpir-tests\mpz.aorsmul.vcproj", "{F79CF60D-6FC3-4A24-935C-D09665B13400}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.aorsmul", "mpir-tests\mpz.aorsmul\mpz.aorsmul.vcproj", "{F79CF60D-6FC3-4A24-935C-D09665B13400}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.bin", "mpir-tests\mpz.bin.vcproj", "{898194CA-8687-478A-AF8C-AD6D02280B8E}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.bin", "mpir-tests\mpz.bin\mpz.bin.vcproj", "{898194CA-8687-478A-AF8C-AD6D02280B8E}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.bit", "mpir-tests\mpz.bit.vcproj", "{E78109FE-AFFD-47B5-B077-7405F12EBF4B}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.bit", "mpir-tests\mpz.bit\mpz.bit.vcproj", "{E78109FE-AFFD-47B5-B077-7405F12EBF4B}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.cdiv_ui", "mpir-tests\mpz.cdiv_ui.vcproj", "{2EB4F888-8048-4283-AAF9-B9419774F7A1}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.cdiv_ui", "mpir-tests\mpz.cdiv_ui\mpz.cdiv_ui.vcproj", "{2EB4F888-8048-4283-AAF9-B9419774F7A1}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.cmp", "mpir-tests\mpz.cmp.vcproj", "{93A2A9CB-18E3-4EF0-8186-A5C1C49271F9}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.cmp", "mpir-tests\mpz.cmp\mpz.cmp.vcproj", "{93A2A9CB-18E3-4EF0-8186-A5C1C49271F9}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.cmp_d", "mpir-tests\mpz.cmp_d.vcproj", "{AC29CE01-373A-4DAF-94A8-51477B18242B}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.cmp_d", "mpir-tests\mpz.cmp_d\mpz.cmp_d.vcproj", "{AC29CE01-373A-4DAF-94A8-51477B18242B}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.cmp_si", "mpir-tests\mpz.cmp_si.vcproj", "{23CBED72-0007-4671-BDCC-817403C2FDAB}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.cmp_si", "mpir-tests\mpz.cmp_si\mpz.cmp_si.vcproj", "{23CBED72-0007-4671-BDCC-817403C2FDAB}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.cong", "mpir-tests\mpz.cong.vcproj", "{B134B8F2-AE55-4046-902A-D282147C992F}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.cong", "mpir-tests\mpz.cong\mpz.cong.vcproj", "{B134B8F2-AE55-4046-902A-D282147C992F}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.cong_2exp", "mpir-tests\mpz.cong_2exp.vcproj", "{D5F1FFDA-34DF-4A89-9767-924D39D35CCC}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.cong_2exp", "mpir-tests\mpz.cong_2exp\mpz.cong_2exp.vcproj", "{D5F1FFDA-34DF-4A89-9767-924D39D35CCC}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.convert", "mpir-tests\mpz.convert.vcproj", "{BB201B0D-07F7-42AA-B16C-D8BD0F19CC98}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.convert", "mpir-tests\mpz.convert\mpz.convert.vcproj", "{BB201B0D-07F7-42AA-B16C-D8BD0F19CC98}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.dive", "mpir-tests\mpz.dive.vcproj", "{40EAB710-54A7-4C3B-B264-12BF4AD0C752}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.dive", "mpir-tests\mpz.dive\mpz.dive.vcproj", "{40EAB710-54A7-4C3B-B264-12BF4AD0C752}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.dive_ui", "mpir-tests\mpz.dive_ui.vcproj", "{46D51B2B-C319-4858-ADF0-476074188070}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.dive_ui", "mpir-tests\mpz.dive_ui\mpz.dive_ui.vcproj", "{46D51B2B-C319-4858-ADF0-476074188070}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.divis", "mpir-tests\mpz.divis.vcproj", "{6CDD5B46-39A7-49FD-B8C6-476C4958CAAF}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.divis", "mpir-tests\mpz.divis\mpz.divis.vcproj", "{6CDD5B46-39A7-49FD-B8C6-476C4958CAAF}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.divis_2exp", "mpir-tests\mpz.divis_2exp.vcproj", "{8B1D4E3F-1125-4BDA-B81E-20E022C03538}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.divis_2exp", "mpir-tests\mpz.divis_2exp\mpz.divis_2exp.vcproj", "{8B1D4E3F-1125-4BDA-B81E-20E022C03538}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.div_2exp", "mpir-tests\mpz.div_2exp.vcproj", "{1862DC50-4B23-4941-A190-C4838C0A49AE}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.div_2exp", "mpir-tests\mpz.div_2exp\mpz.div_2exp.vcproj", "{1862DC50-4B23-4941-A190-C4838C0A49AE}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.export", "mpir-tests\mpz.export.vcproj", "{05F1AFCD-A715-46A2-AEAB-89BC60FFCF2C}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.export", "mpir-tests\mpz.export\mpz.export.vcproj", "{05F1AFCD-A715-46A2-AEAB-89BC60FFCF2C}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.fac_ui", "mpir-tests\mpz.fac_ui.vcproj", "{88385AFF-169F-4B40-98A3-CA0B59BB9451}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.fac_ui", "mpir-tests\mpz.fac_ui\mpz.fac_ui.vcproj", "{88385AFF-169F-4B40-98A3-CA0B59BB9451}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.fdiv", "mpir-tests\mpz.fdiv.vcproj", "{EC4EF28D-919C-4B13-89BC-29D063D408A0}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.fdiv", "mpir-tests\mpz.fdiv\mpz.fdiv.vcproj", "{EC4EF28D-919C-4B13-89BC-29D063D408A0}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.fdiv_ui", "mpir-tests\mpz.fdiv_ui.vcproj", "{205C829A-29D9-46AC-BC71-BE513794ECBE}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.fdiv_ui", "mpir-tests\mpz.fdiv_ui\mpz.fdiv_ui.vcproj", "{205C829A-29D9-46AC-BC71-BE513794ECBE}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.fib_ui", "mpir-tests\mpz.fib_ui.vcproj", "{A5B79959-9B49-4021-90F4-EE776D9863AC}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.fib_ui", "mpir-tests\mpz.fib_ui\mpz.fib_ui.vcproj", "{A5B79959-9B49-4021-90F4-EE776D9863AC}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.fits", "mpir-tests\mpz.fits.vcproj", "{8C67CBCA-C127-49FE-8CF4-DA38B66B5186}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.fits", "mpir-tests\mpz.fits\mpz.fits.vcproj", "{8C67CBCA-C127-49FE-8CF4-DA38B66B5186}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.gcd", "mpir-tests\mpz.gcd.vcproj", "{94A2A4AC-186D-4403-BB02-A81077F4717B}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.gcd", "mpir-tests\mpz.gcd\mpz.gcd.vcproj", "{94A2A4AC-186D-4403-BB02-A81077F4717B}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.gcd_ui", "mpir-tests\mpz.gcd_ui.vcproj", "{F2B48C2D-B7A6-4AF7-A1B6-95023F7185E2}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.gcd_ui", "mpir-tests\mpz.gcd_ui\mpz.gcd_ui.vcproj", "{F2B48C2D-B7A6-4AF7-A1B6-95023F7185E2}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.get_d", "mpir-tests\mpz.get_d.vcproj", "{5A0DC446-207D-4A16-BBE1-2F6FBBE5FA32}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.get_d", "mpir-tests\mpz.get_d\mpz.get_d.vcproj", "{5A0DC446-207D-4A16-BBE1-2F6FBBE5FA32}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.get_d_2exp", "mpir-tests\mpz.get_d_2exp.vcproj", "{808F86D0-5256-4673-8623-669BDF077406}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.get_d_2exp", "mpir-tests\mpz.get_d_2exp\mpz.get_d_2exp.vcproj", "{808F86D0-5256-4673-8623-669BDF077406}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.get_si", "mpir-tests\mpz.get_si.vcproj", "{57ED741A-DA02-48BF-B6B0-43230EEFF83D}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.get_si", "mpir-tests\mpz.get_si\mpz.get_si.vcproj", "{57ED741A-DA02-48BF-B6B0-43230EEFF83D}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.hamdist", "mpir-tests\mpz.hamdist.vcproj", "{3E1AE893-E6E6-4E09-807A-148360C538AF}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.hamdist", "mpir-tests\mpz.hamdist\mpz.hamdist.vcproj", "{3E1AE893-E6E6-4E09-807A-148360C538AF}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.import", "mpir-tests\mpz.import.vcproj", "{4BBD77B6-48C2-4551-A874-327A414C3A35}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.import", "mpir-tests\mpz.import\mpz.import.vcproj", "{4BBD77B6-48C2-4551-A874-327A414C3A35}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.inp_str", "mpir-tests\mpz.inp_str.vcproj", "{C320625B-D86E-46DD-B08B-AE4328BF3FDB}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.inp_str", "mpir-tests\mpz.inp_str\mpz.inp_str.vcproj", "{C320625B-D86E-46DD-B08B-AE4328BF3FDB}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.io", "mpir-tests\mpz.io.vcproj", "{AA40EBEE-F2EC-4DFA-A1C9-D58734BCBEA8}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.io", "mpir-tests\mpz.io\mpz.io.vcproj", "{AA40EBEE-F2EC-4DFA-A1C9-D58734BCBEA8}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.io_raw", "mpir-tests\mpz.io_raw.vcproj", "{DC53ACFA-DEEE-441C-AEE6-E96F1D6DB68B}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.io_raw", "mpir-tests\mpz.io_raw\mpz.io_raw.vcproj", "{DC53ACFA-DEEE-441C-AEE6-E96F1D6DB68B}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.jac", "mpir-tests\mpz.jac.vcproj", "{6DDED97E-BEBC-447B-A102-4B14CCD62C9F}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.jac", "mpir-tests\mpz.jac\mpz.jac.vcproj", "{6DDED97E-BEBC-447B-A102-4B14CCD62C9F}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.lcm", "mpir-tests\mpz.lcm.vcproj", "{72DC8986-697E-4EA1-B2A1-86453C2E6BFD}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.lcm", "mpir-tests\mpz.lcm\mpz.lcm.vcproj", "{72DC8986-697E-4EA1-B2A1-86453C2E6BFD}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.logic", "mpir-tests\mpz.logic.vcproj", "{26B8A115-120B-4D62-B593-3FD7FD4CA75E}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.logic", "mpir-tests\mpz.logic\mpz.logic.vcproj", "{26B8A115-120B-4D62-B593-3FD7FD4CA75E}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.lucnum_ui", "mpir-tests\mpz.lucnum_ui.vcproj", "{C5FB18BB-0572-407A-8FE7-F919A59D2ADC}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.lucnum_ui", "mpir-tests\mpz.lucnum_ui\mpz.lucnum_ui.vcproj", "{C5FB18BB-0572-407A-8FE7-F919A59D2ADC}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.mul", "mpir-tests\mpz.mul.vcproj", "{2800452A-552F-4330-95EB-AB394CAF463B}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.mul", "mpir-tests\mpz.mul\mpz.mul.vcproj", "{2800452A-552F-4330-95EB-AB394CAF463B}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.mul_i", "mpir-tests\mpz.mul_i.vcproj", "{4E5C40F6-9CC6-4242-A12E-6105D3C37988}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.mul_i", "mpir-tests\mpz.mul_i\mpz.mul_i.vcproj", "{4E5C40F6-9CC6-4242-A12E-6105D3C37988}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.oddeven", "mpir-tests\mpz.oddeven.vcproj", "{3FD72315-A289-40B6-B42D-A4CB88A4E63B}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.oddeven", "mpir-tests\mpz.oddeven\mpz.oddeven.vcproj", "{3FD72315-A289-40B6-B42D-A4CB88A4E63B}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.perfsqr", "mpir-tests\mpz.perfsqr.vcproj", "{7FB29BE2-6C9C-42DE-A73D-2D860785C1FA}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.perfsqr", "mpir-tests\mpz.perfsqr\mpz.perfsqr.vcproj", "{7FB29BE2-6C9C-42DE-A73D-2D860785C1FA}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.popcount", "mpir-tests\mpz.popcount.vcproj", "{877FBBB2-F0F4-411E-9438-4576D1B08F94}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.popcount", "mpir-tests\mpz.popcount\mpz.popcount.vcproj", "{877FBBB2-F0F4-411E-9438-4576D1B08F94}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.pow", "mpir-tests\mpz.pow.vcproj", "{D7E69275-F85F-47E7-A1C0-5B1914BBE79F}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.pow", "mpir-tests\mpz.pow\mpz.pow.vcproj", "{D7E69275-F85F-47E7-A1C0-5B1914BBE79F}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.powm", "mpir-tests\mpz.powm.vcproj", "{480E426C-C2AF-4C46-9AE6-6A93FA005C18}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.powm", "mpir-tests\mpz.powm\mpz.powm.vcproj", "{480E426C-C2AF-4C46-9AE6-6A93FA005C18}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.powm_ui", "mpir-tests\mpz.powm_ui.vcproj", "{04D5A0F5-82D8-4095-AC67-A691F9CEB768}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.powm_ui", "mpir-tests\mpz.powm_ui\mpz.powm_ui.vcproj", "{04D5A0F5-82D8-4095-AC67-A691F9CEB768}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.pprime_p", "mpir-tests\mpz.pprime_p.vcproj", "{D5CA1B70-2D03-4794-B15A-E030ED92CB64}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.pprime_p", "mpir-tests\mpz.pprime_p\mpz.pprime_p.vcproj", "{D5CA1B70-2D03-4794-B15A-E030ED92CB64}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.reuse", "mpir-tests\mpz.reuse.vcproj", "{D0AB4F75-48A7-4673-AA53-9134DFBD2956}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.reuse", "mpir-tests\mpz.reuse\mpz.reuse.vcproj", "{D0AB4F75-48A7-4673-AA53-9134DFBD2956}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.root", "mpir-tests\mpz.root.vcproj", "{8B162257-3A6F-401C-905A-5A616B8945F2}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.root", "mpir-tests\mpz.root\mpz.root.vcproj", "{8B162257-3A6F-401C-905A-5A616B8945F2}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.scan", "mpir-tests\mpz.scan.vcproj", "{71102476-03D2-401E-B6F6-301E984CB7DD}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.scan", "mpir-tests\mpz.scan\mpz.scan.vcproj", "{71102476-03D2-401E-B6F6-301E984CB7DD}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.set_d", "mpir-tests\mpz.set_d.vcproj", "{7C625DDB-7776-4752-8B52-29E2983A4E95}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.set_d", "mpir-tests\mpz.set_d\mpz.set_d.vcproj", "{7C625DDB-7776-4752-8B52-29E2983A4E95}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.set_f", "mpir-tests\mpz.set_f.vcproj", "{19C4F045-3877-4320-9200-B97EC40996E2}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.set_f", "mpir-tests\mpz.set_f\mpz.set_f.vcproj", "{19C4F045-3877-4320-9200-B97EC40996E2}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.set_si", "mpir-tests\mpz.set_si.vcproj", "{008BCDED-1DD5-4B9D-B6B3-461B9BFE41A5}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.set_si", "mpir-tests\mpz.set_si\mpz.set_si.vcproj", "{008BCDED-1DD5-4B9D-B6B3-461B9BFE41A5}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.set_str", "mpir-tests\mpz.set_str.vcproj", "{7681DE2C-1FE2-4B7B-98CD-9D25C4107340}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.set_str", "mpir-tests\mpz.set_str\mpz.set_str.vcproj", "{7681DE2C-1FE2-4B7B-98CD-9D25C4107340}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.sizeinbase", "mpir-tests\mpz.sizeinbase.vcproj", "{042E07FE-5174-4FB9-9469-516E20F53FE5}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.sizeinbase", "mpir-tests\mpz.sizeinbase\mpz.sizeinbase.vcproj", "{042E07FE-5174-4FB9-9469-516E20F53FE5}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.sqrtrem", "mpir-tests\mpz.sqrtrem.vcproj", "{E6671DBC-D0C3-4493-89CA-B6EBF8B60AB9}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.sqrtrem", "mpir-tests\mpz.sqrtrem\mpz.sqrtrem.vcproj", "{E6671DBC-D0C3-4493-89CA-B6EBF8B60AB9}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.tdiv", "mpir-tests\mpz.tdiv.vcproj", "{AB3F038D-936E-40E6-914C-D2F1A2352FCF}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.tdiv", "mpir-tests\mpz.tdiv\mpz.tdiv.vcproj", "{AB3F038D-936E-40E6-914C-D2F1A2352FCF}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.tdiv_ui", "mpir-tests\mpz.tdiv_ui.vcproj", "{46ED3730-4921-45D1-8FEF-4CE29745FB25}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.tdiv_ui", "mpir-tests\mpz.tdiv_ui\mpz.tdiv_ui.vcproj", "{46ED3730-4921-45D1-8FEF-4CE29745FB25}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "parity", "mpir-tests\parity.vcproj", "{7FB77E83-219A-42D6-98D0-66C13F38A221}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "parity", "mpir-tests\parity\parity.vcproj", "{7FB77E83-219A-42D6-98D0-66C13F38A221}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "popc", "mpir-tests\popc.vcproj", "{8FC64DB6-5DCC-446C-8FEC-DA8D76756523}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "popc", "mpir-tests\popc\popc.vcproj", "{8FC64DB6-5DCC-446C-8FEC-DA8D76756523}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "rand.iset", "mpir-tests\rand.iset.vcproj", "{551E7C9B-9844-415F-8D65-DAEA5DFF3279}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "rand.iset", "mpir-tests\rand.iset\rand.iset.vcproj", "{551E7C9B-9844-415F-8D65-DAEA5DFF3279}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "rand.lc2exp", "mpir-tests\rand.lc2exp.vcproj", "{9D169447-3B5B-41DA-96C2-EB40DE0A96D7}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "rand.lc2exp", "mpir-tests\rand.lc2exp\rand.lc2exp.vcproj", "{9D169447-3B5B-41DA-96C2-EB40DE0A96D7}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "rand.mt", "mpir-tests\rand.mt.vcproj", "{7CC8AB03-9D9F-4001-B99A-AA8D24487043}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "rand.mt", "mpir-tests\rand.mt\rand.mt.vcproj", "{7CC8AB03-9D9F-4001-B99A-AA8D24487043}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "rand.rand", "mpir-tests\rand.rand.vcproj", "{D0CB0D23-2B7B-4D17-BC1C-6A698010503B}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "rand.rand", "mpir-tests\rand.rand\rand.rand.vcproj", "{D0CB0D23-2B7B-4D17-BC1C-6A698010503B}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "rand.urbui", "mpir-tests\rand.urbui.vcproj", "{55883549-B725-41B7-900D-28EDC4757B76}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "rand.urbui", "mpir-tests\rand.urbui\rand.urbui.vcproj", "{55883549-B725-41B7-900D-28EDC4757B76}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "rand.urmui", "mpir-tests\rand.urmui.vcproj", "{AE7429E9-F7AD-4B49-9E6E-8615003DD8AF}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "rand.urmui", "mpir-tests\rand.urmui\rand.urmui.vcproj", "{AE7429E9-F7AD-4B49-9E6E-8615003DD8AF}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "rand.urndmm", "mpir-tests\rand.urndmm.vcproj", "{8D10D126-A641-40DC-B8FC-1407F3FAFA55}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "rand.urndmm", "mpir-tests\rand.urndmm\rand.urndmm.vcproj", "{8D10D126-A641-40DC-B8FC-1407F3FAFA55}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "subc", "mpir-tests\subc.vcproj", "{378F2D05-7A71-4AC3-A045-C8416D965C94}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "subc", "mpir-tests\subc\subc.vcproj", "{378F2D05-7A71-4AC3-A045-C8416D965C94}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "add-test-lib", "mpir-tests\add-test-lib.vcproj", "{A742D3D1-6956-4F85-BFD6-B0E7B477041D}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "add-test-lib", "mpir-tests\add-test-lib\add-test-lib.vcproj", "{A742D3D1-6956-4F85-BFD6-B0E7B477041D}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpn.addadd_n", "mpir-tests\mpn.addadd_n.vcproj", "{828194E3-0329-4D48-BF59-B0E9322236E5}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpn.addadd_n", "mpir-tests\mpn.addadd_n\mpn.addadd_n.vcproj", "{828194E3-0329-4D48-BF59-B0E9322236E5}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpn.addsub_n", "mpir-tests\mpn.addsub_n.vcproj", "{8AE966D1-4171-4140-B3D1-94FEBEAD283D}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpn.addsub_n", "mpir-tests\mpn.addsub_n\mpn.addsub_n.vcproj", "{8AE966D1-4171-4140-B3D1-94FEBEAD283D}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpn.divebyff", "mpir-tests\mpn.divebyff.vcproj", "{DA5B26DC-AB9D-4BC7-B107-AAE1CC12E659}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpn.divebyff", "mpir-tests\mpn.divebyff\mpn.divebyff.vcproj", "{DA5B26DC-AB9D-4BC7-B107-AAE1CC12E659}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpn.lorrshift1", "mpir-tests\mpn.lorrshift1.vcproj", "{A5F367C5-97CB-43EA-82B0-11C308A72138}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpn.lorrshift1", "mpir-tests\mpn.lorrshift1\mpn.lorrshift1.vcproj", "{A5F367C5-97CB-43EA-82B0-11C308A72138}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.perfpow", "mpir-tests\mpz.perfpow.vcproj", "{D31C70F1-91BE-4665-BBBA-4E0BEC1FA8A7}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.perfpow", "mpir-tests\mpz.perfpow\mpz.perfpow.vcproj", "{D31C70F1-91BE-4665-BBBA-4E0BEC1FA8A7}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 		{50EFC9E8-FB88-44C3-9F30-075547E22992} = {50EFC9E8-FB88-44C3-9F30-075547E22992}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpn.redc_basecase", "mpir-tests\mpn.redc_basecase.vcproj", "{6B43B380-BFD2-4542-93B1-0FCCB41C784C}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpn.redc_basecase", "mpir-tests\mpn.redc_basecase\mpn.redc_basecase.vcproj", "{6B43B380-BFD2-4542-93B1-0FCCB41C784C}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpn.divebybm1of", "mpir-tests\mpn.divebybm1of.vcproj", "{EEEF41E8-5252-4EC8-B7F7-4613C15B647F}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpn.divebybm1of", "mpir-tests\mpn.divebybm1of\mpn.divebybm1of.vcproj", "{EEEF41E8-5252-4EC8-B7F7-4613C15B647F}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpn.mullow_basecase", "mpir-tests\mpn.mullow_basecase.vcproj", "{E04536A6-2DD2-402D-97B4-26FCAC03EDA8}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpn.mullow_basecase", "mpir-tests\mpn.mullow_basecase\mpn.mullow_basecase.vcproj", "{E04536A6-2DD2-402D-97B4-26FCAC03EDA8}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpn.mulmid", "mpir-tests\mpn.mulmid.vcproj", "{92035FF7-D13A-444C-B9EE-C291763141B2}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpn.mulmid", "mpir-tests\mpn.mulmid\mpn.mulmid.vcproj", "{92035FF7-D13A-444C-B9EE-C291763141B2}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpn.subadd_n", "mpir-tests\mpn.subadd_n.vcproj", "{80AA8172-5BA6-4E00-A80D-F8B3D7103ABD}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpn.subadd_n", "mpir-tests\mpn.subadd_n\mpn.subadd_n.vcproj", "{80AA8172-5BA6-4E00-A80D-F8B3D7103ABD}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpn.mullowhigh", "mpir-tests\mpn.mullowhigh.vcproj", "{79E7BF28-DCDE-4C02-A87B-FB88461E649F}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpn.mullowhigh", "mpir-tests\mpn.mullowhigh\mpn.mullowhigh.vcproj", "{79E7BF28-DCDE-4C02-A87B-FB88461E649F}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpf.eq", "mpir-tests\mpf.eq.vcproj", "{F04C83A6-6833-4405-B4CE-7E8450EEAF5E}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpf.eq", "mpir-tests\mpf.eq\mpf.eq.vcproj", "{F04C83A6-6833-4405-B4CE-7E8450EEAF5E}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpn.neg", "mpir-tests\mpn.neg.vcproj", "{32CDAF31-B819-48F4-9408-8B721D4B1ABB}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpn.neg", "mpir-tests\mpn.neg\mpn.neg.vcproj", "{32CDAF31-B819-48F4-9408-8B721D4B1ABB}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpn.mulmod_2expm1", "mpir-tests\mpn.mulmod_2expm1.vcproj", "{02338FE4-8EA2-4E5A-9BBC-8EA8F0871765}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpn.mulmod_2expm1", "mpir-tests\mpn.mulmod_2expm1\mpn.mulmod_2expm1.vcproj", "{02338FE4-8EA2-4E5A-9BBC-8EA8F0871765}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpn.mulmod_2expp1", "mpir-tests\mpn.mulmod_2expp1.vcproj", "{2C6D4AFC-84FF-46B5-86DB-26078521434C}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpn.mulmod_2expp1", "mpir-tests\mpn.mulmod_2expp1\mpn.mulmod_2expp1.vcproj", "{2C6D4AFC-84FF-46B5-86DB-26078521434C}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.trial_division", "mpir-tests\mpz.trial_division.vcproj", "{B47E6162-390F-46A4-B5F3-25AF63F39305}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.trial_division", "mpir-tests\mpz.trial_division\mpz.trial_division.vcproj", "{B47E6162-390F-46A4-B5F3-25AF63F39305}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpn.sb_divappr_q", "mpir-tests\mpn.sb_divappr_q.vcproj", "{C67D58A3-845E-4DF7-9D53-C68FC877992E}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpn.sb_divappr_q", "mpir-tests\mpn.sb_divappr_q\mpn.sb_divappr_q.vcproj", "{C67D58A3-845E-4DF7-9D53-C68FC877992E}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpn.dc_divappr_q_n", "mpir-tests\mpn.dc_divappr_q_n.vcproj", "{D93FB003-B8E1-489A-ADC8-AE329B3B5F02}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpn.dc_divappr_q_n", "mpir-tests\mpn.dc_divappr_q_n\mpn.dc_divappr_q_n.vcproj", "{D93FB003-B8E1-489A-ADC8-AE329B3B5F02}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpn.tdiv_q", "mpir-tests\mpn.tdiv_q.vcproj", "{3933D0DE-F5E0-4487-BC1E-31A96987E586}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpn.tdiv_q", "mpir-tests\mpn.tdiv_q\mpn.tdiv_q.vcproj", "{3933D0DE-F5E0-4487-BC1E-31A96987E586}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
