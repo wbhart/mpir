@@ -104,31 +104,40 @@ first time with the Intel compiler after such a conversion, it is
 advisable to clean all the build projects and to delete any files
 in the build.vc9\Win32 and build.vc9\x64 sub-directories.
 
-MPIR is built by using the appropriate build projects. 
-Select the desired DLL or static library and then set the desired 
-configuration:
+MPIR is built by using the appropriate build projects and, where
+appropriate, setting the build configuration and platform:
 
     win32 or x64
     release or debug
-    
-To build the MPIR dynamic link libraries (DLLs) choose one (or more)
-of:
 
-    dll_mpir_k8     - MPIR DLL using AMD Athlon assembler (x64)
-    dll_mpir_core2  - MPIR DLL using Intel Core2 assembler (x64)
+All projects have release and debug configurations but not all 
+projects provide for 32 and 64 bit Windows platforms. 
+
+The supported platforms and library formats are as follows:   
+
+1. Generic Build Projects (both 32 and 64 bit)
+
+    lib_mpir_gc     - MPIR library using generic C (win32 & x64)
+    lib_mpir_cxx    - MPIR C++ library
     dll_mpir_gc     - MPIR DLL using generic C (win32 & x64)
+
+2. 32-bit Build Projects
+
+    lib_mpir_p0     - MPIR library using Pentium assembler (win32)
+    lib_mpir_p3     - MPIR library using Pentium III assembler (win32
+    lib_mpir_p4     - MPIR library using Pentium IV assembler (win32)
     dll_mpir_p0     - MPIR DLL using Pentium assembler (win32)
     dll_mpir_p3     - MPIR DLL using Pentium III assembler (win32)
     dll_mpir_p4     - MPIR DLL using Pentium IV assembler (win32)
 
-To build MPIR static libraries choose one (or more) of:
-
-    lib_mpir_k8     - MPIR library using AMD Athlon assembler (x64)
+3. 64-bit Build Projects
+    
+    lib_mpir_k8     - MPIR library using AMD k8 assembler (x64)
+    lib_mpir_k10     - MPIR library using AMD k10 assembler (x64)
     lib_mpir_core2  - MPIR library Intel Core2 assembler (x64)
-    lib_mpir_gc     - MPIR library using generic C (win32 & x64)
-    lib_mpir_p0     - MPIR library using Pentium assembler (win32)
-    lib_mpir_p3     - MPIR library using Pentium III assembler (win32
-    lib_mpir_p4     - MPIR library using Pentium IV assembler (win32)
+    dll_mpir_k8     - MPIR DLL using AMD k8 assembler (x64)
+    dll_mpir_k8     - MPIR DLL using AMD k10 assembler (x64)
+    dll_mpir_core2  - MPIR DLL using Intel Core2 assembler (x64)
 
 Before any of these libraries is built the appropriate MPIR 
 configuration file is automatically copied into config.h.  After a 
@@ -173,27 +182,6 @@ platform to be easily located.  The individual project sub-
 directories also contain the libraries once they have been built 
 (the 'dll' and 'lib' directories are just used to hold the latest 
 built versions for linking the tests that are described later). 
-
-Building for the AMD k10
-========================
-
-The standard k8 build is for the K8 architecture. If you wish 
-to use the k10 assembler you will need to change the k8 build
-projects by including the four k10 assembler files in 
-
-   Source Files\mpn\Assembler\k10 
-
-and removing lshift.asm and rshift.asm in 
-
-   Source Files\mpn\Assembler\
-   
-And in config.k8 change: 
-
-   #if 0       /* for AMD k10 processor */
-
-to:
-
-   #if 1       /* for AMD k10 processor */
 
 C++ Interface
 =============
@@ -409,4 +397,4 @@ My thanks to:
 4. Jeff Gilchrist for his help in testing, debugging and 
    improving the readme giving the VC++ build instructions
 
-       Brian Gladman, June 2009
+       Brian Gladman, December 2009
