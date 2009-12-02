@@ -33,7 +33,7 @@ p_rg = r'(?:\s*%(' + r_b + r_w + r_d + r_q + '|' + r_x + r'))'
 
 # regular expression for dis(r1, r2, mul) forms
 
-p_di = r'(?:\s*([-+]?[0-9]*)(?=\())?'     # numeric displacement
+p_di = r'(?:\s*([-+]?[0-9\+\-]*)(?=\())?' # numeric displacement
 p_mu = r'(?:\s*,\s*([1248]))?\s*(?=\))'   # multiplier (1, 2, 4, 8)
 p_t1 = p_di + r'\s*\(' + p_rg + r'(?:\s*\)|\s*,' + p_rg + p_mu + r'\s*\))'
 
@@ -149,7 +149,7 @@ def pass_three(code, labels, macros, level) :
   lo = []
   mac_name = ''
   for l in code :
-    lp = '\n'
+
     # labels
     m = m_la.search(l)
     if m :
@@ -177,7 +177,10 @@ def pass_three(code, labels, macros, level) :
           lp = '\n.{0}:'.format(ii)
         else :
           lp = '\nL_{0}:'.format(lab)
+      if lp :
+        lo += [lp]
 
+    lp = '\n'
     m = re.search(r'^(\s*)#\s*(.*)', l)
     if m :
       v = list(m.groups())
@@ -443,6 +446,11 @@ def pass_three(code, labels, macros, level) :
                + ''.join(['..\\'] * level) + "yasm_mac.inc'"]
       continue
 
+    m = re.search(r'\s*(ret\b.*)', l)
+    if m :
+      lo += [lp + '{0}'.format(l.rstrip(string.whitespace))]
+      continue
+
     m = re.search(r'\s*(\S+)', l)
     if m :
       if len(l) :
@@ -452,6 +460,7 @@ def pass_three(code, labels, macros, level) :
         lo += [lp]
     else :
       lo += [lp]
+
   return lo + ['\n']
 
 def form_path(p) :

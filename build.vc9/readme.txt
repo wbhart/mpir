@@ -114,7 +114,7 @@ configuration:
 To build the MPIR dynamic link libraries (DLLs) choose one (or more)
 of:
 
-    dll_mpir_amd64  - MPIR DLL using AMD Athlon assembler (x64)
+    dll_mpir_k8     - MPIR DLL using AMD Athlon assembler (x64)
     dll_mpir_core2  - MPIR DLL using Intel Core2 assembler (x64)
     dll_mpir_gc     - MPIR DLL using generic C (win32 & x64)
     dll_mpir_p0     - MPIR DLL using Pentium assembler (win32)
@@ -123,7 +123,7 @@ of:
 
 To build MPIR static libraries choose one (or more) of:
 
-    lib_mpir_amd64  - MPIR library using AMD Athlon assembler (x64)
+    lib_mpir_k8     - MPIR library using AMD Athlon assembler (x64)
     lib_mpir_core2  - MPIR library Intel Core2 assembler (x64)
     lib_mpir_gc     - MPIR library using generic C (win32 & x64)
     lib_mpir_p0     - MPIR library using Pentium assembler (win32)
@@ -174,26 +174,26 @@ directories also contain the libraries once they have been built
 (the 'dll' and 'lib' directories are just used to hold the latest 
 built versions for linking the tests that are described later). 
 
-Building for the AMD K10
+Building for the AMD k10
 ========================
 
-The standard AMD64 build is for the K8 architecture. If you wish 
-to use the K10 assembler you will need to change the AMD64 build
-projects by including the four K10 assembler files in 
+The standard k8 build is for the K8 architecture. If you wish 
+to use the k10 assembler you will need to change the k8 build
+projects by including the four k10 assembler files in 
 
-   Source Files\mpn\Assembler\K10 
+   Source Files\mpn\Assembler\k10 
 
 and removing lshift.asm and rshift.asm in 
 
    Source Files\mpn\Assembler\
    
-And in config.amd64 change: 
+And in config.k8 change: 
 
-   #if 0       /* for AMD K10 processor */
+   #if 0       /* for AMD k10 processor */
 
 to:
 
-   #if 1       /* for AMD K10 processor */
+   #if 1       /* for AMD k10 processor */
 
 C++ Interface
 =============

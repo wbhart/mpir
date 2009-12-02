@@ -66,7 +66,7 @@ if %BITS% == ? (
 set ARCH=x86
 set ARCHW=Win32
 if %BITS% == 64 (
-	set ARCH=amd64
+	set ARCH=k8
 	set ARCHW=x64
 )
 cl config.guess.c > nul 2>&1
@@ -111,8 +111,8 @@ if %BITS% == 64 (
 	if %CPU% == atom ( set BCPU=gc)
 	if %CPU% == netburst ( set BCPU=gc)
 	if %CPU% == netburstlahf ( set BCPU=gc)
-	if %CPU% == k8 ( set BCPU=amd64)
-	if %CPU% == k10 ( set BCPU=amd64)
+	if %CPU% == k8 ( set BCPU=k8)
+	if %CPU% == k10 ( set BCPU=k8)
 )
 if %BITS% == 32 (
 	if %CPU% == i486 ( set BCPU=gc)
