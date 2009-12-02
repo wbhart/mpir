@@ -25,7 +25,7 @@
 
 %include "..\..\yasm_mac.inc"
 
-    CPU  Athlon64
+    CPU  SSE4.2
     BITS 64
 
     LEAF_PROC mpn_rshift
