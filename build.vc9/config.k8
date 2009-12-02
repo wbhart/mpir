@@ -195,11 +195,6 @@ MA 02111-1307, USA. */
 #define HAVE_NATIVE_mpn_copyd               1
 #endif
 
-#if 0       /* for AMD K10 processor */
-#define HAVE_NATIVE_mpn_hamdist             1
-#define HAVE_NATIVE_mpn_popcount            1
-#endif
-
 #if 1       /* for logic functions  */
 #define HAVE_NATIVE_mpn_and_n               1
 #define HAVE_NATIVE_mpn_andn_n              1

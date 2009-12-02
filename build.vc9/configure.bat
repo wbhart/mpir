@@ -112,7 +112,7 @@ if %BITS% == 64 (
 	if %CPU% == netburst ( set BCPU=gc)
 	if %CPU% == netburstlahf ( set BCPU=gc)
 	if %CPU% == k8 ( set BCPU=k8)
-	if %CPU% == k10 ( set BCPU=k8)
+	if %CPU% == k10 ( set BCPU=k10)
 )
 if %BITS% == 32 (
 	if %CPU% == i486 ( set BCPU=gc)
