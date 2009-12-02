@@ -46,10 +46,10 @@
 	mov     r11, [r9+24]
 	mov     r9, [r9+8]
 	sub     rdi, 8
-	jc      L_skiplp
+	jc      .2
 	xalign  16
 ; // r15 r14 -8() -16()=rax -24()=r12
-L_lp:
+.1:
 	mul     r8
 	add     r12, rax
 	mov     rax, [rsi+rdi*8+40]
@@ -72,14 +72,14 @@ L_lp:
 	mov     rax, [rsi+rdi*8+8]
 	adc     r15, rdx
 	sub     rdi, 3
-	jnc     L_lp
-L_skiplp:
+	jnc     .1
+.2:
 ; // we have loaded up the next two limbs
 ; // but because they are out of order we can have to do 3 limbs min
 	cmp     rdi, -2
-	jl      L_case1
-	je      L_case2
-L_case3:
+	jl      .5
+	je      .4
+.3:
 	; //two more limbs is 4 limbs
 	; // r15 r14 40() 8+24()=rax 0+24()=r12
 	mul     r8
@@ -119,10 +119,10 @@ L_case3:
 	; // r13 r12
 	mov     rax, r8
 	mul     r13
-	jmp     L_xit
+	jmp     .6
 
 	xalign  16
-L_case2:
+.4:
 	; //two more limbs is 4 limbs
 	; // r15 r14 40() 8+24()=rax 0+24()=r12
 	mul     r8
@@ -158,10 +158,10 @@ L_case2:
 	; // r13 r12
 	mov     rax, r8
 	mul     r13
-	jmp     L_xit
+	jmp     .6
 	
 	xalign  16
-L_case1:
+.5:
 	; // one more is 3 limbs
 	; // r15 r14 40() 8+24()=rax 0+24()=r12 
 	mul     r8
@@ -184,9 +184,12 @@ L_case1:
 	adc     r15, rdx
 	mov     rax, r8
 	mul     r15
-L_xit:
+.6:
 	add     r12, rax
 	adc     rdx, 0
 	mov     [rcx], r12
 	mov     [rcx+8], rdx
     END_PROC reg_save_list
+    
+    end
+    

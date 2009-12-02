@@ -46,31 +46,52 @@
 	dec     rbx
 	mov     r10, [rsi+rbx*8]
 	cmp     r8, [rcx+8]
-	jae     .0
+	jae     .1
 	mov     rdx, r8
 	mov     r9, r8
 	mov     r10, [rsi+rbx*8]
 	mov     r8, r10
 	mov     r14, 0
-	jmp     .2
-.0: mov     r14, 1
+	jmp     .3
+.1: 
+	mov     r14, 1
 	mov     rdx, r8
 	sub     rdx, [rcx+8]
 	sub     r10, [rcx]
 	sbb     rdx, 0
-	jnc     .1
+	jnc     .2
 	dec     r14
 	add     r10, [rcx]
 	adc     rdx, [rcx+8]
-.1: mov     r9, rdx
+.2: 
+	mov     r9, rdx
 	mov     r8, r10
-.2: dec     rbx
+.3: 
+	dec     rbx
 	mov     rax, r9
-	js      .5
+	js      .8
 
 	xalign  16
-.3: cmp     rax, [rcx+8]
-	je      .6
+.4: 
+	cmp     rax, [rcx+8]
+	jne     .6
+	mov     r10, [rsi+rbx*8]
+	mov     r15, -1
+	mov     rdx, r8
+	add     r10, [rcx]
+	adc     rdx, rax
+	sbb     rax, rax
+	sub     rdx, [rcx]
+	adc     rax, 0
+	jz      .5
+	dec     r15
+	add     r10, [rcx]
+	adc     rdx, [rcx+8]
+.5: 
+	mov     rax, rdx
+	mov     r8, r10
+	jmp     .7
+.6:
 	mov     r9, rax
 	bt      r8, 63
 	adc     rax, 0
@@ -120,28 +141,14 @@
 	add     r15, r9
 	add     r8, r10
 	adc     rax, r11
-.4: mov     [rdi+rbx*8], r15
+.7: 
+	mov     [rdi+rbx*8], r15
 	dec     rbx
-	jns     .3
-.5: mov     [rsi+8], rax
+	jns     .4
+.8: 
+	mov     [rsi+8], rax
 	mov     [rsi], r8
 	mov     rax, r14
     END_PROC reg_save_list
-
-.6: mov     r10, [rsi+rbx*8]
-	mov     r15, -1
-	mov     rdx, r8
-	add     r10, [rcx]
-	adc     rdx, rax
-	sbb     rax, rax
-	sub     rdx, [rcx]
-	adc     rax, 0
-	jz      .7
-	dec     r15
-	add     r10, [rcx]
-	adc     rdx, [rcx+8]
-.7: mov     rax, rdx
-	mov     r8, r10
-	jmp     .4
 	
 	end

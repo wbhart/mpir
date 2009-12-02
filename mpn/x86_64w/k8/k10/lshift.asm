@@ -32,18 +32,18 @@
     mov     r10, rcx
     mov     ecx, r9d
     cmp     r8d, 2
-    ja      threeormore
-    jz      two
-
-one:mov     rdx, [rdx]
+    ja      .3
+    jz      .2
+.1:
+	mov     rdx, [rdx]
     mov     rax, rdx
     shl     rdx, cl
     neg     rcx
     shr     rax, cl
     mov     [r10], rdx
     ret
-
-two:mov     r8, [rdx]
+.2:
+	mov     r8, [rdx]
     mov     r9, [rdx+8]
     mov     r11, r8
     mov     rax, r9
@@ -56,8 +56,7 @@ two:mov     r8, [rdx]
     mov     [r10], r8
     mov     [r10+8], r9
     ret
-
-threeormore:
+.3:
     mov     r8d, r8d
     mov     eax, 64
     sub     rax, rcx
@@ -72,7 +71,7 @@ threeormore:
     pshufd  xmm3, xmm3, 0x4e
     movq    rax, xmm3
     cmp     r11, r9
-    je      .1
+    je      .4
     movq    xmm2, [rdx+r8*8-8]
     movq    xmm4, xmm2
     psrlq   xmm2, xmm1
@@ -81,11 +80,13 @@ threeormore:
     por     xmm4, xmm3
     movq    [r10+r8*8-8], xmm4
     dec     r8
-.1: sub     r8, 5
-    jle     .3
+.4: 
+	sub     r8, 5
+    jle     .6
 
     xalign  16
-.2: movdqa  xmm2, [rdx+r8*8+8]
+.5: 
+	movdqa  xmm2, [rdx+r8*8+8]
     movdqa  xmm4, xmm2
     psllq   xmm5, xmm0
     psrlq   xmm2, xmm1
@@ -104,13 +105,14 @@ threeormore:
     movq    [r10+r8*8+8], xmm4
     movhpd  [r10+r8*8+16], xmm4
     sub     r8, 4
-    jg      .2
-.3: cmp     r8, -1
-    je      .42
-    jg      .43
-    jp      .41
-
-.40:pxor    xmm2, xmm2
+    jg      .5
+.6: 
+	cmp     r8, -1
+    je      .9
+    jg      .8
+    jp      .10
+.7:
+	pxor    xmm2, xmm2
     psllq   xmm5, xmm0
     movhlps xmm3, xmm2
     por     xmm5, xmm3
@@ -119,7 +121,8 @@ threeormore:
     ret
 
     xalign  16
-.43:movdqa  xmm2, [rdx+r8*8+8]
+.8:
+	movdqa  xmm2, [rdx+r8*8+8]
     movdqa  xmm4, xmm2
     psllq   xmm5, xmm0
     psrlq   xmm2, xmm1
@@ -142,7 +145,8 @@ threeormore:
     ret
 
     xalign  16
-.42:movdqa  xmm2, [rdx+r8*8+8]
+.9:
+	movdqa  xmm2, [rdx+r8*8+8]
     movdqa  xmm4, xmm2
     psllq   xmm5, xmm0
     psrlq   xmm2, xmm1
@@ -160,7 +164,8 @@ threeormore:
     ret
 
     xalign  16
-.41:movq    xmm2, [rdx+r8*8+16]
+.10:
+	movq    xmm2, [rdx+r8*8+16]
     pshufd  xmm2, xmm2, 0x4e
     movdqa  xmm4, xmm2
     psllq   xmm5, xmm0

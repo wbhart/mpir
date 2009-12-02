@@ -38,9 +38,10 @@
 	xor     eax, eax
 	xor     edx, edx
 	sub     rcx, 4
-	jc      L_skiplp
+	jc      .2
+	
 	xalign  16
-L_lp:
+.1:
 	mov     r8, [rsi+rcx*8]
 	mov     r9, [rsi+rcx*8-8]
 	mov     r10, [rsi+rcx*8-16]
@@ -62,20 +63,20 @@ L_lp:
 	sub     rcx, 4
 	mov     [rdi+rcx*8+24], r9
 	mov     [rdi+rcx*8+16], r10
-	jnc     L_lp
-L_skiplp:
+	jnc     .1
+.2:
 	cmp     rcx, -2
-	ja      L_case3
-	je      L_case2
-	jp      L_case1
-L_case0:
+	ja      .4
+	je      .5
+	jp      .6
+.3:
 	lea     rax, [rax+rdx*2]
 	neg     rax
 	shl     rax, 62
-	jmp     L_xit
+	jmp     .7
 	
 	xalign  16
-L_case3:
+.4:
 	mov     r8, [rsi+rcx*8]
 	mov     r9, [rsi+rcx*8-8]
 	mov     r10, [rsi+rcx*8-16]
@@ -95,10 +96,10 @@ L_case3:
 	lea     rax, [rax+rdx*2]
 	neg     rax
 	shl     rax, 62
-	jmp     L_xit
+	jmp     .7
 	
 	xalign  16
-L_case2:
+.5:
 	mov     r8, [rsi+rcx*8]
 	mov     r9, [rsi+rcx*8-8]
 	add     rax, rax
@@ -114,10 +115,10 @@ L_case2:
 	lea     rax, [rax+rdx*2]
 	neg     rax
 	shl     rax, 62
-	jmp     L_xit
+	jmp     .7
 	
 	xalign  16
-L_case1:
+.6:
 	mov     r8, [rsi+rcx*8]
 	add     rax, rax
 	rcr     r8, 1
@@ -129,7 +130,7 @@ L_case1:
 	lea     rax, [rax+rdx*2]
 	neg     rax
 	shl     rax, 62
-L_xit:
+.7:
     END_PROC reg_save_list
 
-    end
+	end

@@ -44,9 +44,9 @@
 	mov     rdi, rdx
 	mov     rax, [rsi+rdx*8-24]
 	sub     rdi, 6
-	jc      L_skiplp
+	jc      .2
 	xalign  16
-L_lp:
+.1:
 	mul     r8
 	mov     r12, 0
 	add     r11, rax
@@ -64,8 +64,8 @@ L_lp:
 	adc     r14, rdx
 	mov     rax, [rsi+rdi*8+8]
 	sub     rdi, 2
-	jnc     L_lp
-L_skiplp:
+	jnc     .1
+.2:
 	mul     r8
 	mov     r12, 0
 	add     r11, rax
@@ -81,8 +81,8 @@ L_skiplp:
 	mov     r14, r12
 	adc     r14, rdx
 	cmp     rdi, -2
-	je      L_case0
-L_case1:
+	je      .4
+.3:
 	mov     r11, [rsi+rdi*8+8]
 	mov     r12, 0
 	mov     rax, r8
@@ -95,7 +95,7 @@ L_case1:
 	add     r13, rax
 	mov     r14, r12
 	adc     r14, rdx
-L_case0:
+.4:
 	mov     rax, r8
 	mul     r14
 	add     r13, rax

@@ -34,9 +34,9 @@
 	mov     [rsp+0x18], r8
 	shr     rax, 3
 	cmp     rax, 0
-	jz      next
+	jz      .2
 	xalign  16
-loop1:
+.1:
 	mov     r8, [rdx]
 	mov     r9, [rdx+8]
 	mov     r10, [rdx+16]
@@ -64,45 +64,48 @@ loop1:
 	lea     rcx, [rcx+64]
 	dec     rax
 	lea     rdx, [rdx+64]
-	jnz     loop1
-next:
+	jnz     .1
+.2:
     mov     rax, [rsp+0x18]
 	dec     rax
-	jz      end
+	jz      .3
 ;	Could still have cache-bank conflicts in this tail part
 	mov     r8, [rdx]
 	adc     r8, r8
 	mov     [rcx], r8
 	dec     rax
-	jz      end
+	jz      .3
 	mov     r8, [rdx+8]
 	adc     r8, r8
 	mov     [rcx+8], r8
 	dec     rax
-	jz      end
+	jz      .3
 	mov     r8, [rdx+16]
 	adc     r8, r8
 	mov     [rcx+16], r8
 	dec     rax
-	jz      end
+	jz      .3
 	mov     r8, [rdx+24]
 	adc     r8, r8
 	mov     [rcx+24], r8
 	dec     rax
-	jz      end
+	jz      .3
 	mov     r8, [rdx+32]
 	adc     r8, r8
 	mov     [rcx+32], r8
 	dec     rax
-	jz      end
+	jz      .3
 	mov     r8, [rdx+40]
 	adc     r8, r8
 	mov     [rcx+40], r8
 	dec     rax
-	jz      end
+	jz      .3
 	mov     r8, [rdx+48]
 	adc     r8, r8
 	mov     [rcx+48], r8
-end:sbb     rax, rax
+.3:
+	sbb     rax, rax
 	neg     rax
 	ret
+
+	end

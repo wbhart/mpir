@@ -43,10 +43,10 @@
 	psrlq   mm5, mm1
 	movq    rax, mm5
 	psllq   mm3, mm0
-	jc      .1
+	jc      .2
 	
 	xalign  16
-.0: movq    mm2, [rdx+r8*8+16]
+.1: movq    mm2, [rdx+r8*8+16]
 	movq    mm4, mm2
 	psrlq   mm2, mm1
 	por     mm3, mm2
@@ -75,14 +75,14 @@
 	pxor    mm4, mm6
 	movq    [rcx+r8*8+32], mm4
 	psllq   mm3, mm0
-	jnc     .0
-
-.1: cmp     r8, -2
-	jz      .3
-	jp      .4
-	js      .5
-
-.2:	movq    mm2, [rdx+r8*8+16]
+	jnc     .1
+.2: 
+	cmp     r8, -2
+	jz      .4
+	jp      .5
+	js      .6
+.3:	
+	movq    mm2, [rdx+r8*8+16]
 	movq    mm4, mm2
 	psrlq   mm2, mm1
 	por     mm3, mm2
@@ -109,7 +109,8 @@
 	ret
 
 	xalign  16
-.3:	movq    mm2, [rdx+r8*8+16]
+.4:	
+	movq    mm2, [rdx+r8*8+16]
 	movq    mm4, mm2
 	psrlq   mm2, mm1
 	por     mm3, mm2
@@ -129,7 +130,8 @@
 	ret
 
 	xalign  16
-.4:	movq    mm2, [rdx+r8*8+16]
+.5:	
+	movq    mm2, [rdx+r8*8+16]
 	movq    mm4, mm2
 	psrlq   mm2, mm1
 	por     mm3, mm2
@@ -142,7 +144,8 @@
 	ret
 
 	xalign  16
-.5:	pxor    mm3, mm6
+.6:	
+	pxor    mm3, mm6
 	movq    [rcx+r8*8+24], mm3
 	emms
 	ret

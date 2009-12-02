@@ -151,21 +151,21 @@ entry:
     xor     index, index
     sub     index, rdx
     cmp     rdx, 4
-    jge     .7
-    lea     rax, [rel .2]
+    jge     .6
+    lea     rax, [rel .1]
     add     rax, [rax+rdx*8]
     jmp     rax
 
     xalign  8
+.1:
+    dq      .2 - .1
+    dq      .3 - .1
+    dq      .4 - .1
+    dq      .5 - .1
 .2:
-    dq      .3 - .2
-    dq      .4 - .2
-    dq      .5 - .2
-    dq      .6 - .2
-.3:
     mov     rax, a_z
-    jmp     .13
-.4:
+    jmp     .12
+.3:
     mov     rax, [s1p+index*8]
     mul     s2limb
     add     rax, a_z
@@ -175,8 +175,8 @@ entry:
     mov     rax, 0
     mov     [rp+index*8], a_z
     adc     rax, rdx
-    jmp     .13
-.5:
+    jmp     .12
+.4:
     mov     rax, [s1p+index*8]
     mul     s2limb
     add     rax, a_z
@@ -196,8 +196,8 @@ entry:
     mov     rax, 0
     mov     [rp+index*8+8], b_z
     adc     rax, rdx
-    jmp     .13
-.6:
+    jmp     .12
+.5:
     mov     rax, [s1p+index*8]
     mul     s2limb
     add     rax, a_z
@@ -225,11 +225,11 @@ entry:
     mov     rax, 0
     mov     [rp+index*8+16], a_z
     adc     rax, rdx
-    jmp     .13
-.7:
+    jmp     .12
+.6:
     mov     temp, rdx
     test    rdx, 1
-    jz      .8
+    jz      .7
     mov     rax, [s1p+index*8]
     mul     s2limb
     add     rax, a_z
@@ -242,8 +242,8 @@ entry:
     mov     b_z, [rp+index*8+8]
     mov     b_x, rax
     mov     b_y, rdx
-    jmp     .9
-.8:
+    jmp     .8
+.7:
     mov     rax, [s1p+index*8]
     mul     s2limb
     add     rax, a_z
@@ -256,13 +256,13 @@ entry:
     mov     a_z, [rp+index*8+8]
     mov     a_x, rax
     mov     a_y, rdx
-.9:
+.8:
     sub     temp, 4
     and     temp, UNROLL_MASK
     inc     temp
-    mov     rax, (.11 - .10) >> UNROLL_EXPONENT
+    mov     rax, (.10 - .9) >> UNROLL_EXPONENT
     mul     temp
-    lea     rdx, [rel .11]
+    lea     rdx, [rel .10]
     sub     rdx, rax
     mov     rax, [s1p+index*8+16]
     lea     index, [index+temp+3-UNROLL_SIZE]
@@ -280,8 +280,8 @@ entry:
     adc     %5, 0
 %endmacro
 
-   align 16
-.10:
+   xalign 16
+.9:
 %assign i 0
 %rep    16
     %if (i & 1)
@@ -291,10 +291,10 @@ entry:
     %endif
 %assign i i + 1
 %endrep
-.11:
+.10:
     add     index, UNROLL_SIZE
-    jnz     .10
-.12:
+    jnz     .9
+.11:
     mul     s2limb
     sub      a_z, a_x
     mov     [rp+index*8-24], a_z
@@ -309,7 +309,7 @@ entry:
     mov     rax, 0
     mov     [rp+index*8-8], a_z
     adc     rax, rdx
-.13:
+.12:
     END_PROC reg_save_list
 
     end

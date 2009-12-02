@@ -52,10 +52,10 @@ mpn_sub_entry:
 	neg     rcx
 	lea     rcx, [r10+rcx*2]
 	sar     rcx, 1
-	jz      L_exitlp
+	jz      .2
 
 	xalign  16
-L_lp:
+.1:
 	mov     r10, [rdx+rcx*8]
 	mov     r11, [rdx+rcx*8+16]
 	sbb     r10, [r8+rcx*8]
@@ -69,20 +69,20 @@ L_lp:
 	sbb     TR4, [r8+rcx*8-8]
 	mov     [r9+rcx*8-16], r11
 	mov     [r9+rcx*8-8], TR4
-	jrcxz   L_exitlp
-	jmp     L_lp
-L_exitlp:
+	jrcxz   .2
+	jmp     .1
+.2:
 	sbb     rcx, rcx
-L_skiplp:
+.3:
 	cmp     rax, 2
-	ja      L_case3
-	jz      L_case2
-	jp      L_case1
-L_case0:
+	ja      .6
+	jz      .7
+	jp      .5
+.4:
 	sub     rax, rcx
 	ret
 	xalign  16
-L_case1:
+.5:
 	add     rcx, rcx
 	mov     r10, [rdx]
 	sbb     r10, [r8]
@@ -90,8 +90,9 @@ L_case1:
 	sbb     rax, rax
 	neg     rax
 	ret
+	
 	xalign  16
-L_case3:
+.6:
 	add     rcx, rcx
 	mov     r10, [rdx]
 	mov     r11, [rdx+16]
@@ -105,8 +106,9 @@ L_case3:
 	sbb     rax, rax
 	neg     rax
 	ret
+	
 	xalign  16
-L_case2:
+.7:
 	add     rcx, rcx
 	mov     r10, [rdx]
 	sbb     r10, [r8]
@@ -117,4 +119,5 @@ L_case2:
 	sbb     rax, rax
 	neg     rax
 	ret
+
 	end

@@ -44,7 +44,8 @@
     jz      .2
 
     xalign  16
-.1: mov     r10, [rdx]
+.1: 
+	mov     r10, [rdx]
     mov     r11, [rdx-8]
     mov     r12, [rdx-16]
     mov     r13, [rdx-24]
@@ -72,8 +73,8 @@
     dec     r8
     lea     rcx, [rcx-64]
     jnz     .1
-
-.2: dec     r9
+.2: 
+	dec     r9
     jz      .3
 ; Could suffer cache-bank conflicts in this tail part
     mov     r10, [rdx]
@@ -109,8 +110,8 @@
     mov     r10, [rdx-48]
     rcr     r10, 1
     mov     [rcx-48], r10
-
-.3: rcr     rax, 1
+.3: 
+	rcr     rax, 1
     END_PROC reg_save_list
 
     end

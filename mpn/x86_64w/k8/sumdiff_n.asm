@@ -48,8 +48,8 @@
     xor     r11, r11
     test    r10, 3
     jz      .2
-
-.1: mov     rax, [r8+r10*8]
+.1: 
+	mov     rax, [r8+r10*8]
     mov     r13, rax
     add     r12, 1
     adc     rax, [r9+r10*8]
@@ -62,12 +62,13 @@
     inc     r10
     test    r10, 3
     jnz     .1
-
-.2: cmp     r10, 0
+.2: 
+	cmp     r10, 0
     jz      .4
 
     xalign  16
-.3: mov     rax, [r8+r10*8]
+.3: 
+	mov     rax, [r8+r10*8]
     mov     rsi, [r8+r10*8+8]
     mov     rdi, [r8+r10*8+16]
     mov     rbp, [r8+r10*8+24]
@@ -97,8 +98,8 @@
     mov     [rdx+r10*8+24], rbx
     add     r10, 4
     jnz     .3
-
-.4: lea     rax, [r11+r12*2]
+.4: 
+	lea     rax, [r11+r12*2]
     neg     rax
     END_PROC reg_save_list
 

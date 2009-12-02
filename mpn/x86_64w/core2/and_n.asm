@@ -39,7 +39,8 @@
     jz      .2
 
     xalign  8
-.1: mov     r10, [rdx]
+.1: 
+	mov     r10, [rdx]
     mov     r11, [rdx+8]
     lea     rdx, [rdx+32]
     and     r10, [r8]
@@ -57,7 +58,8 @@
     mov     [rcx-8], T4
     jnz     .1
 
-.2: cmp     rax, 0      ; **
+.2: 
+	cmp     rax, 0      ; **
     jz      .3
     mov     r10, [rdx]
     and     r10, [r8]
@@ -72,6 +74,7 @@
     mov     r10, [rdx+16]
     and     r10, [r8+16]
     mov     [rcx+16], r10
-.3: ret
+.3: 
+	ret
 
     end

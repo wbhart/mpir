@@ -55,8 +55,8 @@ entry:
 	neg     r10
 	xor     rax, rax
 	test    r10, 3
-	jz      L_next
-L_lp:
+	jz      .2
+.1:
 	mov     r8, [rdx+r10*8]
 	mov     r11, r8
 	neg     rcx
@@ -71,13 +71,13 @@ L_lp:
 	mov     [rdi+r10*8], r8
 	inc     r10
 	test    r10, 3
-	jnz     L_lp
-L_next:
+	jnz     .1
+.2:
 	cmp     r10, 0
-	jz      L_end
+	jz      .4
 	
 	xalign  16
-L_loop:
+.3:
 	mov     r8, [rdx+r10*8]
 	mov     rbp, [rdx+r10*8+8]
 	mov     rbx, [rdx+r10*8+16]
@@ -112,8 +112,8 @@ L_loop:
 	mov     [rdi+r10*8+16], rbx
 	mov     [rdi+r10*8+24], r12
 	add     r10, 4
-	jnz     L_loop
-L_end:
+	jnz     .3
+.4:
 	neg     rax
 	add     rax, r9
     END_PROC reg_save_list

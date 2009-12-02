@@ -43,7 +43,7 @@
 	sub     rdi, 2
 	
 	xalign  16
-L_lp:
+.1:
 	mov     r10, [rsi+rdi*8-8]
 	mul     r8
 	add     r10, rax
@@ -55,7 +55,7 @@ L_lp:
 	mov     r13, r11
 	adc     r13, rdx
 	dec     rdi
-	jnz     L_lp
+	jnz     .1
 
 	mov     [rcx], rax
 	mov     rax, r8

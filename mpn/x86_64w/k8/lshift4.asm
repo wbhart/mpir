@@ -1,0 +1,123 @@
+
+;  mpn_lshift4
+
+;  Copyright 2009 Jason Moxham
+
+;  This file is part of the MPIR Library.
+
+;  The MPIR Library is free software; you can redistribute it and/or modify
+;  it under the terms of the GNU Lesser General Public License as published
+;  by the Free Software Foundation; either version 2.1 of the License, or (at
+;  your option) any later version.
+
+;  The MPIR Library is distributed in the hope that it will be useful, but
+;  WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+;  or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public
+;  License for more details.
+
+;  You should have received a copy of the GNU Lesser General Public License
+;  along with the MPIR Library; see the file COPYING.LIB.  If not, write
+;  to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+;  Boston, MA 02110-1301, USA.
+
+;  mp_limb_t mpn_lshift3(mp_ptr, mp_ptr, mp_size_t)
+;  rax                      rdi     rsi        rdx
+;  rax                      rcx     rdx        r8d
+
+%include "..\yasm_mac.inc"
+
+%define reg_save_list rsi, rdi
+
+    CPU  Athlon64
+    BITS 64
+
+    FRAME_PROC mpn_lshift4, 0, reg_save_list
+    movsxd  rax, r8d
+	lea     rsi, [rdx+rax*8-24]
+	lea     rdi, [rcx+rax*8-24]
+	mov     ecx, 3
+	sub     rcx, rax
+	mov     r8, 0
+	mov     rax, 0
+	jnc     .2
+	
+	xalign  16
+.1:
+	mov     r9, [rsi+rcx*8]
+	lea     rdx, [rax+r9*2]
+	lea     r8, [r8+rdx*8]
+	shr     r9, 60
+	mov     r10, [rsi+rcx*8+8]
+	lea     rdx, [rax+r10*2]
+	lea     r9, [r9+rdx*8]
+	shr     r10, 60
+	mov     r11, [rsi+rcx*8+16]
+	lea     rdx, [rax+r11*2]
+	lea     r10, [r10+rdx*8]
+	shr     r11, 60
+	mov     [rdi+rcx*8+16], r10
+	mov     [rdi+rcx*8], r8
+	mov     r8, [rsi+rcx*8+24]
+	lea     rdx, [rax+r8*2]
+	lea     r11, [r11+rdx*8]
+	shr     r8, 60
+	mov     [rdi+rcx*8+24], r11
+	add     rcx, 4
+	mov     [rdi+rcx*8+8-32], r9
+	jnc     .1
+.2:
+	cmp     rcx, 2
+	ja      .6
+	je      .5
+	jp      .4
+.3:
+	mov     r9, [rsi+rcx*8]
+	lea     rdx, [rax+r9*2]
+	lea     r8, [r8+rdx*8]
+	shr     r9, 60
+	mov     r10, [rsi+rcx*8+8]
+	lea     rdx, [rax+r10*2]
+	lea     r9, [r9+rdx*8]
+	shr     r10, 60
+	mov     r11, [rsi+rcx*8+16]
+	lea     rdx, [rax+r11*2]
+	lea     r10, [r10+rdx*8]
+	shr     r11, 60
+	mov     [rdi+rcx*8+16], r10
+	mov     [rdi+rcx*8], r8
+	mov     rax, r11
+	mov     [rdi+rcx*8+8], r9
+	jmp		.7
+	
+	xalign  16
+.4:
+	mov     r9, [rsi+rcx*8]
+	lea     rdx, [rax+r9*2]
+	lea     r8, [r8+rdx*8]
+	shr     r9, 60
+	mov     r10, [rsi+rcx*8+8]
+	lea     rdx, [rax+r10*2]
+	lea     r9, [r9+rdx*8]
+	shr     r10, 60
+	mov     rax, r10
+	mov     [rdi+rcx*8], r8
+	mov     [rdi+rcx*8+8], r9
+	jmp		.7
+
+	xalign  16
+.5:
+	mov     r9, [rsi+rcx*8]
+	lea     rdx, [rax+r9*2]
+	lea     r8, [r8+rdx*8]
+	shr     r9, 60
+	mov     [rdi+rcx*8], r8
+	mov     rax, r9
+	jmp		.7
+
+	xalign  16
+.6:
+	mov     rax, r8
+.7:
+    END_PROC reg_save_list
+
+    end

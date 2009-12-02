@@ -3529,6 +3529,7 @@
 					>
 					<FileConfiguration
 						Name="Debug|x64"
+						ExcludedFromBuild="true"
 						>
 						<Tool
 							Name="VCCLCompilerTool"
@@ -3537,6 +3538,7 @@
 					</FileConfiguration>
 					<FileConfiguration
 						Name="Release|x64"
+						ExcludedFromBuild="true"
 						>
 						<Tool
 							Name="VCCLCompilerTool"
@@ -4396,7 +4398,7 @@
 						>
 					</File>
 					<File
-						RelativePath="..\..\mpn\x86_64w\addmul_2.asm"
+						RelativePath="..\..\mpn\x86_64w\k8\addmul_2.asm"
 						>
 					</File>
 					<File
@@ -4456,6 +4458,10 @@
 						>
 					</File>
 					<File
+						RelativePath="..\..\mpn\x86_64w\k8\hamdist.asm"
+						>
+					</File>
+					<File
 						RelativePath="..\..\mpn\x86_64w\k8\lshift.asm"
 						>
 					</File>
@@ -4465,6 +4471,22 @@
 					</File>
 					<File
 						RelativePath="..\..\mpn\x86_64w\k8\lshift2.asm"
+						>
+					</File>
+					<File
+						RelativePath="..\..\mpn\x86_64w\k8\lshift3.asm"
+						>
+					</File>
+					<File
+						RelativePath="..\..\mpn\x86_64w\k8\lshift4.asm"
+						>
+					</File>
+					<File
+						RelativePath="..\..\mpn\x86_64w\k8\lshift5.asm"
+						>
+					</File>
+					<File
+						RelativePath="..\..\mpn\x86_64w\k8\lshift6.asm"
 						>
 					</File>
 					<File
@@ -4492,11 +4514,15 @@
 						>
 					</File>
 					<File
-						RelativePath="..\..\mpn\x86_64w\mul_2.asm"
+						RelativePath="..\..\mpn\x86_64w\k8\mul_2.asm"
 						>
 					</File>
 					<File
 						RelativePath="..\..\mpn\x86_64w\k8\mul_basecase.asm"
+						>
+					</File>
+					<File
+						RelativePath="..\..\mpn\x86_64w\k8\popcount.asm"
 						>
 					</File>
 					<File
@@ -4564,11 +4590,11 @@
 						>
 					</File>
 					<File
-						RelativePath="..\..\mpn\x86_64w\udiv.asm"
+						RelativePath="..\..\mpn\x86_64w\k8\udiv.asm"
 						>
 					</File>
 					<File
-						RelativePath="..\..\mpn\x86_64w\umul.asm"
+						RelativePath="..\..\mpn\x86_64w\k8\umul.asm"
 						>
 					</File>
 					<Filter

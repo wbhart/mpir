@@ -1,5 +1,5 @@
 
-;  Verdxon 1.0.3.
+;  Verdxon 1.1.4.
 ;
 ;  Copyright 2008 Jason Moxham
 ;
@@ -47,10 +47,10 @@
 	psllq   mm5, mm1
 	movq    rax, mm5
 	psrlq   mm3, mm0
-	jge     .1
+	jge     .2
 
 	xalign  16
-.0: movq    mm2, [rdx+r8*8+8]
+.1: movq    mm2, [rdx+r8*8+8]
 	movq    mm4, mm2
 	psllq   mm2, mm1
 	por     mm3, mm2
@@ -75,14 +75,14 @@
 	movq    [rcx+r8*8+24], mm4
 	psrlq   mm3, mm0
 	add     r8, 4
-	jnc     .0
+	jnc     .1
 
-.1:	cmp     r8, 2
-	ja      .5
-	jz      .4
-	jp      .3
+.2:	cmp     r8, 2
+	ja      .6
+	jz      .5
+	jp      .4
 
-.2:	movq    mm2, [rdx+r8*8+8]
+.3:	movq    mm2, [rdx+r8*8+8]
 	movq    mm4, mm2
 	psllq   mm2, mm1
 	por     mm3, mm2
@@ -105,7 +105,7 @@
 	ret
 
 	xalign  16
-.3: movq    mm2, [rdx+r8*8+8]
+.4: movq    mm2, [rdx+r8*8+8]
 	movq    mm4, mm2
 	psllq   mm2, mm1
 	por     mm3, mm2
@@ -122,7 +122,7 @@
 	ret
 
 	xalign  16
-.4: movq    mm2, [rdx+r8*8+8]
+.5: movq    mm2, [rdx+r8*8+8]
 	movq    mm4, mm2
 	psllq   mm2, mm1
 	por     mm3, mm2
@@ -133,7 +133,7 @@
 	ret
 
 	xalign  16
-.5: movq    [rcx+r8*8], mm3
+.6: movq    [rcx+r8*8], mm3
 	emms
 	ret
 	win64_gcc_end

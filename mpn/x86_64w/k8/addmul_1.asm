@@ -68,10 +68,10 @@
 	db      0x26
 	cmp     r11, 0
 	db      0x26
-	jge     skiploop
+	jge     .3
 	
 	xalign   16
-loop1:
+.2:
 	mov     r10, 0
 	mul     rcx
 	add     [rdi+r11*8], r8
@@ -102,19 +102,20 @@ loop1:
 	adc     r9, rdx
 	add     r11, 4
 	mov     rax, [rsi+r11*8+8]
-	jnc     loop1
-	align   16
-skiploop:
+	jnc     .2
+	
+	xalign   16
+.3:
 	mov     r10d, 0
 	mul     rcx
 	add     [rdi+r11*8], r8
 	adc     r9, rax
 	adc     r10, rdx
 	cmp     r11, 2
-	jz      next2
-	ja      next3
-	jp      next1
-next0:
+	jz      .6
+	ja      .7
+	jp      .5
+.4:
 	mov     rax, [rsi+r11*8+16]
 	mul     rcx
 	add     [rdi+r11*8+8], r9
@@ -136,10 +137,10 @@ next0:
 	add     [rdi+r11*8+32], r8
 	adc     rdx, 0
 	mov     rax, rdx
-	jmp     xit
+	jmp     .8
 	
 	xalign   16
-next1:
+.5:
 	mov     rax, [rsi+r11*8+16]
 	mul     rcx
 	add     [rdi+r11*8+8], r9
@@ -154,10 +155,10 @@ next1:
 	add     [rdi+r11*8+24], r8
 	adc     rdx, 0
 	mov     rax, rdx
-	jmp     xit
+	jmp     .8
 	
 	xalign   16
-next2:
+.6:
 	mov     rax, [rsi+r11*8+16]
 	mul     rcx
 	add     [rdi+r11*8+8], r9
@@ -167,14 +168,14 @@ next2:
 	add     [rdi+r11*8+16], r10
 	adc     rbx, 0
 	mov     rax, rbx
-	jmp     xit
+	jmp     .8
 	
 	xalign   16
-next3:
+.7:
 	add     [rdi+r11*8+8], r9
 	adc     r10, 0
 	mov     rax, r10
-xit:
+.8:
     END_PROC reg_save_list
     
     end

@@ -81,9 +81,9 @@
 	mov     r12, [rsi+r9*8+8]
 	mov     r10, 0
 	add     r9, 2
-	jc      L_skiplp
+	jc      .2
 	xalign  16
-L_lp:
+.1:
 	mov     r8, r12
 	mov     rax, r13
 	mul     r11
@@ -106,8 +106,8 @@ L_lp:
 	sbb     r12, 0
 	sbb     r10, 0
 	add     r9, 2
-	jnc     L_lp
-L_skiplp:
+	jnc     .1
+.2:
 	mov     r8, r12
 	mov     rax, r13
 	mul     r11
@@ -117,8 +117,8 @@ L_skiplp:
 	add     rdx, r11
 	add     rdx, r12
 	cmp     r9, 0
-	jne     L_case0
-L_case1:
+	jne     .4
+.3:
 	mov     r11, [rsi+r9*8]
 	mov     [rdi+r9*8-8], rdx
 	mov     rax, rcx
@@ -136,8 +136,8 @@ L_case1:
 	add     r10, r10
 	mov     rax, 0
 	adc     rax, rdx
-	jmp     L_xit
-L_case0:
+	jmp     .5
+.4:
 	mov     [rdi+r9*8-8], rdx
 	mov     rax, rcx
 	mul     rdx
@@ -145,7 +145,7 @@ L_case0:
 	mov     rax, 0
 	adc     rax, rdx
 	sub     rax, r10
-L_xit:
+.5:
     END_PROC reg_save_list
     
     end

@@ -32,23 +32,24 @@
 	lea	    rcx, [rcx+rax*8-24]
 	sub     rdx, rax
 	mov     rax, r8
-	jnc     L_skiplp
+	jnc     .2
 	xalign  16
-L_lp:
+.1:
 	add	    rdx, 4
 	mov	    [rcx+rdx*8-32], rax
 	mov	    [rcx+rdx*8+8-32], rax
 	mov	    [rcx+rdx*8+16-32], rax
 	mov	    [rcx+rdx*8+24-32], rax
-	jnc     L_lp
-L_skiplp:
+	jnc     .1
+.2:
 	cmp     rdx, 2
-	ja	    theend
+	ja	    .3
 	mov	    [rcx+rdx*8], rax
-	je	    theend
+	je	    .3
 	mov	    [rcx+rdx*8+8], rax
-	jp	    theend
+	jp	    .3
 	mov	    [rcx+rdx*8+16], rax
-theend:
+.3:
 	ret
+	
 	end

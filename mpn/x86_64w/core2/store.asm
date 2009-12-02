@@ -30,25 +30,29 @@
 	movsxd  r8, r8d
 
 	cmp     rdx, 0
-	jz      .3
+	jz      .4
 	movq    xmm0, r8
 	movddup xmm0, xmm0
 	lea     rcx, [rcx-16]
 	test    rcx, 0xF
-	jz      .0
+	jz      .1
 	mov     [rcx+16], r8
 	lea     rcx, [rcx+8]
 	sub     rdx, 1
-
-.0:	sub     rdx, 2
-	jc      .2
+.1:	
+	sub     rdx, 2
+	jc      .3
+	
 	xalign  16
-.1:	lea     rcx, [rcx+16]
+.2:	
+	lea     rcx, [rcx+16]
 	sub     rdx, 2
 	movdqa  [rcx], xmm0
-	jnc     .1
-.2:	jnp     .3
+	jnc     .2
+.3:	
+	jnp     .4
 	mov     [rcx+16], r8
-.3:	ret
+.4:	
+	ret
 
     end

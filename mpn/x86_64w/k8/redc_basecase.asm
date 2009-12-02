@@ -391,41 +391,45 @@
     mov     rax, r14
     and     rax, 3
     mov     r13, [r8+r14*8]
-    je      .10
-    jp      .13
+    je      .2
+    jp      .4
     cmp     rax, 1
-    je      .11
-.12:mpn_addmul_1_int 2
-    jmp     .2
-
-    xalign  16
-.10:mpn_addmul_1_int 0
-    jmp     .2
-
-    xalign  16
-.11:mpn_addmul_1_int 1
-    jmp     .2
-
-    xalign  16
-.13:mpn_addmul_1_int 3
+    je      .3
+.1:
+	mpn_addmul_1_int 2
+    jmp     .5
 
     xalign  16
 .2:
+	mpn_addmul_1_int 0
+    jmp     .5
+
+    xalign  16
+.3:
+	mpn_addmul_1_int 1
+    jmp     .5
+
+    xalign  16
+.4:
+	mpn_addmul_1_int 3
+
+    xalign  16
+.5:
     mov     rcx, rbp
     mov     rdx, [rsp+stack_use+40]
     lea     rsi, [rdx+rbp*8]
     mov     rbx, rdi
     mpn_add
     mov     rdx, [rsp+stack_use+16]
-    jnc     .3
+    jnc     .6
     mov     rsi, rbx
     mpn_sub
-
-.3:
+.6:
     END_PROC reg_save_list
 
     xalign  16
-one:mov     r8,[rsp+40]
+one:
+	mov     r8,[rsp+40]
     mov     r10, [r8]
     mov     r11, [rdx]
     imul    r9, r10

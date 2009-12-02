@@ -43,16 +43,16 @@
     and     rax, byte 1
     add     rax, r8
     cmp     rax, byte 4
-    jae     .1
+    jae     .2
     xor     rdx,rdx
-
-.0: mov     rax, [r10+r8*8-8]
+.1: 
+	mov     rax, [r10+r8*8-8]
     div     r9
     mov     [rcx+r8*8-8], rax
     sub     r8, 1
-    jnz     .0
+    jnz     .1
     ret                     ; avoid single byte return
-.1:
+.2:
     FRAME_PROC ?mpn_divexact, 0, reg_save_list
     mov     rsi, rdx        ; src pointer
     mov     rdi, rcx        ; dst pointer
@@ -94,35 +94,39 @@
     mov     rax, [rsi+r8*8]
     or      rcx, rcx
     mov     rdx, [rsi+r8*8+8]
-    jz      .3                  ; if divisor is odd
+    jz      .4                  ; if divisor is odd
     shrd    rax, rdx, cl
     add     r8, 1
-    jmp     .5
+    jmp     .6
 
     xalign  16
-.2: mul     r9                  ; divisor is odd
+.3: 
+	mul     r9                  ; divisor is odd
     mov     rax, [rsi+r8*8]
     sub     rdx, r11
     sub     rax, rdx
     sbb     r11, r11
-.3: imul    rax, r10
+.4: 
+	imul    rax, r10
     mov     [rdi+r8*8], rax
     add     r8, 1
-    jnz     .2
-    jmp     .6
+    jnz     .3
+    jmp     .7
 
     xalign  16
-.4: mul     r9                  ; divisor is even
+.5: 
+	mul     r9                  ; divisor is even
     sub     rdx, r11
     mov     rax, [rsi+r8*8-8]
     mov     r11, [rsi+r8*8]
     shrd    rax, r11, cl
     sub     rax, rdx
     sbb     r11, r11
-.5: imul    rax, r10
+.6: 
+	imul    rax, r10
     mov     [rdi+r8*8-8],rax
     add     r8, 1
-    jnz     .4
+    jnz     .5
 
     mul     r9
     mov     rax, [rsi-8]
@@ -131,7 +135,7 @@
     sub     rax, rdx
     imul    rax, r10
     mov     [rdi-8], rax
-
-.6: END_PROC reg_save_list
+.7: 
+	END_PROC reg_save_list
 
     end

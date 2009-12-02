@@ -44,9 +44,9 @@
     xor     rax, rax
     shld    rax, rdx, cl
     sub     rbx, 5
-    js      L_skiplp
+    js      .2
     xalign  16
-L_lp:
+.1:
     mov     r8, [rsi+rbx*8]
     mov     r11, [rsi+rbx*8-24]
     mov     r9, [rsi+rbx*8-8]
@@ -61,20 +61,20 @@ L_lp:
     shld    r10, r11, cl
     sub     rbx, 4
     mov     [rdi+rbx*8+16], r10
-    jns     L_lp
-L_skiplp:
+    jns     .1
+.2:
     cmp     rbx, -2
-    ja      L_case3
-    je      L_case2
-    jp      L_case1
+    ja      .4
+    je      .5
+    jp      .6
 ; ALIGN(16)
-L_case0:
+.3:
     shl     rdx, cl
     mov     [rdi+rbx*8+8], rdx
-    jmp     L_xit
+    jmp     .7
 
     xalign  16
-L_case3:
+.4:
     mov     r8, [rsi+rbx*8]
     mov     r9, [rsi+rbx*8-8]
     shld    rdx, r8, cl
@@ -86,10 +86,10 @@ L_case3:
     mov     [rdi+rbx*8-8], r9
     shl     r10, cl
     mov     [rdi+rbx*8-16], r10
-    jmp     L_xit
+    jmp     .7
 
     xalign  16
-L_case2:
+.5:
     mov     r8, [rsi+rbx*8]
     mov     r9, [rsi+rbx*8-8]
     shld    rdx, r8, cl
@@ -98,16 +98,16 @@ L_case2:
     shl     r9, cl
     mov     [rdi+rbx*8], r8
     mov     [rdi+rbx*8-8], r9
-    jmp     L_xit
+    jmp     .7
 
     xalign  16
-L_case1:
+.6:
     mov     r8, [rsi+rbx*8]
     shld    rdx, r8, cl
     mov     [rdi+rbx*8+8], rdx
     shl     r8, cl
     mov     [rdi+rbx*8], r8
-L_xit:
+.7:
     END_PROC reg_save_list
 
     end

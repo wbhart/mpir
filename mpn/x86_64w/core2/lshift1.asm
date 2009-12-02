@@ -39,7 +39,8 @@
     jz      .2
 
     alignb  16, nop
-.1: mov     r10, [rdx]
+.1: 
+	mov     r10, [rdx]
     mov     r11, [rdx+8]
     mov     r12, [rdx+16]
     mov     r13, [rdx+24]

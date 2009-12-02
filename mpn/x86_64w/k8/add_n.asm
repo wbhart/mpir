@@ -66,11 +66,13 @@ entry:
     adc     r10, [r8+16]
     mov     [rcx+16], r10
     dec     rax
-.1: adc     rax, rax
+.1: 
+	adc     rax, rax
     ret
 
     xalign  8
-.2: mov     r10, [rdx]
+.2: 
+	mov     r10, [rdx]
     mov     r11, [rdx+8]
     lea     rdx, [rdx+32]
     adc     r10, [r8]
@@ -105,7 +107,8 @@ entry:
     adc     r10, [r8+16]
     mov     [rcx+16], r10
     dec     rax
-.3: adc     rax, rax
+.3: 
+	adc     rax, rax
     ret
 
     end

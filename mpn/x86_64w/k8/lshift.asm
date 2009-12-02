@@ -47,7 +47,8 @@
     jbe     .2
 
     xalign  16
-.1: movq    mm2, [rdx+r8*8+16]
+.1: 
+	movq    mm2, [rdx+r8*8+16]
     movq    mm4, mm2
     psrlq   mm2, mm1
     por     mm3, mm2
@@ -75,8 +76,8 @@
     ja      .1
 
 ; r8 is 0,-1,-2,-3 here , so we have 3+r8 limbs to do
-
-.2: cmp     r8, -1
+.2: 
+	cmp     r8, -1
     jl      .3
     movq    mm2, [rdx+r8*8+16]
     movq    mm4, mm2
@@ -91,8 +92,8 @@
     movq    [rcx+r8*8+16], mm4
     psllq   mm3, mm0
     sub     r8, 2
-
-.3: test    r8, 1
+.3: 
+	test    r8, 1
     jnz     .4
     movq    mm2, [rdx+r8*8+16]
     movq    mm4, mm2
@@ -103,8 +104,8 @@
     movq    [rcx+r8*8+16], mm4
     emms
     ret
-
-.4: movq    [rcx+r8*8+24], mm3
+.4: 
+	movq    [rcx+r8*8+24], mm3
     emms
     ret
 

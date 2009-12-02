@@ -34,10 +34,10 @@
 	lea     rdx, [rdx+r8*8-8]
 	lea     rcx, [rcx+r8*8-8]
 	sub     r8, 4
-	jl      L_skiplp
+	jl      .2
 	
 	xalign  16
-L_lp:
+.1:
 	mov     rax, [rdx]
 	mov     r9, [rdx-8]
 	mov     r10, [rdx-16]
@@ -49,23 +49,23 @@ L_lp:
 	mov     [rcx+16], r10
 	lea     rdx, [rdx-32]
 	mov     [rcx+8], r11
-	jns     L_lp
-L_skiplp:
+	jns     .1
+.2:
 	add     r8, 2
-	jz      L_case2
-	jns     L_case3
-	jp      L_case1
-L_case0:
+	jz      .5
+	jns     .6
+	jp      .4
+.3:
 	ret
 	
 	xalign  16
-L_case1:
+.4:
 	mov     rax, [rdx]
 	mov     [rcx], rax
 	ret
 	
 	xalign  16
-L_case2:
+.5:
 	mov     rax, [rdx]
 	mov     r9, [rdx-8]
 	mov     [rcx], rax
@@ -73,7 +73,7 @@ L_case2:
 	ret
 	
 	xalign  16
-L_case3:
+.6:
 	mov     rax, [rdx]
 	mov     r9, [rdx-8]
 	mov     r10, [rdx-16]
@@ -81,4 +81,5 @@ L_case3:
 	mov     [rcx-8], r9
 	mov     [rcx-16], r10
 	ret
+	
 	end

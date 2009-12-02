@@ -49,7 +49,8 @@
     jnc     .2
 
     xalign  16
-.1: mov     rax, [r10+rcx*8]
+.1: 
+	mov     rax, [r10+rcx*8]
     mul     r8
     sub     r9, rax
     mov     [r11+rcx*8], r9
@@ -71,7 +72,8 @@
     sbb     r9, rdx
     add     rcx, 4
     jnc     .1
-.2: test    rcx, 2
+.2: 
+	test    rcx, 2
     jnz     .3
     mov     rax, [r10+rcx*8]
     mul     r8
@@ -84,7 +86,8 @@
     mov     [r11+rcx*8+8], r9
     sbb     r9, rdx
     add     rcx, 2
-.3: test    rcx, 1
+.3: 
+	test    rcx, 1
     jnz     .4
     mov     rax, [r10+rcx*8]
     mul     r8

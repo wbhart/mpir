@@ -35,23 +35,23 @@
 	shr     r8, 2
 	cmp     r8, 0
 ;	carry flag is clear here
-	jnz     loop1
+	jnz     .2
 	sbb     rax, [rdx]
 	mov     [rcx], rax
 	dec     r9
-	jz      end1
+	jz      .1
 	sbb     rax, [rdx+8]
 	mov     [rcx+8], rax
 	dec     r9
-	jz      end1
+	jz      .1
 	sbb     rax, [rdx+16]
 	mov     [rcx+16], rax
 	dec     r9
-end1:
+.1:
 	sbb     rax, 0
 	ret
 	xalign  16
-loop1:
+.2:
 	sbb     rax, [rdx]
 	mov     [rcx], rax
 	sbb     rax, [rdx+8]
@@ -63,21 +63,21 @@ loop1:
 	lea     rdx, [rdx+32]
 	dec     r8
 	lea     rcx, [rcx+32]
-	jnz     loop1
+	jnz     .2
 	inc     r9
 	dec     r9
-	jz      end
+	jz      .3
 	sbb     rax, [rdx]
 	mov     [rcx], rax
 	dec     r9
-	jz      end
+	jz      .3
 	sbb     rax, [rdx+8]
 	mov     [rcx+8], rax
 	dec     r9
-	jz      end
+	jz      .3
 	sbb     rax, [rdx+16]
 	mov     [rcx+16], rax
 	dec     r9
-end:
+.3:
 	sbb     rax, 0
 	ret

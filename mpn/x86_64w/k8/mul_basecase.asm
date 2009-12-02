@@ -793,9 +793,9 @@
     LEAF_PROC mpn_mul_basecase
     ; the current mul does not handle case one
     cmp     r8d, 4
-    jg      L_fiveormore
+    jg      fiveormore
     cmp     r8d, 1
-    je      L_one
+    je      one
 
     WIN64_GCC_PROC mpn_mbc1, 5, frame
     movsxd  rdx, edx
@@ -820,26 +820,21 @@
     add     r9, rax
     adc     r10, rdx
     cmp     r11, 2
-    ja      L_oldcase3
-    jz      L_oldcase2
-    jp      L_oldcase1
-
-L_oldcase0:
+    ja      .4
+    jz      .3
+    jp      .2
+.1:
     oldmpn_muladdmul_1_int 0
-    jmp     L_xit1
-
-L_oldcase1:
+    jmp     .5
+.2:
     oldmpn_muladdmul_1_int 1
-    jmp     L_xit1
-
-L_oldcase2:
+    jmp     .5
+.3:
     oldmpn_muladdmul_1_int 2
-    jmp     L_xit1
-
-L_oldcase3:
+    jmp     .5
+.4:
     oldmpn_muladdmul_1_int 3
-
-L_xit1:
+.5:
     WIN64_GCC_END frame
 
 ; rdx >= 5  as we dont have an inner jump
@@ -849,7 +844,7 @@ L_xit1:
 %define reg_save_list   rbx, rsi, rdi, r12, r13, r14, r15
 
     xalign  16
-L_fiveormore:
+fiveormore:
     WIN64_GCC_PROC mpn_mbc2, 5, frame
     movsxd  rdx, edx
     movsxd  r8, r8d
@@ -865,8 +860,8 @@ L_fiveormore:
     mov     rbx, r14
     mov     rax, [rsi+r14*8]
     bt      r15, 0
-    jnc     L_even
-L_odd:
+    jnc     .12
+.6:
     inc     rbx
     mov     r8, [r13+r15*8]
     mul     r8
@@ -874,71 +869,68 @@ L_odd:
     mov     rax, [rsi+r14*8+8]
     mov     r9, rdx
     cmp     rbx, 0
-    jge     L_mulskiploop
+    jge     .7
     mul1lp
-L_mulskiploop:
+.7:
     mov     r10d, 0
     mul     r8
     mov     [rdi+rbx*8-8], r12
     add     r9, rax
     adc     r10, rdx
     cmp     rbx, 2
-    ja      L_mul1case3
-    jz      L_mul1case2
-    jp      L_mul1case1
-L_mul1case0:
+    ja      .11
+    jz      .10
+    jp      .9
+.8:
     mulnext0
-    jmp     L_case0
-L_mul1case1:
+    jmp     .20
+.9:
     mulnext1
-    jmp     L_case3
-L_mul1case2:
+    jmp     .14
+.10:
     mulnext2
-    jmp     L_case2
-L_mul1case3:
+    jmp     .16
+.11:
     mulnext3
-    jmp     L_case1
-L_even:
+    jmp     .18
+.12:
     ; as all the mul2pro? are the same
     mul2pro0
     mul2lp
     cmp     rbx, 2
-    ja      L_mul2case0
-    jz      L_mul2case1
-    jp      L_mul2case2
-
-L_mul2case3:
+    ja      .19
+    jz      .17
+    jp      .15
+.13:
     mul2epi3
-L_case3:
+.14:
     mpn_addmul_2_int 3
-    jmp     L_xit2
-
-L_mul2case2:
+    jmp     .21
+.15:
     mul2epi2
-L_case2:
+.16:
     mpn_addmul_2_int 2
-    jmp     L_xit2
-
-L_mul2case1:
+    jmp     .21
+.17:
     mul2epi1
-L_case1:
+.18:
     mpn_addmul_2_int 1
-    jmp     L_xit2
-
-L_mul2case0:
+    jmp     .21
+.19:
     mul2epi0
-L_case0:
+.20:
     mpn_addmul_2_int 0
 
     xalign  16
-L_xit2:
+.21:
     WIN64_GCC_END frame
 
     xalign  16
-L_one:
+one:
     mov     rax, [rdx]
     mul     qword [r9]
     mov     [rcx], rax
     mov     [rcx+8], rdx
     ret
+    
     end

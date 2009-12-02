@@ -87,10 +87,10 @@
 	psrlq   mm5, mm1
 	mul     rcx
 	cmp     r9, 0
-	je      L_one
+	je      .3
 	add     r8, r8
 	xalign  16
-L_loop:
+.1:
 	movq    mm2, mm4
 	mov     rax, [rsi+r9*8]
 	sbb     rax, rdx
@@ -105,18 +105,18 @@ L_loop:
 	mul     rcx
 	add     r8, r8
 	inc     r9
-	jnz     L_loop
-L_skiploop:
+	jnz     .1
+.2:
 	movq    [rdi+r9*8-8], mm4
 	mov     rax, 0
 	adc     rax, rdx
-	jmp     L_xit
-L_one:
+	jmp     .4
+.3:
 	movq    [rdi+r9*8-8], mm4
 	add     r8, r8
 	mov     rax, 0
 	adc     rax, rdx
-L_xit:
+.4:
 	emms
 	END_PROC reg_save_list
 

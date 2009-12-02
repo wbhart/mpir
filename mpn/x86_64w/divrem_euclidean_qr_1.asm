@@ -49,7 +49,8 @@
     xor     rbp, rbp
 
     xalign   16
-.1: mov     r13, [rsi+r14*8-8]
+.1: 
+	mov     r13, [rsi+r14*8-8]
     mov     r12, r13
     neg     rcx
     cmovnc  r13, r15

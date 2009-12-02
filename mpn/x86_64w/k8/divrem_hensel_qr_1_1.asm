@@ -74,7 +74,8 @@
 	xor     rdx, rdx
 
 	xalign  16
-.1:	mov     rax, [rsi+r9*8]
+.1:	
+	mov     rax, [rsi+r9*8]
 	sbb     rax, rdx
 	sbb     r8, r8
 	imul    rax, r11
@@ -86,4 +87,5 @@
 	mov     rax, 0
 	adc     rax, rdx
 	END_PROC reg_save_list
+	
 	end

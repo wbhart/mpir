@@ -72,13 +72,14 @@
 
     mov     rdx, r9             ; intial carry -> rdx
     add     rsi, 1              ; adjust limb offset
-    jz      .1
+    jz      .2
 
     mov     r9, r11
     lea     rsi,[r11+rsi*8]
-    align    16
-
-.0: sub     rax, rdx
+    
+    xalign    16
+.1: 
+	sub     rax, rdx
     adc     rcx, 0
     imul    rax, r10
     mul     r8
@@ -86,9 +87,9 @@
     sub     rax, rcx
     setc    cl
     cmp     r9, rsi
-    jne     .0
-
-.1: sub     rax, rdx
+    jne     .1
+.2: 
+	sub     rax, rdx
     adc     rcx, 0
     imul    rax, r10
     mul     r8

@@ -34,10 +34,10 @@
 	xor     eax, eax
 	shr     r8, 2
 	cmp     r8, 0
-	je      L_skiplp
+	je      .2
 ; want carry clear here
 	xalign  16
-L_lp:
+.1:
 	sbb     rax, [rdx]
 	lea     rcx, [rcx+32]
 	mov     r9, rax
@@ -52,24 +52,24 @@ L_lp:
 	mov     [rcx-16], r11
 	mov     [rcx-8], rax
 	lea     rdx, [rdx+32]
-	jnz     L_lp
-L_skiplp:
+	jnz     .1
+.2:
     mov     r8, [rsp+24]
 ; dont want to change the carry
 	inc     r8
 	dec     r8
-	jz      L_end
+	jz      .3
 	sbb     rax, [rdx]
 	mov     [rcx], rax
 	dec     r8
-	jz      L_end
+	jz      .3
 	sbb     rax, [rdx+8]
 	mov     [rcx+8], rax
 	dec     r8
-	jz      L_end
+	jz      .3
 	sbb     rax, [rdx+16]
 	mov     [rcx+16], rax
-L_end:
+.3:
 	sbb     rax, 0
 	ret
 	end

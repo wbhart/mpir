@@ -303,32 +303,37 @@ fourormore:
     cmp     r14, 0
     jge     .1
     mulloop
-
-.1: mov     r10d, 0
+.1: 
+	mov     r10d, 0
     mul     r13
     mov     [rdi+r11*8], r12
     add     r9, rax
     adc     r10, rdx
     cmp     r11, 2
-    je      L22
-    ja      L23
-    jp      L21
-L20:mulnext0
-    jmp     L51
+    je      .4
+    ja      .5
+    jp      .3
+.2:
+	mulnext0
+    jmp     .8
 
     xalign  16
-L21:mulnext1
-    jmp     L52
+.3:	
+	mulnext1
+    jmp     .10
 
     xalign  16
-L22:mulnext2
-    jmp     L53
+.4:
+	mulnext2
+    jmp     .12
 
     xalign  16
-L23:mulnext3
+.5:
+	mulnext3
 
     xalign  16
-L3: mov     rax, [rsi+r14*8]
+.6: 
+	mov     rax, [rsi+r14*8]
     mov     r13, [rsi+r14*8-8]
     mov     r11, r14
     mul     r13
@@ -336,11 +341,12 @@ L3: mov     rax, [rsi+r14*8]
     mov     rax, [rsi+r14*8+8]
     mov     r9, rdx
     cmp     r14, 0
-    jge     L40
+    jge     .7
     addmulloop
-L40:addmulnext0
-
-L51:mov     rax, [rsi+r14*8]
+.7:
+	addmulnext0
+.8:
+	mov     rax, [rsi+r14*8]
     mov     r13, [rsi+r14*8-8]
     mov     r11, r14
     mul     r13
@@ -348,11 +354,12 @@ L51:mov     rax, [rsi+r14*8]
     mov     rax, [rsi+r14*8+8]
     mov     r9, rdx
     cmp     r14, 0
-    jge     L41
+    jge     .9
     addmulloop
-L41:addmulnext1
-
-L52:mov     rax, [rsi+r14*8]
+.9:
+	addmulnext1
+.10:
+	mov     rax, [rsi+r14*8]
     mov     r13, [rsi+r14*8-8]
     mov     r11, r14
     mul     r13
@@ -360,11 +367,12 @@ L52:mov     rax, [rsi+r14*8]
     mov     rax, [rsi+r14*8+8]
     mov     r9, rdx
     cmp     r14, 0
-    jge     L42
+    jge     .11
     addmulloop
-L42:addmulnext2
-
-L53:mov     rax, [rsi+r14*8]
+.11:
+	addmulnext2
+.12:
+	mov     rax, [rsi+r14*8]
     mov     r13, [rsi+r14*8-8]
     mov     r11, r14
     mul     r13
@@ -372,10 +380,11 @@ L53:mov     rax, [rsi+r14*8]
     mov     rax, [rsi+r14*8+8]
     mov     r9, rdx
     cmp     r14, 0
-    jge     L43
+    jge     .13
     addmulloop
-L43:addmulnext3
-    jnz     L3
+.13:
+	addmulnext3
+    jnz     .6
 
     mov     rax, [rsi+r14*8]
     mov     r13, [rsi+r14*8-8]
@@ -396,7 +405,8 @@ L43:addmulnext3
     neg     rcx
 
     xalign  16
-.6: mov     rax, [rsi+rcx*8]
+.14: 
+	mov     rax, [rsi+rcx*8]
     mul     rax
     mov     r8, [rdi]
     mov     r9, [rdi+8]
@@ -412,7 +422,7 @@ L43:addmulnext3
     mov     [rdi+8], r9
     add     rcx, 1          ; ***
     lea     rdi, [rdi+16]
-    jnz     .6
+    jnz     .14
     END_PROC reg_save_list
 
     xalign  16
