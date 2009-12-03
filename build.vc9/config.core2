@@ -23,39 +23,6 @@ MA 02111-1307, USA. */
    Only hosts that are going to be tested for need to be in this list,
    not everything that can possibly be selected.
  */
-#undef HAVE_HOST_CPU_alpha
-#undef HAVE_HOST_CPU_alphaev5
-#undef HAVE_HOST_CPU_alphaev6
-#undef HAVE_HOST_CPU_alphaev67
-
-#undef HAVE_HOST_CPU_m68k
-#undef HAVE_HOST_CPU_m68000
-#undef HAVE_HOST_CPU_m68010
-#undef HAVE_HOST_CPU_m68020
-#undef HAVE_HOST_CPU_m68030
-#undef HAVE_HOST_CPU_m68040
-#undef HAVE_HOST_CPU_m68060
-#undef HAVE_HOST_CPU_m68302
-#undef HAVE_HOST_CPU_m68360
-
-#undef HAVE_HOST_CPU_powerpc604
-#undef HAVE_HOST_CPU_powerpc604e
-#undef HAVE_HOST_CPU_powerpc750
-#undef HAVE_HOST_CPU_powerpc7400
-
-#undef HAVE_HOST_CPU_sparc
-#undef HAVE_HOST_CPU_sparcv8
-#undef HAVE_HOST_CPU_supersparc
-#undef HAVE_HOST_CPU_sparclite
-#undef HAVE_HOST_CPU_microsparc
-#undef HAVE_HOST_CPU_ultrasparc1
-#undef HAVE_HOST_CPU_ultrasparc2
-#undef HAVE_HOST_CPU_sparc64
-
-#undef HAVE_HOST_CPU_hppa1_0
-#undef HAVE_HOST_CPU_hppa1_1
-#undef HAVE_HOST_CPU_hppa2_0n
-#undef HAVE_HOST_CPU_hppa2_0w
 
 #undef HAVE_HOST_CPU_i386
 #undef HAVE_HOST_CPU_i486
@@ -72,118 +39,8 @@ MA 02111-1307, USA. */
 #undef HAVE_HOST_CPU_k63
 #undef HAVE_HOST_CPU_athlon
 
-/* a dummy to make autoheader happy */
-#undef HAVE_HOST_CPU_
-
-/* Define one (and only one) of these for the CPU host family.
-   Only hosts that are going to be tested for need to be in this list,
-   not everything that can possibly be selected.
- */
-#undef HAVE_HOST_CPU_FAMILY_power
-#undef HAVE_HOST_CPU_FAMILY_powerpc
 #define HAVE_HOST_CPU_FAMILY_x86	1
 
-/* Define if we have native implementation of function.
-   (use just one of the three following defines)
-*/
-
-#undef HAVE_NATIVE_mpn_add
-#undef HAVE_NATIVE_mpn_add_1
-#undef HAVE_NATIVE_mpn_addmul_2
-#undef HAVE_NATIVE_mpn_addmul_3
-#undef HAVE_NATIVE_mpn_addmul_4
-#undef HAVE_NATIVE_mpn_addsub_n
-#undef HAVE_NATIVE_mpn_addsub_nc
-#undef HAVE_NATIVE_mpn_and_n
-#undef HAVE_NATIVE_mpn_andn_n
-#undef HAVE_NATIVE_mpn_bdivmod
-#undef HAVE_NATIVE_mpn_cmp
-#undef HAVE_NATIVE_mpn_com_n
-#undef HAVE_NATIVE_mpn_divrem
-#undef HAVE_NATIVE_mpn_divrem_2
-#undef HAVE_NATIVE_mpn_divrem_newton
-#undef HAVE_NATIVE_mpn_divrem_classic
-#undef HAVE_NATIVE_mpn_dump
-#undef HAVE_NATIVE_mpn_gcd
-#undef HAVE_NATIVE_mpn_gcd_1
-#undef HAVE_NATIVE_mpn_gcd_finda
-#undef HAVE_NATIVE_mpn_gcdext
-#undef HAVE_NATIVE_mpn_get_str
-#undef HAVE_NATIVE_mpn_invert_limb
-#undef HAVE_NATIVE_mpn_ior_n
-#undef HAVE_NATIVE_mpn_iorn_n
-#undef HAVE_NATIVE_mpn_mul
-#undef HAVE_NATIVE_mpn_mul_2
-#undef HAVE_NATIVE_mpn_mul_3
-#undef HAVE_NATIVE_mpn_mul_4
-#undef HAVE_NATIVE_mpn_mul_n
-#undef HAVE_NATIVE_mpn_nand_n
-#undef HAVE_NATIVE_mpn_nior_n
-#undef HAVE_NATIVE_mpn_perfect_square_p
-#undef HAVE_NATIVE_mpn_preinv_mod_1
-#undef HAVE_NATIVE_mpn_random2
-#undef HAVE_NATIVE_mpn_random
-#undef HAVE_NATIVE_mpn_rawrandom
-#undef HAVE_NATIVE_mpn_scan0
-#undef HAVE_NATIVE_mpn_scan1
-#undef HAVE_NATIVE_mpn_set_str
-#undef HAVE_NATIVE_mpn_sqrtrem
-#undef HAVE_NATIVE_mpn_sqr_diagonal
-#undef HAVE_NATIVE_mpn_sub
-#undef HAVE_NATIVE_mpn_sub_1
-#undef HAVE_NATIVE_mpn_udiv_w_sdiv
-#undef HAVE_NATIVE_mpn_xor_n
-#undef HAVE_NATIVE_mpn_xnor_n
-
-#define HAVE_NATIVE_mpn_add_n				1
-#define HAVE_NATIVE_mpn_add_nc				1
-#define HAVE_NATIVE_mpn_addadd_n            1
-#define HAVE_NATIVE_mpn_subadd_n            1
-#define HAVE_NATIVE_mpn_addlsh1_n			1
-#define HAVE_NATIVE_mpn_addmul_1			1
-#define HAVE_NATIVE_mpn_addmul_1c			1
-#define HAVE_NATIVE_mpn_addmul_2			1
-#define HAVE_NATIVE_mpn_addsub_n            1
-#define HAVE_NATIVE_mpn_com_n               1
-#define HAVE_NATIVE_mpn_divexact_1			1
-#define HAVE_NATIVE_mpn_divexact_by3        1
-#define HAVE_NATIVE_mpn_divexact_by3c       1
-#define HAVE_NATIVE_mpn_divexact_byff       1
-#define HAVE_NATIVE_mpn_divexact_byBm1of    1
-#define HAVE_NATIVE_mpn_divrem_euclidean_qr_1     1
-#define HAVE_NATIVE_mpn_divrem_euclidean_qr_2     1
-#define HAVE_NATIVE_mpn_lshift				1
-#define HAVE_NATIVE_mpn_modexact_1_odd		1
-#define HAVE_NATIVE_mpn_modexact_1c_odd		1
-#define HAVE_NATIVE_mpn_mul_1				1
-#define HAVE_NATIVE_mpn_mul_1c				1
-#define HAVE_NATIVE_mpn_mul_2				1
-#define HAVE_NATIVE_mpn_mul_basecase		1
-#define HAVE_NATIVE_mpn_redc_basecase       1
-#define HAVE_NATIVE_mpn_rshift				1
-#define HAVE_NATIVE_mpn_sqr_basecase		1
-#define HAVE_NATIVE_mpn_sub_n				1
-#define HAVE_NATIVE_mpn_sub_nc				1
-#define HAVE_NATIVE_mpn_sublsh1_n			1
-#define HAVE_NATIVE_mpn_submul_1			1
-#define HAVE_NATIVE_mpn_submul_1c			1
-#define HAVE_NATIVE_mpn_umul_ppmm           1
-#define HAVE_NATIVE_mpn_udiv_qrnnd          1
-#define HAVE_NATIVE_mpn_rsh1add_n           1
-#define HAVE_NATIVE_mpn_rsh1sub_n           1
-#define HAVE_NATIVE_mpn_add_err1            1 
-#define HAVE_NATIVE_mpn_sub_err1            1 
-#define HAVE_NATIVE_mpn_add_err2            1 
-#define HAVE_NATIVE_mpn_sub_err2            1 
-#define HAVE_NATIVE_mpn_addlsh_n            1 
-
-#if 1
-#define HAVE_NATIVE_mpn_copyi               1
-#define HAVE_NATIVE_mpn_copyd               1
-#define HAVE_NATIVE_mpn_store               1
-#endif
-
-#if 1
 #define HAVE_NATIVE_mpn_and_n               1
 #define HAVE_NATIVE_mpn_andn_n              1
 #define HAVE_NATIVE_mpn_ior_n               1
@@ -192,10 +49,58 @@ MA 02111-1307, USA. */
 #define HAVE_NATIVE_mpn_nior_n              1
 #define HAVE_NATIVE_mpn_xnor_n              1
 #define HAVE_NATIVE_mpn_xor_n               1
-#endif
 
-/* a dummy to make autoheader happy */
-#undef HAVE_NATIVE_
+#define HAVE_NATIVE_mpn_add_n				1
+#define HAVE_NATIVE_mpn_add_nc				1
+#define HAVE_NATIVE_mpn_addadd_n            1
+#define HAVE_NATIVE_mpn_addlsh1_n			1
+#define HAVE_NATIVE_mpn_addlsh_n			1
+#define HAVE_NATIVE_mpn_addmul_1			1
+#define HAVE_NATIVE_mpn_addmul_1c			1
+#define HAVE_NATIVE_mpn_addmul_2			1
+#define HAVE_NATIVE_mpn_addsub_n            1
+#define HAVE_NATIVE_mpn_add_err1            1 
+#define HAVE_NATIVE_mpn_sub_err1            1 
+#define HAVE_NATIVE_mpn_add_err2            1 
+#define HAVE_NATIVE_mpn_sub_err2            1 
+#define HAVE_NATIVE_mpn_com_n               1
+#define HAVE_NATIVE_mpn_copyd               1
+#define HAVE_NATIVE_mpn_copyi               1
+#define HAVE_NATIVE_mpn_divexact_1			1
+#define HAVE_NATIVE_mpn_divexact_by3        1
+#define HAVE_NATIVE_mpn_divexact_by3c       1
+#define HAVE_NATIVE_mpn_divexact_byBm1of    1
+#define HAVE_NATIVE_mpn_divexact_byff       1
+#define HAVE_NATIVE_mpn_divrem_euclidean_qr_1     1
+#define HAVE_NATIVE_mpn_divrem_euclidean_qr_2     1
+#define HAVE_NATIVE_mpn_divrem_hensel_qr_1_2      1
+#define HAVE_NATIVE_mpn_hamdist				1
+#define HAVE_NATIVE_mpn_lshift				1
+#define HAVE_NATIVE_mpn_mod_1_1				1
+#define HAVE_NATIVE_mpn_mod_1_2				1
+#define HAVE_NATIVE_mpn_mod_1_3				1
+#define HAVE_NATIVE_mpn_modexact_1_odd		1
+#define HAVE_NATIVE_mpn_modexact_1c_odd		1
+#define HAVE_NATIVE_mpn_mul_1				1
+#define HAVE_NATIVE_mpn_mul_1c				1
+#define HAVE_NATIVE_mpn_mul_2				1
+#define HAVE_NATIVE_mpn_mul_basecase		1
+#define HAVE_NATIVE_mpn_popcount     		1
+#define HAVE_NATIVE_mpn_redc_basecase       1
+#define HAVE_NATIVE_mpn_rsh1add_n			1
+#define HAVE_NATIVE_mpn_rsh1sub_n			1
+#define HAVE_NATIVE_mpn_rsh_divrem_hensel_qr_1_2	1
+#define HAVE_NATIVE_mpn_rshift				1
+#define HAVE_NATIVE_mpn_sqr_basecase		1
+#define HAVE_NATIVE_mpn_store               1
+#define HAVE_NATIVE_mpn_sub_n				1
+#define HAVE_NATIVE_mpn_sub_nc				1
+#define HAVE_NATIVE_mpn_subadd_n			1
+#define HAVE_NATIVE_mpn_sublsh1_n			1
+#define HAVE_NATIVE_mpn_submul_1			1
+#define HAVE_NATIVE_mpn_submul_1c			1
+#define HAVE_NATIVE_mpn_umul_ppmm           1
+#define HAVE_NATIVE_mpn_udiv_qrnnd          1
 
 /* The gmp-mparam.h to update when tuning. */
 #undef GMP_MPARAM_H_SUGGEST

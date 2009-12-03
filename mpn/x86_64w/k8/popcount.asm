@@ -20,13 +20,13 @@
 ;  to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 ;  Boston, MA 02110-1301, USA.
 
-;	int mpn_popcount(mp_ptr,mp_size_t)
-;	rax                 rdi,      rsi
-;	eax                 rcx,      edx
+;	mpn_limb_t mpn_popcount(mp_ptr,mp_size_t)
+;	rax                        rdi,      rsi
+;	rax                        rcx,      edx
 
 %include "..\yasm_mac.inc"
 
-    CPU  Core2
+    CPU  Athlon64
     BITS 64
 
 %define reg_save_list   rbx, rsi, rdi, rbp, r12

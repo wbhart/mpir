@@ -20,9 +20,9 @@
 ;  to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 ;  Boston, MA 02110-1301, USA.
 
-;	int mpn_popcount(mp_ptr,mp_size_t)
-;	rax                 rdi,      rsi
-;	eax                 rcx,      edx
+;	mp_limb_t mpn_popcount(mp_ptr,mp_size_t)
+;	rax                       rdi,      rsi
+;	rax                       rcx,      edx
 
 %include "..\yasm_mac.inc"
 
