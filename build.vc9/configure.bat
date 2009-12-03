@@ -107,7 +107,7 @@ if %BITS% == 64 (
 	if %CPU% == x86_64 ( set BCPU=gc)
 	if %CPU% == core2 ( set BCPU=core2)
 	if %CPU% == penryn ( set BCPU=core2)
-	if %CPU% == nehalem ( set BCPU=core2)
+	if %CPU% == nehalem ( set BCPU=nehalem)
 	if %CPU% == atom ( set BCPU=gc)
 	if %CPU% == netburst ( set BCPU=gc)
 	if %CPU% == netburstlahf ( set BCPU=gc)
