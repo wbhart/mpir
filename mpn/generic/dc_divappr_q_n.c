@@ -156,7 +156,7 @@ mpn_dc_divappr_q_n (mp_ptr qp, mp_ptr np, mp_srcptr dp, mp_size_t n,
   MPN_COPY (qp, tp + 1, n - m);
 
   /* Construct final quotient from low and hi parts... */
-  ret += qh + mpn_add_1 (qp + n - m, qp + n - m, m, tp[n-m+1]);
+  ret += mpn_add_1 (qp + n - m, qp + n - m, m, tp[n-m+1]);
   ret += mpn_add_1 (qp + n - m + 1, qp + n - m + 1, m - 1, cy);
   if (tp[0] >= GMP_NUMB_HIGHBIT)
     ret += mpn_add_1 (qp, qp, n, 1);   /* ...rounding quotient up */
