@@ -1,6 +1,7 @@
 /* dc_divappr_q - middle-product-based divide and conquer approximate quotient
 
 Copyright (C) 2009, David Harvey
+Copyright (C) 2009, William Hart
 
 All rights reserved.
 
@@ -27,6 +28,12 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 */
 
+/*
+   N.B: this implementation of approximate quotient is derived from original
+   ideas and code of David Harvey, however all bug reports should be directed 
+   to the MPIR developers, who are responsible for its current incarnation.
+*/
+
 #include "mpir.h"
 #include "gmp-impl.h"
 #include "longlong.h"
@@ -41,16 +48,20 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
   More precisely, returns Q such that N = Q*D + R, where -D < R < D.
 
-  Q is n+1 limbs; low limbs written to {qp,n}, high limb returned. The high
-  limb is either 0 or 1.
+  Q is n+1 limbs; low limbs written to {qp,n}, high limb returned. 
+  The high limb is either 0 or 1.
 
-  {dip,2} is precomputed inverse of high limbs of dp (see mpn_sb_divappr_q).
+  {dip,2} is precomputed inverse of high limbs of dp (see 
+  mpn_sb_divappr_q).
 
   N is destroyed.
 
   None of the buffers may overlap.
 
   tp is scratch space. 
+
+  We assume that n << B (due to use of the middle product, which
+  has that description.
 */
 
 #define DC_DIVAPPR_Q_N_THRESHOLD 36
@@ -65,16 +76,30 @@ mpn_dc_divappr_q_n (mp_ptr qp, mp_ptr np, mp_srcptr dp, mp_size_t n,
 
   ASSERT (n >= 6);
 
+  mp_limb_t ret = 0;
+
+  /* if the top n limbs of np are >= dp, high limb of quotient is 1 */
+  if (mpn_cmp(np + n, dp, n) >= 0)
+  {
+     ret = 1;
+     mpn_sub_n(np + n, np + n, dp, n);
+  }
+
+  /* top n limbs of np are now < dp */
+
   m = (n + 1) / 2;
   q_hi = qp + n - m;
 
   /* 
-     FIXME: we could probably avoid this copy if we could guarantee that
-     sb_div_appr_q/dc_divappr_q_n did not destroy the "bottom half" of N
-  */
+     FIXME: we could probably avoid this copy if we could guarantee 
+     that sb_div_appr_q/dc_divappr_q_n did not destroy the "bottom 
+     half" of N */
   MPN_COPY (tp, np, 2*n);
 
-  /* estimate high m+1 limbs of quotient */
+  /* estimate high m+1 limbs of quotient, using a 2*m by m division
+     the quotient may be computed 1 too large as it is approximate, 
+     moreover, even computed precisely it may be two too large due
+     to the truncation we've done to a 2*m by m division... */
   if (m < DC_DIVAPPR_Q_N_THRESHOLD)
     qh = mpn_sb_divappr_q (q_hi, tp + 2*n - 2*m, 2*m,
 			   dp + n - m, m, dip);
@@ -82,29 +107,43 @@ mpn_dc_divappr_q_n (mp_ptr qp, mp_ptr np, mp_srcptr dp, mp_size_t n,
     qh = mpn_dc_divappr_q_n (q_hi, tp + 2*n - 2*m,
 			     dp + n - m, m, dip, tp + 2*n);
 
-  /* decrease the estimate slightly (FIXME: actually I think 6 would be
-     enough? but let's do 10 to be safe...) */
-  qh -= mpn_sub_1 (q_hi, q_hi, m, (mp_limb_t) 10);
-  /* don't let the estimate become negative */
+  /* we therefore decrease the estimate by 3... */
+  qh -= mpn_sub_1 (q_hi, q_hi, m, (mp_limb_t) 3);
+  
+  /* ensuring it doesn't become negative become negative */
   if (qh & GMP_NUMB_HIGHBIT)
     {
       MPN_ZERO (q_hi, m);
       qh = 0;
     }
   
-  /* we know that {np+n-m, n+m} = q_hi * D + e0, where 0 <= e0 < C*B^n, where
-     C is a small positive constant. Estimate q_hi * D using middle product. */
+  /* note qh is now always zero as the quotient we have is definitely
+     correct or up to two too small, and we already normalised np */
+  ASSERT (qh == 0);
+  
+  /* we know that {np+n-m, n+m} = q_hi * D + e0, where 0 <= e0 < C*B^n, 
+     where C is a small positive constant. Estimate q_hi * D using 
+     middle product, developing one additional limb, i.e. develop
+     n - m + 3 limbs. The bottom limb is meaningless and the next limb
+     may be too small by up to some small multiple of n, but recall 
+     n << B. */
   mpn_mulmid (tp, dp, n, q_hi + 1, m - 2);
+
   /* do some parts of the middle product "manually": */
   tp[n - m + 2] += mpn_addmul_1 (tp, dp + m - 2, n - m + 2, q_hi[0]);
   mpn_addmul_1 (tp + 1, dp, n - m + 2, q_hi[m-1]);
-  if (qh)
-    mpn_add_n (tp + 2, tp + 2, dp, n - m + 1);
-
-  /* subtract that estimate from N */
+  
+  /* subtract that estimate from N. We note the limb at np + n - 2 
+     is then meaningless, and the next limb mght be too large by a 
+     small amount, i.e. the bottom n limbs of np are now possibly
+     too large by a quantity much less than dp */
   mpn_sub_n (np + n - 2, np + n - 2, tp, n - m + 3);
 
-  /* recursively divide to obtain low half of quotient */
+  /* recursively divide to obtain low half of quotient, developing
+     one more limb than we would need if everything had been exact.
+     As this extra limb is out by only a small amount, rounding the
+     remaining limbs based on its value and discarding the extra limb
+     results in a quotient which is at most 1 too large */
   if (n - m + 2 < DC_DIVAPPR_Q_N_THRESHOLD)
     cy = mpn_sb_divappr_q (tp, np + m - 3, 2*n - 2*m + 4,
 			   dp + m - 2, n - m + 2, dip);
@@ -112,26 +151,25 @@ mpn_dc_divappr_q_n (mp_ptr qp, mp_ptr np, mp_srcptr dp, mp_size_t n,
     cy = mpn_dc_divappr_q_n (tp, np + m - 3, dp + m - 2, n - m + 2,
 			     dip, tp + n - m + 2);
 
-  /* FIXME: this copy is annoying. The only reason it happens is that we
-     elected to develop one extra quotient limb in the second recursive
-     quotient. But I don't see how to avoid this and stay within the required
-     error bounds. We inherit the error from the quotient, but there's also
-     an error from the missed terms at the low end of the middle product. */
+  /* FIXME: The only reason this copy happens is that we elected to 
+     develop one extra quotient limb in the second recursive quotient. */
   MPN_COPY (qp, tp + 1, n - m);
-  qh += mpn_add_1 (qp + n - m, qp + n - m, m, tp[n-m+1]);
-  qh += mpn_add_1 (qp + n - m + 1, qp + n - m + 1, m - 1, cy);
-  if (tp[0] >= GMP_NUMB_HIGHBIT)
-    qh += mpn_add_1 (qp, qp, n, 1);   /* round quotient up */
 
-  /* if qh == 2 (unlikely!), then Q must be 2000.... and we should return
-     instead 1ffff.... */
-  if (qh >= 2)
+  /* Construct final quotient from low and hi parts... */
+  ret += qh + mpn_add_1 (qp + n - m, qp + n - m, m, tp[n-m+1]);
+  ret += mpn_add_1 (qp + n - m + 1, qp + n - m + 1, m - 1, cy);
+  if (tp[0] >= GMP_NUMB_HIGHBIT)
+    ret += mpn_add_1 (qp, qp, n, 1);   /* ...rounding quotient up */
+
+  /* As the final quotient may be 1 too large, we may have ret == 2 
+     (it is very unlikely, but can be relatively easily triggered
+     at random when dp = 0x80000...0000), then Q must be 2000.... 
+     and we should return instead 1ffff.... */
+  if (ret == 2)
     {
-      /* FIXME: hmmmm my test suite doesn't seem to generate this case,
-       is it actually possible at all? */
-      qh -= mpn_sub_1 (qp, qp, n, 1);
-      ASSERT (qh == 1);
+      ret -= mpn_sub_1 (qp, qp, n, 1);
+      ASSERT (ret == 1);
     }
 
-  return qh;
+  return ret;
 }
