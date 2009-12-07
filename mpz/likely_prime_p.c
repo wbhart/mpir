@@ -37,6 +37,8 @@ typedef struct pair_s
 
 mp_limb_t n_sqrt(mp_limb_t r)
 {
+	mp_limb_t res, is;
+
 #if GMP_LIMB_BITS == 32
     float x, z;
 	union {
@@ -52,10 +54,9 @@ mp_limb_t n_sqrt(mp_limb_t r)
 	x = (1.5*x) - (x*x)*(x*z);
 	x = (1.5*x) - (x*x)*(x*z);
 	x = (1.5*x) - (x*x)*(x*z);
-    mp_limb_t res =  is + ((is+1)*(is+1) <= r);
+    res =  is + ((is+1)*(is+1) <= r);
     return res - (res*res > r);
 #else
-    mp_limb_t is;
 	
 	double x, z;
 	union {
@@ -73,7 +74,7 @@ mp_limb_t n_sqrt(mp_limb_t r)
 	x = (1.5*x) - (x*x)*(x*z);
 	x = (1.5*x) - (x*x)*(x*z);
     is = (mp_limb_t) (x*(double) r);
-    mp_limb_t res =  is + ((is+1)*(is+1) <= r);
+    res =  is + ((is+1)*(is+1) <= r);
     return res - (res*res > r);
 #endif
 }
@@ -104,11 +105,12 @@ int mod63[63] = {1,1,0,0,1,0,0,1,0,1,0,0,0,0,1,0,1,0,1,0,0,
    
 int n_is_square(mp_limb_t x)
 {
-   if (!mod64[x%64UL]) return 0;
+	mp_limb_t sq;
+	if (!mod64[x%64UL]) return 0;
    if (!mod63[x%63UL]) return 0;
    if (!mod65[x%65UL]) return 0;
 
-   mp_limb_t sq = n_sqrt(x); 
+   sq = n_sqrt(x); 
    
    return (x == sq*sq);
 }
@@ -183,11 +185,11 @@ mp_limb_t n_mulmod2_preinv(mp_limb_t a, mp_limb_t b, mp_limb_t n, mp_limb_t ninv
 
 mp_limb_t n_powmod_precomp(mp_limb_t a, mp_limb_t exp, mp_limb_t n, double npre)
 {
-   if (n == 1UL) return 0L;
    
    mp_limb_t x, y;
    mp_limb_t e;
 
+   if (n == 1UL) return 0L;
    e = exp;
    
    x = 1UL;
@@ -204,12 +206,11 @@ mp_limb_t n_powmod_precomp(mp_limb_t a, mp_limb_t exp, mp_limb_t n, double npre)
 }
 
 mp_limb_t n_powmod2_preinv(mp_limb_t a, mp_limb_t exp, mp_limb_t n, mp_limb_t ninv)
-{
-   if (n == 1UL) return 0UL;
-   
+{   
    mp_limb_t x, y;
    mp_limb_t e;
    
+   if (n == 1UL) return 0UL;
    e = exp;
    
    x = 1UL;

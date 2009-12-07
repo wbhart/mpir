@@ -73,10 +73,9 @@ mpn_dc_divappr_q_n (mp_ptr qp, mp_ptr np, mp_srcptr dp, mp_size_t n,
   mp_limb_t qh, cy;
   mp_ptr q_hi;
   mp_size_t m;
+  mp_limb_t ret = 0;
 
   ASSERT (n >= 6);
-
-  mp_limb_t ret = 0;
 
   /* if the top n limbs of np are >= dp, high limb of quotient is 1 */
   if (mpn_cmp(np + n, dp, n) >= 0)
