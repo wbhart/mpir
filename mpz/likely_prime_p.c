@@ -1,5 +1,7 @@
 /*
 Copyright 2009 Jason Moxham
+Copyright (C) 2008 Peter Shrimpton
+Copyright (C) 2008, 2009 William Hart
 
 This file is part of the MPIR Library.
 
@@ -25,7 +27,11 @@ Boston, MA 02110-1301, USA.
 
 #if GMP_LIMB_BITS == 32 || GMP_LIMB_BITS == 64
 
+#if GMP_LIMB_BITS == 32
+#define D_BITS 31
+#else 
 #define D_BITS 53
+#endif
 
 typedef struct pair_s
 {
@@ -33,7 +39,7 @@ typedef struct pair_s
 } n_pair_t;
 
 #define r_shift(in, shift) \
-   ((shift == GMP_LIMB_BITS) ? 0L : ((in)>>(shift)))
+   ((shift == GMP_LIMB_BITS) ? CNST_LIMB(0) : ((in)>>(shift)))
 
 mp_limb_t n_sqrt(mp_limb_t r)
 {
@@ -47,7 +53,7 @@ mp_limb_t n_sqrt(mp_limb_t r)
 	} temp;
 
 	temp.f = (float) r;
-	temp.l = (0xbe6ec85eUL - temp.l)>>1; // estimate of 1/sqrt(y) 
+	temp.l = (CNST_LIMB(0xbe6ec85e) - temp.l)>>1; // estimate of 1/sqrt(y) 
 	x =  temp.f;
 	z =  (float) r*0.5;                        
     x = (1.5*x) - (x*x)*(x*z);
@@ -65,7 +71,7 @@ mp_limb_t n_sqrt(mp_limb_t r)
 	} temp;
 
 	temp.f = (double) r;
-	temp.l = (0xbfcdd90a00000000UL - temp.l)>>1; // estimate of 1/sqrt(y) 
+	temp.l = (CNST_LIMB(0xbfcdd90a00000000) - temp.l)>>1; // estimate of 1/sqrt(y) 
 	x =  temp.f;
 	z =  (double) r*0.5;                        
     x = (1.5*x) - (x*x)*(x*z);
@@ -106,9 +112,9 @@ int mod63[63] = {1,1,0,0,1,0,0,1,0,1,0,0,0,0,1,0,1,0,1,0,0,
 int n_is_square(mp_limb_t x)
 {
 	mp_limb_t sq;
-	if (!mod64[x%64UL]) return 0;
-   if (!mod63[x%63UL]) return 0;
-   if (!mod65[x%65UL]) return 0;
+	if (!mod64[x%CNST_LIMB(64)]) return 0;
+   if (!mod63[x%CNST_LIMB(63)]) return 0;
+   if (!mod65[x%CNST_LIMB(65)]) return 0;
 
    sq = n_sqrt(x); 
    
@@ -189,10 +195,10 @@ mp_limb_t n_powmod_precomp(mp_limb_t a, mp_limb_t exp, mp_limb_t n, double npre)
    mp_limb_t x, y;
    mp_limb_t e;
 
-   if (n == 1UL) return 0L;
+   if (n == CNST_LIMB(1)) return 0L;
    e = exp;
    
-   x = 1UL;
+   x = CNST_LIMB(1);
    y = a;
 
    while (e) 
@@ -210,10 +216,10 @@ mp_limb_t n_powmod2_preinv(mp_limb_t a, mp_limb_t exp, mp_limb_t n, mp_limb_t ni
    mp_limb_t x, y;
    mp_limb_t e;
    
-   if (n == 1UL) return 0UL;
+   if (n == CNST_LIMB(1)) return CNST_LIMB(0);
    e = exp;
    
-   x = 1UL;
+   x = CNST_LIMB(1);
    y = a;
    while (e) 
    {
@@ -302,8 +308,8 @@ mp_limb_t n_gcd(mp_limb_t x, mp_limb_t y)
 
 mp_limb_t n_invmod(mp_limb_t x, mp_limb_t y)
 {
-   mp_limb_signed_t v1 = 0UL; 
-   mp_limb_signed_t v2 = 1UL; 
+   mp_limb_signed_t v1 = CNST_LIMB(0); 
+   mp_limb_signed_t v2 = CNST_LIMB(1); 
    mp_limb_signed_t t2; 
    mp_limb_t u3, v3;
    mp_limb_t quot, rem;
@@ -387,14 +393,14 @@ int n_jacobi(mp_limb_signed_t x, mp_limb_t y)
 
 	if (x < 0L)
 	{
-		if (((b - 1)/2)%2 == 1UL)
+		if (((b - 1)/2)%2 == CNST_LIMB(1))
 		   s = -s;
 		a = -x;
 	} 
 
-   if ((a < b) && (b != 1UL))
+   if ((a < b) && (b != CNST_LIMB(1)))
    {
-      if (a == 0UL) return 0;
+      if (a == CNST_LIMB(0)) return 0;
       
       temp = a;
       a = b;
@@ -403,14 +409,14 @@ int n_jacobi(mp_limb_signed_t x, mp_limb_t y)
       count_trailing_zeros(exp, b);
 	   b>>=exp;
 
-      if (((exp*(a*a - 1))/8)%2 == 1UL) // we are only interested in values mod 8, 
+      if (((exp*(a*a - 1))/8)%2 == CNST_LIMB(1)) // we are only interested in values mod 8, 
 		   s = -s;                        //so overflows don't matter here
 
-		if ((((a - 1)*(b - 1))/4)%2 == 1UL) // we are only interested in values mod 4, 
+		if ((((a - 1)*(b - 1))/4)%2 == CNST_LIMB(1)) // we are only interested in values mod 4, 
 		   s = -s;                          //so overflows don't matter here
    }
 
-	while (b != 1UL)
+	while (b != CNST_LIMB(1))
 	{
       if ((a>>2) < b)
       {
@@ -429,15 +435,15 @@ int n_jacobi(mp_limb_signed_t x, mp_limb_t y)
          b = temp;
       }
 
-      if (b == 0UL) return 0;
+      if (b == CNST_LIMB(0)) return 0;
       
       count_trailing_zeros(exp, b);
 	   b>>=exp;
 
-      if (((exp*(a*a - 1))/8)%2 == 1UL) // we are only interested in values mod 8, 
+      if (((exp*(a*a - 1))/8)%2 == CNST_LIMB(1)) // we are only interested in values mod 8, 
 		   s = -s;                        //so overflows don't matter here
 
-		if ((((a - 1)*(b - 1))/4)%2 == 1UL) // we are only interested in values mod 4, 
+		if ((((a - 1)*(b - 1))/4)%2 == CNST_LIMB(1)) // we are only interested in values mod 4, 
 		   s = -s;                          //so overflows don't matter here
 	}
 
@@ -446,16 +452,16 @@ int n_jacobi(mp_limb_signed_t x, mp_limb_t y)
 
 int n_is_pseudoprime_fermat(mp_limb_t n, mp_limb_t i)
 {
-	if (BIT_COUNT(n) <= D_BITS) return (n_powmod(i, n - 1, n) == 1UL);
+	if (BIT_COUNT(n) <= D_BITS) return (n_powmod(i, n - 1, n) == CNST_LIMB(1));
    else 
    {
       if ((mp_limb_signed_t) (n - 1) < 0L)
       {
          mp_limb_t temp = n_powmod2(i, (n - 1)/2, n);
-         return (n_powmod2(temp, 2, n) == 1UL);
+         return (n_powmod2(temp, 2, n) == CNST_LIMB(1));
       } else
       {
-         return (n_powmod2(i, n - 1, n) == 1UL);
+         return (n_powmod2(i, n - 1, n) == CNST_LIMB(1));
       }
    }
 }
@@ -467,7 +473,7 @@ int n_is_strong_pseudoprime_precomp(mp_limb_t n, double npre, mp_limb_t a, mp_li
       
    y = n_powmod_precomp(a, t, n, npre);
 
-   if (y == 1UL) return 1;
+   if (y == CNST_LIMB(1)) return 1;
    t <<= 1;
 
    while ((t != n - 1) && (y != n - 1))
@@ -486,7 +492,7 @@ int n_is_strong_pseudoprime2_preinv(mp_limb_t n, mp_limb_t ninv, mp_limb_t a, mp
       
    y = n_powmod2_preinv(a, t, n, ninv);
 
-   if (y == 1UL) return 1;
+   if (y == CNST_LIMB(1)) return 1;
    t <<= 1;
 
    while ((t != n - 1) && (y != n - 1))
@@ -504,25 +510,25 @@ n_pair_t fchain_precomp(mp_limb_t m, mp_limb_t n, double npre)
 	int length;
 	mp_limb_t power, xy, xx, yy;
 	
-	old.x = 2UL;
-	old.y = n - 3UL;
+	old.x = CNST_LIMB(2);
+	old.y = n - CNST_LIMB(3);
 	
 	length = BIT_COUNT(m);
-	power = (1UL<<(length-1));
+	power = (CNST_LIMB(1)<<(length-1));
 
 	for ( ; length > 0; length--)
 	{
 		xy = n_mulmod_precomp(old.x, old.y, n, npre);
 		
-		xy = n_addmod(xy, 3UL, n);
+		xy = n_addmod(xy, CNST_LIMB(3), n);
 		
 		if (m & power)
 		{
-			current.y = n_submod(n_mulmod_precomp(old.y, old.y, n, npre), 2UL, n);
+			current.y = n_submod(n_mulmod_precomp(old.y, old.y, n, npre), CNST_LIMB(2), n);
 			current.x = xy;
 		} else 
 		{
-			current.x = n_submod(n_mulmod_precomp(old.x, old.x, n, npre), 2UL, n);
+			current.x = n_submod(n_mulmod_precomp(old.x, old.x, n, npre), CNST_LIMB(2), n);
 			current.y = xy;
 		}
 
@@ -539,25 +545,25 @@ n_pair_t fchain2_preinv(mp_limb_t m, mp_limb_t n, mp_limb_t ninv)
 	int length;
 	mp_limb_t power, xy, xx, yy;
 	
-	old.x = 2UL;
-	old.y = n - 3UL;
+	old.x = CNST_LIMB(2);
+	old.y = n - CNST_LIMB(3);
 	
 	length = BIT_COUNT(m);
-	power = (1UL<<(length-1));
+	power = (CNST_LIMB(1)<<(length-1));
 
 	for ( ; length > 0; length--)
 	{
 		xy = n_mulmod2_preinv(old.x, old.y, n, ninv);
 		
-		xy = n_addmod(xy, 3UL, n);
+		xy = n_addmod(xy, CNST_LIMB(3), n);
 		
 		if (m & power)
 		{
-			current.y = n_submod(n_mulmod2_preinv(old.y, old.y, n, ninv), 2UL, n);
+			current.y = n_submod(n_mulmod2_preinv(old.y, old.y, n, ninv), CNST_LIMB(2), n);
 			current.x = xy;
 		} else 
 		{
-			current.x = n_submod(n_mulmod2_preinv(old.x, old.x, n, ninv), 2UL, n);
+			current.x = n_submod(n_mulmod2_preinv(old.x, old.x, n, ninv), CNST_LIMB(2), n);
 			current.y = xy;
 		}
 
@@ -573,26 +579,26 @@ int n_is_pseudoprime_fibonacci(mp_limb_t n)
 	mp_limb_t m, left, right;
 	n_pair_t V;
 
-   if (ABS((mp_limb_signed_t) n) <= 3UL)
+   if (ABS((mp_limb_signed_t) n) <= CNST_LIMB(3))
    {
-      if (n >= 2UL) return 1;
+      if (n >= CNST_LIMB(2)) return 1;
       return 0;
    }
 
-	m = (n - n_jacobi(5L, n))/2; // cannot overflow as (5/n) = 0 for n = 2^64-1
+	m = (n - n_jacobi(CNST_LIMB(5), n))/2; // cannot overflow as (5/n) = 0 for n = 2^64-1
 
    if (BIT_COUNT(n) <= D_BITS)
    {
       double npre = n_precompute_inverse(n);
 	
       V = fchain_precomp(m, n, npre);
-	   return (n_mulmod_precomp(n - 3UL, V.x, n, npre) == n_mulmod_precomp(2UL, V.y, n, npre));
+	   return (n_mulmod_precomp(n - CNST_LIMB(3), V.x, n, npre) == n_mulmod_precomp(CNST_LIMB(2), V.y, n, npre));
    } else
    {
       mp_limb_t ninv = n_preinvert_limb(n);
 	
       V = fchain2_preinv(m, n, ninv);
-	   return (n_mulmod2_preinv(n - 3UL, V.x, n, ninv) == n_mulmod2_preinv(2UL, V.y, n, ninv));
+	   return (n_mulmod2_preinv(n - CNST_LIMB(3), V.x, n, ninv) == n_mulmod2_preinv(CNST_LIMB(2), V.y, n, ninv));
   }
 }
 
@@ -602,11 +608,11 @@ n_pair_t lchain_precomp(mp_limb_t m, mp_limb_t a, mp_limb_t n, double npre)
 	int length, i;
 	mp_limb_t power, xy, xx, yy;
 	
-	old.x = 2UL;
+	old.x = CNST_LIMB(2);
 	old.y = a;
 	
 	length = BIT_COUNT(m);
-	power = (1UL<<(length - 1));
+	power = (CNST_LIMB(1)<<(length - 1));
 
 	for (i = 0; i < length; i++)
 	{
@@ -614,12 +620,12 @@ n_pair_t lchain_precomp(mp_limb_t m, mp_limb_t a, mp_limb_t n, double npre)
 		
       if (m & power)
 		{
-			yy = n_submod(n_mulmod_precomp(old.y, old.y, n, npre), 2UL, n);
+			yy = n_submod(n_mulmod_precomp(old.y, old.y, n, npre), CNST_LIMB(2), n);
 			current.x = xy;
 			current.y = yy;
 		} else 
 		{
-			xx = n_submod(n_mulmod_precomp(old.x, old.x, n, npre), 2UL, n);
+			xx = n_submod(n_mulmod_precomp(old.x, old.x, n, npre), CNST_LIMB(2), n);
 			current.x = xx;
 			current.y = xy;
 		}
@@ -637,11 +643,11 @@ n_pair_t lchain2_preinv(mp_limb_t m, mp_limb_t a, mp_limb_t n, mp_limb_t ninv)
 	int length, i;
 	mp_limb_t power, xy, xx, yy;
 	
-	old.x = 2UL;
+	old.x = CNST_LIMB(2);
 	old.y = a;
 	
 	length = BIT_COUNT(m);
-	power = (1UL<<(length - 1));
+	power = (CNST_LIMB(2)<<(length - 1));
 
 	for (i = 0; i < length; i++)
 	{
@@ -649,12 +655,12 @@ n_pair_t lchain2_preinv(mp_limb_t m, mp_limb_t a, mp_limb_t n, mp_limb_t ninv)
 		
       if (m & power)
 		{
-			yy = n_submod(n_mulmod2_preinv(old.y, old.y, n, ninv), 2UL, n);
+			yy = n_submod(n_mulmod2_preinv(old.y, old.y, n, ninv), CNST_LIMB(2), n);
 			current.x = xy;
 			current.y = yy;
 		} else 
 		{
-			xx = n_submod(n_mulmod2_preinv(old.x, old.x, n, ninv), 2UL, n);
+			xx = n_submod(n_mulmod2_preinv(old.x, old.x, n, ninv), CNST_LIMB(2), n);
 			current.x = xx;
 			current.y = xy;
 		}
@@ -678,14 +684,14 @@ int n_is_pseudoprime_lucas(mp_limb_t n)
 	
 	if (((n % 2) == 0) || (ABS((mp_limb_signed_t) n) <= 2))
 	{
-		if (n == 2UL) return 1;
+		if (n == CNST_LIMB(2)) return 1;
 		else return 0;
 	}
 	
 	for (i = 0; i < 100; i++)
 	{
 		D = 5 + 2*i;
-		if (n_gcd(D, n%D) != 1UL) 
+		if (n_gcd(D, n%D) != CNST_LIMB(1)) 
       { 
          if (n == D) continue;
          else return 0;
@@ -703,20 +709,20 @@ int n_is_pseudoprime_lucas(mp_limb_t n)
    Q = (1 - D)/4;
    if (Q < 0)
    {
-      if (n < 52UL)
+      if (n < CNST_LIMB(52))
       {
          while (Q < 0) Q += n;
-         A = n_submod(n_invmod(Q, n), 2UL, n);
+         A = n_submod(n_invmod(Q, n), CNST_LIMB(2), n);
       } else
-         A = n_submod(n_invmod(Q + n, n), 2UL, n);
+         A = n_submod(n_invmod(Q + n, n), CNST_LIMB(2), n);
    } else
    {
-      if (n < 52UL)
+      if (n < CNST_LIMB(52))
       {
          while (Q >= n) Q -= n;
-         A = n_submod(n_invmod(Q, n), 2UL, n);
+         A = n_submod(n_invmod(Q, n), CNST_LIMB(2), n);
       } else
-         A = n_submod(n_invmod(Q, n), 2UL, n);
+         A = n_submod(n_invmod(Q, n), CNST_LIMB(2), n);
    }
 
    if (BIT_COUNT(n) <= D_BITS)
@@ -740,15 +746,15 @@ int n_is_pseudoprime_lucas(mp_limb_t n)
 
 int is_likely_prime_BPSW(mp_limb_t n)
 {
-	if (n <= 1UL) return 0;
+	if (n <= CNST_LIMB(1)) return 0;
 
-   if ((n & 1UL) == 0UL)
+   if ((n & CNST_LIMB(1)) == CNST_LIMB(0))
    {
-      if (n == 2UL) return 1;
+      if (n == CNST_LIMB(2)) return 1;
       return 0;
    }
    
-   if (((n % 10) == 3) || ((n % 10) == 7))
+   if (((n % CNST_LIMB(10)) == CNST_LIMB(3)) || ((n % CNST_LIMB(10)) == CNST_LIMB(7)))
 	{
 		if (n_is_pseudoprime_fermat(n, 2) == 0) return 0;
       
@@ -757,8 +763,8 @@ int is_likely_prime_BPSW(mp_limb_t n)
 	{
 		mp_limb_t d;
 
-		d = n - 1UL;
-		while ((d & 1UL) == 0UL) d >>= 1;
+		d = n - CNST_LIMB(1);
+		while ((d & CNST_LIMB(1)) == CNST_LIMB(0)) d >>= 1;
 
 		if (BIT_COUNT(n) <= D_BITS)
       {
