@@ -19,10 +19,11 @@ to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 Boston, MA 02110-1301, USA.
 */
 
-#include <math.h>
 #include "mpir.h"
 #include "gmp-impl.h"
 #include "longlong.h"
+
+#if GMP_LIMB_BITS == 32 || GMP_LIMB_BITS == 64
 
 #define D_BITS 53
 
@@ -33,6 +34,49 @@ typedef struct pair_s
 
 #define r_shift(in, shift) \
    ((shift == GMP_LIMB_BITS) ? 0L : ((in)>>(shift)))
+
+mp_limb_t n_sqrt(mp_limb_t r)
+{
+#if GMP_LIMB_BITS == 32
+    float x, z;
+	union {
+	  float f;
+      mp_limb_t l;
+	} temp;
+
+	temp.f = (float) r;
+	temp.l = (0xbe6ec85eUL - temp.l)>>1; // estimate of 1/sqrt(y) 
+	x =  temp.f;
+	z =  (float) r*0.5;                        
+    x = (1.5*x) - (x*x)*(x*z);
+	x = (1.5*x) - (x*x)*(x*z);
+	x = (1.5*x) - (x*x)*(x*z);
+	x = (1.5*x) - (x*x)*(x*z);
+    mp_limb_t res =  is + ((is+1)*(is+1) <= r);
+    return res - (res*res > r);
+#else
+    mp_limb_t is;
+	
+	double x, z;
+	union {
+	  double f;
+      mp_limb_t l;
+	} temp;
+
+	temp.f = (double) r;
+	temp.l = (0xbfcdd90a00000000UL - temp.l)>>1; // estimate of 1/sqrt(y) 
+	x =  temp.f;
+	z =  (double) r*0.5;                        
+    x = (1.5*x) - (x*x)*(x*z);
+	x = (1.5*x) - (x*x)*(x*z);
+	x = (1.5*x) - (x*x)*(x*z);
+	x = (1.5*x) - (x*x)*(x*z);
+	x = (1.5*x) - (x*x)*(x*z);
+    is = (mp_limb_t) (x*(double) r);
+    mp_limb_t res =  is + ((is+1)*(is+1) <= r);
+    return res - (res*res > r);
+#endif
+}
 
 double n_precompute_inverse(mp_limb_t n)
 {
@@ -64,7 +108,7 @@ int n_is_square(mp_limb_t x)
    if (!mod63[x%63UL]) return 0;
    if (!mod65[x%65UL]) return 0;
 
-   mp_limb_t sq = (mp_limb_t) floor(sqrt((double) x) + 0.5); 
+   mp_limb_t sq = n_sqrt(x); 
    
    return (x == sq*sq);
 }
@@ -729,9 +773,11 @@ int is_likely_prime_BPSW(mp_limb_t n)
 	}
 }
 
+#endif // GMP_LIMB_BITS
+
 // could have another parameter to specify what likely means
 // ie for factoring , for RSA 
-// or to state that we have allready done trial div
+// or to state that we have already done trial div
 
 // could call it mpz_likely_composite_p then when true we could return more info about it , ie a factor
 int
@@ -744,11 +790,19 @@ mpz_likely_prime_p (mpz_srcptr N, gmp_randstate_t STATE, unsigned long td)
   ALLOC (n) = ALLOC (N);
   SIZ (n) = ABSIZ (N);
   PTR (n) = PTR (N);		// fake up an absolute value that we dont have de-allocate
-// algorithm dose not handle small values , get rid of them here
+// algorithm does not handle small values , get rid of them here
   if (mpz_cmp_ui (n, 2) == 0 || mpz_cmp_ui (n, 3) == 0)
     return 1;
   if (mpz_cmp_ui (n, 5) < 0 || mpz_even_p (n))
     return 0;
+
+#if GMP_LIMB_BITS == 64 || GMP_LIMB_BITS == 32
+  if (SIZ(n) == 1)
+  {
+     return is_likely_prime_BPSW(PTR(n)[0]);
+  }
+#endif
+
 // for factoring purpoises 
 // we assume we know nothing about N ie it is a random integer
 // therefore it has a good chance of factoring by small divisiors , so try trial division as its fast and it checks small divisors

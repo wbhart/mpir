@@ -37,19 +37,20 @@ check_rand (void)
   mpz_init (x);
   gmp_randinit_default(rands);
 
-  for (i = 0; i < 20000; i++)
+  for (i = 0; i < 200000; i++)
     {
       do
       {
-         mpz_set_ui(GMP_NUMB_BITS);
-         mpz_urandomm(x, state, x);
+         mpz_set_ui(x, GMP_NUMB_BITS);
+         mpz_urandomm(x, rands, x);
          bits = mpz_get_ui(x) + 1;
-         mpz_rrandomb(x, state, bits);
+         mpz_rrandomb(x, rands, bits);
          p = mpz_get_ui(x);
-      } while is_likely_prime_BPSW(p);
+      } while (is_likely_prime_BPSW(p));
 
       if (mpz_probab_prime_p(x, 100))
       {
+          printf ("mpz_likely_prime_p\n");
           printf    ("%lu is declared composite\n", p);
           abort();
       }
@@ -58,12 +59,85 @@ check_rand (void)
   gmp_randclear(rands);
 }
 
+/* return 1 if prime, 0 if composite */
+int
+isprime (long n)
+{
+  long  i;
+
+  n = ABS(n);
+
+  if (n < 2)
+    return 0;
+  if (n == 2)
+    return 1;
+  if ((n & 1) == 0)
+    return 0;
+
+  for (i = 3; i < n; i++)
+    if ((n % i) == 0)
+      return 0;
+
+  return 1;
+}
+
+void
+check_one (mpz_srcptr n, int want, gmp_randstate_t rands)
+{
+  int  got;
+
+  got = mpz_likely_prime_p (n, rands, 0);
+
+  /* "definitely prime" is fine if we only wanted "probably prime" */
+  if (got == 2 && want == 1)
+    want = 2;
+
+  if (got != want)
+    {
+      printf ("mpz_likely_prime_p\n");
+      mpz_trace ("  n    ", n);
+      printf    ("  got =%d", got);
+      printf    ("  want=%d", want);
+      abort ();
+    }
+}
+
+void
+check_pn (mpz_ptr n, int want, gmp_randstate_t rands)
+{
+  check_one (n, want, rands);
+  mpz_neg (n, n);
+  check_one (n, want, rands);
+}
+
+/* expect certainty for small n */
+void
+check_small (void)
+{
+  mpz_t  n;
+  long   i;
+  gmp_randstate_t  rands;
+  
+  mpz_init (n);
+  gmp_randinit_default(rands);
+
+  for (i = 0; i < 3000; i++)
+    {
+      mpz_set_si (n, i);
+      check_pn (n, isprime (i), rands);
+    }
+
+  gmp_randclear(rands);
+  mpz_clear (n);
+}
+
 int
 main (void)
 {
   tests_start ();
   
   check_rand ();
+  check_small ();
 
   tests_end ();
   exit (0);
