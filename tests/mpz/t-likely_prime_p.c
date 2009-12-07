@@ -52,7 +52,7 @@ check_rand (void)
       if (mpz_probab_prime_p(x, 100))
       {
           printf ("mpz_likely_prime_p\n");
-#ifdef _MSC_VER
+#if defined( _MSC_VER ) && defined( _WIN64 )
           printf ("%llu is declared composite\n", p);
 #else
           printf ("%lu is declared composite\n", p);
