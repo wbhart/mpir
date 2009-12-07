@@ -32,7 +32,8 @@ check_rand (void)
   gmp_randstate_t  rands;
   int    i;
   mpz_t  x;
-  unsigned long bits, p;
+  unsigned long bits;
+  mp_limb_t p;
 
   mpz_init (x);
   gmp_randinit_default(rands);
@@ -45,13 +46,17 @@ check_rand (void)
          mpz_urandomm(x, rands, x);
          bits = mpz_get_ui(x) + 1;
          mpz_rrandomb(x, rands, bits);
-         p = mpz_get_ui(x);
+         p = mpz_getlimbn(x, 0);
       } while (is_likely_prime_BPSW(p));
 
       if (mpz_probab_prime_p(x, 100))
       {
           printf ("mpz_likely_prime_p\n");
-          printf    ("%lu is declared composite\n", p);
+#ifdef _MSC_VER
+          printf ("%llu is declared composite\n", p);
+#else
+          printf ("%lu is declared composite\n", p);
+#endif
           abort();
       }
     }
