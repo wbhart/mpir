@@ -647,7 +647,7 @@ n_pair_t lchain2_preinv(mp_limb_t m, mp_limb_t a, mp_limb_t n, mp_limb_t ninv)
 	old.y = a;
 	
 	length = BIT_COUNT(m);
-	power = (CNST_LIMB(2)<<(length - 1));
+	power = (CNST_LIMB(1)<<(length - 1));
 
 	for (i = 0; i < length; i++)
 	{
