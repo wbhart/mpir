@@ -2,6 +2,7 @@
 
 Copyright 2002, 2003, 2004 Free Software Foundation, Inc.
 Copyright 2009 Paul Zimmermann
+Copyright 2009 William Hart
 
 This file is part of the GNU MP Library.
 
@@ -94,7 +95,7 @@ void check_rand(void)
         {
           fprintf (stderr, "t-invert failed at n = %lu, i=%lu\n", n, i);
           gmp_printf ("A:= %Nx\n", dp, n);
-          gmp_printf ("X:=B^%lu %Nx\n", n, qp, n);
+          gmp_printf ("X:=B^%lu*%Nx\n", n, qp, n);
           abort();
         }
      }
