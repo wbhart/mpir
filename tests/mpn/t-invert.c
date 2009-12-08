@@ -1,6 +1,7 @@
 /* Test mpn_invert.
 
 Copyright 2002, 2003, 2004 Free Software Foundation, Inc.
+Copyright 2009 Paul Zimmermann
 
 This file is part of the GNU MP Library.
 
