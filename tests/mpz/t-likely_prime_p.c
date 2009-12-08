@@ -38,7 +38,7 @@ check_sqrt (void)
   mpz_init (x);
   gmp_randinit_default(rands);
 
-  for (i = 0; i < 2000000; i++)
+  for (i = 0; i < 200000; i++)
     {
       do
       {
@@ -66,6 +66,30 @@ check_sqrt (void)
           abort();
       }
     }
+
+  for (i = 0; i < 200000; i++)
+    {
+      mpz_set_ui(x, GMP_NUMB_BITS/2 - 1);
+      mpz_urandomm(x, rands, x);
+      bits = mpz_get_ui(x) + 2;
+      mpz_rrandomb(x, rands, bits);
+      p = mpz_getlimbn(x, 0);
+      m = p*p;
+
+      s = n_sqrt(m);
+      if (s != p)
+      {
+          printf ("mpz_likely_prime_p\n");
+          printf ("n_sqrt is broken\n");
+#if defined( _MSC_VER ) && defined( _WIN64 )
+          printf ("%llu is returned as n_sqrt(%llu)\n", s, m);
+#else
+          printf ("%lu is returned as n_sqrt(%lu)\n", s, m);
+#endif
+          abort();
+      }
+    }
+
   mpz_clear (x);
   gmp_randclear(rands);
 }
