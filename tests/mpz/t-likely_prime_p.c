@@ -27,6 +27,50 @@ MA 02110-1301, USA. */
 #include "tests.h"
 
 void
+check_sqrt (void)
+{
+  gmp_randstate_t  rands;
+  int    i;
+  mpz_t  x;
+  unsigned long bits;
+  mp_limb_t p, m, m2, s;
+
+  mpz_init (x);
+  gmp_randinit_default(rands);
+
+  for (i = 0; i < 2000000; i++)
+    {
+      do
+      {
+         mpz_set_ui(x, GMP_NUMB_BITS/2 - 1);
+         mpz_urandomm(x, rands, x);
+         bits = mpz_get_ui(x) + 2;
+         mpz_rrandomb(x, rands, bits);
+         p = mpz_getlimbn(x, 0);
+         m = p*p;
+         mpz_set_ui(x, MIN(p, 1000));
+         mpz_urandomm(x, rands, x);
+         m2 = m + mpz_get_ui(x) - MIN(p, 1000)/2;
+      } while ((m2 == m) || ((mp_limb_signed_t) (m2 ^ m) < (mp_limb_signed_t) 0) || (m2 == 0) || (m2 == 1));
+
+      s = n_sqrt(m2);
+      if (((m2 < m) && (s != p - 1)) || ((m2 > m) && (s != p)))
+      {
+          printf ("mpz_likely_prime_p\n");
+          printf ("n_sqrt is broken\n");
+#if defined( _MSC_VER ) && defined( _WIN64 )
+          printf ("%llu is returned as n_sqrt(%llu)\n", s, m2);
+#else
+          printf ("%lu is returned as n_sqrt(%lu)\n", s, m2);
+#endif
+          abort();
+      }
+    }
+  mpz_clear (x);
+  gmp_randclear(rands);
+}
+
+void
 check_rand (void)
 {
   gmp_randstate_t  rands;
@@ -38,7 +82,7 @@ check_rand (void)
   mpz_init (x);
   gmp_randinit_default(rands);
 
-  for (i = 0; i < 200000; i++)
+  for (i = 0; i < 2000; i++)
     {
       do
       {
@@ -141,6 +185,7 @@ main (void)
 {
   tests_start ();
   
+  check_sqrt ();
   check_rand ();
   check_small ();
 

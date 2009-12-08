@@ -52,16 +52,36 @@ mp_limb_t n_sqrt(mp_limb_t r)
       mp_limb_t l;
 	} temp;
 
+   mp_limb_t bits32 = (r & GMP_LIMB_HIGHBIT);
+   mp_limb_t r2;
+   // algorithm can't handle 32 bits
+   if (bits32) 
+   {
+      r2 = r;
+      r >>= 2;
+   }
+
 	temp.f = (float) r;
 	temp.l = (CNST_LIMB(0xbe6ec85e) - temp.l)>>1; // estimate of 1/sqrt(y) 
 	x =  temp.f;
 	z =  (float) r*0.5;                        
-    x = (1.5*x) - (x*x)*(x*z);
+   x = (1.5*x) - (x*x)*(x*z);
 	x = (1.5*x) - (x*x)*(x*z);
 	x = (1.5*x) - (x*x)*(x*z);
 	x = (1.5*x) - (x*x)*(x*z);
-    res =  is + ((is+1)*(is+1) <= r);
-    return res - (res*res > r);
+   res =  is + ((is+1)*(is+1) <= r);
+   if (!bits32) return res - (res*res > r);
+   else 
+   {
+      mp_limb_t sq;
+      res = res - (res*res > r);
+      res <<= 1;
+      sq = res*res;
+      res = res - ((sq > r2) || ((sq ^ r2) & GMP_LIMB_HIGHBIT));
+      sq = (res + 1)*(res + 1);
+      res = res + ((sq <= r2) && !((sq ^ r2) & GMP_LIMB_HIGHBIT));
+      return res;
+   }
 #else
 	
 	double x, z;
@@ -70,18 +90,38 @@ mp_limb_t n_sqrt(mp_limb_t r)
       mp_limb_t l;
 	} temp;
 
+   mp_limb_t bits64 = (r & GMP_LIMB_HIGHBIT);
+   mp_limb_t r2;
+   // algorithm can't handle 64 bits
+   if (bits64) 
+   {
+      r2 = r;
+      r >>= 2;
+   }
+
 	temp.f = (double) r;
 	temp.l = (CNST_LIMB(0xbfcdd90a00000000) - temp.l)>>1; // estimate of 1/sqrt(y) 
 	x =  temp.f;
 	z =  (double) r*0.5;                        
-    x = (1.5*x) - (x*x)*(x*z);
+   x = (1.5*x) - (x*x)*(x*z);
 	x = (1.5*x) - (x*x)*(x*z);
 	x = (1.5*x) - (x*x)*(x*z);
 	x = (1.5*x) - (x*x)*(x*z);
 	x = (1.5*x) - (x*x)*(x*z);
-    is = (mp_limb_t) (x*(double) r);
-    res =  is + ((is+1)*(is+1) <= r);
-    return res - (res*res > r);
+   is = (mp_limb_t) (x*(double) r);
+   res =  is + ((is+1)*(is+1) <= r);
+   if (!bits64) return res - (res*res > r);
+   else 
+   {
+      mp_limb_t sq;
+      res = res - (res*res > r);
+      res <<= 1;
+      sq = res*res;
+      res = res - ((sq > r2) || ((sq ^ r2) & GMP_LIMB_HIGHBIT));
+      sq = (res + 1)*(res + 1);
+      res = res + ((sq <= r2) && !((sq ^ r2) & GMP_LIMB_HIGHBIT));
+      return res;
+   }
 #endif
 }
 
