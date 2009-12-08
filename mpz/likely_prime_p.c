@@ -69,6 +69,7 @@ mp_limb_t n_sqrt(mp_limb_t r)
 	x = (1.5*x) - (x*x)*(x*z);
 	x = (1.5*x) - (x*x)*(x*z);
 	x = (1.5*x) - (x*x)*(x*z);
+   is = (mp_limb_t) (x*(double) r);
    res =  is + ((is+1)*(is+1) <= r);
    if (!bits32) return res - (res*res > r);
    else 
