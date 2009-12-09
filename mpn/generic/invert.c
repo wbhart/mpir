@@ -33,10 +33,8 @@ MA 02110-1301, USA. */
 #define ONE  (mp_limb_t) 1
 #define WRAP_AROUND_BOUND 1500
 
-#ifndef _MSC_VER
-
-int
-test_invert (mp_ptr xp, mp_srcptr ap, mp_size_t n)
+static int
+is_invert (mp_ptr xp, mp_srcptr ap, mp_size_t n)
 {
   int res = 1;
   mp_size_t i;
@@ -63,8 +61,6 @@ test_invert (mp_ptr xp, mp_srcptr ap, mp_size_t n)
   TMP_FREE;
   return res;
 }
-
-#endif
 
 /* Input: A = {ap, n} with most significant bit set.
    Output: X = B^n + {xp, n} where B = 2^GMP_NUMB_BITS.
@@ -214,7 +210,7 @@ mpn_invert (mp_ptr xp, mp_srcptr ap, mp_size_t n)
       MPN_COPY (xp, up + 2 * h - l, l);
       mpn_add_1 (xp + l, xp + l, h, cy);
       TMP_FREE;
-      if ((special) && !test_invert(xp, ap, n))
+      if ((special) && !is_invert(xp, ap, n))
          mpn_add_1 (xp, xp, n, 1);
     }
 }
