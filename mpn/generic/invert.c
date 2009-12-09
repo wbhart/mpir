@@ -21,17 +21,6 @@ along with the MPIR Library; see the file COPYING.LIB.  If not, write to
 the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 MA 02110-1301, USA. */
 
-/* #define WRAP_AROUND */
-/* #define WANT_ASSERT 1 */
-
-#ifdef WRAP_AROUND
-#define INVERT_VERSION 3
-#define WRAP_AROUND_BOUND 1500
-#else
-#define INVERT_VERSION 2
-#define WRAP_AROUND_BOUND ~0UL
-#endif
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
@@ -41,19 +30,35 @@ MA 02110-1301, USA. */
 
 #define ZERO (mp_limb_t) 0
 #define ONE  (mp_limb_t) 1
+#define WRAP_AROUND_BOUND 1500
 
-void
-mpn_print (mp_ptr A, mp_size_t n)
+int
+test_invert (mp_ptr xp, mp_srcptr ap, mp_size_t n)
 {
-  int j;
+  int res = 1;
+  mp_size_t i;
+  mp_ptr tp, up;
+  mp_limb_t cy;
+  TMP_DECL;
 
-  for (j=0; j<n; j++)
-    {
-      printf ("+%lu*B^%u", A[j], j);
-      if (j % 4 == 3 && j != n-1)
-        printf ("\n");
-    }
-  printf (":\n");
+  TMP_MARK;
+  tp = TMP_ALLOC_LIMBS (2 * n);
+  up = TMP_ALLOC_LIMBS (2 * n);
+
+  /* first check X*A < B^(2*n) */
+  mpn_mul_n (tp, xp, ap, n);
+  cy = mpn_add_n (tp + n, tp + n, ap, n); /* A * msb(X) */
+  if (cy != 0)
+    res = 0;
+
+  /* now check B^(2n) - X*A <= A */
+  mpn_com_n (tp, tp, 2 * n);
+  mpn_add_1 (tp, tp, 2 * n, 1); /* B^(2n) - X*A */
+  MPN_ZERO (up, 2 * n);
+  MPN_COPY (up, ap, n);
+  res = mpn_cmp (tp, up, 2 * n) <= 0;
+  TMP_FREE;
+  return res;
 }
 
 /* Input: A = {ap, n} with most significant bit set.
@@ -122,6 +127,7 @@ mpn_invert (mp_ptr xp, mp_srcptr ap, mp_size_t n)
       mp_size_t l, h;
       mp_ptr tp, up;
       mp_limb_t cy, th;
+      int special = 0;
       TMP_DECL;
 
       l = (n - 1) / 2;
@@ -143,14 +149,6 @@ mpn_invert (mp_ptr xp, mp_srcptr ap, mp_size_t n)
           mp_size_t m = n + 1;
           unsigned long k;
           int cc;
-#ifdef CHECK
-          mp_ptr tp2;
-          mp_limb_t cy2;
-
-          tp2 = TMP_ALLOC_LIMBS (n + h);
-          mpn_mul (tp2, ap, n, xp + l, h);
-          cy2 = mpn_add_n (tp2 + h, tp2 + h, ap, n);
-#endif
 
           k = mpn_fft_best_k (m, 0);
           m = mpn_fft_next_size (m, k);
@@ -191,14 +189,6 @@ mpn_invert (mp_ptr xp, mp_srcptr ap, mp_size_t n)
               cy -= mpn_sub_1 (tp + m, tp + m, n + h - m, ONE);
             }
           while (1);
-
-#ifdef CHECK
-          if ((cy != cy2) || mpn_cmp (tp, tp2, n + h) != 0)
-            {
-              fprintf (stderr, "wrong wrap around reconstruction\n");
-              exit (1);
-            }
-#endif
         }
 
       while (cy)
@@ -212,132 +202,14 @@ mpn_invert (mp_ptr xp, mp_srcptr ap, mp_size_t n)
       mpn_mul_n (up, tp + l, xp + l, h);
       cy = mpn_add_n (up + h, up + h, tp + l, h);
       if (th != ZERO)
-        cy += ONE + mpn_add_n (up + h, up + h, xp + l, h);
+      {
+         cy += ONE + mpn_add_n (up + h, up + h, xp + l, h);
+      }
+      if (up[2*h-l-1] + 4 <= CNST_LIMB(3)) special = 1;
       MPN_COPY (xp, up + 2 * h - l, l);
       mpn_add_1 (xp + l, xp + l, h, cy);
       TMP_FREE;
+      if ((special) && !test_invert(xp, ap, n))
+         mpn_add_1 (xp, xp, n, 1);
     }
 }
-
-#ifdef MAIN
-
-int
-test_invert (mp_ptr xp, mp_srcptr ap, mp_size_t n)
-{
-  int res = 1;
-  mp_size_t i;
-  mp_ptr tp, up;
-  mp_limb_t cy;
-  TMP_DECL;
-
-  TMP_MARK;
-  tp = TMP_ALLOC_LIMBS (2 * n);
-  up = TMP_ALLOC_LIMBS (2 * n);
-
-  /* first check X*A < B^(2*n) */
-  mpn_mul_n (tp, xp, ap, n);
-  cy = mpn_add_n (tp + n, tp + n, ap, n); /* A * msb(X) */
-  if (cy != 0)
-    res = 0;
-
-  /* now check B^(2n) - X*A <= A */
-  mpn_com_n (tp, tp, 2 * n);
-  mpn_add_1 (tp, tp, 2 * n, 1); /* B^(2n) - X*A */
-  MPN_ZERO (up, 2 * n);
-  MPN_COPY (up, ap, n);
-  res = mpn_cmp (tp, up, 2 * n) <= 0;
-  TMP_FREE;
-  return res;
-}
-
-#include <sys/types.h>
-#include <sys/resource.h>
-
-int
-cputime ()
-{
-  struct rusage rus;
-
-  getrusage (0, &rus);
-  return rus.ru_utime.tv_sec * 1000 + rus.ru_utime.tv_usec / 1000;
-}
-
-int
-main (int argc, char *argv[])
-{
-  mp_size_t n = atoi (argv[1]), i, j, k;
-  mp_ptr qp, rp, dp, tp, qp2, rp2;
-  mp_limb_t cy;
-  pid_t pid;
-  int st;
-
-  k = (argc <= 2) ? 1 : atoi(argv[2]);
-
-  qp = malloc (n * sizeof (mp_limb_t));
-  qp2 = malloc (n * sizeof (mp_limb_t));
-  rp = malloc (n * sizeof (mp_limb_t));
-  rp2 = malloc (2 * n * sizeof (mp_limb_t));
-  dp = malloc (n * sizeof (mp_limb_t));
-  tp = malloc (2 * n * sizeof (mp_limb_t));
-
-  pid = getpid ();
-  printf ("Seed=%lu\n", pid);
-  srand48 (pid);
-  for (i = 0; i < n; i++)
-    dp[i] = lrand48 ();
-  dp[n - 1] |= GMP_NUMB_HIGHBIT;
-
-  mpn_random (rp, n);
-  st = cputime ();
-  for (i = 0; i < k; i++)
-    mpn_mul_n (tp, dp, rp, n);
-  printf ("mpn_mul_n took %dms\n", cputime () - st);
-
-  st = cputime ();
-  for (i = 0; i < k; i++)
-    {
-#ifdef CHECK
-      //      printf ("Test %lu\n", i);
-      for (j = 0; j < n; j++)
-	dp[j] = lrand48 ();
-      dp[n - 1] |= GMP_NUMB_HIGHBIT;
-#endif      
-      mpn_invert (qp, dp, n);
-#ifdef CHECK
-  if (test_invert (qp, dp, n) == 0)
-    {
-      fprintf (stderr, "test_invert failed at i=%lu\n", i);
-      printf ("A:="); mpn_print (dp, n);
-      printf ("X:=B^%lu", n); mpn_print (qp, n);
-      exit (1);
-    }
-#endif
-    }
-  printf ("mpn_invert%d took %dms", INVERT_VERSION, cputime () - st);
-#ifdef WRAP_AROUND
-  printf (" (with wrap-around trick, WRAP_AROUND_BOUND=%lu)",
-          WRAP_AROUND_BOUND);
-#endif
-  printf ("\n");
-
-  // printf ("xp="); mpn_print (qp, n);
-
-  MPN_ZERO (rp2, 2 * n);
-  rp2[2 * n - 1] = GMP_LIMB_HIGHBIT;
-  st = cputime ();
-  for (i = 0; i < k; i++)
-    {
-      MPN_ZERO (rp2, 2 * n);
-      rp2[2 * n - 1] = GMP_LIMB_HIGHBIT;
-      mpn_divrem (qp2, 0, rp2, 2 * n, dp, n);
-    }
-  printf ("mpn_divrem took %dms\n", cputime () - st);
-
-  free (qp);
-  free (rp);
-  free (dp);
-  free (tp);
-
-  return 0;
-}
-#endif
