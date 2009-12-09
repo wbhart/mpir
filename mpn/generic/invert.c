@@ -3,6 +3,7 @@
 /* mpn_invert
 
 Copyright 2009 Paul Zimmermann
+Copyright 2009 William Hart
 
 This file is part of the MPIR Library.
 
