@@ -742,6 +742,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpn.tdiv_q", "mpir-tests\mp
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.likely_prime_p", "mpir-tests\mpz.likely_prime_p\mpz.likely_prime_p.vcproj", "{58D4831D-801A-41A5-AA68-418E33BFB6F6}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpn.invert", "mpir-tests\mpn.invert\mpn.invert.vcproj", "{F5C5FD38-7078-4E9D-AB88-8568689DDEC8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -1712,6 +1714,14 @@ Global
 		{58D4831D-801A-41A5-AA68-418E33BFB6F6}.Release|Win32.Build.0 = Release|Win32
 		{58D4831D-801A-41A5-AA68-418E33BFB6F6}.Release|x64.ActiveCfg = Release|x64
 		{58D4831D-801A-41A5-AA68-418E33BFB6F6}.Release|x64.Build.0 = Release|x64
+		{F5C5FD38-7078-4E9D-AB88-8568689DDEC8}.Debug|Win32.ActiveCfg = Debug|Win32
+		{F5C5FD38-7078-4E9D-AB88-8568689DDEC8}.Debug|Win32.Build.0 = Debug|Win32
+		{F5C5FD38-7078-4E9D-AB88-8568689DDEC8}.Debug|x64.ActiveCfg = Debug|x64
+		{F5C5FD38-7078-4E9D-AB88-8568689DDEC8}.Debug|x64.Build.0 = Debug|x64
+		{F5C5FD38-7078-4E9D-AB88-8568689DDEC8}.Release|Win32.ActiveCfg = Release|Win32
+		{F5C5FD38-7078-4E9D-AB88-8568689DDEC8}.Release|Win32.Build.0 = Release|Win32
+		{F5C5FD38-7078-4E9D-AB88-8568689DDEC8}.Release|x64.ActiveCfg = Release|x64
+		{F5C5FD38-7078-4E9D-AB88-8568689DDEC8}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

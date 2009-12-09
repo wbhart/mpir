@@ -219,6 +219,8 @@ mpn_invert (mp_ptr xp, mp_srcptr ap, mp_size_t n)
     }
 }
 
+#ifdef MAIN
+
 int
 test_invert (mp_ptr xp, mp_srcptr ap, mp_size_t n)
 {
@@ -248,7 +250,6 @@ test_invert (mp_ptr xp, mp_srcptr ap, mp_size_t n)
   return res;
 }
 
-#ifdef MAIN
 #include <sys/types.h>
 #include <sys/resource.h>
 
