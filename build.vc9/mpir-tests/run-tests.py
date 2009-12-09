@@ -68,15 +68,15 @@ for i in prj_list :
     if output :
       print('    ', output.decode(), end = '')
   else :
-    print("Build failure for %s" % i)
+    print("Build failure for {0}".format(i))
     build_fail += 1
 print(build_fail + run_ok + run_fail, "tests:")
 if build_fail > 0 :
-  print("\t%i failed to build" % build_fail)
+  print("\t{0} failed to build".format(build_fail))
 if run_ok > 0 :
-  print("\t%i ran correctly" % run_ok)
+  print("\t{0} ran correctly".format(run_ok))
 if run_fail > 0 :
-  print("\t%i failed" % run_fail) 
+  print("\t{0} failed".format(run_fail)) 
 if len(sys.argv) == 1 :
   try :
     input(".. completed - press ENTER")

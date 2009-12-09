@@ -33,6 +33,8 @@ MA 02110-1301, USA. */
 #define ONE  (mp_limb_t) 1
 #define WRAP_AROUND_BOUND 1500
 
+#ifndef _MSC_VER
+
 int
 test_invert (mp_ptr xp, mp_srcptr ap, mp_size_t n)
 {
@@ -61,6 +63,8 @@ test_invert (mp_ptr xp, mp_srcptr ap, mp_size_t n)
   TMP_FREE;
   return res;
 }
+
+#endif
 
 /* Input: A = {ap, n} with most significant bit set.
    Output: X = B^n + {xp, n} where B = 2^GMP_NUMB_BITS.
