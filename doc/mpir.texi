@@ -137,7 +137,6 @@ How to install and use the MPIR multiple precision arithmetic library, version @
 * Formatted Output::           @code{printf} style output.
 * Formatted Input::            @code{scanf} style input.
 * C++ Class Interface::        Class wrappers around MPIR types.
-* BSD Compatible Functions::   All functions found in BSD MP.
 * Custom Allocation::          How to customize the internal allocation.
 * Language Bindings::          Using MPIR from other languages.
 * Algorithms::                 What happens behind the scenes.
@@ -6192,7 +6191,7 @@ results.  For classes with overloading, see @ref{C++ Class Interface}.
 
 
 
-@node C++ Class Interface, BSD Compatible Functions, Formatted Input, Top
+@node C++ Class Interface, Custom Allocation, Formatted Input, Top
 @chapter C++ Class Interface
 @cindex C++ interface
 
@@ -6756,16 +6755,7 @@ void fun (T f, T g)
 @end example
 @end table
 
-
-@node BSD Compatible Functions, Custom Allocation, C++ Class Interface, Top
-@comment  node-name,  next,  previous,  up
-@chapter Berkeley MP Compatible Functions
-@cindex Berkeley MP compatible functions
-@cindex BSD MP compatible functions
-
-EMPTY SECTION PLEASE DELETE
-
-@node Custom Allocation, Language Bindings, BSD Compatible Functions, Top
+@node Custom Allocation, Language Bindings, C++ Class Interface, Top
 @comment  node-name,  next,  previous,  up
 @chapter Custom Allocation
 @cindex Custom allocation
@@ -6843,6 +6833,8 @@ may change in the future.
 
 MPIR may use allocated blocks to hold pointers to other allocated blocks.  This
 will limit the assumptions a conservative garbage collection scheme can make.
+
+Any custom allocation functions must align pointers to limb boundaries. Thus if a limb is eight bytes (e.g. on x86_64), then all blocks must be aligned to eight byte boundaries. Check the configuration options for the custom allocation library in use. It is not necessary to align blocks to SSE boundaries even when SSE code is used. All MPIR assembly routines assume limb boundary alignment only (which is the default for most standard memory managers).
 
 Since the default MPIR allocation uses @code{malloc} and friends, those
 functions will be linked in even if the first thing a program does is an
@@ -9957,7 +9949,7 @@ that compile using yasm. He provided mpn implementations of Toom 4 and 7 routine
 
 Brian Gladman wrote and maintains MSVC project files so the project can build
 on MSVC. He also did the initial conversion of Pierrick Gaudry's and Jason
-Martin's assembly patches to intel format. He rewrote the benchmark program in C and developed MSVC ports of tune, speed, try and the benchmark.
+Martin's assembly patches to Intel format. He rewrote the benchmark program in C and developed MSVC ports of tune, speed, try and the benchmark.
 
 Pierrick Gaudry wrote some fast assembly support for AMD 64.
 
@@ -9987,11 +9979,13 @@ Marco Bodrato wrote an mpz implementation of the Toom 7 code.
 
 Robert Gerbicz contributed fast factorial code.
 
-David Harvey wrot fast middle product code and divide and conquer approximate quotient code.
+David Harvey wrote fast middle product code and divide and conquer approximate quotient code.
 
 T. R. Nicely wrote primality tests used in the benchmark code.
 
 Jeff Gilchrist assisted with the porting of T. R. Nicely's primality code to MPIR.
+
+Peter Shrimpton wrote the BPSW primality test used up to GMP_LIMB_BITS.
 
 @node References, GNU Free Documentation License, Contributors, Top
 @comment  node-name,  next,  previous,  up
@@ -10018,6 +10012,9 @@ Texts in Mathematics number 138, Springer-Verlag, 1993.
 @texlinebreak{} @uref{http://www.math.u-bordeaux.fr/~cohen/}
 
 @item
+Richard Crandall, Carl Pomerance, ``Prime Numbers: A Computational Perspective'' 2nd edition, Springer, 2005.
+
+@item
 Donald E. Knuth, ``The Art of Computer Programming'', volume 2,
 ``Seminumerical Algorithms'', 3rd edition, Addison-Wesley, 1998.
 @texlinebreak{} @uref{http://www-cs-faculty.stanford.edu/~knuth/taocp.html}
@@ -10040,10 +10037,16 @@ the GCC package @uref{ftp://ftp.gnu.org/gnu/gcc/}
 
 @itemize @bullet
 @item
+Dan Bernstein, ``Detecting perfect powers in essentially linear time'', Math. Comp. (67) pp.@: 1253-1283, 1998.
+
+@item
 Yves Bertot, Nicolas Magaud and Paul Zimmermann, ``A Proof of GMP Square
 Root'', Journal of Automated Reasoning, volume 29, 2002, pp.@: 225-252.  Also
 available online as INRIA Research Report 4475, June 2001,
 @uref{http://www.inria.fr/rrrt/rr-4475.html}
+
+@item
+Marco Bodrato, Alberto Zanoni, ``Integer and Polynomial Multiplication: Towards optimal Toom-Cook Matrices'', ISAAC 2007 Proceedings, Ontario, Canada, July 29 - August 1, 2007, ACM Press. Available online at @uref{http://ln.bodrato.it/issac2007_pdf}
 
 @item
 Christoph Burnikel and Joachim Ziegler, ``Fast Recursive Division'',
@@ -10051,10 +10054,19 @@ Max-Planck-Institut fuer Informatik Research Report MPI-I-98-1-022,
 @texlinebreak{} @uref{http://data.mpi-sb.mpg.de/internet/reports.nsf/NumberView/1998-1-022}
 
 @item
+Agner Fog, ``Software optimization resources'', online at @uref{http://www.agner.org/optimize/}
+
+@item
+Pierrick Gaudry, Alexander Kruppa, Paul Zimmermann, ``A GMP-based implementation of Schoenhage-Strassen's large integer multiplication algorithm'', ISAAC 2007 Proceedings, Ontario, Canada, July 29 - August 1, 2007, pp.@: 167-174, ACM Press. Full text available at @uref{http://hal.inria.fr/docs/00/14/86/20/PDF/fft.final.pdf}
+
+@item
 Torbjorn Granlund and Peter L. Montgomery, ``Division by Invariant Integers
 using Multiplication'', in Proceedings of the SIGPLAN PLDI'94 Conference, June
 1994.  Also available @uref{ftp://ftp.cwi.nl/pub/pmontgom/divcnst.psa4.gz}
 (and .psl.gz).
+
+@item
+David Harvey, ``The Karatsuba middle product for integers'', (preprint), 2009. Available at @uref{http://www.cims.nyu.edu/~harvey/mulmid/mulmid.pdf}
 
 @item
 Tudor Jebelean,
@@ -10086,6 +10098,9 @@ pp.@: 145-157.  Technical report version also available @texlinebreak{}
 @uref{ftp://ftp.risc.uni-linz.ac.at/pub/techreports/1992/92-69.ps.gz}
 
 @item
+Werner Krandick, Jeremy R. Johnson, ``Efficient Multiprecision Floating Point Multiplication with Exact Rounding'', Technical Report, RISC Linz, 1993, available at @uref{ftp://ftp.risc.uni-linz.ac.at/pub/techreports/1993/93-76.ps.gz}
+
+@item
 Werner Krandick and Tudor Jebelean, ``Bidirectional Exact Integer Division'',
 Journal of Symbolic Computation, volume 21, 1996, pp.@: 441-455.  Early
 technical report version also available
@@ -10106,8 +10121,14 @@ Journal of Computer and System Sciences, volume 8, number 3, June 1974,
 pp.@: 366-386.
 
 @item
+Niels Moller, ``On Schoenhage's algorithm and subquadratic integer GCD computation'', Math. Comp. 2007. Available online at @uref{http://www.lysator.liu.se/~nisse/archive/S0025-5718-07-02017-0.pdf}
+
+@item
 Peter L. Montgomery, ``Modular Multiplication Without Trial Division'', in
 Mathematics of Computation, volume 44, number 170, April 1985.
+
+@item
+Thom Mulders, ``On short multiplications and divisions'', Appl. Algebra Engrg. Comm. Comput. 11 (2000), no. 1, pp.@: 69-88. Tech. report No. 276, Dept. of Comp. Sci., ETH Zurich, Nov 1997, available online at @uref{ftp://ftp.inf.ethz.ch/pub/publications/tech-reports/2xx/276.pdf}
 
 @item
 Arnold Sch@"onhage and Volker Strassen, ``Schnelle Multiplikation grosser

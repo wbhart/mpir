@@ -59,7 +59,6 @@ is included in *note GNU Free Documentation License::.
 * Formatted Output::           `printf' style output.
 * Formatted Input::            `scanf' style input.
 * C++ Class Interface::        Class wrappers around MPIR types.
-* BSD Compatible Functions::   All functions found in BSD MP.
 * Custom Allocation::          How to customize the internal allocation.
 * Language Bindings::          Using MPIR from other languages.
 * Algorithms::                 What happens behind the scenes.
@@ -5121,7 +5120,7 @@ unpredictable results.  For classes with overloading, see *note C++
 Class Interface::.
 
 
-File: mpir.info,  Node: C++ Class Interface,  Next: BSD Compatible Functions,  Prev: Formatted Input,  Up: Top
+File: mpir.info,  Node: C++ Class Interface,  Next: Custom Allocation,  Prev: Formatted Input,  Up: Top
 
 12 C++ Class Interface
 **********************
@@ -5637,17 +5636,9 @@ Templated Expressions
           }
 
 
-File: mpir.info,  Node: BSD Compatible Functions,  Next: Custom Allocation,  Prev: C++ Class Interface,  Up: Top
+File: mpir.info,  Node: Custom Allocation,  Next: Language Bindings,  Prev: C++ Class Interface,  Up: Top
 
-13 Berkeley MP Compatible Functions
-***********************************
-
-EMPTY SECTION PLEASE DELETE
-
-
-File: mpir.info,  Node: Custom Allocation,  Next: Language Bindings,  Prev: BSD Compatible Functions,  Up: Top
-
-14 Custom Allocation
+13 Custom Allocation
 ********************
 
 By default MPIR uses `malloc', `realloc' and `free' for memory
@@ -5724,6 +5715,14 @@ undefined results.  This may change in the future.
 blocks.  This will limit the assumptions a conservative garbage
 collection scheme can make.
 
+   Any custom allocation functions must align pointers to limb
+boundaries. Thus if a limb is eight bytes (e.g. on x86_64), then all
+blocks must be aligned to eight byte boundaries. Check the
+configuration options for the custom allocation library in use. It is
+not necessary to align blocks to SSE boundaries even when SSE code is
+used. All MPIR assembly routines assume limb boundary alignment only
+(which is the default for most standard memory managers).
+
    Since the default MPIR allocation uses `malloc' and friends, those
 functions will be linked in even if the first thing a program does is an
 `mp_set_memory_functions'.  It's necessary to change the MPIR sources if
@@ -5747,7 +5746,7 @@ this is a problem.
 
 File: mpir.info,  Node: Language Bindings,  Next: Algorithms,  Prev: Custom Allocation,  Up: Top
 
-15 Language Bindings
+14 Language Bindings
 ********************
 
 The following packages and projects offer access to MPIR from languages
@@ -5890,7 +5889,7 @@ Other
 
 File: mpir.info,  Node: Algorithms,  Next: Internals,  Prev: Language Bindings,  Up: Top
 
-16 Algorithms
+15 Algorithms
 *************
 
 This chapter is an introduction to some of the algorithms used for
@@ -5917,7 +5916,7 @@ documented functions.
 
 File: mpir.info,  Node: Multiplication Algorithms,  Next: Division Algorithms,  Prev: Algorithms,  Up: Algorithms
 
-16.1 Multiplication
+15.1 Multiplication
 ===================
 
 NxN limb multiplications and squares are done using one of six
@@ -5950,7 +5949,7 @@ the future.
 
 File: mpir.info,  Node: Basecase Multiplication,  Next: Karatsuba Multiplication,  Prev: Multiplication Algorithms,  Up: Multiplication Algorithms
 
-16.1.1 Basecase Multiplication
+15.1.1 Basecase Multiplication
 ------------------------------
 
 Basecase NxM multiplication is a straightforward rectangular set of
@@ -5995,7 +5994,7 @@ routine should be used always.
 
 File: mpir.info,  Node: Karatsuba Multiplication,  Next: Toom 3-Way Multiplication,  Prev: Basecase Multiplication,  Up: Multiplication Algorithms
 
-16.1.2 Karatsuba Multiplication
+15.1.2 Karatsuba Multiplication
 -------------------------------
 
 The Karatsuba multiplication algorithm is described in Knuth section
@@ -6080,7 +6079,7 @@ that sense the algorithm thresholds are merely of academic interest.
 
 File: mpir.info,  Node: Toom 3-Way Multiplication,  Next: FFT Multiplication,  Prev: Karatsuba Multiplication,  Up: Multiplication Algorithms
 
-16.1.3 Toom 3-Way Multiplication
+15.1.3 Toom 3-Way Multiplication
 --------------------------------
 
 The Karatsuba formula is the simplest case of a general approach to
@@ -6223,7 +6222,7 @@ a bit of rearrangement just one division by 6 can be done.
 
 File: mpir.info,  Node: FFT Multiplication,  Next: Other Multiplication,  Prev: Toom 3-Way Multiplication,  Up: Multiplication Algorithms
 
-16.1.4 FFT Multiplication
+15.1.4 FFT Multiplication
 -------------------------
 
 At large to very large sizes a Fermat style FFT multiplication is used,
@@ -6327,7 +6326,7 @@ will be needed.
 
 File: mpir.info,  Node: Other Multiplication,  Prev: FFT Multiplication,  Up: Multiplication Algorithms
 
-16.1.5 Other Multiplication
+15.1.5 Other Multiplication
 ---------------------------
 
 The 3-way Toom algorithm described above (*note Toom 3-Way
@@ -6372,7 +6371,7 @@ is of course of vital importance to MPIR.
 
 File: mpir.info,  Node: Division Algorithms,  Next: Greatest Common Divisor Algorithms,  Prev: Multiplication Algorithms,  Up: Algorithms
 
-16.2 Division Algorithms
+15.2 Division Algorithms
 ========================
 
 * Menu:
@@ -6387,7 +6386,7 @@ File: mpir.info,  Node: Division Algorithms,  Next: Greatest Common Divisor Algo
 
 File: mpir.info,  Node: Single Limb Division,  Next: Basecase Division,  Prev: Division Algorithms,  Up: Division Algorithms
 
-16.2.1 Single Limb Division
+15.2.1 Single Limb Division
 ---------------------------
 
 Nx1 division is implemented using repeated 2x1 divisions from high to
@@ -6441,7 +6440,7 @@ pipelined.
 
 File: mpir.info,  Node: Basecase Division,  Next: Divide and Conquer Division,  Prev: Single Limb Division,  Up: Division Algorithms
 
-16.2.2 Basecase Division
+15.2.2 Basecase Division
 ------------------------
 
 Basecase NxM division is like long division done by hand, but in base
@@ -6466,7 +6465,7 @@ for each of the Q quotient limbs.
 
 File: mpir.info,  Node: Divide and Conquer Division,  Next: Exact Division,  Prev: Basecase Division,  Up: Division Algorithms
 
-16.2.3 Divide and Conquer Division
+15.2.3 Divide and Conquer Division
 ----------------------------------
 
 For divisors larger than `DIV_DC_THRESHOLD', division is done by
@@ -6510,7 +6509,7 @@ this would only be for large to very large N.
 
 File: mpir.info,  Node: Exact Division,  Next: Exact Remainder,  Prev: Divide and Conquer Division,  Up: Division Algorithms
 
-16.2.4 Exact Division
+15.2.4 Exact Division
 ---------------------
 
 A so-called exact division is when the dividend is known to be an exact
@@ -6570,7 +6569,7 @@ pipelined multipliers.
 
 File: mpir.info,  Node: Exact Remainder,  Next: Small Quotient Division,  Prev: Exact Division,  Up: Division Algorithms
 
-16.2.5 Exact Remainder
+15.2.5 Exact Remainder
 ----------------------
 
 If the exact division algorithm is done with a full subtraction at each
@@ -6622,7 +6621,7 @@ this.
 
 File: mpir.info,  Node: Small Quotient Division,  Prev: Exact Remainder,  Up: Division Algorithms
 
-16.2.6 Small Quotient Division
+15.2.6 Small Quotient Division
 ------------------------------
 
 An NxM division where the number of quotient limbs Q=N-M is small can
@@ -6654,7 +6653,7 @@ established by following the argument of Knuth section 4.3.1 exercise
 
 File: mpir.info,  Node: Greatest Common Divisor Algorithms,  Next: Powering Algorithms,  Prev: Division Algorithms,  Up: Algorithms
 
-16.3 Greatest Common Divisor
+15.3 Greatest Common Divisor
 ============================
 
 * Menu:
@@ -6667,7 +6666,7 @@ File: mpir.info,  Node: Greatest Common Divisor Algorithms,  Next: Powering Algo
 
 File: mpir.info,  Node: Binary GCD,  Next: Accelerated GCD,  Prev: Greatest Common Divisor Algorithms,  Up: Greatest Common Divisor Algorithms
 
-16.3.1 Binary GCD
+15.3.1 Binary GCD
 -----------------
 
 At small sizes MPIR uses an O(N^2) binary style GCD.  This is described
@@ -6726,7 +6725,7 @@ tests into a GCD.
 
 File: mpir.info,  Node: Accelerated GCD,  Next: Extended GCD,  Prev: Binary GCD,  Up: Greatest Common Divisor Algorithms
 
-16.3.2 Accelerated GCD
+15.3.2 Accelerated GCD
 ----------------------
 
 For sizes above `GCD_ACCEL_THRESHOLD', MPIR uses the Accelerated GCD
@@ -6763,7 +6762,7 @@ and d.
 
 File: mpir.info,  Node: Extended GCD,  Next: Jacobi Symbol,  Prev: Accelerated GCD,  Up: Greatest Common Divisor Algorithms
 
-16.3.3 Extended GCD
+15.3.3 Extended GCD
 -------------------
 
 The extended GCD calculates gcd(a,b) and also cofactors x and y
@@ -6800,7 +6799,7 @@ of limbs.
 
 File: mpir.info,  Node: Jacobi Symbol,  Prev: Extended GCD,  Up: Greatest Common Divisor Algorithms
 
-16.3.4 Jacobi Symbol
+15.3.4 Jacobi Symbol
 --------------------
 
 `mpz_jacobi' and `mpz_kronecker' are currently implemented with a
@@ -6821,7 +6820,7 @@ using some bit twiddling, avoiding table lookups or conditional jumps.
 
 File: mpir.info,  Node: Powering Algorithms,  Next: Root Extraction Algorithms,  Prev: Greatest Common Divisor Algorithms,  Up: Algorithms
 
-16.4 Powering Algorithms
+15.4 Powering Algorithms
 ========================
 
 * Menu:
@@ -6832,7 +6831,7 @@ File: mpir.info,  Node: Powering Algorithms,  Next: Root Extraction Algorithms, 
 
 File: mpir.info,  Node: Normal Powering Algorithm,  Next: Modular Powering Algorithm,  Prev: Powering Algorithms,  Up: Powering Algorithms
 
-16.4.1 Normal Powering
+15.4.1 Normal Powering
 ----------------------
 
 Normal `mpz' or `mpf' powering uses a simple binary algorithm,
@@ -6844,7 +6843,7 @@ just as easy and can be done with somewhat less temporary memory.
 
 File: mpir.info,  Node: Modular Powering Algorithm,  Prev: Normal Powering Algorithm,  Up: Powering Algorithms
 
-16.4.2 Modular Powering
+15.4.2 Modular Powering
 -----------------------
 
 Modular powering is implemented using a 2^k-ary sliding window
@@ -6866,7 +6865,7 @@ operand.  And lastly it's only applied to odd moduli.
 
 File: mpir.info,  Node: Root Extraction Algorithms,  Next: Radix Conversion Algorithms,  Prev: Powering Algorithms,  Up: Algorithms
 
-16.5 Root Extraction Algorithms
+15.5 Root Extraction Algorithms
 ===============================
 
 * Menu:
@@ -6879,7 +6878,7 @@ File: mpir.info,  Node: Root Extraction Algorithms,  Next: Radix Conversion Algo
 
 File: mpir.info,  Node: Square Root Algorithm,  Next: Nth Root Algorithm,  Prev: Root Extraction Algorithms,  Up: Root Extraction Algorithms
 
-16.5.1 Square Root
+15.5.1 Square Root
 ------------------
 
 Square roots are taken using the "Karatsuba Square Root" algorithm by
@@ -6933,7 +6932,7 @@ precision given by `mpf_sqrt_ui' is obtained by padding with zero limbs.
 
 File: mpir.info,  Node: Nth Root Algorithm,  Next: Perfect Square Algorithm,  Prev: Square Root Algorithm,  Up: Root Extraction Algorithms
 
-16.5.2 Nth Root
+15.5.2 Nth Root
 ---------------
 
 Integer Nth roots are taken using Newton's method with the following
@@ -6953,7 +6952,7 @@ particularly well optimized.
 
 File: mpir.info,  Node: Perfect Square Algorithm,  Next: Perfect Power Algorithm,  Prev: Nth Root Algorithm,  Up: Root Extraction Algorithms
 
-16.5.3 Perfect Square
+15.5.3 Perfect Square
 ---------------------
 
 A significant fraction of non-squares can be quickly identified by
@@ -6998,7 +6997,7 @@ would affect such considerations.
 
 File: mpir.info,  Node: Perfect Power Algorithm,  Prev: Perfect Square Algorithm,  Up: Root Extraction Algorithms
 
-16.5.4 Perfect Power
+15.5.4 Perfect Power
 --------------------
 
 Detecting perfect powers is required by some factorization algorithms.
@@ -7014,7 +7013,7 @@ checked.
 
 File: mpir.info,  Node: Radix Conversion Algorithms,  Next: Other Algorithms,  Prev: Root Extraction Algorithms,  Up: Algorithms
 
-16.6 Radix Conversion
+15.6 Radix Conversion
 =====================
 
 Radix conversions are less important than other algorithms.  A program
@@ -7029,7 +7028,7 @@ representation.
 
 File: mpir.info,  Node: Binary to Radix,  Next: Radix to Binary,  Prev: Radix Conversion Algorithms,  Up: Radix Conversion Algorithms
 
-16.6.1 Binary to Radix
+15.6.1 Binary to Radix
 ----------------------
 
 Conversions from binary to a power-of-2 radix use a simple and fast

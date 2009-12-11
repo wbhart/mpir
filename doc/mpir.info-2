@@ -24,7 +24,7 @@ END-INFO-DIR-ENTRY
 
 File: mpir.info,  Node: Radix to Binary,  Prev: Binary to Radix,  Up: Radix Conversion Algorithms
 
-16.6.2 Radix to Binary
+15.6.2 Radix to Binary
 ----------------------
 
 Conversions from a power-of-2 radix into binary use a simple and fast
@@ -63,7 +63,7 @@ much faster than `mpn_divrem_1' (often by a factor of 10, or more).
 
 File: mpir.info,  Node: Other Algorithms,  Next: Assembler Coding,  Prev: Radix Conversion Algorithms,  Up: Algorithms
 
-16.7 Other Algorithms
+15.7 Other Algorithms
 =====================
 
 * Menu:
@@ -78,7 +78,7 @@ File: mpir.info,  Node: Other Algorithms,  Next: Assembler Coding,  Prev: Radix 
 
 File: mpir.info,  Node: Prime Testing Algorithm,  Next: Factorial Algorithm,  Prev: Other Algorithms,  Up: Other Algorithms
 
-16.7.1 Prime Testing
+15.7.1 Prime Testing
 --------------------
 
 The primality testing in `mpz_probab_prime_p' (*note Number Theoretic
@@ -104,7 +104,7 @@ for an arbitrary n.
 
 File: mpir.info,  Node: Factorial Algorithm,  Next: Binomial Coefficients Algorithm,  Prev: Prime Testing Algorithm,  Up: Other Algorithms
 
-16.7.2 Factorial
+15.7.2 Factorial
 ----------------
 
 Factorials are calculated by a combination of removal of twos,
@@ -140,7 +140,7 @@ implementation.
 
 File: mpir.info,  Node: Binomial Coefficients Algorithm,  Next: Fibonacci Numbers Algorithm,  Prev: Factorial Algorithm,  Up: Other Algorithms
 
-16.7.3 Binomial Coefficients
+15.7.3 Binomial Coefficients
 ----------------------------
 
 Binomial coefficients C(n,k) are calculated by first arranging k <= n/2
@@ -162,7 +162,7 @@ and n-k+i in general won't fit in a limb at all.
 
 File: mpir.info,  Node: Fibonacci Numbers Algorithm,  Next: Lucas Numbers Algorithm,  Prev: Binomial Coefficients Algorithm,  Up: Other Algorithms
 
-16.7.4 Fibonacci Numbers
+15.7.4 Fibonacci Numbers
 ------------------------
 
 The Fibonacci functions `mpz_fib_ui' and `mpz_fib2_ui' are designed for
@@ -217,7 +217,7 @@ further limbs, which saves some code size.  See comments with
 
 File: mpir.info,  Node: Lucas Numbers Algorithm,  Next: Random Number Algorithms,  Prev: Fibonacci Numbers Algorithm,  Up: Other Algorithms
 
-16.7.5 Lucas Numbers
+15.7.5 Lucas Numbers
 --------------------
 
 `mpz_lucnum2_ui' derives a pair of Lucas numbers from a pair of
@@ -240,7 +240,7 @@ Fibonacci numbers, similar to what `mpz_fib_ui' does.
 
 File: mpir.info,  Node: Random Number Algorithms,  Prev: Lucas Numbers Algorithm,  Up: Other Algorithms
 
-16.7.6 Random Numbers
+15.7.6 Random Numbers
 ---------------------
 
 For the `urandomb' functions, random numbers are generated simply by
@@ -284,7 +284,7 @@ the like.
 
 File: mpir.info,  Node: Assembler Coding,  Prev: Other Algorithms,  Up: Algorithms
 
-16.8 Assembler Coding
+15.8 Assembler Coding
 =====================
 
 The assembler subroutines in MPIR are the most significant source of
@@ -313,7 +313,7 @@ offers a speedup over generic C by a factor of anything from 2 to 10.
 
 File: mpir.info,  Node: Assembler Code Organisation,  Next: Assembler Basics,  Prev: Assembler Coding,  Up: Assembler Coding
 
-16.8.1 Code Organisation
+15.8.1 Code Organisation
 ------------------------
 
 The various `mpn' subdirectories contain machine-dependent code, written
@@ -336,7 +336,7 @@ given CPU.
 
 File: mpir.info,  Node: Assembler Basics,  Next: Assembler Carry Propagation,  Prev: Assembler Code Organisation,  Up: Assembler Coding
 
-16.8.2 Assembler Basics
+15.8.2 Assembler Basics
 -----------------------
 
 `mpn_addmul_1' and `mpn_submul_1' are the most important routines for
@@ -360,7 +360,7 @@ vector processor, depending on the carry handling.
 
 File: mpir.info,  Node: Assembler Carry Propagation,  Next: Assembler Cache Handling,  Prev: Assembler Basics,  Up: Assembler Coding
 
-16.8.3 Carry Propagation
+15.8.3 Carry Propagation
 ------------------------
 
 The problem that presents most challenges in MPIR is propagating
@@ -397,7 +397,7 @@ results.
 
 File: mpir.info,  Node: Assembler Cache Handling,  Next: Assembler Functional Units,  Prev: Assembler Carry Propagation,  Up: Assembler Coding
 
-16.8.4 Cache Handling
+15.8.4 Cache Handling
 ---------------------
 
 MPIR aims to perform well both on operands that fit entirely in L1
@@ -443,7 +443,7 @@ life easy.
 
 File: mpir.info,  Node: Assembler Functional Units,  Next: Assembler Floating Point,  Prev: Assembler Cache Handling,  Up: Assembler Coding
 
-16.8.5 Functional Units
+15.8.5 Functional Units
 -----------------------
 
 When choosing an approach for an assembler loop, consideration is given
@@ -479,7 +479,7 @@ using bit twiddling.
 
 File: mpir.info,  Node: Assembler Floating Point,  Next: Assembler SIMD Instructions,  Prev: Assembler Functional Units,  Up: Assembler Coding
 
-16.8.6 Floating Point
+15.8.6 Floating Point
 ---------------------
 
 Floating point arithmetic is used in MPIR for multiplications on CPUs
@@ -576,7 +576,7 @@ limb, generating a low 64-bit result limb and a high 33-bit carry limb
 
 File: mpir.info,  Node: Assembler SIMD Instructions,  Next: Assembler Software Pipelining,  Prev: Assembler Floating Point,  Up: Assembler Coding
 
-16.8.7 SIMD Instructions
+15.8.7 SIMD Instructions
 ------------------------
 
 The single-instruction multiple-data support in current microprocessors
@@ -597,7 +597,7 @@ the P55 `mpn_mul_1'.  SSE2 is used for Pentium 4 `mpn_mul_1',
 
 File: mpir.info,  Node: Assembler Software Pipelining,  Next: Assembler Loop Unrolling,  Prev: Assembler SIMD Instructions,  Up: Assembler Coding
 
-16.8.8 Software Pipelining
+15.8.8 Software Pipelining
 --------------------------
 
 Software pipelining consists of scheduling instructions around the
@@ -622,7 +622,7 @@ to use while another (or multiple others) are still in progress.
 
 File: mpir.info,  Node: Assembler Loop Unrolling,  Next: Assembler Writing Guide,  Prev: Assembler Software Pipelining,  Up: Assembler Coding
 
-16.8.9 Loop Unrolling
+15.8.9 Loop Unrolling
 ---------------------
 
 Loop unrolling consists of replicating code so that several limbs are
@@ -669,7 +669,7 @@ ways, for example
 
 File: mpir.info,  Node: Assembler Writing Guide,  Prev: Assembler Loop Unrolling,  Up: Assembler Coding
 
-16.8.10 Writing Guide
+15.8.10 Writing Guide
 ---------------------
 
 This is a guide to writing software pipelined loops for processing limb
@@ -728,7 +728,7 @@ sizes.
 
 File: mpir.info,  Node: Internals,  Next: Contributors,  Prev: Algorithms,  Up: Top
 
-17 Internals
+16 Internals
 ************
 
 *This chapter is provided only for informational purposes and the
@@ -747,7 +747,7 @@ only the documented interfaces described in previous chapters.*
 
 File: mpir.info,  Node: Integer Internals,  Next: Rational Internals,  Prev: Internals,  Up: Internals
 
-17.1 Integer Internals
+16.1 Integer Internals
 ======================
 
 `mpz_t' variables represent integers using sign and magnitude, in space
@@ -797,7 +797,7 @@ providing plenty of range.
 
 File: mpir.info,  Node: Rational Internals,  Next: Float Internals,  Prev: Integer Internals,  Up: Internals
 
-17.2 Rational Internals
+16.2 Rational Internals
 =======================
 
 `mpq_t' variables represent rationals using an `mpz_t' numerator and
@@ -825,7 +825,7 @@ directly.
 
 File: mpir.info,  Node: Float Internals,  Next: Raw Output Internals,  Prev: Rational Internals,  Up: Internals
 
-17.3 Float Internals
+16.3 Float Internals
 ====================
 
 Efficient calculation is the primary aim of MPIR floats and the use of
@@ -988,7 +988,7 @@ Application Precisions
 
 File: mpir.info,  Node: Raw Output Internals,  Next: C++ Interface Internals,  Prev: Float Internals,  Up: Internals
 
-17.4 Raw Output Internals
+16.4 Raw Output Internals
 =========================
 
 `mpz_out_raw' uses the following format.
@@ -1018,7 +1018,7 @@ can just read and write `_mp_d'.
 
 File: mpir.info,  Node: C++ Interface Internals,  Prev: Raw Output Internals,  Up: Internals
 
-17.5 C++ Interface Internals
+16.5 C++ Interface Internals
 ============================
 
 A system of expression templates is used to ensure something like
@@ -1221,7 +1221,7 @@ routine.
 
    Brian Gladman wrote and maintains MSVC project files so the project
 can build on MSVC. He also did the initial conversion of Pierrick
-Gaudry's and Jason Martin's assembly patches to intel format. He
+Gaudry's and Jason Martin's assembly patches to Intel format. He
 rewrote the benchmark program in C and developed MSVC ports of tune,
 speed, try and the benchmark.
 
@@ -1265,13 +1265,16 @@ inverses.
 
    Robert Gerbicz contributed fast factorial code.
 
-   David Harvey wrot fast middle product code and divide and conquer
+   David Harvey wrote fast middle product code and divide and conquer
 approximate quotient code.
 
    T. R. Nicely wrote primality tests used in the benchmark code.
 
    Jeff Gilchrist assisted with the porting of T. R. Nicely's primality
 code to MPIR.
+
+   Peter Shrimpton wrote the BPSW primality test used up to
+GMP_LIMB_BITS.
 
 
 File: mpir.info,  Node: References,  Next: GNU Free Documentation License,  Prev: Contributors,  Up: Top
@@ -1289,6 +1292,9 @@ B.1 Books
    * Henri Cohen, "A Course in Computational Algebraic Number Theory",
      Graduate Texts in Mathematics number 138, Springer-Verlag, 1993.
      `http://www.math.u-bordeaux.fr/~cohen/'
+
+   * Richard Crandall, Carl Pomerance, "Prime Numbers: A Computational
+     Perspective" 2nd edition, Springer, 2005.
 
    * Donald E. Knuth, "The Art of Computer Programming", volume 2,
      "Seminumerical Algorithms", 3rd edition, Addison-Wesley, 1998.
@@ -1309,19 +1315,41 @@ B.1 Books
 B.2 Papers
 ==========
 
+   * Dan Bernstein, "Detecting perfect powers in essentially linear
+     time", Math. Comp. (67) pp. 1253-1283, 1998.
+
    * Yves Bertot, Nicolas Magaud and Paul Zimmermann, "A Proof of GMP
      Square Root", Journal of Automated Reasoning, volume 29, 2002, pp.
      225-252.  Also available online as INRIA Research Report 4475,
      June 2001, `http://www.inria.fr/rrrt/rr-4475.html'
 
+   * Marco Bodrato, Alberto Zanoni, "Integer and Polynomial
+     Multiplication: Towards optimal Toom-Cook Matrices", ISAAC 2007
+     Proceedings, Ontario, Canada, July 29 - August 1, 2007, ACM Press.
+     Available online at `http://ln.bodrato.it/issac2007_pdf'
+
    * Christoph Burnikel and Joachim Ziegler, "Fast Recursive Division",
      Max-Planck-Institut fuer Informatik Research Report MPI-I-98-1-022,
      `http://data.mpi-sb.mpg.de/internet/reports.nsf/NumberView/1998-1-022'
+
+   * Agner Fog, "Software optimization resources", online at
+     `http://www.agner.org/optimize/'
+
+   * Pierrick Gaudry, Alexander Kruppa, Paul Zimmermann, "A GMP-based
+     implementation of Schoenhage-Strassen's large integer
+     multiplication algorithm", ISAAC 2007 Proceedings, Ontario,
+     Canada, July 29 - August 1, 2007, pp. 167-174, ACM Press. Full
+     text available at
+     `http://hal.inria.fr/docs/00/14/86/20/PDF/fft.final.pdf'
 
    * Torbjorn Granlund and Peter L. Montgomery, "Division by Invariant
      Integers using Multiplication", in Proceedings of the SIGPLAN
      PLDI'94 Conference, June 1994.  Also available
      `ftp://ftp.cwi.nl/pub/pmontgom/divcnst.psa4.gz' (and .psl.gz).
+
+   * David Harvey, "The Karatsuba middle product for integers",
+     (preprint), 2009. Available at
+     `http://www.cims.nyu.edu/~harvey/mulmid/mulmid.pdf'
 
    * Tudor Jebelean, "An algorithm for exact division", Journal of
      Symbolic Computation, volume 15, 1993, pp. 169-180.  Research
@@ -1346,6 +1374,11 @@ B.2 Papers
      version also available
      `ftp://ftp.risc.uni-linz.ac.at/pub/techreports/1992/92-69.ps.gz'
 
+   * Werner Krandick, Jeremy R. Johnson, "Efficient Multiprecision
+     Floating Point Multiplication with Exact Rounding", Technical
+     Report, RISC Linz, 1993, available at
+     `ftp://ftp.risc.uni-linz.ac.at/pub/techreports/1993/93-76.ps.gz'
+
    * Werner Krandick and Tudor Jebelean, "Bidirectional Exact Integer
      Division", Journal of Symbolic Computation, volume 21, 1996, pp.
      441-455.  Early technical report version also available
@@ -1364,9 +1397,19 @@ B.2 Papers
      Modular Transforms", Journal of Computer and System Sciences,
      volume 8, number 3, June 1974, pp. 366-386.
 
+   * Niels Moller, "On Schoenhage's algorithm and subquadratic integer
+     GCD computation", Math. Comp. 2007. Available online at
+     `http://www.lysator.liu.se/~nisse/archive/S0025-5718-07-02017-0.pdf'
+
    * Peter L. Montgomery, "Modular Multiplication Without Trial
      Division", in Mathematics of Computation, volume 44, number 170,
      April 1985.
+
+   * Thom Mulders, "On short multiplications and divisions", Appl.
+     Algebra Engrg. Comm. Comput. 11 (2000), no. 1, pp. 69-88. Tech.
+     report No. 276, Dept. of Comp. Sci., ETH Zurich, Nov 1997,
+     available online at
+     `ftp://ftp.inf.ethz.ch/pub/publications/tech-reports/2xx/276.pdf'
 
    * Arnold Scho"nhage and Volker Strassen, "Schnelle Multiplikation
      grosser Zahlen", Computing 7, 1971, pp. 281-292.
@@ -1898,8 +1941,6 @@ Concept Index
 * Assignment functions:                  Assigning Integers.  (line   6)
 * Autoconf:                              Autoconf.            (line   6)
 * Basics:                                MPIR Basics.         (line   6)
-* Berkeley MP compatible functions:      BSD Compatible Functions.
-                                                              (line   6)
 * Binomial coefficient algorithm:        Binomial Coefficients Algorithm.
                                                               (line   6)
 * Binomial coefficient functions:        Number Theoretic Functions.
@@ -1914,8 +1955,6 @@ Concept Index
 * Bit shift right:                       Integer Division.    (line  59)
 * Bits per limb:                         Useful Macros and Constants.
                                                               (line   7)
-* BSD MP compatible functions:           BSD Compatible Functions.
-                                                              (line   6)
 * Bug reporting:                         Reporting Bugs.      (line   6)
 * Build directory:                       Build Options.       (line  19)
 * Build notes for binary packaging:      Notes for Package Builds.
@@ -2597,7 +2636,7 @@ Function and Type Index
                                                               (line   7)
 * mp_exp_t:                              Nomenclature and Types.
                                                               (line  27)
-* mp_get_memory_functions:               Custom Allocation.   (line  90)
+* mp_get_memory_functions:               Custom Allocation.   (line  98)
 * mp_limb_t:                             Nomenclature and Types.
                                                               (line  31)
 * mp_set_memory_functions:               Custom Allocation.   (line  18)
