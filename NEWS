@@ -68,7 +68,8 @@ Features:
  * Speed program accepts lines of data from a text file
  * A batch script to build MPIR using MSVC using a configure/make like syntax
  * Complete rewrite of the benchmark program in C by Brian Gladman
- * New primality test code written by T. R. Nicely used as a benchmark case, adapted with the help of Jeff Gilchrist
+ * New primality test code written by T. R. Nicely used as a benchmark case, adapted with 
+   the help of Jeff Gilchrist
  * mpn_lshift2 and mpn_rshift2 assembly functions
  * Latest Yasm assembler
  * sb_divappr_q, schoolbook approximate quotient
@@ -83,10 +84,11 @@ Features:
  * Macros for memory managers to determine when reallocations are likely to occur
  * New function mpz_nthroot
  * New mpz_next_likely_prime, mpz_probable_prime_p and mpz_likely_prime functions
+ * BPSW primality test code for integers up to GMP_LIMB_BITS, contributed by Peter Shrimpton
  * Factor out trial division function from primality test code
  * New mpf_rrandomb without global state
  * New mpn_urandomb, mpn_urandomm, mpn_rrandom and mpn_randomb functions without global state
- * New mpn invert code (contributed by Paul Zimmermann), used in division code
+ * New mpn_invert code (contributed by Paul Zimmermann), used in division code
  * New generic divrem_hensel functions
  * Implement Peter Montgomery's mpn_mod_1_k algorithms
  * Optimised AMD, core2/penryn, atom, nehalem assembly functions for mpn_mod_1_?
@@ -114,7 +116,9 @@ Changes between MPIR 1.1.0 and MPIR 1.2.0
   * None
 
   Speedups:
-  * Add new FFT code written by Paul Zimmermann as revised by Paul Zimmermann, Pierrick Gaudry, Alexander Kruppa and Torbjorn Granlund, with numerous bug fixes due to William Hart
+  * Add new FFT code written by Paul Zimmermann as revised by Paul Zimmermann, 
+    Pierrick Gaudry, Alexander Kruppa and Torbjorn Granlund, with numerous bug 
+    fixes due to William Hart
   * Add tuning parameters for new FFT for most modern processors
   * Write tuning code for new FFT
   * Implement Toom32, unbalanced Toom3, Toom42
