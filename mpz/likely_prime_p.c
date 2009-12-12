@@ -832,7 +832,7 @@ int
 mpz_likely_prime_p (mpz_srcptr N, gmp_randstate_t STATE, unsigned long td)
 {
   int d, t, r;
-  unsigned long tdlim;
+  unsigned long tdlim, i;
   mpz_t base, nm1, x, e, n;
 
   ALLOC (n) = ALLOC (N);
@@ -851,11 +851,14 @@ mpz_likely_prime_p (mpz_srcptr N, gmp_randstate_t STATE, unsigned long td)
   }
 #endif
 
-// for factoring purpoises 
+// for factoring purposes 
 // we assume we know nothing about N ie it is a random integer
-// therefore it has a good chance of factoring by small divisiors , so try trial division as its fast and it checks small divisors
-// checking for other divisors is not worth it even if the test is fast as we have random integer so only small divisors are common
-// enough , remember this is not exact so it doesn't matter if we miss a few divisors
+// therefore it has a good chance of factoring by small divisiors , 
+// so try trial division as its fast and it checks small divisors
+// checking for other divisors is not worth it even if the test is 
+// fast as we have random integer so only small divisors are common
+// enough , remember this is not exact so it doesn't matter if we 
+// miss a few divisors
   tdlim=mpz_sizeinbase(n,2);
   tdlim=MAX(1000,tdlim);
   d=mpz_trial_division(n,3,tdlim);
@@ -871,46 +874,48 @@ mpz_likely_prime_p (mpz_srcptr N, gmp_randstate_t STATE, unsigned long td)
   mpz_init (base);
   mpz_init_set (nm1, n);
   mpz_sub_ui (nm1, nm1, 1);
-  do
-    {
-      mpz_urandomm (base, STATE, nm1);
-    }
-  while (mpz_cmp_ui (base, 1) <= 0);
-// so base is 2 to n-2  which implys n>=4 , only really want a small base , and ignore the rare base=n-1 condition etc
-//printf("base is ");mpz_out_str(stdout,10,base);printf(" ");
+
   mpz_init (e);
   mpz_init (x);
-  t = mpz_scan1 (nm1, 0);	// so 2^t divides nm1
-  ASSERT (t > 0);
-  mpz_tdiv_q_2exp (e, nm1, t);	// so e=nm1/2^t
-  mpz_powm (x, base, e, n);	// x=base^e mod n
+     
+  r = 1;
+  
+  for (i = 0; i < 10; i++) // try LP_ITERS random bases
+  {
+     do
+     {
+        mpz_urandomm (base, STATE, nm1);
+     }
+     while (mpz_cmp_ui (base, 1) <= 0);
+     
+     // so base is 2 to n-2  which implies n >= 4 , only really want a small base, and ignore the rare base = n-1 condition etc
+     t = mpz_scan1 (nm1, 0);	// so 2^t divides nm1
+     ASSERT (t > 0);
+     mpz_tdiv_q_2exp (e, nm1, t);	// so e = nm1/2^t
+     mpz_powm (x, base, e, n);	// x = base^e mod n
+     
+     if (mpz_cmp_ui (x, 1) == 0) continue;
+     if (mpz_cmp (x, nm1) == 0) continue;
+     for (r = 0, t = t - 1; t > 0; t--)
+     {
+        mpz_mul (x, x, x);
+        mpz_mod (x, x, n);
+        if (mpz_cmp (x, nm1) == 0)
+	     {
+	        r = 1;
+	        break;
+	     }
+        if (mpz_cmp_ui (x, 1) == 0)
+	     break;
+     }
+     if (r == 1) continue;
+     break;
+  }
+
   mpz_clear (e);
   mpz_clear (base);
-  if (mpz_cmp_ui (x, 1) == 0)
-    {
-      mpz_clear (nm1);
-      mpz_clear (x);
-      return 1;
-    }
-  if (mpz_cmp (x, nm1) == 0)
-    {
-      mpz_clear (nm1);
-      mpz_clear (x);
-      return 1;
-    }
-  for (r = 0, t = t - 1; t > 0; t--)
-    {
-      mpz_mul (x, x, x);
-      mpz_mod (x, x, n);
-      if (mpz_cmp (x, nm1) == 0)
-	{
-	  r = 1;
-	  break;
-	}
-      if (mpz_cmp_ui (x, 1) == 0)
-	break;
-    }
   mpz_clear (nm1);
   mpz_clear (x);
+  
   return r;
 }

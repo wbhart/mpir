@@ -204,6 +204,49 @@ check_small (void)
   mpz_clear (n);
 }
 
+void
+check_large (void)
+{
+  gmp_randstate_t  rands;
+  int    i, count, r1, r2;
+  mpz_t  x;
+  unsigned long bits;
+  mp_limb_t p;
+
+  mpz_init (x);
+  gmp_randinit_default(rands);
+
+  count = 0;
+  for (i = 0; i < 100000; i++)
+    {
+      mpz_set_ui(x, 300);
+      mpz_urandomm(x, rands, x);
+      bits = mpz_get_ui(x) + 1;
+      mpz_rrandomb(x, rands, bits);
+
+      r1 = mpz_probab_prime_p(x, 100);
+      r2 = mpz_likely_prime_p(x, rands, 0);
+
+      if (r1 == 1 && r2 == 0)
+      {
+          printf ("mpz_likely_prime_p\n");
+          gmp_printf ("%Zd is declared composite\n", x);
+          abort();
+      } else if (r1 == 0 && r2 == 1)
+         count++;
+    }
+
+  if (count > 1)
+  {
+     printf ("mpz_likely_prime_p\n");
+     printf ("%d composite(s) declared prime\n", count);
+     abort();
+  }
+
+  mpz_clear (x);
+  gmp_randclear(rands);
+}
+
 int
 main (void)
 {
@@ -212,6 +255,7 @@ main (void)
   check_sqrt ();
   check_rand ();
   check_small ();
+  check_large ();
 
   tests_end ();
   exit (0);
