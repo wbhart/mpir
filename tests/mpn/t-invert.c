@@ -36,9 +36,10 @@ MA 02110-1301, USA. */
 
 #include "mpir.h"
 #include "gmp-impl.h"
+#include "longlong.h"
 #include "tests.h"
 
-#define ITERS 300
+#define ITERS 100
 
 int
 test_invert (mp_ptr xp, mp_srcptr ap, mp_size_t n)
@@ -77,16 +78,22 @@ void check_rand(void)
   gmp_randstate_t rands;
   gmp_randinit_default(rands);
 
-  for (n = 1; n < 100; n++)
+  for (n = 1; n < 6000; n++)
   {
-  
+     mp_limb_t bits;
+     count_leading_zeros(bits, n);  
+     bits = GMP_LIMB_BITS - bits;
+     if (n > 100) n+=2;
+     if (n > 300) n+=4;
+     if (n > 1000) n+=8;
+     if (n > 2000) n+=16;
      qp = malloc (n * sizeof (mp_limb_t));
      dp = malloc (n * sizeof (mp_limb_t));
   
      mpn_rrandom(dp, rands, n);
      dp[n - 1] |= GMP_NUMB_HIGHBIT;
    
-     for (i = 0; i < ITERS; i++)
+     for (i = 0; i < ITERS/bits; i++)
      {
         mpn_rrandom(dp, rands, n);
         dp[n - 1] |= GMP_NUMB_HIGHBIT;
