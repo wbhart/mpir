@@ -296,8 +296,7 @@ void mpn_submod_i_2expp1(mp_limb_t * t, mp_limb_t * i1, mp_limb_t * i2, ulong l)
    We are given two integers modulo 2^wn+1, i1 and i2, which are 
    not necessarily normalised and are given n and w. We compute 
    t = (i1 + i2)*B^x, u = (i1 - i2)*B^y. Aliasing between inputs and 
-   outputs is not permitted. We require x and y to be less than the 
-   number of limbs of i1 and i2.
+   outputs is not permitted. We require x and y to be less than limbs.
 */
 void mpn_lshB_sumdiffmod_2expp1(mp_limb_t * t, mp_limb_t * u, mp_limb_t * i1, 
                       mp_limb_t * i2, ulong limbs, ulong x, ulong y)
@@ -386,8 +385,8 @@ void mpn_lshB_sumdiffmod_2expp1(mp_limb_t * t, mp_limb_t * u, mp_limb_t * i1,
 /*
    We are given two integers modulo 2^wn+1, i1 and i2, which are 
    not necessarily normalised and are given n and w. We compute 
-   t = i1 + i2/B^x, u = i1 - i2/B^x. Aliasing between inputs and 
-   outputs is not permitted. We require x be less than the 
+   t = i1 + i2/B^x, u = i1 - i2/B^y. Aliasing between inputs and 
+   outputs is not permitted. We require x, y be less than the 
    number of limbs of i1 and i2.
 */
 void mpn_sumdiff_rshBmod_2expp1(mp_limb_t * t, mp_limb_t * u, mp_limb_t * i1, 
@@ -584,7 +583,8 @@ void FFT_split_radix_butterfly2(mp_limb_t * u, mp_limb_t * v, mp_limb_t * s, mp_
 }
 
 /*
-   Set u = 2^{ws*tw1}*(s + t), v = 2^{w+ws*tw2}*(s - t)
+   Set u = 2^{b1}*(s + t), v = 2^{b2}*(s - t)
+   Note NW is just n*w.
 */
 void FFT_radix2_twiddle_butterfly(mp_limb_t * u, mp_limb_t * v, 
           mp_limb_t * s, mp_limb_t * t, ulong NW, ulong b1, ulong b2)
@@ -663,6 +663,10 @@ void FFT_radix2_inverse_butterfly(mp_limb_t * s, mp_limb_t * t,
    mpn_sumdiff_rshBmod_2expp1(s, t, i1, i2, limbs, 0, y);
 }
 
+/*
+   s = 2^-b1*i1 + 2^-b2*i2, t = 2^-b1*i1 - 2^-b1*i2.
+   Note NW is just n*w
+*/
 void FFT_radix2_twiddle_inverse_butterfly(mp_limb_t * s, mp_limb_t * t, 
                   mp_limb_t * i1, mp_limb_t * i2, ulong NW, ulong b1, ulong b2)
 {
@@ -978,7 +982,7 @@ void FFT_radix2_twiddle(mp_limb_t ** ii, ulong is,
 
 /* 
    Truncate FFT to any length given by trunc, so long as trunc is 
-   divisible by 8.
+   divisible by 2.
 */
 void FFT_radix2_truncate1(mp_limb_t ** rr, ulong rs, mp_limb_t ** ii, 
       ulong n, ulong w, mp_limb_t ** t1, mp_limb_t ** t2, mp_limb_t ** temp, 
@@ -1078,7 +1082,7 @@ void FFT_radix2_truncate1_twiddle(mp_limb_t ** ii, ulong is,
 
 /* 
    Truncate FFT to any length given by trunc, so long as trunc is 
-   divisible by 8. Assumes zeros from trunc to n.
+   divisible by 2. Assumes zeros from trunc to n.
 */
 void FFT_radix2_truncate(mp_limb_t ** rr, ulong rs, mp_limb_t ** ii, 
       ulong n, ulong w, mp_limb_t ** t1, mp_limb_t ** t2, mp_limb_t ** temp, 
@@ -1821,16 +1825,7 @@ void FFT_radix2_mfa_truncate(mp_limb_t ** ii, ulong n, ulong w,
       FFT_radix2_new(ii + i*n1, 1, ii + i*n1, n1/2, w*n2, t1, t2, temp);
       
       for (j = 0; j < n1; j++)
-      {
-         ulong t = revbin(j, depth2);
-         if (j < t)
-         {
-            ptr = ii[i*n1 + j];
-            ii[i*n1 + j] = ii[i*n1 + t];
-            ii[i*n1 + t] = ptr;
-         }
          mpn_normmod_2expp1(ii[i*n1 + j], limbs);
-       }
    }
 }
 
@@ -1884,6 +1879,82 @@ void IFFT_radix2_mfa(mp_limb_t ** ii, ulong n, ulong w,
 
 }
 
+void convolution_mfa_truncate(mp_limb_t ** ii, mp_limb_t ** jj, ulong n, ulong w, 
+        mp_limb_t ** t1, mp_limb_t ** t2, mp_limb_t ** temp, 
+             ulong n1, ulong trunc, mp_limb_t * tt)
+{
+   ulong i, j, s;
+   ulong n2 = (2*n)/n1;
+   ulong limbs = (n*w)/GMP_LIMB_BITS;
+   ulong depth = 0;
+   ulong depth2 = 0;
+   mp_limb_t * ptr, c;
+
+   while ((1UL<<depth) < n2/2) depth++;
+   while ((1UL<<depth2) < n1/2) depth2++;
+   
+   trunc /= n1;
+
+   // n2 rows, n1 cols
+
+   for (i = 0; i < n1; i++)
+   {   
+      // FFT of length n2 on column i, applying z^{r*i} for rows going up in steps 
+      // of 1 starting at row 0, where z => w bits
+      
+      FFT_radix2_truncate_twiddle(ii + i, n1, n2/2, w*n1, t1, t2, temp, w, 0, i, 1, trunc);
+      for (j = 0; j < n2; j++)
+      {
+         s = revbin(j, depth);
+         if (j < s)
+         {
+            ptr = ii[i + j*n1];
+            ii[i + j*n1] = ii[i + s*n1];
+            ii[i + s*n1] = ptr;
+         }
+      }
+   }
+   
+   for (s = 0; s < trunc; s++)
+   {
+      i = revbin(s, depth);
+      FFT_radix2_new(ii + i*n1, 1, ii + i*n1, n1/2, w*n2, t1, t2, temp);
+      
+      for (j = 0; j < n1; j++)
+      {
+         mpn_normmod_2expp1(ii[i*n1 + j], limbs);
+         c = ii[i*n1 + j][limbs] + 2*jj[i*n1 + j][limbs];
+         ii[i*n1 + j][limbs] = mpn_mulmod_2expp1(ii[i*n1 + j], ii[i*n1 + j], jj[i*n1 + j], c, n*w, tt);
+      }
+      
+      IFFT_radix2_new(ii + i*n1, 1, ii + i*n1, n1/2, w*n2, t1, t2, temp);
+   }
+
+   for (i = 0; i < n1; i++)
+   {   
+      for (j = 0; j < n2; j++)
+      {
+         s = revbin(j, depth);
+         if (j < s)
+         {
+            ptr = ii[i + j*n1];
+            ii[i + j*n1] = ii[i + s*n1];
+            ii[i + s*n1] = ptr;
+         }
+      }
+      
+      // IFFT of length n2 on column i, applying z^{r*i} for rows going up in steps 
+      // of 1 starting at row 0, where z => w bits
+      IFFT_radix2_truncate_twiddle(ii + i, n1, n2/2, w*n1, t1, t2, temp, w, 0, i, 1, trunc);
+      for (j = 0; j < trunc; j++)
+      {
+         mpn_normmod_2expp1(ii[i + n1*j], limbs);
+         mpn_div_2expmod_2expp1(ii[i + n1*j], ii[i + n1*j], limbs, depth + depth2 + 2);
+         mpn_normmod_2expp1(ii[i + n1*j], limbs);
+      }
+   }
+}
+
 void IFFT_radix2_mfa_truncate(mp_limb_t ** ii, ulong n, ulong w, 
      mp_limb_t ** t1, mp_limb_t ** t2, mp_limb_t ** temp, ulong n1, ulong trunc)
 {
@@ -1904,16 +1975,6 @@ void IFFT_radix2_mfa_truncate(mp_limb_t ** ii, ulong n, ulong w,
    for (s = 0; s < trunc; s++)
    {
       i = revbin(s, depth);
-      for (j = 0; j < n1; j++)
-      {
-         ulong t = revbin(j, depth2);
-         if (j < t)
-         {
-            ptr = ii[i*n1 + j];
-            ii[i*n1 + j] = ii[i*n1 + t];
-            ii[i*n1 + t] = ptr;
-         }
-      }
       
       IFFT_radix2_new(ii + i*n1, 1, ii + i*n1, n1/2, w*n2, t1, t2, temp);
    }
@@ -2093,9 +2154,9 @@ mp_limb_t new_mpn_mulmod_2expp1(mp_limb_t * r, mp_limb_t * i1, mp_limb_t * i2,
       bits1 = (n*w - depth - 2)/2;
       bits2 = 2*n*bits1;
    }
-   //printf("bits = %ld, depth = %ld, n = %ld, w = %ld\n", bits, depth, 1UL<<depth, w);
-
+   
    FFT_mulmod_2expp1(r, i1, i2, bits/GMP_LIMB_BITS, depth, w);
+
    return 0;
 }
 
@@ -2106,9 +2167,6 @@ mp_limb_t new_mpn_mulmod_2expp1(mp_limb_t * r, mp_limb_t * i1, mp_limb_t * i2,
    Currently there is no sqrt2 trick, thus a convolution of depth d gives a 
    convolution length 2*n where n = 2^d with coefficients of size n*w, where 
    w = w2^2. 
-
-   FIXME: there is no reason for w to be a square, nor for us to pass in w2. 
-   Just pass in w.
 
    Note the *output* polynomial must fit in that convolution size. 
    
@@ -2121,10 +2179,9 @@ mp_limb_t new_mpn_mulmod_2expp1(mp_limb_t * r, mp_limb_t * i1, mp_limb_t * i2,
    (where w2 should be 2), the value of w2 should probably always just be 1.
 */
 void new_mpn_mul(mp_limb_t * r1, mp_limb_t * i1, ulong n1, mp_limb_t * i2, ulong n2,
-                 ulong depth, ulong w2)
+                 ulong depth, ulong w)
 {
    ulong n = (1UL<<depth);
-   ulong w = w2*w2;
    ulong bits1 = (n*w - depth)/2; 
    ulong sqrt = (1UL<<(depth/2));
 
@@ -2145,7 +2202,7 @@ void new_mpn_mul(mp_limb_t * r1, mp_limb_t * i1, ulong n1, mp_limb_t * i2, ulong
 
    TMP_MARK;
 
-   ii = (mp_limb_t **) TMP_BALLOC_LIMBS(2*(n + n*size) + 2*n + 2*size);
+   ii = (mp_limb_t **) TMP_BALLOC_LIMBS(4*(n + n*size) + 4*n + 6*size);
    for (i = 0, ptr = (mp_limb_t *) ii + 2*n; i < 2*n; i++, ptr += size) 
    {
       ii[i] = ptr;
@@ -2154,7 +2211,7 @@ void new_mpn_mul(mp_limb_t * r1, mp_limb_t * i1, ulong n1, mp_limb_t * i2, ulong
    t2 = t1 + size;
    s1 = (mp_limb_t **) t2 + size;
    
-   jj = (mp_limb_t **) TMP_BALLOC_LIMBS(2*(n + n*size) + 2*n + 2*size);
+   jj = ii + (2*(n + n*size) + 2*n + 2*size);
    for (i = 0, ptr = (mp_limb_t *) jj + 2*n; i < 2*n; i++, ptr += size) 
    {
       jj[i] = ptr;
@@ -2163,35 +2220,19 @@ void new_mpn_mul(mp_limb_t * r1, mp_limb_t * i1, ulong n1, mp_limb_t * i2, ulong
    u2 = u1 + size;
    s2 = (mp_limb_t **) u2 + size;
    
-   tt = (mp_limb_t *) TMP_BALLOC_LIMBS(2*size);
-   
-   j = FFT_split_bits(ii, i1, n1, bits1, limbs);
-   for ( ; j < trunc; j++)
-      MPN_ZERO(ii[j], limbs + 1);
-   FFT_radix2_mfa_truncate(ii, n, w, &t1, &t2, s1, sqrt, trunc);
+   tt = (mp_limb_t *) jj + (2*(n + n*size) + 2*n + 2*size);
             
    j = FFT_split_bits(jj, i2, n2, bits1, limbs);
    for ( ; j < trunc; j++)
       MPN_ZERO(jj[j], limbs + 1);
    FFT_radix2_mfa_truncate(jj, n, w, &u1, &u2, s2, sqrt, trunc);
     
-   for (s = 0; s < trunc/sqrt; s++)
-   {
-      u = revbin(s, (depth + 1)/2)*sqrt;
-      for (t = 0; t < sqrt; t++)
-      {
-         j = u + t; 
-         c = ii[j][limbs] + 2*jj[j][limbs];
-         ii[j][limbs] = new_mpn_mulmod_2expp1(ii[j], ii[j], jj[j], c, n*w, tt);
-      }
-   }
-
-   IFFT_radix2_mfa_truncate(ii, n, w, &t1, &t2, s1, sqrt, trunc);
-   for (j = 0; j < trunc; j++)
-   {
-      mpn_div_2expmod_2expp1(ii[j], ii[j], limbs, depth + 1);
-      mpn_normmod_2expp1(ii[j], limbs);
-   }
+   j = FFT_split_bits(ii, i1, n1, bits1, limbs);
+   for ( ; j < trunc; j++)
+      MPN_ZERO(ii[j], limbs + 1);
+   
+   convolution_mfa_truncate(ii, jj, n, w, &t1, &t2, s1, sqrt, trunc, tt);
+   
    MPN_ZERO(r1, r_limbs);
    FFT_combine_bits(r1, ii, j1 + j2 - 1, bits1, limbs, r_limbs);
       
@@ -2859,54 +2900,6 @@ void test_FFT_split_radix_butterfly()
    mpz_clear(m2b);
    mpz_clear(mn1);
    mpz_clear(mn2);
-   gmp_randclear(state);
-}
-
-void test_mul()
-{
-   ulong depth = 13UL;
-   ulong w2 = 3UL;
-   ulong iters = 1;
-
-   ulong n = (1UL<<depth);
-   ulong w = w2*w2;
-   ulong bits1 = (n*w - depth)/2; 
-   ulong bits = n*bits1;
-   ulong int_limbs = (bits - 1UL)/GMP_LIMB_BITS + 1;
-   
-   ulong i, j;
-   mp_limb_t *i1, *i2, *r1, *r2;
-   gmp_randstate_t state;
-   gmp_randinit_default(state);
-
-   TMP_DECL;
-
-   TMP_MARK;
-
-   i1 = TMP_BALLOC_LIMBS(6*int_limbs);
-   i2 = i1 + int_limbs;
-   r1 = i2 + int_limbs;
-   r2 = r1 + 2*int_limbs;
-   
-   for (i = 0; i < iters; i++)
-   {
-      mpn_urandomb(i1, state, bits);
-      mpn_urandomb(i2, state, bits);
-  
-      mpn_mul_n(r2, i1, i2, int_limbs);
-      new_mpn_mul(r1, i1, int_limbs, i2, int_limbs, depth, w2);
-      
-      for (j = 0; j < 2*int_limbs; j++)
-      {
-         if (r1[j] != r2[j]) 
-         {
-            printf("error in limb %ld, %lx != %lx\n", j, r1[j], r2[j]);
-            abort();
-         } 
-      }
-   }
-      
-   TMP_FREE;
    gmp_randclear(state);
 }
 
@@ -3631,16 +3624,63 @@ void time_imfa()
    gmp_randclear(state);
 }
 
-void time_mul()
+void test_mul()
 {
-   ulong depth = 13UL;
-   ulong w2 = 1UL;
-   ulong iters = 100;
+   ulong depth = 12UL;
+   ulong w = 2UL;
+   ulong iters = 1;
 
    ulong n = (1UL<<depth);
-   ulong w = w2*w2;
    ulong bits1 = (n*w - depth)/2; 
-   ulong bits = (8364032*8)/8; //n*bits1;
+   ulong bits = (8364032*9)/8;//n*bits1;
+   ulong int_limbs = (bits - 1UL)/GMP_LIMB_BITS + 1;
+   
+   ulong i, j;
+   mp_limb_t *i1, *i2, *r1, *r2;
+   gmp_randstate_t state;
+   gmp_randinit_default(state);
+
+   TMP_DECL;
+
+   TMP_MARK;
+
+   i1 = TMP_BALLOC_LIMBS(6*int_limbs);
+   i2 = i1 + int_limbs;
+   r1 = i2 + int_limbs;
+   r2 = r1 + 2*int_limbs;
+   
+   for (i = 0; i < iters; i++)
+   {
+      mpn_urandomb(i1, state, bits);
+      mpn_urandomb(i2, state, bits);
+  
+      mpn_mul_n(r2, i1, i2, int_limbs);
+      new_mpn_mul(r1, i1, int_limbs, i2, int_limbs, depth, w);
+      
+      for (j = 0; j < 2*int_limbs; j++)
+      {
+         if (r1[j] != r2[j]) 
+         {
+            printf("error in limb %ld, %lx != %lx\n", j, r1[j], r2[j]);
+            abort();
+         } 
+      }
+   }
+      
+   TMP_FREE;
+   gmp_randclear(state);
+}
+
+void time_mul()
+{
+#define NEW_MUL 1
+   ulong depth = 16UL;
+   ulong w = 1UL;
+   ulong iters = 1;
+
+   ulong n = (1UL<<depth);
+   ulong bits1 = (n*w - depth)/2; 
+   ulong bits = n*bits1;
    printf("bits = %ld\n", bits);
    ulong int_limbs = (bits - 1UL)/GMP_LIMB_BITS + 1;
    
@@ -3663,7 +3703,11 @@ void time_mul()
   
    for (i = 0; i < iters; i++)
    {
-      new_mpn_mul(r1, i1, int_limbs, i2, int_limbs, depth, w2);
+#if NEW_MUL
+      new_mpn_mul(r1, i1, int_limbs, i2, int_limbs, depth, w);
+#else
+      mpn_mul_n(r1, i1, i2, int_limbs);
+#endif
    }
       
    TMP_FREE;
