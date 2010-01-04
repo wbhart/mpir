@@ -1726,6 +1726,166 @@ void IFFT_radix2_twiddle(mp_limb_t ** ii, ulong is,
    }
 }
 
+void FFT_mulmod_2expp1(mp_limb_t * r1, mp_limb_t * i1, mp_limb_t * i2, 
+                 ulong r_limbs, ulong depth, ulong w)
+{
+   ulong n = (1UL<<depth);
+   ulong bits1 = (r_limbs*GMP_LIMB_BITS)/(2*n);
+   
+   ulong limbs = (n*w)/GMP_LIMB_BITS;
+   ulong size = limbs + 1;
+   ulong i, j;
+
+   mp_limb_t * ptr;
+   mp_limb_t ** ii, ** jj, *tt, *t1, *t2, *u1, *u2, **s1, **s2;
+   mp_limb_t c;
+   
+   TMP_DECL;
+
+   TMP_MARK;
+
+   ii = (mp_limb_t **) TMP_BALLOC_LIMBS(2*(n + n*size) + 2*n + 2*size);
+   for (i = 0, ptr = (mp_limb_t *) ii + 2*n; i < 2*n; i++, ptr += size) 
+   {
+      ii[i] = ptr;
+   }
+   t1 = ptr;
+   t2 = t1 + size;
+   s1 = (mp_limb_t **) t2 + size;
+   
+   jj = (mp_limb_t **) TMP_BALLOC_LIMBS(2*(n + n*size) + 2*n + 2*size);
+   for (i = 0, ptr = (mp_limb_t *) jj + 2*n; i < 2*n; i++, ptr += size) 
+   {
+      jj[i] = ptr;
+   }
+   u1 = ptr;
+   u2 = u1 + size;
+   s2 = (mp_limb_t **) u2 + size;
+   
+   tt = (mp_limb_t *) TMP_BALLOC_LIMBS(2*size);
+
+   j = FFT_split_bits(ii, i1, r_limbs, bits1, limbs);
+   for ( ; j < 2*n; j++)
+      MPN_ZERO(ii[j], limbs + 1);
+   
+   FFT_radix2_negacyclic(ii, 1, ii, n, w, &t1, &t2, s1);
+   for (j = 0; j < 2*n; j++)
+      mpn_normmod_2expp1(ii[j], limbs);
+   
+   j = FFT_split_bits(jj, i2, r_limbs, bits1, limbs);
+   for ( ; j < 2*n; j++)
+      MPN_ZERO(jj[j], limbs + 1);
+   
+   FFT_radix2_negacyclic(jj, 1, jj, n, w, &u1, &u2, s2);
+   
+   for (j = 0; j < 2*n; j++)
+   {
+      mpn_normmod_2expp1(jj[j], limbs);
+      c = ii[j][limbs] + 2*jj[j][limbs];
+      ii[j][limbs] = mpn_mulmod_2expp1(ii[j], ii[j], jj[j], c, n*w, tt);
+   }
+   
+   IFFT_radix2_negacyclic(ii, 1, ii, n, w, &t1, &t2, s1);
+   
+   for (j = 0; j < 2*n; j++)
+   {
+      mpn_div_2expmod_2expp1(ii[j], ii[j], limbs, depth + 1);
+      mpn_normmod_2expp1(ii[j], limbs);
+   }
+   MPN_ZERO(r1, r_limbs + 1);
+   FFT_combine_bits(r1, ii, 2*n - 1, bits1, limbs, r_limbs + 1);
+   
+   // as the negacyclic convolution has effectively done subtractions
+   // some of the coefficients will be negative, so need to subtract p
+   // FIXME: the following is not very cache friendly
+   ulong b = 0;
+   ulong ll = 0;
+   mp_limb_t bit;
+   ulong limb_add = bits1/GMP_LIMB_BITS;
+   ulong bit_add = bits1 - limb_add*GMP_LIMB_BITS;
+
+   for (j = 0; j < 2*n - 1; j++)
+   {
+      if (b >= GMP_LIMB_BITS)
+      {
+         b -= GMP_LIMB_BITS;
+         ll++;
+      }
+      bit = (1UL<<b);
+
+      if (ii[j][limbs] || (mp_limb_signed_t) ii[j][limbs - 1] < 0) // coefficient was -ve
+      {
+         mpn_sub_1(r1 + ll, r1 + ll, r_limbs + 1 - ll, bit);
+         mpn_sub_1(r1 + ll + limbs, r1 + ll + limbs, r_limbs + 1 - limbs - ll, bit);
+      }
+
+      b += bit_add;
+      ll += limb_add;
+   }
+
+   // final coefficient wraps around
+   ulong l = (bits1 - 1)/GMP_LIMB_BITS + 1;
+   ulong shift = l*GMP_LIMB_BITS - bits1;
+   mp_limb_t cy = 0;
+   if (ii[2*n - 1][limbs] || (mp_limb_signed_t) ii[2*n - 1][limbs - 1] < 0)
+   {
+      if (ii[2*n - 1][limbs]) abort();
+      cy = mpn_sub_1(ii[2*n - 1], ii[2*n - 1], limbs + 1, 1);
+      cy += mpn_sub_1(ii[2*n - 1] + limbs, ii[2*n - 1] + limbs, 1, 1);
+   }
+   mpn_lshift(ii[2*n - 1], ii[2*n - 1], limbs + 1, shift);
+   
+   
+   r1[r_limbs] += mpn_add_n(r1 + r_limbs - l, r1 + r_limbs - l, ii[2*n - 1], l);
+   c = mpn_sub_n(r1, r1, ii[2*n - 1] + l, limbs + 1 - l);
+   mpn_addmod_2expp1_1(r1 + limbs + 1 - l, r_limbs - limbs - 1 + l, -c + cy);
+   mpn_normmod_2expp1(r1, r_limbs);
+   
+   TMP_FREE;
+}
+
+/*
+   FIXME: currently doesn't use negacyclic fft as it is too inefficient.
+*/
+mp_limb_t new_mpn_mulmod_2expp1(mp_limb_t * r, mp_limb_t * i1, mp_limb_t * i2, 
+                           mp_limb_t c, mp_limb_t bits, mp_limb_t * tt)
+{
+   if (bits <= 32768) // currently the negacyclic fft is too inefficient to use.
+      return mpn_mulmod_2expp1(r, i1, i2, c, bits, tt);
+
+   ulong w = 2;
+   ulong depth = 1;
+
+   ulong n = (1UL<<depth);
+   ulong bits1 = (n*w - depth - 2)/2;
+   ulong bits2 = 2*n*bits1;
+
+   while (bits2 <= bits && bits % (2*n) == 0) 
+   {
+      depth++;
+      n = (1UL<<depth);
+      bits1 = (n*w - depth - 2)/2;
+      bits2 = 2*n*bits1;
+   }
+
+   depth-=3;
+   
+   n = (1UL<<depth);
+   bits1 = (n*w - depth - 2)/2;
+   bits2 = 2*n*bits1;
+
+   while (bits2 < bits)
+   {
+      w += 2;
+      bits1 = (n*w - depth - 2)/2;
+      bits2 = 2*n*bits1;
+   }
+   
+   FFT_mulmod_2expp1(r, i1, i2, bits/GMP_LIMB_BITS, depth, w);
+
+   return 0;
+}
+
 /*
    The matrix Fourier algorithm for a 1D Fourier transform of length m = 2*n,
    works as follows:
@@ -1924,7 +2084,7 @@ void convolution_mfa_truncate(mp_limb_t ** ii, mp_limb_t ** jj, ulong n, ulong w
       {
          mpn_normmod_2expp1(ii[i*n1 + j], limbs);
          c = ii[i*n1 + j][limbs] + 2*jj[i*n1 + j][limbs];
-         ii[i*n1 + j][limbs] = mpn_mulmod_2expp1(ii[i*n1 + j], ii[i*n1 + j], jj[i*n1 + j], c, n*w, tt);
+         ii[i*n1 + j][limbs] = new_mpn_mulmod_2expp1(ii[i*n1 + j], ii[i*n1 + j], jj[i*n1 + j], c, n*w, tt);
       }
       
       IFFT_radix2_new(ii + i*n1, 1, ii + i*n1, n1/2, w*n2, t1, t2, temp);
@@ -1999,165 +2159,6 @@ void IFFT_radix2_mfa_truncate(mp_limb_t ** ii, ulong n, ulong w,
          mpn_normmod_2expp1(ii[i + j], limbs);
    }
 
-}
-
-void FFT_mulmod_2expp1(mp_limb_t * r1, mp_limb_t * i1, mp_limb_t * i2, 
-                 ulong r_limbs, ulong depth, ulong w)
-{
-   ulong n = (1UL<<depth);
-   ulong bits1 = (r_limbs*GMP_LIMB_BITS)/(2*n);
-   
-   ulong limbs = (n*w)/GMP_LIMB_BITS;
-   ulong size = limbs + 1;
-   ulong i, j;
-
-   mp_limb_t * ptr;
-   mp_limb_t ** ii, ** jj, *tt, *t1, *t2, *u1, *u2, **s1, **s2;
-   mp_limb_t c;
-   
-   TMP_DECL;
-
-   TMP_MARK;
-
-   ii = (mp_limb_t **) TMP_BALLOC_LIMBS(2*(n + n*size) + 2*n + 2*size);
-   for (i = 0, ptr = (mp_limb_t *) ii + 2*n; i < 2*n; i++, ptr += size) 
-   {
-      ii[i] = ptr;
-   }
-   t1 = ptr;
-   t2 = t1 + size;
-   s1 = (mp_limb_t **) t2 + size;
-   
-   jj = (mp_limb_t **) TMP_BALLOC_LIMBS(2*(n + n*size) + 2*n + 2*size);
-   for (i = 0, ptr = (mp_limb_t *) jj + 2*n; i < 2*n; i++, ptr += size) 
-   {
-      jj[i] = ptr;
-   }
-   u1 = ptr;
-   u2 = u1 + size;
-   s2 = (mp_limb_t **) u2 + size;
-   
-   tt = (mp_limb_t *) TMP_BALLOC_LIMBS(2*size);
-
-   j = FFT_split_bits(ii, i1, r_limbs, bits1, limbs);
-   for ( ; j < 2*n; j++)
-      MPN_ZERO(ii[j], limbs + 1);
-   
-   FFT_radix2_negacyclic(ii, 1, ii, n, w, &t1, &t2, s1);
-   for (j = 0; j < 2*n; j++)
-      mpn_normmod_2expp1(ii[j], limbs);
-   
-   j = FFT_split_bits(jj, i2, r_limbs, bits1, limbs);
-   for ( ; j < 2*n; j++)
-      MPN_ZERO(jj[j], limbs + 1);
-   
-   FFT_radix2_negacyclic(jj, 1, jj, n, w, &u1, &u2, s2);
-   
-   for (j = 0; j < 2*n; j++)
-   {
-      mpn_normmod_2expp1(jj[j], limbs);
-      c = ii[j][limbs] + 2*jj[j][limbs];
-      ii[j][limbs] = mpn_mulmod_2expp1(ii[j], ii[j], jj[j], c, n*w, tt);
-   }
-   
-   IFFT_radix2_negacyclic(ii, 1, ii, n, w, &t1, &t2, s1);
-   
-   for (j = 0; j < 2*n; j++)
-   {
-      mpn_div_2expmod_2expp1(ii[j], ii[j], limbs, depth + 1);
-      mpn_normmod_2expp1(ii[j], limbs);
-   }
-   MPN_ZERO(r1, r_limbs + 1);
-   FFT_combine_bits(r1, ii, 2*n - 1, bits1, limbs, r_limbs + 1);
-   
-   // as the negacyclic convolution has effectively done subtractions
-   // some of the coefficients will be negative, so need to subtract p
-   // FIXME: the following is not very cache friendly
-   ulong b = 0;
-   ulong ll = 0;
-   mp_limb_t bit;
-   ulong limb_add = bits1/GMP_LIMB_BITS;
-   ulong bit_add = bits1 - limb_add*GMP_LIMB_BITS;
-
-   for (j = 0; j < 2*n - 1; j++)
-   {
-      if (b >= GMP_LIMB_BITS)
-      {
-         b -= GMP_LIMB_BITS;
-         ll++;
-      }
-      bit = (1UL<<b);
-
-      if (ii[j][limbs] || (mp_limb_signed_t) ii[j][limbs - 1] < 0) // coefficient was -ve
-      {
-         mpn_sub_1(r1 + ll, r1 + ll, r_limbs + 1 - ll, bit);
-         mpn_sub_1(r1 + ll + limbs, r1 + ll + limbs, r_limbs + 1 - limbs - ll, bit);
-      }
-
-      b += bit_add;
-      ll += limb_add;
-   }
-
-   // final coefficient wraps around
-   ulong l = (bits1 - 1)/GMP_LIMB_BITS + 1;
-   ulong shift = l*GMP_LIMB_BITS - bits1;
-   mp_limb_t cy = 0;
-   if (ii[2*n - 1][limbs] || (mp_limb_signed_t) ii[2*n - 1][limbs - 1] < 0)
-   {
-      if (ii[2*n - 1][limbs]) abort();
-      cy = mpn_sub_1(ii[2*n - 1], ii[2*n - 1], limbs + 1, 1);
-      cy += mpn_sub_1(ii[2*n - 1] + limbs, ii[2*n - 1] + limbs, 1, 1);
-   }
-   mpn_lshift(ii[2*n - 1], ii[2*n - 1], limbs + 1, shift);
-   
-   
-   r1[r_limbs] += mpn_add_n(r1 + r_limbs - l, r1 + r_limbs - l, ii[2*n - 1], l);
-   c = mpn_sub_n(r1, r1, ii[2*n - 1] + l, limbs + 1 - l);
-   mpn_addmod_2expp1_1(r1 + limbs + 1 - l, r_limbs - limbs - 1 + l, -c + cy);
-   mpn_normmod_2expp1(r1, r_limbs);
-   
-   TMP_FREE;
-}
-
-/*
-   FIXME: currently doesn't use negacyclic fft as it is too inefficient.
-*/
-mp_limb_t new_mpn_mulmod_2expp1(mp_limb_t * r, mp_limb_t * i1, mp_limb_t * i2, 
-                           mp_limb_t c, mp_limb_t bits, mp_limb_t * tt)
-{
-   if (1) // currently the negacyclic fft is too inefficient to use.
-      return mpn_mulmod_2expp1(r, i1, i2, c, bits, tt);
-
-   ulong w = 2;
-   ulong depth = 1;
-
-   ulong n = (1UL<<depth);
-   ulong bits1 = (n*w - depth - 2)/2;
-   ulong bits2 = 2*n*bits1;
-
-   while (bits2 <= bits && bits % (2*n) == 0) 
-   {
-      depth++;
-      n = (1UL<<depth);
-      bits1 = (n*w - depth - 2)/2;
-      bits2 = 2*n*bits1;
-   }
-
-   depth--;
-   n = (1UL<<depth);
-   bits1 = (n*w - depth - 2)/2;
-   bits2 = 2*n*bits1;
-
-   while (bits2 < bits)
-   {
-      w += 2;
-      bits1 = (n*w - depth - 2)/2;
-      bits2 = 2*n*bits1;
-   }
-   
-   FFT_mulmod_2expp1(r, i1, i2, bits/GMP_LIMB_BITS, depth, w);
-
-   return 0;
 }
 
 /*
@@ -2942,9 +2943,9 @@ void time_mul_with_negacyclic()
 
 void test_mulmod()
 {
-   ulong depth = 7UL; //should be at least 5 (or 4 on 32 bit machine)
+   ulong depth = 12UL; //should be at least 5 (or 4 on 32 bit machine)
    ulong w = 2UL; // should be even
-   ulong iters = 1000;
+   ulong iters = 10;
 
    ulong n = (1UL<<depth);
    
@@ -3626,13 +3627,13 @@ void time_imfa()
 
 void test_mul()
 {
-   ulong depth = 12UL;
-   ulong w = 2UL;
+   ulong depth = 16UL;
+   ulong w = 1UL;
    ulong iters = 1;
 
    ulong n = (1UL<<depth);
    ulong bits1 = (n*w - depth)/2; 
-   ulong bits = (8364032*9)/8;//n*bits1;
+   ulong bits = (536608768UL*8)/8;//n*bits1;//(8364032*9)/8;//
    ulong int_limbs = (bits - 1UL)/GMP_LIMB_BITS + 1;
    
    ulong i, j;
@@ -3680,7 +3681,7 @@ void time_mul()
 
    ulong n = (1UL<<depth);
    ulong bits1 = (n*w - depth)/2; 
-   ulong bits = n*bits1;
+   ulong bits = (536608768UL*32)/8;
    printf("bits = %ld\n", bits);
    ulong int_limbs = (bits - 1UL)/GMP_LIMB_BITS + 1;
    
@@ -3716,7 +3717,7 @@ void time_mul()
 
 int main(void)
 {
-   test_norm(); printf("mpn_normmod_2expp1...PASS\n");
+   /*test_norm(); printf("mpn_normmod_2expp1...PASS\n");
    test_submod_i(); printf("mpn_submod_i_2expp1...PASS\n");
    test_mul_2expmod(); printf("mpn_mul_2expmod_2expp1...PASS\n");
    test_div_2expmod(); printf("mpn_div_2expmod_2expp1...PASS\n");
@@ -3729,7 +3730,7 @@ int main(void)
    test_fft_ifft(); printf("FFT_IFFT...PASS\n");
    test_fft_ifft_mfa(); printf("FFT_IFFT_MFA...PASS\n");
    test_fft_truncate(); printf("FFT_TRUNCATE...PASS\n");
-   test_fft_ifft_truncate(); printf("FFT_IFFT_TRUNCATE...PASS\n");
+   test_fft_ifft_truncate(); printf("FFT_IFFT_TRUNCATE...PASS\n");*/
    
    //time_ifft();
    //time_mfa();
