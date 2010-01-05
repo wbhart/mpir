@@ -51,7 +51,7 @@ MA 02110-1301, USA. */
    reference, int can be 46 or 64 bits, whereas uint is always 64 bits; and
    short can be 24, 32, 46 or 64 bits, and different for ushort.  */
 
-#if defined _CRAY
+#if defined _CRAY || defined _MSC_VER
 #include <limits.h>
 #endif
 
@@ -551,7 +551,15 @@ void  __gmp_tmp_debug_free  _PROTO ((const char *, int, int,
 #define SHRT_MAX           ((short) (-(SHRT_MIN+1)))
 #endif
 
-#if __GMP_MP_SIZE_T_INT
+#if __GMP_MP_SIZE_T_INT == 2
+#  ifdef  _WIN64 
+#    define MP_SIZE_T_MAX      _I64_MAX
+#    define MP_SIZE_T_MIN      _I64_MIN
+#  else
+#    define MP_SIZE_T_MAX      LONG_MAX
+#    define MP_SIZE_T_MIN      LONG_MIN
+#  endif
+#elif __GMP_MP_SIZE_T_INT
 #define MP_SIZE_T_MAX      INT_MAX
 #define MP_SIZE_T_MIN      INT_MIN
 #else

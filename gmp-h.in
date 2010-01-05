@@ -224,6 +224,10 @@ typedef __gmp_const mp_limb_t *	mp_srcptr;
 #define __GMP_MP_SIZE_T_INT     1
 typedef int			mp_size_t;
 typedef int			mp_exp_t;
+#elif defined( _MSC_VER )
+#define __GMP_MP_SIZE_T_INT     2
+typedef intptr_t		mp_size_t;
+typedef intptr_t		mp_exp_t;
 #else
 #define __GMP_MP_SIZE_T_INT     0
 typedef long int		mp_size_t;
