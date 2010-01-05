@@ -178,15 +178,16 @@ MA 02110-1301, USA. */
 #pragma intrinsic(_umul128)
 
 #    define count_leading_zeros(c,x)        \
-      do {                                  \
+      do { unsigned long _z;		    	\
         ASSERT ((x) != 0);                  \
-        _BitScanReverse64(&c, (x));         \
-        c = 63 - c;                         \
+        _BitScanReverse64(&_z, (x));        \
+        c = 63 - _z;                        \
       } while (0)
 #    define count_trailing_zeros(c,x)       \
-      do {                                  \
+      do { unsigned long _z;		    	\
         ASSERT ((x) != 0);                  \
-        _BitScanForward64(&c, (x));         \
+        _BitScanForward64(&_z, (x));        \
+		c = _z;								\
       } while (0)
 #    define umul_ppmm(xh, xl, m0, m1)       \
       do {                                  \
@@ -199,15 +200,16 @@ MA 02110-1301, USA. */
 #pragma intrinsic(__emulu)
 
 #    define count_leading_zeros(c,x)        \
-      do {                                  \
+      do { unsigned long _z;		    	\
         ASSERT ((x) != 0);                  \
-        _BitScanReverse(&c, (x));           \
-        c = 31 - c;                         \
+        _BitScanReverse(&_z, (x));          \
+        c = 31 - _z;                        \
       } while (0)
 #    define count_trailing_zeros(c,x)       \
-      do {                                  \
+      do { unsigned long _z;		    	\
         ASSERT ((x) != 0);                  \
-        _BitScanForward(&c, (x));           \
+        _BitScanForward(&z, (x));           \
+		c = _z;								\
       } while (0)
 #    define umul_ppmm(xh, xl, m0, m1)       \
       do { unsigned __int64 _t;             \

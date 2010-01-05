@@ -514,7 +514,7 @@ MA 02111-1307, USA. */
 #undef WANT_PROFILING_PROF
 
 /* --enable-alloca=yes */
-#undef WANT_TMP_ALLOCA
+#define WANT_TMP_ALLOCA     1
 
 /* --enable-alloca=debug */
 #undef WANT_TMP_DEBUG
@@ -523,7 +523,7 @@ MA 02111-1307, USA. */
 #undef WANT_TMP_NOTREENTRANT
 
 /* --enable-alloca=malloc-reentrant */
-#define WANT_TMP_REENTRANT	1
+#undef WANT_TMP_REENTRANT
 
 /* Define if your processor stores words with the most significant byte first
    (like Motorola and SPARC, unlike Intel and VAX). */
