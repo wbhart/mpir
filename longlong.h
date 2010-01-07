@@ -208,7 +208,7 @@ MA 02110-1301, USA. */
 #    define count_trailing_zeros(c,x)       \
       do { unsigned long _z;		    	\
         ASSERT ((x) != 0);                  \
-        _BitScanForward(&z, (x));           \
+        _BitScanForward(&_z, (x));          \
 		c = _z;								\
       } while (0)
 #    define umul_ppmm(xh, xl, m0, m1)       \
