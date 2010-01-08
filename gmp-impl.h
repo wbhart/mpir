@@ -51,7 +51,7 @@ MA 02110-1301, USA. */
    reference, int can be 46 or 64 bits, whereas uint is always 64 bits; and
    short can be 24, 32, 46 or 64 bits, and different for ushort.  */
 
-#if defined _CRAY || defined _MSC_VER
+#if defined _CRAY || defined _WIN64
 #include <limits.h>
 #endif
 
@@ -551,14 +551,9 @@ void  __gmp_tmp_debug_free  _PROTO ((const char *, int, int,
 #define SHRT_MAX           ((short) (-(SHRT_MIN+1)))
 #endif
 
-#if __GMP_MP_SIZE_T_INT == 2
-#  ifdef  _WIN64 
-#    define MP_SIZE_T_MAX      _I64_MAX
-#    define MP_SIZE_T_MIN      _I64_MIN
-#  else
-#    define MP_SIZE_T_MAX      LONG_MAX
-#    define MP_SIZE_T_MIN      LONG_MIN
-#  endif
+#if defined( _WIN64 )
+#define MP_SIZE_T_MAX      _I64_MAX
+#define MP_SIZE_T_MIN      _I64_MIN
 #elif __GMP_MP_SIZE_T_INT
 #define MP_SIZE_T_MAX      INT_MAX
 #define MP_SIZE_T_MIN      INT_MIN
@@ -568,8 +563,13 @@ void  __gmp_tmp_debug_free  _PROTO ((const char *, int, int,
 #endif
 
 /* mp_exp_t is the same as mp_size_t */
+#if defined( _WIN64 )
+#define MP_EXP_T_MAX   LONG_MAX
+#define MP_EXP_T_MIN   LONG_MIN
+#else
 #define MP_EXP_T_MAX   MP_SIZE_T_MAX
 #define MP_EXP_T_MIN   MP_SIZE_T_MIN
+#endif
 
 #define LONG_HIGHBIT       LONG_MIN
 #define INT_HIGHBIT        INT_MIN
