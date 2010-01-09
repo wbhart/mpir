@@ -305,7 +305,6 @@
 						Name="VCCLCompilerTool"
 						AdditionalIncludeDirectories="..\;..\..\;..\..\mpn\generic"
 						PreprocessorDefinitions="_WIN32"
-						RuntimeLibrary="1"
 						ObjectFile="$(IntDir)\cxx\"
 						DebugInformationFormat="3"
 					/>
@@ -317,7 +316,6 @@
 						Name="VCCLCompilerTool"
 						AdditionalIncludeDirectories="..\;..\..\;..\..\mpn\generic"
 						PreprocessorDefinitions="_WIN32"
-						RuntimeLibrary="1"
 						ObjectFile="$(IntDir)\cxx\"
 						DebugInformationFormat="3"
 					/>
@@ -329,7 +327,6 @@
 						Name="VCCLCompilerTool"
 						AdditionalIncludeDirectories="..\;..\..\;..\..\mpn\generic"
 						PreprocessorDefinitions="_WIN32"
-						RuntimeLibrary="0"
 						ObjectFile="$(IntDir)\cxx\"
 					/>
 				</FileConfiguration>
@@ -340,7 +337,6 @@
 						Name="VCCLCompilerTool"
 						AdditionalIncludeDirectories="..\;..\..\;..\..\mpn\generic"
 						PreprocessorDefinitions="_WIN32"
-						RuntimeLibrary="0"
 						ObjectFile="$(IntDir)\cxx\"
 					/>
 				</FileConfiguration>
@@ -355,7 +351,6 @@
 						Name="VCCLCompilerTool"
 						AdditionalIncludeDirectories="..\;..\..\;..\..\mpn\generic"
 						PreprocessorDefinitions="_WIN32"
-						RuntimeLibrary="1"
 						ObjectFile="$(IntDir)\cxx\"
 						DebugInformationFormat="3"
 					/>
@@ -367,7 +362,6 @@
 						Name="VCCLCompilerTool"
 						AdditionalIncludeDirectories="..\;..\..\;..\..\mpn\generic"
 						PreprocessorDefinitions="_WIN32"
-						RuntimeLibrary="1"
 						ObjectFile="$(IntDir)\cxx\"
 						DebugInformationFormat="3"
 					/>
@@ -379,7 +373,6 @@
 						Name="VCCLCompilerTool"
 						AdditionalIncludeDirectories="..\;..\..\;..\..\mpn\generic"
 						PreprocessorDefinitions="_WIN32"
-						RuntimeLibrary="0"
 						ObjectFile="$(IntDir)\cxx\"
 					/>
 				</FileConfiguration>
@@ -390,7 +383,6 @@
 						Name="VCCLCompilerTool"
 						AdditionalIncludeDirectories="..\;..\..\;..\..\mpn\generic"
 						PreprocessorDefinitions="_WIN32"
-						RuntimeLibrary="0"
 						ObjectFile="$(IntDir)\cxx\"
 					/>
 				</FileConfiguration>
@@ -405,7 +397,6 @@
 						Name="VCCLCompilerTool"
 						AdditionalIncludeDirectories="..\;..\..\;..\..\mpn\generic"
 						PreprocessorDefinitions="_WIN32"
-						RuntimeLibrary="1"
 						ObjectFile="$(IntDir)\cxx\"
 						DebugInformationFormat="3"
 					/>
@@ -417,7 +408,6 @@
 						Name="VCCLCompilerTool"
 						AdditionalIncludeDirectories="..\;..\..\;..\..\mpn\generic"
 						PreprocessorDefinitions="_WIN32"
-						RuntimeLibrary="1"
 						ObjectFile="$(IntDir)\cxx\"
 						DebugInformationFormat="3"
 					/>
@@ -429,7 +419,6 @@
 						Name="VCCLCompilerTool"
 						AdditionalIncludeDirectories="..\;..\..\;..\..\mpn\generic"
 						PreprocessorDefinitions="_WIN32"
-						RuntimeLibrary="0"
 						ObjectFile="$(IntDir)\cxx\"
 					/>
 				</FileConfiguration>
@@ -440,7 +429,6 @@
 						Name="VCCLCompilerTool"
 						AdditionalIncludeDirectories="..\;..\..\;..\..\mpn\generic"
 						PreprocessorDefinitions="_WIN32"
-						RuntimeLibrary="0"
 						ObjectFile="$(IntDir)\cxx\"
 					/>
 				</FileConfiguration>
@@ -455,7 +443,6 @@
 						Name="VCCLCompilerTool"
 						AdditionalIncludeDirectories="..\;..\..\;..\..\mpn\generic"
 						PreprocessorDefinitions="_WIN32"
-						RuntimeLibrary="1"
 						ObjectFile="$(IntDir)\cxx\"
 						DebugInformationFormat="3"
 					/>
@@ -467,7 +454,6 @@
 						Name="VCCLCompilerTool"
 						AdditionalIncludeDirectories="..\;..\..\;..\..\mpn\generic"
 						PreprocessorDefinitions="_WIN32"
-						RuntimeLibrary="1"
 						ObjectFile="$(IntDir)\cxx\"
 						DebugInformationFormat="3"
 					/>
@@ -479,7 +465,6 @@
 						Name="VCCLCompilerTool"
 						AdditionalIncludeDirectories="..\;..\..\;..\..\mpn\generic"
 						PreprocessorDefinitions="_WIN32"
-						RuntimeLibrary="0"
 						ObjectFile="$(IntDir)\cxx\"
 					/>
 				</FileConfiguration>
@@ -490,7 +475,6 @@
 						Name="VCCLCompilerTool"
 						AdditionalIncludeDirectories="..\;..\..\;..\..\mpn\generic"
 						PreprocessorDefinitions="_WIN32"
-						RuntimeLibrary="0"
 						ObjectFile="$(IntDir)\cxx\"
 					/>
 				</FileConfiguration>
@@ -541,7 +525,6 @@
 						Name="VCCLCompilerTool"
 						AdditionalIncludeDirectories="..\;..\..\;..\..\mpn\generic"
 						PreprocessorDefinitions="_WIN32"
-						RuntimeLibrary="1"
 						ObjectFile="$(IntDir)\cxx\"
 						DebugInformationFormat="3"
 					/>
@@ -553,7 +536,6 @@
 						Name="VCCLCompilerTool"
 						AdditionalIncludeDirectories="..\;..\..\;..\..\mpn\generic"
 						PreprocessorDefinitions="_WIN32"
-						RuntimeLibrary="1"
 						ObjectFile="$(IntDir)\cxx\"
 						DebugInformationFormat="3"
 					/>
@@ -565,7 +547,6 @@
 						Name="VCCLCompilerTool"
 						AdditionalIncludeDirectories="..\;..\..\;..\..\mpn\generic"
 						PreprocessorDefinitions="_WIN32"
-						RuntimeLibrary="0"
 						ObjectFile="$(IntDir)\cxx\"
 					/>
 				</FileConfiguration>
@@ -576,7 +557,6 @@
 						Name="VCCLCompilerTool"
 						AdditionalIncludeDirectories="..\;..\..\;..\..\mpn\generic"
 						PreprocessorDefinitions="_WIN32"
-						RuntimeLibrary="0"
 						ObjectFile="$(IntDir)\cxx\"
 					/>
 				</FileConfiguration>
@@ -591,7 +571,6 @@
 						Name="VCCLCompilerTool"
 						AdditionalIncludeDirectories="..\;..\..\;..\..\mpn\generic"
 						PreprocessorDefinitions="_WIN32"
-						RuntimeLibrary="1"
 						ObjectFile="$(IntDir)\cxx\"
 						DebugInformationFormat="3"
 					/>
@@ -603,7 +582,6 @@
 						Name="VCCLCompilerTool"
 						AdditionalIncludeDirectories="..\;..\..\;..\..\mpn\generic"
 						PreprocessorDefinitions="_WIN32"
-						RuntimeLibrary="1"
 						ObjectFile="$(IntDir)\cxx\"
 						DebugInformationFormat="3"
 					/>
@@ -615,7 +593,6 @@
 						Name="VCCLCompilerTool"
 						AdditionalIncludeDirectories="..\;..\..\;..\..\mpn\generic"
 						PreprocessorDefinitions="_WIN32"
-						RuntimeLibrary="0"
 						ObjectFile="$(IntDir)\cxx\"
 					/>
 				</FileConfiguration>
@@ -626,7 +603,6 @@
 						Name="VCCLCompilerTool"
 						AdditionalIncludeDirectories="..\;..\..\;..\..\mpn\generic"
 						PreprocessorDefinitions="_WIN32"
-						RuntimeLibrary="0"
 						ObjectFile="$(IntDir)\cxx\"
 					/>
 				</FileConfiguration>
@@ -641,7 +617,6 @@
 						Name="VCCLCompilerTool"
 						AdditionalIncludeDirectories="..\;..\..\;..\..\mpn\generic"
 						PreprocessorDefinitions="_WIN32"
-						RuntimeLibrary="1"
 						ObjectFile="$(IntDir)\cxx\"
 						DebugInformationFormat="3"
 					/>
@@ -653,7 +628,6 @@
 						Name="VCCLCompilerTool"
 						AdditionalIncludeDirectories="..\;..\..\;..\..\mpn\generic"
 						PreprocessorDefinitions="_WIN32"
-						RuntimeLibrary="1"
 						ObjectFile="$(IntDir)\cxx\"
 						DebugInformationFormat="3"
 					/>
@@ -665,7 +639,6 @@
 						Name="VCCLCompilerTool"
 						AdditionalIncludeDirectories="..\;..\..\;..\..\mpn\generic"
 						PreprocessorDefinitions="_WIN32"
-						RuntimeLibrary="0"
 						ObjectFile="$(IntDir)\cxx\"
 					/>
 				</FileConfiguration>
@@ -676,7 +649,6 @@
 						Name="VCCLCompilerTool"
 						AdditionalIncludeDirectories="..\;..\..\;..\..\mpn\generic"
 						PreprocessorDefinitions="_WIN32"
-						RuntimeLibrary="0"
 						ObjectFile="$(IntDir)\cxx\"
 					/>
 				</FileConfiguration>
@@ -691,7 +663,6 @@
 						Name="VCCLCompilerTool"
 						AdditionalIncludeDirectories="..\;..\..\;..\..\mpn\generic"
 						PreprocessorDefinitions="_WIN32"
-						RuntimeLibrary="1"
 						ObjectFile="$(IntDir)\cxx\"
 						DebugInformationFormat="3"
 					/>
@@ -703,7 +674,6 @@
 						Name="VCCLCompilerTool"
 						AdditionalIncludeDirectories="..\;..\..\;..\..\mpn\generic"
 						PreprocessorDefinitions="_WIN32"
-						RuntimeLibrary="1"
 						ObjectFile="$(IntDir)\cxx\"
 						DebugInformationFormat="3"
 					/>
@@ -715,7 +685,6 @@
 						Name="VCCLCompilerTool"
 						AdditionalIncludeDirectories="..\;..\..\;..\..\mpn\generic"
 						PreprocessorDefinitions="_WIN32"
-						RuntimeLibrary="0"
 						ObjectFile="$(IntDir)\cxx\"
 					/>
 				</FileConfiguration>
@@ -726,7 +695,6 @@
 						Name="VCCLCompilerTool"
 						AdditionalIncludeDirectories="..\;..\..\;..\..\mpn\generic"
 						PreprocessorDefinitions="_WIN32"
-						RuntimeLibrary="0"
 						ObjectFile="$(IntDir)\cxx\"
 					/>
 				</FileConfiguration>
@@ -741,7 +709,6 @@
 						Name="VCCLCompilerTool"
 						AdditionalIncludeDirectories="..\;..\..\;..\..\mpn\generic"
 						PreprocessorDefinitions="_WIN32"
-						RuntimeLibrary="1"
 						ObjectFile="$(IntDir)\cxx\"
 						DebugInformationFormat="3"
 					/>
@@ -753,7 +720,6 @@
 						Name="VCCLCompilerTool"
 						AdditionalIncludeDirectories="..\;..\..\;..\..\mpn\generic"
 						PreprocessorDefinitions="_WIN32"
-						RuntimeLibrary="1"
 						ObjectFile="$(IntDir)\cxx\"
 						DebugInformationFormat="3"
 					/>
@@ -765,7 +731,6 @@
 						Name="VCCLCompilerTool"
 						AdditionalIncludeDirectories="..\;..\..\;..\..\mpn\generic"
 						PreprocessorDefinitions="_WIN32"
-						RuntimeLibrary="0"
 						ObjectFile="$(IntDir)\cxx\"
 					/>
 				</FileConfiguration>
@@ -776,7 +741,6 @@
 						Name="VCCLCompilerTool"
 						AdditionalIncludeDirectories="..\;..\..\;..\..\mpn\generic"
 						PreprocessorDefinitions="_WIN32"
-						RuntimeLibrary="0"
 						ObjectFile="$(IntDir)\cxx\"
 					/>
 				</FileConfiguration>
