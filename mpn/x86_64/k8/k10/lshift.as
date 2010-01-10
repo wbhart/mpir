@@ -62,7 +62,7 @@ threeormore:
 	mov     r8, rdx
 	lea     r9, [rsi+r8*8-16]
 	mov     r10, r9
-	and     r9, -16
+	and     r9, -9
 	movdqa  xmm3, [r9]
 	movdqa  xmm5, xmm3
 	psrlq   xmm3, xmm1
