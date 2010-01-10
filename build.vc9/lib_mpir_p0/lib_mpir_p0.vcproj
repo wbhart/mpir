@@ -28,7 +28,7 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
-				CommandLine="call ..\file_copy ..\config.p0 ..\..\config.h&#x0D;&#x0A;call ..\file_copy ..\..\mpn\x86w\gmp-mparam.h ..\..\gmp-mparam.h&#x0D;&#x0A;"
+				CommandLine="call ..\out_copy_rename ..\config.p0 ..\..\ config.h&#x0D;&#x0A;call ..\out_copy_rename ..\..\mpn\x86w\gmp-mparam.h ..\..\ gmp-mparam.h&#x0D;&#x0A;"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -88,7 +88,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="if not exist ..\dll\$(OutDir)\ md ..\dll\$(OutDir)\&#x0D;&#x0A;&#x0D;&#x0A;call ..\out_copy &quot;..\..\mpir.h&quot; &quot;$(TargetDir)&quot;&#x0D;&#x0A;call ..\out_copy &quot;..\..\config.h&quot; &quot;$(TargetDir)&quot;&#x0D;&#x0A;call ..\out_copy &quot;..\..\gmp-mparam.h&quot; &quot;$(TargetDir)&quot;&#x0D;&#x0A;call ..\out_copy_rename &quot;..\..\mpir.h&quot; &quot;$(TargetDir)\&quot; gmp.h&#x0D;&#x0A;&#x0D;&#x0A;call ..\out_copy &quot;..\..\mpir.h&quot; ..\lib\$(OutDir)\&#x0D;&#x0A;call ..\out_copy &quot;..\..\config.h&quot; ..\lib\$(OutDir)\&#x0D;&#x0A;call ..\out_copy &quot;..\..\gmp-mparam.h&quot; ..\lib\$(OutDir)\&#x0D;&#x0A;call ..\out_copy_rename &quot;..\..\mpir.h&quot; ..\lib\$(OutDir)\ gmp.h&#x0D;&#x0A;&#x0D;&#x0A;call ..\out_copy &quot;$(TargetDir)$(TargetName).lib&quot; ..\lib\$(OutDir)\&#x0D;&#x0A;call ..\out_copy &quot;$(TargetDir)$(TargetName).pdb&quot; ..\lib\$(OutDir)\&#x0D;&#x0A;&#x0D;&#x0A;echo $(ProjectDir)+$(OutDir)+$(TargetName)+$(TargetExt) &gt; ..\last_build.txt&#x0D;&#x0A;"
+				CommandLine="if not exist ..\dll\$(OutDir)\ md ..\dll\$(OutDir)\&#x0D;&#x0A;&#x0D;&#x0A;call ..\out_copy_rename &quot;..\..\mpir.h&quot; &quot;$(TargetDir)&quot; mpir.h&#x0D;&#x0A;call ..\out_copy_rename &quot;..\..\config.h&quot; &quot;$(TargetDir)&quot; config.h&#x0D;&#x0A;call ..\out_copy_rename &quot;..\..\gmp-mparam.h&quot; &quot;$(TargetDir)&quot; gmp-mparam.h&#x0D;&#x0A;call ..\out_copy_rename &quot;..\..\mpir.h&quot; &quot;$(TargetDir)&quot; gmp.h&#x0D;&#x0A;&#x0D;&#x0A;call ..\out_copy_rename &quot;..\..\mpir.h&quot; ..\lib\$(OutDir)\ mpir.h&#x0D;&#x0A;call ..\out_copy_rename &quot;..\..\config.h&quot; ..\lib\$(OutDir)\ config.h&#x0D;&#x0A;call ..\out_copy_rename &quot;..\..\gmp-mparam.h&quot; ..\lib\$(OutDir)\ gmp-mparam.h&#x0D;&#x0A;call ..\out_copy_rename &quot;..\..\mpir.h&quot; ..\lib\$(OutDir)\ gmp.h&#x0D;&#x0A;&#x0D;&#x0A;call ..\out_copy_rename &quot;$(TargetDir)$(TargetName).lib&quot; ..\lib\$(OutDir)\ &quot;$(TargetName).lib&quot;&#x0D;&#x0A;call ..\out_copy_rename &quot;$(TargetDir)$(TargetName).pdb&quot; ..\lib\$(OutDir)\ &quot;$(TargetName).pdb&quot;&#x0D;&#x0A;&#x0D;&#x0A;echo $(ProjectDir)+$(OutDir)+$(TargetName)+$(TargetExt) &gt; ..\last_build.txt&#x0D;&#x0A;"
 			/>
 		</Configuration>
 		<Configuration
@@ -100,7 +100,7 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
-				CommandLine="call ..\file_copy ..\config.p0 ..\..\config.h&#x0D;&#x0A;call ..\file_copy ..\..\mpn\x86w\gmp-mparam.h ..\..\gmp-mparam.h&#x0D;&#x0A;"
+				CommandLine="call ..\out_copy_rename ..\config.p0 ..\..\ config.h&#x0D;&#x0A;call ..\out_copy_rename ..\..\mpn\x86w\gmp-mparam.h ..\..\ gmp-mparam.h&#x0D;&#x0A;"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -160,7 +160,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="if not exist ..\dll\$(OutDir)\ md ..\dll\$(OutDir)\&#x0D;&#x0A;&#x0D;&#x0A;call ..\out_copy &quot;..\..\mpir.h&quot; &quot;$(TargetDir)&quot;&#x0D;&#x0A;call ..\out_copy &quot;..\..\config.h&quot; &quot;$(TargetDir)&quot;&#x0D;&#x0A;call ..\out_copy &quot;..\..\gmp-mparam.h&quot; &quot;$(TargetDir)&quot;&#x0D;&#x0A;call ..\out_copy_rename &quot;..\..\mpir.h&quot; &quot;$(TargetDir)\&quot; gmp.h&#x0D;&#x0A;&#x0D;&#x0A;call ..\out_copy &quot;..\..\mpir.h&quot; ..\lib\$(OutDir)\&#x0D;&#x0A;call ..\out_copy &quot;..\..\config.h&quot; ..\lib\$(OutDir)\&#x0D;&#x0A;call ..\out_copy &quot;..\..\gmp-mparam.h&quot; ..\lib\$(OutDir)\&#x0D;&#x0A;call ..\out_copy_rename &quot;..\..\mpir.h&quot; ..\lib\$(OutDir)\ gmp.h&#x0D;&#x0A;&#x0D;&#x0A;call ..\out_copy &quot;$(TargetDir)$(TargetName).lib&quot; ..\lib\$(OutDir)\&#x0D;&#x0A;call ..\out_copy &quot;$(TargetDir)$(TargetName).pdb&quot; ..\lib\$(OutDir)\&#x0D;&#x0A;&#x0D;&#x0A;echo $(ProjectDir)+$(OutDir)+$(TargetName)+$(TargetExt) &gt; ..\last_build.txt&#x0D;&#x0A;"
+				CommandLine="if not exist ..\dll\$(OutDir)\ md ..\dll\$(OutDir)\&#x0D;&#x0A;&#x0D;&#x0A;call ..\out_copy_rename &quot;..\..\mpir.h&quot; &quot;$(TargetDir)&quot; mpir.h&#x0D;&#x0A;call ..\out_copy_rename &quot;..\..\config.h&quot; &quot;$(TargetDir)&quot; config.h&#x0D;&#x0A;call ..\out_copy_rename &quot;..\..\gmp-mparam.h&quot; &quot;$(TargetDir)&quot; gmp-mparam.h&#x0D;&#x0A;call ..\out_copy_rename &quot;..\..\mpir.h&quot; &quot;$(TargetDir)&quot; gmp.h&#x0D;&#x0A;&#x0D;&#x0A;call ..\out_copy_rename &quot;..\..\mpir.h&quot; ..\lib\$(OutDir)\ mpir.h&#x0D;&#x0A;call ..\out_copy_rename &quot;..\..\config.h&quot; ..\lib\$(OutDir)\ config.h&#x0D;&#x0A;call ..\out_copy_rename &quot;..\..\gmp-mparam.h&quot; ..\lib\$(OutDir)\ gmp-mparam.h&#x0D;&#x0A;call ..\out_copy_rename &quot;..\..\mpir.h&quot; ..\lib\$(OutDir)\ gmp.h&#x0D;&#x0A;&#x0D;&#x0A;call ..\out_copy_rename &quot;$(TargetDir)$(TargetName).lib&quot; ..\lib\$(OutDir)\ &quot;$(TargetName).lib&quot;&#x0D;&#x0A;call ..\out_copy_rename &quot;$(TargetDir)$(TargetName).pdb&quot; ..\lib\$(OutDir)\ &quot;$(TargetName).pdb&quot;&#x0D;&#x0A;&#x0D;&#x0A;echo $(ProjectDir)+$(OutDir)+$(TargetName)+$(TargetExt) &gt; ..\last_build.txt&#x0D;&#x0A;"
 			/>
 		</Configuration>
 	</Configurations>

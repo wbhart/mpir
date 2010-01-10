@@ -468,6 +468,10 @@ typedef __mpq_struct *mpq_ptr;
 #endif
 #endif
 
+#if 0 && defined _MSC_VER
+#define __GMP_EXTERN_INLINE  static __inline
+#endif
+
 /* C++ always has "inline" and since it's a normal feature the linker should
    discard duplicate non-inlined copies, or if it doesn't then that's a
    problem for everyone, not just GMP.  */
