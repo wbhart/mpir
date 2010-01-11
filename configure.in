@@ -218,7 +218,9 @@ yes|no) ;;
 esac],
 [enable_fat=no])
 
-
+# Work around an autoconf bug
+MKDIR_P=@mkdir_p@
+AC_SUBST(MKDIR_P)
 
 tmp_host=`echo $host_cpu | sed 's/\./_/'`
 AC_DEFINE_UNQUOTED(HAVE_HOST_CPU_$tmp_host)
