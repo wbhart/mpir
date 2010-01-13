@@ -63,7 +63,7 @@ AUTOMAKE_OPTIONS = 1.8 gnu no-dependencies
 #        1.0.0    7:2:4    4:2:1   4:11:1
 #        1.1.0    7:3:4    4:3:1   4:12:1
 #        1.2.0    7:4:4    4:4:1   4:13:1
-#	 1.3.0	  8:0:0    4:5:1   0:0:0
+#	     1.3.0	  8:0:0    4:5:1   4:14:1 
 #
 # Starting at 3:0:0 is a slight abuse of the versioning system, but it
 # ensures we're past soname libgmp.so.2, which was used on Debian GNU/Linux
@@ -84,9 +84,9 @@ LIBGMPXX_LT_CURRENT = 4
 LIBGMPXX_LT_REVISION = 5
 LIBGMPXX_LT_AGE = 1
 
-LIBMP_LT_CURRENT = 0
-LIBMP_LT_REVISION = 0
-LIBMP_LT_AGE = 0
+LIBMP_LT_CURRENT = 4 
+LIBMP_LT_REVISION = 14 
+LIBMP_LT_AGE = 1 
 
 
 SUBDIRS = tests
