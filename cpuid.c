@@ -7,6 +7,8 @@ Copyright 2008 William Hart.
 
 Copyright 2009 Jason Moxham
 
+Copyright 2009 Gonzalo Tornaria
+
 This file is part of the MPIR Library.
 
 The MPIR Library is free software; you can redistribute it and/or modify
