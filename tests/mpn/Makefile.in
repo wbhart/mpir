@@ -61,7 +61,7 @@ check_PROGRAMS = t-asmtype$(EXEEXT) t-aors_1$(EXEEXT) \
 	t-neg$(EXEEXT) t-mulmod_2expp1$(EXEEXT) \
 	t-mulmod_2expm1$(EXEEXT) t-tdiv_q$(EXEEXT) \
 	t-sb_divappr_q$(EXEEXT) t-dc_divappr_q_n$(EXEEXT) \
-	$(am__EXEEXT_1)
+	t-invert$(EXEEXT) $(am__EXEEXT_1)
 @ENABLE_SHARED_TRUE@@ENABLE_STATIC_TRUE@am__append_1 = st_fat st_instrument
 subdir = tests/mpn
 DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in
@@ -149,6 +149,11 @@ t_instrument_SOURCES = t-instrument.c
 t_instrument_OBJECTS = t-instrument.$(OBJEXT)
 t_instrument_LDADD = $(LDADD)
 t_instrument_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
+	$(top_builddir)/libmpir.la
+t_invert_SOURCES = t-invert.c
+t_invert_OBJECTS = t-invert.$(OBJEXT)
+t_invert_LDADD = $(LDADD)
+t_invert_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
 	$(top_builddir)/libmpir.la
 t_iord_u_SOURCES = t-iord_u.c
 t_iord_u_OBJECTS = t-iord_u.$(OBJEXT)
@@ -240,8 +245,8 @@ LINK = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
 SOURCES = $(st_fat_SOURCES) $(st_instrument_SOURCES) t-addadd_n.c \
 	t-addsub_n.c t-aors_1.c t-asmtype.c t-dc_divappr_q_n.c \
 	t-divebyBm1of.c t-divebyff.c t-divrem_1.c t-fat.c t-get_d.c \
-	t-instrument.c t-iord_u.c t-lorrshift1.c t-mp_bases.c \
-	t-mullow_basecase.c t-mullowhigh.c t-mulmid.c \
+	t-instrument.c t-invert.c t-iord_u.c t-lorrshift1.c \
+	t-mp_bases.c t-mullow_basecase.c t-mullowhigh.c t-mulmid.c \
 	t-mulmod_2expm1.c t-mulmod_2expp1.c t-neg.c t-perfsqr.c \
 	t-redc_basecase.c t-sb_divappr_q.c t-scan.c t-subadd_n.c \
 	t-tdiv_q.c
@@ -249,10 +254,11 @@ DIST_SOURCES = $(am__st_fat_SOURCES_DIST) \
 	$(am__st_instrument_SOURCES_DIST) t-addadd_n.c t-addsub_n.c \
 	t-aors_1.c t-asmtype.c t-dc_divappr_q_n.c t-divebyBm1of.c \
 	t-divebyff.c t-divrem_1.c t-fat.c t-get_d.c t-instrument.c \
-	t-iord_u.c t-lorrshift1.c t-mp_bases.c t-mullow_basecase.c \
-	t-mullowhigh.c t-mulmid.c t-mulmod_2expm1.c t-mulmod_2expp1.c \
-	t-neg.c t-perfsqr.c t-redc_basecase.c t-sb_divappr_q.c \
-	t-scan.c t-subadd_n.c t-tdiv_q.c
+	t-invert.c t-iord_u.c t-lorrshift1.c t-mp_bases.c \
+	t-mullow_basecase.c t-mullowhigh.c t-mulmid.c \
+	t-mulmod_2expm1.c t-mulmod_2expp1.c t-neg.c t-perfsqr.c \
+	t-redc_basecase.c t-sb_divappr_q.c t-scan.c t-subadd_n.c \
+	t-tdiv_q.c
 ETAGS = etags
 CTAGS = ctags
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
@@ -494,6 +500,9 @@ t-get_d$(EXEEXT): $(t_get_d_OBJECTS) $(t_get_d_DEPENDENCIES)
 t-instrument$(EXEEXT): $(t_instrument_OBJECTS) $(t_instrument_DEPENDENCIES) 
 	@rm -f t-instrument$(EXEEXT)
 	$(LINK) $(t_instrument_OBJECTS) $(t_instrument_LDADD) $(LIBS)
+t-invert$(EXEEXT): $(t_invert_OBJECTS) $(t_invert_DEPENDENCIES) 
+	@rm -f t-invert$(EXEEXT)
+	$(LINK) $(t_invert_OBJECTS) $(t_invert_LDADD) $(LIBS)
 t-iord_u$(EXEEXT): $(t_iord_u_OBJECTS) $(t_iord_u_DEPENDENCIES) 
 	@rm -f t-iord_u$(EXEEXT)
 	$(LINK) $(t_iord_u_OBJECTS) $(t_iord_u_LDADD) $(LIBS)

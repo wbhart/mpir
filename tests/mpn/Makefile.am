@@ -28,7 +28,7 @@ check_PROGRAMS = t-asmtype t-aors_1 t-divrem_1 t-fat t-get_d \
   t-lorrshift1 t-divebyff t-addadd_n t-addsub_n t-subadd_n \
   t-redc_basecase t-divebyBm1of t-mullowhigh t-mullow_basecase \
   t-neg t-mulmod_2expp1 t-mulmod_2expm1 t-tdiv_q t-sb_divappr_q \
-  t-dc_divappr_q_n
+  t-dc_divappr_q_n t-invert 
   
 if ENABLE_STATIC
 if ENABLE_SHARED
