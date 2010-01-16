@@ -98,7 +98,8 @@ Features:
  * New generic functions mpn_rsh_divrem_hensel_qr_1_?
  * New generic mpn_tdiv_q function (based on mulmid/dc_divappr_q code)
  * Improved Windows timing code
- 
+ * Support for new Intel family 6, model 30
+
 Changes:
 
  * Removed requirement to type make install-gmpcompat
