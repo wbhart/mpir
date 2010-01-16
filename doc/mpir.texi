@@ -10049,6 +10049,10 @@ available online as INRIA Research Report 4475, June 2001,
 Marco Bodrato, Alberto Zanoni, ``Integer and Polynomial Multiplication: Towards optimal Toom-Cook Matrices'', ISAAC 2007 Proceedings, Ontario, Canada, July 29 - August 1, 2007, ACM Press. Available online at @uref{http://ln.bodrato.it/issac2007_pdf}
 
 @item
+Richard Brent and Paul Zimmermann, ``Modern Computer Algorithms'', ,
+version 0.4, November 2009, @uref{http://www.loria.fr/~zimmerma/mca/mca-0.4.pdf}
+
+@item
 Christoph Burnikel and Joachim Ziegler, ``Fast Recursive Division'',
 Max-Planck-Institut fuer Informatik Research Report MPI-I-98-1-022,
 @texlinebreak{} @uref{http://data.mpi-sb.mpg.de/internet/reports.nsf/NumberView/1998-1-022}
