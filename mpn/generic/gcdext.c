@@ -1127,7 +1127,7 @@ mpn_gcdext (mp_ptr gp, mp_ptr s0p, mp_size_t *s0size,
        return 1;
     }
     gp[0] = mpn_gcdinv_1(s0p, ap[0], bp[0]);
-    *s0size = 1;
+    *s0size = 1 - (s0p[0] == 0);
     return 1;
   }
 
