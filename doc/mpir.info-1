@@ -102,9 +102,9 @@ know that what they have is not what we distributed, so that any
 problems introduced by others will not reflect on our reputation.
 
    The precise conditions of the license for the MPIR library are found
-in the Lesser General Public License version 2.1 that accompanies the
+in the Lesser General Public License version 3 that accompanies the
 source code, see `COPYING.LIB'.  Certain demonstration programs are
-provided under the terms of the plain General Public License version 2,
+provided under the terms of the plain General Public License version 3,
 see `COPYING'.
 
 
