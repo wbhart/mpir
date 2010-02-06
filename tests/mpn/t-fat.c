@@ -164,7 +164,7 @@ check_functions (void)
   for (i = 0; i < 2; i++)
     {
       xp[0] = 290;
-      r = mpn_divrem_euclidean_qr_1 (wp, xp, (mp_size_t) 1, CNST_LIMB(7));
+      r = mpn_divrem_euclidean_qr_1 (wp, 0, xp, (mp_size_t) 1, CNST_LIMB(7));
       ASSERT_ALWAYS (wp[0] == 41);
       ASSERT_ALWAYS (r == 3);
     }

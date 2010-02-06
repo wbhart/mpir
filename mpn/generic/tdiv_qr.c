@@ -82,11 +82,7 @@ mpn_tdiv_qr (mp_ptr qp, mp_ptr rp, mp_size_t qxn,
 	    n2p = (mp_ptr) TMP_ALLOC ((nn + 1) * BYTES_PER_MP_LIMB);
 	    cy = mpn_lshift (n2p, np, nn, cnt);
 	    n2p[nn] = cy;
-            #if HAVE_NATIVE_mpn_divrem_euclidean_qr_2
-	    qhl = mpn_divrem_euclidean_qr_2 (qp, n2p, nn + (cy != 0), d2p);
-	    #else
-	    qhl = mpn_divrem_2 (qp, 0L, n2p, nn + (cy != 0), d2p);
-	    #endif
+       qhl = mpn_divrem_2 (qp, 0L, n2p, nn + (cy != 0), d2p);
 	    if (cy == 0)
 	      qp[nn - 2] = qhl;	/* always store nn-2+1 quotient limbs */
             rp[0] = (n2p[0] >> cnt)
@@ -98,11 +94,7 @@ mpn_tdiv_qr (mp_ptr qp, mp_ptr rp, mp_size_t qxn,
 	    d2p = (mp_ptr) dp;
 	    n2p = (mp_ptr) TMP_ALLOC (nn * BYTES_PER_MP_LIMB);
 	    MPN_COPY (n2p, np, nn);
-	    #if HAVE_NATIVE_mpn_divrem_euclidean_qr_2
-	    qhl = mpn_divrem_euclidean_qr_2 (qp, n2p, nn, d2p);
-	    #else
 	    qhl = mpn_divrem_2 (qp, 0L, n2p, nn, d2p);
-	    #endif
 	    qp[nn - 2] = qhl;	/* always store nn-2+1 quotient limbs */
             rp[0] = n2p[0];
             rp[1] = n2p[1];
@@ -304,11 +296,7 @@ mpn_tdiv_qr (mp_ptr qp, mp_ptr rp, mp_size_t qxn,
 		qp[0] = q0;
 	      }
 	    else if (qn == 2)
-	      #if HAVE_NATIVE_mpn_divrem_euclidean_qr_2
-	      mpn_divrem_euclidean_qr_2 (qp, n2p, 4L, d2p);
-	      #else
 	      mpn_divrem_2 (qp, 0L, n2p, 4L, d2p);	      
-	      #endif
 	    else if (qn < DIV_DC_THRESHOLD)
 	      mpn_sb_divrem_mn (qp, n2p, 2 * qn, d2p, qn);
 	    else

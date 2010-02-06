@@ -1076,7 +1076,7 @@ param_init (void)
   p->src[0] = 1;
   p->divisor = DIVISOR_LIMB;
   p->dst[0] = 1;
-  REFERENCE (refmpn_divrem_euclidean_qr_1);
+  REFERENCE (refmpn_divrem_1);
 
   p = &param[TYPE_DIVREM_EUCLIDEAN_R_1];
   p->retval = 1;
@@ -2575,7 +2575,6 @@ call (struct each_t *e, tryfun_t function)
   case TYPE_DIVREM_HENSEL_QR_1:
   case TYPE_DIVREM_HENSEL_QR_1_1:
   case TYPE_DIVREM_HENSEL_QR_1_2:
-  case TYPE_DIVREM_EUCLIDEAN_QR_1:
   case TYPE_DIVMOD_1:
   case TYPE_DIVEXACT_1:
     e->retval = CALLING_CONVENTIONS (function)
@@ -2600,6 +2599,7 @@ call (struct each_t *e, tryfun_t function)
     e->retval = CALLING_CONVENTIONS (function)
       (e->d[0].p, e->s[0].p, size, divisor, carry);
     break;
+  case TYPE_DIVREM_EUCLIDEAN_QR_1:
   case TYPE_DIVREM_1:
     e->retval = CALLING_CONVENTIONS (function)
       (e->d[0].p, size2, e->s[0].p, size, divisor);

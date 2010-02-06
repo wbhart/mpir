@@ -173,7 +173,7 @@ mpn_rootrem_basecase (mp_ptr rootp, mp_ptr remp,mp_srcptr up, mp_size_t un, mp_l
       qp[xn] = cy;
       qn = xn + (cy != 0);
 
-      mpn_divrem_euclidean_qr_1 (xp, qp, qn, nth);
+      mpn_divrem_1 (xp, 0, qp, qn, nth);
       n_valid_bits = n_valid_bits * 2 - adj;
     }
 

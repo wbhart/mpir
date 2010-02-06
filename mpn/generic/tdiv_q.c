@@ -13,7 +13,7 @@
    complexity of multiplication.
 
 Copyright 1997, 2000, 2001, 2002, 2005 Free Software Foundation, Inc.
-Copyright 2009 William Hart
+Copyright 2009, 2010 William Hart
 
 This file is part of the MPIR Library.
 
@@ -61,7 +61,7 @@ mpn_tdiv_q (mp_ptr qp, mp_srcptr np, mp_size_t nn,
 
     case 1:
       {
-	mpn_divmod_1 (qp, np, nn, dp[0]);
+  	mpn_divmod_1 (qp, np, nn, dp[0]);
 	return;
       }
 
@@ -82,11 +82,7 @@ mpn_tdiv_q (mp_ptr qp, mp_srcptr np, mp_size_t nn,
 	    n2p = (mp_ptr) TMP_ALLOC_LIMBS (nn + 1);
 	    cy = mpn_lshift (n2p, np, nn, cnt);
 	    n2p[nn] = cy;
-#if HAVE_NATIVE_mpn_divrem_euclidean_qr_2
-	    qhl = mpn_divrem_euclidean_qr_2 (qp, n2p, nn + (cy != 0), d2p);
-#else
 	    qhl = mpn_divrem_2 (qp, 0L, n2p, nn + (cy != 0), d2p);
-#endif
 	    if (cy == 0)
 	      qp[nn - 2] = qhl;	/* always store nn-2+1 quotient limbs */
 	  }
@@ -95,11 +91,7 @@ mpn_tdiv_q (mp_ptr qp, mp_srcptr np, mp_size_t nn,
 	    d2p = (mp_ptr) dp;
 	    n2p = (mp_ptr) TMP_ALLOC_LIMBS (nn);
 	    MPN_COPY (n2p, np, nn);
-#if HAVE_NATIVE_mpn_divrem_euclidean_qr_2
-	    qhl = mpn_divrem_euclidean_qr_2 (qp, n2p, nn, d2p);
-#else
 	    qhl = mpn_divrem_2 (qp, 0L, n2p, nn, d2p);
-#endif
 	    qp[nn - 2] = qhl;	/* always store nn-2+1 quotient limbs */
 	  }
 	TMP_FREE;
@@ -294,11 +286,7 @@ mpn_tdiv_q (mp_ptr qp, mp_srcptr np, mp_size_t nn,
 	    else if (qn == 2)
        {
          MPN_COPY(n3p, n2p, 2 * qn);
-#if HAVE_NATIVE_mpn_divrem_euclidean_qr_2
-	      mpn_divrem_euclidean_qr_2 (qp, n3p, 4L, d2p);
-#else
 	      mpn_divrem_2 (qp, 0L, n3p, 4L, d2p);	      
-#endif
        }
        else if (qn < DIV_DC_THRESHOLD)
        {

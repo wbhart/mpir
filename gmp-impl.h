@@ -76,7 +76,7 @@ MA 02110-1301, USA. */
 #define DECL_divrem_1(name) \
   mp_limb_t name __GMP_PROTO ((mp_ptr, mp_size_t, mp_srcptr, mp_size_t, mp_limb_t))
 #define DECL_divrem_euclidean_qr_1(name) \
-  mp_limb_t name __GMP_PROTO ((mp_ptr, mp_srcptr, mp_size_t, mp_limb_t))
+  mp_limb_t name __GMP_PROTO ((mp_ptr, mp_size_t, mp_srcptr, mp_size_t, mp_limb_t))
 #define DECL_divrem_euclidean_qr_2(name) \
   mp_limb_t name __GMP_PROTO ((mp_ptr, mp_ptr, mp_size_t, mp_srcptr))
 #define DECL_gcd_1(name) \
@@ -1001,7 +1001,7 @@ __GMP_DECLSPEC void mpn_redc_2 __GMP_PROTO ((mp_ptr, mp_ptr, mp_srcptr, mp_size_
 
 #ifndef mpn_divrem_euclidean_qr_1    /* if not done with cpuvec in a fat binary */
 #define mpn_divrem_euclidean_qr_1 __MPN(divrem_euclidean_qr_1)
-__GMP_DECLSPEC mp_limb_t mpn_divrem_euclidean_qr_1 __GMP_PROTO ((mp_ptr, mp_srcptr, mp_size_t,mp_limb_t));
+__GMP_DECLSPEC mp_limb_t mpn_divrem_euclidean_qr_1 __GMP_PROTO ((mp_ptr, mp_size_t, mp_srcptr, mp_size_t,mp_limb_t));
 #endif
 
 #ifndef mpn_divrem_euclidean_qr_2    /* if not done with cpuvec in a fat binary */

@@ -61,12 +61,16 @@ dnl  Boston, MA 02110-1301, USA.
 #endif
 
 #if STORE_QUOTIENT
-mp_limb_t	mpn_divrem_euclidean_qr_1(mp_ptr qp,mp_srcptr xp,mp_size_t n,mp_limb_t d)
+mp_limb_t	mpn_divrem_euclidean_qr_1(mp_ptr qp,mp_size_t qxn, mp_srcptr xp,mp_size_t n,mp_limb_t d)
 #else
 mp_limb_t	mpn_divrem_euclidean_r_1(mp_srcptr xp,mp_size_t n,mp_limb_t d)
 #endif
 {mp_size_t j;
  mp_limb_t r=0,s=0,h,l,q,i;
+
+#if STORE_QUOTIENT
+ASSERT_ALWAYS(qxn==0);
+#endif
 
 ASSERT(n>0);ASSERT(d!=0);ASSERT_MPN(xp,n);
 #if STORE_QUOTIENT

@@ -597,7 +597,7 @@ speed_mpn_rshift2 (struct speed_params *s)
 double
 speed_mpn_divrem_euclidean_qr_1 (struct speed_params *s)
 {
-  SPEED_ROUTINE_MPN_UNARY_1 (mpn_divrem_euclidean_qr_1);
+  SPEED_ROUTINE_MPN_DIVREM_1 (mpn_divrem_euclidean_qr_1);
 }
 
 double
