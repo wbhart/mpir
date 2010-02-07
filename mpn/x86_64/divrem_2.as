@@ -3,7 +3,7 @@
 
 ;  Copyright 2007, 2008 Free Software Foundation, Inc.
 
-;  Copyright Brian Gladman 2010
+;  Copyright Brian Gladman 2010 (Conversion to yasm format)
 
 ;  This file is part of the GNU MP Library.
 
