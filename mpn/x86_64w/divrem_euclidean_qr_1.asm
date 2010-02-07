@@ -208,7 +208,7 @@
 
 	test    r8, r8
 	js      .3
-	mov     cl, [rsp+40]
+	mov     cl, [rsp+stack_use+0x38]
 	shl     r8, cl
 	jmp     .7
 	
