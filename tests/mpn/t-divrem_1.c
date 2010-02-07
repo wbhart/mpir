@@ -99,7 +99,7 @@ check_data (void)
       if (got_r != data[i].want_r
           || refmpn_cmp (got_q, data[i].want_q, qsize) != 0)
         {
-          printf        ("mpn_preinv divrem_1 wrong at data[%d]\n", i);
+          printf        ("mpn_preinv_divrem_1 wrong at data[%d]\n", i);
           printf        ("  shift=%d\n", shift);
           mp_limb_trace ("  dinv", dinv);
           goto bad;
