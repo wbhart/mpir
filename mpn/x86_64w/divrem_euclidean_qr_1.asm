@@ -1,92 +1,347 @@
 
-;  Copyright 2008 Jason Moxham
-;
-;  Windows Conversion Copyright 2008 Brian Gladman
-;
-;  This file is part of the MPIR Library.
-;
-;  The MPIR Library is free software; you can redistribute it and/or modify
+;  x86-64 mpn_divrem_euclidean_qr_1 -- mpn by limb division.
+
+;  Copyright 2004, 2005, 2007, 2008, 2009 Free Software Foundation, Inc.
+
+;  Copyright Brian Gladman 2010 (Conversion to yasm format)
+
+;  This file is part of the GNU MP Library.
+
+;  The GNU MP Library is free software; you can redistribute it and/or modify
 ;  it under the terms of the GNU Lesser General Public License as published
-;  by the Free Software Foundation; either version 2.1 of the License, or (at
+;  by the Free Software Foundation; either version 3 of the License, or (at
 ;  your option) any later version.
-;  The MPIR Library is distributed in the hope that it will be useful, but
+
+;  The GNU MP Library is distributed in the hope that it will be useful, but
 ;  WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
 ;  or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public
 ;  License for more details.
+
 ;  You should have received a copy of the GNU Lesser General Public License
-;  along with the MPIR Library; see the file COPYING.LIB.  If not, write
-;  to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
-;  Boston, MA 02110-1301, USA.
-;
-;  mp_limb_t mpn_divrem_euclidean_qr_1(mp_ptr, mp_ptr, mp_size_t, mp_limb_t)
-;  rax                                    rdi     rsi        rdx        rcx
-;  rax                                    rcx     rdx        r8d         r9
 
-%include "yasm_mac.inc"
+;	mp_limb_t mpn_divrem_euclidean_qr_1(mp_ptr, mp_size_t, mp_ptr, mp_size_t, mp_limb_t)
+;	mp_limb_t mpn_preinv_divrem_1(mp_ptr, mp_size_t, mp_ptr, mp_size_t, mp_limb_t, mp_limb_t, int)
 
-%define reg_save_list rsi, rdi, rbp, r12, r13, r14, r15
+%include 'yasm_mac.inc'
 
     BITS 64
+	TEXT
 
-    FRAME_PROC mpn_divrem_euclidean_qr_1, 0, reg_save_list
-    mov     rdi, rcx
-    mov     rsi, rdx
-    movsxd  r14, r8d
+%define reg_save_list   rbx, rbp, rsi, rdi, r12, r13
 
-    xor     r15, r15
-    bsr     rcx, r9
-    xor     rcx, 63
-    shl     r9, cl
-    xor     r11, r11
+%define SPECIAL_CODE_FOR_NORMALIZED_DIVISOR
 
-    mov     rdx, r9
-    not     rdx
-    xor     rax, rax
-    not     rax
-    div     r9
-    mov     r8, rax
-    xor     rax, rax
-    xor     rbp, rbp
+	xalign  16
+	WIN64_GCC_PROC mpn_divrem_euclidean_qr_1, 5, frame
+	xor     eax, eax
+	mov     r12, rsi
+	mov     rbx, rcx
+	add     rcx, rsi
+	mov     rsi, rdx
+	je      .17
 
-    xalign   16
-.1: 
-	mov     r13, [rsi+r14*8-8]
-    mov     r12, r13
-    neg     rcx
-    cmovnc  r13, r15
-    shr     r13, cl
-    neg     rcx
-    shl     r12, cl
-    mov     r10, r12
-    sar     r10, 63
-    add     rax, r13
-    sub     rax, r10
-    add     rax, r11
-    add     r11, r13
-    add     r11, rbp
-    mul     r8
-    mov     r13, r11
-    and     r10, r9
-    add     r10, r12
-    add     rax, r10
-    mov     r10, r11
-    adc     r10, rdx
-    not     r10
-    mov     rax, r9
-    mul     r10
-    sub     r13, r9
-    add     rax, r12
-    mov     r11, r9
-    adc     rdx, r13
-    and     r11, rdx
-    mov     rbp, rax
-    sub     rdx, r10
-    mov     [rdi+r14*8-8], rdx
-    dec     r14
-    jnz     .1
-    add     r11, rax
-    shr     r11, cl
-    mov     rax, r11
-    END_PROC reg_save_list
+	lea     rdi, [rdi+rcx*8-8]
+	xor     ebp, ebp
+
+%ifdef  SPECIAL_CODE_FOR_NORMALIZED_DIVISOR
+
+	test    r8, r8
+	jns     .6
+
+	test    rbx, rbx
+	je      .1
+	mov     rbp, [rsi+rbx*8-8]
+	dec     rbx
+	mov     rax, rbp
+	sub     rbp, r8
+	cmovb   rbp, rax
+	sbb     eax, eax
+	inc     eax
+	mov     [rdi], rax
+	lea     rdi, [rdi-8]
+.1: mov     rdx, r8
+	mov     rax, -1
+	not     rdx
+	div     r8
+	mov     r9, rax
+	mov     rax, rbp
+	jmp     .4
+
+	xalign  16
+.2: mov     r10, [rsi+rbx*8]
+	lea     rbp, [rax+1]
+	mul     r9
+	add     rax, r10
+	adc     rdx, rbp
+	mov     rbp, rax
+	mov     r13, rdx
+	imul    rdx, r8
+	sub     r10, rdx
+	mov     rax, r8
+	add     rax, r10
+	cmp     r10, rbp
+	cmovb   rax, r10
+	adc     r13, -1
+	cmp     rax, r8
+	jae     .5
+.3: mov     [rdi], r13
+	sub     rdi, 8
+.4: dec     rbx
+	jns     .2
+	xor     ecx, ecx
+	jmp     .14
+.5: sub     rax, r8
+	inc     r13
+	jmp     .3
+	
+%endif
+
+.6: test    rbx, rbx
+	je      .7
+	mov     rax, [rsi+rbx*8-8]
+	cmp     rax, r8
+	jae     .7
+	mov     [rdi], rbp
+	mov     rbp, rax
+	lea     rdi, [rdi-8]
+	je      .17
+	dec     rbx
+.7: bsr     rcx, r8
+	not     ecx
+	sal     r8, cl
+	sal     rbp, cl
+	mov     rdx, r8
+	mov     rax, -1
+	not     rdx
+	div     r8
+	test    rbx, rbx
+	mov     r9, rax
+	mov     rax, rbp
+	je      .14
+	mov     rbp, [rsi+rbx*8-8]
+	shr     rax, cl
+	shld    rax, rbp, cl
+	sub     rbx, 2
+	js      .10
+
+	xalign  16
+.8: nop
+	mov     r10, [rsi+rbx*8]
+	lea     r11, [rax+1]
+	shld    rbp, r10, cl
+	mul     r9
+	add     rax, rbp
+	adc     rdx, r11
+	mov     r11, rax
+	mov     r13, rdx
+	imul    rdx, r8
+	sub     rbp, rdx
+	mov     rax, r8
+	add     rax, rbp
+	cmp     rbp, r11
+	cmovb   rax, rbp
+	adc     r13, -1
+	cmp     rax, r8
+	jae     .12
+.9: mov     [rdi], r13
+	sub     rdi, 8
+	dec     rbx
+	mov     rbp, r10
+	jns     .8
+.10:lea     r11, [rax+1]
+	sal     rbp, cl
+	mul     r9
+	add     rax, rbp
+	adc     rdx, r11
+	mov     r11, rax
+	mov     r13, rdx
+	imul    rdx, r8
+	sub     rbp, rdx
+	mov     rax, r8
+	add     rax, rbp
+	cmp     rbp, r11
+	cmovb   rax, rbp
+	adc     r13, -1
+	cmp     rax, r8
+	jae     .13
+.11:mov     [rdi], r13
+	sub     rdi, 8
+	jmp     .14
+.12:sub     rax, r8
+	inc     r13
+	jmp     .9
+.13:sub     rax, r8
+	inc     r13
+	jmp     .11
+.14:mov     rbp, r8
+	neg     rbp
+	jmp     .16
+
+	xalign  16
+.15:lea     r11, [rax+1]
+	mul     r9
+	add     rdx, r11
+	mov     r11, rax
+	mov     r13, rdx
+	imul    rdx, rbp
+	mov     rax, r8
+	add     rax, rdx
+	cmp     rdx, r11
+	cmovb   rax, rdx
+	adc     r13, -1
+	mov     [rdi], r13
+	sub     rdi, 8
+.16:dec     r12
+	jns     .15
+	shr     rax, cl
+.17:
+	WIN64_GCC_END
+
+	xalign  16
+	WIN64_GCC_PROC mpn_preinv_divrem_1, 7, frame
+	xor     eax, eax
+	mov     r12, rsi
+	mov     rbx, rcx
+	add     rcx, rsi
+	mov     rsi, rdx
+	lea     rdi, [rdi+rcx*8-8]
+
+	test    r8, r8
+	js      .3
+	mov     cl, [rsp+40]
+	shl     r8, cl
+	jmp     .7
+	
+%ifdef  SPECIAL_CODE_FOR_NORMALIZED_DIVISOR
+
+	xalign  16
+.1: mov     r10, [rsi+rbx*8]
+	lea     rbp, [rax+1]
+	mul     r9
+	add     rax, r10
+	adc     rdx, rbp
+	mov     rbp, rax
+	mov     r13, rdx
+	imul    rdx, r8
+	sub     r10, rdx
+	mov     rax, r8
+	add     rax, r10
+	cmp     r10, rbp
+	cmovb   rax, r10
+	adc     r13, -1
+	cmp     rax, r8
+	jae     .4
+.2: mov     [rdi], r13
+	sub     rdi, 8
+.3: dec     rbx
+	jns     .1
+	xor     ecx, ecx
+	jmp     .14
+.4: sub     rax, r8
+	inc     r13
+	jmp     .2
+	
+%endif
+
+.5: test    rbx, rbx
+	je      .6
+	mov     rax, [rsi+rbx*8-8]
+	cmp     rax, r8
+	jae     .6
+	mov     [rdi], rbp
+	mov     rbp, rax
+	lea     rdi, [rdi-8]
+	je      .17
+	dec     rbx
+.6: bsr     rcx, r8
+	not     ecx
+	sal     r8, cl
+	sal     rbp, cl
+	mov     rdx, r8
+	mov     rax, -1
+	not     rdx
+	div     r8
+	test    rbx, rbx
+	mov     r9, rax
+	mov     rax, rbp
+	je      .14
+.7: mov     rbp, [rsi+rbx*8-8]
+	shr     rax, cl
+	shld    rax, rbp, cl
+	sub     rbx, 2
+	js      .10
+
+	xalign  16
+.8: nop
+	mov     r10, [rsi+rbx*8]
+	lea     r11, [rax+1]
+	shld    rbp, r10, cl
+	mul     r9
+	add     rax, rbp
+	adc     rdx, r11
+	mov     r11, rax
+	mov     r13, rdx
+	imul    rdx, r8
+	sub     rbp, rdx
+	mov     rax, r8
+	add     rax, rbp
+	cmp     rbp, r11
+	cmovb   rax, rbp
+	adc     r13, -1
+	cmp     rax, r8
+	jae     .12
+.9: mov     [rdi], r13
+	sub     rdi, 8
+	dec     rbx
+	mov     rbp, r10
+	jns     .8
+.10:lea     r11, [rax+1]
+	sal     rbp, cl
+	mul     r9
+	add     rax, rbp
+	adc     rdx, r11
+	mov     r11, rax
+	mov     r13, rdx
+	imul    rdx, r8
+	sub     rbp, rdx
+	mov     rax, r8
+	add     rax, rbp
+	cmp     rbp, r11
+	cmovb   rax, rbp
+	adc     r13, -1
+	cmp     rax, r8
+	jae     .13
+.11:mov     [rdi], r13
+	sub     rdi, 8
+	jmp     .14
+.12:sub     rax, r8
+	inc     r13
+	jmp     .9
+.13:sub     rax, r8
+	inc     r13
+	jmp     .11
+.14:mov     rbp, r8
+	neg     rbp
+	jmp     .16
+
+	xalign  16
+.15:lea     r11, [rax+1]
+	mul     r9
+	add     rdx, r11
+	mov     r11, rax
+	mov     r13, rdx
+	imul    rdx, rbp
+	mov     rax, r8
+	add     rax, rdx
+	cmp     rdx, r11
+	cmovb   rax, rdx
+	adc     r13, -1
+	mov     [rdi], r13
+	sub     rdi, 8
+.16:dec     r12
+	jns     .15
+	shr     rax, cl
+.17:
+	WIN64_GCC_END
 
     end

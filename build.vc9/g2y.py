@@ -43,11 +43,10 @@ p_im = r'\s+\`?\$\'?([\+\-]?[0-9]+|0x[a-zA-Z0-9]+)'
 
 # regular expressions for labels
 
-if True :
-  p_lr = r'\s*([a-zA-Z$_][a-zA-Z0-9\$_]*|\.[0-9]+)'
-else :
-  p_lr = r'\s*L\(([a-zA-Z0-9\$_]+)\)'
+p_l1 = r'([a-zA-Z$_][a-zA-Z0-9\$_]*|\.[0-9]+)'
+p_l2 = r'L\(([a-zA-Z0-9\$_]+)\)'
 
+p_lr = r'\s*(?:' + p_l2 + r'|' + p_l1 + ')'
 p_la = p_lr + r'(:)'
 p_ri = p_lr + r'\(\%rip\)'
 p_jt = r'\s+\.long\s+' + p_lr + r'\-' + p_lr
@@ -152,8 +151,9 @@ def pass_three(code, labels, macros, level) :
 
     # labels
     m = m_la.search(l)
+    lp = '\n'
     if m :
-      l = l[ m.end(2) : -1 ]
+      l = l[ l.find(':') + 1 : -1 ]
       if mac_name :
         if m.group(1) in macros[mac_name][3] :
           ii = macros[mac_name][3][m.group(1)]
@@ -161,26 +161,27 @@ def pass_three(code, labels, macros, level) :
           print('internal error')
       else :
         ii = labels.index(m.group(1))
-      lab = re.sub('\$', '%', m.group(1))
-      if not l :
-        if mac_name :
-          lo += ['\n%%{0}:'.format(ii)]
-        elif dot_labels :
-          lo += ['\n.{0}:'.format(ii)]
+      if m.group(1):
+        lab = re.sub('\$', '%', m.group(1))
+        if not l :
+          if mac_name :
+            lo += ['\n%%{0}:'.format(ii)]
+          elif dot_labels :
+            lo += ['\n.{0}:'.format(ii)]
+          else :
+            lo += ['\nL_{0}:'.format(lab)]
+            continue
         else :
-          lo += ['\nL_{0}:'.format(lab)]
-        continue
-      else :
-        if mac_name :
-          lp = '\n%%{0}:'.format(ii)
-        elif dot_labels :
-          lp = '\n.{0}:'.format(ii)
-        else :
-          lp = '\nL_{0}:'.format(lab)
-      if lp :
-        lo += [lp]
-
-    lp = '\n'
+          if mac_name :
+            lp = '\n%%{0}:'.format(ii)
+          elif dot_labels :
+            lp = '\n.{0}:'.format(ii)
+          else :
+            lp = '\nL_{0}:'.format(lab)
+    if not len(l):
+      lo += [lp]
+      continue
+    
     m = re.search(r'^(\s*)#\s*(.*)', l)
     if m :
       v = list(m.groups())
@@ -191,6 +192,10 @@ def pass_three(code, labels, macros, level) :
     if m :
       lo += [lp + ';{0}'.format(m.group(1))]
       continue
+
+    m = re.search(r'(\s+C\s+)', l)
+    if m :
+      l = l[0 : m.start(1)]
 
     # three operand instructions
     m = m_fa.search(l)
@@ -337,7 +342,7 @@ def pass_three(code, labels, macros, level) :
     m = m_f9.search(l)
     if m :
       v = list(m.groups())
-      if v[1] in labels :
+      if v[1] and v[1] in labels :
         if debug :
           print(l, end = '')
         if mac_name and v[1] in macros[mac_name][3] :
