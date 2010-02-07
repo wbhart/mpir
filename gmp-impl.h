@@ -1653,12 +1653,12 @@ __GMP_DECLSPEC extern const mp_limb_t __gmp_fib_table[];
 #define SQR_TOOM3_THRESHOLD 128
 #endif
 
-#ifndef SQR_TOOM3_THRESHOLD
-#define SQR_TOOM3_THRESHOLD 400
+#ifndef SQR_TOOM4_THRESHOLD
+#define SQR_TOOM4_THRESHOLD 400
 #endif
 
-#ifndef SQR_TOOM3_THRESHOLD
-#define SQR_TOOM3_THRESHOLD 700
+#ifndef SQR_TOOM7_THRESHOLD
+#define SQR_TOOM7_THRESHOLD 700
 #endif
 
 /* See comments above about MUL_TOOM3_THRESHOLD_LIMIT.  */
