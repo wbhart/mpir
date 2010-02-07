@@ -886,7 +886,7 @@ void tc7_copy (mp_ptr yp, mp_size_t * yn, mp_size_t offset, mp_srcptr xp, mp_siz
    { \
       if (n1xx != 0) \
       {  mp_size_t len; \
-	      if (n1xx > MUL_TOOM7_THRESHOLD) mpn_toom7_sqr_n(r3xx, r1xx, n1xx); \
+	      if (n1xx > SQR_TOOM7_THRESHOLD) mpn_toom7_sqr_n(r3xx, r1xx, n1xx); \
          else mpn_sqr_n(r3xx, r1xx, n1xx); \
 		   len = 2*n1xx; \
 		   MPN_NORMALIZE(r3xx, len); \
