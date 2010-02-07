@@ -501,7 +501,7 @@ mpn_sqr_n (mp_ptr p, mp_srcptr a, mp_size_t n)
       ASSERT (SQR_TOOM3_THRESHOLD <= SQR_TOOM3_THRESHOLD_LIMIT);
       mpn_kara_sqr_n (p, a, n, ws);
     }
-  else if (BELOW_THRESHOLD (n, MUL_TOOM4_THRESHOLD))
+  else if (BELOW_THRESHOLD (n, SQR_TOOM4_THRESHOLD))
     {
       mp_ptr ws;
       TMP_SDECL;
@@ -510,7 +510,7 @@ mpn_sqr_n (mp_ptr p, mp_srcptr a, mp_size_t n)
       mpn_toom3_sqr_n (p, a, n, ws);
       TMP_SFREE;
     }
-  else if (BELOW_THRESHOLD (n, MUL_TOOM7_THRESHOLD))
+  else if (BELOW_THRESHOLD (n, SQR_TOOM7_THRESHOLD))
     {
        mpn_toom4_sqr_n (p, a, n);
     }
