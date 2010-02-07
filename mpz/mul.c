@@ -88,13 +88,22 @@ mult (mpz_srcptr u, mpz_srcptr v, mpz_ptr w)
 
   wsize = usize + vsize;
   
-  if ((wsize <= 32) && (w != u) && (w != v))
+  if ((wsize <= MUL_KARATSUBA_THRESHOLD) && (w != u) && (w != v))
   {
 	  MPZ_REALLOC (w, wsize);
      wp = PTR(w);
-     if (usize > vsize) mpn_mul_basecase(wp, PTR(u), usize, PTR(v), vsize);
-	  else mpn_mul_basecase(wp, PTR(v), vsize, PTR(u), usize);
-	  wsize -= (wp[wsize - 1] == 0);
+     if (usize == vsize)
+     {
+        if (PTR(u) == PTR(v)) 
+           mpn_sqr_basecase(wp, PTR(u), usize);
+        else
+           mpn_mul_basecase(wp, PTR(u), usize, PTR(v), vsize);
+     } else if (usize > vsize) 
+        mpn_mul_basecase(wp, PTR(u), usize, PTR(v), vsize);
+     else 
+        mpn_mul_basecase(wp, PTR(v), vsize, PTR(u), usize);
+               
+     wsize -= (wp[wsize - 1] == 0);
 	  SIZ(w) = (sign_product >= 0 ? wsize : -wsize);
      return;
   }
@@ -148,6 +157,11 @@ mult (mpz_srcptr u, mpz_srcptr v, mpz_ptr w)
 	}
     }
 
+  if ((up == vp) && (usize == vsize))
+  {
+     mpn_sqr_n (wp, up, usize);
+     cy_limb = wp[2*usize-1];
+  } else
   cy_limb = mpn_mul (wp, up, usize, vp, vsize);
   wsize = usize + vsize;
   wsize -= cy_limb == 0;
