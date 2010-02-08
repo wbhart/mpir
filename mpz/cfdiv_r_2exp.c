@@ -29,11 +29,11 @@ MA 02110-1301, USA. */
 
 /* dir==1 for ceil, dir==-1 for floor */
 
-static void __gmpz_cfdiv_r_2exp _PROTO ((REGPARM_3_1 (mpz_ptr w, mpz_srcptr u, unsigned long cnt, int dir))) REGPARM_ATTR (1);
+static void __gmpz_cfdiv_r_2exp _PROTO ((REGPARM_3_1 (mpz_ptr w, mpz_srcptr u, mp_bitcnt_t cnt, int dir))) REGPARM_ATTR (1);
 #define cfdiv_r_2exp(w,u,cnt,dir)  __gmpz_cfdiv_r_2exp (REGPARM_3_1 (w, u, cnt, dir))
 
 REGPARM_ATTR (1) static void
-cfdiv_r_2exp (mpz_ptr w, mpz_srcptr u, unsigned long cnt, int dir)
+cfdiv_r_2exp (mpz_ptr w, mpz_srcptr u, mp_bitcnt_t cnt, int dir)
 {
   mp_size_t  usize, abs_usize, limb_cnt, i;
   mp_srcptr  up;
@@ -145,13 +145,13 @@ cfdiv_r_2exp (mpz_ptr w, mpz_srcptr u, unsigned long cnt, int dir)
 
 
 void
-mpz_cdiv_r_2exp (mpz_ptr w, mpz_srcptr u, unsigned long cnt)
+mpz_cdiv_r_2exp (mpz_ptr w, mpz_srcptr u, mp_bitcnt_t cnt)
 {
   cfdiv_r_2exp (w, u, cnt, 1);
 }
 
 void
-mpz_fdiv_r_2exp (mpz_ptr w, mpz_srcptr u, unsigned long cnt)
+mpz_fdiv_r_2exp (mpz_ptr w, mpz_srcptr u, mp_bitcnt_t cnt)
 {
   cfdiv_r_2exp (w, u, cnt, -1);
 }

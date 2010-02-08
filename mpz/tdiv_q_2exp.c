@@ -24,7 +24,7 @@ MA 02110-1301, USA. */
 #include "gmp-impl.h"
 
 void
-mpz_tdiv_q_2exp (mpz_ptr w, mpz_srcptr u, unsigned long int cnt)
+mpz_tdiv_q_2exp (mpz_ptr w, mpz_srcptr u, mp_bitcnt_t cnt)
 {
   mp_size_t usize, wsize;
   mp_size_t limb_cnt;

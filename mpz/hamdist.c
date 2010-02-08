@@ -6,7 +6,7 @@ This file is part of the GNU MP Library.
 
 The GNU MP Library is free software; you can redistribute it and/or modify
 it under the terms of the GNU Lesser General Public License as published by
-the Free Software Foundation; either version 2.1 of the License, or (at your
+the Free Software Foundation; either version 3 of the License, or (at your
 option) any later version.
 
 The GNU MP Library is distributed in the hope that it will be useful, but
@@ -15,20 +15,18 @@ or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public
 License for more details.
 
 You should have received a copy of the GNU Lesser General Public License
-along with the GNU MP Library; see the file COPYING.LIB.  If not, write to
-the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
-MA 02110-1301, USA. */
+along with the GNU MP Library.  If not, see http://www.gnu.org/licenses/.  */
 
 #include "mpir.h"
 #include "gmp-impl.h"
 
 
-unsigned long
+mp_bitcnt_t
 mpz_hamdist (mpz_srcptr u, mpz_srcptr v)
 {
   mp_srcptr      up, vp;
   mp_size_t      usize, vsize;
-  unsigned long  count;
+  mp_bitcnt_t    count;
 
   usize = SIZ(u);
   vsize = SIZ(v);
@@ -39,7 +37,7 @@ mpz_hamdist (mpz_srcptr u, mpz_srcptr v)
   if (usize >= 0)
     {
       if (vsize < 0)
-        return ~ (unsigned long) 0;
+        return ~ (mp_bitcnt_t) 0;
 
       /* positive/positive */
 
@@ -62,7 +60,7 @@ mpz_hamdist (mpz_srcptr u, mpz_srcptr v)
       mp_size_t  old_vsize, step;
 
       if (vsize >= 0)
-        return ~ (unsigned long) 0;
+        return ~ (mp_limb_t) 0;
 
       /* negative/negative */
 
@@ -101,7 +99,7 @@ mpz_hamdist (mpz_srcptr u, mpz_srcptr v)
 
       if (vlimb == 0)
         {
-          unsigned long  twoscount;
+          mp_bitcnt_t  twoscount;
 
           /* first non-zero of v */
           old_vsize = vsize;

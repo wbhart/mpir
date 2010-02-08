@@ -24,7 +24,7 @@ MA 02110-1301, USA. */
 #include "gmp-impl.h"
 
 void
-mpz_setbit (mpz_ptr d, unsigned long int bit_index)
+mpz_setbit (mpz_ptr d, mp_bitcnt_t bit_index)
 {
   mp_size_t dsize = d->_mp_size;
   mp_ptr dp = d->_mp_d;

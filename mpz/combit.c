@@ -23,7 +23,7 @@ MA 02110-1301, USA. */
 #include "gmp-impl.h"
 
 void
-mpz_combit (mpz_ptr d, unsigned long int bit_index)
+mpz_combit (mpz_ptr d, mp_bitcnt_t bit_index)
 {
   mp_size_t dsize = ABSIZ(d);
   mp_ptr dp = LIMBS(d);

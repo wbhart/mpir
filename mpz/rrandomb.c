@@ -8,7 +8,7 @@ This file is part of the GNU MP Library.
 
 The GNU MP Library is free software; you can redistribute it and/or modify
 it under the terms of the GNU Lesser General Public License as published by
-the Free Software Foundation; either version 2.1 of the License, or (at your
+the Free Software Foundation; either version 3 of the License, or (at your
 option) any later version.
 
 The GNU MP Library is distributed in the hope that it will be useful, but
@@ -17,17 +17,15 @@ or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public
 License for more details.
 
 You should have received a copy of the GNU Lesser General Public License
-along with the GNU MP Library; see the file COPYING.LIB.  If not, write to
-the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
-MA 02110-1301, USA. */
+along with the GNU MP Library.  If not, see http://www.gnu.org/licenses/.  */
 
 #include "mpir.h"
 #include "gmp-impl.h"
 
-static void gmp_rrandomb _PROTO ((mp_ptr rp, gmp_randstate_t rstate, unsigned long int nbits));
+static void gmp_rrandomb _PROTO ((mp_ptr rp, gmp_randstate_t rstate, mp_bitcnt_t nbits));
 
 void
-mpz_rrandomb (mpz_ptr x, gmp_randstate_t rstate, unsigned long int nbits)
+mpz_rrandomb (mpz_ptr x, gmp_randstate_t rstate, mp_bitcnt_t nbits)
 {
   mp_size_t nl;
 
@@ -51,9 +49,9 @@ mpz_rrandomb (mpz_ptr x, gmp_randstate_t rstate, unsigned long int nbits)
 #endif
 
 static void
-gmp_rrandomb (mp_ptr rp, gmp_randstate_t rstate, unsigned long int nbits)
+gmp_rrandomb (mp_ptr rp, gmp_randstate_t rstate, mp_bitcnt_t nbits)
 {
-  unsigned long int bi;
+  mp_bitcnt_t bi;
   mp_limb_t ranm;		/* buffer for random bits */
   unsigned cap_chunksize, chunksize;
   mp_size_t i;

@@ -30,7 +30,7 @@ MA 02110-1301, USA. */
    inconsistent.  */
 
 void
-mpf_set_prec (mpf_ptr x, unsigned long int new_prec_in_bits)
+mpf_set_prec (mpf_ptr x, mp_bitcnt_t new_prec_in_bits)
 {
   mp_size_t  old_prec, new_prec, new_prec_plus1;
   mp_size_t  size, sign;

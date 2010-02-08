@@ -7,7 +7,7 @@ This file is part of the GNU MP Library.
 
 The GNU MP Library is free software; you can redistribute it and/or modify
 it under the terms of the GNU Lesser General Public License as published by
-the Free Software Foundation; either version 2.1 of the License, or (at your
+the Free Software Foundation; either version 3 of the License, or (at your
 option) any later version.
 
 The GNU MP Library is distributed in the hope that it will be useful, but
@@ -16,10 +16,7 @@ or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public
 License for more details.
 
 You should have received a copy of the GNU Lesser General Public License
-along with the GNU MP Library; see the file COPYING.LIB.  If not, write to
-the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
-MA 02110-1301, USA.
-*/
+along with the GNU MP Library.  If not, see http://www.gnu.org/licenses/.  */
 
 #include "mpir.h"
 #include "gmp-impl.h"
@@ -32,7 +29,7 @@ MA 02110-1301, USA.
 
 static void
 mord_2exp (mpz_ptr ldst, mpz_ptr rdst, mpz_srcptr lsrc, mpz_srcptr rsrc,
-           unsigned long n)
+           mp_bitcnt_t n)
 {
   mp_size_t  rsrc_size = SIZ(rsrc);
   mp_size_t  len = ABS (rsrc_size);
@@ -84,14 +81,14 @@ mord_2exp (mpz_ptr ldst, mpz_ptr rdst, mpz_srcptr lsrc, mpz_srcptr rsrc,
 
 
 void
-mpq_mul_2exp (mpq_ptr dst, mpq_srcptr src, unsigned long n)
+mpq_mul_2exp (mpq_ptr dst, mpq_srcptr src, mp_bitcnt_t n)
 {
   mord_2exp (mpq_numref (dst), mpq_denref (dst),
              mpq_numref (src), mpq_denref (src), n);
 }
 
 void
-mpq_div_2exp (mpq_ptr dst, mpq_srcptr src, unsigned long n)
+mpq_div_2exp (mpq_ptr dst, mpq_srcptr src, mp_bitcnt_t n)
 {
   if (SIZ (mpq_numref(src)) == 0)
     {

@@ -67,7 +67,7 @@ MA 02110-1301, USA. */
    then use that mpn_rshift.  */
 
 void
-mpf_div_2exp (mpf_ptr r, mpf_srcptr u, unsigned long int exp)
+mpf_div_2exp (mpf_ptr r, mpf_srcptr u, mp_bitcnt_t exp)
 {
   mp_srcptr up;
   mp_ptr rp = r->_mp_d;

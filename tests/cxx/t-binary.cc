@@ -117,7 +117,7 @@ check_mpz (void)
     mpz_class a(5), b(-4);
     signed int c = 3;
     mpz_class d;
-    d = (a * b) >> c; ASSERT_ALWAYS(d == -2);
+    d = (a * b) >> c; ASSERT_ALWAYS(d == -3);
   }
 
   // template <class T, class U, class V, class Op>

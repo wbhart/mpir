@@ -25,7 +25,7 @@ MA 02110-1301, USA. */
 mp_size_t __gmp_default_fp_limb_precision = __GMPF_BITS_TO_PREC (53);
 
 void
-mpf_set_default_prec (unsigned long int prec_in_bits)
+mpf_set_default_prec (mp_bitcnt_t prec_in_bits)
 {
   __gmp_default_fp_limb_precision = __GMPF_BITS_TO_PREC (prec_in_bits);
 }

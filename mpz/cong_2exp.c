@@ -6,7 +6,7 @@ This file is part of the GNU MP Library.
 
 The GNU MP Library is free software; you can redistribute it and/or modify
 it under the terms of the GNU Lesser General Public License as published by
-the Free Software Foundation; either version 2.1 of the License, or (at your
+the Free Software Foundation; either version 3 of the License, or (at your
 option) any later version.
 
 The GNU MP Library is distributed in the hope that it will be useful, but
@@ -15,18 +15,17 @@ or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public
 License for more details.
 
 You should have received a copy of the GNU Lesser General Public License
-along with the GNU MP Library; see the file COPYING.LIB.  If not, write to
-the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
-MA 02110-1301, USA. */
+along with the GNU MP Library.  If not, see http://www.gnu.org/licenses/.  */
 
 #include "mpir.h"
 #include "gmp-impl.h"
 
 
 int
-mpz_congruent_2exp_p (mpz_srcptr a, mpz_srcptr c, unsigned long d)
+mpz_congruent_2exp_p (mpz_srcptr a, mpz_srcptr c, mp_bitcnt_t d)
 {
-  unsigned long  i, dlimbs, dbits;
+  mp_size_t      i, dlimbs;
+  unsigned long  dbits;
   mp_ptr         ap, cp;
   mp_limb_t      dmask, alimb, climb, sum;
   mp_size_t      asize_signed, csize_signed, asize, csize;

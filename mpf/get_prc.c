@@ -22,7 +22,7 @@ MA 02110-1301, USA. */
 #include "mpir.h"
 #include "gmp-impl.h"
 
-unsigned long int
+mp_bitcnt_t
 mpf_get_prec (mpf_srcptr x)
 {
   return __GMPF_PREC_TO_BITS (x->_mp_prec);
