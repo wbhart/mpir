@@ -40,7 +40,7 @@ along with the GNU MP Library.  If not, see http://www.gnu.org/licenses/.  */
 #include <string>
 #include <stdexcept>
 #include <cfloat>
-#include <gmp.h>
+#include <mpir.h>
 
 
 /**************** Function objects ****************/
