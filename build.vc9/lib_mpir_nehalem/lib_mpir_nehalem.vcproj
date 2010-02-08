@@ -3567,6 +3567,7 @@
 					>
 					<FileConfiguration
 						Name="Debug|x64"
+						ExcludedFromBuild="true"
 						>
 						<Tool
 							Name="VCCLCompilerTool"
@@ -3575,6 +3576,7 @@
 					</FileConfiguration>
 					<FileConfiguration
 						Name="Release|x64"
+						ExcludedFromBuild="true"
 						>
 						<Tool
 							Name="VCCLCompilerTool"
@@ -4432,20 +4434,6 @@
 					<File
 						RelativePath="..\..\mpn\x86_64w\divrem_2.asm"
 						>
-						<FileConfiguration
-							Name="Debug|x64"
-							>
-							<Tool
-								Name="YASM"
-							/>
-						</FileConfiguration>
-						<FileConfiguration
-							Name="Release|x64"
-							>
-							<Tool
-								Name="YASM"
-							/>
-						</FileConfiguration>
 					</File>
 					<File
 						RelativePath="..\..\mpn\x86_64w\divrem_euclidean_qr_1.asm"

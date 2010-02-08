@@ -23,7 +23,7 @@ MA 02110-1301, USA. */
 #include "gmp-impl.h"
 
 void
-mpz_init2 (mpz_ptr x, unsigned long bits)
+mpz_init2 (mpz_ptr x, mp_bitcnt_t bits)
 {
   mp_size_t  limbs;
   limbs = (bits + GMP_NUMB_BITS-1) / GMP_NUMB_BITS;

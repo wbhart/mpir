@@ -911,7 +911,7 @@ __GMP_DECLSPEC void mpz_import __GMP_PROTO ((mpz_ptr, size_t, int, size_t, int, 
 __GMP_DECLSPEC void mpz_init __GMP_PROTO ((mpz_ptr));
 
 #define mpz_init2 __gmpz_init2
-__GMP_DECLSPEC void mpz_init2 __GMP_PROTO ((mpz_ptr, unsigned long));
+__GMP_DECLSPEC void mpz_init2 __GMP_PROTO ((mpz_ptr, mp_bitcnt_t));
 
 #define mpz_init_set __gmpz_init_set
 __GMP_DECLSPEC void mpz_init_set __GMP_PROTO ((mpz_ptr, mpz_srcptr));
@@ -1052,7 +1052,7 @@ __GMP_DECLSPEC int mpz_probable_prime_p __GMP_PROTO ((mpz_srcptr,gmp_randstate_t
 __GMP_DECLSPEC int mpz_likely_prime_p __GMP_PROTO ((mpz_srcptr,gmp_randstate_t, unsigned long));
 
 #define mpz_realloc2 __gmpz_realloc2
-__GMP_DECLSPEC void mpz_realloc2 __GMP_PROTO ((mpz_ptr, unsigned long));
+__GMP_DECLSPEC void mpz_realloc2 __GMP_PROTO ((mpz_ptr, mp_bitcnt_t));
 
 #define mpz_remove __gmpz_remove
 __GMP_DECLSPEC unsigned long int mpz_remove __GMP_PROTO ((mpz_ptr, mpz_srcptr, mpz_srcptr));
@@ -1379,7 +1379,7 @@ __GMP_DECLSPEC unsigned long mpf_get_ui __GMP_PROTO ((mpf_srcptr)) __GMP_NOTHROW
 __GMP_DECLSPEC void mpf_init __GMP_PROTO ((mpf_ptr));
 
 #define mpf_init2 __gmpf_init2
-__GMP_DECLSPEC void mpf_init2 __GMP_PROTO ((mpf_ptr, unsigned long int));
+__GMP_DECLSPEC void mpf_init2 __GMP_PROTO ((mpf_ptr, mp_bitcnt_t));
 
 #define mpf_init_set __gmpf_init_set
 __GMP_DECLSPEC void mpf_init_set __GMP_PROTO ((mpf_ptr, mpf_srcptr));
