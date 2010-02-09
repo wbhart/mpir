@@ -62,7 +62,7 @@ mpn_dc_divappr_q (mp_ptr qp, mp_ptr np, mp_size_t nn,
       qp -= qn;			/* point at low limb of next quotient block */
       np -= qn;			/* point in the middle of partial remainder */
 
-      tp = TMP_SALLOC_LIMBS (dn);
+      tp = TMP_SALLOC_LIMBS (10*dn);
 
       /* Perform the typically smaller block first.  */
       if (qn == 1)

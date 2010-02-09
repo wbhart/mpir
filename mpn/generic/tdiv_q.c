@@ -116,14 +116,14 @@ mpn_tdiv_q (mp_ptr qp,
 
   ASSERT_ALWAYS (FUDGE >= 2);
   
-  scratch = TMP_ALLOC_LIMBS(nn + 1);
-  
   if (dn == 1)
     {
       mpn_divrem_1 (qp, 0L, np, nn, dp[dn - 1]);
       return;
     }
 
+  scratch = TMP_ALLOC_LIMBS(nn + 1);
+  
   qn = nn - dn + 1;		/* Quotient size, high limb might be zero */
 
   if (qn + FUDGE >= dn)
@@ -203,10 +203,10 @@ mpn_tdiv_q (mp_ptr qp,
 		   (double) (2 * (FFT_DIV_Q_THRESHOLD - FFT_PI_DIV_Q_THRESHOLD)) * dn /* slow... */
 		   + (double) FFT_PI_DIV_Q_THRESHOLD * nn > (double) dn * nn)   /* ...condition */
 	    {
-	      mp_limb_t dp2[2];
+	       mp_limb_t dp2[2];
           dp2[0] = dp[dn - 1];
           dp2[1] = dh;
-	      mpn_invert(dinv, dp2, 2);
+	       mpn_invert(dinv, dp2, 2);
           qh = mpn_dc_div_q (qp, new_np, nn, dp, dn, dinv);
 	    }
 	  else
