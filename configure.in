@@ -2514,7 +2514,7 @@ gmp_mpn_functions="$extra_functions					   \
   bdivmod gcd gcd_1 gcdext tdiv_qr dc_divrem_n sb_divrem_mn jacbase get_d  \
   mullow_n mulhigh_n mullow_n_basecase mullow_basecase redc_basecase 	\
   sb_divappr_q toom3_mul toom3_mul_n toom4_mul toom4_mul_n toom7_mul_n \
-  dc_div_q dc_divappr_q $gmp_mpn_functions_optional"
+  dc_div_q dc_divappr_q sb_div_q $gmp_mpn_functions_optional"
 
 define(GMP_MULFUNC_CHOICES,
 [# functions that can be provided by multi-function files

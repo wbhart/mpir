@@ -28,8 +28,8 @@ along with the GNU MP Library.  If not, see http://www.gnu.org/licenses/.  */
 #include "gmp-impl.h"
 #include "longlong.h"
 
-#define DC_DIVAPPR_Q_THRESHOLD 20 /*FIXME: tune these */
-#define DC_DIVAPPR_QR_THRESHOLD 32 
+#define DC_DIVAPPR_Q_THRESHOLD 41 /*FIXME: tune these */
+#define DC_DIVAPPR_QR_THRESHOLD 45 
 
 mp_limb_t
 mpn_dc_divappr_q (mp_ptr qp, mp_ptr np, mp_size_t nn,
@@ -193,7 +193,7 @@ mpn_dc_divappr_q (mp_ptr qp, mp_ptr np, mp_size_t nn,
 	{
 	  /* It is tempting to use qp for recursive scratch and put quotient in
 	     tp, but the recursive scratch needs one limb too many.  */
-	  tp = TMP_SALLOC_LIMBS (qn + 1);
+	  tp = TMP_SALLOC_LIMBS (10*(qn + 1));
 	  qh = mpn_dc_divappr_q_n (q2p, np - qn - 2, dp - (qn + 1), qn + 1, dinv, tp);
 	}
       MPN_COPY (qp, q2p + 1, qn);

@@ -81,8 +81,8 @@ along with the GNU MP Library.  If not, see http://www.gnu.org/licenses/.  */
    for the code to be correct.  */
 #define FUDGE 5			/* FIXME: tune this */
 
-#define DC_DIV_Q_THRESHOLD 20 /* FIXME: tune this */    
-#define DC_DIVAPPR_Q_THRESHOLD 24 /* FIXME: tune this */
+#define DC_DIV_Q_THRESHOLD 40 /* FIXME: tune this */    
+#define DC_DIVAPPR_Q_THRESHOLD 36 /* FIXME: tune this */
 #define FFT_DIV_Q_THRESHOLD 131072 
 #define FFT_PI_DIV_Q_THRESHOLD 65536 
 #define FFT_DIVAPPR_Q_THRESHOLD 10000
@@ -151,8 +151,8 @@ mpn_tdiv_q (mp_ptr qp,
 	  else if (BELOW_THRESHOLD (dn, DC_DIV_Q_THRESHOLD) ||
 		   BELOW_THRESHOLD (new_nn - dn, DC_DIV_Q_THRESHOLD))
 	    {
-	      //mpn_invert(dinv, new_dp + dn - 2, 2);
-	      qh = mpn_sb_divrem_mn (qp, new_np, new_nn, new_dp, dn);
+	      mpn_invert(dinv, new_dp + dn - 2, 2);
+	      qh = mpn_sb_div_q (qp, new_np, new_nn, new_dp, dn, dinv);
 	    }
 	  else if (BELOW_THRESHOLD (dn, FFT_PI_DIV_Q_THRESHOLD) ||   /* fast condition */
 		   BELOW_THRESHOLD (nn, 2 * FFT_DIV_Q_THRESHOLD) || /* fast condition */
@@ -195,8 +195,11 @@ mpn_tdiv_q (mp_ptr qp,
 	  else if (BELOW_THRESHOLD (dn, DC_DIV_Q_THRESHOLD) ||
 		   BELOW_THRESHOLD (nn - dn, DC_DIV_Q_THRESHOLD))
 	    {
-	       // invert dh, dp[dn - 2]
-           qh = mpn_sb_divrem_mn (qp, new_np, nn, dp, dn);
+           mp_limb_t dp2[2];
+           dp2[0] = dp[dn - 2];
+           dp2[1] = dh;
+           mpn_invert(dinv, dp2, 2);
+           qh = mpn_sb_div_q (qp, new_np, nn, dp, dn, dinv);
 	    }
 	  else if (BELOW_THRESHOLD (dn, FFT_PI_DIV_Q_THRESHOLD) ||   /* fast condition */
 		   BELOW_THRESHOLD (nn, 2 * FFT_DIV_Q_THRESHOLD) || /* fast condition */
