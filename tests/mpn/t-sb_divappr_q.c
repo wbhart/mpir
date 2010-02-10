@@ -25,6 +25,7 @@ MA 02110-1301, USA. */
 
 #include "mpir.h"
 #include "gmp-impl.h"
+#include "longlong.h"
 #include "tests.h"
 
 #if defined(_MSC_VER) || defined(__MINGW32__)
@@ -43,7 +44,7 @@ check_sb_divappr_q (void)
    mp_limb_t rp[2*MAX_LIMBS];
    mp_limb_t dp[MAX_LIMBS];
    mp_limb_t qp[2*MAX_LIMBS];
-   mp_limb_t dip[2];
+   mp_limb_t dip;
 
    mp_size_t nn, rn, dn, qn;
 
@@ -54,7 +55,7 @@ check_sb_divappr_q (void)
   
    for (i = 0; i < ITERS; i++)
    {
-      dn = (random() % (MAX_LIMBS - 1)) + 2;
+      dn = (random() % (MAX_LIMBS - 1)) + 3;
       nn = (random() % MAX_LIMBS) + dn;
       
       mpn_rrandom (np, rands, nn);
@@ -63,12 +64,12 @@ check_sb_divappr_q (void)
 
       MPN_COPY(np2, np, nn);
       
-      mpn_invert(dip, dp + dn - 2, 2);
+      invert_1(dip, dp[dn - 1], dp[dn - 2]);
       
       qn = nn - dn + 1;
          
       qp[qn - 1] = mpn_sb_divappr_q(qp, np, nn, dp, dn, dip);
-      
+
       MPN_NORMALIZE(qp, qn);
 
       if (qn)
