@@ -82,7 +82,7 @@ along with the GNU MP Library.  If not, see http://www.gnu.org/licenses/.  */
 #define FUDGE 5			/* FIXME: tune this */
 
 #define DC_DIV_Q_THRESHOLD 40 /* FIXME: tune this */    
-#define DC_DIVAPPR_Q_THRESHOLD 36 /* FIXME: tune this */
+#define DC_DIVAPPR_Q_THRESHOLD 140 /* FIXME: tune this */
 #define FFT_DIV_Q_THRESHOLD 131072 
 #define FFT_PI_DIV_Q_THRESHOLD 65536 
 #define FFT_DIVAPPR_Q_THRESHOLD 10000

@@ -1,5 +1,5 @@
-/* mpn_dc_divappr_q -- divide-and-conquer division, returning approximate
-   quotient.  The quotient returned is either correct, or one too large.
+/* mpn_dc_div_qr_n -- recursive divide-and-conquer division for arbitrary
+   size operands.
 
    Contributed to the GNU project by Torbjorn Granlund.
 
@@ -7,7 +7,7 @@
    SAFE TO REACH THEM THROUGH DOCUMENTED INTERFACES.  IN FACT, IT IS ALMOST
    GUARANTEED THAT THEY WILL CHANGE OR DISAPPEAR IN A FUTURE GMP RELEASE.
 
-Copyright 2006, 2007, 2009, 2010 Free Software Foundation, Inc.
+Copyright 2006, 2007, 2009 Free Software Foundation, Inc.
 
 This file is part of the GNU MP Library.
 
@@ -28,33 +28,82 @@ along with the GNU MP Library.  If not, see http://www.gnu.org/licenses/.  */
 #include "gmp-impl.h"
 #include "longlong.h"
 
-#define DC_DIVAPPR_Q_THRESHOLD 141 /*FIXME: tune these */
-#define DC_DIVAPPR_QR_THRESHOLD 145 
-#define DC_DIV_QR_THRESHOLD 46
+#define DC_DIV_QR_THRESHOLD 45
 
 mp_limb_t
-mpn_dc_divappr_q (mp_ptr qp, mp_ptr np, mp_size_t nn,
-		     mp_srcptr dp, mp_size_t dn, mp_limb_t dinv)
+mpn_dc_div_qr_n (mp_ptr qp, mp_ptr np, mp_srcptr dp, mp_size_t n,
+		    mp_limb_t dinv, mp_ptr tp)
+{
+  mp_size_t lo, hi;
+  mp_limb_t cy, qh, ql;
+
+  lo = n >> 1;			/* floor(n/2) */
+  hi = n - lo;			/* ceil(n/2) */
+
+  
+  if (BELOW_THRESHOLD (hi, DC_DIV_QR_THRESHOLD))
+    qh = mpn_sb_div_qr (qp + lo, np + 2 * lo, 2 * hi, dp + lo, hi, dinv);
+  else
+    qh = mpn_dc_div_qr_n (qp + lo, np + 2 * lo, dp + lo, hi, dinv, tp);
+
+  mpn_mul (tp, qp + lo, hi, dp, lo);
+
+  cy = mpn_sub_n (np + lo, np + lo, tp, n);
+  if (qh != 0)
+    cy += mpn_sub_n (np + n, np + n, dp, lo);
+
+  while (cy != 0)
+    {
+      qh -= mpn_sub_1 (qp + lo, qp + lo, hi, 1);
+      cy -= mpn_add_n (np + lo, np + lo, dp, n);
+    }
+
+  if (BELOW_THRESHOLD (lo, DC_DIV_QR_THRESHOLD))
+    ql = mpn_sb_div_qr (qp, np + hi, 2 * lo, dp + hi, lo, dinv);
+  else
+    ql = mpn_dc_div_qr_n (qp, np + hi, dp + hi, lo, dinv, tp);
+
+  mpn_mul (tp, dp, hi, qp, lo);
+
+  cy = mpn_sub_n (np, np, tp, n);
+  if (ql != 0)
+    cy += mpn_sub_n (np + lo, np + lo, dp, hi);
+
+  while (cy != 0)
+    {
+      mpn_sub_1 (qp, qp, lo, 1);
+      cy -= mpn_add_n (np, np, dp, n);
+    }
+
+  return qh;
+}
+
+mp_limb_t
+mpn_dc_div_qr (mp_ptr qp,
+		  mp_ptr np, mp_size_t nn,
+		  mp_srcptr dp, mp_size_t dn,
+		  mp_limb_t dinv)
 {
   mp_size_t qn;
-  mp_limb_t qh, cy, qsave;
+  mp_limb_t qh, cy;
   mp_ptr tp;
   TMP_DECL;
 
   TMP_MARK;
 
-  ASSERT (dn >= 6);
-  ASSERT (nn > dn);
+  ASSERT (dn >= 6);		/* to adhere to mpn_sbpi1_div_qr's limits */
+  ASSERT (nn - dn >= 3);	/* to adhere to mpn_sbpi1_div_qr's limits */
   ASSERT (dp[dn-1] & GMP_NUMB_HIGHBIT);
+
+  tp = TMP_ALLOC_LIMBS (10 * dn);
 
   qn = nn - dn;
   qp += qn;
   np += nn;
   dp += dn;
 
-  if (qn >= dn)
+  if (qn > dn)
     {
-      qn++;			/* pretend we'll need an extra limb */
       /* Reduce qn mod dn without division, optimizing small operations.  */
       do
 	qn -= dn;
@@ -62,8 +111,6 @@ mpn_dc_divappr_q (mp_ptr qp, mp_ptr np, mp_size_t nn,
 
       qp -= qn;			/* point at low limb of next quotient block */
       np -= qn;			/* point in the middle of partial remainder */
-
-      tp = TMP_SALLOC_LIMBS (10*dn);
 
       /* Perform the typically smaller block first.  */
       if (qn == 1)
@@ -77,7 +124,6 @@ mpn_dc_divappr_q (mp_ptr qp, mp_ptr np, mp_size_t nn,
 
 	  /* A single iteration of schoolbook: One 3/2 division,
 	     followed by the bignum update and adjustment. */
-
 	  n2 = np[0];
 	  n1 = np[-1];
 	  n0 = np[-2];
@@ -123,11 +169,12 @@ mpn_dc_divappr_q (mp_ptr qp, mp_ptr np, mp_size_t nn,
 	}
       else
 	{
+      /* Do a 2qn / qn division */
 	  if (qn == 2)
-	    qh = mpn_divrem_2 (qp, 0L, np - 2, 4, dp - 2);
+	    qh = mpn_divrem_2 (qp, 0L, np - 2, 4, dp - 2); /* FIXME: obsolete function. Use 5/3 division? */
 	  else if (BELOW_THRESHOLD (qn, DC_DIV_QR_THRESHOLD))
-        qh = mpn_sb_div_qr (qp, np - qn, 2 * qn, dp - qn, qn, dinv);
-      else
+	    qh = mpn_sb_div_qr (qp, np - qn, 2 * qn, dp - qn, qn, dinv);
+	  else
 	    qh = mpn_dc_div_qr_n (qp, np - qn, dp - qn, qn, dinv, tp);
 
 	  if (qn != dn)
@@ -148,58 +195,44 @@ mpn_dc_divappr_q (mp_ptr qp, mp_ptr np, mp_size_t nn,
 		}
 	    }
 	}
-      qn = nn - dn - qn + 1;
-      while (qn > dn)
+
+      qn = nn - dn - qn;
+      do
 	{
 	  qp -= dn;
 	  np -= dn;
-      mpn_dc_div_qr_n (qp, np - dn, dp - dn, dn, dinv, tp);
+	  mpn_dc_div_qr_n (qp, np - dn, dp - dn, dn, dinv, tp);
 	  qn -= dn;
 	}
-
-      /* Since we pretended we'd need an extra quotient limb before, we now
-	 have made sure the code above left just dn-1=qn quotient limbs to
-	 develop.  Develop that plus a guard limb. */
-      qn--;
-      qp -= qn;
-      np -= dn;
-      qsave = qp[qn];
-      mpn_dc_divappr_q_n (qp, np - dn, dp - dn, dn, dinv, tp);
-      MPN_COPY_INCR (qp, qp + 1, qn);
-      qp[qn] = qsave;
+      while (qn > 0);
     }
-  else    /* (qn < dn) */
+  else
     {
-      mp_ptr q2p;
-#if 0				/* not possible since we demand nn > dn */
-      if (qn == 0)
-	{
-	  qh = mpn_cmp (np - dn, dp - dn, dn) >= 0;
-	  if (qh)
-	    mpn_sub_n (np - dn, np - dn, dp - dn, dn);
-	  TMP_FREE;
-	  return qh;
-	}
-#endif
-
       qp -= qn;			/* point at low limb of next quotient block */
       np -= qn;			/* point in the middle of partial remainder */
 
-      q2p = TMP_SALLOC_LIMBS (qn + 1);
-      
-      if (BELOW_THRESHOLD (qn, DC_DIVAPPR_Q_THRESHOLD))
-	{
-	  qh = mpn_sb_divappr_q (q2p, np - qn - 2, 2 * (qn + 1),
-				    dp - (qn + 1), qn + 1, dinv);
-	}
+      if (BELOW_THRESHOLD (qn, DC_DIV_QR_THRESHOLD))
+	qh = mpn_sb_div_qr (qp, np - qn, 2 * qn, dp - qn, qn, dinv);
       else
+	qh = mpn_dc_div_qr_n (qp, np - qn, dp - qn, qn, dinv, tp);
+
+      if (qn != dn)
 	{
-	  /* It is tempting to use qp for recursive scratch and put quotient in
-	     tp, but the recursive scratch needs one limb too many.  */
-	  tp = TMP_SALLOC_LIMBS (10*(qn + 1));
-	  qh = mpn_dc_divappr_q_n (q2p, np - qn - 2, dp - (qn + 1), qn + 1, dinv, tp);
+	  if (qn > dn - qn)
+	    mpn_mul (tp, qp, qn, dp - dn, dn - qn);
+	  else
+	    mpn_mul (tp, dp - dn, dn - qn, qp, qn);
+
+	  cy = mpn_sub_n (np - dn, np - dn, tp, dn);
+	  if (qh != 0)
+	    cy += mpn_sub_n (np - dn + qn, np - dn + qn, dp - dn, dn - qn);
+
+	  while (cy != 0)
+	    {
+	      qh -= mpn_sub_1 (qp, qp, qn, 1);
+	      cy -= mpn_add_n (np - dn, np - dn, dp - dn, dn);
+	    }
 	}
-      MPN_COPY (qp, q2p + 1, qn);
     }
 
   TMP_FREE;

@@ -64,7 +64,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   has that description.
 */
 
-#define DC_DIVAPPR_Q_N_THRESHOLD 36
+#define DC_DIVAPPR_Q_N_THRESHOLD 100 
 
 mp_limb_t
 mpn_dc_divappr_q_n (mp_ptr qp, mp_ptr np, mp_srcptr dp, mp_size_t n, 
