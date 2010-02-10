@@ -77,7 +77,13 @@ mpn_dc_divappr_q (mp_ptr qp, mp_ptr np, mp_size_t nn,
 	  /* A single iteration of schoolbook: One 3/2 division,
 	     followed by the bignum update and adjustment. */
 
-	  ASSERT (np[0] < dp[-1] || (np[0] == dp[-1] && np[-1] <= dp[-2]));
+	  n2 = np[0];
+	  n1 = np[-1];
+	  n0 = np[-2];
+	  d1 = dp[-1];
+	  d0 = dp[-2];
+
+	  ASSERT (n2 < d1 || (n2 == d1 && n1 <= d0));
 
 	  if (UNLIKELY (n2 == d1) && n1 == d0)
 	    {
@@ -87,37 +93,31 @@ mpn_dc_divappr_q (mp_ptr qp, mp_ptr np, mp_size_t nn,
 	    }
 	  else
 	    {
-	      mp_limb_t q1[1];
-          mp_limb_t r2[3];
-          r2[0] = np[-2];
-          r2[1] = np[-1];
-          r2[2] = np[0];
-          mpn_sb_divrem_mn(q1, r2, 3, dp - 2, 2);  
-          q = q1[0];
+	      tdiv_qr_3by2 (q, n1, n0, n2, n1, n0, d1, d0, dinv->inv32);
 
 	      if (dn > 2)
 		{
 		  mp_limb_t cy, cy1;
 		  cy = mpn_submul_1 (np - dn, dp - dn, dn - 2, q);
 
-		  cy1 = r2[0] < cy;
-		  np[-2] = (r2[0] - cy) & GMP_NUMB_MASK;
-		  cy = r2[1] < cy1;
-		  np[-1] = (r2[1] - cy1) & GMP_NUMB_MASK;
+		  cy1 = n0 < cy;
+		  n0 = (n0 - cy) & GMP_NUMB_MASK;
+		  cy = n1 < cy1;
+		  n1 = (n1 - cy1) & GMP_NUMB_MASK;
+		  np[-2] = n0;
 
 		  if (UNLIKELY (cy != 0))
 		    {
-		      np[-1] += dp[-1] + mpn_add_n (np - dn, np - dn, dp - dn, dn - 1);
+		      n1 += d1 + mpn_add_n (np - dn, np - dn, dp - dn, dn - 1);
 		      qh -= (q == 0);
 		      q = (q - 1) & GMP_NUMB_MASK;
 		    }
 		}
 	      else
-		{
-          np[-2] = r2[0];
-	      np[-1] = r2[1];
+		np[-2] = n0;
+
+	      np[-1] = n1;
 	    }
-       }
 	  qp[0] = q;
 	}
       else
