@@ -1,198 +1,188 @@
-/* mpn_sb_divappr_q - schoolbook approximate quotient.
+/* mpn_sb_divappr_q -- Schoolbook division using the Möller-Granlund 3/2
+   division algorithm, returning approximate quotient.  The quotient returned
+   is either correct, or one too large.
 
-   THE FUNCTIONS IN THIS FILE ARE INTERNAL FUNCTIONS WITH MUTABLE
-   INTERFACES.  IT IS ONLY SAFE TO REACH THEM THROUGH DOCUMENTED INTERFACES.
-   IN FACT, IT IS ALMOST GUARANTEED THAT THEY'LL CHANGE OR DISAPPEAR IN A
-   FUTURE MPIR RELEASE.
+   Contributed to the GNU project by Torbjorn Granlund.
 
+   THE FUNCTION IN THIS FILE IS INTERNAL WITH A MUTABLE INTERFACE.  IT IS ONLY
+   SAFE TO REACH IT THROUGH DOCUMENTED INTERFACES.  IN FACT, IT IS ALMOST
+   GUARANTEED THAT IT WILL CHANGE OR DISAPPEAR IN A FUTURE GMP RELEASE.
 
-Copyright 2009 William Hart.
+Copyright 2007, 2009 Free Software Foundation, Inc.
 
-This file is part of the MPIR Library.
+This file is part of the GNU MP Library.
 
-The MPIR Library is free software; you can redistribute it and/or modify
+The GNU MP Library is free software; you can redistribute it and/or modify
 it under the terms of the GNU Lesser General Public License as published by
-the Free Software Foundation; either version 2.1 of the License, or (at your
+the Free Software Foundation; either version 3 of the License, or (at your
 option) any later version.
 
-The MPIR Library is distributed in the hope that it will be useful, but
+The GNU MP Library is distributed in the hope that it will be useful, but
 WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
 or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public
 License for more details.
 
 You should have received a copy of the GNU Lesser General Public License
-along with the MPIR Library; see the file COPYING.LIB.  If not, write to
-the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
-MA 02110-1301, USA. */
+along with the GNU MP Library.  If not, see http://www.gnu.org/licenses/.  */
+
 
 #include "mpir.h"
 #include "gmp-impl.h"
 #include "longlong.h"
 
-/*
-   Given n = {np, nn} and d = {dp, dn} and a 2 limb inverse
-   x = {dip, 2} (with implicit top bit), satisfying 
-   x*d0 < B^4 <= (x+1)*d0 where d0 = {dp + dn - 2, 2} is the
-   top two limbs of the denominator, returns an approximate
-   quotient q = {qp, nn - dn + 1} such that d*q + r = n for
-   some remainder r with -d < r < d.
-
-   Requires d = {dp, dn} to be normalised, i.e. the most 
-   significant bit of the most significant limb must be set.
-   Also requires that d is at least two limbs and the 
-   numerator be at least as many limbs as the denominator
-   (this may change in a future release). 
-
-   n = {np, nn} is destroyed.
-*/
-
 mp_limb_t
-mpn_sb_divappr_q (mp_ptr qp, mp_ptr np, mp_size_t nn,
-		  mp_srcptr dp, mp_size_t dn, mp_srcptr dip)
+mpn_sb_divappr_q (mp_ptr qp,
+		     mp_ptr np, mp_size_t nn,
+		     mp_srcptr dp, mp_size_t dn,
+		     mp_limb_t dinv)
 {
-  /*
-     In order to make use of the the two limb inverse we
-	 use the following theorem of Torbjorn Granlund and
-	 Peter Montgomery from their paper, "Division by 
-	 invariant integers using multiplication" (restated
-	 here for clarity):
+  mp_limb_t qh;
+  mp_size_t qn, i;
+  mp_limb_t n1, n0;
+  mp_limb_t d1, d0;
+  mp_limb_t cy, cy1;
+  mp_limb_t q;
+  mp_limb_t flag;
 
-     Lemma 8.1: Let d be normalised, d < B^2 (i.e. 
-	 fits in two words), and suppose that 
-	   m*d < B^4 <= (m+1)*d.
-	 Let 0 <= n <= B^2*d - 1. Write
-	   n = n2*B^2 + n1*B^2/2 + n0 
-	 with n1 = 0 or 1 and n0 < B^2/2.
-	 Suppose 
-	   q1*B^2 + q0 = n2*B^2 + (n2 + n1)*(m-B^2) 
-	               + n1*(d-B^2/2) + n0
-	 and 0 <= q0 < B^2. 
-     Then 0 <= q1 < B^2 and 0 <= n - q1*d < 2d.
+  ASSERT (dn > 2);
+  ASSERT (nn >= dn);
+  ASSERT ((dp[dn-1] & GMP_NUMB_HIGHBIT) != 0);
 
-	 We apply the theorem as follows. Note that
-	 n0 and n1*(d-B^2/2) are both less than B^2/2.
-	 Also note that n1*(m-B^2) < B^2. Thus the sum
-	 of all these terms contributes at most 1 to q1.
+  np += nn;
 
-	 We are left with n2*B^2 + n2*(m-B^2). But note
-	 that (m-B^2) is precisely our precomputed inverse
-	 without the implied leading bit. If we write
-	 q1*B^2 + q0 = n2*B^2 + n2*(m-B^2), then from the
-	 theorem, we have 0 <= n-q1*d < 3d.
-  */
-
-  mp_limb_t ret, di0, di1, p1, p2, p3, p4, q, q0, n21, n20, cy;
-  mp_size_t qn = nn - dn + 1;
-  mp_size_t i;
-  mp_limb_t dnpr = 0;
-  
-  /* 
-    We only need to use the top qn limbs of the 
-	 denominator and the same applies for the 
-	 numerator. As we correct at each step for the
-    error from the precomputed inverse, the only 
-    error at the end of the algorithm is from 
-    truncating. 
-    
-    Truncation of the denominator means that at 
-    each step we may be subtracting an amount which
-    is slightly too small from the numerator to get
-    the partial remainder at each step. But as we
-    use a normalised denominator, this can only 
-    cause the quotient to be tipped over and made 
-    one too large. 
-
-    Truncating the numerator can cause the 
-    quotient to be computed one too small in very
-    rare instances. We detect this and correct.
-  */
-  
-  if (qn < dn)
-  {
-	 dp += (dn - qn);
-	 dn = qn;
-  }
-
-  if (qn < nn)
-  {
-     np += (nn - qn);
-	 nn = qn;
-  }
-
-  /* 
-     It may be that the top limbs of the numerator
-     are bigger than the denominator, in which case
-     we return the high top limb of the quotient as 
-	 1 instead of 0.
-  */
-
-  if (mpn_cmp(np + nn - dn, dp, dn) >= 0)
-  {
-     ret = CNST_LIMB(1);
-	 mpn_sub_n(np + nn - dn, np + nn - dn, dp, dn);
-  } else 
-     ret = CNST_LIMB(0);
-
-  di1 = dip[1]; 
-  di0 = dip[0];
-  for (i = qn - 2; i >= 0L; i--)
-  {
-     /*
-	    Compute n2 + top two limbs of n2*di, but
-		caring only about the top limb q, which we
-		allow to be off by up to 1. We must be 
-      careful to truncate the numerator when taking
-      the quotient.
-	 */
-     n21 = np[nn - 1];
-	  n20 = np[nn - 2];
-     umul_ppmm(p2, p1, di0, n21);
-	 umul_ppmm(p4, p3, di1, n20);
-	 add_ssaaaa(q, q0, n21, p2, CNST_LIMB(0), p4);
-	 umul_ppmm(p1, p2, di1, n21);
-	 add_ssaaaa(q, q0, q, q0, p1, p2);
-     add_ssaaaa(q, q0, q, q0, CNST_LIMB(0), n20);
-
-     cy = mpn_submul_1(np + nn - dn - 1, dp, dn, q);
-
-	 /* Either q was correct or too small by 1 */
-    if (UNLIKELY(np[nn-1] < cy))
+  qn = nn - dn;
+  if (qn + 1 < dn)
     {
-       mpn_add_n(np + nn - dn - 1, np + nn - dn - 1, dp, dn);
-       q--;
-    } else if ((np[nn-1] > cy) || (mpn_cmp(np + nn - dn - 1, dp, dn) >= 0))
-	 {
-	    q++; /* beware: q *can* overflow - see below */
-       if (q == 0) 
-          q--;
-       else
-          mpn_sub_n(np + nn - dn - 1, np + nn - dn - 1, dp, dn);
-	 }
-    
-	 qp[i] = q;
-    
-	 if (dn > i + 1)
-    {
-       dp++;
-       dn--;
+      dp += dn - (qn + 1);
+      dn = qn + 1;
     }
 
-    nn--;
+  qh = mpn_cmp (np - dn, dp, dn) >= 0;
+  if (qh != 0)
+    mpn_sub_n (np - dn, np - dn, dp, dn);
 
-    /* This is a special case which showed up in testing. It 
-       may be that truncating the denominator leads to a quotient
-       which overflows. As we know that the overflow wouldn't have 
-       occurred before the truncation happened, we can safely just 
-       set all remaining limbs of the quotient to all binary ones.
-    */
-    if (mpn_cmp(np + nn - dn, dp, dn) == 0)
+  qp += qn;
+
+  dn -= 2;			/* offset dn by 2 for main division loops,
+				   saving two iterations in mpn_submul_1.  */
+  d1 = dp[dn + 1];
+  d0 = dp[dn + 0];
+
+  np -= 2;
+
+  n1 = np[1];
+
+  for (i = qn - (dn + 2); i >= 0; i--)
     {
-       i--;
-       for ( ; i >= 0L; i--) qp[i] = ~CNST_LIMB(0);
-       break;
+      np--;
+      if (UNLIKELY (n1 == d1) && np[1] == d0)
+	{
+	  q = GMP_NUMB_MASK;
+	  mpn_submul_1 (np - dn, dp, dn + 2, q);
+	  n1 = np[1];		/* update n1, last loop's value will now be invalid */
+	}
+      else
+	{
+	  tdiv_qr_3by2 (q, n1, n0, n1, np[1], np[0], d1, d0, dinv);
+
+	  cy = mpn_submul_1 (np - dn, dp, dn, q);
+
+	  cy1 = n0 < cy;
+	  n0 = (n0 - cy) & GMP_NUMB_MASK;
+	  cy = n1 < cy1;
+	  n1 -= cy1;
+	  np[0] = n0;
+
+	  if (UNLIKELY (cy != 0))
+	    {
+	      n1 += d1 + mpn_add_n (np - dn, np - dn, dp, dn + 1);
+	      q--;
+	    }
+	}
+
+      *--qp = q;
     }
-  }
-	
-  return ret;
+
+  flag = ~CNST_LIMB(0);
+
+  if (dn >= 0)
+    {
+      for (i = dn; i > 0; i--)
+	{
+	  np--;
+	  if (UNLIKELY (n1 >= (d1 & flag)))
+	    {
+	      q = GMP_NUMB_MASK;
+	      cy = mpn_submul_1 (np - dn, dp, dn + 2, q);
+
+	      if (UNLIKELY (n1 != cy))
+		{
+		  if (n1 < (cy & flag))
+		    {
+		      q--;
+		      mpn_add_n (np - dn, np - dn, dp, dn + 2);
+		    }
+		  else
+		    flag = 0;
+		}
+	      n1 = np[1];
+	    }
+	  else
+	    {
+	      tdiv_qr_3by2 (q, n1, n0, n1, np[1], np[0], d1, d0, dinv);
+
+	      cy = mpn_submul_1 (np - dn, dp, dn, q);
+
+	      cy1 = n0 < cy;
+	      n0 = (n0 - cy) & GMP_NUMB_MASK;
+	      cy = n1 < cy1;
+	      n1 -= cy1;
+	      np[0] = n0;
+
+	      if (UNLIKELY (cy != 0))
+		{
+		  n1 += d1 + mpn_add_n (np - dn, np - dn, dp, dn + 1);
+		  q--;
+		}
+	    }
+
+	  *--qp = q;
+
+	  /* Truncate operands.  */
+	  dn--;
+	  dp++;
+	}
+
+      np--;
+      if (UNLIKELY (n1 >= (d1 & flag)))
+	{
+	  q = GMP_NUMB_MASK;
+	  cy = mpn_submul_1 (np, dp, 2, q);
+
+	  if (UNLIKELY (n1 != cy))
+	    {
+	      if (n1 < (cy & flag))
+		{
+		  q--;
+		  add_ssaaaa (np[1], np[0], np[1], np[0], dp[1], dp[0]);
+		}
+	      else
+		flag = 0;
+	    }
+	  n1 = np[1];
+	}
+      else
+	{
+	  tdiv_qr_3by2 (q, n1, n0, n1, np[1], np[0], d1, d0, dinv);
+
+	  np[1] = n1;
+	  np[0] = n0;
+	}
+
+      *--qp = q;
+    }
+
+  ASSERT_ALWAYS (np[1] == n1);
+
+  return qh;
 }
-

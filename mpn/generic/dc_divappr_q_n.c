@@ -68,7 +68,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 mp_limb_t
 mpn_dc_divappr_q_n (mp_ptr qp, mp_ptr np, mp_srcptr dp, mp_size_t n, 
-		    mp_srcptr dip, mp_ptr tp)
+		    mp_limb_t dip, mp_ptr tp)
 {
   mp_limb_t qh, cy;
   mp_ptr q_hi;

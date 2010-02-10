@@ -4,15 +4,16 @@
    BE SUBJECT TO INCOMPATIBLE CHANGES IN FUTURE GNU MP RELEASES.
 
 Copyright 1991, 1993, 1994, 1995, 1996, 1997, 1999, 2000, 2001, 2002, 2003,
-2004, 2005, 2006 Free Software Foundation, Inc.
+2004, 2005, 2006, 2007, 2008, 2009, 2010 Free Software Foundation, Inc.
 
 Copyright 2009 William Hart
+
 
 This file is part of the GNU MP Library.
 
 The GNU MP Library is free software; you can redistribute it and/or modify
 it under the terms of the GNU Lesser General Public License as published by
-the Free Software Foundation; either version 2.1 of the License, or (at your
+the Free Software Foundation; either version 3 of the License, or (at your
 option) any later version.
 
 The GNU MP Library is distributed in the hope that it will be useful, but
@@ -21,9 +22,8 @@ or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public
 License for more details.
 
 You should have received a copy of the GNU Lesser General Public License
-along with the GNU MP Library; see the file COPYING.LIB.  If not, write to
-the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
-MA 02110-1301, USA. */
+along with the GNU MP Library.  If not, see http://www.gnu.org/licenses/.  */
+
 
 
 /* __GMP_DECLSPEC must be given on any global data that will be accessed
@@ -2489,6 +2489,70 @@ mp_limb_t mpn_invert_limb _PROTO ((mp_limb_t)) ATTRIBUTE_CONST;
     udiv_qrnnd (invxl, dummy, ~(xl), ~CNST_LIMB(0), xl);  \
   } while (0)
 #endif
+
+#define invert_1(dinv, d1, d0)				\
+  do {								\
+    mp_limb_t v, p, t1, t0, mask;				\
+    invert_limb (v, d1);					\
+    p = d1 * v;							\
+    p += d0;							\
+    if (p < d0)							\
+      {								\
+	v--;							\
+	mask = -(p >= d1);					\
+	p -= d1;						\
+	v += mask;						\
+	p -= mask & d1;						\
+      }								\
+    umul_ppmm (t1, t0, d0, v);					\
+    p += t1;							\
+    if (p < t1)							\
+      {								\
+        v--;							\
+	if (UNLIKELY (p >= d1))					\
+	  {							\
+	    if (p > d1 || t0 >= d0)				\
+	      v--;						\
+	  }							\
+      }								\
+    dinv = v;						\
+  } while (0)
+
+/* Compute quotient the quotient and remainder for n / d. Requires d
+   >= B^2 / 2 and n < d B. di is the inverse
+
+     floor ((B^3 - 1) / (d0 + d1 B)) - B.
+
+   NOTE: Output variables are updated multiple times. Only some inputs
+   and outputs may overlap.
+*/
+#define tdiv_qr_3by2(q, r1, r0, n2, n1, n0, d1, d0, dinv)		\
+  do {									\
+    mp_limb_t _q0, _t1, _t0, _mask;					\
+    umul_ppmm ((q), _q0, (n2), (dinv));					\
+    add_ssaaaa ((q), _q0, (q), _q0, (n2), (n1));			\
+									\
+    /* Compute the two most significant limbs of n - q'd */		\
+    (r1) = (n1) - (d1) * (q);						\
+    (r0) = (n0);							\
+    sub_ddmmss ((r1), (r0), (r1), (r0), (d1), (d0));			\
+    umul_ppmm (_t1, _t0, (d0), (q));					\
+    sub_ddmmss ((r1), (r0), (r1), (r0), _t1, _t0);			\
+    (q)++;								\
+									\
+    /* Conditionally adjust q and the remainders */			\
+    _mask = - (mp_limb_t) ((r1) >= _q0);				\
+    (q) += _mask;							\
+    add_ssaaaa ((r1), (r0), (r1), (r0), _mask & (d1), _mask & (d0));	\
+    if (UNLIKELY ((r1) >= (d1)))					\
+      {									\
+	if ((r1) > (d1) || (r0) >= (d0))				\
+	  {								\
+	    (q)++;							\
+	    sub_ddmmss ((r1), (r0), (r1), (r0), (d1), (d0));		\
+	  }								\
+      }									\
+  } while (0)
 
 #ifndef udiv_qrnnd_preinv
 #define udiv_qrnnd_preinv udiv_qrnnd_preinv2

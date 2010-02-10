@@ -102,7 +102,7 @@ mpn_tdiv_q (mp_ptr qp,
   mp_ptr new_dp, new_np, tp, rp, scratch;
   mp_limb_t cy, dh, qh;
   mp_size_t new_nn, qn;
-  mp_limb_t dinv[2];
+  mp_limb_t dinv;
   int cnt;
   TMP_DECL;
   TMP_MARK;
@@ -151,7 +151,7 @@ mpn_tdiv_q (mp_ptr qp,
 	  else if (BELOW_THRESHOLD (dn, DC_DIV_Q_THRESHOLD) ||
 		   BELOW_THRESHOLD (new_nn - dn, DC_DIV_Q_THRESHOLD))
 	    {
-	      mpn_invert(dinv, new_dp + dn - 2, 2);
+	      invert_1(dinv, new_dp[dn - 1], new_dp[dn - 2]);
 	      qh = mpn_sb_div_q (qp, new_np, new_nn, new_dp, dn, dinv);
 	    }
 	  else if (BELOW_THRESHOLD (dn, FFT_PI_DIV_Q_THRESHOLD) ||   /* fast condition */
@@ -159,8 +159,8 @@ mpn_tdiv_q (mp_ptr qp,
 		   (double) (2 * (FFT_DIV_Q_THRESHOLD - FFT_PI_DIV_Q_THRESHOLD)) * dn /* slow... */
 		   + (double) FFT_PI_DIV_Q_THRESHOLD * nn > (double) dn * nn)   /* ...condition */
 	    {
-	      mpn_invert(dinv, new_dp + dn - 2, 2);
-          qh = mpn_dc_div_q (qp, new_np, new_nn, new_dp, dn, dinv);
+	      invert_1(dinv, new_dp[dn - 1], new_dp[dn - 2]);
+              qh = mpn_dc_div_q (qp, new_np, new_nn, new_dp, dn, dinv);
 	    }
 	  else
 	    {
@@ -195,22 +195,16 @@ mpn_tdiv_q (mp_ptr qp,
 	  else if (BELOW_THRESHOLD (dn, DC_DIV_Q_THRESHOLD) ||
 		   BELOW_THRESHOLD (nn - dn, DC_DIV_Q_THRESHOLD))
 	    {
-           mp_limb_t dp2[2];
-           dp2[0] = dp[dn - 2];
-           dp2[1] = dh;
-           mpn_invert(dinv, dp2, 2);
-           qh = mpn_sb_div_q (qp, new_np, nn, dp, dn, dinv);
+              invert_1(dinv, dh, dp[dn - 2]);
+              qh = mpn_sb_div_q (qp, new_np, nn, dp, dn, dinv);
 	    }
 	  else if (BELOW_THRESHOLD (dn, FFT_PI_DIV_Q_THRESHOLD) ||   /* fast condition */
 		   BELOW_THRESHOLD (nn, 2 * FFT_DIV_Q_THRESHOLD) || /* fast condition */
 		   (double) (2 * (FFT_DIV_Q_THRESHOLD - FFT_PI_DIV_Q_THRESHOLD)) * dn /* slow... */
 		   + (double) FFT_PI_DIV_Q_THRESHOLD * nn > (double) dn * nn)   /* ...condition */
 	    {
-	       mp_limb_t dp2[2];
-          dp2[0] = dp[dn - 1];
-          dp2[1] = dh;
-	       mpn_invert(dinv, dp2, 2);
-          qh = mpn_dc_div_q (qp, new_np, nn, dp, dn, dinv);
+	      invert_1(dinv, dh, dp[dn - 1]);
+              qh = mpn_dc_div_q (qp, new_np, nn, dp, dn, dinv);
 	    }
 	  else
 	    {
@@ -257,12 +251,12 @@ mpn_tdiv_q (mp_ptr qp,
 	    }
 	  else if (BELOW_THRESHOLD (qn, DC_DIVAPPR_Q_THRESHOLD - 1))
 	    {
-	      mpn_invert(dinv, new_dp + qn - 1, 2);
+	      invert_1(dinv, new_dp[qn], new_dp[qn - 1]);
 	      qh = mpn_sb_divappr_q (tp, new_np, new_nn, new_dp, qn + 1, dinv);
 	    }
 	  else if (BELOW_THRESHOLD (qn, FFT_DIV_Q_THRESHOLD - 1))
 	    {
-	      mpn_invert(dinv, new_dp + qn - 1, 2);
+	      invert_1(dinv, new_dp[qn], new_dp[qn - 1]);
 	      qh = mpn_dc_divappr_q (tp, new_np, new_nn, new_dp, qn + 1, dinv);
 	    }
 	  else
@@ -298,19 +292,13 @@ mpn_tdiv_q (mp_ptr qp,
 	    }
 	  else if (BELOW_THRESHOLD (qn, DC_DIVAPPR_Q_THRESHOLD - 1))
 	    {
-	      mp_limb_t dp2[2];
-          dp2[0] = new_dp[qn - 1];
-          dp2[1] = dh;
-          mpn_invert(dinv, dp2, 2);
-	      qh = mpn_sb_divappr_q (tp, new_np, new_nn, new_dp, qn + 1, dinv);
+	      invert_1(dinv, dh, new_dp[qn - 1]);
+              qh = mpn_sb_divappr_q (tp, new_np, new_nn, new_dp, qn + 1, dinv);
 	    }
 	  else if (BELOW_THRESHOLD (qn, FFT_DIVAPPR_Q_THRESHOLD - 1))
 	    {
-	      mp_limb_t dp2[2];
-          dp2[0] = new_dp[qn - 1];
-          dp2[1] = dh;
-          mpn_invert(dinv, dp2, 2);
-          qh = mpn_dc_divappr_q (tp, new_np, new_nn, new_dp, qn + 1, dinv);
+              invert_1(dinv, dh, new_dp[qn - 1]);
+              qh = mpn_dc_divappr_q (tp, new_np, new_nn, new_dp, qn + 1, dinv);
 	    }
 	  else
 	    {

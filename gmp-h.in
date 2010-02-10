@@ -1551,23 +1551,23 @@ __GMP_DECLSPEC void mpn_invert __GMP_PROTO ((mp_ptr xp, mp_srcptr ap, mp_size_t 
 
 #define mpn_sb_divappr_q __MPN(sb_divappr_q)
 __GMP_DECLSPEC mp_limb_t mpn_sb_divappr_q __GMP_PROTO ((mp_ptr qp, mp_ptr np, mp_size_t nn,
-		  mp_srcptr dp, mp_size_t dn, mp_srcptr dip)); 
+		  mp_srcptr dp, mp_size_t dn, mp_limb_t dip)); 
 
 #define mpn_dc_divappr_q_n __MPN(dc_divappr_q_n)
 __GMP_DECLSPEC mp_limb_t mpn_dc_divappr_q_n __GMP_PROTO ((mp_ptr qp, mp_ptr np, mp_srcptr dp, mp_size_t n, 
-		         mp_srcptr dip, mp_ptr tp));
+		         mp_limb_t dip, mp_ptr tp));
 
 #define mpn_dc_divappr_q __MPN(dc_divappr_q)
 __GMP_DECLSPEC mp_limb_t mpn_dc_divappr_q __GMP_PROTO ((mp_ptr qp, mp_ptr np, mp_size_t nn, mp_srcptr dp, mp_size_t n,
-                 mp_srcptr dinv));
+                 mp_limb_t dinv));
 
 #define mpn_dc_div_q __MPN(dc_div_q)
 __GMP_DECLSPEC mp_limb_t mpn_dc_div_q __GMP_PROTO ((mp_ptr qp, mp_ptr np, mp_size_t nn,
-         mp_srcptr dp, mp_size_t dn, mp_srcptr dinv));
+         mp_srcptr dp, mp_size_t dn, mp_limb_t dinv));
 
 #define mpn_sb_div_q __MPN(sb_div_q)
-__GMP_DECLSPEC mp_limb_t mpn_bdiv_q __GMP_PROTO ((mp_ptr qp, mp_ptr np, mp_size_t nn,
-         mp_srcptr dp, mp_size_t dn, mp_srcptr dinv));
+__GMP_DECLSPEC mp_limb_t mpn_sb_div_q __GMP_PROTO ((mp_ptr qp, mp_ptr np, mp_size_t nn,
+         mp_srcptr dp, mp_size_t dn, mp_limb_t dinv));
          
          
 #define mpn_tdiv_q __MPN(tdiv_q)
