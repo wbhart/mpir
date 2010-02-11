@@ -83,16 +83,8 @@ along with the GNU MP Library.  If not, see http://www.gnu.org/licenses/.  */
 
 #define DC_DIV_Q_THRESHOLD 156 /* FIXME: tune this */    
 #define DC_DIVAPPR_Q_THRESHOLD 156 /* FIXME: tune this */
-#define FFT_DIV_Q_THRESHOLD 131072 
-#define FFT_PI_DIV_Q_THRESHOLD 65536 
-#define FFT_DIVAPPR_Q_THRESHOLD 10000
-
-/*#define MU_DIV_Q_THRESHOLD      MU_DIVAPPR_Q_THRESHOLD
-#define MUPI_DIV_Q_THRESHOLD  MUPI_DIVAPPR_Q_THRESHOLD
-#ifndef MUPI_DIVAPPR_Q_THRESHOLD
-#define MUPI_DIVAPPR_Q_THRESHOLD  MUPI_DIV_QR_THRESHOLD
-#endif
-*/
+#define INV_DIV_Q_THRESHOLD 1000 
+#define INV_DIVAPPR_Q_THRESHOLD 2000
 
 void
 mpn_tdiv_q (mp_ptr qp,
@@ -154,21 +146,17 @@ mpn_tdiv_q (mp_ptr qp,
 	      invert_1(dinv, new_dp[dn - 1], new_dp[dn - 2]);
 	      qh = mpn_sb_div_q (qp, new_np, new_nn, new_dp, dn, dinv);
 	    }
-	  else if (BELOW_THRESHOLD (dn, FFT_PI_DIV_Q_THRESHOLD) ||   /* fast condition */
-		   BELOW_THRESHOLD (nn, 2 * FFT_DIV_Q_THRESHOLD) || /* fast condition */
-		   (double) (2 * (FFT_DIV_Q_THRESHOLD - FFT_PI_DIV_Q_THRESHOLD)) * dn /* slow... */
-		   + (double) FFT_PI_DIV_Q_THRESHOLD * nn > (double) dn * nn)   /* ...condition */
+	  else if (BELOW_THRESHOLD (dn, INV_DIV_Q_THRESHOLD) || 
+		   BELOW_THRESHOLD (nn, 2 * INV_DIV_Q_THRESHOLD)) 
 	    {
 	      invert_1(dinv, new_dp[dn - 1], new_dp[dn - 2]);
               qh = mpn_dc_div_q (qp, new_np, new_nn, new_dp, dn, dinv);
 	    }
 	  else
 	    {
-	      printf("Not implemented yet!\n");
-          abort();
-          /*mp_size_t itch = mpn_mu_div_q_itch (new_nn, dn, 0);
-	      mp_ptr scratch = TMP_ALLOC_LIMBS (itch);
-	      qh = mpn_mu_div_q (qp, new_np, new_nn, new_dp, dn, scratch);*/
+	      mp_ptr inv = TMP_ALLOC_LIMBS(dn);
+              mpn_invert(inv, new_dp, dn);
+              qh = mpn_inv_div_q (qp, new_np, new_nn, new_dp, dn, inv);
 	    }
 	  if (cy == 0)
 	    qp[qn - 1] = qh;
@@ -198,21 +186,17 @@ mpn_tdiv_q (mp_ptr qp,
               invert_1(dinv, dh, dp[dn - 2]);
               qh = mpn_sb_div_q (qp, new_np, nn, dp, dn, dinv);
 	    }
-	  else if (BELOW_THRESHOLD (dn, FFT_PI_DIV_Q_THRESHOLD) ||   /* fast condition */
-		   BELOW_THRESHOLD (nn, 2 * FFT_DIV_Q_THRESHOLD) || /* fast condition */
-		   (double) (2 * (FFT_DIV_Q_THRESHOLD - FFT_PI_DIV_Q_THRESHOLD)) * dn /* slow... */
-		   + (double) FFT_PI_DIV_Q_THRESHOLD * nn > (double) dn * nn)   /* ...condition */
+	  else if (BELOW_THRESHOLD (dn, INV_DIV_Q_THRESHOLD) || 
+		   BELOW_THRESHOLD (nn, 2 * INV_DIV_Q_THRESHOLD))
 	    {
 	      invert_1(dinv, dh, dp[dn - 2]);
               qh = mpn_dc_div_q (qp, new_np, nn, dp, dn, dinv);
 	    }
 	  else
 	    {
-	      printf("Not implemented yet!\n");
-          abort();
-          /*mp_size_t itch = mpn_mu_div_q_itch (nn, dn, 0);
-	      mp_ptr scratch = TMP_ALLOC_LIMBS (itch);
-	      qh = mpn_mu_div_q (qp, np, nn, dp, dn, scratch);*/
+	      mp_ptr inv = TMP_ALLOC_LIMBS(dn);
+              mpn_invert(inv, dp, dn);
+              qh = mpn_inv_div_q (qp, np, nn, dp, dn, inv);
 	    }
 	  qp[nn - dn] = qh;
 	}
@@ -254,18 +238,16 @@ mpn_tdiv_q (mp_ptr qp,
 	      invert_1(dinv, new_dp[qn], new_dp[qn - 1]);
 	      qh = mpn_sb_divappr_q (tp, new_np, new_nn, new_dp, qn + 1, dinv);
 	    }
-	  else if (BELOW_THRESHOLD (qn, FFT_DIV_Q_THRESHOLD - 1))
+	  else if (BELOW_THRESHOLD (qn, INV_DIV_Q_THRESHOLD - 1))
 	    {
 	      invert_1(dinv, new_dp[qn], new_dp[qn - 1]);
 	      qh = mpn_dc_divappr_q (tp, new_np, new_nn, new_dp, qn + 1, dinv);
 	    }
 	  else
 	    {
-	      printf("Not implemented yet\n");
-          abort();
-          /*mp_size_t itch = mpn_mu_divappr_q_itch (new_nn, qn + 1, 0);
-	      mp_ptr scratch = TMP_ALLOC_LIMBS (itch);
-	      qh = mpn_mu_divappr_q (tp, new_np, new_nn, new_dp, qn + 1, scratch);*/
+	      mp_ptr inv = TMP_ALLOC_LIMBS(qn + 1);
+              mpn_invert(inv, new_dp, qn + 1);
+              qh = mpn_inv_divappr_q (tp, new_np, new_nn, new_dp, qn + 1, inv); 
 	    }
 	  if (cy == 0)
 	    tp[qn] = qh;
@@ -295,18 +277,16 @@ mpn_tdiv_q (mp_ptr qp,
 	      invert_1(dinv, dh, new_dp[qn - 1]);
               qh = mpn_sb_divappr_q (tp, new_np, new_nn, new_dp, qn + 1, dinv);
 	    }
-	  else if (BELOW_THRESHOLD (qn, FFT_DIVAPPR_Q_THRESHOLD - 1))
+	  else if (BELOW_THRESHOLD (qn, INV_DIVAPPR_Q_THRESHOLD - 1))
 	    {
               invert_1(dinv, dh, new_dp[qn - 1]);
               qh = mpn_dc_divappr_q (tp, new_np, new_nn, new_dp, qn + 1, dinv);
 	    }
 	  else
 	    {
-	      printf("Not implemented\n");
-          abort();
-          /*mp_size_t itch = mpn_mu_divappr_q_itch (new_nn, qn + 1, 0);
-	      mp_ptr scratch = TMP_ALLOC_LIMBS (itch);
-	      qh = mpn_mu_divappr_q (tp, new_np, new_nn, new_dp, qn + 1, scratch);*/
+	      mp_ptr inv = TMP_ALLOC_LIMBS(qn + 1);
+	      mpn_invert(inv, new_dp, qn + 1);
+              qh = mpn_inv_divappr_q (tp, new_np, new_nn, new_dp, qn + 1, inv);
 	    }
 	  tp[qn] = qh;
 	}
