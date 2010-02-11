@@ -31,14 +31,11 @@ mp_limb_t
 mpn_inv_divappr_q_n(mp_ptr qp, mp_ptr np, 
                               mp_srcptr dp, mp_size_t dn, mp_srcptr inv)
 {
-   mp_ptr temp;
    mp_limb_t ret = 0;
-
+   mp_ptr tp;
    TMP_DECL;
-   
+
    TMP_MARK;
-   
-   temp = TMP_ALLOC_LIMBS(dn);
 
    if (mpn_cmp(np + dn, dp, dn) >= 0)
    {
@@ -46,8 +43,9 @@ mpn_inv_divappr_q_n(mp_ptr qp, mp_ptr np,
       mpn_sub_n(np + dn, np + dn, dp, dn);
    }
 
-   mpn_mulhigh_n(qp, np + dn, inv, dn);
-   mpn_add_n(qp, qp, dp, dn);
+   tp = TMP_ALLOC_LIMBS(2*dn);
+   mpn_mulhigh_n(tp, np + dn, inv, dn);
+   mpn_add_n(qp, tp + dn, dp, dn);
 
    /* 
       Let X = B^dn + inv, D = { dp, dn }, N = { np, 2*dn }, then
@@ -64,7 +62,6 @@ mpn_inv_divappr_q_n(mp_ptr qp, mp_ptr np,
       ret = 1;
       mpn_sub_1(qp, qp, dn, 1);
    }
-
    TMP_FREE;
 
    return ret;

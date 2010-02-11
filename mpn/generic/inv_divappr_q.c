@@ -39,7 +39,7 @@ mpn_inv_divappr_q (mp_ptr qp, mp_ptr np, mp_size_t nn,
 {
   mp_size_t qn;
   mp_limb_t qh, cy, qsave, dinv2;
-  mp_ptr tp;
+  mp_ptr tp, temp;
   TMP_DECL;
 
   TMP_MARK;
@@ -64,7 +64,7 @@ mpn_inv_divappr_q (mp_ptr qp, mp_ptr np, mp_size_t nn,
       qp -= qn;			/* point at low limb of next quotient block */
       np -= qn;			/* point in the middle of partial remainder */
 
-      tp = TMP_SALLOC_LIMBS (10*dn);
+      tp = TMP_ALLOC_LIMBS (10*dn);
 
       /* Perform the typically smaller block first.  */
       if (qn == 1)
@@ -95,7 +95,7 @@ mpn_inv_divappr_q (mp_ptr qp, mp_ptr np, mp_size_t nn,
 	    }
 	  else
 	    {
-	      invert_1(dinv2, dp[dn - 1], dp[dn - 2]);
+	      invert_1(dinv2, d1, d0);
          tdiv_qr_3by2 (q, n1, n0, n2, n1, n0, d1, d0, dinv2);
 
 	      if (dn > 2)
@@ -125,7 +125,7 @@ mpn_inv_divappr_q (mp_ptr qp, mp_ptr np, mp_size_t nn,
 	}
       else
 	{
-	  invert_1(dinv2, dp[dn - 1], dp[dn - 2]);
+	  invert_1(dinv2, dp[-1], dp[-2]);
      if (qn == 2)
 	    qh = mpn_divrem_2 (qp, 0L, np - 2, 4, dp - 2);
 	  else if (BELOW_THRESHOLD (qn, DC_DIV_QR_THRESHOLD))
@@ -178,9 +178,9 @@ mpn_inv_divappr_q (mp_ptr qp, mp_ptr np, mp_size_t nn,
       qp -= qn;			/* point at low limb of next quotient block */
       np -= qn;			/* point in the middle of partial remainder */
 
-      q2p = TMP_SALLOC_LIMBS (qn + 1);
+      q2p = TMP_ALLOC_LIMBS (qn + 1);
       
-      invert_1(dinv2, dp[dn - 1], dp[dn - 2]);
+      invert_1(dinv2, dp[-1], dp[-2]);
       
       if (BELOW_THRESHOLD (qn, DC_DIVAPPR_Q_THRESHOLD))
 	{
@@ -191,11 +191,11 @@ mpn_inv_divappr_q (mp_ptr qp, mp_ptr np, mp_size_t nn,
 	{
 	  /* It is tempting to use qp for recursive scratch and put quotient in
 	     tp, but the recursive scratch needs one limb too many.  */
-	  tp = TMP_SALLOC_LIMBS (10*(qn + 1));
+	  tp = TMP_ALLOC_LIMBS (10*(qn + 1));
 	  qh = mpn_dc_divappr_q_n (q2p, np - qn - 2, dp - (qn + 1), qn + 1, dinv2, tp);
     } else 
 	{
-	  qh = mpn_inv_divappr_q_n (q2p, np - qn - 2, dp - (qn + 1), qn + 1, dinv);
+	  qh = mpn_inv_divappr_q_n (q2p, np - qn - 2, dp - (qn + 1), qn + 1, dinv + dn - (qn + 1));
 	}
       MPN_COPY (qp, q2p + 1, qn);
     }

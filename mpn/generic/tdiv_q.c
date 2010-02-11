@@ -143,20 +143,20 @@ mpn_tdiv_q (mp_ptr qp,
 	  else if (BELOW_THRESHOLD (dn, DC_DIV_Q_THRESHOLD) ||
 		   BELOW_THRESHOLD (new_nn - dn, DC_DIV_Q_THRESHOLD))
 	    {
-	      invert_1(dinv, new_dp[dn - 1], new_dp[dn - 2]);
+          invert_1(dinv, new_dp[dn - 1], new_dp[dn - 2]);
 	      qh = mpn_sb_div_q (qp, new_np, new_nn, new_dp, dn, dinv);
 	    }
 	  else if (BELOW_THRESHOLD (dn, INV_DIV_Q_THRESHOLD) || 
 		   BELOW_THRESHOLD (nn, 2 * INV_DIV_Q_THRESHOLD)) 
 	    {
-	      invert_1(dinv, new_dp[dn - 1], new_dp[dn - 2]);
-              qh = mpn_dc_div_q (qp, new_np, new_nn, new_dp, dn, dinv);
+          invert_1(dinv, new_dp[dn - 1], new_dp[dn - 2]);
+          qh = mpn_dc_div_q (qp, new_np, new_nn, new_dp, dn, dinv);
 	    }
 	  else
 	    {
-	      mp_ptr inv = TMP_ALLOC_LIMBS(dn);
-              mpn_invert(inv, new_dp, dn);
-              qh = mpn_inv_div_q (qp, new_np, new_nn, new_dp, dn, inv);
+           mp_ptr inv = TMP_ALLOC_LIMBS(dn);
+           mpn_invert(inv, new_dp, dn);
+           qh = mpn_inv_div_q (qp, new_np, new_nn, new_dp, dn, inv);
 	    }
 	  if (cy == 0)
 	    qp[qn - 1] = qh;
@@ -183,20 +183,20 @@ mpn_tdiv_q (mp_ptr qp,
 	  else if (BELOW_THRESHOLD (dn, DC_DIV_Q_THRESHOLD) ||
 		   BELOW_THRESHOLD (nn - dn, DC_DIV_Q_THRESHOLD))
 	    {
-              invert_1(dinv, dh, dp[dn - 2]);
-              qh = mpn_sb_div_q (qp, new_np, nn, dp, dn, dinv);
+           invert_1(dinv, dh, dp[dn - 2]);
+           qh = mpn_sb_div_q (qp, new_np, nn, dp, dn, dinv);
 	    }
 	  else if (BELOW_THRESHOLD (dn, INV_DIV_Q_THRESHOLD) || 
 		   BELOW_THRESHOLD (nn, 2 * INV_DIV_Q_THRESHOLD))
 	    {
-	      invert_1(dinv, dh, dp[dn - 2]);
-              qh = mpn_dc_div_q (qp, new_np, nn, dp, dn, dinv);
+           invert_1(dinv, dh, dp[dn - 2]);
+           qh = mpn_dc_div_q (qp, new_np, nn, dp, dn, dinv);
 	    }
 	  else
 	    {
-	      mp_ptr inv = TMP_ALLOC_LIMBS(dn);
-              mpn_invert(inv, dp, dn);
-              qh = mpn_inv_div_q (qp, np, nn, dp, dn, inv);
+           mp_ptr inv = TMP_ALLOC_LIMBS(dn);
+           mpn_invert(inv, dp, dn);
+           qh = mpn_inv_div_q (qp, np, nn, dp, dn, inv);
 	    }
 	  qp[nn - dn] = qh;
 	}
@@ -235,19 +235,19 @@ mpn_tdiv_q (mp_ptr qp,
 	    }
 	  else if (BELOW_THRESHOLD (qn, DC_DIVAPPR_Q_THRESHOLD - 1))
 	    {
-	      invert_1(dinv, new_dp[qn], new_dp[qn - 1]);
+          invert_1(dinv, new_dp[qn], new_dp[qn - 1]);
 	      qh = mpn_sb_divappr_q (tp, new_np, new_nn, new_dp, qn + 1, dinv);
 	    }
-	  else if (BELOW_THRESHOLD (qn, INV_DIV_Q_THRESHOLD - 1))
+	  else if (BELOW_THRESHOLD (qn, INV_DIVAPPR_Q_THRESHOLD - 1))
 	    {
-	      invert_1(dinv, new_dp[qn], new_dp[qn - 1]);
+          invert_1(dinv, new_dp[qn], new_dp[qn - 1]);
 	      qh = mpn_dc_divappr_q (tp, new_np, new_nn, new_dp, qn + 1, dinv);
 	    }
 	  else
 	    {
-	      mp_ptr inv = TMP_ALLOC_LIMBS(qn + 1);
-              mpn_invert(inv, new_dp, qn + 1);
-              qh = mpn_inv_divappr_q (tp, new_np, new_nn, new_dp, qn + 1, inv); 
+           mp_ptr inv = TMP_ALLOC_LIMBS(qn + 1);
+           mpn_invert(inv, new_dp, qn + 1);
+           qh = mpn_inv_divappr_q (tp, new_np, new_nn, new_dp, qn + 1, inv); 
 	    }
 	  if (cy == 0)
 	    tp[qn] = qh;
@@ -274,19 +274,19 @@ mpn_tdiv_q (mp_ptr qp,
 	    }
 	  else if (BELOW_THRESHOLD (qn, DC_DIVAPPR_Q_THRESHOLD - 1))
 	    {
-	      invert_1(dinv, dh, new_dp[qn - 1]);
-              qh = mpn_sb_divappr_q (tp, new_np, new_nn, new_dp, qn + 1, dinv);
+          invert_1(dinv, dh, new_dp[qn - 1]);
+          qh = mpn_sb_divappr_q (tp, new_np, new_nn, new_dp, qn + 1, dinv);
 	    }
 	  else if (BELOW_THRESHOLD (qn, INV_DIVAPPR_Q_THRESHOLD - 1))
 	    {
-              invert_1(dinv, dh, new_dp[qn - 1]);
-              qh = mpn_dc_divappr_q (tp, new_np, new_nn, new_dp, qn + 1, dinv);
+          invert_1(dinv, dh, new_dp[qn - 1]);
+          qh = mpn_dc_divappr_q (tp, new_np, new_nn, new_dp, qn + 1, dinv);
 	    }
 	  else
 	    {
-	      mp_ptr inv = TMP_ALLOC_LIMBS(qn + 1);
+          mp_ptr inv = TMP_ALLOC_LIMBS(qn + 1);
 	      mpn_invert(inv, new_dp, qn + 1);
-              qh = mpn_inv_divappr_q (tp, new_np, new_nn, new_dp, qn + 1, inv);
+          qh = mpn_inv_divappr_q (tp, new_np, new_nn, new_dp, qn + 1, inv);
 	    }
 	  tp[qn] = qh;
 	}
