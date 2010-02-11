@@ -21,6 +21,7 @@ MA 02110-1301, USA. */
 
 #include <mpir.h>
 #include "gmp-impl.h"
+#include "longlong.h"
 
 /* 
    Computes an approximate quotient of { np, 2*dn } by { dp, dn } which is
@@ -31,7 +32,7 @@ mp_limb_t
 mpn_inv_divappr_q_n(mp_ptr qp, mp_ptr np, 
                               mp_srcptr dp, mp_size_t dn, mp_srcptr inv)
 {
-   mp_limb_t ret = 0;
+   mp_limb_t cy, lo, ret = 0;
    mp_ptr tp;
    TMP_DECL;
 
@@ -43,9 +44,11 @@ mpn_inv_divappr_q_n(mp_ptr qp, mp_ptr np,
       mpn_sub_n(np + dn, np + dn, dp, dn);
    }
 
-   tp = TMP_ALLOC_LIMBS(2*dn);
-   mpn_mulhigh_n(tp, np + dn, inv, dn);
-   mpn_add_n(qp, tp + dn, dp, dn);
+   tp = TMP_ALLOC_LIMBS(2*dn + 1);
+   mpn_mul(tp, np + dn - 1, dn + 1, inv, dn);
+   add_ssaaaa(cy, lo, 0, np[dn - 1], 0, tp[dn]);
+   mpn_add_n(qp, tp + dn + 1, np + dn, dn);
+   ret += mpn_add_1(qp, qp, dn, cy + 1);
 
    /* 
       Let X = B^dn + inv, D = { dp, dn }, N = { np, 2*dn }, then
@@ -55,8 +58,6 @@ mpn_inv_divappr_q_n(mp_ptr qp, mp_ptr np,
       NX//B^{2*dn} <= N//D <= NX//B^{2*dn} + 1.
    */
       
-   ret += mpn_add_1(qp, qp, dn, 1);
-   
    if (UNLIKELY(ret == 2))
    {
       ret = 1;

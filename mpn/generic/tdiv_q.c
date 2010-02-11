@@ -196,7 +196,7 @@ mpn_tdiv_q (mp_ptr qp,
 	    {
            mp_ptr inv = TMP_ALLOC_LIMBS(dn);
            mpn_invert(inv, dp, dn);
-           qh = mpn_inv_div_q (qp, np, nn, dp, dn, inv);
+           qh = mpn_inv_div_q (qp, new_np, nn, dp, dn, inv);
 	    }
 	  qp[nn - dn] = qh;
 	}
