@@ -55,7 +55,7 @@ check_sb_divappr_q (void)
   
    for (i = 0; i < ITERS; i++)
    {
-      dn = (random() % (MAX_LIMBS - 1)) + 3;
+      dn = (random() % (MAX_LIMBS - 2)) + 3;
       nn = (random() % MAX_LIMBS) + dn;
       
       mpn_rrandom (np, rands, nn);
