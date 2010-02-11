@@ -3085,6 +3085,26 @@
 					</FileConfiguration>
 				</File>
 				<File
+					RelativePath="..\..\mpf\clears.c"
+					>
+					<FileConfiguration
+						Name="Debug|x64"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpf\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|x64"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpf\"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
 					RelativePath="..\..\mpf\cmp.c"
 					>
 					<FileConfiguration
@@ -3546,6 +3566,26 @@
 				</File>
 				<File
 					RelativePath="..\..\mpf\init2.c"
+					>
+					<FileConfiguration
+						Name="Debug|x64"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpf\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|x64"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpf\"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\mpf\inits.c"
 					>
 					<FileConfiguration
 						Name="Debug|x64"
@@ -4369,6 +4409,26 @@
 					</FileConfiguration>
 				</File>
 				<File
+					RelativePath="..\..\mpq\clears.c"
+					>
+					<FileConfiguration
+						Name="Debug|x64"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpq\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|x64"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpq\"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
 					RelativePath="..\..\mpq\cmp.c"
 					>
 					<FileConfiguration
@@ -4550,6 +4610,26 @@
 				</File>
 				<File
 					RelativePath="..\..\mpq\init.c"
+					>
+					<FileConfiguration
+						Name="Debug|x64"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpq\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|x64"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpq\"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\mpq\inits.c"
 					>
 					<FileConfiguration
 						Name="Debug|x64"
@@ -5254,6 +5334,26 @@
 				</File>
 				<File
 					RelativePath="..\..\mpz\clear.c"
+					>
+					<FileConfiguration
+						Name="Debug|x64"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpz\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|x64"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpz\"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\mpz\clears.c"
 					>
 					<FileConfiguration
 						Name="Debug|x64"
@@ -6254,6 +6354,26 @@
 				</File>
 				<File
 					RelativePath="..\..\mpz\init2.c"
+					>
+					<FileConfiguration
+						Name="Debug|x64"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpz\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|x64"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpz\"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\mpz\inits.c"
 					>
 					<FileConfiguration
 						Name="Debug|x64"
