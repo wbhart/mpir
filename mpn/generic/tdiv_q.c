@@ -203,7 +203,7 @@ mpn_tdiv_q (mp_ptr qp,
 		   (double) (2 * (FFT_DIV_Q_THRESHOLD - FFT_PI_DIV_Q_THRESHOLD)) * dn /* slow... */
 		   + (double) FFT_PI_DIV_Q_THRESHOLD * nn > (double) dn * nn)   /* ...condition */
 	    {
-	      invert_1(dinv, dh, dp[dn - 1]);
+	      invert_1(dinv, dh, dp[dn - 2]);
               qh = mpn_dc_div_q (qp, new_np, nn, dp, dn, dinv);
 	    }
 	  else
