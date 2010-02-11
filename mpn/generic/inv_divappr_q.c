@@ -193,8 +193,6 @@ mpn_inv_divappr_q (mp_ptr qp, mp_ptr np, mp_size_t nn,
 	     tp, but the recursive scratch needs one limb too many.  */
 	  tp = TMP_SALLOC_LIMBS (10*(qn + 1));
 	  qh = mpn_dc_divappr_q_n (q2p, np - qn - 2, dp - (qn + 1), qn + 1, dinv2, tp);
-	}
-      MPN_COPY (qp, q2p + 1, qn);
     } else 
 	{
 	  qh = mpn_inv_divappr_q_n (q2p, np - qn - 2, dp - (qn + 1), qn + 1, dinv);

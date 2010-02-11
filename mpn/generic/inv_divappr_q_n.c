@@ -27,10 +27,11 @@ MA 02110-1301, USA. */
    either correct or one too large. We require dp to be normalised and inv
    to be a precomputed inverse given by mpn_invert.
 */
-mp_limb_t mpn_inv_divappr_q_n(mp_ptr_t qp, mp_srcptr np, 
+mp_limb_t 
+mpn_inv_divappr_q_n(mp_ptr qp, mp_ptr np, 
                               mp_srcptr dp, mp_size_t dn, mp_srcptr inv)
 {
-   mp_ptr_t temp;
+   mp_ptr temp;
    mp_limb_t ret = 0;
 
    TMP_DECL;
@@ -39,7 +40,7 @@ mp_limb_t mpn_inv_divappr_q_n(mp_ptr_t qp, mp_srcptr np,
    
    temp = TMP_ALLOC_LIMBS(dn);
 
-   if (mpn_cmp_n(np + dn, dp, dn) >= 0)
+   if (mpn_cmp(np + dn, dp, dn) >= 0)
    {
       ret = 1;
       mpn_sub_n(np + dn, np + dn, dp, dn);
@@ -68,3 +69,4 @@ mp_limb_t mpn_inv_divappr_q_n(mp_ptr_t qp, mp_srcptr np,
 
    return ret;
 }
+
