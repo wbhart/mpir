@@ -30,7 +30,7 @@ along with the GNU MP Library.  If not, see http://www.gnu.org/licenses/.  */
 
 #define DC_DIVAPPR_Q_THRESHOLD 141 /*FIXME: tune these */
 #define DC_DIVAPPR_QR_THRESHOLD 145 
-#define DC_DIV_QR_THRESHOLD 46
+#define DC_DIV_QR_THRESHOLD 56 
 
 mp_limb_t
 mpn_dc_divappr_q (mp_ptr qp, mp_ptr np, mp_size_t nn,
