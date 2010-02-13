@@ -32,7 +32,7 @@ along with the GNU MP Library.  If not, see http://www.gnu.org/licenses/.  */
 
 #include <stdio.h>		/* for NULL */
 
-#include "gmp.h"
+#include "mpir.h"
 #include "gmp-impl.h"
 #include "longlong.h"
 
@@ -300,7 +300,7 @@ mpn_rootrem_internal (mp_ptr rootp, mp_ptr remp, mp_srcptr up, mp_size_t un,
 	     The quotient needs rn-wn+1 limbs, thus quotient+remainder
 	     need altogether rn+1 limbs. */
 	  tp = qp + qn + 1;	/* put remainder in Q buffer */
-	  mpn_div_q (qp, rp, rn, wp, wn, scratch);
+	  mpn_tdiv_q (qp, rp, rn, wp, wn);
 	  qn += qp[qn] != 0;
 	}
 

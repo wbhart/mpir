@@ -76,7 +76,7 @@ Boston, MA 02110-1301, USA. */
 #include "gmp-impl.h"
 #include "longlong.h"
 
-static mp_size_t
+mp_size_t
 mpn_rootrem_basecase (mp_ptr rootp, mp_ptr remp,mp_srcptr up, mp_size_t un, mp_limb_t nth)
 {
   mp_ptr pp, qp, xp;
