@@ -94,7 +94,7 @@ mpn_rootrem (mp_ptr rootp, mp_ptr remp,
 		  TMP_FREE;
           return ret;
 	  } else 
-		  return mpn_rootrem_basecase(rootp,remp,up,un,k)
+		  return mpn_rootrem_basecase(rootp,remp,up,un,k);
   }
 
 
