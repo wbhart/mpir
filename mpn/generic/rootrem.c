@@ -83,7 +83,20 @@ mpn_rootrem (mp_ptr rootp, mp_ptr remp,
   ASSERT (up[un - 1] != 0);
   ASSERT (k > 1);
 
-  if(BELOW_THRESHOLD(un,ROOTREM_THRESHOLD))return mpn_rootrem_basecase(rootp,remp,up,un,k);
+  if(BELOW_THRESHOLD(un,ROOTREM_THRESHOLD))
+  {
+	  if (remp == NULL)
+	  {
+		  TMP_DECL;
+		  TMP_MARK;
+		  mp_ptr temp = TMP_ALLOC_LIMBS(un);
+		  mp_size_t ret = mpn_rootrem_basecase(rootp,temp,up,un,k);
+		  TMP_FREE;
+          return ret;
+	  } else 
+		  return mpn_rootrem_basecase(rootp,remp,up,un,k)
+  }
+
 
   if ((remp == NULL) && (un / k > 2))
     /* call mpn_rootrem recursively, padding {up,un} with k zero limbs,
