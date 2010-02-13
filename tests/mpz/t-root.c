@@ -84,12 +84,6 @@ main (int argc, char **argv)
       nth = mpz_getlimbn (bs, 0) % mpz_sizeinbase (x2, 2) + 2;
 
       mpz_root (root1, x2, nth);
-      mpz_nthroot (root3, x2, nth);
-      if (mpz_cmp (root1, root3) != 0)
-	{
-	  printf ("nthroot to root mismatch\n");
-	  abort ();
-	}
 
       mpz_urandomb (bs, rands, 4);
       bsi = mpz_get_ui (bs);
@@ -105,12 +99,6 @@ main (int argc, char **argv)
 	  else
 	    mpz_add_ui (x2, x2, bsi >> 2);
 	  mpz_root (root1, x2, nth);
-	  mpz_nthroot (root3, x2, nth);
-	  if (mpz_cmp (root1, root3) != 0)
-	    {
-	      printf ("nthroot to root mismatch\n");
-	      abort ();
-	    }
 	}
 
       /* printf ("%ld %lu\n", SIZ (x2), nth); */
@@ -174,14 +162,8 @@ main (int argc, char **argv)
 	      if (nth % 2 == 0 && mpz_cmp_ui (temp2, 0) < 0)
 		continue;
 	      //printf("i is %d nth is %d\n",i,nth);
-	      mpz_nthroot (root1, temp2, nth);
 	      r1 = mpz_root (root2, temp2, nth);
 	      mpz_rootrem (root3, rem2, temp2, nth);
-	      if (mpz_cmp (root1, root2) != 0)
-		{
-		  printf ("root12 mismatch\n");
-		  abort ();
-		}
 	      if (mpz_cmp (root2, root3) != 0)
 		{
 		  printf ("root23 mismatch\n");

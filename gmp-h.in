@@ -1066,9 +1066,6 @@ __GMP_DECLSPEC unsigned long int mpz_remove __GMP_PROTO ((mpz_ptr, mpz_srcptr, m
 #define mpz_root __gmpz_root
 __GMP_DECLSPEC int mpz_root __GMP_PROTO ((mpz_ptr, mpz_srcptr, unsigned long int));
 
-#define mpz_nthroot __gmpz_nthroot
-__GMP_DECLSPEC void mpz_nthroot __GMP_PROTO ((mpz_ptr, mpz_srcptr, unsigned long int));
-
 #define mpz_rootrem __gmpz_rootrem
 __GMP_DECLSPEC void mpz_rootrem __GMP_PROTO ((mpz_ptr,mpz_ptr, mpz_srcptr, unsigned long int));
 
