@@ -1251,6 +1251,8 @@ int     mpn_divisible_p _PROTO ((mp_srcptr ap, mp_size_t asize,
 #define mpn_rootrem __MPN(rootrem)
 mp_size_t mpn_rootrem _PROTO ((mp_ptr, mp_ptr, mp_srcptr, mp_size_t, mp_limb_t));
 
+#define mpn_rootrem_basecase __MPN(rootrem_basecase)
+mp_size_t mpn_rootrem_basecase _PROTO ((mp_ptr, mp_ptr, mp_srcptr, mp_size_t, mp_limb_t));
 
 #if defined (_CRAY)
 #define MPN_COPY_INCR(dst, src, n)					\
