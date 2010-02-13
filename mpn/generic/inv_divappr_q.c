@@ -29,7 +29,8 @@ along with the GNU MP Library.  If not, see http://www.gnu.org/licenses/.  */
 #include "longlong.h"
 
 #define DC_DIVAPPR_Q_THRESHOLD 141 /*FIXME: tune these */
-#define INV_DIVAPPR_Q_THRESHOLD 1000 /*FIXME: tune these */
+#define INV_DIVAPPR_Q_THRESHOLD 1000 
+#define INV_DIV_QR_THRESHOLD 1200 
 #define DC_DIVAPPR_QR_THRESHOLD 145 
 #define DC_DIV_QR_THRESHOLD 56 
 
@@ -130,10 +131,12 @@ mpn_inv_divappr_q (mp_ptr qp, mp_ptr np, mp_size_t nn,
 	    qh = mpn_divrem_2 (qp, 0L, np - 2, 4, dp - 2);
 	  else if (BELOW_THRESHOLD (qn, DC_DIV_QR_THRESHOLD))
         qh = mpn_sb_div_qr (qp, np - qn, 2 * qn, dp - qn, qn, dinv2);
-     else
+     else if (BELOW_THRESHOLD (qn, INV_DIV_QR_THRESHOLD))
         qh = mpn_dc_div_qr_n (qp, np - qn, dp - qn, qn, dinv2, tp);
-
-	  if (qn != dn)
+     else
+        qh = mpn_inv_div_qr_n (qp, np - qn, dp - qn, qn, dinv);
+	  
+      if (qn != dn)
 	    {
 	      if (qn > dn - qn)
 		mpn_mul (tp, qp, qn, dp - dn, dn - qn);
@@ -156,7 +159,7 @@ mpn_inv_divappr_q (mp_ptr qp, mp_ptr np, mp_size_t nn,
 	{
 	  qp -= dn;
 	  np -= dn;
-      mpn_dc_div_qr_n (qp, np - dn, dp - dn, dn, dinv2, tp);
+      mpn_inv_div_qr_n (qp, np - dn, dp - dn, dn, dinv);
 	  qn -= dn;
 	}
 
