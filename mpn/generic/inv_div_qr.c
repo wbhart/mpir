@@ -160,7 +160,7 @@ mpn_inv_div_qr (mp_ptr qp,
 	{
 	  qp -= dn;
 	  np -= dn;
-	  mpn_inv_div_qr_n (qp, np - dn, dp - dn, dn, dinv, tp);
+	  mpn_inv_div_qr_n (qp, np - dn, dp - dn, dn, dinv);
 	  qn -= dn;
 	}
       while (qn > 0);
