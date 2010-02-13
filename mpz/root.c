@@ -1,13 +1,13 @@
 /* mpz_root(root, u, nth) --  Set ROOT to floor(U^(1/nth)).
    Return an indication if the result is exact.
 
-Copyright 1999, 2000, 2001, 2002, 2003 Free Software Foundation, Inc.
+Copyright 1999, 2000, 2001, 2002, 2003, 2005 Free Software Foundation, Inc.
 
 This file is part of the GNU MP Library.
 
 The GNU MP Library is free software; you can redistribute it and/or modify
 it under the terms of the GNU Lesser General Public License as published by
-the Free Software Foundation; either version 2.1 of the License, or (at your
+the Free Software Foundation; either version 3 of the License, or (at your
 option) any later version.
 
 The GNU MP Library is distributed in the hope that it will be useful, but
@@ -16,20 +16,19 @@ or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public
 License for more details.
 
 You should have received a copy of the GNU Lesser General Public License
-along with the GNU MP Library; see the file COPYING.LIB.  If not, write to
-the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
-MA 02110-1301, USA. */
+along with the GNU MP Library.  If not, see http://www.gnu.org/licenses/.  */
 
-#include "mpir.h"
+#include <stdio.h>		/* for NULL */
+#include "gmp.h"
 #include "gmp-impl.h"
 
 int
 mpz_root (mpz_ptr root, mpz_srcptr u, unsigned long int nth)
 {
-  mp_ptr rootp, up, remp;
+  mp_ptr rootp, up;
   mp_size_t us, un, rootn, remn;
+  TMP_DECL;
 
-  up = PTR(u);
   us = SIZ(u);
 
   /* even roots of negatives provoke an exception */
@@ -43,7 +42,7 @@ mpz_root (mpz_ptr root, mpz_srcptr u, unsigned long int nth)
 
   if (us == 0)
     {
-      if (root != 0)
+      if (root != NULL)
 	SIZ(root) = 0;
       return 1;			/* exact result */
     }
@@ -51,15 +50,15 @@ mpz_root (mpz_ptr root, mpz_srcptr u, unsigned long int nth)
   un = ABS (us);
   rootn = (un - 1) / nth + 1;
 
-  if (root != 0)
-    {
-      rootp = MPZ_REALLOC (root, rootn);
-      up = PTR(u);
-    }
+  TMP_MARK;
+
+  /* FIXME: Perhaps disallow root == NULL */
+  if (root != NULL && u != root)
+    rootp = MPZ_REALLOC (root, rootn);
   else
-    {
-      rootp = __GMP_ALLOCATE_FUNC_LIMBS (rootn);
-    }
+    rootp = TMP_ALLOC_LIMBS (rootn);
+
+  up = PTR(u);
 
   if (nth == 1)
     {
@@ -68,15 +67,16 @@ mpz_root (mpz_ptr root, mpz_srcptr u, unsigned long int nth)
     }
   else
     {
-      remp=__GMP_ALLOCATE_FUNC_LIMBS(un);
-      remn = mpn_rootrem (rootp, remp, up, un, (mp_limb_t) nth);
-      __GMP_FREE_FUNC_LIMBS(remp,un);
+      remn = mpn_rootrem (rootp, NULL, up, un, (mp_limb_t) nth);
     }
 
-  if (root != 0)
-    SIZ(root) = us >= 0 ? rootn : -rootn;
-  else
-    __GMP_FREE_FUNC_LIMBS (rootp, rootn);
+  if (root != NULL)
+    {
+      SIZ(root) = us >= 0 ? rootn : -rootn;
+      if (u == root)
+	MPN_COPY (up, rootp, rootn);
+    }
 
+  TMP_FREE;
   return remn == 0;
 }
