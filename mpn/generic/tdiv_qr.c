@@ -36,8 +36,7 @@ along with the GNU MP Library.  If not, see http://www.gnu.org/licenses/.  */
 #include "longlong.h"
 
 #define DC_DIV_QR_THRESHOLD 152 /*FIXME: tune this!*/
-#define MUPI_DIV_QR_THRESHOLD 65536
-#define MU_DIV_QR_THRESHOLD 131072
+#define INV_DIV_QR_THRESHOLD 1000
 
 void
 mpn_tdiv_qr (mp_ptr qp, mp_ptr rp, mp_size_t qxn,
@@ -139,20 +138,15 @@ mpn_tdiv_qr (mp_ptr qp, mp_ptr rp, mp_size_t qxn,
 	    invert_1 (dinv, d2p[dn - 1], d2p[dn - 2]);
 	    if (BELOW_THRESHOLD (dn, DC_DIV_QR_THRESHOLD))
 	      mpn_sb_div_qr (qp, n2p, nn, d2p, dn, dinv);
-	    else if (BELOW_THRESHOLD (dn, MUPI_DIV_QR_THRESHOLD) ||   /* fast condition */
-		     BELOW_THRESHOLD (nn, 2 * MU_DIV_QR_THRESHOLD) || /* fast condition */
-		     (double) (2 * (MU_DIV_QR_THRESHOLD - MUPI_DIV_QR_THRESHOLD)) * dn /* slow... */
-		     + (double) MUPI_DIV_QR_THRESHOLD * nn > (double) dn * nn)    /* ...condition */
+	    else if (BELOW_THRESHOLD (dn, INV_DIV_QR_THRESHOLD) ||
+		     BELOW_THRESHOLD (nn, 2 * INV_DIV_QR_THRESHOLD))     
 	      mpn_dc_div_qr (qp, n2p, nn, d2p, dn, dinv);
 	    else
-	      {
-	    printf("Not implemented yet\n");
-        abort();
-        /*mp_size_t itch = mpn_mu_div_qr_itch (nn, dn, 0);
-		mp_ptr scratch = TMP_ALLOC_LIMBS (itch);
-		mpn_mu_div_qr (qp, rp, n2p, nn, d2p, dn, scratch);
-		n2p = rp;*/
-	      }
+		{
+	      mp_ptr dinv2 = TMP_ALLOC_LIMBS(dn);
+		  mpn_invert(dinv2, d2p, dn);
+		  mpn_inv_div_qr (qp, n2p, nn, d2p, dn, dinv2);
+		}
 
 	    if (cnt != 0)
 	      mpn_rshift (rp, n2p, dn, cnt);
@@ -271,20 +265,16 @@ mpn_tdiv_qr (mp_ptr qp, mp_ptr rp, mp_size_t qxn,
 		invert_1 (dinv, d2p[qn - 1], d2p[qn - 2]);
 		if (BELOW_THRESHOLD (qn, DC_DIV_QR_THRESHOLD))
 		  mpn_sb_div_qr (qp, n2p, 2 * qn, d2p, qn, dinv);
-		else if (BELOW_THRESHOLD (qn, MU_DIV_QR_THRESHOLD))
-		  mpn_dc_div_qr (qp, n2p, 2 * qn, d2p, qn, dinv);
-		else
-		  {
-		    printf("Not implemented yet!\n");
-            abort();
-            /*mp_size_t itch = mpn_mu_div_qr_itch (2 * qn, qn, 0);
-		    mp_ptr scratch = TMP_ALLOC_LIMBS (itch);
-		    mp_ptr r2p = rp;
-		    if (np == r2p)	// If N and R share space, put ... 
-		      r2p += nn - qn;	//intermediate remainder at N's upper end. 
-		    mpn_mu_div_qr (qp, r2p, n2p, 2 * qn, d2p, qn, scratch);
-		    MPN_COPY (n2p, r2p, qn);*/
-		  }
+		else if (BELOW_THRESHOLD (qn, INV_DIV_QR_THRESHOLD))
+		{
+			mp_ptr temp = TMP_ALLOC_LIMBS(10*qn);
+			mpn_dc_div_qr_n (qp, n2p, d2p, qn, dinv, temp);
+		} else
+		{
+	      mp_ptr dinv2 = TMP_ALLOC_LIMBS(dn);
+		  mpn_invert(dinv2, d2p, qn);
+		  mpn_inv_div_qr_n (qp, n2p, d2p, qn, dinv2);
+		}  
 	      }
 
 	    rn = qn;
