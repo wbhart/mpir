@@ -309,10 +309,6 @@ mpn_rootrem_internal (mp_ptr rootp, mp_ptr remp, mp_srcptr up, mp_size_t un,
 	{
 	  mp_ptr tp;
 	  qn = rn - wn; /* expected quotient size */
-	  /* tp must have space for wn limbs.
-	     The quotient needs rn-wn+1 limbs, thus quotient+remainder
-	     need altogether rn+1 limbs. */
-	  tp = qp + qn + 1;	/* put remainder in Q buffer */
 	  mpn_tdiv_q (qp, rp, rn, wp, wn);
 	  qn += qp[qn] != 0;
 	}
