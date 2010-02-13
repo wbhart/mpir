@@ -46,7 +46,7 @@
 #define RSH_DIVREM_HENSEL_QR_1_THRESHOLD      6
 #define DIVREM_EUCLID_HENSEL_THRESHOLD      8
 
-#define ROOTREM_THRESHOLD                11
+#define ROOTREM_THRESHOLD                 7 
 
 #define GET_STR_DC_THRESHOLD              3
 #define GET_STR_PRECOMPUTE_THRESHOLD      7
