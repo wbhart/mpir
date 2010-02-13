@@ -85,7 +85,7 @@ am_libmpz_la_OBJECTS = add.lo add_ui.lo abs.lo aorsmul.lo aorsmul_i.lo \
 	mul.lo mul_2exp.lo mul_si.lo mul_ui.lo n_pow_ui.lo neg.lo \
 	nextprime.lo out_raw.lo out_str.lo perfpow.lo perfsqr.lo \
 	popcount.lo pow_ui.lo powm.lo powm_ui.lo pprime_p.lo \
-	nthroot.lo realloc.lo realloc2.lo remove.lo root.lo rootrem.lo \
+	realloc.lo realloc2.lo remove.lo root.lo rootrem.lo \
 	rrandomb.lo scan0.lo scan1.lo set.lo set_d.lo set_f.lo \
 	set_q.lo set_si.lo set_str.lo set_ui.lo setbit.lo size.lo \
 	sizeinbase.lo sqrt.lo sqrtrem.lo sub.lo sub_ui.lo swap.lo \
@@ -288,7 +288,7 @@ libmpz_la_SOURCES = aors.h aors_ui.h fits_s.h mul_i.h \
   likely_prime_p.c probable_prime_p.c trial_division.c	\
   mod.c mul.c mul_2exp.c mul_si.c mul_ui.c n_pow_ui.c neg.c nextprime.c \
   out_raw.c out_str.c perfpow.c perfsqr.c popcount.c pow_ui.c powm.c \
-  powm_ui.c pprime_p.c nthroot.c \
+  powm_ui.c pprime_p.c \
   realloc.c realloc2.c remove.c root.c rootrem.c rrandomb.c \
   scan0.c scan1.c set.c set_d.c set_f.c set_q.c set_si.c set_str.c \
   set_ui.c setbit.c size.c sizeinbase.c sqrt.c sqrtrem.c sub.c sub_ui.c \
