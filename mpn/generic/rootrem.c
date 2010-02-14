@@ -307,7 +307,6 @@ mpn_rootrem_internal (mp_ptr rootp, mp_ptr remp, mp_srcptr up, mp_size_t un,
 	}
       else
 	{
-	  mp_ptr tp;
 	  qn = rn - wn; /* expected quotient size */
 	  mpn_tdiv_q (qp, rp, rn, wp, wn);
 	  qn += qp[qn] != 0;
