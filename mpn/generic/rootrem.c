@@ -87,10 +87,12 @@ mpn_rootrem (mp_ptr rootp, mp_ptr remp,
   {
 	  if (remp == NULL)
 	  {
+		  mp_ptr temp;
+		  mp_size_t ret;
 		  TMP_DECL;
 		  TMP_MARK;
-		  mp_ptr temp = TMP_ALLOC_LIMBS(un);
-		  mp_size_t ret = mpn_rootrem_basecase(rootp,temp,up,un,k);
+		  temp = TMP_ALLOC_LIMBS(un);
+		  ret = mpn_rootrem_basecase(rootp,temp,up,un,k);
 		  TMP_FREE;
           return ret;
 	  } else 

@@ -3953,6 +3953,26 @@
 					</FileConfiguration>
 				</File>
 				<File
+					RelativePath="..\..\mpn\generic\rootrem_basecase.c"
+					>
+					<FileConfiguration
+						Name="Debug|x64"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|x64"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
 					RelativePath="..\..\mpn\generic\rrandom.c"
 					>
 					<FileConfiguration
@@ -6908,26 +6928,6 @@
 				</File>
 				<File
 					RelativePath="..\..\mpz\nextprime.c"
-					>
-					<FileConfiguration
-						Name="Debug|x64"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpz\"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|x64"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpz\"
-						/>
-					</FileConfiguration>
-				</File>
-				<File
-					RelativePath="..\..\mpz\nthroot.c"
 					>
 					<FileConfiguration
 						Name="Debug|x64"
