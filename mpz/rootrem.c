@@ -3,6 +3,8 @@
 
 Copyright 1999, 2000, 2001, 2002, 2003, 2005 Free Software Foundation, Inc.
 
+Copyright 2010 Dr B R Gladman
+
 This file is part of the GNU MP Library.
 
 The GNU MP Library is free software; you can redistribute it and/or modify
@@ -85,6 +87,6 @@ mpz_rootrem (mpz_ptr root, mpz_ptr rem, mpz_srcptr u, unsigned long int nth)
 	MPN_COPY (up, remp, remn);
     }
 
-  SIZ(rem) = remn;
+  SIZ(rem) = us >= 0 ? remn : -remn;
   TMP_FREE;
 }

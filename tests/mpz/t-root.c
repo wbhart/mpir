@@ -167,17 +167,24 @@ main (int argc, char **argv)
 	      if (mpz_cmp (root2, root3) != 0)
 		{
 		  printf ("root23 mismatch\n");
+		  gmp_fprintf (stderr, "root2 = %ZX\n", root2);
+		  gmp_fprintf (stderr, "root3 = %ZX\n", root3);
 		  abort ();
 		}
-	      mpz_pow_ui (root3, root3, nth);
-	      mpz_add (root3, root3, rem2);
+	      mpz_pow_ui (root3, root2, nth);
+	      mpz_sub (root3, temp2, root3);
 	      //printf("bs is ");mpz_out_str(stdout,10,bs);printf("\n");
 	      //printf("temp2 is ");mpz_out_str(stdout,10,temp2);printf("\n");
 	      //printf("root is ");mpz_out_str(stdout,10,root1);printf("\n");
 	      //printf("rem is ");mpz_out_str(stdout,10,rem2);printf("\n");
-	      if (mpz_cmp (root3, temp2) != 0)
+	      if (mpz_cmp (root3, rem2) != 0)
 		{
+	      mpz_rootrem (root3, rem2, temp2, nth);
 		  printf ("rootrem mismatch\n");
+		  gmp_fprintf (stderr, "val = %ZX ^ (1 / %ld)\n", temp2, nth);
+		  gmp_fprintf (stderr, "root = %ZX\n", root2);
+		  gmp_fprintf (stderr, "rem2 = %ZX\n", root3);
+		  gmp_fprintf (stderr, "rem3 = %ZX\n", rem2);
 		  abort ();
 		}
 	      if (r1 && mpz_cmp_ui (rem2, 0) != 0)
