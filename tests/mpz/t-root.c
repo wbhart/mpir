@@ -179,7 +179,6 @@ main (int argc, char **argv)
 	      //printf("rem is ");mpz_out_str(stdout,10,rem2);printf("\n");
 	      if (mpz_cmp (root3, rem2) != 0)
 		{
-	      mpz_rootrem (root3, rem2, temp2, nth);
 		  printf ("rootrem mismatch\n");
 		  gmp_fprintf (stderr, "val = %ZX ^ (1 / %ld)\n", temp2, nth);
 		  gmp_fprintf (stderr, "root = %ZX\n", root2);
