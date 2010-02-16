@@ -1145,9 +1145,11 @@ __GMP_DECLSPEC extern gmp_randstate_t  __gmp_rands;
 #define MPN_TOOM3_MUL_N_MINSIZE   17 
 #define MPN_TOOM4_MUL_N_MINSIZE   32
 #define MPN_TOOM7_MUL_N_MINSIZE   56
+#define MPN_TOOM8H_MUL_N_MINSIZE  86
 #define MPN_TOOM3_SQR_N_MINSIZE   17
 #define MPN_TOOM4_SQR_N_MINSIZE   32
 #define MPN_TOOM7_SQR_N_MINSIZE   56
+#define MPN_TOOM8_SQR_N_MINSIZE   86
 
 #define mpn_sqr_diagonal __MPN(sqr_diagonal)
 void mpn_sqr_diagonal _PROTO ((mp_ptr, mp_srcptr, mp_size_t));
@@ -1197,11 +1199,49 @@ void mpn_toom4_interpolate _PROTO ((mp_ptr rp, mp_size_t * rpn, mp_size_t sn,
 #define mpn_toom7_mul_n  __MPN(toom7_mul_n)
 void mpn_toom7_mul_n _PROTO ((mp_ptr, mp_srcptr, mp_srcptr, mp_size_t));
 
+#define mpn_toom_eval_dgr3_pm1  __MPN(toom_eval_dgr3_pm1)
+int mpn_toom_eval_dgr3_pm1 _PROTO ((mp_ptr xp1, mp_ptr xm1,
+			mp_srcptr xp, mp_size_t n, mp_size_t x3n, mp_ptr tp));
+
+
+#define mpn_toom_eval_dgr3_pm2  __MPN(toom_eval_dgr3_pm2)
+int mpn_toom_eval_dgr3_pm2 (mp_ptr xp2, mp_ptr xm2,
+			mp_srcptr xp, mp_size_t n, mp_size_t x3n, mp_ptr tp));
+
+#define mpn_toom_eval_pm1  __MPN(toom_eval_pm1)
+int mpn_toom_eval_pm1 _PROTO ((mp_ptr xp1, mp_ptr xm1, unsigned k,
+		   mp_srcptr xp, mp_size_t n, mp_size_t hn, mp_ptr tp));
+
+#define mpn_toom_eval_pm2  __MPN(toom_eval_pm2)
+int mpn_toom_eval_pm2 _PROTO ((mp_ptr xp2, mp_ptr xm2, unsigned k,
+		   mp_srcptr xp, mp_size_t n, mp_size_t hn, mp_ptr tp));
+
+#define mpn_toom_eval_pm2exp  __MPN(toom_eval_pm2exp)
+int mpn_toom_eval_pm2exp _PROTO ((mp_ptr xp2, mp_ptr xm2, unsigned k,
+		      mp_srcptr xp, mp_size_t n, mp_size_t hn, unsigned shift,
+		      mp_ptr tp));
+
+#define mpn_toom_eval_pm2rexp  __MPN(toom_eval_pm2rexp)
+int mpn_toom_eval_pm2rexp _PROTO ((mp_ptr rp, mp_ptr rm,
+		      unsigned int q, mp_srcptr ap, mp_size_t n, mp_size_t t,
+		      unsigned int s, mp_ptr ws));
+
+#define mpn_toom_interpolate_16pts  __MPN(toom_interpolate_16pts)
+void mpn_toom_interpolate_16pts _PROTO ((mp_ptr pp, mp_ptr r1, mp_ptr r3, mp_ptr r5, mp_ptr r7,
+			mp_size_t n, mp_size_t spt, int half, mp_ptr wsi));
+
+#define mpn_toom8h_mul  __MPN(toom8h_mul)
+void mpn_toom8h_mul _PROTO ((mp_ptr, mp_srcptr, mp_size_t, mp_srcptr,
+                                                             mp_size_t));
+
 #define mpn_toom3_sqr_n  __MPN(toom3_sqr_n)
 void mpn_toom3_sqr_n _PROTO((mp_ptr, mp_srcptr, mp_size_t, mp_ptr));
 
 #define mpn_toom4_sqr_n  __MPN(toom4_sqr_n)
 void mpn_toom4_sqr_n _PROTO((mp_ptr, mp_srcptr, mp_size_t));
+
+#define mpn_toom8_sqr_n  __MPN(toom8_sqr_n)
+void mpn_toom8_sqr_n _PROTO((mp_ptr, mp_srcptr, mp_size_t));
 
 #define   mpn_toom42_mulmid __MPN(toom42_mulmid)
 void      mpn_toom42_mulmid __GMP_PROTO ((mp_ptr, mp_srcptr, mp_srcptr, mp_size_t, mp_ptr));

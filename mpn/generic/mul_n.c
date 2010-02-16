@@ -449,14 +449,14 @@ mpn_mul_n (mp_ptr p, mp_srcptr a, mp_srcptr b, mp_size_t n)
       mpn_toom3_mul_n (p, a, b, n, ws);
       TMP_SFREE;
     }
-  else if (BELOW_THRESHOLD (n, MUL_TOOM7_THRESHOLD))
+  else if (BELOW_THRESHOLD (n, MUL_TOOM8H_THRESHOLD))
     {
        mpn_toom4_mul_n (p, a, b, n);
     }
 #if WANT_FFT || TUNE_PROGRAM_BUILD
   else if (BELOW_THRESHOLD (n, MUL_FFT_THRESHOLD))
     {
-      mpn_toom7_mul_n (p, a, b, n);
+       mpn_toom8h_mul (p, a, n, b, n);
     }
 #endif
   else
