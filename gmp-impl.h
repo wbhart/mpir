@@ -1203,9 +1203,8 @@ void mpn_toom7_mul_n _PROTO ((mp_ptr, mp_srcptr, mp_srcptr, mp_size_t));
 int mpn_toom_eval_dgr3_pm1 _PROTO ((mp_ptr xp1, mp_ptr xm1,
 			mp_srcptr xp, mp_size_t n, mp_size_t x3n, mp_ptr tp));
 
-
 #define mpn_toom_eval_dgr3_pm2  __MPN(toom_eval_dgr3_pm2)
-int mpn_toom_eval_dgr3_pm2 (mp_ptr xp2, mp_ptr xm2,
+int mpn_toom_eval_dgr3_pm2 _PROTO ((mp_ptr xp2, mp_ptr xm2,
 			mp_srcptr xp, mp_size_t n, mp_size_t x3n, mp_ptr tp));
 
 #define mpn_toom_eval_pm1  __MPN(toom_eval_pm1)
@@ -1227,8 +1226,13 @@ int mpn_toom_eval_pm2rexp _PROTO ((mp_ptr rp, mp_ptr rm,
 		      unsigned int s, mp_ptr ws));
 
 #define mpn_toom_interpolate_16pts  __MPN(toom_interpolate_16pts)
-void mpn_toom_interpolate_16pts _PROTO ((mp_ptr pp, mp_ptr r1, mp_ptr r3, mp_ptr r5, mp_ptr r7,
-			mp_size_t n, mp_size_t spt, int half, mp_ptr wsi));
+void mpn_toom_interpolate_16pts _PROTO ((mp_ptr pp, mp_ptr r1, mp_ptr r3, 
+                   mp_ptr r5, mp_ptr r7, mp_size_t n, mp_size_t spt, 
+                         int half, mp_ptr wsi));
+
+#define mpn_toom_couple_handling  __MPN(toom_couple_handling)
+void mpn_toom_couple_handling _PROTO ((mp_ptr pp, mp_size_t n, mp_ptr np,
+			  int nsign, mp_size_t off, int ps, int ns));
 
 #define mpn_toom8h_mul  __MPN(toom8h_mul)
 void mpn_toom8h_mul _PROTO ((mp_ptr, mp_srcptr, mp_size_t, mp_srcptr,

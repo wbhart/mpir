@@ -42,8 +42,8 @@ along with the GNU MP Library.  If not, see http://www.gnu.org/licenses/.  */
 
 #define TOOM8H_MUL_N_REC(p, a, b, n)				\
   do {									\
-    if (BELOW_THRESHOLD (n, TOOM8H_MUL_THRESHOLD))		\
-      mpn_mul_n (p, a, n, b, n);				\
+    if (BELOW_THRESHOLD (n, MUL_TOOM8H_THRESHOLD))		\
+      mpn_mul_n (p, a, b, n);				\
     else								\
       mpn_toom8h_mul (p, a, n, b, n);				\
   } while (0)
@@ -234,7 +234,7 @@ mpn_toom8h_mul   (mp_ptr pp,
     };
   };
 
-  mpn_toom_interpolate_16pts (pp, r1, r3, r5, r7, n, s+t, half);
+  mpn_toom_interpolate_16pts (pp, r1, r3, r5, r7, n, s+t, half, wsi);
 
   TMP_FREE;
 
