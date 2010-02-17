@@ -39,13 +39,13 @@ along with the GNU MP Library.  If not, see http://www.gnu.org/licenses/.  */
 #define CORRECTION_BITS 0
 #endif
 
-#ifndef TOOM8_SQR_THRESHOLD
-#define TOOM8_SQR_THRESHOLD TOOM8H_MUL_THRESHOLD
+#ifndef SQR_TOOM8_THRESHOLD
+#define SQR_TOOM8_THRESHOLD MUL_TOOM8H_THRESHOLD
 #endif
 
-#define TOOM8_SQR_REC(p, a, n, ws)					\
+#define TOOM8_SQR_REC(p, a, n)					\
   do {									\
-    if (BELOW_THRESHOLD (n, TOOM8_SQR_THRESHOLD))		\
+    if (BELOW_THRESHOLD (n, SQR_TOOM8_THRESHOLD))		\
       mpn_sqr_n (p, a, n);					\
     else								\
       mpn_toom8_sqr_n (p, a, n);					\
@@ -55,6 +55,11 @@ void
 mpn_toom8_sqr_n  (mp_ptr pp, mp_srcptr ap, mp_size_t an)
 {
   mp_size_t n, s;
+  mp_ptr scratch;
+
+  TMP_DECL;
+  
+  TMP_MARK;
 
   /***************************** decomposition *******************************/
 
@@ -134,6 +139,8 @@ mpn_toom8_sqr_n  (mp_ptr pp, mp_srcptr ap, mp_size_t an)
   TOOM8_SQR_REC(pp, ap, n);
 
   mpn_toom_interpolate_16pts (pp, r1, r3, r5, r7, n, 2 * s, 0, wse);
+
+  TMP_FREE;
 
 #undef r0
 #undef r1
