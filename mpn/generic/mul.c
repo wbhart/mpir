@@ -146,7 +146,7 @@ mpn_mul (mp_ptr prodp,
 
   k = (un + 3)/4; // ceil(un/4)
             
-  if (ABOVE_THRESHOLD (un + vn, 2*MUL_TOOM8H_THRESHOLD))
+  if ((ABOVE_THRESHOLD (un + vn, 2*MUL_TOOM8H_THRESHOLD)) && (4*un <= 13*vn))
   {
       mpn_toom8h_mul(prodp, up, un, vp, vn);
       return prodp[un + vn - 1];

@@ -469,7 +469,7 @@ mpn_mul_n (mp_ptr p, mp_srcptr a, mp_srcptr b, mp_size_t n)
 #else
     {
       /* Toom7 for large operands. */
-      mpn_toom7_mul_n (p, a, b, n);
+      mpn_toom8h_mul (p, a, n, b, n);
     }
 #endif
 }
