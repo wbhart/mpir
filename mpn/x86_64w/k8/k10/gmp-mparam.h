@@ -3,16 +3,14 @@
 
 #define MUL_KARATSUBA_THRESHOLD          30
 #define MUL_TOOM3_THRESHOLD             113
-#define MUL_TOOM4_THRESHOLD             398
-#define MUL_TOOM7_THRESHOLD             399
-#define MUL_TOOM8H_THRESHOLD            400 
+#define MUL_TOOM4_THRESHOLD             858
+#define MUL_TOOM7_THRESHOLD             858
 
 #define SQR_BASECASE_THRESHOLD            0  /* always (native) */
 #define SQR_KARATSUBA_THRESHOLD          36
 #define SQR_TOOM3_THRESHOLD             129
 #define SQR_TOOM4_THRESHOLD             134
-#define SQR_TOOM7_THRESHOLD             399
-#define SQR_TOOM8_THRESHOLD             650
+#define SQR_TOOM7_THRESHOLD             144
 
 #define MULLOW_BASECASE_THRESHOLD        29
 #define MULLOW_DC_THRESHOLD              29

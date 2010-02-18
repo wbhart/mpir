@@ -745,6 +745,9 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpn.invert", "mpir-tests\mpn.invert\mpn.invert.vcproj", "{F5C5FD38-7078-4E9D-AB88-8568689DDEC8}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpn.inv_divappr_q_n", "mpir-tests\mpn.inv_divappr_q_n\mpn.inv_divappr_q_n.vcproj", "{584A3F48-B5CC-4484-9F33-AA61426D13CD}"
+	ProjectSection(ProjectDependencies) = postProject
+		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
