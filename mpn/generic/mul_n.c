@@ -510,7 +510,7 @@ mpn_sqr_n (mp_ptr p, mp_srcptr a, mp_size_t n)
       mpn_toom3_sqr_n (p, a, n, ws);
       TMP_SFREE;
     }
-  else if (BELOW_THRESHOLD (n, SQR_TOOM7_THRESHOLD))
+  else if (BELOW_THRESHOLD (n, SQR_TOOM8_THRESHOLD))
     {
        mpn_toom4_sqr_n (p, a, n);
     }
@@ -520,14 +520,12 @@ mpn_sqr_n (mp_ptr p, mp_srcptr a, mp_size_t n)
   else 
 #endif
     {
-		 mpn_toom7_sqr_n (p, a, n);
+       mpn_toom8_sqr_n (p, a, n);
     }
 #if WANT_FFT || TUNE_PROGRAM_BUILD
   else
     {
-      /* The current FFT code allocates its own space.  That should probably
-	 change.  */
-      mpn_mul_fft_full (p, a, n, a, n);
+       mpn_mul_fft_full (p, a, n, a, n);
     }
 #endif
 }
