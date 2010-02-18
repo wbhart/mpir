@@ -1647,6 +1647,17 @@ mpn_toom3_mul_n_fun (mp_ptr dst, mp_srcptr src1, mp_srcptr src2, mp_size_t size)
   TMP_MARK;
   tspace = TMP_ALLOC_LIMBS (MPN_TOOM3_MUL_N_TSIZE (size));
   mpn_toom3_mul_n (dst, src1, src2, size, tspace);
+  TMP_FREE;
+}
+void
+mpn_toom3_sqr_n_fun (mp_ptr dst, mp_srcptr src1, mp_srcptr src2, mp_size_t size)
+{
+  mp_ptr  tspace;
+  TMP_DECL;
+  TMP_MARK;
+  tspace = TMP_ALLOC_LIMBS (MPN_TOOM3_SQR_N_TSIZE (size));
+  mpn_toom3_sqr_n (dst, src1, src2, size, tspace);
+  TMP_FREE;
 }
 void
 mpn_toom4_mul_n_fun (mp_ptr dst, mp_srcptr src1, mp_srcptr src2, mp_size_t size)
@@ -1654,20 +1665,31 @@ mpn_toom4_mul_n_fun (mp_ptr dst, mp_srcptr src1, mp_srcptr src2, mp_size_t size)
   mpn_toom4_mul_n (dst, src1, src2, size);
 }
 void
+mpn_toom4_sqr_n_fun (mp_ptr dst, mp_srcptr src1, mp_srcptr src2, mp_size_t size)
+{
+  mpn_toom4_sqr_n (dst, src1, src2, size);
+}
+void
 mpn_toom7_mul_n_fun (mp_ptr dst, mp_srcptr src1, mp_srcptr src2, mp_size_t size)
 {
   mpn_toom7_mul_n (dst, src1, src2, size);
 }
 void
-mpn_toom3_sqr_n_fun (mp_ptr dst, mp_srcptr src, mp_size_t size)
+mpn_toom7_sqr_n_fun (mp_ptr dst, mp_srcptr src1, mp_srcptr src2, mp_size_t size)
 {
-  mp_ptr tspace;
-  TMP_DECL;
-  TMP_MARK;
-  tspace = TMP_ALLOC_LIMBS (MPN_TOOM3_SQR_N_TSIZE (size));
-  mpn_toom3_sqr_n (dst, src, size, tspace);
-  TMP_FREE;
+  mpn_toom7_sqr_n (dst, src1, src2, size);
 }
+void
+mpn_toom8h_mul_fun (mp_ptr dst, mp_srcptr src1, mp_size_t size1, mp_srcptr src2, mp_size_t size2)
+{
+  mpn_toom8h_mul (dst, src1, size1, src2, size2);
+}
+void
+mpn_toom8_sqr_n_fun (mp_ptr dst, mp_srcptr src1, mp_srcptr src2, mp_size_t size)
+{
+  mpn_toom8_sqr_n (dst, src1, src2, size);
+}
+
 mp_limb_t
 umul_ppmm_fun (mp_limb_t *lowptr, mp_limb_t m1, mp_limb_t m2)
 {
@@ -1921,7 +1943,11 @@ const struct choice_t choice_array[] = {
   { TRY_FUNFUN(mpn_toom3_mul_n), TYPE_MUL_N, MPN_TOOM3_MUL_N_MINSIZE },
   { TRY_FUNFUN(mpn_toom4_mul_n), TYPE_MUL_N, MPN_TOOM4_MUL_N_MINSIZE },
   { TRY_FUNFUN(mpn_toom7_mul_n), TYPE_MUL_N, MPN_TOOM7_MUL_N_MINSIZE },
+  { TRY_FUNFUN(mpn_toom8h_mul), TYPE_MUL_BASECASE, MPN_TOOM8H_MUL_MINSIZE },
   { TRY_FUNFUN(mpn_toom3_sqr_n), TYPE_SQR,   MPN_TOOM3_SQR_N_MINSIZE },
+  { TRY_FUNFUN(mpn_toom4_sqr_n), TYPE_SQR,   MPN_TOOM4_SQR_N_MINSIZE },
+  { TRY_FUNFUN(mpn_toom7_sqr_n), TYPE_SQR,   MPN_TOOM7_SQR_N_MINSIZE },
+  { TRY_FUNFUN(mpn_toom8_sqr_n), TYPE_SQR,   MPN_TOOM8_SQR_N_MINSIZE },
 
   { TRY(mpn_gcd_1),        TYPE_GCD_1            },
   { TRY(mpn_gcd),          TYPE_GCD              },

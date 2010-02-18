@@ -152,6 +152,7 @@ mp_size_t  mul_karatsuba_threshold      = MP_SIZE_T_MAX;
 mp_size_t  mul_toom3_threshold          = MUL_TOOM3_THRESHOLD_LIMIT;
 mp_size_t  mul_toom4_threshold          = MUL_TOOM4_THRESHOLD_LIMIT;
 mp_size_t  mul_toom7_threshold          = MUL_TOOM7_THRESHOLD_LIMIT;
+mp_size_t  mul_toom8h_threshold         = MUL_TOOM8H_THRESHOLD_LIMIT;
 mp_size_t  mul_fft_threshold            = MP_SIZE_T_MAX;
 mp_size_t  mul_fft_modf_threshold       = MP_SIZE_T_MAX;
 mp_size_t  sqr_basecase_threshold       = MP_SIZE_T_MAX;
@@ -160,6 +161,7 @@ mp_size_t  sqr_karatsuba_threshold
 mp_size_t  sqr_toom3_threshold          = SQR_TOOM3_THRESHOLD_LIMIT;
 mp_size_t  sqr_toom4_threshold          = SQR_TOOM4_THRESHOLD_LIMIT;
 mp_size_t  sqr_toom7_threshold          = SQR_TOOM7_THRESHOLD_LIMIT;
+mp_size_t  sqr_toom8_threshold          = SQR_TOOM8_THRESHOLD_LIMIT;
 mp_size_t  sqr_fft_threshold            = MP_SIZE_T_MAX;
 mp_size_t  sqr_fft_modf_threshold       = MP_SIZE_T_MAX;
 mp_size_t  mulmod_2expm1_threshold	= MP_SIZE_T_MAX;
@@ -855,10 +857,10 @@ tune_mul (gmp_randstate_t rands)
   param.max_size = MUL_TOOM4_THRESHOLD_LIMIT-1;
   one (&mul_toom4_threshold, rands, &param);
 
-  param.name = "MUL_TOOM7_THRESHOLD";
-  param.min_size = MAX (mul_toom4_threshold, MPN_TOOM7_MUL_N_MINSIZE);
-  param.max_size = MUL_TOOM7_THRESHOLD_LIMIT-1;
-  one (&mul_toom7_threshold, rands, &param);
+  param.name = "MUL_TOOM8H_THRESHOLD";
+  param.min_size = MAX (mul_toom4_threshold, MPN_TOOM8H_MUL_MINSIZE);
+  param.max_size = MUL_TOOM8H_THRESHOLD_LIMIT-1;
+  one (&mul_toom8h_threshold, rands, &param);
 
   /* disabled until tuned */
   MUL_FFT_THRESHOLD = MP_SIZE_T_MAX;
@@ -1012,7 +1014,7 @@ void tune_mod_1_k (gmp_randstate_t rands)
 
 void
 tune_sqr (gmp_randstate_t rands)
-{
+{       
   /* disabled until tuned */
   SQR_FFT_THRESHOLD = MP_SIZE_T_MAX;
 
@@ -1070,8 +1072,10 @@ tune_sqr (gmp_randstate_t rands)
 
   {
     static struct param_t  param;
-    param.name = "SQR_TOOM3_THRESHOLD";
     param.function = speed_mpn_sqr_n;
+    
+  {
+    param.name = "SQR_TOOM3_THRESHOLD";
     param.min_size = MAX3 (MPN_TOOM3_SQR_N_MINSIZE,
                            SQR_KARATSUBA_THRESHOLD, SQR_BASECASE_THRESHOLD);
     param.max_size = SQR_TOOM3_THRESHOLD_LIMIT-1;
@@ -1079,21 +1083,18 @@ tune_sqr (gmp_randstate_t rands)
   }
 
   {
-    static struct param_t  param;
     param.name = "SQR_TOOM4_THRESHOLD";
-    param.function = speed_mpn_sqr_n;
     param.min_size = MAX (MPN_TOOM4_SQR_N_MINSIZE, sqr_toom3_threshold);
     param.max_size = SQR_TOOM4_THRESHOLD_LIMIT-1;
     one (&sqr_toom4_threshold, rands, &param);
   }
 
   {
-    static struct param_t  param;
-    param.name = "SQR_TOOM7_THRESHOLD";
-    param.function = speed_mpn_sqr_n;
-    param.min_size = MAX (MPN_TOOM7_SQR_N_MINSIZE, sqr_toom4_threshold);
-    param.max_size = SQR_TOOM7_THRESHOLD_LIMIT-1;
-    one (&sqr_toom7_threshold, rands, &param);
+    param.name = "SQR_TOOM8_THRESHOLD";
+    param.min_size = MAX (MPN_TOOM8_SQR_N_MINSIZE, sqr_toom4_threshold);
+    param.max_size = SQR_TOOM8_THRESHOLD_LIMIT-1;
+    one (&sqr_toom8_threshold, rands, &param);
+  }
   }
 }
 
@@ -1750,7 +1751,7 @@ tune_fft_mul (gmp_randstate_t rands)
   param.p_threshold         = &mul_fft_threshold;
   param.modf_threshold_name = "MUL_FFT_MODF_THRESHOLD";
   param.p_modf_threshold    = &mul_fft_modf_threshold;
-  param.first_size          = MUL_TOOM7_THRESHOLD / 2;
+  param.first_size          = MUL_TOOM8H_THRESHOLD / 2;
   param.max_size            = option_fft_max_size;
   param.function            = speed_mpn_mul_fft;
   param.mul_function        = speed_mpn_mul_n;
@@ -1772,7 +1773,7 @@ tune_fft_sqr (gmp_randstate_t rands)
   param.p_threshold         = &sqr_fft_threshold;
   param.modf_threshold_name = "SQR_FFT_MODF_THRESHOLD";
   param.p_modf_threshold    = &sqr_fft_modf_threshold;
-  param.first_size          = SQR_TOOM7_THRESHOLD / 2;
+  param.first_size          = SQR_TOOM8_THRESHOLD / 2;
   param.max_size            = option_fft_max_size;
   param.function            = speed_mpn_mul_fft_sqr;
   param.mul_function        = speed_mpn_sqr_n;

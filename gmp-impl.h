@@ -1145,7 +1145,7 @@ __GMP_DECLSPEC extern gmp_randstate_t  __gmp_rands;
 #define MPN_TOOM3_MUL_N_MINSIZE   17 
 #define MPN_TOOM4_MUL_N_MINSIZE   32
 #define MPN_TOOM7_MUL_N_MINSIZE   56
-#define MPN_TOOM8H_MUL_N_MINSIZE  86
+#define MPN_TOOM8H_MUL_MINSIZE    86
 #define MPN_TOOM3_SQR_N_MINSIZE   17
 #define MPN_TOOM4_SQR_N_MINSIZE   32
 #define MPN_TOOM7_SQR_N_MINSIZE   56
@@ -1584,7 +1584,7 @@ __GMP_DECLSPEC extern const mp_limb_t __gmp_fib_table[];
 #endif
 
 #ifndef MUL_TOOM4_THRESHOLD
-#define MUL_TOOM4_THRESHOLD 400 
+#define MUL_TOOM4_THRESHOLD 300 
 #endif
 
 #ifndef MULMID_TOOM42_THRESHOLD
@@ -1593,6 +1593,10 @@ __GMP_DECLSPEC extern const mp_limb_t __gmp_fib_table[];
 
 #ifndef MUL_TOOM7_THRESHOLD
 #define MUL_TOOM7_THRESHOLD 700
+#endif
+
+#ifndef MUL_TOOM8H_THRESHOLD
+#define MUL_TOOM8H_THRESHOLD 401
 #endif
 
 #ifndef MULLOW_BASECASE_THRESHOLD
@@ -1672,6 +1676,9 @@ __GMP_DECLSPEC extern const mp_limb_t __gmp_fib_table[];
 #ifndef MUL_TOOM7_THRESHOLD_LIMIT
 #define MUL_TOOM7_THRESHOLD_LIMIT  MUL_TOOM7_THRESHOLD
 #endif
+#ifndef MUL_TOOM8H_THRESHOLD_LIMIT
+#define MUL_TOOM8H_THRESHOLD_LIMIT  MUL_TOOM8H_THRESHOLD
+#endif
 #ifndef MULLOW_BASECASE_THRESHOLD_LIMIT
 #define MULLOW_BASECASE_THRESHOLD_LIMIT  MULLOW_BASECASE_THRESHOLD
 #endif
@@ -1700,11 +1707,15 @@ __GMP_DECLSPEC extern const mp_limb_t __gmp_fib_table[];
 #endif
 
 #ifndef SQR_TOOM4_THRESHOLD
-#define SQR_TOOM4_THRESHOLD 400
+#define SQR_TOOM4_THRESHOLD 300
 #endif
 
 #ifndef SQR_TOOM7_THRESHOLD
 #define SQR_TOOM7_THRESHOLD 700
+#endif
+
+#ifndef SQR_TOOM8_THRESHOLD
+#define SQR_TOOM8_THRESHOLD 400
 #endif
 
 /* See comments above about MUL_TOOM3_THRESHOLD_LIMIT.  */
@@ -1718,6 +1729,10 @@ __GMP_DECLSPEC extern const mp_limb_t __gmp_fib_table[];
 
 #ifndef SQR_TOOM7_THRESHOLD_LIMIT
 #define SQR_TOOM7_THRESHOLD_LIMIT  SQR_TOOM7_THRESHOLD
+#endif
+
+#ifndef SQR_TOOM8_THRESHOLD_LIMIT
+#define SQR_TOOM8_THRESHOLD_LIMIT  SQR_TOOM8_THRESHOLD
 #endif
 
 /* First k to use for an FFT modF multiply.  A modF FFT is an order
@@ -4088,6 +4103,10 @@ extern mp_size_t                     mul_toom4_threshold;
 #define MUL_TOOM7_THRESHOLD          mul_toom7_threshold
 extern mp_size_t                     mul_toom7_threshold;
 
+#undef  MUL_TOOM8H_THRESHOLD
+#define MUL_TOOM8H_THRESHOLD         mul_toom8h_threshold
+extern mp_size_t                     mul_toom8h_threshold;
+
 #undef  MUL_FFT_THRESHOLD
 #define MUL_FFT_THRESHOLD            mul_fft_threshold
 extern mp_size_t                     mul_fft_threshold;
@@ -4127,6 +4146,10 @@ extern mp_size_t                     sqr_toom4_threshold;
 #undef  SQR_TOOM7_THRESHOLD
 #define SQR_TOOM7_THRESHOLD          sqr_toom7_threshold
 extern mp_size_t                     sqr_toom7_threshold;
+
+#undef  SQR_TOOM8_THRESHOLD
+#define SQR_TOOM8_THRESHOLD          sqr_toom8_threshold
+extern mp_size_t                     sqr_toom8_threshold;
 
 #undef SQR_FFT_THRESHOLD
 #define SQR_FFT_THRESHOLD            sqr_fft_threshold
@@ -4264,19 +4287,23 @@ extern mp_size_t  mpn_fft_table[2][MPN_FFT_TABLE_SIZE];
 #undef MUL_TOOM3_THRESHOLD_LIMIT
 #undef MUL_TOOM4_THRESHOLD_LIMIT
 #undef MUL_TOOM7_THRESHOLD_LIMIT
+#undef MUL_TOOM8H_THRESHOLD_LIMIT
 #undef MULLOW_BASECASE_THRESHOLD_LIMIT
 #undef SQR_TOOM3_THRESHOLD_LIMIT
 #undef SQR_TOOM4_THRESHOLD_LIMIT
 #undef SQR_TOOM7_THRESHOLD_LIMIT
+#undef SQR_TOOM8_THRESHOLD_LIMIT
 #define SQR_KARATSUBA_MAX_GENERIC       200
 #define MUL_KARATSUBA_THRESHOLD_LIMIT   700
 #define MUL_TOOM3_THRESHOLD_LIMIT       700
 #define MUL_TOOM4_THRESHOLD_LIMIT       1000
 #define MUL_TOOM7_THRESHOLD_LIMIT       2000
+#define MUL_TOOM8H_THRESHOLD_LIMIT      2000
 #define MULLOW_BASECASE_THRESHOLD_LIMIT 200
 #define SQR_TOOM3_THRESHOLD_LIMIT       400
 #define SQR_TOOM4_THRESHOLD_LIMIT       1000
 #define SQR_TOOM7_THRESHOLD_LIMIT       2000
+#define SQR_TOOM8_THRESHOLD_LIMIT       2000
 #define GET_STR_THRESHOLD_LIMIT         150
 
 /* "thresh" will normally be a variable when tuning, so use the cached
