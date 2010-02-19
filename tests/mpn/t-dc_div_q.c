@@ -1,4 +1,4 @@
-/* Test mpn_sb_div_qr.
+/* Test mpn_dc_div_q.
 
 Copyright 2002 Free Software Foundation, Inc.
 Copyright 2009 William Hart
@@ -32,12 +32,12 @@ MA 02110-1301, USA. */
 #define random rand
 #endif
 
-#define MAX_LIMBS 40
+#define MAX_LIMBS 400
 #define ITERS 10000
    
 /* Check schoolboy division routine. */
 void
-check_sb_div_qr (void)
+check_dc_div_q (void)
 {
    mp_limb_t np[2*MAX_LIMBS];
    mp_limb_t np2[2*MAX_LIMBS];
@@ -68,7 +68,7 @@ check_sb_div_qr (void)
       
       qn = nn - dn + 1;
          
-      qp[qn - 1] = mpn_sb_div_qr(qp, np, nn, dp, dn, dip);
+      qp[qn - 1] = mpn_dc_div_q(qp, np, nn, dp, dn, dip);
 
       MPN_NORMALIZE(qp, qn);
 
@@ -112,16 +112,6 @@ check_sb_div_qr (void)
          gmp_printf (" rp: %Nx\n\n", rp, rn);
          abort ();
       }
-
-      if (mpn_cmp(rp, np, rn) != 0)
-      {
-         printf("failed: remainder does not match\n");
-         gmp_printf (" np: %Nx\n\n", np2, nn);
-         gmp_printf (" dp: %Nx\n\n", dp, dn);
-         gmp_printf (" qp: %Nx\n\n", qp, qn);
-         gmp_printf (" rp: %Nx\n\n", rp, rn);        
-         gmp_printf (" rp2: %Nx\n\n", np, rn);        
-      }
    }
 
    gmp_randclear(rands);
@@ -132,7 +122,7 @@ main (void)
 {
   tests_start ();
 
-  check_sb_div_qr ();
+  check_dc_div_q ();
   
   tests_end ();
   exit (0);
