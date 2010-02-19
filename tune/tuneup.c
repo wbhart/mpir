@@ -123,6 +123,9 @@ MA 02110-1301, USA. */
              a reference to the param struct.
         - one() : does repeated timings over the given range of sizes always setting
             the threshold to size+1 for function and size for function2.
+        
+        N.B: the functions that need to be rebuilt to use variable thresholds must be
+        added to the Makefile.am file (and automake run) before tune can work.
 
 */
 
@@ -201,8 +204,8 @@ mp_size_t  mulhigh_mul_threshold        = MP_SIZE_T_MAX;
 mp_size_t  div_sb_preinv_threshold      = MP_SIZE_T_MAX;
 mp_size_t  dc_div_qr_threshold          = MP_SIZE_T_MAX;
 mp_size_t  dc_divappr_q_n_threshold     = MP_SIZE_T_MAX;
-mp_size_t  inv_div_qr_threshold          = MP_SIZE_T_MAX;
-mp_size_t  inv_divappr_q_n_threshold     = MP_SIZE_T_MAX;
+mp_size_t  inv_div_qr_threshold         = MP_SIZE_T_MAX;
+mp_size_t  inv_divappr_q_n_threshold    = MP_SIZE_T_MAX;
 mp_size_t  powm_threshold               = MP_SIZE_T_MAX;
 mp_size_t  fac_ui_threshold             = MP_SIZE_T_MAX;
 mp_size_t  gcd_accel_threshold          = MP_SIZE_T_MAX;
@@ -1166,7 +1169,6 @@ tune_dc_div (gmp_randstate_t rands)
   static struct param_t  param;
   param.name = "DC_DIV_QR_THRESHOLD";
   param.function = speed_mpn_dc_div_qr_n;
-  param.stop_factor = 1.1;
   param.step_factor = 0.02;
   one (&dc_div_qr_threshold, rands, &param);
   }
@@ -1175,7 +1177,6 @@ tune_dc_div (gmp_randstate_t rands)
   static struct param_t  param;
   param.name = "DC_DIVAPPR_Q_N_THRESHOLD";
   param.function = speed_mpn_dc_divappr_q;
-  param.stop_factor = 1.1;
   param.step_factor = 0.02;
   one (&dc_divappr_q_n_threshold, rands, &param);
   }
@@ -1184,9 +1185,8 @@ tune_dc_div (gmp_randstate_t rands)
   static struct param_t  param;
   param.name = "INV_DIV_QR_THRESHOLD";
   param.function = speed_mpn_inv_div_qr;
-  param.min_size = dc_div_qr_threshold*4;
-  param.stop_factor = 2.0;
-  param.step_factor = 0.2;
+  param.min_size = dc_div_qr_threshold;
+  param.step_factor = 0.02;
   one (&inv_div_qr_threshold, rands, &param);
   }
   
@@ -1194,9 +1194,8 @@ tune_dc_div (gmp_randstate_t rands)
   static struct param_t  param;
   param.name = "INV_DIVAPPR_Q_N_THRESHOLD";
   param.function = speed_mpn_inv_divappr_q;
-  param.min_size = dc_divappr_q_n_threshold*4;
-  param.stop_factor = 2.0;
-  param.step_factor = 0.2;
+  param.min_size = dc_divappr_q_n_threshold;
+  param.step_factor = 0.02;
   one (&inv_divappr_q_n_threshold, rands, &param);
   }
 }
