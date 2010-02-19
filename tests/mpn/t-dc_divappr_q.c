@@ -55,8 +55,8 @@ check_dc_divappr_q (void)
   
    for (i = 0; i < ITERS; i++)
    {
-      dn = (random() % (MAX_LIMBS - 2)) + 3;
-      nn = (random() % MAX_LIMBS) + dn;
+      dn = (random() % (MAX_LIMBS - 5)) + 6;
+      nn = (random() % (MAX_LIMBS - 3)) + dn + 3;
       
       mpn_rrandom (np, rands, nn);
       mpn_rrandom (dp, rands, dn);

@@ -40,7 +40,7 @@ mpn_dc_divappr_q (mp_ptr qp, mp_ptr np, mp_size_t nn,
   TMP_MARK;
 
   ASSERT (dn >= 6);
-  ASSERT (nn > dn);
+  ASSERT (nn >= dn + 3);
   ASSERT (dp[dn-1] & GMP_NUMB_HIGHBIT);
 
   qn = nn - dn;
