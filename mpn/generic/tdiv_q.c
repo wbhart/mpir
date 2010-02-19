@@ -228,12 +228,12 @@ mpn_tdiv_q (mp_ptr qp,
 	    {
 	      qh = mpn_divrem_2 (tp, 0L, new_np, new_nn, new_dp);
 	    }
-	  else if (BELOW_THRESHOLD (qn, DC_DIVAPPR_Q_THRESHOLD - 1))
+	  else if (BELOW_THRESHOLD (qn - 1, DC_DIVAPPR_Q_THRESHOLD))
 	    {
           invert_1(dinv, new_dp[qn], new_dp[qn - 1]);
 	      qh = mpn_sb_divappr_q (tp, new_np, new_nn, new_dp, qn + 1, dinv);
 	    }
-	  else if (BELOW_THRESHOLD (qn, INV_DIVAPPR_Q_THRESHOLD - 1))
+	  else if (BELOW_THRESHOLD (qn - 1, INV_DIVAPPR_Q_THRESHOLD))
 	    {
           invert_1(dinv, new_dp[qn], new_dp[qn - 1]);
 	      qh = mpn_dc_divappr_q (tp, new_np, new_nn, new_dp, qn + 1, dinv);
@@ -259,7 +259,7 @@ mpn_tdiv_q (mp_ptr qp,
 	}
       else  /* divisor is already normalised */
 	{
-	  MPN_COPY (new_np, np + nn - new_nn, new_nn); /* pointless of MU will be used */
+	  MPN_COPY (new_np, np + nn - new_nn, new_nn); 
 
 	  new_dp = (mp_ptr) dp + dn - (qn + 1);
 
@@ -267,12 +267,12 @@ mpn_tdiv_q (mp_ptr qp,
 	    {
 	      qh = mpn_divrem_2 (tp, 0L, new_np, new_nn, new_dp);
 	    }
-	  else if (BELOW_THRESHOLD (qn, DC_DIVAPPR_Q_THRESHOLD - 1))
+	  else if (BELOW_THRESHOLD (qn - 1, DC_DIVAPPR_Q_THRESHOLD))
 	    {
           invert_1(dinv, dh, new_dp[qn - 1]);
           qh = mpn_sb_divappr_q (tp, new_np, new_nn, new_dp, qn + 1, dinv);
 	    }
-	  else if (BELOW_THRESHOLD (qn, INV_DIVAPPR_Q_THRESHOLD - 1))
+	  else if (BELOW_THRESHOLD (qn - 1, INV_DIVAPPR_Q_THRESHOLD))
 	    {
           invert_1(dinv, dh, new_dp[qn - 1]);
           qh = mpn_dc_divappr_q (tp, new_np, new_nn, new_dp, qn + 1, dinv);
@@ -280,7 +280,7 @@ mpn_tdiv_q (mp_ptr qp,
 	  else
 	    {
           mp_ptr inv = TMP_ALLOC_LIMBS(qn + 1);
-	      mpn_invert(inv, new_dp, qn + 1);
+	   mpn_invert(inv, new_dp, qn + 1);
           qh = mpn_inv_divappr_q (tp, new_np, new_nn, new_dp, qn + 1, inv);
 	    }
 	  tp[qn] = qh;
