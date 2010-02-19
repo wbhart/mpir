@@ -1219,6 +1219,7 @@ tune_tdiv_q (gmp_randstate_t rands)
   static struct param_t  param;
   param.name = "INV_DIV_Q_THRESHOLD";
   param.function = speed_mpn_tdiv_q;
+  param.min_size = dc_div_q_threshold;
   param.step_factor = 0.02;
   one (&inv_div_q_threshold, rands, &param);
   }
@@ -1235,6 +1236,7 @@ tune_tdiv_q (gmp_randstate_t rands)
   static struct param_t  param;
   param.name = "INV_DIVAPPR_Q_THRESHOLD";
   param.function = speed_mpn_tdiv_q2;
+  param.min_size = dc_divappr_q_threshold;
   param.step_factor = 0.02;
   one (&inv_divappr_q_threshold, rands, &param);
   }
