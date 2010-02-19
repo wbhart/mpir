@@ -4172,6 +4172,23 @@ extern mp_size_t                     inv_div_qr_threshold;
 #define INV_DIVAPPR_Q_N_THRESHOLD    inv_divappr_q_n_threshold
 extern mp_size_t                     inv_divappr_q_n_threshold;
 
+#undef  DC_DIV_Q_THRESHOLD
+#define DC_DIV_Q_THRESHOLD           dc_div_q_threshold
+extern mp_size_t                     dc_div_q_threshold;
+
+#undef  INV_DIV_Q_THRESHOLD
+#define INV_DIV_Q_THRESHOLD          inv_div_q_threshold
+extern mp_size_t                     inv_div_q_threshold;
+
+#undef  DC_DIVAPPR_Q_THRESHOLD
+#define DC_DIVAPPR_Q_THRESHOLD       dc_divappr_q_threshold
+extern mp_size_t                     dc_divappr_q_threshold;
+
+#undef  INV_DIVAPPR_Q_THRESHOLD
+#define INV_DIVAPPR_Q_THRESHOLD      inv_divappr_q_threshold
+extern mp_size_t                     inv_divappr_q_threshold;
+
+
 #undef  POWM_THRESHOLD
 #define POWM_THRESHOLD               powm_threshold
 extern mp_size_t                     powm_threshold;

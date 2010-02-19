@@ -183,6 +183,7 @@ double speed_mpn_dc_divappr_q _PROTO ((struct speed_params *s));
 double speed_mpn_inv_div_qr _PROTO ((struct speed_params *s));
 double speed_mpn_inv_divappr_q _PROTO ((struct speed_params *s));
 double speed_mpn_tdiv_q _PROTO ((struct speed_params *s));
+double speed_mpn_tdiv_q2 _PROTO ((struct speed_params *s));
 double speed_MPN_COPY _PROTO ((struct speed_params *s));
 double speed_MPN_COPY_DECR _PROTO ((struct speed_params *s));
 double speed_MPN_COPY_INCR _PROTO ((struct speed_params *s));
@@ -1726,6 +1727,50 @@ int speed_routine_count_zeros_setup _PROTO ((struct speed_params *s,
       MPN_COPY (a+s->size, s->xp, s->size);				\
       MPN_COPY (a+2*s->size, s->xp, s->size);				\
       function(q, a, 3*s->size, d, 2*s->size, inv);								\
+    } while (--i != 0);							\
+    t = speed_endtime ();						\
+									\
+    TMP_FREE;								\
+    return t;								\
+  }
+
+#define SPEED_ROUTINE_MPN_TDIV_SMALL_Q(function)				\
+  {									\
+    unsigned  i;							\
+    mp_ptr    a, d, q;						\
+    double    t;							\
+    TMP_DECL;								\
+									\
+    SPEED_RESTRICT_COND (s->size >= 2);					\
+									\
+    TMP_MARK;								\
+    SPEED_TMP_ALLOC_LIMBS (a, 3*s->size, s->align_xp);			\
+    SPEED_TMP_ALLOC_LIMBS (d, 2*s->size,   s->align_yp);			\
+    SPEED_TMP_ALLOC_LIMBS (q, s->size+1, s->align_wp);			\
+    								\
+    MPN_COPY (a, s->xp, s->size);					\
+    MPN_COPY (a+s->size, s->xp, s->size);				\
+    MPN_COPY (a+2*s->size, s->xp, s->size);				\
+									\
+    MPN_COPY (d, s->yp, s->size);					\
+    MPN_COPY (d+s->size, s->yp, s->size);					\
+									\
+    /* normalize the data */						\
+    d[2*s->size-1] |= GMP_NUMB_HIGHBIT;					\
+    a[3*s->size-1] = d[2*s->size-1] - 1;					\
+									\
+    speed_operand_src (s, a, 3*s->size);				\
+    speed_operand_src (s, d, 2*s->size);					\
+    speed_operand_dst (s, q, s->size+1);				\
+    speed_cache_fill (s);						\
+	                                                         \
+    speed_starttime ();							\
+    i = s->reps;							\
+    do	{								\
+      MPN_COPY (a, s->xp, s->size);					\
+      MPN_COPY (a+s->size, s->xp, s->size);				\
+      MPN_COPY (a+2*s->size, s->xp, s->size);				\
+      function(q, a, 3*s->size, d, 2*s->size);								\
     } while (--i != 0);							\
     t = speed_endtime ();						\
 									\

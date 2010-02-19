@@ -207,11 +207,13 @@ mp_size_t  dc_divappr_q_n_threshold     = MP_SIZE_T_MAX;
 mp_size_t  inv_div_qr_threshold         = MP_SIZE_T_MAX;
 mp_size_t  inv_divappr_q_n_threshold    = MP_SIZE_T_MAX;
 mp_size_t  dc_div_q_threshold           = MP_SIZE_T_MAX;
-mp_size_t  inv_div_q_threshold           = MP_SIZE_T_MAX;
+mp_size_t  inv_div_q_threshold          = MP_SIZE_T_MAX;
+mp_size_t  dc_divappr_q_threshold       = MP_SIZE_T_MAX;
+mp_size_t  inv_divappr_q_threshold      = MP_SIZE_T_MAX;
 mp_size_t  powm_threshold               = MP_SIZE_T_MAX;
 mp_size_t  fac_ui_threshold             = MP_SIZE_T_MAX;
 mp_size_t  gcd_accel_threshold          = MP_SIZE_T_MAX;
-mp_size_t  gcdext_threshold		= MP_SIZE_T_MAX;
+mp_size_t  gcdext_threshold		     = MP_SIZE_T_MAX;
 mp_size_t  divrem_1_norm_threshold      = MP_SIZE_T_MAX;
 mp_size_t  divrem_1_unnorm_threshold    = MP_SIZE_T_MAX;
 mp_size_t  mod_1_norm_threshold         = MP_SIZE_T_MAX;
@@ -1220,6 +1222,22 @@ tune_tdiv_q (gmp_randstate_t rands)
   param.step_factor = 0.02;
   one (&inv_div_q_threshold, rands, &param);
   }
+
+  {
+  static struct param_t  param;
+  param.name = "DC_DIVAPPR_Q_THRESHOLD";
+  param.function = speed_mpn_tdiv_q2;
+  param.step_factor = 0.02;
+  one (&dc_divappr_q_threshold, rands, &param);
+  }
+
+  {
+  static struct param_t  param;
+  param.name = "INV_DIVAPPR_Q_THRESHOLD";
+  param.function = speed_mpn_tdiv_q2;
+  param.step_factor = 0.02;
+  one (&inv_divappr_q_threshold, rands, &param);
+  }
 }
 
 /* This is an indirect determination, based on a comparison between redc and
@@ -1954,10 +1972,6 @@ all (gmp_randstate_t rands)
   
   /* mpn_tdiv_q : balanced */
   tune_tdiv_q (rands);
-  
-  /* mpn_tdiv_q : small quotient 
-  tune_dc_divappr_q (rands);
-  tune_inv_divappr_q (rands); */
   
   tune_powm (rands);
   tune_fac_ui(rands);
