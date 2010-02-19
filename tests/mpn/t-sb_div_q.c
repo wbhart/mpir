@@ -41,7 +41,7 @@ check_sb_div_q (void)
 {
    mp_limb_t np[2*MAX_LIMBS];
    mp_limb_t np2[2*MAX_LIMBS];
-   mp_limb_t rp[2*MAX_LIMBS];
+   mp_limb_t rp[2*MAX_LIMBS+1];
    mp_limb_t dp[MAX_LIMBS];
    mp_limb_t qp[2*MAX_LIMBS];
    mp_limb_t dip, cy;
@@ -79,7 +79,19 @@ check_sb_div_q (void)
       
          rn = dn + qn;
          MPN_NORMALIZE(rp, rn);
-
+         
+         if (rn > nn)
+         {
+            printf("failed: q*d has too many limbs\n");
+            abort();
+         }
+         
+         if (mpn_cmp(rp, np2, nn) > 0)
+         {
+            printf("failed: remainder negative\n");
+            abort();
+         }
+         
          mpn_sub(rp, np2, nn, rp, rn);
          rn = nn;
          MPN_NORMALIZE(rp, rn);
