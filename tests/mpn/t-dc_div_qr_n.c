@@ -1,4 +1,4 @@
-/* Test mpn_dc_div_qr.
+/* Test mpn_dc_div_qr_n.
 
 Copyright 2002 Free Software Foundation, Inc.
 Copyright 2009 William Hart
@@ -37,7 +37,7 @@ MA 02110-1301, USA. */
    
 /* Check divide and conquer division routine. */
 void
-check_dc_div_qr (void)
+check_dc_div_qr_n (void)
 {
    mp_limb_t np[2*MAX_LIMBS];
    mp_limb_t np2[2*MAX_LIMBS];
@@ -46,7 +46,7 @@ check_dc_div_qr (void)
    mp_limb_t qp[2*MAX_LIMBS];
    mp_limb_t dip, cy;
 
-   mp_size_t nn, rn, dn, qn;
+   mp_size_t rn, dn, qn;
 
    gmp_randstate_t rands;
 
@@ -56,19 +56,18 @@ check_dc_div_qr (void)
    for (i = 0; i < ITERS; i++)
    {
       dn = (random() % (MAX_LIMBS - 5)) + 6;
-      nn = (random() % (MAX_LIMBS - 3)) + dn + 3;
       
-      mpn_rrandom (np, rands, nn);
+      mpn_rrandom (np, rands, 2*dn);
       mpn_rrandom (dp, rands, dn);
       dp[dn-1] |= GMP_LIMB_HIGHBIT;
 
-      MPN_COPY(np2, np, nn);
+      MPN_COPY(np2, np, 2*dn);
       
       invert_1(dip, dp[dn - 1], dp[dn - 2]);
       
-      qn = nn - dn + 1;
+      qn = dn + 1;
          
-      qp[qn - 1] = mpn_dc_div_qr(qp, np, nn, dp, dn, dip);
+      qp[qn - 1] = mpn_dc_div_qr_n(qp, np, dp, dn, dip);
 
       MPN_NORMALIZE(qp, qn);
 
@@ -86,18 +85,18 @@ check_dc_div_qr (void)
             abort();
          }
          
-         if (mpn_cmp(rp, np2, nn) > 0)
+         if (mpn_cmp(rp, np2, 2*dn) > 0)
          {
             printf("failed: remainder negative\n");
             abort();
          }
          
-         mpn_sub(rp, np2, nn, rp, rn);
-         rn = nn;
+         mpn_sub(rp, np2, 2*dn, rp, rn);
+         rn = 2*dn;
          MPN_NORMALIZE(rp, rn);
       } else
       {
-         rn = nn;
+         rn = 2*dn;
          MPN_COPY(rp, np, nn);
       }
       
@@ -105,8 +104,8 @@ check_dc_div_qr (void)
       if (s >= 0)
       {
          printf ("failed:\n");
-         printf ("nn = %lu, dn = %lu, qn = %lu, rn = %lu\n\n", nn, dn, qn, rn);
-         gmp_printf (" np: %Nx\n\n", np2, nn);
+         printf ("dn = %lu, qn = %lu, rn = %lu\n\n", dn, qn, rn);
+         gmp_printf (" np: %Nx\n\n", np2, 2*dn);
          gmp_printf (" dp: %Nx\n\n", dp, dn);
          gmp_printf (" qp: %Nx\n\n", qp, qn);
          gmp_printf (" rp: %Nx\n\n", rp, rn);
@@ -116,7 +115,7 @@ check_dc_div_qr (void)
       if (mpn_cmp(rp, np, rn) != 0)
       {
          printf("failed: remainder does not match\n");
-         gmp_printf (" np: %Nx\n\n", np2, nn);
+         gmp_printf (" np: %Nx\n\n", np2, 2*dn);
          gmp_printf (" dp: %Nx\n\n", dp, dn);
          gmp_printf (" qp: %Nx\n\n", qp, qn);
          gmp_printf (" rp: %Nx\n\n", rp, rn);        
@@ -132,7 +131,7 @@ main (void)
 {
   tests_start ();
 
-  check_dc_div_qr ();
+  check_dc_div_qr_n ();
   
   tests_end ();
   exit (0);
