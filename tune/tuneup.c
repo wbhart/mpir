@@ -206,6 +206,8 @@ mp_size_t  dc_div_qr_threshold          = MP_SIZE_T_MAX;
 mp_size_t  dc_divappr_q_n_threshold     = MP_SIZE_T_MAX;
 mp_size_t  inv_div_qr_threshold         = MP_SIZE_T_MAX;
 mp_size_t  inv_divappr_q_n_threshold    = MP_SIZE_T_MAX;
+mp_size_t  dc_div_q_threshold           = MP_SIZE_T_MAX;
+mp_size_t  inv_div_q_threshold           = MP_SIZE_T_MAX;
 mp_size_t  powm_threshold               = MP_SIZE_T_MAX;
 mp_size_t  fac_ui_threshold             = MP_SIZE_T_MAX;
 mp_size_t  gcd_accel_threshold          = MP_SIZE_T_MAX;
@@ -1200,6 +1202,25 @@ tune_dc_div (gmp_randstate_t rands)
   }
 }
 
+void
+tune_tdiv_q (gmp_randstate_t rands)
+{
+  {
+  static struct param_t  param;
+  param.name = "DC_DIV_Q_THRESHOLD";
+  param.function = speed_mpn_tdiv_q;
+  param.step_factor = 0.02;
+  one (&dc_div_q_threshold, rands, &param);
+  }
+
+  {
+  static struct param_t  param;
+  param.name = "INV_DIV_Q_THRESHOLD";
+  param.function = speed_mpn_tdiv_q;
+  param.step_factor = 0.02;
+  one (&inv_div_q_threshold, rands, &param);
+  }
+}
 
 /* This is an indirect determination, based on a comparison between redc and
    mpz_mod.  A fudge factor of 1.04 is applied to redc, to represent
@@ -1931,10 +1952,9 @@ all (gmp_randstate_t rands)
   /* dc_div_qr_n, dc_divappr_q, inv_div_qr, inv_divappr_q */
   tune_dc_div (rands);
   
-  /* mpn_tdiv_q : balanced 
-  tune_dc_div_q (rands);
-  tune_inv_div_q (rands);
-
+  /* mpn_tdiv_q : balanced */
+  tune_tdiv_q (rands);
+  
   /* mpn_tdiv_q : small quotient 
   tune_dc_divappr_q (rands);
   tune_inv_divappr_q (rands); */

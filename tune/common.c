@@ -894,6 +894,11 @@ speed_mpn_inv_divappr_q (struct speed_params *s)
 {
   SPEED_ROUTINE_MPN_INV_DIV_SMALL_Q (mpn_inv_divappr_q);
 }
+double
+speed_mpn_tdiv_q (struct speed_params *s)
+{
+  SPEED_ROUTINE_MPN_TDIV_Q (mpn_tdiv_q);
+}
 
 double
 speed_mpz_mod (struct speed_params *s)
