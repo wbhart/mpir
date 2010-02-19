@@ -139,7 +139,7 @@ do {									\
 #ifndef mpn_divexact_by255
 #if GMP_NUMB_BITS % 8 == 0
 #define mpn_divexact_by255(dst,src,size) \
-  (255 & 1 * mpn_bdiv_dbm1 (dst, src, size, __GMP_CAST (mp_limb_t, GMP_NUMB_MASK / 255)))
+  (255 & 1 * mpn_divexact_byBm1of(dst, src, size, 255, __GMP_CAST (mp_limb_t, GMP_NUMB_MASK / 255)))
 #else
 #if HAVE_NATIVE_mpn_pi1_bdiv_q_1
 #define mpn_divexact_by255(dst,src,size) mpn_pi1_bdiv_q_1(dst,src,size,CNST_LIMB(255),BINVERT_255,0)
