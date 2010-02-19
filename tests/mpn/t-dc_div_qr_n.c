@@ -44,6 +44,7 @@ check_dc_div_qr_n (void)
    mp_limb_t rp[2*MAX_LIMBS+1];
    mp_limb_t dp[MAX_LIMBS];
    mp_limb_t qp[2*MAX_LIMBS];
+   mp_limb_t tp[10*MAX_LIMBS];
    mp_limb_t dip, cy;
 
    mp_size_t rn, dn, qn;
@@ -67,7 +68,7 @@ check_dc_div_qr_n (void)
       
       qn = dn + 1;
          
-      qp[qn - 1] = mpn_dc_div_qr_n(qp, np, dp, dn, dip);
+      qp[qn - 1] = mpn_dc_div_qr_n(qp, np, dp, dn, dip, tp);
 
       MPN_NORMALIZE(qp, qn);
 
@@ -79,7 +80,7 @@ check_dc_div_qr_n (void)
          rn = dn + qn;
          MPN_NORMALIZE(rp, rn);
          
-         if (rn > nn)
+         if (rn > 2*dn)
          {
             printf("failed: q*d has too many limbs\n");
             abort();
@@ -97,7 +98,7 @@ check_dc_div_qr_n (void)
       } else
       {
          rn = 2*dn;
-         MPN_COPY(rp, np, nn);
+         MPN_COPY(rp, np, 2*dn);
       }
       
       s = (rn < dn) ? -1 : (rn > dn) ? 1 : mpn_cmp(rp, dp, dn);

@@ -63,7 +63,8 @@ check_PROGRAMS = t-asmtype$(EXEEXT) t-aors_1$(EXEEXT) \
 	t-sb_divappr_q$(EXEEXT) t-dc_divappr_q_n$(EXEEXT) \
 	t-inv_divappr_q_n$(EXEEXT) t-invert$(EXEEXT) \
 	t-sb_div_q$(EXEEXT) t-sb_div_qr$(EXEEXT) t-dc_div_q$(EXEEXT) \
-	t-dc_div_qr$(EXEEXT) t-dc_divappr_q$(EXEEXT) $(am__EXEEXT_1)
+	t-dc_div_qr$(EXEEXT) t-dc_divappr_q$(EXEEXT) \
+	t-dc_div_qr_n$(EXEEXT) $(am__EXEEXT_1)
 @ENABLE_SHARED_TRUE@@ENABLE_STATIC_TRUE@am__append_1 = st_fat st_instrument
 subdir = tests/mpn
 DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in
@@ -126,6 +127,11 @@ t_dc_div_qr_SOURCES = t-dc_div_qr.c
 t_dc_div_qr_OBJECTS = t-dc_div_qr.$(OBJEXT)
 t_dc_div_qr_LDADD = $(LDADD)
 t_dc_div_qr_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
+	$(top_builddir)/libmpir.la
+t_dc_div_qr_n_SOURCES = t-dc_div_qr_n.c
+t_dc_div_qr_n_OBJECTS = t-dc_div_qr_n.$(OBJEXT)
+t_dc_div_qr_n_LDADD = $(LDADD)
+t_dc_div_qr_n_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
 	$(top_builddir)/libmpir.la
 t_dc_divappr_q_SOURCES = t-dc_divappr_q.c
 t_dc_divappr_q_OBJECTS = t-dc_divappr_q.$(OBJEXT)
@@ -276,23 +282,23 @@ LINK = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
 	$(LDFLAGS) -o $@
 SOURCES = $(st_fat_SOURCES) $(st_instrument_SOURCES) t-addadd_n.c \
 	t-addsub_n.c t-aors_1.c t-asmtype.c t-dc_div_q.c t-dc_div_qr.c \
-	t-dc_divappr_q.c t-dc_divappr_q_n.c t-divebyBm1of.c \
-	t-divebyff.c t-divrem_1.c t-fat.c t-get_d.c t-instrument.c \
-	t-inv_divappr_q_n.c t-invert.c t-iord_u.c t-lorrshift1.c \
-	t-mp_bases.c t-mullow_basecase.c t-mullowhigh.c t-mulmid.c \
-	t-mulmod_2expm1.c t-mulmod_2expp1.c t-neg.c t-perfsqr.c \
-	t-redc_basecase.c t-sb_div_q.c t-sb_div_qr.c t-sb_divappr_q.c \
-	t-scan.c t-subadd_n.c t-tdiv_q.c
+	t-dc_div_qr_n.c t-dc_divappr_q.c t-dc_divappr_q_n.c \
+	t-divebyBm1of.c t-divebyff.c t-divrem_1.c t-fat.c t-get_d.c \
+	t-instrument.c t-inv_divappr_q_n.c t-invert.c t-iord_u.c \
+	t-lorrshift1.c t-mp_bases.c t-mullow_basecase.c t-mullowhigh.c \
+	t-mulmid.c t-mulmod_2expm1.c t-mulmod_2expp1.c t-neg.c \
+	t-perfsqr.c t-redc_basecase.c t-sb_div_q.c t-sb_div_qr.c \
+	t-sb_divappr_q.c t-scan.c t-subadd_n.c t-tdiv_q.c
 DIST_SOURCES = $(am__st_fat_SOURCES_DIST) \
 	$(am__st_instrument_SOURCES_DIST) t-addadd_n.c t-addsub_n.c \
 	t-aors_1.c t-asmtype.c t-dc_div_q.c t-dc_div_qr.c \
-	t-dc_divappr_q.c t-dc_divappr_q_n.c t-divebyBm1of.c \
-	t-divebyff.c t-divrem_1.c t-fat.c t-get_d.c t-instrument.c \
-	t-inv_divappr_q_n.c t-invert.c t-iord_u.c t-lorrshift1.c \
-	t-mp_bases.c t-mullow_basecase.c t-mullowhigh.c t-mulmid.c \
-	t-mulmod_2expm1.c t-mulmod_2expp1.c t-neg.c t-perfsqr.c \
-	t-redc_basecase.c t-sb_div_q.c t-sb_div_qr.c t-sb_divappr_q.c \
-	t-scan.c t-subadd_n.c t-tdiv_q.c
+	t-dc_div_qr_n.c t-dc_divappr_q.c t-dc_divappr_q_n.c \
+	t-divebyBm1of.c t-divebyff.c t-divrem_1.c t-fat.c t-get_d.c \
+	t-instrument.c t-inv_divappr_q_n.c t-invert.c t-iord_u.c \
+	t-lorrshift1.c t-mp_bases.c t-mullow_basecase.c t-mullowhigh.c \
+	t-mulmid.c t-mulmod_2expm1.c t-mulmod_2expp1.c t-neg.c \
+	t-perfsqr.c t-redc_basecase.c t-sb_div_q.c t-sb_div_qr.c \
+	t-sb_divappr_q.c t-scan.c t-subadd_n.c t-tdiv_q.c
 ETAGS = etags
 CTAGS = ctags
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
@@ -519,6 +525,9 @@ t-dc_div_q$(EXEEXT): $(t_dc_div_q_OBJECTS) $(t_dc_div_q_DEPENDENCIES)
 t-dc_div_qr$(EXEEXT): $(t_dc_div_qr_OBJECTS) $(t_dc_div_qr_DEPENDENCIES) 
 	@rm -f t-dc_div_qr$(EXEEXT)
 	$(LINK) $(t_dc_div_qr_OBJECTS) $(t_dc_div_qr_LDADD) $(LIBS)
+t-dc_div_qr_n$(EXEEXT): $(t_dc_div_qr_n_OBJECTS) $(t_dc_div_qr_n_DEPENDENCIES) 
+	@rm -f t-dc_div_qr_n$(EXEEXT)
+	$(LINK) $(t_dc_div_qr_n_OBJECTS) $(t_dc_div_qr_n_LDADD) $(LIBS)
 t-dc_divappr_q$(EXEEXT): $(t_dc_divappr_q_OBJECTS) $(t_dc_divappr_q_DEPENDENCIES) 
 	@rm -f t-dc_divappr_q$(EXEEXT)
 	$(LINK) $(t_dc_divappr_q_OBJECTS) $(t_dc_divappr_q_LDADD) $(LIBS)
