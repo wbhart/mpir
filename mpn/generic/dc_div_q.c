@@ -43,7 +43,7 @@ mpn_dc_div_q (mp_ptr qp, mp_ptr np, mp_size_t nn,
   ASSERT (nn - dn >= 3);
   ASSERT (dp[dn-1] & GMP_NUMB_HIGHBIT);
 
-  tp = TMP_SALLOC_LIMBS (nn + 1);
+  tp = TMP_ALLOC_LIMBS (nn + 1);
   MPN_COPY (tp + 1, np, nn);
   tp[0] = 0;
 
