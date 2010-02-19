@@ -24,40 +24,16 @@ MA 02110-1301, USA. */
 
    -t turns on some diagnostic traces, a second -t turns on more traces.
 
-   Notes:
-
-   The code here isn't a vision of loveliness, mainly because it's subject
-   to ongoing changes according to new things wanting to be tuned, and
-   practical requirements of systems tested.
-
-   Sometimes running the program twice produces slightly different results.
-   This is probably because there's so little separating algorithms near
-   their crossover, and on that basis it should make little or no difference
-   to the final speed of the relevant routines, but nothing has been done to
-   check that carefully.
-
    Algorithm:
 
-   The thresholds are determined as follows.  A crossover may not be a
-   single size but rather a range where it oscillates between method A or
-   method B faster.  If the threshold is set making B used where A is faster
-   (or vice versa) that's bad.  Badness is the percentage time lost and
-   total badness is the sum of this over all sizes measured.  The threshold
-   is set to minimize total badness.
+   The thresholds are determined as follows: two algorithms A and B are 
+   compared over a range of sizes. At each point, we define "badness" to
+   be the percentage time lost if algorithm B is chosen over algorithm A.
+   Then total badness is the sum of this over all sizes measured.  The 
+   threshold is set to minimize total badness.
 
-   Suppose, as sizes increase, method B becomes faster than method A.  The
-   effect of the rule is that, as you look at increasing sizes, isolated
-   points where B is faster are ignored, but when it's consistently faster,
-   or faster on balance, then the threshold is set there.  The same result
-   is obtained thinking in the other direction of A becoming faster at
-   smaller sizes.
-
-   In practice the thresholds tend to be chosen to bring on the next
-   algorithm fairly quickly.
-
-   This rule is attractive because it's got a basis in reason and is fairly
-   easy to implement, but no work has been done to actually compare it in
-   absolute terms to other possibilities.
+   In practice the thresholds tend to be chosen to bring on algorithm B 
+   fairly quickly.
 
    Implementation:
 
@@ -96,6 +72,57 @@ MA 02110-1301, USA. */
    The FFTs aren't subject to the same badness rule as the other thresholds,
    so each k is probably being brought on a touch early.  This isn't likely
    to make a difference, and the simpler probing means fewer tests.
+
+   Code: 
+     - main : checks for various command line options and calls all()
+     - all : prints the tuneup message, date and compiler, then calls
+             each of the individual tuning functions in turn, e.g. 
+             tune_mul()
+     - tune_blah() : tunes function of type blah, e.g. tune_mul() tunes the
+             karatsuba and toom cutoffs. It sets up a param struct with the
+             following parameters:
+               a) name : the name of the threshold being tuned, e.g.
+                  MUL_TOOM3_THRESHOLD
+               b) function : the first function being compared (this must be
+                  of the form speed_blah and the function speed_blah will 
+                  exist in speed.h and speed.c
+               c) function2 : the second function being compared (if set to
+                  NULL, this is automatically set to equal function
+               d) step_factor : the size of the step between sizes, 
+                  set to 0.01 by default, i.e. 1% increments
+               e) function_fudge : multiplier for the speed of function, used
+                  to adjust for overheads, by default set to 1.0
+               f) stop_since_change is a stop condition. If the threshold
+                  has not changed for this many iterations, then stop. This
+                  is set to 80 iterations by default.
+               g) stop_factor : this is another stop factor. If method B 
+                  becomes faster by at least this factor, then stop. By
+                  default this is set to 1.2, i.e. 20% faster.
+               h) min_size : the minimum size to start comparing from.
+               i) min_is_always : if this is set to 1, then if the threshold
+                  just ends up being min_size, then the threshold is actually
+                  set to 0, i.e. algorithm B is always used.
+               j) max_size : the maximum size to compare up to. By default this
+                  is set to DEFAULT_MAX_SIZE which is 1000 limbs.
+               h) check_size : if set, will check that the given starting size
+                  is valid for both algorithms and that algorithm B is at least
+                  4% slower than algorithm A at that point.
+               i) size_extra : this is a bias added to each size when doing 
+                  measurements. It is subtracted off after each measurement. 
+                  It is basically used for shifting a threshold from the
+                  measured value.
+               j) data_high : if set to 1, the high limb of xp and yp are set to
+                  be less than s->r, if set to 2, the high limb of xp and yp are
+                  set to be greater than or equal to s->r
+               k) noprint : if set, the threshold is computed but not printed.
+             
+             After setting all the appropriate parameters, the function one() is
+             called. It takes a reference to a parameter, e.g. mul_toom3_threshold
+             which is defined in a table below. That threshold will have been given
+             some initial value (usually MP_SIZE_T_MAX) in the table. It also takes
+             a reference to the param struct.
+        - one() : does repeated timings over the given range of sizes always setting
+            the threshold to size+1 for function and size for function2.
 
 */
 
@@ -172,7 +199,10 @@ mp_size_t  mulhigh_basecase_threshold   = MP_SIZE_T_MAX;
 mp_size_t  mulhigh_dc_threshold         = MP_SIZE_T_MAX;
 mp_size_t  mulhigh_mul_threshold        = MP_SIZE_T_MAX;
 mp_size_t  div_sb_preinv_threshold      = MP_SIZE_T_MAX;
-mp_size_t  div_dc_threshold             = MP_SIZE_T_MAX;
+mp_size_t  dc_div_qr_threshold          = MP_SIZE_T_MAX;
+mp_size_t  dc_divappr_q_n_threshold     = MP_SIZE_T_MAX;
+mp_size_t  inv_div_qr_threshold          = MP_SIZE_T_MAX;
+mp_size_t  inv_divappr_q_n_threshold     = MP_SIZE_T_MAX;
 mp_size_t  powm_threshold               = MP_SIZE_T_MAX;
 mp_size_t  fac_ui_threshold             = MP_SIZE_T_MAX;
 mp_size_t  gcd_accel_threshold          = MP_SIZE_T_MAX;
@@ -1130,13 +1160,45 @@ tune_sb_preinv (gmp_randstate_t rands)
 
 
 void
-tune_dc (gmp_randstate_t rands)
+tune_dc_div (gmp_randstate_t rands)
 {
+  {
   static struct param_t  param;
-  param.name = "DIV_DC_THRESHOLD";
-  param.function = speed_mpn_dc_tdiv_qr;
+  param.name = "DC_DIV_QR_THRESHOLD";
+  param.function = speed_mpn_dc_div_qr_n;
+  param.stop_factor = 1.1;
   param.step_factor = 0.02;
-  one (&div_dc_threshold, rands, &param);
+  one (&dc_div_qr_threshold, rands, &param);
+  }
+
+  {
+  static struct param_t  param;
+  param.name = "DC_DIVAPPR_Q_N_THRESHOLD";
+  param.function = speed_mpn_dc_divappr_q;
+  param.stop_factor = 1.1;
+  param.step_factor = 0.02;
+  one (&dc_divappr_q_n_threshold, rands, &param);
+  }
+
+  {
+  static struct param_t  param;
+  param.name = "INV_DIV_QR_THRESHOLD";
+  param.function = speed_mpn_inv_div_qr;
+  param.min_size = dc_div_qr_threshold*4;
+  param.stop_factor = 2.0;
+  param.step_factor = 0.2;
+  one (&inv_div_qr_threshold, rands, &param);
+  }
+  
+  {
+  static struct param_t  param;
+  param.name = "INV_DIVAPPR_Q_N_THRESHOLD";
+  param.function = speed_mpn_inv_divappr_q;
+  param.min_size = dc_divappr_q_n_threshold*4;
+  param.stop_factor = 2.0;
+  param.step_factor = 0.2;
+  one (&inv_divappr_q_n_threshold, rands, &param);
+  }
 }
 
 
@@ -1866,7 +1928,18 @@ all (gmp_randstate_t rands)
   printf("\n");
   
   tune_sb_preinv (rands);
-  tune_dc (rands);
+
+  /* dc_div_qr_n, dc_divappr_q, inv_div_qr, inv_divappr_q */
+  tune_dc_div (rands);
+  
+  /* mpn_tdiv_q : balanced 
+  tune_dc_div_q (rands);
+  tune_inv_div_q (rands);
+
+  /* mpn_tdiv_q : small quotient 
+  tune_dc_divappr_q (rands);
+  tune_inv_divappr_q (rands); */
+  
   tune_powm (rands);
   tune_fac_ui(rands);
   printf("\n");

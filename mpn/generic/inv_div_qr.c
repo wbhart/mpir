@@ -30,9 +30,6 @@ along with the GNU MP Library.  If not, see http://www.gnu.org/licenses/.  */
 #include "gmp-impl.h"
 #include "longlong.h"
 
-#define DC_DIV_QR_THRESHOLD 56 
-#define INV_DIV_QR_THRESHOLD 1200 
-
 mp_limb_t
 mpn_inv_div_qr (mp_ptr qp,
 		  mp_ptr np, mp_size_t nn,

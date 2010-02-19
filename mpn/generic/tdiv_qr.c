@@ -35,9 +35,6 @@ along with the GNU MP Library.  If not, see http://www.gnu.org/licenses/.  */
 #include "gmp-impl.h"
 #include "longlong.h"
 
-#define DC_DIV_QR_THRESHOLD 152 /*FIXME: tune this!*/
-#define INV_DIV_QR_THRESHOLD 1000
-
 void
 mpn_tdiv_qr (mp_ptr qp, mp_ptr rp, mp_size_t qxn,
 	     mp_srcptr np, mp_size_t nn, mp_srcptr dp, mp_size_t dn)

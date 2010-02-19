@@ -81,11 +81,6 @@ along with the GNU MP Library.  If not, see http://www.gnu.org/licenses/.  */
    for the code to be correct.  */
 #define FUDGE 5			/* FIXME: tune this */
 
-#define DC_DIV_Q_THRESHOLD 156 /* FIXME: tune this */    
-#define DC_DIVAPPR_Q_THRESHOLD 156 /* FIXME: tune this */
-#define INV_DIV_Q_THRESHOLD 1000 
-#define INV_DIVAPPR_Q_THRESHOLD 2000
-
 void
 mpn_tdiv_q (mp_ptr qp,
 	   mp_srcptr np, mp_size_t nn,

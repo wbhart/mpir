@@ -28,10 +28,6 @@ along with the GNU MP Library.  If not, see http://www.gnu.org/licenses/.  */
 #include "gmp-impl.h"
 #include "longlong.h"
 
-#define DC_DIVAPPR_Q_THRESHOLD 141 /*FIXME: tune these */
-#define DC_DIVAPPR_QR_THRESHOLD 145 
-#define DC_DIV_QR_THRESHOLD 56 
-
 mp_limb_t
 mpn_dc_divappr_q (mp_ptr qp, mp_ptr np, mp_size_t nn,
 		     mp_srcptr dp, mp_size_t dn, mp_limb_t dinv)
@@ -187,7 +183,7 @@ mpn_dc_divappr_q (mp_ptr qp, mp_ptr np, mp_size_t nn,
 
       q2p = TMP_SALLOC_LIMBS (qn + 1);
       
-      if (BELOW_THRESHOLD (qn, DC_DIVAPPR_Q_THRESHOLD))
+      if (BELOW_THRESHOLD (qn, DC_DIVAPPR_Q_N_THRESHOLD))
 	{
 	  qh = mpn_sb_divappr_q (q2p, np - qn - 2, 2 * (qn + 1),
 				    dp - (qn + 1), qn + 1, dinv);

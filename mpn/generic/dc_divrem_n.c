@@ -29,6 +29,8 @@ MA 02110-1301, USA. */
 #include "mpir.h"
 #include "gmp-impl.h"
 
+#define DIV_DC_THRESHOLD 16
+
 /*
 [1] Fast Recursive Division, by Christoph Burnikel and Joachim Ziegler,
     Technical report MPI-I-98-1-022, october 1998.

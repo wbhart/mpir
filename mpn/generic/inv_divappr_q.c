@@ -28,12 +28,6 @@ along with the GNU MP Library.  If not, see http://www.gnu.org/licenses/.  */
 #include "gmp-impl.h"
 #include "longlong.h"
 
-#define DC_DIVAPPR_Q_THRESHOLD 141 /*FIXME: tune these */
-#define INV_DIVAPPR_Q_THRESHOLD 1000 
-#define INV_DIV_QR_THRESHOLD 1200 
-#define DC_DIVAPPR_QR_THRESHOLD 145 
-#define DC_DIV_QR_THRESHOLD 56 
-
 mp_limb_t
 mpn_inv_divappr_q (mp_ptr qp, mp_ptr np, mp_size_t nn,
 		     mp_srcptr dp, mp_size_t dn, mp_srcptr dinv)
@@ -190,7 +184,7 @@ mpn_inv_divappr_q (mp_ptr qp, mp_ptr np, mp_size_t nn,
 	  qh = mpn_sb_divappr_q (q2p, np - qn - 2, 2 * (qn + 1),
 				    dp - (qn + 1), qn + 1, dinv2);
 	}
-      else if (BELOW_THRESHOLD (qn, INV_DIVAPPR_Q_THRESHOLD))
+      else if (BELOW_THRESHOLD (qn, INV_DIVAPPR_Q_N_THRESHOLD))
 	{
 	  /* It is tempting to use qp for recursive scratch and put quotient in
 	     tp, but the recursive scratch needs one limb too many.  */

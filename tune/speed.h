@@ -178,6 +178,10 @@ double speed_mpn_dc_divrem_sb _PROTO ((struct speed_params *s));
 double speed_mpn_dc_divrem_sb_div _PROTO ((struct speed_params *s));
 double speed_mpn_dc_divrem_sb_inv _PROTO ((struct speed_params *s));
 double speed_mpn_dc_tdiv_qr _PROTO ((struct speed_params *s));
+double speed_mpn_dc_div_qr_n _PROTO ((struct speed_params *s));
+double speed_mpn_dc_divappr_q _PROTO ((struct speed_params *s));
+double speed_mpn_inv_div_qr _PROTO ((struct speed_params *s));
+double speed_mpn_inv_divappr_q _PROTO ((struct speed_params *s));
 double speed_MPN_COPY _PROTO ((struct speed_params *s));
 double speed_MPN_COPY_DECR _PROTO ((struct speed_params *s));
 double speed_MPN_COPY_INCR _PROTO ((struct speed_params *s));
@@ -1492,6 +1496,263 @@ int speed_routine_count_zeros_setup _PROTO ((struct speed_params *s,
     i = s->reps;							\
     do									\
       call;								\
+    while (--i != 0);							\
+    t = speed_endtime ();						\
+									\
+    TMP_FREE;								\
+    return t;								\
+  }
+
+#define SPEED_ROUTINE_MPN_DC_DIV_N_TSIZE(function, tsize)				\
+  {									\
+    unsigned  i;							\
+    mp_ptr    a, d, q, tmp;						\
+    mp_limb_t inv;                                             \
+    double    t;							\
+    TMP_DECL;								\
+									\
+    SPEED_RESTRICT_COND (s->size >= 2);					\
+									\
+    TMP_MARK;								\
+    SPEED_TMP_ALLOC_LIMBS (a, 2*s->size, s->align_xp);			\
+    SPEED_TMP_ALLOC_LIMBS (d, s->size,   s->align_yp);			\
+    SPEED_TMP_ALLOC_LIMBS (q, s->size+1, s->align_wp);			\
+    SPEED_TMP_ALLOC_LIMBS (tmp, tsize,   s->align_wp2);			\
+    								\
+    MPN_COPY (a, s->xp, s->size);					\
+    MPN_COPY (a+s->size, s->xp, s->size);				\
+									\
+    MPN_COPY (d, s->yp, s->size);					\
+									\
+    /* normalize the data */						\
+    d[s->size-1] |= GMP_NUMB_HIGHBIT;					\
+    a[2*s->size-1] = d[s->size-1] - 1;					\
+									\
+    speed_operand_src (s, a, 2*s->size);				\
+    speed_operand_src (s, d, s->size);					\
+    speed_operand_dst (s, q, s->size+1);				\
+    speed_cache_fill (s);						\
+	                                                         \
+    invert_1(inv, d[s->size-1], d[s->size-2]);                        \
+								\
+    speed_starttime ();							\
+    i = s->reps;							\
+    do									\
+      function(q, a, d, s->size, inv, tmp);								\
+    while (--i != 0);							\
+    t = speed_endtime ();						\
+									\
+    TMP_FREE;								\
+    return t;								\
+  }
+
+#define SPEED_ROUTINE_MPN_DC_DIV(function)				\
+  {									\
+    unsigned  i;							\
+    mp_ptr    a, d, q;						\
+    mp_limb_t inv;                                             \
+    double    t;							\
+    TMP_DECL;								\
+									\
+    SPEED_RESTRICT_COND (s->size >= 2);					\
+									\
+    TMP_MARK;								\
+    SPEED_TMP_ALLOC_LIMBS (a, 2*s->size, s->align_xp);			\
+    SPEED_TMP_ALLOC_LIMBS (d, s->size,   s->align_yp);			\
+    SPEED_TMP_ALLOC_LIMBS (q, s->size+1, s->align_wp);			\
+    								\
+    MPN_COPY (a, s->xp, s->size);					\
+    MPN_COPY (a+s->size, s->xp, s->size);				\
+									\
+    MPN_COPY (d, s->yp, s->size);					\
+									\
+    /* normalize the data */						\
+    d[s->size-1] |= GMP_NUMB_HIGHBIT;					\
+    a[2*s->size-1] = d[s->size-1] - 1;					\
+									\
+    speed_operand_src (s, a, 2*s->size);				\
+    speed_operand_src (s, d, s->size);					\
+    speed_operand_dst (s, q, s->size+1);				\
+    speed_cache_fill (s);						\
+	                                                         \
+    invert_1(inv, d[s->size-1], d[s->size-2]);                        \
+								\
+    speed_starttime ();							\
+    i = s->reps;							\
+    do									\
+      function(q, a, 2*s->size, d, s->size, inv);								\
+    while (--i != 0);							\
+    t = speed_endtime ();						\
+									\
+    TMP_FREE;								\
+    return t;								\
+  }
+
+#define SPEED_ROUTINE_MPN_DC_DIV_SMALL_Q(function)				\
+  {									\
+    unsigned  i;							\
+    mp_ptr    a, d, q;						\
+    mp_limb_t inv;                                             \
+    double    t;							\
+    TMP_DECL;								\
+									\
+    SPEED_RESTRICT_COND (s->size >= 2);					\
+									\
+    TMP_MARK;								\
+    SPEED_TMP_ALLOC_LIMBS (a, 3*s->size, s->align_xp);			\
+    SPEED_TMP_ALLOC_LIMBS (d, 2*s->size,   s->align_yp);			\
+    SPEED_TMP_ALLOC_LIMBS (q, s->size+1, s->align_wp);			\
+    								\
+    MPN_COPY (a, s->xp, s->size);					\
+    MPN_COPY (a+s->size, s->xp, s->size);				\
+    MPN_COPY (a+2*s->size, s->xp, s->size);				\
+									\
+    MPN_COPY (d, s->yp, s->size);					\
+    MPN_COPY (d+s->size, s->yp, s->size);					\
+									\
+    /* normalize the data */						\
+    d[2*s->size-1] |= GMP_NUMB_HIGHBIT;					\
+    a[3*s->size-1] = d[2*s->size-1] - 1;					\
+									\
+    speed_operand_src (s, a, 3*s->size);				\
+    speed_operand_src (s, d, 2*s->size);					\
+    speed_operand_dst (s, q, s->size+1);				\
+    speed_cache_fill (s);						\
+	                                                         \
+    invert_1(inv, d[2*s->size-1], d[2*s->size-2]);                        \
+								\
+    speed_starttime ();							\
+    i = s->reps;							\
+    do									\
+      function(q, a, 3*s->size, d, 2*s->size, inv);								\
+    while (--i != 0);							\
+    t = speed_endtime ();						\
+									\
+    TMP_FREE;								\
+    return t;								\
+  }
+
+#define SPEED_ROUTINE_MPN_INV_DIV_N(function)				\
+  {									\
+    unsigned  i;							\
+    mp_ptr    a, d, q, inv;						\
+    double    t;							\
+    TMP_DECL;								\
+									\
+    SPEED_RESTRICT_COND (s->size >= 2);					\
+									\
+    TMP_MARK;								\
+    SPEED_TMP_ALLOC_LIMBS (a, 2*s->size, s->align_xp);			\
+    SPEED_TMP_ALLOC_LIMBS (d, s->size,   s->align_yp);			\
+    SPEED_TMP_ALLOC_LIMBS (q, s->size+1, s->align_wp);			\
+    SPEED_TMP_ALLOC_LIMBS (inv, s->size, s->align_wp2);			\
+    								\
+    MPN_COPY (a, s->xp, s->size);					\
+    MPN_COPY (a+s->size, s->xp, s->size);				\
+									\
+    MPN_COPY (d, s->yp, s->size);					\
+									\
+    /* normalize the data */						\
+    d[s->size-1] |= GMP_NUMB_HIGHBIT;					\
+    a[2*s->size-1] = d[s->size-1] - 1;					\
+									\
+    speed_operand_src (s, a, 2*s->size);				\
+    speed_operand_src (s, d, s->size);					\
+    speed_operand_dst (s, q, s->size+1);				\
+    speed_cache_fill (s);						\
+	                                                         \
+    mpn_invert(inv, d, s->size);                        \
+								\
+    speed_starttime ();							\
+    i = s->reps;							\
+    do									\
+      function(q, a, d, s->size, inv);								\
+    while (--i != 0);							\
+    t = speed_endtime ();						\
+									\
+    TMP_FREE;								\
+    return t;								\
+  }
+
+#define SPEED_ROUTINE_MPN_INV_DIV(function)				\
+  {									\
+    unsigned  i;							\
+    mp_ptr    a, d, q, inv;						\
+    double    t;							\
+    TMP_DECL;								\
+									\
+    SPEED_RESTRICT_COND (s->size >= 2);					\
+									\
+    TMP_MARK;								\
+    SPEED_TMP_ALLOC_LIMBS (a, 2*s->size, s->align_xp);			\
+    SPEED_TMP_ALLOC_LIMBS (d, s->size,   s->align_yp);			\
+    SPEED_TMP_ALLOC_LIMBS (q, s->size+1, s->align_wp);			\
+    SPEED_TMP_ALLOC_LIMBS (inv, s->size, s->align_wp2);			\
+    								\
+    MPN_COPY (a, s->xp, s->size);					\
+    MPN_COPY (a+s->size, s->xp, s->size);				\
+									\
+    MPN_COPY (d, s->yp, s->size);					\
+									\
+    /* normalize the data */						\
+    d[s->size-1] |= GMP_NUMB_HIGHBIT;					\
+    a[2*s->size-1] = d[s->size-1] - 1;					\
+									\
+    speed_operand_src (s, a, 2*s->size);				\
+    speed_operand_src (s, d, s->size);					\
+    speed_operand_dst (s, q, s->size+1);				\
+    speed_cache_fill (s);						\
+	                                                         \
+    mpn_invert(inv, d, s->size);                        \
+								\
+    speed_starttime ();							\
+    i = s->reps;							\
+    do									\
+      function(q, a, 2*s->size, d, s->size, inv);								\
+    while (--i != 0);							\
+    t = speed_endtime ();						\
+									\
+    TMP_FREE;								\
+    return t;								\
+  }
+
+#define SPEED_ROUTINE_MPN_INV_DIV_SMALL_Q(function)				\
+  {									\
+    unsigned  i;							\
+    mp_ptr    a, d, q, inv;						\
+    double    t;							\
+    TMP_DECL;								\
+									\
+    SPEED_RESTRICT_COND (s->size >= 2);					\
+									\
+    TMP_MARK;								\
+    SPEED_TMP_ALLOC_LIMBS (a, 3*s->size, s->align_xp);			\
+    SPEED_TMP_ALLOC_LIMBS (d, 2*s->size,   s->align_yp);			\
+    SPEED_TMP_ALLOC_LIMBS (q, s->size+1, s->align_wp);			\
+    SPEED_TMP_ALLOC_LIMBS (inv, 2*s->size, s->align_wp2);			\
+    								\
+    MPN_COPY (a, s->xp, s->size);					\
+    MPN_COPY (a+s->size, s->xp, s->size);				\
+    MPN_COPY (a+2*s->size, s->xp, s->size);				\
+									\
+    MPN_COPY (d, s->yp, s->size);					\
+    MPN_COPY (d+s->size, s->yp, s->size);					\
+									\
+    /* normalize the data */						\
+    d[2*s->size-1] |= GMP_NUMB_HIGHBIT;					\
+    a[3*s->size-1] = d[2*s->size-1] - 1;					\
+									\
+    speed_operand_src (s, a, 3*s->size);				\
+    speed_operand_src (s, d, 2*s->size);					\
+    speed_operand_dst (s, q, s->size+1);				\
+    speed_cache_fill (s);						\
+	                                                         \
+    mpn_invert(inv, d, 2*s->size);                        \
+								\
+    speed_starttime ();							\
+    i = s->reps;							\
+    do									\
+      function(q, a, 3*s->size, d, 2*s->size, inv);								\
     while (--i != 0);							\
     t = speed_endtime ();						\
 									\

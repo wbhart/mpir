@@ -584,51 +584,6 @@ void  __gmp_tmp_debug_free  _PROTO ((const char *, int, int,
 #define GMP_NAIL_LOWBIT   (CNST_LIMB(1) << GMP_NUMB_BITS)
 #endif
 
-#if GMP_NAIL_BITS != 0
-/* Set various *_THRESHOLD values to be used for nails.  Thus we avoid using
-   code that has not yet been qualified.  */
-
-#undef DIV_SB_PREINV_THRESHOLD
-#undef DIV_DC_THRESHOLD
-#undef POWM_THRESHOLD
-#define DIV_SB_PREINV_THRESHOLD           MP_SIZE_T_MAX
-#define DIV_DC_THRESHOLD                 50
-#define POWM_THRESHOLD                    0
-
-#undef GCD_ACCEL_THRESHOLD
-#define GCD_ACCEL_THRESHOLD               3
-
-#undef DIVREM_1_NORM_THRESHOLD
-#undef DIVREM_1_UNNORM_THRESHOLD
-#undef MOD_1_NORM_THRESHOLD
-#undef MOD_1_UNNORM_THRESHOLD
-#undef USE_PREINV_DIVREM_1
-#undef USE_PREINV_MOD_1
-#undef DIVREM_2_THRESHOLD
-#undef DIVEXACT_1_THRESHOLD
-#undef MODEXACT_1_ODD_THRESHOLD
-#define DIVREM_1_NORM_THRESHOLD           MP_SIZE_T_MAX  /* no preinv */
-#define DIVREM_1_UNNORM_THRESHOLD         MP_SIZE_T_MAX  /* no preinv */
-#define MOD_1_NORM_THRESHOLD              MP_SIZE_T_MAX  /* no preinv */
-#define MOD_1_UNNORM_THRESHOLD            MP_SIZE_T_MAX  /* no preinv */
-#define USE_PREINV_DIVREM_1               0  /* no preinv */
-#define USE_PREINV_MOD_1                  0  /* no preinv */
-#define DIVREM_2_THRESHOLD                MP_SIZE_T_MAX  /* no preinv */
-
-#undef GET_STR_DC_THRESHOLD
-#undef GET_STR_PRECOMPUTE_THRESHOLD
-#undef SET_STR_THRESHOLD
-#define GET_STR_DC_THRESHOLD             22
-#define GET_STR_PRECOMPUTE_THRESHOLD     42
-#define SET_STR_THRESHOLD              3259
-
-/* mpn/generic/mul_fft.c is not nails-capable. */
-#undef  MUL_FFT_THRESHOLD
-#undef  SQR_FFT_THRESHOLD
-#define MUL_FFT_THRESHOLD                MP_SIZE_T_MAX
-#define SQR_FFT_THRESHOLD                MP_SIZE_T_MAX
-#endif
-
 /* Swap macros. */
 
 #define MP_LIMB_T_SWAP(x, y)                    \
@@ -1270,6 +1225,8 @@ void mpn_mul_fft_full _PROTO ((mp_ptr op,
 #define   mpn_fft_next_size __MPN(fft_next_size)
 mp_size_t mpn_fft_next_size _PROTO ((mp_size_t pl, int k)) ATTRIBUTE_CONST;
 
+#define DC_DIVAPPR_Q_N_ITCH(n) (n*10)
+
 #define mpn_sb_divrem_mn  __MPN(sb_divrem_mn)
 mp_limb_t mpn_sb_divrem_mn _PROTO ((mp_ptr, mp_ptr, mp_size_t,
                                     mp_srcptr, mp_size_t));
@@ -1790,18 +1747,37 @@ __GMP_DECLSPEC extern const mp_limb_t __gmp_fib_table[];
 
 #define MPN_FFT_TABLE_SIZE  16
 
-
-/* mpn_dc_divrem_n(n) calls 2*mul(n/2)+2*div(n/2), thus to be faster than
-   div(n) = 4*div(n/2), we need mul(n/2) to be faster than the classic way,
-   i.e. n/2 >= MUL_KARATSUBA_THRESHOLD
-
-   Measured values are between 2 and 4 times MUL_KARATSUBA_THRESHOLD, so go
-   for 3 as an average.  */
-
-#ifndef DIV_DC_THRESHOLD
-#define DIV_DC_THRESHOLD    (3 * MUL_KARATSUBA_THRESHOLD)
+#ifndef DC_DIV_QR_THRESHOLD
+#define DC_DIV_QR_THRESHOLD    (3 * MUL_KARATSUBA_THRESHOLD)
 #endif
 
+#ifndef DC_DIVAPPR_Q_N_THRESHOLD
+#define DC_DIVAPPR_Q_N_THRESHOLD    (3 * MUL_KARATSUBA_THRESHOLD)
+#endif
+
+#ifndef INV_DIV_QR_THRESHOLD
+#define INV_DIV_QR_THRESHOLD    (MUL_FFT_THRESHOLD/3)
+#endif
+
+#ifndef INV_DIVAPPR_Q_N_THRESHOLD
+#define INV_DIVAPPR_Q_N_THRESHOLD    (MUL_FFT_THRESHOLD/3)
+#endif
+
+#ifndef DC_DIV_Q_THRESHOLD
+#define DC_DIV_Q_THRESHOLD    (3 * MUL_KARATSUBA_THRESHOLD)
+#endif
+
+#ifndef INV_DIV_Q_THRESHOLD
+#define INV_DIV_Q_THRESHOLD    (MUL_FFT_THRESHOLD/3)
+#endif
+
+#ifndef DC_DIVAPPR_Q_THRESHOLD
+#define DC_DIVAPPR_Q_THRESHOLD    (3 * MUL_TOOM3_THRESHOLD)
+#endif
+
+#ifndef INV_DIVAPPR_Q_THRESHOLD
+#define INV_DIVAPPR_Q_THRESHOLD    (MUL_FFT_THRESHOLD/2)
+#endif
 
 /* Return non-zero if xp,xsize and yp,ysize overlap.
    If xp+xsize<=yp there's no overlap, or if yp+ysize<=xp there's no
@@ -4180,9 +4156,21 @@ extern mp_size_t                     mulmod_2expm1_threshold;
 extern mp_size_t                     div_sb_preinv_threshold;
 #endif
 
-#undef  DIV_DC_THRESHOLD
-#define DIV_DC_THRESHOLD             div_dc_threshold
-extern mp_size_t                     div_dc_threshold;
+#undef  DC_DIV_QR_THRESHOLD
+#define DC_DIV_QR_THRESHOLD          dc_div_qr_threshold
+extern mp_size_t                     dc_div_qr_threshold;
+
+#undef  DC_DIVAPPR_Q_N_THRESHOLD
+#define DC_DIVAPPR_Q_N_THRESHOLD     dc_divappr_q_n_threshold
+extern mp_size_t                     dc_divappr_q_n_threshold;
+
+#undef  INV_DIV_QR_THRESHOLD
+#define INV_DIV_QR_THRESHOLD         inv_div_qr_threshold
+extern mp_size_t                     inv_div_qr_threshold;
+
+#undef  INV_DIVAPPR_Q_N_THRESHOLD
+#define INV_DIVAPPR_Q_N_THRESHOLD    inv_divappr_q_n_threshold
+extern mp_size_t                     inv_divappr_q_n_threshold;
 
 #undef  POWM_THRESHOLD
 #define POWM_THRESHOLD               powm_threshold

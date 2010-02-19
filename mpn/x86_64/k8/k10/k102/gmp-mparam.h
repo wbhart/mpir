@@ -23,7 +23,10 @@
 #define MULMOD_2EXPM1_THRESHOLD          18
 
 #define DIV_SB_PREINV_THRESHOLD           0  /* always */
-#define DIV_DC_THRESHOLD                372
+#define DC_DIV_QR_THRESHOLD              14
+#define DC_DIVAPPR_Q_N_THRESHOLD         10
+#define INV_DIV_QR_THRESHOLD            926 
+#define INV_DIVAPPR_Q_N_THRESHOLD       926
 #define POWM_THRESHOLD                  154
 #define FAC_UI_THRESHOLD              17010
 

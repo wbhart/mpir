@@ -874,6 +874,26 @@ speed_mpn_sb_divrem_m3_inv (struct speed_params *s)
 {
   SPEED_ROUTINE_MPN_SB_DIVREM_M3 (mpn_sb_divrem_mn_inv);
 }
+double
+speed_mpn_dc_div_qr_n (struct speed_params *s)
+{
+  SPEED_ROUTINE_MPN_DC_DIV_N_TSIZE (mpn_dc_div_qr_n, DC_DIVAPPR_Q_N_ITCH(s->size));
+}
+double
+speed_mpn_dc_divappr_q (struct speed_params *s)
+{
+  SPEED_ROUTINE_MPN_DC_DIV_SMALL_Q (mpn_dc_divappr_q);
+}
+double
+speed_mpn_inv_div_qr (struct speed_params *s)
+{
+  SPEED_ROUTINE_MPN_INV_DIV (mpn_inv_div_qr);
+}
+double
+speed_mpn_inv_divappr_q (struct speed_params *s)
+{
+  SPEED_ROUTINE_MPN_INV_DIV_SMALL_Q (mpn_inv_divappr_q);
+}
 
 double
 speed_mpz_mod (struct speed_params *s)
