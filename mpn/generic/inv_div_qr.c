@@ -131,7 +131,7 @@ mpn_inv_div_qr (mp_ptr qp,
 	  else if (BELOW_THRESHOLD (qn, INV_DIV_QR_THRESHOLD))
 	    qh = mpn_dc_div_qr_n (qp, np - qn, dp - qn, qn, dinv2, tp);
 	  else
-	    qh = mpn_inv_div_qr_n (qp, np - qn, dp - qn, qn, dinv);
+	    qh = mpn_inv_div_qr_n (qp, np - qn, dp - qn, qn, dinv + dn - qn);
 
 	  if (qn != dn)
 	    {
