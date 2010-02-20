@@ -32,8 +32,8 @@ MA 02110-1301, USA. */
 #define random rand
 #endif
 
-#define MAX_LIMBS 4000
-#define ITERS 10000
+#define MAX_LIMBS 1000
+#define ITERS 1000
    
 /* Check precomputed inverse division routine. */
 void
