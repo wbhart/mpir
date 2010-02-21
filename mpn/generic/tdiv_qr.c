@@ -140,7 +140,7 @@ mpn_tdiv_qr (mp_ptr qp, mp_ptr rp, mp_size_t qxn,
 	      mpn_dc_div_qr (qp, n2p, nn, d2p, dn, dinv);
 	    else
 		{
-	      mp_ptr dinv2 = TMP_ALLOC_LIMBS(dn);
+          mp_ptr dinv2 = TMP_ALLOC_LIMBS(dn);
 		  mpn_invert(dinv2, d2p, dn);
 		  mpn_inv_div_qr (qp, n2p, nn, d2p, dn, dinv2);
 		}
@@ -268,9 +268,9 @@ mpn_tdiv_qr (mp_ptr qp, mp_ptr rp, mp_size_t qxn,
 			mpn_dc_div_qr_n (qp, n2p, d2p, qn, dinv, temp);
 		} else
 		{
-	      mp_ptr dinv2 = TMP_ALLOC_LIMBS(dn);
+	      mp_ptr dinv2 = TMP_ALLOC_LIMBS(qn);
 		  mpn_invert(dinv2, d2p, qn);
-		  mpn_inv_div_qr_n (qp, n2p, d2p, qn, dinv2);
+          mpn_inv_div_qr_n (qp, n2p, d2p, qn, dinv2);
 		}  
 	      }
 

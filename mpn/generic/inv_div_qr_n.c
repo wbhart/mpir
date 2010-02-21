@@ -60,13 +60,18 @@ mpn_inv_div_qr_n(mp_ptr qp, mp_ptr np,
 	  the left hand bound is either an integer or < 2/B below one.
    */
      
-   while (UNLIKELY(ret >= 2))
+   if (UNLIKELY(ret == 2))
    {
-      ret--;
+      ret = 1;
       mpn_sub_1(qp, qp, dn, 1);
    }
    
-   ret -= mpn_sub_1(qp, qp, dn, 1); /* ret is now guaranteed to be 0 */
+
+   ret -= mpn_sub_1(qp, qp, dn, 1); 
+   if (UNLIKELY(ret == ~CNST_LIMB(0))) 
+      ret += mpn_add_1(qp, qp, dn, 1);
+   /* ret is now guaranteed to be 0 */
+   
    mpn_mul_n(tp, qp, dp, dn);
    mpn_sub_n(np, np, tp, 2*dn);
    while (np[dn] || mpn_cmp(np, dp, dn) >= 0)

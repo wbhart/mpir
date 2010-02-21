@@ -1,4 +1,4 @@
-/* mpn_inv_div_qr_n -- division with remainder for arbitrary
+/* mpn_inv_div_qr -- division with remainder for arbitrary
    size operands using a precomputed inverse.
 
    Contributed to the GNU project by Torbjorn Granlund.
@@ -42,7 +42,6 @@ mpn_inv_div_qr (mp_ptr qp,
   TMP_DECL;
 
   TMP_MARK;
-
   ASSERT (dn >= 6);		/* to adhere to mpn_sbpi1_div_qr's limits */
   ASSERT (nn - dn >= 3);	/* to adhere to mpn_sbpi1_div_qr's limits */
   ASSERT (dp[dn-1] & GMP_NUMB_HIGHBIT);
@@ -165,8 +164,8 @@ mpn_inv_div_qr (mp_ptr qp,
 	{
 	  qp -= dn;
 	  np -= dn;
-	  mpn_inv_div_qr_n (qp, np - dn, dp - dn, dn, dinv);
-	  qn -= dn;
+      mpn_inv_div_qr_n (qp, np - dn, dp - dn, dn, dinv);
+      qn -= dn;
 	}
       while (qn > 0);
     }
@@ -174,7 +173,7 @@ mpn_inv_div_qr (mp_ptr qp,
     {
       qp -= qn;			/* point at low limb of next quotient block */
       np -= qn;			/* point in the middle of partial remainder */
-
+      
       if (BELOW_THRESHOLD (qn, DC_DIV_QR_THRESHOLD))
 	qh = mpn_sb_div_qr (qp, np - qn, 2 * qn, dp - qn, qn, dinv2);
       else if (BELOW_THRESHOLD (qn, INV_DIV_QR_THRESHOLD))
@@ -186,6 +185,7 @@ mpn_inv_div_qr (mp_ptr qp,
            else
            {
               mpn_add_1(tp, dinv + dn - qn, qn, 1);
+              ASSERT(mpn_is_invert(tp, dp - qn, qn));
               qh = mpn_inv_div_qr_n (qp, np - qn, dp - qn, qn, tp);
            }
        }
