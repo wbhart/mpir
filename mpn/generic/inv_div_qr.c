@@ -131,7 +131,15 @@ mpn_inv_div_qr (mp_ptr qp,
 	  else if (BELOW_THRESHOLD (qn, INV_DIV_QR_THRESHOLD))
 	    qh = mpn_dc_div_qr_n (qp, np - qn, dp - qn, qn, dinv2, tp);
 	  else
-	    qh = mpn_inv_div_qr_n (qp, np - qn, dp - qn, qn, dinv + dn - qn);
+         {
+	    if (mpn_is_invert(dinv + dn - qn, dp - qn, qn))
+              qh = mpn_inv_div_qr_n (qp, np - qn, dp - qn, qn, dinv + dn - qn);
+           else
+           {
+              mpn_add_1(tp, dinv + dn - qn, qn, 1);
+              qh = mpn_inv_div_qr_n (qp, np - qn, dp - qn, qn, tp);
+           }
+         }
 
 	  if (qn != dn)
 	    {
@@ -171,8 +179,16 @@ mpn_inv_div_qr (mp_ptr qp,
 	qh = mpn_sb_div_qr (qp, np - qn, 2 * qn, dp - qn, qn, dinv2);
       else if (BELOW_THRESHOLD (qn, INV_DIV_QR_THRESHOLD))
 	qh = mpn_dc_div_qr_n (qp, np - qn, dp - qn, qn, dinv2, tp);
-	  else
-	qh = mpn_inv_div_qr_n (qp, np - qn, dp - qn, qn, dinv + dn - qn);
+      else
+	{
+   	    if (mpn_is_invert(dinv + dn - qn, dp - qn, qn))
+              qh = mpn_inv_div_qr_n (qp, np - qn, dp - qn, qn, dinv + dn - qn);
+           else
+           {
+              mpn_add_1(tp, dinv + dn - qn, qn, 1);
+              qh = mpn_inv_div_qr_n (qp, np - qn, dp - qn, qn, tp);
+           }
+       }
 
       if (qn != dn)
 	{

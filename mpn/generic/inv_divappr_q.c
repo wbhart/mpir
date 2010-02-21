@@ -128,7 +128,16 @@ mpn_inv_divappr_q (mp_ptr qp, mp_ptr np, mp_size_t nn,
      else if (BELOW_THRESHOLD (qn, INV_DIV_QR_THRESHOLD))
         qh = mpn_dc_div_qr_n (qp, np - qn, dp - qn, qn, dinv2, tp);
      else
-        qh = mpn_inv_div_qr_n (qp, np - qn, dp - qn, qn, dinv + dn - qn);
+        {
+   	    if (mpn_is_invert(dinv + dn - qn, dp - qn, qn))
+              qh = mpn_inv_div_qr_n (qp, np - qn, dp - qn, qn, dinv + dn - qn);
+           else
+           {
+              mpn_add_1(tp, dinv + dn - qn, qn, 1);
+              qh = mpn_inv_div_qr_n (qp, np - qn, dp - qn, qn, tp);
+           }
+        }
+
 	  
       if (qn != dn)
 	    {
@@ -190,10 +199,21 @@ mpn_inv_divappr_q (mp_ptr qp, mp_ptr np, mp_size_t nn,
 	     tp, but the recursive scratch needs one limb too many.  */
 	  tp = TMP_ALLOC_LIMBS (10*(qn + 1));
 	  qh = mpn_dc_divappr_q_n (q2p, np - qn - 2, dp - (qn + 1), qn + 1, dinv2, tp);
-    } else 
+       } 
+      else 
 	{
-	  qh = mpn_inv_divappr_q_n (q2p, np - qn - 2, dp - (qn + 1), qn + 1, dinv + dn - (qn + 1));
-	}
+   	    tp = TMP_ALLOC_LIMBS (qn + 1);
+	    if (mpn_is_invert(dinv + dn - (qn + 1), dp - (qn + 1), qn + 1))
+              qh = mpn_inv_divappr_q_n (q2p, np - qn - 2, dp - (qn + 1), qn + 1, dinv + dn - (qn + 1));
+           else
+           {
+              mpn_add_1(tp, dinv + dn - (qn + 1), qn + 1, 1);
+              qh = mpn_inv_divappr_q_n (q2p, np - qn - 2, dp - (qn + 1), qn + 1, tp);
+
+           }
+       }
+
+
       MPN_COPY (qp, q2p + 1, qn);
     }
 

@@ -55,7 +55,7 @@ mpn_inv_divappr_q_n(mp_ptr qp, mp_ptr np,
       DX < B^{2*dn} <= D(X+1), thus
       Let N' = { np + n - 1, n + 1 }
 	  N'X/B^{dn+1} < B^{dn-1}N'/D <= N'X/B^{dn+1} + N'/B^{dn+1} < N'X/B^{dn+1} + 1
-      N'X/B^{dn+1} < N/D <= < N'X/B^{dn+1} + 1 + 2/B
+      N'X/B^{dn+1} < N/D <=  N'X/B^{dn+1} + 1 + 2/B
       There is either one integer in this range, or two. However, in the latter case
 	  the left hand bound is either an integer or < 2/B below one.
    */
