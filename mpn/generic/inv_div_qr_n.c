@@ -66,7 +66,6 @@ mpn_inv_div_qr_n(mp_ptr qp, mp_ptr np,
       mpn_sub_1(qp, qp, dn, 1);
    }
    
-   /* Special case, multiply out to get accurate quotient */
    ret -= mpn_sub_1(qp, qp, dn, 1); /* ret is now guaranteed to be 0 */
    mpn_mul_n(tp, qp, dp, dn);
    mpn_sub_n(np, np, tp, 2*dn);
