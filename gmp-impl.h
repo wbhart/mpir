@@ -957,6 +957,9 @@ __GMP_DECLSPEC void mpn_redc_2 __GMP_PROTO ((mp_ptr, mp_ptr, mp_srcptr, mp_size_
 #define mpn_is_invert __MPN(is_invert)
 __GMP_DECLSPEC int mpn_is_invert __GMP_PROTO ((mp_srcptr, mp_srcptr, mp_size_t));
 
+#define mpn_invert_truncate __MPN(invert_truncate)
+__GMP_DECLSPEC void mpn_invert_truncate __GMP_PROTO ((mp_ptr, mp_size_t, mp_srcptr, mp_size_t, mp_srcptr));
+
 #ifndef mpn_divrem_euclidean_qr_1    /* if not done with cpuvec in a fat binary */
 #define mpn_divrem_euclidean_qr_1 __MPN(divrem_euclidean_qr_1)
 __GMP_DECLSPEC mp_limb_t mpn_divrem_euclidean_qr_1 __GMP_PROTO ((mp_ptr, mp_size_t, mp_srcptr, mp_size_t,mp_limb_t));

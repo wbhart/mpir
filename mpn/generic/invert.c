@@ -214,3 +214,30 @@ mpn_invert (mp_ptr xp, mp_srcptr ap, mp_size_t n)
          mpn_add_1 (xp, xp, n, 1);
     }
 }
+
+void mpn_invert_truncate(mp_ptr x_new, mp_size_t m, mp_srcptr xp, mp_size_t n, mp_srcptr ap)
+{
+  mp_ptr tp;
+  mp_limb_t cy;
+  TMP_DECL;
+
+  TMP_MARK;
+  tp = TMP_ALLOC_LIMBS (2 * m);
+  
+  MPN_COPY(x_new, xp + n - m, m);
+  ap += (n - m);
+
+  mpn_mul_n (tp, x_new, ap, m);
+  mpn_add_n (tp + m, tp + m, ap, m); /* A * msb(X) */
+  
+  /* now check B^(2n) - X*A <= A */
+  mpn_com_n (tp, tp, 2 * m);
+  mpn_add_1 (tp, tp, 2 * m, 1); /* B^(2m) - X*A */
+  
+  while (tp[m] || mpn_cmp (tp, ap, m) > 0)
+  {
+     mpn_add_1(x_new, x_new, m, 1);
+     tp[m] -= mpn_sub_n(tp, tp, ap, m);
+  }
+  TMP_FREE;
+}
