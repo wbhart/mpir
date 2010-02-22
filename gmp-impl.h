@@ -1231,7 +1231,7 @@ void mpn_mul_fft_full _PROTO ((mp_ptr op,
 #define   mpn_fft_next_size __MPN(fft_next_size)
 mp_size_t mpn_fft_next_size _PROTO ((mp_size_t pl, int k)) ATTRIBUTE_CONST;
 
-#define DC_DIVAPPR_Q_N_ITCH(n) ((n)*10)
+#define DC_DIVAPPR_Q_N_ITCH(n) ((n)*4 + 64)
 
 #define mpn_sb_divrem_mn  __MPN(sb_divrem_mn)
 mp_limb_t mpn_sb_divrem_mn _PROTO ((mp_ptr, mp_ptr, mp_size_t,
