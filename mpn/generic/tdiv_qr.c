@@ -264,7 +264,7 @@ mpn_tdiv_qr (mp_ptr qp, mp_ptr rp, mp_size_t qxn,
 		  mpn_sb_div_qr (qp, n2p, 2 * qn, d2p, qn, dinv);
 		else if (BELOW_THRESHOLD (qn, INV_DIV_QR_THRESHOLD))
 		{
-			mp_ptr temp = TMP_ALLOC_LIMBS(10*qn);
+			mp_ptr temp = TMP_ALLOC_LIMBS(DC_DIVAPPR_Q_N_ITCH(qn));
 			mpn_dc_div_qr_n (qp, n2p, d2p, qn, dinv, temp);
 		} else
 		{

@@ -49,7 +49,7 @@ mpn_inv_div_qr (mp_ptr qp,
 
   invert_1(dinv2, dp[dn - 1], dp[dn - 2]);
 
-  tp = TMP_ALLOC_LIMBS (10 * dn);
+  tp = TMP_ALLOC_LIMBS (DC_DIVAPPR_Q_N_ITCH(dn));
 
   qn = nn - dn;
   qp += qn;

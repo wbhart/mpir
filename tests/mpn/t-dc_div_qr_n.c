@@ -44,7 +44,7 @@ check_dc_div_qr_n (void)
    mp_limb_t rp[2*MAX_LIMBS+1];
    mp_limb_t dp[MAX_LIMBS];
    mp_limb_t qp[2*MAX_LIMBS];
-   mp_limb_t tp[10*MAX_LIMBS];
+   mp_limb_t tp[DC_DIVAPPR_Q_N_ITCH(MAX_LIMBS)];
    mp_limb_t dip, cy;
 
    mp_size_t rn, dn, qn;

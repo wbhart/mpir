@@ -39,7 +39,7 @@ MA 02110-1301, USA. */
 void
 check_dc_divappr_q_n (void)
 {
-   mp_limb_t tp[10*MAX_LIMBS];
+   mp_limb_t tp[DC_DIVAPPR_Q_N_ITCH(MAX_LIMBS)];
    mp_limb_t np[2*MAX_LIMBS];
    mp_limb_t np2[2*MAX_LIMBS];
    mp_limb_t rp[2*MAX_LIMBS];
