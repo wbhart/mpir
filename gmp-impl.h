@@ -1779,6 +1779,22 @@ __GMP_DECLSPEC extern const mp_limb_t __gmp_fib_table[];
 #define INV_DIVAPPR_Q_THRESHOLD    (MUL_FFT_THRESHOLD/2)
 #endif
 
+#ifndef GET_STR_DC_THRESHOLD
+#define GET_STR_DC_THRESHOLD             18
+#endif
+
+#ifndef GET_STR_PRECOMPUTE_THRESHOLD
+#define GET_STR_PRECOMPUTE_THRESHOLD     35
+#endif
+
+#ifndef SET_STR_DC_THRESHOLD
+#define SET_STR_DC_THRESHOLD            750
+#endif
+
+#ifndef SET_STR_PRECOMPUTE_THRESHOLD
+#define SET_STR_PRECOMPUTE_THRESHOLD   2000
+#endif
+
 /* Return non-zero if xp,xsize and yp,ysize overlap.
    If xp+xsize<=yp there's no overlap, or if yp+ysize<=xp there's no
    overlap.  If both these are false, there's an overlap. */
@@ -3687,6 +3703,28 @@ mpn_basic_gcd (mp_ptr gp, mp_ptr up, mp_size_t usize, mp_ptr vp, mp_size_t vsize
 #ifndef NGCD_LEHMER_THRESHOLD
 #define NGCD_LEHMER_THRESHOLD 7
 #endif
+/* Definitions for mpn_set_str and mpn_get_str */
+struct powers
+{
+  mp_ptr p;			/* actual power value */
+  mp_size_t n;			/* # of limbs at p */
+  mp_size_t shift;		/* weight of lowest limb, in limb base B */
+  size_t digits_in_base;	/* number of corresponding digits */
+  int base;
+};
+typedef struct powers powers_t;
+#define mpn_dc_set_str_powtab_alloc(n) ((n) + GMP_LIMB_BITS)
+#define mpn_dc_set_str_itch(n) ((n) + GMP_LIMB_BITS)
+#define mpn_dc_get_str_powtab_alloc(n) ((n) + 2 * GMP_LIMB_BITS)
+#define mpn_dc_get_str_itch(n) ((n) + GMP_LIMB_BITS)
+
+#define   mpn_dc_set_str __MPN(dc_set_str)
+__GMP_DECLSPEC mp_size_t mpn_dc_set_str __GMP_PROTO ((mp_ptr, const unsigned char *, size_t, const powers_t *, mp_ptr));
+#define   mpn_bc_set_str __MPN(bc_set_str)
+__GMP_DECLSPEC mp_size_t mpn_bc_set_str __GMP_PROTO ((mp_ptr, const unsigned char *, size_t, int));
+#define   mpn_set_str_compute_powtab __MPN(set_str_compute_powtab)
+__GMP_DECLSPEC void      mpn_set_str_compute_powtab __GMP_PROTO ((powers_t *, mp_ptr, mp_size_t, int));
+
 
 void _tc4_add(mp_ptr rp, mp_size_t * rn, mp_srcptr r1, mp_size_t r1n, mp_srcptr r2, mp_size_t r2n);
 
