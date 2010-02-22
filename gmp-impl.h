@@ -837,9 +837,6 @@ __GMP_DECLSPEC mp_limb_t mpn_divexact_byff __GMP_PROTO ((mp_ptr, mp_srcptr, mp_s
 __GMP_DECLSPEC mp_limb_t mpn_divexact_byBm1of __GMP_PROTO ((mp_ptr, mp_srcptr, mp_size_t,mp_limb_t,mp_limb_t));
 #endif
 
-#define mpn_neg_n __MPN(neg_n)
-__GMP_DECLSPEC mp_limb_t mpn_neg_n __GMP_PROTO ((mp_ptr, mp_srcptr, mp_size_t));
-
 #define mpn_add_err1_n  __MPN(add_err1_n)
 mp_limb_t mpn_add_err1_n (mp_ptr, mp_srcptr, mp_srcptr, mp_ptr, mp_srcptr, mp_size_t, mp_limb_t);
 
@@ -927,9 +924,6 @@ __GMP_DECLSPEC void mpn_mulmid_n __GMP_PROTO ((mp_ptr, mp_srcptr, mp_srcptr, mp_
 #define mpn_redc_basecase __MPN(redc_basecase)
 __GMP_DECLSPEC void mpn_redc_basecase __GMP_PROTO ((mp_ptr, mp_srcptr, mp_size_t,mp_limb_t , mp_ptr));
 #endif
-
-#define mpn_sqr_n __MPN(sqr_n)
-__GMP_DECLSPEC void mpn_sqr_n __GMP_PROTO ((mp_ptr, mp_srcptr, mp_size_t));
 
 #ifndef mpn_sqr_basecase  /* if not done with cpuvec in a fat binary */
 #define mpn_sqr_basecase __MPN(sqr_basecase)

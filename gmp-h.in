@@ -472,7 +472,7 @@ typedef __mpq_struct *mpq_ptr;
 #endif
 #endif
 
-#if 0 && defined _MSC_VER
+#if defined _MSC_VER
 #define __GMP_EXTERN_INLINE  static __inline
 #endif
 
@@ -1649,6 +1649,18 @@ __GMP_DECLSPEC mp_limb_t mpn_mul_1 __GMP_PROTO ((mp_ptr, mp_srcptr, mp_size_t, m
 
 #define mpn_mul_n __MPN(mul_n)
 __GMP_DECLSPEC void mpn_mul_n __GMP_PROTO ((mp_ptr, mp_srcptr, mp_srcptr, mp_size_t));
+
+#define mpn_sqr_n __MPN(sqr_n)
+#define mpn_sqr   __MPN(sqr_n)
+__GMP_DECLSPEC void mpn_sqr_n __GMP_PROTO ((mp_ptr, mp_srcptr, mp_size_t));
+
+#define mpn_neg_n __MPN(neg_n)
+#define mpn_neg   __MPN(neg_n)
+__GMP_DECLSPEC mp_limb_t mpn_neg_n __GMP_PROTO ((mp_ptr, mp_srcptr, mp_size_t));
+
+#define mpn_com_n __MPN(com_n)
+#define mpn_com   __MPN(com_n)
+__GMP_DECLSPEC void mpn_com_n __GMP_PROTO ((mp_ptr, mp_srcptr, mp_size_t));
 
 #define mpn_perfect_square_p __MPN(perfect_square_p)
 __GMP_DECLSPEC int mpn_perfect_square_p __GMP_PROTO ((mp_srcptr, mp_size_t)) __GMP_ATTRIBUTE_PURE;
