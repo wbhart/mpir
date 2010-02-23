@@ -64,11 +64,9 @@ check_tdiv_qr (void)
 
       MPN_COPY(np2, np, nn);
       
-      mpn_invert(inv, dp, dn);
-      
       qn = nn - dn + 1;
          
-      qp[qn - 1] = mpn_tdiv_qr(qp, np, nn, dp, dn);
+      mpn_tdiv_qr(qp, np, 0, np, nn, dp, dn);
 
       MPN_NORMALIZE(qp, qn);
 
