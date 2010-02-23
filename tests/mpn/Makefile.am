@@ -30,7 +30,7 @@ check_PROGRAMS = t-asmtype t-aors_1 t-divrem_1 t-fat t-get_d \
   t-neg t-mulmod_2expp1 t-mulmod_2expm1 t-tdiv_q t-sb_divappr_q \
   t-dc_divappr_q_n t-inv_divappr_q_n t-invert t-sb_div_q t-sb_div_qr \
   t-dc_div_q t-dc_div_qr t-dc_divappr_q t-dc_div_qr_n t-inv_divappr_q \
-  t-inv_div_q
+  t-inv_div_q t-inv_div_qr
   
 if ENABLE_STATIC
 if ENABLE_SHARED

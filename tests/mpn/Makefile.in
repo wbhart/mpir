@@ -65,7 +65,7 @@ check_PROGRAMS = t-asmtype$(EXEEXT) t-aors_1$(EXEEXT) \
 	t-sb_div_q$(EXEEXT) t-sb_div_qr$(EXEEXT) t-dc_div_q$(EXEEXT) \
 	t-dc_div_qr$(EXEEXT) t-dc_divappr_q$(EXEEXT) \
 	t-dc_div_qr_n$(EXEEXT) t-inv_divappr_q$(EXEEXT) \
-	t-inv_div_q$(EXEEXT) $(am__EXEEXT_1)
+	t-inv_div_q$(EXEEXT) t-inv_div_qr$(EXEEXT) $(am__EXEEXT_1)
 @ENABLE_SHARED_TRUE@@ENABLE_STATIC_TRUE@am__append_1 = st_fat st_instrument
 subdir = tests/mpn
 DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in
@@ -178,6 +178,11 @@ t_inv_div_q_SOURCES = t-inv_div_q.c
 t_inv_div_q_OBJECTS = t-inv_div_q.$(OBJEXT)
 t_inv_div_q_LDADD = $(LDADD)
 t_inv_div_q_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
+	$(top_builddir)/libmpir.la
+t_inv_div_qr_SOURCES = t-inv_div_qr.c
+t_inv_div_qr_OBJECTS = t-inv_div_qr.$(OBJEXT)
+t_inv_div_qr_LDADD = $(LDADD)
+t_inv_div_qr_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
 	$(top_builddir)/libmpir.la
 t_inv_divappr_q_SOURCES = t-inv_divappr_q.c
 t_inv_divappr_q_OBJECTS = t-inv_divappr_q.$(OBJEXT)
@@ -295,7 +300,7 @@ SOURCES = $(st_fat_SOURCES) $(st_instrument_SOURCES) t-addadd_n.c \
 	t-addsub_n.c t-aors_1.c t-asmtype.c t-dc_div_q.c t-dc_div_qr.c \
 	t-dc_div_qr_n.c t-dc_divappr_q.c t-dc_divappr_q_n.c \
 	t-divebyBm1of.c t-divebyff.c t-divrem_1.c t-fat.c t-get_d.c \
-	t-instrument.c t-inv_div_q.c t-inv_divappr_q.c \
+	t-instrument.c t-inv_div_q.c t-inv_div_qr.c t-inv_divappr_q.c \
 	t-inv_divappr_q_n.c t-invert.c t-iord_u.c t-lorrshift1.c \
 	t-mp_bases.c t-mullow_basecase.c t-mullowhigh.c t-mulmid.c \
 	t-mulmod_2expm1.c t-mulmod_2expp1.c t-neg.c t-perfsqr.c \
@@ -306,7 +311,7 @@ DIST_SOURCES = $(am__st_fat_SOURCES_DIST) \
 	t-aors_1.c t-asmtype.c t-dc_div_q.c t-dc_div_qr.c \
 	t-dc_div_qr_n.c t-dc_divappr_q.c t-dc_divappr_q_n.c \
 	t-divebyBm1of.c t-divebyff.c t-divrem_1.c t-fat.c t-get_d.c \
-	t-instrument.c t-inv_div_q.c t-inv_divappr_q.c \
+	t-instrument.c t-inv_div_q.c t-inv_div_qr.c t-inv_divappr_q.c \
 	t-inv_divappr_q_n.c t-invert.c t-iord_u.c t-lorrshift1.c \
 	t-mp_bases.c t-mullow_basecase.c t-mullowhigh.c t-mulmid.c \
 	t-mulmod_2expm1.c t-mulmod_2expp1.c t-neg.c t-perfsqr.c \
@@ -568,6 +573,9 @@ t-instrument$(EXEEXT): $(t_instrument_OBJECTS) $(t_instrument_DEPENDENCIES)
 t-inv_div_q$(EXEEXT): $(t_inv_div_q_OBJECTS) $(t_inv_div_q_DEPENDENCIES) 
 	@rm -f t-inv_div_q$(EXEEXT)
 	$(LINK) $(t_inv_div_q_OBJECTS) $(t_inv_div_q_LDADD) $(LIBS)
+t-inv_div_qr$(EXEEXT): $(t_inv_div_qr_OBJECTS) $(t_inv_div_qr_DEPENDENCIES) 
+	@rm -f t-inv_div_qr$(EXEEXT)
+	$(LINK) $(t_inv_div_qr_OBJECTS) $(t_inv_div_qr_LDADD) $(LIBS)
 t-inv_divappr_q$(EXEEXT): $(t_inv_divappr_q_OBJECTS) $(t_inv_divappr_q_DEPENDENCIES) 
 	@rm -f t-inv_divappr_q$(EXEEXT)
 	$(LINK) $(t_inv_divappr_q_OBJECTS) $(t_inv_divappr_q_LDADD) $(LIBS)
