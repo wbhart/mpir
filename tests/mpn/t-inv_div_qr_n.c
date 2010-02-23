@@ -68,7 +68,7 @@ check_inv_div_qr_n (void)
       
       qn = dn + 1;
          
-      qp[qn - 1] = mpn_dc_div_qr_n(qp, np, dp, dn, inv);
+      qp[qn - 1] = mpn_inv_div_qr_n(qp, np, dp, dn, inv);
 
       MPN_NORMALIZE(qp, qn);
 
