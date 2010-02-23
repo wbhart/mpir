@@ -61,7 +61,7 @@ define(`n',  `%r11')
 define(`outer_addr', `%r14')
 define(`un',  `%r13')
 define(`un32',`%r13d')
-ddefine(`vp',  `%r15')
+define(`vp',  `%r15')
 
 define(`vp_inner', `%r10')
 

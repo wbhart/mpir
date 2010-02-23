@@ -53,7 +53,7 @@ along with the GNU MP Library.  If not, see http://www.gnu.org/licenses/.  */
       cubes, not squares.
 */
 
-#include "gmp.h"
+#include "mpir.h"
 #include "gmp-impl.h"
 #include "longlong.h"
 
