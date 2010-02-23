@@ -1,4 +1,4 @@
-/* Test mpn_dc_div_q.
+/* Test mpn_inv_div_q.
 
 Copyright 2002 Free Software Foundation, Inc.
 Copyright 2009 William Hart
@@ -35,16 +35,17 @@ MA 02110-1301, USA. */
 #define MAX_LIMBS 400
 #define ITERS 10000
    
-/* Check divide and conquer division routine. */
+/* Check precomputed inverse division routine. */
 void
-check_dc_div_q (void)
+check_inv_div_q (void)
 {
    mp_limb_t np[2*MAX_LIMBS];
    mp_limb_t np2[2*MAX_LIMBS];
    mp_limb_t rp[2*MAX_LIMBS+1];
    mp_limb_t dp[MAX_LIMBS];
    mp_limb_t qp[2*MAX_LIMBS];
-   mp_limb_t dip, cy;
+   mp_limb_t inv[MAX_LIMBS];
+   mp_limb_t cy;
 
    mp_size_t nn, rn, dn, qn;
 
@@ -64,11 +65,11 @@ check_dc_div_q (void)
 
       MPN_COPY(np2, np, nn);
       
-      invert_1(dip, dp[dn - 1], dp[dn - 2]);
+      mpn_invert(inv, dp, dn);
       
       qn = nn - dn + 1;
          
-      qp[qn - 1] = mpn_dc_div_q(qp, np, nn, dp, dn, dip);
+      qp[qn - 1] = mpn_inv_div_q(qp, np, nn, dp, dn, inv);
 
       MPN_NORMALIZE(qp, qn);
 
@@ -122,7 +123,7 @@ main (void)
 {
   tests_start ();
 
-  check_dc_div_q ();
+  check_inv_div_q ();
   
   tests_end ();
   exit (0);
