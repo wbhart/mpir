@@ -107,7 +107,7 @@ mpn_dc_divappr_q_n (mp_ptr qp, mp_ptr np, mp_srcptr dp, mp_size_t n,
   /* we therefore decrease the estimate by 3... */
   qh -= mpn_sub_1 (q_hi, q_hi, m, (mp_limb_t) 3);
   
-  /* ensuring it doesn't become negative become negative */
+  /* ensuring it doesn't become negative */
   if (qh & GMP_NUMB_HIGHBIT)
     {
       MPN_ZERO (q_hi, m);
