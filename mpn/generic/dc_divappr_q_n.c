@@ -1,3 +1,78 @@
+/* mpn_dc_divappr_q_n -- divide-and-conquer division, returning approximate
+   quotient.  The quotient returned is either correct, or one too large.
+
+   Contributed to the GNU project by Torbjorn Granlund.
+
+   THE FUNCTIONS IN THIS FILE ARE INTERNAL WITH MUTABLE INTERFACES.  IT IS ONLY
+   SAFE TO REACH THEM THROUGH DOCUMENTED INTERFACES.  IN FACT, IT IS ALMOST
+   GUARANTEED THAT THEY WILL CHANGE OR DISAPPEAR IN A FUTURE GMP RELEASE.
+
+Copyright 2006, 2007, 2009, 2010 Free Software Foundation, Inc.
+
+This file is part of the GNU MP Library.
+
+The GNU MP Library is free software; you can redistribute it and/or modify
+it under the terms of the GNU Lesser General Public License as published by
+the Free Software Foundation; either version 3 of the License, or (at your
+option) any later version.
+
+The GNU MP Library is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public
+License for more details.
+
+You should have received a copy of the GNU Lesser General Public License
+along with the GNU MP Library.  If not, see http://www.gnu.org/licenses/.  */
+
+#include "mpir.h"
+#include "gmp-impl.h"
+#include "longlong.h"
+
+
+mp_limb_t
+mpn_dcp_divappr_q_n (mp_ptr qp, mp_ptr np, mp_srcptr dp, mp_size_t n,
+		       mp_limb_t dinv, mp_ptr tp)
+{
+  mp_size_t lo, hi;
+  mp_limb_t cy, qh, ql;
+
+  lo = n >> 1;			/* floor(n/2) */
+  hi = n - lo;			/* ceil(n/2) */
+
+  if (BELOW_THRESHOLD (hi, DC_DIV_QR_THRESHOLD))
+    qh = mpn_sb_div_qr (qp + lo, np + 2 * lo, 2 * hi, dp + lo, hi, dinv);
+  else
+    qh = mpn_dc_div_qr_n (qp + lo, np + 2 * lo, dp + lo, hi, dinv, tp);
+
+  mpn_mul (tp, qp + lo, hi, dp, lo);
+
+  cy = mpn_sub_n (np + lo, np + lo, tp, n);
+  if (qh != 0)
+    cy += mpn_sub_n (np + n, np + n, dp, lo);
+
+  while (cy != 0)
+    {
+      qh -= mpn_sub_1 (qp + lo, qp + lo, hi, 1);
+      cy -= mpn_add_n (np + lo, np + lo, dp, n);
+    }
+
+  if (BELOW_THRESHOLD (lo, DC_DIVAPPR_Q_N_THRESHOLD))
+    ql = mpn_sb_divappr_q (qp, np + hi, 2 * lo, dp + hi, lo, dinv);
+  else
+    ql = mpn_dc_divappr_q_n (qp, np + hi, dp + hi, lo, dinv, tp);
+
+  if (UNLIKELY (ql != 0))
+    {
+      mp_size_t i;
+      for (i = 0; i < lo; i++)
+	qp[i] = GMP_NUMB_MASK;
+    }
+
+  return qh;
+}
+
+#if 0 /* This code seems to be unconditionally slower than that above */
+
 /* dc_divappr_q - middle-product-based divide and conquer approximate quotient
 
 Copyright (C) 2009, David Harvey
@@ -170,3 +245,5 @@ mpn_dc_divappr_q_n (mp_ptr qp, mp_ptr np, mp_srcptr dp, mp_size_t n,
 
   return ret;
 }
+
+#endif
