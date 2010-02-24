@@ -1633,6 +1633,7 @@
 					>
 					<FileConfiguration
 						Name="Debug|x64"
+						ExcludedFromBuild="true"
 						>
 						<Tool
 							Name="VCCLCompilerTool"
@@ -1641,6 +1642,7 @@
 					</FileConfiguration>
 					<FileConfiguration
 						Name="Release|x64"
+						ExcludedFromBuild="true"
 						>
 						<Tool
 							Name="VCCLCompilerTool"
@@ -3021,6 +3023,10 @@
 					</File>
 					<File
 						RelativePath="..\..\mpn\x86_64w\core2\mul_basecase.asm"
+						>
+					</File>
+					<File
+						RelativePath="..\..\mpn\x86_64w\mulmid_basecase.asm"
 						>
 					</File>
 					<File
