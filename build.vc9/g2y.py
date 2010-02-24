@@ -4,7 +4,7 @@ from __future__ import print_function
 import string, re, os, sys, shutil
 
 debug = False
-dot_labels = False
+dot_labels = True
 is_linux = False
 
 # translate 64 bit registers to 8 bit form
@@ -31,16 +31,6 @@ r_x = r'(?:x?mm\d|x?mm1[0-5])|(?:mmx\d|mmx1[0-5])|(?:st\([0-7]\))'
 
 p_rg = r'(?:\s*%(' + r_b + r_w + r_d + r_q + '|' + r_x + r'))'
 
-# regular expression for dis(r1, r2, mul) forms
-
-p_di = r'(?:\s*([-+]?[0-9\+\-]*)(?=\())?' # numeric displacement
-p_mu = r'(?:\s*,\s*([1248]))?\s*(?=\))'   # multiplier (1, 2, 4, 8)
-p_t1 = p_di + r'\s*\(' + p_rg + r'(?:\s*\)|\s*,' + p_rg + p_mu + r'\s*\))'
-
-# regular expression for immediate (numeric, not symbolic)
-
-p_im = r'\s+\`?\$\'?([\+\-]?[0-9]+|0x[a-zA-Z0-9]+)'
-
 # regular expressions for labels
 
 p_l1 = r'([a-zA-Z$_][a-zA-Z0-9\$_]*|\.[0-9]+)'
@@ -50,6 +40,16 @@ p_lr = r'\s*(?:' + p_l2 + r'|' + p_l1 + ')'
 p_la = p_lr + r'(:)'
 p_ri = p_lr + r'\(\%rip\)'
 p_jt = r'\s+\.long\s+' + p_lr + r'\-' + p_lr
+
+# regular expression for dis(r1, r2, mul) forms
+
+p_di = r'(?:(?:\s*([-+]?[0-9\+\-]*)(?=\())?' + '|' + p_lr + ')' # numeric displacement
+p_mu = r'(?:\s*,\s*([1248]))?\s*(?=\))'   # multiplier (1, 2, 4, 8)
+p_t1 = p_di + r'\s*\(' + p_rg + r'(?:\s*\)|\s*,' + p_rg + p_mu + r'\s*\))'
+
+# regular expression for immediate (numeric, not symbolic)
+
+p_im = r'\s+\`?\$\'?([\+\-]?[0-9]+|0x[a-zA-Z0-9]+)'
 
 # regular expression for instructions
 
@@ -85,11 +85,19 @@ r_mrz = re.compile(r'([A-Z$_][A-Z0-9$_]*)\s*$')
 r_mrf = re.compile(r'([A-Z$_][A-Z0-9$_]*)\s*\(' + r1 + r2 +
                   r2 + r2 + r2 + r2 + r2 + r2 + r2 + r2 + r'\)')
 
+def lab_ref(v, labels, macros, mac_name):
+  if mac_name and v in macros[mac_name][3] :
+    return '%%{0}'.format(macros[mac_name][3][v])
+  elif dot_labels :
+    return '.{0}'.format(labels.index(v))
+  else :
+    return 'L_{0}'.format(re.sub('\$', '%', v))
+
 def pass_one(code) :
   labels = []
   for l in code :
     m = m_la.search(l)
-    if m :
+    if m and m.group(1):
       labels += [m.group(1)]
   return labels
 
@@ -128,20 +136,25 @@ def pass_two(code, labels) :
 
   return mac_dict
 
-def proc_m(m, i, j) :
+def proc_m(m, i, j, labels, macros, mac_name) :
   v = list(m.groups())
   n = len(v)
   if n <= i :
     return ([], '')
-  ss = (v[i] if not v[i] or v[i][0] in '+-' else '+' + v[i]) + ']'
-
-  if n > i + 3 and i + 3 < j and v[i + 3] :
-    ss = ('' if not v[i + 3] else '*' + v[i + 3]) + ss
-  if n > i + 2 and i + 2 < j and v[i + 2] :
-    ss = '+' + v[i + 2] + ss
-  if n > i + 1 and i + 1 < j and v[i + 1] :
-    ss = v[i + 1] + ss
-  return (v[ 0 : i ] + v[ j : ], '[' + ss)
+  if v[i + 3] == 'rip' and v[i + 1] and v[i + 1] in labels:
+    ss = 'rel ' + lab_ref(v[i + 1], labels, macros, mac_name) + ']'
+    return (v[ 0 : i] + v[ j + 2 : ], '[' + ss)
+  else:      
+    ss = (v[i] if not v[i] or v[i][0] in '+-' else '+' + v[i]) + ']'
+    i += 2
+    j += 2
+    if n > i + 3 and i + 3 < j and v[i + 3] :
+      ss = ('' if not v[i + 3] else '*' + v[i + 3]) + ss
+    if n > i + 2 and i + 2 < j and v[i + 2] :
+      ss = '+' + v[i + 2] + ss
+    if n > i + 1 and i + 1 < j and v[i + 1] :
+      ss = v[i + 1] + ss
+    return (v[ 0 : i - 2] + v[ j : ], '[' + ss)
 
 def pass_three(code, labels, macros, level) :
 
@@ -152,7 +165,7 @@ def pass_three(code, labels, macros, level) :
     # labels
     m = m_la.search(l)
     lp = '\n'
-    if m :
+    if m and m.group(1):
       l = l[ l.find(':') + 1 : -1 ]
       if mac_name :
         if m.group(1) in macros[mac_name][3] :
@@ -215,7 +228,7 @@ def pass_three(code, labels, macros, level) :
     if m :
       if debug :
         print(l, end = '')
-      v, s = proc_m(m, 2, 6)
+      v, s = proc_m(m, 2, 6, labels, macros, mac_name)
       lo += [lp + '\t{0[0]:7s} {1}, {0[1]}'.format(v, s)]
       continue
 
@@ -224,7 +237,7 @@ def pass_three(code, labels, macros, level) :
     if m :
       if debug :
         print(l, end = '')
-      v, s = proc_m(m, 1, 5)
+      v, s = proc_m(m, 1, 5, labels, macros, mac_name)
       lo += [lp + '\t{0[0]:7s} {0[1]}, {1}'.format(v, s)]
       continue
 
@@ -233,7 +246,7 @@ def pass_three(code, labels, macros, level) :
     if m :
       if debug :
         print(l, end = '')
-      v, s = proc_m(m, 1, 5)
+      v, s = proc_m(m, 1, 5, labels, macros, mac_name)
       lo += [lp + '\t{0[0]:7s} {1}'.format(v, s)]
       continue
 
@@ -242,7 +255,7 @@ def pass_three(code, labels, macros, level) :
     if m :
       if debug :
         print(l, end = '')
-      v, s = proc_m(m, 2, 6)
+      v, s = proc_m(m, 2, 6, labels, macros, mac_name)
       lo += [lp + '\t{0[0]:7s} {1}, {0[1]}'.format(v, s)]
       continue
 
@@ -298,24 +311,8 @@ def pass_three(code, labels, macros, level) :
       if v[1] in labels :
         if debug :
           print(l, end = '')
-        if mac_name and v[0] in macros[mac_name][3] :
-          ii = macros[mac_name][3][v[0]]
-          st1 = '%%{0}'.format(ii)
-        elif dot_labels :
-          ii = labels.index(v[0])
-          st1 = '.{0}'.format(ii)
-        else :
-          lab = re.sub('\$', '%', v[0])
-          st1 = 'L_{0}'.format(lab)
-        if mac_name and v[1] in macros[mac_name][3] :
-          ii = macros[mac_name][3][v[1]]
-          st2 = '%%{1}'.format(ii)
-        elif dot_labels :
-          ii = labels.index(v[1])
-          st2 = '.{1}'.format(ii)
-        else :
-          lab = re.sub('\$', '%', v[1])
-          st2 = 'L_{0}'.format(lab)
+        st1 = lab_ref(v[0], labels, macros, mac_name)
+        st2 = lab_ref(v[1], labels, macros, mac_name)
         lo += [lp + '\tdd     ' + st1 + ' - ' + st2]
       continue
 
@@ -326,16 +323,8 @@ def pass_three(code, labels, macros, level) :
       if v[1] in labels :
         if debug :
           print(l, end = '')
-        if mac_name and v[1] in macros[mac_name][3] :
-          ii = macros[mac_name][3][v[1]]
-          lo += [lp + '\t{0[0]:7s} %%{1}[rip]'.format(v, ii)]
-          continue
-        if dot_labels :
-          ii = labels.index(v[1])
-          lo += [lp + '\t{0[0]:7s} .{1}[rip]'.format(v, ii)]
-        else :
-          lab = re.sub('\$', '%', v[1])
-          lo += [lp + '\t{0[0]:7s} L_{1}[rip]'.format(v, lab)]
+        ss = lab_ref(v[1], labels, macros, mac_name)
+        lo += [lp + '\t{0[0]:7s} {1}[rip]'.format(v, ss)]
         continue
 
     # jump label
@@ -345,16 +334,8 @@ def pass_three(code, labels, macros, level) :
       if v[1] and v[1] in labels :
         if debug :
           print(l, end = '')
-        if mac_name and v[1] in macros[mac_name][3] :
-          ii = macros[mac_name][3][v[1]]
-          lo += [lp + '\t{0[0]:7s} %%{1}'.format(v, ii)]
-          continue
-        if dot_labels :
-          ii = labels.index(v[1])
-          lo += [lp + '\t{0[0]:7s} .{1}'.format(v, ii)]
-        else :
-          lab = re.sub('\$', '%', v[1])
-          lo += [lp + '\t{0[0]:7s} L_{1}'.format(v, lab)]
+        ss = lab_ref(v[1], labels, macros, mac_name)
+        lo += [lp + '\t{0[0]:7s} {1}'.format(v, ss)]
         continue
 
     m = re.search(r'\s*\.byte\s+((?:0x|0X)[0-9a-fA-F]+|[0-9]+)\s*', l)
