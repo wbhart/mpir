@@ -1545,7 +1545,7 @@ __GMP_DECLSPEC extern const mp_limb_t __gmp_fib_table[];
 #endif
 
 #ifndef MULMID_TOOM42_THRESHOLD
-#define MULMID_TOOM42_THRESHOLD 20 
+#define MULMID_TOOM42_THRESHOLD 36 
 #endif
 
 #ifndef MUL_TOOM7_THRESHOLD
