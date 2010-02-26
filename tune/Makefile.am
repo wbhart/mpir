@@ -49,7 +49,7 @@ libspeed_la_SOURCES =							\
   mod_1_div.c mod_1_inv.c modlinv.c					\
   noop.c powm_mod.c powm_redc.c pre_divrem_1.c				\
   fac_ui_large.c fac_ui_small.c						\
-  set_strb.c set_strs.c time.c						\
+  set_strb.c set_strs.c set_strp.c time.c						\
   sb_div.c sb_inv.c
 
 libspeed_la_DEPENDENCIES = $(SPEED_CYCLECOUNTER_OBJ) \

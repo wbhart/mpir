@@ -95,7 +95,7 @@ am_libspeed_la_OBJECTS = common.lo divrem1div.lo divrem1inv.lo \
 	gcdextos.lo jacbase1.lo jacbase2.lo jacbase3.lo mod_1_div.lo \
 	mod_1_inv.lo modlinv.lo noop.lo powm_mod.lo powm_redc.lo \
 	pre_divrem_1.lo fac_ui_large.lo fac_ui_small.lo set_strb.lo \
-	set_strs.lo time.lo sb_div.lo sb_inv.lo
+	set_strs.lo set_strp.lo time.lo sb_div.lo sb_inv.lo
 libspeed_la_OBJECTS = $(am_libspeed_la_OBJECTS)
 libspeed_la_LINK = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) \
 	$(LIBTOOLFLAGS) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) \
@@ -334,7 +334,7 @@ libspeed_la_SOURCES = \
   mod_1_div.c mod_1_inv.c modlinv.c					\
   noop.c powm_mod.c powm_redc.c pre_divrem_1.c				\
   fac_ui_large.c fac_ui_small.c						\
-  set_strb.c set_strs.c time.c						\
+  set_strb.c set_strs.c set_strp.c time.c						\
   sb_div.c sb_inv.c
 
 libspeed_la_DEPENDENCIES = $(SPEED_CYCLECOUNTER_OBJ) \
