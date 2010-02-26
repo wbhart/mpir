@@ -19,7 +19,7 @@ along with the GNU MP Library.  If not, see http://www.gnu.org/licenses/.  */
 
 #define TUNE_PROGRAM_BUILD  1   /* for gmp-impl.h */
 
-#include "gmp.h"
+#include "mpir.h"
 #include "gmp-impl.h"
 
 void
