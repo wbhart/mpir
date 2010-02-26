@@ -497,6 +497,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\tune\set_strp.c"
+				>
+			</File>
+			<File
 				RelativePath="..\..\tune\set_strs.c"
 				>
 			</File>

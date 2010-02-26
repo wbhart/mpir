@@ -224,7 +224,8 @@ mp_size_t  mod_1_unnorm_threshold       = MP_SIZE_T_MAX;
 mp_size_t  divrem_2_threshold           = MP_SIZE_T_MAX;
 mp_size_t  get_str_dc_threshold         = MP_SIZE_T_MAX;
 mp_size_t  get_str_precompute_threshold = MP_SIZE_T_MAX;
-mp_size_t  set_str_threshold            = MP_SIZE_T_MAX;
+mp_size_t  set_str_dc_threshold         = MP_SIZE_T_MAX;
+mp_size_t  set_str_precompute_threshold = MP_SIZE_T_MAX;
 mp_size_t  rootrem_threshold            = MP_SIZE_T_MAX;
 mp_size_t  divrem_hensel_qr_1_threshold = MP_SIZE_T_MAX;
 mp_size_t  rsh_divrem_hensel_qr_1_threshold = MP_SIZE_T_MAX;
@@ -1809,7 +1810,7 @@ tune_get_str (gmp_randstate_t rands)
     GET_STR_PRECOMPUTE_THRESHOLD = 0;
     param.name = "GET_STR_DC_THRESHOLD";
     param.function = speed_mpn_get_str;
-    param.min_size = 2;
+    param.min_size = 4;
     param.max_size = GET_STR_THRESHOLD_LIMIT;
     one (&get_str_dc_threshold, rands, &param);
   }
@@ -1823,20 +1824,87 @@ tune_get_str (gmp_randstate_t rands)
   }
 }
 
+double
+speed_mpn_pre_set_str (struct speed_params *s)
+{
+  unsigned char *str;
+  mp_ptr     wp;
+  mp_size_t  wn;
+  unsigned   i;
+  int        base;
+  double     t;
+  mp_ptr powtab_mem, tp;
+  powers_t powtab[GMP_LIMB_BITS];
+  mp_size_t un;
+  int chars_per_limb;
+  TMP_DECL;
+
+  SPEED_RESTRICT_COND (s->size >= 1);
+
+  base = s->r == 0 ? 10 : s->r;
+  SPEED_RESTRICT_COND (base >= 2 && base <= 256);
+
+  TMP_MARK;
+
+  str = TMP_ALLOC (s->size);
+  for (i = 0; i < s->size; i++)
+    str[i] = s->xp[i] % base;
+
+  wn = ((mp_size_t) (s->size / mp_bases[base].chars_per_bit_exactly))
+    / GMP_LIMB_BITS + 2;
+  SPEED_TMP_ALLOC_LIMBS (wp, wn, s->align_wp);
+
+  /* use this during development to check wn is big enough */
+  /*
+  ASSERT_ALWAYS (mpn_set_str (wp, str, s->size, base) <= wn);
+  */
+
+  speed_operand_src (s, (mp_ptr) str, s->size/BYTES_PER_MP_LIMB);
+  speed_operand_dst (s, wp, wn);
+  speed_cache_fill (s);
+
+  chars_per_limb = mp_bases[base].chars_per_limb;
+  un = s->size / chars_per_limb + 1;
+  powtab_mem = TMP_BALLOC_LIMBS (mpn_dc_set_str_powtab_alloc (un));
+  mpn_set_str_compute_powtab (powtab, powtab_mem, un, base);
+  tp = TMP_BALLOC_LIMBS (mpn_dc_set_str_itch (un));
+
+  speed_starttime ();
+  i = s->reps;
+  do
+    {
+      mpn_pre_set_str (wp, str, s->size, powtab, tp);
+    }
+  while (--i != 0);
+  t = speed_endtime ();
+
+  TMP_FREE;
+  return t;
+}
 
 void
 tune_set_str (gmp_randstate_t rands)
 {
-  static struct param_t  param;
-
   s.r = 10;  /* decimal */
-  param.step_factor = 0.1;
-  param.name = "SET_STR_THRESHOLD";
-  param.function = speed_mpn_set_str_basecase;
-  param.function2 = speed_mpn_set_str_subquad;
-  param.min_size = 100;
-  param.max_size = 150000;
-  one (&set_str_threshold, rands, &param);
+  {
+    static struct param_t  param;
+    SET_STR_PRECOMPUTE_THRESHOLD = 0;
+    param.step_factor = 0.01;
+    param.name = "SET_STR_DC_THRESHOLD";
+    param.function = speed_mpn_pre_set_str;
+    param.min_size = 100;
+    param.max_size = 50000;
+    one (&set_str_dc_threshold, rands, &param);
+  }
+  {
+    static struct param_t  param;
+    param.step_factor = 0.02;
+    param.name = "SET_STR_PRECOMPUTE_THRESHOLD";
+    param.function = speed_mpn_set_str;
+    param.min_size = SET_STR_DC_THRESHOLD;
+    param.max_size = 100000;
+    one (&set_str_precompute_threshold, rands, &param);
+  }
 }
 
 

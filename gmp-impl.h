@@ -4301,9 +4301,13 @@ extern mp_size_t                     get_str_dc_threshold;
 #define GET_STR_PRECOMPUTE_THRESHOLD get_str_precompute_threshold
 extern mp_size_t                     get_str_precompute_threshold;
 
-#undef  SET_STR_THRESHOLD
-#define SET_STR_THRESHOLD            set_str_threshold
-extern mp_size_t                     SET_STR_THRESHOLD;
+#undef	SET_STR_DC_THRESHOLD
+#define SET_STR_DC_THRESHOLD		set_str_dc_threshold
+extern mp_size_t			set_str_dc_threshold;
+
+#undef  SET_STR_PRECOMPUTE_THRESHOLD
+#define SET_STR_PRECOMPUTE_THRESHOLD	set_str_precompute_threshold
+extern mp_size_t			set_str_precompute_threshold;
 
 #undef  FFT_TABLE_ATTRS
 #define FFT_TABLE_ATTRS
