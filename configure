@@ -29762,7 +29762,8 @@ gmp_mpn_functions="$extra_functions					   \
   inv_divappr_q inv_div_q inv_div_qr inv_div_qr_n rootrem_basecase \
   toom_eval_dgr3_pm1 toom_eval_dgr3_pm2 toom_eval_pm1 toom_eval_pm2 \
   toom_eval_pm2exp toom_eval_pm2rexp toom_interpolate_16pts \
-  toom8_sqr_n toom8h_mul toom_couple_handling $gmp_mpn_functions_optional"
+  toom8_sqr_n toom8h_mul toom_couple_handling sb_bdiv_q sb_bdiv_qr \
+  $gmp_mpn_functions_optional"
 
 
 

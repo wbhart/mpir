@@ -1612,8 +1612,16 @@ __GMP_DECLSPEC mp_limb_t mpn_dc_div_qr_n __GMP_PROTO ((mp_ptr qp, mp_ptr np, mp_
 __GMP_DECLSPEC mp_limb_t mpn_sb_div_q __GMP_PROTO ((mp_ptr qp, mp_ptr np, mp_size_t nn,
          mp_srcptr dp, mp_size_t dn, mp_limb_t dinv));
 
+#define mpn_sb_bdiv_q __MPN(sb_bdiv_q)
+__GMP_DECLSPEC void mpn_sb_bdiv_q __GMP_PROTO ((mp_ptr qp, mp_ptr np, mp_size_t nn,
+         mp_srcptr dp, mp_size_t dn, mp_limb_t dinv));
+
 #define mpn_sb_div_qr __MPN(sb_div_qr)
 __GMP_DECLSPEC mp_limb_t mpn_sb_div_qr __GMP_PROTO ((mp_ptr qp, mp_ptr np, mp_size_t nn,
+         mp_srcptr dp, mp_size_t dn, mp_limb_t dinv));
+
+#define mpn_sb_bdiv_qr __MPN(sb_bdiv_qr)
+__GMP_DECLSPEC mp_limb_t mpn_sb_bdiv_qr __GMP_PROTO ((mp_ptr qp, mp_ptr np, mp_size_t nn,
          mp_srcptr dp, mp_size_t dn, mp_limb_t dinv));
 
 #define mpn_tdiv_q __MPN(tdiv_q)
