@@ -28,7 +28,7 @@ along with the GNU MP Library.  If not, see http://www.gnu.org/licenses/.  */
 #include "gmp-impl.h"
 
 
-/* Computes Q = N / D mod B^nn, destroys N.
+/* Computes Q = N / D mod B^qn, where qn = nn - dn, destroys N.
 
    D must be odd. dinv is (-D)^-1 mod B.
 

@@ -56,30 +56,28 @@ check_sb_bdiv_q (void)
    for (i = 0; i < ITERS; i++)
    {
       dn = (random() % (MAX_LIMBS - 2)) + 3;
-      qn = (random() % (MAX_LIMBS - 2)) + 3;
-      //nn = (random() % MAX_LIMBS) + dn;
-      nn = dn + qn;
+      nn = (random() % MAX_LIMBS) + dn;
+      qn = nn - dn;
 
-      //mpn_rrandom (np, rands, nn);
-      mpn_rrandom (qp, rands, qn);
+      mpn_rrandom (np, rands, nn);
       mpn_rrandom (dp, rands, dn);
+      
       dp[0] |= 1;
-      if (qn >= dn)
-         mpn_mul(np, qp, qn, dp, dn);
-      else
-         mpn_mul(np, dp, dn, qp, qn);
-      nn -= (np[nn - 1] == 0);      
+     
       MPN_COPY(np2, np, nn);
       
       modlimb_invert(dip, dp[0]);
+      dip = -dip;
       
-      //qn = nn - dn;
-         
       mpn_sb_bdiv_q(qp, np, nn, dp, dn, dip);
-
-      if (qn >= dn) mpn_mul(rp, qp, qn, dp, dn);
-      else mpn_mul(rp, dp, dn, qp, qn);
       
+      if (qn)
+      {
+         if (qn >= dn) mpn_mul(rp, qp, qn, dp, dn);
+         else mpn_mul(rp, dp, dn, qp, qn);
+      } else
+         MPN_ZERO(rp, nn);
+
       if (mpn_cmp(rp, np2, qn) != 0)
       { 
          printf("failed: quotient wrong!\n");
