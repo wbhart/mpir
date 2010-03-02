@@ -771,6 +771,10 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpn.tdiv_qr", "mpir-tests\m
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpn.inv_div_qr_n", "mpir-tests\mpn.inv_div_qr_n\mpn.inv_div_qr_n.vcproj", "{65585339-CF61-4C02-B96F-4B7242BC2726}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpn.sb_bdiv_q", "mpir-tests\mpn.sb_bdiv_q\mpn.sb_bdiv_q.vcproj", "{1E56A7BF-904A-46AC-9518-68C82916ABCF}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpn.sb_bdiv_qr", "mpir-tests\mpn.sb_bdiv_qr\mpn.sb_bdiv_qr.vcproj", "{20102A14-565F-428E-81DB-80E7BAC0A0F1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -1845,6 +1849,22 @@ Global
 		{65585339-CF61-4C02-B96F-4B7242BC2726}.Release|Win32.Build.0 = Release|Win32
 		{65585339-CF61-4C02-B96F-4B7242BC2726}.Release|x64.ActiveCfg = Release|x64
 		{65585339-CF61-4C02-B96F-4B7242BC2726}.Release|x64.Build.0 = Release|x64
+		{1E56A7BF-904A-46AC-9518-68C82916ABCF}.Debug|Win32.ActiveCfg = Debug|Win32
+		{1E56A7BF-904A-46AC-9518-68C82916ABCF}.Debug|Win32.Build.0 = Debug|Win32
+		{1E56A7BF-904A-46AC-9518-68C82916ABCF}.Debug|x64.ActiveCfg = Debug|x64
+		{1E56A7BF-904A-46AC-9518-68C82916ABCF}.Debug|x64.Build.0 = Debug|x64
+		{1E56A7BF-904A-46AC-9518-68C82916ABCF}.Release|Win32.ActiveCfg = Release|Win32
+		{1E56A7BF-904A-46AC-9518-68C82916ABCF}.Release|Win32.Build.0 = Release|Win32
+		{1E56A7BF-904A-46AC-9518-68C82916ABCF}.Release|x64.ActiveCfg = Release|x64
+		{1E56A7BF-904A-46AC-9518-68C82916ABCF}.Release|x64.Build.0 = Release|x64
+		{20102A14-565F-428E-81DB-80E7BAC0A0F1}.Debug|Win32.ActiveCfg = Debug|Win32
+		{20102A14-565F-428E-81DB-80E7BAC0A0F1}.Debug|Win32.Build.0 = Debug|Win32
+		{20102A14-565F-428E-81DB-80E7BAC0A0F1}.Debug|x64.ActiveCfg = Debug|x64
+		{20102A14-565F-428E-81DB-80E7BAC0A0F1}.Debug|x64.Build.0 = Debug|x64
+		{20102A14-565F-428E-81DB-80E7BAC0A0F1}.Release|Win32.ActiveCfg = Release|Win32
+		{20102A14-565F-428E-81DB-80E7BAC0A0F1}.Release|Win32.Build.0 = Release|Win32
+		{20102A14-565F-428E-81DB-80E7BAC0A0F1}.Release|x64.ActiveCfg = Release|x64
+		{20102A14-565F-428E-81DB-80E7BAC0A0F1}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
