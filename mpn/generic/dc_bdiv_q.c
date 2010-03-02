@@ -53,7 +53,7 @@ mpn_dc_bdiv_q (mp_ptr qp,
   ASSERT (nn - dn >= 0);
   ASSERT (dp[0] & 1);
 
-  tp = TMP_ALLOC_LIMBS (MAX(dn, DC_BDIV_Q_N_ITCH(dn));
+  tp = TMP_ALLOC_LIMBS (MAX(dn, DC_BDIV_Q_N_ITCH(dn)));
 
   qn = nn;
 
