@@ -44,7 +44,7 @@ check_sb_bdiv_qr (void)
    mp_limb_t rp[2*MAX_LIMBS];
    mp_limb_t dp[2*MAX_LIMBS];
    mp_limb_t qp[2*MAX_LIMBS];
-   mp_limb_t dip, cy;
+   mp_limb_t dip, cy1, cy2;
 
    mp_size_t nn, rn, dn, qn;
 
@@ -67,9 +67,8 @@ check_sb_bdiv_qr (void)
       MPN_COPY(np2, np, nn);
       
       modlimb_invert(dip, dp[0]);
-      dip = -dip;
       
-      mpn_sb_bdiv_qr(qp, np, nn, dp, dn, dip);
+      cy1 = mpn_sb_bdiv_qr(qp, np, nn, dp, dn, dip);
       
       if (qn)
       {
@@ -78,7 +77,7 @@ check_sb_bdiv_qr (void)
       } else
          MPN_ZERO(rp, nn);
       
-      mpn_sub_n(rp, np2, rp, nn);
+      cy2 = mpn_sub_n(rp, np2, rp, nn);
       
       if (mpn_cmp(rp + qn, np + qn, dn) != 0)
       { 
@@ -89,6 +88,12 @@ check_sb_bdiv_qr (void)
          gmp_printf (" qp: %Nx\n\n", qp, qn);
          gmp_printf (" rp: %Nx\n\n", rp, qn);
          abort ();
+      }
+
+      if (cy1 != cy2)
+      {
+         printf("failed: carry wrong!\n");
+         printf("cy1 = %lx, cy2 = %lx\n", cy1, cy2);
       }
    }
 

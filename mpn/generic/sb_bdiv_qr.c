@@ -38,7 +38,7 @@ along with the GNU MP Library.  If not, see http://www.gnu.org/licenses/.  */
    Stores the dn least significant limbs of R at {np + nn - dn, dn},
    and returns the borrow from the subtraction N - Q*D.
 
-   D must be odd. dinv is (-D)^-1 mod B. */
+   D must be odd. dinv is D^-1 mod B. */
 
 mp_limb_t
 mpn_sb_bdiv_qr (mp_ptr qp,
@@ -53,6 +53,8 @@ mpn_sb_bdiv_qr (mp_ptr qp,
   ASSERT (dn > 0);
   ASSERT (nn > dn);
   ASSERT ((dp[0] & 1) != 0);
+
+  dinv = -dinv;
 
   qn = nn - dn;
 

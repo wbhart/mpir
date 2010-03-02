@@ -41,10 +41,11 @@ check_sb_bdiv_q (void)
 {
    mp_limb_t np[2*MAX_LIMBS];
    mp_limb_t np2[2*MAX_LIMBS];
-   mp_limb_t rp[2*MAX_LIMBS];
-   mp_limb_t dp[2*MAX_LIMBS];
+   mp_limb_t rp[3*MAX_LIMBS];
+   mp_limb_t dp[MAX_LIMBS];
    mp_limb_t qp[2*MAX_LIMBS];
-   mp_limb_t dip, cy;
+   mp_limb_t wp[2];
+   mp_limb_t dip, cy, hi, lo;
 
    mp_size_t nn, rn, dn, qn;
 
@@ -57,7 +58,6 @@ check_sb_bdiv_q (void)
    {
       dn = (random() % (MAX_LIMBS - 2)) + 3;
       nn = (random() % MAX_LIMBS) + dn;
-      qn = nn - dn;
 
       mpn_rrandom (np, rands, nn);
       mpn_rrandom (dp, rands, dn);
@@ -67,27 +67,36 @@ check_sb_bdiv_q (void)
       MPN_COPY(np2, np, nn);
       
       modlimb_invert(dip, dp[0]);
-      dip = -dip;
+ 
+      mpn_sb_bdiv_q(qp, wp, np, nn, dp, dn, dip);
       
-      mpn_sb_bdiv_q(qp, np, nn, dp, dn, dip);
-      
-      if (qn)
-      {
-         if (qn >= dn) mpn_mul(rp, qp, qn, dp, dn);
-         else mpn_mul(rp, dp, dn, qp, qn);
-      } else
-         MPN_ZERO(rp, nn);
+      if (nn >= dn) mpn_mul(rp, qp, nn, dp, dn);
+      else mpn_mul(rp, dp, dn, qp, nn);
 
-      if (mpn_cmp(rp, np2, qn) != 0)
+      if (mpn_cmp(rp, np2, nn) != 0)
       { 
          printf("failed: quotient wrong!\n");
-         printf ("nn = %lu, dn = %lu, qn = %lu\n\n", nn, dn, qn);
+         printf ("nn = %lu, dn = %lu\n\n", nn, dn);
          gmp_printf (" np: %Nx\n\n", np2, nn);
          gmp_printf (" dp: %Nx\n\n", dp, dn);
-         gmp_printf (" qp: %Nx\n\n", qp, qn);
-         gmp_printf (" rp: %Nx\n\n", rp, qn);
+         gmp_printf (" qp: %Nx\n\n", qp, nn);
+         gmp_printf (" rp: %Nx\n\n", rp, nn);
          abort ();
       }
+
+      MPN_ZERO(rp, 3*MAX_LIMBS);
+      hi = lo = 0;
+      for (j = 0; j < dn; j++)
+      {
+         cy = mpn_addmul_1(rp + j, qp, nn - j, dp[j]);
+         add_ssaaaa(hi, lo, hi, lo, 0, cy);
+      } 
+      if ((hi != wp[1]) || (lo != wp[0]))
+      {
+         printf("failed: wp wrong!\n");
+         printf("wp = %lx %lx, wp2 = %lx %lx\n", wp[1], wp[0], hi, lo);
+         abort();
+      } 
    }
 
    gmp_randclear(rands);

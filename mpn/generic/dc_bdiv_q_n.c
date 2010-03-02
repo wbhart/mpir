@@ -2,6 +2,7 @@
                         divide-and-conquer algorithm
 
 Copyright (C) 2009, David Harvey
+Copyright (C) 2010, William Hart.
 
 All rights reserved.
 
@@ -31,22 +32,24 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "mpir.h"
 #include "gmp-impl.h"
 
+#define BDIV_Q_DC_THRESHOLD 100
 
 /*
-  Same interface as new_bdiv_q, but for nn = dn = n, using divide-and-conquer
+  Computes {np, n} / {dp, n} mod B^n, using divide-and-conquer
   algorithm, switching to classical for n <= BDIV_Q_DC_THRESHOLD.
 
-  scratch is workspace, at least mpn_new_dc_bdiv_q_itch(n) limbs.
+  Also computes a 2 limb "overflow". See sb_bdiv_q.c for a definition.
+
+  scratch is workspace.
 */
 void
-mpn_new_dc_bdiv_q (mp_ptr qp, mp_ptr wp, mp_ptr np, mp_srcptr dp,
+mpn_dc_bdiv_q_n (mp_ptr qp, mp_ptr wp, mp_ptr np, mp_srcptr dp,
 		   mp_size_t n, mp_limb_t dinv, mp_ptr scratch)
 {
   mp_size_t s, t;
   mp_limb_t cy;
 
   ASSERT (n >= 6);
-  ASSERT ((-dinv * dp[0]) & GMP_NUMB_MASK == 1);
   ASSERT (! MPN_OVERLAP_P (qp, n, np, n));
   ASSERT (! MPN_OVERLAP_P (qp, n, dp, n));
   ASSERT (! MPN_OVERLAP_P (wp, 2, np, n));
@@ -72,9 +75,9 @@ mpn_new_dc_bdiv_q (mp_ptr qp, mp_ptr wp, mp_ptr np, mp_srcptr dp,
 
   /*  recurse into low half of quotient (region A)  */
   if (s <= BDIV_Q_DC_THRESHOLD)
-    mpn_new_sb_bdiv_q (qp, wp, np, s, dp, s, dinv);
+    mpn_sb_bdiv_q (qp, wp, np, s, dp, s, dinv);
   else
-    mpn_new_dc_bdiv_q (qp, wp, np, dp, s, dinv, scratch);
+    mpn_dc_bdiv_q_n (qp, wp, np, dp, s, dinv, scratch);
 
   /*  remove region B and overflow from A from N
       (if n odd, do first row of B separately --- we could have used
@@ -94,9 +97,9 @@ mpn_new_dc_bdiv_q (mp_ptr qp, mp_ptr wp, mp_ptr np, mp_srcptr dp,
       (this does not overwrite {scratch + t, 2}, because n >= 6 implies
       t >= 3 implies floor(t/2) + 2 <= t) */
   if (t <= BDIV_Q_DC_THRESHOLD)
-    mpn_new_sb_bdiv_q (qp + s, wp, np + s, t, dp, t, dinv);
+    mpn_sb_bdiv_q (qp + s, wp, np + s, t, dp, t, dinv);
   else
-    mpn_new_dc_bdiv_q (qp + s, wp, np + s, dp, t, dinv, scratch);
+    mpn_dc_bdiv_q_n (qp + s, wp, np + s, dp, t, dinv, scratch);
 
   /*  combine overflows from B and C  */
   ADDC_LIMB (cy, wp[0], wp[0], scratch[t]);
