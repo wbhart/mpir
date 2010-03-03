@@ -1757,6 +1757,14 @@ __GMP_DECLSPEC extern const mp_limb_t __gmp_fib_table[];
 #define DC_DIVAPPR_Q_N_THRESHOLD    (3 * MUL_KARATSUBA_THRESHOLD)
 #endif
 
+#ifndef DC_BDIV_QR_THRESHOLD
+#define DC_BDIV_QR_THRESHOLD    (3 * MUL_KARATSUBA_THRESHOLD)
+#endif
+
+#ifndef DC_BDIV_Q_THRESHOLD
+#define DC_BDIV_Q_THRESHOLD    (3 * MUL_KARATSUBA_THRESHOLD)
+#endif
+
 #ifndef INV_DIV_QR_THRESHOLD
 #define INV_DIV_QR_THRESHOLD    (MUL_FFT_THRESHOLD/3)
 #endif
@@ -4203,6 +4211,14 @@ extern mp_size_t                     dc_div_qr_threshold;
 #undef  DC_DIVAPPR_Q_N_THRESHOLD
 #define DC_DIVAPPR_Q_N_THRESHOLD     dc_divappr_q_n_threshold
 extern mp_size_t                     dc_divappr_q_n_threshold;
+
+#undef  DC_BDIV_QR_THRESHOLD
+#define DC_BDIV_QR_THRESHOLD         dc_bdiv_qr_threshold
+extern mp_size_t                     dc_bdiv_qr_threshold;
+
+#undef  DC_BDIV_Q_THRESHOLD
+#define DC_BDIV_Q_THRESHOLD          dc_bdiv_q_threshold
+extern mp_size_t                     dc_bdiv_q_threshold;
 
 #undef  INV_DIV_QR_THRESHOLD
 #define INV_DIV_QR_THRESHOLD         inv_div_qr_threshold

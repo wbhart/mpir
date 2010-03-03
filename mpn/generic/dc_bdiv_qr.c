@@ -24,10 +24,8 @@ License for more details.
 You should have received a copy of the GNU Lesser General Public License
 along with the GNU MP Library.  If not, see http://www.gnu.org/licenses/.  */
 
-#include "mpir.h"
+#include "gmp.h"
 #include "gmp-impl.h"
-
-#define DC_BDIV_QR_THRESHOLD 100
 
 /* Computes Hensel binary division of {np, 2*n} by {dp, n}.
 

@@ -27,9 +27,6 @@ along with the GNU MP Library.  If not, see http://www.gnu.org/licenses/.  */
 #include "mpir.h"
 #include "gmp-impl.h"
 
-#define DC_BDIV_Q_THRESHOLD 100
-#define DC_BDIV_QR_THRESHOLD 100
-
 /* Computes Q = N / D mod B^nn, destroys N.
 
    N = {np,nn}
