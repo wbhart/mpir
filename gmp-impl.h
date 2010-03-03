@@ -3734,6 +3734,8 @@ __GMP_DECLSPEC mp_size_t mpn_dc_set_str __GMP_PROTO ((mp_ptr, const unsigned cha
 __GMP_DECLSPEC mp_size_t mpn_bc_set_str __GMP_PROTO ((mp_ptr, const unsigned char *, size_t, int));
 #define   mpn_set_str_compute_powtab __MPN(set_str_compute_powtab)
 __GMP_DECLSPEC void      mpn_set_str_compute_powtab __GMP_PROTO ((powers_t *, mp_ptr, mp_size_t, int));
+#define mpn_pre_set_str __MPN(pre_set_str)
+__GMP_DECLSPEC void mpn_pre_set_str __GMP_PROTO ((mp_ptr wp, unsigned char *str, size_t str_len, powers_t *powtab, mp_ptr tp));
 
 
 void _tc4_add(mp_ptr rp, mp_size_t * rn, mp_srcptr r1, mp_size_t r1n, mp_srcptr r2, mp_size_t r2n);

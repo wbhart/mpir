@@ -129,7 +129,8 @@ am__objects_1 = dc_divrem_n.$(OBJEXT) divrem_2.$(OBJEXT) gcd.$(OBJEXT) \
 	rootrem.$(OBJEXT) divrem_euclidean_r_1.$(OBJEXT) \
 	divrem_hensel_qr_1.$(OBJEXT) rsh_divrem_hensel_qr_1.$(OBJEXT) \
 	dc_divappr_q.$(OBJEXT) dc_div_qr.$(OBJEXT) \
-	inv_divappr_q.$(OBJEXT) inv_div_qr.$(OBJEXT) tdiv_q.$(OBJEXT)
+	inv_divappr_q.$(OBJEXT) inv_div_qr.$(OBJEXT) tdiv_q.$(OBJEXT) \
+	dc_bdiv_qr.$(OBJEXT) dc_bdiv_q.$(OBJEXT)
 am__objects_2 = $(am__objects_1) divrem_1.$(OBJEXT) mod_1.$(OBJEXT)
 nodist_tuneup_OBJECTS = sqr_basecase.$(OBJEXT) $(am__objects_2)
 tuneup_OBJECTS = $(am_tuneup_OBJECTS) $(nodist_tuneup_OBJECTS)
@@ -387,7 +388,7 @@ TUNE_MPN_SRCS_BASIC = dc_divrem_n.c divrem_2.c gcd.c gcdext.c get_str.c \
   toom4_mul_n.c toom4_mul.c toom3_mul.c toom3_mul_n.c \
   toom8h_mul.c toom8_sqr_n.c mulmod_2expm1.c rootrem.c divrem_euclidean_r_1.c \
   divrem_hensel_qr_1.c rsh_divrem_hensel_qr_1.c dc_divappr_q.c dc_div_qr.c \
-  inv_divappr_q.c inv_div_qr.c tdiv_q.c 
+  inv_divappr_q.c inv_div_qr.c tdiv_q.c dc_bdiv_qr.c dc_bdiv_q.c 
 
 
 # COMPILE minus CC.

@@ -131,7 +131,7 @@ TUNE_MPN_SRCS_BASIC = dc_divrem_n.c divrem_2.c gcd.c gcdext.c get_str.c \
   toom4_mul_n.c toom4_mul.c toom3_mul.c toom3_mul_n.c \
   toom8h_mul.c toom8_sqr_n.c mulmod_2expm1.c rootrem.c divrem_euclidean_r_1.c \
   divrem_hensel_qr_1.c rsh_divrem_hensel_qr_1.c dc_divappr_q.c dc_div_qr.c \
-  inv_divappr_q.c inv_div_qr.c tdiv_q.c 
+  inv_divappr_q.c inv_div_qr.c tdiv_q.c dc_bdiv_qr.c dc_bdiv_q.c 
 
 $(TUNE_MPN_SRCS_BASIC):
 	for i in $(TUNE_MPN_SRCS_BASIC); do \
