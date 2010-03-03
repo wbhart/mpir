@@ -27,6 +27,8 @@
 #define DC_DIVAPPR_Q_N_THRESHOLD        483
 #define INV_DIV_QR_THRESHOLD            400
 #define INV_DIVAPPR_Q_N_THRESHOLD       483
+#define DC_BDIV_QR_THRESHOLD             58
+#define DC_BDIV_Q_THRESHOLD              28
 #define DC_DIVAPPR_Q_THRESHOLD          221
 #define INV_DIVAPPR_Q_THRESHOLD         998
 #define POWM_THRESHOLD                  154

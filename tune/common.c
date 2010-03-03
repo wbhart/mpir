@@ -912,7 +912,7 @@ speed_mpn_dc_bdiv_qr_n (struct speed_params *s)
 double
 speed_mpn_dc_bdiv_q (struct speed_params *s)
 {
-  SPEED_ROUTINE_MPN_DC_BDIV_SMALL_Q (mpn_dc_bdiv_q);
+  SPEED_ROUTINE_MPN_DC_BDIV_Q (mpn_dc_bdiv_q);
 }
 
 double

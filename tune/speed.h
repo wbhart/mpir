@@ -1840,7 +1840,7 @@ int speed_routine_count_zeros_setup _PROTO ((struct speed_params *s,
     return t;								\
   }
 
-#define SPEED_ROUTINE_MPN_DC_BDIV_SMALL_Q(function)				\
+#define SPEED_ROUTINE_MPN_DC_BDIV_Q(function)				\
   {									\
     unsigned  i;							\
     mp_ptr    a, d, q;						\
@@ -1851,22 +1851,18 @@ int speed_routine_count_zeros_setup _PROTO ((struct speed_params *s,
     SPEED_RESTRICT_COND (s->size >= 2);					\
 									\
     TMP_MARK;								\
-    SPEED_TMP_ALLOC_LIMBS (a, 3*s->size, s->align_xp);			\
-    SPEED_TMP_ALLOC_LIMBS (d, 2*s->size,   s->align_yp);			\
+    SPEED_TMP_ALLOC_LIMBS (a, s->size, s->align_xp);			\
+    SPEED_TMP_ALLOC_LIMBS (d, s->size,   s->align_yp);			\
     SPEED_TMP_ALLOC_LIMBS (q, s->size, s->align_wp);			\
     								\
     MPN_COPY (a, s->xp, s->size);					\
-    MPN_COPY (a+s->size, s->xp, s->size);				\
-    MPN_COPY (a+2*s->size, s->xp, s->size);				\
-									\
     MPN_COPY (d, s->yp, s->size);					\
-    MPN_COPY (d+s->size, s->yp, s->size);					\
-									\
+    								\
     /* normalize the data */						\
     d[0] |= 1;					\
     								\
-    speed_operand_src (s, a, 3*s->size);				\
-    speed_operand_src (s, d, 2*s->size);					\
+    speed_operand_src (s, a, s->size);				\
+    speed_operand_src (s, d, s->size);					\
     speed_operand_dst (s, q, s->size);				\
     speed_cache_fill (s);						\
 	                                                         \
@@ -1876,9 +1872,7 @@ int speed_routine_count_zeros_setup _PROTO ((struct speed_params *s,
     i = s->reps;							\
     do	{								\
       MPN_COPY (a, s->xp, s->size);					\
-      MPN_COPY (a+s->size, s->xp, s->size);				\
-      MPN_COPY (a+2*s->size, s->xp, s->size);				\
-      function(q, a, 3*s->size, d, 2*s->size, inv);								\
+      function(q, a, s->size, d, s->size, inv);								\
     } while (--i != 0);							\
     t = speed_endtime ();						\
 									\
