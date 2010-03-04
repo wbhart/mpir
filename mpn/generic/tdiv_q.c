@@ -137,14 +137,14 @@ mpn_tdiv_q (mp_ptr qp,
 	    {
 	      qh = mpn_divrem_2 (qp, 0L, new_np, new_nn, new_dp);
 	    }
-	  else if (BELOW_THRESHOLD (dn, DC_DIV_QR_THRESHOLD) ||
-		   BELOW_THRESHOLD (new_nn - dn, DC_DIV_QR_THRESHOLD))
+	  else if (BELOW_THRESHOLD (dn, DC_DIV_Q_THRESHOLD) ||
+		   BELOW_THRESHOLD (new_nn - dn, DC_DIV_Q_THRESHOLD))
 	    {
           invert_1(dinv, new_dp[dn - 1], new_dp[dn - 2]);
 	      qh = mpn_sb_div_q (qp, new_np, new_nn, new_dp, dn, dinv);
 	    }
-	  else if (BELOW_THRESHOLD (dn, INV_DIV_QR_THRESHOLD) || 
-		   BELOW_THRESHOLD (nn, 2 * INV_DIV_QR_THRESHOLD)) 
+	  else if (BELOW_THRESHOLD (dn, INV_DIV_Q_THRESHOLD) || 
+		   BELOW_THRESHOLD (nn, 2 * INV_DIV_Q_THRESHOLD)) 
 	    {
           invert_1(dinv, new_dp[dn - 1], new_dp[dn - 2]);
           qh = mpn_dc_div_q (qp, new_np, new_nn, new_dp, dn, dinv);
@@ -177,14 +177,14 @@ mpn_tdiv_q (mp_ptr qp,
 	    {
 	      qh = mpn_divrem_2 (qp, 0L, new_np, nn, dp);
 	    }
-	  else if (BELOW_THRESHOLD (dn, DC_DIV_QR_THRESHOLD) ||
-		   BELOW_THRESHOLD (nn - dn, DC_DIV_QR_THRESHOLD))
+	  else if (BELOW_THRESHOLD (dn, DC_DIV_Q_THRESHOLD) ||
+		   BELOW_THRESHOLD (nn - dn, DC_DIV_Q_THRESHOLD))
 	    {
            invert_1(dinv, dh, dp[dn - 2]);
            qh = mpn_sb_div_q (qp, new_np, nn, dp, dn, dinv);
 	    }
-	  else if (BELOW_THRESHOLD (dn, INV_DIV_QR_THRESHOLD) || 
-		   BELOW_THRESHOLD (nn, 2 * INV_DIV_QR_THRESHOLD))
+	  else if (BELOW_THRESHOLD (dn, INV_DIV_Q_THRESHOLD) || 
+		   BELOW_THRESHOLD (nn, 2 * INV_DIV_Q_THRESHOLD))
 	    {
            invert_1(dinv, dh, dp[dn - 2]);
            qh = mpn_dc_div_q (qp, new_np, nn, dp, dn, dinv);
