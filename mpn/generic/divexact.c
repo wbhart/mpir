@@ -40,9 +40,8 @@ mpn_divexact (mp_ptr qp,
   unsigned shift, shift2;
   int q_even;
   mp_size_t qn;
-  mp_ptr tp, wp, n2p;
+  mp_ptr tp, n2p, d2p, inv;
   mp_limb_t dinv, wp[2];
-  mp_ptr inv;
 
   TMP_DECL;
 
