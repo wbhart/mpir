@@ -40,7 +40,7 @@ mpn_divexact (mp_ptr qp,
   unsigned shift, shift2;
   int q_even;
   mp_size_t qn;
-  mp_ptr tp, n2p, d2p, inv;
+  mp_ptr tp, n2p, inv;
   mp_limb_t dinv, wp[2];
 
   TMP_DECL;
@@ -103,14 +103,14 @@ mpn_divexact (mp_ptr qp,
   {
     /* determine if the quotient is even */
     count_trailing_zeros (shift2, np[0]);
-    q_even = ((np[0] == 0) || (shift2 > shift1)) ? 1 : 0; 
+    q_even = ((np[0] == 0) || (shift2 > shift)) ? 1 : 0; 
 
     if (dp[dn - 1] & GMP_LIMB_HIGHBIT)
     {
        n2p = TMP_ALLOC_LIMBS(nn);
        MPN_COPY(n2p, np, nn);
     
-       d2p = dp;
+       dp;
     } else
     { 
        count_leading_zeros (shift, dp[dn - 1]);
@@ -118,14 +118,15 @@ mpn_divexact (mp_ptr qp,
        n2p[nn] = mpn_lshift(n2p, np, nn, shift);
        nn += (n2p[nn] != 0);
 
-       d2p = TMP_ALLOC_LIMBS(dn);
-       mpn_lshift(d2p, dp, dn, shift);   
+       tp = TMP_ALLOC_LIMBS(dn);
+       mpn_lshift(tp, dp, dn, shift);   
+       dp = tp;
 
        qn = nn - dn;
        
        inv = TMP_ALLOC_LIMBS(dn);
-       mpn_invert(inv, d2p, dn);
-       qp[qn] = mpn_inv_div_q(qp, n2p, nn, d2p, dn, inv);
+       mpn_invert(inv, dp, dn);
+       qp[qn] = mpn_inv_div_q(qp, n2p, nn, dp, dn, inv);
 
        if ((qp[0] & 1) + q_even != 1) /* quotient is out by 1 */
           mpn_sub_1(qp, qp, qn + 1, 1);
