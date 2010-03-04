@@ -69,7 +69,7 @@ mpn_divexact (mp_ptr qp,
   qn = nn + 1 - dn;
   count_trailing_zeros (shift, dp[0]);
 
-  if (BELOW_THRESHOLD (qn, INV_DIV_Q_THRESHOLD) && BELOW_THRESHOLD(dn, INV_DIV_Q_THRESHOLD))
+  if (BELOW_THRESHOLD (qn, INV_DIV_QR_THRESHOLD) && BELOW_THRESHOLD(dn, INV_DIV_QR_THRESHOLD))
   {
     if (shift > 0)
       {
@@ -95,7 +95,7 @@ mpn_divexact (mp_ptr qp,
 
     modlimb_invert(dinv, dp[0]);
 
-    if (BELOW_THRESHOLD (qn, DC_BDIV_Q_THRESHOLD))
+    if (BELOW_THRESHOLD (dn, DC_BDIV_Q_THRESHOLD))
       mpn_sb_bdiv_q (qp, wp, n2p, qn, dp, dn, dinv);
     else 
       mpn_dc_bdiv_q (qp, n2p, qn, dp, dn, dinv);
@@ -121,16 +121,17 @@ mpn_divexact (mp_ptr qp,
        tp = TMP_ALLOC_LIMBS(dn);
        mpn_lshift(tp, dp, dn, shift);   
        dp = tp;
+    }
 
-       qn = nn - dn;
+    qn = nn - dn;
        
-       inv = TMP_ALLOC_LIMBS(dn);
-       mpn_invert(inv, dp, dn);
-       qp[qn] = mpn_inv_div_q(qp, n2p, nn, dp, dn, inv);
+    inv = TMP_ALLOC_LIMBS(dn);
+    mpn_invert(inv, dp, dn);
+    qp[qn] = mpn_inv_divappr_q(qp, n2p, nn, dp, dn, inv);
 
-       if ((qp[0] & 1) + q_even != 1) /* quotient is out by 1 */
-          mpn_sub_1(qp, qp, qn + 1, 1);
-    } 
+    if ((qp[0] & 1) + q_even != 1) /* quotient is out by 1 */
+       mpn_sub_1(qp, qp, qn + 1, 1);
+    
   }
 
   TMP_FREE;
