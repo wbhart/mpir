@@ -1,4 +1,4 @@
-/* mpn_new_dc_bdiv_q -- binary division, producing quotient and overflow,
+/* mpn_dc_bdiv_q_n -- binary division, producing quotient and overflow,
                         divide-and-conquer algorithm
 
 Copyright (C) 2009, David Harvey
