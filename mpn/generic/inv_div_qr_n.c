@@ -33,6 +33,7 @@ mpn_inv_div_qr_n(mp_ptr qp, mp_ptr np,
                            mp_srcptr dp, mp_size_t dn, mp_srcptr inv)
 {
    mp_limb_t cy, lo, ret = 0;
+   mp_size_t m;
    mp_ptr tp;
    TMP_DECL;
 
@@ -72,8 +73,24 @@ mpn_inv_div_qr_n(mp_ptr qp, mp_ptr np,
       ret += mpn_add_1(qp, qp, dn, 1);
    /* ret is now guaranteed to be 0 */
    
-   mpn_mul_n(tp, qp, dp, dn);
-   mpn_sub_n(np, np, tp, 2*dn);
+   m = dn + 1;
+   {
+      //mpn_mul_n(tp, qp, dp, dn);
+      mp_limb_t cy, cy2;
+      mp_size_t k;
+      k = mpn_fft_best_k (m, 0);
+      m = mpn_fft_next_size (m, k);
+
+      cy = mpn_mul_fft (tp, m, qp, dn, dp, dn, k);
+      /* cy, {tp, m} = qp * dp mod (B^m+1) */
+      cy2 = mpn_add_n(tp, tp, np + 2*dn - m, 2*dn - m);
+      cy += mpn_add_1(tp + 2*dn - m, tp + 2*dn - m, 2*m - 2*dn, cy2);
+             
+      if (cy)
+         mpn_sub_1(tp, tp, m, 1); 
+   }
+
+   mpn_sub_n(np, np, tp, m);
    while (np[dn] || mpn_cmp(np, dp, dn) >= 0)
    {
 	   ret += mpn_add_1(qp, qp, dn, 1);
