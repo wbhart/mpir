@@ -1105,6 +1105,7 @@ __GMP_DECLSPEC extern gmp_randstate_t  __gmp_rands;
 #define MPN_TOOM4_SQR_N_MINSIZE   32
 #define MPN_TOOM7_SQR_N_MINSIZE   56
 #define MPN_TOOM8_SQR_N_MINSIZE   40
+#define MPN_FFT_MUL_N_MINSIZE     64
 
 #define mpn_sqr_diagonal __MPN(sqr_diagonal)
 void mpn_sqr_diagonal _PROTO ((mp_ptr, mp_srcptr, mp_size_t));
