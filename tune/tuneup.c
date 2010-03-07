@@ -1191,6 +1191,7 @@ tune_dc_div (gmp_randstate_t rands)
   {
   static struct param_t  param;
   param.name = "INV_DIV_QR_THRESHOLD";
+  param.max_size = 10000;
   param.function = speed_mpn_inv_div_qr;
   param.min_size = dc_div_qr_threshold;
   param.step_factor = 0.02;
@@ -1201,6 +1202,7 @@ tune_dc_div (gmp_randstate_t rands)
   static struct param_t  param;
   param.name = "INV_DIVAPPR_Q_N_THRESHOLD";
   param.function = speed_mpn_inv_divappr_q;
+  param.max_size = 10000;
   param.min_size = dc_divappr_q_n_threshold;
   param.step_factor = 0.02;
   one (&inv_divappr_q_n_threshold, rands, &param);
@@ -1222,6 +1224,7 @@ tune_tdiv_q (gmp_randstate_t rands)
   static struct param_t  param;
   param.name = "INV_DIV_Q_THRESHOLD";
   param.function = speed_mpn_tdiv_q;
+  param.max_size = 10000;
   param.min_size = dc_div_q_threshold;
   param.step_factor = 0.02;
   one (&inv_div_q_threshold, rands, &param);
@@ -1239,6 +1242,7 @@ tune_tdiv_q (gmp_randstate_t rands)
   static struct param_t  param;
   param.name = "INV_DIVAPPR_Q_THRESHOLD";
   param.function = speed_mpn_tdiv_q2;
+  param.max_size = 10000;
   param.min_size = dc_divappr_q_threshold;
   param.step_factor = 0.02;
   one (&inv_divappr_q_threshold, rands, &param);
@@ -2062,12 +2066,12 @@ all (gmp_randstate_t rands)
   /* dc_div_qr_n, dc_divappr_q, inv_div_qr, inv_divappr_q */
   tune_dc_div (rands);
   
-  /* dc_bdiv_qr_n, dc_bdiv_q */
-  tune_dc_bdiv (rands);  
-
   /* mpn_tdiv_q : balanced */
   tune_tdiv_q (rands);
   
+  /* dc_bdiv_qr_n, dc_bdiv_q */
+  tune_dc_bdiv (rands);  
+
   tune_powm (rands);
   tune_fac_ui(rands);
   printf("\n");
