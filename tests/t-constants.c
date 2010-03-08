@@ -212,7 +212,7 @@ main (int argc, char *argv[])
 
   CHECK_INT (BYTES_PER_MP_LIMB, sizeof(mp_limb_t));
   CHECK_INT (mp_bits_per_limb, BITS_PER_MP_LIMB);
-  CHECK_INT (__GMP_BITS_PER_MP_LIMB, BITS_PER_MP_LIMB);
+  CHECK_INT (GMP_LIMB_BITS, BITS_PER_MP_LIMB);
 
   CHECK_BITS (BITS_PER_MP_LIMB, mp_limb_t);
   CHECK_BITS (BITS_PER_ULONG, unsigned long);

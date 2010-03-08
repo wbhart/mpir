@@ -18,7 +18,6 @@ char *add =
 "#    endif\n"
 "#  endif\n"
 "#  define GMP_LIMB_BITS            (SIZEOF_MP_LIMB_T << 3)\n"
-"#  define __GMP_BITS_PER_MP_LIMB   (SIZEOF_MP_LIMB_T << 3)\n"
 "#  define GMP_NAIL_BITS            0\n"
 "#endif\n";
 
