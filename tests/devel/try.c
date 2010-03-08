@@ -1650,13 +1650,13 @@ mpn_toom3_mul_n_fun (mp_ptr dst, mp_srcptr src1, mp_srcptr src2, mp_size_t size)
   TMP_FREE;
 }
 void
-mpn_toom3_sqr_n_fun (mp_ptr dst, mp_srcptr src1, mp_srcptr src2, mp_size_t size)
+mpn_toom3_sqr_n_fun (mp_ptr dst, mp_srcptr src1, mp_size_t size)
 {
   mp_ptr  tspace;
   TMP_DECL;
   TMP_MARK;
   tspace = TMP_ALLOC_LIMBS (MPN_TOOM3_SQR_N_TSIZE (size));
-  mpn_toom3_sqr_n (dst, src1, src2, size, tspace);
+  mpn_toom3_sqr_n (dst, src1, size, tspace);
   TMP_FREE;
 }
 void
@@ -1665,9 +1665,9 @@ mpn_toom4_mul_n_fun (mp_ptr dst, mp_srcptr src1, mp_srcptr src2, mp_size_t size)
   mpn_toom4_mul_n (dst, src1, src2, size);
 }
 void
-mpn_toom4_sqr_n_fun (mp_ptr dst, mp_srcptr src1, mp_srcptr src2, mp_size_t size)
+mpn_toom4_sqr_n_fun (mp_ptr dst, mp_srcptr src1, mp_size_t size)
 {
-  mpn_toom4_sqr_n (dst, src1, src2, size);
+  mpn_toom4_sqr_n (dst, src1, size);
 }
 void
 mpn_toom7_mul_n_fun (mp_ptr dst, mp_srcptr src1, mp_srcptr src2, mp_size_t size)
@@ -1675,9 +1675,9 @@ mpn_toom7_mul_n_fun (mp_ptr dst, mp_srcptr src1, mp_srcptr src2, mp_size_t size)
   mpn_toom7_mul_n (dst, src1, src2, size);
 }
 void
-mpn_toom7_sqr_n_fun (mp_ptr dst, mp_srcptr src1, mp_srcptr src2, mp_size_t size)
+mpn_toom7_sqr_n_fun (mp_ptr dst, mp_srcptr src1, mp_size_t size)
 {
-  mpn_toom7_sqr_n (dst, src1, src2, size);
+  mpn_toom7_sqr_n (dst, src1, size);
 }
 void
 mpn_toom8h_mul_fun (mp_ptr dst, mp_srcptr src1, mp_size_t size1, mp_srcptr src2, mp_size_t size2)
@@ -1685,9 +1685,9 @@ mpn_toom8h_mul_fun (mp_ptr dst, mp_srcptr src1, mp_size_t size1, mp_srcptr src2,
   mpn_toom8h_mul (dst, src1, size1, src2, size2);
 }
 void
-mpn_toom8_sqr_n_fun (mp_ptr dst, mp_srcptr src1, mp_srcptr src2, mp_size_t size)
+mpn_toom8_sqr_n_fun (mp_ptr dst, mp_srcptr src1, mp_size_t size)
 {
-  mpn_toom8_sqr_n (dst, src1, src2, size);
+  mpn_toom8_sqr_n (dst, src1, size);
 }
 
 mp_limb_t
