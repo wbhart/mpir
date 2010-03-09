@@ -527,21 +527,25 @@ def conv_dirs(s, d, l) :
         shutil.copyfile(sp, dp)
 
 if len(sys.argv) == 1 :
-  cd = os.getcwd()                    # if run in the build.vc9 directory
+  cd = os.getcwd()                    # if run in the build.vc9 directory  
   if cd.endswith('build.vc9') :
     cd1 = cd + '\\..\\mpn\\x86_64'    # the GAS assembler directory
     cd2 = cd + '\\..\\mpn\\x86_64w'   # the YASM (Windows) assembler directory
   elif cd.endswith('x86_64') :        # if run in the GAS assembler directory
-    if os.path.exists(cd + '\\..\\x86_64w') :
-      cd1 = cd
-      cd2 = cd + '\\..\\x86_64w'
-    else :
-      cd1 = cd2 = cd
+    cd1 = cd
+    cd2 = cd + '\\..\\x86_64w'
+  elif cd.endswith('x86_64w') :       # if run in the YASM assembler directory
+    cd2 = cd
+    cd1 = cd + '\\..\\x86_64'
+  else :
+    print("cannot locate assembler source directory")
+    sys.exit(-1)
 elif len(sys.argv) == 3 :
   cd1 = sys.argv[1]
   cd2 = sys.argv[2]
 else :
-  cd1 = cd2 = None
+  print("invalid program location or input")
+  sys.exit(-1)
 
 if cd1 and os.path.exists(cd1) :
   if os.path.isdir(cd1) :
