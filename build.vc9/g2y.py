@@ -30,45 +30,50 @@ r_w = r'(?:[abcd]x|[sd]i|[bsi]p|r[89]w|r1[0-5]w)|'      # 16 bit
 r_b = r'(?:[abcd]l|[ds]il|[bsi]pl|r[89]b|r1[0-5]b)|'    #  8 bit
 r_x = r'(?:x?mm\d|x?mm1[0-5])|(?:mmx\d|mmx1[0-5])|(?:st\([0-7]\))'
 
-p_rg = r'(?:\s*%(' + r_b + r_w + r_d + r_q + '|' + r_x + r'))'
+p_r1 = r'(?:\s*%(?P<reg1>' + r_b + r_w + r_d + r_q + '|' + r_x + r'))'
+p_r2 = r'(?:\s*%(?P<reg2>' + r_b + r_w + r_d + r_q + '|' + r_x + r'))'
+p_r3 = r'(?:\s*%(?P<reg3>' + r_b + r_w + r_d + r_q + '|' + r_x + r'))'
 
 # regular expression for immediate (numeric, not symbolic)
 
-p_im = r'\s+\`?\$\'?([\+\-]?[0-9]+|0x[a-zA-Z0-9]+)'
+p_im = r'\s+\`?\$\'?(?P<imm>[\+\-]?[0-9]+|0x[a-zA-Z0-9]+)'
 
 # regular expressions for labels
 
-p_l1 = r'([a-zA-Z$_][a-zA-Z0-9\$_]*|\.[0-9]+)'
-p_l2 = r'L\(([a-zA-Z0-9\$_]+)\)'
+p_l1 = r'(?P<lab1>[a-zA-Z$_][a-zA-Z0-9\$_]*|\.[0-9]+)'
+p_l2 = r'L\((?P<lab2>[a-zA-Z0-9\$_]+)\)'
+p_l3 = r'(?P<lab3>[a-zA-Z$_][a-zA-Z0-9\$_]*|\.[0-9]+)'
+p_l4 = r'L\((?P<lab4>[a-zA-Z0-9\$_]+)\)'
 
 p_lr = r'\s*(?:' + p_l2 + r'|' + p_l1 + r')'
 p_la = r'\s*(?:' + p_l2 + r'|' + p_l1 + r')\s*(:)'
 p_ri = p_lr + r'\(\%rip\)'
-p_jt = r'\s+\.long\s+' + p_lr + r'\s*\-\s*' + p_lr
+p_34 = r'\s*(?:' + p_l4 + r'|' + p_l3 + r')'
+p_jt = r'\s+\.long\s+' + p_lr + r'\s*\-\s*' + p_34
 
 # regular expression for dis(r1, r2, mul) forms
 
-p_di = r'(?:(?:\s*([-+]?[0-9\+\-]*)(?=\())?' + '|' + p_lr + ')' # numeric displacement
-p_mu = r'(?:\s*,\s*([1248]))?\s*(?=\))'   # multiplier (1, 2, 4, 8)
-p_t1 = p_di + r'\s*\(' + p_rg + r'(?:\s*\)|\s*,' + p_rg + p_mu + r'\s*\))'
+p_di = r'(?:(?:\s*(?P<dis>[-+]?[0-9\+\-]*)(?=\())?' + '|' + p_lr + ')' # numeric displacement
+p_mu = r'(?:\s*,\s*(?P<mul>[1248]))?\s*(?=\))'   # multiplier (1, 2, 4, 8)
+p_t1 = p_di + r'\s*\(' + p_r1 + r'(?:\s*\)|\s*,' + p_r2 + p_mu + r'\s*\))'
 
 # regular expression for instructions
 
-p_in = r'\s*([a-zA-Z][a-zA-Z0-9]*)'
+p_in = r'\s*(?P<ins>[a-zA-Z][a-zA-Z0-9]*)'
 
-p_def = r'define\s*\(\s*\`([a-zA-Z_][a-zA-Z0-9_]*)\'\s*\,\s*\`' + p_rg + '\'\s*\)'
+p_def = r'define\s*\(\s*\`([a-zA-Z_][a-zA-Z0-9_]*)\'\s*\,\s*\`' + p_r1 + '\'\s*\)'
 
-m_f1 = re.compile(p_in + p_rg + r'\s*,' + p_t1)
-m_f2 = re.compile(p_in + p_t1 + r'\s*,' + p_rg)
+m_f1 = re.compile(p_in + p_r3 + r'\s*,' + p_t1)
+m_f2 = re.compile(p_in + p_t1 + r'\s*,' + p_r3)
 m_f3 = re.compile(p_in + p_t1)
 m_f4 = re.compile(p_in + p_im + r'\s*,' + p_t1)
-m_f5 = re.compile(p_in + p_im + r'\s*,' + p_rg)
-m_f6 = re.compile(p_in + p_rg + r'\s*,' + p_rg)
-m_f7 = re.compile(p_in + p_rg)
-m_g7 = re.compile(p_in + r'\s+\*' + p_rg)
+m_f5 = re.compile(p_in + p_im + r'\s*,' + p_r1)
+m_f6 = re.compile(p_in + p_r1 + r'\s*,' + p_r2)
+m_f7 = re.compile(p_in + p_r1)
+m_g7 = re.compile(p_in + r'\s+\*' + p_r1)
 m_f8 = re.compile(p_in + p_im)
 m_f9 = re.compile(p_in + p_lr)
-m_fa = re.compile(p_in + '(?:' + p_im + '|' + p_rg + r')\s*,' + p_rg + r'\s*,' + p_rg)
+m_fa = re.compile(p_in + '(?:' + p_im + '|' + p_r1 + r')\s*,' + p_r2 + r'\s*,' + p_r3)
 
 m_la = re.compile(p_la)
 m_jt = re.compile(p_jt)
@@ -145,30 +150,26 @@ def pass_two(code, labels) :
 
   return mac_dict
 
-def proc_m(m, i, j, labels, macros, mac_name) :
-  v = list(m.groups())
-  n = len(v)
-  if n <= i :
-    return ([], '')
-  lb = v[i + 1] if v[i + 1] else v[i + 2]
-  if lb in labels:
-    ss = lab_ref(lb, labels, macros, mac_name) + ']'
-    pfx = '[rel '
-    if v[i + 3] == 'rip':
-      return (v[ 0 : i] + v[ j + 2 : ], pfx + ss)
-    ss = '+' + ss
-  else:
-    ss = (v[i] if not v[i] or v[i][0] in '+-' else '+' + v[i]) + ']'
-    pfx = '['
-  i += 2
-  j += 2
-  if n > i + 3 and i + 3 < j and v[i + 3] :
-    ss = ('' if not v[i + 3] else '*' + v[i + 3]) + ss
-  if n > i + 2 and i + 2 < j and v[i + 2] :
-    ss = '+' + v[i + 2] + ss
-  if n > i + 1 and i + 1 < j and v[i + 1] :
-    ss = v[i + 1] + ss
-  return (v[ 0 : i - 2] + v[ j : ], pfx + ss)
+def addr(dd, labels, macros, mac_name) :
+  pfx = '['
+  ss = ']'
+  if dd['lab1'] or dd['lab2']:
+    lb = dd['lab1'] if dd['lab1'] else dd['lab2']
+    if lb in labels:
+      ss = lab_ref(lb, labels, macros, mac_name) + ']'
+      pfx = '[rel '
+      if dd['reg1'] == 'rip':
+        return pfx + ss
+      ss = '+' + ss
+  elif dd['dis']:
+    ss = (dd['dis'] if not dd['dis'] or dd['dis'][0] in '+-' 
+            else '+' + dd['dis']) + ']'
+  ss = ('' if not dd['mul'] else '*' + dd['mul']) + ss
+  if dd['reg2']:    
+    ss = '+' + dd['reg2'] + ss
+  if dd['reg1']:    
+    ss = dd['reg1'] + ss
+  return pfx + ss
 
 def pass_three(code, labels, macros, level) :
 
@@ -187,7 +188,7 @@ def pass_three(code, labels, macros, level) :
     sfx = ''
     if m :
       if m.group(1):
-        l = m.group(1)
+        l = m.group(1) + ' '
       else:
         continue
       if m.group(2):
@@ -234,23 +235,21 @@ def pass_three(code, labels, macros, level) :
     # three operand instructions
     m = m_fa.search(l)
     if m :
-      v = list(m.groups())
+      d = m.groupdict()
       if debug :
         print(l, end = '')
-      if v[1] == None or v[2] == None :
-        if v[1] == None :
-          lo += [lp + '\t{0[0]:7s} {0[4]}, {0[3]}, {0[2]}'.format(v)]
-        else :
-          lo += [lp + '\t{0[0]:7s} {0[4]}, {0[3]}, {0[1]}'.format(v)]
-        continue
+      e = d['imm'] if d['imm'] else d['reg1']
+      lo += [lp + '\t{0[ins]:7s} {0[reg3]}, {0[reg2]}, {1}'.format(d, e)]
+      continue
 
     # ins reg, dis(reg, reg, off)
     m = m_f1.search(l)
     if m :
       if debug :
         print(l, end = '')
-      v, s = proc_m(m, 2, 6, labels, macros, mac_name)
-      lo += [lp + '\t{0[0]:7s} {1}, {0[1]}'.format(v, s)]
+      d = m.groupdict()
+      s = addr(d, labels, macros, mac_name)
+      lo += [lp + '\t{0[ins]:7s} {1}, {0[reg3]}'.format(d, s)]
       continue
 
     # ins dis(reg, reg, off), reg
@@ -258,8 +257,9 @@ def pass_three(code, labels, macros, level) :
     if m :
       if debug :
         print(l, end = '')
-      v, s = proc_m(m, 1, 5, labels, macros, mac_name)
-      lo += [lp + '\t{0[0]:7s} {0[1]}, {1}'.format(v, s)]
+      d = m.groupdict()
+      s = addr(d, labels, macros, mac_name)
+      lo += [lp + '\t{0[ins]:7s} {0[reg3]}, {1}'.format(d, s)]
       continue
 
     # ins dis(reg, reg, off)
@@ -267,8 +267,9 @@ def pass_three(code, labels, macros, level) :
     if m :
       if debug :
         print(l, end = '')
-      v, s = proc_m(m, 1, 5, labels, macros, mac_name)
-      lo += [lp + '\t{0[0]:7s} {1}'.format(v, s)]
+      d = m.groupdict()      
+      s = addr(d, labels, macros, mac_name)
+      lo += [lp + '\t{0[ins]:7s} {1}'.format(d, s)]
       continue
 
     # ins imm, dis(reg, reg, off)
@@ -276,91 +277,80 @@ def pass_three(code, labels, macros, level) :
     if m :
       if debug :
         print(l, end = '')
-      v, s = proc_m(m, 2, 6, labels, macros, mac_name)
-      lo += [lp + '\t{0[0]:7s} {1}, {0[1]}'.format(v, s)]
+      d = m.groupdict()
+      s = addr(d, labels, macros, mac_name)
+      lo += [lp + '\t{0[ins]:7s} {1}, {0[imm]}'.format(d, s)]
       continue
 
     # ins imm, reg
     m = m_f5.search(l)
     if m :
-      v = list(m.groups())
+      d = m.groupdict()
       if debug :
         print(l, end = '')
-      lo += [lp + '\t{0[0]:7s} {0[2]}, {0[1]}'.format(v)]
+      lo += [lp + '\t{0[ins]:7s} {0[reg1]}, {0[imm]}'.format(d)]
       continue
 
     # ins reg, reg
     m = m_f6.search(l)
     if m :
-      v = list(m.groups())
+      d = m.groupdict()
       if debug :
         print(l, end = '')
-      lo += [lp + '\t{0[0]:7s} {0[2]}, {0[1]}'.format(v)]
+      lo += [lp + '\t{0[ins]:7s} {0[reg2]}, {0[reg1]}'.format(d)]
       continue
 
     # ins reg
     m = m_f7.search(l)
     if m :
-      v = list(m.groups())
+      d = m.groupdict()
       if debug :
         print(l, end = '')
-      lo += [lp + '\t{0[0]:7s} {0[1]}'.format(v)]
+      lo += [lp + '\t{0[ins]:7s} {0[reg1]}'.format(d)]
       continue
 
     # ins *reg
     m = m_g7.search(l)
     if m :
-      v = list(m.groups())
+      d = m.groupdict()
       if debug :
         print(l, end = '')
-      lo += [lp + '\t{0[0]:7s} {0[1]}'.format(v)]
+      lo += [lp + '\t{0[ins]:7s} {0[reg1]}'.format(d)]
       continue
 
     # ins imm
     m = m_f8.search(l)
     if m :
-      v = list(m.groups())
+      d = m.groupdict()
       if debug :
         print(l, end = '')
-      lo += [lp + '\t{0[0]:7s} {0[1]}'.format(v)]
+      lo += [lp + '\t{0[ins]:7s} {0[imm]}'.format(d)]
       continue
 
     # jump table
     m = m_jt.search(l)
     if m :
-      v = list(m.groups())
-      lb0 = v[0] if v[0] else v[1]
-      lb1 = v[2] if v[2] else v[3]
-      if lb1 in labels :
+      d = m.groupdict()
+      lb0 = d['lab1'] if d['lab1'] else d['lab2']
+      lb1 = d['lab3'] if d['lab3'] else d['lab4']
+      if lb0 in labels and lb1 in labels :
         if debug :
           print(l, end = '')
         st1 = lab_ref(lb0, labels, macros, mac_name)
         st2 = lab_ref(lb1, labels, macros, mac_name)
         lo += [lp + '\tdd     ' + st1 + ' - ' + st2]
-      continue
-
-    # RIP relative jump
-    m = m_ri.search(l)
-    if m :
-      v = list(m.groups())
-      lb = v[1] if v[1] else v[2]
-      if lb in labels :
-        if debug :
-          print(l, end = '')
-        ss = lab_ref(lb, labels, macros, mac_name)
-        lo += [lp + '\t{0[0]:7s} {1}[rip]'.format(v, ss)]
         continue
 
     # jump label
     m = m_f9.search(l)
     if m :
-      v = list(m.groups())
-      lb = v[1] if v[1] else v[2]
+      d = m.groupdict()
+      lb = d['lab1'] if d['lab1'] else d['lab2']
       if lb and lb in labels :
         if debug :
           print(l, end = '')
         ss = lab_ref(lb, labels, macros, mac_name)
-        lo += [lp + '\t{0[0]:7s} {1}'.format(v, ss)]
+        lo += [lp + '\t{0[ins]:7s} {1}'.format(d, ss)]
         continue
 
     m = re.search(r'\s*\.byte\s+((?:0x|0X)[0-9a-fA-F]+|[0-9]+)\s*', l)
