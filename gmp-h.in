@@ -554,6 +554,9 @@ __GMP_DECLSPEC void mp_get_memory_functions __GMP_PROTO ((void *(**) (size_t),
 #define mp_bits_per_limb __gmp_bits_per_limb
 __GMP_DECLSPEC extern __gmp_const int mp_bits_per_limb;
 
+#define gmp_errno __gmp_errno
+__GMP_DECLSPEC extern int gmp_errno;
+
 #define gmp_version __gmp_version
 __GMP_DECLSPEC extern __gmp_const char * __gmp_const gmp_version;
 
@@ -2333,6 +2336,13 @@ __GMP_DECLSPEC_XX std::istream& operator>> (std::istream &, mpz_ptr);
 __GMP_DECLSPEC_XX std::istream& operator>> (std::istream &, mpq_ptr);
 __GMP_DECLSPEC_XX std::istream& operator>> (std::istream &, mpf_ptr);
 #endif
+
+#define mpz_div		    mpz_fdiv_q
+#define mpz_divmod	    mpz_fdiv_qr
+#define mpz_div_ui	    mpz_fdiv_q_ui
+#define mpz_divmod_ui	mpz_fdiv_qr_ui
+#define mpz_div_2exp	mpz_fdiv_q_2exp
+#define mpz_mod_2exp	mpz_fdiv_r_2exp
 
 enum
 {
