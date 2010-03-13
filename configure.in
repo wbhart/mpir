@@ -1463,6 +1463,9 @@ case $host in
     # 32bit apple darwin doesn't like our PIC format asm code
     case $host in
 	core2-apple-darwin* | penryn-apple-darwin*)	path="x86/applenopic/core2 x86/applenopic" ;;
+	prescott-apple-darwin* | pentium4-apple-darwin*)	path="x86/applenopic" ;;
+	pentium3-apple-darwin* | pentium2-apple-darwin*)	path="x86/applenopic" ;;
+	i686-apple-darwin* | pentiumpro-apple-darwin*)	path="x86/applenopic" ;;
 	*)						;;
     esac
 
