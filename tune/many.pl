@@ -431,13 +431,6 @@ my @table =
      },
 
      {
-       'regexp'=> 'sb_divrem_mn',
-       'ret'   => 'mp_limb_t',
-       'args'  => 'mp_ptr qp, mp_ptr np, mp_size_t nsize, mp_srcptr dp, mp_size_t dsize',
-       'speed' => 'SPEED_ROUTINE_MPN_DC_DIVREM_SB',
-       'try-minsize' => 3,
-     },
-     {
        'regexp'=> 'tdiv_qr',
        'ret'   => 'void',
        'args'  => 'mp_ptr qp, mp_size_t qxn, mp_ptr np, mp_size_t nsize, mp_srcptr dp, mp_size_t dsize',

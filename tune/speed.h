@@ -175,8 +175,6 @@ double speed_mpn_copyd _PROTO ((struct speed_params *s));
 double speed_mpn_copyi _PROTO ((struct speed_params *s));
 double speed_mpn_dc_divrem_n _PROTO ((struct speed_params *s));
 double speed_mpn_dc_divrem_sb _PROTO ((struct speed_params *s));
-double speed_mpn_dc_divrem_sb_div _PROTO ((struct speed_params *s));
-double speed_mpn_dc_divrem_sb_inv _PROTO ((struct speed_params *s));
 double speed_mpn_dc_tdiv_qr _PROTO ((struct speed_params *s));
 double speed_mpn_dc_div_qr_n _PROTO ((struct speed_params *s));
 double speed_mpn_dc_divappr_q _PROTO ((struct speed_params *s));
@@ -281,9 +279,6 @@ double speed_mpn_rsh1sub_n _PROTO ((struct speed_params *s));
 double speed_mpn_rshift _PROTO ((struct speed_params *s));
 double speed_mpn_rshift1 _PROTO ((struct speed_params *s));
 double speed_mpn_rshift2 _PROTO ((struct speed_params *s));
-double speed_mpn_sb_divrem_m3 _PROTO ((struct speed_params *s));
-double speed_mpn_sb_divrem_m3_div _PROTO ((struct speed_params *s));
-double speed_mpn_sb_divrem_m3_inv _PROTO ((struct speed_params *s));
 double speed_mpn_set_str _PROTO ((struct speed_params *s));
 double speed_mpn_set_str_basecase _PROTO ((struct speed_params *s));
 double speed_mpn_set_str_subquad _PROTO ((struct speed_params *s));
@@ -460,13 +455,6 @@ mp_size_t mpn_gcdext_single
 mp_size_t mpn_gcdext_double
   _PROTO ((mp_ptr gp, mp_ptr s0p, mp_size_t *s0size,
 	   mp_ptr up, mp_size_t size, mp_ptr vp, mp_size_t vsize));
-
-mp_limb_t mpn_sb_divrem_mn_div _PROTO ((mp_ptr qp,
-					mp_ptr np,    mp_size_t nsize,
-					mp_srcptr dp, mp_size_t dsize));
-mp_limb_t mpn_sb_divrem_mn_inv _PROTO ((mp_ptr qp,
-					mp_ptr np,    mp_size_t nsize,
-					mp_srcptr dp, mp_size_t dsize));
 
 mp_size_t mpn_set_str_basecase _PROTO ((mp_ptr, const unsigned char *, size_t, int));
 mp_size_t mpn_set_str_subquad _PROTO ((mp_ptr, const unsigned char *, size_t, int));

@@ -24,7 +24,7 @@ END-INFO-DIR-ENTRY
 
 Indirect:
 mpir.info-1: 990
-mpir.info-2: 300621
+mpir.info-2: 300587
 
 Tag Table:
 (Indirect)
@@ -120,54 +120,54 @@ Node: Other Multiplication264999
 Node: Division Algorithms267392
 Node: Single Limb Division267740
 Node: Basecase Division270660
-Node: Divide and Conquer Division271864
-Node: Exact Division274102
-Node: Exact Remainder277270
-Node: Small Quotient Division279563
-Node: Greatest Common Divisor Algorithms281162
-Node: Binary GCD281436
-Node: Accelerated GCD284115
-Node: Extended GCD285914
-Node: Jacobi Symbol287585
-Node: Powering Algorithms288502
-Node: Normal Powering Algorithm288766
-Node: Modular Powering Algorithm289295
-Node: Root Extraction Algorithms290359
-Node: Square Root Algorithm290675
-Node: Nth Root Algorithm292818
-Node: Perfect Square Algorithm293604
-Node: Perfect Power Algorithm295691
-Node: Radix Conversion Algorithms296313
-Node: Binary to Radix296690
-Node: Radix to Binary300621
-Node: Other Algorithms302553
-Node: Prime Testing Algorithm302907
-Node: Factorial Algorithm304092
-Node: Binomial Coefficients Algorithm305496
-Node: Fibonacci Numbers Algorithm306391
-Node: Lucas Numbers Algorithm308867
-Node: Random Number Algorithms309589
-Node: Assembler Coding311713
-Node: Assembler Code Organisation312690
-Node: Assembler Basics313663
-Node: Assembler Carry Propagation314822
-Node: Assembler Cache Handling316660
-Node: Assembler Functional Units318828
-Node: Assembler Floating Point320449
-Node: Assembler SIMD Instructions324232
-Node: Assembler Software Pipelining325221
-Node: Assembler Loop Unrolling326289
-Node: Assembler Writing Guide328509
-Node: Internals331279
-Node: Integer Internals331793
-Node: Rational Internals334050
-Node: Float Internals335290
-Node: Raw Output Internals342618
-Node: C++ Interface Internals343813
-Node: Contributors347112
-Node: References353691
-Node: GNU Free Documentation License360764
-Node: Concept Index383211
-Node: Function Index429073
+Node: Divide and Conquer Division271830
+Node: Exact Division274068
+Node: Exact Remainder277236
+Node: Small Quotient Division279529
+Node: Greatest Common Divisor Algorithms281128
+Node: Binary GCD281402
+Node: Accelerated GCD284081
+Node: Extended GCD285880
+Node: Jacobi Symbol287551
+Node: Powering Algorithms288468
+Node: Normal Powering Algorithm288732
+Node: Modular Powering Algorithm289261
+Node: Root Extraction Algorithms290325
+Node: Square Root Algorithm290641
+Node: Nth Root Algorithm292784
+Node: Perfect Square Algorithm293570
+Node: Perfect Power Algorithm295657
+Node: Radix Conversion Algorithms296279
+Node: Binary to Radix296656
+Node: Radix to Binary300587
+Node: Other Algorithms302519
+Node: Prime Testing Algorithm302873
+Node: Factorial Algorithm304058
+Node: Binomial Coefficients Algorithm305462
+Node: Fibonacci Numbers Algorithm306357
+Node: Lucas Numbers Algorithm308833
+Node: Random Number Algorithms309555
+Node: Assembler Coding311679
+Node: Assembler Code Organisation312656
+Node: Assembler Basics313629
+Node: Assembler Carry Propagation314788
+Node: Assembler Cache Handling316626
+Node: Assembler Functional Units318794
+Node: Assembler Floating Point320415
+Node: Assembler SIMD Instructions324198
+Node: Assembler Software Pipelining325187
+Node: Assembler Loop Unrolling326255
+Node: Assembler Writing Guide328475
+Node: Internals331245
+Node: Integer Internals331759
+Node: Rational Internals334016
+Node: Float Internals335256
+Node: Raw Output Internals342584
+Node: C++ Interface Internals343779
+Node: Contributors347078
+Node: References353657
+Node: GNU Free Documentation License360730
+Node: Concept Index383177
+Node: Function Index429039
 
 End Tag Table

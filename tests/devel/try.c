@@ -1412,19 +1412,6 @@ param_init (void)
   p->src[1] = 1;
   REFERENCE (refmpn_hamdist);
 
-
-  p = &param[TYPE_SB_DIVREM_MN];
-  p->retval = 1;
-  p->dst[0] = 1;
-  p->dst[1] = 1;
-  p->src[0] = 1;
-  p->src[1] = 1;
-  p->data = DATA_SRC1_HIGHBIT;
-  p->size2 = 1;
-  p->dst_size[0] = SIZE_DIFF;
-  p->overlap = OVERLAP_NONE;
-  REFERENCE (refmpn_sb_divrem_mn);
-
   p = &param[TYPE_TDIV_QR];
   p->dst[0] = 1;
   p->dst[1] = 1;
@@ -1888,8 +1875,6 @@ const struct choice_t choice_array[] = {
   { TRY_FUNFUN(mpn_modexact_1_odd), TYPE_MODEXACT_1_ODD },
   { TRY(mpn_modexact_1c_odd),       TYPE_MODEXACT_1C_ODD },
 
-
-  { TRY(mpn_sb_divrem_mn), TYPE_SB_DIVREM_MN, 3},
   { TRY(mpn_tdiv_qr),      TYPE_TDIV_QR },
   { TRY(mpn_tdiv_q),      TYPE_TDIV_Q },
 

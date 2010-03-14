@@ -6443,8 +6443,7 @@ File: mpir.info,  Node: Basecase Division,  Next: Divide and Conquer Division,  
 ------------------------
 
 Basecase NxM division is like long division done by hand, but in base
-2^mp_bits_per_limb.  See Knuth section 4.3.1 algorithm D, and
-`mpn/generic/sb_divrem_mn.c'.
+2^mp_bits_per_limb.  See Knuth section 4.3.1 algorithm D.
 
    Briefly stated, while the dividend remains larger than the divisor,
 a high quotient limb is formed and the Nx1 product q*d subtracted at

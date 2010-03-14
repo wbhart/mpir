@@ -1138,36 +1138,6 @@ tune_sqr (gmp_randstate_t rands)
 
 
 void
-tune_sb_preinv (gmp_randstate_t rands)
-{
-  static struct param_t  param;
-
-  if (GMP_NAIL_BITS != 0)
-    {
-      DIV_SB_PREINV_THRESHOLD = MP_SIZE_T_MAX;
-      print_define_remark ("DIV_SB_PREINV_THRESHOLD", MP_SIZE_T_MAX,
-                           "no preinv with nails");
-      return;
-    }
-
-  if (UDIV_PREINV_ALWAYS)
-    {
-      print_define_remark ("DIV_SB_PREINV_THRESHOLD", 0L, "preinv always");
-      return;
-    }
-
-  param.check_size = 256;
-  param.min_size = 3;
-  param.min_is_always = 1;
-  param.size_extra = 3;
-  param.stop_factor = 2.0;
-  param.name = "DIV_SB_PREINV_THRESHOLD";
-  param.function = speed_mpn_sb_divrem_m3;
-  one (&div_sb_preinv_threshold, rands, &param);
-}
-
-
-void
 tune_dc_div (gmp_randstate_t rands)
 {
   {
@@ -2059,8 +2029,6 @@ all (gmp_randstate_t rands)
   tune_mulmod_2expm1(rands);
   printf("\n");
   
-  tune_sb_preinv (rands);
-
   /* dc_div_qr_n, dc_divappr_q, inv_div_qr, inv_divappr_q */
   tune_dc_div (rands);
   

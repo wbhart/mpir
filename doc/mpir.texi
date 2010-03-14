@@ -7844,7 +7844,7 @@ if the only multiply is a half limb, and especially if it's not pipelined.
 
 Basecase N@cross{}M division is like long division done by hand, but in base
 @m{2\GMPraise{@code{mp\_bits\_per\_limb}}, 2^mp_bits_per_limb}.  See Knuth
-section 4.3.1 algorithm D, and @file{mpn/generic/sb_divrem_mn.c}.
+section 4.3.1 algorithm D.
 
 Briefly stated, while the dividend remains larger than the divisor, a high
 quotient limb is formed and the N@cross{}1 product @m{qd,q*d} subtracted at
