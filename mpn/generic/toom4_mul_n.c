@@ -555,20 +555,15 @@ void
 mpn_toom4_mul_n (mp_ptr rp, mp_srcptr up,
 		          mp_srcptr vp, mp_size_t n)
 {
-  mp_size_t len1, len2, ind;
-  mp_limb_t cy, r30, r31;
+  mp_size_t ind;
+  mp_limb_t cy, cy2, r30, r31;
   mp_ptr tp;
-  mp_size_t a0n, a1n, a2n, a3n, b0n, b1n, b2n, b3n, sn, n1, n2, n3, n4, n5, n6, n7, n8, rpn, t4;
+  mp_size_t sn, n1, n2, n3, n4, n5, n6, n7, n8, rpn, t4, h1;
+  TMP_DECL;
 
-  len1 = n;
-  len2 = n;
-  ASSERT (n >= 1);
+  sn = (n + 3) / 4;
 
-  MPN_NORMALIZE(up, len1);
-  MPN_NORMALIZE(vp, len2);
-
-  
-  sn = (n - 1) / 4 + 1;
+  h1 = n - 3*sn;
   
 #define a0 (up)
 #define a1 (up + sn)
@@ -579,18 +574,11 @@ mpn_toom4_mul_n (mp_ptr rp, mp_srcptr up,
 #define b2 (vp + 2*sn)
 #define b3 (vp + 3*sn)
 
-   TC4_NORM(a0, a0n, sn);
-	TC4_NORM(a1, a1n, sn);
-	TC4_NORM(a2, a2n, sn);
-	TC4_NORM(a3, a3n, n - 3*sn); 
-   TC4_NORM(b0, b0n, sn);
-	TC4_NORM(b1, b1n, sn);
-	TC4_NORM(b2, b2n, sn);
-	TC4_NORM(b3, b3n, n - 3*sn); 
-
    t4 = 2*sn+2; // allows mult of 2 integers of sn + 1 limbs
 
-   tp = __GMP_ALLOCATE_FUNC_LIMBS(4*t4 + 5*(sn + 1));
+   TMP_MARK;
+
+   tp = TMP_ALLOC_LIMBS(4*t4 + 5*(sn + 1));
 
 #define u2 (tp + 4*t4)
 #define u3 (tp + 4*t4 + (sn+1))
@@ -598,64 +586,129 @@ mpn_toom4_mul_n (mp_ptr rp, mp_srcptr up,
 #define u5 (tp + 4*t4 + 3*(sn+1))
 #define u6 (tp + 4*t4 + 4*(sn+1))
 
-   tc4_add_unsigned(u6, &n6, a3, a3n, a1, a1n); 
-   tc4_add_unsigned(u5, &n5, a2, a2n, a0, a0n); 
-	tc4_add_unsigned(u3, &n3, u5, n5, u6, n6); 
-   tc4_sub(u4, &n4, u5, n5, u6, n6);
-	tc4_add_unsigned(u6, &n6, b3, b3n, b1, b1n);
-   tc4_add_unsigned(u5, &n5, b2, b2n, b0, b0n);
-   tc4_add_unsigned(r2, &n8, u5, n5, u6, n6); 
-   tc4_sub(u5, &n5, u5, n5, u6, n6);
+   u6[sn] = mpn_add(u6, a1, sn, a3, h1);
+   u5[sn] = mpn_add_n(u5, a2, a0, sn);
+   mpn_add_n(u3, u5, u6, sn + 1);
+   n4 = sn + 1;
+   if (mpn_cmp(u5, u6, sn + 1) >= 0)
+      mpn_sub_n(u4, u5, u6, sn + 1);
+   else
+   {  
+      mpn_sub_n(u4, u6, u5, sn + 1);
+      n4 = -n4;
+   }
 
-	MUL_TC4_UNSIGNED(r3, n3, u3, n3, r2, n8);
-	MUL_TC4(r4, n4, u4, n4, u5, n5);
+   u6[sn] = mpn_add(u6, b1, sn, b3, h1);
+   u5[sn] = mpn_add_n(u5, b2, b0, sn);
+   mpn_add_n(r2, u5, u6, sn + 1);
+   n5 = sn + 1;
+   if (mpn_cmp(u5, u6, sn + 1) >= 0)
+      mpn_sub_n(u5, u5, u6, sn + 1);
+   else
+   {  
+      mpn_sub_n(u5, u6, u5, sn + 1);
+      n5 = -n5;
+   }
+ 
+   MUL_TC4_UNSIGNED(r3, n3, u3, sn + 1, r2, sn + 1); /* 1 */
+   MUL_TC4(r4, n4, u4, n4, u5, n5); /* -1 */
    
-	tc4_lshift(r1, &n1, a0, a0n, 3);
-	tc4_addlsh1_unsigned(r1, &n1, a2, a2n);
- 	tc4_lshift(r2, &n8, a1, a1n, 2);
-   tc4_add(r2, &n8, r2, n8, a3, a3n);
-   tc4_add(u5, &n5, r1, n1, r2, n8);
-   tc4_sub(u6, &n6, r1, n1, r2, n8);
-   tc4_lshift(r1, &n1, b0, b0n, 3);
-	tc4_addlsh1_unsigned(r1, &n1, b2, b2n);
-   tc4_lshift(r2, &n8, b1, b1n, 2);
-   tc4_add(r2, &n8, r2, n8, b3, b3n);
-   tc4_add(u2, &n2, r1, n1, r2, n8);
-   tc4_sub(r2, &n8, r1, n1, r2, n8);
-   
-	r30 = r3[0];
-	if (!n3) r30 = CNST_LIMB(0);
+#if HAVE_NATIVE_mpn_addlsh_n
+   r1[sn] = mpn_addlsh_n(r1, a2, a0, sn, 2);
+   mpn_lshift(r1, r1, sn + 1, 1);
+   cy = mpn_addlsh_n(r2, a3, a1, h1, 2);
+#else
+   r1[sn] = mpn_lshift(r1, a2, sn, 1);
+   MPN_COPY(r2, a3, h1);
+   r1[sn] += mpn_addmul_1(r1, a0, sn, 8);
+   cy = mpn_addmul_1(r2, a1, h1, 4);
+#endif
+   if (sn > h1) 
+   {
+      cy2 = mpn_lshift(r2 + h1, a1 + h1, sn - h1, 2);
+      cy = cy2 + mpn_add_1(r2 + h1, r2 + h1, sn - h1, cy);
+   }
+   r2[sn] = cy;
+   mpn_add_n(u5, r1, r2, sn + 1);
+   n6 = sn + 1;
+   if (mpn_cmp(r1, r2, sn + 1) >= 0)
+      mpn_sub_n(u6, r1, r2, sn + 1);
+   else
+   {  
+      mpn_sub_n(u6, r2, r1, sn + 1);
+      n6 = -n6;
+   }
+ 
+#if HAVE_NATIVE_mpn_addlsh_n
+   r1[sn] = mpn_addlsh_n(r1, b2, b0, sn, 2);
+   mpn_lshift(r1, r1, sn + 1, 1);
+   cy = mpn_addlsh_n(r2, b3, b1, h1, 2);
+#else
+   r1[sn] = mpn_lshift(r1, b2, sn, 1);
+   MPN_COPY(r2, b3, h1);
+   r1[sn] += mpn_addmul_1(r1, b0, sn, 8);
+   cy = mpn_addmul_1(r2, b1, h1, 4);
+#endif
+   if (sn > h1) 
+   {
+      cy2 = mpn_lshift(r2 + h1, b1 + h1, sn - h1, 2);
+      cy = cy2 + mpn_add_1(r2 + h1, r2 + h1, sn - h1, cy);
+   }
+   r2[sn] = cy;
+   mpn_add_n(u2, r1, r2, sn + 1);
+   n8 = sn + 1;
+   if (mpn_cmp(r1, r2, sn + 1) >= 0)
+      mpn_sub_n(r2, r1, r2, sn + 1);
+   else
+   {  
+      mpn_sub_n(r2, r2, r1, sn + 1);
+      n8 = -n8;
+   }
+    
+   r30 = r3[0];
    r31 = r3[1];
-	MUL_TC4_UNSIGNED(r5, n5, u5, n5, u2, n2);
-   MUL_TC4(r6, n6, u6, n6, r2, n8);
+   MUL_TC4_UNSIGNED(r5, n5, u5, sn + 1, u2, sn + 1); /* 1/2 */
+   MUL_TC4(r6, n6, u6, n6, r2, n8); /* -1/2 */
    r3[1] = r31;
 
-   tc4_lshift(u2, &n2, a3, a3n, 3);
-   tc4_addmul_1(u2, &n2, a2, a2n, 4);
-	tc4_addlsh1_unsigned(u2, &n2, a1, a1n);
-	tc4_add(u2, &n2, u2, n2, a0, a0n);
-   tc4_lshift(r1, &n1, b3, b3n, 3);
-	tc4_addmul_1(r1, &n1, b2, b2n, 4);
-   tc4_addlsh1_unsigned(r1, &n1, b1, b1n);
-	tc4_add(r1, &n1, r1, n1, b0, b0n);
-   
-	MUL_TC4_UNSIGNED(r2, n2, u2, n2, r1, n1);
-   MUL_TC4_UNSIGNED(r1, n1, a3, a3n, b3, b3n);
-   MUL_TC4_UNSIGNED(r7, n7, a0, a0n, b0, b0n);
+#if HAVE_NATIVE_mpn_addlsh1_n
+   cy = mpn_addlsh1_n(u2, a2, a3, h1);
+   if (sn > h1)
+      cy = mpn_add_1(u2 + h1, a2 + h1, sn - h1, cy); 
+   u2[sn] = cy;
+   u2[sn] = 2*u2[sn] + mpn_addlsh1_n(u2, a1, u2, sn);     
+   u2[sn] = 2*u2[sn] + mpn_addlsh1_n(u2, a0, u2, sn);     
+#else
+   MPN_COPY(u2, a0, sn);
+   u2[sn] = mpn_addmul_1(u2, a1, sn, 2);
+   u2[sn] += mpn_addmul_1(u2, a2, sn, 4);
+   cy = mpn_addmul_1(u2, a3, h1, 8);
+   if (sn > h1) cy = mpn_add_1(u2 + h1, u2 + h1, sn - h1, cy);
+   u2[sn] += cy;
+#endif
 
-	TC4_DENORM(r1, n1,  t4 - 1);
-   TC4_DENORM(r2, n2,  t4 - 1);
-   if (n3)
-     TC4_DENORM(r3, n3,  t4 - 1); 
-   else {
-     /* MPN_ZERO defeats gcc 4.1.2 here, hence the explicit for loop */
-     for (ind = 1 ; ind < t4 - 1; ind++) 
-        (r3)[ind] = CNST_LIMB(0); 
-   }
-   TC4_DENORM(r4, n4,  t4 - 1);
-   TC4_DENORM(r5, n5,  t4 - 1);
-   TC4_DENORM(r6, n6,  t4 - 1);
-   TC4_DENORM(r7, n7,  t4 - 2); // we treat r7 differently (it cannot exceed t4-2 in length)
+#if HAVE_NATIVE_mpn_addlsh1_n
+   cy = mpn_addlsh1_n(r1, b2, b3, h1);
+   if (sn > h1)
+      cy = mpn_add_1(r1 + h1, b2 + h1, sn - h1, cy); 
+   r1[sn] = cy;
+   r1[sn] = 2*r1[sn] + mpn_addlsh1_n(r1, b1, r1, sn);     
+   r1[sn] = 2*r1[sn] + mpn_addlsh1_n(r1, b0, r1, sn);     
+#else
+   MPN_COPY(r1, b0, sn);
+   r1[sn] = mpn_addmul_1(r1, b1, sn, 2);
+   r1[sn] += mpn_addmul_1(r1, b2, sn, 4);
+   cy = mpn_addmul_1(r1, b3, h1, 8);
+   if (sn > h1) cy = mpn_add_1(r1 + h1, r1 + h1, sn - h1, cy);
+   r1[sn] += cy;
+#endif
+   
+   MUL_TC4_UNSIGNED(r2, n2, u2, sn + 1, r1, sn + 1); /* 2 */
+   
+   MUL_TC4_UNSIGNED(r1, n1, a3, h1, b3, h1); /* oo */
+   MUL_TC4_UNSIGNED(r7, n7, a0, sn, b0, sn); /* 0 */
+
+   TC4_DENORM(r1, n1, t4 - 1);
 
 /*	rp        rp1          rp2           rp3          rp4           rp5         rp6           rp7
 <----------- r7-----------><------------r5-------------->            
@@ -665,14 +718,14 @@ mpn_toom4_mul_n (mp_ptr rp, mp_srcptr up,
                                          <-------------r4-------------->         <--------------r1---->
 */
 
-	mpn_toom4_interpolate(rp, &rpn, sn, tp, t4 - 1, n4, n6, r30);
+   mpn_toom4_interpolate(rp, &rpn, sn, tp, t4 - 1, n4, n6, r30);
 
-	if (rpn != 2*n) 
-	{
-		MPN_ZERO((rp + rpn), 2*n - rpn);
-	}
+   if (rpn != 2*n) 
+   {
+	  MPN_ZERO((rp + rpn), 2*n - rpn);
+   }
 
-   __GMP_FREE_FUNC_LIMBS (tp, 4*t4 + 5*(sn+1));
+   TMP_FREE;
 }
 
 /* Square {up, n} and write the result to {prodp, 2n}.
