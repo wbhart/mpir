@@ -297,11 +297,9 @@ double speed_mpn_sublsh1_n _PROTO ((struct speed_params *s));
 double speed_mpn_submul_1 _PROTO ((struct speed_params *s));
 double speed_mpn_toom3_mul_n _PROTO ((struct speed_params *s));
 double speed_mpn_toom4_mul_n _PROTO ((struct speed_params *s));
-double speed_mpn_toom7_mul_n _PROTO ((struct speed_params *s));
 double speed_mpn_toom8h_mul _PROTO ((struct speed_params *s));
 double speed_mpn_toom3_sqr_n _PROTO ((struct speed_params *s));
 double speed_mpn_toom4_sqr_n _PROTO ((struct speed_params *s));
-double speed_mpn_toom7_sqr_n _PROTO ((struct speed_params *s));
 double speed_mpn_toom8_sqr_n _PROTO ((struct speed_params *s));
 double speed_mpn_udiv_qrnnd _PROTO ((struct speed_params *s));
 double speed_mpn_udiv_qrnnd_r _PROTO ((struct speed_params *s));
@@ -476,23 +474,19 @@ mp_size_t mpn_set_str_subquad _PROTO ((mp_ptr, const unsigned char *, size_t, in
 void mpn_toom3_mul_n_open _PROTO ((mp_ptr, mp_srcptr, mp_srcptr, mp_size_t,
 				   mp_ptr));
 void mpn_toom4_mul_n_open _PROTO ((mp_ptr, mp_srcptr, mp_srcptr, mp_size_t));
-void mpn_toom7_mul_n_open _PROTO ((mp_ptr, mp_srcptr, mp_srcptr, mp_size_t));
 void mpn_toom8h_mul_open _PROTO ((mp_ptr, mp_srcptr, mp_size_t, mp_srcptr, mp_size_t));
 
 void mpn_toom3_sqr_n_open _PROTO ((mp_ptr, mp_srcptr, mp_size_t, mp_ptr));
 void mpn_toom4_sqr_n_open _PROTO ((mp_ptr, mp_srcptr, mp_size_t, mp_ptr));
-void mpn_toom7_sqr_n_open _PROTO ((mp_ptr, mp_srcptr, mp_size_t, mp_ptr));
 void mpn_toom8_sqr_n_open _PROTO ((mp_ptr, mp_srcptr, mp_size_t, mp_ptr));
 
 void mpn_toom3_mul_n_mpn _PROTO ((mp_ptr, mp_srcptr, mp_srcptr, mp_size_t,
 				  mp_ptr));
 void mpn_toom4_mul_n_mpn _PROTO ((mp_ptr, mp_srcptr, mp_srcptr, mp_size_t));
-void mpn_toom7_mul_n_mpn _PROTO ((mp_ptr, mp_srcptr, mp_srcptr, mp_size_t));
 void mpn_toom8h_mul_mpn _PROTO ((mp_ptr, mp_srcptr, mp_size_t, mp_srcptr, mp_size_t));
 
 void mpn_toom3_sqr_n_mpn _PROTO((mp_ptr, mp_srcptr, mp_size_t, mp_ptr));
 void mpn_toom4_sqr_n_mpn _PROTO((mp_ptr, mp_srcptr, mp_size_t, mp_ptr));
-void mpn_toom7_sqr_n_mpn _PROTO((mp_ptr, mp_srcptr, mp_size_t, mp_ptr));
 void mpn_toom8_sqr_n_mpn _PROTO((mp_ptr, mp_srcptr, mp_size_t, mp_ptr));
 
 void mpz_powm_mod _PROTO ((mpz_ptr res, mpz_srcptr base, mpz_srcptr e,
@@ -1268,11 +1262,6 @@ int speed_routine_count_zeros_setup _PROTO ((struct speed_params *s,
     (function (wp, s->xp, s->yp, s->size),			\
      MPN_TOOM4_MUL_N_MINSIZE)
 
-#define SPEED_ROUTINE_MPN_TOOM7_MUL_N(function)				\
-  SPEED_ROUTINE_MPN_MUL_N_SIZE					                  \
-    (function (wp, s->xp, s->yp, s->size),			\
-     MPN_TOOM7_MUL_N_MINSIZE)
-
 #define SPEED_ROUTINE_MPN_TOOM8H_MUL(function)				\
   SPEED_ROUTINE_MPN_MUL_CALL					                  \
     (function (wp, s->xp, size1, s->yp, s->size),			\
@@ -1381,10 +1370,6 @@ int speed_routine_count_zeros_setup _PROTO ((struct speed_params *s,
 #define SPEED_ROUTINE_MPN_TOOM4_SQR_N(function)				\
   SPEED_ROUTINE_MPN_SQR_N_SIZE (function (wp, s->xp, s->size),	\
 				MPN_TOOM4_SQR_N_MINSIZE)
-
-#define SPEED_ROUTINE_MPN_TOOM7_SQR_N(function)				\
-  SPEED_ROUTINE_MPN_SQR_N_SIZE (function (wp, s->xp, s->size),	\
-				MPN_TOOM7_SQR_N_MINSIZE)
 
 #define SPEED_ROUTINE_MPN_TOOM8_SQR_N(function)				\
   SPEED_ROUTINE_MPN_SQR_N_SIZE (function (wp, s->xp, s->size),	\

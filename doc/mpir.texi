@@ -7106,7 +7106,6 @@ algorithms, as the size N increases.
 @item Karatsuba @tab @code{MUL_KARATSUBA_THRESHOLD}
 @item Toom-3    @tab @code{MUL_TOOM3_THRESHOLD}
 @item Toom-4    @tab @code{MUL_TOOM4_THRESHOLD}
-@item Toom-7    @tab @code{MUL_TOOM7_THRESHOLD}
 @item FFT       @tab @code{MUL_FFT_THRESHOLD}
 @end multitable
 @end quotation

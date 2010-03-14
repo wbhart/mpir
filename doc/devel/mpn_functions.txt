@@ -121,8 +121,3 @@ New C level mpn functions since MPIR 0.9
 void
  mpn_toom4_mul_n (mp_ptr rp, mp_srcptr up, mp_srcptr vp, mp_size_t n)
 
-/* 
-   Multiply {up, n} by {vp, n} and store the result at {rp, 2n} using Toom 7 algorithm 
-*/
-mpn_toom7_mul_nvoid
- mpn_toom4_mul_n (mp_ptr rp, mp_srcptr up, mp_srcptr vp, mp_size_t n)

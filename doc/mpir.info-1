@@ -5927,7 +5927,6 @@ algorithms, as the size N increases.
      Karatsuba      `MUL_KARATSUBA_THRESHOLD'
      Toom-3         `MUL_TOOM3_THRESHOLD'
      Toom-4         `MUL_TOOM4_THRESHOLD'
-     Toom-7         `MUL_TOOM7_THRESHOLD'
      FFT            `MUL_FFT_THRESHOLD'
 
    Similarly for squaring, with the `SQR' thresholds.

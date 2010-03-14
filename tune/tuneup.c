@@ -181,7 +181,6 @@ int  allocdat = 0;
 mp_size_t  mul_karatsuba_threshold      = MP_SIZE_T_MAX;
 mp_size_t  mul_toom3_threshold          = MUL_TOOM3_THRESHOLD_LIMIT;
 mp_size_t  mul_toom4_threshold          = MUL_TOOM4_THRESHOLD_LIMIT;
-mp_size_t  mul_toom7_threshold          = MUL_TOOM7_THRESHOLD_LIMIT;
 mp_size_t  mul_toom8h_threshold         = MUL_TOOM8H_THRESHOLD_LIMIT;
 mp_size_t  mul_fft_threshold            = MP_SIZE_T_MAX;
 mp_size_t  mul_fft_modf_threshold       = MP_SIZE_T_MAX;
@@ -190,7 +189,6 @@ mp_size_t  sqr_karatsuba_threshold
   = (TUNE_SQR_KARATSUBA_MAX == 0 ? MP_SIZE_T_MAX : TUNE_SQR_KARATSUBA_MAX);
 mp_size_t  sqr_toom3_threshold          = SQR_TOOM3_THRESHOLD_LIMIT;
 mp_size_t  sqr_toom4_threshold          = SQR_TOOM4_THRESHOLD_LIMIT;
-mp_size_t  sqr_toom7_threshold          = SQR_TOOM7_THRESHOLD_LIMIT;
 mp_size_t  sqr_toom8_threshold          = SQR_TOOM8_THRESHOLD_LIMIT;
 mp_size_t  sqr_fft_threshold            = MP_SIZE_T_MAX;
 mp_size_t  sqr_fft_modf_threshold       = MP_SIZE_T_MAX;
