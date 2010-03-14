@@ -28,6 +28,7 @@ MA 02110-1301, USA. */
 
 #include "mpir.h"
 #include "gmp-impl.h"
+#include "longlong.h"
 
 #define DIV_DC_THRESHOLD 16
 
@@ -67,6 +68,7 @@ mpn_dc_div_2_by_1 (mp_ptr qp, mp_ptr np, mp_srcptr dp, mp_size_t n, mp_ptr scrat
 {
   mp_limb_t qhl, cc;
   mp_size_t n2 = n/2;
+  mp_limb_t dinv, cy;
 
   if (n % 2 != 0)
     {
@@ -84,8 +86,9 @@ mpn_dc_div_2_by_1 (mp_ptr qp, mp_ptr np, mp_srcptr dp, mp_size_t n, mp_ptr scrat
 	  qhl -= mpn_sub_1 (qp1, qp1, n - 1, (mp_limb_t) 1);
 	  cc -= mpn_add_n (np + 1, np + 1, dp, n);
 	}
-      qhl += mpn_add_1 (qp1, qp1, n - 1,
-			mpn_sb_divrem_mn (qp, np, n + 1, dp, n));
+      invert_1(dinv, dp[n - 1], dp[n - 2]);
+      cy =  mpn_sb_div_qr (qp, np, n + 1, dp, n, dinv);
+      qhl += mpn_add_1 (qp1, qp1, n - 1, cy);
     }
   else
     {
@@ -105,10 +108,13 @@ mpn_dc_div_3_by_2 (mp_ptr qp, mp_ptr np, mp_srcptr dp, mp_size_t n, mp_ptr scrat
 {
   mp_size_t twon = n + n;
   mp_limb_t qhl, cc;
+  mp_limb_t dinv;
 
   if (n < DIV_DC_THRESHOLD)
-    qhl = mpn_sb_divrem_mn (qp, np + n, twon, dp + n, n);
-  else
+  {
+    invert_1(dinv, dp[2*n - 1], dp[2*n - 2]);
+    qhl = mpn_sb_div_qr (qp, np + n, twon, dp + n, n, dinv);
+  } else
     qhl = mpn_dc_div_2_by_1 (qp, np + n, dp + n, n, scratch);
 
   mpn_mul_n (scratch, qp, dp, n);
