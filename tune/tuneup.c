@@ -2033,7 +2033,6 @@ all (gmp_randstate_t rands)
   printf("\n");
   
   tune_powm (rands);
-  tune_fac_ui(rands);
   printf("\n");
 
   tune_gcd_accel (rands);
@@ -2066,6 +2065,8 @@ all (gmp_randstate_t rands)
 
   tune_fft_sqr (rands);
   printf ("\n");
+
+  tune_fac_ui(rands);
 
   /* dc_div_qr_n, dc_divappr_q, inv_div_qr, inv_divappr_q */
   tune_dc_div (rands);
