@@ -173,8 +173,6 @@ double speed_mpn_addsub_n _PROTO ((struct speed_params *s));
 double speed_mpn_com_n _PROTO ((struct speed_params *s));
 double speed_mpn_copyd _PROTO ((struct speed_params *s));
 double speed_mpn_copyi _PROTO ((struct speed_params *s));
-double speed_mpn_dc_divrem_n _PROTO ((struct speed_params *s));
-double speed_mpn_dc_divrem_sb _PROTO ((struct speed_params *s));
 double speed_mpn_dc_tdiv_qr _PROTO ((struct speed_params *s));
 double speed_mpn_dc_div_qr_n _PROTO ((struct speed_params *s));
 double speed_mpn_dc_divappr_q _PROTO ((struct speed_params *s));

@@ -1222,9 +1222,6 @@ mp_size_t mpn_fft_next_size _PROTO ((mp_size_t pl, int k)) ATTRIBUTE_CONST;
 #define DC_BDIV_Q_N_ITCH(n) ((n)/2 + 2)
 #define DC_BDIV_QR_N_ITCH(n) (n)
 
-#define mpn_dc_divrem_n  __MPN(dc_divrem_n)
-mp_limb_t mpn_dc_divrem_n _PROTO ((mp_ptr, mp_ptr, mp_srcptr, mp_size_t));
-
 /* #define mpn_tdiv_q  __MPN(tdiv_q) */
 /* void mpn_tdiv_q _PROTO ((mp_ptr, mp_size_t, mp_srcptr, mp_size_t, mp_srcptr, mp_size_t)); */
 

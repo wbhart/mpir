@@ -119,18 +119,18 @@ speed_ext_LINK = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) \
 	$(LIBTOOLFLAGS) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) \
 	$(speed_ext_LDFLAGS) $(LDFLAGS) -o $@
 am_tuneup_OBJECTS = tuneup.$(OBJEXT)
-am__objects_1 = dc_divrem_n.$(OBJEXT) divrem_2.$(OBJEXT) gcd.$(OBJEXT) \
-	gcdext.$(OBJEXT) get_str.$(OBJEXT) mul_n.$(OBJEXT) \
-	mullow_n.$(OBJEXT) mulhigh_n.$(OBJEXT) mul_fft.$(OBJEXT) \
-	mul.$(OBJEXT) sb_divrem_mn.$(OBJEXT) tdiv_qr.$(OBJEXT) \
-	toom4_mul_n.$(OBJEXT) toom4_mul.$(OBJEXT) toom3_mul.$(OBJEXT) \
-	toom3_mul_n.$(OBJEXT) toom8h_mul.$(OBJEXT) \
-	toom8_sqr_n.$(OBJEXT) mulmod_2expm1.$(OBJEXT) \
-	rootrem.$(OBJEXT) divrem_euclidean_r_1.$(OBJEXT) \
-	divrem_hensel_qr_1.$(OBJEXT) rsh_divrem_hensel_qr_1.$(OBJEXT) \
-	dc_divappr_q.$(OBJEXT) dc_div_qr.$(OBJEXT) \
-	inv_divappr_q.$(OBJEXT) inv_div_qr.$(OBJEXT) tdiv_q.$(OBJEXT) \
-	dc_bdiv_qr.$(OBJEXT) dc_bdiv_q.$(OBJEXT)
+am__objects_1 = divrem_2.$(OBJEXT) gcd.$(OBJEXT) gcdext.$(OBJEXT) \
+	get_str.$(OBJEXT) mul_n.$(OBJEXT) mullow_n.$(OBJEXT) \
+	mulhigh_n.$(OBJEXT) mul_fft.$(OBJEXT) mul.$(OBJEXT) \
+	sb_divrem_mn.$(OBJEXT) tdiv_qr.$(OBJEXT) toom4_mul_n.$(OBJEXT) \
+	toom4_mul.$(OBJEXT) toom3_mul.$(OBJEXT) toom3_mul_n.$(OBJEXT) \
+	toom8h_mul.$(OBJEXT) toom8_sqr_n.$(OBJEXT) \
+	mulmod_2expm1.$(OBJEXT) rootrem.$(OBJEXT) \
+	divrem_euclidean_r_1.$(OBJEXT) divrem_hensel_qr_1.$(OBJEXT) \
+	rsh_divrem_hensel_qr_1.$(OBJEXT) dc_divappr_q.$(OBJEXT) \
+	dc_div_qr.$(OBJEXT) inv_divappr_q.$(OBJEXT) \
+	inv_div_qr.$(OBJEXT) tdiv_q.$(OBJEXT) dc_bdiv_qr.$(OBJEXT) \
+	dc_bdiv_q.$(OBJEXT)
 am__objects_2 = $(am__objects_1) divrem_1.$(OBJEXT) mod_1.$(OBJEXT)
 nodist_tuneup_OBJECTS = sqr_basecase.$(OBJEXT) $(am__objects_2)
 tuneup_OBJECTS = $(am_tuneup_OBJECTS) $(nodist_tuneup_OBJECTS)
@@ -382,7 +382,7 @@ DISTCLEANFILES = sqr_basecase.c  $(MANY_DISTCLEAN)
 # FIXME: Would like say mul_n.c to depend on $(top_builddir)/mul_n.c so the
 # recompiled object will be rebuilt if that file changes.
 TUNE_MPN_SRCS = $(TUNE_MPN_SRCS_BASIC) divrem_1.c mod_1.c
-TUNE_MPN_SRCS_BASIC = dc_divrem_n.c divrem_2.c gcd.c gcdext.c get_str.c \
+TUNE_MPN_SRCS_BASIC = divrem_2.c gcd.c gcdext.c get_str.c \
   mul_n.c mullow_n.c mulhigh_n.c mul_fft.c mul.c sb_divrem_mn.c tdiv_qr.c \
   toom4_mul_n.c toom4_mul.c toom3_mul.c toom3_mul_n.c \
   toom8h_mul.c toom8_sqr_n.c mulmod_2expm1.c rootrem.c divrem_euclidean_r_1.c \

@@ -264,7 +264,6 @@ const struct routine_t {
 #endif
 
   { "mpn_dc_tdiv_qr",       speed_mpn_dc_tdiv_qr       },
-  { "mpn_dc_divrem_n",      speed_mpn_dc_divrem_n      },
 
   { "mpn_lshift",        speed_mpn_lshift, FLAG_R   },
   { "mpn_rshift",        speed_mpn_rshift, FLAG_R   },
