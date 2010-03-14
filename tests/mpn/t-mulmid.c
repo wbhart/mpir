@@ -51,8 +51,8 @@ int compare_ul(const void* a, const void* b)
   return 0;
 }
 
-#define SIZE 500
-#define REPEAT 1000
+#define SIZE 400
+#define REPEAT 500
 #define SAFETY 16
 
 int

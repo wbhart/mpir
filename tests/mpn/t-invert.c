@@ -78,7 +78,7 @@ void check_rand(void)
   gmp_randstate_t rands;
   gmp_randinit_default(rands);
 
-  for (n = 1; n < 6000; n++)
+  for (n = 1; n < 3000; n++)
   {
      mp_limb_t bits;
      count_leading_zeros(bits, n);  
