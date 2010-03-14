@@ -1,7 +1,8 @@
 /* mpn_inv_divappr_q -- divide-and-conquer division, returning approximate
    quotient.  The quotient returned is either correct, or one too large.
 
-   Contributed to the GNU project by Torbjorn Granlund.
+   Derived from a file orignally contributed to the GMP project by Torbjorn 
+   Granlund.
 
    THE FUNCTIONS IN THIS FILE ARE INTERNAL WITH MUTABLE INTERFACES.  IT IS ONLY
    SAFE TO REACH THEM THROUGH DOCUMENTED INTERFACES.  IN FACT, IT IS ALMOST
@@ -9,20 +10,22 @@
 
 Copyright 2006, 2007, 2009, 2010 Free Software Foundation, Inc.
 
-This file is part of the GNU MP Library.
+Copyright 2010 William Hart.
 
-The GNU MP Library is free software; you can redistribute it and/or modify
+This file is part of the MPIR Library.
+
+The MPIR Library is free software; you can redistribute it and/or modify
 it under the terms of the GNU Lesser General Public License as published by
 the Free Software Foundation; either version 3 of the License, or (at your
 option) any later version.
 
-The GNU MP Library is distributed in the hope that it will be useful, but
+The MPIR Library is distributed in the hope that it will be useful, but
 WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
 or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public
 License for more details.
 
 You should have received a copy of the GNU Lesser General Public License
-along with the GNU MP Library.  If not, see http://www.gnu.org/licenses/.  */
+along with the MPIR Library.  If not, see http://www.gnu.org/licenses/.  */
 
 #include "mpir.h"
 #include "gmp-impl.h"

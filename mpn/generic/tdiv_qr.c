@@ -13,6 +13,8 @@
 
 Copyright 1997, 2000, 2001, 2002, 2005, 2009 Free Software Foundation, Inc.
 
+Copyright 2010 William Hart (modified to work with MPIR functions).
+
 This file is part of the GNU MP Library.
 
 The GNU MP Library is free software; you can redistribute it and/or modify

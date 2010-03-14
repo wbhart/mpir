@@ -1,12 +1,10 @@
-/* mpn_div_q -- division for arbitrary size operands.
+/* mpn_tdiv_q -- division for arbitrary size operands.
 
    Contributed to the GNU project by Torbjorn Granlund.
 
-   THE FUNCTION IN THIS FILE IS INTERNAL WITH A MUTABLE INTERFACE.  IT IS ONLY
-   SAFE TO REACH IT THROUGH DOCUMENTED INTERFACES.  IN FACT, IT IS ALMOST
-   GUARANTEED THAT IT WILL CHANGE OR DISAPPEAR IN A FUTURE GMP RELEASE.
-
 Copyright 2009, 2010 Free Software Foundation, Inc.
+
+Copyright 2010 William Hart (modified to work with MPIR functions).
 
 This file is part of the GNU MP Library.
 

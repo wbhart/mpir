@@ -32,8 +32,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "mpir.h"
 #include "gmp-impl.h"
 
-#define BDIV_Q_DC_THRESHOLD 100
-
 /*
   Computes {np, n} / {dp, n} mod B^n, using divide-and-conquer
   algorithm, switching to classical for n <= BDIV_Q_DC_THRESHOLD.
@@ -74,7 +72,7 @@ mpn_dc_bdiv_q_n (mp_ptr qp, mp_ptr wp, mp_ptr np, mp_srcptr dp,
   s = n - t;    /*  s = ceil(n/2)   */
 
   /*  recurse into low half of quotient (region A)  */
-  if (s <= BDIV_Q_DC_THRESHOLD)
+  if (s <= DC_BDIV_Q_THRESHOLD)
     mpn_sb_bdiv_q (qp, wp, np, s, dp, s, dinv);
   else
     mpn_dc_bdiv_q_n (qp, wp, np, dp, s, dinv, scratch);
@@ -96,7 +94,7 @@ mpn_dc_bdiv_q_n (mp_ptr qp, mp_ptr wp, mp_ptr np, mp_srcptr dp,
   /*  recurse into top half of quotient (region C)
       (this does not overwrite {scratch + t, 2}, because n >= 6 implies
       t >= 3 implies floor(t/2) + 2 <= t) */
-  if (t <= BDIV_Q_DC_THRESHOLD)
+  if (t <= DC_BDIV_Q_THRESHOLD)
     mpn_sb_bdiv_q (qp + s, wp, np + s, t, dp, t, dinv);
   else
     mpn_dc_bdiv_q_n (qp + s, wp, np + s, dp, t, dinv, scratch);

@@ -1,7 +1,8 @@
 /* mpn_inv_div_q -- divide-and-conquer division, returning exact quotient
    only.
 
-   Contributed to the GNU project by Torbjorn Granlund and Marco Bodrato.
+   Derived from a file originally contributed to the GMP project by Torbjorn 
+   Granlund and Marco Bodrato.
 
    THE FUNCTION IN THIS FILE IS INTERNAL WITH A MUTABLE INTERFACE.  IT IS ONLY
    SAFE TO REACH IT THROUGH DOCUMENTED INTERFACES.  IN FACT, IT IS ALMOST
@@ -9,20 +10,22 @@
 
 Copyright 2006, 2007, 2009, 2010 Free Software Foundation, Inc.
 
-This file is part of the GNU MP Library.
+Copyright 2010 William Hart
 
-The GNU MP Library is free software; you can redistribute it and/or modify
+This file is part of the MPIR Library.
+
+The MPIR Library is free software; you can redistribute it and/or modify
 it under the terms of the GNU Lesser General Public License as published by
 the Free Software Foundation; either version 3 of the License, or (at your
 option) any later version.
 
-The GNU MP Library is distributed in the hope that it will be useful, but
+The MPIR Library is distributed in the hope that it will be useful, but
 WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
 or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public
 License for more details.
 
 You should have received a copy of the GNU Lesser General Public License
-along with the GNU MP Library.  If not, see http://www.gnu.org/licenses/.  */
+along with the MPIR Library.  If not, see http://www.gnu.org/licenses/.  */
 
 #include "mpir.h"
 #include "gmp-impl.h"
