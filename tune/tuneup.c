@@ -183,6 +183,7 @@ mp_size_t  mul_toom3_threshold          = MUL_TOOM3_THRESHOLD_LIMIT;
 mp_size_t  mul_toom4_threshold          = MUL_TOOM4_THRESHOLD_LIMIT;
 mp_size_t  mul_toom8h_threshold         = MUL_TOOM8H_THRESHOLD_LIMIT;
 mp_size_t  mul_fft_threshold            = MP_SIZE_T_MAX;
+mp_size_t  mul_fft_full_threshold       = MP_SIZE_T_MAX;
 mp_size_t  mul_fft_modf_threshold       = MP_SIZE_T_MAX;
 mp_size_t  sqr_basecase_threshold       = MP_SIZE_T_MAX;
 mp_size_t  sqr_karatsuba_threshold
@@ -191,6 +192,7 @@ mp_size_t  sqr_toom3_threshold          = SQR_TOOM3_THRESHOLD_LIMIT;
 mp_size_t  sqr_toom4_threshold          = SQR_TOOM4_THRESHOLD_LIMIT;
 mp_size_t  sqr_toom8_threshold          = SQR_TOOM8_THRESHOLD_LIMIT;
 mp_size_t  sqr_fft_threshold            = MP_SIZE_T_MAX;
+mp_size_t  sqr_fft_full_threshold       = MP_SIZE_T_MAX;
 mp_size_t  sqr_fft_modf_threshold       = MP_SIZE_T_MAX;
 mp_size_t  mulmod_2expm1_threshold	= MP_SIZE_T_MAX;
 mp_size_t  mullow_basecase_threshold    = MP_SIZE_T_MAX;
@@ -840,7 +842,7 @@ fft (struct fft_param_t *p,gmp_randstate_t rands)
       if (tk == -1.0)
         abort ();
 
-      if (!modf)  s.size /= 2;
+      if (!modf)  s.size;
       tm = tuneup_measure (p->mul_function, rands, NULL, &s);
       if (tm == -1.0)
         abort ();
@@ -1172,7 +1174,8 @@ tune_dc_div (gmp_randstate_t rands)
   param.function = speed_mpn_inv_divappr_q;
   param.max_size = 10000;
   param.min_size = dc_divappr_q_n_threshold;
-  param.step_factor = 0.02;
+  param.step_factor = 0.1;
+  param.stop_factor = 0.2;
   one (&inv_divappr_q_n_threshold, rands, &param);
   }
 }
@@ -1210,9 +1213,9 @@ tune_tdiv_q (gmp_randstate_t rands)
   static struct param_t  param;
   param.name = "INV_DIVAPPR_Q_THRESHOLD";
   param.function = speed_mpn_tdiv_q2;
-  param.max_size = 10000;
+  param.max_size = 20000;
   param.min_size = dc_divappr_q_threshold;
-  param.step_factor = 0.02;
+  param.step_factor = 0.1;
   one (&inv_divappr_q_threshold, rands, &param);
   }
 }
@@ -1911,8 +1914,8 @@ tune_fft_mul (gmp_randstate_t rands)
     return;
 
   param.table_name          = "MUL_FFT_TABLE";
-  param.threshold_name      = "MUL_FFT_THRESHOLD";
-  param.p_threshold         = &mul_fft_threshold;
+  param.threshold_name      = "MUL_FFT_FULL_THRESHOLD";
+  param.p_threshold         = &mul_fft_full_threshold;
   param.modf_threshold_name = "MUL_FFT_MODF_THRESHOLD";
   param.p_modf_threshold    = &mul_fft_modf_threshold;
   param.first_size          = MUL_TOOM8H_THRESHOLD / 2;
@@ -1933,8 +1936,8 @@ tune_fft_sqr (gmp_randstate_t rands)
     return;
 
   param.table_name          = "SQR_FFT_TABLE";
-  param.threshold_name      = "SQR_FFT_THRESHOLD";
-  param.p_threshold         = &sqr_fft_threshold;
+  param.threshold_name      = "SQR_FFT_FULL_THRESHOLD";
+  param.p_threshold         = &sqr_fft_full_threshold;
   param.modf_threshold_name = "SQR_FFT_MODF_THRESHOLD";
   param.p_modf_threshold    = &sqr_fft_modf_threshold;
   param.first_size          = SQR_TOOM8_THRESHOLD / 2;
@@ -2029,15 +2032,6 @@ all (gmp_randstate_t rands)
   tune_mulmod_2expm1(rands);
   printf("\n");
   
-  /* dc_div_qr_n, dc_divappr_q, inv_div_qr, inv_divappr_q */
-  tune_dc_div (rands);
-  
-  /* mpn_tdiv_q : balanced */
-  tune_tdiv_q (rands);
-  
-  /* dc_bdiv_qr_n, dc_bdiv_q */
-  tune_dc_bdiv (rands);  
-
   tune_powm (rands);
   tune_fac_ui(rands);
   printf("\n");
@@ -2072,6 +2066,15 @@ all (gmp_randstate_t rands)
 
   tune_fft_sqr (rands);
   printf ("\n");
+
+  /* dc_div_qr_n, dc_divappr_q, inv_div_qr, inv_divappr_q */
+  tune_dc_div (rands);
+  
+  /* mpn_tdiv_q : balanced */
+  tune_tdiv_q (rands);
+  
+  /* dc_bdiv_qr_n, dc_bdiv_q */
+  tune_dc_bdiv (rands);  
 
   time (&end_time);
   printf ("/* Tuneup completed successfully, took %ld seconds */\n",

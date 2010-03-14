@@ -238,7 +238,11 @@ const struct routine_t {
   { "mpn_add_err1_n",  speed_mpn_add_err1_n, },
   { "mpn_sub_err1_n",  speed_mpn_sub_err1_n, },
 
-  { "mpn_divrem_1_div",  speed_mpn_divrem_1_div,  FLAG_R },
+  { "mpn_inv_divappr_q",  speed_mpn_inv_divappr_q, },
+  { "mpn_inv_div_qr",  speed_mpn_inv_div_qr,  },
+  { "mpn_dc_divappr_q",  speed_mpn_dc_divappr_q,  },
+  { "mpn_dc_div_qr_n",  speed_mpn_dc_div_qr_n,  },
+   
   { "mpn_divrem_1_inv",  speed_mpn_divrem_1_inv,  FLAG_R },
   { "mpn_divrem_1f_div", speed_mpn_divrem_1f_div, FLAG_R },
   { "mpn_divrem_1f_inv", speed_mpn_divrem_1f_inv, FLAG_R },

@@ -1690,6 +1690,13 @@ __GMP_DECLSPEC extern const mp_limb_t __gmp_fib_table[];
 #define SQR_FFT_THRESHOLD   (SQR_FFT_MODF_THRESHOLD * 10)
 #endif
 
+#ifndef MUL_FFT_FULL_THRESHOLD
+#define MUL_FFT_FULL_THRESHOLD   (MUL_TOOM8H_THRESHOLD * 10)
+#endif
+#ifndef SQR_FFT_FULL_THRESHOLD
+#define SQR_FFT_FULL_THRESHOLD   (SQR_TOOM8_THRESHOLD * 10)
+#endif
+
 /* Table of thresholds for successive modF FFT "k"s.  The first entry is
    where FFT_FIRST_K+1 should be used, the second FFT_FIRST_K+2,
    etc.  See mpn_fft_best_k(). */
@@ -4088,6 +4095,10 @@ extern mp_size_t                     mul_toom8h_threshold;
 #define MUL_FFT_THRESHOLD            mul_fft_threshold
 extern mp_size_t                     mul_fft_threshold;
 
+#undef  MUL_FFT_FULL_THRESHOLD
+#define MUL_FFT_FULL_THRESHOLD       mul_fft_full_threshold
+extern mp_size_t                     mul_fft_full_threshold;
+
 #undef  MUL_FFT_MODF_THRESHOLD
 #define MUL_FFT_MODF_THRESHOLD       mul_fft_modf_threshold
 extern mp_size_t                     mul_fft_modf_threshold;
@@ -4127,6 +4138,10 @@ extern mp_size_t                     sqr_toom8_threshold;
 #undef SQR_FFT_THRESHOLD
 #define SQR_FFT_THRESHOLD            sqr_fft_threshold
 extern mp_size_t                     sqr_fft_threshold;
+
+#undef SQR_FFT_FULL_THRESHOLD
+#define SQR_FFT_FULL_THRESHOLD       sqr_fft_full_threshold
+extern mp_size_t                     sqr_fft_full_threshold;
 
 #undef SQR_FFT_MODF_THRESHOLD
 #define SQR_FFT_MODF_THRESHOLD       sqr_fft_modf_threshold

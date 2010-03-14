@@ -454,7 +454,7 @@ mpn_mul_n (mp_ptr p, mp_srcptr a, mp_srcptr b, mp_size_t n)
        mpn_toom4_mul_n (p, a, b, n);
     }
 #if WANT_FFT || TUNE_PROGRAM_BUILD
-  else if (BELOW_THRESHOLD (n, MUL_FFT_THRESHOLD))
+  else if (BELOW_THRESHOLD (n, MUL_FFT_FULL_THRESHOLD))
     {
        mpn_toom8h_mul (p, a, n, b, n);
     }
@@ -462,13 +462,11 @@ mpn_mul_n (mp_ptr p, mp_srcptr a, mp_srcptr b, mp_size_t n)
   else
 #if WANT_FFT || TUNE_PROGRAM_BUILD
     {
-      /* The current FFT code allocates its own space.  That should probably
-	 change.  */
       mpn_mul_fft_full (p, a, n, b, n);
     }
 #else
     {
-      /* Toom7 for large operands. */
+      /* Toom8 for large operands. */
       mpn_toom8h_mul (p, a, n, b, n);
     }
 #endif
@@ -515,7 +513,7 @@ mpn_sqr_n (mp_ptr p, mp_srcptr a, mp_size_t n)
        mpn_toom4_sqr_n (p, a, n);
     }
 #if WANT_FFT || TUNE_PROGRAM_BUILD
-  else if (BELOW_THRESHOLD (n, SQR_FFT_THRESHOLD))
+  else if (BELOW_THRESHOLD (n, SQR_FFT_FULL_THRESHOLD))
 #else
   else 
 #endif
