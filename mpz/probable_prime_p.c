@@ -26,7 +26,7 @@ int
 mpz_probable_prime_p (mpz_srcptr N, gmp_randstate_t STATE, int PROB,
 		      unsigned long td)
 {
-  int d, t, r;
+  int d, t, r, i;
   mpz_t base, nm1, x, e, n;
 
   ALLOC (n) = ALLOC (N);
@@ -69,7 +69,7 @@ mpz_probable_prime_p (mpz_srcptr N, gmp_randstate_t STATE, int PROB,
       mpz_powm (x, base, e, n);	// x=base^e mod n
       if (mpz_cmp_ui (x, 1) == 0 || mpz_cmp (x, nm1) == 0)
 	continue;
-      for (r = 0, t = t - 1; t > 0; t--)
+      for (r = 0, i = t - 1; i > 0; i--)
 	{
 	  mpz_mul (x, x, x);
 	  mpz_mod (x, x, n);
