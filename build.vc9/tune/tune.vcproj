@@ -450,10 +450,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\sqr_asm.asm"
-				>
-			</File>
-			<File
 				RelativePath=".\tdiv_q.c"
 				>
 			</File>
