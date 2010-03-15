@@ -50,7 +50,7 @@ mpn_dc_div_q (mp_ptr qp, mp_ptr np, mp_size_t nn,
   tp[0] = 0;
 
   qn = nn - dn;
-  wp = TMP_SALLOC_LIMBS (qn + 1);
+  wp = TMP_ALLOC_LIMBS (qn + 1);
 
   qh = mpn_dc_divappr_q (wp, tp, nn + 1, dp, dn, dinv);
 

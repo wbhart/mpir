@@ -61,7 +61,7 @@ mpn_dc_divappr_q (mp_ptr qp, mp_ptr np, mp_size_t nn,
       qp -= qn;			/* point at low limb of next quotient block */
       np -= qn;			/* point in the middle of partial remainder */
 
-      tp = TMP_SALLOC_LIMBS (DC_DIVAPPR_Q_N_ITCH(dn));
+      tp = TMP_ALLOC_LIMBS (DC_DIVAPPR_Q_N_ITCH(dn));
 
       /* Perform the typically smaller block first.  */
       if (qn == 1)
@@ -183,7 +183,7 @@ mpn_dc_divappr_q (mp_ptr qp, mp_ptr np, mp_size_t nn,
       qp -= qn;			/* point at low limb of next quotient block */
       np -= qn;			/* point in the middle of partial remainder */
 
-      q2p = TMP_SALLOC_LIMBS (qn + 1);
+      q2p = TMP_ALLOC_LIMBS (qn + 1);
       
       if (BELOW_THRESHOLD (qn, DC_DIVAPPR_Q_N_THRESHOLD))
 	{
@@ -194,7 +194,7 @@ mpn_dc_divappr_q (mp_ptr qp, mp_ptr np, mp_size_t nn,
 	{
 	  /* It is tempting to use qp for recursive scratch and put quotient in
 	     tp, but the recursive scratch needs one limb too many.  */
-	  tp = TMP_SALLOC_LIMBS (DC_DIVAPPR_Q_N_ITCH(qn + 1));
+	  tp = TMP_ALLOC_LIMBS (DC_DIVAPPR_Q_N_ITCH(qn + 1));
 	  qh = mpn_dc_divappr_q_n (q2p, np - qn - 2, dp - (qn + 1), qn + 1, dinv, tp);
 	}
       MPN_COPY (qp, q2p + 1, qn);
