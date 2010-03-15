@@ -6,6 +6,7 @@ for fn in mpn_add_n mpn_sub_n mpn_mul_1.333 mpn_addmul_1.333 mpn_submul_1.333 mp
 	mpn_addadd_n mpn_addsub_n mpn_subadd_n mpn_lshift.3 mpn_rshift.3 mpn_lshift2 mpn_rshift2 mpn_lshift1 mpn_rshift1 \
 	mpn_addlsh1_n mpn_sublsh1_n mpn_addlsh_n.3 mpn_sublsh_n.3 mpn_inclsh_n.3 mpn_declsh_n.3 \
 	mpn_rsh1add_n mpn_rsh1sub_n mpn_sumdiff_n mpn_store mpn_copyi mpn_copyd \
+	mpn_rsblsh1_n mpn_addlsh2_n mpn_rsblsh2_n \
 	mpn_popcount mpn_hamdist mpn_com mpn_and_n mpn_xor_n mpn_ior_n mpn_nand_n mpn_nior_n mpn_xnor_n mpn_andn_n \
 	mpn_iorn_n mpn_lshiftc.3 mpn_divexact_byff mpn_divexact_byBm1of.3 mpn_divexact_by3 mpn_divexact_1.3333 mpn_modexact_1c_odd.334333 \
 	mpn_add_err1_n mpn_sub_err1_n \
@@ -13,7 +14,7 @@ for fn in mpn_add_n mpn_sub_n mpn_mul_1.333 mpn_addmul_1.333 mpn_submul_1.333 mp
 	mpn_divrem_hensel_qr_1.3333 mpn_divrem_hensel_qr_1_1.3333 mpn_divrem_hensel_qr_1_2.3333  \
 	mpn_divrem_hensel_r_1.3333 mpn_divrem_hensel_rsh_qr_1.3333 mpn_rsh_divrem_hensel_qr_1.3333 \
 	mpn_rsh_divrem_hensel_qr_1_1.3333 mpn_rsh_divrem_hensel_qr_1_2.3333 \
-	mpn_mod_1_1 mpn_mod_1_2 mpn_mod_1_3 mpn_mod_34lsub1
+	mpn_mod_1_1 mpn_mod_1_2 mpn_mod_1_3 mpn_mod_1_4 mpn_mod_34lsub1
 do
 	fnc=$(echo $fn | cut -d _ -f 2- | cut -d . -f 1)
 	while [ $(echo "$fnc" | wc -c) -le 24 ]
@@ -34,6 +35,10 @@ do
 		if [ $fn == mpn_store ] ; then fn=MPN_ZERO ; fi
 		if [ $fn == mpn_copyi ] ; then fn=MPN_COPY_INCR ; fi
 		if [ $fn == mpn_copyd ] ; then fn=MPN_COPY_DECR ; fi
+		if [ $fn == mpn_divexact_byBm1of.3 ] ; then fn=mpn_bdiv_dbm1c ; fi
+		if [ $fn == mpn_mod_1_2 ] ; then fn=mpn_mod_1s_2 ; fi
+		if [ $fn == mpn_mod_1_3 ] ; then fn=mpn_mod_1s_3 ; fi
+		if [ $fn == mpn_mod_1_4 ] ; then fn=mpn_mod_1s_4 ; fi
 		./speed -c -s 1000 $fn > $TMPFILE 2>&1
 		if [ $? -eq 0 ] ; then
 			cat $TMPFILE | tail -n 1 | tr -s " " | cut -f 2 -d " " | cut -d . -f 1		
