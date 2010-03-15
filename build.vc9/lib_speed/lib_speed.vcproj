@@ -485,14 +485,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\tune\sb_div.c"
-				>
-			</File>
-			<File
-				RelativePath="..\..\tune\sb_inv.c"
-				>
-			</File>
-			<File
 				RelativePath="..\..\tune\set_strb.c"
 				>
 			</File>
