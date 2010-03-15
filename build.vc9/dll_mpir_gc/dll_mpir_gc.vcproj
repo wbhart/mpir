@@ -1034,42 +1034,6 @@
 					</FileConfiguration>
 				</File>
 				<File
-					RelativePath="..\..\mpn\generic\dc_divrem_n.c"
-					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Debug|x64"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|x64"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\"
-						/>
-					</FileConfiguration>
-				</File>
-				<File
 					RelativePath="..\..\mpn\generic\dive_1.c"
 					>
 					<FileConfiguration
@@ -3918,42 +3882,6 @@
 					</FileConfiguration>
 				</File>
 				<File
-					RelativePath="..\..\mpn\generic\sb_divrem_mn.c"
-					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Debug|x64"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|x64"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\"
-						/>
-					</FileConfiguration>
-				</File>
-				<File
 					RelativePath="..\..\mpn\generic\scan0.c"
 					>
 					<FileConfiguration
@@ -4639,42 +4567,6 @@
 				</File>
 				<File
 					RelativePath="..\..\mpn\generic\toom4_mul_n.c"
-					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Debug|x64"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|x64"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\"
-						/>
-					</FileConfiguration>
-				</File>
-				<File
-					RelativePath="..\..\mpn\generic\toom7_mul_n.c"
 					>
 					<FileConfiguration
 						Name="Debug|Win32"
