@@ -40,7 +40,7 @@ mpz_probable_prime_p (mpz_srcptr N, gmp_randstate_t STATE, int PROB,
 // we assume we know nothing about N ie it is a random integer
 // so we try here anything which speeds up the average case
 // we try some trial division
-#define LIM 257
+#define LIM 1024
   d=mpz_trial_division(n,3,LIM);
   if(d!=0)
     {if(mpz_cmp_ui(n, d) == 0)return 1;
