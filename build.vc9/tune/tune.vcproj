@@ -17,6 +17,9 @@
 		/>
 	</Platforms>
 	<ToolFiles>
+		<DefaultToolFile
+			FileName="yasm.rules"
+		/>
 	</ToolFiles>
 	<Configurations>
 		<Configuration
@@ -33,6 +36,9 @@
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="YASM"
 			/>
 			<Tool
 				Name="VCXMLDataGeneratorTool"
@@ -110,6 +116,9 @@
 				Name="VCCustomBuildTool"
 			/>
 			<Tool
+				Name="YASM"
+			/>
+			<Tool
 				Name="VCXMLDataGeneratorTool"
 			/>
 			<Tool
@@ -184,6 +193,9 @@
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="YASM"
 			/>
 			<Tool
 				Name="VCXMLDataGeneratorTool"
@@ -263,6 +275,9 @@
 				Name="VCCustomBuildTool"
 			/>
 			<Tool
+				Name="YASM"
+			/>
+			<Tool
 				Name="VCXMLDataGeneratorTool"
 			/>
 			<Tool
@@ -335,11 +350,35 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
+				RelativePath=".\dc_bdiv_q.c"
+				>
+			</File>
+			<File
+				RelativePath=".\dc_bdiv_qr.c"
+				>
+			</File>
+			<File
+				RelativePath=".\dc_div_qr.c"
+				>
+			</File>
+			<File
+				RelativePath=".\dc_divappr_q.c"
+				>
+			</File>
+			<File
 				RelativePath=".\divrem_1.c"
 				>
 			</File>
 			<File
 				RelativePath=".\divrem_2.c"
+				>
+			</File>
+			<File
+				RelativePath=".\divrem_euclidean_r_1.c"
+				>
+			</File>
+			<File
+				RelativePath=".\divrem_hensel_qr_1.c"
 				>
 			</File>
 			<File
@@ -352,6 +391,14 @@
 			</File>
 			<File
 				RelativePath=".\get_str.c"
+				>
+			</File>
+			<File
+				RelativePath=".\inv_div_qr.c"
+				>
+			</File>
+			<File
+				RelativePath=".\inv_divappr_q.c"
 				>
 			</File>
 			<File
@@ -379,7 +426,15 @@
 				>
 			</File>
 			<File
+				RelativePath=".\mulhigh_n.c"
+				>
+			</File>
+			<File
 				RelativePath=".\mullow_n.c"
+				>
+			</File>
+			<File
+				RelativePath=".\mulmod_2expm1.c"
 				>
 			</File>
 			<File
@@ -387,7 +442,47 @@
 				>
 			</File>
 			<File
+				RelativePath=".\rootrem.c"
+				>
+			</File>
+			<File
+				RelativePath=".\rsh_divrem_hensel_qr_1.c"
+				>
+			</File>
+			<File
+				RelativePath=".\sqr_asm.asm"
+				>
+			</File>
+			<File
+				RelativePath=".\tdiv_q.c"
+				>
+			</File>
+			<File
 				RelativePath=".\tdiv_qr.c"
+				>
+			</File>
+			<File
+				RelativePath=".\toom3_mul.c"
+				>
+			</File>
+			<File
+				RelativePath=".\toom3_mul_n.c"
+				>
+			</File>
+			<File
+				RelativePath=".\toom4_mul.c"
+				>
+			</File>
+			<File
+				RelativePath=".\toom4_mul_n.c"
+				>
+			</File>
+			<File
+				RelativePath=".\toom8_sqr_n.c"
+				>
+			</File>
+			<File
+				RelativePath=".\toom8h_mul.c"
 				>
 			</File>
 			<File
