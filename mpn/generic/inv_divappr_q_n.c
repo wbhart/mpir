@@ -59,7 +59,9 @@ mpn_inv_divappr_q_n(mp_ptr qp, mp_ptr np,
       There is either one integer in this range, or two. However, in the latter case
 	  the left hand bound is either an integer or < 2/B below one.
    */
-     
+    
+   ASSERT(ret != 3);
+ 
    if (UNLIKELY(ret == 2))
    {
       ret = 1;
