@@ -100,7 +100,7 @@ check_inv_divappr_q (void)
       } else
       {
          rn = nn;
-         MPN_COPY(rp, np, nn);
+         MPN_COPY(rp, np2, nn);
       }
       
       s = (rn < dn) ? -1 : (rn > dn) ? 1 : mpn_cmp(rp, dp, dn);

@@ -32,7 +32,7 @@ MA 02110-1301, USA. */
 #define random rand
 #endif
 
-#define MAX_LIMBS 200
+#define MAX_LIMBS 2000
 #define ITERS 2000
    
 /* Check divide and conquer division routine. */

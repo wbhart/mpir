@@ -37,6 +37,8 @@ mpn_inv_divappr_q_n(mp_ptr qp, mp_ptr np,
    TMP_DECL;
 
    TMP_MARK;
+   
+   ASSERT(mpn_is_invert(inv, dp, dn));
 
    if (mpn_cmp(np + dn, dp, dn) >= 0)
    {
@@ -67,7 +69,7 @@ mpn_inv_divappr_q_n(mp_ptr qp, mp_ptr np,
       ret -= mpn_sub_1(qp, qp, dn, 1);
       ASSERT(ret == 1);
    }
-   
+  
    if (UNLIKELY((lo == ~CNST_LIMB(0)) || (lo == ~CNST_LIMB(1)))) 
    {
 	   /* Special case, multiply out to get accurate quotient */

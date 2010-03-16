@@ -183,6 +183,7 @@ void
 dump_abort (mpz_t dividend, mpz_t divisor)
 {
   fprintf (stderr, "ERROR\n");
+  printf("nn = %ld, dn = %ld\n", mpz_size(dividend), mpz_size(divisor));
   fprintf (stderr, "dividend = "); debug_mp (dividend, -16);
   fprintf (stderr, "divisor  = "); debug_mp (divisor, -16);
   abort();
