@@ -44,8 +44,8 @@ mpn_inv_div_qr (mp_ptr qp,
 
   TMP_MARK;
 
-  ASSERT (dn >= 6);		/* to adhere to mpn_sbpi1_div_qr's limits */
-  ASSERT (nn - dn >= 3);	/* to adhere to mpn_sbpi1_div_qr's limits */
+  ASSERT (dn >= 6);		/* to adhere to mpn_sb_div_qr's limits */
+  ASSERT (nn - dn >= 3);	/* to adhere to mpn_sb_div_qr's limits */
   ASSERT (dp[dn-1] & GMP_NUMB_HIGHBIT);
 
   invert_1(dinv2, dp[dn - 1], dp[dn - 2]);
@@ -161,7 +161,7 @@ mpn_inv_div_qr (mp_ptr qp,
 	{
 	  qp -= dn;
 	  np -= dn;
-	  mpn_inv_div_qr_n (qp, np - dn, dp - dn, dn, dinv);
+	  ASSERT_NOCARRY(mpn_inv_div_qr_n (qp, np - dn, dp - dn, dn, dinv));
 	  qn -= dn;
 	}
       while (qn > 0);

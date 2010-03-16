@@ -160,7 +160,7 @@ mpn_inv_divappr_q (mp_ptr qp, mp_ptr np, mp_size_t nn,
 	{
 	  qp -= dn;
 	  np -= dn;
-      mpn_inv_div_qr_n (qp, np - dn, dp - dn, dn, dinv);
+      ASSERT_NOCARRY(mpn_inv_div_qr_n (qp, np - dn, dp - dn, dn, dinv));
 	  qn -= dn;
 	}
 
