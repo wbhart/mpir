@@ -30,9 +30,6 @@ License for more details.
 You should have received a copy of the GNU Lesser General Public License
 along with the GNU MP Library.  If not, see http://www.gnu.org/licenses/.  */
 
-#include <stdio.h> /*FIXME: Remove when asymptotically fast div implemented*/
-#include <stdlib.h>
-
 #include "mpir.h"
 #include "gmp-impl.h"
 #include "longlong.h"
@@ -136,15 +133,15 @@ mpn_tdiv_qr (mp_ptr qp, mp_ptr rp, mp_size_t qxn,
 
 	    invert_1 (dinv, d2p[dn - 1], d2p[dn - 2]);
 	    if (BELOW_THRESHOLD (dn, DC_DIV_QR_THRESHOLD))
-	      mpn_sb_div_qr (qp, n2p, nn, d2p, dn, dinv);
+	      ASSERT_NOCARRY(mpn_sb_div_qr (qp, n2p, nn, d2p, dn, dinv));
 	    else if (BELOW_THRESHOLD (dn, INV_DIV_QR_THRESHOLD) ||
 		     BELOW_THRESHOLD (nn, 2 * INV_DIV_QR_THRESHOLD))     
-	      mpn_dc_div_qr (qp, n2p, nn, d2p, dn, dinv);
+	      ASSERT_NOCARRY(mpn_dc_div_qr (qp, n2p, nn, d2p, dn, dinv));
 	    else
 		{
           mp_ptr dinv2 = TMP_ALLOC_LIMBS(dn);
 		  mpn_invert(dinv2, d2p, dn);
-		  mpn_inv_div_qr (qp, n2p, nn, d2p, dn, dinv2);
+		  ASSERT_NOCARRY(mpn_inv_div_qr (qp, n2p, nn, d2p, dn, dinv2));
 		}
 
 	    if (cnt != 0)
@@ -263,16 +260,16 @@ mpn_tdiv_qr (mp_ptr qp, mp_ptr rp, mp_size_t qxn,
 	      {
 		invert_1 (dinv, d2p[qn - 1], d2p[qn - 2]);
 		if (BELOW_THRESHOLD (qn, DC_DIV_QR_THRESHOLD))
-		  mpn_sb_div_qr (qp, n2p, 2 * qn, d2p, qn, dinv);
+		  ASSERT_NOCARRY(mpn_sb_div_qr (qp, n2p, 2 * qn, d2p, qn, dinv));
 		else if (BELOW_THRESHOLD (qn, INV_DIV_QR_THRESHOLD))
 		{
 			mp_ptr temp = TMP_ALLOC_LIMBS(DC_DIVAPPR_Q_N_ITCH(qn));
-			mpn_dc_div_qr_n (qp, n2p, d2p, qn, dinv, temp);
+			ASSERT_NOCARRY(mpn_dc_div_qr_n (qp, n2p, d2p, qn, dinv, temp));
 		} else
 		{
 	      mp_ptr dinv2 = TMP_ALLOC_LIMBS(qn);
 		  mpn_invert(dinv2, d2p, qn);
-          mpn_inv_div_qr_n (qp, n2p, d2p, qn, dinv2);
+          ASSERT_NOCARRY(mpn_inv_div_qr_n (qp, n2p, d2p, qn, dinv2));
 		}  
 	      }
 
