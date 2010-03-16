@@ -61,17 +61,19 @@ mpn_inv_div_qr_n(mp_ptr qp, mp_ptr np,
 	  the left hand bound is either an integer or < 2/B below one.
    */
      
+   ASSERT(ret <= 3);
+
    if (UNLIKELY(ret == 2))
    {
-      ret = 1;
-      mpn_sub_1(qp, qp, dn, 1);
+      ret -= mpn_sub_1(qp, qp, dn, 1);
+      ASSERT(ret == 1);
    }
 
    ret -= mpn_sub_1(qp, qp, dn, 1); 
    if (UNLIKELY(ret == ~CNST_LIMB(0))) 
       ret += mpn_add_1(qp, qp, dn, 1);
-   /* ret is now guaranteed to be 0 */
-   ASSERT(ret == 0);
+   /* ret is now guaranteed to be 0 or 1*/
+   ASSERT(ret <= 1);
 
    m = dn + 1;
    if (dn <= MPN_FFT_MUL_N_MINSIZE)
@@ -92,6 +94,8 @@ mpn_inv_div_qr_n(mp_ptr qp, mp_ptr np,
       /* Make correction */   
       mpn_sub_1(tp, tp, m, tp[0] - dp[0]*qp[0]);
    }
+
+   if (ret) tp[dn] += dp[0];
 
    mpn_sub_n(np, np, tp, m);
    MPN_ZERO(np + m, 2*dn - m);
