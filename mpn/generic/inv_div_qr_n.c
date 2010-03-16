@@ -61,7 +61,7 @@ mpn_inv_div_qr_n(mp_ptr qp, mp_ptr np,
 	  the left hand bound is either an integer or < 2/B below one.
    */
      
-   ASSERT(ret <= 3);
+   ASSERT(ret <= 2);
 
    if (UNLIKELY(ret == 2))
    {
