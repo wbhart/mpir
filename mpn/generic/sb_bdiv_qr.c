@@ -55,6 +55,7 @@ mpn_sb_bdiv_qr (mp_ptr qp,
   ASSERT (dn > 0);
   ASSERT (nn > dn);
   ASSERT ((dp[0] & 1) != 0);
+  ASSERT (((dinv * dp[0]) & GMP_NUMB_MASK) == 1);
 
   dinv = -dinv;
 

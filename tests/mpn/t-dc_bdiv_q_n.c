@@ -57,7 +57,7 @@ check_dc_bdiv_q_n (void)
   
    for (i = 0; i < ITERS; i++)
    {
-      dn = (random() % (MAX_LIMBS - 2)) + 3;
+      dn = (random() % (MAX_LIMBS - 5)) + 6;
       nn = dn;
 
       mpn_rrandom (np, rands, nn);

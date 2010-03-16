@@ -48,7 +48,7 @@ mpn_dc_bdiv_q (mp_ptr qp,
 
   TMP_MARK;
 
-  ASSERT (dn >= 2);
+  ASSERT (dn >= 6);
   ASSERT (nn - dn >= 0);
   ASSERT (dp[0] & 1);
 
