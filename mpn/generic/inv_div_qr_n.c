@@ -71,7 +71,8 @@ mpn_inv_div_qr_n(mp_ptr qp, mp_ptr np,
    if (UNLIKELY(ret == ~CNST_LIMB(0))) 
       ret += mpn_add_1(qp, qp, dn, 1);
    /* ret is now guaranteed to be 0 */
-       
+   ASSERT(ret == 0);
+
    m = dn + 1;
    if (dn <= MPN_FFT_MUL_N_MINSIZE)
    {
@@ -101,6 +102,7 @@ mpn_inv_div_qr_n(mp_ptr qp, mp_ptr np,
    }
   
    /* Not possible for ret == 2 as we have qp*dp <= np */
+   ASSERT(ret < 2);
 
    TMP_FREE;
 

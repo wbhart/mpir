@@ -73,7 +73,8 @@ mpn_inv_divappr_q_n(mp_ptr qp, mp_ptr np,
        if (UNLIKELY(ret == ~CNST_LIMB(0)))
           ret += mpn_add_1(qp, qp, dn, 1);
        /* ret is now guaranteed to be 0 */
-       
+       ASSERT(ret == 0);
+
        mpn_mul_n(tp, qp, dp, dn);
 	   mpn_sub_n(tp, np, tp, dn + 1);
        while (tp[dn] || mpn_cmp(tp, dp, dn) >= 0)
@@ -82,6 +83,7 @@ mpn_inv_divappr_q_n(mp_ptr qp, mp_ptr np,
 		   tp[dn] -= mpn_sub_n(tp, tp, dp, dn);
 	   }
        /* Not possible for ret == 2 as we have qp*dp <= np */
+       ASSERT(ret < 2);
    }
 
    TMP_FREE;
