@@ -91,8 +91,8 @@ mpn_dc_div_qr (mp_ptr qp,
 
   TMP_MARK;
 
-  ASSERT (dn >= 6);		/* to adhere to mpn_sbpi1_div_qr's limits */
-  ASSERT (nn - dn >= 3);	/* to adhere to mpn_sbpi1_div_qr's limits */
+  ASSERT (dn >= 6);		/* to adhere to mpn_sb_div_qr's limits */
+  ASSERT (nn - dn >= 3);	/* to adhere to mpn_sb_div_qr's limits */
   ASSERT (dp[dn-1] & GMP_NUMB_HIGHBIT);
 
   tp = TMP_ALLOC_LIMBS (DC_DIVAPPR_Q_N_ITCH(dn));
@@ -201,7 +201,7 @@ mpn_dc_div_qr (mp_ptr qp,
 	{
 	  qp -= dn;
 	  np -= dn;
-	  mpn_dc_div_qr_n (qp, np - dn, dp - dn, dn, dinv, tp);
+	  ASSERT_NOCARRY(mpn_dc_div_qr_n (qp, np - dn, dp - dn, dn, dinv, tp));
 	  qn -= dn;
 	}
       while (qn > 0);
