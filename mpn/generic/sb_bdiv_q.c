@@ -57,9 +57,9 @@ mpn_sb_bdiv_q (mp_ptr qp, mp_ptr wp,
   mp_limb_t cy, q, hi, w0, w1;
 
   ASSERT (dn > 0);
-  ASSERT ((dinv * dp[0]) & GMP_NUMB_MASK == 1);
-  ASSERT (nn >= dn);
   ASSERT ((dp[0] & 1) != 0);
+  ASSERT (((-dinv) * dp[0]) & GMP_NUMB_MASK == 1);
+  ASSERT (nn >= dn);
 
   w0 = 0;
 
