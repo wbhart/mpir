@@ -2024,13 +2024,6 @@ all (gmp_randstate_t rands)
   tune_sqr (rands);
   printf("\n");
 
-  tune_mullow (rands);
-  printf("\n");
-  tune_mulhigh (rands);
-  printf("\n");
-
-  tune_mulmod_2expm1(rands);
-  printf("\n");
   
   tune_powm (rands);
   printf("\n");
@@ -2065,6 +2058,14 @@ all (gmp_randstate_t rands)
 
   tune_fft_sqr (rands);
   printf ("\n");
+
+  tune_mullow (rands);
+  printf("\n");
+  tune_mulhigh (rands);
+  printf("\n");
+
+  tune_mulmod_2expm1(rands);
+  printf("\n");
 
   tune_fac_ui(rands);
 
