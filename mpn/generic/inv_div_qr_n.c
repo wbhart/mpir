@@ -76,9 +76,10 @@ mpn_inv_div_qr_n(mp_ptr qp, mp_ptr np,
    ASSERT(ret <= 1);
 
    m = dn + 1;
-   if (dn <= MPN_FFT_MUL_N_MINSIZE)
+   if ((dn <= MPN_FFT_MUL_N_MINSIZE) || (ret))
    {
       mpn_mul_n(tp, qp, dp, dn);
+      if (ret) tp[dn] += dp[0];
    } else
    {
       mp_limb_t cy, cy2;
@@ -94,8 +95,6 @@ mpn_inv_div_qr_n(mp_ptr qp, mp_ptr np,
       /* Make correction */   
       mpn_sub_1(tp, tp, m, tp[0] - dp[0]*qp[0]);
    }
-
-   if (ret) tp[dn] += dp[0];
 
    mpn_sub_n(np, np, tp, m);
    MPN_ZERO(np + m, 2*dn - m);
