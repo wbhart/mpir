@@ -60,12 +60,12 @@ mpn_inv_divappr_q_n(mp_ptr qp, mp_ptr np,
 	  the left hand bound is either an integer or < 2/B below one.
    */
     
-   ASSERT(ret != 3);
+   ASSERT(ret <= 3);
  
    if (UNLIKELY(ret == 2))
    {
-      ret = 1;
-      mpn_sub_1(qp, qp, dn, 1);
+      ret -= mpn_sub_1(qp, qp, dn, 1);
+      ASSERT(ret == 1);
    }
    
    if (UNLIKELY((lo == ~CNST_LIMB(0)) || (lo == ~CNST_LIMB(1)))) 
