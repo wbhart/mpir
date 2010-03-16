@@ -162,7 +162,8 @@ mpn_dc_divappr_q (mp_ptr qp, mp_ptr np, mp_size_t nn,
       qp -= qn;
       np -= dn;
       qsave = qp[qn];
-      mpn_dc_divappr_q_n (qp, np - dn, dp - dn, dn, dinv, tp);
+      cy = mpn_dc_divappr_q_n (qp, np - dn, dp - dn, dn, dinv, tp);
+      if (UNLIKELY(cy)) mpn_sub_1(qp, qp, dn, 1);
       MPN_COPY_INCR (qp, qp + 1, qn);
       qp[qn] = qsave;
     }
