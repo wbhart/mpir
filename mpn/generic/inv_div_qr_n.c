@@ -32,16 +32,18 @@ mp_limb_t
 mpn_inv_div_qr_n(mp_ptr qp, mp_ptr np, 
                            mp_srcptr dp, mp_size_t dn, mp_srcptr inv)
 {
-   mp_limb_t cy, lo, ret = 0;
+   mp_limb_t cy, lo, ret = 0, ret2 = 0;
    mp_size_t m, i;
    mp_ptr tp, tp2;
    TMP_DECL;
 
    TMP_MARK;
 
+   ASSERT(mpn_is_invert(inv, dp, dn));
+
    if (mpn_cmp(np + dn, dp, dn) >= 0)
    {
-      ret = 1;
+      ret2 = 1;
       mpn_sub_n(np + dn, np + dn, dp, dn);
    }
 
@@ -61,25 +63,22 @@ mpn_inv_div_qr_n(mp_ptr qp, mp_ptr np,
 	  the left hand bound is either an integer or < 2/B below one.
    */
      
-   ASSERT(ret <= 2);
-
-   if (UNLIKELY(ret == 2))
+   if (UNLIKELY(ret == 1))
    {
       ret -= mpn_sub_1(qp, qp, dn, 1);
-      ASSERT(ret == 1);
+      ASSERT(ret == 0);
    }
 
    ret -= mpn_sub_1(qp, qp, dn, 1); 
    if (UNLIKELY(ret == ~CNST_LIMB(0))) 
       ret += mpn_add_1(qp, qp, dn, 1);
    /* ret is now guaranteed to be 0 or 1*/
-   ASSERT(ret <= 1);
+   ASSERT(ret == 0);
 
    m = dn + 1;
    if ((dn <= MPN_FFT_MUL_N_MINSIZE) || (ret))
    {
       mpn_mul_n(tp, qp, dp, dn);
-      if (ret) tp[dn] += dp[0];
    } else
    {
       mp_limb_t cy, cy2;
@@ -88,14 +87,14 @@ mpn_inv_div_qr_n(mp_ptr qp, mp_ptr np,
       m = mpn_fft_next_size (m, k);
 
       cy = mpn_mul_fft (tp, m, qp, dn, dp, dn, k);
-      /* cy, {tp, m} = qp * dp mod (B^m+1) */
+      /* cy, {tp, m} = qp * dp mod (B^m+1) */ 
       cy2 = mpn_add_n(tp, tp, np + m, 2*dn - m);
       mpn_add_1(tp + 2*dn - m, tp + 2*dn - m, 2*m - 2*dn, cy2);
           
-      /* Make correction */   
+      /* Make correction */    
       mpn_sub_1(tp, tp, m, tp[0] - dp[0]*qp[0]);
    }
-
+   
    mpn_sub_n(np, np, tp, m);
    MPN_ZERO(np + m, 2*dn - m);
    while (np[dn] || mpn_cmp(np, dp, dn) >= 0)
@@ -105,10 +104,10 @@ mpn_inv_div_qr_n(mp_ptr qp, mp_ptr np,
    }
   
    /* Not possible for ret == 2 as we have qp*dp <= np */
-   ASSERT(ret < 2);
+   ASSERT(ret + ret2 < 2);
 
    TMP_FREE;
 
-   return ret;
+   return ret + ret2;
 }
 

@@ -82,7 +82,7 @@ main (int argc, char **argv)
   mpz_t temp;
   mp_size_t dividend_size, divisor_size;
   int i;
-  int reps = 10000;
+  int reps = 1000;
   gmp_randstate_t rands;
   mpz_t bs;
   unsigned long bsi, size_range;

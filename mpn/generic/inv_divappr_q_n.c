@@ -32,20 +32,22 @@ mp_limb_t
 mpn_inv_divappr_q_n(mp_ptr qp, mp_ptr np, 
                               mp_srcptr dp, mp_size_t dn, mp_srcptr inv)
 {
-   mp_limb_t cy, lo, ret = 0;
+   mp_limb_t cy, lo, ret = 0, ret2 = 0;
    mp_ptr tp;
+   unsigned long j;
    TMP_DECL;
 
    TMP_MARK;
-   
+
+   ASSERT(dp[dn-1] & GMP_LIMB_HIGHBIT);
    ASSERT(mpn_is_invert(inv, dp, dn));
 
    if (mpn_cmp(np + dn, dp, dn) >= 0)
    {
-      ret = 1;
+      ret2 = 1;
       mpn_sub_n(np + dn, np + dn, dp, dn);
    }
-
+   
    tp = TMP_ALLOC_LIMBS(2*dn + 1);
    mpn_mul(tp, np + dn - 1, dn + 1, inv, dn);
    add_ssaaaa(cy, lo, 0, np[dn - 1], 0, tp[dn]);
@@ -62,12 +64,10 @@ mpn_inv_divappr_q_n(mp_ptr qp, mp_ptr np,
 	  the left hand bound is either an integer or < 2/B below one.
    */
     
-   ASSERT(ret <= 2);
- 
-   if (UNLIKELY(ret == 2))
+   if (UNLIKELY(ret == 1))
    {
       ret -= mpn_sub_1(qp, qp, dn, 1);
-      ASSERT(ret == 1);
+      ASSERT(ret == 0);
    }
   
    if (UNLIKELY((lo == ~CNST_LIMB(0)) || (lo == ~CNST_LIMB(1)))) 
@@ -76,23 +76,21 @@ mpn_inv_divappr_q_n(mp_ptr qp, mp_ptr np,
 	   ret -= mpn_sub_1(qp, qp, dn, 1);
        if (UNLIKELY(ret == ~CNST_LIMB(0)))
           ret += mpn_add_1(qp, qp, dn, 1);
-       /* ret is now guaranteed to be 0 or 1*/
-       ASSERT(ret <= 1);
-
+       /* ret is now guaranteed to be 0*/
+       ASSERT(ret == 0);
        mpn_mul_n(tp, qp, dp, dn);
-       if (ret) tp[dn] += dp[0];
-	   mpn_sub_n(tp, np, tp, dn + 1);
+       mpn_sub_n(tp, np, tp, dn+1);
        while (tp[dn] || mpn_cmp(tp, dp, dn) >= 0)
 	   {
 		   ret += mpn_add_1(qp, qp, dn, 1);
 		   tp[dn] -= mpn_sub_n(tp, tp, dp, dn);
 	   }
        /* Not possible for ret == 2 as we have qp*dp <= np */
-       ASSERT(ret < 2);
+       ASSERT(ret + ret2 < 2);
    }
 
    TMP_FREE;
 
-   return ret;
+   return ret + ret2;
 }
 
