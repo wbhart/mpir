@@ -99,7 +99,6 @@ mpn_tdiv_q (mp_ptr qp,
   ASSERT (dp[dn - 1] != 0);
   ASSERT (! MPN_OVERLAP_P (qp, nn - dn + 1, np, nn));
   ASSERT (! MPN_OVERLAP_P (qp, nn - dn + 1, dp, dn));
-  ASSERT (MPN_SAME_OR_SEPARATE_P (np, scratch, nn));
 
   ASSERT_ALWAYS (FUDGE >= 2);
   
