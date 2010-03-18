@@ -106,18 +106,18 @@ ifdef(`HAVE_ABI_32',
 	ldf8		v0 = [vp], 8		C			M
 	mov.i		r2 = ar.lc		C			I0
 }{.mmi
-	nop		0			C			M
+	cmp.eq		p6, p7 = 1, n		C Test for single limb case
 	and		r14 = 3, n		C			M I
 	add		n = -2, n		C			M I
 	;;
 }{.mmi		C 01
-	ldf8		uy = [up], 8		C			M
+(p7)	ldf8		uy = [up], 8		C			M
 	ldf8		v1 = [vp]		C			M
 	shr.u		n = n, 2		C			I
-}{.mmi
-	nop		0			C			M
+}{.mmb
 	cmp.eq		p10, p0 = 1, r14	C			M I
 	cmp.eq		p11, p0 = 2, r14	C			M I
+(p6)	br.dpnt		single_limb_case	C
 	;;
 }{.mmi		C 02
 	nop		0			C			M
@@ -235,6 +235,30 @@ ifdef(`HAVE_ABI_32',
 	xma.l		fp0b_1 = u_1, v0, f0
 	xma.hu		fp1a_1 = u_1, v0, f0
 	br		.LL01
+
+
+
+C
+C This is the n = 1 case.  In general, this routine shouldn't be
+C called for n = 1, but we don't want to create an error if it is.
+C
+	ALIGN(32)
+single_limb_case:
+	xma.lu		fp1a_0 = ux, v0, f0
+	xma.hu		fp1a_1 = ux, v0, f0
+	;;
+	getf.sig	acc1_0 = fp1a_0
+	xma.lu		fp2a_0 = ux, v1, fp1a_1
+	xma.hu		fp2a_1 = ux, v1, fp1a_1
+	;;
+	st8		[rp] = acc1_0, 8
+	getf.sig	acc1_1 = fp2a_0
+	getf.sig	r8 = fp2a_1
+	;;
+	st8		[rp] = acc1_1, 8
+	mov		ar.lc = r2
+	br.ret.sptk.many b0
+
 
 
 C We have two variants for n = 2.  They turn out to run at exactly the same
