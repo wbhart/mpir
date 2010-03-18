@@ -75,6 +75,8 @@ along with the GNU MP Library.  If not, see http://www.gnu.org/licenses/.  */
   mp_limb_t name __GMP_PROTO ((mp_ptr, mp_srcptr, mp_size_t, mp_limb_t,mp_limb_t))
 #define DECL_divrem_1(name) \
   mp_limb_t name __GMP_PROTO ((mp_ptr, mp_size_t, mp_srcptr, mp_size_t, mp_limb_t))
+#define DECL_divrem_2(name) \
+  mp_limb_t name __GMP_PROTO ((mp_ptr, mp_size_t, mp_ptr, mp_size_t, mp_srcptr))
 #define DECL_divrem_euclidean_qr_1(name) \
   mp_limb_t name __GMP_PROTO ((mp_ptr, mp_size_t, mp_srcptr, mp_size_t, mp_limb_t))
 #define DECL_divrem_euclidean_qr_2(name) \
@@ -4029,6 +4031,7 @@ struct cpuvec_t {
   DECL_divexact_by3c   ((*divexact_by3c));
   DECL_divexact_byBm1of   ((*divexact_byBm1of));
   DECL_divrem_1        ((*divrem_1));
+  DECL_divrem_2        ((*divrem_2));
   DECL_divrem_euclidean_qr_1        ((*divrem_euclidean_qr_1)); 
   DECL_divrem_euclidean_qr_2        ((*divrem_euclidean_qr_2)); 
   DECL_gcd_1           ((*gcd_1));

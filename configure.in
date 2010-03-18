@@ -1484,7 +1484,8 @@ case $host in
 		x86/pentium4 x86/pentium4/mmx x86/pentium4/sse2
 		x86/core2 x86/nehalem"
       fat_functions="add_n addmul_1 copyd copyi
-		     dive_1 diveby3 divebyBm1of divrem_1 divrem_euclidean_qr_1 
+		     dive_1 diveby3 divebyBm1of divrem_1 divrem_2
+			 divrem_euclidean_qr_1 
 			divrem_euclidean_qr_2 gcd_1 lshift
 		     mod_1 mod_34lsub1 mode1o mul_1 mul_basecase
 		     pre_divrem_1 pre_mod_1 redc_basecase rshift
