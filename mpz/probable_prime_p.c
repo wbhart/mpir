@@ -26,7 +26,7 @@ int
 mpz_probable_prime_p (mpz_srcptr N, gmp_randstate_t STATE, int PROB,
 		      unsigned long td)
 {
-  int d, t, i;
+  int d, t, i, r;
   mpz_t base, nm1, x, e, n;
 
   ALLOC (n) = ALLOC (N);
@@ -58,6 +58,7 @@ mpz_probable_prime_p (mpz_srcptr N, gmp_randstate_t STATE, int PROB,
   t = mpz_scan1 (nm1, 0);	// so 2^t divides nm1
   ASSERT (t > 0);
   mpz_tdiv_q_2exp (e, nm1, t);	// so e=nm1/2^t
+  r = 1;
   while (PROB > 0)
     {
       PROB -= 2;
@@ -77,25 +78,19 @@ mpz_probable_prime_p (mpz_srcptr N, gmp_randstate_t STATE, int PROB,
 	    break;
 	  if (mpz_cmp_ui (x, 1) == 0)
 	    {
-	      mpz_clear (nm1);
-	      mpz_clear (x);
-	      mpz_clear (e);
-	      mpz_clear (base);
-	      return 0;
+	      r=0;
+	      break;
 	    }
 	}
-      if (i == 0)
+      if (i == 0 || r == 0)
         {
-          mpz_clear (nm1);
-          mpz_clear (x);
-          mpz_clear (e);
-          mpz_clear (base);
-          return 0;
+          r=0;
+          break;
         }
     }
   mpz_clear (nm1);
   mpz_clear (x);
   mpz_clear (e);
   mpz_clear (base);
-  return 1;
+  return r;
 }

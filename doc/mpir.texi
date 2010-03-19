@@ -3421,7 +3421,8 @@ This function does some trial divisions to speed up the average case, then some 
 primality tests to achieve the desired level of error.
 
 @var{div} can be used to inform the function that trial division up to @var{div} has
-already been performed on @var{n} and so @var{n} has NO divisors <= @var{div}.
+already been performed on @var{n} and so @var{n} has NO divisors <= @var{div}.Use 0 to
+inform the function that no trial division has been done.
 
 @strong{This function interface is preliminary and may change in the future.}
 @end deftypefun
