@@ -676,7 +676,7 @@ case $host in
     case $host in
       *-*-linux*)
 	cclist="gcc icc"
-	icc_cflags="-no-gcc"
+	icc_cflags="-no-gcc -fpic"
 	icc_cflags_optlist="opt"
 	# FIXME: Check if -O3 is really right.  The manual warns it is for
 	# large data sets, for which GMP uses assembly loops.
