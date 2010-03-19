@@ -212,16 +212,40 @@ m4hi_0	= f50
 C
 C Predicate Register Use
 C
-C p6, p7'   = carry from add line 1 with (*rp)
-C p8, p9'   = carry from add line 2 with res1
-C p10, p11' = carry from add line 3 with res2
-C p12, p13' = carry from add line 4 with res3
+c1_1	= p47
+c1_0	= p48
+c1n_1	= p49
+c1n_0	= p50
+
+c2_1	= p51
+c2_0	= p52
+c2n_1	= p53
+c2n_0	= p54
+
+c3_1	= p55
+c3_0	= p56
+c3n_1	= p57
+c3n_0	= p58
+
+c4_1	= p59
+c4_0	= p60
+c4n_1	= p61
+c4n_0	= p62
+
 
 
 ASM_START()
 PROLOGUE(mpn_addmul_4)
 	.explicit
-	.pred.rel "mutex" p14, p15
+	.pred.rel "mutex", p14, p15
+	.pred.rel "mutex", c1_0, c1n_0
+	.pred.rel "mutex", c1_1, c1n_1
+	.pred.rel "mutex", c2_0, c2n_0
+	.pred.rel "mutex", c2_1, c2n_1
+	.pred.rel "mutex", c3_0, c3n_0
+	.pred.rel "mutex", c3_1, c3n_1
+	.pred.rel "mutex", c4_0, c4n_0
+	.pred.rel "mutex", c4_1, c4n_1
 	C cycle 1
 {
 	.prologue
@@ -265,14 +289,15 @@ PROLOGUE(mpn_addmul_4)
 	C cycle 4
 {
 	ldf8	v4 = [v4p]
-	cmp.ne	p6, p7 = r0, r0
 	mov	m2lo_0 = f0
+(p15)	mov	pr.rot = 0x0fff0000 C PR16 = 16-27 set to 1
 }
 {
 	ld8	rpin_2 = [rptr], 8
 	mov	m2hi_0 = f0
-	cmp.ne	p8, p9 = r0, r0
+(p14)	mov	pr.rot = 0x0ffe0000 C Single Limb
 }
+	;;
 	C cycle 5
 {
 	mov	rpin_3 = 0
@@ -281,12 +306,12 @@ PROLOGUE(mpn_addmul_4)
 }
 {
 	mov	rpin_0 = 0
-	cmp.ne	p10, p11 = r0, r0
+	cmp.ne	c3_0, c3n_0 = r0, r0
 	mov	m3hi_0 = f0
 }
 	C cycle 6
 {
-	cmp.ne	p12, p13 = r0, r0
+	cmp.ne	c4_0, c4n_0 = r0, r0
 	mov	a1_1 = 0
 	mov	m4lo_0 = f0
 }
@@ -314,15 +339,15 @@ PROLOGUE(mpn_addmul_4)
 (p15)	mov	ar.ec = 8
 }
 {
+	cmp.ne	c1_0, c1n_0 = r0, r0
 	mov	toprot = 0
 	mov	ar.lc = tripcnt
-(p15)	mov	pr.rot = 0x0fff0000 C PR16 = 16-27 set to 1
 }
 	C cycle 9
 {
+	cmp.ne	c2_0, c2n_0 = r0, r0
 	mov	a3_0 = 0
 	mov	a3_1 = 0
-(p14)	mov	pr.rot = 0x0ffe0000 C Single Limb
 }
 {
 	mov	a4_4 = 0
@@ -342,10 +367,14 @@ PROLOGUE(mpn_addmul_4)
 }
 	;;	
 addmul_4_main_loop:
-	.pred.rel "mutex" p6,p7
-	.pred.rel "mutex" p8,p9
-	.pred.rel "mutex" p10,p11
-	.pred.rel "mutex" p12,p13
+	.pred.rel "mutex", c1_0, c1n_0
+	.pred.rel "mutex", c1_1, c1n_1
+	.pred.rel "mutex", c2_0, c2n_0
+	.pred.rel "mutex", c2_1, c2n_1
+	.pred.rel "mutex", c3_0, c3n_0
+	.pred.rel "mutex", c3_1, c3n_1
+	.pred.rel "mutex", c4_0, c4n_0
+	.pred.rel "mutex", c4_1, c4n_1
 	C loop cycle 1
 {
 	getf.sig	a1_1 = m1lo_0
@@ -362,11 +391,11 @@ addmul_4_main_loop:
 {
 	getf.sig	a2_2 = m2lo_0
 	xma.lu	m2lo_1 = upld_0, v2, m2hi_0
-(p6)	add	res1 = rpin_0, a1_0, 1
+(c1_0)	add	res1 = rpin_0, a1_0, 1
 }
 {
 (p30)	st8	[sptr] = res4, 8
-(p7)	add	res1 = rpin_0, a1_0
+(c1n_0)	add	res1 = rpin_0, a1_0
 	xma.hu	m2hi_1 = upld_0, v2, m2hi_0
 }
 	;; 
@@ -377,8 +406,8 @@ addmul_4_main_loop:
 	xma.lu	m3lo_1 = upld_0, v3, m3hi_0
 }
 {
-(p8)	add	res2 = res1, a2_0, 1
-(p9)	add	res2 = res1, a2_0
+(c2_0)	add	res2 = res1, a2_0, 1
+(c2n_0)	add	res2 = res1, a2_0
 	xma.hu	m3hi_1 = upld_0, v3, m3hi_0	
 }
 	;; 
@@ -386,35 +415,35 @@ addmul_4_main_loop:
 {
 	getf.sig	a4_4 = m4lo_0
 	xma.lu	m4lo_1 = upld_0, v4, m4hi_0
-(p7)	cmp.ltu	p6, p7 = res1, rpin_0
+(c1n_0)	cmp.ltu	c1_1, c1n_1 = res1, rpin_0
 }
 {
-(p10)	add	res3 = res2, a3_0, 1
-(p11)	add	res3 = res2, a3_0
+(c3_0)	add	res3 = res2, a3_0, 1
+(c3n_0)	add	res3 = res2, a3_0
 	xma.hu	m4hi_1 = upld_0, v4, m4hi_0	
 }
 	;; 
 	C loop cycle 5
 {
-(p6)	cmp.leu	p6, p7 = res1, rpin_0
-(p12)	add	res4 = res3, a4_0, 1
-(p13)	add	res4 = res3, a4_0
+(c1_0)	cmp.leu	c1_1, c1n_1 = res1, rpin_0
+(c4_0)	add	res4 = res3, a4_0, 1
+(c4n_0)	add	res4 = res3, a4_0
 }
 {
-(p9)	cmp.ltu	p8, p9 = res2, res1
-(p8)	cmp.leu	p8, p9 = res2, res1
-(p11)	cmp.ltu	p10, p11 = res3, res2
+(c2n_0)	cmp.ltu	c2_1, c2n_1 = res2, res1
+(c2_0)	cmp.leu	c2_1, c2n_1 = res2, res1
+(c3n_0)	cmp.ltu	c3_1, c3n_1 = res3, res2
 }
 	;;
 	C loop cycle 6
 {
-(p10)	cmp.leu	p10, p11 = res3, res2
+(c3_0)	cmp.leu	c3_1, c3n_1 = res3, res2
 	mov	upld_c = f0
 	mov	rpin_c = 0
 }
 {
-(p12)	cmp.leu	p12, p13 = res4, res3
-(p13)	cmp.ltu	p12, p13 = res4, res3
+(c4_0)	cmp.leu	c4_1, c4n_1 = res4, res3
+(c4n_0)	cmp.ltu	c4_1, c4n_1 = res4, res3
 	br.ctop.sptk.many	addmul_4_main_loop
 }
 	;;
