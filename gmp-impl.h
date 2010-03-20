@@ -1104,7 +1104,7 @@ __GMP_DECLSPEC extern gmp_randstate_t  __gmp_rands;
 #define MPN_TOOM8H_MUL_MINSIZE    86
 #define MPN_TOOM3_SQR_N_MINSIZE   17
 #define MPN_TOOM4_SQR_N_MINSIZE   32
-#define MPN_TOOM8_SQR_N_MINSIZE   40
+#define MPN_TOOM8_SQR_N_MINSIZE   58
 #define MPN_FFT_MUL_N_MINSIZE     64
 
 #define mpn_sqr_diagonal __MPN(sqr_diagonal)
