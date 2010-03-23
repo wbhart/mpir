@@ -1524,6 +1524,10 @@ __GMP_DECLSPEC extern const mp_limb_t __gmp_fib_table[];
 #define MUL_KARATSUBA_THRESHOLD 32
 #endif
 
+#ifndef SQR_KARATSUBA_THRESHOLD
+#define SQR_KARATSUBA_THRESHOLD 32
+#endif
+
 /* If MUL_TOOM3_THRESHOLD is not already defined, define it to a
    value which is good on most machines.  */
 #ifndef MUL_TOOM3_THRESHOLD
@@ -1540,6 +1544,18 @@ __GMP_DECLSPEC extern const mp_limb_t __gmp_fib_table[];
 
 #ifndef MUL_TOOM8H_THRESHOLD
 #define MUL_TOOM8H_THRESHOLD 401
+#endif
+
+#ifndef SQR_TOOM3_THRESHOLD
+#define SQR_TOOM3_THRESHOLD 128
+#endif
+
+#ifndef SQR_TOOM4_THRESHOLD
+#define SQR_TOOM4_THRESHOLD 300
+#endif
+
+#ifndef SQR_TOOM8_THRESHOLD
+#define SQR_TOOM8_THRESHOLD 401
 #endif
 
 #ifndef MULLOW_BASECASE_THRESHOLD

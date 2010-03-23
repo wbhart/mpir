@@ -94,9 +94,11 @@ mult (mpz_srcptr u, mpz_srcptr v, mpz_ptr w)
      wp = PTR(w);
      if (usize == vsize)
      {
+#if HAVE_NATIVE_mpn_sqr_basecase
         if (PTR(u) == PTR(v)) 
            mpn_sqr_basecase(wp, PTR(u), usize);
         else
+#endif
            mpn_mul_basecase(wp, PTR(u), usize, PTR(v), vsize);
      } else if (usize > vsize) 
         mpn_mul_basecase(wp, PTR(u), usize, PTR(v), vsize);
