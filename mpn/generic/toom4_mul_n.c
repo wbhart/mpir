@@ -870,11 +870,7 @@ void mpn_toom4_interpolate(mp_ptr rp, mp_size_t * rpn, mp_size_t sn,
 	
 	mpn_sub_n(r5, r5, r1, s4);
 
-#if HAVE_NATIVE_mpn_sublsh_n
-	r5[s4-1] -= mpn_sublsh_n(r5, r5, r7, s4-1, 6);
-#else
 	r5[s4-1] -= mpn_submul_1(r5, r7, s4-1, 64);
-#endif
    
    TC4_RSHIFT1(r4, s4); 
 	
@@ -908,27 +904,19 @@ void mpn_toom4_interpolate(mp_ptr rp, mp_size_t * rpn, mp_size_t sn,
 	
    mpn_addmul_1(r2, r3, s4, 45);
 
-#if HAVE_NATIVE_mpn_sublsh_n
-   cy = mpn_sublsh_n(r5, r5, r3, s4 - 1, 3);
-#else
    cy = mpn_submul_1(r5, r3, s4 - 1, 8);
-#endif
    r3[0] = saved;
 	r3[0] -= (cy + 8*r3[s4-1]);
    
-	mpn_rshift(r5, r5, s4, 3); 
+	TC4_DIVEXACT_2EXP(r5, s4, 3); 
 
 	mpn_divexact_by3(r5, r5, s4); 
    
 	mpn_sub_n(r6, r6, r2, s4);
 
-#if HAVE_NATIVE_mpn_sublsh_n
-	mpn_sublsh_n(r2, r2, r4, s4, 4);
-#else
 	mpn_submul_1(r2, r4, s4, 16);
-#endif
    
-   mpn_rshift(r2, r2, s4, 1); 
+   TC4_RSHIFT1(r2, s4); 
 
 	mpn_divexact_by3(r2, r2, s4); 
 
@@ -947,7 +935,7 @@ void mpn_toom4_interpolate(mp_ptr rp, mp_size_t * rpn, mp_size_t sn,
 
    mpn_divexact_byBm1of(r6, r6, s4, CNST_LIMB(15), CNST_LIMB(~0/15));
 
-	mpn_rshift(r6, r6, s4, 2);
+	TC4_DIVEXACT_2EXP(r6, s4, 2);
 
 	mpn_sub_n(r2, r2, r6, s4);
 
