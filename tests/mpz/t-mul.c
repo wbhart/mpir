@@ -176,7 +176,7 @@ ref_mpz_mul (mpz_t w, const mpz_t u, const mpz_t v)
 static void mul_basecase __GMP_PROTO ((mp_ptr, mp_srcptr, mp_size_t, mp_srcptr, mp_size_t));
 
 #define TOOM3_THRESHOLD (MAX (MUL_TOOM3_THRESHOLD, SQR_TOOM3_THRESHOLD))
-#define FFT_THRESHOLD (MAX (MUL_FFT_THRESHOLD, SQR_FFT_THRESHOLD))
+#define FFT_THRESHOLD (MAX (MUL_FFT_FULL_THRESHOLD, SQR_FFT_FULL_THRESHOLD))
 
 static void
 ref_mpn_mul (mp_ptr wp, mp_srcptr up, mp_size_t un, mp_srcptr vp, mp_size_t vn)
