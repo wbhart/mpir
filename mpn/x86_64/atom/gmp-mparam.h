@@ -2,18 +2,18 @@
 
 #define MUL_KARATSUBA_THRESHOLD          10
 #define MUL_TOOM3_THRESHOLD              66
-#define MUL_TOOM4_THRESHOLD             183
-#define MUL_TOOM8H_THRESHOLD            197
+#define MUL_TOOM4_THRESHOLD             169
+#define MUL_TOOM8H_THRESHOLD            174
 
 #define SQR_BASECASE_THRESHOLD            0  /* always (native) */
 #define SQR_KARATSUBA_THRESHOLD          16
 #define SQR_TOOM3_THRESHOLD              89
-#define SQR_TOOM4_THRESHOLD             242
-#define SQR_TOOM8_THRESHOLD             242
+#define SQR_TOOM4_THRESHOLD             446
+#define SQR_TOOM8_THRESHOLD             446
 
-#define POWM_THRESHOLD                   58
+#define POWM_THRESHOLD                   55
 
-#define GCD_ACCEL_THRESHOLD              13
+#define GCD_ACCEL_THRESHOLD               1
 #define GCDEXT_THRESHOLD                  0  /* always */
 #define JACOBI_BASE_METHOD                3
 
@@ -25,26 +25,26 @@
 #define USE_PREINV_MOD_1                  1
 #define DIVEXACT_1_THRESHOLD              0  /* always */
 #define MODEXACT_1_ODD_THRESHOLD          0  /* always (native) */
-#define MOD_1_1_THRESHOLD                 4
-#define MOD_1_2_THRESHOLD                 5
+#define MOD_1_1_THRESHOLD                 7
+#define MOD_1_2_THRESHOLD                 8
 #define MOD_1_3_THRESHOLD                13
 #define DIVREM_HENSEL_QR_1_THRESHOLD    996
 #define RSH_DIVREM_HENSEL_QR_1_THRESHOLD    996
-#define DIVREM_EUCLID_HENSEL_THRESHOLD      9
+#define DIVREM_EUCLID_HENSEL_THRESHOLD     38
 
 #define ROOTREM_THRESHOLD                 6
 
-#define GET_STR_DC_THRESHOLD             16
-#define GET_STR_PRECOMPUTE_THRESHOLD     29
-#define SET_STR_DC_THRESHOLD           9872
-#define SET_STR_PRECOMPUTE_THRESHOLD  10069
+#define GET_STR_DC_THRESHOLD             18
+#define GET_STR_PRECOMPUTE_THRESHOLD     24
+#define SET_STR_DC_THRESHOLD           4021
+#define SET_STR_PRECOMPUTE_THRESHOLD   5847
 
-#define MUL_FFT_TABLE  { 176, 544, 1344, 1792, 5120, 20480, 49152, 327680, 0 }
-#define MUL_FFT_MODF_THRESHOLD          240
+#define MUL_FFT_TABLE  { 272, 544, 1344, 1792, 5120, 20480, 49152, 327680, 1310720, 5242880, 0 }
+#define MUL_FFT_MODF_THRESHOLD          288
 #define MUL_FFT_FULL_THRESHOLD         1472
 
-#define SQR_FFT_TABLE  { 272, 544, 1344, 1792, 5120, 20480, 81920, 327680, 0 }
-#define SQR_FFT_MODF_THRESHOLD          200
+#define SQR_FFT_TABLE  { 272, 544, 1344, 1792, 5120, 20480, 81920, 327680, 1835008, 5242880, 0 }
+#define SQR_FFT_MODF_THRESHOLD          232
 #define SQR_FFT_FULL_THRESHOLD         1472
 
 #define MULLOW_BASECASE_THRESHOLD         0  /* always */
@@ -58,14 +58,14 @@
 #define MULMOD_2EXPM1_THRESHOLD          12
 
 #define FAC_UI_THRESHOLD               8757
-#define DC_DIV_QR_THRESHOLD              32
-#define DC_DIVAPPR_Q_N_THRESHOLD        134
+#define DC_DIV_QR_THRESHOLD              31
+#define DC_DIVAPPR_Q_N_THRESHOLD         74
 #define INV_DIV_QR_THRESHOLD           1932
-#define INV_DIVAPPR_Q_N_THRESHOLD       134
-#define DC_DIV_Q_THRESHOLD              148
+#define INV_DIVAPPR_Q_N_THRESHOLD        74
+#define DC_DIV_Q_THRESHOLD              112
 #define INV_DIV_Q_THRESHOLD            2009
-#define DC_DIVAPPR_Q_THRESHOLD          144
-#define INV_DIVAPPR_Q_THRESHOLD        5212
+#define DC_DIVAPPR_Q_THRESHOLD           81
+#define INV_DIVAPPR_Q_THRESHOLD        4569
 #define DC_BDIV_QR_THRESHOLD             28
 #define DC_BDIV_Q_THRESHOLD              34
-/* Tuneup completed successfully, took 145 seconds */
+/* Tuneup completed successfully, took 1562 seconds */
