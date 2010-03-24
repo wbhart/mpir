@@ -1,6 +1,6 @@
-This is mpir.info, produced by makeinfo version 4.7 from mpir.texi.
+This is mpir.info, produced by makeinfo version 4.13 from mpir.texi.
 
-   This manual describes how to install and use MPIR, the Multiple
+This manual describes how to install and use MPIR, the Multiple
 Precision Integers and Rationals library, version 1.3.1.
 
    Copyright 1991, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000,
@@ -14,7 +14,7 @@ document under the terms of the GNU Free Documentation License, Version
 with no Invariant Sections, with the Front-Cover Texts being "A GNU
 Manual", and with the Back-Cover Texts being "You have freedom to copy
 and modify this GNU Manual, like GNU software".  A copy of the license
-is included in *Note GNU Free Documentation License::.
+is included in *note GNU Free Documentation License::.
 
 INFO-DIR-SECTION GNU libraries
 START-INFO-DIR-ENTRY
@@ -209,8 +209,8 @@ formulas is used, according as n is odd or even.
      F[2k+1] = (2F[k]+F[k-1])*(2F[k]-F[k-1]) + 2*(-1)^k
 
    F[2k+1] here is the same as above, just rearranged to be a multiply.
-For interest, the 2*(-1)^k term both here and above can be applied
-just to the low limb of the calculation, without a carry or borrow into
+For interest, the 2*(-1)^k term both here and above can be applied just
+to the low limb of the calculation, without a carry or borrow into
 further limbs, which saves some code size.  See comments with
 `mpz_fib_ui' and the internal `mpn_fib2_ui' for how this is done.
 
@@ -816,7 +816,7 @@ GCDs necessary, not four.
 
    This general approach to common factors is badly sub-optimal in the
 presence of simple factorizations or little prospect for cancellation,
-but MPIR has no way to know when this will occur.  As per *Note
+but MPIR has no way to know when this will occur.  As per *note
 Efficiency::, that's left to applications.  The `mpq_t' framework might
 still suit, with `mpq_numref' and `mpq_denref' for direct access to the
 numerator and denominator, or of course `mpz_t' variables can be used
@@ -1903,18 +1903,17 @@ Concept Index
 * About this manual:                     Introduction to MPIR.
                                                               (line  51)
 * AC_CHECK_LIB:                          Autoconf.            (line  11)
-* AIX <1>:                               ABI and ISA.         (line 169)
-* AIX <2>:                               Notes for Particular Systems.
+* AIX <1>:                               Notes for Particular Systems.
                                                               (line   7)
-* AIX:                                   ABI and ISA.         (line 177)
+* AIX:                                   ABI and ISA.         (line 169)
 * Algorithms:                            Algorithms.          (line   6)
 * alloca:                                Build Options.       (line 286)
 * Allocation of memory:                  Custom Allocation.   (line   6)
 * AMD64:                                 ABI and ISA.         (line  44)
 * Application Binary Interface:          ABI and ISA.         (line   6)
-* Arithmetic functions <1>:              Integer Arithmetic.  (line   6)
+* Arithmetic functions <1>:              Float Arithmetic.    (line   6)
 * Arithmetic functions <2>:              Rational Arithmetic. (line   6)
-* Arithmetic functions:                  Float Arithmetic.    (line   6)
+* Arithmetic functions:                  Integer Arithmetic.  (line   6)
 * ARM:                                   Notes for Particular Systems.
                                                               (line  20)
 * Assembler cache handling:              Assembler Cache Handling.
@@ -1941,15 +1940,15 @@ Concept Index
 * Assignment functions <2>:              Assigning Floats.    (line   6)
 * Assignment functions <3>:              Initializing Rationals.
                                                               (line   6)
-* Assignment functions <4>:              Assigning Integers.  (line   6)
-* Assignment functions:                  Simultaneous Integer Init & Assign.
+* Assignment functions <4>:              Simultaneous Integer Init & Assign.
                                                               (line   6)
+* Assignment functions:                  Assigning Integers.  (line   6)
 * Autoconf:                              Autoconf.            (line   6)
 * Basics:                                MPIR Basics.         (line   6)
 * Binomial coefficient algorithm:        Binomial Coefficients Algorithm.
                                                               (line   6)
 * Binomial coefficient functions:        Number Theoretic Functions.
-                                                              (line 150)
+                                                              (line 151)
 * Binutils strip:                        Known Build Problems.
                                                               (line  28)
 * Bit manipulation functions:            Integer Logic and Bit Fiddling.
@@ -1990,9 +1989,9 @@ Concept Index
                                                               (line   6)
 * Compaq C++:                            Notes for Particular Systems.
                                                               (line  25)
-* Comparison functions <1>:              Integer Comparisons. (line   6)
+* Comparison functions <1>:              Float Comparison.    (line   6)
 * Comparison functions <2>:              Comparing Rationals. (line   6)
-* Comparison functions:                  Float Comparison.    (line   6)
+* Comparison functions:                  Integer Comparisons. (line   6)
 * Compatibility with older versions:     Compatibility with older versions.
                                                               (line   6)
 * Conditions for copying MPIR:           Copying.             (line   6)
@@ -2006,15 +2005,15 @@ Concept Index
                                                               (line   6)
 * Conventions for variables:             Variable Conventions.
                                                               (line   6)
-* Conversion functions <1>:              Converting Integers. (line   6)
-* Conversion functions <2>:              Converting Floats.   (line   6)
-* Conversion functions:                  Rational Conversions.
+* Conversion functions <1>:              Converting Floats.   (line   6)
+* Conversion functions <2>:              Rational Conversions.
                                                               (line   6)
+* Conversion functions:                  Converting Integers. (line   6)
 * Copying conditions:                    Copying.             (line   6)
 * CPPFLAGS:                              Build Options.       (line 216)
-* CPU types <1>:                         Introduction to MPIR.
+* CPU types <1>:                         Build Options.       (line 114)
+* CPU types:                             Introduction to MPIR.
                                                               (line  24)
-* CPU types:                             Build Options.       (line 114)
 * Cross compiling:                       Build Options.       (line  73)
 * Custom allocation:                     Custom Allocation.   (line   6)
 * CXX:                                   Build Options.       (line 262)
@@ -2029,12 +2028,12 @@ Concept Index
 * Digits in an integer:                  Miscellaneous Integer Functions.
                                                               (line  23)
 * Divisibility algorithm:                Exact Remainder.     (line  30)
-* Divisibility functions:                Integer Division.    (line 131)
+* Divisibility functions:                Integer Division.    (line 118)
 * Divisibility testing:                  Efficiency.          (line  91)
 * Division algorithms:                   Division Algorithms. (line   6)
-* Division functions <1>:                Integer Division.    (line   6)
+* Division functions <1>:                Float Arithmetic.    (line  33)
 * Division functions <2>:                Rational Arithmetic. (line  23)
-* Division functions:                    Float Arithmetic.    (line  33)
+* Division functions:                    Integer Division.    (line   6)
 * DJGPP <1>:                             Known Build Problems.
                                                               (line  18)
 * DJGPP:                                 Notes for Particular Systems.
@@ -2061,30 +2060,30 @@ Concept Index
 * Export:                                Integer Import and Export.
                                                               (line  45)
 * Expression parsing demo:               Demonstration Programs.
-                                                              (line  18)
+                                                              (line  15)
 * Extended GCD:                          Number Theoretic Functions.
-                                                              (line  96)
+                                                              (line  97)
 * Factor removal functions:              Number Theoretic Functions.
-                                                              (line 140)
+                                                              (line 141)
 * Factorial algorithm:                   Factorial Algorithm. (line   6)
 * Factorial functions:                   Number Theoretic Functions.
-                                                              (line 145)
+                                                              (line 146)
 * Factorization demo:                    Demonstration Programs.
                                                               (line  25)
 * Fast Fourier Transform:                FFT Multiplication.  (line   6)
 * Fat binary:                            Build Options.       (line 171)
 * FDL, GNU Free Documentation License:   GNU Free Documentation License.
                                                               (line   6)
-* FFT multiplication <1>:                Build Options.       (line 325)
-* FFT multiplication:                    FFT Multiplication.  (line   6)
+* FFT multiplication <1>:                FFT Multiplication.  (line   6)
+* FFT multiplication:                    Build Options.       (line 325)
 * Fibonacci number algorithm:            Fibonacci Numbers Algorithm.
                                                               (line   6)
 * Fibonacci sequence functions:          Number Theoretic Functions.
-                                                              (line 158)
+                                                              (line 159)
 * Float arithmetic functions:            Float Arithmetic.    (line   6)
-* Float assignment functions <1>:        Assigning Floats.    (line   6)
-* Float assignment functions:            Simultaneous Float Init & Assign.
+* Float assignment functions <1>:        Simultaneous Float Init & Assign.
                                                               (line   6)
+* Float assignment functions:            Assigning Floats.    (line   6)
 * Float comparison functions:            Float Comparison.    (line   6)
 * Float conversion functions:            Converting Floats.   (line   6)
 * Float functions:                       Floating-point Functions.
@@ -2120,9 +2119,9 @@ Concept Index
 * GCD algorithms:                        Greatest Common Divisor Algorithms.
                                                               (line   6)
 * GCD extended:                          Number Theoretic Functions.
-                                                              (line  96)
+                                                              (line  97)
 * GCD functions:                         Number Theoretic Functions.
-                                                              (line  81)
+                                                              (line  82)
 * GDB:                                   Debugging.           (line  58)
 * Generic C:                             Build Options.       (line 160)
 * GNU Debugger:                          Debugging.           (line  58)
@@ -2134,7 +2133,7 @@ Concept Index
 * Greatest common divisor algorithms:    Greatest Common Divisor Algorithms.
                                                               (line   6)
 * Greatest common divisor functions:     Number Theoretic Functions.
-                                                              (line  81)
+                                                              (line  82)
 * Hardware floating point mode:          Notes for Particular Systems.
                                                               (line  34)
 * Headers:                               Headers and Libraries.
@@ -2145,9 +2144,9 @@ Concept Index
 * Host system:                           Build Options.       (line  73)
 * HP-UX:                                 ABI and ISA.         (line  68)
 * HPPA:                                  ABI and ISA.         (line  68)
-* I/O functions <1>:                     I/O of Rationals.    (line   6)
-* I/O functions <2>:                     I/O of Integers.     (line   6)
-* I/O functions:                         I/O of Floats.       (line   6)
+* I/O functions <1>:                     I/O of Floats.       (line   6)
+* I/O functions <2>:                     I/O of Rationals.    (line   6)
+* I/O functions:                         I/O of Integers.     (line   6)
 * i386:                                  Notes for Particular Systems.
                                                               (line 136)
 * IA-64:                                 ABI and ISA.         (line 107)
@@ -2157,21 +2156,21 @@ Concept Index
 * Include files:                         Headers and Libraries.
                                                               (line   6)
 * info-lookup-symbol:                    Emacs.               (line   6)
-* Initialization functions <1>:          Simultaneous Float Init & Assign.
+* Initialization functions <1>:          Random State Initialization.
                                                               (line   6)
-* Initialization functions <2>:          Initializing Floats. (line   6)
-* Initialization functions <3>:          Initializing Rationals.
+* Initialization functions <2>:          Simultaneous Float Init & Assign.
                                                               (line   6)
-* Initialization functions <4>:          Random State Initialization.
+* Initialization functions <3>:          Initializing Floats. (line   6)
+* Initialization functions <4>:          Initializing Rationals.
                                                               (line   6)
 * Initialization functions <5>:          Simultaneous Integer Init & Assign.
                                                               (line   6)
 * Initialization functions:              Initializing Integers.
                                                               (line   6)
 * Initializing and clearing:             Efficiency.          (line  21)
-* Input functions <1>:                   I/O of Floats.       (line   6)
-* Input functions <2>:                   Formatted Input Functions.
+* Input functions <1>:                   Formatted Input Functions.
                                                               (line   6)
+* Input functions <2>:                   I/O of Floats.       (line   6)
 * Input functions <3>:                   I/O of Rationals.    (line   6)
 * Input functions:                       I/O of Integers.     (line   6)
 * Install prefix:                        Build Options.       (line  32)
@@ -2181,9 +2180,9 @@ Concept Index
 * Integer:                               Nomenclature and Types.
                                                               (line   6)
 * Integer arithmetic functions:          Integer Arithmetic.  (line   6)
-* Integer assignment functions <1>:      Assigning Integers.  (line   6)
-* Integer assignment functions:          Simultaneous Integer Init & Assign.
+* Integer assignment functions <1>:      Simultaneous Integer Init & Assign.
                                                               (line   6)
+* Integer assignment functions:          Assigning Integers.  (line   6)
 * Integer bit manipulation functions:    Integer Logic and Bit Fiddling.
                                                               (line   6)
 * Integer comparison functions:          Integer Comparisons. (line   6)
@@ -2196,9 +2195,9 @@ Concept Index
 * Integer functions:                     Integer Functions.   (line   6)
 * Integer import:                        Integer Import and Export.
                                                               (line  11)
-* Integer initialization functions <1>:  Initializing Integers.
+* Integer initialization functions <1>:  Simultaneous Integer Init & Assign.
                                                               (line   6)
-* Integer initialization functions:      Simultaneous Integer Init & Assign.
+* Integer initialization functions:      Initializing Integers.
                                                               (line   6)
 * Integer input and output functions:    I/O of Integers.     (line   6)
 * Integer internals:                     Integer Internals.   (line   6)
@@ -2218,28 +2217,28 @@ Concept Index
 * Introduction:                          Introduction to MPIR.
                                                               (line   6)
 * Inverse modulo functions:              Number Theoretic Functions.
-                                                              (line 109)
-* IRIX <1>:                              ABI and ISA.         (line 132)
-* IRIX:                                  Known Build Problems.
+                                                              (line 110)
+* IRIX <1>:                              Known Build Problems.
                                                               (line  38)
+* IRIX:                                  ABI and ISA.         (line 132)
 * ISA:                                   ABI and ISA.         (line   6)
 * istream input:                         C++ Formatted Input. (line   6)
 * Jacobi symbol algorithm:               Jacobi Symbol.       (line   6)
 * Jacobi symbol functions:               Number Theoretic Functions.
-                                                              (line 115)
+                                                              (line 116)
 * Karatsuba multiplication:              Karatsuba Multiplication.
                                                               (line   6)
 * Karatsuba square root algorithm:       Square Root Algorithm.
                                                               (line   6)
 * Kronecker symbol functions:            Number Theoretic Functions.
-                                                              (line 127)
+                                                              (line 128)
 * Language bindings:                     Language Bindings.   (line   6)
 * LCM functions:                         Number Theoretic Functions.
-                                                              (line 104)
+                                                              (line 105)
 * Least common multiple functions:       Number Theoretic Functions.
-                                                              (line 104)
+                                                              (line 105)
 * Legendre symbol functions:             Number Theoretic Functions.
-                                                              (line 118)
+                                                              (line 119)
 * libmpir:                               Headers and Libraries.
                                                               (line  22)
 * libmpirxx:                             Headers and Libraries.
@@ -2258,7 +2257,7 @@ Concept Index
 * Linear congruential algorithm:         Random Number Algorithms.
                                                               (line  25)
 * Linear congruential random numbers:    Random State Initialization.
-                                                              (line  32)
+                                                              (line  18)
 * Linking:                               Headers and Libraries.
                                                               (line  22)
 * Logical functions:                     Integer Logic and Bit Fiddling.
@@ -2267,7 +2266,7 @@ Concept Index
 * Lucas number algorithm:                Lucas Numbers Algorithm.
                                                               (line   6)
 * Lucas number functions:                Number Theoretic Functions.
-                                                              (line 169)
+                                                              (line 170)
 * MacOS X:                               Known Build Problems.
                                                               (line  51)
 * Mailing lists:                         Introduction to MPIR.
@@ -2290,20 +2289,20 @@ Concept Index
 * MMX:                                   Notes for Particular Systems.
                                                               (line 142)
 * Modular inverse functions:             Number Theoretic Functions.
-                                                              (line 109)
+                                                              (line 110)
 * Most significant bit:                  Miscellaneous Integer Functions.
                                                               (line  34)
 * MPIR Perl module:                      Demonstration Programs.
                                                               (line  35)
 * MPIR version number:                   Useful Macros and Constants.
-                                                              (line  21)
+                                                              (line  12)
 * mpir.h:                                Headers and Libraries.
                                                               (line   6)
 * mpirxx.h:                              C++ Interface General.
                                                               (line   8)
 * MPN_PATH:                              Build Options.       (line 338)
 * MS Windows:                            Notes for Particular Systems.
-                                                              (line  60)
+                                                              (line  43)
 * MS-DOS:                                Notes for Particular Systems.
                                                               (line  43)
 * Multi-threading:                       Reentrancy.          (line   6)
@@ -2314,9 +2313,9 @@ Concept Index
 * NeXT:                                  Known Build Problems.
                                                               (line  57)
 * Next likely prime function:            Number Theoretic Functions.
-                                                              (line  70)
+                                                              (line  71)
 * Next prime function:                   Number Theoretic Functions.
-                                                              (line  59)
+                                                              (line  60)
 * Nomenclature:                          Nomenclature and Types.
                                                               (line   6)
 * Non-Unix systems:                      Build Options.       (line  11)
@@ -2345,7 +2344,7 @@ Concept Index
 * Parameter conventions:                 Parameter Conventions.
                                                               (line   6)
 * Parsing expressions demo:              Demonstration Programs.
-                                                              (line  18)
+                                                              (line  15)
 * Particular systems:                    Notes for Particular Systems.
                                                               (line   6)
 * Past GMP/MPIR versions:                Compatibility with older versions.
@@ -2362,10 +2361,10 @@ Concept Index
 * Perl module:                           Demonstration Programs.
                                                               (line  35)
 * Postscript:                            Build Options.       (line 353)
-* Power/PowerPC <1>:                     Notes for Particular Systems.
-                                                              (line  97)
-* Power/PowerPC:                         Known Build Problems.
+* Power/PowerPC <1>:                     Known Build Problems.
                                                               (line  63)
+* Power/PowerPC:                         Notes for Particular Systems.
+                                                              (line  97)
 * Powering algorithms:                   Powering Algorithms. (line   6)
 * Powering functions <1>:                Float Arithmetic.    (line  41)
 * Powering functions:                    Integer Exponentiation.
@@ -2379,7 +2378,7 @@ Concept Index
 * Prime testing algorithms:              Prime Testing Algorithm.
                                                               (line   6)
 * Prime testing functions:               Number Theoretic Functions.
-                                                              (line  25)
+                                                              (line   8)
 * printf formatted output:               Formatted Output.    (line   6)
 * Probable prime testing functions:      Number Theoretic Functions.
                                                               (line   8)
@@ -2425,13 +2424,13 @@ Concept Index
 * Reentrancy:                            Reentrancy.          (line   6)
 * References:                            References.          (line   6)
 * Remove factor functions:               Number Theoretic Functions.
-                                                              (line 140)
+                                                              (line 141)
 * Reporting bugs:                        Reporting Bugs.      (line   6)
 * Root extraction algorithm:             Nth Root Algorithm.  (line   6)
 * Root extraction algorithms:            Root Extraction Algorithms.
                                                               (line   6)
-* Root extraction functions <1>:         Integer Roots.       (line   6)
-* Root extraction functions:             Float Arithmetic.    (line  37)
+* Root extraction functions <1>:         Float Arithmetic.    (line  37)
+* Root extraction functions:             Integer Roots.       (line   6)
 * Root testing functions:                Integer Roots.       (line  31)
 * Rounding functions:                    Miscellaneous Float Functions.
                                                               (line   9)
@@ -2452,16 +2451,16 @@ Concept Index
 * Shared library versioning:             Notes for Package Builds.
                                                               (line   9)
 * Sign tests <1>:                        Float Comparison.    (line  28)
-* Sign tests <2>:                        Integer Comparisons. (line  28)
-* Sign tests:                            Comparing Rationals. (line  27)
+* Sign tests <2>:                        Comparing Rationals. (line  27)
+* Sign tests:                            Integer Comparisons. (line  28)
 * Size in digits:                        Miscellaneous Integer Functions.
                                                               (line  23)
 * Small operands:                        Efficiency.          (line   7)
 * Solaris <1>:                           Known Build Problems.
-                                                              (line  78)
-* Solaris <2>:                           ABI and ISA.         (line 194)
-* Solaris:                               Notes for Particular Systems.
+                                                              (line  72)
+* Solaris <2>:                           Notes for Particular Systems.
                                                               (line 126)
+* Solaris:                               ABI and ISA.         (line 194)
 * Sparc:                                 Notes for Particular Systems.
                                                               (line 109)
 * Sparc V9:                              ABI and ISA.         (line 194)
@@ -2472,8 +2471,8 @@ Concept Index
 * SSE2:                                  Notes for Particular Systems.
                                                               (line 142)
 * Stack backtrace:                       Debugging.           (line  50)
-* Stack overflow <1>:                    Build Options.       (line 286)
-* Stack overflow:                        Debugging.           (line   7)
+* Stack overflow <1>:                    Debugging.           (line   7)
+* Stack overflow:                        Build Options.       (line 286)
 * Static linking:                        Efficiency.          (line  14)
 * stdarg.h:                              Headers and Libraries.
                                                               (line  17)
@@ -2511,7 +2510,7 @@ Concept Index
 * Web page:                              Introduction to MPIR.
                                                               (line  33)
 * Windows:                               Notes for Particular Systems.
-                                                              (line  60)
+                                                              (line  43)
 * x86:                                   Notes for Particular Systems.
                                                               (line 136)
 * x87:                                   Notes for Particular Systems.
@@ -2549,14 +2548,12 @@ Function and Type Index
                                                               (line  42)
 * ceil:                                  C++ Interface Floats.
                                                               (line  71)
-* cmp <1>:                               C++ Interface Integers.
-                                                              (line  43)
+* cmp <1>:                               C++ Interface Floats.
+                                                              (line  72)
 * cmp <2>:                               C++ Interface Rationals.
                                                               (line  44)
-* cmp <3>:                               C++ Interface Integers.
-                                                              (line  44)
-* cmp:                                   C++ Interface Floats.
-                                                              (line  73)
+* cmp:                                   C++ Interface Integers.
+                                                              (line  43)
 * floor:                                 C++ Interface Floats.
                                                               (line  80)
 * gmp_asprintf:                          Formatted Output Functions.
@@ -2582,13 +2579,13 @@ Function and Type Index
 * gmp_randclass::get_f:                  C++ Interface Random Numbers.
                                                               (line  39)
 * gmp_randclass::get_z_bits:             C++ Interface Random Numbers.
-                                                              (line  33)
+                                                              (line  32)
 * gmp_randclass::get_z_range:            C++ Interface Random Numbers.
                                                               (line  36)
 * gmp_randclass::gmp_randclass:          C++ Interface Random Numbers.
                                                               (line  13)
 * gmp_randclass::seed:                   C++ Interface Random Numbers.
-                                                              (line  28)
+                                                              (line  27)
 * gmp_randclear:                         Random State Initialization.
                                                               (line  46)
 * gmp_randinit_default:                  Random State Initialization.
@@ -2681,7 +2678,7 @@ Function and Type Index
 * mpf_class::get_ui:                     C++ Interface Floats.
                                                               (line  86)
 * mpf_class::mpf_class:                  C++ Interface Floats.
-                                                              (line  33)
+                                                              (line  12)
 * mpf_class::operator=:                  C++ Interface Floats.
                                                               (line  47)
 * mpf_class::set_prec:                   C++ Interface Floats.
@@ -2689,7 +2686,7 @@ Function and Type Index
 * mpf_class::set_prec_raw:               C++ Interface Floats.
                                                               (line 102)
 * mpf_class::set_str:                    C++ Interface Floats.
-                                                              (line  88)
+                                                              (line  87)
 * mpf_clear:                             Initializing Floats. (line  31)
 * mpf_cmp:                               Float Comparison.    (line   7)
 * mpf_cmp_d:                             Float Comparison.    (line   8)
@@ -2834,7 +2831,7 @@ Function and Type Index
 * mpq_class::get_str:                    C++ Interface Rationals.
                                                               (line  47)
 * mpq_class::mpq_class:                  C++ Interface Rationals.
-                                                              (line  28)
+                                                              (line  11)
 * mpq_class::set_str:                    C++ Interface Rationals.
                                                               (line  48)
 * mpq_clear:                             Initializing Rationals.
@@ -2899,9 +2896,9 @@ Function and Type Index
 * mpz_array_init:                        Integer Special Functions.
                                                               (line  11)
 * mpz_bin_ui:                            Number Theoretic Functions.
-                                                              (line 148)
+                                                              (line 149)
 * mpz_bin_uiui:                          Number Theoretic Functions.
-                                                              (line 150)
+                                                              (line 151)
 * mpz_cdiv_q:                            Integer Division.    (line  13)
 * mpz_cdiv_q_2exp:                       Integer Division.    (line  25)
 * mpz_cdiv_q_ui:                         Integer Division.    (line  17)
@@ -2936,9 +2933,9 @@ Function and Type Index
 * mpz_class::get_ui:                     C++ Interface Integers.
                                                               (line  54)
 * mpz_class::mpz_class:                  C++ Interface Integers.
-                                                              (line  19)
+                                                              (line   7)
 * mpz_class::set_str:                    C++ Interface Integers.
-                                                              (line  56)
+                                                              (line  55)
 * mpz_clear:                             Initializing Integers.
                                                               (line  37)
 * mpz_clrbit:                            Integer Logic and Bit Fiddling.
@@ -2967,7 +2964,7 @@ Function and Type Index
 * mpz_export:                            Integer Import and Export.
                                                               (line  45)
 * mpz_fac_ui:                            Number Theoretic Functions.
-                                                              (line 145)
+                                                              (line 146)
 * mpz_fdiv_q:                            Integer Division.    (line  29)
 * mpz_fdiv_q_2exp:                       Integer Division.    (line  41)
 * mpz_fdiv_q_ui:                         Integer Division.    (line  33)
@@ -2978,9 +2975,9 @@ Function and Type Index
 * mpz_fdiv_r_ui:                         Integer Division.    (line  35)
 * mpz_fdiv_ui:                           Integer Division.    (line  39)
 * mpz_fib2_ui:                           Number Theoretic Functions.
-                                                              (line 158)
+                                                              (line 159)
 * mpz_fib_ui:                            Number Theoretic Functions.
-                                                              (line 156)
+                                                              (line 157)
 * mpz_fits_sint_p:                       Miscellaneous Integer Functions.
                                                               (line  10)
 * mpz_fits_slong_p:                      Miscellaneous Integer Functions.
@@ -2994,11 +2991,11 @@ Function and Type Index
 * mpz_fits_ushort_p:                     Miscellaneous Integer Functions.
                                                               (line  11)
 * mpz_gcd:                               Number Theoretic Functions.
-                                                              (line  81)
+                                                              (line  82)
 * mpz_gcd_ui:                            Number Theoretic Functions.
-                                                              (line  86)
+                                                              (line  87)
 * mpz_gcdext:                            Number Theoretic Functions.
-                                                              (line  96)
+                                                              (line  97)
 * mpz_get_d:                             Converting Integers. (line  27)
 * mpz_get_d_2exp:                        Converting Integers. (line  35)
 * mpz_get_si:                            Converting Integers. (line  18)
@@ -3027,29 +3024,29 @@ Function and Type Index
 * mpz_inp_raw:                           I/O of Integers.     (line  54)
 * mpz_inp_str:                           I/O of Integers.     (line  23)
 * mpz_invert:                            Number Theoretic Functions.
-                                                              (line 109)
+                                                              (line 110)
 * mpz_ior:                               Integer Logic and Bit Fiddling.
                                                               (line  14)
 * mpz_jacobi:                            Number Theoretic Functions.
-                                                              (line 115)
+                                                              (line 116)
 * mpz_kronecker:                         Number Theoretic Functions.
-                                                              (line 123)
-* mpz_kronecker_si:                      Number Theoretic Functions.
                                                               (line 124)
-* mpz_kronecker_ui:                      Number Theoretic Functions.
+* mpz_kronecker_si:                      Number Theoretic Functions.
                                                               (line 125)
+* mpz_kronecker_ui:                      Number Theoretic Functions.
+                                                              (line 126)
 * mpz_lcm:                               Number Theoretic Functions.
-                                                              (line 103)
-* mpz_lcm_ui:                            Number Theoretic Functions.
                                                               (line 104)
+* mpz_lcm_ui:                            Number Theoretic Functions.
+                                                              (line 105)
 * mpz_legendre:                          Number Theoretic Functions.
-                                                              (line 118)
+                                                              (line 119)
 * mpz_likely_prime_p:                    Number Theoretic Functions.
-                                                              (line  25)
+                                                              (line  26)
 * mpz_lucnum2_ui:                        Number Theoretic Functions.
-                                                              (line 169)
+                                                              (line 170)
 * mpz_lucnum_ui:                         Number Theoretic Functions.
-                                                              (line 167)
+                                                              (line 168)
 * mpz_mod:                               Integer Division.    (line  97)
 * mpz_mod_ui:                            Integer Division.    (line  99)
 * mpz_mul:                               Integer Arithmetic.  (line  19)
@@ -3058,9 +3055,9 @@ Function and Type Index
 * mpz_mul_ui:                            Integer Arithmetic.  (line  22)
 * mpz_neg:                               Integer Arithmetic.  (line  40)
 * mpz_next_likely_prime:                 Number Theoretic Functions.
-                                                              (line  70)
+                                                              (line  71)
 * mpz_nextprime:                         Number Theoretic Functions.
-                                                              (line  59)
+                                                              (line  60)
 * mpz_nthroot:                           Integer Roots.       (line  13)
 * mpz_odd_p:                             Miscellaneous Integer Functions.
                                                               (line  17)
@@ -3077,13 +3074,13 @@ Function and Type Index
 * mpz_powm_ui:                           Integer Exponentiation.
                                                               (line  10)
 * mpz_probab_prime_p:                    Number Theoretic Functions.
-                                                              (line  40)
+                                                              (line  41)
 * mpz_probable_prime_p:                  Number Theoretic Functions.
                                                               (line   8)
 * mpz_realloc2:                          Initializing Integers.
                                                               (line  41)
 * mpz_remove:                            Number Theoretic Functions.
-                                                              (line 140)
+                                                              (line 141)
 * mpz_root:                              Integer Roots.       (line   7)
 * mpz_rootrem:                           Integer Roots.       (line  17)
 * mpz_rrandomb:                          Integer Random Numbers.
@@ -3103,7 +3100,7 @@ Function and Type Index
                                                               (line  52)
 * mpz_sgn:                               Integer Comparisons. (line  28)
 * mpz_si_kronecker:                      Number Theoretic Functions.
-                                                              (line 126)
+                                                              (line 127)
 * mpz_size:                              Integer Special Functions.
                                                               (line  71)
 * mpz_sizeinbase:                        Miscellaneous Integer Functions.
@@ -3129,7 +3126,7 @@ Function and Type Index
 * mpz_tstbit:                            Integer Logic and Bit Fiddling.
                                                               (line  61)
 * mpz_ui_kronecker:                      Number Theoretic Functions.
-                                                              (line 127)
+                                                              (line 128)
 * mpz_ui_pow_ui:                         Integer Exponentiation.
                                                               (line  20)
 * mpz_ui_sub:                            Integer Arithmetic.  (line  16)
@@ -3144,11 +3141,10 @@ Function and Type Index
 * operator/:                             C++ Interface Integers.
                                                               (line  29)
 * operator<<:                            C++ Formatted Output.
-                                                              (line  33)
-* operator>> <1>:                        C++ Formatted Input. (line  11)
-* operator>> <2>:                        C++ Interface Rationals.
+                                                              (line  11)
+* operator>> <1>:                        C++ Interface Rationals.
                                                               (line  77)
-* operator>>:                            C++ Formatted Input. (line  25)
+* operator>>:                            C++ Formatted Input. (line  11)
 * sgn <1>:                               C++ Interface Floats.
                                                               (line  89)
 * sgn <2>:                               C++ Interface Rationals.
