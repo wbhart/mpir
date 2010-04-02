@@ -5,13 +5,13 @@ Building MPIR with Microsoft Visual Studio 2008
 A Note On Licensing
 ===================
 
-The GMP files used in this distribution have been derived from 
-the GMP 4.2.1 distribution and are all licensed under Gnu LGPL 
-v2.1 license terms. 
-
-Other files in this distribution that have been created by me 
+Files in this distribution that have been created by me 
 for use in building MPIR with Microsoft Visual Studio 2008 
-are provided under the same license terms.
+are provided under the LGPL v2.1+ license terms.
+
+The MPIR library uses numerous files which are LGPL v3+ and
+so the overall license of the library distribution is LGPL v3+.
+Some of the demos are GPL.
 
 Using the Assembler Based Build Projects
 ========================================
