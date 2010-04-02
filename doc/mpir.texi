@@ -14,12 +14,12 @@ This manual describes how to install and use MPIR, the Multiple Precision Intege
 library, version @value{VERSION}.
 
 Copyright 1991, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002,
-2003, 2004, 2005, 2006 Free Software Foundation, Inc.
+2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010 Free Software Foundation, Inc.
 
-Copyright 2008 William Hart
+Copyright 2008, 2009, 2010 William Hart
 
 Permission is granted to copy, distribute and/or modify this document under
-the terms of the GNU Free Documentation License, Version 1.2 or any later
+the terms of the GNU Free Documentation License, Version 1.3 or any later
 version published by the Free Software Foundation; with no Invariant Sections,
 with the Front-Cover Texts being ``A GNU Manual'', and with the Back-Cover
 Texts being ``You have freedom to copy and modify this GNU Manual, like GNU
@@ -480,7 +480,7 @@ AMD K6, K6-2, Athlon, K8 and K10,
 Hitachi SuperH and SH-2,
 HPPA 1.0, 1.1 and 2.0,
 Intel Pentium, Pentium Pro/II/III, Pentium 4, generic x86,
-Intel IA-64, i960, Core 2
+Intel IA-64, i960, Core 2, i7, Atom,
 Motorola MC68000, MC68020, MC88100, and MC88110,
 Motorola/IBM PowerPC 32 and 64,
 National NS32000,
@@ -567,7 +567,14 @@ then use the @samp{--enable-gmpcompat} option when invoking configure:
 ./configure --enable-gmpcompat
 @end example
 
-If you experience problems, please report them to @uref{http://groups.google.com/group/mpir-devel}.
+Note gmp.h is only created upon running make install. 
+
+MPIR is compatible with GMP when the @samp{--enable-gmpcompat} option is used. Some deprecated GMP functionality may be unavailable if this option is not selected. 
+
+If you experience problems, please report them to 
+
+@uref{http://groups.google.com/group/mpir-devel}.
+
 See @ref{Reporting Bugs}, for information on what to include in useful bug
 reports.
 
@@ -745,7 +752,6 @@ HPPA:
 @nisamp{hppa2.0},
 @nisamp{hppa2.0n},
 @nisamp{hppa2.0w},
-@nisamp{hppa64}
 
 @item
 IA-64:
@@ -834,6 +840,7 @@ x86 family:
 @nisamp{core2},
 @nisamp{penryn},
 @nisamp{nehalem},
+@nisamp{nano}
 @nisamp{atom},
 @nisamp{k5},
 @nisamp{k6},
@@ -842,6 +849,7 @@ x86 family:
 @nisamp{k7},
 @nisamp{k8},
 @nisamp{k10}
+@nisamp{k102}
 @nisamp{viac3},
 @nisamp{viac32}
 
@@ -879,7 +887,7 @@ least make it possible to get something running if all else fails.
 Using @option{--enable-fat} selects a ``fat binary'' build on x86 or x86_64 
 systems, where optimized low level subroutines are chosen at runtime according 
 to the CPU detected.  This means more code, but gives reasonable performance 
-from a single binary for all x86 chips, or simililarly for all x86_64 chips. 
+from a single binary for all x86 chips, or similarly for all x86_64 chips. 
 (This option might become available for more architectures in the future.)
 
 @item @option{ABI}
@@ -1045,9 +1053,9 @@ debugging memory related problems (@pxref{Debugging}).
 @item FFT Multiplication, @option{--disable-fft}
 @cindex FFT multiplication
 @cindex @code{--disable-fft}
-By default multiplications are done using Karatsuba, 3-way Toom, and
-Fermat FFT@.  The FFT is only used on large to very large operands and can be
-disabled to save code size if desired.
+By default multiplications are done using Karatsuba, Toom, and
+FFT algorithms@.  The FFT is only used on large to very large operands and 
+can be disabled to save code size if desired.
 
 @item Assertion Checking, @option{--enable-assert}
 @cindex Assertion checking
@@ -1062,7 +1070,7 @@ Enable profiling support, in one of various styles, @pxref{Profiling}.
 
 @item @option{MPN_PATH}
 @cindex @code{MPN_PATH}
-Various assembler versions of each mpn subroutines are provided.  For a given
+Various assembler versions of mpn subroutines are provided.  For a given
 CPU, a search is made though a path to choose a version of each.  For example
 @samp{sparcv8} has
 
@@ -1141,7 +1149,7 @@ installing library or header files built for a particular ABI@.  This will
 probably only matter when installing multiple builds of MPIR, and it might be
 as simple as configuring with a special @samp{libdir}, or it might require
 more than that.  Note that builds for different ABIs need to done separately,
-with a fresh @command{./configure} and @command{make} each.
+with a fresh (@command{make distclean}), @command{./configure} and @command{make}.
 
 @sp 1
 @table @asis
@@ -1201,7 +1209,7 @@ cc  +DA2.0 +e
 
 Note that current versions of GCC (eg.@: 3.2) don't generate 64-bit
 instructions for @code{long long} operations and so may be slower than for
-2.0w.  (The MPIR assembler code is the same though.)
+2.0w.
 
 @item @samp{ABI=1.0}
 HPPA 2.0 CPUs can run all HPPA 1.0 and 1.1 code in the 32-bit HPPA 1.0 ABI@.
@@ -1416,6 +1424,12 @@ libtool versioning is not fully checked by the loader an auxiliary mechanism may
 needed to express that a dynamic linked application depends on a new enough
 MPIR.
 
+From MPIR 2.0.0 binary compatibility with the GMP 5 series will be maintained
+with the exception of the availability of secure functions for cryptography,
+which will not be supported in MPIR. For full GMP compatibility, including
+deprecated functionality, the @samp{--enable-gmpcompat} configuration option
+must be used.
+
 An auxiliary mechanism may also be needed to express that @file{libmpirxx.la}
 (from @option{--enable-cxx}, @pxref{Build Options}) requires @file{libmpir.la}
 from the same MPIR version, since this is not done by the libtool versioning,
@@ -1524,9 +1538,8 @@ affects all code, including application code, not just MPIR.
 @cindex Cygwin
 @cindex DJGPP
 @cindex MINGW
-On an MS-DOS system DJGPP can be used to build MPIR, and on an MS Windows
-system Cygwin, DJGPP and MINGW can all be used.  All three are excellent ports of
-GCC and the various GNU tools.
+On an MS Windows system Cygwin, DJGPP and MINGW can all be used.  All three 
+are ports of GCC and the various GNU tools.
 
 @display
 @uref{http://www.cygwin.com/}
@@ -1534,8 +1547,12 @@ GCC and the various GNU tools.
 @uref{http://www.mingw.org/}
 @end display
 
-In addition, project files for MSVC are provided, allowing MPIR to build on Microsoft's
-compiler. This support is provided by Brian Gladman.
+In addition, project files for MSVC are provided, allowing MPIR to 
+build on Microsoft's compiler. See the @samp{build.vc9} directory.
+This support is provided by Dr. Brian Gladman. For instructions on 
+how to build for MSVC, see the @samp{readme.txt} in the @samp{build.vc9} 
+directory. The MSVC projects provides full assembler support and for
+@samp{x86_64} CPU's this will produce far superior results.
 
 @cindex Interix
 @cindex Services for Unix
@@ -1557,10 +1574,9 @@ default MPIR builds only a static library, but a DLL can be built instead using
 Static and DLL libraries can't both be built, since certain export directives
 in @file{mpir.h} must be different.
 
-A MINGW DLL build of MPIR can be used with Microsoft C@.  Libtool doesn't
-install a @file{.lib} format import library, but it can be created with MS
-@command{lib} as follows, and copied to the install directory.  Similarly for
-@file{libmpir} and @file{libmpirxx}.
+Libtool doesn't install a @file{.lib} format import library, but it can be 
+created with MS @command{lib} as follows, and copied to the install directory.
+Similarly for @file{libmpir} and @file{libmpirxx}.
 
 @example
 cd .libs
@@ -1771,7 +1787,7 @@ computer, see @ref{Build Options}.
 
 Unlike what is the case for most other programs, the compiler typically
 doesn't matter much, since MPIR uses assembly language for the most critical
-operation.
+operations.
 
 In particular for long-running MPIR applications, and applications demanding
 extremely large numbers, building and running the @code{tuneup} program in the
@@ -2174,7 +2190,6 @@ The number of bits per limb.
 @cindex Version number
 @cindex MPIR version number
 The major and minor GMP version, and patch level, respectively, as integers.
-For GMP i.j, these numbers will be i, j, and 0, respectively.
 For GMP i.j.k, these numbers will be i, j, and k, respectively.
 These numbers represent the version of GMP fully supported by this version of MPIR.
 @end defmac
@@ -2185,19 +2200,18 @@ These numbers represent the version of GMP fully supported by this version of MP
 @cindex Version number
 @cindex MPIR version number
 The major and minor MPIR version, and patch level, respectively, as integers.
-For MPIR i.j, these numbers will be i, j, and 0, respectively.
 For MPIR i.j.k, these numbers will be i, j, and k, respectively.
 @end defmac
 
 @deftypevr {Global Constant} {const char * const} gmp_version
 @findex gmp_version
-The GNU MP version number, as a null-terminated string, in the form ``i.j'' or
+The GNU MP version number, as a null-terminated string, in the form 
 ``i.j.k''.
 @end deftypevr
 
 @deftypevr {Global Constant} {const char * const} mpir_version
 @findex mpir_version
-The MPIR version number, as a null-terminated string, in the form ``i.j'' or
+The MPIR version number, as a null-terminated string, in the form
 ``i.j.k''.  This release is @nicode{"@value{VERSION}"}.
 @end deftypevr
 
@@ -2207,7 +2221,7 @@ The MPIR version number, as a null-terminated string, in the form ``i.j'' or
 @cindex Past GMP/MPIR versions
 @cindex Upward compatibility
 
-This version of MPIR is upwardly binary compatible with all GMP 4.x and 3.x
+This version of MPIR is upwardly binary compatible with all GMP 5.x, 4.x and 3.x
 versions, and upwardly compatible at the source level with all 2.x versions,
 with the following exceptions.
 
@@ -2221,9 +2235,16 @@ with other @code{mpn} functions.
 3.0.1, but in 3.1 reverted to the 2.x style.
 @end itemize
 
+@item
+MPIR does not support the secure cryptographic functions provided by MPIR.
+
+@item
+Full GMP compatibility is only available when the @samp{--enable-gmpcompat}
+configure option is used.
+
 There are a number of compatibility issues between GMP 1 and GMP 2 that of
-course also apply when porting applications from GMP 1 to GMP 4 and MPIR 1.  Please
-see the GMP 2 manual for details.
+course also apply when porting applications from GMP 1 to GMP 4 and MPIR 1 
+and 2.  Please see the GMP 2 manual for details.
 
 @need 1000
 @node Demonstration Programs, Efficiency, Compatibility with older versions, MPIR Basics
@@ -2495,13 +2516,10 @@ Reference Manual}, or @samp{man 3 malloc}.  Other possibilities, in no
 particular order, include
 
 @display
-@uref{http://www.inf.ethz.ch/personal/biere/projects/ccmalloc/}
 @uref{http://dmalloc.com/}
 @uref{http://www.perens.com/FreeSoftware/} @ (electric fence)
-@uref{http://packages.debian.org/fda}
 @uref{http://www.gnupdate.org/components/leakbug/}
-@uref{http://people.redhat.com/~otaylor/memprof/}
-@uref{http://www.cbmamiga.demon.co.uk/mpatrol/}
+@uref{http://wwww.gnome.org/projects/memprof}
 @end display
 
 The MPIR default allocation routines in @file{memory.c} also have a simple
@@ -6890,9 +6908,6 @@ interface, expression templates to eliminate temporaries.
 ALP @spaceuref{http://www-sop.inria.fr/saga/logiciels/ALP/} @* Linear algebra and
 polynomials using templates.
 @item
-Arithmos @spaceuref{http://www.win.ua.ac.be/~cant/arithmos/} @* Rationals
-with infinities and square roots.
-@item
 CLN @spaceuref{http://www.ginac.de/CLN/} @* High level classes for arithmetic.
 @item
 LiDIA @spaceuref{http://www.informatik.tu-darmstadt.de/TI/LiDIA/} @* A C++
@@ -6901,12 +6916,6 @@ library for computational number theory.
 Linbox @spaceuref{http://www.linalg.org/} @* Sparse vectors and matrices.
 @item
 NTL @spaceuref{http://www.shoup.net/ntl/} @* A C++ number theory library.
-@end itemize
-
-@item D
-@itemize @bullet
-@item
-gmp-d @spaceuref{http://home.comcast.net/~benhinkle/gmp-d}
 @end itemize
 
 @item Fortran
@@ -6926,12 +6935,12 @@ Glasgow Haskell Compiler @spaceuref{http://www.haskell.org/ghc/}
 @itemize @bullet
 @item
 Kaffe @spaceuref{http://www.kaffe.org/}
-@item
-Kissme @spaceuref{http://kissme.sourceforge.net/}
 @end itemize
 
 @item Lisp
 @itemize @bullet
+@item
+Embeddable Common Lisp @spaceuref{http://ecls.sourceforge.net/download.html}
 @item
 GNU Common Lisp @spaceuref{http://www.gnu.org/software/gcl/gcl.html}
 @item
@@ -6960,8 +6969,6 @@ MLton compiler @spaceuref{http://mlton.org/}
 
 @item Objective Caml
 @itemize @bullet
-@item
-MLGMP @spaceuref{http://www.di.ens.fr/~monniaux/programmes.html.en}
 @item
 Numerix @spaceuref{http://pauillac.inria.fr/~quercia/} @* Optionally using
 GMP.
@@ -6995,6 +7002,12 @@ Math::BigInt::GMP @spaceuref{http://www.cpan.org/} @* Plug Math::GMP into
 normal Math::BigInt operations.
 @end itemize
 
+@item PHP
+@itemize @bullet
+@item
+mpz module in the main distribution, @uref{http://php.net/}
+@end{itemize}
+
 @need 1000
 @item Pike
 @itemize @bullet
@@ -7024,8 +7037,6 @@ GMPY @uref{http://gmpy.sourceforge.net/}
 GNU Guile (upcoming 1.8) @spaceuref{http://www.gnu.org/software/guile/guile.html}
 @item
 RScheme @spaceuref{http://www.rscheme.org/}
-@item
-STklos @spaceuref{http://www.stklos.org/}
 @c
 @c  For reference, MzScheme uses some of gmp, but (as of version 205) it only
 @c  has copies of some of the generic C code, and we don't consider that a
@@ -7042,11 +7053,11 @@ GNU Smalltalk @spaceuref{http://www.smalltalk.org/versions/GNUSmalltalk.html}
 @item Other
 @itemize @bullet
 @item
+ALGLIB @uref{http://www.alglib.net/} @* Numerical analysis and data processing
+library.
+@item
 Axiom @uref{http://savannah.nongnu.org/projects/axiom} @* Computer algebra
 using GCL.
-@item
-DrGenius @spaceuref{http://drgenius.seul.org/} @* Geometry system and
-mathematical programming language.
 @item
 GiNaC @spaceuref{http://www.ginac.de/} @* C++ computer algebra using CLN.
 @item
@@ -7060,7 +7071,10 @@ Q @spaceuref{http://q-lang.sourceforge.net/} @* Equational programming system.
 @item
 Regina @spaceuref{http://regina.sourceforge.net/} @* Topological calculator.
 @item
-Yacas @spaceuref{http://www.xs4all.nl/~apinkus/yacas.html} @* Yet another
+Sage @spaceuref{http://www.sagemath.org/} @* Computer Algebra System written 
+in Python and Cython.
+@item
+Yacas @spaceuref{http://yacas.sourceforge.net/homepage.html} @* Yet another
 computer algebra system.
 @end itemize
 
