@@ -2354,10 +2354,10 @@ enum
 };
 
 /* Major version number is the value of __GNU_MP__ too, above and in mp.h. */
-#define __GNU_MP_VERSION 4
-#define __GNU_MP_VERSION_MINOR 3 
+#define __GNU_MP_VERSION 5 
+#define __GNU_MP_VERSION_MINOR 0 
 #define __GNU_MP_VERSION_PATCHLEVEL 1
-#define GMP_VERSION "4.3.1"
+#define GMP_VERSION "5.0.1"
 
 #define __MPIR_VERSION 2
 #define __MPIR_VERSION_MINOR 0
