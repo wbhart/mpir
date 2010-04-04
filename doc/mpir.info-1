@@ -4,13 +4,14 @@ This manual describes how to install and use MPIR, the Multiple
 Precision Integers and Rationals library, version 2.0.0.
 
    Copyright 1991, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000,
-2001, 2002, 2003, 2004, 2005, 2006 Free Software Foundation, Inc.
+2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010 Free
+Software Foundation, Inc.
 
-   Copyright 2008 William Hart
+   Copyright 2008, 2009, 2010 William Hart
 
    Permission is granted to copy, distribute and/or modify this
 document under the terms of the GNU Free Documentation License, Version
-1.2 or any later version published by the Free Software Foundation;
+1.3 or any later version published by the Free Software Foundation;
 with no Invariant Sections, with the Front-Cover Texts being "A GNU
 Manual", and with the Back-Cover Texts being "You have freedom to copy
 and modify this GNU Manual, like GNU software".  A copy of the license
@@ -31,13 +32,14 @@ MPIR
 Precision Integers and Rationals library, version 2.0.0.
 
    Copyright 1991, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000,
-2001, 2002, 2003, 2004, 2005, 2006 Free Software Foundation, Inc.
+2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010 Free
+Software Foundation, Inc.
 
-   Copyright 2008 William Hart
+   Copyright 2008, 2009, 2010 William Hart
 
    Permission is granted to copy, distribute and/or modify this
 document under the terms of the GNU Free Documentation License, Version
-1.2 or any later version published by the Free Software Foundation;
+1.3 or any later version published by the Free Software Foundation;
 with no Invariant Sections, with the Front-Cover Texts being "A GNU
 Manual", and with the Back-Cover Texts being "You have freedom to copy
 and modify this GNU Manual, like GNU software".  A copy of the license
@@ -134,11 +136,12 @@ simplicity or elegance).
    There is assembly code for these CPUs: ARM, DEC Alpha 21064, 21164,
 and 21264, AMD 29000, AMD K6, K6-2, Athlon, K8 and K10, Hitachi SuperH
 and SH-2, HPPA 1.0, 1.1 and 2.0, Intel Pentium, Pentium Pro/II/III,
-Pentium 4, generic x86, Intel IA-64, i960, Core 2 Motorola MC68000,
-MC68020, MC88100, and MC88110, Motorola/IBM PowerPC 32 and 64, National
-NS32000, IBM POWER, MIPS R3000, R4000, SPARCv7, SuperSPARC, generic
-SPARCv8, UltraSPARC, DEC VAX, and Zilog Z8000.  Some optimizations also
-for Cray vector systems, Clipper, IBM ROMP (RT), and Pyramid AP/XP.
+Pentium 4, generic x86, Intel IA-64, i960, Core 2, i7, Atom, Motorola
+MC68000, MC68020, MC88100, and MC88110, Motorola/IBM PowerPC 32 and 64,
+National NS32000, IBM POWER, MIPS R3000, R4000, SPARCv7, SuperSPARC,
+generic SPARCv8, UltraSPARC, DEC VAX, and Zilog Z8000.  Some
+optimizations also for Cray vector systems, Clipper, IBM ROMP (RT), and
+Pyramid AP/XP.
 
 For up-to-date information on, and latest version of, MPIR, please see
 the MPIR web pages at
@@ -194,9 +197,18 @@ the `--enable-gmpcompat' option when invoking configure:
 
      ./configure --enable-gmpcompat
 
+   Note gmp.h is only created upon running make install.
+
+   MPIR is compatible with GMP when the `--enable-gmpcompat' option is
+used. Some deprecated GMP functionality may be unavailable if this
+option is not selected.
+
    If you experience problems, please report them to
-`http://groups.google.com/group/mpir-devel'.  See *note Reporting
-Bugs::, for information on what to include in useful bug reports.
+
+   `http://groups.google.com/group/mpir-devel'.
+
+   See *note Reporting Bugs::, for information on what to include in
+useful bug reports.
 
 * Menu:
 
@@ -336,7 +348,7 @@ CPU types
 
         * Cray: c90, j90, t90, sv1
 
-        * HPPA: hppa1.0, hppa1.1, hppa2.0, hppa2.0n, hppa2.0w, hppa64
+        * HPPA: hppa1.0, hppa1.1, hppa2.0, hppa2.0n, hppa2.0w,
 
         * IA-64: ia64, itanium, itanium2
 
@@ -358,8 +370,8 @@ CPU types
 
         * x86 family: pentium, pentiummmx, pentiumpro, pentium2,
           pentium3, pentium4, netburst, netburstlahf, prescott, core,
-          core2, penryn, nehalem, atom, k5, k6, k62, k63, k7, k8, k10
-          viac3, viac32
+          core2, penryn, nehalem, nano atom, k5, k6, k62, k63, k7, k8,
+          k10 k102 viac3, viac32
 
         * Other: a29k, arm, clipper, i960, ns32k, pyramid, sh, sh2, vax,
           z8k
@@ -382,7 +394,7 @@ Fat binary, `--enable-fat'
      systems, where optimized low level subroutines are chosen at
      runtime according to the CPU detected.  This means more code, but
      gives reasonable performance from a single binary for all x86
-     chips, or simililarly for all x86_64 chips.  (This option might
+     chips, or similarly for all x86_64 chips.  (This option might
      become available for more architectures in the future.)
 
 `ABI'
@@ -532,9 +544,9 @@ Temporary Memory, `--enable-alloca=<choice>'
      when debugging memory related problems (*note Debugging::).
 
 FFT Multiplication, `--disable-fft'
-     By default multiplications are done using Karatsuba, 3-way Toom,
-     and Fermat FFT.  The FFT is only used on large to very large
-     operands and can be disabled to save code size if desired.
+     By default multiplications are done using Karatsuba, Toom, and FFT
+     algorithms.  The FFT is only used on large to very large operands
+     and can be disabled to save code size if desired.
 
 Assertion Checking, `--enable-assert'
      This option enables some consistency checking within the library.
@@ -545,9 +557,9 @@ Execution Profiling, `--enable-profiling=prof/gprof/instrument'
      Profiling::.
 
 `MPN_PATH'
-     Various assembler versions of each mpn subroutines are provided.
-     For a given CPU, a search is made though a path to choose a
-     version of each.  For example `sparcv8' has
+     Various assembler versions of mpn subroutines are provided.  For a
+     given CPU, a search is made though a path to choose a version of
+     each.  For example `sparcv8' has
 
           MPN_PATH="sparc32/v8 sparc32 generic"
 
@@ -611,7 +623,8 @@ has for installing library or header files built for a particular ABI.
 This will probably only matter when installing multiple builds of MPIR,
 and it might be as simple as configuring with a special `libdir', or it
 might require more than that.  Note that builds for different ABIs need
-to done separately, with a fresh `./configure' and `make' each.
+to done separately, with a fresh (`make distclean'), `./configure' and
+`make'.
 
 
 AMD64 (`x86_64')
@@ -659,8 +672,7 @@ HPPA 2.0 (`hppa2.0*', `hppa64')
 
           Note that current versions of GCC (eg. 3.2) don't generate
           64-bit instructions for `long long' operations and so may be
-          slower than for 2.0w.  (The MPIR assembler code is the same
-          though.)
+          slower than for 2.0w.
 
     `ABI=1.0'
           HPPA 2.0 CPUs can run all HPPA 1.0 and 1.1 code in the 32-bit
@@ -838,6 +850,12 @@ in each release, so on systems where libtool versioning is not fully
 checked by the loader an auxiliary mechanism may be needed to express
 that a dynamic linked application depends on a new enough MPIR.
 
+   From MPIR 2.0.0 binary compatibility with the GMP 5 series will be
+maintained with the exception of the availability of secure functions
+for cryptography, which will not be supported in MPIR. For full GMP
+compatibility, including deprecated functionality, the
+`--enable-gmpcompat' configuration option must be used.
+
    An auxiliary mechanism may also be needed to express that
 `libmpirxx.la' (from `--enable-cxx', *note Build Options::) requires
 `libmpir.la' from the same MPIR version, since this is not done by the
@@ -923,17 +941,19 @@ Floating Point Mode
      including application code, not just MPIR.
 
 MS-DOS and MS Windows
-     On an MS-DOS system DJGPP can be used to build MPIR, and on an MS
-     Windows system Cygwin, DJGPP and MINGW can all be used.  All three
-     are excellent ports of GCC and the various GNU tools.
+     On an MS Windows system Cygwin, DJGPP and MINGW can all be used.
+     All three are ports of GCC and the various GNU tools.
 
           `http://www.cygwin.com/'
           `http://www.delorie.com/djgpp/'
           `http://www.mingw.org/'
 
      In addition, project files for MSVC are provided, allowing MPIR to
-     build on Microsoft's compiler. This support is provided by Brian
-     Gladman.
+     build on Microsoft's compiler. See the `build.vc9' directory.
+     This support is provided by Dr. Brian Gladman. For instructions on
+     how to build for MSVC, see the `readme.txt' in the `build.vc9'
+     directory. The MSVC projects provides full assembler support and
+     for `x86_64' CPU's this will produce far superior results.
 
      Microsoft also publishes an Interix "Services for Unix" which can
      be used to build MPIR on Windows (with a normal `./configure'),
@@ -949,9 +969,8 @@ MS Windows DLLs
      Static and DLL libraries can't both be built, since certain export
      directives in `mpir.h' must be different.
 
-     A MINGW DLL build of MPIR can be used with Microsoft C.  Libtool
-     doesn't install a `.lib' format import library, but it can be
-     created with MS `lib' as follows, and copied to the install
+     Libtool doesn't install a `.lib' format import library, but it can
+     be created with MS `lib' as follows, and copied to the install
      directory.  Similarly for `libmpir' and `libmpirxx'.
 
           cd .libs
@@ -1131,7 +1150,7 @@ computer, see *note Build Options::.
 
    Unlike what is the case for most other programs, the compiler
 typically doesn't matter much, since MPIR uses assembly language for
-the most critical operation.
+the most critical operations.
 
    In particular for long-running MPIR applications, and applications
 demanding extremely large numbers, building and running the `tuneup'
@@ -1474,8 +1493,7 @@ File: mpir.info,  Node: Useful Macros and Constants,  Next: Compatibility with o
  -- Macro: __GNU_MP_VERSION_MINOR
  -- Macro: __GNU_MP_VERSION_PATCHLEVEL
      The major and minor GMP version, and patch level, respectively, as
-     integers.  For GMP i.j, these numbers will be i, j, and 0,
-     respectively.  For GMP i.j.k, these numbers will be i, j, and k,
+     integers.  For GMP i.j.k, these numbers will be i, j, and k,
      respectively.  These numbers represent the version of GMP fully
      supported by this version of MPIR.
 
@@ -1483,17 +1501,16 @@ File: mpir.info,  Node: Useful Macros and Constants,  Next: Compatibility with o
  -- Macro: __MPIR_VERSION_MINOR
  -- Macro: __MPIR_VERSION_PATCHLEVEL
      The major and minor MPIR version, and patch level, respectively,
-     as integers.  For MPIR i.j, these numbers will be i, j, and 0,
-     respectively.  For MPIR i.j.k, these numbers will be i, j, and k,
+     as integers.  For MPIR i.j.k, these numbers will be i, j, and k,
      respectively.
 
  -- Global Constant: const char * const gmp_version
-     The GNU MP version number, as a null-terminated string, in the
-     form "i.j" or "i.j.k".
+     The GNU MP version number, as a null-terminated string, in the form
+     "i.j.k".
 
  -- Global Constant: const char * const mpir_version
      The MPIR version number, as a null-terminated string, in the form
-     "i.j" or "i.j.k".  This release is "2.0.0".
+     "i.j.k".  This release is "2.0.0".
 
 
 File: mpir.info,  Node: Compatibility with older versions,  Next: Demonstration Programs,  Prev: Useful Macros and Constants,  Up: MPIR Basics
@@ -1501,9 +1518,9 @@ File: mpir.info,  Node: Compatibility with older versions,  Next: Demonstration 
 3.9 Compatibility with older versions
 =====================================
 
-This version of MPIR is upwardly binary compatible with all GMP 4.x and
-3.x versions, and upwardly compatible at the source level with all 2.x
-versions, with the following exceptions.
+This version of MPIR is upwardly binary compatible with all GMP 5.x,
+4.x and 3.x versions, and upwardly compatible at the source level with
+all 2.x versions, with the following exceptions.
 
    * `mpn_gcd' had its source arguments swapped as of GMP 3.0, for
      consistency with other `mpn' functions.
@@ -1511,9 +1528,15 @@ versions, with the following exceptions.
    * `mpf_get_prec' counted precision slightly differently in GMP 3.0
      and 3.0.1, but in 3.1 reverted to the 2.x style.
 
+   * MPIR does not support the secure cryptographic functions provided
+     by MPIR.
+
+   * Full GMP compatibility is only available when the
+     `--enable-gmpcompat' configure option is used.
+
    There are a number of compatibility issues between GMP 1 and GMP 2
 that of course also apply when porting applications from GMP 1 to GMP 4
-and MPIR 1.  Please see the GMP 2 manual for details.
+and MPIR 1 and 2.  Please see the GMP 2 manual for details.
 
 
 File: mpir.info,  Node: Demonstration Programs,  Next: Efficiency,  Prev: Compatibility with older versions,  Up: MPIR Basics
@@ -1763,13 +1786,10 @@ Heap Problems
      Debugging, or `man 3 malloc'.  Other possibilities, in no
      particular order, include
 
-          `http://www.inf.ethz.ch/personal/biere/projects/ccmalloc/'
           `http://dmalloc.com/'
           `http://www.perens.com/FreeSoftware/'  (electric fence)
-          `http://packages.debian.org/fda'
           `http://www.gnupdate.org/components/leakbug/'
-          `http://people.redhat.com/~otaylor/memprof/'
-          `http://www.cbmamiga.demon.co.uk/mpatrol/'
+          `http://wwww.gnome.org/projects/memprof'
 
      The MPIR default allocation routines in `memory.c' also have a
      simple sentinel scheme which can be enabled with `#define DEBUG'
@@ -5763,9 +5783,6 @@ C++
         * ALP `http://www-sop.inria.fr/saga/logiciels/ALP/'
           Linear algebra and polynomials using templates.
 
-        * Arithmos `http://www.win.ua.ac.be/~cant/arithmos/'
-          Rationals with infinities and square roots.
-
         * CLN `http://www.ginac.de/CLN/'
           High level classes for arithmetic.
 
@@ -5778,9 +5795,6 @@ C++
         * NTL `http://www.shoup.net/ntl/'
           A C++ number theory library.
 
-D
-        * gmp-d `http://home.comcast.net/~benhinkle/gmp-d'
-
 Fortran
         * Omni F77 `http://phase.hpcc.jp/Omni/home.html'
           Arbitrary precision floats.
@@ -5791,9 +5805,10 @@ Haskell
 Java
         * Kaffe `http://www.kaffe.org/'
 
-        * Kissme `http://kissme.sourceforge.net/'
-
 Lisp
+        * Embeddable Common Lisp
+          `http://ecls.sourceforge.net/download.html'
+
         * GNU Common Lisp `http://www.gnu.org/software/gcl/gcl.html'
 
         * Librep `http://librep.sourceforge.net/'
@@ -5809,8 +5824,6 @@ ML
         * MLton compiler `http://mlton.org/'
 
 Objective Caml
-        * MLGMP `http://www.di.ens.fr/~monniaux/programmes.html.en'
-
         * Numerix `http://pauillac.inria.fr/~quercia/'
           Optionally using GMP.
 
@@ -5835,6 +5848,9 @@ Perl
         * Math::BigInt::GMP `http://www.cpan.org/'
           Plug Math::GMP into normal Math::BigInt operations.
 
+PHP
+        * mpz module in the main distribution, `http://php.net/'
+
 Pike
         * mpz module in the standard distribution,
           `http://pike.ida.liu.se/'
@@ -5855,18 +5871,16 @@ Scheme
 
         * RScheme `http://www.rscheme.org/'
 
-        * STklos `http://www.stklos.org/'
-
 Smalltalk
         * GNU Smalltalk
           `http://www.smalltalk.org/versions/GNUSmalltalk.html'
 
 Other
+        * ALGLIB `http://www.alglib.net/'
+          Numerical analysis and data processing library.
+
         * Axiom `http://savannah.nongnu.org/projects/axiom'
           Computer algebra using GCL.
-
-        * DrGenius `http://drgenius.seul.org/'
-          Geometry system and mathematical programming language.
 
         * GiNaC `http://www.ginac.de/'
           C++ computer algebra using CLN.
@@ -5883,7 +5897,10 @@ Other
         * Regina `http://regina.sourceforge.net/'
           Topological calculator.
 
-        * Yacas `http://www.xs4all.nl/~apinkus/yacas.html'
+        * Sage `http://www.sagemath.org/'
+          Computer Algebra System written in Python and Cython.
+
+        * Yacas `http://yacas.sourceforge.net/homepage.html'
           Yet another computer algebra system.
 
 
@@ -7023,79 +7040,4 @@ representation.
 
 * Binary to Radix::
 * Radix to Binary::
-
-
-File: mpir.info,  Node: Binary to Radix,  Next: Radix to Binary,  Prev: Radix Conversion Algorithms,  Up: Radix Conversion Algorithms
-
-15.6.1 Binary to Radix
-----------------------
-
-Conversions from binary to a power-of-2 radix use a simple and fast
-O(N) bit extraction algorithm.
-
-   Conversions from binary to other radices use one of two algorithms.
-Sizes below `GET_STR_PRECOMPUTE_THRESHOLD' use a basic O(N^2) method.
-Repeated divisions by b^n are made, where b is the radix and n is the
-biggest power that fits in a limb.  But instead of simply using the
-remainder r from such divisions, an extra divide step is done to give a
-fractional limb representing r/b^n.  The digits of r can then be
-extracted using multiplications by b rather than divisions.  Special
-case code is provided for decimal, allowing multiplications by 10 to
-optimize to shifts and adds.
-
-   Above `GET_STR_PRECOMPUTE_THRESHOLD' a sub-quadratic algorithm is
-used.  For an input t, powers b^(n*2^i) of the radix are calculated,
-until a power between t and sqrt(t) is reached.  t is then divided by
-that largest power, giving a quotient which is the digits above that
-power, and a remainder which is those below.  These two parts are in
-turn divided by the second highest power, and so on recursively.  When
-a piece has been divided down to less than `GET_STR_DC_THRESHOLD'
-limbs, the basecase algorithm described above is used.
-
-   The advantage of this algorithm is that big divisions can make use
-of the sub-quadratic divide and conquer division (*note Divide and
-Conquer Division::), and big divisions tend to have less overheads than
-lots of separate single limb divisions anyway.  But in any case the
-cost of calculating the powers b^(n*2^i) must first be overcome.
-
-   `GET_STR_PRECOMPUTE_THRESHOLD' and `GET_STR_DC_THRESHOLD' represent
-the same basic thing, the point where it becomes worth doing a big
-division to cut the input in half.  `GET_STR_PRECOMPUTE_THRESHOLD'
-includes the cost of calculating the radix power required, whereas
-`GET_STR_DC_THRESHOLD' assumes that's already available, which is the
-case when recursing.
-
-   Since the base case produces digits from least to most significant
-but they want to be stored from most to least, it's necessary to
-calculate in advance how many digits there will be, or at least be sure
-not to underestimate that.  For MPIR the number of input bits is
-multiplied by `chars_per_bit_exactly' from `mp_bases', rounding up.
-The result is either correct or one too big.
-
-   Examining some of the high bits of the input could increase the
-chance of getting the exact number of digits, but an exact result every
-time would not be practical, since in general the difference between
-numbers 100... and 99... is only in the last few bits and the work to
-identify 99...  might well be almost as much as a full conversion.
-
-   `mpf_get_str' doesn't currently use the algorithm described here, it
-multiplies or divides by a power of b to move the radix point to the
-just above the highest non-zero digit (or at worst one above that
-location), then multiplies by b^n to bring out digits.  This is O(N^2)
-and is certainly not optimal.
-
-   The r/b^n scheme described above for using multiplications to bring
-out digits might be useful for more than a single limb.  Some brief
-experiments with it on the base case when recursing didn't give a
-noticeable improvement, but perhaps that was only due to the
-implementation.  Something similar would work for the sub-quadratic
-divisions too, though there would be the cost of calculating a bigger
-radix power.
-
-   Another possible improvement for the sub-quadratic part would be to
-arrange for radix powers that balanced the sizes of quotient and
-remainder produced, ie. the highest power would be an b^(n*k)
-approximately equal to sqrt(t), not restricted to a 2^i factor.  That
-ought to smooth out a graph of times against sizes, but may or may not
-be a net speedup.
 

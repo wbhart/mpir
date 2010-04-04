@@ -2233,7 +2233,6 @@ with other @code{mpn} functions.
 @item
 @code{mpf_get_prec} counted precision slightly differently in GMP 3.0 and
 3.0.1, but in 3.1 reverted to the 2.x style.
-@end itemize
 
 @item
 MPIR does not support the secure cryptographic functions provided by MPIR.
@@ -2241,6 +2240,7 @@ MPIR does not support the secure cryptographic functions provided by MPIR.
 @item
 Full GMP compatibility is only available when the @samp{--enable-gmpcompat}
 configure option is used.
+@end itemize
 
 There are a number of compatibility issues between GMP 1 and GMP 2 that of
 course also apply when porting applications from GMP 1 to GMP 4 and MPIR 1 
@@ -2946,6 +2946,11 @@ object is initialized.
 Initialize @var{integer}, and set its value to 0.
 @end deftypefun
 
+@deftypefun void mpz_inits (mpz_t @var{x}, ...)
+Initialize a NULL-terminated list of @code{mpz_t} variables, and set their
+values to 0.
+@end deftypefun
+
 @deftypefun void mpz_init2 (mpz_t @var{integer}, unsigned long @var{n})
 Initialize @var{integer}, with space for @var{n} bits, and set its value to 0.
 
@@ -2958,6 +2963,10 @@ advance.
 @deftypefun void mpz_clear (mpz_t @var{integer})
 Free the space occupied by @var{integer}.  Call this function for all
 @code{mpz_t} variables when you are done with them.
+@end deftypefun
+
+@deftypefun void mpz_clears (mpz_t @var{x}, ...)
+Free the space occupied by a NULL-terminated list of @code{mpz_t} variables.
 @end deftypefun
 
 @deftypefun void mpz_realloc2 (mpz_t @var{integer}, unsigned long @var{n})
@@ -7006,7 +7015,7 @@ normal Math::BigInt operations.
 @itemize @bullet
 @item
 mpz module in the main distribution, @uref{http://php.net/}
-@end{itemize}
+@end itemize
 
 @need 1000
 @item Pike

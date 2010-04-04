@@ -4,13 +4,14 @@ This manual describes how to install and use MPIR, the Multiple
 Precision Integers and Rationals library, version 2.0.0.
 
    Copyright 1991, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000,
-2001, 2002, 2003, 2004, 2005, 2006 Free Software Foundation, Inc.
+2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010 Free
+Software Foundation, Inc.
 
-   Copyright 2008 William Hart
+   Copyright 2008, 2009, 2010 William Hart
 
    Permission is granted to copy, distribute and/or modify this
 document under the terms of the GNU Free Documentation License, Version
-1.2 or any later version published by the Free Software Foundation;
+1.3 or any later version published by the Free Software Foundation;
 with no Invariant Sections, with the Front-Cover Texts being "A GNU
 Manual", and with the Back-Cover Texts being "You have freedom to copy
 and modify this GNU Manual, like GNU software".  A copy of the license
@@ -20,6 +21,81 @@ INFO-DIR-SECTION GNU libraries
 START-INFO-DIR-ENTRY
 * mpir: (mpir).                   MPIR Multiple Precision Integers and Rationals Library.
 END-INFO-DIR-ENTRY
+
+
+File: mpir.info,  Node: Binary to Radix,  Next: Radix to Binary,  Prev: Radix Conversion Algorithms,  Up: Radix Conversion Algorithms
+
+15.6.1 Binary to Radix
+----------------------
+
+Conversions from binary to a power-of-2 radix use a simple and fast
+O(N) bit extraction algorithm.
+
+   Conversions from binary to other radices use one of two algorithms.
+Sizes below `GET_STR_PRECOMPUTE_THRESHOLD' use a basic O(N^2) method.
+Repeated divisions by b^n are made, where b is the radix and n is the
+biggest power that fits in a limb.  But instead of simply using the
+remainder r from such divisions, an extra divide step is done to give a
+fractional limb representing r/b^n.  The digits of r can then be
+extracted using multiplications by b rather than divisions.  Special
+case code is provided for decimal, allowing multiplications by 10 to
+optimize to shifts and adds.
+
+   Above `GET_STR_PRECOMPUTE_THRESHOLD' a sub-quadratic algorithm is
+used.  For an input t, powers b^(n*2^i) of the radix are calculated,
+until a power between t and sqrt(t) is reached.  t is then divided by
+that largest power, giving a quotient which is the digits above that
+power, and a remainder which is those below.  These two parts are in
+turn divided by the second highest power, and so on recursively.  When
+a piece has been divided down to less than `GET_STR_DC_THRESHOLD'
+limbs, the basecase algorithm described above is used.
+
+   The advantage of this algorithm is that big divisions can make use
+of the sub-quadratic divide and conquer division (*note Divide and
+Conquer Division::), and big divisions tend to have less overheads than
+lots of separate single limb divisions anyway.  But in any case the
+cost of calculating the powers b^(n*2^i) must first be overcome.
+
+   `GET_STR_PRECOMPUTE_THRESHOLD' and `GET_STR_DC_THRESHOLD' represent
+the same basic thing, the point where it becomes worth doing a big
+division to cut the input in half.  `GET_STR_PRECOMPUTE_THRESHOLD'
+includes the cost of calculating the radix power required, whereas
+`GET_STR_DC_THRESHOLD' assumes that's already available, which is the
+case when recursing.
+
+   Since the base case produces digits from least to most significant
+but they want to be stored from most to least, it's necessary to
+calculate in advance how many digits there will be, or at least be sure
+not to underestimate that.  For MPIR the number of input bits is
+multiplied by `chars_per_bit_exactly' from `mp_bases', rounding up.
+The result is either correct or one too big.
+
+   Examining some of the high bits of the input could increase the
+chance of getting the exact number of digits, but an exact result every
+time would not be practical, since in general the difference between
+numbers 100... and 99... is only in the last few bits and the work to
+identify 99...  might well be almost as much as a full conversion.
+
+   `mpf_get_str' doesn't currently use the algorithm described here, it
+multiplies or divides by a power of b to move the radix point to the
+just above the highest non-zero digit (or at worst one above that
+location), then multiplies by b^n to bring out digits.  This is O(N^2)
+and is certainly not optimal.
+
+   The r/b^n scheme described above for using multiplications to bring
+out digits might be useful for more than a single limb.  Some brief
+experiments with it on the base case when recursing didn't give a
+noticeable improvement, but perhaps that was only due to the
+implementation.  Something similar would work for the sub-quadratic
+divisions too, though there would be the cost of calculating a bigger
+radix power.
+
+   Another possible improvement for the sub-quadratic part would be to
+arrange for radix powers that balanced the sizes of quotient and
+remainder produced, ie. the highest power would be an b^(n*k)
+approximately equal to sqrt(t), not restricted to a 2^i factor.  That
+ought to smooth out a graph of times against sizes, but may or may not
+be a net speedup.
 
 
 File: mpir.info,  Node: Radix to Binary,  Prev: Binary to Radix,  Up: Radix Conversion Algorithms
@@ -1441,10 +1517,10 @@ File: mpir.info,  Node: GNU Free Documentation License,  Next: Concept Index,  P
 Appendix C GNU Free Documentation License
 *****************************************
 
-                      Version 1.2, November 2002
+                     Version 1.3, 3 November 2008
 
-     Copyright (C) 2000,2001,2002 Free Software Foundation, Inc.
-     51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
+     Copyright (C) 2000, 2001, 2002, 2007, 2008 Free Software Foundation, Inc.
+     `http://fsf.org/'
 
      Everyone is permitted to copy and distribute verbatim copies
      of this license document, but changing it is not allowed.
@@ -1545,6 +1621,9 @@ Appendix C GNU Free Documentation License
      works in formats which do not have any title page as such, "Title
      Page" means the text near the most prominent appearance of the
      work's title, preceding the beginning of the body of the text.
+
+     The "publisher" means any person or entity that distributes copies
+     of the Document to the public.
 
      A section "Entitled XYZ" means a named subunit of the Document
      whose title either is precisely XYZ or contains XYZ in parentheses
@@ -1811,12 +1890,29 @@ Appendix C GNU Free Documentation License
   9. TERMINATION
 
      You may not copy, modify, sublicense, or distribute the Document
-     except as expressly provided for under this License.  Any other
-     attempt to copy, modify, sublicense or distribute the Document is
-     void, and will automatically terminate your rights under this
-     License.  However, parties who have received copies, or rights,
-     from you under this License will not have their licenses
-     terminated so long as such parties remain in full compliance.
+     except as expressly provided under this License.  Any attempt
+     otherwise to copy, modify, sublicense, or distribute it is void,
+     and will automatically terminate your rights under this License.
+
+     However, if you cease all violation of this License, then your
+     license from a particular copyright holder is reinstated (a)
+     provisionally, unless and until the copyright holder explicitly
+     and finally terminates your license, and (b) permanently, if the
+     copyright holder fails to notify you of the violation by some
+     reasonable means prior to 60 days after the cessation.
+
+     Moreover, your license from a particular copyright holder is
+     reinstated permanently if the copyright holder notifies you of the
+     violation by some reasonable means, this is the first time you have
+     received notice of violation of this License (for any work) from
+     that copyright holder, and you cure the violation prior to 30 days
+     after your receipt of the notice.
+
+     Termination of your rights under this section does not terminate
+     the licenses of parties who have received copies or rights from
+     you under this License.  If your rights have been terminated and
+     not permanently reinstated, receipt of a copy of some or all of
+     the same material does not give you any rights to use it.
 
  10. FUTURE REVISIONS OF THIS LICENSE
 
@@ -1834,10 +1930,44 @@ Appendix C GNU Free Documentation License
      published (not as a draft) by the Free Software Foundation.  If
      the Document does not specify a version number of this License,
      you may choose any version ever published (not as a draft) by the
-     Free Software Foundation.
+     Free Software Foundation.  If the Document specifies that a proxy
+     can decide which future versions of this License can be used, that
+     proxy's public statement of acceptance of a version permanently
+     authorizes you to choose that version for the Document.
 
-C.1 ADDENDUM: How to use this License for your documents
-========================================================
+ 11. RELICENSING
+
+     "Massive Multiauthor Collaboration Site" (or "MMC Site") means any
+     World Wide Web server that publishes copyrightable works and also
+     provides prominent facilities for anybody to edit those works.  A
+     public wiki that anybody can edit is an example of such a server.
+     A "Massive Multiauthor Collaboration" (or "MMC") contained in the
+     site means any set of copyrightable works thus published on the MMC
+     site.
+
+     "CC-BY-SA" means the Creative Commons Attribution-Share Alike 3.0
+     license published by Creative Commons Corporation, a not-for-profit
+     corporation with a principal place of business in San Francisco,
+     California, as well as future copyleft versions of that license
+     published by that same organization.
+
+     "Incorporate" means to publish or republish a Document, in whole or
+     in part, as part of another Document.
+
+     An MMC is "eligible for relicensing" if it is licensed under this
+     License, and if all works that were first published under this
+     License somewhere other than this MMC, and subsequently
+     incorporated in whole or in part into the MMC, (1) had no cover
+     texts or invariant sections, and (2) were thus incorporated prior
+     to November 1, 2008.
+
+     The operator of an MMC Site may republish an MMC contained in the
+     site under CC-BY-SA on the same site at any time before August 1,
+     2009, provided the MMC is eligible for relicensing.
+
+
+ADDENDUM: How to use this License for your documents
+====================================================
 
 To use this License in a document you have written, include a copy of
 the License in the document and put the following copyright and license
@@ -1845,7 +1975,7 @@ notices just after the title page:
 
        Copyright (C)  YEAR  YOUR NAME.
        Permission is granted to copy, distribute and/or modify this document
-       under the terms of the GNU Free Documentation License, Version 1.2
+       under the terms of the GNU Free Documentation License, Version 1.3
        or any later version published by the Free Software Foundation;
        with no Invariant Sections, no Front-Cover Texts, and no Back-Cover
        Texts.  A copy of the license is included in the section entitled ``GNU
@@ -1895,13 +2025,13 @@ Concept Index
 * -finstrument-functions:                Profiling.           (line  66)
 * 2exp functions:                        Efficiency.          (line  43)
 * 68000:                                 Notes for Particular Systems.
-                                                              (line  85)
+                                                              (line  86)
 * 80x86:                                 Notes for Particular Systems.
-                                                              (line 136)
+                                                              (line 137)
 * ABI <1>:                               ABI and ISA.         (line   6)
 * ABI:                                   Build Options.       (line 179)
 * About this manual:                     Introduction to MPIR.
-                                                              (line  51)
+                                                              (line  52)
 * AC_CHECK_LIB:                          Autoconf.            (line  11)
 * AIX <1>:                               Notes for Particular Systems.
                                                               (line   7)
@@ -1909,7 +2039,7 @@ Concept Index
 * Algorithms:                            Algorithms.          (line   6)
 * alloca:                                Build Options.       (line 286)
 * Allocation of memory:                  Custom Allocation.   (line   6)
-* AMD64:                                 ABI and ISA.         (line  44)
+* AMD64:                                 ABI and ISA.         (line  45)
 * Application Binary Interface:          ABI and ISA.         (line   6)
 * Arithmetic functions <1>:              Float Arithmetic.    (line   6)
 * Arithmetic functions <2>:              Rational Arithmetic. (line   6)
@@ -1933,7 +2063,7 @@ Concept Index
                                                               (line   6)
 * Assembler writing guide:               Assembler Writing Guide.
                                                               (line   6)
-* Assertion checking <1>:                Debugging.           (line  79)
+* Assertion checking <1>:                Debugging.           (line  76)
 * Assertion checking:                    Build Options.       (line 330)
 * Assignment functions <1>:              Simultaneous Float Init & Assign.
                                                               (line   6)
@@ -1983,8 +2113,8 @@ Concept Index
 * CC:                                    Build Options.       (line 190)
 * CC_FOR_BUILD:                          Build Options.       (line 225)
 * CFLAGS:                                Build Options.       (line 190)
-* Checker:                               Debugging.           (line 115)
-* checkergcc:                            Debugging.           (line 122)
+* Checker:                               Debugging.           (line 112)
+* checkergcc:                            Debugging.           (line 119)
 * Code organisation:                     Assembler Code Organisation.
                                                               (line   6)
 * Compaq C++:                            Notes for Particular Systems.
@@ -2039,7 +2169,7 @@ Concept Index
 * DJGPP:                                 Notes for Particular Systems.
                                                               (line  43)
 * DLLs:                                  Notes for Particular Systems.
-                                                              (line  60)
+                                                              (line  62)
 * DocBook:                               Build Options.       (line 357)
 * Documentation formats:                 Build Options.       (line 350)
 * Documentation license:                 GNU Free Documentation License.
@@ -2072,8 +2202,6 @@ Concept Index
                                                               (line  25)
 * Fast Fourier Transform:                FFT Multiplication.  (line   6)
 * Fat binary:                            Build Options.       (line 171)
-* FDL, GNU Free Documentation License:   GNU Free Documentation License.
-                                                              (line   6)
 * FFT multiplication <1>:                FFT Multiplication.  (line   6)
 * FFT multiplication:                    Build Options.       (line 325)
 * Fibonacci number algorithm:            Fibonacci Numbers Algorithm.
@@ -2115,16 +2243,16 @@ Concept Index
 * frexp:                                 Converting Integers. (line  42)
 * Function classes:                      Function Classes.    (line   6)
 * FunctionCheck:                         Profiling.           (line  77)
-* GCC Checker:                           Debugging.           (line 115)
+* GCC Checker:                           Debugging.           (line 112)
 * GCD algorithms:                        Greatest Common Divisor Algorithms.
                                                               (line   6)
 * GCD extended:                          Number Theoretic Functions.
                                                               (line  97)
 * GCD functions:                         Number Theoretic Functions.
                                                               (line  82)
-* GDB:                                   Debugging.           (line  58)
+* GDB:                                   Debugging.           (line  55)
 * Generic C:                             Build Options.       (line 160)
-* GNU Debugger:                          Debugging.           (line  58)
+* GNU Debugger:                          Debugging.           (line  55)
 * GNU Free Documentation License:        GNU Free Documentation License.
                                                               (line   6)
 * GNU strip:                             Known Build Problems.
@@ -2140,15 +2268,15 @@ Concept Index
                                                               (line   6)
 * Heap problems:                         Debugging.           (line  24)
 * Home page:                             Introduction to MPIR.
-                                                              (line  33)
+                                                              (line  34)
 * Host system:                           Build Options.       (line  73)
-* HP-UX:                                 ABI and ISA.         (line  68)
-* HPPA:                                  ABI and ISA.         (line  68)
+* HP-UX:                                 ABI and ISA.         (line  69)
+* HPPA:                                  ABI and ISA.         (line  69)
 * I/O functions <1>:                     I/O of Floats.       (line   6)
 * I/O functions <2>:                     I/O of Rationals.    (line   6)
 * I/O functions:                         I/O of Integers.     (line   6)
 * i386:                                  Notes for Particular Systems.
-                                                              (line 136)
+                                                              (line 137)
 * IA-64:                                 ABI and ISA.         (line 107)
 * Import:                                Integer Import and Export.
                                                               (line  11)
@@ -2212,7 +2340,7 @@ Concept Index
 * Integer special functions:             Integer Special Functions.
                                                               (line   6)
 * Interix:                               Notes for Particular Systems.
-                                                              (line  55)
+                                                              (line  57)
 * Internals:                             Internals.           (line   6)
 * Introduction:                          Introduction to MPIR.
                                                               (line   6)
@@ -2270,7 +2398,7 @@ Concept Index
 * MacOS X:                               Known Build Problems.
                                                               (line  51)
 * Mailing lists:                         Introduction to MPIR.
-                                                              (line  38)
+                                                              (line  39)
 * Malloc debugger:                       Debugging.           (line  30)
 * Malloc problems:                       Debugging.           (line  24)
 * Memory allocation:                     Custom Allocation.   (line   6)
@@ -2287,7 +2415,7 @@ Concept Index
 * Miscellaneous integer functions:       Miscellaneous Integer Functions.
                                                               (line   6)
 * MMX:                                   Notes for Particular Systems.
-                                                              (line 142)
+                                                              (line 143)
 * Modular inverse functions:             Number Theoretic Functions.
                                                               (line 110)
 * Most significant bit:                  Miscellaneous Integer Functions.
@@ -2328,7 +2456,7 @@ Concept Index
 * obstack output:                        Formatted Output Functions.
                                                               (line  81)
 * OpenBSD:                               Notes for Particular Systems.
-                                                              (line  91)
+                                                              (line  92)
 * Optimizing performance:                Performance optimization.
                                                               (line   6)
 * ostream output:                        C++ Formatted Output.
@@ -2364,7 +2492,7 @@ Concept Index
 * Power/PowerPC <1>:                     Known Build Problems.
                                                               (line  63)
 * Power/PowerPC:                         Notes for Particular Systems.
-                                                              (line  97)
+                                                              (line  98)
 * Powering algorithms:                   Powering Algorithms. (line   6)
 * Powering functions <1>:                Float Arithmetic.    (line  41)
 * Powering functions:                    Integer Exponentiation.
@@ -2447,7 +2575,7 @@ Concept Index
 * Sequent Symmetry:                      Known Build Problems.
                                                               (line  68)
 * Services for Unix:                     Notes for Particular Systems.
-                                                              (line  55)
+                                                              (line  57)
 * Shared library versioning:             Notes for Package Builds.
                                                               (line   9)
 * Sign tests <1>:                        Float Comparison.    (line  28)
@@ -2459,18 +2587,18 @@ Concept Index
 * Solaris <1>:                           Known Build Problems.
                                                               (line  72)
 * Solaris <2>:                           Notes for Particular Systems.
-                                                              (line 126)
+                                                              (line 127)
 * Solaris:                               ABI and ISA.         (line 194)
 * Sparc:                                 Notes for Particular Systems.
-                                                              (line 109)
+                                                              (line 110)
 * Sparc V9:                              ABI and ISA.         (line 194)
 * Special integer functions:             Integer Special Functions.
                                                               (line   6)
 * Square root algorithm:                 Square Root Algorithm.
                                                               (line   6)
 * SSE2:                                  Notes for Particular Systems.
-                                                              (line 142)
-* Stack backtrace:                       Debugging.           (line  50)
+                                                              (line 143)
+* Stack backtrace:                       Debugging.           (line  47)
 * Stack overflow <1>:                    Debugging.           (line   7)
 * Stack overflow:                        Build Options.       (line 286)
 * Static linking:                        Efficiency.          (line  14)
@@ -2482,7 +2610,7 @@ Concept Index
                                                               (line  28)
 * Sun:                                   ABI and ISA.         (line 194)
 * SunOS:                                 Notes for Particular Systems.
-                                                              (line 130)
+                                                              (line 131)
 * Systems:                               Notes for Particular Systems.
                                                               (line   6)
 * Temporary memory:                      Build Options.       (line 286)
@@ -2502,17 +2630,17 @@ Concept Index
                                                               (line   6)
 * User-defined precision:                Floating-point Functions.
                                                               (line   6)
-* Valgrind:                              Debugging.           (line 130)
+* Valgrind:                              Debugging.           (line 127)
 * Variable conventions:                  Variable Conventions.
                                                               (line   6)
 * Version number:                        Useful Macros and Constants.
                                                               (line  12)
 * Web page:                              Introduction to MPIR.
-                                                              (line  33)
+                                                              (line  34)
 * Windows:                               Notes for Particular Systems.
                                                               (line  43)
 * x86:                                   Notes for Particular Systems.
-                                                              (line 136)
+                                                              (line 137)
 * x87:                                   Notes for Particular Systems.
                                                               (line  34)
 * XML:                                   Build Options.       (line 357)
@@ -2533,11 +2661,11 @@ Function and Type Index
 * __GNU_MP_VERSION_PATCHLEVEL:           Useful Macros and Constants.
                                                               (line  12)
 * __MPIR_VERSION:                        Useful Macros and Constants.
-                                                              (line  19)
+                                                              (line  18)
 * __MPIR_VERSION_MINOR:                  Useful Macros and Constants.
-                                                              (line  20)
+                                                              (line  19)
 * __MPIR_VERSION_PATCHLEVEL:             Useful Macros and Constants.
-                                                              (line  21)
+                                                              (line  20)
 * _mpz_realloc:                          Integer Special Functions.
                                                               (line  54)
 * abs <1>:                               C++ Interface Floats.
@@ -2619,7 +2747,7 @@ Function and Type Index
 * gmp_vasprintf:                         Formatted Output Functions.
                                                               (line  66)
 * gmp_version:                           Useful Macros and Constants.
-                                                              (line  27)
+                                                              (line  25)
 * gmp_vfprintf:                          Formatted Output Functions.
                                                               (line  30)
 * gmp_vfscanf:                           Formatted Input Functions.
@@ -2768,7 +2896,7 @@ Function and Type Index
 * mpf_urandomb:                          Miscellaneous Float Functions.
                                                               (line  27)
 * mpir_version:                          Useful Macros and Constants.
-                                                              (line  31)
+                                                              (line  29)
 * mpn_add:                               Low-level Functions. (line  70)
 * mpn_add_1:                             Low-level Functions. (line  65)
 * mpn_add_n:                             Low-level Functions. (line  55)

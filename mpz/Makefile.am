@@ -29,7 +29,7 @@ libmpz_la_SOURCES = aors.h aors_ui.h fits_s.h mul_i.h \
   bin_ui.c bin_uiui.c cdiv_q.c \
   cdiv_q_ui.c cdiv_qr.c cdiv_qr_ui.c cdiv_r.c cdiv_r_ui.c cdiv_ui.c \
   cfdiv_q_2exp.c cfdiv_r_2exp.c \
-  clear.c clrbit.c \
+  clear.c clears.c clrbit.c \
   cmp.c cmp_d.c cmp_si.c cmp_ui.c cmpabs.c cmpabs_d.c cmpabs_ui.c \
   com.c combit.c \
   cong.c cong_2exp.c cong_ui.c \
@@ -41,7 +41,7 @@ libmpz_la_SOURCES = aors.h aors_ui.h fits_s.h mul_i.h \
   fits_uint.c fits_ulong.c fits_ushort.c \
   gcd.c gcd_ui.c gcdext.c get_d.c get_d_2exp.c get_si.c \
   get_str.c get_ui.c getlimbn.c hamdist.c \
-  import.c init.c init2.c inp_raw.c inp_str.c \
+  import.c init.c init2.c inits.c inp_raw.c inp_str.c \
   invert.c ior.c iset.c iset_d.c iset_si.c iset_str.c iset_ui.c \
   jacobi.c kronsz.c kronuz.c kronzs.c kronzu.c \
   lcm.c lcm_ui.c lucnum_ui.c lucnum2_ui.c millerrabin.c next_likely_prime.c \
