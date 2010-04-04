@@ -1949,6 +1949,11 @@ Counts of limbs are represented in the C type @code{mp_size_t}.  Currently
 this is normally a @code{long}, but on some systems it's an @code{int} for
 efficiency.
 
+@tindex @code{mp_bitcnt_t}
+Counts of bits of a multi-precision number are represented in the C type
+@code{mp_bitcnt_t}.  Currently this is always an @code{unsigned long}, but on
+some systems it will be an @code{unsigned long long} in the future .
+
 @cindex Random state
 @tindex @code{gmp_randstate_t}
 @dfn{Random state} means an algorithm selection and current state data.  The C
@@ -1958,7 +1963,7 @@ data type for such objects is @code{gmp_randstate_t}.  For example:
 gmp_randstate_t rstate;
 @end example
 
-Also, in general @code{unsigned long} is used for bit counts and ranges, and
+Also, in general @code{mp_bitcnt_t} is used for bit counts and ranges, and
 @code{size_t} is used for byte or character counts.
 
 
@@ -2951,7 +2956,7 @@ Initialize a NULL-terminated list of @code{mpz_t} variables, and set their
 values to 0.
 @end deftypefun
 
-@deftypefun void mpz_init2 (mpz_t @var{integer}, unsigned long @var{n})
+@deftypefun void mpz_init2 (mpz_t @var{integer}, mp_bitcnt_t @var{n})
 Initialize @var{integer}, with space for @var{n} bits, and set its value to 0.
 
 @var{n} is only the initial space, @var{integer} will grow automatically in
@@ -2969,7 +2974,7 @@ Free the space occupied by @var{integer}.  Call this function for all
 Free the space occupied by a NULL-terminated list of @code{mpz_t} variables.
 @end deftypefun
 
-@deftypefun void mpz_realloc2 (mpz_t @var{integer}, unsigned long @var{n})
+@deftypefun void mpz_realloc2 (mpz_t @var{integer}, mp_bitcnt_t @var{n})
 Change the space allocated for @var{integer} to @var{n} bits.  The value in
 @var{integer} is preserved if it fits, or is set to 0 if not.
 
@@ -3181,7 +3186,7 @@ Set @var{rop} to @math{@var{rop} + @var{op1} @GMPtimes{} @var{op2}}.
 Set @var{rop} to @math{@var{rop} - @var{op1} @GMPtimes{} @var{op2}}.
 @end deftypefun
 
-@deftypefun void mpz_mul_2exp (mpz_t @var{rop}, mpz_t @var{op1}, unsigned long int @var{op2})
+@deftypefun void mpz_mul_2exp (mpz_t @var{rop}, mpz_t @var{op1}, mp_bitcnt_t @var{op2})
 @cindex Bit shift left
 Set @var{rop} to @m{@var{op1} \times 2^{op2}, @var{op1} times 2 raised to
 @var{op2}}.  This operation can also be defined as a left shift by @var{op2}
@@ -3222,8 +3227,8 @@ same way as for normal C @code{int} arithmetic.
 @deftypefunx {unsigned long int} mpz_cdiv_qr_ui (mpz_t @var{q}, mpz_t @var{r}, @w{mpz_t @var{n}}, @w{unsigned long int @var{d}})
 @deftypefunx {unsigned long int} mpz_cdiv_ui (mpz_t @var{n}, @w{unsigned long int @var{d}})
 @maybepagebreak
-@deftypefunx void mpz_cdiv_q_2exp (mpz_t @var{q}, mpz_t @var{n}, @w{unsigned long int @var{b}})
-@deftypefunx void mpz_cdiv_r_2exp (mpz_t @var{r}, mpz_t @var{n}, @w{unsigned long int @var{b}})
+@deftypefunx void mpz_cdiv_q_2exp (mpz_t @var{q}, mpz_t @var{n}, @w{mp_bitcnt_t @var{b}})
+@deftypefunx void mpz_cdiv_r_2exp (mpz_t @var{r}, mpz_t @var{n}, @w{mp_bitcnt_t @var{b}})
 @end deftypefun
 
 @deftypefun void mpz_fdiv_q (mpz_t @var{q}, mpz_t @var{n}, mpz_t @var{d})
@@ -3235,8 +3240,8 @@ same way as for normal C @code{int} arithmetic.
 @deftypefunx {unsigned long int} mpz_fdiv_qr_ui (mpz_t @var{q}, mpz_t @var{r}, @w{mpz_t @var{n}}, @w{unsigned long int @var{d}})
 @deftypefunx {unsigned long int} mpz_fdiv_ui (mpz_t @var{n}, @w{unsigned long int @var{d}})
 @maybepagebreak
-@deftypefunx void mpz_fdiv_q_2exp (mpz_t @var{q}, mpz_t @var{n}, @w{unsigned long int @var{b}})
-@deftypefunx void mpz_fdiv_r_2exp (mpz_t @var{r}, mpz_t @var{n}, @w{unsigned long int @var{b}})
+@deftypefunx void mpz_fdiv_q_2exp (mpz_t @var{q}, mpz_t @var{n}, @w{mp_bitcnt_t @var{b}})
+@deftypefunx void mpz_fdiv_r_2exp (mpz_t @var{r}, mpz_t @var{n}, @w{mp_bitcnt_t @var{b}})
 @end deftypefun
 
 @deftypefun void mpz_tdiv_q (mpz_t @var{q}, mpz_t @var{n}, mpz_t @var{d})
@@ -3248,8 +3253,8 @@ same way as for normal C @code{int} arithmetic.
 @deftypefunx {unsigned long int} mpz_tdiv_qr_ui (mpz_t @var{q}, mpz_t @var{r}, @w{mpz_t @var{n}}, @w{unsigned long int @var{d}})
 @deftypefunx {unsigned long int} mpz_tdiv_ui (mpz_t @var{n}, @w{unsigned long int @var{d}})
 @maybepagebreak
-@deftypefunx void mpz_tdiv_q_2exp (mpz_t @var{q}, mpz_t @var{n}, @w{unsigned long int @var{b}})
-@deftypefunx void mpz_tdiv_r_2exp (mpz_t @var{r}, mpz_t @var{n}, @w{unsigned long int @var{b}})
+@deftypefunx void mpz_tdiv_q_2exp (mpz_t @var{q}, mpz_t @var{n}, @w{mp_bitcnt_t @var{b}})
+@deftypefunx void mpz_tdiv_r_2exp (mpz_t @var{r}, mpz_t @var{n}, @w{mp_bitcnt_t @var{b}})
 @cindex Bit shift right
 
 @sp 1
@@ -3320,7 +3325,7 @@ rational to lowest terms.
 
 @deftypefun int mpz_divisible_p (mpz_t @var{n}, mpz_t @var{d})
 @deftypefunx int mpz_divisible_ui_p (mpz_t @var{n}, unsigned long int @var{d})
-@deftypefunx int mpz_divisible_2exp_p (mpz_t @var{n}, unsigned long int @var{b})
+@deftypefunx int mpz_divisible_2exp_p (mpz_t @var{n}, mp_bitcnt_t @var{b})
 @cindex Divisibility functions
 Return non-zero if @var{n} is exactly divisible by @var{d}, or in the case of
 @code{mpz_divisible_2exp_p} by @m{2^b,2^@var{b}}.
@@ -3333,7 +3338,7 @@ that only 0 is considered divisible by 0.
 
 @deftypefun int mpz_congruent_p (mpz_t @var{n}, mpz_t @var{c}, mpz_t @var{d})
 @deftypefunx int mpz_congruent_ui_p (mpz_t @var{n}, unsigned long int @var{c}, unsigned long int @var{d})
-@deftypefunx int mpz_congruent_2exp_p (mpz_t @var{n}, mpz_t @var{c}, unsigned long int @var{b})
+@deftypefunx int mpz_congruent_2exp_p (mpz_t @var{n}, mpz_t @var{c}, mp_bitcnt_t @var{b})
 @cindex Divisibility functions
 @cindex Congruence functions
 Return non-zero if @var{n} is congruent to @var{c} modulo @var{d}, or in the
@@ -3595,7 +3600,7 @@ or any number theory textbook.  See also the example program
 @file{demos/qcn.c} which uses @code{mpz_kronecker_ui}.
 @end deftypefun
 
-@deftypefun {unsigned long int} mpz_remove (mpz_t @var{rop}, mpz_t @var{op}, mpz_t @var{f})
+@deftypefun {mp_bitcnt_t} mpz_remove (mpz_t @var{rop}, mpz_t @var{op}, mpz_t @var{f})
 @cindex Remove factor functions
 @cindex Factor removal functions
 Remove all occurrences of the factor @var{f} from @var{op} and store the
@@ -3721,24 +3726,24 @@ Set @var{rop} to @var{op1} bitwise exclusive-or @var{op2}.
 Set @var{rop} to the one's complement of @var{op}.
 @end deftypefun
 
-@deftypefun {unsigned long int} mpz_popcount (mpz_t @var{op})
+@deftypefun {mp_bitcnt_t} mpz_popcount (mpz_t @var{op})
 If @math{@var{op}@ge{}0}, return the population count of @var{op}, which is
 the number of 1 bits in the binary representation.  If @math{@var{op}<0}, the
 number of 1s is infinite, and the return value is @var{ULONG_MAX}, the largest
-possible @code{unsigned long}.
+possible @code{mp_bitcnt_t}.
 @end deftypefun
 
-@deftypefun {unsigned long int} mpz_hamdist (mpz_t @var{op1}, mpz_t @var{op2})
+@deftypefun {mp_bitcnt_t} mpz_hamdist (mpz_t @var{op1}, mpz_t @var{op2})
 If @var{op1} and @var{op2} are both @math{@ge{}0} or both @math{<0}, return
 the hamming distance between the two operands, which is the number of bit
 positions where @var{op1} and @var{op2} have different bit values.  If one
 operand is @math{@ge{}0} and the other @math{<0} then the number of bits
-different is infinite, and the return value is @var{ULONG_MAX}, the largest
-possible @code{unsigned long}.
+different is infinite, and the return value is the largest
+possible @code{imp_bitcnt_t}.
 @end deftypefun
 
-@deftypefun {unsigned long int} mpz_scan0 (mpz_t @var{op}, unsigned long int @var{starting_bit})
-@deftypefunx {unsigned long int} mpz_scan1 (mpz_t @var{op}, unsigned long int @var{starting_bit})
+@deftypefun {mp_bitcnt_t} mpz_scan0 (mpz_t @var{op}, mp_bitcnt_t @var{starting_bit})
+@deftypefunx mp_bitcnt_t mpz_scan1 (mpz_t @var{op}, mp_bitcnt_t @var{starting_bit})
 @cindex Bit scanning functions
 @cindex Scan bit functions
 Scan @var{op}, starting from bit @var{starting_bit}, towards more significant
@@ -3748,24 +3753,24 @@ the found bit.
 If the bit at @var{starting_bit} is already what's sought, then
 @var{starting_bit} is returned.
 
-If there's no bit found, then @var{ULONG_MAX} is returned.  This will happen
-in @code{mpz_scan0} past the end of a positive number, or @code{mpz_scan1}
-past the end of a negative.
+If there's no bit found, then the largest possible @code{mp_bitcnt_t} is 
+returned.  This will happen in @code{mpz_scan0} past the end of a positive 
+number, or @code{mpz_scan1} past the end of a nonnegative number.
 @end deftypefun
 
-@deftypefun void mpz_setbit (mpz_t @var{rop}, unsigned long int @var{bit_index})
+@deftypefun void mpz_setbit (mpz_t @var{rop}, mp_bitcnt_t @var{bit_index})
 Set bit @var{bit_index} in @var{rop}.
 @end deftypefun
 
-@deftypefun void mpz_clrbit (mpz_t @var{rop}, unsigned long int @var{bit_index})
+@deftypefun void mpz_clrbit (mpz_t @var{rop}, mp_bitcnt_t @var{bit_index})
 Clear bit @var{bit_index} in @var{rop}.
 @end deftypefun
 
-@deftypefun void mpz_combit (mpz_t @var{rop}, unsigned long int @var{bit_index})
+@deftypefun void mpz_combit (mpz_t @var{rop}, mp_bitcnt_t @var{bit_index})
 Complement bit @var{bit_index} in @var{rop}.
 @end deftypefun
 
-@deftypefun int mpz_tstbit (mpz_t @var{op}, unsigned long int @var{bit_index})
+@deftypefun int mpz_tstbit (mpz_t @var{op}, mp_bitcnt_t @var{bit_index})
 Test bit @var{bit_index} in @var{op} and return 0 or 1 accordingly.
 @end deftypefun
 
@@ -3788,7 +3793,13 @@ for these functions.
 
 @deftypefun size_t mpz_out_str (FILE *@var{stream}, int @var{base}, mpz_t @var{op})
 Output @var{op} on stdio stream @var{stream}, as a string of digits in base
-@var{base}.  The base may vary from 2 to 36.
+@var{base}.  The base argument may vary from 2 to 62 or from @minus{}2 to
+@minus{}36.
+
+For @var{base} in the range 2..36, digits and lower-case letters are used; for
+@minus{}2..@minus{}36, digits and upper-case letters are used; for 37..62,
+digits, upper-case letters, and lower-case letters (in that significance order)
+are used.
 
 Return the number of bytes written, or if an error occurred, return 0.
 @end deftypefun
@@ -3846,7 +3857,7 @@ parameter that is read and modified.  Please see the @ref{Random Number
 Functions} for more information on how to use and not to use random
 number functions.
 
-@deftypefun void mpz_urandomb (mpz_t @var{rop}, gmp_randstate_t @var{state}, unsigned long int @var{n})
+@deftypefun void mpz_urandomb (mpz_t @var{rop}, gmp_randstate_t @var{state}, mp_bitcnt_t @var{n})
 Generate a uniformly distributed random integer in the range 0 to @m{2^n-1,
 2^@var{n}@minus{}1}, inclusive.
 
@@ -3864,7 +3875,7 @@ The variable @var{state} must be initialized by calling one of the
 before invoking this function.
 @end deftypefun
 
-@deftypefun void mpz_rrandomb (mpz_t @var{rop}, gmp_randstate_t @var{state}, unsigned long int @var{n})
+@deftypefun void mpz_rrandomb (mpz_t @var{rop}, gmp_randstate_t @var{state}, mp_bitcnt_t @var{n})
 Generate a random integer with long strings of zeros and ones in the
 binary representation.  Useful for testing functions and algorithms,
 since this kind of random numbers have proven to be more likely to
@@ -4255,7 +4266,7 @@ Set @var{difference} to @var{minuend} @minus{} @var{subtrahend}.
 Set @var{product} to @math{@var{multiplier} @GMPtimes{} @var{multiplicand}}.
 @end deftypefun
 
-@deftypefun void mpq_mul_2exp (mpq_t @var{rop}, mpq_t @var{op1}, unsigned long int @var{op2})
+@deftypefun void mpq_mul_2exp (mpq_t @var{rop}, mpq_t @var{op1}, mp_bitcnt_t @var{op2})
 Set @var{rop} to @m{@var{op1} \times 2^{op2}, @var{op1} times 2 raised to
 @var{op2}}.
 @end deftypefun
@@ -4265,7 +4276,7 @@ Set @var{rop} to @m{@var{op1} \times 2^{op2}, @var{op1} times 2 raised to
 Set @var{quotient} to @var{dividend}/@var{divisor}.
 @end deftypefun
 
-@deftypefun void mpq_div_2exp (mpq_t @var{rop}, mpq_t @var{op1}, unsigned long int @var{op2})
+@deftypefun void mpq_div_2exp (mpq_t @var{rop}, mpq_t @var{op1}, mp_bitcnt_t @var{op2})
 Set @var{rop} to @m{@var{op1}/2^{op2}, @var{op1} divided by 2 raised to
 @var{op2}}.
 @end deftypefun
@@ -4477,13 +4488,13 @@ size.
 @cindex Float initialization functions
 @cindex Initialization functions
 
-@deftypefun void mpf_set_default_prec (unsigned long int @var{prec})
+@deftypefun void mpf_set_default_prec (mp_bitcnt_t @var{prec})
 Set the default precision to be @strong{at least} @var{prec} bits.  All
 subsequent calls to @code{mpf_init} will use this precision, but previously
 initialized variables are unaffected.
 @end deftypefun
 
-@deftypefun {unsigned long int} mpf_get_default_prec (void)
+@deftypefun {mp_bitcnt_t} mpf_get_default_prec (void)
 Return the default precision actually used.
 @end deftypefun
 
@@ -4498,7 +4509,7 @@ precision of @var{x} is undefined unless a default precision has already been
 established by a call to @code{mpf_set_default_prec}.
 @end deftypefun
 
-@deftypefun void mpf_init2 (mpf_t @var{x}, unsigned long int @var{prec})
+@deftypefun void mpf_init2 (mpf_t @var{x}, mp_bitcnt_t @var{prec})
 Initialize @var{x} to 0 and set its precision to be @strong{at least}
 @var{prec} bits.  Normally, a variable should be initialized once only or at
 least be cleared, using @code{mpf_clear}, between initializations.
@@ -4528,11 +4539,11 @@ calculation.  A typical use would be for adjusting the precision gradually in
 iterative algorithms like Newton-Raphson, making the computation precision
 closely match the actual accurate part of the numbers.
 
-@deftypefun {unsigned long int} mpf_get_prec (mpf_t @var{op})
+@deftypefun {mp_bitcnt_t} mpf_get_prec (mpf_t @var{op})
 Return the current precision of @var{op}, in bits.
 @end deftypefun
 
-@deftypefun void mpf_set_prec (mpf_t @var{rop}, unsigned long int @var{prec})
+@deftypefun void mpf_set_prec (mpf_t @var{rop}, mp_bitcnt_t @var{prec})
 Set the precision of @var{rop} to be @strong{at least} @var{prec} bits.  The
 value in @var{rop} will be truncated to the new precision.
 
@@ -4540,7 +4551,7 @@ This function requires a call to @code{realloc}, and so should not be used in
 a tight loop.
 @end deftypefun
 
-@deftypefun void mpf_set_prec_raw (mpf_t @var{rop}, unsigned long int @var{prec})
+@deftypefun void mpf_set_prec_raw (mpf_t @var{rop}, mp_bitcnt_t @var{prec})
 Set the precision of @var{rop} to be @strong{at least} @var{prec} bits,
 without changing the memory allocated.
 
@@ -4788,12 +4799,12 @@ Set @var{rop} to @minus{}@var{op}.
 Set @var{rop} to the absolute value of @var{op}.
 @end deftypefun
 
-@deftypefun void mpf_mul_2exp (mpf_t @var{rop}, mpf_t @var{op1}, unsigned long int @var{op2})
+@deftypefun void mpf_mul_2exp (mpf_t @var{rop}, mpf_t @var{op1}, mp_bitcnt_t @var{op2})
 Set @var{rop} to @m{@var{op1} \times 2^{op2}, @var{op1} times 2 raised to
 @var{op2}}.
 @end deftypefun
 
-@deftypefun void mpf_div_2exp (mpf_t @var{rop}, mpf_t @var{op1}, unsigned long int @var{op2})
+@deftypefun void mpf_div_2exp (mpf_t @var{rop}, mpf_t @var{op1}, mp_bitcnt_t @var{op2})
 Set @var{rop} to @m{@var{op1}/2^{op2}, @var{op1} divided by 2 raised to
 @var{op2}}.
 @end deftypefun
@@ -4816,7 +4827,7 @@ Compare @var{op1} and @var{op2}.  Return a positive value if @math{@var{op1} >
 a NaN.
 @end deftypefun
 
-@deftypefun int mpf_eq (mpf_t @var{op1}, mpf_t @var{op2}, unsigned long int op3)
+@deftypefun int mpf_eq (mpf_t @var{op1}, mpf_t @var{op2}, mp_bitcnt_t op3)
 Return non-zero if the first @var{op3} bits of @var{op1} and @var{op2} are
 equal, zero otherwise.  I.e., test if @var{op1} and @var{op2} are approximately
 equal.
@@ -4935,7 +4946,7 @@ Return non-zero if @var{op} would fit in the respective C data type, when
 truncated to an integer.
 @end deftypefun
 
-@deftypefun void mpf_urandomb (mpf_t @var{rop}, gmp_randstate_t @var{state}, unsigned long int @var{nbits})
+@deftypefun void mpf_urandomb (mpf_t @var{rop}, gmp_randstate_t @var{state}, mp_bitcnt_t @var{nbits})
 @cindex Random number functions
 @cindex Float random number functions
 Generate a uniformly distributed random float in @var{rop}, such that @math{0
@@ -5361,14 +5372,14 @@ written to @var{rp} and included in the return value.
 @{@var{str},@var{strsize}@} and the result at @var{rp}.
 @end deftypefun
 
-@deftypefun {unsigned long int} mpn_scan0 (const mp_limb_t *@var{s1p}, unsigned long int @var{bit})
+@deftypefun {mp_bitcnt_t} mpn_scan0 (const mp_limb_t *@var{s1p}, imp_bitcnt_t @var{bit})
 Scan @var{s1p} from bit position @var{bit} for the next clear bit.
 
 It is required that there be a clear bit within the area at @var{s1p} at or
 beyond bit position @var{bit}, so that the function has something to return.
 @end deftypefun
 
-@deftypefun {unsigned long int} mpn_scan1 (const mp_limb_t *@var{s1p}, unsigned long int @var{bit})
+@deftypefun {mp_bitcnt_t} mpn_scan1 (const mp_limb_t *@var{s1p}, mp_bitcnt_t @var{bit})
 Scan @var{s1p} from bit position @var{bit} for the next set bit.
 
 It is required that there be a set bit within the area at @var{s1p} at or
@@ -5417,11 +5428,11 @@ routines.
 @end deftypefun
 
 
-@deftypefun {unsigned long int} mpn_popcount (const mp_limb_t *@var{s1p}, mp_size_t @var{n})
+@deftypefun {mp_bitcnt_t} mpn_popcount (const mp_limb_t *@var{s1p}, mp_size_t @var{n})
 Count the number of set bits in @{@var{s1p}, @var{n}@}.
 @end deftypefun
 
-@deftypefun {unsigned long int} mpn_hamdist (const mp_limb_t *@var{s1p}, const mp_limb_t *@var{s2p}, mp_size_t @var{n})
+@deftypefun {mp_bitcnt_t} mpn_hamdist (const mp_limb_t *@var{s1p}, const mp_limb_t *@var{s2p}, mp_size_t @var{n})
 Compute the hamming distance between @{@var{s1p}, @var{n}@} and @{@var{s2p},
 @var{n}@}, which is the number of bit positions where the two operands have
 different bit values.
@@ -5544,7 +5555,7 @@ Initialize @var{state} for a Mersenne Twister algorithm.  This algorithm is
 fast and has good randomness properties.
 @end deftypefun
 
-@deftypefun void gmp_randinit_lc_2exp (gmp_randstate_t @var{state}, mpz_t @var{a}, @w{unsigned long @var{c}}, @w{unsigned long @var{m2exp}})
+@deftypefun void gmp_randinit_lc_2exp (gmp_randstate_t @var{state}, mpz_t @var{a}, @w{unsigned long @var{c}}, @w{mp_bitcnt_t @var{m2exp}})
 @cindex Linear congruential random numbers
 Initialize @var{state} with a linear congruential algorithm @m{X = (@var{a}X +
 @var{c}) @bmod 2^{m2exp}, X = (@var{a}*X + @var{c}) mod 2^@var{m2exp}}.
@@ -5559,7 +5570,7 @@ generated, multiple iterations of the recurrence are used and the results
 concatenated.
 @end deftypefun
 
-@deftypefun int gmp_randinit_lc_2exp_size (gmp_randstate_t @var{state}, unsigned long @var{size})
+@deftypefun int gmp_randinit_lc_2exp_size (gmp_randstate_t @var{state}, mp_bitcnt_t @var{size})
 @cindex Linear congruential random numbers
 Initialize @var{state} for a linear congruential algorithm as per
 @code{gmp_randinit_lc_2exp}.  @var{a}, @var{c} and @var{m2exp} are selected
@@ -6629,9 +6640,9 @@ except @code{long long} and @code{long double}.
 The accuracy provided by @code{hypot} is not currently guaranteed.
 @end deftypefun
 
-@deftypefun {unsigned long int} mpf_class::get_prec ()
-@deftypefunx void mpf_class::set_prec (unsigned long @var{prec})
-@deftypefunx void mpf_class::set_prec_raw (unsigned long @var{prec})
+@deftypefun {mp_bitcnt_t} mpf_class::get_prec ()
+@deftypefunx void mpf_class::set_prec (mp_bitcnt_t @var{prec})
+@deftypefunx void mpf_class::set_prec_raw (mp_bitcnt_t @var{prec})
 Get or set the current precision of an @code{mpf_class}.
 
 The restrictions described for @code{mpf_set_prec_raw} (@pxref{Initializing
@@ -9818,7 +9829,7 @@ mpf_class & mpf_class::operator=(const __gmp_expr<T> &expr)
 
 template <class Op>
 void __gmp_expr<__gmp_binary_expr<mpf_class, mpf_class, Op> >::eval
-(mpf_t f, unsigned long int precision)
+(mpf_t f, mp_bitcnt_t precision)
 @{
   Op::eval(f, expr.val1.get_mpf_t(), expr.val2.get_mpf_t());
 @}
@@ -9854,7 +9865,7 @@ And the corresponding specializations of @code{__gmp_expr::eval}:
 template <class T, class U, class Op>
 void __gmp_expr
 <__gmp_binary_expr<__gmp_expr<T>, __gmp_expr<U>, Op> >::eval
-(mpf_t f, unsigned long int precision)
+(mpf_t f, mp_bitcnt_t precision)
 @{
   // declare two temporaries
   mpf_class temp1(expr.val1, precision), temp2(expr.val2, precision);

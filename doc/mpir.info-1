@@ -1280,13 +1280,17 @@ is `mp_limb_t'.
 this is normally a `long', but on some systems it's an `int' for
 efficiency.
 
+   Counts of bits of a multi-precision number are represented in the C
+type `mp_bitcnt_t'.  Currently this is always an `unsigned long', but on
+some systems it will be an `unsigned long long' in the future .
+
    "Random state" means an algorithm selection and current state data.
 The C data type for such objects is `gmp_randstate_t'.  For example:
 
      gmp_randstate_t rstate;
 
-   Also, in general `unsigned long' is used for bit counts and ranges,
-and `size_t' is used for byte or character counts.
+   Also, in general `mp_bitcnt_t' is used for bit counts and ranges, and
+`size_t' is used for byte or character counts.
 
 
 File: mpir.info,  Node: Function Classes,  Next: Variable Conventions,  Prev: Nomenclature and Types,  Up: MPIR Basics
@@ -2179,7 +2183,7 @@ object is initialized.
      Initialize a NULL-terminated list of `mpz_t' variables, and set
      their values to 0.
 
- -- Function: void mpz_init2 (mpz_t INTEGER, unsigned long N)
+ -- Function: void mpz_init2 (mpz_t INTEGER, mp_bitcnt_t N)
      Initialize INTEGER, with space for N bits, and set its value to 0.
 
      N is only the initial space, INTEGER will grow automatically in
@@ -2195,7 +2199,7 @@ object is initialized.
      Free the space occupied by a NULL-terminated list of `mpz_t'
      variables.
 
- -- Function: void mpz_realloc2 (mpz_t INTEGER, unsigned long N)
+ -- Function: void mpz_realloc2 (mpz_t INTEGER, mp_bitcnt_t N)
      Change the space allocated for INTEGER to N bits.  The value in
      INTEGER is preserved if it fits, or is set to 0 if not.
 
@@ -2379,8 +2383,7 @@ File: mpir.info,  Node: Integer Arithmetic,  Next: Integer Division,  Prev: Conv
           int OP2)
      Set ROP to ROP - OP1 times OP2.
 
- -- Function: void mpz_mul_2exp (mpz_t ROP, mpz_t OP1, unsigned long
-          int OP2)
+ -- Function: void mpz_mul_2exp (mpz_t ROP, mpz_t OP1, mp_bitcnt_t OP2)
      Set ROP to OP1 times 2 raised to OP2.  This operation can also be
      defined as a left shift by OP2 bits.
 
@@ -2413,10 +2416,8 @@ these functions the same way as for normal C `int' arithmetic.
           mpz_t N, unsigned long int D)
  -- Function: unsigned long int mpz_cdiv_ui (mpz_t N,
           unsigned long int D)
- -- Function: void mpz_cdiv_q_2exp (mpz_t Q, mpz_t N,
-          unsigned long int B)
- -- Function: void mpz_cdiv_r_2exp (mpz_t R, mpz_t N,
-          unsigned long int B)
+ -- Function: void mpz_cdiv_q_2exp (mpz_t Q, mpz_t N, mp_bitcnt_t B)
+ -- Function: void mpz_cdiv_r_2exp (mpz_t R, mpz_t N, mp_bitcnt_t B)
 
  -- Function: void mpz_fdiv_q (mpz_t Q, mpz_t N, mpz_t D)
  -- Function: void mpz_fdiv_r (mpz_t R, mpz_t N, mpz_t D)
@@ -2429,10 +2430,8 @@ these functions the same way as for normal C `int' arithmetic.
           mpz_t N, unsigned long int D)
  -- Function: unsigned long int mpz_fdiv_ui (mpz_t N,
           unsigned long int D)
- -- Function: void mpz_fdiv_q_2exp (mpz_t Q, mpz_t N,
-          unsigned long int B)
- -- Function: void mpz_fdiv_r_2exp (mpz_t R, mpz_t N,
-          unsigned long int B)
+ -- Function: void mpz_fdiv_q_2exp (mpz_t Q, mpz_t N, mp_bitcnt_t B)
+ -- Function: void mpz_fdiv_r_2exp (mpz_t R, mpz_t N, mp_bitcnt_t B)
 
  -- Function: void mpz_tdiv_q (mpz_t Q, mpz_t N, mpz_t D)
  -- Function: void mpz_tdiv_r (mpz_t R, mpz_t N, mpz_t D)
@@ -2445,10 +2444,8 @@ these functions the same way as for normal C `int' arithmetic.
           mpz_t N, unsigned long int D)
  -- Function: unsigned long int mpz_tdiv_ui (mpz_t N,
           unsigned long int D)
- -- Function: void mpz_tdiv_q_2exp (mpz_t Q, mpz_t N,
-          unsigned long int B)
- -- Function: void mpz_tdiv_r_2exp (mpz_t R, mpz_t N,
-          unsigned long int B)
+ -- Function: void mpz_tdiv_q_2exp (mpz_t Q, mpz_t N, mp_bitcnt_t B)
+ -- Function: void mpz_tdiv_r_2exp (mpz_t R, mpz_t N, mp_bitcnt_t B)
 
      Divide N by D, forming a quotient Q and/or remainder R.  For the
      `2exp' functions, D=2^B.  The rounding is in three styles, each
@@ -2507,7 +2504,7 @@ these functions the same way as for normal C `int' arithmetic.
 
  -- Function: int mpz_divisible_p (mpz_t N, mpz_t D)
  -- Function: int mpz_divisible_ui_p (mpz_t N, unsigned long int D)
- -- Function: int mpz_divisible_2exp_p (mpz_t N, unsigned long int B)
+ -- Function: int mpz_divisible_2exp_p (mpz_t N, mp_bitcnt_t B)
      Return non-zero if N is exactly divisible by D, or in the case of
      `mpz_divisible_2exp_p' by 2^B.
 
@@ -2519,8 +2516,7 @@ these functions the same way as for normal C `int' arithmetic.
  -- Function: int mpz_congruent_p (mpz_t N, mpz_t C, mpz_t D)
  -- Function: int mpz_congruent_ui_p (mpz_t N, unsigned long int C,
           unsigned long int D)
- -- Function: int mpz_congruent_2exp_p (mpz_t N, mpz_t C, unsigned long
-          int B)
+ -- Function: int mpz_congruent_2exp_p (mpz_t N, mpz_t C, mp_bitcnt_t B)
      Return non-zero if N is congruent to C modulo D, or in the case of
      `mpz_congruent_2exp_p' modulo 2^B.
 
@@ -2734,8 +2730,7 @@ File: mpir.info,  Node: Number Theoretic Functions,  Next: Integer Comparisons, 
      References::), or any number theory textbook.  See also the
      example program `demos/qcn.c' which uses `mpz_kronecker_ui'.
 
- -- Function: unsigned long int mpz_remove (mpz_t ROP, mpz_t OP, mpz_t
-          F)
+ -- Function: mp_bitcnt_t mpz_remove (mpz_t ROP, mpz_t OP, mpz_t F)
      Remove all occurrences of the factor F from OP and store the
      result in ROP.  The return value is how many such occurrences were
      removed.
@@ -2834,24 +2829,22 @@ significant bit is number 0.
  -- Function: void mpz_com (mpz_t ROP, mpz_t OP)
      Set ROP to the one's complement of OP.
 
- -- Function: unsigned long int mpz_popcount (mpz_t OP)
+ -- Function: mp_bitcnt_t mpz_popcount (mpz_t OP)
      If OP>=0, return the population count of OP, which is the number
      of 1 bits in the binary representation.  If OP<0, the number of 1s
      is infinite, and the return value is ULONG_MAX, the largest
-     possible `unsigned long'.
+     possible `mp_bitcnt_t'.
 
- -- Function: unsigned long int mpz_hamdist (mpz_t OP1, mpz_t OP2)
+ -- Function: mp_bitcnt_t mpz_hamdist (mpz_t OP1, mpz_t OP2)
      If OP1 and OP2 are both >=0 or both <0, return the hamming
      distance between the two operands, which is the number of bit
      positions where OP1 and OP2 have different bit values.  If one
      operand is >=0 and the other <0 then the number of bits different
-     is infinite, and the return value is ULONG_MAX, the largest
-     possible `unsigned long'.
+     is infinite, and the return value is the largest possible
+     `imp_bitcnt_t'.
 
- -- Function: unsigned long int mpz_scan0 (mpz_t OP, unsigned long int
-          STARTING_BIT)
- -- Function: unsigned long int mpz_scan1 (mpz_t OP, unsigned long int
-          STARTING_BIT)
+ -- Function: mp_bitcnt_t mpz_scan0 (mpz_t OP, mp_bitcnt_t STARTING_BIT)
+ -- Function: mp_bitcnt_t mpz_scan1 (mpz_t OP, mp_bitcnt_t STARTING_BIT)
      Scan OP, starting from bit STARTING_BIT, towards more significant
      bits, until the first 0 or 1 bit (respectively) is found.  Return
      the index of the found bit.
@@ -2859,20 +2852,21 @@ significant bit is number 0.
      If the bit at STARTING_BIT is already what's sought, then
      STARTING_BIT is returned.
 
-     If there's no bit found, then ULONG_MAX is returned.  This will
-     happen in `mpz_scan0' past the end of a positive number, or
-     `mpz_scan1' past the end of a negative.
+     If there's no bit found, then the largest possible `mp_bitcnt_t' is
+     returned.  This will happen in `mpz_scan0' past the end of a
+     positive number, or `mpz_scan1' past the end of a nonnegative
+     number.
 
- -- Function: void mpz_setbit (mpz_t ROP, unsigned long int BIT_INDEX)
+ -- Function: void mpz_setbit (mpz_t ROP, mp_bitcnt_t BIT_INDEX)
      Set bit BIT_INDEX in ROP.
 
- -- Function: void mpz_clrbit (mpz_t ROP, unsigned long int BIT_INDEX)
+ -- Function: void mpz_clrbit (mpz_t ROP, mp_bitcnt_t BIT_INDEX)
      Clear bit BIT_INDEX in ROP.
 
- -- Function: void mpz_combit (mpz_t ROP, unsigned long int BIT_INDEX)
+ -- Function: void mpz_combit (mpz_t ROP, mp_bitcnt_t BIT_INDEX)
      Complement bit BIT_INDEX in ROP.
 
- -- Function: int mpz_tstbit (mpz_t OP, unsigned long int BIT_INDEX)
+ -- Function: int mpz_tstbit (mpz_t OP, mp_bitcnt_t BIT_INDEX)
      Test bit BIT_INDEX in OP and return 0 or 1 accordingly.
 
 
@@ -2892,7 +2886,12 @@ prototypes for these functions.
 
  -- Function: size_t mpz_out_str (FILE *STREAM, int BASE, mpz_t OP)
      Output OP on stdio stream STREAM, as a string of digits in base
-     BASE.  The base may vary from 2 to 36.
+     BASE.  The base argument may vary from 2 to 62 or from -2 to -36.
+
+     For BASE in the range 2..36, digits and lower-case letters are
+     used; for -2..-36, digits and upper-case letters are used; for
+     37..62, digits, upper-case letters, and lower-case letters (in
+     that significance order) are used.
 
      Return the number of bytes written, or if an error occurred,
      return 0.
@@ -2950,7 +2949,7 @@ Number Functions:: for more information on how to use and not to use
 random number functions.
 
  -- Function: void mpz_urandomb (mpz_t ROP, gmp_randstate_t STATE,
-          unsigned long int N)
+          mp_bitcnt_t N)
      Generate a uniformly distributed random integer in the range 0 to
      2^N-1, inclusive.
 
@@ -2967,7 +2966,7 @@ random number functions.
      before invoking this function.
 
  -- Function: void mpz_rrandomb (mpz_t ROP, gmp_randstate_t STATE,
-          unsigned long int N)
+          mp_bitcnt_t N)
      Generate a random integer with long strings of zeros and ones in
      the binary representation.  Useful for testing functions and
      algorithms, since this kind of random numbers have proven to be
@@ -3320,16 +3319,14 @@ File: mpir.info,  Node: Rational Arithmetic,  Next: Comparing Rationals,  Prev: 
           MULTIPLICAND)
      Set PRODUCT to MULTIPLIER times MULTIPLICAND.
 
- -- Function: void mpq_mul_2exp (mpq_t ROP, mpq_t OP1, unsigned long
-          int OP2)
+ -- Function: void mpq_mul_2exp (mpq_t ROP, mpq_t OP1, mp_bitcnt_t OP2)
      Set ROP to OP1 times 2 raised to OP2.
 
  -- Function: void mpq_div (mpq_t QUOTIENT, mpq_t DIVIDEND, mpq_t
           DIVISOR)
      Set QUOTIENT to DIVIDEND/DIVISOR.
 
- -- Function: void mpq_div_2exp (mpq_t ROP, mpq_t OP1, unsigned long
-          int OP2)
+ -- Function: void mpq_div_2exp (mpq_t ROP, mpq_t OP1, mp_bitcnt_t OP2)
      Set ROP to OP1 divided by 2 raised to OP2.
 
  -- Function: void mpq_neg (mpq_t NEGATED_OPERAND, mpq_t OPERAND)
@@ -3524,12 +3521,12 @@ File: mpir.info,  Node: Initializing Floats,  Next: Assigning Floats,  Prev: Flo
 7.1 Initialization Functions
 ============================
 
- -- Function: void mpf_set_default_prec (unsigned long int PREC)
+ -- Function: void mpf_set_default_prec (mp_bitcnt_t PREC)
      Set the default precision to be *at least* PREC bits.  All
      subsequent calls to `mpf_init' will use this precision, but
      previously initialized variables are unaffected.
 
- -- Function: unsigned long int mpf_get_default_prec (void)
+ -- Function: mp_bitcnt_t mpf_get_default_prec (void)
      Return the default precision actually used.
 
    An `mpf_t' object must be initialized before storing the first value
@@ -3543,7 +3540,7 @@ purpose.
      precision has already been established by a call to
      `mpf_set_default_prec'.
 
- -- Function: void mpf_init2 (mpf_t X, unsigned long int PREC)
+ -- Function: void mpf_init2 (mpf_t X, mp_bitcnt_t PREC)
      Initialize X to 0 and set its precision to be *at least* PREC
      bits.  Normally, a variable should be initialized once only or at
      least be cleared, using `mpf_clear', between initializations.
@@ -3569,17 +3566,17 @@ precision gradually in iterative algorithms like Newton-Raphson, making
 the computation precision closely match the actual accurate part of the
 numbers.
 
- -- Function: unsigned long int mpf_get_prec (mpf_t OP)
+ -- Function: mp_bitcnt_t mpf_get_prec (mpf_t OP)
      Return the current precision of OP, in bits.
 
- -- Function: void mpf_set_prec (mpf_t ROP, unsigned long int PREC)
+ -- Function: void mpf_set_prec (mpf_t ROP, mp_bitcnt_t PREC)
      Set the precision of ROP to be *at least* PREC bits.  The value in
      ROP will be truncated to the new precision.
 
      This function requires a call to `realloc', and so should not be
      used in a tight loop.
 
- -- Function: void mpf_set_prec_raw (mpf_t ROP, unsigned long int PREC)
+ -- Function: void mpf_set_prec_raw (mpf_t ROP, mp_bitcnt_t PREC)
      Set the precision of ROP to be *at least* PREC bits, without
      changing the memory allocated.
 
@@ -3808,12 +3805,10 @@ these functions in the same manner as other arithmetic exceptions.
  -- Function: void mpf_abs (mpf_t ROP, mpf_t OP)
      Set ROP to the absolute value of OP.
 
- -- Function: void mpf_mul_2exp (mpf_t ROP, mpf_t OP1, unsigned long
-          int OP2)
+ -- Function: void mpf_mul_2exp (mpf_t ROP, mpf_t OP1, mp_bitcnt_t OP2)
      Set ROP to OP1 times 2 raised to OP2.
 
- -- Function: void mpf_div_2exp (mpf_t ROP, mpf_t OP1, unsigned long
-          int OP2)
+ -- Function: void mpf_div_2exp (mpf_t ROP, mpf_t OP1, mp_bitcnt_t OP2)
      Set ROP to OP1 divided by 2 raised to OP2.
 
 
@@ -3832,7 +3827,7 @@ File: mpir.info,  Node: Float Comparison,  Next: I/O of Floats,  Prev: Float Ari
      `mpf_cmp_d' can be called with an infinity, but results are
      undefined for a NaN.
 
- -- Function: int mpf_eq (mpf_t OP1, mpf_t OP2, unsigned long int op3)
+ -- Function: int mpf_eq (mpf_t OP1, mpf_t OP2, mp_bitcnt_t op3)
      Return non-zero if the first OP3 bits of OP1 and OP2 are equal,
      zero otherwise.  I.e., test if OP1 and OP2 are approximately equal.
 
@@ -3924,7 +3919,7 @@ File: mpir.info,  Node: Miscellaneous Float Functions,  Prev: I/O of Floats,  Up
      truncated to an integer.
 
  -- Function: void mpf_urandomb (mpf_t ROP, gmp_randstate_t STATE,
-          unsigned long int NBITS)
+          mp_bitcnt_t NBITS)
      Generate a uniformly distributed random float in ROP, such that 0
      <= ROP < 1, with NBITS significant bits in the mantissa.
 
@@ -4329,16 +4324,16 @@ For example, {S1P, S1N}.
      STRSIZE must be at least 1, and no overlap is permitted between
      {STR,STRSIZE} and the result at RP.
 
- -- Function: unsigned long int mpn_scan0 (const mp_limb_t *S1P,
-          unsigned long int BIT)
+ -- Function: mp_bitcnt_t mpn_scan0 (const mp_limb_t *S1P, imp_bitcnt_t
+          BIT)
      Scan S1P from bit position BIT for the next clear bit.
 
      It is required that there be a clear bit within the area at S1P at
      or beyond bit position BIT, so that the function has something to
      return.
 
- -- Function: unsigned long int mpn_scan1 (const mp_limb_t *S1P,
-          unsigned long int BIT)
+ -- Function: mp_bitcnt_t mpn_scan1 (const mp_limb_t *S1P, mp_bitcnt_t
+          BIT)
      Scan S1P from bit position BIT for the next set bit.
 
      It is required that there be a set bit within the area at S1P at or
@@ -4392,12 +4387,12 @@ For example, {S1P, S1N}.
      *This function interface is preliminary and may change in the
      future.*
 
- -- Function: unsigned long int mpn_popcount (const mp_limb_t *S1P,
-          mp_size_t N)
+ -- Function: mp_bitcnt_t mpn_popcount (const mp_limb_t *S1P, mp_size_t
+          N)
      Count the number of set bits in {S1P, N}.
 
- -- Function: unsigned long int mpn_hamdist (const mp_limb_t *S1P,
-          const mp_limb_t *S2P, mp_size_t N)
+ -- Function: mp_bitcnt_t mpn_hamdist (const mp_limb_t *S1P, const
+          mp_limb_t *S2P, mp_size_t N)
      Compute the hamming distance between {S1P, N} and {S2P, N}, which
      is the number of bit positions where the two operands have
      different bit values.
@@ -4520,7 +4515,7 @@ File: mpir.info,  Node: Random State Initialization,  Next: Random State Seeding
      is fast and has good randomness properties.
 
  -- Function: void gmp_randinit_lc_2exp (gmp_randstate_t STATE, mpz_t
-          A, unsigned long C, unsigned long M2EXP)
+          A, unsigned long C, mp_bitcnt_t M2EXP)
      Initialize STATE with a linear congruential algorithm X = (A*X +
      C) mod 2^M2EXP.
 
@@ -4534,7 +4529,7 @@ File: mpir.info,  Node: Random State Initialization,  Next: Random State Seeding
      concatenated.
 
  -- Function: int gmp_randinit_lc_2exp_size (gmp_randstate_t STATE,
-          unsigned long SIZE)
+          mp_bitcnt_t SIZE)
      Initialize STATE for a linear congruential algorithm as per
      `gmp_randinit_lc_2exp'.  A, C and M2EXP are selected from a table,
      chosen so that SIZE bits (or more) of each X will be used, ie.
@@ -5527,9 +5522,9 @@ used if this doesn't suit.
 
      The accuracy provided by `hypot' is not currently guaranteed.
 
- -- Function: unsigned long int mpf_class::get_prec ()
- -- Function: void mpf_class::set_prec (unsigned long PREC)
- -- Function: void mpf_class::set_prec_raw (unsigned long PREC)
+ -- Function: mp_bitcnt_t mpf_class::get_prec ()
+ -- Function: void mpf_class::set_prec (mp_bitcnt_t PREC)
+ -- Function: void mpf_class::set_prec_raw (mp_bitcnt_t PREC)
      Get or set the current precision of an `mpf_class'.
 
      The restrictions described for `mpf_set_prec_raw' (*note
