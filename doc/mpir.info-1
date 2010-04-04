@@ -2334,7 +2334,12 @@ described in *note Assigning Integers:: and *note I/O of Integers::.
 
  -- Function: char * mpz_get_str (char *STR, int BASE, mpz_t OP)
      Convert OP to a string of digits in base BASE.  The base may vary
-     from 2 to 36.
+     from 2 to 36 or from -2 to -36.
+
+     For BASE in the range 2..36, digits and lower-case letters are
+     used; for -2..-36, digits and upper-case letters are used; for
+     37..62, digits, upper-case letters, and lower-case letters (in
+     that significance order) are used.
 
      If STR is `NULL', the result string is allocated using the current
      allocation function (*note Custom Allocation::).  The block will be
@@ -3746,11 +3751,17 @@ File: mpir.info,  Node: Converting Floats,  Next: Float Arithmetic,  Prev: Simul
 
  -- Function: char * mpf_get_str (char *STR, mp_exp_t *EXPPTR, int
           BASE, size_t N_DIGITS, mpf_t OP)
-     Convert OP to a string of digits in base BASE.  BASE can be 2 to
-     36.  Up to N_DIGITS digits will be generated.  Trailing zeros are
-     not returned.  No more digits than can be accurately represented
-     by OP are ever generated.  If N_DIGITS is 0 then that accurate
-     maximum number of digits are generated.
+     Convert OP to a string of digits in base BASE.  BASE can vary from
+     2 to 362 or from -2 to -36.  Up to N_DIGITS digits will be
+     generated.  Trailing zeros are not returned.  No more digits than
+     can be accurately represented by OP are ever generated.  If
+     N_DIGITS is 0 then that accurate maximum number of digits are
+     generated.
+
+     For BASE in the range 2..36, digits and lower-case letters are
+     used; for -2..-36, digits and upper-case letters are used; for
+     37..62, digits, upper-case letters, and lower-case letters (in
+     that significance order) are used.
 
      If STR is `NULL', the result string is allocated using the current
      allocation function (*note Custom Allocation::).  The block will be
@@ -3887,6 +3898,11 @@ prototypes for these functions.
      by an `e', or if BASE is greater than 10 then by an `@'.  The
      exponent is always in decimal.  The decimal point follows the
      current locale, on systems providing `localeconv'.
+
+     For BASE in the range 2..36, digits and lower-case letters are
+     used; for -2..-36, digits and upper-case letters are used; for
+     37..62, digits, upper-case letters, and lower-case letters (in
+     that significance order) are used.
 
      Up to N_DIGITS will be printed from the mantissa, except that no
      more digits than are accurately representable by OP will be

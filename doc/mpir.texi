@@ -3135,7 +3135,12 @@ Functions,,, libc, The GNU C Library Reference Manual}).
 
 @deftypefun {char *} mpz_get_str (char *@var{str}, int @var{base}, mpz_t @var{op})
 Convert @var{op} to a string of digits in base @var{base}.  The base may vary
-from 2 to 36.
+from 2 to 36 or from @minus{}2 to @minus{}36.
+
+For @var{base} in the range 2..36, digits and lower-case letters are used; for
+@minus{}2..@minus{}36, digits and upper-case letters are used; for 37..62,
+digits, upper-case letters, and lower-case letters (in that significance order)
+are used.
 
 If @var{str} is @code{NULL}, the result string is allocated using the current
 allocation function (@pxref{Custom Allocation}).  The block will be
@@ -4735,11 +4740,16 @@ See also @code{mpf_fits_slong_p} and @code{mpf_fits_ulong_p}
 @end deftypefun
 
 @deftypefun {char *} mpf_get_str (char *@var{str}, mp_exp_t *@var{expptr}, int @var{base}, size_t @var{n_digits}, mpf_t @var{op})
-Convert @var{op} to a string of digits in base @var{base}.  @var{base} can be
-2 to 36.  Up to @var{n_digits} digits will be generated.  Trailing zeros are
-not returned.  No more digits than can be accurately represented by @var{op}
-are ever generated.  If @var{n_digits} is 0 then that accurate maximum number
-of digits are generated.
+Convert @var{op} to a string of digits in base @var{base}.  @var{base} can vary
+from 2 to 362 or from @minus{}2 to @minus{}36.  Up to @var{n_digits} digits 
+will be generated.  Trailing zeros are not returned.  No more digits than can
+be accurately represented by @var{op} are ever generated.  If @var{n_digits} 
+is 0 then that accurate maximum number of digits are generated.
+
+For @var{base} in the range 2..36, digits and lower-case letters are used; for
+@minus{}2..@minus{}36, digits and upper-case letters are used; for 37..62,
+digits, upper-case letters, and lower-case letters (in that significance order)
+are used.
 
 If @var{str} is @code{NULL}, the result string is allocated using the current
 allocation function (@pxref{Custom Allocation}).  The block will be
@@ -4897,6 +4907,11 @@ which may vary from 2 to 36.  An exponent then printed, separated by an
 @samp{e}, or if @var{base} is greater than 10 then by an @samp{@@}.  The
 exponent is always in decimal.  The decimal point follows the current locale,
 on systems providing @code{localeconv}.
+
+For @var{base} in the range 2..36, digits and lower-case letters are used; for
+@minus{}2..@minus{}36, digits and upper-case letters are used; for 37..62,
+digits, upper-case letters, and lower-case letters (in that significance order)
+are used.
 
 Up to @var{n_digits} will be printed from the mantissa, except that no more
 digits than are accurately representable by @var{op} will be printed.

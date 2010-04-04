@@ -2861,7 +2861,7 @@ Function and Type Index
 * mpf_init_set_ui:                       Simultaneous Float Init & Assign.
                                                               (line  17)
 * mpf_inits:                             Initializing Floats. (line  31)
-* mpf_inp_str:                           I/O of Floats.       (line  31)
+* mpf_inp_str:                           I/O of Floats.       (line  36)
 * mpf_integer_p:                         Miscellaneous Float Functions.
                                                               (line  14)
 * mpf_mul:                               Float Arithmetic.    (line  19)
