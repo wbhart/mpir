@@ -407,7 +407,9 @@ odd_product (unsigned long low, unsigned long high, mpz_t * st)
 
 // Computation of n factorial by computing the prime factoriation of n!,
 // using iterated squaring and multiplication by a "small" number idea and binary splitting
-// written by Robert Gerbicz
+// written by Robert Gerbicz the algorithm is due to Schoenhage. See Peter 
+// Luschny's website for many factorial implementations, including one of
+// this algorithm.
 
 static void binary_splitting (mpz_ptr result,unsigned long int *a,unsigned long int L)  {
 // mulptiplication by binary splitting
