@@ -409,7 +409,9 @@ odd_product (unsigned long low, unsigned long high, mpz_t * st)
 // using iterated squaring and multiplication by a "small" number idea and binary splitting
 // written by Robert Gerbicz the algorithm is due to Schoenhage. See Peter 
 // Luschny's website for many factorial implementations, including one of
-// this algorithm.
+// this algorithm. See page 226 in: "Fast Algorithms, A Multitape Turing 
+// Machine Implementation" by A. Schonhage, A. F. W. Grotefeld and E. Vetter,
+// BI Wissenschafts-Verlag, Mannheim, 1994. 
 
 static void binary_splitting (mpz_ptr result,unsigned long int *a,unsigned long int L)  {
 // mulptiplication by binary splitting

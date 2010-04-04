@@ -1553,7 +1553,7 @@ B.2 Papers
      Modular Transforms", Journal of Computer and System Sciences,
      volume 8, number 3, June 1974, pp. 366-386.
 
-   * Niels Moller, "On Schoenhage's algorithm and subquadratic integer
+   * Niels Mo"ller, "On Schoenhage's algorithm and subquadratic integer
      GCD computation", Math. Comp. 2007. Available online at
      `http://www.lysator.liu.se/~nisse/archive/S0025-5718-07-02017-0.pdf'
 
@@ -1569,6 +1569,10 @@ B.2 Papers
 
    * Arnold Scho"nhage and Volker Strassen, "Schnelle Multiplikation
      grosser Zahlen", Computing 7, 1971, pp. 281-292.
+
+   * A. Scho"nhage, A. F. W. Grotefeld and E. Vetter, "Fast Algorithms,
+     A Multitape Turing Machine Implementation" BI
+     Wissenschafts-Verlag, Mannheim, 1994.
 
    * Kenneth Weber, "The accelerated integer GCD algorithm", ACM
      Transactions on Mathematical Software, volume 21, number 1, March

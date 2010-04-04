@@ -10268,7 +10268,7 @@ Journal of Computer and System Sciences, volume 8, number 3, June 1974,
 pp.@: 366-386.
 
 @item
-Niels Moller, ``On Schoenhage's algorithm and subquadratic integer GCD computation'', Math. Comp. 2007. Available online at @uref{http://www.lysator.liu.se/~nisse/archive/S0025-5718-07-02017-0.pdf}
+Niels M@"oller, ``On Schoenhage's algorithm and subquadratic integer GCD computation'', Math. Comp. 2007. Available online at @uref{http://www.lysator.liu.se/~nisse/archive/S0025-5718-07-02017-0.pdf}
 
 @item
 Peter L. Montgomery, ``Modular Multiplication Without Trial Division'', in
@@ -10280,6 +10280,9 @@ Thom Mulders, ``On short multiplications and divisions'', Appl. Algebra Engrg. C
 @item
 Arnold Sch@"onhage and Volker Strassen, ``Schnelle Multiplikation grosser
 Zahlen'', Computing 7, 1971, pp.@: 281-292.
+
+@item
+A. Sch@"onhage, A. F. W. Grotefeld and E. Vetter, "Fast Algorithms, A Multitape Turing Machine Implementation" BI Wissenschafts-Verlag, Mannheim, 1994. 
 
 @item
 Kenneth Weber, ``The accelerated integer GCD algorithm'',
