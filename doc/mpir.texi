@@ -1634,6 +1634,22 @@ and for applications wanting to use those registers for special purposes.  In
 these cases the only suggestion currently is to build MPIR with CPU @samp{none}
 to avoid the assembler code.
 
+@item SPARC Solaris
+@cindex Sparc
+Building applications against MPIR on SPARC Solaris (including @code{make 
+check}) requires the @code{LD_LIBRARY_PATH} to be set appropriately. In 
+particular if one is building with @code{ABI=64} the linker needs to know
+where to find @code{libgcc} (often often @code{/usr/lib/sparcv9} 
+or @code{/usr/local/lib/sparcv9} or @code{/lib/sparcv9}).
+
+It is not enough to specify the location in @code{LD_LIBRARY_PATH_64} unless
+@code{LD_LIBRARY_PATH_64} is added to @code{LD_LIBRARY_PATH}. Specifically
+the 64 bit @code{libgcc} path needs to be in @code{LD_LIBRARY_PATH}. 
+
+The linker is able to automatically distinguish 32 and 64 bit libraries, 
+so it is safe to include paths to both the 32 and 64 bit libraries in the 
+@code{LD_LIBRARY_PATH}.
+
 @item Solaris 10 First Release on SPARC
 @cindex Solaris
 MPIR fails to build with Solaris 10 first release. Patch 123647-01 for SPARC, released by Sun in August 2006 fixes this problem.
