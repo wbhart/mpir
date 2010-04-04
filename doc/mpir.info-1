@@ -4084,6 +4084,11 @@ For example, {S1P, S1N}.
 
      This function requires that S1N is greater than or equal to S2N.
 
+ -- Function: void mpn_neg (mp_limb_t *RP, const mp_limb_t *SP,
+          mp_size_t N)
+     Perform the negation of {SP, N}, and write the result to {RP, N}.
+     Return carry-out.
+
  -- Function: void mpn_mul_n (mp_limb_t *RP, const mp_limb_t *S1P,
           const mp_limb_t *S2P, mp_size_t N)
      Multiply {S1P, N} and {S2P, N}, and write the 2*N-limb result to
@@ -4092,6 +4097,9 @@ For example, {S1P, S1N}.
      The destination has to have space for 2*N limbs, even if the
      product's most significant limb is zero.  No overlap is permitted
      between the destination and either source.
+
+     If the input operands are the same, `mpn_sqr' will generally be
+     faster.
 
  -- Function: mp_limb_t mpn_mul_1 (mp_limb_t *RP, const mp_limb_t *S1P,
           mp_size_t N, mp_limb_t S2LIMB)
@@ -4140,6 +4148,14 @@ For example, {S1P, S1N}.
 
      This function requires that S1N is greater than or equal to S2N.
      The destination must be distinct from both input operands.
+
+ -- Function: void mpn_sqr (mp_limb_t *RP, const mp_limb_t *S1P,
+          mp_size_t N)
+     Compute the square of {S1P, N} and write the 2*N-limb result to RP.
+
+     The destination has to have space for 2*N limbs, even if the
+     result's most significant limb is zero.  No overlap is permitted
+     between the destination and the source.
 
  -- Function: void mpn_tdiv_qr (mp_limb_t *QP, mp_limb_t *RP, mp_size_t
           QXN, const mp_limb_t *NP, mp_size_t NN, const mp_limb_t *DP,
@@ -4434,6 +4450,62 @@ For example, {S1P, S1N}.
  -- Function: int mpn_perfect_square_p (const mp_limb_t *S1P, mp_size_t
           N)
      Return non-zero iff {S1P, N} is a perfect square.
+
+ -- Function: void mpn_and_n (mp_limb_t *RP, const mp_limb_t *S1P,
+          const mp_limb_t *S2P, mp_size_t N)
+     Perform the bitwise logical and of {S1P, N} and {S2P, N}, and
+     write the result to {RP, N}.
+
+ -- Function: void mpn_ior_n (mp_limb_t *RP, const mp_limb_t *S1P,
+          const mp_limb_t *S2P, mp_size_t N)
+     Perform the bitwise logical inclusive or of {S1P, N} and {S2P, N},
+     and write the result to {RP, N}.
+
+ -- Function: void mpn_xor_n (mp_limb_t *RP, const mp_limb_t *S1P,
+          const mp_limb_t *S2P, mp_size_t N)
+     Perform the bitwise logical exclusive or of {S1P, N} and {S2P, N},
+     and write the result to {RP, N}.
+
+ -- Function: void mpn_andn_n (mp_limb_t *RP, const mp_limb_t *S1P,
+          const mp_limb_t *S2P, mp_size_t N)
+     Perform the bitwise logical and of {S1P, N} and the bitwise
+     complement of {S2P, N}, and write the result to {RP, N}.
+
+ -- Function: void mpn_iorn_n (mp_limb_t *RP, const mp_limb_t *S1P,
+          const mp_limb_t *S2P, mp_size_t N)
+     Perform the bitwise logical inclusive or of {S1P, N} and the
+     bitwise complement of {S2P, N}, and write the result to {RP, N}.
+
+ -- Function: void mpn_nand_n (mp_limb_t *RP, const mp_limb_t *S1P,
+          const mp_limb_t *S2P, mp_size_t N)
+     Perform the bitwise logical and of {S1P, N} and {S2P, N}, and
+     write the bitwise complement of the result to {RP, N}.
+
+ -- Function: void mpn_nior_n (mp_limb_t *RP, const mp_limb_t *S1P,
+          const mp_limb_t *S2P, mp_size_t N)
+     Perform the bitwise logical inclusive or of {S1P, N} and {S2P, N},
+     and write the bitwise complement of the result to {RP, N}.
+
+ -- Function: void mpn_xnor_n (mp_limb_t *RP, const mp_limb_t *S1P,
+          const mp_limb_t *S2P, mp_size_t N)
+     Perform the bitwise logical exclusive or of {S1P, N} and {S2P, N},
+     and write the bitwise complement of the result to {RP, N}.
+
+ -- Function: void mpn_com (mp_limb_t *RP, const mp_limb_t *SP,
+          mp_size_t N)
+     Perform the bitwise complement of {SP, N}, and write the result to
+     {RP, N}.
+
+ -- Function: void mpn_copyi (mp_limb_t *RP, const mp_limb_t *S1P,
+          mp_size_t N)
+     Copy from {S1P, N} to {RP, N}, increasingly.
+
+ -- Function: void mpn_copyd (mp_limb_t *RP, const mp_limb_t *S1P,
+          mp_size_t N)
+     Copy from {S1P, N} to {RP, N}, decreasingly.
+
+ -- Function: void mpn_zero (mp_limb_t *RP, mp_size_t N)
+     Zero {RP, N}.
 
 
 8.1 Nails
@@ -7001,80 +7073,4 @@ above the true root.  The iteration converges quadratically when
 started from a good approximation.  When n is large more initial bits
 are needed to get good convergence.  The current implementation is not
 particularly well optimized.
-
-
-File: mpir.info,  Node: Perfect Square Algorithm,  Next: Perfect Power Algorithm,  Prev: Nth Root Algorithm,  Up: Root Extraction Algorithms
-
-15.5.3 Perfect Square
----------------------
-
-A significant fraction of non-squares can be quickly identified by
-checking whether the input is a quadratic residue modulo small integers.
-
-   `mpz_perfect_square_p' first tests the input mod 256, which means
-just examining the low byte.  Only 44 different values occur for
-squares mod 256, so 82.8% of inputs can be immediately identified as
-non-squares.
-
-   On a 32-bit system similar tests are done mod 9, 5, 7, 13 and 17,
-for a total 99.25% of inputs identified as non-squares.  On a 64-bit
-system 97 is tested too, for a total 99.62%.
-
-   These moduli are chosen because they're factors of 2^24-1 (or 2^48-1
-for 64-bits), and such a remainder can be quickly taken just using
-additions (see `mpn_mod_34lsub1').
-
-   When nails are in use moduli are instead selected by the `gen-psqr.c'
-program and applied with an `mpn_mod_1'.  The same 2^24-1 or 2^48-1
-could be done with nails using some extra bit shifts, but this is not
-currently implemented.
-
-   In any case each modulus is applied to the `mpn_mod_34lsub1' or
-`mpn_mod_1' remainder and a table lookup identifies non-squares.  By
-using a "modexact" style calculation, and suitably permuted tables,
-just one multiply each is required, see the code for details.  Moduli
-are also combined to save operations, so long as the lookup tables
-don't become too big.  `gen-psqr.c' does all the pre-calculations.
-
-   A square root must still be taken for any value that passes these
-tests, to verify it's really a square and not one of the small fraction
-of non-squares that get through (ie. a pseudo-square to all the tested
-bases).
-
-   Clearly more residue tests could be done, `mpz_perfect_square_p' only
-uses a compact and efficient set.  Big inputs would probably benefit
-from more residue testing, small inputs might be better off with less.
-The assumed distribution of squares versus non-squares in the input
-would affect such considerations.
-
-
-File: mpir.info,  Node: Perfect Power Algorithm,  Prev: Perfect Square Algorithm,  Up: Root Extraction Algorithms
-
-15.5.4 Perfect Power
---------------------
-
-Detecting perfect powers is required by some factorization algorithms.
-Currently `mpz_perfect_power_p' is implemented using repeated Nth root
-extractions, though naturally only prime roots need to be considered.
-(*Note Nth Root Algorithm::.)
-
-   If a prime divisor p with multiplicity e can be found, then only
-roots which are divisors of e need to be considered, much reducing the
-work necessary.  To this end divisibility by a set of small primes is
-checked.
-
-
-File: mpir.info,  Node: Radix Conversion Algorithms,  Next: Other Algorithms,  Prev: Root Extraction Algorithms,  Up: Algorithms
-
-15.6 Radix Conversion
-=====================
-
-Radix conversions are less important than other algorithms.  A program
-dominated by conversions should probably use a different data
-representation.
-
-* Menu:
-
-* Binary to Radix::
-* Radix to Binary::
 

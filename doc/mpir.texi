@@ -5126,6 +5126,11 @@ This function requires that @var{s1n} is greater than or equal to
 @var{s2n}.
 @end deftypefun
 
+@deftypefun void mpn_neg (mp_limb_t *@var{rp}, const mp_limb_t *@var{sp}, mp_size_t @var{n})
+Perform the negation of @{@var{sp}, @var{n}@}, and write the result to
+@{@var{rp}, @var{n}@}.  Return carry-out.
+@end deftypefun
+
 @deftypefun void mpn_mul_n (mp_limb_t *@var{rp}, const mp_limb_t *@var{s1p}, const mp_limb_t *@var{s2p}, mp_size_t @var{n})
 Multiply @{@var{s1p}, @var{n}@} and @{@var{s2p}, @var{n}@}, and write the
 2*@var{n}-limb result to @var{rp}.
@@ -5133,6 +5138,8 @@ Multiply @{@var{s1p}, @var{n}@} and @{@var{s2p}, @var{n}@}, and write the
 The destination has to have space for 2*@var{n} limbs, even if the product's
 most significant limb is zero.  No overlap is permitted between the
 destination and either source.
+
+If the input operands are the same, @code{mpn_sqr} will generally be faster.
 @end deftypefun
 
 @deftypefun mp_limb_t mpn_mul_1 (mp_limb_t *@var{rp}, const mp_limb_t *@var{s1p}, mp_size_t @var{n}, mp_limb_t @var{s2limb})
@@ -5180,6 +5187,15 @@ result might be one limb smaller.
 
 This function requires that @var{s1n} is greater than or equal to
 @var{s2n}.  The destination must be distinct from both input operands.
+@end deftypefun
+
+@deftypefun void mpn_sqr (mp_limb_t *@var{rp}, const mp_limb_t *@var{s1p}, mp_size_t @var{n})
+Compute the square of @{@var{s1p}, @var{n}@} and write the 2*@var{n}-limb
+result to @var{rp}.
+
+The destination has to have space for 2*@var{n} limbs, even if the result's
+most significant limb is zero.  No overlap is permitted between the
+destination and the source.
 @end deftypefun
 
 @deftypefun void mpn_tdiv_qr (mp_limb_t *@var{qp}, mp_limb_t *@var{rp}, mp_size_t @var{qxn}, const mp_limb_t *@var{np}, mp_size_t @var{nn}, const mp_limb_t *@var{dp}, mp_size_t @var{dn})
@@ -5477,6 +5493,64 @@ different bit values.
 Return non-zero iff @{@var{s1p}, @var{n}@} is a perfect square.
 @end deftypefun
 
+@deftypefun void mpn_and_n (mp_limb_t *@var{rp}, const mp_limb_t *@var{s1p}, const mp_limb_t *@var{s2p}, mp_size_t @var{n})
+Perform the bitwise logical and of @{@var{s1p}, @var{n}@} and @{@var{s2p},
+@var{n}@}, and write the result to @{@var{rp}, @var{n}@}.
+@end deftypefun
+
+@deftypefun void mpn_ior_n (mp_limb_t *@var{rp}, const mp_limb_t *@var{s1p}, const mp_limb_t *@var{s2p}, mp_size_t @var{n})
+Perform the bitwise logical inclusive or of @{@var{s1p}, @var{n}@} and
+@{@var{s2p}, @var{n}@}, and write the result to @{@var{rp}, @var{n}@}.
+@end deftypefun
+
+@deftypefun void mpn_xor_n (mp_limb_t *@var{rp}, const mp_limb_t *@var{s1p}, const mp_limb_t *@var{s2p}, mp_size_t @var{n})
+Perform the bitwise logical exclusive or of @{@var{s1p}, @var{n}@} and
+@{@var{s2p}, @var{n}@}, and write the result to @{@var{rp}, @var{n}@}.
+@end deftypefun
+
+@deftypefun void mpn_andn_n (mp_limb_t *@var{rp}, const mp_limb_t *@var{s1p}, const mp_limb_t *@var{s2p}, mp_size_t @var{n})
+Perform the bitwise logical and of @{@var{s1p}, @var{n}@} and the bitwise
+complement of @{@var{s2p}, @var{n}@}, and write the result to @{@var{rp}, @var{n}@}.
+@end deftypefun
+
+@deftypefun void mpn_iorn_n (mp_limb_t *@var{rp}, const mp_limb_t *@var{s1p}, const mp_limb_t *@var{s2p}, mp_size_t @var{n})
+Perform the bitwise logical inclusive or of @{@var{s1p}, @var{n}@} and the bitwise
+complement of @{@var{s2p}, @var{n}@}, and write the result to @{@var{rp}, @var{n}@}.
+@end deftypefun
+
+@deftypefun void mpn_nand_n (mp_limb_t *@var{rp}, const mp_limb_t *@var{s1p}, const mp_limb_t *@var{s2p}, mp_size_t @var{n})
+Perform the bitwise logical and of @{@var{s1p}, @var{n}@} and @{@var{s2p},
+@var{n}@}, and write the bitwise complement of the result to @{@var{rp}, @var{n}@}.
+@end deftypefun
+
+@deftypefun void mpn_nior_n (mp_limb_t *@var{rp}, const mp_limb_t *@var{s1p}, const mp_limb_t *@var{s2p}, mp_size_t @var{n})
+Perform the bitwise logical inclusive or of @{@var{s1p}, @var{n}@} and
+@{@var{s2p}, @var{n}@}, and write the bitwise complement of the result to
+@{@var{rp}, @var{n}@}.
+@end deftypefun
+
+@deftypefun void mpn_xnor_n (mp_limb_t *@var{rp}, const mp_limb_t *@var{s1p}, const mp_limb_t *@var{s2p}, mp_size_t @var{n})
+Perform the bitwise logical exclusive or of @{@var{s1p}, @var{n}@} and
+@{@var{s2p}, @var{n}@}, and write the bitwise complement of the result to
+@{@var{rp}, @var{n}@}.
+@end deftypefun
+
+@deftypefun void mpn_com (mp_limb_t *@var{rp}, const mp_limb_t *@var{sp}, mp_size_t @var{n})
+Perform the bitwise complement of @{@var{sp}, @var{n}@}, and write the result
+to @{@var{rp}, @var{n}@}.
+@end deftypefun
+
+@deftypefun void mpn_copyi (mp_limb_t *@var{rp}, const mp_limb_t *@var{s1p}, mp_size_t @var{n})
+Copy from @{@var{s1p}, @var{n}@} to @{@var{rp}, @var{n}@}, increasingly.
+@end deftypefun
+
+@deftypefun void mpn_copyd (mp_limb_t *@var{rp}, const mp_limb_t *@var{s1p}, mp_size_t @var{n})
+Copy from @{@var{s1p}, @var{n}@} to @{@var{rp}, @var{n}@}, decreasingly.
+@end deftypefun
+
+@deftypefun void mpn_zero (mp_limb_t *@var{rp}, mp_size_t @var{n})
+Zero @{@var{rp}, @var{n}@}.
+@end deftypefun
 
 @sp 1
 @section Nails

@@ -23,6 +23,82 @@ START-INFO-DIR-ENTRY
 END-INFO-DIR-ENTRY
 
 
+File: mpir.info,  Node: Perfect Square Algorithm,  Next: Perfect Power Algorithm,  Prev: Nth Root Algorithm,  Up: Root Extraction Algorithms
+
+15.5.3 Perfect Square
+---------------------
+
+A significant fraction of non-squares can be quickly identified by
+checking whether the input is a quadratic residue modulo small integers.
+
+   `mpz_perfect_square_p' first tests the input mod 256, which means
+just examining the low byte.  Only 44 different values occur for
+squares mod 256, so 82.8% of inputs can be immediately identified as
+non-squares.
+
+   On a 32-bit system similar tests are done mod 9, 5, 7, 13 and 17,
+for a total 99.25% of inputs identified as non-squares.  On a 64-bit
+system 97 is tested too, for a total 99.62%.
+
+   These moduli are chosen because they're factors of 2^24-1 (or 2^48-1
+for 64-bits), and such a remainder can be quickly taken just using
+additions (see `mpn_mod_34lsub1').
+
+   When nails are in use moduli are instead selected by the `gen-psqr.c'
+program and applied with an `mpn_mod_1'.  The same 2^24-1 or 2^48-1
+could be done with nails using some extra bit shifts, but this is not
+currently implemented.
+
+   In any case each modulus is applied to the `mpn_mod_34lsub1' or
+`mpn_mod_1' remainder and a table lookup identifies non-squares.  By
+using a "modexact" style calculation, and suitably permuted tables,
+just one multiply each is required, see the code for details.  Moduli
+are also combined to save operations, so long as the lookup tables
+don't become too big.  `gen-psqr.c' does all the pre-calculations.
+
+   A square root must still be taken for any value that passes these
+tests, to verify it's really a square and not one of the small fraction
+of non-squares that get through (ie. a pseudo-square to all the tested
+bases).
+
+   Clearly more residue tests could be done, `mpz_perfect_square_p' only
+uses a compact and efficient set.  Big inputs would probably benefit
+from more residue testing, small inputs might be better off with less.
+The assumed distribution of squares versus non-squares in the input
+would affect such considerations.
+
+
+File: mpir.info,  Node: Perfect Power Algorithm,  Prev: Perfect Square Algorithm,  Up: Root Extraction Algorithms
+
+15.5.4 Perfect Power
+--------------------
+
+Detecting perfect powers is required by some factorization algorithms.
+Currently `mpz_perfect_power_p' is implemented using repeated Nth root
+extractions, though naturally only prime roots need to be considered.
+(*Note Nth Root Algorithm::.)
+
+   If a prime divisor p with multiplicity e can be found, then only
+roots which are divisors of e need to be considered, much reducing the
+work necessary.  To this end divisibility by a set of small primes is
+checked.
+
+
+File: mpir.info,  Node: Radix Conversion Algorithms,  Next: Other Algorithms,  Prev: Root Extraction Algorithms,  Up: Algorithms
+
+15.6 Radix Conversion
+=====================
+
+Radix conversions are less important than other algorithms.  A program
+dominated by conversions should probably use a different data
+representation.
+
+* Menu:
+
+* Binary to Radix::
+* Radix to Binary::
+
+
 File: mpir.info,  Node: Binary to Radix,  Next: Radix to Binary,  Prev: Radix Conversion Algorithms,  Up: Radix Conversion Algorithms
 
 15.6.1 Binary to Radix
@@ -2436,7 +2512,7 @@ Concept Index
 * Multi-threading:                       Reentrancy.          (line   6)
 * Multiplication algorithms:             Multiplication Algorithms.
                                                               (line   6)
-* Nails:                                 Low-level Functions. (line 452)
+* Nails:                                 Low-level Functions. (line 524)
 * Native compilation:                    Build Options.       (line  59)
 * NeXT:                                  Known Build Problems.
                                                               (line  57)
@@ -2690,12 +2766,12 @@ Function and Type Index
                                                               (line  29)
 * gmp_fscanf:                            Formatted Input Functions.
                                                               (line  25)
-* GMP_LIMB_BITS:                         Low-level Functions. (line 485)
-* GMP_NAIL_BITS:                         Low-level Functions. (line 483)
-* GMP_NAIL_MASK:                         Low-level Functions. (line 493)
-* GMP_NUMB_BITS:                         Low-level Functions. (line 484)
-* GMP_NUMB_MASK:                         Low-level Functions. (line 494)
-* GMP_NUMB_MAX:                          Low-level Functions. (line 502)
+* GMP_LIMB_BITS:                         Low-level Functions. (line 557)
+* GMP_NAIL_BITS:                         Low-level Functions. (line 555)
+* GMP_NAIL_MASK:                         Low-level Functions. (line 565)
+* GMP_NUMB_BITS:                         Low-level Functions. (line 556)
+* GMP_NUMB_MASK:                         Low-level Functions. (line 566)
+* GMP_NUMB_MAX:                          Low-level Functions. (line 574)
 * gmp_obstack_printf:                    Formatted Output Functions.
                                                               (line  79)
 * gmp_obstack_vprintf:                   Formatted Output Functions.
@@ -2904,42 +2980,56 @@ Function and Type Index
 * mpn_add:                               Low-level Functions. (line  70)
 * mpn_add_1:                             Low-level Functions. (line  65)
 * mpn_add_n:                             Low-level Functions. (line  55)
-* mpn_addmul_1:                          Low-level Functions. (line 123)
-* mpn_bdivmod:                           Low-level Functions. (line 241)
-* mpn_cmp:                               Low-level Functions. (line 282)
-* mpn_divexact_by3:                      Low-level Functions. (line 209)
-* mpn_divexact_by3c:                     Low-level Functions. (line 211)
-* mpn_divmod_1:                          Low-level Functions. (line 193)
-* mpn_divrem:                            Low-level Functions. (line 167)
-* mpn_divrem_1:                          Low-level Functions. (line 191)
-* mpn_gcd:                               Low-level Functions. (line 287)
-* mpn_gcd_1:                             Low-level Functions. (line 298)
-* mpn_gcdext:                            Low-level Functions. (line 304)
-* mpn_get_str:                           Low-level Functions. (line 339)
-* mpn_hamdist:                           Low-level Functions. (line 440)
-* mpn_lshift:                            Low-level Functions. (line 258)
-* mpn_mod_1:                             Low-level Functions. (line 235)
-* mpn_mul:                               Low-level Functions. (line 145)
-* mpn_mul_1:                             Low-level Functions. (line 108)
-* mpn_mul_n:                             Low-level Functions. (line  99)
-* mpn_perfect_square_p:                  Low-level Functions. (line 446)
-* mpn_popcount:                          Low-level Functions. (line 436)
-* mpn_random:                            Low-level Functions. (line 388)
-* mpn_random2:                           Low-level Functions. (line 389)
-* mpn_randomb:                           Low-level Functions. (line 418)
-* mpn_rrandom:                           Low-level Functions. (line 426)
-* mpn_rshift:                            Low-level Functions. (line 270)
-* mpn_scan0:                             Low-level Functions. (line 373)
-* mpn_scan1:                             Low-level Functions. (line 381)
-* mpn_set_str:                           Low-level Functions. (line 354)
-* mpn_sqrtrem:                           Low-level Functions. (line 321)
+* mpn_addmul_1:                          Low-level Functions. (line 131)
+* mpn_and_n:                             Low-level Functions. (line 466)
+* mpn_andn_n:                            Low-level Functions. (line 481)
+* mpn_bdivmod:                           Low-level Functions. (line 257)
+* mpn_cmp:                               Low-level Functions. (line 298)
+* mpn_com:                               Low-level Functions. (line 506)
+* mpn_copyd:                             Low-level Functions. (line 515)
+* mpn_copyi:                             Low-level Functions. (line 511)
+* mpn_divexact_by3:                      Low-level Functions. (line 225)
+* mpn_divexact_by3c:                     Low-level Functions. (line 227)
+* mpn_divmod_1:                          Low-level Functions. (line 209)
+* mpn_divrem:                            Low-level Functions. (line 183)
+* mpn_divrem_1:                          Low-level Functions. (line 207)
+* mpn_gcd:                               Low-level Functions. (line 303)
+* mpn_gcd_1:                             Low-level Functions. (line 314)
+* mpn_gcdext:                            Low-level Functions. (line 320)
+* mpn_get_str:                           Low-level Functions. (line 355)
+* mpn_hamdist:                           Low-level Functions. (line 456)
+* mpn_ior_n:                             Low-level Functions. (line 471)
+* mpn_iorn_n:                            Low-level Functions. (line 486)
+* mpn_lshift:                            Low-level Functions. (line 274)
+* mpn_mod_1:                             Low-level Functions. (line 251)
+* mpn_mul:                               Low-level Functions. (line 153)
+* mpn_mul_1:                             Low-level Functions. (line 116)
+* mpn_mul_n:                             Low-level Functions. (line 104)
+* mpn_nand_n:                            Low-level Functions. (line 491)
+* mpn_neg:                               Low-level Functions. (line  99)
+* mpn_nior_n:                            Low-level Functions. (line 496)
+* mpn_perfect_square_p:                  Low-level Functions. (line 462)
+* mpn_popcount:                          Low-level Functions. (line 452)
+* mpn_random:                            Low-level Functions. (line 404)
+* mpn_random2:                           Low-level Functions. (line 405)
+* mpn_randomb:                           Low-level Functions. (line 434)
+* mpn_rrandom:                           Low-level Functions. (line 442)
+* mpn_rshift:                            Low-level Functions. (line 286)
+* mpn_scan0:                             Low-level Functions. (line 389)
+* mpn_scan1:                             Low-level Functions. (line 397)
+* mpn_set_str:                           Low-level Functions. (line 370)
+* mpn_sqr:                               Low-level Functions. (line 164)
+* mpn_sqrtrem:                           Low-level Functions. (line 337)
 * mpn_sub:                               Low-level Functions. (line  91)
 * mpn_sub_1:                             Low-level Functions. (line  86)
 * mpn_sub_n:                             Low-level Functions. (line  77)
-* mpn_submul_1:                          Low-level Functions. (line 134)
-* mpn_tdiv_qr:                           Low-level Functions. (line 157)
-* mpn_urandomb:                          Low-level Functions. (line 402)
-* mpn_urandomm:                          Low-level Functions. (line 410)
+* mpn_submul_1:                          Low-level Functions. (line 142)
+* mpn_tdiv_qr:                           Low-level Functions. (line 173)
+* mpn_urandomb:                          Low-level Functions. (line 418)
+* mpn_urandomm:                          Low-level Functions. (line 426)
+* mpn_xnor_n:                            Low-level Functions. (line 501)
+* mpn_xor_n:                             Low-level Functions. (line 476)
+* mpn_zero:                              Low-level Functions. (line 518)
 * mpq_abs:                               Rational Arithmetic. (line  31)
 * mpq_add:                               Rational Arithmetic. (line   7)
 * mpq_canonicalize:                      Rational Number Functions.
