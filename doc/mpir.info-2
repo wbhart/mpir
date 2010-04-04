@@ -3065,7 +3065,9 @@ Function and Type Index
 * mpz_class::set_str:                    C++ Interface Integers.
                                                               (line  55)
 * mpz_clear:                             Initializing Integers.
-                                                              (line  37)
+                                                              (line  41)
+* mpz_clears:                            Initializing Integers.
+                                                              (line  45)
 * mpz_clrbit:                            Integer Logic and Bit Fiddling.
                                                               (line  55)
 * mpz_cmp:                               Integer Comparisons. (line   7)
@@ -3138,7 +3140,7 @@ Function and Type Index
 * mpz_init:                              Initializing Integers.
                                                               (line  26)
 * mpz_init2:                             Initializing Integers.
-                                                              (line  29)
+                                                              (line  33)
 * mpz_init_set:                          Simultaneous Integer Init & Assign.
                                                               (line  27)
 * mpz_init_set_d:                        Simultaneous Integer Init & Assign.
@@ -3149,6 +3151,8 @@ Function and Type Index
                                                               (line  34)
 * mpz_init_set_ui:                       Simultaneous Integer Init & Assign.
                                                               (line  28)
+* mpz_inits:                             Initializing Integers.
+                                                              (line  29)
 * mpz_inp_raw:                           I/O of Integers.     (line  54)
 * mpz_inp_str:                           I/O of Integers.     (line  23)
 * mpz_invert:                            Number Theoretic Functions.
@@ -3206,7 +3210,7 @@ Function and Type Index
 * mpz_probable_prime_p:                  Number Theoretic Functions.
                                                               (line   8)
 * mpz_realloc2:                          Initializing Integers.
-                                                              (line  41)
+                                                              (line  49)
 * mpz_remove:                            Number Theoretic Functions.
                                                               (line 141)
 * mpz_root:                              Integer Roots.       (line   7)

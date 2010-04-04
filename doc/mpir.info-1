@@ -2175,6 +2175,10 @@ object is initialized.
  -- Function: void mpz_init (mpz_t INTEGER)
      Initialize INTEGER, and set its value to 0.
 
+ -- Function: void mpz_inits (mpz_t X, ...)
+     Initialize a NULL-terminated list of `mpz_t' variables, and set
+     their values to 0.
+
  -- Function: void mpz_init2 (mpz_t INTEGER, unsigned long N)
      Initialize INTEGER, with space for N bits, and set its value to 0.
 
@@ -2186,6 +2190,10 @@ object is initialized.
  -- Function: void mpz_clear (mpz_t INTEGER)
      Free the space occupied by INTEGER.  Call this function for all
      `mpz_t' variables when you are done with them.
+
+ -- Function: void mpz_clears (mpz_t X, ...)
+     Free the space occupied by a NULL-terminated list of `mpz_t'
+     variables.
 
  -- Function: void mpz_realloc2 (mpz_t INTEGER, unsigned long N)
      Change the space allocated for INTEGER to N bits.  The value in

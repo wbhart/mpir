@@ -84,15 +84,16 @@ am_libmpz_la_OBJECTS = add.lo add_ui.lo abs.lo aorsmul.lo aorsmul_i.lo \
 	millerrabin.lo next_likely_prime.lo likely_prime_p.lo \
 	probable_prime_p.lo trial_division.lo mod.lo mul.lo \
 	mul_2exp.lo mul_si.lo mul_ui.lo n_pow_ui.lo neg.lo \
-	nextprime.lo out_raw.lo out_str.lo perfpow.lo perfsqr.lo \
-	popcount.lo pow_ui.lo powm.lo powm_ui.lo pprime_p.lo \
-	realloc.lo realloc2.lo remove.lo root.lo rootrem.lo \
-	rrandomb.lo scan0.lo scan1.lo set.lo set_d.lo set_f.lo \
-	set_q.lo set_si.lo set_str.lo set_ui.lo setbit.lo size.lo \
-	sizeinbase.lo sqrt.lo sqrtrem.lo sub.lo sub_ui.lo swap.lo \
-	tdiv_ui.lo tdiv_q.lo tdiv_q_2exp.lo tdiv_q_ui.lo tdiv_qr.lo \
-	tdiv_qr_ui.lo tdiv_r.lo tdiv_r_2exp.lo tdiv_r_ui.lo tstbit.lo \
-	ui_pow_ui.lo ui_sub.lo urandomb.lo urandomm.lo xor.lo
+	nextprime.lo nthroot.lo out_raw.lo out_str.lo perfpow.lo \
+	perfsqr.lo popcount.lo pow_ui.lo powm.lo powm_ui.lo \
+	pprime_p.lo realloc.lo realloc2.lo remove.lo root.lo \
+	rootrem.lo rrandomb.lo scan0.lo scan1.lo set.lo set_d.lo \
+	set_f.lo set_q.lo set_si.lo set_str.lo set_ui.lo setbit.lo \
+	size.lo sizeinbase.lo sqrt.lo sqrtrem.lo sub.lo sub_ui.lo \
+	swap.lo tdiv_ui.lo tdiv_q.lo tdiv_q_2exp.lo tdiv_q_ui.lo \
+	tdiv_qr.lo tdiv_qr_ui.lo tdiv_r.lo tdiv_r_2exp.lo tdiv_r_ui.lo \
+	tstbit.lo ui_pow_ui.lo ui_sub.lo urandomb.lo urandomm.lo \
+	xor.lo
 libmpz_la_OBJECTS = $(am_libmpz_la_OBJECTS)
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
 depcomp =
@@ -287,7 +288,8 @@ libmpz_la_SOURCES = aors.h aors_ui.h fits_s.h mul_i.h \
   jacobi.c kronsz.c kronuz.c kronzs.c kronzu.c \
   lcm.c lcm_ui.c lucnum_ui.c lucnum2_ui.c millerrabin.c next_likely_prime.c \
   likely_prime_p.c probable_prime_p.c trial_division.c	\
-  mod.c mul.c mul_2exp.c mul_si.c mul_ui.c n_pow_ui.c neg.c nextprime.c \
+  mod.c mul.c mul_2exp.c mul_si.c mul_ui.c \
+  n_pow_ui.c neg.c nextprime.c nthroot.c \
   out_raw.c out_str.c perfpow.c perfsqr.c popcount.c pow_ui.c powm.c \
   powm_ui.c pprime_p.c \
   realloc.c realloc2.c remove.c root.c rootrem.c rrandomb.c \

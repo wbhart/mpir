@@ -464,7 +464,7 @@ MPZ_OBJECTS = mpz/abs$U.lo mpz/add$U.lo mpz/add_ui$U.lo			\
   mpz/cdiv_qr$U.lo mpz/cdiv_qr_ui$U.lo					\
   mpz/cdiv_r$U.lo mpz/cdiv_r_ui$U.lo mpz/cdiv_ui$U.lo			\
   mpz/cfdiv_q_2exp$U.lo mpz/cfdiv_r_2exp$U.lo				\
-  mpz/clear$U.lo mpz/clrbit$U.lo					\
+  mpz/clear$U.lo mpz/clears$U.lo mpz/clrbit$U.lo					\
   mpz/cmp$U.lo mpz/cmp_d$U.lo mpz/cmp_si$U.lo mpz/cmp_ui$U.lo		\
   mpz/cmpabs$U.lo mpz/cmpabs_d$U.lo mpz/cmpabs_ui$U.lo			\
   mpz/com$U.lo mpz/combit$U.lo						\
@@ -480,15 +480,15 @@ MPZ_OBJECTS = mpz/abs$U.lo mpz/add$U.lo mpz/add_ui$U.lo			\
   mpz/gcd_ui$U.lo mpz/gcdext$U.lo mpz/get_d$U.lo mpz/get_d_2exp$U.lo	\
   mpz/get_si$U.lo mpz/get_str$U.lo mpz/get_ui$U.lo mpz/getlimbn$U.lo	\
   mpz/hamdist$U.lo mpz/likely_prime_p$U.lo mpz/probable_prime_p$U.lo	\
-  mpz/import$U.lo mpz/init$U.lo mpz/init2$U.lo mpz/inp_raw$U.lo		\
-  mpz/inp_str$U.lo mpz/invert$U.lo					\
+  mpz/import$U.lo mpz/init$U.lo mpz/init2$U.lo mpz/inits$U.lo \
+  mpz/inp_raw$U.lo mpz/inp_str$U.lo mpz/invert$U.lo					\
   mpz/ior$U.lo mpz/iset$U.lo mpz/iset_d$U.lo mpz/iset_si$U.lo		\
   mpz/iset_str$U.lo mpz/iset_ui$U.lo mpz/jacobi$U.lo mpz/kronsz$U.lo	\
   mpz/kronuz$U.lo mpz/kronzs$U.lo mpz/kronzu$U.lo			\
   mpz/lcm$U.lo mpz/lcm_ui$U.lo mpz/lucnum_ui$U.lo mpz/lucnum2_ui$U.lo	\
   mpz/millerrabin$U.lo mpz/mod$U.lo mpz/mul$U.lo mpz/mul_2exp$U.lo	\
   mpz/mul_si$U.lo mpz/mul_ui$U.lo					\
-  mpz/n_pow_ui$U.lo mpz/neg$U.lo mpz/nextprime$U.lo			\
+  mpz/n_pow_ui$U.lo mpz/neg$U.lo mpz/nextprime$U.lo	mpz/nthroot$U.lo	\
   mpz/out_raw$U.lo mpz/out_str$U.lo mpz/perfpow$U.lo mpz/perfsqr$U.lo	\
   mpz/popcount$U.lo mpz/pow_ui$U.lo mpz/powm$U.lo mpz/powm_ui$U.lo	\
   mpz/pprime_p$U.lo mpz/next_likely_prime$U.lo 	\
