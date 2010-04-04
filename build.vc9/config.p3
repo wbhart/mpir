@@ -498,7 +498,6 @@ MA 02111-1307, USA. */
 #define TUNE_KARATSUBA_SQR_MAX	67
 
 /* Version number of package */
-#define GMP_VERSION	    "4.2.1"
 #define VERSION "2.0.0"
 
 /* ./configure --enable-assert option, to enable some ASSERT()s */
