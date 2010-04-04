@@ -64,18 +64,19 @@ CONFIG_HEADER = $(top_builddir)/config.h
 CONFIG_CLEAN_FILES =
 LTLIBRARIES = $(noinst_LTLIBRARIES)
 libmpf_la_LIBADD =
-am_libmpf_la_OBJECTS = init.lo init2.lo set.lo set_ui.lo set_si.lo \
-	set_str.lo set_d.lo set_z.lo set_q.lo iset.lo iset_ui.lo \
-	iset_si.lo iset_str.lo iset_d.lo clear.lo get_str.lo dump.lo \
-	size.lo eq.lo reldiff.lo sqrt.lo random2.lo inp_str.lo \
-	out_str.lo add.lo add_ui.lo sub.lo sub_ui.lo ui_sub.lo mul.lo \
-	mul_ui.lo div.lo div_ui.lo cmp.lo cmp_d.lo cmp_si.lo cmp_ui.lo \
-	mul_2exp.lo div_2exp.lo abs.lo neg.lo get_d.lo get_d_2exp.lo \
-	set_dfl_prec.lo set_prc.lo set_prc_raw.lo get_dfl_prec.lo \
-	get_prc.lo ui_div.lo sqrt_ui.lo rrandomb.lo pow_ui.lo \
-	urandomb.lo swap.lo get_si.lo get_ui.lo int_p.lo ceilfloor.lo \
-	trunc.lo fits_sint.lo fits_slong.lo fits_sshort.lo \
-	fits_uint.lo fits_ulong.lo fits_ushort.lo
+am_libmpf_la_OBJECTS = init.lo init2.lo inits.lo set.lo set_ui.lo \
+	set_si.lo set_str.lo set_d.lo set_z.lo set_q.lo iset.lo \
+	iset_ui.lo iset_si.lo iset_str.lo iset_d.lo clear.lo \
+	get_str.lo dump.lo size.lo eq.lo reldiff.lo sqrt.lo random2.lo \
+	inp_str.lo out_str.lo add.lo add_ui.lo sub.lo sub_ui.lo \
+	ui_sub.lo mul.lo mul_ui.lo div.lo div_ui.lo cmp.lo cmp_d.lo \
+	cmp_si.lo cmp_ui.lo mul_2exp.lo div_2exp.lo abs.lo neg.lo \
+	get_d.lo get_d_2exp.lo set_dfl_prec.lo set_prc.lo \
+	set_prc_raw.lo get_dfl_prec.lo get_prc.lo ui_div.lo sqrt_ui.lo \
+	rrandomb.lo clears.lo pow_ui.lo urandomb.lo swap.lo get_si.lo \
+	get_ui.lo int_p.lo ceilfloor.lo trunc.lo fits_sint.lo \
+	fits_slong.lo fits_sshort.lo fits_uint.lo fits_ulong.lo \
+	fits_ushort.lo
 libmpf_la_OBJECTS = $(am_libmpf_la_OBJECTS)
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
 depcomp =
@@ -249,13 +250,13 @@ top_srcdir = @top_srcdir@
 INCLUDES = -D__GMP_WITHIN_GMP -I$(top_srcdir)
 noinst_LTLIBRARIES = libmpf.la
 libmpf_la_SOURCES = \
-  init.c init2.c set.c set_ui.c set_si.c set_str.c set_d.c set_z.c \
+  init.c init2.c inits.c set.c set_ui.c set_si.c set_str.c set_d.c set_z.c \
   set_q.c iset.c iset_ui.c iset_si.c iset_str.c iset_d.c clear.c get_str.c \
   dump.c size.c eq.c reldiff.c sqrt.c random2.c inp_str.c out_str.c \
   add.c add_ui.c sub.c sub_ui.c ui_sub.c mul.c mul_ui.c div.c div_ui.c \
   cmp.c cmp_d.c cmp_si.c cmp_ui.c mul_2exp.c div_2exp.c abs.c neg.c get_d.c \
   get_d_2exp.c set_dfl_prec.c set_prc.c set_prc_raw.c get_dfl_prec.c get_prc.c \
-  ui_div.c sqrt_ui.c rrandomb.c \
+  ui_div.c sqrt_ui.c rrandomb.c clears.c \
   pow_ui.c urandomb.c swap.c get_si.c get_ui.c int_p.c \
   ceilfloor.c trunc.c \
   fits_sint.c fits_slong.c fits_sshort.c \

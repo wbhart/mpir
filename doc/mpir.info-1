@@ -3220,9 +3220,17 @@ File: mpir.info,  Node: Initializing Rationals,  Next: Rational Conversions,  Pr
      normally only be initialized once, or at least cleared out (using
      the function `mpq_clear') between each initialization.
 
+ -- Function: void mpq_inits (mpq_t X, ...)
+     Initialize a NULL-terminated list of `mpq_t' variables, and set
+     their values to 0/1.
+
  -- Function: void mpq_clear (mpq_t RATIONAL_NUMBER)
      Free the space occupied by RATIONAL_NUMBER.  Make sure to call this
      function for all `mpq_t' variables when you are done with them.
+
+ -- Function: void mpq_clears (mpq_t X, ...)
+     Free the space occupied by a NULL-terminated list of `mpq_t'
+     variables.
 
  -- Function: void mpq_set (mpq_t ROP, mpq_t OP)
  -- Function: void mpq_set_z (mpq_t ROP, mpz_t OP)
@@ -3545,9 +3553,19 @@ purpose.
      bits.  Normally, a variable should be initialized once only or at
      least be cleared, using `mpf_clear', between initializations.
 
+ -- Function: void mpf_inits (mpf_t X, ...)
+     Initialize a NULL-terminated list of `mpf_t' variables, and set
+     their values to 0.  The precision of the initialized variables is
+     undefined unless a default precision has already been established
+     by a call to `mpf_set_default_prec'.
+
  -- Function: void mpf_clear (mpf_t X)
      Free the space occupied by X.  Make sure to call this function for
      all `mpf_t' variables when you are done with them.
+
+ -- Function: void mpf_clears (mpf_t X, ...)
+     Free the space occupied by a NULL-terminated list of `mpf_t'
+     variables.
 
    Here is an example on how to initialize floating-point variables:
      {

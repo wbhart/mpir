@@ -4157,9 +4157,18 @@ normally only be initialized once, or at least cleared out (using the function
 @code{mpq_clear}) between each initialization.
 @end deftypefun
 
+@deftypefun void mpq_inits (mpq_t @var{x}, ...)
+Initialize a NULL-terminated list of @code{mpq_t} variables, and set their
+values to 0/1.
+@end deftypefun
+
 @deftypefun void mpq_clear (mpq_t @var{rational_number})
 Free the space occupied by @var{rational_number}.  Make sure to call this
 function for all @code{mpq_t} variables when you are done with them.
+@end deftypefun
+
+@deftypefun void mpq_clears (mpq_t @var{x}, ...)
+Free the space occupied by a NULL-terminated list of @code{mpq_t} variables.
 @end deftypefun
 
 @deftypefun void mpq_set (mpq_t @var{rop}, mpq_t @var{op})
@@ -4515,9 +4524,20 @@ Initialize @var{x} to 0 and set its precision to be @strong{at least}
 least be cleared, using @code{mpf_clear}, between initializations.
 @end deftypefun
 
+@deftypefun void mpf_inits (mpf_t @var{x}, ...)
+Initialize a NULL-terminated list of @code{mpf_t} variables, and set their
+values to 0.  The precision of the initialized variables is undefined unless a
+default precision has already been established by a call to
+@code{mpf_set_default_prec}.
+@end deftypefun
+
 @deftypefun void mpf_clear (mpf_t @var{x})
 Free the space occupied by @var{x}.  Make sure to call this function for all
 @code{mpf_t} variables when you are done with them.
+@end deftypefun
+
+@deftypefun void mpf_clears (mpf_t @var{x}, ...)
+Free the space occupied by a NULL-terminated list of @code{mpf_t} variables.
 @end deftypefun
 
 @need 2000

@@ -132,14 +132,14 @@ DISTCLEANFILES = $(BUILT_SOURCES) config.m4 fat.h @gmp_srclinks@
 INCLUDES=-D__GMP_WITHIN_GMP
 
 
-MPF_OBJECTS = mpf/init$U.lo mpf/init2$U.lo mpf/set$U.lo mpf/set_ui$U.lo	    \
-  mpf/set_si$U.lo mpf/set_str$U.lo mpf/set_d$U.lo mpf/set_z$U.lo	    \
-  mpf/iset$U.lo mpf/iset_ui$U.lo mpf/iset_si$U.lo mpf/iset_str$U.lo	    \
-  mpf/iset_d$U.lo mpf/clear$U.lo mpf/get_str$U.lo mpf/dump$U.lo		    \
-  mpf/size$U.lo mpf/eq$U.lo mpf/reldiff$U.lo mpf/sqrt$U.lo mpf/random2$U.lo \
-  mpf/inp_str$U.lo mpf/out_str$U.lo mpf/add$U.lo mpf/add_ui$U.lo	    \
-  mpf/sub$U.lo mpf/sub_ui$U.lo mpf/ui_sub$U.lo mpf/mul$U.lo mpf/mul_ui$U.lo \
-  mpf/div$U.lo mpf/div_ui$U.lo mpf/rrandomb$U.lo			    \
+MPF_OBJECTS = mpf/init$U.lo mpf/init2$U.lo mpf/inits$U.lo mpf/set$U.lo \
+  mpf/set_ui$U.lo mpf/set_si$U.lo mpf/set_str$U.lo mpf/set_d$U.lo \
+  mpf/set_z$U.lo mpf/iset$U.lo mpf/iset_ui$U.lo mpf/iset_si$U.lo \
+  mpf/iset_str$U.lo	mpf/iset_d$U.lo mpf/clear$U.lo mpf/get_str$U.lo \
+  mpf/dump$U.lo mpf/size$U.lo mpf/eq$U.lo mpf/reldiff$U.lo mpf/sqrt$U.lo \
+  mpf/random2$U.lo mpf/inp_str$U.lo mpf/out_str$U.lo mpf/add$U.lo \
+  mpf/add_ui$U.lo mpf/sub$U.lo mpf/sub_ui$U.lo mpf/ui_sub$U.lo mpf/mul$U.lo \
+  mpf/mul_ui$U.lo mpf/div$U.lo mpf/div_ui$U.lo mpf/rrandomb$U.lo	    \
   mpf/cmp$U.lo mpf/cmp_d$U.lo mpf/cmp_ui$U.lo mpf/cmp_si$U.lo		    \
   mpf/mul_2exp$U.lo mpf/div_2exp$U.lo mpf/abs$U.lo mpf/neg$U.lo		    \
   mpf/set_q$U.lo mpf/get_d$U.lo mpf/get_d_2exp$U.lo mpf/set_dfl_prec$U.lo   \
@@ -202,10 +202,10 @@ MPZ_OBJECTS = mpz/abs$U.lo mpz/add$U.lo mpz/add_ui$U.lo			\
   mpz/urandomm$U.lo mpz/xor$U.lo
 
 MPQ_OBJECTS = mpq/abs$U.lo mpq/aors$U.lo				\
-  mpq/canonicalize$U.lo mpq/clear$U.lo					\
+  mpq/canonicalize$U.lo mpq/clear$U.lo mpq/clears$U.lo					\
   mpq/cmp$U.lo mpq/cmp_si$U.lo mpq/cmp_ui$U.lo mpq/div$U.lo		\
   mpq/get_d$U.lo mpq/get_den$U.lo mpq/get_num$U.lo mpq/get_str$U.lo	\
-  mpq/init$U.lo mpq/inp_str$U.lo mpq/inv$U.lo				\
+  mpq/init$U.lo mpq/inits$U.lo mpq/inp_str$U.lo mpq/inv$U.lo				\
   mpq/md_2exp$U.lo mpq/mul$U.lo mpq/neg$U.lo mpq/out_str$U.lo		\
   mpq/set$U.lo mpq/set_den$U.lo mpq/set_num$U.lo			\
   mpq/set_si$U.lo mpq/set_str$U.lo mpq/set_ui$U.lo			\

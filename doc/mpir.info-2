@@ -2817,7 +2817,8 @@ Function and Type Index
                                                               (line 102)
 * mpf_class::set_str:                    C++ Interface Floats.
                                                               (line  87)
-* mpf_clear:                             Initializing Floats. (line  31)
+* mpf_clear:                             Initializing Floats. (line  37)
+* mpf_clears:                            Initializing Floats. (line  41)
 * mpf_cmp:                               Float Comparison.    (line   7)
 * mpf_cmp_d:                             Float Comparison.    (line   8)
 * mpf_cmp_si:                            Float Comparison.    (line  10)
@@ -2843,7 +2844,7 @@ Function and Type Index
 * mpf_get_d:                             Converting Floats.   (line   7)
 * mpf_get_d_2exp:                        Converting Floats.   (line  16)
 * mpf_get_default_prec:                  Initializing Floats. (line  12)
-* mpf_get_prec:                          Initializing Floats. (line  52)
+* mpf_get_prec:                          Initializing Floats. (line  62)
 * mpf_get_si:                            Converting Floats.   (line  27)
 * mpf_get_str:                           Converting Floats.   (line  37)
 * mpf_get_ui:                            Converting Floats.   (line  28)
@@ -2859,6 +2860,7 @@ Function and Type Index
                                                               (line  25)
 * mpf_init_set_ui:                       Simultaneous Float Init & Assign.
                                                               (line  17)
+* mpf_inits:                             Initializing Floats. (line  31)
 * mpf_inp_str:                           I/O of Floats.       (line  31)
 * mpf_integer_p:                         Miscellaneous Float Functions.
                                                               (line  14)
@@ -2876,8 +2878,8 @@ Function and Type Index
 * mpf_set:                               Assigning Floats.    (line  10)
 * mpf_set_d:                             Assigning Floats.    (line  13)
 * mpf_set_default_prec:                  Initializing Floats. (line   7)
-* mpf_set_prec:                          Initializing Floats. (line  55)
-* mpf_set_prec_raw:                      Initializing Floats. (line  62)
+* mpf_set_prec:                          Initializing Floats. (line  65)
+* mpf_set_prec_raw:                      Initializing Floats. (line  72)
 * mpf_set_q:                             Assigning Floats.    (line  15)
 * mpf_set_si:                            Assigning Floats.    (line  12)
 * mpf_set_str:                           Assigning Floats.    (line  18)
@@ -2965,7 +2967,9 @@ Function and Type Index
 * mpq_class::set_str:                    C++ Interface Rationals.
                                                               (line  48)
 * mpq_clear:                             Initializing Rationals.
-                                                              (line  12)
+                                                              (line  16)
+* mpq_clears:                            Initializing Rationals.
+                                                              (line  20)
 * mpq_cmp:                               Comparing Rationals. (line   7)
 * mpq_cmp_si:                            Comparing Rationals. (line  17)
 * mpq_cmp_ui:                            Comparing Rationals. (line  15)
@@ -2984,6 +2988,8 @@ Function and Type Index
                                                               (line  22)
 * mpq_init:                              Initializing Rationals.
                                                               (line   7)
+* mpq_inits:                             Initializing Rationals.
+                                                              (line  12)
 * mpq_inp_str:                           I/O of Rationals.    (line  23)
 * mpq_inv:                               Rational Arithmetic. (line  34)
 * mpq_mul:                               Rational Arithmetic. (line  15)
@@ -2993,7 +2999,7 @@ Function and Type Index
                                                               (line  17)
 * mpq_out_str:                           I/O of Rationals.    (line  15)
 * mpq_set:                               Initializing Rationals.
-                                                              (line  16)
+                                                              (line  24)
 * mpq_set_d:                             Rational Conversions.
                                                               (line  17)
 * mpq_set_den:                           Applying Integer Functions.
@@ -3003,17 +3009,17 @@ Function and Type Index
 * mpq_set_num:                           Applying Integer Functions.
                                                               (line  25)
 * mpq_set_si:                            Initializing Rationals.
-                                                              (line  23)
+                                                              (line  31)
 * mpq_set_str:                           Initializing Rationals.
-                                                              (line  28)
+                                                              (line  36)
 * mpq_set_ui:                            Initializing Rationals.
-                                                              (line  21)
+                                                              (line  29)
 * mpq_set_z:                             Initializing Rationals.
-                                                              (line  17)
+                                                              (line  25)
 * mpq_sgn:                               Comparing Rationals. (line  27)
 * mpq_sub:                               Rational Arithmetic. (line  11)
 * mpq_swap:                              Initializing Rationals.
-                                                              (line  48)
+                                                              (line  56)
 * mpq_t:                                 Nomenclature and Types.
                                                               (line  16)
 * mpz_abs:                               Integer Arithmetic.  (line  42)
