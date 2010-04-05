@@ -25,7 +25,7 @@ END-INFO-DIR-ENTRY
 
 Indirect:
 mpir.info-1: 1026
-mpir.info-2: 300988
+mpir.info-2: 300990
 
 Tag Table:
 (Indirect)
@@ -117,61 +117,61 @@ Node: Basecase Multiplication254093
 Node: Karatsuba Multiplication256005
 Node: Toom 3-Way Multiplication259635
 Node: Toom 4-Way Multiplication266051
-Node: FFT Multiplication267424
-Node: Other Multiplication272850
-Node: Unbalanced Multiplication275301
-Node: Division Algorithms276197
-Node: Single Limb Division276545
-Node: Basecase Division279465
-Node: Divide and Conquer Division280668
-Node: Exact Division282938
-Node: Exact Remainder286138
-Node: Small Quotient Division288431
-Node: Greatest Common Divisor Algorithms290030
-Node: Binary GCD290322
-Node: Lehmer's GCD292998
-Node: Subquadratic GCD295201
-Node: Extended GCD297655
-Node: Jacobi Symbol298214
-Node: Powering Algorithms299131
-Node: Normal Powering Algorithm299395
-Node: Modular Powering Algorithm299924
-Node: Root Extraction Algorithms300988
-Node: Square Root Algorithm301304
-Node: Nth Root Algorithm303447
-Node: Perfect Square Algorithm304233
-Node: Perfect Power Algorithm306320
-Node: Radix Conversion Algorithms306942
-Node: Binary to Radix307319
-Node: Radix to Binary311250
-Node: Other Algorithms313215
-Node: Prime Testing Algorithm313569
-Node: Factorial Algorithm314796
-Node: Binomial Coefficients Algorithm316233
-Node: Fibonacci Numbers Algorithm317128
-Node: Lucas Numbers Algorithm319604
-Node: Random Number Algorithms320326
-Node: Assembler Coding322450
-Node: Assembler Code Organisation323427
-Node: Assembler Basics324400
-Node: Assembler Carry Propagation325559
-Node: Assembler Cache Handling327397
-Node: Assembler Functional Units329565
-Node: Assembler Floating Point331186
-Node: Assembler SIMD Instructions334969
-Node: Assembler Software Pipelining335958
-Node: Assembler Loop Unrolling337026
-Node: Assembler Writing Guide339246
-Node: Internals342016
-Node: Integer Internals342530
-Node: Rational Internals344787
-Node: Float Internals346027
-Node: Raw Output Internals353355
-Node: C++ Interface Internals354550
-Node: Contributors357837
-Node: References364416
-Node: GNU Free Documentation License371657
-Node: Concept Index396827
-Node: Function Index442825
+Node: FFT Multiplication267425
+Node: Other Multiplication272851
+Node: Unbalanced Multiplication275302
+Node: Division Algorithms276198
+Node: Single Limb Division276546
+Node: Basecase Division279466
+Node: Divide and Conquer Division280669
+Node: Exact Division282939
+Node: Exact Remainder286139
+Node: Small Quotient Division288432
+Node: Greatest Common Divisor Algorithms290031
+Node: Binary GCD290323
+Node: Lehmer's GCD292999
+Node: Subquadratic GCD295203
+Node: Extended GCD297657
+Node: Jacobi Symbol298216
+Node: Powering Algorithms299133
+Node: Normal Powering Algorithm299397
+Node: Modular Powering Algorithm299926
+Node: Root Extraction Algorithms300990
+Node: Square Root Algorithm301306
+Node: Nth Root Algorithm303449
+Node: Perfect Square Algorithm304235
+Node: Perfect Power Algorithm306322
+Node: Radix Conversion Algorithms306944
+Node: Binary to Radix307321
+Node: Radix to Binary311252
+Node: Other Algorithms313217
+Node: Prime Testing Algorithm313571
+Node: Factorial Algorithm314798
+Node: Binomial Coefficients Algorithm316235
+Node: Fibonacci Numbers Algorithm317130
+Node: Lucas Numbers Algorithm319606
+Node: Random Number Algorithms320328
+Node: Assembler Coding322452
+Node: Assembler Code Organisation323429
+Node: Assembler Basics324402
+Node: Assembler Carry Propagation325561
+Node: Assembler Cache Handling327399
+Node: Assembler Functional Units329567
+Node: Assembler Floating Point331188
+Node: Assembler SIMD Instructions334971
+Node: Assembler Software Pipelining335960
+Node: Assembler Loop Unrolling337028
+Node: Assembler Writing Guide339248
+Node: Internals342018
+Node: Integer Internals342532
+Node: Rational Internals344789
+Node: Float Internals346029
+Node: Raw Output Internals353357
+Node: C++ Interface Internals354552
+Node: Contributors357839
+Node: References364418
+Node: GNU Free Documentation License371659
+Node: Concept Index396829
+Node: Function Index442827
 
 End Tag Table

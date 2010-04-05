@@ -6381,7 +6381,7 @@ multiplication, we form two polynomials:
      Y(t) = y3*t^3 + y2*t^2 + y1*t + y0
 
    X(t) and Y(t) are evaluated and multiplied at 7 points, giving
-values of W(t) at those points.  In GMP the following points are used,
+values of W(t) at those points.  In MPIR the following points are used,
 
      Point    Value
      t=0      x0 * y0, which gives w0 immediately
@@ -6942,7 +6942,7 @@ File: mpir.info,  Node: Lehmer's GCD,  Next: Subquadratic GCD,  Prev: Binary GCD
 Lehmer's improvement of the Euclidean algorithms is based on the
 observation that the initial part of the quotient sequence depends only
 on the most significant parts of the inputs. The variant of Lehmer's
-algorithm used in GMP splits off the most significant two limbs, as
+algorithm used in MPIR splits off the most significant two limbs, as
 suggested, e.g., in "A Double-Digit Lehmer-Euclid Algorithm" by
 Jebelean (*note References::). The quotients of two double-limb inputs
 are collected as a 2 by 2 matrix with single-limb elements. This is
