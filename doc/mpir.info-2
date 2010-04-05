@@ -23,6 +23,93 @@ START-INFO-DIR-ENTRY
 END-INFO-DIR-ENTRY
 
 
+File: mpir.info,  Node: Root Extraction Algorithms,  Next: Radix Conversion Algorithms,  Prev: Powering Algorithms,  Up: Algorithms
+
+15.5 Root Extraction Algorithms
+===============================
+
+* Menu:
+
+* Square Root Algorithm::
+* Nth Root Algorithm::
+* Perfect Square Algorithm::
+* Perfect Power Algorithm::
+
+
+File: mpir.info,  Node: Square Root Algorithm,  Next: Nth Root Algorithm,  Prev: Root Extraction Algorithms,  Up: Root Extraction Algorithms
+
+15.5.1 Square Root
+------------------
+
+Square roots are taken using the "Karatsuba Square Root" algorithm by
+Paul Zimmermann (*note References::).
+
+   An input n is split into four parts of k bits each, so with b=2^k we
+have n = a3*b^3 + a2*b^2 + a1*b + a0.  Part a3 must be "normalized" so
+that either the high or second highest bit is set.  In MPIR, k is kept
+on a limb boundary and the input is left shifted (by an even number of
+bits) to normalize.
+
+   The square root of the high two parts is taken, by recursive
+application of the algorithm (bottoming out in a one-limb Newton's
+method),
+
+     s1,r1 = sqrtrem (a3*b + a2)
+
+   This is an approximation to the desired root and is extended by a
+division to give s,r,
+
+     q,u = divrem (r1*b + a1, 2*s1)
+     s = s1*b + q
+     r = u*b + a0 - q^2
+
+   The normalization requirement on a3 means at this point s is either
+correct or 1 too big.  r is negative in the latter case, so
+
+     if r < 0 then
+       r = r + 2*s - 1
+       s = s - 1
+
+   The algorithm is expressed in a divide and conquer form, but as
+noted in the paper it can also be viewed as a discrete variant of
+Newton's method, or as a variation on the schoolboy method (no longer
+taught) for square roots two digits at a time.
+
+   If the remainder r is not required then usually only a few high limbs
+of r and u need to be calculated to determine whether an adjustment to
+s is required.  This optimization is not currently implemented.
+
+   In the Karatsuba multiplication range this algorithm is
+O(1.5*M(N/2)), where M(n) is the time to multiply two numbers of n
+limbs.  In the FFT multiplication range this grows to a bound of
+O(6*M(N/2)).  In practice a factor of about 1.5 to 1.8 is found in the
+Karatsuba and Toom-3 ranges, growing to 2 or 3 in the FFT range.
+
+   The algorithm does all its calculations in integers and the resulting
+`mpn_sqrtrem' is used for both `mpz_sqrt' and `mpf_sqrt'.  The extended
+precision given by `mpf_sqrt_ui' is obtained by padding with zero limbs.
+
+
+File: mpir.info,  Node: Nth Root Algorithm,  Next: Perfect Square Algorithm,  Prev: Square Root Algorithm,  Up: Root Extraction Algorithms
+
+15.5.2 Nth Root
+---------------
+
+Integer Nth roots are taken using Newton's method with the following
+iteration, where A is the input and n is the root to be taken.
+
+              1         A
+     a[i+1] = - * ( --------- + (n-1)*a[i] )
+              n     a[i]^(n-1)
+
+   The initial approximation a[1] is generated bitwise by successively
+powering a trial root with or without new 1 bits, aiming to be just
+above the true root.  The iteration converges quadratically when
+started from a good approximation.  When n is large more initial bits
+are needed to get good convergence.  The current implementation is not
+particularly well optimized.
+
+
 File: mpir.info,  Node: Perfect Square Algorithm,  Next: Perfect Power Algorithm,  Prev: Nth Root Algorithm,  Up: Root Extraction Algorithms
 
 15.5.3 Perfect Square
@@ -179,7 +266,9 @@ File: mpir.info,  Node: Radix to Binary,  Prev: Binary to Radix,  Up: Radix Conv
 15.6.2 Radix to Binary
 ----------------------
 
-Conversions from a power-of-2 radix into binary use a simple and fast
+This section is out-of-date.
+
+   Conversions from a power-of-2 radix into binary use a simple and fast
 O(N) bitwise concatenation algorithm.
 
    Conversions from other radices use one of two algorithms.  Sizes
@@ -233,10 +322,13 @@ File: mpir.info,  Node: Prime Testing Algorithm,  Next: Factorial Algorithm,  Pr
 15.7.1 Prime Testing
 --------------------
 
-The primality testing in `mpz_probab_prime_p' (*note Number Theoretic
-Functions::) first does some trial division by small factors and then
-uses the Miller-Rabin probabilistic primality testing algorithm, as
-described in Knuth section 4.5.4 algorithm P (*note References::).
+This section is somewhat out-of-date.
+
+   The primality testing in `mpz_probab_prime_p' (*note Number
+Theoretic Functions::) first does some trial division by small factors
+and then uses the Miller-Rabin probabilistic primality testing
+algorithm, as described in Knuth section 4.5.4 algorithm P (*note
+References::).
 
    For an odd input n, and with n = q*2^k+1 where q is odd, this
 algorithm selects a random base x and tests whether x^q mod n is 1 or
@@ -259,7 +351,9 @@ File: mpir.info,  Node: Factorial Algorithm,  Next: Binomial Coefficients Algori
 15.7.2 Factorial
 ----------------
 
-Factorials are calculated by a combination of removal of twos,
+This section is out-of-date.
+
+   Factorials are calculated by a combination of removal of twos,
 powering, and binary splitting.  The procedure can be best illustrated
 with an example,
 
@@ -2699,11 +2793,15 @@ Concept Index
 * Thread safety:                         Reentrancy.          (line   6)
 * Toom multiplication <1>:               Other Multiplication.
                                                               (line   6)
+* Toom multiplication <2>:               Toom 4-Way Multiplication.
+                                                              (line   6)
 * Toom multiplication:                   Toom 3-Way Multiplication.
                                                               (line   6)
 * Types:                                 Nomenclature and Types.
                                                               (line   6)
 * ui and si functions:                   Efficiency.          (line  50)
+* Unbalanced multiplication:             Unbalanced Multiplication.
+                                                              (line   6)
 * Upward compatibility:                  Compatibility with older versions.
                                                               (line   6)
 * Useful macros and constants:           Useful Macros and Constants.

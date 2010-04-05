@@ -6043,8 +6043,6 @@ without knowing something about the algorithms.
 compatible with future MPIR releases should take care to use only the
 documented functions.
 
-   Warning: this section is somewhat out-of-date.
-
 * Menu:
 
 * Multiplication Algorithms::
@@ -6065,28 +6063,35 @@ File: mpir.info,  Node: Multiplication Algorithms,  Next: Division Algorithms,  
 NxN limb multiplications and squares are done using one of six
 algorithms, as the size N increases.
 
-     Algorithm      Threshold
+     Algorithm      Mul Threshold
      Basecase       (none)
      Karatsuba      `MUL_KARATSUBA_THRESHOLD'
      Toom-3         `MUL_TOOM3_THRESHOLD'
      Toom-4         `MUL_TOOM4_THRESHOLD'
-     FFT            `MUL_FFT_THRESHOLD'
+     Toom-8(.5)     `MUL_TOOM8H_THRESHOLD'
+     FFT            `MUL_FFT_FULL_THRESHOLD'
 
-   Similarly for squaring, with the `SQR' thresholds.
+     Algorithm      Sqr Threshold
+     Basecase       (none)
+     Karatsuba      `SQR_KARATSUBA_THRESHOLD'
+     Toom-3         `SQR_TOOM3_THRESHOLD'
+     Toom-4         `SQR_TOOM4_THRESHOLD'
+     Toom-8         `SQR_TOOM8_THRESHOLD'
+     FFT            `SQR_FFT_FULL_THRESHOLD'
 
    NxM multiplications of operands with different sizes above
-`MUL_KARATSUBA_THRESHOLD' are currently done by splitting into MxM
-pieces.  The Karatsuba and Toom routines then operate only on equal size
-operands.  This is not very efficient, and is slated for improvement in
-the future.
+`MUL_KARATSUBA_THRESHOLD' are done using unbalanced Toom algorithms or
+with the FFT. See (*note Unbalanced Multiplication::).
 
 * Menu:
 
 * Basecase Multiplication::
 * Karatsuba Multiplication::
 * Toom 3-Way Multiplication::
+* Toom 4-Way Multiplication::
 * FFT Multiplication::
 * Other Multiplication::
+* Unbalanced Multiplication::
 
 
 File: mpir.info,  Node: Basecase Multiplication,  Next: Karatsuba Multiplication,  Prev: Multiplication Algorithms,  Up: Multiplication Algorithms
@@ -6219,7 +6224,7 @@ be seen for instance when adding an optimized `mpn_sqr_diagonal' to
 that sense the algorithm thresholds are merely of academic interest.
 
 
-File: mpir.info,  Node: Toom 3-Way Multiplication,  Next: FFT Multiplication,  Prev: Karatsuba Multiplication,  Up: Multiplication Algorithms
+File: mpir.info,  Node: Toom 3-Way Multiplication,  Next: Toom 4-Way Multiplication,  Prev: Karatsuba Multiplication,  Up: Multiplication Algorithms
 
 15.1.3 Toom 3-Way Multiplication
 --------------------------------
@@ -6362,16 +6367,53 @@ but again doesn't have to be implemented that way and for example with
 a bit of rearrangement just one division by 6 can be done.
 
 
-File: mpir.info,  Node: FFT Multiplication,  Next: Other Multiplication,  Prev: Toom 3-Way Multiplication,  Up: Multiplication Algorithms
+File: mpir.info,  Node: Toom 4-Way Multiplication,  Next: FFT Multiplication,  Prev: Toom 3-Way Multiplication,  Up: Multiplication Algorithms
 
-15.1.4 FFT Multiplication
+15.1.4 Toom 4-Way Multiplication
+--------------------------------
+
+Karatsuba and Toom-3 split the operands into 2 and 3 coefficients,
+respectively.  Toom-4 analogously splits the operands into 4
+coefficients.  Using the notation from the section on Toom-3
+multiplication, we form two polynomials:
+
+     X(t) = x3*t^3 + x2*t^2 + x1*t + x0
+     Y(t) = y3*t^3 + y2*t^2 + y1*t + y0
+
+   X(t) and Y(t) are evaluated and multiplied at 7 points, giving
+values of W(t) at those points.  In GMP the following points are used,
+
+     Point    Value
+     t=0      x0 * y0, which gives w0 immediately
+     t=1/2    (x3+2*x2+4*x1+8*x0) * (y3+2*y2+4*y1+8*y0)
+     t=-1/2   (-x3+2*x2-4*x1+8*x0) * (-y3+2*y2-4*y1+8*y0)
+     t=1      (x3+x2+x1+x0) * (y3+y2+y1+y0)
+     t=-1     (-x3+x2-x1+x0) * (-y3+y2-y1+y0)
+     t=2      (8*x3+4*x2+2*x1+x0) * (8*y3+4*y2+2*y1+y0)
+     t=inf    x3 * y3, which gives w6 immediately
+
+   The number of additions and subtractions for Toom-4 is much larger
+than for Toom-3.  But several subexpressions occur multiple times, for
+example x2+x0, occurs for both t=1 and t=-1.
+
+   Toom-4 is asymptotically O(N^1.404), the exponent being
+log(7)/log(4), representing 7 recursive multiplies of 1/4 the original
+size each.
+
+
+File: mpir.info,  Node: FFT Multiplication,  Next: Other Multiplication,  Prev: Toom 4-Way Multiplication,  Up: Multiplication Algorithms
+
+15.1.5 FFT Multiplication
 -------------------------
 
-At large to very large sizes a Fermat style FFT multiplication is used,
-following Scho"nhage and Strassen (*note References::).  Descriptions
-of FFTs in various forms can be found in many textbooks, for instance
-Knuth section 4.3.3 part C or Lipson chapter IX.  A brief description
-of the form used in MPIR is given here.
+This section is out-of-date and will be updated when the new FFT is
+added.
+
+   At large to very large sizes a Fermat style FFT multiplication is
+used, following Scho"nhage and Strassen (*note References::).
+Descriptions of FFTs in various forms can be found in many textbooks,
+for instance Knuth section 4.3.3 part C or Lipson chapter IX.  A brief
+description of the form used in MPIR is given here.
 
    The multiplication done is x*y mod 2^N+1, for a given N.  A full
 product x*y is obtained by choosing N>=bits(x)+bits(y) and padding x
@@ -6437,9 +6479,9 @@ considering where an FFT might be first used it can be assumed that the
 FFT is recursing into a normal multiply and that on that basis it's
 doing 2^k recursed multiplies each 1/2^(k-2) the size of the inputs,
 making it O(N^(k/(k-2))).  This would mean k=7 at O(N^1.4) would be the
-first FFT faster than Toom-3.  In practice `MUL_FFT_THRESHOLD' and
-`SQR_FFT_THRESHOLD' have been found to be in the k=8 range, somewhere
-between 3000 and 10000 limbs.
+first FFT faster than Toom-3.  In practice `MUL_FFT_FULL_THRESHOLD' and
+`SQR_FFT_FULL_THRESHOLD' have been found to be in the k=8 range,
+somewhere between 3000 and 10000 limbs.
 
    The way N is split into 2^k pieces and then 2M+k+3 is rounded up to
 a multiple of 2^k and `mp_bits_per_limb' means that when
@@ -6466,15 +6508,15 @@ Something more sophisticated for `MUL_FFT_TABLE' and `SQR_FFT_TABLE'
 will be needed.
 
 
-File: mpir.info,  Node: Other Multiplication,  Prev: FFT Multiplication,  Up: Multiplication Algorithms
+File: mpir.info,  Node: Other Multiplication,  Next: Unbalanced Multiplication,  Prev: FFT Multiplication,  Up: Multiplication Algorithms
 
-15.1.5 Other Multiplication
+15.1.6 Other Multiplication
 ---------------------------
 
-The 3-way Toom algorithm described above (*note Toom 3-Way
-Multiplication::) generalizes to split into an arbitrary number of
-pieces, as per Knuth section 4.3.3 algorithm C. MPIR currently
-implements Toom 4 and 7 routines.
+The Toom algorithms described above (*note Toom 3-Way Multiplication::),
+*note Toom 4-Way Multiplication::) generalize to split into an arbitrary
+number of pieces, as per Knuth section 4.3.3 algorithm C. MPIR currently
+implements Toom 8 routines.
 
    In general a split into r+1 pieces is made, and evaluations and
 pointwise multiplications done at 2*r+1 points.  A 4-way split does 7
@@ -6509,6 +6551,26 @@ are not used in MPIR since it's very difficult to guarantee an exact
 result (to some number of bits).  An occasional difference of 1 in the
 last bit might not matter to a typical signal processing algorithm, but
 is of course of vital importance to MPIR.
+
+
+File: mpir.info,  Node: Unbalanced Multiplication,  Prev: Other Multiplication,  Up: Multiplication Algorithms
+
+15.1.7 Unbalanced Multiplication
+--------------------------------
+
+Multiplication of operands with different sizes, both below
+`MUL_KARATSUBA_THRESHOLD' are done with plain schoolbook multiplication
+(*note Basecase Multiplication::).
+
+   For really large operands, we invoke the FFT directly.
+
+   For operands between these sizes, we use Toom inspired algorithms
+suggested by Alberto Zanoni and Marco Bodrato.  The idea is to split
+the operands into polynomials of different degree. These algorithms are
+denoted ToomMN where the first input is broken into M components and
+the second operand is broken into N components. MPIR currently
+implements Toom32, Toom33, Toom44, Toom53 and Toom8h which deals with a
+variety of sizes where the product polynomial will have length 15 or 16.
 
 
 File: mpir.info,  Node: Division Algorithms,  Next: Greatest Common Divisor Algorithms,  Prev: Multiplication Algorithms,  Up: Algorithms
@@ -6585,7 +6647,9 @@ File: mpir.info,  Node: Basecase Division,  Next: Divide and Conquer Division,  
 15.2.2 Basecase Division
 ------------------------
 
-Basecase NxM division is like long division done by hand, but in base
+This section is out-of-date.
+
+   Basecase NxM division is like long division done by hand, but in base
 2^mp_bits_per_limb.  See Knuth section 4.3.1 algorithm D.
 
    Briefly stated, while the dividend remains larger than the divisor,
@@ -6609,7 +6673,9 @@ File: mpir.info,  Node: Divide and Conquer Division,  Next: Exact Division,  Pre
 15.2.3 Divide and Conquer Division
 ----------------------------------
 
-For divisors larger than `DIV_DC_THRESHOLD', division is done by
+This section is out-of-date
+
+   For divisors larger than `DIV_DC_THRESHOLD', division is done by
 dividing.  Or to be precise by a recursive divide and conquer algorithm
 based on work by Moenck and Borodin, Jebelean, and Burnikel and Ziegler
 (*note References::).
@@ -6653,9 +6719,12 @@ File: mpir.info,  Node: Exact Division,  Next: Exact Remainder,  Prev: Divide an
 15.2.4 Exact Division
 ---------------------
 
-A so-called exact division is when the dividend is known to be an exact
-multiple of the divisor.  Jebelean's exact division algorithm uses this
-knowledge to make some significant optimizations (*note References::).
+This section is out-of-date
+
+   A so-called exact division is when the dividend is known to be an
+exact multiple of the divisor.  Jebelean's exact division algorithm
+uses this knowledge to make some significant optimizations (*note
+References::).
 
    The idea can be illustrated in decimal for example with 368154
 divided by 543.  Because the low digit of the dividend is 4, the low
@@ -6800,12 +6869,13 @@ File: mpir.info,  Node: Greatest Common Divisor Algorithms,  Next: Powering Algo
 * Menu:
 
 * Binary GCD::
-* Accelerated GCD::
+* Lehmer's GCD::
+* Subquadratic GCD::
 * Extended GCD::
 * Jacobi Symbol::
 
 
-File: mpir.info,  Node: Binary GCD,  Next: Accelerated GCD,  Prev: Greatest Common Divisor Algorithms,  Up: Greatest Common Divisor Algorithms
+File: mpir.info,  Node: Binary GCD,  Next: Lehmer's GCD,  Prev: Greatest Common Divisor Algorithms,  Up: Greatest Common Divisor Algorithms
 
 15.3.1 Binary GCD
 -----------------
@@ -6864,83 +6934,120 @@ means it's not usually advantageous to combine a set of divisibility
 tests into a GCD.
 
 
-File: mpir.info,  Node: Accelerated GCD,  Next: Extended GCD,  Prev: Binary GCD,  Up: Greatest Common Divisor Algorithms
+File: mpir.info,  Node: Lehmer's GCD,  Next: Subquadratic GCD,  Prev: Binary GCD,  Up: Greatest Common Divisor Algorithms
 
-15.3.2 Accelerated GCD
-----------------------
-
-For sizes above `GCD_ACCEL_THRESHOLD', MPIR uses the Accelerated GCD
-algorithm described independently by Weber and Jebelean (the latter as
-the "Generalized Binary" algorithm), *note References::.  This
-algorithm is still O(N^2), but is much faster than the binary algorithm
-since it does fewer multi-precision operations.  It consists of
-alternating the k-ary reduction by Sorenson, and a "dmod" exact
-remainder reduction.
-
-   For operands u and v the k-ary reduction replaces u with n*v-d*u
-where n and d are single limb values chosen to give two trailing zero
-limbs on that value, which can be stripped.  n and d are calculated
-using an algorithm similar to half of a two limb GCD (see `find_a' in
-`mpn/generic/gcd.c').
-
-   When u and v differ in size by more than a certain number of bits, a
-dmod is performed to zero out bits at the low end of the larger.  It
-consists of an exact remainder style division applied to an appropriate
-number of bits (*note Exact Division::, and *note Exact Remainder::).
-This is faster than a k-ary reduction but useful only when the operands
-differ in size.  There's a dmod after each k-ary reduction, and if the
-dmod leaves the operands still differing in size then it's repeated.
-
-   The k-ary reduction step can introduce spurious factors into the GCD
-calculated, and these are eliminated at the end by taking GCDs with the
-original inputs gcd(u,gcd(v,g)) using the binary algorithm.  Since g is
-almost always small this takes very little time.
-
-   At small sizes the algorithm needs a good implementation of
-`find_a'.  At larger sizes it's dominated by `mpn_addmul_1' applying n
-and d.
-
-
-File: mpir.info,  Node: Extended GCD,  Next: Jacobi Symbol,  Prev: Accelerated GCD,  Up: Greatest Common Divisor Algorithms
-
-15.3.3 Extended GCD
+15.3.2 Lehmer's GCD
 -------------------
 
-The extended GCD calculates gcd(a,b) and also cofactors x and y
-satisfying a*x+b*y=gcd(a,b).  Lehmer's multi-step improvement of the
-extended Euclidean algorithm is used.  See Knuth section 4.5.2
-algorithm L, and `mpn/generic/gcdext.c'.  This is an O(N^2) algorithm.
+Lehmer's improvement of the Euclidean algorithms is based on the
+observation that the initial part of the quotient sequence depends only
+on the most significant parts of the inputs. The variant of Lehmer's
+algorithm used in GMP splits off the most significant two limbs, as
+suggested, e.g., in "A Double-Digit Lehmer-Euclid Algorithm" by
+Jebelean (*note References::). The quotients of two double-limb inputs
+are collected as a 2 by 2 matrix with single-limb elements. This is
+done by the function `mpn_hgcd2'. The resulting matrix is applied to
+the inputs using `mpn_mul_1' and `mpn_submul_1'. Each iteration usually
+reduces the inputs by almost one limb. In the rare case of a large
+quotient, no progress can be made by examining just the most
+significant two limbs, and the quotient is computing using plain
+division.
 
-   The multipliers at each step are found using single limb
-calculations for sizes up to `GCDEXT_THRESHOLD', or double limb
-calculations above that.  The single limb code is faster but doesn't
-produce full-limb multipliers, hence not making full use of the
-`mpn_addmul_1' calls.
+   The resulting algorithm is asymptotically O(N^2), just as the
+Euclidean algorithm and the binary algorithm. The quadratic part of the
+work are the calls to `mpn_mul_1' and `mpn_submul_1'. For small sizes,
+the linear work is also significant. There are roughly N calls to the
+`mpn_hgcd2' function. This function uses a couple of important
+optimizations:
 
-   When a CPU has a data-dependent multiplier, meaning one which is
-faster on operands with fewer bits, the extra work in the double-limb
-calculation might only save some looping overheads, leading to a large
-`GCDEXT_THRESHOLD'.
+   * It uses the same relaxed notion of correctness as `mpn_hgcd' (see
+     next section). This means that when called with the most
+     significant two limbs of two large numbers, the returned matrix
+     does not always correspond exactly to the initial quotient
+     sequence for the two large numbers; the final quotient may
+     sometimes be one off.
 
-   Currently the single limb calculation doesn't optimize for the small
-quotients that often occur, and this can lead to unusually low values of
-`GCDEXT_THRESHOLD', depending on the CPU.
+   * It takes advantage of the fact the quotients are usually small.
+     The division operator is not used, since the corresponding
+     assembler instruction is very slow on most architectures. (This
+     code could probably be improved further, it uses many branches
+     that are unfriendly to prediction).
 
-   An analysis of double-limb calculations can be found in "A
-Double-Digit Lehmer-Euclid Algorithm" by Jebelean (*note References::).
-The code in MPIR was developed independently.
+   * It switches from double-limb calculations to single-limb
+     calculations half-way through, when the input numbers have been
+     reduced in size from two limbs to one and a half.
 
-   It should be noted that when a double limb calculation is used, it's
-used for the whole of that GCD, it doesn't fall back to single limb
-part way through.  This is because as the algorithm proceeds, the
-inputs a and b are reduced, but the cofactors x and y grow, so the
-multipliers at each step are applied to a roughly constant total number
-of limbs.
+
+
+File: mpir.info,  Node: Subquadratic GCD,  Next: Extended GCD,  Prev: Lehmer's GCD,  Up: Greatest Common Divisor Algorithms
+
+15.3.3 Subquadratic GCD
+-----------------------
+
+For inputs larger than `GCD_DC_THRESHOLD', GCD is computed via the HGCD
+(Half GCD) function, as a generalization to Lehmer's algorithm.
+
+   Let the inputs a,b be of size N limbs each. Put S = floor(N/2) + 1.
+Then HGCD(a,b) returns a transformation matrix T with non-negative
+elements, and reduced numbers (c;d) = T^-1 (a;b). The reduced numbers
+c,d must be larger than S limbs, while their difference abs(c-d) must
+fit in S limbs. The matrix elements will also be of size roughly N/2.
+
+   The HGCD base case uses Lehmer's algorithm, but with the above stop
+condition that returns reduced numbers and the corresponding
+transformation matrix half-way through. For inputs larger than
+`HGCD_THRESHOLD', HGCD is computed recursively, using the divide and
+conquer algorithm in "On Scho"nhage's algorithm and subquadratic
+integer GCD computation" by Mo"ller (*note References::). The recursive
+algorithm consists of these main steps.
+
+   * Call HGCD recursively, on the most significant N/2 limbs. Apply the
+     resulting matrix T_1 to the full numbers, reducing them to a size
+     just above 3N/2.
+
+   * Perform a small number of division or subtraction steps to reduce
+     the numbers to size below 3N/2. This is essential mainly for the
+     unlikely case of large quotients.
+
+   * Call HGCD recursively, on the most significant N/2 limbs of the
+     reduced numbers. Apply the resulting matrix T_2 to the full
+     numbers, reducing them to a size just above N/2.
+
+   * Compute T = T_1 T_2.
+
+   * Perform a small number of division and subtraction steps to
+     satisfy the requirements, and return.
+
+   GCD is then implemented as a loop around HGCD, similarly to Lehmer's
+algorithm. Where Lehmer repeatedly chops off the top two limbs, calls
+`mpn_hgcd2', and applies the resulting matrix to the full numbers, the
+subquadratic GCD chops off the most significant third of the limbs (the
+proportion is a tuning parameter, and 1/3 seems to be more efficient
+than, e.g, 1/2), calls `mpn_hgcd', and applies the resulting matrix.
+Once the input numbers are reduced to size below `GCD_DC_THRESHOLD',
+Lehmer's algorithm is used for the rest of the work.
+
+   The asymptotic running time of both HGCD and GCD is O(M(N)*log(N)),
+where M(N) is the time for multiplying two N-limb numbers.
+
+
+File: mpir.info,  Node: Extended GCD,  Next: Jacobi Symbol,  Prev: Subquadratic GCD,  Up: Greatest Common Divisor Algorithms
+
+15.3.4 Extended GCD
+-------------------
+
+The extended GCD function, or gcdext, calculates gcd(a,b) and also one
+of the cofactors x and y satisfying a*x+b*y=gcd(a,b). The algorithms
+used for plain GCD are extended to handle this case.
+
+   Lehmer's algorithm is used for sizes up to `GCDEXT_DC_THRESHOLD'.
+Above this threshold, GCDEXT is implemented as a loop around HGCD, but
+with more book-keeping to keep track of the cofactors.
 
 
 File: mpir.info,  Node: Jacobi Symbol,  Prev: Extended GCD,  Up: Greatest Common Divisor Algorithms
 
-15.3.4 Jacobi Symbol
+15.3.5 Jacobi Symbol
 --------------------
 
 `mpz_jacobi' and `mpz_kronecker' are currently implemented with a
@@ -7002,91 +7109,4 @@ some limitations.  It's only O(N^2) so above `POWM_THRESHOLD' division
 becomes faster and is used.  It doesn't attempt to detect small bases,
 but rather always uses a REDC form, which is usually a full size
 operand.  And lastly it's only applied to odd moduli.
-
-
-File: mpir.info,  Node: Root Extraction Algorithms,  Next: Radix Conversion Algorithms,  Prev: Powering Algorithms,  Up: Algorithms
-
-15.5 Root Extraction Algorithms
-===============================
-
-* Menu:
-
-* Square Root Algorithm::
-* Nth Root Algorithm::
-* Perfect Square Algorithm::
-* Perfect Power Algorithm::
-
-
-File: mpir.info,  Node: Square Root Algorithm,  Next: Nth Root Algorithm,  Prev: Root Extraction Algorithms,  Up: Root Extraction Algorithms
-
-15.5.1 Square Root
-------------------
-
-Square roots are taken using the "Karatsuba Square Root" algorithm by
-Paul Zimmermann (*note References::).
-
-   An input n is split into four parts of k bits each, so with b=2^k we
-have n = a3*b^3 + a2*b^2 + a1*b + a0.  Part a3 must be "normalized" so
-that either the high or second highest bit is set.  In MPIR, k is kept
-on a limb boundary and the input is left shifted (by an even number of
-bits) to normalize.
-
-   The square root of the high two parts is taken, by recursive
-application of the algorithm (bottoming out in a one-limb Newton's
-method),
-
-     s1,r1 = sqrtrem (a3*b + a2)
-
-   This is an approximation to the desired root and is extended by a
-division to give s,r,
-
-     q,u = divrem (r1*b + a1, 2*s1)
-     s = s1*b + q
-     r = u*b + a0 - q^2
-
-   The normalization requirement on a3 means at this point s is either
-correct or 1 too big.  r is negative in the latter case, so
-
-     if r < 0 then
-       r = r + 2*s - 1
-       s = s - 1
-
-   The algorithm is expressed in a divide and conquer form, but as
-noted in the paper it can also be viewed as a discrete variant of
-Newton's method, or as a variation on the schoolboy method (no longer
-taught) for square roots two digits at a time.
-
-   If the remainder r is not required then usually only a few high limbs
-of r and u need to be calculated to determine whether an adjustment to
-s is required.  This optimization is not currently implemented.
-
-   In the Karatsuba multiplication range this algorithm is
-O(1.5*M(N/2)), where M(n) is the time to multiply two numbers of n
-limbs.  In the FFT multiplication range this grows to a bound of
-O(6*M(N/2)).  In practice a factor of about 1.5 to 1.8 is found in the
-Karatsuba and Toom-3 ranges, growing to 2 or 3 in the FFT range.
-
-   The algorithm does all its calculations in integers and the resulting
-`mpn_sqrtrem' is used for both `mpz_sqrt' and `mpf_sqrt'.  The extended
-precision given by `mpf_sqrt_ui' is obtained by padding with zero limbs.
-
-
-File: mpir.info,  Node: Nth Root Algorithm,  Next: Perfect Square Algorithm,  Prev: Square Root Algorithm,  Up: Root Extraction Algorithms
-
-15.5.2 Nth Root
----------------
-
-Integer Nth roots are taken using Newton's method with the following
-iteration, where A is the input and n is the root to be taken.
-
-              1         A
-     a[i+1] = - * ( --------- + (n-1)*a[i] )
-              n     a[i]^(n-1)
-
-   The initial approximation a[1] is generated bitwise by successively
-powering a trial root with or without new 1 bits, aiming to be just
-above the true root.  The iteration converges quadratically when
-started from a good approximation.  When n is large more initial bits
-are needed to get good convergence.  The current implementation is not
-particularly well optimized.
 

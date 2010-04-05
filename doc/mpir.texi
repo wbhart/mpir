@@ -7238,8 +7238,6 @@ Some MPIR internals are mentioned, but applications that expect to be
 compatible with future MPIR releases should take care to use only the
 documented functions.
 
-Warning: this section is somewhat out-of-date.
-
 @menu
 * Multiplication Algorithms::
 * Division Algorithms::
@@ -7261,29 +7259,40 @@ algorithms, as the size N increases.
 
 @quotation
 @multitable {KaratsubaMMM} {MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM}
-@item Algorithm @tab Threshold
-@item Basecase  @tab (none)
-@item Karatsuba @tab @code{MUL_KARATSUBA_THRESHOLD}
-@item Toom-3    @tab @code{MUL_TOOM3_THRESHOLD}
-@item Toom-4    @tab @code{MUL_TOOM4_THRESHOLD}
-@item FFT       @tab @code{MUL_FFT_THRESHOLD}
+@item Algorithm  @tab Mul Threshold                   
+@item Basecase   @tab (none)                         
+@item Karatsuba  @tab @code{MUL_KARATSUBA_THRESHOLD}  
+@item Toom-3     @tab @code{MUL_TOOM3_THRESHOLD}      
+@item Toom-4     @tab @code{MUL_TOOM4_THRESHOLD}      
+@item Toom-8(.5) @tab @code{MUL_TOOM8H_THRESHOLD}     
+@item FFT        @tab @code{MUL_FFT_FULL_THRESHOLD}   
 @end multitable
 @end quotation
 
-Similarly for squaring, with the @code{SQR} thresholds.
+@quotation
+@multitable {KaratsubaMMM} {MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM}
+@item Algorithm  @tab Sqr Threshold
+@item Basecase   @tab (none)
+@item Karatsuba  @tab @code{SQR_KARATSUBA_THRESHOLD}
+@item Toom-3     @tab @code{SQR_TOOM3_THRESHOLD}
+@item Toom-4     @tab @code{SQR_TOOM4_THRESHOLD}
+@item Toom-8     @tab @code{SQR_TOOM8_THRESHOLD}
+@item FFT        @tab @code{SQR_FFT_FULL_THRESHOLD}
+@end multitable
+@end quotation
 
 N@cross{}M multiplications of operands with different sizes above
-@code{MUL_KARATSUBA_THRESHOLD} are currently done by splitting into M@cross{}M
-pieces.  The Karatsuba and Toom routines then operate only on equal size
-operands.  This is not very efficient, and is slated for improvement in the
-future.
+@code{MUL_KARATSUBA_THRESHOLD} are done using unbalanced Toom algorithms or
+with the FFT. See (@pxref{Unbalanced Multiplication}).
 
 @menu
 * Basecase Multiplication::
 * Karatsuba Multiplication::
 * Toom 3-Way Multiplication::
+* Toom 4-Way Multiplication::
 * FFT Multiplication::
 * Other Multiplication::
+* Unbalanced Multiplication::
 @end menu
 
 
@@ -7538,7 +7547,7 @@ instance when adding an optimized @code{mpn_sqr_diagonal} to
 that sense the algorithm thresholds are merely of academic interest.
 
 
-@node Toom 3-Way Multiplication, FFT Multiplication, Karatsuba Multiplication, Multiplication Algorithms
+@node Toom 3-Way Multiplication, Toom 4-Way Multiplication, Karatsuba Multiplication, Multiplication Algorithms
 @subsection Toom 3-Way Multiplication
 @cindex Toom multiplication
 
@@ -7774,11 +7783,54 @@ for the 3-way is attractive, but again doesn't have to be implemented that way
 and for example with a bit of rearrangement just one division by 6 can be
 done.
 
+@node Toom 4-Way Multiplication, FFT Multiplication, Toom 3-Way Multiplication, Multiplication Algorithms
+@subsection Toom 4-Way Multiplication
+@cindex Toom multiplication
 
-@node FFT Multiplication, Other Multiplication, Toom 3-Way Multiplication, Multiplication Algorithms
+Karatsuba and Toom-3 split the operands into 2 and 3 coefficients,
+respectively.  Toom-4 analogously splits the operands into 4 coefficients.
+Using the notation from the section on Toom-3 multiplication, we form two
+polynomials:
+
+@display
+@group
+@m{X(t) = x_3t^3 + x_2t^2 + x_1t + x_0,
+   X(t) = x3*t^3 + x2*t^2 + x1*t + x0}
+@m{Y(t) = y_3t^3 + y_2t^2 + y_1t + y_0,
+   Y(t) = y3*t^3 + y2*t^2 + y1*t + y0}
+@end group
+@end display
+
+@math{X(t)} and @math{Y(t)} are evaluated and multiplied at 7 points, giving
+values of @math{W(t)} at those points.  In GMP the following points are used,
+
+@quotation
+@multitable {@m{t=-1/2,t=inf}M} {MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM}
+@item Point              @tab Value
+@item @math{t=0}         @tab @m{x_0y_0,x0 * y0}, which gives @ms{w,0} immediately
+@item @math{t=1/2}       @tab @m{(x_3+2x_2+4x_1+8x_0)(y_3+2y_2+4y_1+8y_0),(x3+2*x2+4*x1+8*x0) * (y3+2*y2+4*y1+8*y0)}
+@item @math{t=-1/2}      @tab @m{(-x_3+2x_2-4x_1+8x_0)(-y_3+2y_2-4y_1+8y_0),(-x3+2*x2-4*x1+8*x0) * (-y3+2*y2-4*y1+8*y0)}
+@item @math{t=1}         @tab @m{(x_3+x_2+x_1+x_0)(y_3+y_2+y_1+y_0),(x3+x2+x1+x0) * (y3+y2+y1+y0)}
+@item @math{t=-1}        @tab @m{(-x_3+x_2-x_1+x_0)(-y_3+y_2-y_1+y_0),(-x3+x2-x1+x0) * (-y3+y2-y1+y0)}
+@item @math{t=2}         @tab @m{(8x_3+4x_2+2x_1+x_0)(8y_3+4y_2+2y_1+y_0),(8*x3+4*x2+2*x1+x0) * (8*y3+4*y2+2*y1+y0)}
+@item @m{t=\infty,t=inf} @tab @m{x_3y_3,x3 * y3}, which gives @ms{w,6} immediately
+@end multitable
+@end quotation
+
+The number of additions and subtractions for Toom-4 is much larger than for Toom-3.
+But several subexpressions occur multiple times, for example @m{x_2+x_0,x2+x0}, occurs
+for both @math{t=1} and @math{t=-1}.
+
+Toom-4 is asymptotically @math{O(N^@W{1.404})}, the exponent being
+@m{\log7/\log4,log(7)/log(4)}, representing 7 recursive multiplies of 1/4 the
+original size each.
+
+@node FFT Multiplication, Other Multiplication, Toom 4-Way Multiplication, Multiplication Algorithms
 @subsection FFT Multiplication
 @cindex FFT multiplication
 @cindex Fast Fourier Transform
+
+This section is out-of-date and will be updated when the new FFT is added.
 
 At large to very large sizes a Fermat style FFT multiplication is used,
 following Sch@"onhage and Strassen (@pxref{References}).  Descriptions of FFTs
@@ -7862,8 +7914,9 @@ that the FFT is recursing into a normal multiply and that on that basis it's
 doing @math{2^k} recursed multiplies each @m{1/2^{k-2},1/2^(k-2)} the size of
 the inputs, making it @m{O(N^{k/(k-2)}), O(N^(k/(k-2)))}.  This would mean
 @math{k=7} at @math{O(N^@W{1.4})} would be the first FFT faster than Toom-3.
-In practice @code{MUL_FFT_THRESHOLD} and @code{SQR_FFT_THRESHOLD} have been
-found to be in the @math{k=8} range, somewhere between 3000 and 10000 limbs.
+In practice @code{MUL_FFT_FULL_THRESHOLD} and @code{SQR_FFT_FULL_THRESHOLD} 
+have been found to be in the @math{k=8} range, somewhere between 3000 and 
+10000 limbs.
 
 The way @math{N} is split into @math{2^k} pieces and then @math{2M+k+3} is
 rounded up to a multiple of @math{2^k} and @code{mp_bits_per_limb} means that
@@ -7890,13 +7943,14 @@ more sophisticated for @code{MUL_FFT_TABLE} and @code{SQR_FFT_TABLE} will be
 needed.
 
 
-@node Other Multiplication,  , FFT Multiplication, Multiplication Algorithms
+@node Other Multiplication, Unbalanced Multiplication, FFT Multiplication, Multiplication Algorithms
 @subsection Other Multiplication
 @cindex Toom multiplication
 
-The 3-way Toom algorithm described above (@pxref{Toom 3-Way
-Multiplication}) generalizes to split into an arbitrary number of pieces, as
-per Knuth section 4.3.3 algorithm C@. MPIR currently implements Toom 4 and 7 routines. 
+The Toom algorithms described above (@pxref{Toom 3-Way Multiplication}), 
+@pxref{Toom 4-Way Multiplication}) generalize to split into an arbitrary 
+number of pieces, as per Knuth section 4.3.3 algorithm C@. MPIR currently 
+implements Toom 8 routines. 
 
 In general a split into @math{r+1} pieces is made, and evaluations and
 pointwise multiplications done at @m{2r+1,2*r+1} points.  A 4-way split does 7
@@ -7933,6 +7987,23 @@ bits).  An occasional difference of 1 in the last bit might not matter to a
 typical signal processing algorithm, but is of course of vital importance to
 MPIR.
 
+@node Unbalanced Multiplication,  , Other Multiplication, Multiplication Algorithms
+@subsection Unbalanced Multiplication
+@cindex Unbalanced multiplication
+
+Multiplication of operands with different sizes, both below
+@code{MUL_KARATSUBA_THRESHOLD} are done with plain schoolbook multiplication
+(@pxref{Basecase Multiplication}).
+
+For really large operands, we invoke the FFT directly.
+
+For operands between these sizes, we use Toom inspired algorithms suggested by
+Alberto Zanoni and Marco Bodrato.  The idea is to split the operands into
+polynomials of different degree. These algorithms are denoted ToomMN where
+the first input is broken into M components and the second operand is broken
+into N components. MPIR currently implements Toom32, Toom33, Toom44, Toom53 and
+Toom8h which deals with a variety of sizes where the product polynomial will
+have length 15 or 16.
 
 @node Division Algorithms, Greatest Common Divisor Algorithms, Multiplication Algorithms, Algorithms
 @section Division Algorithms
@@ -8002,6 +8073,8 @@ if the only multiply is a half limb, and especially if it's not pipelined.
 @node Basecase Division, Divide and Conquer Division, Single Limb Division, Division Algorithms
 @subsection Basecase Division
 
+This section is out-of-date.
+
 Basecase N@cross{}M division is like long division done by hand, but in base
 @m{2\GMPraise{@code{mp\_bits\_per\_limb}}, 2^mp_bits_per_limb}.  See Knuth
 section 4.3.1 algorithm D.
@@ -8024,6 +8097,8 @@ divide for each of the Q quotient limbs.
 
 @node Divide and Conquer Division, Exact Division, Basecase Division, Division Algorithms
 @subsection Divide and Conquer Division
+
+This section is out-of-date
 
 For divisors larger than @code{DIV_DC_THRESHOLD}, division is done by dividing.
 Or to be precise by a recursive divide and conquer algorithm based on work by
@@ -8065,6 +8140,8 @@ be for large to very large N.
 
 @node Exact Division, Exact Remainder, Divide and Conquer Division, Division Algorithms
 @subsection Exact Division
+
+This section is out-of-date
 
 A so-called exact division is when the dividend is known to be an exact
 multiple of the divisor.  Jebelean's exact division algorithm uses this
@@ -8223,13 +8300,14 @@ section 4.3.1 exercise 20 but with the @m{v_2 \GMPhat q > b \GMPhat r
 
 @menu
 * Binary GCD::
-* Accelerated GCD::
+* Lehmer's GCD::
+* Subquadratic GCD::
 * Extended GCD::
 * Jacobi Symbol::
 @end menu
 
 
-@node Binary GCD, Accelerated GCD, Greatest Common Divisor Algorithms, Greatest Common Divisor Algorithms
+@node Binary GCD, Lehmer's GCD, Greatest Common Divisor Algorithms, Greatest Common Divisor Algorithms
 @subsection Binary GCD
 
 At small sizes MPIR uses an @math{O(N^2)} binary style GCD@.  This is described
@@ -8287,72 +8365,119 @@ taking nearly 400 cycles.  It's this sort of time which means it's not usually
 advantageous to combine a set of divisibility tests into a GCD.
 
 
-@node Accelerated GCD, Extended GCD, Binary GCD, Greatest Common Divisor Algorithms
-@subsection Accelerated GCD
+@node Lehmer's GCD, Subquadratic GCD, Binary GCD, Greatest Common Divisor Algorithms
+@subsection Lehmer's GCD
 
-For sizes above @code{GCD_ACCEL_THRESHOLD}, MPIR uses the Accelerated GCD
-algorithm described independently by Weber and Jebelean (the latter as the
-``Generalized Binary'' algorithm), @pxref{References}.  This algorithm is
-still @math{O(N^2)}, but is much faster than the binary algorithm since it
-does fewer multi-precision operations.  It consists of alternating the
-@math{k}-ary reduction by Sorenson, and a ``dmod'' exact remainder reduction.
+Lehmer's improvement of the Euclidean algorithms is based on the observation
+that the initial part of the quotient sequence depends only on the most
+significant parts of the inputs. The variant of Lehmer's algorithm used in GMP
+splits off the most significant two limbs, as suggested, e.g., in ``A
+Double-Digit Lehmer-Euclid Algorithm'' by Jebelean (@pxref{References}). The
+quotients of two double-limb inputs are collected as a 2 by 2 matrix with
+single-limb elements. This is done by the function @code{mpn_hgcd2}. The
+resulting matrix is applied to the inputs using @code{mpn_mul_1} and
+@code{mpn_submul_1}. Each iteration usually reduces the inputs by almost one
+limb. In the rare case of a large quotient, no progress can be made by
+examining just the most significant two limbs, and the quotient is computing
+using plain division.
 
-For operands @math{u} and @math{v} the @math{k}-ary reduction replaces
-@math{u} with @m{nv-du,n*v-d*u} where @math{n} and @math{d} are single limb
-values chosen to give two trailing zero limbs on that value, which can be
-stripped.  @math{n} and @math{d} are calculated using an algorithm similar to
-half of a two limb GCD (see @code{find_a} in @file{mpn/generic/gcd.c}).
+The resulting algorithm is asymptotically @math{O(N^2)}, just as the Euclidean
+algorithm and the binary algorithm. The quadratic part of the work are
+the calls to @code{mpn_mul_1} and @code{mpn_submul_1}. For small sizes, the
+linear work is also significant. There are roughly @math{N} calls to the
+@code{mpn_hgcd2} function. This function uses a couple of important
+optimizations:
 
-When @math{u} and @math{v} differ in size by more than a certain number of
-bits, a dmod is performed to zero out bits at the low end of the larger.  It
-consists of an exact remainder style division applied to an appropriate number
-of bits (@pxref{Exact Division}, and @pxref{Exact Remainder}).  This is faster
-than a @math{k}-ary reduction but useful only when the operands differ in
-size.  There's a dmod after each @math{k}-ary reduction, and if the dmod
-leaves the operands still differing in size then it's repeated.
+@itemize
+@item
+It uses the same relaxed notion of correctness as @code{mpn_hgcd} (see next
+section). This means that when called with the most significant two limbs of
+two large numbers, the returned matrix does not always correspond exactly to
+the initial quotient sequence for the two large numbers; the final quotient
+may sometimes be one off.
 
-The @math{k}-ary reduction step can introduce spurious factors into the GCD
-calculated, and these are eliminated at the end by taking GCDs with the
-original inputs @math{@gcd{}(u,@gcd{}(v,g))} using the binary algorithm.
-Since @math{g} is almost always small this takes very little time.
+@item
+It takes advantage of the fact the quotients are usually small. The division
+operator is not used, since the corresponding assembler instruction is very
+slow on most architectures. (This code could probably be improved further, it
+uses many branches that are unfriendly to prediction).
 
-At small sizes the algorithm needs a good implementation of @code{find_a}.  At
-larger sizes it's dominated by @code{mpn_addmul_1} applying @math{n} and
-@math{d}.
+@item
+It switches from double-limb calculations to single-limb calculations half-way
+through, when the input numbers have been reduced in size from two limbs to
+one and a half.
 
+@end itemize
 
-@node Extended GCD, Jacobi Symbol, Accelerated GCD, Greatest Common Divisor Algorithms
+@node Subquadratic GCD, Extended GCD, Lehmer's GCD, Greatest Common Divisor Algorithms
+@subsection Subquadratic GCD
+
+For inputs larger than @code{GCD_DC_THRESHOLD}, GCD is computed via the HGCD
+(Half GCD) function, as a generalization to Lehmer's algorithm.
+
+Let the inputs @math{a,b} be of size @math{N} limbs each. Put @m{S=\lfloor N/2
+\rfloor + 1, S = floor(N/2) + 1}. Then HGCD(a,b) returns a transformation
+matrix @math{T} with non-negative elements, and reduced numbers @math{(c;d) =
+T^{-1} (a;b)}. The reduced numbers @math{c,d} must be larger than @math{S}
+limbs, while their difference @math{abs(c-d)} must fit in @math{S} limbs. The
+matrix elements will also be of size roughly @math{N/2}.
+
+The HGCD base case uses Lehmer's algorithm, but with the above stop condition
+that returns reduced numbers and the corresponding transformation matrix
+half-way through. For inputs larger than @code{HGCD_THRESHOLD}, HGCD is
+computed recursively, using the divide and conquer algorithm in ``On
+Sch@"onhage's algorithm and subquadratic integer GCD computation'' by M@"oller
+(@pxref{References}). The recursive algorithm consists of these main
+steps.
+
+@itemize
+
+@item
+Call HGCD recursively, on the most significant @math{N/2} limbs. Apply the
+resulting matrix @math{T_1} to the full numbers, reducing them to a size just
+above @math{3N/2}.
+
+@item
+Perform a small number of division or subtraction steps to reduce the numbers
+to size below @math{3N/2}. This is essential mainly for the unlikely case of
+large quotients.
+
+@item
+Call HGCD recursively, on the most significant @math{N/2} limbs of the reduced
+numbers. Apply the resulting matrix @math{T_2} to the full numbers, reducing
+them to a size just above @math{N/2}.
+
+@item
+Compute @math{T = T_1 T_2}.
+
+@item
+Perform a small number of division and subtraction steps to satisfy the
+requirements, and return.
+@end itemize
+
+GCD is then implemented as a loop around HGCD, similarly to Lehmer's
+algorithm. Where Lehmer repeatedly chops off the top two limbs, calls
+@code{mpn_hgcd2}, and applies the resulting matrix to the full numbers, the
+subquadratic GCD chops off the most significant third of the limbs (the
+proportion is a tuning parameter, and @math{1/3} seems to be more efficient
+than, e.g, @math{1/2}), calls @code{mpn_hgcd}, and applies the resulting
+matrix. Once the input numbers are reduced to size below
+@code{GCD_DC_THRESHOLD}, Lehmer's algorithm is used for the rest of the work.
+
+The asymptotic running time of both HGCD and GCD is @m{O(M(N)\log N),O(M(N)*log(N))},
+where @math{M(N)} is the time for multiplying two @math{N}-limb numbers.
+
+@node Extended GCD, Jacobi Symbol, Subquadratic GCD, Greatest Common Divisor Algorithms
 @subsection Extended GCD
 
-The extended GCD calculates @math{@gcd{}(a,b)} and also cofactors @math{x} and
-@math{y} satisfying @m{ax+by=\gcd(a@C{}b), a*x+b*y=gcd(a@C{}b)}.  Lehmer's
-multi-step improvement of the extended Euclidean algorithm is used.  See Knuth
-section 4.5.2 algorithm L, and @file{mpn/generic/gcdext.c}.  This is an
-@math{O(N^2)} algorithm.
+The extended GCD function, or gcdext, calculates @math{@gcd{}(a,b)} and also
+one of the cofactors @math{x} and @math{y} satisfying @m{ax+by=\gcd(a@C{}b),
+a*x+b*y=gcd(a@C{}b)}. The algorithms used for plain GCD are extended to
+handle this case. 
 
-The multipliers at each step are found using single limb calculations for
-sizes up to @code{GCDEXT_THRESHOLD}, or double limb calculations above that.
-The single limb code is faster but doesn't produce full-limb multipliers,
-hence not making full use of the @code{mpn_addmul_1} calls.
-
-When a CPU has a data-dependent multiplier, meaning one which is faster on
-operands with fewer bits, the extra work in the double-limb calculation might
-only save some looping overheads, leading to a large @code{GCDEXT_THRESHOLD}.
-
-Currently the single limb calculation doesn't optimize for the small quotients
-that often occur, and this can lead to unusually low values of
-@code{GCDEXT_THRESHOLD}, depending on the CPU.
-
-An analysis of double-limb calculations can be found in ``A Double-Digit
-Lehmer-Euclid Algorithm'' by Jebelean (@pxref{References}).  The code in MPIR
-was developed independently.
-
-It should be noted that when a double limb calculation is used, it's used for
-the whole of that GCD, it doesn't fall back to single limb part way through.
-This is because as the algorithm proceeds, the inputs @math{a} and @math{b}
-are reduced, but the cofactors @math{x} and @math{y} grow, so the multipliers
-at each step are applied to a roughly constant total number of limbs.
-
+Lehmer's algorithm is used for sizes up to @code{GCDEXT_DC_THRESHOLD}. Above
+this threshold, GCDEXT is implemented as a loop around HGCD, but with more
+book-keeping to keep track of the cofactors. 
 
 @node Jacobi Symbol,  , Extended GCD, Greatest Common Divisor Algorithms
 @subsection Jacobi Symbol
@@ -8681,6 +8806,8 @@ speedup.
 @node Radix to Binary,  , Binary to Radix, Radix Conversion Algorithms
 @subsection Radix to Binary
 
+This section is out-of-date.
+
 Conversions from a power-of-2 radix into binary use a simple and fast
 @math{O(N)} bitwise concatenation algorithm.
 
@@ -8734,6 +8861,8 @@ much faster than @code{mpn_divrem_1} (often by a factor of 10, or more).
 @subsection Prime Testing
 @cindex Prime testing algorithms
 
+This section is somewhat out-of-date.
+
 The primality testing in @code{mpz_probab_prime_p} (@pxref{Number Theoretic
 Functions}) first does some trial division by small factors and then uses the
 Miller-Rabin probabilistic primality testing algorithm, as described in Knuth
@@ -8759,6 +8888,8 @@ for an arbitrary @math{n}.
 @node Factorial Algorithm, Binomial Coefficients Algorithm, Prime Testing Algorithm, Other Algorithms
 @subsection Factorial
 @cindex Factorial algorithm
+
+This section is out-of-date.
 
 Factorials are calculated by a combination of removal of twos, powering, and
 binary splitting.  The procedure can be best illustrated with an example,
