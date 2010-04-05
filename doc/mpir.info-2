@@ -1637,6 +1637,12 @@ B.2 Papers
      PLDI'94 Conference, June 1994.  Also available
      `ftp://ftp.cwi.nl/pub/pmontgom/divcnst.psa4.gz' (and .psl.gz).
 
+   * Niels Mo"ller and Torbjo"rn Granlund, "Improved division by
+     invariant integers", to appear.
+
+   * Torbjo"rn Granlund and Niels Mo"ller, "Division of integers large
+     and small", to appear.
+
    * David Harvey, "The Karatsuba middle product for integers",
      (preprint), 2009. Available at
      `http://www.cims.nyu.edu/~harvey/mulmid/mulmid.pdf'

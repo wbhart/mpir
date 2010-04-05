@@ -10409,6 +10409,14 @@ using Multiplication'', in Proceedings of the SIGPLAN PLDI'94 Conference, June
 (and .psl.gz).
 
 @item
+Niels M@"oller and Torbj@"orn Granlund, ``Improved division by invariant
+integers'', to appear.
+
+@item
+Torbj@"orn Granlund and Niels M@"oller, ``Division of integers large and
+small'', to appear.
+
+@item
 David Harvey, ``The Karatsuba middle product for integers'', (preprint), 2009. Available at @uref{http://www.cims.nyu.edu/~harvey/mulmid/mulmid.pdf}
 
 @item
