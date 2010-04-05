@@ -1455,27 +1455,40 @@ have contributed to GMP/MPIR but are not listed above, please tell
 test system environment.
 
    In 2008 GMP was forked and gave rise to the MPIR (Multiple Precision
-Integers and Rationals) project. The following people have contributed
-to the MPIR project.
+Integers and Rationals) project. In 2010 version 2.0.0 of MPIR switched
+to LGPL v3+ and much code from GMP was again incorporated into MPIR.
 
-   William Hart did work on the build system and helped get the first
-release working on numerous systems, including adding build support for
-new assembly patches that compile using yasm. He provided mpn
-implementations of Toom 4 and 7 routines. He also wrote an extended GCD
-version of Niels Moller's fast GCD patches and a fast `mpn_tdiv_q'
-routine.
+   The MPIR project has largely been a collaboration of William Hart,
+Brian Gladman and Jason Moxham. MPIR code not obtained from GMP and not
+specifically mentioned elsewhere below is likely written by one of
+these three.
 
-   Brian Gladman wrote and maintains MSVC project files so the project
-can build on MSVC. He also did the initial conversion of Pierrick
-Gaudry's and Jason Martin's assembly patches to Intel format. He
-rewrote the benchmark program in C and developed MSVC ports of tune,
-speed, try and the benchmark.
+   William Hart did much of the early MPIR coding including build
+system fixes.  His contributions also include Toom 4 and 7 code and
+variants, extended GCD based on Niels Mollers ngcd work, asymptotically
+fast division code. He does much of the release management work.
+
+   Brian Gladman wrote and maintains MSVC project files. He has also
+done much of the conversion of assembly code to yasm format. He rewrote
+the benchmark program and developed MSVC ports of tune, speed, try and
+the benchmark code.  He helped with many aspects of the merging of GMP
+code into MPIR after the switch to LGPL v3+.
+
+   Jason Moxham has contributed a great deal of x86 assembly code. He
+has also contributed improved root code and mulhi and mullo routines
+and implemented Peter Montgomery's single limb remainder algorithm. He
+has also contributed a command line build system for Windows and
+numerous build system fixes.
+
+   The following people have either contributed directly to the MPIR
+project, made code available on their websites or contributed code to
+the official GNU project which has been used in MPIR.
 
    Pierrick Gaudry wrote some fast assembly support for AMD 64.
 
    Jason Martin wrote some fast assembly patches for Core 2 and
 converted them to intel format. He also did the initial merge of Niels
-Moller's fast GCD patches.
+Moller's fast GCD patches.  He wrote fast addmul functions for Itanium.
 
    Gonzalo Tornaria helped patch config.guess and associated files to
 distinguish modern processors. He also patched mpirbench.
@@ -1485,34 +1498,46 @@ platforms. He served for a while as release manager for the MPIR
 project.
 
    Mariah Lennox contributed patches to mpirbench and various build
-failure reports.
+failure reports. She has also reported gcc bugs found during MPIR
+development.
 
-   Niels Moller wrote the fast ngcd code for computing integer GCD.
-
-   Jason Moxham contributed dramatic speed improvements for x86_64
-platforms. He refactored the CPU detection code, improved the speed
-program and contributed many new assembler functions, including
-division functions. He contributed improved root code and mulhi and
-mullo routines. He implemented Peter Montgomery's single limb remainder
-code.
+   Niels Moller wrote the fast ngcd code for computing integer GCD, the
+quadratic Hensel and Euclidean division code and helped write some
+parts of the divide and conquer code. He also made contributions to the
+Toom multiply code, especially helper functions to simplify Toom
+evaluations.
 
    Pierrick Gaudry provided initial AMD 64 assembly support and revised
 the FFT code.
 
    Paul Zimmermann provided an mpz implementation of Toom 4, wrote much
-of the FFT code and contributed invert.c for computing precomputed
-inverses.
+of the FFT code, wrote some of the rootrem code and contributed
+invert.c for computing precomputed inverses.
 
    Alexander Kruppa revised the FFT code.
 
-   Torbjorn Granlund revised the FFT code.
+   Torbjorn Granlund revised the FFT code and wrote a lot of division
+code, including the quadratic Euclidean division code, many parts of
+the divide and conquer division code, both Hensel and Euclidean, and
+his code was also reused for parts of the asymptotically fast division
+code. He also helped write the root code and wrote much of the Itanium
+assembly code and a couple of Core 2 assembly functions and part of the
+basecase middle product assembly code for x86 64 bit. He also wrote the
+improved string input and output code and made improvements to the GCD
+and extended GCD code. Torbjorn is also responsible for numerous other
+bits and pieces that have been used from the GNU project.
 
-   Marco Bodrato wrote an mpz implementation of the Toom 7 code.
+   Marco Bodrato and Alberto Zanoni suggested the unbalanced multiply
+strategy and found optimal Toom multiplication sequences.
+
+   Marco Bodrato wrote an mpz implementation of the Toom 7 code and
+wrote most of the Toom 8.5 multiply and squaring code.
 
    Robert Gerbicz contributed fast factorial code.
 
    David Harvey wrote fast middle product code and divide and conquer
-approximate quotient code.
+approximate quotient code for both Euclidean and Hensel division and
+contributed to the quadratic Hensel code.
 
    T. R. Nicely wrote primality tests used in the benchmark code.
 
@@ -1521,6 +1546,21 @@ code to MPIR.
 
    Peter Shrimpton wrote the BPSW primality test used up to
 GMP_LIMB_BITS.
+
+   Thanks to Microsoft for supporting Jason Moxham to work on a command
+line build system for Windows and some assembly improvements for
+Windows.
+
+   Thanks to a US Govt. dept. for giving us access to a build farm and
+software, including regular builds of gcc and for providing support for
+some of the assembly development.
+
+   Thanks to the Free Software Foundation France for giving us access
+to their build farm.
+
+   Thanks to William Stein for giving us access to his sage.math
+machines for testing and for hosting the MPIR website, and for
+supporting us in inumerably many other ways.
 
 
 File: mpir.info,  Node: References,  Next: GNU Free Documentation License,  Prev: Contributors,  Up: Top
