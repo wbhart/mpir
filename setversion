@@ -41,7 +41,8 @@ TMPFILE=$(tempfile)
 cat gmp-h.in \
 | sed s/"#define[[:space:]]\+__MPIR_VERSION[[:space:]]\+.*"/"#define __MPIR_VERSION "$VERSION/ \
 | sed s/"#define[[:space:]]\+__MPIR_VERSION_MINOR[[:space:]]\+.*"/"#define __MPIR_VERSION_MINOR "$VERSION_MINOR/ \
-| sed s/"#define[[:space:]]\+__MPIR_VERSION_PATCHLEVEL[[:space:]]\+.*"/"#define __MPIR_VERSION_PATCHLEVEL "$VERSION_PATCHLEVEL/ > $TMPFILE
+| sed s/"#define[[:space:]]\+__MPIR_VERSION_PATCHLEVEL[[:space:]]\+.*"/"#define __MPIR_VERSION_PATCHLEVEL "$VERSION_PATCHLEVEL/ \
+| sed s/"#define[[:space:]]\+VERSION[[:space:]]\+.*"/"#define VERSION "\"$VERSION_STR\"/ > $TMPFILE
 mv $TMPFILE gmp-h.in
 
 #update build.vc9/config.*

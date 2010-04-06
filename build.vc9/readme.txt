@@ -118,7 +118,7 @@ The supported platforms and library formats are as follows:
 1. Generic Build Projects (both 32 and 64 bit)
 
     lib_mpir_gc     - MPIR library using generic C (win32 & x64)
-    lib_mpir_cxx    - MPIR C++ library
+    lib_mpir_cxx    - MPIR C++ library (win32 & x64)
     dll_mpir_gc     - MPIR DLL using generic C (win32 & x64)
 
 2. 32-bit Build Projects
@@ -134,10 +134,12 @@ The supported platforms and library formats are as follows:
     
     lib_mpir_k8     - MPIR library using AMD k8 assembler (x64)
     lib_mpir_k10     - MPIR library using AMD k10 assembler (x64)
-    lib_mpir_core2  - MPIR library Intel Core2 assembler (x64)
-    dll_mpir_k8     - MPIR DLL using AMD k8 assembler (x64)
-    dll_mpir_k8     - MPIR DLL using AMD k10 assembler (x64)
-    dll_mpir_core2  - MPIR DLL using Intel Core2 assembler (x64)
+    lib_mpir_core2   - MPIR library Intel Core2 assembler (x64)
+    lib_mpir_nehalem - MPIR library Intel Core2 assembler (x64)
+    dll_mpir_k8      - MPIR DLL using AMD k8 assembler (x64)
+    dll_mpir_k8      - MPIR DLL using AMD k10 assembler (x64)
+    dll_mpir_core2   - MPIR DLL using Intel Core2 assembler (x64)
+    dll_mpir_nehalem - MPIR DLL using Intel Core2 assembler (x64)
 
 Before any of these libraries is built the appropriate MPIR 
 configuration file is automatically copied into config.h.  After a 
@@ -392,9 +394,10 @@ My thanks to:
 
 1. The GMP team for their work on GMP and the MPFR team 
    for their work on MPFR
+2. The MPIR team
 3. Patrick Pelissier, Vincent Lefèvre and Paul Zimmermann
    for helping to resolve VC++ issues in MPFR.
 4. Jeff Gilchrist for his help in testing, debugging and 
    improving the readme giving the VC++ build instructions
 
-       Brian Gladman, December 2009
+       Brian Gladman, April 2010
