@@ -5920,6 +5920,10 @@ C++
         * NTL `http://www.shoup.net/ntl/'
           A C++ number theory library.
 
+Eiffel
+        * Eiffel Interface `http://www.eiffelroom.org/node/407'
+          An Eiffel Interface to MPFR, MPC and MPIR by Chris Saunders.
+
 Fortran
         * Omni F77 `http://phase.hpcc.jp/Omni/home.html'
           Arbitrary precision floats.
@@ -7087,26 +7091,4 @@ successively squaring and then multiplying by the base when a 1 bit is
 seen in the exponent, as per Knuth section 4.6.3.  The "left to right"
 variant described there is used rather than algorithm A, since it's
 just as easy and can be done with somewhat less temporary memory.
-
-
-File: mpir.info,  Node: Modular Powering Algorithm,  Prev: Normal Powering Algorithm,  Up: Powering Algorithms
-
-15.4.2 Modular Powering
------------------------
-
-Modular powering is implemented using a 2^k-ary sliding window
-algorithm, as per "Handbook of Applied Cryptography" algorithm 14.85
-(*note References::).  k is chosen according to the size of the
-exponent.  Larger exponents use larger values of k, the choice being
-made to minimize the average number of multiplications that must
-supplement the squaring.
-
-   The modular multiplies and squares use either a simple division or
-the REDC method by Montgomery (*note References::).  REDC is a little
-faster, essentially saving N single limb divisions in a fashion similar
-to an exact remainder (*note Exact Remainder::).  The current REDC has
-some limitations.  It's only O(N^2) so above `POWM_THRESHOLD' division
-becomes faster and is used.  It doesn't attempt to detect small bases,
-but rather always uses a REDC form, which is usually a full size
-operand.  And lastly it's only applied to odd moduli.
 

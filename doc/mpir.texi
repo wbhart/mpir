@@ -7063,6 +7063,12 @@ Linbox @spaceuref{http://www.linalg.org/} @* Sparse vectors and matrices.
 NTL @spaceuref{http://www.shoup.net/ntl/} @* A C++ number theory library.
 @end itemize
 
+@item Eiffel
+@itemize @bullet
+@item
+Eiffel Interface @spaceuref{http://www.eiffelroom.org/node/407} @* An Eiffel Interface to MPFR, MPC and MPIR by Chris Saunders.
+@end itemize
+
 @item Fortran
 @itemize @bullet
 @item
@@ -10272,8 +10278,8 @@ Michael Abshoff helped resolve some build issues on various platforms. He served
 Mariah Lennox contributed patches to mpirbench and various build failure reports. She has also reported gcc bugs found during MPIR development.
 
 Niels Moller wrote the fast ngcd code for computing integer GCD, the quadratic
-Hensel and Euclidean division code and helped write some parts of the divide 
-and conquer code. He also made contributions to the Toom multiply code, 
+Hensel division code and precomputed inverse code for Euclidean division. 
+He also made contributions to the Toom multiply code, 
 especially helper functions to simplify Toom evaluations.
 
 Pierrick Gaudry provided initial AMD 64 assembly support and revised the FFT code.
@@ -10298,7 +10304,7 @@ Marco Bodrato and Alberto Zanoni suggested the unbalanced multiply strategy
 and found optimal Toom multiplication sequences.
 
 Marco Bodrato wrote an mpz implementation of the Toom 7 code and wrote most of
-the Toom 8.5 multiply and squaring code.
+the Toom 8.5 multiply and squaring code. He also helped write the divide and conquer Euclidean division code.
 
 Robert Gerbicz contributed fast factorial code.
 
