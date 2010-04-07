@@ -26,7 +26,7 @@ along with the GNU MP Library.  If not, see http://www.gnu.org/licenses/.  */
 #endif
 
 #include <stdio.h>		/* for NULL */
-#include "gmp.h"
+#include "mpir.h"
 #include "gmp-impl.h"
 
 void
