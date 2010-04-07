@@ -1551,10 +1551,6 @@ GMP_LIMB_BITS.
 line build system for Windows and some assembly improvements for
 Windows.
 
-   Thanks to a US Govt. dept. for giving us access to a build farm and
-software, including regular builds of gcc and for providing support for
-some of the assembly development.
-
    Thanks to the Free Software Foundation France for giving us access
 to their build farm.
 

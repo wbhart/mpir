@@ -20,6 +20,56 @@ along with the GNU MP Library; see the file COPYING.LIB.  If not, write to
 the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 MA 02110-1301, USA.
 
+Changes between MPIR 1.3.0 and MPIR 2.0.0
+
+License:
+ 
+ * Switched to overall LGPL v3+
+
+Bug Fixes:
+ 
+ * Fixed a bug in the probable prime code (reported by Xiangyu Liu)
+ * Fixed a buld issue on 32 bit p6 Apples
+ * Fixed demos/pollard_rho
+ * Numerous tuning bug fixes
+
+Speedups:
+
+ * Sped up squaring code
+ * Minor speedup to toom4 code
+ * Sped up x86_64 divrem_1 when divisor is 64 bits
+ * Sped up x86_64 divrem_2
+ * Sped up GCD and GCDEXT by an improved nhgcd2.c
+ * Sped up addmul code for Itanium (by Jason Martin)
+ * Large number of new and sped up Itanium assembly functions
+   (by Torbjorn Granlund)
+
+Features:
+ 
+ * Toom8.5 code (by Marco Bodrato)
+ * Schoolbook Euclidean division code (by Torbjorn Granlund)
+ * Divide and conquer Euclidean division code (by Torbjorn Granlund)
+   and Marco Bodrato (adapted to use David Harvey's middle product based
+   approximate quotient code)
+ * Asymptotically fast division code (by William Hart), based on Paul
+   Zimmermann's mpn_invert and some reuse of the divide and conquer code.
+ * New mpn_tdiv_q and mpn_tdiv_qr code (by Torbjorn Granlund)
+ * Schoolbook Hensel division code, (largely by Niels Moller)
+ * Divide and conquer Hensel division code (by Niels Moller, Torbjorn
+   Granlund and David Harvey)
+ * New mpn_divexact code and mpz_divexact to match (by Torbjorn Granlund)
+ * New mpn_rootrem, mpz_rootrem and mpz_root code (by Paul Zimmermann and
+   Torbjorn Granlund)
+ * New mpn_neg, mpn_sqr, mpn_zero, mpn_and_n, mpn_ior_n, mpn_xor_n, 
+   mpn_xnor_n, mpn_nand_n, etc (by Torbjorn Granlund)
+ * New string input/output code (by Torbjorn Granlund)
+ * New mp_bitcnt_t type for multiple precision bit counts
+ 
+Changes:
+
+ * Removed benchmark 0.1 code from tarball
+ * Updated GMP_VERSION to "5.0.1"
+
 Changes between MPIR 1.2.0 and MPIR 1.3.0
 
 Bug Fixes:

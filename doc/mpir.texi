@@ -10315,10 +10315,6 @@ Peter Shrimpton wrote the BPSW primality test used up to GMP_LIMB_BITS.
 Thanks to Microsoft for supporting Jason Moxham to work on a command line
 build system for Windows and some assembly improvements for Windows.
 
-Thanks to a US Govt. dept. for giving us access to a build farm and 
-software, including regular builds of gcc and for providing support for
-some of the assembly development.
-
 Thanks to the Free Software Foundation France for giving us access to their
 build farm.
 
