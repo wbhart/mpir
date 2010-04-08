@@ -2340,6 +2340,18 @@ __GMP_DECLSPEC_XX std::istream& operator>> (std::istream &, mpq_ptr);
 __GMP_DECLSPEC_XX std::istream& operator>> (std::istream &, mpf_ptr);
 #endif
 
+/* Source-level compatibility with GMP 1.  */
+#define mpz_mdiv    mpz_fdiv_q
+#define mpz_mdivmod mpz_fdiv_qr
+#define mpz_mmod    mpz_fdiv_r
+#define mpz_mdiv_ui mpz_fdiv_q_ui
+#define mpz_mdivmod_ui(q,r,n,d) \
+  (((r) == 0) ? mpz_fdiv_q_ui (q,n,d) : mpz_fdiv_qr_ui (q,r,n,d))
+#define mpz_mmod_ui(r,n,d) \
+  (((r) == 0) ? mpz_fdiv_ui (n,d) : mpz_fdiv_r_ui (r,n,d))
+
+#define gmp_randinit(xxx, yyy, zzz) gmp_randinit_default(xxx)
+
 #define mpz_div		    mpz_fdiv_q
 #define mpz_divmod	    mpz_fdiv_qr
 #define mpz_div_ui	    mpz_fdiv_q_ui
