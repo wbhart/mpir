@@ -46,12 +46,13 @@ cat gmp-h.in \
 mv $TMPFILE gmp-h.in
 
 #update build.vc9/config.*
-for i in build.vc9/config.*
-do
-	if [ "$i" == "build.vc9/config.guess.c" ] ; then continue; fi
-	cat $i | sed s/"#define[[:space:]]\+VERSION[[:space:]]\+.*"/"#define VERSION "\"$VERSION_STR\"/ > $TMPFILE
-	mv $TMPFILE $i
-done
+# not needed anymore
+#for i in build.vc9/config.*
+#do
+#	if [ "$i" == "build.vc9/config.guess.c" ] ; then continue; fi
+#	cat $i | sed s/"#define[[:space:]]\+VERSION[[:space:]]\+.*"/"#define VERSION "\"$VERSION_STR\"/ > $TMPFILE
+#	mv $TMPFILE $i
+#done
 
 #update Makefile.am
 cat Makefile.am \
