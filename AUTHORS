@@ -28,7 +28,7 @@ William Hart         Build system modifications and intel format x86_64 code
                      routines. Numerous FFT bugfixes, improvements to Toom3, 
                      4, 7 routines, toom squaring routines. Extended GCD code, 
                      improvements to GCD code. Fast mpn_tdiv_q code.
-Gonzalo Tornaria     Patches to config.guess and mpirbench
+Gonzalo Tornaria     Patches to config.guess and mpirbench and some tuning work.
 Mariah Lennox        Patches to mpirbench and build failure reports
 Jason Worth Martin   Core 2 assembly support,  merge of Moller's GCD patches,
                      addmul code for Itanium
