@@ -2350,7 +2350,10 @@ __GMP_DECLSPEC_XX std::istream& operator>> (std::istream &, mpf_ptr);
 #define mpz_mmod_ui(r,n,d) \
   (((r) == 0) ? mpz_fdiv_ui (n,d) : mpz_fdiv_r_ui (r,n,d))
 
-#define gmp_randinit(xxx, yyy, zzz) gmp_randinit_default(xxx)
+#define gmp_randinit(x,y,z)  gmp_randinit_lc_2exp_size(x,z)
+
+typedef __mpz_struct MP_INT;    /* gmp 1 source compatibility */
+typedef __mpq_struct MP_RAT;    /* gmp 1 source compatibility */
 
 #define mpz_div		    mpz_fdiv_q
 #define mpz_divmod	    mpz_fdiv_qr
