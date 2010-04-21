@@ -41,7 +41,8 @@ mpn_divexact (mp_ptr qp,
   int q_even;
   mp_size_t qn;
   mp_ptr tp, n2p, inv;
-  mp_limb_t dinv, wp[2];
+  mp_limb_t dinv, wp[2], cy;
+  int extend = 0;
 
   TMP_DECL;
 
@@ -116,7 +117,8 @@ mpn_divexact (mp_ptr qp,
        count_leading_zeros (shift, dp[dn - 1]);
        n2p = TMP_ALLOC_LIMBS(nn + 1);
        n2p[nn] = mpn_lshift(n2p, np, nn, shift);
-       nn += (n2p[nn] != 0);
+       extend = (n2p[nn] != 0);
+       nn += extend;
 
        tp = TMP_ALLOC_LIMBS(dn);
        mpn_lshift(tp, dp, dn, shift);   
@@ -127,7 +129,8 @@ mpn_divexact (mp_ptr qp,
        
     inv = TMP_ALLOC_LIMBS(dn);
     mpn_invert(inv, dp, dn);
-    qp[qn] = mpn_inv_divappr_q(qp, n2p, nn, dp, dn, inv);
+    cy = mpn_inv_divappr_q(qp, n2p, nn, dp, dn, inv);
+    if (!extend) qp[qn] = cy;
 
     if ((qp[0] & 1) + q_even != 1) /* quotient is out by 1 */
        mpn_sub_1(qp, qp, qn + 1, 1);
