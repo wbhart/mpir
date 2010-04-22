@@ -9,6 +9,7 @@
    GUARANTEED THAT THEY WILL CHANGE OR DISAPPEAR IN A FUTURE GMP RELEASE.
 
 Copyright 2006, 2007, 2009 Free Software Foundation, Inc.
+Copyright 2010, William Hart (modofied for MPIR)
 
 This file is part of the GNU MP Library.
 
