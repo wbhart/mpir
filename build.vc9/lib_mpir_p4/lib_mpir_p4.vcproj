@@ -4419,6 +4419,26 @@
 						/>
 					</FileConfiguration>
 				</File>
+				<File
+					RelativePath="..\..\mpn\generic\zero.c"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
+						/>
+					</FileConfiguration>
+				</File>
 				<Filter
 					Name="Assembler"
 					>
