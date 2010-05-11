@@ -214,8 +214,11 @@ mp_size_t  dc_bdiv_qr_threshold         = MP_SIZE_T_MAX;
 mp_size_t  dc_bdiv_q_threshold          = MP_SIZE_T_MAX;
 mp_size_t  powm_threshold               = MP_SIZE_T_MAX;
 mp_size_t  fac_ui_threshold             = MP_SIZE_T_MAX;
+mp_size_t  ngcd_threshold                = MP_SIZE_T_MAX;
+mp_size_t  gcd_threshold                = MP_SIZE_T_MAX;
 mp_size_t  gcd_accel_threshold          = MP_SIZE_T_MAX;
-mp_size_t  gcdext_threshold		     = MP_SIZE_T_MAX;
+mp_size_t  ngcdext_threshold		        = MP_SIZE_T_MAX;
+mp_size_t  gcdext_threshold		        = MP_SIZE_T_MAX;
 mp_size_t  divrem_1_norm_threshold      = MP_SIZE_T_MAX;
 mp_size_t  divrem_1_unnorm_threshold    = MP_SIZE_T_MAX;
 mp_size_t  mod_1_norm_threshold         = MP_SIZE_T_MAX;
@@ -1286,16 +1289,36 @@ tune_gcd_accel (gmp_randstate_t rands)
   one (&gcd_accel_threshold, rands, &param);
 }
 
+void
+tune_ngcd (gmp_randstate_t rands)
+{
+  static struct param_t  param;
+  param.name = "NGCD_THRESHOLD";
+  param.function = speed_mpn_gcd;
+  param.min_size = 7;
+  one (&ngcd_threshold, rands, &param);
+}
+
+void
+tune_gcd (gmp_randstate_t rands)
+{
+  static struct param_t  param;
+  param.name = "GCD_THRESHOLD";
+  param.function = speed_mpn_gcd;
+  param.min_size = 7;
+  one (&gcd_threshold, rands, &param);
+}
+
 
 /* A comparison between the speed of a single limb step and a double limb
    step is made.  On a 32-bit limb the ratio is about 2.2 single steps to
    equal a double step, or on a 64-bit limb about 2.09.  (These were found
    from counting the steps on a 10000 limb gcdext.  */
 void
-tune_gcdext (gmp_randstate_t rands)
+tune_gcdext_old (gmp_randstate_t rands)
 {
   static struct param_t  param;
-  param.name = "GCDEXT_THRESHOLD";
+  param.name = "GCDEXT_OLD_THRESHOLD";
   param.function = speed_mpn_gcdext_one_single;
   param.function2 = speed_mpn_gcdext_one_double;
   switch (BITS_PER_MP_LIMB) {
@@ -1310,6 +1333,26 @@ tune_gcdext (gmp_randstate_t rands)
   param.min_is_always = 1;
   param.max_size = 300;
   param.check_size = 300;
+  one (&gcdext_threshold, rands, &param);
+}
+
+void
+tune_ngcdext (gmp_randstate_t rands)
+{
+  static struct param_t  param;
+  param.name = "NGCDEXT_THRESHOLD";
+  param.function = speed_mpn_gcdext;
+  param.min_size = 7;
+  one (&ngcdext_threshold, rands, &param);
+}
+
+void
+tune_gcdext (gmp_randstate_t rands)
+{
+  static struct param_t  param;
+  param.name = "GCDEXT_THRESHOLD";
+  param.function = speed_mpn_gcdext;
+  param.min_size = 7;
   one (&gcdext_threshold, rands, &param);
 }
 
@@ -2029,6 +2072,9 @@ all (gmp_randstate_t rands)
   printf("\n");
 
   tune_gcd_accel (rands);
+  tune_ngcd (rands);
+  tune_gcd (rands);
+  tune_ngcdext (rands);
   tune_gcdext (rands);
   tune_jacobi_base (rands);
   printf("\n");

@@ -4,7 +4,7 @@
 
 
 Copyright 2004, 2005 Niels Möller
-Copyright 2009 William Hart
+Copyright 2009, 2010 William Hart
 
 This file is part of the MPIR Library.
 
@@ -517,6 +517,7 @@ mpn_ngcd_lehmer (mp_ptr gp, mp_ptr ap, mp_ptr bp, mp_size_t n, mp_ptr tp)
   ASSERT (n <= 2);
 
   if (n == 1)
+
     {
       *gp = mpn_gcd_1 (ap, 1, bp[0]);
       return 1;
@@ -615,7 +616,7 @@ void ngcdext_cofactor1_adjust(mp_ptr u0, mp_ptr u1, mp_size_t * un, struct ngcd_
 	} 
 }
 
-mp_limb_t mpn_gcdext_1(mp_limb_t * a, mp_limb_t *b, mp_limb_t x, mp_limb_t y)
+mp_limb_t mpn_gcdext_1(mp_limb_signed_t * a, mp_limb_signed_t *b, mp_limb_t x, mp_limb_t y)
 {
    mp_limb_signed_t u1 = CNST_LIMB(1); 
    mp_limb_signed_t u2 = CNST_LIMB(0); 
@@ -689,15 +690,17 @@ mp_limb_t mpn_gcdext_1(mp_limb_t * a, mp_limb_t *b, mp_limb_t x, mp_limb_t y)
    }
    
    // Quite remarkably, this always has |u1| < x/2 at this point, thus comparison with 0 is valid 
-   if (u1 <= (mp_limb_signed_t) 0) 
-   {
-     u1 += y;
+   /*if (u1 <= (mp_limb_signed_t) 0) 
+   {    
+	 u1 += y;
      v1 -= x;
-   }
+   } */
+
    *a = u1;
    *b = -v1;
    
    return u3;
+ 
 }
 
 /* 
@@ -709,7 +712,8 @@ mpn_ngcdext_lehmer (mp_ptr gp, mp_ptr s0p, mp_size_t *s0size, mp_ptr ap, mp_ptr 
   mp_size_t gn, un;
   mp_ptr u0, u1;
   mp_limb_t cy, cy2;
-  mp_limb_t s, t;
+  mp_limb_signed_t s, t;
+  int c, negate = 0;
   
   MPN_ZERO(tp, 2*n+2);
   u0 = tp;
@@ -766,13 +770,14 @@ mpn_ngcdext_lehmer (mp_ptr gp, mp_ptr s0p, mp_size_t *s0size, mp_ptr ap, mp_ptr 
 	    {
 	      (*s0size) = un;
 			ASSERT(((*s0size) == 0) || (s0p[ABS(*s0size) - 1] != 0));
-		   return gn;
+		   
+			return gn;
 	    }
 	}
     }
 
   ASSERT (n < 2);
-  
+  	
   if (!ap[0])
   {
       /* 
@@ -783,22 +788,57 @@ mpn_ngcdext_lehmer (mp_ptr gp, mp_ptr s0p, mp_size_t *s0size, mp_ptr ap, mp_ptr 
 	  MPN_NORMALIZE(u0, un);
 	  MPN_COPY(s0p, u0, un);
       (*s0size) = -un;
-      return 1;
+      
+	  return 1;
   } else if (!bp[0])
   {
       /* 
         If bp == 0 then gp = ap
 		with cofactor u1
+		case is rare
 	  */
 	  gp[0] = ap[0];
 	  MPN_NORMALIZE(u1, un);
 	  MPN_COPY(s0p, u1, un);
       (*s0size) = un;
-      return 1;
+      
+	  return 1;
   } 
   
+  if (ap[0] == bp[0])
+  {
+     gp[0] = ap[0];
+	 
+	 /* we have gp = ap OR bp
+	    so cofactor == u1 or -u0
+		we want the smallest.
+	 */
+     
+	 MPN_CMP(c, u1, u0, un);
+	 if (c <= 0) // u1 is smallest
+	 {
+	    MPN_NORMALIZE(u1, un);
+	    MPN_COPY(s0p, u1, un);
+		(*s0size) = un;
+ 	 } else // -u0 is smaller
+	 {
+	    MPN_NORMALIZE(u0, un);
+	    MPN_COPY(s0p, u0, un);
+		(*s0size) = -un;
+	 }
+	 
+	 return 1;		   
+  }
+
   gp[0] = mpn_gcdext_1 (&s, &t, ap[0], bp[0]);
       
+  if (s <= (mp_limb_signed_t) 0)
+  {
+	 s = -s;
+	 t = -t;
+	 negate = 1;
+  }
+
   /* 
      We want to compute s*u1 + t*u0.
   */
@@ -808,19 +848,21 @@ mpn_ngcdext_lehmer (mp_ptr gp, mp_ptr s0p, mp_size_t *s0size, mp_ptr ap, mp_ptr 
   
   if (cy | cy2) /* u0 is bigger than un limbs */
   {
-    cy +=cy2;
-    s0p[un] = cy;
-    un++;
-    if (cy < cy2) /* overflow on addition */
-    {
-      s0p[un] = CNST_LIMB(1);
-      un++;
-    }
+     cy +=cy2;
+     s0p[un] = cy;
+     un++;
+     if (cy < cy2) /* overflow on addition */
+     {
+        s0p[un] = CNST_LIMB(1);
+        un++;
+     }
   }
   
   MPN_NORMALIZE(s0p, un);
   (*s0size) = un;
-      
+  if (negate) 
+     (*s0size) = -(*s0size);
+  
   return 1;
 }
 

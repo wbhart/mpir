@@ -31,7 +31,8 @@ check_PROGRAMS = t-asmtype t-aors_1 t-divrem_1 t-fat t-get_d \
   t-dc_divappr_q_n t-inv_divappr_q_n t-invert t-sb_div_q t-sb_div_qr \
   t-dc_div_q t-dc_div_qr t-dc_divappr_q t-dc_div_qr_n t-inv_divappr_q \
   t-inv_div_q t-inv_div_qr t-inv_div_qr_n t-tdiv_qr t-sb_bdiv_q \
-  t-sb_bdiv_qr t-dc_bdiv_q_n t-dc_bdiv_qr_n t-dc_bdiv_qr t-dc_bdiv_q
+  t-sb_bdiv_qr t-dc_bdiv_q_n t-dc_bdiv_qr_n t-dc_bdiv_qr t-dc_bdiv_q \
+  t-gcdext
   
 if ENABLE_STATIC
 if ENABLE_SHARED

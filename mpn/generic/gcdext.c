@@ -2,7 +2,7 @@
 
 Copyright 1996, 1998, 2000, 2001, 2002 Free Software Foundation, Inc.
 Copyright 2004, 2005 Niels Möller
-Copyright 2009 William Hart
+Copyright 2010 William Hart
 
 This file is part of the GNU MP Library.
 
@@ -25,8 +25,8 @@ Boston, MA 02110-1301, USA. */
 #include "gmp-impl.h"
 #include "longlong.h"
 
-#ifndef GCDEXT_THRESHOLD
-#define GCDEXT_THRESHOLD 17
+#ifndef GCDEXT_OLD_THRESHOLD
+#define GCDEXT_OLD_THRESHOLD 17
 #endif
 
 #ifndef EXTEND
@@ -244,7 +244,7 @@ mpn_basic_gcdext (mp_ptr gp, mp_ptr s0p, mp_size_t *s0size,
       MP_PTR_SWAP (up, vp);
     }
 
-  use_double_flag = ABOVE_THRESHOLD (size, GCDEXT_THRESHOLD);
+  use_double_flag = ABOVE_THRESHOLD (size, GCDEXT_OLD_THRESHOLD);
 
   for (;;)
     {
@@ -796,6 +796,8 @@ mpn_basic_gcdext (mp_ptr gp, mp_ptr s0p, mp_size_t *s0size,
  */
 #ifndef INSIDE_TUNE_GCDEXT_BIN
 
+#define P_SIZE(n) (n/3)
+
 mp_size_t
 mpn_ngcdext_subdiv_step (mp_ptr gp, mp_size_t *gn, mp_ptr s0p, mp_ptr u0, mp_ptr u1, 
 		             mp_size_t *un, mp_ptr ap, mp_ptr bp, mp_size_t n, mp_ptr tp)
@@ -806,23 +808,37 @@ mpn_ngcdext_subdiv_step (mp_ptr gp, mp_size_t *gn, mp_ptr s0p, mp_ptr u0, mp_ptr
 
   mp_size_t an, bn, cy, qn, qn2, u0n, u1n;
   int negate = 0;
+  int c;
 
   ASSERT (n > 0);
   ASSERT (ap[n-1] > 0 || bp[n-1] > 0);
 
-  /* First, make sure that an >= bn, and subtract an -= bn */
+  /* See to what extend ap and bp are the same */
   for (an = n; an > 0; an--)
     if (ap[an-1] != bp[an-1])
       break;
 
   if (an == 0)
     {
-      /* ap is the gcd */
+      /* ap OR bp is the gcd, two possible normalisations
+	     u1 or -u0, pick the smallest
+	  */
       MPN_COPY (gp, ap, n);
-		MPN_NORMALIZE(u1, (*un));
-      MPN_COPY (s0p, u1, (*un));
-      (*gn) = n;
-      return 0;
+	  (*gn) = n;
+
+      MPN_CMP(c, u1, u0, *un);
+	  if (c <= 0) // u1 is smallest
+	  {
+		 MPN_NORMALIZE(u1, (*un));
+         MPN_COPY (s0p, u1, (*un));
+	  } else // -u0 is smallest
+	  {
+		 MPN_NORMALIZE(u0, (*un));
+         MPN_COPY (s0p, u0, (*un));
+		 (*un) = -(*un);
+	  }
+	  
+	  return 0;
     }
 
   if (ap[an-1] < bp[an-1]) /* swap so that ap >= bp */
@@ -842,7 +858,8 @@ mpn_ngcdext_subdiv_step (mp_ptr gp, mp_size_t *gn, mp_ptr s0p, mp_ptr u0, mp_ptr
       MPN_COPY (s0p, u1, (*un));
 		if (negate) (*un) = -(*un);
       (*gn) = n;
-      return 0;
+	  
+	  return 0;
     }
 
   ASSERT_NOCARRY (mpn_sub_n (ap, ap, bp, an)); /* ap -= bp, u1 += u0 */
@@ -861,21 +878,41 @@ mpn_ngcdext_subdiv_step (mp_ptr gp, mp_size_t *gn, mp_ptr s0p, mp_ptr u0, mp_ptr
   }
   else if (an == bn)
     {
-      int c;
       MPN_CMP (c, ap, bp, an);
       if (c < 0)
 		{
 			MP_PTR_SWAP (ap, bp);
 		   MP_PTR_SWAP(u0, u1);
 	      negate = ~negate;
-      } else if (c == 0) /* gcd is ap */
+      } else if (c == 0) /* gcd is ap OR bp */
 		{
-		   MPN_COPY (gp, ap, an);
-         MPN_NORMALIZE(u1, (*un));
-         MPN_COPY (s0p, u1, (*un));
-         if (negate) (*un) = -(*un);
+		 /* this case seems to never occur 
+			it should happen only if ap = 2*bp
+		 */
+		 MPN_COPY (gp, ap, an);
          (*gn) = an;
-         return 0;
+		 /* As the gcd is ap OR bp, there are two possible 
+		    cofactors here u1 or -u0, and we want the 
+			least of the two.
+		 */
+		 MPN_CMP(c, u1, u0, *un);
+		 if (c < 0) // u1 is less
+		 {
+			MPN_NORMALIZE(u1, (*un));
+            MPN_COPY (s0p, u1, (*un));
+            if (negate) (*un) = -(*un);
+		 } else if (c > 0) // -u0 is less
+		 {
+			MPN_NORMALIZE(u0, (*un));
+            MPN_COPY (s0p, u0, (*un));
+            if (!negate) (*un) = -(*un);
+		 } else // same
+		 {
+		    MPN_NORMALIZE(u0, (*un));
+            MPN_COPY (s0p, u0, (*un));
+		 }
+         
+		 return 0;
 		}
     }
 
@@ -890,13 +927,15 @@ mpn_ngcdext_subdiv_step (mp_ptr gp, mp_size_t *gn, mp_ptr s0p, mp_ptr u0, mp_ptr
   MPN_NORMALIZE (ap, an);
   if (an == 0)
     {
-      /* gcd = bp */
-		MPN_COPY (gp, bp, bn);
+      /* this case never seems to occur*/
+	  /* gcd = bp */
+	  MPN_COPY (gp, bp, bn);
       MPN_NORMALIZE(u0, (*un));
       MPN_COPY (s0p, u0, (*un));
       if (!negate) (*un) = -(*un);
       (*gn) = bn;
-      return 0;
+      
+	  return 0;
     }
 
   qn2 = qn;
@@ -1029,7 +1068,7 @@ void gcdext_get_t(mp_ptr t, mp_size_t * tn, mp_ptr gp, mp_size_t gn, mp_ptr ap,
 	(*tn) -= (t[(*tn) - 1] == 0);
 }
 
-mp_limb_t mpn_gcdinv_1(mp_limb_t * a, mp_limb_t x, mp_limb_t y)
+mp_limb_t mpn_gcdinv_1(mp_limb_signed_t * a, mp_limb_t x, mp_limb_t y)
 {
    mp_limb_signed_t u1 = CNST_LIMB(1); 
    mp_limb_signed_t u2 = CNST_LIMB(0); 
@@ -1091,15 +1130,12 @@ mp_limb_t mpn_gcdinv_1(mp_limb_t * a, mp_limb_t x, mp_limb_t y)
    }
    
    /* Quite remarkably, this always has |u1| < x/2 at this point, thus comparison with 0 is valid */
-   if (u1 < (mp_limb_signed_t) 0) u1 += y;
-   *a = u1;
+   //if (u1 < (mp_limb_signed_t) 0) u1 += y;
+   (*a) = u1;
    
    return u3;
 }
 
-
-#define P_SIZE(n) (n/3)
-#define NGCDEXT_THRESHOLD 600
 
 mp_size_t
 mpn_gcdext (mp_ptr gp, mp_ptr s0p, mp_size_t *s0size,
@@ -1113,6 +1149,8 @@ mpn_gcdext (mp_ptr gp, mp_ptr s0p, mp_size_t *s0size,
     struct ngcd_matrix M;
     mp_size_t p;
     mp_size_t nn;
+  mp_limb_signed_t a;
+  int c;
   TMP_DECL;
   
   ASSERT (an >= n);
@@ -1121,14 +1159,26 @@ mpn_gcdext (mp_ptr gp, mp_ptr s0p, mp_size_t *s0size,
   {
     if (!n)
     {
-       gp[0] = ap[0];
+       /* shouldn't ever occur, but we include for completeness */
+		gp[0] = ap[0];
        s0p[0] = 1;
        *s0size = 1;
-       return 1;
+       
+	   return 1;
     }
-    gp[0] = mpn_gcdinv_1(s0p, ap[0], bp[0]);
-    *s0size = 1 - (s0p[0] == 0);
-    return 1;
+    
+	gp[0] = mpn_gcdinv_1(&a, ap[0], bp[0]);
+    if (a < (mp_limb_signed_t) 0)
+	{
+	   s0p[0] = -a;
+       (*s0size) = -1;
+	} else
+    {
+	   s0p[0] = a;
+       (*s0size) = 1 - (s0p[0] == 0);
+	}
+	
+	return 1;
   }
 
   init_scratch = MPN_NGCD_MATRIX_INIT_ITCH (n-P_SIZE(n));
@@ -1164,15 +1214,17 @@ mpn_gcdext (mp_ptr gp, mp_ptr s0p, mp_size_t *s0size,
 	  MPN_COPY (gp, bp, n);
 	  TMP_FREE;
 	  (*s0size) = 0;
+	  
 	  return n;
 	}
     }
-
-    if (BELOW_THRESHOLD (n, NGCDEXT_THRESHOLD))
+    
+    if (BELOW_THRESHOLD (n, GCDEXT_THRESHOLD))
     {
       n = mpn_ngcdext_lehmer (gp, s0p, s0size, ap, bp, n, tp);
       TMP_FREE;
-      return n;
+      
+	  return n;
     }
   
     u0 = tp; /* Cofactor space */
@@ -1218,10 +1270,12 @@ mpn_gcdext (mp_ptr gp, mp_ptr s0p, mp_size_t *s0size,
 	   n = mpn_ngcdext_subdiv_step (gp, &gn, s0p, u0, u1, &un, ap, bp, n, tp);
 	 if (n == 0)
 	   {
-	      (*s0size) = un;
+	      /* never observed to occur */
+		   (*s0size) = un;
 			ASSERT(s0p[*s0size - 1] != 0);
 		   TMP_FREE;
-	      return gn;
+	       
+		   return gn;
 	   }
 	 } 
 
@@ -1259,7 +1313,8 @@ mpn_gcdext (mp_ptr gp, mp_ptr s0p, mp_size_t *s0size,
 	      (*s0size) = un;
 			ASSERT(((*s0size) == 0) || (s0p[ABS(*s0size) - 1] != 0));
 		   TMP_FREE;
-			return gn;
+		   
+		   return gn;
 	    }
 	}
     }
@@ -1282,6 +1337,7 @@ mpn_gcdext (mp_ptr gp, mp_ptr s0p, mp_size_t *s0size,
       /* If bp == 0 then gp = ap
 		   with cofactor u1
 			If we swapped then cofactor is -u1
+			This case never seems to happen
 		*/
 		MPN_COPY (gp, ap, an);
 		MPN_NORMALIZE(u1, un);
@@ -1289,7 +1345,8 @@ mpn_gcdext (mp_ptr gp, mp_ptr s0p, mp_size_t *s0size,
       (*s0size) = un;
 		if (swapped) (*s0size) = -(*s0size);
       TMP_FREE;
-      return an;
+      
+	  return an;
     }
 
   /* 
@@ -1306,13 +1363,14 @@ mpn_gcdext (mp_ptr gp, mp_ptr s0p, mp_size_t *s0size,
   u0n = un;
   MPN_NORMALIZE(u0, u0n);  /* {u0, u0n} is now normalised */
 
-  if (u0n == 0) /* u1 = 1 */
+  if (u0n == 0) /* u1 = 1 case is rare*/
   {
 	  mp_size_t gn;
 	 
 	  gn = mpn_ngcdext_lehmer (gp, s0p, s0size, ap, bp, n, tp);
 	  if (swapped) (*s0size) = -(*s0size);
 	  TMP_FREE;
+	  
 	  return gn;
   }
   else
@@ -1331,9 +1389,34 @@ mpn_gcdext (mp_ptr gp, mp_ptr s0p, mp_size_t *s0size,
      MPN_COPY(tp, ap, an);
 	  MPN_COPY(tp + an, bp, an);
 	  
+	  if (mpn_cmp(tp, tp + an, an) == 0) 
+	  {
+	     /* gcd is tp or tp + an 
+		    return smallest cofactor, either -u0 or u1
+		 */
+	     gn = an;
+		 MPN_NORMALIZE(tp, gn);
+		 MPN_COPY(gp, tp, gn);
+		 
+		 MPN_CMP(c, u0, u1, un);
+		 if (c < (mp_limb_signed_t) 0)
+		 {
+		    MPN_COPY(s0p, u0, u0n);
+			(*s0size) = -u0n;
+		 } else
+		 {
+		    MPN_NORMALIZE(u1, un);
+			MPN_COPY(s0p, u1, un);
+			(*s0size) = un;
+		 }
+		 TMP_FREE;
+		  
+		 return gn;
+	  }
+
       gn = mpn_ngcdext_lehmer (gp, s, &sn, tp, tp + an, an, tp + 2*an);
       
-	  /* Special case, s == 0, t == 1, cofactor = -u0 */
+	  /* Special case, s == 0, t == 1, cofactor = -u0 case is rare*/
 
 	  if (sn == 0)
 	  {
@@ -1341,6 +1424,7 @@ mpn_gcdext (mp_ptr gp, mp_ptr s0p, mp_size_t *s0size,
 		  (*s0size) = -u0n;
 		  if (swapped) (*s0size) = -(*s0size);
 		  TMP_FREE;
+		  
 		  return gn;
 	  }
 
@@ -1372,12 +1456,13 @@ mpn_gcdext (mp_ptr gp, mp_ptr s0p, mp_size_t *s0size,
 	  u1n = un; 
 	  MPN_NORMALIZE(u1, u1n); /* {u1, u1n} is now normalised */
      
-	  if (u1n == 0)
+	  if (u1n == 0) /* case is rare */
 	  {
 		  MPN_COPY(s0p, t, tn);
 		  (*s0size) = -tn;
 		  if (swapped ^ negate) (*s0size) = -(*s0size);
 		  TMP_FREE;
+		  
 		  return gn;
 	  }
 
@@ -1392,11 +1477,12 @@ mpn_gcdext (mp_ptr gp, mp_ptr s0p, mp_size_t *s0size,
 
 	  ASSERT(s0p[*s0size - 1] > 0); /* {s0p, *s0size} is normalised now */
 
-	  if (tn == 0)
+	  if (tn == 0) /* case is rare */
 	  {
 		  if (swapped ^ negate) (*s0size) = -(*s0size);
         TMP_FREE;
-		  return gn;
+	    
+		return gn;
 	  }
 
 	  /* Now compute the rest of the cofactor, t*u0
@@ -1435,7 +1521,8 @@ mpn_gcdext (mp_ptr gp, mp_ptr s0p, mp_size_t *s0size,
 
 	  if (swapped ^ negate) (*s0size) = -(*s0size);
      TMP_FREE;  
-     return gn;
+     
+	 return gn;
   }
 }
 #endif

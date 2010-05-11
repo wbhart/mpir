@@ -1247,7 +1247,7 @@ speed_mpn_gcd_finda (struct speed_params *s)
 double
 speed_mpn_gcdext (struct speed_params *s)
 {
-  SPEED_ROUTINE_MPN_GCDEXT (mpn_basic_gcdext);
+  SPEED_ROUTINE_MPN_GCDEXT (mpn_gcdext);
 }
 #if 0
 double

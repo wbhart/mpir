@@ -86,8 +86,8 @@ mpn_ngcd (mp_ptr gp, mp_ptr ap, mp_size_t an, mp_ptr bp, mp_size_t n)
   
   ASSERT (an >= n);
 
-  if (BELOW_THRESHOLD (n, NGCD_THRESHOLD))
-    return mpn_basic_gcd (gp, ap, an, bp, n);
+  if (BELOW_THRESHOLD (n, GCD_THRESHOLD))
+    return mpn_lgcd (gp, ap, an, bp, n);
 
   init_scratch = MPN_NGCD_MATRIX_INIT_ITCH ((n+1)/2);
   scratch = mpn_nhgcd_itch ((n+1)/2);
@@ -189,5 +189,5 @@ mpn_ngcd (mp_ptr gp, mp_ptr ap, mp_size_t an, mp_ptr bp, mp_size_t n)
     }
 
   TMP_FREE;  
-  return mpn_basic_gcd (gp, ap, an, bp, n);
+  return mpn_lgcd (gp, ap, an, bp, n);
 }

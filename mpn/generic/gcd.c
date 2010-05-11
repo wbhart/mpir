@@ -662,8 +662,6 @@ mpn_nhgcd (mp_ptr ap, mp_ptr bp, mp_size_t n,
 
 #define EVEN_P(x) (((x) & 1) == 0)
 
-#define LGCD_THRESHOLD 64
-
 #define P_SIZE(n) (n/2)
 
 mp_size_t
@@ -676,12 +674,9 @@ mpn_gcd (mp_ptr gp, mp_ptr ap, mp_size_t an, mp_ptr bp, mp_size_t n)
   
   ASSERT (an >= n);
 
-  if (BELOW_THRESHOLD (n, NGCD_THRESHOLD))
+  if (BELOW_THRESHOLD (n, GCD_THRESHOLD))
   {    
-    if (BELOW_THRESHOLD (n, LGCD_THRESHOLD))
        return mpn_lgcd (gp, ap, an, bp, n);
-       
-    return mpn_basic_gcd (gp, ap, an, bp, n);
   }
   
   init_scratch = MPN_NGCD_MATRIX_INIT_ITCH (n-P_SIZE(n));
@@ -748,7 +743,7 @@ mpn_gcd (mp_ptr gp, mp_ptr ap, mp_size_t an, mp_ptr bp, mp_size_t n)
   if (ap[n-1] < bp[n-1])
     MP_PTR_SWAP (ap, bp);
     
-  if (BELOW_THRESHOLD (n, LGCD_THRESHOLD))  
+  if (BELOW_THRESHOLD (n, GCD_THRESHOLD))  
   {
     n = mpn_ngcd_lehmer (gp, ap, bp, n, tp);
 
@@ -788,6 +783,6 @@ mpn_gcd (mp_ptr gp, mp_ptr ap, mp_size_t an, mp_ptr bp, mp_size_t n)
     }
 
   TMP_FREE;  
-  return mpn_basic_gcd (gp, ap, an, bp, n);
+  return mpn_lgcd (gp, ap, an, bp, n);
 }
 #endif

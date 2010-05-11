@@ -69,7 +69,8 @@ check_PROGRAMS = t-asmtype$(EXEEXT) t-aors_1$(EXEEXT) \
 	t-inv_div_qr_n$(EXEEXT) t-tdiv_qr$(EXEEXT) \
 	t-sb_bdiv_q$(EXEEXT) t-sb_bdiv_qr$(EXEEXT) \
 	t-dc_bdiv_q_n$(EXEEXT) t-dc_bdiv_qr_n$(EXEEXT) \
-	t-dc_bdiv_qr$(EXEEXT) t-dc_bdiv_q$(EXEEXT) $(am__EXEEXT_1)
+	t-dc_bdiv_qr$(EXEEXT) t-dc_bdiv_q$(EXEEXT) t-gcdext$(EXEEXT) \
+	$(am__EXEEXT_1)
 @ENABLE_SHARED_TRUE@@ENABLE_STATIC_TRUE@am__append_1 = st_fat st_instrument
 subdir = tests/mpn
 DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in
@@ -187,6 +188,11 @@ t_fat_SOURCES = t-fat.c
 t_fat_OBJECTS = t-fat.$(OBJEXT)
 t_fat_LDADD = $(LDADD)
 t_fat_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
+	$(top_builddir)/libmpir.la
+t_gcdext_SOURCES = t-gcdext.c
+t_gcdext_OBJECTS = t-gcdext.$(OBJEXT)
+t_gcdext_LDADD = $(LDADD)
+t_gcdext_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
 	$(top_builddir)/libmpir.la
 t_get_d_SOURCES = t-get_d.c
 t_get_d_OBJECTS = t-get_d.$(OBJEXT)
@@ -345,10 +351,10 @@ SOURCES = $(st_fat_SOURCES) $(st_instrument_SOURCES) t-addadd_n.c \
 	t-dc_bdiv_q_n.c t-dc_bdiv_qr.c t-dc_bdiv_qr_n.c t-dc_div_q.c \
 	t-dc_div_qr.c t-dc_div_qr_n.c t-dc_divappr_q.c \
 	t-dc_divappr_q_n.c t-divebyBm1of.c t-divebyff.c t-divrem_1.c \
-	t-fat.c t-get_d.c t-instrument.c t-inv_div_q.c t-inv_div_qr.c \
-	t-inv_div_qr_n.c t-inv_divappr_q.c t-inv_divappr_q_n.c \
-	t-invert.c t-iord_u.c t-lorrshift1.c t-mp_bases.c \
-	t-mullow_basecase.c t-mullowhigh.c t-mulmid.c \
+	t-fat.c t-gcdext.c t-get_d.c t-instrument.c t-inv_div_q.c \
+	t-inv_div_qr.c t-inv_div_qr_n.c t-inv_divappr_q.c \
+	t-inv_divappr_q_n.c t-invert.c t-iord_u.c t-lorrshift1.c \
+	t-mp_bases.c t-mullow_basecase.c t-mullowhigh.c t-mulmid.c \
 	t-mulmod_2expm1.c t-mulmod_2expp1.c t-neg.c t-perfsqr.c \
 	t-redc_basecase.c t-sb_bdiv_q.c t-sb_bdiv_qr.c t-sb_div_q.c \
 	t-sb_div_qr.c t-sb_divappr_q.c t-scan.c t-subadd_n.c \
@@ -358,14 +364,15 @@ DIST_SOURCES = $(am__st_fat_SOURCES_DIST) \
 	t-aors_1.c t-asmtype.c t-dc_bdiv_q.c t-dc_bdiv_q_n.c \
 	t-dc_bdiv_qr.c t-dc_bdiv_qr_n.c t-dc_div_q.c t-dc_div_qr.c \
 	t-dc_div_qr_n.c t-dc_divappr_q.c t-dc_divappr_q_n.c \
-	t-divebyBm1of.c t-divebyff.c t-divrem_1.c t-fat.c t-get_d.c \
-	t-instrument.c t-inv_div_q.c t-inv_div_qr.c t-inv_div_qr_n.c \
-	t-inv_divappr_q.c t-inv_divappr_q_n.c t-invert.c t-iord_u.c \
-	t-lorrshift1.c t-mp_bases.c t-mullow_basecase.c t-mullowhigh.c \
-	t-mulmid.c t-mulmod_2expm1.c t-mulmod_2expp1.c t-neg.c \
-	t-perfsqr.c t-redc_basecase.c t-sb_bdiv_q.c t-sb_bdiv_qr.c \
-	t-sb_div_q.c t-sb_div_qr.c t-sb_divappr_q.c t-scan.c \
-	t-subadd_n.c t-tdiv_q.c t-tdiv_qr.c
+	t-divebyBm1of.c t-divebyff.c t-divrem_1.c t-fat.c t-gcdext.c \
+	t-get_d.c t-instrument.c t-inv_div_q.c t-inv_div_qr.c \
+	t-inv_div_qr_n.c t-inv_divappr_q.c t-inv_divappr_q_n.c \
+	t-invert.c t-iord_u.c t-lorrshift1.c t-mp_bases.c \
+	t-mullow_basecase.c t-mullowhigh.c t-mulmid.c \
+	t-mulmod_2expm1.c t-mulmod_2expp1.c t-neg.c t-perfsqr.c \
+	t-redc_basecase.c t-sb_bdiv_q.c t-sb_bdiv_qr.c t-sb_div_q.c \
+	t-sb_div_qr.c t-sb_divappr_q.c t-scan.c t-subadd_n.c \
+	t-tdiv_q.c t-tdiv_qr.c
 ETAGS = etags
 CTAGS = ctags
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
@@ -625,6 +632,9 @@ t-divrem_1$(EXEEXT): $(t_divrem_1_OBJECTS) $(t_divrem_1_DEPENDENCIES)
 t-fat$(EXEEXT): $(t_fat_OBJECTS) $(t_fat_DEPENDENCIES) 
 	@rm -f t-fat$(EXEEXT)
 	$(LINK) $(t_fat_OBJECTS) $(t_fat_LDADD) $(LIBS)
+t-gcdext$(EXEEXT): $(t_gcdext_OBJECTS) $(t_gcdext_DEPENDENCIES) 
+	@rm -f t-gcdext$(EXEEXT)
+	$(LINK) $(t_gcdext_OBJECTS) $(t_gcdext_LDADD) $(LIBS)
 t-get_d$(EXEEXT): $(t_get_d_OBJECTS) $(t_get_d_DEPENDENCIES) 
 	@rm -f t-get_d$(EXEEXT)
 	$(LINK) $(t_get_d_OBJECTS) $(t_get_d_LDADD) $(LIBS)
