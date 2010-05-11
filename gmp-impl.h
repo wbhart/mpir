@@ -3701,20 +3701,12 @@ mpn_basic_gcd (mp_ptr gp, mp_ptr up, mp_size_t usize, mp_ptr vp, mp_size_t vsize
 #define NHGCD_THRESHOLD 960
 #endif
 
-#ifndef NGCD_THRESHOLD
-#define NGCD_THRESHOLD 150
-#endif
-
 #ifndef GCD_THRESHOLD
 #define GCD_THRESHOLD 866
 #endif
 
 #ifndef GCDEXT_THRESHOLD
 #define GCDEXT_THRESHOLD 900
-#endif
-
-#ifndef NGCDEXT_THRESHOLD
-#define NGCDEXT_THRESHOLD 150
 #endif
 
 /* Must be at least 7 */
@@ -4299,14 +4291,6 @@ extern mp_size_t                     gcd_accel_threshold;
 #undef  GCD_THRESHOLD
 #define GCD_THRESHOLD                gcd_threshold
 extern mp_size_t                     gcd_threshold;
-
-#undef  NGCD_THRESHOLD
-#define NGCD_THRESHOLD               ngcd_threshold
-extern mp_size_t                     ngcd_threshold;
-
-#undef  NGCDEXT_THRESHOLD
-#define NGCDEXT_THRESHOLD            ngcdext_threshold
-extern mp_size_t                     ngcdext_threshold;
 
 #undef  GCDEXT_THRESHOLD
 #define GCDEXT_THRESHOLD             gcdext_threshold

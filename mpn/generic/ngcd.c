@@ -120,7 +120,7 @@ mpn_ngcd (mp_ptr gp, mp_ptr ap, mp_size_t an, mp_ptr bp, mp_size_t n)
 	}
     }
 
-  while (ABOVE_THRESHOLD (n, NGCD_THRESHOLD))
+  while (ABOVE_THRESHOLD (n, GCD_THRESHOLD))
     {
       struct ngcd_matrix M;
       mp_size_t p = n/2;

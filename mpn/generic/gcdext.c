@@ -1279,7 +1279,7 @@ mpn_gcdext (mp_ptr gp, mp_ptr s0p, mp_size_t *s0size,
 	   }
 	 } 
 
-  while (ABOVE_THRESHOLD (n, NGCDEXT_THRESHOLD))
+  while (ABOVE_THRESHOLD (n, GCDEXT_THRESHOLD))
     {
       struct ngcd_matrix M;
       mp_size_t p = P_SIZE(n);

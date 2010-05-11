@@ -214,10 +214,8 @@ mp_size_t  dc_bdiv_qr_threshold         = MP_SIZE_T_MAX;
 mp_size_t  dc_bdiv_q_threshold          = MP_SIZE_T_MAX;
 mp_size_t  powm_threshold               = MP_SIZE_T_MAX;
 mp_size_t  fac_ui_threshold             = MP_SIZE_T_MAX;
-mp_size_t  ngcd_threshold                = MP_SIZE_T_MAX;
 mp_size_t  gcd_threshold                = MP_SIZE_T_MAX;
 mp_size_t  gcd_accel_threshold          = MP_SIZE_T_MAX;
-mp_size_t  ngcdext_threshold		        = MP_SIZE_T_MAX;
 mp_size_t  gcdext_threshold		        = MP_SIZE_T_MAX;
 mp_size_t  divrem_1_norm_threshold      = MP_SIZE_T_MAX;
 mp_size_t  divrem_1_unnorm_threshold    = MP_SIZE_T_MAX;
@@ -1290,16 +1288,6 @@ tune_gcd_accel (gmp_randstate_t rands)
 }
 
 void
-tune_ngcd (gmp_randstate_t rands)
-{
-  static struct param_t  param;
-  param.name = "NGCD_THRESHOLD";
-  param.function = speed_mpn_gcd;
-  param.min_size = 7;
-  one (&ngcd_threshold, rands, &param);
-}
-
-void
 tune_gcd (gmp_randstate_t rands)
 {
   static struct param_t  param;
@@ -1334,16 +1322,6 @@ tune_gcdext_old (gmp_randstate_t rands)
   param.max_size = 300;
   param.check_size = 300;
   one (&gcdext_threshold, rands, &param);
-}
-
-void
-tune_ngcdext (gmp_randstate_t rands)
-{
-  static struct param_t  param;
-  param.name = "NGCDEXT_THRESHOLD";
-  param.function = speed_mpn_gcdext;
-  param.min_size = 7;
-  one (&ngcdext_threshold, rands, &param);
 }
 
 void
@@ -2072,9 +2050,7 @@ all (gmp_randstate_t rands)
   printf("\n");
 
   tune_gcd_accel (rands);
-  tune_ngcd (rands);
   tune_gcd (rands);
-  tune_ngcdext (rands);
   tune_gcdext (rands);
   tune_jacobi_base (rands);
   printf("\n");
