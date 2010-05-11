@@ -3702,11 +3702,11 @@ mpn_basic_gcd (mp_ptr gp, mp_ptr up, mp_size_t usize, mp_ptr vp, mp_size_t vsize
 #endif
 
 #ifndef GCD_THRESHOLD
-#define GCD_THRESHOLD 866
+#define GCD_THRESHOLD 500
 #endif
 
 #ifndef GCDEXT_THRESHOLD
-#define GCDEXT_THRESHOLD 900
+#define GCDEXT_THRESHOLD 800
 #endif
 
 /* Must be at least 7 */
