@@ -783,6 +783,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpn.dc_bdiv_qr", "mpir-test
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpn.dc_bdiv_qr_n", "mpir-tests\mpn.dc_bdiv_qr_n\mpn.dc_bdiv_qr_n.vcproj", "{7A0A0EA8-A660-4489-9AD3-754AC1D3A43A}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpn.gcdext", "mpir-tests\mpn.gcdext\mpn.gcdext.vcproj", "{832209A8-A81B-46CF-9F16-50A4302F5D04}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -1842,6 +1844,14 @@ Global
 		{7A0A0EA8-A660-4489-9AD3-754AC1D3A43A}.Release|Win32.Build.0 = Release|Win32
 		{7A0A0EA8-A660-4489-9AD3-754AC1D3A43A}.Release|x64.ActiveCfg = Release|x64
 		{7A0A0EA8-A660-4489-9AD3-754AC1D3A43A}.Release|x64.Build.0 = Release|x64
+		{832209A8-A81B-46CF-9F16-50A4302F5D04}.Debug|Win32.ActiveCfg = Debug|Win32
+		{832209A8-A81B-46CF-9F16-50A4302F5D04}.Debug|Win32.Build.0 = Debug|Win32
+		{832209A8-A81B-46CF-9F16-50A4302F5D04}.Debug|x64.ActiveCfg = Debug|x64
+		{832209A8-A81B-46CF-9F16-50A4302F5D04}.Debug|x64.Build.0 = Debug|x64
+		{832209A8-A81B-46CF-9F16-50A4302F5D04}.Release|Win32.ActiveCfg = Release|Win32
+		{832209A8-A81B-46CF-9F16-50A4302F5D04}.Release|Win32.Build.0 = Release|Win32
+		{832209A8-A81B-46CF-9F16-50A4302F5D04}.Release|x64.ActiveCfg = Release|x64
+		{832209A8-A81B-46CF-9F16-50A4302F5D04}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
