@@ -43,7 +43,7 @@ USA. */
 #define POWM_THRESHOLD                  190
 
 #define GCD_ACCEL_THRESHOLD               3
-#define GCDEXT_THRESHOLD                  0  /* always */
+
 #define JACOBI_BASE_METHOD                2
 
 #define DIVREM_1_NORM_THRESHOLD           0  /* always */
