@@ -14,7 +14,8 @@
 #define POWM_THRESHOLD                  984
 
 #define GCD_ACCEL_THRESHOLD              18
-#define GCDEXT_THRESHOLD                 88
+#define GCD_THRESHOLD                    46
+#define GCDEXT_THRESHOLD                996
 #define JACOBI_BASE_METHOD                1
 
 #define USE_PREINV_DIVREM_1               1  /* native */
