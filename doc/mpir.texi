@@ -2256,7 +2256,7 @@ with other @code{mpn} functions.
 3.0.1, but in 3.1 reverted to the 2.x style.
 
 @item
-MPIR does not support the secure cryptographic functions provided by MPIR.
+MPIR does not support the secure cryptographic functions provided by GMP.
 
 @item
 Full GMP compatibility is only available when the @samp{--enable-gmpcompat}
