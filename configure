@@ -3315,7 +3315,7 @@ echo "include_mpn(\`arm/arm-defs.m4')" >> $gmp_tmpconfigm4i
 echo "include_mpn(\`ia64/ia64-defs.m4')" >> $gmp_tmpconfigm4i
 
     SPEED_CYCLECOUNTER_OBJ=ia64.lo
-    gcc_cflags="-O2"
+    gcc_64_cflags="-O2"
 
     case $host_cpu in
       itanium)   path="ia64/itanium  ia64" ;;
