@@ -66,7 +66,7 @@ along with the GNU MP Library.  If not, see http://www.gnu.org/licenses/.  */
 #define DECL_copyd(name) \
   void name __GMP_PROTO ((mp_ptr, mp_srcptr, mp_size_t))
 #define DECL_copyi(name) \
-  DECL_copyd (name)
+  void name __GMP_PROTO ((mp_ptr, mp_srcptr, mp_size_t))
 #define DECL_divexact_1(name) \
   void name __GMP_PROTO ((mp_ptr, mp_srcptr, mp_size_t, mp_limb_t))
 #define DECL_divexact_by3c(name) \
@@ -1255,11 +1255,13 @@ mp_size_t mpn_rootrem_basecase _PROTO ((mp_ptr, mp_ptr, mp_srcptr, mp_size_t, mp
   } while (0)
 #endif
 
-/* used by test programs, hence __GMP_DECLSPEC */
-#ifndef mpn_copyi  /* if not done with cpuvec in a fat binary */
+/*	now in mpir.h
+// used by test programs, hence __GMP_DECLSPEC 
+#ifndef mpn_copyi  // if not done with cpuvec in a fat binary 
 #define mpn_copyi __MPN(copyi)
 __GMP_DECLSPEC void mpn_copyi _PROTO ((mp_ptr, mp_srcptr, mp_size_t));
 #endif
+*/
 
 #if ! defined (MPN_COPY_INCR) && HAVE_NATIVE_mpn_copyi
 #define MPN_COPY_INCR(dst, src, size)                   \
@@ -1308,11 +1310,13 @@ __GMP_DECLSPEC void mpn_copyi _PROTO ((mp_ptr, mp_srcptr, mp_size_t));
   } while (0)
 #endif
 
-/* used by test programs, hence __GMP_DECLSPEC */
-#ifndef mpn_copyd  /* if not done with cpuvec in a fat binary */
+/*		now in mpir.h
+// used by test programs, hence __GMP_DECLSPEC 
+#ifndef mpn_copyd  // if not done with cpuvec in a fat binary 
 #define mpn_copyd __MPN(copyd)
 __GMP_DECLSPEC void mpn_copyd _PROTO ((mp_ptr, mp_srcptr, mp_size_t));
 #endif
+*/
 
 #if ! defined (MPN_COPY_DECR) && HAVE_NATIVE_mpn_copyd
 #define MPN_COPY_DECR(dst, src, size)                   \
