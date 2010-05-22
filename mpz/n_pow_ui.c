@@ -61,7 +61,7 @@ MA 02110-1301, USA. */
    from mpn_mul_1 or mpn_mul_2 in the bignum powering.  It's felt that doing
    so would be more complicated than it's worth, and could well end up being
    a slowdown for small e.  For big e on the other hand the algorithm is
-   dominated by mpn_sqr_n so there wouldn't much of a saving.  The current
+   dominated by mpn_sqr so there wouldn't much of a saving.  The current
    code can be viewed as simply doing the first few steps of the powering in
    a single or double limb where possible.
 
@@ -81,10 +81,10 @@ MA 02110-1301, USA. */
 /* The following are for convenience, they update the size and check the
    alloc.  */
 
-#define MPN_SQR_N(dst, alloc, src, size)        \
+#define MPN_SQR(dst, alloc, src, size)        \
   do {                                          \
     ASSERT (2*(size) <= (alloc));               \
-    mpn_sqr_n (dst, src, size);                 \
+    mpn_sqr (dst, src, size);                 \
     (size) *= 2;                                \
     (size) -= ((dst)[(size)-1] == 0);           \
   } while (0)
@@ -437,7 +437,7 @@ mpz_n_pow_ui (mpz_ptr r, mp_srcptr bp, mp_size_t bsize, unsigned long int e)
                              i, e, rsize, ralloc, talloc);
                      mpn_trace ("r", rp, rsize));
 
-              MPN_SQR_N (tp, talloc, rp, rsize);
+              MPN_SQR (tp, talloc, rp, rsize);
               SWAP_RP_TP;
               if ((e & (1L << i)) != 0)
                 MPN_MUL_2 (rp, rsize, ralloc, mult);
@@ -469,7 +469,7 @@ mpz_n_pow_ui (mpz_ptr r, mp_srcptr bp, mp_size_t bsize, unsigned long int e)
                              i, e, rsize, ralloc, talloc);
                      mpn_trace ("r", rp, rsize));
 
-              MPN_SQR_N (tp, talloc, rp, rsize);
+              MPN_SQR (tp, talloc, rp, rsize);
               SWAP_RP_TP;
               if ((e & (1L << i)) != 0)
                 MPN_MUL_1 (rp, rsize, ralloc, blimb);
@@ -498,7 +498,7 @@ mpz_n_pow_ui (mpz_ptr r, mp_srcptr bp, mp_size_t bsize, unsigned long int e)
                              i, e, rsize, ralloc, talloc);
                      mpn_trace ("r", rp, rsize));
 
-              MPN_SQR_N (tp, talloc, rp, rsize);
+              MPN_SQR (tp, talloc, rp, rsize);
               SWAP_RP_TP;
               if ((e & (1L << i)) != 0)
                 {

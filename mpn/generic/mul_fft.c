@@ -1589,7 +1589,7 @@ mpn_fft_mul_modF_K (mp_ptr *ap, mp_ptr *bp, mp_size_t n, mp_size_t K)
 	      b[n] = 0;
 	    }
 	  if (sqr)
-	    mpn_sqr_n (tp, a, n);
+	    mpn_sqr (tp, a, n);
 	  else
 	    mpn_mul_n (tp, b, a, n);
 	  cc = a[n] && mpn_add_n (tpn, tpn, b, n);
@@ -1767,7 +1767,7 @@ mpn_fft_mul_modF_K_fftInv (mp_ptr *ap, mp_ptr *bp, mp_size_t n, mp_size_t Mp, mp
 	  
 	  a = ap[ind]; b = bp[ind];
 	  if (sqr)
-	    mpn_sqr_n (tp, a, n);
+	    mpn_sqr (tp, a, n);
 	  else
 	    mpn_mul_n (tp, b, a, n);
 	  if (a[n] != 0)

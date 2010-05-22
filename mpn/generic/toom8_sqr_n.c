@@ -46,7 +46,7 @@ along with the GNU MP Library.  If not, see http://www.gnu.org/licenses/.  */
 #define TOOM8_SQR_REC(p, a, n)					\
   do {									\
     if (BELOW_THRESHOLD (n, SQR_TOOM8_THRESHOLD))		\
-      mpn_sqr_n (p, a, n);					\
+      mpn_sqr (p, a, n);					\
     else								\
       mpn_toom8_sqr_n (p, a, n);					\
   } while (0)

@@ -269,7 +269,7 @@ pow (mpz_srcptr b, mpz_srcptr e, mpz_srcptr m, mpz_ptr r)
   /* Compute xx^i for odd g < 2^i.  */
 
   xp = TMP_ALLOC_LIMBS (mn);
-  mpn_sqr_n (tp, gp, mn);
+  mpn_sqr (tp, gp, mn);
   if (use_redc)
     mpn_redc_basecase (xp, mp, mn, invm, tp);		/* xx = x^2*R^n */
   else
@@ -310,7 +310,7 @@ pow (mpz_srcptr b, mpz_srcptr e, mpz_srcptr m, mpz_ptr r)
   MPN_COPY (xp, gp + mn * (c >> 1), mn);
   while (--j >= 0)
     {
-      mpn_sqr_n (tp, xp, mn);
+      mpn_sqr (tp, xp, mn);
       if (use_redc)
 	mpn_redc_basecase (xp, mp, mn, invm, tp);
       else
@@ -344,7 +344,7 @@ pow (mpz_srcptr b, mpz_srcptr e, mpz_srcptr m, mpz_ptr r)
 	 the most significant bit of c is zero, squaring xx as we go. */
       while ((c >> (l - 1)) == 0 && (i > 0 || sh > 0))
 	{
-	  mpn_sqr_n (tp, xp, mn);
+	  mpn_sqr (tp, xp, mn);
 	  if (use_redc)
 	    mpn_redc_basecase (xp, mp, mn, invm, tp);
 	  else
@@ -372,7 +372,7 @@ pow (mpz_srcptr b, mpz_srcptr e, mpz_srcptr m, mpz_ptr r)
 	  l -= j;
 	  while (--l >= 0)
 	    {
-	      mpn_sqr_n (tp, xp, mn);
+	      mpn_sqr (tp, xp, mn);
 	      if (use_redc)
 		mpn_redc_basecase (xp, mp, mn, invm, tp);
 	      else
@@ -388,7 +388,7 @@ pow (mpz_srcptr b, mpz_srcptr e, mpz_srcptr m, mpz_ptr r)
 	j = l;				/* case c=0 */
       while (--j >= 0)
 	{
-	  mpn_sqr_n (tp, xp, mn);
+	  mpn_sqr (tp, xp, mn);
 	  if (use_redc)
 	    mpn_redc_basecase (xp, mp, mn, invm, tp);
 	  else

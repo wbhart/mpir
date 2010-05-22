@@ -1068,7 +1068,7 @@ tune_sqr (gmp_randstate_t rands)
     {
       static struct param_t  param;
       param.name = "SQR_BASECASE_THRESHOLD";
-      param.function = speed_mpn_sqr_n;
+      param.function = speed_mpn_sqr;
       param.min_size = 3;
       param.min_is_always = 1;
       param.max_size = TUNE_SQR_KARATSUBA_MAX;
@@ -1079,7 +1079,7 @@ tune_sqr (gmp_randstate_t rands)
   {
     static struct param_t  param;
     param.name = "SQR_KARATSUBA_THRESHOLD";
-    param.function = speed_mpn_sqr_n;
+    param.function = speed_mpn_sqr;
     param.min_size = MAX (4, MPN_KARA_SQR_N_MINSIZE);
     param.max_size = TUNE_SQR_KARATSUBA_MAX;
     param.noprint = 1;
@@ -1091,7 +1091,7 @@ tune_sqr (gmp_randstate_t rands)
         /* Karatsuba becomes faster than mul_basecase before
            sqr_basecase does.  Arrange for the expression
            "BELOW_THRESHOLD (un, SQR_KARATSUBA_THRESHOLD))" which
-           selects mpn_sqr_basecase in mpn_sqr_n to be false, by setting
+           selects mpn_sqr_basecase in mpn_sqr to be false, by setting
            SQR_KARATSUBA_THRESHOLD to zero, making
            SQR_BASECASE_THRESHOLD the karatsuba threshold.  */
 
@@ -1113,7 +1113,7 @@ tune_sqr (gmp_randstate_t rands)
 
   {
     static struct param_t  param;
-    param.function = speed_mpn_sqr_n;
+    param.function = speed_mpn_sqr;
     
   {
     param.name = "SQR_TOOM3_THRESHOLD";
@@ -1964,7 +1964,7 @@ tune_fft_sqr (gmp_randstate_t rands)
   param.first_size          = SQR_TOOM8_THRESHOLD / 2;
   param.max_size            = option_fft_max_size;
   param.function            = speed_mpn_mul_fft_sqr;
-  param.mul_function        = speed_mpn_sqr_n;
+  param.mul_function        = speed_mpn_sqr;
   param.sqr = 0;
   fft (&param,rands);
 }

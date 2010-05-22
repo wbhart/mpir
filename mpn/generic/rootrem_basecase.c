@@ -315,7 +315,7 @@ do{signed long __f;mp_limb_t __t;			\
 #define bigsqrtrunc(xv,xn,xp,B)				\
 do{signed long __f;					\
    (xp)+=(xp);						\
-   mpn_sqr_n(t1,(xv),(xn));				\
+   mpn_sqr(t1,(xv),(xn));				\
    t1n=(xn)*2;if(t1[t1n-1]==0)t1n--;			\
    __f=sizetwo(t1,t1n);__f=__f-(B);			\
    if(__f>0)						\

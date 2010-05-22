@@ -128,7 +128,7 @@ mpz_powm_ui (mpz_ptr r, mpz_srcptr b, unsigned long int el, mpz_srcptr m)
 
   while (c != 0)
     {
-      mpn_sqr_n (tp, xp, xn);
+      mpn_sqr (tp, xp, xn);
       tn = 2 * xn; tn -= tp[tn - 1] == 0;
       if (tn < mn)
 	{

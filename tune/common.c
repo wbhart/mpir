@@ -1053,9 +1053,9 @@ speed_mpn_mul_n (struct speed_params *s)
   SPEED_ROUTINE_MPN_MUL_N (mpn_mul_n);
 }
 double
-speed_mpn_sqr_n (struct speed_params *s)
+speed_mpn_sqr (struct speed_params *s)
 {
-  SPEED_ROUTINE_MPN_SQR (mpn_sqr_n);
+  SPEED_ROUTINE_MPN_SQR (mpn_sqr);
 }
 double
 speed_mpn_mul_n_sqr (struct speed_params *s)

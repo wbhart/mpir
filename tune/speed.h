@@ -282,7 +282,7 @@ double speed_mpn_set_str_basecase _PROTO ((struct speed_params *s));
 double speed_mpn_set_str_subquad _PROTO ((struct speed_params *s));
 double speed_mpn_sqr_basecase _PROTO ((struct speed_params *s));
 double speed_mpn_sqr_diagonal _PROTO ((struct speed_params *s));
-double speed_mpn_sqr_n _PROTO ((struct speed_params *s));
+double speed_mpn_sqr _PROTO ((struct speed_params *s));
 double speed_mpn_sqrtrem _PROTO ((struct speed_params *s));
 double speed_mpn_rootrem _PROTO ((struct speed_params *s));
 double speed_mpn_sub_n _PROTO ((struct speed_params *s));

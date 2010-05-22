@@ -64,7 +64,7 @@ mpn_mul (mp_ptr prodp,
    {
     if (up == vp)
     {
-      mpn_sqr_n (prodp, up, un);
+      mpn_sqr (prodp, up, un);
       return prodp[2 * un - 1];
     }
     else

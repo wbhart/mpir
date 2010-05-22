@@ -116,8 +116,8 @@ mpn_fib2_ui (mp_ptr fp, mp_ptr f1p, unsigned long int n)
 	  /* f1p[size-1] might be zero, but this occurs rarely, so it's not
 	     worth bothering checking for it */
 	  ASSERT (alloc >= 2*size);
-	  mpn_sqr_n (xp, fp,  size);
-	  mpn_sqr_n (yp, f1p, size);
+	  mpn_sqr (xp, fp,  size);
+	  mpn_sqr (yp, f1p, size);
 	  size *= 2;
 
 	  /* Shrink if possible.  Since fp was normalized there'll be at

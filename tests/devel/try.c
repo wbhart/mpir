@@ -1900,7 +1900,7 @@ const struct choice_t choice_array[] = {
 
   { TRY(mpn_mul),    TYPE_MUL_BASECASE },
   { TRY(mpn_mul_n),  TYPE_MUL_N },
-  { TRY(mpn_sqr_n),  TYPE_SQR },
+  { TRY(mpn_sqr),  TYPE_SQR },
   { TRY(mpn_mulmid_basecase), TYPE_MULMID_BASECASE },
   { TRY(mpn_mulmid), TYPE_MULMID },
   { TRY(mpn_mulmid_n), TYPE_MULMID_N },

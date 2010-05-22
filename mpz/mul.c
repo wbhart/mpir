@@ -161,7 +161,7 @@ mult (mpz_srcptr u, mpz_srcptr v, mpz_ptr w)
 
   if ((up == vp) && (usize == vsize))
   {
-     mpn_sqr_n (wp, up, usize);
+     mpn_sqr (wp, up, usize);
      cy_limb = wp[2*usize-1];
   } else
   cy_limb = mpn_mul (wp, up, usize, vp, vsize);
