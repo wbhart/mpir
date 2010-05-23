@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<VisualStudioPropertySheet
+	ProjectType="Visual C++"
+	Version="8.00"
+	Name="test-config"
+	EnableManagedIncrementalBuild="0"
+	>
+	<Tool
+		Name="VCCLCompilerTool"
+		AdditionalIncludeDirectories="&quot;$(SolutionDir)..\&quot;;&quot;$(SolutionDir)$(PlatformName)&quot;;&quot;$(SolutionDir)..\tests&quot;"
+		RuntimeLibrary="0"
+	/>
+	<Tool
+		Name="VCLinkerTool"
+		AdditionalDependencies="$(LIBS) $(TestDir)$(PlatformName)\$(ConfigurationName)\test-lib.lib"
+		IgnoreDefaultLibraryNames=""
+	/>
+	<Tool
+		Name="VCPreBuildEventTool"
+		CommandLine="if exist $(Bindir)$(OutDir)\gmp-mparam.h (copy $(Bindir)$(OutDir)\gmp-mparam.h ..\..\..\) else (echo $(Bindir)$(OutDir)\gmp-mparam.h is not present )"
+	/>
+	<UserMacro
+		Name="BinDir"
+		Value="&quot;$(SolutionDir)lib\&quot;"
+		InheritsFromParent="true"
+		Delimiter=";"
+		PerformEnvironmentSet="true"
+	/>
+	<UserMacro
+		Name="TestDir"
+		Value="&quot;$(SolutionDir)mpir-tests\&quot;"
+		InheritsFromParent="true"
+		Delimiter=";"
+		PerformEnvironmentSet="true"
+	/>
+	<UserMacro
+		Name="LIBS"
+		Value="$(BinDir)$(PlatformName)\$(ConfigurationName)\mpir.lib $(BinDir)$(PlatformName)\$(ConfigurationName)\mpirxx.lib"
+		InheritsFromParent="true"
+		Delimiter=";"
+		PerformEnvironmentSet="true"
+	/>
+</VisualStudioPropertySheet>
