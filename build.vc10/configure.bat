@@ -75,8 +75,9 @@ config.guess.exe print > config.guess.bat
 call config.guess.bat
 if %GBITS% == %BITS% goto :gotcc
 :nocc1
-if exist "%VS90COMNTOOLS%\..\..\VC\vcvarsall.bat" (
-	call "%VS90COMNTOOLS%\..\..\VC\vcvarsall.bat" %ARCH%
+if exist "%VS100COMNTOOLS%\..\..\VC\vcvarsall.bat" (
+	call "%VS100COMNTOOLS%\..\..\VC\vcvarsall.bat" %ARCH%
+        set YASM="%VS100COMNTOOLS%\..\..\VC\bin\vsyasm.exe"
 )
 cl config.guess.c > nul 2>&1
 if errorlevel 1 goto :nocc
@@ -88,16 +89,9 @@ echo Cant find a compiler for %ARCH%
 exit /b 1
 :gotcc
 
-set YASM="%VCINSTALLDIR%\bin\yasm.exe"
 if not exist %YASM% (
 	echo Cant find %YASM%
 	echo Download from http://www.tortall.net/projects/yasm/ and install to above
-	exit /b 1
-)
-set YASMRULES="%VCINSTALLDIR%\VCProjectDefaults\yasm.rules"
-if not exist %YASMRULES% (
-	echo Cant find %YASMRULES%
-	echo copy from this directory to above
 	exit /b 1
 )
 
