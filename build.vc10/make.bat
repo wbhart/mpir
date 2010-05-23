@@ -28,7 +28,7 @@ if "%1" == "clean"   goto :clean
 if "%1" == "install" goto :install
 if "%1" == "check"   goto :check
 if "%1" == "speed"   goto :speed
-if "%1" == "tune"    goto :speed
+if "%1" == "tune"    goto :tune
 if "%1" == "try"     goto :try
 if "%1" == "help" (
 	echo Usage : make [clean^|install^|check^|speed^|tune^|try^|help]
@@ -38,20 +38,29 @@ echo Unkwown option
 exit /b 1
 
 :make
+
+set MS_BUILD="C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe"
+
 set LIBBUILD=%LIBTYPE%_mpir_%BCPU%
-vcbuild gen-mpir\gen-mpir.vcproj "Release|Win32" && vcbuild gen-bases\gen-bases.vcproj "Release|Win32" && vcbuild gen-fac_ui\gen-fac_ui.vcproj "Release|Win32%" && vcbuild gen-fib\gen-fib.vcproj "Release|Win32" && vcbuild gen-psqr\gen-psqr.vcproj "Release|Win32"
+%MS_BUILD% gen-mpir\gen-mpir.vcxproj /p:Platform=Win32;Configuration=Release
+%MS_BUILD% gen-bases\gen-bases.vcxproj /p:Platform=Win32;Configuration=Release
+%MS_BUILD% gen-fac_ui\gen-fac_ui.vcxproj /p:Platform=Win32;Configuration=Release
+%MS_BUILD% gen-fib\gen-fib.vcxproj /p:Platform=Win32;Configuration=Release
+%MS_BUILD% gen-psqr\gen-psqr.vcxproj /p:Platform=Win32;Configuration=Release
+
 if errorlevel 1 (
 	echo "ERROR PREBUILD"
 	exit /b 1
 )
-vcbuild %LIBBUILD%\%LIBBUILD%.vcproj "Release|%ARCHW%"
+%MS_BUILD% %LIBBUILD%\%LIBBUILD%.vcxproj /p:Platform=%ARCHW%;Configuration=Release
+
 if errorlevel 1 (
 	echo "ERROR BUILDING"
 	exit /b 1
 )
 :: c++ to build  if static
 if %LIBTYPE% == lib (
-	vcbuild lib_mpir_cxx\lib_mpir_cxx.vcproj "Release|%ARCHW%"
+	%MS_BUILD% lib_mpir_cxx\lib_mpir_cxx.vcxproj /p:Platform=%ARCHW%;Configuration=Release
 	if errorlevel 1 (
 		echo "ERROR BUILDING CXX"
 		exit /b 1
@@ -61,7 +70,7 @@ exit /b 0
 
 :check
 :: this gives an error if we dont build the c++ stuff
-vcbuild mpir-tests.sln "Release|%ARCHW%"
+%MS_BUILD% mpir-tests.sln  /p:Platform=%ARCHW%;Configuration=Release"
 if errorlevel 1 (
 	echo "ERROR BUILDING TESTS"
 	exit /b 1
@@ -92,12 +101,17 @@ echo HOW???
 exit /b 1
 
 :speed
-vcbuild speed.sln "Release|%ARCHW%"
-echo tune.exe and speed.exe are in %ARCHW%\Release\
+%MS_BUILD% speed.vcxproj /p:Platform=%ARCHW%;Configuration=Release
+echo speed.exe is in %ARCHW%\Release\
+exit /b 0
+
+:tune
+%MS_BUILD% tune.vcxproj /p:Platform=%ARCHW%;Configuration=Release
+echo tune.exe is in %ARCHW%\Release\
 exit /b 0
 
 :try
-vcbuild try\try.vcproj "Release|%ARCHW%"
+%MS_BUILD% try\try.vcxproj /p:Platform=%ARCHW%;Configuration=Release
 echo try.exe is in try\%ARCHW%\Release\
 exit /b 0
 
