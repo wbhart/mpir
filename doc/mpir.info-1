@@ -1549,7 +1549,7 @@ all 2.x versions, with the following exceptions.
      and 3.0.1, but in 3.1 reverted to the 2.x style.
 
    * MPIR does not support the secure cryptographic functions provided
-     by MPIR.
+     by GMP.
 
    * Full GMP compatibility is only available when the
      `--enable-gmpcompat' configure option is used.
@@ -4320,23 +4320,30 @@ For example, {S1P, S1N}.
      Return the greatest common divisor of {S1P, S1N} and S2LIMB.  Both
      operands must be non-zero.
 
- -- Function: mp_size_t mpn_gcdext (mp_limb_t *R1P, mp_limb_t *R2P,
-          mp_size_t *R2N, mp_limb_t *S1P, mp_size_t S1N, mp_limb_t
-          *S2P, mp_size_t S2N)
-     Calculate the greatest common divisor of {S1P, S1N} and {S2P,
-     S2N}.  Store the gcd at {R1P, RETVAL} and the first cofactor at
-     {R2P, *R2N}, with *R2N negative if the cofactor is negative.  R1P
-     and R2P should each have room for S1N+1 limbs, but the return
-     value and value stored through R2N indicate the actual number
-     produced.
+ -- Function: mp_size_t mpn_gcdext (mp_limb_t *GP, mp_limb_t *SP,
+          mp_size_t *SN, mp_limb_t *XP, mp_size_t XN, mp_limb_t *YP,
+          mp_size_t YN)
+     Let U be defined by {XP, XN} and let V be defined by {YP, YN}.
 
-     {S1P, S1N} >= {S2P, S2N} is required, and both must be non-zero.
-     The regions {S1P, S1N+1} and {S2P, S2N+1} are destroyed (i.e. the
+     Compute the greatest common divisor G of U and V.  Compute a
+     cofactor S such that G = US + VT.  The second cofactor T is not
+     computed but can easily be obtained from (G - U*S) / V (the
+     division will be exact).  It is required that U >= V > 0.
+
+     S satisfies S = 1 or abs(S) < V / (2 G). S = 0 if and only if V
+     divides U (i.e., G = V).
+
+     Store G at GP and let the return value define its limb count.
+     Store S at SP and let |*SN| define its limb count.  S can be
+     negative; when this happens *SN will be negative.  The areas at GP
+     and SP should each have room for XN+1 limbs.
+
+     The areas {XP, XN+1} and {YP, YN+1} are destroyed (i.e. the input
      operands plus an extra limb past the end of each).
 
-     The cofactor R1 will satisfy R2*S1 + K*S2 = R1.  The second
-     cofactor K is not calculated but can easily be obtained from (R1 -
-     R2*S1) / S2.
+     Compatibility note: MPIR versions 1.3,2.0 and GMP versions
+     4.3.0,4.3.1 defined S less strictly.  Earlier as well as later GMP
+     releases define S as described here.
 
  -- Function: mp_size_t mpn_sqrtrem (mp_limb_t *R1P, mp_limb_t *R2P,
           const mp_limb_t *SP, mp_size_t N)

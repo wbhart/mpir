@@ -5366,23 +5366,30 @@ Return the greatest common divisor of @{@var{s1p}, @var{s1n}@} and
 @var{s2limb}.  Both operands must be non-zero.
 @end deftypefun
 
-@deftypefun mp_size_t mpn_gcdext (mp_limb_t *@var{r1p}, mp_limb_t *@var{r2p}, mp_size_t *@var{r2n}, mp_limb_t *@var{s1p}, mp_size_t @var{s1n}, mp_limb_t *@var{s2p}, mp_size_t @var{s2n})
-Calculate the greatest common divisor of @{@var{s1p}, @var{s1n}@} and
-@{@var{s2p}, @var{s2n}@}.  Store the gcd at @{@var{r1p}, @var{retval}@} and
-the first cofactor at @{@var{r2p}, *@var{r2n}@}, with *@var{r2n} negative if
-the cofactor is negative.  @var{r1p} and @var{r2p} should each have room for
-@math{@var{s1n}+1} limbs, but the return value and value stored through
-@var{r2n} indicate the actual number produced.
+@deftypefun mp_size_t mpn_gcdext (mp_limb_t *@var{gp}, mp_limb_t *@var{sp}, mp_size_t *@var{sn}, mp_limb_t *@var{xp}, mp_size_t @var{xn}, mp_limb_t *@var{yp}, mp_size_t @var{yn})
+Let @m{U,@var{U}} be defined by @{@var{xp}, @var{xn}@} and let @m{V,@var{V}} be
+defined by @{@var{yp}, @var{yn}@}.
 
-@math{@{@var{s1p}, @var{s1n}@} @ge{} @{@var{s2p}, @var{s2n}@}} is required,
-and both must be non-zero.  The regions @{@var{s1p}, @math{@var{s1n}+1}@} and
-@{@var{s2p}, @math{@var{s2n}+1}@} are destroyed (i.e.@: the operands plus an
-extra limb past the end of each).
+Compute the greatest common divisor @math{G} of @math{U} and @math{V}.  Compute
+a cofactor @math{S} such that @math{G = US + VT}.  The second cofactor @var{T}
+is not computed but can easily be obtained from @m{(G - US) / V, (@var{G} -
+@var{U}*@var{S}) / @var{V}} (the division will be exact).  It is required that
+@math{U @ge V > 0}.
 
-The cofactor @var{r1} will satisfy @m{r_2 s_1 + k s_2 = r_1, @var{r2}*@var{s1}
-+ @var{k}*@var{s2} = @var{r1}}.  The second cofactor @var{k} is not calculated
-but can easily be obtained from @m{(r_1 - r_2 s_1) / s_2, (@var{r1} -
-@var{r2}*@var{s1}) / @var{s2}}.
+@math{S} satisfies @math{S = 1} or @math{@GMPabs{S} < V / (2 G)}. @math{S =
+0} if and only if @math{V} divides @math{U} (i.e., @math{G = V}).
+
+Store @math{G} at @var{gp} and let the return value define its limb count.
+Store @math{S} at @var{sp} and let |*@var{sn}| define its limb count.  @math{S}
+can be negative; when this happens *@var{sn} will be negative.  The areas at
+@var{gp} and @var{sp} should each have room for @math{@var{xn}+1} limbs.
+
+The areas @{@var{xp}, @math{@var{xn}+1}@} and @{@var{yp}, @math{@var{yn}+1}@}
+are destroyed (i.e.@: the input operands plus an extra limb past the end of
+each).
+
+Compatibility note: MPIR versions 1.3,2.0 and GMP versions 4.3.0,4.3.1 defined @math{S} less strictly.
+Earlier as well as later GMP releases define @math{S} as described here.
 @end deftypefun
 
 @deftypefun mp_size_t mpn_sqrtrem (mp_limb_t *@var{r1p}, mp_limb_t *@var{r2p}, const mp_limb_t *@var{sp}, mp_size_t @var{n})
