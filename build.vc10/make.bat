@@ -101,12 +101,12 @@ echo HOW???
 exit /b 1
 
 :speed
-%MS_BUILD% speed.vcxproj /p:Platform=%ARCHW%;Configuration=Release
+%MS_BUILD% speed\speed.vcxproj /p:Platform=%ARCHW%;Configuration=Release
 echo speed.exe is in %ARCHW%\Release\
 exit /b 0
 
 :tune
-%MS_BUILD% tune.vcxproj /p:Platform=%ARCHW%;Configuration=Release
+%MS_BUILD% tune\tune.vcxproj /p:Platform=%ARCHW%;Configuration=Release
 echo tune.exe is in %ARCHW%\Release\
 exit /b 0
 
