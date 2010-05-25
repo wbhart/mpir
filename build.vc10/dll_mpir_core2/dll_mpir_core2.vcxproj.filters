@@ -1370,9 +1370,6 @@
     <ClCompile Include="..\..\mpz\probable_prime_p.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\mpn\generic\logops_n.c">
-      <Filter>Source Files\mpn</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\mpz\probable_prime_p.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -1431,6 +1428,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\mpn\generic\zero.c">
+      <Filter>Source Files\mpn</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\mpz\probable_prime_p.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\mpn\generic\logops.c">
       <Filter>Source Files\mpn</Filter>
     </ClCompile>
   </ItemGroup>

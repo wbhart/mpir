@@ -3287,7 +3287,7 @@
 					</FileConfiguration>
 				</File>
 				<File
-					RelativePath="..\..\mpn\generic\logops_n.c"
+					RelativePath="..\..\mpn\generic\logops.c"
 					>
 					<FileConfiguration
 						Name="Debug|x64"

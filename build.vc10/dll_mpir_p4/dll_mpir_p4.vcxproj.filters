@@ -1352,9 +1352,6 @@
     <ClCompile Include="..\..\mpn\generic\toom_interpolate_16pts.c">
       <Filter>Source Files\mpn</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\mpn\generic\logops_n.c">
-      <Filter>Source Files\mpn</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\mpn\generic\com_n.c">
       <Filter>Source Files\mpn</Filter>
     </ClCompile>
@@ -1380,6 +1377,9 @@
       <Filter>Source Files\mpz</Filter>
     </ClCompile>
     <ClCompile Include="..\..\mpn\generic\zero.c">
+      <Filter>Source Files\mpn</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\mpn\generic\logops.c">
       <Filter>Source Files\mpn</Filter>
     </ClCompile>
   </ItemGroup>
