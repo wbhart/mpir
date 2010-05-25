@@ -1433,7 +1433,10 @@
     <ClCompile Include="..\..\mpz\probable_prime_p.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\mpn\generic\logops.c">
+    <ClCompile Include="..\..\mpz\probable_prime_p.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\mpn\generic\logops_n.c">
       <Filter>Source Files\mpn</Filter>
     </ClCompile>
   </ItemGroup>

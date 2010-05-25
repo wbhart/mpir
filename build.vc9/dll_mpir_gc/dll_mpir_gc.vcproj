@@ -2222,7 +2222,7 @@
 					</FileConfiguration>
 				</File>
 				<File
-					RelativePath="..\..\mpn\generic\logops.c"
+					RelativePath="..\..\mpn\generic\logops_n.c"
 					>
 					<FileConfiguration
 						Name="Debug|Win32"

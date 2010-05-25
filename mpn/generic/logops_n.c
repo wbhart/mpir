@@ -20,6 +20,8 @@ along with the GNU MP Library.  If not, see http://www.gnu.org/licenses/.  */
 #include "mpir.h"
 #include "gmp-impl.h"
 
+#ifndef _MSC_VER
+
 #ifdef OPERATION_and_n
 #define func __MPN(and_n)
 #define call mpn_and_n
@@ -65,3 +67,18 @@ func (mp_ptr rp, mp_srcptr up, mp_srcptr vp, mp_size_t n)
 {
   call (rp, up, vp, n);
 }
+
+#else
+
+#define _logicop(x) void __MPN(x)(mp_ptr rp, mp_srcptr up, mp_srcptr vp, mp_size_t n) { mpn_ ## x ## (rp, up, vp, n); }
+
+_logicop(and_n)
+_logicop(andn_n)
+_logicop(nand_n)
+_logicop(ior_n)
+_logicop(iorn_n)
+_logicop(nior_n)
+_logicop(xor_n)
+_logicop(xnor_n)
+
+#endif

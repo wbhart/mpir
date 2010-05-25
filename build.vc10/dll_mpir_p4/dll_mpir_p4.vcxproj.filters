@@ -1379,7 +1379,7 @@
     <ClCompile Include="..\..\mpn\generic\zero.c">
       <Filter>Source Files\mpn</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\mpn\generic\logops.c">
+    <ClCompile Include="..\..\mpn\generic\logops_n.c">
       <Filter>Source Files\mpn</Filter>
     </ClCompile>
   </ItemGroup>
