@@ -92,7 +92,7 @@ How to install and use the MPIR multiple precision arithmetic library, version @
 @subtitle Edition @value{EDITION}
 @subtitle @value{UPDATED}
 
-@c @author Original version by Torbj@"orn Granlund, Swox AB - modified by William Hart
+@author Original Authors: Torbjorn Granlund and the GMP Development Team Subsequent modifications: William Hart and the MPIR Team
 @c @email{goodwillhart@gmail.com}
 
 @c Include the Distribution inside the titlepage so
