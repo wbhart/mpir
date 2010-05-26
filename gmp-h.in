@@ -2377,7 +2377,7 @@ enum
 #define GMP_VERSION "5.0.1"
 
 #define __MPIR_VERSION 2
-#define __MPIR_VERSION_MINOR 0
+#define __MPIR_VERSION_MINOR 1
 #define __MPIR_VERSION_PATCHLEVEL 0
 #if defined( _MSC_VER )
 #define _MSC_MPIR_VERSION "2.0.0"
