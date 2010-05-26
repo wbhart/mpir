@@ -147,9 +147,9 @@ mpn_mul (mp_ptr prodp,
   k = (un + 3)/4; // ceil(un/4)
 
 #if GMP_NUMB_BITS == 32
-  if ((ABOVE_THRESHOLD (un + vn, 2*MUL_TOOM8H_THRESHOLD)) && (5*un <= 11*vn))
+  if ((ABOVE_THRESHOLD (un + vn, 2*MUL_TOOM8H_THRESHOLD)) && (vn>=86) && (5*un <= 11*vn))
 #else
-  if ((ABOVE_THRESHOLD (un + vn, 2*MUL_TOOM8H_THRESHOLD)) && (4*un <= 13*vn))
+  if ((ABOVE_THRESHOLD (un + vn, 2*MUL_TOOM8H_THRESHOLD)) && (vn>=86) && (4*un <= 13*vn))
 #endif
   {
       mpn_toom8h_mul(prodp, up, un, vp, vn);
