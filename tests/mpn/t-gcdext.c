@@ -151,7 +151,7 @@ void check_gcdext(void)
 	  /* Save a copy of up and vp */
 	  MPN_COPY(up2, up, un);
 	  MPN_COPY(vp2, vp, vn);
-      
+          if(un<vn)continue;
 	  gn = mpn_gcdext(gp, sp, &sn, up, un, vp, vn);
       
 	  U->_mp_d = up2;
