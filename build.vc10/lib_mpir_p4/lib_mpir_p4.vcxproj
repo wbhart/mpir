@@ -57,6 +57,7 @@ call ..\out_copy_rename ..\..\mpn\x86w\gmp-mparam.h ..\..\ gmp-mparam.h
     <YASM>
       <Debug>true</Debug>
       <ObjectFileName>$(IntDir)mpn\</ObjectFileName>
+      <ObjectFile>$(IntDir)mpn\</ObjectFile>
     </YASM>
     <ClCompile>
       <Optimization>Disabled</Optimization>
@@ -105,6 +106,7 @@ call ..\out_copy_rename ..\..\mpn\x86w\gmp-mparam.h ..\..\ gmp-mparam.h
     <YASM>
       <Debug>true</Debug>
       <ObjectFileName>$(IntDir)mpn\</ObjectFileName>
+      <ObjectFile>$(IntDir)mpn\</ObjectFile>
     </YASM>
     <ClCompile>
       <Optimization>Full</Optimization>
