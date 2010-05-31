@@ -186,7 +186,11 @@ mpn_dc_divappr_q (mp_ptr qp, mp_ptr np, mp_size_t nn,
 
       q2p = TMP_ALLOC_LIMBS (qn + 1);
       
-      if (BELOW_THRESHOLD (qn, DC_DIVAPPR_Q_N_THRESHOLD))
+       if (qn == 1)
+        {
+          qh = mpn_divrem_2(q2p, 0, np - 3, 4, dp - 2);
+        }
+      else if (BELOW_THRESHOLD (qn, DC_DIVAPPR_Q_N_THRESHOLD))
 	{
 	  qh = mpn_sb_divappr_q (q2p, np - qn - 2, 2 * (qn + 1),
 				    dp - (qn + 1), qn + 1, dinv);
