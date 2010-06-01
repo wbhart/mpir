@@ -71,7 +71,7 @@ mpn_divexact (mp_ptr qp,
   qn = nn + 1 - dn;
   count_trailing_zeros (shift, dp[0]);
 
-  if (BELOW_THRESHOLD (qn, INV_DIV_QR_THRESHOLD) && BELOW_THRESHOLD(dn, INV_DIV_QR_THRESHOLD))
+  if ((BELOW_THRESHOLD (qn, INV_DIV_QR_THRESHOLD) && BELOW_THRESHOLD(dn, INV_DIV_QR_THRESHOLD)) || (dn <= 6))
   {
     if (shift > 0)
       {
