@@ -271,11 +271,11 @@ ABI32(` addp4	r32 = 0, r32')		C M1  src extend
 	xma.l	f7 = f7, f12, f14	C i*i*-d + 2*i, inverse 64 bits
 	xma.l	f10 = f9, f8, f10	C sc = c * -1 + src[0]
 	;;
-ASSERT(p6, `
-	xmpy.l	f15 = f6, f7 ;;	C divisor*inverse
-	getf.sig r31 = f15 ;;
-	cmp.eq	p6,p0 = 1, r31	C should == 1
-')
+C ASSERT(p6, `
+C	xmpy.l	f15 = f6, f7 ;;	C divisor*inverse
+C	getf.sig r31 = f15 ;;
+C	cmp.eq	p6,p0 = 1, r31	C should == 1
+C ')
 
 	xmpy.l	f10 = f10, f7		C q = sc * inverse
 	xmpy.l	f8 = f7, f8		C -inverse = inverse * -1
