@@ -10336,6 +10336,8 @@ Thanks to William Stein for giving us access to his sage.math machines for
 testing and for hosting the MPIR website, and for supporting us in inumerably 
 many other ways.
 
+Minh Van Nguyen served as release manager for MPIR 2.1.0.
+
 @node References, GNU Free Documentation License, Contributors, Top
 @comment  node-name,  next,  previous,  up
 @appendix References
