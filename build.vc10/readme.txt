@@ -5,13 +5,13 @@ Building MPIR with Microsoft Visual Studio 2010
 A Note On Licensing
 ===================
 
-Files in this distribution that have been created by me 
-for use in building MPIR with Microsoft Visual Studio 2010
-are provided under the LGPL v2.1+ license terms.
+Files in this distribution that have been created by me for
+use in building MPIR with Microsoft Visual Studio 2010 are
+provided under the LGPL v2.1+ license terms.
 
 The MPIR library uses numerous files which are LGPL v3+ and
-so the overall license of the library distribution is LGPL v3+.
-Some of the demos are GPL.
+so the overall license of the library distribution is LGPL 
+v3+.  Some of the demos are GPL.
 
 Using the Assembler Based Build Projects
 ========================================
