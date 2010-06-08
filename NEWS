@@ -20,6 +20,26 @@ along with the GNU MP Library; see the file COPYING.LIB.  If not, write to
 the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 MA 02110-1301, USA.
 
+Changes between MPIR 2.0.0 and MPIR 2.1.0
+
+Bug Fixes:
+
+ * Fixed the xgcd normalisation issue and redid the tuning code for gcd
+   and xgcd
+ * Fixes for compiling with GCC 4.5.0 on Itanium
+
+Speedups:
+
+ * None
+
+Features:
+
+ * Initial build with Visual Studio 2010
+
+Changes:
+
+ * Export new function mpn_sqr
+
 Changes between MPIR 1.3.0 and MPIR 2.0.0
 
 License:
