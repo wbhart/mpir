@@ -33,6 +33,7 @@
 %define reg_save_list rbx, rsi, rdi, rbp, r12, r13, r14, r15
 
 	LEAF_PROC mpn_sublsh_n
+	movsxd  r10, r9d
 	xor     r9, r9
     jmp     entry
     
