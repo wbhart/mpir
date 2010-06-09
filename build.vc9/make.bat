@@ -67,22 +67,16 @@ if errorlevel 1 (
 	exit /b 1
 )
 cd mpir-tests
-python --version >nul 2>&1
+@echo off
+for /f "usebackq tokens=1*" %%f in (`reg query HKCR\Python.File\shell\open\command`) do (set _my_=%%f %%g)
 if not errorlevel 1 goto :got
-if exist c:\Python26 (
-        set "PATH=%PATH%;c:\Python26"
-        python --version >nul 2>&1
-        if not errorlevel 1 goto :got
-)
-if exist c:\Python30 (
-        set "PATH=%PATH%;c:\Python30"
-        python --version >nul 2>&1
-        if not errorlevel 1 goto :got
-)
 echo ERROR Could not find PYTHON
 exit /b 1
 :got
-python run-tests.py noenter
+set _res_=%_my_:*REG_SZ=%
+set _end_=%_res_:*exe"=%
+call set _python_=%%_res_:%_end_%=%%
+call %_python_% run-tests.py noenter
 set RET=%ERRORLEVEL%
 cd ..
 exit /b %RET%
