@@ -28,7 +28,7 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
-				CommandLine="call ..\out_copy_rename ..\config.k10 ..\..\ config.h&#x0D;&#x0A;call ..\out_copy_rename ..\..\mpn\x86_64w\k10\gmp-mparam.h ..\..\ gmp-mparam.h&#x0D;&#x0A;"
+				CommandLine="call ..\out_copy_rename ..\config.k10 ..\..\ config.h&#x0D;&#x0A;call ..\out_copy_rename ..\..\mpn\x86_64w\k8\k10\gmp-mparam.h ..\..\ gmp-mparam.h&#x0D;&#x0A;"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -104,7 +104,7 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
-				CommandLine="call ..\out_copy_rename ..\config.k10 ..\..\ config.h&#x0D;&#x0A;call ..\out_copy_rename ..\..\mpn\x86_64w\k10\gmp-mparam.h ..\..\ gmp-mparam.h&#x0D;&#x0A;"
+				CommandLine="call ..\out_copy_rename ..\config.k10 ..\..\ config.h&#x0D;&#x0A;call ..\out_copy_rename ..\..\mpn\x86_64w\k8\k10\gmp-mparam.h ..\..\ gmp-mparam.h&#x0D;&#x0A;"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
