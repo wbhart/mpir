@@ -135,6 +135,9 @@ DLL) that has been built. To build the MPIR C+ library wrapper use:
 
     lib_mpir_cxx  - MPIR C++ wrapper static library (win32 & x64)
 
+The DLL projects include the C++ functions so an additional library
+is not needed when they are used.
+
 The Tests
 =========
 
