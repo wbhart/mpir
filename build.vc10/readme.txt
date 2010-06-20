@@ -36,8 +36,15 @@ Compiling MPIR with the Visual Studio C/C++
 ===========================================
 
 These VC++ build projects are primarily designed to work with 
-Microsoft Visual Studio 2010 Professional. They may also work
-with Microsoft Visual C++ 2010 Express.
+Microsoft Visual Studio 2010 Professional. The win32 build
+projects also work with Microsoft Visual C++ 2010 Express. 
+
+To build the x64 libraries with VC++ Express you will need to
+install the Windows 7.1 SDK and Python (2.6 or later). To do
+this, run the Python program 'add.express.py' before starting
+the build process as described below. This converts the build
+projects for use with Express. If necessary, these changes can
+be removed by running the Python program 'remove.express.py'.
 
 Building MPIR
 =============
@@ -344,4 +351,4 @@ My thanks to:
 4. Jeff Gilchrist for his help in testing, debugging and 
    improving the readme giving the VC++ build instructions
 
-       Brian Gladman, APril 2010
+       Brian Gladman, April 2010
