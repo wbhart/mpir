@@ -24,7 +24,7 @@ def find_lines(l):
   i = i0 = i1 = i2 = 0
   while i < len(l):
     if l[i].strip() == mkr.strip():
-      i3 = i + 1
+      i0 = i + 1
     if (l[i].strip() == pg1.strip() and l[i + 1].strip() == pgc.strip() and 
         l[i + 2].strip() == pgt.strip() and l[i + 3].strip() == pgf.strip()):
       i1 = i
@@ -37,7 +37,7 @@ def find_lines(l):
 def add_it(fn):
   with open(fn, 'r') as f:
     l = f.readlines()
-    t = find_lines(l)
+  t = find_lines(l)  
   if t[0] and not t[1] and not t[2]:
     print("Adding Express: ", fn)
     l[t[0] : t[0]] = [pg1, pgc, pgt, pgf, pg2, pgc, pgt, pgf]
@@ -47,7 +47,7 @@ def add_it(fn):
 def remove_it(fn):
   with open(fn, 'r') as f:
     l = f.readlines()
-    t = find_lines(l)
+  t = find_lines(l)
   if t[1] and t[2]:
     print("Removing Express: ", fn)
     l[t[2] : t[2] + 4] = []
