@@ -1549,9 +1549,9 @@ are ports of GCC and the various GNU tools.
 @end display
 
 In addition, project files for MSVC are provided, allowing MPIR to 
-build on Microsoft's compiler. See the @samp{build.vc9} directory.
-This support is provided by Dr. Brian Gladman. For instructions on 
-how to build for MSVC, see the @samp{readme.txt} in the @samp{build.vc9} 
+build on Microsoft's compiler. For instructions on how to build MPIR using
+Microsoft Visual Studio 2008 see the 'readme.txt' file in the build.vc9
+directory. For Visual Studio 2010 see the readme.txt file in the build.vc10
 directory. The MSVC projects provides full assembler support and for
 @samp{x86_64} CPU's this will produce far superior results.
 
