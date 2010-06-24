@@ -75,11 +75,6 @@ There are five classes of functions in MPIR.
     Almost all calculations, in the entire package, are made by calling these
     low-level functions.
 
- 5. Berkeley MP compatible functions.
-
-    To use these functions, include the file "mp.h".  You can test if you are
-    using the GNU version by testing if the symbol __GNU_MP__ is defined.
-
 For more information on how to use MPIR, please refer to the documentation.
 It is composed from the file gmp.texi, and can be displayed on the screen or
 printed.  How to do that, as well how to build the library, is described in
