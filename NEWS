@@ -20,6 +20,24 @@ along with the GNU MP Library; see the file COPYING.LIB.  If not, write to
 the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 MA 02110-1301, USA.
 
+Changes between MPIR 2.1.0 and MPIR 2.1.1
+
+Bug Fixes:
+
+ * Fixed Windows K8/K10 mpn_sublsh_n function entry point
+
+Speedups:
+
+ * None
+
+Features:
+
+ * Initial build with Visual Studio Express 2010
+
+Changes:
+
+ * None
+
 Changes between MPIR 2.0.0 and MPIR 2.1.0
 
 Bug Fixes:
