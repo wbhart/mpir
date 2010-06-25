@@ -1,4 +1,4 @@
-This is mpir.info, produced by makeinfo version 4.11 from mpir.texi.
+This is mpir.info, produced by makeinfo version 4.13 from mpir.texi.
 
 This manual describes how to install and use MPIR, the Multiple
 Precision Integers and Rationals library, version 2.1.1.
@@ -134,14 +134,12 @@ many different CPUs, and by a general emphasis on speed (as opposed to
 simplicity or elegance).
 
    There is assembly code for these CPUs: ARM, DEC Alpha 21064, 21164,
-and 21264, AMD 29000, AMD K6, K6-2, Athlon, K8 and K10, Hitachi SuperH
-and SH-2, HPPA 1.0, 1.1 and 2.0, Intel Pentium, Pentium Pro/II/III,
-Pentium 4, generic x86, Intel IA-64, i960, Core 2, i7, Atom, Motorola
-MC68000, MC68020, MC88100, and MC88110, Motorola/IBM PowerPC 32 and 64,
-National NS32000, IBM POWER, MIPS R3000, R4000, SPARCv7, SuperSPARC,
-generic SPARCv8, UltraSPARC, DEC VAX, and Zilog Z8000.  Some
-optimizations also for Cray vector systems, Clipper, IBM ROMP (RT), and
-Pyramid AP/XP.
+and 21264, AMD K6, K6-2, Athlon, K8 and K10, Hitachi SuperH and SH-2,
+HPPA 1.0, 1.1 and 2.0, Intel Pentium, Pentium Pro/II/III, Pentium 4,
+generic x86, Intel IA-64, Core 2, i7, Atom, Motorola MC68000, MC68020,
+MC88100, and MC88110, Motorola/IBM PowerPC 32 and 64, IBM POWER, MIPS
+R3000, R4000, SPARCv7, SuperSPARC, generic SPARCv8, UltraSPARC, DEC VAX,
+Some optimizations also for Cray vector systems, IBM ROMP (RT),
 
 For up-to-date information on, and latest version of, MPIR, please see
 the MPIR web pages at
@@ -355,7 +353,7 @@ CPU types
         * MIPS: mips, mips3, mips64
 
         * Motorola: m68k, m68000, m68010, m68020, m68030, m68040,
-          m68060, m68302, m68360, m88k, m88110
+          m68060, m68302, m68360,
 
         * POWER: power, power1, power2, power2sc
 
@@ -373,8 +371,7 @@ CPU types
           core2, penryn, nehalem, nano atom, k5, k6, k62, k63, k7, k8,
           k10 k102 viac3, viac32
 
-        * Other: a29k, arm, clipper, i960, ns32k, pyramid, sh, sh2, vax,
-          z8k
+        * Other: arm, sh, sh2, vax, z8k
 
      CPUs not listed will use generic C code.
 

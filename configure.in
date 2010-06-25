@@ -528,15 +528,6 @@ case $host in
     GMP_INCLUDE_MPN(arm/arm-defs.m4)
     ;;
 
-  # Fujitsu
-  [f30[01]-fujitsu-sysv*])
-    cclist="gcc vcc"
-    # FIXME: flags for vcc?
-    vcc_cflags="-g"
-    path="fujitsu"
-    ;;
-
-
   hppa*-*-*)
     # HP cc (the one sold separately) is K&R by default, but AM_C_PROTOTYPES
     # will add "-Ae", or "-Aa -D_HPUX_SOURCE", to put it into ansi mode, if

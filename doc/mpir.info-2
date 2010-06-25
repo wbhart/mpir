@@ -1,4 +1,4 @@
-This is mpir.info, produced by makeinfo version 4.11 from mpir.texi.
+This is mpir.info, produced by makeinfo version 4.13 from mpir.texi.
 
 This manual describes how to install and use MPIR, the Multiple
 Precision Integers and Rationals library, version 2.1.1.
@@ -2249,16 +2249,16 @@ Concept Index
 * #include:                              Headers and Libraries.
                                                               (line   6)
 * --build:                               Build Options.       (line  59)
-* --disable-fft:                         Build Options.       (line 325)
+* --disable-fft:                         Build Options.       (line 324)
 * --disable-shared:                      Build Options.       (line  52)
 * --disable-static:                      Build Options.       (line  52)
-* --enable-alloca:                       Build Options.       (line 286)
-* --enable-assert:                       Build Options.       (line 330)
-* --enable-cxx:                          Build Options.       (line 238)
-* --enable-fat:                          Build Options.       (line 171)
+* --enable-alloca:                       Build Options.       (line 285)
+* --enable-assert:                       Build Options.       (line 329)
+* --enable-cxx:                          Build Options.       (line 237)
+* --enable-fat:                          Build Options.       (line 170)
 * --enable-gmpcompat:                    Build Options.       (line  45)
 * --enable-profiling <1>:                Profiling.           (line   6)
-* --enable-profiling:                    Build Options.       (line 334)
+* --enable-profiling:                    Build Options.       (line 333)
 * --exec-prefix:                         Build Options.       (line  32)
 * --host:                                Build Options.       (line  73)
 * --prefix:                              Build Options.       (line  32)
@@ -2269,15 +2269,15 @@ Concept Index
 * 80x86:                                 Notes for Particular Systems.
                                                               (line 154)
 * ABI <1>:                               ABI and ISA.         (line   6)
-* ABI:                                   Build Options.       (line 179)
+* ABI:                                   Build Options.       (line 178)
 * About this manual:                     Introduction to MPIR.
-                                                              (line  52)
+                                                              (line  50)
 * AC_CHECK_LIB:                          Autoconf.            (line  11)
 * AIX <1>:                               Notes for Particular Systems.
                                                               (line   7)
 * AIX:                                   ABI and ISA.         (line 169)
 * Algorithms:                            Algorithms.          (line   6)
-* alloca:                                Build Options.       (line 286)
+* alloca:                                Build Options.       (line 285)
 * Allocation of memory:                  Custom Allocation.   (line   6)
 * AMD64:                                 ABI and ISA.         (line  45)
 * Application Binary Interface:          ABI and ISA.         (line   6)
@@ -2304,7 +2304,7 @@ Concept Index
 * Assembler writing guide:               Assembler Writing Guide.
                                                               (line   6)
 * Assertion checking <1>:                Debugging.           (line  76)
-* Assertion checking:                    Build Options.       (line 330)
+* Assertion checking:                    Build Options.       (line 329)
 * Assignment functions <1>:              Simultaneous Float Init & Assign.
                                                               (line   6)
 * Assignment functions <2>:              Assigning Floats.    (line   6)
@@ -2341,18 +2341,18 @@ Concept Index
 * Build system:                          Build Options.       (line  59)
 * Building MPIR:                         Installing MPIR.     (line   6)
 * Bus error:                             Debugging.           (line   7)
-* C compiler:                            Build Options.       (line 190)
-* C++ compiler:                          Build Options.       (line 262)
+* C compiler:                            Build Options.       (line 189)
+* C++ compiler:                          Build Options.       (line 261)
 * C++ interface:                         C++ Class Interface. (line   6)
 * C++ interface internals:               C++ Interface Internals.
                                                               (line   6)
 * C++ istream input:                     C++ Formatted Input. (line   6)
 * C++ ostream output:                    C++ Formatted Output.
                                                               (line   6)
-* C++ support:                           Build Options.       (line 238)
-* CC:                                    Build Options.       (line 190)
-* CC_FOR_BUILD:                          Build Options.       (line 225)
-* CFLAGS:                                Build Options.       (line 190)
+* C++ support:                           Build Options.       (line 237)
+* CC:                                    Build Options.       (line 189)
+* CC_FOR_BUILD:                          Build Options.       (line 224)
+* CFLAGS:                                Build Options.       (line 189)
 * Checker:                               Debugging.           (line 112)
 * checkergcc:                            Debugging.           (line 119)
 * Code organisation:                     Assembler Code Organisation.
@@ -2380,14 +2380,14 @@ Concept Index
                                                               (line   6)
 * Conversion functions:                  Converting Integers. (line   6)
 * Copying conditions:                    Copying.             (line   6)
-* CPPFLAGS:                              Build Options.       (line 216)
+* CPPFLAGS:                              Build Options.       (line 215)
 * CPU types <1>:                         Build Options.       (line 114)
 * CPU types:                             Introduction to MPIR.
                                                               (line  24)
 * Cross compiling:                       Build Options.       (line  73)
 * Custom allocation:                     Custom Allocation.   (line   6)
-* CXX:                                   Build Options.       (line 262)
-* CXXFLAGS:                              Build Options.       (line 262)
+* CXX:                                   Build Options.       (line 261)
+* CXXFLAGS:                              Build Options.       (line 261)
 * Cygwin:                                Notes for Particular Systems.
                                                               (line  43)
 * Darwin:                                Known Build Problems.
@@ -2410,11 +2410,11 @@ Concept Index
                                                               (line  43)
 * DLLs:                                  Notes for Particular Systems.
                                                               (line  63)
-* DocBook:                               Build Options.       (line 357)
-* Documentation formats:                 Build Options.       (line 350)
+* DocBook:                               Build Options.       (line 356)
+* Documentation formats:                 Build Options.       (line 349)
 * Documentation license:                 GNU Free Documentation License.
                                                               (line   6)
-* DVI:                                   Build Options.       (line 353)
+* DVI:                                   Build Options.       (line 352)
 * Efficiency:                            Efficiency.          (line   6)
 * Emacs:                                 Emacs.               (line   6)
 * Exact division functions:              Integer Division.    (line 102)
@@ -2423,7 +2423,7 @@ Concept Index
                                                               (line   6)
 * Exec prefix:                           Build Options.       (line  32)
 * Execution profiling <1>:               Profiling.           (line   6)
-* Execution profiling:                   Build Options.       (line 334)
+* Execution profiling:                   Build Options.       (line 333)
 * Exponentiation functions <1>:          Float Arithmetic.    (line  41)
 * Exponentiation functions:              Integer Exponentiation.
                                                               (line   6)
@@ -2441,9 +2441,9 @@ Concept Index
 * Factorization demo:                    Demonstration Programs.
                                                               (line  25)
 * Fast Fourier Transform:                FFT Multiplication.  (line   6)
-* Fat binary:                            Build Options.       (line 171)
+* Fat binary:                            Build Options.       (line 170)
 * FFT multiplication <1>:                FFT Multiplication.  (line   6)
-* FFT multiplication:                    Build Options.       (line 325)
+* FFT multiplication:                    Build Options.       (line 324)
 * Fibonacci number algorithm:            Fibonacci Numbers Algorithm.
                                                               (line   6)
 * Fibonacci sequence functions:          Number Theoretic Functions.
@@ -2491,7 +2491,7 @@ Concept Index
 * GCD functions:                         Number Theoretic Functions.
                                                               (line  82)
 * GDB:                                   Debugging.           (line  55)
-* Generic C:                             Build Options.       (line 160)
+* Generic C:                             Build Options.       (line 159)
 * GNU Debugger:                          Debugging.           (line  55)
 * GNU Free Documentation License:        GNU Free Documentation License.
                                                               (line   6)
@@ -2508,7 +2508,7 @@ Concept Index
                                                               (line   6)
 * Heap problems:                         Debugging.           (line  24)
 * Home page:                             Introduction to MPIR.
-                                                              (line  34)
+                                                              (line  32)
 * Host system:                           Build Options.       (line  73)
 * HP-UX:                                 ABI and ISA.         (line  69)
 * HPPA:                                  ABI and ISA.         (line  69)
@@ -2638,7 +2638,7 @@ Concept Index
 * MacOS X:                               Known Build Problems.
                                                               (line  51)
 * Mailing lists:                         Introduction to MPIR.
-                                                              (line  39)
+                                                              (line  37)
 * Malloc debugger:                       Debugging.           (line  30)
 * Malloc problems:                       Debugging.           (line  24)
 * Memory allocation:                     Custom Allocation.   (line   6)
@@ -2668,7 +2668,7 @@ Concept Index
                                                               (line   6)
 * mpirxx.h:                              C++ Interface General.
                                                               (line   8)
-* MPN_PATH:                              Build Options.       (line 338)
+* MPN_PATH:                              Build Options.       (line 337)
 * MS Windows:                            Notes for Particular Systems.
                                                               (line  43)
 * MS-DOS:                                Notes for Particular Systems.
@@ -2717,7 +2717,7 @@ Concept Index
                                                               (line   6)
 * Past GMP/MPIR versions:                Compatibility with older versions.
                                                               (line   6)
-* PDF:                                   Build Options.       (line 353)
+* PDF:                                   Build Options.       (line 352)
 * Perfect power algorithm:               Perfect Power Algorithm.
                                                               (line   6)
 * Perfect power functions:               Integer Roots.       (line  31)
@@ -2728,7 +2728,7 @@ Concept Index
                                                               (line  35)
 * Perl module:                           Demonstration Programs.
                                                               (line  35)
-* Postscript:                            Build Options.       (line 353)
+* Postscript:                            Build Options.       (line 352)
 * Power/PowerPC <1>:                     Known Build Problems.
                                                               (line  63)
 * Power/PowerPC:                         Notes for Particular Systems.
@@ -2840,7 +2840,7 @@ Concept Index
                                                               (line 160)
 * Stack backtrace:                       Debugging.           (line  47)
 * Stack overflow <1>:                    Debugging.           (line   7)
-* Stack overflow:                        Build Options.       (line 286)
+* Stack overflow:                        Build Options.       (line 285)
 * Static linking:                        Efficiency.          (line  14)
 * stdarg.h:                              Headers and Libraries.
                                                               (line  17)
@@ -2853,8 +2853,8 @@ Concept Index
                                                               (line 148)
 * Systems:                               Notes for Particular Systems.
                                                               (line   6)
-* Temporary memory:                      Build Options.       (line 286)
-* Texinfo:                               Build Options.       (line 350)
+* Temporary memory:                      Build Options.       (line 285)
+* Texinfo:                               Build Options.       (line 349)
 * Text input/output:                     Efficiency.          (line 153)
 * Thread safety:                         Reentrancy.          (line   6)
 * Toom multiplication <1>:               Other Multiplication.
@@ -2880,14 +2880,14 @@ Concept Index
 * Version number:                        Useful Macros and Constants.
                                                               (line  12)
 * Web page:                              Introduction to MPIR.
-                                                              (line  34)
+                                                              (line  32)
 * Windows:                               Notes for Particular Systems.
                                                               (line  43)
 * x86:                                   Notes for Particular Systems.
                                                               (line 154)
 * x87:                                   Notes for Particular Systems.
                                                               (line  34)
-* XML:                                   Build Options.       (line 357)
+* XML:                                   Build Options.       (line 356)
 
 
 File: mpir.info,  Node: Function Index,  Prev: Concept Index,  Up: Top
