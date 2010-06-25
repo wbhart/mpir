@@ -592,36 +592,6 @@ long __MPN(count_leading_zeros) _PROTO ((UDItype));
 #define __AND_CLOBBER_CC , "cc"
 #endif /* __GNUC__ < 2 */
 
-#if (defined (__a29k__) || defined (_AM29K)) && W_TYPE_SIZE == 32
-#define add_ssaaaa(sh, sl, ah, al, bh, bl) \
-  __asm__ ("add %1,%4,%5\n\taddc %0,%2,%3"				\
-	   : "=r" (sh), "=&r" (sl)					\
-	   : "r" (ah), "rI" (bh), "%r" (al), "rI" (bl))
-#define sub_ddmmss(sh, sl, ah, al, bh, bl) \
-  __asm__ ("sub %1,%4,%5\n\tsubc %0,%2,%3"				\
-	   : "=r" (sh), "=&r" (sl)					\
-	   : "r" (ah), "rI" (bh), "r" (al), "rI" (bl))
-#define umul_ppmm(xh, xl, m0, m1) \
-  do {									\
-    USItype __m0 = (m0), __m1 = (m1);					\
-    __asm__ ("multiplu %0,%1,%2"					\
-	     : "=r" (xl)						\
-	     : "r" (__m0), "r" (__m1));					\
-    __asm__ ("multmu %0,%1,%2"						\
-	     : "=r" (xh)						\
-	     : "r" (__m0), "r" (__m1));					\
-  } while (0)
-#define udiv_qrnnd(q, r, n1, n0, d) \
-  __asm__ ("dividu %0,%3,%4"						\
-	   : "=r" (q), "=q" (r)						\
-	   : "1" (n1), "r" (n0), "r" (d))
-#define count_leading_zeros(count, x) \
-    __asm__ ("clz %0,%1"						\
-	     : "=r" (count)						\
-	     : "r" (x))
-#define COUNT_LEADING_ZEROS_0 32
-#endif /* __a29k__ */
-
 #if defined (__arc__)
 #define add_ssaaaa(sh, sl, ah, al, bh, bl) \
   __asm__ ("add.f\t%1, %4, %5\n\tadc\t%0, %2, %3"			\

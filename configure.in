@@ -389,11 +389,6 @@ AC_SUBST(HAVE_HOST_CPU_FAMILY_powerpc,0)
 
 case $host in
 
-  a29k*-*-*)
-    path="a29k"
-    ;;
-
-
   alpha*-*-*)
     AC_DEFINE(HAVE_HOST_CPU_FAMILY_alpha)
     case $host_cpu in

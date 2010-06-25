@@ -476,7 +476,6 @@ There is assembly code for these CPUs:
 @cindex CPU types
 ARM,
 DEC Alpha 21064, 21164, and 21264,
-AMD 29000,
 AMD K6, K6-2, Athlon, K8 and K10,
 Hitachi SuperH and SH-2,
 HPPA 1.0, 1.1 and 2.0,
@@ -856,7 +855,6 @@ x86 family:
 
 @item
 Other:
-@nisamp{a29k},
 @nisamp{arm},
 @nisamp{clipper},
 @nisamp{i960},
