@@ -1,12 +1,9 @@
 #!/bin/bash
 
-#
-
 # set version number
 VERSION=2
 VERSION_MINOR=1
 VERSION_PATCHLEVEL=1
-
 
 # these are the library soname numbers see
 # http://sources.redhat.com/autobook/autobook/autobook_91.html
@@ -20,7 +17,7 @@ LIBGMPXX_LT_CURRENT=4
 LIBGMPXX_LT_REVISION=9
 LIBGMPXX_LT_AGE=2
 
-# DONT NEED THESE ANYMORE 
+# We dont have libmp so we set this to 0.0.0
 LIBMP_LT_CURRENT=0
 LIBMP_LT_REVISION=0
 LIBMP_LT_AGE=0
@@ -29,7 +26,6 @@ echo "Setting MPIR to"
 echo "MPIR-$VERSION.$VERSION_MINOR.$VERSION_PATCHLEVEL"
 echo "GMP-soname-$LIBGMP_LT_CURRENT.$LIBGMP_LT_REVISION.$LIBGMP_LT_AGE"
 echo "GMPXX-soname-$LIBGMPXX_LT_CURRENT.$LIBGMPXX_LT_REVISION.$LIBGMPXX_LT_AGE"
-
 
 ###############################################################
 ##############################################################
@@ -44,15 +40,6 @@ cat gmp-h.in \
 | sed s/"#define[[:space:]]\+__MPIR_VERSION_PATCHLEVEL[[:space:]]\+.*"/"#define __MPIR_VERSION_PATCHLEVEL "$VERSION_PATCHLEVEL/ \
 | sed s/"#define[[:space:]]\+_MSC_MPIR_VERSION[[:space:]]\+.*"/"#define _MSC_MPIR_VERSION "\"$VERSION_STR\"/ > $TMPFILE
 mv $TMPFILE gmp-h.in
-
-#update build.vc9/config.*
-# not needed anymore
-#for i in build.vc9/config.*
-#do
-#	if [ "$i" == "build.vc9/config.guess.c" ] ; then continue; fi
-#	cat $i | sed s/"#define[[:space:]]\+VERSION[[:space:]]\+.*"/"#define VERSION "\"$VERSION_STR\"/ > $TMPFILE
-#	mv $TMPFILE $i
-#done
 
 #update Makefile.am
 cat Makefile.am \
