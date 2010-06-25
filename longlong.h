@@ -949,38 +949,6 @@ extern UWtype __MPN(udiv_qrnnd) _PROTO ((UWtype *, UWtype, UWtype, UWtype));
 #define UDIV_TIME 140
 #endif /* __mips */
 
-#if defined (__ns32000__) && W_TYPE_SIZE == 32
-#define umul_ppmm(w1, w0, u, v) \
-  ({union {UDItype __ll;						\
-	   struct {USItype __l, __h;} __i;				\
-	  } __x;							\
-  __asm__ ("meid %2,%0"							\
-	   : "=g" (__x.__ll)						\
-	   : "%0" ((USItype)(u)), "g" ((USItype)(v)));			\
-  (w1) = __x.__i.__h; (w0) = __x.__i.__l;})
-#define __umulsidi3(u, v) \
-  ({UDItype __w;							\
-    __asm__ ("meid %2,%0"						\
-	     : "=g" (__w)						\
-	     : "%0" ((USItype)(u)), "g" ((USItype)(v)));		\
-    __w; })
-#define udiv_qrnnd(q, r, n1, n0, d) \
-  ({union {UDItype __ll;						\
-	   struct {USItype __l, __h;} __i;				\
-	  } __x;							\
-  __x.__i.__h = (n1); __x.__i.__l = (n0);				\
-  __asm__ ("deid %2,%0"							\
-	   : "=g" (__x.__ll)						\
-	   : "0" (__x.__ll), "g" ((USItype)(d)));			\
-  (r) = __x.__i.__l; (q) = __x.__i.__h; })
-#define count_trailing_zeros(count,x) \
-  do {									\
-    __asm__ ("ffsd	%2,%0"						\
-	     : "=r" (count)						\
-	     : "0" ((USItype) 0), "r" ((USItype) (x)));			\
-  } while (0)
-#endif /* __ns32000__ */
-
 /* In the past we had a block of various #defines tested
        _ARCH_PPC    - AIX
        _ARCH_PWR    - AIX

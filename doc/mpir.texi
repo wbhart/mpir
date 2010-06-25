@@ -483,7 +483,6 @@ Intel Pentium, Pentium Pro/II/III, Pentium 4, generic x86,
 Intel IA-64, Core 2, i7, Atom,
 Motorola MC68000, MC68020, MC88100, and MC88110,
 Motorola/IBM PowerPC 32 and 64,
-National NS32000,
 IBM POWER,
 MIPS R3000, R4000,
 SPARCv7, SuperSPARC, generic SPARCv8, UltraSPARC,
@@ -853,7 +852,6 @@ x86 family:
 @item
 Other:
 @nisamp{arm},
-@nisamp{ns32k},
 @nisamp{pyramid},
 @nisamp{sh},
 @nisamp{sh2},
