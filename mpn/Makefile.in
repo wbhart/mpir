@@ -270,7 +270,7 @@ noinst_LTLIBRARIES = libmpn.la
 nodist_libmpn_la_SOURCES = fib_table.c mp_bases.c
 libmpn_la_LIBADD = $(OFILES)
 libmpn_la_DEPENDENCIES = $(OFILES)
-TARG_DIST = alpha arm cray generic ia64 lisp m68k \
+TARG_DIST = alpha arm cray generic ia64 m68k \
   mips32 mips64 pa32 pa64 power powerpc32 powerpc64 s390 sh \
   sparc32 sparc64 thumb vax x86 x86_64
 
