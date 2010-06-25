@@ -923,48 +923,6 @@ extern UWtype __MPN(udiv_qrnnd) _PROTO ((UWtype *, UWtype, UWtype, UWtype));
 #endif
 #endif /* mc68000 */
 
-#if defined (__m88000__) && W_TYPE_SIZE == 32
-#define add_ssaaaa(sh, sl, ah, al, bh, bl) \
-  __asm__ ("addu.co %1,%r4,%r5\n\taddu.ci %0,%r2,%r3"			\
-	   : "=r" (sh), "=&r" (sl)					\
-	   : "rJ" (ah), "rJ" (bh), "%rJ" (al), "rJ" (bl))
-#define sub_ddmmss(sh, sl, ah, al, bh, bl) \
-  __asm__ ("subu.co %1,%r4,%r5\n\tsubu.ci %0,%r2,%r3"			\
-	   : "=r" (sh), "=&r" (sl)					\
-	   : "rJ" (ah), "rJ" (bh), "rJ" (al), "rJ" (bl))
-#define count_leading_zeros(count, x) \
-  do {									\
-    USItype __cbtmp;							\
-    __asm__ ("ff1 %0,%1" : "=r" (__cbtmp) : "r" (x));			\
-    (count) = __cbtmp ^ 31;						\
-  } while (0)
-#define COUNT_LEADING_ZEROS_0 63 /* sic */
-#if defined (__m88110__)
-#define umul_ppmm(wh, wl, u, v) \
-  do {									\
-    union {UDItype __ll;						\
-	   struct {USItype __h, __l;} __i;				\
-	  } __x;							\
-    __asm__ ("mulu.d %0,%1,%2" : "=r" (__x.__ll) : "r" (u), "r" (v));	\
-    (wh) = __x.__i.__h;							\
-    (wl) = __x.__i.__l;							\
-  } while (0)
-#define udiv_qrnnd(q, r, n1, n0, d) \
-  ({union {UDItype __ll;						\
-	   struct {USItype __h, __l;} __i;				\
-	  } __x, __q;							\
-  __x.__i.__h = (n1); __x.__i.__l = (n0);				\
-  __asm__ ("divu.d %0,%1,%2"						\
-	   : "=r" (__q.__ll) : "r" (__x.__ll), "r" (d));		\
-  (r) = (n0) - __q.__l * (d); (q) = __q.__l; })
-#define UMUL_TIME 5
-#define UDIV_TIME 25
-#else
-#define UMUL_TIME 17
-#define UDIV_TIME 150
-#endif /* __m88110__ */
-#endif /* __m88000__ */
-
 #if defined (__mips) && W_TYPE_SIZE == 32
 #if __GNUC__ > 2 || __GNUC_MINOR__ >= 7
 #define umul_ppmm(w1, w0, u, v) \

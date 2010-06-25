@@ -731,17 +731,6 @@ case $host in
     ;;
 
 
-  # Motorola 88k
-  m88k*-*-*)
-    path="m88k"
-    ;;
-  m88110*-*-*)
-    # FIXME: Use `-O2'?
-    gcc_cflags="-O -m88110"
-    path="m88k/mc88110 m88k"
-    ;;
-
-
   # National Semiconductor 32k
   ns32k*-*-*)
     path="ns32k"
