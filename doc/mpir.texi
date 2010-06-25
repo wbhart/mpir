@@ -492,8 +492,6 @@ Zilog Z8000.
 Some optimizations also for
 Cray vector systems,
 IBM ROMP (RT),
-and
-Pyramid AP/XP.
 
 @cindex Home page
 @cindex Web page
@@ -852,7 +850,6 @@ x86 family:
 @item
 Other:
 @nisamp{arm},
-@nisamp{pyramid},
 @nisamp{sh},
 @nisamp{sh2},
 @nisamp{vax},

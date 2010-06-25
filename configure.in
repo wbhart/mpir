@@ -1019,12 +1019,6 @@ case $host in
     esac
     ;;
 
-
-  pyramid-*-*)
-    path="pyr"
-    ;;
-
-
   # IBM s/370 and similar
   [s3[6-9]0*-*-*])
     gcc_cflags="-O2 $fomit_frame_pointer"

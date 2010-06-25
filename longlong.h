@@ -1091,28 +1091,6 @@ extern UWtype __MPN(udiv_qrnnd) _PROTO ((UWtype *, UWtype, UWtype, UWtype));
 #define UDIV_TIME 120 /* ??? */
 #endif /* 64-bit PowerPC.  */
 
-#if defined (__pyr__) && W_TYPE_SIZE == 32
-#define add_ssaaaa(sh, sl, ah, al, bh, bl) \
-  __asm__ ("addw %5,%1\n\taddwc %3,%0"					\
-	   : "=r" (sh), "=&r" (sl)					\
-	   : "0"  ((USItype)(ah)), "g" ((USItype)(bh)),			\
-	     "%1" ((USItype)(al)), "g" ((USItype)(bl)))
-#define sub_ddmmss(sh, sl, ah, al, bh, bl) \
-  __asm__ ("subw %5,%1\n\tsubwb %3,%0"					\
-	   : "=r" (sh), "=&r" (sl)					\
-	   : "0" ((USItype)(ah)), "g" ((USItype)(bh)),			\
-	     "1" ((USItype)(al)), "g" ((USItype)(bl)))
-/* This insn works on Pyramids with AP, XP, or MI CPUs, but not with SP.  */
-#define umul_ppmm(w1, w0, u, v) \
-  ({union {UDItype __ll;						\
-	   struct {USItype __h, __l;} __i;				\
-	  } __x;							\
-  __asm__ ("movw %1,%R0\n\tuemul %2,%0"					\
-	   : "=&r" (__x.__ll)						\
-	   : "g" ((USItype) (u)), "g" ((USItype)(v)));			\
-  (w1) = __x.__i.__h; (w0) = __x.__i.__l;})
-#endif /* __pyr__ */
-
 #if defined (__ibm032__) /* RT/ROMP */  && W_TYPE_SIZE == 32
 #define add_ssaaaa(sh, sl, ah, al, bh, bl) \
   __asm__ ("a %1,%5\n\tae %0,%3"					\
