@@ -448,8 +448,7 @@ will not reflect on our reputation.@refill
 
 The precise conditions of the license for the MPIR library are found in the
 Lesser General Public License version 3 that accompanies the source code,
-see @file{COPYING.LIB}.  Certain demonstration programs are provided under the
-terms of the plain General Public License version 3, see @file{COPYING}.
+see @file{COPYING.LIB}.
 
 
 @node Introduction to MPIR, Installing MPIR, Copying, Top
@@ -1832,7 +1831,6 @@ to be incompatible with future versions of MPIR.}
 * Reentrancy::
 * Useful Macros and Constants::
 * Compatibility with older versions::
-* Demonstration Programs::
 * Efficiency::
 * Debugging::
 * Profiling::
@@ -2223,7 +2221,7 @@ The MPIR version number, as a null-terminated string, in the form
 ``i.j.k''.  This release is @nicode{"@value{VERSION}"}.
 @end deftypevr
 
-@node Compatibility with older versions, Demonstration Programs, Useful Macros and Constants, MPIR Basics
+@node Compatibility with older versions, Efficiency, Useful Macros and Constants, MPIR Basics
 @section Compatibility with older versions
 @cindex Compatibility with older versions
 @cindex Past GMP/MPIR versions
@@ -2255,71 +2253,7 @@ course also apply when porting applications from GMP 1 to GMP 4 and MPIR 1
 and 2.  Please see the GMP 2 manual for details.
 
 @need 1000
-@node Demonstration Programs, Efficiency, Compatibility with older versions, MPIR Basics
-@section Demonstration programs
-@cindex Demonstration programs
-@cindex Example programs
-@cindex Sample programs
-The @file{demos} subdirectory has some sample programs using MPIR@.  These
-aren't built or installed, but there's a @file{Makefile} with rules for them.
-For instance,
-
-@example
-make pexpr
-./pexpr 68^975+10
-@end example
-
-@noindent
-The following programs are provided
-
-@itemize @bullet
-@item
-@cindex Expression parsing demo
-@cindex Parsing expressions demo
-@samp{pexpr} is an expression evaluator, the program used on the GMP web page.
-@item
-@cindex Expression parsing demo
-@cindex Parsing expressions demo
-The @samp{calc} subdirectory has a similar but simpler evaluator using
-@command{lex} and @command{yacc}.
-@item
-@cindex Expression parsing demo
-@cindex Parsing expressions demo
-The @samp{expr} subdirectory is yet another expression evaluator, a library
-designed for ease of use within a C program.  See @file{demos/expr/README} for
-more information.
-@item
-@cindex Factorization demo
-@samp{factorize} is a Pollard-Rho factorization program.
-@item
-@samp{isprime} is a command-line interface to the @code{mpz_probab_prime_p}
-function.
-@item
-@samp{primes} counts or lists primes in an interval, using a sieve.
-@item
-@samp{qcn} is an example use of @code{mpz_kronecker_ui} to estimate quadratic
-class numbers.
-@item
-@cindex @code{perl}
-@cindex MPIR Perl module
-@cindex Perl module
-The @samp{perl} subdirectory is a comprehensive perl interface to MPIR@.  See
-@file{demos/perl/INSTALL} for more information.  Documentation is in POD
-format in @file{demos/perl/GMP.pm}.
-@end itemize
-
-As an aside, consideration has been given at various times to some sort of
-expression evaluation within the main MPIR library.  Going beyond something
-minimal quickly leads to matters like user-defined functions, looping, fixnums
-for control variables, etc, which are considered outside the scope of MPIR
-(much closer to language interpreters or compilers, @xref{Language Bindings}.)
-Something simple for program input convenience may yet be a possibility, a
-combination of the @file{expr} demo and the @file{pexpr} tree back-end
-perhaps.  But for now the above evaluators are offered as illustrations.
-
-
-@need 1000
-@node Efficiency, Debugging, Demonstration Programs, MPIR Basics
+@node Efficiency, Debugging, Compatibility with older versions, MPIR Basics
 @section Efficiency
 @cindex Efficiency
 
@@ -3605,7 +3539,7 @@ precision Jacobi symbols too.
 
 For more information see Henri Cohen section 1.4.2 (@pxref{References}),
 or any number theory textbook.  See also the example program
-@file{demos/qcn.c} which uses @code{mpz_kronecker_ui}.
+@file{demos/qcn.c} which uses @code{mpz_kronecker_ui} on the MPIR website.
 @end deftypefun
 
 @deftypefun {mp_bitcnt_t} mpz_remove (mpz_t @var{rop}, mpz_t @var{op}, mpz_t @var{f})
@@ -7137,8 +7071,7 @@ optionally using GMP.
 @item Perl
 @itemize @bullet
 @item
-GMP module, see @file{demos/perl} in the MPIR sources (@pxref{Demonstration
-Programs}).
+GMP module, see @file{demos/perl} on the MPIR website.
 @item
 Math::GMP @spaceuref{http://www.cpan.org/} @* Compatible with Math::BigInt, but
 not as many functions as the GMP module above.

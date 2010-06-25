@@ -343,9 +343,6 @@ MA 02110-1301, USA.
 /* Define to 1 if you have the <sstream> header file. */
 #undef HAVE_SSTREAM
 
-/* Define to 1 if the system has the type `stack_t'. */
-#undef HAVE_STACK_T
-
 /* Define to 1 if <stdarg.h> exists and works */
 #undef HAVE_STDARG
 
@@ -526,10 +523,6 @@ MA 02110-1301, USA.
 #undef WANT_TMP_REENTRANT
 #undef WANT_TMP_NOTREENTRANT
 #undef WANT_TMP_DEBUG
-
-/* Define to 1 if `lex' declares `yytext' as a `char *' by default, not a
-   `char[]'. */
-#undef YYTEXT_POINTER
 
 /* Enable GNU extensions on systems that have them.  */
 #ifndef _GNU_SOURCE

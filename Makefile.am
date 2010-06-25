@@ -97,7 +97,7 @@ if BUILD_YASM
 SUBDIRS += yasm
 endif
 
-SUBDIRS += mpn mpz mpq mpf printf scanf cxx demos tune doc
+SUBDIRS += mpn mpz mpq mpf printf scanf cxx tune doc
 
 EXTRA_DIST = configfsf.guess configfsf.sub .gdbinit INSTALL.autoconf
 
@@ -406,7 +406,6 @@ gen-psqr_.c: gen-psqr.c
 #
 dist-hook:
 	-find $(distdir) \( -name CVS -type d \) -o -name "*~" -o -name ".#*" -o -name ".svn" | xargs rm -rf
-	touch $(distdir)/demos/calc/calc.c $(distdir)/demos/calc/calcread.c $(distdir)/demos/calc/calc-common.h $(distdir)/demos/calc/calc.h $(distdir)/demos/calc/calclex.c
 	chmod 755 $(distdir)/config.guess $(distdir)/configfsf.guess $(distdir)/configfsf.sub $(distdir)/config.sub
 	rm -f $(distdir)/yasm/Makefile.in
 	(  VAR=0 ; \

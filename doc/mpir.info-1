@@ -105,9 +105,7 @@ problems introduced by others will not reflect on our reputation.
 
    The precise conditions of the license for the MPIR library are found
 in the Lesser General Public License version 3 that accompanies the
-source code, see `COPYING.LIB'.  Certain demonstration programs are
-provided under the terms of the plain General Public License version 3,
-see `COPYING'.
+source code, see `COPYING.LIB'.
 
 
 File: mpir.info,  Node: Introduction to MPIR,  Next: Installing MPIR,  Prev: Copying,  Up: Top
@@ -1205,7 +1203,6 @@ guaranteed to be incompatible with future versions of MPIR.*
 * Reentrancy::
 * Useful Macros and Constants::
 * Compatibility with older versions::
-* Demonstration Programs::
 * Efficiency::
 * Debugging::
 * Profiling::
@@ -1531,7 +1528,7 @@ File: mpir.info,  Node: Useful Macros and Constants,  Next: Compatibility with o
      "i.j.k".  This release is "2.1.1".
 
 
-File: mpir.info,  Node: Compatibility with older versions,  Next: Demonstration Programs,  Prev: Useful Macros and Constants,  Up: MPIR Basics
+File: mpir.info,  Node: Compatibility with older versions,  Next: Efficiency,  Prev: Useful Macros and Constants,  Up: MPIR Basics
 
 3.9 Compatibility with older versions
 =====================================
@@ -1557,58 +1554,9 @@ that of course also apply when porting applications from GMP 1 to GMP 4
 and MPIR 1 and 2.  Please see the GMP 2 manual for details.
 
 
-File: mpir.info,  Node: Demonstration Programs,  Next: Efficiency,  Prev: Compatibility with older versions,  Up: MPIR Basics
+File: mpir.info,  Node: Efficiency,  Next: Debugging,  Prev: Compatibility with older versions,  Up: MPIR Basics
 
-3.10 Demonstration programs
-===========================
-
-The `demos' subdirectory has some sample programs using MPIR.  These
-aren't built or installed, but there's a `Makefile' with rules for them.
-For instance,
-
-     make pexpr
-     ./pexpr 68^975+10
-
-The following programs are provided
-
-   * `pexpr' is an expression evaluator, the program used on the GMP
-     web page.
-
-   * The `calc' subdirectory has a similar but simpler evaluator using
-     `lex' and `yacc'.
-
-   * The `expr' subdirectory is yet another expression evaluator, a
-     library designed for ease of use within a C program.  See
-     `demos/expr/README' for more information.
-
-   * `factorize' is a Pollard-Rho factorization program.
-
-   * `isprime' is a command-line interface to the `mpz_probab_prime_p'
-     function.
-
-   * `primes' counts or lists primes in an interval, using a sieve.
-
-   * `qcn' is an example use of `mpz_kronecker_ui' to estimate quadratic
-     class numbers.
-
-   * The `perl' subdirectory is a comprehensive perl interface to MPIR.
-     See `demos/perl/INSTALL' for more information.  Documentation is
-     in POD format in `demos/perl/GMP.pm'.
-
-   As an aside, consideration has been given at various times to some
-sort of expression evaluation within the main MPIR library.  Going
-beyond something minimal quickly leads to matters like user-defined
-functions, looping, fixnums for control variables, etc, which are
-considered outside the scope of MPIR (much closer to language
-interpreters or compilers, *Note Language Bindings::.)  Something
-simple for program input convenience may yet be a possibility, a
-combination of the `expr' demo and the `pexpr' tree back-end perhaps.
-But for now the above evaluators are offered as illustrations.
-
-
-File: mpir.info,  Node: Efficiency,  Next: Debugging,  Prev: Demonstration Programs,  Up: MPIR Basics
-
-3.11 Efficiency
+3.10 Efficiency
 ===============
 
 Small Operands
@@ -1771,7 +1719,7 @@ Text Input/Output
 
 File: mpir.info,  Node: Debugging,  Next: Profiling,  Prev: Efficiency,  Up: MPIR Basics
 
-3.12 Debugging
+3.11 Debugging
 ==============
 
 Stack Overflow
@@ -1912,7 +1860,7 @@ Other Problems
 
 File: mpir.info,  Node: Profiling,  Next: Autoconf,  Prev: Debugging,  Up: MPIR Basics
 
-3.13 Profiling
+3.12 Profiling
 ==============
 
 Running a program under a profiler is a good way to find where it's
@@ -2006,7 +1954,7 @@ profiling choices for a MPIR build are as follows.
 
 File: mpir.info,  Node: Autoconf,  Next: Emacs,  Prev: Profiling,  Up: MPIR Basics
 
-3.14 Autoconf
+3.13 Autoconf
 =============
 
 Autoconf based applications can easily check whether MPIR is installed.
@@ -2051,7 +1999,7 @@ limb.  The following would suit Autoconf 2.50 or up,
 
 File: mpir.info,  Node: Emacs,  Prev: Autoconf,  Up: MPIR Basics
 
-3.15 Emacs
+3.14 Emacs
 ==========
 
 <C-h C-i> (`info-lookup-symbol') is a good way to find documentation on
@@ -2747,7 +2695,8 @@ File: mpir.info,  Node: Number Theoretic Functions,  Next: Integer Comparisons, 
 
      For more information see Henri Cohen section 1.4.2 (*note
      References::), or any number theory textbook.  See also the
-     example program `demos/qcn.c' which uses `mpz_kronecker_ui'.
+     example program `demos/qcn.c' which uses `mpz_kronecker_ui' on the
+     MPIR website.
 
  -- Function: mp_bitcnt_t mpz_remove (mpz_t ROP, mpz_t OP, mpz_t F)
      Remove all occurrences of the factor F from OP and store the
@@ -5972,8 +5921,7 @@ Pascal
           For Free Pascal, optionally using GMP.
 
 Perl
-        * GMP module, see `demos/perl' in the MPIR sources (*note
-          Demonstration Programs::).
+        * GMP module, see `demos/perl' on the MPIR website.
 
         * Math::GMP `http://www.cpan.org/'
           Compatible with Math::BigInt, but not as many functions as
@@ -7096,4 +7044,39 @@ successively squaring and then multiplying by the base when a 1 bit is
 seen in the exponent, as per Knuth section 4.6.3.  The "left to right"
 variant described there is used rather than algorithm A, since it's
 just as easy and can be done with somewhat less temporary memory.
+
+
+File: mpir.info,  Node: Modular Powering Algorithm,  Prev: Normal Powering Algorithm,  Up: Powering Algorithms
+
+15.4.2 Modular Powering
+-----------------------
+
+Modular powering is implemented using a 2^k-ary sliding window
+algorithm, as per "Handbook of Applied Cryptography" algorithm 14.85
+(*note References::).  k is chosen according to the size of the
+exponent.  Larger exponents use larger values of k, the choice being
+made to minimize the average number of multiplications that must
+supplement the squaring.
+
+   The modular multiplies and squares use either a simple division or
+the REDC method by Montgomery (*note References::).  REDC is a little
+faster, essentially saving N single limb divisions in a fashion similar
+to an exact remainder (*note Exact Remainder::).  The current REDC has
+some limitations.  It's only O(N^2) so above `POWM_THRESHOLD' division
+becomes faster and is used.  It doesn't attempt to detect small bases,
+but rather always uses a REDC form, which is usually a full size
+operand.  And lastly it's only applied to odd moduli.
+
+
+File: mpir.info,  Node: Root Extraction Algorithms,  Next: Radix Conversion Algorithms,  Prev: Powering Algorithms,  Up: Algorithms
+
+15.5 Root Extraction Algorithms
+===============================
+
+* Menu:
+
+* Square Root Algorithm::
+* Nth Root Algorithm::
+* Perfect Square Algorithm::
+* Perfect Power Algorithm::
 

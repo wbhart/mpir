@@ -23,41 +23,6 @@ START-INFO-DIR-ENTRY
 END-INFO-DIR-ENTRY
 
 
-File: mpir.info,  Node: Modular Powering Algorithm,  Prev: Normal Powering Algorithm,  Up: Powering Algorithms
-
-15.4.2 Modular Powering
------------------------
-
-Modular powering is implemented using a 2^k-ary sliding window
-algorithm, as per "Handbook of Applied Cryptography" algorithm 14.85
-(*note References::).  k is chosen according to the size of the
-exponent.  Larger exponents use larger values of k, the choice being
-made to minimize the average number of multiplications that must
-supplement the squaring.
-
-   The modular multiplies and squares use either a simple division or
-the REDC method by Montgomery (*note References::).  REDC is a little
-faster, essentially saving N single limb divisions in a fashion similar
-to an exact remainder (*note Exact Remainder::).  The current REDC has
-some limitations.  It's only O(N^2) so above `POWM_THRESHOLD' division
-becomes faster and is used.  It doesn't attempt to detect small bases,
-but rather always uses a REDC form, which is usually a full size
-operand.  And lastly it's only applied to odd moduli.
-
-
-File: mpir.info,  Node: Root Extraction Algorithms,  Next: Radix Conversion Algorithms,  Prev: Powering Algorithms,  Up: Algorithms
-
-15.5 Root Extraction Algorithms
-===============================
-
-* Menu:
-
-* Square Root Algorithm::
-* Nth Root Algorithm::
-* Perfect Square Algorithm::
-* Perfect Power Algorithm::
-
-
 File: mpir.info,  Node: Square Root Algorithm,  Next: Nth Root Algorithm,  Prev: Root Extraction Algorithms,  Up: Root Extraction Algorithms
 
 15.5.1 Square Root
@@ -2318,7 +2283,7 @@ Concept Index
 * Binomial coefficient algorithm:        Binomial Coefficients Algorithm.
                                                               (line   6)
 * Binomial coefficient functions:        Number Theoretic Functions.
-                                                              (line 150)
+                                                              (line 151)
 * Binutils strip:                        Known Build Problems.
                                                               (line  28)
 * Bit manipulation functions:            Integer Logic and Bit Fiddling.
@@ -2393,8 +2358,6 @@ Concept Index
 * Darwin:                                Known Build Problems.
                                                               (line  51)
 * Debugging:                             Debugging.           (line   6)
-* Demonstration programs:                Demonstration Programs.
-                                                              (line   6)
 * Digits in an integer:                  Miscellaneous Integer Functions.
                                                               (line  23)
 * Divisibility algorithm:                Exact Remainder.     (line  30)
@@ -2419,8 +2382,6 @@ Concept Index
 * Emacs:                                 Emacs.               (line   6)
 * Exact division functions:              Integer Division.    (line 102)
 * Exact remainder:                       Exact Remainder.     (line   6)
-* Example programs:                      Demonstration Programs.
-                                                              (line   6)
 * Exec prefix:                           Build Options.       (line  32)
 * Execution profiling <1>:               Profiling.           (line   6)
 * Execution profiling:                   Build Options.       (line 333)
@@ -2429,17 +2390,13 @@ Concept Index
                                                               (line   6)
 * Export:                                Integer Import and Export.
                                                               (line  45)
-* Expression parsing demo:               Demonstration Programs.
-                                                              (line  15)
 * Extended GCD:                          Number Theoretic Functions.
                                                               (line  97)
 * Factor removal functions:              Number Theoretic Functions.
-                                                              (line 140)
+                                                              (line 141)
 * Factorial algorithm:                   Factorial Algorithm. (line   6)
 * Factorial functions:                   Number Theoretic Functions.
-                                                              (line 145)
-* Factorization demo:                    Demonstration Programs.
-                                                              (line  25)
+                                                              (line 146)
 * Fast Fourier Transform:                FFT Multiplication.  (line   6)
 * Fat binary:                            Build Options.       (line 170)
 * FFT multiplication <1>:                FFT Multiplication.  (line   6)
@@ -2447,7 +2404,7 @@ Concept Index
 * Fibonacci number algorithm:            Fibonacci Numbers Algorithm.
                                                               (line   6)
 * Fibonacci sequence functions:          Number Theoretic Functions.
-                                                              (line 158)
+                                                              (line 159)
 * Float arithmetic functions:            Float Arithmetic.    (line   6)
 * Float assignment functions <1>:        Simultaneous Float Init & Assign.
                                                               (line   6)
@@ -2634,7 +2591,7 @@ Concept Index
 * Lucas number algorithm:                Lucas Numbers Algorithm.
                                                               (line   6)
 * Lucas number functions:                Number Theoretic Functions.
-                                                              (line 169)
+                                                              (line 170)
 * MacOS X:                               Known Build Problems.
                                                               (line  51)
 * Mailing lists:                         Introduction to MPIR.
@@ -2660,8 +2617,6 @@ Concept Index
                                                               (line 110)
 * Most significant bit:                  Miscellaneous Integer Functions.
                                                               (line  34)
-* MPIR Perl module:                      Demonstration Programs.
-                                                              (line  35)
 * MPIR version number:                   Useful Macros and Constants.
                                                               (line  12)
 * mpir.h:                                Headers and Libraries.
@@ -2711,8 +2666,6 @@ Concept Index
                                                               (line   6)
 * Parameter conventions:                 Parameter Conventions.
                                                               (line   6)
-* Parsing expressions demo:              Demonstration Programs.
-                                                              (line  15)
 * Particular systems:                    Notes for Particular Systems.
                                                               (line   6)
 * Past GMP/MPIR versions:                Compatibility with older versions.
@@ -2724,10 +2677,6 @@ Concept Index
 * Perfect square algorithm:              Perfect Square Algorithm.
                                                               (line   6)
 * Perfect square functions:              Integer Roots.       (line  40)
-* perl:                                  Demonstration Programs.
-                                                              (line  35)
-* Perl module:                           Demonstration Programs.
-                                                              (line  35)
 * Postscript:                            Build Options.       (line 352)
 * Power/PowerPC <1>:                     Known Build Problems.
                                                               (line  63)
@@ -2792,7 +2741,7 @@ Concept Index
 * Reentrancy:                            Reentrancy.          (line   6)
 * References:                            References.          (line   6)
 * Remove factor functions:               Number Theoretic Functions.
-                                                              (line 140)
+                                                              (line 141)
 * Reporting bugs:                        Reporting Bugs.      (line   6)
 * Root extraction algorithm:             Nth Root Algorithm.  (line   6)
 * Root extraction algorithms:            Root Extraction Algorithms.
@@ -2802,8 +2751,6 @@ Concept Index
 * Root testing functions:                Integer Roots.       (line  31)
 * Rounding functions:                    Miscellaneous Float Functions.
                                                               (line   9)
-* Sample programs:                       Demonstration Programs.
-                                                              (line   6)
 * Scan bit functions:                    Integer Logic and Bit Fiddling.
                                                               (line  38)
 * scanf formatted input:                 Formatted Input.     (line   6)
@@ -3290,9 +3237,9 @@ Function and Type Index
 * mpz_array_init:                        Integer Special Functions.
                                                               (line  11)
 * mpz_bin_ui:                            Number Theoretic Functions.
-                                                              (line 148)
+                                                              (line 149)
 * mpz_bin_uiui:                          Number Theoretic Functions.
-                                                              (line 150)
+                                                              (line 151)
 * mpz_cdiv_q:                            Integer Division.    (line  13)
 * mpz_cdiv_q_2exp:                       Integer Division.    (line  24)
 * mpz_cdiv_q_ui:                         Integer Division.    (line  17)
@@ -3360,7 +3307,7 @@ Function and Type Index
 * mpz_export:                            Integer Import and Export.
                                                               (line  45)
 * mpz_fac_ui:                            Number Theoretic Functions.
-                                                              (line 145)
+                                                              (line 146)
 * mpz_fdiv_q:                            Integer Division.    (line  27)
 * mpz_fdiv_q_2exp:                       Integer Division.    (line  38)
 * mpz_fdiv_q_ui:                         Integer Division.    (line  31)
@@ -3371,9 +3318,9 @@ Function and Type Index
 * mpz_fdiv_r_ui:                         Integer Division.    (line  33)
 * mpz_fdiv_ui:                           Integer Division.    (line  37)
 * mpz_fib2_ui:                           Number Theoretic Functions.
-                                                              (line 158)
+                                                              (line 159)
 * mpz_fib_ui:                            Number Theoretic Functions.
-                                                              (line 156)
+                                                              (line 157)
 * mpz_fits_sint_p:                       Miscellaneous Integer Functions.
                                                               (line  10)
 * mpz_fits_slong_p:                      Miscellaneous Integer Functions.
@@ -3442,9 +3389,9 @@ Function and Type Index
 * mpz_likely_prime_p:                    Number Theoretic Functions.
                                                               (line  26)
 * mpz_lucnum2_ui:                        Number Theoretic Functions.
-                                                              (line 169)
+                                                              (line 170)
 * mpz_lucnum_ui:                         Number Theoretic Functions.
-                                                              (line 167)
+                                                              (line 168)
 * mpz_mod:                               Integer Division.    (line  91)
 * mpz_mod_ui:                            Integer Division.    (line  93)
 * mpz_mul:                               Integer Arithmetic.  (line  19)
@@ -3478,7 +3425,7 @@ Function and Type Index
 * mpz_realloc2:                          Initializing Integers.
                                                               (line  49)
 * mpz_remove:                            Number Theoretic Functions.
-                                                              (line 140)
+                                                              (line 141)
 * mpz_root:                              Integer Roots.       (line   7)
 * mpz_rootrem:                           Integer Roots.       (line  17)
 * mpz_rrandomb:                          Integer Random Numbers.

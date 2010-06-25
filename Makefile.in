@@ -247,8 +247,7 @@ nodist_includeexecHEADERS_INSTALL = $(INSTALL_HEADER)
 HEADERS = $(include_HEADERS) $(nodist_includeexec_HEADERS)
 ETAGS = etags
 CTAGS = ctags
-DIST_SUBDIRS = tests yasm mpn mpz mpq mpf printf scanf cxx demos tune \
-	doc
+DIST_SUBDIRS = tests yasm mpn mpz mpq mpf printf scanf cxx tune doc
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 distdir = $(PACKAGE)-$(VERSION)
 top_distdir = $(distdir)
@@ -304,33 +303,19 @@ GMP_LDFLAGS = @GMP_LDFLAGS@
 GMP_NAIL_BITS = @GMP_NAIL_BITS@
 GREP = @GREP@
 GSYM_FLAG = @GSYM_FLAG@
-HAVE_CLOCK_01 = @HAVE_CLOCK_01@
-HAVE_CPUTIME_01 = @HAVE_CPUTIME_01@
-HAVE_GETRUSAGE_01 = @HAVE_GETRUSAGE_01@
-HAVE_GETTIMEOFDAY_01 = @HAVE_GETTIMEOFDAY_01@
 HAVE_HOST_CPU_FAMILY_power = @HAVE_HOST_CPU_FAMILY_power@
 HAVE_HOST_CPU_FAMILY_powerpc = @HAVE_HOST_CPU_FAMILY_powerpc@
-HAVE_SIGACTION_01 = @HAVE_SIGACTION_01@
-HAVE_SIGALTSTACK_01 = @HAVE_SIGALTSTACK_01@
-HAVE_SIGSTACK_01 = @HAVE_SIGSTACK_01@
-HAVE_STACK_T_01 = @HAVE_STACK_T_01@
-HAVE_SYS_RESOURCE_H_01 = @HAVE_SYS_RESOURCE_H_01@
 INSTALL_DATA = @INSTALL_DATA@
 INSTALL_PROGRAM = @INSTALL_PROGRAM@
 INSTALL_SCRIPT = @INSTALL_SCRIPT@
 INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
 LDFLAGS = @LDFLAGS@
-LEX = @LEX@
-LEXLIB = @LEXLIB@
-LEX_OUTPUT_ROOT = @LEX_OUTPUT_ROOT@
-LIBCURSES = @LIBCURSES@
 LIBGMPXX_LDFLAGS = @LIBGMPXX_LDFLAGS@
 LIBGMP_DLL = @LIBGMP_DLL@
 LIBGMP_LDFLAGS = @LIBGMP_LDFLAGS@
 LIBM = @LIBM@
 LIBM_FOR_BUILD = @LIBM_FOR_BUILD@
 LIBOBJS = @LIBOBJS@
-LIBREADLINE = @LIBREADLINE@
 LIBS = @LIBS@
 LIBTOOL = @LIBTOOL@
 LN_S = @LN_S@
@@ -366,9 +351,6 @@ WANT_CXX_FALSE = @WANT_CXX_FALSE@
 WANT_CXX_TRUE = @WANT_CXX_TRUE@
 WANT_GMPCOMPAT_FALSE = @WANT_GMPCOMPAT_FALSE@
 WANT_GMPCOMPAT_TRUE = @WANT_GMPCOMPAT_TRUE@
-WITH_READLINE_01 = @WITH_READLINE_01@
-YACC = @YACC@
-YFLAGS = @YFLAGS@
 ac_ct_CC = @ac_ct_CC@
 ac_ct_CXX = @ac_ct_CXX@
 am__leading_dot = @am__leading_dot@
@@ -476,8 +458,8 @@ LIBGMPXX_LT_AGE = 2
 LIBMP_LT_CURRENT = 0
 LIBMP_LT_REVISION = 0
 LIBMP_LT_AGE = 0
-SUBDIRS = tests $(am__append_1) mpn mpz mpq mpf printf scanf cxx demos \
-	tune doc
+SUBDIRS = tests $(am__append_1) mpn mpz mpq mpf printf scanf cxx tune \
+	doc
 
 # The "test -f" support for srcdir!=builddir is similar to the automake .c.o
 # etc rules, but with each foo.c explicitly, since $< is not portable
@@ -983,7 +965,7 @@ distclean-tags:
 distdir: $(DISTFILES)
 	$(am__remove_distdir)
 	mkdir $(distdir)
-	$(mkdir_p) $(distdir)/. $(distdir)/demos $(distdir)/demos/calc $(distdir)/doc $(distdir)/mpn
+	$(mkdir_p) $(distdir)/. $(distdir)/doc $(distdir)/mpn
 	@srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`; \
 	topsrcdirstrip=`echo "$(top_srcdir)" | sed 's|.|.|g'`; \
 	list='$(DISTFILES)'; for file in $$list; do \
@@ -1310,7 +1292,6 @@ gen-psqr_.c: gen-psqr.c
 #
 dist-hook:
 	-find $(distdir) \( -name CVS -type d \) -o -name "*~" -o -name ".#*" -o -name ".svn" | xargs rm -rf
-	touch $(distdir)/demos/calc/calc.c $(distdir)/demos/calc/calcread.c $(distdir)/demos/calc/calc-common.h $(distdir)/demos/calc/calc.h $(distdir)/demos/calc/calclex.c
 	chmod 755 $(distdir)/config.guess $(distdir)/configfsf.guess $(distdir)/configfsf.sub $(distdir)/config.sub
 	rm -f $(distdir)/yasm/Makefile.in
 	(  VAR=0 ; \
