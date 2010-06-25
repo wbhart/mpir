@@ -480,7 +480,7 @@ AMD K6, K6-2, Athlon, K8 and K10,
 Hitachi SuperH and SH-2,
 HPPA 1.0, 1.1 and 2.0,
 Intel Pentium, Pentium Pro/II/III, Pentium 4, generic x86,
-Intel IA-64, i960, Core 2, i7, Atom,
+Intel IA-64, Core 2, i7, Atom,
 Motorola MC68000, MC68020, MC88100, and MC88110,
 Motorola/IBM PowerPC 32 and 64,
 National NS32000,
@@ -855,7 +855,6 @@ x86 family:
 @item
 Other:
 @nisamp{arm},
-@nisamp{i960},
 @nisamp{ns32k},
 @nisamp{pyramid},
 @nisamp{sh},

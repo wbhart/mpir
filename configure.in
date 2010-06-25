@@ -636,12 +636,6 @@ case $host in
     esac
     ;;
 
-
-  i960*-*-*)
-    path="i960"
-    ;;
-
-
   IA64_PATTERN)
     abilist="64"
     GMP_INCLUDE_MPN(ia64/ia64-defs.m4)

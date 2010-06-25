@@ -841,55 +841,6 @@ extern UWtype __MPN(udiv_qrnnd) _PROTO ((UWtype *, UWtype, UWtype, UWtype));
 	   "=r" (r) : "r" (h), "r" (l), "rn" (c))
 #endif /* i860 */
 
-#if defined (__i960__) && W_TYPE_SIZE == 32
-#define add_ssaaaa(sh, sl, ah, al, bh, bl) \
-  __asm__ ("cmpo 1,0\;addc %5,%4,%1\;addc %3,%2,%0"			\
-	   : "=r" (sh), "=&r" (sl)					\
-	   : "dI" (ah), "dI" (bh), "%dI" (al), "dI" (bl))
-#define sub_ddmmss(sh, sl, ah, al, bh, bl) \
-  __asm__ ("cmpo 0,0\;subc %5,%4,%1\;subc %3,%2,%0"			\
-	   : "=r" (sh), "=&r" (sl)					\
-	   : "dI" (ah), "dI" (bh), "dI" (al), "dI" (bl))
-#define umul_ppmm(w1, w0, u, v) \
-  ({union {UDItype __ll;						\
-	   struct {USItype __l, __h;} __i;				\
-	  } __x;							\
-  __asm__ ("emul %2,%1,%0"						\
-	   : "=d" (__x.__ll) : "%dI" (u), "dI" (v));			\
-  (w1) = __x.__i.__h; (w0) = __x.__i.__l;})
-#define __umulsidi3(u, v) \
-  ({UDItype __w;							\
-    __asm__ ("emul %2,%1,%0" : "=d" (__w) : "%dI" (u), "dI" (v));	\
-    __w; })
-#define udiv_qrnnd(q, r, nh, nl, d) \
-  do {									\
-    union {UDItype __ll;						\
-	   struct {USItype __l, __h;} __i;				\
-	  } __nn;							\
-    __nn.__i.__h = (nh); __nn.__i.__l = (nl);				\
-    __asm__ ("ediv %d,%n,%0"						\
-	   : "=d" (__rq.__ll) : "dI" (__nn.__ll), "dI" (d));		\
-    (r) = __rq.__i.__l; (q) = __rq.__i.__h;				\
-  } while (0)
-#define count_leading_zeros(count, x) \
-  do {									\
-    USItype __cbtmp;							\
-    __asm__ ("scanbit %1,%0" : "=r" (__cbtmp) : "r" (x));		\
-    (count) = __cbtmp ^ 31;						\
-  } while (0)
-#define COUNT_LEADING_ZEROS_0 (-32) /* sic */
-#if defined (__i960mx)		/* what is the proper symbol to test??? */
-#define rshift_rhlc(r,h,l,c) \
-  do {									\
-    union {UDItype __ll;						\
-	   struct {USItype __l, __h;} __i;				\
-	  } __nn;							\
-    __nn.__i.__h = (h); __nn.__i.__l = (l);				\
-    __asm__ ("shre %2,%1,%0" : "=d" (r) : "dI" (__nn.__ll), "dI" (c));	\
-  }
-#endif /* i960mx */
-#endif /* i960 */
-
 #if (defined (__mc68000__) || defined (__mc68020__) || defined(mc68020) \
      || defined (__m68k__) || defined (__mc5200__) || defined (__mc5206e__) \
      || defined (__mc5307__)) && W_TYPE_SIZE == 32
