@@ -1,3 +1,28 @@
+###
+###	To upgrade mpir's yasm.
+###
+###	change to the mpir directory
+###
+###	svn del yasm
+###	svn commit -m "delete old yasm"
+###	svn co http://www.tortall.net/svn/yasm/trunk/yasm yasm
+###	cd yasm
+###	rm -r $(find -name \\.svn)
+###	patch -Np1 < ../yasm.diff
+###	./autogen.sh
+###	./configure
+###	make
+###	make distclean
+###	rm -r autom4te.cache
+###
+###	and replace the symbolic links in the config directory with real files
+###
+###	cd ..
+###	svn add yasm
+###	svn commit -m "new yasm installed"
+###
+###
+
 diff -Naur yasm2227/config/config.sub mpiryasm/config/config.sub
 --- yasm2227/config/config.sub	2010-06-25 12:59:22.000000000 +0100
 +++ mpiryasm/config/config.sub	2010-06-25 13:00:42.000000000 +0100
