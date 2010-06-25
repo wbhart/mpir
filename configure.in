@@ -1513,18 +1513,6 @@ case $host in
       ;;
 
 
-  # FIXME: z8kx won't get through config.sub.  Could make 16 versus 32 bit
-  # limb an ABI option perhaps.
-  z8kx*-*-*)
-    path="z8000x"
-    extra_functions="udiv_w_sdiv"
-    ;;
-  z8k*-*-*)
-    path="z8000"
-    extra_functions="udiv_w_sdiv"
-    ;;
-
-
   # Special CPU "none" selects generic C.  -DNO_ASM is used to disable gcc
   # asm blocks in longlong.h (since they're driven by cpp pre-defined
   # symbols like __alpha rather than the configured $host_cpu).

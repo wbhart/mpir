@@ -487,8 +487,6 @@ IBM POWER,
 MIPS R3000, R4000,
 SPARCv7, SuperSPARC, generic SPARCv8, UltraSPARC,
 DEC VAX,
-and
-Zilog Z8000.
 Some optimizations also for
 Cray vector systems,
 IBM ROMP (RT),

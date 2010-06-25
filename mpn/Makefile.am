@@ -33,7 +33,7 @@ libmpn_la_DEPENDENCIES = $(OFILES)
 
 TARG_DIST = alpha arm cray generic ia64 lisp m68k \
   mips32 mips64 pa32 pa64 power powerpc32 powerpc64 s390 sh \
-  sparc32 sparc64 thumb vax x86 x86_64 z8000 z8000x
+  sparc32 sparc64 thumb vax x86 x86_64
 
 EXTRA_DIST = asm-defs.m4 cpp-ccas m4-ccas $(TARG_DIST)
 
