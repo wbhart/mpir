@@ -492,7 +492,6 @@ and
 Zilog Z8000.
 Some optimizations also for
 Cray vector systems,
-Clipper,
 IBM ROMP (RT),
 and
 Pyramid AP/XP.
@@ -856,7 +855,6 @@ x86 family:
 @item
 Other:
 @nisamp{arm},
-@nisamp{clipper},
 @nisamp{i960},
 @nisamp{ns32k},
 @nisamp{pyramid},

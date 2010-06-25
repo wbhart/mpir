@@ -528,12 +528,6 @@ case $host in
     GMP_INCLUDE_MPN(arm/arm-defs.m4)
     ;;
 
-
-  clipper*-*-*)
-    path="clipper"
-    ;;
-
-
   # Fujitsu
   [f30[01]-fujitsu-sysv*])
     cclist="gcc vcc"

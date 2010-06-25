@@ -703,30 +703,6 @@ extern UWtype __MPN(udiv_qrnnd) _PROTO ((UWtype *, UWtype, UWtype, UWtype));
 #endif
 #endif /* __arm__ */
 
-#if defined (__clipper__) && W_TYPE_SIZE == 32
-#define umul_ppmm(w1, w0, u, v) \
-  ({union {UDItype __ll;						\
-	   struct {USItype __l, __h;} __i;				\
-	  } __x;							\
-  __asm__ ("mulwux %2,%0"						\
-	   : "=r" (__x.__ll)						\
-	   : "%0" ((USItype)(u)), "r" ((USItype)(v)));			\
-  (w1) = __x.__i.__h; (w0) = __x.__i.__l;})
-#define smul_ppmm(w1, w0, u, v) \
-  ({union {DItype __ll;							\
-	   struct {SItype __l, __h;} __i;				\
-	  } __x;							\
-  __asm__ ("mulwx %2,%0"						\
-	   : "=r" (__x.__ll)						\
-	   : "%0" ((SItype)(u)), "r" ((SItype)(v)));			\
-  (w1) = __x.__i.__h; (w0) = __x.__i.__l;})
-#define __umulsidi3(u, v) \
-  ({UDItype __w;							\
-    __asm__ ("mulwux %2,%0"						\
-	     : "=r" (__w) : "%0" ((USItype)(u)), "r" ((USItype)(v)));	\
-    __w; })
-#endif /* __clipper__ */
-
 /* Fujitsu vector computers.  */
 #if defined (__uxp__) && W_TYPE_SIZE == 32
 #define umul_ppmm(ph, pl, u, v) \

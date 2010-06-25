@@ -80,7 +80,7 @@ See `gmpasm-mode' docstring for how this is used.
 
 Commenting styles within GMP include
   #   - alpha, i386, i960, vax, traditional unix
-  ;   - clipper, hppa, m88k, ppc
+  ;   - hppa, m88k, ppc
   !   - sh, sparc, z8000
   |   - m68k
   @   - arm
