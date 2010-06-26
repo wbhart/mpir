@@ -3884,7 +3884,7 @@ echo "include_mpn(\`sparc32/sparc-defs.m4')" >> $gmp_tmpconfigm4i
   # mode, in case -m32 has failed not because it's an old gcc, but because
   # it's a dual 32/64-bit gcc without a 32-bit libc, or whatever.
   #
-  i?86*-*-* | k[5-8]*-*-* | pentium*-*-* | athlon-*-* | viac3*-*-* | x86_64-*-* | netburst-*-* | netburstlahf-*-* | k8-*-* | k10-*-* | k102-*-* | core2-*-* | penryn-*-* | nehalem-*-* | atom-*-* | nano-*-*)
+  i?86*-*-* | k[5-8]*-*-* | pentium*-*-* | athlon-*-* | viac3*-*-* | x86_64-*-* | netburst-*-* | netburstlahf-*-* | k8-*-* | k10-*-* | k102-*-* | core2-*-* | penryn-*-* | nehalem-*-* | westmere-*-* | atom-*-* | nano-*-*)
     abilist="32"
     cclist="gcc icc cc"
     gcc_cflags="-O2 $fomit_frame_pointer"
@@ -4026,7 +4026,7 @@ echo "include_mpn(\`sparc32/sparc-defs.m4')" >> $gmp_tmpconfigm4i
         gcc_cflags_cpu="-mtune=k8 -mcpu=athlon -mcpu=pentiumpro -mcpu=i486 -m486"
         gcc_cflags_arch="-march=k8 -march=k8~-mno-sse2 -march=athlon -march=pentiumpro -march=pentium"
         ;;
-      core2 | penryn | nehalem)
+      core2 | penryn | nehalem | westmere)
         gcc_cflags_cpu="-mtune=core2 -mtune=nocona -mtune=pentium3 -mcpu=pentiumpro -mcpu=i486 -m486"
         gcc_cflags_arch="-march=core2 -march=nocona -march=pentium3 -march=pentiumpro -march=pentium"
         ;;
@@ -4052,7 +4052,7 @@ echo "include_mpn(\`sparc32/sparc-defs.m4')" >> $gmp_tmpconfigm4i
       k8)			path="x86/k7/mmx/k8 x86/k7/mmx x86/k7 x86" ;;
       core2 | penryn)		path="x86/core2 x86" ;;
       i786 | pentium4)		path="x86/pentium4/sse2 x86/pentium4/mmx x86/pentium4 x86" ;;
-      nehalem)			path="x86/nehalem x86" ;;
+      nehalem | westmere)	path="x86/nehalem x86" ;;
       prescott | netburst | netburstlahf)       path="x86/pentium4/sse2 x86/pentium4/mmx x86/pentium4 x86" ;;
       # VIA/Centaur processors, sold as CyrixIII and C3.
       nano | viac32)           path="x86/p6/p3mmx x86/p6/mmx x86/p6 x86";;
@@ -4096,7 +4096,7 @@ echo "include_mpn(\`sparc32/sparc-defs.m4')" >> $gmp_tmpconfigm4i
     fi
 
     case $host in
-      x86_64-*-* | netburst-*-* | netburstlahf-*-* | k8-*-* | k10-*-* | k102-*-* | core2-*-* | penryn-*-* | nehalem-*-* | atom-*-* | nano-*-*)
+      x86_64-*-* | netburst-*-* | netburstlahf-*-* | k8-*-* | k10-*-* | k102-*-* | core2-*-* | penryn-*-* | nehalem-*-* | westmere-*-* | atom-*-* | nano-*-*)
         abilist="64 32"
         cclist_64="gcc cc"
         gcc_64_cflags="-O2 -m64"
@@ -4133,6 +4133,8 @@ echo "include_mpn(\`sparc32/sparc-defs.m4')" >> $gmp_tmpconfigm4i
             path_64="x86_64/core2/penryn x86_64/core2 x86_64" ;;
           nehalem-*-*)
             path_64="x86_64/nehalem x86_64" ;;
+          westmere-*-*)
+            path_64="x86_64/nehalem/westmere x86_64/nehalem x86_64" ;;
           atom-*-*)
             path_64="x86_64/atom x86_64" ;;
           nano-*-*)
@@ -4145,7 +4147,7 @@ echo "include_mpn(\`sparc32/sparc-defs.m4')" >> $gmp_tmpconfigm4i
           gcc_64_cflags_arch=""
           extra_functions_64="$extra_functions_64 fat fat_entry"
           path_64="x86_64/fat x86_64"
-          fat_path_64="x86_64 x86_64/fat x86_64/netburst x86_64/netburst/netburstlahf x86_64/k8 x86_64/k8/k8only x86_64/k8/k10 x86_64/k8/k10/k102  x86_64/core2 x86_64/core2/penryn x86_64/nehalem x86_64/atom x86_64/nano"
+          fat_path_64="x86_64 x86_64/fat x86_64/netburst x86_64/netburst/netburstlahf x86_64/k8 x86_64/k8/k8only x86_64/k8/k10 x86_64/k8/k10/k102  x86_64/core2 x86_64/core2/penryn x86_64/nehalem x86_64/nehalem/westmere x86_64/atom x86_64/nano"
         fi
         ;;
 
@@ -9889,7 +9891,7 @@ done
 # enough assembler.
 #
 case $host in
-  i?86*-*-* | k[5-8]*-*-* | pentium*-*-* | athlon-*-* | viac3*-*-* | x86_64-*-* | netburst-*-* | netburstlahf-*-* | k8-*-* | k10-*-* | k102-*-* | core2-*-* | penryn-*-* | nehalem-*-* | atom-*-* | nano-*-*)
+  i?86*-*-* | k[5-8]*-*-* | pentium*-*-* | athlon-*-* | viac3*-*-* | x86_64-*-* | netburst-*-* | netburstlahf-*-* | k8-*-* | k10-*-* | k102-*-* | core2-*-* | penryn-*-* | nehalem-*-* | westmere-*-* | atom-*-* | nano-*-*)
     if test "$ABI" = 32; then
       case "$path $fat_path" in
         *mmx*)   { echo "$as_me:$LINENO: checking if the assembler knows about MMX instructions" >&5
@@ -10970,7 +10972,7 @@ ia64-*-hpux*)
   ;;
 *-*-irix6*)
   # Find out which ABI we are using.
-  echo '#line 10973 "configure"' > conftest.$ac_ext
+  echo '#line 10975 "configure"' > conftest.$ac_ext
   if { (eval echo "$as_me:$LINENO: \"$ac_compile\"") >&5
   (eval $ac_compile) 2>&5
   ac_status=$?
@@ -13039,11 +13041,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:13042: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:13044: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>conftest.err)
    ac_status=$?
    cat conftest.err >&5
-   echo "$as_me:13046: \$? = $ac_status" >&5
+   echo "$as_me:13048: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s "$ac_outfile"; then
      # The compiler can only warn and ignore the option if not recognized
      # So say no if there are warnings other than the usual output.
@@ -13329,11 +13331,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:13332: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:13334: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>conftest.err)
    ac_status=$?
    cat conftest.err >&5
-   echo "$as_me:13336: \$? = $ac_status" >&5
+   echo "$as_me:13338: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s "$ac_outfile"; then
      # The compiler can only warn and ignore the option if not recognized
      # So say no if there are warnings other than the usual output.
@@ -13433,11 +13435,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:13436: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:13438: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>out/conftest.err)
    ac_status=$?
    cat out/conftest.err >&5
-   echo "$as_me:13440: \$? = $ac_status" >&5
+   echo "$as_me:13442: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s out/conftest2.$ac_objext
    then
      # The compiler can only warn and ignore the option if not recognized
@@ -15782,7 +15784,7 @@ else
   lt_dlunknown=0; lt_dlno_uscore=1; lt_dlneed_uscore=2
   lt_status=$lt_dlunknown
   cat > conftest.$ac_ext <<EOF
-#line 15785 "configure"
+#line 15787 "configure"
 #include "confdefs.h"
 
 #if HAVE_DLFCN_H
@@ -15882,7 +15884,7 @@ else
   lt_dlunknown=0; lt_dlno_uscore=1; lt_dlneed_uscore=2
   lt_status=$lt_dlunknown
   cat > conftest.$ac_ext <<EOF
-#line 15885 "configure"
+#line 15887 "configure"
 #include "confdefs.h"
 
 #if HAVE_DLFCN_H
@@ -18302,11 +18304,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:18305: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:18307: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>conftest.err)
    ac_status=$?
    cat conftest.err >&5
-   echo "$as_me:18309: \$? = $ac_status" >&5
+   echo "$as_me:18311: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s "$ac_outfile"; then
      # The compiler can only warn and ignore the option if not recognized
      # So say no if there are warnings other than the usual output.
@@ -18406,11 +18408,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:18409: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:18411: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>out/conftest.err)
    ac_status=$?
    cat out/conftest.err >&5
-   echo "$as_me:18413: \$? = $ac_status" >&5
+   echo "$as_me:18415: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s out/conftest2.$ac_objext
    then
      # The compiler can only warn and ignore the option if not recognized
@@ -19968,11 +19970,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:19971: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:19973: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>conftest.err)
    ac_status=$?
    cat conftest.err >&5
-   echo "$as_me:19975: \$? = $ac_status" >&5
+   echo "$as_me:19977: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s "$ac_outfile"; then
      # The compiler can only warn and ignore the option if not recognized
      # So say no if there are warnings other than the usual output.
@@ -20072,11 +20074,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:20075: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:20077: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>out/conftest.err)
    ac_status=$?
    cat out/conftest.err >&5
-   echo "$as_me:20079: \$? = $ac_status" >&5
+   echo "$as_me:20081: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s out/conftest2.$ac_objext
    then
      # The compiler can only warn and ignore the option if not recognized
@@ -22259,11 +22261,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:22262: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:22264: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>conftest.err)
    ac_status=$?
    cat conftest.err >&5
-   echo "$as_me:22266: \$? = $ac_status" >&5
+   echo "$as_me:22268: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s "$ac_outfile"; then
      # The compiler can only warn and ignore the option if not recognized
      # So say no if there are warnings other than the usual output.
@@ -22549,11 +22551,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:22552: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:22554: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>conftest.err)
    ac_status=$?
    cat conftest.err >&5
-   echo "$as_me:22556: \$? = $ac_status" >&5
+   echo "$as_me:22558: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s "$ac_outfile"; then
      # The compiler can only warn and ignore the option if not recognized
      # So say no if there are warnings other than the usual output.
@@ -22653,11 +22655,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:22656: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:22658: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>out/conftest.err)
    ac_status=$?
    cat out/conftest.err >&5
-   echo "$as_me:22660: \$? = $ac_status" >&5
+   echo "$as_me:22662: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s out/conftest2.$ac_objext
    then
      # The compiler can only warn and ignore the option if not recognized
@@ -30916,7 +30918,7 @@ echo "define(<HAVE_REGISTER>,<$gmp_cv_asm_sparc_register>)" >> $gmp_tmpconfigm4
           ;;
       esac
       ;;
-    i?86*-*-* | k[5-8]*-*-* | pentium*-*-* | athlon-*-* | viac3*-*-* | x86_64-*-* | netburst-*-* | netburstlahf-*-* | k8-*-* | k10-*-* | k102-*-* | core2-*-* | penryn-*-* | nehalem-*-* | atom-*-* | nano-*-*)
+    i?86*-*-* | k[5-8]*-*-* | pentium*-*-* | athlon-*-* | viac3*-*-* | x86_64-*-* | netburst-*-* | netburstlahf-*-* | k8-*-* | k10-*-* | k102-*-* | core2-*-* | penryn-*-* | nehalem-*-* | westmere-*-* | atom-*-* | nano-*-*)
 
 { echo "$as_me:$LINENO: checking if the .align directive accepts an 0x90 fill in .text" >&5
 echo $ECHO_N "checking if the .align directive accepts an 0x90 fill in .text... $ECHO_C" >&6; }

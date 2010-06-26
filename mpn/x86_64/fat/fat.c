@@ -205,6 +205,7 @@ __gmpn_cpuvec_init (void)
 #define CPUSETUP_core2		CPUVEC_SETUP_core2
 #define CPUSETUP_penryn		CPUVEC_SETUP_core2;CPUVEC_SETUP_core2_penryn
 #define CPUSETUP_nehalem	CPUVEC_SETUP_nehalem
+#define CPUSETUP_westmere	CPUVEC_SETUP_nehalem;CPUVEC_SETUP_nehalem_westmere
 #define CPUSETUP_atom		CPUVEC_SETUP_atom
 #define CPUSETUP_nano		CPUVEC_SETUP_nano
 #define CPUSETUP_netburst	CPUVEC_SETUP_netburst
