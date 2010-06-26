@@ -703,52 +703,6 @@ extern UWtype __MPN(udiv_qrnnd) _PROTO ((UWtype *, UWtype, UWtype, UWtype));
 #endif
 #endif /* __arm__ */
 
-/* Fujitsu vector computers.  */
-#if defined (__uxp__) && W_TYPE_SIZE == 32
-#define umul_ppmm(ph, pl, u, v) \
-  do {									\
-    union {UDItype __ll;						\
-	   struct {USItype __h, __l;} __i;				\
-	  } __x;							\
-    __asm__ ("mult.lu %1,%2,%0"	: "=r" (__x.__ll) : "%r" (u), "rK" (v));\
-    (ph) = __x.__i.__h;							\
-    (pl) = __x.__i.__l;							\
-  } while (0)
-#define smul_ppmm(ph, pl, u, v) \
-  do {									\
-    union {UDItype __ll;						\
-	   struct {USItype __h, __l;} __i;				\
-	  } __x;							\
-    __asm__ ("mult.l %1,%2,%0" : "=r" (__x.__ll) : "%r" (u), "rK" (v));	\
-    (ph) = __x.__i.__h;							\
-    (pl) = __x.__i.__l;							\
-  } while (0)
-#endif
-
-#if defined (__gmicro__) && W_TYPE_SIZE == 32
-#define add_ssaaaa(sh, sl, ah, al, bh, bl) \
-  __asm__ ("add.w %5,%1\n\taddx %3,%0"					\
-	   : "=g" (sh), "=&g" (sl)					\
-	   : "0"  ((USItype)(ah)), "g" ((USItype)(bh)),			\
-	     "%1" ((USItype)(al)), "g" ((USItype)(bl)))
-#define sub_ddmmss(sh, sl, ah, al, bh, bl) \
-  __asm__ ("sub.w %5,%1\n\tsubx %3,%0"					\
-	   : "=g" (sh), "=&g" (sl)					\
-	   : "0" ((USItype)(ah)), "g" ((USItype)(bh)),			\
-	     "1" ((USItype)(al)), "g" ((USItype)(bl)))
-#define umul_ppmm(ph, pl, m0, m1) \
-  __asm__ ("mulx %3,%0,%1"						\
-	   : "=g" (ph), "=r" (pl)					\
-	   : "%0" ((USItype)(m0)), "g" ((USItype)(m1)))
-#define udiv_qrnnd(q, r, nh, nl, d) \
-  __asm__ ("divx %4,%0,%1"						\
-	   : "=g" (q), "=r" (r)						\
-	   : "1" ((USItype)(nh)), "0" ((USItype)(nl)), "g" ((USItype)(d)))
-#define count_leading_zeros(count, x) \
-  __asm__ ("bsch/1 %1,%0"						\
-	   : "=g" (count) : "g" ((USItype)(x)), "0" ((USItype)0))
-#endif
-
 #if defined (__hppa) && W_TYPE_SIZE == 32
 #define add_ssaaaa(sh, sl, ah, al, bh, bl) \
   __asm__ ("add%I5 %5,%r4,%1\n\taddc %r2,%r3,%0"			\
@@ -834,12 +788,6 @@ extern UWtype __MPN(udiv_qrnnd) _PROTO ((UWtype *, UWtype, UWtype, UWtype));
     (q) = __x.__i.__l; (r) = __x.__i.__h;				\
   } while (0)
 #endif
-
-#if defined (__i860__) && W_TYPE_SIZE == 32
-#define rshift_rhlc(r,h,l,c) \
-  __asm__ ("shr %3,r0,r0\;shrd %1,%2,%0"				\
-	   "=r" (r) : "r" (h), "r" (l), "rn" (c))
-#endif /* i860 */
 
 #if (defined (__mc68000__) || defined (__mc68020__) || defined(mc68020) \
      || defined (__m68k__) || defined (__mc5200__) || defined (__mc5206e__) \
@@ -1090,58 +1038,6 @@ extern UWtype __MPN(udiv_qrnnd) _PROTO ((UWtype *, UWtype, UWtype, UWtype));
 #define SMUL_TIME 14  /* ??? */
 #define UDIV_TIME 120 /* ??? */
 #endif /* 64-bit PowerPC.  */
-
-#if defined (__ibm032__) /* RT/ROMP */  && W_TYPE_SIZE == 32
-#define add_ssaaaa(sh, sl, ah, al, bh, bl) \
-  __asm__ ("a %1,%5\n\tae %0,%3"					\
-	   : "=r" (sh), "=&r" (sl)					\
-	   : "0"  ((USItype)(ah)), "r" ((USItype)(bh)),			\
-	     "%1" ((USItype)(al)), "r" ((USItype)(bl)))
-#define sub_ddmmss(sh, sl, ah, al, bh, bl) \
-  __asm__ ("s %1,%5\n\tse %0,%3"					\
-	   : "=r" (sh), "=&r" (sl)					\
-	   : "0" ((USItype)(ah)), "r" ((USItype)(bh)),			\
-	     "1" ((USItype)(al)), "r" ((USItype)(bl)))
-#define smul_ppmm(ph, pl, m0, m1) \
-  __asm__ (								\
-       "s	r2,r2\n"						\
-"	mts r10,%2\n"							\
-"	m	r2,%3\n"						\
-"	m	r2,%3\n"						\
-"	m	r2,%3\n"						\
-"	m	r2,%3\n"						\
-"	m	r2,%3\n"						\
-"	m	r2,%3\n"						\
-"	m	r2,%3\n"						\
-"	m	r2,%3\n"						\
-"	m	r2,%3\n"						\
-"	m	r2,%3\n"						\
-"	m	r2,%3\n"						\
-"	m	r2,%3\n"						\
-"	m	r2,%3\n"						\
-"	m	r2,%3\n"						\
-"	m	r2,%3\n"						\
-"	m	r2,%3\n"						\
-"	cas	%0,r2,r0\n"						\
-"	mfs	r10,%1"							\
-	   : "=r" (ph), "=r" (pl)					\
-	   : "%r" ((USItype)(m0)), "r" ((USItype)(m1))			\
-	   : "r2")
-#define UMUL_TIME 20
-#define UDIV_TIME 200
-#define count_leading_zeros(count, x) \
-  do {									\
-    if ((x) >= 0x10000)							\
-      __asm__ ("clz	%0,%1"						\
-	       : "=r" (count) : "r" ((USItype)(x) >> 16));		\
-    else								\
-      {									\
-	__asm__ ("clz	%0,%1"						\
-		 : "=r" (count) : "r" ((USItype)(x)));			\
-	(count) += 16;							\
-      }									\
-  } while (0)
-#endif /* RT/ROMP */
 
 #if defined (__sh2__) && W_TYPE_SIZE == 32
 #define umul_ppmm(w1, w0, u, v) \

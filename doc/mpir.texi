@@ -488,7 +488,7 @@ SPARCv7, SuperSPARC, generic SPARCv8, UltraSPARC,
 DEC VAX,
 Some optimizations also for
 Cray vector systems,
-IBM ROMP (RT),
+
 
 @cindex Home page
 @cindex Web page
