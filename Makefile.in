@@ -460,27 +460,10 @@ LIBMP_LT_REVISION = 0
 LIBMP_LT_AGE = 0
 SUBDIRS = tests $(am__append_1) mpn mpz mpq mpf printf scanf cxx tune \
 	doc
-
-# The "test -f" support for srcdir!=builddir is similar to the automake .c.o
-# etc rules, but with each foo.c explicitly, since $< is not portable
-# outside an inference rule.
-#
-# A quoted 'foo.c' is used with the "test -f"'s to avoid Sun make rewriting
-# it as part of its VPATH support.  See the autoconf manual "Limitations of
-# Make".
-#
-# Generated .h files which are used by gmp-impl.h are BUILT_SOURCES since
-# they must exist before anything can be compiled.
-#
-# Other generated .h files are also BUILT_SOURCES so as to get all the
-# build-system stuff over and done with at the start.  Also, dependencies on
-# the .h files are not properly expressed for the various objects that use
-# them.
 EXTRA_DIST = configfsf.guess configfsf.sub .gdbinit INSTALL.autoconf \
 	mpirxx.h yasm_mac.inc.fat yasm_mac.inc.nofat strip_fPIC.sh \
 	mpn/x86w mpn/x86_64w build.vc9 build.vc10 doc/devel \
-	doc/fdl.texi cpuid.c gpl-2.0.txt lgpl-2.1.txt dumbmp.c \
-	gen-fac_ui.c gen-fib.c gen-bases.c gen-psqr.c
+	doc/fdl.texi cpuid.c gpl-2.0.txt lgpl-2.1.txt
 @WANT_CXX_TRUE@GMPXX_HEADERS_OPTION = mpirxx.h
 
 # mpir.h and mp.h are architecture dependent, mainly since they encode the
@@ -497,11 +480,8 @@ include_HEADERS = $(GMPXX_HEADERS_OPTION)
 nodist_includeexec_HEADERS = mpir.h
 lib_LTLIBRARIES = libmpir.la $(am__append_2) \
 	$(GMPXX_LTLIBRARIES_OPTION)
-BUILT_SOURCES = mpir.h mpz/fac_ui.h fib_table.h mpn/fib_table.c \
-	mp_bases.h mpn/mp_bases.c mpn/perfsqr.h
-DISTCLEANFILES = $(BUILT_SOURCES) config.m4 fat.h @gmp_srclinks@ \
-	gen-fac_ui$(EXEEXT_FOR_BUILD) gen-fib$(EXEEXT_FOR_BUILD) \
-	gen-bases$(EXEEXT_FOR_BUILD) gen-psqr$(EXEEXT_FOR_BUILD)
+BUILT_SOURCES = mpir.h
+DISTCLEANFILES = $(BUILT_SOURCES) config.m4 fat.h @gmp_srclinks@
 
 # Tell mpir.h it's building gmp, not an application, used by windows DLL stuff.
 INCLUDES = -D__GMP_WITHIN_GMP
@@ -1241,47 +1221,21 @@ install-data-hook:
 	@echo '+-------------------------------------------------------------+'
 	@echo ''
 
-mpz/fac_ui.h: gen-fac_ui$(EXEEXT_FOR_BUILD)
-	./gen-fac_ui $(BITS_PER_MP_LIMB) $(GMP_NAIL_BITS) >mpz/fac_ui.h || (rm -f mpz/fac_ui.h; exit 1)
-
-gen-fac_ui$(EXEEXT_FOR_BUILD): gen-fac_ui$(U_FOR_BUILD).c dumbmp.c
-	$(CC_FOR_BUILD) `test -f 'gen-fac_ui$(U_FOR_BUILD).c' || echo '$(srcdir)/'`gen-fac_ui$(U_FOR_BUILD).c -o gen-fac_ui$(EXEEXT_FOR_BUILD)
-
-gen-fac_ui_.c: gen-fac_ui.c
-	$(CPP_FOR_BUILD) `if test -f $(srcdir)/gen-fac_ui.c; then echo $(srcdir)/gen-fac_ui.c; else echo gen-fac_ui.c; fi` | sed 's/^# \([0-9]\)/#line \1/' > gen-fac_ui_.c || rm -f gen-fac_ui_.c
-
-fib_table.h: gen-fib$(EXEEXT_FOR_BUILD)
-	./gen-fib header $(BITS_PER_MP_LIMB) $(GMP_NAIL_BITS) >fib_table.h || (rm -f fib_table.h; exit 1)
-
-mpn/fib_table.c: gen-fib$(EXEEXT_FOR_BUILD)
-	./gen-fib table $(BITS_PER_MP_LIMB) $(GMP_NAIL_BITS) >mpn/fib_table.c || (rm -f mpn/fib_table.c; exit 1)
-
-gen-fib$(EXEEXT_FOR_BUILD): gen-fib$(U_FOR_BUILD).c dumbmp.c
-	$(CC_FOR_BUILD) `test -f 'gen-fib$(U_FOR_BUILD).c' || echo '$(srcdir)/'`gen-fib$(U_FOR_BUILD).c -o gen-fib$(EXEEXT_FOR_BUILD)
-
-gen-fib_.c: gen-fib.c
-	$(CPP_FOR_BUILD) `if test -f $(srcdir)/gen-fib.c; then echo $(srcdir)/gen-fib.c; else echo gen-fib.c; fi` | sed 's/^# \([0-9]\)/#line \1/' > gen-fib_.c || rm -f gen-fib_.c
-
-mp_bases.h: gen-bases$(EXEEXT_FOR_BUILD)
-	./gen-bases header $(BITS_PER_MP_LIMB) $(GMP_NAIL_BITS) >mp_bases.h || (rm -f mp_bases.h; exit 1)
-
-mpn/mp_bases.c: gen-bases$(EXEEXT_FOR_BUILD)
-	./gen-bases table $(BITS_PER_MP_LIMB) $(GMP_NAIL_BITS) >mpn/mp_bases.c || (rm -f mpn/mp_bases.c; exit 1)
-
-gen-bases$(EXEEXT_FOR_BUILD): gen-bases$(U_FOR_BUILD).c dumbmp.c
-	$(CC_FOR_BUILD) `test -f 'gen-bases$(U_FOR_BUILD).c' || echo '$(srcdir)/'`gen-bases$(U_FOR_BUILD).c -o gen-bases$(EXEEXT_FOR_BUILD) $(LIBM_FOR_BUILD)
-
-gen-bases_.c: gen-bases.c
-	$(CPP_FOR_BUILD) `if test -f $(srcdir)/gen-bases.c; then echo $(srcdir)/gen-bases.c; else echo gen-bases.c; fi` | sed 's/^# \([0-9]\)/#line \1/' > gen-bases_.c || rm -f gen-bases_.c
-
-mpn/perfsqr.h: gen-psqr$(EXEEXT_FOR_BUILD)
-	./gen-psqr $(BITS_PER_MP_LIMB) $(GMP_NAIL_BITS) >mpn/perfsqr.h || (rm -f mpn/perfsqr.h; exit 1)
-
-gen-psqr$(EXEEXT_FOR_BUILD): gen-psqr$(U_FOR_BUILD).c dumbmp.c
-	$(CC_FOR_BUILD) `test -f 'gen-psqr$(U_FOR_BUILD).c' || echo '$(srcdir)/'`gen-psqr$(U_FOR_BUILD).c -o gen-psqr$(EXEEXT_FOR_BUILD) $(LIBM_FOR_BUILD)
-
-gen-psqr_.c: gen-psqr.c
-	$(CPP_FOR_BUILD) `if test -f $(srcdir)/gen-psqr.c; then echo $(srcdir)/gen-psqr.c; else echo gen-psqr.c; fi` | sed 's/^# \([0-9]\)/#line \1/' > gen-psqr_.c || rm -f gen-psqr_.c
+# The "test -f" support for srcdir!=builddir is similar to the automake .c.o
+# etc rules, but with each foo.c explicitly, since $< is not portable
+# outside an inference rule.
+#
+# A quoted 'foo.c' is used with the "test -f"'s to avoid Sun make rewriting
+# it as part of its VPATH support.  See the autoconf manual "Limitations of
+# Make".
+#
+# Generated .h files which are used by gmp-impl.h are BUILT_SOURCES since
+# they must exist before anything can be compiled.
+#
+# Other generated .h files are also BUILT_SOURCES so as to get all the
+# build-system stuff over and done with at the start.  Also, dependencies on
+# the .h files are not properly expressed for the various objects that use
+# them.
 
 # Avoid: CVS - cvs directories
 #        *~  - emacs backups
