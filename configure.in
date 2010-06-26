@@ -1473,7 +1473,7 @@ case $host in
           netburstlahf-*-*)
             path_64="x86_64/netburst/netburstlahf x86_64/netburst x86_64" ;;
           k8-*-*)
-            path_64="x86_64/k8 x86_64" ;;
+            path_64="x86_64/k8/k8only x86_64/k8 x86_64" ;;
           k102-*-*)
             path_64="x86_64/k8/k10/k102 x86_64/k8/k10 x86_64/k8 x86_64" ;;
           k10-*-*)
@@ -1496,7 +1496,7 @@ case $host in
           gcc_64_cflags_arch=""
           extra_functions_64="$extra_functions_64 fat fat_entry"
           path_64="x86_64/fat x86_64"
-          fat_path_64="x86_64 x86_64/fat x86_64/netburst x86_64/netburst/netburstlahf x86_64/k8 x86_64/k8/k10 x86_64/k8/k10/k102  x86_64/core2 x86_64/core2/penryn x86_64/nehalem x86_64/atom x86_64/nano"
+          fat_path_64="x86_64 x86_64/fat x86_64/netburst x86_64/netburst/netburstlahf x86_64/k8 x86_64/k8/k8only x86_64/k8/k10 x86_64/k8/k10/k102  x86_64/core2 x86_64/core2/penryn x86_64/nehalem x86_64/atom x86_64/nano"
         fi
         ;;
 
