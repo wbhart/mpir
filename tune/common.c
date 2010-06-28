@@ -1229,20 +1229,6 @@ speed_mpn_gcd (struct speed_params *s)
 {
   SPEED_ROUTINE_MPN_GCD (mpn_gcd);
 }
-double
-speed_mpn_gcd_binary (struct speed_params *s)
-{
-  SPEED_ROUTINE_MPN_GCD (mpn_gcd_binary);
-}
-
-#if HAVE_NATIVE_mpn_gcd_finda
-double
-speed_mpn_gcd_finda (struct speed_params *s)
-{
-  SPEED_ROUTINE_MPN_GCD_FINDA (mpn_gcd_finda);
-}
-#endif
-
 
 double
 speed_mpn_gcdext (struct speed_params *s)
@@ -1256,26 +1242,6 @@ speed_mpn_gcdext_lehmer (struct speed_params *s)
   SPEED_ROUTINE_MPN_GCDEXT (__gmpn_gcdext_lehmer);
 }
 #endif
-double
-speed_mpn_gcdext_single (struct speed_params *s)
-{
-  SPEED_ROUTINE_MPN_GCDEXT (mpn_gcdext_single);
-}
-double
-speed_mpn_gcdext_double (struct speed_params *s)
-{
-  SPEED_ROUTINE_MPN_GCDEXT (mpn_gcdext_double);
-}
-double
-speed_mpn_gcdext_one_single (struct speed_params *s)
-{
-  SPEED_ROUTINE_MPN_GCDEXT_ONE (mpn_gcdext_one_single);
-}
-double
-speed_mpn_gcdext_one_double (struct speed_params *s)
-{
-  SPEED_ROUTINE_MPN_GCDEXT_ONE (mpn_gcdext_one_double);
-}
 double
 speed_mpn_gcd_1 (struct speed_params *s)
 {

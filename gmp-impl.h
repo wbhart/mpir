@@ -867,10 +867,6 @@ mp_size_t mpn_fib2_ui _PROTO ((mp_ptr, mp_ptr, unsigned long));
 #define mpn_gcd_finda	__MPN(gcd_finda)
 mp_limb_t mpn_gcd_finda _PROTO((const mp_limb_t cp[2])) __GMP_ATTRIBUTE_PURE;
 
-#define mpn_basic_gcdext __MPN(basic_gcdext)
-mp_size_t mpn_basic_gcdext _PROTO ((mp_ptr gp, mp_ptr s0p, mp_size_t *s0size,
-        mp_ptr up, mp_size_t size, mp_ptr vp, mp_size_t vsize));
-
 #define mpn_jacobi_base __MPN(jacobi_base)
 int mpn_jacobi_base _PROTO ((mp_limb_t a, mp_limb_t b, int result_bit1)) ATTRIBUTE_CONST;
 
@@ -3698,9 +3694,6 @@ mpn_ngcd (mp_ptr gp, mp_ptr ap, mp_size_t an, mp_ptr bp, mp_size_t n);
 mp_size_t
 mpn_lgcd (mp_ptr gp, mp_ptr ap, mp_size_t an, mp_ptr bp, mp_size_t bn);
 
-mp_size_t
-mpn_basic_gcd (mp_ptr gp, mp_ptr up, mp_size_t usize, mp_ptr vp, mp_size_t vsize);
-
 #ifndef NHGCD_THRESHOLD
 #define NHGCD_THRESHOLD 960
 #endif
@@ -4287,10 +4280,6 @@ extern mp_size_t                     mod_1_2_threshold;
 #undef  MOD_1_3_THRESHOLD
 #define MOD_1_3_THRESHOLD            mod_1_3_threshold
 extern mp_size_t                     mod_1_3_threshold;
-
-#undef  GCD_ACCEL_THRESHOLD
-#define GCD_ACCEL_THRESHOLD          gcd_accel_threshold
-extern mp_size_t                     gcd_accel_threshold;
 
 #undef  GCD_THRESHOLD
 #define GCD_THRESHOLD                gcd_threshold

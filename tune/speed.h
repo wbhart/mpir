@@ -133,7 +133,6 @@ double speed_measure _PROTO ((speed_function_t fun, struct speed_params *s));
 double speed_back_to_back _PROTO ((struct speed_params *s));
 double speed_count_leading_zeros _PROTO ((struct speed_params *s));
 double speed_count_trailing_zeros _PROTO ((struct speed_params *s));
-double speed_find_a _PROTO ((struct speed_params *s));
 double speed_gmp_allocate_free _PROTO ((struct speed_params *s));
 double speed_gmp_allocate_reallocate_free _PROTO ((struct speed_params *s));
 double speed_invert_limb _PROTO ((struct speed_params *s));
@@ -217,14 +216,7 @@ double speed_mpn_hgcd_lehmer _PROTO ((struct speed_params *s));
 double speed_mpn_gcd _PROTO ((struct speed_params *s));
 double speed_mpn_gcd_1 _PROTO ((struct speed_params *s));
 double speed_mpn_gcd_1N _PROTO ((struct speed_params *s));
-double speed_mpn_gcd_binary _PROTO ((struct speed_params *s));
-double speed_mpn_gcd_accel _PROTO ((struct speed_params *s));
-double speed_mpn_gcd_finda _PROTO ((struct speed_params *s));
 double speed_mpn_gcdext _PROTO ((struct speed_params *s));
-double speed_mpn_gcdext_double _PROTO ((struct speed_params *s));
-double speed_mpn_gcdext_one_double _PROTO ((struct speed_params *s));
-double speed_mpn_gcdext_one_single _PROTO ((struct speed_params *s));
-double speed_mpn_gcdext_single _PROTO ((struct speed_params *s));
 double speed_mpn_get_str _PROTO ((struct speed_params *s));
 double speed_mpn_hamdist _PROTO ((struct speed_params *s));
 double speed_mpn_ior_n _PROTO ((struct speed_params *s));
@@ -436,23 +428,6 @@ int mpn_jacobi_base_3 _PROTO ((mp_limb_t a, mp_limb_t b, int result_bit1));
 
 mp_limb_t mpn_mod_1_div _PROTO ((mp_srcptr ap, mp_size_t size, mp_limb_t d));
 mp_limb_t mpn_mod_1_inv _PROTO ((mp_srcptr ap, mp_size_t size, mp_limb_t d));
-
-mp_size_t mpn_gcd_binary
-  _PROTO ((mp_ptr gp, mp_ptr up, mp_size_t usize, mp_ptr vp, mp_size_t vsize));
-mp_size_t mpn_gcd_accel
-  _PROTO ((mp_ptr gp, mp_ptr up, mp_size_t usize, mp_ptr vp, mp_size_t vsize));
-mp_size_t mpn_gcdext_one_double
-  _PROTO ((mp_ptr gp, mp_ptr s0p, mp_size_t *s0size,
-	   mp_ptr up, mp_size_t size, mp_ptr vp, mp_size_t vsize));
-mp_size_t mpn_gcdext_one_single
-  _PROTO ((mp_ptr gp, mp_ptr s0p, mp_size_t *s0size,
-	   mp_ptr up, mp_size_t size, mp_ptr vp, mp_size_t vsize));
-mp_size_t mpn_gcdext_single
-  _PROTO ((mp_ptr gp, mp_ptr s0p, mp_size_t *s0size,
-	   mp_ptr up, mp_size_t size, mp_ptr vp, mp_size_t vsize));
-mp_size_t mpn_gcdext_double
-  _PROTO ((mp_ptr gp, mp_ptr s0p, mp_size_t *s0size,
-	   mp_ptr up, mp_size_t size, mp_ptr vp, mp_size_t vsize));
 
 mp_size_t mpn_set_str_basecase _PROTO ((mp_ptr, const unsigned char *, size_t, int));
 mp_size_t mpn_set_str_subquad _PROTO ((mp_ptr, const unsigned char *, size_t, int));
@@ -2792,50 +2767,6 @@ int speed_routine_count_zeros_setup _PROTO ((struct speed_params *s,
     t = speed_endtime ();						\
 									\
     TMP_FREE;								\
-    return t;								\
-  }
-
-
-/* Run an accel gcd find_a() function over various data values.	 A set of
-   values is used in case some run particularly fast or slow.  The size
-   parameter is ignored, the amount of data tested is fixed.  */
-
-#define SPEED_ROUTINE_MPN_GCD_FINDA(function)				\
-  {									\
-    unsigned  i, j;							\
-    mp_limb_t cp[SPEED_BLOCK_SIZE][2];					\
-    double    t;							\
-    TMP_DECL;								\
-									\
-    TMP_MARK;								\
-									\
-    /* low must be odd, high must be non-zero */			\
-    for (i = 0; i < SPEED_BLOCK_SIZE; i++)				\
-      {									\
-	cp[i][0] = s->xp_block[i] | 1;					\
-	cp[i][1] = s->yp_block[i] + (s->yp_block[i] == 0);		\
-      }									\
-									\
-    speed_operand_src (s, &cp[0][0], 2*SPEED_BLOCK_SIZE);		\
-    speed_cache_fill (s);						\
-									\
-    speed_starttime ();							\
-    i = s->reps;							\
-    do									\
-      {									\
-	j = SPEED_BLOCK_SIZE;						\
-	do								\
-	  {								\
-	    function (cp[j-1]);						\
-	  }								\
-	while (--j != 0);						\
-      }									\
-    while (--i != 0);							\
-    t = speed_endtime ();						\
-									\
-    TMP_FREE;								\
-									\
-    s->time_divisor = SPEED_BLOCK_SIZE;					\
     return t;								\
   }
 

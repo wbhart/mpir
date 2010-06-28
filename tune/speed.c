@@ -296,17 +296,8 @@ const struct routine_t {
   { "mpn_gcd_1N",        speed_mpn_gcd_1N, FLAG_R_OPTIONAL },
 
   { "mpn_gcd",           speed_mpn_gcd                    },
-  { "mpn_gcd_binary",    speed_mpn_gcd_binary             },
-  { "find_a",            speed_find_a,        FLAG_NODATA },
-#if HAVE_NATIVE_mpn_gcd_finda
-  { "mpn_gcd_finda",     speed_mpn_gcd_finda, FLAG_NODATA },
-#endif
 
   { "mpn_gcdext",            speed_mpn_gcdext            },
-  { "mpn_gcdext_single",     speed_mpn_gcdext_single     },
-  { "mpn_gcdext_double",     speed_mpn_gcdext_double     },
-  { "mpn_gcdext_one_single", speed_mpn_gcdext_one_single },
-  { "mpn_gcdext_one_double", speed_mpn_gcdext_one_double },
 #if 0
   { "mpn_gcdext_lehmer",     speed_mpn_gcdext_lehmer     },
 #endif

@@ -215,7 +215,6 @@ mp_size_t  dc_bdiv_q_threshold          = MP_SIZE_T_MAX;
 mp_size_t  powm_threshold               = MP_SIZE_T_MAX;
 mp_size_t  fac_ui_threshold             = MP_SIZE_T_MAX;
 mp_size_t  gcd_threshold                = MP_SIZE_T_MAX;
-mp_size_t  gcd_accel_threshold          = MP_SIZE_T_MAX;
 mp_size_t  gcdext_threshold		        = MP_SIZE_T_MAX;
 mp_size_t  divrem_1_norm_threshold      = MP_SIZE_T_MAX;
 mp_size_t  divrem_1_unnorm_threshold    = MP_SIZE_T_MAX;
@@ -1278,16 +1277,6 @@ tune_fac_ui (gmp_randstate_t rands)
 }
 
 void
-tune_gcd_accel (gmp_randstate_t rands)
-{
-  static struct param_t  param;
-  param.name = "GCD_ACCEL_THRESHOLD";
-  param.function = speed_mpn_gcd;
-  param.min_size = 1;
-  one (&gcd_accel_threshold, rands, &param);
-}
-
-void
 tune_gcd (gmp_randstate_t rands)
 {
   static struct param_t  param;
@@ -1295,33 +1284,6 @@ tune_gcd (gmp_randstate_t rands)
   param.function = speed_mpn_gcd;
   param.min_size = 7;
   one (&gcd_threshold, rands, &param);
-}
-
-
-/* A comparison between the speed of a single limb step and a double limb
-   step is made.  On a 32-bit limb the ratio is about 2.2 single steps to
-   equal a double step, or on a 64-bit limb about 2.09.  (These were found
-   from counting the steps on a 10000 limb gcdext.  */
-void
-tune_gcdext_old (gmp_randstate_t rands)
-{
-  static struct param_t  param;
-  param.name = "GCDEXT_OLD_THRESHOLD";
-  param.function = speed_mpn_gcdext_one_single;
-  param.function2 = speed_mpn_gcdext_one_double;
-  switch (BITS_PER_MP_LIMB) {
-  case 32: param.function_fudge = 2.2; break;
-  case 64: param.function_fudge = 2.09; break;
-  default:
-    printf ("Don't know GCDEXT_THERSHOLD factor for BITS_PER_MP_LIMB == %d\n",
-            BITS_PER_MP_LIMB);
-    abort ();
-  }
-  param.min_size = 5;
-  param.min_is_always = 1;
-  param.max_size = 300;
-  param.check_size = 300;
-  one (&gcdext_threshold, rands, &param);
 }
 
 void
@@ -2049,7 +2011,6 @@ all (gmp_randstate_t rands)
   tune_powm (rands);
   printf("\n");
 
-  tune_gcd_accel (rands);
   tune_gcd (rands);
   tune_gcdext (rands);
   tune_jacobi_base (rands);

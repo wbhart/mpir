@@ -24,9 +24,6 @@ MA 02110-1301, USA.
 #include "mpir.h"
 #include "gmp-impl.h"
 
-#undef  GCD_ACCEL_THRESHOLD
-#define GCD_ACCEL_THRESHOLD  MP_SIZE_T_MAX
-#define mpn_basic_gcd  mpn_gcd_binary
 #define INSIDE_TUNE_GCD_BIN 1
 
 #include "../mpn/generic/gcd.c"

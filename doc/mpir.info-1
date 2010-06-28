@@ -137,7 +137,7 @@ HPPA 1.0, 1.1 and 2.0, Intel Pentium, Pentium Pro/II/III, Pentium 4,
 generic x86, Intel IA-64, Core 2, i7, Atom, Motorola MC68000, MC68020,
 MC88100, and MC88110, Motorola/IBM PowerPC 32 and 64, IBM POWER, MIPS
 R3000, R4000, SPARCv7, SuperSPARC, generic SPARCv8, UltraSPARC, DEC VAX,
-Some optimizations also for Cray vector systems, IBM ROMP (RT),
+Some optimizations also for Cray vector systems,
 
 For up-to-date information on, and latest version of, MPIR, please see
 the MPIR web pages at
