@@ -579,27 +579,6 @@ int foo ()
 }
 ])])
 
-GMP_PROG_CC_WORKS_PART([$1], [abs int -> double conversion],
-[/* The following provokes an internal error from the assembler on
-   power2-ibm-aix4.3.1.0.  gcc -mrios2 compiles to nabs+fcirz, and this
-   results in "Internal error related to the source program domain".
-
-   For reference it seems to be the combination of nabs+fcirz which is bad,
-   not either alone.  This sort of thing occurs in mpz/get_str.c with the
-   way double chars_per_bit_exactly is applied in MPN_SIZEINBASE.  Perhaps
-   if that code changes to a scaled-integer style then we won't need this
-   test.  */
-
-double fp[1];
-int x;
-int f ()
-{
-  int a;
-  a = (x >= 0 ? x : -x);
-  return a * fp[0];
-}
-])
-
 GMP_PROG_CC_WORKS_PART([$1], [long long reliability test 1],
 [/* The following provokes a segfault in the compiler on powerpc-apple-darwin.
    Extracted from tests/mpn/t-iord_u.c.  Causes Apple's gcc 3.3 build 1640 and

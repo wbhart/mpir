@@ -981,35 +981,6 @@ case $host in
     esac
     ;;
 
-
-  # POWER
-  [power-*-* | power[12]-*-* | power2sc-*-*])
-    AC_DEFINE(HAVE_HOST_CPU_FAMILY_power)
-    HAVE_HOST_CPU_FAMILY_power=1
-    cclist="gcc"
-    extra_functions="udiv_w_sdiv"
-    path="power"
-
-    # gcc 2.7.2 knows rios1, rios2, rsc
-    #
-    # -mcpu=rios2 can tickle an AIX assembler bug (see GMP_PROG_CC_WORKS) so
-    # there needs to be a fallback to just -mpower.
-    #
-    gcc_cflags_optlist="cpu"
-    case $host in
-      power-*-*)    gcc_cflags_cpu="-mcpu=power -mpower" ;;
-      power1-*-*)   gcc_cflags_cpu="-mcpu=rios1 -mpower" ;;
-      power2-*-*)   gcc_cflags_cpu="-mcpu=rios2 -mpower" ;;
-      power2sc-*-*) gcc_cflags_cpu="-mcpu=rsc   -mpower" ;;
-    esac
-    case $host in
-    *-*-aix*)
-      cclist="gcc xlc"
-      xlc_cflags="-O2 -qarch=pwr -qmaxmem=20000"
-      ;;
-    esac
-    ;;
-
   # IBM s/370 and similar
   [s3[6-9]0*-*-*])
     gcc_cflags="-O2 $fomit_frame_pointer"
@@ -1017,10 +988,8 @@ case $host in
     extra_functions="udiv_w_sdiv"
     ;;
 
-
   sh-*-*)   path="sh" ;;
   sh2-*-*)  path="sh/sh2 sh" ;;
-
 
   *sparc*-*-*)
     # sizeof(long)==4 or 8 is tested, to ensure we get the right ABI.  We've
