@@ -73,7 +73,7 @@ MA 02110-1301, USA.
 #define funcname "mpn_xnor_n"
 #endif
 
-#if defined (USG) || defined (__SVR4) || defined (_UNICOS) || defined (__hpux)
+#if defined (USG) || defined (__SVR4) || defined (__hpux)
 #include <time.h>
 
 int

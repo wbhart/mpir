@@ -22,12 +22,6 @@ MA 02110-1301, USA. */
 
 /* Currently we don't get a CPU frequency on the following systems,
 
-   alphaev5-cray-unicosmk2.0.6.X
-       times() has been seen at 13.33 ns (75 MHz), which is probably not the
-       cpu frequency.  Measuring the cycle counter against that would be
-       possible though.  But currently we don't use the cycle counter due to
-       unicos having int==8bytes where tune/alpha.asm assumes int==4bytes.
-
    m68040-unknown-netbsd1.4.1
        Not sure if the system even knows the cpu frequency.  There's no
        cycle counter to measure, though we could perhaps make a loop taking
@@ -44,10 +38,6 @@ MA 02110-1301, USA. */
 
    sparc-unknown-linux-gnu [maybe]
        Don't know where any info hides on this.
-
-   t90-cray-unicos10.0.X
-       The times() call seems to be for instance 2.22 nanoseconds, which
-       might be the cpu frequency (450 mhz), but need to confirm that.
 
 */
 

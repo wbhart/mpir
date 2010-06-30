@@ -1494,17 +1494,6 @@ On systems @samp{arm*-*-*}, versions of GCC up to and including 2.95.3 have a
 bug in unsigned division, giving wrong results for some operands.  MPIR
 @samp{./configure} will demand GCC 2.95.4 or later.
 
-@item Compaq C++
-@cindex Compaq C++
-Compaq C++ on OSF 5.1 has two flavours of @code{iostream}, a standard one and
-an old pre-standard one (see @samp{man iostream_intro}).  MPIR can only use the
-standard one, which unfortunately is not the default but must be selected by
-defining @code{__USE_STD_IOSTREAM}.  Configure with for instance
-
-@example
-./configure --enable-cxx CPPFLAGS=-D__USE_STD_IOSTREAM
-@end example
-
 @item Floating Point Mode
 @cindex Floating point mode
 @cindex Hardware floating point mode
@@ -1522,14 +1511,12 @@ affects all code, including application code, not just MPIR.
 @cindex MS Windows
 @cindex Windows
 @cindex Cygwin
-@cindex DJGPP
 @cindex MINGW
-On an MS Windows system Cygwin, DJGPP and MINGW can all be used.  All three 
+On an MS Windows system Cygwin and MINGW can be used , they 
 are ports of GCC and the various GNU tools.
 
 @display
 @uref{http://www.cygwin.com/}
-@uref{http://www.delorie.com/djgpp/}
 @uref{http://www.mingw.org/}
 @end display
 
@@ -1550,7 +1537,7 @@ software.
 @cindex DLLs
 @cindex MS Windows
 @cindex Windows
-On systems @samp{*-*-cygwin*}, @samp{*-*-mingw*} and @samp{*-*-pw32*} by
+On systems @samp{*-*-cygwin*} and @samp{*-*-mingw*} by
 default MPIR builds only a static library, but a DLL can be built instead using
 
 @example
@@ -1694,12 +1681,6 @@ script to hide them, and for instance configure with
 @example
 ./configure CC=gcc-with-my-options
 @end example
-
-@item DJGPP (@samp{*-*-msdosdjgpp*})
-@cindex DJGPP
-The DJGPP port of @command{bash} 2.03 is unable to run the @samp{configure}
-script, it exits silently, having died writing a preamble to
-@file{config.log}.  Use @command{bash} 2.04 or higher.
 
 @samp{make all} was found to run out of memory during the final
 @file{libgmp.la} link on one system tested, despite having 64Mb available.

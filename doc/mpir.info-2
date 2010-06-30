@@ -2230,9 +2230,9 @@ Concept Index
 * -finstrument-functions:                Profiling.           (line  66)
 * 2exp functions:                        Efficiency.          (line  43)
 * 68000:                                 Notes for Particular Systems.
-                                                              (line  87)
+                                                              (line  76)
 * 80x86:                                 Notes for Particular Systems.
-                                                              (line 154)
+                                                              (line 143)
 * ABI <1>:                               ABI and ISA.         (line   6)
 * ABI:                                   Build Options.       (line 178)
 * About this manual:                     Introduction to MPIR.
@@ -2285,7 +2285,7 @@ Concept Index
 * Binomial coefficient functions:        Number Theoretic Functions.
                                                               (line 151)
 * Binutils strip:                        Known Build Problems.
-                                                              (line  28)
+                                                              (line  23)
 * Bit manipulation functions:            Integer Logic and Bit Fiddling.
                                                               (line   6)
 * Bit scanning functions:                Integer Logic and Bit Fiddling.
@@ -2322,8 +2322,6 @@ Concept Index
 * checkergcc:                            Debugging.           (line 119)
 * Code organisation:                     Assembler Code Organisation.
                                                               (line   6)
-* Compaq C++:                            Notes for Particular Systems.
-                                                              (line  25)
 * Comparison functions <1>:              Float Comparison.    (line   6)
 * Comparison functions <2>:              Comparing Rationals. (line   6)
 * Comparison functions:                  Integer Comparisons. (line   6)
@@ -2354,9 +2352,9 @@ Concept Index
 * CXX:                                   Build Options.       (line 261)
 * CXXFLAGS:                              Build Options.       (line 261)
 * Cygwin:                                Notes for Particular Systems.
-                                                              (line  43)
+                                                              (line  34)
 * Darwin:                                Known Build Problems.
-                                                              (line  51)
+                                                              (line  46)
 * Debugging:                             Debugging.           (line   6)
 * Digits in an integer:                  Miscellaneous Integer Functions.
                                                               (line  23)
@@ -2367,12 +2365,8 @@ Concept Index
 * Division functions <1>:                Float Arithmetic.    (line  33)
 * Division functions <2>:                Rational Arithmetic. (line  22)
 * Division functions:                    Integer Division.    (line   6)
-* DJGPP <1>:                             Known Build Problems.
-                                                              (line  18)
-* DJGPP:                                 Notes for Particular Systems.
-                                                              (line  43)
 * DLLs:                                  Notes for Particular Systems.
-                                                              (line  63)
+                                                              (line  53)
 * DocBook:                               Build Options.       (line 356)
 * Documentation formats:                 Build Options.       (line 349)
 * Documentation license:                 GNU Free Documentation License.
@@ -2426,7 +2420,7 @@ Concept Index
                                                               (line   9)
 * Float sign tests:                      Float Comparison.    (line  28)
 * Floating point mode:                   Notes for Particular Systems.
-                                                              (line  34)
+                                                              (line  25)
 * Floating-point functions:              Floating-point Functions.
                                                               (line   6)
 * Floating-point number:                 Nomenclature and Types.
@@ -2453,14 +2447,14 @@ Concept Index
 * GNU Free Documentation License:        GNU Free Documentation License.
                                                               (line   6)
 * GNU strip:                             Known Build Problems.
-                                                              (line  28)
+                                                              (line  23)
 * gprof:                                 Profiling.           (line  41)
 * Greatest common divisor algorithms:    Greatest Common Divisor Algorithms.
                                                               (line   6)
 * Greatest common divisor functions:     Number Theoretic Functions.
                                                               (line  82)
 * Hardware floating point mode:          Notes for Particular Systems.
-                                                              (line  34)
+                                                              (line  25)
 * Headers:                               Headers and Libraries.
                                                               (line   6)
 * Heap problems:                         Debugging.           (line  24)
@@ -2473,7 +2467,7 @@ Concept Index
 * I/O functions <2>:                     I/O of Rationals.    (line   6)
 * I/O functions:                         I/O of Integers.     (line   6)
 * i386:                                  Notes for Particular Systems.
-                                                              (line 154)
+                                                              (line 143)
 * IA-64:                                 ABI and ISA.         (line 107)
 * Import:                                Integer Import and Export.
                                                               (line  11)
@@ -2537,14 +2531,14 @@ Concept Index
 * Integer special functions:             Integer Special Functions.
                                                               (line   6)
 * Interix:                               Notes for Particular Systems.
-                                                              (line  58)
+                                                              (line  48)
 * Internals:                             Internals.           (line   6)
 * Introduction:                          Introduction to MPIR.
                                                               (line   6)
 * Inverse modulo functions:              Number Theoretic Functions.
                                                               (line 110)
 * IRIX <1>:                              Known Build Problems.
-                                                              (line  38)
+                                                              (line  33)
 * IRIX:                                  ABI and ISA.         (line 132)
 * ISA:                                   ABI and ISA.         (line   6)
 * istream input:                         C++ Formatted Input. (line   6)
@@ -2593,7 +2587,7 @@ Concept Index
 * Lucas number functions:                Number Theoretic Functions.
                                                               (line 170)
 * MacOS X:                               Known Build Problems.
-                                                              (line  51)
+                                                              (line  46)
 * Mailing lists:                         Introduction to MPIR.
                                                               (line  37)
 * Malloc debugger:                       Debugging.           (line  30)
@@ -2605,14 +2599,14 @@ Concept Index
 * Mersenne twister random numbers:       Random State Initialization.
                                                               (line  13)
 * MINGW:                                 Notes for Particular Systems.
-                                                              (line  43)
+                                                              (line  34)
 * MIPS:                                  ABI and ISA.         (line 132)
 * Miscellaneous float functions:         Miscellaneous Float Functions.
                                                               (line   6)
 * Miscellaneous integer functions:       Miscellaneous Integer Functions.
                                                               (line   6)
 * MMX:                                   Notes for Particular Systems.
-                                                              (line 160)
+                                                              (line 149)
 * Modular inverse functions:             Number Theoretic Functions.
                                                               (line 110)
 * Most significant bit:                  Miscellaneous Integer Functions.
@@ -2625,16 +2619,16 @@ Concept Index
                                                               (line   8)
 * MPN_PATH:                              Build Options.       (line 337)
 * MS Windows:                            Notes for Particular Systems.
-                                                              (line  43)
+                                                              (line  34)
 * MS-DOS:                                Notes for Particular Systems.
-                                                              (line  43)
+                                                              (line  34)
 * Multi-threading:                       Reentrancy.          (line   6)
 * Multiplication algorithms:             Multiplication Algorithms.
                                                               (line   6)
 * Nails:                                 Low-level Functions. (line 531)
 * Native compilation:                    Build Options.       (line  59)
 * NeXT:                                  Known Build Problems.
-                                                              (line  57)
+                                                              (line  52)
 * Next likely prime function:            Number Theoretic Functions.
                                                               (line  71)
 * Next prime function:                   Number Theoretic Functions.
@@ -2651,7 +2645,7 @@ Concept Index
 * obstack output:                        Formatted Output Functions.
                                                               (line  81)
 * OpenBSD:                               Notes for Particular Systems.
-                                                              (line  93)
+                                                              (line  82)
 * Optimizing performance:                Performance optimization.
                                                               (line   6)
 * ostream output:                        C++ Formatted Output.
@@ -2679,9 +2673,9 @@ Concept Index
 * Perfect square functions:              Integer Roots.       (line  40)
 * Postscript:                            Build Options.       (line 352)
 * Power/PowerPC <1>:                     Known Build Problems.
-                                                              (line  63)
+                                                              (line  58)
 * Power/PowerPC:                         Notes for Particular Systems.
-                                                              (line  99)
+                                                              (line  88)
 * Powering algorithms:                   Powering Algorithms. (line   6)
 * Powering functions <1>:                Float Arithmetic.    (line  41)
 * Powering functions:                    Integer Exponentiation.
@@ -2690,7 +2684,7 @@ Concept Index
 * Precision of floats:                   Floating-point Functions.
                                                               (line   6)
 * Precision of hardware floating point:  Notes for Particular Systems.
-                                                              (line  34)
+                                                              (line  25)
 * Prefix:                                Build Options.       (line  32)
 * Prime testing algorithms:              Prime Testing Algorithm.
                                                               (line   6)
@@ -2755,14 +2749,14 @@ Concept Index
                                                               (line  38)
 * scanf formatted input:                 Formatted Input.     (line   6)
 * SCO:                                   Known Build Problems.
-                                                              (line  38)
+                                                              (line  33)
 * Seeding random numbers:                Random State Seeding.
                                                               (line   6)
 * Segmentation violation:                Debugging.           (line   7)
 * Sequent Symmetry:                      Known Build Problems.
-                                                              (line  68)
+                                                              (line  63)
 * Services for Unix:                     Notes for Particular Systems.
-                                                              (line  58)
+                                                              (line  48)
 * Shared library versioning:             Notes for Package Builds.
                                                               (line   9)
 * Sign tests <1>:                        Float Comparison.    (line  28)
@@ -2772,19 +2766,19 @@ Concept Index
                                                               (line  23)
 * Small operands:                        Efficiency.          (line   7)
 * Solaris <1>:                           Known Build Problems.
-                                                              (line  72)
+                                                              (line  67)
 * Solaris <2>:                           Notes for Particular Systems.
-                                                              (line 144)
+                                                              (line 133)
 * Solaris:                               ABI and ISA.         (line 194)
 * Sparc:                                 Notes for Particular Systems.
-                                                              (line 111)
+                                                              (line 100)
 * Sparc V9:                              ABI and ISA.         (line 194)
 * Special integer functions:             Integer Special Functions.
                                                               (line   6)
 * Square root algorithm:                 Square Root Algorithm.
                                                               (line   6)
 * SSE2:                                  Notes for Particular Systems.
-                                                              (line 160)
+                                                              (line 149)
 * Stack backtrace:                       Debugging.           (line  47)
 * Stack overflow <1>:                    Debugging.           (line   7)
 * Stack overflow:                        Build Options.       (line 285)
@@ -2794,10 +2788,10 @@ Concept Index
 * stdio.h:                               Headers and Libraries.
                                                               (line  11)
 * Stripped libraries:                    Known Build Problems.
-                                                              (line  28)
+                                                              (line  23)
 * Sun:                                   ABI and ISA.         (line 194)
 * SunOS:                                 Notes for Particular Systems.
-                                                              (line 148)
+                                                              (line 137)
 * Systems:                               Notes for Particular Systems.
                                                               (line   6)
 * Temporary memory:                      Build Options.       (line 285)
@@ -2829,11 +2823,11 @@ Concept Index
 * Web page:                              Introduction to MPIR.
                                                               (line  32)
 * Windows:                               Notes for Particular Systems.
-                                                              (line  43)
-* x86:                                   Notes for Particular Systems.
-                                                              (line 154)
-* x87:                                   Notes for Particular Systems.
                                                               (line  34)
+* x86:                                   Notes for Particular Systems.
+                                                              (line 143)
+* x87:                                   Notes for Particular Systems.
+                                                              (line  25)
 * XML:                                   Build Options.       (line 356)
 
 

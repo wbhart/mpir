@@ -917,15 +917,6 @@ ARM
      have a bug in unsigned division, giving wrong results for some
      operands.  MPIR `./configure' will demand GCC 2.95.4 or later.
 
-Compaq C++
-     Compaq C++ on OSF 5.1 has two flavours of `iostream', a standard
-     one and an old pre-standard one (see `man iostream_intro').  MPIR
-     can only use the standard one, which unfortunately is not the
-     default but must be selected by defining `__USE_STD_IOSTREAM'.
-     Configure with for instance
-
-          ./configure --enable-cxx CPPFLAGS=-D__USE_STD_IOSTREAM
-
 Floating Point Mode
      On some systems, the hardware floating point has a control mode
      which can set all operations to be done in a particular precision,
@@ -936,11 +927,10 @@ Floating Point Mode
      including application code, not just MPIR.
 
 MS-DOS and MS Windows
-     On an MS Windows system Cygwin, DJGPP and MINGW can all be used.
-     All three are ports of GCC and the various GNU tools.
+     On an MS Windows system Cygwin and MINGW can be used , they are
+     ports of GCC and the various GNU tools.
 
           `http://www.cygwin.com/'
-          `http://www.delorie.com/djgpp/'
           `http://www.mingw.org/'
 
      In addition, project files for MSVC are provided, allowing MPIR to
@@ -956,9 +946,8 @@ MS-DOS and MS Windows
      but it's not free software.
 
 MS Windows DLLs
-     On systems `*-*-cygwin*', `*-*-mingw*' and `*-*-pw32*' by default
-     MPIR builds only a static library, but a DLL can be built instead
-     using
+     On systems `*-*-cygwin*' and `*-*-mingw*' by default MPIR builds
+     only a static library, but a DLL can be built instead using
 
           ./configure --disable-static --enable-shared
 
@@ -1084,11 +1073,6 @@ Compiler link options
      and for instance configure with
 
           ./configure CC=gcc-with-my-options
-
-DJGPP (`*-*-msdosdjgpp*')
-     The DJGPP port of `bash' 2.03 is unable to run the `configure'
-     script, it exits silently, having died writing a preamble to
-     `config.log'.  Use `bash' 2.04 or higher.
 
      `make all' was found to run out of memory during the final
      `libgmp.la' link on one system tested, despite having 64Mb

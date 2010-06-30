@@ -399,8 +399,7 @@ case $host in
       *)                      path="alpha" ;;
     esac
     extra_functions="cntlz"
-    gcc_cflags_optlist="asm cpu oldas" # need asm ahead of cpu, see below
-    gcc_cflags_oldas="-Wa,-oldas"     # see GMP_GCC_WA_OLDAS.
+    gcc_cflags_optlist="asm cpu" # need asm ahead of cpu, see below
 
     # gcc 2.7.2.3 doesn't know any -mcpu= for alpha, apparently.
     # gcc 2.95 knows -mcpu= ev4, ev5, ev56, pca56, ev6.
@@ -423,11 +422,6 @@ case $host in
                     gcc_cflags_cpu="-mcpu=ev67 -mcpu=ev6 -mcpu=ev56" ;;
     esac
 
-    # gcc version "2.9-gnupro-99r1" on alphaev68-dec-osf5.1 has been seen
-    # accepting -mcpu=ev6, but not putting the assembler in the right mode
-    # for what it produces.  We need to do this for it, and need to do it
-    # before testing the -mcpu options.
-    #
     # On old versions of gcc, which don't know -mcpu=, we believe an
     # explicit -Wa,-mev5 etc will be necessary to put the assembler in
     # the right mode for our .asm files and longlong.h asm blocks.
@@ -439,11 +433,6 @@ case $host in
     #
     # gas prior to 2.14 doesn't accept -mev67, but -mev6 seems enough for
     # ctlz and cttz (in 2.10.0 at least).
-    #
-    # OSF `as' accepts ev68 but stupidly treats it as ev4.  -arch only seems
-    # to affect insns like ldbu which are expanded as macros when necessary.
-    # Insns like ctlz which were never available as macros are always
-    # accepted and always generate their plain code.
     #
     case $host_cpu in
       alpha)        gcc_cflags_asm="-Wa,-arch,ev4 -Wa,-mev4" ;;
@@ -462,64 +451,10 @@ case $host in
     # systems.
     #
     GMP_INCLUDE_MPN(alpha/alpha-defs.m4)
-    case $host in
-      *-cray-unicos*)
-        cc_cflags="-O"		# no -g, it silently disables all optimizations
-        GMP_INCLUDE_MPN(alpha/unicos.m4)
-        # Don't perform any assembly syntax tests on this beast.
-        gmp_asm_syntax_testing=no
-        ;;
-      *-*-osf*)
-        GMP_INCLUDE_MPN(alpha/default.m4)
-        cc_cflags=""
-        cc_cflags_optlist="opt cpu"
-
-        # not sure if -fast works on old versions, so make it optional
-	cc_cflags_opt="-fast -O2"
-
-    	# DEC C V5.9-005 knows ev4, ev5, ev56, pca56, ev6.
-    	# Compaq C V6.3-029 adds ev67.
-    	#
-    	case $host_cpu in
-    	  alpha)       cc_cflags_cpu="-arch~ev4~-tune~ev4" ;;
-    	  alphaev5)    cc_cflags_cpu="-arch~ev5~-tune~ev5" ;;
-    	  alphaev56)   cc_cflags_cpu="-arch~ev56~-tune~ev56" ;;
-    	  alphapca56 | alphapca57)
-            cc_cflags_cpu="-arch~pca56~-tune~pca56" ;;
-    	  alphaev6)    cc_cflags_cpu="-arch~ev6~-tune~ev6" ;;
-    	  alphaev67 | alphaev68 | alphaev7*)
-            cc_cflags_cpu="-arch~ev67~-tune~ev67 -arch~ev6~-tune~ev6" ;;
-    	esac
-        ;;
-      *)
-        GMP_INCLUDE_MPN(alpha/default.m4)
-        ;;
-    esac
-
-    case $host in
-      *-*-unicos*)
-        # tune/alpha.asm assumes int==4bytes but unicos uses int==8bytes
-        ;;
-      *)
-        SPEED_CYCLECOUNTER_OBJ=alpha.lo
-        cyclecounter_size=1 ;;
-    esac
+    GMP_INCLUDE_MPN(alpha/default.m4)
+    SPEED_CYCLECOUNTER_OBJ=alpha.lo
+    cyclecounter_size=1    
     ;;
-
-
-  # Cray vector machines.
-  # This must come after alpha* so that we can recognize present and future
-  # vector processors with a wildcard.
-  *-cray-unicos*)
-    gmp_asm_syntax_testing=no
-    cclist="cc"
-    # We used to have -hscalar0 here as a workaround for miscompilation of
-    # mpz/import.c, but let's hope Cray fixes their bugs instead, since
-    # -hscalar0 causes disastrously poor code to be generated.
-    cc_cflags="-O3 -hnofastmd -htask0 -Wa,-B"
-    path="cray"
-    ;;
-
 
   arm*-*-*)
     path="arm"
@@ -1787,12 +1722,6 @@ if test $found_compiler = yes; then
               ;;
             esac
             ;;
-          -Wa,-oldas)
-            GMP_GCC_WA_OLDAS($cc $cflags $cppflags,
-                             [cflags="$cflags $flag"
-                             break],
-                             [continue])
-            ;;
         esac
 
         GMP_PROG_CC_WORKS($cc $cflags $cppflags $flag,
@@ -2077,7 +2006,7 @@ AC_LIBTOOL_WIN32_DLL
 
 AC_SUBST(LIBGMP_DLL,0)
 case $host in
-  *-*-cygwin* | *-*-mingw* | *-*-pw32* | *-*-os2*)
+  *-*-cygwin* | *-*-mingw*)
     # By default, build only static.
     if test -z "$enable_shared"; then
       enable_shared=no
@@ -2232,12 +2161,6 @@ AC_CHECK_HEADERS(sys/resource.h,,,
 AC_CHECK_HEADERS(sys/sysctl.h,,,
 [#if HAVE_SYS_PARAM_H
 # include <sys/param.h>
-#endif])
-
-# On OSF 4.0, <machine/hal_sysinfo.h> must have <sys/sysinfo.h> for ulong_t
-AC_CHECK_HEADERS(machine/hal_sysinfo.h,,,
-[#if HAVE_SYS_SYSINFO_H
-# include <sys/sysinfo.h>
 #endif])
 
 # Reasons for testing:

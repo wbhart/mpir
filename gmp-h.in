@@ -329,7 +329,6 @@ typedef __mpq_struct *mpq_ptr;
   || defined (__STDIO_H)              /* Borland */             \
   || defined (__STDIO_H__)            /* IRIX */                \
   || defined (_STDIO_INCLUDED)        /* HPUX */                \
-  || defined (__dj_include_stdio_h_)  /* DJGPP */               \
   || defined (_FILE_DEFINED)          /* Microsoft */           \
   || defined (__STDIO__)              /* Apple MPW MrC */       \
   || defined (_MSL_STDIO_H)           /* Metrowerks */          \

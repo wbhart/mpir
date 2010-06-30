@@ -364,7 +364,6 @@ dnl  Check for spurious output from m4wrap(), as described in mpn/asm-defs.m4.
 dnl
 dnl  The following systems have been seen with the problem.
 dnl
-dnl  - Unicos alpha, but its assembler doesn't seem to mind.
 dnl  - MacOS X Darwin, its assembler fails.
 dnl  - NetBSD 1.4.1 m68k, and gas 1.92.3 there gives a warning and ignores
 dnl    the bad last line since it doesn't have a newline.
@@ -1166,61 +1165,6 @@ else
   ifelse([$4],,:,[$4])
 fi
 ])
-
-
-dnl  GMP_GCC_WA_OLDAS(CC+CFLAGS [,ACTION-YES [,ACTION-NO]])
-dnl  ------------------------------------------------------
-dnl  Check whether gcc should be run with "-Wa,-oldas".
-dnl
-dnl  On systems alpha*-*-osf* (or maybe just osf5), apparently there's a
-dnl  newish Compaq "as" which doesn't work with the gcc mips-tfile.
-dnl  Compiling an empty file with "gcc -c foo.c" produces for instance
-dnl
-dnl      mips-tfile, /tmp/ccaqUNnF.s:7 Segmentation fault
-dnl
-dnl  The fix is to pass "-oldas" to that assembler, as noted by
-dnl
-dnl      http://gcc.gnu.org/install/specific.html#alpha*-dec-osf*
-dnl
-dnl  The test here tries to compile an empty file, and if that fails but
-dnl  adding -Wa,-oldas makes it succeed, then that flag is considered
-dnl  necessary.
-dnl
-dnl  We look for the failing case specifically, since it may not be a good
-dnl  idea to use -Wa,-oldas in other circumstances.  For instance gas takes
-dnl  "-oldas" to mean the "-o" option and will write a file called "ldas" as
-dnl  its output.  Normally gcc puts its own "-o" after any -Wa options, so
-dnl  -oldas ends up being harmless, but clearly that's only through good
-dnl  luck.
-dnl
-dnl  This macro is designed for use while probing for a good compiler, and
-dnl  so doesn't cache it's result.
-
-AC_DEFUN([GMP_GCC_WA_OLDAS],
-[AC_MSG_CHECKING([for $1 -Wa,-oldas])
-result=no
-cat >conftest.c <<EOF
-EOF
-echo "with empty conftest.c" >&AC_FD_CC
-gmp_compile="$1 -c conftest.c >&AC_FD_CC 2>&1"
-if AC_TRY_EVAL(gmp_compile); then : ;
-else
-  # empty fails
-  gmp_compile="$1 -Wa,-oldas -c conftest.c >&AC_FD_CC 2>&1"
-  if AC_TRY_EVAL(gmp_compile); then
-    # but with -Wa,-oldas it works
-    result=yes
-  fi
-fi
-rm -f conftest*
-AC_MSG_RESULT($result)
-if test "$result" = yes; then
-  ifelse([$2],,:,[$2])
-else
-  ifelse([$3],,:,[$3])
-fi
-])
-
 
 dnl  GMP_OS_X86_XMM(CC+CFLAGS,[ACTION-IF-YES][,ACTION-IF-NO])
 dnl  --------------------------------------------------------
@@ -3449,7 +3393,7 @@ dnl  GMP_FUNC_VSNPRINTF
 dnl  ------------------
 dnl  Check whether vsnprintf exists, and works properly.
 dnl
-dnl  Systems without vsnprintf include mingw32, OSF 4.
+dnl  Systems without vsnprintf include mingw32
 dnl
 dnl  Sparc Solaris 2.7 in 64-bit mode doesn't always truncate, making
 dnl  vsnprintf like vsprintf, and hence completely useless.  On one system a
