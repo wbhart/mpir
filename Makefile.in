@@ -497,8 +497,8 @@ include_HEADERS = $(GMPXX_HEADERS_OPTION)
 nodist_includeexec_HEADERS = mpir.h
 lib_LTLIBRARIES = libmpir.la $(am__append_2) \
 	$(GMPXX_LTLIBRARIES_OPTION)
-BUILT_SOURCES = mpir.h fib_table.h mpn/fib_table.c mp_bases.h \
-	mpn/mp_bases.c mpn/perfsqr.h
+BUILT_SOURCES = mpir.h mpn/fib_table.c mp_bases.h mpn/mp_bases.c \
+	mpn/perfsqr.h
 DISTCLEANFILES = $(BUILT_SOURCES) config.m4 fat.h @gmp_srclinks@ \
 	gen-fib$(EXEEXT_FOR_BUILD) gen-bases$(EXEEXT_FOR_BUILD) \
 	gen-psqr$(EXEEXT_FOR_BUILD)
@@ -1240,9 +1240,6 @@ install-data-hook:
 	@echo '|                                                             |'
 	@echo '+-------------------------------------------------------------+'
 	@echo ''
-
-fib_table.h: gen-fib$(EXEEXT_FOR_BUILD)
-	./gen-fib header $(BITS_PER_MP_LIMB) $(GMP_NAIL_BITS) >fib_table.h || (rm -f fib_table.h; exit 1)
 
 mpn/fib_table.c: gen-fib$(EXEEXT_FOR_BUILD)
 	./gen-fib table $(BITS_PER_MP_LIMB) $(GMP_NAIL_BITS) >mpn/fib_table.c || (rm -f mpn/fib_table.c; exit 1)

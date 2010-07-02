@@ -337,10 +337,6 @@ endif
 
 EXTRA_DIST += dumbmp.c
 
-fib_table.h: gen-fib$(EXEEXT_FOR_BUILD)
-	./gen-fib header $(BITS_PER_MP_LIMB) $(GMP_NAIL_BITS) >fib_table.h || (rm -f fib_table.h; exit 1)
-BUILT_SOURCES += fib_table.h
-
 mpn/fib_table.c: gen-fib$(EXEEXT_FOR_BUILD)
 	./gen-fib table $(BITS_PER_MP_LIMB) $(GMP_NAIL_BITS) >mpn/fib_table.c || (rm -f mpn/fib_table.c; exit 1)
 BUILT_SOURCES += mpn/fib_table.c
