@@ -19,9 +19,6 @@
     <Filter Include="Source Files\mpn\Assembler\Logic">
       <UniqueIdentifier>{9d77d83e-67cd-492d-add0-608c5ade111c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\mpn\x64">
-      <UniqueIdentifier>{fb0c4ddc-26db-4c51-bac5-d9a50bedbbe8}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\mpq">
       <UniqueIdentifier>{c40469c6-6a1a-4c0d-9b63-0bf28afe0166}</UniqueIdentifier>
     </Filter>
@@ -1243,12 +1240,6 @@
     </ClCompile>
     <ClCompile Include="..\popham.c">
       <Filter>Source Files\mpn</Filter>
-    </ClCompile>
-    <ClCompile Include="..\x64\fib_table.c">
-      <Filter>Source Files\mpn\x64</Filter>
-    </ClCompile>
-    <ClCompile Include="..\x64\mp_bases.c">
-      <Filter>Source Files\mpn\x64</Filter>
     </ClCompile>
     <ClCompile Include="..\..\mpn\generic\dc_div_q.c">
       <Filter>Source Files\mpn</Filter>

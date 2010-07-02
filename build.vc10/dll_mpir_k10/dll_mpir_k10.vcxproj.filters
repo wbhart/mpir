@@ -24,9 +24,6 @@
     <Filter Include="Source Files\mpn\Assembler\Logic">
       <UniqueIdentifier>{1a1868bc-c0b5-4225-b2d2-15758697c930}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\mpn\x64">
-      <UniqueIdentifier>{1c191b9f-1d0f-460e-b252-184711df8193}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\mpq">
       <UniqueIdentifier>{cf2df720-a4aa-4093-ae7e-6f1901c7550c}</UniqueIdentifier>
     </Filter>
@@ -967,12 +964,6 @@
     </ClCompile>
     <ClCompile Include="..\..\version.c">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\x64\fib_table.c">
-      <Filter>Source Files\mpn\x64</Filter>
-    </ClCompile>
-    <ClCompile Include="..\x64\mp_bases.c">
-      <Filter>Source Files\mpn\x64</Filter>
     </ClCompile>
     <ClCompile Include="..\..\mpf\clears.c">
       <Filter>Source Files\mpf</Filter>

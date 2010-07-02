@@ -13,12 +13,6 @@
     <Filter Include="Source Files\mpn">
       <UniqueIdentifier>{1b2ddd12-22de-4d3a-8a40-35d72c4a0613}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\mpn\win32">
-      <UniqueIdentifier>{75a10b4e-73e2-4a40-9051-525718e78aed}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\mpn\x64">
-      <UniqueIdentifier>{29c5a178-6582-4695-bbed-3a6aa423dd15}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\mpq">
       <UniqueIdentifier>{47e4fe17-0653-45d1-b688-bde810e11318}</UniqueIdentifier>
     </Filter>
@@ -1237,18 +1231,6 @@
     </ClCompile>
     <ClCompile Include="..\popham.c">
       <Filter>Source Files\mpn</Filter>
-    </ClCompile>
-    <ClCompile Include="..\win32\fib_table.c">
-      <Filter>Source Files\mpn\win32</Filter>
-    </ClCompile>
-    <ClCompile Include="..\win32\mp_bases.c">
-      <Filter>Source Files\mpn\win32</Filter>
-    </ClCompile>
-    <ClCompile Include="..\x64\fib_table.c">
-      <Filter>Source Files\mpn\x64</Filter>
-    </ClCompile>
-    <ClCompile Include="..\x64\mp_bases.c">
-      <Filter>Source Files\mpn\x64</Filter>
     </ClCompile>
     <ClCompile Include="..\..\mpn\generic\dc_div_q.c">
       <Filter>Source Files\mpn</Filter>

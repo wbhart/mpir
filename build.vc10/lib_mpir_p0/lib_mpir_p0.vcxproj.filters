@@ -16,9 +16,6 @@
     <Filter Include="Source Files\mpn\Assembler">
       <UniqueIdentifier>{765d0bdb-3bee-4e2f-ad3c-b8e821803480}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\mpn\win32">
-      <UniqueIdentifier>{f82e8486-d1ae-48e0-89ae-e5f866e7debb}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\mpq">
       <UniqueIdentifier>{6c464109-20c9-4d83-9fbe-71319c942eb8}</UniqueIdentifier>
     </Filter>
@@ -1237,12 +1234,6 @@
     </ClCompile>
     <ClCompile Include="..\popham.c">
       <Filter>Source Files\mpn</Filter>
-    </ClCompile>
-    <ClCompile Include="..\win32\fib_table.c">
-      <Filter>Source Files\mpn\win32</Filter>
-    </ClCompile>
-    <ClCompile Include="..\win32\mp_bases.c">
-      <Filter>Source Files\mpn\win32</Filter>
     </ClCompile>
     <ClCompile Include="..\..\mpn\generic\dc_div_q.c">
       <Filter>Source Files\mpn</Filter>

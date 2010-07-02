@@ -1131,14 +1131,6 @@ echo $(ProjectDir)+$(IntDir)+$(TargetName)+$(TargetExt) &gt; ..\last_build.txt
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)mpn\</ObjectFileName>
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)mpn\</ObjectFileName>
     </ClCompile>
-    <ClCompile Include="..\win32\fib_table.c">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)mpn\</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)mpn\</ObjectFileName>
-    </ClCompile>
-    <ClCompile Include="..\win32\mp_bases.c">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)mpn\</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)mpn\</ObjectFileName>
-    </ClCompile>
     <ClCompile Include="..\..\mpz\abs.c">
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)mpz\</ObjectFileName>
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)mpz\</ObjectFileName>
@@ -1865,18 +1857,6 @@ echo $(ProjectDir)+$(IntDir)+$(TargetName)+$(TargetExt) &gt; ..\last_build.txt
     <None Include="..\config.p0" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\gen-bases\gen-bases.vcxproj">
-      <Project>{2297fa81-6d9d-4dc3-ba42-04e93f397047}</Project>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
-    <ProjectReference Include="..\gen-fac_ui\gen-fac_ui.vcxproj">
-      <Project>{001e0d42-4af4-44b8-a8b2-3cd46d537dbe}</Project>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
-    <ProjectReference Include="..\gen-fib\gen-fib.vcxproj">
-      <Project>{d3c6d6b7-cd38-4d49-9ba7-1fbb35f77223}</Project>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
     <ProjectReference Include="..\gen-mpir\gen-mpir.vcxproj">
       <Project>{eafa3e0d-5b34-43a3-a08a-b5e3839bf66a}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>

@@ -24,9 +24,6 @@
     <Filter Include="Source Files\mpn\Assembler\Logic">
       <UniqueIdentifier>{7882d369-759a-4800-b89e-349f5f8748f5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\mpn\x64">
-      <UniqueIdentifier>{e0508c46-760d-47af-860b-1aa4900a3447}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\mpq">
       <UniqueIdentifier>{d9d05889-569e-4b17-8dad-c8e8b1fdf09c}</UniqueIdentifier>
     </Filter>
@@ -1262,12 +1259,6 @@
     <ClCompile Include="..\popham.c">
       <Filter>Source Files\mpn</Filter>
     </ClCompile>
-    <ClCompile Include="..\x64\fib_table.c">
-      <Filter>Source Files\mpn\x64</Filter>
-    </ClCompile>
-    <ClCompile Include="..\x64\mp_bases.c">
-      <Filter>Source Files\mpn\x64</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\mpz\probable_prime_p.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -1438,6 +1429,12 @@
     </ClCompile>
     <ClCompile Include="..\..\mpn\generic\logops_n.c">
       <Filter>Source Files\mpn</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\mpz\probable_prime_p.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\mpz\probable_prime_p.c">
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\mpz\probable_prime_p.c">
       <Filter>Source Files</Filter>
