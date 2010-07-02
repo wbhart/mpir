@@ -18,8 +18,9 @@
 ;  to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 ;  Boston, MA 02110-1301, USA.
 ;
-;	mpn_store(mp_ptr rcx ,mp_size_t rdx, mp_limb_t rax)
-;	rax          rcx,      rdx,         r8
+;  void mpn_store(mp_ptr, mp_size_t, mp_limb_t)
+;                    rdi,       rsi,       rdx
+;                    rcx,       rdx,        r8
 
 %include "..\yasm_mac.inc"
 
@@ -27,7 +28,6 @@
     BITS 64
 
 	LEAF_PROC mpn_store
-	movsxd  r8, r8d
 
 	cmp     rdx, 0
 	jz      .4
@@ -39,20 +39,16 @@
 	mov     [rcx+16], r8
 	lea     rcx, [rcx+8]
 	sub     rdx, 1
-.1:	
-	sub     rdx, 2
+.1:	sub     rdx, 2
 	jc      .3
 	
 	xalign  16
-.2:	
-	lea     rcx, [rcx+16]
+.2:	lea     rcx, [rcx+16]
 	sub     rdx, 2
 	movdqa  [rcx], xmm0
 	jnc     .2
-.3:	
-	jnp     .4
+.3:	jnp     .4
 	mov     [rcx+16], r8
-.4:	
-	ret
+.4:	ret
 
     end
