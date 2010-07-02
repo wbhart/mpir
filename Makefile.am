@@ -337,19 +337,6 @@ endif
 
 EXTRA_DIST += dumbmp.c
 
-mpz/fac_ui.h: gen-fac_ui$(EXEEXT_FOR_BUILD)
-	./gen-fac_ui $(BITS_PER_MP_LIMB) $(GMP_NAIL_BITS) >mpz/fac_ui.h || (rm -f mpz/fac_ui.h; exit 1)
-BUILT_SOURCES += mpz/fac_ui.h
-
-gen-fac_ui$(EXEEXT_FOR_BUILD): gen-fac_ui$(U_FOR_BUILD).c dumbmp.c
-	$(CC_FOR_BUILD) `test -f 'gen-fac_ui$(U_FOR_BUILD).c' || echo '$(srcdir)/'`gen-fac_ui$(U_FOR_BUILD).c -o gen-fac_ui$(EXEEXT_FOR_BUILD)
-DISTCLEANFILES += gen-fac_ui$(EXEEXT_FOR_BUILD)
-EXTRA_DIST += gen-fac_ui.c
-
-gen-fac_ui_.c: gen-fac_ui.c
-	$(CPP_FOR_BUILD) `if test -f $(srcdir)/gen-fac_ui.c; then echo $(srcdir)/gen-fac_ui.c; else echo gen-fac_ui.c; fi` | sed 's/^# \([0-9]\)/#line \1/' > gen-fac_ui_.c || rm -f gen-fac_ui_.c
-
-
 fib_table.h: gen-fib$(EXEEXT_FOR_BUILD)
 	./gen-fib header $(BITS_PER_MP_LIMB) $(GMP_NAIL_BITS) >fib_table.h || (rm -f fib_table.h; exit 1)
 BUILT_SOURCES += fib_table.h

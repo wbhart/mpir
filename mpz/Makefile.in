@@ -520,12 +520,6 @@ uninstall-am: uninstall-info-am
 	pdf pdf-am ps ps-am tags uninstall uninstall-am \
 	uninstall-info-am
 
-
-# These are BUILT_SOURCES at the top-level, so normally they're built before
-# recursing into this directory.
-#
-fac_ui.h:
-	cd ..; $(MAKE) $(AM_MAKEFLAGS) mpz/fac_ui.h
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
 .NOEXPORT:

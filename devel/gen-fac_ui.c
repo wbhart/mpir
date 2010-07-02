@@ -22,7 +22,7 @@ MA 02110-1301, USA. */
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "dumbmp.c"
+#include "mpir.h"
 
 
 /* sets x=y*(y+2)*(y+4)*....*(y+2*(z-1))	*/

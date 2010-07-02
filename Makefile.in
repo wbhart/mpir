@@ -480,7 +480,7 @@ EXTRA_DIST = configfsf.guess configfsf.sub .gdbinit INSTALL.autoconf \
 	mpirxx.h yasm_mac.inc.fat yasm_mac.inc.nofat strip_fPIC.sh \
 	mpn/x86w mpn/x86_64w build.vc9 build.vc10 doc/devel \
 	doc/fdl.texi cpuid.c gpl-2.0.txt lgpl-2.1.txt dumbmp.c \
-	gen-fac_ui.c gen-fib.c gen-bases.c gen-psqr.c
+	gen-fib.c gen-bases.c gen-psqr.c
 @WANT_CXX_TRUE@GMPXX_HEADERS_OPTION = mpirxx.h
 
 # mpir.h and mp.h are architecture dependent, mainly since they encode the
@@ -497,11 +497,11 @@ include_HEADERS = $(GMPXX_HEADERS_OPTION)
 nodist_includeexec_HEADERS = mpir.h
 lib_LTLIBRARIES = libmpir.la $(am__append_2) \
 	$(GMPXX_LTLIBRARIES_OPTION)
-BUILT_SOURCES = mpir.h mpz/fac_ui.h fib_table.h mpn/fib_table.c \
-	mp_bases.h mpn/mp_bases.c mpn/perfsqr.h
+BUILT_SOURCES = mpir.h fib_table.h mpn/fib_table.c mp_bases.h \
+	mpn/mp_bases.c mpn/perfsqr.h
 DISTCLEANFILES = $(BUILT_SOURCES) config.m4 fat.h @gmp_srclinks@ \
-	gen-fac_ui$(EXEEXT_FOR_BUILD) gen-fib$(EXEEXT_FOR_BUILD) \
-	gen-bases$(EXEEXT_FOR_BUILD) gen-psqr$(EXEEXT_FOR_BUILD)
+	gen-fib$(EXEEXT_FOR_BUILD) gen-bases$(EXEEXT_FOR_BUILD) \
+	gen-psqr$(EXEEXT_FOR_BUILD)
 
 # Tell mpir.h it's building gmp, not an application, used by windows DLL stuff.
 INCLUDES = -D__GMP_WITHIN_GMP
@@ -1240,15 +1240,6 @@ install-data-hook:
 	@echo '|                                                             |'
 	@echo '+-------------------------------------------------------------+'
 	@echo ''
-
-mpz/fac_ui.h: gen-fac_ui$(EXEEXT_FOR_BUILD)
-	./gen-fac_ui $(BITS_PER_MP_LIMB) $(GMP_NAIL_BITS) >mpz/fac_ui.h || (rm -f mpz/fac_ui.h; exit 1)
-
-gen-fac_ui$(EXEEXT_FOR_BUILD): gen-fac_ui$(U_FOR_BUILD).c dumbmp.c
-	$(CC_FOR_BUILD) `test -f 'gen-fac_ui$(U_FOR_BUILD).c' || echo '$(srcdir)/'`gen-fac_ui$(U_FOR_BUILD).c -o gen-fac_ui$(EXEEXT_FOR_BUILD)
-
-gen-fac_ui_.c: gen-fac_ui.c
-	$(CPP_FOR_BUILD) `if test -f $(srcdir)/gen-fac_ui.c; then echo $(srcdir)/gen-fac_ui.c; else echo gen-fac_ui.c; fi` | sed 's/^# \([0-9]\)/#line \1/' > gen-fac_ui_.c || rm -f gen-fac_ui_.c
 
 fib_table.h: gen-fib$(EXEEXT_FOR_BUILD)
 	./gen-fib header $(BITS_PER_MP_LIMB) $(GMP_NAIL_BITS) >fib_table.h || (rm -f fib_table.h; exit 1)
