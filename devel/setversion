@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# run this script from the devel directory
+
 # set version number
 VERSION=2
 VERSION_MINOR=1
@@ -34,15 +36,15 @@ VERSION_STR=$VERSION.$VERSION_MINOR.$VERSION_PATCHLEVEL
 TMPFILE=$(tempfile)
 
 #update gmp-h.in
-cat gmp-h.in \
+cat ../gmp-h.in \
 | sed s/"#define[[:space:]]\+__MPIR_VERSION[[:space:]]\+.*"/"#define __MPIR_VERSION "$VERSION/ \
 | sed s/"#define[[:space:]]\+__MPIR_VERSION_MINOR[[:space:]]\+.*"/"#define __MPIR_VERSION_MINOR "$VERSION_MINOR/ \
 | sed s/"#define[[:space:]]\+__MPIR_VERSION_PATCHLEVEL[[:space:]]\+.*"/"#define __MPIR_VERSION_PATCHLEVEL "$VERSION_PATCHLEVEL/ \
 | sed s/"#define[[:space:]]\+_MSC_MPIR_VERSION[[:space:]]\+.*"/"#define _MSC_MPIR_VERSION "\"$VERSION_STR\"/ > $TMPFILE
-mv $TMPFILE gmp-h.in
+mv $TMPFILE ../gmp-h.in
 
 #update Makefile.am
-cat Makefile.am \
+cat ../Makefile.am \
 | sed s/"LIBGMP_LT_CURRENT[[:space:]]*=[[:space:]]*.*"/"LIBGMP_LT_CURRENT = "$LIBGMP_LT_CURRENT/ \
 | sed s/"LIBGMP_LT_REVISION[[:space:]]*=[[:space:]]*.*"/"LIBGMP_LT_REVISION = "$LIBGMP_LT_REVISION/ \
 | sed s/"LIBGMP_LT_AGE[[:space:]]*=[[:space:]]*.*"/"LIBGMP_LT_AGE = "$LIBGMP_LT_AGE/ \
@@ -52,21 +54,22 @@ cat Makefile.am \
 | sed s/"LIBMP_LT_CURRENT[[:space:]]*=[[:space:]]*.*"/"LIBMP_LT_CURRENT = "$LIBMP_LT_CURRENT/ \
 | sed s/"LIBMP_LT_REVISION[[:space:]]*=[[:space:]]*.*"/"LIBMP_LT_REVISION = "$LIBMP_LT_REVISION/ \
 | sed s/"LIBMP_LT_AGE[[:space:]]*=[[:space:]]*.*"/"LIBMP_LT_AGE = "$LIBMP_LT_AGE/ > $TMPFILE
-mv $TMPFILE Makefile.am
+mv $TMPFILE ../Makefile.am
 
 #update doc/version
-echo -n "@set UPDATED " > doc/version.texi
-date "+%d %B %Y" >> doc/version.texi
-echo -n "@set UPDATED-MONTH " >> doc/version.texi
-date "+%B %Y" >> doc/version.texi
-echo "@set EDITION $VERSION_STR" >> doc/version.texi
-echo "@set VERSION $VERSION_STR" >> doc/version.texi
+echo -n "@set UPDATED " > ../doc/version.texi
+date "+%d %B %Y" >> ../doc/version.texi
+echo -n "@set UPDATED-MONTH " >> ../doc/version.texi
+date "+%B %Y" >> ../doc/version.texi
+echo "@set EDITION $VERSION_STR" >> ../doc/version.texi
+echo "@set VERSION $VERSION_STR" >> ../doc/version.texi
 
 #update makeinfo
-cd doc
+cd ../doc
 makeinfo mpir.texi
 makeinfo version.texi
 cd ..
 
 autoreconf -f
 rm -f $TMPFILE
+cd devel

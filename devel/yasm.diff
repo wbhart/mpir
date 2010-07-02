@@ -8,7 +8,7 @@
 ###	svn co http://www.tortall.net/svn/yasm/trunk/yasm yasm
 ###	cd yasm
 ###	rm -r $(find -name \\.svn)
-###	patch -Np1 < ../yasm.diff
+###	patch -Np1 < ../devel/yasm.diff
 ###	./autogen.sh
 ###	./configure
 ###	make
