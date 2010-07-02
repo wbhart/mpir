@@ -350,10 +350,6 @@ gen-fib_.c: gen-fib.c
 	$(CPP_FOR_BUILD) `if test -f $(srcdir)/gen-fib.c; then echo $(srcdir)/gen-fib.c; else echo gen-fib.c; fi` | sed 's/^# \([0-9]\)/#line \1/' > gen-fib_.c || rm -f gen-fib_.c
 
 
-mp_bases.h: gen-bases$(EXEEXT_FOR_BUILD)
-	./gen-bases header $(BITS_PER_MP_LIMB) $(GMP_NAIL_BITS) >mp_bases.h || (rm -f mp_bases.h; exit 1)
-BUILT_SOURCES += mp_bases.h
-
 mpn/mp_bases.c: gen-bases$(EXEEXT_FOR_BUILD)
 	./gen-bases table $(BITS_PER_MP_LIMB) $(GMP_NAIL_BITS) >mpn/mp_bases.c || (rm -f mpn/mp_bases.c; exit 1)
 BUILT_SOURCES += mpn/mp_bases.c
