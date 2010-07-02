@@ -32,7 +32,6 @@
 %define	MOVQ	movd
 
 	LEAF_PROC mpn_store
-	movsxd	rdx, edx
 	lea     rcx, [rcx-32]
 	cmp     rdx, 0
 	jz      .4

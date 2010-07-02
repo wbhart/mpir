@@ -88,7 +88,7 @@
 ;  mp_limb_t mpn_submul_1(mp_ptr, mp_ptr, mp_size_t, mp_limb_t)
 ;  mp_limb_t mpn_declsh_n(mp_ptr, mp_ptr, mp_size_t,   mp_uint)
 ;  rax                       rdi     rsi        rdx        rcx
-;  rax                       rcx     rdx        r8d         r9
+;  rax                       rcx     rdx         r8         r9
 ;
 
 %define BPL                 8
@@ -143,7 +143,7 @@ entry:
     mov     rdi, rcx
     mov     rsi, rdx
     xor     rdx, rdx
-    movsxd  rdx, r8d
+    mov     rdx, r8
     mov     rcx, r9
 
     lea     s1p, [s1p+rdx*8]

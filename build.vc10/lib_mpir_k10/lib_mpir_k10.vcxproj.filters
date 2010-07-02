@@ -1456,21 +1456,6 @@
     <YASM Include="..\..\mpn\x86_64w\k8\lshift1.asm">
       <Filter>Source Files\mpn\Assembler</Filter>
     </YASM>
-    <YASM Include="..\..\mpn\x86_64w\k8\lshift2.asm">
-      <Filter>Source Files\mpn\Assembler</Filter>
-    </YASM>
-    <YASM Include="..\..\mpn\x86_64w\k8\lshift3.asm">
-      <Filter>Source Files\mpn\Assembler</Filter>
-    </YASM>
-    <YASM Include="..\..\mpn\x86_64w\k8\lshift4.asm">
-      <Filter>Source Files\mpn\Assembler</Filter>
-    </YASM>
-    <YASM Include="..\..\mpn\x86_64w\k8\lshift5.asm">
-      <Filter>Source Files\mpn\Assembler</Filter>
-    </YASM>
-    <YASM Include="..\..\mpn\x86_64w\k8\lshift6.asm">
-      <Filter>Source Files\mpn\Assembler</Filter>
-    </YASM>
     <YASM Include="..\..\mpn\x86_64w\k8\lshiftc.asm">
       <Filter>Source Files\mpn\Assembler</Filter>
     </YASM>
@@ -1508,9 +1493,6 @@
       <Filter>Source Files\mpn\Assembler</Filter>
     </YASM>
     <YASM Include="..\..\mpn\x86_64w\k8\rshift1.asm">
-      <Filter>Source Files\mpn\Assembler</Filter>
-    </YASM>
-    <YASM Include="..\..\mpn\x86_64w\k8\rshift2.asm">
       <Filter>Source Files\mpn\Assembler</Filter>
     </YASM>
     <YASM Include="..\..\mpn\x86_64w\k8\rsh_divrem_hensel_qr_1_1.asm">

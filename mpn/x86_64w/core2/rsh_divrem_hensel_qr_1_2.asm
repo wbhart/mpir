@@ -22,7 +22,7 @@
 ;
 ;  mp_limb_t  mpn_rsh_divrem_hensel_qr_1_2(mp_ptr, mp_ptr, mp_size_t, mp_limb_t, mp_uint, mp_limb_t)
 ;  rax                                        rdi     rsi        rdx        rcx       r8         r9
-;  rax                                        rcx     rdx        r8d         r9 [rsp+40]   [rsp+48]
+;  rax                                        rcx     rdx         r8         r9 [rsp+40]   [rsp+48]
 
 %include "..\yasm_mac.inc"
 
@@ -32,7 +32,7 @@
 %define reg_save_list rsi, rdi, r12, r13, r14
 
 	FRAME_PROC mpn_rsh_divrem_hensel_qr_1_2, 0, reg_save_list
-    movsxd  rax, r8d
+    mov     rax, r8
 	lea     rdi, [rcx+rax*8-16]
 	lea     rsi, [rdx+rax*8-16]
     mov     rcx, r9

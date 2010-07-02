@@ -21,14 +21,14 @@
 ;
 ;  void mpn_com_n(mp_ptr, mp_ptr, mp_size_t)
 ;                     rdi     rsi       rdx
-;                     rcx     rdx       r8d 
+;                     rcx     rdx        r8
 
 %include "..\yasm_mac.inc"
 
     CPU  Athlon64
     BITS 64
     LEAF_PROC mpn_com_n
-    movsxd  rax, r8d
+    mov     rax, r8
     sub     rax, 4
     jc      .2
 

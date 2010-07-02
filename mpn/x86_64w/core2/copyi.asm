@@ -19,7 +19,7 @@
 ;
 ;  void mpn_copyi(mp_ptr, mp_ptr, mp_size_t)
 ;                    rdi     rsi        rdx
-;                    rcx     rdx        r8d
+;                    rcx     rdx         r8
 
 %define SMALL_LOOP  1
 
@@ -29,7 +29,6 @@
     BITS 64
 
 	LEAF_PROC mpn_copyi
-	movsxd  r8, r8d
     cmp     r8, 0
 	jz      .9
 %if SMALL_LOOP <> 0

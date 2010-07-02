@@ -20,7 +20,7 @@
 ;
 ;  mp_limb_t mpn_divrem_euclidean_qr_2(mp_ptr, mp_ptr, mp_size_t, mp_limb_t)
 ;  rax                                    rdi     rsi        rdx        rcx
-;  rax                                    rcx     rdx        r8d         r9
+;  rax                                    rcx     rdx         r8         r9
 
 %include "yasm_mac.inc"
 
@@ -31,7 +31,7 @@
 	FRAME_PROC mpn_divrem_euclidean_qr_2, 0, reg_save_list
 	mov     rdi, rcx
 	mov     rsi, rdx
-	movsxd  rdx, r8d
+	mov     rdx, r8
     mov     rcx, r9
 
 	mov     rbx, rdx

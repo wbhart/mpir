@@ -21,7 +21,7 @@
 ;
 ;  mp_limb_t mpn_sqr_basecase(mp_ptr, mp_ptr, mp_size_t)
 ;  rax                           rdi     rsi        rdx
-;  rax                           rcx     rdx        r8d
+;  rax                           rcx     rdx         r8
 
 %include "..\yasm_mac.inc"
 
@@ -283,7 +283,7 @@ fourormore:
     FRAME_PROC ?mpn_sqr_1, 0, reg_save_list
     mov     rdi, rcx
     mov     rsi, rdx
-    movsxd  rdx, r8d
+    mov     rdx, r8
 
     mov     [rsp+stack_use+8], rdi
     mov     [rsp+stack_use+16], rsi

@@ -17,7 +17,7 @@
 
 ;	mp_limb_t mpn_hamdist(mp_ptr, mp_ptr, mp_size_t)
 ;	rax                      rdi,    rsi,       rdx
-;	rax                      rcx,    rdx,       r8d
+;	rax                      rcx,    rdx,        r8
 
 %include '..\yasm_mac.inc'
 
@@ -27,7 +27,6 @@
     BITS 64
 
 	LEAF_PROC mpn_hamdist
-	movsxd	r8, r8d
 	xor     eax, eax
 	sub     r8, 4
 	jc      .2

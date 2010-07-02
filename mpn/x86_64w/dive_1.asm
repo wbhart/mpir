@@ -26,7 +26,7 @@
 ;
 ;  void mpn_divexact_1(mp_ptr, mp_ptr, mp_size_t, mp_limb_t)
 ;                         rdi     rsi        rdx        rcx
-;                         rcx     rdx        r8d         r9
+;                         rcx     rdx         r8         r9
 
 %include "yasm_mac.inc"
 
@@ -37,7 +37,6 @@
     extern  __gmp_modlimb_invert_table
 
     LEAF_PROC mpn_divexact_1
-    movsxd  r8, r8d
     mov     r10, rdx
     mov     rax, r9
     and     rax, byte 1

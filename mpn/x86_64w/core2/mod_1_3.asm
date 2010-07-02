@@ -22,7 +22,7 @@
 ;
 ;  mp_limb_t  mpn_mod_1_3(mp_ptr, mp_ptr, mp_size_t, mp_ptr)
 ;  rax                       rdi     rsi        rdx     rcx
-;  rax                       rcx     rdx        r8d      r9
+;  rax                       rcx     rdx         r8      r9
 
 ;	(rdi,2)= not fully reduced remainder of (rsi,rdx) / divisor , and top limb <d
 ;	where (rcx,4)  contains B^i % divisor
@@ -36,7 +36,7 @@
 
     FRAME_PROC mpn_mod_1_3, 0, reg_save_list
     mov     rsi, rdx
-    movsxd  rdi, r8d
+    mov     rdi, r8
 	mov     r15, [rsi+rdi*8-8]
 	mov     r14, [rsi+rdi*8-16]
 	mov     rax, [rsi+rdi*8-32]

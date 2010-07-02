@@ -22,7 +22,7 @@
 
 ;	mpn_limb_t mpn_popcount(mp_ptr,mp_size_t)
 ;	rax                        rdi,      rsi
-;	rax                        rcx,      edx
+;	rax                        rcx,      rdx
 
 %include "..\yasm_mac.inc"
 
@@ -33,7 +33,7 @@
 
 	FRAME_PROC mpn_popcount, 0, reg_save_list
 	mov		rdi, rcx
-	movsxd	rsi, edx
+	mov   	rsi, rdx
 
 	mov     r8, 0x5555555555555555
 	mov     r9, 0x3333333333333333

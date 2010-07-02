@@ -20,7 +20,7 @@
 ;
 ;  mp_limb_t mpn_redc_basecase(mp_ptr, mp_ptr, mp_size_t, mp_limb_t,  mp_ptr)
 ;  rax                            rdi     rsi        rdx        rcx       r8
-;  rax                            rcx     rdx        r8d         r9 [rsp+40] 
+;  rax                            rcx     rdx         r8         r9 [rsp+40] 
 
 %include "..\yasm_mac.inc"
 
@@ -369,12 +369,12 @@
 %endmacro
 
     LEAF_PROC mpn_redc_basecase
-    cmp     r8d, 1
+    cmp     r8, 1
     je      one
     FRAME_PROC ?mpn_redc_basecase, 0, reg_save_list
     mov     rdi, rcx
     mov     rsi, rdx
-    movsxd  rdx, r8d
+    mov     rdx, r8
     mov     rcx, r9
     mov     r8, [rsp+stack_use+40]
 

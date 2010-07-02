@@ -22,7 +22,7 @@
 
 ;	mp_limb_t mpn_hamdist(mp_ptr, mp_ptr, mp_size_t)
 ;	rax                      rdi,    rsi,       rdx
-;	rax                      rcx,    rdx,       r8d
+;	rax                      rcx,    rdx,        r8
 
 %include "..\yasm_mac.inc"
 
@@ -34,7 +34,7 @@
 	FRAME_PROC mpn_hamdist, 0, reg_save_list
 	mov		rdi, rcx
 	mov		rsi, rdx
-	movsxd	rdx, r8d
+	mov  	rdx, r8
 		
 	mov     r8, 0x5555555555555555
 	mov     r9, 0x3333333333333333

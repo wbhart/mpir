@@ -22,7 +22,7 @@
 
 ;	mpn_limb_t mpn_popcount(mp_ptr,mp_size_t)
 ;	rax                        rdi,      rsi
-;	rax                        rcx,      edx
+;	rax                        rcx,      rdx
 
 %include "..\..\yasm_mac.inc"
 
@@ -30,7 +30,6 @@
     BITS 64
 
     LEAF_PROC mpn_popcount
-    mov     edx, edx
     xor     eax, eax
     sub     rdx, 4
     jc      .2

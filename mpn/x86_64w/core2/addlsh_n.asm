@@ -23,7 +23,7 @@
 ;  mp_limb_t  mpn_addlsh_n(mp_ptr, mp_ptr, mp_ptr, mp_size_t, mp_uint, mp_limb_t)
 ;  mp_limb_t mpn_addlsh_nc(mp_ptr, mp_ptr, mp_ptr, mp_size_t, mp_uint)
 ;  rax                        rdi     rsi     rdx        rcx       r8         r9
-;  rax                        rcx     rdx      r8        r9d [rsp+40]   [rsp+48]
+;  rax                        rcx     rdx      r8         r9 [rsp+40]   [rsp+48]
 
 %include "..\yasm_mac.inc"
 
@@ -33,7 +33,7 @@
 %define reg_save_list   rbx, rsi, rdi, r12
 
 	FRAME_PROC mpn_addlsh_n, 0, reg_save_list
-	movsxd  rax, r9d
+	mov     rax, r9
 	lea     rdi, [rcx+rax*8-32]
 	lea     rsi, [rdx+rax*8-32]
 	lea     rdx, [r8+rax*8-32]

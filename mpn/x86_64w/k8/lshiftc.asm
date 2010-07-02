@@ -20,7 +20,7 @@
 ;
 ;  void lshiftc(mp_ptr, mp_ptr, mp_size_t, mp_uint)
 ;                  rdi     rsi        rdx      rcx
-;                  rcx     rdx        r8d      r9d
+;                  rcx     rdx         r8      r9d
 
 %include "..\yasm_mac.inc"
 
@@ -29,7 +29,6 @@
 
     LEAF_PROC mpn_lshiftc
 	mov     r9d, r9d
-	movsxd  r8, r8d
 	movq    mm0, r9
 	mov     rax, 64
 	sub     rax, r9

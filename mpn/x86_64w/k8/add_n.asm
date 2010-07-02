@@ -28,7 +28,7 @@
 ;  mp_limb_t  mpn_add_n(mp_ptr, mp_srcptr, mp_srcptr, mp_size_t)
 ;  mp_limb_t mpn_add_nc(mp_ptr, mp_srcptr, mp_srcptr, mp_size_t, mp_limb_t)
 ;  rax                     rdi        rsi        rdx        rcx         r8
-;  rax                     rcx        rdx         r8        r9d   [rsp+40]
+;  rax                     rcx        rdx         r8         r9   [rsp+40]
 
 %include "..\yasm_mac.inc"
 
@@ -44,8 +44,7 @@
     LEAF_PROC mpn_add_n
     xor     r10, r10
 entry:
-    mov     eax, r9d
-    mov     r9, rax
+    mov     rax, r9
     and     rax, 3
     shr     r9, 2
     lea     r9,[r10+r9*2]

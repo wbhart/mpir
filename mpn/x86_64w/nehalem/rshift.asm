@@ -23,7 +23,7 @@
 ;
 ;  mp_limb_t mpn_rshift(mp_ptr, mp_ptr, mp_size_t, mp_uint)
 ;  rax                     rdi     rsi        rdx      rcx
-;  rax                     rcx     rdx        r8d      r9d
+;  rax                     rcx     rdx         r8      r9d
 
 %include "..\yasm_mac.inc"
 
@@ -34,7 +34,7 @@
 
     FRAME_PROC mpn_rshift, 0, reg_save_list
 ; when n=1 mod4 seem to have different runtimes
-    movsxd  rax, r8d
+    	mov     rax, r8
 	mov     rbx, 4
 	lea     rsi, [rdx+rax*8-24]
 	lea     rdi, [rcx+rax*8-24]

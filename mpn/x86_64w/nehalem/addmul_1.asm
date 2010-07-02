@@ -85,7 +85,7 @@
 ;  mp_limb_t mpn_addmul_1(mp_ptr, mp_ptr, mp_size_t, mp_limb_t)
 ;  mp_limb_t mpn_inclsh_n(mp_ptr, mp_ptr, mp_size_t,   mp_uint)
 ;  rax                       rdi     rsi        rdx        rcx
-;  rax                       rcx     rdx        r8d        r9d
+;  rax                       rcx     rdx         r8        r9d
 
 %define BPL                 8
 %define UNROLL_EXPONENT     4
@@ -142,7 +142,7 @@ entry:
     mov     rdi, rcx
     mov     rsi, rdx
     xor     rdx, rdx
-    movsxd  rdx, r8d
+    mov     rdx, r8
     mov     rcx, r9
 
     lea     s1p, [s1p+rdx*8]

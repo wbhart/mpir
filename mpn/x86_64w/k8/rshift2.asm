@@ -22,7 +22,7 @@
 ;
 ;  mp_limb_t mpn_rshift2(mp_ptr, mp_ptr, mp_size_t)
 ;  rax                      rdi     rsi        rdx
-;  rax                      rcx     rdx        r8d
+;  rax                      rcx     rdx         r8
 
 %include "..\yasm_mac.inc"
 
@@ -34,7 +34,7 @@
     FRAME_PROC mpn_rshift2, 0, reg_save_list
 	lea     rsi, [rdx+24]
 	lea     rdi, [rcx+24]
-    movsxd  rcx, r8d
+    mov     rcx, r8
 	xor     eax, eax
 	xor     edx, edx
 	sub     rcx, 4

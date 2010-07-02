@@ -19,7 +19,9 @@
 
 ;  You should have received a copy of the GNU Lesser General Public License
 
-; mp_limb_t mpn_divrem_2(mp_ptr, mp_size_t, mp_ptr, mp_size_t, mp_ptr)
+;  mp_limb_t mpn_divrem_2(mp_ptr, mp_size_t, mp_ptr, mp_size_t,  mp_ptr)
+;  rax                       rdi        rsi     rdx        rcx       r8
+;  rax                       rcx        rdx      r8         r9 [rsp+40]
 
 %include 'yasm_mac.inc'
 

@@ -20,7 +20,7 @@
 ;  mp_limb_t mpn_divexact_by3c(mp_ptr, mp_ptr, mp_size_t, mp_limb_t)
 ;  mp_limb_t  mpn_divexact_by3(mp_ptr, mp_ptr, mp_size_t)
 ;  rax                            rdi     rsi        rdx        rcx
-;  rax                            rcx     rdx        r8d         r9
+;  rax                            rcx     rdx         r8         r9
 
 %include "yasm_mac.inc"
 
@@ -30,14 +30,14 @@
 
     xalign  16
     LEAF_PROC mpn_divexact_by3c
-    movsxd  rax, r8d
+    mov     rax, r8
     mov     r8, MLT1
     imul    r9, r8
     jmp     entry
 
     xalign  16
     LEAF_PROC mpn_divexact_by3
-    movsxd  rax, r8d
+    mov     rax, r8
     mov     r8, MLT1
     xor     r9, r9
 

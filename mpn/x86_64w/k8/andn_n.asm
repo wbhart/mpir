@@ -21,7 +21,7 @@
 ;
 ;  void mpn_andn_n(mp_ptr, mp_srcptr, mp_srcptr, mp_size_t)
 ;                     rdi        rsi        rdx        rcx
-;                     rcx        rdx         r8        r9d
+;                     rcx        rdx         r8         r9
 
 %include "..\yasm_mac.inc"
 
@@ -32,7 +32,6 @@
 %define T4      r11
 
     LEAF_PROC mpn_andn_n
-    movsxd  r9, r9d
     sub     r9, 4
     jb      .2
 

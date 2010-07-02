@@ -22,7 +22,7 @@
 ;
 ;  mp_limb_t  mpn_mod_1_1(mp_ptr, mp_ptr, mp_size_t, mp_ptr)
 ;  rax                       rdi     rsi        rdx     rcx
-;  rax                       rcx     rdx        r8d      r9
+;  rax                       rcx     rdx         r8      r9
 
 %include '..\yasm_mac.inc'
 
@@ -33,7 +33,7 @@
 
     FRAME_PROC mpn_mod_1_1, 0, reg_save_list
     mov     rsi, rdx
-    movsxd  rdx, r8d
+    mov     rdx, r8
     
 	mov     r13, [rsi+rdx*8-8]
 	mov     rax, [rsi+rdx*8-16]

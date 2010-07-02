@@ -23,7 +23,7 @@
 ;  mp_limb_t  mpn_sub_n(mp_ptr, mp_srcptr, mp_srcptr, mp_size_t)
 ;  mp_limb_t mpn_sub_nc(mp_ptr, mp_srcptr, mp_srcptr, mp_size_t, mp_limb_t)
 ;  rax                     rdi        rsi        rdx        rcx         r8
-;  rax                     rcx        rdx         r8        r9d   [rsp+40]
+;  rax                     rcx        rdx         r8         r9   [rsp+40]
 
 %include "..\yasm_mac.inc"
 
@@ -41,7 +41,7 @@
 	xor     r10, r10
 
 mpn_sub_entry:
-	movsxd  rax, r9d
+	mov     rax, r9
 	mov     r9, rcx
 	mov     rcx, rax
 	and     rax, 3

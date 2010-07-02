@@ -21,7 +21,7 @@
 ;  mp_limb_t mpn_addmul_1(mp_ptr, mp_ptr, mp_size_t, mp_limb_t)
 ;  mp_limb_t mpn_inclsh_n(mp_ptr, mp_ptr, mp_size_t,   mp_uint)
 ;  rax                       rdi     rsi        rdx        rcx
-;  rax                       rcx     rdx        r8d        r9d
+;  rax                       rcx     rdx         r8        r9d
 
 %include "..\yasm_mac.inc"
 
@@ -40,7 +40,6 @@
 
     xalign 16
     LEAF_PROC mpn_addmul_1
-    movsxd  r8, r8d
     mov     rax, [rdx]
     cmp     r8, 1
     jnz     .1

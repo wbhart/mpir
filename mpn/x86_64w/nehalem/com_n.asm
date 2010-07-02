@@ -20,9 +20,9 @@
 ;  to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 ;  Boston, MA 02110-1301, USA.
 
-;  void mpn_com_n(mp_ptr, mp_ptr, size_t)
-;                    rdi,    rsi,    rdx
-;                    rcx,    rdx,     r8
+;  void mpn_com_n(mp_ptr, mp_ptr, mp_size_t)
+;                    rdi,    rsi,       rdx
+;                    rcx,    rdx,        r8
 
 %include '..\yasm_mac.inc'
 
@@ -30,8 +30,6 @@
     BITS 64
 
 	LEAF_PROC mpn_com_n
-	movsxd	r8, r8d
-
 	mov     r9, 3
 	lea     rdx, [rdx+r8*8-24]
 	pcmpeqb xmm2, xmm2

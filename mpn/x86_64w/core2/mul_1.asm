@@ -22,7 +22,7 @@
 ;  mp_limb_t  mpn_mul_1(mp_ptr, mp_ptr, mp_size_t, mp_limb_t)
 ;  mp_limb_t mpn_mul_1c(mp_ptr, mp_ptr, mp_size_t, mp_limb_t, mp_limb_t)
 ;  rax                     rdi     rsi        rdx        rcx         r8
-;  rax                     rcx     rdx        r8d         r9   [rsp+40]
+;  rax                     rcx     rdx         r8         r9   [rsp+40]
 
 %include "..\yasm_mac.inc"
 
@@ -40,7 +40,7 @@
     xalign  16
 start:
     FRAME_PROC ?mpn_mul, 0, rbx
-    movsxd  rax, r8d
+    mov     rax, r8
     mov     r8d, 3
     lea     r10, [rdx+rax*8-24]
     sub     r8, rax

@@ -22,7 +22,7 @@
 ;
 ;  mp_limb_t mpn_mul_basecase(mp_ptr, mp_ptr, mp_size_t, mp_ptr, mp_size_t)
 ;  rax                           rdi     rsi        rdx     rcx         r8
-;  rax                           rcx     rdx        r8d      r9   [rsp+40]
+;  rax                           rcx     rdx         r8      r9   [rsp+40]
 
 %include "..\yasm_mac.inc"
 
@@ -850,8 +850,6 @@
     xalign  16
 .6:
     WIN64_GCC_PROC mpn_mbc2, 5, frame
-    movsxd  rdx, edx
-    movsxd  r8, r8d
 
     mov     r14, 4
     sub     r14, rdx

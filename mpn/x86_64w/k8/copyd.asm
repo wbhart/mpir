@@ -19,7 +19,7 @@
 ;
 ;  void mpn_copyd(mp_ptr, mp_ptr, mp_size_t)
 ;                    rdi     rsi        rdx
-;                    rcx     rdx        r8d 
+;                    rcx     rdx         r8
 
 %include "..\yasm_mac.inc"
 
@@ -30,7 +30,6 @@
 ;	(rcx,r8)=(rdx,r8)
 
 	LEAF_PROC mpn_copyd
-	movsxd  r8, r8d
 	lea     rdx, [rdx+r8*8-8]
 	lea     rcx, [rcx+r8*8-8]
 	sub     r8, 4

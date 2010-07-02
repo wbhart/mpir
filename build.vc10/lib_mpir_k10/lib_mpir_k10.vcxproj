@@ -1935,11 +1935,6 @@ echo $(ProjectDir)+$(IntDir)+$(TargetName)+$(TargetExt) &gt; ..\last_build.txt
     <YASM Include="..\..\mpn\x86_64w\k8\k10\hamdist.asm" />
     <YASM Include="..\..\mpn\x86_64w\k8\k10\lshift.asm" />
     <YASM Include="..\..\mpn\x86_64w\k8\lshift1.asm" />
-    <YASM Include="..\..\mpn\x86_64w\k8\lshift2.asm" />
-    <YASM Include="..\..\mpn\x86_64w\k8\lshift3.asm" />
-    <YASM Include="..\..\mpn\x86_64w\k8\lshift4.asm" />
-    <YASM Include="..\..\mpn\x86_64w\k8\lshift5.asm" />
-    <YASM Include="..\..\mpn\x86_64w\k8\lshift6.asm" />
     <YASM Include="..\..\mpn\x86_64w\k8\lshiftc.asm" />
     <YASM Include="..\..\mpn\x86_64w\k8\mod_1_1.asm" />
     <YASM Include="..\..\mpn\x86_64w\k8\mod_1_2.asm" />
@@ -1956,7 +1951,6 @@ echo $(ProjectDir)+$(IntDir)+$(TargetName)+$(TargetExt) &gt; ..\last_build.txt
     <YASM Include="..\..\mpn\x86_64w\k8\rsh_divrem_hensel_qr_1_2.asm" />
     <YASM Include="..\..\mpn\x86_64w\k8\k10\rshift.asm" />
     <YASM Include="..\..\mpn\x86_64w\k8\rshift1.asm" />
-    <YASM Include="..\..\mpn\x86_64w\k8\rshift2.asm" />
     <YASM Include="..\..\mpn\x86_64w\k8\sqr_basecase.asm" />
     <YASM Include="..\..\mpn\x86_64w\k8\sub_err1_n.asm" />
     <YASM Include="..\..\mpn\x86_64w\k8\sub_n.asm" />

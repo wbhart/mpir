@@ -33,7 +33,7 @@
 
     FRAME_PROC mpn_add_err1_n, 0, reg_save_list
 	mov     [rsp+stack_use+32], r9
-    movsxd  r9, dword [rsp+stack_use+48]
+    mov     r9, qword [rsp+stack_use+48]
 	mov     r10, [rsp++stack_use+56]
 	lea     rdi, [rcx+r9*8-24]
 	lea     rsi, [rdx+r9*8-24]

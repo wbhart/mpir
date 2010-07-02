@@ -20,7 +20,12 @@
 ;  You should have received a copy of the GNU Lesser General Public License
 
 ;	mp_limb_t mpn_divrem_euclidean_qr_1(mp_ptr, mp_size_t, mp_ptr, mp_size_t, mp_limb_t)
-;	mp_limb_t mpn_preinv_divrem_1(mp_ptr, mp_size_t, mp_ptr, mp_size_t, mp_limb_t, mp_limb_t, int)
+;   rax                                    rdi        rsi     rdx        rcx         r8
+;   rax                                    rcx        rdx      r8         r9   [rsp+40]
+
+;	mp_limb_t mpn_preinv_divrem_1(mp_ptr, mp_size_t, mp_ptr, mp_size_t, mp_limb_t, mp_limb_t,     int)
+;   rax                              rdi        rsi     rdx        rcx         r8         r9   8(rsp)
+;   rax                              rcx        rdx      r8         r9   [rsp+40]   [rsp+48] [rsp+56]
 
 %include 'yasm_mac.inc'
 

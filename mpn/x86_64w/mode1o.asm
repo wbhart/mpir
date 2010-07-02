@@ -23,7 +23,7 @@
 ;  mp_limb_t  mpn_modexact_1_odd(mp_ptr, mp_size_t, mp_limb_t)
 ;  mp_limb_t mpn_modexact_1c_odd(mp_ptr, mp_size_t, mp_limb_t, mp_limb_t)
 ;  rax                              rdi        rsi        rdx        rcx
-;  rax                              rcx        edx         r8         r9
+;  rax                              rcx        rdx         r8         r9
 
 %include "yasm_mac.inc"
 
@@ -42,7 +42,7 @@
     ; f(x) = 1/x - d  and x[i+1] = x[i] - f(x[i]) / f'(x[i]) to give
     ; the iteration formula: x[i+1] = x[i] * (2 - d * x[i])
     
-    movsxd  rsi, edx
+    mov     rsi, rdx
     mov     rdx, r8    
     shr     edx, 1              ; div / 2
     lea     r10, [rel __gmp_modlimb_invert_table]

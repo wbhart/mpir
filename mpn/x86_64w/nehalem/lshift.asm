@@ -24,7 +24,7 @@
 ;
 ;  mp_limb_t mpn_lshift(mp_ptr, mp_ptr, mp_size_t, mp_uint)
 ;  rax                     rdi     rsi        rdx      rcx
-;  rax                     rcx     rdx        r8d      r9d
+;  rax                     rcx     rdx         r8      r9d
 
 %include "..\yasm_mac.inc"
 
@@ -35,10 +35,10 @@
 
     FRAME_PROC mpn_lshift, 0, reg_save_list
 ; odd and even n seem to have different runtimes
-    movsxd  rbx, r8d
+    mov     rbx, r8
     lea     rsi, [rdx+24]
     lea     rdi, [rcx+24]
-    mov     rcx, r9
+    mov     ecx, r9d
 
     mov     rdx, [rsi+rbx*8-32]
     xor     rax, rax

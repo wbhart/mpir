@@ -42,7 +42,6 @@
 	WIN64_GCC_PROC mpn_mulmid_basecase, 5, frame
 	mov     r15, rcx
 
-
 	lea     r13, [rdx+1]
 	sub     r13, r8
 

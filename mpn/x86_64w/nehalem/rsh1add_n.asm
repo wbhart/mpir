@@ -19,7 +19,7 @@
 ;
 ;  mp_limb_t mpn_rsh1add_n(mp_ptr, mp_ptr, mp_ptr, mp_size_t)
 ;  rax                        rdi     rsi     rdx        rcx
-;  rax                        rcx     rdx      r8        r9d
+;  rax                        rcx     rdx      r8         r9
 
 %include "..\yasm_mac.inc"
 
@@ -29,7 +29,7 @@
     BITS 64
 
     FRAME_PROC mpn_rsh1add_n, 0, reg_save_list
-    movsxd  rax, r9d
+	mov     rax, r9
 	lea     rdi, [rcx+rax*8-32]
 	lea     rsi, [rdx+rax*8-32]
 	lea     rdx, [r8+rax*8-32]

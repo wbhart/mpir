@@ -19,7 +19,7 @@
 ;
 ;  mp_limb_t mpn_addmul_2(mp_ptr, mp_ptr, mp_size_t, mp_ptr)
 ;  rax                       rdi     rsi        rdx     rcx
-;  rax                       rcx     rdx        r8d      r9
+;  rax                       rcx     rdx         r8      r9
 
 %include "..\yasm_mac.inc"
 
@@ -31,7 +31,7 @@
 	FRAME_PROC mpn_addmul_2, 0, reg_save_list
 	mov     rdi, rcx
 	mov     rsi, rdx
-	movsxd  rax, r8d
+	mov     rax, r8
 	
 	mov     rcx, [r9]
 	mov     r8, [r9+8]

@@ -23,7 +23,7 @@
 ;
 ;  mp_limb_t mpn_rshift(mp_ptr, mp_ptr, mp_size_t, mp_uint)
 ;  rax                     rdi     rsi        rdx      rcx
-;  rax                     rcx     rdx        r8d      r9d
+;  rax                     rcx     rdx         r8      r9d
 
 %include "..\yasm_mac.inc"
 
@@ -36,7 +36,7 @@
 	mov     rax, 64
 	sub     rax, r9
 	movq    mm1, rax
-    movsxd  rax, r8d
+    mov     rax, r8
 	mov     r8, 4
 	lea     rdx, [rdx+rax*8-32]
 	lea     rcx, [rcx+rax*8-32]

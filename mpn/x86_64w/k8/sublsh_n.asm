@@ -23,7 +23,7 @@
 ;  mp_limb_t  mpn_sublsh_n(mp_ptr, mp_ptr, mp_ptr, mp_size_t, mp_uint, mp_limb_t)
 ;  mp_limb_t mpn_sublsh_nc(mp_ptr, mp_ptr, mp_ptr, mp_size_t, mp_uint)
 ;  rax                        rdi     rsi     rdx        rcx       r8         r9
-;  rax                        rcx     rdx      r8        r9d [rsp+40]   [rsp+48]
+;  rax                        rcx     rdx      r8         r9 [rsp+40]   [rsp+48]
 
 %include "..\yasm_mac.inc"
 
@@ -33,19 +33,19 @@
 %define reg_save_list rbx, rsi, rdi, rbp, r12, r13, r14, r15
 
 	LEAF_PROC mpn_sublsh_n
-	movsxd  r10, r9d
+	mov     r10, r9
 	xor     r9, r9
     jmp     entry
     
 	LEAF_PROC mpn_sublsh_nc
-	movsxd  r10, r9d
+	mov     r10, r9
 	mov     r9, [rsp+48]
 entry:
 	FRAME_PROC ?mpn_sublsh, 0, reg_save_list
 	lea     rdi, [rcx+r10*8]
 	lea     rsi, [rdx+r10*8]
 	lea     rdx, [r8+r10*8]
-	movsxd  rcx, dword [rsp+stack_use+40]
+	mov     ecx, dword [rsp+stack_use+40]
 	
 	neg     rcx
 	shr     r9, cl

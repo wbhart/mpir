@@ -21,7 +21,7 @@
 ;
 ;  mp_limb_t  mpn_lshift(mp_ptr, mp_ptr, mp_size_t, mp_uint)
 ;  rax                     rdi      rsi        rdx      rcx
-;  rax                     rcx      rdx        r8d      r9d
+;  rax                     rcx      rdx         r8      r9d
 
 %include "..\..\yasm_mac.inc"
 
@@ -31,7 +31,7 @@
     LEAF_PROC mpn_lshift
     mov     r10, rcx
     mov     ecx, r9d
-    cmp     r8d, 2
+    cmp     r8, 2
     ja      .3
     jz      .2
 .1:
@@ -57,7 +57,6 @@
     mov     [r10+8], r9
     ret
 .3:
-    mov     r8d, r8d
     mov     eax, 64
     sub     rax, rcx
     movq    xmm0, rcx

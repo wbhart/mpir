@@ -37,7 +37,7 @@
     BITS 64
 
     FRAME_PROC mpn_sumdiff_n, 0, reg_save_list
-    movsxd  r10, dword [rsp+stack_use+40]
+    mov     r10, qword [rsp+stack_use+40]
 
     lea     rdx, [rdx+r10*8]
     lea     r8, [r8+r10*8]

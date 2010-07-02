@@ -39,7 +39,7 @@
 %macro fun 2
 	xalign  16
     FRAME_PROC %1, 0, reg_save_list
-    movsxd  rax, dword [rsp+stack_use+48]
+    mov     rax, qword [rsp+stack_use+48]
     lea     rdi, [rcx+rax*8]
     lea     rsi, [rdx+rax*8]
     lea     rdx, [r8+rax*8]
