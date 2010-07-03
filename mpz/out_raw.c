@@ -75,9 +75,6 @@ mpz_out_raw (FILE *fp, mpz_srcptr x)
       if (GMP_NAIL_BITS == 0)
         {
           /* reverse limb order, and byte swap if necessary */
-#ifdef _CRAY
-          _Pragma ("_CRI ivdep");
-#endif
           do
             {
               bp -= BYTES_PER_MP_LIMB;

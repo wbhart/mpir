@@ -24,19 +24,6 @@
 #include "mpir.h"
 #include "tests.h"
 
-#if defined (__vax__)
-#define LOW_BOUND 1e-38
-#define HIGH_BOUND 8e37
-#endif
-
-#if defined (_CRAY) && ! defined (_CRAYIEEE)
-/* The range varies mysteriously between Cray version.  On an SV1,
-   the range seem to be 1e-600..1e603, but a cfp (non-ieee) T90
-   has a much smaller range of 1e-240..1e240.  */
-#define LOW_BOUND 1e-240
-#define HIGH_BOUND 1e240
-#endif
-
 #if ! defined (LOW_BOUND)
 #define LOW_BOUND 1e-300
 #define HIGH_BOUND 1e300

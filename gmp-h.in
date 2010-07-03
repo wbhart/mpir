@@ -223,12 +223,7 @@ typedef __mpz_struct mpz_t[1];
 
 typedef mp_limb_t *		mp_ptr;
 typedef __gmp_const mp_limb_t *	mp_srcptr;
-#if defined (_CRAY) && ! defined (_CRAYMPP)
-/* plain `int' is much faster (48 bits) */
-#define __GMP_MP_SIZE_T_INT     1
-typedef int			mp_size_t;
-typedef int			mp_exp_t;
-#elif defined( _WIN64)
+#if defined( _WIN64)
 #define __GMP_MP_SIZE_T_INT     0
 typedef long long int	mp_size_t;
 typedef long int		mp_exp_t;
@@ -522,13 +517,6 @@ typedef __mpq_struct *mpq_ptr;
 #define __GMP_LIKELY(cond)    (cond)
 #define __GMP_UNLIKELY(cond)  (cond)
 #endif
-
-#ifdef _CRAY
-#define __GMP_CRAY_Pragma(str)  _Pragma (str)
-#else
-#define __GMP_CRAY_Pragma(str)
-#endif
-
 
 /* Allow direct user access to numerator and denominator of a mpq_t object.  */
 #define mpq_numref(Q) (&((Q)->_mp_num))
@@ -2205,7 +2193,6 @@ mpq_neg (mpq_ptr __gmp_w, mpq_srcptr __gmp_u)
     /* ASSERT ((start) >= 0); */                                \
     /* ASSERT ((start) <= (size)); */                           \
     /* ASSERT (MPN_SAME_OR_SEPARATE_P (dst, src, size)); */     \
-    __GMP_CRAY_Pragma ("_CRI ivdep");                           \
     for (__gmp_j = (start); __gmp_j < (size); __gmp_j++)        \
       (dst)[__gmp_j] = (src)[__gmp_j];                          \
   } while (0)

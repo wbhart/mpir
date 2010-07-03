@@ -79,7 +79,7 @@ Low resolution timebase
 
     Parameter tuning can be very time consuming if the only timebase
     available is a 10 millisecond clock tick, to the point of being
-    unusable.  This is currently the case on VAX and ARM systems.
+    unusable.  This is currently the case on ARM systems.
 
 
 

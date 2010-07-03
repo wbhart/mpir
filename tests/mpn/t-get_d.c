@@ -73,11 +73,7 @@ check_onebit (void)
   };
 
   /* FIXME: It'd be better to base this on the float format. */
-#ifdef __vax
-  int     limit = 127;  /* vax fp numbers have limited range */
-#else
   int     limit = 511;
-#endif
 
   int        bit_i, exp_i, i;
   double     got, want;

@@ -1111,19 +1111,6 @@ case $host in
     esac
     ;;
 
-
-  # VAX
-  vax*-*-*)
-    # Currently gcc (version 3.0) on vax always uses a frame pointer
-    # (config/vax/vax.h FRAME_POINTER_REQUIRED=1), so -fomit-frame-pointer
-    # will be ignored.
-    #
-    gcc_cflags="-O2 $fomit_frame_pointer"
-    path="vax"
-    extra_functions="udiv_w_sdiv"
-    ;;
-
-
   # AMD and Intel x86 configurations, including AMD64
   #
   # Rumour has it gcc -O2 used to give worse register allocation than just
@@ -1899,16 +1886,6 @@ AM_CONDITIONAL(WANT_CXX, test $want_cxx = yes)
 if test $want_cxx = yes; then
   AC_PROG_CXXCPP
 fi
-
-
-# Path setups for Cray, according to IEEE or CFP.  These must come after
-# deciding the compiler.
-#
-GMP_CRAY_OPTIONS(
-  [add_path="cray/ieee"],
-  [add_path="cray/cfp"; extra_functions="mulwwc90"],
-  [add_path="cray/cfp"; extra_functions="mulwwj90"])
-
 
 if test -z "$MPN_PATH"; then
   path="$add_path $path"

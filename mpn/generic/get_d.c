@@ -60,8 +60,7 @@ union ieee_double_extract {
    or how.  */
 
 #if HAVE_HOST_CPU_FAMILY_alpha				\
-  && ((defined (__GNUC__) && ! __GMP_GNUC_PREREQ(3,4))	\
-      || defined (_CRAY))
+  && ((defined (__GNUC__) && ! __GMP_GNUC_PREREQ(3,4)))
 static volatile const long CONST_1024 = 1024;
 static volatile const long CONST_NEG_1023 = -1023;
 static volatile const long CONST_NEG_1022_SUB_53 = -1022 - 53;

@@ -37,10 +37,6 @@ along with the GNU MP Library.  If not, see http://www.gnu.org/licenses/.  */
 #ifndef __GMP_IMPL_H__
 #define __GMP_IMPL_H__
 
-#if defined _CRAY
-#include <intrinsics.h>  /* for _popcnt */
-#endif
-
 /* limits.h is not used in general, since it's an ANSI-ism, and since on
    solaris gcc 2.95 under -mcpu=ultrasparc in ABI=32 ends up getting wrong
    values (the ABI=64 values).
@@ -51,7 +47,7 @@ along with the GNU MP Library.  If not, see http://www.gnu.org/licenses/.  */
    reference, int can be 46 or 64 bits, whereas uint is always 64 bits; and
    short can be 24, 32, 46 or 64 bits, and different for ushort.  */
 
-#if defined _CRAY || defined _WIN64
+#if defined _WIN64
 #include <limits.h>
 #endif
 
@@ -504,7 +500,6 @@ void  __gmp_tmp_debug_free  _PROTO ((const char *, int, int,
 
 
 /* From mpir.h, nicer names for internal use. */
-#define CRAY_Pragma(str)               __GMP_CRAY_Pragma(str)
 #define MPN_CMP(result, xp, yp, size)  __GMPN_CMP(result, xp, yp, size)
 #define LIKELY(cond)                   __GMP_LIKELY(cond)
 #define UNLIKELY(cond)                 __GMP_UNLIKELY(cond)
@@ -1266,16 +1261,6 @@ mp_size_t mpn_rootrem _PROTO ((mp_ptr, mp_ptr, mp_srcptr, mp_size_t, mp_limb_t))
 #define mpn_rootrem_basecase __MPN(rootrem_basecase)
 mp_size_t mpn_rootrem_basecase _PROTO ((mp_ptr, mp_ptr, mp_srcptr, mp_size_t, mp_limb_t));
 
-#if defined (_CRAY)
-#define MPN_COPY_INCR(dst, src, n)					\
-  do {									\
-    int __i;		/* Faster on some Crays with plain int */	\
-    _Pragma ("_CRI ivdep");						\
-    for (__i = 0; __i < (n); __i++)					\
-      (dst)[__i] = (src)[__i];						\
-  } while (0)
-#endif
-
 /*	now in mpir.h
 // used by test programs, hence __GMP_DECLSPEC 
 #ifndef mpn_copyi  // if not done with cpuvec in a fat binary 
@@ -1317,17 +1302,6 @@ __GMP_DECLSPEC void mpn_copyi _PROTO ((mp_ptr, mp_srcptr, mp_size_t));
 	  }                                             \
 	*__dst++ = __x;                                 \
       }                                                 \
-  } while (0)
-#endif
-
-
-#if defined (_CRAY)
-#define MPN_COPY_DECR(dst, src, n)					\
-  do {									\
-    int __i;		/* Faster on some Crays with plain int */	\
-    _Pragma ("_CRI ivdep");						\
-    for (__i = (n) - 1; __i >= 0; __i--)				\
-      (dst)[__i] = (src)[__i];						\
   } while (0)
 #endif
 
@@ -1394,7 +1368,6 @@ __GMP_DECLSPEC void mpn_copyd _PROTO ((mp_ptr, mp_srcptr, mp_size_t));
     mp_size_t  __i;                                     \
     ASSERT ((size) >= 0);                               \
     ASSERT (! MPN_OVERLAP_P (dst, size, src, size));    \
-    CRAY_Pragma ("_CRI ivdep");                         \
     for (__i = 0; __i < __size; __i++)                  \
       {                                                 \
         *__dst = *__src;                                \
@@ -2894,14 +2867,6 @@ __GMP_DECLSPEC extern const unsigned char  modlimb_invert_table[128];
   } while (0)
 #endif
 
-/* Cray intrinsic _popcnt. */
-#ifdef _CRAY
-#define ULONG_PARITY(p, n)      \
-  do {                          \
-    (p) = _popcnt (n) & 1;      \
-  } while (0)
-#endif
-
 #if defined (__GNUC__) && ! defined (__INTEL_COMPILER)			\
     && ! defined (NO_ASM) && defined (__ia64)
 /* unsigned long is either 32 or 64 bits depending on the ABI, zero extend
@@ -3126,7 +3091,6 @@ __GMP_DECLSPEC extern const unsigned char  modlimb_invert_table[128];
     mp_size_t  __i;                                     \
     ASSERT ((size) >= 0);                               \
     ASSERT (MPN_SAME_OR_SEPARATE_P (dst, src, size));   \
-    CRAY_Pragma ("_CRI ivdep");                         \
     for (__i = 0; __i < __size; __i++)                  \
       {                                                 \
         BSWAP_LIMB_FETCH (*__dst, __src);               \
@@ -3144,7 +3108,6 @@ __GMP_DECLSPEC extern const unsigned char  modlimb_invert_table[128];
     mp_size_t  __i;                                     \
     ASSERT ((size) >= 0);                               \
     ASSERT (! MPN_OVERLAP_P (dst, size, src, size));    \
-    CRAY_Pragma ("_CRI ivdep");                         \
     for (__i = 0; __i < __size; __i++)                  \
       {                                                 \
         BSWAP_LIMB_FETCH (*__dst, __src);               \
@@ -3170,14 +3133,6 @@ __GMP_DECLSPEC extern const unsigned char  modlimb_invert_table[128];
 #define popc_limb(result, input)					\
   do {									\
     __asm__ ("ctpop %1, %0" : "=r" (result) : "r" (input));		\
-  } while (0)
-#endif
-
-/* Cray intrinsic. */
-#ifdef _CRAY
-#define popc_limb(result, input)        \
-  do {                                  \
-    (result) = _popcnt (input);         \
   } while (0)
 #endif
 
@@ -3367,12 +3322,6 @@ double mpn_get_d __GMP_PROTO ((mp_srcptr, mp_size_t, mp_size_t, long)) __GMP_ATT
           { a_nan; }                            \
       }                                         \
   } while (0)
-#endif
-
-#if HAVE_DOUBLE_VAX_D || HAVE_DOUBLE_VAX_G || HAVE_DOUBLE_CRAY_CFP
-/* no nans or infs in these formats */
-#define DOUBLE_NAN_INF_ACTION(x, a_nan, a_inf)  \
-  do { } while (0)
 #endif
 
 #ifndef DOUBLE_NAN_INF_ACTION

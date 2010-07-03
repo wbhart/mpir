@@ -31,15 +31,8 @@ MA 02110-1301, USA. */
 #define SIZE 8
 #endif
 
-/* VAX D floats only have an 8 bit signed exponent, so anything 2^128 or
-   bigger will overflow, that being 4 limbs. */
-#if defined (__vax__) && SIZE > 4
-#undef SIZE
-#define SIZE 4
-#define EPSIZE 3
-#else
 #define EPSIZE SIZE
-#endif
+
 
 void dump _PROTO ((mpq_t));
 

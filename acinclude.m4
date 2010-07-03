@@ -1256,38 +1256,6 @@ no)
 esac
 ])
 
-
-dnl  GMP_CRAY_HOST_TYPES(C90/T90-IEEE, C90/T90-CFP, J90/SV1)
-dnl  -------------------------------------------------------
-dnl  Execute the actions in the arguments on the respective Cray vector
-dnl  systems.  For other hosts, do nothing.
-dnl
-dnl  This macro should be used after the C compiler has been chosen, since
-dnl  on c90 and t90 we ask the compiler whether we're in IEEE or CFP float
-dnl  mode.
-dnl
-dnl  This code is in a macro so that any AC_REQUIRE pre-requisites of
-dnl  AC_EGREP_CPP will be expanded at the top-level, ie. for all hosts not
-dnl  merely c90 and t90.  In autoconf 2.57 for instance this means
-dnl  AC_PROG_EGREP, which is needed by various other macros.
-
-AC_DEFUN([GMP_CRAY_OPTIONS],
-[case $host_cpu in
-  c90 | t90)
-    AC_EGREP_CPP(yes,
-[#ifdef _CRAYIEEE
-yes
-#endif],
-    [$1],
-    [$2])
-    ;;
-  j90 | sv1)
-    [$3]
-    ;;
-esac
-])
-
-
 dnl  GMP_HPPA_LEVEL_20(cc/cflags [, ACTION-GOOD [,ACTION-BAD]])
 dnl  ----------------------------------------------------------
 dnl  Check that the given cc/cflags accepts HPPA 2.0n assembler code.

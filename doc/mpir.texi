@@ -485,10 +485,6 @@ Motorola/IBM PowerPC 32 and 64,
 IBM POWER,
 MIPS R3000, R4000,
 SPARCv7, SuperSPARC, generic SPARCv8, UltraSPARC,
-DEC VAX,
-Some optimizations also for
-Cray vector systems,
-
 
 @cindex Home page
 @cindex Web page
@@ -732,13 +728,6 @@ Alpha:
 @nisamp{alphaev7}
 
 @item
-Cray:
-@nisamp{c90},
-@nisamp{j90},
-@nisamp{t90},
-@nisamp{sv1}
-
-@item
 HPPA:
 @nisamp{hppa1.0},
 @nisamp{hppa1.1},
@@ -849,8 +838,6 @@ Other:
 @nisamp{arm},
 @nisamp{sh},
 @nisamp{sh2},
-@nisamp{vax},
-@nisamp{z8k}
 @end itemize
 
 CPUs not listed will use generic C code.

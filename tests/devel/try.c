@@ -55,14 +55,6 @@ MA 02110-1301, USA. */
    fields.
 
 
-   Portability:
-
-   This program is not designed for use on Cray vector systems under Unicos,
-   it will fail to compile due to missing _SC_PAGE_SIZE.  Those systems
-   don't really have pages or mprotect.  We could arrange to run the tests
-   without the redzones, but we haven't bothered currently.
-
-
    Enhancements:
 
    umul_ppmm support is not very good, lots of source data is generated

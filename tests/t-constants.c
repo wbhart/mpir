@@ -318,10 +318,6 @@ main (int argc, char *argv[])
       printf ("  SHRT_MAX   %s\n", shrt_max_def);
       printf ("\n");
 
-#ifdef _CRAY
-      printf ("_CRAY is defined, so limits.h is being used\n");
-#endif
-
       printf ("ULONG_MAX      %lX\n", ULONG_MAX);
       printf ("ULONG_HIGHBIT  %lX\n", ULONG_HIGHBIT);
       printf ("LONG_MAX       %lX\n", LONG_MAX);

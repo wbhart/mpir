@@ -48,10 +48,6 @@ MA 02110-1301, USA. */
   } while (0)
 #endif
 
-
-/* Enhancement: The byte swap loop ought to be safe to vectorize on Cray
-   etc, but someone who knows what they're doing needs to check it.  */
-
 size_t
 mpz_inp_raw (mpz_ptr x, FILE *fp)
 {

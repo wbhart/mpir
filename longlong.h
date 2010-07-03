@@ -304,31 +304,6 @@ long __MPN(count_leading_zeros) _PROTO ((UDItype));
 #endif /* clz using mpn */
 #endif /* __alpha */
 
-#if defined (_CRAY) && W_TYPE_SIZE == 64
-#include <intrinsics.h>
-#define UDIV_PREINV_ALWAYS  1
-#define UDIV_NEEDS_NORMALIZATION 1
-#define UDIV_TIME 220
-long __MPN(count_leading_zeros) _PROTO ((UDItype));
-#define count_leading_zeros(count, x) \
-  ((count) = _leadz ((UWtype) (x)))
-#if defined (_CRAYIEEE)		/* I.e., Cray T90/ieee, T3D, and T3E */
-#define umul_ppmm(ph, pl, m0, m1) \
-  do {									\
-    UDItype __m0 = (m0), __m1 = (m1);					\
-    (ph) = _int_mult_upper (m0, m1);					\
-    (pl) = __m0 * __m1;							\
-  } while (0)
-#ifndef LONGLONG_STANDALONE
-#define udiv_qrnnd(q, r, n1, n0, d) \
-  do { UWtype __di;							\
-    __di = __MPN(invert_limb) (d);					\
-    udiv_qrnnd_preinv (q, r, n1, n0, d, __di);				\
-  } while (0)
-#endif /* LONGLONG_STANDALONE */
-#endif /* _CRAYIEEE */
-#endif /* _CRAY */
-
 #if defined (__ia64) && W_TYPE_SIZE == 64
 /* This form encourages gcc (pre-release 3.4 at least) to emit predicated
    "sub r=r,r" and "sub r=r,r,1", giving a 2 cycle latency.  The generic
@@ -1249,48 +1224,6 @@ extern UWtype __MPN(udiv_qrnnd) _PROTO ((UWtype *, UWtype, UWtype, UWtype));
 	    "rJ" ((al) >> 32), "rI" ((bl) >> 32)			\
 	   __CLOBBER_CC)
 #endif
-
-#if defined (__vax__) && W_TYPE_SIZE == 32
-#define add_ssaaaa(sh, sl, ah, al, bh, bl) \
-  __asm__ ("addl2 %5,%1\n\tadwc %3,%0"					\
-	   : "=g" (sh), "=&g" (sl)					\
-	   : "0"  ((USItype)(ah)), "g" ((USItype)(bh)),			\
-	     "%1" ((USItype)(al)), "g" ((USItype)(bl)))
-#define sub_ddmmss(sh, sl, ah, al, bh, bl) \
-  __asm__ ("subl2 %5,%1\n\tsbwc %3,%0"					\
-	   : "=g" (sh), "=&g" (sl)					\
-	   : "0" ((USItype)(ah)), "g" ((USItype)(bh)),			\
-	     "1" ((USItype)(al)), "g" ((USItype)(bl)))
-#define smul_ppmm(xh, xl, m0, m1) \
-  do {									\
-    union {UDItype __ll;						\
-	   struct {USItype __l, __h;} __i;				\
-	  } __x;							\
-    USItype __m0 = (m0), __m1 = (m1);					\
-    __asm__ ("emul %1,%2,$0,%0"						\
-	     : "=g" (__x.__ll) : "g" (__m0), "g" (__m1));		\
-    (xh) = __x.__i.__h; (xl) = __x.__i.__l;				\
-  } while (0)
-#define sdiv_qrnnd(q, r, n1, n0, d) \
-  do {									\
-    union {DItype __ll;							\
-	   struct {SItype __l, __h;} __i;				\
-	  } __x;							\
-    __x.__i.__h = n1; __x.__i.__l = n0;					\
-    __asm__ ("ediv %3,%2,%0,%1"						\
-	     : "=g" (q), "=g" (r) : "g" (__x.__ll), "g" (d));		\
-  } while (0)
-#if 0
-/* FIXME: This instruction appears to be unimplemented on some systems (vax
-   8800 maybe). */
-#define count_trailing_zeros(count,x)					\
-  do {									\
-    __asm__ ("ffs 0, 31, %1, %0"					\
-	     : "=g" (count)						\
-	     : "g" ((USItype) (x)));					\
-  } while (0)
-#endif
-#endif /* __vax__ */
 
 #endif /* __GNUC__ */
 
