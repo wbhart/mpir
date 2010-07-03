@@ -136,8 +136,7 @@ and 21264, AMD K6, K6-2, Athlon, K8 and K10, Hitachi SuperH and SH-2,
 HPPA 1.0, 1.1 and 2.0, Intel Pentium, Pentium Pro/II/III, Pentium 4,
 generic x86, Intel IA-64, Core 2, i7, Atom, Motorola MC68000, MC68020,
 MC88100, and MC88110, Motorola/IBM PowerPC 32 and 64, IBM POWER, MIPS
-R3000, R4000, SPARCv7, SuperSPARC, generic SPARCv8, UltraSPARC, DEC VAX,
-Some optimizations also for Cray vector systems,
+R3000, R4000, SPARCv7, SuperSPARC, generic SPARCv8, UltraSPARC,
 
 For up-to-date information on, and latest version of, MPIR, please see
 the MPIR web pages at
@@ -342,8 +341,6 @@ CPU types
         * Alpha: alpha, alphaev5, alphaev56, alphapca56, alphapca57,
           alphaev6, alphaev67, alphaev68 alphaev7
 
-        * Cray: c90, j90, t90, sv1
-
         * HPPA: hppa1.0, hppa1.1, hppa2.0, hppa2.0n, hppa2.0w,
 
         * IA-64: ia64, itanium, itanium2
@@ -369,7 +366,7 @@ CPU types
           core2, penryn, nehalem, nano atom, k5, k6, k62, k63, k7, k8,
           k10 k102 viac3, viac32
 
-        * Other: arm, sh, sh2, vax, z8k
+        * Other: arm, sh, sh2,
 
      CPUs not listed will use generic C code.
 
@@ -7063,4 +7060,58 @@ File: mpir.info,  Node: Root Extraction Algorithms,  Next: Radix Conversion Algo
 * Nth Root Algorithm::
 * Perfect Square Algorithm::
 * Perfect Power Algorithm::
+
+
+File: mpir.info,  Node: Square Root Algorithm,  Next: Nth Root Algorithm,  Prev: Root Extraction Algorithms,  Up: Root Extraction Algorithms
+
+15.5.1 Square Root
+------------------
+
+Square roots are taken using the "Karatsuba Square Root" algorithm by
+Paul Zimmermann (*note References::).
+
+   An input n is split into four parts of k bits each, so with b=2^k we
+have n = a3*b^3 + a2*b^2 + a1*b + a0.  Part a3 must be "normalized" so
+that either the high or second highest bit is set.  In MPIR, k is kept
+on a limb boundary and the input is left shifted (by an even number of
+bits) to normalize.
+
+   The square root of the high two parts is taken, by recursive
+application of the algorithm (bottoming out in a one-limb Newton's
+method),
+
+     s1,r1 = sqrtrem (a3*b + a2)
+
+   This is an approximation to the desired root and is extended by a
+division to give s,r,
+
+     q,u = divrem (r1*b + a1, 2*s1)
+     s = s1*b + q
+     r = u*b + a0 - q^2
+
+   The normalization requirement on a3 means at this point s is either
+correct or 1 too big.  r is negative in the latter case, so
+
+     if r < 0 then
+       r = r + 2*s - 1
+       s = s - 1
+
+   The algorithm is expressed in a divide and conquer form, but as
+noted in the paper it can also be viewed as a discrete variant of
+Newton's method, or as a variation on the schoolboy method (no longer
+taught) for square roots two digits at a time.
+
+   If the remainder r is not required then usually only a few high limbs
+of r and u need to be calculated to determine whether an adjustment to
+s is required.  This optimization is not currently implemented.
+
+   In the Karatsuba multiplication range this algorithm is
+O(1.5*M(N/2)), where M(n) is the time to multiply two numbers of n
+limbs.  In the FFT multiplication range this grows to a bound of
+O(6*M(N/2)).  In practice a factor of about 1.5 to 1.8 is found in the
+Karatsuba and Toom-3 ranges, growing to 2 or 3 in the FFT range.
+
+   The algorithm does all its calculations in integers and the resulting
+`mpn_sqrtrem' is used for both `mpz_sqrt' and `mpf_sqrt'.  The extended
+precision given by `mpf_sqrt_ui' is obtained by padding with zero limbs.
 
