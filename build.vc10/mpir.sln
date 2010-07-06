@@ -16,10 +16,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "dll_mpir_p0", "dll_mpir_p0\
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "dll_mpir_p3", "dll_mpir_p3\dll_mpir_p3.vcxproj", "{9A3A242F-1472-4776-9839-CC62474B7F54}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gen-psqr", "gen-psqr\gen-psqr.vcxproj", "{0412953E-06CE-4A60-9DCD-CA5CAC3A46CC}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gen-mpir", "gen-mpir\gen-mpir.vcxproj", "{EAFA3E0D-5B34-43A3-A08A-B5E3839BF66A}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "dll_mpir_core2", "dll_mpir_core2\dll_mpir_core2.vcxproj", "{FE938593-CD55-4C68-A4E5-738C6081B14C}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lib_mpir_core2", "lib_mpir_core2\lib_mpir_core2.vcxproj", "{B6433872-ECF9-4AE5-93B9-B3FC40EE2F6A}"
@@ -27,40 +23,16 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lib_mpir_cxx", "lib_mpir_cxx\lib_mpir_cxx.vcxproj", "{C82A62DB-DDB4-4072-832F-6DD841C6D80E}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "dll_mpir_k8", "dll_mpir_k8\dll_mpir_k8.vcxproj", "{FA95FE09-BCE7-4217-8473-F574B58E3A7B}"
-	ProjectSection(ProjectDependencies) = postProject
-		{EAFA3E0D-5B34-43A3-A08A-B5E3839BF66A} = {EAFA3E0D-5B34-43A3-A08A-B5E3839BF66A}
-		{0412953E-06CE-4A60-9DCD-CA5CAC3A46CC} = {0412953E-06CE-4A60-9DCD-CA5CAC3A46CC}
-	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lib_mpir_k8", "lib_mpir_k8\lib_mpir_k8.vcxproj", "{AD4D498B-ACAB-42A9-9414-335B44BB2F8D}"
-	ProjectSection(ProjectDependencies) = postProject
-		{EAFA3E0D-5B34-43A3-A08A-B5E3839BF66A} = {EAFA3E0D-5B34-43A3-A08A-B5E3839BF66A}
-		{0412953E-06CE-4A60-9DCD-CA5CAC3A46CC} = {0412953E-06CE-4A60-9DCD-CA5CAC3A46CC}
-	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "dll_mpir_k10", "dll_mpir_k10\dll_mpir_k10.vcxproj", "{B55FEC95-9847-4508-BAD7-7C9088C51746}"
-	ProjectSection(ProjectDependencies) = postProject
-		{EAFA3E0D-5B34-43A3-A08A-B5E3839BF66A} = {EAFA3E0D-5B34-43A3-A08A-B5E3839BF66A}
-		{0412953E-06CE-4A60-9DCD-CA5CAC3A46CC} = {0412953E-06CE-4A60-9DCD-CA5CAC3A46CC}
-	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lib_mpir_k10", "lib_mpir_k10\lib_mpir_k10.vcxproj", "{114DB1D9-8CE4-43C9-AF6B-6A6F954DA79A}"
-	ProjectSection(ProjectDependencies) = postProject
-		{EAFA3E0D-5B34-43A3-A08A-B5E3839BF66A} = {EAFA3E0D-5B34-43A3-A08A-B5E3839BF66A}
-		{0412953E-06CE-4A60-9DCD-CA5CAC3A46CC} = {0412953E-06CE-4A60-9DCD-CA5CAC3A46CC}
-	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "dll_mpir_nehalem", "dll_mpir_nehalem\dll_mpir_nehalem.vcxproj", "{5A733CA3-BBBE-4CF4-9357-FD876FC92C4D}"
-	ProjectSection(ProjectDependencies) = postProject
-		{EAFA3E0D-5B34-43A3-A08A-B5E3839BF66A} = {EAFA3E0D-5B34-43A3-A08A-B5E3839BF66A}
-		{0412953E-06CE-4A60-9DCD-CA5CAC3A46CC} = {0412953E-06CE-4A60-9DCD-CA5CAC3A46CC}
-	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lib_mpir_nehalem", "lib_mpir_nehalem\lib_mpir_nehalem.vcxproj", "{71372F61-C80C-4E6A-80E6-CB03CB7D2A43}"
-	ProjectSection(ProjectDependencies) = postProject
-		{EAFA3E0D-5B34-43A3-A08A-B5E3839BF66A} = {EAFA3E0D-5B34-43A3-A08A-B5E3839BF66A}
-		{0412953E-06CE-4A60-9DCD-CA5CAC3A46CC} = {0412953E-06CE-4A60-9DCD-CA5CAC3A46CC}
-	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -122,22 +94,6 @@ Global
 		{9A3A242F-1472-4776-9839-CC62474B7F54}.Release|Win32.ActiveCfg = Release|Win32
 		{9A3A242F-1472-4776-9839-CC62474B7F54}.Release|Win32.Build.0 = Release|Win32
 		{9A3A242F-1472-4776-9839-CC62474B7F54}.Release|x64.ActiveCfg = Release|Win32
-		{0412953E-06CE-4A60-9DCD-CA5CAC3A46CC}.Debug|Win32.ActiveCfg = Debug|Win32
-		{0412953E-06CE-4A60-9DCD-CA5CAC3A46CC}.Debug|Win32.Build.0 = Debug|Win32
-		{0412953E-06CE-4A60-9DCD-CA5CAC3A46CC}.Debug|x64.ActiveCfg = Debug|x64
-		{0412953E-06CE-4A60-9DCD-CA5CAC3A46CC}.Debug|x64.Build.0 = Debug|x64
-		{0412953E-06CE-4A60-9DCD-CA5CAC3A46CC}.Release|Win32.ActiveCfg = Release|Win32
-		{0412953E-06CE-4A60-9DCD-CA5CAC3A46CC}.Release|Win32.Build.0 = Release|Win32
-		{0412953E-06CE-4A60-9DCD-CA5CAC3A46CC}.Release|x64.ActiveCfg = Release|x64
-		{0412953E-06CE-4A60-9DCD-CA5CAC3A46CC}.Release|x64.Build.0 = Release|x64
-		{EAFA3E0D-5B34-43A3-A08A-B5E3839BF66A}.Debug|Win32.ActiveCfg = Debug|Win32
-		{EAFA3E0D-5B34-43A3-A08A-B5E3839BF66A}.Debug|Win32.Build.0 = Debug|Win32
-		{EAFA3E0D-5B34-43A3-A08A-B5E3839BF66A}.Debug|x64.ActiveCfg = Debug|x64
-		{EAFA3E0D-5B34-43A3-A08A-B5E3839BF66A}.Debug|x64.Build.0 = Debug|x64
-		{EAFA3E0D-5B34-43A3-A08A-B5E3839BF66A}.Release|Win32.ActiveCfg = Release|Win32
-		{EAFA3E0D-5B34-43A3-A08A-B5E3839BF66A}.Release|Win32.Build.0 = Release|Win32
-		{EAFA3E0D-5B34-43A3-A08A-B5E3839BF66A}.Release|x64.ActiveCfg = Release|x64
-		{EAFA3E0D-5B34-43A3-A08A-B5E3839BF66A}.Release|x64.Build.0 = Release|x64
 		{FE938593-CD55-4C68-A4E5-738C6081B14C}.Debug|Win32.ActiveCfg = Debug|x64
 		{FE938593-CD55-4C68-A4E5-738C6081B14C}.Debug|x64.ActiveCfg = Debug|x64
 		{FE938593-CD55-4C68-A4E5-738C6081B14C}.Debug|x64.Build.0 = Debug|x64

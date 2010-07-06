@@ -43,7 +43,8 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <PreBuildEvent>
-      <Command>call ..\out_copy_rename ..\config.nehalem ..\..\ config.h
+      <Command>call ..\gen_mpir_h.bat $(Platform)
+call ..\out_copy_rename ..\config.nehalem ..\..\ config.h
 call ..\out_copy_rename ..\..\mpn\x86_64w\nehalem\gmp-mparam.h ..\..\ gmp-mparam.h
 </Command>
     </PreBuildEvent>
@@ -98,7 +99,8 @@ echo $(ProjectDir)+$(IntDir)+$(TargetName)+$(TargetExt) &gt; ..\last_build.txt
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <PreBuildEvent>
-      <Command>call ..\out_copy_rename ..\config.nehalem ..\..\ config.h
+      <Command>call ..\gen_mpir_h.bat $(Platform)
+call ..\out_copy_rename ..\config.nehalem ..\..\ config.h
 call ..\out_copy_rename ..\..\mpn\x86_64w\nehalem\gmp-mparam.h ..\..\ gmp-mparam.h
 </Command>
     </PreBuildEvent>
@@ -168,6 +170,7 @@ echo $(ProjectDir)+$(IntDir)+$(TargetName)+$(TargetExt) &gt; ..\last_build.txt
     <ClCompile Include="..\..\compat.c" />
     <ClCompile Include="..\..\errno.c" />
     <ClCompile Include="..\..\extract-dbl.c" />
+    <ClCompile Include="..\..\fib_table.c" />
     <ClCompile Include="..\..\invalid.c" />
     <ClCompile Include="..\..\memory.c" />
     <ClCompile Include="..\..\mpf\clears.c">
@@ -326,6 +329,7 @@ echo $(ProjectDir)+$(IntDir)+$(TargetName)+$(TargetExt) &gt; ..\last_build.txt
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpz\</ObjectFileName>
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpz\</ObjectFileName>
     </ClCompile>
+    <ClCompile Include="..\..\mp_bases.c" />
     <ClCompile Include="..\..\mp_bpl.c" />
     <ClCompile Include="..\..\mp_clz_tab.c" />
     <ClCompile Include="..\..\mp_dv_tab.c" />

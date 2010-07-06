@@ -44,7 +44,8 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <PreBuildEvent>
-      <Command>call ..\out_copy_rename ..\config.k10 ..\..\ config.h
+      <Command>call ..\gen_mpir_h.bat $(Platform)
+call ..\out_copy_rename ..\config.k10 ..\..\ config.h
 call ..\out_copy_rename ..\..\mpn\x86_64w\k8\k10\gmp-mparam.h ..\..\ gmp-mparam.h
 </Command>
     </PreBuildEvent>
@@ -111,7 +112,8 @@ echo $(ProjectDir)+$(IntDir)+$(TargetName)+$(TargetExt) &gt; ..\last_build.txt
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <PreBuildEvent>
-      <Command>call ..\out_copy_rename ..\config.k10 ..\..\ config.h
+      <Command>call ..\gen_mpir_h.bat $(Platform)
+call ..\out_copy_rename ..\config.k10 ..\..\ config.h
 call ..\out_copy_rename ..\..\mpn\x86_64w\k8\k10\gmp-mparam.h ..\..\ gmp-mparam.h
 </Command>
     </PreBuildEvent>
