@@ -55,15 +55,6 @@
     <ClCompile Include="..\..\tune\gcd_bin.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\tune\gcd_finda_gen.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\tune\gcdext_double.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\tune\gcdext_single.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\tune\gcdextod.c">
       <Filter>Source Files</Filter>
     </ClCompile>

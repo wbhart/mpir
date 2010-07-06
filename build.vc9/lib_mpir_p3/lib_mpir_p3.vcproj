@@ -4888,50 +4888,6 @@
 					</FileConfiguration>
 				</File>
 				<Filter
-					Name="win32"
-					>
-					<File
-						RelativePath="..\win32\fib_table.c"
-						>
-						<FileConfiguration
-							Name="Debug|Win32"
-							>
-							<Tool
-								Name="VCCLCompilerTool"
-								ObjectFile="$(IntDir)\mpn\"
-							/>
-						</FileConfiguration>
-						<FileConfiguration
-							Name="Release|Win32"
-							>
-							<Tool
-								Name="VCCLCompilerTool"
-								ObjectFile="$(IntDir)\mpn\"
-							/>
-						</FileConfiguration>
-					</File>
-					<File
-						RelativePath="..\win32\mp_bases.c"
-						>
-						<FileConfiguration
-							Name="Debug|Win32"
-							>
-							<Tool
-								Name="VCCLCompilerTool"
-								ObjectFile="$(IntDir)\mpn\"
-							/>
-						</FileConfiguration>
-						<FileConfiguration
-							Name="Release|Win32"
-							>
-							<Tool
-								Name="VCCLCompilerTool"
-								ObjectFile="$(IntDir)\mpn\"
-							/>
-						</FileConfiguration>
-					</File>
-				</Filter>
-				<Filter
 					Name="Assembler"
 					>
 					<File
@@ -5062,6 +5018,10 @@
 							>
 						</File>
 						<File
+							RelativePath="..\..\mpn\x86w\p6\p3mmx\popham.asm"
+							>
+						</File>
+						<File
 							RelativePath="..\..\mpn\x86w\p6\mmx\popham.asm"
 							>
 							<FileConfiguration
@@ -5080,10 +5040,6 @@
 									Name="YASM"
 								/>
 							</FileConfiguration>
-						</File>
-						<File
-							RelativePath="..\..\mpn\x86w\p6\p3mmx\popham.asm"
-							>
 						</File>
 						<File
 							RelativePath="..\..\mpn\x86w\p6\mmx\rshift.asm"

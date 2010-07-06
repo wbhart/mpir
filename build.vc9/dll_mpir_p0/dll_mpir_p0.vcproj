@@ -8781,50 +8781,6 @@
 						>
 					</File>
 				</Filter>
-				<Filter
-					Name="win32"
-					>
-					<File
-						RelativePath="..\win32\fib_table.c"
-						>
-						<FileConfiguration
-							Name="Debug|Win32"
-							>
-							<Tool
-								Name="VCCLCompilerTool"
-								ObjectFile="$(IntDir)\mpn\"
-							/>
-						</FileConfiguration>
-						<FileConfiguration
-							Name="Release|Win32"
-							>
-							<Tool
-								Name="VCCLCompilerTool"
-								ObjectFile="$(IntDir)\mpn\"
-							/>
-						</FileConfiguration>
-					</File>
-					<File
-						RelativePath="..\win32\mp_bases.c"
-						>
-						<FileConfiguration
-							Name="Debug|Win32"
-							>
-							<Tool
-								Name="VCCLCompilerTool"
-								ObjectFile="$(IntDir)\mpn\"
-							/>
-						</FileConfiguration>
-						<FileConfiguration
-							Name="Release|Win32"
-							>
-							<Tool
-								Name="VCCLCompilerTool"
-								ObjectFile="$(IntDir)\mpn\"
-							/>
-						</FileConfiguration>
-					</File>
-				</Filter>
 			</Filter>
 		</Filter>
 		<Filter

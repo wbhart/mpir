@@ -3266,50 +3266,6 @@
 						</File>
 					</Filter>
 				</Filter>
-				<Filter
-					Name="x64"
-					>
-					<File
-						RelativePath="..\x64\fib_table.c"
-						>
-						<FileConfiguration
-							Name="Debug|x64"
-							>
-							<Tool
-								Name="VCCLCompilerTool"
-								ObjectFile="$(IntDir)\mpn\"
-							/>
-						</FileConfiguration>
-						<FileConfiguration
-							Name="Release|x64"
-							>
-							<Tool
-								Name="VCCLCompilerTool"
-								ObjectFile="$(IntDir)\mpn\"
-							/>
-						</FileConfiguration>
-					</File>
-					<File
-						RelativePath="..\x64\mp_bases.c"
-						>
-						<FileConfiguration
-							Name="Debug|x64"
-							>
-							<Tool
-								Name="VCCLCompilerTool"
-								ObjectFile="$(IntDir)\mpn\"
-							/>
-						</FileConfiguration>
-						<FileConfiguration
-							Name="Release|x64"
-							>
-							<Tool
-								Name="VCCLCompilerTool"
-								ObjectFile="$(IntDir)\mpn\"
-							/>
-						</FileConfiguration>
-					</File>
-				</Filter>
 			</Filter>
 			<Filter
 				Name="scanf"

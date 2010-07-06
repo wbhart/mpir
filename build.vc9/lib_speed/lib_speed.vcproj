@@ -389,18 +389,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\tune\gcd_finda_gen.c"
-				>
-			</File>
-			<File
-				RelativePath="..\..\tune\gcdext_double.c"
-				>
-			</File>
-			<File
-				RelativePath="..\..\tune\gcdext_single.c"
-				>
-			</File>
-			<File
 				RelativePath="..\..\tune\gcdextod.c"
 				>
 			</File>
