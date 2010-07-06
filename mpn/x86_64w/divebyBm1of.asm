@@ -15,7 +15,7 @@
 ;  to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 ;  Boston, MA 02110-1301, USA.
 ;
-;  dst[] = src[] / ((B - 1) / f)          [rsp+40] = (B - 1) / f
+;  rcx[r8] = rdx[r8] / r9     where [rsp+40] must be set to (B - 1) / r9 on entry 
 ;
 ;  mp_limb_t mpn_divexact_byBm1of(mp_ptr, mp_ptr, mp_size_t, mp_limb_t, mp_limb_t)
 ;  rax                               rdi     rsi        rdx        rcx         r8  
@@ -32,14 +32,15 @@
     mov     r8, [rsp+40]
     
 %ifdef CARRY_OUT
-    mov     [rsp+32], r9    ; this needs changing if there is a carry in
+    mov     [rsp+32], r9
 %endif
 
     lea     r10, [rdx+rax*8-24]
     lea     r11, [rcx+rax*8-24]
     mov     ecx, 3
 
-%ifdef CARRY_IN             ; r9 is the carry in
+%ifdef CARRY_IN
+	mov		r9, [rsp+48]    ; r9 is the carry in
     imul    r9, r8          ; this is needed if we have non-zero carry in
 %else
     mov     r9, 0
