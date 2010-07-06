@@ -542,7 +542,7 @@ def conv_dirs(s, d, l):
         shutil.copyfile(sp, dp)
 
 if len(sys.argv) == 1:
-  cd = os.getcwd()                    # if run in the build.vc9 directory  
+  cd = os.getcwd()                    # if run in the build.vc10 directory  
   if cd.endswith('build.vc10'):
     cd1 = cd + '\\..\\mpn\\x86_64'    # the GAS assembler directory
     cd2 = cd + '\\..\\mpn\\x86_64w'   # the YASM (Windows) assembler directory
