@@ -28,7 +28,7 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
-				CommandLine="call ..\out_copy_rename ..\config.k10 ..\..\ config.h&#x0D;&#x0A;call ..\out_copy_rename ..\..\mpn\x86_64w\k8\k10\gmp-mparam.h ..\..\ gmp-mparam.h&#x0D;&#x0A;"
+				CommandLine="call ..\gen_mpir_h $(PlatformName)&#x0D;&#x0A;call ..\out_copy_rename ..\config.k10 ..\..\ config.h&#x0D;&#x0A;call ..\out_copy_rename ..\..\mpn\x86_64w\k8\k10\gmp-mparam.h ..\..\ gmp-mparam.h&#x0D;&#x0A;"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -54,7 +54,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\..\;&quot;..\$(PlatformName)&quot;"
+				AdditionalIncludeDirectories="..\..\"
 				PreprocessorDefinitions="_DEBUG;_LIB;HAVE_CONFIG_H"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="1"
@@ -104,7 +104,7 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
-				CommandLine="call ..\out_copy_rename ..\config.k10 ..\..\ config.h&#x0D;&#x0A;call ..\out_copy_rename ..\..\mpn\x86_64w\k8\k10\gmp-mparam.h ..\..\ gmp-mparam.h&#x0D;&#x0A;"
+				CommandLine="call ..\gen_mpir_h $(PlatformName)&#x0D;&#x0A;call ..\out_copy_rename ..\config.k10 ..\..\ config.h&#x0D;&#x0A;call ..\out_copy_rename ..\..\mpn\x86_64w\k8\k10\gmp-mparam.h ..\..\ gmp-mparam.h&#x0D;&#x0A;"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -133,7 +133,7 @@
 				InlineFunctionExpansion="0"
 				EnableIntrinsicFunctions="true"
 				FavorSizeOrSpeed="1"
-				AdditionalIncludeDirectories="..\..\;&quot;..\$(PlatformName)&quot;"
+				AdditionalIncludeDirectories="..\..\"
 				PreprocessorDefinitions="NDEBUG;_LIB;HAVE_CONFIG_H;PIC"
 				ExceptionHandling="0"
 				RuntimeLibrary="0"

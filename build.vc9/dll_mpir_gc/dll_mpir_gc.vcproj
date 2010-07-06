@@ -28,7 +28,7 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
-				CommandLine="call ..\out_copy_rename ..\config.gc ..\..\ config.h&#x0D;&#x0A;call ..\out_copy_rename ..\..\mpn\generic\gmp-mparam.h ..\..\ gmp-mparam.h&#x0D;&#x0A;"
+				CommandLine="call ..\gen_mpir_h $(PlatformName)&#x0D;&#x0A;call ..\out_copy_rename ..\config.gc ..\..\ config.h&#x0D;&#x0A;call ..\out_copy_rename ..\..\mpn\generic\gmp-mparam.h ..\..\ gmp-mparam.h&#x0D;&#x0A;"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -46,7 +46,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\..\;&quot;..\$(PlatformName)&quot;"
+				AdditionalIncludeDirectories="..\..\"
 				PreprocessorDefinitions="_DEBUG;HAVE_CONFIG_H;__GMP_LIBGMP_DLL;__GMP_WITHIN_GMP;__GMP_WITHIN_GMPXX"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -105,7 +105,7 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
-				CommandLine="call ..\out_copy_rename ..\config.gc ..\..\ config.h&#x0D;&#x0A;call ..\out_copy_rename ..\..\mpn\generic\gmp-mparam.h ..\..\ gmp-mparam.h&#x0D;&#x0A;"
+				CommandLine="call ..\gen_mpir_h $(PlatformName)&#x0D;&#x0A;call ..\out_copy_rename ..\config.gc ..\..\ config.h&#x0D;&#x0A;call ..\out_copy_rename ..\..\mpn\generic\gmp-mparam.h ..\..\ gmp-mparam.h&#x0D;&#x0A;"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -124,7 +124,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\..\;&quot;..\$(PlatformName)&quot;"
+				AdditionalIncludeDirectories="..\..\"
 				PreprocessorDefinitions="_DEBUG;HAVE_CONFIG_H;__GMP_LIBGMP_DLL;__GMP_WITHIN_GMP;__GMP_WITHIN_GMPXX"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -182,7 +182,7 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
-				CommandLine="call ..\out_copy_rename ..\config.gc ..\..\ config.h&#x0D;&#x0A;call ..\out_copy_rename ..\..\mpn\generic\gmp-mparam.h ..\..\ gmp-mparam.h&#x0D;&#x0A;"
+				CommandLine="call ..\gen_mpir_h $(PlatformName)&#x0D;&#x0A;call ..\out_copy_rename ..\config.gc ..\..\ config.h&#x0D;&#x0A;call ..\out_copy_rename ..\..\mpn\generic\gmp-mparam.h ..\..\ gmp-mparam.h&#x0D;&#x0A;"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -200,7 +200,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="3"
-				AdditionalIncludeDirectories="..\..\;&quot;..\$(PlatformName)&quot;"
+				AdditionalIncludeDirectories="..\..\"
 				PreprocessorDefinitions="NDEBUG;HAVE_CONFIG_H;__GMP_LIBGMP_DLL;__GMP_WITHIN_GMP;__GMP_WITHIN_GMPXX"
 				StringPooling="true"
 				ExceptionHandling="1"
@@ -264,7 +264,7 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
-				CommandLine="call ..\out_copy_rename ..\config.gc ..\..\ config.h&#x0D;&#x0A;call ..\out_copy_rename ..\..\mpn\generic\gmp-mparam.h ..\..\ gmp-mparam.h&#x0D;&#x0A;"
+				CommandLine="call ..\gen_mpir_h $(PlatformName)&#x0D;&#x0A;call ..\out_copy_rename ..\config.gc ..\..\ config.h&#x0D;&#x0A;call ..\out_copy_rename ..\..\mpn\generic\gmp-mparam.h ..\..\ gmp-mparam.h&#x0D;&#x0A;"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -283,7 +283,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="3"
-				AdditionalIncludeDirectories="..\..\;&quot;..\$(PlatformName)&quot;"
+				AdditionalIncludeDirectories="..\..\"
 				PreprocessorDefinitions="NDEBUG;HAVE_CONFIG_H;__GMP_LIBGMP_DLL;__GMP_WITHIN_GMP;__GMP_WITHIN_GMPXX"
 				StringPooling="true"
 				ExceptionHandling="1"
