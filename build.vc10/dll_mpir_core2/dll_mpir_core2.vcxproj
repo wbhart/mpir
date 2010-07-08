@@ -234,6 +234,10 @@ echo $(ProjectDir)+$(IntDir)+$(TargetName)+$(TargetExt) &gt; ..\last_build.txt
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpn\</ObjectFileName>
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpn\</ObjectFileName>
     </ClCompile>
+    <ClCompile Include="..\..\mpn\generic\fib_table.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpn\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpn\</ObjectFileName>
+    </ClCompile>
     <ClCompile Include="..\..\mpn\generic\inv_divappr_q.c">
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpn\</ObjectFileName>
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpn\</ObjectFileName>
@@ -257,6 +261,10 @@ echo $(ProjectDir)+$(IntDir)+$(TargetName)+$(TargetExt) &gt; ..\last_build.txt
     <ClCompile Include="..\..\mpn\generic\logops_n.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpn\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpn\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\mpn\generic\mp_bases.c">
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpn\</ObjectFileName>
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpn\</ObjectFileName>
     </ClCompile>

@@ -1352,6 +1352,12 @@
     <ClCompile Include="..\..\mpn\generic\logops_n.c">
       <Filter>Source Files\mpn</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\mpn\generic\mp_bases.c">
+      <Filter>Source Files\mpn</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\mpn\generic\fib_table.c">
+      <Filter>Source Files\mpn</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <YASM Include="..\..\mpn\x86w\aorsmul_1.asm">

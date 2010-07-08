@@ -170,7 +170,6 @@ echo $(ProjectDir)+$(IntDir)+$(TargetName)+$(TargetExt) &gt; ..\last_build.txt
     <ClCompile Include="..\..\compat.c" />
     <ClCompile Include="..\..\errno.c" />
     <ClCompile Include="..\..\extract-dbl.c" />
-    <ClCompile Include="..\..\fib_table.c" />
     <ClCompile Include="..\..\invalid.c" />
     <ClCompile Include="..\..\memory.c" />
     <ClCompile Include="..\..\mpf\clears.c">
@@ -215,6 +214,10 @@ echo $(ProjectDir)+$(IntDir)+$(TargetName)+$(TargetExt) &gt; ..\last_build.txt
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpn\</ObjectFileName>
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpn\</ObjectFileName>
     </ClCompile>
+    <ClCompile Include="..\..\mpn\generic\fib_table.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpn\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpn\</ObjectFileName>
+    </ClCompile>
     <ClCompile Include="..\..\mpn\generic\inv_divappr_q.c">
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpn\</ObjectFileName>
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpn\</ObjectFileName>
@@ -238,6 +241,10 @@ echo $(ProjectDir)+$(IntDir)+$(TargetName)+$(TargetExt) &gt; ..\last_build.txt
     <ClCompile Include="..\..\mpn\generic\logops_n.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpn\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpn\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\mpn\generic\mp_bases.c">
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpn\</ObjectFileName>
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpn\</ObjectFileName>
     </ClCompile>
@@ -329,7 +336,6 @@ echo $(ProjectDir)+$(IntDir)+$(TargetName)+$(TargetExt) &gt; ..\last_build.txt
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpz\</ObjectFileName>
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpz\</ObjectFileName>
     </ClCompile>
-    <ClCompile Include="..\..\mp_bases.c" />
     <ClCompile Include="..\..\mp_bpl.c" />
     <ClCompile Include="..\..\mp_clz_tab.c" />
     <ClCompile Include="..\..\mp_dv_tab.c" />
