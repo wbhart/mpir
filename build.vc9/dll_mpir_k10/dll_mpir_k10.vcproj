@@ -1055,6 +1055,26 @@
 					</FileConfiguration>
 				</File>
 				<File
+					RelativePath="..\..\mpn\generic\fib_table.c"
+					>
+					<FileConfiguration
+						Name="Debug|x64"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|x64"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
 					RelativePath="..\..\mpn\generic\gcd.c"
 					>
 					<FileConfiguration
@@ -1479,6 +1499,26 @@
 					<FileConfiguration
 						Name="Release|x64"
 						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\mpn\generic\mp_bases.c"
+					>
+					<FileConfiguration
+						Name="Debug|x64"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|x64"
 						>
 						<Tool
 							Name="VCCLCompilerTool"
