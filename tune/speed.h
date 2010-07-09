@@ -875,7 +875,7 @@ int speed_routine_count_zeros_setup _PROTO ((struct speed_params *s,
 #define SPEED_ROUTINE_MPN_DIVEXACT_1(function)				\
   SPEED_ROUTINE_MPN_UNARY_1_CALL ((*function) (wp, s->xp, s->size, s->r))
 
-#define SPEED_ROUTINE_MPN_DIVEXACT_BYBM1OF(function)			\
+#define SPEED_ROUTINE_MPN_DIVEXACT_FOBM1(function)			\
   {									\
     mp_ptr    wp;							\
     unsigned  i;							\

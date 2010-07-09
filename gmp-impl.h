@@ -67,7 +67,7 @@ along with the GNU MP Library.  If not, see http://www.gnu.org/licenses/.  */
   void name __GMP_PROTO ((mp_ptr, mp_srcptr, mp_size_t, mp_limb_t))
 #define DECL_divexact_by3c(name) \
   mp_limb_t name __GMP_PROTO ((mp_ptr, mp_srcptr, mp_size_t, mp_limb_t))
-#define DECL_divexact_byBm1of(name) \
+#define DECL_divexact_fobm1(name) \
   mp_limb_t name __GMP_PROTO ((mp_ptr, mp_srcptr, mp_size_t, mp_limb_t,mp_limb_t))
 #define DECL_divrem_1(name) \
   mp_limb_t name __GMP_PROTO ((mp_ptr, mp_size_t, mp_srcptr, mp_size_t, mp_limb_t))
@@ -855,7 +855,7 @@ __GMP_DECLSPEC mp_limb_t mpn_sumdiff_nc __GMP_PROTO ((mp_ptr, mp_ptr, mp_srcptr,
 __GMP_DECLSPEC mp_limb_t mpn_divexact_byff __GMP_PROTO ((mp_ptr, mp_srcptr, mp_size_t));
 
 #ifndef mpn_divexact_fobm1      /* if not done with cpuvec in a fat binary */
-#define mpn_divexact_fobm1 __MPN(divexact_byBm1of)
+#define mpn_divexact_fobm1 __MPN(divexact_fobm1)
 __GMP_DECLSPEC mp_limb_t mpn_divexact_fobm1 __GMP_PROTO ((mp_ptr, mp_srcptr, mp_size_t,mp_limb_t,mp_limb_t));
 #endif
 
@@ -4020,7 +4020,7 @@ struct cpuvec_t {
   DECL_copyi           ((*copyi));
   DECL_divexact_1      ((*divexact_1));
   DECL_divexact_by3c   ((*divexact_by3c));
-  DECL_divexact_byBm1of   ((*divexact_byBm1of));
+  DECL_divexact_fobm1   ((*divexact_fobm1));
   DECL_divrem_1        ((*divrem_1));
   DECL_divrem_2        ((*divrem_2));
   DECL_divrem_euclidean_qr_1        ((*divrem_euclidean_qr_1)); 

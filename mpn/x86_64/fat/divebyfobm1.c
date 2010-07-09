@@ -20,4 +20,4 @@ the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 MA 02110-1301, USA. */
 
 
-#include "mpn/generic/divebyBm1of.c"
+#include "mpn/generic/divebyfobm1.c"

@@ -1326,7 +1326,7 @@ case $host in
 		x86/pentium4 x86/pentium4/mmx x86/pentium4/sse2
 		x86/core2 x86/nehalem"
       fat_functions="add_n addmul_1 copyd copyi
-		     dive_1 diveby3 divebyBm1of divrem_1 divrem_2
+		     dive_1 diveby3 divebyfobm1 divrem_1 divrem_2
 			 divrem_euclidean_qr_1 
 			divrem_euclidean_qr_2 gcd_1 lshift
 		     mod_1 mod_34lsub1 mode1o mul_1 mul_basecase
@@ -2313,7 +2313,7 @@ gmp_mpn_functions_optional="umul udiv copyi copyd com_n neg_n
 
 gmp_mpn_functions="$extra_functions					   \
   add add_1 add_n sub sub_1 sub_n mul_1 addmul_1 submul_1 lshift rshift    \
-  dive_1 diveby3 divebyff divebyBm1of divis divrem divrem_1 divrem_2       \
+  dive_1 diveby3 divebyff divebyfobm1 divis divrem divrem_1 divrem_2       \
   divrem_euclidean_qr_1 divrem_euclidean_qr_2 divrem_euclidean_r_1	\
   divrem_hensel_qr_1 divrem_hensel_qr_1_1 divrem_hensel_qr_1_2		\
   divrem_hensel_r_1 divrem_hensel_rsh_qr_1 rsh_divrem_hensel_qr_1	\
@@ -2387,7 +2387,7 @@ define(GMP_FILE_TO_FUNCTION,
   dive_1)    	$1=divexact_1 ;;
   diveby3)   	$1=divexact_by3c ;;
   divebyff)   	$1=divexact_byff ;;
-  divebyBm1of) 	$1=divexact_byBm1of ;;
+  divebyfobm1) 	$1=divexact_fobm1 ;;
   pre_divrem_1) $1=preinv_divrem_1 ;;
   mode1o)    	$1=modexact_1c_odd ;;
   pre_mod_1) 	$1=preinv_mod_1 ;;

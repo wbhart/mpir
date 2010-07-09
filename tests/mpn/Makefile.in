@@ -60,7 +60,7 @@ check_PROGRAMS = t-asmtype$(EXEEXT) t-aors_1$(EXEEXT) \
 	t-mp_bases$(EXEEXT) t-perfsqr$(EXEEXT) t-scan$(EXEEXT) \
 	t-lorrshift1$(EXEEXT) t-divebyff$(EXEEXT) t-addadd_n$(EXEEXT) \
 	t-addsub_n$(EXEEXT) t-subadd_n$(EXEEXT) \
-	t-redc_basecase$(EXEEXT) t-divebyBm1of$(EXEEXT) \
+	t-redc_basecase$(EXEEXT) t-divebyfobm1$(EXEEXT) \
 	t-mullowhigh$(EXEEXT) t-mullow_basecase$(EXEEXT) \
 	t-neg$(EXEEXT) t-mulmod_2expp1$(EXEEXT) \
 	t-mulmod_2expm1$(EXEEXT) t-tdiv_q$(EXEEXT) \
@@ -167,10 +167,10 @@ t_dc_divappr_q_n_OBJECTS = t-dc_divappr_q_n.$(OBJEXT)
 t_dc_divappr_q_n_LDADD = $(LDADD)
 t_dc_divappr_q_n_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
 	$(top_builddir)/libmpir.la
-t_divebyBm1of_SOURCES = t-divebyBm1of.c
-t_divebyBm1of_OBJECTS = t-divebyBm1of.$(OBJEXT)
-t_divebyBm1of_LDADD = $(LDADD)
-t_divebyBm1of_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
+t_divebyfobm1_SOURCES = t-divebyfobm1.c
+t_divebyfobm1_OBJECTS = t-divebyfobm1.$(OBJEXT)
+t_divebyfobm1_LDADD = $(LDADD)
+t_divebyfobm1_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
 	$(top_builddir)/libmpir.la
 t_divebyff_SOURCES = t-divebyff.c
 t_divebyff_OBJECTS = t-divebyff.$(OBJEXT)
@@ -347,7 +347,7 @@ SOURCES = $(st_fat_SOURCES) $(st_instrument_SOURCES) t-addadd_n.c \
 	t-addsub_n.c t-aors_1.c t-asmtype.c t-dc_bdiv_q.c \
 	t-dc_bdiv_q_n.c t-dc_bdiv_qr.c t-dc_bdiv_qr_n.c t-dc_div_q.c \
 	t-dc_div_qr.c t-dc_div_qr_n.c t-dc_divappr_q.c \
-	t-dc_divappr_q_n.c t-divebyBm1of.c t-divebyff.c t-divrem_1.c \
+	t-dc_divappr_q_n.c t-divebyfobm1.c t-divebyff.c t-divrem_1.c \
 	t-fat.c t-gcdext.c t-get_d.c t-instrument.c t-inv_div_q.c \
 	t-inv_div_qr.c t-inv_div_qr_n.c t-inv_divappr_q.c \
 	t-inv_divappr_q_n.c t-invert.c t-iord_u.c t-lorrshift1.c \
@@ -361,7 +361,7 @@ DIST_SOURCES = $(am__st_fat_SOURCES_DIST) \
 	t-aors_1.c t-asmtype.c t-dc_bdiv_q.c t-dc_bdiv_q_n.c \
 	t-dc_bdiv_qr.c t-dc_bdiv_qr_n.c t-dc_div_q.c t-dc_div_qr.c \
 	t-dc_div_qr_n.c t-dc_divappr_q.c t-dc_divappr_q_n.c \
-	t-divebyBm1of.c t-divebyff.c t-divrem_1.c t-fat.c t-gcdext.c \
+	t-divebyfobm1.c t-divebyff.c t-divrem_1.c t-fat.c t-gcdext.c \
 	t-get_d.c t-instrument.c t-inv_div_q.c t-inv_div_qr.c \
 	t-inv_div_qr_n.c t-inv_divappr_q.c t-inv_divappr_q_n.c \
 	t-invert.c t-iord_u.c t-lorrshift1.c t-mp_bases.c \
@@ -601,9 +601,9 @@ t-dc_divappr_q$(EXEEXT): $(t_dc_divappr_q_OBJECTS) $(t_dc_divappr_q_DEPENDENCIES
 t-dc_divappr_q_n$(EXEEXT): $(t_dc_divappr_q_n_OBJECTS) $(t_dc_divappr_q_n_DEPENDENCIES) 
 	@rm -f t-dc_divappr_q_n$(EXEEXT)
 	$(LINK) $(t_dc_divappr_q_n_LDFLAGS) $(t_dc_divappr_q_n_OBJECTS) $(t_dc_divappr_q_n_LDADD) $(LIBS)
-t-divebyBm1of$(EXEEXT): $(t_divebyBm1of_OBJECTS) $(t_divebyBm1of_DEPENDENCIES) 
-	@rm -f t-divebyBm1of$(EXEEXT)
-	$(LINK) $(t_divebyBm1of_LDFLAGS) $(t_divebyBm1of_OBJECTS) $(t_divebyBm1of_LDADD) $(LIBS)
+t-divebyfobm1$(EXEEXT): $(t_divebyfobm1_OBJECTS) $(t_divebyfobm1_DEPENDENCIES) 
+	@rm -f t-divebyfobm1$(EXEEXT)
+	$(LINK) $(t_divebyfobm1_LDFLAGS) $(t_divebyfobm1_OBJECTS) $(t_divebyfobm1_LDADD) $(LIBS)
 t-divebyff$(EXEEXT): $(t_divebyff_OBJECTS) $(t_divebyff_DEPENDENCIES) 
 	@rm -f t-divebyff$(EXEEXT)
 	$(LINK) $(t_divebyff_LDFLAGS) $(t_divebyff_OBJECTS) $(t_divebyff_LDADD) $(LIBS)
