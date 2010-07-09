@@ -431,7 +431,7 @@ echo $(ProjectDir)+$(IntDir)+$(TargetName)+$(TargetExt) &gt; ..\last_build.txt
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpn\</ObjectFileName>
     </ClCompile>
-    <ClCompile Include="..\..\mpn\generic\divebyBm1of.c">
+    <ClCompile Include="..\..\mpn\generic\divebyfobm1.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpn\</ObjectFileName>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
@@ -2029,7 +2029,7 @@ echo $(ProjectDir)+$(IntDir)+$(TargetName)+$(TargetExt) &gt; ..\last_build.txt
     <YASM Include="..\..\mpn\x86_64w\k8\copyi.asm" />
     <YASM Include="..\..\mpn\x86_64w\dive_1.asm" />
     <YASM Include="..\..\mpn\x86_64w\diveby3.asm" />
-    <YASM Include="..\..\mpn\x86_64w\divebyBm1of.asm" />
+    <YASM Include="..\..\mpn\x86_64w\divebyfobm1.asm" />
     <YASM Include="..\..\mpn\x86_64w\k8\divebyff.asm" />
     <YASM Include="..\..\mpn\x86_64w\divrem_euclidean_qr_1.asm" />
     <YASM Include="..\..\mpn\x86_64w\divrem_euclidean_qr_2.asm" />

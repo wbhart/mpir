@@ -1143,7 +1143,7 @@ param_init (void)
   p->src[0] = 1;
   p->divisor = DIVISOR_DIVBM1;
   p->dst[0] = 1;
-  REFERENCE (refmpn_divexact_byBm1of);
+  REFERENCE (refmpn_divexact_fobm1);
 
   p = &param[TYPE_DIVMOD_1C];
   COPY (TYPE_DIVMOD_1);
@@ -1856,7 +1856,7 @@ const struct choice_t choice_array[] = {
   { TRY(mpn_divexact_1),          TYPE_DIVEXACT_1 },
   { TRY_FUNFUN(mpn_divexact_by3), TYPE_DIVEXACT_BY3 },
   { TRY(mpn_divexact_byff),       TYPE_DIVEXACT_BYFF },
-  { TRY(mpn_divexact_byBm1of),    TYPE_DIVEXACT_BYBM1OF },
+  { TRY(mpn_divexact_fobm1),    TYPE_DIVEXACT_BYBM1OF },
   
   { TRY_FUNFUN(mpn_lshift1),	  TYPE_LSHIFT1 },
   { TRY_FUNFUN(mpn_rshift1),	  TYPE_RSHIFT1 },

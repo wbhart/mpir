@@ -708,7 +708,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpn.redc_basecase", "mpir-t
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpn.divebybm1of", "mpir-tests\mpn.divebybm1of\mpn.divebybm1of.vcproj", "{EEEF41E8-5252-4EC8-B7F7-4613C15B647F}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpn.divebyfobm1", "mpir-tests\mpn.divebyfobm1\mpn.divebyfobm1.vcproj", "{EEEF41E8-5252-4EC8-B7F7-4613C15B647F}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection

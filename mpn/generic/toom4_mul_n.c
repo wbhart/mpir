@@ -242,7 +242,7 @@ void tc4_divexact_by15(mp_ptr rp, mp_size_t * rn, mp_ptr x, mp_size_t xn)
 	if (xn)
 	{
 		mp_size_t xu = ABS(xn);
-		mpn_divexact_byBm1of(rp, x, xu, CNST_LIMB(15), CNST_LIMB((~0)/15)); // works for 32 and 64 bits
+		mpn_divexact_fobm1(rp, x, xu, CNST_LIMB(15), CNST_LIMB((~0)/15)); // works for 32 and 64 bits
 		if (xn > 0)
 		{
 			if (rp[xu - 1] == CNST_LIMB(0)) *rn = xn - 1;
@@ -945,7 +945,7 @@ void mpn_toom4_interpolate(mp_ptr rp, mp_size_t * rpn, mp_size_t sn,
 	
 	mpn_addmul_1(r6, r2, s4, 30);
 
-   mpn_divexact_byBm1of(r6, r6, s4, CNST_LIMB(15), CNST_LIMB(~0/15));
+   mpn_divexact_fobm1(r6, r6, s4, CNST_LIMB(15), CNST_LIMB(~0/15));
 
 	mpn_rshift(r6, r6, s4, 2);
 

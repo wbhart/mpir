@@ -854,9 +854,9 @@ __GMP_DECLSPEC mp_limb_t mpn_sumdiff_nc __GMP_PROTO ((mp_ptr, mp_ptr, mp_srcptr,
 #define mpn_divexact_byff __MPN(divexact_byff)
 __GMP_DECLSPEC mp_limb_t mpn_divexact_byff __GMP_PROTO ((mp_ptr, mp_srcptr, mp_size_t));
 
-#ifndef mpn_divexact_byBm1of      /* if not done with cpuvec in a fat binary */
-#define mpn_divexact_byBm1of __MPN(divexact_byBm1of)
-__GMP_DECLSPEC mp_limb_t mpn_divexact_byBm1of __GMP_PROTO ((mp_ptr, mp_srcptr, mp_size_t,mp_limb_t,mp_limb_t));
+#ifndef mpn_divexact_fobm1      /* if not done with cpuvec in a fat binary */
+#define mpn_divexact_fobm1 __MPN(divexact_byBm1of)
+__GMP_DECLSPEC mp_limb_t mpn_divexact_fobm1 __GMP_PROTO ((mp_ptr, mp_srcptr, mp_size_t,mp_limb_t,mp_limb_t));
 #endif
 
 #define mpn_add_err1_n  __MPN(add_err1_n)

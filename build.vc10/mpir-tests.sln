@@ -284,7 +284,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.perfpow", "mpir-tests\m
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpn.redc_basecase", "mpir-tests\mpn.redc_basecase\mpn.redc_basecase.vcxproj", "{6B43B380-BFD2-4542-93B1-0FCCB41C784C}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpn.divebybm1of", "mpir-tests\mpn.divebybm1of\mpn.divebybm1of.vcxproj", "{EEEF41E8-5252-4EC8-B7F7-4613C15B647F}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpn.divebyfobm1", "mpir-tests\mpn.divebyfobm1\mpn.divebyfobm1.vcxproj", "{EEEF41E8-5252-4EC8-B7F7-4613C15B647F}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpn.mullow_basecase", "mpir-tests\mpn.mullow_basecase\mpn.mullow_basecase.vcxproj", "{E04536A6-2DD2-402D-97B4-26FCAC03EDA8}"
 EndProject

@@ -187,7 +187,7 @@ double speed_MPN_COPY_INCR _PROTO ((struct speed_params *s));
 double speed_mpn_divexact_1 _PROTO ((struct speed_params *s));
 double speed_mpn_divexact_by3 _PROTO ((struct speed_params *s));
 double speed_mpn_divexact_byff _PROTO ((struct speed_params *s));
-double speed_mpn_divexact_byBm1of _PROTO ((struct speed_params *s));
+double speed_mpn_divexact_fobm1 _PROTO ((struct speed_params *s));
 double speed_mpn_divrem_euclidean_qr_1 _PROTO ((struct speed_params *s));
 double speed_mpn_divrem_euclidean_qr_2 _PROTO ((struct speed_params *s));
 double speed_mpn_divrem_euclidean_r_1 _PROTO ((struct speed_params *s));
@@ -875,7 +875,7 @@ int speed_routine_count_zeros_setup _PROTO ((struct speed_params *s,
 #define SPEED_ROUTINE_MPN_DIVEXACT_1(function)				\
   SPEED_ROUTINE_MPN_UNARY_1_CALL ((*function) (wp, s->xp, s->size, s->r))
 
-#define SPEED_ROUTINE_MPN_DIVEXACT_BYBM1OF(function)			\
+#define SPEED_ROUTINE_mpn_divexact_fobm1(function)			\
   {									\
     mp_ptr    wp;							\
     unsigned  i;							\

@@ -1,4 +1,4 @@
-/* Fat binary fallback mpn_divexact_byBm1of
+/* Fat binary fallback mpn_divexact_fobm1
 
 Copyright 2003 Free Software Foundation, Inc.
 

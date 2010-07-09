@@ -311,7 +311,7 @@
     <ClCompile Include="..\..\mpn\generic\diveby3.c">
       <Filter>Source Files\mpn</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\mpn\generic\divebyBm1of.c">
+    <ClCompile Include="..\..\mpn\generic\divebyfobm1.c">
       <Filter>Source Files\mpn</Filter>
     </ClCompile>
     <ClCompile Include="..\..\mpn\generic\divebyff.c">
@@ -1594,7 +1594,7 @@
     <YASM Include="..\..\mpn\x86_64w\diveby3.asm">
       <Filter>Source Files\mpn\Assembler</Filter>
     </YASM>
-    <YASM Include="..\..\mpn\x86_64w\divebyBm1of.asm">
+    <YASM Include="..\..\mpn\x86_64w\divebyfobm1.asm">
       <Filter>Source Files\mpn\Assembler</Filter>
     </YASM>
     <YASM Include="..\..\mpn\x86_64w\dive_1.asm">
