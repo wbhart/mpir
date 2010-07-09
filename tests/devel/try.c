@@ -663,7 +663,7 @@ validate_sqrtrem (void)
 #define TYPE_REDC_BASECASE	111
 #define TYPE_DIVREM_EUCLIDEAN_QR_1	112
 #define TYPE_DIVREM_EUCLIDEAN_R_1	113
-#define TYPE_DIVEXACT_BYBM1OF 114
+#define TYPE_DIVEXACT_FOBM1 114
 
 #define TYPE_LSHIFT2	      115
 #define TYPE_RSHIFT2	      116
@@ -1138,7 +1138,7 @@ param_init (void)
   p->carry=CARRY_LIMB;
   REFERENCE (refmpn_rsh_divrem_hensel_qr_1);
 
-  p = &param[TYPE_DIVEXACT_BYBM1OF];
+  p = &param[TYPE_DIVEXACT_FOBM1];
   p->retval = 1;
   p->src[0] = 1;
   p->divisor = DIVISOR_DIVBM1;
@@ -1856,7 +1856,7 @@ const struct choice_t choice_array[] = {
   { TRY(mpn_divexact_1),          TYPE_DIVEXACT_1 },
   { TRY_FUNFUN(mpn_divexact_by3), TYPE_DIVEXACT_BY3 },
   { TRY(mpn_divexact_byff),       TYPE_DIVEXACT_BYFF },
-  { TRY(mpn_divexact_fobm1),    TYPE_DIVEXACT_BYBM1OF },
+  { TRY(mpn_divexact_fobm1),    TYPE_DIVEXACT_FOBM1 },
   
   { TRY_FUNFUN(mpn_lshift1),	  TYPE_LSHIFT1 },
   { TRY_FUNFUN(mpn_rshift1),	  TYPE_RSHIFT1 },
@@ -2583,7 +2583,7 @@ call (struct each_t *e, tryfun_t function)
     e->retval = CALLING_CONVENTIONS (function)
       (e->d[0].p, e->s[0].p, size, divisor,shift);
     break;
-  case TYPE_DIVEXACT_BYBM1OF:
+  case TYPE_DIVEXACT_FOBM1:
     e->retval = CALLING_CONVENTIONS (function) (e->d[0].p, e->s[0].p, size, altdiv,GMP_NUMB_MAX/altdiv);
     break;
   case TYPE_DIVMOD_1C:
