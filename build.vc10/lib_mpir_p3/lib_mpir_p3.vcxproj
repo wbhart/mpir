@@ -44,9 +44,9 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <PreBuildEvent>
-      <Command>call ..\gen_mpir_h $(Platform)
-call ..\out_copy_rename ..\config.p3 ..\..\ config.h
-call ..\out_copy_rename ..\..\mpn\x86w\gmp-mparam.h ..\..\ gmp-mparam.h
+      <Command>call ..\gen_mpir_h $(Platform) "..\..\"
+call ..\gen_config_h ..\..\mpn\x86w\p3\ "..\..\"
+call ..\out_copy_rename ..\..\mpn\x86w\p3\gmp-mparam.h ..\..\ gmp-mparam.h
 </Command>
     </PreBuildEvent>
     <CustomBuildStep>
@@ -94,9 +94,9 @@ echo $(ProjectDir)+$(IntDir)+$(TargetName)+$(TargetExt) &gt; ..\last_build.txt
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <PreBuildEvent>
-      <Command>call ..\gen_mpir_h $(Platform)
-call ..\out_copy_rename ..\config.p3 ..\..\ config.h
-call ..\out_copy_rename ..\..\mpn\x86w\gmp-mparam.h ..\..\ gmp-mparam.h
+      <Command>call ..\gen_mpir_h $(Platform) "..\..\"
+call ..\gen_config_h ..\..\mpn\x86w\p3\ "..\..\"
+call ..\out_copy_rename ..\..\mpn\x86w\p3\gmp-mparam.h ..\..\ gmp-mparam.h
 </Command>
     </PreBuildEvent>
     <CustomBuildStep>

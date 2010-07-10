@@ -65,8 +65,8 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <PreBuildEvent>
-      <Command>call ..\gen_mpir_h $(Platform)
-call ..\out_copy_rename ..\config.gc ..\..\ config.h
+      <Command>call ..\gen_mpir_h $(Platform) "..\..\"
+call ..\gen_config_h ..\..\mpn\generic\ "..\..\"
 call ..\out_copy_rename ..\..\mpn\generic\gmp-mparam.h ..\..\ gmp-mparam.h
 </Command>
     </PreBuildEvent>
@@ -110,8 +110,8 @@ echo $(ProjectDir)+$(IntDir)+$(TargetName)+$(TargetExt) &gt; ..\last_build.txt
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <PreBuildEvent>
-      <Command>call ..\gen_mpir_h $(Platform)
-call ..\out_copy_rename ..\config.gc ..\..\ config.h
+      <Command>call ..\gen_mpir_h $(Platform) "..\..\"
+call ..\gen_config_h ..\..\mpn\generic\ "..\..\"
 call ..\out_copy_rename ..\..\mpn\generic\gmp-mparam.h ..\..\ gmp-mparam.h
 </Command>
     </PreBuildEvent>
@@ -158,8 +158,8 @@ echo $(ProjectDir)+$(IntDir)+$(TargetName)+$(TargetExt) &gt; ..\last_build.txt
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <PreBuildEvent>
-      <Command>call ..\gen_mpir_h $(Platform)
-call ..\out_copy_rename ..\config.gc ..\..\ config.h
+      <Command>call ..\gen_mpir_h $(Platform) "..\..\"
+call ..\gen_config_h ..\..\mpn\generic\ "..\..\"
 call ..\out_copy_rename ..\..\mpn\generic\gmp-mparam.h ..\..\ gmp-mparam.h
 </Command>
     </PreBuildEvent>
@@ -203,8 +203,8 @@ echo $(ProjectDir)+$(IntDir)+$(TargetName)+$(TargetExt) &gt; ..\last_build.txt
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <PreBuildEvent>
-      <Command>call ..\gen_mpir_h $(Platform)
-call ..\out_copy_rename ..\config.gc ..\..\ config.h
+      <Command>call ..\gen_mpir_h $(Platform) "..\..\"
+call ..\gen_config_h ..\..\mpn\generic\ "..\..\"
 call ..\out_copy_rename ..\..\mpn\generic\gmp-mparam.h ..\..\ gmp-mparam.h
 </Command>
     </PreBuildEvent>
