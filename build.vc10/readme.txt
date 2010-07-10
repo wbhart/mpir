@@ -5,9 +5,9 @@ Building MPIR with Microsoft Visual Studio 2010
 A Note On Licensing
 ===================
 
-Files in this distribution that have been created by me for
-use in building MPIR with Microsoft Visual Studio 2010 are
-provided under the LGPL v2.1+ license terms.
+Files in this distribution that have been created for use in 
+building MPIR with Microsoft Visual Studio 2010 are provided
+under the LGPL v2.1+ license terms.
 
 The MPIR library uses numerous files which are LGPL v3+ and
 so the overall license of the library distribution is LGPL 
@@ -89,22 +89,23 @@ The supported platforms and library formats are as follows:
     dll_mpir_core2   - MPIR DLL using Intel Core2 assembler (x64)
     dll_mpir_nehalem - MPIR DLL using Intel Core2 assembler (x64)
 
-Before any of these libraries is built the appropriate MPIR 
-configuration file is automatically copied into config.h.  After a 
-static library is built its config.h file is copied into the output
-directory; the library and its associated files are then copied to 
-the 'lib' sub-directory within the VC++ solution folder (build.vc10).
-Simlarly when a DLL is built, the resulting DLL, its export libraries
-and its debug symbol file are copied to the files mpir.dll, mpir.exp, 
-mpir.lib and mpir.pdb within the 'dll' sub-directory.
- 
-This means that the 'dll' and 'lib' sub-directories respectively 
-contain the last MPIR DLLs and static libraries built.  These are
-then the libraries used to build software that requires MPIR or GMP.
-If you use the mpir-tests, the speed, the tune or the try programs
+All outputs are put in one of the four directories
+
+    mpir\win32\release\
+	mpir\win32\debug\
+    mpir\x64\release\
+	mpir\x64\debug\
+
+as determined by the configuration that is built.  The latest build
+overwrites any previous builds but some old files may be left over,
+which means that some files will be out of date and not part of the
+latest build.  If in any doubt, it is hence advisable to clear the
+output directory before a build is started.
+
+If you use the mpir-tests, the speed, the tune or the try programs,
 it is very important to do so immediately after the MPIR library
 in question is built because these projects link to the last
-library built.   
+library built.  
 
 The MPIR DLL projects include the C++ files. If you want the relevent
 files excluded from the DLL(s) you build, go to the 'cpp' subdirectory
@@ -115,23 +116,6 @@ All the DLLs and static libraries are multi-threaded and are
 linked to the multi-threaded Microsoft run-time libraries (DLLs are 
 linked to DLL run time libraries and static libraries are linked to 
 run time static libraries).
-
-Within the 'dll' and 'lib' sub-directories used for output the 
-structure is:
-
-   DLL or LIB 
-      Win32
-         Release
-         Debug
-      x64
-         Release
-         Debug   
-
-in order to enable the appropriate library for the desired target 
-platform to be easily located.  The individual project sub-
-directories also contain the libraries once they have been built 
-(the 'dll' and 'lib' directories are just used to hold the latest 
-built versions for linking the tests that are described later). 
 
 C++ Interface
 =============
@@ -204,18 +188,8 @@ and the output can be directed to a file:
 
 	cmd>run_lib_tests.py >out.txt 
 	
-When an MPIR library is built the file 'last_build.txt' is  
-written to the buid.vc10 subdirectory giving details of the 
-build configuration. These details are then used to run the 
-MPIR tests and this means that these tests need to be run 
-immediately after the library to be tested has been built.  
-It is possible to test a different library by editing 
-'last_build.txt' but this will only work if the files in the 
-build output directories are still present from an earlier build.
-In order to avoid errors, it is advisable before testing to do a 
-clean build of the library under test (to do a completely clean 
-build, the files in the build.vc10\Win32 and build.vc10\x64 
-directories should be deleted).  
+The tests need to be run immediately after the library to be tested 
+has been built.  
 
 Test Failures
 =============
@@ -309,21 +283,12 @@ the same run time library as that used to build any
 DLL that is used - in this case the appropriate version 
 9 library.
 
-If this is not possible, Jim White has made a DLL 
-available that will map all stream Input/Output 
-functions in a way that ensures that they use the 
-correct runtime library.
-
 6. MPIR Applications that Require _stdcall Functions
 ====================================================
 
 Some applications, for example Visual Basic 6, require 
 that DLL based functions provide a _stdcall interface, 
 whereas the VC++ default for DLLs is _cdecl.
-
-To overcome this Jim White intends to make a wrapper 
-DLL available for MPIR that provides a _stdcall interface 
-to the normal _cdecl MPIR DLLs. 
 
 ACKNOWLEDGEMENTS
 ================
