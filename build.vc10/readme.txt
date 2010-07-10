@@ -89,18 +89,24 @@ The supported platforms and library formats are as follows:
     dll_mpir_core2   - MPIR DLL using Intel Core2 assembler (x64)
     dll_mpir_nehalem - MPIR DLL using Intel Core2 assembler (x64)
 
-All outputs are put in one of the four directories
+Staatic library outputs are put in one of the four directories
 
-    mpir\win32\release\
-	mpir\win32\debug\
-    mpir\x64\release\
-	mpir\x64\debug\
+    mpir\lib\win32\release\
+	mpir\lib\win32\debug\
+    mpir\lib\x64\release\
+	mpir\lib\x64\debug\
 
-as determined by the configuration that is built.  The latest build
-overwrites any previous builds but some old files may be left over,
-which means that some files will be out of date and not part of the
-latest build.  If in any doubt, it is hence advisable to clear the
-output directory before a build is started.
+as determined by the configuration that is built.  Similarly the
+DLL library outputs are put in one of:
+
+    mpir\dll\win32\release\
+	mpir\dll\win32\debug\
+    mpir\dll\x64\release\
+	mpir\dll\x64\debug\
+
+The latest build overwrites any previous builds. It a build fails
+it is adbisable to delete all the files in these output directories 
+before a build is started.
 
 If you use the mpir-tests, the speed, the tune or the try programs,
 it is very important to do so immediately after the MPIR library
@@ -199,6 +205,12 @@ the test defines a symbol - localeconv - that is in the Microsoft
 runtime libraries.  This is not significant for MPIR numeric 
 operations. Some tests are also skipped in the DLL tests as they
 are not relevant if a DLL is being used.
+
+Other Programs
+==============
+
+The programs speed, tune and try work with the static library builds
+only
 
 Using MPIR
 ==========

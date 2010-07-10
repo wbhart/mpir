@@ -17,7 +17,7 @@ with open('dir.txt', 'r') as f:
   t = f.readline().strip()
 xd = os.getcwd() + '\\..\\' + t +'tests\\'
 print("Testing in ", t)
-shutil.copy(os.getcwd() + '\\..\\' + t + 'mpir.dll', xd)
+shutil.copy(os.getcwd() + '\\..\\..\\dll\\' + t + 'mpir.dll', xd)
 
 dir_list = []
 for x in os.walk(os.getcwd()) :
