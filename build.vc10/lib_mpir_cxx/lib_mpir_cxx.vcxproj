@@ -54,10 +54,10 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
     <_ProjectFileVersion>10.0.21006.1</_ProjectFileVersion>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">mpircxx</TargetName>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">mpircxx</TargetName>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">mpircxx</TargetName>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">mpircxx</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">mpirxx</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">mpirxx</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">mpirxx</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">mpirxx</TargetName>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(Platform)\$(Configuration)\</IntDir>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
@@ -104,7 +104,7 @@ call ..\out_copy_rename "$(TargetDir)$(TargetName).pdb" ..\lib\$(IntDir) mpirxx.
     </Midl>
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\..\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(OutDir);..\..\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_DEBUG;_LIB;HAVE_CONFIG_H;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -171,7 +171,7 @@ call ..\out_copy_rename "$(TargetDir)$(TargetName).pdb" ..\lib\$(IntDir) mpirxx.
     </Midl>
     <ClCompile>
       <Optimization>Full</Optimization>
-      <AdditionalIncludeDirectories>..\..\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(OutDir);..\..\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NDEBUG;_LIB;HAVE_CONFIG_H;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <PrecompiledHeader>
@@ -188,16 +188,8 @@ call ..\out_copy_rename "$(TargetDir)$(TargetName).pdb" ..\lib\$(IntDir) mpirxx.
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
     </Lib>
     <PostBuildEvent>
-      <Command>if not exist ..\lib\$(IntDir) md ..\lib\$(IntDir)
-
-call ..\out_copy_rename ..\..\mpirxx.h "$(TargetDir)" mpirxx.h
-call ..\out_copy_rename ..\..\mpirxx.h ..\lib\$(IntDir) mpirxx.h
-call ..\out_copy_rename ..\..\mpirxx.h "$(TargetDir)" gmpxx.h
-call ..\out_copy_rename ..\..\mpirxx.h ..\lib\$(IntDir) gmpxx.h
-
-call ..\out_copy_rename "$(TargetDir)$(TargetName).lib" ..\lib\$(IntDir) mpirxx.lib
-call ..\out_copy_rename "$(TargetDir)$(TargetName).pdb" ..\lib\$(IntDir) mpirxx.pdb
-</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

@@ -43,9 +43,10 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <PreBuildEvent>
-      <Command>call ..\gen_mpir_h $(Platform) "..\..\"
-call ..\gen_config_h ..\..\mpn\x86_64w\core2\ "..\..\"
-call ..\out_copy_rename ..\..\mpn\x86_64w\core2\gmp-mparam.h ..\..\ gmp-mparam.h
+      <Command>call ..\gen_mpir_h $(Platform) "$(OutDir)"
+call ..\gen_config_h ..\..\mpn\x86_64w\core2\ "$(OutDir)"
+call ..\out_copy_rename ..\..\mpn\x86_64w\core2\gmp-mparam.h "$(OutDir)" gmp-mparam.h
+call ..\out_copy_rename ..\..\mpirxx.h "$(OutDir)" mpirxx.h
 </Command>
     </PreBuildEvent>
     <CustomBuildStep>
@@ -63,7 +64,7 @@ call ..\out_copy_rename ..\..\mpn\x86_64w\core2\gmp-mparam.h ..\..\ gmp-mparam.h
     </Midl>
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\..\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(OutDir);..\..\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_DEBUG;HAVE_CONFIG_H;__GMP_LIBGMP_DLL;__GMP_WITHIN_GMP;__GMP_WITHIN_GMPXX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
@@ -84,36 +85,15 @@ call ..\out_copy_rename ..\..\mpn\x86_64w\core2\gmp-mparam.h ..\..\ gmp-mparam.h
       <TargetMachine>MachineX64</TargetMachine>
     </Link>
     <PostBuildEvent>
-      <Command>if not exist ..\dll\$(IntDir) md ..\dll\$(IntDir)
-
-call ..\out_copy_rename "..\..\mpir.h" "$(TargetDir)" mpir.h
-call ..\out_copy_rename  "..\..\mpirxx.h" "$(TargetDir)" mpirxx.h
-call ..\out_copy_rename "..\..\config.h" "$(TargetDir)" config.h
-call ..\out_copy_rename "..\..\gmp-mparam.h" "$(TargetDir)" gmp-mparam.h
-call ..\out_copy_rename "..\..\mpir.h" "$(TargetDir)" gmp.h
-call ..\out_copy_rename "..\..\mpirxx.h" "$(TargetDir)" gmpxx.h
-
-call ..\out_copy_rename "..\..\mpir.h" ..\dll\$(IntDir) mpir.h
-call ..\out_copy_rename "..\..\mpirxx.h" ..\dll\$(IntDir) mpirxx.h
-call ..\out_copy_rename "..\..\config.h" ..\dll\$(IntDir) config.h
-call ..\out_copy_rename "..\..\gmp-mparam.h" ..\dll\$(IntDir) gmp-mparam.h
-call ..\out_copy_rename "..\..\mpir.h" ..\dll\$(IntDir) gmp.h
-call ..\out_copy_rename "..\..\mpirxx.h" ..\dll\$(IntDir) gmpxx.h
-
-call ..\out_copy_rename "$(TargetDir)$(TargetName).dll" ..\dll\$(IntDir) mpir.dll
-call ..\out_copy_rename "$(TargetDir)$(TargetName).exp"  ..\dll\$(IntDir) mpir.exp
-call ..\out_copy_rename "$(TargetDir)$(TargetName).lib" ..\dll\$(IntDir) mpir.lib
-call ..\out_copy_rename "$(TargetDir)$(TargetName).pdb" ..\dll\$(IntDir) mpir.pdb
-
-echo $(ProjectDir)+$(IntDir)+$(TargetName)+$(TargetExt) &gt; ..\last_build.txt
-</Command>
+      <Command>echo $(PlatformName)\$(ConfigurationName)\ &gt;..\mpir-tests\dir.txt</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <PreBuildEvent>
-      <Command>call ..\gen_mpir_h $(Platform) "..\..\"
-call ..\gen_config_h ..\..\mpn\x86_64w\core2\ "..\..\"
-call ..\out_copy_rename ..\..\mpn\x86_64w\core2\gmp-mparam.h ..\..\ gmp-mparam.h
+      <Command>call ..\gen_mpir_h $(Platform) "$(OutDir)"
+call ..\gen_config_h ..\..\mpn\x86_64w\core2\ "$(OutDir)"
+call ..\out_copy_rename ..\..\mpn\x86_64w\core2\gmp-mparam.h "$(OutDir)" gmp-mparam.h
+call ..\out_copy_rename ..\..\mpirxx.h "$(OutDir)" mpirxx.h
 </Command>
     </PreBuildEvent>
     <CustomBuildStep>
@@ -131,7 +111,7 @@ call ..\out_copy_rename ..\..\mpn\x86_64w\core2\gmp-mparam.h ..\..\ gmp-mparam.h
     </Midl>
     <ClCompile>
       <Optimization>Full</Optimization>
-      <AdditionalIncludeDirectories>..\..\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(OutDir);..\..\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NDEBUG;HAVE_CONFIG_H;__GMP_LIBGMP_DLL;__GMP_WITHIN_GMP;__GMP_WITHIN_GMPXX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <ExceptionHandling>Sync</ExceptionHandling>
@@ -158,29 +138,7 @@ call ..\out_copy_rename ..\..\mpn\x86_64w\core2\gmp-mparam.h ..\..\ gmp-mparam.h
       <TargetMachine>MachineX64</TargetMachine>
     </Link>
     <PostBuildEvent>
-      <Command>if not exist ..\dll\$(IntDir) md ..\dll\$(IntDir)
-
-call ..\out_copy_rename "..\..\mpir.h" "$(TargetDir)" mpir.h
-call ..\out_copy_rename  "..\..\mpirxx.h" "$(TargetDir)" mpirxx.h
-call ..\out_copy_rename "..\..\config.h" "$(TargetDir)" config.h
-call ..\out_copy_rename "..\..\gmp-mparam.h" "$(TargetDir)" gmp-mparam.h
-call ..\out_copy_rename "..\..\mpir.h" "$(TargetDir)" gmp.h
-call ..\out_copy_rename "..\..\mpirxx.h" "$(TargetDir)" gmpxx.h
-
-call ..\out_copy_rename "..\..\mpir.h" ..\dll\$(IntDir) mpir.h
-call ..\out_copy_rename "..\..\mpirxx.h" ..\dll\$(IntDir) mpirxx.h
-call ..\out_copy_rename "..\..\config.h" ..\dll\$(IntDir) config.h
-call ..\out_copy_rename "..\..\gmp-mparam.h" ..\dll\$(IntDir) gmp-mparam.h
-call ..\out_copy_rename "..\..\mpir.h" ..\dll\$(IntDir) gmp.h
-call ..\out_copy_rename "..\..\mpirxx.h" ..\dll\$(IntDir) gmpxx.h
-
-call ..\out_copy_rename "$(TargetDir)$(TargetName).dll" ..\dll\$(IntDir) mpir.dll
-call ..\out_copy_rename "$(TargetDir)$(TargetName).exp"  ..\dll\$(IntDir) mpir.exp
-call ..\out_copy_rename "$(TargetDir)$(TargetName).lib" ..\dll\$(IntDir) mpir.lib
-call ..\out_copy_rename "$(TargetDir)$(TargetName).pdb" ..\dll\$(IntDir) mpir.pdb
-
-echo $(ProjectDir)+$(IntDir)+$(TargetName)+$(TargetExt) &gt; ..\last_build.txt
-</Command>
+      <Command>echo $(PlatformName)\$(ConfigurationName)\ &gt;..\mpir-tests\dir.txt</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

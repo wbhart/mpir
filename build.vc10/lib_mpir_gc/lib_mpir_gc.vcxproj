@@ -65,9 +65,10 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <PreBuildEvent>
-      <Command>call ..\gen_mpir_h $(Platform) "..\..\"
-call ..\gen_config_h ..\..\mpn\generic\ "..\..\"
-call ..\out_copy_rename ..\..\mpn\generic\gmp-mparam.h ..\..\ gmp-mparam.h
+      <Command>call ..\gen_mpir_h $(Platform) "$(OutDir)"
+call ..\gen_config_h ..\..\mpn\generic\ "$(OutDir)"
+call ..\out_copy_rename ..\..\mpn\generic\gmp-mparam.h "$(OutDir)" gmp-mparam.h
+call ..\out_copy_rename ..\..\mpirxx.h "$(OutDir)" mpirxx.h
 </Command>
     </PreBuildEvent>
     <CustomBuildStep>
@@ -76,7 +77,7 @@ call ..\out_copy_rename ..\..\mpn\generic\gmp-mparam.h ..\..\ gmp-mparam.h
     </CustomBuildStep>
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\..\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(OutDir);..\..\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_DEBUG;_LIB;HAVE_CONFIG_H;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -89,30 +90,15 @@ call ..\out_copy_rename ..\..\mpn\generic\gmp-mparam.h ..\..\ gmp-mparam.h
     </ClCompile>
     <Lib />
     <PostBuildEvent>
-      <Command>if not exist ..\lib\$(IntDir) md ..\lib\$(IntDir)
-
-call ..\out_copy_rename "..\..\mpir.h" "$(TargetDir)" mpir.h
-call ..\out_copy_rename "..\..\config.h" "$(TargetDir)" config.h
-call ..\out_copy_rename "..\..\gmp-mparam.h" "$(TargetDir)" gmp-mparam.h
-call ..\out_copy_rename "..\..\mpir.h" "$(TargetDir)\" gmp.h
-
-call ..\out_copy_rename "..\..\mpir.h" ..\lib\$(IntDir) mpir.h
-call ..\out_copy_rename "..\..\config.h" ..\lib\$(IntDir) config.h
-call ..\out_copy_rename "..\..\gmp-mparam.h" ..\lib\$(IntDir) gmp-mparam.h
-call ..\out_copy_rename "..\..\mpir.h" ..\lib\$(IntDir) gmp.h
-
-call ..\out_copy_rename "$(TargetDir)$(TargetName).lib" ..\lib\$(IntDir) mpir.lib
-call ..\out_copy_rename "$(TargetDir)$(TargetName).pdb" ..\lib\$(IntDir) mpir.pdb
-
-echo $(ProjectDir)+$(IntDir)+$(TargetName)+$(TargetExt) &gt; ..\last_build.txt
-</Command>
+      <Command>echo $(PlatformName)\$(ConfigurationName)\ &gt;..\mpir-tests\dir.txt</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <PreBuildEvent>
-      <Command>call ..\gen_mpir_h $(Platform) "..\..\"
-call ..\gen_config_h ..\..\mpn\generic\ "..\..\"
-call ..\out_copy_rename ..\..\mpn\generic\gmp-mparam.h ..\..\ gmp-mparam.h
+      <Command>call ..\gen_mpir_h $(Platform) "$(OutDir)"
+call ..\gen_config_h ..\..\mpn\generic\ "$(OutDir)"
+call ..\out_copy_rename ..\..\mpn\generic\gmp-mparam.h "$(OutDir)" gmp-mparam.h
+call ..\out_copy_rename ..\..\mpirxx.h "$(OutDir)" mpirxx.h
 </Command>
     </PreBuildEvent>
     <CustomBuildStep>
@@ -124,7 +110,7 @@ call ..\out_copy_rename ..\..\mpn\generic\gmp-mparam.h ..\..\ gmp-mparam.h
     </Midl>
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\..\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(OutDir);..\..\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_DEBUG;_LIB;HAVE_CONFIG_H;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -137,30 +123,15 @@ call ..\out_copy_rename ..\..\mpn\generic\gmp-mparam.h ..\..\ gmp-mparam.h
     </ClCompile>
     <Lib />
     <PostBuildEvent>
-      <Command>if not exist ..\lib\$(IntDir) md ..\lib\$(IntDir)
-
-call ..\out_copy_rename "..\..\mpir.h" "$(TargetDir)" mpir.h
-call ..\out_copy_rename "..\..\config.h" "$(TargetDir)" config.h
-call ..\out_copy_rename "..\..\gmp-mparam.h" "$(TargetDir)" gmp-mparam.h
-call ..\out_copy_rename "..\..\mpir.h" "$(TargetDir)\" gmp.h
-
-call ..\out_copy_rename "..\..\mpir.h" ..\lib\$(IntDir) mpir.h
-call ..\out_copy_rename "..\..\config.h" ..\lib\$(IntDir) config.h
-call ..\out_copy_rename "..\..\gmp-mparam.h" ..\lib\$(IntDir) gmp-mparam.h
-call ..\out_copy_rename "..\..\mpir.h" ..\lib\$(IntDir) gmp.h
-
-call ..\out_copy_rename "$(TargetDir)$(TargetName).lib" ..\lib\$(IntDir) mpir.lib
-call ..\out_copy_rename "$(TargetDir)$(TargetName).pdb" ..\lib\$(IntDir) mpir.pdb
-
-echo $(ProjectDir)+$(IntDir)+$(TargetName)+$(TargetExt) &gt; ..\last_build.txt
-</Command>
+      <Command>echo $(PlatformName)\$(ConfigurationName)\ &gt;..\mpir-tests\dir.txt</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <PreBuildEvent>
-      <Command>call ..\gen_mpir_h $(Platform) "..\..\"
-call ..\gen_config_h ..\..\mpn\generic\ "..\..\"
-call ..\out_copy_rename ..\..\mpn\generic\gmp-mparam.h ..\..\ gmp-mparam.h
+      <Command>call ..\gen_mpir_h $(Platform) "$(OutDir)"
+call ..\gen_config_h ..\..\mpn\generic\ "$(OutDir)"
+call ..\out_copy_rename ..\..\mpn\generic\gmp-mparam.h "$(OutDir)" gmp-mparam.h
+call ..\out_copy_rename ..\..\mpirxx.h "$(OutDir)" mpirxx.h
 </Command>
     </PreBuildEvent>
     <CustomBuildStep>
@@ -169,7 +140,7 @@ call ..\out_copy_rename ..\..\mpn\generic\gmp-mparam.h ..\..\ gmp-mparam.h
     </CustomBuildStep>
     <ClCompile>
       <Optimization>Full</Optimization>
-      <AdditionalIncludeDirectories>..\..\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(OutDir);..\..\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NDEBUG;_LIB;HAVE_CONFIG_H;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <BufferSecurityCheck>false</BufferSecurityCheck>
@@ -182,30 +153,15 @@ call ..\out_copy_rename ..\..\mpn\generic\gmp-mparam.h ..\..\ gmp-mparam.h
     </ClCompile>
     <Lib />
     <PostBuildEvent>
-      <Command>if not exist ..\lib\$(IntDir) md ..\lib\$(IntDir)
-
-call ..\out_copy_rename "..\..\mpir.h" "$(TargetDir)" mpir.h
-call ..\out_copy_rename "..\..\config.h" "$(TargetDir)" config.h
-call ..\out_copy_rename "..\..\gmp-mparam.h" "$(TargetDir)" gmp-mparam.h
-call ..\out_copy_rename "..\..\mpir.h" "$(TargetDir)\" gmp.h
-
-call ..\out_copy_rename "..\..\mpir.h" ..\lib\$(IntDir) mpir.h
-call ..\out_copy_rename "..\..\config.h" ..\lib\$(IntDir) config.h
-call ..\out_copy_rename "..\..\gmp-mparam.h" ..\lib\$(IntDir) gmp-mparam.h
-call ..\out_copy_rename "..\..\mpir.h" ..\lib\$(IntDir) gmp.h
-
-call ..\out_copy_rename "$(TargetDir)$(TargetName).lib" ..\lib\$(IntDir) mpir.lib
-call ..\out_copy_rename "$(TargetDir)$(TargetName).pdb" ..\lib\$(IntDir) mpir.pdb
-
-echo $(ProjectDir)+$(IntDir)+$(TargetName)+$(TargetExt) &gt; ..\last_build.txt
-</Command>
+      <Command>echo $(PlatformName)\$(ConfigurationName)\ &gt;..\mpir-tests\dir.txt</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <PreBuildEvent>
-      <Command>call ..\gen_mpir_h $(Platform) "..\..\"
-call ..\gen_config_h ..\..\mpn\generic\ "..\..\"
-call ..\out_copy_rename ..\..\mpn\generic\gmp-mparam.h ..\..\ gmp-mparam.h
+      <Command>call ..\gen_mpir_h $(Platform) "$(OutDir)"
+call ..\gen_config_h ..\..\mpn\generic\ "$(OutDir)"
+call ..\out_copy_rename ..\..\mpn\generic\gmp-mparam.h "$(OutDir)" gmp-mparam.h
+call ..\out_copy_rename ..\..\mpirxx.h "$(OutDir)" mpirxx.h
 </Command>
     </PreBuildEvent>
     <CustomBuildStep>
@@ -217,7 +173,7 @@ call ..\out_copy_rename ..\..\mpn\generic\gmp-mparam.h ..\..\ gmp-mparam.h
     </Midl>
     <ClCompile>
       <Optimization>Full</Optimization>
-      <AdditionalIncludeDirectories>..\..\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(OutDir);..\..\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NDEBUG;_LIB;HAVE_CONFIG_H;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <PrecompiledHeader>
@@ -230,23 +186,7 @@ call ..\out_copy_rename ..\..\mpn\generic\gmp-mparam.h ..\..\ gmp-mparam.h
     </ClCompile>
     <Lib />
     <PostBuildEvent>
-      <Command>if not exist ..\lib\$(IntDir) md ..\lib\$(IntDir)
-
-call ..\out_copy_rename "..\..\mpir.h" "$(TargetDir)" mpir.h
-call ..\out_copy_rename "..\..\config.h" "$(TargetDir)" config.h
-call ..\out_copy_rename "..\..\gmp-mparam.h" "$(TargetDir)" gmp-mparam.h
-call ..\out_copy_rename "..\..\mpir.h" "$(TargetDir)\" gmp.h
-
-call ..\out_copy_rename "..\..\mpir.h" ..\lib\$(IntDir) mpir.h
-call ..\out_copy_rename "..\..\config.h" ..\lib\$(IntDir) config.h
-call ..\out_copy_rename "..\..\gmp-mparam.h" ..\lib\$(IntDir) gmp-mparam.h
-call ..\out_copy_rename "..\..\mpir.h" ..\lib\$(IntDir) gmp.h
-
-call ..\out_copy_rename "$(TargetDir)$(TargetName).lib" ..\lib\$(IntDir) mpir.lib
-call ..\out_copy_rename "$(TargetDir)$(TargetName).pdb" ..\lib\$(IntDir) mpir.pdb
-
-echo $(ProjectDir)+$(IntDir)+$(TargetName)+$(TargetExt) &gt; ..\last_build.txt
-</Command>
+      <Command>echo $(PlatformName)\$(ConfigurationName)\ &gt;..\mpir-tests\dir.txt</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
