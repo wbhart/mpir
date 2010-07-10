@@ -148,13 +148,39 @@ is not needed when they are used.
 The Tests
 =========
 
-The tests are not useful for DLL versions of MPIR because they use 
-internal features of MPIR that are not exported by the DLLs. Hence 
-they fail to link in almost all cases.  The tests also use the C++
-library so for testing MPIR static libraries both the desired 
-version of MPIR and the C++ library must be built before the tests
-are run.  This is not necessary for MPIR DLLs as they contain the
-C++ routines.
+The tests are configured by default to test the static library versions
+of MPIR but the DLL versions can be tested by changing the default
+property files before the tests are buillt. These property files are
+in the directory 
+
+  mpir\build.vc10\mpir-tests
+
+and the two files:
+
+  tests.release.props
+  tests.debug.props
+
+set the configuration for the tests of the static libraries in release
+and debug configuration respectively.  These are the same as the files:
+
+  lib_tests.release.props
+  lib_tests.debug.props
+
+The two files
+
+  dll_tests.release.props
+  dll_tests.debug.props
+
+set the configuration for the tests of the DLL libraries in release and
+debug configuration respectively. By copying these files to:
+
+  tests.release.props
+  tests.debug.props
+
+the tests will be run for the DLL libraries.
+
+For the static library tests both the C and C++ libraries must be built
+but the MPIR DLL contains both the C and C++ functions.
 
 There is a separate solution for the MPIR tests: mpir-tests.sln. In 
 Visual Studio 2010 these are in build.vc10 folder.  These tests must
@@ -164,59 +190,19 @@ Before running the tests it is necessary to build the add-test-lib
 project.  Note also that the Win32/x64 and Debug/Release choices
 for the tests must match that of the libraries under test.
 
-The MPIR tests are all configured using the property file:
-
-	test-config.vsprops
-
-located in the mpir-tests sub-directory. These cover the C and the 
-C++ tests for win32 and 64 builds in both release and debug 
-configurations.  All these property files use an IDE macro named 
-$(BinDir) that determines whether the tests are applied to the the 
-static LIB or the DLL versions versions of the libraries. The 
-default is:
-
-	$(BinDir) = $(SolutionDir)lib
-
-for linking the tests to the static libraries but this can be 
-changed to 
-
-	$(BinDir) = $(SolutionDir)dll
-	
-to link the test to the DLL libraries.  A second macro $(LIBS)
-is also needed to set the libaries to be used:
-
-	$(BinDir)$(PlatformName)\$(ConfigurationName)\mpir.lib 
-
-for testing the DLL and 
-
-	$(BinDir)$(PlatformName)\$(ConfigurationName)\mpir.lib 	
-	$(BinDir)$(PlatformName)\$(ConfigurationName)\mpirxx.lib
-
-for testing the static libraries (enter these with a ' ' between 
-them when setting up the macro).
-
-Note, however, tha the DLL tests are not useful at the moment 
-because they use internal features of MPIR that are not exported
-by the DLLs. Hence they fail to link in almost all cases.
-
-There is also another macro, $(TestDir), that specifies where 
-the executable test files are placed but changing this will 
-prevent the test scripts (see later) from being used.
-
 Test Automation
 ===============
 
-After they have been built the tests cn be run using the 
-Python script run-tests.py in the build.vc10\mpir-tests
-directory. To see the test output the python script
-should be run in a command window from within these
-sub-directories:
+After they have been built the tests cn be run using the Python script
+run_lib_tests.py for the static libraries or run_dll_tests.py for the
+DLL libraries.  To see the test output the python script should be run
+in a command window from within these sub-directories:
 
-	cmd>run-tests.py 
+	cmd>run_lib_tests.py 
 	
 and the output can be directed to a file:
 
-	cmd>run-tests.py >out.txt 
+	cmd>run_lib_tests.py >out.txt 
 	
 When an MPIR library is built the file 'last_build.txt' is  
 written to the buid.vc10 subdirectory giving details of the 
@@ -225,19 +211,20 @@ MPIR tests and this means that these tests need to be run
 immediately after the library to be tested has been built.  
 It is possible to test a different library by editing 
 'last_build.txt' but this will only work if the files in the 
-$(BinDir) are correct.  In order to avoid errors, it is 
-advisable before testing to do a clean build of the library 
-under test (to do a completely clean build, the files in 
-the build.vc10\Win32 and build.vc10\x64 directories should be 
-deleted.  
+build output directories are still present from an earlier build.
+In order to avoid errors, it is advisable before testing to do a 
+clean build of the library under test (to do a completely clean 
+build, the files in the build.vc10\Win32 and build.vc10\x64 
+directories should be deleted).  
 
-Two Tests Fail
-==============
+Test Failures
+=============
 
-The tests for cxx/locale and misc/locale fail to link 
-because the test defines a symbol - localeconv - that is 
-in the Microsoft runtime libraries.  This is not significant 
-for MPIR numeric operations. 
+The tests for cxx/locale and misc/locale fail to link because
+the test defines a symbol - localeconv - that is in the Microsoft
+runtime libraries.  This is not significant for MPIR numeric 
+operations. Some tests are also skipped in the DLL tests as they
+are not relevant if a DLL is being used.
 
 Using MPIR
 ==========
@@ -351,4 +338,4 @@ My thanks to:
 4. Jeff Gilchrist for his help in testing, debugging and 
    improving the readme giving the VC++ build instructions
 
-       Brian Gladman, April 2010
+       Brian Gladman, July 2010
