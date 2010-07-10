@@ -92,17 +92,17 @@ The supported platforms and library formats are as follows:
 Staatic library outputs are put in one of the four directories
 
     mpir\lib\win32\release\
-	mpir\lib\win32\debug\
+    mpir\lib\win32\debug\
     mpir\lib\x64\release\
-	mpir\lib\x64\debug\
+    mpir\lib\x64\debug\
 
 as determined by the configuration that is built.  Similarly the
 DLL library outputs are put in one of:
 
     mpir\dll\win32\release\
-	mpir\dll\win32\debug\
+    mpir\dll\win32\debug\
     mpir\dll\x64\release\
-	mpir\dll\x64\debug\
+    mpir\dll\x64\debug\
 
 The latest build overwrites any previous builds. It a build fails
 it is adbisable to delete all the files in these output directories 
