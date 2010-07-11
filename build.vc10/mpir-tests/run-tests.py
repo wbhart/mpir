@@ -12,12 +12,11 @@ import subprocess
 import code
 import sys
 
-t = ''
-with open('dir.txt', 'r') as f:
-  t = f.readline().strip()
-xd = os.getcwd() + '\\..\\' + t
-print("Testing in ", t)
-shutil.copy(os.getcwd() + '\\..\\..\\dll\\' + t + 'mpir.dll', xd)
+f = open("..\\last_build.txt")
+l = f.readline()
+f.close()
+d = l[ : -2].split('+')
+print("Testing project", d[0][d[0].find('gmp') : - 1], "in", d[1])
 
 dir_list = []
 for x in os.walk(os.getcwd()) :
@@ -37,7 +36,7 @@ prj_list.sort()
 
 exe_list = []
 try :
-  l = os.listdir(xd)
+  l = os.listdir(os.getcwd() + '\\' + d[1])
 except :
   print("Tests have not been built for this configuration")
   os._exit(-1)
@@ -56,7 +55,7 @@ run_ok = 0
 run_fail = 0
 for i in prj_list :
   if i in exe_list :
-    ef = xd + i + '.exe'
+    ef = '.\\' + d[1] + '\\' + i + '.exe'
     prc = subprocess.Popen( ef, stdout = subprocess.PIPE,
       stderr = subprocess.STDOUT, creationflags = 0x08000000 )
     output = prc.communicate()[0]

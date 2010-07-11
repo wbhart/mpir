@@ -5,9 +5,9 @@ Building MPIR with Microsoft Visual Studio 2010
 A Note On Licensing
 ===================
 
-Files in this distribution that have been created for use in 
-building MPIR with Microsoft Visual Studio 2010 are provided
-under the LGPL v2.1+ license terms.
+Files in this distribution that have been created by me for
+use in building MPIR with Microsoft Visual Studio 2010 are
+provided under the LGPL v2.1+ license terms.
 
 The MPIR library uses numerous files which are LGPL v3+ and
 so the overall license of the library distribution is LGPL 
@@ -89,29 +89,22 @@ The supported platforms and library formats are as follows:
     dll_mpir_core2   - MPIR DLL using Intel Core2 assembler (x64)
     dll_mpir_nehalem - MPIR DLL using Intel Core2 assembler (x64)
 
-Staatic library outputs are put in one of the four directories
-
-    mpir\lib\win32\release\
-    mpir\lib\win32\debug\
-    mpir\lib\x64\release\
-    mpir\lib\x64\debug\
-
-as determined by the configuration that is built.  Similarly the
-DLL library outputs are put in one of:
-
-    mpir\dll\win32\release\
-    mpir\dll\win32\debug\
-    mpir\dll\x64\release\
-    mpir\dll\x64\debug\
-
-The latest build overwrites any previous builds. It a build fails
-it is adbisable to delete all the files in these output directories 
-before a build is started.
-
-If you use the mpir-tests, the speed, the tune or the try programs,
+Before any of these libraries is built the appropriate MPIR 
+configuration file is automatically copied into config.h.  After a 
+static library is built its config.h file is copied into the output
+directory; the library and its associated files are then copied to 
+the 'lib' sub-directory within the VC++ solution folder (build.vc10).
+Simlarly when a DLL is built, the resulting DLL, its export libraries
+and its debug symbol file are copied to the files mpir.dll, mpir.exp, 
+mpir.lib and mpir.pdb within the 'dll' sub-directory.
+ 
+This means that the 'dll' and 'lib' sub-directories respectively 
+contain the last MPIR DLLs and static libraries built.  These are
+then the libraries used to build software that requires MPIR or GMP.
+If you use the mpir-tests, the speed, the tune or the try programs
 it is very important to do so immediately after the MPIR library
 in question is built because these projects link to the last
-library built.  
+library built.   
 
 The MPIR DLL projects include the C++ files. If you want the relevent
 files excluded from the DLL(s) you build, go to the 'cpp' subdirectory
@@ -122,6 +115,23 @@ All the DLLs and static libraries are multi-threaded and are
 linked to the multi-threaded Microsoft run-time libraries (DLLs are 
 linked to DLL run time libraries and static libraries are linked to 
 run time static libraries).
+
+Within the 'dll' and 'lib' sub-directories used for output the 
+structure is:
+
+   DLL or LIB 
+      Win32
+         Release
+         Debug
+      x64
+         Release
+         Debug   
+
+in order to enable the appropriate library for the desired target 
+platform to be easily located.  The individual project sub-
+directories also contain the libraries once they have been built 
+(the 'dll' and 'lib' directories are just used to hold the latest 
+built versions for linking the tests that are described later). 
 
 C++ Interface
 =============
@@ -138,39 +148,13 @@ is not needed when they are used.
 The Tests
 =========
 
-The tests are configured by default to test the static library versions
-of MPIR but the DLL versions can be tested by changing the default
-property files before the tests are buillt. These property files are
-in the directory 
-
-  mpir\build.vc10\mpir-tests
-
-and the two files:
-
-  tests.release.props
-  tests.debug.props
-
-set the configuration for the tests of the static libraries in release
-and debug configuration respectively.  These are the same as the files:
-
-  lib_tests.release.props
-  lib_tests.debug.props
-
-The two files
-
-  dll_tests.release.props
-  dll_tests.debug.props
-
-set the configuration for the tests of the DLL libraries in release and
-debug configuration respectively. By copying these files to:
-
-  tests.release.props
-  tests.debug.props
-
-the tests will be run for the DLL libraries.
-
-For the static library tests both the C and C++ libraries must be built
-but the MPIR DLL contains both the C and C++ functions.
+The tests are not useful for DLL versions of MPIR because they use 
+internal features of MPIR that are not exported by the DLLs. Hence 
+they fail to link in almost all cases.  The tests also use the C++
+library so for testing MPIR static libraries both the desired 
+version of MPIR and the C++ library must be built before the tests
+are run.  This is not necessary for MPIR DLLs as they contain the
+C++ routines.
 
 There is a separate solution for the MPIR tests: mpir-tests.sln. In 
 Visual Studio 2010 these are in build.vc10 folder.  These tests must
@@ -180,37 +164,80 @@ Before running the tests it is necessary to build the add-test-lib
 project.  Note also that the Win32/x64 and Debug/Release choices
 for the tests must match that of the libraries under test.
 
+The MPIR tests are all configured using the property file:
+
+	test-config.vsprops
+
+located in the mpir-tests sub-directory. These cover the C and the 
+C++ tests for win32 and 64 builds in both release and debug 
+configurations.  All these property files use an IDE macro named 
+$(BinDir) that determines whether the tests are applied to the the 
+static LIB or the DLL versions versions of the libraries. The 
+default is:
+
+	$(BinDir) = $(SolutionDir)lib
+
+for linking the tests to the static libraries but this can be 
+changed to 
+
+	$(BinDir) = $(SolutionDir)dll
+	
+to link the test to the DLL libraries.  A second macro $(LIBS)
+is also needed to set the libaries to be used:
+
+	$(BinDir)$(PlatformName)\$(ConfigurationName)\mpir.lib 
+
+for testing the DLL and 
+
+	$(BinDir)$(PlatformName)\$(ConfigurationName)\mpir.lib 	
+	$(BinDir)$(PlatformName)\$(ConfigurationName)\mpirxx.lib
+
+for testing the static libraries (enter these with a ' ' between 
+them when setting up the macro).
+
+Note, however, tha the DLL tests are not useful at the moment 
+because they use internal features of MPIR that are not exported
+by the DLLs. Hence they fail to link in almost all cases.
+
+There is also another macro, $(TestDir), that specifies where 
+the executable test files are placed but changing this will 
+prevent the test scripts (see later) from being used.
+
 Test Automation
 ===============
 
-After they have been built the tests cn be run using the Python script
-run_lib_tests.py for the static libraries or run_dll_tests.py for the
-DLL libraries.  To see the test output the python script should be run
-in a command window from within these sub-directories:
+After they have been built the tests cn be run using the 
+Python script run-tests.py in the build.vc10\mpir-tests
+directory. To see the test output the python script
+should be run in a command window from within these
+sub-directories:
 
-	cmd>run_lib_tests.py 
+	cmd>run-tests.py 
 	
 and the output can be directed to a file:
 
-	cmd>run_lib_tests.py >out.txt 
+	cmd>run-tests.py >out.txt 
 	
-The tests need to be run immediately after the library to be tested 
-has been built.  
+When an MPIR library is built the file 'last_build.txt' is  
+written to the buid.vc10 subdirectory giving details of the 
+build configuration. These details are then used to run the 
+MPIR tests and this means that these tests need to be run 
+immediately after the library to be tested has been built.  
+It is possible to test a different library by editing 
+'last_build.txt' but this will only work if the files in the 
+$(BinDir) are correct.  In order to avoid errors, it is 
+advisable before testing to do a clean build of the library 
+under test (to do a completely clean build, the files in 
+the build.vc10\Win32 and build.vc10\x64 directories should be 
+deleted.  
 
-Test Failures
-=============
-
-The tests for cxx/locale and misc/locale fail to link because
-the test defines a symbol - localeconv - that is in the Microsoft
-runtime libraries.  This is not significant for MPIR numeric 
-operations. Some tests are also skipped in the DLL tests as they
-are not relevant if a DLL is being used.
-
-Other Programs
+Two Tests Fail
 ==============
 
-The programs speed, tune and try work with the static library builds
-only
+The tests for cxx/locale and misc/locale fail to link 
+because the test defines a symbol - localeconv - that is 
+in the Microsoft runtime libraries.  This is not significant 
+for MPIR numeric operations. 
 
 Using MPIR
 ==========
@@ -295,12 +322,21 @@ the same run time library as that used to build any
 DLL that is used - in this case the appropriate version 
 9 library.
 
+If this is not possible, Jim White has made a DLL 
+available that will map all stream Input/Output 
+functions in a way that ensures that they use the 
+correct runtime library.
+
 6. MPIR Applications that Require _stdcall Functions
 ====================================================
 
 Some applications, for example Visual Basic 6, require 
 that DLL based functions provide a _stdcall interface, 
 whereas the VC++ default for DLLs is _cdecl.
+
+To overcome this Jim White intends to make a wrapper 
+DLL available for MPIR that provides a _stdcall interface 
+to the normal _cdecl MPIR DLLs. 
 
 ACKNOWLEDGEMENTS
 ================
@@ -315,4 +351,4 @@ My thanks to:
 4. Jeff Gilchrist for his help in testing, debugging and 
    improving the readme giving the VC++ build instructions
 
-       Brian Gladman, July 2010
+       Brian Gladman, April 2010
