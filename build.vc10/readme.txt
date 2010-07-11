@@ -90,14 +90,14 @@ The supported platforms and library formats are as follows:
     dll_mpir_nehalem - MPIR DLL using Intel Core2 assembler (x64)
 
 Before any of these libraries is built the appropriate MPIR 
-configuration file is automatically copied into config.h.  After a 
+configuration file is generated and copied into config.h.  After a 
 static library is built its config.h file is copied into the output
 directory; the library and its associated files are then copied to 
 the 'lib' sub-directory within the VC++ solution folder (build.vc10).
 Simlarly when a DLL is built, the resulting DLL, its export libraries
 and its debug symbol file are copied to the files mpir.dll, mpir.exp, 
 mpir.lib and mpir.pdb within the 'dll' sub-directory.
- 
+
 This means that the 'dll' and 'lib' sub-directories respectively 
 contain the last MPIR DLLs and static libraries built.  These are
 then the libraries used to build software that requires MPIR or GMP.
@@ -148,13 +148,30 @@ is not needed when they are used.
 The Tests
 =========
 
-The tests are not useful for DLL versions of MPIR because they use 
-internal features of MPIR that are not exported by the DLLs. Hence 
-they fail to link in almost all cases.  The tests also use the C++
-library so for testing MPIR static libraries both the desired 
-version of MPIR and the C++ library must be built before the tests
-are run.  This is not necessary for MPIR DLLs as they contain the
-C++ routines.
+The tests use the static library versions of MPIR by default but if
+the DLL version is to be tested the file:
+
+   mpir\build.vc10\mpir-tests\dll-test-config.props
+
+should be copied into:
+
+   mpir\build.vc10\mpir-tests\test-config.props
+
+before the tests are built. Copying the file:
+
+
+   mpir\build.vc10\mpir-tests\lib-test-config.props
+
+into:
+
+   mpir\build.vc10\mpir-tests\test-config.props
+
+resets the tests to use the MPIR static libraries.
+
+The tests also use the C++ library functions so for testing MPIR static
+libraries both the desired version of MPIR and the C++ library must be 
+built before the tests are built and run.  This is not necessary for
+MPIR DLLs as they contain the C++ routines.
 
 There is a separate solution for the MPIR tests: mpir-tests.sln. In 
 Visual Studio 2010 these are in build.vc10 folder.  These tests must
@@ -170,47 +187,15 @@ The MPIR tests are all configured using the property file:
 
 located in the mpir-tests sub-directory. These cover the C and the 
 C++ tests for win32 and 64 builds in both release and debug 
-configurations.  All these property files use an IDE macro named 
-$(BinDir) that determines whether the tests are applied to the the 
-static LIB or the DLL versions versions of the libraries. The 
-default is:
-
-	$(BinDir) = $(SolutionDir)lib
-
-for linking the tests to the static libraries but this can be 
-changed to 
-
-	$(BinDir) = $(SolutionDir)dll
-	
-to link the test to the DLL libraries.  A second macro $(LIBS)
-is also needed to set the libaries to be used:
-
-	$(BinDir)$(PlatformName)\$(ConfigurationName)\mpir.lib 
-
-for testing the DLL and 
-
-	$(BinDir)$(PlatformName)\$(ConfigurationName)\mpir.lib 	
-	$(BinDir)$(PlatformName)\$(ConfigurationName)\mpirxx.lib
-
-for testing the static libraries (enter these with a ' ' between 
-them when setting up the macro).
-
-Note, however, tha the DLL tests are not useful at the moment 
-because they use internal features of MPIR that are not exported
-by the DLLs. Hence they fail to link in almost all cases.
-
-There is also another macro, $(TestDir), that specifies where 
-the executable test files are placed but changing this will 
-prevent the test scripts (see later) from being used.
+configurations.  
 
 Test Automation
 ===============
 
-After they have been built the tests cn be run using the 
-Python script run-tests.py in the build.vc10\mpir-tests
-directory. To see the test output the python script
-should be run in a command window from within these
-sub-directories:
+After they have been built the tests cn be run using the Python 
+script run-tests.py in the build.vc10\mpir-tests directory. To 
+see the test output the python script should be run in a command 
+window from within these sub-directories:
 
 	cmd>run-tests.py 
 	
@@ -351,4 +336,4 @@ My thanks to:
 4. Jeff Gilchrist for his help in testing, debugging and 
    improving the readme giving the VC++ build instructions
 
-       Brian Gladman, April 2010
+       Brian Gladman, July 2010

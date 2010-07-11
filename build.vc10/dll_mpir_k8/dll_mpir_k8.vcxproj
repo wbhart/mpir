@@ -46,6 +46,8 @@
     <PreBuildEvent>
       <Command>call ..\gen_mpir_h $(Platform)
 call ..\gen_config_h  ..\..\mpn\x86_64w\k8\
+call ..\out_copy_rename  ..\..\mpn\x86_64w\k8\gmp-mparam.h ..\..\ gmp-mparam.h
+
 </Command>
     </PreBuildEvent>
     <CustomBuildStep>
@@ -100,10 +102,10 @@ call ..\out_copy_rename "..\..\gmp-mparam.h" ..\dll\$(IntDir) gmp-mparam.h
 call ..\out_copy_rename "..\..\mpir.h" ..\dll\$(IntDir) gmp.h
 call ..\out_copy_rename "..\..\mpirxx.h" ..\dll\$(IntDir) gmpxx.h
 
-call ..\out_copy_rename "$(TargetDir)$(TargetName).dll" ..\dll\$(IntDir) mpir.dll
-call ..\out_copy_rename "$(TargetDir)$(TargetName).exp"  ..\dll\$(IntDir) mpir.exp
-call ..\out_copy_rename "$(TargetDir)$(TargetName).lib" ..\dll\$(IntDir) mpir.lib
-call ..\out_copy_rename "$(TargetDir)$(TargetName).pdb" ..\dll\$(IntDir) mpir.pdb
+copy "$(TargetDir)$(TargetName).dll" ..\dll\$(IntDir)\mpir.dll
+copy "$(TargetDir)$(TargetName).exp"  ..\dll\$(IntDir)\mpir.exp
+copy "$(TargetDir)$(TargetName).lib" ..\dll\$(IntDir)\mpir.lib
+copy "$(TargetDir)$(TargetName).pdb" ..\dll\$(IntDir)\mpir.pdb
 
 echo $(ProjectDir)+$(IntDir)+$(TargetName)+$(TargetExt) &gt; ..\last_build.txt
 </Command>
@@ -113,6 +115,8 @@ echo $(ProjectDir)+$(IntDir)+$(TargetName)+$(TargetExt) &gt; ..\last_build.txt
     <PreBuildEvent>
       <Command>call ..\gen_mpir_h $(Platform)
 call ..\gen_config_h  ..\..\mpn\x86_64w\k8\
+call ..\out_copy_rename  ..\..\mpn\x86_64w\k8\gmp-mparam.h ..\..\ gmp-mparam.h
+
 </Command>
     </PreBuildEvent>
     <CustomBuildStep>
@@ -173,10 +177,10 @@ call ..\out_copy_rename "..\..\gmp-mparam.h" ..\dll\$(IntDir) gmp-mparam.h
 call ..\out_copy_rename "..\..\mpir.h" ..\dll\$(IntDir) gmp.h
 call ..\out_copy_rename "..\..\mpirxx.h" ..\dll\$(IntDir) gmpxx.h
 
-call ..\out_copy_rename "$(TargetDir)$(TargetName).dll" ..\dll\$(IntDir) mpir.dll
-call ..\out_copy_rename "$(TargetDir)$(TargetName).exp"  ..\dll\$(IntDir) mpir.exp
-call ..\out_copy_rename "$(TargetDir)$(TargetName).lib" ..\dll\$(IntDir) mpir.lib
-call ..\out_copy_rename "$(TargetDir)$(TargetName).pdb" ..\dll\$(IntDir) mpir.pdb
+copy "$(TargetDir)$(TargetName).dll" ..\dll\$(IntDir)\mpir.dll
+copy "$(TargetDir)$(TargetName).exp"  ..\dll\$(IntDir)\mpir.exp
+copy "$(TargetDir)$(TargetName).lib" ..\dll\$(IntDir)\mpir.lib
+copy "$(TargetDir)$(TargetName).pdb" ..\dll\$(IntDir)\mpir.pdb
 
 echo $(ProjectDir)+$(IntDir)+$(TargetName)+$(TargetExt) &gt; ..\last_build.txt
 </Command>

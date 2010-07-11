@@ -93,8 +93,8 @@ call ..\out_copy_rename ..\..\mpirxx.h ..\lib\$(IntDir) mpirxx.h
 call ..\out_copy_rename ..\..\mpirxx.h "$(TargetDir)" gmpxx.h
 call ..\out_copy_rename ..\..\mpirxx.h ..\lib\$(IntDir) gmpxx.h
 
-call ..\out_copy_rename "$(TargetDir)$(TargetName).lib" ..\lib\$(IntDir) mpirxx.lib
-call ..\out_copy_rename "$(TargetDir)$(TargetName).pdb" ..\lib\$(IntDir) mpirxx.pdb
+copy "$(TargetDir)$(TargetName).lib" ..\lib\$(IntDir)\mpirxx.lib
+copy "$(TargetDir)$(TargetName).pdb" ..\lib\$(IntDir)\mpirxx.pdb
 </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -129,8 +129,8 @@ call ..\out_copy_rename ..\..\mpirxx.h ..\lib\$(IntDir) mpirxx.h
 call ..\out_copy_rename ..\..\mpirxx.h "$(TargetDir)" gmpxx.h
 call ..\out_copy_rename ..\..\mpirxx.h ..\lib\$(IntDir) gmpxx.h
 
-call ..\out_copy_rename "$(TargetDir)$(TargetName).lib" ..\lib\$(IntDir) mpirxx.lib
-call ..\out_copy_rename "$(TargetDir)$(TargetName).pdb" ..\lib\$(IntDir) mpirxx.pdb
+copy "$(TargetDir)$(TargetName).lib" ..\lib\$(IntDir)\mpirxx.lib
+copy "$(TargetDir)$(TargetName).pdb" ..\lib\$(IntDir)\mpirxx.pdb
 </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -160,8 +160,8 @@ call ..\out_copy_rename ..\..\mpirxx.h ..\lib\$(IntDir) mpirxx.h
 call ..\out_copy_rename ..\..\mpirxx.h "$(TargetDir)" gmpxx.h
 call ..\out_copy_rename ..\..\mpirxx.h ..\lib\$(IntDir) gmpxx.h
 
-call ..\out_copy_rename "$(TargetDir)$(TargetName).lib" ..\lib\$(IntDir) mpirxx.lib
-call ..\out_copy_rename "$(TargetDir)$(TargetName).pdb" ..\lib\$(IntDir) mpirxx.pdb
+copy "$(TargetDir)$(TargetName).lib" ..\lib\$(IntDir)\mpirxx.lib
+copy "$(TargetDir)$(TargetName).pdb" ..\lib\$(IntDir)\mpirxx.pdb
 </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -199,8 +199,8 @@ call ..\out_copy_rename ..\..\mpirxx.h ..\lib\$(IntDir) mpirxx.h
 call ..\out_copy_rename ..\..\mpirxx.h "$(TargetDir)" gmpxx.h
 call ..\out_copy_rename ..\..\mpirxx.h ..\lib\$(IntDir) gmpxx.h
 
-call ..\out_copy_rename "$(TargetDir)$(TargetName).lib" ..\lib\$(IntDir) mpirxx.lib
-call ..\out_copy_rename "$(TargetDir)$(TargetName).pdb" ..\lib\$(IntDir) mpirxx.pdb
+copy "$(TargetDir)$(TargetName).lib" ..\lib\$(IntDir)\mpirxx.lib
+copy "$(TargetDir)$(TargetName).pdb" ..\lib\$(IntDir)\mpirxx.pdb
 </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
