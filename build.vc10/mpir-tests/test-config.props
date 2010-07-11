@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup Label="UserMacros">
-    <LIBS>$(SolutionDir)lib\$(Platform)\$(Configuration)\mpir.lib;$(SolutionDir)lib\$(Platform)\$(Configuration)\mpirxx.lib;$(LIBS)</LIBS>
+    <LIBS>$(SolutionDir)dll\$(Platform)\$(Configuration)\mpir.lib;$(LIBS)</LIBS>
   </PropertyGroup>
   <PropertyGroup>
     <_ProjectFileVersion>10.0.21006.1</_ProjectFileVersion>
@@ -10,8 +10,9 @@
   </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>
-      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <AdditionalIncludeDirectories>$(SolutionDir)..\;$(SolutionDir)$(PlatformName);$(SolutionDir)..\tests</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>__GMP_LIBGMP_DLL</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <AdditionalDependencies>$(LIBS);$(OutDir)\add-test-lib.lib;%(AdditionalDependencies)</AdditionalDependencies>

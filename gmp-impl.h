@@ -354,8 +354,8 @@ struct tmp_reentrant_t {
   struct tmp_reentrant_t  *next;
   size_t		  size;	  /* bytes, including header */
 };
-void *__gmp_tmp_reentrant_alloc _PROTO ((struct tmp_reentrant_t **, size_t)) ATTRIBUTE_MALLOC;
-void  __gmp_tmp_reentrant_free _PROTO ((struct tmp_reentrant_t *));
+__GMP_DECLSPEC void *__gmp_tmp_reentrant_alloc _PROTO ((struct tmp_reentrant_t **, size_t)) ATTRIBUTE_MALLOC;
+__GMP_DECLSPEC void  __gmp_tmp_reentrant_free _PROTO ((struct tmp_reentrant_t *));
 #endif
 
 #if WANT_TMP_ALLOCA
@@ -665,9 +665,9 @@ __GMP_DECLSPEC extern void * (*__gmp_allocate_func) __GMP_PROTO ((size_t));
 __GMP_DECLSPEC extern void * (*__gmp_reallocate_func) __GMP_PROTO ((void *, size_t, size_t));
 __GMP_DECLSPEC extern void   (*__gmp_free_func) __GMP_PROTO ((void *, size_t));
 
-void *__gmp_default_allocate _PROTO ((size_t));
-void *__gmp_default_reallocate _PROTO ((void *, size_t, size_t));
-void __gmp_default_free _PROTO ((void *, size_t));
+__GMP_DECLSPEC void *__gmp_default_allocate _PROTO ((size_t));
+__GMP_DECLSPEC void *__gmp_default_reallocate _PROTO ((void *, size_t, size_t));
+__GMP_DECLSPEC void __gmp_default_free _PROTO ((void *, size_t));
 
 #define __GMP_ALLOCATE_FUNC_TYPE(n,type) \
   ((type *) (*__gmp_allocate_func) ((n) * sizeof (type)))
@@ -767,9 +767,9 @@ void __gmp_default_free _PROTO ((void *, size_t));
 #endif
 #endif
 
-int is_likely_prime_BPSW(mp_limb_t n);
+__GMP_DECLSPEC int is_likely_prime_BPSW(mp_limb_t n);
 
-mp_limb_t n_sqrt(mp_limb_t r);
+__GMP_DECLSPEC mp_limb_t n_sqrt(mp_limb_t r);
 
 void __gmpz_aorsmul_1 _PROTO ((REGPARM_3_1 (mpz_ptr w, mpz_srcptr u, mp_limb_t v, mp_size_t sub))) REGPARM_ATTR(1);
 #define mpz_aorsmul_1(w,u,v,sub)  __gmpz_aorsmul_1 (REGPARM_3_1 (w, u, v, sub))
@@ -888,7 +888,7 @@ mp_size_t mpn_fib2_ui _PROTO ((mp_ptr, mp_ptr, unsigned long));
 mp_limb_t mpn_gcd_finda _PROTO((const mp_limb_t cp[2])) __GMP_ATTRIBUTE_PURE;
 
 #define mpn_jacobi_base __MPN(jacobi_base)
-int mpn_jacobi_base _PROTO ((mp_limb_t a, mp_limb_t b, int result_bit1)) ATTRIBUTE_CONST;
+__GMP_DECLSPEC int mpn_jacobi_base _PROTO ((mp_limb_t a, mp_limb_t b, int result_bit1)) ATTRIBUTE_CONST;
 
 #define mpn_mod_1c __MPN(mod_1c)
 __GMP_DECLSPEC mp_limb_t mpn_mod_1c __GMP_PROTO ((mp_srcptr, mp_size_t, mp_limb_t, mp_limb_t)) __GMP_ATTRIBUTE_PURE;
@@ -1127,13 +1127,13 @@ __GMP_DECLSPEC extern gmp_randstate_t  __gmp_rands;
 void mpn_sqr_diagonal _PROTO ((mp_ptr, mp_srcptr, mp_size_t));
 
 #define mpn_kara_mul_n	__MPN(kara_mul_n)
-void mpn_kara_mul_n _PROTO((mp_ptr, mp_srcptr, mp_srcptr, mp_size_t, mp_ptr));
+__GMP_DECLSPEC void mpn_kara_mul_n _PROTO((mp_ptr, mp_srcptr, mp_srcptr, mp_size_t, mp_ptr));
 
 #define mpn_kara_sqr_n  __MPN(kara_sqr_n)
 void mpn_kara_sqr_n _PROTO ((mp_ptr, mp_srcptr, mp_size_t, mp_ptr));
 
 #define mpn_toom3_mul_n  __MPN(toom3_mul_n)
-void mpn_toom3_mul_n _PROTO ((mp_ptr, mp_srcptr, mp_srcptr, mp_size_t,mp_ptr));
+__GMP_DECLSPEC void mpn_toom3_mul_n _PROTO ((mp_ptr, mp_srcptr, mp_srcptr, mp_size_t,mp_ptr));
 
 #define mpn_toom3_mul  __MPN(toom3_mul)
 void mpn_toom3_mul _PROTO ((mp_ptr, mp_srcptr, mp_size_t, mp_srcptr, 
@@ -1217,7 +1217,7 @@ void mpn_toom4_sqr_n _PROTO((mp_ptr, mp_srcptr, mp_size_t));
 void mpn_toom8_sqr_n _PROTO((mp_ptr, mp_srcptr, mp_size_t));
 
 #define   mpn_toom42_mulmid __MPN(toom42_mulmid)
-void      mpn_toom42_mulmid __GMP_PROTO ((mp_ptr, mp_srcptr, mp_srcptr, mp_size_t, mp_ptr));
+__GMP_DECLSPEC void      mpn_toom42_mulmid __GMP_PROTO ((mp_ptr, mp_srcptr, mp_srcptr, mp_size_t, mp_ptr));
 
 #define mpn_fft_best_k __MPN(fft_best_k)
 int     mpn_fft_best_k _PROTO ((mp_size_t n, int sqr)) ATTRIBUTE_CONST;
@@ -1977,7 +1977,7 @@ __GMP_DECLSPEC void __gmp_assert_fail _PROTO ((const char *filename, int linenum
 
 #if HAVE_NATIVE_mpn_com_n
 #define mpn_com_n __MPN(com_n)
-void mpn_com_n _PROTO ((mp_ptr, mp_srcptr, mp_size_t));
+__GMP_DECLSPEC void mpn_com_n _PROTO ((mp_ptr, mp_srcptr, mp_size_t));
 #elif !defined(mpn_com_n)
 #define mpn_com_n(d,s,n)                                \
   do {                                                  \
@@ -3302,7 +3302,7 @@ union ieee_double_extract
 int __gmp_extract_double _PROTO ((mp_ptr, double));
 
 #define mpn_get_d __gmpn_get_d
-double mpn_get_d __GMP_PROTO ((mp_srcptr, mp_size_t, mp_size_t, long)) __GMP_ATTRIBUTE_PURE;
+__GMP_DECLSPEC double mpn_get_d __GMP_PROTO ((mp_srcptr, mp_size_t, mp_size_t, long)) __GMP_ATTRIBUTE_PURE;
 
 
 /* DOUBLE_NAN_INF_ACTION executes code a_nan if x is a NaN, or executes
