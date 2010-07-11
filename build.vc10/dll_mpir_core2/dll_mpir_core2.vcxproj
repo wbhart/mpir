@@ -42,6 +42,8 @@
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'" />
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">mpir</TargetName>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">mpir</TargetName>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(BINDIR)</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(BINDIR)</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <PreBuildEvent>
@@ -66,8 +68,8 @@ call ..\out_copy_rename ..\..\mpirxx.h "$(OutDir)" mpirxx.h
     </Midl>
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>$(OutDir);..\..\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_DEBUG;HAVE_CONFIG_H;__GMP_LIBGMP_DLL;__GMP_WITHIN_GMP;__GMP_WITHIN_GMPXX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(BINDIR);..\..\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_DEBUG;HAVE_CONFIG_H;__GMP_WITHIN_GMP;__GMP_WITHIN_GMPXX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <PrecompiledHeader>
       </PrecompiledHeader>
@@ -86,7 +88,9 @@ call ..\out_copy_rename ..\..\mpirxx.h "$(OutDir)" mpirxx.h
       <TargetMachine>MachineX64</TargetMachine>
     </Link>
     <PostBuildEvent>
-      <Command>echo $(PlatformName)\$(ConfigurationName)\ &gt;..\mpir-tests\dir.txt</Command>
+      <Command>echo $(PlatformName)\$(ConfigurationName)\ &gt;..\mpir-tests\dir.txt
+copy ..\dll.$(Configuration).props ..\mpir-tests\tests.$(Configuration).props
+</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -112,8 +116,8 @@ call ..\out_copy_rename ..\..\mpirxx.h "$(OutDir)" mpirxx.h
     </Midl>
     <ClCompile>
       <Optimization>Full</Optimization>
-      <AdditionalIncludeDirectories>$(OutDir);..\..\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>NDEBUG;HAVE_CONFIG_H;__GMP_LIBGMP_DLL;__GMP_WITHIN_GMP;__GMP_WITHIN_GMPXX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(BINDIR);..\..\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>NDEBUG;HAVE_CONFIG_H;__GMP_WITHIN_GMP;__GMP_WITHIN_GMPXX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <ExceptionHandling>Sync</ExceptionHandling>
       <BufferSecurityCheck>false</BufferSecurityCheck>
@@ -138,7 +142,9 @@ call ..\out_copy_rename ..\..\mpirxx.h "$(OutDir)" mpirxx.h
       <TargetMachine>MachineX64</TargetMachine>
     </Link>
     <PostBuildEvent>
-      <Command>echo $(PlatformName)\$(ConfigurationName)\ &gt;..\mpir-tests\dir.txt</Command>
+      <Command>echo $(PlatformName)\$(ConfigurationName)\ &gt;..\mpir-tests\dir.txt
+copy ..\dll.$(Configuration).props ..\mpir-tests\tests.$(Configuration).props
+</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

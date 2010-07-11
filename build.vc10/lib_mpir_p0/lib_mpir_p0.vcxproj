@@ -41,6 +41,8 @@
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">mpir</TargetName>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(Platform)\$(Configuration)\</IntDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(Platform)\$(Configuration)\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(BINDIR)</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(BINDIR)</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <PreBuildEvent>
@@ -61,7 +63,7 @@ call ..\out_copy_rename ..\..\mpirxx.h "$(OutDir)" mpirxx.h
     </YASM>
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>$(OutDir);..\..\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(BINDIR);..\..\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_DEBUG;_LIB;HAVE_CONFIG_H;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <PrecompiledHeader>
@@ -73,7 +75,9 @@ call ..\out_copy_rename ..\..\mpirxx.h "$(OutDir)" mpirxx.h
     </ClCompile>
     <Lib />
     <PostBuildEvent>
-      <Command>echo $(PlatformName)\$(ConfigurationName)\ &gt;..\mpir-tests\dir.txt</Command>
+      <Command>echo $(PlatformName)\$(ConfigurationName)\ &gt;..\mpir-tests\dir.txt
+copy ..\lib.$(Configuration).props ..\mpir-tests\tests.$(Configuration).props
+</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -95,7 +99,7 @@ call ..\out_copy_rename ..\..\mpirxx.h "$(OutDir)" mpirxx.h
     </YASM>
     <ClCompile>
       <Optimization>Full</Optimization>
-      <AdditionalIncludeDirectories>$(OutDir);..\..\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(BINDIR);..\..\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NDEBUG;_LIB;HAVE_CONFIG_H;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BufferSecurityCheck>false</BufferSecurityCheck>
       <PrecompiledHeader>
@@ -107,7 +111,9 @@ call ..\out_copy_rename ..\..\mpirxx.h "$(OutDir)" mpirxx.h
     </ClCompile>
     <Lib />
     <PostBuildEvent>
-      <Command>echo $(PlatformName)\$(ConfigurationName)\ &gt;..\mpir-tests\dir.txt</Command>
+      <Command>echo $(PlatformName)\$(ConfigurationName)\ &gt;..\mpir-tests\dir.txt
+copy ..\lib.$(Configuration).props ..\mpir-tests\tests.$(Configuration).props
+</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

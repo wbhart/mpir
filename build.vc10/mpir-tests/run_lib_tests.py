@@ -15,7 +15,7 @@ import sys
 t = ''
 with open('dir.txt', 'r') as f:
   t = f.readline().strip()
-xd = os.getcwd() + '\\..\\' + t +'tests\\'
+xd = os.getcwd() + '\\..\\' + t
 print("Testing in ", t)
 
 dir_list = []
