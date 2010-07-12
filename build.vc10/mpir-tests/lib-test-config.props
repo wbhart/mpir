@@ -5,7 +5,7 @@
   </PropertyGroup>
   <PropertyGroup>
     <_ProjectFileVersion>10.0.21006.1</_ProjectFileVersion>
-    <OutDir>$(SolutionDir)mpir-tests\$(PlatformName)\$(Configuration)\</OutDir>
+    <OutDir>$(SolutionDir)$(PlatformName)\$(Configuration)\</OutDir>
     <IntDir>$(PlatformName)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup>

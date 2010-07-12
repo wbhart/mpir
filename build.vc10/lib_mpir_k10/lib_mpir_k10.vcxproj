@@ -43,10 +43,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <PreBuildEvent>
-      <Command>call ..\gen_mpir_h $(Platform)
-call ..\gen_config_h  ..\..\mpn\x86_64w\k8\k10\
-call ..\out_copy_rename  ..\..\mpn\x86_64w\k8\k10\gmp-mparam.h ..\..\ gmp-mparam.h
-</Command>
+      <Command>..\prebuild k10</Command>
     </PreBuildEvent>
     <CustomBuildStep>
       <Command>
@@ -78,31 +75,12 @@ call ..\out_copy_rename  ..\..\mpn\x86_64w\k8\k10\gmp-mparam.h ..\..\ gmp-mparam
     </ClCompile>
     <Lib />
     <PostBuildEvent>
-      <Command>if not exist ..\lib\$(IntDir) md ..\lib\$(IntDir)
-
-call ..\out_copy_rename "..\..\mpir.h" "$(TargetDir)" mpir.h
-call ..\out_copy_rename "..\..\config.h" "$(TargetDir)" config.h
-call ..\out_copy_rename "..\..\gmp-mparam.h" "$(TargetDir)" gmp-mparam.h
-call ..\out_copy_rename "..\..\mpir.h" "$(TargetDir)\" gmp.h
-
-call ..\out_copy_rename "..\..\mpir.h" ..\lib\$(IntDir) mpir.h
-call ..\out_copy_rename "..\..\config.h" ..\lib\$(IntDir) config.h
-call ..\out_copy_rename "..\..\gmp-mparam.h" ..\lib\$(IntDir) gmp-mparam.h
-call ..\out_copy_rename "..\..\mpir.h" ..\lib\$(IntDir) gmp.h
-
-copy "$(TargetDir)$(TargetName).lib" ..\lib\$(IntDir)\mpir.lib
-copy "$(TargetDir)$(TargetName).pdb" ..\lib\$(IntDir)\mpir.pdb
-
-echo $(ProjectDir)+$(IntDir)+$(TargetName)+$(TargetExt) &gt; ..\last_build.txt
-</Command>
+      <Command>..\postbuild "$(TargetPath)"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <PreBuildEvent>
-      <Command>call ..\gen_mpir_h $(Platform)
-call ..\gen_config_h  ..\..\mpn\x86_64w\k8\k10\
-call ..\out_copy_rename  ..\..\mpn\x86_64w\k8\k10\gmp-mparam.h ..\..\ gmp-mparam.h
-</Command>
+      <Command>..\prebuild k10</Command>
     </PreBuildEvent>
     <CustomBuildStep>
       <Command>
@@ -141,23 +119,7 @@ call ..\out_copy_rename  ..\..\mpn\x86_64w\k8\k10\gmp-mparam.h ..\..\ gmp-mparam
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
     </Lib>
     <PostBuildEvent>
-      <Command>if not exist ..\lib\$(IntDir) md ..\lib\$(IntDir)
-
-call ..\out_copy_rename "..\..\mpir.h" "$(TargetDir)" mpir.h
-call ..\out_copy_rename "..\..\config.h" "$(TargetDir)" config.h
-call ..\out_copy_rename "..\..\gmp-mparam.h" "$(TargetDir)" gmp-mparam.h
-call ..\out_copy_rename "..\..\mpir.h" "$(TargetDir)\" gmp.h
-
-call ..\out_copy_rename "..\..\mpir.h" ..\lib\$(IntDir) mpir.h
-call ..\out_copy_rename "..\..\config.h" ..\lib\$(IntDir) config.h
-call ..\out_copy_rename "..\..\gmp-mparam.h" ..\lib\$(IntDir) gmp-mparam.h
-call ..\out_copy_rename "..\..\mpir.h" ..\lib\$(IntDir) gmp.h
-
-copy "$(TargetDir)$(TargetName).lib" ..\lib\$(IntDir)\mpir.lib
-copy "$(TargetDir)$(TargetName).pdb" ..\lib\$(IntDir)\mpir.pdb
-
-echo $(ProjectDir)+$(IntDir)+$(TargetName)+$(TargetExt) &gt; ..\last_build.txt
-</Command>
+      <Command>..\postbuild "$(TargetPath)"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

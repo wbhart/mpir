@@ -4,3 +4,4 @@ for /f  %%a in (%1cfg.h) do (if "%%a" NEQ "" (echo #define HAVE_NATIVE_%%a 1 >>c
 
 type ..\cfg.h >>cfg.h
 call ..\out_copy_rename cfg.h ..\..\ config.h
+del cfg.h

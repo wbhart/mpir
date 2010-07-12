@@ -88,11 +88,6 @@
     <PostBuildEvent>
       <Command>if not exist ..\lib\$(IntDir) md ..\lib\$(IntDir)
 
-call ..\out_copy_rename ..\..\mpirxx.h "$(TargetDir)" mpirxx.h
-call ..\out_copy_rename ..\..\mpirxx.h ..\lib\$(IntDir) mpirxx.h
-call ..\out_copy_rename ..\..\mpirxx.h "$(TargetDir)" gmpxx.h
-call ..\out_copy_rename ..\..\mpirxx.h ..\lib\$(IntDir) gmpxx.h
-
 copy "$(TargetDir)$(TargetName).lib" ..\lib\$(IntDir)\mpirxx.lib
 copy "$(TargetDir)$(TargetName).pdb" ..\lib\$(IntDir)\mpirxx.pdb
 </Command>
@@ -124,11 +119,6 @@ copy "$(TargetDir)$(TargetName).pdb" ..\lib\$(IntDir)\mpirxx.pdb
     <PostBuildEvent>
       <Command>if not exist ..\lib\$(IntDir) md ..\lib\$(IntDir)
 
-call ..\out_copy_rename ..\..\mpirxx.h "$(TargetDir)" mpirxx.h
-call ..\out_copy_rename ..\..\mpirxx.h ..\lib\$(IntDir) mpirxx.h
-call ..\out_copy_rename ..\..\mpirxx.h "$(TargetDir)" gmpxx.h
-call ..\out_copy_rename ..\..\mpirxx.h ..\lib\$(IntDir) gmpxx.h
-
 copy "$(TargetDir)$(TargetName).lib" ..\lib\$(IntDir)\mpirxx.lib
 copy "$(TargetDir)$(TargetName).pdb" ..\lib\$(IntDir)\mpirxx.pdb
 </Command>
@@ -154,11 +144,6 @@ copy "$(TargetDir)$(TargetName).pdb" ..\lib\$(IntDir)\mpirxx.pdb
     <Lib />
     <PostBuildEvent>
       <Command>if not exist ..\lib\$(IntDir) md ..\lib\$(IntDir)
-
-call ..\out_copy_rename ..\..\mpirxx.h "$(TargetDir)" mpirxx.h
-call ..\out_copy_rename ..\..\mpirxx.h ..\lib\$(IntDir) mpirxx.h
-call ..\out_copy_rename ..\..\mpirxx.h "$(TargetDir)" gmpxx.h
-call ..\out_copy_rename ..\..\mpirxx.h ..\lib\$(IntDir) gmpxx.h
 
 copy "$(TargetDir)$(TargetName).lib" ..\lib\$(IntDir)\mpirxx.lib
 copy "$(TargetDir)$(TargetName).pdb" ..\lib\$(IntDir)\mpirxx.pdb
@@ -193,11 +178,6 @@ copy "$(TargetDir)$(TargetName).pdb" ..\lib\$(IntDir)\mpirxx.pdb
     </Lib>
     <PostBuildEvent>
       <Command>if not exist ..\lib\$(IntDir) md ..\lib\$(IntDir)
-
-call ..\out_copy_rename ..\..\mpirxx.h "$(TargetDir)" mpirxx.h
-call ..\out_copy_rename ..\..\mpirxx.h ..\lib\$(IntDir) mpirxx.h
-call ..\out_copy_rename ..\..\mpirxx.h "$(TargetDir)" gmpxx.h
-call ..\out_copy_rename ..\..\mpirxx.h ..\lib\$(IntDir) gmpxx.h
 
 copy "$(TargetDir)$(TargetName).lib" ..\lib\$(IntDir)\mpirxx.lib
 copy "$(TargetDir)$(TargetName).pdb" ..\lib\$(IntDir)\mpirxx.pdb

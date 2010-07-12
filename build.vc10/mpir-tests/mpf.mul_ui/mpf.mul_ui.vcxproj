@@ -65,8 +65,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <PreBuildEvent>
-      <Command>
-      </Command>
+      <Command>..\check_config $(Platform) $(Configuration)</Command>
     </PreBuildEvent>
     <ClCompile>
       <Optimization>Disabled</Optimization>
@@ -88,8 +87,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <PreBuildEvent>
-      <Command>
-      </Command>
+      <Command>..\check_config $(Platform) $(Configuration)</Command>
     </PreBuildEvent>
     <Midl>
       <TargetEnvironment>X64</TargetEnvironment>
@@ -112,8 +110,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <PreBuildEvent>
-      <Command>
-      </Command>
+      <Command>..\check_config $(Platform) $(Configuration)</Command>
     </PreBuildEvent>
     <ClCompile>
       <Optimization>Full</Optimization>
@@ -136,8 +133,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <PreBuildEvent>
-      <Command>
-      </Command>
+      <Command>..\check_config $(Platform) $(Configuration)</Command>
     </PreBuildEvent>
     <Midl>
       <TargetEnvironment>X64</TargetEnvironment>

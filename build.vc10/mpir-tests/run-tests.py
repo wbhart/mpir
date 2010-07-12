@@ -12,11 +12,19 @@ import subprocess
 import code
 import sys
 
-f = open("..\\last_build.txt")
+# lib x64 Release "..\lib\x64\Release"
+ 
+f = open("lastbuild.txt")
 l = f.readline()
 f.close()
-d = l[ : -2].split('+')
-print("Testing project", d[0][d[0].find('gmp') : - 1], "in", d[1])
+d = l[ : -2].split()
+tdir = d[1] + '\\' + d[2] + '\\'
+if d[0] == 'dll':
+# shutil.copy("..\\dll\\" + tdir + "mpir.dll",  os.getcwd())
+  xt = 'Dynamic Link Library'
+else:
+  xt = 'Static Library'
+print('Testing MPIR {:s} in {:s} Configuration'.format(xt, tdir))
 
 dir_list = []
 for x in os.walk(os.getcwd()) :
@@ -36,7 +44,7 @@ prj_list.sort()
 
 exe_list = []
 try :
-  l = os.listdir(os.getcwd() + '\\' + d[1])
+  l = os.listdir(os.getcwd() + '\\..\\' + tdir)
 except :
   print("Tests have not been built for this configuration")
   os._exit(-1)
@@ -55,7 +63,7 @@ run_ok = 0
 run_fail = 0
 for i in prj_list :
   if i in exe_list :
-    ef = '.\\' + d[1] + '\\' + i + '.exe'
+    ef = '.\\..\\' + tdir + '\\' + i + '.exe'
     prc = subprocess.Popen( ef, stdout = subprocess.PIPE,
       stderr = subprocess.STDOUT, creationflags = 0x08000000 )
     output = prc.communicate()[0]
