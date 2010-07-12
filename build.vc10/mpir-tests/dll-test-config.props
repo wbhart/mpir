@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup Label="UserMacros">
-    <LIBS>$(SolutionDir)dll\$(Platform)\$(Configuration)\mpir.lib;$(LIBS)</LIBS>
+    <MPLIBS>$(SolutionDir)dll\$(Platform)\$(Configuration)\mpir.lib</MPLIBS>
   </PropertyGroup>
   <PropertyGroup>
     <_ProjectFileVersion>10.0.21006.1</_ProjectFileVersion>
@@ -11,11 +11,11 @@
   <ItemDefinitionGroup>
     <ClCompile>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
-      <AdditionalIncludeDirectories>$(SolutionDir)..\;$(SolutionDir)$(PlatformName);$(SolutionDir)..\tests</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\;$(SolutionDir)..\tests</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>__GMP_LIBGMP_DLL</PreprocessorDefinitions>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>$(LIBS);$(OutDir)\add-test-lib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>$(MPLIBS);$(OutDir)\add-test-lib.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
     </Link>
     <PreBuildEvent>
@@ -23,8 +23,8 @@
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <BuildMacro Include="LIBS">
-      <Value>$(LIBS)</Value>
+    <BuildMacro Include="MPLIBS">
+      <Value>$(MPLIBS)</Value>
       <EnvironmentVariable>true</EnvironmentVariable>
     </BuildMacro>
   </ItemGroup>

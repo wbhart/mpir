@@ -15,10 +15,13 @@ call :no_spc %1
 set in_plf=%_res%
 call :no_spc %2
 set in_cnf=%_res%
-echo %odir%\mpirxx.lib
-if "%tpe%" NEQ "%in_tpe%" (call :seterr & echo ERROR: last MPIR build was a %tpe%, not a %in_tpe% & exit /b %errorlevel%)
+
 if "%tpe%" EQU "lib" if not exist ..\%odir%\mpirxx.lib (call :seterr & echo ERROR: static library tests need 'mpirxx.lib' & exit /b %errorlevel%)
-if "%in_plf%" EQU "%plf%" if "%in_cnf%" EQU "%cnf%" echo OK & exit /b 0
+if "%in_plf%" EQU "%plf%" if "%in_cnf%" EQU "%cnf%" if "%in_tpe%" EQU "%tpe%" echo OK & exit /b 0
+
+call :seterr
+echo ERROR Last MPIR build was %tpe%\%plf%\%cnf%, not %in_tpe%\%in_plf%\%in_cnf%
+exit /b %errorlevel%
 
 call :seterr
 echo ERROR Last MPIR build was %plf%\%cnf%, not %in_plf%\%in_cnf%
