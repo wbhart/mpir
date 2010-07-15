@@ -15,16 +15,18 @@ if not exist %odir% md %odir%
 call :copyh %tdir% %odir%
 
 if "%extn%" EQU "dll" (
-copy %tdir%\mpir.dll %odir%\mpir.dll
-copy %tdir%\mpir.exp %odir%\mpir.exp
-copy %tdir%\mpir.lib %odir%\mpir.lib
-copy %tdir%\mpir.pdb %odir%\mpir.pdb
-copy ..\mpir-tests\dll-test-config.props ..\mpir-tests\test-config.props
+	copy %tdir%\mpir.dll %odir%\mpir.dll
+	copy %tdir%\mpir.exp %odir%\mpir.exp
+	copy %tdir%\mpir.lib %odir%\mpir.lib
+	copy %tdir%\mpir.pdb %odir%\mpir.pdb
+	copy ..\mpir-tests\dll-test-config.props ..\mpir-tests\test-config.props
 ) else if "%extn%" EQU "lib" (
-copy %tdir%\mpir.lib %odir%\mpir.lib
-copy %tdir%\mpir.pdb %odir%\mpir.pdb
-copy ..\mpir-tests\lib-test-config.props ..\mpir-tests\test-config.props
-) else (call :seterr & echo ERROR: illegal library type %extn%  & exit /b %errorlevel%)
+	copy %tdir%\mpir.lib %odir%\mpir.lib
+	copy %tdir%\mpir.pdb %odir%\mpir.pdb
+	copy ..\mpir-tests\lib-test-config.props ..\mpir-tests\test-config.props
+) else (
+	call :seterr & echo ERROR: illegal library type %extn%  & exit /b %errorlevel%
+)
 exit /b 0
 
 :copyh
@@ -36,7 +38,7 @@ if exist %1\mpirxx.h (copy %1\mpirxx.h %2\mpirxx.h & copy %1\mpirxx.h %2\gmpxx.h
 exit /b 0
 
 :parse
-for /f "tokens=1,2,3,4,5,6,7,8,9,10,11,12 delims=\" %%a in (%1) do (
+for /f "tokens=1-12 delims=\" %%a in (%1) do (
   if "%%a" EQU "build.vc10" ((set plf=%%b) & (set cnf=%%c) & (set fnx=%%d))
   if "%%b" EQU "build.vc10" ((set plf=%%c) & (set cnf=%%d) & (set fnx=%%e))
   if "%%c" EQU "build.vc10" ((set plf=%%d) & (set cnf=%%e) & (set fnx=%%f))
