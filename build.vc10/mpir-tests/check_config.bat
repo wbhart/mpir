@@ -11,10 +11,8 @@ fc ..\dll-test-config.props ..\test-config.props > nul && ((set in_tpe=dll) & go
 call :seterr & echo ERROR: cannot determine library type (static or DLL) to test & exit /b %errorlevel%
 
 :cont
-call :no_spc %1
-set in_plf=%_res%
-call :no_spc %2
-set in_cnf=%_res%
+call :no_spc in_plf, %1
+call :no_spc in_cnf, %2
 
 if "%tpe%" EQU "lib" if not exist ..\%odir%\mpirxx.lib (call :seterr & echo ERROR: static library tests need 'mpirxx.lib' & exit /b %errorlevel%)
 if "%in_plf%" EQU "%plf%" if "%in_cnf%" EQU "%cnf%" if "%in_tpe%" EQU "%tpe%" echo OK & exit /b 0
@@ -34,6 +32,6 @@ exit /b 0
 exit /b 1
 
 :no_spc
-set _t=%1#
+set _t=#%2#
 set _tt=%_t: =%
-set _res=%_tt:~0,-1%
+set %1=%_tt:~1,-1%
