@@ -87,7 +87,7 @@ CONFIG_HEADER = $(top_builddir)/config.h
 CONFIG_CLEAN_FILES =
 LTLIBRARIES = $(noinst_LTLIBRARIES)
 am__DEPENDENCIES_1 =
-nodist_libmpn_la_OBJECTS = fib_table.lo mp_bases.lo
+nodist_libmpn_la_OBJECTS = fib_table.lo
 libmpn_la_OBJECTS = $(nodist_libmpn_la_OBJECTS)
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
 depcomp =
@@ -246,7 +246,7 @@ INCLUDES = -D__GMP_WITHIN_GMP -I$(top_srcdir) \
 
 OFILES = @mpn_objects@
 noinst_LTLIBRARIES = libmpn.la
-nodist_libmpn_la_SOURCES = fib_table.c mp_bases.c
+nodist_libmpn_la_SOURCES = fib_table.c
 libmpn_la_LIBADD = $(OFILES)
 libmpn_la_DEPENDENCIES = $(OFILES)
 TARG_DIST = alpha arm generic ia64 m68k \
@@ -526,8 +526,6 @@ uninstall-am:
 #
 fib_table.c:
 	cd ..; $(MAKE) $(AM_MAKEFLAGS) mpn/fib_table.c
-mp_bases.c:
-	cd ..; $(MAKE) $(AM_MAKEFLAGS) mpn/mp_bases.c
 perfsqr.h:
 	cd ..; $(MAKE) $(AM_MAKEFLAGS) mpn/perfsqr.h
 

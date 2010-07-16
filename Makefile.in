@@ -395,7 +395,7 @@ EXTRA_DIST = configfsf.guess configfsf.sub .gdbinit INSTALL.autoconf \
 	mpirxx.h yasm_mac.inc.fat yasm_mac.inc.nofat strip_fPIC.sh \
 	mpn/x86w mpn/x86_64w build.vc9 build.vc10 doc/devel \
 	doc/fdl.texi cpuid.c gpl-2.0.txt lgpl-2.1.txt dumbmp.c \
-	gen-fib.c gen-bases.c gen-psqr.c
+	gen-fib.c gen-psqr.c
 @WANT_CXX_TRUE@GMPXX_HEADERS_OPTION = mpirxx.h
 
 # mpir.h and mp.h are architecture dependent, mainly since they encode the
@@ -412,10 +412,9 @@ include_HEADERS = $(GMPXX_HEADERS_OPTION)
 nodist_includeexec_HEADERS = mpir.h
 lib_LTLIBRARIES = libmpir.la $(am__append_2) \
 	$(GMPXX_LTLIBRARIES_OPTION)
-BUILT_SOURCES = mpir.h mpn/fib_table.c mpn/mp_bases.c mpn/perfsqr.h
+BUILT_SOURCES = mpir.h mpn/fib_table.c mpn/perfsqr.h
 DISTCLEANFILES = $(BUILT_SOURCES) config.m4 fat.h @gmp_srclinks@ \
-	gen-fib$(EXEEXT_FOR_BUILD) gen-bases$(EXEEXT_FOR_BUILD) \
-	gen-psqr$(EXEEXT_FOR_BUILD)
+	gen-fib$(EXEEXT_FOR_BUILD) gen-psqr$(EXEEXT_FOR_BUILD)
 
 # Tell mpir.h it's building gmp, not an application, used by windows DLL stuff.
 INCLUDES = -D__GMP_WITHIN_GMP
@@ -499,7 +498,7 @@ MPQ_OBJECTS = mpq/abs$U.lo mpq/aors$U.lo				\
   mpq/equal$U.lo mpq/set_z$U.lo mpq/set_d$U.lo				\
   mpq/set_f$U.lo mpq/swap$U.lo
 
-MPN_OBJECTS = mpn/fib_table$U.lo mpn/mp_bases$U.lo
+MPN_OBJECTS = mpn/fib_table$U.lo
 PRINTF_OBJECTS = \
   printf/asprintf$U.lo printf/asprntffuns$U.lo				\
   printf/doprnt$U.lo printf/doprntf$U.lo printf/doprnti$U.lo		\
@@ -1175,15 +1174,6 @@ gen-fib$(EXEEXT_FOR_BUILD): gen-fib$(U_FOR_BUILD).c dumbmp.c
 
 gen-fib_.c: gen-fib.c
 	$(CPP_FOR_BUILD) `if test -f $(srcdir)/gen-fib.c; then echo $(srcdir)/gen-fib.c; else echo gen-fib.c; fi` | sed 's/^# \([0-9]\)/#line \1/' > gen-fib_.c || rm -f gen-fib_.c
-
-mpn/mp_bases.c: gen-bases$(EXEEXT_FOR_BUILD)
-	./gen-bases table $(BITS_PER_MP_LIMB) $(GMP_NAIL_BITS) >mpn/mp_bases.c || (rm -f mpn/mp_bases.c; exit 1)
-
-gen-bases$(EXEEXT_FOR_BUILD): gen-bases$(U_FOR_BUILD).c dumbmp.c
-	$(CC_FOR_BUILD) `test -f 'gen-bases$(U_FOR_BUILD).c' || echo '$(srcdir)/'`gen-bases$(U_FOR_BUILD).c -o gen-bases$(EXEEXT_FOR_BUILD) $(LIBM_FOR_BUILD)
-
-gen-bases_.c: gen-bases.c
-	$(CPP_FOR_BUILD) `if test -f $(srcdir)/gen-bases.c; then echo $(srcdir)/gen-bases.c; else echo gen-bases.c; fi` | sed 's/^# \([0-9]\)/#line \1/' > gen-bases_.c || rm -f gen-bases_.c
 
 mpn/perfsqr.h: gen-psqr$(EXEEXT_FOR_BUILD)
 	./gen-psqr $(BITS_PER_MP_LIMB) $(GMP_NAIL_BITS) >mpn/perfsqr.h || (rm -f mpn/perfsqr.h; exit 1)
