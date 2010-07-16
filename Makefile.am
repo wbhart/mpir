@@ -212,7 +212,7 @@ MPQ_OBJECTS = mpq/abs$U.lo mpq/aors$U.lo				\
   mpq/equal$U.lo mpq/set_z$U.lo mpq/set_d$U.lo				\
   mpq/set_f$U.lo mpq/swap$U.lo
 
-MPN_OBJECTS = mpn/fib_table$U.lo mpn/mp_bases$U.lo
+MPN_OBJECTS = mpn/fib_table$U.lo
 
 PRINTF_OBJECTS =							\
   printf/asprintf$U.lo printf/asprntffuns$U.lo				\
