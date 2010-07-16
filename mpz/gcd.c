@@ -165,7 +165,7 @@ gcd (mpz_srcptr u, mpz_srcptr v, mpz_ptr g)
 
 void
 mpz_ngcd (mpz_ptr g, mpz_srcptr u, mpz_srcptr v)
-  GCD_BODY(mpn_ngcd)
+  GCD_BODY(mpn_gcd)
 
 void
 mpz_lgcd (mpz_ptr g, mpz_srcptr u, mpz_srcptr v)

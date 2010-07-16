@@ -3663,9 +3663,6 @@ mp_size_t
 mpn_ngcd_lehmer (mp_ptr gp, mp_ptr ap, mp_ptr bp, mp_size_t n, mp_ptr tp);
 
 mp_size_t
-mpn_ngcd (mp_ptr gp, mp_ptr ap, mp_size_t an, mp_ptr bp, mp_size_t n);
-
-mp_size_t
 mpn_lgcd (mp_ptr gp, mp_ptr ap, mp_size_t an, mp_ptr bp, mp_size_t bn);
 
 #ifndef NHGCD_THRESHOLD
