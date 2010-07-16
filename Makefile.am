@@ -212,7 +212,7 @@ MPQ_OBJECTS = mpq/abs$U.lo mpq/aors$U.lo				\
   mpq/equal$U.lo mpq/set_z$U.lo mpq/set_d$U.lo				\
   mpq/set_f$U.lo mpq/swap$U.lo
 
-MPN_OBJECTS = mpn/fib_table$U.lo
+#MPN_OBJECTS = mpn/fib_table$U.lo
 
 PRINTF_OBJECTS =							\
   printf/asprintf$U.lo printf/asprntffuns$U.lo				\
@@ -336,19 +336,6 @@ endif
 # them.
 
 EXTRA_DIST += dumbmp.c
-
-mpn/fib_table.c: gen-fib$(EXEEXT_FOR_BUILD)
-	./gen-fib table $(BITS_PER_MP_LIMB) $(GMP_NAIL_BITS) >mpn/fib_table.c || (rm -f mpn/fib_table.c; exit 1)
-BUILT_SOURCES += mpn/fib_table.c
-
-gen-fib$(EXEEXT_FOR_BUILD): gen-fib$(U_FOR_BUILD).c dumbmp.c
-	$(CC_FOR_BUILD) `test -f 'gen-fib$(U_FOR_BUILD).c' || echo '$(srcdir)/'`gen-fib$(U_FOR_BUILD).c -o gen-fib$(EXEEXT_FOR_BUILD)
-DISTCLEANFILES += gen-fib$(EXEEXT_FOR_BUILD)
-EXTRA_DIST += gen-fib.c
-
-gen-fib_.c: gen-fib.c
-	$(CPP_FOR_BUILD) `if test -f $(srcdir)/gen-fib.c; then echo $(srcdir)/gen-fib.c; else echo gen-fib.c; fi` | sed 's/^# \([0-9]\)/#line \1/' > gen-fib_.c || rm -f gen-fib_.c
-
 
 mpn/perfsqr.h: gen-psqr$(EXEEXT_FOR_BUILD)
 	./gen-psqr $(BITS_PER_MP_LIMB) $(GMP_NAIL_BITS) >mpn/perfsqr.h || (rm -f mpn/perfsqr.h; exit 1)

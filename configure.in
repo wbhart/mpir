@@ -2321,7 +2321,7 @@ gmp_mpn_functions="$extra_functions					   \
   add_err1_n add_err2_n sub_err1_n sub_err2_n				   \
   fib2_ui mod_1 mod_34lsub1 mode1o pre_divrem_1 pre_mod_1 dump		   \
   lgcd ngcd_matrix ngcd_step nhgcd2                        \
-  mod_1_1 mod_1_2 mod_1_3 tdiv_q mp_bases				\
+  mod_1_1 mod_1_2 mod_1_3 tdiv_q mp_bases fib_table			\
   mulmid_basecase mulmid mulmid_n toom42_mulmid	mulmod_2expp1 mulmod_2expm1	\
   mul mul_fft mul_n mul_basecase sqr_basecase random random2 pow_1	   \
   urandomb urandomm randomb rrandom invert dc_divappr_q_n \	
