@@ -428,9 +428,6 @@
     <ClCompile Include="..\..\mpn\generic\neg_n.c">
       <Filter>Source Files\mpn</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\mpn\generic\ngcd.c">
-      <Filter>Source Files\mpn</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\mpn\generic\ngcd_matrix.c">
       <Filter>Source Files\mpn</Filter>
     </ClCompile>

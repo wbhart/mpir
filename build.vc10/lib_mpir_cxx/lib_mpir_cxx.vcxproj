@@ -58,10 +58,10 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
     <_ProjectFileVersion>10.0.21006.1</_ProjectFileVersion>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">mpircxx</TargetName>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">mpircxx</TargetName>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">mpircxx</TargetName>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">mpircxx</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">mpirxx</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">mpirxx</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">mpirxx</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">mpirxx</TargetName>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(Platform)\$(Configuration)\</IntDir>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
@@ -88,8 +88,8 @@
     <PostBuildEvent>
       <Command>if not exist ..\lib\$(IntDir) md ..\lib\$(IntDir)
 
-copy "$(TargetDir)$(TargetName).lib" ..\lib\$(IntDir)\mpirxx.lib
-copy "$(TargetDir)$(TargetName).pdb" ..\lib\$(IntDir)\mpirxx.pdb
+copy "$(TargetDir)$(TargetName).lib" ..\lib\$(IntDir)\
+copy "$(TargetDir)$(TargetName).pdb" ..\lib\$(IntDir)\
 </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -119,8 +119,8 @@ copy "$(TargetDir)$(TargetName).pdb" ..\lib\$(IntDir)\mpirxx.pdb
     <PostBuildEvent>
       <Command>if not exist ..\lib\$(IntDir) md ..\lib\$(IntDir)
 
-copy "$(TargetDir)$(TargetName).lib" ..\lib\$(IntDir)\mpirxx.lib
-copy "$(TargetDir)$(TargetName).pdb" ..\lib\$(IntDir)\mpirxx.pdb
+copy "$(TargetDir)$(TargetName).lib" ..\lib\$(IntDir)\
+copy "$(TargetDir)$(TargetName).pdb" ..\lib\$(IntDir)\
 </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -145,8 +145,8 @@ copy "$(TargetDir)$(TargetName).pdb" ..\lib\$(IntDir)\mpirxx.pdb
     <PostBuildEvent>
       <Command>if not exist ..\lib\$(IntDir) md ..\lib\$(IntDir)
 
-copy "$(TargetDir)$(TargetName).lib" ..\lib\$(IntDir)\mpirxx.lib
-copy "$(TargetDir)$(TargetName).pdb" ..\lib\$(IntDir)\mpirxx.pdb
+copy "$(TargetDir)$(TargetName).lib" ..\lib\$(IntDir)\
+copy "$(TargetDir)$(TargetName).pdb" ..\lib\$(IntDir)\
 </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -179,8 +179,8 @@ copy "$(TargetDir)$(TargetName).pdb" ..\lib\$(IntDir)\mpirxx.pdb
     <PostBuildEvent>
       <Command>if not exist ..\lib\$(IntDir) md ..\lib\$(IntDir)
 
-copy "$(TargetDir)$(TargetName).lib" ..\lib\$(IntDir)\mpirxx.lib
-copy "$(TargetDir)$(TargetName).pdb" ..\lib\$(IntDir)\mpirxx.pdb
+copy "$(TargetDir)$(TargetName).lib" ..\lib\$(IntDir)\
+copy "$(TargetDir)$(TargetName).pdb" ..\lib\$(IntDir)\
 </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>

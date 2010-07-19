@@ -452,9 +452,6 @@
     <ClCompile Include="..\..\mpn\generic\neg_n.c">
       <Filter>Source Files\mpn</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\mpn\generic\ngcd.c">
-      <Filter>Source Files\mpn</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\mpn\generic\ngcd_matrix.c">
       <Filter>Source Files\mpn</Filter>
     </ClCompile>
@@ -1456,6 +1453,9 @@
     </ClCompile>
     <ClCompile Include="..\..\mpn\generic\mp_bases.c">
       <Filter>Source Files\mpn</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\mpz\probable_prime_p.c">
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\mpz\probable_prime_p.c">
       <Filter>Source Files</Filter>
