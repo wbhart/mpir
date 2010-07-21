@@ -27,7 +27,7 @@ INCLUDES = -D__GMP_WITHIN_GMP -I$(top_srcdir) \
 OFILES = @mpn_objects@
 
 noinst_LTLIBRARIES = libmpn.la
-#nodist_libmpn_la_SOURCES = fib_table.c
+nodist_libmpn_la_SOURCES = dummy1.c
 libmpn_la_LIBADD = $(OFILES)
 libmpn_la_DEPENDENCIES = $(OFILES)
 
@@ -43,6 +43,8 @@ EXTRA_DIST = asm-defs.m4 cpp-ccas m4-ccas $(TARG_DIST)
 #
 perfsqr.h:
 	cd ..; $(MAKE) $(AM_MAKEFLAGS) mpn/perfsqr.h
+dummy1.c:
+	cd ..; $(MAKE) $(AM_MAKEFLAGS) mpn/dummy1.c
 
 
 include Makeasm.am

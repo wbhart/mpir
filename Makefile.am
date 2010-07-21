@@ -212,7 +212,7 @@ MPQ_OBJECTS = mpq/abs$U.lo mpq/aors$U.lo				\
   mpq/equal$U.lo mpq/set_z$U.lo mpq/set_d$U.lo				\
   mpq/set_f$U.lo mpq/swap$U.lo
 
-#MPN_OBJECTS = mpn/fib_table$U.lo
+MPN_OBJECTS = mpn/dummy1$U.lo
 
 PRINTF_OBJECTS =							\
   printf/asprintf$U.lo printf/asprntffuns$U.lo				\
@@ -348,6 +348,11 @@ EXTRA_DIST += gen-psqr.c
 
 gen-psqr_.c: gen-psqr.c
 	$(CPP_FOR_BUILD) `if test -f $(srcdir)/gen-psqr.c; then echo $(srcdir)/gen-psqr.c; else echo gen-psqr.c; fi` | sed 's/^# \([0-9]\)/#line \1/' > gen-psqr_.c || rm -f gen-psqr_.c
+
+mpn/dummy1.c:
+	echo "void dummy1(void){return;}" > mpn/dummy1.c
+BUILT_SOURCES += mpn/dummy1.c
+
 
 
 # Avoid: CVS - cvs directories
