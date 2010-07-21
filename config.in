@@ -168,9 +168,6 @@ MA 02110-1301, USA.
 /* Define to 1 if you have the <inttypes.h> header file. */
 #undef HAVE_INTTYPES_H
 
-/* Define to 1 if you have the <invent.h> header file. */
-#undef HAVE_INVENT_H
-
 /* Define to 1 if you have the <langinfo.h> header file. */
 #undef HAVE_LANGINFO_H
 
@@ -388,12 +385,6 @@ MA 02110-1301, USA.
 /* Define to 1 if you have the `syssgi' function. */
 #undef HAVE_SYSSGI
 
-/* Define to 1 if you have the <sys/attributes.h> header file. */
-#undef HAVE_SYS_ATTRIBUTES_H
-
-/* Define to 1 if you have the <sys/iograph.h> header file. */
-#undef HAVE_SYS_IOGRAPH_H
-
 /* Define to 1 if you have the <sys/mman.h> header file. */
 #undef HAVE_SYS_MMAN_H
 
@@ -417,9 +408,6 @@ MA 02110-1301, USA.
 
 /* Define to 1 if you have the <sys/sysinfo.h> header file. */
 #undef HAVE_SYS_SYSINFO_H
-
-/* Define to 1 if you have the <sys/syssgi.h> header file. */
-#undef HAVE_SYS_SYSSGI_H
 
 /* Define to 1 if you have the <sys/systemcfg.h> header file. */
 #undef HAVE_SYS_SYSTEMCFG_H
