@@ -856,23 +856,6 @@ __GMP_DECLSPEC void __gmp_default_free _PROTO ((void *, size_t));
 #define ASM_L(name)  LSYM_PREFIX "asm_%=_" #name
 
 
-#if defined (__GNUC__) && HAVE_HOST_CPU_FAMILY_x86
-#if 0
-/* FIXME: Check that these actually improve things.
-   FIXME: Need a cld after each std.
-   FIXME: Can't have inputs in clobbered registers, must describe them as
-   dummy outputs, and add volatile. */
-#define MPN_COPY_INCR(DST, SRC, N)					\
-  __asm__ ("cld\n\trep\n\tmovsl" : :					\
-	   "D" (DST), "S" (SRC), "c" (N) :				\
-	   "cx", "di", "si", "memory")
-#define MPN_COPY_DECR(DST, SRC, N)					\
-  __asm__ ("std\n\trep\n\tmovsl" : :					\
-	   "D" ((DST) + (N) - 1), "S" ((SRC) + (N) - 1), "c" (N) :	\
-	   "cx", "di", "si", "memory")
-#endif
-#endif
-
 __GMP_DECLSPEC int is_likely_prime_BPSW(mp_limb_t n);
 
 __GMP_DECLSPEC mp_limb_t n_sqrt(mp_limb_t r);
@@ -1367,14 +1350,6 @@ mp_size_t mpn_rootrem _PROTO ((mp_ptr, mp_ptr, mp_srcptr, mp_size_t, mp_limb_t))
 #define mpn_rootrem_basecase __MPN(rootrem_basecase)
 mp_size_t mpn_rootrem_basecase _PROTO ((mp_ptr, mp_ptr, mp_srcptr, mp_size_t, mp_limb_t));
 
-/*	now in mpir.h
-// used by test programs, hence __GMP_DECLSPEC 
-#ifndef mpn_copyi  // if not done with cpuvec in a fat binary 
-#define mpn_copyi __MPN(copyi)
-__GMP_DECLSPEC void mpn_copyi _PROTO ((mp_ptr, mp_srcptr, mp_size_t));
-#endif
-*/
-
 #if ! defined (MPN_COPY_INCR) && HAVE_NATIVE_mpn_copyi
 #define MPN_COPY_INCR(dst, src, size)                   \
   do {                                                  \
@@ -1410,14 +1385,6 @@ __GMP_DECLSPEC void mpn_copyi _PROTO ((mp_ptr, mp_srcptr, mp_size_t));
       }                                                 \
   } while (0)
 #endif
-
-/*		now in mpir.h
-// used by test programs, hence __GMP_DECLSPEC 
-#ifndef mpn_copyd  // if not done with cpuvec in a fat binary 
-#define mpn_copyd __MPN(copyd)
-__GMP_DECLSPEC void mpn_copyd _PROTO ((mp_ptr, mp_srcptr, mp_size_t));
-#endif
-*/
 
 #if ! defined (MPN_COPY_DECR) && HAVE_NATIVE_mpn_copyd
 #define MPN_COPY_DECR(dst, src, size)                   \
@@ -1603,24 +1570,6 @@ __GMP_DECLSPEC extern const mp_limb_t __gmp_fib_table[];
    || ((thresh) != MP_SIZE_T_MAX        \
        && (size) >= (thresh)))
 #define BELOW_THRESHOLD(size,thresh)  (! ABOVE_THRESHOLD (size, thresh))
-
-/* Usage: int  use_foo = BELOW_THRESHOLD (size, FOO_THRESHOLD);
-          ...
-          if (CACHED_BELOW_THRESHOLD (use_foo, size, FOO_THRESHOLD))
-
-   When "use_foo" is a constant (thresh is 0 or MP_SIZE_T), gcc prior to
-   version 3.3 doesn't optimize away a test "if (use_foo)" when within a
-   loop.  CACHED_BELOW_THRESHOLD helps it do so.  */
-
-#define CACHED_ABOVE_THRESHOLD(cache, thresh)           \
-  ((thresh) == 0 || (thresh) == MP_SIZE_T_MAX           \
-   ? ABOVE_THRESHOLD (0, thresh)                        \
-   : (cache))
-#define CACHED_BELOW_THRESHOLD(cache, thresh)           \
-  ((thresh) == 0 || (thresh) == MP_SIZE_T_MAX           \
-   ? BELOW_THRESHOLD (0, thresh)                        \
-   : (cache))
-
 
 /* If MUL_KARATSUBA_THRESHOLD is not already defined, define it to a
    value which is good on most machines.  */
@@ -3661,7 +3610,6 @@ void __gmp_invalid_operation _PROTO ((void)) ATTRIBUTE_NORETURN;
 
 /* ngcd definitions */
 
-#define mpn_ngcd2 __MPN (ngcd2)
 #define mpn_ngcd_matrix1_vector __MPN (ngcd_matrix1_vector)
 
 #define mpn_ngcd_matrix_init __MPN (ngcd_matrix_init)
@@ -4414,13 +4362,6 @@ extern mp_size_t  mpn_fft_table[2][MPN_FFT_TABLE_SIZE];
 #define SQR_TOOM4_THRESHOLD_LIMIT       1000
 #define SQR_TOOM8_THRESHOLD_LIMIT       2000
 #define GET_STR_THRESHOLD_LIMIT         150
-
-/* "thresh" will normally be a variable when tuning, so use the cached
-   result. */ 
-#undef  CACHED_ABOVE_THRESHOLD
-#define CACHED_ABOVE_THRESHOLD(cache, thresh)  (cache)
-#undef  CACHED_BELOW_THRESHOLD
-#define CACHED_BELOW_THRESHOLD(cache, thresh)  (cache)
 
 #endif /* TUNE_PROGRAM_BUILD */
 

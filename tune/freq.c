@@ -93,10 +93,6 @@ MA 02110-1301, USA. */
 #include <sys/sysinfo.h>  /* for OSF getsysinfo */
 #endif
 
-#if HAVE_MACHINE_HAL_SYSINFO_H
-#include <machine/hal_sysinfo.h>  /* for OSF GSI_CPU_INFO, struct cpu_info */
-#endif
-
 /* Remove definitions from NetBSD <sys/param.h>, to avoid conflicts with
    gmp-impl.h. */
 #ifdef MIN

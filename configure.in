@@ -2110,7 +2110,6 @@ AC_HEADER_TIME
 #   sys/systemcfg.h - AIX specific
 #   sys/time.h - autoconf suggests testing, don't know anywhere without it
 #   sys/times.h - not in mingw
-#   machine/hal_sysinfo.h - OSF specific
 #
 # inttypes.h, stdint.h, unistd.h and sys/types.h are already in the autoconf
 # default tests
