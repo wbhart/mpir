@@ -186,10 +186,6 @@ MA 02110-1301, USA. */
 #include <sys/resource.h>  /* for struct rusage */
 #endif
 
-#if HAVE_SYS_SYSSGI_H
-#include <sys/syssgi.h>    /* for syssgi() */
-#endif
-
 #if HAVE_SYS_SYSTEMCFG_H
 #include <sys/systemcfg.h> /* for RTC_POWER on AIX */
 #endif

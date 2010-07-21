@@ -43,10 +43,6 @@ MA 02110-1301, USA. */
 
 #include "config.h"
 
-#if HAVE_INVENT_H
-#include <invent.h> /* for IRIX invent_cpuinfo_t */
-#endif
-
 #include <stdio.h>
 #include <stdlib.h> /* for getenv, qsort */
 #include <string.h> /* for memcmp */
@@ -56,14 +52,6 @@ MA 02110-1301, USA. */
 #endif
 
 #include <sys/types.h>
-
-#if HAVE_SYS_ATTRIBUTES_H
-#include <sys/attributes.h>   /* for IRIX attr_get(), needs sys/types.h */
-#endif
-
-#if HAVE_SYS_IOGRAPH_H
-#include <sys/iograph.h>      /* for IRIX INFO_LBL_DETAIL_INVENT */
-#endif
 
 #if HAVE_SYS_PARAM_H     /* for constants needed by NetBSD <sys/sysctl.h> */
 #include <sys/param.h>   /* and needed by HPUX <sys/pstat.h> */

@@ -680,7 +680,7 @@ case $host in
     GMP_INCLUDE_MPN(mips32/mips-defs.m4)
 
     case $host in
-      [mips64*-*-* | mips*-*-irix[6789]*])
+      [mips64*-*-*])
         abilist="64 n32 o32"
 
         cclist_n32="gcc cc"
@@ -2096,13 +2096,10 @@ AC_HEADER_TIME
 
 # Reasons for testing:
 #   float.h - not in SunOS bundled cc
-#   invent.h - IRIX specific
 #   langinfo.h - X/Open standard only, not in djgpp for instance
 #   locale.h - old systems won't have this
 #   nl_types.h - X/Open standard only, not in djgpp for instance
 #       (usually langinfo.h gives nl_item etc, but not on netbsd 1.4.1)
-#   sys/attributes.h - IRIX specific
-#   sys/iograph.h - IRIX specific
 #   sys/mman.h - not in Cray Unicos
 #   sys/param.h - not in mingw
 #   sys/processor.h - solaris specific, though also present in macos
@@ -2110,7 +2107,6 @@ AC_HEADER_TIME
 #   sys/resource.h - not in mingw
 #   sys/sysctl.h - not in mingw
 #   sys/sysinfo.h - OSF specific
-#   sys/syssgi.h - IRIX specific
 #   sys/systemcfg.h - AIX specific
 #   sys/time.h - autoconf suggests testing, don't know anywhere without it
 #   sys/times.h - not in mingw
@@ -2119,7 +2115,7 @@ AC_HEADER_TIME
 # inttypes.h, stdint.h, unistd.h and sys/types.h are already in the autoconf
 # default tests
 #
-AC_CHECK_HEADERS(fcntl.h float.h invent.h langinfo.h locale.h nl_types.h sys/attributes.h sys/iograph.h sys/mman.h sys/param.h sys/processor.h sys/pstat.h sys/sysinfo.h sys/syssgi.h sys/systemcfg.h sys/time.h sys/times.h)
+AC_CHECK_HEADERS(fcntl.h float.h langinfo.h locale.h nl_types.h sys/mman.h sys/param.h sys/processor.h sys/pstat.h sys/sysinfo.h sys/systemcfg.h sys/time.h sys/times.h)
 
 # On SunOS, sys/resource.h needs sys/time.h (for struct timeval)
 AC_CHECK_HEADERS(sys/resource.h,,,
