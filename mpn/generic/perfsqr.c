@@ -26,9 +26,6 @@ MA 02110-1301, USA. */
 #include "gmp-impl.h"
 #include "longlong.h"
 
-#include "perfsqr.h"
-
-
 /* change this to "#define TRACE(x) x" for diagnostics */
 #define TRACE(x) 
 

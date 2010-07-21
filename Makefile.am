@@ -1,4 +1,4 @@
-## Process this file with automake to generate Makefile.in
+# Process this file with automake to generate Makefile.in
 
 
 # Copyright 1991, 1993, 1994, 1996, 1997, 1999, 2000, 2001, 2002, 2003, 2004,
@@ -334,20 +334,6 @@ endif
 # build-system stuff over and done with at the start.  Also, dependencies on
 # the .h files are not properly expressed for the various objects that use
 # them.
-
-EXTRA_DIST += dumbmp.c
-
-mpn/perfsqr.h: gen-psqr$(EXEEXT_FOR_BUILD)
-	./gen-psqr $(BITS_PER_MP_LIMB) $(GMP_NAIL_BITS) >mpn/perfsqr.h || (rm -f mpn/perfsqr.h; exit 1)
-BUILT_SOURCES += mpn/perfsqr.h
-
-gen-psqr$(EXEEXT_FOR_BUILD): gen-psqr$(U_FOR_BUILD).c dumbmp.c
-	$(CC_FOR_BUILD) `test -f 'gen-psqr$(U_FOR_BUILD).c' || echo '$(srcdir)/'`gen-psqr$(U_FOR_BUILD).c -o gen-psqr$(EXEEXT_FOR_BUILD) $(LIBM_FOR_BUILD)
-DISTCLEANFILES += gen-psqr$(EXEEXT_FOR_BUILD)
-EXTRA_DIST += gen-psqr.c
-
-gen-psqr_.c: gen-psqr.c
-	$(CPP_FOR_BUILD) `if test -f $(srcdir)/gen-psqr.c; then echo $(srcdir)/gen-psqr.c; else echo gen-psqr.c; fi` | sed 's/^# \([0-9]\)/#line \1/' > gen-psqr_.c || rm -f gen-psqr_.c
 
 mpn/dummy1.c:
 	echo "void dummy1(void){return;}" > mpn/dummy1.c

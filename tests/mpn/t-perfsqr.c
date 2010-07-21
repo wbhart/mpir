@@ -26,12 +26,6 @@ MA 02110-1301, USA. */
 #include "gmp-impl.h"
 #include "tests.h"
 
-#ifdef _MSC_VER		/* BRG */
-#include "perfsqr.h"
-#else
-#include "mpn/perfsqr.h"
-#endif
-
 #define PERFSQR_MOD_MASK   ((CNST_LIMB(1) << PERFSQR_MOD_BITS) - 1)
 
 void

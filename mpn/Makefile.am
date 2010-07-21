@@ -37,14 +37,10 @@ TARG_DIST = alpha arm generic ia64 m68k \
 
 EXTRA_DIST = asm-defs.m4 cpp-ccas m4-ccas $(TARG_DIST)
 
-
 # These are BUILT_SOURCES at the top-level, so normally they're built before
 # recursing into this directory.
 #
-perfsqr.h:
-	cd ..; $(MAKE) $(AM_MAKEFLAGS) mpn/perfsqr.h
 dummy1.c:
 	cd ..; $(MAKE) $(AM_MAKEFLAGS) mpn/dummy1.c
-
 
 include Makeasm.am
