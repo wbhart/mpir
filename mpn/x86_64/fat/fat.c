@@ -210,7 +210,7 @@ __gmpn_cpuvec_init (void)
 #define CPUSETUP_nano		CPUVEC_SETUP_nano
 #define CPUSETUP_netburst	CPUVEC_SETUP_netburst
 #define CPUSETUP_netburstlahf	CPUVEC_SETUP_netburst;CPUVEC_SETUP_netburst_netburstlahf
-#define CPUSETUP_k8		CPUVEC_SETUP_k8;CPUVEC_SETUP_K8_K8ONLY
+#define CPUSETUP_k8		CPUVEC_SETUP_k8;CPUVEC_SETUP_k8_k8only
 #define CPUSETUP_k10		CPUVEC_SETUP_k8;CPUVEC_SETUP_k8_k10
 #define CPUSETUP_k102		CPUVEC_SETUP_k8;CPUVEC_SETUP_k8_k10;CPUVEC_SETUP_k8_k10_k102
 
