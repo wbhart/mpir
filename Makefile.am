@@ -25,7 +25,7 @@
 
 
 # The following options are the same as AM_INIT_AUTOMAKE in configure.in.
-AUTOMAKE_OPTIONS = 1.8 gnu no-dependencies
+#AUTOMAKE_OPTIONS = 1.8 gnu no-dependencies
 
 # Libtool -version-info for libmpir.la and libmp.la.  See "Versioning" in the
 # libtool manual.
