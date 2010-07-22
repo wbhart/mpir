@@ -89,9 +89,9 @@
 	cmp     r9, 0
 	je      .3
 	add     r8, r8
+	
 	xalign  16
-.1:
-	movq    mm2, mm4
+.1:	movq    mm2, mm4
 	mov     rax, [rsi+r9*8]
 	sbb     rax, rdx
 	sbb     r8, r8
@@ -106,18 +106,17 @@
 	add     r8, r8
 	inc     r9
 	jnz     .1
-.2:
-	movq    [rdi+r9*8-8], mm4
+.2:	movq    [rdi+r9*8-8], mm4
 	mov     rax, 0
 	adc     rax, rdx
-	jmp     .4
-.3:
-	movq    [rdi+r9*8-8], mm4
+	emms
+	EXIT_PROC reg_save_list
+
+.3:	movq    [rdi+r9*8-8], mm4
 	add     r8, r8
 	mov     rax, 0
 	adc     rax, rdx
-.4:
-	emms
+.4:	emms
 	END_PROC reg_save_list
 
     end

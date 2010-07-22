@@ -36,8 +36,7 @@
 	jl      .2
 	
 	xalign  16
-.1:
-	mov     rax, [rdx]
+.1:	mov     rax, [rdx]
 	mov     r9, [rdx-8]
 	mov     r10, [rdx-16]
 	lea     rcx, [rcx-32]
@@ -49,31 +48,26 @@
 	lea     rdx, [rdx-32]
 	mov     [rcx+8], r11
 	jns     .1
-.2:
-	add     r8, 2
+.2:	add     r8, 2
 	jz      .5
 	jns     .6
 	jp      .4
-.3:
-	ret
+.3:	ret
 	
 	xalign  16
-.4:
-	mov     rax, [rdx]
+.4:	mov     rax, [rdx]
 	mov     [rcx], rax
 	ret
 	
 	xalign  16
-.5:
-	mov     rax, [rdx]
+.5:	mov     rax, [rdx]
 	mov     r9, [rdx-8]
 	mov     [rcx], rax
 	mov     [rcx-8], r9
 	ret
 	
 	xalign  16
-.6:
-	mov     rax, [rdx]
+.6:	mov     rax, [rdx]
 	mov     r9, [rdx-8]
 	mov     r10, [rdx-16]
 	mov     [rcx], rax

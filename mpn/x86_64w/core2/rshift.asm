@@ -46,9 +46,9 @@
 	shrd    rax, rdx, cl
 	cmp     rbx, 0
 	jge     .2
+
 	xalign  16
-.1:
-	mov     r8, [rsi+rbx*8]
+.1:	mov     r8, [rsi+rbx*8]
 	mov     r11, [rsi+rbx*8+24]
 	shrd    rdx, r8, cl
 	mov     r9, [rsi+rbx*8+8]
@@ -63,13 +63,11 @@
 	add     rbx, 4
 	mov     [rdi+rbx*8-16], r10
 	jnc     .1
-.2:
-	cmp     rbx, 2
+.2:	cmp     rbx, 2
 	ja      .6
 	je      .5
 	jp      .4
-.3:
-	mov     r8, [rsi+rbx*8]
+.3:	mov     r8, [rsi+rbx*8]
 	shrd    rdx, r8, cl
 	mov     r9, [rsi+rbx*8+8]
 	shrd    r8, r9, cl
@@ -80,11 +78,10 @@
 	mov     [rdi+rbx*8+8], r9
 	shr     r10, cl
 	mov     [rdi+rbx*8+16], r10
-	jmp     .7
+	EXIT_PROC reg_save_list
 
 	xalign  16
-.4:
-	mov     r8, [rsi+rbx*8]
+.4:	mov     r8, [rsi+rbx*8]
 	shrd    rdx, r8, cl
 	mov     r9, [rsi+rbx*8+8]
 	shrd    r8, r9, cl
@@ -92,22 +89,19 @@
 	mov     [rdi+rbx*8], r8
 	shr     r9, cl
 	mov     [rdi+rbx*8+8], r9
-    jmp     .7
+	EXIT_PROC reg_save_list
 
 	xalign  16
-.5:
-	mov     r8, [rsi+rbx*8]
+.5:	mov     r8, [rsi+rbx*8]
 	shrd    rdx, r8, cl
 	shr     r8, cl
 	mov     [rdi+rbx*8-8], rdx
 	mov     [rdi+rbx*8], r8
-    jmp     .7
+	EXIT_PROC reg_save_list
 
 	xalign  16
-.6:
-	shr     rdx, cl
+.6:	shr     rdx, cl
 	mov     [rdi+rbx*8-8], rdx
-.7:
-    END_PROC reg_save_list
+.7:	END_PROC reg_save_list
 
     end

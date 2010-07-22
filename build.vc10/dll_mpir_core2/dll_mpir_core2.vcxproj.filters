@@ -1466,6 +1466,9 @@
     <ClCompile Include="..\..\mpz\probable_prime_p.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\mpz\probable_prime_p.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <YASM Include="..\..\mpn\x86_64w\aors_err1_n.asm">
@@ -1647,8 +1650,5 @@
     <ClInclude Include="..\..\randmt.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\config.core2" />
   </ItemGroup>
 </Project>

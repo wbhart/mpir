@@ -52,14 +52,12 @@
 	xor     rbp, rbp
 	test    r9, 1
 	jnz     %%2
-%%1:
-	lea     r8, [r8+r9*8-8]
+%%1:lea     r8, [r8+r9*8-8]
 	neg     r9
 	jmp     %%3
 
 	xalign  16
-%%2:
-	lea     r8, [r8+r9*8-16]
+%%2:lea     r8, [r8+r9*8-16]
 	neg     r9
 	shr     rax, 1
 	mov     r12, [rsi+r9*8]
@@ -71,8 +69,7 @@
 	jz      %%4
 
 	xalign  16
-%%3:
-	mov     r12, [rsi+r9*8]
+%%3:mov     r12, [rsi+r9*8]
 	shr     rax, 1
 	%2      r12, [rdx+r9*8]
 	mov     r11, 0
@@ -91,8 +88,7 @@
 	add     r9, 2
 	lea     r8, [r8-16]
 	jnz     %%3
-%%4:
-	mov     [rcx], rbx
+%%4:mov     [rcx], rbx
 	mov     [rcx+8], rbp
     END_PROC reg_save_list
 %endmacro

@@ -35,9 +35,9 @@
 	shr     rax, 3
 	cmp     rax, 0
 	jz      .2
+	
 	xalign  16
-.1:
-	mov     r8, [rdx]
+.1:	mov     r8, [rdx]
 	mov     r9, [rdx+8]
 	mov     r10, [rdx+16]
 	mov     r11, [rdx+24]
@@ -65,8 +65,7 @@
 	dec     rax
 	lea     rdx, [rdx+64]
 	jnz     .1
-.2:
-    mov     rax, [rsp+0x18]
+.2:	mov     rax, [rsp+0x18]
 	dec     rax
 	jz      .3
 ;	Could still have cache-bank conflicts in this tail part
@@ -103,8 +102,7 @@
 	mov     r8, [rdx+48]
 	adc     r8, r8
 	mov     [rcx+48], r8
-.3:
-	sbb     rax, rax
+.3:	sbb     rax, rax
 	neg     rax
 	ret
 

@@ -46,12 +46,11 @@
 	sbb     rax, [rdx+16]
 	mov     [rcx+16], rax
 	dec     r9
-.1:
-	sbb     rax, 0
+.1:	sbb     rax, 0
 	ret
+	
 	xalign  16
-.2:
-	sbb     rax, [rdx]
+.2:	sbb     rax, [rdx]
 	mov     [rcx], rax
 	sbb     rax, [rdx+8]
 	mov     [rcx+8], rax
@@ -77,6 +76,7 @@
 	sbb     rax, [rdx+16]
 	mov     [rcx+16], rax
 	dec     r9
-.3:
-	sbb     rax, 0
+.3:	sbb     rax, 0
 	ret
+
+	end

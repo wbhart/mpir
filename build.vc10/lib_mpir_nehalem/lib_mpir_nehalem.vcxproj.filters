@@ -1508,7 +1508,4 @@
       <Filter>Source Files\mpn\Assembler</Filter>
     </YASM>
   </ItemGroup>
-  <ItemGroup>
-    <None Include="..\config.nehalem" />
-  </ItemGroup>
 </Project>

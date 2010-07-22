@@ -36,8 +36,7 @@
 	je      .2
 ; want carry clear here
 	xalign  16
-.1:
-	sbb     rax, [rdx]
+.1:	sbb     rax, [rdx]
 	lea     rcx, [rcx+32]
 	mov     r9, rax
 	sbb     rax, [rdx+8]
@@ -52,8 +51,7 @@
 	mov     [rcx-8], rax
 	lea     rdx, [rdx+32]
 	jnz     .1
-.2:
-    mov     r8, [rsp+24]
+.2:	mov     r8, [rsp+24]
 ; dont want to change the carry
 	inc     r8
 	dec     r8
@@ -68,7 +66,7 @@
 	jz      .3
 	sbb     rax, [rdx+16]
 	mov     [rcx+16], rax
-.3:
-	sbb     rax, 0
+.3:	sbb     rax, 0
 	ret
+	
 	end

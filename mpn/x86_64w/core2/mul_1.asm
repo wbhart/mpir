@@ -49,8 +49,7 @@ start:
     jmp     .2
 
     xalign  16
-.1: 
-	mov     rax, [r10+r8*8]
+.1: mov     rax, [r10+r8*8]
     mov     ebx, 0
     mul     r9
     add     r11, rax
@@ -76,8 +75,7 @@ start:
     adc     r11, rdx
     add     r8, 4
     jnc     .1
-.2: 
-	test    r8, 2
+.2:	test    r8, 2
     jnz     .3
     mov     rax, [r10+r8*8]
     mov     ebx, 0
@@ -92,8 +90,7 @@ start:
     adc     r11, rdx
     add     r8, 2
     mov     [rcx+r8*8-8], rbx
-.3: 
-	test    r8, 1
+.3: test    r8, 1
     mov     rax, r11
     jnz     .4
     mov     rax, [r10+r8*8]
@@ -103,7 +100,6 @@ start:
     mov     [rcx+r8*8], r11
     adc     rbx, rdx
     mov     rax, rbx
-.4: 
-	END_PROC rbx
+.4: END_PROC rbx
 
     end

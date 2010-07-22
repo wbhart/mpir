@@ -1514,7 +1514,4 @@
       <Filter>Source Files\mpn\Assembler</Filter>
     </YASM>
   </ItemGroup>
-  <ItemGroup>
-    <None Include="..\config.core2" />
-  </ItemGroup>
 </Project>

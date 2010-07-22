@@ -91,7 +91,6 @@
 	mov     r13, r11
 	mov     r14, r12
 
-
 	mov     r11, [rsi+r9*8]
 	sub     r11, r10
 	sbb     r10, r10
@@ -108,14 +107,12 @@
 	sbb     r12, 0
 	sbb     r10, r10
 
-
 ; mov $0,%r10
 	add     r9, 2
 	jc      .2
 	
 	xalign  16
-.1:
-	mov     r8, r12
+.1:	mov     r8, r12
 	mov     rax, r13
 	mul     r11
 
@@ -154,8 +151,7 @@
 	sbb     r10, 0
 	add     r9, 2
 	jnc     .1
-.2:
-	mov     r8, r12
+.2:	mov     r8, r12
 	mov     rax, r13
 	mul     r11
 
@@ -173,8 +169,7 @@
 	add     rdx, r12
 	cmp     r9, 0
 	jne     .4
-.3:
-	mov     r11, [rsi+r9*8+8]
+.3:	mov     r11, [rsi+r9*8+8]
 	; mov %rdx,-8(%rdi,%r9,8)	#// store high quotient
 	movq    mm3, rdx
 	movq    mm2, mm3
@@ -206,10 +201,11 @@
 	add     r10, r10
 	mov     rax, 0
 	adc     rax, rdx
-	jmp     .5
-.4:
+	emms
+	EXIT_PROC reg_save_list
+
 	; mov %rdx,-8(%rdi,%r9,8)	#// store high quotient
-	movq    mm3, rdx
+.4:	movq    mm3, rdx
 	movq    mm2, mm3
 	psllq   mm3, mm1
 	psrlq   mm2, mm0
@@ -223,8 +219,7 @@
 	mov     rax, 0
 	adc     rax, rdx
 	sub     rax, r10
-.5:
-	emms
+.5:	emms
 	END_PROC reg_save_list
 
     end

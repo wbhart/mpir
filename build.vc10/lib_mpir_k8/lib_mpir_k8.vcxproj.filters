@@ -1556,7 +1556,4 @@
       <Filter>Source Files\mpn\Assembler</Filter>
     </YASM>
   </ItemGroup>
-  <ItemGroup>
-    <None Include="..\config.k8" />
-  </ItemGroup>
 </Project>

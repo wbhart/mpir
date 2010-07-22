@@ -37,32 +37,28 @@
 	jnc     .2
 	
 	xalign  16
-.1:
-	movdqu  xmm0, [rdx+r9*8]
+.1:	movdqu  xmm0, [rdx+r9*8]
 	movdqu  xmm1, [rdx+r9*8+16]
 	add     r9, 4
 	movdqu  [rcx+r9*8+16-32], xmm1
 	movdqu  [rcx+r9*8-32], xmm0
 	jnc     .1
-.2:
-	cmp     r9, 2
+.2:	cmp     r9, 2
 	ja      .6
 	je      .5
 	jp      .4
-.3:
-	movdqu  xmm0, [rdx+r9*8]
+.3:	movdqu  xmm0, [rdx+r9*8]
 	mov     rax, [rdx+r9*8+16]
 	mov     [rcx+r9*8+16], rax
 	movdqu  [rcx+r9*8], xmm0
 	ret
-.4:
-	movdqu  xmm0, [rdx+r9*8]
+
+.4:	movdqu  xmm0, [rdx+r9*8]
 	movdqu  [rcx+r9*8], xmm0
 	ret
-.5:
-	mov     rax, [rdx+r9*8]
+
+.5:	mov     rax, [rdx+r9*8]
 	mov     [rcx+r9*8], rax
-.6:
-	ret
+.6:	ret
 	
 	end

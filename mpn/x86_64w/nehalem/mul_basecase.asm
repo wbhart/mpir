@@ -28,8 +28,7 @@
 
 %macro addmul2lp 0
     xalign  16
-%%1:
-    mov     rax, [rsi+rbx*8]
+%%1:mov     rax, [rsi+rbx*8]
     mul     r8
     add     r9, rax
     mov     rax, [rsi+rbx*8+8]
@@ -240,8 +239,7 @@
 
 %macro mul2lp 0
     xalign  16
-%%1:
-    mov     rax, [rsi+rbx*8]
+%%1:mov     rax, [rsi+rbx*8]
     mul     r8
     add     r9, rax
     mov     rax, [rsi+rbx*8+8]
@@ -452,8 +450,7 @@
 
 %macro mul1lp 0
     xalign  16
-%%1:
-    mov     r10, 0
+%%1:mov     r10, 0
     mul     r8
     mov     [rdi+rbx*8-8], r12
     add     r9, rax
@@ -563,8 +560,7 @@
 %macro mpn_addmul_2_int 1
     jz      %%2
     xalign  16
-%%1:
-    addmul2pro%1
+%%1:addmul2pro%1
     addmul2lp
     addmul2epi%1
     jnz     %%1
@@ -819,27 +815,20 @@
     ja      .4
     jz      .3
     jp      .2
-.1:
-    oldmpn_muladdmul_1_int 0
-    jmp     .5
+.1:	oldmpn_muladdmul_1_int 0
+	WIN64_GCC_EXIT frame
 
     xalign  16
-.2:
-    oldmpn_muladdmul_1_int 1
-    jmp     .5
+.2:	oldmpn_muladdmul_1_int 1
+	WIN64_GCC_EXIT frame
 
     xalign  16
-.3:
-    oldmpn_muladdmul_1_int 2
-    jmp     .5
+.3:	oldmpn_muladdmul_1_int 2
+	WIN64_GCC_EXIT frame
 
     xalign  16
-.4:
-    oldmpn_muladdmul_1_int 3
-
-    xalign  16
-.5:
-    WIN64_GCC_END frame
+.4:	oldmpn_muladdmul_1_int 3
+	WIN64_GCC_END frame
 
 ; rdx >= 5  as we dont have an inner jump
 ; (rdi,rdx+r8)=(rsi,rdx)*(rcx,r8)
@@ -848,8 +837,7 @@
 %define reg_save_list   rbx, rsi, rdi, r12, r13, r14, r15
 
     xalign  16
-.6:
-    WIN64_GCC_PROC mpn_mbc2, 5, frame
+.6:	WIN64_GCC_PROC mpn_mbc2, 5, frame
 
     mov     r14, 4
     sub     r14, rdx
@@ -863,8 +851,7 @@
     mov     rax, [rsi+r14*8]
     bt      r15, 0
     jnc     .13
-.7:
-    inc     rbx
+.7:	inc     rbx
     mov     r8, [r13+r15*8]
     mul     r8
     mov     r12, rax
@@ -873,8 +860,7 @@
     cmp     rbx, 0
     jge     .8
     mul1lp
-.8:
-    mov     r10d, 0
+.8:	mov     r10d, 0
     mul     r8
     mov     [rdi+rbx*8-8], r12
     add     r9, rax
@@ -883,53 +869,42 @@
     ja      .12
     jz      .11
     jp      .10
-.9:
-    mulnext0
+.9:	mulnext0
     jmp     .21
-.10:
-    mulnext1
+
+.10:mulnext1
     jmp     .15
-.11:
-    mulnext2
+
+.11:mulnext2
     jmp     .17
-.12:
-    mulnext3
+
+.12:mulnext3
     jmp     .19
-.13:
+
     ; as all the mul2pro? are the same
-    mul2pro0
+.13:mul2pro0
     mul2lp
     cmp     rbx, 2
     ja      .20
     jz      .18
     jp      .16
-.14:
-    mul2epi3
-.15:
-    mpn_addmul_2_int 3
-    jmp     .22
-.16:
-    mul2epi2
-.17:
-    mpn_addmul_2_int 2
-    jmp     .22
-.18:
-    mul2epi1
-.19:
-    mpn_addmul_2_int 1
-    jmp     .22
-.20:
-    mul2epi0
-.21:
-    mpn_addmul_2_int 0
+.14:mul2epi3
+.15:mpn_addmul_2_int 3
+    WIN64_GCC_EXIT frame
 
-    xalign  16
-.22:
+.16:mul2epi2
+.17:mpn_addmul_2_int 2
+    WIN64_GCC_EXIT frame
+.18:mul2epi1
+.19:mpn_addmul_2_int 1
+    WIN64_GCC_EXIT frame
+
+.20:mul2epi0
+.21:mpn_addmul_2_int 0
     WIN64_GCC_END frame
 
     xalign  16
-one:
-    mov     rax, [rdx]
+one:mov     rax, [rdx]
     mul     qword [r9]
     mov     [rcx], rax
     mov     [rcx+8], rdx

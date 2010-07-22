@@ -55,8 +55,7 @@ mpn_sub_entry:
 	jz      .2
 
 	xalign  16
-.1:
-	mov     r10, [rdx+rcx*8]
+.1:	mov     r10, [rdx+rcx*8]
 	mov     r11, [rdx+rcx*8+16]
 	sbb     r10, [r8+rcx*8]
 	mov     [r9+rcx*8], r10
@@ -71,19 +70,16 @@ mpn_sub_entry:
 	mov     [r9+rcx*8-8], TR4
 	jrcxz   .2
 	jmp     .1
-.2:
-	sbb     rcx, rcx
-.3:
-	cmp     rax, 2
+.2:	sbb     rcx, rcx
+.3:	cmp     rax, 2
 	ja      .6
 	jz      .7
 	jp      .5
-.4:
-	sub     rax, rcx
+.4:	sub     rax, rcx
 	ret
+	
 	xalign  16
-.5:
-	add     rcx, rcx
+.5:	add     rcx, rcx
 	mov     r10, [rdx]
 	sbb     r10, [r8]
 	mov     [r9], r10
@@ -92,8 +88,7 @@ mpn_sub_entry:
 	ret
 	
 	xalign  16
-.6:
-	add     rcx, rcx
+.6:	add     rcx, rcx
 	mov     r10, [rdx]
 	mov     r11, [rdx+16]
 	sbb     r10, [r8]
@@ -108,8 +103,7 @@ mpn_sub_entry:
 	ret
 	
 	xalign  16
-.7:
-	add     rcx, rcx
+.7:	add     rcx, rcx
 	mov     r10, [rdx]
 	sbb     r10, [r8]
 	mov     [r9], r10

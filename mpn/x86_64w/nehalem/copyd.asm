@@ -36,31 +36,27 @@
 	jc      .2
 	
 	xalign  16
-.1:
-	movdqu  xmm0, [rdx+r8*8]
+.1:	movdqu  xmm0, [rdx+r8*8]
 	movdqu  xmm1, [rdx+r8*8-16]
 	sub     r8, 4
 	movdqu  [rcx+r8*8-16+32], xmm1
 	movdqu  [rcx+r8*8+32], xmm0
 	jnc     .1
-.2:
-	cmp     r8, -2
+.2:	cmp     r8, -2
 	jg      .5
 	je      .6
 	jnp     .4
-.3:
-	mov     rax, [rdx+r8*8+8]
+.3:	mov     rax, [rdx+r8*8+8]
 	mov     [rcx+r8*8+8], rax
-.4:
-	ret
-.5:
-	movdqu  xmm0, [rdx+r8*8]
+.4:	ret
+
+.5:	movdqu  xmm0, [rdx+r8*8]
 	mov     rax, [rdx+r8*8-8]
 	mov     [rcx+r8*8-8], rax
 	movdqu  [rcx+r8*8], xmm0
 	ret
-.6:
-	movdqu  xmm0, [rdx+r8*8]
+
+.6:	movdqu  xmm0, [rdx+r8*8]
 	movdqu  [rcx+r8*8], xmm0
 	ret
 	

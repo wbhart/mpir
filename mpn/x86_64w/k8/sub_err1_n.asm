@@ -50,8 +50,7 @@
 	jnc     .2
 	
 	xalign  16
-.1: 
-	mov     r12, [rsi+r11*8]
+.1: mov     r12, [rsi+r11*8]
 	mov     r13, [rsi+r11*8+8]
 	mov     r14, [rsi+r11*8+16]
 	mov     r15, [rsi+r11*8+24]
@@ -84,13 +83,11 @@
 	mov     rbx, 0
 	add     r11, 4
 	jnc     .1
-.2: 
-	cmp     r11, 2
+.2: cmp     r11, 2
 	ja      .6
 	je      .5
 	jp      .4
-.3:	
-	mov     r12, [rsi+r11*8]
+.3:	mov     r12, [rsi+r11*8]
 	mov     r13, [rsi+r11*8+8]
 	mov     r14, [rsi+r11*8+16]
 	shl     r10, 1
@@ -114,8 +111,7 @@
     jmp     .6
 
 	xalign  16
-.4: 
-	mov     r12, [rsi+r11*8]
+.4: mov     r12, [rsi+r11*8]
 	mov     r13, [rsi+r11*8+8]
 	shl     r10, 1
 	sbb     r12, [rdx+r11*8]
@@ -132,8 +128,7 @@
     jmp     .6
 
 	xalign  16
-.5: 
-	mov     r12, [rsi+r11*8]
+.5: mov     r12, [rsi+r11*8]
 	shl     r10, 1
 	sbb     r12, [rdx+r11*8]
 	cmovc   rax, [r8-8]
@@ -141,8 +136,7 @@
 	add     r9, rax
 	adc     r10, 0
 	mov     [rdi+r11*8], r12
-.6:	
-	mov     rcx, [rsp+stack_use+32]
+.6:	mov     rcx, [rsp+stack_use+32]
 	mov     [rcx], r9
 	btr     r10, 63
 	mov     [rcx+8], r10

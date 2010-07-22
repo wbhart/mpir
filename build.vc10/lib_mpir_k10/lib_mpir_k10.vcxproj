@@ -1931,9 +1931,6 @@
     <YASM Include="..\..\mpn\x86_64w\k8\xor_n.asm" />
     <YASM Include="..\..\mpn\x86_64w\mulmid_basecase.asm" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="..\config.k10" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
     <Import Project="..\vsyasm.targets" />

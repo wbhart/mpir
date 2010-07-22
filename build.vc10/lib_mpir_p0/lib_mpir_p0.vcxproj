@@ -1821,9 +1821,6 @@
     <YASM Include="..\..\mpn\x86w\udiv.asm" />
     <YASM Include="..\..\mpn\x86w\umul.asm" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="..\config.p0" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
     <Import Project="..\vsyasm.targets" />

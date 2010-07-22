@@ -2032,9 +2032,6 @@
     <ClInclude Include="..\..\mpn\x86_64w\k8\k10\gmp-mparam.h" />
     <ClInclude Include="..\..\randmt.h" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="..\config.k10" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
     <Import Project="..\vsyasm.targets" />

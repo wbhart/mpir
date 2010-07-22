@@ -47,8 +47,7 @@
 	jc      .2
 	
 	xalign  16
-.1:
-	mul     r8
+.1:	mul     r8
 	mov     r12, 0
 	add     r11, rax
 	adc     r12, rdx
@@ -66,8 +65,7 @@
 	mov     rax, [rsi+rdi*8+8]
 	sub     rdi, 2
 	jnc     .1
-.2:
-	mul     r8
+.2:	mul     r8
 	mov     r12, 0
 	add     r11, rax
 	adc     r12, rdx
@@ -83,8 +81,7 @@
 	adc     r14, rdx
 	cmp     rdi, -2
 	je      .4
-.3:
-	mov     r11, [rsi+rdi*8+8]
+.3:	mov     r11, [rsi+rdi*8+8]
 	mov     r12, 0
 	mov     rax, r8
 	mul     r13
@@ -96,8 +93,7 @@
 	add     r13, rax
 	mov     r14, r12
 	adc     r14, rdx
-.4:
-	mov     rax, r8
+.4:	mov     rax, r8
 	mul     r14
 	add     r13, rax
 	adc     rdx, 0

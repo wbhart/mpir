@@ -1445,7 +1445,4 @@
       <Filter>Source Files\mpn\Assembler</Filter>
     </YASM>
   </ItemGroup>
-  <ItemGroup>
-    <None Include="..\config.p4" />
-  </ItemGroup>
 </Project>

@@ -51,8 +51,7 @@
 	jc      .2
 	
 	xalign  16
-.1:
-	mov     rbp, rcx
+.1:	mov     rbp, rcx
 	shr     rcx, 1
 	and     rcx, r8
 	sub     rbp, rcx
@@ -87,8 +86,7 @@
 	add     rax, r13
 	sub     rdx, 2
 	jnc     .1
-.2:
-	mov     rbp, rcx
+.2:	mov     rbp, rcx
 	shr     rcx, 1
 	and     rcx, r8
 	sub     rbp, rcx
@@ -117,11 +115,9 @@
 	imul    r13, r11
 	shr     r13, 56
 	add     rax, r13
-.3:
-	cmp     rdx, -2
+.3:	cmp     rdx, -2
 	jz      .5
-.4:
-	mov     rcx, [rdi+rdx*8+8]
+.4:	mov     rcx, [rdi+rdx*8+8]
 	xor     rcx, [rsi+rdx*8+8]
 	mov     rbp, rcx
 	shr     rcx, 1
@@ -139,7 +135,6 @@
 	imul    r13, r11
 	shr     r13, 56
 	add     rax, r13
-.5:
-    END_PROC reg_save_list
+.5:	END_PROC reg_save_list
 
 	end

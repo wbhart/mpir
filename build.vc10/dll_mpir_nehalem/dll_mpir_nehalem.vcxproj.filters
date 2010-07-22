@@ -1549,7 +1549,4 @@
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
-  <ItemGroup>
-    <None Include="..\config.nehalem" />
-  </ItemGroup>
 </Project>

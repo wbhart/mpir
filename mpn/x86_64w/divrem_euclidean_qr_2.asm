@@ -53,8 +53,7 @@
 	mov     r8, r10
 	mov     r14, 0
 	jmp     .3
-.1: 
-	mov     r14, 1
+.1: mov     r14, 1
 	mov     rdx, r8
 	sub     rdx, [rcx+8]
 	sub     r10, [rcx]
@@ -63,17 +62,14 @@
 	dec     r14
 	add     r10, [rcx]
 	adc     rdx, [rcx+8]
-.2: 
-	mov     r9, rdx
+.2: mov     r9, rdx
 	mov     r8, r10
-.3: 
-	dec     rbx
+.3: dec     rbx
 	mov     rax, r9
 	js      .8
 
 	xalign  16
-.4: 
-	cmp     rax, [rcx+8]
+.4: cmp     rax, [rcx+8]
 	jne     .6
 	mov     r10, [rsi+rbx*8]
 	mov     r15, -1
@@ -87,12 +83,10 @@
 	dec     r15
 	add     r10, [rcx]
 	adc     rdx, [rcx+8]
-.5: 
-	mov     rax, rdx
+.5: mov     rax, rdx
 	mov     r8, r10
 	jmp     .7
-.6:
-	mov     r9, rax
+.6:	mov     r9, rax
 	bt      r8, 63
 	adc     rax, 0
 	mov     r15, r8
@@ -141,12 +135,10 @@
 	add     r15, r9
 	add     r8, r10
 	adc     rax, r11
-.7: 
-	mov     [rdi+rbx*8], r15
+.7: mov     [rdi+rbx*8], r15
 	dec     rbx
 	jns     .4
-.8: 
-	mov     [rsi+8], rax
+.8: mov     [rsi+8], rax
 	mov     [rsi], r8
 	mov     rax, r14
     END_PROC reg_save_list

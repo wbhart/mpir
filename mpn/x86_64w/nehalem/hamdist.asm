@@ -32,8 +32,7 @@
 	jc      .2
 	
 	xalign   16
-.1:
-	mov     r9, [rcx+r8*8+24]
+.1:	mov     r9, [rcx+r8*8+24]
 	mov     r10, [rcx+r8*8+16]
 	xor     r9, [rdx+r8*8+24]
 	popcnt  r9, r9
@@ -51,8 +50,7 @@
 	add     rax, TR4
 	sub     r8, 4
 	jnc     .1
-.2:
-	add     r8, 4
+.2:	add     r8, 4
 	jz      .3
 	mov     r9, [rcx+r8*8-8]
 	xor     r9, [rdx+r8*8-8]
@@ -70,5 +68,6 @@
 	xor     r11, [rdx+r8*8-8]
 	popcnt  r11, r11
 	add     rax, r11
-.3:
-	ret
+.3:	ret
+
+	end

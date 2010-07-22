@@ -56,8 +56,7 @@ entry:
 	xor     rax, rax
 	test    r10, 3
 	jz      .2
-.1:
-	mov     r8, [rdx+r10*8]
+.1:	mov     r8, [rdx+r10*8]
 	mov     r11, r8
 	neg     rcx
 	shl     r8, cl
@@ -72,13 +71,11 @@ entry:
 	inc     r10
 	test    r10, 3
 	jnz     .1
-.2:
-	cmp     r10, 0
+.2:	cmp     r10, 0
 	jz      .4
 	
 	xalign  16
-.3:
-	mov     r8, [rdx+r10*8]
+.3:	mov     r8, [rdx+r10*8]
 	mov     rbp, [rdx+r10*8+8]
 	mov     rbx, [rdx+r10*8+16]
 	mov     r12, [rdx+r10*8+24]
@@ -113,8 +110,7 @@ entry:
 	mov     [rdi+r10*8+24], r12
 	add     r10, 4
 	jnz     .3
-.4:
-	neg     rax
+.4:	neg     rax
 	add     rax, r9
     END_PROC reg_save_list
     

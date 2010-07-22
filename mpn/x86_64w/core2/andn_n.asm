@@ -36,8 +36,7 @@
     jb      .2
 
     xalign  16
-.1: 
-	mov     r10, [r8+r9*8+24]
+.1: mov     r10, [r8+r9*8+24]
     mov     r11, [r8+r9*8+16]
     not     r10
     not     r11
@@ -55,8 +54,7 @@
     mov     [rcx+r9*8], T4
     sub     r9, 4
     jnc     .1
-.2: 
-	add     r9, 4
+.2: add     r9, 4
     jz      .3
     mov     r10, [r8+r9*8-8]
     not     r10
@@ -74,7 +72,6 @@
     not     r10
     and     r10, [rdx+r9*8-8]
     mov     [rcx+r9*8-8], r10
-.3: 
-	ret
+.3: ret
 
     end

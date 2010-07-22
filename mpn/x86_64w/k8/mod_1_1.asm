@@ -43,8 +43,7 @@
 	sub     rdi, 2
 	
 	xalign  16
-.1:
-	mov     r10, [rsi+rdi*8-8]
+.1:	mov     r10, [rsi+rdi*8-8]
 	mul     r8
 	add     r10, rax
 	mov     r11, 0

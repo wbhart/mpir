@@ -1353,7 +1353,4 @@
       <Filter>Source Files\mpn</Filter>
     </ClCompile>
   </ItemGroup>
-  <ItemGroup>
-    <None Include="..\config.gc" />
-  </ItemGroup>
 </Project>

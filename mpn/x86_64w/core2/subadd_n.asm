@@ -41,8 +41,7 @@
 	xor     r11, r11
 	test    rbx, 3
 	jz      .2
-.1: 
-	mov     rsi, [rdx+rbx*8]
+.1: mov     rsi, [rdx+rbx*8]
 	add     rax, 1
 	sbb     rsi, [r9+rbx*8]
 	sbb     rax, rax
@@ -53,13 +52,11 @@
 	add     rbx, 1
 	test    rbx, 3
 	jnz     .1
-.2: 
-	cmp     rbx, 0
+.2: cmp     rbx, 0
 	jz      .4
 
 	xalign  16
-.3: 
-	add     rax, 1
+.3: add     rax, 1
 	mov     rsi,  [rdx+rbx*8]
 	mov     rdi, [rdx+rbx*8+8]
 	mov     rbp, [rdx+rbx*8+16]
@@ -81,8 +78,7 @@
 	sbb     r11, r11
 	add     rbx, 4
 	jnz     .3
-.4: 
-	add     rax, r11
+.4: add     rax, r11
 	neg	    rax
     END_PROC reg_save_list
 

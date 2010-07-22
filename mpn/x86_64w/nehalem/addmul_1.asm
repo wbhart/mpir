@@ -156,16 +156,14 @@ entry:
     jmp     rax
 
     xalign  8
-.1:
-    dq      .2 - .1
+.1:	dq      .2 - .1
     dq      .3 - .1
     dq      .4 - .1
     dq      .5 - .1
-.2:
-    mov     rax, a_z
-    jmp     .12
-.3:
-    mov     rax, [s1p+index*8]
+.2:	mov     rax, a_z
+    EXIT_PROC reg_save_list
+
+.3:	mov     rax, [s1p+index*8]
     mul     s2limb
     add     rax, a_z
     adc     rdx, 0
@@ -174,9 +172,9 @@ entry:
     mov     rax, 0
     mov     [rp+index*8], a_z
     adc     rax, rdx
-    jmp     .12
-.4:
-    mov     rax, [s1p+index*8]
+    EXIT_PROC reg_save_list
+
+.4:	mov     rax, [s1p+index*8]
     mul     s2limb
     add     rax, a_z
     adc     rdx, 0
@@ -195,9 +193,9 @@ entry:
     mov     rax, 0
     mov     [rp+index*8+8], b_z
     adc     rax, rdx
-    jmp     .12
-.5:
-    mov     rax, [s1p+index*8]
+    EXIT_PROC reg_save_list
+
+.5:	mov     rax, [s1p+index*8]
     mul     s2limb
     add     rax, a_z
     adc     rdx, 0
@@ -224,9 +222,9 @@ entry:
     mov     rax, 0
     mov     [rp+index*8+16], a_z
     adc     rax, rdx
-    jmp     .12
-.6:
-    mov     temp, rdx
+    EXIT_PROC reg_save_list
+
+.6:	mov     temp, rdx
     test    rdx, 1
     jz      .7
     mov     rax, [s1p+index*8]
@@ -242,8 +240,7 @@ entry:
     mov     b_x, rax
     mov     b_y, rdx
     jmp     .8
-.7:
-    mov     rax, [s1p+index*8]
+.7:	mov     rax, [s1p+index*8]
     mul     s2limb
     add     rax, a_z
     adc     rdx, 0
@@ -255,8 +252,7 @@ entry:
     mov     a_z, [rp+index*8+8]
     mov     a_x, rax
     mov     a_y, rdx
-.8:
-    sub     temp, 4
+.8:	sub     temp, 4
     and     temp, UNROLL_MASK
     inc     temp
     mov     rax, (.10 - .9) >> UNROLL_EXPONENT
@@ -290,11 +286,9 @@ entry:
     %endif
 %assign i i + 1
 %endrep
-.10:
-    add     index, UNROLL_SIZE
+.10:add     index, UNROLL_SIZE
     jnz     .9
-.11:
-    mul     s2limb
+.11:mul     s2limb
     add      a_z, a_x
     mov     [rp+index*8-24], a_z
     mov     a_z, [rp+index*8-8]
@@ -308,7 +302,6 @@ entry:
     mov     rax, 0
     mov     [rp+index*8-8], a_z
     adc     rax, rdx
-.12:
-    END_PROC reg_save_list
+.12:END_PROC reg_save_list
 
     end

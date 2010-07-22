@@ -64,8 +64,7 @@
 	jmp     %%2
 
 	xalign  16
-%%1:
-	lea     r8, [r8+r10*8-16]
+%%1:lea     r8, [r8+r10*8-16]
 	neg     r10
 	shr     rax, 1
 	mov     rbx, [rsi+r10*8]
@@ -78,42 +77,34 @@
 	jz      %%3
 
 	xalign  16
-%%2:
-	mov     rbx, [rsi+r10*8]
+%%2:mov     rbx, [rsi+r10*8]
 	shr     rax, 1
 	%2      rbx, [rdx+r10*8]
 	mov     [rdi+r10*8], rbx
 	sbb     r14, r14
-
 	mov     rbx, [rsi+r10*8+8]
 	%2      rbx, [rdx+r10*8+8]
 	mov     [rdi+r10*8+8], rbx
 	sbb     rax, rax
-
     mov     rbx, [r8]
 	and     rbx, r14
 	add     rbp, rbx
 	adc     r11, 0
-
     and     r14, [r8+r9]
 	add     r12, r14
 	adc     r13, 0
-
     mov     rbx, [r8-8]
 	and     rbx, rax
 	add     rbp, rbx
 	adc     r11, 0
-
     mov     rbx, [r8+r9-8]
 	and     rbx, rax
 	add     r12, rbx
 	adc     r13, 0
-
 	add     r10, 2
 	lea     r8, [r8-16]
 	jnz     %%2
-%%3:
-	mov     [rcx], rbp
+%%3:mov     [rcx], rbp
 	mov     [rcx+8], r11
 	mov     [rcx+16], r12
 	mov     [rcx+24], r13

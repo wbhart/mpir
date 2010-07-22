@@ -76,7 +76,7 @@
 ;
 ; Windows x64 prologue macro
 ;
-;   prologue name, stack_slots, register_save_list 
+;   FRAME_PROC name, stack_slots, register_save_list 
 ;
 ;   name:                routine name
 ;   register_save_list:  comma separated list of registers to save
@@ -84,7 +84,7 @@
 
 ; Windows x64 epilogue macro
 ;
-;   epilogue register_save_list
+;   EXIT_PROC register_save_list
 ;
 ;   register_save_list:  comma separated list of registers to save
 ;                        in same order used in prologue
@@ -93,6 +93,13 @@
 ; of bytes used on the stack. This allows the function parameters
 ; to be accessed at [rsp + stack_use + 8 * n] where n starts at 1
 ; (for n = 1..4 this is shadow space for a register parameter)  
+;
+; Windows x64 epilogue and end procedure macro
+;
+;   END_PROC register_save_list
+;
+; Details as above but used at the end of a procedure to signal 
+; the end of its source code.
 
 %macro FRAME_PROC 2-*
 
@@ -132,6 +139,19 @@
 
 %endmacro
 
+%macro EXIT_PROC 0-*
+
+    add rsp, stack_use - 8 * %0
+    %if %0 > 0
+        %rep %0
+            %rotate -1
+            pop  %1  
+        %endrep
+    %endif
+    ret
+
+%endmacro
+
 %macro END_PROC 0-*
 
     add rsp, stack_use - 8 * %0
@@ -159,16 +179,9 @@ __g%1:
 %endmacro
 
 ; Macros for using assembler code using the GCC Calling
-; Conventions in Windows.
-
-; Note that these macros loads integer parameters that 
-; are 32-bits as 64-bit integers with no zero or sign
-; extension. For such parameters either 'mov rxd, rxd'
-; (for unsigned) or 'movsxd rx, rxd' (for signed) will
-; be needed before they are used as 64-bit integers.  
-; These macros move the first six integer parameters 
-; from Microsoft ABI calling calling conventions to 
-; those used by GCC: 
+; Conventions in Windows.  These macros move the first
+; six integer parameters from Microsoft ABI calling
+; calling conventions to those used by GCC: 
 ;
 ;   function(     MSVC --> GCC
 ;       p1,       rcx      rdi
@@ -178,13 +191,11 @@ __g%1:
 ;       p5,  [rsp+40]       r8
 ;       p6,  [rsp+48]       r9
 ;
-; As already discussed, care must be taken with 32-bit 
-; values in 64-bit registers or on the stack because 
-; the upper 32-bits of such parameters are undefined.
-;
 ;   WIN64_GCC_PROC name, n_parms, (frame | leaf)
 ;
-;   WIN64_GCC_END frame | leaf
+;   WIN64_GCC_EXIT frame | leaf
+;
+;   WIN64_GCC_END  frame | leaf
 ; 
 ;     name    subroutine name
 ;     n_parms number of parameters (default 6)
@@ -241,6 +252,18 @@ __g%1:
             mov     r9, [rsp + stack_use + 48]
         %endif
         
+%endmacro
+
+%macro WIN64_GCC_EXIT 0-1 frame
+
+    %ifidn %1, frame
+        EXIT_PROC reg_save_list
+    %elifidn %1, leaf
+        ret
+    %else
+        %error no (or wrong) function type defined 
+    %endif
+
 %endmacro
 
 %macro WIN64_GCC_END 0-1 frame

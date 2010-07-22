@@ -42,31 +42,26 @@
 	mov     [rcx+32], r8
 	lea     rcx, [rcx+8]
 	sub     rdx, 1
-.1:
-	sub     rdx, 4
+.1:	sub     rdx, 4
 	jc      .3
 	
 	xalign  16
-.2:
-	lea     rcx, [rcx+32]
+.2:	lea     rcx, [rcx+32]
 	sub     rdx, 4
 	movdqa  [rcx], xmm0
 	movdqa  [rcx+16], xmm0
 	jnc     .2
-.3:
-	cmp     rdx, -2
+.3:	cmp     rdx, -2
 	ja      .5
 	jz      .7
 	jp      .6
-.4:
+.4:	ret
+
+.5:	movdqa  [rcx+32], xmm0
+.6:	mov     [rcx+rdx*8+56], r8
 	ret
-.5:
-	movdqa  [rcx+32], xmm0
-.6:
-	mov     [rcx+rdx*8+56], r8
-	ret
-.7:
-	movdqa  [rcx+32], xmm0
+
+.7:	movdqa  [rcx+32], xmm0
 	ret
 	
 	end

@@ -69,8 +69,7 @@
 	xor     rdx, rdx
 
 	xalign  16
-.1:	
-	mov     rax, [r10+r9*8]
+.1:	mov     rax, [r10+r9*8]
 	sbb     rax, rdx
 	sbb     r8, r8
 	imul    rax, r11

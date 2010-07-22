@@ -1913,9 +1913,6 @@
       <FileType>Document</FileType>
     </YASM>
   </ItemGroup>
-  <ItemGroup>
-    <None Include="..\config.core2" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
     <Import Project="..\vsyasm.targets" />

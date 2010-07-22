@@ -44,19 +44,14 @@
 
 	lea     r13, [rdx+1]
 	sub     r13, r8
-
 	lea     rdi, [rdi+r13*8]
-
 	cmp     r13, 4
 	jc      .29
-
 	lea     rsi, [rsi+rdx*8]
-
 	test    r8, 1
 	jz      .10
 
 .0:	mov     ebx, r13d
-
 	neg     r13
 	mov     rax, [rsi+r13*8]
 	mov     r12, [r15]
@@ -414,7 +409,6 @@
 	jmp     r14
 .39:mov     [rdi], rcx
 	mov     [rdi+8], rbp
-.40:
-	WIN64_GCC_END
+.40:WIN64_GCC_END
 
 	end

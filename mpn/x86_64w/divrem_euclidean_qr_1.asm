@@ -199,8 +199,7 @@
 .16:dec     r12
 	jns     .15
 	shr     rax, cl
-.17:
-	WIN64_GCC_END
+.17:WIN64_GCC_END
 
 	xalign  16
 	WIN64_GCC_PROC mpn_preinv_divrem_1, 7, frame
@@ -346,7 +345,6 @@
 .16:dec     r12
 	jns     .15
 	shr     rax, cl
-.17:
-	WIN64_GCC_END
+.17:WIN64_GCC_END
 
     end

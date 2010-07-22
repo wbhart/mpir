@@ -44,15 +44,14 @@
     cmp     rax, byte 4
     jae     .2
     xor     rdx,rdx
-.1: 
-	mov     rax, [r10+r8*8-8]
+.1: mov     rax, [r10+r8*8-8]
     div     r9
     mov     [rcx+r8*8-8], rax
     sub     r8, 1
     jnz     .1
     ret                     ; avoid single byte return
-.2:
-    FRAME_PROC ?mpn_divexact, 0, reg_save_list
+
+.2:	FRAME_PROC ?mpn_divexact, 0, reg_save_list
     mov     rsi, rdx        ; src pointer
     mov     rdi, rcx        ; dst pointer
     bsf     rcx, r9         ; remove powers of two
@@ -99,34 +98,29 @@
     jmp     .6
 
     xalign  16
-.3: 
-	mul     r9                  ; divisor is odd
+.3: mul     r9                  ; divisor is odd
     mov     rax, [rsi+r8*8]
     sub     rdx, r11
     sub     rax, rdx
     sbb     r11, r11
-.4: 
-	imul    rax, r10
+.4: imul    rax, r10
     mov     [rdi+r8*8], rax
     add     r8, 1
     jnz     .3
     jmp     .7
 
     xalign  16
-.5: 
-	mul     r9                  ; divisor is even
+.5: mul     r9                  ; divisor is even
     sub     rdx, r11
     mov     rax, [rsi+r8*8-8]
     mov     r11, [rsi+r8*8]
     shrd    rax, r11, cl
     sub     rax, rdx
     sbb     r11, r11
-.6: 
-	imul    rax, r10
+.6: imul    rax, r10
     mov     [rdi+r8*8-8],rax
     add     r8, 1
     jnz     .5
-
     mul     r9
     mov     rax, [rsi-8]
     sub     rdx, r11
@@ -134,7 +128,6 @@
     sub     rax, rdx
     imul    rax, r10
     mov     [rdi-8], rax
-.7: 
-	END_PROC reg_save_list
+.7: END_PROC reg_save_list
 
     end

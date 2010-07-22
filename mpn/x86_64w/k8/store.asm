@@ -33,23 +33,21 @@
 	sub     rdx, rax
 	mov     rax, r8
 	jnc     .2
+	
 	xalign  16
-.1:
-	add	    rdx, 4
+.1:	add	    rdx, 4
 	mov	    [rcx+rdx*8-32], rax
 	mov	    [rcx+rdx*8+8-32], rax
 	mov	    [rcx+rdx*8+16-32], rax
 	mov	    [rcx+rdx*8+24-32], rax
 	jnc     .1
-.2:
-	cmp     rdx, 2
+.2:	cmp     rdx, 2
 	ja	    .3
 	mov	    [rcx+rdx*8], rax
 	je	    .3
 	mov	    [rcx+rdx*8+8], rax
 	jp	    .3
 	mov	    [rcx+rdx*8+16], rax
-.3:
-	ret
+.3:	ret
 	
 	end

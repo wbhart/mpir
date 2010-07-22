@@ -136,4 +136,5 @@
 .6: movq    [rcx+r8*8], mm3
 	emms
 	ret
-	win64_gcc_end
+	end
+	

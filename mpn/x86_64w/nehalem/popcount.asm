@@ -32,8 +32,7 @@
 	jc      .2
 	
 	xalign   16
-.1:
-	popcnt  r9, [rcx+rdx*8+24]
+.1:	popcnt  r9, [rcx+rdx*8+24]
 	add     rax, r9
 	popcnt  r10, [rcx+rdx*8+16]
 	add     rax, r10
@@ -43,8 +42,7 @@
 	add     rax, TR4
 	sub     rdx, 4
 	jnc     .1
-.2:
-	add     rdx, 4
+.2:	add     rdx, 4
 	jz      .3
 	popcnt  r9, [rcx+rdx*8-8]
 	add     rax, r9
@@ -56,5 +54,6 @@
 	jz      .3
 	popcnt  r11, [rcx+rdx*8-8]
 	add     rax, r11
-.3:
-	ret
+.3:	ret
+
+	end

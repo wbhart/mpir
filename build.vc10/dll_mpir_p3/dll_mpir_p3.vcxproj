@@ -1910,9 +1910,6 @@
     <ClInclude Include="..\..\mpn\x86w\p6\gmp-mparam.h" />
     <ClInclude Include="..\..\randmt.h" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="..\config.p3" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
     <Import Project="..\vsyasm.targets" />

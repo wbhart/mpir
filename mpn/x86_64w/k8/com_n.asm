@@ -33,8 +33,7 @@
     jc      .2
 
     xalign  8
-.1: 
-	mov     r8, [rdx+rax*8+24]
+.1: mov     r8, [rdx+rax*8+24]
     mov     r9, [rdx+rax*8+16]
     not     r8
     not     r9
@@ -48,8 +47,7 @@
     mov     [rcx+rax*8], r9
     sub     rax, 4
     jae     .1
-.2: 
-	add     rax, 4
+.2: add     rax, 4
     jz      .3
 
 ; Could still have potential cache-bank conflicts in this tail part
@@ -67,7 +65,6 @@
     mov     r8, [rdx+rax*8-8]
     not     r8
     mov     [rcx+rax*8-8], r8
-.3: 
-	ret
+.3: ret
 
     end

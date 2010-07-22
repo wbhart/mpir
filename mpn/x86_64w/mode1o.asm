@@ -78,8 +78,7 @@
     lea     rsi,[r11+rsi*8]
     
     xalign    16
-.1: 
-	sub     rax, rdx
+.1: sub     rax, rdx
     adc     rcx, 0
     imul    rax, r10
     mul     r8
@@ -88,8 +87,7 @@
     setc    cl
     cmp     r9, rsi
     jne     .1
-.2: 
-	sub     rax, rdx
+.2: sub     rax, rdx
     adc     rcx, 0
     imul    rax, r10
     mul     r8
