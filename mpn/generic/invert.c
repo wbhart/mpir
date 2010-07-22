@@ -53,7 +53,7 @@ mpn_is_invert (mp_srcptr xp, mp_srcptr ap, mp_size_t n)
     res = 0;
 
   /* now check B^(2n) - X*A <= A */
-  mpn_com_n (tp, tp, 2 * n);
+  mpn_not (tp, 2 * n);
   mpn_add_1 (tp, tp, 2 * n, 1); /* B^(2n) - X*A */
   MPN_ZERO (up, 2 * n);
   MPN_COPY (up, ap, n);
@@ -198,7 +198,7 @@ mpn_invert (mp_ptr xp, mp_srcptr ap, mp_size_t n)
 	  cy -= mpn_sub (tp, tp, n + h, ap, n);
 	}
 
-      mpn_com_n (tp, tp, n);
+      mpn_not (tp, n);
       th = ~tp[n] + mpn_add_1 (tp, tp, n, ONE);
       mpn_mul_n (up, tp + l, xp + l, h);
       cy = mpn_add_n (up + h, up + h, tp + l, h);
@@ -231,7 +231,7 @@ void mpn_invert_truncate(mp_ptr x_new, mp_size_t m, mp_srcptr xp, mp_size_t n, m
   mpn_add_n (tp + m, tp + m, ap, m); /* A * msb(X) */
   
   /* now check B^(2n) - X*A <= A */
-  mpn_com_n (tp, tp, 2 * m);
+  mpn_not (tp, 2 * m);
   mpn_add_1 (tp, tp, 2 * m, 1); /* B^(2m) - X*A */
   
   while (tp[m] || mpn_cmp (tp, ap, m) > 0)

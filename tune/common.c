@@ -572,6 +572,11 @@ speed_mpn_lshiftc (struct speed_params *s)
 #endif
 
 double
+speed_mpn_not (struct speed_params *s)
+{
+  SPEED_ROUTINE_MPN_POPCOUNT (mpn_not);
+}
+double
 speed_mpn_lshift1 (struct speed_params *s)
 {
   SPEED_ROUTINE_MPN_SHIFTX (mpn_lshift1);

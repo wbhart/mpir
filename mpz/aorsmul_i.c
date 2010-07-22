@@ -146,7 +146,7 @@ mpz_aorsmul_1 (mpz_ptr w, mpz_srcptr x, mp_limb_t y, mp_size_t sub)
               /* Borrow out of w, take twos complement negative to get
                  absolute value, flip sign of w.  */
               wp[new_wsize] = ~-cy;  /* extra limb is 0-cy */
-              mpn_com_n (wp, wp, new_wsize);
+              mpn_not (wp, new_wsize);
               new_wsize++;
               MPN_INCR_U (wp, new_wsize, CNST_LIMB(1));
               wsize_signed = -wsize_signed;
@@ -160,7 +160,7 @@ mpz_aorsmul_1 (mpz_ptr w, mpz_srcptr x, mp_limb_t y, mp_size_t sub)
           mp_limb_t  cy2;
 
           /* -(-cy*b^n + w-x*y) = (cy-1)*b^n + ~(w-x*y) + 1 */
-          mpn_com_n (wp, wp, wsize);
+          mpn_not (wp, wsize);
           cy += mpn_add_1 (wp, wp, wsize, CNST_LIMB(1));
           cy -= 1;
 

@@ -2109,6 +2109,13 @@ __GMP_DECLSPEC void mpn_com_n _PROTO ((mp_ptr, mp_srcptr, mp_size_t));
   MPN_LOGOPS_N_INLINE (d, s1, s2, n, *__d++ = ~(*__s1++ ^ *__s2++) & GMP_NUMB_MASK)
 #endif
 
+#if HAVE_NATIVE_mpn_not
+#define mpn_not __MPN(not)
+void mpn_not _PROTO ((mp_ptr,mp_size_t));
+#else
+#define mpn_not(__xp,__n) mpn_com((__xp),(__xp),(__n))
+#endif
+
 #if HAVE_NATIVE_mpn_lshift1
 #define mpn_lshift1 __MPN(lshift1)
 mp_limb_t mpn_lshift1 _PROTO ((mp_ptr,mp_srcptr,mp_size_t));

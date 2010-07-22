@@ -690,6 +690,7 @@ validate_sqrtrem (void)
 #define TYPE_RSH_DIVREM_HENSEL_QR_1_1	135
 #define TYPE_RSH_DIVREM_HENSEL_QR_1_2	136
 #define TYPE_DIVREM_HENSEL_RSH_QR_1	137
+#define TYPE_NOT			138
 
 #define TYPE_EXTRA            150
 
@@ -1399,6 +1400,11 @@ param_init (void)
   p->src[0] = 1;
   REFERENCE (refmpn_popcount);
 
+  p = &param[TYPE_NOT];
+  //p->src[0] = 1;
+  p->dst[0] = 1;
+  REFERENCE (refmpn_not);
+
   p = &param[TYPE_HAMDIST];
   COPY (TYPE_POPCOUNT);
   p->src[1] = 1;
@@ -1535,6 +1541,12 @@ mp_limb_t
 mpn_divexact_by3_fun (mp_ptr rp, mp_srcptr sp, mp_size_t size)
 {
   return mpn_divexact_by3 (rp, sp, size);
+}
+
+void
+mpn_not_fun (mp_ptr rp, mp_size_t size)
+{
+  mpn_not (rp, size);
 }
 
 mp_limb_t
@@ -1925,6 +1937,7 @@ const struct choice_t choice_array[] = {
   { TRY(mpz_ui_kronecker), TYPE_MPZ_UI_KRONECKER },
   { TRY(mpz_si_kronecker), TYPE_MPZ_SI_KRONECKER },
 
+  { TRY_FUNFUN(mpn_not),   TYPE_NOT },
   { TRY(mpn_popcount),   TYPE_POPCOUNT },
   { TRY(mpn_hamdist),    TYPE_HAMDIST },
 
@@ -2799,6 +2812,9 @@ case TYPE_TDIV_Q:
       (e->d[0].p, e->s[0].p, size, shift);
     break;
 
+  case TYPE_NOT:
+    	 CALLING_CONVENTIONS (function) (e->s[0].p, size);
+    break;
   case TYPE_POPCOUNT:
     e->retval = (* (unsigned long (*)(ANYARGS))
 		 CALLING_CONVENTIONS (function)) (e->s[0].p, size);

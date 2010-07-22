@@ -170,6 +170,7 @@ double speed_mpn_addmul_7 _PROTO ((struct speed_params *s));
 double speed_mpn_addmul_8 _PROTO ((struct speed_params *s));
 double speed_mpn_addsub_n _PROTO ((struct speed_params *s));
 double speed_mpn_com_n _PROTO ((struct speed_params *s));
+double speed_mpn_not _PROTO ((struct speed_params *s));
 double speed_mpn_copyd _PROTO ((struct speed_params *s));
 double speed_mpn_copyi _PROTO ((struct speed_params *s));
 double speed_mpn_dc_tdiv_qr _PROTO ((struct speed_params *s));

@@ -288,6 +288,7 @@ const struct routine_t {
   { "mpn_xor_n",         speed_mpn_xor_n,  FLAG_R_OPTIONAL },
   { "mpn_xnor_n",        speed_mpn_xnor_n, FLAG_R_OPTIONAL },
   { "mpn_com_n",         speed_mpn_com_n            },
+  { "mpn_not",           speed_mpn_not            },
 
   { "mpn_popcount",      speed_mpn_popcount         },
   { "mpn_hamdist",       speed_mpn_hamdist          },

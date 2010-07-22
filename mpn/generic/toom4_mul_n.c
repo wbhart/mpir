@@ -352,7 +352,7 @@ void tc4_addmul_1(mp_ptr wp, mp_size_t * wn, mp_srcptr xp, mp_size_t xn, mp_limb
               /* Borrow out of w, take twos complement negative to get
                  absolute value, flip sign of w.  */
               wp[new_wn] = ~-cy;  /* extra limb is 0-cy */
-              mpn_com_n (wp, wp, new_wn);
+              mpn_not (wp, new_wn);
               new_wn++;
               MPN_INCR_U (wp, new_wn, CNST_LIMB(1));
               ws = -*wn;
@@ -365,7 +365,7 @@ void tc4_addmul_1(mp_ptr wp, mp_size_t * wn, mp_srcptr xp, mp_size_t xn, mp_limb
           mp_limb_t  cy2;
 
           /* -(-cy*b^n + w-x*y) = (cy-1)*b^n + ~(w-x*y) + 1 */
-          mpn_com_n (wp, wp, wu);
+          mpn_not (wp, wu);
           cy += mpn_add_1 (wp, wp, wu, CNST_LIMB(1));
           cy -= 1;
 

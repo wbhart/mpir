@@ -870,7 +870,7 @@ mpn_mul_fft_decompose (mp_ptr A, mp_ptr *Ap, mp_size_t K, mp_size_t offset,
 			  A[of] = mpn_lshift (A, n + nprime - e, of, d);
 			  A[0] |= cc;
 			  /* And do binary negate */
-			  mpn_com_n (A, A, of + 1);
+			  mpn_not (A, of + 1);
 			  cc = mpn_add_1 (A, A, of + 1, ONE);
 			}
 		      else
