@@ -2222,9 +2222,6 @@ GMP_C_DOUBLE_FORMAT
 #   pstat_getprocessor - HPUX specific (10.x and up)
 #   raise - an ANSI-ism, though probably almost universal by now
 #   read_real_time - AIX specific
-#   sigaction - not in mingw
-#   sigaltstack - not in mingw, or old AIX (reputedly)
-#   sigstack - not in mingw
 #   strerror - not in SunOS
 #   strnlen - glibc extension (some other systems too)
 #   syssgi - IRIX specific
@@ -2240,7 +2237,7 @@ GMP_C_DOUBLE_FORMAT
 # __gmp_replacement_vsnprintf which is not required on AIX since it has a
 # vsnprintf.
 #
-AC_CHECK_FUNCS(alarm attr_get clock clock_gettime cputime getpagesize getrusage gettimeofday getsysinfo localeconv memset mmap nl_langinfo obstack_vprintf popen processor_info pstat_getprocessor raise read_real_time sigaction sigaltstack sigstack syssgi strchr strerror strnlen strtol strtoul sysconf sysctl sysctlbyname times)
+AC_CHECK_FUNCS(alarm attr_get clock clock_gettime cputime getpagesize getrusage gettimeofday getsysinfo localeconv memset mmap nl_langinfo obstack_vprintf popen processor_info pstat_getprocessor raise read_real_time syssgi strchr strerror strnlen strtol strtoul sysconf sysctl sysctlbyname times)
 
 # mingw returns OK on mprotect , but it's broken
 #

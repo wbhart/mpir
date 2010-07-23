@@ -25506,9 +25506,6 @@ esac
 #   pstat_getprocessor - HPUX specific (10.x and up)
 #   raise - an ANSI-ism, though probably almost universal by now
 #   read_real_time - AIX specific
-#   sigaction - not in mingw
-#   sigaltstack - not in mingw, or old AIX (reputedly)
-#   sigstack - not in mingw
 #   strerror - not in SunOS
 #   strnlen - glibc extension (some other systems too)
 #   syssgi - IRIX specific
@@ -25524,7 +25521,7 @@ esac
 # __gmp_replacement_vsnprintf which is not required on AIX since it has a
 # vsnprintf.
 #
-for ac_func in alarm attr_get clock clock_gettime cputime getpagesize getrusage gettimeofday getsysinfo localeconv memset mmap nl_langinfo obstack_vprintf popen processor_info pstat_getprocessor raise read_real_time sigaction sigaltstack sigstack syssgi strchr strerror strnlen strtol strtoul sysconf sysctl sysctlbyname times
+for ac_func in alarm attr_get clock clock_gettime cputime getpagesize getrusage gettimeofday getsysinfo localeconv memset mmap nl_langinfo obstack_vprintf popen processor_info pstat_getprocessor raise read_real_time syssgi strchr strerror strnlen strtol strtoul sysconf sysctl sysctlbyname times
 do :
   as_ac_var=`$as_echo "ac_cv_func_$ac_func" | $as_tr_sh`
 ac_fn_c_check_func "$LINENO" "$ac_func" "$as_ac_var"
