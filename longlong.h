@@ -57,9 +57,6 @@ MA 02110-1301, USA. */
    UWtype integers MULTIPLER and MULTIPLICAND, and generates a two UWtype
    word product in HIGH_PROD and LOW_PROD.
 
-   2) __umulsidi3(a,b) multiplies two UWtype integers A and B, and returns a
-   UDWtype product.  This is just a variant of umul_ppmm.
-
    3) udiv_qrnnd(quotient, remainder, high_numerator, low_numerator,
    denominator) divides a UDWtype, composed by the UWtype integers
    HIGH_NUMERATOR and LOW_NUMERATOR, by DENOMINATOR and places the quotient
@@ -1228,24 +1225,6 @@ extern UWtype __MPN(udiv_qrnnd) _PROTO ((UWtype *, UWtype, UWtype, UWtype));
 #endif /* __GNUC__ */
 
 #endif /* NO_ASM */
-
-
-#if !defined (umul_ppmm) && defined (__umulsidi3)
-#define umul_ppmm(ph, pl, m0, m1) \
-  {									\
-    UDWtype __ll = __umulsidi3 (m0, m1);				\
-    ph = (UWtype) (__ll >> W_TYPE_SIZE);				\
-    pl = (UWtype) __ll;							\
-  }
-#endif
-
-#if !defined (__umulsidi3)
-#define __umulsidi3(u, v) \
-  ({UWtype __hi, __lo;							\
-    umul_ppmm (__hi, __lo, u, v);					\
-    ((UDWtype) __hi << W_TYPE_SIZE) | __lo; })
-#endif
-
 
 /* Use mpn_umul_ppmm or mpn_udiv_qrnnd functions, if they exist.  The "_r"
    forms have "reversed" arguments, meaning the pointer is last, which
