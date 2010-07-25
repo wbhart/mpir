@@ -23,10 +23,6 @@
 # the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 # MA 02110-1301, USA.
 
-
-# The following options are the same as AM_INIT_AUTOMAKE in configure.in.
-#AUTOMAKE_OPTIONS = 1.8 gnu no-dependencies
-
 # Libtool -version-info for libmpir.la and libmp.la.  See "Versioning" in the
 # libtool manual.
 #
@@ -63,10 +59,13 @@
 #        1.0.0    7:2:4    4:2:1   4:11:1
 #        1.1.0    7:3:4    4:3:1   4:12:1
 #        1.2.0    7:4:4    4:4:1   4:13:1
-#	     1.3.0	  8:0:0    4:5:1   4:14:1 
+#	 1.3.0	  8:0:0    4:5:1   4:14:1 
 #        1.3.1    8:1:0    4:6:1   0:0:0
 #        2.0.0    9:2:0    4:7:1   0:0:0
-# 
+#	 2.1.0   10;0:1    4:8:1   0:0:0
+# 	 2.1.1	 10:1:2	   4:9:2   0:0:0
+#	 
+
 # Starting at 3:0:0 is a slight abuse of the versioning system, but it
 # ensures we're past soname libgmp.so.2, which was used on Debian GNU/Linux
 # packages of gmp 2.  Pretend gmp 2 was 2:0:0, so the interface changes for
@@ -106,7 +105,7 @@ GMPXX_HEADERS_OPTION = mpirxx.h
 endif
 EXTRA_DIST += mpirxx.h yasm_mac.inc.fat yasm_mac.inc.nofat strip_fPIC.sh mpn/x86w mpn/x86_64w build.vc9 build.vc10 doc/devel doc/fdl.texi cpuid.c gpl-2.0.txt lgpl-2.1.txt
 
-# mpir.h and mp.h are architecture dependent, mainly since they encode the
+# mpir.h is architecture dependent, mainly since they encode the
 # limb size used in libmpir.  For that reason they belong under $exec_prefix
 # not $prefix, strictly speaking.
 #
