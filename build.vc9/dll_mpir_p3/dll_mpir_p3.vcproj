@@ -877,7 +877,7 @@
 					</FileConfiguration>
 				</File>
 				<File
-					RelativePath="..\..\mpn\generic\divebyfobm1.c"
+					RelativePath="..\..\mpn\generic\divebyff.c"
 					>
 					<FileConfiguration
 						Name="Debug|Win32"
@@ -897,7 +897,7 @@
 					</FileConfiguration>
 				</File>
 				<File
-					RelativePath="..\..\mpn\generic\divebyff.c"
+					RelativePath="..\..\mpn\generic\divebyfobm1.c"
 					>
 					<FileConfiguration
 						Name="Debug|Win32"
@@ -1974,26 +1974,6 @@
 				</File>
 				<File
 					RelativePath="..\..\mpn\generic\neg_n.c"
-					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\"
-						/>
-					</FileConfiguration>
-				</File>
-				<File
-					RelativePath="..\..\mpn\generic\ngcd.c"
 					>
 					<FileConfiguration
 						Name="Debug|Win32"
@@ -3297,10 +3277,6 @@
 							>
 						</File>
 						<File
-							RelativePath="..\..\mpn\x86w\p6\p3mmx\popham.asm"
-							>
-						</File>
-						<File
 							RelativePath="..\..\mpn\x86w\p6\mmx\popham.asm"
 							>
 							<FileConfiguration
@@ -3319,6 +3295,10 @@
 									Name="YASM"
 								/>
 							</FileConfiguration>
+						</File>
+						<File
+							RelativePath="..\..\mpn\x86w\p6\p3mmx\popham.asm"
+							>
 						</File>
 						<File
 							RelativePath="..\..\mpn\x86w\p6\mmx\rshift.asm"

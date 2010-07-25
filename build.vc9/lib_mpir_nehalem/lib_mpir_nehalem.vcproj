@@ -2675,7 +2675,7 @@
 					</FileConfiguration>
 				</File>
 				<File
-					RelativePath="..\..\mpn\generic\divebyfobm1.c"
+					RelativePath="..\..\mpn\generic\divebyff.c"
 					>
 					<FileConfiguration
 						Name="Debug|x64"
@@ -2697,7 +2697,7 @@
 					</FileConfiguration>
 				</File>
 				<File
-					RelativePath="..\..\mpn\generic\divebyff.c"
+					RelativePath="..\..\mpn\generic\divebyfobm1.c"
 					>
 					<FileConfiguration
 						Name="Debug|x64"
@@ -3788,26 +3788,6 @@
 				</File>
 				<File
 					RelativePath="..\..\mpn\generic\neg_n.c"
-					>
-					<FileConfiguration
-						Name="Debug|x64"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|x64"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\"
-						/>
-					</FileConfiguration>
-				</File>
-				<File
-					RelativePath="..\..\mpn\generic\ngcd.c"
 					>
 					<FileConfiguration
 						Name="Debug|x64"
@@ -5046,11 +5026,11 @@
 						>
 					</File>
 					<File
-						RelativePath="..\..\mpn\x86_64w\divebyfobm1.asm"
+						RelativePath="..\..\mpn\x86_64w\nehalem\divebyff.asm"
 						>
 					</File>
 					<File
-						RelativePath="..\..\mpn\x86_64w\nehalem\divebyff.asm"
+						RelativePath="..\..\mpn\x86_64w\divebyfobm1.asm"
 						>
 					</File>
 					<File
