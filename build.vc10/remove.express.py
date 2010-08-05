@@ -1,6 +1,5 @@
-
 # Convert project files between Visual Studio 2010 and 
-# Visual C++ 2020 Express (use Python 2.6 or later).
+# Visual C++ 2010 Express (use Python 2.6 or later).
 #
 # Copyright 2010, Dr B R Gladman
 
