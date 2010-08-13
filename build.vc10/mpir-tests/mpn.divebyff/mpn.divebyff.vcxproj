@@ -150,7 +150,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\tests\mpn\t-divexact_byff.c" />
+    <ClCompile Include="..\..\..\tests\mpn\t-divebyff.c" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\add-test-lib\add-test-lib.vcxproj">

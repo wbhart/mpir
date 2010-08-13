@@ -318,7 +318,7 @@
 	</References>
 	<Files>
 		<File
-			RelativePath="..\..\..\tests\mpn\t-divexact_byfobm1.c"
+			RelativePath="..\..\..\tests\mpn\t-divebyfobm1.c"
 			>
 		</File>
 	</Files>
