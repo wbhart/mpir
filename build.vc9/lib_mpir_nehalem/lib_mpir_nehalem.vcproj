@@ -2631,7 +2631,7 @@
 					</FileConfiguration>
 				</File>
 				<File
-					RelativePath="..\..\mpn\generic\dive_1.c"
+					RelativePath="..\..\mpn\generic\divexact_1.c"
 					>
 					<FileConfiguration
 						Name="Debug|x64"
@@ -2653,7 +2653,7 @@
 					</FileConfiguration>
 				</File>
 				<File
-					RelativePath="..\..\mpn\generic\diveby3.c"
+					RelativePath="..\..\mpn\generic\divexact_by3c.c"
 					>
 					<FileConfiguration
 						Name="Debug|x64"
@@ -2675,7 +2675,7 @@
 					</FileConfiguration>
 				</File>
 				<File
-					RelativePath="..\..\mpn\generic\divebyff.c"
+					RelativePath="..\..\mpn\generic\divexact_byff.c"
 					>
 					<FileConfiguration
 						Name="Debug|x64"
@@ -2697,7 +2697,7 @@
 					</FileConfiguration>
 				</File>
 				<File
-					RelativePath="..\..\mpn\generic\divebyfobm1.c"
+					RelativePath="..\..\mpn\generic\divexact_byfobm1.c"
 					>
 					<FileConfiguration
 						Name="Debug|x64"
@@ -3457,7 +3457,7 @@
 					</FileConfiguration>
 				</File>
 				<File
-					RelativePath="..\..\mpn\generic\mode1o.c"
+					RelativePath="..\..\mpn\generic\modexact_1c_odd.c"
 					>
 					<FileConfiguration
 						Name="Debug|x64"
@@ -3929,7 +3929,7 @@
 					</FileConfiguration>
 				</File>
 				<File
-					RelativePath="..\..\mpn\generic\pre_divrem_1.c"
+					RelativePath="..\..\mpn\generic\preinv_divrem_1.c"
 					>
 					<FileConfiguration
 						Name="Debug|x64"
@@ -3951,7 +3951,7 @@
 					</FileConfiguration>
 				</File>
 				<File
-					RelativePath="..\..\mpn\generic\pre_mod_1.c"
+					RelativePath="..\..\mpn\generic\preinv_mod_1.c"
 					>
 					<FileConfiguration
 						Name="Debug|x64"
@@ -5018,19 +5018,19 @@
 						>
 					</File>
 					<File
-						RelativePath="..\..\mpn\x86_64w\dive_1.asm"
+						RelativePath="..\..\mpn\x86_64w\divexact_1.asm"
 						>
 					</File>
 					<File
-						RelativePath="..\..\mpn\x86_64w\diveby3.asm"
+						RelativePath="..\..\mpn\x86_64w\divexact_by3c.asm"
 						>
 					</File>
 					<File
-						RelativePath="..\..\mpn\x86_64w\nehalem\divebyff.asm"
+						RelativePath="..\..\mpn\x86_64w\nehalem\divexact_byff.asm"
 						>
 					</File>
 					<File
-						RelativePath="..\..\mpn\x86_64w\divebyfobm1.asm"
+						RelativePath="..\..\mpn\x86_64w\divexact_byfobm1.asm"
 						>
 					</File>
 					<File
@@ -5070,7 +5070,7 @@
 						>
 					</File>
 					<File
-						RelativePath="..\..\mpn\x86_64w\mode1o.asm"
+						RelativePath="..\..\mpn\x86_64w\modexact_1c_odd.asm"
 						>
 					</File>
 					<File

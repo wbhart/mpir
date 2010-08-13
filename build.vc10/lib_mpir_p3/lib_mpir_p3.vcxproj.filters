@@ -287,16 +287,16 @@
     <ClCompile Include="..\..\mpn\generic\dc_divappr_q_n.c">
       <Filter>Source Files\mpn</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\mpn\generic\diveby3.c">
+    <ClCompile Include="..\..\mpn\generic\divexact_by3c.c">
       <Filter>Source Files\mpn</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\mpn\generic\divebyfobm1.c">
+    <ClCompile Include="..\..\mpn\generic\divexact_byfobm1.c">
       <Filter>Source Files\mpn</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\mpn\generic\divebyff.c">
+    <ClCompile Include="..\..\mpn\generic\divexact_byff.c">
       <Filter>Source Files\mpn</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\mpn\generic\dive_1.c">
+    <ClCompile Include="..\..\mpn\generic\divexact_1.c">
       <Filter>Source Files\mpn</Filter>
     </ClCompile>
     <ClCompile Include="..\..\mpn\generic\divis.c">
@@ -368,7 +368,7 @@
     <ClCompile Include="..\..\mpn\generic\lshift.c">
       <Filter>Source Files\mpn</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\mpn\generic\mode1o.c">
+    <ClCompile Include="..\..\mpn\generic\modexact_1c_odd.c">
       <Filter>Source Files\mpn</Filter>
     </ClCompile>
     <ClCompile Include="..\..\mpn\generic\mod_1.c">
@@ -446,10 +446,10 @@
     <ClCompile Include="..\..\mpn\generic\pow_1.c">
       <Filter>Source Files\mpn</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\mpn\generic\pre_divrem_1.c">
+    <ClCompile Include="..\..\mpn\generic\preinv_divrem_1.c">
       <Filter>Source Files\mpn</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\mpn\generic\pre_mod_1.c">
+    <ClCompile Include="..\..\mpn\generic\preinv_mod_1.c">
       <Filter>Source Files\mpn</Filter>
     </ClCompile>
     <ClCompile Include="..\..\mpn\generic\random.c">
@@ -1381,10 +1381,10 @@
     <YASM Include="..\..\mpn\x86w\p6\copyd.asm">
       <Filter>Source Files\mpn\Assembler</Filter>
     </YASM>
-    <YASM Include="..\..\mpn\x86w\p6\diveby3.asm">
+    <YASM Include="..\..\mpn\x86w\p6\divexact_by3c.asm">
       <Filter>Source Files\mpn\Assembler</Filter>
     </YASM>
-    <YASM Include="..\..\mpn\x86w\p6\dive_1.asm">
+    <YASM Include="..\..\mpn\x86w\p6\divexact_1.asm">
       <Filter>Source Files\mpn\Assembler</Filter>
     </YASM>
     <YASM Include="..\..\mpn\x86w\p6\mmx\divrem_1.asm">
@@ -1399,7 +1399,7 @@
     <YASM Include="..\..\mpn\x86w\p6\mmx\rshift.asm">
       <Filter>Source Files\mpn\Assembler\mmx</Filter>
     </YASM>
-    <YASM Include="..\..\mpn\x86w\p6\mode1o.asm">
+    <YASM Include="..\..\mpn\x86w\p6\modexact_1c_odd.asm">
       <Filter>Source Files\mpn\Assembler</Filter>
     </YASM>
     <YASM Include="..\..\mpn\x86w\p6\mod_1.asm">

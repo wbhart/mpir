@@ -172,7 +172,7 @@
     <ClCompile Include="..\..\tune\noop.c" />
     <ClCompile Include="..\..\tune\powm_mod.c" />
     <ClCompile Include="..\..\tune\powm_redc.c" />
-    <ClCompile Include="..\..\tune\pre_divrem_1.c" />
+    <ClCompile Include="..\..\tune\preinv_divrem_1.c" />
     <ClCompile Include="..\..\tune\set_strb.c" />
     <ClCompile Include="..\..\tune\set_strp.c" />
     <ClCompile Include="..\..\tune\set_strs.c" />

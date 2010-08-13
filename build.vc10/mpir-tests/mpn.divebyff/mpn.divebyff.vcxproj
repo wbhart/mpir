@@ -20,7 +20,7 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{DA5B26DC-AB9D-4BC7-B107-AAE1CC12E659}</ProjectGuid>
-    <RootNamespace>mpn.divebyff</RootNamespace>
+    <RootNamespace>mpn.divexact_byff</RootNamespace>
     <Keyword>Win32Proj</Keyword>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -150,7 +150,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\tests\mpn\t-divebyff.c" />
+    <ClCompile Include="..\..\..\tests\mpn\t-divexact_byff.c" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\add-test-lib\add-test-lib.vcxproj">

@@ -4603,7 +4603,7 @@
 					</FileConfiguration>
 				</File>
 				<File
-					RelativePath="..\..\mpn\generic\dive_1.c"
+					RelativePath="..\..\mpn\generic\divexact_1.c"
 					>
 					<FileConfiguration
 						Name="Debug|Win32"
@@ -4640,7 +4640,7 @@
 					</FileConfiguration>
 				</File>
 				<File
-					RelativePath="..\..\mpn\generic\diveby3.c"
+					RelativePath="..\..\mpn\generic\divexact_by3c.c"
 					>
 					<FileConfiguration
 						Name="Debug|Win32"
@@ -4676,7 +4676,7 @@
 					</FileConfiguration>
 				</File>
 				<File
-					RelativePath="..\..\mpn\generic\divebyfobm1.c"
+					RelativePath="..\..\mpn\generic\divexact_byfobm1.c"
 					>
 					<FileConfiguration
 						Name="Debug|Win32"
@@ -4712,7 +4712,7 @@
 					</FileConfiguration>
 				</File>
 				<File
-					RelativePath="..\..\mpn\generic\divebyff.c"
+					RelativePath="..\..\mpn\generic\divexact_byff.c"
 					>
 					<FileConfiguration
 						Name="Debug|Win32"
@@ -6010,7 +6010,7 @@
 					</FileConfiguration>
 				</File>
 				<File
-					RelativePath="..\..\mpn\generic\mode1o.c"
+					RelativePath="..\..\mpn\generic\modexact_1c_odd.c"
 					>
 					<FileConfiguration
 						Name="Debug|Win32"
@@ -6885,7 +6885,7 @@
 					</FileConfiguration>
 				</File>
 				<File
-					RelativePath="..\..\mpn\generic\pre_divrem_1.c"
+					RelativePath="..\..\mpn\generic\preinv_divrem_1.c"
 					>
 					<FileConfiguration
 						Name="Debug|Win32"
@@ -6922,7 +6922,7 @@
 					</FileConfiguration>
 				</File>
 				<File
-					RelativePath="..\..\mpn\generic\pre_mod_1.c"
+					RelativePath="..\..\mpn\generic\preinv_mod_1.c"
 					>
 					<FileConfiguration
 						Name="Debug|Win32"

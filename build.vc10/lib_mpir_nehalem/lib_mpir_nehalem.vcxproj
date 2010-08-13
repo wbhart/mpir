@@ -742,25 +742,25 @@
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpn\</ObjectFileName>
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpn\</ObjectFileName>
     </ClCompile>
-    <ClCompile Include="..\..\mpn\generic\dive_1.c">
+    <ClCompile Include="..\..\mpn\generic\divexact_1.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpn\</ObjectFileName>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpn\</ObjectFileName>
     </ClCompile>
-    <ClCompile Include="..\..\mpn\generic\diveby3.c">
+    <ClCompile Include="..\..\mpn\generic\divexact_by3c.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpn\</ObjectFileName>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpn\</ObjectFileName>
     </ClCompile>
-    <ClCompile Include="..\..\mpn\generic\divebyfobm1.c">
+    <ClCompile Include="..\..\mpn\generic\divexact_byfobm1.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpn\</ObjectFileName>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpn\</ObjectFileName>
     </ClCompile>
-    <ClCompile Include="..\..\mpn\generic\divebyff.c">
+    <ClCompile Include="..\..\mpn\generic\divexact_byff.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpn\</ObjectFileName>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
@@ -894,7 +894,7 @@
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpn\</ObjectFileName>
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpn\</ObjectFileName>
     </ClCompile>
-    <ClCompile Include="..\..\mpn\generic\mode1o.c">
+    <ClCompile Include="..\..\mpn\generic\modexact_1c_odd.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpn\</ObjectFileName>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
@@ -994,13 +994,13 @@
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpn\</ObjectFileName>
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpn\</ObjectFileName>
     </ClCompile>
-    <ClCompile Include="..\..\mpn\generic\pre_divrem_1.c">
+    <ClCompile Include="..\..\mpn\generic\preinv_divrem_1.c">
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpn\</ObjectFileName>
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpn\</ObjectFileName>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="..\..\mpn\generic\pre_mod_1.c">
+    <ClCompile Include="..\..\mpn\generic\preinv_mod_1.c">
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpn\</ObjectFileName>
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpn\</ObjectFileName>
     </ClCompile>
@@ -1874,10 +1874,10 @@
     <YASM Include="..\..\mpn\x86_64w\nehalem\com_n.asm" />
     <YASM Include="..\..\mpn\x86_64w\nehalem\copyd.asm" />
     <YASM Include="..\..\mpn\x86_64w\nehalem\copyi.asm" />
-    <YASM Include="..\..\mpn\x86_64w\dive_1.asm" />
-    <YASM Include="..\..\mpn\x86_64w\diveby3.asm" />
-    <YASM Include="..\..\mpn\x86_64w\divebyfobm1.asm" />
-    <YASM Include="..\..\mpn\x86_64w\nehalem\divebyff.asm" />
+    <YASM Include="..\..\mpn\x86_64w\divexact_1.asm" />
+    <YASM Include="..\..\mpn\x86_64w\divexact_by3c.asm" />
+    <YASM Include="..\..\mpn\x86_64w\divexact_byfobm1.asm" />
+    <YASM Include="..\..\mpn\x86_64w\nehalem\divexact_byff.asm" />
     <YASM Include="..\..\mpn\x86_64w\divrem_euclidean_qr_1.asm" />
     <YASM Include="..\..\mpn\x86_64w\divrem_euclidean_qr_2.asm" />
     <YASM Include="..\..\mpn\x86_64w\nehalem\divrem_hensel_qr_1_2.asm" />
@@ -1886,7 +1886,7 @@
     <YASM Include="..\..\mpn\x86_64w\nehalem\mod_1_1.asm" />
     <YASM Include="..\..\mpn\x86_64w\nehalem\mod_1_2.asm" />
     <YASM Include="..\..\mpn\x86_64w\nehalem\mod_1_3.asm" />
-    <YASM Include="..\..\mpn\x86_64w\mode1o.asm" />
+    <YASM Include="..\..\mpn\x86_64w\modexact_1c_odd.asm" />
     <YASM Include="..\..\mpn\x86_64w\nehalem\mul_1.asm" />
     <YASM Include="..\..\mpn\x86_64w\nehalem\mul_2.asm" />
     <YASM Include="..\..\mpn\x86_64w\nehalem\mul_basecase.asm" />

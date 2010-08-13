@@ -88,7 +88,7 @@
     <ClCompile Include="..\..\tune\powm_redc.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\tune\pre_divrem_1.c">
+    <ClCompile Include="..\..\tune\preinv_divrem_1.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\tune\fac_ui_large.c">

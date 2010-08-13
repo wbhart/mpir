@@ -469,7 +469,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\tune\pre_divrem_1.c"
+				RelativePath="..\..\tune\preinv_divrem_1.c"
 				>
 			</File>
 			<File
