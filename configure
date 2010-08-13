@@ -5020,7 +5020,7 @@ echo "include_mpn(\`sparc32/sparc-defs.m4')" >> $gmp_tmpconfigm4i
 		x86/pentium4 x86/pentium4/mmx x86/pentium4/sse2
 		x86/core2 x86/nehalem"
       fat_functions="add_n addmul_1 copyd copyi
-		     divexact_1 diveby3 divebyfobm1 divrem_1 divrem_2
+		     divexact_1 divexact_by3c divebyfobm1 divrem_1 divrem_2
 			 divrem_euclidean_qr_1
 			divrem_euclidean_qr_2 gcd_1 lshift
 		     mod_1 mod_34lsub1 mode1o mul_1 mul_basecase
@@ -25747,7 +25747,7 @@ gmp_mpn_functions_optional="umul udiv copyi copyd com_n neg_n
 
 gmp_mpn_functions="$extra_functions					   \
   add add_1 add_n sub sub_1 sub_n mul_1 addmul_1 submul_1 lshift rshift    \
-  divexact_1 diveby3 divebyff divebyfobm1 divis divrem divrem_1 divrem_2       \
+  divexact_1 divexact_by3c divebyff divebyfobm1 divis divrem divrem_1 divrem_2       \
   divrem_euclidean_qr_1 divrem_euclidean_qr_2 divrem_euclidean_r_1	\
   divrem_hensel_qr_1 divrem_hensel_qr_1_1 divrem_hensel_qr_1_2		\
   divrem_hensel_r_1 divrem_hensel_rsh_qr_1 rsh_divrem_hensel_qr_1	\
@@ -25865,7 +25865,6 @@ gmp_mpn_functions_optional=$remove_from_list_tmp
 
   for tmp_fn in $fat_functions; do
     case $tmp_fn in
-  diveby3)   	tmp_fbase=divexact_by3c ;;
   divebyff)   	tmp_fbase=divexact_byff ;;
   divebyfobm1) 	tmp_fbase=divexact_fobm1 ;;
   pre_divrem_1) tmp_fbase=preinv_divrem_1 ;;
@@ -25904,7 +25903,6 @@ _ACEOF
     volatile struct cpuvec_t *p = &__gmpn_cpuvec; \\" >>fat.h
   for tmp_fn in $fat_functions; do
     case $tmp_fn in
-  diveby3)   	tmp_fbase=divexact_by3c ;;
   divebyff)   	tmp_fbase=divexact_byff ;;
   divebyfobm1) 	tmp_fbase=divexact_fobm1 ;;
   pre_divrem_1) tmp_fbase=preinv_divrem_1 ;;
@@ -25927,7 +25925,6 @@ esac
   do { \\" >>fat.h
   for tmp_fn in $fat_functions; do
     case $tmp_fn in
-  diveby3)   	tmp_fbase=divexact_by3c ;;
   divebyff)   	tmp_fbase=divexact_byff ;;
   divebyfobm1) 	tmp_fbase=divexact_fobm1 ;;
   pre_divrem_1) tmp_fbase=preinv_divrem_1 ;;
@@ -26026,7 +26023,6 @@ esac
             mpn_objs_in_libgmp="$mpn_objs_in_libgmp mpn/${tmp_prefix}_$tmp_fn.lo"
 
             case $tmp_fn in
-  diveby3)   	tmp_fbase=divexact_by3c ;;
   divebyff)   	tmp_fbase=divexact_byff ;;
   divebyfobm1) 	tmp_fbase=divexact_fobm1 ;;
   pre_divrem_1) tmp_fbase=preinv_divrem_1 ;;

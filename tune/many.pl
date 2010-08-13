@@ -390,14 +390,13 @@ my @table =
      },
 
      {
-       'regexp'=> 'dive_1',
+       'regexp'=> 'divexact_1',
        'ret'   => 'void',
        'args'  => 'mp_ptr dst, mp_srcptr src, mp_size_t size, mp_limb_t divisor',
        'speed_flags'=> 'FLAG_R',
      },
      {
-       'regexp'=> 'diveby3',
-       'funs'  => ['divexact_by3c'],
+       'regexp'=> 'divexact_by3c',
        'ret'   => 'mp_limb_t',
        'args'  => 'mp_ptr dst, mp_srcptr src, mp_size_t size',
        'carrys'=> [''],
