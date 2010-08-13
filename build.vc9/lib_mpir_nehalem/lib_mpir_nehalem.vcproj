@@ -2739,7 +2739,7 @@
 					</FileConfiguration>
 				</File>
 				<File
-					RelativePath="..\..\mpn\generic\divis.c"
+					RelativePath="..\..\mpn\generic\divisible_p.c"
 					>
 					<FileConfiguration
 						Name="Debug|x64"
@@ -3267,7 +3267,7 @@
 					</FileConfiguration>
 				</File>
 				<File
-					RelativePath="..\..\mpn\generic\jacbase.c"
+					RelativePath="..\..\mpn\generic\jacobi_base.c"
 					>
 					<FileConfiguration
 						Name="Debug|x64"
@@ -3867,7 +3867,7 @@
 					</FileConfiguration>
 				</File>
 				<File
-					RelativePath="..\..\mpn\generic\perfsqr.c"
+					RelativePath="..\..\mpn\generic\perfect_square_p.c"
 					>
 					<FileConfiguration
 						Name="Debug|x64"

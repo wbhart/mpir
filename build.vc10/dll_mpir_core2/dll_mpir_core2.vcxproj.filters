@@ -320,7 +320,7 @@
     <ClCompile Include="..\..\mpn\generic\divexact_1.c">
       <Filter>Source Files\mpn</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\mpn\generic\divis.c">
+    <ClCompile Include="..\..\mpn\generic\divisible_p.c">
       <Filter>Source Files\mpn</Filter>
     </ClCompile>
     <ClCompile Include="..\..\mpn\generic\divrem.c">
@@ -380,7 +380,7 @@
     <ClCompile Include="..\..\mpn\generic\invert.c">
       <Filter>Source Files\mpn</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\mpn\generic\jacbase.c">
+    <ClCompile Include="..\..\mpn\generic\jacobi_base.c">
       <Filter>Source Files\mpn</Filter>
     </ClCompile>
     <ClCompile Include="..\..\mpn\generic\lgcd.c">
@@ -461,7 +461,7 @@
     <ClCompile Include="..\..\mpn\generic\nhgcd2.c">
       <Filter>Source Files\mpn</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\mpn\generic\perfsqr.c">
+    <ClCompile Include="..\..\mpn\generic\perfect_square_p.c">
       <Filter>Source Files\mpn</Filter>
     </ClCompile>
     <ClCompile Include="..\..\mpn\generic\pow_1.c">
@@ -1468,6 +1468,15 @@
     </ClCompile>
     <ClCompile Include="..\..\mpz\probable_prime_p.c">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\mpz\probable_prime_p.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\mpn\generic\dc_div_qr_n.c">
+      <Filter>Source Files\mpn</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\mpn\generic\dc_bdiv_qr_n.c">
+      <Filter>Source Files\mpn</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

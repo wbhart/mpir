@@ -318,7 +318,7 @@
 	</References>
 	<Files>
 		<File
-			RelativePath="..\..\..\tests\mpz\t-divis.c"
+			RelativePath="..\..\..\tests\mpz\t-divisible_p.c"
 			>
 		</File>
 	</Files>
