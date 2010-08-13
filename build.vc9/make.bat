@@ -39,11 +39,9 @@ exit /b 1
 
 :make
 set LIBBUILD=%LIBTYPE%_mpir_%BCPU%
-vcbuild gen-mpir\gen-mpir.vcproj "Release|Win32" && vcbuild gen-bases\gen-bases.vcproj "Release|Win32" && vcbuild gen-fac_ui\gen-fac_ui.vcproj "Release|Win32%" && vcbuild gen-fib\gen-fib.vcproj "Release|Win32" && vcbuild gen-psqr\gen-psqr.vcproj "Release|Win32"
-if errorlevel 1 (
-	echo "ERROR PREBUILD"
-	exit /b 1
-)
+cd %LIBTYPE%_mpir_%BCPU%
+call ../gen_mpir_h.bat %ARCHW%
+cd ..
 vcbuild %LIBBUILD%\%LIBBUILD%.vcproj "Release|%ARCHW%"
 if errorlevel 1 (
 	echo "ERROR BUILDING"
@@ -97,10 +95,7 @@ exit /b 0
 
 :clean
 del config_params.bat config.guess.bat config.guess.exe config.guess.obj last_build.txt >nul 2>&1
-del ..\config.h ..\mpir.h ..\gmp.h ..\gmp-mparam.h >nul 2>&1
-del gen-psqr\gen-psqr.exe gen-fac_ui\gen-fac_ui.exe gen-bases\gen-bases.exe >nul 2>&1
-del gen-fib\gen-fib.exe gen-mpir\gen-mpir.exe gen-mpir\gen-mpir.pdb >nul 2>&1
+del ..\config.h mpir.h ..\gmp.h ..\gmp-mparam.h >nul 2>&1
 rmdir /s/q x64 win32 %LIBTYPE%_mpir_%BCPU%\%ARCHW% lib_mpir_cxx\%ARCHW% lib\%ARCHW% dll\%ARCHW% mpir-tests\%ARCHW% >nul 2>&1
-rmdir /s/q gen-psqr\Win32 gen-fac_ui\Win32 gen-bases\Win32 gen-fib\Win32 gen-mpir\Win32 >nul 2>&1
 rmdir /s/q lib_speed\%ARCHW% speed\%ARCHW% tune\%ARCHW% try\%ARCHW% >nul 2>&1
 exit /b 0
