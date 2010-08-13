@@ -26126,7 +26126,7 @@ for tmp_fn in $gmp_mpn_functions; do
   # mpn_preinv_divrem_1 might have been provided by divrem_1.asm, likewise
   # mpn_preinv_mod_1 by mod_1.asm.
   case $tmp_fn in
-  pre_divrem_1)
+  preinv_divrem_1)
     if test "$HAVE_NATIVE_mpn_preinv_divrem_1" = yes; then continue; fi ;;
   preinv_mod_1)
     if test "$HAVE_NATIVE_mpn_preinv_mod_1" = yes; then continue; fi ;;
