@@ -563,8 +563,7 @@ my @table =
        'speed_flags'=> 'FLAG_R',
      },
      {
-       'regexp'=> 'pre_mod_1',
-       'funs'  => ['preinv_mod_1'],
+       'regexp'=> 'preinv_mod_1',
        'ret'   => 'mp_limb_t',
        'args'  => 'mp_srcptr xp, mp_size_t size, mp_limb_t divisor, mp_limb_t inverse',
        'speed_flags'=> 'FLAG_R',
