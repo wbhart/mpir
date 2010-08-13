@@ -56,16 +56,16 @@ main (void)
 	      for (c = 0; c < 10; c++)
 		{
 		  mpn_randomb (xp, rands,n);
-		  r1 = mpn_divexact_fobm1 (qp, xp, n, f, GMP_NUMB_MAX / f);
+		  r1 = mpn_divexact_byfobm1 (qp, xp, n, f, GMP_NUMB_MAX / f);
 		  r2 = mpn_mul_1 (tp, qp, n, f);
 		  if (r1 != r2)
 		    {
-		      printf ("mpn_divexact_fobm1 ret error\n");
+		      printf ("mpn_divexact_byfobm1 ret error\n");
 		      abort ();
 		    }
 		  if (mpn_cmp (xp, tp, n) != 0)
 		    {
-		      printf ("mpn_divexact_fobm1 error\n");
+		      printf ("mpn_divexact_byfobm1 error\n");
 		      abort ();
 		    }
 		}
@@ -77,16 +77,16 @@ main (void)
 		{
 		  mpn_randomb (xp, rands,n);
 		  xp[n] = mpn_mul_1 (xp, xp, n - 1, f);
-		  r1 = mpn_divexact_fobm1 (qp, xp, n, f, GMP_NUMB_MAX / f);
+		  r1 = mpn_divexact_byfobm1 (qp, xp, n, f, GMP_NUMB_MAX / f);
 		  r2 = mpn_mul_1 (tp, qp, n, f);
 		  if (r1 != r2)
 		    {
-		      printf ("mpn_divexact_fobm1 ret error\n");
+		      printf ("mpn_divexact_byfobm1 ret error\n");
 		      abort ();
 		    }
 		  if (mpn_cmp (xp, tp, n) != 0)
 		    {
-		      printf ("mpn_divexact_fobm1 error\n");
+		      printf ("mpn_divexact_byfobm1 error\n");
 		      abort ();
 		    }
 		}
@@ -95,16 +95,16 @@ main (void)
 	  for (n = 0; n < 100; n++)
 	    {
 	      umul_ppmm (xp[1], xp[0], f, n);
-	      r1 = mpn_divexact_fobm1 (qp, xp, 2, f, GMP_NUMB_MAX / f);
+	      r1 = mpn_divexact_byfobm1 (qp, xp, 2, f, GMP_NUMB_MAX / f);
 	      r2 = mpn_mul_1 (tp, qp, 2, f);
 	      if (r1 != r2)
 		{
-		  printf ("mpn_divexact_fobm1 ret error\n");
+		  printf ("mpn_divexact_byfobm1 ret error\n");
 		  abort ();
 		}
 	      if (mpn_cmp (xp, tp, 2) != 0)
 		{
-		  printf ("mpn_divexact_fobm1 error\n");
+		  printf ("mpn_divexact_byfobm1 error\n");
 		  abort ();
 		}
 	    }

@@ -1615,7 +1615,7 @@ refmpn_divexact_byff(mp_ptr rp, mp_srcptr xp, mp_size_t n)
 }
 
 mp_limb_t 
-refmpn_divexact_fobm1(mp_ptr qp, mp_srcptr xp, mp_size_t n, mp_limb_t f,mp_limb_t Bm1of)
+refmpn_divexact_byfobm1(mp_ptr qp, mp_srcptr xp, mp_size_t n, mp_limb_t f,mp_limb_t Bm1of)
 {mp_size_t j;mp_limb_t c,acc,ax,dx,*tp,*tp1;
 
 ASSERT(n>0);

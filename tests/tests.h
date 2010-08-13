@@ -257,7 +257,7 @@ mp_limb_t refmpn_divexact_by3c __GMP_PROTO ((mp_ptr rp, mp_srcptr sp,
                                        mp_size_t size, mp_limb_t carry));
 mp_limb_t refmpn_divexact_byff __GMP_PROTO ((mp_ptr rp, mp_srcptr xp, mp_size_t n));
 
-mp_limb_t refmpn_divexact_fobm1 __GMP_PROTO ((mp_ptr rp, mp_srcptr xp, mp_size_t n, mp_limb_t,mp_limb_t));
+mp_limb_t refmpn_divexact_byfobm1 __GMP_PROTO ((mp_ptr rp, mp_srcptr xp, mp_size_t n, mp_limb_t,mp_limb_t));
 
 mp_limb_t refmpn_divmod_1 __GMP_PROTO ((mp_ptr rp, mp_srcptr sp, mp_size_t size,
                                    mp_limb_t divisor));

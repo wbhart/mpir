@@ -145,7 +145,7 @@ check_functions (void)
   for (i = 0; i < 2; i++)
     {
       xp[0] = 578;
-      r = mpn_divexact_fobm1 (wp, xp, (mp_size_t) 1, CNST_LIMB(17),CNST_LIMB(-1)/CNST_LIMB(17));
+      r = mpn_divexact_byfobm1 (wp, xp, (mp_size_t) 1, CNST_LIMB(17),CNST_LIMB(-1)/CNST_LIMB(17));
       ASSERT_ALWAYS (wp[0] == 34);
       ASSERT_ALWAYS (r == 0);
     }

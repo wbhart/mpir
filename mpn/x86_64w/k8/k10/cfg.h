@@ -24,7 +24,7 @@ mpn_copyi
 mpn_divexact_1
 mpn_divexact_by3
 mpn_divexact_by3c
-mpn_divexact_fobm1
+mpn_divexact_byfobm1
 mpn_divexact_byff
 mpn_divrem_2
 mpn_preinv_divrem_1

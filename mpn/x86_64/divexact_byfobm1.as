@@ -24,7 +24,7 @@
 ;	The two imul's are only needed if want strict compatibility with
 ;	mpn_divexact_1 when the division is not exact
 
-	GLOBAL_FUNC mpn_divexact_fobm1
+	GLOBAL_FUNC mpn_divexact_byfobm1
 
 mov     r10d, 3
 lea     rsi, [rsi+rdx*8-24]

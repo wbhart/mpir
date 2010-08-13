@@ -17,7 +17,7 @@
 ;
 ;  rcx[r8] = rdx[r8] / r9     where [rsp+40] must be set to (B - 1) / r9 on entry 
 ;
-;  mp_limb_t mpn_divexact_fobm1(mp_ptr, mp_ptr, mp_size_t, mp_limb_t, mp_limb_t)
+;  mp_limb_t mpn_divexact_byfobm1(mp_ptr, mp_ptr, mp_size_t, mp_limb_t, mp_limb_t)
 ;  rax                             rdi     rsi        rdx        rcx         r8  
 ;  rax                             rcx     rdx         r8         r9   [rsp+40]
 
@@ -27,7 +27,7 @@
 
     BITS 64
 
-    LEAF_PROC mpn_divexact_fobm1
+    LEAF_PROC mpn_divexact_byfobm1
     mov     rax, r8
     mov     r8, [rsp+40]
     

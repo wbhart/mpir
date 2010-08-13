@@ -8,7 +8,7 @@ for fn in mpn_add_n mpn_sub_n mpn_mul_1.333 mpn_addmul_1.333 mpn_submul_1.333 mp
 	mpn_rsh1add_n mpn_rsh1sub_n mpn_sumdiff_n mpn_store mpn_copyi mpn_copyd \
 	mpn_rsblsh1_n mpn_addlsh2_n mpn_rsblsh2_n \
 	mpn_popcount mpn_hamdist mpn_com mpn_not mpn_and_n mpn_xor_n mpn_ior_n mpn_nand_n mpn_nior_n mpn_xnor_n mpn_andn_n \
-	mpn_iorn_n mpn_lshiftc.3 mpn_divexact_byff mpn_divexact_fobm1.3 mpn_divexact_by3 mpn_divexact_1.3333 mpn_modexact_1c_odd.334333 \
+	mpn_iorn_n mpn_lshiftc.3 mpn_divexact_byff mpn_divexact_byfobm1.3 mpn_divexact_by3 mpn_divexact_1.3333 mpn_modexact_1c_odd.334333 \
 	mpn_add_err1_n mpn_sub_err1_n \
 	mpn_divrem_euclidean_qr_1.77777 mpn_divrem_euclidean_qr_2 mpn_divrem_euclidean_r_1.77777 mpn_divrem_1.77777 mpn_divrem_2 \
 	mpn_divrem_hensel_qr_1.3333 mpn_divrem_hensel_qr_1_1.3333 mpn_divrem_hensel_qr_1_2.3333  \
@@ -35,7 +35,7 @@ do
 		if [ $fn == mpn_store ] ; then fn=MPN_ZERO ; fi
 		if [ $fn == mpn_copyi ] ; then fn=MPN_COPY_INCR ; fi
 		if [ $fn == mpn_copyd ] ; then fn=MPN_COPY_DECR ; fi
-		if [ $fn == mpn_divexact_fobm1.3 ] ; then fn=mpn_bdiv_dbm1c ; fi
+		if [ $fn == mpn_divexact_byfobm1.3 ] ; then fn=mpn_bdiv_dbm1c ; fi
 		if [ $fn == mpn_mod_1_2 ] ; then fn=mpn_mod_1s_2 ; fi
 		if [ $fn == mpn_mod_1_3 ] ; then fn=mpn_mod_1s_3 ; fi
 		if [ $fn == mpn_mod_1_4 ] ; then fn=mpn_mod_1s_4 ; fi
