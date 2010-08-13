@@ -322,7 +322,7 @@
 	</References>
 	<Files>
 		<File
-			RelativePath="..\..\..\tests\mpz\t-perfect_square_p.c"
+			RelativePath="..\..\..\tests\mpz\t-perfsqr.c"
 			>
 		</File>
 	</Files>

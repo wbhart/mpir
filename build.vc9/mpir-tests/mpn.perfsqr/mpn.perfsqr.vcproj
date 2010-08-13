@@ -318,7 +318,7 @@
 	</References>
 	<Files>
 		<File
-			RelativePath="..\..\..\tests\mpn\t-perfect_square_p.c"
+			RelativePath="..\..\..\tests\mpn\t-perfsqr.c"
 			>
 		</File>
 	</Files>

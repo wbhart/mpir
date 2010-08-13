@@ -6387,6 +6387,26 @@
 					</FileConfiguration>
 				</File>
 				<File
+					RelativePath="..\..\mpn\generic\dc_bdiv_qr_n.c"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
 					RelativePath="..\..\mpn\generic\dc_div_q.c"
 					>
 					<FileConfiguration
@@ -6427,6 +6447,26 @@
 					</FileConfiguration>
 				</File>
 				<File
+					RelativePath="..\..\mpn\generic\dc_div_qr_n.c"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
 					RelativePath="..\..\mpn\generic\dc_divappr_q.c"
 					>
 					<FileConfiguration
@@ -6448,6 +6488,26 @@
 				</File>
 				<File
 					RelativePath="..\..\mpn\generic\dc_divappr_q_n.c"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\mpn\"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\mpn\generic\divexact.c"
 					>
 					<FileConfiguration
 						Name="Debug|Win32"
@@ -6532,26 +6592,6 @@
 				</File>
 				<File
 					RelativePath="..\..\mpn\generic\divexact_byfobm1.c"
-					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\mpn\"
-						/>
-					</FileConfiguration>
-				</File>
-				<File
-					RelativePath="..\..\mpn\generic\divexact.c"
 					>
 					<FileConfiguration
 						Name="Debug|Win32"
