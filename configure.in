@@ -2294,7 +2294,7 @@ gmp_mpn_functions_optional="umul udiv copyi copyd com_n neg_n
 
 gmp_mpn_functions="$extra_functions					   \
   add add_1 add_n sub sub_1 sub_n mul_1 addmul_1 submul_1 lshift rshift    \
-  divexact_1 divexact_by3c divebyff divebyfobm1 divis divrem divrem_1 divrem_2       \
+  divexact_1 divexact_by3c divexact_byff divebyfobm1 divis divrem divrem_1 divrem_2       \
   divrem_euclidean_qr_1 divrem_euclidean_qr_2 divrem_euclidean_r_1	\
   divrem_hensel_qr_1 divrem_hensel_qr_1_1 divrem_hensel_qr_1_2		\
   divrem_hensel_r_1 divrem_hensel_rsh_qr_1 rsh_divrem_hensel_qr_1	\
@@ -2365,7 +2365,6 @@ dnl  divexact_1.
 dnl
 define(GMP_FILE_TO_FUNCTION,
 [case $$2 in
-  divebyff)   	$1=divexact_byff ;;
   divebyfobm1) 	$1=divexact_fobm1 ;;
   pre_divrem_1) $1=preinv_divrem_1 ;;
   mode1o)    	$1=modexact_1c_odd ;;
