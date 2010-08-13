@@ -391,7 +391,6 @@ my @table =
 
      {
        'regexp'=> 'dive_1',
-       'funs'  => ['divexact_1'],
        'ret'   => 'void',
        'args'  => 'mp_ptr dst, mp_srcptr src, mp_size_t size, mp_limb_t divisor',
        'speed_flags'=> 'FLAG_R',
