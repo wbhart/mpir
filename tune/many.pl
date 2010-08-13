@@ -528,8 +528,7 @@ my @table =
        'try-legendre' => 'TYPE_MPZ_JACOBI',
      },
      {
-       'regexp'=> 'jacbase',
-       'funs'  => ['jacobi_base'],
+       'regexp'=> 'jacobi_base',
        'ret'   => 'mp_limb_t',
        'args'  => 'mp_limb_t a, mp_limb_t b, int bit1',
        'speed' => 'SPEED_ROUTINE_MPN_JACBASE',

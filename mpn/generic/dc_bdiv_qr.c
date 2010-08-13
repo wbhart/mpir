@@ -43,40 +43,6 @@ along with the GNU MP Library.  If not, see http://www.gnu.org/licenses/.  */
    d must be odd. dinv is d^-1 mod 2^GMP_NUMB_BITS. */
 
 mp_limb_t
-mpn_dc_bdiv_qr_n (mp_ptr qp, mp_ptr np, mp_srcptr dp, mp_size_t n,
-		     mp_limb_t dinv, mp_ptr tp)
-{
-  mp_size_t lo, hi;
-  mp_limb_t cy;
-  mp_limb_t rh;
-
-  lo = n >> 1;			/* floor(n/2) */
-  hi = n - lo;			/* ceil(n/2) */
-
-  if (BELOW_THRESHOLD (lo, DC_BDIV_QR_THRESHOLD))
-    cy = mpn_sb_bdiv_qr (qp, np, 2 * lo, dp, lo, dinv);
-  else
-    cy = mpn_dc_bdiv_qr_n (qp, np, dp, lo, dinv, tp);
-
-  mpn_mul (tp, dp + lo, hi, qp, lo);
-
-  mpn_incr_u (tp + lo, cy);
-  rh = mpn_sub (np + lo, np + lo, n + hi, tp, n);
-
-  if (BELOW_THRESHOLD (hi, DC_BDIV_QR_THRESHOLD))
-    cy = mpn_sb_bdiv_qr (qp + lo, np + lo, 2 * hi, dp, hi, dinv);
-  else
-    cy = mpn_dc_bdiv_qr_n (qp + lo, np + lo, dp, hi, dinv, tp);
-
-  mpn_mul (tp, qp + lo, hi, dp + hi, lo);
-
-  mpn_incr_u (tp + hi, cy);
-  rh += mpn_sub_n (np + n, np + n, tp, n);
-
-  return rh;
-}
-
-mp_limb_t
 mpn_dc_bdiv_qr (mp_ptr qp, mp_ptr np, mp_size_t nn,
 		   mp_srcptr dp, mp_size_t dn, mp_limb_t dinv)
 {

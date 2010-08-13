@@ -26,4 +26,4 @@ MA 02110-1301, USA. */
 #define JACOBI_BASE_METHOD 1
 #define __gmpn_jacobi_base mpn_jacobi_base_1
 
-#include "mpn/generic/jacbase.c"
+#include "mpn/generic/jacobi_base.c"
