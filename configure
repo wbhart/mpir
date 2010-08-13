@@ -5024,7 +5024,7 @@ echo "include_mpn(\`sparc32/sparc-defs.m4')" >> $gmp_tmpconfigm4i
 			 divrem_euclidean_qr_1
 			divrem_euclidean_qr_2 gcd_1 lshift
 		     mod_1 mod_34lsub1 modexact_1c_odd mul_1 mul_basecase
-		     pre_divrem_1 preinv_mod_1 redc_basecase rshift
+		     preinv_divrem_1 preinv_mod_1 redc_basecase rshift
 		     sqr_basecase sub_n submul_1 sumdiff_n"
       fat_exclude=""
       fat_thresholds="MUL_KARATSUBA_THRESHOLD MUL_TOOM3_THRESHOLD
@@ -25735,7 +25735,7 @@ fi
 #
 # Note: $gmp_mpn_functions must have mod_1 before preinv_mod_1 so the former
 #       can optionally provide the latter as an extra entrypoint.  Likewise
-#       divrem_1 and pre_divrem_1.
+#       divrem_1 and preinv_divrem_1.
 
 gmp_mpn_functions_optional="umul udiv copyi copyd com_n neg_n
   and_n andn_n nand_n ior_n iorn_n nior_n xor_n xnor_n			\
@@ -25753,7 +25753,7 @@ gmp_mpn_functions="$extra_functions					   \
   divrem_hensel_r_1 divrem_hensel_rsh_qr_1 rsh_divrem_hensel_qr_1	\
   rsh_divrem_hensel_qr_1_1 rsh_divrem_hensel_qr_1_2			\
   add_err1_n add_err2_n sub_err1_n sub_err2_n				   \
-  fib2_ui mod_1 mod_34lsub1 modexact_1c_odd pre_divrem_1 preinv_mod_1 dump		   \
+  fib2_ui mod_1 mod_34lsub1 modexact_1c_odd preinv_divrem_1 preinv_mod_1 dump		   \
   lgcd ngcd_matrix ngcd_step nhgcd2                        \
   mod_1_1 mod_1_2 mod_1_3 tdiv_q mp_bases fib_table			\
   mulmid_basecase mulmid mulmid_n toom42_mulmid	mulmod_2expp1 mulmod_2expm1	\
@@ -25790,6 +25790,7 @@ case $srcdir in
   *)                    # relative
     mpn_relative_top_srcdir=../$srcdir ;;
 esac
+
 
 
 
@@ -25865,7 +25866,6 @@ gmp_mpn_functions_optional=$remove_from_list_tmp
 
   for tmp_fn in $fat_functions; do
     case $tmp_fn in
-  pre_divrem_1) tmp_fbase=preinv_divrem_1 ;;
   *)         	tmp_fbase=$tmp_fn ;;
 esac
 
@@ -25899,7 +25899,6 @@ _ACEOF
     volatile struct cpuvec_t *p = &__gmpn_cpuvec; \\" >>fat.h
   for tmp_fn in $fat_functions; do
     case $tmp_fn in
-  pre_divrem_1) tmp_fbase=preinv_divrem_1 ;;
   *)         	tmp_fbase=$tmp_fn ;;
 esac
 
@@ -25917,7 +25916,6 @@ esac
   do { \\" >>fat.h
   for tmp_fn in $fat_functions; do
     case $tmp_fn in
-  pre_divrem_1) tmp_fbase=preinv_divrem_1 ;;
   *)         	tmp_fbase=$tmp_fn ;;
 esac
 
@@ -26011,7 +26009,6 @@ esac
             mpn_objs_in_libgmp="$mpn_objs_in_libgmp mpn/${tmp_prefix}_$tmp_fn.lo"
 
             case $tmp_fn in
-  pre_divrem_1) tmp_fbase=preinv_divrem_1 ;;
   *)         	tmp_fbase=$tmp_fn ;;
 esac
 

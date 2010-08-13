@@ -414,8 +414,7 @@ my @table =
        'speed_suffixes' => ['f'],
      },
      {
-       'regexp'=> 'pre_divrem_1',
-       'funs'  => ['preinv_divrem_1'],
+       'regexp'=> 'preinv_divrem_1',
        'ret'   => 'mp_limb_t',
        'args'  => 'mp_ptr qp, mp_size_t qxn, mp_srcptr ap, mp_size_t asize, mp_limb_t divisor, mp_limb_t inverse, int shift',
        'speed_flags' => 'FLAG_R',

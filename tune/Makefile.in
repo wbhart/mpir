@@ -96,7 +96,7 @@ am_libspeed_la_OBJECTS = common.lo divrem1div.lo divrem1inv.lo \
 	divrem2div.lo divrem2inv.lo freq.lo gcd_bin.lo gcdextod.lo \
 	gcdextos.lo jacbase1.lo jacbase2.lo jacbase3.lo mod_1_div.lo \
 	mod_1_inv.lo modlinv.lo noop.lo powm_mod.lo powm_redc.lo \
-	pre_divrem_1.lo fac_ui_large.lo fac_ui_small.lo set_strb.lo \
+	preinv_divrem_1.lo fac_ui_large.lo fac_ui_small.lo set_strb.lo \
 	set_strs.lo set_strp.lo time.lo
 libspeed_la_OBJECTS = $(am_libspeed_la_OBJECTS)
 libspeed_la_LINK = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) \
@@ -330,7 +330,7 @@ libspeed_la_SOURCES = \
   gcdextod.c gcdextos.c			\
   jacbase1.c jacbase2.c jacbase3.c					\
   mod_1_div.c mod_1_inv.c modlinv.c					\
-  noop.c powm_mod.c powm_redc.c pre_divrem_1.c				\
+  noop.c powm_mod.c powm_redc.c preinv_divrem_1.c				\
   fac_ui_large.c fac_ui_small.c						\
   set_strb.c set_strs.c set_strp.c time.c
 

@@ -27,6 +27,6 @@ MA 02110-1301, USA. */
 #undef USE_PREINV_DIVREM_1
 #define USE_PREINV_DIVREM_1 1
 
-#include "mpn/generic/pre_divrem_1.c"
+#include "mpn/generic/preinv_divrem_1.c"
 
 #endif
