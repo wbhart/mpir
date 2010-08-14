@@ -2,7 +2,7 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
-	Name="mpn.divexact_byfobm1"
+	Name="mpn.divebyfobm1"
 	ProjectGUID="{EEEF41E8-5252-4EC8-B7F7-4613C15B647F}"
 	RootNamespace="mpn.divexact_byfobm1"
 	Keyword="Win32Proj"

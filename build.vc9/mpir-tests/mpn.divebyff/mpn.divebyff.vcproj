@@ -2,7 +2,7 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
-	Name="mpn.divexact_byff"
+	Name="mpn.divebyff"
 	ProjectGUID="{DA5B26DC-AB9D-4BC7-B107-AAE1CC12E659}"
 	RootNamespace="mpn.divexact_byff"
 	Keyword="Win32Proj"
