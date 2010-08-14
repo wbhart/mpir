@@ -20,7 +20,7 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{EEEF41E8-5252-4EC8-B7F7-4613C15B647F}</ProjectGuid>
-    <RootNamespace>mpn.divebybm1of</RootNamespace>
+    <RootNamespace>mpn.divebyfobm1</RootNamespace>
     <Keyword>Win32Proj</Keyword>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />

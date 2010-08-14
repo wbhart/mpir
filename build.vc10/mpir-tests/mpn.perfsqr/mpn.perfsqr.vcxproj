@@ -150,7 +150,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\tests\mpn\t-perfect_square_p.c" />
+    <ClCompile Include="..\..\..\tests\mpn\t-perfsqr.c" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\add-test-lib\add-test-lib.vcxproj">

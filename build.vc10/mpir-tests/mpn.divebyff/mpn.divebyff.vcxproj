@@ -20,7 +20,7 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{DA5B26DC-AB9D-4BC7-B107-AAE1CC12E659}</ProjectGuid>
-    <RootNamespace>mpn.divexact_byff</RootNamespace>
+    <RootNamespace>mpn.divebyff</RootNamespace>
     <Keyword>Win32Proj</Keyword>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
