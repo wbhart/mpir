@@ -285,7 +285,7 @@ void
 gmp_randinit_lc_2exp (gmp_randstate_t rstate,
 		      mpz_srcptr a,
 		      unsigned long int c,
-		      unsigned long int m2exp)
+		      mp_bitcnt_t m2exp)
 {
   gmp_rand_lc_struct *p;
   mp_size_t seedn = BITS_TO_LIMBS (m2exp);
