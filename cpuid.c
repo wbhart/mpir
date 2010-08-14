@@ -33,7 +33,7 @@ Boston, MA 02110-1301, USA.
 #if CONFIG_GUESS
 // use's the stringinzing directive  #x   ie #x expands to "x"
 #define CPUIS(x)	modelstr=#x
-#define __gmpn_cpuid	cpuid
+#define __gmpn_cpuid(_x,_y)	cpuid(_x,_y,1,0,0)
 #endif
 #if INFAT
 #define CPUIS(x)	do{TRACE(printf("  "#x"\n"));CPUSETUP_##x;}while(0)

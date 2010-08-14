@@ -681,14 +681,18 @@ EOF
 	.globl _cpuid
 cpuid:
 _cpuid:
-	pushq %rbx
+	movq %rbx,%r11
+	movq %rdi,%r9
 	movq %rsi,%rax
+	orq  %r8,%r8
+	cmovne %rcx,%r9
+	cmovne %rdx,%rax	
 	.byte 0x0f
 	.byte 0xa2
-	movl %ebx,(%rdi)
-	movl %edx,4(%rdi)
-	movl %ecx,8(%rdi)
-	popq %rbx
+	movl %ebx,(%r9)
+	movl %edx,4(%r9)
+	movl %ecx,8(%r9)
+	movq %r11,%rbx
 	ret
 EOF
   cat <<EOF >${dummy}32.c
