@@ -62,6 +62,11 @@ along with the GNU MP Library.  If not, see http://www.gnu.org/licenses/.  */
 #define __GMP_LIBGMP_DLL  @LIBGMP_DLL@
 #endif
 
+//#if defined(__GMP_WITHIN_CONFIGURE) && defined(_WIN64)
+#ifdef __WIN64
+#define _LONG_LONG_LIMB	1
+#endif
+
 
 /* __STDC__ - some ANSI compilers define this only to 0, hence the use of
        "defined" and not "__STDC__-0".  In particular Sun workshop C 5.0
