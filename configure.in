@@ -1346,6 +1346,30 @@ case $host in
         esac
 
         case $host in
+	  x86_64-*-mingw*)
+            path_64="x86_64w" ;;
+          netburst-*-mingw*)
+            path_64="x86_64w/netburst x86_64w" ;;
+          netburstlahf-*-mingw*)
+            path_64="x86_64w/netburst/netburstlahf x86_64w/netburst x86_64w" ;;
+          k8-*-mingw*)
+            path_64="x86_64w/k8/k8only x86_64w/k8 x86_64w" ;;
+          k102-*-mingw*)
+            path_64="x86_64w/k8/k10/k102 x86_64w/k8/k10 x86_64w/k8 x86_64w" ;;
+          k10-*-mingw*)
+            path_64="x86_64w/k8/k10 x86_64w/k8 x86_64w" ;;
+          core2-*-mingw*) 
+            path_64="x86_64w/core2 x86_64w" ;;
+          penryn-*-mingw*) 
+            path_64="x86_64w/core2/penryn x86_64w/core2 x86_64w" ;;
+          nehalem-*-mingw*) 
+            path_64="x86_64w/nehalem x86_64w" ;;
+          westmere-*-mingw*) 
+            path_64="x86_64w/nehalem/westmere x86_64w/nehalem x86_64w" ;;
+          atom-*-mingw*) 
+            path_64="x86_64w/atom x86_64w" ;;
+          nano-*-mingw*) 
+            path_64="x86_64w/nano x86_64w" ;;
           x86_64-*-*)
             path_64="x86_64" ;;
           netburst-*-*)
