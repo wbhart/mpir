@@ -198,7 +198,7 @@ typedef long int		mp_limb_signed_t;
 #endif
 #endif
 
-#if defined( _MSC_VER ) && defined( _WIN64 )
+#ifdef _WIN64
 typedef unsigned long long int	mp_bitcnt_t;
 #else
 typedef unsigned long int mp_bitcnt_t;
