@@ -57,6 +57,7 @@
       <Debug>true</Debug>
       <ObjectFileName>$(IntDir)mpn\</ObjectFileName>
       <ObjectFile>$(IntDir)mpn\</ObjectFile>
+      <IncludePaths>..\..\mpn\x86w\</IncludePaths>
     </YASM>
     <ClCompile>
       <Optimization>Disabled</Optimization>
@@ -95,6 +96,7 @@
       <Debug>true</Debug>
       <ObjectFileName>$(IntDir)mpn\</ObjectFileName>
       <ObjectFile>$(IntDir)mpn\</ObjectFile>
+      <IncludePaths>..\..\mpn\x86w\</IncludePaths>
     </YASM>
     <ClCompile>
       <Optimization>Full</Optimization>

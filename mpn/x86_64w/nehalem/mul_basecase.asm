@@ -24,7 +24,7 @@
 ;  rax                           rdi     rsi        rdx     rcx         r8
 ;  rax                           rcx     rdx         r8      r9   [rsp+40]
 
-%include "..\yasm_mac.inc"
+%include "yasm_mac.inc"
 
 %macro addmul2lp 0
     xalign  16

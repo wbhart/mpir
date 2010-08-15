@@ -27,7 +27,7 @@
 ;	(rdi,2)= not fully reduced remainder of (rsi,rdx) / divisor , and top limb <d
 ;	where (rcx,4)  contains B^i % divisor
 
-%include '..\yasm_mac.inc'
+%include 'yasm_mac.inc'
 
     CPU  Athlon64
     BITS 64

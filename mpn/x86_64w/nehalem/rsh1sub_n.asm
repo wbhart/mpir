@@ -23,7 +23,7 @@
 ; return bottom bit of difference
 ; subtraction treated as two compliment
 
-%include "..\yasm_mac.inc"
+%include "yasm_mac.inc"
 
 %define reg_save_list rbx, rsi, rdi, r12
 

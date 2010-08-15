@@ -23,7 +23,7 @@
 ;  rax                       rdi     rsi        rdx        rcx
 ;  rax                       rcx     rdx         r8        r9d
 
-%include "..\yasm_mac.inc"
+%include "yasm_mac.inc"
 
     CPU  Athlon64
     BITS 64

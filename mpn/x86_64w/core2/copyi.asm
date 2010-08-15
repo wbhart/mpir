@@ -23,7 +23,7 @@
 
 %define SMALL_LOOP  1
 
-%include "..\yasm_mac.inc"
+%include "yasm_mac.inc"
 
     CPU  Core2
     BITS 64

@@ -55,6 +55,7 @@
       <Debug>true</Debug>
       <ObjectFileName>$(IntDir)mpn\</ObjectFileName>
       <ObjectFile>$(IntDir)mpn\</ObjectFile>
+      <IncludePaths>..\..\mpn\x86_64w\</IncludePaths>
     </YASM>
     <Midl>
       <TargetEnvironment>X64</TargetEnvironment>
@@ -98,6 +99,7 @@
       <Debug>true</Debug>
       <ObjectFileName>$(IntDir)mpn\</ObjectFileName>
       <ObjectFile>$(IntDir)mpn\</ObjectFile>
+      <IncludePaths>..\..\mpn\x86_64w\</IncludePaths>
     </YASM>
     <Midl>
       <TargetEnvironment>X64</TargetEnvironment>

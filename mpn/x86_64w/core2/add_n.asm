@@ -24,7 +24,7 @@
 ;  rax                     rdi        rsi        rdx        rcx         r8
 ;  rax                     rcx        rdx         r8         r9   [rsp+40]
 
-%include "..\yasm_mac.inc"
+%include "yasm_mac.inc"
 
 %define TR2 r10
 %define TR4 r10

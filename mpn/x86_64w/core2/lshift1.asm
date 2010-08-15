@@ -22,7 +22,7 @@
 ;  rax                      rdi     rsi        rdx
 ;  rax                      rcx     rdx        r8d
 
-%include "..\yasm_mac.inc"
+%include "yasm_mac.inc"
 
 %define reg_save_list r12, r13
 

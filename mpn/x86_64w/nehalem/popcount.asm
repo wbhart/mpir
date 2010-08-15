@@ -19,7 +19,7 @@
 ;	rax                        rdi,      rsi
 ;	eax                        rcx,      rdx
 
-%include '..\yasm_mac.inc'
+%include 'yasm_mac.inc'
 
 %define TR4	r10
 

@@ -23,7 +23,7 @@
 ;	rax                      rdi,    rsi,       rdx
 ;	rax                      rcx,    rdx,        r8
 
-%include "..\..\yasm_mac.inc"
+%include "yasm_mac.inc"
 
     CPU  SSE4.2
     BITS 64

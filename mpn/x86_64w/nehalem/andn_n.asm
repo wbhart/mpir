@@ -24,7 +24,7 @@
 ;                     rcx        rdx         r8         r9
 ;                     rdi        rsi        rdx        rcx 
 
-%include '..\yasm_mac.inc'
+%include 'yasm_mac.inc'
 
     CPU  nehalem
     BITS 64

@@ -23,7 +23,7 @@
 ;                    rdi        rsi        rdx        rcx
 ;                    rcx        rdx         r8         r9
 
-%include "..\yasm_mac.inc"
+%include "yasm_mac.inc"
 
     CPU  Core2
     BITS 64

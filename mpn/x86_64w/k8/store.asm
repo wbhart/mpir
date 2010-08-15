@@ -21,7 +21,7 @@
 ;	mpn_store(mp_ptr, mp_size_t, mp_limb_t)
 ;	rax          rcx,       rdx,        r8
 
-%include "..\yasm_mac.inc"
+%include "yasm_mac.inc"
 
     CPU  Athlon64
     BITS 64

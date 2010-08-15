@@ -51,8 +51,7 @@
     </CustomBuildStep>
     <YASM>
       <Defines>_WIN64_ABI</Defines>
-      <IncludePaths>
-      </IncludePaths>
+      <IncludePaths>..\..\mpn\x86_64w\</IncludePaths>
       <Debug>true</Debug>
       <ObjectFileName>$(IntDir)mpn\</ObjectFileName>
       <ObjectFile>$(IntDir)mpn\</ObjectFile>
@@ -91,6 +90,7 @@
       <Debug>true</Debug>
       <ObjectFileName>$(IntDir)mpn\</ObjectFileName>
       <ObjectFile>$(IntDir)mpn\</ObjectFile>
+      <IncludePaths>..\..\mpn\x86_64w\</IncludePaths>
     </YASM>
     <Midl>
       <TargetEnvironment>X64</TargetEnvironment>
