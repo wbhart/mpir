@@ -36,6 +36,7 @@
 			/>
 			<Tool
 				Name="YASM"
+				IncludePaths="..\..\mpn\x86w\"
 				ObjectFileName="$(IntDir)\mpn\$(InputName).obj"
 				Debug="true"
 			/>
@@ -108,6 +109,7 @@
 			/>
 			<Tool
 				Name="YASM"
+				IncludePaths="..\..\mpn\x86w\"
 				ObjectFileName="$(IntDir)\mpn\$(InputName).obj"
 				Debug="true"
 			/>

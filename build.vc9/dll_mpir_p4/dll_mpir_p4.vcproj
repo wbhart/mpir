@@ -37,6 +37,7 @@
 			<Tool
 				Name="YASM"
 				Defines="DLL"
+				IncludePaths="..\..\mpn\x86w\"
 				ObjectFileName="$(IntDir)\mpn\$(InputName).obj"
 				Debug="true"
 			/>
@@ -120,6 +121,7 @@
 			<Tool
 				Name="YASM"
 				Defines="DLL"
+				IncludePaths="..\..\mpn\x86w\"
 				ObjectFileName="$(IntDir)\mpn\$(InputName).obj"
 				Debug="true"
 			/>
