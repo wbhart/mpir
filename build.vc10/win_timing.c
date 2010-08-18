@@ -5,9 +5,6 @@
 #include <time.h>
 #include <psapi.h>
 #include <errno.h>
-#include <stdlib.h>
-#include <intrin.h>
-#pragma intrinsic(__rdtsc)
 
 #include "win_timing.h"
 
@@ -90,7 +87,7 @@ void init_timing(void)
     seconds_per_tick = 1.0 / (double)ll.QuadPart;
     QueryPerformanceCounter(&ll);
     start = seconds_per_tick * ll.QuadPart;
-	set_timing_seconds();
+		set_timing_seconds();
 }
 
 void start_timing(void)
@@ -129,10 +126,10 @@ int get_processor_info(char *cpu_id, char *cpu_name, double *cycles_per_second)
     DWORD   mhz, bsize;
     HKEY    hKey;
 
-    if(RegOpenKeyEx( HKEY_LOCAL_MACHINE, "HARDWARE\\DESCRIPTION\\System\\CentralProcessor\\0", 
+    if(RegOpenKeyEx( HKEY_LOCAL_MACHINE, "HARDWARE\\DESCRIPTION\\System\\CentralProcessor\\0",
             0, KEY_READ, &hKey ) != ERROR_SUCCESS)
         return EXIT_FAILURE;
-   
+
     bsize = 4;
     if(RegQueryValueEx(hKey, "~MHz", NULL, NULL, (LPBYTE) &mhz, &bsize) != ERROR_SUCCESS)
         return EXIT_FAILURE;
@@ -161,7 +158,7 @@ int gettimeofday(struct timeval *tv, struct timezone *tz)
         GetSystemTimeAsFileTime(&ft);
         li.LowPart  = ft.dwLowDateTime;
         li.HighPart = ft.dwHighDateTime;
-        t  = li.QuadPart; 
+        t  = li.QuadPart;
         t -= EPOCHFILETIME;
         t /= 10;
         tv->tv_sec  = (long)(t / 1000000);
@@ -193,18 +190,18 @@ int getrusage(int who, rusage *usage)
     file_t c_time, x_time, s_time, u_time;
     int cb = 0, err = -1;
 
-    if(who != RUSAGE_SELF) 
+    if(who != RUSAGE_SELF)
     {
-        errno = (who == RUSAGE_CHILDREN ? ENODATA : EINVAL); 
+        errno = (who == RUSAGE_CHILDREN ? ENODATA : EINVAL);
         return err;
     }
 
     proc_hand = OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, FALSE, GetCurrentProcessId());
 
-    if(GetProcessTimes(proc_hand, &(c_time.ft), &(x_time.ft), &(s_time.ft), &(u_time.ft))) 
+    if(GetProcessTimes(proc_hand, &(c_time.ft), &(x_time.ft), &(s_time.ft), &(u_time.ft)))
     {
         PROCESS_MEMORY_COUNTERS ctrs;
-        
+
         /* The units returned by GetProcessTimes are 100 nanoseconds */
         u_time.lt = (u_time.lt + 5) / 10;
         s_time.lt = (s_time.lt + 5) / 10;
@@ -214,7 +211,7 @@ int getrusage(int who, rusage *usage)
         usage->ru_utime.tv_usec = (long)(u_time.lt % 1000000ll);
         usage->ru_stime.tv_usec = (long)(s_time.lt % 1000000ll);
 
-        if(GetProcessMemoryInfo(proc_hand, &ctrs, sizeof(ctrs))) 
+        if(GetProcessMemoryInfo(proc_hand, &ctrs, sizeof(ctrs)))
         {
             PERFORMANCE_INFORMATION perf_info;
             GetPerformanceInfo(&perf_info, sizeof(perf_info));
