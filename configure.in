@@ -1345,6 +1345,14 @@ case $host in
            cc_64_cflags_opt="-xO4 -O2" ;;
         esac
 
+	case $host in
+	  *-*-mingw*)
+		OBJECT_FORMAT="-f x64" 
+		AC_SUBST(OBJECT_FORMAT) ;;
+	  *-*-*)
+		;;
+	esac
+
         case $host in
 	  x86_64-*-mingw*)
             path_64="x86_64w" ;;
