@@ -26250,7 +26250,7 @@ esac
           mpn_objs_in_libgmp="$mpn_objs_in_libgmp mpn/$tmp_fn$tmp_u.lo"
           ac_config_links="$ac_config_links mpn/$tmp_fn.$tmp1_ext:mpn/$tmp_dir/$tmp_base.$tmp_ext"
 
-          gmp_srclinks="$gmp_srclinks mpn/$tmp_fn.$tmp_ext"
+          gmp_srclinks="$gmp_srclinks mpn/$tmp_fn.$tmp1_ext"
 
           # Duplicate AC_DEFINEs are harmless, so it doesn't matter
           # that multi-function files get grepped here repeatedly.
@@ -28044,11 +28044,22 @@ echo "define(\`__CONFIG_M4_INCLUDED__')" >> $gmp_configm4
 subdirs="$subdirs yasm"
 
 
-if test $enable_fat = yes; then
-YASM_MAC_INC=yasm_mac.inc.fat
-else
-YASM_MAC_INC=yasm_mac.inc.nofat
-fi
+case $host in
+  *-*-mingw*)
+	if test $enable_fat = yes; then
+	YASM_MAC_INC=yasm_macwin.inc.fat
+	else
+	YASM_MAC_INC=yasm_macwin.inc.nofat
+	fi
+  ;;
+  *-*-*)
+	if test $enable_fat = yes; then
+	YASM_MAC_INC=yasm_mac.inc.fat
+	else
+	YASM_MAC_INC=yasm_mac.inc.nofat
+	fi
+  ;;
+esac
 ac_config_links="$ac_config_links yasm_mac.inc:$YASM_MAC_INC"
 
 
