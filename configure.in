@@ -1345,14 +1345,6 @@ case $host in
            cc_64_cflags_opt="-xO4 -O2" ;;
         esac
 
-	case $host in
-	  *-*-mingw*)
-		OBJECT_FORMAT="-f x64" 
-		AC_SUBST(OBJECT_FORMAT) ;;
-	  *-*-*)
-		;;
-	esac
-
         case $host in
 	  x86_64-*-mingw*)
             path_64="x86_64w" ;;
@@ -2750,9 +2742,19 @@ for tmp_fn in $gmp_mpn_functions; do
             tmp_u=
           fi
 
+	  #on mingw64 rename asm to as
+	  tmp1_ext=$tmp_ext
+	  case $host in
+	  *-*-mingw*)
+		if test $tmp_ext = asm; then
+		 tmp1_ext=as
+		fi
+	  ;;
+	  esac
+
           mpn_objects="$mpn_objects $tmp_fn$tmp_u.lo"
           mpn_objs_in_libgmp="$mpn_objs_in_libgmp mpn/$tmp_fn$tmp_u.lo"
-          AC_CONFIG_LINKS(mpn/$tmp_fn.$tmp_ext:mpn/$tmp_dir/$tmp_base.$tmp_ext)
+          AC_CONFIG_LINKS(mpn/$tmp_fn.$tmp1_ext:mpn/$tmp_dir/$tmp_base.$tmp_ext)
           gmp_srclinks="$gmp_srclinks mpn/$tmp_fn.$tmp_ext"
 
           # Duplicate AC_DEFINEs are harmless, so it doesn't matter
@@ -2993,6 +2995,8 @@ if test "$gmp_asm_syntax_testing" != no; then
           case $host in 
             *-*-darwin*)
               OBJECT_FORMAT="-f macho64" ;;
+	    *-*-mingw*)
+		OBJECT_FORMAT="-f x64"  ;;
 	    *)
 	      OBJECT_FORMAT="-f elf64" ;;
           esac
