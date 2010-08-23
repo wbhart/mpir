@@ -46,7 +46,9 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <PreBuildEvent>
-      <Command>..\prebuild p4</Command>
+      <Command>cd ..\ 
+prebuild p4 win32
+</Command>
     </PreBuildEvent>
     <CustomBuildStep>
       <Command>
@@ -73,12 +75,15 @@
     </ClCompile>
     <Lib />
     <PostBuildEvent>
-      <Command>..\postbuild "$(TargetPath)"</Command>
+      <Command>cd ..\ 
+postbuild "$(TargetPath)"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <PreBuildEvent>
-      <Command>..\prebuild p4</Command>
+      <Command>cd ..\ 
+prebuild p4 win32
+</Command>
     </PreBuildEvent>
     <CustomBuildStep>
       <Command>
@@ -105,7 +110,8 @@
     </ClCompile>
     <Lib />
     <PostBuildEvent>
-      <Command>..\postbuild "$(TargetPath)"</Command>
+      <Command>cd ..\ 
+postbuild "$(TargetPath)"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

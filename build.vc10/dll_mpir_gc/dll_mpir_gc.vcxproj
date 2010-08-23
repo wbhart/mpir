@@ -69,7 +69,9 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <PreBuildEvent>
-      <Command>..\prebuild generic</Command>
+      <Command>cd ..\ 
+prebuild gc win32
+</Command>
     </PreBuildEvent>
     <CustomBuildStep>
       <Command>
@@ -97,12 +99,15 @@
       <TargetMachine>MachineX86</TargetMachine>
     </Link>
     <PostBuildEvent>
-      <Command>..\postbuild "$(TargetPath)"</Command>
+      <Command>cd ..\ 
+postbuild "$(TargetPath)"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <PreBuildEvent>
-      <Command>..\prebuild generic</Command>
+      <Command>cd ..\ 
+prebuild gc x64
+</Command>
     </PreBuildEvent>
     <CustomBuildStep>
       <Command>
@@ -131,12 +136,15 @@
       <TargetMachine>MachineX64</TargetMachine>
     </Link>
     <PostBuildEvent>
-      <Command>..\postbuild "$(TargetPath)"</Command>
+      <Command>cd ..\ 
+postbuild "$(TargetPath)"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <PreBuildEvent>
-      <Command>..\prebuild generic</Command>
+      <Command>cd ..\ 
+prebuild gc win32
+</Command>
     </PreBuildEvent>
     <CustomBuildStep>
       <Command>
@@ -169,12 +177,15 @@
       <TargetMachine>MachineX86</TargetMachine>
     </Link>
     <PostBuildEvent>
-      <Command>..\postbuild "$(TargetPath)"</Command>
+      <Command>cd ..\ 
+postbuild "$(TargetPath)"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <PreBuildEvent>
-      <Command>..\prebuild generic</Command>
+      <Command>cd ..\ 
+prebuild gc x64
+</Command>
     </PreBuildEvent>
     <CustomBuildStep>
       <Command>
@@ -208,7 +219,8 @@
       <TargetMachine>MachineX64</TargetMachine>
     </Link>
     <PostBuildEvent>
-      <Command>..\postbuild "$(TargetPath)"</Command>
+      <Command>cd ..\ 
+postbuild "$(TargetPath)"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

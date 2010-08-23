@@ -45,7 +45,9 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <PreBuildEvent>
-      <Command>..\prebuild core2</Command>
+      <Command>cd ..\ 
+prebuild core2 x64
+</Command>
     </PreBuildEvent>
     <CustomBuildStep>
       <Command>
@@ -84,12 +86,15 @@
       <TargetMachine>MachineX64</TargetMachine>
     </Link>
     <PostBuildEvent>
-      <Command>..\postbuild "$(TargetPath)"</Command>
+      <Command>cd ..\ 
+postbuild "$(TargetPath)"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <PreBuildEvent>
-      <Command>..\prebuild core2</Command>
+      <Command>cd ..\ 
+prebuild core2 x64
+</Command>
     </PreBuildEvent>
     <CustomBuildStep>
       <Command>
@@ -134,7 +139,8 @@
       <TargetMachine>MachineX64</TargetMachine>
     </Link>
     <PostBuildEvent>
-      <Command>..\postbuild "$(TargetPath)"</Command>
+      <Command>cd ..\ 
+postbuild "$(TargetPath)"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

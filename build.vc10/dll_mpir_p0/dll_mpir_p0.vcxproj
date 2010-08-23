@@ -46,7 +46,9 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <PreBuildEvent>
-      <Command>..\prebuild p0</Command>
+      <Command>cd ..\ 
+prebuild p0 win32
+</Command>
     </PreBuildEvent>
     <CustomBuildStep>
       <Command>
@@ -80,12 +82,15 @@
       <TargetMachine>MachineX86</TargetMachine>
     </Link>
     <PostBuildEvent>
-      <Command>..\postbuild "$(TargetPath)"</Command>
+      <Command>cd ..\ 
+postbuild "$(TargetPath)"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <PreBuildEvent>
-      <Command>..\prebuild p0</Command>
+      <Command>cd ..\ 
+prebuild p0 win32
+</Command>
     </PreBuildEvent>
     <CustomBuildStep>
       <Command>
@@ -123,7 +128,8 @@
       <TargetMachine>MachineX86</TargetMachine>
     </Link>
     <PostBuildEvent>
-      <Command>..\postbuild "$(TargetPath)"</Command>
+      <Command>cd ..\ 
+postbuild "$(TargetPath)"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

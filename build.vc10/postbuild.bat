@@ -4,37 +4,38 @@ call :parse %1
 if /i "%plf%" EQU "" (call :seterr & echo ERROR: %1 is not supported & exit /b %errorlevel%)
 set extn=%fnx%#
 set extn=%extn:~-4,-1%
-set tdir="..\%plf%\%cnf%"
+set tdir="%plf%\%cnf%"
 
 rem The Output Directory
-set odir="..\%extn%\%plf%\%cnf%"
+set odir="%extn%\%plf%\%cnf%"
 
-echo %extn% %plf% %cnf% %odir% >..\mpir-tests\lastbuild.txt
+echo %extn% %plf% %cnf% %odir% >mpir-tests\lastbuild.txt
 echo copying outputs from %tdir% to %odir%
 if not exist %odir% md %odir%
-call :copyh %tdir% %odir%
+call :copyh %odir%
 
 if "%extn%" EQU "dll" (
 	copy %tdir%\mpir.dll %odir%\mpir.dll
 	copy %tdir%\mpir.exp %odir%\mpir.exp
 	copy %tdir%\mpir.lib %odir%\mpir.lib
 	copy %tdir%\mpir.pdb %odir%\mpir.pdb
-	copy ..\mpir-tests\dll-test-config.props ..\mpir-tests\test-config.props
+	copy mpir-tests\dll-test-config.props mpir-tests\test-config.props
 ) else if "%extn%" EQU "lib" (
 	copy %tdir%\mpir.lib %odir%\mpir.lib
 	copy %tdir%\mpir.pdb %odir%\mpir.pdb
-	copy ..\mpir-tests\lib-test-config.props ..\mpir-tests\test-config.props
+	copy mpir-tests\lib-test-config.props mpir-tests\test-config.props
 ) else (
 	call :seterr & echo ERROR: illegal library type %extn%  & exit /b %errorlevel%
 )
 exit /b 0
 
 :copyh
-copy %1\config.h %2\config.h
-copy %1\gmp-mparam.h %2\gmp-mparam.h
-copy %1\mpir.h %2\mpir.h
-copy %1\mpir.h %2\gmp.h
-if exist %1\mpirxx.h (copy %1\mpirxx.h %2\mpirxx.h & copy %1\mpirxx.h %2\gmpxx.h)
+copy ..\config.h %1\config.h
+copy ..\gmp-mparam.h %1\gmp-mparam.h
+copy ..\mpir.h %1\mpir.h
+copy ..\mpir.h %1\gmp.h
+copy ..\mpirxx.h %1\mpirxx.h
+copy ..\mpirxx.h %1\gmpxx.h
 exit /b 0
 
 :parse
