@@ -49,6 +49,8 @@ MA 02110-1301, USA. */
 char *decimal_point;
 
 /* Replace the libc localeconv with one we can manipulate. */
+#if ! (defined(_WIN64) || defined(_MSC_VER))
+// cant get the test to pass under msvc or mingw64 static build
 #if HAVE_LOCALECONV
 #ifdef _MSC_VER
 static 
@@ -60,6 +62,7 @@ localeconv (void)
   l.decimal_point = decimal_point;
   return &l;
 }
+#endif
 #endif
 
 /* Replace the libc nl_langinfo with one we can manipulate. */
