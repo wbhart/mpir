@@ -1,7 +1,14 @@
 @echo off
+
 set plf=
-call :parse %1
-if /i "%plf%" EQU "" (call :seterr & echo ERROR: %1 is not supported & exit /b %errorlevel%)
+if exist %1 (call :parse %1)
+if /i "%plf%" NEQ "" (goto next)
+call :parse "%1"
+if /i "%plf%" NEQ "" (goto next)
+
+call :seterr & echo ERROR: %1 is not supported & exit /b %errorlevel%
+
+:next
 set extn=%fnx%#
 set extn=%extn:~-4,-1%
 set tdir="%plf%\%cnf%"
@@ -18,11 +25,11 @@ if "%extn%" EQU "dll" (
 	copy %tdir%\mpir.dll %odir%\mpir.dll
 	copy %tdir%\mpir.exp %odir%\mpir.exp
 	copy %tdir%\mpir.lib %odir%\mpir.lib
-	copy %tdir%\mpir.pdb %odir%\mpir.pdb
+	if exist %tdir%\mpir.pdb (copy %tdir%\mpir.pdb %odir%\mpir.pdb)
 	copy mpir-tests\dll-test-config.props mpir-tests\test-config.props
 ) else if "%extn%" EQU "lib" (
 	copy %tdir%\mpir.lib %odir%\mpir.lib
-	copy %tdir%\mpir.pdb %odir%\mpir.pdb
+	if exist %tdir%\mpir.pdb (copy %tdir%\mpir.pdb %odir%\mpir.pdb)
 	copy mpir-tests\lib-test-config.props mpir-tests\test-config.props
 ) else (
 	call :seterr & echo ERROR: illegal library type %extn%  & exit /b %errorlevel%
