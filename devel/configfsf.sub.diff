@@ -1,0 +1,30 @@
+
+
+We can use the standard fsf config.sub , but we need change this (~line 1200)
+
+
+	pmac | pmac-mpw)
+		basic_machine=powerpc-apple
+		;;
+	*-unknown)
+		# Make sure to match an already-canonicalized machine name.
+		;;
+	*)
+		echo Invalid configuration \`$1\': machine \`$basic_machine\' not recognized 1>&2
+		exit 1
+
+
+	pmac | pmac-mpw)
+		basic_machine=powerpc-apple
+		;;
+	*-unknown | *-pc | *-apple)
+		# Make sure to match an already-canonicalized machine name.
+		;;
+	*)
+		echo Invalid configuration \`$1\': machine \`$basic_machine\' not recognized 1>&2
+		exit 1
+
+
+so that we recognize more default already-canonicalized machine names , because
+we have so many more cpu names
+
