@@ -127,7 +127,8 @@ mpn_divexact (mp_ptr qp,
     }
 
     qn = nn - dn;
-       
+ if(qn)
+   {       
     inv = TMP_ALLOC_LIMBS(dn);
     mpn_invert(inv, dp, dn);
     cy = mpn_inv_divappr_q(qp, n2p, nn, dp, dn, inv);
@@ -135,7 +136,8 @@ mpn_divexact (mp_ptr qp,
 
     if ((qp[0] & 1) + q_even != 1) /* quotient is out by 1 */
        mpn_sub_1(qp, qp, qn + 1, 1);
-    
+   } else
+     qp[0] = 1; // as dp is normalised, exact division means qp = 1
   }
 
   TMP_FREE;
