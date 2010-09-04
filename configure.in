@@ -1349,9 +1349,9 @@ case $host in
 	  x86_64-*-mingw*)
             path_64="x86_64w" ;;
           netburst-*-mingw*)
-            path_64="x86_64w" ;;
+            path_64="x86_64w/netburst x86_64w" ;;
           netburstlahf-*-mingw*)
-            path_64="x86_64w" ;;
+            path_64="x86_64w/netburst x86_64w" ;;
           k8-*-mingw*)
             path_64="x86_64w/k8 x86_64w" ;;
           k102-*-mingw*)
