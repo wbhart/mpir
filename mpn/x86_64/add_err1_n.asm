@@ -1,4 +1,4 @@
-dnl  AMD64 mpn_add_err1_n, mpn_sub_err1_n
+dnl  AMD64 mpn_add_err1_n
 
 dnl  Copyright (C) 2009, David Harvey
 
@@ -51,20 +51,11 @@ define(`t0',	`%r10')
 define(`t1',	`%r11')
 define(`w',	`%r12')
 
-ifdef(`OPERATION_add_err1_n', `
-	define(ADCSBB,	      adc)
-	define(func,	      mpn_add_err1_n)')
-ifdef(`OPERATION_sub_err1_n', `
-	define(ADCSBB,	      sbb)
-	define(func,	      mpn_sub_err1_n)')
-
-MULFUNC_PROLOGUE(mpn_add_err1_n mpn_sub_err1_n)
-
 
 ASM_START()
 	TEXT
 	ALIGN(16)
-PROLOGUE(func)
+PROLOGUE(mpn_add_err1_n)
 	mov	cy_param, %rax
 
 	push	%rbx
@@ -91,7 +82,7 @@ L(odd):
 	neg	n
 	shr	$1, %rax
 	mov	(up,n,8), w
-	ADCSBB	(vp,n,8), w
+	adc	(vp,n,8), w
 	cmovc	8(yp), el
 	mov	w, (rp,n,8)
 	setc	%al
@@ -102,13 +93,13 @@ L(odd):
 L(top):
         mov     (up,n,8), w
 	shr     $1, %rax        C restore carry
-	ADCSBB  (vp,n,8), w
+	adc  (vp,n,8), w
 	mov     $0, t1
 	mov     w, (rp,n,8)
 	mov     $0, t0
 	mov     8(up,n,8), w
 	cmovc   (yp), t0
-	ADCSBB  8(vp,n,8), w
+	adc  8(vp,n,8), w
 	cmovc   -8(yp), t1
 	setc    %al             C save carry
 	add     t0, el

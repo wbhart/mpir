@@ -1,4 +1,4 @@
-dnl  AMD64 mpn_add_err2_n, mpn_sub_err2_n
+dnl  AMD64 mpn_sub_err1_n
 
 dnl  Copyright (C) 2009, David Harvey
 
@@ -31,7 +31,7 @@ dnl  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 include(`../config.m4')
 
 C	     cycles/limb
-C K8,K9:	 4.5
+C K8,K9:	 3.166
 C K10:		 ?
 C P4:		 ?
 C P6-15 (Core2): ?
@@ -42,52 +42,27 @@ define(`rp',	`%rdi')
 define(`up',	`%rsi')
 define(`vp',	`%rdx')
 define(`ep',	`%rcx')
-define(`yp1',	`%r8')
-define(`yp2',   `%r9')
-define(`n_param',     `8(%rsp)')
-define(`cy_param',    `16(%rsp)')
-
-define(`cy1',   `%r14')
-define(`cy2',   `%rax')
-	
-define(`n',     `%r10')
-
-define(`w',     `%rbx')
-define(`e1l',	`%rbp')
-define(`e1h',	`%r11')
-define(`e2l',	`%r12')
-define(`e2h',	`%r13')
-
-ifdef(`OPERATION_add_err2_n', `
-	define(ADCSBB,	      adc)
-	define(func,	      mpn_add_err2_n)')
-ifdef(`OPERATION_sub_err2_n', `
-	define(ADCSBB,	      sbb)
-	define(func,	      mpn_sub_err2_n)')
-
-MULFUNC_PROLOGUE(mpn_add_err2_n mpn_sub_err2_n)
-
+define(`yp',	`%r8')
+define(`n',	`%r9')
+define(`cy_param',	`8(%rsp)')
+define(`el',	`%rbx')
+define(`eh',	`%rbp')
+define(`t0',	`%r10')
+define(`t1',	`%r11')
+define(`w',	`%r12')
 
 ASM_START()
 	TEXT
 	ALIGN(16)
-PROLOGUE(func)
-	mov	cy_param, cy2
-	mov	n_param, n
+PROLOGUE(mpn_sub_err1_n)
+	mov	cy_param, %rax
 
 	push	%rbx
 	push	%rbp
 	push	%r12
-	push	%r13
-	push	%r14
 
-	xor e1l, e1l
-	xor e1h, e1h
-	xor e2l, e2l
-	xor e2h, e2h
-
-	sub	yp1, yp2
-
+	xor el, el
+	xor eh, eh
 	lea	(rp,n,8), rp
 	lea	(up,n,8), up
 	lea	(vp,n,8), vp
@@ -95,70 +70,50 @@ PROLOGUE(func)
 	test	$1, n
 	jnz	L(odd)
 
-	lea	-8(yp1,n,8), yp1
+L(even):	
+	lea	-8(yp,n,8), yp
 	neg	n
 	jmp	L(top)
 
 	ALIGN(16)
 L(odd):
-	lea	-16(yp1,n,8), yp1
+	lea	-16(yp,n,8), yp
 	neg	n
-	shr	$1, cy2
+	shr	$1, %rax
 	mov	(up,n,8), w
-	ADCSBB	(vp,n,8), w
-	cmovc	8(yp1), e1l
-	cmovc	8(yp1,yp2), e2l
+	sbb	(vp,n,8), w
+	cmovc	8(yp), el
 	mov	w, (rp,n,8)
-	sbb	cy2, cy2
+	setc	%al
 	inc	n
 	jz	L(end)
-	
+
 	ALIGN(16)
 L(top):
         mov     (up,n,8), w
-	shr     $1, cy2         C restore carry
-	ADCSBB  (vp,n,8), w
+	shr     $1, %rax        C restore carry
+	sbb  (vp,n,8), w
+	mov     $0, t1
 	mov     w, (rp,n,8)
-	sbb     cy1, cy1        C generate mask, preserve CF
-
+	mov     $0, t0
 	mov     8(up,n,8), w
-	ADCSBB  8(vp,n,8), w
+	cmovc   (yp), t0
+	sbb  8(vp,n,8), w
+	cmovc   -8(yp), t1
+	setc    %al             C save carry
+	add     t0, el
+	adc     $0, eh
+	add     t1, el
 	mov     w, 8(rp,n,8)
-	sbb     cy2, cy2        C generate mask, preserve CF
-
-	mov     (yp1), w	C (e1h:e1l) += cy1 * yp1 limb
-	and     cy1, w
-	add     w, e1l
-	adc     $0, e1h
-
-	and     (yp1,yp2), cy1	C (e2h:e2l) += cy1 * yp2 limb
-	add     cy1, e2l
-	adc     $0, e2h
-
-	mov     -8(yp1), w	C (e1h:e1l) += cy2 * next yp1 limb
-	and     cy2, w
-	add     w, e1l
-	adc     $0, e1h
-
-	mov     -8(yp1,yp2), w	C (e2h:e2l) += cy2 * next yp2 limb
-	and     cy2, w
-	add     w, e2l
-	adc     $0, e2h
-
+	adc     $0, eh
 	add     $2, n
-	lea     -16(yp1), yp1
+	lea     -16(yp), yp
 	jnz     L(top)
-L(end):
 
-	mov	e1l, (ep)
-	mov	e1h, 8(ep)
-	mov	e2l, 16(ep)
-	mov	e2h, 24(ep)
+L(end):	
+	mov	el, (ep)
+	mov	eh, 8(ep)
 
-	and	$1, %eax	C return carry
-
-	pop	%r14
-	pop	%r13
 	pop	%r12
 	pop	%rbp
 	pop	%rbx
