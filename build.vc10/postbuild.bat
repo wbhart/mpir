@@ -1,9 +1,7 @@
 @echo off
 
 set plf=
-if exist %1 (call :parse %1)
-if /i "%plf%" NEQ "" (goto next)
-call :parse "%1"
+if exist %1 (call :parse %1) else (call :parse "%1")
 if /i "%plf%" NEQ "" (goto next)
 
 call :seterr & echo ERROR: %1 is not supported & exit /b %errorlevel%
