@@ -37,7 +37,6 @@
 
 %include "aors_err2_n.inc"
 
-
     CPU  Athlon64
     BITS 64
 
