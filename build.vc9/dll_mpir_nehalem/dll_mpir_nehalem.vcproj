@@ -3038,6 +3038,14 @@
 					Name="Assembler"
 					>
 					<File
+						RelativePath="..\..\mpn\x86_64w\nehalem\add_err1_n.asm"
+						>
+					</File>
+					<File
+						RelativePath="..\..\mpn\x86_64w\add_err2_n.asm"
+						>
+					</File>
+					<File
 						RelativePath="..\..\mpn\x86_64w\nehalem\add_n.asm"
 						>
 					</File>
@@ -3063,14 +3071,6 @@
 					</File>
 					<File
 						RelativePath="..\..\mpn\x86_64w\nehalem\addsub_n.asm"
-						>
-					</File>
-					<File
-						RelativePath="..\..\mpn\x86_64w\aors_err1_n.asm"
-						>
-					</File>
-					<File
-						RelativePath="..\..\mpn\x86_64w\aors_err2_n.asm"
 						>
 					</File>
 					<File
@@ -3187,6 +3187,14 @@
 					</File>
 					<File
 						RelativePath="..\..\mpn\x86_64w\nehalem\store.asm"
+						>
+					</File>
+					<File
+						RelativePath="..\..\mpn\x86_64w\nehalem\sub_err1_n.asm"
+						>
+					</File>
+					<File
+						RelativePath="..\..\mpn\x86_64w\sub_err2_n.asm"
 						>
 					</File>
 					<File

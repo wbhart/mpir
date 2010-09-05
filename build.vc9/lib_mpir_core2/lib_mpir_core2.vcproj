@@ -5011,6 +5011,14 @@
 					Name="Assembler"
 					>
 					<File
+						RelativePath="..\..\mpn\x86_64w\add_err1_n.asm"
+						>
+					</File>
+					<File
+						RelativePath="..\..\mpn\x86_64w\add_err2_n.asm"
+						>
+					</File>
+					<File
 						RelativePath="..\..\mpn\x86_64w\core2\add_n.asm"
 						>
 					</File>
@@ -5036,14 +5044,6 @@
 					</File>
 					<File
 						RelativePath="..\..\mpn\x86_64w\core2\addsub_n.asm"
-						>
-					</File>
-					<File
-						RelativePath="..\..\mpn\x86_64w\aors_err1_n.asm"
-						>
-					</File>
-					<File
-						RelativePath="..\..\mpn\x86_64w\aors_err2_n.asm"
 						>
 					</File>
 					<File
@@ -5160,6 +5160,14 @@
 					</File>
 					<File
 						RelativePath="..\..\mpn\x86_64w\core2\store.asm"
+						>
+					</File>
+					<File
+						RelativePath="..\..\mpn\x86_64w\sub_err1_n.asm"
+						>
+					</File>
+					<File
+						RelativePath="..\..\mpn\x86_64w\sub_err2_n.asm"
 						>
 					</File>
 					<File
