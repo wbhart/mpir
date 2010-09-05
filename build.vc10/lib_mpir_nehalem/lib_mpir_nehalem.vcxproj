@@ -1872,10 +1872,12 @@ postbuild "$(TargetPath)"</Command>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <YASM Include="..\..\mpn\x86_64w\add_err2_n.asm" />
     <YASM Include="..\..\mpn\x86_64w\divrem_2.asm">
       <FileType>Document</FileType>
     </YASM>
     <YASM Include="..\..\mpn\x86_64w\mulmid_basecase.asm" />
+    <YASM Include="..\..\mpn\x86_64w\nehalem\add_err1_n.asm" />
     <YASM Include="..\..\mpn\x86_64w\nehalem\add_n.asm" />
     <YASM Include="..\..\mpn\x86_64w\nehalem\addadd_n.asm" />
     <YASM Include="..\..\mpn\x86_64w\nehalem\addlsh1_n.asm" />
@@ -1883,8 +1885,6 @@ postbuild "$(TargetPath)"</Command>
     <YASM Include="..\..\mpn\x86_64w\nehalem\addmul_1.asm" />
     <YASM Include="..\..\mpn\x86_64w\nehalem\addmul_2.asm" />
     <YASM Include="..\..\mpn\x86_64w\nehalem\addsub_n.asm" />
-    <YASM Include="..\..\mpn\x86_64w\aors_err1_n.asm" />
-    <YASM Include="..\..\mpn\x86_64w\aors_err2_n.asm" />
     <YASM Include="..\..\mpn\x86_64w\nehalem\com_n.asm" />
     <YASM Include="..\..\mpn\x86_64w\nehalem\copyd.asm" />
     <YASM Include="..\..\mpn\x86_64w\nehalem\copyi.asm" />
@@ -1912,6 +1912,7 @@ postbuild "$(TargetPath)"</Command>
     <YASM Include="..\..\mpn\x86_64w\nehalem\rshift.asm" />
     <YASM Include="..\..\mpn\x86_64w\nehalem\sqr_basecase.asm" />
     <YASM Include="..\..\mpn\x86_64w\nehalem\store.asm" />
+    <YASM Include="..\..\mpn\x86_64w\nehalem\sub_err1_n.asm" />
     <YASM Include="..\..\mpn\x86_64w\nehalem\sub_n.asm" />
     <YASM Include="..\..\mpn\x86_64w\nehalem\subadd_n.asm" />
     <YASM Include="..\..\mpn\x86_64w\nehalem\sublsh1_n.asm" />
@@ -1924,6 +1925,7 @@ postbuild "$(TargetPath)"</Command>
     <YASM Include="..\..\mpn\x86_64w\nehalem\nior_n.asm" />
     <YASM Include="..\..\mpn\x86_64w\nehalem\xnor_n.asm" />
     <YASM Include="..\..\mpn\x86_64w\nehalem\xor_n.asm" />
+    <YASM Include="..\..\mpn\x86_64w\sub_err2_n.asm" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

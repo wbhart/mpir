@@ -1872,6 +1872,8 @@ postbuild "$(TargetPath)"</Command>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <YASM Include="..\..\mpn\x86_64w\add_err1_n.asm" />
+    <YASM Include="..\..\mpn\x86_64w\add_err2_n.asm" />
     <YASM Include="..\..\mpn\x86_64w\core2\add_n.asm" />
     <YASM Include="..\..\mpn\x86_64w\core2\addadd_n.asm" />
     <YASM Include="..\..\mpn\x86_64w\core2\addlsh1_n.asm" />
@@ -1879,8 +1881,6 @@ postbuild "$(TargetPath)"</Command>
     <YASM Include="..\..\mpn\x86_64w\core2\addmul_1.asm" />
     <YASM Include="..\..\mpn\x86_64w\core2\addmul_2.asm" />
     <YASM Include="..\..\mpn\x86_64w\core2\addsub_n.asm" />
-    <YASM Include="..\..\mpn\x86_64w\aors_err1_n.asm" />
-    <YASM Include="..\..\mpn\x86_64w\aors_err2_n.asm" />
     <YASM Include="..\..\mpn\x86_64w\core2\com_n.asm" />
     <YASM Include="..\..\mpn\x86_64w\core2\copyd.asm" />
     <YASM Include="..\..\mpn\x86_64w\core2\copyi.asm" />
@@ -1928,6 +1928,8 @@ postbuild "$(TargetPath)"</Command>
     <YASM Include="..\..\mpn\x86_64w\mulmid_basecase.asm">
       <FileType>Document</FileType>
     </YASM>
+    <YASM Include="..\..\mpn\x86_64w\sub_err1_n.asm" />
+    <YASM Include="..\..\mpn\x86_64w\sub_err2_n.asm" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

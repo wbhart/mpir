@@ -1363,12 +1363,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <YASM Include="..\..\mpn\x86_64w\aors_err1_n.asm">
-      <Filter>Source Files\mpn\Assembler</Filter>
-    </YASM>
-    <YASM Include="..\..\mpn\x86_64w\aors_err2_n.asm">
-      <Filter>Source Files\mpn\Assembler</Filter>
-    </YASM>
     <YASM Include="..\..\mpn\x86_64w\core2\addadd_n.asm">
       <Filter>Source Files\mpn\Assembler</Filter>
     </YASM>
@@ -1517,6 +1511,18 @@
       <Filter>Source Files\mpn\Assembler</Filter>
     </YASM>
     <YASM Include="..\..\mpn\x86_64w\mulmid_basecase.asm">
+      <Filter>Source Files\mpn\Assembler</Filter>
+    </YASM>
+    <YASM Include="..\..\mpn\x86_64w\add_err1_n.asm">
+      <Filter>Source Files\mpn\Assembler</Filter>
+    </YASM>
+    <YASM Include="..\..\mpn\x86_64w\add_err2_n.asm">
+      <Filter>Source Files\mpn\Assembler</Filter>
+    </YASM>
+    <YASM Include="..\..\mpn\x86_64w\sub_err1_n.asm">
+      <Filter>Source Files\mpn\Assembler</Filter>
+    </YASM>
+    <YASM Include="..\..\mpn\x86_64w\sub_err2_n.asm">
       <Filter>Source Files\mpn\Assembler</Filter>
     </YASM>
   </ItemGroup>

@@ -1974,6 +1974,7 @@ postbuild "$(TargetPath)"</Command>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <YASM Include="..\..\mpn\x86_64w\add_err2_n.asm" />
     <YASM Include="..\..\mpn\x86_64w\divrem_2.asm">
       <FileType>Document</FileType>
     </YASM>
@@ -1985,7 +1986,6 @@ postbuild "$(TargetPath)"</Command>
     <YASM Include="..\..\mpn\x86_64w\k8\addmul_1.asm" />
     <YASM Include="..\..\mpn\x86_64w\k8\addmul_2.asm" />
     <YASM Include="..\..\mpn\x86_64w\k8\addsub_n.asm" />
-    <YASM Include="..\..\mpn\x86_64w\aors_err2_n.asm" />
     <YASM Include="..\..\mpn\x86_64w\k8\com_n.asm" />
     <YASM Include="..\..\mpn\x86_64w\k8\copyd.asm" />
     <YASM Include="..\..\mpn\x86_64w\k8\copyi.asm" />
@@ -2044,6 +2044,7 @@ postbuild "$(TargetPath)"</Command>
     <YASM Include="..\..\mpn\x86_64w\mulmid_basecase.asm">
       <FileType>Document</FileType>
     </YASM>
+    <YASM Include="..\..\mpn\x86_64w\sub_err2_n.asm" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\config.h" />

@@ -32,71 +32,11 @@
 ;  rax                         rdi     rsi     rdx     rcx       r8        r9     8(rsp)
 ;  rax                         rcx     rdx      r8      r9 [rsp+40]  [rsp+48]   [rsp+56]
 
-%include "yasm_mac.inc"
-
-%define reg_save_list   rbx, rsi, rdi, rbp, r12
-
-%macro fun 2
-	xalign  16
-    FRAME_PROC %1, 0, reg_save_list
-    mov     rax, qword [rsp+stack_use+48]
-    lea     rdi, [rcx+rax*8]
-    lea     rsi, [rdx+rax*8]
-    lea     rdx, [r8+rax*8]
-    mov     rcx, r9
-    mov     r9, rax
-    mov     r8, [rsp+stack_use+40]
-    mov     rax, [rsp+stack_use+56]
-    
-	xor     rbx, rbx
-	xor     rbp, rbp
-	test    r9, 1
-	jnz     %%2
-%%1:lea     r8, [r8+r9*8-8]
-	neg     r9
-	jmp     %%3
-
-	xalign  16
-%%2:lea     r8, [r8+r9*8-16]
-	neg     r9
-	shr     rax, 1
-	mov     r12, [rsi+r9*8]
-	%2      r12, [rdx+r9*8]
-	cmovc   rbx, [r8+8]
-	mov     [rdi+r9*8], r12
-	setc    al
-	inc     r9
-	jz      %%4
-
-	xalign  16
-%%3:mov     r12, [rsi+r9*8]
-	shr     rax, 1
-	%2      r12, [rdx+r9*8]
-	mov     r11, 0
-	mov     [rdi+r9*8], r12
-	mov     r10, 0
-	mov     r12, [rsi+r9*8+8]
-	cmovc   r10, [r8]
-	%2      r12, [rdx+r9*8+8]
-	cmovc   r11, [r8-8]
-	setc    al
-	add     rbx, r10
-	adc     rbp, 0
-	add     rbx, r11
-	mov     [rdi+r9*8+8], r12
-	adc     rbp, 0
-	add     r9, 2
-	lea     r8, [r8-16]
-	jnz     %%3
-%%4:mov     [rcx], rbx
-	mov     [rcx+8], rbp
-    END_PROC reg_save_list
-%endmacro
+%include "aors_err1_n.inc"
 
     CPU  Athlon64
     BITS 64
 
-    fun mpn_add_err1_n, adc
     fun mpn_sub_err1_n, sbb
     
     end
