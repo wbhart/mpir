@@ -5,18 +5,18 @@
 # set version number
 VERSION=2
 VERSION_MINOR=1
-VERSION_PATCHLEVEL=1
+VERSION_PATCHLEVEL=2
 
 # these are the library soname numbers see
 # http://sources.redhat.com/autobook/autobook/autobook_91.html
 # or the start of Makefile.am to see what was done before
 
 LIBGMP_LT_CURRENT=10
-LIBGMP_LT_REVISION=1
+LIBGMP_LT_REVISION=2
 LIBGMP_LT_AGE=2
 
 LIBGMPXX_LT_CURRENT=4
-LIBGMPXX_LT_REVISION=9
+LIBGMPXX_LT_REVISION=10
 LIBGMPXX_LT_AGE=2
 
 # We dont have libmp so we set this to 0.0.0
