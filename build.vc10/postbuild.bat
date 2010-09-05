@@ -24,11 +24,11 @@ if "%extn%" EQU "dll" (
 	copy %tdir%\mpir.exp %odir%\mpir.exp
 	copy %tdir%\mpir.lib %odir%\mpir.lib
 	if exist %tdir%\mpir.pdb (copy %tdir%\mpir.pdb %odir%\mpir.pdb)
-	copy mpir-tests\dll-test-config.props mpir-tests\test-config.props
+	copy mpir-tests\%extn%-%cnf%-config.props mpir-tests\test-config.props
 ) else if "%extn%" EQU "lib" (
 	copy %tdir%\mpir.lib %odir%\mpir.lib
 	if exist %tdir%\mpir.pdb (copy %tdir%\mpir.pdb %odir%\mpir.pdb)
-	copy mpir-tests\lib-test-config.props mpir-tests\test-config.props
+	copy mpir-tests\%extn%-%cnf%-config.props mpir-tests\test-config.props
 ) else (
 	call :seterr & echo ERROR: illegal library type %extn%  & exit /b %errorlevel%
 )
