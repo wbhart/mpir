@@ -172,10 +172,7 @@ copy "$(TargetDir)$(TargetName).pdb" ..\lib\$(IntDir)\
       <CompileAs>Default</CompileAs>
       <BufferSecurityCheck>false</BufferSecurityCheck>
     </ClCompile>
-    <Lib>
-      <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
-      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
-    </Lib>
+    <Lib />
     <PostBuildEvent>
       <Command>if not exist ..\lib\$(IntDir) md ..\lib\$(IntDir)
 

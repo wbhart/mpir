@@ -79,6 +79,7 @@ prebuild core2 x64
       <Command>cd ..\ 
 postbuild "$(TargetPath)"</Command>
     </PostBuildEvent>
+    <Lib />
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <PreBuildEvent>
@@ -118,9 +119,7 @@ prebuild core2 x64
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <CompileAs>Default</CompileAs>
     </ClCompile>
-    <Lib>
-      <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
-    </Lib>
+    <Lib />
     <PostBuildEvent>
       <Command>cd ..\ 
 postbuild "$(TargetPath)"</Command>

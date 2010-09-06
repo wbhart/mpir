@@ -118,9 +118,7 @@ prebuild nehalem x64
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <CompileAs>Default</CompileAs>
     </ClCompile>
-    <Lib>
-      <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
-    </Lib>
+    <Lib />
     <PostBuildEvent>
       <Command>cd ..\ 
 postbuild "$(TargetPath)"</Command>
