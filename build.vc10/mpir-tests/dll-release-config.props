@@ -16,7 +16,6 @@
     </ClCompile>
     <Link>
       <AdditionalDependencies>$(MPLIBS);$(OutDir)\add-test-lib.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
     </Link>
     <PreBuildEvent>
       <Command>if exist $(Bindir)$(OutDir)gmp-mparam.h (copy $(Bindir)$(OutDir)gmp-mparam.h ..\..\..\) else (echo $(Bindir)$(OutDir)gmp-mparam.h is not present )</Command>
