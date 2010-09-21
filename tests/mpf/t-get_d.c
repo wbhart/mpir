@@ -34,27 +34,32 @@ main (int argc, char **argv)
 {
   double d, e, r;
   mpf_t u, v;
-
+  int sign;
+  
   tests_start ();
   mpf_init (u);
   mpf_init (v);
 
-  mpf_set_d (u, LOW_BOUND);
-  for (d = 2.0 * LOW_BOUND; d < HIGH_BOUND; d *= 1.01)
-    {
-      mpf_set_d (v, d);
-      if (mpf_cmp (u, v) >= 0)
-	abort ();
-      e = mpf_get_d (v);
-      r = e/d;
-      if (r < 0.99999999999999 || r > 1.00000000000001)
-	{
-	  fprintf (stderr, "should be one ulp from 1: %.16f\n", r);
-	  abort ();
-	}
-      mpf_set (u, v);
+  
+  for(sign=-1;sign<=1;sign+=2)
+    {mpf_set_d (u, LOW_BOUND);
+     if(sign==-1)mpf_neg(u,u);
+     for (d = 2.0 * LOW_BOUND; d < HIGH_BOUND; d *= 1.01)
+       {
+         mpf_set_d (v, d*sign);
+         if ( ! mpf_cmp (v, u) == sign )
+        	abort ();
+         e = mpf_get_d (v);
+         r = e/d;
+         if(r<0)r=-r;
+         if (r < 0.99999999999999 || r > 1.00000000000001)
+	   {
+   	     fprintf (stderr, "should be one ulp from 1: %.16f\n", r);
+    	     abort ();
+     	   }
+         mpf_set (u, v);
+       }
     }
-
   mpf_clear (u);
   mpf_clear (v);
 
