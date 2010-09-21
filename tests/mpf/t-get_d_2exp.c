@@ -36,18 +36,19 @@ check_onebit (void)
   mpf_t   f;
   double  got, want;
   long    got_exp, want_exp;
-  int     i;
+  int     i,sign;
 
-  mpf_init2 (f, 1024L);
-
+  mpf_init2(f,1024L);
+  for(sign=-1;sign<=1;sign+=2){
+  
   for (i = 0; i < numberof (data); i++)
     {
-      mpf_set_ui (f, 1L);
+      mpf_set_ui (f, 1L);if(sign==-1)mpf_neg(f,f);
       if (data[i] >= 0)
         mpf_mul_2exp (f, f, data[i]);
       else
         mpf_div_2exp (f, f, -data[i]);
-      want = 0.5;
+      want = 0.5*sign;
       want_exp = data[i] + 1;
 
       got = mpf_get_d_2exp (&got_exp, f);
@@ -61,7 +62,7 @@ check_onebit (void)
           printf    ("   got exp  %ld\n", got_exp);
           abort();
         }
-    }
+    }}
   mpf_clear (f);
 }
 
