@@ -47,6 +47,6 @@ mpf_get_d_2exp (signed long int *exp2, mpf_srcptr src)
   exp = EXP(src) * GMP_NUMB_BITS - cnt;
   *exp2 = exp;
 
-  return mpn_get_d (ptr, abs_size, (mp_size_t) 0,
+  return mpn_get_d (ptr, abs_size, size,
                     (long) - (abs_size * GMP_NUMB_BITS - cnt));
 }
