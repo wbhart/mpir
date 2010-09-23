@@ -5051,29 +5051,29 @@ echo "include_mpn(\`sparc32/sparc-defs.m4')" >> $gmp_tmpconfigm4i
         esac
 
         case $host in
-	  x86_64-*-mingw*)
+	  x86_64-w64-mingw*)
             path_64="x86_64w" ;;
-          netburst-*-mingw*)
+          netburst-w64-mingw*)
             path_64="x86_64w/netburst x86_64w" ;;
-          netburstlahf-*-mingw*)
+          netburstlahf-w64-mingw*)
             path_64="x86_64w/netburst x86_64w" ;;
-          k8-*-mingw*)
+          k8-w64-mingw*)
             path_64="x86_64w/k8 x86_64w" ;;
-          k102-*-mingw*)
+          k102-w64-mingw*)
             path_64="x86_64w/k8/k10 x86_64w/k8 x86_64w" ;;
-          k10-*-mingw*)
+          k10-w64-mingw*)
             path_64="x86_64w/k8/k10 x86_64w/k8 x86_64w" ;;
-          core2-*-mingw*)
+          core2-w64-mingw*)
             path_64="x86_64w/core2 x86_64w" ;;
-          penryn-*-mingw*)
+          penryn-w64-mingw*)
             path_64="x86_64w/core2 x86_64w" ;;
-          nehalem-*-mingw*)
+          nehalem-w64-mingw*)
             path_64="x86_64w/nehalem x86_64w" ;;
-          westmere-*-mingw*)
+          westmere-w64-mingw*)
             path_64="x86_64w/nehalem x86_64w" ;;
-          atom-*-mingw*)
+          atom-w64-mingw*)
             path_64="x86_64w/atom x86_64w" ;;
-          nano-*-mingw*)
+          nano-w64-mingw*)
             path_64="x86_64w" ;;
           x86_64-*-*)
             path_64="x86_64" ;;
@@ -26239,7 +26239,7 @@ esac
 	  #on mingw64 rename asm to as
 	  tmp1_ext=$tmp_ext
 	  case $host in
-	  *-*-mingw*)
+	  *-w64-mingw*)
 		if test $tmp_ext = asm; then
 		 tmp1_ext=as
 		fi
@@ -27721,7 +27721,7 @@ $as_echo "determined" >&6; }
           case $host in
             *-*-darwin*)
               OBJECT_FORMAT="-f macho64" ;;
-	    *-*-mingw*)
+	    *-w64-mingw*)
 		OBJECT_FORMAT="-f x64"  ;;
 	    *)
 	      OBJECT_FORMAT="-f elf64" ;;
@@ -28045,7 +28045,7 @@ subdirs="$subdirs yasm"
 
 
 case $host in
-  *-*-mingw*)
+  *-w64-mingw*)
 	if test $enable_fat = yes; then
 	YASM_MAC_INC=yasm_macwin.inc.fat
 	else
