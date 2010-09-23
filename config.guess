@@ -109,6 +109,33 @@ if test x"$CC_FOR_BUILD" = x; then
   fi
 fi
 
+#here we have to distinguish between mingw32 32bit and 64bit , as the msys people refuse to
+#as we changing the middle part of the triple we do this first
+# find the size of a limb
+
+case "$guess_full" in
+
+*-pc-mingw32)
+
+  cat <<EOF >${dummy}.c
+main(){
+#ifdef _WIN64
+printf("-w64-mingw32\n");
+#endif
+return 0;}
+EOF
+  if ($CC_FOR_BUILD ${dummy}.c -o $dummy) >/dev/null 2>&1; then
+    x=`$SHELL -c ./$dummy 2>/dev/null`
+    if test $? = 0 && test -n "$x"; then
+      guess_rest=$x
+    fi
+  fi
+  rm -f ${dummy}.c $dummy
+  ;;
+esac
+
+
+
 
 case "$guess_full" in
 
@@ -771,6 +798,7 @@ if test -n "$exact_cpu"; then
 else
   echo "$guess_full"
 fi
+
 exit 0
 
 
