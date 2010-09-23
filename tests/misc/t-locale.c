@@ -49,8 +49,21 @@ MA 02110-1301, USA. */
 char *decimal_point;
 
 /* Replace the libc localeconv with one we can manipulate. */
-#if !defined(__MINGW64__) || !defined(_MSC_VER) || _MSC_VER >= 1500
-// cant get the test to pass under mingw64 static build
+/*
+The t-local test fails on
+mingw64   ie defined(_WIN64) && !defined(_MSC_VER)
+
+  to detect a non-msvc 64bit windows the above is the best solution ,
+  but as we are using it to exclude a test , 
+  it would be better to only limit it to mingw64 only and not some 
+  other future 64bit windows gcc , so it's best in this case to use the 
+  defined(__MINGW64__) macro
+
+msvc with version<1500  ie defined(_MSC_VER) && _MSC_VER < 1500
+
+*/
+
+#if ! (defined(__MINGW64__) || (defined(_MSC_VER) && _MSC_VER < 1500))
 #if HAVE_LOCALECONV
 #ifdef _MSC_VER
 __GMP_DECLSPEC
