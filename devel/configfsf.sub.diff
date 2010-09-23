@@ -17,7 +17,7 @@ We can use the standard fsf config.sub , but we need change this (~line 1200)
 	pmac | pmac-mpw)
 		basic_machine=powerpc-apple
 		;;
-	*-unknown | *-pc | *-apple)
+	*-unknown | *-pc | *-apple | *-w64)
 		# Make sure to match an already-canonicalized machine name.
 		;;
 	*)
