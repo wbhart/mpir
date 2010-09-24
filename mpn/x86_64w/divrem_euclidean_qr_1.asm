@@ -201,6 +201,8 @@
 	shr     rax, cl
 .17:WIN64_GCC_END
 
+%ifndef EXCLUDE_PREINV
+
 	xalign  16
 	WIN64_GCC_PROC mpn_preinv_divrem_1, 7, frame
 	xor     eax, eax
@@ -346,5 +348,7 @@
 	jns     .15
 	shr     rax, cl
 .17:WIN64_GCC_END
+
+%endif
 
     end

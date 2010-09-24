@@ -35,7 +35,83 @@
 ;  rax                          rdi     rsi     rdx     rcx       r8      r9     8(rsp)    16(rsp)
 ;  rax                          rcx     rdx      r8      r9 [rsp+40] [rsp+48]  [rsp+56]   [rsp+64]
 
-%include "aors_err2_n.inc"
+%include "yasm_mac.inc"
+
+%define reg_save_list   rbx, rsi, rdi, rbp, r12, r13, r14
+
+%macro fun 2
+	xalign  16
+    FRAME_PROC %1, 0, reg_save_list
+    mov     rax, qword [rsp+stack_use+56]
+    lea     rdi, [rcx+rax*8]
+    lea     rsi, [rdx+rax*8]
+    lea     rdx, [r8+rax*8]
+    mov     rcx, r9
+    mov     r10, rax
+    mov     r8, [rsp+stack_use+40]
+    mov     r9, [rsp+stack_use+48]
+    mov     rax, [rsp+stack_use+64]
+    
+	xor     rbp, rbp
+	xor     r11, r11
+	xor     r12, r12
+	xor     r13, r13
+	sub     r9, r8
+	test    r10, 1
+	jnz     %%1
+	lea     r8, [r8+r10*8-8]
+	neg     r10
+	jmp     %%2
+
+	xalign  16
+%%1:lea     r8, [r8+r10*8-16]
+	neg     r10
+	shr     rax, 1
+	mov     rbx, [rsi+r10*8]
+	%2      rbx, [rdx+r10*8]
+	cmovc   rbp, [r8+8]
+	cmovc   r12, [r8+r9+8]
+	mov     [rdi+r10*8], rbx
+	sbb     rax, rax
+	inc     r10
+	jz      %%3
+
+	xalign  16
+%%2:mov     rbx, [rsi+r10*8]
+	shr     rax, 1
+	%2      rbx, [rdx+r10*8]
+	mov     [rdi+r10*8], rbx
+	sbb     r14, r14
+	mov     rbx, [rsi+r10*8+8]
+	%2      rbx, [rdx+r10*8+8]
+	mov     [rdi+r10*8+8], rbx
+	sbb     rax, rax
+    mov     rbx, [r8]
+	and     rbx, r14
+	add     rbp, rbx
+	adc     r11, 0
+    and     r14, [r8+r9]
+	add     r12, r14
+	adc     r13, 0
+    mov     rbx, [r8-8]
+	and     rbx, rax
+	add     rbp, rbx
+	adc     r11, 0
+    mov     rbx, [r8+r9-8]
+	and     rbx, rax
+	add     r12, rbx
+	adc     r13, 0
+	add     r10, 2
+	lea     r8, [r8-16]
+	jnz     %%2
+%%3:mov     [rcx], rbp
+	mov     [rcx+8], r11
+	mov     [rcx+16], r12
+	mov     [rcx+24], r13
+	and     eax, 1
+    END_PROC reg_save_list
+%endmacro
+
 
     CPU  Athlon64
     BITS 64
