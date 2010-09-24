@@ -381,4 +381,4 @@ My thanks to:
 4. Jeff Gilchrist for his help in testing, debugging and 
    improving the readme giving the VC++ build instructions
 
-       Brian Gladman, July 2010
+       Brian Gladman, August 2010
