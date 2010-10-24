@@ -181,11 +181,12 @@ deflit(`FRAME',0)
 
 PROLOGUE(__gmpn_cpuid)
 	pushq	%rbx		FRAME_pushq()
-	movq	%rsi, %rax
+	movq	%rdx, %rax
+	movq	%rcx, %r8
 	cpuid
-	movl	%ebx, (%rdi)
-	movl	%edx, 4(%rdi)
-	movl	%ecx, 8(%rdi)
+	movl	%ebx, (%r8)
+	movl	%edx, 4(%r8)
+	movl	%ecx, 8(%r8)
 	popq	%rbx
 	ret
 EPILOGUE()
@@ -204,21 +205,6 @@ C
 C This is called only once, so just something simple and compact is fine.
 
 PROLOGUE(__gmpn_cpuid_available)
-	pushf
-	popq	%rcx		C old flags
-
-	movq	%rcx, %rdx
-	xorq	$0x200000, %rdx
-	pushq	%rdx
-	popf
-	pushf
-	popq	%rdx		C tweaked flags
-
-	movq	$1, %rax
-	cmpq	%rcx, %rdx
-	jne	L(available)
-	xorq	%rax, %rax	C not changed, so cpuid not available
-
-L(available):
+	movl $1,%eax
 	ret
 EPILOGUE()
