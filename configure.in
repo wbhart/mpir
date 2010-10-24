@@ -2793,7 +2793,7 @@ done
 # for mingw64 rename all *.asm files to *.as files so we then will use yasm 
 # cant move them yet as the mpn directory is not created until the end
 case $host in
-*-w64-mingw64)
+*-w64-mingw*)
 	old_gmp_srclinks=$gmp_srclinks
 	gmp_srclinks=
 	for jay in $old_gmp_srclinks; do
@@ -2808,7 +2808,7 @@ case $host in
 		fi
 	done
 	;;
-*-*-*)
+*)
 	;;
 esac
 
@@ -3176,7 +3176,7 @@ AC_OUTPUT(Makefile mpf/Makefile mpn/Makefile mpq/Makefile mpz/Makefile printf/Ma
 
 # now we have created and populated the mpn dire we can rename the files
 case $host in
-*-w64-mingw64)
+*-w64-mingw*)
 	for jay in $old_gmp_srclinks; do
 		jayext=`echo "$jay" | awk -F . '{print $NF}'`
 		#jayext=`/bin/echo "${jay#*.}"`
@@ -3187,6 +3187,6 @@ case $host in
 		fi
 	done
 	;;
-*-*-*)
+*)
 	;;
 esac
