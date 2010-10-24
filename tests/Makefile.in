@@ -436,26 +436,6 @@ SUFFIXES = .s .S .as .asm
 
 # can be overridden during development, eg. "make RM_TMP=: mul_1.lo"
 RM_TMP = rm -f
-@BUILD_MINGW64_FALSE@ASM_OPTIONS = $(top_srcdir)/mpn/m4-ccas --m4="$(M4)" $(CCAS) $(COMPILE_FLAGS)
-
-# .asm assembler, preprocessed with m4 unless we are in MINGW64
-#
-# .o and .obj are non-PIC and just need m4 followed by a compile.
-#
-# .lo is a bit tricky.  Libtool (as of version 1.5) has foo.lo as a little
-# text file, and .libs/foo.o and foo.o as the PIC and non-PIC objects,
-# respectively.  It'd be asking for lots of trouble to try to create foo.lo
-# ourselves, so instead arrange to invoke libtool like a --mode=compile, but
-# with a special m4-ccas script which first m4 preprocesses, then compiles.
-# --tag=CC is necessary since foo.asm is otherwise unknown to libtool.
-#
-# Libtool adds -DPIC when building a shared object and the .asm files look
-# for that.  But it should be noted that the other PIC flags are on occasion
-# important too, in particular FreeBSD 2.2.8 gas 1.92.3 requires -k before
-# it accepts PIC constructs like @GOT, and gcc adds that flag only under
-# -fPIC.  (Later versions of gas are happy to accept PIC stuff any time.)
-#
-@BUILD_MINGW64_TRUE@ASM_OPTIONS = $(top_srcdir)/strip_fPIC.sh $(top_builddir)$(MPIR_AS) -I $(top_builddir) $(OBJECT_FORMAT) $(GSYM_FLAG) -o $@ 
 INCLUDES = -I$(top_srcdir)
 LDADD = libtests.la $(top_builddir)/libmpir.la
 check_LTLIBRARIES = libtests.la
@@ -1091,6 +1071,24 @@ uninstall-am:
 .S.lo:
 	$(LIBTOOL) --mode=compile --tag=CC $(top_srcdir)/mpn/cpp-ccas --cpp="$(CPP) $(PREPROCESS_FLAGS)" $(CCAS) $(COMPILE_FLAGS) `test -f '$<' || echo '$(srcdir)/'`$<
 
+# .asm assembler, preprocessed with m4 unless we are in MINGW64
+#
+# .o and .obj are non-PIC and just need m4 followed by a compile.
+#
+# .lo is a bit tricky.  Libtool (as of version 1.5) has foo.lo as a little
+# text file, and .libs/foo.o and foo.o as the PIC and non-PIC objects,
+# respectively.  It'd be asking for lots of trouble to try to create foo.lo
+# ourselves, so instead arrange to invoke libtool like a --mode=compile, but
+# with a special m4-ccas script which first m4 preprocesses, then compiles.
+# --tag=CC is necessary since foo.asm is otherwise unknown to libtool.
+#
+# Libtool adds -DPIC when building a shared object and the .asm files look
+# for that.  But it should be noted that the other PIC flags are on occasion
+# important too, in particular FreeBSD 2.2.8 gas 1.92.3 requires -k before
+# it accepts PIC constructs like @GOT, and gcc adds that flag only under
+# -fPIC.  (Later versions of gas are happy to accept PIC stuff any time.)
+#
+
 .asm.o:
 	$(M4) -DOPERATION_$* `test -f '$<' || echo '$(srcdir)/'`$< >tmp-$*.s
 	$(CCAS) $(COMPILE_FLAGS) tmp-$*.s -o $@
@@ -1100,7 +1098,7 @@ uninstall-am:
 	$(CCAS) $(COMPILE_FLAGS) tmp-$*.s -o $@
 	$(RM_TMP) tmp-$*.s
 .asm.lo:
-	$(LIBTOOL) --mode=compile --tag=CC $(ASM_OPTIONS) `test -f '$<' || echo '$(srcdir)/'`$<
+	$(LIBTOOL) --mode=compile --tag=CC $(top_srcdir)/mpn/m4-ccas --m4="$(M4)" $(CCAS) $(COMPILE_FLAGS) `test -f '$<' || echo '$(srcdir)/'`$<
 
 #  .as assembler, assembled with Yasm
 
