@@ -2750,8 +2750,8 @@ for tmp_fn in $gmp_mpn_functions; do
 
 	  mpn_objects="$mpn_objects $tmp_fn$tmp_u.lo"
           mpn_objs_in_libgmp="$mpn_objs_in_libgmp mpn/$tmp_fn$tmp_u.lo"
-          AC_CONFIG_LINKS(mpn/$tmp_fn.$tmp1_ext:mpn/$tmp_dir/$tmp_base.$tmp_ext)
-          gmp_srclinks="$gmp_srclinks mpn/$tmp_fn.$tmp1_ext"
+          AC_CONFIG_LINKS(mpn/$tmp_fn.$tmp_ext:mpn/$tmp_dir/$tmp_base.$tmp_ext)
+          gmp_srclinks="$gmp_srclinks mpn/$tmp_fn.$tmp_ext"
 
           # Duplicate AC_DEFINEs are harmless, so it doesn't matter
           # that multi-function files get grepped here repeatedly.
@@ -2789,6 +2789,28 @@ for tmp_fn in $gmp_mpn_functions; do
     fi
   fi
 done
+
+# for mingw64 rename all *.asm files to *.as files so we then will use yasm 
+# cant move them yet as the mpn directory is not created until the end
+case $host in
+*-w64-mingw64)
+	old_gmp_srclinks=$gmp_srclinks
+	gmp_srclinks=
+	for jay in $old_gmp_srclinks; do
+		jayext=`echo "$jay" | awk -F . '{print $NF}'`
+		#jayext=`/bin/echo "${jay#*.}"`
+		#jayext=`echo "$jay" | sed -n 's/.*\.//'`
+		base=`echo "${jay%.*}"`
+		if test "$jayext" = "asm"; then
+			gmp_srclinks="gmp_srclinks $base.as"
+		else
+			gmp_srclinks="$gmp_srclinks $jay"
+		fi
+	done
+	;;
+*-*-*)
+	;;
+esac
 
 # All cycle counters are .asm files currently
 if test -n "$SPEED_CYCLECOUNTER_OBJ"; then
@@ -3088,6 +3110,9 @@ GMP_DEFINE_RAW(["define(<GMP_NUMB_BITS>,eval(GMP_LIMB_BITS-GMP_NAIL_BITS))"])
 
 AC_SUBST(mpn_objects)
 AC_SUBST(mpn_objs_in_libgmp)
+
+
+
 AC_SUBST(gmp_srclinks)
 
 
@@ -3148,3 +3173,20 @@ esac
 AC_CONFIG_LINKS(yasm_mac.inc:$YASM_MAC_INC)
 
 AC_OUTPUT(Makefile mpf/Makefile mpn/Makefile mpq/Makefile mpz/Makefile printf/Makefile scanf/Makefile cxx/Makefile tests/Makefile tests/devel/Makefile tests/mpf/Makefile tests/mpn/Makefile tests/mpq/Makefile tests/mpz/Makefile tests/rand/Makefile tests/misc/Makefile tests/cxx/Makefile doc/Makefile tune/Makefile mpir.h:gmp-h.in)
+
+# now we have created and populated the mpn dire we can rename the files
+case $host in
+*-w64-mingw64)
+	for jay in $old_gmp_srclinks; do
+		jayext=`echo "$jay" | awk -F . '{print $NF}'`
+		#jayext=`/bin/echo "${jay#*.}"`
+		#jayext=`echo "$jay" | sed -n 's/.*\.//'`
+		base=`echo "${jay%.*}"`
+		if test "$jayext" = "asm"; then
+			mv $jay $base.as
+		fi
+	done
+	;;
+*-*-*)
+	;;
+esac

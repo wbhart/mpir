@@ -26244,9 +26244,9 @@ esac
 
 	  mpn_objects="$mpn_objects $tmp_fn$tmp_u.lo"
           mpn_objs_in_libgmp="$mpn_objs_in_libgmp mpn/$tmp_fn$tmp_u.lo"
-          ac_config_links="$ac_config_links mpn/$tmp_fn.$tmp1_ext:mpn/$tmp_dir/$tmp_base.$tmp_ext"
+          ac_config_links="$ac_config_links mpn/$tmp_fn.$tmp_ext:mpn/$tmp_dir/$tmp_base.$tmp_ext"
 
-          gmp_srclinks="$gmp_srclinks mpn/$tmp_fn.$tmp1_ext"
+          gmp_srclinks="$gmp_srclinks mpn/$tmp_fn.$tmp_ext"
 
           # Duplicate AC_DEFINEs are harmless, so it doesn't matter
           # that multi-function files get grepped here repeatedly.
@@ -26287,6 +26287,28 @@ _ACEOF
     fi
   fi
 done
+
+# for mingw64 rename all *.asm files to *.as files so we then will use yasm
+# cant move them yet as the mpn directory is not created until the end
+case $host in
+*-w64-mingw64)
+	old_gmp_srclinks=$gmp_srclinks
+	gmp_srclinks=
+	for jay in $old_gmp_srclinks; do
+		jayext=`echo "$jay" | awk -F . '{print $NF}'`
+		#jayext=`/bin/echo "${jay#*.}"`
+		#jayext=`echo "$jay" | sed -n 's/.*\.//'`
+		base=`echo "${jay%.*}"`
+		if test "$jayext" = "asm"; then
+			gmp_srclinks="gmp_srclinks $base.as"
+		else
+			gmp_srclinks="$gmp_srclinks $jay"
+		fi
+	done
+	;;
+*-*-*)
+	;;
+esac
 
 # All cycle counters are .asm files currently
 if test -n "$SPEED_CYCLECOUNTER_OBJ"; then
@@ -27973,6 +27995,9 @@ echo "define(<GMP_NUMB_BITS>,eval(GMP_LIMB_BITS-GMP_NAIL_BITS))" >> $gmp_tmpconf
 
 
 
+
+
+
 # A recompiled sqr_basecase for use in the tune program, if necessary.
 TUNE_SQR_OBJ=
 test -d tune || mkdir tune
@@ -29229,7 +29254,7 @@ do
   case $ac_config_target in
     "config.h") CONFIG_HEADERS="$CONFIG_HEADERS config.h:config.in" ;;
     "libtool") CONFIG_COMMANDS="$CONFIG_COMMANDS libtool" ;;
-    "mpn/$tmp_fn.$tmp1_ext") CONFIG_LINKS="$CONFIG_LINKS mpn/$tmp_fn.$tmp1_ext:mpn/$tmp_dir/$tmp_base.$tmp_ext" ;;
+    "mpn/$tmp_fn.$tmp_ext") CONFIG_LINKS="$CONFIG_LINKS mpn/$tmp_fn.$tmp_ext:mpn/$tmp_dir/$tmp_base.$tmp_ext" ;;
     "gmp-mparam.h") CONFIG_LINKS="$CONFIG_LINKS gmp-mparam.h:mpn/$gmp_mparam_dir/gmp-mparam.h" ;;
     "yasm_mac.inc") CONFIG_LINKS="$CONFIG_LINKS yasm_mac.inc:$YASM_MAC_INC" ;;
     "Makefile") CONFIG_FILES="$CONFIG_FILES Makefile" ;;
@@ -31012,3 +31037,20 @@ if test -n "$ac_unrecognized_opts" && test "$enable_option_checking" != no; then
 $as_echo "$as_me: WARNING: unrecognized options: $ac_unrecognized_opts" >&2;}
 fi
 
+
+# now we have created and populated the mpn dire we can rename the files
+case $host in
+*-w64-mingw64)
+	for jay in $old_gmp_srclinks; do
+		jayext=`echo "$jay" | awk -F . '{print $NF}'`
+		#jayext=`/bin/echo "${jay#*.}"`
+		#jayext=`echo "$jay" | sed -n 's/.*\.//'`
+		base=`echo "${jay%.*}"`
+		if test "$jayext" = "asm"; then
+			mv $jay $base.as
+		fi
+	done
+	;;
+*-*-*)
+	;;
+esac
