@@ -2757,17 +2757,7 @@ for tmp_fn in $gmp_mpn_functions; do
             tmp_u=
           fi
 
-	  #on mingw64 rename asm to as
-	  tmp1_ext=$tmp_ext
-	  case $host in
-	  *-w64-mingw*)
-		if test $tmp_ext = asm; then
-		 tmp1_ext=as
-		fi
-	  ;;
-	  esac
-
-          mpn_objects="$mpn_objects $tmp_fn$tmp_u.lo"
+	  mpn_objects="$mpn_objects $tmp_fn$tmp_u.lo"
           mpn_objs_in_libgmp="$mpn_objs_in_libgmp mpn/$tmp_fn$tmp_u.lo"
           AC_CONFIG_LINKS(mpn/$tmp_fn.$tmp1_ext:mpn/$tmp_dir/$tmp_base.$tmp_ext)
           gmp_srclinks="$gmp_srclinks mpn/$tmp_fn.$tmp1_ext"
