@@ -80,7 +80,7 @@ RM_TMP = rm -f
 .S.lo:
 	$(LIBTOOL) --mode=compile --tag=CC $(top_srcdir)/mpn/cpp-ccas --cpp="$(CPP) $(PREPROCESS_FLAGS)" $(CCAS) $(COMPILE_FLAGS) `test -f '$<' || echo '$(srcdir)/'`$<
 
-# .asm assembler, preprocessed with m4.
+# .asm assembler, preprocessed with m4 unless we are in MINGW64
 #
 # .o and .obj are non-PIC and just need m4 followed by a compile.
 #
@@ -97,6 +97,15 @@ RM_TMP = rm -f
 # it accepts PIC constructs like @GOT, and gcc adds that flag only under
 # -fPIC.  (Later versions of gas are happy to accept PIC stuff any time.)
 #
+
+
+if BUILD_MINGW64
+ASM_OPTIONS = $(top_srcdir)/strip_fPIC.sh $(top_builddir)$(MPIR_AS) -I $(top_builddir) $(OBJECT_FORMAT) $(GSYM_FLAG) -o $@ 
+else
+ASM_OPTIONS = $(top_srcdir)/mpn/m4-ccas --m4="$(M4)" $(CCAS) $(COMPILE_FLAGS)
+endif
+
+
 .asm.o:
 	$(M4) -DOPERATION_$* `test -f '$<' || echo '$(srcdir)/'`$< >tmp-$*.s
 	$(CCAS) $(COMPILE_FLAGS) tmp-$*.s -o $@
@@ -106,7 +115,7 @@ RM_TMP = rm -f
 	$(CCAS) $(COMPILE_FLAGS) tmp-$*.s -o $@
 	$(RM_TMP) tmp-$*.s
 .asm.lo:
-	$(LIBTOOL) --mode=compile --tag=CC $(top_srcdir)/mpn/m4-ccas --m4="$(M4)" $(CCAS) $(COMPILE_FLAGS) `test -f '$<' || echo '$(srcdir)/'`$<
+	$(LIBTOOL) --mode=compile --tag=CC $(ASM_OPTIONS) `test -f '$<' || echo '$(srcdir)/'`$<
 
 #  .as assembler, assembled with Yasm
 

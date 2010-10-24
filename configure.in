@@ -1449,6 +1449,15 @@ esac
 
 AM_CONDITIONAL(BUILD_YASM, test "$want_yasm" = "yes")
 
+case $host in
+	*-w64-mingw*)
+	in_mingw64=yes ;;
+	*-*-*)
+	in_mingw64=no ;;
+esac
+
+AM_CONDITIONAL(BUILD_MINGW64, test "$in_mingw64" = "yes")
+
 CFLAGS_or_unset=${CFLAGS-'(unset)'}
 CPPFLAGS_or_unset=${CPPFLAGS-'(unset)'}
 
