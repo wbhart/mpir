@@ -3201,9 +3201,9 @@ case $host in
 		#jayext=`echo "$jay" | sed -n 's/.*\.//'`
 		base=`echo "${jay%.*}"`
 		if test "$jayext" = "asm"; then
-			got=`grep -ce "dnl  This line is to help MINGW64" $jay`
+			got=`grep -ce "d""nl  This line is to help MINGW64" $jay`
 			if test got == 1 ; then
-				cat $jay | sed s/"include(\(.*\))"/"%include \1"/ | sed s/"define(\(.*\),\(.*\))"/"%define \1 \2"/ | sed s/"define(\(.*\))"/"%define \1"/ | sed s/"dnl\(.*\)"/"; \1"/ | sed s/ifdef.*// | sed s/"\`.*"// > $base.as
+				cat $jay | sed s/"include(\(.*\))"/"%include \1"/ | sed s/"define(\(.*\),\(.*\))"/"%define \1 \2"/ | sed s/"define(\(.*\))"/"%define \1"/ | sed s/"d""nl\(.*\)"/"; \1"/ | sed s/ifdef.*// | sed s/"\`.*"// > $base.as
 			else
 				mv $jay $base.as
 			fi
