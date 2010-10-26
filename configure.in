@@ -3187,7 +3187,7 @@ case $host in
 		if test "$jayext" = "asm"; then
 			got=`grep -ce "d""nl  This line is to help MINGW64" $jay`
 			if test "$got" = "1" ; then
-				cat $jay | sed s/"include(\(.*\))"/"%include \1"/ | sed s/"d""efine(\(.*\),\(.*\))"/"%d""efine \1 \2"/ | sed s/"d""efine(\(.*\))"/"%d""efine \1"/ | sed s/"d""nl\(.*\)"/"; \1"/ | sed s/ifdef.*// | sed s/"\`.*"// > $base.as
+				cat $jay | sed s/"include(\(.*\))"/"%include \"\1\""/ | sed s/"d""efine(\(.*\),\(.*\))"/"%d""efine \1 \2"/ | sed s/"d""efine(\(.*\))"/"%d""efine \1"/ | sed s/"d""nl\(.*\)"/"; \1"/ | sed s/ifdef.*// | sed s/"\`.*"// > $base.as
 				rm -f $jay
 			else
 				mv $jay $base.as
