@@ -204,21 +204,6 @@ C
 C This is called only once, so just something simple and compact is fine.
 
 PROLOGUE(__gmpn_cpuid_available)
-	pushf
-	popq	%rcx		C old flags
-
-	movq	%rcx, %rdx
-	xorq	$0x200000, %rdx
-	pushq	%rdx
-	popf
-	pushf
-	popq	%rdx		C tweaked flags
-
-	movq	$1, %rax
-	cmpq	%rcx, %rdx
-	jne	L(available)
-	xorq	%rax, %rax	C not changed, so cpuid not available
-
-L(available):
+	movl $1,%eax
 	ret
 EPILOGUE()
