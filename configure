@@ -10955,7 +10955,7 @@ fi
 # Put all directories into CPUVEC_list so as to get a full set of
 # CPUVEC_SETUP_$tmp_suffix defines into config.h, even if some of them are
 # empty because mmx and/or sse2 had to be dropped.
-#
+# For MINGW64 we have have to hack this so as x86_64w gets turned into x86_64
 for i in $fat_path; do
   tmp_suffix=`echo $i | sed -e '/\//s:^[^/]*/::' -e 's:[\\/]:_:g'`
   CPUVEC_list="$CPUVEC_list CPUVEC_SETUP_$tmp_suffix"
@@ -25988,6 +25988,7 @@ esac
       k6_mmx)        tmp_prefix=k6m ;;
       k6_k62mmx)     tmp_prefix=k62 ;;
       k7_mmx)        tmp_prefix=k7m ;;
+      x86_64w)	     tmp_prefix=x86_64 ;;
       *)             tmp_prefix=$tmp_suffix ;;
     esac
 
