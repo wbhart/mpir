@@ -67,9 +67,15 @@ dnl
 dnl      x86         ->  x86
 dnl      x86/k6      ->  k6
 dnl      x86/k6/mmx  ->  k6_mmx
-
+dnl	also want to turn x86_64w into x86_64
 define(GMP_FAT_SUFFIX,
-[[$1=`echo $2 | sed -e '/\//s:^[^/]*/::' -e 's:[\\/]:_:g'`]])
+[
+	if test "$2" = "x86_64w"; then 
+		[$1="x86_64"]
+	else
+		[$1=`echo $2 | sed -e '/\//s:^[^/]*/::' -e 's:[\\/]:_:g'`]
+	fi
+])
 
 
 dnl  GMP_REMOVE_FROM_LIST(listvar,item)

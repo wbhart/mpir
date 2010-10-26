@@ -2529,7 +2529,6 @@ DECL_$tmp_fbase (__MPN(${tmp_fbase}_init));" >>fat.h
       k6_mmx)        tmp_prefix=k6m ;;
       k6_k62mmx)     tmp_prefix=k62 ;;
       k7_mmx)        tmp_prefix=k7m ;;
-      x86_64w)	     tmp_prefix=x86_64 ;;
       *)             tmp_prefix=$tmp_suffix ;;
     esac
 
