@@ -1346,30 +1346,32 @@ case $host in
         esac
 
         case $host in
-	  x86_64-w64-mingw*)
+		# NOTE x86_64w and x86_64 paths MUST be the same , for the fat structure
+          x86_64-w64-mingw*)
             path_64="x86_64w" ;;
           netburst-w64-mingw*)
             path_64="x86_64w/netburst x86_64w" ;;
           netburstlahf-w64-mingw*)
-            path_64="x86_64w/netburst x86_64w" ;;
+            path_64="x86_64w/netburst/netburstlahf x86_64w/netburst x86_64w" ;;
           k8-w64-mingw*)
-            path_64="x86_64w/k8 x86_64w" ;;
+            path_64="x86_64w/k8/k8only x86_64w/k8 x86_64w" ;;
           k102-w64-mingw*)
-            path_64="x86_64w/k8/k10 x86_64w/k8 x86_64w" ;;
+            path_64="x86_64w/k8/k10/k102 x86_64w/k8/k10 x86_64w/k8 x86_64w" ;;
           k10-w64-mingw*)
             path_64="x86_64w/k8/k10 x86_64w/k8 x86_64w" ;;
           core2-w64-mingw*) 
             path_64="x86_64w/core2 x86_64w" ;;
           penryn-w64-mingw*) 
-            path_64="x86_64w/core2 x86_64w" ;;
+            path_64="x86_64w/core2/penryn x86_64w/core2 x86_64w" ;;
           nehalem-w64-mingw*) 
             path_64="x86_64w/nehalem x86_64w" ;;
           westmere-w64-mingw*) 
-            path_64="x86_64w/nehalem x86_64w" ;;
+            path_64="x86_64w/nehalem/westmere x86_64w/nehalem x86_64w" ;;
           atom-w64-mingw*) 
             path_64="x86_64w/atom x86_64w" ;;
           nano-w64-mingw*) 
-            path_64="x86_64w" ;;
+            path_64="x86_64w/nano x86_64w" ;;
+
           x86_64-*-*)
             path_64="x86_64" ;;
           netburst-*-*)
