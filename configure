@@ -31039,24 +31039,8 @@ $as_echo "$as_me: WARNING: unrecognized options: $ac_unrecognized_opts" >&2;}
 fi
 
 
-## now we have created and populated the mpn directory we can rename the files
-#case $host in
-#*-w64-mingw*)
-#	for jay in $old_gmp_srclinks; do
-#		jayext=`echo "$jay" | awk -F . '{print $NF}'`
-#		#jayext=`/bin/echo "${jay#*.}"`
-#		#jayext=`echo "$jay" | sed -n 's/.*\.//'`
-#		base=`echo "${jay%.*}"`
-#		if test "$jayext" = "asm"; then
-#			mv $jay $base.as
-#		fi
-#	done
-#	;;
-#*)
-#	;;
-#esac
-
-# for mingw64 post process the "m4 macros" into "yasm macros"
+# now we have created and populated the mpn directory we can rename the files
+# and post process the "m4 macros" into "yasm macros"
 case $host in
 *-w64-mingw*)
 	for jay in $old_gmp_srclinks; do
@@ -31066,14 +31050,14 @@ case $host in
 		base=`echo "${jay%.*}"`
 		if test "$jayext" = "asm"; then
 			got=`grep -ce "d""nl  This line is to help MINGW64" $jay`
-			if test got == 1 ; then
-				cat $jay | sed s/"include(\(.*\))"/"%include \1"/ | sed s/""/"%define \1 \2"/ | sed s/""/"%define \1"/ | sed s/"d""nl\(.*\)"/"; \1"/ | sed s/ifdef.*// | sed s/"\`.*"// > $base.as
+			if test "$got" = "1" ; then
+				cat $jay | sed s/"include(\(.*\))"/"%include \1"/ | sed s/"d""efine(\(.*\),\(.*\))"/"%d""efine \1 \2"/ | sed s/"d""efine(\(.*\))"/"%d""efine \1"/ | sed s/"d""nl\(.*\)"/"; \1"/ | sed s/ifdef.*// | sed s/"\`.*"// > $base.as
+				rm -f $jay
 			else
 				mv $jay $base.as
 			fi
 		fi
 	done
-
 ;;
 *)
 ;;
