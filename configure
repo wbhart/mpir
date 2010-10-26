@@ -26314,7 +26314,7 @@ case $host in
 		#jayext=`/bin/echo "${jay#*.}"`
 		#jayext=`echo "$jay" | sed -n 's/.*\.//'`
 		base=`echo "${jay%.*}"`
-		if test "$jayext" = "asm"; then
+		if test "$jayext" = "asm" && test "$base" != "fat_entry"; then
 			gmp_srclinks="gmp_srclinks $base.as"
 		else
 			gmp_srclinks="$gmp_srclinks $jay"
