@@ -2804,7 +2804,8 @@ case $host in
 		#jayext=`/bin/echo "${jay#*.}"`
 		#jayext=`echo "$jay" | sed -n 's/.*\.//'`
 		base=`echo "${jay%.*}"`
-		if test "$jayext" = "asm" && test "$base" != "fat_entry"; then
+		name=`basename $base`
+		if test "$jayext" = "asm" && test "$name" != "fat_entry"; then
 			gmp_srclinks="gmp_srclinks $base.as"
 		else
 			gmp_srclinks="$gmp_srclinks $jay"
@@ -3186,7 +3187,8 @@ case $host in
 		#jayext=`/bin/echo "${jay#*.}"`
 		#jayext=`echo "$jay" | sed -n 's/.*\.//'`
 		base=`echo "${jay%.*}"`
-		if test "$jayext" = "asm" && test "$base" != "fat_entry" ; then
+		name=`basename $base`
+		if test "$jayext" = "asm" && test "$name" != "fat_entry" ; then
 			got=`grep -ce "d""nl  This line is to help MINGW64" $jay`
 			if test "$got" = "1" ; then
 				cat $jay | sed s/"include(\(.*\))"/"%include \"\1\""/ | sed s/"d""efine(\(.*\),\(.*\))"/"%d""efine \1 \2"/ | sed s/"d""efine(\(.*\))"/"%d""efine \1"/ | sed s/"d""nl\(.*\)"/"; \1"/ | sed s/ifdef.*// | sed s/"\`.*"// > $base.as
