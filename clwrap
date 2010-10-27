@@ -1,0 +1,30 @@
+#!/bin/sh
+
+clopt="/nologo"
+prev="none"
+
+while test $# != 0 ; do
+	case $1 in
+	-D*)
+		loc=`echo $1 | cut -b 3-`
+		clopt="$clopt /D$loc" ;;
+	-I*)
+		loc=`echo $1 | cut -b 3-`
+		clopt="$clopt /I$loc" ;;
+	-O2)	clopt="$clopt /O2" ;;
+	-c)	prev=src ;;
+	-o)	prev=out ;;
+	*)	case $prev in
+			src)
+				clopt="$clopt /Tc$1" ;;
+			out)
+				clopt="$clopt /Fo$1" ;;
+			none)
+				clopt="$clopt $1" ;;	# wouldn't normally pass thru
+		esac
+		prev="none" ;;
+	esac
+	shift
+done
+cmd /c cl_int.bat $clopt
+# probably want to convert / to \ as well
