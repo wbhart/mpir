@@ -44,7 +44,7 @@ MA 02110-1301, USA. */
 #endif
 
 #ifndef _PROTO
-#if (__STDC__-0) || defined (__cplusplus)
+#if (__STDC__-0) || defined (__cplusplus) || defined( _MSC_VER )
 #define _PROTO(x) x
 #else
 #define _PROTO(x) ()
