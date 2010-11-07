@@ -39,7 +39,7 @@
 
     xalign  16
 start:
-    FRAME_PROC ?mpn_mul, 0, rbx
+    FRAME_PROC ?mpn_core2_mul, 0, rbx
     mov     rax, r8
     mov     r8d, 3
     lea     r10, [rdx+rax*8-24]

@@ -138,7 +138,7 @@
     LEAF_PROC mpn_addmul_1c
     mov     a_z, [rsp+0x28]
 entry:
-    FRAME_PROC ?mpn_addmul, 0, reg_save_list
+    FRAME_PROC ?mpn_nehalem_addmul, 0, reg_save_list
     mov     rdi, rcx
     mov     rsi, rdx
     xor     rdx, rdx

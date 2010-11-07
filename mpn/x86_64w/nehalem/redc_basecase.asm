@@ -371,7 +371,7 @@
     LEAF_PROC mpn_redc_basecase
     cmp     r8, 1
     je      one
-    FRAME_PROC ?mpn_redc_basecase, 0, reg_save_list
+    FRAME_PROC ?mpn_nehalem_redc_basecase, 0, reg_save_list
     mov     rdi, rcx
     mov     rsi, rdx
     mov     rdx, r8

@@ -50,7 +50,7 @@
     ret
 
     xalign   16
-.1:	FRAME_PROC ?mpn_submul, 0, reg_save_list
+.1:	FRAME_PROC ?mpn_k8_submul, 0, reg_save_list
 	mov     r11, 5
 	lea     rsi, [rdx+r8*8-40]
 	lea     rdi, [rcx+r8*8-40]

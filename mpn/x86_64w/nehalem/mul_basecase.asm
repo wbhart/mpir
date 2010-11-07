@@ -785,11 +785,11 @@
     LEAF_PROC mpn_mul_basecase
     ; the current mul does not handle case one
     cmp     r8d, 4
-    jg      __gmpn_mbc2
+    jg      __gmpn_nehalem_mbc2
     cmp     r8d, 1
     je      one
 
-    WIN64_GCC_PROC mpn_mbc1, 5, frame
+    WIN64_GCC_PROC mpn_nehalem_mbc1, 5, frame
     movsxd  rdx, edx
     movsxd  r8, r8d
 
@@ -837,7 +837,7 @@
 %define reg_save_list   rbx, rsi, rdi, r12, r13, r14, r15
 
     xalign  16
-.6:	WIN64_GCC_PROC mpn_mbc2, 5, frame
+.6:	WIN64_GCC_PROC mpn_nehalem_mbc2, 5, frame
 
     mov     r14, 4
     sub     r14, rdx

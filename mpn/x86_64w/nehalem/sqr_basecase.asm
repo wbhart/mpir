@@ -280,7 +280,7 @@
 
     xalign  16
 fourormore:
-    FRAME_PROC ?mpn_sqr_1, 0, reg_save_list
+    FRAME_PROC ?mpn_nehalem_sqr_1, 0, reg_save_list
     mov     rdi, rcx
     mov     rsi, rdx
     mov     rdx, r8
@@ -435,7 +435,7 @@ two:mov     rax, [rdx]
 
     xalign  16
 three:
-    FRAME_PROC ?mpn_sqr_2, 0, rsi, rdi
+    FRAME_PROC ?mpn_nehalem_sqr_2, 0, rsi, rdi
     mov     rdi, rcx
     mov     rsi, rdx
 
