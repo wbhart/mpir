@@ -3198,6 +3198,10 @@ case $host in
 			fi
 		fi
 	done
+# the file x86_64_divrem_euclidean_qr_1.as should detect the defined macro EXCLUDE_PREINV , but for some reason it doesnt, so we hack it
+echo "%define EXCLUDE_PREINV 1" > mpn/x86_64_divrem_euclidean_qr_1.tmp
+cat mpn/x86_64_divrem_euclidean_qr_1.as >> mpn/x86_64_divrem_euclidean_qr_1.tmp
+mv mpn/x86_64_divrem_euclidean_qr_1.tmp mpn/x86_64_divrem_euclidean_qr_1.as
 ;;
 *)
 ;;
