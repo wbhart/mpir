@@ -1332,7 +1332,11 @@ case $host in
         abilist="64 32"
         cclist_64="gcc cc"
         gcc_64_cflags="-O2 -m64"
-        gcc_64_ldflags="-Wl,-z,noexecstack"
+	gcc_64_ldflags="-Wl,-z,noexecstack"
+	case $host in
+		*-w64-mingw*)
+			gcc_64_ldflags="" ;;
+	esac		
         gcc_64_cflags_optlist="opt arch cpu"
         SPEED_CYCLECOUNTER_OBJ_64=x86_64.lo
         CALLING_CONVENTIONS_OBJS_64='x86_64call.lo x86_64check$U.lo'
