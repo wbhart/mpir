@@ -1119,6 +1119,7 @@ case $host in
     abilist="32"
     cclist="gcc icc cc"
     gcc_cflags="-O2 $fomit_frame_pointer"
+    gcc_ldflags="-Wl,-z,noexecstack"
     gcc_32_cflags_maybe="-m32"
     icc_cflags="-no-gcc"
     icc_cflags_optlist="opt"
@@ -1331,6 +1332,7 @@ case $host in
         abilist="64 32"
         cclist_64="gcc cc"
         gcc_64_cflags="-O2 -m64"
+        gcc_64_ldflags="-Wl,-z,noexecstack"
         gcc_64_cflags_optlist="opt arch cpu"
         SPEED_CYCLECOUNTER_OBJ_64=x86_64.lo
         CALLING_CONVENTIONS_OBJS_64='x86_64call.lo x86_64check$U.lo'
