@@ -33,7 +33,7 @@ echo "GMPXX-soname-$LIBGMPXX_LT_CURRENT.$LIBGMPXX_LT_REVISION.$LIBGMPXX_LT_AGE"
 ##############################################################
 
 VERSION_STR=$VERSION.$VERSION_MINOR.$VERSION_PATCHLEVEL
-TMPFILE=$(tempfile)
+TMPFILE=$(mktemp mpir.XXXXXX)
 
 #update gmp-h.in
 cat ../gmp-h.in \
