@@ -436,9 +436,10 @@ LIBMP_LT_AGE = 0
 SUBDIRS = tests $(am__append_1) mpn mpz mpq mpf printf scanf cxx tune \
 	doc
 EXTRA_DIST = configfsf.guess configfsf.sub .gdbinit INSTALL.autoconf \
-	mpirxx.h yasm_mac.inc.fat yasm_mac.inc.nofat strip_fPIC.sh \
-	mpn/x86w mpn/x86_64w build.vc9 build.vc10 doc/devel \
-	doc/fdl.texi cpuid.c gpl-2.0.txt lgpl-2.1.txt
+	mpirxx.h yasm_macwin.inc.fat yasm_macwin.inc.nofat \
+	yasm_mac.inc.fat yasm_mac.inc.nofat strip_fPIC.sh mpn/x86w \
+	mpn/x86_64w build.vc9 build.vc10 doc/devel doc/fdl.texi \
+	cpuid.c gpl-2.0.txt lgpl-2.1.txt
 @WANT_CXX_TRUE@GMPXX_HEADERS_OPTION = mpirxx.h
 
 # mpir.h is architecture dependent, mainly since they encode the
