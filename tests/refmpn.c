@@ -1280,7 +1280,7 @@ refmpn_lshiftc (mp_ptr rp, mp_srcptr sp, mp_size_t size, unsigned shift)
 void 
 refmpn_not(mp_ptr rp, mp_size_t n)
 {
-	return refmpn_com_n (rp,rp, n);
+	refmpn_com_n (rp,rp, n);
 }
 
 mp_limb_t 
