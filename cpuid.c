@@ -84,6 +84,7 @@ Boston, MA 02110-1301, USA.
 	  if (model == 28){ CPUIS(atom);break;}
 	  if (model == 29){ CPUIS(penryn);break;}
 	  if (model == 30){ CPUIS(westmere);break;}
+	  if (model == 37){ CPUIS(westmere);break;}
           break;
         case 15:
         #if CONFIG_GUESS_64BIT || FAT64
