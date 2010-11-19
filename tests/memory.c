@@ -107,7 +107,7 @@ tests_reallocate (void *ptr, size_t old_size, size_t new_size)
 
   if (h->size != old_size)
     {
-      printf ("tests_reallocate(): bad old size %u, should be %u\n",
+      printf ("tests_reallocate(): bad old size %d, should be %d\n",
               old_size, h->size);
       abort ();
     }
@@ -150,7 +150,7 @@ tests_free (void *ptr, size_t size)
 
   if (h->size != size)
     {
-      printf ("tests_free(): bad size %u, should be %u\n", size, h->size);
+      printf ("tests_free(): bad size %d, should be %d\n", size, h->size);
       abort ();
     }
 
