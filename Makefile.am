@@ -300,9 +300,9 @@ libgmpxx_la_LDFLAGS = $(libmpirxx_la_LDFLAGS)
 
 install-data-hook:
 if WANT_GMPCOMPAT
-	(cd $(DESTDIR)$(includedir)  && rm -f gmp.h   && cp mpir.h   gmp.h)
+	(rm -f $(DESTDIR)$(includedir)/gmp.h && cp mpir.h $(DESTDIR)$(includedir)/gmp.h)
 if WANT_CXX
-	(cd $(DESTDIR)$(includedir)  && rm -f gmpxx.h   && cp mpirxx.h   gmpxx.h)
+	(rm -f $(DESTDIR)$(includedir)/gmpxx.h && cp mpirxx.h $(DESTDIR)$(includedir)/gmpxx.h)
 endif
 endif
 	@echo ''
