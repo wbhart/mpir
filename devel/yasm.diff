@@ -32,7 +32,7 @@ diff -Naur yasm2227/config/config.sub mpiryasm/config/config.sub
  		basic_machine=powerpc-apple
  		;;
 -	*-unknown)
-+	*-unknown | *-pc)
++	*-unknown | *-pc | *-apple | *-w64)
  		# Make sure to match an already-canonicalized machine name.
  		;;
  	*)
