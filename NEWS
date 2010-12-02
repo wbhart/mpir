@@ -20,6 +20,39 @@ along with the GNU MP Library; see the file COPYING.LIB.  If not, write to
 the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 MA 02110-1301, USA.
 
+Changes between MPIR 2.1.1 and MPIR 2.2.0
+
+Bug Fixes:
+
+ * A bug in mpn_divexact which caused a seg-fault has been corrected
+ * An original GMP bug in mpf_get_d_2exp for negative numbers has been 
+   corrected
+ * A parallel make install race condition has been fixed
+ 
+Speedups:
+
+ * Detect a few more cpu's correctly
+
+Features:
+
+ * Upgrade internal components yasm,autotools,gnulib
+ * Removed the prebuild steps
+ * General cleanup of the source base
+ * Windows DLL builds can now be tested
+ * make check can now run the tests in parallel
+ * Initial support for running under MinGW64
+ * Enable noexecstack for x86/x86_64 with GCC
+
+Changes:
+
+ * Removed explicit support for ancient cpus's namely a29k clipper i960*
+   m88* ns32k pyr* z8000* gmicro i860 romp uxp POWER1 POWER2 cray vax
+ * Removed explicit support for ancient OS'es namely pw32 djgpp os2 unicos
+   osf tru64
+ * Removed the demo's from the library
+ * Renamed the internal function mpn_divexact_bybM1of to mpn_divexact_fobm1
+ * Windows build directory changes
+ 
 Changes between MPIR 2.1.0 and MPIR 2.1.1
 
 Bug Fixes:
