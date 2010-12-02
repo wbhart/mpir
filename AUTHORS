@@ -36,7 +36,7 @@ Michael Abshoff      Build system patches and failure reports, valgrinding,
                      build testing
 Niels Moller         GCD patches, nhgcd2.c, contributions to the schoolbook
                      and divide and conquer division code
-Jason Moxham		Dramatic speed improvements for K8, K10 and Core 2 
+Jason Moxham	     Dramatic speed improvements for K8, K10 and Core 2 
                      assembler code and improvements to other x86_64 assembly 
                      code. Refactoring CPU detection code. Numerous bug and 
                      build fixes. Improvements to speed program. Many new 
@@ -57,5 +57,5 @@ David Harvey         middle product and dc_divappr_q code, divide and conquer
                      Hensel division code and some work on basecase
 T. R. Nicely         primality tests used in benchmark
 Jeff Gilchrist       porting of T. R. Nicely's code to MPIR
-Peter Shrimpton	BPSW primality test code for integers up to GMP_LIMB_BITS
+Peter Shrimpton	     BPSW primality test code for integers up to GMP_LIMB_BITS
 Minh Van Nguyen      Release manager for MPIR 2.1.0
