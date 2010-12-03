@@ -1,6 +1,6 @@
 dnl  mpn_popcount
 
-dnl  Copyright 2009 Jason Moxham
+dnl  Copyright 2010 The Code Cavern
 
 dnl  This file is part of the MPIR Library.
 
@@ -27,110 +27,157 @@ C	rax               rdi,   rsi
 ASM_START()
 PROLOGUE(mpn_popcount)
 push %r12
-push %rbp
-push %rbx
+push %r14
+push %r15
 mov $0x5555555555555555,%r8
 mov $0x3333333333333333,%r9
 mov $0x0f0f0f0f0f0f0f0f,%r10
 mov $0x0101010101010101,%r11
-mov $0,%rax
-sub $2,%rsi
+xor %rax,%rax
+sub $3,%rsi
 jc skip
-	mov 8(%rdi,%rsi,8),%rcx
-	or 8(%rdi,%rsi,8),%rcx
-	mov (%rdi,%rsi,8),%r12
-	or (%rdi,%rsi,8),%r12
-sub $2,%rsi
+	mov 16(%rdi,%rsi,8),%rcx
+	mov 8(%rdi,%rsi,8),%r12
+	mov (%rdi,%rsi,8),%r14
+sub $3,%rsi
 jc skiplp
 ALIGN(16)
 lp:
-	mov %rcx,%rbp
+	mov %rcx,%rdx
 	shr $1,%rcx
 	and %r8,%rcx
-	sub %rcx,%rbp
-	mov %rbp,%rcx
-	shr $2,%rbp
+	sub %rcx,%rdx
+	mov %rdx,%rcx
+	shr $2,%rdx
 	and %r9,%rcx
-	and %r9,%rbp
-	add %rcx,%rbp
+	and %r9,%rdx
+	add %rcx,%rdx
 	
-	mov %r12,%rbx
+	mov %r12,%rcx
 	shr $1,%r12
 	and %r8,%r12
-	sub %r12,%rbx
-		mov 8(%rdi,%rsi,8),%rcx
-	mov %rbx,%r12
-	shr $2,%rbx
+	sub %r12,%rcx
+	mov %rcx,%r12
+	shr $2,%rcx
 	and %r9,%r12
-		or 8(%rdi,%rsi,8),%rcx
-	and %r9,%rbx
-	add %r12,%rbx
+	and %r9,%rcx
+	add %rcx,%r12
 	
-	add %rbp,%rbx
-	mov %rbx,%rdx
-		mov (%rdi,%rsi,8),%r12
-		or (%rdi,%rsi,8),%r12
-	shr $4,%rbx
-	and %r10,%rdx
-	and %r10,%rbx
-	add %rbx,%rdx
-	imul %r11,%rdx
-	shr $56,%rdx
-	add %rdx,%rax
-	sub $2,%rsi
+	mov %r14,%r15
+	shr $1,%r14
+	and %r8,%r14
+		mov 16(%rdi,%rsi,8),%rcx
+	sub %r14,%r15
+	mov %r15,%r14
+	shr $2,%r15
+	and %r9,%r14
+	and %r9,%r15
+	add %r14,%r15
+	
+	add %rdx,%r12
+	add %r15,%r12
+	
+	mov %r12,%r14
+	shr $4,%r12
+	and %r10,%r14
+	and %r10,%r12
+	add %r12,%r14
+	imul %r11,%r14
+	shr $56,%r14
+	add %r14,%rax
+		mov 8(%rdi,%rsi,8),%r12
+	sub $3,%rsi
+		mov 24-0(%rdi,%rsi,8),%r14
 	jnc lp
 skiplp:
-	mov %rcx,%rbp
+	mov %rcx,%rdx
 	shr $1,%rcx
 	and %r8,%rcx
-	sub %rcx,%rbp
-	mov %rbp,%rcx
-	shr $2,%rbp
+	sub %rcx,%rdx
+	mov %rdx,%rcx
+	shr $2,%rdx
 	and %r9,%rcx
-	and %r9,%rbp
-	add %rcx,%rbp
+	and %r9,%rdx
+	add %rcx,%rdx
 	
-	mov %r12,%rbx
+	mov %r12,%rcx
 	shr $1,%r12
 	and %r8,%r12
-	sub %r12,%rbx
-	mov %rbx,%r12
-	shr $2,%rbx
+	sub %r12,%rcx
+	mov %rcx,%r12
+	shr $2,%rcx
 	and %r9,%r12
-	and %r9,%rbx
-	add %r12,%rbx
+	and %r9,%rcx
+	add %rcx,%r12
 	
-	add %rbp,%rbx
-	mov %rbx,%rdx
-	shr $4,%rbx
-	and %r10,%rdx
-	and %r10,%rbx
-	add %rbx,%rdx
-	imul %r11,%rdx
-	shr $56,%rdx
-	add %rdx,%rax
+	mov %r14,%r15
+	shr $1,%r14
+	and %r8,%r14
+	sub %r14,%r15
+	mov %r15,%r14
+	shr $2,%r15
+	and %r9,%r14
+	and %r9,%r15
+	add %r14,%r15
+	
+	add %rdx,%r12
+	add %r15,%r12
+	
+	mov %r12,%r14
+	shr $4,%r12
+	and %r10,%r14
+	and %r10,%r12
+	add %r12,%r14
+	imul %r11,%r14
+	shr $56,%r14
+	add %r14,%rax
 skip:	cmp $-2,%rsi
-	jz  case0
-case1:	mov 8(%rdi,%rsi,8),%rcx
-	or 8(%rdi,%rsi,8),%rcx
-	mov %rcx,%rbp
+	jl case0
+	jz case1
+case2:
+	mov 16(%rdi,%rsi,8),%rcx
+
+	mov %rcx,%rdx
 	shr $1,%rcx
 	and %r8,%rcx
-	sub %rcx,%rbp
-	mov %rbp,%rcx
-	shr $2,%rbp
+	sub %rcx,%rdx
+	mov %rdx,%rcx
+	shr $2,%rdx
 	and %r9,%rcx
-	and %r9,%rbp
-	add %rcx,%rbp
-	mov %rbp,%rdx
-	shr $4,%rbp
-	add %rbp,%rdx
+	and %r9,%rdx
+	add %rcx,%rdx
+	
+	mov %rdx,%r14
+	shr $4,%rdx
+	and %r10,%r14
 	and %r10,%rdx
-	imul %r11,%rdx
-	shr $56,%rdx
-	add %rdx,%rax
-case0:	pop %rbx
-	pop %rbp
+	add %rdx,%r14
+	imul %r11,%r14
+	shr $56,%r14
+	add %r14,%rax
+	dec %rsi
+case1:	mov 16(%rdi,%rsi,8),%rcx
+
+	mov %rcx,%rdx
+	shr $1,%rcx
+	and %r8,%rcx
+	sub %rcx,%rdx
+	mov %rdx,%rcx
+	shr $2,%rdx
+	and %r9,%rcx
+	and %r9,%rdx
+	add %rcx,%rdx
+	
+	mov %rdx,%r14
+	shr $4,%rdx
+	and %r10,%r14
+	and %r10,%rdx
+	add %rdx,%r14
+	imul %r11,%r14
+	shr $56,%r14
+	add %r14,%rax
+case0:	pop %r15
+	pop %r14
 	pop %r12
 	ret
 EPILOGUE()
