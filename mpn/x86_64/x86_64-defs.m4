@@ -497,26 +497,6 @@ define(x86_opcode_regmmx_list,
 `%mm6',6,
 `%mm7',7')
 
-
-dnl  Usage: psadbw(src,dst)
-dnl
-dnl  Oldish versions of gas don't know psadbw, in particular gas 2.9.1 on
-dnl  FreeBSD 3.3 and 3.4 doesn't, so instead emit .byte sequences.  For
-dnl  example,
-dnl
-dnl         psadbw( %mm1, %mm2)
-dnl
-dnl  Only register->register forms are supported here, which suffices for
-dnl  the current code.
-
-define(psadbw,
-m4_instruction_wrapper()
-m4_assert_numargs(2)
-`.byte 0x0f,0xf6,dnl
-eval(192+x86_opcode_regmmx(`$2')*8+x86_opcode_regmmx(`$1')) dnl
-	C `psadbw $1, $2'')
-
-
 dnl  Usage: loop_or_decljnz label
 dnl
 dnl  Generate either a "loop" instruction or a "decl %ecx / jnz", whichever
