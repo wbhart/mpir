@@ -29,111 +29,147 @@
     CPU  Athlon64
     BITS 64
 
-%define reg_save_list   rbx, rsi, rdi, rbp, r12
+%define reg_save_list   rsi, rdi, r12, r14, r15
 
 	FRAME_PROC mpn_popcount, 0, reg_save_list
-	mov		rdi, rcx
+	mov	rdi, rcx
 	mov   	rsi, rdx
 
 	mov     r8, 0x5555555555555555
 	mov     r9, 0x3333333333333333
 	mov     r10, 0x0f0f0f0f0f0f0f0f
 	mov     r11, 0x0101010101010101
-	mov     rax, 0
-	sub     rsi, 2
-	jc      .3
-	mov     rcx, [rdi+rsi*8+8]
-	or      rcx, [rdi+rsi*8+8]
-	mov     r12, [rdi+rsi*8]
-	or      r12, [rdi+rsi*8]
-	sub     rsi, 2
+	xor     rax, rax
+	sub     rsi, 3
 	jc      .2
-	
+	mov     rcx, [rdi+rsi*8+16]
+	mov     r12, [rdi+rsi*8+8]
+	mov     r14, [rdi+rsi*8]
+	sub     rsi, 3
+	jc      .1
 	xalign  16
-.1:	mov     rbp, rcx
+.0:
+	mov     rdx, rcx
 	shr     rcx, 1
 	and     rcx, r8
-	sub     rbp, rcx
-	mov     rcx, rbp
-	shr     rbp, 2
+	sub     rdx, rcx
+	mov     rcx, rdx
+	shr     rdx, 2
 	and     rcx, r9
-	and     rbp, r9
-	add     rbp, rcx
-
-	mov     rbx, r12
+	and     rdx, r9
+	add     rdx, rcx
+	mov     rcx, r12
 	shr     r12, 1
 	and     r12, r8
-	sub     rbx, r12
-	mov     rcx, [rdi+rsi*8+8]
-	mov     r12, rbx
-	shr     rbx, 2
+	sub     rcx, r12
+	mov     r12, rcx
+	shr     rcx, 2
 	and     r12, r9
-	or      rcx, [rdi+rsi*8+8]
-	and     rbx, r9
-	add     rbx, r12
-
-	add     rbx, rbp
-	mov     rdx, rbx
-	mov     r12, [rdi+rsi*8]
-	or      r12, [rdi+rsi*8]
-	shr     rbx, 4
-	and     rdx, r10
-	and     rbx, r10
-	add     rdx, rbx
-	imul    rdx, r11
-	shr     rdx, 56
-	add     rax, rdx
-	sub     rsi, 2
-	jnc     .1
-.2:	mov     rbp, rcx
+	and     rcx, r9
+	add     r12, rcx
+	mov     r15, r14
+	shr     r14, 1
+	and     r14, r8
+	mov     rcx, [rdi+rsi*8+16]
+	sub     r15, r14
+	mov     r14, r15
+	shr     r15, 2
+	and     r14, r9
+	and     r15, r9
+	add     r15, r14
+	add     r12, rdx
+	add     r12, r15
+	mov     r14, r12
+	shr     r12, 4
+	and     r14, r10
+	and     r12, r10
+	add     r14, r12
+	imul    r14, r11
+	shr     r14, 56
+	add     rax, r14
+	mov     r12, [rdi+rsi*8+8]
+	sub     rsi, 3
+	mov     r14, [rdi+rsi*8+24-0]
+	jnc     .0
+.1:
+	mov     rdx, rcx
 	shr     rcx, 1
 	and     rcx, r8
-	sub     rbp, rcx
-	mov     rcx, rbp
-	shr     rbp, 2
+	sub     rdx, rcx
+	mov     rcx, rdx
+	shr     rdx, 2
 	and     rcx, r9
-	and     rbp, r9
-	add     rbp, rcx
-
-	mov     rbx, r12
+	and     rdx, r9
+	add     rdx, rcx
+	mov     rcx, r12
 	shr     r12, 1
 	and     r12, r8
-	sub     rbx, r12
-	mov     r12, rbx
-	shr     rbx, 2
+	sub     rcx, r12
+	mov     r12, rcx
+	shr     rcx, 2
 	and     r12, r9
-	and     rbx, r9
-	add     rbx, r12
-
-	add     rbx, rbp
-	mov     rdx, rbx
-	shr     rbx, 4
-	and     rdx, r10
-	and     rbx, r10
-	add     rdx, rbx
-	imul    rdx, r11
-	shr     rdx, 56
-	add     rax, rdx
-.3:	cmp     rsi, -2
-	jz      .5
-.4:	mov     rcx, [rdi+rsi*8+8]
-	or      rcx, [rdi+rsi*8+8]
-	mov     rbp, rcx
+	and     rcx, r9
+	add     r12, rcx
+	mov     r15, r14
+	shr     r14, 1
+	and     r14, r8
+	sub     r15, r14
+	mov     r14, r15
+	shr     r15, 2
+	and     r14, r9
+	and     r15, r9
+	add     r15, r14
+	add     r12, rdx
+	add     r12, r15
+	mov     r14, r12
+	shr     r12, 4
+	and     r14, r10
+	and     r12, r10
+	add     r14, r12
+	imul    r14, r11
+	shr     r14, 56
+	add     rax, r14
+.2:	cmp     rsi, -2
+	jl      .5
+	jz      .4
+.3:
+	mov     rcx, [rdi+rsi*8+16]
+	mov     rdx, rcx
 	shr     rcx, 1
 	and     rcx, r8
-	sub     rbp, rcx
-	mov     rcx, rbp
-	shr     rbp, 2
+	sub     rdx, rcx
+	mov     rcx, rdx
+	shr     rdx, 2
 	and     rcx, r9
-	and     rbp, r9
-	add     rbp, rcx
-	mov     rdx, rbp
-	shr     rbp, 4
-	add     rdx, rbp
+	and     rdx, r9
+	add     rdx, rcx
+	mov     r14, rdx
+	shr     rdx, 4
+	and     r14, r10
 	and     rdx, r10
-	imul    rdx, r11
-	shr     rdx, 56
-	add     rax, rdx
+	add     r14, rdx
+	imul    r14, r11
+	shr     r14, 56
+	add     rax, r14
+	dec     rsi
+.4:	mov     rcx, [rdi+rsi*8+16]
+	mov     rdx, rcx
+	shr     rcx, 1
+	and     rcx, r8
+	sub     rdx, rcx
+	mov     rcx, rdx
+	shr     rdx, 2
+	and     rcx, r9
+	and     rdx, r9
+	add     rdx, rcx
+	mov     r14, rdx
+	shr     rdx, 4
+	and     r14, r10
+	and     rdx, r10
+	add     r14, rdx
+	imul    r14, r11
+	shr     r14, 56
+	add     rax, r14
 .5:	END_PROC reg_save_list
 
 	end

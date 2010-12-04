@@ -1,6 +1,5 @@
 
 ;  AMD64 mpn_popcount
-;  Version 1.0.4
 ;
 ;  Copyright 2008 Jason Moxham
 ;
@@ -30,33 +29,21 @@
     BITS 64
 
     LEAF_PROC mpn_popcount
-    xor     eax, eax
-    sub     rdx, 4
-    jc      .2
-
-    xalign  16
-.1: popcnt  r8, [rcx+rdx*8+24]
-    add     rax, r8
-    popcnt  r9, [rcx+rdx*8+16]
-    add     rax, r9
-    popcnt  r10, [rcx+rdx*8+8]
-    add     rax, r10
-    popcnt  r11, [rcx+rdx*8]
-    add     rax, r11
-    sub     rdx, 4
-    jnc     .1
-.2: add     rdx, 4
-    jz      .3
-    popcnt  r8, [rcx+rdx*8-8]
-    add     rax, r8
-    dec     rdx
-    jz      .3
-    popcnt  r9, [rcx+rdx*8-8]
-    add     rax, r9
-    dec     rdx
-    jz      .3
-    popcnt  r10, [rcx+rdx*8-8]
-    add     rax, r10
-.3: ret
+	xor     eax, eax
+	popcnt  r9, [rcx+rdx*8-8]
+	sub     rdx, 3
+	jc      .1
+	xalign  16
+.0:	popcnt  r8, [rcx+rdx*8+8]
+	add     rax, r9
+	add     rax, r8
+	popcnt  r9, [rcx+rdx*8]
+	sub     rdx, 2
+	jnc     .0
+.1: jnp     .3
+.2:	popcnt  r8, [rcx]
+	add     rax, r8
+.3:	add     rax, r9
+	ret
 
     end

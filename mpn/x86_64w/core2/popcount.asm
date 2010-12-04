@@ -29,111 +29,129 @@
     CPU  Core2
     BITS 64
 
-%define reg_save_list   rbx, rsi, rdi, rbp, r12
+%define reg_save_list   xmm6, xmm7, xmm8
 
 	FRAME_PROC mpn_popcount, 0, reg_save_list
-	mov		rdi, rcx
-	mov  	rsi, rdx
 
-	mov     r8, 0x5555555555555555
-	mov     r9, 0x3333333333333333
-	mov     r10, 0x0f0f0f0f0f0f0f0f
-	mov     r11, 0x0101010101010101
-	mov     rax, 0
-	sub     rsi, 2
-	jc      .3
-	mov     rcx, [rdi+rsi*8+8]
-	or      rcx, [rdi+rsi*8+8]
-	mov     r12, [rdi+rsi*8]
-	or      r12, [rdi+rsi*8]
-	sub     rsi, 2
+	mov     rax, 0x5555555555555555
+	movq    xmm4, rax
+	movddup xmm4, xmm4
+	mov     rax, 0x3333333333333333
+	movq    xmm5, rax
+	movddup xmm5, xmm5
+	mov     rax, 0x0f0f0f0f0f0f0f0f
+	movq    xmm6, rax
+	movddup xmm6, xmm6
+	pxor    xmm7, xmm7
+	pxor    xmm1, xmm11
+	pxor    xmm8, xmm8
+	btr     rcx, 3
+	sbb     rax, rax
+	sub     rdx, rax
+	movq    xmm0, rax
+	pandn   xmm0, [rcx]
+	bt      rdx, 0
+	sbb     r8, r8
+	sub     rdx, r8
+	movq    xmm2, r8
+	shufpd  xmm2, xmm2, 1
+	pandn   xmm2, [rcx+rdx*8-16]
+	cmp     rdx, 2
+	jne     .0
+	add     rdx, 2
+	movq    xmm1, rax
+	movddup xmm1, xmm1
+	pand    xmm0, xmm1
+	pandn   xmm1, xmm2
+	movdqa  xmm2, xmm1
+.0:
+	movdqa  xmm1, xmm0
+	movdqa  xmm3, xmm2
+	sub     rdx, 8
 	jc      .2
-	
 	xalign  16
-.1:	mov     rbp, rcx
-	shr     rcx, 1
-	and     rcx, r8
-	sub     rbp, rcx
-	mov     rcx, rbp
-	shr     rbp, 2
-	and     rcx, r9
-	and     rbp, r9
-	add     rbp, rcx
-
-	mov     rbx, r12
-	shr     r12, 1
-	and     r12, r8
-	sub     rbx, r12
-	mov     rcx, [rdi+rsi*8+8]
-	mov     r12, rbx
-	shr     rbx, 2
-	and     r12, r9
-	or      rcx, [rdi+rsi*8+8]
-	and     rbx, r9
-	add     rbx, r12
-
-	add     rbx, rbp
-	mov     rdx, rbx
-	mov     r12, [rdi+rsi*8]
-	or      r12, [rdi+rsi*8]
-	shr     rbx, 4
-	and     rdx, r10
-	and     rbx, r10
-	add     rdx, rbx
-	imul    rdx, r11
-	shr     rdx, 56
-	add     rax, rdx
-	sub     rsi, 2
+.1:
+	psrlw   xmm0, 1
+	pand    xmm0, xmm4
+	psubb   xmm1, xmm0
+	psrlw   xmm2, 1
+	movdqa  xmm0, xmm1
+	paddq   xmm1, xmm8
+	psrlw   xmm1, 2
+	pand    xmm0, xmm5
+	pand    xmm1, xmm5
+	paddb   xmm1, xmm0
+	pand    xmm2, xmm4
+	sub     rdx, 4
+	psubb   xmm3, xmm2
+	movdqa  xmm2, xmm3
+	psrlw   xmm3, 2
+	pand    xmm2, xmm5
+	pand    xmm3, xmm5
+	paddb   xmm3, xmm2
+	movdqa  xmm0, [rcx+rdx*8+32-32+64]
+	paddb   xmm3, xmm1
+	movdqa  xmm8, xmm3
+	psrlw   xmm3, 4
+	pand    xmm3, xmm6
+	movdqa  xmm2, [rcx+rdx*8+32-48+64]
+	pand    xmm8, xmm6
+	movdqa  xmm1, [rcx+rdx*8+32-32+64]
+	paddb   xmm8, xmm3
+	movdqa  xmm3, [rcx+rdx*8+32-48+64]
+	psadbw  xmm8, xmm7
 	jnc     .1
-.2:	mov     rbp, rcx
-	shr     rcx, 1
-	and     rcx, r8
-	sub     rbp, rcx
-	mov     rcx, rbp
-	shr     rbp, 2
-	and     rcx, r9
-	and     rbp, r9
-	add     rbp, rcx
-
-	mov     rbx, r12
-	shr     r12, 1
-	and     r12, r8
-	sub     rbx, r12
-	mov     r12, rbx
-	shr     rbx, 2
-	and     r12, r9
-	and     rbx, r9
-	add     rbx, r12
-
-	add     rbx, rbp
-	mov     rdx, rbx
-	shr     rbx, 4
-	and     rdx, r10
-	and     rbx, r10
-	add     rdx, rbx
-	imul    rdx, r11
-	shr     rdx, 56
-	add     rax, rdx
-.3:	cmp     rsi, -2
-	jz      .5
-.4:	mov     rcx, [rdi+rsi*8+8]
-	or      rcx, [rdi+rsi*8+8]
-	mov     rbp, rcx
-	shr     rcx, 1
-	and     rcx, r8
-	sub     rbp, rcx
-	mov     rcx, rbp
-	shr     rbp, 2
-	and     rcx, r9
-	and     rbp, r9
-	add     rbp, rcx
-	mov     rdx, rbp
-	shr     rbp, 4
-	add     rdx, rbp
-	and     rdx, r10
-	imul    rdx, r11
-	shr     rdx, 56
-	add     rax, rdx
+.2:
+	psrlw   xmm0, 1
+	pand    xmm0, xmm4
+	psubb   xmm1, xmm0
+	psrlw   xmm2, 1
+	movdqa  xmm0, xmm1
+	paddq   xmm1, xmm8
+	psrlw   xmm1, 2
+	pand    xmm0, xmm5
+	pand    xmm1, xmm5
+	paddb   xmm1, xmm0
+	pand    xmm2, xmm4
+	psubb   xmm3, xmm2
+	movdqa  xmm2, xmm3
+	psrlw   xmm3, 2
+	pand    xmm2, xmm5
+	pand    xmm3, xmm5
+	paddb   xmm3, xmm2
+	paddb   xmm3, xmm1
+	movdqa  xmm8, xmm3
+	psrlw   xmm3, 4
+	pand    xmm3, xmm6
+	pand    xmm8, xmm6
+	paddb   xmm8, xmm3
+	psadbw  xmm8, xmm7
+	cmp     rdx, -3
+	jl      .4
+.3:
+	movdqa  xmm2, [rcx+rdx*8-32+64]
+	movdqa  xmm3, xmm2
+	psrlw   xmm2, 1
+	paddq   xmm1, xmm8
+	pand    xmm2, xmm4
+	psubb   xmm3, xmm2
+	movdqa  xmm2, xmm3
+	psrlw   xmm3, 2
+	pand    xmm2, xmm5
+	pand    xmm3, xmm5
+	paddb   xmm3, xmm2
+	movdqa  xmm8, xmm3
+	psrlw   xmm3, 4
+	pand    xmm3, xmm6
+	pand    xmm8, xmm6
+	paddb   xmm8, xmm3
+	psadbw  xmm8, xmm7
+.4:
+	paddq   xmm1, xmm8
+	movq    rax, xmm11
+	shufpd  xmm1, xmm11, 1
+	movq    r8, xmm11
+	add     rax, r8
 .5:	END_PROC reg_save_list
 
-	end
+    end

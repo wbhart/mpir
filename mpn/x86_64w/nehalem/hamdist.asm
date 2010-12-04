@@ -21,53 +21,32 @@
 
 %include 'yasm_mac.inc'
 
-%define TR4	r10
-
     CPU  nehalem
     BITS 64
 
 	LEAF_PROC mpn_hamdist
+	lea     rdx, [rdx+r8*8-8]
+	lea     r9, [rcx+r8*8-8]
+	mov     rcx, 1
 	xor     eax, eax
-	sub     r8, 4
-	jc      .2
-	
-	xalign   16
-.1:	mov     r9, [rcx+r8*8+24]
-	mov     r10, [rcx+r8*8+16]
-	xor     r9, [rdx+r8*8+24]
-	popcnt  r9, r9
-	add     rax, r9
-	xor     r10, [rdx+r8*8+16]
-	popcnt  r10, r10
-	add     rax, r10
-	mov     r11, [rcx+r8*8+8]
-	mov     TR4, [rcx+r8*8]
-	xor     r11, [rdx+r8*8+8]
-	popcnt  r11, r11
-	add     rax, r11
-	xor     TR4, [rdx+r8*8]
-	popcnt  TR4, TR4
-	add     rax, TR4
-	sub     r8, 4
+	sub     rcx, r8
 	jnc     .1
-.2:	add     r8, 4
-	jz      .3
-	mov     r9, [rcx+r8*8-8]
-	xor     r9, [rdx+r8*8-8]
-	popcnt  r9, r9
-	add     rax, r9
-	dec     r8
-	jz      .3
-	mov     r10, [rcx+r8*8-8]
-	xor     r10, [rdx+r8*8-8]
+	xalign  16
+.0:	mov     r10, [r9+rcx*8]
+	xor     r10, [rdx+rcx*8]
+	popcnt  r10, r10
+	mov     r11, [r9+rcx*8+8]
+	xor     r11, [rdx+rcx*8+8]
+	popcnt  r11, r11
+	add     rax, r10
+	add     rax, r11
+	add     rcx, 2
+	jnc     .0
+.1: jne     .2
+	mov     r10, [r9+rcx*8]
+	xor     r10, [rdx+rcx*8]
 	popcnt  r10, r10
 	add     rax, r10
-	dec     r8
-	jz      .3
-	mov     r11, [rcx+r8*8-8]
-	xor     r11, [rdx+r8*8-8]
-	popcnt  r11, r11
-	add     rax, r11
-.3:	ret
+.2:	ret
 
-	end
+    end
