@@ -1,6 +1,6 @@
 dnl  mpn_popcount
 
-dnl  Copyright 2009 Jason Moxham
+dnl  Copyright 2010 The Code Cavern
 
 dnl  This file is part of the MPIR Library.
 
@@ -26,111 +26,132 @@ C	rax               rdi,   rsi
 
 ASM_START()
 PROLOGUE(mpn_popcount)
-push %r12
-push %rbp
-push %rbx
-mov $0x5555555555555555,%r8
-mov $0x3333333333333333,%r9
-mov $0x0f0f0f0f0f0f0f0f,%r10
-mov $0x0101010101010101,%r11
-mov $0,%rax
-sub $2,%rsi
-jc skip
-	mov 8(%rdi,%rsi,8),%rcx
-	or 8(%rdi,%rsi,8),%rcx
-	mov (%rdi,%rsi,8),%r12
-	or (%rdi,%rsi,8),%r12
-sub $2,%rsi
+# could store these constants in mem and retune to get the same speed
+mov $0x5555555555555555,%rax
+movq %rax,%xmm4
+movddup %xmm4,%xmm4
+mov $0x3333333333333333,%rax
+movq %rax,%xmm5
+movddup %xmm5,%xmm5
+mov $0x0f0f0f0f0f0f0f0f,%rax
+movq %rax,%xmm6
+movddup %xmm6,%xmm6
+pxor %xmm7,%xmm7
+pxor %xmm11,%xmm11
+pxor %xmm8,%xmm8
+# this takes care of an odd address by padding with zeros
+btr $3,%rdi		# rdi is even
+sbb %rax,%rax		# rax =-1 if was odd
+sub %rax,%rsi
+movq %rax,%xmm0
+pandn (%rdi),%xmm0	# first load padded with zero
+# this takes care of odd number of digits by padding with zeros
+bt $0,%rsi
+sbb %rcx,%rcx
+sub %rcx,%rsi		# len is even
+movq %rcx,%xmm2
+shufpd $1,%xmm2,%xmm2	# swap high/low halfs
+pandn -16(%rdi,%rsi,8),%xmm2	# last load padded with zero
+# so we have an even addr and an even number of digits 
+# and we have loaded up first 2 and last 2 digits
+# by chance the general code handles all cases correctly except for
+# n=0,1, 2evenaddr
+cmp $2,%rsi
+jne big
+	# so just pad out with zeros
+	add $2,%rsi
+	movq %rax,%xmm1
+	movddup %xmm1,%xmm1
+	pand %xmm1,%xmm0
+	pandn %xmm2,%xmm1
+	movdqa %xmm1,%xmm2
+big:
+movdqa %xmm0,%xmm1
+movdqa %xmm2,%xmm3
+sub $8,%rsi
 jc skiplp
 ALIGN(16)
 lp:
-	mov %rcx,%rbp
-	shr $1,%rcx
-	and %r8,%rcx
-	sub %rcx,%rbp
-	mov %rbp,%rcx
-	shr $2,%rbp
-	and %r9,%rcx
-	and %r9,%rbp
-	add %rcx,%rbp
-	
-	mov %r12,%rbx
-	shr $1,%r12
-	and %r8,%r12
-	sub %r12,%rbx
-		mov 8(%rdi,%rsi,8),%rcx
-	mov %rbx,%r12
-	shr $2,%rbx
-	and %r9,%r12
-		or 8(%rdi,%rsi,8),%rcx
-	and %r9,%rbx
-	add %r12,%rbx
-	
-	add %rbp,%rbx
-	mov %rbx,%rdx
-		mov (%rdi,%rsi,8),%r12
-		or (%rdi,%rsi,8),%r12
-	shr $4,%rbx
-	and %r10,%rdx
-	and %r10,%rbx
-	add %rbx,%rdx
-	imul %r11,%rdx
-	shr $56,%rdx
-	add %rdx,%rax
-	sub $2,%rsi
+	psrlw $1,%xmm0
+	pand %xmm4,%xmm0
+	psubb %xmm0,%xmm1
+		psrlw $1,%xmm2
+	movdqa %xmm1,%xmm0
+				paddq %xmm8,%xmm11
+	psrlw $2,%xmm1
+	pand %xmm5,%xmm0
+	pand %xmm5,%xmm1
+	paddb %xmm0,%xmm1
+		pand %xmm4,%xmm2
+				sub $4,%rsi
+		psubb %xmm2,%xmm3
+		movdqa %xmm3,%xmm2
+		psrlw $2,%xmm3
+		pand %xmm5,%xmm2
+		pand %xmm5,%xmm3
+		paddb %xmm2,%xmm3
+				movdqa 32-32+64(%rdi,%rsi,8),%xmm0
+	paddb %xmm1,%xmm3
+	movdqa %xmm3,%xmm8
+	psrlw $4,%xmm3
+	pand %xmm6,%xmm3
+				movdqa 32-48+64(%rdi,%rsi,8),%xmm2
+	pand %xmm6,%xmm8
+				movdqa 32-32+64(%rdi,%rsi,8),%xmm1
+	paddb %xmm3,%xmm8
+				movdqa 32-48+64(%rdi,%rsi,8),%xmm3
+	psadbw %xmm7,%xmm8
 	jnc lp
 skiplp:
-	mov %rcx,%rbp
-	shr $1,%rcx
-	and %r8,%rcx
-	sub %rcx,%rbp
-	mov %rbp,%rcx
-	shr $2,%rbp
-	and %r9,%rcx
-	and %r9,%rbp
-	add %rcx,%rbp
-	
-	mov %r12,%rbx
-	shr $1,%r12
-	and %r8,%r12
-	sub %r12,%rbx
-	mov %rbx,%r12
-	shr $2,%rbx
-	and %r9,%r12
-	and %r9,%rbx
-	add %r12,%rbx
-	
-	add %rbp,%rbx
-	mov %rbx,%rdx
-	shr $4,%rbx
-	and %r10,%rdx
-	and %r10,%rbx
-	add %rbx,%rdx
-	imul %r11,%rdx
-	shr $56,%rdx
-	add %rdx,%rax
-skip:	cmp $-2,%rsi
-	jz  case0
-case1:	mov 8(%rdi,%rsi,8),%rcx
-	or 8(%rdi,%rsi,8),%rcx
-	mov %rcx,%rbp
-	shr $1,%rcx
-	and %r8,%rcx
-	sub %rcx,%rbp
-	mov %rbp,%rcx
-	shr $2,%rbp
-	and %r9,%rcx
-	and %r9,%rbp
-	add %rcx,%rbp
-	mov %rbp,%rdx
-	shr $4,%rbp
-	add %rbp,%rdx
-	and %r10,%rdx
-	imul %r11,%rdx
-	shr $56,%rdx
-	add %rdx,%rax
-case0:	pop %rbx
-	pop %rbp
-	pop %r12
-	ret
+	psrlw $1,%xmm0
+	pand %xmm4,%xmm0
+	psubb %xmm0,%xmm1
+		psrlw $1,%xmm2
+	movdqa %xmm1,%xmm0
+				paddq %xmm8,%xmm11
+	psrlw $2,%xmm1
+	pand %xmm5,%xmm0
+	pand %xmm5,%xmm1
+	paddb %xmm0,%xmm1
+		pand %xmm4,%xmm2
+		psubb %xmm2,%xmm3
+		movdqa %xmm3,%xmm2
+		psrlw $2,%xmm3
+		pand %xmm5,%xmm2
+		pand %xmm5,%xmm3
+		paddb %xmm2,%xmm3
+	paddb %xmm1,%xmm3
+	movdqa %xmm3,%xmm8
+	psrlw $4,%xmm3
+	pand %xmm6,%xmm3
+	pand %xmm6,%xmm8
+	paddb %xmm3,%xmm8
+	psadbw %xmm7,%xmm8	
+cmp $-3,%rsi
+jl nomore
+onemore:
+	movdqa -32+64(%rdi,%rsi,8),%xmm2
+	movdqa %xmm2,%xmm3
+		psrlw $1,%xmm2
+				paddq %xmm8,%xmm11
+		pand %xmm4,%xmm2
+		psubb %xmm2,%xmm3
+		movdqa %xmm3,%xmm2
+		psrlw $2,%xmm3
+		pand %xmm5,%xmm2
+		pand %xmm5,%xmm3
+		paddb %xmm2,%xmm3
+	movdqa %xmm3,%xmm8
+	psrlw $4,%xmm3
+	pand %xmm6,%xmm3
+	pand %xmm6,%xmm8
+	paddb %xmm3,%xmm8
+	psadbw %xmm7,%xmm8
+nomore:
+	paddq %xmm8,%xmm11
+movq %xmm11,%rax
+shufpd $1,%xmm11,%xmm11
+movq %xmm11,%rcx
+add %rcx,%rax
+ret
 EPILOGUE()
