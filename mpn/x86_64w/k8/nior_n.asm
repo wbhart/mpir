@@ -1,4 +1,3 @@
-;  Version 1.0.4
 ;
 ;  Copyright 2008 Jason Moxham
 ;
@@ -27,50 +26,74 @@
     CPU  Athlon64
     BITS 64
 
-%define T3      r10
-%define T4      r11
+ %define reg_save_list rbx, rsi, rdi
 
-    LEAF_PROC mpn_nior_n
-    sub     r9, 4
-    jb      .2
-
-    xalign  16
-.1:	mov     r10, [r8+r9*8+24]
-    mov     r11, [r8+r9*8+16]
-    or      r10, [rdx+r9*8+24]
-    or      r11, [rdx+r9*8+16]
-    not     r10
-    not     r11
-    mov     [rcx+r9*8+24], r10
-    mov     [rcx+r9*8+16], r11
-    mov     T3, [r8+r9*8+8]
-    mov     T4, [r8+r9*8]
-    or      T3, [rdx+r9*8+8]
-    or      T4, [rdx+r9*8]
-    not     T3
-    not     T4
-    mov     [rcx+r9*8+8], T3
-    mov     [rcx+r9*8], T4
-    sub     r9, 4
-    jnc     .1
-.2: add     r9, 4
-    jz      .3
-    mov     r10, [r8+r9*8-8]
-    or      r10, [rdx+r9*8-8]
-    not     r10
-    mov     [rcx+r9*8-8], r10
-    dec     r9
-    jz      .3
-    mov     r10, [r8+r9*8-8]
-    or      r10, [rdx+r9*8-8]
-    not     r10
-    mov     [rcx+r9*8-8], r10
-    dec     r9
-    jz      .3
-    mov     r10, [r8+r9*8-8]
-    or      r10, [rdx+r9*8-8]
-    not     r10
-    mov     [rcx+r9*8-8], r10
-.3: ret
+    FRAME_PROC mpn_nior_n, 0, reg_save_list
+	lea     rdi, [rcx+r9*8]
+	lea     rsi, [rdx+r9*8]
+	lea     rdx, [r8+r9*8]
+    mov     rcx, r9
+	neg     rcx
+	add     rcx, 3
+	jc      .2
+	mov     r8, [rdx+rcx*8-24]
+	mov     r9, [rdx+rcx*8-16]
+	mov     r8, [rdx+rcx*8-24]
+	mov     r9, [rdx+rcx*8-16]
+	add     rcx, 4
+	mov     r10, [rdx+rcx*8-40]
+	mov     r11, [rdx+rcx*8-32]
+	jc      .1
+	xalign  16
+.0:
+	or      r8, [rsi+rcx*8-56]
+	not     r8
+	or      r9, [rsi+rcx*8-48]
+	or      r10, [rsi+rcx*8-40]
+	or      r11, [rsi+rcx*8-32]
+	mov     [rdi+rcx*8-56], r8
+	not     r9
+	not     r10
+	mov     [rdi+rcx*8-48], r9
+	not     r11
+	mov     r8, [rdx+rcx*8-24]
+	mov     r9, [rdx+rcx*8-16]
+	mov     [rdi+rcx*8-40], r10
+	mov     [rdi+rcx*8-32], r11
+	add     rcx, 4
+	mov     r10, [rdx+rcx*8-40]
+	mov     r11, [rdx+rcx*8-32]
+	jnc     .0
+.1:
+	or      r8, [rsi+rcx*8-56]
+	not     r8
+	or      r9, [rsi+rcx*8-48]
+	or      r10, [rsi+rcx*8-40]
+	or      r11, [rsi+rcx*8-32]
+	mov     [rdi+rcx*8-56], r8
+	not     r9
+	not     r10
+	mov     [rdi+rcx*8-48], r9
+	not     r11
+	mov     [rdi+rcx*8-40], r10
+	mov     [rdi+rcx*8-32], r11
+.2:
+	cmp     rcx, 2
+	jg      .6
+	je      .5
+	jp      .4
+.3:	mov     r8, [rdx-24]
+	or      r8, [rsi-24]
+	not     r8
+	mov     [rdi-24], r8
+.4:	mov     r8, [rdx-16]
+	or      r8, [rsi-16]
+	not     r8
+	mov     [rdi-16], r8
+.5:	mov     r8, [rdx-8]
+	or      r8, [rsi-8]
+	not     r8
+	mov     [rdi-8], r8
+.6:	END_PROC reg_save_list
 
     end
