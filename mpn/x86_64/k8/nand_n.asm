@@ -34,41 +34,41 @@ jc skip
 	mov -24(%rdx,%rcx,8),%r8
 	mov -16(%rdx,%rcx,8),%r9
 add $4,%rcx
-	mov -8-32(%rdx,%rcx,8),%r10
+	mov -40(%rdx,%rcx,8),%r10
 	mov -32(%rdx,%rcx,8),%r11
 jc skiplp
 ALIGN(16)
 lp:
-	and -24-32(%rsi,%rcx,8),%r8
+	and -56(%rsi,%rcx,8),%r8
 	not %r8
-	and -16-32(%rsi,%rcx,8),%r9
-	and -8-32(%rsi,%rcx,8),%r10
+	and -48(%rsi,%rcx,8),%r9
+	and -40(%rsi,%rcx,8),%r10
 	and -32(%rsi,%rcx,8),%r11
-	mov %r8,-24-32(%rdi,%rcx,8)
+	mov %r8,-56(%rdi,%rcx,8)
 	not %r9
 	not %r10
-	mov %r9,-16-32(%rdi,%rcx,8)
+	mov %r9,-48(%rdi,%rcx,8)
 	not %r11
 	mov -24(%rdx,%rcx,8),%r8
 	mov -16(%rdx,%rcx,8),%r9
-	mov %r10,-8-32(%rdi,%rcx,8)
+	mov %r10,-40(%rdi,%rcx,8)
 	mov %r11,-32(%rdi,%rcx,8)
 	add $4,%rcx
-	mov -8-32(%rdx,%rcx,8),%r10
+	mov -40(%rdx,%rcx,8),%r10
 	mov -32(%rdx,%rcx,8),%r11
 	jnc lp
 skiplp:
-	and -24-32(%rsi,%rcx,8),%r8
+	and -56(%rsi,%rcx,8),%r8
 	not %r8
-	and -16-32(%rsi,%rcx,8),%r9
-	and -8-32(%rsi,%rcx,8),%r10
+	and -48(%rsi,%rcx,8),%r9
+	and -40(%rsi,%rcx,8),%r10
 	and -32(%rsi,%rcx,8),%r11
-	mov %r8,-24-32(%rdi,%rcx,8)
+	mov %r8,-56(%rdi,%rcx,8)
 	not %r9
 	not %r10
-	mov %r9,-16-32(%rdi,%rcx,8)
+	mov %r9,-48(%rdi,%rcx,8)
 	not %r11
-	mov %r10,-8-32(%rdi,%rcx,8)
+	mov %r10,-40(%rdi,%rcx,8)
 	mov %r11,-32(%rdi,%rcx,8)
 skip:
 cmp $2,%rcx
