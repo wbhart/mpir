@@ -55,6 +55,7 @@ mpn_rsh_divrem_hensel_qr_1_2
 mpn_rshift
 mpn_rshift1
 mpn_sqr_basecase
+mpn_store
 mpn_sub_err1
 mpn_sub_n
 mpn_sub_nc

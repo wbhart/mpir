@@ -1582,6 +1582,9 @@
     <YASM Include="..\..\mpn\x86_64w\sub_err2_n.asm">
       <Filter>Source Files\mpn\Assembler</Filter>
     </YASM>
+    <YASM Include="..\..\mpn\x86_64w\k8\store.asm">
+      <Filter>Source Files\mpn\Assembler</Filter>
+    </YASM>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\config.h">

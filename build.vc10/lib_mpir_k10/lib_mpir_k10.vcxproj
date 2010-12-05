@@ -1908,6 +1908,7 @@ postbuild "$(TargetPath)"</Command>
     <YASM Include="..\..\mpn\x86_64w\k8\divrem_hensel_r_1.asm" />
     <YASM Include="..\..\mpn\x86_64w\k8\k10\hamdist.asm" />
     <YASM Include="..\..\mpn\x86_64w\k8\k10\lshift.asm" />
+    <YASM Include="..\..\mpn\x86_64w\k8\k10\store.asm" />
     <YASM Include="..\..\mpn\x86_64w\k8\lshift1.asm" />
     <YASM Include="..\..\mpn\x86_64w\k8\lshiftc.asm" />
     <YASM Include="..\..\mpn\x86_64w\k8\mod_1_1.asm" />

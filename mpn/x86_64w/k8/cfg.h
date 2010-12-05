@@ -61,6 +61,7 @@ mpn_rshift
 mpn_rshift1
 mpn_rshift2
 mpn_sqr_basecase
+mpn_store
 mpn_sub_err1
 mpn_sub_n
 mpn_sub_nc
