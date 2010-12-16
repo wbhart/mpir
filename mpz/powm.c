@@ -271,7 +271,7 @@ pow (mpz_srcptr b, mpz_srcptr e, mpz_srcptr m, mpz_ptr r)
   xp = TMP_ALLOC_LIMBS (mn);
   mpn_sqr (tp, gp, mn);
   if (use_redc)
-    mpn_redc_1 (xp, mp, mn, invm, tp);		/* xx = x^2*R^n */
+    mpn_redc_1 (xp, tp,mp, mn, invm);		/* xx = x^2*R^n */
   else
     mpn_tdiv_qr (qp, xp, 0L, tp, 2 * mn, mp, mn);
   this_gp = gp;
@@ -280,7 +280,7 @@ pow (mpz_srcptr b, mpz_srcptr e, mpz_srcptr m, mpz_ptr r)
       mpn_mul_n (tp, this_gp, xp, mn);
       this_gp += mn;
       if (use_redc)
-	mpn_redc_1 (this_gp, mp, mn, invm, tp);	/* g[i] = x^(2i+1)*R^n */
+	mpn_redc_1 (this_gp,tp, mp, mn, invm);	/* g[i] = x^(2i+1)*R^n */
       else
 	mpn_tdiv_qr (qp, this_gp, 0L, tp, 2 * mn, mp, mn);
     }
@@ -312,7 +312,7 @@ pow (mpz_srcptr b, mpz_srcptr e, mpz_srcptr m, mpz_ptr r)
     {
       mpn_sqr (tp, xp, mn);
       if (use_redc)
-	mpn_redc_1 (xp, mp, mn, invm, tp);
+	mpn_redc_1 (xp,tp, mp, mn, invm);
       else
 	mpn_tdiv_qr (qp, xp, 0L, tp, 2 * mn, mp, mn);
     }
@@ -346,7 +346,7 @@ pow (mpz_srcptr b, mpz_srcptr e, mpz_srcptr m, mpz_ptr r)
 	{
 	  mpn_sqr (tp, xp, mn);
 	  if (use_redc)
-	    mpn_redc_1 (xp, mp, mn, invm, tp);
+	    mpn_redc_1 (xp,tp, mp, mn, invm);
 	  else
 	    mpn_tdiv_qr (qp, xp, 0L, tp, 2 * mn, mp, mn);
 	  if (sh != 0)
@@ -374,13 +374,13 @@ pow (mpz_srcptr b, mpz_srcptr e, mpz_srcptr m, mpz_ptr r)
 	    {
 	      mpn_sqr (tp, xp, mn);
 	      if (use_redc)
-		mpn_redc_1 (xp, mp, mn, invm, tp);
+		mpn_redc_1 (xp, tp,mp, mn, invm);
 	      else
 		mpn_tdiv_qr (qp, xp, 0L, tp, 2 * mn, mp, mn);
 	    }
 	  mpn_mul_n (tp, xp, gp + mn * (c >> 1), mn);
 	  if (use_redc)
-	    mpn_redc_1 (xp, mp, mn, invm, tp);
+	    mpn_redc_1 (xp,tp, mp, mn, invm);
 	  else
 	    mpn_tdiv_qr (qp, xp, 0L, tp, 2 * mn, mp, mn);
 	}
@@ -390,7 +390,7 @@ pow (mpz_srcptr b, mpz_srcptr e, mpz_srcptr m, mpz_ptr r)
 	{
 	  mpn_sqr (tp, xp, mn);
 	  if (use_redc)
-	    mpn_redc_1 (xp, mp, mn, invm, tp);
+	    mpn_redc_1 (xp, tp,mp, mn, invm);
 	  else
 	    mpn_tdiv_qr (qp, xp, 0L, tp, 2 * mn, mp, mn);
 	}
@@ -401,7 +401,7 @@ pow (mpz_srcptr b, mpz_srcptr e, mpz_srcptr m, mpz_ptr r)
       /* Convert back xx to xx/R^n.  */
       MPN_COPY (tp, xp, mn);
       MPN_ZERO (tp + mn, mn);
-      mpn_redc_1 (xp, mp, mn, invm, tp);
+      mpn_redc_1 (xp,tp, mp, mn, invm);
       if (mpn_cmp (xp, mp, mn) >= 0)
 	mpn_sub_n (xp, xp, mp, mn);
     }

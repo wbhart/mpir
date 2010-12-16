@@ -74,7 +74,7 @@ mp_limb_t mpn_lshift1(mp_ptr rp, mp_srcptr up, mp_size_t n)
 /* Set cp[] <- tp[]/B^n mod mp[].  Clobber tp[].
    mp[] is n limbs; tp[] is 2n limbs.  where Nprim*mp[0] == 1 mod B
 */
-void mpn_redc_1 (mp_ptr cp, mp_srcptr mp, mp_size_t n, mp_limb_t Nprim, mp_ptr tp)
+void mpn_redc_1 (mp_ptr cp, mp_ptr tp, mp_srcptr mp, mp_size_t n, mp_limb_t Nprim)
 
 /*
   {rp, n} = {up, n}/2^shift with 0 < shift < BITS_PER_LIMB and return msl

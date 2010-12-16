@@ -26,7 +26,7 @@ MA 02110-1301, USA. */
 
 /* Set cp[] <- tp[]/R^n mod mp[].  Clobber tp[].
    mp[] is n limbs; tp[] is 2n limbs.  */
-void mpn_redc_1 (mp_ptr cp, mp_srcptr mp, mp_size_t n, mp_limb_t Nprim, mp_ptr tp)
+void mpn_redc_1 (mp_ptr cp, mp_ptr tp, mp_srcptr mp, mp_size_t n, mp_limb_t Nprim)
 {
   mp_limb_t cy;
   mp_limb_t q;
