@@ -1,5 +1,5 @@
 
-;  core2 mpn_redc_basecase
+;  AMD64 mpn_redc_1
 ;  Copyright 2009 Jason Moxham
 ;  This file is part of the MPIR Library.
 ;  The MPIR Library is free software; you can redistribute it and/or modify
@@ -15,11 +15,14 @@
 ;  to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 ;  Boston, MA 02110-1301, USA.
 
-%include 'yasm_mac.inc'
-
-;	(rdi, rcx) = (rsi, rcx) + (rdx, rcx)   with the carry flag set for the carry
+;	Version 1.0.4
+;	(rdi,rcx)=(rsi,rcx)+(rdx,rcx)   with the carry flag set for the carry
 ;	this is the usual mpn_add_n with the final dec rax;adc rax,rax;ret  removed 
 ;	and a jump where we have two rets
+
+%include 'yasm_mac.inc'
+
+    BITS    64
 
 %macro mpn_add 0
 	mov     rax, rcx
@@ -42,7 +45,7 @@
 	adc     r11, [rdx+16]
 	mov     [rdi+16], r11
 	jmp     %%2
-	align 16
+	align   16
 %%1:
 	mov     r11, [rsi]
 	mov     r8, [rsi+8]
@@ -102,7 +105,7 @@
 	sbb     r11, [rdx+16]
 	mov     [rbx+16], r11
 	jmp     %%2
-	align 16
+	align   16
 %%1:
 	mov     r11, [rsi]
 	mov     r8, [rsi+8]
@@ -144,7 +147,7 @@
 ;	change  r8 to r12   and rcx to r13   and rdi to r8
 ;	reemove ret and write last limb but to beginning
 %macro addmulloop 1
-	align 16
+	align   16
 %%1:
 	mov     r10, 0
 	mul     r13
@@ -223,7 +226,7 @@
 	imul    r13, rcx
 	add     [r8+r11*8+32], r12
 	adc     r9, 0
-	sub     r15, 1
+	dec     r15
 	mov     [r8+r14*8], r9
 %endmacro
 
@@ -262,7 +265,7 @@
 	add     [r8+r11*8+24], rbx
 	mov     r13, [r8+r14*8+8]
 	adc     r12, 0
-	sub     r15, 1
+	dec     r15
 	mov     [r8+r14*8], r12
 	lea     r8, [r8+8]
 %endmacro
@@ -297,7 +300,7 @@
 	add     [r8+r11*8+16], r10
 	adc     rbx, 0
 	mov     [r8+r14*8], rbx
-	sub     r15, 1
+	dec     r15
 	lea     r8, [r8+8]
 %endmacro
 
@@ -326,14 +329,14 @@
 	mov     r13, [r8+r14*8+8]
 	mov     [r8+r14*8], r10
 	lea     r8, [r8+8]
-	sub     r15, 1
+	dec     r15
 %endmacro
 
 ;	change r8 to r12
 ;	write top limb ax straight to mem dont return  (NOTE we WRITE NOT ADD)
 %macro mpn_addmul_1_int 1
 	addmulpropro%1
-	align 16
+	align   16
 %%1:
 	addmulpro%1
 	jge     %%2
@@ -344,9 +347,7 @@
 	jmp     end
 %endmacro
 
-	BITS 64
-    
-   GLOBAL_FUNC mpn_redc_basecase
+   GLOBAL_FUNC mpn_redc_1
 	cmp     rdx, 1
 	je      one
 	push    r13
@@ -373,16 +374,16 @@
 	je      case1
 case2:
 	mpn_addmul_1_int 2
-	align 16
+	align   16
 case0:
 	mpn_addmul_1_int 0
-	align 16
+	align   16
 case1:
 	mpn_addmul_1_int 1
-	align 16
+	align   16
 case3:
 	mpn_addmul_1_int 3
-	align 16
+	align   16
 end:
 	mov     rcx, rbp
 	pop     rdx
@@ -403,7 +404,7 @@ skip:
 	pop     r14
 	pop     r13
 	ret
-	align 16
+	align   16
 one:
 	mov     r9, [r8]
 	mov     r11, [rsi]

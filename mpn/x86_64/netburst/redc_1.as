@@ -1,5 +1,5 @@
 
-;  core2 mpn_redc_basecase
+;  core2 mpn_redc_1
 ;  Copyright 2009 Jason Moxham
 ;  This file is part of the MPIR Library.
 ;  The MPIR Library is free software; you can redistribute it and/or modify
@@ -346,7 +346,7 @@
 
 	BITS 64
     
-   GLOBAL_FUNC mpn_redc_basecase
+   GLOBAL_FUNC mpn_redc_1
 	cmp     rdx, 1
 	je      one
 	push    r13

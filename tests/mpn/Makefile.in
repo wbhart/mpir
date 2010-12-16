@@ -57,19 +57,18 @@ check_PROGRAMS = t-asmtype$(EXEEXT) t-aors_1$(EXEEXT) \
 	t-instrument$(EXEEXT) t-iord_u$(EXEEXT) t-mulmid$(EXEEXT) \
 	t-mp_bases$(EXEEXT) t-perfsqr$(EXEEXT) t-scan$(EXEEXT) \
 	t-lorrshift1$(EXEEXT) t-divebyff$(EXEEXT) t-addadd_n$(EXEEXT) \
-	t-addsub_n$(EXEEXT) t-subadd_n$(EXEEXT) \
-	t-redc_basecase$(EXEEXT) t-divebyfobm1$(EXEEXT) \
-	t-mullowhigh$(EXEEXT) t-mullow_basecase$(EXEEXT) \
-	t-neg$(EXEEXT) t-mulmod_2expp1$(EXEEXT) \
-	t-mulmod_2expm1$(EXEEXT) t-tdiv_q$(EXEEXT) \
-	t-sb_divappr_q$(EXEEXT) t-dc_divappr_q_n$(EXEEXT) \
-	t-inv_divappr_q_n$(EXEEXT) t-invert$(EXEEXT) \
-	t-sb_div_q$(EXEEXT) t-sb_div_qr$(EXEEXT) t-dc_div_q$(EXEEXT) \
-	t-dc_div_qr$(EXEEXT) t-dc_divappr_q$(EXEEXT) \
-	t-dc_div_qr_n$(EXEEXT) t-inv_divappr_q$(EXEEXT) \
-	t-inv_div_q$(EXEEXT) t-inv_div_qr$(EXEEXT) \
-	t-inv_div_qr_n$(EXEEXT) t-tdiv_qr$(EXEEXT) \
-	t-sb_bdiv_q$(EXEEXT) t-sb_bdiv_qr$(EXEEXT) \
+	t-addsub_n$(EXEEXT) t-subadd_n$(EXEEXT) t-redc_1$(EXEEXT) \
+	t-divebyfobm1$(EXEEXT) t-mullowhigh$(EXEEXT) \
+	t-mullow_basecase$(EXEEXT) t-neg$(EXEEXT) \
+	t-mulmod_2expp1$(EXEEXT) t-mulmod_2expm1$(EXEEXT) \
+	t-tdiv_q$(EXEEXT) t-sb_divappr_q$(EXEEXT) \
+	t-dc_divappr_q_n$(EXEEXT) t-inv_divappr_q_n$(EXEEXT) \
+	t-invert$(EXEEXT) t-sb_div_q$(EXEEXT) t-sb_div_qr$(EXEEXT) \
+	t-dc_div_q$(EXEEXT) t-dc_div_qr$(EXEEXT) \
+	t-dc_divappr_q$(EXEEXT) t-dc_div_qr_n$(EXEEXT) \
+	t-inv_divappr_q$(EXEEXT) t-inv_div_q$(EXEEXT) \
+	t-inv_div_qr$(EXEEXT) t-inv_div_qr_n$(EXEEXT) \
+	t-tdiv_qr$(EXEEXT) t-sb_bdiv_q$(EXEEXT) t-sb_bdiv_qr$(EXEEXT) \
 	t-dc_bdiv_q_n$(EXEEXT) t-dc_bdiv_qr_n$(EXEEXT) \
 	t-dc_bdiv_qr$(EXEEXT) t-dc_bdiv_q$(EXEEXT) t-gcdext$(EXEEXT) \
 	$(am__EXEEXT_1)
@@ -287,10 +286,10 @@ t_perfsqr_OBJECTS = t-perfsqr.$(OBJEXT)
 t_perfsqr_LDADD = $(LDADD)
 t_perfsqr_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
 	$(top_builddir)/libmpir.la
-t_redc_basecase_SOURCES = t-redc_basecase.c
-t_redc_basecase_OBJECTS = t-redc_basecase.$(OBJEXT)
-t_redc_basecase_LDADD = $(LDADD)
-t_redc_basecase_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
+t_redc_1_SOURCES = t-redc_1.c
+t_redc_1_OBJECTS = t-redc_1.$(OBJEXT)
+t_redc_1_LDADD = $(LDADD)
+t_redc_1_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
 	$(top_builddir)/libmpir.la
 t_sb_bdiv_q_SOURCES = t-sb_bdiv_q.c
 t_sb_bdiv_q_OBJECTS = t-sb_bdiv_q.$(OBJEXT)
@@ -359,7 +358,7 @@ SOURCES = $(st_fat_SOURCES) $(st_instrument_SOURCES) t-addadd_n.c \
 	t-inv_divappr_q_n.c t-invert.c t-iord_u.c t-lorrshift1.c \
 	t-mp_bases.c t-mullow_basecase.c t-mullowhigh.c t-mulmid.c \
 	t-mulmod_2expm1.c t-mulmod_2expp1.c t-neg.c t-perfsqr.c \
-	t-redc_basecase.c t-sb_bdiv_q.c t-sb_bdiv_qr.c t-sb_div_q.c \
+	t-redc_1.c t-sb_bdiv_q.c t-sb_bdiv_qr.c t-sb_div_q.c \
 	t-sb_div_qr.c t-sb_divappr_q.c t-scan.c t-subadd_n.c \
 	t-tdiv_q.c t-tdiv_qr.c
 DIST_SOURCES = $(am__st_fat_SOURCES_DIST) \
@@ -373,7 +372,7 @@ DIST_SOURCES = $(am__st_fat_SOURCES_DIST) \
 	t-invert.c t-iord_u.c t-lorrshift1.c t-mp_bases.c \
 	t-mullow_basecase.c t-mullowhigh.c t-mulmid.c \
 	t-mulmod_2expm1.c t-mulmod_2expp1.c t-neg.c t-perfsqr.c \
-	t-redc_basecase.c t-sb_bdiv_q.c t-sb_bdiv_qr.c t-sb_div_q.c \
+	t-redc_1.c t-sb_bdiv_q.c t-sb_bdiv_qr.c t-sb_div_q.c \
 	t-sb_div_qr.c t-sb_divappr_q.c t-scan.c t-subadd_n.c \
 	t-tdiv_q.c t-tdiv_qr.c
 ETAGS = etags
@@ -763,9 +762,9 @@ t-neg$(EXEEXT): $(t_neg_OBJECTS) $(t_neg_DEPENDENCIES)
 t-perfsqr$(EXEEXT): $(t_perfsqr_OBJECTS) $(t_perfsqr_DEPENDENCIES) 
 	@rm -f t-perfsqr$(EXEEXT)
 	$(LINK) $(t_perfsqr_OBJECTS) $(t_perfsqr_LDADD) $(LIBS)
-t-redc_basecase$(EXEEXT): $(t_redc_basecase_OBJECTS) $(t_redc_basecase_DEPENDENCIES) 
-	@rm -f t-redc_basecase$(EXEEXT)
-	$(LINK) $(t_redc_basecase_OBJECTS) $(t_redc_basecase_LDADD) $(LIBS)
+t-redc_1$(EXEEXT): $(t_redc_1_OBJECTS) $(t_redc_1_DEPENDENCIES) 
+	@rm -f t-redc_1$(EXEEXT)
+	$(LINK) $(t_redc_1_OBJECTS) $(t_redc_1_LDADD) $(LIBS)
 t-sb_bdiv_q$(EXEEXT): $(t_sb_bdiv_q_OBJECTS) $(t_sb_bdiv_q_DEPENDENCIES) 
 	@rm -f t-sb_bdiv_q$(EXEEXT)
 	$(LINK) $(t_sb_bdiv_q_OBJECTS) $(t_sb_bdiv_q_LDADD) $(LIBS)
@@ -1051,8 +1050,8 @@ t-addsub_n.log: t-addsub_n$(EXEEXT)
 	@p='t-addsub_n$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
 t-subadd_n.log: t-subadd_n$(EXEEXT)
 	@p='t-subadd_n$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
-t-redc_basecase.log: t-redc_basecase$(EXEEXT)
-	@p='t-redc_basecase$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
+t-redc_1.log: t-redc_1$(EXEEXT)
+	@p='t-redc_1$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
 t-divebyfobm1.log: t-divebyfobm1$(EXEEXT)
 	@p='t-divebyfobm1$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
 t-mullowhigh.log: t-mullowhigh$(EXEEXT)

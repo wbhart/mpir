@@ -1,4 +1,4 @@
-/* Test mpn_redc_basecase
+/* Test mpn_redc_1
 
   Copyright 2009 Jason Moxham
 
@@ -30,7 +30,7 @@
 
 /* Set cp[] <- tp[]/R^n mod mp[].  Clobber tp[].
    mp[] is n limbs; tp[] is 2n limbs.  */
-void ref_redc_basecase (mp_ptr cp, mp_srcptr mp, mp_size_t n, mp_limb_t Nprim, mp_ptr tp)
+void ref_redc_1 (mp_ptr cp, mp_srcptr mp, mp_size_t n, mp_limb_t Nprim, mp_ptr tp)
 { mp_limb_t cy;  mp_limb_t q;  mp_size_t j;
   ASSERT_MPN (tp, 2*n);
   for (j = 0; j < n; j++)
@@ -54,10 +54,10 @@ main (void)
      {for(j=1;j<100;j++)
          {mpn_randomb(mp,rands,n);mp[0]|=1;modlimb_invert(inv,mp[0]);inv=-inv;mpn_randomb(tp1,rands,2*n);
           MPN_COPY(tp2,tp1,2*n);
-          ref_redc_basecase(cp1,mp,n,inv,tp1);
-          mpn_redc_basecase(cp2,mp,n,inv,tp2);
-          if(mpn_cmp(cp1,cp2,n)!=0){printf("mpn_redc_basecase error %d\n",n);abort();}
-          if(n!=1 && mpn_cmp(tp1,tp2,2*n)!=0){printf("mpn_redc_basecase possible error\n");abort();}
+          ref_redc_1(cp1,mp,n,inv,tp1);
+          mpn_redc_1(cp2,mp,n,inv,tp2);
+          if(mpn_cmp(cp1,cp2,n)!=0){printf("mpn_redc_1 error %d\n",n);abort();}
+          if(n!=1 && mpn_cmp(tp1,tp2,2*n)!=0){printf("mpn_redc_1 possible error\n");abort();}
           /* we dont require the above to be the same but it could be a useful test */      
          }
      }
@@ -65,10 +65,10 @@ main (void)
      {for(j=1;j<100;j++)
          {mpn_rrandom(mp,rands,n);mp[0]|=1;modlimb_invert(inv,mp[0]);inv=-inv;mpn_rrandom(tp1,rands,2*n);
           MPN_COPY(tp2,tp1,2*n);
-          ref_redc_basecase(cp1,mp,n,inv,tp1);
-          mpn_redc_basecase(cp2,mp,n,inv,tp2);
-          if(mpn_cmp(cp1,cp2,n)!=0){printf("mpn_redc_basecase error %d\n",n);abort();}
-          if(n!=1 && mpn_cmp(tp1,tp2,2*n)!=0){printf("mpn_redc_basecase possible error\n");abort();}
+          ref_redc_1(cp1,mp,n,inv,tp1);
+          mpn_redc_1(cp2,mp,n,inv,tp2);
+          if(mpn_cmp(cp1,cp2,n)!=0){printf("mpn_redc_1 error %d\n",n);abort();}
+          if(n!=1 && mpn_cmp(tp1,tp2,2*n)!=0){printf("mpn_redc_1 possible error\n");abort();}
           /* we dont require the above to be the same but it could be a useful test */      
          }
      }

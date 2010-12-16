@@ -2502,7 +2502,7 @@ refmpn_sqrtrem (mp_ptr sp, mp_ptr rp, mp_srcptr np, mp_size_t nsize)
 }
 
 void 
-refmpn_redc_basecase (mp_ptr cp, mp_srcptr mp, mp_size_t n, mp_limb_t Nd, mp_ptr tp)
+refmpn_redc_1 (mp_ptr cp, mp_srcptr mp, mp_size_t n, mp_limb_t Nd, mp_ptr tp)
 {
   mp_limb_t cy, q;
   mp_size_t j;

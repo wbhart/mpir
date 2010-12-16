@@ -52,7 +52,7 @@ mpn_mul_1c
 mpn_mul_2
 mpn_mul_basecase
 mpn_popcount
-mpn_redc_basecase
+mpn_redc_1
 mpn_rsh1add_n
 mpn_rsh1sub_n
 mpn_rsh_divrem_hensel_qr_1_1

@@ -1,4 +1,4 @@
-/* Fat binary fallback mpn_redc_basecase
+/* Fat binary fallback mpn_redc_1
 
 Copyright 2003 Free Software Foundation, Inc.
 
@@ -20,4 +20,4 @@ the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 MA 02110-1301, USA. */
 
 
-#include "mpn/generic/redc_basecase.c"
+#include "mpn/generic/redc_1.c"

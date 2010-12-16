@@ -1,4 +1,4 @@
-/* mpn_redc_basecase
+/* mpn_redc_1
 
 Copyright 1991, 1993, 1994, 1996, 1997, 2000, 2001, 2002, 2005 Free Software
 Foundation, Inc.  Contributed by Paul Zimmermann.
@@ -26,7 +26,7 @@ MA 02110-1301, USA. */
 
 /* Set cp[] <- tp[]/R^n mod mp[].  Clobber tp[].
    mp[] is n limbs; tp[] is 2n limbs.  */
-void mpn_redc_basecase (mp_ptr cp, mp_srcptr mp, mp_size_t n, mp_limb_t Nprim, mp_ptr tp)
+void mpn_redc_1 (mp_ptr cp, mp_srcptr mp, mp_size_t n, mp_limb_t Nprim, mp_ptr tp)
 {
   mp_limb_t cy;
   mp_limb_t q;

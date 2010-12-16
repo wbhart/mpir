@@ -1325,7 +1325,7 @@ param_init (void)
   p->data = DATA_SRC0_ODD ;
   p->size2 = SIZE_DOUBLE;
   p->overlap = OVERLAP_NONE;
-  REFERENCE (refmpn_redc_basecase);
+  REFERENCE (refmpn_redc_1);
 
   p = &param[TYPE_SQR];
   p->dst[0] = 1;
@@ -1897,7 +1897,7 @@ const struct choice_t choice_array[] = {
 #endif
 
   { TRY(mpn_mul_basecase), TYPE_MUL_BASECASE },
-  { TRY(mpn_redc_basecase), TYPE_REDC_BASECASE },
+  { TRY(mpn_redc_1), TYPE_REDC_BASECASE },
 #if SQR_KARATSUBA_THRESHOLD > 0
   { TRY(mpn_sqr_basecase), TYPE_SQR },
 #endif

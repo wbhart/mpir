@@ -1546,6 +1546,9 @@ __GMP_DECLSPEC void mpn_mulmod_2expm1 __GMP_PROTO ((mp_ptr, mp_ptr, mp_ptr,unsig
 __GMP_DECLSPEC int mpn_cmp __GMP_PROTO ((mp_srcptr, mp_srcptr, mp_size_t)) __GMP_NOTHROW __GMP_ATTRIBUTE_PURE;
 #endif
 
+#define mpn_redc_1 __MPN(redc_1)
+__GMP_DECLSPEC void mpn_redc_1 __GMP_PROTO ((mp_ptr, mp_ptr, mp_srcptr, mp_size_t, mp_limb_t);)
+
 #define mpn_divexact_by3(dst,src,size) \
   mpn_divexact_by3c (dst, src, size, __GMP_CAST (mp_limb_t, 0))
 

@@ -18,15 +18,15 @@
 ;  to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 ;  Boston, MA 02110-1301, USA.
 ;
-;  mp_limb_t mpn_redc_basecase(mp_ptr, mp_ptr, mp_size_t, mp_limb_t,  mp_ptr)
+;  mp_limb_t mpn_redc_1(mp_ptr, mp_ptr, mp_size_t, mp_limb_t,  mp_ptr)
 ;  rax                            rdi     rsi        rdx        rcx       r8
-;  rax                            rcx     rdx         r8         r9 [rsp+40]
+;  rax                            rcx     rdx         r8         r9 [rsp+40] 
 
 %include "yasm_mac.inc"
 
 %define reg_save_list   rbx, rsi, rdi, rbp, r12, r13, r14, r15
 
-    CPU  Core2
+    CPU  Athlon64
     BITS 64
 
 %macro mpn_add 0
@@ -234,7 +234,7 @@
     imul    r13, rcx
     add     [r8+r11*8+32], r12
     adc     r9, 0
-    sub     r15, 1          ; ***
+    dec     r15
     mov     [r8+r14*8], r9
 
 %endmacro
@@ -278,7 +278,7 @@
     add     [r8+r11*8+24], rbx
     mov     r13, [r8+r14*8+8]
     adc     r12, 0
-    sub     r15, 1          ; ***
+    dec     r15
     mov     [r8+r14*8], r12
     lea     r8, [r8+8]
 
@@ -318,7 +318,7 @@
     add     [r8+r11*8+16], r10
     adc     rbx, 0
     mov     [r8+r14*8], rbx
-    sub     r15, 1          ; ***
+    dec     r15
     lea     r8, [r8+8]
 
 %endmacro
@@ -352,7 +352,7 @@
     mov     r13, [r8+r14*8+8]
     mov     [r8+r14*8], r10
     lea     r8, [r8+8]
-    sub     r15, 1          ; ***
+    dec     r15
 
 %endmacro
 
@@ -368,21 +368,21 @@
 
 %endmacro
 
-    LEAF_PROC mpn_redc_basecase
+    LEAF_PROC mpn_redc_1
     cmp     r8, 1
     je      one
-    FRAME_PROC ?mpn_core2_redc_basecase, 0, reg_save_list
+    FRAME_PROC ?mpn_k8_redc_1, 0, reg_save_list
     mov     rdi, rcx
     mov     rsi, rdx
     mov     rdx, r8
     mov     rcx, r9
-    mov     r8, [rsp+stack_use+0x28]
+    mov     r8, [rsp+stack_use+40]
 
     mov     r14, 5
     sub     r14, rdx
 
-    mov     [rsp+stack_use+0x10], rsi
-    mov     r8, [rsp+stack_use+0x28]
+    mov     [rsp+stack_use+16], rsi
+    mov     r8, [rsp+stack_use+40]
 
     lea     r8, [r8+rdx*8-40]
     lea     rsi, [rsi+rdx*8-40]
@@ -411,18 +411,18 @@
 
     xalign  16
 .5:	mov     rcx, rbp
-    mov     rdx, [rsp+stack_use+0x28]
+    mov     rdx, [rsp+stack_use+40]
     lea     rsi, [rdx+rbp*8]
     mov     rbx, rdi
     mpn_add
-    mov     rdx, [rsp+stack_use+0x10]
+    mov     rdx, [rsp+stack_use+16]
     jnc     .6
     mov     rsi, rbx
     mpn_sub
 .6:	END_PROC reg_save_list
 
     xalign  16
-one:mov     r8,[rsp+0x28]
+one:mov     r8,[rsp+40]
     mov     r10, [r8]
     mov     r11, [rdx]
     imul    r9, r10

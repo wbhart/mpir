@@ -261,7 +261,7 @@ check_functions (void)
         r=-r;
         yp[0]=43;
         yp[1]=75;
-        mpn_redc_basecase (wp, xp, (mp_size_t) 1,r,yp);
+        mpn_redc_1 (wp, xp, (mp_size_t) 1,r,yp);
         ASSERT_ALWAYS (wp[0] == 78);
        }
 

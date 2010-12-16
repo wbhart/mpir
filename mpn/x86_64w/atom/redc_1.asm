@@ -18,7 +18,7 @@
 ;  to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 ;  Boston, MA 02110-1301, USA.
 ;
-;  mp_limb_t mpn_redc_basecase(mp_ptr, mp_ptr, mp_size_t, mp_limb_t,  mp_ptr)
+;  mp_limb_t mpn_redc_1(mp_ptr, mp_ptr, mp_size_t, mp_limb_t,  mp_ptr)
 ;  rax                            rdi     rsi        rdx        rcx       r8
 ;  rax                            rcx     rdx         r8         r9 [rsp+40]
 
@@ -368,10 +368,10 @@
 
 %endmacro
 
-    LEAF_PROC mpn_redc_basecase
+    LEAF_PROC mpn_redc_1
     cmp     r8, 1
     je      one
-    FRAME_PROC ?mpn_nehalem_redc_basecase, 0, reg_save_list
+    FRAME_PROC ?mpn_atom_redc_1, 0, reg_save_list
     mov     rdi, rcx
     mov     rsi, rdx
     mov     rdx, r8
@@ -403,7 +403,7 @@
     jmp     .5
 
     xalign  16
-.3:mpn_addmul_1_int 1
+.3:	mpn_addmul_1_int 1
     jmp     .5
 
     xalign  16

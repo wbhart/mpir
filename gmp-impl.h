@@ -95,7 +95,7 @@ along with the GNU MP Library.  If not, see http://www.gnu.org/licenses/.  */
   mp_limb_t name __GMP_PROTO ((mp_ptr, mp_size_t, mp_srcptr, mp_size_t, mp_limb_t, mp_limb_t, int))
 #define DECL_preinv_mod_1(name) \
   mp_limb_t name __GMP_PROTO ((mp_srcptr, mp_size_t, mp_limb_t, mp_limb_t))
-#define DECL_redc_basecase(name) \
+#define DECL_redc_1(name) \
   void name __GMP_PROTO ((mp_ptr, mp_srcptr, mp_size_t, mp_limb_t, mp_ptr))
 #define DECL_rshift(name) \
   DECL_lshift (name)
@@ -1026,12 +1026,6 @@ __GMP_DECLSPEC void mpn_mulmid __GMP_PROTO ((mp_ptr, mp_srcptr, mp_size_t, mp_sr
 #define mpn_mulmid_n __MPN(mulmid_n)
 __GMP_DECLSPEC void mpn_mulmid_n __GMP_PROTO ((mp_ptr, mp_srcptr, mp_srcptr, mp_size_t));
 
-
-#ifndef mpn_redc_basecase  /* if not done with cpuvec in a fat binary */
-#define mpn_redc_basecase __MPN(redc_basecase)
-__GMP_DECLSPEC void mpn_redc_basecase __GMP_PROTO ((mp_ptr, mp_srcptr, mp_size_t,mp_limb_t , mp_ptr));
-#endif
-
 #ifndef mpn_sqr_basecase  /* if not done with cpuvec in a fat binary */
 #define mpn_sqr_basecase __MPN(sqr_basecase)
 __GMP_DECLSPEC void mpn_sqr_basecase __GMP_PROTO ((mp_ptr, mp_srcptr, mp_size_t));
@@ -1048,9 +1042,6 @@ __GMP_DECLSPEC mp_limb_t mpn_submul_1c __GMP_PROTO ((mp_ptr, mp_srcptr, mp_size_
 
 #define mpn_invert_2exp __MPN(invert_2exp)
 __GMP_DECLSPEC void mpn_invert_2exp __GMP_PROTO ((mp_ptr, mp_srcptr, mp_size_t, mp_ptr));
-
-#define mpn_redc_1 __MPN(redc_1)
-__GMP_DECLSPEC void mpn_redc_1 __GMP_PROTO ((mp_ptr, mp_ptr, mp_srcptr, mp_size_t, mp_limb_t);)
 
 #define mpn_redc_2 __MPN(redc_2)
 __GMP_DECLSPEC void mpn_redc_2 __GMP_PROTO ((mp_ptr, mp_ptr, mp_srcptr, mp_size_t, mp_srcptr));
@@ -4079,7 +4070,7 @@ struct cpuvec_t {
   DECL_mul_basecase    ((*mul_basecase));
   DECL_preinv_divrem_1 ((*preinv_divrem_1));
   DECL_preinv_mod_1    ((*preinv_mod_1));
-  DECL_redc_basecase   ((*redc_basecase));
+  DECL_redc_1   ((*redc_1));
   DECL_rshift          ((*rshift));
   DECL_sqr_basecase    ((*sqr_basecase));
   DECL_sub_n           ((*sub_n));
