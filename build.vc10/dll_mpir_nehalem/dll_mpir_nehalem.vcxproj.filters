@@ -482,7 +482,7 @@
     <ClCompile Include="..\..\mpn\generic\randomb.c">
       <Filter>Source Files\mpn</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\mpn\generic\redc_basecase.c">
+    <ClCompile Include="..\..\mpn\generic\redc_1.c">
       <Filter>Source Files\mpn</Filter>
     </ClCompile>
     <ClCompile Include="..\..\mpn\generic\rootrem.c">
@@ -1483,7 +1483,7 @@
     <YASM Include="..\..\mpn\x86_64w\nehalem\popcount.asm">
       <Filter>Source Files\mpn\Assembler</Filter>
     </YASM>
-    <YASM Include="..\..\mpn\x86_64w\nehalem\redc_basecase.asm">
+    <YASM Include="..\..\mpn\x86_64w\nehalem\redc_1.asm">
       <Filter>Source Files\mpn\Assembler</Filter>
     </YASM>
     <YASM Include="..\..\mpn\x86_64w\nehalem\rsh1add_n.asm">

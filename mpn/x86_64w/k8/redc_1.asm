@@ -18,9 +18,9 @@
 ;  to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 ;  Boston, MA 02110-1301, USA.
 ;
-;  mp_limb_t mpn_redc_1(mp_ptr, mp_ptr, mp_size_t, mp_limb_t,  mp_ptr)
-;  rax                            rdi     rsi        rdx        rcx       r8
-;  rax                            rcx     rdx         r8         r9 [rsp+40] 
+;  void mpn_redc_1(mp_ptr, mp_ptr, mp_srcptr, mp_size_t, mp_limb_t)
+;  rax                rdi     rsi        rdx        rcx        r8
+;  rax                rcx     rdx         r8         r9  [rsp+40]
 
 %include "yasm_mac.inc"
 
@@ -369,20 +369,21 @@
 %endmacro
 
     LEAF_PROC mpn_redc_1
-    cmp     r8, 1
+    cmp     r9, 1
     je      one
-    FRAME_PROC ?mpn_k8_redc_1, 0, reg_save_list
+    FRAME_PROC ?mpn_nehalem_redc_1, 0, reg_save_list
     mov     rdi, rcx
-    mov     rsi, rdx
-    mov     rdx, r8
-    mov     rcx, r9
-    mov     r8, [rsp+stack_use+40]
+    mov     rsi, r8
+    mov     r8, rdx
+    mov     rdx, r9
+    mov     rcx, [rsp+stack_use+0x28]
+    mov     [rsp+stack_use+0x28], r8
 
     mov     r14, 5
     sub     r14, rdx
 
-    mov     [rsp+stack_use+16], rsi
-    mov     r8, [rsp+stack_use+40]
+    mov     [rsp+stack_use+0x10], rsi
+    mov     r8, [rsp+stack_use+0x28]
 
     lea     r8, [r8+rdx*8-40]
     lea     rsi, [rsi+rdx*8-40]
@@ -411,25 +412,27 @@
 
     xalign  16
 .5:	mov     rcx, rbp
-    mov     rdx, [rsp+stack_use+40]
+    mov     rdx, [rsp+stack_use+0x28]
     lea     rsi, [rdx+rbp*8]
     mov     rbx, rdi
     mpn_add
-    mov     rdx, [rsp+stack_use+16]
+    mov     rdx, [rsp+stack_use+0x10]
     jnc     .6
     mov     rsi, rbx
     mpn_sub
 .6:	END_PROC reg_save_list
 
     xalign  16
-one:mov     r8,[rsp+40]
-    mov     r10, [r8]
-    mov     r11, [rdx]
-    imul    r9, r10
-    mov     rax, r9
+one:mov     r9, rdx
+    mov     r11, [r8]
+    mov     r8, [rsp+0x28]
+
+    mov     r10, [r9]
+    imul    r8, r10
+    mov     rax, r8
     mul     r11
     add     rax, r10
-    adc     rdx, [r8+8]     ; rax is zero here
+    adc     rdx, [r9+8]
     cmovnc  r11, rax
     sub     rdx, r11
     mov     [rcx], rdx

@@ -2103,7 +2103,7 @@
 					</FileConfiguration>
 				</File>
 				<File
-					RelativePath="..\..\mpn\generic\redc_basecase.c"
+					RelativePath="..\..\mpn\generic\redc_1.c"
 					>
 					<FileConfiguration
 						Name="Debug|x64"
@@ -3206,7 +3206,7 @@
 						>
 					</File>
 					<File
-						RelativePath="..\..\mpn\x86_64w\k8\redc_basecase.asm"
+						RelativePath="..\..\mpn\x86_64w\k8\redc_1.asm"
 						>
 					</File>
 					<File

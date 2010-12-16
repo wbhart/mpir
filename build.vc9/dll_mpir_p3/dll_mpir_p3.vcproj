@@ -2261,7 +2261,7 @@
 					</FileConfiguration>
 				</File>
 				<File
-					RelativePath="..\..\mpn\generic\redc_basecase.c"
+					RelativePath="..\..\mpn\generic\redc_1.c"
 					>
 					<FileConfiguration
 						Name="Debug|Win32"

@@ -1036,7 +1036,7 @@ postbuild "$(TargetPath)"</Command>
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpn\</ObjectFileName>
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpn\</ObjectFileName>
     </ClCompile>
-    <ClCompile Include="..\..\mpn\generic\redc_basecase.c">
+    <ClCompile Include="..\..\mpn\generic\redc_1.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpn\</ObjectFileName>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
@@ -1927,7 +1927,7 @@ postbuild "$(TargetPath)"</Command>
     <YASM Include="..\..\mpn\x86_64w\k8\mul_2.asm" />
     <YASM Include="..\..\mpn\x86_64w\k8\mul_basecase.asm" />
     <YASM Include="..\..\mpn\x86_64w\k8\popcount.asm" />
-    <YASM Include="..\..\mpn\x86_64w\k8\redc_basecase.asm" />
+    <YASM Include="..\..\mpn\x86_64w\k8\redc_1.asm" />
     <YASM Include="..\..\mpn\x86_64w\k8\rsh1add_n.asm" />
     <YASM Include="..\..\mpn\x86_64w\k8\rsh1sub_n.asm" />
     <YASM Include="..\..\mpn\x86_64w\k8\rsh_divrem_hensel_qr_1_1.asm" />

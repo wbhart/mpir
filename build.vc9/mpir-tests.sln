@@ -703,7 +703,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.perfpow", "mpir-tests\m
 		{50EFC9E8-FB88-44C3-9F30-075547E22992} = {50EFC9E8-FB88-44C3-9F30-075547E22992}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpn.redc_basecase", "mpir-tests\mpn.redc_basecase\mpn.redc_basecase.vcproj", "{6B43B380-BFD2-4542-93B1-0FCCB41C784C}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpn.redc_1", "mpir-tests\mpn.redc_1\mpn.redc_1.vcproj", "{6B43B380-BFD2-4542-93B1-0FCCB41C784C}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
 	EndProjectSection

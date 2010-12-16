@@ -282,7 +282,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpn.lorrshift1", "mpir-test
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.perfpow", "mpir-tests\mpz.perfpow\mpz.perfpow.vcxproj", "{D31C70F1-91BE-4665-BBBA-4E0BEC1FA8A7}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpn.redc_basecase", "mpir-tests\mpn.redc_basecase\mpn.redc_basecase.vcxproj", "{6B43B380-BFD2-4542-93B1-0FCCB41C784C}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpn.redc_1", "mpir-tests\mpn.redc_1\mpn.redc_1.vcxproj", "{6B43B380-BFD2-4542-93B1-0FCCB41C784C}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpn.divebyfobm1", "mpir-tests\mpn.divebyfobm1\mpn.divebyfobm1.vcxproj", "{EEEF41E8-5252-4EC8-B7F7-4613C15B647F}"
 EndProject

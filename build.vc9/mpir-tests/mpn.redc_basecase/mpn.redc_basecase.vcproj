@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
-	Name="mpn.redc_basecase"
+	Name="mpn.redc_1"
 	ProjectGUID="{6B43B380-BFD2-4542-93B1-0FCCB41C784C}"
-	RootNamespace="mpn.redc_basecase"
+	RootNamespace="mpn.redc_1"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="131072"
 	>
@@ -318,7 +318,7 @@
 	</References>
 	<Files>
 		<File
-			RelativePath="..\..\..\tests\mpn\t-redc_basecase.c"
+			RelativePath="..\..\..\tests\mpn\t-redc_1.c"
 			>
 		</File>
 	</Files>
