@@ -348,6 +348,11 @@
 %endmacro
 
    GLOBAL_FUNC mpn_redc_1
+	mov r9,r8
+	mov r8,rsi
+	mov rsi,rdx
+	mov rdx,rcx
+	mov rcx,r9
 	cmp     rdx, 1
 	je      one
 	push    r13
