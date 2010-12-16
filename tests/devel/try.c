@@ -2779,9 +2779,8 @@ case TYPE_TDIV_Q:
 
       mprotect_region (&s[0].region, PROT_READ|PROT_WRITE);
       mprotect_region (&s[1].region, PROT_READ|PROT_WRITE);
-      e->retval = CALLING_CONVENTIONS (function) (e->d[0].p,
-						  e->s[0].p, size,Np,
-						  e->s[1].p);
+      e->retval = CALLING_CONVENTIONS (function) (e->d[0].p,e->s[1].p,
+						  e->s[0].p, size,Np);
       refmpn_copyi (e->s[0].p, s0, size);
       refmpn_copyi (e->s[1].p, s1, size2);
       free (s0);

@@ -446,8 +446,8 @@ int refmpz_ui_kronecker __GMP_PROTO ((unsigned long, mpz_srcptr));
 
 void refmpz_pow_ui __GMP_PROTO ((mpz_ptr w, mpz_srcptr b, unsigned long e));
 
-void refmpn_redc_1 __GMP_PROTO ((mp_ptr cp, mp_srcptr mp, mp_size_t n, 
-									mp_limb_t Nd, mp_ptr tp));
+void refmpn_redc_1 __GMP_PROTO ((mp_ptr cp, mp_ptr tp,mp_srcptr mp, mp_size_t n, 
+									mp_limb_t Nd));
 
 #if defined (__cplusplus)
 }
