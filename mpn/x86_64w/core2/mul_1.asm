@@ -1,5 +1,3 @@
-
-; Version 1.0.3.
 ;
 ;  Copyright 2008 Jason Moxham
 ;
@@ -32,74 +30,32 @@
     LEAF_PROC mpn_mul_1c
     mov     r11, [rsp+0x28]
     jmp     start
-
     LEAF_PROC mpn_mul_1
     xor     r11, r11
-    jmp     start
 
-    xalign  16
 start:
-    FRAME_PROC ?mpn_core2_mul, 0, rbx
     mov     rax, r8
-    mov     r8d, 3
-    lea     r10, [rdx+rax*8-24]
-    sub     r8, rax
-    lea     rcx, [rcx+rax*8-24]
-    jc      .1
-    jmp     .2
+	lea     r10, [rdx+rax*8-8]
+	lea     rcx, [rcx+rax*8-8]
+	mov     r8d, 1
+	sub     r8, rax
+	mov     rax, [r10+r8*8]
+	jz      .1
 
-    xalign  16
-.1: mov     rax, [r10+r8*8]
-    mov     ebx, 0
-    mul     r9
-    add     r11, rax
-    mov     [rcx+r8*8], r11
-    mov     rax, [r10+r8*8+8]
-    adc     rbx, rdx
-    mul     r9
-    mov     r11d, 0
-    add     rbx, rax
-    mov     rax, [r10+r8*8+16]
-    adc     r11, rdx
-    mul     r9
-    mov     [rcx+r8*8+8], rbx
-    add     r11, rax
-    mov     ebx, 0
-    mov     [rcx+r8*8+16], r11
-    mov     rax, [r10+r8*8+24]
-    mov     r11d, 0
-    adc     rbx, rdx
-    mul     r9
-    add     rbx, rax
-    mov     [rcx+r8*8+24], rbx
-    adc     r11, rdx
-    add     r8, 4
-    jnc     .1
-.2:	test    r8, 2
-    jnz     .3
-    mov     rax, [r10+r8*8]
-    mov     ebx, 0
-    mul     r9
-    add     r11, rax
-    mov     [rcx+r8*8], r11
-    mov     rax, [r10+r8*8+8]
-    adc     rbx, rdx
-    mul     r9
-    mov     r11d, 0
-    add     rbx, rax
-    adc     r11, rdx
-    add     r8, 2
-    mov     [rcx+r8*8-8], rbx
-.3: test    r8, 1
-    mov     rax, r11
-    jnz     .4
-    mov     rax, [r10+r8*8]
-    mov     ebx, 0
-    mul     r9
-    add     r11, rax
-    mov     [rcx+r8*8], r11
-    adc     rbx, rdx
-    mov     rax, rbx
-.4: END_PROC rbx
+	xalign  16
+.0:	mul     r9
+	add     rax, r11
+	mov     [rcx+r8*8], rax
+	mov     rax, [r10+r8*8+8]
+	mov     r11d, 0
+	adc     r11, rdx
+	add     r8, 1
+	jnc     .0
+.1: mul     r9
+	add     rax, r11
+	mov     [rcx+r8*8], rax
+	mov     eax, 0
+	adc     rax, rdx
+	ret
 
     end

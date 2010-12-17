@@ -49,15 +49,15 @@ r32 = { 'rax' :  'eax', 'rbx' :  'ebx', 'rcx' :  'ecx', 'rdx' :  'edx',
 
 # regular expression for registers
 
-r_q = r'(?:r[abcd]x|r[sd]i|r[bsi]p)|(?:r8|r9|r1[0-5])'  # 64 bit
-r_d = r'(?:e[abcd]x|e[sd]i|e[bsi]p|r[89]d|r1[0-5]d)|'   # 32 bit
-r_w = r'(?:[abcd]x|[sd]i|[bsi]p|r[89]w|r1[0-5]w)|'      # 16 bit
-r_b = r'(?:[abcd]l|[ds]il|[bsi]pl|r[89]b|r1[0-5]b)|'    #  8 bit
-r_x = r'(?:x?mm\d|x?mm1[0-5])|(?:mmx\d|mmx1[0-5])|(?:st\([0-7]\))'
+r_q = r'(?:r[abcd]x|r[sd]i|r[bsi]p)|(?:r8|r9|r1[0-5])|'  # 64 bit
+r_d = r'(?:e[abcd]x|e[sd]i|e[bsi]p|r[89]d|r1[0-5]d)|'    # 32 bit
+r_w = r'(?:[abcd]x|[sd]i|[bsi]p|r[89]w|r1[0-5]w)|'       # 16 bit
+r_b = r'(?:[abcd]l|[ds]il|[bsi]pl|r[89]b|r1[0-5]b)|'     #  8 bit
+r_x = r'(?:x?mm1[0-5]|x?mm\d)|(?:mmx1[0-5]|mmx\d)|(?:st\([0-7]\))'
 
-p_r1 = r'(?:\s*%(?P<reg1>' + r_b + r_w + r_d + r_q + '|' + r_x + r'))'
-p_r2 = r'(?:\s*%(?P<reg2>' + r_b + r_w + r_d + r_q + '|' + r_x + r'))'
-p_r3 = r'(?:\s*%(?P<reg3>' + r_b + r_w + r_d + r_q + '|' + r_x + r'))'
+p_r1 = r'(?:\s*%(?P<reg1>' + r_b + r_w + r_d + r_q + r_x + r'))'
+p_r2 = r'(?:\s*%(?P<reg2>' + r_b + r_w + r_d + r_q + r_x + r'))'
+p_r3 = r'(?:\s*%(?P<reg3>' + r_b + r_w + r_d + r_q + r_x + r'))'
 
 # regular expression for immediate (numeric, not symbolic)
 
