@@ -271,7 +271,7 @@ pow (mpz_srcptr b, mpz_srcptr e, mpz_srcptr m, mpz_ptr r)
   xp = TMP_ALLOC_LIMBS (mn);
   mpn_sqr (tp, gp, mn);
   if (use_redc)
-    mpn_redc_1 (xp, tp,mp, mn, invm);		/* xx = x^2*R^n */
+    mpn_redc_1 (xp, tp, mp, mn, invm);		/* xx = x^2*R^n */
   else
     mpn_tdiv_qr (qp, xp, 0L, tp, 2 * mn, mp, mn);
   this_gp = gp;
@@ -346,7 +346,7 @@ pow (mpz_srcptr b, mpz_srcptr e, mpz_srcptr m, mpz_ptr r)
 	{
 	  mpn_sqr (tp, xp, mn);
 	  if (use_redc)
-	    mpn_redc_1 (xp,tp, mp, mn, invm);
+	    mpn_redc_1 (xp, tp,mp, mn, invm);
 	  else
 	    mpn_tdiv_qr (qp, xp, 0L, tp, 2 * mn, mp, mn);
 	  if (sh != 0)
