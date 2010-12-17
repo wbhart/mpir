@@ -1,4 +1,5 @@
 @echo off
+echo creating mpir.h for %1
 echo /* generated from gmp-h.in by gen_mpt_h.bat */ >tmp.h
 if /i "%1" EQU "win32" set bits=32
 if /i "%1" EQU "x64" set bits=64
