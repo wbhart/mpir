@@ -1918,10 +1918,7 @@ postbuild "$(TargetPath)"</Command>
     <YASM Include="..\..\mpn\x86_64w\k8\mod_1_1.asm" />
     <YASM Include="..\..\mpn\x86_64w\k8\mod_1_2.asm" />
     <YASM Include="..\..\mpn\x86_64w\k8\mod_1_3.asm" />
-    <YASM Include="..\..\mpn\x86_64w\k8\store.asm">
-      <ListFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-      </ListFile>
-    </YASM>
+    <YASM Include="..\..\mpn\x86_64w\k8\store.asm" />
     <YASM Include="..\..\mpn\x86_64w\modexact_1c_odd.asm" />
     <YASM Include="..\..\mpn\x86_64w\k8\mul_1.asm" />
     <YASM Include="..\..\mpn\x86_64w\k8\mul_2.asm" />

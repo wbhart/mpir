@@ -390,7 +390,7 @@ pow (mpz_srcptr b, mpz_srcptr e, mpz_srcptr m, mpz_ptr r)
 	{
 	  mpn_sqr (tp, xp, mn);
 	  if (use_redc)
-	    mpn_redc_1 (xp, tp,mp, mn, invm);
+	    mpn_redc_1 (xp, tp, mp, mn, invm);
 	  else
 	    mpn_tdiv_qr (qp, xp, 0L, tp, 2 * mn, mp, mn);
 	}

@@ -62,7 +62,7 @@ along with the GNU MP Library.  If not, see http://www.gnu.org/licenses/.  */
 #define __GMP_LIBGMP_DLL  @LIBGMP_DLL@
 #endif
 
-/*   #if defined(__GMP_WITHIN_CONFIGURE) && defined(_WIN64)   */
+/*  #if defined(__GMP_WITHIN_CONFIGURE) && defined(_WIN64)   */
 #ifdef __WIN64
 #define _LONG_LONG_LIMB	1
 #endif
@@ -189,8 +189,6 @@ along with the GNU MP Library.  If not, see http://www.gnu.org/licenses/.  */
 #define __GMP_DECLSPEC
 #endif
 
-
-#define HAVE___GMPN_REDC_1	1
 
 #ifdef __GMP_SHORT_LIMB
 typedef unsigned int		mp_limb_t;
