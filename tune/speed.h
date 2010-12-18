@@ -455,8 +455,7 @@ void mpz_powm_mod _PROTO ((mpz_ptr res, mpz_srcptr base, mpz_srcptr e,
 			   mpz_srcptr mod));
 void mpz_powm_redc _PROTO ((mpz_ptr res, mpz_srcptr base, mpz_srcptr e,
 			    mpz_srcptr mod));
-void redc _PROTO ((mp_ptr cp, mp_srcptr mp, mp_size_t n, mp_limb_t Nprim,
-		   mp_ptr tp));
+void redc _PROTO ((mp_ptr cp, mp_ptr tp, mp_srcptr mp, mp_size_t n, mp_limb_t Nprim));
 void mpz_fac_ui_small _PROTO ((mpz_ptr,unsigned long));
 void mpz_fac_ui_large _PROTO ((mpz_ptr,unsigned long));
 
@@ -1935,7 +1934,7 @@ int speed_routine_count_zeros_setup _PROTO ((struct speed_params *s,
     i = s->reps;							\
     do {								\
       MPN_COPY (tp, ap, 2*s->size);					\
-      function (cp, mp, s->size, Nprim, tp);				\
+      function (cp, tp, mp, s->size, Nprim);				\
     } while (--i != 0);							\
     t = speed_endtime ();						\
 									\
