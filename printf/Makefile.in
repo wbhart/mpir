@@ -67,11 +67,10 @@ CONFIG_CLEAN_VPATH_FILES =
 LTLIBRARIES = $(noinst_LTLIBRARIES)
 libprintf_la_LIBADD =
 am_libprintf_la_OBJECTS = asprintf.lo asprntffuns.lo doprnt.lo \
-	doprntf.lo doprnti.lo fprintf.lo obprintf.lo obvprintf.lo \
-	obprntffuns.lo printf.lo printffuns.lo snprintf.lo \
-	snprntffuns.lo sprintf.lo sprintffuns.lo vasprintf.lo \
-	vfprintf.lo vprintf.lo vsnprintf.lo vsprintf.lo \
-	repl-vsnprintf.lo
+	doprntf.lo doprnti.lo fprintf.lo obprintf.lo obprntffuns.lo \
+	obvprintf.lo printf.lo printffuns.lo repl-vsnprintf.lo \
+	snprintf.lo snprntffuns.lo sprintf.lo sprintffuns.lo \
+	vasprintf.lo vfprintf.lo vprintf.lo vsnprintf.lo vsprintf.lo
 libprintf_la_OBJECTS = $(am_libprintf_la_OBJECTS)
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
 depcomp =
@@ -240,13 +239,7 @@ top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 INCLUDES = -D__GMP_WITHIN_GMP -I$(top_srcdir)
 noinst_LTLIBRARIES = libprintf.la
-libprintf_la_SOURCES = \
-  asprintf.c asprntffuns.c doprnt.c doprntf.c doprnti.c			 \
-  fprintf.c obprintf.c obvprintf.c obprntffuns.c			 \
-  printf.c printffuns.c snprintf.c snprntffuns.c sprintf.c sprintffuns.c \
-  vasprintf.c vfprintf.c vprintf.c vsnprintf.c vsprintf.c		 \
-  repl-vsnprintf.c
-
+libprintf_la_SOURCES = asprintf.c asprntffuns.c doprnt.c doprntf.c doprnti.c fprintf.c obprintf.c obprntffuns.c obvprintf.c printf.c printffuns.c repl-vsnprintf.c snprintf.c snprntffuns.c sprintf.c sprintffuns.c vasprintf.c vfprintf.c vprintf.c vsnprintf.c vsprintf.c
 all: all-am
 
 .SUFFIXES:

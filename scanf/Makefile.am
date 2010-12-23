@@ -24,6 +24,4 @@ INCLUDES = -D__GMP_WITHIN_GMP -I$(top_srcdir)
 
 noinst_LTLIBRARIES = libscanf.la
 
-libscanf_la_SOURCES = \
-  doscan.c fscanf.c fscanffuns.c scanf.c sscanf.c sscanffuns.c \
-  vfscanf.c vscanf.c vsscanf.c
+libscanf_la_SOURCES = doscan.c fscanf.c fscanffuns.c scanf.c sscanf.c sscanffuns.c vfscanf.c vscanf.c vsscanf.c

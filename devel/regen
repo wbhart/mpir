@@ -1,0 +1,62 @@
+#!/bin/bash
+# run this from the devel directory
+
+# mpz/Makefile.am
+cd ../mpz
+srcs=$(ls *.h *.c 2>/dev/null)
+srcs=$(echo -n $srcs)
+cat Makefile.am | sed s/"libmpz_la_SOURCES[[:space:]]*=[[:space:]]*.*"/"libmpz_la_SOURCES = $srcs"/ > tmpfile
+mv tmpfile Makefile.am
+srcs=$(ls *.c)
+srcs=$(echo -n $srcs | sed s/"\([^[:space:]]\+\)\(\.c[[:space:]]*\)"/"mpz\\\\\/\1\$U.lo "/g)
+cat ../Makefile.am | sed s/"MPZ_OBJECTS[[:space:]]*=.*"/"MPZ_OBJECTS = $srcs"/ > tmpfile
+mv tmpfile ../Makefile.am
+cd ../devel
+
+# mpf/Makefile.am
+cd ../mpf
+srcs=$(ls *.h *.c 2>/dev/null)
+srcs=$(echo -n $srcs)
+cat Makefile.am | sed s/"libmpf_la_SOURCES[[:space:]]*=[[:space:]]*.*"/"libmpf_la_SOURCES = $srcs"/ > tmpfile
+mv tmpfile Makefile.am
+srcs=$(ls *.c)
+srcs=$(echo -n $srcs | sed s/"\([^[:space:]]\+\)\(\.c[[:space:]]*\)"/"mpf\\\\\/\1\$U.lo "/g)
+cat ../Makefile.am | sed s/"MPF_OBJECTS[[:space:]]*=.*"/"MPF_OBJECTS = $srcs"/ > tmpfile
+mv tmpfile ../Makefile.am
+cd ../devel
+
+# mpq/Makefile.am Makefile.am
+cd ../mpq
+srcs=$(ls *.h *.c 2>/dev/null)
+srcs=$(echo -n $srcs)
+cat Makefile.am | sed s/"libmpq_la_SOURCES[[:space:]]*=[[:space:]]*.*"/"libmpq_la_SOURCES = $srcs"/ > tmpfile
+mv tmpfile Makefile.am
+srcs=$(ls *.c)
+srcs=$(echo -n $srcs | sed s/"\([^[:space:]]\+\)\(\.c[[:space:]]*\)"/"mpq\\\\\/\1\$U.lo "/g)
+cat ../Makefile.am | sed s/"MPQ_OBJECTS[[:space:]]*=.*"/"MPQ_OBJECTS = $srcs"/ > tmpfile
+mv tmpfile ../Makefile.am
+cd ../devel
+
+# printf/Makefile.am Makefile.am
+cd ../printf
+srcs=$(ls *.h *.c 2>/dev/null)
+srcs=$(echo -n $srcs)
+cat Makefile.am | sed s/"libprintf_la_SOURCES[[:space:]]*=[[:space:]]*.*"/"libprintf_la_SOURCES = $srcs"/ > tmpfile
+mv tmpfile Makefile.am
+srcs=$(ls *.c)
+srcs=$(echo -n $srcs | sed s/"\([^[:space:]]\+\)\(\.c[[:space:]]*\)"/"printf\\\\\/\1\$U.lo "/g)
+cat ../Makefile.am | sed s/"PRINTF_OBJECTS[[:space:]]*=.*"/"PRINTF_OBJECTS = $srcs"/ > tmpfile
+mv tmpfile ../Makefile.am
+cd ../devel
+
+# scanf/Makefile.am Makefile.am
+cd ../scanf
+srcs=$(ls *.h *.c 2>/dev/null)
+srcs=$(echo -n $srcs)
+cat Makefile.am | sed s/"libscanf_la_SOURCES[[:space:]]*=[[:space:]]*.*"/"libscanf_la_SOURCES = $srcs"/ > tmpfile
+mv tmpfile Makefile.am
+srcs=$(ls *.c)
+srcs=$(echo -n $srcs | sed s/"\([^[:space:]]\+\)\(\.c[[:space:]]*\)"/"scanf\\\\\/\1\$U.lo "/g)
+cat ../Makefile.am | sed s/"SCANF_OBJECTS[[:space:]]*=.*"/"SCANF_OBJECTS = $srcs"/ > tmpfile
+mv tmpfile ../Makefile.am
+cd ../devel

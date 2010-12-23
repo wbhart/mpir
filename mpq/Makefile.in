@@ -69,9 +69,9 @@ libmpq_la_LIBADD =
 am_libmpq_la_OBJECTS = abs.lo aors.lo canonicalize.lo clear.lo \
 	clears.lo cmp.lo cmp_si.lo cmp_ui.lo div.lo equal.lo get_d.lo \
 	get_den.lo get_num.lo get_str.lo init.lo inits.lo inp_str.lo \
-	inv.lo md_2exp.lo mul.lo neg.lo out_str.lo set.lo set_den.lo \
-	set_num.lo set_si.lo set_str.lo set_ui.lo set_z.lo set_d.lo \
-	set_f.lo swap.lo
+	inv.lo md_2exp.lo mul.lo neg.lo out_str.lo set.lo set_d.lo \
+	set_den.lo set_f.lo set_num.lo set_si.lo set_str.lo set_ui.lo \
+	set_z.lo swap.lo
 libmpq_la_OBJECTS = $(am_libmpq_la_OBJECTS)
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
 depcomp =
@@ -240,14 +240,7 @@ top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 INCLUDES = -D__GMP_WITHIN_GMP -I$(top_srcdir)
 noinst_LTLIBRARIES = libmpq.la
-libmpq_la_SOURCES = \
-  abs.c aors.c canonicalize.c clear.c clears.c					\
-  cmp.c cmp_si.c cmp_ui.c div.c equal.c					\
-  get_d.c get_den.c get_num.c get_str.c					\
-  init.c inits.c inp_str.c inv.c md_2exp.c mul.c neg.c out_str.c		\
-  set.c set_den.c set_num.c set_si.c set_str.c set_ui.c set_z.c set_d.c	\
-  set_f.c swap.c
-
+libmpq_la_SOURCES = abs.c aors.c canonicalize.c clear.c clears.c cmp.c cmp_si.c cmp_ui.c div.c equal.c get_d.c get_den.c get_num.c get_str.c init.c inits.c inp_str.c inv.c md_2exp.c mul.c neg.c out_str.c set.c set_d.c set_den.c set_f.c set_num.c set_si.c set_str.c set_ui.c set_z.c swap.c
 all: all-am
 
 .SUFFIXES:
