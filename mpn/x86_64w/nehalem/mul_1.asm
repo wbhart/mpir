@@ -23,7 +23,7 @@
 
 %include "yasm_mac.inc"
 
-    CPU  Core2
+    CPU  nehalem
     BITS 64
 
 %define reg_save_list   rsi, rdi
@@ -39,12 +39,13 @@
 start:
     FRAME_PROC ?mpn_nehalem_mul, 0, reg_save_list
     mov     rax, r8
+	mov     r8, 3
 	lea     rdi, [rcx+rax*8-24]
 	lea     rsi, [rdx+rax*8-24]
     mov     rcx, r9
-   	mov     r8, 3
 	sub     r8, rax
-	mov     rax, [rsi+r8*8]
+	mov     r9d, 0
+	mov     rax, [rsi+r8*8+24-24]
 	jnc     .1
 
 	xalign  16
@@ -68,7 +69,8 @@ start:
 	adc     r11, rdx
 	add     r8, 3
 	jnc     .0
-.1: cmp     r8, 1
+.1:
+	cmp     r8, 1
 	ja      .4
 	je      .3
 .2:	mul     rcx
@@ -97,13 +99,14 @@ start:
 	mov     r10d, 0
 	mov     rax, [rsi+16]
 	adc     r10, rdx
+	mov     r11d, 0
 	mul     rcx
 	add     r10, rax
 	mov     r9d, 0
 	mov     [rdi+16], r10
 	adc     r9, rdx
 	mov     rax, r9
-    EXIT_PROC reg_save_list
+	EXIT_PROC reg_save_list
 
 .4:	mul     rcx
 	add     r11, rax
