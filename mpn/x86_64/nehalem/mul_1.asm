@@ -26,9 +26,10 @@ PROLOGUE(mpn_mul_1)
 mov $3,%r8
 lea -24(%rdi,%rdx,8),%rdi
 lea -24(%rsi,%rdx,8),%rsi
-xor %r9,%r9
 sub %rdx,%r8
-mov (%rsi,%r8,8),%rax
+mov $0,%r9d
+mov $0,%r11d
+mov 24-24(%rsi,%r8,8),%rax
 jnc skiplp
 ALIGN(16)
 lp:	mul %rcx
@@ -80,6 +81,7 @@ case1:	mul %rcx
 	mov $0,%r10d
 	mov 16(%rsi),%rax
 	adc %rdx,%r10
+	mov $0,%r9d
 	mul %rcx
 	add %rax,%r10
 	mov $0,%r11d
@@ -93,8 +95,5 @@ case0:	mul %rcx
 	mov $0,%r10d
 	adc %rdx,%r10
 	mov %r10,%rax
-	ret
+	ret	
 EPILOGUE()
-
-
-
