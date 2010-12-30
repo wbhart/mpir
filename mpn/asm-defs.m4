@@ -1056,14 +1056,6 @@ dnl  aors_n
 m4_not_for_expansion(`OPERATION_add_n')
 m4_not_for_expansion(`OPERATION_sub_n')
 
-dnl  aors_err1_n
-m4_not_for_expansion(`OPERATION_add_err1_n')
-m4_not_for_expansion(`OPERATION_sub_err1_n')
-
-dnl  aors_err2_n
-m4_not_for_expansion(`OPERATION_add_err2_n')
-m4_not_for_expansion(`OPERATION_sub_err2_n')
-
 dnl  aorsmul_1
 m4_not_for_expansion(`OPERATION_addmul_1')
 m4_not_for_expansion(`OPERATION_submul_1')
