@@ -39,5 +39,4 @@ C couple of experiments didn't get much joy, but such an approach would at
 C least avoid serialization, presumably.
 C
 
-MULFUNC_PROLOGUE(mpn_add_n mpn_sub_n)
-include_mpn(`x86/k7/aors_n.asm')
+include_mpn(`x86/k7/sub_n.asm')

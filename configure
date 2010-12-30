@@ -26039,7 +26039,6 @@ esac
       # functions that can be provided by multi-function files
 tmp_mulfunc=
 case $tmp_fn in
-  add_n|sub_n)       tmp_mulfunc="aors_n"    ;;
   addmul_1|submul_1) tmp_mulfunc="aorsmul_1" ;;
   and_n|andn_n|nand_n | ior_n|iorn_n|nior_n | xor_n|xnor_n)
                      tmp_mulfunc="logops_n"  ;;
@@ -26182,7 +26181,6 @@ for tmp_fn in $gmp_mpn_functions; do
   # functions that can be provided by multi-function files
 tmp_mulfunc=
 case $tmp_fn in
-  add_n|sub_n)       tmp_mulfunc="aors_n"    ;;
   addmul_1|submul_1) tmp_mulfunc="aorsmul_1" ;;
   and_n|andn_n|nand_n | ior_n|iorn_n|nior_n | xor_n|xnor_n)
                      tmp_mulfunc="logops_n"  ;;

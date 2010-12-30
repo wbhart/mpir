@@ -54,6 +54,8 @@ define(`CYSH',`GMP_NUMB_BITS')
 dnl  This declaration is munged by configure
 NAILS_SUPPORT(1-63)
 
+define(OPERATION_sub_n,1)
+
 ifdef(`OPERATION_add_n', `
 	define(`OP',        addq)
 	define(`CYSH',`GMP_NUMB_BITS')
