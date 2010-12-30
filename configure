@@ -26046,8 +26046,6 @@ case $tmp_fn in
   lshift|rshift)     tmp_mulfunc="lorrshift";;
   addlsh1_n|sublsh1_n)
 		     tmp_mulfunc="aorslsh1_n";;
-  rsh1add_n|rsh1sub_n)
-		     tmp_mulfunc="rsh1aors_n";;
 esac
 
 
@@ -26194,8 +26192,6 @@ case $tmp_fn in
   lshift|rshift)     tmp_mulfunc="lorrshift";;
   addlsh1_n|sublsh1_n)
 		     tmp_mulfunc="aorslsh1_n";;
-  rsh1add_n|rsh1sub_n)
-		     tmp_mulfunc="rsh1aors_n";;
 esac
 
 
