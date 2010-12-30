@@ -20,6 +20,8 @@ along with the GNU MP Library.  If not, see http://www.gnu.org/licenses/.  */
 #include "mpir.h"
 #include "gmp-impl.h"
 
+#define OPERATION_andn_n	1
+
 #ifndef _MSC_VER
 
 #ifdef OPERATION_and_n

@@ -99,8 +99,7 @@ sub process_asm {
   my $base = basename ($file, '.asm');
 
   my @funs;
-  if ($base eq 'logops_n')  { @funs = qw(and_n andn_n nand_n ior_n iorn_n nior_n xor_n xnor_n); }
-  else                         { @funs = ($base); }
+  { @funs = ($base); }
 
   foreach my $fun (@funs) {
     foreach my $pic ('', ' -DPIC') {

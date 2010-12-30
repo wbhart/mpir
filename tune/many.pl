@@ -518,14 +518,6 @@ my @table =
      },
 
      {
-       'regexp'=> 'logops_n',
-       'mulfunc'=> ['and_n','andn_n','nand_n','ior_n','iorn_n','nior_n','xor_n','xnor_n'],
-       'ret'   => 'void',
-       'args'  => 'mp_ptr wp, mp_srcptr xp, mp_srcptr yp, mp_size_t size',
-       'speed' => 'SPEED_ROUTINE_MPN_BINARY_N',
-     },
-
-     {
        'regexp'=> '[lr]shift',
        'ret'   => 'mp_limb_t',
        'args'  => 'mp_ptr wp, mp_srcptr xp, mp_size_t size, unsigned shift',
