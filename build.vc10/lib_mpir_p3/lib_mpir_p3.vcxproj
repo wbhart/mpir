@@ -135,6 +135,8 @@ postbuild "$(TargetPath)"</Command>
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)mpf\</ObjectFileName>
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)mpf\</ObjectFileName>
     </ClCompile>
+    <ClCompile Include="..\..\mpn\generic\andn_n.c" />
+    <ClCompile Include="..\..\mpn\generic\and_n.c" />
     <ClCompile Include="..\..\mpn\generic\com_n.c">
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)mpn\</ObjectFileName>
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)mpn\</ObjectFileName>
@@ -179,6 +181,10 @@ postbuild "$(TargetPath)"</Command>
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)mpn\</ObjectFileName>
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)mpn\</ObjectFileName>
     </ClCompile>
+    <ClCompile Include="..\..\mpn\generic\hamdist.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="..\..\mpn\generic\inv_divappr_q.c">
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)mpn\</ObjectFileName>
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)mpn\</ObjectFileName>
@@ -199,13 +205,17 @@ postbuild "$(TargetPath)"</Command>
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)mpn\</ObjectFileName>
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)mpn\</ObjectFileName>
     </ClCompile>
-    <ClCompile Include="..\..\mpn\generic\logops_n.c">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)mpn\</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)mpn\</ObjectFileName>
-    </ClCompile>
+    <ClCompile Include="..\..\mpn\generic\iorn_n.c" />
+    <ClCompile Include="..\..\mpn\generic\ior_n.c" />
     <ClCompile Include="..\..\mpn\generic\mp_bases.c">
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)mpn\</ObjectFileName>
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)mpn\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\mpn\generic\nand_n.c" />
+    <ClCompile Include="..\..\mpn\generic\nior_n.c" />
+    <ClCompile Include="..\..\mpn\generic\popcount.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\mpn\generic\rootrem_basecase.c">
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)mpn\</ObjectFileName>
@@ -267,6 +277,8 @@ postbuild "$(TargetPath)"</Command>
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)mpn\</ObjectFileName>
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)mpn\</ObjectFileName>
     </ClCompile>
+    <ClCompile Include="..\..\mpn\generic\xnor_n.c" />
+    <ClCompile Include="..\..\mpn\generic\xor_n.c" />
     <ClCompile Include="..\..\mpn\generic\zero.c">
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)mpn\</ObjectFileName>
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)mpn\</ObjectFileName>
@@ -961,12 +973,6 @@ postbuild "$(TargetPath)"</Command>
     </ClCompile>
     <ClCompile Include="..\..\mpn\generic\perfect_square_p.c">
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)mpn\</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)mpn\</ObjectFileName>
-    </ClCompile>
-    <ClCompile Include="..\popham.c">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)mpn\</ObjectFileName>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)mpn\</ObjectFileName>
     </ClCompile>
     <ClCompile Include="..\..\mpn\generic\pow_1.c">
@@ -1831,8 +1837,12 @@ postbuild "$(TargetPath)"</Command>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <YASM Include="..\..\mpn\x86w\aors_n.asm" />
-    <YASM Include="..\..\mpn\x86w\p6\aorsmul_1.asm" />
+    <YASM Include="..\..\mpn\x86w\addmul_1.asm">
+      <FileType>Document</FileType>
+    </YASM>
+    <YASM Include="..\..\mpn\x86w\add_n.asm">
+      <FileType>Document</FileType>
+    </YASM>
     <YASM Include="..\..\mpn\x86w\p6\copyd.asm" />
     <YASM Include="..\..\mpn\x86w\copyi.asm" />
     <YASM Include="..\..\mpn\x86w\p6\divexact_1.asm" />
@@ -1845,25 +1855,42 @@ postbuild "$(TargetPath)"</Command>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </YASM>
+    <YASM Include="..\..\mpn\x86w\p6\mmx\hamdist.asm">
+      <FileType>Document</FileType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </YASM>
+    <YASM Include="..\..\mpn\x86w\p6\mmx\popcount.asm">
+      <FileType>Document</FileType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </YASM>
     <YASM Include="..\..\mpn\x86w\p6\mod_1.asm" />
     <YASM Include="..\..\mpn\x86w\mod_34lsub1.asm" />
     <YASM Include="..\..\mpn\x86w\p6\modexact_1c_odd.asm" />
     <YASM Include="..\..\mpn\x86w\mul_1.asm" />
     <YASM Include="..\..\mpn\x86w\mul_basecase.asm" />
+    <YASM Include="..\..\mpn\x86w\p6\p3mmx\hamdist.asm">
+      <FileType>Document</FileType>
+    </YASM>
+    <YASM Include="..\..\mpn\x86w\p6\p3mmx\popcount.asm">
+      <FileType>Document</FileType>
+    </YASM>
     <YASM Include="..\..\mpn\x86w\rshift.asm">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </YASM>
     <YASM Include="..\..\mpn\x86w\p6\sqr_basecase.asm" />
+    <YASM Include="..\..\mpn\x86w\submul_1.asm">
+      <FileType>Document</FileType>
+    </YASM>
+    <YASM Include="..\..\mpn\x86w\sub_n.asm">
+      <FileType>Document</FileType>
+    </YASM>
     <YASM Include="..\..\mpn\x86w\udiv.asm" />
     <YASM Include="..\..\mpn\x86w\umul.asm" />
     <YASM Include="..\..\mpn\x86w\p6\mmx\divrem_1.asm" />
     <YASM Include="..\..\mpn\x86w\p6\mmx\lshift.asm" />
-    <YASM Include="..\..\mpn\x86w\p6\mmx\popham.asm">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-    </YASM>
-    <YASM Include="..\..\mpn\x86w\p6\p3mmx\popham.asm" />
     <YASM Include="..\..\mpn\x86w\p6\mmx\rshift.asm" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

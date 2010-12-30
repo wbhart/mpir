@@ -74,13 +74,6 @@ func (mp_ptr rp, mp_srcptr up, mp_srcptr vp, mp_size_t n)
 
 #define _logicop(x) void __MPN(x ## _n)(mp_ptr rp, mp_srcptr up, mp_srcptr vp, mp_size_t n) { mpn_ ## x ## _n(rp, up, vp, n); }
 
-_logicop(and)
-_logicop(andn)
-_logicop(nand)
-_logicop(ior)
-_logicop(iorn)
-_logicop(nior)
 _logicop(xor)
-_logicop(xnor)
 
 #endif
