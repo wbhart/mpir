@@ -25,6 +25,8 @@ include(`../config.m4')
 C         cycles/limb
 C 68040:     25
 
+define(OPERATION_addmul_1,1)
+
 ifdef(`OPERATION_addmul_1',`
   define(M4_inst,       addl)
   define(M4_function_1, mpn_addmul_1)

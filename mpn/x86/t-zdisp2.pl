@@ -99,8 +99,7 @@ sub process_asm {
   my $base = basename ($file, '.asm');
 
   my @funs;
-  if ($base eq 'aorsmul_1') { @funs = qw(addmul_1 submul_1); }
-  elsif ($base eq 'logops_n')  { @funs = qw(and_n andn_n nand_n ior_n iorn_n nior_n xor_n xnor_n); }
+  if ($base eq 'logops_n')  { @funs = qw(and_n andn_n nand_n ior_n iorn_n nior_n xor_n xnor_n); }
   else                         { @funs = ($base); }
 
   foreach my $fun (@funs) {

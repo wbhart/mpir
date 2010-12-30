@@ -1052,10 +1052,6 @@ dnl  with ifdef() rather than be expanded.
 m4_not_for_expansion(`PIC')
 m4_not_for_expansion(`DLL_EXPORT')
 
-dnl  aorsmul_1
-m4_not_for_expansion(`OPERATION_addmul_1')
-m4_not_for_expansion(`OPERATION_submul_1')
-
 dnl  logops_n
 m4_not_for_expansion(`OPERATION_and_n')
 m4_not_for_expansion(`OPERATION_andn_n')

@@ -2363,7 +2363,6 @@ define(GMP_MULFUNC_CHOICES,
 [# functions that can be provided by multi-function files
 tmp_mulfunc=
 case $tmp_fn in
-  addmul_1|submul_1) tmp_mulfunc="aorsmul_1" ;;
   and_n|andn_n|nand_n | ior_n|iorn_n|nior_n | xor_n|xnor_n)
                      tmp_mulfunc="logops_n"  ;;
 esac

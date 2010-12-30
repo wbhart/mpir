@@ -292,15 +292,6 @@ my @table =
        'speed_flags'=> 'FLAG_R',
      },
      {
-       'regexp'=> 'aorsmul_1',
-       'mulfunc'=> ['addmul_1','submul_1'],
-       'ret'   => 'mp_limb_t',
-       'args'  => 'mp_ptr wp, mp_srcptr xp, mp_size_t size, mp_limb_t mult',
-       'speed' => 'SPEED_ROUTINE_MPN_UNARY_1',
-       'speed_flags'=> 'FLAG_R',
-     },
-
-     {
        'regexp'=> 'addmul_2|submul_2',
        'ret'   => 'mp_limb_t',
        'args'  => 'mp_ptr wp, mp_srcptr xp, mp_size_t size, mp_srcptr yp',
