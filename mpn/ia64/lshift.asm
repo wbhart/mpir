@@ -39,6 +39,8 @@ define(`cnt',`r35')
 
 define(`tnc',`r9')
 
+define(OPERATION_lshift,1)
+
 ifdef(`OPERATION_lshift',`
 	define(`FSH',`shl')
 	define(`BSH',`shr.u')

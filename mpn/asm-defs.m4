@@ -1070,10 +1070,6 @@ m4_not_for_expansion(`OPERATION_nior_n')
 m4_not_for_expansion(`OPERATION_xor_n')
 m4_not_for_expansion(`OPERATION_xnor_n')
 
-dnl  lorrshift
-m4_not_for_expansion(`OPERATION_lshift')
-m4_not_for_expansion(`OPERATION_rshift')
-
 dnl  Usage: m4_config_gmp_mparam(`symbol')
 dnl
 dnl  Check that `symbol' is defined.  If it isn't, issue an error and
