@@ -32,6 +32,8 @@ define(`up',`r33')
 define(`vp',`r34')
 define(`n',`r35')
 
+define(OPERATION_sublsh1_n,1)
+
 ifdef(`OPERATION_addlsh1_n',`
   define(ADDSUB,       add)
   define(PRED,	       ltu)

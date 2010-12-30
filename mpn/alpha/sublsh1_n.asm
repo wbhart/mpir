@@ -54,6 +54,8 @@ define(`rr', `r24')
 define(`ps', `r25')
 define(`sl', `r28')
 
+define(OPERATION_sublsh1_n,1)
+
 ifdef(`OPERATION_addlsh1_n',`
   define(ADDSUB,       addq)
   define(CARRY,       `cmpult $1,$2,$3')
