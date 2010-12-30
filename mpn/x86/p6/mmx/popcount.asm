@@ -1,4 +1,5 @@
-dnl  Intel P55 mpn_hamdist -- mpn hamming distance.
+dnl  Intel Pentium-II mpn_popcount, mpn_hamdist -- population count and
+dnl  hamming distance.
 
 dnl  Copyright 2000, 2002 Free Software Foundation, Inc.
 dnl
@@ -22,9 +23,7 @@ dnl  Fifth Floor, Boston, MA 02110-1301, USA.
 include(`../config.m4')
 
 
-C P55: hamdist 12.0 cycles/limb
+C P6MMX: popcount 11 cycles/limb (approx), hamdist 11.5 cycles/limb (approx)
 
-C For reference, this code runs at 11.5 cycles/limb for popcount, which is
-C slower than the plain integer mpn/x86/pentium/popcount.asm.
 
-include_mpn(`x86/k6/mmx/hamdist.asm')
+include_mpn(`x86/k6/mmx/popcount.asm')

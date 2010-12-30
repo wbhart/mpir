@@ -38,6 +38,8 @@ C The loop is based on the example "Efficient 64-bit population count using
 C MMX instructions" in the Athlon Optimization Guide, AMD document 22007,
 C page 158 of rev E (reference in mpn/x86/k7/README).
 
+define(OPERATION_popcount,1)
+
 ifdef(`OPERATION_popcount',,
 `ifdef(`OPERATION_hamdist',,
 `m4_error(`Need OPERATION_popcount or OPERATION_hamdist defined

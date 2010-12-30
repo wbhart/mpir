@@ -38,6 +38,8 @@ C For popcount there's 13 mmx instructions in the loop, so perhaps 6.5 c/l
 C might be possible, but 8.5 c/l relying on out-of-order execution is
 C already quite reasonable.
 
+define(OPERATION_popcount,1)
+
 ifdef(`OPERATION_popcount',,
 `ifdef(`OPERATION_hamdist',,
 `m4_error(`Need OPERATION_popcount or OPERATION_hamdist defined

@@ -22,6 +22,8 @@ MA 02110-1301, USA. */
 #include "mpir.h"
 #include "gmp-impl.h"
 
+#define OPERATION_hamdist	1
+
 #if OPERATION_popcount
 #define FNAME mpn_popcount
 #define POPHAM(u,v) u

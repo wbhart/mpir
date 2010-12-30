@@ -26,5 +26,4 @@ include(`../config.m4')
 C P6MMX: popcount 11 cycles/limb (approx), hamdist 11.5 cycles/limb (approx)
 
 
-MULFUNC_PROLOGUE(mpn_popcount mpn_hamdist)
-include_mpn(`x86/k6/mmx/popham.asm')
+include_mpn(`x86/k6/mmx/hamdist.asm')

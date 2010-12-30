@@ -1078,10 +1078,6 @@ m4_not_for_expansion(`OPERATION_nior_n')
 m4_not_for_expansion(`OPERATION_xor_n')
 m4_not_for_expansion(`OPERATION_xnor_n')
 
-dnl  popham
-m4_not_for_expansion(`OPERATION_popcount')
-m4_not_for_expansion(`OPERATION_hamdist')
-
 dnl  lorrshift
 m4_not_for_expansion(`OPERATION_lshift')
 m4_not_for_expansion(`OPERATION_rshift')

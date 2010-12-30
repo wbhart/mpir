@@ -642,15 +642,7 @@ my @table =
        'speed' => 'none',
        'try-minsize' => 3,
      },
-       
 
-     {
-       'regexp'=> 'popham',
-       'mulfunc'=> ['popcount','hamdist'],
-       'ret'   => 'unsigned long',
-       'args_popcount'=> 'mp_srcptr xp, mp_size_t size',
-       'args_hamdist' => 'mp_srcptr xp, mp_srcptr yp, mp_size_t size',
-     },
      {
        'regexp'=> 'popcount',
        'ret'   => 'unsigned long',
