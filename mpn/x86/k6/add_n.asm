@@ -39,7 +39,7 @@ ifdef(`OPERATION_add_n', `
 ',`m4_error(`Need OPERATION_add_n or OPERATION_sub_n
 ')')')
 
-MULFUNC_PROLOGUE(mpn_add_n mpn_add_nc mpn_sub_n mpn_sub_nc)
+MULFUNC_PROLOGUE(mpn_add_n mpn_add_nc)
 
 
 C mp_limb_t M4_function_n (mp_ptr dst, mp_srcptr src1, mp_srcptr src2,

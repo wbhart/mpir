@@ -26,5 +26,4 @@ C P4 Willamette, Northwood: 1.75 cycles/limb
 C P4 Prescott:		    2.0 cycles/limb
 
 
-MULFUNC_PROLOGUE(mpn_rshift)
 include_mpn(`x86/pentium/mmx/rshift.asm')

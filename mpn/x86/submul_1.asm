@@ -51,9 +51,6 @@ ifdef(`OPERATION_addmul_1',`
 ',`m4_error(`Need OPERATION_addmul_1 or OPERATION_submul_1
 ')')')
 
-MULFUNC_PROLOGUE(mpn_addmul_1 mpn_submul_1)
-
-
 C mp_limb_t M4_function_1 (mp_ptr dst, mp_srcptr src, mp_size_t size,
 C                          mp_limb_t mult);
 

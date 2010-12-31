@@ -65,8 +65,6 @@ ifdef(`OPERATION_sub_n', `
 	define(`CYSH',63)
 	define(`func',  mpn_sub_n)')
 
-MULFUNC_PROLOGUE(mpn_add_n mpn_sub_n)
-
 ASM_START()
 PROLOGUE(func)
 	lda	numb_mask, -1(r31)

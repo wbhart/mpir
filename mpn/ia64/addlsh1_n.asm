@@ -56,8 +56,6 @@ define(`w0',`r22') define(`w1',`r23') define(`w2',`r24') define(`w3',`r25')
 define(`s0',`r26') define(`s1',`r27') define(`s2',`r28') define(`s3',`r29')
 define(`x0',`r30') define(`x1',`r31') define(`x2',`r30') define(`x3',`r31')
 
-MULFUNC_PROLOGUE(mpn_addlsh1_n mpn_sublsh1_n)
-
 ASM_START()
 PROLOGUE(func)
 	.prologue

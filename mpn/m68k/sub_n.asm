@@ -37,9 +37,6 @@ ifdef(`OPERATION_add_n',`
 `m4_error(`Need OPERATION_add_n or OPERATION_sub_n
 ')')')
 
-MULFUNC_PROLOGUE(mpn_add_n mpn_sub_n)
-
-
 C INPUT PARAMETERS
 C res_ptr	(sp + 4)
 C s1_ptr	(sp + 8)

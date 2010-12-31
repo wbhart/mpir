@@ -67,8 +67,6 @@ ifdef(`OPERATION_sublsh1_n',`
   define(func, mpn_sublsh1_n)
 ')
 
-MULFUNC_PROLOGUE(mpn_addlsh1_n mpn_sublsh1_n)
-
 ASM_START()
 PROLOGUE(func)
 	lda	n, -4(n)

@@ -25,5 +25,4 @@ dnl  at some stage probably.
 
 include(`../config.m4')
 
-MULFUNC_PROLOGUE(mpn_rshift)
 include_mpn(`x86/pentium/mmx/rshift.asm')

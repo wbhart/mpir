@@ -33,5 +33,4 @@ C The destination cache line prefetching is unnecessary on P6, but removing
 C it is a 2 cycle slowdown (approx), so it must be inducing something good
 C in the out of order execution.
 
-MULFUNC_PROLOGUE(mpn_divexact_by3c)
 include_mpn(`x86/pentium/divexact_by3c.asm')

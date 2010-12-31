@@ -58,8 +58,6 @@ ifdef(`OPERATION_rshift',`
 	define(`func',`mpn_rshift')
 ')
 
-MULFUNC_PROLOGUE(mpn_lshift mpn_rshift)
-
 ASM_START()
 PROLOGUE(func)
 	.prologue

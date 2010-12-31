@@ -111,8 +111,6 @@ define(`n',	`r6')
 define(`us',	`v8')
 define(`vs',	`v9')
 
-MULFUNC_PROLOGUE(mpn_and_n mpn_andn_n mpn_nand_n mpn_ior_n mpn_iorn_n mpn_nior_n mpn_xor_n mpn_xnor_n)
-
 ASM_START()
 PROLOGUE(func)
 

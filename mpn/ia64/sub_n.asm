@@ -59,8 +59,6 @@ define(`w0',`r22') define(`w1',`r9') define(`w2',`r8') define(`w3',`r23')
 define(`w4',`r22') define(`w5',`r9') define(`w6',`r8') define(`w7',`r23')
 define(`rpx',`r3')
 
-MULFUNC_PROLOGUE(mpn_add_n mpn_sub_n)
-
 ASM_START()
 PROLOGUE(func)
 	.prologue

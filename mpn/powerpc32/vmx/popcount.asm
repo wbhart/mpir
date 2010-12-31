@@ -21,7 +21,6 @@ dnl  Boston, MA 02110-1301, USA.
 
 include(`../config.m4')
 	
-MULFUNC_PROLOGUE(mpn_popcount)
 include_mpn(`powerpc64/vmx/popcount.asm')
 
 C                   cycles/limb

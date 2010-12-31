@@ -65,9 +65,6 @@ defframe(PARAM_SRC,   4)
 define(M4_function,mpn_popcount)
 ')
 
-MULFUNC_PROLOGUE(mpn_popcount mpn_hamdist)
-
-
 ifdef(`PIC',,`
 	dnl  non-PIC
 	RODATA

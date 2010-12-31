@@ -69,8 +69,6 @@ ifdef(`OPERATION_xnor_n',
 	define(`logop',		`xor	$1 = $2, $3')
 	define(`notormov',	`sub	$1 = -1, $2')')
 
-MULFUNC_PROLOGUE(mpn_and_n mpn_andn_n mpn_nand_n mpn_ior_n mpn_iorn_n mpn_nior_n mpn_xor_n mpn_xnor_n)
-
 ASM_START()
 PROLOGUE(func)
 	.prologue

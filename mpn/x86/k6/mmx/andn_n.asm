@@ -76,9 +76,6 @@ ifdef(`M4_function',,
 `m4_error(`Unrecognised or undefined OPERATION symbol
 ')')
 
-MULFUNC_PROLOGUE(mpn_and_n mpn_andn_n mpn_nand_n mpn_ior_n mpn_iorn_n mpn_nior_n mpn_xor_n mpn_xnor_n)
-
-
 C void M4_function (mp_ptr dst, mp_srcptr src1, mp_srcptr src2,
 C                   mp_size_t size);
 C
