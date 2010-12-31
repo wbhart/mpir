@@ -50,8 +50,6 @@ ifdef(`M4_function',,
 `m4_error(`Unrecognised or undefined OPERATION symbol
 ')')
 
-MULFUNC_PROLOGUE(mpn_and_n mpn_andn_n mpn_nand_n mpn_ior_n mpn_iorn_n mpn_nior_n mpn_xor_n mpn_xnor_n)
-
 NAILS_SUPPORT(0-31)
 
 
@@ -77,7 +75,7 @@ defframe(PARAM_WP,   4)
 	TEXT
 	ALIGN(8)
 
-PROLOGUE(M4_function)
+PROLOGUE(mpn_andn_n)
 deflit(`FRAME',0)
 
 	pushl	%ebx	FRAME_pushl()
