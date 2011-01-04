@@ -37,9 +37,6 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
     <_ProjectFileVersion>10.0.21006.1</_ProjectFileVersion>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(Platform)\$(Configuration)\</IntDir>
-    <CustomBuildAfterTargets Condition="'$(Configuration)|$(Platform)'=='Release|x64'">PreBuildEvent</CustomBuildAfterTargets>
-    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'" />
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">mpir</TargetName>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">mpir</TargetName>
   </PropertyGroup>
@@ -55,10 +52,10 @@ prebuild core2 x64
     </CustomBuildStep>
     <YASM>
       <Defines>DLL;_WIN64_ABI</Defines>
+      <IncludePaths>..\..\mpn\x86_64w\</IncludePaths>
       <Debug>true</Debug>
       <ObjectFileName>$(IntDir)mpn\</ObjectFileName>
       <ObjectFile>$(IntDir)mpn\</ObjectFile>
-      <IncludePaths>..\..\mpn\x86_64w\</IncludePaths>
     </YASM>
     <Midl>
       <TargetEnvironment>X64</TargetEnvironment>
@@ -143,6 +140,15 @@ prebuild core2 x64
 postbuild "$(TargetPath)"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\config.h" />
+    <ClInclude Include="..\..\gmp-impl.h" />
+    <ClInclude Include="..\..\mpn\x86_64w\core2\gmp-mparam.h" />
+    <ClInclude Include="..\..\longlong.h" />
+    <ClInclude Include="..\..\mpir.h" />
+    <ClInclude Include="..\..\mpirxx.h" />
+    <ClInclude Include="..\..\randmt.h" />
+  </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\assert.c" />
     <ClCompile Include="..\..\compat.c" />
@@ -376,6 +382,386 @@ postbuild "$(TargetPath)"</Command>
     <ClCompile Include="..\..\randsdui.c" />
     <ClCompile Include="..\..\tal-reent.c" />
     <ClCompile Include="..\..\version.c" />
+    <ClCompile Include="..\..\mpf\abs.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpf\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpf\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\mpf\add.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpf\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpf\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\mpf\add_ui.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpf\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpf\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\mpf\ceilfloor.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpf\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpf\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\mpf\clear.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpf\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpf\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\mpf\cmp.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpf\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpf\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\mpf\cmp_d.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpf\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpf\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\mpf\cmp_si.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpf\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpf\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\mpf\cmp_ui.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpf\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpf\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\mpf\div.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpf\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpf\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\mpf\div_2exp.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpf\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpf\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\mpf\div_ui.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpf\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpf\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\mpf\dump.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpf\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpf\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\mpf\eq.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpf\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpf\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\mpf\fits_sint.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpf\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpf\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\mpf\fits_slong.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpf\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpf\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\mpf\fits_sshort.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpf\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpf\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\mpf\fits_uint.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpf\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpf\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\mpf\fits_ulong.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpf\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpf\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\mpf\fits_ushort.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpf\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpf\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\mpf\get_d.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpf\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpf\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\mpf\get_d_2exp.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpf\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpf\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\mpf\get_dfl_prec.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpf\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpf\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\mpf\get_prc.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpf\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpf\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\mpf\get_si.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpf\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpf\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\mpf\get_str.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpf\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpf\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\mpf\get_ui.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpf\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpf\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\mpf\init.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpf\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpf\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\mpf\init2.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpf\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpf\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\mpf\inp_str.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpf\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpf\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\mpf\int_p.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpf\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpf\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\mpf\iset.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpf\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpf\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\mpf\iset_d.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpf\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpf\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\mpf\iset_si.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpf\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpf\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\mpf\iset_str.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpf\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpf\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\mpf\iset_ui.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpf\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpf\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\mpf\mul.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpf\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpf\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\mpf\mul_2exp.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpf\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpf\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\mpf\mul_ui.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpf\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpf\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\mpf\neg.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpf\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpf\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\mpf\out_str.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpf\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpf\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\mpf\pow_ui.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpf\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpf\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\mpf\random2.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpf\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpf\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\mpf\reldiff.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpf\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpf\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\mpf\rrandomb.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpf\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpf\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\mpf\set.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpf\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpf\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\mpf\set_d.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpf\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpf\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\mpf\set_dfl_prec.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpf\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpf\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\mpf\set_prc.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpf\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpf\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\mpf\set_prc_raw.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpf\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpf\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\mpf\set_q.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpf\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpf\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\mpf\set_si.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpf\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpf\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\mpf\set_str.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpf\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpf\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\mpf\set_ui.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpf\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpf\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\mpf\set_z.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpf\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpf\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\mpf\size.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpf\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpf\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\mpf\sqrt.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpf\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpf\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\mpf\sqrt_ui.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpf\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpf\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\mpf\sub.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpf\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpf\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\mpf\sub_ui.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpf\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpf\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\mpf\swap.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpf\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpf\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\mpf\trunc.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpf\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpf\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\mpf\ui_div.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpf\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpf\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\mpf\ui_sub.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpf\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpf\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\mpf\urandomb.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpf\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpf\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\mpq\abs.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpq\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpq\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\mpq\aors.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpq\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpq\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\mpq\canonicalize.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpq\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpq\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\mpq\clear.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpq\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpq\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\mpq\cmp.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpq\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpq\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\mpq\cmp_si.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpq\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpq\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\mpq\cmp_ui.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpq\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpq\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\mpq\div.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpq\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpq\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\mpq\equal.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpq\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpq\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\mpq\get_d.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpq\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpq\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\mpq\get_den.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpq\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpq\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\mpq\get_num.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpq\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpq\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\mpq\get_str.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpq\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpq\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\mpq\init.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpq\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpq\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\mpq\inp_str.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpq\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpq\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\mpq\inv.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpq\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpq\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\mpq\md_2exp.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpq\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpq\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\mpq\mul.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpq\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpq\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\mpq\neg.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpq\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpq\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\mpq\out_str.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpq\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpq\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\mpq\set.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpq\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpq\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\mpq\set_d.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpq\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpq\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\mpq\set_den.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpq\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpq\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\mpq\set_f.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpq\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpq\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\mpq\set_num.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpq\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpq\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\mpq\set_si.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpq\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpq\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\mpq\set_str.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpq\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpq\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\mpq\set_ui.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpq\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpq\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\mpq\set_z.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpq\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpq\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\mpq\swap.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpq\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpq\</ObjectFileName>
+    </ClCompile>
     <ClCompile Include="..\..\mpn\generic\add.c">
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpn\</ObjectFileName>
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpn\</ObjectFileName>
@@ -823,422 +1209,6 @@ postbuild "$(TargetPath)"</Command>
     <ClCompile Include="..\..\mpn\generic\urandomm.c">
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpn\</ObjectFileName>
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpn\</ObjectFileName>
-    </ClCompile>
-    <ClCompile Include="..\..\scanf\doscan.c">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)scanf\</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)scanf\</ObjectFileName>
-    </ClCompile>
-    <ClCompile Include="..\..\scanf\fscanf.c">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)scanf\</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)scanf\</ObjectFileName>
-    </ClCompile>
-    <ClCompile Include="..\..\scanf\fscanffuns.c">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)scanf\</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)scanf\</ObjectFileName>
-    </ClCompile>
-    <ClCompile Include="..\..\scanf\scanf.c">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)scanf\</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)scanf\</ObjectFileName>
-    </ClCompile>
-    <ClCompile Include="..\..\scanf\sscanf.c">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)scanf\</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)scanf\</ObjectFileName>
-    </ClCompile>
-    <ClCompile Include="..\..\scanf\sscanffuns.c">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)scanf\</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)scanf\</ObjectFileName>
-    </ClCompile>
-    <ClCompile Include="..\..\scanf\vfscanf.c">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)scanf\</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)scanf\</ObjectFileName>
-    </ClCompile>
-    <ClCompile Include="..\..\scanf\vscanf.c">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)scanf\</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)scanf\</ObjectFileName>
-    </ClCompile>
-    <ClCompile Include="..\..\scanf\vsscanf.c">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)scanf\</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)scanf\</ObjectFileName>
-    </ClCompile>
-    <ClCompile Include="..\..\mpf\abs.c">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpf\</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpf\</ObjectFileName>
-    </ClCompile>
-    <ClCompile Include="..\..\mpf\add.c">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpf\</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpf\</ObjectFileName>
-    </ClCompile>
-    <ClCompile Include="..\..\mpf\add_ui.c">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpf\</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpf\</ObjectFileName>
-    </ClCompile>
-    <ClCompile Include="..\..\mpf\ceilfloor.c">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpf\</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpf\</ObjectFileName>
-    </ClCompile>
-    <ClCompile Include="..\..\mpf\clear.c">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpf\</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpf\</ObjectFileName>
-    </ClCompile>
-    <ClCompile Include="..\..\mpf\cmp.c">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpf\</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpf\</ObjectFileName>
-    </ClCompile>
-    <ClCompile Include="..\..\mpf\cmp_d.c">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpf\</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpf\</ObjectFileName>
-    </ClCompile>
-    <ClCompile Include="..\..\mpf\cmp_si.c">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpf\</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpf\</ObjectFileName>
-    </ClCompile>
-    <ClCompile Include="..\..\mpf\cmp_ui.c">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpf\</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpf\</ObjectFileName>
-    </ClCompile>
-    <ClCompile Include="..\..\mpf\div.c">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpf\</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpf\</ObjectFileName>
-    </ClCompile>
-    <ClCompile Include="..\..\mpf\div_2exp.c">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpf\</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpf\</ObjectFileName>
-    </ClCompile>
-    <ClCompile Include="..\..\mpf\div_ui.c">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpf\</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpf\</ObjectFileName>
-    </ClCompile>
-    <ClCompile Include="..\..\mpf\dump.c">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpf\</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpf\</ObjectFileName>
-    </ClCompile>
-    <ClCompile Include="..\..\mpf\eq.c">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpf\</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpf\</ObjectFileName>
-    </ClCompile>
-    <ClCompile Include="..\..\mpf\fits_sint.c">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpf\</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpf\</ObjectFileName>
-    </ClCompile>
-    <ClCompile Include="..\..\mpf\fits_slong.c">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpf\</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpf\</ObjectFileName>
-    </ClCompile>
-    <ClCompile Include="..\..\mpf\fits_sshort.c">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpf\</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpf\</ObjectFileName>
-    </ClCompile>
-    <ClCompile Include="..\..\mpf\fits_uint.c">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpf\</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpf\</ObjectFileName>
-    </ClCompile>
-    <ClCompile Include="..\..\mpf\fits_ulong.c">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpf\</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpf\</ObjectFileName>
-    </ClCompile>
-    <ClCompile Include="..\..\mpf\fits_ushort.c">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpf\</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpf\</ObjectFileName>
-    </ClCompile>
-    <ClCompile Include="..\..\mpf\get_d.c">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpf\</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpf\</ObjectFileName>
-    </ClCompile>
-    <ClCompile Include="..\..\mpf\get_d_2exp.c">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpf\</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpf\</ObjectFileName>
-    </ClCompile>
-    <ClCompile Include="..\..\mpf\get_dfl_prec.c">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpf\</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpf\</ObjectFileName>
-    </ClCompile>
-    <ClCompile Include="..\..\mpf\get_prc.c">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpf\</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpf\</ObjectFileName>
-    </ClCompile>
-    <ClCompile Include="..\..\mpf\get_si.c">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpf\</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpf\</ObjectFileName>
-    </ClCompile>
-    <ClCompile Include="..\..\mpf\get_str.c">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpf\</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpf\</ObjectFileName>
-    </ClCompile>
-    <ClCompile Include="..\..\mpf\get_ui.c">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpf\</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpf\</ObjectFileName>
-    </ClCompile>
-    <ClCompile Include="..\..\mpf\init.c">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpf\</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpf\</ObjectFileName>
-    </ClCompile>
-    <ClCompile Include="..\..\mpf\init2.c">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpf\</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpf\</ObjectFileName>
-    </ClCompile>
-    <ClCompile Include="..\..\mpf\inp_str.c">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpf\</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpf\</ObjectFileName>
-    </ClCompile>
-    <ClCompile Include="..\..\mpf\int_p.c">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpf\</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpf\</ObjectFileName>
-    </ClCompile>
-    <ClCompile Include="..\..\mpf\iset.c">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpf\</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpf\</ObjectFileName>
-    </ClCompile>
-    <ClCompile Include="..\..\mpf\iset_d.c">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpf\</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpf\</ObjectFileName>
-    </ClCompile>
-    <ClCompile Include="..\..\mpf\iset_si.c">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpf\</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpf\</ObjectFileName>
-    </ClCompile>
-    <ClCompile Include="..\..\mpf\iset_str.c">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpf\</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpf\</ObjectFileName>
-    </ClCompile>
-    <ClCompile Include="..\..\mpf\iset_ui.c">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpf\</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpf\</ObjectFileName>
-    </ClCompile>
-    <ClCompile Include="..\..\mpf\mul.c">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpf\</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpf\</ObjectFileName>
-    </ClCompile>
-    <ClCompile Include="..\..\mpf\mul_2exp.c">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpf\</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpf\</ObjectFileName>
-    </ClCompile>
-    <ClCompile Include="..\..\mpf\mul_ui.c">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpf\</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpf\</ObjectFileName>
-    </ClCompile>
-    <ClCompile Include="..\..\mpf\neg.c">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpf\</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpf\</ObjectFileName>
-    </ClCompile>
-    <ClCompile Include="..\..\mpf\out_str.c">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpf\</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpf\</ObjectFileName>
-    </ClCompile>
-    <ClCompile Include="..\..\mpf\pow_ui.c">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpf\</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpf\</ObjectFileName>
-    </ClCompile>
-    <ClCompile Include="..\..\mpf\random2.c">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpf\</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpf\</ObjectFileName>
-    </ClCompile>
-    <ClCompile Include="..\..\mpf\reldiff.c">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpf\</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpf\</ObjectFileName>
-    </ClCompile>
-    <ClCompile Include="..\..\mpf\rrandomb.c">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpf\</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpf\</ObjectFileName>
-    </ClCompile>
-    <ClCompile Include="..\..\mpf\set.c">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpf\</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpf\</ObjectFileName>
-    </ClCompile>
-    <ClCompile Include="..\..\mpf\set_d.c">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpf\</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpf\</ObjectFileName>
-    </ClCompile>
-    <ClCompile Include="..\..\mpf\set_dfl_prec.c">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpf\</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpf\</ObjectFileName>
-    </ClCompile>
-    <ClCompile Include="..\..\mpf\set_prc.c">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpf\</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpf\</ObjectFileName>
-    </ClCompile>
-    <ClCompile Include="..\..\mpf\set_prc_raw.c">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpf\</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpf\</ObjectFileName>
-    </ClCompile>
-    <ClCompile Include="..\..\mpf\set_q.c">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpf\</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpf\</ObjectFileName>
-    </ClCompile>
-    <ClCompile Include="..\..\mpf\set_si.c">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpf\</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpf\</ObjectFileName>
-    </ClCompile>
-    <ClCompile Include="..\..\mpf\set_str.c">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpf\</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpf\</ObjectFileName>
-    </ClCompile>
-    <ClCompile Include="..\..\mpf\set_ui.c">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpf\</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpf\</ObjectFileName>
-    </ClCompile>
-    <ClCompile Include="..\..\mpf\set_z.c">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpf\</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpf\</ObjectFileName>
-    </ClCompile>
-    <ClCompile Include="..\..\mpf\size.c">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpf\</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpf\</ObjectFileName>
-    </ClCompile>
-    <ClCompile Include="..\..\mpf\sqrt.c">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpf\</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpf\</ObjectFileName>
-    </ClCompile>
-    <ClCompile Include="..\..\mpf\sqrt_ui.c">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpf\</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpf\</ObjectFileName>
-    </ClCompile>
-    <ClCompile Include="..\..\mpf\sub.c">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpf\</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpf\</ObjectFileName>
-    </ClCompile>
-    <ClCompile Include="..\..\mpf\sub_ui.c">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpf\</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpf\</ObjectFileName>
-    </ClCompile>
-    <ClCompile Include="..\..\mpf\swap.c">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpf\</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpf\</ObjectFileName>
-    </ClCompile>
-    <ClCompile Include="..\..\mpf\trunc.c">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpf\</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpf\</ObjectFileName>
-    </ClCompile>
-    <ClCompile Include="..\..\mpf\ui_div.c">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpf\</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpf\</ObjectFileName>
-    </ClCompile>
-    <ClCompile Include="..\..\mpf\ui_sub.c">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpf\</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpf\</ObjectFileName>
-    </ClCompile>
-    <ClCompile Include="..\..\mpf\urandomb.c">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpf\</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpf\</ObjectFileName>
-    </ClCompile>
-    <ClCompile Include="..\..\mpq\abs.c">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpq\</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpq\</ObjectFileName>
-    </ClCompile>
-    <ClCompile Include="..\..\mpq\aors.c">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpq\</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpq\</ObjectFileName>
-    </ClCompile>
-    <ClCompile Include="..\..\mpq\canonicalize.c">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpq\</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpq\</ObjectFileName>
-    </ClCompile>
-    <ClCompile Include="..\..\mpq\clear.c">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpq\</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpq\</ObjectFileName>
-    </ClCompile>
-    <ClCompile Include="..\..\mpq\cmp.c">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpq\</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpq\</ObjectFileName>
-    </ClCompile>
-    <ClCompile Include="..\..\mpq\cmp_si.c">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpq\</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpq\</ObjectFileName>
-    </ClCompile>
-    <ClCompile Include="..\..\mpq\cmp_ui.c">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpq\</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpq\</ObjectFileName>
-    </ClCompile>
-    <ClCompile Include="..\..\mpq\div.c">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpq\</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpq\</ObjectFileName>
-    </ClCompile>
-    <ClCompile Include="..\..\mpq\equal.c">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpq\</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpq\</ObjectFileName>
-    </ClCompile>
-    <ClCompile Include="..\..\mpq\get_d.c">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpq\</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpq\</ObjectFileName>
-    </ClCompile>
-    <ClCompile Include="..\..\mpq\get_den.c">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpq\</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpq\</ObjectFileName>
-    </ClCompile>
-    <ClCompile Include="..\..\mpq\get_num.c">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpq\</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpq\</ObjectFileName>
-    </ClCompile>
-    <ClCompile Include="..\..\mpq\get_str.c">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpq\</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpq\</ObjectFileName>
-    </ClCompile>
-    <ClCompile Include="..\..\mpq\init.c">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpq\</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpq\</ObjectFileName>
-    </ClCompile>
-    <ClCompile Include="..\..\mpq\inp_str.c">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpq\</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpq\</ObjectFileName>
-    </ClCompile>
-    <ClCompile Include="..\..\mpq\inv.c">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpq\</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpq\</ObjectFileName>
-    </ClCompile>
-    <ClCompile Include="..\..\mpq\md_2exp.c">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpq\</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpq\</ObjectFileName>
-    </ClCompile>
-    <ClCompile Include="..\..\mpq\mul.c">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpq\</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpq\</ObjectFileName>
-    </ClCompile>
-    <ClCompile Include="..\..\mpq\neg.c">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpq\</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpq\</ObjectFileName>
-    </ClCompile>
-    <ClCompile Include="..\..\mpq\out_str.c">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpq\</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpq\</ObjectFileName>
-    </ClCompile>
-    <ClCompile Include="..\..\mpq\set.c">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpq\</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpq\</ObjectFileName>
-    </ClCompile>
-    <ClCompile Include="..\..\mpq\set_d.c">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpq\</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpq\</ObjectFileName>
-    </ClCompile>
-    <ClCompile Include="..\..\mpq\set_den.c">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpq\</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpq\</ObjectFileName>
-    </ClCompile>
-    <ClCompile Include="..\..\mpq\set_f.c">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpq\</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpq\</ObjectFileName>
-    </ClCompile>
-    <ClCompile Include="..\..\mpq\set_num.c">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpq\</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpq\</ObjectFileName>
-    </ClCompile>
-    <ClCompile Include="..\..\mpq\set_si.c">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpq\</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpq\</ObjectFileName>
-    </ClCompile>
-    <ClCompile Include="..\..\mpq\set_str.c">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpq\</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpq\</ObjectFileName>
-    </ClCompile>
-    <ClCompile Include="..\..\mpq\set_ui.c">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpq\</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpq\</ObjectFileName>
-    </ClCompile>
-    <ClCompile Include="..\..\mpq\set_z.c">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpq\</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpq\</ObjectFileName>
-    </ClCompile>
-    <ClCompile Include="..\..\mpq\swap.c">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpq\</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpq\</ObjectFileName>
     </ClCompile>
     <ClCompile Include="..\..\mpz\abs.c">
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpz\</ObjectFileName>
@@ -1908,6 +1878,42 @@ postbuild "$(TargetPath)"</Command>
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)printf\</ObjectFileName>
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)printf\</ObjectFileName>
     </ClCompile>
+    <ClCompile Include="..\..\scanf\doscan.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)scanf\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)scanf\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\scanf\fscanf.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)scanf\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)scanf\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\scanf\fscanffuns.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)scanf\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)scanf\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\scanf\scanf.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)scanf\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)scanf\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\scanf\sscanf.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)scanf\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)scanf\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\scanf\sscanffuns.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)scanf\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)scanf\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\scanf\vfscanf.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)scanf\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)scanf\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\scanf\vscanf.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)scanf\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)scanf\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\scanf\vsscanf.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)scanf\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)scanf\</ObjectFileName>
+    </ClCompile>
     <ClCompile Include="..\..\cxx\isfuns.cc">
       <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">__GMP_WITHIN_GMPXX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)cxx\</ObjectFileName>
@@ -2024,6 +2030,7 @@ postbuild "$(TargetPath)"</Command>
     <YASM Include="..\..\mpn\x86_64w\core2\mul_1.asm" />
     <YASM Include="..\..\mpn\x86_64w\core2\mul_2.asm" />
     <YASM Include="..\..\mpn\x86_64w\core2\mul_basecase.asm" />
+    <YASM Include="..\..\mpn\x86_64w\mulmid_basecase.asm" />
     <YASM Include="..\..\mpn\x86_64w\core2\popcount.asm" />
     <YASM Include="..\..\mpn\x86_64w\core2\redc_1.asm" />
     <YASM Include="..\..\mpn\x86_64w\core2\rsh1add_n.asm" />
@@ -2036,7 +2043,6 @@ postbuild "$(TargetPath)"</Command>
     <YASM Include="..\..\mpn\x86_64w\core2\subadd_n.asm" />
     <YASM Include="..\..\mpn\x86_64w\core2\sublsh1_n.asm" />
     <YASM Include="..\..\mpn\x86_64w\core2\submul_1.asm" />
-    <YASM Include="..\..\mpn\x86_64w\core2\udiv.asm" />
     <YASM Include="..\..\mpn\x86_64w\core2\umul.asm" />
     <YASM Include="..\..\mpn\x86_64w\core2\and_n.asm" />
     <YASM Include="..\..\mpn\x86_64w\core2\andn_n.asm" />
@@ -2046,18 +2052,9 @@ postbuild "$(TargetPath)"</Command>
     <YASM Include="..\..\mpn\x86_64w\core2\nior_n.asm" />
     <YASM Include="..\..\mpn\x86_64w\core2\xnor_n.asm" />
     <YASM Include="..\..\mpn\x86_64w\core2\xor_n.asm" />
-    <YASM Include="..\..\mpn\x86_64w\mulmid_basecase.asm" />
     <YASM Include="..\..\mpn\x86_64w\sub_err1_n.asm" />
     <YASM Include="..\..\mpn\x86_64w\sub_err2_n.asm" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\..\config.h" />
-    <ClInclude Include="..\..\gmp-impl.h" />
-    <ClInclude Include="..\..\mpn\x86_64w\core2\gmp-mparam.h" />
-    <ClInclude Include="..\..\longlong.h" />
-    <ClInclude Include="..\..\mpir.h" />
-    <ClInclude Include="..\..\mpirxx.h" />
-    <ClInclude Include="..\..\randmt.h" />
+    <YASM Include="..\..\mpn\x86_64w\core2\udiv.asm" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

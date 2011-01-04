@@ -117,6 +117,7 @@ postbuild "$(TargetPath)"</Command>
   <ItemGroup>
     <ClInclude Include="..\..\config.h" />
     <ClInclude Include="..\..\gmp-impl.h" />
+    <ClInclude Include="..\..\longlong.h" />
     <ClInclude Include="..\..\mpir.h" />
     <ClInclude Include="..\..\mpn\x86w\p6\gmp-mparam.h" />
   </ItemGroup>
@@ -1837,12 +1838,8 @@ postbuild "$(TargetPath)"</Command>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <YASM Include="..\..\mpn\x86w\addmul_1.asm">
-      <FileType>Document</FileType>
-    </YASM>
-    <YASM Include="..\..\mpn\x86w\add_n.asm">
-      <FileType>Document</FileType>
-    </YASM>
+    <YASM Include="..\..\mpn\x86w\addmul_1.asm" />
+    <YASM Include="..\..\mpn\x86w\add_n.asm" />
     <YASM Include="..\..\mpn\x86w\p6\copyd.asm" />
     <YASM Include="..\..\mpn\x86w\copyi.asm" />
     <YASM Include="..\..\mpn\x86w\p6\divexact_1.asm" />
@@ -1856,12 +1853,10 @@ postbuild "$(TargetPath)"</Command>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </YASM>
     <YASM Include="..\..\mpn\x86w\p6\mmx\hamdist.asm">
-      <FileType>Document</FileType>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </YASM>
     <YASM Include="..\..\mpn\x86w\p6\mmx\popcount.asm">
-      <FileType>Document</FileType>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </YASM>
@@ -1870,23 +1865,15 @@ postbuild "$(TargetPath)"</Command>
     <YASM Include="..\..\mpn\x86w\p6\modexact_1c_odd.asm" />
     <YASM Include="..\..\mpn\x86w\mul_1.asm" />
     <YASM Include="..\..\mpn\x86w\mul_basecase.asm" />
-    <YASM Include="..\..\mpn\x86w\p6\p3mmx\hamdist.asm">
-      <FileType>Document</FileType>
-    </YASM>
-    <YASM Include="..\..\mpn\x86w\p6\p3mmx\popcount.asm">
-      <FileType>Document</FileType>
-    </YASM>
+    <YASM Include="..\..\mpn\x86w\p6\p3mmx\hamdist.asm" />
+    <YASM Include="..\..\mpn\x86w\p6\p3mmx\popcount.asm" />
     <YASM Include="..\..\mpn\x86w\rshift.asm">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </YASM>
     <YASM Include="..\..\mpn\x86w\p6\sqr_basecase.asm" />
-    <YASM Include="..\..\mpn\x86w\submul_1.asm">
-      <FileType>Document</FileType>
-    </YASM>
-    <YASM Include="..\..\mpn\x86w\sub_n.asm">
-      <FileType>Document</FileType>
-    </YASM>
+    <YASM Include="..\..\mpn\x86w\submul_1.asm" />
+    <YASM Include="..\..\mpn\x86w\sub_n.asm" />
     <YASM Include="..\..\mpn\x86w\udiv.asm" />
     <YASM Include="..\..\mpn\x86w\umul.asm" />
     <YASM Include="..\..\mpn\x86w\p6\mmx\divrem_1.asm" />

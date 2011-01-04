@@ -9,9 +9,6 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
-    <Filter Include="Source Files\cxx">
-      <UniqueIdentifier>{6de62935-7c5a-412a-812e-d1f6912062c7}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\mpf">
       <UniqueIdentifier>{5c76e40e-187f-4879-a52e-6a9e7d9739b6}</UniqueIdentifier>
     </Filter>
@@ -30,14 +27,34 @@
     <Filter Include="Source Files\scanf">
       <UniqueIdentifier>{3d764551-33c6-473a-a9bb-f8b2572e77d5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\cxx">
+      <UniqueIdentifier>{6de62935-7c5a-412a-812e-d1f6912062c7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\assert.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\compat.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
+    <ClInclude Include="..\..\config.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\gmp-impl.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\longlong.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\mpir.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\mpn\generic\gmp-mparam.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\mpirxx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\randmt.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
     <ClCompile Include="..\..\cxx\isfuns.cc">
       <Filter>Source Files\cxx</Filter>
     </ClCompile>
@@ -67,6 +84,12 @@
     </ClCompile>
     <ClCompile Include="..\..\cxx\osmpz.cc">
       <Filter>Source Files\cxx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\assert.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\compat.c">
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\errno.c">
       <Filter>Source Files</Filter>
@@ -1397,34 +1420,11 @@
     <ClCompile Include="..\..\mpn\generic\xor_n.c">
       <Filter>Source Files\mpn</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\mpn\generic\hamdist.c">
-      <Filter>Source Files\mpn</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\mpn\generic\popcount.c">
       <Filter>Source Files\mpn</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\..\config.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\gmp-impl.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\longlong.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\mpir.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\mpirxx.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\randmt.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\mpn\generic\gmp-mparam.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
+    <ClCompile Include="..\..\mpn\generic\hamdist.c">
+      <Filter>Source Files\mpn</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

@@ -117,6 +117,7 @@ postbuild "$(TargetPath)"</Command>
   <ItemGroup>
     <ClInclude Include="..\..\config.h" />
     <ClInclude Include="..\..\gmp-impl.h" />
+    <ClInclude Include="..\..\longlong.h" />
     <ClInclude Include="..\..\mpir.h" />
     <ClInclude Include="..\..\mpn\x86w\pentium4\gmp-mparam.h" />
   </ItemGroup>

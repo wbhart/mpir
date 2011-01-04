@@ -1915,9 +1915,7 @@ postbuild "$(TargetPath)"</Command>
     <YASM Include="..\..\mpn\x86_64w\divexact_by3c.asm" />
     <YASM Include="..\..\mpn\x86_64w\divexact_byfobm1.asm" />
     <YASM Include="..\..\mpn\x86_64w\core2\divexact_byff.asm" />
-    <YASM Include="..\..\mpn\x86_64w\divrem_2.asm">
-      <FileType>Document</FileType>
-    </YASM>
+    <YASM Include="..\..\mpn\x86_64w\divrem_2.asm" />
     <YASM Include="..\..\mpn\x86_64w\divrem_euclidean_qr_1.asm" />
     <YASM Include="..\..\mpn\x86_64w\divrem_euclidean_qr_2.asm" />
     <YASM Include="..\..\mpn\x86_64w\core2\divrem_hensel_qr_1_2.asm" />
@@ -1930,6 +1928,7 @@ postbuild "$(TargetPath)"</Command>
     <YASM Include="..\..\mpn\x86_64w\core2\mul_1.asm" />
     <YASM Include="..\..\mpn\x86_64w\core2\mul_2.asm" />
     <YASM Include="..\..\mpn\x86_64w\core2\mul_basecase.asm" />
+    <YASM Include="..\..\mpn\x86_64w\mulmid_basecase.asm" />
     <YASM Include="..\..\mpn\x86_64w\core2\popcount.asm" />
     <YASM Include="..\..\mpn\x86_64w\core2\redc_1.asm" />
     <YASM Include="..\..\mpn\x86_64w\core2\rsh1add_n.asm" />
@@ -1942,7 +1941,6 @@ postbuild "$(TargetPath)"</Command>
     <YASM Include="..\..\mpn\x86_64w\core2\subadd_n.asm" />
     <YASM Include="..\..\mpn\x86_64w\core2\sublsh1_n.asm" />
     <YASM Include="..\..\mpn\x86_64w\core2\submul_1.asm" />
-    <YASM Include="..\..\mpn\x86_64w\core2\udiv.asm" />
     <YASM Include="..\..\mpn\x86_64w\core2\umul.asm" />
     <YASM Include="..\..\mpn\x86_64w\core2\and_n.asm" />
     <YASM Include="..\..\mpn\x86_64w\core2\andn_n.asm" />
@@ -1952,11 +1950,9 @@ postbuild "$(TargetPath)"</Command>
     <YASM Include="..\..\mpn\x86_64w\core2\nior_n.asm" />
     <YASM Include="..\..\mpn\x86_64w\core2\xnor_n.asm" />
     <YASM Include="..\..\mpn\x86_64w\core2\xor_n.asm" />
-    <YASM Include="..\..\mpn\x86_64w\mulmid_basecase.asm">
-      <FileType>Document</FileType>
-    </YASM>
     <YASM Include="..\..\mpn\x86_64w\sub_err1_n.asm" />
     <YASM Include="..\..\mpn\x86_64w\sub_err2_n.asm" />
+    <YASM Include="..\..\mpn\x86_64w\core2\udiv.asm" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

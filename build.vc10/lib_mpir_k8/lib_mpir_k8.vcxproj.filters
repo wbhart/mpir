@@ -1277,10 +1277,10 @@
     <ClCompile Include="..\..\mpn\generic\inv_divappr_q_n.c">
       <Filter>Source Files\mpn</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\mpn\generic\inv_div_qr_n.c">
+    <ClCompile Include="..\..\mpn\generic\inv_div_qr.c">
       <Filter>Source Files\mpn</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\mpn\generic\inv_div_qr.c">
+    <ClCompile Include="..\..\mpn\generic\inv_div_qr_n.c">
       <Filter>Source Files\mpn</Filter>
     </ClCompile>
     <ClCompile Include="..\..\mpn\generic\rootrem_basecase.c">

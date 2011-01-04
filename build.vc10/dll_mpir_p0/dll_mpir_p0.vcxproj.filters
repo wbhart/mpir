@@ -9,9 +9,6 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
-    <Filter Include="Source Files\cxx">
-      <UniqueIdentifier>{3745f447-5045-498c-9e13-6bbd245368f7}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\mpf">
       <UniqueIdentifier>{28d33ed7-50c1-440d-9a05-024ebaccc2e2}</UniqueIdentifier>
     </Filter>
@@ -33,14 +30,34 @@
     <Filter Include="Source Files\scanf">
       <UniqueIdentifier>{1c469c91-7b24-4d04-b886-7a4d66875f58}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\cxx">
+      <UniqueIdentifier>{3745f447-5045-498c-9e13-6bbd245368f7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\assert.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\compat.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
+    <ClInclude Include="..\..\config.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\gmp-impl.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\longlong.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\mpir.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\mpn\x86w\gmp-mparam.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\mpirxx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\randmt.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
     <ClCompile Include="..\..\cxx\isfuns.cc">
       <Filter>Source Files\cxx</Filter>
     </ClCompile>
@@ -70,6 +87,12 @@
     </ClCompile>
     <ClCompile Include="..\..\cxx\osmpz.cc">
       <Filter>Source Files\cxx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\assert.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\compat.c">
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\errno.c">
       <Filter>Source Files</Filter>
@@ -1444,37 +1467,14 @@
     <YASM Include="..\..\mpn\x86w\add_n.asm">
       <Filter>Source Files\mpn\Assembler</Filter>
     </YASM>
-    <YASM Include="..\..\mpn\x86w\sub_n.asm">
-      <Filter>Source Files\mpn\Assembler</Filter>
-    </YASM>
     <YASM Include="..\..\mpn\x86w\addmul_1.asm">
       <Filter>Source Files\mpn\Assembler</Filter>
     </YASM>
     <YASM Include="..\..\mpn\x86w\submul_1.asm">
       <Filter>Source Files\mpn\Assembler</Filter>
     </YASM>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\..\config.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\gmp-impl.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\longlong.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\mpir.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\mpirxx.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\randmt.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\mpn\x86w\gmp-mparam.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
+    <YASM Include="..\..\mpn\x86w\sub_n.asm">
+      <Filter>Source Files\mpn\Assembler</Filter>
+    </YASM>
   </ItemGroup>
 </Project>

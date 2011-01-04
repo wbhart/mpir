@@ -120,7 +120,6 @@ prebuild gc x64
       <ProgramDataBaseFileName>$(TargetDir)$(TargetName).pdb</ProgramDataBaseFileName>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <CompileAs>Default</CompileAs>
     </ClCompile>
     <Lib />
     <PostBuildEvent>
@@ -180,7 +179,6 @@ prebuild gc x64
       <ProgramDataBaseFileName>$(TargetDir)$(TargetName).pdb</ProgramDataBaseFileName>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <CompileAs>Default</CompileAs>
       <BufferSecurityCheck>false</BufferSecurityCheck>
     </ClCompile>
     <Lib />
@@ -192,6 +190,7 @@ postbuild "$(TargetPath)"</Command>
   <ItemGroup>
     <ClInclude Include="..\..\config.h" />
     <ClInclude Include="..\..\gmp-impl.h" />
+    <ClInclude Include="..\..\longlong.h" />
     <ClInclude Include="..\..\mpir.h" />
     <ClInclude Include="..\..\mpn\generic\gmp-mparam.h" />
   </ItemGroup>

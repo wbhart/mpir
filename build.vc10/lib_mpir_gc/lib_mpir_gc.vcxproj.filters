@@ -33,6 +33,9 @@
     <ClInclude Include="..\..\gmp-impl.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\longlong.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\mpir.h">
       <Filter>Header Files</Filter>
     </ClInclude>

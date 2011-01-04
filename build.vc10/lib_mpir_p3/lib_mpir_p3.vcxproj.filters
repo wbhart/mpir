@@ -39,6 +39,9 @@
     <ClInclude Include="..\..\gmp-impl.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\longlong.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\mpir.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -1274,10 +1277,10 @@
     <ClCompile Include="..\..\mpn\generic\inv_divappr_q_n.c">
       <Filter>Source Files\mpn</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\mpn\generic\inv_div_qr_n.c">
+    <ClCompile Include="..\..\mpn\generic\inv_div_qr.c">
       <Filter>Source Files\mpn</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\mpn\generic\inv_div_qr.c">
+    <ClCompile Include="..\..\mpn\generic\inv_div_qr_n.c">
       <Filter>Source Files\mpn</Filter>
     </ClCompile>
     <ClCompile Include="..\..\mpn\generic\rootrem_basecase.c">
@@ -1346,10 +1349,10 @@
     <ClCompile Include="..\..\mpn\generic\fib_table.c">
       <Filter>Source Files\mpn</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\mpn\generic\dc_div_qr_n.c">
+    <ClCompile Include="..\..\mpn\generic\dc_bdiv_qr_n.c">
       <Filter>Source Files\mpn</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\mpn\generic\dc_bdiv_qr_n.c">
+    <ClCompile Include="..\..\mpn\generic\dc_div_qr_n.c">
       <Filter>Source Files\mpn</Filter>
     </ClCompile>
     <ClCompile Include="..\..\mpn\generic\and_n.c">

@@ -137,11 +137,4 @@ Lrodata_0F0F0F0F0F0F0F0F:
 
 	ph_fun	___g,mpn_popcount,0
 
-%define	PARAM_SIZE  esp+frame+12 
-%define PARAM_SRC2  esp+frame+8 
-%define PARAM_SRC   esp+frame+4 
-%define	frame		0
-
-	ph_fun	___g,mpn_hamdist,1
-
 	end

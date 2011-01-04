@@ -9,9 +9,6 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
-    <Filter Include="Source Files\cxx">
-      <UniqueIdentifier>{b564decc-26fa-4589-a596-8c8355de877d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\mpf">
       <UniqueIdentifier>{d4b512e1-5a2e-4f35-b626-4059e30de5e9}</UniqueIdentifier>
     </Filter>
@@ -36,14 +33,28 @@
     <Filter Include="Source Files\scanf">
       <UniqueIdentifier>{79421ba5-0821-4d9d-a2e9-c71c7f811c0b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\cxx">
+      <UniqueIdentifier>{b564decc-26fa-4589-a596-8c8355de877d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\assert.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\compat.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
+    <ClInclude Include="..\..\config.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\gmp-impl.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\longlong.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\mpir.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\mpn\x86_64w\nehalem\gmp-mparam.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
     <ClCompile Include="..\..\cxx\isfuns.cc">
       <Filter>Source Files\cxx</Filter>
     </ClCompile>
@@ -73,6 +84,12 @@
     </ClCompile>
     <ClCompile Include="..\..\cxx\osmpz.cc">
       <Filter>Source Files\cxx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\assert.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\compat.c">
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\errno.c">
       <Filter>Source Files</Filter>
@@ -1295,10 +1312,10 @@
     <ClCompile Include="..\..\mpn\generic\inv_divappr_q_n.c">
       <Filter>Source Files\mpn</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\mpn\generic\inv_div_qr.c">
+    <ClCompile Include="..\..\mpn\generic\inv_div_qr_n.c">
       <Filter>Source Files\mpn</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\mpn\generic\inv_div_qr_n.c">
+    <ClCompile Include="..\..\mpn\generic\inv_div_qr.c">
       <Filter>Source Files\mpn</Filter>
     </ClCompile>
     <ClCompile Include="..\..\mpn\generic\rootrem_basecase.c">
@@ -1359,9 +1376,6 @@
       <Filter>Source Files\mpz</Filter>
     </ClCompile>
     <ClCompile Include="..\..\mpn\generic\zero.c">
-      <Filter>Source Files\mpn</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\mpn\generic\logops_n.c">
       <Filter>Source Files\mpn</Filter>
     </ClCompile>
     <ClCompile Include="..\..\mpn\generic\mp_bases.c">
@@ -1552,40 +1566,17 @@
     <YASM Include="..\..\mpn\x86_64w\mulmid_basecase.asm">
       <Filter>Source Files\mpn\Assembler</Filter>
     </YASM>
-    <YASM Include="..\..\mpn\x86_64w\add_err2_n.asm">
-      <Filter>Source Files\mpn\Assembler</Filter>
-    </YASM>
-    <YASM Include="..\..\mpn\x86_64w\sub_err2_n.asm">
-      <Filter>Source Files\mpn\Assembler</Filter>
-    </YASM>
     <YASM Include="..\..\mpn\x86_64w\nehalem\add_err1_n.asm">
       <Filter>Source Files\mpn\Assembler</Filter>
     </YASM>
     <YASM Include="..\..\mpn\x86_64w\nehalem\sub_err1_n.asm">
       <Filter>Source Files\mpn\Assembler</Filter>
     </YASM>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\..\config.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\gmp-impl.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\longlong.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\mpir.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\mpirxx.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\mpn\x86_64w\nehalem\gmp-mparam.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\randmt.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
+    <YASM Include="..\..\mpn\x86_64w\add_err2_n.asm">
+      <Filter>Source Files\mpn\Assembler</Filter>
+    </YASM>
+    <YASM Include="..\..\mpn\x86_64w\sub_err2_n.asm">
+      <Filter>Source Files\mpn\Assembler</Filter>
+    </YASM>
   </ItemGroup>
 </Project>

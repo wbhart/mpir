@@ -9,9 +9,6 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
-    <Filter Include="Source Files\cxx">
-      <UniqueIdentifier>{40aa9c28-4b30-4d96-b3f9-cd6872651488}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\mpf">
       <UniqueIdentifier>{9c40cbd7-3f1b-419e-87da-480322bc49da}</UniqueIdentifier>
     </Filter>
@@ -36,6 +33,32 @@
     <Filter Include="Source Files\scanf">
       <UniqueIdentifier>{ceffee98-2ec0-4481-984e-8e6555d77e09}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\cxx">
+      <UniqueIdentifier>{40aa9c28-4b30-4d96-b3f9-cd6872651488}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\config.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\gmp-impl.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\longlong.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\mpir.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\mpn\x86w\p6\gmp-mparam.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\mpirxx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\randmt.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\assert.c">
@@ -1474,37 +1497,14 @@
     <YASM Include="..\..\mpn\x86w\p6\mmx\hamdist.asm">
       <Filter>Source Files\mpn\Assembler\mmx</Filter>
     </YASM>
-    <YASM Include="..\..\mpn\x86w\p6\p3mmx\popcount.asm">
+    <YASM Include="..\..\mpn\x86w\p6\mmx\popcount.asm">
       <Filter>Source Files\mpn\Assembler\mmx</Filter>
     </YASM>
     <YASM Include="..\..\mpn\x86w\p6\p3mmx\hamdist.asm">
       <Filter>Source Files\mpn\Assembler\mmx</Filter>
     </YASM>
-    <YASM Include="..\..\mpn\x86w\p6\mmx\popcount.asm">
+    <YASM Include="..\..\mpn\x86w\p6\p3mmx\popcount.asm">
       <Filter>Source Files\mpn\Assembler\mmx</Filter>
     </YASM>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\..\config.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\gmp-impl.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\longlong.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\mpir.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\mpirxx.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\randmt.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\mpn\x86w\p6\gmp-mparam.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
 </Project>
