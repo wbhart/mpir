@@ -2538,14 +2538,6 @@ __GMP_DECLSPEC extern const struct bases mp_bases[257];
 
 #endif
 
-
-#if HAVE_HOST_CPU_FAMILY_x86
-#define TARGET_REGISTER_STARVED 1
-#else
-#define TARGET_REGISTER_STARVED 0
-#endif
-
-
 /* LIMB_HIGHBIT_TO_MASK(n) examines the high bit of a limb value and turns 1
    or 0 there into a limb 0xFF..FF or 0 respectively.
 
