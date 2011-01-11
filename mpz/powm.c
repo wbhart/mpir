@@ -24,9 +24,6 @@ MA 02110-1301, USA. */
 #include "mpir.h"
 #include "gmp-impl.h"
 #include "longlong.h"
-#ifdef BERKELEY_MP
-#include "mp.h"
-#endif
 
 /* Compute t = a mod m, a is defined by (ap,an), m is defined by (mp,mn), and
    t is defined by (tp,mn).  */
@@ -119,11 +116,7 @@ phi (mp_limb_t t)
 #undef REDUCE_EXPONENT
 
 void
-#ifndef BERKELEY_MP
 mpz_powm (mpz_ptr r, mpz_srcptr b, mpz_srcptr e, mpz_srcptr m)
-#else /* BERKELEY_MP */
-pow (mpz_srcptr b, mpz_srcptr e, mpz_srcptr m, mpz_ptr r)
-#endif /* BERKELEY_MP */
 {
   mp_ptr xp, tp, qp, gp, this_gp;
   mp_srcptr bp, ep, mp;

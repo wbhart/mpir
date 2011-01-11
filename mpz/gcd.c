@@ -156,11 +156,8 @@ MA 02111-1307, USA. */
 }
 
 void
-#ifndef BERKELEY_MP
 mpz_gcd (mpz_ptr g, mpz_srcptr u, mpz_srcptr v)
-#else /* BERKELEY_MP */
-gcd (mpz_srcptr u, mpz_srcptr v, mpz_ptr g)
-#endif /* BERKELEY_MP */
+
   GCD_BODY(mpn_gcd)
 
 void

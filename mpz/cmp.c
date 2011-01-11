@@ -20,18 +20,11 @@ along with the GNU MP Library; see the file COPYING.LIB.  If not, write to
 the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 MA 02110-1301, USA. */
 
-#ifdef BERKELEY_MP
-#include "mp.h"
-#endif
 #include "mpir.h"
 #include "gmp-impl.h"
 
 int
-#ifdef BERKELEY_MP
-mcmp (mpz_srcptr u, mpz_srcptr v)
-#else
 mpz_cmp (mpz_srcptr u, mpz_srcptr v)
-#endif
 {
   mp_size_t  usize, vsize, dsize, asize;
   mp_srcptr  up, vp;

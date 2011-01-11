@@ -23,21 +23,6 @@ MA 02110-1301, USA. */
 #include "gmp-impl.h"
 
 
-#ifdef BERKELEY_MP
-
-#include "mp.h"
-#ifdef OPERATION_add
-#define FUNCTION     madd
-#define VARIATION
-#endif
-#ifdef OPERATION_sub
-#define FUNCTION     msub
-#define VARIATION    -
-#endif
-#define ARGUMENTS    mpz_srcptr u, mpz_srcptr v, mpz_ptr w
-
-#else /* normal GMP */
-
 #ifdef OPERATION_add
 #define FUNCTION     mpz_add
 #define VARIATION
@@ -47,8 +32,6 @@ MA 02110-1301, USA. */
 #define VARIATION    -
 #endif
 #define ARGUMENTS    mpz_ptr w, mpz_srcptr u, mpz_srcptr v
-
-#endif
 
 #ifndef FUNCTION
 Error, need OPERATION_add or OPERATION_sub

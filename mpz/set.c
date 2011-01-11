@@ -23,17 +23,8 @@ MA 02110-1301, USA. */
 #include "gmp-impl.h"
 
 
-#ifdef BERKELEY_MP
-#include "mp.h"
-#define FUNCTION   move
-#define ARGUMENTS  mpz_srcptr u, mpz_ptr w
-
-#else
 #define FUNCTION   mpz_set
 #define ARGUMENTS  mpz_ptr w, mpz_srcptr u
-
-#endif
-
 
 void
 FUNCTION (ARGUMENTS)

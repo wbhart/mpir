@@ -23,16 +23,9 @@ MA 02110-1301, USA. */
 #include "mpir.h"
 #include "gmp-impl.h"
 #include "longlong.h"
-#ifdef BERKELEY_MP
-#include "mp.h"
-#endif
 
 void
-#ifndef BERKELEY_MP
 mpz_tdiv_qr (mpz_ptr quot, mpz_ptr rem, mpz_srcptr num, mpz_srcptr den)
-#else /* BERKELEY_MP */
-mdiv (mpz_srcptr num, mpz_srcptr den, mpz_ptr quot, mpz_ptr rem)
-#endif /* BERKELEY_MP */
 {
   mp_size_t ql;
   mp_size_t ns, ds, nl, dl;
