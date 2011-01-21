@@ -1,39 +1,58 @@
 @echo off
+rem remove any quotes
+set str=%1
+for /f "useback tokens=*" %%a in ('%str%') do set str=%%~a
 
-set plf=
-if exist %1 (call :parse %1) else (call :parse "%1")
-if /i "%plf%" NEQ "" (goto next)
+rem delete anything before 'build.vc10'
+:dele
+set str=%str:~1,200%
+set str2=%str:~0,10%
+if "%str2%" NEQ "build.vc10" goto dele
 
+rem extract platform (plat= win32/x64), config (conf= debug/release) anbd file name     
+set file=
+for /f "tokens=1,2,3,4 delims=\" %%a in ("%str%") do set plat=%%b&set conf=%%c&set file=%%d
+if /i "%file%" NEQ "" (goto next)
 call :seterr & echo ERROR: %1 is not supported & exit /b %errorlevel%
 
 :next
-set extn=%fnx%#
+rem echo platform= %plat% configuration= %conf%, file= %file%
+
+rem get the filename extension (lib/dll) to seet output directory
+set extn=%file%#
 set extn=%extn:~-4,-1%
-set tdir="%plf%\%cnf%"
 
-rem The Output Directory
-set odir="%extn%\%plf%\%cnf%"
+rem set the target aand output directories
+set source="%plat%\%conf%"
+set dest="%extn%\%plat%\%conf%"
 
-echo %extn% %plf% %cnf% %odir% >mpir-tests\lastbuild.txt
-echo copying outputs from %tdir% to %odir%
-if not exist %odir% md %odir%
-call :copyh %odir%
+echo copying outputs from %source% to %dest%
+echo %extn% %plat% %conf% %dest% >mpir-tests\lastbuild.txt
+if not exist %dest% md %dest%
+call :copyh %dest%
+call :copyb %source% %dest% %conf% %extn%
+exit /b 0
 
-if "%extn%" EQU "dll" (
-	copy %tdir%\mpir.dll %odir%\mpir.dll
-	copy %tdir%\mpir.exp %odir%\mpir.exp
-	copy %tdir%\mpir.lib %odir%\mpir.lib
-	if exist %tdir%\mpir.pdb (copy %tdir%\mpir.pdb %odir%\mpir.pdb)
-	copy mpir-tests\%extn%-%cnf%-config.props mpir-tests\test-config.props
-) else if "%extn%" EQU "lib" (
-	copy %tdir%\mpir.lib %odir%\mpir.lib
-	if exist %tdir%\mpir.pdb (copy %tdir%\mpir.pdb %odir%\mpir.pdb)
-	copy mpir-tests\%extn%-%cnf%-config.props mpir-tests\test-config.props
+rem copy binaries to final destination directory
+rem %1 = source directory  %2 = destination directory
+rem %3 = library (lib/dll) %4 = configuration (debug/releaase) 
+:copyb
+if "%4" EQU "dll" (
+	copy %1\mpir.dll %2\mpir.dll
+	copy %1\mpir.exp %2\mpir.exp
+	copy %1\mpir.lib %2\mpir.lib
+	if exist %1\mpir.pdb (copy %1\mpir.pdb %2\mpir.pdb)
+	copy mpir-tests\%4-%3-config.props mpir-tests\test-config.props
+) else if "%4" EQU "lib" (
+	copy %1\mpir.lib %2\mpir.lib
+	if exist %1\mpir.pdb (copy %1\mpir.pdb %2\mpir.pdb)
+	copy mpir-tests\%4-%3-config.props mpir-tests\test-config.props
 ) else (
-	call :seterr & echo ERROR: illegal library type %extn%  & exit /b %errorlevel%
+	call :seterr & echo ERROR: illegal library type %4  & exit /b %errorlevel%
 )
 exit /b 0
 
+rem copy headers to final destination directory
 :copyh
 copy ..\config.h %1\config.h
 copy ..\gmp-mparam.h %1\gmp-mparam.h
@@ -41,23 +60,6 @@ copy ..\mpir.h %1\mpir.h
 copy ..\mpir.h %1\gmp.h
 copy ..\mpirxx.h %1\mpirxx.h
 copy ..\mpirxx.h %1\gmpxx.h
-exit /b 0
-
-:parse
-for /f "tokens=1-12 delims=\" %%a in (%1) do (
-  if "%%a" EQU "build.vc10" ((set plf=%%b) & (set cnf=%%c) & (set fnx=%%d))
-  if "%%b" EQU "build.vc10" ((set plf=%%c) & (set cnf=%%d) & (set fnx=%%e))
-  if "%%c" EQU "build.vc10" ((set plf=%%d) & (set cnf=%%e) & (set fnx=%%f))
-  if "%%d" EQU "build.vc10" ((set plf=%%e) & (set cnf=%%f) & (set fnx=%%g))
-  if "%%e" EQU "build.vc10" ((set plf=%%f) & (set cnf=%%g) & (set fnx=%%h))
-  if "%%f" EQU "build.vc10" ((set plf=%%g) & (set cnf=%%h) & (set fnx=%%i))
-  if "%%g" EQU "build.vc10" ((set plf=%%h) & (set cnf=%%i) & (set fnx=%%j))
-  if "%%h" EQU "build.vc10" ((set plf=%%i) & (set cnf=%%j) & (set fnx=%%k))
-  if "%%i" EQU "build.vc10" ((set plf=%%j) & (set cnf=%%k) & (set fnx=%%l))
-  if "%%j" EQU "build.vc10" ((set plf=%%k) & (set cnf=%%l) & (set fnx=%%m))
-  if "%%k" EQU "build.vc10" ((set plf=%%l) & (set cnf=%%m) & (set fnx=%%n))
-  if "%%l" EQU "build.vc10" ((set plf=%%m) & (set cnf=%%n) & (set fnx=%%o))
-)
 exit /b 0
 
 :seterr

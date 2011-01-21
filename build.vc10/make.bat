@@ -42,11 +42,6 @@ exit /b 1
 set MS_BUILD="C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe"
 
 set LIBBUILD=%LIBTYPE%_mpir_%BCPU%
-%MS_BUILD% gen-mpir\gen-mpir.vcxproj /p:Platform=Win32;Configuration=Release
-%MS_BUILD% gen-bases\gen-bases.vcxproj /p:Platform=Win32;Configuration=Release
-%MS_BUILD% gen-fac_ui\gen-fac_ui.vcxproj /p:Platform=Win32;Configuration=Release
-%MS_BUILD% gen-fib\gen-fib.vcxproj /p:Platform=Win32;Configuration=Release
-%MS_BUILD% gen-psqr\gen-psqr.vcxproj /p:Platform=Win32;Configuration=Release
 
 if errorlevel 1 (
 	echo "ERROR PREBUILD"
