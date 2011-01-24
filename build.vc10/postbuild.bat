@@ -1,15 +1,17 @@
 @echo off
-rem remove any quotes
+rem remove any quotes around the full file path
 set str=%1
 for /f "useback tokens=*" %%a in ('%str%') do set str=%%~a
 
-rem delete anything before 'build.vc10'
+rem delete anything from path before 'build.vc10'
 :dele
-set str=%str:~1,200%
+set str=%str:~1%
 set str2=%str:~0,10%
 if "%str2%" NEQ "build.vc10" goto dele
 
-rem extract platform (plat= win32/x64), config (conf= debug/release) anbd file name     
+rem we now have: build.vc10\<win32|x64>\<debug|release>\mpir.<lib|dll>
+
+rem extract platform (plat=<win32|x64>), configuration (conf=<debug|release>) anbd file name     
 set file=
 for /f "tokens=1,2,3,4 delims=\" %%a in ("%str%") do set plat=%%b&set conf=%%c&set file=%%d
 if /i "%file%" NEQ "" (goto next)
@@ -18,16 +20,20 @@ call :seterr & echo ERROR: %1 is not supported & exit /b %errorlevel%
 :next
 rem echo platform= %plat% configuration= %conf%, file= %file%
 
-rem get the filename extension (lib/dll) to seet output directory
+rem get the filename extension (lib/dll) to set the output directory
 set extn=%file%#
-set extn=%extn:~-4,-1%
+set extn=%extn:~-4,3%
 
 rem set the target aand output directories
 set source="%plat%\%conf%"
 set dest="%extn%\%plat%\%conf%"
 
+rem output parametrers for the MPIR tests
+echo (set libr=%extn%)  > output_params.bat
+echo (set plat=%plat%) >> output_params.bat
+echo (set conf=%conf%) >> output_params.bat
+
 echo copying outputs from %source% to %dest%
-echo %extn% %plat% %conf% %dest% >mpir-tests\lastbuild.txt
 if not exist %dest% md %dest%
 call :copyh %dest%
 call :copyb %source% %dest% %conf% %extn%

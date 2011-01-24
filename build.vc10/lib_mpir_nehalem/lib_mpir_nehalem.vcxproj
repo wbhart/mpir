@@ -76,7 +76,7 @@ prebuild nehalem x64</Command>
     <Lib />
     <PostBuildEvent>
       <Command>cd ..\ 
-postbuild "$(TargetPath)"</Command>
+postbuild  "$(TargetPath)"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -119,7 +119,7 @@ prebuild nehalem x64</Command>
     <Lib />
     <PostBuildEvent>
       <Command>cd ..\ 
-postbuild "$(TargetPath)"</Command>
+postbuild  "$(TargetPath)"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
