@@ -129,6 +129,9 @@ Boston, MA 02110-1301, USA.
 	  if (model == 9) { CPUIS(k102);break;}
 	  if (model == 10) { CPUIS(k102);break;}
 	  break;
+        case 18:
+          CPUIS(k102);// like k102 but with hardware divider
+          break;
         }
     }
   else if (strcmp (vendor_string, "CentaurHauls") == 0)
