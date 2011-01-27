@@ -129,6 +129,8 @@ Boston, MA 02110-1301, USA.
 	  if (model == 9) { CPUIS(k102);break;}
 	  if (model == 10) { CPUIS(k102);break;}
 	  break;
+        case 17:
+          CPUIS(k8);// fusion of K8 and GPU
         case 18:
           CPUIS(k102);// like k102 but with hardware divider
           break;
