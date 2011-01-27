@@ -123,8 +123,11 @@ Boston, MA 02110-1301, USA.
 	case 16:
 	  if (model == 2) { CPUIS(k10);break;}
 	  if (model == 4) { CPUIS(k102);break;}
+	  if (model == 5) { CPUIS(k102);break;}
+	  if (model == 6) { CPUIS(k102);break;}
 	  if (model == 8) { CPUIS(k102);break;}
 	  if (model == 9) { CPUIS(k102);break;}
+	  if (model == 10) { CPUIS(k102);break;}
 	  break;
         }
     }
