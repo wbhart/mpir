@@ -1,6 +1,6 @@
 @echo off
 echo creating mpir.h for %1
-echo /* generated from gmp-h.in by gen_mpt_h.bat */ >tmp.h
+echo /* generated from gmp-h.in by gen_mpir_h.bat */ >tmp.h
 if /i "%1" EQU "win32" set bits=32
 if /i "%1" EQU "x64" set bits=64
 for /f "tokens=1,2 delims=@" %%a in (..\gmp-h.in) do (

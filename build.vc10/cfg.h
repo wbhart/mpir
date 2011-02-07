@@ -349,10 +349,6 @@ MA 02111-1307, USA. */
 #define inline	__inline
 #endif
 
-/* Define to empty if the keyword `volatile' does not work. Warning: valid
-   code using `volatile' can become incorrect without. Disable with care. */
-#undef volatile
-
 #ifdef _MSC_VER
 #define access _access
 #define strcasecmp _stricmp
