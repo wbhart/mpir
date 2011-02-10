@@ -349,6 +349,12 @@ MA 02111-1307, USA. */
 #define inline	__inline
 #endif
 
+#define HAVE_INTMAX_T        1
+#define HAVE_PTRDIFF_T       1
+#define HAVE_UINT_LEAST32_T  1
+#define NPRINTF_J            1
+#define NPRINTF_T            1
+
 #ifdef _MSC_VER
 #define access _access
 #define strcasecmp _stricmp
