@@ -134,6 +134,7 @@ Boston, MA 02110-1301, USA.
 	  break;
         case 17:
           CPUIS(k8);// fusion of K8 and GPU
+          break;
         case 18:
           CPUIS(k102);// like k102 but with hardware divider
           break;
