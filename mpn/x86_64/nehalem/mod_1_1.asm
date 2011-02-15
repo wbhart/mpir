@@ -1,6 +1,6 @@
 dnl  mpn_mod_1_1
 
-dnl  Copyright 2009 Jason Moxham
+dnl  Copyright 2011 The Code Cavern
 
 dnl  This file is part of the MPIR Library.
 
@@ -25,6 +25,7 @@ C	(rdi,2)= not fully reduced remainder of (rsi,rdx) / divisor , and top limb <d
 C	where (rcx,2)  contains B^i % divisor
 
 
+#// 3 is the min size
 ASM_START()
 PROLOGUE(mpn_mod_1_1)
 push %r13
@@ -33,21 +34,36 @@ mov -16(%rsi,%rdx,8),%rax
 mov (%rcx),%r8
 mov 8(%rcx),%r9
 mov %rdx,%rcx
-sub $2,%rcx
+	xor %r11,%r11
+	mov -24(%rsi,%rcx,8),%r10
+	lea (%r8),%r8
+	sub $3,%rcx
+	lea (%r9),%r9
+	jz skiplp
 ALIGN(16)
-lp:
-	mov -8(%rsi,%rcx,8),%r10
-	mul %r8
+lp:	mul %r8
 	add %rax,%r10
-	mov $0,%r11
 	adc %rdx,%r11
-	mov %r13,%rax
+	lea (%r13),%rax
+	lea (%r11),%r13
 	mul %r9
 	add %r10,%rax
-	mov %r11,%r13
 	adc %rdx,%r13
+	xor %r11,%r11
+	mov -8(%rsi,%rcx,8),%r10
+	lea (%r8),%r8
 	dec %rcx
+	lea (%r9),%r9
 	jnz lp
+skiplp:	
+	mul %r8
+	add %rax,%r10
+	adc %rdx,%r11
+	lea (%r13),%rax
+	lea (%r11),%r13
+	mul %r9
+	add %r10,%rax
+	adc %rdx,%r13
 C // r13,rax
 mov %rax,(%rdi)
 mov %r8,%rax
@@ -58,6 +74,3 @@ mov %rdx,8(%rdi)
 pop %r13
 ret
 EPILOGUE()
-
-
-
