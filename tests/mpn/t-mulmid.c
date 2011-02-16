@@ -70,6 +70,8 @@ main (int argc, char* argv[])
   const mp_limb_t sentry = 0x012345678;
   
   int i, j;
+
+  tests_start();
   gmp_randinit_default(rands);
   
   for (i = 0; i < REPEAT; i++)
@@ -167,6 +169,7 @@ main (int argc, char* argv[])
           abort ();
         }
     }
-
+  gmp_randclear(rands);
+  tests_end();
   return 0;
 }
