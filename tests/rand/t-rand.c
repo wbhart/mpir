@@ -154,6 +154,7 @@ usage: t-rand [function nbits]\n\
   register int i;
   struct rt *a;
 
+  tests_start();
 
   if (argc > 1)
     {
@@ -288,6 +289,6 @@ usage: t-rand [function nbits]\n\
     }
   
   mpz_clear (rz);
-
+  tests_end();
   return 0;
 }
