@@ -35,15 +35,15 @@ mov 8(%rcx),%r9
 mov %rdx,%rcx
 sub $2,%rcx
 ALIGN(16)
-lp:	mov $0,%r11d
-	mov -8(%rsi,%rcx,8),%r10
+lp:	lea (%r8),%r8
+	mov $0,%r11d
 	mul %r8
+	mov -8(%rsi,%rcx,8),%r10
 	add %rax,%r10
 	lea (%r13),%rax
 	adc %rdx,%r11
-	lea (%r11),%r13
 	lea (%r9),%r9
-	lea (%r8),%r8
+	lea (%r11),%r13
 	mul %r9
 	add %r10,%rax
 	adc %rdx,%r13
