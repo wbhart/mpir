@@ -22,7 +22,7 @@ dnl  Boston, MA 02110-1301, USA.
 include(`../config.m4')
 
 ASM_START()
-PROLOGUE(mpn_addmul_1)
+PROLOGUE(mpn_submul_1)
 mov (%rsi),%rax
 cmp $1,%rdx
 je one		
