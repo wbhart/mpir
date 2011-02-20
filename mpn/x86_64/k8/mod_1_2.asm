@@ -1,6 +1,6 @@
 dnl  mpn_mod_1_2
 
-dnl  Copyright 2009 Jason Moxham
+dnl  Copyright 2011 The Code Cavern
 
 dnl  This file is part of the MPIR Library.
 
@@ -33,19 +33,18 @@ push %r13
 push %r14
 mov -8(%rsi,%rdx,8),%r14
 mov -16(%rsi,%rdx,8),%r13
-mov -32(%rsi,%rdx,8),%r11
 mov (%rcx),%r8
 mov 8(%rcx),%r9
 mov 16(%rcx),%r10
 mov %rdx,%rcx
 mov -24(%rsi,%rdx,8),%rax
+mul %r8
+mov -32(%rsi,%rcx,8),%r11
+xor %r12,%r12
 sub $6,%rcx
 jc skiplp
 ALIGN(16)
-lp:
-	mul %r8
-	mov $0,%r12
-	add %rax,%r11
+lp:	add %rax,%r11
 	adc %rdx,%r12
 	mov %r9,%rax
 	mul %r13
@@ -55,15 +54,15 @@ lp:
 	mov %r10,%rax
 	mul %r14
 	add %rax,%r13
-	mov 0(%rsi,%rcx,8),%r11
+	mov 8(%rsi,%rcx,8),%rax
 	mov %r12,%r14
 	adc %rdx,%r14
-	mov 8(%rsi,%rcx,8),%rax
+	mul %r8
+	mov $0,%r12d
+	mov 0(%rsi,%rcx,8),%r11
 	sub $2,%rcx
 	jnc lp
 skiplp:
-	mul %r8
-	mov $0,%r12
 	add %rax,%r11
 	adc %rdx,%r12
 	mov %r9,%rax
@@ -80,7 +79,7 @@ cmp $-2,%rcx
 je case0
 case1:
 	mov 8(%rsi,%rcx,8),%r11
-	mov $0,%r12
+	xor %r12,%r12
 	mov %r8,%rax
 	mul %r13
 	add %rax,%r11
