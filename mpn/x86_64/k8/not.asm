@@ -24,9 +24,10 @@ include(`../config.m4')
 ASM_START()
 PROLOGUE(mpn_not)
 mov $1,%ecx
-lea (%rdi,%rdx,8),%rdi
-sub %rdx,%rcx
+lea -8(%rdi,%rsi,8),%rdi
+sub %rsi,%rcx
 jnc skiplp
+ALIGN(16)
 lp:	notq (%rdi,%rcx,8)
 	notq 8(%rdi,%rcx,8)
 	add $2,%rcx
