@@ -30,6 +30,8 @@
         lea     rcx, [rcx+rdx*8-8]
         sub     rax, rdx
         jnc     .2
+
+        align   16
 .1:     not     qword[rcx+rax*8]
         not     qword[rcx+rax*8+8]
         add     rax, 2
