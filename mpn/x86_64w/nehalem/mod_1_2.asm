@@ -41,7 +41,7 @@
 	mov     r8, [r9]
 	mov     r10, [r9+16]
 	mov     r9, [r9+8]
-	mov     rax, [rsi+rdx*8-24]
+	mov     rax, [rsi+rdi*8-24]
 	sub     rdi, 6
 	jc      .2
 	

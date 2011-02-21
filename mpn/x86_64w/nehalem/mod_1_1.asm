@@ -41,9 +41,7 @@
         mov     r9, [r9+8]
         xor     r11, r11
         mov     r10, [rsi+rcx*8-24]
-        lea     r8, [r8]
         sub     rcx, 3
-        lea     r9, [r9]
         jz      .2
 
         align   16
