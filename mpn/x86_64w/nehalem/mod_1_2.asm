@@ -33,15 +33,14 @@
 
     FRAME_PROC mpn_mod_1_2, 0, reg_save_list
     mov     rsi, rdx
-	mov     rdx, r8
+	mov     rdi, r8
 
-	mov     r14, [rsi+rdx*8-8]
-	mov     r13, [rsi+rdx*8-16]
-	mov     r11, [rsi+rdx*8-32]
+	mov     r14, [rsi+rdi*8-8]
+	mov     r13, [rsi+rdi*8-16]
+	mov     r11, [rsi+rdi*8-32]
 	mov     r8, [r9]
 	mov     r10, [r9+16]
 	mov     r9, [r9+8]
-	mov     rdi, rdx
 	mov     rax, [rsi+rdx*8-24]
 	sub     rdi, 6
 	jc      .2

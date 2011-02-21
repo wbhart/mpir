@@ -33,13 +33,12 @@
         FRAME_PROC mpn_mod_1_1, 0, reg_save_list
         mov     rdi, rcx
         mov     rsi, rdx
-        mov     rdx, r8
+        mov     rcx, r8
 
-        mov     r13, [rsi+rdx*8-8]
-        mov     rax, [rsi+rdx*8-16]
+        mov     r13, [rsi+rcx*8-8]
+        mov     rax, [rsi+rcx*8-16]
         mov     r8, [r9]
         mov     r9, [r9+8]
-        mov     rcx, rdx
         xor     r11, r11
         mov     r10, [rsi+rcx*8-24]
         lea     r8, [r8]
