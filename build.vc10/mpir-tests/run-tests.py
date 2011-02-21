@@ -11,13 +11,23 @@ import copy
 import subprocess
 import code
 import sys
+import re
 
-# lib x64 Release "..\lib\x64\Release"
- 
-f = open("lastbuild.txt")
-l = f.readline()
-f.close()
-d = l[ : -2].split()
+try:
+  f = open('..\output_params.bat')
+  par = f.readlines()
+  f.close()
+  m1 = re.match(r'\(set libr\=(.*)\)', par[0])
+  m2 = re.match(r'\(set plat\=(.*)\)', par[1])
+  m3 = re.match(r'\(set conf\=(.*)\)', par[2])
+  if m1 and m2 and m3:
+    d = (m1.group(1), m2.group(1), m3.group(1))
+  else:
+    raise IOError
+except Exception:
+  print('Cannot determine test configuration from "output_params.bat"')
+  sys.exit(-1)
+
 tdir = d[1] + '\\' + d[2] + '\\'
 if d[0] == 'dll':
 # shutil.copy("..\\dll\\" + tdir + "mpir.dll",  os.getcwd())

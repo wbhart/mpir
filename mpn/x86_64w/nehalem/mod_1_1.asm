@@ -1,7 +1,6 @@
-
-;  Copyright 2009 Jason Moxham
+;  Copyright 2011 The Code Cavern
 ;
-;  Windows Conversion Copyright 2008 Brian Gladman
+;  Windows Conversion Copyright 2011 Brian Gladman
 ;
 ;  This file is part of the MPIR Library.
 ;
@@ -31,37 +30,52 @@
 
 %define reg_save_list rsi, rdi, r13
 
-    FRAME_PROC mpn_mod_1_1, 0, reg_save_list
-    mov     rsi, rdx
-    mov     rdx, r8
-    
-	mov     r13, [rsi+rdx*8-8]
-	mov     rax, [rsi+rdx*8-16]
-	mov     r8, [r9]
-	mov     r9, [r9+8]
-	mov     rdi, rdx
-	sub     rdi, 2
-	
-	xalign  16
-.1:	mov     r10, [rsi+rdi*8-8]
-	mul     r8
-	add     r10, rax
-	mov     r11, 0
-	adc     r11, rdx
-	mov     rax, r13
-	mul     r9
-	add     rax, r10
-	mov     r13, r11
-	adc     r13, rdx
-	dec     rdi
-	jnz     .1
+        FRAME_PROC mpn_mod_1_1, 0, reg_save_list
+        mov     rdi, rcx
+        mov     rsi, rdx
+        mov     rdx, r8
 
-	mov     [rcx], rax
-	mov     rax, r8
-	mul     r13
-	add     [rcx], rax
-	adc     rdx, 0
-	mov     [rcx+8], rdx
-	END_PROC reg_save_list
+        mov     r13, [rsi+rdx*8-8]
+        mov     rax, [rsi+rdx*8-16]
+        mov     r8, [r9]
+        mov     r9, [r9+8]
+        mov     rcx, rdx
+        xor     r11, r11
+        mov     r10, [rsi+rcx*8-24]
+        lea     r8, [r8]
+        sub     rcx, 3
+        lea     r9, [r9]
+        jz      .2
+
+        align   16
+.1:     mul     r8
+        add     r10, rax
+        adc     r11, rdx
+        lea     rax, [r13]
+        lea     r13, [r11]
+        mul     r9
+        add     rax, r10
+        adc     r13, rdx
+        xor     r11, r11
+        mov     r10, [rsi+rcx*8-8]
+        lea     r8, [r8]
+        dec     rcx
+        lea     r9, [r9]
+        jnz     .1
+.2:     mul     r8
+        add     r10, rax
+        adc     r11, rdx
+        lea     rax, [r13]
+        lea     r13, [r11]
+        mul     r9
+        add     rax, r10
+        adc     r13, rdx
+        mov     [rdi], rax
+        mov     rax, r8
+        mul     r13
+        add     [rdi], rax
+        adc     rdx, 0
+        mov     [rdi+8], rdx
+    	END_PROC reg_save_list
 	
-	end
+	    end

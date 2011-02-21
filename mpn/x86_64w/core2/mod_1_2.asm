@@ -1,7 +1,6 @@
-
-;  Copyright 2009 Jason Moxham
+;  Copyright 2011 The Code Cavern
 ;
-;  Windows Conversion Copyright 2008 Brian Gladman
+;  Windows Conversion Copyright 2011 Brian Gladman
 ;
 ;  This file is part of the MPIR Library.
 ;
@@ -26,79 +25,82 @@
 
 %include 'yasm_mac.inc'
 
-    CPU  Athlon64
+    CPU  Core2
     BITS 64
 
 %define reg_save_list rsi, rdi, r12, r13, r14
 
-    FRAME_PROC mpn_mod_1_2, 0, reg_save_list
-    mov     rsi, rdx
-    mov     rdx, r8
+        FRAME_PROC mpn_mod_1_2, 0, reg_save_list
+        mov     rdi, rcx
+        mov     rsi, rdx
+        mov     rdx, r8
 
-	mov     r14, [rsi+rdx*8-8]
-	mov     r13, [rsi+rdx*8-16]
-	mov     r11, [rsi+rdx*8-32]
-	mov     r8, [r9]
-	mov     r10, [r9+16]
-	mov     r9, [r9+8]
-	mov     rdi, rdx
-	mov     rax, [rsi+rdx*8-24]
-	sub     rdi, 6
-	jc      .2
+        mov     r14, [rsi+rdx*8-8]
+        mov     r13, [rsi+rdx*8-16]
+        mov     r8, [r9]
+        mov     r9, [r9+8]
+        mov     r10, [r9+16]
+        mov     rcx, rdx
+        sub     rcx, 6
+        jc      .2
+
+        align   16
+.1:     
+        mov     r11, [rsi+rcx*8+16]
+        mov     rax, [rsi+rcx*8+16+8]
+        mul     r8
+        add     r11, rax
+        mov     r12d, 0
+        adc     r12, rdx
+        lea     rax, [r9]
+        mul     r13
+        add     r11, rax
+        lea     r8, [r8]
+        adc     r12, rdx
+        mov     rax, r10
+        lea     r13, [r11]
+        mul     r14
+        add     r13, rax
+        lea     r14, [r12]
+        adc     r14, rdx
+        sub     rcx, 2
+        jnc     .1
+.2:     mov     r11, [rsi+rcx*8+16]
+        mov     rax, [rsi+rcx*8+16+8]
+        mul     r8
+        mov     r12d, 0
+        add     r11, rax
+        adc     r12, rdx
+        mov     rax, r9
+        mul     r13
+        add     r11, rax
+        adc     r12, rdx
+        mov     r13, r11
+        mov     rax, r10
+        mul     r14
+        add     r13, rax
+        mov     r14, r12
+        adc     r14, rdx
+        cmp     rcx, -2
+        je      .4
+.3:     mov     r11, [rsi+rcx*8+8]
+        mov     r12d, 0
+        mov     rax, r8
+        mul     r13
+        add     r11, rax
+        adc     r12, rdx
+        mov     r13, r11
+        mov     rax, r9
+        mul     r14
+        add     r13, rax
+        mov     r14, r12
+        adc     r14, rdx
+.4:     mov     rax, r8
+        mul     r14
+        add     r13, rax
+        adc     rdx, 0
+        mov     [rdi], r13
+        mov     [rdi+8], rdx
+    	END_PROC reg_save_list
 	
-	xalign  16
-.1:	mul     r8
-	mov     r12, 0
-	add     r11, rax
-	adc     r12, rdx
-	mov     rax, r9
-	mul     r13
-	add     r11, rax
-	adc     r12, rdx
-	mov     r13, r11
-	mov     rax, r10
-	mul     r14
-	add     r13, rax
-	mov     r11, [rsi+rdi*8+0]
-	mov     r14, r12
-	adc     r14, rdx
-	mov     rax, [rsi+rdi*8+8]
-	sub     rdi, 2
-	jnc     .1
-.2:	mul     r8
-	mov     r12, 0
-	add     r11, rax
-	adc     r12, rdx
-	mov     rax, r9
-	mul     r13
-	add     r11, rax
-	adc     r12, rdx
-	mov     r13, r11
-	mov     rax, r10
-	mul     r14
-	add     r13, rax
-	mov     r14, r12
-	adc     r14, rdx
-	cmp     rdi, -2
-	je      .4
-.3:	mov     r11, [rsi+rdi*8+8]
-	mov     r12, 0
-	mov     rax, r8
-	mul     r13
-	add     r11, rax
-	adc     r12, rdx
-	mov     r13, r11
-	mov     rax, r9
-	mul     r14
-	add     r13, rax
-	mov     r14, r12
-	adc     r14, rdx
-.4:	mov     rax, r8
-	mul     r14
-	add     r13, rax
-	adc     rdx, 0
-	mov     [rcx], r13
-	mov     [rcx+8], rdx
-	END_PROC reg_save_list
-	
-	end
+	    end

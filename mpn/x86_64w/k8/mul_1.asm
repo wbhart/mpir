@@ -1,9 +1,7 @@
 
-; Version 1.0.3.
+;  Copyright 2011 The Code Cavern  
 ;
-;  Copyright 2008 Jason Moxham
-;
-;  Windows Conversion Copyright 2008 Brian Gladman
+;  Windows Conversion Copyright 2011 Brian Gladman
 ;
 ;  This file is part of the MPIR Library.
 ;  The MPIR Library is free software; you can redistribute it and/or modify
@@ -29,77 +27,122 @@
     CPU  Athlon64
     BITS 64
 
-    LEAF_PROC mpn_mul_1c
-    mov     r11, [rsp+40]
-    jmp     start
+%define reg_save_list rsi, rdi, r12
 
-    LEAF_PROC mpn_mul_1
-    xor     r11, r11
-    jmp     start
+        LEAF_PROC mpn_mul_1
+        mov     rax, [rdx]
+        cmp     r8, 1
+        jne     .1
+        mul     r9
+        mov     [rcx], rax
+        mov     rax, rdx
+        ret
 
-    align   16
-start:
-    FRAME_PROC ?mpn_k8_mul, 0, rbx
-    mov     rax, r8
-    mov     r8d, 3
-    lea     r10, [rdx+rax*8-24]
-    sub     r8, rax
-    lea     rcx, [rcx+rax*8-24]
-    jc      .1
-    jmp     .2
+.1:     FRAME_PROC ?mpn_k8_mul, 0, reg_save_list
+        mov     r11, 5
+        lea     rsi, [rdx+r8*8-40]
+        lea     rdi, [rcx+r8*8-40]
+        mov     rcx, r9
+        sub     r11, r8
+        mul     rcx
+        db      0x26
+        mov     r8, rax
+        db      0x26
+        mov     rax, [rsi+r11*8+8]
+        db      0x26
+        mov     r9, rdx
+        db      0x26
+        cmp     r11, 0
+        db      0x26
+        mov     [rsp-8], r12
+        db      0x26
+        jge     .2
+.1:     xor     r10, r10
+        mul     rcx
+        mov     [rdi+r11*8], r8
+        add     r9, rax
+        adc     r10, rdx
+        mov     rax, [rsi+r11*8+16]
+        mul     rcx
+        mov     [rdi+r11*8+8], r9
+        add     r10, rax
+        mov     r12d, 0
+        adc     r12, rdx
+        mov     rax, [rsi+r11*8+24]
+        xor     r8, r8
+        xor     r9, r9
+        mul     rcx
+        mov     [rdi+r11*8+16], r10
+        add     r12, rax
+        adc     r8, rdx
+        mov     rax, [rsi+r11*8+32]
+        mul     rcx
+        mov     [rdi+r11*8+24], r12
+        add     r8, rax
+        adc     r9, rdx
+        add     r11, 4
+        mov     rax, [rsi+r11*8+8]
+        jnc     .1
+.2:     xor     r10, r10
+        mul     rcx
+        mov     [rdi+r11*8], r8
+        add     r9, rax
+        adc     r10, rdx
+        cmp     r11, 2
+        ja      .5
+        jz      .4
+        jp      .3
+        mov     rax, [rsi+16]
+        mul     rcx
+        mov     [rdi+8], r9
+        add     r10, rax
+        mov     r12d, 0
+        adc     r12, rdx
+        mov     rax, [rsi+24]
+        xor     r8, r8
+        xor     r9, r9
+        mul     rcx
+        mov     [rdi+16], r10
+        add     r12, rax
+        adc     r8, rdx
+        mov     rax, [rsi+32]
+        mul     rcx
+        mov     [rdi+24], r12
+        add     r8, rax
+        adc     r9, rdx
+        mov     [rdi+32], r8
+        mov     rax, r9
+        EXIT_PROC   reg_save_list
 
-    xalign  16
-.1: mov     rax, [r10+r8*8]
-    mov     ebx, 0
-    mul     r9
-    add     r11, rax
-    mov     [rcx+r8*8], r11
-    mov     rax, [r10+r8*8+8]
-    adc     rbx, rdx
-    mul     r9
-    mov     r11d, 0
-    add     rbx, rax
-    mov     rax, [r10+r8*8+16]
-    adc     r11, rdx
-    mul     r9
-    mov     [rcx+r8*8+8], rbx
-    add     r11, rax
-    mov     ebx, 0
-    mov     [rcx+r8*8+16], r11
-    mov     rax, [r10+r8*8+24]
-    mov     r11d, 0
-    adc     rbx, rdx
-    mul     r9
-    add     rbx, rax
-    mov     [rcx+r8*8+24], rbx
-    adc     r11, rdx
-    add     r8, 4
-    jnc     .1
-.2: test    r8, 2
-    jnz     .3
-    mov     rax, [r10+r8*8]
-    mov     ebx, 0
-    mul     r9
-    add     r11, rax
-    mov     [rcx+r8*8], r11
-    mov     rax, [r10+r8*8+8]
-    adc     rbx, rdx
-    mul     r9
-    mov     r11d, 0
-    add     rbx, rax
-    adc     r11, rdx
-    add     r8, 2
-    mov     [rcx+r8*8-8], rbx
-.3: test    r8, 1
-    mov     rax, r11
-    jnz     .4
-    mov     rax, [r10+r8*8]
-    mov     ebx, 0
-    mul     r9
-    add     r11, rax
-    mov     [rcx+r8*8], r11
-    adc     rbx, rdx
-    mov     rax, rbx
-.4: END_PROC rbx
+.3:     mov     rax, [rsi+24]
+        mul     rcx
+        mov     [rdi+16], r9
+        add     r10, rax
+        mov     r12d, 0
+        adc     r12, rdx
+        mov     rax, [rsi+32]
+        xor     r8, r8
+        mul     rcx
+        mov     [rdi+24], r10
+        add     r12, rax
+        adc     r8, rdx
+        mov     [rdi+32], r12
+        mov     rax, r8
+        EXIT_PROC   reg_save_list
 
-    end
+        align   16
+.4:     mov     rax, [rsi+32]
+        mul     rcx
+        mov     [rdi+24], r9
+        add     r10, rax
+        mov     r12d, 0
+        adc     r12, rdx
+        mov     [rdi+32], r10
+        mov     rax, r12
+        EXIT_PROC   reg_save_list
+
+.5:     mov     [rdi+32], r9
+        mov     rax, r10
+        END_PROC   reg_save_list
+
+        end

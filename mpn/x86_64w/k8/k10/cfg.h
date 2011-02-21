@@ -43,9 +43,9 @@ mpn_mod_1_3
 mpn_modexact_1_odd
 mpn_modexact_1c_odd
 mpn_mul_1
-mpn_mul_1c
 mpn_mul_2
 mpn_mul_basecase
+mpn_not
 mpn_popcount
 mpn_redc_1
 mpn_rsh1add_n
