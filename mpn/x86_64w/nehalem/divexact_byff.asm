@@ -1,6 +1,6 @@
 ;  Copyright 2009 Jason Moxham
 ;
-;  Windows Conversion Copyright 2008 Brian Gladman
+;  Windows Conver11on Copyright 2009 Brian Gladman
 ;
 ;  This file is part of the MPIR Library.
 ;
@@ -23,59 +23,66 @@
 
 %include "yasm_mac.inc"
 
-    CPU  Core2
-    BITS 64
+        CPU  nehalem
+        BITS 64
 
-    LEAF_PROC mpn_divexact_byff
-	xor     eax, eax
-	mov     r9, r8
-	and     r9, 3
-	shr     r8, 2
-	cmp     r8, 0
-;	carry flag is clear here
-	jnz     .2
-	sbb     rax, [rdx]
-	mov     [rcx], rax
-	dec     r9
-	jz      .1
-	sbb     rax, [rdx+8]
-	mov     [rcx+8], rax
-	dec     r9
-	jz      .1
-	sbb     rax, [rdx+16]
-	mov     [rcx+16], rax
-	dec     r9
-.1:	sbb     rax, 0
-	ret
-	
-	xalign  16
-.2:	sbb     rax, [rdx]
-	mov     [rcx], rax
-	sbb     rax, [rdx+8]
-	mov     [rcx+8], rax
-	sbb     rax, [rdx+16]
-	mov     [rcx+16], rax
-	sbb     rax, [rdx+24]
-	mov     [rcx+24], rax
-	lea     rdx, [rdx+32]
-	dec     r8
-	lea     rcx, [rcx+32]
-	jnz     .2
-	inc     r9
-	dec     r9
-	jz      .3
-	sbb     rax, [rdx]
-	mov     [rcx], rax
-	dec     r9
-	jz      .3
-	sbb     rax, [rdx+8]
-	mov     [rcx+8], rax
-	dec     r9
-	jz      .3
-	sbb     rax, [rdx+16]
-	mov     [rcx+16], rax
-	dec     r9
-.3:	sbb     rax, 0
-	ret
+        LEAF_PROC mpn_divexact_byff
+        mov     r11, rdx
+        mov     r10d, 3
+        lea     r11, [r11+r8*8-24]
+        lea     rcx, [rcx+r8*8-24]
+        sub     r10, r8
+        mov     r8, 0
+        mov	    r9, 1
+        jnc     .2
+        
+        align   16
+.1:     mov     rax, [r11+r10*8]
+	    mul     r9
+	    sub     r8, rax
+	    mov     [rcx+r10*8], r8
+	    sbb     r8, rdx
+	    mov     rax, [r11+r10*8+8]
+	    mul     r9
+	    sub     r8, rax
+	    mov     [rcx+r10*8+8], r8
+	    sbb     r8, rdx
+	    mov     rax, [r11+r10*8+16]
+	    mul     r9
+	    sub     r8, rax
+	    mov     [rcx+r10*8+16], r8
+	    sbb     r8, rdx
+	    mov     rax, [r11+r10*8+24]
+	    mul     r9
+	    sub     r8, rax
+	    mov     [rcx+r10*8+24], r8
+	    sbb     r8, rdx
+	    add     r10, 4
+	    jnc     .1
+.2:     test    r10, 2
+        jnz     .3
+	    mov     rax, [r11+r10*8]
+	    mul     r9
+	    sub     r8, rax
+	    mov     [rcx+r10*8], r8
+	    sbb     r8, rdx
+	    mov     rax, [r11+r10*8+8]
+	    mul     r9
+	    sub     r8, rax
+	    mov     [rcx+r10*8+8], r8
+	    sbb     r8, rdx
+	    add     r10, 2
+.3:     test    r10, 1
+        jnz     .4
+	    mov     rax, [r11+r10*8]
+	    mul     r9
+	    sub     r8, rax
+	    mov     [rcx+r10*8], r8
+	    sbb     r8, rdx
+.4:     mov	    rcx,0xFFFFFFFFFFFFFFFF
+        imul    r8, rcx
+        mov     rax, r8
+        neg     rax
+        ret
 
-	end
+        end

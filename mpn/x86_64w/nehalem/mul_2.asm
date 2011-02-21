@@ -26,120 +26,121 @@
 
 %define reg_save_list rsi, rdi, rbx
 
-    BITS 64
+        CPU  nehalem
+        BITS 64
 
-	FRAME_PROC mpn_mul_2, 0, reg_save_list
-    mov     rax, r8
-	lea     rdi, [rcx+rax*8-24]
-	lea     rsi, [rdx+rax*8-24]
-	mov     r8, [r9+8]
-	mov     rcx, [r9]
-	mov     rbx, 3
+    	FRAME_PROC mpn_mul_2, 0, reg_save_list
+        mov     rbx, 3
+        lea     rdi, [rcx+r8*8-24]
+        lea     rsi, [rdx+r8*8-24]
+        sub     rbx, r8
+        mov     r8, [r9+8]
+        mov     rcx, [r9]
 
-	sub     rbx, rax
-	mov     r11, 0
-	mov     r9, 0
-	mov     rax, [rsi+rbx*8]
-	mov     r10, 0
-	mul     rcx
-	add     r11, rax
-	mov     rax, [rsi+rbx*8]
-	mov     [rdi+rbx*8], r11
-	adc     r9, rdx
-	cmp     rbx, 0
-	jge     .1
+        mov     r11, 0
+        mov     r9, 0
+        mov     rax, [rsi+rbx*8]
+        mov     r10, 0
+        mul     rcx
+        add     r11, rax
+        mov     rax, [rsi+rbx*8]
+        mov     [rdi+rbx*8], r11
+        adc     r9, rdx
+        cmp     rbx, 0
+        jge     .2
 
-	xalign  16
-.0:	mul     r8
-	add     r9, rax
-	adc     r10, rdx
-	mov     rax, [rsi+rbx*8+8]
-	mov     r11, 0
-	mul     rcx
-	add     r9, rax
-	adc     r10, rdx
-	adc     r11, 0
-	mov     rax, [rsi+rbx*8+8]
-	mul     r8
-	add     r10, rax
-	mov     rax, [rsi+rbx*8+16]
-	adc     r11, rdx
-	mul     rcx
-	add     r10, rax
-	mov     [rdi+rbx*8+8], r9
-	adc     r11, rdx
-	mov     r9, 0
-	mov     rax, [rsi+rbx*8+16]
-	adc     r9, 0
-	mul     r8
-	add     r11, rax
-	mov     [rdi+rbx*8+16], r10
-	mov     rax, [rsi+rbx*8+24]
-	mov     r10, 0
-	adc     r9, rdx
-	mul     rcx
-	add     r11, rax
-	mov     rax, [rsi+rbx*8+24]
-	mov     [rdi+rbx*8+24], r11
-	adc     r9, rdx
-	adc     r10, 0
-	add     rbx, 3
-	jnc     .0
-.1: cmp     rbx, 1
-	ja      .4
-	je      .3
-.2:	mul     r8
-	add     r9, rax
-	adc     r10, rdx
-	mov     rax, [rsi+rbx*8+8]
-	mov     r11, 0
-	mul     rcx
-	add     r9, rax
-	adc     r10, rdx
-	adc     r11, 0
-	mov     rax, [rsi+rbx*8+8]
-	mul     r8
-	add     r10, rax
-	mov     rax, [rsi+rbx*8+16]
-	adc     r11, rdx
-	mul     rcx
-	add     r10, rax
-	mov     [rdi+rbx*8+8], r9
-	adc     r11, rdx
-	mov     r9, 0
-	mov     rax, [rsi+rbx*8+16]
-	adc     r9, 0
-	mul     r8
-	add     r11, rax
-	mov     [rdi+rbx*8+16], r10
-	adc     r9, rdx
-	mov     [rdi+rbx*8+24], r11
-	mov     rax, r9
-    EXIT_PROC reg_save_list
+        align   16
+.1:     mul     r8
+        add     r9, rax
+        adc     r10, rdx
+        mov     rax, [rsi+rbx*8+8]
+        mov     r11, 0
+        mul     rcx
+        add     r9, rax
+        adc     r10, rdx
+        adc     r11, 0
+        mov     rax, [rsi+rbx*8+8]
+        mul     r8
+        add     r10, rax
+        mov     rax, [rsi+rbx*8+16]
+        adc     r11, rdx
+        mul     rcx
+        add     r10, rax
+        mov     [rdi+rbx*8+8], r9
+        adc     r11, rdx
+        mov     r9, 0
+        mov     rax, [rsi+rbx*8+16]
+        adc     r9, 0
+        mul     r8
+        add     r11, rax
+        mov     [rdi+rbx*8+16], r10
+        mov     rax, [rsi+rbx*8+24]
+        mov     r10, 0
+        adc     r9, rdx
+        mul     rcx
+        add     r11, rax
+        mov     rax, [rsi+rbx*8+24]
+        mov     [rdi+rbx*8+24], r11
+        adc     r9, rdx
+        adc     r10, 0
+        add     rbx, 3
+        jnc     .1
+.2:     cmp     rbx, 1
+        ja      .5
+        je      .4
+.3:     mul     r8
+        add     r9, rax
+        adc     r10, rdx
+        mov     rax, [rsi+rbx*8+8]
+        mov     r11, 0
+        mul     rcx
+        add     r9, rax
+        adc     r10, rdx
+        adc     r11, 0
+        mov     rax, [rsi+rbx*8+8]
+        mul     r8
+        add     r10, rax
+        mov     rax, [rsi+rbx*8+16]
+        adc     r11, rdx
+        mul     rcx
+        add     r10, rax
+        mov     [rdi+rbx*8+8], r9
+        adc     r11, rdx
+        mov     r9, 0
+        mov     rax, [rsi+rbx*8+16]
+        adc     r9, 0
+        mul     r8
+        add     r11, rax
+        mov     [rdi+rbx*8+16], r10
+        adc     r9, rdx
+        mov     [rdi+rbx*8+24], r11
+        mov     rax, r9
+        EXIT_PROC reg_save_list
 
-.3:	mul     r8
-	add     r9, rax
-	adc     r10, rdx
-	mov     rax, [rsi+rbx*8+8]
-	mov     r11, 0
-	mul     rcx
-	add     r9, rax
-	adc     r10, rdx
-	adc     r11, 0
-	mov     rax, [rsi+rbx*8+8]
-	mul     r8
-	add     r10, rax
-	adc     r11, rdx
-	mov     [rdi+rbx*8+8], r9
-	mov     [rdi+rbx*8+16], r10
-	mov     rax, r11
-    EXIT_PROC reg_save_list
+.4:     mul     r8
+        add     r9, rax
+        adc     r10, rdx
+        mov     rax, [rsi+rbx*8+8]
+        mov     r11, 0
+        mul     rcx
+        add     r9, rax
+        adc     r10, rdx
+        adc     r11, 0
+        mov     rax, [rsi+rbx*8+8]
+        mul     r8
+        add     r10, rax
+        adc     r11, rdx
+        mov     [rdi+rbx*8+8], r9
+        mov     [rdi+rbx*8+16], r10
+        mov     rax, r11
+        EXIT_PROC reg_save_list
 
-.4:	mul     r8
-	add     r9, rax
-	adc     r10, rdx
-	mov     [rdi+rbx*8+8], r9
-	mov     rax, r10
-    END_PROC reg_save_list
-
-    end
+.5:     mul     r8
+        add     r9, rax
+        adc     r10, rdx
+        mov     [rdi+rbx*8+8], r9
+        mov     rax, r10
+        END_PROC reg_save_list
+        
+        end    
+        
