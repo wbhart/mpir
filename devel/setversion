@@ -4,7 +4,7 @@
 
 # set version number
 VERSION=2
-VERSION_MINOR=2
+VERSION_MINOR=3
 VERSION_PATCHLEVEL=0
 
 # these are the library soname numbers see
@@ -12,12 +12,12 @@ VERSION_PATCHLEVEL=0
 # or the start of Makefile.am to see what was done before
 
 LIBGMP_LT_CURRENT=10
-LIBGMP_LT_REVISION=5
-LIBGMP_LT_AGE=2
+LIBGMP_LT_REVISION=7
+LIBGMP_LT_AGE=3
 
 LIBGMPXX_LT_CURRENT=4
-LIBGMPXX_LT_REVISION=13
-LIBGMPXX_LT_AGE=2
+LIBGMPXX_LT_REVISION=15
+LIBGMPXX_LT_AGE=3
 
 # We dont have libmp so we set this to 0.0.0
 LIBMP_LT_CURRENT=0
