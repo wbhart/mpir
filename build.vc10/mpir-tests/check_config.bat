@@ -1,4 +1,4 @@
-rem test_config.bat contains:
+rem output_params.bat contains:
 rem    (set libr=<lib|dll>) 
 rem    (set plat=<win32|x64>) 
 rem    (set conf=<debug|release>) 
@@ -12,7 +12,7 @@ call :clrerr
 call ..\..\output_params.bat
 set out_dir=%libr%\%plat%\%conf%
 
-if /i "%plat%" EQU "" (call :seterr & echo ERROR: 'mpir-tests\test_params.bat' not found & exit /b %errorlevel%)
+if /i "%plat%" EQU "" (call :seterr & echo ERROR: 'output_params.bat' not found & exit /b %errorlevel%)
 fc ..\%libr%-%conf%-config.props ..\test-config.props > nul && ((set library=%libr%) & goto cont)
 call :seterr & echo ERROR: cannot determine library type (static or DLL) to test & exit /b %errorlevel%
 
