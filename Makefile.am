@@ -55,20 +55,21 @@
 #
 #	  MPIR	   -version-info
 #       release   libgmp  libgmpxx libmp
-#        0.9.0    7:1:4    4:1:1   4:10:1   WRONG, same as GMP 4.2.1
-#        1.0.0    7:2:4    4:2:1   4:11:1
-#        1.1.0    7:3:4    4:3:1   4:12:1
-#        1.2.0    7:4:4    4:4:1   4:13:1
-#	 1.3.0	  8:0:0    4:5:1   4:14:1 
-#        1.3.1    8:1:0    4:6:1   0:0:0
-#        2.0.0    9:2:0    4:7:1   0:0:0
-#	 2.1.0   10;0:1    4:8:1   0:0:0
-# 	 2.1.1	 10:1:2	   4:9:2   0:0:0
-#	 2.1.2   10.2.2	   4.10.2  0.0.0
-#	 2.1.3	 10.3.2	   4.11.2  0.0.0
-#	 2.1.4   10.4.2	   4.12.2  0.0.0
-#	 2.2.0   10.5.2	   4.13.2  0.0.0
-#	 2.2.1   10.6.3    4.14.3
+#	0.9.0	7:1:4	4:1:1	4:10:1   WRONG, same as GMP 4.2.1
+#	1.0.0	7:2:4	4:2:1	4:11:1
+#	1.1.0	7:3:4	4:3:1	4:12:1
+#	1.2.0	7:4:4	4:4:1	4:13:1
+#	1.3.0	8:0:0	4:5:1	4:14:1 
+#	1.3.1	8:1:0	4:6:1	0:0:0
+#	2.0.0	9:2:0	4:7:1
+#	2.1.0	10;0:1	4:8:1
+#	2.1.1	10:1:2	4:9:2
+#	2.1.2	10.2.2	4.10.2
+#	2.1.3	10.3.2	4.11.2
+#	2.1.4	10.4.2	4.12.2
+#	2.2.0	10.5.2	4.13.2
+#	2.2.1	10.6.3	4.14.3
+#	2.3.0	10.7.3	4.15.3
 
 # Starting at 3:0:0 is a slight abuse of the versioning system, but it
 # ensures we're past soname libgmp.so.2, which was used on Debian GNU/Linux
@@ -134,9 +135,9 @@ DISTCLEANFILES = $(BUILT_SOURCES) config.m4 fat.h @gmp_srclinks@
 # Tell mpir.h it's building gmp, not an application, used by windows DLL stuff.
 INCLUDES=-D__GMP_WITHIN_GMP
 
-MPF_OBJECTS = mpf/abs$U.lo mpf/add$U.lo mpf/add_ui$U.lo mpf/ceilfloor$U.lo mpf/clear$U.lo mpf/clears$U.lo mpf/cmp$U.lo mpf/cmp_d$U.lo mpf/cmp_si$U.lo mpf/cmp_ui$U.lo mpf/div_2exp$U.lo mpf/div$U.lo mpf/div_ui$U.lo mpf/dump$U.lo mpf/eq$U.lo mpf/fits_sint$U.lo mpf/fits_slong$U.lo mpf/fits_sshort$U.lo mpf/fits_uint$U.lo mpf/fits_ulong$U.lo mpf/fits_ushort$U.lo mpf/get_d_2exp$U.lo mpf/get_d$U.lo mpf/get_dfl_prec$U.lo mpf/get_prc$U.lo mpf/get_si$U.lo mpf/get_str$U.lo mpf/get_ui$U.lo mpf/init2$U.lo mpf/init$U.lo mpf/inits$U.lo mpf/inp_str$U.lo mpf/int_p$U.lo mpf/iset$U.lo mpf/iset_d$U.lo mpf/iset_si$U.lo mpf/iset_str$U.lo mpf/iset_ui$U.lo mpf/mul_2exp$U.lo mpf/mul$U.lo mpf/mul_ui$U.lo mpf/neg$U.lo mpf/out_str$U.lo mpf/pow_ui$U.lo mpf/random2$U.lo mpf/reldiff$U.lo mpf/rrandomb$U.lo mpf/set$U.lo mpf/set_d$U.lo mpf/set_dfl_prec$U.lo mpf/set_prc$U.lo mpf/set_prc_raw$U.lo mpf/set_q$U.lo mpf/set_si$U.lo mpf/set_str$U.lo mpf/set_ui$U.lo mpf/set_z$U.lo mpf/size$U.lo mpf/sqrt$U.lo mpf/sqrt_ui$U.lo mpf/sub$U.lo mpf/sub_ui$U.lo mpf/swap$U.lo mpf/trunc$U.lo mpf/ui_div$U.lo mpf/ui_sub$U.lo mpf/urandomb$U.lo 
+MPF_OBJECTS = mpf/abs$U.lo mpf/add$U.lo mpf/add_ui$U.lo mpf/ceilfloor$U.lo mpf/clear$U.lo mpf/clears$U.lo mpf/cmp$U.lo mpf/cmp_d$U.lo mpf/cmp_si$U.lo mpf/cmp_ui$U.lo mpf/div$U.lo mpf/div_2exp$U.lo mpf/div_ui$U.lo mpf/dump$U.lo mpf/eq$U.lo mpf/fits_sint$U.lo mpf/fits_slong$U.lo mpf/fits_sshort$U.lo mpf/fits_uint$U.lo mpf/fits_ulong$U.lo mpf/fits_ushort$U.lo mpf/get_d$U.lo mpf/get_d_2exp$U.lo mpf/get_dfl_prec$U.lo mpf/get_prc$U.lo mpf/get_si$U.lo mpf/get_str$U.lo mpf/get_ui$U.lo mpf/init$U.lo mpf/init2$U.lo mpf/inits$U.lo mpf/inp_str$U.lo mpf/int_p$U.lo mpf/iset$U.lo mpf/iset_d$U.lo mpf/iset_si$U.lo mpf/iset_str$U.lo mpf/iset_ui$U.lo mpf/mul$U.lo mpf/mul_2exp$U.lo mpf/mul_ui$U.lo mpf/neg$U.lo mpf/out_str$U.lo mpf/pow_ui$U.lo mpf/random2$U.lo mpf/reldiff$U.lo mpf/rrandomb$U.lo mpf/set$U.lo mpf/set_d$U.lo mpf/set_dfl_prec$U.lo mpf/set_prc$U.lo mpf/set_prc_raw$U.lo mpf/set_q$U.lo mpf/set_si$U.lo mpf/set_str$U.lo mpf/set_ui$U.lo mpf/set_z$U.lo mpf/size$U.lo mpf/sqrt$U.lo mpf/sqrt_ui$U.lo mpf/sub$U.lo mpf/sub_ui$U.lo mpf/swap$U.lo mpf/trunc$U.lo mpf/ui_div$U.lo mpf/ui_sub$U.lo mpf/urandomb$U.lo 
 
-MPZ_OBJECTS = mpz/abs$U.lo mpz/add$U.lo mpz/add_ui$U.lo mpz/and$U.lo mpz/aorsmul$U.lo mpz/aorsmul_i$U.lo mpz/array_init$U.lo mpz/bin_ui$U.lo mpz/bin_uiui$U.lo mpz/cdiv_q$U.lo mpz/cdiv_qr$U.lo mpz/cdiv_qr_ui$U.lo mpz/cdiv_q_ui$U.lo mpz/cdiv_r$U.lo mpz/cdiv_r_ui$U.lo mpz/cdiv_ui$U.lo mpz/cfdiv_q_2exp$U.lo mpz/cfdiv_r_2exp$U.lo mpz/clear$U.lo mpz/clears$U.lo mpz/clrbit$U.lo mpz/cmpabs$U.lo mpz/cmpabs_d$U.lo mpz/cmpabs_ui$U.lo mpz/cmp$U.lo mpz/cmp_d$U.lo mpz/cmp_si$U.lo mpz/cmp_ui$U.lo mpz/combit$U.lo mpz/com$U.lo mpz/cong_2exp$U.lo mpz/cong$U.lo mpz/cong_ui$U.lo mpz/divegcd$U.lo mpz/dive_ui$U.lo mpz/divexact$U.lo mpz/divis_2exp$U.lo mpz/divis$U.lo mpz/divis_ui$U.lo mpz/dump$U.lo mpz/export$U.lo mpz/fac_ui$U.lo mpz/fdiv_q$U.lo mpz/fdiv_qr$U.lo mpz/fdiv_qr_ui$U.lo mpz/fdiv_q_ui$U.lo mpz/fdiv_r$U.lo mpz/fdiv_r_ui$U.lo mpz/fdiv_ui$U.lo mpz/fib2_ui$U.lo mpz/fib_ui$U.lo mpz/fits_sint$U.lo mpz/fits_slong$U.lo mpz/fits_sshort$U.lo mpz/fits_uint$U.lo mpz/fits_ulong$U.lo mpz/fits_ushort$U.lo mpz/gcd$U.lo mpz/gcdext$U.lo mpz/gcd_ui$U.lo mpz/get_d_2exp$U.lo mpz/get_d$U.lo mpz/getlimbn$U.lo mpz/get_si$U.lo mpz/get_str$U.lo mpz/get_ui$U.lo mpz/hamdist$U.lo mpz/import$U.lo mpz/init2$U.lo mpz/init$U.lo mpz/inits$U.lo mpz/inp_raw$U.lo mpz/inp_str$U.lo mpz/invert$U.lo mpz/ior$U.lo mpz/iset$U.lo mpz/iset_d$U.lo mpz/iset_si$U.lo mpz/iset_str$U.lo mpz/iset_ui$U.lo mpz/jacobi$U.lo mpz/kronsz$U.lo mpz/kronuz$U.lo mpz/kronzs$U.lo mpz/kronzu$U.lo mpz/lcm$U.lo mpz/lcm_ui$U.lo mpz/likely_prime_p$U.lo mpz/lucnum2_ui$U.lo mpz/lucnum_ui$U.lo mpz/millerrabin$U.lo mpz/mod$U.lo mpz/mul_2exp$U.lo mpz/mul$U.lo mpz/mul_si$U.lo mpz/mul_ui$U.lo mpz/neg$U.lo mpz/next_likely_prime$U.lo mpz/nextprime$U.lo mpz/n_pow_ui$U.lo mpz/nthroot$U.lo mpz/out_raw$U.lo mpz/out_str$U.lo mpz/perfpow$U.lo mpz/perfsqr$U.lo mpz/popcount$U.lo mpz/powm$U.lo mpz/powm_ui$U.lo mpz/pow_ui$U.lo mpz/pprime_p$U.lo mpz/probable_prime_p$U.lo mpz/realloc2$U.lo mpz/realloc$U.lo mpz/remove$U.lo mpz/root$U.lo mpz/rootrem$U.lo mpz/rrandomb$U.lo mpz/scan0$U.lo mpz/scan1$U.lo mpz/setbit$U.lo mpz/set$U.lo mpz/set_d$U.lo mpz/set_f$U.lo mpz/set_q$U.lo mpz/set_si$U.lo mpz/set_str$U.lo mpz/set_ui$U.lo mpz/size$U.lo mpz/sizeinbase$U.lo mpz/sqrt$U.lo mpz/sqrtrem$U.lo mpz/sub$U.lo mpz/sub_ui$U.lo mpz/swap$U.lo mpz/tdiv_q_2exp$U.lo mpz/tdiv_q$U.lo mpz/tdiv_qr$U.lo mpz/tdiv_qr_ui$U.lo mpz/tdiv_q_ui$U.lo mpz/tdiv_r_2exp$U.lo mpz/tdiv_r$U.lo mpz/tdiv_r_ui$U.lo mpz/tdiv_ui$U.lo mpz/trial_division$U.lo mpz/tstbit$U.lo mpz/ui_pow_ui$U.lo mpz/ui_sub$U.lo mpz/urandomb$U.lo mpz/urandomm$U.lo mpz/xor$U.lo 
+MPZ_OBJECTS = mpz/abs$U.lo mpz/add$U.lo mpz/add_ui$U.lo mpz/and$U.lo mpz/aorsmul$U.lo mpz/aorsmul_i$U.lo mpz/array_init$U.lo mpz/bin_ui$U.lo mpz/bin_uiui$U.lo mpz/cdiv_q$U.lo mpz/cdiv_q_ui$U.lo mpz/cdiv_qr$U.lo mpz/cdiv_qr_ui$U.lo mpz/cdiv_r$U.lo mpz/cdiv_r_ui$U.lo mpz/cdiv_ui$U.lo mpz/cfdiv_q_2exp$U.lo mpz/cfdiv_r_2exp$U.lo mpz/clear$U.lo mpz/clears$U.lo mpz/clrbit$U.lo mpz/cmp$U.lo mpz/cmp_d$U.lo mpz/cmp_si$U.lo mpz/cmp_ui$U.lo mpz/cmpabs$U.lo mpz/cmpabs_d$U.lo mpz/cmpabs_ui$U.lo mpz/com$U.lo mpz/combit$U.lo mpz/cong$U.lo mpz/cong_2exp$U.lo mpz/cong_ui$U.lo mpz/dive_ui$U.lo mpz/divegcd$U.lo mpz/divexact$U.lo mpz/divis$U.lo mpz/divis_2exp$U.lo mpz/divis_ui$U.lo mpz/dump$U.lo mpz/export$U.lo mpz/fac_ui$U.lo mpz/fdiv_q$U.lo mpz/fdiv_q_ui$U.lo mpz/fdiv_qr$U.lo mpz/fdiv_qr_ui$U.lo mpz/fdiv_r$U.lo mpz/fdiv_r_ui$U.lo mpz/fdiv_ui$U.lo mpz/fib2_ui$U.lo mpz/fib_ui$U.lo mpz/fits_sint$U.lo mpz/fits_slong$U.lo mpz/fits_sshort$U.lo mpz/fits_uint$U.lo mpz/fits_ulong$U.lo mpz/fits_ushort$U.lo mpz/gcd$U.lo mpz/gcd_ui$U.lo mpz/gcdext$U.lo mpz/get_d$U.lo mpz/get_d_2exp$U.lo mpz/get_si$U.lo mpz/get_str$U.lo mpz/get_ui$U.lo mpz/getlimbn$U.lo mpz/hamdist$U.lo mpz/import$U.lo mpz/init$U.lo mpz/init2$U.lo mpz/inits$U.lo mpz/inp_raw$U.lo mpz/inp_str$U.lo mpz/invert$U.lo mpz/ior$U.lo mpz/iset$U.lo mpz/iset_d$U.lo mpz/iset_si$U.lo mpz/iset_str$U.lo mpz/iset_ui$U.lo mpz/jacobi$U.lo mpz/kronsz$U.lo mpz/kronuz$U.lo mpz/kronzs$U.lo mpz/kronzu$U.lo mpz/lcm$U.lo mpz/lcm_ui$U.lo mpz/likely_prime_p$U.lo mpz/lucnum2_ui$U.lo mpz/lucnum_ui$U.lo mpz/millerrabin$U.lo mpz/mod$U.lo mpz/mul$U.lo mpz/mul_2exp$U.lo mpz/mul_si$U.lo mpz/mul_ui$U.lo mpz/n_pow_ui$U.lo mpz/neg$U.lo mpz/next_likely_prime$U.lo mpz/nextprime$U.lo mpz/nthroot$U.lo mpz/out_raw$U.lo mpz/out_str$U.lo mpz/perfpow$U.lo mpz/perfsqr$U.lo mpz/popcount$U.lo mpz/pow_ui$U.lo mpz/powm$U.lo mpz/powm_ui$U.lo mpz/pprime_p$U.lo mpz/probable_prime_p$U.lo mpz/realloc$U.lo mpz/realloc2$U.lo mpz/remove$U.lo mpz/root$U.lo mpz/rootrem$U.lo mpz/rrandomb$U.lo mpz/scan0$U.lo mpz/scan1$U.lo mpz/set$U.lo mpz/set_d$U.lo mpz/set_f$U.lo mpz/set_q$U.lo mpz/set_si$U.lo mpz/set_str$U.lo mpz/set_ui$U.lo mpz/setbit$U.lo mpz/size$U.lo mpz/sizeinbase$U.lo mpz/sqrt$U.lo mpz/sqrtrem$U.lo mpz/sub$U.lo mpz/sub_ui$U.lo mpz/swap$U.lo mpz/tdiv_q$U.lo mpz/tdiv_q_2exp$U.lo mpz/tdiv_q_ui$U.lo mpz/tdiv_qr$U.lo mpz/tdiv_qr_ui$U.lo mpz/tdiv_r$U.lo mpz/tdiv_r_2exp$U.lo mpz/tdiv_r_ui$U.lo mpz/tdiv_ui$U.lo mpz/trial_division$U.lo mpz/tstbit$U.lo mpz/ui_pow_ui$U.lo mpz/ui_sub$U.lo mpz/urandomb$U.lo mpz/urandomm$U.lo mpz/xor$U.lo 
 
 MPQ_OBJECTS = mpq/abs$U.lo mpq/aors$U.lo mpq/canonicalize$U.lo mpq/clear$U.lo mpq/clears$U.lo mpq/cmp$U.lo mpq/cmp_si$U.lo mpq/cmp_ui$U.lo mpq/div$U.lo mpq/equal$U.lo mpq/get_d$U.lo mpq/get_den$U.lo mpq/get_num$U.lo mpq/get_str$U.lo mpq/init$U.lo mpq/inits$U.lo mpq/inp_str$U.lo mpq/inv$U.lo mpq/md_2exp$U.lo mpq/mul$U.lo mpq/neg$U.lo mpq/out_str$U.lo mpq/set$U.lo mpq/set_d$U.lo mpq/set_den$U.lo mpq/set_f$U.lo mpq/set_num$U.lo mpq/set_si$U.lo mpq/set_str$U.lo mpq/set_ui$U.lo mpq/set_z$U.lo mpq/swap$U.lo 
 
