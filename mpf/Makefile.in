@@ -68,13 +68,13 @@ CONFIG_CLEAN_VPATH_FILES =
 LTLIBRARIES = $(noinst_LTLIBRARIES)
 libmpf_la_LIBADD =
 am_libmpf_la_OBJECTS = abs.lo add.lo add_ui.lo ceilfloor.lo clear.lo \
-	clears.lo cmp.lo cmp_d.lo cmp_si.lo cmp_ui.lo div.lo \
-	div_2exp.lo div_ui.lo dump.lo eq.lo fits_sint.lo fits_slong.lo \
+	clears.lo cmp.lo cmp_d.lo cmp_si.lo cmp_ui.lo div_2exp.lo \
+	div.lo div_ui.lo dump.lo eq.lo fits_sint.lo fits_slong.lo \
 	fits_sshort.lo fits_uint.lo fits_ulong.lo fits_ushort.lo \
-	get_d.lo get_d_2exp.lo get_dfl_prec.lo get_prc.lo get_si.lo \
-	get_str.lo get_ui.lo init.lo init2.lo inits.lo inp_str.lo \
+	get_d_2exp.lo get_d.lo get_dfl_prec.lo get_prc.lo get_si.lo \
+	get_str.lo get_ui.lo init2.lo init.lo inits.lo inp_str.lo \
 	int_p.lo iset.lo iset_d.lo iset_si.lo iset_str.lo iset_ui.lo \
-	mul.lo mul_2exp.lo mul_ui.lo neg.lo out_str.lo pow_ui.lo \
+	mul_2exp.lo mul.lo mul_ui.lo neg.lo out_str.lo pow_ui.lo \
 	random2.lo reldiff.lo rrandomb.lo set.lo set_d.lo \
 	set_dfl_prec.lo set_prc.lo set_prc_raw.lo set_q.lo set_si.lo \
 	set_str.lo set_ui.lo set_z.lo size.lo sqrt.lo sqrt_ui.lo \
@@ -131,8 +131,6 @@ ECHO_T = @ECHO_T@
 EGREP = @EGREP@
 EXEEXT = @EXEEXT@
 EXEEXT_FOR_BUILD = @EXEEXT_FOR_BUILD@
-F77 = @F77@
-FFLAGS = @FFLAGS@
 FGREP = @FGREP@
 GMP_CC = @GMP_CC@
 GMP_CFLAGS = @GMP_CFLAGS@
@@ -197,7 +195,6 @@ abs_top_srcdir = @abs_top_srcdir@
 ac_ct_CC = @ac_ct_CC@
 ac_ct_CXX = @ac_ct_CXX@
 ac_ct_DUMPBIN = @ac_ct_DUMPBIN@
-ac_ct_F77 = @ac_ct_F77@
 am__leading_dot = @am__leading_dot@
 am__tar = @am__tar@
 am__untar = @am__untar@
@@ -227,7 +224,6 @@ libdir = @libdir@
 libexecdir = @libexecdir@
 localedir = @localedir@
 localstatedir = @localstatedir@
-lt_ECHO = @lt_ECHO@
 mandir = @mandir@
 mkdir_p = @mkdir_p@
 mpn_objects = @mpn_objects@
@@ -248,7 +244,7 @@ top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 INCLUDES = -D__GMP_WITHIN_GMP -I$(top_srcdir)
 noinst_LTLIBRARIES = libmpf.la
-libmpf_la_SOURCES = abs.c add.c add_ui.c ceilfloor.c clear.c clears.c cmp.c cmp_d.c cmp_si.c cmp_ui.c div.c div_2exp.c div_ui.c dump.c eq.c fits_s.h fits_sint.c fits_slong.c fits_sshort.c fits_u.h fits_uint.c fits_ulong.c fits_ushort.c get_d.c get_d_2exp.c get_dfl_prec.c get_prc.c get_si.c get_str.c get_ui.c init.c init2.c inits.c inp_str.c int_p.c iset.c iset_d.c iset_si.c iset_str.c iset_ui.c mul.c mul_2exp.c mul_ui.c neg.c out_str.c pow_ui.c random2.c reldiff.c rrandomb.c set.c set_d.c set_dfl_prec.c set_prc.c set_prc_raw.c set_q.c set_si.c set_str.c set_ui.c set_z.c size.c sqrt.c sqrt_ui.c sub.c sub_ui.c swap.c trunc.c ui_div.c ui_sub.c urandomb.c
+libmpf_la_SOURCES = abs.c add.c add_ui.c ceilfloor.c clear.c clears.c cmp.c cmp_d.c cmp_si.c cmp_ui.c div_2exp.c div.c div_ui.c dump.c eq.c fits_s.h fits_sint.c fits_slong.c fits_sshort.c fits_u.h fits_uint.c fits_ulong.c fits_ushort.c get_d_2exp.c get_d.c get_dfl_prec.c get_prc.c get_si.c get_str.c get_ui.c init2.c init.c inits.c inp_str.c int_p.c iset.c iset_d.c iset_si.c iset_str.c iset_ui.c mul_2exp.c mul.c mul_ui.c neg.c out_str.c pow_ui.c random2.c reldiff.c rrandomb.c set.c set_d.c set_dfl_prec.c set_prc.c set_prc_raw.c set_q.c set_si.c set_str.c set_ui.c set_z.c size.c sqrt.c sqrt_ui.c sub.c sub_ui.c swap.c trunc.c ui_div.c ui_sub.c urandomb.c
 all: all-am
 
 .SUFFIXES:
