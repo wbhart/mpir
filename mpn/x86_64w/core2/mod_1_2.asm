@@ -38,8 +38,8 @@
         mov     r14, [rsi+rdx*8-8]
         mov     r13, [rsi+rdx*8-16]
         mov     r8, [r9]
-        mov     r9, [r9+8]
         mov     r10, [r9+16]
+        mov     r9, [r9+8]
         mov     rcx, rdx
         sub     rcx, 6
         jc      .2
