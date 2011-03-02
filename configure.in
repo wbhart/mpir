@@ -1119,7 +1119,10 @@ case $host in
     abilist="32"
     cclist="gcc icc cc"
     gcc_cflags="-O2 $fomit_frame_pointer"
-    gcc_32_ldflags="-Wl,-z,noexecstack"
+	case $host in
+	*-*-linux-gnu)
+	    gcc_32_ldflags="-Wl,-z,noexecstack" ;;
+	esac
     gcc_32_cflags_maybe="-m32"
     icc_cflags="-no-gcc"
     icc_cflags_optlist="opt"
