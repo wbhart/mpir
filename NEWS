@@ -20,6 +20,45 @@ along with the GNU MP Library; see the file COPYING.LIB.  If not, write to
 the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 MA 02110-1301, USA.
 
+Changes between MPIR 2.3.0 and MPIR 2.2.1
+
+Bug Fixes:
+
+ * noexecstack enabled for x86 properly
+ 
+Speedups:
+
+ * Detect a few more cpu's correctly
+ * New assembler code for x64
+
+Features:
+
+ * MinGW64 port with full assembler support
+
+Changes:
+
+ * MSVC VS2008 port removed
+
+Changes between MPIR 2.2.1 and MPIR 2.2.0
+
+Bug Fixes:
+
+ * Added a missing windows export declaration
+ 
+Speedups:
+
+ * Detect a few more cpu's correctly
+
+Features:
+
+ * Exported the function mpn_redc_1
+
+Changes:
+
+ * Renamed the function mpn_redc_basecase to mpn_redc_1 and re-ordered the 
+   parameters
+
+
 Changes between MPIR 2.1.1 and MPIR 2.2.0
 
 Bug Fixes:
