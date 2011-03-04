@@ -139,7 +139,7 @@ Boston, MA 02110-1301, USA.
           CPUIS(k102);// like k102 but with hardware divider
           break;
         case 20:
-          CPUIS(k8);// fusion of bobcat and GPU
+          CPUIS(bobcat);// fusion of bobcat and GPU
           break;
         }
     }
