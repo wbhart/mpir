@@ -29,7 +29,7 @@ AC_COPYRIGHT(GMP_COPYRIGHT)
 AH_TOP(/*GMP_COPYRIGHT*/)
 
 AC_REVISION($Revision: 1.11 $)
-AC_PREREQ(2.59)
+AC_PREREQ(2.68)
 AC_INIT(MPIR, MPIR_VERSION, http://groups.google.co.uk/group/mpir-devel/, mpir)
 AC_CONFIG_SRCDIR(gmp-impl.h)
 m4_pattern_forbid([^[ \t]*GMP_])

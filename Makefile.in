@@ -276,7 +276,7 @@ am__relativize = \
   done; \
   reldir="$$dir2"
 GZIP_ENV = --best
-DIST_ARCHIVES = $(distdir).tar.bz2
+DIST_ARCHIVES = $(distdir).tar.bz2 $(distdir).tar.lzma
 distuninstallcheck_listfiles = find . -type f -print
 distcleancheck_listfiles = find . -type f -print
 ABI = @ABI@
@@ -312,8 +312,6 @@ ECHO_T = @ECHO_T@
 EGREP = @EGREP@
 EXEEXT = @EXEEXT@
 EXEEXT_FOR_BUILD = @EXEEXT_FOR_BUILD@
-F77 = @F77@
-FFLAGS = @FFLAGS@
 FGREP = @FGREP@
 GMP_CC = @GMP_CC@
 GMP_CFLAGS = @GMP_CFLAGS@
@@ -344,6 +342,7 @@ LTLIBOBJS = @LTLIBOBJS@
 M4 = @M4@
 MAINT = @MAINT@
 MAKEINFO = @MAKEINFO@
+MANIFEST_TOOL = @MANIFEST_TOOL@
 MKDIR_P = @MKDIR_P@
 MPIR_AS = @MPIR_AS@
 NM = @NM@
@@ -375,10 +374,10 @@ abs_builddir = @abs_builddir@
 abs_srcdir = @abs_srcdir@
 abs_top_builddir = @abs_top_builddir@
 abs_top_srcdir = @abs_top_srcdir@
+ac_ct_AR = @ac_ct_AR@
 ac_ct_CC = @ac_ct_CC@
 ac_ct_CXX = @ac_ct_CXX@
 ac_ct_DUMPBIN = @ac_ct_DUMPBIN@
-ac_ct_F77 = @ac_ct_F77@
 am__leading_dot = @am__leading_dot@
 am__tar = @am__tar@
 am__untar = @am__untar@
@@ -408,7 +407,6 @@ libdir = @libdir@
 libexecdir = @libexecdir@
 localedir = @localedir@
 localstatedir = @localstatedir@
-lt_ECHO = @lt_ECHO@
 mandir = @mandir@
 mkdir_p = @mkdir_p@
 mpn_objects = @mpn_objects@
@@ -983,7 +981,6 @@ dist-gzip: distdir
 dist-bzip2: distdir
 	tardir=$(distdir) && $(am__tar) | bzip2 -9 -c >$(distdir).tar.bz2
 	$(am__remove_distdir)
-
 dist-lzma: distdir
 	tardir=$(distdir) && $(am__tar) | lzma -9 -c >$(distdir).tar.lzma
 	$(am__remove_distdir)
@@ -1007,6 +1004,7 @@ dist-zip: distdir
 
 dist dist-all: distdir
 	tardir=$(distdir) && $(am__tar) | bzip2 -9 -c >$(distdir).tar.bz2
+	tardir=$(distdir) && $(am__tar) | lzma -9 -c >$(distdir).tar.lzma
 	$(am__remove_distdir)
 
 # This target untars the dist file and tries a VPATH configuration.  Then
