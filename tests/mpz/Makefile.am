@@ -30,7 +30,7 @@ check_PROGRAMS = t-addsub t-cmp t-mul t-mul_i t-tdiv t-tdiv_ui t-fdiv   \
   t-fdiv_ui t-cdiv_ui t-gcd t-gcd_ui t-lcm dive dive_ui t-sqrtrem convert io \
   t-inp_str logic bit t-powm t-powm_ui t-pow t-div_2exp reuse           \
   t-root t-perfsqr t-jac t-bin t-get_d t-get_d_2exp t-get_si		\
-  t-set_d t-set_si							\
+  t-set_d t-set_si t-set_sx t-get_sx 					\
   t-fac_ui t-fib_ui t-likely_prime_p t-lucnum_ui t-scan t-fits          \
   t-divis t-divis_2exp t-cong t-cong_2exp t-sizeinbase t-set_str        \
   t-aorsmul t-cmp_d t-cmp_si t-hamdist t-oddeven t-popcount t-set_f     \

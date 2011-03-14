@@ -65,16 +65,16 @@ check_PROGRAMS = t-addsub$(EXEEXT) t-cmp$(EXEEXT) t-mul$(EXEEXT) \
 	t-div_2exp$(EXEEXT) reuse$(EXEEXT) t-root$(EXEEXT) \
 	t-perfsqr$(EXEEXT) t-jac$(EXEEXT) t-bin$(EXEEXT) \
 	t-get_d$(EXEEXT) t-get_d_2exp$(EXEEXT) t-get_si$(EXEEXT) \
-	t-set_d$(EXEEXT) t-set_si$(EXEEXT) t-fac_ui$(EXEEXT) \
-	t-fib_ui$(EXEEXT) t-likely_prime_p$(EXEEXT) \
-	t-lucnum_ui$(EXEEXT) t-scan$(EXEEXT) t-fits$(EXEEXT) \
-	t-divis$(EXEEXT) t-divis_2exp$(EXEEXT) t-cong$(EXEEXT) \
-	t-cong_2exp$(EXEEXT) t-sizeinbase$(EXEEXT) t-set_str$(EXEEXT) \
-	t-aorsmul$(EXEEXT) t-cmp_d$(EXEEXT) t-cmp_si$(EXEEXT) \
-	t-hamdist$(EXEEXT) t-oddeven$(EXEEXT) t-popcount$(EXEEXT) \
-	t-set_f$(EXEEXT) t-io_raw$(EXEEXT) t-import$(EXEEXT) \
-	t-export$(EXEEXT) t-pprime_p$(EXEEXT) t-perfpow$(EXEEXT) \
-	t-trial_division$(EXEEXT) $(am__EXEEXT_1)
+	t-set_d$(EXEEXT) t-set_si$(EXEEXT) t-set_sx$(EXEEXT) \
+	t-get_sx$(EXEEXT) t-fac_ui$(EXEEXT) t-fib_ui$(EXEEXT) \
+	t-likely_prime_p$(EXEEXT) t-lucnum_ui$(EXEEXT) t-scan$(EXEEXT) \
+	t-fits$(EXEEXT) t-divis$(EXEEXT) t-divis_2exp$(EXEEXT) \
+	t-cong$(EXEEXT) t-cong_2exp$(EXEEXT) t-sizeinbase$(EXEEXT) \
+	t-set_str$(EXEEXT) t-aorsmul$(EXEEXT) t-cmp_d$(EXEEXT) \
+	t-cmp_si$(EXEEXT) t-hamdist$(EXEEXT) t-oddeven$(EXEEXT) \
+	t-popcount$(EXEEXT) t-set_f$(EXEEXT) t-io_raw$(EXEEXT) \
+	t-import$(EXEEXT) t-export$(EXEEXT) t-pprime_p$(EXEEXT) \
+	t-perfpow$(EXEEXT) t-trial_division$(EXEEXT) $(am__EXEEXT_1)
 @ENABLE_SHARED_TRUE@@ENABLE_STATIC_TRUE@am__append_1 = st_hamdist st_popcount
 subdir = tests/mpz
 DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in
@@ -260,6 +260,11 @@ t_get_si_OBJECTS = t-get_si.$(OBJEXT)
 t_get_si_LDADD = $(LDADD)
 t_get_si_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
 	$(top_builddir)/libmpir.la
+t_get_sx_SOURCES = t-get_sx.c
+t_get_sx_OBJECTS = t-get_sx.$(OBJEXT)
+t_get_sx_LDADD = $(LDADD)
+t_get_sx_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
+	$(top_builddir)/libmpir.la
 t_hamdist_SOURCES = t-hamdist.c
 t_hamdist_OBJECTS = t-hamdist.$(OBJEXT)
 t_hamdist_LDADD = $(LDADD)
@@ -380,6 +385,11 @@ t_set_str_OBJECTS = t-set_str.$(OBJEXT)
 t_set_str_LDADD = $(LDADD)
 t_set_str_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
 	$(top_builddir)/libmpir.la
+t_set_sx_SOURCES = t-set_sx.c
+t_set_sx_OBJECTS = t-set_sx.$(OBJEXT)
+t_set_sx_LDADD = $(LDADD)
+t_set_sx_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
+	$(top_builddir)/libmpir.la
 t_sizeinbase_SOURCES = t-sizeinbase.c
 t_sizeinbase_OBJECTS = t-sizeinbase.$(OBJEXT)
 t_sizeinbase_LDADD = $(LDADD)
@@ -423,25 +433,26 @@ SOURCES = bit.c convert.c dive.c dive_ui.c io.c logic.c reuse.c \
 	t-cong.c t-cong_2exp.c t-div_2exp.c t-divis.c t-divis_2exp.c \
 	t-export.c t-fac_ui.c t-fdiv.c t-fdiv_ui.c t-fib_ui.c t-fits.c \
 	t-gcd.c t-gcd_ui.c t-get_d.c t-get_d_2exp.c t-get_si.c \
-	t-hamdist.c t-import.c t-inp_str.c t-io_raw.c t-jac.c t-lcm.c \
-	t-likely_prime_p.c t-lucnum_ui.c t-mul.c t-mul_i.c t-oddeven.c \
-	t-perfpow.c t-perfsqr.c t-popcount.c t-pow.c t-powm.c \
-	t-powm_ui.c t-pprime_p.c t-root.c t-scan.c t-set_d.c t-set_f.c \
-	t-set_si.c t-set_str.c t-sizeinbase.c t-sqrtrem.c t-tdiv.c \
-	t-tdiv_ui.c t-trial_division.c
+	t-get_sx.c t-hamdist.c t-import.c t-inp_str.c t-io_raw.c \
+	t-jac.c t-lcm.c t-likely_prime_p.c t-lucnum_ui.c t-mul.c \
+	t-mul_i.c t-oddeven.c t-perfpow.c t-perfsqr.c t-popcount.c \
+	t-pow.c t-powm.c t-powm_ui.c t-pprime_p.c t-root.c t-scan.c \
+	t-set_d.c t-set_f.c t-set_si.c t-set_str.c t-set_sx.c \
+	t-sizeinbase.c t-sqrtrem.c t-tdiv.c t-tdiv_ui.c \
+	t-trial_division.c
 DIST_SOURCES = bit.c convert.c dive.c dive_ui.c io.c logic.c reuse.c \
 	$(am__st_hamdist_SOURCES_DIST) $(am__st_popcount_SOURCES_DIST) \
 	t-addsub.c t-aorsmul.c t-bin.c t-cdiv_ui.c t-cmp.c t-cmp_d.c \
 	t-cmp_si.c t-cong.c t-cong_2exp.c t-div_2exp.c t-divis.c \
 	t-divis_2exp.c t-export.c t-fac_ui.c t-fdiv.c t-fdiv_ui.c \
 	t-fib_ui.c t-fits.c t-gcd.c t-gcd_ui.c t-get_d.c \
-	t-get_d_2exp.c t-get_si.c t-hamdist.c t-import.c t-inp_str.c \
-	t-io_raw.c t-jac.c t-lcm.c t-likely_prime_p.c t-lucnum_ui.c \
-	t-mul.c t-mul_i.c t-oddeven.c t-perfpow.c t-perfsqr.c \
-	t-popcount.c t-pow.c t-powm.c t-powm_ui.c t-pprime_p.c \
-	t-root.c t-scan.c t-set_d.c t-set_f.c t-set_si.c t-set_str.c \
-	t-sizeinbase.c t-sqrtrem.c t-tdiv.c t-tdiv_ui.c \
-	t-trial_division.c
+	t-get_d_2exp.c t-get_si.c t-get_sx.c t-hamdist.c t-import.c \
+	t-inp_str.c t-io_raw.c t-jac.c t-lcm.c t-likely_prime_p.c \
+	t-lucnum_ui.c t-mul.c t-mul_i.c t-oddeven.c t-perfpow.c \
+	t-perfsqr.c t-popcount.c t-pow.c t-powm.c t-powm_ui.c \
+	t-pprime_p.c t-root.c t-scan.c t-set_d.c t-set_f.c t-set_si.c \
+	t-set_str.c t-set_sx.c t-sizeinbase.c t-sqrtrem.c t-tdiv.c \
+	t-tdiv_ui.c t-trial_division.c
 ETAGS = etags
 CTAGS = ctags
 am__tty_colors = \
@@ -814,6 +825,9 @@ t-get_d_2exp$(EXEEXT): $(t_get_d_2exp_OBJECTS) $(t_get_d_2exp_DEPENDENCIES)
 t-get_si$(EXEEXT): $(t_get_si_OBJECTS) $(t_get_si_DEPENDENCIES) 
 	@rm -f t-get_si$(EXEEXT)
 	$(LINK) $(t_get_si_OBJECTS) $(t_get_si_LDADD) $(LIBS)
+t-get_sx$(EXEEXT): $(t_get_sx_OBJECTS) $(t_get_sx_DEPENDENCIES) 
+	@rm -f t-get_sx$(EXEEXT)
+	$(LINK) $(t_get_sx_OBJECTS) $(t_get_sx_LDADD) $(LIBS)
 t-hamdist$(EXEEXT): $(t_hamdist_OBJECTS) $(t_hamdist_DEPENDENCIES) 
 	@rm -f t-hamdist$(EXEEXT)
 	$(LINK) $(t_hamdist_OBJECTS) $(t_hamdist_LDADD) $(LIBS)
@@ -886,6 +900,9 @@ t-set_si$(EXEEXT): $(t_set_si_OBJECTS) $(t_set_si_DEPENDENCIES)
 t-set_str$(EXEEXT): $(t_set_str_OBJECTS) $(t_set_str_DEPENDENCIES) 
 	@rm -f t-set_str$(EXEEXT)
 	$(LINK) $(t_set_str_OBJECTS) $(t_set_str_LDADD) $(LIBS)
+t-set_sx$(EXEEXT): $(t_set_sx_OBJECTS) $(t_set_sx_DEPENDENCIES) 
+	@rm -f t-set_sx$(EXEEXT)
+	$(LINK) $(t_set_sx_OBJECTS) $(t_set_sx_LDADD) $(LIBS)
 t-sizeinbase$(EXEEXT): $(t_sizeinbase_OBJECTS) $(t_sizeinbase_DEPENDENCIES) 
 	@rm -f t-sizeinbase$(EXEEXT)
 	$(LINK) $(t_sizeinbase_OBJECTS) $(t_sizeinbase_LDADD) $(LIBS)
@@ -1195,6 +1212,10 @@ t-set_d.log: t-set_d$(EXEEXT)
 	@p='t-set_d$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
 t-set_si.log: t-set_si$(EXEEXT)
 	@p='t-set_si$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
+t-set_sx.log: t-set_sx$(EXEEXT)
+	@p='t-set_sx$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
+t-get_sx.log: t-get_sx$(EXEEXT)
+	@p='t-get_sx$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
 t-fac_ui.log: t-fac_ui$(EXEEXT)
 	@p='t-fac_ui$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
 t-fib_ui.log: t-fib_ui$(EXEEXT)
