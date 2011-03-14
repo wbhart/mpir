@@ -502,16 +502,18 @@ MPZ_OBJECTS = mpz/abs$U.lo mpz/add$U.lo mpz/add_ui$U.lo mpz/and$U.lo \
 	mpz/fits_sshort$U.lo mpz/fits_uint$U.lo mpz/fits_ulong$U.lo \
 	mpz/fits_ushort$U.lo mpz/gcd$U.lo mpz/gcd_ui$U.lo \
 	mpz/gcdext$U.lo mpz/get_d$U.lo mpz/get_d_2exp$U.lo \
-	mpz/get_si$U.lo mpz/get_str$U.lo mpz/get_ui$U.lo \
-	mpz/getlimbn$U.lo mpz/hamdist$U.lo mpz/import$U.lo \
-	mpz/init$U.lo mpz/init2$U.lo mpz/inits$U.lo mpz/inp_raw$U.lo \
-	mpz/inp_str$U.lo mpz/invert$U.lo mpz/ior$U.lo mpz/iset$U.lo \
-	mpz/iset_d$U.lo mpz/iset_si$U.lo mpz/iset_str$U.lo \
-	mpz/iset_ui$U.lo mpz/jacobi$U.lo mpz/kronsz$U.lo \
-	mpz/kronuz$U.lo mpz/kronzs$U.lo mpz/kronzu$U.lo mpz/lcm$U.lo \
-	mpz/lcm_ui$U.lo mpz/likely_prime_p$U.lo mpz/lucnum2_ui$U.lo \
-	mpz/lucnum_ui$U.lo mpz/millerrabin$U.lo mpz/mod$U.lo \
-	mpz/mul$U.lo mpz/mul_2exp$U.lo mpz/mul_si$U.lo mpz/mul_ui$U.lo \
+	mpz/get_si$U.lo mpz/get_str$U.lo mpz/get_sx$U.lo \
+	mpz/get_ui$U.lo mpz/get_ux$U.lo mpz/getlimbn$U.lo \
+	mpz/hamdist$U.lo mpz/import$U.lo mpz/init$U.lo mpz/init2$U.lo \
+	mpz/inits$U.lo mpz/inp_raw$U.lo mpz/inp_str$U.lo \
+	mpz/invert$U.lo mpz/ior$U.lo mpz/iset$U.lo mpz/iset_d$U.lo \
+	mpz/iset_si$U.lo mpz/iset_str$U.lo mpz/iset_sx$U.lo \
+	mpz/iset_ui$U.lo mpz/iset_ux$U.lo mpz/jacobi$U.lo \
+	mpz/kronsz$U.lo mpz/kronuz$U.lo mpz/kronzs$U.lo \
+	mpz/kronzu$U.lo mpz/lcm$U.lo mpz/lcm_ui$U.lo \
+	mpz/likely_prime_p$U.lo mpz/lucnum2_ui$U.lo mpz/lucnum_ui$U.lo \
+	mpz/millerrabin$U.lo mpz/mod$U.lo mpz/mul$U.lo \
+	mpz/mul_2exp$U.lo mpz/mul_si$U.lo mpz/mul_ui$U.lo \
 	mpz/n_pow_ui$U.lo mpz/neg$U.lo mpz/next_likely_prime$U.lo \
 	mpz/nextprime$U.lo mpz/nthroot$U.lo mpz/out_raw$U.lo \
 	mpz/out_str$U.lo mpz/perfpow$U.lo mpz/perfsqr$U.lo \
@@ -521,14 +523,15 @@ MPZ_OBJECTS = mpz/abs$U.lo mpz/add$U.lo mpz/add_ui$U.lo mpz/and$U.lo \
 	mpz/root$U.lo mpz/rootrem$U.lo mpz/rrandomb$U.lo \
 	mpz/scan0$U.lo mpz/scan1$U.lo mpz/set$U.lo mpz/set_d$U.lo \
 	mpz/set_f$U.lo mpz/set_q$U.lo mpz/set_si$U.lo mpz/set_str$U.lo \
-	mpz/set_ui$U.lo mpz/setbit$U.lo mpz/size$U.lo \
-	mpz/sizeinbase$U.lo mpz/sqrt$U.lo mpz/sqrtrem$U.lo \
-	mpz/sub$U.lo mpz/sub_ui$U.lo mpz/swap$U.lo mpz/tdiv_q$U.lo \
-	mpz/tdiv_q_2exp$U.lo mpz/tdiv_q_ui$U.lo mpz/tdiv_qr$U.lo \
-	mpz/tdiv_qr_ui$U.lo mpz/tdiv_r$U.lo mpz/tdiv_r_2exp$U.lo \
-	mpz/tdiv_r_ui$U.lo mpz/tdiv_ui$U.lo mpz/trial_division$U.lo \
-	mpz/tstbit$U.lo mpz/ui_pow_ui$U.lo mpz/ui_sub$U.lo \
-	mpz/urandomb$U.lo mpz/urandomm$U.lo mpz/xor$U.lo
+	mpz/set_sx$U.lo mpz/set_ui$U.lo mpz/set_ux$U.lo \
+	mpz/setbit$U.lo mpz/size$U.lo mpz/sizeinbase$U.lo \
+	mpz/sqrt$U.lo mpz/sqrtrem$U.lo mpz/sub$U.lo mpz/sub_ui$U.lo \
+	mpz/swap$U.lo mpz/tdiv_q$U.lo mpz/tdiv_q_2exp$U.lo \
+	mpz/tdiv_q_ui$U.lo mpz/tdiv_qr$U.lo mpz/tdiv_qr_ui$U.lo \
+	mpz/tdiv_r$U.lo mpz/tdiv_r_2exp$U.lo mpz/tdiv_r_ui$U.lo \
+	mpz/tdiv_ui$U.lo mpz/trial_division$U.lo mpz/tstbit$U.lo \
+	mpz/ui_pow_ui$U.lo mpz/ui_sub$U.lo mpz/urandomb$U.lo \
+	mpz/urandomm$U.lo mpz/xor$U.lo
 MPQ_OBJECTS = mpq/abs$U.lo mpq/aors$U.lo mpq/canonicalize$U.lo mpq/clear$U.lo mpq/clears$U.lo mpq/cmp$U.lo mpq/cmp_si$U.lo mpq/cmp_ui$U.lo mpq/div$U.lo mpq/equal$U.lo mpq/get_d$U.lo mpq/get_den$U.lo mpq/get_num$U.lo mpq/get_str$U.lo mpq/init$U.lo mpq/inits$U.lo mpq/inp_str$U.lo mpq/inv$U.lo mpq/md_2exp$U.lo mpq/mul$U.lo mpq/neg$U.lo mpq/out_str$U.lo mpq/set$U.lo mpq/set_d$U.lo mpq/set_den$U.lo mpq/set_f$U.lo mpq/set_num$U.lo mpq/set_si$U.lo mpq/set_str$U.lo mpq/set_ui$U.lo mpq/set_z$U.lo mpq/swap$U.lo 
 MPN_OBJECTS = mpn/dummy1$U.lo
 PRINTF_OBJECTS = printf/asprintf$U.lo printf/asprntffuns$U.lo printf/doprnt$U.lo printf/doprntf$U.lo printf/doprnti$U.lo printf/fprintf$U.lo printf/obprintf$U.lo printf/obprntffuns$U.lo printf/obvprintf$U.lo printf/printf$U.lo printf/printffuns$U.lo printf/repl-vsnprintf$U.lo printf/snprintf$U.lo printf/snprntffuns$U.lo printf/sprintf$U.lo printf/sprintffuns$U.lo printf/vasprintf$U.lo printf/vfprintf$U.lo printf/vprintf$U.lo printf/vsnprintf$U.lo printf/vsprintf$U.lo 
