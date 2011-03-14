@@ -2201,7 +2201,7 @@ AC_TYPE_SIGNAL
 #
 # the default includes are sufficient for all these types
 #
-AC_CHECK_TYPES([intmax_t, long double, long long, ptrdiff_t, quad_t, uint_least32_t])
+AC_CHECK_TYPES([intmax_t, uintmax_t, long double, long long, ptrdiff_t, quad_t, uint_least32_t])
 
 AC_C_STRINGIZE
 
@@ -3089,6 +3089,7 @@ fi
 AC_CHECK_SIZEOF(unsigned short)
 AC_CHECK_SIZEOF(unsigned)
 AC_CHECK_SIZEOF(unsigned long)
+AC_CHECK_SIZEOF(uintmax_t)
 AC_CHECK_SIZEOF(mp_limb_t, , GMP_INCLUDE_GMP_H)
 if test "$ac_cv_sizeof_mp_limb_t" = 0; then
   AC_MSG_ERROR([Oops, mp_limb_t doesn't seem to work])

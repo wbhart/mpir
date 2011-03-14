@@ -419,6 +419,9 @@ MA 02110-1301, USA.
 /* Define to 1 if you have the `times' function. */
 #undef HAVE_TIMES
 
+/* Define to 1 if the system has the type `uintmax_t'. */
+#undef HAVE_UINTMAX_T
+
 /* Define to 1 if the system has the type `uint_least32_t'. */
 #undef HAVE_UINT_LEAST32_T
 
@@ -461,6 +464,9 @@ MA 02110-1301, USA.
 
 /* The size of `mp_limb_t', as computed by sizeof. */
 #undef SIZEOF_MP_LIMB_T
+
+/* The size of `uintmax_t', as computed by sizeof. */
+#undef SIZEOF_UINTMAX_T
 
 /* The size of `unsigned', as computed by sizeof. */
 #undef SIZEOF_UNSIGNED
