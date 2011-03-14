@@ -27,7 +27,7 @@ MA 02110-1301, USA. */
 
 #ifdef HAVE_UINTMAX_T
 
-#define NLIMBS ((8 * SIZEOF_UINTMAX + GMP_NUMB_BITS  - 1) / GMP_NUMB_BITS)
+#define NLIMBS ((8 * SIZEOF_UINTMAX_T + GMP_NUMB_BITS  - 1) / GMP_NUMB_BITS)
 
 void
 mpz_init_set_ux (mpz_ptr z, uintmax_t v)
@@ -36,7 +36,7 @@ mpz_init_set_ux (mpz_ptr z, uintmax_t v)
     z->_mp_d = (mp_ptr) (*__gmp_allocate_func) (MAX(1, NLIMBS) * BYTES_PER_MP_LIMB);
     z->_mp_alloc = MAX(1, NLIMBS);
 
-#if GMP_NUMB_BITS >= 8 * SIZEOF_UINTMAX
+#if GMP_NUMB_BITS >= 8 * SIZEOF_UINTMAX_T
     z->_mp_d[0] = (mp_limb_t)v;
     z->_mp_size = (v ? NLIMBS : 0);
 #else

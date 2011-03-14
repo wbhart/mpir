@@ -27,13 +27,13 @@ MA 02110-1301, USA. */
 
 #ifdef HAVE_INTMAX_T
 
-#define NLIMBS ((8 * SIZEOF_UINTMAX + GMP_NUMB_BITS  - 1) / GMP_NUMB_BITS)
+#define NLIMBS ((8 * SIZEOF_UINTMAX_T + GMP_NUMB_BITS  - 1) / GMP_NUMB_BITS)
 
 void
 mpz_set_sx (mpz_ptr z, intmax_t v)
 {   uintmax_t i, uv = (v < 0 ? -v : v);
 
-#if GMP_NUMB_BITS >= 8 * SIZEOF_UINTMAX
+#if GMP_NUMB_BITS >= 8 * SIZEOF_UINTMAX_T
     z->_mp_d[0] = (mp_limb_t)uv;
     z->_mp_size = v < 0 ? -NLIMBS : v ? NLIMBS : 0;
 #else
