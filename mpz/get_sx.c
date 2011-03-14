@@ -28,12 +28,12 @@ MA 02110-1301, USA. */
 
 #ifdef HAVE_INTMAX_T
 
-#define NLIMBS ((8 * SIZEOF_UINTMAX + GMP_NUMB_BITS  - 1) / GMP_NUMB_BITS)
+#define NLIMBS ((8 * SIZEOF_UINTMAX_T + GMP_NUMB_BITS  - 1) / GMP_NUMB_BITS)
 
 intmax_t
 mpz_get_sx (mpz_srcptr z)
 {
-#if GMP_NUMB_BITS >= 8 * SIZEOF_UINTMAX
+#if GMP_NUMB_BITS >= 8 * SIZEOF_UINTMAX_T
     uintmax_t v = (intmax_t)(z->_mp_size ? z->_mp_d[0] : 0);
 #else
     uintmax_t v  = 0, n = MIN(NLIMBS, ABS(z->_mp_size));

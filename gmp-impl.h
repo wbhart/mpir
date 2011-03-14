@@ -329,7 +329,7 @@ sq_res_0x100[4] = {
 
 #define BITS_PER_ULONG   (8 * SIZEOF_UNSIGNED_LONG)
 #ifdef HAVE_STDINT_H
-#define BITS_PER_UINTMAX (8 * SIZEOF_UINTMAX)
+#define BITS_PER_UINTMAX (8 * SIZEOF_UINTMAX_T)
 #endif
 
 /* gmp_uint_least32_t is an unsigned integer type with at least 32 bits. */
