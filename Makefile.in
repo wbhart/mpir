@@ -431,9 +431,6 @@ LIBGMP_LT_AGE = 3
 LIBGMPXX_LT_CURRENT = 4
 LIBGMPXX_LT_REVISION = 15
 LIBGMPXX_LT_AGE = 3
-LIBMP_LT_CURRENT = 0
-LIBMP_LT_REVISION = 0
-LIBMP_LT_AGE = 0
 SUBDIRS = tests $(am__append_1) mpn mpz mpq mpf printf scanf cxx tune \
 	doc
 EXTRA_DIST = configfsf.guess configfsf.sub .gdbinit INSTALL.autoconf \

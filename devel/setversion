@@ -19,11 +19,6 @@ LIBGMPXX_LT_CURRENT=4
 LIBGMPXX_LT_REVISION=15
 LIBGMPXX_LT_AGE=3
 
-# We dont have libmp so we set this to 0.0.0
-LIBMP_LT_CURRENT=0
-LIBMP_LT_REVISION=0
-LIBMP_LT_AGE=0
-
 echo "Setting MPIR to"
 echo "MPIR-$VERSION.$VERSION_MINOR.$VERSION_PATCHLEVEL"
 echo "GMP-soname-$LIBGMP_LT_CURRENT.$LIBGMP_LT_REVISION.$LIBGMP_LT_AGE"
@@ -50,10 +45,7 @@ cat ../Makefile.am \
 | sed s/"LIBGMP_LT_AGE[[:space:]]*=[[:space:]]*.*"/"LIBGMP_LT_AGE = "$LIBGMP_LT_AGE/ \
 | sed s/"LIBGMPXX_LT_CURRENT[[:space:]]*=[[:space:]]*.*"/"LIBGMPXX_LT_CURRENT = "$LIBGMPXX_LT_CURRENT/ \
 | sed s/"LIBGMPXX_LT_REVISION[[:space:]]*=[[:space:]]*.*"/"LIBGMPXX_LT_REVISION = "$LIBGMPXX_LT_REVISION/ \
-| sed s/"LIBGMPXX_LT_AGE[[:space:]]*=[[:space:]]*.*"/"LIBGMPXX_LT_AGE = "$LIBGMPXX_LT_AGE/ \
-| sed s/"LIBMP_LT_CURRENT[[:space:]]*=[[:space:]]*.*"/"LIBMP_LT_CURRENT = "$LIBMP_LT_CURRENT/ \
-| sed s/"LIBMP_LT_REVISION[[:space:]]*=[[:space:]]*.*"/"LIBMP_LT_REVISION = "$LIBMP_LT_REVISION/ \
-| sed s/"LIBMP_LT_AGE[[:space:]]*=[[:space:]]*.*"/"LIBMP_LT_AGE = "$LIBMP_LT_AGE/ > $TMPFILE
+| sed s/"LIBGMPXX_LT_AGE[[:space:]]*=[[:space:]]*.*"/"LIBGMPXX_LT_AGE = "$LIBGMPXX_LT_AGE/ > $TMPFILE
 mv $TMPFILE ../Makefile.am
 
 #update doc/version
