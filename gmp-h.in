@@ -53,6 +53,14 @@ along with the GNU MP Library.  If not, see http://www.gnu.org/licenses/.  */
 #endif
 #undef __need_size_t
 
+#ifdef HAVE_STDINT_H
+#if defined (__cplusplus)
+#    include <cstdint>  /* for intmax_t/uintmax_t */
+#  else
+#    include <stdint.h> /* for intmax_t/uintmax_t */
+#  endif
+#endif
+
 /* Instantiated by configure. */
 #if ! defined (__GMP_WITHIN_CONFIGURE)
 @DEFN_LONG_LONG_LIMB@
@@ -63,7 +71,6 @@ along with the GNU MP Library.  If not, see http://www.gnu.org/licenses/.  */
 #ifdef __WIN64
 #define _LONG_LONG_LIMB	1
 #endif
-
 
 /* __STDC__ - some ANSI compilers define this only to 0, hence the use of
        "defined" and not "__STDC__-0".  In particular Sun workshop C 5.0
@@ -1177,6 +1184,33 @@ __GMP_DECLSPEC void mpz_urandomm __GMP_PROTO ((mpz_ptr, gmp_randstate_t, mpz_src
 #define mpz_xor __gmpz_xor
 #define mpz_eor __gmpz_xor
 __GMP_DECLSPEC void mpz_xor __GMP_PROTO ((mpz_ptr, mpz_srcptr, mpz_srcptr));
+
+
+/****** Integer (i.e. Z) routines for intmaax_t/uintmax_t types ******/
+
+#ifdef HAVE_STDINT_H
+
+#define __GMP_BITS_PER_UINTMAX  (8*sizeof(uintmax_t))
+
+#define mpz_get_ux __gmpz_get_ux
+__GMP_DECLSPEC uintmax_t mpz_get_ux __GMP_PROTO ((mpz_srcptr));
+
+#define mpz_get_sx __gmpz_get_sx
+__GMP_DECLSPEC intmax_t mpz_get_sx __GMP_PROTO ((mpz_srcptr));
+
+#define mpz_set_ux __gmpz_set_ux
+__GMP_DECLSPEC void mpz_set_ux __GMP_PROTO ((mpz_ptr, uintmax_t));
+
+#define mpz_set_sx __gmpz_set_sx
+__GMP_DECLSPEC void mpz_set_sx __GMP_PROTO ((mpz_ptr, intmax_t));
+
+#define mpz_init_set_ux __gmpz_init_set_ux
+__GMP_DECLSPEC void mpz_init_set_ux __GMP_PROTO ((mpz_ptr, uintmax_t));
+
+#define mpz_init_set_sx __gmpz_init_set_sx
+__GMP_DECLSPEC void mpz_init_set_sx __GMP_PROTO ((mpz_ptr, intmax_t));
+
+#endif
 
 
 /**************** Rational (i.e. Q) routines.  ****************/

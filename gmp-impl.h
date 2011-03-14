@@ -252,7 +252,7 @@ sq_res_0x100[4] = {
 #if HAVE_INTTYPES_H      /* for uint_least32_t */
 # include <inttypes.h>
 #else
-# if HAVE_STDINT_H
+# ifdef HAVE_STDINT_H
 #  include <stdint.h>
 # endif
 #endif
@@ -327,8 +327,10 @@ sq_res_0x100[4] = {
 #define BITS_PER_MP_LIMB  (8 * SIZEOF_MP_LIMB_T)
 #endif
 
-#define BITS_PER_ULONG  (8 * SIZEOF_UNSIGNED_LONG)
-
+#define BITS_PER_ULONG   (8 * SIZEOF_UNSIGNED_LONG)
+#ifdef HAVE_STDINT_H
+#define BITS_PER_UINTMAX (8 * SIZEOF_UINTMAX)
+#endif
 
 /* gmp_uint_least32_t is an unsigned integer type with at least 32 bits. */
 #if HAVE_UINT_LEAST32_T
@@ -657,6 +659,9 @@ void  __gmp_tmp_debug_free  _PROTO ((const char *, int, int,
 #define UINT_HIGHBIT       (UINT_MAX ^ ((unsigned) UINT_MAX >> 1))
 #define USHRT_HIGHBIT      ((unsigned short) (USHRT_MAX ^ ((unsigned short) USHRT_MAX >> 1)))
 #define GMP_LIMB_HIGHBIT  (MP_LIMB_T_MAX ^ (MP_LIMB_T_MAX >> 1))
+#ifdef HAVE_STDINT_H
+#define UINTMAX_HIGHBIT   (UINTMAX_MAX ^ (UINTMAX_MAX >> 1))
+#endif
 
 #ifndef LONG_MIN
 #define LONG_MIN           ((long) ULONG_HIGHBIT)

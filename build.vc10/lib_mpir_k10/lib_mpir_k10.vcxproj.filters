@@ -1385,6 +1385,24 @@
     <ClCompile Include="..\..\mpz\inits.c">
       <Filter>Source Files\mpz</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\mpz\get_sx.c">
+      <Filter>Source Files\mpz</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\mpz\get_ux.c">
+      <Filter>Source Files\mpz</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\mpz\iset_sx.c">
+      <Filter>Source Files\mpz</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\mpz\iset_ux.c">
+      <Filter>Source Files\mpz</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\mpz\set_sx.c">
+      <Filter>Source Files\mpz</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\mpz\set_ux.c">
+      <Filter>Source Files\mpz</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <YASM Include="..\..\mpn\x86_64w\divexact_by3c.asm">
@@ -1577,5 +1595,6 @@
     <YASM Include="..\..\mpn\x86_64w\k8\not.asm">
       <Filter>Source Files\mpn\Assembler</Filter>
     </YASM>
+    <YASM Include="..\..\mpn\x86_64w\k8\sub_err1_n.asm" />
   </ItemGroup>
 </Project>

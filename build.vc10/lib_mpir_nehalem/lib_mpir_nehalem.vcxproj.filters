@@ -1385,6 +1385,24 @@
     <ClCompile Include="..\..\mpn\generic\xor_n.c">
       <Filter>Source Files\mpn</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\mpz\get_sx.c">
+      <Filter>Source Files\mpz</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\mpz\get_ux.c">
+      <Filter>Source Files\mpz</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\mpz\set_sx.c">
+      <Filter>Source Files\mpz</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\mpz\set_ux.c">
+      <Filter>Source Files\mpz</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\mpz\iset_sx.c">
+      <Filter>Source Files\mpz</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\mpz\iset_ux.c">
+      <Filter>Source Files\mpz</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <YASM Include="..\..\mpn\x86_64w\divexact_by3c.asm">
@@ -1532,9 +1550,6 @@
       <Filter>Source Files\mpn\Assembler</Filter>
     </YASM>
     <YASM Include="..\..\mpn\x86_64w\nehalem\add_err1_n.asm">
-      <Filter>Source Files\mpn\Assembler</Filter>
-    </YASM>
-    <YASM Include="..\..\mpn\x86_64w\nehalem\sub_err1_n.asm">
       <Filter>Source Files\mpn\Assembler</Filter>
     </YASM>
     <YASM Include="..\..\mpn\x86_64w\add_err2_n.asm">

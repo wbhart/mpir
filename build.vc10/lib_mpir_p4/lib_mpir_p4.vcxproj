@@ -296,10 +296,14 @@ postbuild "$(TargetPath)"</Command>
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)mpz\</ObjectFileName>
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)mpz\</ObjectFileName>
     </ClCompile>
+    <ClCompile Include="..\..\mpz\get_sx.c" />
+    <ClCompile Include="..\..\mpz\get_ux.c" />
     <ClCompile Include="..\..\mpz\inits.c">
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)mpz\</ObjectFileName>
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)mpz\</ObjectFileName>
     </ClCompile>
+    <ClCompile Include="..\..\mpz\iset_sx.c" />
+    <ClCompile Include="..\..\mpz\iset_ux.c" />
     <ClCompile Include="..\..\mpz\nthroot.c">
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)mpz\</ObjectFileName>
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)mpz\</ObjectFileName>
@@ -308,6 +312,8 @@ postbuild "$(TargetPath)"</Command>
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)mpz\</ObjectFileName>
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)mpz\</ObjectFileName>
     </ClCompile>
+    <ClCompile Include="..\..\mpz\set_sx.c" />
+    <ClCompile Include="..\..\mpz\set_ux.c" />
     <ClCompile Include="..\..\mp_bpl.c" />
     <ClCompile Include="..\..\mp_clz_tab.c" />
     <ClCompile Include="..\..\mp_dv_tab.c" />

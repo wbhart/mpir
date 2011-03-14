@@ -20,6 +20,10 @@ along with the GNU MP Library; see the file COPYING.LIB.  If not, write to
 the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,
 MA 02111-1307, USA. */
 
+#ifndef HAVE_STDINT_H
+#  define HAVE_STDINT_H 1
+#endif
+
 #if defined( _M_IX86 )
 #  define HAVE_HOST_CPU_FAMILY_x86    1
 #elif defined( _M_X64 )
@@ -197,9 +201,6 @@ MA 02111-1307, USA. */
 /* Define if <stdarg.h> exists and works */
 #define HAVE_STDARG			1
 
-/* Define if you have the <stdint.h> header file. */
-#define HAVE_STDINT_H       1
-
 /* Define if you have the <stdlib.h> header file. */
 #define HAVE_STDLIB_H		1
 
@@ -349,9 +350,13 @@ MA 02111-1307, USA. */
 #define inline	__inline
 #endif
 
+#ifdef HAVE_STDINT_H
 #define HAVE_INTMAX_T        1
+#define HAVE_UINTMAX_T       1
 #define HAVE_PTRDIFF_T       1
 #define HAVE_UINT_LEAST32_T  1
+#define SIZEOF_UINTMAX	     8
+#endif
 #define NPRINTF_J            1
 #define NPRINTF_T            1
 
