@@ -1,4 +1,5 @@
-/* Test mpz_set_sx and mpz_init_set_sx.
+/* 
+Test mpz_set_sx and mpz_init_set_sx
 
 Copyright 2000, 2001, 2002 Free Software Foundation, Inc.
 

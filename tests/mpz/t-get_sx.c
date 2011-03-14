@@ -1,4 +1,6 @@
-/* Exercise mpz_get_si.
+/* 
+
+Test mpz_get_sx
 
 Copyright 2000, 2001 Free Software Foundation, Inc.
 
