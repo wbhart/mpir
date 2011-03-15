@@ -31,7 +31,7 @@ MA 02110-1301, USA. */
 
 void
 mpz_init_set_ux (mpz_ptr z, uintmax_t v)
-{   uintmax_t i;
+{   uintmax_t i, uv;
 
     z->_mp_d = (mp_ptr) (*__gmp_allocate_func) (MAX(1, NLIMBS) * BYTES_PER_MP_LIMB);
     z->_mp_alloc = MAX(1, NLIMBS);
@@ -40,10 +40,10 @@ mpz_init_set_ux (mpz_ptr z, uintmax_t v)
     z->_mp_d[0] = (mp_limb_t)v;
     z->_mp_size = (v ? NLIMBS : 0);
 #else
-    for( i = 0 ; i < NLIMBS && v ; ++i )
+    for( i = 0, uv = v ; i < NLIMBS && uv ; ++i )
     {
-        z->_mp_d[i] = v & GMP_NUMB_MASK;
-        v >>= GMP_NUMB_BITS;
+        z->_mp_d[i] = uv & GMP_NUMB_MASK;
+        uv >>= GMP_NUMB_BITS;
     }
     z->_mp_size = (v ? i : 0);
 #endif

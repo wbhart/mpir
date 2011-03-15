@@ -386,6 +386,10 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.get_sx", "mpir-tests\mp
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.set_sx", "mpir-tests\mpz.set_sx\mpz.set_sx.vcxproj", "{1B7D1F86-1AB3-DDD9-AC36-2D662F084C74}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.get_ux", "mpir-tests\mpz.get_ux\mpz.get_ux.vcxproj", "{8A3E4C00-5F34-9336-1BCB-191297512751}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.set_ux", "mpir-tests\mpz.set_ux\mpz.set_ux.vcxproj", "{5D22AD36-ABC5-6849-CC50-8F357A9FD0CD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -1468,6 +1472,22 @@ Global
 		{1B7D1F86-1AB3-DDD9-AC36-2D662F084C74}.Release|Win32.Build.0 = Release|Win32
 		{1B7D1F86-1AB3-DDD9-AC36-2D662F084C74}.Release|x64.ActiveCfg = Release|x64
 		{1B7D1F86-1AB3-DDD9-AC36-2D662F084C74}.Release|x64.Build.0 = Release|x64
+		{8A3E4C00-5F34-9336-1BCB-191297512751}.Debug|Win32.ActiveCfg = Debug|Win32
+		{8A3E4C00-5F34-9336-1BCB-191297512751}.Debug|Win32.Build.0 = Debug|Win32
+		{8A3E4C00-5F34-9336-1BCB-191297512751}.Debug|x64.ActiveCfg = Debug|x64
+		{8A3E4C00-5F34-9336-1BCB-191297512751}.Debug|x64.Build.0 = Debug|x64
+		{8A3E4C00-5F34-9336-1BCB-191297512751}.Release|Win32.ActiveCfg = Release|Win32
+		{8A3E4C00-5F34-9336-1BCB-191297512751}.Release|Win32.Build.0 = Release|Win32
+		{8A3E4C00-5F34-9336-1BCB-191297512751}.Release|x64.ActiveCfg = Release|x64
+		{8A3E4C00-5F34-9336-1BCB-191297512751}.Release|x64.Build.0 = Release|x64
+		{5D22AD36-ABC5-6849-CC50-8F357A9FD0CD}.Debug|Win32.ActiveCfg = Debug|Win32
+		{5D22AD36-ABC5-6849-CC50-8F357A9FD0CD}.Debug|Win32.Build.0 = Debug|Win32
+		{5D22AD36-ABC5-6849-CC50-8F357A9FD0CD}.Debug|x64.ActiveCfg = Debug|x64
+		{5D22AD36-ABC5-6849-CC50-8F357A9FD0CD}.Debug|x64.Build.0 = Debug|x64
+		{5D22AD36-ABC5-6849-CC50-8F357A9FD0CD}.Release|Win32.ActiveCfg = Release|Win32
+		{5D22AD36-ABC5-6849-CC50-8F357A9FD0CD}.Release|Win32.Build.0 = Release|Win32
+		{5D22AD36-ABC5-6849-CC50-8F357A9FD0CD}.Release|x64.ActiveCfg = Release|x64
+		{5D22AD36-ABC5-6849-CC50-8F357A9FD0CD}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
