@@ -52,25 +52,25 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
-check_PROGRAMS = t-asmtype$(EXEEXT) t-aors_1$(EXEEXT) \
-	t-divrem_1$(EXEEXT) t-fat$(EXEEXT) t-get_d$(EXEEXT) \
-	t-instrument$(EXEEXT) t-iord_u$(EXEEXT) t-mulmid$(EXEEXT) \
-	t-mp_bases$(EXEEXT) t-perfsqr$(EXEEXT) t-scan$(EXEEXT) \
-	t-lorrshift1$(EXEEXT) t-divebyff$(EXEEXT) t-addadd_n$(EXEEXT) \
-	t-addsub_n$(EXEEXT) t-subadd_n$(EXEEXT) t-redc_1$(EXEEXT) \
-	t-divebyfobm1$(EXEEXT) t-mullowhigh$(EXEEXT) \
-	t-mullow_basecase$(EXEEXT) t-neg$(EXEEXT) \
-	t-mulmod_2expp1$(EXEEXT) t-mulmod_2expm1$(EXEEXT) \
-	t-tdiv_q$(EXEEXT) t-sb_divappr_q$(EXEEXT) \
-	t-dc_divappr_q_n$(EXEEXT) t-inv_divappr_q_n$(EXEEXT) \
-	t-invert$(EXEEXT) t-sb_div_q$(EXEEXT) t-sb_div_qr$(EXEEXT) \
-	t-dc_div_q$(EXEEXT) t-dc_div_qr$(EXEEXT) \
-	t-dc_divappr_q$(EXEEXT) t-dc_div_qr_n$(EXEEXT) \
-	t-inv_divappr_q$(EXEEXT) t-inv_div_q$(EXEEXT) \
+check_PROGRAMS = t-addadd_n$(EXEEXT) t-addsub_n$(EXEEXT) \
+	t-aors_1$(EXEEXT) t-asmtype$(EXEEXT) t-dc_bdiv_q$(EXEEXT) \
+	t-dc_bdiv_q_n$(EXEEXT) t-dc_bdiv_qr$(EXEEXT) \
+	t-dc_bdiv_qr_n$(EXEEXT) t-dc_div_q$(EXEEXT) \
+	t-dc_div_qr$(EXEEXT) t-dc_div_qr_n$(EXEEXT) \
+	t-dc_divappr_q$(EXEEXT) t-dc_divappr_q_n$(EXEEXT) \
+	t-divebyff$(EXEEXT) t-divebyfobm1$(EXEEXT) t-divrem_1$(EXEEXT) \
+	t-fat$(EXEEXT) t-gcdext$(EXEEXT) t-get_d$(EXEEXT) \
+	t-instrument$(EXEEXT) t-inv_div_q$(EXEEXT) \
 	t-inv_div_qr$(EXEEXT) t-inv_div_qr_n$(EXEEXT) \
-	t-tdiv_qr$(EXEEXT) t-sb_bdiv_q$(EXEEXT) t-sb_bdiv_qr$(EXEEXT) \
-	t-dc_bdiv_q_n$(EXEEXT) t-dc_bdiv_qr_n$(EXEEXT) \
-	t-dc_bdiv_qr$(EXEEXT) t-dc_bdiv_q$(EXEEXT) t-gcdext$(EXEEXT) \
+	t-inv_divappr_q$(EXEEXT) t-inv_divappr_q_n$(EXEEXT) \
+	t-invert$(EXEEXT) t-iord_u$(EXEEXT) t-lorrshift1$(EXEEXT) \
+	t-mp_bases$(EXEEXT) t-mullow_basecase$(EXEEXT) \
+	t-mullowhigh$(EXEEXT) t-mulmid$(EXEEXT) \
+	t-mulmod_2expm1$(EXEEXT) t-mulmod_2expp1$(EXEEXT) \
+	t-neg$(EXEEXT) t-perfsqr$(EXEEXT) t-redc_1$(EXEEXT) \
+	t-sb_bdiv_q$(EXEEXT) t-sb_bdiv_qr$(EXEEXT) t-sb_div_q$(EXEEXT) \
+	t-sb_div_qr$(EXEEXT) t-sb_divappr_q$(EXEEXT) t-scan$(EXEEXT) \
+	t-subadd_n$(EXEEXT) t-tdiv_q$(EXEEXT) t-tdiv_qr$(EXEEXT) \
 	$(am__EXEEXT_1)
 @ENABLE_SHARED_TRUE@@ENABLE_STATIC_TRUE@am__append_1 = st_fat st_instrument
 subdir = tests/mpn
@@ -1016,98 +1016,98 @@ recheck recheck-html:
 	        else echo $$f; fi;					\
 	      done | tr '\012\015' '  '`;				\
 	$(MAKE) $(AM_MAKEFLAGS) $$target AM_MAKEFLAGS='$(AM_MAKEFLAGS) TEST_LOGS="'"$$list"'"'
-t-asmtype.log: t-asmtype$(EXEEXT)
-	@p='t-asmtype$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
-t-aors_1.log: t-aors_1$(EXEEXT)
-	@p='t-aors_1$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
-t-divrem_1.log: t-divrem_1$(EXEEXT)
-	@p='t-divrem_1$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
-t-fat.log: t-fat$(EXEEXT)
-	@p='t-fat$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
-t-get_d.log: t-get_d$(EXEEXT)
-	@p='t-get_d$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
-t-instrument.log: t-instrument$(EXEEXT)
-	@p='t-instrument$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
-t-iord_u.log: t-iord_u$(EXEEXT)
-	@p='t-iord_u$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
-t-mulmid.log: t-mulmid$(EXEEXT)
-	@p='t-mulmid$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
-t-mp_bases.log: t-mp_bases$(EXEEXT)
-	@p='t-mp_bases$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
-t-perfsqr.log: t-perfsqr$(EXEEXT)
-	@p='t-perfsqr$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
-t-scan.log: t-scan$(EXEEXT)
-	@p='t-scan$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
-t-lorrshift1.log: t-lorrshift1$(EXEEXT)
-	@p='t-lorrshift1$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
-t-divebyff.log: t-divebyff$(EXEEXT)
-	@p='t-divebyff$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
 t-addadd_n.log: t-addadd_n$(EXEEXT)
 	@p='t-addadd_n$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
 t-addsub_n.log: t-addsub_n$(EXEEXT)
 	@p='t-addsub_n$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
-t-subadd_n.log: t-subadd_n$(EXEEXT)
-	@p='t-subadd_n$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
-t-redc_1.log: t-redc_1$(EXEEXT)
-	@p='t-redc_1$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
-t-divebyfobm1.log: t-divebyfobm1$(EXEEXT)
-	@p='t-divebyfobm1$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
-t-mullowhigh.log: t-mullowhigh$(EXEEXT)
-	@p='t-mullowhigh$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
-t-mullow_basecase.log: t-mullow_basecase$(EXEEXT)
-	@p='t-mullow_basecase$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
-t-neg.log: t-neg$(EXEEXT)
-	@p='t-neg$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
-t-mulmod_2expp1.log: t-mulmod_2expp1$(EXEEXT)
-	@p='t-mulmod_2expp1$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
-t-mulmod_2expm1.log: t-mulmod_2expm1$(EXEEXT)
-	@p='t-mulmod_2expm1$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
-t-tdiv_q.log: t-tdiv_q$(EXEEXT)
-	@p='t-tdiv_q$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
-t-sb_divappr_q.log: t-sb_divappr_q$(EXEEXT)
-	@p='t-sb_divappr_q$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
-t-dc_divappr_q_n.log: t-dc_divappr_q_n$(EXEEXT)
-	@p='t-dc_divappr_q_n$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
-t-inv_divappr_q_n.log: t-inv_divappr_q_n$(EXEEXT)
-	@p='t-inv_divappr_q_n$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
-t-invert.log: t-invert$(EXEEXT)
-	@p='t-invert$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
-t-sb_div_q.log: t-sb_div_q$(EXEEXT)
-	@p='t-sb_div_q$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
-t-sb_div_qr.log: t-sb_div_qr$(EXEEXT)
-	@p='t-sb_div_qr$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
+t-aors_1.log: t-aors_1$(EXEEXT)
+	@p='t-aors_1$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
+t-asmtype.log: t-asmtype$(EXEEXT)
+	@p='t-asmtype$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
+t-dc_bdiv_q.log: t-dc_bdiv_q$(EXEEXT)
+	@p='t-dc_bdiv_q$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
+t-dc_bdiv_q_n.log: t-dc_bdiv_q_n$(EXEEXT)
+	@p='t-dc_bdiv_q_n$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
+t-dc_bdiv_qr.log: t-dc_bdiv_qr$(EXEEXT)
+	@p='t-dc_bdiv_qr$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
+t-dc_bdiv_qr_n.log: t-dc_bdiv_qr_n$(EXEEXT)
+	@p='t-dc_bdiv_qr_n$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
 t-dc_div_q.log: t-dc_div_q$(EXEEXT)
 	@p='t-dc_div_q$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
 t-dc_div_qr.log: t-dc_div_qr$(EXEEXT)
 	@p='t-dc_div_qr$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
-t-dc_divappr_q.log: t-dc_divappr_q$(EXEEXT)
-	@p='t-dc_divappr_q$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
 t-dc_div_qr_n.log: t-dc_div_qr_n$(EXEEXT)
 	@p='t-dc_div_qr_n$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
-t-inv_divappr_q.log: t-inv_divappr_q$(EXEEXT)
-	@p='t-inv_divappr_q$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
+t-dc_divappr_q.log: t-dc_divappr_q$(EXEEXT)
+	@p='t-dc_divappr_q$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
+t-dc_divappr_q_n.log: t-dc_divappr_q_n$(EXEEXT)
+	@p='t-dc_divappr_q_n$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
+t-divebyff.log: t-divebyff$(EXEEXT)
+	@p='t-divebyff$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
+t-divebyfobm1.log: t-divebyfobm1$(EXEEXT)
+	@p='t-divebyfobm1$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
+t-divrem_1.log: t-divrem_1$(EXEEXT)
+	@p='t-divrem_1$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
+t-fat.log: t-fat$(EXEEXT)
+	@p='t-fat$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
+t-gcdext.log: t-gcdext$(EXEEXT)
+	@p='t-gcdext$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
+t-get_d.log: t-get_d$(EXEEXT)
+	@p='t-get_d$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
+t-instrument.log: t-instrument$(EXEEXT)
+	@p='t-instrument$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
 t-inv_div_q.log: t-inv_div_q$(EXEEXT)
 	@p='t-inv_div_q$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
 t-inv_div_qr.log: t-inv_div_qr$(EXEEXT)
 	@p='t-inv_div_qr$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
 t-inv_div_qr_n.log: t-inv_div_qr_n$(EXEEXT)
 	@p='t-inv_div_qr_n$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
-t-tdiv_qr.log: t-tdiv_qr$(EXEEXT)
-	@p='t-tdiv_qr$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
+t-inv_divappr_q.log: t-inv_divappr_q$(EXEEXT)
+	@p='t-inv_divappr_q$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
+t-inv_divappr_q_n.log: t-inv_divappr_q_n$(EXEEXT)
+	@p='t-inv_divappr_q_n$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
+t-invert.log: t-invert$(EXEEXT)
+	@p='t-invert$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
+t-iord_u.log: t-iord_u$(EXEEXT)
+	@p='t-iord_u$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
+t-lorrshift1.log: t-lorrshift1$(EXEEXT)
+	@p='t-lorrshift1$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
+t-mp_bases.log: t-mp_bases$(EXEEXT)
+	@p='t-mp_bases$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
+t-mullow_basecase.log: t-mullow_basecase$(EXEEXT)
+	@p='t-mullow_basecase$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
+t-mullowhigh.log: t-mullowhigh$(EXEEXT)
+	@p='t-mullowhigh$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
+t-mulmid.log: t-mulmid$(EXEEXT)
+	@p='t-mulmid$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
+t-mulmod_2expm1.log: t-mulmod_2expm1$(EXEEXT)
+	@p='t-mulmod_2expm1$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
+t-mulmod_2expp1.log: t-mulmod_2expp1$(EXEEXT)
+	@p='t-mulmod_2expp1$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
+t-neg.log: t-neg$(EXEEXT)
+	@p='t-neg$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
+t-perfsqr.log: t-perfsqr$(EXEEXT)
+	@p='t-perfsqr$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
+t-redc_1.log: t-redc_1$(EXEEXT)
+	@p='t-redc_1$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
 t-sb_bdiv_q.log: t-sb_bdiv_q$(EXEEXT)
 	@p='t-sb_bdiv_q$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
 t-sb_bdiv_qr.log: t-sb_bdiv_qr$(EXEEXT)
 	@p='t-sb_bdiv_qr$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
-t-dc_bdiv_q_n.log: t-dc_bdiv_q_n$(EXEEXT)
-	@p='t-dc_bdiv_q_n$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
-t-dc_bdiv_qr_n.log: t-dc_bdiv_qr_n$(EXEEXT)
-	@p='t-dc_bdiv_qr_n$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
-t-dc_bdiv_qr.log: t-dc_bdiv_qr$(EXEEXT)
-	@p='t-dc_bdiv_qr$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
-t-dc_bdiv_q.log: t-dc_bdiv_q$(EXEEXT)
-	@p='t-dc_bdiv_q$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
-t-gcdext.log: t-gcdext$(EXEEXT)
-	@p='t-gcdext$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
+t-sb_div_q.log: t-sb_div_q$(EXEEXT)
+	@p='t-sb_div_q$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
+t-sb_div_qr.log: t-sb_div_qr$(EXEEXT)
+	@p='t-sb_div_qr$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
+t-sb_divappr_q.log: t-sb_divappr_q$(EXEEXT)
+	@p='t-sb_divappr_q$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
+t-scan.log: t-scan$(EXEEXT)
+	@p='t-scan$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
+t-subadd_n.log: t-subadd_n$(EXEEXT)
+	@p='t-subadd_n$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
+t-tdiv_q.log: t-tdiv_q$(EXEEXT)
+	@p='t-tdiv_q$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
+t-tdiv_qr.log: t-tdiv_qr$(EXEEXT)
+	@p='t-tdiv_qr$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
 st_fat.log: st_fat$(EXEEXT)
 	@p='st_fat$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
 st_instrument.log: st_instrument$(EXEEXT)

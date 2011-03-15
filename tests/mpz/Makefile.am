@@ -26,15 +26,7 @@
 INCLUDES = -I$(top_srcdir) -I$(top_srcdir)/tests
 LDADD = $(top_builddir)/tests/libtests.la $(top_builddir)/libmpir.la
 
-check_PROGRAMS = t-addsub t-cmp t-mul t-mul_i t-tdiv t-tdiv_ui t-fdiv   \
-  t-fdiv_ui t-cdiv_ui t-gcd t-gcd_ui t-lcm dive dive_ui t-sqrtrem convert io \
-  t-inp_str logic bit t-powm t-powm_ui t-pow t-div_2exp reuse           \
-  t-root t-perfsqr t-jac t-bin t-get_d t-get_d_2exp t-get_si		\
-  t-set_d t-set_si t-set_sx t-get_sx 					\
-  t-fac_ui t-fib_ui t-likely_prime_p t-lucnum_ui t-scan t-fits          \
-  t-divis t-divis_2exp t-cong t-cong_2exp t-sizeinbase t-set_str        \
-  t-aorsmul t-cmp_d t-cmp_si t-hamdist t-oddeven t-popcount t-set_f     \
-  t-io_raw t-import t-export t-pprime_p t-perfpow t-trial_division
+check_PROGRAMS = bit convert dive dive_ui io logic reuse t-addsub t-aorsmul t-bin t-cdiv_ui t-cmp t-cmp_d t-cmp_si t-cong t-cong_2exp t-div_2exp t-divis t-divis_2exp t-export t-fac_ui t-fdiv t-fdiv_ui t-fib_ui t-fits t-gcd t-gcd_ui t-get_d t-get_d_2exp t-get_si t-get_sx t-hamdist t-import t-inp_str t-io_raw t-jac t-lcm t-likely_prime_p t-lucnum_ui t-mul t-mul_i t-oddeven t-perfpow t-perfsqr t-popcount t-pow t-powm t-powm_ui t-pprime_p t-root t-scan t-set_d t-set_f t-set_si t-set_str t-set_sx t-sizeinbase t-sqrtrem t-tdiv t-tdiv_ui t-trial_division 
 
 if ENABLE_STATIC
 if ENABLE_SHARED

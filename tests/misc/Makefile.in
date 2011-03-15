@@ -52,7 +52,7 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
-check_PROGRAMS = t-printf$(EXEEXT) t-scanf$(EXEEXT) t-locale$(EXEEXT)
+check_PROGRAMS = t-locale$(EXEEXT) t-printf$(EXEEXT) t-scanf$(EXEEXT)
 subdir = tests/misc
 DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
@@ -600,12 +600,12 @@ recheck recheck-html:
 	        else echo $$f; fi;					\
 	      done | tr '\012\015' '  '`;				\
 	$(MAKE) $(AM_MAKEFLAGS) $$target AM_MAKEFLAGS='$(AM_MAKEFLAGS) TEST_LOGS="'"$$list"'"'
+t-locale.log: t-locale$(EXEEXT)
+	@p='t-locale$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
 t-printf.log: t-printf$(EXEEXT)
 	@p='t-printf$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
 t-scanf.log: t-scanf$(EXEEXT)
 	@p='t-scanf$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
-t-locale.log: t-locale$(EXEEXT)
-	@p='t-locale$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
 .test.log:
 	@p='$<'; $(am__check_pre) $(TEST_LOG_COMPILE) "$$tst" $(am__check_post)
 @am__EXEEXT_TRUE@.test$(EXEEXT).log:

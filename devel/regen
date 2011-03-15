@@ -60,3 +60,43 @@ srcs=$(echo -n $srcs | sed s/"\([^[:space:]]\+\)\(\.c[[:space:]]*\)"/"scanf\\\\\
 cat ../Makefile.am | sed s/"SCANF_OBJECTS[[:space:]]*=.*"/"SCANF_OBJECTS = $srcs"/ > tmpfile
 mv tmpfile ../Makefile.am
 cd ../devel
+
+# tests/mpz/Makefile.am
+cd ../tests/mpz
+srcs=$(ls *.c)
+srcs=$(echo -n $srcs | sed s/"\([^[:space:]]\+\)\(\.c[[:space:]]*\)"/"\1 "/g)
+cat Makefile.am | sed s/"check_PROGRAMS[[:space:]]*=.*"/"check_PROGRAMS = $srcs"/ > tmpfile
+mv tmpfile Makefile.am
+cd ../../devel
+
+# tests/mpf/Makefile.am
+cd ../tests/mpf
+srcs=$(ls *.c)
+srcs=$(echo -n $srcs | sed s/"\([^[:space:]]\+\)\(\.c[[:space:]]*\)"/"\1 "/g)
+cat Makefile.am | sed s/"check_PROGRAMS[[:space:]]*=.*"/"check_PROGRAMS = $srcs"/ > tmpfile
+mv tmpfile Makefile.am
+cd ../../devel
+
+# tests/mpq/Makefile.am
+cd ../tests/mpq
+srcs=$(ls *.c)
+srcs=$(echo -n $srcs | sed s/"\([^[:space:]]\+\)\(\.c[[:space:]]*\)"/"\1 "/g)
+cat Makefile.am | sed s/"check_PROGRAMS[[:space:]]*=.*"/"check_PROGRAMS = $srcs"/ > tmpfile
+mv tmpfile Makefile.am
+cd ../../devel
+
+# tests/misc/Makefile.am
+cd ../tests/misc
+srcs=$(ls *.c)
+srcs=$(echo -n $srcs | sed s/"\([^[:space:]]\+\)\(\.c[[:space:]]*\)"/"\1 "/g)
+cat Makefile.am | sed s/"check_PROGRAMS[[:space:]]*=.*"/"check_PROGRAMS = $srcs"/ > tmpfile
+mv tmpfile Makefile.am
+cd ../../devel
+
+# tests/mpn/Makefile.am
+cd ../tests/mpn
+srcs=$(ls *.c)
+srcs=$(echo -n $srcs | sed s/"\([^[:space:]]\+\)\(\.c[[:space:]]*\)"/"\1 "/g)
+cat Makefile.am | sed s/"check_PROGRAMS[[:space:]]*=.*"/"check_PROGRAMS = $srcs"/ > tmpfile
+mv tmpfile Makefile.am
+cd ../../devel

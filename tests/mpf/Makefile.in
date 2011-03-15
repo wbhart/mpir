@@ -53,15 +53,15 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
-check_PROGRAMS = t-add$(EXEEXT) t-sub$(EXEEXT) t-conv$(EXEEXT) \
-	t-sqrt$(EXEEXT) t-sqrt_ui$(EXEEXT) t-muldiv$(EXEEXT) \
-	t-dm2exp$(EXEEXT) reuse$(EXEEXT) t-cmp_d$(EXEEXT) \
-	t-cmp_si$(EXEEXT) t-div$(EXEEXT) t-fits$(EXEEXT) \
+check_PROGRAMS = reuse$(EXEEXT) t-add$(EXEEXT) t-cmp_d$(EXEEXT) \
+	t-cmp_si$(EXEEXT) t-conv$(EXEEXT) t-div$(EXEEXT) \
+	t-dm2exp$(EXEEXT) t-eq$(EXEEXT) t-fits$(EXEEXT) \
 	t-get_d$(EXEEXT) t-get_d_2exp$(EXEEXT) t-get_si$(EXEEXT) \
 	t-get_ui$(EXEEXT) t-gsprec$(EXEEXT) t-inp_str$(EXEEXT) \
-	t-int_p$(EXEEXT) t-mul_ui$(EXEEXT) t-set$(EXEEXT) \
-	t-set_q$(EXEEXT) t-set_si$(EXEEXT) t-set_ui$(EXEEXT) \
-	t-trunc$(EXEEXT) t-ui_div$(EXEEXT) t-eq$(EXEEXT)
+	t-int_p$(EXEEXT) t-mul_ui$(EXEEXT) t-muldiv$(EXEEXT) \
+	t-set$(EXEEXT) t-set_q$(EXEEXT) t-set_si$(EXEEXT) \
+	t-set_ui$(EXEEXT) t-sqrt$(EXEEXT) t-sqrt_ui$(EXEEXT) \
+	t-sub$(EXEEXT) t-trunc$(EXEEXT) t-ui_div$(EXEEXT)
 subdir = tests/mpf
 DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
@@ -804,28 +804,22 @@ recheck recheck-html:
 	        else echo $$f; fi;					\
 	      done | tr '\012\015' '  '`;				\
 	$(MAKE) $(AM_MAKEFLAGS) $$target AM_MAKEFLAGS='$(AM_MAKEFLAGS) TEST_LOGS="'"$$list"'"'
-t-add.log: t-add$(EXEEXT)
-	@p='t-add$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
-t-sub.log: t-sub$(EXEEXT)
-	@p='t-sub$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
-t-conv.log: t-conv$(EXEEXT)
-	@p='t-conv$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
-t-sqrt.log: t-sqrt$(EXEEXT)
-	@p='t-sqrt$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
-t-sqrt_ui.log: t-sqrt_ui$(EXEEXT)
-	@p='t-sqrt_ui$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
-t-muldiv.log: t-muldiv$(EXEEXT)
-	@p='t-muldiv$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
-t-dm2exp.log: t-dm2exp$(EXEEXT)
-	@p='t-dm2exp$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
 reuse.log: reuse$(EXEEXT)
 	@p='reuse$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
+t-add.log: t-add$(EXEEXT)
+	@p='t-add$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
 t-cmp_d.log: t-cmp_d$(EXEEXT)
 	@p='t-cmp_d$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
 t-cmp_si.log: t-cmp_si$(EXEEXT)
 	@p='t-cmp_si$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
+t-conv.log: t-conv$(EXEEXT)
+	@p='t-conv$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
 t-div.log: t-div$(EXEEXT)
 	@p='t-div$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
+t-dm2exp.log: t-dm2exp$(EXEEXT)
+	@p='t-dm2exp$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
+t-eq.log: t-eq$(EXEEXT)
+	@p='t-eq$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
 t-fits.log: t-fits$(EXEEXT)
 	@p='t-fits$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
 t-get_d.log: t-get_d$(EXEEXT)
@@ -844,6 +838,8 @@ t-int_p.log: t-int_p$(EXEEXT)
 	@p='t-int_p$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
 t-mul_ui.log: t-mul_ui$(EXEEXT)
 	@p='t-mul_ui$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
+t-muldiv.log: t-muldiv$(EXEEXT)
+	@p='t-muldiv$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
 t-set.log: t-set$(EXEEXT)
 	@p='t-set$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
 t-set_q.log: t-set_q$(EXEEXT)
@@ -852,12 +848,16 @@ t-set_si.log: t-set_si$(EXEEXT)
 	@p='t-set_si$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
 t-set_ui.log: t-set_ui$(EXEEXT)
 	@p='t-set_ui$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
+t-sqrt.log: t-sqrt$(EXEEXT)
+	@p='t-sqrt$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
+t-sqrt_ui.log: t-sqrt_ui$(EXEEXT)
+	@p='t-sqrt_ui$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
+t-sub.log: t-sub$(EXEEXT)
+	@p='t-sub$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
 t-trunc.log: t-trunc$(EXEEXT)
 	@p='t-trunc$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
 t-ui_div.log: t-ui_div$(EXEEXT)
 	@p='t-ui_div$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
-t-eq.log: t-eq$(EXEEXT)
-	@p='t-eq$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
 .test.log:
 	@p='$<'; $(am__check_pre) $(TEST_LOG_COMPILE) "$$tst" $(am__check_post)
 @am__EXEEXT_TRUE@.test$(EXEEXT).log:

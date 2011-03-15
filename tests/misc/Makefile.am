@@ -23,7 +23,7 @@
 INCLUDES = -I$(top_srcdir) -I$(top_srcdir)/tests
 LDADD = $(top_builddir)/tests/libtests.la $(top_builddir)/libmpir.la
 
-check_PROGRAMS = t-printf t-scanf t-locale
+check_PROGRAMS = t-locale t-printf t-scanf 
 TESTS = $(check_PROGRAMS)
 
 # Temporary files used by the tests.  Removed automatically if the tests

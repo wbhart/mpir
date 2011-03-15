@@ -52,8 +52,8 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
-check_PROGRAMS = t-aors$(EXEEXT) t-cmp$(EXEEXT) t-cmp_ui$(EXEEXT) \
-	t-cmp_si$(EXEEXT) t-equal$(EXEEXT) t-get_d$(EXEEXT) \
+check_PROGRAMS = t-aors$(EXEEXT) t-cmp$(EXEEXT) t-cmp_si$(EXEEXT) \
+	t-cmp_ui$(EXEEXT) t-equal$(EXEEXT) t-get_d$(EXEEXT) \
 	t-get_str$(EXEEXT) t-inp_str$(EXEEXT) t-md_2exp$(EXEEXT) \
 	t-set_f$(EXEEXT) t-set_str$(EXEEXT)
 subdir = tests/mpq
@@ -674,10 +674,10 @@ t-aors.log: t-aors$(EXEEXT)
 	@p='t-aors$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
 t-cmp.log: t-cmp$(EXEEXT)
 	@p='t-cmp$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
-t-cmp_ui.log: t-cmp_ui$(EXEEXT)
-	@p='t-cmp_ui$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
 t-cmp_si.log: t-cmp_si$(EXEEXT)
 	@p='t-cmp_si$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
+t-cmp_ui.log: t-cmp_ui$(EXEEXT)
+	@p='t-cmp_ui$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
 t-equal.log: t-equal$(EXEEXT)
 	@p='t-equal$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
 t-get_d.log: t-get_d$(EXEEXT)
