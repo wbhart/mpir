@@ -23,7 +23,7 @@
 INCLUDES = -I$(top_srcdir) -I$(top_srcdir)/tests
 LDADD = $(top_builddir)/tests/libtests.la $(top_builddir)/libmpir.la
 
-check_PROGRAMS = t-iset t-lc2exp t-mt t-rand t-urbui t-urmui t-urndmm
+check_PROGRAMS = t-iset t-lc2exp t-mt t-rand t-urbui t-urmui t-urndmm 
 TESTS = $(check_PROGRAMS)
 
 EXTRA_PROGRAMS = findlc gen gen.static spect stat

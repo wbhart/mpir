@@ -100,3 +100,28 @@ srcs=$(echo -n $srcs | sed s/"\([^[:space:]]\+\)\(\.c[[:space:]]*\)"/"\1 "/g)
 cat Makefile.am | sed s/"check_PROGRAMS[[:space:]]*=.*"/"check_PROGRAMS = $srcs"/ > tmpfile
 mv tmpfile Makefile.am
 cd ../../devel
+
+# tests/rand/Makefile.am
+cd ../tests/rand
+srcs=$(ls t-*.c)
+srcs=$(echo -n $srcs | sed s/"\([^[:space:]]\+\)\(\.c[[:space:]]*\)"/"\1 "/g)
+cat Makefile.am | sed s/"check_PROGRAMS[[:space:]]*=.*"/"check_PROGRAMS = $srcs"/ > tmpfile
+mv tmpfile Makefile.am
+cd ../../devel
+
+# tests/Makefile.am
+cd ../tests
+srcs=$(ls t-*.c)
+srcs=$(echo -n $srcs | sed s/"\([^[:space:]]\+\)\(\.c[[:space:]]*\)"/"\1 "/g)
+cat Makefile.am | sed s/"check_PROGRAMS[[:space:]]*=.*"/"check_PROGRAMS = $srcs"/ > tmpfile
+mv tmpfile Makefile.am
+cd ../devel
+
+# tests/cxx/Makefile.am , this is not complete
+cd ../tests/cxx
+srcs=$(ls *.cc)
+#cxxsrcs=$(echo -n $srcs | sed s/"t-\([^[:space:]]\+\)\(\.cc[[:space:]]*\)"/"t_\1_SOURCES = t-\1.cc\n"/g)
+srcs=$(echo -n $srcs | sed s/"\([^[:space:]]\+\)\(\.cc[[:space:]]*\)"/"\1 "/g)
+cat Makefile.am | sed s/"check_PROGRAMS[[:space:]]*=.*"/"check_PROGRAMS = $srcs"/ > tmpfile
+mv tmpfile Makefile.am
+cd ../../devel

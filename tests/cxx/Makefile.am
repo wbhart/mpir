@@ -32,8 +32,7 @@ LDADD = -L$(top_builddir)/.libs \
   $(top_builddir)/libmpir.la
 
 if WANT_CXX
-check_PROGRAMS = t-assign t-binary t-cast t-constr t-headers \
-  t-istream t-locale t-misc t-ops t-ostream t-prec t-rand t-ternary t-unary
+check_PROGRAMS = t-assign t-binary t-cast t-constr t-headers t-istream t-locale t-misc t-ops t-ostream t-prec t-rand t-ternary t-unary 
 TESTS = $(check_PROGRAMS)
 endif
 

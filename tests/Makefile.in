@@ -78,7 +78,7 @@ DIST_COMMON = $(srcdir)/../mpn/Makeasm.am $(srcdir)/Makefile.am \
 	$(srcdir)/Makefile.in
 check_PROGRAMS = t-bswap$(EXEEXT) t-constants$(EXEEXT) \
 	t-count_zeros$(EXEEXT) t-gmpmax$(EXEEXT) t-hightomask$(EXEEXT) \
-	t-modlinv$(EXEEXT) t-popc$(EXEEXT) t-parity$(EXEEXT) \
+	t-modlinv$(EXEEXT) t-parity$(EXEEXT) t-popc$(EXEEXT) \
 	t-sub$(EXEEXT)
 subdir = tests
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
@@ -438,9 +438,7 @@ INCLUDES = -I$(top_srcdir)
 LDADD = libtests.la $(top_builddir)/libmpir.la
 check_LTLIBRARIES = libtests.la
 EXTRA_libtests_la_SOURCES = x86_64call.as x86_64check.c x86call.asm x86check.c
-libtests_la_SOURCES = tests.h \
-  memory.c misc.c refmpf.c refmpn.c refmpq.c refmpz.c spinner.c trace.c
-
+libtests_la_SOURCES = tests.h  memory.c misc.c refmpf.c refmpn.c refmpq.c refmpz.c spinner.c trace.c
 libtests_la_DEPENDENCIES = @CALLING_CONVENTIONS_OBJS@
 libtests_la_LIBADD = $(libtests_la_DEPENDENCIES) $(top_builddir)/libmpir.la
 TESTS = $(check_PROGRAMS)
@@ -846,10 +844,10 @@ t-hightomask.log: t-hightomask$(EXEEXT)
 	@p='t-hightomask$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
 t-modlinv.log: t-modlinv$(EXEEXT)
 	@p='t-modlinv$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
-t-popc.log: t-popc$(EXEEXT)
-	@p='t-popc$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
 t-parity.log: t-parity$(EXEEXT)
 	@p='t-parity$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
+t-popc.log: t-popc$(EXEEXT)
+	@p='t-popc$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
 t-sub.log: t-sub$(EXEEXT)
 	@p='t-sub$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
 .test.log:
