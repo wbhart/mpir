@@ -412,6 +412,8 @@ SUFFIXES = .s .S .as .asm
 
 # can be overridden during development, eg. "make RM_TMP=: mul_1.lo"
 RM_TMP = rm -f
+@BUILD_YASM_FALSE@ASSEMBLER = $(CCAS) $(COMPILE_FLAGS)
+@BUILD_YASM_TRUE@ASSEMBLER = $(top_srcdir)/strip_fPIC.sh $(top_builddir)$(MPIR_AS) -p gas -I $(top_builddir) $(OBJECT_FORMAT) $(GSYM_FLAG) -o $@ 
 all: all-am
 
 .SUFFIXES:
@@ -762,8 +764,9 @@ sqr_asm.asm: $(top_builddir)/mpn/sqr_basecase.asm
 	$(M4) -DOPERATION_$* `if test -f '$<'; then $(CYGPATH_W) '$<'; else $(CYGPATH_W) '$(srcdir)/$<'; fi` >tmp-$*.s
 	$(CCAS) $(COMPILE_FLAGS) tmp-$*.s -o $@
 	$(RM_TMP) tmp-$*.s
+
 .asm.lo:
-	$(LIBTOOL) --mode=compile --tag=CC $(top_srcdir)/mpn/m4-ccas --m4="$(M4)" $(CCAS) $(COMPILE_FLAGS) `test -f '$<' || echo '$(srcdir)/'`$<
+	$(LIBTOOL) --mode=compile --tag=CC $(top_srcdir)/mpn/m4-ccas --m4="$(M4)" $(ASSEMBLER) `test -f '$<' || echo '$(srcdir)/'`$<
 
 #  .as assembler, assembled with Yasm
 
