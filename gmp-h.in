@@ -53,14 +53,6 @@ along with the GNU MP Library.  If not, see http://www.gnu.org/licenses/.  */
 #endif
 #undef __need_size_t
 
-#ifdef HAVE_STDINT_H
-#if defined (__cplusplus)
-#    include <cstdint>  /* for intmax_t/uintmax_t */
-#  else
-#    include <stdint.h> /* for intmax_t/uintmax_t */
-#  endif
-#endif
-
 /* Instantiated by configure. */
 #if ! defined (__GMP_WITHIN_CONFIGURE)
 @DEFN_LONG_LONG_LIMB@
@@ -1188,7 +1180,7 @@ __GMP_DECLSPEC void mpz_xor __GMP_PROTO ((mpz_ptr, mpz_srcptr, mpz_srcptr));
 
 /****** Integer (i.e. Z) routines for intmaax_t/uintmax_t types ******/
 
-#ifdef HAVE_STDINT_H
+#if defined( _STDINT_H ) || defined ( _STDINT_H_ ) || defined ( _STDINT )
 
 #define __GMP_BITS_PER_UINTMAX  (8*sizeof(uintmax_t))
 

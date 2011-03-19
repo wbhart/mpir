@@ -20,7 +20,7 @@ along with the GNU MP Library; see the file COPYING.LIB.  If not, write to
 the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 MA 02110-1301, USA. */
 
-#define HAVE_STDINT_H
+#include <stdint.h>
 
 #include "mpir.h"
 #include "gmp-impl.h"
@@ -33,7 +33,7 @@ void
 mpz_set_sx (mpz_ptr z, intmax_t v)
 {   uintmax_t i, uv = (v < 0 ? -v : v);
 
-#if GMP_NUMB_BITS >= 8 * SIZEOF_UINTMAX_T
+#if NLIMBS == 1
     z->_mp_d[0] = (mp_limb_t)uv;
     z->_mp_size = v < 0 ? -NLIMBS : v ? NLIMBS : 0;
 #else

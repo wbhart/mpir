@@ -20,7 +20,7 @@ along with the GNU MP Library; see the file COPYING.LIB.  If not, write to
 the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 MA 02110-1301, USA. */
 
-#define HAVE_STDINT_H
+#include <stdint.h>
 
 #include "mpir.h"
 #include "gmp-impl.h"
@@ -36,7 +36,7 @@ mpz_init_set_sx (mpz_ptr z, intmax_t v)
     z->_mp_d = (mp_ptr) (*__gmp_allocate_func) (MAX(1, NLIMBS) * BYTES_PER_MP_LIMB);
     z->_mp_alloc = MAX(1, NLIMBS);
 
-#if GMP_NUMB_BITS >= 8 * SIZEOF_UINTMAX_T
+#if NLIMBS == 1
     z->_mp_d[0] = (mp_limb_t)uv;
     z->_mp_size = v < 0 ? -NLIMBS : v ? NLIMBS : 0;
 #else

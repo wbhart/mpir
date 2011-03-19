@@ -21,10 +21,9 @@ along with the GNU MP Library; see the file COPYING.LIB.  If not, write to
 the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 MA 02110-1301, USA. */
 
-#define HAVE_STDINT_H
-
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdint.h>
 #include "mpir.h"
 #include "gmp-impl.h"
 #include "tests.h"

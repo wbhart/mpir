@@ -21,7 +21,7 @@ along with the GNU MP Library; see the file COPYING.LIB.  If not, write to
 the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 MA 02110-1301, USA. */
 
-#define HAVE_STDINT_H
+#include <stdint.h>
 
 #include "mpir.h"
 #include "gmp-impl.h"
@@ -33,7 +33,7 @@ MA 02110-1301, USA. */
 intmax_t
 mpz_get_sx (mpz_srcptr z)
 {
-#if GMP_NUMB_BITS >= 8 * SIZEOF_UINTMAX_T
+#if NLIMBS == 1
     uintmax_t v = (intmax_t)(z->_mp_size ? z->_mp_d[0] : 0);
 #else
     uintmax_t v  = 0, n = MIN(NLIMBS, ABS(z->_mp_size));
