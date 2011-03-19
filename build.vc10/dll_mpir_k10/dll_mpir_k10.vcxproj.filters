@@ -1638,8 +1638,5 @@
     <YASM Include="..\..\mpn\x86_64w\k8\not.asm">
       <Filter>Source Files\mpn\Assembler</Filter>
     </YASM>
-    <YASM Include="..\..\mpn\x86_64w\k8\sub_err1_n.asm">
-      <Filter>Source Files</Filter>
-    </YASM>
   </ItemGroup>
 </Project>

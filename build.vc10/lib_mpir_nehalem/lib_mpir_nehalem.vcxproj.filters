@@ -1552,6 +1552,9 @@
     <YASM Include="..\..\mpn\x86_64w\nehalem\add_err1_n.asm">
       <Filter>Source Files\mpn\Assembler</Filter>
     </YASM>
+    <YASM Include="..\..\mpn\x86_64w\nehalem\sub_err1_n.asm">
+      <Filter>Source Files\mpn\Assembler</Filter>
+    </YASM>
     <YASM Include="..\..\mpn\x86_64w\add_err2_n.asm">
       <Filter>Source Files\mpn\Assembler</Filter>
     </YASM>
