@@ -23,7 +23,7 @@ set MPIRDIR=..\mpn\x86_64w\nehalem\
 set YASM="%VS90COMNTOOLS%\..\..\VC\bin\"
 md tests
 cd tests
-md mpn mpz mpq mpf rand misc > nul 2>&1
+md mpn mpz mpq mpf rand misc cxx > nul 2>&1
 cd ..
 
 echo int main(void){return 0;} > comptest.c
@@ -122,6 +122,17 @@ for %%X in ( ..\..\..\tests\misc\t-*.c) do (
 )
 for %%X in ( *.exe) do (
 	echo testing misc_%%X
+	%%X
+	if errorlevel 1 ( echo %%X FAILS )
+)
+cd ..
+
+cd cxx
+for %%X in ( ..\..\..\tests\cxx\t-*.cc) do (
+	cl /EHsc %OPT% /I..\..\.. /I..\..\..\tests %%X ..\misc.obj ..\memory.obj ..\trace.obj ..\refmpn.obj ..\..\mpir.lib
+)
+for %%X in ( *.exe) do (
+	echo testing cxx_%%X
 	%%X
 	if errorlevel 1 ( echo %%X FAILS )
 )

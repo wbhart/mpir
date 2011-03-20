@@ -20,6 +20,5 @@
 ::
 
 del *.obj ..\mpir.h ..\config.h ..\gmp-mparam.h mpir.lib *.idb *.pdb > nul 2>&1
-del /S/Q mpn mpz mpq mpf scanf printf tests > nul 2>&1
-rmdir mpn mpz mpq mpf scanf printf tests > nul 2>&1
-
+rmdir /S/Q mpn mpz mpq mpf scanf printf tests cxx > nul 2>&1
+del gen_mpir_h.bat out_copy_rename.bat gen_config_h.bat cfg.h > nul 2>&1

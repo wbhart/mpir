@@ -21,20 +21,18 @@
 
 set MPIRDIR=..\mpn\x86_64w\nehalem\
 set YASM="%VS90COMNTOOLS%\..\..\VC\bin\"
-md mpn mpz mpq mpf printf scanf > nul 2>&1
+md mpn mpz mpq mpf printf scanf cxx > nul 2>&1
 
 copy ..\build.vc10\gen_mpir_h.bat .
 copy ..\build.vc10\out_copy_rename.bat .
 copy ..\build.vc10\gen_config_h.bat .
 copy ..\build.vc10\cfg.h .
 
-del ..\mpir.h
+del ..\mpir.h > nul 2>&1
 call gen_mpir_h x64
-del ..\config.h
+del ..\config.h > nul 2>&1
 call gen_config_h %MPIRDIR%
 copy %MPIRDIR%gmp-mparam.h ..
-
-del gen_mpir_h.bat out_copy_rename.bat gen_config_h.bat cfg.h
 
 echo int main(void){return 0;} > comptest.c
 cl /nologo comptest.c > nul 2>&1
@@ -127,9 +125,15 @@ for %%X in ( ..\assert.c ..\compat.c ..\errno.c ..\extract-dbl.c ..\invalid.c ..
 	cl %OPT% -I.. %%X
 )
 
+cd cxx
+for %%X in ( ..\..\cxx\*.cc) do (
+	cl /EHsc %OPT% -I..\.. %%X
+)
+cd ..
+
 ::del mpz\get_ux.obj mpz\get_sx.obj mpz\set_ux.obj mpz\set_sx.obj
 
-lib /nologo scanf\*.obj printf\*.obj mpz\*.obj mpq\*.obj mpf\*.obj mpn\*.obj *.obj /out:mpir.lib
+lib /nologo scanf\*.obj printf\*.obj mpz\*.obj mpq\*.obj mpf\*.obj mpn\*.obj cxx\*.obj *.obj /out:mpir.lib
 
 
 :fin
