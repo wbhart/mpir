@@ -82,6 +82,10 @@ cd mpn
 for %%X in ( ..\..\mpn\generic\*.c) do (
 	cl %OPT% -I..\.. %%X
 )
+for %%X in ( ..\%MPIRDIR%\..\modexact_1c_odd.asm ) do (
+	yasm -I ..\..\mpn\x86_64w -f x64 %%X
+	echo assemblin %%X
+)
 for %%X in ( ..\%MPIRDIR%\*.asm ) do (
 	yasm -I ..\..\mpn\x86_64w -f x64 %%X
 	echo assemblin %%X

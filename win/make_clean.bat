@@ -19,7 +19,7 @@
 ::  Boston, MA 02110-1301, USA.
 ::
 
-del *.obj ..\mpir.h ..\config.h mpir.lib *.idb *.pdb > nul 2>&1
-del /S/Q mpn mpz mpq mpf scanf printf > nul 2>&1
-rmdir mpn mpz mpq mpf scanf printf > nul 2>&1
+del *.obj ..\mpir.h ..\config.h ..\gmp-mparam.h mpir.lib *.idb *.pdb > nul 2>&1
+del /S/Q mpn mpz mpq mpf scanf printf tests > nul 2>&1
+rmdir mpn mpz mpq mpf scanf printf tests > nul 2>&1
 

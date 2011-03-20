@@ -28,11 +28,9 @@ cd ..
 
 echo int main(void){return 0;} > comptest.c
 cl /nologo comptest.c > nul 2>&1
-if errorlevel 1 goto :nocc
-goto :gotcc
-:nocc
-call "%VS90COMNTOOLS%\..\..\VC\vcvarsall.bat" amd64
-:gotcc
+if errorlevel 1 (
+	call "%VS90COMNTOOLS%\..\..\VC\vcvarsall.bat" amd64
+)
 del comptest.*
 :: dont set yasm path until after MSVC
 set PATH=%PATH%;%YASM%
@@ -48,8 +46,10 @@ cd tests
 cl %OPT% /c ..\..\tests\memory.c /I..\..
 cl %OPT% /c ..\..\tests\misc.c   /I..\..
 cl %OPT% /c ..\..\tests\trace.c  /I..\..
-cl %OPT% /c ..\..\tests\refmpn.c  /I..\..
-
+cl %OPT% /c ..\..\tests\refmpn.c /I..\..
+cl %OPT% /c ..\..\tests\refmpz.c /I..\..
+cl %OPT% /c ..\..\tests\refmpq.c /I..\..
+cl %OPT% /c ..\..\tests\refmpf.c /I..\..
 
 for %%X in ( ..\..\tests\t-*.c) do (
 	cl %OPT% /I..\.. /I..\..\tests %%X misc.obj memory.obj trace.obj refmpn.obj ..\mpir.lib
@@ -66,11 +66,67 @@ for %%X in ( ..\..\..\tests\mpn\t-*.c) do (
 	cl %OPT% /I..\..\.. /I..\..\..\tests %%X ..\misc.obj ..\memory.obj ..\trace.obj ..\refmpn.obj ..\..\mpir.lib
 )
 for %%X in ( *.exe) do (
-	echo testing %%X
+	echo testing mpn_%%X
 	%%X
 	if errorlevel 1 ( echo %%X FAILS )
 )
 cd ..
+
+cd mpz
+for %%X in ( ..\..\..\tests\mpz\*.c) do (
+	cl %OPT% /I..\..\.. /I..\..\..\tests %%X ..\misc.obj ..\memory.obj ..\trace.obj ..\refmpn.obj ..\refmpz.obj ..\..\mpir.lib
+)
+for %%X in ( *.exe) do (
+	echo testing mpz_%%X
+	%%X
+	if errorlevel 1 ( echo %%X FAILS )
+)
+cd ..
+
+cd mpq
+for %%X in ( ..\..\..\tests\mpq\t-*.c) do (
+	cl %OPT% /I..\..\.. /I..\..\..\tests %%X ..\misc.obj ..\memory.obj ..\trace.obj ..\refmpn.obj ..\refmpz.obj ..\refmpq.obj ..\..\mpir.lib
+)
+for %%X in ( *.exe) do (
+	echo testing mpq_%%X
+	%%X
+	if errorlevel 1 ( echo %%X FAILS )
+)
+cd ..
+
+cd mpf
+for %%X in ( ..\..\..\tests\mpf\*.c) do (
+	cl %OPT% /I..\..\.. /I..\..\..\tests %%X ..\misc.obj ..\memory.obj ..\trace.obj ..\refmpn.obj ..\refmpf.obj ..\..\mpir.lib
+)
+for %%X in ( *.exe) do (
+	echo testing mpf_%%X
+	%%X
+	if errorlevel 1 ( echo %%X FAILS )
+)
+cd ..
+
+cd rand
+for %%X in ( ..\..\..\tests\rand\t-*.c) do (
+	cl %OPT% /I..\..\.. /I..\..\..\tests %%X ..\misc.obj ..\memory.obj ..\trace.obj ..\refmpn.obj ..\..\mpir.lib
+)
+for %%X in ( *.exe) do (
+	echo testing rand_%%X
+	%%X
+	if errorlevel 1 ( echo %%X FAILS )
+)
+cd ..
+
+cd misc
+for %%X in ( ..\..\..\tests\misc\t-*.c) do (
+	cl %OPT% /I..\..\.. /I..\..\..\tests %%X ..\misc.obj ..\memory.obj ..\trace.obj ..\refmpn.obj ..\..\mpir.lib
+)
+for %%X in ( *.exe) do (
+	echo testing misc_%%X
+	%%X
+	if errorlevel 1 ( echo %%X FAILS )
+)
+cd ..
+
 
 :fin
 cd ..
