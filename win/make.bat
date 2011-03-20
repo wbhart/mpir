@@ -20,7 +20,7 @@
 ::
 
 set MPIRDIR=..\mpn\x86_64w\nehalem\
-set YASM="%VS90COMNTOOLS%\..\..\VC\bin\"
+set YASM=%VS90COMNTOOLS%\..\..\VC\bin\
 md mpn mpz mpq mpf printf scanf cxx > nul 2>&1
 
 copy ..\build.vc10\gen_mpir_h.bat .
@@ -41,7 +41,13 @@ if errorlevel 1 (
 )
 del comptest.*
 :: dont set yasm path until after MSVC
-set PATH=%PATH%;%YASM%
+:: why cant I do this ???????????????????????
+::yasm --version > nul 2>&1
+::if errorlevel 1 (
+	set PATH=%PATH%;%YASM%
+::)
+
+
 
 echo #include ^<stdint.h^> > comptest.c
 echo int main(void){return 0;} >> comptest.c

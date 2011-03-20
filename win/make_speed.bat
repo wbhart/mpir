@@ -21,10 +21,7 @@
 
 set MPIRDIR=..\mpn\x86_64w\nehalem\
 set YASM="%VS90COMNTOOLS%\..\..\VC\bin\"
-md tests
-cd tests
-md mpn mpz mpq mpf rand misc cxx > nul 2>&1
-cd ..
+md tune
 
 echo int main(void){return 0;} > comptest.c
 cl /nologo comptest.c > nul 2>&1
@@ -34,12 +31,29 @@ if errorlevel 1 (
 del comptest.*
 
 ::static
-set OPT=/Ox /Oi /Ot /D "NDEBUG" /D "_LIB" /D "HAVE_CONFIG_H" /D "PIC" /D "_MBCS" /MT /GS- /FD /nologo /Zi /favor:INTEL64
+::set OPT=/Ox /Oi /Ot /D "NDEBUG" /D "_LIB" /D "HAVE_CONFIG_H" /D "PIC" /D "_MBCS" /MT /GS- /FD /nologo /Zi /favor:INTEL64
+set OPT=/Od /Oi /D "WIN32" /D "NDEBUG" /D "_CONSOLE" /D "HAVE_GETRUSAGE" /D "HAVE_GETTIMEOFDAY" /D "_UNICODE" /D "UNICODE" /FD /EHsc /MT /Gy /nologo /Zi
 ::dll
 ::set OPT=/Ox         /D "NDEBUG"           /D "HAVE_CONFIG_H" /D "__GMP_LIBGMP_DLL" /D "__GMP_WITHIN_GMP" /D "__GMP_WITHIN_GMPXX" /D "_WINDLL" /D "_MBCS" /GF /FD /EHsc /MD /GS- /W3 /nologo /Zi /Gd
 
+copy ..\build.vc10\unistd.h .
+copy ..\build.vc10\getopt.h .
+copy ..\build.vc10\win_timing.h .
+copy ..\build.vc10\getrusage.h .
+copy ..\build.vc10\gettimeofday.h .
 
-cd tests
+
+
+cd tune
+::cl %OPT% /c /I..\.. /I.. /I..\..\tests ..\..\tune\common.c
+for %%X in (..\..\tune/common.c        ..\..\tune/mod_1_div.c        ..\..\tune/set_strb.c ..\..\tune/divrem1div.c    ..\..\tune/gcd_bin.c   ..\..\tune/mod_1_inv.c        ..\..\tune/set_strp.c ..\..\tune/divrem1inv.c    ..\..\tune/gcdextod.c  ..\..\tune/modlinv.c          ..\..\tune/set_strs.c ..\..\tune/divrem2div.c    ..\..\tune/gcdextos.c  ..\..\tune/noop.c             ..\..\tune/divrem2inv.c    ..\..\tune/jacbase1.c  ..\..\tune/powm_mod.c       ..\..\tune/fac_ui_large.c  ..\..\tune/jacbase2.c  ..\..\tune/powm_redc.c    ..\..\tune/fac_ui_small.c  ..\..\tune/jacbase3.c  ..\..\tune/preinv_divrem_1.c  ) do (
+	cl -c %OPT% /I..\.. /I..\..\tests /I.. %%X
+)
+cl %OPT%  /I..\.. /I.. /I..\..\tests ..\..\tune\speed.c *.obj ..\mpir.lib
+goto :fin
+
+
+
 
 cl %OPT% /c ..\..\tests\memory.c /I..\..
 cl %OPT% /c ..\..\tests\misc.c   /I..\..
