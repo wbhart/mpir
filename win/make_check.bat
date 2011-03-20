@@ -23,7 +23,7 @@ set MPIRDIR=..\mpn\x86_64w\nehalem\
 set YASM="%VS90COMNTOOLS%\..\..\VC\bin\"
 md tests
 cd tests
-md mpn mpz mpq mpf rand misc cxx > nul 2>&1
+md mpn mpz mpq mpf rand misc cxx devel > nul 2>&1
 cd ..
 
 echo int main(void){return 0;} > comptest.c
@@ -48,8 +48,9 @@ cl %OPT% /c ..\..\tests\refmpn.c /I..\..
 cl %OPT% /c ..\..\tests\refmpz.c /I..\..
 cl %OPT% /c ..\..\tests\refmpq.c /I..\..
 cl %OPT% /c ..\..\tests\refmpf.c /I..\..
-:: spinner only needed for try.exe
+:: these only needed for try.exe
 cl %OPT% /c ..\..\tests\spinner.c /I..\..
+cl %OPT% /c ..\..\build.vc10\getopt.c /I..\..
 
 for %%X in ( ..\..\tests\t-*.c) do (
 	cl %OPT% /I..\.. /I..\..\tests %%X misc.obj memory.obj trace.obj refmpn.obj ..\mpir.lib
@@ -60,9 +61,6 @@ for %%X in ( *.exe) do (
 	%%X
 	if errorlevel 1 ( echo %%X FAILS )
 )
-
-goto :jay
-
 
 cd mpn
 for %%X in ( ..\..\..\tests\mpn\t-*.c) do (
@@ -141,10 +139,9 @@ for %%X in ( *.exe) do (
 )
 cd ..
 
-
-:jay
-
-cl %OPT% ..\..\tests\devel\try.c /I..\..\ /I..\..\tests refmpn.obj refmpz.obj trace.obj spinner.obj misc.obj memory.obj ..\mpir.lib
+cd devel
+cl %OPT% ..\..\..\tests\devel\try.c /I..\..\..\ /I..\..\..\tests ..\refmpn.obj ..\refmpz.obj ..\trace.obj ..\spinner.obj ..\misc.obj ..\memory.obj ..\getopt.obj ..\..\mpir.lib
+cd ..
 
 :fin
 cd ..
