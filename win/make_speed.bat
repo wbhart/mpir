@@ -21,7 +21,7 @@
 
 set MPIRDIR=..\mpn\x86_64w\nehalem\
 set YASM="%VS90COMNTOOLS%\..\..\VC\bin\"
-md tune
+md speed
 
 echo int main(void){return 0;} > comptest.c
 cl /nologo comptest.c > nul 2>&1
