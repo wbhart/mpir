@@ -42,123 +42,22 @@ copy ..\build.vc10\win_timing.h .
 copy ..\build.vc10\getrusage.h .
 copy ..\build.vc10\gettimeofday.h .
 
+::cl %OPT% /c ..\build.vc10\getopt.c 
+::cl %OPT% /c ..\tests\misc.c /I..
 
 
 cd tune
-::cl %OPT% /c /I..\.. /I.. /I..\..\tests ..\..\tune\common.c
-for %%X in (..\..\tune/common.c        ..\..\tune/mod_1_div.c        ..\..\tune/set_strb.c ..\..\tune/divrem1div.c    ..\..\tune/gcd_bin.c   ..\..\tune/mod_1_inv.c        ..\..\tune/set_strp.c ..\..\tune/divrem1inv.c    ..\..\tune/gcdextod.c  ..\..\tune/modlinv.c          ..\..\tune/set_strs.c ..\..\tune/divrem2div.c    ..\..\tune/gcdextos.c  ..\..\tune/noop.c             ..\..\tune/divrem2inv.c    ..\..\tune/jacbase1.c  ..\..\tune/powm_mod.c       ..\..\tune/fac_ui_large.c  ..\..\tune/jacbase2.c  ..\..\tune/powm_redc.c    ..\..\tune/fac_ui_small.c  ..\..\tune/jacbase3.c  ..\..\tune/preinv_divrem_1.c  ) do (
+cl %OPT% /c ..\..\tests\misc.c /I..\..
+cl %OPT% /c ..\..\tests\memory.c /I..\..
+cl %OPT% /c ..\..\tests\refmpn.c /I..\..
+::cl %OPT% /c ..\..\build.vc10\win_timing.c
+::cl %OPT% /c ..\..\build.vc10\getopt.c
+
+for %%X in (        ..\..\tune/common.c        ..\..\tune/mod_1_div.c        ..\..\tune/set_strb.c ..\..\tune/divrem1div.c    ..\..\tune/gcd_bin.c   ..\..\tune/mod_1_inv.c       ..\..\tune/divrem1inv.c    ..\..\tune/gcdextod.c  ..\..\tune/modlinv.c          ..\..\tune/set_strs.c ..\..\tune/divrem2div.c    ..\..\tune/gcdextos.c  ..\..\tune/noop.c             ..\..\tune/divrem2inv.c    ..\..\tune/jacbase1.c  ..\..\tune/powm_mod.c       ..\..\tune/fac_ui_large.c  ..\..\tune/jacbase2.c  ..\..\tune/powm_redc.c    ..\..\tune/fac_ui_small.c  ..\..\tune/jacbase3.c  ..\..\tune/preinv_divrem_1.c  ) do (
 	cl -c %OPT% /I..\.. /I..\..\tests /I.. %%X
 )
-cl %OPT%  /I..\.. /I.. /I..\..\tests ..\..\tune\speed.c *.obj ..\mpir.lib
-goto :fin
+cl %OPT% /I..\.. /I.. /I..\..\tests ..\..\tune\speed.c *.obj ..\mpir.lib advapi32.lib psapi.lib
 
 
 
-
-cl %OPT% /c ..\..\tests\memory.c /I..\..
-cl %OPT% /c ..\..\tests\misc.c   /I..\..
-cl %OPT% /c ..\..\tests\trace.c  /I..\..
-cl %OPT% /c ..\..\tests\refmpn.c /I..\..
-cl %OPT% /c ..\..\tests\refmpz.c /I..\..
-cl %OPT% /c ..\..\tests\refmpq.c /I..\..
-cl %OPT% /c ..\..\tests\refmpf.c /I..\..
-:: spinner only needed for try.exe
-cl %OPT% /c ..\..\tests\spinner.c /I..\..
-
-for %%X in ( ..\..\tests\t-*.c) do (
-	cl %OPT% /I..\.. /I..\..\tests %%X misc.obj memory.obj trace.obj refmpn.obj ..\mpir.lib
-	if errorlevel 1 ( echo %%X FAILS )	
-)
-for %%X in ( *.exe) do (
-	echo testing %%X
-	%%X
-	if errorlevel 1 ( echo %%X FAILS )
-)
-
-goto :jay
-
-
-cd mpn
-for %%X in ( ..\..\..\tests\mpn\t-*.c) do (
-	cl %OPT% /I..\..\.. /I..\..\..\tests %%X ..\misc.obj ..\memory.obj ..\trace.obj ..\refmpn.obj ..\..\mpir.lib
-)
-for %%X in ( *.exe) do (
-	echo testing mpn_%%X
-	%%X
-	if errorlevel 1 ( echo %%X FAILS )
-)
-cd ..
-
-cd mpz
-for %%X in ( ..\..\..\tests\mpz\*.c) do (
-	cl %OPT% /I..\..\.. /I..\..\..\tests %%X ..\misc.obj ..\memory.obj ..\trace.obj ..\refmpn.obj ..\refmpz.obj ..\..\mpir.lib
-)
-for %%X in ( *.exe) do (
-	echo testing mpz_%%X
-	%%X
-	if errorlevel 1 ( echo %%X FAILS )
-)
-cd ..
-
-cd mpq
-for %%X in ( ..\..\..\tests\mpq\t-*.c) do (
-	cl %OPT% /I..\..\.. /I..\..\..\tests %%X ..\misc.obj ..\memory.obj ..\trace.obj ..\refmpn.obj ..\refmpz.obj ..\refmpq.obj ..\..\mpir.lib
-)
-for %%X in ( *.exe) do (
-	echo testing mpq_%%X
-	%%X
-	if errorlevel 1 ( echo %%X FAILS )
-)
-cd ..
-
-cd mpf
-for %%X in ( ..\..\..\tests\mpf\*.c) do (
-	cl %OPT% /I..\..\.. /I..\..\..\tests %%X ..\misc.obj ..\memory.obj ..\trace.obj ..\refmpn.obj ..\refmpf.obj ..\..\mpir.lib
-)
-for %%X in ( *.exe) do (
-	echo testing mpf_%%X
-	%%X
-	if errorlevel 1 ( echo %%X FAILS )
-)
-cd ..
-
-cd rand
-for %%X in ( ..\..\..\tests\rand\t-*.c) do (
-	cl %OPT% /I..\..\.. /I..\..\..\tests %%X ..\misc.obj ..\memory.obj ..\trace.obj ..\refmpn.obj ..\..\mpir.lib
-)
-for %%X in ( *.exe) do (
-	echo testing rand_%%X
-	%%X
-	if errorlevel 1 ( echo %%X FAILS )
-)
-cd ..
-
-cd misc
-for %%X in ( ..\..\..\tests\misc\t-*.c) do (
-	cl %OPT% /I..\..\.. /I..\..\..\tests %%X ..\misc.obj ..\memory.obj ..\trace.obj ..\refmpn.obj ..\..\mpir.lib
-)
-for %%X in ( *.exe) do (
-	echo testing misc_%%X
-	%%X
-	if errorlevel 1 ( echo %%X FAILS )
-)
-cd ..
-
-cd cxx
-for %%X in ( ..\..\..\tests\cxx\t-*.cc) do (
-	cl /EHsc %OPT% /I..\..\.. /I..\..\..\tests %%X ..\misc.obj ..\memory.obj ..\trace.obj ..\refmpn.obj ..\..\mpir.lib
-)
-for %%X in ( *.exe) do (
-	echo testing cxx_%%X
-	%%X
-	if errorlevel 1 ( echo %%X FAILS )
-)
-cd ..
-
-
-:jay
-
-cl %OPT% ..\..\tests\devel\try.c /I..\..\ /I..\..\tests refmpn.obj refmpz.obj trace.obj spinner.obj misc.obj memory.obj ..\mpir.lib
-
-:fin
 cd ..
