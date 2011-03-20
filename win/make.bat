@@ -38,11 +38,9 @@ del gen_mpir_h.bat out_copy_rename.bat gen_config_h.bat cfg.h
 
 echo int main(void){return 0;} > comptest.c
 cl /nologo comptest.c > nul 2>&1
-if errorlevel 1 goto :nocc
-goto :gotcc
-:nocc
-call "%VS90COMNTOOLS%\..\..\VC\vcvarsall.bat" amd64
-:gotcc
+if errorlevel 1 (
+	call "%VS90COMNTOOLS%\..\..\VC\vcvarsall.bat" amd64
+)
 del comptest.*
 :: dont set yasm path until after MSVC
 set PATH=%PATH%;%YASM%
@@ -50,16 +48,14 @@ set PATH=%PATH%;%YASM%
 echo #include ^<stdint.h^> > comptest.c
 echo int main(void){return 0;} >> comptest.c
 cl /nologo comptest.c > nul 2>&1
-if errorlevel 1 goto :nostdint
-goto :gotstdint
-:nostdint
-echo #undef HAVE_STDINT_H >> ..\config.h
-echo #undef HAVE_INTMAX_T >> ..\config.h
-echo #undef HAVE_UINTMAX_T >> ..\config.h
-echo #undef HAVE_PTRDIFF_T >> ..\config.h
-echo #undef HAVE_UINT_LEAST32_T >> ..\config.h
-echo #undef SIZEOF_UINTMAX_T >> ..\config.h
-:gotstdint
+if errorlevel 1 (
+	echo #undef HAVE_STDINT_H >> ..\config.h
+	echo #undef HAVE_INTMAX_T >> ..\config.h
+	echo #undef HAVE_UINTMAX_T >> ..\config.h
+	echo #undef HAVE_PTRDIFF_T >> ..\config.h
+	echo #undef HAVE_UINT_LEAST32_T >> ..\config.h
+	echo #undef SIZEOF_UINTMAX_T >> ..\config.h
+)
 del comptest.*
 
 ::static
