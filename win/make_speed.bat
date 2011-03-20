@@ -39,15 +39,17 @@ set OPT=/Od /Oi /D "WIN32" /D "NDEBUG" /D "_CONSOLE" /D "HAVE_GETRUSAGE" /D "HAV
 copy ..\build.vc10\unistd.h .
 copy ..\build.vc10\getopt.h .
 copy ..\build.vc10\win_timing.h .
+copy ..\build.vc10\getrusage.h .
+copy ..\build.vc10\gettimeofday.h .
 
-cd tune
+cd speed
 cl %OPT% /c ..\..\tests\misc.c /I..\..
 cl %OPT% /c ..\..\tests\memory.c /I..\..
 cl %OPT% /c ..\..\tests\refmpn.c /I..\..
 cl %OPT% /c ..\..\build.vc10\win_timing.c
 cl %OPT% /c ..\..\build.vc10\getopt.c
-for %%X in (  ..\..\tune\set_strp.c      ..\..\tune/common.c        ..\..\tune/mod_1_div.c        ..\..\tune/set_strb.c ..\..\tune/divrem1div.c    ..\..\tune/gcd_bin.c   ..\..\tune/mod_1_inv.c       ..\..\tune/divrem1inv.c    ..\..\tune/gcdextod.c  ..\..\tune/modlinv.c          ..\..\tune/set_strs.c ..\..\tune/divrem2div.c    ..\..\tune/gcdextos.c  ..\..\tune/noop.c             ..\..\tune/divrem2inv.c    ..\..\tune/jacbase1.c  ..\..\tune/powm_mod.c       ..\..\tune/fac_ui_large.c  ..\..\tune/jacbase2.c  ..\..\tune/powm_redc.c    ..\..\tune/fac_ui_small.c  ..\..\tune/jacbase3.c  ..\..\tune/preinv_divrem_1.c  ..\..\build.vc10\tune\*.c) do (
+for %%X in (        ..\..\tune/common.c        ..\..\tune/mod_1_div.c        ..\..\tune/set_strb.c ..\..\tune/divrem1div.c    ..\..\tune/gcd_bin.c   ..\..\tune/mod_1_inv.c       ..\..\tune/divrem1inv.c    ..\..\tune/gcdextod.c  ..\..\tune/modlinv.c          ..\..\tune/set_strs.c ..\..\tune/divrem2div.c    ..\..\tune/gcdextos.c  ..\..\tune/noop.c             ..\..\tune/divrem2inv.c    ..\..\tune/jacbase1.c  ..\..\tune/powm_mod.c       ..\..\tune/fac_ui_large.c  ..\..\tune/jacbase2.c  ..\..\tune/powm_redc.c    ..\..\tune/fac_ui_small.c  ..\..\tune/jacbase3.c  ..\..\tune/preinv_divrem_1.c  ) do (
 	cl -c %OPT% /I..\.. /I..\..\tests /I.. %%X
 )
-cl %OPT% /I..\.. /I.. /I..\..\tests ..\..\tune\tuneup.c *.obj ..\mpir.lib advapi32.lib psapi.lib
+cl %OPT% /I..\.. /I.. /I..\..\tests ..\..\tune\speed.c *.obj ..\mpir.lib advapi32.lib psapi.lib
 cd ..
