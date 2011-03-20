@@ -21,7 +21,6 @@
 
 set MPIRDIR=..\mpn\x86_64w\nehalem\
 set YASM="%VS90COMNTOOLS%\..\..\VC\bin\"
-set PATH=%PATH%;%YASM%
 md mpn mpz mpq mpf printf scanf > nul 2>&1
 
 copy ..\build.vc10\gen_mpir_h.bat .
@@ -45,6 +44,8 @@ goto :gotcc
 call "%VS90COMNTOOLS%\..\..\VC\vcvarsall.bat" amd64
 :gotcc
 del comptest.*
+:: dont set yasm path until after MSVC
+set PATH=%PATH%;%YASM%
 
 echo #include ^<stdint.h^> > comptest.c
 echo int main(void){return 0;} >> comptest.c
