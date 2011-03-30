@@ -4879,10 +4879,9 @@ echo "include_mpn(\`sparc32/sparc-defs.m4')" >> $gmp_tmpconfigm4i
         abilist="64 32"
         cclist_64="gcc cc"
         gcc_64_cflags="-O2 -m64"
-	gcc_64_ldflags="-Wl,-z,noexecstack"
 	case $host in
-		*-w64-mingw*)
-			gcc_64_ldflags="" ;;
+	*-*-linux-gnu)
+	    gcc_63_ldflags="-Wl,-z,noexecstack" ;;
 	esac
         gcc_64_cflags_optlist="opt arch cpu"
         SPEED_CYCLECOUNTER_OBJ_64=x86_64.lo
