@@ -23,7 +23,9 @@ MA 02110-1301, USA. */
 
 #include <stdio.h>
 #include <stdlib.h>
+#ifdef HAVE_STDINT_H
 #include <stdint.h>
+#endif
 #include "mpir.h"
 #include "gmp-impl.h"
 #include "tests.h"
@@ -32,6 +34,8 @@ MA 02110-1301, USA. */
 void
 check_data (void)
 {
+
+#ifdef HAVE_INTMAX_T
   static const struct {
     const char  *n;
     intmax_t     want;
@@ -67,12 +71,14 @@ check_data (void)
         }
     }
   mpz_clear (n);
+#endif
 }
 
 
 void
 check_max (void)
 {
+#ifdef HAVE_INTMAX_T
   mpz_t  n;
   intmax_t want;
   intmax_t   got;
@@ -110,6 +116,7 @@ check_max (void)
   CHECK_MAX ("-0x100...00");
 
   mpz_clear (n);
+#endif
 }
 
 

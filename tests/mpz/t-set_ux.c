@@ -22,13 +22,16 @@ MA 02110-1301, USA. */
 
 #include <stdio.h>
 #include <stdlib.h>
+#ifdef HAVE_STDINT_H
 #include <stdint.h>
+#endif
 #include "mpir.h"
 #include "gmp-impl.h"
 #include "tests.h"
 
 #define NLIMBS ((8 * SIZEOF_UINTMAX_T + GMP_NUMB_BITS  - 1) / GMP_NUMB_BITS)
 
+#ifdef HAVE_UINTMAX_T
 static const uintmax_t val[] =
 {
     0, 1, 0xff, 
@@ -43,12 +46,14 @@ static const uintmax_t val[] =
 #endif
     UINTMAX_MAX
 };
+#endif
 
 void
 check_data (void)
 {   unsigned int i;
     mpz_t   z;
 
+#ifdef HAVE_UINTMAX_T
     mpz_init(z);
 
     for( i = 0 ; i < sizeof(val) / sizeof(uintmax_t) ; ++i )
@@ -118,6 +123,7 @@ check_data (void)
         }
         mpz_clear(z);
     }
+#endif
 }
 
 int
