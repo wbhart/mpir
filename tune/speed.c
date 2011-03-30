@@ -563,7 +563,7 @@ run_one (FILE *fp, struct speed_params *s, mp_size_t prev_size)
         {choice[i].time = speed_measure (choice[i].p->fun, s);}
       else
         {FILE *fp;char buf[1024],buf2[1024],*p;int got=0;
-         choice[i].time==-1.0;
+         choice[i].time=-1.0;
          fp=fopen(choice[i].filename,"rt");
          if(fp==0){printf("Cant open %s\n",choice[i].filename);exit(1);}
          while(fgets(buf,1024,fp)!=0)
