@@ -63,9 +63,9 @@ if errorlevel 1 (
 del comptest.*
 
 ::static
-set OPT=/Ox /Oi /Ot /D "NDEBUG" /D "_LIB" /D "HAVE_CONFIG_H" /D "PIC" /D "_MBCS" /MT /GS- /FD /nologo /c /Zi /favor:INTEL64
+::set OPT=/Ox /Oi /Ot /D "NDEBUG" /D "_LIB" /D "HAVE_CONFIG_H" /D "PIC" /D "_MBCS" /MT /GS- /FD /nologo /c /Zi /favor:INTEL64
 ::dll
-::set OPT=/Ox         /D "NDEBUG"           /D "HAVE_CONFIG_H" /D "__GMP_LIBGMP_DLL" /D "__GMP_WITHIN_GMP" /D "__GMP_WITHIN_GMPXX" /D "_WINDLL" /D "_MBCS" /GF /FD /EHsc /MD /GS- /W3 /nologo /c /Zi /Gd
+set OPT=/Ox         /D "NDEBUG"           /D "HAVE_CONFIG_H" /D "__GMP_LIBGMP_DLL" /D "__GMP_WITHIN_GMP" /D "__GMP_WITHIN_GMPXX" /D "_WINDLL" /D "_MBCS" /GF /FD /EHsc /MD /GS- /nologo /c /Zi /Gd
 
 
 ::cd mpn
@@ -120,7 +120,6 @@ for %%X in ( ..\..\printf\*.c) do (
 )
 cd ..
 
-
 cd scanf
 for %%X in ( ..\..\scanf\*.c) do (
 	cl %OPT% -I..\.. %%X
@@ -137,9 +136,6 @@ for %%X in ( ..\..\cxx\*.cc) do (
 )
 cd ..
 
-::del mpz\get_ux.obj mpz\get_sx.obj mpz\set_ux.obj mpz\set_sx.obj
-
 lib /nologo scanf\*.obj printf\*.obj mpz\*.obj mpq\*.obj mpf\*.obj mpn\*.obj cxx\*.obj *.obj /out:mpir.lib
-
 
 :fin
