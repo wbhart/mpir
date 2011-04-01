@@ -89,11 +89,11 @@ if %GBITS% == %ABI% goto :gotcc
 :step1
 if exist "%VS100COMNTOOLS%\..\..\VC\vcvarsall.bat" (
 	call "%VS100COMNTOOLS%\..\..\VC\vcvarsall.bat" %VCTARGET%
-	goto :checkcc	
+	goto :checkcc
 )
 if exist "%VS90COMNTOOLS%\..\..\VC\vcvarsall.bat" (
 	call "%VS90COMNTOOLS%\..\..\VC\vcvarsall.bat" %VCTARGET%
-	goto :checkcc	
+	goto :checkcc
 )
 
 :nocc
@@ -121,22 +121,22 @@ set YASMEXE=vsyasm.exe
 vsyasm.exe --version > nul 2>&1
 if not errorlevel 1 goto :gotyasm
 if not "%YASMPATH%" == "" (
-	set PATH=%PATH%;%YASMPATH%
+	set PATH="%PATH%;%YASMPATH%"
 	yasm.exe --version > nul 2>&1
 	if not errorlevel 1 (set YASMEXE=yasm.exe)
 	goto :gotyasm
 )
 if exist "%VS100COMNTOOLS%\..\..\VC\bin\vsyasm.exe" (
-	set PATH=%PATH%;%VS100COMNTOOLS%\..\..\VC\bin\
+	set PATH="%PATH%;%VS100COMNTOOLS%\..\..\VC\bin\"
 	goto :gotyasm
 )
 if exist "c:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\BuildCustomizations\vsyasm.exe" (
-	set PATH=%PATH%;c:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\BuildCustomizations\
+	set PATH="%PATH%;c:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\BuildCustomizations\"
 	goto :gotyasm
 )
 set YASMEXE=yasm.exe
-if exist "%VS90COMNTOOLS%\..\..\VC\bin\vsyasm.exe" (
-	set PATH=%PATH%;%VS90COMNTOOLS%\..\..\VC\bin\
+if exist "%VS90COMNTOOLS%\..\..\VC\bin\yasm.exe" (
+	set PATH="%PATH%;%VS90COMNTOOLS%\..\..\VC\bin\"
 	goto :gotyasm
 )
 echo cant find yasm
