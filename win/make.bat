@@ -31,9 +31,11 @@ copy ..\build.vc10\out_copy_rename.bat .
 copy ..\build.vc10\gen_config_h.bat .
 copy ..\build.vc10\cfg.h .
 
-del ..\mpir.h > nul 2>&1
-call gen_mpir_h x64
-del ..\config.h > nul 2>&1
+::del ..\mpir.h > nul 2>&1
+if %ABI% == 64 (set LOCALABI=x64)
+if %ABI% == 32 (set LOCALABI=win32)
+call gen_mpir_h %LOCALABI%
+::del ..\config.h > nul 2>&1
 for %%X in ( %MPNPATH% ) do (
 	copy ..\mpn\%%X\gmp-mparam.h .. > nul 2>&1
 	call gen_config_h ..\mpn\%%X > nul 2>&1
@@ -53,10 +55,16 @@ if errorlevel 1 (
 del comptest.*
 
 ::static
-set OPT=/Ox /Oi /Ot /D "NDEBUG" /D "_LIB" /D "HAVE_CONFIG_H" /D "PIC" /D "_MBCS" /MT /GS- /FD /nologo /c /Zi /favor:INTEL64
+::set OPT=/Ox /Oi /Ot /D "NDEBUG" /D "_LIB" /D "HAVE_CONFIG_H" /D "PIC" /D "_MBCS" /MT /GS- /FD /nologo /c /Zi /favor:INTEL64
 ::dll
 ::set OPT=/Ox         /D "NDEBUG"           /D "HAVE_CONFIG_H" /D "__GMP_LIBGMP_DLL" /D "__GMP_WITHIN_GMP" /D "__GMP_WITHIN_GMPXX" /D "_WINDLL" /D "_MBCS" /GF /FD /EHsc /MD /GS- /nologo /c /Zi /Gd
+::set OPT=/Oi /D "_LIB" /D "PIC" /D "_MBCS" /MT /GS- /FD /favor:INTEL64
+::set OPT=                  /D "__GMP_LIBGMP_DLL" /D "__GMP_WITHIN_GMP" /D "__GMP_WITHIN_GMPXX" /D "_WINDLL" /D "_MBCS" /GF /FD /EHsc /MD /GS- /Gd
+set OPT=%FLAGS% %FLAGS1%
 
+
+if %ABI% == 64 (set LOCALDIR=x86_64w)
+if %ABI% == 32 (set LOCALDIR=x86w)
 :: or just compile all generic and just overwrite with asm
 cd mpn
 for %%X in ( ..\..\mpn\generic\*.c) do (
@@ -64,7 +72,7 @@ for %%X in ( ..\..\mpn\generic\*.c) do (
 )
 for %%X in ( %MPNPATH% ) do (
 	for %%i in ( ..\..\mpn\%%X\*.asm ) do (
-		%YASMEXE% -I ..\..\mpn\x86_64w -f x64 %%i
+		%YASMEXE% -I ..\..\mpn\%LOCALDIR% -f %LOCALABI% %%i
 		echo assemblin %%i
 	)
 )
@@ -110,6 +118,6 @@ for %%X in ( ..\..\cxx\*.cc) do (
 )
 cd ..
 
-lib /nologo scanf\*.obj printf\*.obj mpz\*.obj mpq\*.obj mpf\*.obj mpn\*.obj cxx\*.obj *.obj /out:mpir.lib
+lib /nologo scanf\*.obj printf\*.obj mpz\*.obj mpq\*.obj mpf\*.obj mpn\*.obj cxx\*.obj *.obj /out:mpir.%LIBTYPE%
 
 :fin
