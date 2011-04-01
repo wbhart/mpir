@@ -145,10 +145,11 @@ exit /b 1
 
 :: set config.params.bat to the settings needed by make etc
 echo (set LIBTYPE=%LIBTYPE%) > config.params.bat
-echo (set FLAGS=/Ox /Ot /D "NDEBUG" /D "HAVE_CONFIG_H" /nologo /c /Zi /FD /D "_MBCS" /GS-) >> config.params.bat
+echo (set FLAGS=/Ox /Ot /D "NDEBUG" /D "HAVE_CONFIG_H" /nologo /Zi /FD /D "_MBCS" /GS-) >> config.params.bat
 if %LIBTYPE% == lib (set FLAGS1=/Oi /D "_LIB" /D "PIC" /MT)
-if %LIBTYPE% == dll (set FLAGS1=/D "__GMP_LIBGMP_DLL" /D "__GMP_WITHIN_GMP" /D "__GMP_WITHIN_GMPXX" /D "_WINDLL" /GF /EHsc /MD /GD)
+if %LIBTYPE% == dll (set FLAGS1=/D "__GMP_LIBGMP_DLL" /D "__GMP_WITHIN_GMP" /D "__GMP_WITHIN_GMPXX" /D "_WINDLL" /GF /EHsc /MD /Gd)
 echo (set FLAGS1=%FLAGS1%) >> config.params.bat
+set MPNPATH=.
 if %ABI% == 32 (
 	if %CPU% == k8      (set MPNPATH=x86w x86w\k7)
 	if %CPU% == nehalem (set MPNPATH=x86w)

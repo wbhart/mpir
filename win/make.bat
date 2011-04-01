@@ -24,6 +24,16 @@ if not exist config.params.bat (
 	exit /b 1
 )
 call config.params.bat
+if "%1" == "" goto :make
+if "%1" == "check" goto :check
+if "%1" == "clean" goto :clean
+if "%1" == "tune" goto :tune
+if "%1" == "speed" goto :speed
+echo Usage: make [clean^|check^|tune^|speed]
+exit /b 1
+
+:make
+
 md mpn mpz mpq mpf printf scanf cxx > nul 2>&1
 
 copy ..\build.vc10\gen_mpir_h.bat .
@@ -31,11 +41,10 @@ copy ..\build.vc10\out_copy_rename.bat .
 copy ..\build.vc10\gen_config_h.bat .
 copy ..\build.vc10\cfg.h .
 
-::del ..\mpir.h > nul 2>&1
 if %ABI% == 64 (set LOCALABI=x64)
 if %ABI% == 32 (set LOCALABI=win32)
 call gen_mpir_h %LOCALABI%
-::del ..\config.h > nul 2>&1
+copy ..\mpn\generic\gmp-mparam.h .. > nul 2>&1
 for %%X in ( %MPNPATH% ) do (
 	copy ..\mpn\%%X\gmp-mparam.h .. > nul 2>&1
 	call gen_config_h ..\mpn\%%X > nul 2>&1
@@ -54,18 +63,11 @@ if errorlevel 1 (
 )
 del comptest.*
 
-::static
-::set OPT=/Ox /Oi /Ot /D "NDEBUG" /D "_LIB" /D "HAVE_CONFIG_H" /D "PIC" /D "_MBCS" /MT /GS- /FD /nologo /c /Zi /favor:INTEL64
-::dll
-::set OPT=/Ox         /D "NDEBUG"           /D "HAVE_CONFIG_H" /D "__GMP_LIBGMP_DLL" /D "__GMP_WITHIN_GMP" /D "__GMP_WITHIN_GMPXX" /D "_WINDLL" /D "_MBCS" /GF /FD /EHsc /MD /GS- /nologo /c /Zi /Gd
-::set OPT=/Oi /D "_LIB" /D "PIC" /D "_MBCS" /MT /GS- /FD /favor:INTEL64
-::set OPT=                  /D "__GMP_LIBGMP_DLL" /D "__GMP_WITHIN_GMP" /D "__GMP_WITHIN_GMPXX" /D "_WINDLL" /D "_MBCS" /GF /FD /EHsc /MD /GS- /Gd
-set OPT=%FLAGS% %FLAGS1%
-
+set OPT=%FLAGS% %FLAGS1% /c
 
 if %ABI% == 64 (set LOCALDIR=x86_64w)
 if %ABI% == 32 (set LOCALDIR=x86w)
-:: or just compile all generic and just overwrite with asm
+:: just compile all generic and just overwrite with asm
 cd mpn
 for %%X in ( ..\..\mpn\generic\*.c) do (
 	cl %OPT% -I..\.. %%X
@@ -120,4 +122,213 @@ cd ..
 
 lib /nologo scanf\*.obj printf\*.obj mpz\*.obj mpq\*.obj mpf\*.obj mpn\*.obj cxx\*.obj *.obj /out:mpir.%LIBTYPE%
 
-:fin
+exit /b 0
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+:check
+
+md tests
+cd tests
+md mpn mpz mpq mpf rand misc cxx devel > nul 2>&1
+cd ..
+
+set OPT=%FLAGS% %FLAGS1%
+
+cd tests
+
+cl %OPT% /c ..\..\tests\memory.c /I..\..
+cl %OPT% /c ..\..\tests\misc.c   /I..\..
+cl %OPT% /c ..\..\tests\trace.c  /I..\..
+cl %OPT% /c ..\..\tests\refmpn.c /I..\..
+cl %OPT% /c ..\..\tests\refmpz.c /I..\..
+cl %OPT% /c ..\..\tests\refmpq.c /I..\..
+cl %OPT% /c ..\..\tests\refmpf.c /I..\..
+:: these only needed for try.exe
+cl %OPT% /c ..\..\tests\spinner.c /I..\..
+cl %OPT% /c ..\..\build.vc10\getopt.c /I..\..
+
+for %%X in ( ..\..\tests\t-*.c) do (
+	cl %OPT% /I..\.. /I..\..\tests %%X misc.obj memory.obj trace.obj refmpn.obj ..\mpir.%LIBTYPE%
+	if errorlevel 1 ( echo %%X FAILS )	
+)
+for %%X in ( *.exe) do (
+	echo testing %%X
+	%%X
+	if errorlevel 1 ( echo %%X FAILS )
+)
+
+cd mpn
+for %%X in ( ..\..\..\tests\mpn\t-*.c) do (
+	cl %OPT% /I..\..\.. /I..\..\..\tests %%X ..\misc.obj ..\memory.obj ..\trace.obj ..\refmpn.obj ..\..\mpir.%LIBTYPE%
+)
+for %%X in ( *.exe) do (
+	echo testing mpn_%%X
+	%%X
+	if errorlevel 1 ( echo %%X FAILS )
+)
+cd ..
+
+cd mpz
+for %%X in ( ..\..\..\tests\mpz\*.c) do (
+	cl %OPT% /I..\..\.. /I..\..\..\tests %%X ..\misc.obj ..\memory.obj ..\trace.obj ..\refmpn.obj ..\refmpz.obj ..\..\mpir.%LIBTYPE%
+)
+for %%X in ( *.exe) do (
+	echo testing mpz_%%X
+	%%X
+	if errorlevel 1 ( echo %%X FAILS )
+)
+cd ..
+
+cd mpq
+for %%X in ( ..\..\..\tests\mpq\t-*.c) do (
+	cl %OPT% /I..\..\.. /I..\..\..\tests %%X ..\misc.obj ..\memory.obj ..\trace.obj ..\refmpn.obj ..\refmpz.obj ..\refmpq.obj ..\..\mpir.%LIBTYPE%
+)
+for %%X in ( *.exe) do (
+	echo testing mpq_%%X
+	%%X
+	if errorlevel 1 ( echo %%X FAILS )
+)
+cd ..
+
+cd mpf
+for %%X in ( ..\..\..\tests\mpf\*.c) do (
+	cl %OPT% /I..\..\.. /I..\..\..\tests %%X ..\misc.obj ..\memory.obj ..\trace.obj ..\refmpn.obj ..\refmpf.obj ..\..\mpir.%LIBTYPE%
+)
+for %%X in ( *.exe) do (
+	echo testing mpf_%%X
+	%%X
+	if errorlevel 1 ( echo %%X FAILS )
+)
+cd ..
+
+cd rand
+for %%X in ( ..\..\..\tests\rand\t-*.c) do (
+	cl %OPT% /I..\..\.. /I..\..\..\tests %%X ..\misc.obj ..\memory.obj ..\trace.obj ..\refmpn.obj ..\..\mpir.%LIBTYPE%
+)
+for %%X in ( *.exe) do (
+	echo testing rand_%%X
+	%%X
+	if errorlevel 1 ( echo %%X FAILS )
+)
+cd ..
+
+cd misc
+for %%X in ( ..\..\..\tests\misc\t-*.c) do (
+	cl %OPT% /I..\..\.. /I..\..\..\tests %%X ..\misc.obj ..\memory.obj ..\trace.obj ..\refmpn.obj ..\..\mpir.%LIBTYPE%
+)
+for %%X in ( *.exe) do (
+	echo testing misc_%%X
+	%%X
+	if errorlevel 1 ( echo %%X FAILS )
+)
+cd ..
+
+cd cxx
+for %%X in ( ..\..\..\tests\cxx\t-*.cc) do (
+	cl /EHsc %OPT% /I..\..\.. /I..\..\..\tests %%X ..\misc.obj ..\memory.obj ..\trace.obj ..\refmpn.obj ..\..\mpir.%LIBTYPE%
+)
+for %%X in ( *.exe) do (
+	echo testing cxx_%%X
+	%%X
+	if errorlevel 1 ( echo %%X FAILS )
+)
+cd ..
+
+cd devel
+cl %OPT% ..\..\..\tests\devel\try.c /I..\..\..\ /I..\..\..\tests ..\refmpn.obj ..\refmpz.obj ..\trace.obj ..\spinner.obj ..\misc.obj ..\memory.obj ..\getopt.obj ..\..\mpir.%LIBTYPE%
+cd ..
+
+cd ..
+
+exit /b 0
+
+
+
+
+
+
+
+
+
+
+
+:clean
+
+del *.obj ..\mpir.h ..\config.h ..\gmp-mparam.h mpir.lib *.idb *.pdb > nul 2>&1
+rmdir /S/Q mpn mpz mpq mpf scanf printf tests cxx tune speed > nul 2>&1
+del gen_mpir_h.bat out_copy_rename.bat gen_config_h.bat cfg.h > nul 2>&1
+del getopt.h getrusage.h gettimeofday.h unistd.h win_timing.h > nul 2>&1 
+del config.guess.* config.params.bat mpir.dll > nul 2>&1
+
+exit /b 0
+
+
+
+
+:speed
+
+md speed
+
+set OPT=%FLAGS% %FLAGS1%
+
+copy ..\build.vc10\unistd.h .
+copy ..\build.vc10\getopt.h .
+copy ..\build.vc10\win_timing.h .
+copy ..\build.vc10\getrusage.h .
+copy ..\build.vc10\gettimeofday.h .
+
+cd speed
+cl %OPT% /c ..\..\tests\misc.c /I..\..
+cl %OPT% /c ..\..\tests\memory.c /I..\..
+cl %OPT% /c ..\..\tests\refmpn.c /I..\..
+cl %OPT% /c ..\..\build.vc10\win_timing.c
+cl %OPT% /c ..\..\build.vc10\getopt.c /I..\..
+for %%X in (        ..\..\tune\common.c        ..\..\tune\mod_1_div.c        ..\..\tune\set_strb.c ..\..\tune\divrem1div.c    ..\..\tune\gcd_bin.c   ..\..\tune\mod_1_inv.c       ..\..\tune\divrem1inv.c    ..\..\tune\gcdextod.c  ..\..\tune\modlinv.c          ..\..\tune\set_strs.c ..\..\tune\divrem2div.c    ..\..\tune\gcdextos.c  ..\..\tune\noop.c             ..\..\tune\divrem2inv.c    ..\..\tune\jacbase1.c  ..\..\tune\powm_mod.c       ..\..\tune\fac_ui_large.c  ..\..\tune\jacbase2.c  ..\..\tune\powm_redc.c    ..\..\tune\fac_ui_small.c  ..\..\tune\jacbase3.c  ..\..\tune\preinv_divrem_1.c  ) do (
+	cl -c %OPT% /I..\.. /I..\..\tests /I.. %%X
+)
+cl %OPT% /I..\.. /I.. /I..\..\tests ..\..\tune\speed.c *.obj ..\mpir.%LIBTYPE% advapi32.lib psapi.lib
+cd ..
+
+exit /b 0
+
+
+
+:tune
+
+md tune
+
+set OPT=%FLAGS% %FLAGS1%
+
+copy ..\build.vc10\unistd.h .
+copy ..\build.vc10\getopt.h .
+copy ..\build.vc10\win_timing.h .
+
+cd tune
+cl %OPT% /c ..\..\tests\misc.c /I..\..
+cl %OPT% /c ..\..\tests\memory.c /I..\..
+cl %OPT% /c ..\..\tests\refmpn.c /I..\..
+cl %OPT% /c ..\..\build.vc10\win_timing.c
+cl %OPT% /c ..\..\build.vc10\getopt.c /I..\..
+for %%X in (  ..\..\tune\set_strp.c      ..\..\tune\common.c        ..\..\tune\mod_1_div.c        ..\..\tune\set_strb.c ..\..\tune\divrem1div.c    ..\..\tune\gcd_bin.c   ..\..\tune\mod_1_inv.c       ..\..\tune\divrem1inv.c    ..\..\tune\gcdextod.c  ..\..\tune\modlinv.c          ..\..\tune\set_strs.c ..\..\tune\divrem2div.c    ..\..\tune\gcdextos.c  ..\..\tune\noop.c             ..\..\tune\divrem2inv.c    ..\..\tune\jacbase1.c  ..\..\tune\powm_mod.c       ..\..\tune\fac_ui_large.c  ..\..\tune\jacbase2.c  ..\..\tune\powm_redc.c    ..\..\tune\fac_ui_small.c  ..\..\tune\jacbase3.c  ..\..\tune\preinv_divrem_1.c  ..\..\build.vc10\tune\*.c) do (
+	cl -c %OPT% /I..\.. /I..\..\tests /I.. %%X
+)
+cl %OPT% /I..\.. /I.. /I..\..\tests ..\..\tune\tuneup.c *.obj ..\mpir.%LIBTYPE% advapi32.lib psapi.lib
+cd ..
+
+exit /b 0
+
+
