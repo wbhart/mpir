@@ -19,8 +19,11 @@
 ::  Boston, MA 02110-1301, USA.
 ::
 
-set MPIRDIR=..\mpn\x86_64w\nehalem\
-set YASM=%VS90COMNTOOLS%\..\..\VC\bin\
+if not exist config.params.bat (
+	echo run configure first
+	exit /b 1
+)
+call config.params.bat
 md mpn mpz mpq mpf printf scanf cxx > nul 2>&1
 
 copy ..\build.vc10\gen_mpir_h.bat .
@@ -31,23 +34,10 @@ copy ..\build.vc10\cfg.h .
 del ..\mpir.h > nul 2>&1
 call gen_mpir_h x64
 del ..\config.h > nul 2>&1
-call gen_config_h %MPIRDIR%
-copy %MPIRDIR%gmp-mparam.h ..
-
-echo int main(void){return 0;} > comptest.c
-cl /nologo comptest.c > nul 2>&1
-if errorlevel 1 (
-	call "%VS90COMNTOOLS%\..\..\VC\vcvarsall.bat" amd64
+for %%X in ( %MPNPATH% ) do (
+	copy ..\mpn\%%X\gmp-mparam.h .. > nul 2>&1
+	call gen_config_h ..\mpn\%%X > nul 2>&1
 )
-del comptest.*
-:: dont set yasm path until after MSVC
-:: why cant I do this ???????????????????????
-::yasm --version > nul 2>&1
-::if errorlevel 1 (
-	set PATH=%PATH%;%YASM%
-::)
-
-
 
 echo #include ^<stdint.h^> > comptest.c
 echo int main(void){return 0;} >> comptest.c
@@ -63,36 +53,20 @@ if errorlevel 1 (
 del comptest.*
 
 ::static
-::set OPT=/Ox /Oi /Ot /D "NDEBUG" /D "_LIB" /D "HAVE_CONFIG_H" /D "PIC" /D "_MBCS" /MT /GS- /FD /nologo /c /Zi /favor:INTEL64
+set OPT=/Ox /Oi /Ot /D "NDEBUG" /D "_LIB" /D "HAVE_CONFIG_H" /D "PIC" /D "_MBCS" /MT /GS- /FD /nologo /c /Zi /favor:INTEL64
 ::dll
-set OPT=/Ox         /D "NDEBUG"           /D "HAVE_CONFIG_H" /D "__GMP_LIBGMP_DLL" /D "__GMP_WITHIN_GMP" /D "__GMP_WITHIN_GMPXX" /D "_WINDLL" /D "_MBCS" /GF /FD /EHsc /MD /GS- /nologo /c /Zi /Gd
-
-
-::cd mpn
-::for %%X in ( ..\mpn\generic\*.c) do (
-::        for /f "tokens=4 delims=\ " %%a in ("%%X") do (
-::                for /f "tokens=1 delims=. " %%b in ("%%a") do (
-::                        if not exist %%b.obj (
-::				cl %OPT% -I..\.. %%X
-::			)
-::                )
-::        )
-::)
-::cd ..
-
+::set OPT=/Ox         /D "NDEBUG"           /D "HAVE_CONFIG_H" /D "__GMP_LIBGMP_DLL" /D "__GMP_WITHIN_GMP" /D "__GMP_WITHIN_GMPXX" /D "_WINDLL" /D "_MBCS" /GF /FD /EHsc /MD /GS- /nologo /c /Zi /Gd
 
 :: or just compile all generic and just overwrite with asm
 cd mpn
 for %%X in ( ..\..\mpn\generic\*.c) do (
 	cl %OPT% -I..\.. %%X
 )
-for %%X in ( ..\%MPIRDIR%\..\modexact_1c_odd.asm ) do (
-	yasm -I ..\..\mpn\x86_64w -f x64 %%X
-	echo assemblin %%X
-)
-for %%X in ( ..\%MPIRDIR%\*.asm ) do (
-	yasm -I ..\..\mpn\x86_64w -f x64 %%X
-	echo assemblin %%X
+for %%X in ( %MPNPATH% ) do (
+	for %%i in ( ..\..\mpn\%%X\*.asm ) do (
+		%YASMEXE% -I ..\..\mpn\x86_64w -f x64 %%i
+		echo assemblin %%i
+	)
 )
 cd ..
 

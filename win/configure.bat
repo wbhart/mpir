@@ -120,7 +120,7 @@ if not errorlevel 1 goto :gotyasm
 set YASMEXE=vsyasm.exe
 vsyasm.exe --version > nul 2>&1
 if not errorlevel 1 goto :gotyasm
-if not "%YASMPATH% == "" (
+if not "%YASMPATH%" == "" (
 	set PATH=%PATH%;%YASMPATH%
 	yasm.exe --version > nul 2>&1
 	if not errorlevel 1 (set YASMEXE=yasm.exe)
@@ -146,12 +146,12 @@ exit /b 1
 :: set config.params.bat to the settings needed by make etc
 echo (set LIBTYPE=%LIBTYPE%) > config.params.bat
 if %ABI% == 32 (
-	if %CPU% == k8      (set MPNPATH=..\..\mpn\x86w\*.asm ..\..\mpn\x86w\k7\*.asm)
-	if %CPU% == nehalem (set MPNPATH=..\..\mpn\x86w\*.asm)
+	if %CPU% == k8      (set MPNPATH=x86w x86w\k7)
+	if %CPU% == nehalem (set MPNPATH=x86w)
 )
 if %ABI% == 64 (
-	if %CPU% == k8      (set MPNPATH=..\..\mpn\x86_64w\*.asm ..\..\mpn\x86_64w\k8\*.asm ..\..\mpn\x86_64w\k8\k8only\*.asm)
-	if %CPU% == nehalem (set MPNPATH=..\..\mpn\x86_64w\*.asm ..\..\mpn\x86_64w\nehalem\*.asm)
+	if %CPU% == k8      (set MPNPATH=x86_64w x86_64w\k8 x86_64w\k8\k8only)
+	if %CPU% == nehalem (set MPNPATH=x86_64w x86_64w\nehalem)
 )
 echo (set MPNPATH=%MPNPATH%) >> config.params.bat
 echo (set ABI=%ABI%) >> config.params.bat
