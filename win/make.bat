@@ -47,7 +47,7 @@ call gen_mpir_h %LOCALABI%
 copy ..\mpn\generic\gmp-mparam.h .. > nul 2>&1
 for %%X in ( %MPNPATH% ) do (
 	copy ..\mpn\%%X\gmp-mparam.h .. > nul 2>&1
-	call gen_config_h ..\mpn\%%X > nul 2>&1
+	call gen_config_h ..\mpn\%%X\ > nul 2>&1
 )
 
 echo #include ^<stdint.h^> > comptest.c
@@ -70,7 +70,13 @@ if %ABI% == 32 (set LOCALDIR=x86w)
 :: just compile all generic and just overwrite with asm
 cd mpn
 for %%X in ( ..\..\mpn\generic\*.c) do (
+	:: exclude udiv_w_sdiv.c from a shared build
+	if not "%%X" == "..\..\mpn\generic\udiv_w_sdiv.c" (
+	:: exclude preinv_divrem_1 from a shared build
+	if not "%%X" == "..\..\mpn\generic\preinv_divrem_1.c" (
 	cl %OPT% -I..\.. %%X
+	)
+	)
 )
 for %%X in ( %MPNPATH% ) do (
 	for %%i in ( ..\..\mpn\%%X\*.asm ) do (
@@ -121,11 +127,12 @@ for %%X in ( ..\..\cxx\*.cc) do (
 cd ..
 
 if %LIBTYPE% == dll (
-	link /DLL /NODEFAULTLIB:LIBCMT.lib /nologo scanf\*.obj printf\*.obj mpz\*.obj mpq\*.obj mpf\*.obj mpn\*.obj cxx\*.obj *.obj /out:mpir.%LIBTYPE%
+	link /DLL /NODEFAULTLIB:LIBCMT.lib /nologo scanf\*.obj printf\*.obj mpz\*.obj mpq\*.obj mpf\*.obj mpn\*.obj *.obj /out:mpir.%LIBTYPE%
+	link /DLL /NODEFAULTLIB:LIBCMT.lib /nologo scanf\*.obj printf\*.obj mpz\*.obj mpq\*.obj mpf\*.obj mpn\*.obj *.obj /out:mpirxx.%LIBTYPE%
 )
 if %LIBTYPE% == lib (
-lib /nologo scanf\*.obj printf\*.obj mpz\*.obj mpq\*.obj mpf\*.obj mpn\*.obj *.obj /out:mpir.%LIBTYPE%
-lib /nologo cxx/*.obj /out:mpirxx.%LIBTYPE%
+	lib /nologo scanf\*.obj printf\*.obj mpz\*.obj mpq\*.obj mpf\*.obj mpn\*.obj *.obj /out:mpir.%LIBTYPE%
+	lib /nologo cxx/*.obj /out:mpirxx.%LIBTYPE%
 )
 exit /b 0
 
@@ -155,6 +162,7 @@ set OPT=%FLAGS% %FLAGS1%
 
 set MPIRLIB=?????
 if %LIBTYPE% == lib (set MPIRLIB=..\..\mpir.lib)
+if %LIBTYPE% == lib (set MPIRXXLIB=..\..\mpirxx.lib)
 
 set MPIRLIB1=/link ..\mpir.lib
 if %LIBTYPE% == lib (set MPIRLIB1=..\mpir.lib)
@@ -250,7 +258,7 @@ cd ..
 
 cd cxx
 for %%X in ( ..\..\..\tests\cxx\t-*.cc) do (
-	cl /EHsc %OPT% /I..\..\.. /I..\..\..\tests %%X ..\misc.obj ..\memory.obj ..\trace.obj ..\refmpn.obj %MPIRLIB%
+	cl /EHsc %OPT% /I..\..\.. /I..\..\..\tests %%X ..\misc.obj ..\memory.obj ..\trace.obj ..\refmpn.obj %MPIRLIB% %MPIRXXLIB%
 )
 for %%X in ( *.exe) do (
 	echo testing cxx_%%X
@@ -284,7 +292,7 @@ rmdir /S/Q mpn mpz mpq mpf scanf printf tests cxx tune speed > nul 2>&1
 del gen_mpir_h.bat out_copy_rename.bat gen_config_h.bat cfg.h > nul 2>&1
 del getopt.h getrusage.h gettimeofday.h unistd.h win_timing.h > nul 2>&1 
 del config.guess.* config.params.bat mpir.dll mpir.dll.manifest mpir.exp > nul 2>&1
-
+del mpirxx.lib mpirxx.dll mpirxx.exp mpirxx.dll.manifest > nul 2>&1
 exit /b 0
 
 
