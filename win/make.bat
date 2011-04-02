@@ -124,7 +124,8 @@ if %LIBTYPE% == dll (
 	link /DLL /NODEFAULTLIB:LIBCMT.lib /nologo scanf\*.obj printf\*.obj mpz\*.obj mpq\*.obj mpf\*.obj mpn\*.obj cxx\*.obj *.obj /out:mpir.%LIBTYPE%
 )
 if %LIBTYPE% == lib (
-lib /nologo scanf\*.obj printf\*.obj mpz\*.obj mpq\*.obj mpf\*.obj mpn\*.obj cxx\*.obj *.obj /out:mpir.%LIBTYPE%
+lib /nologo scanf\*.obj printf\*.obj mpz\*.obj mpq\*.obj mpf\*.obj mpn\*.obj *.obj /out:mpir.%LIBTYPE%
+lib /nologo cxx/*.obj /out:mpirxx.%LIBTYPE%
 )
 exit /b 0
 
@@ -282,7 +283,7 @@ del *.obj ..\mpir.h ..\config.h ..\gmp-mparam.h mpir.lib *.idb *.pdb > nul 2>&1
 rmdir /S/Q mpn mpz mpq mpf scanf printf tests cxx tune speed > nul 2>&1
 del gen_mpir_h.bat out_copy_rename.bat gen_config_h.bat cfg.h > nul 2>&1
 del getopt.h getrusage.h gettimeofday.h unistd.h win_timing.h > nul 2>&1 
-del config.guess.* config.params.bat mpir.dll > nul 2>&1
+del config.guess.* config.params.bat mpir.dll mpir.dll.manifest mpir.exp > nul 2>&1
 
 exit /b 0
 

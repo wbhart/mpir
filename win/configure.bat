@@ -100,11 +100,11 @@ if not errorlevel 1 goto :gotyasm
 set YASMEXE=vsyasm.exe
 vsyasm.exe --version > nul 2>&1
 if not errorlevel 1 goto :gotyasm
-if exist "%YASMPATH%\yasm.exe" == "" (
+if exist "%YASMPATH%\yasm.exe" (
 	set YASMEXE="%YASMPATH%\yasm.exe"
 	goto :gotyasm
 )
-if exist "%YASMPATH%\vsyasm.exe" == "" (
+if exist "%YASMPATH%\vsyasm.exe" (
 	set YASMEXE="%YASMPATH%\vsyasm.exe"
 	goto :gotyasm
 )
