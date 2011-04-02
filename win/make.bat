@@ -120,8 +120,12 @@ for %%X in ( ..\..\cxx\*.cc) do (
 )
 cd ..
 
+if %LIBTYPE% == dll (
+	link /DLL /NODEFAULTLIB:LIBCMT.lib /nologo scanf\*.obj printf\*.obj mpz\*.obj mpq\*.obj mpf\*.obj mpn\*.obj cxx\*.obj *.obj /out:mpir.%LIBTYPE%
+)
+if %LIBTYPE% == lib (
 lib /nologo scanf\*.obj printf\*.obj mpz\*.obj mpq\*.obj mpf\*.obj mpn\*.obj cxx\*.obj *.obj /out:mpir.%LIBTYPE%
-
+)
 exit /b 0
 
 
@@ -148,6 +152,12 @@ cd ..
 
 set OPT=%FLAGS% %FLAGS1%
 
+set MPIRLIB=?????
+if %LIBTYPE% == lib (set MPIRLIB=..\..\mpir.lib)
+
+set MPIRLIB1=/link ..\mpir.lib
+if %LIBTYPE% == lib (set MPIRLIB1=..\mpir.lib)
+
 cd tests
 
 cl %OPT% /c ..\..\tests\memory.c /I..\..
@@ -162,7 +172,7 @@ cl %OPT% /c ..\..\tests\spinner.c /I..\..
 cl %OPT% /c ..\..\build.vc10\getopt.c /I..\..
 
 for %%X in ( ..\..\tests\t-*.c) do (
-	cl %OPT% /I..\.. /I..\..\tests %%X misc.obj memory.obj trace.obj refmpn.obj ..\mpir.%LIBTYPE%
+	cl %OPT% /I..\.. /I..\..\tests %%X misc.obj memory.obj trace.obj refmpn.obj %MPIRLIB1%
 	if errorlevel 1 ( echo %%X FAILS )	
 )
 for %%X in ( *.exe) do (
@@ -173,7 +183,7 @@ for %%X in ( *.exe) do (
 
 cd mpn
 for %%X in ( ..\..\..\tests\mpn\t-*.c) do (
-	cl %OPT% /I..\..\.. /I..\..\..\tests %%X ..\misc.obj ..\memory.obj ..\trace.obj ..\refmpn.obj ..\..\mpir.%LIBTYPE%
+	cl %OPT% /I..\..\.. /I..\..\..\tests %%X ..\misc.obj ..\memory.obj ..\trace.obj ..\refmpn.obj %MPIRLIB%
 )
 for %%X in ( *.exe) do (
 	echo testing mpn_%%X
@@ -184,7 +194,7 @@ cd ..
 
 cd mpz
 for %%X in ( ..\..\..\tests\mpz\*.c) do (
-	cl %OPT% /I..\..\.. /I..\..\..\tests %%X ..\misc.obj ..\memory.obj ..\trace.obj ..\refmpn.obj ..\refmpz.obj ..\..\mpir.%LIBTYPE%
+	cl %OPT% /I..\..\.. /I..\..\..\tests %%X ..\misc.obj ..\memory.obj ..\trace.obj ..\refmpn.obj ..\refmpz.obj %MPIRLIB%
 )
 for %%X in ( *.exe) do (
 	echo testing mpz_%%X
@@ -195,7 +205,7 @@ cd ..
 
 cd mpq
 for %%X in ( ..\..\..\tests\mpq\t-*.c) do (
-	cl %OPT% /I..\..\.. /I..\..\..\tests %%X ..\misc.obj ..\memory.obj ..\trace.obj ..\refmpn.obj ..\refmpz.obj ..\refmpq.obj ..\..\mpir.%LIBTYPE%
+	cl %OPT% /I..\..\.. /I..\..\..\tests %%X ..\misc.obj ..\memory.obj ..\trace.obj ..\refmpn.obj ..\refmpz.obj ..\refmpq.obj %MPIRLIB%
 )
 for %%X in ( *.exe) do (
 	echo testing mpq_%%X
@@ -206,7 +216,7 @@ cd ..
 
 cd mpf
 for %%X in ( ..\..\..\tests\mpf\*.c) do (
-	cl %OPT% /I..\..\.. /I..\..\..\tests %%X ..\misc.obj ..\memory.obj ..\trace.obj ..\refmpn.obj ..\refmpf.obj ..\..\mpir.%LIBTYPE%
+	cl %OPT% /I..\..\.. /I..\..\..\tests %%X ..\misc.obj ..\memory.obj ..\trace.obj ..\refmpn.obj ..\refmpf.obj %MPIRLIB%
 )
 for %%X in ( *.exe) do (
 	echo testing mpf_%%X
@@ -217,7 +227,7 @@ cd ..
 
 cd rand
 for %%X in ( ..\..\..\tests\rand\t-*.c) do (
-	cl %OPT% /I..\..\.. /I..\..\..\tests %%X ..\misc.obj ..\memory.obj ..\trace.obj ..\refmpn.obj ..\..\mpir.%LIBTYPE%
+	cl %OPT% /I..\..\.. /I..\..\..\tests %%X ..\misc.obj ..\memory.obj ..\trace.obj ..\refmpn.obj %MPIRLIB%
 )
 for %%X in ( *.exe) do (
 	echo testing rand_%%X
@@ -228,7 +238,7 @@ cd ..
 
 cd misc
 for %%X in ( ..\..\..\tests\misc\t-*.c) do (
-	cl %OPT% /I..\..\.. /I..\..\..\tests %%X ..\misc.obj ..\memory.obj ..\trace.obj ..\refmpn.obj ..\..\mpir.%LIBTYPE%
+	cl %OPT% /I..\..\.. /I..\..\..\tests %%X ..\misc.obj ..\memory.obj ..\trace.obj ..\refmpn.obj %MPIRLIB%
 )
 for %%X in ( *.exe) do (
 	echo testing misc_%%X
@@ -239,7 +249,7 @@ cd ..
 
 cd cxx
 for %%X in ( ..\..\..\tests\cxx\t-*.cc) do (
-	cl /EHsc %OPT% /I..\..\.. /I..\..\..\tests %%X ..\misc.obj ..\memory.obj ..\trace.obj ..\refmpn.obj ..\..\mpir.%LIBTYPE%
+	cl /EHsc %OPT% /I..\..\.. /I..\..\..\tests %%X ..\misc.obj ..\memory.obj ..\trace.obj ..\refmpn.obj %MPIRLIB%
 )
 for %%X in ( *.exe) do (
 	echo testing cxx_%%X
@@ -249,7 +259,7 @@ for %%X in ( *.exe) do (
 cd ..
 
 cd devel
-cl %OPT% ..\..\..\tests\devel\try.c /I..\..\..\ /I..\..\..\tests ..\refmpn.obj ..\refmpz.obj ..\trace.obj ..\spinner.obj ..\misc.obj ..\memory.obj ..\getopt.obj ..\..\mpir.%LIBTYPE%
+cl %OPT% ..\..\..\tests\devel\try.c /I..\..\..\ /I..\..\..\tests ..\refmpn.obj ..\refmpz.obj ..\trace.obj ..\spinner.obj ..\misc.obj ..\memory.obj ..\getopt.obj %MPIRLIB%
 cd ..
 
 cd ..
@@ -284,6 +294,8 @@ exit /b 0
 md speed
 
 set OPT=%FLAGS% %FLAGS1%
+set MPIRLIB=
+if %LIBTYPE% == lib (set MPIRLIB=mpir.lib)
 
 copy ..\build.vc10\unistd.h .
 copy ..\build.vc10\getopt.h .
@@ -300,7 +312,7 @@ cl %OPT% /c ..\..\build.vc10\getopt.c /I..\..
 for %%X in (        ..\..\tune\common.c        ..\..\tune\mod_1_div.c        ..\..\tune\set_strb.c ..\..\tune\divrem1div.c    ..\..\tune\gcd_bin.c   ..\..\tune\mod_1_inv.c       ..\..\tune\divrem1inv.c    ..\..\tune\gcdextod.c  ..\..\tune\modlinv.c          ..\..\tune\set_strs.c ..\..\tune\divrem2div.c    ..\..\tune\gcdextos.c  ..\..\tune\noop.c             ..\..\tune\divrem2inv.c    ..\..\tune\jacbase1.c  ..\..\tune\powm_mod.c       ..\..\tune\fac_ui_large.c  ..\..\tune\jacbase2.c  ..\..\tune\powm_redc.c    ..\..\tune\fac_ui_small.c  ..\..\tune\jacbase3.c  ..\..\tune\preinv_divrem_1.c  ) do (
 	cl -c %OPT% /I..\.. /I..\..\tests /I.. %%X
 )
-cl %OPT% /I..\.. /I.. /I..\..\tests ..\..\tune\speed.c *.obj ..\mpir.%LIBTYPE% advapi32.lib psapi.lib
+cl %OPT% /I..\.. /I.. /I..\..\tests ..\..\tune\speed.c *.obj ..\%MPIRLIB% advapi32.lib psapi.lib
 cd ..
 
 exit /b 0
@@ -312,6 +324,8 @@ exit /b 0
 md tune
 
 set OPT=%FLAGS% %FLAGS1%
+set MPIRLIB=
+if %LIBTYPE% == lib (set MPIRLIB=mpir.lib)
 
 copy ..\build.vc10\unistd.h .
 copy ..\build.vc10\getopt.h .
@@ -326,7 +340,7 @@ cl %OPT% /c ..\..\build.vc10\getopt.c /I..\..
 for %%X in (  ..\..\tune\set_strp.c      ..\..\tune\common.c        ..\..\tune\mod_1_div.c        ..\..\tune\set_strb.c ..\..\tune\divrem1div.c    ..\..\tune\gcd_bin.c   ..\..\tune\mod_1_inv.c       ..\..\tune\divrem1inv.c    ..\..\tune\gcdextod.c  ..\..\tune\modlinv.c          ..\..\tune\set_strs.c ..\..\tune\divrem2div.c    ..\..\tune\gcdextos.c  ..\..\tune\noop.c             ..\..\tune\divrem2inv.c    ..\..\tune\jacbase1.c  ..\..\tune\powm_mod.c       ..\..\tune\fac_ui_large.c  ..\..\tune\jacbase2.c  ..\..\tune\powm_redc.c    ..\..\tune\fac_ui_small.c  ..\..\tune\jacbase3.c  ..\..\tune\preinv_divrem_1.c  ..\..\build.vc10\tune\*.c) do (
 	cl -c %OPT% /I..\.. /I..\..\tests /I.. %%X
 )
-cl %OPT% /I..\.. /I.. /I..\..\tests ..\..\tune\tuneup.c *.obj ..\mpir.%LIBTYPE% advapi32.lib psapi.lib
+cl %OPT% /I..\.. /I.. /I..\..\tests ..\..\tune\tuneup.c *.obj ..\%MPIRLIB% advapi32.lib psapi.lib
 cd ..
 
 exit /b 0
