@@ -34,39 +34,14 @@ if "%0" == "--enable-shared" ( set LIBTYPE=dll)
 if "%0" == "--enable-static" ( set LIBTYPE=lib)
 if "%0" == "--disable-shared" ( set LIBTYPE=lib)
 if "%0" == "--disable-static" ( set LIBTYPE=dll)
-if "%0" == "--ABI32" ( set ABI=32)
-if "%0" == "--ABI64" ( set ABI=64)
-if "%0" == "--cpu-none" ( set CPU=none)
-if "%0" == "--cpu-x86_64" ( set CPU=x86_64)
-if "%0" == "--cpu-netburst" ( set CPU=netburst)
-if "%0" == "--cpu-netburstlahf" ( set CPU=netburstlahf)
-if "%0" == "--cpu-k8" ( set CPU=k8)
-if "%0" == "--cpu-k10" ( set CPU=k10)
-if "%0" == "--cpu-k102" ( set CPU=k102)
-if "%0" == "--cpu-bobcat" ( set CPU=bobcat)
-if "%0" == "--cpu-core2" ( set CPU=core2)
-if "%0" == "--cpu-penryn" ( set CPU=penryn)
-if "%0" == "--cpu-nehalem" ( set CPU=nehalem)
-if "%0" == "--cpu-westmere" ( set CPU=westmere)
-if "%0" == "--cpu-sandybridge" ( set CPU=sandybridge)
-if "%0" == "--cpu-atom" ( set CPU=atom)
-if "%0" == "--cpu-nano" ( set CPU=nano)
-if "%0" == "--cpu-i486" ( set CPU=i486)
-if "%0" == "--cpu-pentium" ( set CPU=pentium)
-if "%0" == "--cpu-pentiummmx" ( set CPU=pentiummmx)
-if "%0" == "--cpu-pentiumpro" ( set CPU=pentiumpro)
-if "%0" == "--cpu-pentium2" ( set CPU=pentium2)
-if "%0" == "--cpu-pentium3" ( set CPU=pentium3)
-if "%0" == "--cpu-core" ( set CPU=core)
-if "%0" == "--cpu-pentium4" ( set CPU=pentium4)
-if "%0" == "--cpu-prescott" ( set CPU=prescott)
-if "%0" == "--cpu-k5" ( set CPU=k5)
-if "%0" == "--cpu-k6" ( set CPU=k6)
-if "%0" == "--cpu-k62" ( set CPU=k62)
-if "%0" == "--cpu-k63" ( set CPU=k63)
-if "%0" == "--cpu-k7" ( set CPU=k7)
-if "%0" == "--cpu-viac3" ( set CPU=viac3)
-if "%0" == "--cpu-viac32" ( set CPU=viac32)
+if "%0" == "ABI" (
+	shift
+	set ABI=%1
+)
+if "%0" == "--cpu" (
+	shift
+	set CPU=%1
+)
 goto :lp
 :exitlp
 
