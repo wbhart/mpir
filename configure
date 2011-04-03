@@ -5278,6 +5278,64 @@ if test "$gmp_prog_cc_works" = yes; then
   # remove anything that might look like compiler output to our "||" expression
   rm -f conftest* a.out b.out a.exe a_out.exe
   cat >conftest.c <<EOF
+/* The following aborts with gcc-4.3.2 on a 64bit system which is an unusable compiler */
+#ifdef __GNUC__
+#if __GNUC__ == 4 && __GNUC_MINOR__ == 3 && __GNUC_PATCHLEVEL__ == 2
+if(sizeof((unsigned long)0)==8)abort();
+#endif
+#endif
+void *g() { return (void *) 0; }
+void *f() { return g(); }
+
+int main () { return 0; }
+EOF
+  echo "Test compile: gcc-4.3.2 on 64bit is bad" >&5
+  gmp_compile="$cc $cflags $cppflags conftest.c >&5"
+  if { { eval echo "\"\$as_me\":${as_lineno-$LINENO}: \"$gmp_compile\""; } >&5
+  (eval $gmp_compile) 2>&5
+  ac_status=$?
+  $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
+  test $ac_status = 0; }; then
+    cc_works_part=yes
+    if test "$cross_compiling" = no; then
+      if { ac_try='./a.out || ./b.out || ./a.exe || ./a_out.exe || ./conftest'
+  { { eval echo "\"\$as_me\":${as_lineno-$LINENO}: \"$ac_try\""; } >&5
+  (eval $ac_try) 2>&5
+  ac_status=$?
+  $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
+  test $ac_status = 0; }; }; then :;
+      else
+        cc_works_part=norun
+      fi
+    fi
+  else
+    cc_works_part=no
+  fi
+  if test "$cc_works_part" != yes; then
+    echo "failed program was:" >&5
+    cat conftest.c >&5
+  fi
+  rm -f conftest* a.out b.out a.exe a_out.exe
+  case $cc_works_part in
+    yes)
+
+      ;;
+    no)
+      gmp_prog_cc_works="no, gcc-4.3.2 on 64bit is bad"
+      ;;
+    norun)
+      gmp_prog_cc_works="no, gcc-4.3.2 on 64bit is bad, program does not run"
+      ;;
+  esac
+fi
+
+
+
+
+if test "$gmp_prog_cc_works" = yes; then
+  # remove anything that might look like compiler output to our "||" expression
+  rm -f conftest* a.out b.out a.exe a_out.exe
+  cat >conftest.c <<EOF
 /* The following provokes an internal error from gcc 2.95.2 -mpowerpc64
    (without -maix64), hence detecting an unusable compiler */
 void *g() { return (void *) 0; }
@@ -6569,6 +6627,64 @@ EOF
       ;;
     norun)
       gmp_prog_cc_works="no, program does not run"
+      ;;
+  esac
+fi
+
+
+
+
+if test "$gmp_prog_cc_works" = yes; then
+  # remove anything that might look like compiler output to our "||" expression
+  rm -f conftest* a.out b.out a.exe a_out.exe
+  cat >conftest.c <<EOF
+/* The following aborts with gcc-4.3.2 on a 64bit system which is an unusable compiler */
+#ifdef __GNUC__
+#if __GNUC__ == 4 && __GNUC_MINOR__ == 3 && __GNUC_PATCHLEVEL__ == 2
+if(sizeof((unsigned long)0)==8)abort();
+#endif
+#endif
+void *g() { return (void *) 0; }
+void *f() { return g(); }
+
+int main () { return 0; }
+EOF
+  echo "Test compile: gcc-4.3.2 on 64bit is bad" >&5
+  gmp_compile="$cc $cflags $cppflags $flag conftest.c >&5"
+  if { { eval echo "\"\$as_me\":${as_lineno-$LINENO}: \"$gmp_compile\""; } >&5
+  (eval $gmp_compile) 2>&5
+  ac_status=$?
+  $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
+  test $ac_status = 0; }; then
+    cc_works_part=yes
+    if test "$cross_compiling" = no; then
+      if { ac_try='./a.out || ./b.out || ./a.exe || ./a_out.exe || ./conftest'
+  { { eval echo "\"\$as_me\":${as_lineno-$LINENO}: \"$ac_try\""; } >&5
+  (eval $ac_try) 2>&5
+  ac_status=$?
+  $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
+  test $ac_status = 0; }; }; then :;
+      else
+        cc_works_part=norun
+      fi
+    fi
+  else
+    cc_works_part=no
+  fi
+  if test "$cc_works_part" != yes; then
+    echo "failed program was:" >&5
+    cat conftest.c >&5
+  fi
+  rm -f conftest* a.out b.out a.exe a_out.exe
+  case $cc_works_part in
+    yes)
+
+      ;;
+    no)
+      gmp_prog_cc_works="no, gcc-4.3.2 on 64bit is bad"
+      ;;
+    norun)
+      gmp_prog_cc_works="no, gcc-4.3.2 on 64bit is bad, program does not run"
       ;;
   esac
 fi

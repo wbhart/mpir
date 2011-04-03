@@ -487,6 +487,17 @@ gmp_prog_cc_works=yes
 # first see a simple "main()" works, then go on to other checks
 GMP_PROG_CC_WORKS_PART([$1], [])
 
+GMP_PROG_CC_WORKS_PART([$1], [gcc-4.3.2 on 64bit is bad],
+[/* The following aborts with gcc-4.3.2 on a 64bit system which is an unusable compiler */
+#ifdef __GNUC__
+#if __GNUC__ == 4 && __GNUC_MINOR__ == 3 && __GNUC_PATCHLEVEL__ == 2
+if(sizeof((unsigned long)0)==8)abort();
+#endif
+#endif
+void *g() { return (void *) 0; }
+void *f() { return g(); }
+])
+
 GMP_PROG_CC_WORKS_PART([$1], [function pointer return],
 [/* The following provokes an internal error from gcc 2.95.2 -mpowerpc64
    (without -maix64), hence detecting an unusable compiler */
