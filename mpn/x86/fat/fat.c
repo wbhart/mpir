@@ -35,7 +35,6 @@ MA 02110-1301, USA. */
 
 /* fat_entry.asm */
 long __gmpn_cpuid __GMP_PROTO ((char dst[12], int id));
-int  __gmpn_cpuid_available __GMP_PROTO ((void));
 
 typedef DECL_preinv_divrem_1 ((*preinv_divrem_1_t));
 typedef DECL_preinv_mod_1    ((*preinv_mod_1_t));
@@ -100,14 +99,6 @@ __gmpn_cpuvec_init (void)
   CPUVEC_SETUP_x86;
   CPUVEC_SETUP_fat;
 
-  if (! __gmpn_cpuid_available ())
-    {
-      TRACE (printf ("  80386, or early 80486 without cpuid\n"));
-    }
-  else
-    {
-
-
 #define CONFIG_GUESS            0
 #define CONFIG_GUESS_32BIT      0
 #define CONFIG_GUESS_64BIT      0
@@ -143,8 +134,6 @@ __gmpn_cpuvec_init (void)
 #define CPUSETUP_viac32		do{}while(0)
 
 #include "cpuid.c"
-
-    }
 
   /* There's no x86 generic mpn_preinv_divrem_1 or mpn_preinv_mod_1.
      Instead default to the plain versions from whichever CPU we detected.
