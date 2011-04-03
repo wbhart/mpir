@@ -491,10 +491,11 @@ GMP_PROG_CC_WORKS_PART([$1], [gcc-4.3.2 on 64bit is bad],
 [/* The following aborts with gcc-4.3.2 on a 64bit system which is an unusable compiler */
 #ifdef __GNUC__
 #if __GNUC__ == 4 && __GNUC_MINOR__ == 3 && __GNUC_PATCHLEVEL__ == 2
-if(sizeof((unsigned long)0)==8)abort();
+int *p;
+if(sizeof(p)==8)abort();
 #endif
 #endif
-exit 0;
+return 0;
 ])
 
 GMP_PROG_CC_WORKS_PART([$1], [function pointer return],
