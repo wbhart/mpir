@@ -530,43 +530,6 @@ double ftod_data;
 float ftod () { return (float) ftod_data; }
 ])
 
-GMP_PROG_CC_WORKS_PART([$1], [gnupro alpha ev6 char spilling],
-[/* The following provokes an internal compiler error from gcc version
-   "2.9-gnupro-99r1" under "-O2 -mcpu=ev6", apparently relating to char
-   values being spilled into floating point registers.  The problem doesn't
-   show up all the time, but has occurred enough in GMP for us to reject
-   this compiler+flags.  */
-struct try_t
-{
- char dst[2];
- char size;
- long d0, d1, d2, d3, d4, d5, d6;
- char overlap;
-};
-struct try_t param[6];
-int
-param_init ()
-{
- struct try_t *p;
- memcpy (p, &param[ 2 ], sizeof (*p));
- memcpy (p, &param[ 2 ], sizeof (*p));
- p->size = 2;
- memcpy (p, &param[ 1 ], sizeof (*p));
- p->dst[0] = 1;
- p->overlap = 2;
- memcpy (p, &param[ 3 ], sizeof (*p));
- p->dst[0] = 1;
- p->overlap = 8;
- memcpy (p, &param[ 4 ], sizeof (*p));
- memcpy (p, &param[ 4 ], sizeof (*p));
- p->overlap = 8;
- memcpy (p, &param[ 5 ], sizeof (*p));
- memcpy (p, &param[ 5 ], sizeof (*p));
- memcpy (p, &param[ 5 ], sizeof (*p));
- return 0;
-}
-])
-
 # __builtin_alloca is not available everywhere, check it exists before
 # seeing that it works
 GMP_PROG_CC_WORKS_PART_TEST([$1],[__builtin_alloca availability],
