@@ -494,8 +494,7 @@ GMP_PROG_CC_WORKS_PART([$1], [gcc-4.3.2 on 64bit is bad],
 if(sizeof((unsigned long)0)==8)abort();
 #endif
 #endif
-void *g() { return (void *) 0; }
-void *f() { return g(); }
+exit 0;
 ])
 
 GMP_PROG_CC_WORKS_PART([$1], [function pointer return],

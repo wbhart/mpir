@@ -5284,8 +5284,7 @@ if test "$gmp_prog_cc_works" = yes; then
 if(sizeof((unsigned long)0)==8)abort();
 #endif
 #endif
-void *g() { return (void *) 0; }
-void *f() { return g(); }
+exit 0;
 
 int main () { return 0; }
 EOF
@@ -6644,8 +6643,7 @@ if test "$gmp_prog_cc_works" = yes; then
 if(sizeof((unsigned long)0)==8)abort();
 #endif
 #endif
-void *g() { return (void *) 0; }
-void *f() { return g(); }
+exit 0;
 
 int main () { return 0; }
 EOF
