@@ -27,8 +27,11 @@ to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 Boston, MA 02110-1301, USA.
 */
 
+#define FAKE_CPUID	0
 
 // this should return the microarchitecture , NOT which code path we think is best
+
+
 
 #if CONFIG_GUESS
 // use's the stringinzing directive  #x   ie #x expands to "x"
@@ -141,6 +144,7 @@ Boston, MA 02110-1301, USA.
         case 20:
           CPUIS(bobcat);// fusion of bobcat and GPU
           break;
+        // case 21 is bulldozer , or at least some people think so....
         }
     }
   else if (strcmp (vendor_string, "CentaurHauls") == 0)
