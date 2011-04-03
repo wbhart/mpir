@@ -1257,7 +1257,7 @@ case $host in
         gcc_cflags_cpu="-mtune=c3 -mcpu=c3 -mcpu=i486 -m486"
         gcc_cflags_arch="-march=c3 -march=pentium-mmx -march=pentium"
         ;;
-      x86_64 | k8 | k10 | k102 | atom | bobcat)
+      x86_64 | k8 | k10 | k102 | k103 | atom | bobcat)
         gcc_cflags_cpu="-mtune=k8 -mcpu=athlon -mcpu=pentiumpro -mcpu=i486 -m486"
         gcc_cflags_arch="-march=k8 -march=k8~-mno-sse2 -march=athlon -march=pentiumpro -march=pentium"
         ;;
@@ -1282,7 +1282,7 @@ case $host in
       [k6[23]])                path="x86/k6/k62mmx x86/k6/mmx x86/k6 x86" ;;
       k6)                      path="x86/k6/mmx x86/k6 x86" ;;
       athlon | k7 | x86_64 | atom)   path="x86/k7/mmx x86/k7 x86" ;;
-      k102)	  	        path="x86/k7/mmx/k8/k10/k102  x86/k7/mmx/k8/k10 x86/k7/mmx/k8 x86/k7/mmx x86/k7 x86" ;; 
+      k102 | k103)  	        path="x86/k7/mmx/k8/k10/k102  x86/k7/mmx/k8/k10 x86/k7/mmx/k8 x86/k7/mmx x86/k7 x86" ;; 
       k10)			path="x86/k7/mmx/k8/k10 x86/k7/mmx/k8 x86/k7/mmx x86/k7 x86" ;;
       k8 | bobcat)		path="x86/k7/mmx/k8 x86/k7/mmx x86/k7 x86" ;;
       core2 | penryn)		path="x86/core2 x86" ;;
@@ -1367,6 +1367,8 @@ case $host in
             path_64="x86_64w/k8/k10 x86_64w/k8 x86_64w" ;;
           k102-w64-mingw*)
             path_64="x86_64w/k8/k10/k102 x86_64w/k8/k10 x86_64w/k8 x86_64w" ;;
+	  k103-w64-mingw*)
+            path_64="x86_64w/k8/k10/k102 x86_64w/k8/k10 x86_64w/k8 x86_64w" ;;
 	  bobcat-w64-mingw*)
             path_64="x86_64w/bobcat x86_64w" ;;
           core2-w64-mingw*) 
@@ -1395,6 +1397,8 @@ case $host in
           k10-*-*)
             path_64="x86_64/k8/k10 x86_64/k8 x86_64" ;;
           k102-*-*)
+            path_64="x86_64/k8/k10/k102 x86_64/k8/k10 x86_64/k8 x86_64" ;;
+          k103-*-*)
             path_64="x86_64/k8/k10/k102 x86_64/k8/k10 x86_64/k8 x86_64" ;;
           bobcat-*-*)
             path_64="x86_64/bobcat x86_64" ;;

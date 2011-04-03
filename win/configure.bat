@@ -142,6 +142,7 @@ if %ABI% == 64 (
 	if %CPU% == k8           (set MPNPATH=x86_64w x86_64w\k8 x86_64w\k8\k8only)
 	if %CPU% == k10          (set MPNPATH=x86_64w x86_64w\k8 x86_64w\k8\k10)
 	if %CPU% == k102         (set MPNPATH=x86_64w x86_64w\k8 x86_64w\k8\k10 x86_64w\k8\k10\k102)
+	if %CPU% == k103         (set MPNPATH=x86_64w x86_64w\k8 x86_64w\k8\k10 x86_64w\k8\k10\k102)
 	if %CPU% == bobcat       (set MPNPATH=x86_64w x86_64w\bobcat)
 	if %CPU% == core2        (set MPNPATH=x86_64w x86_64w\core2)
 	if %CPU% == penryn       (set MPNPATH=x86_64w x86_64w\core2 x86_64w\core2\penryn)
