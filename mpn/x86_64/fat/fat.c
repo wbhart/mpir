@@ -33,97 +33,9 @@ MA 02110-1301, USA. */
 /* Change this to "#define TRACE(x) x" for some traces. */
 #define TRACE(x)
 
-/* Change this to 1 to take the cpuid from GMP_CPU_TYPE env var. */
-#define WANT_FAKE_CPUID  0
-
-
 /* fat_entry.asm */
 long __gmpn_cpuid __GMP_PROTO ((char dst[12], int id));
 int  __gmpn_cpuid_available __GMP_PROTO ((void));
-
-
-
-#if WANT_FAKE_CPUID
-/* The "name"s in the table are values for the GMP_CPU_TYPE environment
-   variable.  Anything can be used, but for now it's the canonical cpu types
-   as per config.guess/config.sub.  */
-
-#define __gmpn_cpuid            fake_cpuid
-#define __gmpn_cpuid_available  fake_cpuid_available
-
-#define MAKE_FMS(family, model) \
-  (((family) << 8) + ((model << 4)))
-
-static struct {
-  const char  *name;
-  const char  vendor[13];
-  unsigned    fms;
-} fake_cpuid_table[] = {
-  { "i386",       "" },
-  { "i486",       "GenuineIntel", MAKE_FMS (4, 0) },
-  { "pentium",    "GenuineIntel", MAKE_FMS (5, 0) },
-  { "pentiummmx", "GenuineIntel", MAKE_FMS (5, 4) },
-  { "pentiumpro", "GenuineIntel", MAKE_FMS (6, 0) },
-  { "pentium2",   "GenuineIntel", MAKE_FMS (6, 2) },
-  { "pentium3",   "GenuineIntel", MAKE_FMS (6, 7) },
-  { "pentium4",   "GenuineIntel", MAKE_FMS (7, 0) },
-
-  { "k5",         "AuthenticAMD", MAKE_FMS (5, 0) },
-  { "k6",         "AuthenticAMD", MAKE_FMS (5, 3) },
-  { "k62",        "AuthenticAMD", MAKE_FMS (5, 8) },
-  { "k63",        "AuthenticAMD", MAKE_FMS (5, 9) },
-  { "athlon",     "AuthenticAMD", MAKE_FMS (6, 0) },
-  { "x86_64",     "AuthenticAMD", MAKE_FMS (15, 0) },
-
-  { "viac3",      "CentaurHauls", MAKE_FMS (6, 0) },
-  { "viac32",     "CentaurHauls", MAKE_FMS (6, 9) },
-};
-
-static int
-fake_cpuid_lookup (void)
-{
-  char  *s;
-  int   i;
-
-  s = getenv ("GMP_CPU_TYPE");
-  if (s == NULL)
-    {
-      printf ("Need GMP_CPU_TYPE environment variable for fake cpuid\n");
-      abort ();
-    }
-
-  for (i = 0; i < numberof (fake_cpuid_table); i++)
-    if (strcmp (s, fake_cpuid_table[i].name) == 0)
-      return i;
-
-  printf ("GMP_CPU_TYPE=%s unknown\n", s);
-  abort ();
-}
-
-static int
-fake_cpuid_available (void)
-{
-  return fake_cpuid_table[fake_cpuid_lookup()].vendor[0] != '\0';
-}
-
-static long
-fake_cpuid (char dst[12], int id)
-{
-  int  i = fake_cpuid_lookup();
-
-  switch (id) {
-  case 0:
-    memcpy (dst, fake_cpuid_table[i].vendor, 12);
-    return 0;
-  case 1:
-    return fake_cpuid_table[i].fms;
-  default:
-    printf ("fake_cpuid(): oops, unknown id %d\n", id);
-    abort ();
-  }
-}
-#endif
-
 
 typedef DECL_preinv_divrem_1 ((*preinv_divrem_1_t));
 typedef DECL_preinv_mod_1    ((*preinv_mod_1_t));
