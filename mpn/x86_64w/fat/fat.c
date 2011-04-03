@@ -112,7 +112,7 @@ __gmpn_cpuvec_init (void)
 #define CPUSETUP_westmere	CPUVEC_SETUP_nehalem;CPUVEC_SETUP_nehalem_westmere
 #define CPUSETUP_sandybridge	CPUVEC_SETUP_nehalem;CPUVEC_SETUP_nehalem_westmere
 #define CPUSETUP_atom		CPUVEC_SETUP_atom
-#define CPUSETUP_nano		CPUVEC_SETUP_nano
+#define CPUSETUP_nano		CPUVEC_SETUP_k8;CPUVEC_SETUP_k8_k8only
 #define CPUSETUP_netburst	CPUVEC_SETUP_netburst
 #define CPUSETUP_netburstlahf	CPUVEC_SETUP_netburst;CPUVEC_SETUP_netburst_netburstlahf
 #define CPUSETUP_k8		CPUVEC_SETUP_k8;CPUVEC_SETUP_k8_k8only

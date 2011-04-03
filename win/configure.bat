@@ -150,7 +150,7 @@ if %ABI% == 64 (
 	if %CPU% == westmere     (set MPNPATH=x86_64w x86_64w\nehalem x86_64w\nehalem\westmere)
 	if %CPU% == sandybridge  (set MPNPATH=x86_64w x86_64w\nehalem x86_64w\nehalem\westmere)
 	if %CPU% == atom         (set MPNPATH=x86_64w x86_64w\atom)
-	if %CPU% == nano         (set MPNPATH=x86_64w x86_64w\nano)
+	if %CPU% == nano         (set MPNPATH=x86_64w x86_64w\k8 x86_64w\k8\k8only)
 )
 echo (set MPNPATH=%MPNPATH%) >> config.params.bat
 echo (set ABI=%ABI%) >> config.params.bat
