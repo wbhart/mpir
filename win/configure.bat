@@ -138,7 +138,7 @@ if %ABI% == 32 (
 if %ABI% == 64 (
 	if %CPU% == x86_64       (set MPNPATH=x86_64w)
 	if %CPU% == netburst     (set MPNPATH=x86_64w x86_64w\netburst)
-	if %CPU% == netburstlahf (set MPNPATH=x86_64w x86_64w\netburst x86_64w\netburst\netburstlahf)
+	if %CPU% == netburstlahf (set MPNPATH=x86_64w x86_64w\netburst)
 	if %CPU% == k8           (set MPNPATH=x86_64w x86_64w\k8 x86_64w\k8\k8only)
 	if %CPU% == k10          (set MPNPATH=x86_64w x86_64w\k8 x86_64w\k8\k10)
 	if %CPU% == k102         (set MPNPATH=x86_64w x86_64w\k8 x86_64w\k8\k10 x86_64w\k8\k10\k102)

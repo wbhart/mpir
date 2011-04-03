@@ -1360,7 +1360,7 @@ case $host in
           netburst-w64-mingw*)
             path_64="x86_64w/netburst x86_64w" ;;
           netburstlahf-w64-mingw*)
-            path_64="x86_64w/netburst/netburstlahf x86_64w/netburst x86_64w" ;;
+            path_64="x86_64w/netburst x86_64w" ;;
           k8-w64-mingw*)
             path_64="x86_64w/k8/k8only x86_64w/k8 x86_64w" ;;
           k10-w64-mingw*)
@@ -1391,7 +1391,7 @@ case $host in
           netburst-*-*)
             path_64="x86_64/netburst x86_64" ;;
           netburstlahf-*-*)
-            path_64="x86_64/netburst/netburstlahf x86_64/netburst x86_64" ;;
+            path_64="x86_64/netburst x86_64" ;;
           k8-*-*)
             path_64="x86_64/k8/k8only x86_64/k8 x86_64" ;;
           k10-*-*)
@@ -1426,10 +1426,10 @@ case $host in
 	  case $host in
 		*-w64-mingw*)
 	          path_64="x86_64w/fat x86_64w"
-		  fat_path_64="x86_64w x86_64w/fat x86_64w/netburst x86_64w/netburst/netburstlahf x86_64w/k8 x86_64w/k8/k8only x86_64w/k8/k10 x86_64w/k8/k10/k102  x86_64w/core2 x86_64w/core2/penryn x86_64w/nehalem x86_64w/nehalem/westmere x86_64w/atom x86_64w/bobcat" ;;        	  
+		  fat_path_64="x86_64w x86_64w/fat x86_64w/netburst x86_64w/k8 x86_64w/k8/k8only x86_64w/k8/k10 x86_64w/k8/k10/k102  x86_64w/core2 x86_64w/core2/penryn x86_64w/nehalem x86_64w/nehalem/westmere x86_64w/atom x86_64w/bobcat" ;;        	  
 		*-*-*)
 	          path_64="x86_64/fat x86_64"
-        	  fat_path_64="x86_64 x86_64/fat x86_64/netburst x86_64/netburst/netburstlahf x86_64/k8 x86_64/k8/k8only x86_64/k8/k10 x86_64/k8/k10/k102  x86_64/core2 x86_64/core2/penryn x86_64/nehalem x86_64/nehalem/westmere x86_64/atom x86_64/bobcat" ;;
+        	  fat_path_64="x86_64 x86_64/fat x86_64/netburst x86_64/k8 x86_64/k8/k8only x86_64/k8/k10 x86_64/k8/k10/k102  x86_64/core2 x86_64/core2/penryn x86_64/nehalem x86_64/nehalem/westmere x86_64/atom x86_64/bobcat" ;;
 	  esac
         fi
         ;;
