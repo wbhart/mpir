@@ -1337,7 +1337,7 @@ case $host in
         gcc_64_cflags="-O2 -m64"
 	case $host in
 	*-*-linux-gnu)
-	    gcc_63_ldflags="-Wl,-z,noexecstack" ;;
+	    gcc_64_ldflags="-Wl,-z,noexecstack" ;;
 	esac
         gcc_64_cflags_optlist="opt arch cpu"
         SPEED_CYCLECOUNTER_OBJ_64=x86_64.lo
