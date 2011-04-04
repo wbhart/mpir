@@ -5,7 +5,7 @@ Free Software Foundation, Inc.
 
 Copyright 2008 William Hart.
 
-Copyright 2009 Jason Moxham
+Copyright 2009,2010,2011 Jason Moxham
 
 Copyright 2010 Gonzalo Tornaria
 
@@ -29,10 +29,27 @@ Boston, MA 02110-1301, USA.
 
 // this should return the microarchitecture , NOT which code path we think is best
 
+#define WANT_FAKE_CPU		0
+#define FAKE_CPU		any
+#define	FAKE_CPU_VENDOR		"AuthenticAMD"
+#define	FAKE_CPU_FAMILY		15
+#define FAKE_CPU_EXTFAMILY	0
+#define FAKE_CPU_MODEL		12
+#define FAKE_CPU_EXTMODEL	0
+
+long fake_cpuid(char *p,unsigned int level);
+
+#if WANT_FAKE_CPU 
+#define __gmpn_cpuid fake_cpuid
+#else
+#if CONFIG_GUESS
+#define __gmpn_cpuid(_x,_y)	cpuid(_x,_y,1,0,0)
+#endif
+#endif
+
 #if CONFIG_GUESS
 // use's the stringinzing directive  #x   ie #x expands to "x"
 #define CPUIS(x)	modelstr=#x
-#define __gmpn_cpuid(_x,_y)	cpuid(_x,_y,1,0,0)
 char*	__gmpn_cpu(int *vector){
 #endif
 #if INFAT
@@ -64,7 +81,7 @@ CPUVEC_SETUP_fat;
   family = ((fms >> 8) & 15) + ((fms >> 20) & 0xff);
   model = ((fms >> 4) & 15) + ((fms >> 12) & 0xf0);
   stepping = fms & 15;
-  
+
   #if CONFIG_GUESS_64BIT
   modelstr = "x86_64";
   #else
@@ -172,3 +189,117 @@ CPUVEC_SETUP_fat;
 *vector=decided_cpuvec;
 #endif
 return modelstr;}
+
+long fake_cpuid(char *p,unsigned int level)
+{unsigned int eax,feat801=0,feat2=0,family,extfamily,model,extmodel;
+ char *vendor;
+
+/*
+#if FAKE_CPU == pentium
+vendor="GenuineIntel";family= 5;extfamily= 0;model= 2;extmodel= 0;
+#endif
+#if FAKE_CPU == pentiummmx
+vendor="GenuineIntel";family= 5;extfamily= 0;model= 4;extmodel= 0;
+#endif
+#if FAKE_CPU == pentiumpro
+vendor="GenuineIntel";family= 6;extfamily= 0;model= 1;extmodel= 0;
+#endif
+#if FAKE_CPU == pentium2
+vendor="GenuineIntel";family= 6;extfamily= 0;model= 6;extmodel= 0;
+#endif
+#if FAKE_CPU == pentium3
+vendor="GenuineIntel";family= 6;extfamily= 0;model=13;extmodel= 0;
+#endif
+#if FAKE_CPU == core
+vendor="GenuineIntel";family= 6;extfamily= 0;model=14;extmodel= 0;
+#endif
+#if FAKE_CPU == core2
+vendor="GenuineIntel";family= 6;extfamily= 0;model=15;extmodel= 0;
+#endif
+#if FAKE_CPU == penryn
+vendor="GenuineIntel";family= 6;extfamily= 0;model= 7;extmodel= 1;
+#endif
+#if FAKE_CPU == nehalem
+vendor="GenuineIntel";family= 6;extfamily= 0;model=10;extmodel= 1;
+#endif
+#if FAKE_CPU == atom
+vendor="GenuineIntel";family= 6;extfamily= 0;model=12;extmodel= 1;
+#endif
+#if FAKE_CPU == westmere
+vendor="GenuineIntel";family= 6;extfamily= 0;model= 5;extmodel= 2;
+#endif
+#if FAKE_CPU == sandybridge
+vendor="GenuineIntel";family= 6;extfamily= 0;model=10;extmodel= 2;
+#endif
+#if FAKE_CPU == sandybridge
+vendor="GenuineIntel";family= 6;extfamily= 0;model=10;extmodel= 2;
+#endif
+#if FAKE_CPU == netburst
+vendor="GenuineIntel";family=15;extfamily= 0;model= 0;extmodel= 0;
+#endif
+#if FAKE_CPU == netburstlahf
+vendor="GenuineIntel";family=15;extfamily= 0;model= 0;extmodel= 0;feat801=1;
+#endif
+#if FAKE_CPU == pentium4
+vendor="GenuineIntel";family=15;extfamily= 0;model= 6;extmodel= 0;
+#endif
+#if FAKE_CPU == prescott
+vendor="GenuineIntel";family=15;extfamily= 0;model= 7;extmodel= 0;feat2=0x100;
+#endif
+#if FAKE_CPU == k5
+vendor="AuthenticAMD";family= 5;extfamily= 0;model= 3;extmodel= 0;
+#endif
+#if FAKE_CPU == k6
+vendor="AuthenticAMD";family= 5;extfamily= 0;model= 7;extmodel= 0;
+#endif
+#if FAKE_CPU == k62
+vendor="AuthenticAMD";family= 5;extfamily= 0;model= 8;extmodel= 0;
+#endif
+#if FAKE_CPU == k63
+vendor="AuthenticAMD";family= 5;extfamily= 0;model= 9;extmodel= 0;
+#endif
+#if FAKE_CPU == k7
+vendor="AuthenticAMD";family= 6;extfamily= 0;model= 0;extmodel= 0;
+#endif
+#if FAKE_CPU == k8
+vendor="AuthenticAMD";family=15;extfamily= 0;model= 0;extmodel= 0;
+#endif
+#if FAKE_CPU == k10
+vendor="AuthenticAMD";family= 0;extfamily=16;model= 2;extmodel= 0;
+#endif
+#if FAKE_CPU == k102
+vendor="AuthenticAMD";family= 0;extfamily=16;model= 5;extmodel= 0;
+#endif
+#if FAKE_CPU == k8plus
+vendor="AuthenticAMD";family= 1;extfamily=16;model= 0;extmodel= 0;
+#endif
+#if FAKE_CPU == k103
+vendor="AuthenticAMD";family= 2;extfamily=16;model= 0;extmodel= 0;
+#endif
+#if FAKE_CPU == bobcat
+vendor="AuthenticAMD";family= 4;extfamily=16;model= 0;extmodel= 0;
+#endif
+#if FAKE_CPU == nano
+vendor="CentaurHauls";family= 6;extfamily= 0;model=15;extmodel= 0;
+#endif
+#if FAKE_CPU == vaic3
+vendor="CentaurHauls";family= 6;extfamily= 0;model= 8;extmodel= 0;
+#endif
+#if FAKE_CPU == vaic32
+vendor="CentaurHauls";family= 6;extfamily= 0;model= 9;extmodel= 0;
+#endif
+*/
+#if 1
+//FAKE_CPU == any
+vendor=FAKE_CPU_VENDOR;
+family=FAKE_CPU_FAMILY;
+extfamily=FAKE_CPU_EXTFAMILY;
+model=FAKE_CPU_MODEL;
+extmodel=FAKE_CPU_EXTMODEL;
+#endif
+memset(p,0,12);
+if(level==0){strncpy(p,vendor,12);return 1;}
+if(level==1){eax=0+(model<<4)+(family<<8)+(0<<12)+(extmodel<<16)+(extfamily<<20);memcpy(p,&feat2,4);return eax;}
+if(level==0x80000000){return 1;}
+if(level==0x80000001){memcpy(p+8,&feat801,4);return 0;}
+return 0;}
