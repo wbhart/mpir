@@ -27,15 +27,41 @@ to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 Boston, MA 02110-1301, USA.
 */
 
-// this should return the microarchitecture , NOT which code path we think is best
+#define WANT_FAKE_BUILD_CPU		0
+#define WANT_FAKE_FAT_CPU		0
 
-#define WANT_FAKE_CPU		0
-#define FAKE_CPU		any
-#define	FAKE_CPU_VENDOR		"AuthenticAMD"
-#define	FAKE_CPU_FAMILY		15
-#define FAKE_CPU_EXTFAMILY	0
-#define FAKE_CPU_MODEL		12
-#define FAKE_CPU_EXTMODEL	0
+#define FAKE_BUILD_CPU			any
+#define	FAKE_BUILD_CPU_VENDOR		"AuthenticAMD"
+#define	FAKE_BUILD_CPU_FAMILY		15
+#define FAKE_BUILD_CPU_EXTFAMILY	0
+#define FAKE_BUILD_CPU_MODEL		12
+#define FAKE_BUILD_CPU_EXTMODEL		0
+
+#define FAKE_FAT_CPU			any
+#define	FAKE_FAT_CPU_VENDOR		"AuthenticAMD"
+#define	FAKE_FAT_CPU_FAMILY		15
+#define FAKE_FAT_CPU_EXTFAMILY		0
+#define FAKE_FAT_CPU_MODEL		12
+#define FAKE_FAT_CPU_EXTMODEL		0
+
+#if INFAT
+#define WANT_FAKE_CPU			WANT_FAKE_FAT_CPU
+#define FAKE_CPU			FAKE_FAT_CPU		
+#define	FAKE_CPU_VENDOR			FAKE_FAT_CPU_VENDOR
+#define	FAKE_CPU_FAMILY			FAKE_FAT_CPU_FAMILY
+#define FAKE_CPU_EXTFAMILY		FAKE_FAT_CPU_EXTFAMILY
+#define FAKE_CPU_MODEL			FAKE_FAT_CPU_MODEL
+#define FAKE_CPU_EXTMODEL		FAKE_FAT_CPU_EXTMODEL
+#endif
+#if CONFIG_GUESS
+#define WANT_FAKE_CPU			WANT_FAKE_BUILD_CPU
+#define FAKE_CPU			FAKE_BUILD_CPU
+#define	FAKE_CPU_VENDOR			FAKE_BUILD_CPU_VENDOR
+#define	FAKE_CPU_FAMILY			FAKE_BUILD_CPU_FAMILY
+#define FAKE_CPU_EXTFAMILY		FAKE_BUILD_CPU_EXTFAMILY
+#define FAKE_CPU_MODEL			FAKE_BUILD_CPU_MODEL
+#define FAKE_CPU_EXTMODEL		FAKE_BUILD_CPU_EXTMODEL
+#endif
 
 long fake_cpuid(char *p,unsigned int level);
 
