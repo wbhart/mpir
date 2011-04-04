@@ -27,27 +27,35 @@ to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 Boston, MA 02110-1301, USA.
 */
 
-#define FAKE_CPUID	0
-
 // this should return the microarchitecture , NOT which code path we think is best
-
-
 
 #if CONFIG_GUESS
 // use's the stringinzing directive  #x   ie #x expands to "x"
 #define CPUIS(x)	modelstr=#x
 #define __gmpn_cpuid(_x,_y)	cpuid(_x,_y,1,0,0)
+char*	__gmpn_cpu(int *vector){
 #endif
 #if INFAT
 #define CPUIS(x)	do{TRACE(printf("  "#x"\n"));CPUSETUP_##x;}while(0)
+char*	__gmpn_cpu(struct cpuvec_t *vector){
+struct cpuvec_t decided_cpuvec;
 #endif
-
   char vendor_string[13];
   char features[12];
   long fms;
   int family, model, stepping,feat;
-  char *modelstr;
+  char *modelstr=0;
 
+#if INFAT
+memset (&decided_cpuvec, '\0', sizeof (decided_cpuvec));
+#if FAT32
+CPUVEC_SETUP_x86;
+#endif
+#if FAT64
+CPUVEC_SETUP_x86_64;
+#endif
+CPUVEC_SETUP_fat;
+#endif
   __gmpn_cpuid (vendor_string, 0);
   vendor_string[12] = 0;
 
@@ -160,3 +168,7 @@ Boston, MA 02110-1301, USA.
 	}
     }
 
+#if INFAT
+*vector=decided_cpuvec;
+#endif
+return modelstr;}

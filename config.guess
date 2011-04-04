@@ -729,10 +729,11 @@ EOF
 #define FAT32			0
 #define FAT64			0
 #define INFAT			0
-main (){
 EOF
 cat $cpuid_c_path  >> ${dummy}32.c
   cat <<EOF >>${dummy}32.c
+main (){char *modelstr;
+  modelstr=__gmpn_cpu(0);
   printf ("%s\n", modelstr);
   return 0;}
 EOF
@@ -743,10 +744,11 @@ EOF
 #define FAT32			0
 #define FAT64			0
 #define INFAT			0
-main (){
 EOF
 cat $cpuid_c_path  >> ${dummy}64.c
   cat <<EOF >>${dummy}64.c
+main (){char *modelstr;
+  modelstr=__gmpn_cpu(0);
   printf ("%s\n", modelstr);
   return 0;}
 EOF
@@ -759,7 +761,7 @@ EOF
     # "Illegal instruction (core dumped)" message to stdout, so we test $?
     # to check if the program run was successful.
     #
-    x=`$SHELL -c ./$dummy 2>/dev/null`
+    x=`$SHELL -c ./$dummy 2>/dev/null` 
     if test $? = 0 && test -n "$x"; then
       exact_cpu=$x
     fi

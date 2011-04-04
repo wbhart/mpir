@@ -87,18 +87,6 @@ struct cpuvec_t __gmpn_cpuvec = {
    asm routines only operate correctly up to their own defined threshold,
    not an arbitrary value.  */
 
-void
-__gmpn_cpuvec_init (void)
-{
-  struct cpuvec_t  decided_cpuvec;
-
-  TRACE (printf ("__gmpn_cpuvec_init:\n"));
-
-  memset (&decided_cpuvec, '\0', sizeof (decided_cpuvec));
-
-  CPUVEC_SETUP_x86_64;
-  CPUVEC_SETUP_fat;
-
 #define CONFIG_GUESS            0
 #define CONFIG_GUESS_32BIT      0
 #define CONFIG_GUESS_64BIT      0
@@ -122,6 +110,15 @@ __gmpn_cpuvec_init (void)
 #define CPUSETUP_bobcat		CPUVEC_SETUP_bobcat
 
 #include "cpuid.c"
+
+void
+__gmpn_cpuvec_init (void)
+{
+  struct cpuvec_t  decided_cpuvec;
+
+  TRACE (printf ("__gmpn_cpuvec_init:\n"));
+
+  __gmpn_cpu(&decided_cpuvec);
 
   /* There's no x86 generic mpn_preinv_divrem_1 or mpn_preinv_mod_1.
      Instead default to the plain versions from whichever CPU we detected.
