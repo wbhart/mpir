@@ -20,6 +20,17 @@ along with the GNU MP Library; see the file COPYING.LIB.  If not, write to
 the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 MA 02110-1301, USA.
 
+
+
+Changes between MPIR 2.3.1 and MPIR 2.3.0
+
+Bug Fixes:
+
+ * noexecstack enabled for linux only
+ * FAT builds failed on unknown processors
+ * Compilers without GAS inline assembler on Unix like systems had a 
+   bug on AMD chips
+ 
 Changes between MPIR 2.3.0 and MPIR 2.2.1
 
 Bug Fixes:
