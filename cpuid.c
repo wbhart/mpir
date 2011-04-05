@@ -27,26 +27,23 @@ to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 Boston, MA 02110-1301, USA.
 */
 
-#define WANT_FAKE_BUILD_CPU		0
-#define WANT_FAKE_FAT_CPU		0
+#define WANT_FAKE_BUILD_CPU 0
+#define WANT_FAKE_FAT_CPU 0
 
-#define FAKE_BUILD_CPU			any
-#define	FAKE_BUILD_CPU_VENDOR		"GenuineIntel"
-#define	FAKE_BUILD_CPU_FAMILY		6
-#define FAKE_BUILD_CPU_EXTFAMILY	0
-#define FAKE_BUILD_CPU_MODEL		10
-#define FAKE_BUILD_CPU_EXTMODEL		2
+#define FAKE_BUILD_CPU_VENDOR "MPIRSNOTFAKE"
+#define FAKE_BUILD_CPU_FAMILY 0
+#define FAKE_BUILD_CPU_EXTFAMILY 0
+#define FAKE_BUILD_CPU_MODEL 0
+#define FAKE_BUILD_CPU_EXTMODEL 0
 
-#define FAKE_FAT_CPU			any
-#define	FAKE_FAT_CPU_VENDOR		"AuthenticAMD"
-#define	FAKE_FAT_CPU_FAMILY		5
-#define FAKE_FAT_CPU_EXTFAMILY		16
-#define FAKE_FAT_CPU_MODEL		1
-#define FAKE_FAT_CPU_EXTMODEL		0
+#define FAKE_FAT_CPU_VENDOR "MPIRSNOTFAKE"
+#define FAKE_FAT_CPU_FAMILY 0
+#define FAKE_FAT_CPU_EXTFAMILY 0
+#define FAKE_FAT_CPU_MODEL 0
+#define FAKE_FAT_CPU_EXTMODEL 0
 
 #if INFAT
 #define WANT_FAKE_CPU			WANT_FAKE_FAT_CPU
-#define FAKE_CPU			FAKE_FAT_CPU		
 #define	FAKE_CPU_VENDOR			FAKE_FAT_CPU_VENDOR
 #define	FAKE_CPU_FAMILY			FAKE_FAT_CPU_FAMILY
 #define FAKE_CPU_EXTFAMILY		FAKE_FAT_CPU_EXTFAMILY
@@ -55,7 +52,6 @@ Boston, MA 02110-1301, USA.
 #endif
 #if CONFIG_GUESS
 #define WANT_FAKE_CPU			WANT_FAKE_BUILD_CPU
-#define FAKE_CPU			FAKE_BUILD_CPU
 #define	FAKE_CPU_VENDOR			FAKE_BUILD_CPU_VENDOR
 #define	FAKE_CPU_FAMILY			FAKE_BUILD_CPU_FAMILY
 #define FAKE_CPU_EXTFAMILY		FAKE_BUILD_CPU_EXTFAMILY
@@ -63,7 +59,25 @@ Boston, MA 02110-1301, USA.
 #define FAKE_CPU_EXTMODEL		FAKE_BUILD_CPU_EXTMODEL
 #endif
 
-long fake_cpuid(char *p,unsigned int level);
+#if WANT_FAKE_CPU
+long fake_cpuid(char *p,unsigned int level)
+{unsigned int eax,feat801=0,feat2=0,family,extfamily,model,extmodel;
+ char *vendor;
+
+// can set feat801=1 for netburstlahf
+// can set feat2=256 for prescott
+vendor=FAKE_CPU_VENDOR;
+family=FAKE_CPU_FAMILY;
+extfamily=FAKE_CPU_EXTFAMILY;
+model=FAKE_CPU_MODEL;
+extmodel=FAKE_CPU_EXTMODEL;
+memset(p,0,12);
+if(level==0){strncpy(p,vendor,12);return 1;}
+if(level==1){eax=0+(model<<4)+(family<<8)+(0<<12)+(extmodel<<16)+(extfamily<<20);memcpy(p,&feat2,4);return eax;}
+if(level==0x80000000){return 1;}
+if(level==0x80000001){memcpy(p+8,&feat801,4);return 0;}
+return 0;}
+#endif
 
 #if WANT_FAKE_CPU 
 #define __gmpn_cpuid fake_cpuid
@@ -210,122 +224,7 @@ CPUVEC_SETUP_fat;
         #endif
 	}
     }
-
 #if INFAT
 *vector=decided_cpuvec;
 #endif
 return modelstr;}
-
-long fake_cpuid(char *p,unsigned int level)
-{unsigned int eax,feat801=0,feat2=0,family,extfamily,model,extmodel;
- char *vendor;
-
-/*
-#if FAKE_CPU == pentium
-vendor="GenuineIntel";family= 5;extfamily= 0;model= 2;extmodel= 0;
-#endif
-#if FAKE_CPU == pentiummmx
-vendor="GenuineIntel";family= 5;extfamily= 0;model= 4;extmodel= 0;
-#endif
-#if FAKE_CPU == pentiumpro
-vendor="GenuineIntel";family= 6;extfamily= 0;model= 1;extmodel= 0;
-#endif
-#if FAKE_CPU == pentium2
-vendor="GenuineIntel";family= 6;extfamily= 0;model= 6;extmodel= 0;
-#endif
-#if FAKE_CPU == pentium3
-vendor="GenuineIntel";family= 6;extfamily= 0;model=13;extmodel= 0;
-#endif
-#if FAKE_CPU == core
-vendor="GenuineIntel";family= 6;extfamily= 0;model=14;extmodel= 0;
-#endif
-#if FAKE_CPU == core2
-vendor="GenuineIntel";family= 6;extfamily= 0;model=15;extmodel= 0;
-#endif
-#if FAKE_CPU == penryn
-vendor="GenuineIntel";family= 6;extfamily= 0;model= 7;extmodel= 1;
-#endif
-#if FAKE_CPU == nehalem
-vendor="GenuineIntel";family= 6;extfamily= 0;model=10;extmodel= 1;
-#endif
-#if FAKE_CPU == atom
-vendor="GenuineIntel";family= 6;extfamily= 0;model=12;extmodel= 1;
-#endif
-#if FAKE_CPU == westmere
-vendor="GenuineIntel";family= 6;extfamily= 0;model= 5;extmodel= 2;
-#endif
-#if FAKE_CPU == sandybridge
-vendor="GenuineIntel";family= 6;extfamily= 0;model=10;extmodel= 2;
-#endif
-#if FAKE_CPU == sandybridge
-vendor="GenuineIntel";family= 6;extfamily= 0;model=10;extmodel= 2;
-#endif
-#if FAKE_CPU == netburst
-vendor="GenuineIntel";family=15;extfamily= 0;model= 0;extmodel= 0;
-#endif
-#if FAKE_CPU == netburstlahf
-vendor="GenuineIntel";family=15;extfamily= 0;model= 0;extmodel= 0;feat801=1;
-#endif
-#if FAKE_CPU == pentium4
-vendor="GenuineIntel";family=15;extfamily= 0;model= 6;extmodel= 0;
-#endif
-#if FAKE_CPU == prescott
-vendor="GenuineIntel";family=15;extfamily= 0;model= 7;extmodel= 0;feat2=0x100;
-#endif
-#if FAKE_CPU == k5
-vendor="AuthenticAMD";family= 5;extfamily= 0;model= 3;extmodel= 0;
-#endif
-#if FAKE_CPU == k6
-vendor="AuthenticAMD";family= 5;extfamily= 0;model= 7;extmodel= 0;
-#endif
-#if FAKE_CPU == k62
-vendor="AuthenticAMD";family= 5;extfamily= 0;model= 8;extmodel= 0;
-#endif
-#if FAKE_CPU == k63
-vendor="AuthenticAMD";family= 5;extfamily= 0;model= 9;extmodel= 0;
-#endif
-#if FAKE_CPU == k7
-vendor="AuthenticAMD";family= 6;extfamily= 0;model= 0;extmodel= 0;
-#endif
-#if FAKE_CPU == k8
-vendor="AuthenticAMD";family=15;extfamily= 0;model= 0;extmodel= 0;
-#endif
-#if FAKE_CPU == k10
-vendor="AuthenticAMD";family= 0;extfamily=16;model= 2;extmodel= 0;
-#endif
-#if FAKE_CPU == k102
-vendor="AuthenticAMD";family= 0;extfamily=16;model= 5;extmodel= 0;
-#endif
-#if FAKE_CPU == k8plus
-vendor="AuthenticAMD";family= 1;extfamily=16;model= 0;extmodel= 0;
-#endif
-#if FAKE_CPU == k103
-vendor="AuthenticAMD";family= 2;extfamily=16;model= 0;extmodel= 0;
-#endif
-#if FAKE_CPU == bobcat
-vendor="AuthenticAMD";family= 4;extfamily=16;model= 0;extmodel= 0;
-#endif
-#if FAKE_CPU == nano
-vendor="CentaurHauls";family= 6;extfamily= 0;model=15;extmodel= 0;
-#endif
-#if FAKE_CPU == vaic3
-vendor="CentaurHauls";family= 6;extfamily= 0;model= 8;extmodel= 0;
-#endif
-#if FAKE_CPU == vaic32
-vendor="CentaurHauls";family= 6;extfamily= 0;model= 9;extmodel= 0;
-#endif
-*/
-#if 1
-//FAKE_CPU == any
-vendor=FAKE_CPU_VENDOR;
-family=FAKE_CPU_FAMILY;
-extfamily=FAKE_CPU_EXTFAMILY;
-model=FAKE_CPU_MODEL;
-extmodel=FAKE_CPU_EXTMODEL;
-#endif
-memset(p,0,12);
-if(level==0){strncpy(p,vendor,12);return 1;}
-if(level==1){eax=0+(model<<4)+(family<<8)+(0<<12)+(extmodel<<16)+(extfamily<<20);memcpy(p,&feat2,4);return eax;}
-if(level==0x80000000){return 1;}
-if(level==0x80000001){memcpy(p+8,&feat801,4);return 0;}
-return 0;}
