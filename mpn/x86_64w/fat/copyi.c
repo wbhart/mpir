@@ -22,7 +22,5 @@ MA 02110-1301, USA. */
 #include "mpir.h"
 #include "gmp-impl.h"
 
-//#ifndef mpn_copyi
 void	mpn_copyi(mp_ptr rp,mp_srcptr sp,mp_size_t n)
 {MPN_COPY_INCR(rp,sp,n);return;}
-//#endif
