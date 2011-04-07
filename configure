@@ -4801,13 +4801,29 @@ echo "include_mpn(\`sparc32/sparc-defs.m4')" >> $gmp_tmpconfigm4i
         gcc_cflags_cpu="-mtune=c3 -mcpu=c3 -mcpu=i486 -m486"
         gcc_cflags_arch="-march=c3 -march=pentium-mmx -march=pentium"
         ;;
-      x86_64 | k8 | k10 | k102 | k103 | atom | bobcat)
+      x86_64 | k8 | k10 | k102 | k103)
         gcc_cflags_cpu="-mtune=k8 -mcpu=athlon -mcpu=pentiumpro -mcpu=i486 -m486"
         gcc_cflags_arch="-march=k8 -march=k8~-mno-sse2 -march=athlon -march=pentiumpro -march=pentium"
         ;;
-      core2 | penryn | nehalem | westmere | sandybridge)
+      bobcat)
+        gcc_cflags_cpu="-mtune=btver1 -mtune=k8 -mcpu=athlon -mcpu=pentiumpro -mcpu=i486 -m486"
+        gcc_cflags_arch="-march=btver1 -march=k8 -march=k8~-mno-sse2 -march=athlon -march=pentiumpro -march=pentium"
+        ;;
+      atom)
+        gcc_cflags_cpu="-mtune=atom -mtune=k8 -mcpu=athlon -mcpu=pentiumpro -mcpu=i486 -m486"
+        gcc_cflags_arch="-march=atom -march=k8 -march=k8~-mno-sse2 -march=athlon -march=pentiumpro -march=pentium"
+        ;;
+      core2 | penryn)
         gcc_cflags_cpu="-mtune=core2 -mtune=nocona -mtune=pentium3 -mcpu=pentiumpro -mcpu=i486 -m486"
         gcc_cflags_arch="-march=core2 -march=nocona -march=pentium3 -march=pentiumpro -march=pentium"
+        ;;
+      nehalem | westmere)
+        gcc_cflags_cpu="-mtune=corei7 -mtune=core2 -mtune=nocona -mtune=pentium3 -mcpu=pentiumpro -mcpu=i486 -m486"
+        gcc_cflags_arch="-march=corei7 -march=core2 -march=nocona -march=pentium3 -march=pentiumpro -march=pentium"
+        ;;
+      sandybridge)
+        gcc_cflags_cpu="-mtune=corei7-avx -mtune=core2 -mtune=nocona -mtune=pentium3 -mcpu=pentiumpro -mcpu=i486 -m486"
+        gcc_cflags_arch="-march=corei7-avx -march=core2 -march=nocona -march=pentium3 -march=pentiumpro -march=pentium"
         ;;
       *)
         gcc_cflags_cpu="-mtune=i486 -mcpu=i486 -m486"
