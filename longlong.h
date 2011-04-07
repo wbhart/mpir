@@ -564,25 +564,6 @@ long __MPN(count_leading_zeros) _PROTO ((UDItype));
 #define __AND_CLOBBER_CC , "cc"
 #endif /* __GNUC__ < 2 */
 
-#if defined (__arc__)
-#define add_ssaaaa(sh, sl, ah, al, bh, bl) \
-  __asm__ ("add.f\t%1, %4, %5\n\tadc\t%0, %2, %3"			\
-	   : "=r" (sh),							\
-	     "=&r" (sl)							\
-	   : "r"  ((USItype) (ah)),					\
-	     "rIJ" ((USItype) (bh)),					\
-	     "%r" ((USItype) (al)),					\
-	     "rIJ" ((USItype) (bl)))
-#define sub_ddmmss(sh, sl, ah, al, bh, bl) \
-  __asm__ ("sub.f\t%1, %4, %5\n\tsbc\t%0, %2, %3"			\
-	   : "=r" (sh),							\
-	     "=&r" (sl)							\
-	   : "r" ((USItype) (ah)),					\
-	     "rIJ" ((USItype) (bh)),					\
-	     "r" ((USItype) (al)),					\
-	     "rIJ" ((USItype) (bl)))
-#endif
-
 #if defined (__arm__) && W_TYPE_SIZE == 32
 #define add_ssaaaa(sh, sl, ah, al, bh, bl) \
   __asm__ ("adds\t%1, %4, %5\n\tadc\t%0, %2, %3"			\
