@@ -105,13 +105,13 @@ struct cpuvec_t decided_cpuvec;
 
 #if INFAT
 memset (&decided_cpuvec, '\0', sizeof (decided_cpuvec));
+CPUVEC_SETUP_fat;
 #if FAT32
 CPUVEC_SETUP_x86;
 #endif
 #if FAT64
 CPUVEC_SETUP_x86_64;
 #endif
-CPUVEC_SETUP_fat;
 #endif
   __gmpn_cpuid (vendor_string, 0);
   vendor_string[12] = 0;
