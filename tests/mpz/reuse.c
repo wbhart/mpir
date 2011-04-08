@@ -156,7 +156,7 @@ char *ds_func_names[] =
 
 
 /* Really use `defined (__STDC__)' here; we want it to be true for Sun C */
-#if defined (__STDC__) || defined (__cplusplus)
+#if defined (__STDC__) || defined (__cplusplus) || defined(_MSC_VER)
 #define FAIL(class,indx,op1,op2,op3) \
   do {									\
   class##_funcs[indx] = 0;						\
