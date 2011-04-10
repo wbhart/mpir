@@ -209,7 +209,9 @@ CPUVEC_SETUP_x86_64;
         case 20:
           CPUIS(bobcat);// fusion of bobcat and GPU
           break;
-        // case 21 is bulldozer , or at least some people think so....
+        case 21:
+          CPUIS(k102); // bulldozer
+          break;   
         }
     }
   else if (strcmp (vendor_string, "CentaurHauls") == 0)
