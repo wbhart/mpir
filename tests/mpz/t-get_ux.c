@@ -22,6 +22,7 @@ MA 02110-1301, USA. */
 
 #include <stdio.h>
 #include <stdlib.h>
+#include "config.h"
 #ifdef HAVE_STDINT_H
 #include <stdint.h>
 #endif
@@ -31,7 +32,8 @@ MA 02110-1301, USA. */
 
 #define NLIMBS ((8 * SIZEOF_UINTMAX_T + GMP_NUMB_BITS  - 1) / GMP_NUMB_BITS)
 
-#ifdef HAVE_UINTMAX_T
+#ifdef HAVE_STDINT_H
+
 static const uintmax_t val[] =
 {
     0, 1, 0xff, 
@@ -46,7 +48,6 @@ static const uintmax_t val[] =
 #endif
     UINTMAX_MAX
 };
-#endif
 
 void
 check_data (void)
@@ -104,3 +105,5 @@ main (void)
   tests_end ();
   exit (0);
 }
+
+#endif

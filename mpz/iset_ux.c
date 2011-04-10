@@ -20,14 +20,14 @@ along with the GNU MP Library; see the file COPYING.LIB.  If not, write to
 the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 MA 02110-1301, USA. */
 
+#include "config.h"
 #ifdef HAVE_STDINT_H
 #include <stdint.h>
 #endif
-
 #include "mpir.h"
 #include "gmp-impl.h"
 
-#ifdef HAVE_UINTMAX_T
+#ifdef HAVE_STDINT_H
 
 #define NLIMBS ((8 * SIZEOF_UINTMAX_T + GMP_NUMB_BITS  - 1) / GMP_NUMB_BITS)
 

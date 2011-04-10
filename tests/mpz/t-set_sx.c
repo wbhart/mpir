@@ -22,6 +22,7 @@ MA 02110-1301, USA. */
 
 #include <stdio.h>
 #include <stdlib.h>
+#include "config.h"
 #ifdef HAVE_STDINT_H
 #include <stdint.h>
 #endif
@@ -29,6 +30,7 @@ MA 02110-1301, USA. */
 #include "gmp-impl.h"
 #include "tests.h"
 
+#ifdef HAVE_STDINT_H
 
 void
 check_data (void)
@@ -101,3 +103,5 @@ main (void)
   tests_end ();
   exit (0);
 }
+
+#endif
