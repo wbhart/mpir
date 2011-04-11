@@ -164,58 +164,9 @@ MA 02110-1301, USA. */
 #endif
 
 #ifdef _MSC_VER
-#  include <intrin.h>
-
-#define COUNT_LEADING_ZEROS_NEED_CLZ_TAB
-
-#  if defined( _WIN64 )
-
-#pragma intrinsic(_BitScanForward64)
-#pragma intrinsic(_BitScanReverse64)
-#pragma intrinsic(_umul128)
-
-#    define count_leading_zeros(c,x)        \
-      do { unsigned long _z;		    	\
-        ASSERT ((x) != 0);                  \
-        _BitScanReverse64(&_z, (x));        \
-        c = 63 - _z;                        \
-      } while (0)
-#    define count_trailing_zeros(c,x)       \
-      do { unsigned long _z;		    	\
-        ASSERT ((x) != 0);                  \
-        _BitScanForward64(&_z, (x));        \
-		c = _z;								\
-      } while (0)
-#    define umul_ppmm(xh, xl, m0, m1)       \
-      do {                                  \
-        xl = _umul128( (m0), (m1), &xh);    \
-      } while (0)
-#  else
-
-#pragma intrinsic(_BitScanForward)
-#pragma intrinsic(_BitScanReverse)
-#pragma intrinsic(__emulu)
-
-#    define count_leading_zeros(c,x)        \
-      do { unsigned long _z;		    	\
-        ASSERT ((x) != 0);                  \
-        _BitScanReverse(&_z, (x));          \
-        c = 31 - _z;                        \
-      } while (0)
-#    define count_trailing_zeros(c,x)       \
-      do { unsigned long _z;		    	\
-        ASSERT ((x) != 0);                  \
-        _BitScanForward(&_z, (x));          \
-		c = _z;								\
-      } while (0)
-#    define umul_ppmm(xh, xl, m0, m1)       \
-      do { unsigned __int64 _t;             \
-        _t = __emulu( (m0), (m1));          \
-        xl = _t & 0xffffffff;               \
-        xh = _t >> 32;                      \
-      } while (0)
-#  endif
-
+/* temporary */
+#include "mpn/x86w/longlong.h"
+#include "mpn/x86_64w/longlong.h"
 #endif
 
 /* FIXME: The macros using external routines like __MPN(count_leading_zeros)
