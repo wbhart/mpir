@@ -46,7 +46,6 @@ MA 02110-1301, USA. */
   } while (0)
 #define UDIV_PREINV_ALWAYS  1
 #define UDIV_NEEDS_NORMALIZATION 1
-#define UDIV_TIME 220
 #endif /* LONGLONG_STANDALONE */
 
 /* clz_tab is required in all configurations, since mpn/alpha/cntlz.asm

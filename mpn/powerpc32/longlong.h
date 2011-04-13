@@ -68,7 +68,6 @@ MA 02110-1301, USA. */
     (pl) = __m0 * __m1;							\
   } while (0)
 #define SMUL_TIME 14
-#define UDIV_TIME 120
 #else
 #define UMUL_TIME 8
 #define smul_ppmm(xh, xl, m0, m1) \
@@ -76,5 +75,4 @@ MA 02110-1301, USA. */
 #define SMUL_TIME 4
 #define sdiv_qrnnd(q, r, nh, nl, d) \
   __asm__ ("div %0,%2,%4" : "=r" (q), "=q" (r) : "r" (nh), "1" (nl), "r" (d))
-#define UDIV_TIME 100
 #endif

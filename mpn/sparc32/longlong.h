@@ -64,9 +64,7 @@ MA 02110-1301, USA. */
   __asm__ ("umul %2,%3,%1;rd %%y,%0" : "=r" (w1), "=r" (w0) : "r" (u), "r" (v))
 #define UMUL_TIME 5
 
-#if HAVE_HOST_CPU_supersparc
-#define UDIV_TIME 60		/* SuperSPARC timing */
-#else
+#if ! HAVE_HOST_CPU_supersparc
 /* Don't use this on SuperSPARC because its udiv only handles 53 bit
    dividends and will trap to the kernel for the rest. */
 #define udiv_qrnnd(q, r, n1, n0, d) \
@@ -77,7 +75,6 @@ MA 02110-1301, USA. */
     (r) = (n0) - __q * (d);						\
     (q) = __q;								\
   } while (0)
-#define UDIV_TIME 25
 #endif /* HAVE_HOST_CPU_supersparc */
 
 #else /* ! __sparc_v8__ */
@@ -129,7 +126,6 @@ MA 02110-1301, USA. */
 "1:	! End of inline udiv_qrnnd"					\
 	   : "=r" (q), "=r" (r) : "r" (n1), "r" (n0), "rI" (d)		\
 	   : "%g1" __AND_CLOBBER_CC)
-#define UDIV_TIME 37
 #define count_leading_zeros(count, x) \
   __asm__ ("scan %1,1,%0" : "=r" (count) : "r" (x))
 /* Early sparclites return 63 for an argument of 0, but they warn that future
@@ -193,8 +189,5 @@ MA 02110-1301, USA. */
     (r) = __r;								\
   } while (0)
 extern UWtype __MPN(udiv_qrnnd) _PROTO ((UWtype *, UWtype, UWtype, UWtype));
-#ifndef UDIV_TIME
-#define UDIV_TIME 140
-#endif
 #endif /* LONGLONG_STANDALONE */
 #endif /* udiv_qrnnd */

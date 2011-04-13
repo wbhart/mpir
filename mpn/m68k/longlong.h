@@ -43,7 +43,6 @@ MA 02110-1301, USA. */
   __asm__ ("divu%.l %4,%1:%0"						\
 	   : "=d" (q), "=d" (r)						\
 	   : "0" ((USItype)(n0)), "1" ((USItype)(n1)), "dmi" ((USItype)(d)))
-#define UDIV_TIME 90
 #define sdiv_qrnnd(q, r, n1, n0, d) \
   __asm__ ("divs%.l %4,%1:%0"						\
 	   : "=d" (q), "=d" (r)						\
@@ -78,7 +77,6 @@ MA 02110-1301, USA. */
 	      : "%2" ((USItype)(a)), "d" ((USItype)(b)));		\
   } while (0)
 #define UMUL_TIME 100
-#define UDIV_TIME 400
 #endif /* not mc68020 */
 /* The '020, '030, '040 and '060 have bitfield insns.
    GCC 3.4 defines __mc68020__ when in CPU32 mode, check for __mcpu32__ to

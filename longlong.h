@@ -552,7 +552,3 @@ extern const unsigned char __GMP_DECLSPEC __clz_tab[128];
 #ifndef UMUL_TIME
 #define UMUL_TIME 1
 #endif
-
-#ifndef UDIV_TIME
-#define UDIV_TIME UMUL_TIME
-#endif

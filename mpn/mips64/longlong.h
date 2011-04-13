@@ -37,4 +37,4 @@ MA 02110-1301, USA. */
 	   : "=d" (w0), "=d" (w1) : "d" (u), "d" (v))
 #endif
 #define UMUL_TIME 20
-#define UDIV_TIME 140
+

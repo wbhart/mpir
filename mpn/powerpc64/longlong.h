@@ -71,4 +71,4 @@ MA 02110-1301, USA. */
     (pl) = __m0 * __m1;							\
   } while (0)
 #define SMUL_TIME 14  /* ??? */
-#define UDIV_TIME 120 /* ??? */
+

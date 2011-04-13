@@ -37,10 +37,8 @@ MA 02110-1301, USA. */
     (wl) = __x.__i.__l;							\
   } while (0)
 #define UMUL_TIME 8
-#define UDIV_TIME 60
 #else
 #define UMUL_TIME 40
-#define UDIV_TIME 80
 #endif
 #define count_leading_zeros(count, x) \
   do {									\

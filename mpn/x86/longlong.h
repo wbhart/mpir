@@ -153,6 +153,3 @@ MA 02110-1301, USA. */
 #ifndef UMUL_TIME
 #define UMUL_TIME 10
 #endif
-#ifndef UDIV_TIME
-#define UDIV_TIME 40
-#endif

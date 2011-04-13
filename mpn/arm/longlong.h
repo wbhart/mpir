@@ -76,7 +76,6 @@ MA 02110-1301, USA. */
   } while (0)
 #define UDIV_PREINV_ALWAYS  1
 #define UDIV_NEEDS_NORMALIZATION 1
-#define UDIV_TIME 70
 #endif /* LONGLONG_STANDALONE */
 #else
 #define umul_ppmm(xh, xl, a, b) \
@@ -104,6 +103,5 @@ MA 02110-1301, USA. */
     (r) = __r;								\
   } while (0)
 extern UWtype __MPN(udiv_qrnnd) _PROTO ((UWtype *, UWtype, UWtype, UWtype));
-#define UDIV_TIME 200
 #endif /* LONGLONG_STANDALONE */
 #endif
