@@ -62,7 +62,6 @@ MA 02110-1301, USA. */
    but INTERPRETED AS UNSIGNED.  */
 #define umul_ppmm(w1, w0, u, v) \
   __asm__ ("umul %2,%3,%1;rd %%y,%0" : "=r" (w1), "=r" (w0) : "r" (u), "r" (v))
-#define UMUL_TIME 5
 
 #if ! HAVE_HOST_CPU_supersparc
 /* Don't use this on SuperSPARC because its udiv only handles 53 bit
@@ -83,7 +82,6 @@ MA 02110-1301, USA. */
    instructions scan (ffs from high bit) and divscc.  */
 #define umul_ppmm(w1, w0, u, v) \
   __asm__ ("umul %2,%3,%1;rd %%y,%0" : "=r" (w1), "=r" (w0) : "r" (u), "r" (v))
-#define UMUL_TIME 5
 #define udiv_qrnnd(q, r, n1, n0, d) \
   __asm__ ("! Inlined udiv_qrnnd\n"					\
 "	wr	%%g0,%2,%%y	! Not a delayed write for sparclite\n"	\
@@ -179,7 +177,6 @@ MA 02110-1301, USA. */
 "	rd	%%y,%1"							\
 	   : "=r" (w1), "=r" (w0) : "%rI" (u), "r" (v)			\
 	   : "%g1", "%g2" __AND_CLOBBER_CC)
-#define UMUL_TIME 39		/* 39 instructions */
 #endif
 #ifndef udiv_qrnnd
 #ifndef LONGLONG_STANDALONE

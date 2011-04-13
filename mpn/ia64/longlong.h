@@ -40,7 +40,6 @@ MA 02110-1301, USA. */
     __asm__ ("xma.hu %0 = %2, %3, f0\n\txma.l %1 = %2, %3, f0"		\
 	     : "=&f" (ph), "=f" (pl)					\
 	     : "f" (m0), "f" (m1))
-#define UMUL_TIME 14
 #define count_leading_zeros(count, x) \
   do {									\
     UWtype _x = (x), _y, _a, _c;					\

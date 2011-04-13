@@ -35,4 +35,3 @@ MA 02110-1301, USA. */
   __asm__ ("multu %2,%3\n\tmflo %0\n\tmfhi %1"				\
 	   : "=d" (w0), "=d" (w1) : "d" (u), "d" (v))
 #endif
-#define UMUL_TIME 10

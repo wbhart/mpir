@@ -65,7 +65,6 @@ MA 02110-1301, USA. */
 #if 1 || defined (__arm_m__)	/* `M' series has widening multiply support */
 #define umul_ppmm(xh, xl, a, b) \
   __asm__ ("umull %0,%1,%2,%3" : "=&r" (xl), "=&r" (xh) : "r" (a), "r" (b))
-#define UMUL_TIME 5
 #define smul_ppmm(xh, xl, a, b) \
   __asm__ ("smull %0,%1,%2,%3" : "=&r" (xl), "=&r" (xh) : "r" (a), "r" (b))
 #ifndef LONGLONG_STANDALONE
@@ -95,7 +94,6 @@ MA 02110-1301, USA. */
 	   : "=&r" (xh), "=r" (xl)					\
 	   : "r" (a), "r" (b)						\
 	   : "r0", "r1", "r2")
-#define UMUL_TIME 20
 #ifndef LONGLONG_STANDALONE
 #define udiv_qrnnd(q, r, n1, n0, d) \
   do { UWtype __r;							\

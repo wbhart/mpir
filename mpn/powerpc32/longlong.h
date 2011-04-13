@@ -60,19 +60,15 @@ MA 02110-1301, USA. */
     __asm__ ("mulhwu %0,%1,%2" : "=r" (ph) : "%r" (m0), "r" (m1));	\
     (pl) = __m0 * __m1;							\
   } while (0)
-#define UMUL_TIME 15
 #define smul_ppmm(ph, pl, m0, m1) \
   do {									\
     SItype __m0 = (m0), __m1 = (m1);					\
     __asm__ ("mulhw %0,%1,%2" : "=r" (ph) : "%r" (m0), "r" (m1));	\
     (pl) = __m0 * __m1;							\
   } while (0)
-#define SMUL_TIME 14
 #else
-#define UMUL_TIME 8
 #define smul_ppmm(xh, xl, m0, m1) \
   __asm__ ("mul %0,%2,%3" : "=r" (xh), "=q" (xl) : "r" (m0), "r" (m1))
-#define SMUL_TIME 4
 #define sdiv_qrnnd(q, r, nh, nl, d) \
   __asm__ ("div %0,%2,%4" : "=r" (q), "=q" (r) : "r" (nh), "1" (nl), "r" (d))
 #endif

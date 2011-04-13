@@ -547,8 +547,3 @@ extern const unsigned char __GMP_DECLSPEC __clz_tab[128];
 #ifndef UDIV_PREINV_ALWAYS
 #define UDIV_PREINV_ALWAYS 0
 #endif
-
-/* Give defaults for UMUL_TIME and UDIV_TIME.  */
-#ifndef UMUL_TIME
-#define UMUL_TIME 1
-#endif

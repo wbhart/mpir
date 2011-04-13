@@ -149,7 +149,3 @@ MA 02110-1301, USA. */
 #endif /* asm bsfl */
 
 #endif /* ! pentium */
-
-#ifndef UMUL_TIME
-#define UMUL_TIME 10
-#endif

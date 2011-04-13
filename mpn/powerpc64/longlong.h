@@ -63,12 +63,11 @@ MA 02110-1301, USA. */
     __asm__ ("mulhdu %0,%1,%2" : "=r" (ph) : "%r" (m0), "r" (m1));	\
     (pl) = __m0 * __m1;							\
   } while (0)
-#define UMUL_TIME 15
 #define smul_ppmm(ph, pl, m0, m1) \
   do {									\
     DItype __m0 = (m0), __m1 = (m1);					\
     __asm__ ("mulhd %0,%1,%2" : "=r" (ph) : "%r" (m0), "r" (m1));	\
     (pl) = __m0 * __m1;							\
   } while (0)
-#define SMUL_TIME 14  /* ??? */
+
 

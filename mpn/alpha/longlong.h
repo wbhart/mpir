@@ -28,7 +28,6 @@ MA 02110-1301, USA. */
 	     : "%rJ" (m0), "rI" (m1));					\
     (pl) = __m0 * __m1;							\
   } while (0)
-#define UMUL_TIME 18
 #else /* ! __GNUC__ */
 #include <machine/builtins.h>
 #define umul_ppmm(ph, pl, m0, m1) \
