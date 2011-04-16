@@ -24,17 +24,19 @@ include(`../config.m4')
 C	ret mpn_popcount(mp_ptr,mp_size_t)
 C	rax               rdi,   rsi
 
+define(`MOVQ',`movd')
+
 ASM_START()
 PROLOGUE(mpn_popcount)
 # could store these constants in mem and retune to get the same speed
 mov $0x5555555555555555,%rax
-movq %rax,%xmm4
+MOVQ %rax,%xmm4
 movddup %xmm4,%xmm4
 mov $0x3333333333333333,%rax
-movq %rax,%xmm5
+MOVQ %rax,%xmm5
 movddup %xmm5,%xmm5
 mov $0x0f0f0f0f0f0f0f0f,%rax
-movq %rax,%xmm6
+MOVQ %rax,%xmm6
 movddup %xmm6,%xmm6
 pxor %xmm7,%xmm7
 pxor %xmm11,%xmm11
@@ -43,13 +45,13 @@ pxor %xmm8,%xmm8
 btr $3,%rdi		# rdi is even
 sbb %rax,%rax		# rax =-1 if was odd
 sub %rax,%rsi
-movq %rax,%xmm0
+MOVQ %rax,%xmm0
 pandn (%rdi),%xmm0	# first load padded with zero
 # this takes care of odd number of digits by padding with zeros
 bt $0,%rsi
 sbb %rcx,%rcx
 sub %rcx,%rsi		# len is even
-movq %rcx,%xmm2
+MOVQ %rcx,%xmm2
 shufpd $1,%xmm2,%xmm2	# swap high/low halfs
 pandn -16(%rdi,%rsi,8),%xmm2	# last load padded with zero
 # so we have an even addr and an even number of digits 
@@ -60,7 +62,7 @@ cmp $2,%rsi
 jne big
 	# so just pad out with zeros
 	add $2,%rsi
-	movq %rax,%xmm1
+	MOVQ %rax,%xmm1
 	movddup %xmm1,%xmm1
 	pand %xmm1,%xmm0
 	pandn %xmm2,%xmm1
@@ -149,9 +151,9 @@ onemore:
 	psadbw %xmm7,%xmm8
 nomore:
 	paddq %xmm8,%xmm11
-movq %xmm11,%rax
+MOVQ %xmm11,%rax
 shufpd $1,%xmm11,%xmm11
-movq %xmm11,%rcx
+MOVQ %xmm11,%rcx
 add %rcx,%rax
 ret
 EPILOGUE()
