@@ -7547,8 +7547,8 @@ esac
   CFLAGS="$cflags"
   CPPFLAGS="$cppflags"
   if test $enable_gmpcompat = yes; then
-    GMP_CC="#define __GMP_CC \"$cc\" "
-    GMP_CFLAGS="#define __GMP_CFLAGS \"$cflags\" "
+    GMP_CC="#define __GMP_CC __MPIR_CC"
+    GMP_CFLAGS="#define __GMP_CFLAGS __MPIR_CFLAGS"
   else
     GMP_CC="/* No __GMP_CC here as --enable-gmpcompat option not selected */"
     GMP_CFLAGS=""
