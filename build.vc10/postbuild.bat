@@ -11,9 +11,11 @@ if "%str2%" NEQ "build.vc10" goto dele
 
 rem we now have: build.vc10\<win32|x64>\<debug|release>\mpir.<lib|dll>
 
-rem extract platform (plat=<win32|x64>), configuration (conf=<debug|release>) anbd file name     
+rem extract platform (plat=<win32|x64>), configuration (conf=<debug|release>) anbd file name 
+rem IDE gives:     build.vc10\x64\Release\mpir.lib   
+rem MSBUILD gives: build.vc10\lib_mpir_nehalem\x64\Release\mpir.lib  
 set file=
-for /f "tokens=1,2,3,4 delims=\" %%a in ("%str%") do set plat=%%b&set conf=%%c&set file=%%d
+for /f "tokens=1,2,3,4,5 delims=\" %%a in ("%str%") do set plat=%%b&set conf=%%c&set file=%%d&set msbf=%%e
 if /i "%file%" NEQ "" (goto next)
 call :seterr & echo ERROR: %1 is not supported & exit /b %errorlevel%
 
@@ -23,7 +25,15 @@ rem echo platform= %plat% configuration= %conf%, file= %file%
 rem get the filename extension (lib/dll) to set the output directory
 set extn=%file%#
 set extn=%extn:~-4,3%
+if "%extn%" EQU "lib" (goto isgood)
+if "%extn%" EQU "dll" (goto isgood)
+set extn=%msbf%#
+set extn=%extn:~-4,3%
+if "%extn%" EQU "lib" (goto isgood)
+if "%extn%" EQU "dll" (goto isgood)
+call :seterr & echo "postbuild copy error ERROR: file = %file%, msbf = %msbf% extn = %extn%" & exit /b %errorlevel%
 
+:isgood:
 rem set the target aand output directories
 set source="%plat%\%conf%"
 set dest="%extn%\%plat%\%conf%"
