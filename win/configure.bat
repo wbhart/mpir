@@ -181,7 +181,7 @@ if %ABI% == 64 (
 	if %CPU% == penryn       (set MPNPATH=x86_64w x86_64w\core2 x86_64w\core2\penryn)
 	if %CPU% == nehalem      (set MPNPATH=x86_64w x86_64w\nehalem)
 	if %CPU% == westmere     (set MPNPATH=x86_64w x86_64w\nehalem x86_64w\nehalem\westmere)
-	if %CPU% == sandybridge  (set MPNPATH=x86_64w x86_64w\nehalem x86_64w\nehalem\westmere)
+	if %CPU% == sandybridge  (set MPNPATH=x86_64w x86_64w\sandybridge)
 	if %CPU% == atom         (set MPNPATH=x86_64w x86_64w\atom)
 	if %CPU% == nano         (set MPNPATH=x86_64w x86_64w\k8 x86_64w\k8\k8only)
 )
