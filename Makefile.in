@@ -125,9 +125,11 @@ host_triplet = @host@
 subdir = .
 DIST_COMMON = README $(am__configure_deps) $(am__include_HEADERS_DIST) \
 	$(srcdir)/Makefile.am $(srcdir)/Makefile.in \
-	$(srcdir)/config.in $(srcdir)/gmp-h.in $(top_srcdir)/configure \
-	AUTHORS COPYING COPYING.LIB ChangeLog INSTALL NEWS \
-	config.guess config.sub install-sh ltmain.sh missing ylwrap
+	$(srcdir)/config.in $(srcdir)/gmp-h.in \
+	$(srcdir)/longlong_post.h $(srcdir)/longlong_pre.h \
+	$(top_srcdir)/configure AUTHORS COPYING COPYING.LIB ChangeLog \
+	INSTALL NEWS config.guess config.sub install-sh ltmain.sh \
+	missing ylwrap
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/acinclude.m4 \
 	$(top_srcdir)/configure.in
@@ -137,7 +139,7 @@ am__CONFIG_DISTCLEAN_FILES = config.status config.cache config.log \
  configure.lineno config.status.lineno
 mkinstalldirs = $(install_sh) -d
 CONFIG_HEADER = config.h
-CONFIG_CLEAN_FILES = mpir.h gmp-mparam.h yasm_mac.inc
+CONFIG_CLEAN_FILES = longlong.h mpir.h gmp-mparam.h yasm_mac.inc
 CONFIG_CLEAN_VPATH_FILES =
 am__vpath_adj_setup = srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`;
 am__vpath_adj = case $$p in \
@@ -653,6 +655,8 @@ $(srcdir)/config.in: @MAINTAINER_MODE_TRUE@ $(am__configure_deps)
 
 distclean-hdr:
 	-rm -f config.h stamp-h1
+longlong.h: $(top_builddir)/config.status $(srcdir)/longlong_pre.h $(srcdir)/longlong_post.h
+	cd $(top_builddir) && $(SHELL) ./config.status $@
 mpir.h: $(top_builddir)/config.status $(srcdir)/gmp-h.in
 	cd $(top_builddir) && $(SHELL) ./config.status $@
 install-libLTLIBRARIES: $(lib_LTLIBRARIES)

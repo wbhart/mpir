@@ -2345,13 +2345,6 @@ fi
 # can provide some functions too.  (mpn/Makefile.am passes
 # -DOPERATION_<func> to get them to generate the right code.)
 
-# Note: The following lines defining $gmp_mpn_functions_optional
-#       and $gmp_mpn_functions are parsed by the "macos/configure"
-#       Perl script. So if you change the lines in a major way
-#       make sure to run and examine the output from
-#
-#           % (cd macos; perl configure)
-#
 # Note: $gmp_mpn_functions must have mod_1 before preinv_mod_1 so the former
 #       can optionally provide the latter as an extra entrypoint.  Likewise
 #       divrem_1 and preinv_divrem_1.
@@ -3059,7 +3052,6 @@ if test "$gmp_asm_syntax_testing" != no; then
   esac
 fi
 
-
 # Create link for gmp-mparam.h.
 gmp_mparam_source=
 for gmp_mparam_dir in $path; do
@@ -3074,6 +3066,22 @@ for gmp_mparam_dir in $path; do
 done
 if test -z "$gmp_mparam_source"; then
   AC_MSG_ERROR([no version of gmp-mparam.h found in path: $path])
+fi
+
+# Create longlong.h from the path
+longlong_source=
+for longlong_dir in $path; do
+  test "$no_create" = yes || rm -f longlong.h
+  tmp_file=$srcdir/mpn/$longlong_dir/longlong.h
+  if test -f $tmp_file; then
+    AC_CONFIG_FILES(longlong.h:longlong_pre.h:mpn/$longlong_dir/longlong.h:longlong_post.h)
+    gmp_srclinks="$gmp_srclinks longlong.h"
+    longlong_source=$tmp_file
+    break
+  fi
+done
+if test -z "$longlong_source"; then
+  AC_MSG_ERROR([no version of longlong.h found in path: $path])
 fi
 
 # For a helpful message from tune/tuneup.c
