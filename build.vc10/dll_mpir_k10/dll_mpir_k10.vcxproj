@@ -70,6 +70,7 @@ prebuild k10 x64
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <PrecompiledHeader>
       </PrecompiledHeader>
+      <ProgramDataBaseFileName>$(TargetDir)$(TargetName).pdb</ProgramDataBaseFileName>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <CompileAs>Default</CompileAs>
@@ -119,6 +120,7 @@ prebuild k10 x64
       <BufferSecurityCheck>false</BufferSecurityCheck>
       <PrecompiledHeader>
       </PrecompiledHeader>
+      <ProgramDataBaseFileName>$(TargetDir)$(TargetName).pdb</ProgramDataBaseFileName>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <CallingConvention>Cdecl</CallingConvention>
@@ -2046,9 +2048,7 @@ postbuild "$(TargetPath)"</Command>
     <YASM Include="..\..\mpn\x86_64w\k8\mod_1_1.asm" />
     <YASM Include="..\..\mpn\x86_64w\k8\mod_1_2.asm" />
     <YASM Include="..\..\mpn\x86_64w\k8\mod_1_3.asm" />
-    <YASM Include="..\..\mpn\x86_64w\k8\not.asm">
-      <FileType>Document</FileType>
-    </YASM>
+    <YASM Include="..\..\mpn\x86_64w\k8\not.asm" />
     <YASM Include="..\..\mpn\x86_64w\modexact_1c_odd.asm" />
     <YASM Include="..\..\mpn\x86_64w\k8\mul_1.asm" />
     <YASM Include="..\..\mpn\x86_64w\k8\mul_2.asm" />
@@ -2081,7 +2081,6 @@ postbuild "$(TargetPath)"</Command>
     <YASM Include="..\..\mpn\x86_64w\k8\nior_n.asm" />
     <YASM Include="..\..\mpn\x86_64w\k8\xnor_n.asm" />
     <YASM Include="..\..\mpn\x86_64w\k8\xor_n.asm" />
-    <YASM Include="..\..\mpn\x86_64w\k8\sub_err1_n.asm" />
     <YASM Include="..\..\mpn\x86_64w\sub_err2_n.asm" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

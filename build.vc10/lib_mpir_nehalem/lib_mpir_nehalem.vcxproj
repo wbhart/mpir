@@ -44,7 +44,8 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <PreBuildEvent>
       <Command>cd ..\ 
-prebuild nehalem x64</Command>
+prebuild nehalem x64
+</Command>
     </PreBuildEvent>
     <CustomBuildStep>
       <Command>
@@ -73,7 +74,6 @@ prebuild nehalem x64</Command>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <CompileAs>Default</CompileAs>
     </ClCompile>
-    <Lib />
     <PostBuildEvent>
       <Command>cd ..\ 
 postbuild  "$(TargetPath)"</Command>
@@ -82,7 +82,8 @@ postbuild  "$(TargetPath)"</Command>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <PreBuildEvent>
       <Command>cd ..\ 
-prebuild nehalem x64</Command>
+prebuild nehalem x64
+</Command>
     </PreBuildEvent>
     <CustomBuildStep>
       <Command>
@@ -114,12 +115,10 @@ prebuild nehalem x64</Command>
       <ProgramDataBaseFileName>$(TargetDir)$(TargetName).pdb</ProgramDataBaseFileName>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <CompileAs>Default</CompileAs>
     </ClCompile>
-    <Lib />
     <PostBuildEvent>
       <Command>cd ..\ 
-postbuild  "$(TargetPath)"</Command>
+postbuild "$(TargetPath)"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -1940,6 +1939,7 @@ postbuild  "$(TargetPath)"</Command>
     <YASM Include="..\..\mpn\x86_64w\nehalem\rshift.asm" />
     <YASM Include="..\..\mpn\x86_64w\nehalem\sqr_basecase.asm" />
     <YASM Include="..\..\mpn\x86_64w\nehalem\store.asm" />
+    <YASM Include="..\..\mpn\x86_64w\nehalem\sub_err1_n.asm" />
     <YASM Include="..\..\mpn\x86_64w\nehalem\sub_n.asm" />
     <YASM Include="..\..\mpn\x86_64w\nehalem\subadd_n.asm" />
     <YASM Include="..\..\mpn\x86_64w\nehalem\sublsh1_n.asm" />

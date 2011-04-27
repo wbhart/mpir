@@ -63,6 +63,18 @@ msvc with version<1500  ie defined(_MSC_VER) && _MSC_VER < 1500
 
 */
 
+#if _MSC_VER && __GMP_LIBGMP_DLL
+
+int
+main (void)
+{
+  printf ("Test suppressed for windows DLL\n");
+  exit (0);
+}
+
+
+#else /* ! DLL_EXPORT */
+
 #if ! (defined(__MINGW64__) || (defined(_MSC_VER) && _MSC_VER < 1500))
 #if HAVE_LOCALECONV
 #ifdef _MSC_VER
@@ -214,3 +226,5 @@ main (void)
   tests_memory_end ();
   exit (0);
 }
+
+#endif

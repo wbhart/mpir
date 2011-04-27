@@ -74,7 +74,6 @@ prebuild k10 x64
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <CompileAs>Default</CompileAs>
     </ClCompile>
-    <Lib />
     <PostBuildEvent>
       <Command>cd ..\ 
 postbuild "$(TargetPath)"</Command>
@@ -103,7 +102,6 @@ prebuild k10 x64
     <ClCompile>
       <AdditionalOptions>/favor:AMD64 %(AdditionalOptions)</AdditionalOptions>
       <Optimization>Full</Optimization>
-      <InlineFunctionExpansion>Default</InlineFunctionExpansion>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <AdditionalIncludeDirectories>..\..\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
@@ -112,17 +110,12 @@ prebuild k10 x64
       </ExceptionHandling>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <BufferSecurityCheck>false</BufferSecurityCheck>
-      <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
       <PrecompiledHeader>
       </PrecompiledHeader>
       <ProgramDataBaseFileName>$(TargetDir)$(TargetName).pdb</ProgramDataBaseFileName>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <CompileAs>Default</CompileAs>
     </ClCompile>
-    <Lib>
-      <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
-    </Lib>
     <PostBuildEvent>
       <Command>cd ..\ 
 postbuild "$(TargetPath)"</Command>
@@ -131,9 +124,9 @@ postbuild "$(TargetPath)"</Command>
   <ItemGroup>
     <ClInclude Include="..\..\config.h" />
     <ClInclude Include="..\..\gmp-impl.h" />
+    <ClInclude Include="..\..\mpn\x86_64w\k8\k10\gmp-mparam.h" />
     <ClInclude Include="..\..\longlong.h" />
     <ClInclude Include="..\..\mpir.h" />
-    <ClInclude Include="..\..\mpn\x86_64w\k8\k10\gmp-mparam.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\assert.c" />
@@ -1945,9 +1938,7 @@ postbuild "$(TargetPath)"</Command>
     <YASM Include="..\..\mpn\x86_64w\k8\mod_1_1.asm" />
     <YASM Include="..\..\mpn\x86_64w\k8\mod_1_2.asm" />
     <YASM Include="..\..\mpn\x86_64w\k8\mod_1_3.asm" />
-    <YASM Include="..\..\mpn\x86_64w\k8\not.asm">
-      <FileType>Document</FileType>
-    </YASM>
+    <YASM Include="..\..\mpn\x86_64w\k8\not.asm" />
     <YASM Include="..\..\mpn\x86_64w\modexact_1c_odd.asm" />
     <YASM Include="..\..\mpn\x86_64w\k8\mul_1.asm" />
     <YASM Include="..\..\mpn\x86_64w\k8\mul_2.asm" />
@@ -1980,7 +1971,6 @@ postbuild "$(TargetPath)"</Command>
     <YASM Include="..\..\mpn\x86_64w\k8\nior_n.asm" />
     <YASM Include="..\..\mpn\x86_64w\k8\xnor_n.asm" />
     <YASM Include="..\..\mpn\x86_64w\k8\xor_n.asm" />
-    <YASM Include="..\..\mpn\x86_64w\k8\sub_err1_n.asm" />
     <YASM Include="..\..\mpn\x86_64w\sub_err2_n.asm" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

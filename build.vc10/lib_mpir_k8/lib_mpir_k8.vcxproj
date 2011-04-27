@@ -74,7 +74,6 @@ prebuild k8 x64
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <CompileAs>Default</CompileAs>
     </ClCompile>
-    <Lib />
     <PostBuildEvent>
       <Command>cd ..\ 
 postbuild "$(TargetPath)"</Command>
@@ -101,6 +100,7 @@ prebuild k8 x64
       <TargetEnvironment>X64</TargetEnvironment>
     </Midl>
     <ClCompile>
+      <AdditionalOptions>/favor:INTEL64 %(AdditionalOptions)</AdditionalOptions>
       <Optimization>Full</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
@@ -116,8 +116,6 @@ prebuild k8 x64
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
-    <Lib>
-    </Lib>
     <PostBuildEvent>
       <Command>cd ..\ 
 postbuild "$(TargetPath)"</Command>
@@ -1945,9 +1943,7 @@ postbuild "$(TargetPath)"</Command>
     <YASM Include="..\..\mpn\x86_64w\k8\mod_1_1.asm" />
     <YASM Include="..\..\mpn\x86_64w\k8\mod_1_2.asm" />
     <YASM Include="..\..\mpn\x86_64w\k8\mod_1_3.asm" />
-    <YASM Include="..\..\mpn\x86_64w\k8\not.asm">
-      <FileType>Document</FileType>
-    </YASM>
+    <YASM Include="..\..\mpn\x86_64w\k8\not.asm" />
     <YASM Include="..\..\mpn\x86_64w\k8\store.asm" />
     <YASM Include="..\..\mpn\x86_64w\modexact_1c_odd.asm" />
     <YASM Include="..\..\mpn\x86_64w\k8\mul_1.asm" />
@@ -1981,7 +1977,6 @@ postbuild "$(TargetPath)"</Command>
     <YASM Include="..\..\mpn\x86_64w\k8\nior_n.asm" />
     <YASM Include="..\..\mpn\x86_64w\k8\xnor_n.asm" />
     <YASM Include="..\..\mpn\x86_64w\k8\xor_n.asm" />
-    <YASM Include="..\..\mpn\x86_64w\k8\sub_err1_n.asm" />
     <YASM Include="..\..\mpn\x86_64w\sub_err2_n.asm" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -73,7 +73,6 @@ prebuild p0 win32
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <CompileAs>Default</CompileAs>
     </ClCompile>
-    <Lib />
     <PostBuildEvent>
       <Command>cd ..\ 
 postbuild "$(TargetPath)"</Command>
@@ -108,7 +107,7 @@ prebuild p0 win32
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <CompileAs>Default</CompileAs>
     </ClCompile>
-    <Lib />
+
     <PostBuildEvent>
       <Command>cd ..\ 
 postbuild "$(TargetPath)"</Command>
