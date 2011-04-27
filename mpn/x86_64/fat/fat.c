@@ -98,7 +98,7 @@ struct cpuvec_t __gmpn_cpuvec = {
 #define CPUSETUP_penryn		CPUVEC_SETUP_core2;CPUVEC_SETUP_core2_penryn
 #define CPUSETUP_nehalem	CPUVEC_SETUP_nehalem
 #define CPUSETUP_westmere	CPUVEC_SETUP_nehalem;CPUVEC_SETUP_nehalem_westmere
-#define CPUSETUP_sandybridge	CPUVEC_SETUP_nehalem;CPUVEC_SETUP_nehalem_westmere
+#define CPUSETUP_sandybridge	CPUVEC_SETUP_sandybridge
 #define CPUSETUP_atom		CPUVEC_SETUP_atom
 #define CPUSETUP_nano		CPUVEC_SETUP_k8;CPUVEC_SETUP_k8_k8only
 #define CPUSETUP_netburst	CPUVEC_SETUP_netburst
