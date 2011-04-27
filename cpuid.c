@@ -204,13 +204,13 @@ CPUVEC_SETUP_x86_64;
           CPUIS(k8);// fusion of K8 and GPU
           break;
         case 18:
-          CPUIS(k103);// like k102 but with hardware divider
+          CPUIS(k103);// like k102 but with hardware divider , is this lano?
           break;
         case 20:
           CPUIS(bobcat);// fusion of bobcat and GPU
           break;
         case 21:
-          CPUIS(k102); // bulldozer
+          CPUIS(bulldozer);
           break;   
         }
     }
