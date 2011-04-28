@@ -1,3 +1,7 @@
+
+
+#ifdef _MSC_VER
+
 #  include <intrin.h>
 
 #define COUNT_LEADING_ZEROS_NEED_CLZ_TAB
@@ -27,3 +31,5 @@
         xh = _t >> 32;                      \
       } while (0)
 #  endif
+
+#endif /* _MSC_VER */

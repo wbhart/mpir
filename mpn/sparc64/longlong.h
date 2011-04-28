@@ -18,6 +18,11 @@ along with this file; see the file COPYING.LIB.  If not, write to
 the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 MA 02110-1301, USA. */
 
+#if defined (__GNUC__)
+
+#define __CLOBBER_CC : "cc"
+#define __AND_CLOBBER_CC , "cc"
+
 #define add_ssaaaa(sh, sl, ah, al, bh, bl) \
   __asm__ (								\
        "addcc	%r4,%5,%1\n"						\
@@ -36,3 +41,5 @@ MA 02110-1301, USA. */
 	  : "rJ" (ah), "rI" (bh), "rJ" (al), "rI" (bl),		\
 	    "rJ" ((al) >> 32), "rI" ((bl) >> 32)			\
 	   __CLOBBER_CC)
+
+#endif

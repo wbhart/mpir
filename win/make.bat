@@ -45,8 +45,10 @@ if %ABI% == 64 (set LOCALABI=x64)
 if %ABI% == 32 (set LOCALABI=win32)
 call gen_mpir_h %LOCALABI%
 copy ..\mpn\generic\gmp-mparam.h .. > nul 2>&1
+copy ..\longlong_pre.h ..\mpn\generic\longlong.h ..\longlong_post.h ..\longlong.h > nul 2>&1
 for %%X in ( %MPNPATH% ) do (
 	copy ..\mpn\%%X\gmp-mparam.h .. > nul 2>&1
+	copy ..\longlong_pre.h ..\mpn\%%X\longlong.h ..\longlong_post.h ..\longlong.h > nul 2>&1
 	call gen_config_h ..\mpn\%%X\ > nul 2>&1
 )
 

@@ -18,6 +18,8 @@ along with this file; see the file COPYING.LIB.  If not, write to
 the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 MA 02110-1301, USA. */
 
+#if defined (__GNUC__)
+
 #define add_ssaaaa(sh, sl, ah, al, bh, bl) \
   __asm__ ("add%I5 %5,%r4,%1\n\taddc %r2,%r3,%0"			\
 	   : "=r" (sh), "=&r" (sl)					\
@@ -58,3 +60,5 @@ MA 02110-1301, USA. */
 "	sub		%0,%1,%0	; Subtract it.\n"		\
 	: "=r" (count), "=r" (__tmp) : "1" (x));			\
   } while (0)
+  
+#endif

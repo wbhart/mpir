@@ -18,6 +18,11 @@ along with this file; see the file COPYING.LIB.  If not, write to
 the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 MA 02110-1301, USA. */
 
+#if defined (__GNUC__)
+
+#define __CLOBBER_CC : "cc"
+#define __AND_CLOBBER_CC , "cc"
+
 #define add_ssaaaa(sh, sl, ah, al, bh, bl) \
   __asm__ ("adds\t%1, %4, %5\n\tadc\t%0, %2, %3"			\
 	   : "=r" (sh), "=&r" (sl)					\
@@ -102,4 +107,6 @@ MA 02110-1301, USA. */
   } while (0)
 extern UWtype __MPN(udiv_qrnnd) _PROTO ((UWtype *, UWtype, UWtype, UWtype));
 #endif /* LONGLONG_STANDALONE */
+#endif
+
 #endif

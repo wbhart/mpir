@@ -18,6 +18,8 @@ along with this file; see the file COPYING.LIB.  If not, write to
 the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 MA 02110-1301, USA. */
 
+#if defined (__GNUC__)
+
 #if !defined (_LONG_LONG_LIMB)
 /* _LONG_LONG_LIMB is ABI=mode32 where adde operates on 32-bit values.  So
    use adde etc only when not _LONG_LONG_LIMB.  */
@@ -71,3 +73,4 @@ MA 02110-1301, USA. */
   } while (0)
 
 
+#endif

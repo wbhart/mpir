@@ -18,6 +18,10 @@ along with this file; see the file COPYING.LIB.  If not, write to
 the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 MA 02110-1301, USA. */
 
+#if defined (__GNUC__)
+
 #define umul_ppmm(w1, w0, u, v) \
   __asm__ ("dmulu.l %2,%3\n\tsts macl,%1\n\tsts mach,%0"		\
 	   : "=r" (w1), "=r" (w0) : "r" (u), "r" (v) : "macl", "mach")
+
+#endif

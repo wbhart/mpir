@@ -18,6 +18,8 @@ along with this file; see the file COPYING.LIB.  If not, write to
 the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 MA 02110-1301, USA. */
 
+#if defined (__GNUC__)
+
 #if __GNUC__ > 4 || (__GNUC__ == 4 && __GNUC_MINOR__ >= 4)
 #define umul_ppmm(w1, w0, u, v) \
   do {                                                                  \
@@ -34,4 +36,6 @@ MA 02110-1301, USA. */
 #define umul_ppmm(w1, w0, u, v) \
   __asm__ ("multu %2,%3\n\tmflo %0\n\tmfhi %1"				\
 	   : "=d" (w0), "=d" (w1) : "d" (u), "d" (v))
+#endif
+
 #endif

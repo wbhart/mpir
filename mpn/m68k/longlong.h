@@ -18,6 +18,8 @@ along with this file; see the file COPYING.LIB.  If not, write to
 the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 MA 02110-1301, USA. */
 
+#if defined (__GNUC__)
+
 #define add_ssaaaa(sh, sl, ah, al, bh, bl) \
   __asm__ ("add%.l %5,%1\n\taddx%.l %3,%0"				\
 	   : "=d" (sh), "=&d" (sl)					\
@@ -90,4 +92,6 @@ MA 02110-1301, USA. */
 	   : "=d" (count)						\
 	   : "od" ((USItype) (x)), "n" (0))
 #define COUNT_LEADING_ZEROS_0 32
+#endif
+
 #endif

@@ -18,6 +18,8 @@ along with this file; see the file COPYING.LIB.  If not, write to
 the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 MA 02110-1301, USA. */
 
+#if defined (__GNUC__) || defined(INTEL_COMPILER)
+
 #define add_ssaaaa(sh, sl, ah, al, bh, bl) \
   __asm__ ("addl %5,%k1\n\tadcl %3,%k0"					\
 	   : "=r" (sh), "=&r" (sl)					\
@@ -149,3 +151,5 @@ MA 02110-1301, USA. */
 #endif /* asm bsfl */
 
 #endif /* ! pentium */
+
+#endif 
