@@ -3072,16 +3072,16 @@ fi
 longlong_source=
 for longlong_dir in $path; do
   test "$no_create" = yes || rm -f longlong.h
-  tmp_file=$srcdir/mpn/$longlong_dir/longlong.h
+  tmp_file=$srcdir/mpn/$longlong_dir/longlong_inc.h
   if test -f $tmp_file; then
-    AC_CONFIG_FILES(longlong.h:longlong_pre.h:mpn/$longlong_dir/longlong.h:longlong_post.h)
+    AC_CONFIG_FILES(longlong.h:longlong_pre.h:mpn/$longlong_dir/longlong_inc.h:longlong_post.h)
     gmp_srclinks="$gmp_srclinks longlong.h"
     longlong_source=$tmp_file
     break
   fi
 done
 if test -z "$longlong_source"; then
-  AC_MSG_ERROR([no version of longlong.h found in path: $path])
+  AC_MSG_ERROR([no version of longlong_inc.h found in path: $path])
 fi
 
 # For a helpful message from tune/tuneup.c

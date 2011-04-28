@@ -28519,9 +28519,9 @@ fi
 longlong_source=
 for longlong_dir in $path; do
   test "$no_create" = yes || rm -f longlong.h
-  tmp_file=$srcdir/mpn/$longlong_dir/longlong.h
+  tmp_file=$srcdir/mpn/$longlong_dir/longlong_inc.h
   if test -f $tmp_file; then
-    ac_config_files="$ac_config_files longlong.h:longlong_pre.h:mpn/$longlong_dir/longlong.h:longlong_post.h"
+    ac_config_files="$ac_config_files longlong.h:longlong_pre.h:mpn/$longlong_dir/longlong_inc.h:longlong_post.h"
 
     gmp_srclinks="$gmp_srclinks longlong.h"
     longlong_source=$tmp_file
@@ -28529,7 +28529,7 @@ for longlong_dir in $path; do
   fi
 done
 if test -z "$longlong_source"; then
-  as_fn_error $? "no version of longlong.h found in path: $path" "$LINENO" 5
+  as_fn_error $? "no version of longlong_inc.h found in path: $path" "$LINENO" 5
 fi
 
 # For a helpful message from tune/tuneup.c
@@ -30095,7 +30095,7 @@ do
     "libtool") CONFIG_COMMANDS="$CONFIG_COMMANDS libtool" ;;
     "mpn/$tmp_fn.$tmp_ext") CONFIG_LINKS="$CONFIG_LINKS mpn/$tmp_fn.$tmp_ext:mpn/$tmp_dir/$tmp_base.$tmp_ext" ;;
     "gmp-mparam.h") CONFIG_LINKS="$CONFIG_LINKS gmp-mparam.h:mpn/$gmp_mparam_dir/gmp-mparam.h" ;;
-    "longlong.h") CONFIG_FILES="$CONFIG_FILES longlong.h:longlong_pre.h:mpn/$longlong_dir/longlong.h:longlong_post.h" ;;
+    "longlong.h") CONFIG_FILES="$CONFIG_FILES longlong.h:longlong_pre.h:mpn/$longlong_dir/longlong_inc.h:longlong_post.h" ;;
     "yasm_mac.inc") CONFIG_LINKS="$CONFIG_LINKS yasm_mac.inc:$YASM_MAC_INC" ;;
     "Makefile") CONFIG_FILES="$CONFIG_FILES Makefile" ;;
     "mpf/Makefile") CONFIG_FILES="$CONFIG_FILES mpf/Makefile" ;;
