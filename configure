@@ -26821,12 +26821,6 @@ esac
 %define OPERATION_$tmp_fn
 %define suffix $tmp_suffix
 
-;  For k6 and k7 gcd_1 calling their corresponding mpn_modexact_1_odd
-%ifdef __gmpn_modexact_1_odd
-%define __gmpn_modexact_1_odd __gmpn_modexact_1_odd_${tmp_suffix}
-%endif
-
-
 %include \"$mpn_relative_top_srcdir/mpn/$tmp_dir/$tmp_base.as\"
 " >mpn/${tmp_prefix}_$tmp_fn.as
                 ;;
@@ -26841,10 +26835,6 @@ define(OPERATION_$tmp_fn)
 define(__gmpn_$tmp_fbase, __gmpn_${tmp_fbase}_$tmp_suffix)
 define(__gmpn_$tmp_fbasec,__gmpn_${tmp_fbasec}_${tmp_suffix})
 define(__gmpn_preinv_${tmp_fbase},__gmpn_preinv_${tmp_fbase}_${tmp_suffix})
-
-$tmp_d_n_l  For k6 and k7 gcd_1 calling their corresponding mpn_modexact_1_odd
-ifdef(\`__gmpn_modexact_1_odd',,
-\`define(__gmpn_modexact_1_odd,__gmpn_modexact_1_odd_${tmp_suffix})')
 
 $THRESH_ASM_SETUP
 include($mpn_relative_top_srcdir/mpn/$tmp_dir/$tmp_base.asm)
