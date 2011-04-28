@@ -13,10 +13,14 @@ if /i "%1" EQU "p3" ((set sdir=x86w\p3) & (set platform=win32))
 if /i "%1" EQU "p4" ((set sdir=x86w\p4) & (set platform=win32))
 
 if /i "%sdir%" EQU "" (call :seterr & echo ERROR: %1 is not supported & exit /b %errorlevel%)
+if /i "%sdir%" EQU "generic" (set idir=%sdir%) else (set idir=x86_64w)
 
 call gen_mpir_h %platform%
 call gen_config_h  ..\mpn\%sdir%\
 call out_copy_rename ..\mpn\%sdir%\gmp-mparam.h ..\ gmp-mparam.h
+type ..\longlong_pre.h + ..\mpn\%idir%\longlong_inc.h + ..\longlong_post.h >tmp.h
+call out_copy_rename tmp.h ..\ longlong.h
+del tmp.h
 exit /b 0
 
 :seterr
