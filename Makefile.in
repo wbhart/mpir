@@ -557,7 +557,7 @@ CXX_OBJECTS = \
 # Currently, for libmpir, unlike libmp below, we're not using
 # -export-symbols, since the tune and speed programs, and perhaps some of
 # the test programs, want to access undocumented symbols.
-libmpir_la_SOURCES = gmp-impl.h longlong.h randmt.h			\
+libmpir_la_SOURCES = gmp-impl.h longlong_pre.h longlong_post.h randmt.h			\
   assert.c compat.c errno.c extract-dbl.c invalid.c memory.c		\
   mp_bpl.c mp_clz_tab.c mp_dv_tab.c mp_minv_tab.c mp_get_fns.c mp_set_fns.c \
   randclr.c randdef.c randiset.c randlc2s.c randlc2x.c randmt.c	\
