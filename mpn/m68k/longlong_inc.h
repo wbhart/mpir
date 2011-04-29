@@ -20,6 +20,10 @@ MA 02110-1301, USA. */
 
 #if defined (__GNUC__)
 
+#if (defined (__mc68000__) || defined (__mc68020__) || defined(mc68020) \
+     || defined (__m68k__) || defined (__mc5200__) || defined (__mc5206e__) \
+          || defined (__mc5307__))
+
 #define add_ssaaaa(sh, sl, ah, al, bh, bl) \
   __asm__ ("add%.l %5,%1\n\taddx%.l %3,%0"				\
 	   : "=d" (sh), "=&d" (sl)					\
@@ -94,4 +98,5 @@ MA 02110-1301, USA. */
 #define COUNT_LEADING_ZEROS_0 32
 #endif
 
+#endif
 #endif

@@ -19,7 +19,7 @@ the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 MA 02110-1301, USA. */
 
 #if defined (__GNUC__)
-
+#if (defined (__i370__) || defined (__s390__) || defined (__mvs__))
 #define smul_ppmm(xh, xl, m0, m1) \
   do {									\
     union {DItype __ll;							\
@@ -41,5 +41,5 @@ MA 02110-1301, USA. */
 	     : "0" (__x.__ll), "r" (d));				\
     (q) = __x.__i.__l; (r) = __x.__i.__h;				\
   } while (0)
-
+#endif
 #endif
