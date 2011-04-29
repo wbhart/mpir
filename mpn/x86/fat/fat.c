@@ -36,9 +36,6 @@ MA 02110-1301, USA. */
 /* fat_entry.asm */
 long __gmpn_cpuid __GMP_PROTO ((char dst[12], int id));
 
-typedef DECL_preinv_divrem_1 ((*preinv_divrem_1_t));
-typedef DECL_preinv_mod_1    ((*preinv_mod_1_t));
-
 struct cpuvec_t __gmpn_cpuvec = {
   __MPN(add_n_init),
   __MPN(addmul_1_init),
@@ -134,14 +131,6 @@ __gmpn_cpuvec_init (void)
 
   __gmpn_cpu(&decided_cpuvec);
   
-  /* There's no x86 generic mpn_preinv_divrem_1 or mpn_preinv_mod_1.
-     Instead default to the plain versions from whichever CPU we detected.
-     The function arguments are compatible, no need for any glue code.  */
-  if (decided_cpuvec.preinv_divrem_1 == NULL)
-    decided_cpuvec.preinv_divrem_1 =(preinv_divrem_1_t)decided_cpuvec.divrem_1;
-  if (decided_cpuvec.preinv_mod_1 == NULL)
-    decided_cpuvec.preinv_mod_1    =(preinv_mod_1_t)   decided_cpuvec.mod_1;
-
   ASSERT_CPUVEC (decided_cpuvec);
   CPUVEC_INSTALL (decided_cpuvec);
 
