@@ -1458,19 +1458,15 @@ case $host in
       ;;
 
 
-  # Special CPU "none" selects generic C.  -DNO_ASM is used to disable gcc
-  # asm blocks in longlong.h (since they're driven by cpp pre-defined
-  # symbols like __alpha rather than the configured $host_cpu).
+  # Special CPU "none" selects generic C.
   #
   none-*-*)
     abilist="long longlong"
     cclist_long=$cclist
     gcc_long_cflags=$gcc_cflags
-    gcc_long_cppflags="-DNO_ASM"
     cc_long_cflags=$cc_cflags
     cclist_longlong=$cclist
     gcc_longlong_cflags=$gcc_cflags
-    gcc_longlong_cppflags="-DNO_ASM"
     cc_longlong_cflags=$cc_cflags
     limb_longlong=longlong
     ;;

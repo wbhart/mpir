@@ -2251,7 +2251,7 @@ mp_limb_t mpn_store _PROTO ((mp_ptr,mp_size_t,mp_limb_t));
    for the benefit of assertion checking.  */
 
 #if defined (__GNUC__) && HAVE_HOST_CPU_FAMILY_x86 && GMP_NAIL_BITS == 0      \
-  && BITS_PER_MP_LIMB == 32 && ! defined (NO_ASM) && ! WANT_ASSERT
+  && BITS_PER_MP_LIMB == 32 && ! WANT_ASSERT
 /* Better flags handling than the generic C gives on i386, saving a few
    bytes of code and maybe a cycle or two.  */
 
@@ -2908,7 +2908,7 @@ __GMP_DECLSPEC extern const unsigned char  modlimb_invert_table[128];
    to 0 if there's an even number.  "n" should be an unsigned long and "p"
    an int.  */
 
-#if defined (__GNUC__) && ! defined (NO_ASM) && HAVE_HOST_CPU_alpha_CIX
+#if defined (__GNUC__) && HAVE_HOST_CPU_alpha_CIX
 #define ULONG_PARITY(p, n)						\
   do {									\
     int __p;								\
@@ -2917,8 +2917,7 @@ __GMP_DECLSPEC extern const unsigned char  modlimb_invert_table[128];
   } while (0)
 #endif
 
-#if defined (__GNUC__) && ! defined (__INTEL_COMPILER)			\
-    && ! defined (NO_ASM) && defined (__ia64)
+#if defined (__GNUC__) && ! defined (__INTEL_COMPILER) && defined (__ia64)
 /* unsigned long is either 32 or 64 bits depending on the ABI, zero extend
    to a 64 bit unsigned long long for popcnt */
 #define ULONG_PARITY(p, n)						\
@@ -2930,7 +2929,7 @@ __GMP_DECLSPEC extern const unsigned char  modlimb_invert_table[128];
   } while (0)
 #endif
 
-#if defined (__GNUC__) && ! defined (NO_ASM) && HAVE_HOST_CPU_FAMILY_x86
+#if defined (__GNUC__)  && HAVE_HOST_CPU_FAMILY_x86
 #if __GMP_GNUC_PREREQ (3,1)
 #define __GMP_qm "=Qm"
 #define __GMP_q "=Q"
@@ -2971,8 +2970,7 @@ __GMP_DECLSPEC extern const unsigned char  modlimb_invert_table[128];
 /* 3 cycles on 604 or 750 since shifts and rlwimi's can pair.  gcc (as of
    version 3.1 at least) doesn't seem to know how to generate rlwimi for
    anything other than bit-fields, so use "asm".  */
-#if defined (__GNUC__) && ! defined (NO_ASM)                    \
-  && HAVE_HOST_CPU_FAMILY_powerpc && BITS_PER_MP_LIMB == 32
+#if defined (__GNUC__) && HAVE_HOST_CPU_FAMILY_powerpc && BITS_PER_MP_LIMB == 32
 #define BSWAP_LIMB(dst, src)						\
   do {									\
     mp_limb_t  __bswapl_src = (src);					\
@@ -2991,8 +2989,7 @@ __GMP_DECLSPEC extern const unsigned char  modlimb_invert_table[128];
    kernel with xchgb instead of rorw), but this is not done here, because
    i386 means generic x86 and mixing word and dword operations will cause
    partial register stalls on P6 chips.  */
-#if defined (__GNUC__) && ! defined (NO_ASM)            \
-  && HAVE_HOST_CPU_FAMILY_x86 && ! HAVE_HOST_CPU_i386   \
+#if defined (__GNUC__) && HAVE_HOST_CPU_FAMILY_x86 && ! HAVE_HOST_CPU_i386   \
   && BITS_PER_MP_LIMB == 32
 #define BSWAP_LIMB(dst, src)						\
   do {									\
@@ -3000,8 +2997,7 @@ __GMP_DECLSPEC extern const unsigned char  modlimb_invert_table[128];
   } while (0)
 #endif
 
-#if defined (__GNUC__) && ! defined (NO_ASM)            \
-  && defined (__amd64__) && BITS_PER_MP_LIMB == 64
+#if defined (__GNUC__) && defined (__amd64__) && BITS_PER_MP_LIMB == 64
 #define BSWAP_LIMB(dst, src)						\
   do {									\
     __asm__ ("bswap %q0" : "=r" (dst) : "0" (src));			\
@@ -3009,7 +3005,7 @@ __GMP_DECLSPEC extern const unsigned char  modlimb_invert_table[128];
 #endif
 
 #if defined (__GNUC__) && ! defined (__INTEL_COMPILER)			\
-    && ! defined (NO_ASM) && defined (__ia64) && GMP_LIMB_BITS == 64
+    && defined (__ia64) && GMP_LIMB_BITS == 64
 #define BSWAP_LIMB(dst, src)						\
   do {									\
     __asm__ ("mux1 %0 = %1, @rev" : "=r" (dst) :  "r" (src));		\
@@ -3017,8 +3013,7 @@ __GMP_DECLSPEC extern const unsigned char  modlimb_invert_table[128];
 #endif
 
 /* As per glibc. */
-#if defined (__GNUC__) && ! defined (NO_ASM)                    \
-  && HAVE_HOST_CPU_FAMILY_m68k && BITS_PER_MP_LIMB == 32
+#if defined (__GNUC__) && HAVE_HOST_CPU_FAMILY_m68k && BITS_PER_MP_LIMB == 32
 #define BSWAP_LIMB(dst, src)						\
   do {									\
     mp_limb_t  __bswapl_src = (src);					\
@@ -3085,8 +3080,7 @@ __GMP_DECLSPEC extern const unsigned char  modlimb_invert_table[128];
 
 /* Apparently lwbrx might be slow on some PowerPC chips, so restrict it to
    those we know are fast.  */
-#if defined (__GNUC__) && ! defined (NO_ASM)                            \
-  && BITS_PER_MP_LIMB == 32 && HAVE_LIMB_BIG_ENDIAN                     \
+#if defined (__GNUC__) && BITS_PER_MP_LIMB == 32 && HAVE_LIMB_BIG_ENDIAN                     \
   && (HAVE_HOST_CPU_powerpc604                                          \
       || HAVE_HOST_CPU_powerpc604e                                      \
       || HAVE_HOST_CPU_powerpc750                                       \
@@ -3110,8 +3104,7 @@ __GMP_DECLSPEC extern const unsigned char  modlimb_invert_table[128];
 
 /* On the same basis that lwbrx might be slow, restrict stwbrx to those we
    know are fast.  FIXME: Is this necessary?  */
-#if defined (__GNUC__) && ! defined (NO_ASM)                            \
-  && BITS_PER_MP_LIMB == 32 && HAVE_LIMB_BIG_ENDIAN                     \
+#if defined (__GNUC__) && BITS_PER_MP_LIMB == 32 && HAVE_LIMB_BIG_ENDIAN                     \
   && (HAVE_HOST_CPU_powerpc604                                          \
       || HAVE_HOST_CPU_powerpc604e                                      \
       || HAVE_HOST_CPU_powerpc750                                       \
@@ -3179,15 +3172,14 @@ __GMP_DECLSPEC extern const unsigned char  modlimb_invert_table[128];
 #endif
 #endif
 
-#if defined (__GNUC__) && ! defined (NO_ASM) && HAVE_HOST_CPU_alpha_CIX
+#if defined (__GNUC__) && HAVE_HOST_CPU_alpha_CIX
 #define popc_limb(result, input)					\
   do {									\
     __asm__ ("ctpop %1, %0" : "=r" (result) : "r" (input));		\
   } while (0)
 #endif
 
-#if defined (__GNUC__) && ! defined (__INTEL_COMPILER)			\
-    && ! defined (NO_ASM) && defined (__ia64) && GMP_LIMB_BITS == 64
+#if defined (__GNUC__) && ! defined (__INTEL_COMPILER) && defined (__ia64) && GMP_LIMB_BITS == 64
 #define popc_limb(result, input)					\
   do {									\
     __asm__ ("popcnt %0 = %1" : "=r" (result) : "r" (input));		\
