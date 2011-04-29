@@ -1326,9 +1326,7 @@ case $host in
       gcc_cflags_cpu=""
       gcc_cflags_arch=""
       extra_functions="$extra_functions fat fat_entry"
-	# path below should "x86 x86/fat" but because all the special cases for the division crud it easier to
-	# leave it as it is , it's either that or fix all the errors
-      path="x86/fat x86"
+      path="x86 x86/fat"
       fat_path="x86 x86/fat x86/i486
 		x86/k6 x86/k6/mmx x86/k6/k62mmx
 		x86/k7 x86/k7/mmx x86/k7/mmx/k8 x86/k7/mmx/k8/k10 x86/k7/mmx/k8/k10/k102
