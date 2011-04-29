@@ -253,8 +253,7 @@ static const int have_cycles = 0;
 
 /* "stck" returns ticks since 1 Jan 1900 00:00 GMT, where each tick is 2^-12
    microseconds.  Same #ifdefs here as in longlong.h.  */
-#if defined (__GNUC__) && ! defined (NO_ASM)                            \
-  && (defined (__i370__) || defined (__s390__) || defined (__mvs__))
+#if defined (__GNUC__) && (defined (__i370__) || defined (__s390__) || defined (__mvs__))
 static const int  have_stck = 1;
 static const int  use_stck = 1;  /* always use when available */
 typedef uint64_t  stck_t; /* gcc for s390 is quite new, always has uint64_t */
@@ -275,7 +274,7 @@ typedef unsigned long  stck_t;   /* dummy */
    and a loop (see powerpc64.asm).  */
 #if HAVE_HOST_CPU_FAMILY_powerpc
 static const int  have_mftb = 1;
-#if defined (__GNUC__) && ! defined (NO_ASM)
+#if defined (__GNUC__)
 #define MFTB(a)                         \
   do {                                  \
     unsigned  __h1, __l, __h2;          \

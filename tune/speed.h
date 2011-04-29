@@ -346,8 +346,7 @@ void mftb_function _PROTO ((unsigned p[2]));
    clobber as such doesn't provoke an error unfortunately (gcc 3.0), so use
    the dummy output style in non-PIC, so there's an error if somehow -fPIC
    is used without a -DPIC to tell us about it.	 */
-#if defined(__GNUC__) && ! defined (NO_ASM)	\
-  && (defined (__i386__) || defined (__i486__))
+#if defined(__GNUC__) && (defined (__i386__) || defined (__i486__))
 #ifdef PIC
 #define speed_cyclecounter(p)						\
   do {									\
