@@ -713,7 +713,7 @@ __GMP_DECLSPEC void mpz_bin_uiui __GMP_PROTO ((mpz_ptr, unsigned long int, unsig
 __GMP_DECLSPEC void mpz_cdiv_q __GMP_PROTO ((mpz_ptr, mpz_srcptr, mpz_srcptr));
 
 #define mpz_cdiv_q_2exp __gmpz_cdiv_q_2exp
-__GMP_DECLSPEC void mpz_cdiv_q_2exp __GMP_PROTO ((mpz_ptr, mpz_srcptr, unsigned long));
+__GMP_DECLSPEC void mpz_cdiv_q_2exp __GMP_PROTO ((mpz_ptr, mpz_srcptr, mp_bitcnt_t));
 
 #define mpz_cdiv_q_ui __gmpz_cdiv_q_ui
 __GMP_DECLSPEC unsigned long int mpz_cdiv_q_ui __GMP_PROTO ((mpz_ptr, mpz_srcptr, unsigned long int));

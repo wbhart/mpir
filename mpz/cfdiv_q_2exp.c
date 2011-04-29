@@ -92,7 +92,7 @@ cfdiv_q_2exp (mpz_ptr w, mpz_srcptr u, mp_bitcnt_t cnt, int dir)
 
 
 void
-mpz_cdiv_q_2exp (mpz_ptr w, mpz_srcptr u, unsigned long cnt)
+mpz_cdiv_q_2exp (mpz_ptr w, mpz_srcptr u, mp_bitcnt_t cnt)
 {
   cfdiv_q_2exp (w, u, cnt, 1);
 }
