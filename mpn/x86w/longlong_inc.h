@@ -1,16 +1,16 @@
 
-
 #ifdef _MSC_VER
 
 #  include <intrin.h>
 
-#define COUNT_LEADING_ZEROS_NEED_CLZ_TAB
+#  define COUNT_LEADING_ZEROS_NEED_CLZ_TAB
 
-#  if ! defined( _WIN64 )
+#  if !defined( _WIN64 )
 
-#pragma intrinsic(_BitScanForward)
-#pragma intrinsic(_BitScanReverse)
-#pragma intrinsic(__emulu)
+#    pragma intrinsic(_BitScanForward)
+#    pragma intrinsic(_BitScanReverse)
+#    pragma intrinsic(__emulu)
+#    pragma intrinsic(_bswap)
 
 #    define count_leading_zeros(c,x)        \
       do { unsigned long _z;		    	\
@@ -30,6 +30,12 @@
         xl = _t & 0xffffffff;               \
         xh = _t >> 32;                      \
       } while (0)
-#  endif
 
-#endif /* _MSC_VER */
+#    if !defined( BSWAP_LIMB )
+#      define BSWAP_LIMB
+#      define BSWAP_LIMB(dst, src)  dst = _bswap(src)
+#    endif
+
+#  endif    /* _WIN64 */
+
+#endif      /* _MSC_VER */

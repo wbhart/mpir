@@ -6,9 +6,10 @@
 
 #  if defined( _WIN64 )
 
-#pragma intrinsic(_BitScanForward64)
-#pragma intrinsic(_BitScanReverse64)
-#pragma intrinsic(_umul128)
+#    pragma intrinsic(_BitScanForward64)
+#    pragma intrinsic(_BitScanReverse64)
+#    pragma intrinsic(_umul128)
+#    pragma intrinsic(_bswap64)
 
 #    define count_leading_zeros(c,x)        \
       do { unsigned long _z;		    	\
@@ -26,9 +27,15 @@
       do {                                  \
         xl = _umul128( (m0), (m1), &xh);    \
       } while (0)
-#  endif
 
-#endif /* _MSC_VER */
+#    if !defined( BSWAP_LIMB )
+#      define BSWAP_LIMB
+#      define BSWAP_LIMB(dst, src)  dst = _bswap64(src)
+#    endif
+
+#  endif    /* _WIN64 */
+
+#endif      /* _MSC_VER */
 
 /* We need to put the the gcc inline asm for MinGW64 here as well */
 
@@ -88,5 +95,12 @@ MA 02110-1301, USA. */
     __asm__ ("bsfq %1,%q0" : "=r" (count) : "rm" ((UDItype)(x)));	\
   } while (0)
 
+#if !defined(BSWAP_LIMB)
+#define BSWAP_LIMB
+#define BSWAP_LIMB(dst, src)	\
+  do {							\
+    __asm__ ("bswap %q0" : "=r" (dst) : "0" (src));	\
+  } while (0)
 #endif
 
+#endif
