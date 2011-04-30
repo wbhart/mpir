@@ -452,105 +452,6 @@ case $host in
     GMP_INCLUDE_MPN(arm/arm-defs.m4)
     ;;
 
-  hppa*-*-*)
-    # HP cc (the one sold separately) is K&R by default, but AM_C_PROTOTYPES
-    # will add "-Ae", or "-Aa -D_HPUX_SOURCE", to put it into ansi mode, if
-    # possible.
-    #
-    # gcc for hppa 2.0 can be built either for 2.0n (32-bit) or 2.0w
-    # (64-bit), but not both, so there's no option to choose the desired
-    # mode, we must instead detect which of the two it is.  This is done by
-    # checking sizeof(long), either 4 or 8 bytes respectively.  Do this in
-    # ABI=1.0 too, in case someone tries to build that with a 2.0w gcc.
-    #
-    gcc_cflags="-O2"
-    gcc_cflags_optlist="arch"
-    gcc_testlist="sizeof-long-4"
-    SPEED_CYCLECOUNTER_OBJ=hppa.lo
-    cyclecounter_size=1
-
-    # FIXME: For hppa2.0*, path should be "pa32/hppa2_0 pa32/hppa1_1 pa32".
-    # (Can't remember why this isn't done already, have to check what .asm
-    # files are available in each and how they run on a typical 2.0 cpu.)
-    #
-    case $host_cpu in
-      hppa1.0*)    path="pa32" ;;
-      hppa7000*)   path="pa32/hppa1_1 pa32" ;;
-      hppa2.0* | hppa64)
-                   path="pa32/hppa2_0 pa32/hppa1_1/pa7100 pa32/hppa1_1 pa32" ;;
-      *)           # default to 7100
-                   path="pa32/hppa1_1/pa7100 pa32/hppa1_1 pa32" ;;
-    esac
-
-    # gcc 2.7.2.3 knows -mpa-risc-1-0 and -mpa-risc-1-1
-    # gcc 2.95 adds -mpa-risc-2-0, plus synonyms -march=1.0, 1.1 and 2.0
-    #
-    # We don't use -mpa-risc-2-0 in ABI=1.0 because 64-bit registers may not
-    # be saved by the kernel on an old system.  Actually gcc (as of 3.2)
-    # only adds a few float instructions with -mpa-risc-2-0, so it would
-    # probably be safe, but let's not take the chance.  In any case, a
-    # configuration like --host=hppa2.0 ABI=1.0 is far from optimal.
-    #
-    case $host_cpu in
-      hppa1.0*)           gcc_cflags_arch="-mpa-risc-1-0" ;;
-      *)                  # default to 7100
-                          gcc_cflags_arch="-mpa-risc-1-1" ;;
-    esac
-
-    case $host_cpu in
-      hppa1.0*)    cc_cflags="+O2" ;;
-      *)           # default to 7100
-                   cc_cflags="+DA1.1 +O2" ;;
-    esac
-
-    case $host in
-      hppa2.0*-*-* | hppa64-*-*)
-	cclist_20n="gcc cc"
-        abilist="2.0n 1.0"
-        path_20n="pa64"
-	limb_20n=longlong
-        any_20n_testlist="sizeof-long-4"
-        SPEED_CYCLECOUNTER_OBJ_20n=hppa2.lo
-        cyclecounter_size_20n=2
-
-        # -mpa-risc-2-0 is only an optional flag, in case an old gcc is
-        # used.  Assembler support for 2.0 is essential though, for our asm
-        # files.
-	gcc_20n_cflags="-O2"
-	gcc_20n_cflags_optlist="arch"
-        gcc_20n_cflags_arch="-mpa-risc-2-0 -mpa-risc-1-1"
-        gcc_20n_testlist="sizeof-long-4 hppa-level-2.0"
-
-        cc_20n_cflags="+DA2.0 +e +O2 -Wl,+vnocompatwarnings"
-        cc_20n_testlist="hpc-hppa-2-0"
-
-	# ABI=2.0w is available for hppa2.0w and hppa2.0, but not for
-	# hppa2.0n, on the assumption that that the latter indicates a
-	# desire for ABI=2.0n.
-	case $host in
-        hppa2.0n-*-*) ;;
-        *)
-          # HPUX 10 and earlier cannot run 2.0w.  Not sure about other
-          # systems (GNU/Linux for instance), but lets assume they're ok.
-          case $host in
-            [*-*-hpux[1-9] | *-*-hpux[1-9].* | *-*-hpux10 | *-*-hpux10.*]) ;;
-            *)    abilist="2.0w $abilist" ;;
-          esac
-
-          cclist_20w="gcc cc"
-	  gcc_20w_cflags="-O2 -mpa-risc-2-0"
-          cc_20w_cflags="+DD64 +O2"
-          cc_20w_testlist="hpc-hppa-2-0"
-          path_20w="pa64"
-	  any_20w_testlist="sizeof-long-8"
-          SPEED_CYCLECOUNTER_OBJ_20w=hppa2w.lo
-          cyclecounter_size_20w=2
-	  ;;
-        esac
-        ;;
-    esac
-    ;;
-
   IA64_PATTERN)
     abilist="64"
     GMP_INCLUDE_MPN(ia64/ia64-defs.m4)
@@ -903,13 +804,6 @@ case $host in
         esac
         ;;
     esac
-    ;;
-
-  # IBM s/370 and similar
-  [s3[6-9]0*-*-*])
-    gcc_cflags="-O2 $fomit_frame_pointer"
-    path="s390"
-    extra_functions="udiv_w_sdiv"
     ;;
 
   sh-*-*)   path="sh" ;;
@@ -1672,10 +1566,8 @@ for abi in $abilist; do
         testlist_pass=yes
         for tst in $testlist; do
           case $tst in
-          hpc-hppa-2-0)   GMP_HPC_HPPA_2_0($cc,,testlist_pass=no) ;;
           gcc-arm-umodsi) GMP_GCC_ARM_UMODSI($cc,,testlist_pass=no) ;;
           gcc-mips-o32)   GMP_GCC_MIPS_O32($cc,,testlist_pass=no) ;;
-          hppa-level-2.0) GMP_HPPA_LEVEL_20($cc $cflags,,testlist_pass=no) ;;
           sizeof*)       GMP_C_TEST_SIZEOF($cc $cflags,$tst,,testlist_pass=no) ;;
           esac
           if test $testlist_pass = no; then break; fi
@@ -2954,10 +2846,6 @@ if test "$gmp_asm_syntax_testing" != no; then
   GMP_ASM_W32
   GMP_ASM_ALIGN_LOG
   case $host in
-    hppa*-*-*)
-      # for both pa32 and pa64
-      GMP_INCLUDE_MPN(pa32/pa-defs.m4)
-      ;;
     IA64_PATTERN)
       GMP_ASM_IA64_ALIGN_OK
       ;;
