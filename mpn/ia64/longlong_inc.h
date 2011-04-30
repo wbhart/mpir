@@ -82,3 +82,30 @@ MA 02110-1301, USA. */
 #define UDIV_PREINV_ALWAYS  1
 #define UDIV_NEEDS_NORMALIZATION 1
 #endif
+
+#if !defined(ULONG_PARITY) && defined (__GNUC__) && ! defined (__INTEL_COMPILER)
+/* unsigned long is either 32 or 64 bits depending on the ABI, zero extend
+   to a 64 bit unsigned long long for popcnt */
+#define ULONG_PARITY(p, n)						\
+  do {									\
+    unsigned long long  __n = (unsigned long) (n);			\
+    int  __p;								\
+    __asm__ ("popcnt %0 = %1" : "=r" (__p) : "r" (__n));		\
+    (p) = __p & 1;							\
+  } while (0)
+#endif
+
+#if !defined(BSWAP_LIMB) && defined (__GNUC__) && ! defined (__INTEL_COMPILER)
+#define BSWAP_LIMB(dst, src)						\
+  do {									\
+    __asm__ ("mux1 %0 = %1, @rev" : "=r" (dst) :  "r" (src));		\
+  } while (0)
+#endif
+
+
+#if !defined(popc_limb) && defined (__GNUC__) && ! defined (__INTEL_COMPILER)
+#define popc_limb(result, input)					\
+  do {									\
+    __asm__ ("popcnt %0 = %1" : "=r" (result) : "r" (input));		\
+  } while (0)
+#endif

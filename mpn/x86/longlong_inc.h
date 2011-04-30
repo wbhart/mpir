@@ -152,4 +152,100 @@ MA 02110-1301, USA. */
 
 #endif /* ! pentium */
 
+/* ASM_L gives a local label for a gcc asm block, for use when temporary
+   local labels like "1:" might not be available, which is the case for
+   instance on the x86s (the SCO assembler doesn't support them).
+
+   The label generated is made unique by including "%=" which is a unique
+   number for each insn.  This ensures the same name can be used in multiple
+   asm blocks, perhaps via a macro.  Since jumps between asm blocks are not
+   allowed there's no need for a label to be usable outside a single
+   block.  */
+
+#define ASM_L(name)  LSYM_PREFIX "asm_%=_" #name
+
+#if ! WANT_ASSERT
+/* Better flags handling than the generic C gives on i386, saving a few
+   bytes of code and maybe a cycle or two.  */
+
+#define MPN_IORD_U(ptr, incr, aors)					\
+  do {									\
+    mp_ptr  __ptr_dummy;						\
+    if (__builtin_constant_p (incr) && (incr) == 1)			\
+      {									\
+        __asm__ __volatile__						\
+          ("\n" ASM_L(top) ":\n"					\
+           "\t" aors " $1, (%0)\n"					\
+           "\tleal 4(%0),%0\n"						\
+           "\tjc " ASM_L(top)						\
+           : "=r" (__ptr_dummy)						\
+           : "0"  (ptr)							\
+           : "memory");							\
+      }									\
+    else								\
+      {									\
+        __asm__ __volatile__						\
+          (   aors  " %2,(%0)\n"					\
+           "\tjnc " ASM_L(done) "\n"					\
+           ASM_L(top) ":\n"						\
+           "\t" aors " $1,4(%0)\n"					\
+           "\tleal 4(%0),%0\n"						\
+           "\tjc " ASM_L(top) "\n"					\
+           ASM_L(done) ":\n"						\
+           : "=r" (__ptr_dummy)						\
+           : "0"  (ptr),						\
+             "ri" (incr)						\
+           : "memory");							\
+      }									\
+  } while (0)
+
+#ifndef MPN_INCR_U
+#define MPN_INCR_U(ptr, size, incr)  MPN_IORD_U (ptr, incr, "addl")
+#endif
+#ifndef MPN_DECR_U
+#define MPN_DECR_U(ptr, size, incr)  MPN_IORD_U (ptr, incr, "subl")
+#endif
+#ifndef mpn_incr_u
+#define mpn_incr_u(ptr, incr)  MPN_INCR_U (ptr, 0, incr)
+#endif
+#ifndef mpn_decr_u
+#define mpn_decr_u(ptr, incr)  MPN_DECR_U (ptr, 0, incr)
+#endif
+#endif
+
 #endif 
+
+#if defined (__GNUC__)
+#if __GMP_GNUC_PREREQ (3,1)
+#define __GMP_qm "=Qm"
+#define __GMP_q "=Q"
+#else
+#define __GMP_qm "=qm"
+#define __GMP_q "=q"
+#endif
+#ifndef ULONG_PARITY
+#define ULONG_PARITY(p, n)						\
+  do {									\
+    char	   __p;							\
+    unsigned long  __n = (n);						\
+    __n ^= (__n >> 16);							\
+    __asm__ ("xorb %h1, %b1\n\t"					\
+	     "setpo %0"							\
+	 : __GMP_qm (__p), __GMP_q (__n)				\
+	 : "1" (__n));							\
+    (p) = __p;								\
+  } while (0)
+#endif
+#endif
+
+/* bswap is available on i486 and up and is fast.  A combination rorw $8 /
+   roll $16 / rorw $8 is used in glibc for plain i386 (and in the linux
+   kernel with xchgb instead of rorw), but this is not done here, because
+   i386 means generic x86 and mixing word and dword operations will cause
+   partial register stalls on P6 chips.  */
+#if !defined(BSWAP_LIMB) && defined (__GNUC__) && ! HAVE_HOST_CPU_i386 
+#define BSWAP_LIMB(dst, src)						\
+  do {									\
+    __asm__ ("bswap %0" : "=r" (dst) : "0" (src));			\
+  } while (0)
+#endif

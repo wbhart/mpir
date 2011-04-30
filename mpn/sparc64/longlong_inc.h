@@ -43,3 +43,15 @@ MA 02110-1301, USA. */
 	   __CLOBBER_CC)
 
 #endif
+
+/* No processor claiming to be SPARC v9 compliant seems to
+   implement the POPC instruction.  Disable pattern for now.  */
+#if 0
+#if ! defined(popc_limb) && defined __GNUC__ && defined __sparc_v9__ 
+#define popc_limb(result, input)					\
+  do {									\
+    DItype __res;							\
+    __asm__ ("popc %1,%0" : "=r" (result) : "rI" (input));		\
+  } while (0)
+#endif
+#endif

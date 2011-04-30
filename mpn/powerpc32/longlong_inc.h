@@ -76,3 +76,58 @@ MA 02110-1301, USA. */
 #endif
 
 #endif
+
+/* 3 cycles on 604 or 750 since shifts and rlwimi's can pair.  gcc (as of
+   version 3.1 at least) doesn't seem to know how to generate rlwimi for
+   anything other than bit-fields, so use "asm".  */
+#if !defined(BSWAP_LIMB) && defined (__GNUC__) && HAVE_HOST_CPU_FAMILY_powerpc
+#define BSWAP_LIMB(dst, src)						\
+  do {									\
+    mp_limb_t  __bswapl_src = (src);					\
+    mp_limb_t  __tmp1 = __bswapl_src >> 24;		/* low byte */	\
+    mp_limb_t  __tmp2 = __bswapl_src << 24;		/* high byte */	\
+    __asm__ ("rlwimi %0, %2, 24, 16, 23"		/* 2nd low */	\
+	 : "=r" (__tmp1) : "0" (__tmp1), "r" (__bswapl_src));		\
+    __asm__ ("rlwimi %0, %2,  8,  8, 15"		/* 3nd high */	\
+	 : "=r" (__tmp2) : "0" (__tmp2), "r" (__bswapl_src));		\
+    (dst) = __tmp1 | __tmp2;				/* whole */	\
+  } while (0)
+#endif
+
+/* Apparently lwbrx might be slow on some PowerPC chips, so restrict it to
+   those we know are fast.  */
+#if !defined(BSWAP_LIMB_FETCH) && defined (__GNUC__) && HAVE_LIMB_BIG_ENDIAN                     \
+  && (HAVE_HOST_CPU_powerpc604                                          \
+      || HAVE_HOST_CPU_powerpc604e                                      \
+      || HAVE_HOST_CPU_powerpc750                                       \
+      || HAVE_HOST_CPU_powerpc7400)
+#define BSWAP_LIMB_FETCH(limb, src)					\
+  do {									\
+    mp_srcptr  __blf_src = (src);					\
+    mp_limb_t  __limb;							\
+    __asm__ ("lwbrx %0, 0, %1"						\
+	     : "=r" (__limb)						\
+	     : "r" (__blf_src),						\
+	       "m" (*__blf_src));					\
+    (limb) = __limb;							\
+  } while (0)
+#endif
+
+
+/* On the same basis that lwbrx might be slow, restrict stwbrx to those we
+   know are fast.  FIXME: Is this necessary?  */
+#if !defined(BSWAP_LIMB_STORE) && defined (__GNUC__) && HAVE_LIMB_BIG_ENDIAN                     \
+  && (HAVE_HOST_CPU_powerpc604                                          \
+      || HAVE_HOST_CPU_powerpc604e                                      \
+      || HAVE_HOST_CPU_powerpc750                                       \
+      || HAVE_HOST_CPU_powerpc7400)
+#define BSWAP_LIMB_STORE(dst, limb)					\
+  do {									\
+    mp_ptr     __dst = (dst);						\
+    mp_limb_t  __limb = (limb);						\
+    __asm__ ("stwbrx %1, 0, %2"						\
+	     : "=m" (*__dst)						\
+	     : "r" (__limb),						\
+	       "r" (__dst));						\
+  } while (0)
+#endif

@@ -55,3 +55,10 @@ MA 02110-1301, USA. */
   } while (0)
 
 #endif
+
+#if !defined(BSWAP_LIMB) && defined (__GNUC__) 
+#define BSWAP_LIMB(dst, src)						\
+  do {									\
+    __asm__ ("bswap %q0" : "=r" (dst) : "0" (src));			\
+  } while (0)
+#endif

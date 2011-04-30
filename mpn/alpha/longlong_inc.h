@@ -92,3 +92,20 @@ long __MPN(count_leading_zeros) _PROTO ((UDItype));
 #define count_leading_zeros(count, x) \
   ((count) = __MPN(count_leading_zeros) (x))
 #endif /* clz using mpn */
+
+#if !defined(ULONG_PARITY) && defined (__GNUC__) && HAVE_HOST_CPU_alpha_CIX
+#define ULONG_PARITY(p, n)						\
+  do {									\
+    int __p;								\
+    __asm__ ("ctpop %1, %0" : "=r" (__p) : "r" (n));			\
+    (p) = __p & 1;							\
+  } while (0)
+#endif
+
+
+#if !defined(popc_limb) && defined (__GNUC__) && HAVE_HOST_CPU_alpha_CIX
+#define popc_limb(result, input)					\
+  do {									\
+    __asm__ ("ctpop %1, %0" : "=r" (result) : "r" (input));		\
+  } while (0)
+#endif
