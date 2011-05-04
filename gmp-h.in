@@ -201,8 +201,10 @@ typedef long int		mp_limb_signed_t;
 
 #ifdef _WIN64
 typedef unsigned long long int	mp_bitcnt_t;
+#define __GMP_BITCNT_MAX  (~(unsigned long long) 0)
 #else
 typedef unsigned long int mp_bitcnt_t;
+#define __GMP_BITCNT_MAX  (~(unsigned long) 0)
 #endif
 
 /* For reference, note that the name __mpz_struct gets into C++ mangled
@@ -1953,7 +1955,7 @@ mpz_popcount (mpz_srcptr __gmp_u) __GMP_NOTHROW
   mp_bitcnt_t    __gmp_result;
 
   __gmp_usize = __gmp_u->_mp_size;
-  __gmp_result = (__gmp_usize < 0 ? __GMP_ULONG_MAX : 0);
+  __gmp_result = (__gmp_usize < 0 ? __GMP_BITCNT_MAX : 0);
   if (__GMP_LIKELY (__gmp_usize > 0))
     __gmp_result =  mpn_popcount (__gmp_u->_mp_d, __gmp_usize);
   return __gmp_result;
