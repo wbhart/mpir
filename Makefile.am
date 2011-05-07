@@ -213,7 +213,7 @@ install-data-hook:
 if WANT_GMPCOMPAT
 	(rm -f $(DESTDIR)$(includedir)/gmp.h && cp mpir.h $(DESTDIR)$(includedir)/gmp.h)
 if WANT_CXX
-	(rm -f $(DESTDIR)$(includedir)/gmpxx.h && cp mpirxx.h $(DESTDIR)$(includedir)/gmpxx.h)
+	(rm -f $(DESTDIR)$(includedir)/gmpxx.h && cp $(srcdir)/mpirxx.h $(DESTDIR)$(includedir)/gmpxx.h)
 endif
 endif
 	@echo ''

@@ -1228,7 +1228,7 @@ uninstall-am: uninstall-includeHEADERS uninstall-libLTLIBRARIES \
 
 install-data-hook:
 @WANT_GMPCOMPAT_TRUE@	(rm -f $(DESTDIR)$(includedir)/gmp.h && cp mpir.h $(DESTDIR)$(includedir)/gmp.h)
-@WANT_CXX_TRUE@@WANT_GMPCOMPAT_TRUE@	(rm -f $(DESTDIR)$(includedir)/gmpxx.h && cp mpirxx.h $(DESTDIR)$(includedir)/gmpxx.h)
+@WANT_CXX_TRUE@@WANT_GMPCOMPAT_TRUE@	(rm -f $(DESTDIR)$(includedir)/gmpxx.h && cp $(srcdir)/mpirxx.h $(DESTDIR)$(includedir)/gmpxx.h)
 	@echo ''
 	@echo '+-------------------------------------------------------------+'
 	@echo '| CAUTION:                                                    |'
