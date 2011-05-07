@@ -4,7 +4,7 @@
 
 # set version number
 VERSION=2
-VERSION_MINOR=3
+VERSION_MINOR=4
 VERSION_PATCHLEVEL=0
 
 # these are the library soname numbers see
