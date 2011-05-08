@@ -43,6 +43,8 @@ copy ..\build.vc10\cfg.h .
 
 if %ABI% == 64 (set LOCALABI=x64)
 if %ABI% == 32 (set LOCALABI=win32)
+set YASMFLAG=
+if %LIBTYPE% == dll (set YASMFLAG=-D DLL)
 call gen_mpir_h %LOCALABI%
 copy ..\mpn\generic\gmp-mparam.h .. > nul 2>&1
 copy ..\longlong_pre.h+..\mpn\generic\longlong_inc.h+..\longlong_post.h ..\longlong.h > nul 2>&1
@@ -82,7 +84,7 @@ for %%X in ( ..\..\mpn\generic\*.c) do (
 )
 for %%X in ( %MPNPATH% ) do (
 	for %%i in ( ..\..\mpn\%%X\*.asm ) do (
-		%YASMEXE% -I ..\..\mpn\%LOCALDIR% -f %LOCALABI% %%i
+		%YASMEXE% %YASMFLAG% -I ..\..\mpn\%LOCALDIR% -f %LOCALABI% %%i
 		echo assemblin %%i
 	)
 )
