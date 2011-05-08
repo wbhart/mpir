@@ -37,10 +37,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "mpir.h"
 #include "gmp-impl.h"
 #include "longlong.h"
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
-#include <math.h>
+//#include <stdlib.h>
+//#include <stdio.h>
+//#include <string.h>
+//#include <math.h>
 
 /*
   Computes an approximation to N/D, where N = {np,2n}, D = {dp,n}.

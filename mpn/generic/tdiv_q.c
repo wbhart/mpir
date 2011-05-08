@@ -25,8 +25,8 @@ along with the GNU MP Library.  If not, see http://www.gnu.org/licenses/.  */
 #include "gmp-impl.h"
 #include "longlong.h"
 
-#include <stdio.h> 
-#include <stdlib.h>
+//#include <stdio.h> 
+//#include <stdlib.h>
 
 /* The DIV_QR_THRESHOLDs should be replaced with DIV_Q_THRESHOLDs */
 
