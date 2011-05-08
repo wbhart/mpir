@@ -22,12 +22,12 @@ MA 02110-1301, USA. */
 #include "mpir.h"
 #include "gmp-impl.h"
 
-unsigned long int
+mp_bitcnt_t
 mpz_remove (mpz_ptr dest, mpz_srcptr src, mpz_srcptr f)
 {
   mpz_t fpow[40];		/* inexhaustible...until year 2020 or so */
   mpz_t x, rem;
-  unsigned long int pwr;
+  mp_bitcnt_t pwr;
   int p;
 
   if (mpz_cmp_ui (f, 1) <= 0)

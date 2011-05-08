@@ -26,7 +26,7 @@ Boston, MA 02110-1301, USA.
 #include "longlong.h"
 
 int
-mpf_eq (mpf_srcptr u, mpf_srcptr v, unsigned long int n_bits)
+mpf_eq (mpf_srcptr u, mpf_srcptr v, mp_bitcnt_t n_bits)
 {
   mp_srcptr up, vp;
   mp_size_t usize, vsize, size, i, cu, cv, n, k;

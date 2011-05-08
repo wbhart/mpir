@@ -1052,7 +1052,7 @@ __GMP_DECLSPEC int mpz_likely_prime_p __GMP_PROTO ((mpz_srcptr,gmp_randstate_t, 
 __GMP_DECLSPEC void mpz_realloc2 __GMP_PROTO ((mpz_ptr, mp_bitcnt_t));
 
 #define mpz_remove __gmpz_remove
-__GMP_DECLSPEC unsigned long int mpz_remove __GMP_PROTO ((mpz_ptr, mpz_srcptr, mpz_srcptr));
+__GMP_DECLSPEC mp_bitcnt_t mpz_remove __GMP_PROTO ((mpz_ptr, mpz_srcptr, mpz_srcptr));
 
 #define mpz_root __gmpz_root
 __GMP_DECLSPEC int mpz_root __GMP_PROTO ((mpz_ptr, mpz_srcptr, unsigned long int));
@@ -1364,7 +1364,7 @@ __GMP_DECLSPEC void mpf_div_ui __GMP_PROTO ((mpf_ptr, mpf_srcptr, unsigned long 
 __GMP_DECLSPEC void mpf_dump __GMP_PROTO ((mpf_srcptr));
 
 #define mpf_eq __gmpf_eq
-__GMP_DECLSPEC int mpf_eq __GMP_PROTO ((mpf_srcptr, mpf_srcptr, unsigned long int)) __GMP_ATTRIBUTE_PURE;
+__GMP_DECLSPEC int mpf_eq __GMP_PROTO ((mpf_srcptr, mpf_srcptr, mp_bitcnt_t)) __GMP_ATTRIBUTE_PURE;
 
 #define mpf_fits_sint_p __gmpf_fits_sint_p
 __GMP_DECLSPEC int mpf_fits_sint_p __GMP_PROTO ((mpf_srcptr)) __GMP_NOTHROW __GMP_ATTRIBUTE_PURE;
