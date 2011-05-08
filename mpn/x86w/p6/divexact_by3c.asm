@@ -36,7 +36,7 @@
 
 ;   multiplicative inverse of 3,modulo 2^32 
 ;   ceil(b/3),ceil(b*2/3) and floor(b*2/3) where b=2^32 
-%define	INVERSE_3			0xAAAAAAAB
+%define	INVERSE_3		-0x55555555
 %define	ONE_THIRD_CEIL		0x55555556
 %define	TWO_THIRDS_CEIL		0xAAAAAAAB
 %define	TWO_THIRDS_FLOOR	0xAAAAAAAA
