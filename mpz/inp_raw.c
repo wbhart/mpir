@@ -74,8 +74,11 @@ mpz_inp_raw (mpz_ptr x, FILE *fp)
   /* Sign extend if necessary.
      Could write "csize -= ((csize & 0x80000000L) << 1)", but that tickles a
      bug in gcc 3.0 for powerpc64 on AIX.  */
+/* We exculde win32 as msvc gives a spurious warning */
+#ifndef _WIN32
   if (sizeof (csize) > 4 && csize & 0x80000000L)
     csize |= (mp_size_t)(-1) << 32;
+#endif
 
   abs_csize = ABS (csize);
 
