@@ -9,7 +9,7 @@
 #    pragma intrinsic(_BitScanForward64)
 #    pragma intrinsic(_BitScanReverse64)
 #    pragma intrinsic(_umul128)
-#    pragma intrinsic(_bswap64)
+#    pragma intrinsic(_byteswap_uint64)
 
 #    define count_leading_zeros(c,x)        \
       do { unsigned long _z;		    	\
@@ -30,7 +30,7 @@
 
 #    if !defined( BSWAP_LIMB )
 #      define BSWAP_LIMB
-#      define BSWAP_LIMB(dst, src)  dst = _bswap64(src)
+#      define BSWAP_LIMB(dst, src)  dst = _byteswap_uint64(src)
 #    endif
 
 #  endif    /* _WIN64 */
