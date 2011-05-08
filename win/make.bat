@@ -161,11 +161,17 @@ exit /b 0
 md tests
 cd tests
 md mpn mpz mpq mpf rand misc cxx devel > nul 2>&1
+if %LIBTYPE% == dll (
+	for %%X in ( mpn mpz mpq mpf rand misc cxx devel .) do (
+		copy ..\mpir.dll %%X
+	)
+	copy ..\mpirxx.dll cxx
+)
 cd ..
 
 set OPT=%FLAGS% %FLAGS1%
 
-set MPIRLIB=?????
+set MPIRLIB=/link ..\..\mpir.lib
 if %LIBTYPE% == lib (set MPIRLIB=..\..\mpir.lib)
 if %LIBTYPE% == lib (set MPIRXXLIB=..\..\mpirxx.lib)
 
