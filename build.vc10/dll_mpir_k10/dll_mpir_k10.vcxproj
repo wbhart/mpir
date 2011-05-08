@@ -53,7 +53,7 @@ prebuild k10 x64
       </Command>
     </CustomBuildStep>
     <YASM>
-      <Defines>DLL;_WIN64_ABI</Defines>
+      <Defines>DLL</Defines>
       <Debug>true</Debug>
       <ObjectFileName>$(IntDir)mpn\</ObjectFileName>
       <ObjectFile>$(IntDir)mpn\</ObjectFile>
@@ -101,7 +101,7 @@ prebuild k10 x64
       </Command>
     </CustomBuildStep>
     <YASM>
-      <Defines>DLL;_WIN64_ABI</Defines>
+      <Defines>DLL</Defines>
       <Debug>true</Debug>
       <ObjectFileName>$(IntDir)mpn\</ObjectFileName>
       <ObjectFile>$(IntDir)mpn\</ObjectFile>

@@ -52,7 +52,8 @@ prebuild k8 x64
       </Command>
     </CustomBuildStep>
     <YASM>
-      <Defines>_WIN64_ABI</Defines>
+      <Defines>
+      </Defines>
       <IncludePaths>..\..\mpn\x86_64w\</IncludePaths>
       <Debug>true</Debug>
       <ObjectFileName>$(IntDir)mpn\</ObjectFileName>
@@ -90,7 +91,8 @@ prebuild k8 x64
       </Command>
     </CustomBuildStep>
     <YASM>
-      <Defines>_WIN64_ABI</Defines>
+      <Defines>
+      </Defines>
       <Debug>true</Debug>
       <ObjectFileName>$(IntDir)mpn\</ObjectFileName>
       <ObjectFile>$(IntDir)mpn\</ObjectFile>
