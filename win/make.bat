@@ -45,6 +45,7 @@ if %ABI% == 64 (set LOCALABI=x64)
 if %ABI% == 32 (set LOCALABI=win32)
 set YASMFLAG=
 if %LIBTYPE% == dll (set YASMFLAG=-D DLL)
+if %LIBTYPE% == dll (set FLAGS1=%FLAGS1% /D "__GMP_WITHIN_GMP" /D "__GMP_WITHIN_GMPXX")
 call gen_mpir_h %LOCALABI%
 copy ..\mpn\generic\gmp-mparam.h .. > nul 2>&1
 copy ..\longlong_pre.h+..\mpn\generic\longlong_inc.h+..\longlong_post.h ..\longlong.h > nul 2>&1
@@ -185,7 +186,7 @@ cl %OPT% /c ..\..\tests\spinner.c /I..\..
 cl %OPT% /c ..\..\build.vc10\getopt.c /I..\..
 
 for %%X in ( ..\..\tests\t-*.c) do (
-	cl %OPT% /I..\.. /I..\..\tests %%X misc.obj memory.obj trace.obj refmpn.obj %MPIRLIB1%
+	cl %OPT% /I..\.. /I..\..\tests %%X misc.obj memory.obj trace.obj refmpn.obj %MPIRLIB1% 
 	if errorlevel 1 ( echo %%X FAILS )	
 )
 for %%X in ( *.exe) do (
