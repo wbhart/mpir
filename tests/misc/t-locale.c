@@ -59,7 +59,7 @@ mingw64   ie defined(_WIN64) && !defined(_MSC_VER)
   other future 64bit windows gcc , so it's best in this case to use the 
   defined(__MINGW64__) macro
 
-msvc with version<1500  ie defined(_MSC_VER) && _MSC_VER < 1500
+msvc with version<=1500  ie defined(_MSC_VER) && _MSC_VER <= 1500
 
 */
 
@@ -75,7 +75,7 @@ main (void)
 
 #else /* ! DLL_EXPORT */
 
-#if ! (defined(__MINGW64__) || (defined(_MSC_VER) && _MSC_VER < 1500))
+#if ! (defined(__MINGW64__) || (defined(_MSC_VER) && _MSC_VER <= 1500))
 #if HAVE_LOCALECONV
 #ifdef _MSC_VER
 __GMP_DECLSPEC

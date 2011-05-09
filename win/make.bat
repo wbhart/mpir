@@ -55,6 +55,7 @@ for %%X in ( %MPNPATH% ) do (
 	call gen_config_h ..\mpn\%%X\ > nul 2>&1
 )
 
+set HAVE_STDINT=yes
 echo #include ^<stdint.h^> > comptest.c
 echo int main(void){return 0;} >> comptest.c
 cl /nologo comptest.c > nul 2>&1
@@ -65,6 +66,7 @@ if errorlevel 1 (
 	echo #undef HAVE_PTRDIFF_T >> ..\config.h
 	echo #undef HAVE_UINT_LEAST32_T >> ..\config.h
 	echo #undef SIZEOF_UINTMAX_T >> ..\config.h
+	set HAVE_STDINT=no
 )
 del comptest.*
 
@@ -79,7 +81,10 @@ for %%X in ( ..\..\mpn\generic\*.c) do (
 	if not "%%X" == "..\..\mpn\generic\udiv_w_sdiv.c" (
 	:: exclude preinv_divrem_1 from a shared build
 	if not "%%X" == "..\..\mpn\generic\preinv_divrem_1.c" (
+	:: exclude preinv_mod_1 from a shared build
+	if not "%%X" == "..\..\mpn\generic\preinv_mod_1.c" (
 	cl %OPT% -I..\.. %%X
+	)
 	)
 	)
 )
@@ -94,6 +99,9 @@ cd ..
 cd mpz
 for %%X in ( ..\..\mpz\*.c) do (
 	cl %OPT% -I..\.. %%X
+)
+if %HAVE_STDINT% == no (
+	del *_sx.obj *_ux.obj > nul 2>&1
 )
 cd ..
 

@@ -92,7 +92,7 @@ goto :nocc
 if %ABI% == ? ( set ABI=%GBITS%)
 if %CPU% == ? ( set CPU=%GCPU%)
 
-:: now find yasm , not needed for C build or? 32bit build?
+:: now find yasm , not needed for C build?
 if %CPU% == none goto :gotyasm
 set YASMEXE=yasm.exe
 yasm.exe --version > nul 2>&1
