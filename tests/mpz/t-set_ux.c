@@ -32,8 +32,8 @@ MA 02110-1301, USA. */
 
 #define NLIMBS ((8 * SIZEOF_UINTMAX_T + GMP_NUMB_BITS  - 1) / GMP_NUMB_BITS)
 
-#ifdef HAVE_STDINT_H
-
+//#ifdef HAVE_STDINT_H
+#ifdef HAVE_UINTMAX_T
 static const uintmax_t val[] =
 {
     0, 1, 0xff, 
@@ -48,6 +48,7 @@ static const uintmax_t val[] =
 #endif
     UINTMAX_MAX
 };
+#endif
 
 void
 check_data (void)
@@ -138,4 +139,4 @@ main (void)
   exit (0);
 }
 
-#endif
+//#endif
