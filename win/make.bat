@@ -51,7 +51,7 @@ copy ..\mpn\generic\gmp-mparam.h .. > nul 2>&1
 copy ..\longlong_pre.h+..\mpn\generic\longlong_inc.h+..\longlong_post.h ..\longlong.h > nul 2>&1
 for %%X in ( %MPNPATH% ) do (
 	copy ..\mpn\%%X\gmp-mparam.h .. > nul 2>&1
-	copy ..\longlong_pre.h ..\mpn\%%X\longlong_inc.h ..\longlong_post.h ..\longlong.h > nul 2>&1
+	copy ..\longlong_pre.h+..\mpn\%%X\longlong_inc.h+..\longlong_post.h ..\longlong.h > nul 2>&1
 	call gen_config_h ..\mpn\%%X\ > nul 2>&1
 )
 
