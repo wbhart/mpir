@@ -77,23 +77,25 @@ if %ABI% == 32 (set LOCALDIR=x86w)
 :: just compile all generic and just overwrite with asm
 cd mpn
 for %%X in ( ..\..\mpn\generic\*.c) do (
-	:: exclude udiv_w_sdiv.c from a shared build
+	:: exclude udiv_w_sdiv.c from all builds
 	if not "%%X" == "..\..\mpn\generic\udiv_w_sdiv.c" (
-	:: exclude preinv_divrem_1 from a shared build
-	if not "%%X" == "..\..\mpn\generic\preinv_divrem_1.c" (
-	:: exclude preinv_mod_1 from a shared build
-	if not "%%X" == "..\..\mpn\generic\preinv_mod_1.c" (
 	cl %OPT% -I..\.. %%X
-	)
-	)
 	)
 )
 for %%X in ( %MPNPATH% ) do (
 	for %%i in ( ..\..\mpn\%%X\*.asm ) do (
 		%YASMEXE% %YASMFLAG% -I ..\..\mpn\%LOCALDIR% -f %LOCALABI% %%i
 		echo assemblin %%i
+		
 	)
 )
+:: dont knwo what the asm version have so delete them
+del preinv_divrem_1.obj preinv_mod_1.obj divrem_1.obj mod_1.obj divrem_euclidean_qr_1.obj > nul 2>&1
+cl %OPT% -I..\.. ..\..\mpn\generic\divrem_1.c
+cl %OPT% -I..\.. ..\..\mpn\generic\mod_1.c
+cl %OPT% -I..\.. ..\..\mpn\generic\divrem_euclidean_qr_1.c
+cl /D "USE_PREINV_DIVREM_1" %OPT% -I..\.. ..\..\mpn\generic\preinv_divrem_1.c
+cl %OPT% -I..\.. ..\..\mpn\generic\preinv_mod_1.c
 cd ..
 
 cd mpz
