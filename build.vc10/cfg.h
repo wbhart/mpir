@@ -369,4 +369,7 @@ MA 02111-1307, USA. */
 #define HAVE_STRCASECMP		1
 #define HAVE_STRNCASECMP	1
 #define va_copy(d, s) (d) = (s)
+#define MSC_C_(x) #x  
+#define MSC_CC_(x)  MSC_C_(x)
+#define MSC_VERSION "Microsoft C++ (Version " MSC_CC_(_MSC_FULL_VER) ")"
 #endif
