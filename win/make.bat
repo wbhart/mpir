@@ -80,27 +80,34 @@ for %%X in ( ..\..\mpn\generic\*.c) do (
 	:: exclude udiv_w_sdiv.c from all builds
 	if not "%%X" == "..\..\mpn\generic\udiv_w_sdiv.c" (
 	cl %OPT% -I..\.. %%X
+	if errorlevel 1 goto :err
 	)
 )
 for %%X in ( %MPNPATH% ) do (
 	for %%i in ( ..\..\mpn\%%X\*.asm ) do (
 		%YASMEXE% %YASMFLAG% -I ..\..\mpn\%LOCALDIR% -f %LOCALABI% %%i
-		echo assemblin %%i
-		
+		if errorlevel 1 goto :err
+		echo assemblin %%i		
 	)
 )
-:: dont knwo what the asm version have so delete them
+:: dont know what the asm version have so delete them
 del preinv_divrem_1.obj preinv_mod_1.obj divrem_1.obj mod_1.obj divrem_euclidean_qr_1.obj > nul 2>&1
 cl %OPT% -I..\.. ..\..\mpn\generic\divrem_1.c
+if errorlevel 1 goto :err
 cl %OPT% -I..\.. ..\..\mpn\generic\mod_1.c
+if errorlevel 1 goto :err
 cl %OPT% -I..\.. ..\..\mpn\generic\divrem_euclidean_qr_1.c
+if errorlevel 1 goto :err
 cl /D "USE_PREINV_DIVREM_1" %OPT% -I..\.. ..\..\mpn\generic\preinv_divrem_1.c
+if errorlevel 1 goto :err
 cl %OPT% -I..\.. ..\..\mpn\generic\preinv_mod_1.c
+if errorlevel 1 goto :err
 cd ..
 
 cd mpz
 for %%X in ( ..\..\mpz\*.c) do (
 	cl %OPT% -I..\.. %%X
+	if errorlevel 1 goto :err
 )
 if %HAVE_STDINT% == no (
 	del *_sx.obj *_ux.obj > nul 2>&1
@@ -110,54 +117,56 @@ cd ..
 cd mpf
 for %%X in ( ..\..\mpf\*.c) do (
 	cl %OPT% -I..\.. %%X
+	if errorlevel 1 goto :err
 )
 cd ..
 
 cd mpq
 for %%X in ( ..\..\mpq\*.c) do (
 	cl %OPT% -I..\.. %%X
+	if errorlevel 1 goto :err
 )
 cd ..
 
 cd printf
 for %%X in ( ..\..\printf\*.c) do (
 	cl %OPT% -I..\.. %%X
+	if errorlevel 1 goto :err
 )
 cd ..
 
 cd scanf
 for %%X in ( ..\..\scanf\*.c) do (
 	cl %OPT% -I..\.. %%X
+	if errorlevel 1 goto :err
 )
 cd ..
 
 for %%X in ( ..\assert.c ..\compat.c ..\errno.c ..\extract-dbl.c ..\invalid.c ..\memory.c ..\mp_bpl.c ..\mp_clz_tab.c ..\mp_dv_tab.c ..\mp_get_fns.c ..\mp_minv_tab.c ..\mp_set_fns.c ..\randbui.c ..\randclr.c ..\randdef.c ..\randiset.c ..\randlc2s.c ..\randlc2x.c ..\randmt.c ..\randmts.c ..\randmui.c ..\rands.c ..\randsd.c ..\randsdui.c ..\tal-reent.c ..\version.c ) do (
 	cl %OPT% -I.. %%X
+	if errorlevel 1 goto :err
 )
 
 cd cxx
 for %%X in ( ..\..\cxx\*.cc) do (
 	cl /EHsc %OPT% -I..\.. %%X
+	if errorlevel 1 goto :err
 )
 cd ..
 
 if %LIBTYPE% == dll (
 	link /DLL /NODEFAULTLIB:LIBCMT.lib /nologo scanf\*.obj printf\*.obj mpz\*.obj mpq\*.obj mpf\*.obj mpn\*.obj *.obj /out:mpir.%LIBTYPE%
+	if errorlevel 1 goto :err
 	link /DLL /NODEFAULTLIB:LIBCMT.lib /nologo scanf\*.obj printf\*.obj mpz\*.obj mpq\*.obj mpf\*.obj mpn\*.obj *.obj /out:mpirxx.%LIBTYPE%
+	if errorlevel 1 goto :err
 )
 if %LIBTYPE% == lib (
 	lib /nologo scanf\*.obj printf\*.obj mpz\*.obj mpq\*.obj mpf\*.obj mpn\*.obj *.obj /out:mpir.%LIBTYPE%
+	if errorlevel 1 goto :err
 	lib /nologo cxx/*.obj /out:mpirxx.%LIBTYPE%
+	if errorlevel 1 goto :err
 )
 exit /b 0
-
-
-
-
-
-
-
-
 
 
 
@@ -191,105 +200,122 @@ if %LIBTYPE% == lib (set MPIRLIB1=..\mpir.lib)
 cd tests
 
 cl %OPT% /c ..\..\tests\memory.c /I..\..
+if errorlevel 1 goto :err
 cl %OPT% /c ..\..\tests\misc.c   /I..\..
+if errorlevel 1 goto :err
 cl %OPT% /c ..\..\tests\trace.c  /I..\..
+if errorlevel 1 goto :err
 cl %OPT% /c ..\..\tests\refmpn.c /I..\..
+if errorlevel 1 goto :err
 cl %OPT% /c ..\..\tests\refmpz.c /I..\..
+if errorlevel 1 goto :err
 cl %OPT% /c ..\..\tests\refmpq.c /I..\..
+if errorlevel 1 goto :err
 cl %OPT% /c ..\..\tests\refmpf.c /I..\..
+if errorlevel 1 goto :err
 :: these only needed for try.exe
 cl %OPT% /c ..\..\tests\spinner.c /I..\..
+if errorlevel 1 goto :err
 cl %OPT% /c ..\..\build.vc10\getopt.c /I..\..
+if errorlevel 1 goto :err
 
 for %%X in ( ..\..\tests\t-*.c) do (
 	cl %OPT% /I..\.. /I..\..\tests %%X misc.obj memory.obj trace.obj refmpn.obj %MPIRLIB1% 
-	if errorlevel 1 ( echo %%X FAILS )	
+	if errorlevel 1 goto :err	
 )
 for %%X in ( *.exe) do (
 	echo testing %%X
 	%%X
-	if errorlevel 1 ( echo %%X FAILS )
+	if errorlevel 1 goto :err
 )
 
 cd mpn
 for %%X in ( ..\..\..\tests\mpn\t-*.c) do (
 	cl %OPT% /I..\..\.. /I..\..\..\tests %%X ..\misc.obj ..\memory.obj ..\trace.obj ..\refmpn.obj %MPIRLIB%
+	if errorlevel 1 goto :err
 )
 for %%X in ( *.exe) do (
 	echo testing mpn_%%X
 	%%X
-	if errorlevel 1 ( echo %%X FAILS )
+	if errorlevel 1 goto :err
 )
 cd ..
 
 cd mpz
 for %%X in ( ..\..\..\tests\mpz\*.c) do (
 	cl %OPT% /I..\..\.. /I..\..\..\tests %%X ..\misc.obj ..\memory.obj ..\trace.obj ..\refmpn.obj ..\refmpz.obj %MPIRLIB%
+	if errorlevel 1 goto :err
 )
 for %%X in ( *.exe) do (
 	echo testing mpz_%%X
 	%%X
-	if errorlevel 1 ( echo %%X FAILS )
+	if errorlevel 1 goto :err
 )
 cd ..
 
 cd mpq
 for %%X in ( ..\..\..\tests\mpq\t-*.c) do (
 	cl %OPT% /I..\..\.. /I..\..\..\tests %%X ..\misc.obj ..\memory.obj ..\trace.obj ..\refmpn.obj ..\refmpz.obj ..\refmpq.obj %MPIRLIB%
+	if errorlevel 1 goto :err
 )
 for %%X in ( *.exe) do (
 	echo testing mpq_%%X
 	%%X
-	if errorlevel 1 ( echo %%X FAILS )
+	if errorlevel 1 goto :err
 )
 cd ..
 
 cd mpf
 for %%X in ( ..\..\..\tests\mpf\*.c) do (
 	cl %OPT% /I..\..\.. /I..\..\..\tests %%X ..\misc.obj ..\memory.obj ..\trace.obj ..\refmpn.obj ..\refmpf.obj %MPIRLIB%
+	if errorlevel 1 goto :err
 )
 for %%X in ( *.exe) do (
 	echo testing mpf_%%X
 	%%X
-	if errorlevel 1 ( echo %%X FAILS )
+	if errorlevel 1 goto :err
 )
 cd ..
 
 cd rand
 for %%X in ( ..\..\..\tests\rand\t-*.c) do (
 	cl %OPT% /I..\..\.. /I..\..\..\tests %%X ..\misc.obj ..\memory.obj ..\trace.obj ..\refmpn.obj %MPIRLIB%
+	if errorlevel 1 goto :err
 )
 for %%X in ( *.exe) do (
 	echo testing rand_%%X
 	%%X
-	if errorlevel 1 ( echo %%X FAILS )
+	if errorlevel 1 goto :err
 )
 cd ..
 
 cd misc
 for %%X in ( ..\..\..\tests\misc\t-*.c) do (
 	cl %OPT% /I..\..\.. /I..\..\..\tests %%X ..\misc.obj ..\memory.obj ..\trace.obj ..\refmpn.obj %MPIRLIB%
+	if errorlevel 1 goto :err
 )
 for %%X in ( *.exe) do (
 	echo testing misc_%%X
 	%%X
-	if errorlevel 1 ( echo %%X FAILS )
+	if errorlevel 1 goto :err
 )
 cd ..
 
 cd cxx
 for %%X in ( ..\..\..\tests\cxx\t-*.cc) do (
 	cl /EHsc %OPT% /I..\..\.. /I..\..\..\tests %%X ..\misc.obj ..\memory.obj ..\trace.obj ..\refmpn.obj %MPIRLIB% %MPIRXXLIB%
+	if errorlevel 1 goto :err
 )
 for %%X in ( *.exe) do (
 	echo testing cxx_%%X
 	%%X
-	if errorlevel 1 ( echo %%X FAILS )
+	if errorlevel 1 goto :err
 )
 cd ..
 
 cd devel
 cl %OPT% ..\..\..\tests\devel\try.c /I..\..\..\ /I..\..\..\tests ..\refmpn.obj ..\refmpz.obj ..\trace.obj ..\spinner.obj ..\misc.obj ..\memory.obj ..\getopt.obj %MPIRLIB%
+if errorlevel 1 goto :err
 cd ..
 
 cd ..
@@ -297,10 +323,9 @@ cd ..
 exit /b 0
 
 
-
-
-
-
+:err
+echo ERROR
+exit /b 1
 
 
 
