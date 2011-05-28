@@ -122,15 +122,19 @@ build_triplet = @build@
 host_triplet = @host@
 @BUILD_YASM_TRUE@am__append_1 = yasm
 @WANT_GMPCOMPAT_TRUE@am__append_2 = libgmp.la
-@WANT_CXX_TRUE@@WANT_GMPCOMPAT_TRUE@am__append_3 = libgmpxx.la
+@WANT_GMPCOMPAT_TRUE@am__append_3 = gmp.h
+@WANT_GMPCOMPAT_TRUE@am__append_4 = gmp.h
+@WANT_CXX_TRUE@@WANT_GMPCOMPAT_TRUE@am__append_5 = gmpxx.h
+@WANT_CXX_TRUE@@WANT_GMPCOMPAT_TRUE@am__append_6 = gmpxx.h
+@WANT_CXX_TRUE@@WANT_GMPCOMPAT_TRUE@am__append_7 = libgmpxx.la
 subdir = .
 DIST_COMMON = README $(am__configure_deps) $(am__include_HEADERS_DIST) \
 	$(srcdir)/Makefile.am $(srcdir)/Makefile.in \
 	$(srcdir)/config.in $(srcdir)/gmp-h.in \
 	$(srcdir)/longlong_post.h $(srcdir)/longlong_pre.h \
-	$(top_srcdir)/configure AUTHORS COPYING COPYING.LIB ChangeLog \
-	INSTALL NEWS config.guess config.sub install-sh ltmain.sh \
-	missing ylwrap
+	$(srcdir)/mpirxx.h $(top_srcdir)/configure AUTHORS COPYING \
+	COPYING.LIB ChangeLog INSTALL NEWS config.guess config.sub \
+	install-sh ltmain.sh missing ylwrap
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/acinclude.m4 \
 	$(top_srcdir)/configure.in
@@ -140,7 +144,8 @@ am__CONFIG_DISTCLEAN_FILES = config.status config.cache config.log \
  configure.lineno config.status.lineno
 mkinstalldirs = $(install_sh) -d
 CONFIG_HEADER = config.h
-CONFIG_CLEAN_FILES = longlong.h mpir.h gmp-mparam.h yasm_mac.inc
+CONFIG_CLEAN_FILES = longlong.h mpir.h gmp.h gmpxx.h gmp-mparam.h \
+	yasm_mac.inc
 CONFIG_CLEAN_VPATH_FILES =
 am__vpath_adj_setup = srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`;
 am__vpath_adj = case $$p in \
@@ -455,10 +460,10 @@ EXTRA_DIST = configfsf.guess configfsf.sub .gdbinit INSTALL.autoconf \
 #
 includeexecdir = $(exec_prefix)/include
 include_HEADERS = $(GMPXX_HEADERS_OPTION)
-nodist_includeexec_HEADERS = mpir.h
+nodist_includeexec_HEADERS = mpir.h $(am__append_4) $(am__append_6)
 lib_LTLIBRARIES = libmpir.la $(am__append_2) \
 	$(GMPXX_LTLIBRARIES_OPTION)
-BUILT_SOURCES = mpir.h mpn/dummy1.c
+BUILT_SOURCES = mpir.h $(am__append_3) $(am__append_5) mpn/dummy1.c
 DISTCLEANFILES = $(BUILT_SOURCES) config.m4 fat.h @gmp_srclinks@
 
 # Tell mpir.h it's building gmp, not an application, used by windows DLL stuff.
@@ -589,7 +594,7 @@ libgmp_la_LDFLAGS = $(GMP_LDFLAGS) $(LIBGMP_LDFLAGS) \
 # We need at least one .cc file in $(libmpirxx_la_SOURCES) so automake will
 # use $(CXXLINK) rather than the plain C $(LINK).  cxx/dummy.cc is that
 # file.
-@WANT_CXX_TRUE@GMPXX_LTLIBRARIES_OPTION = libmpirxx.la $(am__append_3)
+@WANT_CXX_TRUE@GMPXX_LTLIBRARIES_OPTION = libmpirxx.la $(am__append_7)
 libmpirxx_la_SOURCES = cxx/dummy.cc
 libmpirxx_la_DEPENDENCIES = $(CXX_OBJECTS) libmpir.la
 libmpirxx_la_LIBADD = $(libmpirxx_la_DEPENDENCIES)
@@ -659,6 +664,10 @@ distclean-hdr:
 longlong.h: $(top_builddir)/config.status $(srcdir)/longlong_pre.h $(srcdir)/longlong_post.h
 	cd $(top_builddir) && $(SHELL) ./config.status $@
 mpir.h: $(top_builddir)/config.status $(srcdir)/gmp-h.in
+	cd $(top_builddir) && $(SHELL) ./config.status $@
+gmp.h: $(top_builddir)/config.status $(srcdir)/gmp-h.in
+	cd $(top_builddir) && $(SHELL) ./config.status $@
+gmpxx.h: $(top_builddir)/config.status $(srcdir)/mpirxx.h
 	cd $(top_builddir) && $(SHELL) ./config.status $@
 install-libLTLIBRARIES: $(lib_LTLIBRARIES)
 	@$(NORMAL_INSTALL)
@@ -1149,8 +1158,7 @@ info: info-recursive
 info-am:
 
 install-data-am: install-includeHEADERS
-	@$(NORMAL_INSTALL)
-	$(MAKE) $(AM_MAKEFLAGS) install-data-hook
+
 install-dvi: install-dvi-recursive
 
 install-dvi-am:
@@ -1201,8 +1209,8 @@ uninstall-am: uninstall-includeHEADERS uninstall-libLTLIBRARIES \
 	uninstall-nodist_includeexecHEADERS
 
 .MAKE: $(RECURSIVE_CLEAN_TARGETS) $(RECURSIVE_TARGETS) all check \
-	ctags-recursive install install-am install-data-am \
-	install-strip tags-recursive
+	ctags-recursive install install-am install-strip \
+	tags-recursive
 
 .PHONY: $(RECURSIVE_CLEAN_TARGETS) $(RECURSIVE_TARGETS) CTAGS GTAGS \
 	all all-am am--refresh check check-am clean clean-generic \
@@ -1212,11 +1220,10 @@ uninstall-am: uninstall-includeHEADERS uninstall-libLTLIBRARIES \
 	distclean-compile distclean-generic distclean-hdr \
 	distclean-libtool distclean-tags distcleancheck distdir \
 	distuninstallcheck dvi dvi-am html html-am info info-am \
-	install install-am install-data install-data-am \
-	install-data-hook install-dvi install-dvi-am install-exec \
-	install-exec-am install-html install-html-am \
-	install-includeHEADERS install-info install-info-am \
-	install-libLTLIBRARIES install-man \
+	install install-am install-data install-data-am install-dvi \
+	install-dvi-am install-exec install-exec-am install-html \
+	install-html-am install-includeHEADERS install-info \
+	install-info-am install-libLTLIBRARIES install-man \
 	install-nodist_includeexecHEADERS install-pdf install-pdf-am \
 	install-ps install-ps-am install-strip installcheck \
 	installcheck-am installdirs installdirs-am maintainer-clean \
@@ -1227,9 +1234,6 @@ uninstall-am: uninstall-includeHEADERS uninstall-libLTLIBRARIES \
 	uninstall-nodist_includeexecHEADERS
 
 
-install-data-hook:
-@WANT_GMPCOMPAT_TRUE@	(rm -f $(DESTDIR)$(includedir)/gmp.h && cp mpir.h $(DESTDIR)$(includedir)/gmp.h)
-@WANT_CXX_TRUE@@WANT_GMPCOMPAT_TRUE@	(rm -f $(DESTDIR)$(includedir)/gmpxx.h && cp $(srcdir)/mpirxx.h $(DESTDIR)$(includedir)/gmpxx.h)
 	@echo ''
 	@echo '+-------------------------------------------------------------+'
 	@echo '| CAUTION:                                                    |'

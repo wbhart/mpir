@@ -3093,7 +3093,12 @@ esac
 AC_CONFIG_LINKS(yasm_mac.inc:$YASM_MAC_INC)
 
 AC_OUTPUT(Makefile mpf/Makefile mpn/Makefile mpq/Makefile mpz/Makefile printf/Makefile scanf/Makefile cxx/Makefile tests/Makefile tests/devel/Makefile tests/mpf/Makefile tests/mpn/Makefile tests/mpq/Makefile tests/mpz/Makefile tests/rand/Makefile tests/misc/Makefile tests/cxx/Makefile doc/Makefile tune/Makefile mpir.h:gmp-h.in)
-
+if test $enable_gmpcompat = yes; then
+	AC_OUTPUT(gmp.h:gmp-h.in)
+	if test $enable_cxx = yes ; then
+		AC_OUTPUT(gmpxx.h:mpirxx.h)
+	fi
+fi
 # now we have created and populated the mpn directory we can rename the files
 # and post process the "m4 macros" into "yasm macros"
 case $host in

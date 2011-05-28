@@ -126,6 +126,14 @@ endif
 lib_LTLIBRARIES += $(GMPXX_LTLIBRARIES_OPTION)
 
 BUILT_SOURCES = mpir.h
+if WANT_GMPCOMPAT
+BUILT_SOURCES += gmp.h
+nodist_includeexec_HEADERS += gmp.h
+if WANT_CXX
+BUILT_SOURCES += gmpxx.h
+nodist_includeexec_HEADERS += gmpxx.h
+endif
+endif
 
 DISTCLEANFILES = $(BUILT_SOURCES) config.m4 fat.h @gmp_srclinks@
 
@@ -210,13 +218,6 @@ libgmpxx_la_DEPENDENCIES = $(CXX_OBJECTS) libgmp.la
 libgmpxx_la_LIBADD = $(libgmpxx_la_DEPENDENCIES)
 libgmpxx_la_LDFLAGS = $(libmpirxx_la_LDFLAGS)
 
-install-data-hook:
-if WANT_GMPCOMPAT
-	(rm -f $(DESTDIR)$(includedir)/gmp.h && cp mpir.h $(DESTDIR)$(includedir)/gmp.h)
-if WANT_CXX
-	(rm -f $(DESTDIR)$(includedir)/gmpxx.h && cp $(srcdir)/mpirxx.h $(DESTDIR)$(includedir)/gmpxx.h)
-endif
-endif
 	@echo ''
 	@echo '+-------------------------------------------------------------+'
 	@echo '| CAUTION:                                                    |'
@@ -251,7 +252,6 @@ endif
 mpn/dummy1.c:
 	echo "void dummy1(void){return;}" > mpn/dummy1.c
 BUILT_SOURCES += mpn/dummy1.c
-
 
 
 # Avoid: CVS - cvs directories
