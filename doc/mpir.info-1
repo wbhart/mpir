@@ -2168,7 +2168,7 @@ These functions assign new values to already initialized integers
  -- Function: void mpz_set_q (mpz_t ROP, mpq_t OP)
  -- Function: void mpz_set_f (mpz_t ROP, mpf_t OP)
      Set the value of ROP from OP. Note the intmax versions are only
-     available if you have intmax header file on your system.
+     available if you have stdint.h header file on your system.
 
      `mpz_set_d', `mpz_set_q' and `mpz_set_f' truncate OP to make it an
      integer.
@@ -2226,7 +2226,7 @@ on a variable already initialized!
  -- Function: void mpz_init_set_d (mpz_t ROP, double OP)
      Initialize ROP with limb space and set the initial numeric value
      from OP. Note the intmax versions are only available if you have
-     intmax header file on your system.
+     stdint.h header file on your system.
 
  -- Function: int mpz_init_set_str (mpz_t ROP, char *STR, int BASE)
      Initialize ROP and set its value like `mpz_set_str' (see its
@@ -2268,7 +2268,7 @@ described in *note Assigning Integers:: and *note I/O of Integers::.
      If OP is too big to fit an `uintmax_t' then just the least
      significant bits that do fit are returned.  The sign of OP is
      ignored, only the absolute value is used. Note the intmax versions
-     are only available if you have intmax header file on your system.
+     are only available if you have stdint.h header file on your system.
 
  -- Function: intmax_t mpz_get_sx (mpz_t OP)
      If OP fits into a `intmax_t' return the value of OP.  Otherwise
@@ -2276,7 +2276,7 @@ described in *note Assigning Integers:: and *note I/O of Integers::.
 
      If OP is too big to fit in a `intmax_t', the returned result is
      probably not very useful.  Note the intmax versions are only
-     available if you have intmax header file on your system.
+     available if you have stdint.h header file on your system.
 
  -- Function: double mpz_get_d (mpz_t OP)
      Convert OP to a `double', truncating if necessary (ie. rounding
