@@ -23,6 +23,60 @@ START-INFO-DIR-ENTRY
 END-INFO-DIR-ENTRY
 
 
+File: mpir.info,  Node: Square Root Algorithm,  Next: Nth Root Algorithm,  Prev: Root Extraction Algorithms,  Up: Root Extraction Algorithms
+
+15.5.1 Square Root
+------------------
+
+Square roots are taken using the "Karatsuba Square Root" algorithm by
+Paul Zimmermann (*note References::).
+
+   An input n is split into four parts of k bits each, so with b=2^k we
+have n = a3*b^3 + a2*b^2 + a1*b + a0.  Part a3 must be "normalized" so
+that either the high or second highest bit is set.  In MPIR, k is kept
+on a limb boundary and the input is left shifted (by an even number of
+bits) to normalize.
+
+   The square root of the high two parts is taken, by recursive
+application of the algorithm (bottoming out in a one-limb Newton's
+method),
+
+     s1,r1 = sqrtrem (a3*b + a2)
+
+   This is an approximation to the desired root and is extended by a
+division to give s,r,
+
+     q,u = divrem (r1*b + a1, 2*s1)
+     s = s1*b + q
+     r = u*b + a0 - q^2
+
+   The normalization requirement on a3 means at this point s is either
+correct or 1 too big.  r is negative in the latter case, so
+
+     if r < 0 then
+       r = r + 2*s - 1
+       s = s - 1
+
+   The algorithm is expressed in a divide and conquer form, but as
+noted in the paper it can also be viewed as a discrete variant of
+Newton's method, or as a variation on the schoolboy method (no longer
+taught) for square roots two digits at a time.
+
+   If the remainder r is not required then usually only a few high limbs
+of r and u need to be calculated to determine whether an adjustment to
+s is required.  This optimization is not currently implemented.
+
+   In the Karatsuba multiplication range this algorithm is
+O(1.5*M(N/2)), where M(n) is the time to multiply two numbers of n
+limbs.  In the FFT multiplication range this grows to a bound of
+O(6*M(N/2)).  In practice a factor of about 1.5 to 1.8 is found in the
+Karatsuba and Toom-3 ranges, growing to 2 or 3 in the FFT range.
+
+   The algorithm does all its calculations in integers and the resulting
+`mpn_sqrtrem' is used for both `mpz_sqrt' and `mpf_sqrt'.  The extended
+precision given by `mpf_sqrt_ui' is obtained by padding with zero limbs.
+
+
 File: mpir.info,  Node: Nth Root Algorithm,  Next: Perfect Square Algorithm,  Prev: Square Root Algorithm,  Up: Root Extraction Algorithms
 
 15.5.2 Nth Root
@@ -2377,7 +2431,7 @@ Concept Index
 * Free Documentation License:            GNU Free Documentation License.
                                                               (line   6)
 * frexp <1>:                             Converting Floats.   (line  23)
-* frexp:                                 Converting Integers. (line  42)
+* frexp:                                 Converting Integers. (line  58)
 * Function classes:                      Function Classes.    (line   6)
 * FunctionCheck:                         Profiling.           (line  77)
 * GCC Checker:                           Debugging.           (line 112)
@@ -3279,11 +3333,13 @@ Function and Type Index
                                                               (line  87)
 * mpz_gcdext:                            Number Theoretic Functions.
                                                               (line  97)
-* mpz_get_d:                             Converting Integers. (line  27)
-* mpz_get_d_2exp:                        Converting Integers. (line  35)
+* mpz_get_d:                             Converting Integers. (line  43)
+* mpz_get_d_2exp:                        Converting Integers. (line  51)
 * mpz_get_si:                            Converting Integers. (line  18)
-* mpz_get_str:                           Converting Integers. (line  46)
+* mpz_get_str:                           Converting Integers. (line  62)
+* mpz_get_sx:                            Converting Integers. (line  35)
 * mpz_get_ui:                            Converting Integers. (line  11)
+* mpz_get_ux:                            Converting Integers. (line  27)
 * mpz_getlimbn:                          Integer Special Functions.
                                                               (line  63)
 * mpz_hamdist:                           Integer Logic and Bit Fiddling.
@@ -3297,13 +3353,17 @@ Function and Type Index
 * mpz_init_set:                          Simultaneous Integer Init & Assign.
                                                               (line  27)
 * mpz_init_set_d:                        Simultaneous Integer Init & Assign.
-                                                              (line  30)
+                                                              (line  32)
 * mpz_init_set_si:                       Simultaneous Integer Init & Assign.
                                                               (line  29)
 * mpz_init_set_str:                      Simultaneous Integer Init & Assign.
-                                                              (line  34)
+                                                              (line  37)
+* mpz_init_set_sx:                       Simultaneous Integer Init & Assign.
+                                                              (line  31)
 * mpz_init_set_ui:                       Simultaneous Integer Init & Assign.
                                                               (line  28)
+* mpz_init_set_ux:                       Simultaneous Integer Init & Assign.
+                                                              (line  30)
 * mpz_inits:                             Initializing Integers.
                                                               (line  29)
 * mpz_inp_raw:                           I/O of Integers.     (line  59)
@@ -3375,12 +3435,14 @@ Function and Type Index
 * mpz_scan1:                             Integer Logic and Bit Fiddling.
                                                               (line  38)
 * mpz_set:                               Assigning Integers.  (line  10)
-* mpz_set_d:                             Assigning Integers.  (line  13)
-* mpz_set_f:                             Assigning Integers.  (line  15)
-* mpz_set_q:                             Assigning Integers.  (line  14)
+* mpz_set_d:                             Assigning Integers.  (line  15)
+* mpz_set_f:                             Assigning Integers.  (line  17)
+* mpz_set_q:                             Assigning Integers.  (line  16)
 * mpz_set_si:                            Assigning Integers.  (line  12)
-* mpz_set_str:                           Assigning Integers.  (line  21)
+* mpz_set_str:                           Assigning Integers.  (line  24)
+* mpz_set_sx:                            Assigning Integers.  (line  14)
 * mpz_set_ui:                            Assigning Integers.  (line  11)
+* mpz_set_ux:                            Assigning Integers.  (line  13)
 * mpz_setbit:                            Integer Logic and Bit Fiddling.
                                                               (line  51)
 * mpz_sgn:                               Integer Comparisons. (line  28)
@@ -3396,7 +3458,7 @@ Function and Type Index
 * mpz_sub_ui:                            Integer Arithmetic.  (line  14)
 * mpz_submul:                            Integer Arithmetic.  (line  30)
 * mpz_submul_ui:                         Integer Arithmetic.  (line  32)
-* mpz_swap:                              Assigning Integers.  (line  37)
+* mpz_swap:                              Assigning Integers.  (line  40)
 * mpz_t:                                 Nomenclature and Types.
                                                               (line   6)
 * mpz_tdiv_q:                            Integer Division.    (line  41)

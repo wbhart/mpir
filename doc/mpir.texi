@@ -2901,10 +2901,13 @@ These functions assign new values to already initialized integers
 @deftypefun void mpz_set (mpz_t @var{rop}, mpz_t @var{op})
 @deftypefunx void mpz_set_ui (mpz_t @var{rop}, unsigned long int @var{op})
 @deftypefunx void mpz_set_si (mpz_t @var{rop}, signed long int @var{op})
+@deftypefunx void mpz_set_ux (mpz_t @var{rop}, uintmax_t @var{op})
+@deftypefunx void mpz_set_sx (mpz_t @var{rop}, intmax_t @var{op})
 @deftypefunx void mpz_set_d (mpz_t @var{rop}, double @var{op})
 @deftypefunx void mpz_set_q (mpz_t @var{rop}, mpq_t @var{op})
 @deftypefunx void mpz_set_f (mpz_t @var{rop}, mpf_t @var{op})
-Set the value of @var{rop} from @var{op}.
+Set the value of @var{rop} from @var{op}. Note the intmax versions are only available
+if you have intmax header file on your system.
 
 @code{mpz_set_d}, @code{mpz_set_q} and @code{mpz_set_f} truncate @var{op} to
 make it an integer.
@@ -2972,9 +2975,12 @@ already initialized!
 @deftypefun void mpz_init_set (mpz_t @var{rop}, mpz_t @var{op})
 @deftypefunx void mpz_init_set_ui (mpz_t @var{rop}, unsigned long int @var{op})
 @deftypefunx void mpz_init_set_si (mpz_t @var{rop}, signed long int @var{op})
+@deftypefunx void mpz_init_set_ux (mpz_t @var{rop}, uintmax_t @var{op})
+@deftypefunx void mpz_init_set_sx (mpz_t @var{rop}, intmax_t @var{op})
 @deftypefunx void mpz_init_set_d (mpz_t @var{rop}, double @var{op})
 Initialize @var{rop} with limb space and set the initial numeric value from
-@var{op}.
+@var{op}. Note the intmax versions are only available
+if you have intmax header file on your system.
 @end deftypefun
 
 @deftypefun int mpz_init_set_str (mpz_t @var{rop}, char *@var{str}, int @var{base})
@@ -3013,6 +3019,25 @@ as @var{op}.
 If @var{op} is too big to fit in a @code{signed long int}, the returned
 result is probably not very useful.  To find out if the value will fit, use
 the function @code{mpz_fits_slong_p}.
+@end deftypefun
+
+@deftypefun {uintmax_t} mpz_get_ux (mpz_t @var{op})
+Return the value of @var{op} as an @code{uintmax_t}.
+
+If @var{op} is too big to fit an @code{uintmax_t} then just the least
+significant bits that do fit are returned.  The sign of @var{op} is ignored,
+only the absolute value is used. Note the intmax versions are only available
+if you have intmax header file on your system.
+@end deftypefun
+
+@deftypefun {intmax_t} mpz_get_sx (mpz_t @var{op})
+If @var{op} fits into a @code{intmax_t} return the value of @var{op}.
+Otherwise return the least significant part of @var{op}, with the same sign
+as @var{op}.
+
+If @var{op} is too big to fit in a @code{intmax_t}, the returned
+result is probably not very useful.  Note the intmax versions are only available
+if you have intmax header file on your system.
 @end deftypefun
 
 @deftypefun double mpz_get_d (mpz_t @var{op})

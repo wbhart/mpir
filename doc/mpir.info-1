@@ -2162,10 +2162,13 @@ These functions assign new values to already initialized integers
  -- Function: void mpz_set (mpz_t ROP, mpz_t OP)
  -- Function: void mpz_set_ui (mpz_t ROP, unsigned long int OP)
  -- Function: void mpz_set_si (mpz_t ROP, signed long int OP)
+ -- Function: void mpz_set_ux (mpz_t ROP, uintmax_t OP)
+ -- Function: void mpz_set_sx (mpz_t ROP, intmax_t OP)
  -- Function: void mpz_set_d (mpz_t ROP, double OP)
  -- Function: void mpz_set_q (mpz_t ROP, mpq_t OP)
  -- Function: void mpz_set_f (mpz_t ROP, mpf_t OP)
-     Set the value of ROP from OP.
+     Set the value of ROP from OP. Note the intmax versions are only
+     available if you have intmax header file on your system.
 
      `mpz_set_d', `mpz_set_q' and `mpz_set_f' truncate OP to make it an
      integer.
@@ -2218,9 +2221,12 @@ on a variable already initialized!
  -- Function: void mpz_init_set (mpz_t ROP, mpz_t OP)
  -- Function: void mpz_init_set_ui (mpz_t ROP, unsigned long int OP)
  -- Function: void mpz_init_set_si (mpz_t ROP, signed long int OP)
+ -- Function: void mpz_init_set_ux (mpz_t ROP, uintmax_t OP)
+ -- Function: void mpz_init_set_sx (mpz_t ROP, intmax_t OP)
  -- Function: void mpz_init_set_d (mpz_t ROP, double OP)
      Initialize ROP with limb space and set the initial numeric value
-     from OP.
+     from OP. Note the intmax versions are only available if you have
+     intmax header file on your system.
 
  -- Function: int mpz_init_set_str (mpz_t ROP, char *STR, int BASE)
      Initialize ROP and set its value like `mpz_set_str' (see its
@@ -2255,6 +2261,22 @@ described in *note Assigning Integers:: and *note I/O of Integers::.
      If OP is too big to fit in a `signed long int', the returned
      result is probably not very useful.  To find out if the value will
      fit, use the function `mpz_fits_slong_p'.
+
+ -- Function: uintmax_t mpz_get_ux (mpz_t OP)
+     Return the value of OP as an `uintmax_t'.
+
+     If OP is too big to fit an `uintmax_t' then just the least
+     significant bits that do fit are returned.  The sign of OP is
+     ignored, only the absolute value is used. Note the intmax versions
+     are only available if you have intmax header file on your system.
+
+ -- Function: intmax_t mpz_get_sx (mpz_t OP)
+     If OP fits into a `intmax_t' return the value of OP.  Otherwise
+     return the least significant part of OP, with the same sign as OP.
+
+     If OP is too big to fit in a `intmax_t', the returned result is
+     probably not very useful.  Note the intmax versions are only
+     available if you have intmax header file on your system.
 
  -- Function: double mpz_get_d (mpz_t OP)
      Convert OP to a `double', truncating if necessary (ie. rounding
@@ -7060,58 +7082,4 @@ File: mpir.info,  Node: Root Extraction Algorithms,  Next: Radix Conversion Algo
 * Nth Root Algorithm::
 * Perfect Square Algorithm::
 * Perfect Power Algorithm::
-
-
-File: mpir.info,  Node: Square Root Algorithm,  Next: Nth Root Algorithm,  Prev: Root Extraction Algorithms,  Up: Root Extraction Algorithms
-
-15.5.1 Square Root
-------------------
-
-Square roots are taken using the "Karatsuba Square Root" algorithm by
-Paul Zimmermann (*note References::).
-
-   An input n is split into four parts of k bits each, so with b=2^k we
-have n = a3*b^3 + a2*b^2 + a1*b + a0.  Part a3 must be "normalized" so
-that either the high or second highest bit is set.  In MPIR, k is kept
-on a limb boundary and the input is left shifted (by an even number of
-bits) to normalize.
-
-   The square root of the high two parts is taken, by recursive
-application of the algorithm (bottoming out in a one-limb Newton's
-method),
-
-     s1,r1 = sqrtrem (a3*b + a2)
-
-   This is an approximation to the desired root and is extended by a
-division to give s,r,
-
-     q,u = divrem (r1*b + a1, 2*s1)
-     s = s1*b + q
-     r = u*b + a0 - q^2
-
-   The normalization requirement on a3 means at this point s is either
-correct or 1 too big.  r is negative in the latter case, so
-
-     if r < 0 then
-       r = r + 2*s - 1
-       s = s - 1
-
-   The algorithm is expressed in a divide and conquer form, but as
-noted in the paper it can also be viewed as a discrete variant of
-Newton's method, or as a variation on the schoolboy method (no longer
-taught) for square roots two digits at a time.
-
-   If the remainder r is not required then usually only a few high limbs
-of r and u need to be calculated to determine whether an adjustment to
-s is required.  This optimization is not currently implemented.
-
-   In the Karatsuba multiplication range this algorithm is
-O(1.5*M(N/2)), where M(n) is the time to multiply two numbers of n
-limbs.  In the FFT multiplication range this grows to a bound of
-O(6*M(N/2)).  In practice a factor of about 1.5 to 1.8 is found in the
-Karatsuba and Toom-3 ranges, growing to 2 or 3 in the FFT range.
-
-   The algorithm does all its calculations in integers and the resulting
-`mpn_sqrtrem' is used for both `mpz_sqrt' and `mpf_sqrt'.  The extended
-precision given by `mpf_sqrt_ui' is obtained by padding with zero limbs.
 
