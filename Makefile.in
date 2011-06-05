@@ -87,7 +87,7 @@
 #	2.2.1	10.6.3	4.14.3
 #	2.3.0	10.7.3	4.15.3
 #	2.3.1	10.8.3	4.16.3
-#	2.4.0 ???????????
+#	2.4.0   11.0.4  5.0.4
 
 # Starting at 3:0:0 is a slight abuse of the versioning system, but it
 # ensures we're past soname libgmp.so.2, which was used on Debian GNU/Linux
@@ -434,12 +434,12 @@ target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-LIBGMP_LT_CURRENT = 10
-LIBGMP_LT_REVISION = 7
-LIBGMP_LT_AGE = 3
-LIBGMPXX_LT_CURRENT = 4
-LIBGMPXX_LT_REVISION = 15
-LIBGMPXX_LT_AGE = 3
+LIBGMP_LT_CURRENT = 11
+LIBGMP_LT_REVISION = 0
+LIBGMP_LT_AGE = 4
+LIBGMPXX_LT_CURRENT = 5
+LIBGMPXX_LT_REVISION = 0
+LIBGMPXX_LT_AGE = 4
 SUBDIRS = tests $(am__append_1) mpn mpz mpq mpf printf scanf cxx tune \
 	doc
 EXTRA_DIST = configfsf.guess configfsf.sub .gdbinit INSTALL.autoconf \
