@@ -20,7 +20,36 @@ along with the GNU MP Library; see the file COPYING.LIB.  If not, write to
 the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 MA 02110-1301, USA.
 
+Changes between MPIR 2.4.0 and MPIR 2.3.1
 
+Bug Fixes:
+
+ * The define __GMP_CC in mpir.h and gmp.h can miss out the the option
+   -std=gnu99 
+ * Old versions of GAS can fail to assemble the mpn/x86_64/core2/popcount.asm
+ * Make install will fail to install the file gmpxx.h (only needed with the
+   configure options --enable-cxx --enable-gmpcompat) when built out of the
+   source tree.
+ * Add an alias used by MPFR (snprintf -> _snprintf)
+ * Correct incorrect parameter type for mpz_cdiv_q_2exp
+
+Speedups:
+
+ * Sandybridge and Bobcat have been tuned
+ * Updated to the latest compiler flags
+ * Bulldozer cpu detection
+
+Features:
+
+ * Upgrade internal components yasm and autotools
+ * General cleanups of sourcebase
+ * Initial support for intmax functions
+ * Initial support for MSVC command line build 
+ * Much more extensive and automated testing system
+
+Changes:
+
+ * Remove explicit support for arc s390 pa32 pa64
 
 Changes between MPIR 2.3.1 and MPIR 2.3.0
 
