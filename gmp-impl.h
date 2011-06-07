@@ -3546,7 +3546,7 @@ void tc4_copy (mp_ptr yp, mp_size_t * yn, mp_size_t offset, mp_srcptr xp, mp_siz
 #define __GMPF_BITS_TO_PREC(n)						\
   ((mp_size_t) ((__GMP_MAX (53, n) + 2 * GMP_NUMB_BITS - 1) / GMP_NUMB_BITS))
 #define __GMPF_PREC_TO_BITS(n) \
-  ((unsigned long) (n) * GMP_NUMB_BITS - GMP_NUMB_BITS)
+  ((mp_bitcnt_t) (n) * GMP_NUMB_BITS - GMP_NUMB_BITS)
 
 extern mp_size_t __gmp_default_fp_limb_precision;
 

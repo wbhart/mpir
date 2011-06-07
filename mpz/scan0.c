@@ -42,7 +42,7 @@ mpz_scan0 (mpz_srcptr u, mp_bitcnt_t starting_bit)
   /* When past end, there's an immediate 0 bit for u>=0, or no 0 bits for
      u<0.  Notice this test picks up all cases of u==0 too. */
   if (starting_limb >= abs_size)
-    return (size >= 0 ? starting_bit : ULONG_MAX);
+    return (size >= 0 ? starting_bit : __GMP_BITCNT_MAX);
 
   limb = *p;
 
@@ -98,7 +98,7 @@ mpz_scan0 (mpz_srcptr u, mp_bitcnt_t starting_bit)
              starting_bit.  */
           p++;
           if (p == u_end)
-            return ULONG_MAX;
+            return __GMP_BITCNT_MAX;
 
           /* Search further for a non-zero limb.  The high limb is non-zero,
              if nothing else.  */
