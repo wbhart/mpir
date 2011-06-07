@@ -793,7 +793,7 @@
     cmp     r8d, 1
     je      one
 
-    WIN64_GCC_PROC mpn_k8_mbc1, 5, frame
+    WIN64_GCC_PROC mpn_bobcat_mbc1, 5, frame
 
     mov     r14, 5
     sub     r14, rdx
@@ -834,7 +834,7 @@
 
     xalign  16
 fiveormore:
-    WIN64_GCC_PROC mpn_k8_mbc2, 5, frame
+    WIN64_GCC_PROC mpn_bobcat_mbc2, 5, frame
     movsxd  rdx, edx
     movsxd  r8, r8d
 

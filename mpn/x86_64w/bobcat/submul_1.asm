@@ -139,7 +139,7 @@
     LEAF_PROC mpn_submul_1c
     mov     a_z, [rsp+0x28]
 entry:
-    FRAME_PROC ?mpn_core2_submul, 0, reg_save_list
+    FRAME_PROC ?mpn_bobcat_submul, 0, reg_save_list
     mov     rdi, rcx
     mov     rsi, rdx
     xor     rdx, rdx

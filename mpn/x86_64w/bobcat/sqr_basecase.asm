@@ -280,7 +280,7 @@
 
     xalign  16
 fourormore:
-    FRAME_PROC ?mpn_k8_sqr_1, 0, reg_save_list
+    FRAME_PROC ?mpn_bobcat_sqr_1, 0, reg_save_list
     mov     rdi, rcx
     mov     rsi, rdx
     mov     rdx, r8
@@ -435,7 +435,7 @@ two:mov     rax, [rdx]
 
     align   16
 three:
-    FRAME_PROC ?mpn_k8_sqr_2, 0, rsi, rdi
+    FRAME_PROC ?mpn_bobcat_sqr_2, 0, rsi, rdi
     mov     rdi, rcx
     mov     rsi, rdx
 
