@@ -30,14 +30,7 @@
 
 %define reg_save_list rsi, rdi, r12
 
-        xalign 16
-	    LEAF_PROC mpn_declsh_n
-	    mov     r10, rcx
-	    mov     ecx, r9d
-	    mov     r9, 1
-	    shl     r9, cl
-        mov     rcx, r10
-    
+  
         xalign 16
         LEAF_PROC mpn_submul_1
         mov     rax, [rdx]
