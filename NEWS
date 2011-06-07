@@ -44,7 +44,8 @@ Features:
  * Upgrade internal components yasm and autotools
  * General cleanups of sourcebase
  * Initial support for intmax functions
- * Initial support for MSVC command line build 
+ * Initial support for MSVC command line build for VS2005 and up
+ * Support for MSBUILD of VS2010
  * Much more extensive and automated testing system
 
 Changes:
