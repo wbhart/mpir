@@ -127,4 +127,6 @@ mv tmpfile Makefile.am
 cd ../../devel
 
 # CRLF to LF on all C files
+cd ..
 for i in $(file $(find -name \*.c) | grep -e CRLF | cut -f 1 -d " " | cut -f 1 -d :) ; do cat $i | fromdos > crap ; mv crap $i  ; done
+cd devel
