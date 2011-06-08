@@ -128,6 +128,8 @@ cd ../../devel
 
 # CRLF to LF on all C files
 cd ..
-for i in $(file $(find -name \*.c) | grep -e CRLF | cut -f 1 -d " " | cut -f 1 -d :) ; do cat $i | fromdos > crap ; mv crap $i  ; done
-for i in $(file $(find -name \*.h) | grep -e CRLF | cut -f 1 -d " " | cut -f 1 -d :) ; do cat $i | fromdos > crap ; mv crap $i  ; done
+for i in $(file $(find mpz mpq mpf mpn printf scanf tests tune -name \*.c) | grep -e CRLF | cut -f 1 -d " " | cut -f 1 -d :) ; do cat $i | fromdos > crap ; mv crap $i  ; done
+for i in $(file $(find mpz mpq mpf mpn printf scanf tests tune -name \*.h) | grep -e CRLF | cut -f 1 -d " " | cut -f 1 -d :) ; do cat $i | fromdos > crap ; mv crap $i  ; done
+for i in $(file $(find -name \*.c -maxdepth 1) | grep -e CRLF | cut -f 1 -d " " | cut -f 1 -d :) ; do cat $i | fromdos > crap ; mv crap $i  ; done
+for i in $(file $(find -name \*.h -maxdepth 1) | grep -e CRLF | cut -f 1 -d " " | cut -f 1 -d :) ; do cat $i | fromdos > crap ; mv crap $i  ; done
 cd devel
