@@ -32,6 +32,8 @@ Bug Fixes:
    source tree.
  * Add an alias used by MPFR (snprintf -> _snprintf)
  * Correct incorrect parameter type for mpz_cdiv_q_2exp
+ * Corrected CRLF endings in some C files
+ * Corrected bitcnt_t functions error return on Win64 
 
 Speedups:
 
