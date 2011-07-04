@@ -47,10 +47,9 @@ xor %rbx,%rbx
 lea -24(%rdi,%rdx,8),%rdi
 lea -24(%rsi,%rdx,8),%rsi
 lea -24(%rbp,%rdx,8),%rbp
-mov $0,%rcx
+mov $3,%rcx
 neg %rdx
 add $3,%rdx
-add $3,%rcx
 # assume n>8 or some such
 .align 16
 lp:	bt $2,%rbx
@@ -114,31 +113,24 @@ case3:	bt $2,%rbx
 	adc 8(%rbp,%rdx,8),%r9
 	mov 16(%rdi,%rcx,8),%r10
 	adc 16(%rbp,%rdx,8),%r10
-	#mov 24(%rdi,%rcx,8),%r11
-	#adc 24(%rbp,%rdx,8),%r11
 	rcl $1,%rbx
 	bt $1,%rax
-	#mov %r11,%r15
 	adc (%rdi,%rdx,8),%r8
 	mov %r9,%r13
 	adc 8(%rdi,%rdx,8),%r9
 	mov %r10,%r14
 	adc 16(%rdi,%rdx,8),%r10
-	#adc 24(%rdi,%rdx,8),%r11
 	rcl $1,%rax
 	bt $2,%rbx
 	adc (%rbp,%rcx,8),%r12
 	adc 8(%rbp,%rcx,8),%r13
 	adc 16(%rbp,%rcx,8),%r14
-	#adc 24(%rbp,%rcx,8),%r15
 	rcl $1,%rbx
 	bt $1,%rax
 	sbb (%rsi,%rdx,8),%r8
 	sbb 8(%rsi,%rdx,8),%r9
 	sbb 16(%rsi,%rdx,8),%r10
-	#sbb 24(%rsi,%rdx,8),%r11
 	mov %r10,16(%rdi,%rcx,8)
-	#mov %r11,24(%rdi,%rcx,8)
 	rcl $1,%rax
 	bt $2,%rbx
 	mov %r8,(%rdi,%rcx,8)
@@ -146,13 +138,11 @@ case3:	bt $2,%rbx
 	sbb (%rsi,%rcx,8),%r12
 	sbb 8(%rsi,%rcx,8),%r13
 	sbb 16(%rsi,%rcx,8),%r14
-	#sbb 24(%rsi,%rcx,8),%r15
 	rcl $1,%rbx
 	add $3,%rcx
 	mov %r12,(%rbp,%rdx,8)
 	mov %r13,8(%rbp,%rdx,8)
 	mov %r14,16(%rbp,%rdx,8)
-	#mov %r15,24(%rbp,%rdx,8)
 	add $3,%rdx
 	jmp fin
 case2:	bt $2,%rbx
@@ -161,98 +151,52 @@ case2:	bt $2,%rbx
 	mov %r8,%r12
 	mov 8(%rdi,%rcx,8),%r9
 	adc 8(%rbp,%rdx,8),%r9
-	#mov 16(%rdi,%rcx,8),%r10
-	#adc 16(%rbp,%rdx,8),%r10
-	#mov 24(%rdi,%rcx,8),%r11
-	#adc 24(%rbp,%rdx,8),%r11
 	rcl $1,%rbx
 	bt $1,%rax
-	#mov %r11,%r15
 	adc (%rdi,%rdx,8),%r8
 	mov %r9,%r13
 	adc 8(%rdi,%rdx,8),%r9
-	#mov %r10,%r14
-	#adc 16(%rdi,%rdx,8),%r10
-	#adc 24(%rdi,%rdx,8),%r11
 	rcl $1,%rax
 	bt $2,%rbx
 	adc (%rbp,%rcx,8),%r12
 	adc 8(%rbp,%rcx,8),%r13
-	#adc 16(%rbp,%rcx,8),%r14
-	#adc 24(%rbp,%rcx,8),%r15
 	rcl $1,%rbx
 	bt $1,%rax
 	sbb (%rsi,%rdx,8),%r8
 	sbb 8(%rsi,%rdx,8),%r9
-	#sbb 16(%rsi,%rdx,8),%r10
-	#sbb 24(%rsi,%rdx,8),%r11
-	#mov %r10,16(%rdi,%rcx,8)
-	#mov %r11,24(%rdi,%rcx,8)
 	rcl $1,%rax
 	bt $2,%rbx
 	mov %r8,(%rdi,%rcx,8)
 	mov %r9,8(%rdi,%rcx,8)
 	sbb (%rsi,%rcx,8),%r12
 	sbb 8(%rsi,%rcx,8),%r13
-	#sbb 16(%rsi,%rcx,8),%r14
-	#sbb 24(%rsi,%rcx,8),%r15
 	rcl $1,%rbx
 	add $2,%rcx
 	mov %r12,(%rbp,%rdx,8)
 	mov %r13,8(%rbp,%rdx,8)
-	#mov %r14,16(%rbp,%rdx,8)
-	#mov %r15,24(%rbp,%rdx,8)
 	add $2,%rdx
 	jmp fin
 case1:	bt $2,%rbx
 	mov (%rdi,%rcx,8),%r8
 	adc (%rbp,%rdx,8),%r8
 	mov %r8,%r12
-	#mov 8(%rdi,%rcx,8),%r9
-	#adc 8(%rbp,%rdx,8),%r9
-	#mov 16(%rdi,%rcx,8),%r10
-	#adc 16(%rbp,%rdx,8),%r10
-	#mov 24(%rdi,%rcx,8),%r11
-	#adc 24(%rbp,%rdx,8),%r11
 	rcl $1,%rbx
 	bt $1,%rax
-	#mov %r11,%r15
 	adc (%rdi,%rdx,8),%r8
-	#mov %r9,%r13
-	#adc 8(%rdi,%rdx,8),%r9
-	#mov %r10,%r14
-	#adc 16(%rdi,%rdx,8),%r10
-	#adc 24(%rdi,%rdx,8),%r11
 	rcl $1,%rax
 	bt $2,%rbx
 	adc (%rbp,%rcx,8),%r12
-	#adc 8(%rbp,%rcx,8),%r13
-	#adc 16(%rbp,%rcx,8),%r14
-	#adc 24(%rbp,%rcx,8),%r15
 	rcl $1,%rbx
 	bt $1,%rax
 	sbb (%rsi,%rdx,8),%r8
-	#sbb 8(%rsi,%rdx,8),%r9
-	#sbb 16(%rsi,%rdx,8),%r10
-	#sbb 24(%rsi,%rdx,8),%r11
-	#mov %r10,16(%rdi,%rcx,8)
-	#mov %r11,24(%rdi,%rcx,8)
 	rcl $1,%rax
 	bt $2,%rbx
 	mov %r8,(%rdi,%rcx,8)
-	#mov %r9,8(%rdi,%rcx,8)
 	sbb (%rsi,%rcx,8),%r12
-	#sbb 8(%rsi,%rcx,8),%r13
-	#sbb 16(%rsi,%rcx,8),%r14
-	#sbb 24(%rsi,%rcx,8),%r15
 	rcl $1,%rbx
-	add $1,%rcx
+	inc %rcx
 	mov %r12,(%rbp,%rdx,8)
-	#mov %r13,8(%rbp,%rdx,8)
-	#mov %r14,16(%rbp,%rdx,8)
-	#mov %r15,24(%rbp,%rdx,8)
-	add $1,%rdx
-	jmp fin
+	inc %rdx
 case0:
 fin:	# if odd the do next two
 	pop %r8
