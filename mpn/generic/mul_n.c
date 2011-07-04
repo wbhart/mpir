@@ -11,6 +11,7 @@ Copyright 1991, 1993, 1994, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003,
 
 Copyright 2009 Jason Moxham
 Copyright 2009 William Hart
+Copyright 2011 The Code Cavern
 
 This file is part of the GNU MP Library.
 
@@ -35,7 +36,7 @@ MA 02110-1301, USA. */
 
 
 #if ! HAVE_NATIVE_mpn_karasub && HAVE_NATIVE_mpn_addsub_n
-void	mpn_karasub(mp_ptr rp,mp_ptr tp,mp_size_t n)
+static void	mpn_karasub(mp_ptr rp,mp_ptr tp,mp_size_t n)
 {mp_size_t n2,n3;mp_limb_t c1=0,c2,c3;
 
 n2=n>>1;n3=n-n2;
@@ -50,21 +51,21 @@ return;}
 #endif
 
 #if ! HAVE_NATIVE_mpn_karaadd && HAVE_NATIVE_mpn_addadd_n
-void	mpn_karaadd(mp_ptr rp,mp_ptr tp,mp_size_t n)
+static void	mpn_karaadd(mp_ptr rp,mp_ptr tp,mp_size_t n)
 {mp_size_t n2,n3;mp_limb_t c1=0,c2,c3;
 
 n2=n>>1;n3=n-n2;
 c2=mpn_addadd_n(tp,rp,rp+2*n2,tp,2*n2);
 if(n3!=n2)c1=mpn_add_n(tp+2*n2,rp+4*n2,tp+2*n2,2);
 c3=mpn_add_n(rp+n2,rp+n2,tp,2*n3);
-mpn_incr_u(rp+n2+2*n3,c3);
+mpn_incr_u(rp+n2+2*n3,c3+c1);
 mpn_incr_u(rp+n2+2*n2,c2);
-mpn_incr_u(rp+n2+2*n3,c1);
+//mpn_incr_u(rp+n2+2*n3,c1);
 return;}
 #endif
 
 #if ! HAVE_NATIVE_mpn_karasub && ! HAVE_NATIVE_mpn_addsub_n
-void	mpn_karasub(mp_ptr rp,mp_ptr tp,mp_size_t n)
+static void	mpn_karasub(mp_ptr rp,mp_ptr tp,mp_size_t n)
 {mp_size_t n2,n3;mp_limb_t c1,c2,c3;
 
 n2=n>>1;n3=n-n2;
@@ -78,16 +79,16 @@ return;}
 #endif
 
 #if ! HAVE_NATIVE_mpn_karaadd && ! HAVE_NATIVE_mpn_addadd_n
-void	mpn_karaadd(mp_ptr rp,mp_ptr tp,mp_size_t n)
+static void	mpn_karaadd(mp_ptr rp,mp_ptr tp,mp_size_t n)
 {mp_size_t n2,n3;mp_limb_t c1,c2,c3;
 
 n2=n>>1;n3=n-n2;
 c1=mpn_add_n(tp,rp+2*n2,tp,2*n3);
 c2=mpn_add_n(tp,tp,rp,2*n2);
 c3=mpn_add_n(rp+n2,rp+n2,tp,2*n3);
-mpn_incr_u(rp+n2+2*n3,c3);
+mpn_incr_u(rp+n2+2*n3,c3+c1);
 mpn_incr_u(rp+n2+2*n2,c2);
-mpn_incr_u(rp+n2+2*n3,c1);
+//mpn_incr_u(rp+n2+2*n3,c1);
 return;}
 #endif
 
@@ -115,239 +116,33 @@ else
 if(suboradd==-1){mpn_karasub(rp,tp,n);}else{mpn_karaadd(rp,tp,n);}
 return;}
 
-/* Multiplies using 3 half-sized mults and so on recursively.
- * p[0..2*n-1] := product of a[0..n-1] and b[0..n-1].
- * No overlap of p[...] with a[...] or b[...].
- * ws is workspace.
- */
+// (rp,2n)=(xp,n)^2 with temp space (tp,2*n+C)
+void	mpn_kara_sqr_n(mp_ptr rp,mp_srcptr xp,mp_size_t n,mp_ptr tp)
+{mp_size_t n2,n3;mp_srcptr xl,xh;mp_ptr dx;mp_limb_t c;
+
+n2=n>>1;
+xl=xp;xh=xp+n2;n3=n-n2;
+dx=rp+2*n2;
+if((n&1)==0)
+  {if(mpn_cmp(xh,xl,n2)>=0){mpn_sub_n(dx,xh,xl,n2);}else{mpn_sub_n(dx,xl,xh,n2);}}
+else
+  {if(xh[n2]!=0 || mpn_cmp(xh,xl,n2)>=0){c=mpn_sub_n(dx,xh,xl,n2);dx[n2]=xh[n2]-c;}else{mpn_sub_n(dx,xl,xh,n2);dx[n2]=0;}}
+if(BELOW_THRESHOLD(n3,MUL_KARATSUBA_THRESHOLD))
+  {mpn_mul_basecase(rp,xl,n2,xl,n2);
+   mpn_mul_basecase(tp,dx,n3,dx,n3);
+   mpn_mul_basecase(rp+2*n2,xh,n3,xh,n3);}
+else if(BELOW_THRESHOLD(n3,SQR_KARATSUBA_THRESHOLD))
+  {mpn_sqr_basecase(rp,xl,n2);
+   mpn_sqr_basecase(tp,dx,n3);
+   mpn_sqr_basecase(rp+2*n2,xh,n3);}
+else
+  {mpn_kara_sqr_n(rp,xl,n2,tp+2*n3);
+   mpn_kara_sqr_n(tp,dx,n3,tp+2*n3);   
+   mpn_kara_sqr_n(rp+2*n2,xh,n3,tp+2*n3);}
+mpn_karasub(rp,tp,n);
+return;}
+
 #if 0
-void
-mpn_kara_mul_n (mp_ptr p, mp_srcptr a, mp_srcptr b, mp_size_t n, mp_ptr ws)
-{
-  mp_limb_t w, w0, w1,c;
-  mp_size_t n2;
-  mp_srcptr x, y;
-  mp_size_t i;
-  int sign, ci;
-
-  n2 = n >> 1;
-  ASSERT (n2 > 0);
-
-  if ((n & 1) != 0)
-    {
-      /* Odd length. */
-      mp_size_t n1, n3, nm1;
-
-      n3 = n - n2;
-
-      sign = 0;
-      w = a[n2];
-      if (w != 0)
-	w -= mpn_sub_n (p, a, a + n3, n2);
-      else
-	{
-	  i = n2;
-	  do
-	    {
-	      --i;
-	      w0 = a[i];
-	      w1 = a[n3 + i];
-	    }
-	  while (w0 == w1 && i != 0);
-	  if (w0 < w1)
-	    {
-	      x = a + n3;
-	      y = a;
-	      sign = ~0;
-	    }
-	  else
-	    {
-	      x = a;
-	      y = a + n3;
-	    }
-	  mpn_sub_n (p, x, y, n2);
-	}
-      p[n2] = w;
-
-      w = b[n2];
-      if (w != 0)
-	w -= mpn_sub_n (p + n3, b, b + n3, n2);
-      else
-	{
-	  i = n2;
-	  do
-	    {
-	      --i;
-	      w0 = b[i];
-	      w1 = b[n3 + i];
-	    }
-	  while (w0 == w1 && i != 0);
-	  if (w0 < w1)
-	    {
-	      x = b + n3;
-	      y = b;
-	      sign = ~sign;
-	    }
-	  else
-	    {
-	      x = b;
-	      y = b + n3;
-	    }
-	  mpn_sub_n (p + n3, x, y, n2);
-	}
-      p[n] = w;
-
-      n1 = n + 1;
-      if (n2 < MUL_KARATSUBA_THRESHOLD)
-	{
-	  if (n3 < MUL_KARATSUBA_THRESHOLD)
-	    {
-	      mpn_mul_basecase (ws, p, n3, p + n3, n3);
-	      mpn_mul_basecase (p, a, n3, b, n3);
-	    }
-	  else
-	    {
-	      mpn_kara_mul_n (ws, p, p + n3, n3, ws + n1);
-	      mpn_kara_mul_n (p, a, b, n3, ws + n1);
-	    }
-	  mpn_mul_basecase (p + n1, a + n3, n2, b + n3, n2);
-	}
-      else
-	{
-	  mpn_kara_mul_n (ws, p, p + n3, n3, ws + n1);
-	  mpn_kara_mul_n (p, a, b, n3, ws + n1);
-	  mpn_kara_mul_n (p + n1, a + n3, b + n3, n2, ws + n1);
-	}
-
-      nm1 = n - 1;
-      if (sign)
-	{
-	 #if HAVE_NATIVE_mpn_addadd_n
-	   c=mpn_addadd_n(ws,p+n1,p,ws,nm1);
-  	   #if GMP_NAIL_BITS==0
-  	     add_ssaaaa(ws[n],ws[nm1],ws[n],ws[nm1],p[n],p[nm1]);
-  	     add_ssaaaa(ws[n],ws[nm1],ws[n],ws[nm1],0,c);
-  	   #else
-  	     mpn_add_n(ws+nm1, p+nm1, ws+nm1 ,2);
-  	     mpn_add_1(ws+nm1,ws+nm1,2,c);
-  	   #endif
-	 #else
-	   mpn_add_n (ws, p, ws, n1);
-	   c=mpn_add_n (ws, p + n1, ws, nm1);
-	   if(c){mp_limb_t x=(ws[nm1]+1) & GMP_NUMB_MASK;ws[nm1]=x;if(x==0)ws[n]=(ws[n]+1) & GMP_NUMB_MASK;}
-	 #endif
-	}
-      else
-	{
-	 #if HAVE_NATIVE_mpn_addsub_n
-           ci=mpn_addsub_n(ws,p+n1,p,ws,nm1);
-           #if GMP_NAIL_BITS==0
-             sub_ddmmss(ws[n],ws[nm1],p[n],p[nm1],ws[n],ws[nm1]);//mpn_sub_n(ws+nm1,p+nm1,ws+nm1,2);
-             if(ci==-1)sub_ddmmss(ws[n],ws[nm1],ws[n],ws[nm1],0,1);//mpn_sub_1(ws+nm1,ws+nm1,2,1);
-             if(ci== 1)add_ssaaaa(ws[n],ws[nm1],ws[n],ws[nm1],0,1);//mpn_add_1(ws+nm1,ws+nm1,2,1);
-           #else
-             mpn_sub_n(ws+nm1,p+nm1,ws+nm1,2);
-             if(ci==-1)mpn_sub_1(ws+nm1,ws+nm1,2,1);
-             if(ci== 1)mpn_add_1(ws+nm1,ws+nm1,2,1);
-           #endif
-         #else
-	   mpn_sub_n (ws, p, ws, n1);
-	   c=mpn_add_n (ws, p + n1, ws, nm1);
-	   if(c){mp_limb_t x=(ws[nm1]+1) & GMP_NUMB_MASK;ws[nm1]=x;if(x==0)ws[n]=(ws[n]+1) & GMP_NUMB_MASK;}
-         #endif
-        }      
-      if (mpn_add_n (p + n3, p + n3, ws, n1))
-	{
-	  mpn_incr_u (p + n1 + n3, 1);
-	}
-    }
-  else
-    {
-      /* Even length. */
-      i = n2;
-      do
-	{
-	  --i;
-	  w0 = a[i];
-	  w1 = a[n2 + i];
-	}
-      while (w0 == w1 && i != 0);
-      sign = 0;
-      if (w0 < w1)
-	{
-	  x = a + n2;
-	  y = a;
-	  sign = ~0;
-	}
-      else
-	{
-	  x = a;
-	  y = a + n2;
-	}
-      mpn_sub_n (p, x, y, n2);
-
-      i = n2;
-      do
-	{
-	  --i;
-	  w0 = b[i];
-	  w1 = b[n2 + i];
-	}
-      while (w0 == w1 && i != 0);
-      if (w0 < w1)
-	{
-	  x = b + n2;
-	  y = b;
-	  sign = ~sign;
-	}
-      else
-	{
-	  x = b;
-	  y = b + n2;
-	}
-      mpn_sub_n (p + n2, x, y, n2);
-
-      /* Pointwise products. */
-      if (n2 < MUL_KARATSUBA_THRESHOLD)
-	{
-	  mpn_mul_basecase (ws, p, n2, p + n2, n2);
-	  mpn_mul_basecase (p, a, n2, b, n2);
-	  mpn_mul_basecase (p + n, a + n2, n2, b + n2, n2);
-	}
-      else
-	{
-	  mpn_kara_mul_n (ws, p, p + n2, n2, ws + n);
-	  mpn_kara_mul_n (p, a, b, n2, ws + n);
-	  mpn_kara_mul_n (p + n, a + n2, b + n2, n2, ws + n);
-	}
-
-      /* Interpolate. */
-          
-      if (sign)
-	{
-	 #if HAVE_NATIVE_mpn_addadd_n
-	 w=mpn_addadd_n(ws,p+n,p,ws,n);
-	 #else 
-	 w = mpn_add_n (ws, p, ws, n);
-         w += mpn_add_n (ws, p + n, ws, n);
-         #endif
-        }
-      else
-	{
-	 #if HAVE_NATIVE_mpn_addsub_n
-	 w=mpn_addsub_n(ws,p+n,p,ws,n);
-	 #else
-	 w = -mpn_sub_n (ws, p, ws, n);
-         w += mpn_add_n (ws, p + n, ws, n);
-         #endif         
-        }
-     
-      w += mpn_add_n (p + n2, p + n2, ws, n);
-      MPN_INCR_U (p + n2 + n, 2 * n - (n2 + n), w);
-    }
-}
-#endif
-
 void
 mpn_kara_sqr_n (mp_ptr p, mp_srcptr a, mp_size_t n, mp_ptr ws)
 {
@@ -503,6 +298,7 @@ mpn_kara_sqr_n (mp_ptr p, mp_srcptr a, mp_size_t n, mp_ptr ws)
       MPN_INCR_U (p + n2 + n, 2 * n - (n2 + n), w);
     }
 }
+#endif
 
 void
 mpn_mul_n (mp_ptr p, mp_srcptr a, mp_srcptr b, mp_size_t n)
