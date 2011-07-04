@@ -23,6 +23,7 @@ include(`../config.m4')
 
 ASM_START()
 PROLOGUE(mpn_karaadd)
+# requires n>=8
 push %rbx
 push %rbp
 push %r12
@@ -47,267 +48,210 @@ xor %rbx,%rbx
 lea -24(%rdi,%rdx,8),%rdi
 lea -24(%rsi,%rdx,8),%rsi
 lea -24(%rbp,%rdx,8),%rbp
-mov $0,%rcx
-neg %rdx
-add $3,%rdx
-add $3,%rcx
-# assume n>8 or some such
+mov $3,%ecx
+sub %rdx,%rcx
+mov $3,%edx
 .align 16
 lp:	bt $2,%rbx
-	mov (%rdi,%rcx,8),%r8
-	adc (%rbp,%rdx,8),%r8
+	mov (%rdi,%rdx,8),%r8
+	adc (%rbp,%rcx,8),%r8
 	mov %r8,%r12
-	mov 8(%rdi,%rcx,8),%r9
-	adc 8(%rbp,%rdx,8),%r9
-	mov 16(%rdi,%rcx,8),%r10
-	adc 16(%rbp,%rdx,8),%r10
-	mov 24(%rdi,%rcx,8),%r11
-	adc 24(%rbp,%rdx,8),%r11
+	mov 8(%rdi,%rdx,8),%r9
+	adc 8(%rbp,%rcx,8),%r9
+	mov 16(%rdi,%rdx,8),%r10
+	adc 16(%rbp,%rcx,8),%r10
+	mov 24(%rdi,%rdx,8),%r11
+	adc 24(%rbp,%rcx,8),%r11
 	rcl $1,%rbx
 	bt $1,%rax
 	mov %r11,%r15
-	adc (%rdi,%rdx,8),%r8
+	adc (%rdi,%rcx,8),%r8
 	mov %r9,%r13
-	adc 8(%rdi,%rdx,8),%r9
+	adc 8(%rdi,%rcx,8),%r9
 	mov %r10,%r14
-	adc 16(%rdi,%rdx,8),%r10
-	adc 24(%rdi,%rdx,8),%r11
+	adc 16(%rdi,%rcx,8),%r10
+	adc 24(%rdi,%rcx,8),%r11
 	rcl $1,%rax
 	bt $2,%rbx
-	adc (%rbp,%rcx,8),%r12
-	adc 8(%rbp,%rcx,8),%r13
-	adc 16(%rbp,%rcx,8),%r14
-	adc 24(%rbp,%rcx,8),%r15
+	adc (%rbp,%rdx,8),%r12
+	adc 8(%rbp,%rdx,8),%r13
+	adc 16(%rbp,%rdx,8),%r14
+	adc 24(%rbp,%rdx,8),%r15
 	rcl $1,%rbx
 	bt $1,%rax
-	adc (%rsi,%rdx,8),%r8
-	adc 8(%rsi,%rdx,8),%r9
-	adc 16(%rsi,%rdx,8),%r10
-	adc 24(%rsi,%rdx,8),%r11
-	mov %r10,16(%rdi,%rcx,8)
-	mov %r11,24(%rdi,%rcx,8)
+	adc (%rsi,%rcx,8),%r8
+	adc 8(%rsi,%rcx,8),%r9
+	adc 16(%rsi,%rcx,8),%r10
+	adc 24(%rsi,%rcx,8),%r11
+	mov %r10,16(%rdi,%rdx,8)
+	mov %r11,24(%rdi,%rdx,8)
 	rcl $1,%rax
 	bt $2,%rbx
-	mov %r8,(%rdi,%rcx,8)
-	mov %r9,8(%rdi,%rcx,8)
-	adc (%rsi,%rcx,8),%r12
-	adc 8(%rsi,%rcx,8),%r13
-	adc 16(%rsi,%rcx,8),%r14
-	adc 24(%rsi,%rcx,8),%r15
+	mov %r8,(%rdi,%rdx,8)
+	mov %r9,8(%rdi,%rdx,8)
+	adc (%rsi,%rdx,8),%r12
+	adc 8(%rsi,%rdx,8),%r13
+	adc 16(%rsi,%rdx,8),%r14
+	adc 24(%rsi,%rdx,8),%r15
 	rcl $1,%rbx
-	add $4,%rcx
-	mov %r12,(%rbp,%rdx,8)
-	mov %r13,8(%rbp,%rdx,8)
-	mov %r14,16(%rbp,%rdx,8)
-	mov %r15,24(%rbp,%rdx,8)
 	add $4,%rdx
+	mov %r12,(%rbp,%rcx,8)
+	mov %r13,8(%rbp,%rcx,8)
+	mov %r14,16(%rbp,%rcx,8)
+	mov %r15,24(%rbp,%rcx,8)
+	add $4,%rcx
 	jnc lp
-cmp $2,%rdx
+cmp $2,%rcx
 jg	case0
 jz	case1
 jp	case2
-case3:	bt $2,%rbx
-	mov (%rdi,%rcx,8),%r8
-	adc (%rbp,%rdx,8),%r8
+case3:	#rcx=0
+	bt $2,%rbx
+	mov (%rdi,%rdx,8),%r8
+	adc (%rbp),%r8
 	mov %r8,%r12
-	mov 8(%rdi,%rcx,8),%r9
-	adc 8(%rbp,%rdx,8),%r9
-	mov 16(%rdi,%rcx,8),%r10
-	adc 16(%rbp,%rdx,8),%r10
-	#mov 24(%rdi,%rcx,8),%r11
-	#adc 24(%rbp,%rdx,8),%r11
+	mov 8(%rdi,%rdx,8),%r9
+	adc 8(%rbp),%r9
+	mov 16(%rdi,%rdx,8),%r10
+	adc 16(%rbp),%r10
 	rcl $1,%rbx
 	bt $1,%rax
-	#mov %r11,%r15
-	adc (%rdi,%rdx,8),%r8
+	adc (%rdi),%r8
 	mov %r9,%r13
-	adc 8(%rdi,%rdx,8),%r9
+	adc 8(%rdi),%r9
 	mov %r10,%r14
-	adc 16(%rdi,%rdx,8),%r10
-	#adc 24(%rdi,%rdx,8),%r11
+	adc 16(%rdi),%r10
 	rcl $1,%rax
 	bt $2,%rbx
-	adc (%rbp,%rcx,8),%r12
-	adc 8(%rbp,%rcx,8),%r13
-	adc 16(%rbp,%rcx,8),%r14
-	#adc 24(%rbp,%rcx,8),%r15
+	adc (%rbp,%rdx,8),%r12
+	adc 8(%rbp,%rdx,8),%r13
+	adc 16(%rbp,%rdx,8),%r14
 	rcl $1,%rbx
 	bt $1,%rax
-	adc (%rsi,%rdx,8),%r8
-	adc 8(%rsi,%rdx,8),%r9
-	adc 16(%rsi,%rdx,8),%r10
-	#adc 24(%rsi,%rdx,8),%r11
-	mov %r10,16(%rdi,%rcx,8)
-	#mov %r11,24(%rdi,%rcx,8)
+	adc (%rsi),%r8
+	adc 8(%rsi),%r9
+	adc 16(%rsi),%r10
+	mov %r10,16(%rdi,%rdx,8)
 	rcl $1,%rax
 	bt $2,%rbx
-	mov %r8,(%rdi,%rcx,8)
-	mov %r9,8(%rdi,%rcx,8)
-	adc (%rsi,%rcx,8),%r12
-	adc 8(%rsi,%rcx,8),%r13
-	adc 16(%rsi,%rcx,8),%r14
-	#adc 24(%rsi,%rcx,8),%r15
+	mov %r8,(%rdi,%rdx,8)
+	mov %r9,8(%rdi,%rdx,8)
+	adc (%rsi,%rdx,8),%r12
+	adc 8(%rsi,%rdx,8),%r13
+	adc 16(%rsi,%rdx,8),%r14
 	rcl $1,%rbx
-	add $3,%rcx
-	mov %r12,(%rbp,%rdx,8)
-	mov %r13,8(%rbp,%rdx,8)
-	mov %r14,16(%rbp,%rdx,8)
-	#mov %r15,24(%rbp,%rdx,8)
 	add $3,%rdx
+	mov %r12,(%rbp)
+	mov %r13,8(%rbp)
+	mov %r14,16(%rbp)
 	jmp fin
-case2:	bt $2,%rbx
-	mov (%rdi,%rcx,8),%r8
-	adc (%rbp,%rdx,8),%r8
+case2:	#rcx=1
+	bt $2,%rbx
+	mov (%rdi,%rdx,8),%r8
+	adc 8(%rbp),%r8
 	mov %r8,%r12
-	mov 8(%rdi,%rcx,8),%r9
-	adc 8(%rbp,%rdx,8),%r9
-	#mov 16(%rdi,%rcx,8),%r10
-	#adc 16(%rbp,%rdx,8),%r10
-	#mov 24(%rdi,%rcx,8),%r11
-	#adc 24(%rbp,%rdx,8),%r11
+	mov 8(%rdi,%rdx,8),%r9
+	adc 16(%rbp),%r9
 	rcl $1,%rbx
 	bt $1,%rax
-	#mov %r11,%r15
-	adc (%rdi,%rdx,8),%r8
+	adc 8(%rdi),%r8
 	mov %r9,%r13
-	adc 8(%rdi,%rdx,8),%r9
-	#mov %r10,%r14
-	#adc 16(%rdi,%rdx,8),%r10
-	#adc 24(%rdi,%rdx,8),%r11
+	adc 16(%rdi),%r9
 	rcl $1,%rax
 	bt $2,%rbx
-	adc (%rbp,%rcx,8),%r12
-	adc 8(%rbp,%rcx,8),%r13
-	#adc 16(%rbp,%rcx,8),%r14
-	#adc 24(%rbp,%rcx,8),%r15
+	adc (%rbp,%rdx,8),%r12
+	adc 8(%rbp,%rdx,8),%r13
 	rcl $1,%rbx
 	bt $1,%rax
-	adc (%rsi,%rdx,8),%r8
-	adc 8(%rsi,%rdx,8),%r9
-	#adc 16(%rsi,%rdx,8),%r10
-	#adc 24(%rsi,%rdx,8),%r11
-	#mov %r10,16(%rdi,%rcx,8)
-	#mov %r11,24(%rdi,%rcx,8)
+	adc 8(%rsi),%r8
+	adc 16(%rsi),%r9
 	rcl $1,%rax
 	bt $2,%rbx
-	mov %r8,(%rdi,%rcx,8)
-	mov %r9,8(%rdi,%rcx,8)
-	adc (%rsi,%rcx,8),%r12
-	adc 8(%rsi,%rcx,8),%r13
-	#adc 16(%rsi,%rcx,8),%r14
-	#adc 24(%rsi,%rcx,8),%r15
+	mov %r8,(%rdi,%rdx,8)
+	mov %r9,8(%rdi,%rdx,8)
+	adc (%rsi,%rdx,8),%r12
+	adc 8(%rsi,%rdx,8),%r13
 	rcl $1,%rbx
-	add $2,%rcx
-	mov %r12,(%rbp,%rdx,8)
-	mov %r13,8(%rbp,%rdx,8)
-	#mov %r14,16(%rbp,%rdx,8)
-	#mov %r15,24(%rbp,%rdx,8)
 	add $2,%rdx
+	mov %r12,8(%rbp)
+	mov %r13,16(%rbp)
 	jmp fin
-case1:	bt $2,%rbx
-	mov (%rdi,%rcx,8),%r8
-	adc (%rbp,%rdx,8),%r8
+case1:	#rcx=2
+	bt $2,%rbx
+	mov (%rdi,%rdx,8),%r8
+	adc 16(%rbp),%r8
 	mov %r8,%r12
-	#mov 8(%rdi,%rcx,8),%r9
-	#adc 8(%rbp,%rdx,8),%r9
-	#mov 16(%rdi,%rcx,8),%r10
-	#adc 16(%rbp,%rdx,8),%r10
-	#mov 24(%rdi,%rcx,8),%r11
-	#adc 24(%rbp,%rdx,8),%r11
 	rcl $1,%rbx
 	bt $1,%rax
-	#mov %r11,%r15
-	adc (%rdi,%rdx,8),%r8
-	#mov %r9,%r13
-	#adc 8(%rdi,%rdx,8),%r9
-	#mov %r10,%r14
-	#adc 16(%rdi,%rdx,8),%r10
-	#adc 24(%rdi,%rdx,8),%r11
+	adc 16(%rdi),%r8
 	rcl $1,%rax
 	bt $2,%rbx
-	adc (%rbp,%rcx,8),%r12
-	#adc 8(%rbp,%rcx,8),%r13
-	#adc 16(%rbp,%rcx,8),%r14
-	#adc 24(%rbp,%rcx,8),%r15
+	adc (%rbp,%rdx,8),%r12
 	rcl $1,%rbx
 	bt $1,%rax
-	adc (%rsi,%rdx,8),%r8
-	#adc 8(%rsi,%rdx,8),%r9
-	#adc 16(%rsi,%rdx,8),%r10
-	#adc 24(%rsi,%rdx,8),%r11
-	#mov %r10,16(%rdi,%rcx,8)
-	#mov %r11,24(%rdi,%rcx,8)
+	adc 16(%rsi),%r8
 	rcl $1,%rax
 	bt $2,%rbx
-	mov %r8,(%rdi,%rcx,8)
-	#mov %r9,8(%rdi,%rcx,8)
-	adc (%rsi,%rcx,8),%r12
-	#adc 8(%rsi,%rcx,8),%r13
-	#adc 16(%rsi,%rcx,8),%r14
-	#adc 24(%rsi,%rcx,8),%r15
+	mov %r8,(%rdi,%rdx,8)
+	adc (%rsi,%rdx,8),%r12
 	rcl $1,%rbx
-	add $1,%rcx
-	mov %r12,(%rbp,%rdx,8)
-	#mov %r13,8(%rbp,%rdx,8)
-	#mov %r14,16(%rbp,%rdx,8)
-	#mov %r15,24(%rbp,%rdx,8)
-	add $1,%rdx
-	jmp fin
-case0:
-fin:	# if odd the do next two
+	inc %rdx
+	mov %r12,(%rbp,%rcx,8)
+fin:	mov $3,%rcx
+case0: 	#rcx=3
+	# if odd the do next two
 	pop %r8
 	bt $0,%r8
 	jnc notodd
 	xor %r10,%r10
-	mov (%rbp,%rcx,8),%r8
-	mov 8(%rbp,%rcx,8),%r9
-	add (%rsi,%rcx,8),%r8
-	adc 8(%rsi,%rcx,8),%r9
+	mov (%rbp,%rdx,8),%r8
+	mov 8(%rbp,%rdx,8),%r9
+	add (%rsi,%rdx,8),%r8
+	adc 8(%rsi,%rdx,8),%r9
 	rcl $1,%r10
-	add %r8,(%rbp,%rdx,8)
-	adc %r9,8(%rbp,%rdx,8)
-	mov %rdx,%rsi
-l7:	adcq $0,16(%rbp,%rdx,8)
-	inc %rdx
+	add %r8,24(%rbp)
+	adc %r9,32(%rbp)
+l7:	adcq $0,16(%rbp,%rcx,8)
+	inc %rcx
 	jc l7
-	mov %rsi,%rdx
+	mov $3,%rcx
 	bt $0,%r10
-l8:	adcq $0,16(%rbp,%rdx,8)
-	inc %rdx
+l8:	adcq $0,16(%rbp,%rcx,8)
+	inc %rcx
 	jc l8
-	mov %rsi,%rdx
+	mov $3,%rcx
 	# add in all carrys
 	# should we do the borrows last as it may be possible to underflow
 	# could use popcount
-notodd:	mov %rcx,%rsi
+notodd:	mov %rdx,%rsi
 	bt $0,%rax
-l1:	adcq $0,(%rdi,%rcx,8)
-	inc %rcx
+l1:	adcq $0,(%rdi,%rdx,8)
+	inc %rdx
 	jc l1
-	mov %rsi,%rcx
+	mov %rsi,%rdx
 	bt $1,%rax
-l2:	adcq $0,(%rdi,%rcx,8)
-	inc %rcx
+l2:	adcq $0,(%rdi,%rdx,8)
+	inc %rdx
 	jc l2
+	mov %rsi,%rdx
+	bt $2,%rbx
+l3:	adcq $0,(%rdi,%rdx,8)
+	inc %rdx
+	jc l3
+	mov %rcx,%rsi
+	bt $0,%rbx
+l4:	adcq $0,(%rbp,%rcx,8)
+	inc %rcx
+	jc l4
+	mov %rsi,%rcx
+	bt $1,%rbx
+l5:	adcq $0,(%rbp,%rcx,8)
+	inc %rcx
+	jc l5
 	mov %rsi,%rcx
 	bt $2,%rbx
-l3:	adcq $0,(%rdi,%rcx,8)
+l6:	adcq $0,(%rbp,%rcx,8)
 	inc %rcx
-	jc l3
-	mov %rdx,%rsi
-	bt $0,%rbx
-l4:	adcq $0,(%rbp,%rdx,8)
-	inc %rdx
-	jc l4
-	mov %rsi,%rdx
-	bt $1,%rbx
-l5:	adcq $0,(%rbp,%rdx,8)
-	inc %rdx
-	jc l5
-	mov %rsi,%rdx
-	bt $2,%rbx
-l6:	adcq $0,(%rbp,%rdx,8)
-	inc %rdx
 	jc l6
 
 pop %r15
