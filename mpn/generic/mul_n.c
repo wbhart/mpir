@@ -34,12 +34,93 @@ MA 02110-1301, USA. */
 #include "longlong.h"
 
 
+#if ! HAVE_NATIVE_mpn_karasub && HAVE_NATIVE_mpn_addsub_n
+void	mpn_karasub(mp_ptr rp,mp_ptr tp,mp_size_t n)
+{mp_size_t n2,n3;mp_limb_t c1=0,c2,c3;
+
+n2=n>>1;n3=n-n2;
+c2=mpn_addsub_n(tp,rp,rp+2*n2,tp,2*n2);
+if(n3!=n2)c1=mpn_sub_n(tp+2*n2,rp+4*n2,tp+2*n2,2);
+c3=mpn_add_n(rp+n2,rp+n2,tp,2*n3);
+mpn_incr_u(rp+n2+2*n3,c3);
+if(c2==1)mpn_incr_u(rp+n2+2*n2,1);
+if(c2==-1)mpn_decr_u(rp+n2+2*n2,1);
+mpn_decr_u(rp+n2+2*n3,c1);
+return;}
+#endif
+
+#if ! HAVE_NATIVE_mpn_karaadd && HAVE_NATIVE_mpn_addadd_n
+void	mpn_karaadd(mp_ptr rp,mp_ptr tp,mp_size_t n)
+{mp_size_t n2,n3;mp_limb_t c1=0,c2,c3;
+
+n2=n>>1;n3=n-n2;
+c2=mpn_addadd_n(tp,rp,rp+2*n2,tp,2*n2);
+if(n3!=n2)c1=mpn_add_n(tp+2*n2,rp+4*n2,tp+2*n2,2);
+c3=mpn_add_n(rp+n2,rp+n2,tp,2*n3);
+mpn_incr_u(rp+n2+2*n3,c3);
+mpn_incr_u(rp+n2+2*n2,c2);
+mpn_incr_u(rp+n2+2*n3,c1);
+return;}
+#endif
+
+#if ! HAVE_NATIVE_mpn_karasub && ! HAVE_NATIVE_mpn_addsub_n
+void	mpn_karasub(mp_ptr rp,mp_ptr tp,mp_size_t n)
+{mp_size_t n2,n3;mp_limb_t c1,c2,c3;
+
+n2=n>>1;n3=n-n2;
+c1=mpn_sub_n(tp,rp+2*n2,tp,2*n3);
+c2=mpn_add_n(tp,tp,rp,2*n2);
+c3=mpn_add_n(rp+n2,rp+n2,tp,2*n3);
+mpn_incr_u(rp+n2+2*n3,c3);
+mpn_incr_u(rp+n2+2*n2,c2);
+mpn_decr_u(rp+n2+2*n3,c1);
+return;}
+#endif
+
+#if ! HAVE_NATIVE_mpn_karaadd && ! HAVE_NATIVE_mpn_addadd_n
+void	mpn_karaadd(mp_ptr rp,mp_ptr tp,mp_size_t n)
+{mp_size_t n2,n3;mp_limb_t c1,c2,c3;
+
+n2=n>>1;n3=n-n2;
+c1=mpn_add_n(tp,rp+2*n2,tp,2*n3);
+c2=mpn_add_n(tp,tp,rp,2*n2);
+c3=mpn_add_n(rp+n2,rp+n2,tp,2*n3);
+mpn_incr_u(rp+n2+2*n3,c3);
+mpn_incr_u(rp+n2+2*n2,c2);
+mpn_incr_u(rp+n2+2*n3,c1);
+return;}
+#endif
+
+// (rp,2n)=(xp,n)*(yp,n) with temp space (tp,2*n+C)
+void	mpn_kara_mul_n(mp_ptr rp,mp_srcptr xp,mp_srcptr yp,mp_size_t n,mp_ptr tp)
+{mp_size_t n2,n3;mp_srcptr xl,yl,xh,yh;mp_ptr dx,dy;int suboradd;mp_limb_t c;
+
+n2=n>>1;suboradd=-1;
+xl=xp;xh=xp+n2;yl=yp;yh=yp+n2;n3=n-n2;
+dx=rp+2*n2;dy=dx+n3;
+if((n&1)==0)
+  {if(mpn_cmp(xh,xl,n2)>=0){mpn_sub_n(dx,xh,xl,n2);}else{mpn_sub_n(dx,xl,xh,n2);suboradd=-suboradd;}
+   if(mpn_cmp(yh,yl,n2)>=0){mpn_sub_n(dy,yh,yl,n2);}else{mpn_sub_n(dy,yl,yh,n2);suboradd=-suboradd;}}
+else
+  {if(xh[n2]!=0 || mpn_cmp(xh,xl,n2)>=0){c=mpn_sub_n(dx,xh,xl,n2);dx[n2]=xh[n2]-c;}else{mpn_sub_n(dx,xl,xh,n2);dx[n2]=0;suboradd=-suboradd;}
+   if(yh[n2]!=0 || mpn_cmp(yh,yl,n2)>=0){c=mpn_sub_n(dy,yh,yl,n2);dy[n2]=yh[n2]-c;}else{mpn_sub_n(dy,yl,yh,n2);dy[n2]=0;suboradd=-suboradd;}}
+if(BELOW_THRESHOLD(n3,MUL_KARATSUBA_THRESHOLD))
+  {mpn_mul_basecase(rp,xl,n2,yl,n2);
+   mpn_mul_basecase(tp,dx,n3,dy,n3);
+   mpn_mul_basecase(rp+2*n2,xh,n3,yh,n3);}
+else
+  {mpn_kara_mul_n(rp,xl,yl,n2,tp+2*n3);
+   mpn_kara_mul_n(tp,dx,dy,n3,tp+2*n3);   
+   mpn_kara_mul_n(rp+2*n2,xh,yh,n3,tp+2*n3);}
+if(suboradd==-1){mpn_karasub(rp,tp,n);}else{mpn_karaadd(rp,tp,n);}
+return;}
+
 /* Multiplies using 3 half-sized mults and so on recursively.
  * p[0..2*n-1] := product of a[0..n-1] and b[0..n-1].
  * No overlap of p[...] with a[...] or b[...].
  * ws is workspace.
  */
-
+#if 0
 void
 mpn_kara_mul_n (mp_ptr p, mp_srcptr a, mp_srcptr b, mp_size_t n, mp_ptr ws)
 {
@@ -265,6 +346,7 @@ mpn_kara_mul_n (mp_ptr p, mp_srcptr a, mp_srcptr b, mp_size_t n, mp_ptr ws)
       MPN_INCR_U (p + n2 + n, 2 * n - (n2 + n), w);
     }
 }
+#endif
 
 void
 mpn_kara_sqr_n (mp_ptr p, mp_srcptr a, mp_size_t n, mp_ptr ws)

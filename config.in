@@ -250,6 +250,8 @@ MA 02110-1301, USA.
 #undef HAVE_NATIVE_mpn_invert_limb
 #undef HAVE_NATIVE_mpn_ior_n
 #undef HAVE_NATIVE_mpn_iorn_n
+#undef HAVE_NATIVE_mpn_karaadd
+#undef HAVE_NATIVE_mpn_karasub
 #undef HAVE_NATIVE_mpn_lshift1
 #undef HAVE_NATIVE_mpn_lshift2
 #undef HAVE_NATIVE_mpn_lshiftc
