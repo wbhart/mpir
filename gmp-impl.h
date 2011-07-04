@@ -924,10 +924,10 @@ __GMP_DECLSPEC int mpn_addsub_n __GMP_PROTO ((mp_ptr, mp_srcptr, mp_srcptr, mp_s
 __GMP_DECLSPEC mp_limb_t mpn_subadd_n __GMP_PROTO ((mp_ptr, mp_srcptr, mp_srcptr, mp_srcptr, mp_size_t));
 
 #define mpn_karaadd __MPN(karaadd)
-__GMP_DECLSPEC void mpn_karaadd __GMP_PROTO ((mp_ptr, mp_srcptr, mp_srcptr, mp_size_t, mp_ptr));
+__GMP_DECLSPEC void mpn_karaadd __GMP_PROTO ((mp_ptr, mp_ptr, mp_size_t));
 
 #define mpn_karasub __MPN(karasub)
-__GMP_DECLSPEC void mpn_karasub __GMP_PROTO ((mp_ptr, mp_srcptr, mp_srcptr, mp_size_t, mp_ptr));
+__GMP_DECLSPEC void mpn_karasub __GMP_PROTO ((mp_ptr, mp_ptr, mp_size_t));
 
 #ifndef mpn_sumdiff_n  /* if not done with cpuvec in a fat binary */
 #define mpn_sumdiff_n __MPN(sumdiff_n)
