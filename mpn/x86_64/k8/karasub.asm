@@ -23,6 +23,7 @@ include(`../config.m4')
 
 ASM_START()
 PROLOGUE(mpn_karasub)
+# requires n>=8
 push %rbx
 push %rbp
 push %r12
@@ -50,9 +51,6 @@ lea -24(%rbp,%rdx,8),%rbp
 mov $3,%ecx
 sub %rdx,%rcx
 mov $3,%edx
-#swap the role of rcx,rdx
-
-# assume n>8 or some such
 .align 16
 lp:	bt $2,%rbx
 	mov (%rdi,%rdx,8),%r8
@@ -110,19 +108,19 @@ jp	case2
 case3:	#rcx=0
 	bt $2,%rbx
 	mov (%rdi,%rdx,8),%r8
-	adc (%rbp,%rcx,8),%r8
+	adc (%rbp),%r8
 	mov %r8,%r12
 	mov 8(%rdi,%rdx,8),%r9
-	adc 8(%rbp,%rcx,8),%r9
+	adc 8(%rbp),%r9
 	mov 16(%rdi,%rdx,8),%r10
-	adc 16(%rbp,%rcx,8),%r10
+	adc 16(%rbp),%r10
 	rcl $1,%rbx
 	bt $1,%rax
-	adc (%rdi,%rcx,8),%r8
+	adc (%rdi),%r8
 	mov %r9,%r13
-	adc 8(%rdi,%rcx,8),%r9
+	adc 8(%rdi),%r9
 	mov %r10,%r14
-	adc 16(%rdi,%rcx,8),%r10
+	adc 16(%rdi),%r10
 	rcl $1,%rax
 	bt $2,%rbx
 	adc (%rbp,%rdx,8),%r12
@@ -130,9 +128,9 @@ case3:	#rcx=0
 	adc 16(%rbp,%rdx,8),%r14
 	rcl $1,%rbx
 	bt $1,%rax
-	sbb (%rsi,%rcx,8),%r8
-	sbb 8(%rsi,%rcx,8),%r9
-	sbb 16(%rsi,%rcx,8),%r10
+	sbb (%rsi),%r8
+	sbb 8(%rsi),%r9
+	sbb 16(%rsi),%r10
 	mov %r10,16(%rdi,%rdx,8)
 	rcl $1,%rax
 	bt $2,%rbx
@@ -143,31 +141,30 @@ case3:	#rcx=0
 	sbb 16(%rsi,%rdx,8),%r14
 	rcl $1,%rbx
 	add $3,%rdx
-	mov %r12,(%rbp,%rcx,8)
-	mov %r13,8(%rbp,%rcx,8)
-	mov %r14,16(%rbp,%rcx,8)
-	add $3,%rcx
+	mov %r12,(%rbp)
+	mov %r13,8(%rbp)
+	mov %r14,16(%rbp)
 	jmp fin
 case2:	#rcx=1
 	bt $2,%rbx
 	mov (%rdi,%rdx,8),%r8
-	adc (%rbp,%rcx,8),%r8
+	adc 8(%rbp),%r8
 	mov %r8,%r12
 	mov 8(%rdi,%rdx,8),%r9
-	adc 8(%rbp,%rcx,8),%r9
+	adc 16(%rbp),%r9
 	rcl $1,%rbx
 	bt $1,%rax
-	adc (%rdi,%rcx,8),%r8
+	adc 8(%rdi),%r8
 	mov %r9,%r13
-	adc 8(%rdi,%rcx,8),%r9
+	adc 16(%rdi),%r9
 	rcl $1,%rax
 	bt $2,%rbx
 	adc (%rbp,%rdx,8),%r12
 	adc 8(%rbp,%rdx,8),%r13
 	rcl $1,%rbx
 	bt $1,%rax
-	sbb (%rsi,%rcx,8),%r8
-	sbb 8(%rsi,%rcx,8),%r9
+	sbb 8(%rsi),%r8
+	sbb 16(%rsi),%r9
 	rcl $1,%rax
 	bt $2,%rbx
 	mov %r8,(%rdi,%rdx,8)
@@ -176,24 +173,23 @@ case2:	#rcx=1
 	sbb 8(%rsi,%rdx,8),%r13
 	rcl $1,%rbx
 	add $2,%rdx
-	mov %r12,(%rbp,%rcx,8)
-	mov %r13,8(%rbp,%rcx,8)
-	add $2,%rcx
+	mov %r12,8(%rbp)
+	mov %r13,16(%rbp)
 	jmp fin
 case1:	#rcx=2
 	bt $2,%rbx
 	mov (%rdi,%rdx,8),%r8
-	adc (%rbp,%rcx,8),%r8
+	adc 16(%rbp),%r8
 	mov %r8,%r12
 	rcl $1,%rbx
 	bt $1,%rax
-	adc (%rdi,%rcx,8),%r8
+	adc 16(%rdi),%r8
 	rcl $1,%rax
 	bt $2,%rbx
 	adc (%rbp,%rdx,8),%r12
 	rcl $1,%rbx
 	bt $1,%rax
-	sbb (%rsi,%rcx,8),%r8
+	sbb 16(%rsi),%r8
 	rcl $1,%rax
 	bt $2,%rbx
 	mov %r8,(%rdi,%rdx,8)
@@ -201,9 +197,9 @@ case1:	#rcx=2
 	rcl $1,%rbx
 	inc %rdx
 	mov %r12,(%rbp,%rcx,8)
-	inc %rcx
+fin:	mov $3,%rcx
 case0: 	#rcx=3
-fin:	# if odd the do next two
+	# if odd the do next two
 	pop %r8
 	bt $0,%r8
 	jnc notodd
@@ -213,18 +209,17 @@ fin:	# if odd the do next two
 	sub (%rsi,%rdx,8),%r8
 	sbb 8(%rsi,%rdx,8),%r9
 	rcl $1,%r10
-	add %r8,(%rbp,%rcx,8)
-	adc %r9,8(%rbp,%rcx,8)
-	mov %rcx,%rsi
+	add %r8,24(%rbp)
+	adc %r9,32(%rbp)
 l7:	adcq $0,16(%rbp,%rcx,8)
 	inc %rcx
 	jc l7
-	mov %rsi,%rcx
+	mov $3,%rcx
 	bt $0,%r10
 l8:	sbbq $0,16(%rbp,%rcx,8)
 	inc %rcx
 	jc l8
-	mov %rsi,%rcx
+	mov $3,%rcx
 	# add in all carrys
 	# should we do the borrows last as it may be possible to underflow
 	# could use popcount
