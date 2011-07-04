@@ -228,6 +228,8 @@ double speed_mpn_jacobi_base_2 _PROTO ((struct speed_params *s));
 double speed_mpn_jacobi_base_3 _PROTO ((struct speed_params *s));
 double speed_mpn_kara_mul_n _PROTO ((struct speed_params *s));
 double speed_mpn_kara_sqr_n _PROTO ((struct speed_params *s));
+double speed_mpn_karaadd _PROTO ((struct speed_params *s));
+double speed_mpn_karasub _PROTO ((struct speed_params *s));
 double speed_mpn_lshift _PROTO ((struct speed_params *s));
 double speed_mpn_lshift1 _PROTO ((struct speed_params *s));
 double speed_mpn_lshift2 _PROTO ((struct speed_params *s));
@@ -1934,6 +1936,38 @@ int speed_routine_count_zeros_setup _PROTO ((struct speed_params *s,
     do {								\
       MPN_COPY (tp, ap, 2*s->size);					\
       function (cp, tp, mp, s->size, Nprim);				\
+    } while (--i != 0);							\
+    t = speed_endtime ();						\
+									\
+    TMP_FREE;								\
+    return t;								\
+  }
+
+#define SPEED_ROUTINE_MPN_KARA(function)					\
+  {									\
+    unsigned   i;							\
+    mp_ptr     rp, tp;						\
+    double     t;							\
+    TMP_DECL;								\
+									\
+    SPEED_RESTRICT_COND (s->size >= 8);					\
+									\
+    TMP_MARK;								\
+    SPEED_TMP_ALLOC_LIMBS (rp, 2*s->size, s->align_xp);		\
+    SPEED_TMP_ALLOC_LIMBS (tp, s->size+1,     s->align_yp);		\
+        								\
+    MPN_COPY (rp,         s->xp, s->size);				\
+    MPN_COPY (rp+s->size, s->yp, s->size);				\
+    MPN_COPY (tp , s->yp, s->size);				\
+									\
+    speed_operand_dst (s, rp, 2*s->size);				\
+    speed_operand_src (s, tp, s->size+1);				\
+    speed_cache_fill (s);						\
+									\
+    speed_starttime ();							\
+    i = s->reps;							\
+    do {								\
+      function (rp, tp, s->size);				\
     } while (--i != 0);							\
     t = speed_endtime ();						\
 									\

@@ -174,6 +174,12 @@ const struct routine_t {
 #if HAVE_NATIVE_mpn_addsub_n
   { "mpn_addsub_n",      speed_mpn_addsub_n,  },
 #endif
+#if HAVE_NATIVE_mpn_karaadd
+  { "mpn_karaadd",      speed_mpn_karaadd,  },
+#endif
+#if HAVE_NATIVE_mpn_karasub
+  { "mpn_karasub",      speed_mpn_karasub,  },
+#endif
 
   { "mpn_addmul_1",      speed_mpn_addmul_1,  FLAG_R },
   { "mpn_submul_1",      speed_mpn_submul_1,  FLAG_R },

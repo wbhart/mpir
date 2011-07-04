@@ -551,6 +551,21 @@ speed_mpn_mul_2 (struct speed_params *s)
 }
 #endif
 
+#if HAVE_NATIVE_mpn_karaadd
+double
+speed_mpn_karaadd (struct speed_params *s)
+{
+  SPEED_ROUTINE_MPN_KARA (mpn_karaadd);
+}
+#endif
+
+#if HAVE_NATIVE_mpn_karasub
+double
+speed_mpn_karasub (struct speed_params *s)
+{
+  SPEED_ROUTINE_MPN_KARA (mpn_karasub);
+}
+#endif
 
 double
 speed_mpn_lshift (struct speed_params *s)

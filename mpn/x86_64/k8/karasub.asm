@@ -105,7 +105,8 @@ cmp $2,%rdx
 jg	case0
 jz	case1
 jp	case2
-case3:	bt $2,%rbx
+case3:	#rdx=0
+	bt $2,%rbx
 	mov (%rdi,%rcx,8),%r8
 	adc (%rbp,%rdx,8),%r8
 	mov %r8,%r12
@@ -145,7 +146,8 @@ case3:	bt $2,%rbx
 	mov %r14,16(%rbp,%rdx,8)
 	add $3,%rdx
 	jmp fin
-case2:	bt $2,%rbx
+case2:	#rdx=1
+	bt $2,%rbx
 	mov (%rdi,%rcx,8),%r8
 	adc (%rbp,%rdx,8),%r8
 	mov %r8,%r12
@@ -176,7 +178,8 @@ case2:	bt $2,%rbx
 	mov %r13,8(%rbp,%rdx,8)
 	add $2,%rdx
 	jmp fin
-case1:	bt $2,%rbx
+case1:	#rdx=2
+	bt $2,%rbx
 	mov (%rdi,%rcx,8),%r8
 	adc (%rbp,%rdx,8),%r8
 	mov %r8,%r12
@@ -197,7 +200,7 @@ case1:	bt $2,%rbx
 	inc %rcx
 	mov %r12,(%rbp,%rdx,8)
 	inc %rdx
-case0:
+case0: 	#rdx=3
 fin:	# if odd the do next two
 	pop %r8
 	bt $0,%r8
