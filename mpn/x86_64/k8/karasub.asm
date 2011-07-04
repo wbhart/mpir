@@ -267,12 +267,12 @@ fin:	# if odd the do next two
 	add %r8,(%rbp,%rdx,8)
 	adc %r9,8(%rbp,%rdx,8)
 	mov %rdx,%rsi
-l7:	adc $0,16(%rbp,%rdx,8)
+l7:	adcq $0,16(%rbp,%rdx,8)
 	inc %rdx
 	jc l7
 	mov %rsi,%rdx
 	bt $0,%r10
-l8:	sbb $0,16(%rbp,%rdx,8)
+l8:	sbbq $0,16(%rbp,%rdx,8)
 	inc %rdx
 	jc l8
 	mov %rsi,%rdx
@@ -281,32 +281,32 @@ l8:	sbb $0,16(%rbp,%rdx,8)
 	# could use popcount
 notodd:	mov %rcx,%rsi
 	bt $0,%rax
-l1:	sbb $0,(%rdi,%rcx,8)
+l1:	sbbq $0,(%rdi,%rcx,8)
 	inc %rcx
 	jc l1
 	mov %rsi,%rcx
 	bt $1,%rax
-l2:	adc $0,(%rdi,%rcx,8)
+l2:	adcq $0,(%rdi,%rcx,8)
 	inc %rcx
 	jc l2
 	mov %rsi,%rcx
 	bt $2,%rbx
-l3:	adc $0,(%rdi,%rcx,8)
+l3:	adcq $0,(%rdi,%rcx,8)
 	inc %rcx
 	jc l3
 	mov %rdx,%rsi
 	bt $0,%rbx
-l4:	sbb $0,(%rbp,%rdx,8)
+l4:	sbbq $0,(%rbp,%rdx,8)
 	inc %rdx
 	jc l4
 	mov %rsi,%rdx
 	bt $1,%rbx
-l5:	adc $0,(%rbp,%rdx,8)
+l5:	adcq $0,(%rbp,%rdx,8)
 	inc %rdx
 	jc l5
 	mov %rsi,%rdx
 	bt $2,%rbx
-l6:	adc $0,(%rbp,%rdx,8)
+l6:	adcq $0,(%rbp,%rdx,8)
 	inc %rdx
 	jc l6
 
