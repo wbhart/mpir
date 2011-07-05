@@ -1,4 +1,4 @@
-dnl  mpn_karaadd
+dnl  mpn_karasub
 
 dnl  Copyright 2011 The Code Cavern
 
@@ -22,18 +22,18 @@ dnl  Boston, MA 02110-1301, USA.
 include(`../config.m4')
 
 ASM_START()
-PROLOGUE(mpn_karaadd)
+PROLOGUE(mpn_karasub)
 # requires n>=8
-mov %rbx,-8(%rsp)
-mov %rbp,-16(%rsp)
-mov %r12,-24(%rsp)
-mov %r13,-32(%rsp)
-mov %r14,-40(%rsp)
-mov %r15,-48(%rsp)
-mov %rdx,-56(%rsp)
+push %rbx
+push %rbp
+push %r12
+push %r13
+push %r14
+push %r15
 #rp is rdi
 #tp is rsi
 #n is rdx and put it on the stack
+push %rdx
 shr $1,%rdx
 #n2 is rdx
 lea (%rdx,%rdx,1),%rcx
@@ -79,20 +79,20 @@ lp:	bt $2,%rbx
 	adc 24(%rbp,%rdx,8),%r15
 	rcl $1,%rbx
 	bt $1,%rax
-	adc (%rsi,%rcx,8),%r8
-	adc 8(%rsi,%rcx,8),%r9
-	adc 16(%rsi,%rcx,8),%r10
-	adc 24(%rsi,%rcx,8),%r11
+	sbb (%rsi,%rcx,8),%r8
+	sbb 8(%rsi,%rcx,8),%r9
+	sbb 16(%rsi,%rcx,8),%r10
+	sbb 24(%rsi,%rcx,8),%r11
 	mov %r10,16(%rdi,%rdx,8)
 	mov %r11,24(%rdi,%rdx,8)
 	rcl $1,%rax
 	bt $2,%rbx
 	mov %r8,(%rdi,%rdx,8)
 	mov %r9,8(%rdi,%rdx,8)
-	adc (%rsi,%rdx,8),%r12
-	adc 8(%rsi,%rdx,8),%r13
-	adc 16(%rsi,%rdx,8),%r14
-	adc 24(%rsi,%rdx,8),%r15
+	sbb (%rsi,%rdx,8),%r12
+	sbb 8(%rsi,%rdx,8),%r13
+	sbb 16(%rsi,%rdx,8),%r14
+	sbb 24(%rsi,%rdx,8),%r15
 	rcl $1,%rbx
 	add $4,%rdx
 	mov %r12,(%rbp,%rcx,8)
@@ -128,17 +128,17 @@ case3:	#rcx=0
 	adc 16(%rbp,%rdx,8),%r14
 	rcl $1,%rbx
 	bt $1,%rax
-	adc (%rsi),%r8
-	adc 8(%rsi),%r9
-	adc 16(%rsi),%r10
+	sbb (%rsi),%r8
+	sbb 8(%rsi),%r9
+	sbb 16(%rsi),%r10
 	mov %r10,16(%rdi,%rdx,8)
 	rcl $1,%rax
 	bt $2,%rbx
 	mov %r8,(%rdi,%rdx,8)
 	mov %r9,8(%rdi,%rdx,8)
-	adc (%rsi,%rdx,8),%r12
-	adc 8(%rsi,%rdx,8),%r13
-	adc 16(%rsi,%rdx,8),%r14
+	sbb (%rsi,%rdx,8),%r12
+	sbb 8(%rsi,%rdx,8),%r13
+	sbb 16(%rsi,%rdx,8),%r14
 	rcl $1,%rbx
 	add $3,%rdx
 	mov %r12,(%rbp)
@@ -163,14 +163,14 @@ case2:	#rcx=1
 	adc 8(%rbp,%rdx,8),%r13
 	rcl $1,%rbx
 	bt $1,%rax
-	adc 8(%rsi),%r8
-	adc 16(%rsi),%r9
+	sbb 8(%rsi),%r8
+	sbb 16(%rsi),%r9
 	rcl $1,%rax
 	bt $2,%rbx
 	mov %r8,(%rdi,%rdx,8)
 	mov %r9,8(%rdi,%rdx,8)
-	adc (%rsi,%rdx,8),%r12
-	adc 8(%rsi,%rdx,8),%r13
+	sbb (%rsi,%rdx,8),%r12
+	sbb 8(%rsi,%rdx,8),%r13
 	rcl $1,%rbx
 	add $2,%rdx
 	mov %r12,8(%rbp)
@@ -189,59 +189,70 @@ case1:	#rcx=2
 	adc (%rbp,%rdx,8),%r12
 	rcl $1,%rbx
 	bt $1,%rax
-	adc 16(%rsi),%r8
+	sbb 16(%rsi),%r8
 	rcl $1,%rax
 	bt $2,%rbx
 	mov %r8,(%rdi,%rdx,8)
-	adc (%rsi,%rdx,8),%r12
+	sbb (%rsi,%rdx,8),%r12
 	rcl $1,%rbx
 	inc %rdx
 	mov %r12,(%rbp,%rcx,8)
 fin:	mov $3,%rcx
 case0: 	#rcx=3
-	mov -56(%rsp),%r8
+	# if odd the do next two
+	pop %r8
 	bt $0,%r8
 	jnc notodd
 	xor %r10,%r10
 	mov (%rbp,%rdx,8),%r8
 	mov 8(%rbp,%rdx,8),%r9
-	add (%rsi,%rdx,8),%r8
-	adc 8(%rsi,%rdx,8),%r9
+	sub (%rsi,%rdx,8),%r8
+	sbb 8(%rsi,%rdx,8),%r9
 	rcl $1,%r10
 	add %r8,24(%rbp)
 	adc %r9,32(%rbp)
-	adc %r10,40(%rbp)
-l7:	adcq $0,24(%rbp,%rcx,8)
+l7:	adcq $0,16(%rbp,%rcx,8)
 	inc %rcx
 	jc l7
 	mov $3,%rcx
-notodd:	xor %r8,%r8
-	shr $1,%rax
-	adc %r8,%r8
-	shr $1,%rax
-	adc $0,%r8
-	bt $2,%rbx
-	adc $0,%r8
-	adc %r8,(%rdi,%rdx,8)
-l1:	adcq $0,8(%rdi,%rdx,8)
+	bt $0,%r10
+l8:	sbbq $0,16(%rbp,%rcx,8)
+	inc %rcx
+	jc l8
+	mov $3,%rcx
+	# add in all carrys
+	# should we do the borrows last as it may be possible to underflow
+	# could use popcount
+notodd:	mov %rdx,%rsi
+	bt $0,%rax
+l1:	sbbq $0,(%rdi,%rdx,8)
 	inc %rdx
 	jc l1
 	xor %r8,%r8
-	shr $1,%rbx
+	bt $1,%rax
 	adc %r8,%r8
-	shr $1,%rbx
+	bt $2,%rbx
 	adc $0,%r8
-	shr $1,%rbx
-	adc $0,%r8
-	add %r8,24(%rbp)
-l2:	adcq $0,8(%rbp,%rcx,8)
-	inc %rcx
+	add %r8,(%rdi,%rsi,8)
+l2:	adcq $0,8(%rdi,%rsi,8)
+	inc %rsi
 	jc l2
-mov -8(%rsp),%rbx
-mov -16(%rsp),%rbp
-mov -24(%rsp),%r12
-mov -32(%rsp),%r13
-mov -40(%rsp),%r14
-mov -48(%rsp),%r15
+	mov %rcx,%rsi
+	bt $0,%rbx
+l4:	sbbq $0,(%rbp,%rcx,8)
+	inc %rcx
+	jc l4
+	and $6,%rbx
+	popcnt %rbx,%r8
+	add %r8,(%rbp,%rsi,8)
+l3:	adcq $0,8(%rbp,%rsi,8)
+	inc %rsi
+	jc l3
+pop %r15
+pop %r14
+pop %r13
+pop %r12
+pop %rbp
+pop %rbx
 ret
 EPILOGUE()

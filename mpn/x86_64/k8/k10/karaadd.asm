@@ -24,16 +24,16 @@ include(`../config.m4')
 ASM_START()
 PROLOGUE(mpn_karaadd)
 # requires n>=8
-mov %rbx,-8(%rsp)
-mov %rbp,-16(%rsp)
-mov %r12,-24(%rsp)
-mov %r13,-32(%rsp)
-mov %r14,-40(%rsp)
-mov %r15,-48(%rsp)
-mov %rdx,-56(%rsp)
+push %rbx
+push %rbp
+push %r12
+push %r13
+push %r14
+push %r15
 #rp is rdi
 #tp is rsi
 #n is rdx and put it on the stack
+push %rdx
 shr $1,%rdx
 #n2 is rdx
 lea (%rdx,%rdx,1),%rcx
@@ -199,7 +199,7 @@ case1:	#rcx=2
 	mov %r12,(%rbp,%rcx,8)
 fin:	mov $3,%rcx
 case0: 	#rcx=3
-	mov -56(%rsp),%r8
+	pop %r8
 	bt $0,%r8
 	jnc notodd
 	xor %r10,%r10
@@ -215,33 +215,25 @@ l7:	adcq $0,24(%rbp,%rcx,8)
 	inc %rcx
 	jc l7
 	mov $3,%rcx
-notodd:	xor %r8,%r8
-	shr $1,%rax
-	adc %r8,%r8
-	shr $1,%rax
-	adc $0,%r8
+notodd:	and $3,%rax
+	popcnt %rax,%r8
 	bt $2,%rbx
 	adc $0,%r8
 	adc %r8,(%rdi,%rdx,8)
 l1:	adcq $0,8(%rdi,%rdx,8)
 	inc %rdx
 	jc l1
-	xor %r8,%r8
-	shr $1,%rbx
-	adc %r8,%r8
-	shr $1,%rbx
-	adc $0,%r8
-	shr $1,%rbx
-	adc $0,%r8
+	and $7,%rbx
+	popcnt %rbx,%r8
 	add %r8,24(%rbp)
 l2:	adcq $0,8(%rbp,%rcx,8)
 	inc %rcx
 	jc l2
-mov -8(%rsp),%rbx
-mov -16(%rsp),%rbp
-mov -24(%rsp),%r12
-mov -32(%rsp),%r13
-mov -40(%rsp),%r14
-mov -48(%rsp),%r15
+pop %r15
+pop %r14
+pop %r13
+pop %r12
+pop %rbp
+pop %rbx
 ret
 EPILOGUE()

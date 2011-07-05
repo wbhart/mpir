@@ -1188,8 +1188,13 @@ __GMP_DECLSPEC extern gmp_randstate_t  __gmp_rands;
 #endif /* WANT_FFT */
 
 /* need 2 so that n2>=1 */
+#if defined(HAVE_NATIVE_mpn_karaadd) || defined(HAVE_NATIVE_mpn_karasub)
+#define MPN_KARA_MUL_N_MINSIZE    8
+#define MPN_KARA_SQR_N_MINSIZE    8
+#else
 #define MPN_KARA_MUL_N_MINSIZE    2
 #define MPN_KARA_SQR_N_MINSIZE    2
+#endif
 
 /* Need l>=1, ls>=1, and 2*ls > l (the latter for the tD MPN_INCR_U) */
 #define MPN_TOOM3_MUL_N_MINSIZE   17 

@@ -24,16 +24,16 @@ include(`../config.m4')
 ASM_START()
 PROLOGUE(mpn_karasub)
 # requires n>=8
-push %rbx
-push %rbp
-push %r12
-push %r13
-push %r14
-push %r15
+mov %rbx,-8(%rsp)
+mov %rbp,-16(%rsp)
+mov %r12,-24(%rsp)
+mov %r13,-32(%rsp)
+mov %r14,-40(%rsp)
+mov %r15,-48(%rsp)
+mov %rdx,-56(%rsp)
 #rp is rdi
 #tp is rsi
 #n is rdx and put it on the stack
-push %rdx
 shr $1,%rdx
 #n2 is rdx
 lea (%rdx,%rdx,1),%rcx
@@ -200,7 +200,7 @@ case1:	#rcx=2
 fin:	mov $3,%rcx
 case0: 	#rcx=3
 	# if odd the do next two
-	pop %r8
+	mov -56(%rsp),%r8
 	bt $0,%r8
 	jnc notodd
 	xor %r10,%r10
@@ -228,37 +228,34 @@ notodd:	mov %rdx,%rsi
 l1:	sbbq $0,(%rdi,%rdx,8)
 	inc %rdx
 	jc l1
-	mov %rsi,%rdx
+	xor %r8,%r8
 	bt $1,%rax
-l2:	adcq $0,(%rdi,%rdx,8)
-	inc %rdx
-	jc l2
-	mov %rsi,%rdx
+	adc %r8,%r8
 	bt $2,%rbx
-l3:	adcq $0,(%rdi,%rdx,8)
-	inc %rdx
-	jc l3
+	adc $0,%r8
+	add %r8,(%rdi,%rsi,8)
+l2:	adcq $0,8(%rdi,%rsi,8)
+	inc %rsi
+	jc l2
 	mov %rcx,%rsi
 	bt $0,%rbx
 l4:	sbbq $0,(%rbp,%rcx,8)
 	inc %rcx
 	jc l4
-	mov %rsi,%rcx
+	xor %r8,%r8
 	bt $1,%rbx
-l5:	adcq $0,(%rbp,%rcx,8)
-	inc %rcx
-	jc l5
-	mov %rsi,%rcx
+	adc %r8,%r8
 	bt $2,%rbx
-l6:	adcq $0,(%rbp,%rcx,8)
-	inc %rcx
-	jc l6
-
-pop %r15
-pop %r14
-pop %r13
-pop %r12
-pop %rbp
-pop %rbx
+	adc $0,%r8
+	add %r8,(%rbp,%rsi,8)
+l3:	adcq $0,8(%rbp,%rsi,8)
+	inc %rsi
+	jc l3
+mov -8(%rsp),%rbx
+mov -16(%rsp),%rbp
+mov -24(%rsp),%r12
+mov -32(%rsp),%r13
+mov -40(%rsp),%r14
+mov -48(%rsp),%r15
 ret
 EPILOGUE()
