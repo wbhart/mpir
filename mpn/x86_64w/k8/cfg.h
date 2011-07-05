@@ -34,6 +34,8 @@ mpn_divrem_hensel_qr_1_1
 mpn_divrem_hensel_qr_1_2
 mpn_divrem_hensel_r_1
 mpn_hamdist
+mpn_karaadd
+mpn_karasub
 mpn_lshift
 mpn_lshift1
 mpn_lshift2

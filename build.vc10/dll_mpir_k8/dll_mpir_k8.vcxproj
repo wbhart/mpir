@@ -2041,6 +2041,12 @@ postbuild "$(TargetPath)"</Command>
     <YASM Include="..\..\mpn\x86_64w\k8\divrem_hensel_qr_1_2.asm" />
     <YASM Include="..\..\mpn\x86_64w\k8\divrem_hensel_r_1.asm" />
     <YASM Include="..\..\mpn\x86_64w\k8\hamdist.asm" />
+    <YASM Include="..\..\mpn\x86_64w\k8\karaadd.asm">
+      <FileType>Document</FileType>
+    </YASM>
+    <YASM Include="..\..\mpn\x86_64w\k8\karasub.asm">
+      <FileType>Document</FileType>
+    </YASM>
     <YASM Include="..\..\mpn\x86_64w\k8\lshift.asm" />
     <YASM Include="..\..\mpn\x86_64w\k8\lshift1.asm" />
     <YASM Include="..\..\mpn\x86_64w\k8\lshift2.asm" />

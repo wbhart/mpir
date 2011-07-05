@@ -1655,5 +1655,11 @@
       <Filter>Source Files\mpn\Assembler</Filter>
     </YASM>
     <YASM Include="..\..\mpn\x86_64w\k8\sub_err1_n.asm" />
+    <YASM Include="..\..\mpn\x86_64w\k8\karaadd.asm">
+      <Filter>Source Files\mpn\Assembler</Filter>
+    </YASM>
+    <YASM Include="..\..\mpn\x86_64w\k8\karasub.asm">
+      <Filter>Source Files\mpn\Assembler</Filter>
+    </YASM>
   </ItemGroup>
 </Project>

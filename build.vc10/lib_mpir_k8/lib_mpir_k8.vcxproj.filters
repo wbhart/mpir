@@ -48,6 +48,9 @@
     <ClInclude Include="..\..\mpn\x86_64w\k8\gmp-mparam.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\mpn\x86_64w\k8\cfg.h">
+      <Filter>Source Files\mpn\Assembler</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\assert.c">
@@ -1614,5 +1617,11 @@
       <Filter>Source Files\mpn\Assembler</Filter>
     </YASM>
     <YASM Include="..\..\mpn\x86_64w\k8\sub_err1_n.asm" />
+    <YASM Include="..\..\mpn\x86_64w\k8\karaadd.asm">
+      <Filter>Source Files\mpn\Assembler</Filter>
+    </YASM>
+    <YASM Include="..\..\mpn\x86_64w\k8\karasub.asm">
+      <Filter>Source Files\mpn\Assembler</Filter>
+    </YASM>
   </ItemGroup>
 </Project>
