@@ -1602,5 +1602,11 @@
     <YASM Include="..\..\mpn\x86_64w\sub_err2_n.asm">
       <Filter>Source Files\mpn\Assembler</Filter>
     </YASM>
+    <YASM Include="..\..\mpn\x86_64w\nehalem\karaadd.asm">
+      <Filter>Source Files\mpn\Assembler</Filter>
+    </YASM>
+    <YASM Include="..\..\mpn\x86_64w\nehalem\karasub.asm">
+      <Filter>Source Files\mpn\Assembler</Filter>
+    </YASM>
   </ItemGroup>
 </Project>
