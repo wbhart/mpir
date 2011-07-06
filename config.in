@@ -146,11 +146,6 @@ MA 02110-1301, USA.
 #undef HAVE_HOST_CPU_alphaev67
 #undef HAVE_HOST_CPU_alphaev68
 #undef HAVE_HOST_CPU_alphaev7
-#undef HAVE_HOST_CPU_m68020
-#undef HAVE_HOST_CPU_m68030
-#undef HAVE_HOST_CPU_m68040
-#undef HAVE_HOST_CPU_m68060
-#undef HAVE_HOST_CPU_m68360
 #undef HAVE_HOST_CPU_powerpc604
 #undef HAVE_HOST_CPU_powerpc604e
 #undef HAVE_HOST_CPU_powerpc750

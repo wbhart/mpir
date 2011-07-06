@@ -4051,41 +4051,7 @@ echo "include_mpn(\`ia64/ia64-defs.m4')" >> $gmp_tmpconfigm4i
     esac
     ;;
 
-
-  # Motorola 68k
-  #
-  m68k-*-* | m68[0-9][0-9][0-9]-*-*)
-    $as_echo "#define HAVE_HOST_CPU_FAMILY_m68k 1" >>confdefs.h
-
-
-echo "include_mpn(\`m68k/m68k-defs.m4')" >> $gmp_tmpconfigm4i
-
-    gcc_cflags="-O2 $fomit_frame_pointer"
-    gcc_cflags_optlist="arch"
-
-    # gcc 2.7.2 knows -m68000, -m68020, -m68030, -m68040.
-    # gcc 2.95 adds -mcpu32, -m68060.
-    # FIXME: Maybe "-m68020 -mnobitfield" would suit cpu32 on 2.7.2.
-    #
-    case $host_cpu in
-    m68020)  gcc_cflags_arch="-m68020" ;;
-    m68030)  gcc_cflags_arch="-m68030" ;;
-    m68040)  gcc_cflags_arch="-m68040" ;;
-    m68060)  gcc_cflags_arch="-m68060 -m68000" ;;
-    m68360)  gcc_cflags_arch="-mcpu32 -m68000" ;;
-    *)       gcc_cflags_arch="-m68000" ;;
-    esac
-
-    # FIXME: m68k/mc68020 looks like it's ok for cpu32, but this wants to be
-    # tested.  Will need to introduce an m68k/cpu32 if m68k/mc68020 ever uses
-    # the bitfield instructions.
-    case $host_cpu in
-    m680[234]0 | m68360)  path="m68k/mc68020 m68k" ;;
-    *)                      path="m68k" ;;
-    esac
-    ;;
-
-  # IRIX 5 and earlier can only run 32-bit o32.
+  # Irix  5 and earlier can only run 32-bit o32.
   #
   # IRIX 6 and up always has a 64-bit mips CPU can run n32 or 64.  n32 is
   # preferred over 64, but only because that's been the default in past
@@ -4347,9 +4313,6 @@ echo "include_mpn(\`mips32/mips-defs.m4')" >> $gmp_tmpconfigm4i
         ;;
     esac
     ;;
-
-  sh-*-*)   path="sh" ;;
-  sh2-*-*)  path="sh/sh2 sh" ;;
 
   *sparc*-*-*)
     # sizeof(long)==4 or 8 is tested, to ensure we get the right ABI.  We've
@@ -27640,165 +27603,6 @@ fi
 $as_echo "$gmp_cv_asm_ia64_align_ok" >&6; }
 
 echo "define(<IA64_ALIGN_OK>, <\`$gmp_cv_asm_ia64_align_ok'>)" >> $gmp_tmpconfigm4
-
-
-      ;;
-    m68k-*-* | m68[0-9][0-9][0-9]-*-*)
-
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking assembler instruction and register style" >&5
-$as_echo_n "checking assembler instruction and register style... " >&6; }
-if ${gmp_cv_asm_m68k_instruction+:} false; then :
-  $as_echo_n "(cached) " >&6
-else
-  for i in "addl %d0,%d1" "add.l %d0,%d1" "addl d0,d1" "add.l d0,d1"; do
-  cat >conftest.s <<EOF
-	$gmp_cv_asm_text
-	$i
-EOF
-gmp_assemble="$CCAS $CFLAGS $CPPFLAGS conftest.s >conftest.out 2>&1"
-if { { eval echo "\"\$as_me\":${as_lineno-$LINENO}: \"$gmp_assemble\""; } >&5
-  (eval $gmp_assemble) 2>&5
-  ac_status=$?
-  $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
-  test $ac_status = 0; }; then
-  cat conftest.out >&5
-  gmp_cv_asm_m68k_instruction=$i
-    rm -f conftest*
-    break
-else
-  cat conftest.out >&5
-  echo "configure: failed program was:" >&5
-  cat conftest.s >&5
-  :
-fi
-rm -f conftest*
-
-done
-if test -z "$gmp_cv_asm_m68k_instruction"; then
-  as_fn_error $? "cannot determine assembler instruction and register style" "$LINENO" 5
-fi
-
-fi
-{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $gmp_cv_asm_m68k_instruction" >&5
-$as_echo "$gmp_cv_asm_m68k_instruction" >&6; }
-case $gmp_cv_asm_m68k_instruction in
-"addl d0,d1")    want_dot_size=no;  want_register_percent=no  ;;
-"addl %d0,%d1")  want_dot_size=no;  want_register_percent=yes ;;
-"add.l d0,d1")   want_dot_size=yes; want_register_percent=no  ;;
-"add.l %d0,%d1") want_dot_size=yes; want_register_percent=yes ;;
-*) as_fn_error $? "oops, unrecognised instruction and register style" "$LINENO" 5 ;;
-esac
-
-echo "define(<WANT_REGISTER_PERCENT>, <\`$want_register_percent'>)" >> $gmp_tmpconfigm4
-
-
-echo "define(<WANT_DOT_SIZE>, <\`$want_dot_size'>)" >> $gmp_tmpconfigm4
-
-
-
-
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking assembler addressing style" >&5
-$as_echo_n "checking assembler addressing style... " >&6; }
-if ${gmp_cv_asm_m68k_addressing+:} false; then :
-  $as_echo_n "(cached) " >&6
-else
-  case $gmp_cv_asm_m68k_instruction in
-addl*)  movel=movel ;;
-add.l*) movel=move.l ;;
-*) as_fn_error $? "oops, unrecognised gmp_cv_asm_m68k_instruction" "$LINENO" 5 ;;
-esac
-case $gmp_cv_asm_m68k_instruction in
-*"%d0,%d1") dreg=%d0; areg=%a0 ;;
-*"d0,d1")   dreg=d0;  areg=a0  ;;
-*) as_fn_error $? "oops, unrecognised gmp_cv_asm_m68k_instruction" "$LINENO" 5 ;;
-esac
-cat >conftest.s <<EOF
-	$gmp_cv_asm_text
-	$movel	$dreg, $areg@-
-EOF
-gmp_assemble="$CCAS $CFLAGS $CPPFLAGS conftest.s >conftest.out 2>&1"
-if { { eval echo "\"\$as_me\":${as_lineno-$LINENO}: \"$gmp_assemble\""; } >&5
-  (eval $gmp_assemble) 2>&5
-  ac_status=$?
-  $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
-  test $ac_status = 0; }; then
-  cat conftest.out >&5
-  gmp_cv_asm_m68k_addressing=mit
-else
-  cat conftest.out >&5
-  echo "configure: failed program was:" >&5
-  cat conftest.s >&5
-  cat >conftest.s <<EOF
-	$gmp_cv_asm_text
-	$movel	$dreg, -($areg)
-EOF
-gmp_assemble="$CCAS $CFLAGS $CPPFLAGS conftest.s >conftest.out 2>&1"
-if { { eval echo "\"\$as_me\":${as_lineno-$LINENO}: \"$gmp_assemble\""; } >&5
-  (eval $gmp_assemble) 2>&5
-  ac_status=$?
-  $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
-  test $ac_status = 0; }; then
-  cat conftest.out >&5
-  gmp_cv_asm_m68k_addressing=motorola
-else
-  cat conftest.out >&5
-  echo "configure: failed program was:" >&5
-  cat conftest.s >&5
-  as_fn_error $? "cannot determine assembler addressing style" "$LINENO" 5
-fi
-rm -f conftest*
-
-fi
-rm -f conftest*
-
-
-fi
-{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $gmp_cv_asm_m68k_addressing" >&5
-$as_echo "$gmp_cv_asm_m68k_addressing" >&6; }
-
-echo "define(<WANT_ADDRESSING>, <\`$gmp_cv_asm_m68k_addressing'>)" >> $gmp_tmpconfigm4
-
-
-
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking assembler shortest branches" >&5
-$as_echo_n "checking assembler shortest branches... " >&6; }
-if ${gmp_cv_asm_m68k_branches+:} false; then :
-  $as_echo_n "(cached) " >&6
-else
-  for i in jra jbra bra; do
-  cat >conftest.s <<EOF
-	$gmp_cv_asm_text
-foo$gmp_cv_asm_label_suffix
-	$i	foo
-EOF
-gmp_assemble="$CCAS $CFLAGS $CPPFLAGS conftest.s >conftest.out 2>&1"
-if { { eval echo "\"\$as_me\":${as_lineno-$LINENO}: \"$gmp_assemble\""; } >&5
-  (eval $gmp_assemble) 2>&5
-  ac_status=$?
-  $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
-  test $ac_status = 0; }; then
-  cat conftest.out >&5
-  gmp_cv_asm_m68k_branches=$i
-  rm -f conftest*
-  break
-else
-  cat conftest.out >&5
-  echo "configure: failed program was:" >&5
-  cat conftest.s >&5
-  :
-fi
-rm -f conftest*
-
-done
-if test -z "$gmp_cv_asm_m68k_branches"; then
-  as_fn_error $? "cannot determine assembler branching style" "$LINENO" 5
-fi
-
-fi
-{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $gmp_cv_asm_m68k_branches" >&5
-$as_echo "$gmp_cv_asm_m68k_branches" >&6; }
-
-echo "define(<WANT_BRANCHES>, <\`$gmp_cv_asm_m68k_branches'>)" >> $gmp_tmpconfigm4
 
 
       ;;

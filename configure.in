@@ -236,11 +236,6 @@ AH_VERBATIM([HAVE_HOST_CPU_1],
 #undef HAVE_HOST_CPU_alphaev67
 #undef HAVE_HOST_CPU_alphaev68
 #undef HAVE_HOST_CPU_alphaev7
-#undef HAVE_HOST_CPU_m68020
-#undef HAVE_HOST_CPU_m68030
-#undef HAVE_HOST_CPU_m68040
-#undef HAVE_HOST_CPU_m68060
-#undef HAVE_HOST_CPU_m68360
 #undef HAVE_HOST_CPU_powerpc604
 #undef HAVE_HOST_CPU_powerpc604e
 #undef HAVE_HOST_CPU_powerpc750
@@ -515,38 +510,7 @@ case $host in
     esac
     ;;
 
-
-  # Motorola 68k
-  #
-  M68K_PATTERN)
-    AC_DEFINE(HAVE_HOST_CPU_FAMILY_m68k)
-    GMP_INCLUDE_MPN(m68k/m68k-defs.m4)
-    gcc_cflags="-O2 $fomit_frame_pointer"
-    gcc_cflags_optlist="arch"
-
-    # gcc 2.7.2 knows -m68000, -m68020, -m68030, -m68040.
-    # gcc 2.95 adds -mcpu32, -m68060.
-    # FIXME: Maybe "-m68020 -mnobitfield" would suit cpu32 on 2.7.2.
-    #
-    case $host_cpu in
-    m68020)  gcc_cflags_arch="-m68020" ;;
-    m68030)  gcc_cflags_arch="-m68030" ;;
-    m68040)  gcc_cflags_arch="-m68040" ;;
-    m68060)  gcc_cflags_arch="-m68060 -m68000" ;;
-    m68360)  gcc_cflags_arch="-mcpu32 -m68000" ;;
-    *)       gcc_cflags_arch="-m68000" ;;
-    esac
-
-    # FIXME: m68k/mc68020 looks like it's ok for cpu32, but this wants to be
-    # tested.  Will need to introduce an m68k/cpu32 if m68k/mc68020 ever uses
-    # the bitfield instructions.
-    case $host_cpu in
-    [m680[234]0 | m68360])  path="m68k/mc68020 m68k" ;;
-    *)                      path="m68k" ;;
-    esac
-    ;;
-
-  # IRIX 5 and earlier can only run 32-bit o32.
+  # Irix  5 and earlier can only run 32-bit o32.
   #
   # IRIX 6 and up always has a 64-bit mips CPU can run n32 or 64.  n32 is
   # preferred over 64, but only because that's been the default in past
@@ -805,9 +769,6 @@ case $host in
         ;;
     esac
     ;;
-
-  sh-*-*)   path="sh" ;;
-  sh2-*-*)  path="sh/sh2 sh" ;;
 
   *sparc*-*-*)
     # sizeof(long)==4 or 8 is tested, to ensure we get the right ABI.  We've
@@ -2850,11 +2811,6 @@ if test "$gmp_asm_syntax_testing" != no; then
   case $host in
     IA64_PATTERN)
       GMP_ASM_IA64_ALIGN_OK
-      ;;
-    M68K_PATTERN)
-      GMP_ASM_M68K_INSTRUCTION
-      GMP_ASM_M68K_ADDRESSING
-      GMP_ASM_M68K_BRANCHES
       ;;
     [powerpc*-*-* | power[3-9]-*-*])
       GMP_ASM_POWERPC_PIC_ALWAYS
