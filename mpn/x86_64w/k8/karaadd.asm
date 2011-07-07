@@ -60,7 +60,7 @@
         sub     rcx, rdx
         mov     edx, 3
         align   16
-lp:     bt      rbx, 2
+.1:     bt      rbx, 2
         mov     r8, [rdi+rdx*8]
         adc     r8, [rbp+rcx*8]
         mov     r12, r8
@@ -108,12 +108,12 @@ lp:     bt      rbx, 2
         mov     [rbp+rcx*8+16], r14
         mov     [rbp+rcx*8+24], r15
         add     rcx, 4
-        jnc     lp
+        jnc     .1
         cmp     rcx, 2
-        jg      case0
-        jz      case1
-        jp      case2
-case3:  
+        jg      .6
+        jz      .4
+        jp      .3
+.2:     
         bt      rbx, 2
         mov     r8, [rdi+rdx*8]
         adc     r8, [rbp]
@@ -152,8 +152,8 @@ case3:
         mov     [rbp], r12
         mov     [rbp+8], r13
         mov     [rbp+16], r14
-        jmp     fin
-case2:  
+        jmp     .5
+.3:     
         bt      rbx, 2
         mov     r8, [rdi+rdx*8]
         adc     r8, [rbp+8]
@@ -183,8 +183,8 @@ case2:
         add     rdx, 2
         mov     [rbp+8], r12
         mov     [rbp+16], r13
-        jmp     fin
-case1:  
+        jmp     .5
+.4:     
         bt      rbx, 2
         mov     r8, [rdi+rdx*8]
         adc     r8, [rbp+16]
@@ -205,11 +205,11 @@ case1:
         rcl     rbx, 1
         inc     rdx
         mov     [rbp+rcx*8], r12
-fin:    mov     rcx, 3
-case0:  
+.5:     mov     rcx, 3
+.6:     
         mov     r8, [rsp]
         bt      r8, 0
-        jnc     notodd
+        jnc     .8
         xor     r10, r10
         mov     r8, [rbp+rdx*8]
         mov     r9, [rbp+rdx*8+8]
@@ -219,11 +219,11 @@ case0:
         add     [rbp+24], r8
         adc     [rbp+32], r9
         adc     [rbp+40], r10
-l7:     adc     qword[rbp+rcx*8+24], 0
+.7:     adc     qword[rbp+rcx*8+24], 0
         inc     rcx
-        jc      l7
+        jc      .7
         mov     rcx, 3
-notodd: xor    r8, r8
+.8:     xor     r8, r8
         shr     rax, 1
         adc     r8, r8
         shr     rax, 1
@@ -231,9 +231,9 @@ notodd: xor    r8, r8
         bt      rbx, 2
         adc     r8, 0
         adc     [rdi+rdx*8], r8
-l1:     adc     qword[rdi+rdx*8+8], 0
+.9:     adc     qword[rdi+rdx*8+8], 0
         inc     rdx
-        jc      l1
+        jc      .9
         xor     r8, r8
         shr     rbx, 1
         adc     r8, r8
@@ -242,9 +242,9 @@ l1:     adc     qword[rdi+rdx*8+8], 0
         shr     rbx, 1
         adc     r8, 0
         add     [rbp+24], r8
-l2:     adc     qword[rbp+rcx*8+8], 0
+.10:    adc     qword[rbp+rcx*8+8], 0
         inc     rcx
-        jc      l2
+        jc      .10
         END_PROC reg_save_list
 
         end

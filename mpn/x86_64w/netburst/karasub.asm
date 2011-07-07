@@ -61,7 +61,7 @@
         sub     rcx, rdx
         mov     edx, 3
         align   16
-lp:     bt      rbx, 2
+.1:     bt      rbx, 2
         mov     r8, [rdi+rdx*8]
         adc     r8, [rbp+rcx*8]
         mov     r12, r8
@@ -109,12 +109,12 @@ lp:     bt      rbx, 2
         mov     [rbp+rcx*8+16], r14
         mov     [rbp+rcx*8+24], r15
         add     rcx, 4
-        jnc     lp
+        jnc     .1
         cmp     rcx, 2
-        jg      case0
-        jz      case1
-        jp      case2
-case3:  
+        jg      .6
+        jz      .4
+        jp      .3
+.2:     
         bt      rbx, 2
         mov     r8, [rdi+rdx*8]
         adc     r8, [rbp]
@@ -153,8 +153,8 @@ case3:
         mov     [rbp], r12
         mov     [rbp+8], r13
         mov     [rbp+16], r14
-        jmp     fin
-case2:  
+        jmp     .5
+.3:     
         bt      rbx, 2
         mov     r8, [rdi+rdx*8]
         adc     r8, [rbp+8]
@@ -184,8 +184,8 @@ case2:
         add     rdx, 2
         mov     [rbp+8], r12
         mov     [rbp+16], r13
-        jmp     fin
-case1:  
+        jmp     .5
+.4:     
         bt      rbx, 2
         mov     r8, [rdi+rdx*8]
         adc     r8, [rbp+16]
@@ -206,12 +206,12 @@ case1:
         rcl     rbx, 1
         inc     rdx
         mov     [rbp+rcx*8], r12
-fin:    mov     rcx, 3
-case0:  
+.5:     mov     rcx, 3
+.6:     
 ; if odd the do next two  
         mov     r8, [rsp]
         bt      r8, 0
-        jnc     notodd
+        jnc     .9
         xor     r10, r10
         mov     r8, [rbp+rdx*8]
         mov     r9, [rbp+rdx*8+8]
@@ -220,46 +220,46 @@ case0:
         rcl     r10, 1
         add     [rbp+24], r8
         adc     [rbp+32], r9
-l7:     adc     qword[rbp+rcx*8+16], 0
+.7:     adc     qword[rbp+rcx*8+16], 0
         inc     rcx
-        jc      l7
+        jc      .7
         mov     rcx, 3
         bt      r10, 0
-l8:     sbb     qword[rbp+rcx*8+16], 0
+.8:     sbb     qword[rbp+rcx*8+16], 0
         inc     rcx
-        jc      l8
+        jc      .8
         mov     rcx, 3
 ; add in all carrys  
 ; should we do the borrows last as it may be possible to underflow  
 ; could use popcount  
-notodd:  mov    rsi, rdx
+.9:     mov     rsi, rdx
         bt      rax, 0
-l1:     sbb     qword[rdi+rdx*8], 0
+.10:    sbb     qword[rdi+rdx*8], 0
         inc     rdx
-        jc      l1
+        jc      .10
         xor     r8, r8
         bt      rax, 1
         adc     r8, r8
         bt      rbx, 2
         adc     r8, 0
         add     [rdi+rsi*8], r8
-l2:     adc     qword[rdi+rsi*8+8], 0
+.11:    adc     qword[rdi+rsi*8+8], 0
         inc     rsi
-        jc      l2
+        jc      .11
         mov     rsi, rcx
         bt      rbx, 0
-l4:     sbb     qword[rbp+rcx*8], 0
+.12:    sbb     qword[rbp+rcx*8], 0
         inc     rcx
-        jc      l4
+        jc      .12
         xor     r8, r8
         bt      rbx, 1
         adc     r8, r8
         bt      rbx, 2
         adc     r8, 0
         add     [rbp+rsi*8], r8
-l3:     adc     qword[rbp+rsi*8+8], 0
+.13:    adc     qword[rbp+rsi*8+8], 0
         inc     rsi
-        jc      l3
+        jc      .13
         END_PROC reg_save_list
 
         end
