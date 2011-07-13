@@ -592,6 +592,16 @@ speed_mpn_not (struct speed_params *s)
   SPEED_ROUTINE_MPN_POPCOUNT (mpn_not);
 }
 double
+speed_mpn_double (struct speed_params *s)
+{
+  SPEED_ROUTINE_MPN_POPCOUNT (mpn_double);
+}
+double
+speed_mpn_half (struct speed_params *s)
+{
+  SPEED_ROUTINE_MPN_POPCOUNT (mpn_half);
+}
+double
 speed_mpn_lshift1 (struct speed_params *s)
 {
   SPEED_ROUTINE_MPN_SHIFTX (mpn_lshift1);

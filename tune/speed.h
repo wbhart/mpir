@@ -211,6 +211,8 @@ double speed_mpn_divrem_1f_inv _PROTO ((struct speed_params *s));
 double speed_mpn_divrem_2 _PROTO ((struct speed_params *s));
 double speed_mpn_divrem_2_div _PROTO ((struct speed_params *s));
 double speed_mpn_divrem_2_inv _PROTO ((struct speed_params *s));
+double speed_mpn_double _PROTO ((struct speed_params *s));
+double speed_mpn_half _PROTO ((struct speed_params *s));
 double speed_mpn_fib2_ui _PROTO ((struct speed_params *s));
 double speed_mpn_hgcd _PROTO ((struct speed_params *s));
 double speed_mpn_hgcd_lehmer _PROTO ((struct speed_params *s));

@@ -1,4 +1,4 @@
-/* Test mpn_lshift1 mpn_rshift1 mpn_lshift2 mpn_rshift2
+/* Test mpn_lshift1 mpn_rshift1 mpn_lshift2 mpn_rshift2 mpn_double mpn_half
 
   Copyright 2008 Jason Moxham
 
@@ -32,8 +32,8 @@ main (void)
 {
   unsigned long n;
   gmp_randstate_t rands;
-  int j, i1, k1, k2;
-  mp_limb_t xp[10000], zp[10000], cp[10000];
+  int j, i1, k1, k2, k3;
+  mp_limb_t xp[10000], zp[10000], cp[10000], hp[10000];
 
   tests_start ();
   gmp_randinit_default(rands);
@@ -54,6 +54,7 @@ main (void)
 		}
 	      k1 = mpn_lshift1 (zp, xp, n);
 	      k2 = mpn_lshift (cp, xp, n, 1);
+	      MPN_COPY(hp,xp,n);k3 = mpn_double(hp,n);
 	      if (k1 != k2)
 		{
 		  printf ("mpn_lshift1 wrong\n");
@@ -64,8 +65,20 @@ main (void)
 		  printf ("mpn_lshift1 wrong\n");
 		  abort ();
 		}
+	      if (k1 != k3)
+		{
+		  printf ("mpn_double return wrong\n");
+		  abort ();
+		}
+	      if (mpn_cmp (zp, hp, n) != 0)
+		{
+		  printf ("mpn_double wrong\n");
+		  abort ();
+		}
+
 	      k1 = mpn_rshift1 (zp, xp, n);
 	      k2 = mpn_rshift (cp, xp, n, 1);
+	      MPN_COPY(hp,xp,n);k3 = mpn_half(hp,n);
 	      if (k1 != k2)
 		{
 		  printf ("mpn_rshift1 wrong\n");
@@ -74,6 +87,16 @@ main (void)
 	      if (mpn_cmp (zp, cp, n) != 0)
 		{
 		  printf ("mpn_rshift1 wrong\n");
+		  abort ();
+		}
+	     if (k1 != k3)
+		{
+		  printf ("mpn_half return wrong\n");
+		  abort ();
+		}
+	      if (mpn_cmp (zp, hp, n) != 0)
+		{
+		  printf ("mpn_half wrong\n");
 		  abort ();
 		}
               k1 = mpn_lshift2 (zp, xp, n);

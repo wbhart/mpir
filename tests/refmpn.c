@@ -1296,6 +1296,18 @@ refmpn_rshift1(mp_ptr rp, mp_srcptr xp, mp_size_t n)
 }
 
 mp_limb_t 
+refmpn_double(mp_ptr rp, mp_size_t n)
+{
+	return refmpn_lshift (rp, rp, n, 1);
+}
+
+mp_limb_t 
+refmpn_half(mp_ptr rp, mp_size_t n)
+{
+	return refmpn_rshift (rp, rp, n, 1);
+}
+
+mp_limb_t 
 refmpn_lshift2(mp_ptr rp, mp_srcptr xp, mp_size_t n)
 {
 	return refmpn_lshift (rp, xp, n, 2);

@@ -2113,6 +2113,20 @@ void mpn_not _PROTO ((mp_ptr,mp_size_t));
 #define mpn_not(__xp,__n) mpn_com((__xp),(__xp),(__n))
 #endif
 
+#if HAVE_NATIVE_mpn_double
+#define mpn_double __MPN(double)
+mp_limb_t mpn_double _PROTO ((mp_ptr,mp_size_t));
+#else
+#define mpn_double(__xp,__n) mpn_lshift1((__xp),(__xp),(__n))
+#endif
+
+#if HAVE_NATIVE_mpn_half
+#define mpn_half __MPN(half)
+mp_limb_t mpn_half _PROTO ((mp_ptr,mp_size_t));
+#else
+#define mpn_half(__xp,__n) mpn_rshift1((__xp),(__xp),(__n))
+#endif
+
 #if HAVE_NATIVE_mpn_lshift1
 #define mpn_lshift1 __MPN(lshift1)
 mp_limb_t mpn_lshift1 _PROTO ((mp_ptr,mp_srcptr,mp_size_t));

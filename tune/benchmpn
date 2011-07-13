@@ -3,7 +3,7 @@ echo -ne "cpu                  \t"
 ../config.guess | cut -d - -f 1
 TMPFILE=$(mktemp mpir.XXXXXX)
 for fn in mpn_add_n mpn_sub_n mpn_mul_1.333 mpn_addmul_1.333 mpn_submul_1.333 mpn_mul_2 mpn_addmul_2 mpn_submul_2 \
-	mpn_addadd_n mpn_addsub_n mpn_subadd_n mpn_lshift.3 mpn_rshift.3 mpn_lshift2 mpn_rshift2 mpn_lshift1 mpn_rshift1 \
+	mpn_addadd_n mpn_addsub_n mpn_subadd_n mpn_lshift.3 mpn_rshift.3 mpn_lshift2 mpn_rshift2 mpn_lshift1 mpn_rshift1 mpn_double mpn_half \
 	mpn_addlsh1_n mpn_sublsh1_n mpn_addlsh_n.3 mpn_sublsh_n.3 mpn_inclsh_n.3 mpn_declsh_n.3 \
 	mpn_rsh1add_n mpn_rsh1sub_n mpn_sumdiff_n mpn_store mpn_copyi mpn_copyd \
 	mpn_rsblsh1_n mpn_addlsh2_n mpn_rsblsh2_n \
@@ -32,6 +32,8 @@ do
 		if [ $fn == mpn_rshift2 ] ; then fn=mpn_rshift.2 ; fi
 		if [ $fn == mpn_rshift1 ] ; then fn=mpn_rshift.1 ; fi
 		if [ $fn == mpn_lshift1 ] ; then fn=mpn_lshift.1 ; fi
+		if [ $fn == mpn_half ] ; then fn=mpn_rshift.1 ; fi
+		if [ $fn == mpn_double ] ; then fn=mpn_lshift.1 ; fi
 		if [ $fn == mpn_store ] ; then fn=MPN_ZERO ; fi
 		if [ $fn == mpn_copyi ] ; then fn=MPN_COPY_INCR ; fi
 		if [ $fn == mpn_copyd ] ; then fn=MPN_COPY_DECR ; fi

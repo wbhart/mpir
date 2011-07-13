@@ -282,6 +282,8 @@ const struct routine_t {
 #endif
   { "mpn_lshift1",       speed_mpn_lshift1,   },
   { "mpn_rshift1",       speed_mpn_rshift1,   },
+  { "mpn_double",       speed_mpn_double,   },
+  { "mpn_half",       speed_mpn_half,   },
   { "mpn_lshift2",       speed_mpn_lshift2,   },
   { "mpn_rshift2",       speed_mpn_rshift2,   },
 

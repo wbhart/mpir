@@ -692,6 +692,9 @@ validate_sqrtrem (void)
 #define TYPE_DIVREM_HENSEL_RSH_QR_1	137
 #define TYPE_NOT			138
 
+#define TYPE_DOUBLE	139
+#define TYPE_HALF	140
+
 #define TYPE_EXTRA            150
 
 struct try_t  param[150];
@@ -1405,6 +1408,16 @@ param_init (void)
   p->dst[0] = 1;
   REFERENCE (refmpn_not);
 
+  p = &param[TYPE_DOUBLE];
+  p->retval = 1;
+  p->dst[0] = 1;
+  REFERENCE (refmpn_double);
+
+  p = &param[TYPE_HALF];
+  p->retval = 1;
+  p->dst[0] = 1;
+  REFERENCE (refmpn_half);
+
   p = &param[TYPE_HAMDIST];
   COPY (TYPE_POPCOUNT);
   p->src[1] = 1;
@@ -1547,6 +1560,18 @@ void
 mpn_not_fun (mp_ptr rp, mp_size_t size)
 {
   mpn_not (rp, size);
+}
+
+mp_limb_t
+mpn_double_fun (mp_ptr rp, mp_size_t size)
+{
+  return mpn_double (rp, size);
+}
+
+mp_limb_t
+mpn_half_fun (mp_ptr rp, mp_size_t size)
+{
+  return mpn_half (rp, size);
 }
 
 mp_limb_t
@@ -1938,6 +1963,9 @@ const struct choice_t choice_array[] = {
   { TRY(mpz_si_kronecker), TYPE_MPZ_SI_KRONECKER },
 
   { TRY_FUNFUN(mpn_not),   TYPE_NOT },
+  { TRY_FUNFUN(mpn_double),   TYPE_DOUBLE },
+  { TRY_FUNFUN(mpn_half),   TYPE_HALF },
+  
   { TRY(mpn_popcount),   TYPE_POPCOUNT },
   { TRY(mpn_hamdist),    TYPE_HAMDIST },
 
@@ -2812,7 +2840,11 @@ case TYPE_TDIV_Q:
     break;
 
   case TYPE_NOT:
-    	 CALLING_CONVENTIONS (function) (e->s[0].p, size);
+    	 CALLING_CONVENTIONS (function) (e->d[0].p, size);
+    break;
+  case TYPE_HALF:
+  case TYPE_DOUBLE:
+    	 e->retval=CALLING_CONVENTIONS (function) (e->d[0].p, size);
     break;
   case TYPE_POPCOUNT:
     e->retval = (* (unsigned long (*)(ANYARGS))

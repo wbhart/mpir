@@ -37,6 +37,7 @@ dec %rax
 jz t1
 rclq $1,(%rdi)
 lea 8(%rdi),%rdi
+dec %rax
 t1:
 sbb %rdx,%rdx
 cmp $0,%rsi
@@ -55,6 +56,6 @@ lp:
   jnz lp
 sbb %rdx,%rdx
 skiplp:
-sbb %rdx,%rax
+sub %rdx,%rax
 ret
 EPILOGUE()
