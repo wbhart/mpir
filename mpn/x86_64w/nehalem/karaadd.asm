@@ -202,7 +202,7 @@
         mov     [rdi+rdx*8], r8
         adc     r12, [rsi+rdx*8]
         rcl     rbx, 1
-        inc     rdx
+        add     rdx, 1
         mov     [rbp+rcx*8], r12
 .5:     mov     rcx, 3
 .6:     
@@ -219,7 +219,7 @@
         adc     [rbp+32], r9
         adc     [rbp+40], r10
 .7:     adc     qword[rbp+rcx*8+24], 0
-        inc     rcx
+        lea     rcx, [rcx + 1]
         jc      .7
         mov     rcx, 3
 .8:     and     rax, 3
@@ -228,13 +228,13 @@
         adc     r8, 0
         adc     [rdi+rdx*8], r8
 .9:     adc     qword[rdi+rdx*8+8], 0
-        inc     rdx
+        lea     rdx, [rdx + 1]
         jc      .9
         and     rbx, 7
         popcnt  r8, rbx
         add     [rbp+24], r8
 .10:    adc     qword[rbp+rcx*8+8], 0
-        inc     rcx
+        lea     rcx, [rcx + 1]
         jc      .10
         END_PROC reg_save_list
 

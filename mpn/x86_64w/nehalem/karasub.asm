@@ -203,7 +203,7 @@
         mov     [rdi+rdx*8], r8
         sbb     r12, [rsi+rdx*8]
         rcl     rbx, 1
-        inc     rdx
+        add     rdx, 1
         mov     [rbp+rcx*8], r12
 .5:     mov     rcx, 3
 .6:     
@@ -220,12 +220,12 @@
         add     [rbp+24], r8
         adc     [rbp+32], r9
 .7:     adc     qword[rbp+rcx*8+16], 0
-        inc     rcx
+        lea     rcx, [rcx + 1]
         jc      .7
         mov     rcx, 3
         bt      r10, 0
 .8:     sbb     qword[rbp+rcx*8+16], 0
-        inc     rcx
+        lea     rcx, [rcx + 1]
         jc      .8
         mov     rcx, 3
 ; add in all carrys  
@@ -234,7 +234,7 @@
 .9:     mov     rsi, rdx
         bt      rax, 0
 .10:    sbb     qword[rdi+rdx*8], 0
-        inc     rdx
+        lea     rdx, [rdx + 1]
         jc      .10
         xor     r8, r8
         bt      rax, 1
@@ -243,18 +243,18 @@
         adc     r8, 0
         add     [rdi+rsi*8], r8
 .11:    adc     qword[rdi+rsi*8+8], 0
-        inc     rsi
+        lea     rsi, [rsi + 1]
         jc      .11
         mov     rsi, rcx
         bt      rbx, 0
 .12:    sbb     qword[rbp+rcx*8], 0
-        inc     rcx
+        lea     rcx, [rcx + 1]
         jc      .12
         and     rbx, 6
         popcnt  r8, rbx
         add     [rbp+rsi*8], r8
 .13:    adc     qword[rbp+rsi*8+8], 0
-        inc     rsi
+        lea     rsi, [rsi + 1]
         jc      .13
         END_PROC reg_save_list
 
