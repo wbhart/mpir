@@ -9,10 +9,10 @@ set test_config=%2
 @echo off
 call :clrerr
 
-call ..\..\output_params.bat
+if exist ..\..\output_params.bat (call ..\..\output_params.bat) else (call :seterr & echo ERROR: 'output_params.bat' not found & exit /b %errorlevel%)
 set out_dir=%libr%\%plat%\%conf%
 
-if /i "%plat%" EQU "" (call :seterr & echo ERROR: 'output_params.bat' not found & exit /b %errorlevel%)
+if /i "%plat%" EQU "" (call :seterr & echo ERROR: 'output_params.bat' is corrupt & exit /b %errorlevel%)
 fc ..\%libr%-%conf%-config.props ..\test-config.props > nul && ((set library=%libr%) & goto cont)
 call :seterr & echo ERROR: cannot determine library type (static or DLL) to test & exit /b %errorlevel%
 

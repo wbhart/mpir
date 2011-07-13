@@ -1965,8 +1965,8 @@ postbuild "$(TargetPath)"</Command>
     <YASM Include="..\..\mpn\x86_64w\k8\sublsh_n.asm" />
     <YASM Include="..\..\mpn\x86_64w\k8\submul_1.asm" />
     <YASM Include="..\..\mpn\x86_64w\k8\sumdiff_n.asm" />
-    <YASM Include="..\..\mpn\x86_64w\k8\udiv.asm" />
-    <YASM Include="..\..\mpn\x86_64w\k8\umul.asm" />
+    <YASM Include="..\..\mpn\x86_64w\k8\udiv_qrnnd.asm" />
+    <YASM Include="..\..\mpn\x86_64w\k8\umul_ppmm.asm" />
     <YASM Include="..\..\mpn\x86_64w\k8\and_n.asm" />
     <YASM Include="..\..\mpn\x86_64w\k8\andn_n.asm" />
     <YASM Include="..\..\mpn\x86_64w\k8\ior_n.asm" />

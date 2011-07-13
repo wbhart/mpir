@@ -1894,8 +1894,8 @@ postbuild "$(TargetPath)"</Command>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </YASM>
-    <YASM Include="..\..\mpn\x86w\udiv.asm" />
-    <YASM Include="..\..\mpn\x86w\umul.asm" />
+    <YASM Include="..\..\mpn\x86w\udiv_qrnnd.asm" />
+    <YASM Include="..\..\mpn\x86w\umul_ppmm.asm" />
     <YASM Include="..\..\mpn\x86w\pentium4\mmx\lshift.asm" />
     <YASM Include="..\..\mpn\x86w\pentium4\mmx\rshift.asm" />
     <YASM Include="..\..\mpn\x86w\pentium4\sse2\add_n.asm" />

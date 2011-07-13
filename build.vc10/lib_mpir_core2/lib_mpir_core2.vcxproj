@@ -1946,7 +1946,7 @@ postbuild "$(TargetPath)"</Command>
     <YASM Include="..\..\mpn\x86_64w\core2\subadd_n.asm" />
     <YASM Include="..\..\mpn\x86_64w\core2\sublsh1_n.asm" />
     <YASM Include="..\..\mpn\x86_64w\core2\submul_1.asm" />
-    <YASM Include="..\..\mpn\x86_64w\core2\umul.asm" />
+    <YASM Include="..\..\mpn\x86_64w\core2\umul_ppmm.asm" />
     <YASM Include="..\..\mpn\x86_64w\core2\and_n.asm" />
     <YASM Include="..\..\mpn\x86_64w\core2\andn_n.asm" />
     <YASM Include="..\..\mpn\x86_64w\core2\ior_n.asm" />
@@ -1957,7 +1957,7 @@ postbuild "$(TargetPath)"</Command>
     <YASM Include="..\..\mpn\x86_64w\core2\xor_n.asm" />
     <YASM Include="..\..\mpn\x86_64w\sub_err1_n.asm" />
     <YASM Include="..\..\mpn\x86_64w\sub_err2_n.asm" />
-    <YASM Include="..\..\mpn\x86_64w\core2\udiv.asm" />
+    <YASM Include="..\..\mpn\x86_64w\core2\udiv_qrnnd.asm" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

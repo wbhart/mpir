@@ -1519,10 +1519,10 @@
     <YASM Include="..\..\mpn\x86_64w\core2\sub_n.asm">
       <Filter>Source Files\mpn\Assembler</Filter>
     </YASM>
-    <YASM Include="..\..\mpn\x86_64w\core2\udiv.asm">
+    <YASM Include="..\..\mpn\x86_64w\core2\udiv_qrnnd.asm">
       <Filter>Source Files\mpn\Assembler</Filter>
     </YASM>
-    <YASM Include="..\..\mpn\x86_64w\core2\umul.asm">
+    <YASM Include="..\..\mpn\x86_64w\core2\umul_ppmm.asm">
       <Filter>Source Files\mpn\Assembler</Filter>
     </YASM>
     <YASM Include="..\..\mpn\x86_64w\core2\xnor_n.asm">

@@ -1521,10 +1521,10 @@
     <YASM Include="..\..\mpn\x86w\rshift.asm">
       <Filter>Source Files\mpn\Assembler</Filter>
     </YASM>
-    <YASM Include="..\..\mpn\x86w\udiv.asm">
+    <YASM Include="..\..\mpn\x86w\udiv_qrnnd.asm">
       <Filter>Source Files\mpn\Assembler</Filter>
     </YASM>
-    <YASM Include="..\..\mpn\x86w\umul.asm">
+    <YASM Include="..\..\mpn\x86w\umul_ppmm.asm">
       <Filter>Source Files\mpn\Assembler</Filter>
     </YASM>
     <YASM Include="..\..\mpn\x86w\add_n.asm">

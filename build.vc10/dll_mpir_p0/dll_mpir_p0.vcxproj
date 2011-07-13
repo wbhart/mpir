@@ -1907,8 +1907,8 @@ postbuild "$(TargetPath)"</Command>
     <YASM Include="..\..\mpn\x86w\rshift.asm" />
     <YASM Include="..\..\mpn\x86w\submul_1.asm" />
     <YASM Include="..\..\mpn\x86w\sub_n.asm" />
-    <YASM Include="..\..\mpn\x86w\udiv.asm" />
-    <YASM Include="..\..\mpn\x86w\umul.asm" />
+    <YASM Include="..\..\mpn\x86w\udiv_qrnnd.asm" />
+    <YASM Include="..\..\mpn\x86w\umul_ppmm.asm" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

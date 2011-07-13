@@ -1880,8 +1880,8 @@ postbuild "$(TargetPath)"</Command>
     <YASM Include="..\..\mpn\x86w\p6\sqr_basecase.asm" />
     <YASM Include="..\..\mpn\x86w\submul_1.asm" />
     <YASM Include="..\..\mpn\x86w\sub_n.asm" />
-    <YASM Include="..\..\mpn\x86w\udiv.asm" />
-    <YASM Include="..\..\mpn\x86w\umul.asm" />
+    <YASM Include="..\..\mpn\x86w\udiv_qrnnd.asm" />
+    <YASM Include="..\..\mpn\x86w\umul_ppmm.asm" />
     <YASM Include="..\..\mpn\x86w\p6\mmx\divrem_1.asm" />
     <YASM Include="..\..\mpn\x86w\p6\mmx\lshift.asm" />
     <YASM Include="..\..\mpn\x86w\p6\mmx\rshift.asm" />

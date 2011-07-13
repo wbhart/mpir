@@ -1605,10 +1605,10 @@
     <YASM Include="..\..\mpn\x86_64w\k8\sumdiff_n.asm">
       <Filter>Source Files\mpn\Assembler</Filter>
     </YASM>
-    <YASM Include="..\..\mpn\x86_64w\k8\udiv.asm">
+    <YASM Include="..\..\mpn\x86_64w\k8\udiv_qrnnd.asm">
       <Filter>Source Files\mpn\Assembler</Filter>
     </YASM>
-    <YASM Include="..\..\mpn\x86_64w\k8\umul.asm">
+    <YASM Include="..\..\mpn\x86_64w\k8\umul_ppmm.asm">
       <Filter>Source Files\mpn\Assembler</Filter>
     </YASM>
     <YASM Include="..\..\mpn\x86_64w\k8\xnor_n.asm">
