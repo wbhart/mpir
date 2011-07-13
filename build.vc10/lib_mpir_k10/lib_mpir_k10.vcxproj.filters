@@ -1603,5 +1603,11 @@
     <YASM Include="..\..\mpn\x86_64w\k8\k10\karasub.asm">
       <Filter>Source Files\mpn\Assembler</Filter>
     </YASM>
+    <YASM Include="..\..\mpn\x86_64w\k8\half.asm">
+      <Filter>Source Files\mpn\Assembler</Filter>
+    </YASM>
+    <YASM Include="..\..\mpn\x86_64w\k8\double.asm">
+      <Filter>Source Files\mpn\Assembler</Filter>
+    </YASM>
   </ItemGroup>
 </Project>

@@ -33,6 +33,8 @@ mpn_divrem_euclidean_qr_2
 mpn_divrem_hensel_qr_1_1
 mpn_divrem_hensel_qr_1_2
 mpn_divrem_hensel_r_1
+mpn_double
+mpn_half
 mpn_hamdist
 mpn_karaadd
 mpn_karasub
