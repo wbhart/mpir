@@ -25,19 +25,24 @@ rem echo platform= %plat% configuration= %conf%, file= %file%
 rem get the filename extension (lib/dll) to set the output directory
 set extn=%file%#
 set extn=%extn:~-4,3%
-if "%extn%" EQU "lib" (goto isgood)
-if "%extn%" EQU "dll" (goto isgood)
+if "%extn%" EQU "lib" (goto is2nd)
+if "%extn%" EQU "dll" (goto is2nd)
 set extn=%msbf%#
 set extn=%extn:~-4,3%
-if "%extn%" EQU "lib" (goto isgood)
-if "%extn%" EQU "dll" (goto isgood)
+if "%extn%" EQU "lib" (goto is1st)
+if "%extn%" EQU "dll" (goto is1st)
 call :seterr & echo "postbuild copy error ERROR: file = %file%, msbf = %msbf% extn = %extn%" & exit /b %errorlevel%
 
-:isgood:
+:is1st
+set plat=%conf%
+set conf=%file%
+
+:is2nd:
 rem set the target aand output directories
 set source="%plat%\%conf%"
 set dest="%extn%\%plat%\%conf%"
 
+:docopying
 rem output parametrers for the MPIR tests
 echo (set libr=%extn%)  > output_params.bat
 echo (set plat=%plat%) >> output_params.bat
@@ -54,15 +59,15 @@ rem %1 = source directory  %2 = destination directory
 rem %3 = library (lib/dll) %4 = configuration (debug/releaase) 
 :copyb
 if "%4" EQU "dll" (
-	copy %1\mpir.dll %2\mpir.dll
-	copy %1\mpir.exp %2\mpir.exp
-	copy %1\mpir.lib %2\mpir.lib
-	if exist %1\mpir.pdb (copy %1\mpir.pdb %2\mpir.pdb)
-	copy mpir-tests\%4-%3-config.props mpir-tests\test-config.props
+	copy %1\mpir.dll %2\mpir.dll > nul 2>&1
+	copy %1\mpir.exp %2\mpir.exp > nul 2>&1
+	copy %1\mpir.lib %2\mpir.lib > nul 2>&1
+	if exist %1\mpir.pdb (copy %1\mpir.pdb %2\mpir.pdb  > nul 2>&1)
+	copy mpir-tests\%4-%3-config.props mpir-tests\test-config.props > nul 2>&1
 ) else if "%4" EQU "lib" (
-	copy %1\mpir.lib %2\mpir.lib
-	if exist %1\mpir.pdb (copy %1\mpir.pdb %2\mpir.pdb)
-	copy mpir-tests\%4-%3-config.props mpir-tests\test-config.props
+	copy %1\mpir.lib %2\mpir.lib > nul 2>&1
+	if exist %1\mpir.pdb (copy %1\mpir.pdb %2\mpir.pdb > nul 2>&1)
+	copy mpir-tests\%4-%3-config.props mpir-tests\test-config.props > nul 2>&1
 ) else (
 	call :seterr & echo ERROR: illegal library type %4  & exit /b %errorlevel%
 )
@@ -70,12 +75,12 @@ exit /b 0
 
 rem copy headers to final destination directory
 :copyh
-copy ..\config.h %1\config.h
-copy ..\gmp-mparam.h %1\gmp-mparam.h
-copy ..\mpir.h %1\mpir.h
-copy ..\mpir.h %1\gmp.h
-copy ..\mpirxx.h %1\mpirxx.h
-copy ..\mpirxx.h %1\gmpxx.h
+copy ..\config.h %1\config.h > nul 2>&1
+copy ..\gmp-mparam.h %1\gmp-mparam.h > nul 2>&1
+copy ..\mpir.h %1\mpir.h > nul 2>&1
+copy ..\mpir.h %1\gmp.h > nul 2>&1
+copy ..\mpirxx.h %1\mpirxx.h > nul 2>&1
+copy ..\mpirxx.h %1\gmpxx.h > nul 2>&1
 exit /b 0
 
 :seterr
