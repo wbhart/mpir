@@ -14,6 +14,9 @@ rem we now have: build.vc10\<win32|x64>\<debug|release>\mpir.<lib|dll>
 rem extract platform (plat=<win32|x64>), configuration (conf=<debug|release>) anbd file name 
 rem IDE gives:     build.vc10\x64\Release\mpir.lib   
 rem MSBUILD gives: build.vc10\lib_mpir_nehalem\x64\Release\mpir.lib  
+rem Python gives:  build.vc10\lib_mpir_nehalem\x64\Release\mpir.dll
+rem current working directory = build.vc10\lib_mpir_nehalem
+ 
 set file=
 for /f "tokens=1,2,3,4,5 delims=\" %%a in ("%str%") do set plat=%%b&set conf=%%c&set file=%%d&set msbf=%%e
 if /i "%file%" NEQ "" (goto next)
@@ -42,7 +45,6 @@ rem set the target aand output directories
 set source="%plat%\%conf%"
 set dest="%extn%\%plat%\%conf%"
 
-:docopying
 rem output parametrers for the MPIR tests
 echo (set libr=%extn%)  > output_params.bat
 echo (set plat=%plat%) >> output_params.bat
@@ -55,8 +57,11 @@ call :copyb %source% %dest% %conf% %extn%
 exit /b 0
 
 rem copy binaries to final destination directory
-rem %1 = source directory  %2 = destination directory
-rem %3 = library (lib/dll) %4 = configuration (debug/releaase) 
+rem %1 = source directory
+rem %2 = destination directory
+rem %3 = configuration (debug/releaase) 
+rem %4 = library (lib/dll)
+ 
 :copyb
 if "%4" EQU "dll" (
 	copy %1\mpir.dll %2\mpir.dll > nul 2>&1
