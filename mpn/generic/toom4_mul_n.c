@@ -516,7 +516,7 @@ void tc4_copy (mp_ptr yp, mp_size_t * yn, mp_size_t offset, mp_srcptr xp, mp_siz
 #define TC4_RSHIFT1(rxx, nxx) \
 	do { \
 	   mp_limb_t sign = (LIMB_HIGHBIT_TO_MASK(rxx[nxx-1]) << (GMP_LIMB_BITS - 1)); \
-       mpn_rshift1(rxx, rxx, nxx); \
+       mpn_half(rxx, nxx); \
 	   rxx[nxx-1] |= sign; \
 	} while (0)
 #else
@@ -884,7 +884,7 @@ void mpn_toom4_interpolate(mp_ptr rp, mp_size_t * rpn, mp_size_t sn,
 	r30 = r3[0];
 	r3[0] = saved;
 
-	mpn_lshift1(r5, r5, s4); 
+	mpn_double(r5, s4); 
 
 	mpn_sub_n(r5, r5, r6, s4);
 

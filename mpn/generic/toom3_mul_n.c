@@ -190,8 +190,8 @@ mpn_toom3_mul_n (mp_ptr c, mp_srcptr a, mp_srcptr b, mp_size_t n, mp_ptr t)
     }
   c1[0] += mpn_add_n (c, c, a + k, k);
   c5[2] += mpn_add_n (c4 + 2, c4 + 2, b + k, k);
-  mpn_lshift1 (c, c, k1);
-  mpn_lshift1 (c4 + 2, c4 + 2, k1);
+  mpn_double (c, k1);
+  mpn_double (c4 + 2, k1);
   c1[0] += mpn_add_n (c, c, a, k);
   c5[2] += mpn_add_n (c4 + 2, c4 + 2, b, k);
 #endif
@@ -335,7 +335,7 @@ mpn_toom3_sqr_n (mp_ptr c, mp_srcptr a, mp_size_t n, mp_ptr t)
       MPN_ZERO(c + r + 1, k - r);
     }
   c1[0] += mpn_add_n (c, c, a + k, k);
-  mpn_lshift1 (c, c, k1);
+  mpn_double (c, k1);
   c1[0] += mpn_add_n (c, c, a, k);
 #endif
 

@@ -91,7 +91,7 @@ MA 02110-1301, USA. */
 #define TC4_RSHIFT1(rxx, nxx) \
 	do { \
 	   mp_limb_t sign = (LIMB_HIGHBIT_TO_MASK(rxx[nxx-1]) << (GMP_LIMB_BITS - 1)); \
-       mpn_rshift1(rxx, rxx, nxx); \
+       mpn_half(rxx, nxx); \
 	   rxx[nxx-1] |= sign; \
 	} while (0)
 #else

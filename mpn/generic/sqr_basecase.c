@@ -108,7 +108,7 @@ mpn_sqr_basecase (mp_ptr rp, mp_srcptr up, mp_size_t n)
 #if HAVE_NATIVE_mpn_addlsh1_n
   cy = mpn_addlsh1_n (rp + 1, rp + 1, tp, 2 * n - 2);
 #else
-  cy = mpn_lshift1 (tp, tp, 2 * n - 2);
+  cy = mpn_double (tp, 2 * n - 2);
   cy += mpn_add_n (rp + 1, rp + 1, tp, 2 * n - 2);
   rp[2 * n - 1] += cy;
 #endif
@@ -241,7 +241,7 @@ mpn_sqr_basecase (mp_ptr rp, mp_srcptr up, mp_size_t n)
 #if HAVE_NATIVE_mpn_addlsh1_n
   cy = mpn_addlsh1_n (rp + 1, rp + 1, tp, 2 * n - 2);
 #else
-  cy = mpn_lshift1 (tp, tp, 2 * n - 2);
+  cy = mpn_double (tp, 2 * n - 2);
   cy += mpn_add_n (rp + 1, rp + 1, tp, 2 * n - 2);
 #endif
   rp[2 * n - 1] += cy;
@@ -292,7 +292,7 @@ mpn_sqr_basecase (mp_ptr rp, mp_srcptr up, mp_size_t n)
 #if HAVE_NATIVE_mpn_addlsh1_n
 	cy = mpn_addlsh1_n (rp + 1, rp + 1, tp, 2 * n - 2);
 #else
-	cy = mpn_lshift1 (tp, tp, 2 * n - 2);
+	cy = mpn_double (tp, 2 * n - 2);
 	cy += mpn_add_n (rp + 1, rp + 1, tp, 2 * n - 2);
 #endif
 	rp[2 * n - 1] += cy;

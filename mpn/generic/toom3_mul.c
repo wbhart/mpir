@@ -110,7 +110,7 @@ mpn_toom3_interpolate (mp_ptr c, mp_ptr v1, mp_ptr v2, mp_ptr vm1,
       mpn_rsh1add_n (vm1, v1, vm1, kk1);
 #else
       mpn_add_n (vm1, vm1, v1, kk1);
-      mpn_rshift1 (vm1, vm1, kk1);
+      mpn_half (vm1, kk1);
 #endif
     }
   else
@@ -119,7 +119,7 @@ mpn_toom3_interpolate (mp_ptr c, mp_ptr v1, mp_ptr v2, mp_ptr vm1,
       mpn_rsh1sub_n (vm1, v1, vm1, kk1);
 #else
       mpn_sub_n (vm1, v1, vm1, kk1);
-      mpn_rshift1 (vm1, vm1, kk1);
+      mpn_half (vm1, kk1);
 #endif
     }
 
@@ -155,7 +155,7 @@ mpn_toom3_interpolate (mp_ptr c, mp_ptr v1, mp_ptr v2, mp_ptr vm1,
   mpn_rsh1sub_n (v2, v2, v1, kk1);
 #else
   mpn_sub_n (v2, v2, v1, kk1);
-  mpn_rshift1 (v2, v2, kk1);
+  mpn_half (v2, kk1);
 #endif
 
   /* v1 = v1 - vm1
@@ -352,8 +352,8 @@ mpn_toom3_mul (mp_ptr c, mp_srcptr a, mp_size_t an, mp_srcptr b, mp_size_t bn, m
     }
   c1[0] += mpn_add_n (c, c, a + k, k);
   c2[1] += mpn_add_n (c1 + 1, c1 + 1, b + k, k);
-  mpn_lshift1 (c, c, k1);
-  mpn_lshift1 (c1 + 1, c1 + 1, k1);
+  mpn_double (c, k1);
+  mpn_double (c1 + 1, k1);
   c1[0] += mpn_add_n (c, c, a, k);
   c2[1] += mpn_add_n (c1 + 1, c1 + 1, b, k);
 #endif
@@ -537,9 +537,9 @@ mpn_toom42_mul (mp_ptr c, mp_srcptr a, mp_size_t an, mp_srcptr b, mp_size_t bn, 
       MPN_ZERO(c + r + 1, k - r);
     }
   c1[0] += mpn_add_n (c, c, a + twok, k);
-  mpn_lshift1 (c, c, k1);
+  mpn_double (c, k1);
   c1[0] += mpn_add_n (c, c, a + k, k);
-  mpn_lshift1 (c, c, k1);
+  mpn_double (c, k1);
   c1[0] += mpn_add_n (c, c, a, k);
   
   c1[r2 + 1] = mpn_lshift1 (c1 + 1, b + k, r2);
@@ -728,7 +728,7 @@ mpn_toom32_mul (mp_ptr c, mp_srcptr a, mp_size_t an, mp_srcptr b, mp_size_t bn, 
      mpn_rsh1add_n(t, t, c1, kk1);
 #else
 	  mpn_add_n(t, t, c1, kk1);
-	  mpn_rshift1(t, t, kk1);
+	  mpn_half(t, kk1);
 #endif
   } else
   {
@@ -736,7 +736,7 @@ mpn_toom32_mul (mp_ptr c, mp_srcptr a, mp_size_t an, mp_srcptr b, mp_size_t bn, 
 	  mpn_rsh1sub_n(t, c1, t, kk1);
 #else
 	  mpn_sub_n(t, c1, t, kk1);
-     mpn_rshift1(t, t, kk1);
+     mpn_half(t, kk1);
 #endif
   }
   

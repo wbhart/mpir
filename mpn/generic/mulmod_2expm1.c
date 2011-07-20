@@ -210,12 +210,12 @@ mpn_mulmod_2expm1 (mp_ptr xp, mp_ptr yp, mp_ptr zp, unsigned long b,
     }
   if (k == 0)
     {
-      car = mpn_rshift1 (xp,xp, n);
+      car = mpn_half (xp, n);
       xp[n - 1] |= car;
     }				// C sequence pt rule
   else
     {
-      car = mpn_rshift1 (xp,xp, m);
+      car = mpn_half (xp, m);
       car1 = xp[m - 1];
       if (GMP_NUMB_BITS - k - 1 != 0)
 	{

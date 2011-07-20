@@ -73,7 +73,7 @@ mpz_lucnum2_ui (mpz_ptr ln, mpz_ptr lnsub1, unsigned long n)
   SIZ(ln) = size + (c != 0);
 
   /* L[n-1] = 2F[n] - F[n-1] */
-  c = mpn_lshift1 (l1p, l1p, size);
+  c = mpn_double (l1p, size);
   c -= mpn_sub_n (l1p, l1p, f1p, size);
   ASSERT ((mp_limb_signed_t) c >= 0);
   l1p[size] = c;

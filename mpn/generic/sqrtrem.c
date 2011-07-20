@@ -258,7 +258,7 @@ mpn_dc_sqrtrem (mp_ptr sp, mp_ptr np, mp_size_t n)
         mpn_sub_n (np + 2 * l, np + 2 * l, sp + l, h);
       q += mpn_intdivrem (sp, 0, np + l, n, sp + l, h);
       c = sp[0] & 1;
-      mpn_rshift1 (sp, sp, l);
+      mpn_half (sp, l);
       sp[l - 1] |= (q << (GMP_NUMB_BITS - 1)) & GMP_NUMB_MASK;
       q >>= 1;
       if (c != 0)

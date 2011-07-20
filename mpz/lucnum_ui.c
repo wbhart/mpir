@@ -105,7 +105,7 @@ mpz_lucnum_ui (mpz_ptr ln, unsigned long n)
 #if HAVE_NATIVE_mpn_addlsh1_n
           c = mpn_addlsh1_n (xp, yp, xp, xsize);
 #else
-          c = mpn_lshift1 (xp, xp, xsize);
+          c = mpn_double (xp, xsize);
           c += mpn_add_n (xp, xp, yp, xsize);
 #endif
           ASSERT (xalloc >= xsize+1);
