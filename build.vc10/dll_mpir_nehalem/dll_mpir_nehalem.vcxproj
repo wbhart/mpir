@@ -1994,6 +1994,7 @@ postbuild "$(TargetPath)"</Command>
     <YASM Include="..\..\mpn\x86_64w\nehalem\iorn_n.asm" />
     <YASM Include="..\..\mpn\x86_64w\nehalem\nand_n.asm" />
     <YASM Include="..\..\mpn\x86_64w\nehalem\nior_n.asm" />
+    <YASM Include="..\..\mpn\x86_64w\nehalem\sumdiff_n.asm" />
     <YASM Include="..\..\mpn\x86_64w\nehalem\xnor_n.asm" />
     <YASM Include="..\..\mpn\x86_64w\nehalem\xor_n.asm" />
     <YASM Include="..\..\mpn\x86_64w\sub_err2_n.asm" />

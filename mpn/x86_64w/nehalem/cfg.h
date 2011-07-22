@@ -56,6 +56,7 @@ mpn_store
 mpn_sub_n
 mpn_sub_nc
 mpn_subadd_n
+mpn_sumdiff_n
 mpn_sublsh1_n
 mpn_submul_1
 mpn_submul_1c
