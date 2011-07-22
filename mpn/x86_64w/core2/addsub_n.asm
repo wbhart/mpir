@@ -1,5 +1,5 @@
-
-;  Copyright 2009 Jason Moxham
+;        
+;  Copyright 2011 The Code Cavern
 ;
 ;  Windows Conversion Copyright 2008 Brian Gladman
 ;
@@ -25,59 +25,104 @@
 
 %define reg_save_list   rbx, rbp, rsi, rdi
 
-    CPU  Core2
-    BITS 64
+        CPU  Nehalem
+        BITS 64
 
-    FRAME_PROC mpn_addsub_n, 0, reg_save_list
-    mov     rbx, qword [rsp+stack_use+40]
+        FRAME_PROC mpn_addsub_n, 0, reg_save_list
+        mov     rbx, [rsp+stack_use+40]
+        xor     rax, rax
+        mov     r10d, 3
+        sub     r10, rbx
+        lea     rdi, [rcx+rbx*8-24]
+        lea     rsi, [rdx+rbx*8-24]
+        lea     rdx, [r8+rbx*8-24]
+        lea     rcx, [r9+rbx*8-24]
+        mov     r9, rax
+        jnc     .2
 
-    lea     rdx, [rdx+rbx*8]
-    lea     r8, [r8+rbx*8]
-    lea     rcx, [rcx+rbx*8]
-    lea     r9, [r9+rbx*8]
-    neg     rbx
-    xor     rax, rax
-    xor     rsi, rsi
-    test    rbx, 3
-    jz      .2
-.1: mov     rdi, [r8+rbx*8]
-    add     rax, 1
-    sbb     rdi, [r9+rbx*8]
-    sbb     rax, rax
-    add     rsi, 1
-    adc     rdi, [rdx+rbx*8]
-    sbb     rsi, rsi
-    mov     [rcx+rbx*8], rdi
-    add     rbx, 1          ; ***
-    test    rbx, 3
-    jnz     .1
-.2: cmp     rbx, 0
-    jz      .4
+        align   16
+.1:     sahf    
+        mov     r8, [rdx+r10*8]
+        sbb     r8, [rcx+r10*8]
+        mov     rbx, [rdx+r10*8+8]
+        sbb     rbx, [rcx+r10*8+8]
+        mov     r11, [rdx+r10*8+24]
+        mov     rbp, [rdx+r10*8+16]
+        sbb     rbp, [rcx+r10*8+16]
+        sbb     r11, [rcx+r10*8+24]
+        lahf    
+        add     r9b, 255
+        adc     r8, [rsi+r10*8]
+        adc     rbx, [rsi+r10*8+8]
+        mov     [rdi+r10*8], r8
+        adc     rbp, [rsi+r10*8+16]
+        adc     r11, [rsi+r10*8+24]
+        setc    r9b
+        mov     [rdi+r10*8+24], r11
+        mov     [rdi+r10*8+16], rbp
+        mov     [rdi+r10*8+8], rbx
+        add     r10, 4
+        jnc     .1
+.2:     
+        cmp     r10, 2
+        jg      .6
+        je      .5
+        jp      .4
+.3:     sahf    
+        mov     r8, [rdx]
+        sbb     r8, [rcx]
+        mov     rbx, [rdx+8]
+        sbb     rbx, [rcx+8]
+        mov     rbp, [rdx+16]
+        sbb     rbp, [rcx+16]
+        lahf    
+        add     r9b, 255
+        adc     r8, [rsi]
+        adc     rbx, [rsi+8]
+        mov     [rdi], r8
+        adc     rbp, [rsi+16]
+        setc    r9b
+        mov     [rdi+16], rbp
+        mov     [rdi+8], rbx
+        sahf    
+        mov     eax, 0
+        sbb     rax, 0
+        add     r9b, 255
+        adc     rax, 0
+        EXIT_PROC reg_save_list
 
-    xalign  16
-.3: add     rax, 1
-    mov     rdi, [r8+rbx*8]
-    mov     rbp, [r8+rbx*8+8]
-    mov     r10, [r8+rbx*8+16]
-    mov     r11, [r8+rbx*8+24]
-    sbb     rdi, [r9+rbx*8]
-    sbb     rbp, [r9+rbx*8+8]
-    sbb     r10, [r9+rbx*8+16]
-    sbb     r11, [r9+rbx*8+24]
-    sbb     rax, rax
-    add     rsi, 1
-    adc     rdi, [rdx+rbx*8]
-    adc     rbp, [rdx+rbx*8+8]
-    adc     r10, [rdx+rbx*8+16]
-    adc     r11, [rdx+rbx*8+24]
-    mov     [rcx+rbx*8], rdi
-    mov     [rcx+rbx*8+8], rbp
-    mov     [rcx+rbx*8+16], r10
-    mov     [rcx+rbx*8+24], r11
-    sbb     rsi, rsi
-    add     rbx, 4
-    jnz     .3
-.4: sub     rax, rsi
-    END_PROC reg_save_list
+.4:     sahf    
+        mov     r8, [rdx+8]
+        sbb     r8, [rcx+8]
+        mov     rbx, [rdx+16]
+        sbb     rbx, [rcx+16]
+        lahf    
+        add     r9b, 255
+        adc     r8, [rsi+8]
+        adc     rbx, [rsi+16]
+        mov     [rdi+8], r8
+        setc    r9b
+        mov     [rdi+16], rbx
+        sahf    
+        mov     eax, 0
+        sbb     rax, 0
+        add     r9b, 255
+        adc     rax, 0
+        EXIT_PROC reg_save_list
 
-    end
+.5:     sahf    
+        mov     r8, [rdx+16]
+        sbb     r8, [rcx+16]
+        lahf    
+        add     r9b, 255
+        adc     r8, [rsi+16]
+        mov     [rdi+16], r8
+        setc    r9b
+.6:     sahf    
+        mov     eax, 0
+        sbb     rax, 0
+        add     r9b, 255
+        adc     rax, 0
+        END_PROC reg_save_list
+
+        end
