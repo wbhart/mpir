@@ -2005,6 +2005,7 @@ postbuild "$(TargetPath)"</Command>
     <YASM Include="..\..\mpn\x86_64w\core2\copyi.asm" />
     <YASM Include="..\..\mpn\x86_64w\core2\karaadd.asm" />
     <YASM Include="..\..\mpn\x86_64w\core2\karasub.asm" />
+    <YASM Include="..\..\mpn\x86_64w\core2\sumdiff_n.asm" />
     <YASM Include="..\..\mpn\x86_64w\divexact_1.asm" />
     <YASM Include="..\..\mpn\x86_64w\divexact_by3c.asm" />
     <YASM Include="..\..\mpn\x86_64w\divexact_byfobm1.asm" />
