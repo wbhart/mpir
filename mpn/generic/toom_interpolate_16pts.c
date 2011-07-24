@@ -316,8 +316,8 @@ mpn_toom_interpolate_16pts (mp_ptr pp, mp_ptr r1, mp_ptr r3, mp_ptr r5, mp_ptr r
   r5[n3] -= DO_mpn_sublsh_n (r5 + n, pp, 2 * n, 28, wsi);
   DO_mpn_subrsh(r2 + n, 2 * n + 1, pp, 2 * n, 4, wsi);
 
-#if HAVE_NATIVE_mpn_add_n_sub_n
-  mpn_add_n_sub_n (r2, r5, r5, r2, n3p1);
+#if HAVE_NATIVE_mpn_sumdiff_n
+  mpn_sumdiff_n (r2, r5, r5, r2, n3p1);
 #else
   mpn_sub_n (wsi, r5, r2, n3p1); /* can be negative */
   ASSERT_NOCARRY(mpn_add_n (r2, r2, r5, n3p1));
@@ -327,8 +327,8 @@ mpn_toom_interpolate_16pts (mp_ptr pp, mp_ptr r1, mp_ptr r3, mp_ptr r5, mp_ptr r
   r6[n3] -= DO_mpn_sublsh_n (r6 + n, pp, 2 * n, 14, wsi);
   DO_mpn_subrsh(r3 + n, 2 * n + 1, pp, 2 * n, 2, wsi);
 
-#if HAVE_NATIVE_mpn_add_n_sub_n
-  mpn_add_n_sub_n (r3, r6, r6, r3, n3p1);
+#if HAVE_NATIVE_mpn_sumdiff_n
+  mpn_sumdiff_n (r3, r6, r6, r3, n3p1);
 #else
   ASSERT_NOCARRY(mpn_add_n (wsi, r3, r6, n3p1));
   mpn_sub_n (r6, r6, r3, n3p1); /* can be negative */
@@ -346,8 +346,8 @@ mpn_toom_interpolate_16pts (mp_ptr pp, mp_ptr r1, mp_ptr r3, mp_ptr r5, mp_ptr r
   DO_mpn_subrsh(r1 + n, 2 * n + 1, pp, 2 * n, 6, wsi);
 #endif
 
-#if HAVE_NATIVE_mpn_add_n_sub_n
-  mpn_add_n_sub_n (r1, r7, r7, r1, n3p1);
+#if HAVE_NATIVE_mpn_sumdiff_n
+  mpn_sumdiff_n (r1, r7, r7, r1, n3p1);
 #else
   mpn_sub_n (wsi, r7, r1, n3p1); /* can be negative */
   mpn_add_n (r1, r1, r7, n3p1);  /* if BIT_CORRECTION != 0, can give a carry. */

@@ -7,6 +7,7 @@
    GUARANTEED THAT IT WILL CHANGE OR DISAPPEAR IN A FUTURE GNU MP RELEASE.
 
 Copyright 2009 Free Software Foundation, Inc.
+Copyright 2011 Jason Moxham
 
 This file is part of the GNU MP Library.
 
@@ -41,11 +42,11 @@ mpn_toom_eval_dgr3_pm1 (mp_ptr xp1, mp_ptr xm1,
 
   neg = (mpn_cmp (xp1, tp, n + 1) < 0) ? ~0 : 0;
 
-#if HAVE_NATIVE_mpn_add_n_sub_n
+#if HAVE_NATIVE_mpn_sumdiff_n
   if (neg)
-    mpn_add_n_sub_n (xp1, xm1, tp, xp1, n + 1);
+    mpn_sumdiff_n (xp1, xm1, tp, xp1, n + 1);
   else
-    mpn_add_n_sub_n (xp1, xm1, xp1, tp, n + 1);
+    mpn_sumdiff_n (xp1, xm1, xp1, tp, n + 1);
 #else
   if (neg)
     mpn_sub_n (xm1, tp, xp1, n + 1);

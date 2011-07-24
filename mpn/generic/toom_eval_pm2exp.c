@@ -93,19 +93,19 @@ mpn_toom_eval_pm2exp (mp_ptr xp2, mp_ptr xm2, unsigned k,
 
   neg = (mpn_cmp (xp2, tp, n + 1) < 0) ? ~0 : 0;
 
-#if HAVE_NATIVE_mpn_add_n_sub_n
+#if HAVE_NATIVE_mpn_sumdiff_n
   if (neg)
-    mpn_add_n_sub_n (xp2, xm2, tp, xp2, n + 1);
+    mpn_sumdiff_n (xp2, xm2, tp, xp2, n + 1);
   else
-    mpn_add_n_sub_n (xp2, xm2, xp2, tp, n + 1);
-#else /* !HAVE_NATIVE_mpn_add_n_sub_n */
+    mpn_sumdiff_n (xp2, xm2, xp2, tp, n + 1);
+#else 
   if (neg)
     mpn_sub_n (xm2, tp, xp2, n + 1);
   else
     mpn_sub_n (xm2, xp2, tp, n + 1);
 
   mpn_add_n (xp2, xp2, tp, n + 1);
-#endif /* !HAVE_NATIVE_mpn_add_n_sub_n */
+#endif
 
   /* FIXME: the following asserts are useless if (k+1)*shift >= GMP_LIMB_BITS */
   ASSERT ((k+1)*shift >= GMP_LIMB_BITS ||

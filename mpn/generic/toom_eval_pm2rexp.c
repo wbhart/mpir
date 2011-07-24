@@ -73,19 +73,19 @@ mpn_toom_eval_pm2rexp (mp_ptr rp, mp_ptr rm,
 
   neg = (mpn_cmp (rp, ws, n + 1) < 0) ? ~0 : 0;
 
-#if HAVE_NATIVE_mpn_add_n_sub_n
+#if HAVE_NATIVE_mpn_sumdiff_n
   if (neg)
-    mpn_add_n_sub_n (rp, rm, ws, rp, n + 1);
+    mpn_sumdiff_n (rp, rm, ws, rp, n + 1);
   else
-    mpn_add_n_sub_n (rp, rm, rp, ws, n + 1);
-#else /* !HAVE_NATIVE_mpn_add_n_sub_n */
+    mpn_sumdiff_n (rp, rm, rp, ws, n + 1);
+#else 
   if (neg)
     mpn_sub_n (rm, ws, rp, n + 1);
   else
     mpn_sub_n (rm, rp, ws, n + 1);
 
   ASSERT_NOCARRY (mpn_add_n (rp, rp, ws, n + 1));
-#endif /* !HAVE_NATIVE_mpn_add_n_sub_n */
+#endif
 
   return neg;
 }
