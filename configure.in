@@ -224,8 +224,6 @@ dnl  for these are under the cpu specific setups below.
 AH_VERBATIM([HAVE_HOST_CPU_1],
 [/* Define one of these to 1 for the host CPU family.
    If your CPU is not in any of these families, leave all undefined. */
-#undef HAVE_HOST_CPU_FAMILY_alpha
-#undef HAVE_HOST_CPU_FAMILY_m68k
 #undef HAVE_HOST_CPU_FAMILY_power
 #undef HAVE_HOST_CPU_FAMILY_powerpc
 #undef HAVE_HOST_CPU_FAMILY_x86
@@ -233,9 +231,6 @@ AH_VERBATIM([HAVE_HOST_CPU_1],
 
 /* Define one of the following to 1 for the host CPU, as per the output of
    ./config.guess.  If your CPU is not listed here, leave all undefined.  */
-#undef HAVE_HOST_CPU_alphaev67
-#undef HAVE_HOST_CPU_alphaev68
-#undef HAVE_HOST_CPU_alphaev7
 #undef HAVE_HOST_CPU_powerpc604
 #undef HAVE_HOST_CPU_powerpc604e
 #undef HAVE_HOST_CPU_powerpc750
@@ -374,7 +369,6 @@ AC_SUBST(HAVE_HOST_CPU_FAMILY_powerpc,0)
 case $host in
 
   alpha*-*-*)
-    AC_DEFINE(HAVE_HOST_CPU_FAMILY_alpha)
     case $host_cpu in
       alphaev5* | alphapca5*) path="alpha/ev5 alpha" ;;
       alphaev67 | alphaev68 | alphaev7*)
@@ -1613,11 +1607,6 @@ if test $found_compiler = yes; then
                                    [continue])
             ;;
           -Wa,-m*)
-            case $host in
-              alpha*-*-*)
-                GMP_GCC_WA_MCPU($cc $cflags, $flag, , [continue])
-              ;;
-            esac
             ;;
         esac
 

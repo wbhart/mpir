@@ -134,8 +134,6 @@ MA 02110-1301, USA.
 
 /* Define one of these to 1 for the host CPU family.
    If your CPU is not in any of these families, leave all undefined. */
-#undef HAVE_HOST_CPU_FAMILY_alpha
-#undef HAVE_HOST_CPU_FAMILY_m68k
 #undef HAVE_HOST_CPU_FAMILY_power
 #undef HAVE_HOST_CPU_FAMILY_powerpc
 #undef HAVE_HOST_CPU_FAMILY_x86
@@ -143,9 +141,6 @@ MA 02110-1301, USA.
 
 /* Define one of the following to 1 for the host CPU, as per the output of
    ./config.guess.  If your CPU is not listed here, leave all undefined.  */
-#undef HAVE_HOST_CPU_alphaev67
-#undef HAVE_HOST_CPU_alphaev68
-#undef HAVE_HOST_CPU_alphaev7
 #undef HAVE_HOST_CPU_powerpc604
 #undef HAVE_HOST_CPU_powerpc604e
 #undef HAVE_HOST_CPU_powerpc750

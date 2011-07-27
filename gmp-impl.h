@@ -408,15 +408,6 @@ typedef unsigned long       gmp_uint_least32_t;
   do { memcpy (&(dst), &(src), sizeof (va_list)); } while (0)
 #endif
 
-
-/* HAVE_HOST_CPU_alpha_CIX is 1 on an alpha with the CIX instructions
-   (ie. ctlz, ctpop, cttz).  */
-#if HAVE_HOST_CPU_alphaev67 || HAVE_HOST_CPU_alphaev68  \
-  || HAVE_HOST_CPU_alphaev7
-#define HAVE_HOST_CPU_alpha_CIX 1
-#endif
-
-
 #if defined (__cplusplus)
 extern "C" {
 #endif
@@ -3187,7 +3178,7 @@ __GMP_DECLSPEC double mpn_get_d __GMP_PROTO ((mp_srcptr, mp_size_t, mp_size_t, l
   } while (0)
 #endif
 
-/* On m68k, x86 and amd64, gcc (and maybe other compilers) can hold doubles
+/* On x86 and amd64, gcc (and maybe other compilers) can hold doubles
    in the coprocessor, which means a bigger exponent range than normal, and
    depending on the rounding mode, a bigger mantissa than normal.  (See
    "Disappointments" in the gcc manual.)  FORCE_DOUBLE stores and fetches
@@ -3204,8 +3195,7 @@ __GMP_DECLSPEC double mpn_get_d __GMP_PROTO ((mp_srcptr, mp_size_t, mp_size_t, l
    output.  gcc 3.4 warns about this, though in fact it and past versions
    seem to put the operand through memory as hoped.  */
 
-#if (HAVE_HOST_CPU_FAMILY_m68k || HAVE_HOST_CPU_FAMILY_x86      \
-     || defined (__amd64__))
+#if (HAVE_HOST_CPU_FAMILY_x86 || defined (__amd64__))
 #define FORCE_DOUBLE(d) \
   do { volatile double __gmp_force = (d); (d) = __gmp_force; } while (0)
 #else
