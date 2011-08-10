@@ -139,52 +139,6 @@ esac
 
 case "$guess_full" in
 
-alpha-*-*)
-  # configfsf.guess detects exact alpha cpu types for OSF and GNU/Linux, but
-  # not for *BSD and other systems.  We try to get an exact type for any
-  # plain "alpha" it leaves.
-  #
-  # configfsf.guess used to have a block of code not unlike this, but these
-  # days does its thing with Linux kernel /proc/cpuinfo or OSF psrinfo.
-  #
-  cat <<EOF >$dummy.s
-	.data
-Lformat:
-	.byte 37,100,45,37,120,10,0	# "%d-%x\n"
-	.text
-	.globl main
-	.align 4
-	.ent main
-main:
-	.frame \$30,16,\$26,0
-	ldgp \$29,0(\$27)
-	.prologue 1
-	.long 0x47e03d91 # implver \$17
-	lda \$2,-1
-	.long 0x47e20c21 # amask \$2,\$1
-	lda \$16,Lformat
-	not \$1,\$18
-	jsr \$26,printf
-	ldgp \$29,0(\$26)
-	mov 0,\$16
-	jsr \$26,exit
-	.end main
-EOF
-  $CC_FOR_BUILD $dummy.s -o $dummy 2>/dev/null
-  if test "$?" = 0 ; then
-    case `./$dummy` in
-    0-0)	exact_cpu=alpha      ;;
-    1-0)	exact_cpu=alphaev5   ;;
-    1-1)	exact_cpu=alphaev56  ;;
-    1-101)	exact_cpu=alphapca56 ;;
-    2-303)	exact_cpu=alphaev6   ;;
-    2-307)	exact_cpu=alphaev67  ;;
-    2-1307)	exact_cpu=alphaev68  ;;
-    esac
-  fi
-  rm -f $dummy.s $dummy.o $dummy
-  ;;
-
 ia64*-*-*)
   # CPUID[3] bits 24 to 31 is the processor family.  itanium2 is documented
   # as 0x1f, plain itanium has been seen returning 0x07 on two systems, but

@@ -263,7 +263,7 @@ noinst_LTLIBRARIES = libmpn.la
 nodist_libmpn_la_SOURCES = dummy1.c
 libmpn_la_LIBADD = $(OFILES)
 libmpn_la_DEPENDENCIES = $(OFILES)
-TARG_DIST = alpha arm generic ia64 m68k mips32 mips64 powerpc32 powerpc64 sh sparc32 sparc64 thumb x86 x86_64
+TARG_DIST = alpha arm generic ia64 mips32 mips64 powerpc32 powerpc64 sparc32 sparc64 x86 x86_64
 EXTRA_DIST = asm-defs.m4 cpp-ccas m4-ccas $(TARG_DIST)
 
 # COMPILE minus CC.

@@ -65,10 +65,6 @@ __gmp_extract_double (mp_ptr rp, double d)
 
 #if _GMP_IEEE_FLOATS
   {
-#if defined (__alpha) && __GNUC__ == 2 && __GNUC_MINOR__ == 8
-    /* Work around alpha-specific bug in GCC 2.8.x.  */
-    volatile
-#endif
     union ieee_double_extract x;
     x.d = d;
     exp = x.s.exp;
