@@ -20,10 +20,10 @@ for /f "tokens=1,2 delims=@" %%a in (..\gmp-h.in) do (
         if "%1" EQU "x64" (
             echo #if !defined _LONG_LONG_LIMB>>tmp.h
             echo #  define _LONG_LONG_LIMB 1 >>tmp.h
-            echo #endif>>.\tmp.h
+            echo #endif>>tmp.h
             echo #if !defined _WIN64>>tmp.h
-            echo #define _WIN64 >>.\tmp.h
-            echo #endif>>.\tmp.h
+            echo #define _WIN64 >>tmp.h
+            echo #endif>>tmp.h
         )
     ) else (echo %%a%%b>>tmp.h)
    )

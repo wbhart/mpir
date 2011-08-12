@@ -11,7 +11,7 @@ if "%str2%" NEQ "build.vc10" goto dele
 
 rem we now have: build.vc10\<win32|x64>\<debug|release>\mpir.<lib|dll>
 
-rem extract platform (plat=<win32|x64>), configuration (conf=<debug|release>) anbd file name 
+rem extract platform (plat=<win32|x64>), configuration (conf=<debug|release>) and file name 
 rem IDE gives:     build.vc10\x64\Release\mpir.lib   
 rem MSBUILD gives: build.vc10\lib_mpir_nehalem\x64\Release\mpir.lib  
 rem Python gives:  build.vc10\lib_mpir_nehalem\x64\Release\mpir.dll
