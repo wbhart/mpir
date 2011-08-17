@@ -287,7 +287,6 @@ mpn_get_d (mp_srcptr ptr, mp_size_t size, mp_size_t sign, long exp)
 	    {
 	      prev_factor = factor;
 	      factor *= base;
-	      FORCE_DOUBLE (factor);
 	      if (factor == 0.0)
 		return 0.0;	/* underflow */
 	      if (factor == prev_factor)
@@ -329,7 +328,6 @@ mpn_get_d (mp_srcptr ptr, mp_size_t size, mp_size_t sign, long exp)
 	  if (bit & limb)
 	    {
 	      new_d = d + factor;
-	      FORCE_DOUBLE (new_d);
 	      diff = new_d - d;
 	      if (diff != factor)
 		break;	 /* rounding occured, stop now */

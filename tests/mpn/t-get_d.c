@@ -304,7 +304,6 @@ check_ieee_denorm (void)
               want = -want;
             }
           want *= 0.5;
-          FORCE_DOUBLE (want);
         }
     }
   else
@@ -354,7 +353,6 @@ check_ieee_overflow (void)
               want = -want;
             }
           want *= 2.0;
-          FORCE_DOUBLE (want);
         }
     }
   else

@@ -3178,31 +3178,6 @@ __GMP_DECLSPEC double mpn_get_d __GMP_PROTO ((mp_srcptr, mp_size_t, mp_size_t, l
   } while (0)
 #endif
 
-/* On x86 and amd64, gcc (and maybe other compilers) can hold doubles
-   in the coprocessor, which means a bigger exponent range than normal, and
-   depending on the rounding mode, a bigger mantissa than normal.  (See
-   "Disappointments" in the gcc manual.)  FORCE_DOUBLE stores and fetches
-   "d" through memory to force any rounding and overflows to occur.
-
-   On amd64, and on x86s with SSE2, gcc (depending on options) uses the xmm
-   registers, where there's no such extra precision and no need for the
-   FORCE_DOUBLE.  We don't bother to detect this since the present uses for
-   FORCE_DOUBLE are only in test programs and default generic C code.
-
-   Not quite sure that an "automatic volatile" will use memory, but it does
-   in gcc.  An asm("":"=m"(d):"0"(d)) can't be used to trick gcc, since
-   apparently matching operands like "0" are only allowed on a register
-   output.  gcc 3.4 warns about this, though in fact it and past versions
-   seem to put the operand through memory as hoped.  */
-
-#if (HAVE_HOST_CPU_FAMILY_x86 || defined (__amd64__))
-#define FORCE_DOUBLE(d) \
-  do { volatile double __gmp_force = (d); (d) = __gmp_force; } while (0)
-#else
-#define FORCE_DOUBLE(d)  do { } while (0)
-#endif
-
-
 extern int __gmp_junk;
 extern const int __gmp_0;
 void __gmp_exception _PROTO ((int)) ATTRIBUTE_NORETURN;
