@@ -310,94 +310,6 @@ dnl  Assembler instruction macros.
 dnl
 
 
-dnl  Usage: emms_or_femms
-dnl         femms_available_p
-dnl
-dnl  femms_available_p expands to 1 or 0 according to whether the AMD 3DNow
-dnl  femms instruction is available.  emms_or_femms expands to femms if
-dnl  available, or emms if not.
-dnl
-dnl  emms_or_femms is meant for use in the K6 directory where plain K6
-dnl  (without femms) and K6-2 and K6-3 (with a slightly faster femms) are
-dnl  supported together.
-dnl
-dnl  On K7 femms is no longer faster and is just an alias for emms, so plain
-dnl  emms may as well be used.
-
-define(femms_available_p,
-m4_assert_numargs(-1)
-`m4_ifdef_anyof_p(
-	`HAVE_HOST_CPU_k62',
-	`HAVE_HOST_CPU_k63',
-	`HAVE_HOST_CPU_athlon')')
-
-define(emms_or_femms,
-m4_assert_numargs(-1)
-`ifelse(femms_available_p,1,`femms',`emms')')
-
-
-dnl  Usage: femms
-dnl
-dnl  Gas 2.9.1 which comes with FreeBSD 3.4 doesn't support femms, so the
-dnl  following is a replacement using .byte.
-dnl
-dnl  If femms isn't available, an emms is generated instead, for convenience
-dnl  when testing on a machine without femms.
-
-define(femms,
-m4_assert_numargs(-1)
-`ifelse(femms_available_p,1,
-`.byte	15,14	C AMD 3DNow femms',
-`emms`'dnl
-m4_warning(`warning, using emms in place of femms, use for testing only
-')')')
-
-
-dnl  Usage: jadcl0(op)
-dnl
-dnl  Generate a jnc/incl as a substitute for adcl $0,op.  Note this isn't an
-dnl  exact replacement, since it doesn't set the flags like adcl does.
-dnl
-dnl  This finds a use in K6 mpn_addmul_1, mpn_submul_1, mpn_mul_basecase and
-dnl  mpn_sqr_basecase because on K6 an adcl is slow, the branch
-dnl  misprediction penalty is small, and the multiply algorithm used leads
-dnl  to a carry bit on average only 1/4 of the time.
-dnl
-dnl  jadcl0_disabled can be set to 1 to instead generate an ordinary adcl
-dnl  for comparison.  For example,
-dnl
-dnl		define(`jadcl0_disabled',1)
-dnl
-dnl  When using a register operand, eg. "jadcl0(%edx)", the jnc/incl code is
-dnl  the same size as an adcl.  This makes it possible to use the exact same
-dnl  computed jump code when testing the relative speed of the two.
-
-define(jadcl0,
-m4_assert_numargs(1)
-`ifelse(jadcl0_disabled,1,
-	`adcl	$`'0, $1',
-	`jnc	L(jadcl0_`'jadcl0_counter)
-	incl	$1
-L(jadcl0_`'jadcl0_counter):
-define(`jadcl0_counter',incr(jadcl0_counter))')')
-
-define(jadcl0_counter,1)
-
-
-dnl  Usage: cmov_available_p
-dnl
-dnl  Expand to 1 if cmov is available, 0 if not.
-
-define(cmov_available_p,
-m4_assert_numargs(-1)
-`m4_ifdef_anyof_p(
-	`HAVE_HOST_CPU_pentiumpro',
-	`HAVE_HOST_CPU_pentium2',
-	`HAVE_HOST_CPU_pentium3',
-	`HAVE_HOST_CPU_pentium4',
-	`HAVE_HOST_CPU_athlon')')
-
-
 dnl  Usage: x86_lookup(target, key,value, key,value, ...)
 dnl         x86_lookup_p(target, key,value, key,value, ...)
 dnl
@@ -496,31 +408,6 @@ define(x86_opcode_regmmx_list,
 `%mm5',5,
 `%mm6',6,
 `%mm7',7')
-
-dnl  Usage: loop_or_decljnz label
-dnl
-dnl  Generate either a "loop" instruction or a "decl %ecx / jnz", whichever
-dnl  is better.  "loop" is better on K6 and probably on 386, on other chips
-dnl  separate decl/jnz is better.
-dnl
-dnl  This macro is just for mpn/x86/divrem_1.asm and mpn/x86/mod_1.asm where
-dnl  this loop_or_decljnz variation is enough to let the code be shared by
-dnl  all chips.
-
-define(loop_or_decljnz,
-m4_assert_numargs(-1)
-`ifelse(loop_is_better_p,1,
-	`loop',
-	`decl	%ecx
-	jnz')')
-
-define(loop_is_better_p,
-m4_assert_numargs(-1)
-`m4_ifdef_anyof_p(`HAVE_HOST_CPU_k6',
-                  `HAVE_HOST_CPU_k62',
-                  `HAVE_HOST_CPU_k63',
-                  `HAVE_HOST_CPU_i386')')
-
 
 dnl  Usage: Zdisp(inst,op,op,op)
 dnl
