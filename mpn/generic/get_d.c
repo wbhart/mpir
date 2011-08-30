@@ -44,33 +44,9 @@ union ieee_double_extract {
 /* To force use of the generic C code for testing, put
    "#define _GMP_IEEE_FLOATS 0" at this point.	*/
 
-
-
-/* In alpha gcc prior to 3.4, signed DI comparisons involving constants are
-   rearranged from "x < n" to "x+(-n) < 0", which is of course hopelessly
-   wrong if that addition overflows.
-
-   The workaround here avoids this bug by ensuring n is not a literal
-   constant.  Note that this is alpha specific.	 The offending transformation
-   is/was in alpha.c alpha_emit_conditional_branch() under "We want to use
-   cmpcc/bcc".
-
-   Bizarrely, it turns out this happens also with Cray cc on
-   alphaev5-cray-unicosmk2.0.6.X, and has the same solution.  Don't know why
-   or how.  */
-
-#if HAVE_HOST_CPU_FAMILY_alpha				\
-  && ((defined (__GNUC__) && ! __GMP_GNUC_PREREQ(3,4)))
-static volatile const long CONST_1024 = 1024;
-static volatile const long CONST_NEG_1023 = -1023;
-static volatile const long CONST_NEG_1022_SUB_53 = -1022 - 53;
-#else
 #define CONST_1024	      (1024)
 #define CONST_NEG_1023	      (-1023)
 #define CONST_NEG_1022_SUB_53 (-1022 - 53)
-#endif
-
-
 
 /* Return the value {ptr,size}*2^exp, and negative if sign<0.
    Must have size>=1, and a non-zero high limb ptr[size-1].

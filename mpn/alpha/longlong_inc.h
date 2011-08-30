@@ -51,13 +51,6 @@ MA 02110-1301, USA. */
    always goes into libmpir.so, even when not actually used.  */
 #define COUNT_LEADING_ZEROS_NEED_CLZ_TAB
 
-#if defined (__GNUC__) && HAVE_HOST_CPU_alpha_CIX
-#define count_leading_zeros(COUNT,X) \
-  __asm__("ctlz %1,%0" : "=r"(COUNT) : "r"(X))
-#define count_trailing_zeros(COUNT,X) \
-  __asm__("cttz %1,%0" : "=r"(COUNT) : "r"(X))
-#endif /* clz/ctz using cix */
-
 #if ! defined (count_leading_zeros)                             \
   && defined (__GNUC__) && ! defined (LONGLONG_STANDALONE)
 /* ALPHA_CMPBGE_0 gives "cmpbge $31,src,dst", ie. test src bytes == 0.
@@ -93,19 +86,3 @@ long __MPN(count_leading_zeros) _PROTO ((UDItype));
   ((count) = __MPN(count_leading_zeros) (x))
 #endif /* clz using mpn */
 
-#if !defined(ULONG_PARITY) && defined (__GNUC__) && HAVE_HOST_CPU_alpha_CIX
-#define ULONG_PARITY(p, n)						\
-  do {									\
-    int __p;								\
-    __asm__ ("ctpop %1, %0" : "=r" (__p) : "r" (n));			\
-    (p) = __p & 1;							\
-  } while (0)
-#endif
-
-
-#if !defined(popc_limb) && defined (__GNUC__) && HAVE_HOST_CPU_alpha_CIX
-#define popc_limb(result, input)					\
-  do {									\
-    __asm__ ("ctpop %1, %0" : "=r" (result) : "r" (input));		\
-  } while (0)
-#endif

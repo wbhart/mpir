@@ -61,30 +61,6 @@ m4_assert_numargs(1)
 `ifdef(`HAVE_LIMB_LITTLE_ENDIAN',`',
 `m4_error(`Cannot assemble, unknown limb endianness')')')')
 
-
-dnl  Usage: bwx_available_p
-dnl
-dnl  Evaluate to 1 if the BWX byte memory instructions are available, or to
-dnl  0 if not.
-dnl
-dnl  Listing the chips which do have BWX means anything we haven't looked at
-dnl  will use safe non-BWX code.  The only targets without BWX currently are
-dnl  plain alpha (ie. ev4) and alphaev5.
-
-define(bwx_available_p,
-m4_assert_numargs(-1)
-`m4_ifdef_anyof_p(
-	`HAVE_HOST_CPU_alphaev56',
-	`HAVE_HOST_CPU_alphapca56',
-	`HAVE_HOST_CPU_alphapca57',
-	`HAVE_HOST_CPU_alphaev6',
-	`HAVE_HOST_CPU_alphaev67',
-	`HAVE_HOST_CPU_alphaev68',
-	`HAVE_HOST_CPU_alphaev69',
-	`HAVE_HOST_CPU_alphaev7',
-	`HAVE_HOST_CPU_alphaev79')')
-
-
 dnl  Usage: unop
 dnl
 dnl  The Cray Unicos assembler lacks unop, so give the equivalent ldq_u

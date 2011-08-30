@@ -84,12 +84,8 @@ PROLOGUE(mpn_modexact_1c_odd,gp)
 
 	addq	r0, r20, r21		C table + idx
 
-ifelse(bwx_available_p,1,
-`	ldbu	r20, 0(r21)		C table[idx], inverse 8 bits
-',`
 	ldq_u	r20, 0(r21)		C table[idx] qword
 	extbl	r20, r21, r20		C table[idx], inverse 8 bits
-')
 
 	mull	r20, r20, r7		C i*i
 	addq	r20, r20, r20		C 2*i
