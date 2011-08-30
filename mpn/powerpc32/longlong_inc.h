@@ -90,11 +90,7 @@ MA 02110-1301, USA. */
 
 /* Apparently lwbrx might be slow on some PowerPC chips, so restrict it to
    those we know are fast.  */
-#if !defined(BSWAP_LIMB_FETCH) && defined (__GNUC__) && HAVE_LIMB_BIG_ENDIAN                     \
-  && (HAVE_HOST_CPU_powerpc604                                          \
-      || HAVE_HOST_CPU_powerpc604e                                      \
-      || HAVE_HOST_CPU_powerpc750                                       \
-      || HAVE_HOST_CPU_powerpc7400)
+#if !defined(BSWAP_LIMB_FETCH) && defined (__GNUC__) && HAVE_LIMB_BIG_ENDIAN    
 #define BSWAP_LIMB_FETCH(limb, src)					\
   do {									\
     mp_srcptr  __blf_src = (src);					\
@@ -110,11 +106,7 @@ MA 02110-1301, USA. */
 
 /* On the same basis that lwbrx might be slow, restrict stwbrx to those we
    know are fast.  FIXME: Is this necessary?  */
-#if !defined(BSWAP_LIMB_STORE) && defined (__GNUC__) && HAVE_LIMB_BIG_ENDIAN                     \
-  && (HAVE_HOST_CPU_powerpc604                                          \
-      || HAVE_HOST_CPU_powerpc604e                                      \
-      || HAVE_HOST_CPU_powerpc750                                       \
-      || HAVE_HOST_CPU_powerpc7400)
+#if !defined(BSWAP_LIMB_STORE) && defined (__GNUC__) && HAVE_LIMB_BIG_ENDIAN
 #define BSWAP_LIMB_STORE(dst, limb)					\
   do {									\
     mp_ptr     __dst = (dst);						\

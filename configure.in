@@ -229,10 +229,6 @@ AH_VERBATIM([HAVE_HOST_CPU_1],
 
 /* Define one of the following to 1 for the host CPU, as per the output of
    ./config.guess.  If your CPU is not listed here, leave all undefined.  */
-#undef HAVE_HOST_CPU_powerpc604
-#undef HAVE_HOST_CPU_powerpc604e
-#undef HAVE_HOST_CPU_powerpc750
-#undef HAVE_HOST_CPU_powerpc7400
 #undef HAVE_HOST_CPU_supersparc
 #undef HAVE_HOST_CPU_i386
 #undef HAVE_HOST_CPU_i586
