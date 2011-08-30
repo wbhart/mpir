@@ -4327,11 +4327,11 @@ echo "include_mpn(\`sparc32/sparc-defs.m4')" >> $gmp_tmpconfigm4i
 
     case $host_cpu in
       sparcv8 | microsparc | turbosparc)
-        path="sparc32/v8 sparc32" ;;
+        path="sparc32" ;;
       supersparc)
-        path="sparc32/v8/supersparc sparc32/v8 sparc32" ;;
+        path="sparc32" ;;
       sparc64 | sparcv9* | ultrasparc*)
-        path="sparc32/v9 sparc32/v8 sparc32" ;;
+        path="sparc32/v9 sparc32" ;;
       *)
         path="sparc32" ;;
     esac

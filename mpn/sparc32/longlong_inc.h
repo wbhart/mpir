@@ -59,8 +59,7 @@ MA 02110-1301, USA. */
   } while (0)
 #else
 #if defined (__sparc_v8__)   /* gcc normal */				\
-  || defined (__sparcv8)     /* gcc solaris */				\
-  || HAVE_HOST_CPU_supersparc
+  || defined (__sparcv8)     /* gcc solaris */
 /* Don't match immediate range because, 1) it is not often useful,
    2) the 'I' flag thinks of the range as a 13 bit signed interval,
    while we want to match a 13 bit interval, sign extended to 32 bits,
@@ -68,9 +67,6 @@ MA 02110-1301, USA. */
 #define umul_ppmm(w1, w0, u, v) \
   __asm__ ("umul %2,%3,%1;rd %%y,%0" : "=r" (w1), "=r" (w0) : "r" (u), "r" (v))
 
-#if ! HAVE_HOST_CPU_supersparc
-/* Don't use this on SuperSPARC because its udiv only handles 53 bit
-   dividends and will trap to the kernel for the rest. */
 #define udiv_qrnnd(q, r, n1, n0, d) \
   do {									\
     USItype __q;							\
@@ -79,7 +75,6 @@ MA 02110-1301, USA. */
     (r) = (n0) - __q * (d);						\
     (q) = __q;								\
   } while (0)
-#endif /* HAVE_HOST_CPU_supersparc */
 
 #else /* ! __sparc_v8__ */
 #if defined (__sparclite__)

@@ -229,7 +229,6 @@ AH_VERBATIM([HAVE_HOST_CPU_1],
 
 /* Define one of the following to 1 for the host CPU, as per the output of
    ./config.guess.  If your CPU is not listed here, leave all undefined.  */
-#undef HAVE_HOST_CPU_supersparc
 #undef HAVE_HOST_CPU_i386
 #undef HAVE_HOST_CPU_i586
 #undef HAVE_HOST_CPU_i686
@@ -773,11 +772,11 @@ case $host in
 
     case $host_cpu in
       sparcv8 | microsparc | turbosparc)
-        path="sparc32/v8 sparc32" ;;
+        path="sparc32" ;;
       supersparc)
-        path="sparc32/v8/supersparc sparc32/v8 sparc32" ;;
+        path="sparc32" ;;
       sparc64 | sparcv9* | ultrasparc*)
-        path="sparc32/v9 sparc32/v8 sparc32" ;;
+        path="sparc32/v9 sparc32" ;;
       *)
         path="sparc32" ;;
     esac
