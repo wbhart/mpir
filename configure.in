@@ -226,17 +226,7 @@ AH_VERBATIM([HAVE_HOST_CPU_1],
    If your CPU is not in any of these families, leave all undefined. */
 #undef HAVE_HOST_CPU_FAMILY_powerpc
 #undef HAVE_HOST_CPU_FAMILY_x86
-
-/* Define one of the following to 1 for the host CPU, as per the output of
-   ./config.guess.  If your CPU is not listed here, leave all undefined.  */
-#undef HAVE_HOST_CPU_i386
-#undef HAVE_HOST_CPU_i586
-#undef HAVE_HOST_CPU_i686
-#undef HAVE_HOST_CPU_pentium
-#undef HAVE_HOST_CPU_pentiummmx
-#undef HAVE_HOST_CPU_pentiumpro
-#undef HAVE_HOST_CPU_pentium2
-#undef HAVE_HOST_CPU_pentium3])
+])
 
 
 # Table of compilers, options, and mpn paths.  This code has various related
