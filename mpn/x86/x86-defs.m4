@@ -461,43 +461,6 @@ dnl  --------------------------------------------------------------------------
 dnl  Assembler instruction macros.
 dnl
 
-
-dnl  Usage: emms_or_femms
-dnl         femms_available_p
-dnl
-dnl  femms_available_p expands to 1 or 0 according to whether the AMD 3DNow
-dnl  femms instruction is available.  emms_or_femms expands to femms if
-dnl  available, or emms if not.
-dnl
-dnl  emms_or_femms is meant for use in the K6 directory where plain K6
-dnl  (without femms) and K6-2 and K6-3 (with a slightly faster femms) are
-dnl  supported together.
-dnl
-dnl  On K7 femms is no longer faster and is just an alias for emms, so plain
-dnl  emms may as well be used.
-
-define(femms_available_p,
-m4_assert_numargs(-1)
-`m4_ifdef_anyof_p(
-	`HAVE_HOST_CPU_k62',
-	`HAVE_HOST_CPU_k63',
-	`HAVE_HOST_CPU_athlon')')
-
-define(emms_or_femms,
-m4_assert_numargs(-1)
-`ifelse(femms_available_p,1,`femms',`emms')')
-
-
-dnl  Usage: femms
-dnl
-dnl  Gas 2.9.1 which comes with FreeBSD 3.4 doesn't support femms, so the
-dnl  following is a replacement using .byte.
-
-define(femms,
-m4_assert_numargs(-1)
-`.byte	15,14	C AMD 3DNow femms')
-
-
 dnl  Usage: jadcl0(op)
 dnl
 dnl  Generate a jnc/incl as a substitute for adcl $0,op.  Note this isn't an

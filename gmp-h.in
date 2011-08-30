@@ -31,7 +31,6 @@ along with the GNU MP Library.  If not, see http://www.gnu.org/licenses/.  */
 /* Instantiated by configure. */
 #if ! defined (__GMP_WITHIN_CONFIGURE)
 #define __GMP_BITS_PER_MP_LIMB             @BITS_PER_MP_LIMB@
-#define __GMP_HAVE_HOST_CPU_FAMILY_power   @HAVE_HOST_CPU_FAMILY_power@
 #define __GMP_HAVE_HOST_CPU_FAMILY_powerpc @HAVE_HOST_CPU_FAMILY_powerpc@
 #define GMP_LIMB_BITS                      @BITS_PER_MP_LIMB@
 #define GMP_NAIL_BITS                      @GMP_NAIL_BITS@

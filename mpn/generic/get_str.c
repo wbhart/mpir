@@ -106,12 +106,7 @@ along with the GNU MP Library.  If not, see http://www.gnu.org/licenses/.  */
    Elsewhere "/" and "%" are either separate instructions, or separate
    libgcc calls (which unfortunately gcc as of version 3.0 doesn't combine).
    A multiply and subtract should be faster than a "%" in those cases.  */
-#if HAVE_HOST_CPU_FAMILY_x86            \
-  || HAVE_HOST_CPU_m68020               \
-  || HAVE_HOST_CPU_m68030               \
-  || HAVE_HOST_CPU_m68040               \
-  || HAVE_HOST_CPU_m68060               \
-  || HAVE_HOST_CPU_m68360 /* CPU32 */
+#if HAVE_HOST_CPU_FAMILY_x86            
 #define udiv_qrnd_unnorm(q,r,n,d)       \
   do {                                  \
     mp_limb_t  __q = (n) / (d);         \

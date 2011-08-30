@@ -102,7 +102,7 @@ L(one_more):
 	movd	%mm0, (%edx)
 
 	movl	SAVE_EBX, %ebx
-	emms_or_femms
+	emms
 L(zero):
 	ret
 

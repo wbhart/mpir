@@ -88,7 +88,7 @@ L(top):
 L(no_extra):
 
 	popl	%ebx
-	emms_or_femms
+	emms
 	ret
 
 EPILOGUE()

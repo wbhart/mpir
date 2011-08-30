@@ -55,7 +55,7 @@ MA 02110-1301, USA. */
 #define count_leading_zeros(count, x) \
   __asm__ ("{cntlz|cntlzw} %0,%1" : "=r" (count) : "r" (x))
 #define COUNT_LEADING_ZEROS_0 32
-#if HAVE_HOST_CPU_FAMILY_powerpc
+
 #define umul_ppmm(ph, pl, m0, m1) \
   do {									\
     USItype __m0 = (m0), __m1 = (m1);					\
@@ -68,19 +68,13 @@ MA 02110-1301, USA. */
     __asm__ ("mulhw %0,%1,%2" : "=r" (ph) : "%r" (m0), "r" (m1));	\
     (pl) = __m0 * __m1;							\
   } while (0)
-#else
-#define smul_ppmm(xh, xl, m0, m1) \
-  __asm__ ("mul %0,%2,%3" : "=r" (xh), "=q" (xl) : "r" (m0), "r" (m1))
-#define sdiv_qrnnd(q, r, nh, nl, d) \
-  __asm__ ("div %0,%2,%4" : "=r" (q), "=q" (r) : "r" (nh), "1" (nl), "r" (d))
-#endif
 
 #endif
 
 /* 3 cycles on 604 or 750 since shifts and rlwimi's can pair.  gcc (as of
    version 3.1 at least) doesn't seem to know how to generate rlwimi for
    anything other than bit-fields, so use "asm".  */
-#if !defined(BSWAP_LIMB) && defined (__GNUC__) && HAVE_HOST_CPU_FAMILY_powerpc
+#if !defined(BSWAP_LIMB) && defined (__GNUC__)
 #define BSWAP_LIMB(dst, src)						\
   do {									\
     mp_limb_t  __bswapl_src = (src);					\

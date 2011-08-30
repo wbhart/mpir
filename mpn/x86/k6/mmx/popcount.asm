@@ -219,7 +219,7 @@ HAM(`	nop			C code alignment')
 
 
 	movd	%mm2, %eax
-	emms_or_femms
+	emms
 	ret
 
 EPILOGUE()

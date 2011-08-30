@@ -210,7 +210,7 @@ L(no_extra):
 
 			popl	%esi
 			popl	%ebx
-			emms_or_femms
+			emms
 			ret
 
 EPILOGUE()

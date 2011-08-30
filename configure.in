@@ -224,7 +224,6 @@ dnl  for these are under the cpu specific setups below.
 AH_VERBATIM([HAVE_HOST_CPU_1],
 [/* Define one of these to 1 for the host CPU family.
    If your CPU is not in any of these families, leave all undefined. */
-#undef HAVE_HOST_CPU_FAMILY_power
 #undef HAVE_HOST_CPU_FAMILY_powerpc
 #undef HAVE_HOST_CPU_FAMILY_x86
 
@@ -362,7 +361,6 @@ cc_64_cflags="-O"
 SPEED_CYCLECOUNTER_OBJ=
 cyclecounter_size=2
 
-AC_SUBST(HAVE_HOST_CPU_FAMILY_power,  0)
 AC_SUBST(HAVE_HOST_CPU_FAMILY_powerpc,0)
 
 case $host in

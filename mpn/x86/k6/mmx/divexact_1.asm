@@ -284,7 +284,7 @@ L(even_two):
 	popl	%ebp
 	popl	%ebx
 
-	emms_or_femms
+	emms
 
 	ret
 
