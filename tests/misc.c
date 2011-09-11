@@ -494,7 +494,7 @@ tests_hardware_setround (int mode)
     return 0;
   }
   int cwi=fegetround();
-  if(cwi<0)return -1;
+  if(cwi<0)return 0;
   cwi=fesetround ((cwi & ~(FE_TOWARDZERO | FE_DOWNWARD | FE_UPWARD | FE_TONEAREST)) | rc );
   if(cwi==0)return 1;
   return 0;
