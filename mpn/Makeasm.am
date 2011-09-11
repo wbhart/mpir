@@ -107,11 +107,11 @@ RM_TMP = rm -f
 	$(CCAS) $(COMPILE_FLAGS) tmp-$*.s -o $@
 	$(RM_TMP) tmp-$*.s
 
-if BUILD_YASM
-ASSEMBLER = $(top_srcdir)/strip_fPIC.sh $(top_builddir)$(MPIR_AS) -p gas -I $(top_builddir) $(OBJECT_FORMAT) $(GSYM_FLAG) -o $@ 
-else
+#if BUILD_YASM
+#ASSEMBLER = $(top_srcdir)/strip_fPIC.sh $(top_builddir)$(MPIR_AS) -p gas -I $(top_builddir) $(OBJECT_FORMAT) $(GSYM_FLAG) -o $@ 
+#else
 ASSEMBLER = $(CCAS) $(COMPILE_FLAGS)
-endif
+#endif
 
 .asm.lo:
 	$(LIBTOOL) --mode=compile --tag=CC $(top_srcdir)/mpn/m4-ccas --m4="$(M4)" $(ASSEMBLER) `test -f '$<' || echo '$(srcdir)/'`$<
