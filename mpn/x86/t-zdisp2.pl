@@ -106,7 +106,7 @@ sub process_asm {
       my $header = "$file: 0: $pic\n";
       $filecount++;
 
-      my $m4 = "m4 -DHAVE_HOST_CPU_athlon -DOPERATION_$fun $pic ../config.m4 $tempfile $file";
+      my $m4 = "m4 -DOPERATION_$fun $pic ../config.m4 $tempfile $file";
       print "$m4\n" if $opt{'t'};
 
       open IN, "$m4 |" or die;

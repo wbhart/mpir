@@ -27796,8 +27796,6 @@ echo "define(<ALIGN_FILL_0x90>,<$gmp_cv_asm_align_fill_0x90>)" >> $gmp_tmpconfig
 
 echo "include_mpn(\`x86/x86-defs.m4')" >> $gmp_tmpconfigm4i
 
-          $as_echo "#define HAVE_HOST_CPU_FAMILY_x86 1" >>confdefs.h
-
 
 
 
