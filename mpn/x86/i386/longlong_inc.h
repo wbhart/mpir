@@ -153,9 +153,14 @@ MA 02110-1301, USA. */
 #endif
 #endif
 
-#if !defined(BSWAP_LIMB) && defined (__GNUC__)
-#define BSWAP_LIMB(dst, src)						\
-  do {									\
-    __asm__ ("bswap %0" : "=r" (dst) : "0" (src));			\
-  } while (0)
+#ifdef BSWAP_LIMB
+#undef BSWAP_LIMB
 #endif
+#define BSWAP_LIMB(dst, src)    \
+  do {                          \
+    (dst) =                     \
+      ((src) << 24)             \
+      + (((src) & 0xFF00) << 8) \
+      + (((src) >> 8) & 0xFF00) \
+      + ((src) >> 24);          \
+  } while (0)

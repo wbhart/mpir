@@ -101,20 +101,6 @@ along with the GNU MP Library.  If not, see http://www.gnu.org/licenses/.  */
   larger than GET_STR_PRECOMPUTE_THRESHOLD.  */
 
 
-/* The x86s and m68020 have a quotient and remainder "div" instruction and
-   gcc recognises an adjacent "/" and "%" can be combined using that.
-   Elsewhere "/" and "%" are either separate instructions, or separate
-   libgcc calls (which unfortunately gcc as of version 3.0 doesn't combine).
-   A multiply and subtract should be faster than a "%" in those cases.  */
-#if HAVE_HOST_CPU_FAMILY_x86            
-#define udiv_qrnd_unnorm(q,r,n,d)       \
-  do {                                  \
-    mp_limb_t  __q = (n) / (d);         \
-    mp_limb_t  __r = (n) % (d);         \
-    (q) = __q;                          \
-    (r) = __r;                          \
-  } while (0)
-#else
 #define udiv_qrnd_unnorm(q,r,n,d)       \
   do {                                  \
     mp_limb_t  __q = (n) / (d);         \
@@ -122,9 +108,8 @@ along with the GNU MP Library.  If not, see http://www.gnu.org/licenses/.  */
     (q) = __q;                          \
     (r) = __r;                          \
   } while (0)
-#endif
+  
 
-
 /* Convert {up,un} to a string in base base, and put the result in str.
    Generate len characters, possibly padding with zeros to the left.  If len is
    zero, generate as many characters as required.  Return a pointer immediately
@@ -171,17 +156,6 @@ mpn_sb_get_str (unsigned char *str, size_t len,
 	  un -= rp[un] == 0;
 	  frac = (rp[0] + 1) << GMP_NAIL_BITS;
 	  s -= MP_BASES_CHARS_PER_LIMB_10;
-#if HAVE_HOST_CPU_FAMILY_x86
-	  /* The code below turns out to be a bit slower for x86 using gcc.
-	     Use plain code.  */
-	  i = MP_BASES_CHARS_PER_LIMB_10;
-	  do
-	    {
-	      umul_ppmm (digit, frac, frac, 10);
-	      *s++ = digit;
-	    }
-	  while (--i);
-#else
 	  /* Use the fact that 10 in binary is 1010, with the lowest bit 0.
 	     After a few umul_ppmm, we will have accumulated enough low zeros
 	     to use a plain multiply.  */
@@ -217,7 +191,6 @@ mpn_sb_get_str (unsigned char *str, size_t len,
 	      frac &= (~(mp_limb_t) 0) >> 4;
 	    }
 	  while (--i);
-#endif
 	  s -= MP_BASES_CHARS_PER_LIMB_10;
 	}
 

@@ -820,12 +820,8 @@ __GMP_DECLSPEC void __gmp_default_free _PROTO ((void *, size_t));
    bother to try to detect this.  regparm is only an optimization so we just
    disable it when profiling (profiling being a slowdown anyway).  */
 
-#if HAVE_HOST_CPU_FAMILY_x86 && __GMP_GNUC_PREREQ (2,96) && ! defined (PIC) \
-  && ! WANT_PROFILING_PROF && ! WANT_PROFILING_GPROF
-#define USE_LEADING_REGPARM 1
-#else
 #define USE_LEADING_REGPARM 0
-#endif
+
 
 /* Macros for altering parameter order according to regparm usage. */
 #if USE_LEADING_REGPARM

@@ -31,6 +31,10 @@ MA 02110-1301, USA. */
 #include <float.h>      /* for DBL_MANT_DIG */
 #endif
 
+#if HAVE_FENV_H
+#include <fenv.h>    /* for changing rounding modes */
+#endif
+
 #if TIME_WITH_SYS_TIME
 # include <sys/time.h>  /* for struct timeval */
 # include <time.h>
@@ -40,6 +44,13 @@ MA 02110-1301, USA. */
 # else
 #  include <time.h>
 # endif
+#endif
+
+#ifdef _MSC_VER
+#define FE_TOWARD_ZERO	0xC00
+#define FE_DOWNWARD	0x400
+#define FE_UPWARD	0x800
+#define FE_TONEAREST	0
 #endif
 
 #include "mpir.h"
@@ -468,27 +479,29 @@ tests_isinf (double d)
 int
 tests_hardware_setround (int mode)
 {
-#if HAVE_HOST_CPU_FAMILY_x86
+
   int  rc;
   switch (mode) {
-  case 0: rc = 0; break;  /* nearest */
-  case 1: rc = 3; break;  /* tozero  */
-  case 2: rc = 2; break;  /* up      */
-  case 3: rc = 1; break;  /* down    */
+  case 0: rc = FE_TONEAREST; break;  /* nearest */
+  case 1: rc = FE_TOWARDZERO; break;  /* tozero  */
+  case 2: rc = FE_UPWARD; break;  /* up      */
+  case 3: rc = FE_DOWNWARD; break;  /* down    */
   default:
     return 0;
   }
 #if defined( _MSC_VER )
   {		unsigned int cw;
 		_controlfp_s(&cw, 0, 0);
-		_controlfp_s(&cw, (cw & ~0xC00) | (rc << 10), _MCW_RC);
+		_controlfp_s(&cw, (cw & ~0xC00) | rc, _MCW_RC);
+                return 1;
   }
-#else
-  x86_fldcw ((x86_fstcw () & ~0xC00) | (rc << 10));
 #endif
-  return 1;
+#ifdef HAVE_FENV_H
+  int cwi=fegetround();
+  if(cwi<0)return -1;
+  cwi=fesetround ((cwi & ~(FE_TOWARDZERO | FE_DOWNWARD | FE_UPWARD | FE_TONEAREST)) | rc );
+  if(cwi==0)return 1;
 #endif
-
   return 0;
 }
 
@@ -496,19 +509,22 @@ tests_hardware_setround (int mode)
 int
 tests_hardware_getround (void)
 {
-#if HAVE_HOST_CPU_FAMILY_x86
+#if defined(HAVE_FENV_H) | defined(_MSC_VER)
   unsigned int cw;
+  int cwi;
 #if defined( _MSC_VER )
   _controlfp_s(&cw, 0, 0);
 #else
-  cw = x86_fstcw();
+  cwi = fegetround();
+  if(cwi<0)return -1;
+  cw=cwi;
 #endif
 
-  switch ((cw & ~0xC00) >> 10) {
-  case 0: return 0; break;  /* nearest */
-  case 1: return 3; break;  /* down    */
-  case 2: return 2; break;  /* up      */
-  case 3: return 1; break;  /* tozero  */
+  switch (cw & (FE_TOWARDZERO | FE_DOWNWARD | FE_UPWARD | FE_TONEAREST)) {
+  case FE_TONEAREST: return 0; break;  /* nearest */
+  case FE_DOWNWARD: return 3; break;  /* down    */
+  case FE_UPWARD: return 2; break;  /* up      */
+  case FE_TOWARDZERO: return 1; break;  /* tozero  */
   }
 #endif
 

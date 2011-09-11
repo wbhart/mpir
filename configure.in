@@ -1119,7 +1119,7 @@ case $host in
     esac
 
     case $host_cpu in
-      i386*)                   path="x86" ;;
+      i386*)                   path="x86/i386 x86" ;;
       i486*)                   path="x86/i486 x86" ;;
       i586 | pentium)          path="x86/pentium x86" ;;
       pentiummmx)              path="x86/pentium/mmx x86/pentium x86" ;;
@@ -1995,7 +1995,7 @@ AC_HEADER_TIME
 # inttypes.h, stdint.h, unistd.h and sys/types.h are already in the autoconf
 # default tests
 #
-AC_CHECK_HEADERS(fcntl.h float.h langinfo.h locale.h nl_types.h sys/mman.h sys/param.h sys/processor.h sys/pstat.h sys/sysinfo.h sys/systemcfg.h sys/time.h sys/times.h)
+AC_CHECK_HEADERS(fenv.h fcntl.h float.h langinfo.h locale.h nl_types.h sys/mman.h sys/param.h sys/processor.h sys/pstat.h sys/sysinfo.h sys/systemcfg.h sys/time.h sys/times.h)
 
 # On SunOS, sys/resource.h needs sys/time.h (for struct timeval)
 AC_CHECK_HEADERS(sys/resource.h,,,

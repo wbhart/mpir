@@ -263,11 +263,6 @@ extern UWtype mpn_udiv_qrnnd_r _PROTO ((UWtype, UWtype, UWtype, UWtype *));
 #define COUNT_LEADING_ZEROS_NEED_CLZ_TAB
 #endif
 
-/* clz_tab needed by mpn/x86/pentium/mod_1.asm in a fat binary */
-#if HAVE_HOST_CPU_FAMILY_x86 && WANT_FAT_BINARY
-#define COUNT_LEADING_ZEROS_NEED_CLZ_TAB
-#endif
-
 #ifdef COUNT_LEADING_ZEROS_NEED_CLZ_TAB
 extern const unsigned char __GMP_DECLSPEC __clz_tab[128];
 #endif
