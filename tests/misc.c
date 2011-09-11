@@ -471,7 +471,19 @@ tests_isinf (double d)
 int
 tests_hardware_setround (int mode)
 {
-
+#if defined( _MSC_VER )
+    unsigned int cw, rc;
+    switch (mode) {
+    case 0: rc = RC_NEAR; break;  /* nearest */
+    case 1: rc = RC_CHOP; break;  /* tozero  */
+    case 2: rc = RC_UP; break;    /* up      */
+    case 3: rc = RC_DOWN; break;  /* down    */
+    default:
+        return 0;
+    }
+    _controlfp_s(&cw, rc, _MCW_RC);
+    return 1;
+#elif defined( HAVE_FENV_H )
   int  rc;
   switch (mode) {
   case 0: rc = FE_TONEAREST; break;  /* nearest */
@@ -481,37 +493,33 @@ tests_hardware_setround (int mode)
   default:
     return 0;
   }
-#if defined( _MSC_VER )
-  {		unsigned int cw;
-		_controlfp_s(&cw, 0, 0);
-		_controlfp_s(&cw, (cw & ~0xC00) | rc, _MCW_RC);
-                return 1;
-  }
-#endif
-#ifdef HAVE_FENV_H
   int cwi=fegetround();
   if(cwi<0)return -1;
   cwi=fesetround ((cwi & ~(FE_TOWARDZERO | FE_DOWNWARD | FE_UPWARD | FE_TONEAREST)) | rc );
   if(cwi==0)return 1;
-#endif
   return 0;
+#endif
 }
 
 /* Return the hardware floating point rounding mode, or -1 if unknown. */
 int
 tests_hardware_getround (void)
 {
-#if defined(HAVE_FENV_H) | defined(_MSC_VER)
+#if defined( _MSC_VER )
+    unsigned int cw;
+    _controlfp_s(&cw, 0, 0);
+    switch (cw & (_RC_CHOP | _RC_UP | _RC_DOWN | _RC_NEAR)) {
+    case _RC_NEAR: return 0; break;  /* nearest */
+    case _RC_DOWN: return 3; break;  /* down    */
+    case _RC_UP:   return 2; break;  /* up      */
+    case _RC_CHOP: return 1; break;  /* tozero  */
+    }
+#elif defined( HAVE_FENV_H )
   unsigned int cw;
   int cwi;
-#if defined( _MSC_VER )
-  _controlfp_s(&cw, 0, 0);
-#else
   cwi = fegetround();
   if(cwi<0)return -1;
   cw=cwi;
-#endif
-
   switch (cw & (FE_TOWARDZERO | FE_DOWNWARD | FE_UPWARD | FE_TONEAREST)) {
   case FE_TONEAREST: return 0; break;  /* nearest */
   case FE_DOWNWARD: return 3; break;  /* down    */
@@ -519,10 +527,8 @@ tests_hardware_getround (void)
   case FE_TOWARDZERO: return 1; break;  /* tozero  */
   }
 #endif
-
   return -1;
 }
-
 
 /* tests_dbl_mant_bits() determines by experiment the number of bits in the
    mantissa of a "double".  If it's not possible to find a value (perhaps
