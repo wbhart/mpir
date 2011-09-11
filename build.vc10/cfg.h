@@ -24,12 +24,6 @@ MA 02111-1307, USA. */
 #  define HAVE_STDINT_H 1
 #endif
 
-#if defined( _M_IX86 )
-#  define HAVE_HOST_CPU_FAMILY_x86    1
-#elif defined( _M_X64 )
-#  define HAVE_HOST_CPU_FAMILY_x86_64 1
-#endif
-
 /* The gmp-mparam.h to update when tuning. */
 #undef GMP_MPARAM_H_SUGGEST
 
