@@ -23,29 +23,6 @@ dnl  Fifth Floor, Boston, MA 02110-1301, USA.
 include(`../config.m4')
 
 
-C void x86_fldcw (unsigned short cw);
-C
-C Execute an fldcw, setting the x87 control word to cw.
-
-PROLOGUE(x86_fldcw)
-        fldcw   4(%esp)
-        ret
-EPILOGUE()
-
-
-C unsigned short x86_fstcw (void);
-C
-C Execute an fstcw, returning the current x87 control word.
-
-PROLOGUE(x86_fstcw)
-        xorl    %eax, %eax
-        pushl   %eax
-        fstcw   (%esp)
-        popl    %eax
-        ret
-EPILOGUE()
-
-
 dnl  Instrumented profiling doesn't come out quite right below, since we
 dnl  don't do an actual "ret".  There's only a few instructions here, so
 dnl  there's no great need to get them separately accounted, just let them

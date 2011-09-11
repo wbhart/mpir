@@ -59,10 +59,6 @@ int tests_hardware_setround __GMP_PROTO ((int));
 int tests_isinf __GMP_PROTO ((double));
 int tests_dbl_mant_bits __GMP_PROTO ((void));
 
-void x86_fldcw __GMP_PROTO ((unsigned short));
-unsigned short x86_fstcw __GMP_PROTO ((void));
-
-
 /* tests_setjmp_sigfpe is like a setjmp, establishing a trap for SIGFPE.
    The initial return is 0, if SIGFPE is trapped execution goes back there
    with return value 1.

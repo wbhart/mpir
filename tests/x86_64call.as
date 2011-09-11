@@ -50,26 +50,6 @@ G_EXTERN calling_conventions_retaddr
 
      BITS 64
 
-; void x86_fldcw (unsigned short cw);
-; 
-; Execute an fldcw, setting the x87 control word to cw.
-
-GLOBAL_FUNC x86_fldcw
-     mov   	[rsp-8], rdi
-     fldcw 	[rsp-8]
-     ret
-
-
-; unsigned short x86_fstcw (void);
-; 
-; Execute an fstcw, returning the current x87 control word.
-
-GLOBAL_FUNC x86_fstcw
-     xor 	rax, rax
-     mov 	[rsp-8], rax
-     fstcw	[rsp-8]
-     mov	rax, [rsp+8]
-     ret
 
 ; int calling_conventions (...);
 ; 
