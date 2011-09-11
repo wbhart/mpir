@@ -22,14 +22,6 @@ MA 02110-1301, USA. */
 #include "mpir.h"
 #include "gmp-impl.h"
 
-#ifdef XDEBUG
-#undef _GMP_IEEE_FLOATS
-#endif
-
-#ifndef _GMP_IEEE_FLOATS
-#define _GMP_IEEE_FLOATS 0
-#endif
-
 #define BITS_IN_MANTISSA 53
 
 /* Extract a non-negative double in d.  */
@@ -63,7 +55,7 @@ __gmp_extract_double (mp_ptr rp, double d)
       return 0;
     }
 
-#if _GMP_IEEE_FLOATS
+#if 1
   {
     union ieee_double_extract x;
     x.d = d;

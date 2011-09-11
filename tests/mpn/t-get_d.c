@@ -37,11 +37,6 @@ MA 02110-1301, USA. */
 #include "tests.h"
 
 
-#ifndef _GMP_IEEE_FLOATS
-#define _GMP_IEEE_FLOATS 0
-#endif
-
-
 /* Exercise various 2^n values, with various exponents and positive and
    negative.  */
 void
@@ -230,9 +225,6 @@ check_inf (void)
   double     got;
   int        exp_i;
 
-  if (! _GMP_IEEE_FLOATS)
-    return;
-
   for (nsize = 1; nsize <= numberof (np); nsize++)
     {
       for (exp_i = 0; exp_i < numberof (exp_table); exp_i++)
@@ -275,9 +267,6 @@ check_ieee_denorm (void)
   long       i;
   mp_size_t  sign;
   double     want, got;
-
-  if (! _GMP_IEEE_FLOATS)
-    return;
 
   if (tests_setjmp_sigfpe() == 0)
     {
@@ -324,9 +313,6 @@ check_ieee_overflow (void)
   long       i;
   mp_size_t  sign;
   double     want, got;
-
-  if (! _GMP_IEEE_FLOATS)
-    return;
 
   if (tests_setjmp_sigfpe() == 0)
     {

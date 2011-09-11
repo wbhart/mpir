@@ -3069,7 +3069,7 @@ typedef mp_limb_t UWtype;
 typedef unsigned int UHWtype;
 #define W_TYPE_SIZE BITS_PER_MP_LIMB
 
-/* Define ieee_double_extract and _GMP_IEEE_FLOATS.
+/* Define ieee_double_extract
 
    Bit field packing is "implementation defined" according to C99, which
    leaves us at the compiler's mercy here.  For some systems packing is
@@ -3082,7 +3082,6 @@ typedef unsigned int UHWtype;
    strange system that did anything else.  */
 
 #if HAVE_DOUBLE_IEEE_LITTLE_SWAPPED
-#define _GMP_IEEE_FLOATS 1
 union ieee_double_extract
 {
   struct
@@ -3097,7 +3096,6 @@ union ieee_double_extract
 #endif
 
 #if HAVE_DOUBLE_IEEE_LITTLE_ENDIAN
-#define _GMP_IEEE_FLOATS 1
 union ieee_double_extract
 {
   struct
@@ -3112,7 +3110,6 @@ union ieee_double_extract
 #endif
 
 #if HAVE_DOUBLE_IEEE_BIG_ENDIAN
-#define _GMP_IEEE_FLOATS 1
 union ieee_double_extract
 {
   struct
@@ -3144,7 +3141,6 @@ __GMP_DECLSPEC double mpn_get_d __GMP_PROTO ((mp_srcptr, mp_size_t, mp_size_t, l
    a_inf if x is an infinity.  Both are considered unlikely values, for
    branch prediction.  */
 
-#if _GMP_IEEE_FLOATS
 #define DOUBLE_NAN_INF_ACTION(x, a_nan, a_inf)  \
   do {                                          \
     union ieee_double_extract  u;               \
@@ -3157,7 +3153,6 @@ __GMP_DECLSPEC double mpn_get_d __GMP_PROTO ((mp_srcptr, mp_size_t, mp_size_t, l
           { a_nan; }                            \
       }                                         \
   } while (0)
-#endif
 
 #ifndef DOUBLE_NAN_INF_ACTION
 /* Unknown format, try something generic.

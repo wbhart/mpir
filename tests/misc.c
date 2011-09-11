@@ -445,16 +445,12 @@ call_rand_algs (void (*func) __GMP_PROTO ((const char *, gmp_randstate_ptr)))
 double
 tests_infinity_d (void)
 {
-#if _GMP_IEEE_FLOATS
   union ieee_double_extract x;
   x.s.exp = 2047;
   x.s.manl = 0;
   x.s.manh = 0;
   x.s.sig = 0;
   return x.d;
-#else
-  return 0;
-#endif
 }
 
 
@@ -463,13 +459,9 @@ tests_infinity_d (void)
 int
 tests_isinf (double d)
 {
-#if _GMP_IEEE_FLOATS
   union ieee_double_extract x;
   x.d = d;
   return (x.s.exp == 2047 && x.s.manl == 0 && x.s.manh == 0);
-#else
-  return 0;
-#endif
 }
 
 

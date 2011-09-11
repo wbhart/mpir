@@ -27,22 +27,6 @@ MA 02110-1301, USA. */
 #include "gmp-impl.h"
 #include "longlong.h"
 
-#ifndef _GMP_IEEE_FLOATS
-#define _GMP_IEEE_FLOATS 0
-#endif
-
-#if ! _GMP_IEEE_FLOATS
-/* dummy definition, just to let dead code compile */
-union ieee_double_extract {
-  struct {
-    int manh, manl, sig, exp;
-  } s;
-  double d;
-};
-#endif
-
-/* To force use of the generic C code for testing, put
-   "#define _GMP_IEEE_FLOATS 0" at this point.	*/
 
 #define CONST_1024	      (1024)
 #define CONST_NEG_1023	      (-1023)
@@ -123,8 +107,7 @@ mpn_get_d (mp_srcptr ptr, mp_size_t size, mp_size_t sign, long exp)
   if (UNLIKELY ((unsigned long) (GMP_NUMB_BITS * size)
 		> (unsigned long) (LONG_MAX - exp)))
     {
-      if (_GMP_IEEE_FLOATS)
-	goto ieee_infinity;
+      goto ieee_infinity;
 
       /* generic */
       exp = LONG_MAX;
@@ -137,7 +120,7 @@ mpn_get_d (mp_srcptr ptr, mp_size_t size, mp_size_t sign, long exp)
 #define ONE_LIMB    (GMP_LIMB_BITS == 64 && 2*GMP_NUMB_BITS >= 53)
 #define TWO_LIMBS   (GMP_LIMB_BITS == 32 && 3*GMP_NUMB_BITS >= 53)
 
-  if (_GMP_IEEE_FLOATS && (ONE_LIMB || TWO_LIMBS))
+  if (ONE_LIMB || TWO_LIMBS)
     {
       union ieee_double_extract	 u;
       mp_limb_t	 m0, m1, m2, rmask;
