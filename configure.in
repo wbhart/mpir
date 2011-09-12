@@ -211,23 +211,6 @@ esac],
 MKDIR_P=@mkdir_p@
 AC_SUBST(MKDIR_P)
 
-tmp_host=`echo $host_cpu | sed 's/\./_/'`
-AC_DEFINE_UNQUOTED(HAVE_HOST_CPU_$tmp_host)
-GMP_DEFINE_RAW("define_not_for_expansion(\`HAVE_HOST_CPU_$tmp_host')", POST)
-
-dnl  The HAVE_HOST_CPU_ list here only needs to have entries for those which
-dnl  are going to be tested, not everything that can possibly be selected.
-dnl
-dnl  The HAVE_HOST_CPU_FAMILY_ list similarly, and note that the AC_DEFINEs
-dnl  for these are under the cpu specific setups below.
-
-AH_VERBATIM([HAVE_HOST_CPU_1],
-[/* Define one of these to 1 for the host CPU family.
-   If your CPU is not in any of these families, leave all undefined. */
-#undef HAVE_HOST_CPU_FAMILY_powerpc
-])
-
-
 # Table of compilers, options, and mpn paths.  This code has various related
 # purposes
 #
@@ -344,8 +327,6 @@ cc_64_cflags="-O"
 
 SPEED_CYCLECOUNTER_OBJ=
 cyclecounter_size=2
-
-AC_SUBST(HAVE_HOST_CPU_FAMILY_powerpc,0)
 
 case $host in
 
@@ -554,8 +535,6 @@ case $host in
   # "-arch ppc" or some such, but that's already the default.)
   #
   [powerpc*-*-* | power[3-9]-*-*])
-    AC_DEFINE(HAVE_HOST_CPU_FAMILY_powerpc)
-    HAVE_HOST_CPU_FAMILY_powerpc=1
     abilist="32"
     cclist="gcc cc"
     cc_cflags="-O2"

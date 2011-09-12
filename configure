@@ -712,7 +712,6 @@ GMP_CFLAGS
 GMP_CC
 BUILD_YASM_FALSE
 BUILD_YASM_TRUE
-HAVE_HOST_CPU_FAMILY_powerpc
 ABI
 GMP_NAIL_BITS
 WANT_GMPCOMPAT_FALSE
@@ -3767,19 +3766,6 @@ fi
 MKDIR_P=@mkdir_p@
 
 
-tmp_host=`echo $host_cpu | sed 's/\./_/'`
-cat >>confdefs.h <<_ACEOF
-#define HAVE_HOST_CPU_$tmp_host 1
-_ACEOF
-
-
-echo "define_not_for_expansion(\`HAVE_HOST_CPU_$tmp_host')" >> $gmp_tmpconfigm4p
-
-
-
-
-
-
 # Table of compilers, options, and mpn paths.  This code has various related
 # purposes
 #
@@ -3896,9 +3882,6 @@ cc_64_cflags="-O"
 
 SPEED_CYCLECOUNTER_OBJ=
 cyclecounter_size=2
-
-HAVE_HOST_CPU_FAMILY_powerpc=0
-
 
 case $host in
 
@@ -4117,9 +4100,6 @@ echo "include_mpn(\`mips32/mips-defs.m4')" >> $gmp_tmpconfigm4i
   # "-arch ppc" or some such, but that's already the default.)
   #
   powerpc*-*-* | power[3-9]-*-*)
-    $as_echo "#define HAVE_HOST_CPU_FAMILY_powerpc 1" >>confdefs.h
-
-    HAVE_HOST_CPU_FAMILY_powerpc=1
     abilist="32"
     cclist="gcc cc"
     cc_cflags="-O2"

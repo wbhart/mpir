@@ -135,11 +135,6 @@ MA 02110-1301, USA.
 /* Define to 1 if you have the `gettimeofday' function. */
 #undef HAVE_GETTIMEOFDAY
 
-/* Define one of these to 1 for the host CPU family.
-   If your CPU is not in any of these families, leave all undefined. */
-#undef HAVE_HOST_CPU_FAMILY_powerpc
-
-
 /* Define to 1 if the system has the type `intmax_t'. */
 #undef HAVE_INTMAX_T
 
