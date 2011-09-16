@@ -156,6 +156,7 @@ CPUVEC_SETUP_x86_64;
 	  if (model == 37){ CPUIS(westmere);break;}
 	  if (model == 42){ CPUIS(sandybridge);break;}
 	  if (model == 44){ CPUIS(westmere);break;}
+	  if (model == 45){ CPUIS(sandybridge);break;)	// check this model is correct
 	  if (model == 46){ CPUIS(nehalem);break;}
 	  if (model == 47){ CPUIS(westmere);break;}
           break;
