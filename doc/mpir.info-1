@@ -132,11 +132,10 @@ many different CPUs, and by a general emphasis on speed (as opposed to
 simplicity or elegance).
 
    There is assembly code for these CPUs: ARM, DEC Alpha 21064, 21164,
-and 21264, AMD K6, K6-2, Athlon, K8 and K10, Hitachi SuperH and SH-2,
-HPPA 1.0, 1.1 and 2.0, Intel Pentium, Pentium Pro/II/III, Pentium 4,
-generic x86, Intel IA-64, Core 2, i7, Atom, Motorola MC68000, MC68020,
-MC88100, and MC88110, Motorola/IBM PowerPC 32 and 64, IBM POWER, MIPS
-R3000, R4000, SPARCv7, SuperSPARC, generic SPARCv8, UltraSPARC,
+and 21264, AMD K6, K6-2, Athlon, K8 and K10, Intel Pentium, Pentium
+Pro/II/III, Pentium 4, generic x86, Intel IA-64, Core 2, i7, Atom,
+Motorola/IBM PowerPC 32 and 64, MIPS R3000, R4000, SPARCv7, SuperSPARC,
+generic SPARCv8, UltraSPARC,
 
 For up-to-date information on, and latest version of, MPIR, please see
 the MPIR web pages at
@@ -341,16 +340,9 @@ CPU types
         * Alpha: alpha, alphaev5, alphaev56, alphapca56, alphapca57,
           alphaev6, alphaev67, alphaev68 alphaev7
 
-        * HPPA: hppa1.0, hppa1.1, hppa2.0, hppa2.0n, hppa2.0w,
-
         * IA-64: ia64, itanium, itanium2
 
         * MIPS: mips, mips3, mips64
-
-        * Motorola: m68k, m68000, m68010, m68020, m68030, m68040,
-          m68060, m68302, m68360,
-
-        * POWER: power, power1, power2, power2sc
 
         * PowerPC: powerpc, powerpc64, powerpc401, powerpc403,
           powerpc405, powerpc505, powerpc601, powerpc602, powerpc603,
@@ -366,7 +358,7 @@ CPU types
           core2, penryn, nehalem, nano atom, k5, k6, k62, k63, k7, k8,
           k10 k102 viac3, viac32
 
-        * Other: arm, sh, sh2,
+        * Other: arm,
 
      CPUs not listed will use generic C code.
 
@@ -643,44 +635,6 @@ AMD64 (`x86_64')
           only mode.)
 
 
-HPPA 2.0 (`hppa2.0*', `hppa64')
-
-    `ABI=2.0w'
-          The 2.0w ABI uses 64-bit limbs and pointers and is available
-          on HP-UX 11 or up.  Applications must be compiled with
-
-               gcc [built for 2.0w]
-               cc  +DD64
-
-    `ABI=2.0n'
-          The 2.0n ABI means the 32-bit HPPA 1.0 ABI and all its normal
-          calling conventions, but with 64-bit instructions permitted
-          within functions.  MPIR uses a 64-bit `long long' for a limb.
-          This ABI is available on hppa64 GNU/Linux and on HP-UX 10 or
-          higher.  Applications must be compiled with
-
-               gcc [built for 2.0n]
-               cc  +DA2.0 +e
-
-          Note that current versions of GCC (eg. 3.2) don't generate
-          64-bit instructions for `long long' operations and so may be
-          slower than for 2.0w.
-
-    `ABI=1.0'
-          HPPA 2.0 CPUs can run all HPPA 1.0 and 1.1 code in the 32-bit
-          HPPA 1.0 ABI.  No special compiler options are needed for
-          applications.
-
-     All three ABIs are available for CPU types `hppa2.0w', `hppa2.0'
-     and `hppa64', but for CPU type `hppa2.0n' only 2.0n or 1.0 are
-     considered.
-
-     Note that GCC on HP-UX has no options to choose between 2.0n and
-     2.0w modes, unlike HP `cc'.  Instead it must be built for one or
-     the other ABI.  MPIR will detect how it was built, and skip to the
-     corresponding `ABI'.
-
-
 IA-64 under HP-UX (`ia64*-*-hpux*', `itanium*-*-hpux*')
      HP-UX supports two ABIs for IA-64.  MPIR performance is the same
      in both.
@@ -704,41 +658,6 @@ IA-64 under HP-UX (`ia64*-*-hpux*', `itanium*-*-hpux*')
 
      On other IA-64 systems, GNU/Linux for instance, `ABI=64' is the
      only choice.
-
-
-MIPS under IRIX 6 (`mips*-*-irix[6789]')
-     IRIX 6 always has a 64-bit MIPS 3 or better CPU, and supports ABIs
-     o32, n32, and 64.  n32 or 64 are recommended, and MPIR performance
-     will be the same in each.  The default is n32.
-
-    `ABI=o32'
-          The o32 ABI is 32-bit pointers and integers, and no 64-bit
-          operations.  MPIR will be slower than in n32 or 64, this
-          option only exists to support old compilers, eg. GCC 2.7.2.
-          Applications can be compiled with no special flags on an old
-          compiler, or on a newer compiler with
-
-               gcc  -mabi=32
-               cc   -32
-
-    `ABI=n32'
-          The n32 ABI is 32-bit pointers and integers, but with a
-          64-bit limb using a `long long'.  Applications must be
-          compiled with
-
-               gcc  -mabi=n32
-               cc   -n32
-
-    `ABI=64'
-          The 64-bit ABI is 64-bit pointers and integers.  Applications
-          must be compiled with
-
-               gcc  -mabi=64
-               cc   -64
-
-     Note that MIPS GNU/Linux, as of kernel version 2.2, doesn't have
-     the necessary support for n32 or 64 and so only gets a 32-bit limb
-     and the MIPS 2 code.
 
 
 PowerPC 64 (`powerpc64', `powerpc620', `powerpc630', `powerpc970')
@@ -938,10 +857,6 @@ MS-DOS and MS Windows
      provides full assembler support and for `x86_64' CPU's this will
      produce far superior results.
 
-     Microsoft also publishes an Interix "Services for Unix" which can
-     be used to build MPIR on Windows (with a normal `./configure'),
-     but it's not free software.
-
 MS Windows DLLs
      On systems `*-*-cygwin*' and `*-*-mingw*' by default MPIR builds
      only a static library, but a DLL can be built instead using
@@ -965,29 +880,11 @@ MS Windows DLLs
      to use the MPIR string functions and confine I/O to the
      application.
 
-Motorola 68k CPU Types
-     `m68k' is taken to mean 68000.  `m68020' or higher will give a
-     performance boost on applicable CPUs.  `m68360' can be used for
-     CPU32 series chips.  `m68302' can be used for "Dragonball" series
-     chips, though this is merely a synonym for `m68000'.
-
 OpenBSD 2.6
      `m4' in this release of OpenBSD has a bug in `eval' that makes it
      unsuitable for `.asm' file processing.  `./configure' will detect
      the problem and either abort or choose another m4 in the `PATH'.
      The bug is fixed in OpenBSD 2.7, so either upgrade or use GNU m4.
-
-Power CPU Types
-     In MPIR, CPU types `power*' and `powerpc*' will each use
-     instructions not available on the other, so it's important to
-     choose the right one for the CPU that will be used.  Currently
-     MPIR has no assembler code support for using just the common
-     instruction subset.  To get executables that run on both, the
-     current suggestion is to use the generic C code (CPU `none'),
-     possibly with appropriate compiler options (like `-mcpu=common' for
-     `gcc').  CPU `rs6000' (which is not a CPU but a family of
-     workstations) is accepted by `config.sub', but is currently
-     equivalent to `none'.
 
 Sparc CPU Types
      `sparcv8' or `supersparc' on relevant systems will give a
@@ -1025,12 +922,6 @@ SPARC Solaris
 Solaris 10 First Release on SPARC
      MPIR fails to build with Solaris 10 first release. Patch 123647-01
      for SPARC, released by Sun in August 2006 fixes this problem.
-
-SunOS 4
-     `/usr/bin/m4' lacks various features needed to process `.asm'
-     files, and instead `./configure' will automatically use
-     `/usr/5bin/m4', which we believe is always available (if not then
-     use GNU m4).
 
 x86 CPU Types
      `i586', `pentium' or `pentiummmx' code is good for its intended P5
@@ -1076,49 +967,11 @@ Compiler link options
      available.  Running `make libgmp.la' directly helped, perhaps
      recursing into the various subdirectories uses up memory.
 
-GNU binutils `strip' prior to 2.12
-     `strip' from GNU binutils 2.11 and earlier should not be used on
-     the static libraries `libmpir.a' and `libmp.a' since it will
-     discard all but the last of multiple archive members with the same
-     name, like the three versions of `init.o' in `libmpir.a'.
-     Binutils 2.12 or higher can be used successfully.
-
-     The shared libraries `libmpir.so' and `libmp.so' are not affected
-     by this and any version of `strip' can be used on them.
-
-`make' syntax error
-     On certain versions of SCO OpenServer 5 and IRIX 6.5 the native
-     `make' is unable to handle the long dependencies list for
-     `libmpir.la'.  The symptom is a "syntax error" on the following
-     line of the top-level `Makefile'.
-
-          libmpir.la: $(libmpir_la_OBJECTS) $(libmpir_la_DEPENDENCIES)
-
-     Either use GNU Make, or as a workaround remove
-     `$(libmpir_la_DEPENDENCIES)' from that line (which will make the
-     initial build work, but if any recompiling is done `libmpir.la'
-     might not be rebuilt).
-
 MacOS X (`*-*-darwin*')
      Libtool currently only knows how to create shared libraries on
      MacOS X using the native `cc' (which is a modified GCC), not a
      plain GCC.  A static-only build should work though
      (`--disable-shared').
-
-NeXT prior to 3.3
-     The system compiler on old versions of NeXT was a massacred and
-     old GCC, even if it called itself `cc'.  This compiler cannot be
-     used to build MPIR, you need to get a real GCC, and install that.
-     (NeXT may have fixed this in release 3.3 of their system.)
-
-POWER and PowerPC
-     Bugs in GCC 2.7.2 (and 2.6.3) mean it can't be used to compile
-     MPIR on POWER or PowerPC.  If you want to use GCC for these
-     machines, get GCC 2.7.2.1 (or later).
-
-Sequent Symmetry
-     Use the GNU assembler instead of the system assembler, since the
-     latter has serious bugs.
 
 Solaris 2.6
      The system `sed' prints an error "Output line too long" when
@@ -7082,4 +6935,154 @@ File: mpir.info,  Node: Root Extraction Algorithms,  Next: Radix Conversion Algo
 * Nth Root Algorithm::
 * Perfect Square Algorithm::
 * Perfect Power Algorithm::
+
+
+File: mpir.info,  Node: Square Root Algorithm,  Next: Nth Root Algorithm,  Prev: Root Extraction Algorithms,  Up: Root Extraction Algorithms
+
+15.5.1 Square Root
+------------------
+
+Square roots are taken using the "Karatsuba Square Root" algorithm by
+Paul Zimmermann (*note References::).
+
+   An input n is split into four parts of k bits each, so with b=2^k we
+have n = a3*b^3 + a2*b^2 + a1*b + a0.  Part a3 must be "normalized" so
+that either the high or second highest bit is set.  In MPIR, k is kept
+on a limb boundary and the input is left shifted (by an even number of
+bits) to normalize.
+
+   The square root of the high two parts is taken, by recursive
+application of the algorithm (bottoming out in a one-limb Newton's
+method),
+
+     s1,r1 = sqrtrem (a3*b + a2)
+
+   This is an approximation to the desired root and is extended by a
+division to give s,r,
+
+     q,u = divrem (r1*b + a1, 2*s1)
+     s = s1*b + q
+     r = u*b + a0 - q^2
+
+   The normalization requirement on a3 means at this point s is either
+correct or 1 too big.  r is negative in the latter case, so
+
+     if r < 0 then
+       r = r + 2*s - 1
+       s = s - 1
+
+   The algorithm is expressed in a divide and conquer form, but as
+noted in the paper it can also be viewed as a discrete variant of
+Newton's method, or as a variation on the schoolboy method (no longer
+taught) for square roots two digits at a time.
+
+   If the remainder r is not required then usually only a few high limbs
+of r and u need to be calculated to determine whether an adjustment to
+s is required.  This optimization is not currently implemented.
+
+   In the Karatsuba multiplication range this algorithm is
+O(1.5*M(N/2)), where M(n) is the time to multiply two numbers of n
+limbs.  In the FFT multiplication range this grows to a bound of
+O(6*M(N/2)).  In practice a factor of about 1.5 to 1.8 is found in the
+Karatsuba and Toom-3 ranges, growing to 2 or 3 in the FFT range.
+
+   The algorithm does all its calculations in integers and the resulting
+`mpn_sqrtrem' is used for both `mpz_sqrt' and `mpf_sqrt'.  The extended
+precision given by `mpf_sqrt_ui' is obtained by padding with zero limbs.
+
+
+File: mpir.info,  Node: Nth Root Algorithm,  Next: Perfect Square Algorithm,  Prev: Square Root Algorithm,  Up: Root Extraction Algorithms
+
+15.5.2 Nth Root
+---------------
+
+Integer Nth roots are taken using Newton's method with the following
+iteration, where A is the input and n is the root to be taken.
+
+              1         A
+     a[i+1] = - * ( --------- + (n-1)*a[i] )
+              n     a[i]^(n-1)
+
+   The initial approximation a[1] is generated bitwise by successively
+powering a trial root with or without new 1 bits, aiming to be just
+above the true root.  The iteration converges quadratically when
+started from a good approximation.  When n is large more initial bits
+are needed to get good convergence.  The current implementation is not
+particularly well optimized.
+
+
+File: mpir.info,  Node: Perfect Square Algorithm,  Next: Perfect Power Algorithm,  Prev: Nth Root Algorithm,  Up: Root Extraction Algorithms
+
+15.5.3 Perfect Square
+---------------------
+
+A significant fraction of non-squares can be quickly identified by
+checking whether the input is a quadratic residue modulo small integers.
+
+   `mpz_perfect_square_p' first tests the input mod 256, which means
+just examining the low byte.  Only 44 different values occur for
+squares mod 256, so 82.8% of inputs can be immediately identified as
+non-squares.
+
+   On a 32-bit system similar tests are done mod 9, 5, 7, 13 and 17,
+for a total 99.25% of inputs identified as non-squares.  On a 64-bit
+system 97 is tested too, for a total 99.62%.
+
+   These moduli are chosen because they're factors of 2^24-1 (or 2^48-1
+for 64-bits), and such a remainder can be quickly taken just using
+additions (see `mpn_mod_34lsub1').
+
+   When nails are in use moduli are instead selected by the `gen-psqr.c'
+program and applied with an `mpn_mod_1'.  The same 2^24-1 or 2^48-1
+could be done with nails using some extra bit shifts, but this is not
+currently implemented.
+
+   In any case each modulus is applied to the `mpn_mod_34lsub1' or
+`mpn_mod_1' remainder and a table lookup identifies non-squares.  By
+using a "modexact" style calculation, and suitably permuted tables,
+just one multiply each is required, see the code for details.  Moduli
+are also combined to save operations, so long as the lookup tables
+don't become too big.  `gen-psqr.c' does all the pre-calculations.
+
+   A square root must still be taken for any value that passes these
+tests, to verify it's really a square and not one of the small fraction
+of non-squares that get through (ie. a pseudo-square to all the tested
+bases).
+
+   Clearly more residue tests could be done, `mpz_perfect_square_p' only
+uses a compact and efficient set.  Big inputs would probably benefit
+from more residue testing, small inputs might be better off with less.
+The assumed distribution of squares versus non-squares in the input
+would affect such considerations.
+
+
+File: mpir.info,  Node: Perfect Power Algorithm,  Prev: Perfect Square Algorithm,  Up: Root Extraction Algorithms
+
+15.5.4 Perfect Power
+--------------------
+
+Detecting perfect powers is required by some factorization algorithms.
+Currently `mpz_perfect_power_p' is implemented using repeated Nth root
+extractions, though naturally only prime roots need to be considered.
+(*Note Nth Root Algorithm::.)
+
+   If a prime divisor p with multiplicity e can be found, then only
+roots which are divisors of e need to be considered, much reducing the
+work necessary.  To this end divisibility by a set of small primes is
+checked.
+
+
+File: mpir.info,  Node: Radix Conversion Algorithms,  Next: Other Algorithms,  Prev: Root Extraction Algorithms,  Up: Algorithms
+
+15.6 Radix Conversion
+=====================
+
+Radix conversions are less important than other algorithms.  A program
+dominated by conversions should probably use a different data
+representation.
+
+* Menu:
+
+* Binary to Radix::
+* Radix to Binary::
 

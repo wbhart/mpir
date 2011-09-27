@@ -476,13 +476,9 @@ There is assembly code for these CPUs:
 ARM,
 DEC Alpha 21064, 21164, and 21264,
 AMD K6, K6-2, Athlon, K8 and K10,
-Hitachi SuperH and SH-2,
-HPPA 1.0, 1.1 and 2.0,
 Intel Pentium, Pentium Pro/II/III, Pentium 4, generic x86,
 Intel IA-64, Core 2, i7, Atom,
-Motorola MC68000, MC68020, MC88100, and MC88110,
 Motorola/IBM PowerPC 32 and 64,
-IBM POWER,
 MIPS R3000, R4000,
 SPARCv7, SuperSPARC, generic SPARCv8, UltraSPARC,
 
@@ -728,14 +724,6 @@ Alpha:
 @nisamp{alphaev7}
 
 @item
-HPPA:
-@nisamp{hppa1.0},
-@nisamp{hppa1.1},
-@nisamp{hppa2.0},
-@nisamp{hppa2.0n},
-@nisamp{hppa2.0w},
-
-@item
 IA-64:
 @nisamp{ia64},
 @nisamp{itanium},
@@ -746,25 +734,6 @@ MIPS:
 @nisamp{mips},
 @nisamp{mips3},
 @nisamp{mips64}
-
-@item
-Motorola:
-@nisamp{m68k},
-@nisamp{m68000},
-@nisamp{m68010},
-@nisamp{m68020},
-@nisamp{m68030},
-@nisamp{m68040},
-@nisamp{m68060},
-@nisamp{m68302},
-@nisamp{m68360},
-
-@item
-POWER:
-@nisamp{power},
-@nisamp{power1},
-@nisamp{power2},
-@nisamp{power2sc}
 
 @item
 PowerPC:
@@ -836,8 +805,6 @@ x86 family:
 @item
 Other:
 @nisamp{arm},
-@nisamp{sh},
-@nisamp{sh2},
 @end itemize
 
 CPUs not listed will use generic C code.
@@ -1155,49 +1122,6 @@ gcc  -m32
 @end table
 
 @sp 1
-@need 1000
-@item HPPA 2.0 (@samp{hppa2.0*}, @samp{hppa64})
-@cindex HPPA
-@cindex HP-UX
-@table @asis
-@item @samp{ABI=2.0w}
-The 2.0w ABI uses 64-bit limbs and pointers and is available on HP-UX 11 or
-up.  Applications must be compiled with
-
-@example
-gcc [built for 2.0w]
-cc  +DD64
-@end example
-
-@item @samp{ABI=2.0n}
-The 2.0n ABI means the 32-bit HPPA 1.0 ABI and all its normal calling
-conventions, but with 64-bit instructions permitted within functions.  MPIR
-uses a 64-bit @code{long long} for a limb.  This ABI is available on hppa64
-GNU/Linux and on HP-UX 10 or higher.  Applications must be compiled with
-
-@example
-gcc [built for 2.0n]
-cc  +DA2.0 +e
-@end example
-
-Note that current versions of GCC (eg.@: 3.2) don't generate 64-bit
-instructions for @code{long long} operations and so may be slower than for
-2.0w.
-
-@item @samp{ABI=1.0}
-HPPA 2.0 CPUs can run all HPPA 1.0 and 1.1 code in the 32-bit HPPA 1.0 ABI@.
-No special compiler options are needed for applications.
-@end table
-
-All three ABIs are available for CPU types @samp{hppa2.0w}, @samp{hppa2.0} and
-@samp{hppa64}, but for CPU type @samp{hppa2.0n} only 2.0n or 1.0 are
-considered.
-
-Note that GCC on HP-UX has no options to choose between 2.0n and 2.0w modes,
-unlike HP @command{cc}.  Instead it must be built for one or the other ABI@.
-MPIR will detect how it was built, and skip to the corresponding @samp{ABI}.
-
-@sp 1
 @need 1500
 @item IA-64 under HP-UX (@samp{ia64*-*-hpux*}, @samp{itanium*-*-hpux*})
 @cindex IA-64
@@ -1228,49 +1152,6 @@ cc   +DD64
 
 On other IA-64 systems, GNU/Linux for instance, @samp{ABI=64} is the only
 choice.
-
-@sp 1
-@need 1000
-@item MIPS under IRIX 6 (@samp{mips*-*-irix[6789]})
-@cindex MIPS
-@cindex IRIX
-IRIX 6 always has a 64-bit MIPS 3 or better CPU, and supports ABIs o32, n32,
-and 64.  n32 or 64 are recommended, and MPIR performance will be the same in
-each.  The default is n32.
-
-@table @asis
-@item @samp{ABI=o32}
-The o32 ABI is 32-bit pointers and integers, and no 64-bit operations.  MPIR
-will be slower than in n32 or 64, this option only exists to support old
-compilers, eg.@: GCC 2.7.2.  Applications can be compiled with no special
-flags on an old compiler, or on a newer compiler with
-
-@example
-gcc  -mabi=32
-cc   -32
-@end example
-
-@item @samp{ABI=n32}
-The n32 ABI is 32-bit pointers and integers, but with a 64-bit limb using a
-@code{long long}.  Applications must be compiled with
-
-@example
-gcc  -mabi=n32
-cc   -n32
-@end example
-
-@item @samp{ABI=64}
-The 64-bit ABI is 64-bit pointers and integers.  Applications must be compiled
-with
-
-@example
-gcc  -mabi=64
-cc   -64
-@end example
-@end table
-
-Note that MIPS GNU/Linux, as of kernel version 2.2, doesn't have the necessary
-support for n32 or 64 and so only gets a 32-bit limb and the MIPS 2 code.
 
 @sp 1
 @need 1000
@@ -1514,12 +1395,6 @@ directory. For Visual Studio 2010 see the readme.txt file in the build.vc10
 directory. The MSVC projects provides full assembler support and for
 @samp{x86_64} CPU's this will produce far superior results.
 
-@cindex Interix
-@cindex Services for Unix
-Microsoft also publishes an Interix ``Services for Unix'' which can be used to
-build MPIR on Windows (with a normal @samp{./configure}), but it's not free
-software.
-
 @item MS Windows DLLs
 @cindex DLLs
 @cindex MS Windows
@@ -1549,31 +1424,12 @@ the same.  If one of the other C runtime library choices provided by MS C is
 desired then the suggestion is to use the MPIR string functions and confine I/O
 to the application.
 
-@item Motorola 68k CPU Types
-@cindex 68000
-@samp{m68k} is taken to mean 68000.  @samp{m68020} or higher will give a
-performance boost on applicable CPUs.  @samp{m68360} can be used for CPU32
-series chips.  @samp{m68302} can be used for ``Dragonball'' series chips,
-though this is merely a synonym for @samp{m68000}.
-
 @item OpenBSD 2.6
 @cindex OpenBSD
 @command{m4} in this release of OpenBSD has a bug in @code{eval} that makes it
 unsuitable for @file{.asm} file processing.  @samp{./configure} will detect
 the problem and either abort or choose another m4 in the @env{PATH}.  The bug
 is fixed in OpenBSD 2.7, so either upgrade or use GNU m4.
-
-@item Power CPU Types
-@cindex Power/PowerPC
-In MPIR, CPU types @samp{power*} and @samp{powerpc*} will each use instructions
-not available on the other, so it's important to choose the right one for the
-CPU that will be used.  Currently MPIR has no assembler code support for using
-just the common instruction subset.  To get executables that run on both, the
-current suggestion is to use the generic C code (CPU @samp{none}), possibly
-with appropriate compiler options (like @samp{-mcpu=common} for
-@command{gcc}).  CPU @samp{rs6000} (which is not a CPU but a family of
-workstations) is accepted by @file{config.sub}, but is currently equivalent to
-@samp{none}.
 
 @item Sparc CPU Types
 @cindex Sparc
@@ -1613,13 +1469,6 @@ so it is safe to include paths to both the 32 and 64 bit libraries in the
 @item Solaris 10 First Release on SPARC
 @cindex Solaris
 MPIR fails to build with Solaris 10 first release. Patch 123647-01 for SPARC, released by Sun in August 2006 fixes this problem.
-
-@item SunOS 4
-@cindex SunOS
-@command{/usr/bin/m4} lacks various features needed to process @file{.asm}
-files, and instead @samp{./configure} will automatically use
-@command{/usr/5bin/m4}, which we believe is always available (if not then use
-GNU m4).
 
 @item x86 CPU Types
 @cindex x86
@@ -1674,60 +1523,12 @@ script to hide them, and for instance configure with
 Running @samp{make libgmp.la} directly helped, perhaps recursing into the
 various subdirectories uses up memory.
 
-@item GNU binutils @command{strip} prior to 2.12
-@cindex Stripped libraries
-@cindex Binutils @command{strip}
-@cindex GNU @command{strip}
-@command{strip} from GNU binutils 2.11 and earlier should not be used on the
-static libraries @file{libmpir.a} and @file{libmp.a} since it will discard all
-but the last of multiple archive members with the same name, like the three
-versions of @file{init.o} in @file{libmpir.a}.  Binutils 2.12 or higher can be
-used successfully.
-
-The shared libraries @file{libmpir.so} and @file{libmp.so} are not affected by
-this and any version of @command{strip} can be used on them.
-
-@item @command{make} syntax error
-@cindex SCO
-@cindex IRIX
-On certain versions of SCO OpenServer 5 and IRIX 6.5 the native @command{make}
-is unable to handle the long dependencies list for @file{libmpir.la}.  The
-symptom is a ``syntax error'' on the following line of the top-level
-@file{Makefile}.
-
-@example
-libmpir.la: $(libmpir_la_OBJECTS) $(libmpir_la_DEPENDENCIES)
-@end example
-
-Either use GNU Make, or as a workaround remove
-@code{$(libmpir_la_DEPENDENCIES)} from that line (which will make the initial
-build work, but if any recompiling is done @file{libmpir.la} might not be
-rebuilt).
-
 @item MacOS X (@samp{*-*-darwin*})
 @cindex MacOS X
 @cindex Darwin
 Libtool currently only knows how to create shared libraries on MacOS X using
 the native @command{cc} (which is a modified GCC), not a plain GCC@.  A
 static-only build should work though (@samp{--disable-shared}).
-
-@item NeXT prior to 3.3
-@cindex NeXT
-The system compiler on old versions of NeXT was a massacred and old GCC, even
-if it called itself @file{cc}.  This compiler cannot be used to build MPIR, you
-need to get a real GCC, and install that.  (NeXT may have fixed this in
-release 3.3 of their system.)
-
-@item POWER and PowerPC
-@cindex Power/PowerPC
-Bugs in GCC 2.7.2 (and 2.6.3) mean it can't be used to compile MPIR on POWER or
-PowerPC@.  If you want to use GCC for these machines, get GCC 2.7.2.1 (or
-later).
-
-@item Sequent Symmetry
-@cindex Sequent Symmetry
-Use the GNU assembler instead of the system assembler, since the latter has
-serious bugs.
 
 @item Solaris 2.6
 @cindex Solaris
