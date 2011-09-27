@@ -2392,10 +2392,10 @@ enum
 #define GMP_VERSION "5.0.2"
 
 #define __MPIR_VERSION 2
-#define __MPIR_VERSION_MINOR 4
+#define __MPIR_VERSION_MINOR 5
 #define __MPIR_VERSION_PATCHLEVEL 0
 #if defined( _MSC_VER )
-#define _MSC_MPIR_VERSION "2.4.0"
+#define _MSC_MPIR_VERSION "2.5.0"
 #endif
 
 /* These are for programs like MPFR to use the same CC and CFLAGS as MPIR */
