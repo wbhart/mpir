@@ -160,8 +160,7 @@ build for this configuaration.
 These can then be added to a VC++ solution using the facilities of
 the IDE in the normal way.  The project and fillter files are named
 with the extensions *.2.vcxproj and *.2.vcxproj.filters to avoid 
-interfering with the conflict project files already provided for
-VC++.
+interfering with the project files already provided for VC++.
 
 The Tests
 =========
