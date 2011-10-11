@@ -1676,6 +1676,9 @@ __GMP_DECLSPEC mp_size_t mpn_gcd __GMP_PROTO ((mp_ptr, mp_ptr, mp_size_t, mp_ptr
 #define mpn_gcd_1 __MPN(gcd_1)
 __GMP_DECLSPEC mp_limb_t mpn_gcd_1 __GMP_PROTO ((mp_srcptr, mp_size_t, mp_limb_t)) __GMP_ATTRIBUTE_PURE;
 
+#define mpn_gcdext_1 __MPN(gcdext_1)
+__GMP_DECLSPEC mp_limb_t mpn_gcdext_1 __GMP_PROTO ((mp_limb_signed_t *, mp_limb_signed_t *, mp_limb_t, mp_limb_t));
+
 #define mpn_gcdext __MPN(gcdext)
 __GMP_DECLSPEC mp_size_t mpn_gcdext __GMP_PROTO ((mp_ptr, mp_ptr, mp_size_t *, mp_ptr, mp_size_t, mp_ptr, mp_size_t));
 
