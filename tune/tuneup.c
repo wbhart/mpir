@@ -214,8 +214,8 @@ mp_size_t  dc_bdiv_qr_threshold         = MP_SIZE_T_MAX;
 mp_size_t  dc_bdiv_q_threshold          = MP_SIZE_T_MAX;
 mp_size_t  powm_threshold               = MP_SIZE_T_MAX;
 mp_size_t  fac_ui_threshold             = MP_SIZE_T_MAX;
-mp_size_t  gcd_threshold                = MP_SIZE_T_MAX;
-mp_size_t  gcdext_threshold		        = MP_SIZE_T_MAX;
+mp_size_t  gcd_dc_threshold                = MP_SIZE_T_MAX;
+mp_size_t  gcdext_dc_threshold		        = MP_SIZE_T_MAX;
 mp_size_t  divrem_1_norm_threshold      = MP_SIZE_T_MAX;
 mp_size_t  divrem_1_unnorm_threshold    = MP_SIZE_T_MAX;
 mp_size_t  mod_1_norm_threshold         = MP_SIZE_T_MAX;
@@ -1280,20 +1280,20 @@ void
 tune_gcd (gmp_randstate_t rands)
 {
   static struct param_t  param;
-  param.name = "GCD_THRESHOLD";
+  param.name = "GCD_DC_THRESHOLD";
   param.function = speed_mpn_gcd;
   param.min_size = 7;
-  one (&gcd_threshold, rands, &param);
+  one (&gcd_dc_threshold, rands, &param);
 }
 
 void
 tune_gcdext (gmp_randstate_t rands)
 {
   static struct param_t  param;
-  param.name = "GCDEXT_THRESHOLD";
+  param.name = "GCDEXT_DC_THRESHOLD";
   param.function = speed_mpn_gcdext;
   param.min_size = 7;
-  one (&gcdext_threshold, rands, &param);
+  one (&gcdext_dc_threshold, rands, &param);
 }
 
 

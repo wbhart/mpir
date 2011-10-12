@@ -4055,13 +4055,13 @@ extern mp_size_t                     mod_1_2_threshold;
 #define MOD_1_3_THRESHOLD            mod_1_3_threshold
 extern mp_size_t                     mod_1_3_threshold;
 
-#undef  GCD_THRESHOLD
-#define GCD_THRESHOLD                gcd_threshold
-extern mp_size_t                     gcd_threshold;
+#undef  GCD_DC_THRESHOLD
+#define GCD_DC_THRESHOLD             gcd_dc_threshold
+extern mp_size_t                     gcd_dc_threshold;
 
-#undef  GCDEXT_THRESHOLD
-#define GCDEXT_THRESHOLD             gcdext_threshold
-extern mp_size_t                     gcdext_threshold;
+#undef  GCDEXT_DC_THRESHOLD
+#define GCDEXT_DC_THRESHOLD             gcdext_dc_threshold
+extern mp_size_t                     gcdext_dc_threshold;
 
 #undef DIVREM_1_NORM_THRESHOLD
 #define DIVREM_1_NORM_THRESHOLD      divrem_1_norm_threshold
