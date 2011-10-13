@@ -68,9 +68,9 @@ void check_gcdext(void)
    mp_limb_t vp[MAX_LIMBS + 1];
    mp_limb_t up2[MAX_LIMBS];
    mp_limb_t vp2[MAX_LIMBS];
-   mp_limb_t sp[MAX_LIMBS + 1];
+   mp_limb_t sp[MAX_LIMBS];
    mp_limb_t tp[MAX_LIMBS];
-   mp_limb_t gp[MAX_LIMBS + 1];
+   mp_limb_t gp[MAX_LIMBS];
    
    mp_size_t un, vn, sn, tn, bits, gn;
    mp_bitcnt_t u_bits, v_bits, g_bits;

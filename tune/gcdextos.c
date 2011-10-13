@@ -24,8 +24,8 @@ MA 02110-1301, USA.
 #include "mpir.h"
 #include "gmp-impl.h"
 
-#undef GCDEXT_DC_THRESHOLD
-#define GCDEXT_DC_THRESHOLD  MP_SIZE_T_MAX
+#undef GCDEXT_THRESHOLD
+#define GCDEXT_THRESHOLD  MP_SIZE_T_MAX
 #define WANT_GCDEXT_ONE_STEP 1
 #define INSIDE_TUNE_GCDEXT_BIN 1
 
