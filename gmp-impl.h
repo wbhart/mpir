@@ -4059,6 +4059,10 @@ extern mp_size_t                     mod_1_3_threshold;
 #define GCD_DC_THRESHOLD             gcd_dc_threshold
 extern mp_size_t                     gcd_dc_threshold;
 
+#undef  HGCD_THRESHOLD
+#define HGCD_THRESHOLD             hgcd_threshold
+extern mp_size_t                     hgcd_threshold;
+
 #undef  GCDEXT_DC_THRESHOLD
 #define GCDEXT_DC_THRESHOLD             gcdext_dc_threshold
 extern mp_size_t                     gcdext_dc_threshold;

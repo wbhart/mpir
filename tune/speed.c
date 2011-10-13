@@ -303,7 +303,7 @@ const struct routine_t {
 
   { "mpn_gcd_1",         speed_mpn_gcd_1,  FLAG_R_OPTIONAL },
   { "mpn_gcd_1N",        speed_mpn_gcd_1N, FLAG_R_OPTIONAL },
-
+  { "mpn_hgcd",          speed_mpn_hgcd             },
   { "mpn_gcd",           speed_mpn_gcd                    },
 
   { "mpn_gcdext",            speed_mpn_gcdext            },
