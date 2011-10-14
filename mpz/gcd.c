@@ -164,7 +164,10 @@ void
 mpz_ngcd (mpz_ptr g, mpz_srcptr u, mpz_srcptr v)
   GCD_BODY(mpn_gcd)
 
+#if 0
+
 void
 mpz_lgcd (mpz_ptr g, mpz_srcptr u, mpz_srcptr v)
   GCD_BODY(mpn_lgcd)
 
+#endif
