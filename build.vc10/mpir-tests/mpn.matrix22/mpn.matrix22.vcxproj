@@ -19,8 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{94A2A4AC-186D-4403-BB02-A81077F4717B}</ProjectGuid>
-    <RootNamespace>mpz.gcd</RootNamespace>
+    <RootNamespace>mpn.matrix22</RootNamespace>
     <Keyword>Win32Proj</Keyword>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -102,7 +101,6 @@
       <DataExecutionPrevention>
       </DataExecutionPrevention>
       <TargetMachine>MachineX64</TargetMachine>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -151,7 +149,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\tests\mpz\t-gcd.c" />
+    <ClCompile Include="..\..\..\tests\mpn\t-matrix22.c" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\add-test-lib\add-test-lib.vcxproj">

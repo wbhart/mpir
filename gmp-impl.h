@@ -1214,8 +1214,8 @@ void mpn_toom3_mul _PROTO ((mp_ptr, mp_srcptr, mp_size_t, mp_srcptr,
 
 #define mpn_toom3_interpolate __MPN(toom3_interpolate)
 void mpn_toom3_interpolate _PROTO ((mp_ptr c, mp_ptr v1, mp_ptr v2, mp_ptr vm1,
-		             mp_ptr vinf, mp_size_t k, mp_size_t rr2, int sa,
-		                                  mp_limb_t vinf0, mp_ptr ws));
+                     mp_ptr vinf, mp_size_t k, mp_size_t rr2, int sa,
+                                          mp_limb_t vinf0, mp_ptr ws));
 
 #define mpn_toom32_mul __MPN(toom32_mul)
 void mpn_toom32_mul _PROTO ((mp_ptr c, mp_srcptr a, mp_size_t an, mp_srcptr b, 
@@ -1243,29 +1243,29 @@ void mpn_toom4_interpolate _PROTO ((mp_ptr rp, mp_size_t * rpn, mp_size_t sn,
 
 #define mpn_toom_eval_dgr3_pm1  __MPN(toom_eval_dgr3_pm1)
 int mpn_toom_eval_dgr3_pm1 _PROTO ((mp_ptr xp1, mp_ptr xm1,
-			mp_srcptr xp, mp_size_t n, mp_size_t x3n, mp_ptr tp));
+            mp_srcptr xp, mp_size_t n, mp_size_t x3n, mp_ptr tp));
 
 #define mpn_toom_eval_dgr3_pm2  __MPN(toom_eval_dgr3_pm2)
 int mpn_toom_eval_dgr3_pm2 _PROTO ((mp_ptr xp2, mp_ptr xm2,
-			mp_srcptr xp, mp_size_t n, mp_size_t x3n, mp_ptr tp));
+            mp_srcptr xp, mp_size_t n, mp_size_t x3n, mp_ptr tp));
 
 #define mpn_toom_eval_pm1  __MPN(toom_eval_pm1)
 int mpn_toom_eval_pm1 _PROTO ((mp_ptr xp1, mp_ptr xm1, unsigned k,
-		   mp_srcptr xp, mp_size_t n, mp_size_t hn, mp_ptr tp));
+           mp_srcptr xp, mp_size_t n, mp_size_t hn, mp_ptr tp));
 
 #define mpn_toom_eval_pm2  __MPN(toom_eval_pm2)
 int mpn_toom_eval_pm2 _PROTO ((mp_ptr xp2, mp_ptr xm2, unsigned k,
-		   mp_srcptr xp, mp_size_t n, mp_size_t hn, mp_ptr tp));
+           mp_srcptr xp, mp_size_t n, mp_size_t hn, mp_ptr tp));
 
 #define mpn_toom_eval_pm2exp  __MPN(toom_eval_pm2exp)
 int mpn_toom_eval_pm2exp _PROTO ((mp_ptr xp2, mp_ptr xm2, unsigned k,
-		      mp_srcptr xp, mp_size_t n, mp_size_t hn, unsigned shift,
-		      mp_ptr tp));
+              mp_srcptr xp, mp_size_t n, mp_size_t hn, unsigned shift,
+              mp_ptr tp));
 
 #define mpn_toom_eval_pm2rexp  __MPN(toom_eval_pm2rexp)
 int mpn_toom_eval_pm2rexp _PROTO ((mp_ptr rp, mp_ptr rm,
-		      unsigned int q, mp_srcptr ap, mp_size_t n, mp_size_t t,
-		      unsigned int s, mp_ptr ws));
+              unsigned int q, mp_srcptr ap, mp_size_t n, mp_size_t t,
+              unsigned int s, mp_ptr ws));
 
 #define mpn_toom_interpolate_16pts  __MPN(toom_interpolate_16pts)
 void mpn_toom_interpolate_16pts _PROTO ((mp_ptr pp, mp_ptr r1, mp_ptr r3, 
@@ -1274,7 +1274,7 @@ void mpn_toom_interpolate_16pts _PROTO ((mp_ptr pp, mp_ptr r1, mp_ptr r3,
 
 #define mpn_toom_couple_handling  __MPN(toom_couple_handling)
 void mpn_toom_couple_handling _PROTO ((mp_ptr pp, mp_size_t n, mp_ptr np,
-			  int nsign, mp_size_t off, int ps, int ns));
+              int nsign, mp_size_t off, int ps, int ns));
 
 #define mpn_toom8h_mul  __MPN(toom8h_mul)
 void mpn_toom8h_mul _PROTO ((mp_ptr, mp_srcptr, mp_size_t, mp_srcptr,
@@ -1351,21 +1351,21 @@ mp_size_t mpn_rootrem_basecase _PROTO ((mp_ptr, mp_ptr, mp_srcptr, mp_size_t, mp
     ASSERT (MPN_SAME_OR_INCR_P (dst, src, n));          \
     if ((n) != 0)                                       \
       {                                                 \
-	mp_size_t __n = (n) - 1;                        \
-	mp_ptr __dst = (dst);                           \
-	mp_srcptr __src = (src);                        \
-	mp_limb_t __x;                                  \
-	__x = *__src++;                                 \
-	if (__n != 0)                                   \
-	  {                                             \
-	    do                                          \
-	      {                                         \
-		*__dst++ = __x;                         \
-		__x = *__src++;                         \
-	      }                                         \
-	    while (--__n);                              \
-	  }                                             \
-	*__dst++ = __x;                                 \
+    mp_size_t __n = (n) - 1;                        \
+    mp_ptr __dst = (dst);                           \
+    mp_srcptr __src = (src);                        \
+    mp_limb_t __x;                                  \
+    __x = *__src++;                                 \
+    if (__n != 0)                                   \
+      {                                             \
+        do                                          \
+          {                                         \
+        *__dst++ = __x;                         \
+        __x = *__src++;                         \
+          }                                         \
+        while (--__n);                              \
+      }                                             \
+    *__dst++ = __x;                                 \
       }                                                 \
   } while (0)
 #endif
@@ -1387,21 +1387,21 @@ mp_size_t mpn_rootrem_basecase _PROTO ((mp_ptr, mp_ptr, mp_srcptr, mp_size_t, mp
     ASSERT (MPN_SAME_OR_DECR_P (dst, src, n));          \
     if ((n) != 0)                                       \
       {                                                 \
-	mp_size_t __n = (n) - 1;                        \
-	mp_ptr __dst = (dst) + __n;                     \
-	mp_srcptr __src = (src) + __n;                  \
-	mp_limb_t __x;                                  \
-	__x = *__src--;                                 \
-	if (__n != 0)                                   \
-	  {                                             \
-	    do                                          \
-	      {                                         \
-		*__dst-- = __x;                         \
-		__x = *__src--;                         \
-	      }                                         \
-	    while (--__n);                              \
-	  }                                             \
-	*__dst-- = __x;                                 \
+    mp_size_t __n = (n) - 1;                        \
+    mp_ptr __dst = (dst) + __n;                     \
+    mp_srcptr __src = (src) + __n;                  \
+    mp_limb_t __x;                                  \
+    __x = *__src--;                                 \
+    if (__n != 0)                                   \
+      {                                             \
+        do                                          \
+          {                                         \
+        *__dst-- = __x;                         \
+        __x = *__src--;                         \
+          }                                         \
+        while (--__n);                              \
+      }                                             \
+    *__dst-- = __x;                                 \
       }                                                 \
   } while (0)
 #endif
@@ -1452,9 +1452,9 @@ mp_size_t mpn_rootrem_basecase _PROTO ((mp_ptr, mp_ptr, mp_srcptr, mp_size_t, mp
   do {									\
     while ((NLIMBS) > 0)                                                \
       {									\
-	if ((DST)[(NLIMBS) - 1] != 0)					\
-	  break;							\
-	(NLIMBS)--;							\
+    if ((DST)[(NLIMBS) - 1] != 0)					\
+      break;							\
+    (NLIMBS)--;							\
       }									\
   } while (0)
 #endif
@@ -1464,9 +1464,9 @@ mp_size_t mpn_rootrem_basecase _PROTO ((mp_ptr, mp_ptr, mp_srcptr, mp_size_t, mp
     ASSERT ((NLIMBS) >= 1);                     \
     while (1)                                   \
       {                                         \
-	if ((DST)[(NLIMBS) - 1] != 0)           \
-	  break;                                \
-	(NLIMBS)--;                             \
+    if ((DST)[(NLIMBS) - 1] != 0)           \
+      break;                                \
+    (NLIMBS)--;                             \
       }                                         \
   } while (0)
 #endif
@@ -2183,11 +2183,11 @@ mp_limb_t mpn_store _PROTO ((mp_ptr,mp_size_t,mp_limb_t));
     ASSERT ((n) >= 0);				\
     if ((n) != 0)				\
       {						\
-	mp_ptr __dst = (dst);			\
-	mp_size_t __n = (n);			\
-	do					\
-	  *__dst++ = val;			\
-	while (--__n);				\
+    mp_ptr __dst = (dst);			\
+    mp_size_t __n = (n);			\
+    do					\
+      *__dst++ = val;			\
+    while (--__n);				\
       }						\
   } while (0)
 #endif
@@ -2303,26 +2303,26 @@ mp_limb_t mpn_store _PROTO ((mp_ptr,mp_size_t,mp_limb_t));
     mp_ptr __p = (p);					\
     if (__builtin_constant_p (incr) && (incr) == 1)	\
       {							\
-	do						\
-	  {						\
-	    __x = (*__p + 1) & GMP_NUMB_MASK;		\
-	    *__p++ = __x;				\
-	  }						\
-	while (__x == 0);				\
+    do						\
+      {						\
+        __x = (*__p + 1) & GMP_NUMB_MASK;		\
+        *__p++ = __x;				\
+      }						\
+    while (__x == 0);				\
       }							\
     else						\
       {							\
-	__x = (*__p + (incr));				\
-	*__p++ = __x & GMP_NUMB_MASK;			\
-	if (__x >> GMP_NUMB_BITS != 0)			\
-	  {						\
-	    do						\
-	      {						\
-		__x = (*__p + 1) & GMP_NUMB_MASK;	\
-		*__p++ = __x;				\
-	      }						\
-	    while (__x == 0);				\
-	  }						\
+    __x = (*__p + (incr));				\
+    *__p++ = __x & GMP_NUMB_MASK;			\
+    if (__x >> GMP_NUMB_BITS != 0)			\
+      {						\
+        do						\
+          {						\
+        __x = (*__p + 1) & GMP_NUMB_MASK;	\
+        *__p++ = __x;				\
+          }						\
+        while (__x == 0);				\
+      }						\
       }							\
   } while (0)
 #endif
@@ -2333,26 +2333,26 @@ mp_limb_t mpn_store _PROTO ((mp_ptr,mp_size_t,mp_limb_t));
     mp_ptr __p = (p);					\
     if (__builtin_constant_p (incr) && (incr) == 1)	\
       {							\
-	do						\
-	  {						\
-	    __x = *__p;					\
-	    *__p++ = (__x - 1) & GMP_NUMB_MASK;		\
-	  }						\
-	while (__x == 0);				\
+    do						\
+      {						\
+        __x = *__p;					\
+        *__p++ = (__x - 1) & GMP_NUMB_MASK;		\
+      }						\
+    while (__x == 0);				\
       }							\
     else						\
       {							\
-	__x = *__p - (incr);				\
-	*__p++ = __x & GMP_NUMB_MASK;			\
-	if (__x >> GMP_NUMB_BITS != 0)			\
-	  {						\
-	    do						\
-	      {						\
-		__x = *__p;				\
-		*__p++ = (__x - 1) & GMP_NUMB_MASK;	\
-	      }						\
-	    while (__x == 0);				\
-	  }						\
+    __x = *__p - (incr);				\
+    *__p++ = __x & GMP_NUMB_MASK;			\
+    if (__x >> GMP_NUMB_BITS != 0)			\
+      {						\
+        do						\
+          {						\
+        __x = *__p;				\
+        *__p++ = (__x - 1) & GMP_NUMB_MASK;	\
+          }						\
+        while (__x == 0);				\
+      }						\
       }							\
   } while (0)
 #endif
@@ -2549,22 +2549,22 @@ mp_limb_t mpn_invert_limb _PROTO ((mp_limb_t)) ATTRIBUTE_CONST;
     p += d0;							\
     if (p < d0)							\
       {								\
-	v--;							\
-	mask = -(p >= d1);					\
-	p -= d1;						\
-	v += mask;						\
-	p -= mask & d1;						\
+    v--;							\
+    mask = -(p >= d1);					\
+    p -= d1;						\
+    v += mask;						\
+    p -= mask & d1;						\
       }								\
     umul_ppmm (t1, t0, d0, v);					\
     p += t1;							\
     if (p < t1)							\
       {								\
         v--;							\
-	if (UNLIKELY (p >= d1))					\
-	  {							\
-	    if (p > d1 || t0 >= d0)				\
-	      v--;						\
-	  }							\
+    if (UNLIKELY (p >= d1))					\
+      {							\
+        if (p > d1 || t0 >= d0)				\
+          v--;						\
+      }							\
       }								\
     dinv = v;						\
   } while (0)
@@ -2582,7 +2582,7 @@ mp_limb_t mpn_invert_limb _PROTO ((mp_limb_t)) ATTRIBUTE_CONST;
     mp_limb_t _q0, _t1, _t0, _mask;					\
     umul_ppmm ((q), _q0, (n2), (dinv));					\
     add_ssaaaa ((q), _q0, (q), _q0, (n2), (n1));			\
-									\
+                                    \
     /* Compute the two most significant limbs of n - q'd */		\
     (r1) = (n1) - (d1) * (q);						\
     (r0) = (n0);							\
@@ -2590,18 +2590,18 @@ mp_limb_t mpn_invert_limb _PROTO ((mp_limb_t)) ATTRIBUTE_CONST;
     umul_ppmm (_t1, _t0, (d0), (q));					\
     sub_ddmmss ((r1), (r0), (r1), (r0), _t1, _t0);			\
     (q)++;								\
-									\
+                                    \
     /* Conditionally adjust q and the remainders */			\
     _mask = - (mp_limb_t) ((r1) >= _q0);				\
     (q) += _mask;							\
     add_ssaaaa ((r1), (r0), (r1), (r0), _mask & (d1), _mask & (d0));	\
     if (UNLIKELY ((r1) >= (d1)))					\
       {									\
-	if ((r1) > (d1) || (r0) >= (d0))				\
-	  {								\
-	    (q)++;							\
-	    sub_ddmmss ((r1), (r0), (r1), (r0), (d1), (d0));		\
-	  }								\
+    if ((r1) > (d1) || (r0) >= (d0))				\
+      {								\
+        (q)++;							\
+        sub_ddmmss ((r1), (r0), (r1), (r0), (d1), (d0));		\
+      }								\
       }									\
   } while (0)
 
@@ -2625,18 +2625,18 @@ mp_limb_t mpn_invert_limb _PROTO ((mp_limb_t)) ATTRIBUTE_CONST;
     sub_ddmmss (_xh, _r, (nh), (nl), _xh, _xl);				\
     if (_xh != 0)							\
       {									\
-	sub_ddmmss (_xh, _r, _xh, _r, 0, (d));				\
-	_q += 1;							\
-	if (_xh != 0)							\
-	  {								\
-	    _r -= (d);							\
-	    _q += 1;							\
-	  }								\
+    sub_ddmmss (_xh, _r, _xh, _r, 0, (d));				\
+    _q += 1;							\
+    if (_xh != 0)							\
+      {								\
+        _r -= (d);							\
+        _q += 1;							\
+      }								\
       }									\
     if (_r >= (d))							\
       {									\
-	_r -= (d);							\
-	_q += 1;							\
+    _r -= (d);							\
+    _q += 1;							\
       }									\
     (r) = _r;								\
     (q) = _q;								\
@@ -2799,21 +2799,21 @@ __GMP_DECLSPEC extern const unsigned char  modlimb_invert_table[128];
     mp_limb_t  __n = (n);						\
     mp_limb_t  __inv;							\
     ASSERT ((__n & 1) == 1);						\
-									\
+                                    \
     __inv = modlimb_invert_table[(__n/2) & 0x7F]; /*  8 */		\
     if (GMP_NUMB_BITS > 8)   __inv = 2 * __inv - __inv * __inv * __n;	\
     if (GMP_NUMB_BITS > 16)  __inv = 2 * __inv - __inv * __inv * __n;	\
     if (GMP_NUMB_BITS > 32)  __inv = 2 * __inv - __inv * __inv * __n;	\
-									\
+                                    \
     if (GMP_NUMB_BITS > 64)						\
       {									\
-	int  __invbits = 64;						\
-	do {								\
-	  __inv = 2 * __inv - __inv * __inv * __n;			\
-	  __invbits *= 2;						\
-	} while (__invbits < GMP_NUMB_BITS);				\
+    int  __invbits = 64;						\
+    do {								\
+      __inv = 2 * __inv - __inv * __inv * __n;			\
+      __invbits *= 2;						\
+    } while (__invbits < GMP_NUMB_BITS);				\
       }									\
-									\
+                                    \
     ASSERT ((__inv * __n & GMP_NUMB_MASK) == 1);			\
     (inv) = __inv & GMP_NUMB_MASK;					\
   } while (0)
@@ -2841,7 +2841,7 @@ __GMP_DECLSPEC extern const unsigned char  modlimb_invert_table[128];
     ASSERT ((d) != 0);							\
     ASSERT_LIMB (a);							\
     ASSERT_LIMB (d);							\
-									\
+                                    \
     if ((a) <= (d))							\
       {									\
         /* small a is reasonably likely */				\
@@ -2856,7 +2856,7 @@ __GMP_DECLSPEC extern const unsigned char  modlimb_invert_table[128];
         __dnorm = (d) << __twos;					\
         (r) = ((a) <= __dnorm ? __dnorm : 2*__dnorm) - (a);		\
       }									\
-									\
+                                    \
     ASSERT_LIMB (r);							\
   } while (0)
 
@@ -2879,7 +2879,7 @@ __GMP_DECLSPEC extern const unsigned char  modlimb_invert_table[128];
         __n >>= 5;							\
       }									\
     while (__n != 0);							\
-									\
+                                    \
     (p) = __p & 1;							\
   } while (0)
 #endif
@@ -3357,120 +3357,121 @@ void __gmp_invalid_operation _PROTO ((void)) ATTRIBUTE_NORETURN;
       }                                                                    \
   } while (0)
 
-/* ngcd definitions */
+/* Matrix multiplication */
+#define   mpn_matrix22_mul __MPN(matrix22_mul)
+__GMP_DECLSPEC void      mpn_matrix22_mul __GMP_PROTO ((mp_ptr, mp_ptr, mp_ptr, mp_ptr, mp_size_t, mp_srcptr, mp_srcptr, mp_srcptr, mp_srcptr, mp_size_t, mp_ptr));
+#define   mpn_matrix22_mul_strassen __MPN(matrix22_mul_strassen)
+__GMP_DECLSPEC void      mpn_matrix22_mul_strassen __GMP_PROTO ((mp_ptr, mp_ptr, mp_ptr, mp_ptr, mp_size_t, mp_srcptr, mp_srcptr, mp_srcptr, mp_srcptr, mp_size_t, mp_ptr));
+#define   mpn_matrix22_mul_itch __MPN(matrix22_mul_itch)
+__GMP_DECLSPEC mp_size_t mpn_matrix22_mul_itch __GMP_PROTO ((mp_size_t, mp_size_t));
 
-#define mpn_ngcd_matrix1_vector __MPN (ngcd_matrix1_vector)
+#ifndef MATRIX22_STRASSEN_THRESHOLD
+#define MATRIX22_STRASSEN_THRESHOLD 30
+#endif
 
-#define mpn_ngcd_matrix_init __MPN (ngcd_matrix_init)
-#define mpn_ngcd_matrix_mul __MPN (ngcd_matrix_mul)
-#define mpn_ngcd_matrix_adjust __MPN (ngcd_matrix_adjust)
-#define mpn_ngcd_step __MPN (ngcd_step)
-#define mpn_nhgcd_itch __MPN (nhgcd_itch)
-#define mpn_nhgcd __MPN (nhgcd)
+/* HGCD definitions */
+
+/* Extract one numb, shifting count bits left
+    ________  ________
+   |___xh___||___xl___|
+      |____r____|
+   >count <
+
+   The count includes any nail bits, so it should work fine if count
+   is computed using count_leading_zeros. If GMP_NAIL_BITS > 0, all of
+   xh, xl and r include nail bits. Must have 0 < count < GMP_LIMB_BITS.
+
+   FIXME: Omit masking with GMP_NUMB_MASK, and let callers do that for
+   those calls where the count high bits of xh may be non-zero.
+*/
+
+#define MPN_EXTRACT_NUMB(count, xh, xl)				\
+  ((((xh) << ((count) - GMP_NAIL_BITS)) & GMP_NUMB_MASK) |	\
+   ((xl) >> (GMP_LIMB_BITS - (count))))
+
 
 /* The matrix non-negative M = (u, u'; v,v') keeps track of the
    reduction (a;b) = M (alpha; beta) where alpha, beta are smaller
    than a, b. The determinant must always be one, so that M has an
    inverse (v', -u'; -v, u). Elements always fit in GMP_NUMB_BITS - 1
    bits. */
-struct ngcd_matrix1
+struct hgcd_matrix1
 {
   mp_limb_t u[2][2];
 };
 
-int
-mpn_nhgcd2 (mp_limb_t ah, mp_limb_t al, mp_limb_t bh, mp_limb_t bl,
-	    struct ngcd_matrix1 *M);
+#define mpn_hgcd2 __MPN (hgcd2)
+__GMP_DECLSPEC int mpn_hgcd2 __GMP_PROTO ((mp_limb_t, mp_limb_t, mp_limb_t, mp_limb_t,	struct hgcd_matrix1 *));
 
-mp_size_t
-mpn_ngcdext_lehmer (mp_ptr gp, mp_ptr s0p, mp_size_t *s0size, 
-                  mp_ptr ap, mp_ptr bp, mp_size_t n, mp_ptr tp);
+#define mpn_hgcd_mul_matrix1_vector __MPN (hgcd_mul_matrix1_vector)
+__GMP_DECLSPEC mp_size_t mpn_hgcd_mul_matrix1_vector __GMP_PROTO ((const struct hgcd_matrix1 *, mp_ptr, mp_srcptr, mp_ptr, mp_size_t));
 
-mp_size_t
-mpn_ngcdext_subdiv_step (mp_ptr gp, mp_size_t *gn, mp_ptr s0p, 
-            mp_ptr u0, mp_ptr u1, mp_size_t *un, mp_ptr ap, 
-                             mp_ptr bp, mp_size_t n, mp_ptr tp);
+#define mpn_hgcd_mul_matrix1_inverse_vector __MPN (hgcd_mul_matrix1_inverse_vector)
+__GMP_DECLSPEC mp_size_t mpn_hgcd_mul_matrix1_inverse_vector __GMP_PROTO ((const struct hgcd_matrix1 *, mp_ptr, mp_srcptr, mp_ptr, mp_size_t));
 
-mp_size_t
-mpn_ngcd_matrix1_vector (struct ngcd_matrix1 *M, mp_size_t n, mp_ptr ap, mp_ptr bp, mp_ptr tp);
-
-struct ngcd_matrix
+struct hgcd_matrix
 {
-  /* For sanity checking only */
-  mp_size_t alloc;
-
+  mp_size_t alloc;		/* for sanity checking only */
   mp_size_t n;
   mp_ptr p[2][2];
-  /* Temporary storage, of the same size as the elements */
-  mp_ptr tp;
 };
 
-#define MPN_NGCD_MATRIX_INIT_ITCH(n) (5 * ((n+1)/2))
+#define MPN_HGCD_MATRIX_INIT_ITCH(n) (4 * ((n+1)/2 + 1))
+
+#define mpn_hgcd_matrix_init __MPN (hgcd_matrix_init)
+__GMP_DECLSPEC void mpn_hgcd_matrix_init __GMP_PROTO ((struct hgcd_matrix *, mp_size_t, mp_ptr));
+
+#define mpn_hgcd_matrix_mul __MPN (hgcd_matrix_mul)
+__GMP_DECLSPEC void mpn_hgcd_matrix_mul __GMP_PROTO ((struct hgcd_matrix *, const struct hgcd_matrix *, mp_ptr));
+
+#define mpn_hgcd_matrix_adjust __MPN (hgcd_matrix_adjust)
+__GMP_DECLSPEC mp_size_t mpn_hgcd_matrix_adjust __GMP_PROTO ((struct hgcd_matrix *, mp_size_t, mp_ptr, mp_ptr, mp_size_t, mp_ptr));
+
+#define mpn_hgcd_itch __MPN (hgcd_itch)
+__GMP_DECLSPEC mp_size_t mpn_hgcd_itch __GMP_PROTO ((mp_size_t));
+
+#define mpn_hgcd __MPN (hgcd)
+__GMP_DECLSPEC mp_size_t mpn_hgcd __GMP_PROTO ((mp_ptr, mp_ptr, mp_size_t, struct hgcd_matrix *, mp_ptr));
+
+#define MPN_HGCD_LEHMER_ITCH(n) (n)
+
+#define mpn_hgcd_lehmer __MPN (hgcd_lehmer)
+__GMP_DECLSPEC mp_size_t mpn_hgcd_lehmer __GMP_PROTO ((mp_ptr, mp_ptr, mp_size_t, struct hgcd_matrix *, mp_ptr));
+
+/* Needs storage for the quotient */
+#define MPN_GCD_SUBDIV_STEP_ITCH(n) (n)
+
+#define mpn_gcd_subdiv_step __MPN(gcd_subdiv_step)
+__GMP_DECLSPEC mp_size_t mpn_gcd_subdiv_step __GMP_PROTO ((mp_ptr, mp_size_t *, mp_ptr, mp_ptr, mp_size_t, mp_ptr));
 
 #define MPN_GCD_LEHMER_N_ITCH(n) (n)
 
-void
-mpn_ngcd_matrix_init (struct ngcd_matrix *M, mp_size_t n, mp_ptr p);
+#define mpn_gcd_lehmer_n __MPN(gcd_lehmer_n)
+__GMP_DECLSPEC mp_size_t mpn_gcd_lehmer_n __GMP_PROTO ((mp_ptr, mp_ptr, mp_ptr, mp_size_t, mp_ptr));
 
-void
-mpn_ngcd_matrix_mul (struct ngcd_matrix *M, const struct ngcd_matrix *M1,
-		     mp_ptr tp);
-mp_size_t
-mpn_ngcd_matrix_adjust (struct ngcd_matrix *M,
-			mp_size_t n, mp_ptr ap, mp_ptr bp,
-			mp_size_t p, mp_ptr tp);
+#define mpn_gcdext_subdiv_step __MPN(gcdext_subdiv_step)
+__GMP_DECLSPEC mp_size_t mpn_gcdext_subdiv_step __GMP_PROTO ((mp_ptr, mp_size_t *, mp_ptr, mp_size_t *, mp_ptr, mp_ptr, mp_size_t, mp_ptr, mp_ptr, mp_size_t *, mp_ptr, mp_ptr));
 
-#define MPN_NGCD_STEP_ITCH(n) ((n) + 1)
+#define MPN_GCDEXT_LEHMER_N_ITCH(n) (4*(n) + 3)
 
-mp_size_t
-mpn_ngcd_step (mp_size_t n, mp_ptr ap, mp_ptr bp, mp_size_t s,
-	       struct ngcd_matrix *M, mp_ptr tp);
+#define mpn_gcdext_lehmer_n __MPN(gcdext_lehmer_n)
+__GMP_DECLSPEC mp_size_t mpn_gcdext_lehmer_n __GMP_PROTO ((mp_ptr, mp_ptr, mp_size_t *, mp_ptr, mp_ptr, mp_size_t, mp_ptr));
 
-mp_size_t
-mpn_nhgcd_itch (mp_size_t n);
+/* 4*(an + 1) + 4*(bn + 1) + an */
+#define MPN_GCDEXT_LEHMER_ITCH(an, bn) (5*(an) + 4*(bn) + 8)
 
-mp_size_t
-mpn_nhgcd (mp_ptr ap, mp_ptr bp, mp_size_t n,
-	   struct ngcd_matrix *M, mp_ptr tp);
-
-
-/* lgcd definitions */
-
-#define mpn_ngcd_subdiv_step __MPN(ngcd_subdiv_step)
-#define mpn_ngcd_lehmer __MPN(ngcd_lehmer)
-#define mpn_lgcd __MPN(lgcd)
-
-/* Needs storage for the division */
-#define MPN_NGCD_SUBDIV_STEP_ITCH(n) ((n)+1)
-
-mp_size_t
-mpn_ngcd_subdiv_step (mp_ptr gp, mp_size_t *gn,
-		      mp_ptr ap, mp_ptr bp, mp_size_t n, mp_ptr tp);
-
-#define MPN_NGCD_LEHMER_ITCH(n) (2*(n))
-
-mp_size_t
-mpn_ngcd_lehmer (mp_ptr gp, mp_ptr ap, mp_ptr bp, mp_size_t n, mp_ptr tp);
-
-mp_size_t
-mpn_lgcd (mp_ptr gp, mp_ptr ap, mp_size_t an, mp_ptr bp, mp_size_t bn);
-
-#ifndef NHGCD_THRESHOLD
-#define NHGCD_THRESHOLD 960
+#ifndef HGCD_THRESHOLD
+#define HGCD_THRESHOLD 400
 #endif
 
-#ifndef GCD_THRESHOLD
-#define GCD_THRESHOLD 500
+#ifndef GCD_DC_THRESHOLD
+#define GCD_DC_THRESHOLD 1000
 #endif
 
-#ifndef GCDEXT_THRESHOLD
-#define GCDEXT_THRESHOLD 800
+#ifndef GCDEXT_DC_THRESHOLD
+#define GCDEXT_DC_THRESHOLD 600
 #endif
 
-/* Must be at least 7 */
-#ifndef NGCD_LEHMER_THRESHOLD
-#define NGCD_LEHMER_THRESHOLD 7
-#endif
 /* Definitions for mpn_set_str and mpn_get_str */
 struct powers
 {
@@ -3799,7 +3800,7 @@ int __gmp_doscan _PROTO ((const struct gmp_doscan_funs_t *, void *,
 #if WANT_FAT_BINARY
 /* NOTE: The function pointers in this struct are also in CPUVEC_FUNCS_LIST
    in mpn/x86/x86-defs.m4 and in mpn/x86_64/x86_64-defs.m4.  Be sure to 
-	update them there when changing here.  */
+    update them there when changing here.  */
 struct cpuvec_t {
   DECL_add_n           ((*add_n));
   DECL_addmul_1        ((*addmul_1));
@@ -3846,6 +3847,18 @@ void __gmpn_cpuvec_init __GMP_PROTO ((void));
    __gmpn_cpuvec.field)
 
 
+
+static inline int
+mpn_zero_p (mp_srcptr ap, mp_size_t n)
+{
+  mp_size_t i;
+  for (i = n - 1; i >= 0; i--)
+    {
+      if (ap[i] != 0)
+    return 0;
+    }
+  return 1;
+}
 
 #if TUNE_PROGRAM_BUILD
 /* Some extras wanted when recompiling some .c files for use by the tune
@@ -4042,13 +4055,17 @@ extern mp_size_t                     mod_1_2_threshold;
 #define MOD_1_3_THRESHOLD            mod_1_3_threshold
 extern mp_size_t                     mod_1_3_threshold;
 
-#undef  GCD_THRESHOLD
-#define GCD_THRESHOLD                gcd_threshold
-extern mp_size_t                     gcd_threshold;
+#undef  GCD_DC_THRESHOLD
+#define GCD_DC_THRESHOLD             gcd_dc_threshold
+extern mp_size_t                     gcd_dc_threshold;
 
-#undef  GCDEXT_THRESHOLD
-#define GCDEXT_THRESHOLD             gcdext_threshold
-extern mp_size_t                     gcdext_threshold;
+#undef  HGCD_THRESHOLD
+#define HGCD_THRESHOLD             hgcd_threshold
+extern mp_size_t                     hgcd_threshold;
+
+#undef  GCDEXT_DC_THRESHOLD
+#define GCDEXT_DC_THRESHOLD             gcdext_dc_threshold
+extern mp_size_t                     gcdext_dc_threshold;
 
 #undef DIVREM_1_NORM_THRESHOLD
 #define DIVREM_1_NORM_THRESHOLD      divrem_1_norm_threshold
