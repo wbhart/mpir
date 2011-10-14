@@ -365,6 +365,9 @@
     <ClCompile Include="..\..\mpn\generic\jacobi_base.c">
       <Filter>Source Files\mpn</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\mpn\generic\lgcd.c">
+      <Filter>Source Files\mpn</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\mpn\generic\lshift.c">
       <Filter>Source Files\mpn</Filter>
     </ClCompile>
@@ -429,6 +432,15 @@
       <Filter>Source Files\mpn</Filter>
     </ClCompile>
     <ClCompile Include="..\..\mpn\generic\neg_n.c">
+      <Filter>Source Files\mpn</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\mpn\generic\ngcd_matrix.c">
+      <Filter>Source Files\mpn</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\mpn\generic\ngcd_step.c">
+      <Filter>Source Files\mpn</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\mpn\generic\nhgcd2.c">
       <Filter>Source Files\mpn</Filter>
     </ClCompile>
     <ClCompile Include="..\..\mpn\generic\perfect_square_p.c">
@@ -1390,30 +1402,6 @@
     </ClCompile>
     <ClCompile Include="..\..\mpz\iset_ux.c">
       <Filter>Source Files\mpz</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\mpn\generic\gcd_lehmer.c">
-      <Filter>Source Files\mpn</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\mpn\generic\gcd_subdiv_step.c">
-      <Filter>Source Files\mpn</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\mpn\generic\gcdext_1.c">
-      <Filter>Source Files\mpn</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\mpn\generic\gcdext_lehmer.c">
-      <Filter>Source Files\mpn</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\mpn\generic\gcdext_subdiv_step.c">
-      <Filter>Source Files\mpn</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\mpn\generic\hgcd.c">
-      <Filter>Source Files\mpn</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\mpn\generic\hgcd2.c">
-      <Filter>Source Files\mpn</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\mpn\generic\matrix22_mul.c">
-      <Filter>Source Files\mpn</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

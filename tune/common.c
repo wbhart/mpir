@@ -1,6 +1,6 @@
 /* Shared speed subroutines.
 
-Copyright 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2008, 2009, 2010 Free Software
+Copyright 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006 Free Software
 Foundation, Inc.
 
 This file is part of the GNU MP Library.
@@ -1259,51 +1259,6 @@ speed_mpn_gcd (struct speed_params *s)
 {
   SPEED_ROUTINE_MPN_GCD (mpn_gcd);
 }
-double
-speed_mpn_hgcd (struct speed_params *s)
-{
-  mp_ptr wp;
-  mp_size_t hgcd_init_scratch = MPN_HGCD_MATRIX_INIT_ITCH (s->size);
-  mp_size_t hgcd_scratch = mpn_hgcd_itch (s->size);
-  mp_ptr ap;
-  mp_ptr bp;
-  mp_ptr tmp1;
-
-  struct hgcd_matrix hgcd;
-  int res;
-  unsigned i;
-  double t;
-  TMP_DECL;
-
-  if (s->size < 2)
-    return -1;
-
-  TMP_MARK;
-
-  SPEED_TMP_ALLOC_LIMBS (ap, s->size + 1, s->align_xp);
-  SPEED_TMP_ALLOC_LIMBS (bp, s->size + 1, s->align_yp);
-
-  s->xp[s->size - 1] |= 1;
-  s->yp[s->size - 1] |= 1;
-
-  SPEED_TMP_ALLOC_LIMBS (tmp1, hgcd_init_scratch, s->align_wp);
-  SPEED_TMP_ALLOC_LIMBS (wp, hgcd_scratch, s->align_wp);
-
-  speed_starttime ();
-  i = s->reps;
-  do
-    {
-      MPN_COPY (ap, s->xp, s->size);
-      MPN_COPY (bp, s->yp, s->size);
-      mpn_hgcd_matrix_init (&hgcd, s->size, tmp1);
-      res = mpn_hgcd (ap, bp, s->size, &hgcd, wp);
-    }
-  while (--i != 0);
-  t = speed_endtime ();
-  TMP_FREE;
-  return t;
-}
-
 
 double
 speed_mpn_gcdext (struct speed_params *s)
