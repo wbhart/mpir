@@ -74,8 +74,13 @@ run_fail = 0
 for i in prj_list :
   if i in exe_list :
     ef = '.\\..\\' + tdir + '\\' + i + '.exe'
-    prc = subprocess.Popen( ef, stdout = subprocess.PIPE,
-      stderr = subprocess.STDOUT, creationflags = 0x08000000 )
+    try:
+      prc = subprocess.Popen( ef, stdout = subprocess.PIPE,
+        stderr = subprocess.STDOUT, creationflags = 0x08000000 )
+    except Exception as str:
+      print(i, ': ERROR (', str, ')')
+      run_fail += 1
+      continue
     output = prc.communicate()[0]
     if prc.returncode :
       print(i, ': ERROR (', prc.returncode, ' )')
