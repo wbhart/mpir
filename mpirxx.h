@@ -1562,6 +1562,11 @@ public:
   __gmp_expr(signed long int l) { mpz_init_set_si(mp, l); }
   __gmp_expr(unsigned long int l) { mpz_init_set_ui(mp, l); }
 
+#if defined( _STDINT_H ) || defined ( _STDINT_H_ ) || defined ( _STDINT )
+  __gmp_expr(intmax_t l) { mpz_init_set_sx(mp, l); }
+  __gmp_expr(uintmax_t l) { mpz_init_set_ux(mp, l); }
+#endif
+
   __gmp_expr(float f) { mpz_init_set_d(mp, f); }
   __gmp_expr(double d) { mpz_init_set_d(mp, d); }
   // __gmp_expr(long double ld) { mpz_init_set_d(mp, ld); }
@@ -1626,6 +1631,11 @@ public:
   __gmp_expr & operator=(unsigned long int l)
   { mpz_set_ui(mp, l); return *this; }
 
+#if defined( _STDINT_H ) || defined ( _STDINT_H_ ) || defined ( _STDINT )
+  __gmp_expr & operator=(intmax_t i) { mpz_set_sx(mp, i); return *this; }
+  __gmp_expr & operator=(uintmax_t i) { mpz_set_ux(mp, i); return *this; }
+#endif
+
   __gmp_expr & operator=(float f) { mpz_set_d(mp, f); return *this; }
   __gmp_expr & operator=(double d) { mpz_set_d(mp, d); return *this; }
   // __gmp_expr & operator=(long double ld)
@@ -1663,6 +1673,10 @@ public:
 
   signed long int get_si() const { return mpz_get_si(mp); }
   unsigned long int get_ui() const { return mpz_get_ui(mp); }
+#if defined( _STDINT_H ) || defined ( _STDINT_H_ ) || defined ( _STDINT )
+  intmax_t get_sx() const { return mpz_get_sx(mp); }
+  uintmax_t get_ux() const { return mpz_get_ux(mp); }
+#endif
   double get_d() const { return mpz_get_d(mp); }
 
   // bool fits_schar_p() const { return mpz_fits_schar_p(mp); }
