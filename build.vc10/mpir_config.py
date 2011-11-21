@@ -367,7 +367,7 @@ def yasm_options(is_dll, outf):
 
   outf.write(f1.format('DLL' if is_dll else ''))
 
-def compiler_options(is_dll, is_debug, outf):
+def compiler_options(plat, is_dll, is_debug, outf):
   
   f1 = r'''    <ClCompile>
       <Optimization>{0:s}</Optimization>
@@ -386,6 +386,8 @@ def compiler_options(is_dll, is_debug, outf):
   else:
     s1 = 'DEBUG;_LIB;HAVE_CONFIG_H;'
     s2 = ''
+  if plat == 'x64':
+    s1 = s1 + '_WIN64;'
   if is_debug:
     opt, defines, crt = 'Disabled', '_' + s1, 'Debug' + s2
   else:
@@ -419,7 +421,7 @@ def vcx_tool_options(plat, is_dll, outf):
   for is_debug in (False, True):
     outf.write(f1.format(plat, 'Debug' if is_debug else 'Release'))
     yasm_options(is_dll, outf)
-    compiler_options(is_dll, is_debug, outf)
+    compiler_options(plat, is_dll, is_debug, outf)
     if is_dll:
       linker_options(outf)
     vcx_post_build(outf)    
@@ -598,29 +600,18 @@ if mode == 'x64':
 print(config, mode)
 
 # generate mpir.h and gmp.h from gmp_h.in
-gmp_h_32 = '''
-#define __GMP_BITS_PER_MP_LIMB              32
-#define GMP_LIMB_BITS                       32
-#if defined _LONG_LONG_LIMB
-#  undef _LONG_LONG_LIMB 1 
-#endif
-#if defined _WIN64
-#  undef _WIN64 
-#endif
-#define GMP_NAIL_BITS                       0 
-#define SIZEOF_MP_LIMB_T (GMP_LIMB_BITS >> 3) 
-'''
-gmp_h_64 = '''
-#define __GMP_BITS_PER_MP_LIMB              64
-#define GMP_LIMB_BITS                       64
-#if !defined _LONG_LONG_LIMB
-#  define _LONG_LONG_LIMB 1 
-#endif
-#if !defined _WIN64
-#define _WIN64 
-#endif
-#define GMP_NAIL_BITS                       0 
-#define SIZEOF_MP_LIMB_T (GMP_LIMB_BITS >> 3) 
+gmp_h = '''
+#ifdef _WIN32 
+#  ifdef _WIN64 
+#    define _LONG_LONG_LIMB  1 
+#    define GMP_LIMB_BITS   64 
+#  else 
+#    define GMP_LIMB_BITS   32 
+#  endif 
+#  define __GMP_BITS_PER_MP_LIMB  GMP_LIMB_BITS 
+#  define SIZEOF_MP_LIMB_T (GMP_LIMB_BITS >> 3) 
+#  define GMP_NAIL_BITS                       0 
+#endif 
 '''
 
 try:
@@ -636,7 +627,7 @@ try:
       if search('@\w+@', line):
         if first:
           first = False
-          outf.writelines(gmp_h_32 if mode == 'win32' else gmp_h_64)  
+          outf.writelines(gmp_h)  
       else:
         outf.writelines([line])
         
