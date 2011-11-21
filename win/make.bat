@@ -70,7 +70,8 @@ if errorlevel 1 (
 )
 del comptest.*
 
-set OPT=%FLAGS% %FLAGS1% /c
+if %ABI% == 64 (set OPT=/D "_WIN64" %FLAGS% %FLAGS1% /c)
+if %ABI% == 32 (set OPT=%FLAGS% %FLAGS1% /c)
 
 if %ABI% == 64 (set LOCALDIR=x86_64w)
 if %ABI% == 32 (set LOCALDIR=x86w)
