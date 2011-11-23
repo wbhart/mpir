@@ -1,6 +1,7 @@
 /* Test mpz_mul_ui and mpz_mul_si.
 
-Copyright 2001, 2002 Free Software Foundation, Inc.
+Copyright 1999, 2000, 2001 Free Software Foundation, Inc.
+Copyright 2011 Brian Gladman 
 
 This file is part of the GNU MP Library.
 

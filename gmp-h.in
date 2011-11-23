@@ -1003,7 +1003,7 @@ __GMP_DECLSPEC void mpz_neg __GMP_PROTO ((mpz_ptr, mpz_srcptr));
 __GMP_DECLSPEC void mpz_nextprime __GMP_PROTO ((mpz_ptr, mpz_srcptr));
 
 #define mpz_next_likely_prime __gmpz_next_likely_prime
-__GMP_DECLSPEC void mpz_next_likely_prime __GMP_PROTO ((mpz_ptr, mpz_srcptr,gmp_randstate_t));
+__GMP_DECLSPEC void mpz_next_likely_prime __GMP_PROTO ((mpz_ptr, mpz_srcptr));
 
 #define mpz_out_raw __gmpz_out_raw
 #ifdef _GMP_H_HAVE_FILE
