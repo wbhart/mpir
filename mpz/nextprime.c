@@ -26,9 +26,7 @@ Boston, MA 02110-1301, USA.
 
 // This function is Obsolete  17/8/2009
 void	mpz_nextprime(mpz_ptr x,mpz_srcptr y)
-{gmp_randstate_t rnd;
+{
 
-gmp_randinit_default(rnd);
-mpz_next_likely_prime(x,y,rnd);
-gmp_randclear(rnd);
+mpz_next_likely_prime(x,y);
 return;}
