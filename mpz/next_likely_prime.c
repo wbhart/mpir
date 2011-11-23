@@ -1,7 +1,7 @@
 /* mpz_next_likely_prime(p,t,rnd) - compute the next likely prime > t and store that in p.
 
 Copyright 1999, 2000, 2001 Free Software Foundation, Inc.
-Copyright 2009 Jason Moxham
+Copyright 2009 Jason Moxham, Brian Gladman
 
 This file is part of the MPIR Library.
 
@@ -24,7 +24,7 @@ Boston, MA 02110-1301, USA.
 #include "mpir.h"
 #include "gmp-impl.h"
 
-#if 1
+#if 0
 
 void mpz_next_likely_prime (mpz_ptr p, mpz_srcptr t,gmp_randstate_t rnd)
 {
@@ -51,10 +51,10 @@ static unsigned short primes[] =
 953,967,971,977,983,991,997
 };
 
-#define NUMBER_OF_PRIMES 167
+#define NUMBER_OF_PRIMES (sizeof(primes) / sizeof(primes[0]))
 
 void
-mpz_nextprime (mpz_ptr p, mpz_srcptr n)
+mpz_next_likely_prime (mpz_ptr p, mpz_srcptr n)
 {
   unsigned short *moduli;
   unsigned long difference;
@@ -64,10 +64,10 @@ mpz_nextprime (mpz_ptr p, mpz_srcptr n)
 
   /* First handle tiny numbers */
   if (mpz_cmp_ui (n, 2) < 0)
-    {
+  {
       mpz_set_ui (p, 2);
       return;
-    }
+  }
   mpz_add_ui (p, n, 1);
   mpz_setbit (p, 0);
 
@@ -76,22 +76,38 @@ mpz_nextprime (mpz_ptr p, mpz_srcptr n)
 
   prime_limit = NUMBER_OF_PRIMES - 1;
   if (mpz_cmp_ui (p, primes[prime_limit]) <= 0)
-    /* Just use first three entries (3,5,7) of table for small numbers */
-    prime_limit = 3;
-  if (prime_limit)
-    {
-      TMP_MARK;
-      /* Compute residues modulo small odd primes */
-      moduli = (unsigned short *) TMP_ALLOC (prime_limit * sizeof moduli[0]);
-      for (i = 0; i < prime_limit; i++)
-	moduli[i] = mpz_fdiv_ui (p, primes[i]);
-    }
-  for (difference = 0; ; difference += 2)
-    {
-      composite = 0;
+  {
+      int lo = 0, hi = NUMBER_OF_PRIMES - 1, mid;
 
-      /* First check residues */
-      for (i = 0; i < prime_limit; i++)
+      i = mpz_get_ui(p);  
+      while(lo <= hi)
+      {
+          mid = lo + (hi - lo) / 2;
+          if(i > primes[mid])
+             lo = mid + 1;
+          else if(i < primes[mid])
+             hi = mid - 1;
+          else
+          {
+             lo = mid;
+             break;
+          }
+      }
+      mpz_set_ui(p, primes[lo]);
+      return;
+  }
+
+  TMP_MARK;
+  /* Compute residues modulo small odd primes */
+  moduli = (unsigned short *) TMP_ALLOC (prime_limit * sizeof moduli[0]);
+  for (i = 0; i < prime_limit; i++)
+    moduli[i] = mpz_fdiv_ui (p, primes[i]);
+  for (difference = 0; ; difference += 2)
+  {
+    composite = 0;
+
+    /* First check residues */
+    for (i = 0; i < prime_limit; i++)
 	{
 	  int acc, pr;
 	  composite |= (moduli[i] == 0);
@@ -99,16 +115,16 @@ mpz_nextprime (mpz_ptr p, mpz_srcptr n)
 	  pr = primes[i];
 	  moduli[i] = acc >= pr ? acc - pr : acc;
 	}
-      if (composite)
-	continue;
+    if (composite)
+	  continue;
 
-      mpz_add_ui (p, p, difference);
-      difference = 0;
+    mpz_add_ui (p, p, difference);
+    difference = 0;
 
-      /* Miller-Rabin test */
-      if (mpz_millerrabin (p, 2))
-	break;
-    }
+    /* Miller-Rabin test */
+    if (mpz_millerrabin (p, 2))
+	  break;
+  }
   TMP_FREE;
 }
 
