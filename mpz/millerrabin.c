@@ -32,83 +32,16 @@ MA 02110-1301, USA. */
 #include "mpir.h"
 #include "gmp-impl.h"
 
-static int millerrabin _PROTO ((mpz_srcptr n, mpz_srcptr nm1,
-                                mpz_ptr x, mpz_ptr y,
-                                mpz_srcptr q, unsigned long int k));
+//  This function is obsolete     4/12/2011
 
 int
 mpz_millerrabin (mpz_srcptr n, int reps)
 {
-  int r;
-  mpz_t nm1, nm3, x, y, q;
-  unsigned long int k;
   gmp_randstate_t rstate;
   int is_prime;
-  TMP_DECL;
-  TMP_MARK;
 
-  MPZ_TMP_INIT (nm1, SIZ (n) + 1);
-  mpz_sub_ui (nm1, n, 1L);
-
-  MPZ_TMP_INIT (x, SIZ (n) + 1);
-  MPZ_TMP_INIT (y, 2 * SIZ (n)); /* mpz_powm_ui needs excessive memory!!! */
-
-  /* Perform a Fermat test.  */
-  mpz_set_ui (x, 210L);
-  mpz_powm (y, x, nm1, n);
-  if (mpz_cmp_ui (y, 1L) != 0)
-    {
-      TMP_FREE;
-      return 0;
-    }
-
-  MPZ_TMP_INIT (q, SIZ (n));
-
-  /* Find q and k, where q is odd and n = 1 + 2**k * q.  */
-  k = mpz_scan1 (nm1, 0L);
-  mpz_tdiv_q_2exp (q, nm1, k);
-
-  /* n-3 */
-  MPZ_TMP_INIT (nm3, SIZ (n) + 1);
-  mpz_sub_ui (nm3, n, 3L);
-  ASSERT (mpz_cmp_ui (nm3, 1L) >= 0);
-
-  gmp_randinit_default (rstate);
-
-  is_prime = 1;
-  for (r = 0; r < reps && is_prime; r++)
-    {
-      /* 2 to n-2 inclusive, don't want 1, 0 or -1 */
-      mpz_urandomm (x, rstate, nm3);
-      mpz_add_ui (x, x, 2L);
-
-      is_prime = millerrabin (n, nm1, x, y, q, k);
-    }
-
-  gmp_randclear (rstate);
-
-  TMP_FREE;
+  gmp_randinit_default(rstate);
+  is_prime = mpz_miller_rabin(n, reps, rstate);
+  gmp_randclear(rstate);
   return is_prime;
-}
-
-static int
-millerrabin (mpz_srcptr n, mpz_srcptr nm1, mpz_ptr x, mpz_ptr y,
-             mpz_srcptr q, unsigned long int k)
-{
-  unsigned long int i;
-
-  mpz_powm (y, x, q, n);
-
-  if (mpz_cmp_ui (y, 1L) == 0 || mpz_cmp (y, nm1) == 0)
-    return 1;
-
-  for (i = 1; i < k; i++)
-    {
-      mpz_powm_ui (y, y, 2L, n);
-      if (mpz_cmp (y, nm1) == 0)
-	return 1;
-      if (mpz_cmp_ui (y, 1L) == 0)
-	return 0;
-    }
-  return 0;
 }
