@@ -973,6 +973,9 @@ __GMP_DECLSPEC void mpz_lucnum2_ui __GMP_PROTO ((mpz_ptr, mpz_ptr, unsigned long
 #define mpz_millerrabin __gmpz_millerrabin
 __GMP_DECLSPEC int mpz_millerrabin __GMP_PROTO ((mpz_srcptr, int)) __GMP_ATTRIBUTE_PURE;
 
+#define mpz_miller_rabin __gmpz_miller_rabin
+__GMP_DECLSPEC int mpz_miller_rabin __GMP_PROTO ((mpz_srcptr, int, gmp_randstate_t)) __GMP_ATTRIBUTE_PURE;
+
 #define mpz_mod __gmpz_mod
 __GMP_DECLSPEC void mpz_mod __GMP_PROTO ((mpz_ptr, mpz_srcptr, mpz_srcptr));
 
@@ -1003,7 +1006,7 @@ __GMP_DECLSPEC void mpz_neg __GMP_PROTO ((mpz_ptr, mpz_srcptr));
 __GMP_DECLSPEC void mpz_nextprime __GMP_PROTO ((mpz_ptr, mpz_srcptr));
 
 #define mpz_next_likely_prime __gmpz_next_likely_prime
-__GMP_DECLSPEC void mpz_next_likely_prime __GMP_PROTO ((mpz_ptr, mpz_srcptr));
+__GMP_DECLSPEC void mpz_next_likely_prime __GMP_PROTO ((mpz_ptr, mpz_srcptr, gmp_randstate_t));
 
 #define mpz_out_raw __gmpz_out_raw
 #ifdef _GMP_H_HAVE_FILE

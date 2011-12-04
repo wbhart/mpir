@@ -40,10 +40,10 @@ Visual Studio 2010 Professional. The win32 build projects also work with
 Microsoft Visual C++ 2010 Express. 
 
 To build the x64 libraries with VC++ Express you will need to install 
-the Windows 7.1 SDK and Python (2.6 or later). To do this, run the Python
-program 'add.express.py' before starting the build process as described 
-below. This converts the build projects for use with Express. If 
-necessary, these changes can be removed by running the Python program 
+the Windows 7.1 SDK and Python (2.6 or later). Once you have these 
+installed, you can run the Python program 'add.express.py' before starting
+the build process to convert the build filles for use with VC++ Express.
+If necessary, these changes can be removed by running the Python program 
 'remove.express.py'.
 
 Building MPIR
@@ -234,9 +234,11 @@ Using MPIR
 ==========
 
 Applications that use MPIR include the mpir.h header file to provide the 
-prototypes for the functions that MPIR provides. Hence when avMPIR 
-distribution is being used it is important to ensure that anyvMPIR header 
-file used matches that for the version of MPIR in use.
+prototypes for the functions that MPIR provides. Hence when an MPIR 
+distribution is being used it is important to ensure that the MPIR header 
+file used matches that for the version of MPIR in use.  If MPIR is used
+to build 64 bit applications, it is necessary to ensure that the compiler
+define _WIN64 is set when the application is built. 
 
 1. Using the Static Libraries
 =============================
@@ -362,28 +364,26 @@ Postbuild
 After a successful MPIR build a postbuild step is managed by the batch
 file postbuild.bat which has the following steps:
 
-1. Tne $(TargetPath) parameter (%1 for the batch file) is parsed to
+1. Tne $(TargetPath) parameter (%1 for the batch file) is passed to
    determine the library type (lib or dll), the platform (win32 or 
    x64), the configuration (release or debug) and the filename.
 
 2. The final output directory is then creaated (mpir\build.vc10\lib
    or mpir\build.vc10\dll) relative to the Visual Stduio solution
    directory (build,vc10).
-
-3. A text file 'lastbuild.txt' is then output in the mpir-tests sub-
-   directory describing the build configuration.
-
+   
+3. The file 'output_params.bat' is written describing the MPIR 
+   configuration that has been built.  This is used to signal
+   the version to be tested by the tests. In the sub-directory
+   mpir-tests, the appropriate property file is copied into
+   test-config.props for later use in the tests.
+   
 4. The header files used in the build are then copied into the output
    directory.
    
 5. The built library files (mpir.dll, mpir.exp, mpir.lib and mpir.pdb
    for a DLL, mpir.lib and mpir.pdb for a static library) are then
    copied into the output directory.
-
-6. In the sub-directory mpir-tests, either dll-test-config.props (for 
-   a DLL) or lib-test-config.props (for a static library) is copied
-   into test-config.props to set up the tests for the version of MPIR
-   being built.
 
 ACKNOWLEDGEMENTS
 ================

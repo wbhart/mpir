@@ -510,6 +510,7 @@ postbuild "$(TargetPath)"</Command>
     </ClCompile>
     <ClCompile Include="..\..\mpz\iset_sx.c" />
     <ClCompile Include="..\..\mpz\iset_ux.c" />
+    <ClCompile Include="..\..\mpz\miller_rabin.c" />
     <ClCompile Include="..\..\mpz\nthroot.c">
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)mpz\</ObjectFileName>
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)mpz\</ObjectFileName>

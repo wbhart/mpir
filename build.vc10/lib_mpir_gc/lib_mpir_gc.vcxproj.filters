@@ -1415,5 +1415,8 @@
     <ClCompile Include="..\..\mpn\generic\matrix22_mul.c">
       <Filter>Source Files\mpn</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\mpz\miller_rabin.c">
+      <Filter>Source Files\mpz</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

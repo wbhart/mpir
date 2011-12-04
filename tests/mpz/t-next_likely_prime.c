@@ -45,17 +45,19 @@ int
 main (int argc, char **argv)
 {
     char str[1000];
+    gmp_randstate_t rnd; 
     mpz_t x, y, z;
     int i, j, k, s;
 
     tests_start ();
+    gmp_randinit_default (rnd);
     mpz_init(x);
     mpz_init(y);
     mpz_init(z);
     for( i = 0 ; i < sizeof(tests1) / sizeof(tests1[0]) ; ++i )
     {
       mpz_ui_pow_ui(x, 10, tests1[i].pow10);
-      mpz_nextprime(y, x);
+      mpz_next_likely_prime(y, x, rnd);
       mpz_sub(y, y, x);
       j = mpz_get_ui(y);
       if(j != tests1[i].np_off)
@@ -73,7 +75,7 @@ main (int argc, char **argv)
       s = j = 0;
       for( ; ; )
       {
-          mpz_nextprime(y, y);
+          mpz_next_likely_prime(y, y, rnd);
           mpz_sub(z, y, x);
           k = mpz_get_si(z);
           if(k >= 1000)
@@ -88,7 +90,8 @@ main (int argc, char **argv)
           abort();
       }
     }
-
+      
+    gmp_randclear (rnd);
     mpz_clear(z);
     mpz_clear(y);
     mpz_clear(x);

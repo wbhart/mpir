@@ -26,7 +26,8 @@ Boston, MA 02110-1301, USA.
 
 #if 0
 
-void mpz_next_likely_prime (mpz_ptr p, mpz_srcptr t,gmp_randstate_t rnd)
+void 
+mpz_next_likely_prime (mpz_ptr p, mpz_srcptr t, gmp_randstate_t rnd)
 {
   mpz_add_ui (p, t, 1L);
   while (! mpz_likely_prime_p (p, rnd,0))
@@ -54,7 +55,7 @@ static unsigned short primes[] =
 #define NUMBER_OF_PRIMES (sizeof(primes) / sizeof(primes[0]))
 
 void
-mpz_next_likely_prime (mpz_ptr p, mpz_srcptr n)
+mpz_next_likely_prime (mpz_ptr p, mpz_srcptr n, gmp_randstate_t rnd)
 {
   unsigned short *moduli;
   unsigned long difference;
@@ -122,7 +123,7 @@ mpz_next_likely_prime (mpz_ptr p, mpz_srcptr n)
     difference = 0;
 
     /* Miller-Rabin test */
-    if (mpz_millerrabin (p, 2))
+    if (mpz_miller_rabin (p, 2, rnd))
 	  break;
   }
   TMP_FREE;
