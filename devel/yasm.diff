@@ -5,21 +5,21 @@
 ###
 ###	svn del yasm
 ###	svn commit -m "delete old yasm"
-###	svn co http://www.tortall.net/svn/yasm/trunk/yasm yasm
+###	svn co http://www.tortall.net/svn/yasm/trunk/yasm yasm   or  get yasm-1.2.tar.gz and untar and rename directory to yasm
 ###	cd yasm
 ###	rm -r $(find -name \\.svn)
 ###	patch -Np1 < ../devel/yasm.diff
-###	./autogen.sh
+###	./autogen.sh		or run autoreconf
 ###	./configure
 ###	make
 ###	make distclean
 ###	rm -r autom4te.cache
 ###
-###	and replace the symbolic links in the config directory with real files
+###	and replace any symbolic links in the config directory with real files
 ###
 ###	cd ..
 ###	svn add yasm
-###	svn commit -m "new yasm installed"
+###	svn commit -m "new yasm installed version number ????"
 ###
 ###
 ### NOTE we can get rid of the readline part , and nail part? , and add in profiling
