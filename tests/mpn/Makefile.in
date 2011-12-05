@@ -60,18 +60,18 @@ check_PROGRAMS = t-addadd_n$(EXEEXT) t-addsub_n$(EXEEXT) \
 	t-dc_divappr_q$(EXEEXT) t-dc_divappr_q_n$(EXEEXT) \
 	t-divebyff$(EXEEXT) t-divebyfobm1$(EXEEXT) t-divrem_1$(EXEEXT) \
 	t-fat$(EXEEXT) t-gcdext$(EXEEXT) t-get_d$(EXEEXT) \
-	t-instrument$(EXEEXT) t-inv_div_q$(EXEEXT) \
+	t-hgcd$(EXEEXT) t-instrument$(EXEEXT) t-inv_div_q$(EXEEXT) \
 	t-inv_div_qr$(EXEEXT) t-inv_div_qr_n$(EXEEXT) \
 	t-inv_divappr_q$(EXEEXT) t-inv_divappr_q_n$(EXEEXT) \
 	t-invert$(EXEEXT) t-iord_u$(EXEEXT) t-lorrshift1$(EXEEXT) \
-	t-mp_bases$(EXEEXT) t-mullow_basecase$(EXEEXT) \
-	t-mullowhigh$(EXEEXT) t-mulmid$(EXEEXT) \
-	t-mulmod_2expm1$(EXEEXT) t-mulmod_2expp1$(EXEEXT) \
-	t-neg$(EXEEXT) t-perfsqr$(EXEEXT) t-redc_1$(EXEEXT) \
-	t-sb_bdiv_q$(EXEEXT) t-sb_bdiv_qr$(EXEEXT) t-sb_div_q$(EXEEXT) \
-	t-sb_div_qr$(EXEEXT) t-sb_divappr_q$(EXEEXT) t-scan$(EXEEXT) \
-	t-subadd_n$(EXEEXT) t-tdiv_q$(EXEEXT) t-tdiv_qr$(EXEEXT) \
-	$(am__EXEEXT_1)
+	t-matrix22$(EXEEXT) t-mp_bases$(EXEEXT) \
+	t-mullow_basecase$(EXEEXT) t-mullowhigh$(EXEEXT) \
+	t-mulmid$(EXEEXT) t-mulmod_2expm1$(EXEEXT) \
+	t-mulmod_2expp1$(EXEEXT) t-neg$(EXEEXT) t-perfsqr$(EXEEXT) \
+	t-redc_1$(EXEEXT) t-sb_bdiv_q$(EXEEXT) t-sb_bdiv_qr$(EXEEXT) \
+	t-sb_div_q$(EXEEXT) t-sb_div_qr$(EXEEXT) \
+	t-sb_divappr_q$(EXEEXT) t-scan$(EXEEXT) t-subadd_n$(EXEEXT) \
+	t-tdiv_q$(EXEEXT) t-tdiv_qr$(EXEEXT) $(am__EXEEXT_1)
 @ENABLE_SHARED_TRUE@@ENABLE_STATIC_TRUE@am__append_1 = st_fat st_instrument
 subdir = tests/mpn
 DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in
@@ -201,6 +201,11 @@ t_get_d_OBJECTS = t-get_d.$(OBJEXT)
 t_get_d_LDADD = $(LDADD)
 t_get_d_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
 	$(top_builddir)/libmpir.la
+t_hgcd_SOURCES = t-hgcd.c
+t_hgcd_OBJECTS = t-hgcd.$(OBJEXT)
+t_hgcd_LDADD = $(LDADD)
+t_hgcd_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
+	$(top_builddir)/libmpir.la
 t_instrument_SOURCES = t-instrument.c
 t_instrument_OBJECTS = t-instrument.$(OBJEXT)
 t_instrument_LDADD = $(LDADD)
@@ -245,6 +250,11 @@ t_lorrshift1_SOURCES = t-lorrshift1.c
 t_lorrshift1_OBJECTS = t-lorrshift1.$(OBJEXT)
 t_lorrshift1_LDADD = $(LDADD)
 t_lorrshift1_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
+	$(top_builddir)/libmpir.la
+t_matrix22_SOURCES = t-matrix22.c
+t_matrix22_OBJECTS = t-matrix22.$(OBJEXT)
+t_matrix22_LDADD = $(LDADD)
+t_matrix22_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
 	$(top_builddir)/libmpir.la
 t_mp_bases_SOURCES = t-mp_bases.c
 t_mp_bases_OBJECTS = t-mp_bases.$(OBJEXT)
@@ -353,23 +363,23 @@ SOURCES = $(st_fat_SOURCES) $(st_instrument_SOURCES) t-addadd_n.c \
 	t-dc_bdiv_q_n.c t-dc_bdiv_qr.c t-dc_bdiv_qr_n.c t-dc_div_q.c \
 	t-dc_div_qr.c t-dc_div_qr_n.c t-dc_divappr_q.c \
 	t-dc_divappr_q_n.c t-divebyff.c t-divebyfobm1.c t-divrem_1.c \
-	t-fat.c t-gcdext.c t-get_d.c t-instrument.c t-inv_div_q.c \
-	t-inv_div_qr.c t-inv_div_qr_n.c t-inv_divappr_q.c \
-	t-inv_divappr_q_n.c t-invert.c t-iord_u.c t-lorrshift1.c \
-	t-mp_bases.c t-mullow_basecase.c t-mullowhigh.c t-mulmid.c \
-	t-mulmod_2expm1.c t-mulmod_2expp1.c t-neg.c t-perfsqr.c \
-	t-redc_1.c t-sb_bdiv_q.c t-sb_bdiv_qr.c t-sb_div_q.c \
-	t-sb_div_qr.c t-sb_divappr_q.c t-scan.c t-subadd_n.c \
-	t-tdiv_q.c t-tdiv_qr.c
+	t-fat.c t-gcdext.c t-get_d.c t-hgcd.c t-instrument.c \
+	t-inv_div_q.c t-inv_div_qr.c t-inv_div_qr_n.c \
+	t-inv_divappr_q.c t-inv_divappr_q_n.c t-invert.c t-iord_u.c \
+	t-lorrshift1.c t-matrix22.c t-mp_bases.c t-mullow_basecase.c \
+	t-mullowhigh.c t-mulmid.c t-mulmod_2expm1.c t-mulmod_2expp1.c \
+	t-neg.c t-perfsqr.c t-redc_1.c t-sb_bdiv_q.c t-sb_bdiv_qr.c \
+	t-sb_div_q.c t-sb_div_qr.c t-sb_divappr_q.c t-scan.c \
+	t-subadd_n.c t-tdiv_q.c t-tdiv_qr.c
 DIST_SOURCES = $(am__st_fat_SOURCES_DIST) \
 	$(am__st_instrument_SOURCES_DIST) t-addadd_n.c t-addsub_n.c \
 	t-aors_1.c t-asmtype.c t-dc_bdiv_q.c t-dc_bdiv_q_n.c \
 	t-dc_bdiv_qr.c t-dc_bdiv_qr_n.c t-dc_div_q.c t-dc_div_qr.c \
 	t-dc_div_qr_n.c t-dc_divappr_q.c t-dc_divappr_q_n.c \
 	t-divebyff.c t-divebyfobm1.c t-divrem_1.c t-fat.c t-gcdext.c \
-	t-get_d.c t-instrument.c t-inv_div_q.c t-inv_div_qr.c \
+	t-get_d.c t-hgcd.c t-instrument.c t-inv_div_q.c t-inv_div_qr.c \
 	t-inv_div_qr_n.c t-inv_divappr_q.c t-inv_divappr_q_n.c \
-	t-invert.c t-iord_u.c t-lorrshift1.c t-mp_bases.c \
+	t-invert.c t-iord_u.c t-lorrshift1.c t-matrix22.c t-mp_bases.c \
 	t-mullow_basecase.c t-mullowhigh.c t-mulmid.c \
 	t-mulmod_2expm1.c t-mulmod_2expp1.c t-neg.c t-perfsqr.c \
 	t-redc_1.c t-sb_bdiv_q.c t-sb_bdiv_qr.c t-sb_div_q.c \
@@ -707,6 +717,9 @@ t-gcdext$(EXEEXT): $(t_gcdext_OBJECTS) $(t_gcdext_DEPENDENCIES)
 t-get_d$(EXEEXT): $(t_get_d_OBJECTS) $(t_get_d_DEPENDENCIES) 
 	@rm -f t-get_d$(EXEEXT)
 	$(LINK) $(t_get_d_OBJECTS) $(t_get_d_LDADD) $(LIBS)
+t-hgcd$(EXEEXT): $(t_hgcd_OBJECTS) $(t_hgcd_DEPENDENCIES) 
+	@rm -f t-hgcd$(EXEEXT)
+	$(LINK) $(t_hgcd_OBJECTS) $(t_hgcd_LDADD) $(LIBS)
 t-instrument$(EXEEXT): $(t_instrument_OBJECTS) $(t_instrument_DEPENDENCIES) 
 	@rm -f t-instrument$(EXEEXT)
 	$(LINK) $(t_instrument_OBJECTS) $(t_instrument_LDADD) $(LIBS)
@@ -734,6 +747,9 @@ t-iord_u$(EXEEXT): $(t_iord_u_OBJECTS) $(t_iord_u_DEPENDENCIES)
 t-lorrshift1$(EXEEXT): $(t_lorrshift1_OBJECTS) $(t_lorrshift1_DEPENDENCIES) 
 	@rm -f t-lorrshift1$(EXEEXT)
 	$(LINK) $(t_lorrshift1_OBJECTS) $(t_lorrshift1_LDADD) $(LIBS)
+t-matrix22$(EXEEXT): $(t_matrix22_OBJECTS) $(t_matrix22_DEPENDENCIES) 
+	@rm -f t-matrix22$(EXEEXT)
+	$(LINK) $(t_matrix22_OBJECTS) $(t_matrix22_LDADD) $(LIBS)
 t-mp_bases$(EXEEXT): $(t_mp_bases_OBJECTS) $(t_mp_bases_DEPENDENCIES) 
 	@rm -f t-mp_bases$(EXEEXT)
 	$(LINK) $(t_mp_bases_OBJECTS) $(t_mp_bases_LDADD) $(LIBS)
@@ -1052,6 +1068,8 @@ t-gcdext.log: t-gcdext$(EXEEXT)
 	@p='t-gcdext$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
 t-get_d.log: t-get_d$(EXEEXT)
 	@p='t-get_d$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
+t-hgcd.log: t-hgcd$(EXEEXT)
+	@p='t-hgcd$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
 t-instrument.log: t-instrument$(EXEEXT)
 	@p='t-instrument$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
 t-inv_div_q.log: t-inv_div_q$(EXEEXT)
@@ -1070,6 +1088,8 @@ t-iord_u.log: t-iord_u$(EXEEXT)
 	@p='t-iord_u$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
 t-lorrshift1.log: t-lorrshift1$(EXEEXT)
 	@p='t-lorrshift1$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
+t-matrix22.log: t-matrix22$(EXEEXT)
+	@p='t-matrix22$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
 t-mp_bases.log: t-mp_bases$(EXEEXT)
 	@p='t-mp_bases$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
 t-mullow_basecase.log: t-mullow_basecase$(EXEEXT)
