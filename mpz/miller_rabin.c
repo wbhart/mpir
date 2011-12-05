@@ -11,6 +11,7 @@
 
 Copyright 1991, 1993, 1994, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2005 Free
 Software Foundation, Inc.  Contributed by John Amanatides.
+Copyright 2011, Brian Gladman
 
 This file is part of the GNU MP Library.
 
@@ -32,9 +33,27 @@ MA 02110-1301, USA. */
 #include "mpir.h"
 #include "gmp-impl.h"
 
-static int miller_rabin _PROTO ((mpz_srcptr n, mpz_srcptr nm1,
-                                mpz_ptr x, mpz_ptr y,
-                                mpz_srcptr q, unsigned long int k));
+static int
+mill_rab (mpz_srcptr n, mpz_srcptr nm1, mpz_ptr x, mpz_ptr y,
+             mpz_srcptr q, unsigned long int k)
+{
+  unsigned long int i;
+
+  mpz_powm (y, x, q, n);
+
+  if (mpz_cmp_ui (y, 1L) == 0 || mpz_cmp (y, nm1) == 0)
+    return 1;
+
+  for (i = 1; i < k; i++)
+    {
+      mpz_powm_ui (y, y, 2L, n);
+      if (mpz_cmp (y, nm1) == 0)
+	return 1;
+      if (mpz_cmp_ui (y, 1L) == 0)
+	return 0;
+    }
+  return 0;
+}
 
 int
 mpz_miller_rabin (mpz_srcptr n, int reps, gmp_randstate_t rnd)
@@ -79,31 +98,10 @@ mpz_miller_rabin (mpz_srcptr n, int reps, gmp_randstate_t rnd)
       mpz_urandomm (x, rnd, nm3);
       mpz_add_ui (x, x, 2L);
 
-      is_prime = miller_rabin (n, nm1, x, y, q, k);
+      is_prime = mill_rab (n, nm1, x, y, q, k);
     }
 
   TMP_FREE;
   return is_prime;
 }
 
-static int
-miller_rabin (mpz_srcptr n, mpz_srcptr nm1, mpz_ptr x, mpz_ptr y,
-             mpz_srcptr q, unsigned long int k)
-{
-  unsigned long int i;
-
-  mpz_powm (y, x, q, n);
-
-  if (mpz_cmp_ui (y, 1L) == 0 || mpz_cmp (y, nm1) == 0)
-    return 1;
-
-  for (i = 1; i < k; i++)
-    {
-      mpz_powm_ui (y, y, 2L, n);
-      if (mpz_cmp (y, nm1) == 0)
-	return 1;
-      if (mpz_cmp_ui (y, 1L) == 0)
-	return 0;
-    }
-  return 0;
-}
