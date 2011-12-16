@@ -842,7 +842,7 @@ void __gmpz_aorsmul_1 _PROTO ((REGPARM_3_1 (mpz_ptr w, mpz_srcptr u, mp_limb_t v
 #define mpz_aorsmul_1(w,u,v,sub)  __gmpz_aorsmul_1 (REGPARM_3_1 (w, u, v, sub))
 
 #define mpz_n_pow_ui __gmpz_n_pow_ui
-void    mpz_n_pow_ui _PROTO ((mpz_ptr, mp_srcptr, mp_size_t, unsigned long));
+void    mpz_n_pow_ui _PROTO ((mpz_ptr, mp_srcptr, mp_size_t, gmp_ui));
 
 
 #define mpn_add_nc __MPN(add_nc)
@@ -955,7 +955,7 @@ __GMP_DECLSPEC mp_limb_t mpn_divrem_1c __GMP_PROTO ((mp_ptr, mp_size_t, mp_srcpt
 __GMP_DECLSPEC void mpn_dump __GMP_PROTO ((mp_srcptr, mp_size_t));
 
 #define mpn_fib2_ui __MPN(fib2_ui)
-mp_size_t mpn_fib2_ui _PROTO ((mp_ptr, mp_ptr, unsigned long));
+mp_size_t mpn_fib2_ui _PROTO ((mp_ptr, mp_ptr, gmp_ui));
 
 /* Remap names of internal mpn functions.  */
 #define __clz_tab               __MPN(clz_tab)
@@ -2473,11 +2473,11 @@ __GMP_DECLSPEC extern const struct bases mp_bases[257];
 #define BITS_TO_LIMBS(n)  (((n) + (GMP_NUMB_BITS - 1)) / GMP_NUMB_BITS)
 
 /* MPN_SET_UI sets an mpn (ptr, cnt) to given ui.  MPZ_FAKE_UI creates fake
-   mpz_t from ui.  The zp argument must have room for LIMBS_PER_ULONG limbs
-   in both cases (LIMBS_PER_ULONG is also defined here.) */
-#if BITS_PER_ULONG <= GMP_NUMB_BITS /* need one limb per ulong */
+   mpz_t from ui.  The zp argument must have room for LIMBS_PER_UI limbs
+   in both cases (LIMBS_PER_UI is also defined here.) */
+#if BITS_PER_UI <= GMP_NUMB_BITS /* need one limb per ulong */
 
-#define LIMBS_PER_ULONG 1
+#define LIMBS_PER_UI 1
 #define MPN_SET_UI(zp, zn, u)   \
   (zp)[0] = (u);                \
   (zn) = ((zp)[0] != 0);
@@ -2489,7 +2489,7 @@ __GMP_DECLSPEC extern const struct bases mp_bases[257];
 
 #else /* need two limbs per ulong */
 
-#define LIMBS_PER_ULONG 2
+#define LIMBS_PER_UI 2
 #define MPN_SET_UI(zp, zn, u)                          \
   (zp)[0] = (u) & GMP_NUMB_MASK;                       \
   (zp)[1] = (u) >> GMP_NUMB_BITS;                      \

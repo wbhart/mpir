@@ -27,7 +27,7 @@ atom          atom
 
 from __future__ import print_function
 from operator import itemgetter
-from os import listdir, walk, unlink, makedirs
+from os import listdir, walk, unlink, makedirs, getcwd
 from os.path import split, splitext, isdir, relpath, join, exists
 from copy import deepcopy
 from sys import exit
@@ -37,11 +37,13 @@ from re import search
 
 is_DLL = False
 is_debug = False
+add_prebuild = True
+add_cpp_lib = False
 
 lib_type = 'dll' if is_DLL else 'lib'
 
 # The path to the mpir root directory
-mpir_dir = 'C:/Users/Brian Gladman/Documents/Visual Studio 2010/Projects/mpir/'
+mpir_dir = '../'
 vc10_dir = mpir_dir + 'build.vc10/'
 out_dir = vc10_dir + 'dll/' if is_DLL else 'lib/' 
 
@@ -403,6 +405,16 @@ def linker_options(outf):
 '''
   outf.write(f1)
 
+def vcx_pre_build(name, plat, outf):
+
+  f1 = r'''    <PreBuildEvent>
+  <Command>cd ..\ 
+prebuild {0:s} {1:s}
+  </Command>
+    </PreBuildEvent>
+'''  
+  outf.write(f1.format(name, plat))
+
 def vcx_post_build(outf):
   
   f1 = '''    <PostBuildEvent>
@@ -412,7 +424,7 @@ postbuild "$(TargetPath)"</Command>
 '''
   outf.write(f1)
   
-def vcx_tool_options(plat, is_dll, outf):
+def vcx_tool_options(config, plat, is_dll, outf):
   
   f1 = r'''  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='{1:s}|{0:s}'">
 '''
@@ -420,6 +432,8 @@ def vcx_tool_options(plat, is_dll, outf):
 '''
   for is_debug in (False, True):
     outf.write(f1.format(plat, 'Debug' if is_debug else 'Release'))
+    if add_prebuild:
+      vcx_pre_build(config, plat, outf)        
     yasm_options(is_dll, outf)
     compiler_options(plat, is_dll, is_debug, outf)
     if is_dll:
@@ -474,7 +488,7 @@ def vcx_a_items(af_list, outf):
     outf.write(f2.format(nxd))
   outf.write(f3)
 
-def gen_vcxproj(proj_name, file_name, plat, is_dll, hf_list, cf_list, af_list):
+def gen_vcxproj(proj_name, file_name, config, plat, is_dll, hf_list, cf_list, af_list):
   
   f1 = r'''<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
@@ -501,7 +515,7 @@ def gen_vcxproj(proj_name, file_name, plat, is_dll, hf_list, cf_list, af_list):
     vcx_user_props(plat, outf)
     outf.write(f2)
     vcx_target_name_and_dirs(proj_name, plat, is_dll, outf)
-    vcx_tool_options(plat, is_dll, outf)
+    vcx_tool_options(config, plat, is_dll, outf)
     vcx_hdr_items(hf_list, outf)
     vcx_c_items(cf_list, plat, outf)
     vcx_a_items(af_list, outf)
@@ -599,86 +613,87 @@ if mode == 'x64':
   
 print(config, mode)
 
-# generate mpir.h and gmp.h from gmp_h.in
-gmp_h = '''
-#ifdef _WIN32 
-#  ifdef _WIN64 
-#    define _LONG_LONG_LIMB  1 
-#    define GMP_LIMB_BITS   64 
-#  else 
-#    define GMP_LIMB_BITS   32 
-#  endif 
-#  define __GMP_BITS_PER_MP_LIMB  GMP_LIMB_BITS 
-#  define SIZEOF_MP_LIMB_T (GMP_LIMB_BITS >> 3) 
-#  define GMP_NAIL_BITS                       0 
-#endif 
-'''
-
-try:
-  lines = open(join(mpir_dir, 'gmp-h.in'), 'r').readlines()
-except IOError:
-  print('error attempting to read from gmp_h.in')
-  exit()
-try:
-  tfile = join(mpir_dir, 'tmp.h')
-  with open(tfile, 'w') as outf:
-    first = True
-    for line in lines:
-      if search('@\w+@', line):
-        if first:
-          first = False
-          outf.writelines(gmp_h)  
-      else:
-        outf.writelines([line])
+if not add_prebuild:
+  # generate mpir.h and gmp.h from gmp_h.in
+  gmp_h = '''
+  #ifdef _WIN32 
+  #  ifdef _WIN64 
+  #    define _LONG_LONG_LIMB  1 
+  #    define GMP_LIMB_BITS   64 
+  #  else 
+  #    define GMP_LIMB_BITS   32 
+  #  endif 
+  #  define __GMP_BITS_PER_MP_LIMB  GMP_LIMB_BITS 
+  #  define SIZEOF_MP_LIMB_T (GMP_LIMB_BITS >> 3) 
+  #  define GMP_NAIL_BITS                       0 
+  #endif 
+  '''
+  
+  try:
+    lines = open(join(mpir_dir, 'gmp-h.in'), 'r').readlines()
+  except IOError:
+    print('error attempting to read from gmp_h.in')
+    exit()
+  try:
+    tfile = join(mpir_dir, 'tmp.h')
+    with open(tfile, 'w') as outf:
+      first = True
+      for line in lines:
+        if search('@\w+@', line):
+          if first:
+            first = False
+            outf.writelines(gmp_h)  
+        else:
+          outf.writelines([line])
+          
+    # write result to mpir.h but only overwrite the existing 
+    # version if this version is different (don't trigger an
+    # unnecessary rebuild)
+    write_f(tfile, join(mpir_dir, 'mpir.h'))
+    write_f(tfile, join(mpir_dir, 'gmp.h'))
+    unlink(tfile)
+  except IOError:    
+    print('error attempting to create mpir.h from gmp-h.in')
+    exit()
+  
+  # generate config.h
+  
+  try:
+    tfile = join(mpir_dir, 'tmp.h')
+    with open(tfile, 'w') as outf:
+      for i in mpn_f[3]:
+        outf.writelines(['#define HAVE_NATIVE_{0:s} 1\n'.format(i[0])])
         
-  # write result to mpir.h but only overwrite the existing 
-  # version if this version is different (don't trigger an
-  # unnecessary rebuild)
-  write_f(tfile, join(mpir_dir, 'mpir.h'))
-  write_f(tfile, join(mpir_dir, 'gmp.h'))
-  unlink(tfile)
-except IOError:    
-  print('error attempting to create mpir.h from gmp-h.in')
-  exit()
-
-# generate config.h
-
-try:
-  tfile = join(mpir_dir, 'tmp.h')
-  with open(tfile, 'w') as outf:
-    for i in mpn_f[3]:
-      outf.writelines(['#define HAVE_NATIVE_{0:s} 1\n'.format(i[0])])
-      
-  append_f(join(vc10_dir, 'cfg.h'), tfile)
-  write_f(tfile, join(mpir_dir, 'config.h'))
-  unlink(tfile)
-except IOError:
-  print('error attempting to write to {0:s}'.format(tfile))
-  exit()
-  
-# generate longlong.h and copy gmp-mparam.h
-
-try:
-  li_file = None
-  for i in mpn_f[0]:
-    if i[0] == 'longlong_inc':
-      li_file = join(mpir_dir, join(i[2], r'longlong_inc.h'))
-    if i[0] == 'gmp-mparam':
-      write_f(join(mpir_dir, join(i[2], 'gmp-mparam.h')), join(mpir_dir, 'gmp-mparam.h'))
-  
-  if not li_file or not exists(li_file):
-    print('error attempting to read {0:s}'.format(li_file))
+    append_f(join(vc10_dir, 'cfg.h'), tfile)
+    write_f(tfile, join(mpir_dir, 'config.h'))
+    unlink(tfile)
+  except IOError:
+    print('error attempting to write to {0:s}'.format(tfile))
     exit()
     
-  tfile = join(mpir_dir, 'tmp.h')    
-  write_f(join(mpir_dir, 'longlong_pre.h'), tfile)
-  append_f(li_file, tfile)
-  append_f(join(mpir_dir, 'longlong_post.h'), tfile)
-  write_f(tfile, join(mpir_dir, 'longlong.h'))
-  unlink(tfile)
-except IOError:
-  print('error attempting to generate longlong.h')
-  exit()
+  # generate longlong.h and copy gmp-mparam.h
+  
+  try:
+    li_file = None
+    for i in mpn_f[0]:
+      if i[0] == 'longlong_inc':
+        li_file = join(mpir_dir, join(i[2], r'longlong_inc.h'))
+      if i[0] == 'gmp-mparam':
+        write_f(join(mpir_dir, join(i[2], 'gmp-mparam.h')), join(mpir_dir, 'gmp-mparam.h'))
+    
+    if not li_file or not exists(li_file):
+      print('error attempting to read {0:s}'.format(li_file))
+      exit()
+      
+    tfile = join(mpir_dir, 'tmp.h')    
+    write_f(join(mpir_dir, 'longlong_pre.h'), tfile)
+    append_f(li_file, tfile)
+    append_f(join(mpir_dir, 'longlong_post.h'), tfile)
+    write_f(tfile, join(mpir_dir, 'longlong.h'))
+    unlink(tfile)
+  except IOError:
+    print('error attempting to generate longlong.h')
+    exit()
   
 # generate vcxproj filter
 
@@ -688,16 +703,25 @@ af_list = sorted(mpn_f[2] + mpn_f[3])
 # set up DLL build
 is_DLL = True
 proj_name = 'mpir'
-vcx_name = 'dll_mpir_' + config + '\\dll_mpir_' + config + '.2.vcxproj'
+vcx_name = 'dll_mpir_' + config + '\\dll_mpir_' + config + '.vcxproj'
 gen_filter(vcx_name + '.filters', hf_list, c_src_list + cc_src_list + mpn_f[1], af_list)
-gen_vcxproj(proj_name, vcx_name, mode, is_DLL, hf_list, c_src_list + cc_src_list + mpn_f[1], af_list)
+gen_vcxproj(proj_name, vcx_name, config, mode, is_DLL, hf_list, c_src_list + cc_src_list + mpn_f[1], af_list)
 
 # set up LIB build
 is_DLL = False
 proj_name = 'mpir'
-vcx_name = 'lib_mpir_' + config + '\\lib_mpir_' + config + '.2.vcxproj'
+vcx_name = 'lib_mpir_' + config + '\\lib_mpir_' + config + '.vcxproj'
 gen_filter(vcx_name + '.filters', hf_list, c_src_list + mpn_f[1], af_list)
-gen_vcxproj(proj_name, vcx_name, mode, is_DLL, hf_list, c_src_list + mpn_f[1], af_list)
+gen_vcxproj(proj_name, vcx_name, config, mode, is_DLL, hf_list, c_src_list + mpn_f[1], af_list)
+
+# C++ library build
+
+if add_cpp_lib:
+  proj_name = 'mpirxx'
+  vcx_name = 'lib_mpir_cxx\\lib_mpir_cxx.vcxproj'
+  th = hf_list +  ('mpirxx.h',)
+  gen_filter(vcx_name + '.filters', th, cc_src_list, '')
+  gen_vcxproj(proj_name, vcx_name, config, mode, is_DLL, th, cc_src_list, '')
   
 exit()
 
@@ -734,7 +758,6 @@ for x in mpn_f[config]:
   print()
   
 exit()
-
 
 mpn_dirs =  ('mpn/generic', 'mpn/x86_64w', 'mpn/x86w' )
 

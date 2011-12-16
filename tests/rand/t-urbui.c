@@ -31,13 +31,13 @@ MA 02110-1301, USA. */
 void
 check_one (const char *name, gmp_randstate_ptr rstate)
 {
-  unsigned long  bits, limit, got;
+  gmp_ui  bits, limit, got;
   int    i;
 
-  for (bits = 0; bits < BITS_PER_ULONG; bits++)
+  for (bits = 0; bits < BITS_PER_UI; bits++)
     {
       /* will demand got < limit */
-      limit = (1L << bits);
+      limit = (((gmp_ui)1) << bits);
 
       for (i = 0; i < 5; i++)
         {

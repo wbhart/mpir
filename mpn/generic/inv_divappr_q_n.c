@@ -34,7 +34,6 @@ mpn_inv_divappr_q_n(mp_ptr qp, mp_ptr np,
 {
    mp_limb_t cy, lo, ret = 0, ret2 = 0;
    mp_ptr tp;
-   unsigned long j;
    TMP_DECL;
 
    TMP_MARK;

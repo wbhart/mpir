@@ -25,7 +25,7 @@ MA 02110-1301, USA. */
 #include "gmp-impl.h"
 
 int
-_mpz_cmp_si (mpz_srcptr u, signed long int v_digit)
+_mpz_cmp_si (mpz_srcptr u, gmp_si v_digit)
 {
   mp_size_t usize = u->_mp_size;
   mp_size_t vsize;
@@ -58,10 +58,10 @@ _mpz_cmp_si (mpz_srcptr u, signed long int v_digit)
 
   u_digit = u->_mp_d[0];
 
-  if (u_digit == (mp_limb_t) (unsigned long) v_digit)
+  if (u_digit == (mp_limb_t) (gmp_ui) v_digit)
     return 0;
 
-  if (u_digit > (mp_limb_t) (unsigned long) v_digit)
+  if (u_digit > (mp_limb_t) (gmp_ui) v_digit)
     return usize;
   else
     return -usize;
