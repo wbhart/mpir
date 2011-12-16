@@ -38,7 +38,7 @@ from re import search
 is_DLL = False
 is_debug = False
 add_prebuild = True
-add_cpp_lib = True
+add_cpp_lib = False
 
 lib_type = 'dll' if is_DLL else 'lib'
 
