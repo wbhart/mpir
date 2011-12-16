@@ -38,7 +38,7 @@ from re import search
 is_DLL = False
 is_debug = False
 add_prebuild = True
-add_cpp_lib = False
+add_cpp_lib = True
 
 lib_type = 'dll' if is_DLL else 'lib'
 
@@ -415,16 +415,26 @@ prebuild {0:s} {1:s}
 '''  
   outf.write(f1.format(name, plat))
 
-def vcx_post_build(outf):
+def vcx_post_build(is_cpp, outf):
   
-  f1 = '''    <PostBuildEvent>
+  f1 = '''    
+  <PostBuildEvent>
       <Command>cd ..\ 
-postbuild "$(TargetPath)"</Command>
+postbuild "$(TargetPath)"
+      </Command>
+  </PostBuildEvent>
+'''
+  f2 = '''
+    <PostBuildEvent>
+      <Command>if not exist ..\lib\$(IntDir) md ..\lib\$(IntDir)
+copy "$(TargetDir)$(TargetName).lib" ..\lib\$(IntDir)
+copy "$(TargetDir)$(TargetName).pdb" ..\lib\$(IntDir)      </Command>
     </PostBuildEvent>
 '''
-  outf.write(f1)
   
-def vcx_tool_options(config, plat, is_dll, outf):
+  outf.write(f2 if is_cpp else f1)
+  
+def vcx_tool_options(config, plat, is_dll, is_cpp, outf):
   
   f1 = r'''  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='{1:s}|{0:s}'">
 '''
@@ -432,13 +442,13 @@ def vcx_tool_options(config, plat, is_dll, outf):
 '''
   for is_debug in (False, True):
     outf.write(f1.format(plat, 'Debug' if is_debug else 'Release'))
-    if add_prebuild:
+    if add_prebuild and not is_cpp:
       vcx_pre_build(config, plat, outf)        
     yasm_options(is_dll, outf)
     compiler_options(plat, is_dll, is_debug, outf)
     if is_dll:
       linker_options(outf)
-    vcx_post_build(outf)    
+    vcx_post_build(is_cpp, outf)    
     outf.write(f2)
     
 def vcx_hdr_items(hdr_list, outf):
@@ -488,7 +498,7 @@ def vcx_a_items(af_list, outf):
     outf.write(f2.format(nxd))
   outf.write(f3)
 
-def gen_vcxproj(proj_name, file_name, config, plat, is_dll, hf_list, cf_list, af_list):
+def gen_vcxproj(proj_name, file_name, config, plat, is_dll, is_cpp, hf_list, cf_list, af_list):
   
   f1 = r'''<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
@@ -515,7 +525,7 @@ def gen_vcxproj(proj_name, file_name, config, plat, is_dll, hf_list, cf_list, af
     vcx_user_props(plat, outf)
     outf.write(f2)
     vcx_target_name_and_dirs(proj_name, plat, is_dll, outf)
-    vcx_tool_options(config, plat, is_dll, outf)
+    vcx_tool_options(config, plat, is_dll, is_cpp, outf)
     vcx_hdr_items(hf_list, outf)
     vcx_c_items(cf_list, plat, outf)
     vcx_a_items(af_list, outf)
@@ -705,14 +715,14 @@ is_DLL = True
 proj_name = 'mpir'
 vcx_name = 'dll_mpir_' + config + '\\dll_mpir_' + config + '.vcxproj'
 gen_filter(vcx_name + '.filters', hf_list, c_src_list + cc_src_list + mpn_f[1], af_list)
-gen_vcxproj(proj_name, vcx_name, config, mode, is_DLL, hf_list, c_src_list + cc_src_list + mpn_f[1], af_list)
+gen_vcxproj(proj_name, vcx_name, config, mode, is_DLL, False, hf_list, c_src_list + cc_src_list + mpn_f[1], af_list)
 
 # set up LIB build
 is_DLL = False
 proj_name = 'mpir'
 vcx_name = 'lib_mpir_' + config + '\\lib_mpir_' + config + '.vcxproj'
 gen_filter(vcx_name + '.filters', hf_list, c_src_list + mpn_f[1], af_list)
-gen_vcxproj(proj_name, vcx_name, config, mode, is_DLL, hf_list, c_src_list + mpn_f[1], af_list)
+gen_vcxproj(proj_name, vcx_name, config, mode, is_DLL, False, hf_list, c_src_list + mpn_f[1], af_list)
 
 # C++ library build
 
@@ -721,7 +731,7 @@ if add_cpp_lib:
   vcx_name = 'lib_mpir_cxx\\lib_mpir_cxx.vcxproj'
   th = hf_list +  ('mpirxx.h',)
   gen_filter(vcx_name + '.filters', th, cc_src_list, '')
-  gen_vcxproj(proj_name, vcx_name, config, mode, is_DLL, th, cc_src_list, '')
+  gen_vcxproj(proj_name, vcx_name, config, mode, is_DLL, True, th, cc_src_list, '')
   
 exit()
 

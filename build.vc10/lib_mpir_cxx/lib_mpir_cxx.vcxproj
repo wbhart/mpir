@@ -44,11 +44,6 @@
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <PreBuildEvent>
-  <Command>cd ..\ 
-prebuild nehalem x64
-  </Command>
-    </PreBuildEvent>
     <YASM>
       <Defines></Defines>
       <IncludePaths>..\..\mpn\x86_64w\</IncludePaths>
@@ -65,17 +60,14 @@ prebuild nehalem x64
       <ProgramDataBaseFileName>$(TargetDir)$(TargetName).pdb</ProgramDataBaseFileName>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
+
     <PostBuildEvent>
-      <Command>cd ..\ 
-postbuild "$(TargetPath)"</Command>
+      <Command>if not exist ..\lib\$(IntDir) md ..\lib\$(IntDir)
+copy "$(TargetDir)$(TargetName).lib" ..\lib\$(IntDir)
+copy "$(TargetDir)$(TargetName).pdb" ..\lib\$(IntDir)      </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <PreBuildEvent>
-  <Command>cd ..\ 
-prebuild nehalem x64
-  </Command>
-    </PreBuildEvent>
     <YASM>
       <Defines></Defines>
       <IncludePaths>..\..\mpn\x86_64w\</IncludePaths>
@@ -92,9 +84,11 @@ prebuild nehalem x64
       <ProgramDataBaseFileName>$(TargetDir)$(TargetName).pdb</ProgramDataBaseFileName>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
+
     <PostBuildEvent>
-      <Command>cd ..\ 
-postbuild "$(TargetPath)"</Command>
+      <Command>if not exist ..\lib\$(IntDir) md ..\lib\$(IntDir)
+copy "$(TargetDir)$(TargetName).lib" ..\lib\$(IntDir)
+copy "$(TargetDir)$(TargetName).pdb" ..\lib\$(IntDir)      </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
