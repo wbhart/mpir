@@ -53,12 +53,12 @@
       <ProgramDataBaseFileName>$(TargetDir)$(TargetName).pdb</ProgramDataBaseFileName>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
-
-    <PostBuildEvent>
-      <Command>if not exist ..\lib\$(IntDir) md ..\lib\$(IntDir)
-copy "$(TargetDir)$(TargetName).lib" ..\lib\$(IntDir)
-copy "$(TargetDir)$(TargetName).pdb" ..\lib\$(IntDir)      </Command>
-    </PostBuildEvent>
+    
+  <PostBuildEvent>
+      <Command>cd ..\ 
+postbuild "$(TargetPath)"
+      </Command>
+  </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -70,12 +70,12 @@ copy "$(TargetDir)$(TargetName).pdb" ..\lib\$(IntDir)      </Command>
       <ProgramDataBaseFileName>$(TargetDir)$(TargetName).pdb</ProgramDataBaseFileName>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
-
-    <PostBuildEvent>
-      <Command>if not exist ..\lib\$(IntDir) md ..\lib\$(IntDir)
-copy "$(TargetDir)$(TargetName).lib" ..\lib\$(IntDir)
-copy "$(TargetDir)$(TargetName).pdb" ..\lib\$(IntDir)      </Command>
-    </PostBuildEvent>
+    
+  <PostBuildEvent>
+      <Command>cd ..\ 
+postbuild "$(TargetPath)"
+      </Command>
+  </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\..\config.h" />

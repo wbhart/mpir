@@ -433,15 +433,8 @@ postbuild "$(TargetPath)"
       </Command>
   </PostBuildEvent>
 '''
-  f2 = '''
-    <PostBuildEvent>
-      <Command>if not exist ..\lib\$(IntDir) md ..\lib\$(IntDir)
-copy "$(TargetDir)$(TargetName).lib" ..\lib\$(IntDir)
-copy "$(TargetDir)$(TargetName).pdb" ..\lib\$(IntDir)      </Command>
-    </PostBuildEvent>
-'''
   
-  outf.write(f2 if is_cpp else f1)
+  outf.write(f1)
   
 def vcx_tool_options(config, plat, is_dll, is_cpp, af_list, outf):
   
