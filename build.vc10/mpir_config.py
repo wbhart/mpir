@@ -293,8 +293,9 @@ def vcx_proj_cfg(plat, outf):
   f3 = r'''  </ItemGroup>
 '''
   outf.write(f1)
-  for conf in ('Release', 'Debug'):
-    outf.write(f2.format(plat, conf))
+  for pl in plat:
+    for conf in ('Release', 'Debug'):
+      outf.write(f2.format(pl, conf))
   outf.write(f3)
 
 def vcx_globals(name, outf):
@@ -319,8 +320,9 @@ def vcx_library_type(plat, is_dll, outf):
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
 '''
-  for conf in ('Release', 'Debug'):
-    outf.write(f1.format(plat, conf, 'Dynamic' if is_dll else 'Static' ))
+  for pl in plat:
+    for conf in ('Release', 'Debug'):
+      outf.write(f1.format(pl, conf, 'Dynamic' if is_dll else 'Static' ))
 
 def vcx_cpp_props(outf):
   
@@ -342,8 +344,9 @@ def vcx_user_props(plat, outf):
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" />
   </ImportGroup>
 '''
-  for conf in ('Release', 'Debug'):
-    outf.write(f1.format(plat, conf))
+  for pl in plat:
+    for conf in ('Release', 'Debug'):
+      outf.write(f1.format(pl, conf))
 
 def vcx_target_name_and_dirs(name, plat, is_dll, outf):
   
@@ -357,8 +360,9 @@ def vcx_target_name_and_dirs(name, plat, is_dll, outf):
   f3 = r'''  </PropertyGroup>
 '''
   outf.write(f1)
-  for conf in ('Release', 'Debug'):
-    outf.write(f2.format(plat, conf, name))
+  for pl in plat:
+    for conf in ('Release', 'Debug'):
+      outf.write(f2.format(pl, conf, name))
   outf.write(f3)
 
 def yasm_options(is_dll, outf):
@@ -445,17 +449,18 @@ def vcx_tool_options(config, plat, is_dll, is_cpp, af_list, outf):
 '''
   f2 = r'''  </ItemDefinitionGroup>
 '''
-  for is_debug in (False, True):
-    outf.write(f1.format(plat, 'Debug' if is_debug else 'Release'))
-    if add_prebuild and not is_cpp:
-      vcx_pre_build(config, plat, outf)    
-    if af_list:    
-      yasm_options(is_dll, outf)
-    compiler_options(plat, is_dll, is_debug, outf)
-    if is_dll:
-      linker_options(outf)
-    vcx_post_build(is_cpp, outf)    
-    outf.write(f2)
+  for pl in plat:
+    for is_debug in (False, True):
+      outf.write(f1.format(pl, 'Debug' if is_debug else 'Release'))
+      if add_prebuild and not is_cpp:
+        vcx_pre_build(config, pl, outf)    
+      if af_list:    
+        yasm_options(is_dll, outf)
+      compiler_options(pl, is_dll, is_debug, outf)
+      if is_dll:
+        linker_options(outf)
+      vcx_post_build(is_cpp, outf)    
+      outf.write(f2)
     
 def vcx_hdr_items(hdr_list, outf):
   
@@ -477,19 +482,24 @@ def vcx_c_items(cf_list, plat, outf):
   f2 = r'''    <ClCompile Include="..\..\{0[0]:s}{0[1]:s}" />
 '''
   f3 = r'''    <ClCompile Include="..\..\{0[2]:s}\{0[0]:s}{0[1]:s}">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|{1:s}'">$(IntDir){2:s}\</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|{1:s}'">$(IntDir){2:s}\</ObjectFileName>
-    </ClCompile>
 '''
-  f4 = r'''  </ItemGroup>
+  f4 = r'''        <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='{0:s}|{1:s}'">$(IntDir){2:s}\</ObjectFileName>
+'''
+  f5 = r'''    </ClCompile>
+'''
+  f6 = r'''  </ItemGroup>
 '''
   outf.write(f1)
   for nxd in cf_list:
     if nxd[2] == '':
       outf.write(f2.format(nxd))
     else:
-      outf.write(f3.format(nxd, plat, 'mpn' if nxd[2].endswith('generic') else nxd[2]))
-  outf.write(f4)
+      outf.write(f3.format(nxd))
+      for cf in ('Release', 'Debug'):
+        for pl in plat:
+          outf.write(f4.format(cf, pl, 'mpn' if nxd[2].endswith('generic') else nxd[2]))
+      outf.write(f5)
+  outf.write(f6)
 
 def vcx_a_items(af_list, outf):
   
@@ -545,42 +555,47 @@ c_hdr_list = t[0]
 c_src_list = t[1]
 if t[2] or t[3]:
   print('found C++ and/or assembler file(s) in a C directory')
-for f in c_hdr_list:
-  print(f)
-print()
-for f in c_src_list:
-  print(f)
-print()
+  if t[2]:
+    for f in t[2]:
+      print(f)
+    print()
+  if t[3]:
+    for f in t[3]:
+      print(f)
+    print()
 
 t = find_src(['cxx'])
 cc_hdr_list = t[0]
 cc_src_list = t[2]
 if t[1] or t[3]:
-  print('found C+ and/or assembler file(s) in a C++ directory')
-for f in cc_hdr_list:
-  print(f)
-print()
-for f in cc_src_list:
-  print(f)
-print()
+  print('found C and/or assembler file(s) in a C++ directory')
+  if t[1]:
+    for f in t[1]:
+      print(f)
+    print()
+  if t[3]:
+    for f in cc_src_list:
+      print(f)
+    print()
 
 t = find_src([r'mpn\generic'])
 gc_hdr_list = t[0]
 gc_src_list = t[1]
-if t[1] or t[3]:
+if t[2] or t[3]:
   print('found C++ and/or assembler file(s) in a C directory')
-for f in gc_hdr_list:
-  print(f)
-print()
-for f in gc_src_list:
-  print(f)
-print()
+  if t[2]:
+    for f in gc_hdr_list:
+      print(f)
+    print()
+  if t[3]:
+    for f in gc_src_list:
+      print(f)
+    print()
 
+mpn_gc = dict((('gc',[ gc_hdr_list, gc_src_list, [], [] ]),))
 mpn_32 = find_asm(mpir_dir + 'mpn/x86w', gc_src_list)
-mpn_32['gc-win32'] = [ gc_hdr_list, gc_src_list, [], [] ]
 del mpn_32['']
 mpn_64 = find_asm(mpir_dir + 'mpn/x86_64w', gc_src_list)
-mpn_64['gc-x64'] = [ gc_hdr_list, gc_src_list, [], [] ]
 del mpn_64['']
 
 err = False
@@ -588,6 +603,9 @@ config = ''
 mode = ''
 while True:
   cnt = 0
+  for v in sorted(mpn_gc):
+    cnt += 1
+    print('{0:2d}. {1:12s}        '.format(cnt, v))
   for v in sorted(mpn_32):
     cnt += 1
     print('{0:2d}. {1:12s} (win32)'.format(cnt, v))
@@ -599,19 +617,27 @@ while True:
     err = False
   else:
     s = input('Number of configuation to build (0 to exit)? ')
+  nd_gc = len(mpn_gc)
+  nd_32 = nd_gc + len(mpn_32)
+  nd_nd = nd_32 + len(mpn_64)
   try:
     n = int(s)
     if n < 1:
       n = 0
       break
-    if n <= len(mpn_32):
-      config = sorted(mpn_32)[n - 1]
-      mode = 'Win32'
+    if 0 < n <= nd_gc:
+      config = sorted(mpn_gc)[n - 1]
+      mode = ('Win32', 'x64')
+      mpn_f = mpn_gc[config]
+      break      
+    elif nd_gc < n <= nd_32:
+      config = sorted(mpn_32)[n - 1 - nd_gc]
+      mode = ('Win32', )
       mpn_f = mpn_32[config]
       break
-    elif n <= len(mpn_32) + len(mpn_64):
-      config = sorted(mpn_64)[n - len(mpn_32) - 1]
-      mode = 'x64'
+    elif nd_32 < n <= nd_nd:
+      config = sorted(mpn_64)[n - 1 - nd_32]
+      mode = ('x64', )
       mpn_f = mpn_64[config]
       break
   except:
@@ -620,12 +646,11 @@ while True:
 if n == 0:
   exit()
   
-if mode == 'x64':
+if mode[0] == 'x64':
   for l in mpn_f[1:]:
     for t in l:
       if t[0].startswith('preinv_'):
-        if (mode == 'x64' and t[0] == 'preinv_divrem_1' or
-            mode == 'win32' and t[0] == 'preinv_mod_1'):
+        if ('x64' in mode and t[0] == 'preinv_divrem_1'):
           l.remove(t)
   
 print(config, mode)

@@ -2,8 +2,6 @@
 echo building MPIR for %1
 set sdir=
 if /i "%1" EQU "gc" (set sdir=generic) && if "%2" EQU "x64" (set platform=x64) else (set platform=win32)
-if /i "%1" EQU "gc-win32" ((set sdir=generic) & (set platform=win32))
-if /i "%1" EQU "gc-x64"   ((set sdir=generic) & (set platform=x64))
 
 if /i "%1" EQU "core2"  ((set sdir=x86_64w\core2) & (set platform=x64))
 if /i "%1" EQU "k8" ((set sdir=x86_64w\k8) & (set platform=x64)) 

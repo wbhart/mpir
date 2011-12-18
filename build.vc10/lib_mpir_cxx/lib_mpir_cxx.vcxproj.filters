@@ -60,6 +60,4 @@
     <Filter>Source Files\cxx</Filter>
   </ClCompile>
   </ItemGroup>
-  <ItemGroup>
-  </ItemGroup>
 </Project>

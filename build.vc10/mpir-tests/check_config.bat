@@ -17,7 +17,7 @@ fc ..\%libr%-%conf%-config.props ..\test-config.props > nul && ((set library=%li
 call :seterr & echo ERROR: cannot determine library type (static or DLL) to test & exit /b %errorlevel%
 
 :cont
-if "%libr%" EQU "lib" if not exist ..\..\%out_dir%\mpirxx.lib (call :seterr & echo ERROR: static library tests need 'mpirxx.lib' & exit /b %errorlevel%)
+if "%libr%" EQU "lib" if not exist ..\..\..\%out_dir%\mpirxx.lib (call :seterr & echo ERROR: static library tests need 'mpirxx.lib' & exit /b %errorlevel%)
 if /i "%test_platform%" EQU "%plat%" if /i "%test_config%" EQU "%conf%" if /i "%library%" EQU "%libr%" echo OK & exit /b 0
 
 call :seterr

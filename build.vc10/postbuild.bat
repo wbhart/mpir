@@ -43,7 +43,7 @@ set conf=%file%
 :is2nd:
 rem set the target aand output directories
 set source="%plat%\%conf%"
-set dest="%extn%\%plat%\%conf%"
+set dest="..\%extn%\%plat%\%conf%"
 
 rem output parametrers for the MPIR tests
 echo (set libr=%extn%)  > output_params.bat
@@ -70,9 +70,15 @@ if "%4" EQU "dll" (
 	if exist %1\mpir.pdb (copy %1\mpir.pdb %2\mpir.pdb  > nul 2>&1)
 	copy mpir-tests\%4-%3-config.props mpir-tests\test-config.props > nul 2>&1
 ) else if "%4" EQU "lib" (
-	copy %1\mpir.lib %2\mpir.lib > nul 2>&1
+	if exist %1\mpir.lib (
+    copy %1\mpir.lib %2\mpir.lib > nul 2>&1
 	if exist %1\mpir.pdb (copy %1\mpir.pdb %2\mpir.pdb > nul 2>&1)
 	copy mpir-tests\%4-%3-config.props mpir-tests\test-config.props > nul 2>&1
+    )
+	if exist %1\mpirxx.lib (
+    copy %1\mpirxx.lib %2\mpirxx.lib > nul 2>&1
+	if exist %1\mpirxx.pdb (copy %1\mpirxx.pdb %2\mpirxx.pdb > nul 2>&1)
+    )
 ) else (
 	call :seterr & echo ERROR: illegal library type %4  & exit /b %errorlevel%
 )
