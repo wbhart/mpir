@@ -207,8 +207,6 @@ def filter_folders(cf_list, af_list, outf):
       outf.write(f2.format(t))
   outf.write(f3)
 
-filter_hdr_item = '    <ClInclude Include="..\..\{}">\n      <Filter>Header Files</Filter>\n    </ClInclude>\n'
-
 def filter_headers(hdr_list, outf):
   
   f1 = r'''  <ItemGroup>
@@ -608,7 +606,7 @@ while True:
       break
     if n <= len(mpn_32):
       config = sorted(mpn_32)[n - 1]
-      mode = 'win32'
+      mode = 'Win32'
       mpn_f = mpn_32[config]
       break
     elif n <= len(mpn_32) + len(mpn_64):
