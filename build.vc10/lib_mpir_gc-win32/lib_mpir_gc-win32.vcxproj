@@ -49,13 +49,6 @@
 prebuild gc-win32 win32
   </Command>
     </PreBuildEvent>
-    <YASM>
-      <Defines></Defines>
-      <IncludePaths>..\..\mpn\x86_64w\</IncludePaths>
-      <Debug>true</Debug>
-      <ObjectFileName>$(IntDir)mpn\</ObjectFileName>
-      <ObjectFile>$(IntDir)mpn\</ObjectFile>
-    </YASM>
     <ClCompile>
       <Optimization>Full</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -65,10 +58,12 @@ prebuild gc-win32 win32
       <ProgramDataBaseFileName>$(TargetDir)$(TargetName).pdb</ProgramDataBaseFileName>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
-    <PostBuildEvent>
+    
+  <PostBuildEvent>
       <Command>cd ..\ 
-postbuild "$(TargetPath)"</Command>
-    </PostBuildEvent>
+postbuild "$(TargetPath)"
+      </Command>
+  </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|win32'">
     <PreBuildEvent>
@@ -76,13 +71,6 @@ postbuild "$(TargetPath)"</Command>
 prebuild gc-win32 win32
   </Command>
     </PreBuildEvent>
-    <YASM>
-      <Defines></Defines>
-      <IncludePaths>..\..\mpn\x86_64w\</IncludePaths>
-      <Debug>true</Debug>
-      <ObjectFileName>$(IntDir)mpn\</ObjectFileName>
-      <ObjectFile>$(IntDir)mpn\</ObjectFile>
-    </YASM>
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -92,10 +80,12 @@ prebuild gc-win32 win32
       <ProgramDataBaseFileName>$(TargetDir)$(TargetName).pdb</ProgramDataBaseFileName>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
-    <PostBuildEvent>
+    
+  <PostBuildEvent>
       <Command>cd ..\ 
-postbuild "$(TargetPath)"</Command>
-    </PostBuildEvent>
+postbuild "$(TargetPath)"
+      </Command>
+  </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\..\config.h" />
@@ -1878,7 +1868,4 @@ postbuild "$(TargetPath)"</Command>
   <ItemGroup>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
-  <ImportGroup Label="ExtensionTargets">
-    <Import Project="..\vsyasm.targets" />
-  </ImportGroup>
 </Project>

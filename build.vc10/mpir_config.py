@@ -228,17 +228,24 @@ def filter_csrc(cf_list, outf):
   
   f1 = r'''  <ItemGroup>
 '''
-  f2 = r'''  <ClCompile Include="..\..\{1:s}\{0:s}">
+  f2 = r'''  <ClCompile Include="..\..\{0:s}">
+    <Filter>Source Files</Filter>
+  </ClCompile>
+'''
+  f3 = r'''  <ClCompile Include="..\..\{1:s}\{0:s}">
     <Filter>Source Files\{2:s}</Filter>
   </ClCompile>
 '''
-  f3 = r'''  </ItemGroup>
+  f4 = r'''  </ItemGroup>
 '''
   outf.write(f1)
   for i in cf_list:
-    t = 'mpn' if i[2].endswith('generic') else i[2]
-    outf.write(f2.format(i[0] + i[1], i[2], t))
-  outf.write(f3)
+    if not i[2]:
+      outf.write(f2.format(i[0] + i[1]))
+    else:
+      t = 'mpn' if i[2].endswith('generic') else i[2]
+      outf.write(f3.format(i[0] + i[1], i[2], t))
+  outf.write(f4)
 
 def filter_asrc(af_list, outf):
   
@@ -255,7 +262,6 @@ def filter_asrc(af_list, outf):
     outf.write(f2.format(i[0] + i[1], i[2], i[2]))
   outf.write(f3)
 
-
 def gen_filter(name, hf_list, cf_list, af_list):
   
   f1 = r'''<?xml version="1.0" encoding="utf-8"?>
@@ -271,7 +277,8 @@ def gen_filter(name, hf_list, cf_list, af_list):
     filter_folders(cf_list, af_list, outf)
     filter_headers(hf_list, outf)
     filter_csrc(cf_list, outf)
-    filter_asrc(af_list, outf)
+    if af_list:
+      filter_asrc(af_list, outf)
     outf.write(f2)
     
 # generate vcxproj file
@@ -434,7 +441,7 @@ copy "$(TargetDir)$(TargetName).pdb" ..\lib\$(IntDir)      </Command>
   
   outf.write(f2 if is_cpp else f1)
   
-def vcx_tool_options(config, plat, is_dll, is_cpp, outf):
+def vcx_tool_options(config, plat, is_dll, is_cpp, af_list, outf):
   
   f1 = r'''  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='{1:s}|{0:s}'">
 '''
@@ -443,8 +450,9 @@ def vcx_tool_options(config, plat, is_dll, is_cpp, outf):
   for is_debug in (False, True):
     outf.write(f1.format(plat, 'Debug' if is_debug else 'Release'))
     if add_prebuild and not is_cpp:
-      vcx_pre_build(config, plat, outf)        
-    yasm_options(is_dll, outf)
+      vcx_pre_build(config, plat, outf)    
+    if af_list:    
+      yasm_options(is_dll, outf)
     compiler_options(plat, is_dll, is_debug, outf)
     if is_dll:
       linker_options(outf)
@@ -525,12 +533,13 @@ def gen_vcxproj(proj_name, file_name, config, plat, is_dll, is_cpp, hf_list, cf_
     vcx_user_props(plat, outf)
     outf.write(f2)
     vcx_target_name_and_dirs(proj_name, plat, is_dll, outf)
-    vcx_tool_options(config, plat, is_dll, is_cpp, outf)
+    vcx_tool_options(config, plat, is_dll, is_cpp, af_list, outf)
     vcx_hdr_items(hf_list, outf)
     vcx_c_items(cf_list, plat, outf)
     vcx_a_items(af_list, outf)
     outf.write(f3)
-    outf.write(f4)
+    if af_list:
+      outf.write(f4)
     outf.write(f5)
 
 t = find_src(c_directories)

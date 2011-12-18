@@ -69,10 +69,12 @@ prebuild p4 win32
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <LargeAddressAware>true</LargeAddressAware>
     </Link>
-    <PostBuildEvent>
+    
+  <PostBuildEvent>
       <Command>cd ..\ 
-postbuild "$(TargetPath)"</Command>
-    </PostBuildEvent>
+postbuild "$(TargetPath)"
+      </Command>
+  </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|win32'">
     <PreBuildEvent>
@@ -100,10 +102,12 @@ prebuild p4 win32
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <LargeAddressAware>true</LargeAddressAware>
     </Link>
-    <PostBuildEvent>
+    
+  <PostBuildEvent>
       <Command>cd ..\ 
-postbuild "$(TargetPath)"</Command>
-    </PostBuildEvent>
+postbuild "$(TargetPath)"
+      </Command>
+  </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\..\config.h" />

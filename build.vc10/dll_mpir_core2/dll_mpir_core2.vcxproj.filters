@@ -30,80 +30,80 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-  <ClCompile Include="..\..\\assert.c">
-    <Filter>Source Files\</Filter>
+  <ClCompile Include="..\..\assert.c">
+    <Filter>Source Files</Filter>
   </ClCompile>
-  <ClCompile Include="..\..\\errno.c">
-    <Filter>Source Files\</Filter>
+  <ClCompile Include="..\..\errno.c">
+    <Filter>Source Files</Filter>
   </ClCompile>
-  <ClCompile Include="..\..\\extract-dbl.c">
-    <Filter>Source Files\</Filter>
+  <ClCompile Include="..\..\extract-dbl.c">
+    <Filter>Source Files</Filter>
   </ClCompile>
-  <ClCompile Include="..\..\\invalid.c">
-    <Filter>Source Files\</Filter>
+  <ClCompile Include="..\..\invalid.c">
+    <Filter>Source Files</Filter>
   </ClCompile>
-  <ClCompile Include="..\..\\memory.c">
-    <Filter>Source Files\</Filter>
+  <ClCompile Include="..\..\memory.c">
+    <Filter>Source Files</Filter>
   </ClCompile>
-  <ClCompile Include="..\..\\mp_bpl.c">
-    <Filter>Source Files\</Filter>
+  <ClCompile Include="..\..\mp_bpl.c">
+    <Filter>Source Files</Filter>
   </ClCompile>
-  <ClCompile Include="..\..\\mp_clz_tab.c">
-    <Filter>Source Files\</Filter>
+  <ClCompile Include="..\..\mp_clz_tab.c">
+    <Filter>Source Files</Filter>
   </ClCompile>
-  <ClCompile Include="..\..\\mp_dv_tab.c">
-    <Filter>Source Files\</Filter>
+  <ClCompile Include="..\..\mp_dv_tab.c">
+    <Filter>Source Files</Filter>
   </ClCompile>
-  <ClCompile Include="..\..\\mp_get_fns.c">
-    <Filter>Source Files\</Filter>
+  <ClCompile Include="..\..\mp_get_fns.c">
+    <Filter>Source Files</Filter>
   </ClCompile>
-  <ClCompile Include="..\..\\mp_minv_tab.c">
-    <Filter>Source Files\</Filter>
+  <ClCompile Include="..\..\mp_minv_tab.c">
+    <Filter>Source Files</Filter>
   </ClCompile>
-  <ClCompile Include="..\..\\mp_set_fns.c">
-    <Filter>Source Files\</Filter>
+  <ClCompile Include="..\..\mp_set_fns.c">
+    <Filter>Source Files</Filter>
   </ClCompile>
-  <ClCompile Include="..\..\\randbui.c">
-    <Filter>Source Files\</Filter>
+  <ClCompile Include="..\..\randbui.c">
+    <Filter>Source Files</Filter>
   </ClCompile>
-  <ClCompile Include="..\..\\randclr.c">
-    <Filter>Source Files\</Filter>
+  <ClCompile Include="..\..\randclr.c">
+    <Filter>Source Files</Filter>
   </ClCompile>
-  <ClCompile Include="..\..\\randdef.c">
-    <Filter>Source Files\</Filter>
+  <ClCompile Include="..\..\randdef.c">
+    <Filter>Source Files</Filter>
   </ClCompile>
-  <ClCompile Include="..\..\\randiset.c">
-    <Filter>Source Files\</Filter>
+  <ClCompile Include="..\..\randiset.c">
+    <Filter>Source Files</Filter>
   </ClCompile>
-  <ClCompile Include="..\..\\randlc2s.c">
-    <Filter>Source Files\</Filter>
+  <ClCompile Include="..\..\randlc2s.c">
+    <Filter>Source Files</Filter>
   </ClCompile>
-  <ClCompile Include="..\..\\randlc2x.c">
-    <Filter>Source Files\</Filter>
+  <ClCompile Include="..\..\randlc2x.c">
+    <Filter>Source Files</Filter>
   </ClCompile>
-  <ClCompile Include="..\..\\randmt.c">
-    <Filter>Source Files\</Filter>
+  <ClCompile Include="..\..\randmt.c">
+    <Filter>Source Files</Filter>
   </ClCompile>
-  <ClCompile Include="..\..\\randmts.c">
-    <Filter>Source Files\</Filter>
+  <ClCompile Include="..\..\randmts.c">
+    <Filter>Source Files</Filter>
   </ClCompile>
-  <ClCompile Include="..\..\\randmui.c">
-    <Filter>Source Files\</Filter>
+  <ClCompile Include="..\..\randmui.c">
+    <Filter>Source Files</Filter>
   </ClCompile>
-  <ClCompile Include="..\..\\rands.c">
-    <Filter>Source Files\</Filter>
+  <ClCompile Include="..\..\rands.c">
+    <Filter>Source Files</Filter>
   </ClCompile>
-  <ClCompile Include="..\..\\randsd.c">
-    <Filter>Source Files\</Filter>
+  <ClCompile Include="..\..\randsd.c">
+    <Filter>Source Files</Filter>
   </ClCompile>
-  <ClCompile Include="..\..\\randsdui.c">
-    <Filter>Source Files\</Filter>
+  <ClCompile Include="..\..\randsdui.c">
+    <Filter>Source Files</Filter>
   </ClCompile>
-  <ClCompile Include="..\..\\tal-reent.c">
-    <Filter>Source Files\</Filter>
+  <ClCompile Include="..\..\tal-reent.c">
+    <Filter>Source Files</Filter>
   </ClCompile>
-  <ClCompile Include="..\..\\version.c">
-    <Filter>Source Files\</Filter>
+  <ClCompile Include="..\..\version.c">
+    <Filter>Source Files</Filter>
   </ClCompile>
   <ClCompile Include="..\..\mpf\abs.c">
     <Filter>Source Files\mpf</Filter>

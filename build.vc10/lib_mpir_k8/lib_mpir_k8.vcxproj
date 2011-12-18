@@ -65,10 +65,12 @@ prebuild k8 x64
       <ProgramDataBaseFileName>$(TargetDir)$(TargetName).pdb</ProgramDataBaseFileName>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
-    <PostBuildEvent>
+    
+  <PostBuildEvent>
       <Command>cd ..\ 
-postbuild "$(TargetPath)"</Command>
-    </PostBuildEvent>
+postbuild "$(TargetPath)"
+      </Command>
+  </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <PreBuildEvent>
@@ -92,10 +94,12 @@ prebuild k8 x64
       <ProgramDataBaseFileName>$(TargetDir)$(TargetName).pdb</ProgramDataBaseFileName>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
-    <PostBuildEvent>
+    
+  <PostBuildEvent>
       <Command>cd ..\ 
-postbuild "$(TargetPath)"</Command>
-    </PostBuildEvent>
+postbuild "$(TargetPath)"
+      </Command>
+  </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\..\config.h" />
