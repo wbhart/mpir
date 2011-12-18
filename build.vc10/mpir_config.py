@@ -35,20 +35,17 @@ from filecmp import cmp
 from shutil import copy
 from re import search
 
-is_DLL = False
-is_debug = False
+# either add a prebuild step to the project files or do it here
 add_prebuild = True
+# output a build project for the C++ static library 
 add_cpp_lib = False
-
-lib_type = 'dll' if is_DLL else 'lib'
 
 # The path to the mpir root directory
 mpir_dir = '../'
-vc10_dir = mpir_dir + 'build.vc10/'
-out_dir = vc10_dir + 'dll/' if is_DLL else 'lib/' 
+build_dir = mpir_dir + 'build.vc10/'
 
-# paths that might incsrc_listude source filesv(*.c, *.h, *.asm)
-c_directories  = ( '', 'build.vc10', 'mpf', 'mpq', 'mpz', 'printf', 'scanf' )
+# paths that might include source files(*.c, *.h, *.asm)
+c_directories  = ( '', build_dir, 'mpf', 'mpq', 'mpz', 'printf', 'scanf' )
 
 # files that are to be excluded from the build
 exclude_file_list = ('config.guess', 'cfg', 'getopt', 'getrusage', 'gettimeofday', 'cpuid',
@@ -91,7 +88,7 @@ def copy_files(file_list, in_dir, out_dir):
     
 # Recursively search a given directory tree to find header, 
 # C and assembler code files that either replace or augment
-# the generic C source files in the input list 'cf_list'. 
+# the generic C source files in the input list 'src_list'. 
 # As the directory tree is searched, files in each directory
 # become the source code files for the current directory and
 # the default source code files for its child directories. 
@@ -260,19 +257,19 @@ def filter_asrc(af_list, outf):
     outf.write(f2.format(i[0] + i[1], i[2], i[2]))
   outf.write(f3)
 
-def gen_filter(name, hf_list, cf_list, af_list):
+def gen_filter(name, hf_list, src_list, af_list):
   
   f1 = r'''<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 '''
   f2 = r'''</Project>
 '''
-  fn = join(vc10_dir, name)
+  fn = join(build_dir, name)
   makedirs(split(fn)[0], exist_ok=True)
   with open(fn, 'w') as outf:
     
     outf.write(f1)    
-    filter_folders(cf_list, af_list, outf)
+    filter_folders(src_list, af_list, outf)
     filter_headers(hf_list, outf)
     filter_csrc(cf_list, outf)
     if af_list:
@@ -523,7 +520,7 @@ def gen_vcxproj(proj_name, file_name, config, plat, is_dll, is_cpp, hf_list, cf_
   f5 = '''</Project>
 '''
   
-  with open(join(vc10_dir, file_name), 'w') as outf:
+  with open(join(build_dir, file_name), 'w') as outf:
     outf.write(f1)
     vcx_proj_cfg(plat, outf)
     vcx_globals(proj_name, outf)
@@ -543,6 +540,7 @@ def gen_vcxproj(proj_name, file_name, config, plat, is_dll, is_cpp, hf_list, cf_
       outf.write(f4)
     outf.write(f5)
 
+# compile list of C files
 t = find_src(c_directories)
 c_hdr_list = t[0]
 c_src_list = t[1]
@@ -557,6 +555,7 @@ if t[2] or t[3]:
       print(f)
     print()
 
+# compile list of C++ files
 t = find_src(['cxx'])
 cc_hdr_list = t[0]
 cc_src_list = t[2]
@@ -571,6 +570,7 @@ if t[1] or t[3]:
       print(f)
     print()
 
+# compile list of C files in mpn\generic
 t = find_src([r'mpn\generic'])
 gc_hdr_list = t[0]
 gc_src_list = t[1]
@@ -585,11 +585,18 @@ if t[2] or t[3]:
       print(f)
     print()
 
+# prepare the generic C build
 mpn_gc = dict((('gc',[ gc_hdr_list, gc_src_list, [], [] ]),))
+
+# prepare the list of Win32 builds
 mpn_32 = find_asm(mpir_dir + 'mpn/x86w', gc_src_list)
 del mpn_32['']
+
+# prepare the list of x64 builds
 mpn_64 = find_asm(mpir_dir + 'mpn/x86_64w', gc_src_list)
 del mpn_64['']
+
+# now ask our user which build they want to generate
 
 err = False
 config = ''
@@ -699,7 +706,7 @@ if not add_prebuild:
       for i in mpn_f[3]:
         outf.writelines(['#define HAVE_NATIVE_{0:s} 1\n'.format(i[0])])
         
-    append_f(join(vc10_dir, 'cfg.h'), tfile)
+    append_f(join(build_dir, 'cfg.h'), tfile)
     write_f(tfile, join(mpir_dir, 'config.h'))
     unlink(tfile)
   except IOError:
@@ -736,18 +743,16 @@ hf_list = ('config.h', 'gmp-impl.h', 'longlong.h', 'mpir.h', 'gmp-mparam.h')
 af_list = sorted(mpn_f[2] + mpn_f[3]) 
 
 # set up DLL build
-is_DLL = True
 proj_name = 'mpir'
 vcx_name = 'dll_mpir_' + config + '\\dll_mpir_' + config + '.vcxproj'
 gen_filter(vcx_name + '.filters', hf_list, c_src_list + cc_src_list + mpn_f[1], af_list)
-gen_vcxproj(proj_name, vcx_name, config, mode, is_DLL, False, hf_list, c_src_list + cc_src_list + mpn_f[1], af_list)
+gen_vcxproj(proj_name, vcx_name, config, mode, True, False, hf_list, c_src_list + cc_src_list + mpn_f[1], af_list)
 
 # set up LIB build
-is_DLL = False
 proj_name = 'mpir'
 vcx_name = 'lib_mpir_' + config + '\\lib_mpir_' + config + '.vcxproj'
 gen_filter(vcx_name + '.filters', hf_list, c_src_list + mpn_f[1], af_list)
-gen_vcxproj(proj_name, vcx_name, config, mode, is_DLL, False, hf_list, c_src_list + mpn_f[1], af_list)
+gen_vcxproj(proj_name, vcx_name, config, mode, False, False, hf_list, c_src_list + mpn_f[1], af_list)
 
 # C++ library build
 
@@ -756,7 +761,7 @@ if add_cpp_lib:
   vcx_name = 'lib_mpir_cxx\\lib_mpir_cxx.vcxproj'
   th = hf_list +  ('mpirxx.h',)
   gen_filter(vcx_name + '.filters', th, cc_src_list, '')
-  gen_vcxproj(proj_name, vcx_name, config, mode, is_DLL, True, th, cc_src_list, '')
+  gen_vcxproj(proj_name, vcx_name, config, mode, False, True, th, cc_src_list, '')
   
 exit()
 
