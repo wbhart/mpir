@@ -27,7 +27,7 @@ atom          atom
 
 from __future__ import print_function
 from operator import itemgetter
-from os import listdir, walk, unlink, makedirs
+from os import listdir, walk, unlink, makedirs, getcwd
 from os.path import split, splitext, isdir, relpath, join, exists
 from copy import deepcopy
 from sys import exit
@@ -35,18 +35,17 @@ from filecmp import cmp
 from shutil import copy
 from re import search
 
-is_DLL = False
-is_debug = False
-
-lib_type = 'dll' if is_DLL else 'lib'
+# either add a prebuild step to the project files or do it here
+add_prebuild = True
+# output a build project for the C++ static library 
+add_cpp_lib = False
 
 # The path to the mpir root directory
-mpir_dir = 'C:/Users/Brian Gladman/Documents/Visual Studio 2010/Projects/mpir/'
-vc10_dir = mpir_dir + 'build.vc10/'
-out_dir = vc10_dir + 'dll/' if is_DLL else 'lib/' 
+mpir_dir = '../'
+build_dir = mpir_dir + 'build.vc10/'
 
-# paths that might incsrc_listude source filesv(*.c, *.h, *.asm)
-c_directories  = ( '', 'build.vc10', 'mpf', 'mpq', 'mpz', 'printf', 'scanf' )
+# paths that might include source files(*.c, *.h, *.asm)
+c_directories  = ( '', build_dir, 'mpf', 'mpq', 'mpz', 'printf', 'scanf' )
 
 # files that are to be excluded from the build
 exclude_file_list = ('config.guess', 'cfg', 'getopt', 'getrusage', 'gettimeofday', 'cpuid',
@@ -89,7 +88,7 @@ def copy_files(file_list, in_dir, out_dir):
     
 # Recursively search a given directory tree to find header, 
 # C and assembler code files that either replace or augment
-# the generic C source files in the input list 'cf_list'. 
+# the generic C source files in the input list 'src_list'. 
 # As the directory tree is searched, files in each directory
 # become the source code files for the current directory and
 # the default source code files for its child directories. 
@@ -205,8 +204,6 @@ def filter_folders(cf_list, af_list, outf):
       outf.write(f2.format(t))
   outf.write(f3)
 
-filter_hdr_item = '    <ClInclude Include="..\..\{}">\n      <Filter>Header Files</Filter>\n    </ClInclude>\n'
-
 def filter_headers(hdr_list, outf):
   
   f1 = r'''  <ItemGroup>
@@ -226,17 +223,24 @@ def filter_csrc(cf_list, outf):
   
   f1 = r'''  <ItemGroup>
 '''
-  f2 = r'''  <ClCompile Include="..\..\{1:s}\{0:s}">
+  f2 = r'''  <ClCompile Include="..\..\{0:s}">
+    <Filter>Source Files</Filter>
+  </ClCompile>
+'''
+  f3 = r'''  <ClCompile Include="..\..\{1:s}\{0:s}">
     <Filter>Source Files\{2:s}</Filter>
   </ClCompile>
 '''
-  f3 = r'''  </ItemGroup>
+  f4 = r'''  </ItemGroup>
 '''
   outf.write(f1)
   for i in cf_list:
-    t = 'mpn' if i[2].endswith('generic') else i[2]
-    outf.write(f2.format(i[0] + i[1], i[2], t))
-  outf.write(f3)
+    if not i[2]:
+      outf.write(f2.format(i[0] + i[1]))
+    else:
+      t = 'mpn' if i[2].endswith('generic') else i[2]
+      outf.write(f3.format(i[0] + i[1], i[2], t))
+  outf.write(f4)
 
 def filter_asrc(af_list, outf):
   
@@ -253,23 +257,23 @@ def filter_asrc(af_list, outf):
     outf.write(f2.format(i[0] + i[1], i[2], i[2]))
   outf.write(f3)
 
-
-def gen_filter(name, hf_list, cf_list, af_list):
+def gen_filter(name, hf_list, src_list, af_list):
   
   f1 = r'''<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 '''
   f2 = r'''</Project>
 '''
-  fn = join(vc10_dir, name)
+  fn = join(build_dir, name)
   makedirs(split(fn)[0], exist_ok=True)
   with open(fn, 'w') as outf:
     
     outf.write(f1)    
-    filter_folders(cf_list, af_list, outf)
+    filter_folders(src_list, af_list, outf)
     filter_headers(hf_list, outf)
     filter_csrc(cf_list, outf)
-    filter_asrc(af_list, outf)
+    if af_list:
+      filter_asrc(af_list, outf)
     outf.write(f2)
     
 # generate vcxproj file
@@ -286,8 +290,9 @@ def vcx_proj_cfg(plat, outf):
   f3 = r'''  </ItemGroup>
 '''
   outf.write(f1)
-  for conf in ('Release', 'Debug'):
-    outf.write(f2.format(plat, conf))
+  for pl in plat:
+    for conf in ('Release', 'Debug'):
+      outf.write(f2.format(pl, conf))
   outf.write(f3)
 
 def vcx_globals(name, outf):
@@ -312,8 +317,9 @@ def vcx_library_type(plat, is_dll, outf):
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
 '''
-  for conf in ('Release', 'Debug'):
-    outf.write(f1.format(plat, conf, 'Dynamic' if is_dll else 'Static' ))
+  for pl in plat:
+    for conf in ('Release', 'Debug'):
+      outf.write(f1.format(pl, conf, 'Dynamic' if is_dll else 'Static' ))
 
 def vcx_cpp_props(outf):
   
@@ -335,8 +341,9 @@ def vcx_user_props(plat, outf):
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" />
   </ImportGroup>
 '''
-  for conf in ('Release', 'Debug'):
-    outf.write(f1.format(plat, conf))
+  for pl in plat:
+    for conf in ('Release', 'Debug'):
+      outf.write(f1.format(pl, conf))
 
 def vcx_target_name_and_dirs(name, plat, is_dll, outf):
   
@@ -350,8 +357,9 @@ def vcx_target_name_and_dirs(name, plat, is_dll, outf):
   f3 = r'''  </PropertyGroup>
 '''
   outf.write(f1)
-  for conf in ('Release', 'Debug'):
-    outf.write(f2.format(plat, conf, name))
+  for pl in plat:
+    for conf in ('Release', 'Debug'):
+      outf.write(f2.format(pl, conf, name))
   outf.write(f3)
 
 def yasm_options(is_dll, outf):
@@ -403,29 +411,46 @@ def linker_options(outf):
 '''
   outf.write(f1)
 
-def vcx_post_build(outf):
+def vcx_pre_build(name, plat, outf):
+
+  f1 = r'''    <PreBuildEvent>
+  <Command>cd ..\ 
+prebuild {0:s} {1:s}
+  </Command>
+    </PreBuildEvent>
+'''  
+  outf.write(f1.format(name, plat))
+
+def vcx_post_build(is_cpp, outf):
   
-  f1 = '''    <PostBuildEvent>
+  f1 = '''    
+  <PostBuildEvent>
       <Command>cd ..\ 
-postbuild "$(TargetPath)"</Command>
-    </PostBuildEvent>
+postbuild "$(TargetPath)"
+      </Command>
+  </PostBuildEvent>
 '''
+  
   outf.write(f1)
   
-def vcx_tool_options(plat, is_dll, outf):
+def vcx_tool_options(config, plat, is_dll, is_cpp, af_list, outf):
   
   f1 = r'''  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='{1:s}|{0:s}'">
 '''
   f2 = r'''  </ItemDefinitionGroup>
 '''
-  for is_debug in (False, True):
-    outf.write(f1.format(plat, 'Debug' if is_debug else 'Release'))
-    yasm_options(is_dll, outf)
-    compiler_options(plat, is_dll, is_debug, outf)
-    if is_dll:
-      linker_options(outf)
-    vcx_post_build(outf)    
-    outf.write(f2)
+  for pl in plat:
+    for is_debug in (False, True):
+      outf.write(f1.format(pl, 'Debug' if is_debug else 'Release'))
+      if add_prebuild and not is_cpp:
+        vcx_pre_build(config, pl, outf)    
+      if af_list:    
+        yasm_options(is_dll, outf)
+      compiler_options(pl, is_dll, is_debug, outf)
+      if is_dll:
+        linker_options(outf)
+      vcx_post_build(is_cpp, outf)    
+      outf.write(f2)
     
 def vcx_hdr_items(hdr_list, outf):
   
@@ -447,19 +472,24 @@ def vcx_c_items(cf_list, plat, outf):
   f2 = r'''    <ClCompile Include="..\..\{0[0]:s}{0[1]:s}" />
 '''
   f3 = r'''    <ClCompile Include="..\..\{0[2]:s}\{0[0]:s}{0[1]:s}">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|{1:s}'">$(IntDir){2:s}\</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|{1:s}'">$(IntDir){2:s}\</ObjectFileName>
-    </ClCompile>
 '''
-  f4 = r'''  </ItemGroup>
+  f4 = r'''        <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='{0:s}|{1:s}'">$(IntDir){2:s}\</ObjectFileName>
+'''
+  f5 = r'''    </ClCompile>
+'''
+  f6 = r'''  </ItemGroup>
 '''
   outf.write(f1)
   for nxd in cf_list:
     if nxd[2] == '':
       outf.write(f2.format(nxd))
     else:
-      outf.write(f3.format(nxd, plat, 'mpn' if nxd[2].endswith('generic') else nxd[2]))
-  outf.write(f4)
+      outf.write(f3.format(nxd))
+      for cf in ('Release', 'Debug'):
+        for pl in plat:
+          outf.write(f4.format(cf, pl, 'mpn' if nxd[2].endswith('generic') else nxd[2]))
+      outf.write(f5)
+  outf.write(f6)
 
 def vcx_a_items(af_list, outf):
   
@@ -474,7 +504,7 @@ def vcx_a_items(af_list, outf):
     outf.write(f2.format(nxd))
   outf.write(f3)
 
-def gen_vcxproj(proj_name, file_name, plat, is_dll, hf_list, cf_list, af_list):
+def gen_vcxproj(proj_name, file_name, config, plat, is_dll, is_cpp, hf_list, cf_list, af_list):
   
   f1 = r'''<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
@@ -490,7 +520,7 @@ def gen_vcxproj(proj_name, file_name, plat, is_dll, hf_list, cf_list, af_list):
   f5 = '''</Project>
 '''
   
-  with open(join(vc10_dir, file_name), 'w') as outf:
+  with open(join(build_dir, file_name), 'w') as outf:
     outf.write(f1)
     vcx_proj_cfg(plat, outf)
     vcx_globals(proj_name, outf)
@@ -501,62 +531,81 @@ def gen_vcxproj(proj_name, file_name, plat, is_dll, hf_list, cf_list, af_list):
     vcx_user_props(plat, outf)
     outf.write(f2)
     vcx_target_name_and_dirs(proj_name, plat, is_dll, outf)
-    vcx_tool_options(plat, is_dll, outf)
+    vcx_tool_options(config, plat, is_dll, is_cpp, af_list, outf)
     vcx_hdr_items(hf_list, outf)
     vcx_c_items(cf_list, plat, outf)
     vcx_a_items(af_list, outf)
     outf.write(f3)
-    outf.write(f4)
+    if af_list:
+      outf.write(f4)
     outf.write(f5)
 
+# compile list of C files
 t = find_src(c_directories)
 c_hdr_list = t[0]
 c_src_list = t[1]
 if t[2] or t[3]:
   print('found C++ and/or assembler file(s) in a C directory')
-for f in c_hdr_list:
-  print(f)
-print()
-for f in c_src_list:
-  print(f)
-print()
+  if t[2]:
+    for f in t[2]:
+      print(f)
+    print()
+  if t[3]:
+    for f in t[3]:
+      print(f)
+    print()
 
+# compile list of C++ files
 t = find_src(['cxx'])
 cc_hdr_list = t[0]
 cc_src_list = t[2]
 if t[1] or t[3]:
-  print('found C+ and/or assembler file(s) in a C++ directory')
-for f in cc_hdr_list:
-  print(f)
-print()
-for f in cc_src_list:
-  print(f)
-print()
+  print('found C and/or assembler file(s) in a C++ directory')
+  if t[1]:
+    for f in t[1]:
+      print(f)
+    print()
+  if t[3]:
+    for f in cc_src_list:
+      print(f)
+    print()
 
+# compile list of C files in mpn\generic
 t = find_src([r'mpn\generic'])
 gc_hdr_list = t[0]
 gc_src_list = t[1]
-if t[1] or t[3]:
+if t[2] or t[3]:
   print('found C++ and/or assembler file(s) in a C directory')
-for f in gc_hdr_list:
-  print(f)
-print()
-for f in gc_src_list:
-  print(f)
-print()
+  if t[2]:
+    for f in gc_hdr_list:
+      print(f)
+    print()
+  if t[3]:
+    for f in gc_src_list:
+      print(f)
+    print()
 
+# prepare the generic C build
+mpn_gc = dict((('gc',[ gc_hdr_list, gc_src_list, [], [] ]),))
+
+# prepare the list of Win32 builds
 mpn_32 = find_asm(mpir_dir + 'mpn/x86w', gc_src_list)
-mpn_32['gc-win32'] = [ gc_hdr_list, gc_src_list, [], [] ]
 del mpn_32['']
+
+# prepare the list of x64 builds
 mpn_64 = find_asm(mpir_dir + 'mpn/x86_64w', gc_src_list)
-mpn_64['gc-x64'] = [ gc_hdr_list, gc_src_list, [], [] ]
 del mpn_64['']
+
+# now ask our user which build they want to generate
 
 err = False
 config = ''
 mode = ''
 while True:
   cnt = 0
+  for v in sorted(mpn_gc):
+    cnt += 1
+    print('{0:2d}. {1:12s}        '.format(cnt, v))
   for v in sorted(mpn_32):
     cnt += 1
     print('{0:2d}. {1:12s} (win32)'.format(cnt, v))
@@ -568,19 +617,27 @@ while True:
     err = False
   else:
     s = input('Number of configuation to build (0 to exit)? ')
+  nd_gc = len(mpn_gc)
+  nd_32 = nd_gc + len(mpn_32)
+  nd_nd = nd_32 + len(mpn_64)
   try:
     n = int(s)
     if n < 1:
       n = 0
       break
-    if n <= len(mpn_32):
-      config = sorted(mpn_32)[n - 1]
-      mode = 'win32'
+    if 0 < n <= nd_gc:
+      config = sorted(mpn_gc)[n - 1]
+      mode = ('Win32', 'x64')
+      mpn_f = mpn_gc[config]
+      break      
+    elif nd_gc < n <= nd_32:
+      config = sorted(mpn_32)[n - 1 - nd_gc]
+      mode = ('Win32', )
       mpn_f = mpn_32[config]
       break
-    elif n <= len(mpn_32) + len(mpn_64):
-      config = sorted(mpn_64)[n - len(mpn_32) - 1]
-      mode = 'x64'
+    elif nd_32 < n <= nd_nd:
+      config = sorted(mpn_64)[n - 1 - nd_32]
+      mode = ('x64', )
       mpn_f = mpn_64[config]
       break
   except:
@@ -589,96 +646,96 @@ while True:
 if n == 0:
   exit()
   
-if mode == 'x64':
+if mode[0] == 'x64':
   for l in mpn_f[1:]:
     for t in l:
       if t[0].startswith('preinv_'):
-        if (mode == 'x64' and t[0] == 'preinv_divrem_1' or
-            mode == 'win32' and t[0] == 'preinv_mod_1'):
+        if ('x64' in mode and t[0] == 'preinv_divrem_1'):
           l.remove(t)
   
 print(config, mode)
 
-# generate mpir.h and gmp.h from gmp_h.in
-gmp_h = '''
-#ifdef _WIN32 
-#  ifdef _WIN64 
-#    define _LONG_LONG_LIMB  1 
-#    define GMP_LIMB_BITS   64 
-#  else 
-#    define GMP_LIMB_BITS   32 
-#  endif 
-#  define __GMP_BITS_PER_MP_LIMB  GMP_LIMB_BITS 
-#  define SIZEOF_MP_LIMB_T (GMP_LIMB_BITS >> 3) 
-#  define GMP_NAIL_BITS                       0 
-#endif 
-'''
-
-try:
-  lines = open(join(mpir_dir, 'gmp-h.in'), 'r').readlines()
-except IOError:
-  print('error attempting to read from gmp_h.in')
-  exit()
-try:
-  tfile = join(mpir_dir, 'tmp.h')
-  with open(tfile, 'w') as outf:
-    first = True
-    for line in lines:
-      if search('@\w+@', line):
-        if first:
-          first = False
-          outf.writelines(gmp_h)  
-      else:
-        outf.writelines([line])
+if not add_prebuild:
+  # generate mpir.h and gmp.h from gmp_h.in
+  gmp_h = '''
+  #ifdef _WIN32 
+  #  ifdef _WIN64 
+  #    define _LONG_LONG_LIMB  1 
+  #    define GMP_LIMB_BITS   64 
+  #  else 
+  #    define GMP_LIMB_BITS   32 
+  #  endif 
+  #  define __GMP_BITS_PER_MP_LIMB  GMP_LIMB_BITS 
+  #  define SIZEOF_MP_LIMB_T (GMP_LIMB_BITS >> 3) 
+  #  define GMP_NAIL_BITS                       0 
+  #endif 
+  '''
+  
+  try:
+    lines = open(join(mpir_dir, 'gmp-h.in'), 'r').readlines()
+  except IOError:
+    print('error attempting to read from gmp_h.in')
+    exit()
+  try:
+    tfile = join(mpir_dir, 'tmp.h')
+    with open(tfile, 'w') as outf:
+      first = True
+      for line in lines:
+        if search('@\w+@', line):
+          if first:
+            first = False
+            outf.writelines(gmp_h)  
+        else:
+          outf.writelines([line])
+          
+    # write result to mpir.h but only overwrite the existing 
+    # version if this version is different (don't trigger an
+    # unnecessary rebuild)
+    write_f(tfile, join(mpir_dir, 'mpir.h'))
+    write_f(tfile, join(mpir_dir, 'gmp.h'))
+    unlink(tfile)
+  except IOError:    
+    print('error attempting to create mpir.h from gmp-h.in')
+    exit()
+  
+  # generate config.h
+  
+  try:
+    tfile = join(mpir_dir, 'tmp.h')
+    with open(tfile, 'w') as outf:
+      for i in mpn_f[3]:
+        outf.writelines(['#define HAVE_NATIVE_{0:s} 1\n'.format(i[0])])
         
-  # write result to mpir.h but only overwrite the existing 
-  # version if this version is different (don't trigger an
-  # unnecessary rebuild)
-  write_f(tfile, join(mpir_dir, 'mpir.h'))
-  write_f(tfile, join(mpir_dir, 'gmp.h'))
-  unlink(tfile)
-except IOError:    
-  print('error attempting to create mpir.h from gmp-h.in')
-  exit()
-
-# generate config.h
-
-try:
-  tfile = join(mpir_dir, 'tmp.h')
-  with open(tfile, 'w') as outf:
-    for i in mpn_f[3]:
-      outf.writelines(['#define HAVE_NATIVE_{0:s} 1\n'.format(i[0])])
-      
-  append_f(join(vc10_dir, 'cfg.h'), tfile)
-  write_f(tfile, join(mpir_dir, 'config.h'))
-  unlink(tfile)
-except IOError:
-  print('error attempting to write to {0:s}'.format(tfile))
-  exit()
-  
-# generate longlong.h and copy gmp-mparam.h
-
-try:
-  li_file = None
-  for i in mpn_f[0]:
-    if i[0] == 'longlong_inc':
-      li_file = join(mpir_dir, join(i[2], r'longlong_inc.h'))
-    if i[0] == 'gmp-mparam':
-      write_f(join(mpir_dir, join(i[2], 'gmp-mparam.h')), join(mpir_dir, 'gmp-mparam.h'))
-  
-  if not li_file or not exists(li_file):
-    print('error attempting to read {0:s}'.format(li_file))
+    append_f(join(build_dir, 'cfg.h'), tfile)
+    write_f(tfile, join(mpir_dir, 'config.h'))
+    unlink(tfile)
+  except IOError:
+    print('error attempting to write to {0:s}'.format(tfile))
     exit()
     
-  tfile = join(mpir_dir, 'tmp.h')    
-  write_f(join(mpir_dir, 'longlong_pre.h'), tfile)
-  append_f(li_file, tfile)
-  append_f(join(mpir_dir, 'longlong_post.h'), tfile)
-  write_f(tfile, join(mpir_dir, 'longlong.h'))
-  unlink(tfile)
-except IOError:
-  print('error attempting to generate longlong.h')
-  exit()
+  # generate longlong.h and copy gmp-mparam.h
+  
+  try:
+    li_file = None
+    for i in mpn_f[0]:
+      if i[0] == 'longlong_inc':
+        li_file = join(mpir_dir, join(i[2], r'longlong_inc.h'))
+      if i[0] == 'gmp-mparam':
+        write_f(join(mpir_dir, join(i[2], 'gmp-mparam.h')), join(mpir_dir, 'gmp-mparam.h'))
+    
+    if not li_file or not exists(li_file):
+      print('error attempting to read {0:s}'.format(li_file))
+      exit()
+      
+    tfile = join(mpir_dir, 'tmp.h')    
+    write_f(join(mpir_dir, 'longlong_pre.h'), tfile)
+    append_f(li_file, tfile)
+    append_f(join(mpir_dir, 'longlong_post.h'), tfile)
+    write_f(tfile, join(mpir_dir, 'longlong.h'))
+    unlink(tfile)
+  except IOError:
+    print('error attempting to generate longlong.h')
+    exit()
   
 # generate vcxproj filter
 
@@ -686,18 +743,25 @@ hf_list = ('config.h', 'gmp-impl.h', 'longlong.h', 'mpir.h', 'gmp-mparam.h')
 af_list = sorted(mpn_f[2] + mpn_f[3]) 
 
 # set up DLL build
-is_DLL = True
 proj_name = 'mpir'
-vcx_name = 'dll_mpir_' + config + '\\dll_mpir_' + config + '.2.vcxproj'
+vcx_name = 'dll_mpir_' + config + '\\dll_mpir_' + config + '.vcxproj'
 gen_filter(vcx_name + '.filters', hf_list, c_src_list + cc_src_list + mpn_f[1], af_list)
-gen_vcxproj(proj_name, vcx_name, mode, is_DLL, hf_list, c_src_list + cc_src_list + mpn_f[1], af_list)
+gen_vcxproj(proj_name, vcx_name, config, mode, True, False, hf_list, c_src_list + cc_src_list + mpn_f[1], af_list)
 
 # set up LIB build
-is_DLL = False
 proj_name = 'mpir'
-vcx_name = 'lib_mpir_' + config + '\\lib_mpir_' + config + '.2.vcxproj'
+vcx_name = 'lib_mpir_' + config + '\\lib_mpir_' + config + '.vcxproj'
 gen_filter(vcx_name + '.filters', hf_list, c_src_list + mpn_f[1], af_list)
-gen_vcxproj(proj_name, vcx_name, mode, is_DLL, hf_list, c_src_list + mpn_f[1], af_list)
+gen_vcxproj(proj_name, vcx_name, config, mode, False, False, hf_list, c_src_list + mpn_f[1], af_list)
+
+# C++ library build
+
+if add_cpp_lib:
+  proj_name = 'mpirxx'
+  vcx_name = 'lib_mpir_cxx\\lib_mpir_cxx.vcxproj'
+  th = hf_list +  ('mpirxx.h',)
+  gen_filter(vcx_name + '.filters', th, cc_src_list, '')
+  gen_vcxproj(proj_name, vcx_name, config, mode, False, True, th, cc_src_list, '')
   
 exit()
 
@@ -734,7 +798,6 @@ for x in mpn_f[config]:
   print()
   
 exit()
-
 
 mpn_dirs =  ('mpn/generic', 'mpn/x86_64w', 'mpn/x86w' )
 
