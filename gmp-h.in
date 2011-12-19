@@ -1249,7 +1249,7 @@ __GMP_DECLSPEC int mpq_cmp __GMP_PROTO ((mpq_srcptr, mpq_srcptr)) __GMP_ATTRIBUT
 __GMP_DECLSPEC int _mpq_cmp_si __GMP_PROTO ((mpq_srcptr, gmp_si, gmp_ui)) __GMP_ATTRIBUTE_PURE;
 
 #define _mpq_cmp_ui __gmpq_cmp_ui
-__GMP_DECLSPEC int _mpq_cmp_ui __GMP_PROTO ((mpq_srcptr, gmp_si, gmp_si)) __GMP_ATTRIBUTE_PURE;
+__GMP_DECLSPEC int _mpq_cmp_ui __GMP_PROTO ((mpq_srcptr, gmp_ui, gmp_ui)) __GMP_ATTRIBUTE_PURE;
 
 #define mpq_div __gmpq_div
 __GMP_DECLSPEC void mpq_div __GMP_PROTO ((mpq_ptr, mpq_srcptr, mpq_srcptr));
