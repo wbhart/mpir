@@ -45,7 +45,7 @@ mpir_dir = '../'
 build_dir = mpir_dir + 'build.vc10/'
 
 # paths that might include source files(*.c, *.h, *.asm)
-c_directories  = ( '', build_dir, 'mpf', 'mpq', 'mpz', 'printf', 'scanf' )
+c_directories  = ( '', 'build.vc10', 'mpf', 'mpq', 'mpz', 'printf', 'scanf' )
 
 # files that are to be excluded from the build
 exclude_file_list = ('config.guess', 'cfg', 'getopt', 'getrusage', 'gettimeofday', 'cpuid',
@@ -257,7 +257,7 @@ def filter_asrc(af_list, outf):
     outf.write(f2.format(i[0] + i[1], i[2], i[2]))
   outf.write(f3)
 
-def gen_filter(name, hf_list, src_list, af_list):
+def gen_filter(name, hf_list, cf_list, af_list):
   
   f1 = r'''<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
@@ -269,7 +269,7 @@ def gen_filter(name, hf_list, src_list, af_list):
   with open(fn, 'w') as outf:
     
     outf.write(f1)    
-    filter_folders(src_list, af_list, outf)
+    filter_folders(cf_list, af_list, outf)
     filter_headers(hf_list, outf)
     filter_csrc(cf_list, outf)
     if af_list:
