@@ -4,6 +4,7 @@
     <Filter Include="Header Files" />
     <Filter Include="Source Files" />
     <Filter Include="Source Files\cxx" />
+    <Filter Include="Source Files\fft" />
     <Filter Include="Source Files\mpf" />
     <Filter Include="Source Files\mpn" />
     <Filter Include="Source Files\mpn\yasm" />
@@ -104,6 +105,87 @@
   </ClCompile>
   <ClCompile Include="..\..\version.c">
     <Filter>Source Files</Filter>
+  </ClCompile>
+  <ClCompile Include="..\..\fft\adjust.c">
+    <Filter>Source Files\fft</Filter>
+  </ClCompile>
+  <ClCompile Include="..\..\fft\adjust_sqrt2.c">
+    <Filter>Source Files\fft</Filter>
+  </ClCompile>
+  <ClCompile Include="..\..\fft\butterfly_lshB.c">
+    <Filter>Source Files\fft</Filter>
+  </ClCompile>
+  <ClCompile Include="..\..\fft\butterfly_rshB.c">
+    <Filter>Source Files\fft</Filter>
+  </ClCompile>
+  <ClCompile Include="..\..\fft\combine_bits.c">
+    <Filter>Source Files\fft</Filter>
+  </ClCompile>
+  <ClCompile Include="..\..\fft\fermat_to_mpz.c">
+    <Filter>Source Files\fft</Filter>
+  </ClCompile>
+  <ClCompile Include="..\..\fft\fft_mfa_truncate_sqrt2.c">
+    <Filter>Source Files\fft</Filter>
+  </ClCompile>
+  <ClCompile Include="..\..\fft\fft_mfa_truncate_sqrt2_inner.c">
+    <Filter>Source Files\fft</Filter>
+  </ClCompile>
+  <ClCompile Include="..\..\fft\fft_negacylic.c">
+    <Filter>Source Files\fft</Filter>
+  </ClCompile>
+  <ClCompile Include="..\..\fft\fft_radix2.c">
+    <Filter>Source Files\fft</Filter>
+  </ClCompile>
+  <ClCompile Include="..\..\fft\fft_truncate.c">
+    <Filter>Source Files\fft</Filter>
+  </ClCompile>
+  <ClCompile Include="..\..\fft\fft_truncate_sqrt2.c">
+    <Filter>Source Files\fft</Filter>
+  </ClCompile>
+  <ClCompile Include="..\..\fft\ifft_mfa_truncate_sqrt2.c">
+    <Filter>Source Files\fft</Filter>
+  </ClCompile>
+  <ClCompile Include="..\..\fft\ifft_negacyclic.c">
+    <Filter>Source Files\fft</Filter>
+  </ClCompile>
+  <ClCompile Include="..\..\fft\ifft_radix2.c">
+    <Filter>Source Files\fft</Filter>
+  </ClCompile>
+  <ClCompile Include="..\..\fft\ifft_truncate.c">
+    <Filter>Source Files\fft</Filter>
+  </ClCompile>
+  <ClCompile Include="..\..\fft\ifft_truncate_sqrt2.c">
+    <Filter>Source Files\fft</Filter>
+  </ClCompile>
+  <ClCompile Include="..\..\fft\mul_mfa_truncate_sqrt2.c">
+    <Filter>Source Files\fft</Filter>
+  </ClCompile>
+  <ClCompile Include="..\..\fft\mul_truncate_sqrt2.c">
+    <Filter>Source Files\fft</Filter>
+  </ClCompile>
+  <ClCompile Include="..\..\fft\mulmod_2expp1.c">
+    <Filter>Source Files\fft</Filter>
+  </ClCompile>
+  <ClCompile Include="..\..\fft\randbits.c">
+    <Filter>Source Files\fft</Filter>
+  </ClCompile>
+  <ClCompile Include="..\..\fft\randint.c">
+    <Filter>Source Files\fft</Filter>
+  </ClCompile>
+  <ClCompile Include="..\..\fft\randlimb.c">
+    <Filter>Source Files\fft</Filter>
+  </ClCompile>
+  <ClCompile Include="..\..\fft\randprime.c">
+    <Filter>Source Files\fft</Filter>
+  </ClCompile>
+  <ClCompile Include="..\..\fft\randtest.c">
+    <Filter>Source Files\fft</Filter>
+  </ClCompile>
+  <ClCompile Include="..\..\fft\revbin.c">
+    <Filter>Source Files\fft</Filter>
+  </ClCompile>
+  <ClCompile Include="..\..\fft\split_bits.c">
+    <Filter>Source Files\fft</Filter>
   </ClCompile>
   <ClCompile Include="..\..\mpf\abs.c">
     <Filter>Source Files\mpf</Filter>
@@ -1047,6 +1129,9 @@
   <ClCompile Include="..\..\mpn\generic\dc_divappr_q_n.c">
     <Filter>Source Files\mpn</Filter>
   </ClCompile>
+  <ClCompile Include="..\..\mpn\generic\div_2expmod_2expp1.c">
+    <Filter>Source Files\mpn</Filter>
+  </ClCompile>
   <ClCompile Include="..\..\mpn\generic\divexact.c">
     <Filter>Source Files\mpn</Filter>
   </ClCompile>
@@ -1155,6 +1240,9 @@
   <ClCompile Include="..\..\mpn\generic\mul.c">
     <Filter>Source Files\mpn</Filter>
   </ClCompile>
+  <ClCompile Include="..\..\mpn\generic\mul_2expmod_2expp1.c">
+    <Filter>Source Files\mpn</Filter>
+  </ClCompile>
   <ClCompile Include="..\..\mpn\generic\mul_fft.c">
     <Filter>Source Files\mpn</Filter>
   </ClCompile>
@@ -1186,6 +1274,9 @@
     <Filter>Source Files\mpn</Filter>
   </ClCompile>
   <ClCompile Include="..\..\mpn\generic\neg_n.c">
+    <Filter>Source Files\mpn</Filter>
+  </ClCompile>
+  <ClCompile Include="..\..\mpn\generic\normmod_2expp1.c">
     <Filter>Source Files\mpn</Filter>
   </ClCompile>
   <ClCompile Include="..\..\mpn\generic\perfect_square_p.c">

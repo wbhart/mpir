@@ -45,7 +45,7 @@ mpir_dir = '../'
 build_dir = mpir_dir + 'build.vc10/'
 
 # paths that might include source files(*.c, *.h, *.asm)
-c_directories  = ( '', 'build.vc10', 'mpf', 'mpq', 'mpz', 'printf', 'scanf' )
+c_directories  = ( '', 'build.vc10', 'fft', 'mpf', 'mpq', 'mpz', 'printf', 'scanf' )
 
 # files that are to be excluded from the build
 exclude_file_list = ('config.guess', 'cfg', 'getopt', 'getrusage', 'gettimeofday', 'cpuid',
