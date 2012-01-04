@@ -1388,12 +1388,37 @@ are ports of GCC and the various GNU tools.
 @uref{http://www.mingw.org/}
 @end display
 
+Cygwin is a 32 bit build only but mingw is 32 or 64 bit build. Depending on how
+the mingw tools are installed will determine the best procedure for building ,
+because of the large number of ways this can be achieved it is best to search
+the MPIR devel mailing list or the mingw mailing list.
+
+For building with MSVC we provide a number of ways.
+
 In addition, project files for MSVC are provided, allowing MPIR to 
-build on Microsoft's compiler. For instructions on how to build MPIR using
-Microsoft Visual Studio 2008 see the 'readme.txt' file in the build.vc9
-directory. For Visual Studio 2010 see the readme.txt file in the build.vc10
+build on Microsoft's compiler. For Visual Studio 2010 see the readme.txt 
+file in the build.vc10
 directory. The MSVC projects provides full assembler support and for
-@samp{x86_64} CPU's this will produce far superior results.
+@samp{x86_64} CPU's this will produce far superior results. These project
+files can also be accessed via the command line with the batch files 
+@samp{configure.bat} and @samp{make.bat} which have a @samp{unix like}
+interface , however they are not very well tested and are due to be replaced.
+
+An another alternative is @samp{configure} and @samp{make} in the @samp{win} 
+directory , these again have a @samp{unix like} syntax , these are tested 
+regularly and also have the advantage of working with VS2005 and up (including
+the free/express versions). There is some auto detection of the compiler , but it's
+probably best to set it explicity using the usual 
+@samp{call "%VS90COMNTOOLS%\..\..\VC\vcvarsall.bat" amd64} in the command window.
+The program @samp{YASM} is also required and should be in path or the @samp{%YASMPATH%}
+varible set.
+If @samp{configure} guesses wrong , close the window and try again changing the @samp{ABI=...}
+selection and or the @samp{vcvarsall.bat} options.
+@samp{make} supports the usual @samp{clean} and @samp{check} options .
+The @samp{only} bug is that shared library builds @samp{dll's} fail the make check
+in the C++ parts for @samp{istream} and @samp{ostream} with some unresolved
+symbols.
+
 
 @item MS Windows DLLs
 @cindex DLLs
