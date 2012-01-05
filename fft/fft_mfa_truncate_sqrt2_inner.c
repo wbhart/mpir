@@ -51,7 +51,7 @@ void fft_mfa_truncate_sqrt2_inner(mp_limb_t ** ii, mp_limb_t ** jj, mp_size_t n,
    /* convolutions on relevant rows */
    for (s = 0; s < trunc2; s++)
    {
-      i = mpn_revbin(s, depth);
+      i = n_revbin(s, depth);
       fft_radix2(ii + i*n1, n1/2, w*n2, t1, t2);
       fft_radix2(jj + i*n1, n1/2, w*n2, t1, t2);
       

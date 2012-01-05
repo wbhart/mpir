@@ -197,7 +197,7 @@ void fft_mfa_truncate_sqrt2(mp_limb_t ** ii, mp_size_t n,
       fft_radix2_twiddle(ii + i, n1, n2/2, w*n1, t1, t2, w, 0, i, 1);
       for (j = 0; j < n2; j++)
       {
-         mp_size_t s = mpn_revbin(j, depth);
+         mp_size_t s = n_revbin(j, depth);
          if (j < s) MP_PTR_SWAP(ii[i+j*n1], ii[i+s*n1]);
       }
    }
@@ -208,7 +208,7 @@ void fft_mfa_truncate_sqrt2(mp_limb_t ** ii, mp_size_t n,
       fft_radix2(ii + i*n1, n1/2, w*n2, t1, t2);
       for (j = 0; j < n1; j++)
       {
-         mp_size_t t = mpn_revbin(j, depth2);
+         mp_size_t t = n_revbin(j, depth2);
          if (j < t) MP_PTR_SWAP(ii[i*n1+j], ii[i*n1+t]);
       }
    }
@@ -227,7 +227,7 @@ void fft_mfa_truncate_sqrt2(mp_limb_t ** ii, mp_size_t n,
       fft_truncate1_twiddle(ii + i, n1, n2/2, w*n1, t1, t2, w, 0, i, 1, trunc2);
       for (j = 0; j < n2; j++)
       {
-         mp_size_t s = mpn_revbin(j, depth);
+         mp_size_t s = n_revbin(j, depth);
          if (j < s) MP_PTR_SWAP(ii[i+j*n1], ii[i+s*n1]);
       }
    }
@@ -235,12 +235,12 @@ void fft_mfa_truncate_sqrt2(mp_limb_t ** ii, mp_size_t n,
    /* FFTs on relevant rows */
    for (s = 0; s < trunc2; s++)
    {
-      i = mpn_revbin(s, depth);
+      i = n_revbin(s, depth);
       fft_radix2(ii + i*n1, n1/2, w*n2, t1, t2);
       
       for (j = 0; j < n1; j++)
       {
-         mp_size_t t = mpn_revbin(j, depth2);
+         mp_size_t t = n_revbin(j, depth2);
          if (j < t) MP_PTR_SWAP(ii[i*n1+j], ii[i*n1+t]);
       }
    }
@@ -308,7 +308,7 @@ void fft_mfa_truncate_sqrt2_outer(mp_limb_t ** ii, mp_size_t n,
       fft_radix2_twiddle(ii + i, n1, n2/2, w*n1, t1, t2, w, 0, i, 1);
       for (j = 0; j < n2; j++)
       {
-         mp_size_t s = mpn_revbin(j, depth);
+         mp_size_t s = n_revbin(j, depth);
          if (j < s) MP_PTR_SWAP(ii[i+j*n1], ii[i+s*n1]);
       }
    }
@@ -327,7 +327,7 @@ void fft_mfa_truncate_sqrt2_outer(mp_limb_t ** ii, mp_size_t n,
       fft_truncate1_twiddle(ii + i, n1, n2/2, w*n1, t1, t2, w, 0, i, 1, trunc2);
       for (j = 0; j < n2; j++)
       {
-         mp_size_t s = mpn_revbin(j, depth);
+         mp_size_t s = n_revbin(j, depth);
          if (j < s) MP_PTR_SWAP(ii[i+j*n1], ii[i+s*n1]);
       }
    }
