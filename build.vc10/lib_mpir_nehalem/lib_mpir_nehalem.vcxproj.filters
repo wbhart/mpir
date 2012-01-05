@@ -1359,6 +1359,9 @@
     <ClCompile Include="..\..\mpn\generic\zero.c">
       <Filter>Source Files\mpn</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\fft\mul_fft_main.c">
+      <Filter>Source Files\fft</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <YASM Include="..\..\mpn\x86_64w\nehalem\add_err1_n.asm">

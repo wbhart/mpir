@@ -112,6 +112,7 @@ postbuild "$(TargetPath)"
     <ClCompile Include="..\..\assert.c" />
     <ClCompile Include="..\..\errno.c" />
     <ClCompile Include="..\..\extract-dbl.c" />
+    <ClCompile Include="..\..\fft\mul_fft_main.c" />
     <ClCompile Include="..\..\invalid.c" />
     <ClCompile Include="..\..\memory.c" />
     <ClCompile Include="..\..\mp_bpl.c" />
