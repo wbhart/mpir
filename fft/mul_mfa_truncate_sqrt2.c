@@ -52,7 +52,7 @@ void mpn_mul_mfa_truncate_sqrt2(mp_limb_t * r1, mp_limb_t * i1, mp_size_t n1,
    TMP_DECL;
 
    TMP_MARK;
-   ii = TMP_BALLOC_LIMBS(4*(n + n*size) + 5*size);
+   ii = TMP_BALLOC_MP_PTRS(4*(n + n*size) + 5*size);
    for (i = 0, ptr = (mp_limb_t *) ii + 4*n; i < 4*n; i++, ptr += size) 
    {
       ii[i] = ptr;
@@ -62,7 +62,7 @@ void mpn_mul_mfa_truncate_sqrt2(mp_limb_t * r1, mp_limb_t * i1, mp_size_t n1,
    s1 = t2 + size;
    tt = s1 + size;
    
-   jj = TMP_BALLOC_LIMBS(4*(n + n*size));
+   jj = TMP_BALLOC_MP_PTRS(4*(n + n*size));
    for (i = 0, ptr = (mp_limb_t *) jj + 4*n; i < 4*n; i++, ptr += size) 
    {
       jj[i] = ptr;

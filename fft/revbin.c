@@ -23,7 +23,8 @@
 
 ******************************************************************************/
 
-#include <mpir.h>
+#include "mpir.h"
+#include "gmp-impl.h"
 
 const mp_limb_t revtab0[1] = { 0 };
 const mp_limb_t revtab1[2] = { 0, 1 };

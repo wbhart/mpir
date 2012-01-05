@@ -55,7 +55,7 @@ void fft_naive_convolution_1(mp_limb_t * r, mp_limb_t * ii, mp_limb_t * jj, mp_s
    }
 }
 
-void _fft_mulmod_2expp1(mp_limb_t * r1, mp_limb_t * i1, mp_limb_t * i2, 
+static void _fft_mulmod_2expp1(mp_limb_t * r1, mp_limb_t * i1, mp_limb_t * i2, 
                  mp_size_t r_limbs, mp_bitcnt_t depth, mp_bitcnt_t w)
 {
    mp_size_t n = (((mp_limb_t)1)<<depth);
@@ -71,7 +71,7 @@ void _fft_mulmod_2expp1(mp_limb_t * r1, mp_limb_t * i1, mp_limb_t * i2,
    TMP_DECL;
 
    TMP_MARK;
-   ii = TMP_BALLOC_LIMBS(2*(n + n*size) + 4*n + 3*size);
+   ii = TMP_BALLOC_MP_PTRS(2*(n + n*size) + 4*n + 3*size);
    for (i = 0, ptr = (mp_limb_t *) ii + 2*n; i < 2*n; i++, ptr += size) 
    {
       ii[i] = ptr;
@@ -82,7 +82,7 @@ void _fft_mulmod_2expp1(mp_limb_t * r1, mp_limb_t * i1, mp_limb_t * i2,
    s1 = t2 + size;
    r = s1 + size;
    
-   jj = TMP_BALLOC_LIMBS(2*(n + n*size) + 2*n + 2*size);
+   jj = TMP_BALLOC_MP_PTRS(2*(n + n*size) + 2*n + 2*size);
    for (i = 0, ptr = (mp_limb_t *) jj + 2*n; i < 2*n; i++, ptr += size) 
    {
       jj[i] = ptr;
