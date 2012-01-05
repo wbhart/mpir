@@ -24,7 +24,7 @@ Changes between MPIR 2.5.0 and MPIR 2.4.0
 
 Bug Fixes:
 
- * Correct rounding mode tests
+ * Correct rounding mode make check tests
 
 Speedups:
 
@@ -33,17 +33,18 @@ Speedups:
  * New x86_64 assembler code
  * New Toom eval function using the new assembler code
  * Detect another Sandybridge CPU
- * New GCD code (via GMP project)
+ * New GCD code (by the GMP project)
 
 Features:
 
  * General cleanup of old features 
  * Upgrade intenal component YASM
- * MSVC tweeks
+ * MSVC build tweeks
+ * New experimental MSVC python build system
 
 Changes:
 
- * Remove explicit support for thumb m68k sh cpu's
+ * Remove explicit support for thumb m68k and sh cpu's
 
 Changes between MPIR 2.4.0 and MPIR 2.3.1
 
