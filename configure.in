@@ -2153,10 +2153,11 @@ gmp_mpn_functions_optional="umul udiv copyi copyd com_n neg_n
   mul_2 mul_3 mul_4 store not karaadd karasub half double		\
   addmul_2 addmul_3 addmul_4 addmul_5 addmul_6 addmul_7 addmul_8	\
   addlsh1_n sublsh1_n rsh1add_n rsh1sub_n sumdiff_n lshiftc		\
-  addadd_n addsub_n subadd_n addlsh_n sublsh_n inclsh_n declsh_n"
+  addlsh_n sublsh_n inclsh_n declsh_n"
 
 gmp_mpn_functions="$extra_functions					   \
   add add_1 add_n sub sub_1 sub_n mul_1 addmul_1 submul_1 lshift rshift    \
+  addadd_n addsub_n subadd_n		\
   divexact_1 divexact_by3c divexact_byff divexact_byfobm1 divisible_p divrem divrem_1 divrem_2       \
   divrem_euclidean_qr_1 divrem_euclidean_qr_2 divrem_euclidean_r_1	\
   divrem_hensel_qr_1 divrem_hensel_qr_1_1 divrem_hensel_qr_1_2		\

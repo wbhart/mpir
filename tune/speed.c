@@ -165,15 +165,9 @@ const struct routine_t {
 #if HAVE_NATIVE_mpn_sumdiff_n
   { "mpn_sumdiff_n",      speed_mpn_sumdiff_n,     FLAG_R_OPTIONAL },
 #endif
-#if HAVE_NATIVE_mpn_addadd_n
   { "mpn_addadd_n",      speed_mpn_addadd_n,  },
-#endif
-#if HAVE_NATIVE_mpn_subadd_n
   { "mpn_subadd_n",      speed_mpn_subadd_n,  },
-#endif
-#if HAVE_NATIVE_mpn_addsub_n
   { "mpn_addsub_n",      speed_mpn_addsub_n,  },
-#endif
 #if HAVE_NATIVE_mpn_karaadd
   { "mpn_karaadd",      speed_mpn_karaadd,  },
 #endif

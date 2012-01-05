@@ -38,7 +38,6 @@ main (void)
   gmp_randinit_default(rands);
 
 
-#if HAVE_NATIVE_mpn_addsub_n
   for (i1 = 0; i1 < 2; i1++)
     {
       for (n = 1; n < 100; n++)
@@ -73,7 +72,6 @@ main (void)
 	    }
 	}
     }
-#endif
   gmp_randclear(rands);
   tests_end ();
   exit (0);
