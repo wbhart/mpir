@@ -31,12 +31,9 @@ or implied, of William Hart.
 #include "mpir.h"
 #include "gmp-impl.h"
 #include "longlong.h"
+#include "fft_tuning.h"
 
-#define FFT_MULMOD_2EXPP1_CUTOFF 250
-#define FFT_N_NUM 7
-
-static mp_size_t mulmod_2expp1_table_n[FFT_N_NUM][2] = 
-{ { 3, 3 }, { 3, 3 }, { 3, 3 }, { 3, 2 }, { 2, 2 }, { 2, 2 }, { 1, 1 } };
+static mp_size_t mulmod_2expp1_table_n[FFT_N_NUM][2] = MULMOD_TAB;
 
 void fft_naive_convolution_1(mp_limb_t * r, mp_limb_t * ii, mp_limb_t * jj, mp_size_t m)
 {
@@ -55,7 +52,7 @@ void fft_naive_convolution_1(mp_limb_t * r, mp_limb_t * ii, mp_limb_t * jj, mp_s
    }
 }
 
-static void _fft_mulmod_2expp1(mp_limb_t * r1, mp_limb_t * i1, mp_limb_t * i2, 
+void fft_mulmod_2expp1(mp_limb_t * r1, mp_limb_t * i1, mp_limb_t * i2, 
                  mp_size_t r_limbs, mp_bitcnt_t depth, mp_bitcnt_t w)
 {
    mp_size_t n = (((mp_limb_t)1)<<depth);
@@ -170,7 +167,7 @@ static void _fft_mulmod_2expp1(mp_limb_t * r1, mp_limb_t * i1, mp_limb_t * i2,
    TMP_FREE;
 }
 
-void fft_mulmod_2expp1(mp_limb_t * r, mp_limb_t * i1, mp_limb_t * i2, 
+void mpn_fft_mulmod_2expp1(mp_limb_t * r, mp_limb_t * i1, mp_limb_t * i2, 
                            mp_size_t n, mp_size_t w, mp_limb_t * tt)
 {
    mp_size_t bits = n*w;
@@ -196,5 +193,5 @@ void fft_mulmod_2expp1(mp_limb_t * r, mp_limb_t * i1, mp_limb_t * i2,
    depth1 -= off;
    w1 *= (1L<<(2*off));
 
-   _fft_mulmod_2expp1(r, i1, i2, bits/GMP_LIMB_BITS, depth1, w1);
+   fft_mulmod_2expp1(r, i1, i2, bits/GMP_LIMB_BITS, depth1, w1);
 }
