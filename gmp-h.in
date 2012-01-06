@@ -1829,10 +1829,10 @@ __GMP_DECLSPEC void mpn_zero __GMP_PROTO ((mp_ptr, mp_size_t));
 
 /**************** FFT interface ****************/
 
-#define mpn_normmod_2expp1 __gmpn_normmod_2expp1
+#define mpn_normmod_2expp1 __MPN(normmod_2expp1)
 __GMP_DECLSPEC void mpn_normmod_2expp1 __GMP_PROTO ((mp_limb_t * t, mp_size_t limbs));
 
-#define mpn_div_2expmod_2expp1 __gmpn_div_2expmod_2expp1
+#define mpn_div_2expmod_2expp1 __MPN(div_2expmod_2expp1)
 __GMP_DECLSPEC void mpn_div_2expmod_2expp1 __GMP_PROTO ((mp_limb_t * t, mp_limb_t * i1, mp_size_t limbs, mp_bitcnt_t d));
 
 #define fft_combine_bits __fft_combine_bits
@@ -1904,15 +1904,15 @@ __GMP_DECLSPEC void fft_mfa_truncate_sqrt2_inner __GMP_PROTO ((mp_limb_t ** ii, 
 __GMP_DECLSPEC void fft_mulmod_2expp1 __GMP_PROTO ((mp_limb_t * r, mp_limb_t * i1, mp_limb_t * i2, 
                                         mp_size_t n, mp_size_t w, mp_limb_t * tt));
 
-#define mpn_mul_truncate_sqrt2 __gmpn_mul_truncate_sqrt2
+#define mpn_mul_truncate_sqrt2 __MPN(mul_truncate_sqrt2)
 __GMP_DECLSPEC void mpn_mul_truncate_sqrt2 __GMP_PROTO ((mp_limb_t * r1, mp_limb_t * i1, mp_size_t n1, 
                   mp_limb_t * i2, mp_size_t n2, mp_bitcnt_t depth, mp_bitcnt_t w));
 
-#define mpn_mul_mfa_truncate_sqrt2 __gmpn_mul_mfa_truncate_sqrt2
+#define mpn_mul_mfa_truncate_sqrt2 __MPN(mul_mfa_truncate_sqrt2)
 __GMP_DECLSPEC void mpn_mul_mfa_truncate_sqrt2 __GMP_PROTO ((mp_limb_t * r1, mp_limb_t * i1, mp_size_t n1, 
                   mp_limb_t * i2, mp_size_t n2, mp_bitcnt_t depth, mp_bitcnt_t w));
 
-#define mpn_mul_fft_main __gmpn_mul_fft_main
+#define mpn_mul_fft_main __MPN(mul_fft_main)
 __GMP_DECLSPEC void mpn_mul_fft_main __GMP_PROTO ((mp_limb_t * r1, mp_limb_t * i1, mp_size_t n1, mp_limb_t * i2, mp_size_t n2));
 
 /**************** mpz inlines ****************/
