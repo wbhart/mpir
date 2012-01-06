@@ -80,7 +80,7 @@ main(void)
            if (in[j] != out[j])
            {
               printf("FAIL:\n");
-              printf("Error in limb %ld, %lu != %lu\n", j, in[j], out[j]);
+              gmp_printf("Error in limb %ld, %Mu != %Mu\n", j, in[j], out[j]);
               abort();
            }
         }

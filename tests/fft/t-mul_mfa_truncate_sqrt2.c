@@ -77,7 +77,7 @@ main(void)
             {
                 if (r1[j] != r2[j]) 
                 {
-                    printf("error in limb %ld, %lx != %lx\n", j, r1[j], r2[j]);
+                    gmp_printf("error in limb %ld, %Mx != %Mx\n", j, r1[j], r2[j]);
                     abort();
                 }
             }

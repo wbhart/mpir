@@ -118,7 +118,7 @@ main(void)
                     {
                         printf("FAIL:\n");
                         printf("butterfly_lshB error a\n");
-                        printf("x = %ld, y = %ld, limbs = %ld\n", x, y, limbs);
+                        gmp_printf("x = %Md, y = %Md, limbs = %ld\n", x, y, limbs);
                         printf("n = %ld, w = %ld, k = %ld, c = %ld\n", n, w, k, c);
                         gmp_printf("want %Zx\n\n", ma);
                         gmp_printf("got  %Zx\n", m2a);
@@ -128,7 +128,7 @@ main(void)
                     {
                         printf("FAIL:\n");
                         printf("butterfly_lshB error b\n");
-                        printf("x = %ld, y = %ld, limbs = %ld\n", x, y, limbs);
+                        gmp_printf("x = %Md, y = %Md, limbs = %ld\n", x, y, limbs);
                         printf("n = %ld, w = %ld, k = %ld, c = %ld\n", n, w, k, c);
                         gmp_printf("want %Zx\n\n", mb);
                         gmp_printf("got  %Zx\n", m2b);
