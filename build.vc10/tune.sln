@@ -5,6 +5,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lib_speed", "lib_speed\lib_
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tune", "tune\tune.vcxproj", "{8E73AD17-D49E-4F63-A483-C5A82A1FA312}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tune-fft", "tune\tune-fft.vcxproj", "{3F33FC73-66DD-498B-886E-2AFD0984F5E6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -29,6 +31,14 @@ Global
 		{8E73AD17-D49E-4F63-A483-C5A82A1FA312}.Release|Win32.Build.0 = Release|Win32
 		{8E73AD17-D49E-4F63-A483-C5A82A1FA312}.Release|x64.ActiveCfg = Release|x64
 		{8E73AD17-D49E-4F63-A483-C5A82A1FA312}.Release|x64.Build.0 = Release|x64
+		{3F33FC73-66DD-498B-886E-2AFD0984F5E6}.Debug|Win32.ActiveCfg = Debug|Win32
+		{3F33FC73-66DD-498B-886E-2AFD0984F5E6}.Debug|Win32.Build.0 = Debug|Win32
+		{3F33FC73-66DD-498B-886E-2AFD0984F5E6}.Debug|x64.ActiveCfg = Debug|x64
+		{3F33FC73-66DD-498B-886E-2AFD0984F5E6}.Debug|x64.Build.0 = Debug|x64
+		{3F33FC73-66DD-498B-886E-2AFD0984F5E6}.Release|Win32.ActiveCfg = Release|Win32
+		{3F33FC73-66DD-498B-886E-2AFD0984F5E6}.Release|Win32.Build.0 = Release|Win32
+		{3F33FC73-66DD-498B-886E-2AFD0984F5E6}.Release|x64.ActiveCfg = Release|x64
+		{3F33FC73-66DD-498B-886E-2AFD0984F5E6}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
