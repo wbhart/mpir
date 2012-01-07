@@ -68,7 +68,7 @@ void fft_mulmod_2expp1(mp_limb_t * r1, mp_limb_t * i1, mp_limb_t * i2,
    TMP_DECL;
 
    TMP_MARK;
-   ii = TMP_BALLOC_MP_PTRS(2*(n + n*size) + 4*n + 3*size);
+   ii = TMP_BALLOC_MP_PTRS(2*(n + n*size) + 4*n + 5*size);
    for (i = 0, ptr = (mp_limb_t *) ii + 2*n; i < 2*n; i++, ptr += size) 
    {
       ii[i] = ptr;
@@ -78,15 +78,22 @@ void fft_mulmod_2expp1(mp_limb_t * r1, mp_limb_t * i1, mp_limb_t * i2,
    t2 = t1 + size;
    s1 = t2 + size;
    r = s1 + size;
+   tt = r + 2*n;
    
-   jj = TMP_BALLOC_MP_PTRS(2*(n + n*size) + 2*n + 2*size);
-   for (i = 0, ptr = (mp_limb_t *) jj + 2*n; i < 2*n; i++, ptr += size) 
+   if (i1 != i2)
    {
-      jj[i] = ptr;
+      jj = TMP_BALLOC_MP_PTRS(2*(n + n*size) + 2*n);
+      for (i = 0, ptr = (mp_limb_t *) jj + 2*n; i < 2*n; i++, ptr += size) 
+      {
+         jj[i] = ptr;
+      }
+      jj0 = ptr;
+   } else
+   {
+      jj = ii;
+      jj0 = ii0;
    }
-   jj0 = ptr;
-   tt = jj0 + 2*n;
-   
+
    j = fft_split_bits(ii, i1, r_limbs, bits1, limbs);
    for ( ; j < 2*n; j++)
       mpn_zero(ii[j], limbs + 1);
@@ -98,18 +105,21 @@ void fft_mulmod_2expp1(mp_limb_t * r1, mp_limb_t * i1, mp_limb_t * i2,
    for (j = 0; j < 2*n; j++)
       mpn_normmod_2expp1(ii[j], limbs);
 
-   j = fft_split_bits(jj, i2, r_limbs, bits1, limbs);
-   for ( ; j < 2*n; j++)
-      mpn_zero(jj[j], limbs + 1);
-   
-   for (i = 0; i < 2*n; i++)
-      jj0[i] = jj[i][0];
-   
-   fft_negacyclic(jj, n, w, &t1, &t2, &s1);
+   if (i1 != i2)
+   {
+      j = fft_split_bits(jj, i2, r_limbs, bits1, limbs);
+      for ( ; j < 2*n; j++)
+          mpn_zero(jj[j], limbs + 1);
+
+      for (i = 0; i < 2*n; i++)
+         jj0[i] = jj[i][0];
+
+      fft_negacyclic(jj, n, w, &t1, &t2, &s1);
+   }
       
    for (j = 0; j < 2*n; j++)
    {
-      mpn_normmod_2expp1(jj[j], limbs);
+      if (i1 != i2) mpn_normmod_2expp1(jj[j], limbs);
       c = ii[j][limbs] + 2*jj[j][limbs];
       ii[j][limbs] = mpn_mulmod_2expp1(ii[j], ii[j], jj[j], c, n*w, tt);
    }
