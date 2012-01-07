@@ -232,8 +232,10 @@ for %%X in ( *.exe) do (
 
 cd mpn
 for %%X in ( ..\..\..\tests\mpn\t-*.c) do (
-	cl %OPT% /I..\..\.. /I..\..\..\tests %%X ..\misc.obj ..\memory.obj ..\trace.obj ..\refmpn.obj %MPIRLIB%
-	if errorlevel 1 goto :err
+	if not %%X == ..\..\..\tests\mpn\t-fat.c (
+		cl %OPT% /I..\..\.. /I..\..\..\tests %%X ..\misc.obj ..\memory.obj ..\trace.obj ..\refmpn.obj %MPIRLIB%
+		if errorlevel 1 goto :err
+	)
 )
 for %%X in ( *.exe) do (
 	echo testing mpn_%%X
