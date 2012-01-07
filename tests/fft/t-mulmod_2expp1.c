@@ -93,7 +93,52 @@ main(void)
             }
         }
     }
-    
+
+    /* test squaring */
+    for (iters = 0; iters < 100; iters++)
+    {
+        for (depth = 6; depth <= 18; depth++)
+        {
+            for (w = 1; w <= 2; w++)
+            {
+                mp_size_t n = (((mp_limb_t)1)<<depth);
+                mp_bitcnt_t bits = n*w;
+                mp_size_t int_limbs = bits/GMP_LIMB_BITS;
+                mp_size_t j;
+                mp_limb_t c, * i1, * r1, * r2, * tt;
+        
+                i1 = malloc(5*(int_limbs+1)*sizeof(mp_limb_t));
+                r1 = i1 + int_limbs + 1;
+                r2 = r1 + int_limbs + 1;
+               tt = r2 + int_limbs + 1;
+
+                random_fermat(i1, state, int_limbs);
+                mpn_normmod_2expp1(i1, int_limbs);
+                
+                mpn_fft_mulmod_2expp1(r2, i1, i1, n, w, tt);
+                c = i1[int_limbs] + 2*i1[int_limbs];
+                c = mpn_mulmod_2expp1(r1, i1, i1, c, int_limbs*GMP_LIMB_BITS, tt);
+            
+                for (j = 0; j < int_limbs; j++)
+                {
+                    if (r1[j] != r2[j]) 
+                    {
+                        gmp_printf("error in limb %ld, %Mx != %Mx\n", j, r1[j], r2[j]);
+                        abort();
+                    }
+                }
+
+                if (c != r2[int_limbs])
+                {
+                    gmp_printf("error in limb %ld, %Mx != %Mx\n", j, c, r2[j]);
+                    abort();
+                }
+
+                free(i1);
+            }
+        }
+    }
+
     gmp_randclear(state);
     
     tests_end();

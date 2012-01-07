@@ -87,6 +87,46 @@ main(void)
         }
     }
 
+    /* test squaring */
+    for (depth = 6; depth <= 12; depth++)
+    {
+        for (w = 1; w <= 5; w++)
+        {
+            mp_size_t n = (((mp_limb_t)1)<<depth);
+            mp_bitcnt_t bits1 = (n*w - (depth + 1))/2; 
+            mp_limb_t trunc;
+            mp_bitcnt_t bits;
+            mp_size_t int_limbs;
+            mp_size_t j;
+            mp_limb_t * i1, *r1, *r2;
+        
+            mpn_rrandom(&trunc, state, 1);
+            trunc = 2*n + 2 * (trunc % n) + 2; /* trunc is even */
+            bits = (trunc/2)*bits1;
+            int_limbs = (bits - 1)/GMP_LIMB_BITS + 1;
+
+            i1 = malloc(5*int_limbs*sizeof(mp_limb_t));
+            r1 = i1 + int_limbs;
+            r2 = r1 + 2*int_limbs;
+   
+            mpn_urandomb(i1, state, int_limbs*GMP_LIMB_BITS);
+            
+            mpn_mul(r2, i1, int_limbs, i1, int_limbs);
+            mpn_mul_truncate_sqrt2(r1, i1, int_limbs, i1, int_limbs, depth, w);
+            
+            for (j = 0; j < 2*int_limbs; j++)
+            {
+                if (r1[j] != r2[j]) 
+                {
+                    gmp_printf("error in limb %ld, %Mx != %Mx\n", j, r1[j], r2[j]);
+                    abort();
+                }
+            }
+
+            free(i1);
+        }
+    }
+
     gmp_randclear(state);
     
     tests_end();
