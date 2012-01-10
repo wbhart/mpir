@@ -35,7 +35,7 @@ void ifft_butterfly_sqrt2(mp_limb_t * s, mp_limb_t * t, mp_limb_t * i1,
    mp_limb_t * i2, mp_size_t i, mp_size_t limbs, mp_bitcnt_t w, mp_limb_t * temp)
 {
    mp_bitcnt_t wn = limbs*GMP_LIMB_BITS;
-   mp_limb_t cy;
+   mp_limb_t cy = 0;
    mp_size_t j = i/2, k = w/2;
    mp_size_t y2, y;
    mp_size_t b1;
@@ -55,10 +55,10 @@ void ifft_butterfly_sqrt2(mp_limb_t * s, mp_limb_t * t, mp_limb_t * i1,
    
    /* multiply by 2^{wn/2} */
    y = limbs/2;
-    
+   
    mpn_copyi(temp + y, i2, limbs - y);
    temp[limbs] = 0;
-   cy = mpn_neg_n(temp, i2 + limbs - y, y);
+   if (y) cy = mpn_neg_n(temp, i2 + limbs - y, y);
    mpn_addmod_2expp1_1(temp + y, limbs - y, -i2[limbs]);
    mpn_sub_1(temp + y, temp + y, limbs - y + 1, cy); 
    

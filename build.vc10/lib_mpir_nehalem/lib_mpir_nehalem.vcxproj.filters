@@ -1536,4 +1536,7 @@
     <Filter>Source Files\mpn\yasm</Filter>
   </YASM>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\gmp-h.in" />
+  </ItemGroup>
 </Project>

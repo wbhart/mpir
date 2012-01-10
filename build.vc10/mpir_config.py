@@ -261,9 +261,13 @@ def gen_filter(name, hf_list, cf_list, af_list):
   
   f1 = r'''<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+'''  
+  f2 = r'''  <ItemGroup>
+    <None Include="..\..\gmp-h.in" />
+  </ItemGroup>
+</Project>
 '''
-  f2 = r'''</Project>
-'''
+  
   fn = join(build_dir, name)
   makedirs(split(fn)[0], exist_ok=True)
   with open(fn, 'w') as outf:
@@ -517,9 +521,13 @@ def gen_vcxproj(proj_name, file_name, config, plat, is_dll, is_cpp, hf_list, cf_
     <Import Project="..\vsyasm.targets" />
   </ImportGroup>
 '''
-  f5 = '''</Project>
+
+  f5 = r'''<ItemGroup>
+    <None Include="..\..\gmp-h.in" />
+  </ItemGroup>
+</Project>
 '''
-  
+
   with open(join(build_dir, file_name), 'w') as outf:
     outf.write(f1)
     vcx_proj_cfg(plat, outf)
