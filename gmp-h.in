@@ -1852,6 +1852,9 @@ __GMP_DECLSPEC void mpn_mul_fft_main __GMP_PROTO ((mp_limb_t * r1, mp_limb_t * i
 
 /**************** FFT API ****************/
 
+#define  fft_adjust_limbs  __fft_adjust_limbs
+__GMP_DECLSPEC gmp_si fft_adjust_limbs __GMP_PROTO ((mp_size_t limbs));
+
 #define fft_combine_bits __fft_combine_bits
 __GMP_DECLSPEC void fft_combine_bits __GMP_PROTO ((mp_limb_t * res, mp_limb_t ** poly, 
                 long length, mp_bitcnt_t bits, mp_size_t output_limbs, mp_size_t total_limbs));
