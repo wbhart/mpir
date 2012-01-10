@@ -243,10 +243,10 @@ mpn_sqr (mp_ptr p, mp_srcptr a, mp_size_t n)
 #if WANT_FFT || TUNE_PROGRAM_BUILD
   else
     {
-#if 0
-       mpn_mul_fft_main(p, a, n, a, n); 
-#else
+#if defined( OLD_FFT )
        mpn_mul_fft_full (p, a, n, a, n);
+#else
+       mpn_mul_fft_main(p, a, n, a, n); 
 #endif
     }
 #endif

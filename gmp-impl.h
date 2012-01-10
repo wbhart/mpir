@@ -1192,6 +1192,9 @@ __GMP_DECLSPEC void ifft_truncate1_twiddle __GMP_PROTO ((mp_limb_t ** ii, mp_siz
 __GMP_DECLSPEC void fft_naive_convolution_1 __GMP_PROTO ((mp_limb_t * r, mp_limb_t * ii, 
                                                      mp_limb_t * jj, mp_size_t m));
 
+#define mpn_mulmod_2expp1_basecase __MPN(mulmod_2expp1_basecase)
+__GMP_DECLSPEC int mpn_mulmod_2expp1_basecase __GMP_PROTO ((mp_ptr, mp_srcptr, mp_srcptr, int, gmp_ui, mp_ptr));
+
 typedef __gmp_randstate_struct *gmp_randstate_ptr;
 typedef const __gmp_randstate_struct *gmp_randstate_srcptr;
 

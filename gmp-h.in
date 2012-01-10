@@ -1829,10 +1829,6 @@ __GMP_DECLSPEC void mpn_zero __GMP_PROTO ((mp_ptr, mp_size_t));
 
 /**************** MPN API for FFT ****************/
 
-#define mpn_fft_mulmod_2expp1 __MPN(fft_mulmod_2expp1)
-__GMP_DECLSPEC void mpn_fft_mulmod_2expp1 __GMP_PROTO ((mp_limb_t * r, mp_limb_t * i1, mp_limb_t * i2, 
-                           mp_size_t n, mp_size_t w, mp_limb_t * tt));
-
 #define mpn_normmod_2expp1 __MPN(normmod_2expp1)
 __GMP_DECLSPEC void mpn_normmod_2expp1 __GMP_PROTO ((mp_limb_t * t, mp_size_t limbs));
 

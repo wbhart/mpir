@@ -171,7 +171,7 @@ main(void)
            
             start = clock();
             for (i = 0; i < iters; i++)
-                mpn_mulmod_2expp1(r1, i1, i2, 0, bits, tt);
+                mpn_mulmod_2expp1_basecase(r1, i1, i2, 0, bits, tt);
             end = clock();
                
             elapsed = ((double) (end - start)) / CLOCKS_PER_SEC;

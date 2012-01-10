@@ -70,9 +70,9 @@ main(void)
                 mpn_normmod_2expp1(i1, int_limbs);
                 mpn_normmod_2expp1(i2, int_limbs);
 
-                mpn_fft_mulmod_2expp1(r2, i1, i2, n, w, tt);
+                mpn_mulmod_2expp1(r2, i1, i2, n, w, tt);
                 c = i1[int_limbs] + 2*i2[int_limbs];
-                c = mpn_mulmod_2expp1(r1, i1, i2, c, int_limbs*GMP_LIMB_BITS, tt);
+                c = mpn_mulmod_2expp1_basecase(r1, i1, i2, c, int_limbs*GMP_LIMB_BITS, tt);
             
                 for (j = 0; j < int_limbs; j++)
                 {
@@ -115,9 +115,9 @@ main(void)
                 random_fermat(i1, state, int_limbs);
                 mpn_normmod_2expp1(i1, int_limbs);
                 
-                mpn_fft_mulmod_2expp1(r2, i1, i1, n, w, tt);
+                mpn_mulmod_2expp1(r2, i1, i1, n, w, tt);
                 c = i1[int_limbs] + 2*i1[int_limbs];
-                c = mpn_mulmod_2expp1(r1, i1, i1, c, int_limbs*GMP_LIMB_BITS, tt);
+                c = mpn_mulmod_2expp1_basecase(r1, i1, i1, c, int_limbs*GMP_LIMB_BITS, tt);
             
                 for (j = 0; j < int_limbs; j++)
                 {

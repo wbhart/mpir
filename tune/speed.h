@@ -260,7 +260,7 @@ double speed_mpn_mul_n_sqr _PROTO ((struct speed_params *s));
 double speed_mpn_mullow_n _PROTO ((struct speed_params *s));
 double speed_mpn_mulhigh_n _PROTO ((struct speed_params *s));
 double speed_mpn_mulmod_2expm1 _PROTO ((struct speed_params *s));
-double speed_mpn_mulmod_2expp1 _PROTO ((struct speed_params *s));
+double speed_mpn_mulmod_2expp1_basecase _PROTO ((struct speed_params *s));
 double speed_mpn_mullow_n_basecase _PROTO ((struct speed_params *s));
 double speed_mpn_nand_n _PROTO ((struct speed_params *s));
 double speed_mpn_nior_n _PROTO ((struct speed_params *s));
@@ -1179,8 +1179,8 @@ int speed_routine_count_zeros_setup _PROTO ((struct speed_params *s,
     return t;								\
   }
 
-/* For mpn_mulmod_2expp1 , xsize=r, ysize=s->size. */
-#define SPEED_ROUTINE_MPN_MULMOD_2EXPP1(function)			\
+/* For mpn_mulmod_2expp1_basecase , xsize=r, ysize=s->size. */
+#define SPEED_ROUTINE_MPN_MULMOD_2EXPP1_BASECASE(function)			\
   {									\
     mp_ptr    wp,temps;							\
     unsigned  i;							\

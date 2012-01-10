@@ -1,153 +1,68 @@
-/* mpn_mulmod_2expp1 
+/* 
 
-Copyright 2009 Jason Moxham
+Copyright 2009, 2011 William Hart. All rights reserved.
 
-This file is part of the MPIR Library.
+Redistribution and use in source and binary forms, with or without modification, are
+permitted provided that the following conditions are met:
 
-The MPIR Library is free software; you can redistribute it and/or modify
-it under the terms of the GNU Lesser General Public License as published
-by the Free Software Foundation; either version 2.1 of the License, or (at
-your option) any later version.
+   1. Redistributions of source code must retain the above copyright notice, this list of
+      conditions and the following disclaimer.
 
-The MPIR Library is distributed in the hope that it will be useful, but
-WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
-or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public
-License for more details.
+   2. Redistributions in binary form must reproduce the above copyright notice, this list
+      of conditions and the following disclaimer in the documentation and/or other materials
+      provided with the distribution.
 
-You should have received a copy of the GNU Lesser General Public License
-along with the MPIR Library; see the file COPYING.LIB.  If not, write
-to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
-Boston, MA 02110-1301, USA.
+THIS SOFTWARE IS PROVIDED BY William Hart ``AS IS'' AND ANY EXPRESS OR IMPLIED
+WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL William Hart OR
+CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+The views and conclusions contained in the software and documentation are those of the
+authors and should not be interpreted as representing official policies, either expressed
+or implied, of William Hart.
+
 */
 
 #include "mpir.h"
 #include "gmp-impl.h"
 #include "longlong.h"
+#include "fft\fft_tuning.h"
 
-//          k           0 1 2    3   4   5    6    7    8     9    10     11     12      13      14       15
-static mp_size_t tab[]={0,0,0,2632,304,448,1024,2304,6400,11264,45056,114688,327680,1310720,3145728,12582912 };// OUT OF DATE
-// from K8 old mul_fft_table           560 1184 1856 3840
-// these thresholds could do with tuning , and extending
+static mp_size_t mulmod_2expp1_table_n[FFT_N_NUM] = MULMOD_TAB;
 
-// ret+(xp,n)=(yp,n)*(zp,n) % 2^b+1  
-// needs (tp,2n) temp space , everything reduced mod 2^b 
-// inputs,outputs are fully reduced
-// NOTE: 2n is not the same as 2b rounded up to nearest limb
-inline static int
-mpn_mulmod_2expp1_internal (mp_ptr xp, mp_srcptr yp, mp_srcptr zp,
-			    gmp_ui b, mp_ptr tp)
+int mpn_mulmod_2expp1(mp_limb_t * r, mp_limb_t * i1, mp_limb_t * i2, mp_size_t n, mp_size_t w, mp_limb_t * tt)
 {
-  mp_size_t n, k;
-  mp_limb_t c;
-
-  n = BITS_TO_LIMBS (b);
-  k = GMP_NUMB_BITS * n - b;
-  ASSERT (b > 0);
-  ASSERT (n > 0);
-  ASSERT_MPN (yp, n);
-  ASSERT_MPN (zp, n);
-  ASSERT (!MPN_OVERLAP_P (tp, 2 * n, yp, n));
-  ASSERT (!MPN_OVERLAP_P (tp, 2 * n, zp, n));
-  ASSERT (!MPN_OVERLAP_P (xp, n, yp, n));
-  ASSERT (!MPN_OVERLAP_P (xp, n, zp, n));
-  ASSERT (MPN_SAME_OR_SEPARATE_P (xp, tp, n));
-  ASSERT (MPN_SAME_OR_SEPARATE_P (xp, tp + n, n));
-  ASSERT (k == 0 || yp[n - 1] >> (GMP_NUMB_BITS - k) == 0);
-  ASSERT (k == 0 || zp[n - 1] >> (GMP_NUMB_BITS - k) == 0);
-#if 0 && GMP_NAIL_BITS == 0
-// mpn_mul_fft dont do nails
-// fft has changed cant use this like this , but can use it HOW?
-  if (k == 0 && n % 8 == 0)
-    {
-      count_trailing_zeros (c, n);
-      if (c > 15)
-	c = 15;
-      for (c = c; c > 2; c--)
-	if (n >= tab[c])
-	  return mpn_mul_fft (xp, n, yp, n, zp, n, c);
-    }
-#endif
-  mpn_mul_n (tp, yp, zp, n);
-  if (k == 0)
-    {
-      c = mpn_sub_n (xp, tp, tp + n, n);
-      return mpn_add_1 (xp, xp, n, c);
-    }
-  c = tp[n - 1];
-  tp[n - 1] &= GMP_NUMB_MASK >> k;
-#if HAVE_NATIVE_mpn_sublsh_nc
-  c = mpn_sublsh_nc (xp, tp, tp + n, n, k, c);
+#if defined( OLD_FFT )
+   return mpn_mulmod_2expp1_basecase(r, i1, i2, c, bits, tt);
 #else
-  {
-    mp_limb_t c1;
-    c1 = mpn_lshift (tp + n, tp + n, n, k);
-    tp[n] |= c >> (GMP_NUMB_BITS - k);
-    c = mpn_sub_n (xp, tp, tp + n, n) + c1;
-  }
+   mp_size_t bits = n*w;
+   mp_size_t limbs = bits/GMP_LIMB_BITS;
+   mp_bitcnt_t depth1, depth = 1;
+
+   mp_size_t w1, off;
+
+   if (limbs <= FFT_MULMOD_2EXPP1_CUTOFF) 
+   {
+      mp_limb_t c = 2 * i1[limbs] + i2[limbs];
+      r[limbs] = mpn_mulmod_2expp1_basecase(r, i1, i2, c, bits, tt);
+      return r[limbs];
+   }
+   
+   while ((((mp_limb_t)1)<<depth) < bits) depth++;
+   
+   if (depth < 12) off = mulmod_2expp1_table_n[0];
+   else off = mulmod_2expp1_table_n[MIN(depth, FFT_N_NUM + 11) - 12];
+   depth1 = depth/2 - off;
+   
+   w1 = bits/(((mp_limb_t)1)<<(2*depth1));
+
+   fft_mulmod_2expp1(r, i1, i2, limbs, depth1, w1);
+   return r[limbs];
 #endif
-  c = mpn_add_1 (xp, xp, n, c);
-  xp[n - 1] &= GMP_NUMB_MASK >> k;
-  return c;
 }
 
-// c is the top bits of the inputs, must be fully reduced
-int
-mpn_mulmod_2expp1 (mp_ptr xp, mp_srcptr yp, mp_srcptr zp, int c,
-		   gmp_ui b, mp_ptr tp)
-{
-  int cy, cz;
-  mp_size_t n, k;
-
-  cy = c & 2;
-  cz = c & 1;
-  n = BITS_TO_LIMBS (b);
-  k = GMP_NUMB_BITS * n - b;
-  ASSERT (b > 0);
-  ASSERT (n > 0);
-  ASSERT_MPN (yp, n);
-  ASSERT_MPN (zp, n);
-  ASSERT (!MPN_OVERLAP_P (tp, 2 * n, yp, n));
-  ASSERT (!MPN_OVERLAP_P (tp, 2 * n, zp, n));
-  ASSERT (MPN_SAME_OR_SEPARATE_P (xp, tp, n));
-  ASSERT (MPN_SAME_OR_SEPARATE_P (xp, tp + n, n));
-  ASSERT (k == 0 || yp[n - 1] >> (GMP_NUMB_BITS - k) == 0);
-  ASSERT (k == 0 || zp[n - 1] >> (GMP_NUMB_BITS - k) == 0);
-#if WANT_ASSERT
-  mp_size_t t;
-  t = n;
-  MPN_NORMALIZE (yp, t);
-  ASSERT (cy == 0 || t == 0);
-  t = n;
-  MPN_NORMALIZE (zp, t);
-  ASSERT (cz == 0 || t == 0);
-#endif
-  if (LIKELY (cy == 0))
-    {
-      if (LIKELY (cz == 0))
-	{
-	  c = mpn_mulmod_2expp1_internal (xp, yp, zp, b, tp);
-	}
-      else
-	{
-	  c = mpn_neg_n (xp, yp, n);
-	  c = mpn_add_1 (xp, xp, n, c);
-	  xp[n - 1] &= GMP_NUMB_MASK >> k;
-	}
-    }
-  else
-    {
-      if (LIKELY (cz == 0))
-	{
-	  c = mpn_neg_n (xp, zp, n);
-	  c = mpn_add_1 (xp, xp, n, c);
-	  xp[n - 1] &= GMP_NUMB_MASK >> k;
-	}
-      else
-	{
-	  c = 0;
-	  xp[0] = 1;
-	  MPN_ZERO (xp + 1, n - 1);
-	}
-    }
-  return c;
-}

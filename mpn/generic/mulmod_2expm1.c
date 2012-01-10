@@ -180,7 +180,7 @@ mpn_mulmod_2expm1 (mp_ptr xp, mp_ptr yp, mp_ptr zp, gmp_ui b,
       tzpp[m - 1] &= GMP_NUMB_MASK >> k;
     }
   mpn_mulmod_2expm1 (S, typm, tzpm, h, temp);	// unroll this recursion  S=A rename
-  c = mpn_mulmod_2expp1 (D, typp, tzpp, c1 * 2 + c2, h, temp);	// D=B rename
+  c = mpn_mulmod_2expp1_basecase (D, typp, tzpp, c1 * 2 + c2, h, temp);	// D=B rename
   if (LIKELY (c == 0))
     {
       c1 = mpn_sumdiff_n (S, D, S, D, m);
@@ -361,7 +361,7 @@ else
    tzpp[m-1]&=GMP_NUMB_MASK>>k;}
 
 mpn_mulmod_2expm1_new(S,typm,tzpm,h,temp);// unroll this recursion  S=A rename
-c=mpn_mulmod_2expp1(D,typp,tzpp,c1*2+c2,h,temp);	// D=B rename
+c=mpn_mulmod_2expp1_basecase(D,typp,tzpp,c1*2+c2,h,temp);	// D=B rename
 __GMP_FREE_FUNC_LIMBS(typm,m);__GMP_FREE_FUNC_LIMBS(tzpm,m);__GMP_FREE_FUNC_LIMBS(typp,m);__GMP_FREE_FUNC_LIMBS(tzpp,m);
 __GMP_FREE_FUNC_LIMBS(temp,2*m);
 if(LIKELY(c==0))

@@ -122,7 +122,7 @@ void fft_mulmod_2expp1(mp_limb_t * r1, mp_limb_t * i1, mp_limb_t * i2,
       if (i1 != i2) mpn_normmod_2expp1(jj[j], limbs);
       c = 2*ii[j][limbs] + jj[j][limbs];
 
-      ii[j][limbs] = mpn_mulmod_2expp1(ii[j], ii[j], jj[j], c, n*w, tt);
+      ii[j][limbs] = mpn_mulmod_2expp1_basecase(ii[j], ii[j], jj[j], c, n*w, tt);
    }
    
    ifft_negacyclic(ii, n, w, &t1, &t2, &s1);
@@ -176,33 +176,7 @@ void fft_mulmod_2expp1(mp_limb_t * r1, mp_limb_t * i1, mp_limb_t * i2,
    mpn_normmod_2expp1(r1, r_limbs);
    
    TMP_FREE;
-}
-
-void mpn_fft_mulmod_2expp1(mp_limb_t * r, mp_limb_t * i1, mp_limb_t * i2, 
-                           mp_size_t n, mp_size_t w, mp_limb_t * tt)
-{
-   mp_size_t bits = n*w;
-   mp_size_t limbs = bits/GMP_LIMB_BITS;
-   mp_bitcnt_t depth1, depth = 1;
-
-   mp_size_t w1, off;
-
-   if (limbs <= FFT_MULMOD_2EXPP1_CUTOFF) 
-   {
-      mp_limb_t c = 2 * i1[limbs] + i2[limbs];
-      r[limbs] = mpn_mulmod_2expp1(r, i1, i2, c, bits, tt);
-      return;
-   }
-   
-   while ((((mp_limb_t)1)<<depth) < bits) depth++;
-   
-   if (depth < 12) off = mulmod_2expp1_table_n[0];
-   else off = mulmod_2expp1_table_n[MIN(depth, FFT_N_NUM + 11) - 12];
-   depth1 = depth/2 - off;
-   
-   w1 = bits/(((mp_limb_t)1)<<(2*depth1));
-
-   fft_mulmod_2expp1(r, i1, i2, limbs, depth1, w1);
+   return 0;
 }
 
 gmp_si fft_adjust_limbs(mp_size_t limbs)
