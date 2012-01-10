@@ -114,7 +114,7 @@ void ifft_truncate1_twiddle(mp_limb_t ** ii, mp_size_t is,
 
       for (i = 0; i < trunc; i++)
       {
-#if HAVE_ADDSUB_N
+#if  HAVE_NATIVE_mpn_addsub_n
          mpn_addsub_n(ii[i*is], ii[i*is], ii[i*is], ii[(n+i)*is], limbs + 1);
 #else
          mpn_add_n(ii[i*is], ii[i*is], ii[i*is], limbs + 1);
