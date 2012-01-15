@@ -176,7 +176,6 @@ void fft_mulmod_2expp1(mp_limb_t * r1, mp_limb_t * i1, mp_limb_t * i2,
    mpn_normmod_2expp1(r1, r_limbs);
    
    TMP_FREE;
-   return 0;
 }
 
 gmp_si fft_adjust_limbs(mp_size_t limbs)
