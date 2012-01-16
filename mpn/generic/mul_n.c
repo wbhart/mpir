@@ -182,7 +182,11 @@ mpn_mul_n (mp_ptr p, mp_srcptr a, mp_srcptr b, mp_size_t n)
   else
 #if WANT_FFT || TUNE_PROGRAM_BUILD
     {
-      mpn_mul_fft_full (p, a, n, b, n);
+#if defined( OLD_FFT )
+       mpn_mul_fft_full (p, a, n, b, n);
+#else
+       mpn_mul_fft_main(p, a, n, b, n); 
+#endif
     }
 #else
     {
