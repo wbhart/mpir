@@ -46,9 +46,12 @@ int mpn_mulmod_2expp1(mp_ptr r, mp_srcptr i1, mp_srcptr i2, mp_size_t n, mp_size
    if (limbs <= FFT_MULMOD_2EXPP1_CUTOFF) 
 #endif
    {
-      mp_limb_t c = 2 * i1[limbs] + i2[limbs];
-      r[limbs] = mpn_mulmod_2expp1_basecase(r, i1, i2, c, bits, tt);
-      return r[limbs];
+       mp_limb_t c = 2 * i1[limbs] + i2[limbs];
+       if(bits)
+          r[limbs] = mpn_mulmod_2expp1_basecase(r, i1, i2, c, bits, tt);
+       else
+          r[limbs] = 0;
+       return r[limbs];
    }
 #if !defined( OLD_FFT )   
    while ((((mp_limb_t)1)<<depth) < bits) depth++;
