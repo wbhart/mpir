@@ -37,22 +37,20 @@ static mp_size_t mulmod_2expp1_table_n[FFT_N_NUM] = MULMOD_TAB;
 
 int mpn_mulmod_2expp1(mp_ptr r, mp_srcptr i1, mp_srcptr i2, mp_size_t n, mp_size_t w, mp_ptr tt)
 {
-#if defined( OLD_FFT )
-   return mpn_mulmod_2expp1_basecase(r, i1, i2, c, bits, tt);
-#else
    mp_size_t bits = n*w;
    mp_size_t limbs = bits/GMP_LIMB_BITS;
    mp_bitcnt_t depth1, depth = 1;
-
    mp_size_t w1, off;
 
+#if !defined( OLD_FFT )
    if (limbs <= FFT_MULMOD_2EXPP1_CUTOFF) 
+#endif
    {
       mp_limb_t c = 2 * i1[limbs] + i2[limbs];
       r[limbs] = mpn_mulmod_2expp1_basecase(r, i1, i2, c, bits, tt);
       return r[limbs];
    }
-   
+#if !defined( OLD_FFT )   
    while ((((mp_limb_t)1)<<depth) < bits) depth++;
    
    if (depth < 12) off = mulmod_2expp1_table_n[0];
