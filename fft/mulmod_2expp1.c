@@ -35,7 +35,7 @@ or implied, of William Hart.
 
 static mp_size_t mulmod_2expp1_table_n[FFT_N_NUM] = MULMOD_TAB;
 
-void fft_naive_convolution_1(mp_limb_t * r, mp_limb_t * ii, mp_limb_t * jj, mp_size_t m)
+void fft_naive_convolution_1(mp_ptr r, mp_srcptr ii, mp_srcptr jj, mp_size_t m)
 {
    mp_size_t i, j;
 
@@ -52,7 +52,7 @@ void fft_naive_convolution_1(mp_limb_t * r, mp_limb_t * ii, mp_limb_t * jj, mp_s
    }
 }
 
-void fft_mulmod_2expp1(mp_limb_t * r1, mp_limb_t * i1, mp_limb_t * i2, 
+void fft_mulmod_2expp1(mp_ptr r1, mp_srcptr i1, mp_srcptr i2, 
                  mp_size_t r_limbs, mp_bitcnt_t depth, mp_bitcnt_t w)
 {
    mp_size_t n = (((mp_limb_t)1)<<depth);
@@ -69,7 +69,7 @@ void fft_mulmod_2expp1(mp_limb_t * r1, mp_limb_t * i1, mp_limb_t * i2,
 
    TMP_MARK;
    ii = TMP_BALLOC_MP_PTRS(2*(n + n*size) + 4*n + 5*size);
-   for (i = 0, ptr = (mp_limb_t *) ii + 2*n; i < 2*n; i++, ptr += size) 
+   for (i = 0, ptr = (mp_ptr) ii + 2*n; i < 2*n; i++, ptr += size) 
    {
       ii[i] = ptr;
    }
@@ -83,7 +83,7 @@ void fft_mulmod_2expp1(mp_limb_t * r1, mp_limb_t * i1, mp_limb_t * i2,
    if (i1 != i2)
    {
       jj = TMP_BALLOC_MP_PTRS(2*(n + n*size) + 2*n);
-      for (i = 0, ptr = (mp_limb_t *) jj + 2*n; i < 2*n; i++, ptr += size) 
+      for (i = 0, ptr = (mp_ptr) jj + 2*n; i < 2*n; i++, ptr += size) 
       {
          jj[i] = ptr;
       }

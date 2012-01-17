@@ -31,9 +31,9 @@ or implied, of William Hart.
 #include "mpir.h"
 #include "gmp-impl.h"
 
-void fft_mfa_truncate_sqrt2_inner(mp_limb_t ** ii, mp_limb_t ** jj, mp_size_t n, 
-                   mp_bitcnt_t w, mp_limb_t ** t1, mp_limb_t ** t2, 
-                  mp_limb_t ** temp, mp_size_t n1, mp_size_t trunc, mp_limb_t * tt)
+void fft_mfa_truncate_sqrt2_inner(mp_ptr * ii, mp_ptr * jj, mp_size_t n, 
+                   mp_bitcnt_t w, mp_ptr * t1, mp_ptr * t2, 
+                  mp_ptr * temp, mp_size_t n1, mp_size_t trunc, mp_ptr tt)
 {
    mp_size_t i, j, s;
    mp_size_t n2 = (2*n)/n1;

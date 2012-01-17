@@ -31,8 +31,8 @@ or implied, of William Hart.
 #include "mpir.h"
 #include "gmp-impl.h"
       
-void fft_truncate1(mp_limb_t ** ii, mp_size_t n, mp_bitcnt_t w, 
-                   mp_limb_t ** t1, mp_limb_t ** t2, mp_size_t trunc)
+void fft_truncate1(mp_ptr * ii, mp_size_t n, mp_bitcnt_t w, 
+                   mp_ptr * t1, mp_ptr * t2, mp_size_t trunc)
 {
     mp_size_t i;
     mp_size_t limbs = (w*n)/GMP_LIMB_BITS;
@@ -60,8 +60,8 @@ void fft_truncate1(mp_limb_t ** ii, mp_size_t n, mp_bitcnt_t w,
    }
 }
 
-void fft_truncate(mp_limb_t ** ii,  mp_size_t n, mp_bitcnt_t w, 
-                  mp_limb_t ** t1, mp_limb_t ** t2, mp_size_t trunc)
+void fft_truncate(mp_ptr * ii,  mp_size_t n, mp_bitcnt_t w, 
+                  mp_ptr * t1, mp_ptr * t2, mp_size_t trunc)
 {
     mp_size_t i;
     mp_size_t limbs = (w*n)/GMP_LIMB_BITS;

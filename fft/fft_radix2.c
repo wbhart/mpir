@@ -31,8 +31,8 @@ or implied, of William Hart.
 #include "mpir.h"
 #include "gmp-impl.h"
       
-void fft_butterfly(mp_limb_t * s, mp_limb_t * t, mp_limb_t * i1, 
-                   mp_limb_t * i2, mp_size_t i, mp_size_t limbs, mp_bitcnt_t w)
+void fft_butterfly(mp_ptr s, mp_ptr t, mp_ptr i1, 
+                   mp_ptr i2, mp_size_t i, mp_size_t limbs, mp_bitcnt_t w)
 {
    mp_size_t y;
    mp_bitcnt_t b1;
@@ -45,8 +45,8 @@ void fft_butterfly(mp_limb_t * s, mp_limb_t * t, mp_limb_t * i1,
    mpn_mul_2expmod_2expp1(t, t, limbs, b1);
 }
 
-void fft_radix2(mp_limb_t ** ii, 
-      mp_size_t n, mp_bitcnt_t w, mp_limb_t ** t1, mp_limb_t ** t2)
+void fft_radix2(mp_ptr * ii, 
+      mp_size_t n, mp_bitcnt_t w, mp_ptr * t1, mp_ptr * t2)
 {
    mp_size_t i;
    mp_size_t limbs = (w*n)/GMP_LIMB_BITS;

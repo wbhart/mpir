@@ -31,7 +31,8 @@ or implied, of William Hart.
 #include "mpir.h"
 #include "gmp-impl.h"
 
-void mpn_normmod_2expp1(mp_limb_t * t, mp_size_t limbs)
+void 
+mpn_normmod_2expp1(mp_ptr t, mp_size_t limbs)
 {
    mp_limb_signed_t hi = t[limbs];
    

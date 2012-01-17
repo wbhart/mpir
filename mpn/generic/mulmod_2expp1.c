@@ -35,7 +35,7 @@ or implied, of William Hart.
 
 static mp_size_t mulmod_2expp1_table_n[FFT_N_NUM] = MULMOD_TAB;
 
-int mpn_mulmod_2expp1(mp_limb_t * r, mp_limb_t * i1, mp_limb_t * i2, mp_size_t n, mp_size_t w, mp_limb_t * tt)
+int mpn_mulmod_2expp1(mp_ptr r, mp_srcptr i1, mp_srcptr i2, mp_size_t n, mp_size_t w, mp_ptr tt)
 {
 #if defined( OLD_FFT )
    return mpn_mulmod_2expp1_basecase(r, i1, i2, c, bits, tt);

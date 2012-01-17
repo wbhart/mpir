@@ -31,8 +31,8 @@ or implied, of William Hart.
 #include "mpir.h"
 #include "gmp-impl.h"
       
-void ifft_negacyclic(mp_limb_t ** ii, mp_size_t n, mp_bitcnt_t w, 
-                     mp_limb_t ** t1, mp_limb_t ** t2, mp_limb_t ** temp)
+void ifft_negacyclic(mp_ptr * ii, mp_size_t n, mp_bitcnt_t w, 
+                     mp_ptr * t1, mp_ptr * t2, mp_ptr * temp)
 {
    mp_size_t i;
    mp_size_t limbs = (w*n)/GMP_LIMB_BITS;

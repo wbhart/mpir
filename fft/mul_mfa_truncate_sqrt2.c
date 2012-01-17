@@ -31,8 +31,9 @@ or implied, of William Hart.
 #include "mpir.h"
 #include "gmp-impl.h"
 
-void mpn_mul_mfa_truncate_sqrt2(mp_limb_t * r1, mp_limb_t * i1, mp_size_t n1, 
-                        mp_limb_t * i2, mp_size_t n2, mp_bitcnt_t depth, mp_bitcnt_t w)
+void 
+mpn_mul_mfa_truncate_sqrt2(mp_ptr r1, mp_srcptr i1, mp_size_t n1, 
+                        mp_srcptr i2, mp_size_t n2, mp_bitcnt_t depth, mp_bitcnt_t w)
 {
    mp_size_t n = (((mp_limb_t)1)<<depth);
    mp_bitcnt_t bits1 = (n*w - (depth+1))/2; 
@@ -47,13 +48,13 @@ void mpn_mul_mfa_truncate_sqrt2(mp_limb_t * r1, mp_limb_t * i1, mp_size_t n1,
    
    mp_size_t i, j, trunc;
 
-   mp_limb_t ** ii, ** jj, * t1, * t2, * s1, * ptr;
+   mp_ptr * ii, * jj, t1, t2, s1, ptr;
    mp_limb_t * tt;
    TMP_DECL;
 
    TMP_MARK;
    ii = TMP_BALLOC_MP_PTRS(4*(n + n*size) + 5*size);
-   for (i = 0, ptr = (mp_limb_t *) ii + 4*n; i < 4*n; i++, ptr += size) 
+   for (i = 0, ptr = (mp_ptr) ii + 4*n; i < 4*n; i++, ptr += size) 
    {
       ii[i] = ptr;
    }
@@ -65,7 +66,7 @@ void mpn_mul_mfa_truncate_sqrt2(mp_limb_t * r1, mp_limb_t * i1, mp_size_t n1,
    if (i1 != i2)
    {
       jj = TMP_BALLOC_MP_PTRS(4*(n + n*size));
-      for (i = 0, ptr = (mp_limb_t *) jj + 4*n; i < 4*n; i++, ptr += size) 
+      for (i = 0, ptr = (mp_ptr) jj + 4*n; i < 4*n; i++, ptr += size) 
       {
          jj[i] = ptr;
       }

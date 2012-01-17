@@ -31,8 +31,8 @@ or implied, of William Hart.
 #include "mpir.h"
 #include "gmp-impl.h"
 
-void ifft_butterfly_sqrt2(mp_limb_t * s, mp_limb_t * t, mp_limb_t * i1, 
-   mp_limb_t * i2, mp_size_t i, mp_size_t limbs, mp_bitcnt_t w, mp_limb_t * temp)
+void ifft_butterfly_sqrt2(mp_ptr s, mp_ptr t, mp_ptr i1, 
+   mp_ptr i2, mp_size_t i, mp_size_t limbs, mp_bitcnt_t w, mp_ptr temp)
 {
    mp_bitcnt_t wn = limbs*GMP_LIMB_BITS;
    mp_limb_t cy = 0;
@@ -76,8 +76,8 @@ void ifft_butterfly_sqrt2(mp_limb_t * s, mp_limb_t * t, mp_limb_t * i1,
 }
 
 
-void ifft_truncate_sqrt2(mp_limb_t ** ii, mp_size_t n, mp_bitcnt_t w, 
-            mp_limb_t ** t1, mp_limb_t ** t2, mp_limb_t ** temp, mp_size_t trunc)
+void ifft_truncate_sqrt2(mp_ptr * ii, mp_size_t n, mp_bitcnt_t w, 
+            mp_ptr * t1, mp_ptr * t2, mp_ptr * temp, mp_size_t trunc)
 {
     mp_size_t i;
     mp_size_t limbs = (w*n)/GMP_LIMB_BITS;

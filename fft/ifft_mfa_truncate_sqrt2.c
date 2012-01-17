@@ -31,8 +31,8 @@ or implied, of William Hart.
 #include "mpir.h"
 #include "gmp-impl.h"
 
-void ifft_butterfly_twiddle(mp_limb_t * u, mp_limb_t * v, 
-   mp_limb_t * s, mp_limb_t * t, mp_size_t limbs, mp_bitcnt_t b1, mp_bitcnt_t b2)
+void ifft_butterfly_twiddle(mp_ptr u, mp_ptr v, 
+   mp_ptr s, mp_ptr t, mp_size_t limbs, mp_bitcnt_t b1, mp_bitcnt_t b2)
 {
    mp_limb_t nw = limbs*GMP_LIMB_BITS;
    mp_size_t x, y;
@@ -62,8 +62,8 @@ void ifft_butterfly_twiddle(mp_limb_t * u, mp_limb_t * v,
    butterfly_rshB(u, v, s, t, limbs, x, y);
 }
 
-void ifft_radix2_twiddle(mp_limb_t ** ii, mp_size_t is,
-        mp_size_t n, mp_bitcnt_t w, mp_limb_t ** t1, mp_limb_t ** t2,
+void ifft_radix2_twiddle(mp_ptr * ii, mp_size_t is,
+        mp_size_t n, mp_bitcnt_t w, mp_ptr * t1, mp_ptr * t2,
                             mp_size_t ws, mp_size_t r, mp_size_t c, mp_size_t rs)
 {
    mp_size_t i;
@@ -93,8 +93,8 @@ void ifft_radix2_twiddle(mp_limb_t ** ii, mp_size_t is,
    }
 }
 
-void ifft_truncate1_twiddle(mp_limb_t ** ii, mp_size_t is,
-        mp_size_t n, mp_bitcnt_t w, mp_limb_t ** t1, mp_limb_t ** t2,
+void ifft_truncate1_twiddle(mp_ptr * ii, mp_size_t is,
+        mp_size_t n, mp_bitcnt_t w, mp_ptr * t1, mp_ptr * t2,
            mp_size_t ws, mp_size_t r, mp_size_t c, mp_size_t rs, mp_size_t trunc)
 {
    mp_size_t i;
@@ -145,8 +145,8 @@ void ifft_truncate1_twiddle(mp_limb_t ** ii, mp_size_t is,
    }
 }
 
-void ifft_mfa_truncate_sqrt2(mp_limb_t ** ii, mp_size_t n, mp_bitcnt_t w, 
-   mp_limb_t ** t1, mp_limb_t ** t2, mp_limb_t ** temp, mp_size_t n1, mp_size_t trunc)
+void ifft_mfa_truncate_sqrt2(mp_ptr * ii, mp_size_t n, mp_bitcnt_t w, 
+   mp_ptr * t1, mp_ptr * t2, mp_ptr * temp, mp_size_t n1, mp_size_t trunc)
 {
    mp_size_t i, j, s;
    mp_size_t n2 = (2*n)/n1;
@@ -261,8 +261,8 @@ void ifft_mfa_truncate_sqrt2(mp_limb_t ** ii, mp_size_t n, mp_bitcnt_t w,
    }
 }
 
-void ifft_mfa_truncate_sqrt2_outer(mp_limb_t ** ii, mp_size_t n, mp_bitcnt_t w, 
-   mp_limb_t ** t1, mp_limb_t ** t2, mp_limb_t ** temp, mp_size_t n1, mp_size_t trunc)
+void ifft_mfa_truncate_sqrt2_outer(mp_ptr * ii, mp_size_t n, mp_bitcnt_t w, 
+   mp_ptr * t1, mp_ptr * t2, mp_ptr * temp, mp_size_t n1, mp_size_t trunc)
 {
    mp_size_t i, j;
    mp_size_t n2 = (2*n)/n1;

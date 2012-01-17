@@ -33,7 +33,7 @@ or implied, of William Hart.
 
 /* WARNING: relies on GCC's handling of >> as arithmetic shift right */
 
-void mpn_mul_2expmod_2expp1(mp_limb_t * t, mp_limb_t * i1, mp_size_t limbs, mp_bitcnt_t d)
+void mpn_mul_2expmod_2expp1(mp_ptr t, mp_ptr i1, mp_size_t limbs, mp_bitcnt_t d)
 {
    mp_limb_signed_t hi1, hi2;
    
