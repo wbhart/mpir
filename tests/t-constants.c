@@ -335,15 +335,16 @@ main (int argc, char *argv[])
       printf ("  SHRT_MAX   %s\n", shrt_max_def);
       printf ("\n");
 
-#if HAVE_LONG_LONG
+#if HAVE_LONG_LONG && defined(ULLONG_MAX)
       printf ("ULLONG_MAX     %llX\n", ULLONG_MAX);
       printf ("LLONG_MAX      %llX\n", LLONG_MAX);
       printf ("LLONG_MIN      %llX\n", LLONG_MIN);
 #endif
-
+#if defined(ULLONG_MAX)
       printf ("GMP_UI_MAX     %Mx\n", ULLONG_MAX);
       printf ("GMP_SI_MAX     %Mx\n", LLONG_MAX);
       printf ("GMP_SI_MIN     %Mx\n", LLONG_MIN);
+#endif
 
       printf ("ULONG_MAX      %lX\n", ULONG_MAX);
       printf ("ULONG_HIGHBIT  %lX\n", ULONG_HIGHBIT);
