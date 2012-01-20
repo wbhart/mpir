@@ -28419,7 +28419,7 @@ esac
 ac_config_links="$ac_config_links yasm_mac.inc:$YASM_MAC_INC"
 
 
-ac_config_files="$ac_config_files Makefile mpf/Makefile mpn/Makefile mpq/Makefile mpz/Makefile printf/Makefile scanf/Makefile cxx/Makefile tests/Makefile tests/devel/Makefile tests/mpf/Makefile tests/mpn/Makefile tests/mpq/Makefile tests/mpz/Makefile tests/rand/Makefile tests/misc/Makefile tests/cxx/Makefile doc/Makefile tune/Makefile mpir.h:gmp-h.in"
+ac_config_files="$ac_config_files Makefile mpf/Makefile mpn/Makefile fft/Makefile mpq/Makefile mpz/Makefile printf/Makefile scanf/Makefile cxx/Makefile tests/Makefile tests/devel/Makefile tests/mpf/Makefile tests/mpn/Makefile tests/fft/Makefile tests/mpq/Makefile tests/mpz/Makefile tests/rand/Makefile tests/misc/Makefile tests/cxx/Makefile doc/Makefile tune/Makefile mpir.h:gmp-h.in"
 
 cat >confcache <<\_ACEOF
 # This file is a shell script that caches the results of configure
@@ -29646,6 +29646,7 @@ do
     "Makefile") CONFIG_FILES="$CONFIG_FILES Makefile" ;;
     "mpf/Makefile") CONFIG_FILES="$CONFIG_FILES mpf/Makefile" ;;
     "mpn/Makefile") CONFIG_FILES="$CONFIG_FILES mpn/Makefile" ;;
+    "fft/Makefile") CONFIG_FILES="$CONFIG_FILES fft/Makefile" ;;
     "mpq/Makefile") CONFIG_FILES="$CONFIG_FILES mpq/Makefile" ;;
     "mpz/Makefile") CONFIG_FILES="$CONFIG_FILES mpz/Makefile" ;;
     "printf/Makefile") CONFIG_FILES="$CONFIG_FILES printf/Makefile" ;;
@@ -29655,6 +29656,7 @@ do
     "tests/devel/Makefile") CONFIG_FILES="$CONFIG_FILES tests/devel/Makefile" ;;
     "tests/mpf/Makefile") CONFIG_FILES="$CONFIG_FILES tests/mpf/Makefile" ;;
     "tests/mpn/Makefile") CONFIG_FILES="$CONFIG_FILES tests/mpn/Makefile" ;;
+    "tests/fft/Makefile") CONFIG_FILES="$CONFIG_FILES tests/fft/Makefile" ;;
     "tests/mpq/Makefile") CONFIG_FILES="$CONFIG_FILES tests/mpq/Makefile" ;;
     "tests/mpz/Makefile") CONFIG_FILES="$CONFIG_FILES tests/mpz/Makefile" ;;
     "tests/rand/Makefile") CONFIG_FILES="$CONFIG_FILES tests/rand/Makefile" ;;
@@ -32668,6 +32670,7 @@ do
     "Makefile") CONFIG_FILES="$CONFIG_FILES Makefile" ;;
     "mpf/Makefile") CONFIG_FILES="$CONFIG_FILES mpf/Makefile" ;;
     "mpn/Makefile") CONFIG_FILES="$CONFIG_FILES mpn/Makefile" ;;
+    "fft/Makefile") CONFIG_FILES="$CONFIG_FILES fft/Makefile" ;;
     "mpq/Makefile") CONFIG_FILES="$CONFIG_FILES mpq/Makefile" ;;
     "mpz/Makefile") CONFIG_FILES="$CONFIG_FILES mpz/Makefile" ;;
     "printf/Makefile") CONFIG_FILES="$CONFIG_FILES printf/Makefile" ;;
@@ -32677,6 +32680,7 @@ do
     "tests/devel/Makefile") CONFIG_FILES="$CONFIG_FILES tests/devel/Makefile" ;;
     "tests/mpf/Makefile") CONFIG_FILES="$CONFIG_FILES tests/mpf/Makefile" ;;
     "tests/mpn/Makefile") CONFIG_FILES="$CONFIG_FILES tests/mpn/Makefile" ;;
+    "tests/fft/Makefile") CONFIG_FILES="$CONFIG_FILES tests/fft/Makefile" ;;
     "tests/mpq/Makefile") CONFIG_FILES="$CONFIG_FILES tests/mpq/Makefile" ;;
     "tests/mpz/Makefile") CONFIG_FILES="$CONFIG_FILES tests/mpz/Makefile" ;;
     "tests/rand/Makefile") CONFIG_FILES="$CONFIG_FILES tests/rand/Makefile" ;;
@@ -35696,6 +35700,7 @@ do
     "Makefile") CONFIG_FILES="$CONFIG_FILES Makefile" ;;
     "mpf/Makefile") CONFIG_FILES="$CONFIG_FILES mpf/Makefile" ;;
     "mpn/Makefile") CONFIG_FILES="$CONFIG_FILES mpn/Makefile" ;;
+    "fft/Makefile") CONFIG_FILES="$CONFIG_FILES fft/Makefile" ;;
     "mpq/Makefile") CONFIG_FILES="$CONFIG_FILES mpq/Makefile" ;;
     "mpz/Makefile") CONFIG_FILES="$CONFIG_FILES mpz/Makefile" ;;
     "printf/Makefile") CONFIG_FILES="$CONFIG_FILES printf/Makefile" ;;
@@ -35705,6 +35710,7 @@ do
     "tests/devel/Makefile") CONFIG_FILES="$CONFIG_FILES tests/devel/Makefile" ;;
     "tests/mpf/Makefile") CONFIG_FILES="$CONFIG_FILES tests/mpf/Makefile" ;;
     "tests/mpn/Makefile") CONFIG_FILES="$CONFIG_FILES tests/mpn/Makefile" ;;
+    "tests/fft/Makefile") CONFIG_FILES="$CONFIG_FILES tests/fft/Makefile" ;;
     "tests/mpq/Makefile") CONFIG_FILES="$CONFIG_FILES tests/mpq/Makefile" ;;
     "tests/mpz/Makefile") CONFIG_FILES="$CONFIG_FILES tests/mpz/Makefile" ;;
     "tests/rand/Makefile") CONFIG_FILES="$CONFIG_FILES tests/rand/Makefile" ;;

@@ -471,14 +471,15 @@ MPF_OBJECTS = mpf/abs$U.lo mpf/add$U.lo mpf/add_ui$U.lo \
 	mpf/ceilfloor$U.lo mpf/clear$U.lo mpf/clears$U.lo mpf/cmp$U.lo \
 	mpf/cmp_d$U.lo mpf/cmp_si$U.lo mpf/cmp_ui$U.lo mpf/div$U.lo \
 	mpf/div_2exp$U.lo mpf/div_ui$U.lo mpf/dump$U.lo mpf/eq$U.lo \
-	mpf/fits_sint$U.lo mpf/fits_slong$U.lo mpf/fits_sshort$U.lo \
-	mpf/fits_uint$U.lo mpf/fits_ulong$U.lo mpf/fits_ushort$U.lo \
-	mpf/get_d$U.lo mpf/get_d_2exp$U.lo mpf/get_dfl_prec$U.lo \
-	mpf/get_prc$U.lo mpf/get_si$U.lo mpf/get_str$U.lo \
-	mpf/get_ui$U.lo mpf/init$U.lo mpf/init2$U.lo mpf/inits$U.lo \
-	mpf/inp_str$U.lo mpf/int_p$U.lo mpf/iset$U.lo mpf/iset_d$U.lo \
-	mpf/iset_si$U.lo mpf/iset_str$U.lo mpf/iset_ui$U.lo \
-	mpf/mul$U.lo mpf/mul_2exp$U.lo mpf/mul_ui$U.lo mpf/neg$U.lo \
+	mpf/fits_si$U.lo mpf/fits_sint$U.lo mpf/fits_slong$U.lo \
+	mpf/fits_sshort$U.lo mpf/fits_ui$U.lo mpf/fits_uint$U.lo \
+	mpf/fits_ulong$U.lo mpf/fits_ushort$U.lo mpf/get_d$U.lo \
+	mpf/get_d_2exp$U.lo mpf/get_dfl_prec$U.lo mpf/get_prc$U.lo \
+	mpf/get_si$U.lo mpf/get_str$U.lo mpf/get_ui$U.lo mpf/init$U.lo \
+	mpf/init2$U.lo mpf/inits$U.lo mpf/inp_str$U.lo mpf/int_p$U.lo \
+	mpf/iset$U.lo mpf/iset_d$U.lo mpf/iset_si$U.lo \
+	mpf/iset_str$U.lo mpf/iset_ui$U.lo mpf/mul$U.lo \
+	mpf/mul_2exp$U.lo mpf/mul_ui$U.lo mpf/neg$U.lo \
 	mpf/out_str$U.lo mpf/pow_ui$U.lo mpf/random2$U.lo \
 	mpf/reldiff$U.lo mpf/rrandomb$U.lo mpf/set$U.lo mpf/set_d$U.lo \
 	mpf/set_dfl_prec$U.lo mpf/set_prc$U.lo mpf/set_prc_raw$U.lo \
@@ -503,19 +504,19 @@ MPZ_OBJECTS = mpz/abs$U.lo mpz/add$U.lo mpz/add_ui$U.lo mpz/and$U.lo \
 	mpz/fac_ui$U.lo mpz/fdiv_q$U.lo mpz/fdiv_q_ui$U.lo \
 	mpz/fdiv_qr$U.lo mpz/fdiv_qr_ui$U.lo mpz/fdiv_r$U.lo \
 	mpz/fdiv_r_ui$U.lo mpz/fdiv_ui$U.lo mpz/fib2_ui$U.lo \
-	mpz/fib_ui$U.lo mpz/fits_sint$U.lo mpz/fits_slong$U.lo \
-	mpz/fits_sshort$U.lo mpz/fits_uint$U.lo mpz/fits_ulong$U.lo \
-	mpz/fits_ushort$U.lo mpz/gcd$U.lo mpz/gcd_ui$U.lo \
-	mpz/gcdext$U.lo mpz/get_d$U.lo mpz/get_d_2exp$U.lo \
-	mpz/get_si$U.lo mpz/get_str$U.lo mpz/get_sx$U.lo \
-	mpz/get_ui$U.lo mpz/get_ux$U.lo mpz/getlimbn$U.lo \
-	mpz/hamdist$U.lo mpz/import$U.lo mpz/init$U.lo mpz/init2$U.lo \
-	mpz/inits$U.lo mpz/inp_raw$U.lo mpz/inp_str$U.lo \
-	mpz/invert$U.lo mpz/ior$U.lo mpz/iset$U.lo mpz/iset_d$U.lo \
-	mpz/iset_si$U.lo mpz/iset_str$U.lo mpz/iset_sx$U.lo \
-	mpz/iset_ui$U.lo mpz/iset_ux$U.lo mpz/jacobi$U.lo \
-	mpz/kronsz$U.lo mpz/kronuz$U.lo mpz/kronzs$U.lo \
-	mpz/kronzu$U.lo mpz/lcm$U.lo mpz/lcm_ui$U.lo \
+	mpz/fib_ui$U.lo mpz/fits_si$U.lo mpz/fits_sint$U.lo \
+	mpz/fits_slong$U.lo mpz/fits_sshort$U.lo mpz/fits_ui$U.lo \
+	mpz/fits_uint$U.lo mpz/fits_ulong$U.lo mpz/fits_ushort$U.lo \
+	mpz/gcd$U.lo mpz/gcd_ui$U.lo mpz/gcdext$U.lo mpz/get_d$U.lo \
+	mpz/get_d_2exp$U.lo mpz/get_si$U.lo mpz/get_str$U.lo \
+	mpz/get_sx$U.lo mpz/get_ui$U.lo mpz/get_ux$U.lo \
+	mpz/getlimbn$U.lo mpz/hamdist$U.lo mpz/import$U.lo \
+	mpz/init$U.lo mpz/init2$U.lo mpz/inits$U.lo mpz/inp_raw$U.lo \
+	mpz/inp_str$U.lo mpz/invert$U.lo mpz/ior$U.lo mpz/iset$U.lo \
+	mpz/iset_d$U.lo mpz/iset_si$U.lo mpz/iset_str$U.lo \
+	mpz/iset_sx$U.lo mpz/iset_ui$U.lo mpz/iset_ux$U.lo \
+	mpz/jacobi$U.lo mpz/kronsz$U.lo mpz/kronuz$U.lo \
+	mpz/kronzs$U.lo mpz/kronzu$U.lo mpz/lcm$U.lo mpz/lcm_ui$U.lo \
 	mpz/likely_prime_p$U.lo mpz/lucnum2_ui$U.lo mpz/lucnum_ui$U.lo \
 	mpz/miller_rabin$U.lo mpz/millerrabin$U.lo mpz/mod$U.lo \
 	mpz/mul$U.lo mpz/mul_2exp$U.lo mpz/mul_si$U.lo mpz/mul_ui$U.lo \

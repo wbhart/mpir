@@ -76,28 +76,28 @@ am_libmpz_la_OBJECTS = abs.lo add.lo add_ui.lo and.lo aorsmul.lo \
 	cong_ui.lo dive_ui.lo divegcd.lo divexact.lo divis.lo \
 	divis_2exp.lo divis_ui.lo dump.lo export.lo fac_ui.lo \
 	fdiv_q.lo fdiv_q_ui.lo fdiv_qr.lo fdiv_qr_ui.lo fdiv_r.lo \
-	fdiv_r_ui.lo fdiv_ui.lo fib2_ui.lo fib_ui.lo fits_sint.lo \
-	fits_slong.lo fits_sshort.lo fits_uint.lo fits_ulong.lo \
-	fits_ushort.lo gcd.lo gcd_ui.lo gcdext.lo get_d.lo \
-	get_d_2exp.lo get_si.lo get_str.lo get_sx.lo get_ui.lo \
-	get_ux.lo getlimbn.lo hamdist.lo import.lo init.lo init2.lo \
-	inits.lo inp_raw.lo inp_str.lo invert.lo ior.lo iset.lo \
-	iset_d.lo iset_si.lo iset_str.lo iset_sx.lo iset_ui.lo \
-	iset_ux.lo jacobi.lo kronsz.lo kronuz.lo kronzs.lo kronzu.lo \
-	lcm.lo lcm_ui.lo likely_prime_p.lo lucnum2_ui.lo lucnum_ui.lo \
-	miller_rabin.lo millerrabin.lo mod.lo mul.lo mul_2exp.lo \
-	mul_si.lo mul_ui.lo n_pow_ui.lo neg.lo next_likely_prime.lo \
-	nextprime.lo nthroot.lo out_raw.lo out_str.lo perfpow.lo \
-	perfsqr.lo popcount.lo pow_ui.lo powm.lo powm_ui.lo \
-	pprime_p.lo probable_prime_p.lo realloc.lo realloc2.lo \
-	remove.lo root.lo rootrem.lo rrandomb.lo scan0.lo scan1.lo \
-	set.lo set_d.lo set_f.lo set_q.lo set_si.lo set_str.lo \
-	set_sx.lo set_ui.lo set_ux.lo setbit.lo size.lo sizeinbase.lo \
-	sqrt.lo sqrtrem.lo sub.lo sub_ui.lo swap.lo tdiv_q.lo \
-	tdiv_q_2exp.lo tdiv_q_ui.lo tdiv_qr.lo tdiv_qr_ui.lo tdiv_r.lo \
-	tdiv_r_2exp.lo tdiv_r_ui.lo tdiv_ui.lo trial_division.lo \
-	tstbit.lo ui_pow_ui.lo ui_sub.lo urandomb.lo urandomm.lo \
-	xor.lo
+	fdiv_r_ui.lo fdiv_ui.lo fib2_ui.lo fib_ui.lo fits_si.lo \
+	fits_sint.lo fits_slong.lo fits_sshort.lo fits_ui.lo \
+	fits_uint.lo fits_ulong.lo fits_ushort.lo gcd.lo gcd_ui.lo \
+	gcdext.lo get_d.lo get_d_2exp.lo get_si.lo get_str.lo \
+	get_sx.lo get_ui.lo get_ux.lo getlimbn.lo hamdist.lo import.lo \
+	init.lo init2.lo inits.lo inp_raw.lo inp_str.lo invert.lo \
+	ior.lo iset.lo iset_d.lo iset_si.lo iset_str.lo iset_sx.lo \
+	iset_ui.lo iset_ux.lo jacobi.lo kronsz.lo kronuz.lo kronzs.lo \
+	kronzu.lo lcm.lo lcm_ui.lo likely_prime_p.lo lucnum2_ui.lo \
+	lucnum_ui.lo miller_rabin.lo millerrabin.lo mod.lo mul.lo \
+	mul_2exp.lo mul_si.lo mul_ui.lo n_pow_ui.lo neg.lo \
+	next_likely_prime.lo nextprime.lo nthroot.lo out_raw.lo \
+	out_str.lo perfpow.lo perfsqr.lo popcount.lo pow_ui.lo powm.lo \
+	powm_ui.lo pprime_p.lo probable_prime_p.lo realloc.lo \
+	realloc2.lo remove.lo root.lo rootrem.lo rrandomb.lo scan0.lo \
+	scan1.lo set.lo set_d.lo set_f.lo set_q.lo set_si.lo \
+	set_str.lo set_sx.lo set_ui.lo set_ux.lo setbit.lo size.lo \
+	sizeinbase.lo sqrt.lo sqrtrem.lo sub.lo sub_ui.lo swap.lo \
+	tdiv_q.lo tdiv_q_2exp.lo tdiv_q_ui.lo tdiv_qr.lo tdiv_qr_ui.lo \
+	tdiv_r.lo tdiv_r_2exp.lo tdiv_r_ui.lo tdiv_ui.lo \
+	trial_division.lo tstbit.lo ui_pow_ui.lo ui_sub.lo urandomb.lo \
+	urandomm.lo xor.lo
 libmpz_la_OBJECTS = $(am_libmpz_la_OBJECTS)
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
 depcomp =
@@ -271,12 +271,12 @@ libmpz_la_SOURCES = abs.c add.c add_ui.c and.c aors.h aors_ui.h \
 	cong_ui.c dive_ui.c divegcd.c divexact.c divis.c divis_2exp.c \
 	divis_ui.c dump.c export.c fac_ui.c fdiv_q.c fdiv_q_ui.c \
 	fdiv_qr.c fdiv_qr_ui.c fdiv_r.c fdiv_r_ui.c fdiv_ui.c \
-	fib2_ui.c fib_ui.c fits_s.h fits_sint.c fits_slong.c \
-	fits_sshort.c fits_uint.c fits_ulong.c fits_ushort.c gcd.c \
-	gcd_ui.c gcdext.c get_d.c get_d_2exp.c get_si.c get_str.c \
-	get_sx.c get_ui.c get_ux.c getlimbn.c hamdist.c import.c \
-	init.c init2.c inits.c inp_raw.c inp_str.c invert.c ior.c \
-	iset.c iset_d.c iset_si.c iset_str.c iset_sx.c iset_ui.c \
+	fib2_ui.c fib_ui.c fits_s.h fits_si.c fits_sint.c fits_slong.c \
+	fits_sshort.c fits_ui.c fits_uint.c fits_ulong.c fits_ushort.c \
+	gcd.c gcd_ui.c gcdext.c get_d.c get_d_2exp.c get_si.c \
+	get_str.c get_sx.c get_ui.c get_ux.c getlimbn.c hamdist.c \
+	import.c init.c init2.c inits.c inp_raw.c inp_str.c invert.c \
+	ior.c iset.c iset_d.c iset_si.c iset_str.c iset_sx.c iset_ui.c \
 	iset_ux.c jacobi.c kronsz.c kronuz.c kronzs.c kronzu.c lcm.c \
 	lcm_ui.c likely_prime_p.c lucnum2_ui.c lucnum_ui.c \
 	miller_rabin.c millerrabin.c mod.c mul.c mul_2exp.c mul_i.h \
