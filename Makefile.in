@@ -172,8 +172,9 @@ am__base_list = \
 am__installdirs = "$(DESTDIR)$(libdir)" "$(DESTDIR)$(includedir)" \
 	"$(DESTDIR)$(includeexecdir)"
 LTLIBRARIES = $(lib_LTLIBRARIES)
-am__DEPENDENCIES_1 = $(MPF_OBJECTS) $(MPZ_OBJECTS) $(MPQ_OBJECTS) \
-	$(MPN_OBJECTS) $(PRINTF_OBJECTS) $(SCANF_OBJECTS)
+am__DEPENDENCIES_1 = $(MPF_OBJECTS) $(FFT_OBJECTS) $(MPZ_OBJECTS) \
+	$(MPQ_OBJECTS) $(MPN_OBJECTS) $(PRINTF_OBJECTS) \
+	$(SCANF_OBJECTS)
 am__objects_1 = assert.lo compat.lo errno.lo extract-dbl.lo invalid.lo \
 	memory.lo mp_bpl.lo mp_clz_tab.lo mp_dv_tab.lo mp_minv_tab.lo \
 	mp_get_fns.lo mp_set_fns.lo randclr.lo randdef.lo randiset.lo \
@@ -252,7 +253,8 @@ AM_RECURSIVE_TARGETS = $(RECURSIVE_TARGETS:-recursive=) \
 	distdir dist dist-all distcheck
 ETAGS = etags
 CTAGS = ctags
-DIST_SUBDIRS = tests yasm mpn mpz mpq mpf printf scanf cxx tune doc
+DIST_SUBDIRS = tests yasm mpn fft mpz mpq mpf printf scanf cxx tune \
+	doc
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 distdir = $(PACKAGE)-$(VERSION)
 top_distdir = $(distdir)
@@ -439,8 +441,8 @@ LIBGMP_LT_AGE = 4
 LIBGMPXX_LT_CURRENT = 4
 LIBGMPXX_LT_REVISION = 18
 LIBGMPXX_LT_AGE = 3
-SUBDIRS = tests $(am__append_1) mpn mpz mpq mpf printf scanf cxx tune \
-	doc
+SUBDIRS = tests $(am__append_1) mpn fft mpz mpq mpf printf scanf cxx \
+	tune doc
 EXTRA_DIST = configfsf.guess configfsf.sub .gdbinit INSTALL.autoconf \
 	mpirxx.h yasm_macwin.inc.fat yasm_macwin.inc.nofat \
 	yasm_mac.inc.fat yasm_mac.inc.nofat strip_fPIC.sh mpn/x86w \
@@ -488,6 +490,7 @@ MPF_OBJECTS = mpf/abs$U.lo mpf/add$U.lo mpf/add_ui$U.lo \
 	mpf/sqrt_ui$U.lo mpf/sub$U.lo mpf/sub_ui$U.lo mpf/swap$U.lo \
 	mpf/trunc$U.lo mpf/ui_div$U.lo mpf/ui_sub$U.lo \
 	mpf/urandomb$U.lo
+FFT_OBJECTS = fft/adjust$U.lo fft/adjust_sqrt2$U.lo fft/butterfly_lshB$U.lo fft/butterfly_rshB$U.lo fft/combine_bits$U.lo fft/div_2expmod_2expp1$U.lo fft/fermat_to_mpz$U.lo fft/fft_mfa_truncate_sqrt2$U.lo fft/fft_mfa_truncate_sqrt2_inner$U.lo fft/fft_negacylic$U.lo fft/fft_radix2$U.lo fft/fft_truncate$U.lo fft/fft_truncate_sqrt2$U.lo fft/ifft_mfa_truncate_sqrt2$U.lo fft/ifft_negacyclic$U.lo fft/ifft_radix2$U.lo fft/ifft_truncate$U.lo fft/ifft_truncate_sqrt2$U.lo fft/mul_2expmod_2expp1$U.lo fft/mul_fft_main$U.lo fft/mul_mfa_truncate_sqrt2$U.lo fft/mul_truncate_sqrt2$U.lo fft/mulmod_2expp1$U.lo fft/normmod_2expp1$U.lo fft/revbin$U.lo fft/split_bits$U.lo 
 MPZ_OBJECTS = mpz/abs$U.lo mpz/add$U.lo mpz/add_ui$U.lo mpz/and$U.lo \
 	mpz/aorsmul$U.lo mpz/aorsmul_i$U.lo mpz/array_init$U.lo \
 	mpz/bin_ui$U.lo mpz/bin_uiui$U.lo mpz/cdiv_q$U.lo \
@@ -571,7 +574,7 @@ libmpir_la_SOURCES = gmp-impl.h longlong_pre.h longlong_post.h randmt.h			\
 
 EXTRA_libmpir_la_SOURCES = tal-debug.c tal-notreent.c tal-reent.c
 libmpir_la_DEPENDENCIES = @TAL_OBJECT@		\
-  $(MPF_OBJECTS) $(MPZ_OBJECTS) $(MPQ_OBJECTS)	\
+  $(MPF_OBJECTS) $(FFT_OBJECTS) $(MPZ_OBJECTS) $(MPQ_OBJECTS)	\
   $(MPN_OBJECTS) @mpn_objs_in_libgmp@		\
   $(PRINTF_OBJECTS)  $(SCANF_OBJECTS)
 
@@ -582,7 +585,7 @@ libmpir_la_LDFLAGS = $(GMP_LDFLAGS) $(LIBGMP_LDFLAGS) \
 libgmp_la_SOURCES = $(libmpir_la_SOURCES)
 EXTRA_libgmp_la_SOURCES = $(EXTRA_libmpir_la_SOURCES)
 libgmp_la_DEPENDENCIES = @TAL_OBJECT@		\
-  $(MPF_OBJECTS) $(MPZ_OBJECTS) $(MPQ_OBJECTS)	\
+  $(MPF_OBJECTS) $(FFT_OBJECTS) $(MPZ_OBJECTS) $(MPQ_OBJECTS)	\
   $(MPN_OBJECTS) @mpn_objs_in_libgmp@		\
   $(PRINTF_OBJECTS)  $(SCANF_OBJECTS)
 
