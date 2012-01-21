@@ -113,6 +113,7 @@ mpn_mulmod_2expp1_basecase (mp_ptr xp, mp_srcptr yp, mp_srcptr zp, int c,
   ASSERT (k == 0 || yp[n - 1] >> (GMP_NUMB_BITS - k) == 0);
   ASSERT (k == 0 || zp[n - 1] >> (GMP_NUMB_BITS - k) == 0);
 #if WANT_ASSERT
+  {
   mp_size_t t;
   t = n;
   MPN_NORMALIZE (yp, t);
@@ -120,6 +121,7 @@ mpn_mulmod_2expp1_basecase (mp_ptr xp, mp_srcptr yp, mp_srcptr zp, int c,
   t = n;
   MPN_NORMALIZE (zp, t);
   ASSERT (cz == 0 || t == 0);
+  }
 #endif
   if (LIKELY (cy == 0))
     {

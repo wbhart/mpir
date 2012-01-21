@@ -146,7 +146,7 @@ main(void)
             i2[int_limbs] = 0;
 
             depth1 = 1;
-            while ((1UL<<depth1) < bits) depth1++;
+            while ((((mp_limb_t)1)<<depth1) < bits) depth1++;
             depth1 = depth1/2;
 
             w1 = bits/(((mp_limb_t)1)<<(2*depth1));

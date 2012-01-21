@@ -186,7 +186,7 @@ gmp_si fft_adjust_limbs(mp_size_t limbs)
 
    if (limbs <= FFT_MULMOD_2EXPP1_CUTOFF) return limbs;
          
-   while ((((gmp_si)1)<<depth)<limbs) depth++;
+   while ((((gmp_ui)1)<<depth)<limbs) depth++;
    limbs2 = (((gmp_si)1)<<depth); /* within a factor of 2 of limbs */
    bits2 = limbs2*GMP_LIMB_BITS;
 

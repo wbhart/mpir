@@ -39,7 +39,7 @@ void butterfly_lshB(mp_ptr t, mp_ptr u, mp_ptr i1,
    if (x == 0)
    {
       if (y == 0)
-         mpn_sumdiff_n(t + x, u + y, i1, i2, limbs + 1);
+         cy = mpn_sumdiff_n(t + x, u + y, i1, i2, limbs + 1);
       else
       {
          cy = mpn_sumdiff_n(t, u + y, i1, i2, limbs - y);
