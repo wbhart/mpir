@@ -36,7 +36,7 @@ check_data (void)
 #endif
 
   static const struct {
-    gmp_si       n;
+    mpir_si       n;
     mp_size_t  want_size;
     mp_limb_t  want_data[2];
   } data[] = {

@@ -27,7 +27,7 @@ MA 02110-1301, USA. */
 #include "gmp-impl.h"
 #include "tests.h"
 
-void dump_abort _PROTO ((char *, mpz_t, gmp_ui));
+void dump_abort _PROTO ((char *, mpz_t, mpir_ui));
 void debug_mp _PROTO ((mpz_t, int));
 
 int
@@ -38,13 +38,13 @@ main (int argc, char **argv)
   mpz_t quotient2, remainder2;
   mpz_t temp;
   mp_size_t dividend_size;
-  gmp_ui divisor;
+  mpir_ui divisor;
   int i;
   int reps = 10000;
   gmp_randstate_t rands;
   mpz_t bs;
-  gmp_ui bsi, size_range;
-  gmp_ui r_rq, r_q, r_r, r;
+  mpir_ui bsi, size_range;
+  mpir_ui r_rq, r_q, r_r, r;
 
   tests_start ();
   gmp_randinit_default(rands);
@@ -146,7 +146,7 @@ main (int argc, char **argv)
 }
 
 void
-dump_abort (char *str, mpz_t dividend, gmp_ui divisor)
+dump_abort (char *str, mpz_t dividend, mpir_ui divisor)
 {
   fprintf (stderr, "ERROR: %s\n", str);
   fprintf (stderr, "dividend = "); debug_mp (dividend, -16);

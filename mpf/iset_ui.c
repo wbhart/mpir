@@ -24,7 +24,7 @@ MA 02110-1301, USA. */
 #include "gmp-impl.h"
 
 void
-mpf_init_set_ui (mpf_ptr r, gmp_ui val)
+mpf_init_set_ui (mpf_ptr r, mpir_ui val)
 {
   mp_size_t prec = __gmp_default_fp_limb_precision;
   mp_size_t size;

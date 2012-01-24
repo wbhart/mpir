@@ -133,7 +133,7 @@ check_mpz (void)
     long long int a = 0xfedcba9876543210;
     mpz_class b;
     b = a; 
-    ASSERT_ALWAYS(b == (gmp_si)0xfedcba9876543210);
+    ASSERT_ALWAYS(b == (mpir_si)0xfedcba9876543210);
   }
 
   // operator=(float)

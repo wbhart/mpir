@@ -29,7 +29,7 @@ void
 check_data (void)
 {
   static const struct {
-    gmp_ui  x;
+    mpir_ui  x;
     mp_size_t      want_size;
     mp_limb_t      want_data[2];
   } data[] = {

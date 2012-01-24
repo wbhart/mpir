@@ -23,7 +23,7 @@ MA 02110-1301, USA. */
 #include "mpir.h"
 #include "gmp-impl.h"
 
-gmp_si
+mpir_si
 mpz_get_si (mpz_srcptr z)
 {
   mp_ptr zp = z->_mp_d;
@@ -36,10 +36,10 @@ mpz_get_si (mpz_srcptr z)
 #endif
 
   if (size > 0)
-    return (gmp_si) zl & GMP_UI_MAX;
+    return (mpir_si) zl & GMP_UI_MAX;
   else if (size < 0)
     /* This expression is necessary to properly handle 0x80000000 */
-    return ~(((gmp_si) zl - 1L) & GMP_UI_MAX);
+    return ~(((mpir_si) zl - 1L) & GMP_UI_MAX);
   else
     return 0;
 }

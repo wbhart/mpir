@@ -24,8 +24,8 @@ MA 02110-1301, USA. */
 #include "mpir.h"
 #include "gmp-impl.h"
 
-gmp_ui
-mpz_gcd_ui (mpz_ptr w, mpz_srcptr u, gmp_ui v)
+mpir_ui
+mpz_gcd_ui (mpz_ptr w, mpz_srcptr u, mpir_ui v)
 {
   mp_size_t un;
   mp_limb_t res;

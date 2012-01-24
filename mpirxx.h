@@ -73,18 +73,18 @@ struct __gmp_binary_plus
   static void eval(mpz_ptr z, mpz_srcptr w, mpz_srcptr v)
   { mpz_add(z, w, v); }
 
-  static void eval(mpz_ptr z, mpz_srcptr w, gmp_ui l)
+  static void eval(mpz_ptr z, mpz_srcptr w, mpir_ui l)
   { mpz_add_ui(z, w, l); }
-  static void eval(mpz_ptr z, gmp_ui l, mpz_srcptr w)
+  static void eval(mpz_ptr z, mpir_ui l, mpz_srcptr w)
   { mpz_add_ui(z, w, l); }
-  static void eval(mpz_ptr z, mpz_srcptr w, gmp_si l)
+  static void eval(mpz_ptr z, mpz_srcptr w, mpir_si l)
   {
     if (l >= 0)
       mpz_add_ui(z, w, l);
     else
       mpz_sub_ui(z, w, -l);
   }
-  static void eval(mpz_ptr z, gmp_si l, mpz_srcptr w)
+  static void eval(mpz_ptr z, mpir_si l, mpz_srcptr w)
   {
     if (l >= 0)
       mpz_add_ui(z, w, l);
@@ -109,11 +109,11 @@ struct __gmp_binary_plus
   static void eval(mpq_ptr q, mpq_srcptr r, mpq_srcptr s)
   { mpq_add(q, r, s); }
 
-  static void eval(mpq_ptr q, mpq_srcptr r, gmp_ui l)
+  static void eval(mpq_ptr q, mpq_srcptr r, mpir_ui l)
   { mpq_set(q, r); mpz_addmul_ui(mpq_numref(q), mpq_denref(q), l); }
-  static void eval(mpq_ptr q, gmp_ui l, mpq_srcptr r)
+  static void eval(mpq_ptr q, mpir_ui l, mpq_srcptr r)
   { mpq_set(q, r); mpz_addmul_ui(mpq_numref(q), mpq_denref(q), l); }
-  static void eval(mpq_ptr q, mpq_srcptr r, gmp_si l)
+  static void eval(mpq_ptr q, mpq_srcptr r, mpir_si l)
   {
     mpq_set(q, r);
     if (l >= 0)
@@ -121,7 +121,7 @@ struct __gmp_binary_plus
     else
       mpz_submul_ui(mpq_numref(q), mpq_denref(q), -l);
   }
-  static void eval(mpq_ptr q, gmp_si l, mpq_srcptr r)
+  static void eval(mpq_ptr q, mpir_si l, mpq_srcptr r)
   {
     mpq_set(q, r);
     if (l >= 0)
@@ -154,18 +154,18 @@ struct __gmp_binary_plus
   static void eval(mpf_ptr f, mpf_srcptr g, mpf_srcptr h)
   { mpf_add(f, g, h); }
 
-  static void eval(mpf_ptr f, mpf_srcptr g, gmp_ui l)
+  static void eval(mpf_ptr f, mpf_srcptr g, mpir_ui l)
   { mpf_add_ui(f, g, l); }
-  static void eval(mpf_ptr f, gmp_ui l, mpf_srcptr g)
+  static void eval(mpf_ptr f, mpir_ui l, mpf_srcptr g)
   { mpf_add_ui(f, g, l); }
-  static void eval(mpf_ptr f, mpf_srcptr g, gmp_si l)
+  static void eval(mpf_ptr f, mpf_srcptr g, mpir_si l)
   {
     if (l >= 0)
       mpf_add_ui(f, g, l);
     else
       mpf_sub_ui(f, g, -l);
   }
-  static void eval(mpf_ptr f, gmp_si l, mpf_srcptr g)
+  static void eval(mpf_ptr f, mpir_si l, mpf_srcptr g)
   {
     if (l >= 0)
       mpf_add_ui(f, g, l);
@@ -195,18 +195,18 @@ struct __gmp_binary_minus
   static void eval(mpz_ptr z, mpz_srcptr w, mpz_srcptr v)
   { mpz_sub(z, w, v); }
 
-  static void eval(mpz_ptr z, mpz_srcptr w, gmp_ui l)
+  static void eval(mpz_ptr z, mpz_srcptr w, mpir_ui l)
   { mpz_sub_ui(z, w, l); }
-  static void eval(mpz_ptr z, gmp_ui l, mpz_srcptr w)
+  static void eval(mpz_ptr z, mpir_ui l, mpz_srcptr w)
   { mpz_ui_sub(z, l, w); }
-  static void eval(mpz_ptr z, mpz_srcptr w, gmp_si l)
+  static void eval(mpz_ptr z, mpz_srcptr w, mpir_si l)
   {
     if (l >= 0)
       mpz_sub_ui(z, w, l);
     else
       mpz_add_ui(z, w, -l);
   }
-  static void eval(mpz_ptr z, gmp_si l, mpz_srcptr w)
+  static void eval(mpz_ptr z, mpir_si l, mpz_srcptr w)
   {
     if (l >= 0)
       mpz_ui_sub(z, l, w);
@@ -234,11 +234,11 @@ struct __gmp_binary_minus
   static void eval(mpq_ptr q, mpq_srcptr r, mpq_srcptr s)
   { mpq_sub(q, r, s); }
 
-  static void eval(mpq_ptr q, mpq_srcptr r, gmp_ui l)
+  static void eval(mpq_ptr q, mpq_srcptr r, mpir_ui l)
   { mpq_set(q, r); mpz_submul_ui(mpq_numref(q), mpq_denref(q), l); }
-  static void eval(mpq_ptr q, gmp_ui l, mpq_srcptr r)
+  static void eval(mpq_ptr q, mpir_ui l, mpq_srcptr r)
   { mpq_neg(q, r); mpz_addmul_ui(mpq_numref(q), mpq_denref(q), l); }
-  static void eval(mpq_ptr q, mpq_srcptr r, gmp_si l)
+  static void eval(mpq_ptr q, mpq_srcptr r, mpir_si l)
   {
     mpq_set(q, r);
     if (l >= 0)
@@ -246,7 +246,7 @@ struct __gmp_binary_minus
     else
       mpz_addmul_ui(mpq_numref(q), mpq_denref(q), -l);
   }
-  static void eval(mpq_ptr q, gmp_si l, mpq_srcptr r)
+  static void eval(mpq_ptr q, mpir_si l, mpq_srcptr r)
   {
     mpq_neg(q, r);
     if (l >= 0)
@@ -279,18 +279,18 @@ struct __gmp_binary_minus
   static void eval(mpf_ptr f, mpf_srcptr g, mpf_srcptr h)
   { mpf_sub(f, g, h); }
 
-  static void eval(mpf_ptr f, mpf_srcptr g, gmp_ui l)
+  static void eval(mpf_ptr f, mpf_srcptr g, mpir_ui l)
   { mpf_sub_ui(f, g, l); }
-  static void eval(mpf_ptr f, gmp_ui l, mpf_srcptr g)
+  static void eval(mpf_ptr f, mpir_ui l, mpf_srcptr g)
   { mpf_ui_sub(f, l, g); }
-  static void eval(mpf_ptr f, mpf_srcptr g, gmp_si l)
+  static void eval(mpf_ptr f, mpf_srcptr g, mpir_si l)
   {
     if (l >= 0)
       mpf_sub_ui(f, g, l);
     else
       mpf_add_ui(f, g, -l);
   }
-  static void eval(mpf_ptr f, gmp_si l, mpf_srcptr g)
+  static void eval(mpf_ptr f, mpir_si l, mpf_srcptr g)
   {
     if (l >= 0)
       mpf_sub_ui(f, g, l);
@@ -321,13 +321,13 @@ struct __gmp_binary_multiplies
   static void eval(mpz_ptr z, mpz_srcptr w, mpz_srcptr v)
   { mpz_mul(z, w, v); }
 
-  static void eval(mpz_ptr z, mpz_srcptr w, gmp_ui l)
+  static void eval(mpz_ptr z, mpz_srcptr w, mpir_ui l)
   { mpz_mul_ui(z, w, l); }
-  static void eval(mpz_ptr z, gmp_ui l, mpz_srcptr w)
+  static void eval(mpz_ptr z, mpir_ui l, mpz_srcptr w)
   { mpz_mul_ui(z, w, l); }
-  static void eval(mpz_ptr z, mpz_srcptr w, gmp_si l)
+  static void eval(mpz_ptr z, mpz_srcptr w, mpir_si l)
   { mpz_mul_si (z, w, l); }
-  static void eval(mpz_ptr z, gmp_si l, mpz_srcptr w)
+  static void eval(mpz_ptr z, mpir_si l, mpz_srcptr w)
   { mpz_mul_si (z, w, l); }
   static void eval(mpz_ptr z, mpz_srcptr w, double d)
   {
@@ -347,7 +347,7 @@ struct __gmp_binary_multiplies
   static void eval(mpq_ptr q, mpq_srcptr r, mpq_srcptr s)
   { mpq_mul(q, r, s); }
 
-  static void eval(mpq_ptr q, mpq_srcptr r, gmp_ui l)
+  static void eval(mpq_ptr q, mpq_srcptr r, mpir_ui l)
   {
     mpq_t temp;
     mpq_init(temp);
@@ -355,7 +355,7 @@ struct __gmp_binary_multiplies
     mpq_mul(q, r, temp);
     mpq_clear(temp);
   }
-  static void eval(mpq_ptr q, gmp_ui l, mpq_srcptr r)
+  static void eval(mpq_ptr q, mpir_ui l, mpq_srcptr r)
   {
     mpq_t temp;
     mpq_init(temp);
@@ -363,7 +363,7 @@ struct __gmp_binary_multiplies
     mpq_mul(q, temp, r);
     mpq_clear(temp);
   }
-  static void eval(mpq_ptr q, mpq_srcptr r, gmp_si l)
+  static void eval(mpq_ptr q, mpq_srcptr r, mpir_si l)
   {
     mpq_t temp;
     mpq_init(temp);
@@ -371,7 +371,7 @@ struct __gmp_binary_multiplies
     mpq_mul(q, r, temp);
     mpq_clear(temp);
   }
-  static void eval(mpq_ptr q, gmp_si l, mpq_srcptr r)
+  static void eval(mpq_ptr q, mpir_si l, mpq_srcptr r)
   {
     mpq_t temp;
     mpq_init(temp);
@@ -399,11 +399,11 @@ struct __gmp_binary_multiplies
   static void eval(mpf_ptr f, mpf_srcptr g, mpf_srcptr h)
   { mpf_mul(f, g, h); }
 
-  static void eval(mpf_ptr f, mpf_srcptr g, gmp_ui l)
+  static void eval(mpf_ptr f, mpf_srcptr g, mpir_ui l)
   { mpf_mul_ui(f, g, l); }
-  static void eval(mpf_ptr f, gmp_ui l, mpf_srcptr g)
+  static void eval(mpf_ptr f, mpir_ui l, mpf_srcptr g)
   { mpf_mul_ui(f, g, l); }
-  static void eval(mpf_ptr f, mpf_srcptr g, gmp_si l)
+  static void eval(mpf_ptr f, mpf_srcptr g, mpir_si l)
   {
     if (l >= 0)
       mpf_mul_ui(f, g, l);
@@ -413,7 +413,7 @@ struct __gmp_binary_multiplies
 	mpf_neg(f, f);
       }
   }
-  static void eval(mpf_ptr f, gmp_si l, mpf_srcptr g)
+  static void eval(mpf_ptr f, mpir_si l, mpf_srcptr g)
   {
     if (l >= 0)
       mpf_mul_ui(f, g, l);
@@ -446,9 +446,9 @@ struct __gmp_binary_divides
   static void eval(mpz_ptr z, mpz_srcptr w, mpz_srcptr v)
   { mpz_tdiv_q(z, w, v); }
 
-  static void eval(mpz_ptr z, mpz_srcptr w, gmp_ui l)
+  static void eval(mpz_ptr z, mpz_srcptr w, mpir_ui l)
   { mpz_tdiv_q_ui(z, w, l); }
-  static void eval(mpz_ptr z, gmp_ui l, mpz_srcptr w)
+  static void eval(mpz_ptr z, mpir_ui l, mpz_srcptr w)
   {
     if (mpz_sgn(w) >= 0)
       {
@@ -469,7 +469,7 @@ struct __gmp_binary_divides
 	  mpz_set_ui(z, 0);
       }
   }
-  static void eval(mpz_ptr z, mpz_srcptr w, gmp_si l)
+  static void eval(mpz_ptr z, mpz_srcptr w, mpir_si l)
   {
     if (l >= 0)
       mpz_tdiv_q_ui(z, w, l);
@@ -479,7 +479,7 @@ struct __gmp_binary_divides
 	mpz_neg(z, z);
       }
   }
-  static void eval(mpz_ptr z, gmp_si l, mpz_srcptr w)
+  static void eval(mpz_ptr z, mpir_si l, mpz_srcptr w)
   {
     if (mpz_fits_si_p(w))
       mpz_set_si(z, l / mpz_get_si(w));
@@ -508,7 +508,7 @@ struct __gmp_binary_divides
   static void eval(mpq_ptr q, mpq_srcptr r, mpq_srcptr s)
   { mpq_div(q, r, s); }
 
-  static void eval(mpq_ptr q, mpq_srcptr r, gmp_ui l)
+  static void eval(mpq_ptr q, mpq_srcptr r, mpir_ui l)
   {
     mpq_t temp;
     mpq_init(temp);
@@ -516,7 +516,7 @@ struct __gmp_binary_divides
     mpq_div(q, r, temp);
     mpq_clear(temp);
   }
-  static void eval(mpq_ptr q, gmp_ui l, mpq_srcptr r)
+  static void eval(mpq_ptr q, mpir_ui l, mpq_srcptr r)
   {
     mpq_t temp;
     mpq_init(temp);
@@ -524,7 +524,7 @@ struct __gmp_binary_divides
     mpq_div(q, temp, r);
     mpq_clear(temp);
   }
-  static void eval(mpq_ptr q, mpq_srcptr r, gmp_si l)
+  static void eval(mpq_ptr q, mpq_srcptr r, mpir_si l)
   {
     mpq_t temp;
     mpq_init(temp);
@@ -532,7 +532,7 @@ struct __gmp_binary_divides
     mpq_div(q, r, temp);
     mpq_clear(temp);
   }
-  static void eval(mpq_ptr q, gmp_si l, mpq_srcptr r)
+  static void eval(mpq_ptr q, mpir_si l, mpq_srcptr r)
   {
     mpq_t temp;
     mpq_init(temp);
@@ -560,11 +560,11 @@ struct __gmp_binary_divides
   static void eval(mpf_ptr f, mpf_srcptr g, mpf_srcptr h)
   { mpf_div(f, g, h); }
 
-  static void eval(mpf_ptr f, mpf_srcptr g, gmp_ui l)
+  static void eval(mpf_ptr f, mpf_srcptr g, mpir_ui l)
   { mpf_div_ui(f, g, l); }
-  static void eval(mpf_ptr f, gmp_ui l, mpf_srcptr g)
+  static void eval(mpf_ptr f, mpir_ui l, mpf_srcptr g)
   { mpf_ui_div(f, l, g); }
-  static void eval(mpf_ptr f, mpf_srcptr g, gmp_si l)
+  static void eval(mpf_ptr f, mpf_srcptr g, mpir_si l)
   {
     if (l >= 0)
       mpf_div_ui(f, g, l);
@@ -574,7 +574,7 @@ struct __gmp_binary_divides
 	mpf_neg(f, f);
       }
   }
-  static void eval(mpf_ptr f, gmp_si l, mpf_srcptr g)
+  static void eval(mpf_ptr f, mpir_si l, mpf_srcptr g)
   {
     if (l >= 0)
       mpf_ui_div(f, l, g);
@@ -607,9 +607,9 @@ struct __gmp_binary_modulus
   static void eval(mpz_ptr z, mpz_srcptr w, mpz_srcptr v)
   { mpz_tdiv_r(z, w, v); }
 
-  static void eval(mpz_ptr z, mpz_srcptr w, gmp_ui l)
+  static void eval(mpz_ptr z, mpz_srcptr w, mpir_ui l)
   { mpz_tdiv_r_ui(z, w, l); }
-  static void eval(mpz_ptr z, gmp_ui l, mpz_srcptr w)
+  static void eval(mpz_ptr z, mpir_ui l, mpz_srcptr w)
   {
     if (mpz_sgn(w) >= 0)
       {
@@ -627,11 +627,11 @@ struct __gmp_binary_modulus
 	  mpz_set_ui(z, l);
       }
   }
-  static void eval(mpz_ptr z, mpz_srcptr w, gmp_si l)
+  static void eval(mpz_ptr z, mpz_srcptr w, mpir_si l)
   {
     mpz_tdiv_r_ui (z, w, (l >= 0 ? l : -l));
   }
-  static void eval(mpz_ptr z, gmp_si l, mpz_srcptr w)
+  static void eval(mpz_ptr z, mpir_si l, mpz_srcptr w)
   {
     if (mpz_fits_si_p(w))
       mpz_set_si(z, l % mpz_get_si(w));
@@ -660,7 +660,7 @@ struct __gmp_binary_modulus
 
 // Max allocations for plain types when converted to mpz_t
 #define __GMP_DBL_LIMBS (2 + DBL_MAX_EXP / GMP_NUMB_BITS)
-#define __GMP_ULI_LIMBS (1 + (8 * sizeof (gmp_ui) - 1) / GMP_NUMB_BITS)
+#define __GMP_ULI_LIMBS (1 + (8 * sizeof (mpir_ui) - 1) / GMP_NUMB_BITS)
 
 #define __GMPXX_TMP_UI							\
   mpz_t temp;								    \
@@ -686,13 +686,13 @@ struct __gmp_binary_and
   static void eval(mpz_ptr z, mpz_srcptr w, mpz_srcptr v)
   { mpz_and(z, w, v); }
 
-  static void eval(mpz_ptr z, mpz_srcptr w, gmp_ui l)
+  static void eval(mpz_ptr z, mpz_srcptr w, mpir_ui l)
   {  __GMPXX_TMP_UI;   mpz_and (z, w, temp);  }
-  static void eval(mpz_ptr z, gmp_ui l, mpz_srcptr w)
+  static void eval(mpz_ptr z, mpir_ui l, mpz_srcptr w)
   {  __GMPXX_TMP_UI;   mpz_and (z, w, temp);  }
-  static void eval(mpz_ptr z, mpz_srcptr w, gmp_si l)
+  static void eval(mpz_ptr z, mpz_srcptr w, mpir_si l)
   {  __GMPXX_TMP_SI;   mpz_and (z, w, temp);  }
-  static void eval(mpz_ptr z, gmp_si l, mpz_srcptr w)
+  static void eval(mpz_ptr z, mpir_si l, mpz_srcptr w)
   {  __GMPXX_TMP_SI;   mpz_and (z, w, temp);  }
   static void eval(mpz_ptr z, mpz_srcptr w, double d)
   {  __GMPXX_TMP_D;    mpz_and (z, w, temp); }
@@ -704,13 +704,13 @@ struct __gmp_binary_ior
 {
   static void eval(mpz_ptr z, mpz_srcptr w, mpz_srcptr v)
   { mpz_ior(z, w, v); }
-  static void eval(mpz_ptr z, mpz_srcptr w, gmp_ui l)
+  static void eval(mpz_ptr z, mpz_srcptr w, mpir_ui l)
   {  __GMPXX_TMP_UI;   mpz_ior (z, w, temp);  }
-  static void eval(mpz_ptr z, gmp_ui l, mpz_srcptr w)
+  static void eval(mpz_ptr z, mpir_ui l, mpz_srcptr w)
   {  __GMPXX_TMP_UI;   mpz_ior (z, w, temp);  }
-  static void eval(mpz_ptr z, mpz_srcptr w, gmp_si l)
+  static void eval(mpz_ptr z, mpz_srcptr w, mpir_si l)
   {  __GMPXX_TMP_SI;   mpz_ior (z, w, temp);  }
-  static void eval(mpz_ptr z, gmp_si l, mpz_srcptr w)
+  static void eval(mpz_ptr z, mpir_si l, mpz_srcptr w)
   {  __GMPXX_TMP_SI;   mpz_ior (z, w, temp);  }
   static void eval(mpz_ptr z, mpz_srcptr w, double d)
   {  __GMPXX_TMP_D;    mpz_ior (z, w, temp); }
@@ -722,13 +722,13 @@ struct __gmp_binary_xor
 {
   static void eval(mpz_ptr z, mpz_srcptr w, mpz_srcptr v)
   { mpz_xor(z, w, v); }
-  static void eval(mpz_ptr z, mpz_srcptr w, gmp_ui l)
+  static void eval(mpz_ptr z, mpz_srcptr w, mpir_ui l)
   {  __GMPXX_TMP_UI;   mpz_xor (z, w, temp);  }
-  static void eval(mpz_ptr z, gmp_ui l, mpz_srcptr w)
+  static void eval(mpz_ptr z, mpir_ui l, mpz_srcptr w)
   {  __GMPXX_TMP_UI;   mpz_xor (z, w, temp);  }
-  static void eval(mpz_ptr z, mpz_srcptr w, gmp_si l)
+  static void eval(mpz_ptr z, mpz_srcptr w, mpir_si l)
   {  __GMPXX_TMP_SI;   mpz_xor (z, w, temp);  }
-  static void eval(mpz_ptr z, gmp_si l, mpz_srcptr w)
+  static void eval(mpz_ptr z, mpir_si l, mpz_srcptr w)
   {  __GMPXX_TMP_SI;   mpz_xor (z, w, temp);  }
   static void eval(mpz_ptr z, mpz_srcptr w, double d)
   {  __GMPXX_TMP_D;    mpz_xor (z, w, temp); }
@@ -738,21 +738,21 @@ struct __gmp_binary_xor
 
 struct __gmp_binary_lshift
 {
-  static void eval(mpz_ptr z, mpz_srcptr w, gmp_ui l)
+  static void eval(mpz_ptr z, mpz_srcptr w, mpir_ui l)
   { mpz_mul_2exp(z, w, l); }
-  static void eval(mpq_ptr q, mpq_srcptr r, gmp_ui l)
+  static void eval(mpq_ptr q, mpq_srcptr r, mpir_ui l)
   { mpq_mul_2exp(q, r, l); }
-  static void eval(mpf_ptr f, mpf_srcptr g, gmp_ui l)
+  static void eval(mpf_ptr f, mpf_srcptr g, mpir_ui l)
   { mpf_mul_2exp(f, g, l); }
 };
 
 struct __gmp_binary_rshift
 {
-  static void eval(mpz_ptr z, mpz_srcptr w, gmp_ui l)
+  static void eval(mpz_ptr z, mpz_srcptr w, mpir_ui l)
   { mpz_fdiv_q_2exp(z, w, l); }
-  static void eval(mpq_ptr q, mpq_srcptr r, gmp_ui l)
+  static void eval(mpq_ptr q, mpq_srcptr r, mpir_ui l)
   { mpq_div_2exp(q, r, l); }
-  static void eval(mpf_ptr f, mpf_srcptr g, gmp_ui l)
+  static void eval(mpf_ptr f, mpf_srcptr g, mpir_ui l)
   { mpf_div_2exp(f, g, l); }
 };
 
@@ -760,13 +760,13 @@ struct __gmp_binary_equal
 {
   static bool eval(mpz_srcptr z, mpz_srcptr w) { return mpz_cmp(z, w) == 0; }
 
-  static bool eval(mpz_srcptr z, gmp_ui l)
+  static bool eval(mpz_srcptr z, mpir_ui l)
   { return mpz_cmp_ui(z, l) == 0; }
-  static bool eval(gmp_ui l, mpz_srcptr z)
+  static bool eval(mpir_ui l, mpz_srcptr z)
   { return mpz_cmp_ui(z, l) == 0; }
-  static bool eval(mpz_srcptr z, gmp_si l)
+  static bool eval(mpz_srcptr z, mpir_si l)
   { return mpz_cmp_si(z, l) == 0; }
-  static bool eval(gmp_si l, mpz_srcptr z)
+  static bool eval(mpir_si l, mpz_srcptr z)
   { return mpz_cmp_si(z, l) == 0; }
   static bool eval(mpz_srcptr z, double d)
   { return mpz_cmp_d(z, d) == 0; }
@@ -776,13 +776,13 @@ struct __gmp_binary_equal
   static bool eval(mpq_srcptr q, mpq_srcptr r)
   { return mpq_equal(q, r) != 0; }
 
-  static bool eval(mpq_srcptr q, gmp_ui l)
+  static bool eval(mpq_srcptr q, mpir_ui l)
   { return mpq_cmp_ui(q, l, 1) == 0; }
-  static bool eval(gmp_ui l, mpq_srcptr q)
+  static bool eval(mpir_ui l, mpq_srcptr q)
   { return mpq_cmp_ui(q, l, 1) == 0; }
-  static bool eval(mpq_srcptr q, gmp_si l)
+  static bool eval(mpq_srcptr q, mpir_si l)
   { return mpq_cmp_si(q, l, 1) == 0; }
-  static bool eval(gmp_si l, mpq_srcptr q)
+  static bool eval(mpir_si l, mpq_srcptr q)
   { return mpq_cmp_si(q, l, 1) == 0; }
   static bool eval(mpq_srcptr q, double d)
   {
@@ -807,13 +807,13 @@ struct __gmp_binary_equal
 
   static bool eval(mpf_srcptr f, mpf_srcptr g) { return mpf_cmp(f, g) == 0; }
 
-  static bool eval(mpf_srcptr f, gmp_ui l)
+  static bool eval(mpf_srcptr f, mpir_ui l)
   { return mpf_cmp_ui(f, l) == 0; }
-  static bool eval(gmp_ui l, mpf_srcptr f)
+  static bool eval(mpir_ui l, mpf_srcptr f)
   { return mpf_cmp_ui(f, l) == 0; }
-  static bool eval(mpf_srcptr f, gmp_si l)
+  static bool eval(mpf_srcptr f, mpir_si l)
   { return mpf_cmp_si(f, l) == 0; }
-  static bool eval(gmp_si l, mpf_srcptr f)
+  static bool eval(mpir_si l, mpf_srcptr f)
   { return mpf_cmp_si(f, l) == 0; }
   static bool eval(mpf_srcptr f, double d)
   { return mpf_cmp_d(f, d) == 0; }
@@ -825,13 +825,13 @@ struct __gmp_binary_not_equal
 {
   static bool eval(mpz_srcptr z, mpz_srcptr w) { return mpz_cmp(z, w) != 0; }
 
-  static bool eval(mpz_srcptr z, gmp_ui l)
+  static bool eval(mpz_srcptr z, mpir_ui l)
   { return mpz_cmp_ui(z, l) != 0; }
-  static bool eval(gmp_ui l, mpz_srcptr z)
+  static bool eval(mpir_ui l, mpz_srcptr z)
   { return mpz_cmp_ui(z, l) != 0; }
-  static bool eval(mpz_srcptr z, gmp_si l)
+  static bool eval(mpz_srcptr z, mpir_si l)
   { return mpz_cmp_si(z, l) != 0; }
-  static bool eval(gmp_si l, mpz_srcptr z)
+  static bool eval(mpir_si l, mpz_srcptr z)
   { return mpz_cmp_si(z, l) != 0; }
   static bool eval(mpz_srcptr z, double d)
   { return mpz_cmp_d(z, d) != 0; }
@@ -841,13 +841,13 @@ struct __gmp_binary_not_equal
   static bool eval(mpq_srcptr q, mpq_srcptr r)
   { return mpq_equal(q, r) == 0; }
 
-  static bool eval(mpq_srcptr q, gmp_ui l)
+  static bool eval(mpq_srcptr q, mpir_ui l)
   { return mpq_cmp_ui(q, l, 1) != 0; }
-  static bool eval(gmp_ui l, mpq_srcptr q)
+  static bool eval(mpir_ui l, mpq_srcptr q)
   { return mpq_cmp_ui(q, l, 1) != 0; }
-  static bool eval(mpq_srcptr q, gmp_si l)
+  static bool eval(mpq_srcptr q, mpir_si l)
   { return mpq_cmp_si(q, l, 1) != 0; }
-  static bool eval(gmp_si l, mpq_srcptr q)
+  static bool eval(mpir_si l, mpq_srcptr q)
   { return mpq_cmp_si(q, l, 1) != 0; }
   static bool eval(mpq_srcptr q, double d)
   {
@@ -872,13 +872,13 @@ struct __gmp_binary_not_equal
 
   static bool eval(mpf_srcptr f, mpf_srcptr g) { return mpf_cmp(f, g) != 0; }
 
-  static bool eval(mpf_srcptr f, gmp_ui l)
+  static bool eval(mpf_srcptr f, mpir_ui l)
   { return mpf_cmp_ui(f, l) != 0; }
-  static bool eval(gmp_ui l, mpf_srcptr f)
+  static bool eval(mpir_ui l, mpf_srcptr f)
   { return mpf_cmp_ui(f, l) != 0; }
-  static bool eval(mpf_srcptr f, gmp_si l)
+  static bool eval(mpf_srcptr f, mpir_si l)
   { return mpf_cmp_si(f, l) != 0; }
-  static bool eval(gmp_si l, mpf_srcptr f)
+  static bool eval(mpir_si l, mpf_srcptr f)
   { return mpf_cmp_si(f, l) != 0; }
   static bool eval(mpf_srcptr f, double d)
   { return mpf_cmp_d(f, d) != 0; }
@@ -890,13 +890,13 @@ struct __gmp_binary_less
 {
   static bool eval(mpz_srcptr z, mpz_srcptr w) { return mpz_cmp(z, w) < 0; }
 
-  static bool eval(mpz_srcptr z, gmp_ui l)
+  static bool eval(mpz_srcptr z, mpir_ui l)
   { return mpz_cmp_ui(z, l) < 0; }
-  static bool eval(gmp_ui l, mpz_srcptr z)
+  static bool eval(mpir_ui l, mpz_srcptr z)
   { return mpz_cmp_ui(z, l) > 0; }
-  static bool eval(mpz_srcptr z, gmp_si l)
+  static bool eval(mpz_srcptr z, mpir_si l)
   { return mpz_cmp_si(z, l) < 0; }
-  static bool eval(gmp_si l, mpz_srcptr z)
+  static bool eval(mpir_si l, mpz_srcptr z)
   { return mpz_cmp_si(z, l) > 0; }
   static bool eval(mpz_srcptr z, double d)
   { return mpz_cmp_d(z, d) < 0; }
@@ -905,13 +905,13 @@ struct __gmp_binary_less
 
   static bool eval(mpq_srcptr q, mpq_srcptr r) { return mpq_cmp(q, r) < 0; }
 
-  static bool eval(mpq_srcptr q, gmp_ui l)
+  static bool eval(mpq_srcptr q, mpir_ui l)
   { return mpq_cmp_ui(q, l, 1) < 0; }
-  static bool eval(gmp_ui l, mpq_srcptr q)
+  static bool eval(mpir_ui l, mpq_srcptr q)
   { return mpq_cmp_ui(q, l, 1) > 0; }
-  static bool eval(mpq_srcptr q, gmp_si l)
+  static bool eval(mpq_srcptr q, mpir_si l)
   { return mpq_cmp_si(q, l, 1) < 0; }
-  static bool eval(gmp_si l, mpq_srcptr q)
+  static bool eval(mpir_si l, mpq_srcptr q)
   { return mpq_cmp_si(q, l, 1) > 0; }
   static bool eval(mpq_srcptr q, double d)
   {
@@ -936,13 +936,13 @@ struct __gmp_binary_less
 
   static bool eval(mpf_srcptr f, mpf_srcptr g) { return mpf_cmp(f, g) < 0; }
 
-  static bool eval(mpf_srcptr f, gmp_ui l)
+  static bool eval(mpf_srcptr f, mpir_ui l)
   { return mpf_cmp_ui(f, l) < 0; }
-  static bool eval(gmp_ui l, mpf_srcptr f)
+  static bool eval(mpir_ui l, mpf_srcptr f)
   { return mpf_cmp_ui(f, l) > 0; }
-  static bool eval(mpf_srcptr f, gmp_si l)
+  static bool eval(mpf_srcptr f, mpir_si l)
   { return mpf_cmp_si(f, l) < 0; }
-  static bool eval(gmp_si l, mpf_srcptr f)
+  static bool eval(mpir_si l, mpf_srcptr f)
   { return mpf_cmp_si(f, l) > 0; }
   static bool eval(mpf_srcptr f, double d)
   { return mpf_cmp_d(f, d) < 0; }
@@ -954,13 +954,13 @@ struct __gmp_binary_less_equal
 {
   static bool eval(mpz_srcptr z, mpz_srcptr w) { return mpz_cmp(z, w) <= 0; }
 
-  static bool eval(mpz_srcptr z, gmp_ui l)
+  static bool eval(mpz_srcptr z, mpir_ui l)
   { return mpz_cmp_ui(z, l) <= 0; }
-  static bool eval(gmp_ui l, mpz_srcptr z)
+  static bool eval(mpir_ui l, mpz_srcptr z)
   { return mpz_cmp_ui(z, l) >= 0; }
-  static bool eval(mpz_srcptr z, gmp_si l)
+  static bool eval(mpz_srcptr z, mpir_si l)
   { return mpz_cmp_si(z, l) <= 0; }
-  static bool eval(gmp_si l, mpz_srcptr z)
+  static bool eval(mpir_si l, mpz_srcptr z)
   { return mpz_cmp_si(z, l) >= 0; }
   static bool eval(mpz_srcptr z, double d)
   { return mpz_cmp_d(z, d) <= 0; }
@@ -969,13 +969,13 @@ struct __gmp_binary_less_equal
 
   static bool eval(mpq_srcptr q, mpq_srcptr r) { return mpq_cmp(q, r) <= 0; }
 
-  static bool eval(mpq_srcptr q, gmp_ui l)
+  static bool eval(mpq_srcptr q, mpir_ui l)
   { return mpq_cmp_ui(q, l, 1) <= 0; }
-  static bool eval(gmp_ui l, mpq_srcptr q)
+  static bool eval(mpir_ui l, mpq_srcptr q)
   { return mpq_cmp_ui(q, l, 1) >= 0; }
-  static bool eval(mpq_srcptr q, gmp_si l)
+  static bool eval(mpq_srcptr q, mpir_si l)
   { return mpq_cmp_si(q, l, 1) <= 0; }
-  static bool eval(gmp_si l, mpq_srcptr q)
+  static bool eval(mpir_si l, mpq_srcptr q)
   { return mpq_cmp_si(q, l, 1) >= 0; }
   static bool eval(mpq_srcptr q, double d)
   {
@@ -1000,13 +1000,13 @@ struct __gmp_binary_less_equal
 
   static bool eval(mpf_srcptr f, mpf_srcptr g) { return mpf_cmp(f, g) <= 0; }
 
-  static bool eval(mpf_srcptr f, gmp_ui l)
+  static bool eval(mpf_srcptr f, mpir_ui l)
   { return mpf_cmp_ui(f, l) <= 0; }
-  static bool eval(gmp_ui l, mpf_srcptr f)
+  static bool eval(mpir_ui l, mpf_srcptr f)
   { return mpf_cmp_ui(f, l) >= 0; }
-  static bool eval(mpf_srcptr f, gmp_si l)
+  static bool eval(mpf_srcptr f, mpir_si l)
   { return mpf_cmp_si(f, l) <= 0; }
-  static bool eval(gmp_si l, mpf_srcptr f)
+  static bool eval(mpir_si l, mpf_srcptr f)
   { return mpf_cmp_si(f, l) >= 0; }
   static bool eval(mpf_srcptr f, double d)
   { return mpf_cmp_d(f, d) <= 0; }
@@ -1018,13 +1018,13 @@ struct __gmp_binary_greater
 {
   static bool eval(mpz_srcptr z, mpz_srcptr w) { return mpz_cmp(z, w) > 0; }
 
-  static bool eval(mpz_srcptr z, gmp_ui l)
+  static bool eval(mpz_srcptr z, mpir_ui l)
   { return mpz_cmp_ui(z, l) > 0; }
-  static bool eval(gmp_ui l, mpz_srcptr z)
+  static bool eval(mpir_ui l, mpz_srcptr z)
   { return mpz_cmp_ui(z, l) < 0; }
-  static bool eval(mpz_srcptr z, gmp_si l)
+  static bool eval(mpz_srcptr z, mpir_si l)
   { return mpz_cmp_si(z, l) > 0; }
-  static bool eval(gmp_si l, mpz_srcptr z)
+  static bool eval(mpir_si l, mpz_srcptr z)
   { return mpz_cmp_si(z, l) < 0; }
   static bool eval(mpz_srcptr z, double d)
   { return mpz_cmp_d(z, d) > 0; }
@@ -1033,13 +1033,13 @@ struct __gmp_binary_greater
 
   static bool eval(mpq_srcptr q, mpq_srcptr r) { return mpq_cmp(q, r) > 0; }
 
-  static bool eval(mpq_srcptr q, gmp_ui l)
+  static bool eval(mpq_srcptr q, mpir_ui l)
   { return mpq_cmp_ui(q, l, 1) > 0; }
-  static bool eval(gmp_ui l, mpq_srcptr q)
+  static bool eval(mpir_ui l, mpq_srcptr q)
   { return mpq_cmp_ui(q, l, 1) < 0; }
-  static bool eval(mpq_srcptr q, gmp_si l)
+  static bool eval(mpq_srcptr q, mpir_si l)
   { return mpq_cmp_si(q, l, 1) > 0; }
-  static bool eval(gmp_si l, mpq_srcptr q)
+  static bool eval(mpir_si l, mpq_srcptr q)
   { return mpq_cmp_si(q, l, 1) < 0; }
   static bool eval(mpq_srcptr q, double d)
   {
@@ -1064,13 +1064,13 @@ struct __gmp_binary_greater
 
   static bool eval(mpf_srcptr f, mpf_srcptr g) { return mpf_cmp(f, g) > 0; }
 
-  static bool eval(mpf_srcptr f, gmp_ui l)
+  static bool eval(mpf_srcptr f, mpir_ui l)
   { return mpf_cmp_ui(f, l) > 0; }
-  static bool eval(gmp_ui l, mpf_srcptr f)
+  static bool eval(mpir_ui l, mpf_srcptr f)
   { return mpf_cmp_ui(f, l) < 0; }
-  static bool eval(mpf_srcptr f, gmp_si l)
+  static bool eval(mpf_srcptr f, mpir_si l)
   { return mpf_cmp_si(f, l) > 0; }
-  static bool eval(gmp_si l, mpf_srcptr f)
+  static bool eval(mpir_si l, mpf_srcptr f)
   { return mpf_cmp_si(f, l) < 0; }
   static bool eval(mpf_srcptr f, double d)
   { return mpf_cmp_d(f, d) > 0; }
@@ -1082,13 +1082,13 @@ struct __gmp_binary_greater_equal
 {
   static bool eval(mpz_srcptr z, mpz_srcptr w) { return mpz_cmp(z, w) >= 0; }
 
-  static bool eval(mpz_srcptr z, gmp_ui l)
+  static bool eval(mpz_srcptr z, mpir_ui l)
   { return mpz_cmp_ui(z, l) >= 0; }
-  static bool eval(gmp_ui l, mpz_srcptr z)
+  static bool eval(mpir_ui l, mpz_srcptr z)
   { return mpz_cmp_ui(z, l) <= 0; }
-  static bool eval(mpz_srcptr z, gmp_si l)
+  static bool eval(mpz_srcptr z, mpir_si l)
   { return mpz_cmp_si(z, l) >= 0; }
-  static bool eval(gmp_si l, mpz_srcptr z)
+  static bool eval(mpir_si l, mpz_srcptr z)
   { return mpz_cmp_si(z, l) <= 0; }
   static bool eval(mpz_srcptr z, double d)
   { return mpz_cmp_d(z, d) >= 0; }
@@ -1097,13 +1097,13 @@ struct __gmp_binary_greater_equal
 
   static bool eval(mpq_srcptr q, mpq_srcptr r) { return mpq_cmp(q, r) >= 0; }
 
-  static bool eval(mpq_srcptr q, gmp_ui l)
+  static bool eval(mpq_srcptr q, mpir_ui l)
   { return mpq_cmp_ui(q, l, 1) >= 0; }
-  static bool eval(gmp_ui l, mpq_srcptr q)
+  static bool eval(mpir_ui l, mpq_srcptr q)
   { return mpq_cmp_ui(q, l, 1) <= 0; }
-  static bool eval(mpq_srcptr q, gmp_si l)
+  static bool eval(mpq_srcptr q, mpir_si l)
   { return mpq_cmp_si(q, l, 1) >= 0; }
-  static bool eval(gmp_si l, mpq_srcptr q)
+  static bool eval(mpir_si l, mpq_srcptr q)
   { return mpq_cmp_si(q, l, 1) <= 0; }
   static bool eval(mpq_srcptr q, double d)
   {
@@ -1128,13 +1128,13 @@ struct __gmp_binary_greater_equal
 
   static bool eval(mpf_srcptr f, mpf_srcptr g) { return mpf_cmp(f, g) >= 0; }
 
-  static bool eval(mpf_srcptr f, gmp_ui l)
+  static bool eval(mpf_srcptr f, mpir_ui l)
   { return mpf_cmp_ui(f, l) >= 0; }
-  static bool eval(gmp_ui l, mpf_srcptr f)
+  static bool eval(mpir_ui l, mpf_srcptr f)
   { return mpf_cmp_ui(f, l) <= 0; }
-  static bool eval(mpf_srcptr f, gmp_si l)
+  static bool eval(mpf_srcptr f, mpir_si l)
   { return mpf_cmp_si(f, l) >= 0; }
-  static bool eval(gmp_si l, mpf_srcptr f)
+  static bool eval(mpir_si l, mpf_srcptr f)
   { return mpf_cmp_si(f, l) <= 0; }
   static bool eval(mpf_srcptr f, double d)
   { return mpf_cmp_d(f, d) >= 0; }
@@ -1199,7 +1199,7 @@ struct __gmp_hypot_function
     mpf_clear(temp);
   }
 
-  static void eval(mpf_ptr f, mpf_srcptr g, gmp_ui l)
+  static void eval(mpf_ptr f, mpf_srcptr g, mpir_ui l)
   {
     mpf_t temp;
     mpf_init2(temp, mpf_get_prec(f));
@@ -1210,7 +1210,7 @@ struct __gmp_hypot_function
     mpf_sqrt(f, f);
     mpf_clear(temp);
   }
-  static void eval(mpf_ptr f, gmp_ui l, mpf_srcptr g)
+  static void eval(mpf_ptr f, mpir_ui l, mpf_srcptr g)
   {
     mpf_t temp;
     mpf_init2(temp, mpf_get_prec(f));
@@ -1221,7 +1221,7 @@ struct __gmp_hypot_function
     mpf_sqrt(f, f);
     mpf_clear(temp);
   }
-  static void eval(mpf_ptr f, mpf_srcptr g, gmp_si l)
+  static void eval(mpf_ptr f, mpf_srcptr g, mpir_si l)
   {
     mpf_t temp;
     mpf_init2(temp, mpf_get_prec(f));
@@ -1232,7 +1232,7 @@ struct __gmp_hypot_function
     mpf_sqrt(f, f);
     mpf_clear(temp);
   }
-  static void eval(mpf_ptr f, gmp_si l, mpf_srcptr g)
+  static void eval(mpf_ptr f, mpir_si l, mpf_srcptr g)
   {
     mpf_t temp;
     mpf_init2(temp, mpf_get_prec(f));
@@ -1278,13 +1278,13 @@ struct __gmp_cmp_function
 {
   static int eval(mpz_srcptr z, mpz_srcptr w) { return mpz_cmp(z, w); }
 
-  static int eval(mpz_srcptr z, gmp_ui l)
+  static int eval(mpz_srcptr z, mpir_ui l)
   { return mpz_cmp_ui(z, l); }
-  static int eval(gmp_ui l, mpz_srcptr z)
+  static int eval(mpir_ui l, mpz_srcptr z)
   { return -mpz_cmp_ui(z, l); }
-  static int eval(mpz_srcptr z, gmp_si l)
+  static int eval(mpz_srcptr z, mpir_si l)
   { return mpz_cmp_si(z, l); }
-  static int eval(gmp_si l, mpz_srcptr z)
+  static int eval(mpir_si l, mpz_srcptr z)
   { return -mpz_cmp_si(z, l); }
   static int eval(mpz_srcptr z, double d)
   { return mpz_cmp_d(z, d); }
@@ -1293,13 +1293,13 @@ struct __gmp_cmp_function
 
   static int eval(mpq_srcptr q, mpq_srcptr r) { return mpq_cmp(q, r); }
 
-  static int eval(mpq_srcptr q, gmp_ui l)
+  static int eval(mpq_srcptr q, mpir_ui l)
   { return mpq_cmp_ui(q, l, 1); }
-  static int eval(gmp_ui l, mpq_srcptr q)
+  static int eval(mpir_ui l, mpq_srcptr q)
   { return -mpq_cmp_ui(q, l, 1); }
-  static int eval(mpq_srcptr q, gmp_si l)
+  static int eval(mpq_srcptr q, mpir_si l)
   { return mpq_cmp_si(q, l, 1); }
-  static int eval(gmp_si l, mpq_srcptr q)
+  static int eval(mpir_si l, mpq_srcptr q)
   { return -mpq_cmp_si(q, l, 1); }
   static int eval(mpq_srcptr q, double d)
   {
@@ -1324,13 +1324,13 @@ struct __gmp_cmp_function
 
   static int eval(mpf_srcptr f, mpf_srcptr g) { return mpf_cmp(f, g); }
 
-  static int eval(mpf_srcptr f, gmp_ui l)
+  static int eval(mpf_srcptr f, mpir_ui l)
   { return mpf_cmp_ui(f, l); }
-  static int eval(gmp_ui l, mpf_srcptr f)
+  static int eval(mpir_ui l, mpf_srcptr f)
   { return -mpf_cmp_ui(f, l); }
-  static int eval(mpf_srcptr f, gmp_si l)
+  static int eval(mpf_srcptr f, mpir_si l)
   { return mpf_cmp_si(f, l); }
-  static int eval(gmp_si l, mpf_srcptr f)
+  static int eval(mpir_si l, mpf_srcptr f)
   { return -mpf_cmp_si(f, l); }
   static int eval(mpf_srcptr f, double d)
   { return mpf_cmp_d(f, d); }
@@ -1340,7 +1340,7 @@ struct __gmp_cmp_function
 
 struct __gmp_rand_function
 {
-  static void eval(mpz_ptr z, gmp_randstate_t s, gmp_ui l)
+  static void eval(mpz_ptr z, gmp_randstate_t s, mpir_ui l)
   { mpz_urandomb(z, s, l); }
   static void eval(mpz_ptr z, gmp_randstate_t s, mpz_srcptr w)
   { mpz_urandomm(z, s, w); }
@@ -1540,7 +1540,7 @@ __GMPP_DECLARE_COMPOUND_OPERATOR(fun)        \
 __GMPN_DECLARE_COMPOUND_OPERATOR(fun)
 
 #define __GMP_DECLARE_COMPOUND_OPERATOR_UI(fun) \
-  __gmp_expr & fun(gmp_ui);
+  __gmp_expr & fun(mpir_ui);
 
 #define __GMP_DECLARE_INCREMENT_OPERATOR(fun) \
   inline __gmp_expr & fun();                  \
@@ -1692,8 +1692,8 @@ public:
   mpz_srcptr get_mpz_t() const { return mp; }
   mpz_ptr get_mpz_t() { return mp; }
 
-  gmp_si get_si() const { return mpz_get_si(mp); }
-  gmp_ui get_ui() const { return mpz_get_ui(mp); }
+  mpir_si get_si() const { return mpz_get_si(mp); }
+  mpir_ui get_ui() const { return mpz_get_ui(mp); }
 #if defined( _STDINT_H ) || defined ( _STDINT_H_ ) || defined ( _STDINT )
   intmax_t get_sx() const { return mpz_get_sx(mp); }
   uintmax_t get_ux() const { return mpz_get_ux(mp); }
@@ -2110,8 +2110,8 @@ public:
   mpf_srcptr get_mpf_t() const { return mp; }
   mpf_ptr get_mpf_t() { return mp; }
 
-  gmp_si get_si() const { return mpf_get_si(mp); }
-  gmp_ui get_ui() const { return mpf_get_ui(mp); }
+  mpir_si get_si() const { return mpf_get_si(mp); }
+  mpir_ui get_ui() const { return mpf_get_ui(mp); }
   double get_d() const { return mpf_get_d(mp); }
 
   // bool fits_schar_p() const { return mpf_fits_schar_p(mp); }
@@ -2323,7 +2323,7 @@ private:
 public:
   __gmp_expr(const val_type &val) : expr(val) { }
   void eval(typename __gmp_resolve_expr<T>::ptr_type p,
-	    gmp_ui = 0) const
+	    mpir_ui = 0) const
   { Op::eval(p, expr.val.__get_mp()); }
   const val_type & get_val() const { return expr.val; }
   mp_bitcnt_t get_prec() const { return expr.val.get_prec(); }
@@ -2376,7 +2376,7 @@ public:
   __gmp_expr(const val1_type &val1, const val2_type &val2)
     : expr(val1, val2) { }
   void eval(typename __gmp_resolve_expr<T>::ptr_type p,
-	    gmp_ui = 0) const
+	    mpir_ui = 0) const
   { Op::eval(p, expr.val1.__get_mp(), expr.val2.__get_mp()); }
   const val1_type & get_val1() const { return expr.val1; }
   const val2_type & get_val2() const { return expr.val2; }
@@ -2401,7 +2401,7 @@ private:
   __gmp_binary_expr<val1_type, val2_type, Op> expr;
 public:
   __gmp_expr(const val1_type &val1, const val2_type &val2) : expr(val1, val2) { }
-  void eval(typename __gmp_resolve_expr<T>::ptr_type p, gmp_ui = 0) const
+  void eval(typename __gmp_resolve_expr<T>::ptr_type p, mpir_ui = 0) const
   { Op::eval(p, expr.val1.__get_mp(), expr.val2); }
   const val1_type & get_val1() const { return expr.val1; }
   const val2_type & get_val2() const { return expr.val2; }
@@ -2420,7 +2420,7 @@ public:
   __gmp_expr(const val1_type &val1, const val2_type &val2)
     : expr(val1, val2) { }
   void eval(typename __gmp_resolve_expr<T>::ptr_type p,
-	    gmp_ui = 0) const
+	    mpir_ui = 0) const
   { Op::eval(p, expr.val1, expr.val2.__get_mp()); }
   const val1_type & get_val1() const { return expr.val1; }
   const val2_type & get_val2() const { return expr.val2; }
@@ -2978,10 +2978,10 @@ fun(type t, const __gmp_expr<T, U> &expr)                                  \
 }
 
 #define __GMPNS_DEFINE_BINARY_FUNCTION(fun, eval_fun, type)          \
-__GMPNN_DEFINE_BINARY_FUNCTION(fun, eval_fun, type, gmp_si)
+__GMPNN_DEFINE_BINARY_FUNCTION(fun, eval_fun, type, mpir_si)
 
 #define __GMPNU_DEFINE_BINARY_FUNCTION(fun, eval_fun, type)            \
-__GMPNN_DEFINE_BINARY_FUNCTION(fun, eval_fun, type, gmp_ui)
+__GMPNN_DEFINE_BINARY_FUNCTION(fun, eval_fun, type, mpir_ui)
 
 #define __GMPND_DEFINE_BINARY_FUNCTION(fun, eval_fun, type) \
 __GMPNN_DEFINE_BINARY_FUNCTION(fun, eval_fun, type, double)
@@ -3028,11 +3028,11 @@ __GMPN_DEFINE_BINARY_FUNCTION(fun, eval_fun)
                                                                        \
 template <class T, class U>                                            \
 inline __gmp_expr                                                      \
-<T, __gmp_binary_expr<__gmp_expr<T, U>, gmp_ui, eval_fun> >            \
-fun(const __gmp_expr<T, U> &expr, gmp_ui l)                            \
+<T, __gmp_binary_expr<__gmp_expr<T, U>, mpir_ui, eval_fun> >            \
+fun(const __gmp_expr<T, U> &expr, mpir_ui l)                            \
 {                                                                      \
   return __gmp_expr<T, __gmp_binary_expr                               \
-    <__gmp_expr<T, U>, gmp_ui, eval_fun> >(expr, l);                   \
+    <__gmp_expr<T, U>, mpir_ui, eval_fun> >(expr, l);                   \
 }
 
 
@@ -3067,11 +3067,11 @@ inline type fun(type2 t, const __gmp_expr<T, U> &expr)             \
 
 #define __GMPNS_DEFINE_BINARY_TYPE_FUNCTION(type, fun, eval_fun, type2) \
 __GMPNN_DEFINE_BINARY_TYPE_FUNCTION(type, fun, eval_fun,                \
-				    type2, gmp_si)
+				    type2, mpir_si)
 
 #define __GMPNU_DEFINE_BINARY_TYPE_FUNCTION(type, fun, eval_fun, type2) \
 __GMPNN_DEFINE_BINARY_TYPE_FUNCTION(type, fun, eval_fun,                \
-				    type2, gmp_ui)
+				    type2, mpir_ui)
 
 #define __GMPND_DEFINE_BINARY_TYPE_FUNCTION(type, fun, eval_fun, type2) \
 __GMPNN_DEFINE_BINARY_TYPE_FUNCTION(type, fun, eval_fun, type2, double)
@@ -3138,11 +3138,11 @@ inline type##_class & type##_class::fun(type2 t)                 \
 
 #define __GMPNS_DEFINE_COMPOUND_OPERATOR(type, fun, eval_fun, type2) \
 __GMPNN_DEFINE_COMPOUND_OPERATOR(type, fun, eval_fun,                \
-				 type2, gmp_si)
+				 type2, mpir_si)
 
 #define __GMPNU_DEFINE_COMPOUND_OPERATOR(type, fun, eval_fun, type2) \
 __GMPNN_DEFINE_COMPOUND_OPERATOR(type, fun, eval_fun,                \
-				 type2, gmp_ui)
+				 type2, mpir_ui)
 
 #define __GMPND_DEFINE_COMPOUND_OPERATOR(type, fun, eval_fun, type2) \
 __GMPNN_DEFINE_COMPOUND_OPERATOR(type, fun, eval_fun, type2, double)
@@ -3199,10 +3199,10 @@ __GMP_DEFINE_COMPOUND_OPERATOR(mpf, fun, eval_fun)
 
 #define __GMP_DEFINE_COMPOUND_OPERATOR_UI(type, fun, eval_fun)  \
                                                                 \
-inline type##_class & type##_class::fun(gmp_ui l)               \
+inline type##_class & type##_class::fun(mpir_ui l)               \
 {                                                               \
   __gmp_set_expr(mp, __gmp_expr<type##_t, __gmp_binary_expr     \
-    <type##_class, gmp_ui, eval_fun> >(*this, l));              \
+    <type##_class, mpir_ui, eval_fun> >(*this, l));              \
   return *this;                                                 \
 }
 
@@ -3378,7 +3378,7 @@ public:
 
 extern "C" {
   typedef void __gmp_randinit_default_t (gmp_randstate_t);
-  typedef void __gmp_randinit_lc_2exp_t (gmp_randstate_t, mpz_srcptr, gmp_ui, mp_bitcnt_t);
+  typedef void __gmp_randinit_lc_2exp_t (gmp_randstate_t, mpz_srcptr, mpir_ui, mp_bitcnt_t);
   typedef int __gmp_randinit_lc_2exp_size_t (gmp_randstate_t, mp_bitcnt_t);
 }
 
@@ -3408,7 +3408,7 @@ public:
 
   // gmp_randinit_lc_2exp
   gmp_randclass(__gmp_randinit_lc_2exp_t* f,
-		mpz_class z, gmp_ui l1, mp_bitcnt_t l2)
+		mpz_class z, mpir_ui l1, mp_bitcnt_t l2)
   { f(state, z.get_mpz_t(), l1, l2); }
 
   // gmp_randinit_lc_2exp_size
@@ -3423,7 +3423,7 @@ public:
 
   // initialize
   void seed(); // choose a random seed some way (?)
-  void seed(gmp_ui s) { gmp_randseed_ui(state, s); }
+  void seed(mpir_ui s) { gmp_randseed_ui(state, s); }
   void seed(const mpz_class &z) { gmp_randseed(state, z.get_mpz_t()); }
 
   // get random number

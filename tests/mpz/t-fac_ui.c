@@ -38,8 +38,8 @@ MA 02110-1301, USA. */
 int
 main (int argc, char *argv[])
 {
-  gmp_ui  n;
-  gmp_ui  limit = 1500;
+  mpir_ui  n;
+  mpir_ui  limit = 1500;
   mpz_t          f, r;
 
   tests_start ();

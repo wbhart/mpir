@@ -148,7 +148,7 @@ mpn_invert (mp_ptr xp, mp_srcptr ap, mp_size_t n)
       else
 	{
           mp_size_t m = n + 1;
-          gmp_ui k;
+          mpir_ui k;
           int cc;
 
           k = mpn_fft_best_k (m, 0);

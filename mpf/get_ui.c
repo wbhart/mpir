@@ -63,7 +63,7 @@ MA 02110-1301, USA.
    exp-1>0, which is incorrect when exp==MP_EXP_T_MIN.  By having exp>0
    tested first we ensure MP_EXP_T_MIN doesn't reach exp>1.  */
 
-gmp_ui
+mpir_ui
 mpf_get_ui (mpf_srcptr f)
 {
   mp_size_t size;
@@ -90,5 +90,5 @@ mpf_get_ui (mpf_srcptr f)
 #endif
     }
 
-  return (gmp_ui) fl;
+  return (mpir_ui) fl;
 }

@@ -27,7 +27,7 @@ MA 02110-1301, USA. */
 
 
 void
-mpf_ui_div (mpf_ptr r, gmp_ui u, mpf_srcptr v)
+mpf_ui_div (mpf_ptr r, mpir_ui u, mpf_srcptr v)
 {
   mp_srcptr vp;
   mp_ptr rp, tp, remp, new_vp;

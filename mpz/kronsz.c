@@ -25,7 +25,7 @@ MA 02110-1301, USA. */
 
 
 int
-mpz_si_kronecker (gmp_si a, mpz_srcptr b)
+mpz_si_kronecker (mpir_si a, mpz_srcptr b)
 {
   mp_srcptr  b_ptr;
   mp_limb_t  b_low;
@@ -63,7 +63,7 @@ mpz_si_kronecker (gmp_si a, mpz_srcptr b)
       /* b odd */
 
       result_bit1 ^= JACOBI_ASGN_SU_BIT1 (a, b_low);
-      a_limb = (gmp_ui) ABS(a);
+      a_limb = (mpir_ui) ABS(a);
 
       if ((a_limb & 1) == 0)
         {

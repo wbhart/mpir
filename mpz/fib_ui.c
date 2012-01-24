@@ -46,11 +46,11 @@ MA 02110-1301, USA. */
    limb of F[4m+1] can certainly be 1, and an mpn_add_1 must be used.  */
 
 void
-mpz_fib_ui (mpz_ptr fn, gmp_ui n)
+mpz_fib_ui (mpz_ptr fn, mpir_ui n)
 {
   mp_ptr         fp, xp, yp;
   mp_size_t      size, xalloc;
-  gmp_ui         n2;
+  mpir_ui         n2;
   mp_limb_t      c, c2;
   TMP_DECL;
 

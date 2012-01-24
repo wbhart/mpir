@@ -178,7 +178,7 @@ void fft_mulmod_2expp1(mp_ptr r1, mp_srcptr i1, mp_srcptr i2,
    TMP_FREE;
 }
 
-gmp_si fft_adjust_limbs(mp_size_t limbs)
+mpir_si fft_adjust_limbs(mp_size_t limbs)
 {
    mp_size_t bits1 = limbs*GMP_LIMB_BITS, bits2;
    mp_size_t depth = 1, limbs2, depth1 = 1, depth2 = 1, adj;
@@ -186,25 +186,25 @@ gmp_si fft_adjust_limbs(mp_size_t limbs)
 
    if (limbs <= FFT_MULMOD_2EXPP1_CUTOFF) return limbs;
          
-   while ((((gmp_ui)1)<<depth)<limbs) depth++;
-   limbs2 = (((gmp_si)1)<<depth); /* within a factor of 2 of limbs */
+   while ((((mpir_ui)1)<<depth)<limbs) depth++;
+   limbs2 = (((mpir_si)1)<<depth); /* within a factor of 2 of limbs */
    bits2 = limbs2*GMP_LIMB_BITS;
 
-   while ((((gmp_ui)1)<<depth1) < bits1) depth1++;
+   while ((((mpir_ui)1)<<depth1) < bits1) depth1++;
    if (depth1 < 12) off1 = mulmod_2expp1_table_n[0];
    else off1 = mulmod_2expp1_table_n[MIN(depth1, FFT_N_NUM + 11) - 12];
    depth1 = depth1/2 - off1;
    
-   while ((((gmp_ui)1)<<depth2) < bits2) depth2++;
+   while ((((mpir_ui)1)<<depth2) < bits2) depth2++;
    if (depth2 < 12) off2 = mulmod_2expp1_table_n[0];
    else off2 = mulmod_2expp1_table_n[MIN(depth2, FFT_N_NUM + 11) - 12];
    depth2 = depth2/2 - off2;
    
    depth1 = MAX(depth1, depth2);
-   adj = (((gmp_si)1)<<(depth1 + 1));
+   adj = (((mpir_si)1)<<(depth1 + 1));
    limbs2 = adj*((limbs + adj - 1)/adj); /* round up number of limbs */
    bits1 = limbs2*GMP_LIMB_BITS;
-   bits2 = (((gmp_si)1)<<(depth1*2));
+   bits2 = (((mpir_si)1)<<(depth1*2));
    bits1 = bits2*((bits1 + bits2 - 1)/bits2); /* round up bits */
    limbs = bits1/GMP_LIMB_BITS;
 

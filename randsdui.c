@@ -25,7 +25,7 @@ MA 02110-1301, USA. */
 
 void
 gmp_randseed_ui (gmp_randstate_t rstate,
-                 gmp_ui seed)
+                 mpir_ui seed)
 {
   mpz_t zseed;
   mp_limb_t zlimbs[LIMBS_PER_UI];

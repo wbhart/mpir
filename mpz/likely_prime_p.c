@@ -829,7 +829,7 @@ int is_likely_prime_BPSW(mp_limb_t n)
 
 // could call it mpz_likely_composite_p then when true we could return more info about it , ie a factor
 int
-mpz_likely_prime_p (mpz_srcptr N, gmp_randstate_t STATE, gmp_ui td)
+mpz_likely_prime_p (mpz_srcptr N, gmp_randstate_t STATE, mpir_ui td)
 {
   int d, t, r;
   unsigned long tdlim, i;

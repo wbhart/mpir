@@ -79,7 +79,7 @@ MA 02110-1301, USA. */
    later.  */
 
 void
-mpf_mul_ui (mpf_ptr r, mpf_srcptr u, gmp_ui v)
+mpf_mul_ui (mpf_ptr r, mpf_srcptr u, mpir_ui v)
 {
   mp_srcptr up;
   mp_size_t usize;

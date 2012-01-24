@@ -192,7 +192,7 @@ mpz_aorsmul_1 (mpz_ptr w, mpz_srcptr x, mp_limb_t y, mp_size_t sub)
 
 
 void
-mpz_addmul_ui (mpz_ptr w, mpz_srcptr x, gmp_ui y)
+mpz_addmul_ui (mpz_ptr w, mpz_srcptr x, mpir_ui y)
 {
 #if BITS_PER_UI > GMP_NUMB_BITS
   if (UNLIKELY (y > GMP_NUMB_MAX && SIZ(x) != 0))
@@ -220,7 +220,7 @@ mpz_addmul_ui (mpz_ptr w, mpz_srcptr x, gmp_ui y)
 }
 
 void
-mpz_submul_ui (mpz_ptr w, mpz_srcptr x, gmp_ui y)
+mpz_submul_ui (mpz_ptr w, mpz_srcptr x, mpir_ui y)
 {
 #if BITS_PER_UI > GMP_NUMB_BITS
   if (y > GMP_NUMB_MAX && SIZ(x) != 0)

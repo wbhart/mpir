@@ -52,7 +52,7 @@ typedef struct {
   mpz_t          _mp_a;
   mp_size_t      _cn;
   mp_limb_t      _cp[LIMBS_PER_UI];
-  gmp_ui  _mp_m2exp;
+  mpir_ui  _mp_m2exp;
 } gmp_rand_lc_struct;
 
 
@@ -60,14 +60,14 @@ typedef struct {
    number of valid bits in the result.  Discards the lower half of the
    result.  */
 
-static gmp_ui
+static mpir_ui
 lc (mp_ptr rp, gmp_randstate_t rstate)
 {
   mp_ptr tp, seedp, ap;
   mp_size_t ta;
   mp_size_t tn, seedn, an;
-  gmp_ui m2exp;
-  gmp_ui bits;
+  mpir_ui m2exp;
+  mpir_ui bits;
   int cy;
   mp_size_t xn;
   gmp_rand_lc_struct *p;
@@ -141,9 +141,9 @@ lc (mp_ptr rp, gmp_randstate_t rstate)
 
 /* Obtain a sequence of random numbers.  */
 static void
-randget_lc (gmp_randstate_t rstate, mp_ptr rp, gmp_ui nbits)
+randget_lc (gmp_randstate_t rstate, mp_ptr rp, mpir_ui nbits)
 {
-  gmp_ui rbitpos;
+  mpir_ui rbitpos;
   int chunk_nbits;
   mp_ptr tp;
   mp_size_t tn;
@@ -284,7 +284,7 @@ randiset_lc (gmp_randstate_ptr dst, gmp_randstate_srcptr src)
 void
 gmp_randinit_lc_2exp (gmp_randstate_t rstate,
 		      mpz_srcptr a,
-		      gmp_ui c,
+		      mpir_ui c,
 		      mp_bitcnt_t m2exp)
 {
   gmp_rand_lc_struct *p;

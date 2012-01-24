@@ -31,7 +31,7 @@ MA 02110-1301, USA. */
 void
 check_one (const char *name, gmp_randstate_ptr rstate)
 {
-  static const gmp_ui  n_table[] = {
+  static const mpir_ui  n_table[] = {
     1, 2, 3, 4, 5, 6, 7, 8,
     123, 456, 789,
 
@@ -44,7 +44,7 @@ check_one (const char *name, gmp_randstate_ptr rstate)
     GMP_UI_MAX-2, GMP_UI_MAX-1, GMP_UI_MAX,
   };
 
-  gmp_ui  got, n;
+  mpir_ui  got, n;
   int    i, j;
 
   for (i = 0; i < numberof (n_table); i++)

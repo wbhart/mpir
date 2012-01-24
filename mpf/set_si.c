@@ -24,12 +24,12 @@ MA 02110-1301, USA. */
 #include "gmp-impl.h"
 
 void
-mpf_set_si (mpf_ptr dest, gmp_si val)
+mpf_set_si (mpf_ptr dest, mpir_si val)
 {
   mp_size_t size;
   mp_limb_t vl;
 
-  vl = (mp_limb_t) (gmp_ui) (val >= 0 ? val : -val);
+  vl = (mp_limb_t) (mpir_ui) (val >= 0 ? val : -val);
 
   dest->_mp_d[0] = vl & GMP_NUMB_MASK;
   size = vl != 0;

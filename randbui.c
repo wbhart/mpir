@@ -26,8 +26,8 @@ MA 02110-1301, USA. */
 /* Currently bits>=BITS_PER_ULONG is quietly truncated to BITS_PER_ULONG,
    maybe this should raise an exception or something.  */
 
-gmp_ui
-gmp_urandomb_ui (gmp_randstate_ptr rstate, gmp_ui bits)
+mpir_ui
+gmp_urandomb_ui (gmp_randstate_ptr rstate, mpir_ui bits)
 {
   mp_limb_t  a[LIMBS_PER_UI];
 

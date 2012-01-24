@@ -34,8 +34,8 @@ MA 02110-1301, USA. */
 
 #define MAX_URANDOMM_ITER  80
 
-gmp_ui
-gmp_urandomm_ui (gmp_randstate_ptr rstate, gmp_ui n)
+mpir_ui
+gmp_urandomm_ui (gmp_randstate_ptr rstate, mpir_ui n)
 {
   mp_limb_t      a[LIMBS_PER_UI];
   unsigned long  ret, bits, leading;

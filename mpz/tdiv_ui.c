@@ -24,8 +24,8 @@ MA 02110-1301, USA. */
 #include "gmp-impl.h"
 #include "longlong.h"
 
-gmp_ui
-mpz_tdiv_ui (mpz_srcptr dividend, gmp_ui divisor)
+mpir_ui
+mpz_tdiv_ui (mpz_srcptr dividend, mpir_ui divisor)
 {
   mp_size_t ns, nn;
   mp_ptr np;

@@ -36,7 +36,7 @@ check_limbdata (void)
     mp_exp_t       exp;
     mp_size_t      size;
     mp_limb_t      d[10];
-    gmp_ui  want;
+    mpir_ui  want;
 
   } data[] = {
 
@@ -87,7 +87,7 @@ check_limbdata (void)
   };
 
   mpf_t          f;
-  gmp_ui         got;
+  mpir_ui         got;
   int            i;
   mp_limb_t      buf[20 + numberof(data[i].d)];
 

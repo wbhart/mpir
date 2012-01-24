@@ -842,7 +842,7 @@ void __gmpz_aorsmul_1 _PROTO ((REGPARM_3_1 (mpz_ptr w, mpz_srcptr u, mp_limb_t v
 #define mpz_aorsmul_1(w,u,v,sub)  __gmpz_aorsmul_1 (REGPARM_3_1 (w, u, v, sub))
 
 #define mpz_n_pow_ui __gmpz_n_pow_ui
-void    mpz_n_pow_ui _PROTO ((mpz_ptr, mp_srcptr, mp_size_t, gmp_ui));
+void    mpz_n_pow_ui _PROTO ((mpz_ptr, mp_srcptr, mp_size_t, mpir_ui));
 
 
 #define mpn_add_nc __MPN(add_nc)
@@ -955,7 +955,7 @@ __GMP_DECLSPEC mp_limb_t mpn_divrem_1c __GMP_PROTO ((mp_ptr, mp_size_t, mp_srcpt
 __GMP_DECLSPEC void mpn_dump __GMP_PROTO ((mp_srcptr, mp_size_t));
 
 #define mpn_fib2_ui __MPN(fib2_ui)
-mp_size_t mpn_fib2_ui _PROTO ((mp_ptr, mp_ptr, gmp_ui));
+mp_size_t mpn_fib2_ui _PROTO ((mp_ptr, mp_ptr, mpir_ui));
 
 /* Remap names of internal mpn functions.  */
 #define __clz_tab               __MPN(clz_tab)
@@ -1193,7 +1193,7 @@ __GMP_DECLSPEC void fft_naive_convolution_1 __GMP_PROTO ((mp_ptr r, mp_srcptr ii
                                                      mp_srcptr jj, mp_size_t m));
 
 #define mpn_mulmod_2expp1_basecase __MPN(mulmod_2expp1_basecase)
-__GMP_DECLSPEC int mpn_mulmod_2expp1_basecase __GMP_PROTO ((mp_ptr, mp_srcptr, mp_srcptr, int, gmp_ui, mp_ptr));
+__GMP_DECLSPEC int mpn_mulmod_2expp1_basecase __GMP_PROTO ((mp_ptr, mp_srcptr, mp_srcptr, int, mpir_ui, mp_ptr));
 
 typedef __gmp_randstate_struct *gmp_randstate_ptr;
 typedef const __gmp_randstate_struct *gmp_randstate_srcptr;
@@ -1201,7 +1201,7 @@ typedef const __gmp_randstate_struct *gmp_randstate_srcptr;
 /* Pseudo-random number generator function pointers structure.  */
 typedef struct {
   void (*randseed_fn) __GMP_PROTO ((gmp_randstate_t rstate, mpz_srcptr seed));
-  void (*randget_fn) __GMP_PROTO ((gmp_randstate_t rstate, mp_ptr dest, gmp_ui nbits));
+  void (*randget_fn) __GMP_PROTO ((gmp_randstate_t rstate, mp_ptr dest, mpir_ui nbits));
   void (*randclear_fn) __GMP_PROTO ((gmp_randstate_t rstate));
   void (*randiset_fn) __GMP_PROTO ((gmp_randstate_ptr, gmp_randstate_srcptr));
 } gmp_randfnptr_t;

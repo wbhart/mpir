@@ -234,7 +234,7 @@ main (int argc, char *argv[])
   CHECK_HIGHBIT (UINT_HIGHBIT,      unsigned int,   "0x%X");
   CHECK_HIGHBIT (USHRT_HIGHBIT,     unsigned short, "0x%hX");
   CHECK_HIGHBIT (LONG_HIGHBIT,      long,           "0x%lX");
-  CHECK_HIGHBIT (GMP_UI_HIBIT,      gmp_ui,         "%#Mx");
+  CHECK_HIGHBIT (GMP_UI_HIBIT,      mpir_ui,         "%#Mx");
 
 #if 0 /* Bad! */
   CHECK_HIGHBIT (INT_HIGHBIT,       int,            "0x%X");
@@ -248,7 +248,7 @@ main (int argc, char *argv[])
 #endif
   CHECK_MAX (ULONG_MAX,     0,             unsigned long,  "%lu");
   CHECK_MAX (UINT_MAX,      0,             unsigned int,    "%u");
-  CHECK_MAX (GMP_UI_MAX,    0,             gmp_ui,          "%M");
+  CHECK_MAX (GMP_UI_MAX,    0,             mpir_ui,          "%M");
   CHECK_MAX (USHRT_MAX,     0,             unsigned short, "%hu");
 #if 0 /* Bad! */
   CHECK_MAX (MP_SIZE_T_MAX, MP_SIZE_T_MIN, mp_size_t,      SS("%d","%ld"));
@@ -367,13 +367,13 @@ main (int argc, char *argv[])
       CALC_BITS (bits, long);                printf ("  long                %d\n", bits);
       CALC_BITS (bits, int);                 printf ("  int                 %d\n", bits);
       CALC_BITS (bits, short);               printf ("  short               %d\n", bits);
-      CALC_BITS (bits, gmp_si);              printf ("  GMP signed int      %d\n", bits);
+      CALC_BITS (bits, mpir_si);              printf ("  GMP signed int      %d\n", bits);
       CALC_BITS (bits, unsigned long long);  printf ("  unsigned long long  %d\n", bits);
       CALC_BITS (bits, unsigned long);       printf ("  unsigned long       %d\n", bits);
       CALC_BITS (bits, unsigned int);        printf ("  unsigned int        %d\n", bits);
       CALC_BITS (bits, unsigned short);      printf ("  unsigned short      %d\n", bits);
       CALC_BITS (bits, mp_size_t);           printf ("  mp_size_t           %d\n", bits);
-      CALC_BITS (bits, gmp_ui);              printf ("  GMP unsigned int    %d\n", bits);
+      CALC_BITS (bits, mpir_ui);              printf ("  GMP unsigned int    %d\n", bits);
     }
 
   if (error)

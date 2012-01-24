@@ -59,7 +59,7 @@ MA 02110-1301, USA. */
 #define U2   (GMP_NUMB_BITS < BITS_PER_UI)
 
 void
-mpf_sqrt_ui (mpf_ptr r, gmp_ui u)
+mpf_sqrt_ui (mpf_ptr r, mpir_ui u)
 {
   mp_size_t rsize, zeros;
   mp_ptr tp;

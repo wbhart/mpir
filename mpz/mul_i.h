@@ -27,13 +27,13 @@ MA 02110-1301, USA. */
 
 #ifdef OPERATION_mul_si
 #define FUNCTION               mpz_mul_si
-#define MULTIPLICAND_UNSIGNED  gmp_si
-#define MULTIPLICAND_ABS(x)    ((gmp_ui) ABS(x))
+#define MULTIPLICAND_UNSIGNED  mpir_si
+#define MULTIPLICAND_ABS(x)    ((mpir_ui) ABS(x))
 #endif
 
 #ifdef OPERATION_mul_ui
 #define FUNCTION               mpz_mul_ui
-#define MULTIPLICAND_UNSIGNED  gmp_ui
+#define MULTIPLICAND_UNSIGNED  mpir_ui
 #define MULTIPLICAND_ABS(x)    x
 #endif
 

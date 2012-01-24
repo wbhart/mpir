@@ -47,7 +47,7 @@ Error, need OPERATION_add_ui or OPERATION_sub_ui
 
 
 void
-FUNCTION (mpz_ptr w, mpz_srcptr u, gmp_ui vval)
+FUNCTION (mpz_ptr w, mpz_srcptr u, mpir_ui vval)
 {
   mp_srcptr up;
   mp_ptr wp;

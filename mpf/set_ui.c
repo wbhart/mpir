@@ -23,7 +23,7 @@ MA 02110-1301, USA. */
 #include "gmp-impl.h"
 
 void
-mpf_set_ui (mpf_ptr f, gmp_ui val)
+mpf_set_ui (mpf_ptr f, mpir_ui val)
 {
   mp_size_t size;
 

@@ -33,7 +33,7 @@ MA 02110-1301, USA. */
 static void
 check_ui_range (void)
 {
-  gmp_ui got;
+  mpir_ui got;
   mpz_t  x;
   int  i;
 

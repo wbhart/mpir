@@ -36,8 +36,8 @@ check_data (void)
 {
   static const struct {
     const char     *q;
-    gmp_si         n;
-    gmp_ui         d;
+    mpir_si         n;
+    mpir_ui         d;
     int            want;
   } data[] = {
     { "0", 0, 1, 0 },

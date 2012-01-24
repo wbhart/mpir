@@ -56,7 +56,7 @@ mpz_export (void *data, size_t *countp, int order,
   mp_size_t      zsize;
   mp_srcptr      zp;
   size_t         count, dummy;
-  gmp_ui         numb;
+  mpir_ui         numb;
   unsigned       align;
 
   ASSERT (order == 1 || order == -1);

@@ -42,7 +42,7 @@ MA 02110-1301, USA.
    through to the zany final "~ ((fl - 1) & LONG_MAX)", that would give
    -0x80000000 instead of the desired 0.  */
 
-gmp_si
+mpir_si
 mpf_get_si (mpf_srcptr f)
 {
   mp_exp_t exp;
@@ -72,8 +72,8 @@ mpf_get_si (mpf_srcptr f)
 #endif
 
   if (size > 0)
-    return (gmp_si)(fl & GMP_SI_MAX);
+    return (mpir_si)(fl & GMP_SI_MAX);
   else
     /* this form necessary to correctly handle -0x80..00 */
-    return (gmp_si)(~((fl - 1) & GMP_SI_MAX));
+    return (mpir_si)(~((fl - 1) & GMP_SI_MAX));
 }

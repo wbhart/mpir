@@ -25,7 +25,7 @@ MA 02110-1301, USA. */
 #include "longlong.h"
 
 void
-mpf_div_ui (mpf_ptr r, mpf_srcptr u, gmp_ui v)
+mpf_div_ui (mpf_ptr r, mpf_srcptr u, mpir_ui v)
 {
   mp_srcptr up;
   mp_ptr rp, tp, rtp;

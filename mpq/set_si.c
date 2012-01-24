@@ -24,9 +24,9 @@ MA 02110-1301, USA. */
 #include "gmp-impl.h"
 
 void
-mpq_set_si (mpq_ptr dest, gmp_si num, gmp_ui den)
+mpq_set_si (mpq_ptr dest, mpir_si num, mpir_ui den)
 {
-  gmp_ui abs_num;
+  mpir_ui abs_num;
 
   if (GMP_NUMB_BITS < BITS_PER_UI)
     {

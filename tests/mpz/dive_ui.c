@@ -34,7 +34,7 @@ check_random (int argc, char *argv[])
   int    reps = 5000;
   mpz_t  a, q, got;
   int    i, qneg;
-  gmp_ui  d;
+  mpir_ui  d;
 
   if (argc == 2)
     reps = atoi (argv[1]);
@@ -46,7 +46,7 @@ check_random (int argc, char *argv[])
 
   for (i = 0; i < reps; i++)
     {
-      d = (gmp_ui) urandom(rands);
+      d = (mpir_ui) urandom(rands);
       mpz_erandomb (q, rands, 512);
       mpz_mul_ui (a, q, d);
 

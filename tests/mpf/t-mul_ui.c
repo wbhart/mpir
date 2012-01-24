@@ -26,7 +26,7 @@ MA 02110-1301, USA. */
 #include "tests.h"
 
 void
-check_one (const char *desc, mpf_ptr got, mpf_srcptr u, gmp_ui v)
+check_one (const char *desc, mpf_ptr got, mpf_srcptr u, mpir_ui v)
 {
   mp_size_t  usize, usign;
   mp_ptr     wp;

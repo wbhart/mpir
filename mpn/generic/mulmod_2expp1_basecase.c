@@ -35,7 +35,7 @@ static mp_size_t tab[]={0,0,0,2632,304,448,1024,2304,6400,11264,45056,114688,327
 // NOTE: 2n is not the same as 2b rounded up to nearest limb
 inline static int
 mpn_mulmod_2expp1_internal (mp_ptr xp, mp_srcptr yp, mp_srcptr zp,
-			    gmp_ui b, mp_ptr tp)
+			    mpir_ui b, mp_ptr tp)
 {
   mp_size_t n, k;
   mp_limb_t c;
@@ -93,7 +93,7 @@ mpn_mulmod_2expp1_internal (mp_ptr xp, mp_srcptr yp, mp_srcptr zp,
 // c is the top bits of the inputs, must be fully reduced
 int
 mpn_mulmod_2expp1_basecase (mp_ptr xp, mp_srcptr yp, mp_srcptr zp, int c,
-		   gmp_ui b, mp_ptr tp)
+		   mpir_ui b, mp_ptr tp)
 {
   int cy, cz;
   mp_size_t n, k;

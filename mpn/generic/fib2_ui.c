@@ -62,11 +62,11 @@ MA 02110-1301, USA. */
    fp+=2*(-1)^n, etc.  */
 
 mp_size_t
-mpn_fib2_ui (mp_ptr fp, mp_ptr f1p, gmp_ui n)
+mpn_fib2_ui (mp_ptr fp, mp_ptr f1p, mpir_ui n)
 {
   mp_ptr         xp, yp;
   mp_size_t      size;
-  gmp_ui  nfirst, mask;
+  mpir_ui  nfirst, mask;
   TMP_DECL;
 
   TRACE (printf ("mpn_fib2_ui n=%lu\n", n));

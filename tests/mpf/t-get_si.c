@@ -32,7 +32,7 @@ check_data (void)
   static const struct {
     int         base;
     const char  *f;
-    gmp_si      want;
+    mpir_si      want;
   } data[] = {
     { 10, "0",      0 },
     { 10, "1",      1 },
@@ -59,7 +59,7 @@ check_data (void)
 
   int    i;
   mpf_t  f;
-  gmp_si   got;
+  mpir_si   got;
 
   mpf_init2 (f, 2000);
   for (i = 0; i < numberof (data); i++)
@@ -88,8 +88,8 @@ void
 check_max (void)
 {
   mpf_t  f;
-  gmp_si   want;
-  gmp_si   got;
+  mpir_si   want;
+  mpir_si   got;
 
   mpf_init2 (f, 200L);
 
@@ -128,7 +128,7 @@ check_limbdata (void)
     mp_exp_t       exp;
     mp_size_t      size;
     mp_limb_t      d[10];
-    gmp_si         want;
+    mpir_si         want;
 
   } data[] = {
 
@@ -179,7 +179,7 @@ check_limbdata (void)
   };
 
   mpf_t          f;
-  gmp_si         got;
+  mpir_si         got;
   int            i;
   mp_limb_t      buf[20 + numberof(data[i].d)];
 
@@ -201,8 +201,8 @@ check_limbdata (void)
           printf    ("mpf_get_si wrong at limb data[%d]\n", i);
           mpf_trace ("  f", f);
           mpn_trace ("  d", data[i].d, data[i].size);
-          printf    ("  size %ld\n", (gmp_si) data[i].size);
-          printf    ("  exp %ld\n", (gmp_si) data[i].exp);
+          printf    ("  size %ld\n", (mpir_si) data[i].size);
+          printf    ("  exp %ld\n", (mpir_si) data[i].exp);
           printf    ("  got   %Mu (%#Mx)\n", got, got);
           printf    ("  want  %Mu (%#Mx)\n", data[i].want, data[i].want);
           abort();
