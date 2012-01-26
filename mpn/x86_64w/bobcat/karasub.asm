@@ -25,15 +25,15 @@
 ;  rax                 rdi     rsi        rdx
 ;  rax                 rcx     rdx         r8
 ;
-;  Karasuba Multiplication
-; 
-;  Let x = xh.B + xl and y = yh.B + yl
+;  Karasuba Multiplication - split x and y into two equal length halves so
+;  that x = xh.B + xl and y = yh.B + yl. Then their product is:
 ;
 ;  x.y = xh.yh.B^2 + (xh.yl + xl.yh).B + xl.yl
 ;      = xh.yh.B^2 + (xh.yh + xl.yl - {xh - xl}.{yh - yl}).B + xl.yl
 ;
-; If the length of the elements is m, the output length is 4 * m as shown
-; below.  The middle two blocks 
+; If the length of the elements is m (about n / 2), the output length is 4 * m 
+; as illustrated below.  The middle two blocks involve three additions and one 
+; subtraction: 
 ; 
 ;       -------------------- rp
 ;       |                  |-->
@@ -53,14 +53,14 @@
 ;       |                  |
 ;       --------------------
 ;
-; To avoid overwriting B before it is used, we need to do two
-; operations in parallel:
+; To avoid overwriting B before it is used, we need to do two operations
+; in parallel:
 ;
 ; (1)   B = B + C + A - E = (B + C) + A - E
 ; (2)   C = C + B + D - F = (B + C) + D - F
 ;
-; The final carry from (1) has to be propagated into C and D, and
-; the final carry from (2) has to be propagated into D.
+; The final carry from (1) has to be propagated into C and D, and the final
+; carry from (2) has to be propagated into D.
 
 %include "yasm_mac.inc"
 
@@ -266,7 +266,7 @@
         jc      .8
         mov     rcx, 3
 
-; add in any carryies and/or borrows
+; add in any carries and/or borrows
 ;
 ; carries from low half to upper half:
 ;   rbx{2} is the carry in (B + C)
