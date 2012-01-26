@@ -24,6 +24,43 @@
 ;  void mpn_karasub(mp_ptr, mp_ptr, mp_size_t)
 ;  rax                 rdi     rsi        rdx
 ;  rax                 rcx     rdx         r8
+;
+;  Karasuba Multiplication
+; 
+;  Let x = xh.B + xl and y = yh.B + yl
+;
+;  x.y = xh.yh.B^2 + (xh.yl + xl.yh).B + xl.yl
+;      = xh.yh.B^2 + (xh.yh + xl.yl - {xh - xl}.{yh - yl}).B + xl.yl
+;
+; If the length of the elements is m, the output length is 4 * m as shown
+; below.  The middle two blocks 
+; 
+;       -------------------- rp
+;       |                  |-->
+;       |   A:xl.yl[lo]    |   |
+;       |                  |   |      (xh - xl).(yh - yl)
+;       --------------------   |      -------------------- tp
+;  <--  |                  |<--<  <-- |                  |
+; |     |   B:xl.yl[hi]    |   |      |     E:[lo]       |
+; |     |                  |   |      |                  |
+; |     --------------------   |      --------------------
+; >-->  |                  |-->   <-- |                  |
+; |     |   C:xh.yh[lo]    |          |     F:[hi]       |
+; |     |                  |          |                  |
+; |     --------------------          --------------------
+;  <--  |                  |   
+;       |   D:xh.yh[hi]    |
+;       |                  |
+;       --------------------
+;
+; To avoid overwriting B before it is used, we need to do two
+; operations in parallel:
+;
+; (1)   B = B + C + A - E = (B + C) + A - E
+; (2)   C = C + B + D - F = (B + C) + D - F
+;
+; The final carry from (1) has to be propagated into C and D, and
+; the final carry from (2) has to be propagated into D.
 
 %include "yasm_mac.inc"
 
@@ -228,34 +265,53 @@
         inc     rcx
         jc      .8
         mov     rcx, 3
-; add in all carrys  
-; should we do the borrows last as it may be possible to underflow  
-; could use popcount  
-.9:     mov     rsi, rdx
-        bt      rax, 0
-.10:    sbb     qword[rdi+rdx*8], 0
-        inc     rdx
-        jc      .10
-        xor     r8, r8
-        bt      rax, 1
-        adc     r8, r8
+
+; add in any carryies and/or borrows
+;
+; carries from low half to upper half:
+;   rbx{2} is the carry in (B + C)
+;   rbx{1} is the carry in (B + C) + A
+;   rbx{0} is the borrow in (B + C + A) - E
+
+; carries from the third to the fourth quarter
+;   rbx{2} is the carry in (B + C)
+;   rax{1} is the carry in (B + C) + D
+;   rax{0} is the borrow in (B + C + D) - F
+
+.9:     xor     r8, r8
         bt      rbx, 2
+        adc     r8, r8
+        bt      rax, 1
         adc     r8, 0
-        add     [rdi+rsi*8], r8
-.11:    adc     qword[rdi+rsi*8+8], 0
-        inc     rsi
-        jc      .11
-        mov     rsi, rcx
-        bt      rbx, 0
-.12:    sbb     qword[rbp+rcx*8], 0
-        inc     rcx
+        bt      rax, 0
+        sbb     r8, 0
+        jz      .13
+        jnc     .11
+.10:    sbb     qword[rdi+rdx*8], 0
+        inc	rdx
+        jc      .10
+        jmp     .13
+.11:    add     [rdi+rdx*8], r8
+.12:    adc     qword[rdi+rdx*8+8], 0
+        inc	rdx
         jc      .12
-        and     rbx, 6
-        popcnt  r8, rbx
-        add     [rbp+rsi*8], r8
-.13:    adc     qword[rbp+rsi*8+8], 0
-        inc     rsi
-        jc      .13
-        END_PROC reg_save_list
+
+.13:    mov     rax, 6
+        and     rax, rbx
+        popcnt  r8, rax
+        bt      rbx, 0
+        sbb     r8, 0
+        jz      .17      
+        jnc     .15
+.14:    sbb     qword[rbp+rcx*8], 0
+	inc	rcx
+        jc      .14
+        jmp     .17
+.15:    add     [rbp+rcx*8], r8
+.16:    adc     qword[rbp+rcx*8+8], 0
+        inc	rcx
+        jc      .16
+
+.17:    END_PROC reg_save_list
 
         end
