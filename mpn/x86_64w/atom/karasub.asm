@@ -267,13 +267,8 @@
         mov     rcx, 3
 
 ; add in any carries and/or borrows
-;
-; carries from low half to upper half:
-;   rbx{2} is the carry in (B + C)
-;   rbx{1} is the carry in (B + C) + A
-;   rbx{0} is the borrow in (B + C + A) - E
 
-; carries from the third to the fourth quarter
+; carries from lower half to upper half:
 ;   rbx{2} is the carry in (B + C)
 ;   rax{1} is the carry in (B + C) + D
 ;   rax{0} is the borrow in (B + C + D) - F
@@ -295,6 +290,11 @@
 .12:    adc     qword[rdi+rdx*8+8], 0
 	inc	rdx
         jc      .12
+
+; carries from the third to the fourth quarter
+;   rbx{2} is the carry in (B + C)
+;   rbx{1} is the carry in (B + C) + A
+;   rbx{0} is the borrow in (B + C + A) - E
 
 .13:    xor     r8, r8
         bt      rbx, 1
