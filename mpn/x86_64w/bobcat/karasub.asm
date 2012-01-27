@@ -325,9 +325,10 @@
         add     r8, rax
         jz      .17      
         jg      .15
-        stc
-.14:    sbb     qword[rbp], 0
-        lea     rbp, [rbp + 8] 
+        neg     r8
+        sub     [rbp], r8
+.14:    lea     rbp, [rbp + 8] 
+        sbb     qword[rbp], 0
         jc      .14
         jmp     .17
 .15:    add     [rbp], r8
