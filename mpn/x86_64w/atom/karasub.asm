@@ -277,11 +277,13 @@
 ;   rax{1} is the carry in (B + C) + D
 ;   rax{0} is the borrow in (B + C + D) - F
 ;     
-; NOTE we can't propagate the borrow or carry from the lower 
-; half through to the top quarter block becaause this block
-; might be all zeroes with a borrow or all -1's with a carry,
-; both of which will create an incorrect overflow at the top
-; of this block and write beyond its end.
+; NOTE that we can't propagate a borrow or a carry from the lower 
+; half block into the upper half block by simply waiting for the
+; propagation to end. This is because a carry into the fourth
+; quarter block when it is all maximum integers or a borrow when 
+; it is all zeroes will incorrectly propagate beyond the end of
+; the block.  So we have to combine any carry or borrow from the
+; third quarter block with those for the fourth quarter block.
 
 .9:     lea     rbp, [rbp+rcx*8]
         lea     rcx, [rdi+rdx*8]
@@ -325,11 +327,11 @@
         jg      .15
         stc
 .14:    sbb     qword[rbp], 0
-        lea     rbp, [rbp+8]
+        lea     rbp, [rbp + 8] 
         jc      .14
         jmp     .17
 .15:    add     [rbp], r8
-.16:    lea     rbp, [rbp+8]
+.16:    lea     rbp, [rbp + 8]
         adc     qword[rbp], 0
         jc      .16
 
