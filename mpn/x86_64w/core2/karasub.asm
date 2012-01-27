@@ -66,21 +66,25 @@
 
 %define reg_save_list   rbx, rbp, rsi, rdi, r12, r13, r14, r15
 
+%macro add_one 1
+    inc     %1
+%endmacro
+
     BITS 64
     TEXT
         
-;   requires n >= 8  
+; requires n >= 8
         FRAME_PROC mpn_karasub, 1, reg_save_list
         mov     rdi, rcx
         mov     rsi, rdx
         mov     rdx, r8
         mov     [rsp], rdx
 
-;rp is rdi  
-;tp is rsi  
-;n is rdx and put it on the stack  
+; rp is rdi  
+; tp is rsi  
+; n is rdx and put it on the stack  
         shr     rdx, 1
-;n2 is rdx  
+; n2 is rdx  
         lea     rcx, [rdx+rdx*1]
 ; 2*n2 is rcx  
 ; L is rdi  
@@ -240,7 +244,7 @@
         mov     [rdi+rdx*8], r8
         sbb     r12, [rsi+rdx*8]
         rcl     rbx, 1
-        inc     rdx
+        add_one rdx
         mov     [rbp+rcx*8], r12
 .5:     mov     rcx, 3
 .6:     
@@ -257,23 +261,33 @@
         add     [rbp+24], r8
         adc     [rbp+32], r9
 .7:     adc     qword[rbp+rcx*8+16], 0
-        inc     rcx
+        add_one rcx
         jc      .7
         mov     rcx, 3
         bt      r10, 0
 .8:     sbb     qword[rbp+rcx*8+16], 0
-        inc     rcx
+        add_one rcx
         jc      .8
         mov     rcx, 3
 
 ; add in any carries and/or borrows
-
+;
 ; carries from lower half to upper half:
 ;   rbx{2} is the carry in (B + C)
 ;   rax{1} is the carry in (B + C) + D
 ;   rax{0} is the borrow in (B + C + D) - F
+;     
+; NOTE we can't propagate the borrow or carry from the lower 
+; half through to the top quarter block becaause this block
+; might be all zeroes with a borrow or all -1's with a carry,
+; both of which will create an incorrect overflow at the top
+; of this block and write beyond its end.
 
-.9:     xor     r8, r8
+.9:     lea     rbp, [rbp+rcx*8]
+        lea     rcx, [rdi+rdx*8]
+        sub     rcx, rbp
+        sar     rcx, 3
+        xor     r8, r8
         bt      rbx, 2
         adc     r8, r8
         bt      rax, 1
@@ -282,36 +296,41 @@
         sbb     r8, 0
         jz      .13
         jnc     .11
-.10:    sbb     qword[rdi+rdx*8], 0
-        inc	rdx
+.10:    jrcxz   .13                 ; r8 = -1 (borrow into top quarter)
+        sbb     qword[rbp+rcx*8], 0
+        add_one rcx
         jc      .10
+        xor     r8, r8
         jmp     .13
-.11:    add     [rdi+rdx*8], r8
-.12:    adc     qword[rdi+rdx*8+8], 0
-        inc	rdx
+.11:    add     [rbp+rcx*8], r8
+        mov     r8, 1
+.12:    add_one rcx
+        jrcxz   .13                 ; r8 = 1 (carry into top quarter) 
+        adc     qword[rbp+rcx*8], 0
         jc      .12
+        xor     r8, r8
 
 ; carries from the third to the fourth quarter
 ;   rbx{2} is the carry in (B + C)
 ;   rbx{1} is the carry in (B + C) + A
 ;   rbx{0} is the borrow in (B + C + A) - E
 
-.13:    xor     r8, r8
-        bt      rbx, 1
-        adc     r8, r8
-        bt      rbx, 2
-        adc     r8, 0
+.13:    mov     rax, 6
+        and     rax, rbx
+        popcnt  rax, rax
         bt      rbx, 0
         sbb     r8, 0
+        add     r8, rax
         jz      .17      
-        jnc     .15
-.14:    sbb     qword[rbp+rcx*8], 0
-        inc	rcx
+        jg      .15
+        stc
+.14:    sbb     qword[rbp], 0
+        lea     rbp, [rbp+8]
         jc      .14
         jmp     .17
-.15:    add     [rbp+rcx*8], r8
-.16:    adc     qword[rbp+rcx*8+8], 0
-        inc	rcx
+.15:    add     [rbp], r8
+.16:    lea     rbp, [rbp+8]
+        adc     qword[rbp], 0
         jc      .16
 
 .17:    END_PROC reg_save_list
