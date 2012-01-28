@@ -2,7 +2,7 @@
 ;       
 ;  Copyright 2011 The Code Cavern  
 ;
-;  Windows Conversion Copyright 2008 Brian Gladman
+;  Copyright 2012 Brian Gladman
 ;       
 ;  This file is part of the MPIR Library.  
 ;       
@@ -270,21 +270,21 @@
         jc      .8
         mov     rcx, 3
 
-; add in any carries and/or borrows
+; Now add in any accummulated carries and/or borrows
 ;
-; carries from lower half to upper half:
-;   rbx{2} is the carry in (B + C)
-;   rax{1} is the carry in (B + C) + D
-;   rax{0} is the borrow in (B + C + D) - F
-;     
-; NOTE that we can't propagate a borrow or a carry from the lower 
-; half block into the upper half block by simply waiting for the
-; propagation to end. This is because a carry into the fourth
-; quarter block when it is all maximum integers or a borrow when 
-; it is all zeroes will incorrectly propagate beyond the end of
-; the block.  So we have to combine any carry or borrow from the
-; third quarter block with those for the fourth quarter block.
+; NOTE that we can't propagate a borrow or a carry from the second
+; to the third and fourth quarter blocks by simply waiting for the
+; propagation to end. This is because a carry into the fourth quarter 
+; block when it contains only maximum integers or a borrow when it
+; contains all zero integers will incorrectly propagate beyond the 
+; end of the block.  So we have to combine any carry or borrow from
+; the third quarter block with those for the fourth quarter block.
 
+; carries from lower half to upper half:
+;     rbx{2} is the carry in (B + C)
+;     rax{1} is the carry in (B + C) + A
+;     rax{0} is the borrow in (B + C + D) - E
+     
 .9:     lea     rbp, [rbp+rcx*8]
         lea     rcx, [rdi+rdx*8]
         sub     rcx, rbp
@@ -313,9 +313,9 @@
         xor     r8, r8
 
 ; carries from the third to the fourth quarter
-;   rbx{2} is the carry in (B + C)
-;   rbx{1} is the carry in (B + C) + A
-;   rbx{0} is the borrow in (B + C + A) - E
+;     rbx{2} is the carry in (B + C)
+;     rbx{1} is the carry in (B + C) + D
+;     rbx{0} is the borrow in (B + C + A) - F
 
 .13:    mov     rax, 6
         and     rax, rbx
