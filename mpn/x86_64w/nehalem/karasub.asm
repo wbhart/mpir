@@ -45,7 +45,7 @@
 ; |     |                  |   |      |                  |
 ; |     --------------------   |      --------------------
 ; >-->  |                  |-->   <-- |                  |
-; |     |   C:xh.yh[lo]    |          |     F:[hi]       |
+; |\___ |   C:xh.yh[lo]    | ____/    |     F:[hi]       |
 ; |     |                  |          |                  |
 ; |     --------------------          --------------------
 ;  <--  |                  |   
@@ -272,70 +272,74 @@
 
 ; Now add in any accummulated carries and/or borrows
 ;
-; NOTE that we can't propagate a borrow or a carry from the second
-; to the third and fourth quarter blocks by simply waiting for the
-; propagation to end. This is because a carry into the fourth quarter 
-; block when it contains only maximum integers or a borrow when it
-; contains all zero integers will incorrectly propagate beyond the 
-; end of the block.  So we have to combine any carry or borrow from
-; the third quarter block with those for the fourth quarter block.
+; NOTE: We can't propagate an individual borrow or carry from the second
+; to the third and fourth quarter blocks by simply waiting for the carry
+; (or borrow) propagation to end. This is because a carry into the fourth
+; quarter block when it contains only maximum integers or a borrow when 
+; it contains all zero integers will incorrectly propagate beyond the end
+; of the top quarter block.
 
-; carries from lower half to upper half:
-;     rbx{2} is the carry in (B + C)
-;     rax{1} is the carry in (B + C) + A
-;     rax{0} is the borrow in (B + C + D) - E
-     
-.9:     lea     rbp, [rbp+rcx*8]
-        lea     rcx, [rdi+rdx*8]
-        sub     rcx, rbp
-        sar     rcx, 3
-        xor     r8, r8
+.9:     mov     rsi, [rsp]          ; use end of fourth quarter
+        add     rsi, rsi            ; block as the base address
+        sub     rbp, rdi
+        sar     rbp, 3
+        sub     rdx, rsi            ; offset to third block
+        add     rbp, rcx
+        sub     rbp, rsi            ; offset to fourth block
+        lea     rsi, [rdi+rsi*8]
+
+; carries/borrrow from second to third quarter quarter block
+;   rbx{2} is the carry in (B + C)
+;   rax{1} is the carry in (B + C) + A
+;   rax{0} is the borrow in (B + C + A) - E
+  
+        mov     rcx, rdx
         bt      rbx, 2
-        adc     r8, r8
-        bt      rax, 1
-        adc     r8, 0
-        bt      rax, 0
-        sbb     r8, 0
-        jz      .13
-        jnc     .11
-.10:    jrcxz   .13                 ; r8 = -1 (borrow into top quarter)
-        sbb     qword[rbp+rcx*8], 0
+.10:    adc     qword[rsi+rcx*8], 0
         add_one rcx
+        jrcxz   .11
         jc      .10
-        xor     r8, r8
-        jmp     .13
-.11:    add     [rbp+rcx*8], r8
-        mov     r8, 1
-.12:    add_one rcx
-        jrcxz   .13                 ; r8 = 1 (carry into top quarter) 
-        adc     qword[rbp+rcx*8], 0
+
+.11:    mov     rcx, rdx 
+        bt      rax, 1
+.12:    adc     qword[rsi+rcx*8], 0
+        add_one rcx
+        jrcxz   .13
         jc      .12
-        xor     r8, r8
 
-; carries from the third to the fourth quarter
-;     rbx{2} is the carry in (B + C)
-;     rbx{1} is the carry in (B + C) + D
-;     rbx{0} is the borrow in (B + C + A) - F
-
-.13:    mov     rax, 6
-        and     rax, rbx
-        popcnt  rax, rax
-        bt      rbx, 0
-        sbb     r8, 0
-        add     r8, rax
-        jz      .17      
-        jg      .15
-        neg     r8
-        sub     [rbp], r8
-.14:    lea     rbp, [rbp + 8] 
-        sbb     qword[rbp], 0
+.13:    mov     rcx, rdx
+        bt      rax, 0
+.14:    sbb     qword[rsi+rcx*8], 0
+        add_one rcx
+        jrcxz   .15
         jc      .14
-        jmp     .17
-.15:    add     [rbp], r8
-.16:    lea     rbp, [rbp + 8]
-        adc     qword[rbp], 0
+
+; carries/borrrow from third to fourth quarter quarter block
+;   rbx{2} is the carry in (B + C)
+;   rbx{1} is the carry in (B + C) + D
+;   rbx{0} is the borrow in (B + C + D) - F
+
+.15:    mov     rcx, rbp
+        bt      rbx, 2
+.16:    adc     qword[rsi+rcx*8], 0
+        add_one rcx
+        jrcxz   .17
         jc      .16
 
-.17:    END_PROC reg_save_list
+.17:    mov     rcx, rbp
+        bt      rbx, 1
+.18:    adc     qword[rsi+rcx*8], 0
+        add_one rcx
+        jrcxz   .19
+        jc      .18
+
+.19:    mov     rcx, rbp
+        bt      rbx, 0
+.20:    sbb     qword[rsi+rcx*8], 0
+        add_one rcx
+        jrcxz   .21
+        jc      .20
+
+.21:    END_PROC reg_save_list
 
         end
