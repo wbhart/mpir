@@ -60,7 +60,8 @@
 ; (2)   C = C + B + D - F = (B + C) + D - F
 ;
 ; The final carry from (1) has to be propagated into C and D, and the final
-; carry from (2) has to be propagated into D.
+; carry from (2) has to be propagated into D. When the number of input limbs
+; is odd, some extra operations have to be undertaken. 
 
 %include "yasm_mac.inc"
 
@@ -73,33 +74,29 @@
     BITS 64
     TEXT
         
-; requires n >= 8
-        FRAME_PROC mpn_karasub, 1, reg_save_list
+;       requires n >= 8  
+        FRAME_PROC mpn_karasub, 2, reg_save_list
         mov     rdi, rcx
         mov     rsi, rdx
         mov     rdx, r8
         mov     [rsp], rdx
+        mov     [rsp+8], rdi
 
-; rp is rdi  
-; tp is rsi  
-; n is rdx and put it on the stack  
+;       rp is rdi, tp is rsi, L is rdi, H is rbp, tp is rsi
+;       carries/borrows in rax, rbx
+   
         shr     rdx, 1
-; n2 is rdx  
         lea     rcx, [rdx+rdx*1]
-; 2*n2 is rcx  
-; L is rdi  
-; H is rbp  
-; tp is rsi  
         lea     rbp, [rdi+rcx*8]
         xor     rax, rax
         xor     rbx, rbx
-; rax rbx are the carrys  
         lea     rdi, [rdi+rdx*8-24]
         lea     rsi, [rsi+rdx*8-24]
         lea     rbp, [rbp+rdx*8-24]
         mov     ecx, 3
         sub     rcx, rdx
         mov     edx, 3
+
         align   16
 .1:     bt      rbx, 2
         mov     r8, [rdi+rdx*8]
@@ -151,11 +148,11 @@
         add     rcx, 4
         jnc     .1
         cmp     rcx, 2
-        jg      .6
+        jg      .5
         jz      .4
         jp      .3
-.2:     
-        bt      rbx, 2
+
+.2:     bt      rbx, 2
         mov     r8, [rdi+rdx*8]
         adc     r8, [rbp]
         mov     r12, r8
@@ -194,8 +191,8 @@
         mov     [rbp+8], r13
         mov     [rbp+16], r14
         jmp     .5
-.3:     
-        bt      rbx, 2
+
+.3:     bt      rbx, 2
         mov     r8, [rdi+rdx*8]
         adc     r8, [rbp+8]
         mov     r12, r8
@@ -225,8 +222,8 @@
         mov     [rbp+8], r12
         mov     [rbp+16], r13
         jmp     .5
-.4:     
-        bt      rbx, 2
+
+.4:     bt      rbx, 2
         mov     r8, [rdi+rdx*8]
         adc     r8, [rbp+16]
         mov     r12, r8
@@ -246,70 +243,72 @@
         rcl     rbx, 1
         add_one rdx
         mov     [rbp+rcx*8], r12
-.5:     mov     rcx, 3
-.6:     
-; if odd the do next two  
+
+;       move low half rbx carry into rax
+.5:     rcr     rax, 3
+        bt      rbx, 2
+        rcl     rax, 3
         mov     r8, [rsp]
+        mov     rcx, rsi
+        mov     rsi,[rsp+8]
+        lea     r9, [r8+r8]
+        lea     rsi, [rsi+r9*8]
+        lea     r11, [rbp+24]
+        sub     r11, rsi
+        sar     r11, 3
         bt      r8, 0
         jnc     .9
-        xor     r10, r10
+
+;       if odd the do next two  
+        add     r11, 2
         mov     r8, [rbp+rdx*8]
         mov     r9, [rbp+rdx*8+8]
-        sub     r8, [rsi+rdx*8]
-        sbb     r9, [rsi+rdx*8+8]
-        rcl     r10, 1
-        add     [rbp+24], r8
+        rcr     rbx, 2
+        adc     r8,0
+        adc     r9, 0
+        rcl     rbx, 1
+        sbb     r8, [rcx+rdx*8]
+        sbb     r9, [rcx+rdx*8+8]
+        rcr     rbx, 2
+        adc     [rbp+24], r8
         adc     [rbp+32], r9
-.7:     adc     qword[rbp+rcx*8+16], 0
-        add_one rcx
-        jc      .7
-        mov     rcx, 3
-        bt      r10, 0
-.8:     sbb     qword[rbp+rcx*8+16], 0
-        add_one rcx
-        jc      .8
-        mov     rcx, 3
+        rcl     rbx, 3
 
 ; Now add in any accummulated carries and/or borrows
 ;
-; NOTE: We can't propagate an individual borrow or carry from the second
-; to the third and fourth quarter blocks by simply waiting for the carry
-; (or borrow) propagation to end. This is because a carry into the fourth
-; quarter block when it contains only maximum integers or a borrow when 
-; it contains all zero integers will incorrectly propagate beyond the end
-; of the top quarter block.
+; NOTE: We can't propagate individual borrows or carries from the second
+; and third quarter blocks into the fourth quater block by simply waiting
+; for carry (or borrow) propagation to end.  This is because a carry into
+; the fourth quarter block when it contains only maximum integers or a 
+; borrow when it contains all zero integers will incorrectly propagate
+; beyond the end of the top quarter block.
 
-.9:     mov     rsi, [rsp]          ; use end of fourth quarter
-        add     rsi, rsi            ; block as the base address
-        sub     rbp, rdi
-        sar     rbp, 3
-        sub     rdx, rsi            ; offset to third block
-        add     rbp, rcx
-        sub     rbp, rsi            ; offset to fourth block
-        lea     rsi, [rdi+rsi*8]
+.9:     lea     rdx, [rdi+rdx*8]
+        sub     rdx, rsi
+        sar     rdx, 3
 
 ; carries/borrrow from second to third quarter quarter block
-;   rbx{2} is the carry in (B + C)
+;   rax{2} is the carry in (B + C)
 ;   rax{1} is the carry in (B + C) + A
 ;   rax{0} is the borrow in (B + C + A) - E
-  
+
         mov     rcx, rdx
-        bt      rbx, 2
-.10:    adc     qword[rsi+rcx*8], 0
+        bt      rax, 0
+.10:    sbb     qword[rsi+rcx*8], 0
         add_one rcx
         jrcxz   .11
         jc      .10
 
-.11:    mov     rcx, rdx 
+.11     mov     rcx, rdx
         bt      rax, 1
 .12:    adc     qword[rsi+rcx*8], 0
         add_one rcx
         jrcxz   .13
         jc      .12
 
-.13:    mov     rcx, rdx
-        bt      rax, 0
-.14:    sbb     qword[rsi+rcx*8], 0
+.13     mov     rcx, rdx
+        bt      rax, 2
+.14:    adc     qword[rsi+rcx*8], 0
         add_one rcx
         jrcxz   .15
         jc      .14
@@ -319,27 +318,27 @@
 ;   rbx{1} is the carry in (B + C) + D
 ;   rbx{0} is the borrow in (B + C + D) - F
 
-.15:    mov     rcx, rbp
-        bt      rbx, 2
-.16:    adc     qword[rsi+rcx*8], 0
+.15:    mov     rcx, r11
+        bt      rbx, 0
+.16:    sbb     qword[rsi+rcx*8], 0
         add_one rcx
         jrcxz   .17
         jc      .16
 
-.17:    mov     rcx, rbp
+.17:    mov     rcx, r11
         bt      rbx, 1
 .18:    adc     qword[rsi+rcx*8], 0
         add_one rcx
         jrcxz   .19
         jc      .18
 
-.19:    mov     rcx, rbp
-        bt      rbx, 0
-.20:    sbb     qword[rsi+rcx*8], 0
+.19:    mov     rcx, r11
+        bt      rbx, 2
+.20:    adc     qword[rsi+rcx*8], 0
         add_one rcx
         jrcxz   .21
         jc      .20
-
-.21:    END_PROC reg_save_list
+.21:
+        END_PROC reg_save_list
 
         end
