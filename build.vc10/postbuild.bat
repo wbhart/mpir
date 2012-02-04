@@ -27,6 +27,7 @@ rem echo platform= %plat% configuration= %conf%, file= %file%
 
 rem get the filename extension (lib/dll) to set the output directory
 set extn=%file%#
+set filename=%extn:~0,-5%
 set extn=%extn:~-4,3%
 if "%extn%" EQU "lib" (goto is2nd)
 if "%extn%" EQU "dll" (goto is2nd)
@@ -53,15 +54,16 @@ echo (set conf=%conf%) >> output_params.bat
 echo copying outputs from %source% to %dest%
 if not exist %dest% md %dest%
 call :copyh %dest%
-call :copyb %source% %dest% %conf% %extn%
+call :copyb %source% %dest% %conf% %extn% %filename%
 exit /b 0
 
 rem copy binaries to final destination directory
 rem %1 = source directory
 rem %2 = destination directory
-rem %3 = configuration (debug/releaase) 
+rem %3 = configuration (debug/release) 
 rem %4 = library (lib/dll)
- 
+rem %5 = file naame
+
 :copyb
 if "%4" EQU "dll" (
 	copy %1\mpir.dll %2\mpir.dll > nul 2>&1
@@ -70,14 +72,17 @@ if "%4" EQU "dll" (
 	if exist %1\mpir.pdb (copy %1\mpir.pdb %2\mpir.pdb  > nul 2>&1)
 	copy mpir-tests\%4-%3-config.props mpir-tests\test-config.props > nul 2>&1
 ) else if "%4" EQU "lib" (
-	if exist %1\mpir.lib (
-    copy %1\mpir.lib %2\mpir.lib > nul 2>&1
-	if exist %1\mpir.pdb (copy %1\mpir.pdb %2\mpir.pdb > nul 2>&1)
-	copy mpir-tests\%4-%3-config.props mpir-tests\test-config.props > nul 2>&1
-    )
-	if exist %1\mpirxx.lib (
-    copy %1\mpirxx.lib %2\mpirxx.lib > nul 2>&1
-	if exist %1\mpirxx.pdb (copy %1\mpirxx.pdb %2\mpirxx.pdb > nul 2>&1)
+    if "%5" EQU "mpir" ( 
+  	    if exist %1\mpir.lib (
+        copy %1\mpir.lib %2\mpir.lib > nul 2>&1
+	    if exist %1\mpir.pdb (copy %1\mpir.pdb %2\mpir.pdb > nul 2>&1)
+	    copy mpir-tests\%4-%3-config.props mpir-tests\test-config.props > nul 2>&1
+        )
+    ) else if "%5" EQU "mpirxx" (
+	    if exist %1\mpirxx.lib (
+        copy %1\mpirxx.lib %2\mpirxx.lib > nul 2>&1
+	    if exist %1\mpirxx.pdb (copy %1\mpirxx.pdb %2\mpirxx.pdb > nul 2>&1)
+        )
     )
 ) else (
 	call :seterr & echo ERROR: illegal library type %4  & exit /b %errorlevel%
