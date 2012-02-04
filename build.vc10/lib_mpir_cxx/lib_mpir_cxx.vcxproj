@@ -86,10 +86,10 @@
     </ClCompile>
     <Lib />
     <PostBuildEvent>
-      <Command>if not exist ..\lib\$(IntDir) md ..\lib\$(IntDir)
+      <Command>if not exist ..\..\lib\$(IntDir) md ..\..\lib\$(IntDir)
 
-copy "$(TargetDir)$(TargetName).lib" ..\lib\$(IntDir)\
-copy "$(TargetDir)$(TargetName).pdb" ..\lib\$(IntDir)\
+copy "$(TargetDir)$(TargetName).lib" ..\..\lib\$(IntDir)\
+copy "$(TargetDir)$(TargetName).pdb" ..\..\lib\$(IntDir)\
 </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -115,10 +115,10 @@ copy "$(TargetDir)$(TargetName).pdb" ..\lib\$(IntDir)\
     </ClCompile>
     <Lib />
     <PostBuildEvent>
-      <Command>if not exist ..\lib\$(IntDir) md ..\lib\$(IntDir)
+      <Command>if not exist ..\..\lib\$(IntDir) md ..\..\lib\$(IntDir)
 
-copy "$(TargetDir)$(TargetName).lib" ..\lib\$(IntDir)\
-copy "$(TargetDir)$(TargetName).pdb" ..\lib\$(IntDir)\
+copy "$(TargetDir)$(TargetName).lib" ..\..\lib\$(IntDir)\
+copy "$(TargetDir)$(TargetName).pdb" ..\..\lib\$(IntDir)\
 </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -141,10 +141,10 @@ copy "$(TargetDir)$(TargetName).pdb" ..\lib\$(IntDir)\
     </ClCompile>
     <Lib />
     <PostBuildEvent>
-      <Command>if not exist ..\lib\$(IntDir) md ..\lib\$(IntDir)
+      <Command>if not exist ..\..\lib\$(IntDir) md ..\..\lib\$(IntDir)
 
-copy "$(TargetDir)$(TargetName).lib" ..\lib\$(IntDir)\
-copy "$(TargetDir)$(TargetName).pdb" ..\lib\$(IntDir)\
+copy "$(TargetDir)$(TargetName).lib" ..\..\lib\$(IntDir)\
+copy "$(TargetDir)$(TargetName).pdb" ..\..\lib\$(IntDir)\
 </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -171,10 +171,10 @@ copy "$(TargetDir)$(TargetName).pdb" ..\lib\$(IntDir)\
     </ClCompile>
     <Lib />
     <PostBuildEvent>
-      <Command>if not exist ..\lib\$(IntDir) md ..\lib\$(IntDir)
+      <Command>if not exist ..\..\lib\$(IntDir) md ..\..\lib\$(IntDir)
 
-copy "$(TargetDir)$(TargetName).lib" ..\lib\$(IntDir)\
-copy "$(TargetDir)$(TargetName).pdb" ..\lib\$(IntDir)\
+copy "$(TargetDir)$(TargetName).lib" ..\..\lib\$(IntDir)\
+copy "$(TargetDir)$(TargetName).pdb" ..\..\lib\$(IntDir)\
 </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
