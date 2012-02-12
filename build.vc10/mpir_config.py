@@ -366,18 +366,18 @@ def vcx_target_name_and_dirs(name, plat, is_dll, outf):
       outf.write(f2.format(pl, conf, name))
   outf.write(f3)
 
-def yasm_options(is_dll, outf):
+def yasm_options(plat, is_dll, outf):
 
   f1 = r'''    <YASM>
       <Defines>{0:s}</Defines>
-      <IncludePaths>..\..\mpn\x86_64w\</IncludePaths>
+      <IncludePaths>..\..\mpn\x86{1:s}w\</IncludePaths>
       <Debug>true</Debug>
       <ObjectFileName>$(IntDir)mpn\</ObjectFileName>
       <ObjectFile>$(IntDir)mpn\</ObjectFile>
     </YASM>
 '''
 
-  outf.write(f1.format('DLL' if is_dll else ''))
+  outf.write(f1.format('DLL' if is_dll else '', '' if plat == 'Win32' else '_64'))
 
 def compiler_options(plat, is_dll, is_debug, outf):
   
@@ -449,7 +449,7 @@ def vcx_tool_options(config, plat, is_dll, is_cpp, af_list, outf):
       if add_prebuild and not is_cpp:
         vcx_pre_build(config, pl, outf)    
       if af_list:    
-        yasm_options(is_dll, outf)
+        yasm_options(plat, is_dll, outf)
       compiler_options(pl, is_dll, is_debug, outf)
       if is_dll:
         linker_options(outf)
