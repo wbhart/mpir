@@ -82,7 +82,10 @@ def append_f(ipath, opath):
 
 # copy files in a list from in_dir to out_dir
 def copy_files(file_list, in_dir, out_dir):
-  makedirs(out_dir, exist_ok=True)
+  try:
+    makedirs(out_dir)
+  except:
+    IOError
   for f in file_list:
     copy(join(in_dir, f), out_dir)
     
@@ -269,7 +272,10 @@ def gen_filter(name, hf_list, cf_list, af_list):
 '''
   
   fn = join(build_dir, name)
-  makedirs(split(fn)[0], exist_ok=True)
+  try:
+    makedirs(split(fn)[0])
+  except:
+    IOError
   with open(fn, 'w') as outf:
     
     outf.write(f1)    
