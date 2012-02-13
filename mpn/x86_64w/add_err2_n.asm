@@ -114,6 +114,7 @@
 
     CPU  Athlon64
     BITS 64
+;		global __gmpn_add_err2_n
 
     fun mpn_add_err2_n, adc
     

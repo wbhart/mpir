@@ -11,6 +11,7 @@ if /i "%1" EQU "nehalem" ((set sdir=x86_64w\nehalem) & (set platform=x64))
 if /i "%1" EQU "p0" ((set sdir=x86w\p0) & (set platform=win32))
 if /i "%1" EQU "p3" ((set sdir=x86w\p3) & (set platform=win32))
 if /i "%1" EQU "p4" ((set sdir=x86w\p4) & (set platform=win32))
+if /i "%1" EQU "p6" ((set sdir=x86w\p6) & (set platform=win32))
 
 if /i "%sdir%" EQU "" (call :seterr & echo ERROR: %1 is not supported & exit /b %errorlevel%)
 if /i "%sdir%" EQU "generic" (set idir=%sdir%) else (set idir=x86_64w)

@@ -1686,6 +1686,10 @@ postbuild "$(TargetPath)"
         <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpn\</ObjectFileName>
         <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpn\</ObjectFileName>
     </ClCompile>
+    <ClCompile Include="..\..\mpn\generic\mulmod_2expp1_basecase.c">
+        <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpn\</ObjectFileName>
+        <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpn\</ObjectFileName>
+    </ClCompile>
     <ClCompile Include="..\..\mpn\generic\neg_n.c">
         <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpn\</ObjectFileName>
         <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpn\</ObjectFileName>
@@ -1891,6 +1895,7 @@ postbuild "$(TargetPath)"
     <YASM Include="..\..\mpn\x86_64w\nehalem\iorn_n.asm" />
     <YASM Include="..\..\mpn\x86_64w\nehalem\karaadd.asm" />
     <YASM Include="..\..\mpn\x86_64w\nehalem\karasub.asm" />
+    <YASM Include="..\..\mpn\x86_64w\nehalem\karasub.new.asm" />
     <YASM Include="..\..\mpn\x86_64w\nehalem\lshift.asm" />
     <YASM Include="..\..\mpn\x86_64w\nehalem\mod_1_1.asm" />
     <YASM Include="..\..\mpn\x86_64w\nehalem\mod_1_2.asm" />

@@ -37,7 +37,6 @@
 
 %macro	mac_sub 4
 
-	global  %1%4
 %ifdef	DLL
 	export	%1%4
 %endif
@@ -84,7 +83,6 @@
 	FR_pop  ebp
     jmp     eax					; jump into %%4 
 
-	global	%1%3
 %ifdef	DLL
 	export	%1%3
 %endif
@@ -168,7 +166,9 @@
 %endmacro
 
 	section .text
-
+	global ___gmpn_add_n
+	global ___gmpn_add_nc
+	
 	mac_sub	___g,adc,mpn_add_n,mpn_add_nc
 	
     end

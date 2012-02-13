@@ -41,9 +41,6 @@
 
 %macro	mul_fun	4
 
-	global  %1%3
-	global  %1%4
-
 %ifdef	DLL
 	export	%1%3
 	export  %1%4
@@ -219,7 +216,9 @@
 %endmacro
 
 	section .text
-
+	global ___gmpn_addmul_1
+	global ___gmpn_addmul_1c
+	
 	mul_fun	___g,add,mpn_addmul_1,mpn_addmul_1c
 	
 	end

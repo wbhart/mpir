@@ -1264,6 +1264,9 @@
   <ClCompile Include="..\..\mpn\generic\mulmod_2expp1.c">
     <Filter>Source Files\mpn</Filter>
   </ClCompile>
+  <ClCompile Include="..\..\mpn\generic\mulmod_2expp1_basecase.c">
+    <Filter>Source Files\mpn</Filter>
+  </ClCompile>
   <ClCompile Include="..\..\mpn\generic\neg_n.c">
     <Filter>Source Files\mpn</Filter>
   </ClCompile>
@@ -1477,6 +1480,9 @@
     <Filter>Source Files\mpn\yasm</Filter>
   </YASM>
   <YASM Include="..\..\mpn\x86_64w\nehalem\karasub.asm">
+    <Filter>Source Files\mpn\yasm</Filter>
+  </YASM>
+  <YASM Include="..\..\mpn\x86_64w\nehalem\karasub.new.asm">
     <Filter>Source Files\mpn\yasm</Filter>
   </YASM>
   <YASM Include="..\..\mpn\x86_64w\nehalem\lshift.asm">

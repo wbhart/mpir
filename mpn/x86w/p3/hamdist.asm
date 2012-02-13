@@ -45,7 +45,6 @@ Lrodata_0F0F0F0F0F0F0F0F:
 %macro	ph_fun	3
 
 	align   32
-	global  %1%2
 	 
 %ifdef	DLL
 	export	%1%2
@@ -135,7 +134,9 @@ Lrodata_0F0F0F0F0F0F0F0F:
 %define PARAM_SRC2  esp+frame+8 
 %define PARAM_SRC   esp+frame+4 
 %define	frame		0
-
+	
+	global ___gmpn_hamdist
+	
 	ph_fun	___g,mpn_hamdist,1
 
 	end
