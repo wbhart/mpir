@@ -34,10 +34,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lib_mpir_gc", "lib_mpir_gc\
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "dll_mpir_gc", "dll_mpir_gc\dll_mpir_gc.vcxproj", "{6D4FB4AF-2A94-1CA0-D843-860A699715C1}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lib_mpir_p6", "lib_mpir_p6\lib_mpir_p6.vcxproj", "{8517B75B-1491-3921-24E5-F1708CE9F58D}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "dll_mpir_p6", "dll_mpir_p6\dll_mpir_p6.vcxproj", "{50BAE3A9-0CB8-EC25-1C19-76AE1BC3D489}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -124,18 +120,6 @@ Global
 		{6D4FB4AF-2A94-1CA0-D843-860A699715C1}.Release|Win32.Build.0 = Release|Win32
 		{6D4FB4AF-2A94-1CA0-D843-860A699715C1}.Release|x64.ActiveCfg = Release|x64
 		{6D4FB4AF-2A94-1CA0-D843-860A699715C1}.Release|x64.Build.0 = Release|x64
-		{8517B75B-1491-3921-24E5-F1708CE9F58D}.Debug|Win32.ActiveCfg = Debug|Win32
-		{8517B75B-1491-3921-24E5-F1708CE9F58D}.Debug|Win32.Build.0 = Debug|Win32
-		{8517B75B-1491-3921-24E5-F1708CE9F58D}.Debug|x64.ActiveCfg = Debug|Win32
-		{8517B75B-1491-3921-24E5-F1708CE9F58D}.Release|Win32.ActiveCfg = Release|Win32
-		{8517B75B-1491-3921-24E5-F1708CE9F58D}.Release|Win32.Build.0 = Release|Win32
-		{8517B75B-1491-3921-24E5-F1708CE9F58D}.Release|x64.ActiveCfg = Release|Win32
-		{50BAE3A9-0CB8-EC25-1C19-76AE1BC3D489}.Debug|Win32.ActiveCfg = Debug|Win32
-		{50BAE3A9-0CB8-EC25-1C19-76AE1BC3D489}.Debug|Win32.Build.0 = Debug|Win32
-		{50BAE3A9-0CB8-EC25-1C19-76AE1BC3D489}.Debug|x64.ActiveCfg = Debug|Win32
-		{50BAE3A9-0CB8-EC25-1C19-76AE1BC3D489}.Release|Win32.ActiveCfg = Release|Win32
-		{50BAE3A9-0CB8-EC25-1C19-76AE1BC3D489}.Release|Win32.Build.0 = Release|Win32
-		{50BAE3A9-0CB8-EC25-1C19-76AE1BC3D489}.Release|x64.ActiveCfg = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

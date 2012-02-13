@@ -71,6 +71,7 @@ ___gmpn_add_n:
     lea     ebx,[ebx+ecx*4]
     lea     edx,[edx+ecx*4]
     neg     ecx
+	jz		t3
 t2:	movd    mm1,[eax+ecx*4]
 	movd    mm2,[ebx+ecx*4]
 	paddq   mm1,mm2
@@ -80,7 +81,7 @@ t2:	movd    mm1,[eax+ecx*4]
     add     ecx,1
     jnz     t2
     movd    eax,mm0
-    mov     ebx,[8+esp]
+t3: mov     ebx,[8+esp]
     emms
     ret
 

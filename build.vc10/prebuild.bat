@@ -4,8 +4,8 @@ set sdir=
 if /i "%1" EQU "gc" ((set sdir=generic) & (set bdir=generic)) else (set sdir=%bdir%%1)
 if exist ..\mpn\%sdir% (echo.%sdir%) else (call :seterr & echo ERROR: %1 is not supported & exit /b %errorlevel%)
 echo building MPIR for %1 (%platform%) from directory mpn\%sdir%
-set sdir=..\mpn\%sdir%
-set bdir=..\mpn\%bdir%
+set sdir=..\mpn\%sdir%\
+set bdir=..\mpn\%bdir%\
 
 call gen_mpir_h %platform%
 call gen_config_h %sdir%

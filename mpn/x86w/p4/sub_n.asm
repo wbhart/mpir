@@ -50,7 +50,7 @@ start_nc:
     lea     ebx,[ebx+ecx*4]
     lea     edx,[edx+ecx*4]
     neg     ecx
-
+	jz		xit
 top: 
 	movd    mm1,[eax+ecx*4]
 	movd    mm2,[ebx+ecx*4]
@@ -69,7 +69,7 @@ top:
     add     ecx,1
     jnz     top
     movd    eax,mm0
-    mov     ebx,[8+esp]
+xit:mov     ebx,[8+esp]
     emms
     ret
 
