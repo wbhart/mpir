@@ -665,8 +665,6 @@ mpn_gc = dict((('gc',[ gc_hdr_list, gc_src_list, [], [] ]),))
 # prepare the list of Win32 builds
 mpn_32 = find_asm(mpir_dir + 'mpn/x86w', gc_src_list)
 syms32 = file_symbols(mpn_32)
-for m in mpn_32:
-  print(m)
 gen_have_lists(mpn_32, syms32)
 del mpn_32['']
 # prepare the list of x64 builds
@@ -821,15 +819,16 @@ if not add_prebuild:
 hf_list = ('config.h', 'gmp-impl.h', 'longlong.h', 'mpir.h', 'gmp-mparam.h')
 af_list = sorted(mpn_f[2] + mpn_f[3]) 
 
-# set up DLL build
 proj_name = 'mpir'
-vcx_name = 'dll_mpir_' + config + '\\dll_mpir_' + config + '.vcxproj'
+cf = config.replace('\\', '_')
+
+# set up DLL build
+vcx_name = 'dll_mpir_' + cf + '\\dll_mpir_' + cf + '.vcxproj'
 gen_filter(vcx_name + '.filters', hf_list, c_src_list + cc_src_list + mpn_f[1], af_list)
 gen_vcxproj(proj_name, vcx_name, config, mode, True, False, hf_list, c_src_list + cc_src_list + mpn_f[1], af_list)
 
 # set up LIB build
-proj_name = 'mpir'
-vcx_name = 'lib_mpir_' + config + '\\lib_mpir_' + config + '.vcxproj'
+vcx_name = 'lib_mpir_' + cf + '\\lib_mpir_' + cf + '.vcxproj'
 gen_filter(vcx_name + '.filters', hf_list, c_src_list + mpn_f[1], af_list)
 gen_vcxproj(proj_name, vcx_name, config, mode, False, False, hf_list, c_src_list + mpn_f[1], af_list)
 
