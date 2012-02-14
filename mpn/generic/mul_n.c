@@ -37,16 +37,22 @@ MA 02110-1301, USA. */
 
 #if ! HAVE_NATIVE_mpn_karasub && HAVE_NATIVE_mpn_addsub_n
 static void	mpn_karasub(mp_ptr rp,mp_ptr tp,mp_size_t n)
-{mp_size_t n2,n3;mp_limb_t c1=0,c2,c3;
+{mp_size_t n2,n3;mp_limb_t c1=0,c2,c3,top[2];
 
 n2=n>>1;n3=n-n2;
 c2=mpn_addsub_n(tp,rp,rp+2*n2,tp,2*n2);
-if(n3!=n2)c1=mpn_sub_n(tp+2*n2,rp+4*n2,tp+2*n2,2);
-c3=mpn_add_n(rp+n2,rp+n2,tp,2*n3);
-mpn_incr_u(rp+n2+2*n3,c3);
-if(c2==1)mpn_incr_u(rp+n2+2*n2,1);
-if(c2==-1)mpn_decr_u(rp+n2+2*n2,1);
-mpn_decr_u(rp+n2+2*n3,c1);
+//if(n3!=n2)c1=mpn_sub_n(tp+2*n2,rp+4*n2,tp+2*n2,2);
+c3=mpn_add_n(rp+n2,rp+n2,tp,2*n2);//c3=mpn_add_n(rp+n2,rp+n2,tp,2*n3);
+top[1]=rp[2*n2+2*n3-1];top[0]=rp[2*n2+2*n3-2];
+mpn_incr_u(rp+3*n2,c3);//mpn_incr_u(rp+n2+2*n3,c3);
+if(c2==1)mpn_incr_u(rp+3*n2,1);
+if(c2==-1)mpn_decr_u(rp+3*n2,1);
+//mpn_decr_u(rp+n2+2*n3,c1);
+if(n2==n3)return;
+c1=mpn_sub_n(rp+3*n2,rp+3*n2,tp+2*n2,2);
+c2=mpn_add_n(rp+3*n2,rp+3*n2,top,2);
+if(c2==1 && c1==0)mpn_incr_u(rp+3*n2+2,1);
+if(c2==0 && c1==1)mpn_decr_u(rp+3*n2+2,1);
 return;}
 #endif
 
@@ -66,15 +72,21 @@ return;}
 
 #if ! HAVE_NATIVE_mpn_karasub && ! HAVE_NATIVE_mpn_addsub_n
 static void	mpn_karasub(mp_ptr rp,mp_ptr tp,mp_size_t n)
-{mp_size_t n2,n3;mp_limb_t c1,c2,c3;
+{mp_size_t n2,n3;mp_limb_t c1,c2,c3,top[2];
 
 n2=n>>1;n3=n-n2;
-c1=mpn_sub_n(tp,rp+2*n2,tp,2*n3);
+c1=mpn_sub_n(tp,rp+2*n2,tp,2*n2);//c1=mpn_sub_n(tp,rp+2*n2,tp,2*n3);
 c2=mpn_add_n(tp,tp,rp,2*n2);
-c3=mpn_add_n(rp+n2,rp+n2,tp,2*n3);
-mpn_incr_u(rp+n2+2*n3,c3);
-mpn_incr_u(rp+n2+2*n2,c2);
-mpn_decr_u(rp+n2+2*n3,c1);
+c3=mpn_add_n(rp+n2,rp+n2,tp,2*n2);//c3=mpn_add_n(rp+n2,rp+n2,tp,2*n3);
+top[1]=rp[2*n2+2*n3-1];top[0]=rp[2*n2+2*n3-2];
+mpn_incr_u(rp+3*n2,c3);//mpn_incr_u(rp+n2+2*n3,c3);
+mpn_incr_u(rp+3*n2,c2);
+mpn_decr_u(rp+3*n2,c1);//mpn_decr_u(rp+n2+2*n3,c1);
+if(n2==n3)return;
+c1=mpn_sub_n(rp+3*n2,rp+3*n2,tp+2*n2,2);
+c2=mpn_add_n(rp+3*n2,rp+3*n2,top,2);
+if(c2==1 && c1==0)mpn_incr_u(rp+3*n2+2,1);
+if(c2==0 && c1==1)mpn_decr_u(rp+3*n2+2,1);
 return;}
 #endif
 
