@@ -1,7 +1,5 @@
 @echo off
-rem remove any quotes around the full file path
-set str=%1
-for /f "useback tokens=*" %%a in ('%str%') do set str=%%~a
+set str=%~1
 
 rem delete anything from path before 'build.vc10'
 :dele
