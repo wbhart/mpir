@@ -1482,9 +1482,6 @@
   <YASM Include="..\..\mpn\x86_64w\nehalem\karasub.asm">
     <Filter>Source Files\mpn\yasm</Filter>
   </YASM>
-  <YASM Include="..\..\mpn\x86_64w\nehalem\karasub.new.asm">
-    <Filter>Source Files\mpn\yasm</Filter>
-  </YASM>
   <YASM Include="..\..\mpn\x86_64w\nehalem\lshift.asm">
     <Filter>Source Files\mpn\yasm</Filter>
   </YASM>
