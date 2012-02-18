@@ -37,9 +37,9 @@ along with the GNU MP Library.  If not, see http://www.gnu.org/licenses/.  */
    outputs. */
 mp_size_t
 mpn_gcdext_subdiv_step (mp_ptr gp, mp_size_t *gn, mp_ptr up, mp_size_t *usizep,
-            mp_ptr ap, mp_ptr bp, mp_size_t n,
-            mp_ptr u0, mp_ptr u1, mp_size_t *unp,
-            mp_ptr qp, mp_ptr tp)
+			mp_ptr ap, mp_ptr bp, mp_size_t n,
+			mp_ptr u0, mp_ptr u1, mp_size_t *unp,
+			mp_ptr qp, mp_ptr tp)
 {
   mp_size_t an, bn, un;
   mp_size_t qn;
@@ -98,35 +98,35 @@ mpn_gcdext_subdiv_step (mp_ptr gp, mp_size_t *gn, mp_ptr up, mp_size_t *usizep,
       int c;
       MPN_CMP (c, ap, bp, an);
       if (UNLIKELY (c == 0))
-    {
-      MPN_COPY (gp, ap, an);
-      *gn = an;
+	{
+	  MPN_COPY (gp, ap, an);
+	  *gn = an;
 
-      /* Must return the smallest cofactor, +u1 or -u0 */
-      MPN_CMP (c, u0, u1, un);
-      ASSERT (c != 0 || (un == 1 && u0[0] == 1 && u1[0] == 1));
+	  /* Must return the smallest cofactor, +u1 or -u0 */
+	  MPN_CMP (c, u0, u1, un);
+	  ASSERT (c != 0 || (un == 1 && u0[0] == 1 && u1[0] == 1));
 
-      if (c < 0)
-        {
-          MPN_NORMALIZE (u0, un);
-          MPN_COPY (up, u0, un);
-          swapped ^= 1;
-        }
-      else
-        {
-          MPN_NORMALIZE_NOT_ZERO (u1, un);
-          MPN_COPY (up, u1, un);
-        }
+	  if (c < 0)
+	    {
+	      MPN_NORMALIZE (u0, un);
+	      MPN_COPY (up, u0, un);
+	      swapped ^= 1;
+	    }
+	  else
+	    {
+	      MPN_NORMALIZE_NOT_ZERO (u1, un);
+	      MPN_COPY (up, u1, un);
+	    }
 
-      *usizep = swapped ? -un : un;
-      return 0;
-    }
+	  *usizep = swapped ? -un : un;
+	  return 0;
+	}
       else if (c < 0)
-    {
-      MP_PTR_SWAP (ap, bp);
-      MP_PTR_SWAP (u0, u1);
-      swapped ^= 1;
-    }
+	{
+	  MP_PTR_SWAP (ap, bp);
+	  MP_PTR_SWAP (u0, u1);
+	  swapped ^= 1;
+	}
     }
   /* Reduce a -= b, u1 += u0 */
   ASSERT_NOCARRY (mpn_sub (ap, ap, an, bp, bn));
@@ -148,13 +148,13 @@ mpn_gcdext_subdiv_step (mp_ptr gp, mp_size_t *gn, mp_ptr up, mp_size_t *usizep,
       int c;
       MPN_CMP (c, ap, bp, an);
       if (UNLIKELY (c == 0))
-    goto return_b;
+	goto return_b;
       else if (c < 0)
-    {
-      MP_PTR_SWAP (ap, bp);
-      MP_PTR_SWAP (u0, u1);
-      swapped ^= 1;
-    }
+	{
+	  MP_PTR_SWAP (ap, bp);
+	  MP_PTR_SWAP (u0, u1);
+	  swapped ^= 1;
+	}
     }
 
   /* Reduce a -= q b, u1 += q u0 */
@@ -175,21 +175,23 @@ mpn_gcdext_subdiv_step (mp_ptr gp, mp_size_t *gn, mp_ptr up, mp_size_t *usizep,
       qn -= (qp[qn - 1] == 0);
 
       if (qn > u0n)
-    mpn_mul (tp, qp, qn, u0, u0n);
+	mpn_mul (tp, qp, qn, u0, u0n);
       else
-    mpn_mul (tp, u0, u0n, qp, qn);
+	mpn_mul (tp, u0, u0n, qp, qn);
 
       if (qn + u0n > un)
-    {
-      ASSERT_NOCARRY (mpn_add (u1, tp, qn + u0n, u1, un));
-      un = qn + u0n;
-      un -= (u1[un-1] == 0);
-    }
+	{
+	  mp_size_t u1n = un;
+	  un = qn + u0n;
+	  un -= (tp[un-1] == 0);
+	  u1[un] = mpn_add (u1, tp, un, u1, u1n);
+	}
       else
-    {
-      u1[un] = mpn_add (u1, u1, un, tp, qn + u0n);
+	{
+	  u1[un] = mpn_add (u1, u1, un, tp, qn + u0n);
+	}
+
       un += (u1[un] > 0);
-    }
     }
 
   *unp = un;

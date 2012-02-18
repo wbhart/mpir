@@ -64,7 +64,7 @@ hgcd_matrix_update_1 (struct hgcd_matrix *M, unsigned col)
  * element in column 1 - COL. */
 static void
 hgcd_matrix_update_q (struct hgcd_matrix *M, mp_srcptr qp, mp_size_t qn,
-              unsigned col, mp_ptr tp)
+		      unsigned col, mp_ptr tp)
 {
   ASSERT (col < 2);
 
@@ -86,45 +86,45 @@ hgcd_matrix_update_q (struct hgcd_matrix *M, mp_srcptr qp, mp_size_t qn,
       unsigned row;
 
       /* Carries for the unlikely case that we get both high words
-     from the multiplication and carries from the addition. */
+	 from the multiplication and carries from the addition. */
       mp_limb_t c[2];
       mp_size_t n;
 
       /* The matrix will not necessarily grow in size by qn, so we
-     need normalization in order not to overflow M. */
+	 need normalization in order not to overflow M. */
 
       for (n = M->n; n + qn > M->n; n--)
-    {
-      ASSERT (n > 0);
-      if (M->p[0][1-col][n-1] > 0 || M->p[1][1-col][n-1] > 0)
-        break;
-    }
+	{
+	  ASSERT (n > 0);
+	  if (M->p[0][1-col][n-1] > 0 || M->p[1][1-col][n-1] > 0)
+	    break;
+	}
 
       ASSERT (qn + n <= M->alloc);
 
       for (row = 0; row < 2; row++)
-    {
-      if (qn <= n)
-        mpn_mul (tp, M->p[row][1-col], n, qp, qn);
-      else
-        mpn_mul (tp, qp, qn, M->p[row][1-col], n);
+	{
+	  if (qn <= n)
+	    mpn_mul (tp, M->p[row][1-col], n, qp, qn);
+	  else
+	    mpn_mul (tp, qp, qn, M->p[row][1-col], n);
 
-      ASSERT (n + qn >= M->n);
-      c[row] = mpn_add (M->p[row][col], tp, n + qn, M->p[row][col], M->n);
-    }
+	  ASSERT (n + qn >= M->n);
+	  c[row] = mpn_add (M->p[row][col], tp, n + qn, M->p[row][col], M->n);
+	}
       if (c[0] | c[1])
-    {
-      M->n = n + qn + 1;
-      M->p[0][col][n-1] = c[0];
-      M->p[1][col][n-1] = c[1];
-    }
+	{
+	  M->n = n + qn + 1;
+	  M->p[0][col][M->n - 1] = c[0];
+	  M->p[1][col][M->n - 1] = c[1];
+	}
       else
-    {
-      n += qn;
-      n -= (M->p[0][col][n-1] | M->p[1][col][n-1]) == 0;
-      if (n > M->n)
-        M->n = n;
-    }
+	{
+	  n += qn;
+	  n -= (M->p[0][col][n-1] | M->p[1][col][n-1]) == 0;
+	  if (n > M->n)
+	    M->n = n;
+	}
     }
 
   ASSERT (M->n < M->alloc);
@@ -135,7 +135,7 @@ hgcd_matrix_update_q (struct hgcd_matrix *M, mp_srcptr qp, mp_size_t qn,
    temporary space M->n */
 static void
 hgcd_matrix_mul_1 (struct hgcd_matrix *M, const struct hgcd_matrix1 *M1,
-           mp_ptr tp)
+		   mp_ptr tp)
 {
   mp_size_t n0, n1;
 
@@ -168,7 +168,7 @@ hgcd_matrix_mul_1 (struct hgcd_matrix *M, const struct hgcd_matrix1 *M1,
 
 static mp_size_t
 hgcd_step (mp_size_t n, mp_ptr ap, mp_ptr bp, mp_size_t s,
-       struct hgcd_matrix *M, mp_ptr tp)
+	   struct hgcd_matrix *M, mp_ptr tp)
 {
   struct hgcd_matrix1 M1;
   mp_limb_t mask;
@@ -184,7 +184,7 @@ hgcd_step (mp_size_t n, mp_ptr ap, mp_ptr bp, mp_size_t s,
   if (n == s + 1)
     {
       if (mask < 4)
-    goto subtract;
+	goto subtract;
 
       ah = ap[n-1]; al = ap[n-2];
       bh = bp[n-1]; bl = bp[n-2];
@@ -239,7 +239,7 @@ hgcd_step (mp_size_t n, mp_ptr ap, mp_ptr bp, mp_size_t s,
   if (ap[an-1] > bp[an-1])
     {
       /* a is largest. In the subtraction step, we need to update
-     column 1 of M */
+	 column 1 of M */
       col = 1;
     }
   else
@@ -268,27 +268,27 @@ hgcd_step (mp_size_t n, mp_ptr ap, mp_ptr bp, mp_size_t s,
       mp_size_t k;
       int c;
       for (k = an-1; k > s; k--)
-    if (ap[k-1] != 0 || bp[k-1] != GMP_NUMB_MAX)
-      break;
+	if (ap[k-1] != 0 || bp[k-1] != GMP_NUMB_MAX)
+	  break;
 
       MPN_CMP (c, ap, bp, k);
       if (c < 0)
-    {
-      mp_limb_t cy;
+	{
+	  mp_limb_t cy;
 
-      /* The limbs from k and up are cancelled. */
-      if (k == s)
-        return 0;
-      cy = mpn_sub_n (ap, ap, bp, k);
-      ASSERT (cy == 1);
-      an = k;
-    }
+	  /* The limbs from k and up are cancelled. */
+	  if (k == s)
+	    return 0;
+	  cy = mpn_sub_n (ap, ap, bp, k);
+	  ASSERT (cy == 1);
+	  an = k;
+	}
       else
-    {
-      ASSERT_NOCARRY (mpn_sub_n (ap, ap, bp, k));
-      ap[k] = 1;
-      an = k + 1;
-    }
+	{
+	  ASSERT_NOCARRY (mpn_sub_n (ap, ap, bp, k));
+	  ap[k] = 1;
+	  an = k + 1;
+	}
     }
   else
     ASSERT_NOCARRY (mpn_sub_n (ap, ap, bp, an));
@@ -310,10 +310,10 @@ hgcd_step (mp_size_t n, mp_ptr ap, mp_ptr bp, mp_size_t s,
       int c;
       MPN_CMP (c, ap, bp, an);
       if (c < 0)
-    {
-      MP_PTR_SWAP (ap, bp);
-      col ^= 1;
-    }
+	{
+	  MP_PTR_SWAP (ap, bp);
+	  col ^= 1;
+	}
     }
 
   /* Divide a / b. */
@@ -339,12 +339,12 @@ hgcd_step (mp_size_t n, mp_ptr ap, mp_ptr bp, mp_size_t s,
       cy = mpn_add (ap, bp, bn, ap, an);
 
       if (cy > 0)
-    {
-      ASSERT (bn < n);
-      ap[bn] = cy;
-      bp[bn] = 0;
-      bn++;
-    }
+	{
+	  ASSERT (bn < n);
+	  ap[bn] = cy;
+	  bp[bn] = 0;
+	  bn++;
+	}
 
       MPN_DECR_U (tp, qn, 1);
       qn -= (tp[qn-1] == 0);
@@ -361,7 +361,7 @@ hgcd_step (mp_size_t n, mp_ptr ap, mp_ptr bp, mp_size_t s,
    b, or zero if no reduction is possible. */
 mp_size_t
 mpn_hgcd_lehmer (mp_ptr ap, mp_ptr bp, mp_size_t n,
-         struct hgcd_matrix *M, mp_ptr tp)
+		 struct hgcd_matrix *M, mp_ptr tp)
 {
   mp_size_t s = n/2 + 1;
   mp_size_t nn;
@@ -379,7 +379,7 @@ mpn_hgcd_lehmer (mp_ptr ap, mp_ptr bp, mp_size_t n,
       ASSERT (n > s);
       nn = hgcd_step (n, ap, bp, s, M, tp);
       if (!nn )
-    return n;
+	return n;
     }
 }
 
@@ -387,7 +387,7 @@ mpn_hgcd_lehmer (mp_ptr ap, mp_ptr bp, mp_size_t n,
    of temporary storage (see mpn_matrix22_mul_itch). */
 void
 mpn_hgcd_matrix_mul (struct hgcd_matrix *M, const struct hgcd_matrix *M1,
-             mp_ptr tp)
+		     mp_ptr tp)
 {
   mp_size_t n;
 
@@ -409,15 +409,15 @@ mpn_hgcd_matrix_mul (struct hgcd_matrix *M, const struct hgcd_matrix *M1,
   ASSERT (M->n + M1->n < M->alloc);
 
   ASSERT ((M->p[0][0][M->n-1] | M->p[0][1][M->n-1]
-       | M->p[1][0][M->n-1] | M->p[1][1][M->n-1]) > 0);
+	   | M->p[1][0][M->n-1] | M->p[1][1][M->n-1]) > 0);
 
   ASSERT ((M1->p[0][0][M1->n-1] | M1->p[0][1][M1->n-1]
-       | M1->p[1][0][M1->n-1] | M1->p[1][1][M1->n-1]) > 0);
+	   | M1->p[1][0][M1->n-1] | M1->p[1][1][M1->n-1]) > 0);
 
   mpn_matrix22_mul (M->p[0][0], M->p[0][1],
-            M->p[1][0], M->p[1][1], M->n,
-            M1->p[0][0], M1->p[0][1],
-            M1->p[1][0], M1->p[1][1], M1->n, tp);
+		    M->p[1][0], M->p[1][1], M->n,
+		    M1->p[0][0], M1->p[0][1],
+		    M1->p[1][0], M1->p[1][1], M1->n, tp);
 
   /* Index of last potentially non-zero limb, size is one greater. */
   n = M->n + M1->n;
@@ -435,8 +435,8 @@ mpn_hgcd_matrix_mul (struct hgcd_matrix *M, const struct hgcd_matrix *M1,
    Temporary space needed: 2 * (p + M->n)*/
 mp_size_t
 mpn_hgcd_matrix_adjust (struct hgcd_matrix *M,
-            mp_size_t n, mp_ptr ap, mp_ptr bp,
-            mp_size_t p, mp_ptr tp)
+			mp_size_t n, mp_ptr ap, mp_ptr bp,
+			mp_size_t p, mp_ptr tp)
 {
   /* M^-1 (a;b) = (r11, -r01; -r10, r00) (a ; b)
      = (r11 a - r01 b; - r10 a + r00 b */
@@ -496,7 +496,7 @@ mpn_hgcd_matrix_adjust (struct hgcd_matrix *M,
     {
       /* The subtraction can reduce the size by at most one limb. */
       if (ap[n-1] == 0 && bp[n-1] == 0)
-    n--;
+	n--;
     }
   ASSERT (ap[n-1] > 0 || bp[n-1] > 0);
   return n;
@@ -517,9 +517,9 @@ mpn_hgcd_matrix_adjust (struct hgcd_matrix *M,
    For the recursive call, we need S(n1) = S(ceil(n/2)).
 
    S(n) <= 10*ceil(n/4) + 12 + S(ceil(n/2))
-    <= 10*(ceil(n/4) + ... + ceil(n/2^(1+k))) + 12k + S(ceil(n/2^k))
-    <= 10*(2 ceil(n/4) + k) + 12k + S(ceil(n/2^k))
-    <= 20 ceil(n/4) + 22k + S(ceil(n/2^k))
+	<= 10*(ceil(n/4) + ... + ceil(n/2^(1+k))) + 12k + S(ceil(n/2^k))
+	<= 10*(2 ceil(n/4) + k) + 12k + S(ceil(n/2^k))
+	<= 20 ceil(n/4) + 22k + S(ceil(n/2^k))
 */
 
 mp_size_t
@@ -547,7 +547,7 @@ mpn_hgcd_itch (mp_size_t n)
 
 mp_size_t
 mpn_hgcd (mp_ptr ap, mp_ptr bp, mp_size_t n,
-      struct hgcd_matrix *M, mp_ptr tp)
+	  struct hgcd_matrix *M, mp_ptr tp)
 {
   mp_size_t s = n/2 + 1;
   mp_size_t n2 = (3*n)/4 + 1;
@@ -572,7 +572,7 @@ mpn_hgcd (mp_ptr ap, mp_ptr bp, mp_size_t n,
   if (nn > 0)
     {
       /* Needs 2*(p + M->n) <= 2*(floor(n/2) + ceil(n/2) - 1)
-     = 2 (n - 1) */
+	 = 2 (n - 1) */
       n = mpn_hgcd_matrix_adjust (M, p + nn, ap, bp, p, tp);
       success = 1;
     }
@@ -581,7 +581,7 @@ mpn_hgcd (mp_ptr ap, mp_ptr bp, mp_size_t n,
       /* Needs n + 1 storage */
       nn = hgcd_step (n, ap, bp, s, M, tp);
       if (!nn)
-    return success ? n : 0;
+	return success ? n : 0;
       n = nn;
       success = 1;
     }
@@ -597,36 +597,36 @@ mpn_hgcd (mp_ptr ap, mp_ptr bp, mp_size_t n,
       mpn_hgcd_matrix_init(&M1, n - p, tp);
       nn = mpn_hgcd (ap + p, bp + p, n - p, &M1, tp + scratch);
       if (nn > 0)
-    {
-      /* We always have max(M) > 2^{-(GMP_NUMB_BITS + 1)} max(M1) */
-      ASSERT (M->n + 2 >= M1.n);
+	{
+	  /* We always have max(M) > 2^{-(GMP_NUMB_BITS + 1)} max(M1) */
+	  ASSERT (M->n + 2 >= M1.n);
 
-      /* Furthermore, assume M ends with a quotient (1, q; 0, 1),
-         then either q or q + 1 is a correct quotient, and M1 will
-         start with either (1, 0; 1, 1) or (2, 1; 1, 1). This
-         rules out the case that the size of M * M1 is much
-         smaller than the expected M->n + M1->n. */
+	  /* Furthermore, assume M ends with a quotient (1, q; 0, 1),
+	     then either q or q + 1 is a correct quotient, and M1 will
+	     start with either (1, 0; 1, 1) or (2, 1; 1, 1). This
+	     rules out the case that the size of M * M1 is much
+	     smaller than the expected M->n + M1->n. */
 
-      ASSERT (M->n + M1.n < M->alloc);
+	  ASSERT (M->n + M1.n < M->alloc);
 
-      /* Needs 2 (p + M->n) <= 2 (2*s - n2 + 1 + n2 - s - 1)
-         = 2*s <= 2*(floor(n/2) + 1) <= n + 2. */
-      n = mpn_hgcd_matrix_adjust (&M1, p + nn, ap, bp, p, tp + scratch);
+	  /* Needs 2 (p + M->n) <= 2 (2*s - n2 + 1 + n2 - s - 1)
+	     = 2*s <= 2*(floor(n/2) + 1) <= n + 2. */
+	  n = mpn_hgcd_matrix_adjust (&M1, p + nn, ap, bp, p, tp + scratch);
 
-      /* We need a bound for of M->n + M1.n. Let n be the original
-         input size. Then
+	  /* We need a bound for of M->n + M1.n. Let n be the original
+	     input size. Then
 
-           ceil(n/2) - 1 >= size of product >= M.n + M1.n - 2
+	       ceil(n/2) - 1 >= size of product >= M.n + M1.n - 2
 
-         and it follows that
+	     and it follows that
 
-           M.n + M1.n <= ceil(n/2) + 1
+	       M.n + M1.n <= ceil(n/2) + 1
 
-         Then 3*(M.n + M1.n) + 5 <= 3 * ceil(n/2) + 8 is the
-         amount of needed scratch space. */
-      mpn_hgcd_matrix_mul (M, &M1, tp + scratch);
-      success = 1;
-    }
+	     Then 3*(M.n + M1.n) + 5 <= 3 * ceil(n/2) + 8 is the
+	     amount of needed scratch space. */
+	  mpn_hgcd_matrix_mul (M, &M1, tp + scratch);
+	  success = 1;
+	}
     }
 
   /* This really is the base case */
@@ -635,7 +635,7 @@ mpn_hgcd (mp_ptr ap, mp_ptr bp, mp_size_t n,
       /* Needs s+3 < n */
       nn = hgcd_step (n, ap, bp, s, M, tp);
       if (!nn)
-    return success ? n : 0;
+	return success ? n : 0;
 
       n = nn;
       success = 1;
