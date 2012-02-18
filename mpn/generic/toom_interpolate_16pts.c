@@ -6,7 +6,7 @@
    SAFE TO REACH IT THROUGH DOCUMENTED INTERFACES.  IN FACT, IT IS ALMOST
    GUARANTEED THAT IT WILL CHANGE OR DISAPPEAR IN A FUTURE GNU MP RELEASE.
 
-Copyright 2009, 2010 Free Software Foundation, Inc.
+Copyright 2009, 2010, 2012 Free Software Foundation, Inc.
 
 This file is part of the GNU MP Library.
 
@@ -299,11 +299,16 @@ mpn_toom_interpolate_16pts (mp_ptr pp, mp_ptr r1, mp_ptr r3, mp_ptr r5, mp_ptr r
     DO_mpn_subrsh(r5, n3p1, r0, spt, 4, wsi);
 
     cy = DO_mpn_sublsh_n (r1 + BIT_CORRECTION, r0, spt, 42 - CORRECTION_BITS, wsi);
-    MPN_DECR_U (r1 + spt + BIT_CORRECTION, n3p1 - spt - BIT_CORRECTION, cy);
+    //MPN_DECR_U (r1 + spt + BIT_CORRECTION, n3p1 - spt - BIT_CORRECTION, cy);
 #if BIT_CORRECTION
+    cy = mpn_sub_1 (r1 + spt + BIT_CORRECTION, r1 + spt + BIT_CORRECTION,
+                    n3p1 - spt - BIT_CORRECTION, cy);
+    ASSERT (BIT_CORRECTION > 0 || cy == 0);
     /* FIXME: assumes r7[n3p1] is writable (it is if r5 follows). */
     cy = r7[n3p1];
     r7[n3p1] = 0x80;
+#else
+    MPN_DECR_U (r1 + spt + BIT_CORRECTION, n3p1 - spt - BIT_CORRECTION, cy);
 #endif
     DO_mpn_subrsh(r7, n3p1 + BIT_CORRECTION, r0, spt, 6, wsi);
 #if BIT_CORRECTION
@@ -317,7 +322,8 @@ mpn_toom_interpolate_16pts (mp_ptr pp, mp_ptr r1, mp_ptr r3, mp_ptr r5, mp_ptr r
   DO_mpn_subrsh(r2 + n, 2 * n + 1, pp, 2 * n, 4, wsi);
 
 #if HAVE_NATIVE_mpn_sumdiff_n
-  mpn_sumdiff_n (r2, r5, r5, r2, n3p1);
+  mpn_sumdiff_n (r2, wsi, r5, r2, n3p1);
+  MP_PTR_SWAP(r5,wsi);
 #else
   mpn_sub_n (wsi, r5, r2, n3p1); /* can be negative */
   ASSERT_NOCARRY(mpn_add_n (r2, r2, r5, n3p1));
@@ -328,7 +334,8 @@ mpn_toom_interpolate_16pts (mp_ptr pp, mp_ptr r1, mp_ptr r3, mp_ptr r5, mp_ptr r
   DO_mpn_subrsh(r3 + n, 2 * n + 1, pp, 2 * n, 2, wsi);
 
 #if HAVE_NATIVE_mpn_sumdiff_n
-  mpn_sumdiff_n (r3, r6, r6, r3, n3p1);
+  mpn_sumdiff_n (wsi, r6, r6, r3, n3p1);
+  MP_PTR_SWAP(r3, wsi);
 #else
   ASSERT_NOCARRY(mpn_add_n (wsi, r3, r6, n3p1));
   mpn_sub_n (r6, r6, r3, n3p1); /* can be negative */
@@ -347,7 +354,8 @@ mpn_toom_interpolate_16pts (mp_ptr pp, mp_ptr r1, mp_ptr r3, mp_ptr r5, mp_ptr r
 #endif
 
 #if HAVE_NATIVE_mpn_sumdiff_n
-  mpn_sumdiff_n (r1, r7, r7, r1, n3p1);
+  mpn_sumdiff_n (r1, wsi, r7, r1, n3p1);
+  MP_PTR_SWAP(r7, wsi);
 #else
   mpn_sub_n (wsi, r7, r1, n3p1); /* can be negative */
   mpn_add_n (r1, r1, r7, n3p1);  /* if BIT_CORRECTION != 0, can give a carry. */
