@@ -96,6 +96,7 @@
 
     CPU  Athlon64
     BITS 64
+;		global __gmpn_sub_err1_n
 
     fun mpn_sub_err1_n, sbb
     

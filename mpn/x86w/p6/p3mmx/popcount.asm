@@ -135,6 +135,7 @@ Lrodata_0F0F0F0F0F0F0F0F:
 %define PARAM_SRC   esp+frame+4 
 %define	frame		0
 
+;	global ___gmpn_popcount
 	ph_fun	___g,mpn_popcount,0
 
 	end

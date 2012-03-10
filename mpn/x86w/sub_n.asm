@@ -168,7 +168,9 @@
 %endmacro
 
 	section .text
-
+;       global ___gmpn_sub_n
+;       global ___gmpn_sub_nc
+		
 	mac_sub	___g,sbb,mpn_sub_n,mpn_sub_nc
 	
     end

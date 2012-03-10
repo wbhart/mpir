@@ -168,6 +168,8 @@ Lrodata_000000FF000000FF:
 %define PARAM_SRC   esp+frame+4 
 %define	frame		0
 
+;	global ___gmpn_hamdist
+	
 	ph_fun	___g,mpn_hamdist,1
 
 	end

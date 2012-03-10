@@ -106,7 +106,7 @@
 %endmacro
 
 	section .text
-
+;       global ___gmpn_submul_1
 	mac_sub	___g,sub,mpn_submul_1
 
 	end

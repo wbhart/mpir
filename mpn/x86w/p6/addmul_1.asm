@@ -219,7 +219,9 @@
 %endmacro
 
 	section .text
-
+;	global ___gmpn_addmul_1
+;	global ___gmpn_addmul_1c
+	
 	mul_fun	___g,add,mpn_addmul_1,mpn_addmul_1c
 	
 	end
