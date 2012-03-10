@@ -31,6 +31,7 @@
 
 %macro	mac_sub 3
 
+	global  %1%3
 %ifdef	DLL
 	export	%1%3
 %endif
@@ -105,7 +106,7 @@
 %endmacro
 
 	section .text
-	global ___gmpn_addmul_1
+;       global ___gmpn_addmul_1
 	mac_sub	___g,add,mpn_addmul_1
 
 	end

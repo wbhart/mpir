@@ -54,6 +54,7 @@ Lrodata_000000FF000000FF:
 
 	section .text
 	align   32
+	global	%1%2
 
 %ifdef	DLL
 	export	%1%2
@@ -166,7 +167,7 @@ Lrodata_000000FF000000FF:
 %define PARAM_SRC   esp+frame+4 
 %define	frame		0
 
-	global ___gmpn_popcount
+;	global ___gmpn_popcount
 	
 	ph_fun	___g,mpn_popcount,0
 

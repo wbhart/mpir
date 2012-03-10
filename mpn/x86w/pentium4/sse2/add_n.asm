@@ -41,7 +41,7 @@ ___gmpn_add_nc:
     lea     ebx,[ebx+ecx*4]
     lea     edx,[edx+ecx*4]
     neg     ecx
-	JZ		T2:
+    jz	    t3
 t1: movd    mm1,[eax+ecx*4]
 	movd    mm2,[ebx+ecx*4]
 	paddq   mm1,mm2

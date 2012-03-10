@@ -41,6 +41,9 @@
 
 %macro	mul_fun	4
 
+	global  %1%3
+	global  %1%4
+
 %ifdef	DLL
 	export	%1%3
 	export  %1%4
@@ -216,8 +219,8 @@
 %endmacro
 
 	section .text
-	global ___gmpn_submul_1
-	global ___gmpn_submul_1c
+;	global ___gmpn_submul_1
+;	global ___gmpn_submul_1c
 	
 	mul_fun	___g,sub,mpn_submul_1,mpn_submul_1c
 	
