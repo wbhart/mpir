@@ -1031,9 +1031,6 @@ __GMP_DECLSPEC mp_limb_t mpn_submul_1c __GMP_PROTO ((mp_ptr, mp_srcptr, mp_size_
 #define mpn_invert_2exp __MPN(invert_2exp)
 __GMP_DECLSPEC void mpn_invert_2exp __GMP_PROTO ((mp_ptr, mp_srcptr, mp_size_t, mp_ptr));
 
-#define mpn_redc_2 __MPN(redc_2)
-__GMP_DECLSPEC void mpn_redc_2 __GMP_PROTO ((mp_ptr, mp_ptr, mp_srcptr, mp_size_t, mp_srcptr));
-
 #define mpn_is_invert __MPN(is_invert)
 __GMP_DECLSPEC int mpn_is_invert __GMP_PROTO ((mp_srcptr, mp_srcptr, mp_size_t));
 

@@ -21,15 +21,16 @@ Boston, MA 02110-1301, USA.
 
 #include "mpir.h"
 #include "gmp-impl.h"
-#include "longlong.h"
 
-
-
-//t=x-y-z
+//t=x-y-z or t=x-(y+z) which explains the name
 mp_limb_t	mpn_subadd_n(mp_ptr t,mp_srcptr x,mp_srcptr y,mp_srcptr z,mp_size_t n)
 {mp_limb_t ret;
 
-
+ASSERT(n>0);
+ASSERT_MPN(x,n);ASSERT_MPN(y,n);ASSERT_MPN(z,n);//ASSERT_SPACE(t,n);
+ASSERT(MPN_SAME_OR_SEPARATE_P(t,x,n));
+ASSERT(MPN_SAME_OR_SEPARATE_P(t,y,n));
+ASSERT(MPN_SAME_OR_SEPARATE_P(t,z,n));
 if(t==x && t==y && t==z)
   {
   return mpn_neg(t,z,n);  

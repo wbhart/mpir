@@ -21,12 +21,44 @@ Boston, MA 02110-1301, USA.
 
 #include "mpir.h"
 #include "gmp-impl.h"
-#include "longlong.h"
 
 mp_limb_t	mpn_addadd_n(mp_ptr t,mp_srcptr x,mp_srcptr y,mp_srcptr z,mp_size_t n)
 {mp_limb_t ret;
+ mp_srcptr a=x,b=y,c=z;
+
+ASSERT(n>0);
+ASSERT_MPN(x,n);ASSERT_MPN(y,n);ASSERT_MPN(z,n);//ASSERT_SPACE(t,n);
+ASSERT(MPN_SAME_OR_SEPARATE_P(t,x,n));
+ASSERT(MPN_SAME_OR_SEPARATE_P(t,y,n));
+ASSERT(MPN_SAME_OR_SEPARATE_P(t,z,n));
+if(t==x)
+  {if(t==y)
+     {if(t==z)
+        {
+         #ifdef HAVE_NATIVE_mpn_addlsh1_n
+         return mpn_addlsh1_n(t,x,y,n);
+         #else
+         return mpn_mul_1(t,x,n,3);
+         #endif  
+        }
+     }
+   else
+     {MP_SRCPTR_SWAP(b,c);}
+  }
+else
+  {MP_SRCPTR_SWAP(a,c);if(t==y)MP_SRCPTR_SWAP(a,b);}
+ret=mpn_add_n(t,a,b,n);return ret+mpn_add_n(t,t,c,n);}
 
 
+/*
+mp_limb_t	mpn_addadd_n(mp_ptr t,mp_srcptr x,mp_srcptr y,mp_srcptr z,mp_size_t n)
+{mp_limb_t ret;
+
+ASSERT(n>0);
+ASSERT_MPN(x,n);ASSERT_MPN(y,n);ASSERT_MPN(z,n);//ASSERT_SPACE(t,n);
+ASSERT(MPN_SAME_OR_SEPARATE_P(t,x,n));
+ASSERT(MPN_SAME_OR_SEPARATE_P(t,y,n));
+ASSERT(MPN_SAME_OR_SEPARATE_P(t,z,n));
 if(t==x && t==y && t==z)
   {
   #ifdef HAVE_NATIVE_mpn_addlsh1_n
@@ -69,3 +101,4 @@ ret=mpn_add_n(t,z,x,n);
 ret+=mpn_add_n(t,t,y,n);
 return ret;
 }
+*/
