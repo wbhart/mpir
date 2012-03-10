@@ -2172,7 +2172,7 @@ gmp_mpn_functions="$extra_functions					   \
   urandomb urandomm randomb rrandom invert dc_divappr_q_n \	
   rootrem sqrtrem get_str set_str scan0 scan1 popcount hamdist cmp perfect_square_p \
   bdivmod gcd gcd_1 gcdext tdiv_qr jacobi_base get_d  \
-  mullow_n mulhigh_n mullow_n_basecase mullow_basecase redc_1 	\
+  mullow_n mulhigh_n mullow_n_basecase mullow_basecase redc_1 redc_2	\
   sb_divappr_q toom3_mul toom3_mul_n toom4_mul toom4_mul_n \
   dc_div_q dc_divappr_q sb_div_q sb_div_qr dc_div_qr dc_div_qr_n inv_divappr_q_n \
   inv_divappr_q inv_div_q inv_div_qr inv_div_qr_n rootrem_basecase \
@@ -2712,6 +2712,7 @@ AH_VERBATIM([HAVE_NATIVE],
 #undef HAVE_NATIVE_mpn_preinv_divrem_1
 #undef HAVE_NATIVE_mpn_preinv_mod_1
 #undef HAVE_NATIVE_mpn_redc_1
+#undef HAVE_NATIVE_mpn_redc_2
 #undef HAVE_NATIVE_mpn_rsh1add_n
 #undef HAVE_NATIVE_mpn_rsh1sub_n
 #undef HAVE_NATIVE_mpn_rshift1

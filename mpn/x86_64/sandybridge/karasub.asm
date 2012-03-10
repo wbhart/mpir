@@ -259,11 +259,11 @@ l7:	add %r8,16(%rbp,%rcx,8)
 	sar $1,%r8
 	jnz l7
 notodd:	
-pop %rbx
-pop %rbp
-pop %r12
-pop %r13
-pop %r14
 pop %r15
+pop %r14
+pop %r13
+pop %r12
+pop %rbp
+pop %rbx
 ret
 EPILOGUE()
