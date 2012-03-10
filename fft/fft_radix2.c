@@ -50,7 +50,7 @@ void fft_radix2(mp_ptr * ii,
 {
    mp_size_t i;
    mp_size_t limbs = (w*n)/GMP_LIMB_BITS;
-   
+   ASSERT(n!=0);
    if (n == 1) 
    {
       fft_butterfly(*t1, *t2, ii[0], ii[1], 0, limbs, w);
