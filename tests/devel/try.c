@@ -1741,9 +1741,7 @@ const struct choice_t choice_array[] = {
   { TRY(mpn_sub_nc),    TYPE_SUB_NC },
 #endif
 
-#if HAVE_NATIVE_mpn_sumdiff_n
   { TRY(mpn_sumdiff_n),  TYPE_SUMDIFF_N  },
-#endif
 #if HAVE_NATIVE_mpn_sumdiff_nc
   { TRY(mpn_sumdiff_nc), TYPE_SUMDIFF_NC },
 #endif
