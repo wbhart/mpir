@@ -33,7 +33,7 @@ from copy import deepcopy
 from sys import exit
 from filecmp import cmp
 from shutil import copy
-from re import search
+from re import compile, search, ASCII
 
 # either add a prebuild step to the project files or do it here
 add_prebuild = True
@@ -82,7 +82,10 @@ def append_f(ipath, opath):
 
 # copy files in a list from in_dir to out_dir
 def copy_files(file_list, in_dir, out_dir):
-  makedirs(out_dir, exist_ok=True)
+  try:
+    makedirs(out_dir)
+  except:
+    IOError
   for f in file_list:
     copy(join(in_dir, f), out_dir)
     
@@ -119,45 +122,44 @@ def find_asm(path, cf_list):
     relr = relpath(root, mpir_dir)      # path from MPIR root    
     if relp == '.':                     # set C files as default
       relp = h = t = ''
-      d[''] = [ [], deepcopy(cf_list), [], [] ]
+      d[''] = [ [], deepcopy(cf_list), [], [], relr ]
     else:
       h, t = split(relp)                # h = parent, t = this directory
-      hh, h = split(h)
       # copy defaults from this directories parent
-      d[t] = [ deepcopy(d[h][0]), deepcopy(d[h][1]), 
-               deepcopy(d[h][2]), deepcopy(d[h][3]) ]
+      d[relp] = [ deepcopy(d[h][0]), deepcopy(d[h][1]), 
+                  deepcopy(d[h][2]), deepcopy(d[h][3]), relr ]
     for f in files:                     # for the files in this directory
       n, x = splitext(f)
       if x == '.h':                     # if it is a header file, remove
-        for cf in reversed(d[t][0]):    # any matching default
+        for cf in reversed(d[relp][0]): # any matching default
           if cf[0] == n:
-            d[t][0].remove(cf)
-        d[t][0] += [(n, x, relr)]       # and add the local header file
+            d[relp][0].remove(cf)
+        d[relp][0] += [(n, x, relr)]    # and add the local header file
       if x == '.c':                     # if it is a C file, remove
-        for cf in reversed(d[t][1]):    # any matching default
+        for cf in reversed(d[relp][1]): # any matching default
           if cf[0] == n:
-            d[t][1].remove(cf)
-        d[t][1] += [(n, x, relr)]       # and add the local C file
+            d[relp][1].remove(cf)
+        d[relp][1] += [(n, x, relr)]    # and add the local C file
       if x == '.asm':                   # if it is an assembler file
         match = False
-        for cf in reversed(d[t][1]):    # remove any matching C file
+        for cf in reversed(d[relp][1]): # remove any matching C file
           if cf[0] == n:
-            d[t][1].remove(cf)
+            d[relp][1].remove(cf)
             match = True
             break
-        for cf in reversed(d[t][2]):    # and remove any matching
+        for cf in reversed(d[relp][2]):    # and remove any matching
           if cf[0] == n:                # assembler file
-            d[t][2].remove(cf)
+            d[relp][2].remove(cf)
             match = True
             break
         if match:                       # if a match was found, put the 
-          d[t][2] += [(n, x, relr)]     # file in the replacement list
+          d[relp][2] += [(n, x, relr)]  # file in the replacement list
         else:                           # otherwise look for it in the
-          for cf in reversed(d[t][3]):  # additional files list
+          for cf in reversed(d[relp][3]):  # additional files list
             if cf[0] == n:         
-              d[t][3].remove(cf)
+              d[relp][3].remove(cf)
               break
-          d[t][3] += [(n, x, relr)]
+          d[relp][3] += [(n, x, relr)]
   for k in d:                           # additional assembler list
     for i in range(4):
       d[k][i].sort(key=itemgetter(0))   # sort the four file lists
@@ -181,7 +183,68 @@ def find_src(dir_list):
     x.sort(key=itemgetter(2, 0, 1))     # add it to appropriaate list
   return list
 
-# generate VIsual Studio 2010 IDE Filter
+fr_sym = compile(r'LEAF_PROC\s+(\w+)', ASCII)
+lf_sym = compile(r'FRAME_PROC\s+(\w+)', ASCII)
+wf_sym = compile(r'WIN64_GCC_PROC\s+(\w+)', ASCII)
+g3_sym = compile(r'global\s+___g(\w+)', ASCII)
+g2_sym = compile(r'global\s+__g(\w+)', ASCII)
+
+def get_symbols(setf, sym_dir):
+  for f in setf:
+    fn = join(mpir_dir, f[2], f[0] + f[1])
+    with open(fn, 'r') as inf:
+      lines = inf.readlines()
+      for l in lines:
+        m = fr_sym.search(l)
+        if m:
+          sym_dir[f] = sym_dir.get(f, set()) | set((m.groups(1)[0],))
+        m = lf_sym.search(l)
+        if m:
+          sym_dir[f] = sym_dir.get(f, set()) | set((m.groups(1)[0],))
+        m = wf_sym.search(l)
+        if m:
+          sym_dir[f] = sym_dir.get(f, set()) | set((m.groups(1)[0],))
+        m = g3_sym.search(l)
+        if m:
+          sym_dir[f] = sym_dir.get(f, set()) | set((m.groups(1)[0],))
+        else:
+          m = g2_sym.search(l)
+          if m:
+            sym_dir[f] = sym_dir.get(f, set()) | set((m.groups(1)[0],))
+          
+def file_symbols(cf):
+  sym_dir = dict()  
+  for c in cf:
+    if c == 'fat':
+      continue
+    setf = set()
+    for f in cf[c][2] + cf[c][3]:
+      setf |= set((f,))
+    get_symbols(setf, sym_dir)    
+  return sym_dir
+
+def gen_have_lists(cf, sym_dir):
+  for c in cf:
+    if c == 'fat':
+      continue
+    set_sym2 = set()
+    for f in cf[c][2]:
+      set_sym2 |= sym_dir[f]
+    set_sym3 = set()
+    for f in cf[c][3]:
+      set_sym3 |= sym_dir[f]
+    cf[c] += [sorted(list(set_sym2)), sorted(list(set_sym3))]
+    with open(join(mpir_dir, cf[c][4], 'cfg.h'), 'w') as outf:
+      for sym in sorted(set_sym2 | set_sym3):
+        print(sym, file=outf)
+#     print('/* assembler symbols also available in C files */', file=outf) 
+#     for sym in sorted(set_sym2):
+#       print(sym, file=outf)
+#     print('/* assembler symbols not available in C files */', file=outf) 
+#     for sym in sorted(set_sym3):
+#       print(sym, file=outf)
+
+# generate Visual Studio 2010 IDE Filter
 
 def filter_folders(cf_list, af_list, outf):
   
@@ -261,11 +324,18 @@ def gen_filter(name, hf_list, cf_list, af_list):
   
   f1 = r'''<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+'''  
+  f2 = r'''  <ItemGroup>
+    <None Include="..\..\gmp-h.in" />
+  </ItemGroup>
+</Project>
 '''
-  f2 = r'''</Project>
-'''
+  
   fn = join(build_dir, name)
-  makedirs(split(fn)[0], exist_ok=True)
+  try:
+    makedirs(split(fn)[0])
+  except:
+    IOError
   with open(fn, 'w') as outf:
     
     outf.write(f1)    
@@ -362,18 +432,18 @@ def vcx_target_name_and_dirs(name, plat, is_dll, outf):
       outf.write(f2.format(pl, conf, name))
   outf.write(f3)
 
-def yasm_options(is_dll, outf):
+def yasm_options(plat, is_dll, outf):
 
   f1 = r'''    <YASM>
       <Defines>{0:s}</Defines>
-      <IncludePaths>..\..\mpn\x86_64w\</IncludePaths>
+      <IncludePaths>..\..\mpn\x86{1:s}w\</IncludePaths>
       <Debug>true</Debug>
       <ObjectFileName>$(IntDir)mpn\</ObjectFileName>
       <ObjectFile>$(IntDir)mpn\</ObjectFile>
     </YASM>
 '''
 
-  outf.write(f1.format('DLL' if is_dll else ''))
+  outf.write(f1.format('DLL' if is_dll else '', '' if plat == 'Win32' else '_64'))
 
 def compiler_options(plat, is_dll, is_debug, outf):
   
@@ -445,7 +515,7 @@ def vcx_tool_options(config, plat, is_dll, is_cpp, af_list, outf):
       if add_prebuild and not is_cpp:
         vcx_pre_build(config, pl, outf)    
       if af_list:    
-        yasm_options(is_dll, outf)
+        yasm_options(plat, is_dll, outf)
       compiler_options(pl, is_dll, is_debug, outf)
       if is_dll:
         linker_options(outf)
@@ -517,9 +587,13 @@ def gen_vcxproj(proj_name, file_name, config, plat, is_dll, is_cpp, hf_list, cf_
     <Import Project="..\vsyasm.targets" />
   </ImportGroup>
 '''
-  f5 = '''</Project>
+
+  f5 = r'''<ItemGroup>
+    <None Include="..\..\gmp-h.in" />
+  </ItemGroup>
+</Project>
 '''
-  
+
   with open(join(build_dir, file_name), 'w') as outf:
     outf.write(f1)
     vcx_proj_cfg(plat, outf)
@@ -590,10 +664,13 @@ mpn_gc = dict((('gc',[ gc_hdr_list, gc_src_list, [], [] ]),))
 
 # prepare the list of Win32 builds
 mpn_32 = find_asm(mpir_dir + 'mpn/x86w', gc_src_list)
+syms32 = file_symbols(mpn_32)
+gen_have_lists(mpn_32, syms32)
 del mpn_32['']
-
 # prepare the list of x64 builds
 mpn_64 = find_asm(mpir_dir + 'mpn/x86_64w', gc_src_list)
+syms64 = file_symbols(mpn_64)
+gen_have_lists(mpn_64, syms64)
 del mpn_64['']
 
 # now ask our user which build they want to generate
@@ -605,13 +682,13 @@ while True:
   cnt = 0
   for v in sorted(mpn_gc):
     cnt += 1
-    print('{0:2d}. {1:12s}        '.format(cnt, v))
+    print('{0:2d}. {1:18s}        '.format(cnt, v))
   for v in sorted(mpn_32):
     cnt += 1
-    print('{0:2d}. {1:12s} (win32)'.format(cnt, v))
+    print('{0:2d}. {1:18s} (win32)'.format(cnt, v))
   for v in sorted(mpn_64):
     cnt += 1
-    print('{0:2d}. {1:12s}   (x64)'.format(cnt, v))
+    print('{0:2d}. {1:18s}   (x64)'.format(cnt, v))
   if err:
     s = input('please enter a number <= {0:d} (0 to exit)? '.format(cnt))
     err = False
@@ -703,8 +780,8 @@ if not add_prebuild:
   try:
     tfile = join(mpir_dir, 'tmp.h')
     with open(tfile, 'w') as outf:
-      for i in mpn_f[3]:
-        outf.writelines(['#define HAVE_NATIVE_{0:s} 1\n'.format(i[0])])
+      for i in sorted(mpn_f[5] + mpn_f[6]):
+        outf.writelines(['#define HAVE_NATIVE_{0:s} 1\n'.format(i)])
         
     append_f(join(build_dir, 'cfg.h'), tfile)
     write_f(tfile, join(mpir_dir, 'config.h'))
@@ -742,15 +819,16 @@ if not add_prebuild:
 hf_list = ('config.h', 'gmp-impl.h', 'longlong.h', 'mpir.h', 'gmp-mparam.h')
 af_list = sorted(mpn_f[2] + mpn_f[3]) 
 
-# set up DLL build
 proj_name = 'mpir'
-vcx_name = 'dll_mpir_' + config + '\\dll_mpir_' + config + '.vcxproj'
+cf = config.replace('\\', '_')
+
+# set up DLL build
+vcx_name = 'dll_mpir_' + cf + '\\dll_mpir_' + cf + '.vcxproj'
 gen_filter(vcx_name + '.filters', hf_list, c_src_list + cc_src_list + mpn_f[1], af_list)
 gen_vcxproj(proj_name, vcx_name, config, mode, True, False, hf_list, c_src_list + cc_src_list + mpn_f[1], af_list)
 
 # set up LIB build
-proj_name = 'mpir'
-vcx_name = 'lib_mpir_' + config + '\\lib_mpir_' + config + '.vcxproj'
+vcx_name = 'lib_mpir_' + cf + '\\lib_mpir_' + cf + '.vcxproj'
 gen_filter(vcx_name + '.filters', hf_list, c_src_list + mpn_f[1], af_list)
 gen_vcxproj(proj_name, vcx_name, config, mode, False, False, hf_list, c_src_list + mpn_f[1], af_list)
 
