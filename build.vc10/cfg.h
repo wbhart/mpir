@@ -20,7 +20,7 @@ along with the GNU MP Library; see the file COPYING.LIB.  If not, write to
 the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,
 MA 02111-1307, USA. */
 
-#ifndef HAVE_STDINT_H 
+#if _MSC_VER >= 1600 && !defined( HAVE_STDINT_H ) 
 #  define HAVE_STDINT_H 1
 #endif
 
