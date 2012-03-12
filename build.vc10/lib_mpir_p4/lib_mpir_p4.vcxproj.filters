@@ -1314,6 +1314,9 @@
   <ClCompile Include="..\..\mpn\generic\redc_1.c">
     <Filter>Source Files\mpn</Filter>
   </ClCompile>
+  <ClCompile Include="..\..\mpn\generic\redc_2.c">
+    <Filter>Source Files\mpn</Filter>
+  </ClCompile>
   <ClCompile Include="..\..\mpn\generic\rootrem.c">
     <Filter>Source Files\mpn</Filter>
   </ClCompile>
