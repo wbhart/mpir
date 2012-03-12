@@ -1459,5 +1459,8 @@
     <ClCompile Include="..\..\mpz\miller_rabin.c">
       <Filter>Source Files\mpz</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\mpn\generic\redc_2.c">
+      <Filter>Source Files\mpn</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

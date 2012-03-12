@@ -339,6 +339,7 @@ postbuild "$(TargetPath)"</Command>
     <ClCompile Include="..\..\mpn\generic\nand_n.c" />
     <ClCompile Include="..\..\mpn\generic\nior_n.c" />
     <ClCompile Include="..\..\mpn\generic\popcount.c" />
+    <ClCompile Include="..\..\mpn\generic\redc_2.c" />
     <ClCompile Include="..\..\mpn\generic\rootrem_basecase.c">
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)mpn\</ObjectFileName>
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)mpn\</ObjectFileName>

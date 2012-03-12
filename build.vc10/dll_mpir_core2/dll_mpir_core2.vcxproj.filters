@@ -1459,6 +1459,9 @@
     <ClCompile Include="..\..\mpz\miller_rabin.c">
       <Filter>Source Files\mpz</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\mpn\generic\redc_2.c">
+      <Filter>Source Files\mpn</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <YASM Include="..\..\mpn\x86_64w\core2\addadd_n.asm">
