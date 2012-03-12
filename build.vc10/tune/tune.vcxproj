@@ -84,7 +84,7 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
-      <AdditionalIncludeDirectories>.\;..\;..\..\..\lib\$(intDir);..\..\;..\..\tests\;..\$(PlatformName)\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\;..\;..\..\..\lib\$(IntDir);..\..\;..\..\tests\;..\$(PlatformName)\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <AdditionalDependencies>..\..\lib\$(IntDir)mpir.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -110,7 +110,7 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <AdditionalIncludeDirectories>.\;..\;..\..\..\lib\$(intDir);..\..\;..\..\tests\;..\$(PlatformName)\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\;..\;..\..\..\lib\$(IntDir);..\..\;..\..\tests\;..\$(PlatformName)\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <AdditionalDependencies>..\..\lib\$(IntDir)mpir.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -133,7 +133,7 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <AdditionalIncludeDirectories>.\;..\;..\..\..\lib\$(intDir);..\..\;..\..\tests\;..\$(PlatformName)\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\;..\;..\..\..\lib\$(IntDir);..\..\;..\..\tests\;..\$(PlatformName)\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <AdditionalDependencies>..\..\lib\$(IntDir)mpir.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -160,7 +160,7 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <AdditionalIncludeDirectories>.\;..\;..\..\..\lib\$(intDir);..\..\;..\..\tests\;..\$(PlatformName)\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\;..\;..\..\..\lib\$(IntDir);..\..\;..\..\tests\;..\$(PlatformName)\</AdditionalIncludeDirectories>
       <BufferSecurityCheck>false</BufferSecurityCheck>
     </ClCompile>
     <Link>
