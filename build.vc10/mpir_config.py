@@ -41,8 +41,9 @@ add_prebuild = True
 add_cpp_lib = False
 
 # The path to the mpir root directory
+build_vc = 'build.vc10/'
 mpir_dir = '../'
-build_dir = mpir_dir + 'build.vc10/'
+build_dir = mpir_dir + build_vc
 
 # paths that might include source files(*.c, *.h, *.asm)
 c_directories  = ( '', 'build.vc10', 'fft', 'mpf', 'mpq', 'mpz', 'printf', 'scanf' )
@@ -887,7 +888,7 @@ def findf(r, dl, p):
       relp = os.path.relpath(root, r)  # path relative to mpir root directory
       if '.svn' in dirs:
         dirs.remove('.svn')            # ignore SVN directories
-      if d == '' or root.endswith('build.vc10'):
+      if d == '' or root.endswith(build_vc):
         for d in reversed(dirs):       # don't scan build.vc10 subdirectories
           dirs.remove(d)
       for f in files:
