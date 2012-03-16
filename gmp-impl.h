@@ -347,6 +347,11 @@ typedef unsigned long       gmp_uint_least32_t;
 #endif
 #endif
 
+/* pre-inverse types for truncating division and modulo */
+typedef struct {mp_limb_t inv32;} gmp_pi1_t;
+typedef struct {mp_limb_t inv21, inv32, inv53;} gmp_pi2_t;
+
+
 
 /* const and signed must match __gmp_const and __gmp_signed, so follow the
    decision made for those in mpir.h.    */
