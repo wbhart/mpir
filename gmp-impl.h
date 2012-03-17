@@ -2543,6 +2543,7 @@ mp_limb_t mpn_invert_limb _PROTO ((mp_limb_t)) ATTRIBUTE_CONST;
   } while (0)
 #endif
 
+// This macro is only for compatibility with undocumented GMP macros , do not use
 #define invert_pi1(dinv, d1, d0)				\
   do {								\
     mp_limb_t v, p, t1, t0, mask;				\
@@ -2711,6 +2712,8 @@ mp_limb_t mpn_invert_limb _PROTO ((mp_limb_t)) ATTRIBUTE_CONST;
     (q) = _xh - _q1;							\
   } while (0)
 
+
+// This macro is only for compatibility with undocumented GMP macros , do not use
 /* Compute quotient the quotient and remainder for n / d. Requires d
    >= B^2 / 2 and n < d B. di is the inverse
 
