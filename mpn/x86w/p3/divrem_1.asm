@@ -20,7 +20,7 @@
 ;
 ; Translation of AT&T syntax code by Brian Gladman 
 
-%include "..\..\x86i.inc" 
+%include "..\x86i.inc" 
 
 	global  ___gmpn_preinv_divrem_1 
     global  ___gmpn_divrem_1c 

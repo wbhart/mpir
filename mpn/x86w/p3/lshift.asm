@@ -20,7 +20,7 @@
 ;
 ; Translation of AT&T syntax code by Brian Gladman 
 
-%include "..\..\x86i.inc" 
+%include "..\x86i.inc" 
 
 	global	___gmpn_lshift 
 
