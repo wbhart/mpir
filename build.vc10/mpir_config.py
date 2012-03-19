@@ -41,8 +41,9 @@ add_prebuild = True
 add_cpp_lib = False
 
 # The path to the mpir root directory
+build_vc = 'build.vc10/'
 mpir_dir = '../'
-build_dir = mpir_dir + 'build.vc10/'
+build_dir = mpir_dir + build_vc
 
 # paths that might include source files(*.c, *.h, *.asm)
 c_directories  = ( '', 'build.vc10', 'mpf', 'mpq', 'mpz', 'printf', 'scanf' )
@@ -88,6 +89,9 @@ def copy_files(file_list, in_dir, out_dir):
     IOError
   for f in file_list:
     copy(join(in_dir, f), out_dir)
+
+def special_match(cf, af):
+  return cf.startswith('preinv_') and cf == 'preinv_' + af
     
 # Recursively search a given directory tree to find header, 
 # C and assembler code files that either replace or augment
@@ -143,11 +147,11 @@ def find_asm(path, cf_list):
       if x == '.asm':                   # if it is an assembler file
         match = False
         for cf in reversed(d[relp][1]): # remove any matching C file
-          if cf[0] == n:
+          if cf[0] == n or special_match(cf[0], n):
             d[relp][1].remove(cf)
             match = True
             break
-        for cf in reversed(d[relp][2]):    # and remove any matching
+        for cf in reversed(d[relp][2]): # and remove any matching
           if cf[0] == n:                # assembler file
             d[relp][2].remove(cf)
             match = True
@@ -180,7 +184,7 @@ def find_src(dir_list):
         if x in di and not n in exclude_file_list:
           list[di[x]] += [(n, x, d)]    # if of the right type and is
   for x in list:                        # not in the exclude list 
-    x.sort(key=itemgetter(2, 0, 1))     # add it to appropriaate list
+    x.sort(key=itemgetter(2, 0, 1))     # add it to appropriate list
   return list
 
 fr_sym = compile(r'LEAF_PROC\s+(\w+)', ASCII)
@@ -887,7 +891,7 @@ def findf(r, dl, p):
       relp = os.path.relpath(root, r)  # path relative to mpir root directory
       if '.svn' in dirs:
         dirs.remove('.svn')            # ignore SVN directories
-      if d == '' or root.endswith('build.vc10'):
+      if d == '' or root.endswith(build_vc):
         for d in reversed(dirs):       # don't scan build.vc10 subdirectories
           dirs.remove(d)
       for f in files:
