@@ -90,9 +90,6 @@ def copy_files(file_list, in_dir, out_dir):
   for f in file_list:
     copy(join(in_dir, f), out_dir)
 
-def special_match(cf, af):
-  return cf.startswith('preinv_') and cf == 'preinv_' + af
-    
 # Recursively search a given directory tree to find header, 
 # C and assembler code files that either replace or augment
 # the generic C source files in the input list 'src_list'. 
@@ -122,6 +119,8 @@ def find_asm(path, cf_list):
   for root, dirs, files in walk(path):
     if '.svn' in dirs:                  # ignore SVN directories
       dirs.remove('.svn')
+    if 'fat' in dirs:                  # ignore fat directory
+      dirs.remove('fat')
     relp = relpath(root, path)          # path from asm root
     relr = relpath(root, mpir_dir)      # path from MPIR root    
     if relp == '.':                     # set C files as default
@@ -147,7 +146,7 @@ def find_asm(path, cf_list):
       if x == '.asm':                   # if it is an assembler file
         match = False
         for cf in reversed(d[relp][1]): # remove any matching C file
-          if cf[0] == n or special_match(cf[0], n):
+          if cf[0] == n:
             d[relp][1].remove(cf)
             match = True
             break
