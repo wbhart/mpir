@@ -30,7 +30,7 @@ except Exception:
 
 tdir = d[1] + '\\' + d[2] + '\\'
 if d[0] == 'dll':
-  shutil.copy("..\\dll\\" + tdir + "mpir.dll",  os.getcwd())
+  shutil.copy("..\\..\\dll\\" + tdir + "mpir.dll",  os.getcwd())
   xt = 'Dynamic Link Library'
 else:
   xt = 'Static Library'
