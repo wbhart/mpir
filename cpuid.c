@@ -149,17 +149,20 @@ CPUVEC_SETUP_x86_64;
 	  if (model == 22){ CPUIS(core2);break;}
 	  if (model == 23){ CPUIS(penryn);break;}
 	  if (model == 26){ CPUIS(nehalem);break;}
-	  if (model == 28){ CPUIS(atom);break;}
+	  if (model == 28){ CPUIS(atom);break;}// 45nm
 	  if (model == 29){ CPUIS(penryn);break;}
 	  if (model == 30){ CPUIS(nehalem);break;}
 	  if (model == 31){ CPUIS(nehalem);break;}
 	  if (model == 37){ CPUIS(westmere);break;}
+	  if (model == 38){ CPUIS(atom);break;}// atom z670 tunnel creek
+	  if (model == 39){ CPUIS(atom);break;}// Intel Atom Z2460 (Medfield platform, Penwell SoC, Saltwell core)
 	  if (model == 42){ CPUIS(sandybridge);break;}
 	  if (model == 44){ CPUIS(westmere);break;}
 	  if (model == 45){ CPUIS(sandybridge);break;}
 	  if (model == 46){ CPUIS(nehalem);break;}
 	  if (model == 47){ CPUIS(westmere);break;}
-	  //if (model == 58){ CPUIS(ivybridge);break;}
+	  if (model == 54){ CPUIS(atom);break;}//DualCore Intel Atom D2700, 2133 MHz (16 x 133) (Cedarview, Saltwell core) 32nm
+	  if (model == 58){ CPUIS(sandybridge);break;}// this is ivybridge , map to sandybridge for now
           break;
         case 15:
         #if CONFIG_GUESS_64BIT || FAT64
@@ -203,10 +206,10 @@ CPUVEC_SETUP_x86_64;
 	  if (model == 10) { CPUIS(k102);break;}
 	  break;
         case 17:
-          CPUIS(k8);// fusion of K8 and GPU
+          CPUIS(k8);// fusion of K8 and GPU , not so , just a low power k8 
           break;
         case 18:
-          CPUIS(k103);// like k102 but with hardware divider , is this lano?
+          CPUIS(k103);// like k102 but with hardware divider , this is lano
           break;
         case 20:
           CPUIS(bobcat);// fusion of bobcat and GPU
