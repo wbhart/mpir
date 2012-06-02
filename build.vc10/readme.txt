@@ -389,7 +389,7 @@ file postbuild.bat which has the following steps:
 
 2. The final output directory is then creaated (mpir\build.vc10\lib
    or mpir\build.vc10\dll) relative to the Visual Stduio solution
-   directory (build,vc10).
+   directory (build.vc10).
    
 3. The file 'output_params.bat' is written describing the MPIR 
    configuration that has been built.  This is used to signal
