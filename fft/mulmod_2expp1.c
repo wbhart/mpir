@@ -55,7 +55,7 @@ void fft_naive_convolution_1(mp_ptr r, mp_srcptr ii, mp_srcptr jj, mp_size_t m)
 void fft_mulmod_2expp1(mp_ptr r1, mp_srcptr i1, mp_srcptr i2, 
                  mp_size_t r_limbs, mp_bitcnt_t depth, mp_bitcnt_t w)
 {
-   mp_size_t n = (((mp_limb_t)1)<<depth);
+   mp_size_t n = (((mp_size_t)1)<<depth);
    mp_bitcnt_t bits1 = (r_limbs*GMP_LIMB_BITS)/(2*n);
    
    mp_size_t limb_add, limbs = (n*w)/GMP_LIMB_BITS;

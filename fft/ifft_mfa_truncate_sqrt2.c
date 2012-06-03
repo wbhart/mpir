@@ -155,8 +155,8 @@ void ifft_mfa_truncate_sqrt2(mp_ptr * ii, mp_size_t n, mp_bitcnt_t w,
    mp_bitcnt_t depth2 = 0;
    mp_bitcnt_t limbs = (w*n)/GMP_LIMB_BITS;
    
-   while ((((mp_limb_t)1)<<depth) < n2) depth++;
-   while ((((mp_limb_t)1)<<depth2) < n1) depth2++;
+   while ((((mp_size_t)1)<<depth) < n2) depth++;
+   while ((((mp_size_t)1)<<depth2) < n1) depth2++;
 
    /* first half mfa IFFT : n2 rows, n1 cols */
 
@@ -271,8 +271,8 @@ void ifft_mfa_truncate_sqrt2_outer(mp_ptr * ii, mp_size_t n, mp_bitcnt_t w,
    mp_bitcnt_t depth2 = 0;
    mp_bitcnt_t limbs = (w*n)/GMP_LIMB_BITS;
    
-   while ((((mp_limb_t)1)<<depth) < n2) depth++;
-   while ((((mp_limb_t)1)<<depth2) < n1) depth2++;
+   while ((((mp_size_t)1)<<depth) < n2) depth++;
+   while ((((mp_size_t)1)<<depth2) < n1) depth2++;
 
    /* first half mfa IFFT : n2 rows, n1 cols */
    
