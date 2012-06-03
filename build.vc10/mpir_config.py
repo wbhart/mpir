@@ -38,7 +38,7 @@ from re import compile, search, ASCII
 # either add a prebuild step to the project files or do it here
 add_prebuild = True
 # output a build project for the C++ static library 
-add_cpp_lib = False
+add_cpp_lib = True
 
 # The path to the mpir root directory
 build_vc = 'build.vc10/'
@@ -839,6 +839,7 @@ gen_vcxproj(proj_name, vcx_name, config, mode, False, False, hf_list, c_src_list
 
 if add_cpp_lib:
   proj_name = 'mpirxx'
+  mode = ('Win32', 'x64')  
   vcx_name = 'lib_mpir_cxx\\lib_mpir_cxx.vcxproj'
   th = hf_list +  ('mpirxx.h',)
   gen_filter(vcx_name + '.filters', th, cc_src_list, '')
