@@ -35,6 +35,8 @@ or implied, of William Hart.
 
 static mp_size_t mulmod_2expp1_table_n[FFT_N_NUM] = MULMOD_TAB;
 
+#if !defined( OLD_FFT )
+
 int mpn_mulmod_2expp1(mp_ptr r, mp_srcptr i1, mp_srcptr i2, mp_size_t n, mp_size_t w, mp_ptr tt)
 {
    mp_size_t bits = n*w;
@@ -42,18 +44,16 @@ int mpn_mulmod_2expp1(mp_ptr r, mp_srcptr i1, mp_srcptr i2, mp_size_t n, mp_size
    mp_bitcnt_t depth1, depth = 1;
    mp_size_t w1, off;
 
-#if !defined( OLD_FFT )
+   mp_limb_t c = 2 * i1[limbs] + i2[limbs];
+   
    if (limbs <= FFT_MULMOD_2EXPP1_CUTOFF) 
-#endif
    {
-       mp_limb_t c = 2 * i1[limbs] + i2[limbs];
        if(bits)
           r[limbs] = mpn_mulmod_2expp1_basecase(r, i1, i2, c, bits, tt);
        else
           r[limbs] = 0;
        return r[limbs];
    }
-#if !defined( OLD_FFT )   
    while ((((mp_limb_t)1)<<depth) < bits) depth++;
    
    if (depth < 12) off = mulmod_2expp1_table_n[0];
@@ -63,7 +63,35 @@ int mpn_mulmod_2expp1(mp_ptr r, mp_srcptr i1, mp_srcptr i2, mp_size_t n, mp_size
    w1 = bits/(((mp_limb_t)1)<<(2*depth1));
 
    fft_mulmod_2expp1(r, i1, i2, limbs, depth1, w1);
+
+   if (c & 1)
+   {
+      mpn_neg_n(r, i1, limbs + 1);
+      mpn_normmod_2expp1(r, limbs);
+   } else if (c & 2)
+   {
+      mpn_neg_n(r, i2, limbs + 1);
+      mpn_normmod_2expp1(r, limbs);
+   }
+
    return r[limbs];
-#endif
 }
+
+#else
+
+int mpn_mulmod_2expp1(mp_ptr r, mp_srcptr i1, mp_srcptr i2, mp_size_t n, mp_size_t w, mp_ptr tt)
+{
+   mp_size_t bits = n*w;
+   mp_size_t limbs = bits/GMP_LIMB_BITS;
+   mp_bitcnt_t depth1, depth = 1;
+   mp_size_t w1, off;
+
+    mp_limb_t c = 2 * i1[limbs] + i2[limbs];
+    if(bits)
+        r[limbs] = mpn_mulmod_2expp1_basecase(r, i1, i2, c, bits, tt);
+    else
+        r[limbs] = 0;
+    return r[limbs];
+}
+#endif
 
