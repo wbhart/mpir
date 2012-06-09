@@ -4726,7 +4726,8 @@ echo "include_mpn(\`sparc32/sparc-defs.m4')" >> $gmp_tmpconfigm4i
       x86_64-*-* | netburst-*-* | netburstlahf-*-* | k8-*-* | k10-*-* | k102-*-* | k103-*-* | core2-*-* | penryn-*-* | nehalem-*-* | westmere-*-* | sandybridge-*-* | atom-*-* | nano-*-* | bobcat-*-* | bulldozer-*-*)
         abilist="64 32"
         cclist_64="gcc cc"
-        gcc_64_cflags="-O2 -m64"
+        gcc_64_cflags="-m64"
+	gcc_cflags_opt="-O3 -O2 -O1"
 	case $host in
 	*-*-linux-gnu)
 	    gcc_64_ldflags="-Wl,-z,noexecstack" ;;

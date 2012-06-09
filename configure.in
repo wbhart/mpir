@@ -1159,7 +1159,8 @@ case $host in
       X86_64_PATTERN)
         abilist="64 32"
         cclist_64="gcc cc"
-        gcc_64_cflags="-O2 -m64"
+        gcc_64_cflags="-m64"
+	gcc_cflags_opt="-O3 -O2 -O1"
 	case $host in
 	*-*-linux-gnu)
 	    gcc_64_ldflags="-Wl,-z,noexecstack" ;;
