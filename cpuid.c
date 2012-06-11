@@ -163,6 +163,7 @@ CPUVEC_SETUP_x86_64;
 	  if (model == 47){ CPUIS(westmere);break;}
 	  if (model == 54){ CPUIS(atom);break;}//DualCore Intel Atom D2700, 2133 MHz (16 x 133) (Cedarview, Saltwell core) 32nm
 	  if (model == 58){ CPUIS(sandybridge);break;}// this is ivybridge , map to sandybridge for now
+	  //if (model == 60){ CPUIS(haswell);break;}// ??????????????
           break;
         case 15:
         #if CONFIG_GUESS_64BIT || FAT64
@@ -215,7 +216,7 @@ CPUVEC_SETUP_x86_64;
           CPUIS(bobcat);// fusion of bobcat and GPU
           break;
         case 21:
-          CPUIS(bulldozer);
+          CPUIS(bulldozer);//model=16 is piledriver?????
           break;   
         }
     }
