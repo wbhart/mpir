@@ -369,14 +369,15 @@ def vcx_proj_cfg(plat, outf):
       outf.write(f2.format(pl, conf))
   outf.write(f3)
 
-def vcx_globals(name, outf):
+def vcx_globals(name, guid, outf):
 
   f1 = r'''  <PropertyGroup Label="Globals">
     <RootNamespace>{0:s}</RootNamespace>
     <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{1:s}</ProjectGuid>    
   </PropertyGroup>
 '''
-  outf.write(f1.format(name))
+  outf.write(f1.format(name, guid))
   
 def vcx_default_cpp_props(outf):
   
@@ -578,7 +579,7 @@ def vcx_a_items(af_list, outf):
     outf.write(f2.format(nxd))
   outf.write(f3)
 
-def gen_vcxproj(proj_name, file_name, config, plat, is_dll, is_cpp, hf_list, cf_list, af_list):
+def gen_vcxproj(proj_name, file_name, guid, config, plat, is_dll, is_cpp, hf_list, cf_list, af_list):
   
   f1 = r'''<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
@@ -601,7 +602,7 @@ def gen_vcxproj(proj_name, file_name, config, plat, is_dll, is_cpp, hf_list, cf_
   with open(join(build_dir, file_name), 'w') as outf:
     outf.write(f1)
     vcx_proj_cfg(plat, outf)
-    vcx_globals(proj_name, outf)
+    vcx_globals(proj_name, guid, outf)
     vcx_default_cpp_props(outf)
     vcx_library_type(plat, is_dll, outf)
     vcx_cpp_props(outf)
@@ -618,13 +619,12 @@ def gen_vcxproj(proj_name, file_name, config, plat, is_dll, is_cpp, hf_list, cf_
       outf.write(f4)
     outf.write(f5)
 
-def add_proj_to_sln(proj_name, file_name):
+def add_proj_to_sln(proj_name, file_name, guid):
   
   f6 = r'''Project("{0:s}") = "{1:s}", "{2:s}", "{3:s}"
 '''
   f7 = r'''EndProject
 '''
-  p_guid = '{' + str(uuid1()) + '}'  
   re_guid = compile(r'Project\s*\(\s*\"\s*\{([^\}]+)\s*\}\s*\"\s*\)')
   lines = open(join(build_dir, 'mpir.sln')).readlines()
   s_guid = ''
@@ -644,7 +644,7 @@ def add_proj_to_sln(proj_name, file_name):
     print('error in updating the solution')
     exit()
   if i_pos and s_guid:
-    lines[i_pos[0]:i_pos[1]] = [f6.format(s_guid, proj_name, file_name, p_guid), f7]
+    lines[i_pos[0]:i_pos[1]] = [f6.format(s_guid, proj_name, file_name, guid), f7]
     open(join(build_dir, 'mpir.sln'), 'w').writelines(lines)
 
 # compile list of C files
@@ -856,30 +856,33 @@ proj_name = 'mpir'
 cf = config.replace('\\', '_')
 
 # set up DLL build
+guid = '{' + str(uuid1()) + '}'  
 vcx_name = 'dll_mpir_' + cf
 vcx_path = 'dll_mpir_' + cf + '\\' + vcx_name + '.vcxproj'
 gen_filter(vcx_path + '.filters', hf_list, c_src_list + cc_src_list + mpn_f[1], af_list)
-gen_vcxproj(proj_name, vcx_path, config, mode, True, False, hf_list, c_src_list + cc_src_list + mpn_f[1], af_list)
-add_proj_to_sln(vcx_name, vcx_path)
+gen_vcxproj(proj_name, vcx_path, guid, config, mode, True, False, hf_list, c_src_list + cc_src_list + mpn_f[1], af_list)
+add_proj_to_sln(vcx_name, vcx_path, guid)
 
 # set up LIB build
+guid = '{' + str(uuid1()) + '}'  
 vcx_name = 'lib_mpir_' + cf
 vcx_path = 'lib_mpir_' + cf + '\\' + vcx_name + '.vcxproj'
 gen_filter(vcx_path + '.filters', hf_list, c_src_list + mpn_f[1], af_list)
-gen_vcxproj(proj_name, vcx_path, config, mode, False, False, hf_list, c_src_list + mpn_f[1], af_list)
-add_proj_to_sln(vcx_name, vcx_path)
+gen_vcxproj(proj_name, vcx_path, guid, config, mode, False, False, hf_list, c_src_list + mpn_f[1], af_list)
+add_proj_to_sln(vcx_name, vcx_path, guid)
 
 # C++ library build
 
 if add_cpp_lib:
+  guid = '{' + str(uuid1()) + '}'  
   proj_name = 'mpirxx'
   mode = ('Win32', 'x64')
   vcx_name = 'lib_mpir_cxx'
   vcx_path = 'lib_mpir_cxx\\' + vcx_name + '.vcxproj'
   th = hf_list +  ('mpirxx.h',)
   gen_filter(vcx_path + '.filters', th, cc_src_list, '')
-  gen_vcxproj(proj_name, vcx_path, config, mode, False, True, th, cc_src_list, '')
-  add_proj_to_sln(vcx_name, vcx_path)
+  gen_vcxproj(proj_name, vcx_path, guid, config, mode, False, True, th, cc_src_list, '')
+  add_proj_to_sln(vcx_name, vcx_path, guid)
   
 exit()
 
