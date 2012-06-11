@@ -34,6 +34,7 @@ from sys import exit
 from filecmp import cmp
 from shutil import copy
 from re import compile, search, ASCII
+from uuid import uuid1
 
 # either add a prebuild step to the project files or do it here
 add_prebuild = True
@@ -617,6 +618,35 @@ def gen_vcxproj(proj_name, file_name, config, plat, is_dll, is_cpp, hf_list, cf_
       outf.write(f4)
     outf.write(f5)
 
+def add_proj_to_sln(proj_name, file_name):
+  
+  f6 = r'''Project("{0:s}") = "{1:s}", "{2:s}", "{3:s}"
+'''
+  f7 = r'''EndProject
+'''
+  p_guid = '{' + str(uuid1()) + '}'  
+  re_guid = compile(r'Project\s*\(\s*\"\s*\{([^\}]+)\s*\}\s*\"\s*\)')
+  lines = open(join(build_dir, 'mpir.sln')).readlines()
+  s_guid = ''
+  i_pos = 0
+  for i, ln in enumerate(lines):
+    m = re_guid.search(ln)
+    if m:
+      if not s_guid:
+        s_guid = '{' + m.group(1) + '}'
+      if ln.find(proj_name) != -1:
+        i_pos = (i, i + 2)
+        break
+    if ln.find(r'Global') != -1:
+      i_pos = (i, i)
+      break
+  else:
+    print('error in updating the solution')
+    exit()
+  if i_pos and s_guid:
+    lines[i_pos[0]:i_pos[1]] = [f6.format(s_guid, proj_name, file_name, p_guid), f7]
+    open(join(build_dir, 'mpir.sln'), 'w').writelines(lines)
+
 # compile list of C files
 t = find_src(c_directories)
 c_hdr_list = t[0]
@@ -826,24 +856,30 @@ proj_name = 'mpir'
 cf = config.replace('\\', '_')
 
 # set up DLL build
-vcx_name = 'dll_mpir_' + cf + '\\dll_mpir_' + cf + '.vcxproj'
-gen_filter(vcx_name + '.filters', hf_list, c_src_list + cc_src_list + mpn_f[1], af_list)
-gen_vcxproj(proj_name, vcx_name, config, mode, True, False, hf_list, c_src_list + cc_src_list + mpn_f[1], af_list)
+vcx_name = 'dll_mpir_' + cf
+vcx_path = 'dll_mpir_' + cf + '\\' + vcx_name + '.vcxproj'
+gen_filter(vcx_path + '.filters', hf_list, c_src_list + cc_src_list + mpn_f[1], af_list)
+gen_vcxproj(proj_name, vcx_path, config, mode, True, False, hf_list, c_src_list + cc_src_list + mpn_f[1], af_list)
+add_proj_to_sln(vcx_name, vcx_path)
 
 # set up LIB build
-vcx_name = 'lib_mpir_' + cf + '\\lib_mpir_' + cf + '.vcxproj'
-gen_filter(vcx_name + '.filters', hf_list, c_src_list + mpn_f[1], af_list)
-gen_vcxproj(proj_name, vcx_name, config, mode, False, False, hf_list, c_src_list + mpn_f[1], af_list)
+vcx_name = 'lib_mpir_' + cf
+vcx_path = 'lib_mpir_' + cf + '\\' + vcx_name + '.vcxproj'
+gen_filter(vcx_path + '.filters', hf_list, c_src_list + mpn_f[1], af_list)
+gen_vcxproj(proj_name, vcx_path, config, mode, False, False, hf_list, c_src_list + mpn_f[1], af_list)
+add_proj_to_sln(vcx_name, vcx_path)
 
 # C++ library build
 
 if add_cpp_lib:
   proj_name = 'mpirxx'
-  mode = ('Win32', 'x64')  
-  vcx_name = 'lib_mpir_cxx\\lib_mpir_cxx.vcxproj'
+  mode = ('Win32', 'x64')
+  vcx_name = 'lib_mpir_cxx'
+  vcx_path = 'lib_mpir_cxx\\' + vcx_name + '.vcxproj'
   th = hf_list +  ('mpirxx.h',)
-  gen_filter(vcx_name + '.filters', th, cc_src_list, '')
-  gen_vcxproj(proj_name, vcx_name, config, mode, False, True, th, cc_src_list, '')
+  gen_filter(vcx_path + '.filters', th, cc_src_list, '')
+  gen_vcxproj(proj_name, vcx_path, config, mode, False, True, th, cc_src_list, '')
+  add_proj_to_sln(vcx_name, vcx_path)
   
 exit()
 
