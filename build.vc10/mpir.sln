@@ -1,6 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lib_mpir_p0", "lib_mpir_p0\lib_mpir_p0.vcxproj", "{D23212DB-383F-65BB-B92F-648E049EE554}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lib_mpir_p0", "lib_mpir_p0\lib_mpir_p0.vcxproj", "{fa9b5512-be3a-11e1-8082-b8ac6f6d3c92}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lib_mpir_p3", "lib_mpir_p3\lib_mpir_p3.vcxproj", "{A5594D6C-40E7-C777-D81B-17D6D4AEBF2D}"
 EndProject
@@ -8,7 +8,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lib_mpir_p4", "lib_mpir_p4\
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "dll_mpir_p4", "dll_mpir_p4\dll_mpir_p4.vcxproj", "{A0832A87-AB44-4D2D-1CD1-7D9E8D2FD0A0}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "dll_mpir_p0", "dll_mpir_p0\dll_mpir_p0.vcxproj", "{B1AA7FB8-FA36-CB7B-9414-D72F4199C045}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "dll_mpir_p0", "dll_mpir_p0\dll_mpir_p0.vcxproj", "{fa89eff0-be3a-11e1-9e97-b8ac6f6d3c92}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "dll_mpir_p3", "dll_mpir_p3\dll_mpir_p3.vcxproj", "{48A139F6-8E5F-C7C1-9C65-6D12769DFE45}"
 EndProject
