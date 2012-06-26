@@ -177,6 +177,9 @@ MA 02111-1307, USA. */
 /* Define if you have the `read_real_time' function. */
 #undef HAVE_READ_REAL_TIME
 
+#define HAVE_SIGNAL         1
+#define HAVE_SIGNAL_H       1
+
 /* Define if you have the `sigaction' function. */
 #undef HAVE_SIGACTION
 
