@@ -1,3 +1,4 @@
+; GLOBAL_FUNC(rsh_divrem_hensel_qr_1_2)
 
 ;  Copyright 2009 Jason Moxham
 ;

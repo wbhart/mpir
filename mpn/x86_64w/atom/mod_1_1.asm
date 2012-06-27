@@ -1,3 +1,4 @@
+; GLOBAL_FUNC(mod_1_1)
 
 ;  Copyright 2009 Jason Moxham
 ;

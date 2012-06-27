@@ -1,3 +1,4 @@
+; GLOBAL_FUNC(iorn_n)
 
 ;  Version 1.0.4
 ;

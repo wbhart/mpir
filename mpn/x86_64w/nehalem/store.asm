@@ -1,3 +1,4 @@
+; GLOBAL_FUNC(store)
 
 ;  mpn_store
 

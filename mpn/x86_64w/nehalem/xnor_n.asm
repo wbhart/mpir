@@ -1,3 +1,4 @@
+; GLOBAL_FUNC(xnor_n)
 
 ;  mpn_xnor_n
 

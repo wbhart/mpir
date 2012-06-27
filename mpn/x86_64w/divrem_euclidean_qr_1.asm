@@ -1,3 +1,4 @@
+; GLOBAL_FUNC(divrem_euclidean_qr_1)
 
 ;  x86-64 mpn_divrem_euclidean_qr_1 -- mpn by limb division.
 
@@ -26,6 +27,8 @@
 ;	mp_limb_t mpn_preinv_divrem_1(mp_ptr, mp_size_t, mp_ptr, mp_size_t, mp_limb_t, mp_limb_t,     int)
 ;   rax                              rdi        rsi     rdx        rcx         r8         r9   8(rsp)
 ;   rax                              rcx        rdx      r8         r9   [rsp+40]   [rsp+48] [rsp+56]
+
+; PROLOGUE(mpn_euclidean_qr_1)
 
 %include 'yasm_mac.inc'
 

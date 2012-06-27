@@ -1,3 +1,4 @@
+; GLOBAL_FUNC(add_err1_n)
 
 ;  Copyright (C) 2009, David Harvey
 ;
@@ -31,6 +32,8 @@
 ;  mp_limb_t mpn_sub_err1_n(mp_ptr, mp_ptr, mp_ptr, mp_ptr, mp_ptr, mp_size_t, mp_limb_t)
 ;  rax                         rdi     rsi     rdx     rcx       r8        r9     8(rsp)
 ;  rax                         rcx     rdx      r8      r9 [rsp+40]  [rsp+48]   [rsp+56]
+
+; PROLOGUE(mpn_add_err1_n)
 
 %include "yasm_mac.inc"
 

@@ -1,3 +1,4 @@
+; GLOBAL_FUNC(not)
 
 ;  Copyright 2011 The Code Cavern  
 ;

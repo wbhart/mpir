@@ -1,3 +1,4 @@
+; GLOBAL_FUNC(divrem_euclidean_qr_2)
 
 ;  Copyright 2008 Jason Moxham
 ;
@@ -21,6 +22,8 @@
 ;  mp_limb_t mpn_divrem_euclidean_qr_2(mp_ptr, mp_ptr, mp_size_t, mp_limb_t)
 ;  rax                                    rdi     rsi        rdx        rcx
 ;  rax                                    rcx     rdx         r8         r9
+
+; PROLOGUE(mpn_divrem_euclidean_qr_2)
 
 %include "yasm_mac.inc"
 

@@ -1,3 +1,4 @@
+; GLOBAL_FUNC(lshift2)
 
 ;  Copyright 2009 Jason Moxham
 ;

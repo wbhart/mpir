@@ -1,3 +1,4 @@
+; GLOBAL_FUNC(addadd_n)
 ;        
 ;  Copyright 2011 The Code Cavern
 ;

@@ -1,3 +1,4 @@
+; GLOBAL_FUNC(divexact_by3c)
 
 ; Version 1.0.4.
 ;
@@ -21,6 +22,8 @@
 ;  mp_limb_t  mpn_divexact_by3(mp_ptr, mp_ptr, mp_size_t)
 ;  rax                            rdi     rsi        rdx        rcx
 ;  rax                            rcx     rdx         r8         r9
+
+; PROLOGUE(mpn_divexact_by3c)
 
 %include "yasm_mac.inc"
 

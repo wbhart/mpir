@@ -1,3 +1,4 @@
+; GLOBAL_FUNC(popcount)
 
 ;  AMD64 mpn_popcount
 ;  Copyright 2009 Jason Moxham

@@ -1,3 +1,4 @@
+; GLOBAL_FUNC(redc_1)
 
 ;  Copyright 2009 Jason Moxham
 ;

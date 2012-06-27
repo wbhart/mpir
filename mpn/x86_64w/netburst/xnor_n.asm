@@ -1,3 +1,4 @@
+; GLOBAL_FUNC(xnor_n)
 
 ;  Version 1.0.4
 ;

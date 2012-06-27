@@ -1,3 +1,4 @@
+; GLOBAL_FUNC(karasub)
 ;  mpn_karasub  
 ;       
 ;  Copyright 2011 The Code Cavern  

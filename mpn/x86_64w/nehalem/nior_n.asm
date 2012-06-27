@@ -1,3 +1,4 @@
+; GLOBAL_FUNC(nior_n)
 
 ;  mpn_nior_n
 

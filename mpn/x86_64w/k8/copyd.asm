@@ -1,3 +1,4 @@
+; GLOBAL_FUNC(copyd)
 
 ;  Copyright 2009 Jason Moxham
 ;

@@ -1,3 +1,4 @@
+; GLOBAL_FUNC(nior_n)
 ;  Version 1.0.4
 ;
 ;  Copyright 2008 Jason Moxham

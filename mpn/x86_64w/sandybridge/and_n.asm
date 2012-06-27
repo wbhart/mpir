@@ -1,3 +1,4 @@
+; GLOBAL_FUNC(and_n)
 
 ;  mpn_and_n
 

@@ -1,3 +1,4 @@
+; GLOBAL_FUNC(mul_1)
 ;
 ;  Copyright 2008 Jason Moxham
 ;

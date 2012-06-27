@@ -1,3 +1,4 @@
+; GLOBAL_FUNC(copyi)
 
 ;  mpn_copyi
 

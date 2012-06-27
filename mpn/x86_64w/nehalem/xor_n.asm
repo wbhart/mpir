@@ -1,3 +1,4 @@
+; GLOBAL_FUNC(xor_n)
 
 ;  mpn_xor_n
 

@@ -1,3 +1,4 @@
+; GLOBAL_FUNC(divexact_byfobm1)
 
 ;  Copyright 2008 Jason Moxham and Brian Gladman
 ;
@@ -20,6 +21,8 @@
 ;  mp_limb_t mpn_divexact_byfobm1(mp_ptr, mp_ptr, mp_size_t, mp_limb_t, mp_limb_t)
 ;  rax                             rdi     rsi        rdx        rcx         r8  
 ;  rax                             rcx     rdx         r8         r9   [rsp+40]
+
+; PROLOGUE(mpn_divexact_byfobm1)
 
 %include "yasm_mac.inc"
 

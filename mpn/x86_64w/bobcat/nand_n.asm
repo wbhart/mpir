@@ -1,3 +1,4 @@
+; GLOBAL_FUNC(nand_n)
 ;  Copyright 2008 Jason Moxham
 ;
 ;  Windows Conversion Copyright 2008 Brian Gladman

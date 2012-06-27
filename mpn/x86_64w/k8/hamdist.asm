@@ -1,3 +1,4 @@
+; GLOBAL_FUNC(hamdist)
 
 ;  mpn_hamdist
 

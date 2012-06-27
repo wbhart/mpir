@@ -1,3 +1,4 @@
+; GLOBAL_FUNC(add_n)
 
 ;  Version 1.0.3.
 ;

@@ -1,3 +1,4 @@
+; GLOBAL_FUNC(store)
 
 ;  Copyright 2009 Jason Moxham
 ;

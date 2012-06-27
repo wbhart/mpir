@@ -1,3 +1,4 @@
+; GLOBAL_FUNC(addlsh_n)
 
 ;  Copyright 2009 Jason Moxham
 ;

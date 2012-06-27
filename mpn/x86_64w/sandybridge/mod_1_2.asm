@@ -1,3 +1,4 @@
+; GLOBAL_FUNC(mod_1_2)
 
 ;  Copyright 2011 The Code Cavern  
 ;

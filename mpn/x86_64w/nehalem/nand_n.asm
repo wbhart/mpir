@@ -1,3 +1,4 @@
+; GLOBAL_FUNC(nand_n)
 
 ;  mpn_nand_n
 

@@ -1,3 +1,4 @@
+; GLOBAL_FUNC(hamdist)
 ;
 ;  Copyright 2008 Jason Moxham
 ;

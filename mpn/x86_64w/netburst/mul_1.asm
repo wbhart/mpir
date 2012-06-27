@@ -1,3 +1,4 @@
+; GLOBAL_FUNC(mul_1)
 
 ; Version 1.0.3.
 ;

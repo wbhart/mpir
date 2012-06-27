@@ -1,3 +1,4 @@
+; GLOBAL_FUNC(udiv_qrnnd)
 
 ;  Copyright 2008 Brian Gladman
 ;

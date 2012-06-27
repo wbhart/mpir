@@ -1,3 +1,4 @@
+; GLOBAL_FUNC(popcount)
 
 ;  AMD64 mpn_popcount
 ;

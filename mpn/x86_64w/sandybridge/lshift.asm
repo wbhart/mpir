@@ -1,3 +1,4 @@
+; GLOBAL_FUNC(lshift)
 
 ;  Version 1.0.4.
 ;

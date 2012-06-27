@@ -1,3 +1,4 @@
+; GLOBAL_FUNC(popcount)
 
 ;  mpn_popcount
 

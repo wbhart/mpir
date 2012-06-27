@@ -1,3 +1,4 @@
+; GLOBAL_FUNC(half)
 
 ;  Copyright 2009 Jason Moxham
 ;

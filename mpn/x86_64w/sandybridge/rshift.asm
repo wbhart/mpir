@@ -1,3 +1,4 @@
+; GLOBAL_FUNC(rshift)
 
 ;  Version 1.0.4.
 ;

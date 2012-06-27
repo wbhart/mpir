@@ -1,3 +1,4 @@
+; GLOBAL_FUNC(lshift4)
 
 ;  mpn_lshift4
 

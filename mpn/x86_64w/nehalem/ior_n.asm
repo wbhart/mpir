@@ -1,3 +1,4 @@
+; GLOBAL_FUNC(ior_n)
 
 ;  mpn_ior_n
 

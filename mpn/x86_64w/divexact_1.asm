@@ -1,3 +1,4 @@
+; GLOBAL_FUNC(divexact_1)
 
 ;  Copyright 1999, 2000, 2001, 2002 Free Software Foundation, Inc.
 ;
@@ -27,6 +28,8 @@
 ;  void mpn_divexact_1(mp_ptr, mp_ptr, mp_size_t, mp_limb_t)
 ;                         rdi     rsi        rdx        rcx
 ;                         rcx     rdx         r8         r9
+
+; PROLOGUE(mpn_divexact_1)
 
 %include "yasm_mac.inc"
 

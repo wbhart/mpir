@@ -1,3 +1,4 @@
+; GLOBAL_FUNC(com_n)
 
 ;  mpn_com_n
 

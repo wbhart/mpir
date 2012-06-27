@@ -1,3 +1,4 @@
+; GLOBAL_FUNC(add_err2_n)
 ;
 ;  AMD64 mpn_add_err2_n, mpn_sub_err2_n
 ;
@@ -34,6 +35,8 @@
 ;  mp_limb_t mpn_sub_err2_n (mp_ptr, mp_ptr, mp_ptr, mp_ptr, mp_ptr,  mp_ptr, mp_size_t, mp_limb_t);
 ;  rax                          rdi     rsi     rdx     rcx       r8      r9     8(rsp)    16(rsp)
 ;  rax                          rcx     rdx      r8      r9 [rsp+40] [rsp+48]  [rsp+56]   [rsp+64]
+
+; PROLOGUE(mpn_adderr2_n)
 
 %include "yasm_mac.inc"
 

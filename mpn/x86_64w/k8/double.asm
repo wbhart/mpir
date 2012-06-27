@@ -1,3 +1,4 @@
+; GLOBAL_FUNC(double)
 
 ;  Copyright 2009 Jason Moxham
 ;
