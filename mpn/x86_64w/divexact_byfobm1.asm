@@ -1,4 +1,4 @@
-; GLOBAL_FUNC(divexact_byfobm1)
+; PROLOGUE(divexact_byfobm1)
 
 ;  Copyright 2008 Jason Moxham and Brian Gladman
 ;

@@ -1,4 +1,4 @@
-; GLOBAL_FUNC(divexact_byff)
+; PROLOGUE(divexact_byff)
 ;  Copyright 2009 Jason Moxham
 ;
 ;  Windows Conver11on Copyright 2009 Brian Gladman

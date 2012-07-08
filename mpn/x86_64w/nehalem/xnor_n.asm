@@ -1,4 +1,4 @@
-; GLOBAL_FUNC(xnor_n)
+; PROLOGUE(xnor_n)
 
 ;  mpn_xnor_n
 

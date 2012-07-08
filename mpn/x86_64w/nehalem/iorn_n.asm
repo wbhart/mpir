@@ -1,4 +1,4 @@
-; GLOBAL_FUNC(iorn_n)
+; PROLOGUE(iorn_n)
 
 ;  mpn_iorn_n
 

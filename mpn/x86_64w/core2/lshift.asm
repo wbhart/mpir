@@ -1,4 +1,4 @@
-; GLOBAL_FUNC(lshift)
+; PROLOGUE(lshift)
 
 ;  Version 1.0.3.
 ;

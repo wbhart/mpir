@@ -1,4 +1,4 @@
-; GLOBAL_FUNC(nand_n)
+; PROLOGUE(nand_n)
 
 ;  mpn_nand_n
 

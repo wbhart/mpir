@@ -1,4 +1,4 @@
-; GLOBAL_FUNC(and_n)
+; PROLOGUE(and_n)
 
 ;  Version 1.0.4
 ;

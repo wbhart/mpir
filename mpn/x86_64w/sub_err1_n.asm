@@ -1,4 +1,4 @@
-; GLOBAL_FUNC(sub_err1_n)
+; PROLOGUE(sub_err1_n)
 
 ;  Copyright (C) 2009, David Harvey
 ;

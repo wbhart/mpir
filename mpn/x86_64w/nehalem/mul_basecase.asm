@@ -1,4 +1,4 @@
-; GLOBAL_FUNC(mul_basecase)
+; PROLOGUE(mul_basecase)
 
 ;  Copyright 2009 Jason Moxham
 ;

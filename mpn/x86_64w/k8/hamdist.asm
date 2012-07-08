@@ -1,4 +1,4 @@
-; GLOBAL_FUNC(hamdist)
+; PROLOGUE(hamdist)
 
 ;  mpn_hamdist
 

@@ -1,4 +1,4 @@
-; GLOBAL_FUNC(rshift)
+; PROLOGUE(rshift)
 
 ;  Verdxon 1.1.4.
 ;

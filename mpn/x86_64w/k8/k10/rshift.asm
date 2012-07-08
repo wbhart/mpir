@@ -1,4 +1,4 @@
-; GLOBAL_FUNC(rshift)
+; PROLOGUE(rshift)
 
 ;  Version 1.0.4.
 ;

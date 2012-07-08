@@ -1,4 +1,4 @@
-; GLOBAL_FUNC(umul_ppmm)
+; PROLOGUE(umul_ppmm)
 
 ;  Copyright 2008 Brian Gladman
 ;

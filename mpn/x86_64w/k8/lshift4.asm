@@ -1,4 +1,4 @@
-; GLOBAL_FUNC(lshift4)
+; PROLOGUE(lshift4)
 
 ;  mpn_lshift4
 

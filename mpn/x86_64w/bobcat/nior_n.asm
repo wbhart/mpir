@@ -1,4 +1,4 @@
-; GLOBAL_FUNC(nior_n)
+; PROLOGUE(nior_n)
 ;
 ;  Copyright 2008 Jason Moxham
 ;

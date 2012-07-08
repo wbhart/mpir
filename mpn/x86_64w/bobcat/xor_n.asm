@@ -1,4 +1,4 @@
-; GLOBAL_FUNC(xor_n)
+; PROLOGUE(xor_n)
 
 ;  Version 1.0.4
 ;

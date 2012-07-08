@@ -1,4 +1,4 @@
-; GLOBAL_FUNC(ior_n)
+; PROLOGUE(ior_n)
 
 ;  Version 1.0.4
 ;

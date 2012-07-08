@@ -1,4 +1,4 @@
-; GLOBAL_FUNC(com_n)
+; PROLOGUE(com_n)
 
 ;  mpn_com_n
 

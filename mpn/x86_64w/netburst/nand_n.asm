@@ -1,4 +1,4 @@
-; GLOBAL_FUNC(nand_n)
+; PROLOGUE(nand_n)
 
 ;  Version 1.0.4
 ;

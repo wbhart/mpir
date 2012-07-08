@@ -1,4 +1,4 @@
-; GLOBAL_FUNC(divrem_euclidean_qr_2)
+; PROLOGUE(divrem_euclidean_qr_2)
 
 ;  Copyright 2008 Jason Moxham
 ;

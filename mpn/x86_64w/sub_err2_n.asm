@@ -1,4 +1,4 @@
-; GLOBAL_FUNC(sub_err2_n)
+; PROLOGUE(sub_err2_n)
 ;
 ;  AMD64 mpn_add_err2_n, mpn_sub_err2_n
 ;

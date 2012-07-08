@@ -1,4 +1,4 @@
-; GLOBAL_FUNC(not)
+; PROLOGUE(not)
 
 ;  Copyright 2011 The Code Cavern  
 ;

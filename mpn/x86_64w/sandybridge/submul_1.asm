@@ -1,4 +1,4 @@
-; GLOBAL_FUNC(submul_1)
+; PROLOGUE(submul_1)
         
 ;  Copyright 2011 The Code Cavern  
 ;

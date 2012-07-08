@@ -1,4 +1,4 @@
-; GLOBAL_FUNC(add_n)
+; PROLOGUE(add_n)
 
 ;  Version 1.0.3.
 ;

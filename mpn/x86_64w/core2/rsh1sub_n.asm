@@ -1,4 +1,4 @@
-; GLOBAL_FUNC(rsh1sub_n)
+; PROLOGUE(rsh1sub_n)
 
 ;  AMD64 mpn_rsh1sub_n
 

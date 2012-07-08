@@ -1,4 +1,4 @@
-; GLOBAL_FUNC(hamdist)
+; PROLOGUE(hamdist)
 ;
 ;  Copyright 2008 Jason Moxham
 ;

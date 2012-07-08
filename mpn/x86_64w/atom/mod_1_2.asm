@@ -1,4 +1,4 @@
-; GLOBAL_FUNC(mod_1_2)
+; PROLOGUE(mod_1_2)
 
 ;  Copyright 2009 Jason Moxham
 ;

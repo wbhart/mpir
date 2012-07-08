@@ -1,4 +1,4 @@
-; GLOBAL_FUNC(sublsh1_n)
+; PROLOGUE(sublsh1_n)
 
 ;  Copyright 2009 Jason Moxham
 ;

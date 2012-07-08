@@ -1,4 +1,4 @@
-; GLOBAL_FUNC(addmul_2)
+; PROLOGUE(addmul_2)
 
 ;  Copyright 2008 Jason Moxham
 ;

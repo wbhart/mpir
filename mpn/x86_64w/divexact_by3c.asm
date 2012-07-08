@@ -1,4 +1,4 @@
-; GLOBAL_FUNC(divexact_by3c)
+; PROLOGUE(divexact_by3c)
 
 ; Version 1.0.4.
 ;

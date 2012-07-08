@@ -1,4 +1,4 @@
-; GLOBAL_FUNC(mul_1)
+; PROLOGUE(mul_1)
 ;  Copyright 2010 Jason Moxham
 ;
 ;  Windows Conversion Copyright 2010 Brian Gladman

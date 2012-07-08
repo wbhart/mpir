@@ -1,4 +1,4 @@
-; GLOBAL_FUNC(half)
+; PROLOGUE(half)
 
 ;  Copyright 2009 Jason Moxham
 ;

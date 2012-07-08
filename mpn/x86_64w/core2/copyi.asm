@@ -1,4 +1,4 @@
-; GLOBAL_FUNC(copyi)
+; PROLOGUE(copyi)
 
 ;  Copyright 2009 Jason Moxham
 ;

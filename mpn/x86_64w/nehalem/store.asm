@@ -1,4 +1,4 @@
-; GLOBAL_FUNC(store)
+; PROLOGUE(store)
 
 ;  mpn_store
 

@@ -1,4 +1,4 @@
-; GLOBAL_FUNC(mulmid_basecase)
+; PROLOGUE(mulmid_basecase)
 ;
 ;  AMD64 mpn_mulmid_basecase
 ;

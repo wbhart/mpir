@@ -1,4 +1,4 @@
-; GLOBAL_FUNC(rshift1)
+; PROLOGUE(rshift1)
 ;  Version 1.0.4.
 ;
 ;  Copyright 2008 Jason Moxham

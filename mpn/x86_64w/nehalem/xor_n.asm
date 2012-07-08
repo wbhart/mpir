@@ -1,4 +1,4 @@
-; GLOBAL_FUNC(xor_n)
+; PROLOGUE(xor_n)
 
 ;  mpn_xor_n
 

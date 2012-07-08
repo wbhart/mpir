@@ -1,4 +1,4 @@
-; GLOBAL_FUNC(copyd)
+; PROLOGUE(copyd)
 
 ;  mpn_copyd
 

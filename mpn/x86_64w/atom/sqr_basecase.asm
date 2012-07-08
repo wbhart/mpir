@@ -1,4 +1,4 @@
-; GLOBAL_FUNC(sqr_basecase)
+; PROLOGUE(sqr_basecase)
 
 ;  Version 1.0L5
 ;

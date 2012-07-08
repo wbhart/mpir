@@ -1,4 +1,4 @@
-; GLOBAL_FUNC(subadd_n)
+; PROLOGUE(subadd_n)
 
 ;  Copyright 2009 Jason Moxham
 ;

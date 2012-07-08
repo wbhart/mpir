@@ -1,4 +1,4 @@
-; GLOBAL_FUNC(popcount)
+; PROLOGUE(popcount)
 
 ;  mpn_popcount
 

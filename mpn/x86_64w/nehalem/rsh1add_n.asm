@@ -1,4 +1,4 @@
-; GLOBAL_FUNC(rsh1add_n)
+; PROLOGUE(rsh1add_n)
 
 ;  Copyright 2009 Jason Moxham
 ;

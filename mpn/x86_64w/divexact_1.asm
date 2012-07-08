@@ -1,4 +1,4 @@
-; GLOBAL_FUNC(divexact_1)
+; PROLOGUE(divexact_1)
 
 ;  Copyright 1999, 2000, 2001, 2002 Free Software Foundation, Inc.
 ;

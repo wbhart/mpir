@@ -1,4 +1,4 @@
-; GLOBAL_FUNC(lshift6)
+; PROLOGUE(lshift6)
 
 ;  mpn_lshift6
 

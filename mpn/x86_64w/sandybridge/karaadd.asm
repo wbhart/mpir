@@ -1,4 +1,4 @@
-; GLOBAL_FUNC(karaadd)
+; PROLOGUE(karaadd)
 ;  mpn_karaadd  
 ;       
 ;  Copyright 2011 The Code Cavern  
