@@ -23,8 +23,6 @@
 ;  rax                            rdi     rsi        rdx        rcx
 ;  rax                            rcx     rdx         r8         r9
 
-; PROLOGUE(mpn_divexact_by3c)
-
 %include "yasm_mac.inc"
 
     BITS 64

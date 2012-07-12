@@ -33,8 +33,6 @@
 ;  rax                         rdi     rsi     rdx     rcx       r8        r9     8(rsp)
 ;  rax                         rcx     rdx      r8      r9 [rsp+40]  [rsp+48]   [rsp+56]
 
-; PROLOGUE(mpn_add_err1_n)
-
 %include "yasm_mac.inc"
 
 %define reg_save_list   rbx, rsi, rdi, rbp, r12

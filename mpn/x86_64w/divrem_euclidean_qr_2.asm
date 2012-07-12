@@ -23,8 +23,6 @@
 ;  rax                                    rdi     rsi        rdx        rcx
 ;  rax                                    rcx     rdx         r8         r9
 
-; PROLOGUE(mpn_divrem_euclidean_qr_2)
-
 %include "yasm_mac.inc"
 
 %define reg_save_list rbx, rsi, rdi, rbp, r12, r13, r14, r15

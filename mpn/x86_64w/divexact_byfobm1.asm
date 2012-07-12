@@ -22,8 +22,6 @@
 ;  rax                             rdi     rsi        rdx        rcx         r8  
 ;  rax                             rcx     rdx         r8         r9   [rsp+40]
 
-; PROLOGUE(mpn_divexact_byfobm1)
-
 %include "yasm_mac.inc"
 
 %define CARRY_OUT

@@ -24,8 +24,6 @@
 ;  rax                       rdi        rsi     rdx        rcx       r8
 ;  rax                       rcx        rdx      r8         r9 [rsp+40]
 
-; PROLOGUE(mpn_divrem_2)
-
 %include 'yasm_mac.inc'
 
     BITS 64
