@@ -46,6 +46,18 @@ int mpn_mulmod_2expp1(mp_ptr r, mp_srcptr i1, mp_srcptr i2, mp_size_t n, mp_size
 
    mp_limb_t c = 2 * i1[limbs] + i2[limbs];
    
+   if (c & 1)
+   {
+      mpn_neg_n(r, i1, limbs + 1);
+      mpn_normmod_2expp1(r, limbs);
+      return 0;
+   } else if (c & 2)
+   {
+      mpn_neg_n(r, i2, limbs + 1);
+      mpn_normmod_2expp1(r, limbs);
+      return 0;
+   }
+
    if (limbs <= FFT_MULMOD_2EXPP1_CUTOFF) 
    {
        if(bits)
@@ -63,16 +75,6 @@ int mpn_mulmod_2expp1(mp_ptr r, mp_srcptr i1, mp_srcptr i2, mp_size_t n, mp_size
    w1 = bits/(((mp_limb_t)1)<<(2*depth1));
 
    fft_mulmod_2expp1(r, i1, i2, limbs, depth1, w1);
-
-   if (c & 1)
-   {
-      mpn_neg_n(r, i1, limbs + 1);
-      mpn_normmod_2expp1(r, limbs);
-   } else if (c & 2)
-   {
-      mpn_neg_n(r, i2, limbs + 1);
-      mpn_normmod_2expp1(r, limbs);
-   }
 
    return r[limbs];
 }
