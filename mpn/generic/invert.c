@@ -28,6 +28,7 @@ MA 02110-1301, USA. */
 #include "mpir.h"
 #include "gmp-impl.h"
 #include "longlong.h"
+#include "fft/fft_tuning.h"
 
 #define ZERO (mp_limb_t) 0
 #define ONE  (mp_limb_t) 1
@@ -151,11 +152,11 @@ mpn_invert (mp_ptr xp, mp_srcptr ap, mp_size_t n)
           mpir_ui k;
           int cc;
 
-          k = mpn_fft_best_k (m, 0);
-          m = mpn_fft_next_size (m, k);
+          if (m >= FFT_MULMOD_2EXPP1_CUTOFF)
+             m = fft_adjust_limbs (m);
           /* we have m >= n + 1 by construction, thus m > h */
           ASSERT(m < n + h);
-          cy = mpn_mul_fft (tp, m, ap, n, xp + l, h, k);
+          cy = mpn_mulmod_Bexpp1_fft (tp, m, ap, n, xp + l, h);
           /* cy, {tp, m} = A * {xp + l, h} mod (B^m+1) */
           cy += mpn_add_n (tp + h, tp + h, ap, m - h);
           cc = mpn_sub_n (tp, tp, ap + m - h, n + h - m);

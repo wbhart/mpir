@@ -1421,6 +1421,11 @@ int mpn_mul_fft _PROTO ((mp_ptr op, mp_size_t pl,
                           mp_srcptr m, mp_size_t ml,
                           int k));
 
+#define mpn_mulmod_Bexpp1_fft __MPN(mulmod_Bexpp1_fft)
+int mpn_mulmod_Bexpp1_fft _PROTO ((mp_ptr op, mp_size_t pl,
+	     mp_srcptr n, mp_size_t nl,
+	     mp_srcptr m, mp_size_t ml));
+
 #define mpn_mul_fft_full  __MPN(mul_fft_full)
 void mpn_mul_fft_full _PROTO ((mp_ptr op,
                                mp_srcptr n, mp_size_t nl,

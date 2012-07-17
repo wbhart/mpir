@@ -210,3 +210,34 @@ mpir_si fft_adjust_limbs(mp_size_t limbs)
 
    return limbs;
 }
+
+int
+mpn_mulmod_Bexpp1_fft (mp_ptr op, mp_size_t pl,
+	     mp_srcptr n, mp_size_t nl,
+	     mp_srcptr m, mp_size_t ml)
+{
+   mp_ptr a, b, tt;
+   mp_limb_t cy;
+
+   TMP_DECL;
+   TMP_MARK;
+
+   /* temporary space */
+   tt = TMP_ALLOC_LIMBS(2*pl);
+   
+   /* make copies of inputs, padded out to pl limbs */
+   a = TMP_ALLOC_LIMBS(pl + 1);
+   mpn_copyi(a, n, nl);
+   MPN_ZERO(a + nl, pl + 1 - nl);
+   
+   b = TMP_ALLOC_LIMBS(pl + 1);
+   mpn_copyi(b, m, ml);
+   MPN_ZERO(b + ml, pl + 1 - ml);
+   
+   /* this function only cares about the product, limbs = pl*GMP_LIMB_BITS */
+   cy = mpn_mulmod_2expp1(op, a, b, pl, GMP_LIMB_BITS, tt);
+   
+   TMP_FREE;
+
+   return cy;
+}
