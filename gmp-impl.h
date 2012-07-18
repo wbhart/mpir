@@ -1412,27 +1412,10 @@ void mpn_toom8_sqr_n _PROTO((mp_ptr, mp_srcptr, mp_size_t));
 #define   mpn_toom42_mulmid __MPN(toom42_mulmid)
 __GMP_DECLSPEC void      mpn_toom42_mulmid __GMP_PROTO ((mp_ptr, mp_srcptr, mp_srcptr, mp_size_t, mp_ptr));
 
-#define mpn_fft_best_k __MPN(fft_best_k)
-int     mpn_fft_best_k _PROTO ((mp_size_t n, int sqr)) ATTRIBUTE_CONST;
-
-#define mpn_mul_fft  __MPN(mul_fft)
-int mpn_mul_fft _PROTO ((mp_ptr op, mp_size_t pl,
-                          mp_srcptr n, mp_size_t nl,
-                          mp_srcptr m, mp_size_t ml,
-                          int k));
-
 #define mpn_mulmod_Bexpp1_fft __MPN(mulmod_Bexpp1_fft)
 int mpn_mulmod_Bexpp1_fft _PROTO ((mp_ptr op, mp_size_t pl,
 	     mp_srcptr n, mp_size_t nl,
 	     mp_srcptr m, mp_size_t ml));
-
-#define mpn_mul_fft_full  __MPN(mul_fft_full)
-void mpn_mul_fft_full _PROTO ((mp_ptr op,
-                               mp_srcptr n, mp_size_t nl,
-                               mp_srcptr m, mp_size_t ml));
-
-#define   mpn_fft_next_size __MPN(fft_next_size)
-mp_size_t mpn_fft_next_size _PROTO ((mp_size_t pl, int k)) ATTRIBUTE_CONST;
 
 #define DC_DIVAPPR_Q_N_ITCH(n) ((n)*4 + 64)
 #define DC_BDIV_Q_N_ITCH(n) ((n)/2 + 2)
