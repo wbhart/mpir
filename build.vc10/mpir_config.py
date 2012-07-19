@@ -34,6 +34,7 @@ from sys import exit
 from filecmp import cmp
 from shutil import copy
 from re import compile, search, ASCII
+from collections import defaultdict
 from uuid import uuid1
 
 # either add a prebuild step to the project files or do it here
@@ -169,7 +170,7 @@ def find_asm(path, cf_list):
       d[k][i].sort(key=itemgetter(0))   # sort the four file lists
   return d
 
-# create 4 lists of c, h, cc (or cpp) and asm (or as) in a directory
+# create 4 lists of c, h, cc (or cpp) and asm (or as) files in a directory
 
 def find_src(dir_list):
   # list number from file extension
@@ -187,6 +188,8 @@ def find_src(dir_list):
     x.sort(key=itemgetter(2, 0, 1))     # add it to appropriate list
   return list
 
+# scan the files in the input set and find the symbols
+# defined in the files
 fr_sym = compile(r'LEAF_PROC\s+(\w+)', ASCII)
 lf_sym = compile(r'FRAME_PROC\s+(\w+)', ASCII)
 wf_sym = compile(r'WIN64_GCC_PROC\s+(\w+)', ASCII)
@@ -201,23 +204,23 @@ def get_symbols(setf, sym_dir):
       for l in lines:
         m = fr_sym.search(l)
         if m:
-          sym_dir[f] = sym_dir.get(f, set()) | set((m.groups(1)[0],))
+          sym_dir[f] |= set((m.groups(1)[0],))
         m = lf_sym.search(l)
         if m:
-          sym_dir[f] = sym_dir.get(f, set()) | set((m.groups(1)[0],))
+          sym_dir[f] |= set((m.groups(1)[0],))
         m = wf_sym.search(l)
         if m:
-          sym_dir[f] = sym_dir.get(f, set()) | set((m.groups(1)[0],))
+          sym_dir[f] |= set((m.groups(1)[0],))
         m = g3_sym.search(l)
         if m:
-          sym_dir[f] = sym_dir.get(f, set()) | set((m.groups(1)[0],))
+          sym_dir[f] |= set((m.groups(1)[0],))
         else:
           m = g2_sym.search(l)
           if m:
-            sym_dir[f] = sym_dir.get(f, set()) | set((m.groups(1)[0],))
+            sym_dir[f] |= set((m.groups(1)[0],))
           
 def file_symbols(cf):
-  sym_dir = dict()  
+  sym_dir = defaultdict(set)  
   for c in cf:
     if c == 'fat':
       continue
@@ -619,6 +622,8 @@ def gen_vcxproj(proj_name, file_name, guid, config, plat, is_dll, is_cpp, hf_lis
       outf.write(f4)
     outf.write(f5)
 
+# add a project file to the solution
+
 def add_proj_to_sln(proj_name, file_name, guid):
   
   f6 = r'''Project("{0:s}") = "{1:s}", "{2:s}", "{3:s}"
@@ -700,6 +705,7 @@ mpn_32 = find_asm(mpir_dir + 'mpn/x86w', gc_src_list)
 syms32 = file_symbols(mpn_32)
 gen_have_lists(mpn_32, syms32)
 del mpn_32['']
+
 # prepare the list of x64 builds
 mpn_64 = find_asm(mpir_dir + 'mpn/x86_64w', gc_src_list)
 syms64 = file_symbols(mpn_64)
@@ -847,7 +853,8 @@ if not add_prebuild:
     print('error attempting to generate longlong.h')
     exit()
   
-# generate vcxproj filter
+# generate the vcxproj and the IDE filter files
+# and add/replace project in the solution file
 
 hf_list = ('config.h', 'gmp-impl.h', 'longlong.h', 'mpir.h', 'gmp-mparam.h')
 af_list = sorted(mpn_f[2] + mpn_f[3]) 

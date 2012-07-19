@@ -5,9 +5,9 @@ Building MPIR with Microsoft Visual Studio 2010
 A Note On Licensing
 ===================
 
-Files in this distribution that have been created by me for use in 
-building MPIR with Microsoft Visual Studio 2010 are provided under 
-the terms of the LGPL v2.1+ license.
+Files in this distribution that have been created for use in building 
+MPIR with Microsoft Visual Studio 2010 are provided under the terms of
+the LGPL v2.1+ license.
 
 The MPIR library uses numerous files which are LGPL v3+ and so the 
 overall license of the library distribution is LGPL v3+.  Some of 
@@ -16,10 +16,9 @@ the demos are GPL.
 Using the Assembler Based Build Projects
 ========================================
 
-If you wish to use the assembler files you will need VSYASM, a 
-version of YASM x86/x64 assembler tailored specifically for use with
-Microsoft Visual Studio 2010.  You will need a recent revision of 
-YASM from:
+If you wish to use the assembler files you will need VSYASM, a version 
+of YASM x86/x64 assembler tailored specifically for use with Microsoft 
+Visual Studio 2010.  You will need a recent revision of YASM from:
 
   http://www.tortall.net/projects/yasm/
 
@@ -50,7 +49,14 @@ Building MPIR
 =============
 
 The MPIR build is started by opening the Visual Studio C/C++ solution 
-file 'mpir.sln' in the build.vc10 directory.
+file 'mpir.sln' in the build.vc10 directory.  
+
+It will be assumed here that the MPIR root directory is named 'mpir' so 
+that the build directory is mpir\build.vc10.  The output directories
+for builds are:
+
+    mpir\lib   for static libraries
+    mpir\dll   for dynamic link libraries(DLL)
 
 MPIR is built by using the appropriate build projects and, where
 appropriate, setting the build configuration and platform:
@@ -92,11 +98,22 @@ The supported platforms and library formats are as follows:
 Before any of these libraries is built the appropriate MPIR configuration
 file is generated and copied into config.h.  After a static library is 
 built its config.h file is copied into the output directory; the library 
-and its associated files are then copied to the 'lib' sub-directory 
-within the VC++ solution folder (build.vc10). Simlarly when a DLL is 
-built, the resulting DLL, its export libraries and its debug symbol file
-are copied to the files mpir.dll, mpir.exp, mpir.lib and mpir.pdb within 
-the 'dll' sub-directory.
+and its associated files are then copied to the appropriate sub-directory
+in the 'mpir\lib' sub-directory:
+
+   mpir\lib\win32\debug
+   mpir\lib\win32\release
+   mpir\lib\x64\debug
+   mpir\lib\x64\release
+
+Simlarly when a DLL is built, the resulting DLL, its export libraries and
+its debug symbol file are copied into the appropriate subdirectory in the
+mpir\dll subdirectory:
+
+   mpir\dll\win32\debug
+   mpir\dll\win32\release
+   mpir\dll\x64\debug
+   mpir\dll\x64\release
 
 This means that the 'dll' and 'lib' sub-directories respectively contain
 the last MPIR DLLs and static libraries built.  These are then the 
@@ -149,7 +166,7 @@ Python Build File Generator
 
 Only a limited number of build configurations are supported in the 
 VC++ IDE build.  If another build is needed, other configurations 
-can be created using the program mpir_build.py (Python 2.6 or later
+can be created using the program mpir_config.py (Python 2.6 or later
 needs to be installed).
 
 When this program is run, it outputs a list of all available MPIR
@@ -158,9 +175,7 @@ creates VC++ IDE build projects for both a static library and DLL
 build for this configuaration. 
 
 These can then be added to a VC++ solution using the facilities of
-the IDE in the normal way.  The project and fillter files are named
-with the extensions *.2.vcxproj and *.2.vcxproj.filters to avoid 
-interfering with the project files already provided for VC++.
+the IDE in the normal way.
 
 The Tests
 =========
@@ -196,6 +211,10 @@ The tests also use the C++ library functions so for testing MPIR static
 libraries both the desired version of MPIR and the C++ library must be 
 built before the tests are built and run.  This is not necessary for
 MPIR DLLs as they contain the C++ routines.
+
+On multporcessoer systems Visual Studio 10 will typically run several 
+builds in parallel so it is advisable to build add-test-lib first before
+building the tests.  
 
 Test Automation
 ===============
@@ -370,7 +389,7 @@ file postbuild.bat which has the following steps:
 
 2. The final output directory is then creaated (mpir\build.vc10\lib
    or mpir\build.vc10\dll) relative to the Visual Stduio solution
-   directory (build,vc10).
+   directory (build.vc10).
    
 3. The file 'output_params.bat' is written describing the MPIR 
    configuration that has been built.  This is used to signal
