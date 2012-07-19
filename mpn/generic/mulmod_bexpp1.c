@@ -35,10 +35,9 @@ or implied, of William Hart.
 
 static mp_size_t mulmod_2expp1_table_n[FFT_N_NUM] = MULMOD_TAB;
 
-int mpn_mulmod_2expp1(mp_ptr r, mp_srcptr i1, mp_srcptr i2, mp_size_t n, mp_size_t w, mp_ptr tt)
+int mpn_mulmod_Bexpp1(mp_ptr r, mp_srcptr i1, mp_srcptr i2, mp_size_t limbs, mp_ptr tt)
 {
-   mp_size_t bits = n*w;
-   mp_size_t limbs = bits/GMP_LIMB_BITS;
+   mp_size_t bits = limbs * GMP_LIMB_BITS;
    mp_bitcnt_t depth1, depth = 1;
    mp_size_t w1, off;
 

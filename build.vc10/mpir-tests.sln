@@ -300,8 +300,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpn.neg", "mpir-tests\mpn.n
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpn.mulmod_2expm1", "mpir-tests\mpn.mulmod_2expm1\mpn.mulmod_2expm1.vcxproj", "{02338FE4-8EA2-4E5A-9BBC-8EA8F0871765}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpn.mulmod_2expp1", "mpir-tests\mpn.mulmod_2expp1\mpn.mulmod_2expp1.vcxproj", "{2C6D4AFC-84FF-46B5-86DB-26078521434C}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.trial_division", "mpir-tests\mpz.trial_division\mpz.trial_division.vcxproj", "{B47E6162-390F-46A4-B5F3-25AF63F39305}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpn.sb_divappr_q", "mpir-tests\mpn.sb_divappr_q\mpn.sb_divappr_q.vcxproj", "{C67D58A3-845E-4DF7-9D53-C68FC877992E}"
@@ -1344,12 +1342,6 @@ Global
 		{02338FE4-8EA2-4E5A-9BBC-8EA8F0871765}.Release|Win32.Build.0 = Release|Win32
 		{02338FE4-8EA2-4E5A-9BBC-8EA8F0871765}.Release|x64.ActiveCfg = Release|x64
 		{02338FE4-8EA2-4E5A-9BBC-8EA8F0871765}.Release|x64.Build.0 = Release|x64
-		{2C6D4AFC-84FF-46B5-86DB-26078521434C}.Debug|Win32.ActiveCfg = Debug|Win32
-		{2C6D4AFC-84FF-46B5-86DB-26078521434C}.Debug|x64.ActiveCfg = Debug|x64
-		{2C6D4AFC-84FF-46B5-86DB-26078521434C}.Release|Win32.ActiveCfg = Release|Win32
-		{2C6D4AFC-84FF-46B5-86DB-26078521434C}.Release|Win32.Build.0 = Release|Win32
-		{2C6D4AFC-84FF-46B5-86DB-26078521434C}.Release|x64.ActiveCfg = Release|x64
-		{2C6D4AFC-84FF-46B5-86DB-26078521434C}.Release|x64.Build.0 = Release|x64
 		{B47E6162-390F-46A4-B5F3-25AF63F39305}.Debug|Win32.ActiveCfg = Debug|Win32
 		{B47E6162-390F-46A4-B5F3-25AF63F39305}.Debug|x64.ActiveCfg = Debug|x64
 		{B47E6162-390F-46A4-B5F3-25AF63F39305}.Release|Win32.ActiveCfg = Release|Win32

@@ -1145,9 +1145,6 @@
     <ClCompile Include="..\..\mpn\generic\mulmod_2expm1.c">
       <Filter>Source Files\mpn</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\mpn\generic\mulmod_2expp1.c">
-      <Filter>Source Files\mpn</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\mpn\generic\neg_n.c">
       <Filter>Source Files\mpn</Filter>
     </ClCompile>
@@ -1278,6 +1275,9 @@
       <Filter>Source Files\mpn</Filter>
     </ClCompile>
     <ClCompile Include="..\..\mpn\generic\zero.c">
+      <Filter>Source Files\mpn</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\mpn\generic\mulmod_bexpp1.c">
       <Filter>Source Files\mpn</Filter>
     </ClCompile>
   </ItemGroup>

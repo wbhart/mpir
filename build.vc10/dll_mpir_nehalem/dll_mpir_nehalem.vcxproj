@@ -1676,7 +1676,7 @@ postbuild "$(TargetPath)"
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpn\</ObjectFileName>
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpn\</ObjectFileName>
     </ClCompile>
-    <ClCompile Include="..\..\mpn\generic\mulmod_2expp1.c">
+    <ClCompile Include="..\..\mpn\generic\mulmod_bexpp1.c">
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpn\</ObjectFileName>
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpn\</ObjectFileName>
     </ClCompile>

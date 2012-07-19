@@ -60,7 +60,7 @@ void fft_mfa_truncate_sqrt2_inner(mp_ptr * ii, mp_ptr * jj, mp_size_t n,
          mp_size_t t = i*n1 + j;
          mpn_normmod_2expp1(ii[t], limbs);
          if (ii != jj) mpn_normmod_2expp1(jj[t], limbs);
-         mpn_mulmod_2expp1(ii[t], ii[t], jj[t], n, w, tt);
+         mpn_mulmod_Bexpp1(ii[t], ii[t], jj[t], n * w / GMP_LIMB_BITS, tt);
       }      
       
       ifft_radix2(ii + i*n1, n1/2, w*n2, t1, t2);
@@ -80,7 +80,7 @@ void fft_mfa_truncate_sqrt2_inner(mp_ptr * ii, mp_ptr * jj, mp_size_t n,
          mp_size_t t = i*n1 + j;
          mpn_normmod_2expp1(ii[t], limbs);
          if (ii != jj) mpn_normmod_2expp1(jj[t], limbs);
-         mpn_mulmod_2expp1(ii[t], ii[t], jj[t], n, w, tt);
+         mpn_mulmod_Bexpp1(ii[t], ii[t], jj[t], n * w / GMP_LIMB_BITS, tt);
       }      
       
       ifft_radix2(ii + i*n1, n1/2, w*n2, t1, t2);

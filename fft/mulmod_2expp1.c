@@ -235,7 +235,7 @@ mpn_mulmod_Bexpp1_fft (mp_ptr op, mp_size_t pl,
    MPN_ZERO(b + ml, pl + 1 - ml);
    
    /* this function only cares about the product, limbs = pl*GMP_LIMB_BITS */
-   cy = mpn_mulmod_2expp1(op, a, b, pl, GMP_LIMB_BITS, tt);
+   cy = mpn_mulmod_Bexpp1(op, a, b, pl, tt);
    
    TMP_FREE;
 
