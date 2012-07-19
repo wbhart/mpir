@@ -1,3 +1,4 @@
+; PROLOGUE(sub_err1_n)
 
 ;  Copyright 2009 Jason Moxham
 ;

@@ -1,3 +1,4 @@
+; PROLOGUE(rsh1sub_n)
 
 ;  Copyright 2009 Jason Moxham
 ;

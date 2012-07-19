@@ -1,3 +1,4 @@
+; PROLOGUE(mul_basecase)
 
 ;  Copyright 2009 Jason Moxham
 ;

@@ -1,3 +1,4 @@
+; PROLOGUE(and_n)
 
 ;  mpn_and_n
 

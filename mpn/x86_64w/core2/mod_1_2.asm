@@ -1,3 +1,4 @@
+; PROLOGUE(mod_1_2)
 ;  Copyright 2011 The Code Cavern
 ;
 ;  Windows Conversion Copyright 2011 Brian Gladman

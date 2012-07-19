@@ -50,6 +50,7 @@ mpn_nior_n
 mpn_not
 mpn_popcount
 mpn_preinv_divrem_1
+mpn_redc_1
 mpn_rsh1add_n
 mpn_rsh1sub_n
 mpn_rsh_divrem_hensel_qr_1_1

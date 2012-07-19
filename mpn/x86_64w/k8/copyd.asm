@@ -1,3 +1,4 @@
+; PROLOGUE(copyd)
 
 ;  Copyright 2009 Jason Moxham
 ;

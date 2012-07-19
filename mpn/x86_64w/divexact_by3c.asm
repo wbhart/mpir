@@ -1,3 +1,4 @@
+; PROLOGUE(divexact_by3c)
 
 ; Version 1.0.4.
 ;

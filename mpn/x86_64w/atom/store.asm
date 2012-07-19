@@ -1,3 +1,4 @@
+; PROLOGUE(store)
 
 ;  Copyright 2009 Jason Moxham
 ;

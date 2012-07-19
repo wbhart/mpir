@@ -1,3 +1,4 @@
+; PROLOGUE(popcount)
 
 ;  AMD64 mpn_popcount
 ;

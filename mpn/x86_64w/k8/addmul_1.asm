@@ -1,3 +1,4 @@
+; PROLOGUE(addmul_1)
         
 ;  Copyright 2011 The Code Cavern  
 ;

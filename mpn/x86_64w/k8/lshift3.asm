@@ -1,3 +1,4 @@
+; PROLOGUE(lshift3)
 
 ;  mpn_lshift3
 

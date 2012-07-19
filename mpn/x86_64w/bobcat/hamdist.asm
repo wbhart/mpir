@@ -1,3 +1,4 @@
+; PROLOGUE(hamdist)
 ;
 ;  Copyright 2008 Jason Moxham
 ;

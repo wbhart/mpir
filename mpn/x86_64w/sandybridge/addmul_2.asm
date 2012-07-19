@@ -1,3 +1,4 @@
+; PROLOGUE(addmul_2)
 
 ;  Copyright 2008 Jason Moxham
 ;

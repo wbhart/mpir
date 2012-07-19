@@ -1,3 +1,4 @@
+; PROLOGUE(modexact_1c_odd)
 
 ;  Copyright 1999, 2000, 2001, 2002 Free Software Foundation, Inc.
 ;

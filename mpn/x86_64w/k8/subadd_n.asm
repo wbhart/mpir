@@ -1,3 +1,4 @@
+; PROLOGUE(subadd_n)
 
 ;  Copyright 2009 Jason Moxham
 ;

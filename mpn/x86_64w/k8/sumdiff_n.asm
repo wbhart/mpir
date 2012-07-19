@@ -1,3 +1,4 @@
+; PROLOGUE(sumdiff_n)
 
 ;  Version 1.0.4
 ;

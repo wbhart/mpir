@@ -1,3 +1,4 @@
+; PROLOGUE(hamdist)
 
 ;  mpn_hamdist
 

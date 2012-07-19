@@ -1,3 +1,4 @@
+; PROLOGUE(ior_n)
 
 ;  mpn_ior_n
 

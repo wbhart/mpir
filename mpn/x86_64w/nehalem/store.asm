@@ -1,3 +1,4 @@
+; PROLOGUE(store)
 
 ;  mpn_store
 

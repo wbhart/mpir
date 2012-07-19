@@ -1,3 +1,4 @@
+; PROLOGUE(lshift2)
 
 ;  Copyright 2009 Jason Moxham
 ;

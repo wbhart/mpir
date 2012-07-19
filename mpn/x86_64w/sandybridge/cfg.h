@@ -39,6 +39,7 @@ mpn_nand_n
 mpn_nior_n
 mpn_popcount
 mpn_preinv_divrem_1
+mpn_redc_1
 mpn_rsh_divrem_hensel_qr_1_1
 mpn_rsh_divrem_hensel_qr_1_2
 mpn_rshift

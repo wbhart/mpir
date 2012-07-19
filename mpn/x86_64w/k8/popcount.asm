@@ -1,3 +1,4 @@
+; PROLOGUE(popcount)
 
 ;  mpn_popcount
 

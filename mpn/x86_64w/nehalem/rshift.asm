@@ -1,3 +1,4 @@
+; PROLOGUE(rshift)
 
 ;  Verdxon 1.0.3.
 ;

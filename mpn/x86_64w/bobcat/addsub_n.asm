@@ -1,3 +1,4 @@
+; PROLOGUE(addsub_n)
 
 ;  Copyright 2009 Jason Moxham
 ;

@@ -1,3 +1,4 @@
+; PROLOGUE(not)
 
 ;  Copyright 2011 The Code Cavern  
 ;

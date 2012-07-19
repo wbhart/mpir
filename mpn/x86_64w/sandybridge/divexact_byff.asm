@@ -1,3 +1,4 @@
+; PROLOGUE(divexact_byff)
 ;  Copyright 2009 Jason Moxham
 ;
 ;  Windows Conversion Copyright 2008 Brian Gladman
