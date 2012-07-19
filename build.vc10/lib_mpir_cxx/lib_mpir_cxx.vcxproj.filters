@@ -60,4 +60,7 @@
     <Filter>Source Files\cxx</Filter>
   </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\gmp-h.in" />
+  </ItemGroup>
 </Project>

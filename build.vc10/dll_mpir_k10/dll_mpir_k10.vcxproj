@@ -13,6 +13,7 @@
   <PropertyGroup Label="Globals">
     <RootNamespace>mpir</RootNamespace>
     <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{77E2D1DB-7E23-8E19-D254-414A6B964C2B}</ProjectGuid>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
@@ -46,7 +47,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <PreBuildEvent>
       <Command>cd ..\ 
-prebuild k10 x64
+prebuild k8\k10 x64
   </Command>
     </PreBuildEvent>
     <YASM>
@@ -78,7 +79,7 @@ postbuild "$(TargetPath)"
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <PreBuildEvent>
       <Command>cd ..\ 
-prebuild k10 x64
+prebuild k8\k10 x64
   </Command>
     </PreBuildEvent>
     <YASM>
@@ -140,6 +141,110 @@ postbuild "$(TargetPath)"
     <ClCompile Include="..\..\randsdui.c" />
     <ClCompile Include="..\..\tal-reent.c" />
     <ClCompile Include="..\..\version.c" />
+    <ClCompile Include="..\..\fft\adjust.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)fft\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)fft\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\fft\adjust_sqrt2.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)fft\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)fft\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\fft\butterfly_lshB.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)fft\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)fft\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\fft\butterfly_rshB.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)fft\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)fft\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\fft\combine_bits.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)fft\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)fft\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\fft\div_2expmod_2expp1.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)fft\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)fft\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\fft\fermat_to_mpz.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)fft\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)fft\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\fft\fft_mfa_truncate_sqrt2.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)fft\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)fft\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\fft\fft_mfa_truncate_sqrt2_inner.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)fft\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)fft\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\fft\fft_negacylic.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)fft\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)fft\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\fft\fft_radix2.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)fft\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)fft\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\fft\fft_truncate.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)fft\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)fft\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\fft\fft_truncate_sqrt2.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)fft\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)fft\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\fft\ifft_mfa_truncate_sqrt2.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)fft\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)fft\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\fft\ifft_negacyclic.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)fft\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)fft\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\fft\ifft_radix2.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)fft\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)fft\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\fft\ifft_truncate.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)fft\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)fft\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\fft\ifft_truncate_sqrt2.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)fft\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)fft\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\fft\mul_2expmod_2expp1.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)fft\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)fft\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\fft\mul_fft_main.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)fft\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)fft\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\fft\mul_mfa_truncate_sqrt2.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)fft\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)fft\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\fft\mul_truncate_sqrt2.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)fft\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)fft\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\fft\mulmod_2expp1.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)fft\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)fft\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\fft\normmod_2expp1.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)fft\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)fft\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\fft\revbin.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)fft\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)fft\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\fft\split_bits.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)fft\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)fft\</ObjectFileName>
+    </ClCompile>
     <ClCompile Include="..\..\mpf\abs.c">
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpf\</ObjectFileName>
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpf\</ObjectFileName>
@@ -1564,6 +1669,10 @@ postbuild "$(TargetPath)"
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpn\</ObjectFileName>
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpn\</ObjectFileName>
     </ClCompile>
+    <ClCompile Include="..\..\mpn\generic\mulmod_2expp1_basecase.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpn\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpn\</ObjectFileName>
+    </ClCompile>
     <ClCompile Include="..\..\mpn\generic\mulmod_bexpp1.c">
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpn\</ObjectFileName>
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpn\</ObjectFileName>
@@ -1593,6 +1702,10 @@ postbuild "$(TargetPath)"
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpn\</ObjectFileName>
     </ClCompile>
     <ClCompile Include="..\..\mpn\generic\randomb.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpn\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpn\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\mpn\generic\redc_2.c">
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpn\</ObjectFileName>
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpn\</ObjectFileName>
     </ClCompile>
@@ -1820,4 +1933,7 @@ postbuild "$(TargetPath)"
   <ImportGroup Label="ExtensionTargets">
     <Import Project="..\vsyasm.targets" />
   </ImportGroup>
+  <ItemGroup>
+    <None Include="..\..\gmp-h.in" />
+  </ItemGroup>
 </Project>
