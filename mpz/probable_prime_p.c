@@ -23,8 +23,7 @@ Boston, MA 02110-1301, USA.
 #include "gmp-impl.h"
 
 int
-mpz_probable_prime_p (mpz_srcptr N, gmp_randstate_t STATE, int PROB,
-		      unsigned long td)
+mpz_probable_prime_p (mpz_srcptr N, gmp_randstate_t STATE, int PROB, mpir_ui td)
 {
   int d, t, i, r;
   mpz_t base, nm1, x, e, n;

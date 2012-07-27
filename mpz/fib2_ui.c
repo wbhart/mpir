@@ -25,7 +25,7 @@ MA 02110-1301, USA. */
 
 
 void
-mpz_fib2_ui (mpz_ptr fn, mpz_ptr fnsub1, unsigned long n)
+mpz_fib2_ui (mpz_ptr fn, mpz_ptr fnsub1, mpir_ui n)
 {
   mp_ptr     fp, f1p;
   mp_size_t  size;

@@ -26,21 +26,21 @@ MA 02110-1301, USA. */
 /* Currently bits>=BITS_PER_ULONG is quietly truncated to BITS_PER_ULONG,
    maybe this should raise an exception or something.  */
 
-unsigned long
-gmp_urandomb_ui (gmp_randstate_ptr rstate, unsigned long bits)
+mpir_ui
+gmp_urandomb_ui (gmp_randstate_ptr rstate, mpir_ui bits)
 {
-  mp_limb_t  a[LIMBS_PER_ULONG];
+  mp_limb_t  a[LIMBS_PER_UI];
 
   /* start with zeros, since if bits==0 then _gmp_rand will store nothing at
      all, or if bits <= GMP_NUMB_BITS then it will store only a[0] */
   a[0] = 0;
-#if LIMBS_PER_ULONG > 1
+#if LIMBS_PER_UI > 1
   a[1] = 0;
 #endif
 
-  _gmp_rand (a, rstate, MIN (bits, BITS_PER_ULONG));
+  _gmp_rand (a, rstate, MIN (bits, BITS_PER_UI));
 
-#if LIMBS_PER_ULONG == 1
+#if LIMBS_PER_UI == 1
   return a[0];
 #else
   return a[0] | (a[1] << GMP_NUMB_BITS);

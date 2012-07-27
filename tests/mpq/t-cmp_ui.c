@@ -50,7 +50,7 @@ mpz_intrandom2 (mpz_ptr x, gmp_randstate_t rands, mp_size_t size)
 
 
 int
-ref_mpq_cmp_ui (mpq_t a, unsigned long int bn, unsigned long int bd)
+ref_mpq_cmp_ui (mpq_t a, mpir_ui bn, mpir_ui bd)
 {
   mpz_t ai, bi;
   int cc;
@@ -78,7 +78,7 @@ main (int argc, char **argv)
   int reps = 10000;
   int i;
   int cc, ccref;
-  unsigned long int bn, bd;
+  mpir_ui bn, bd;
   gmp_randstate_t rands;
   
   tests_start ();
@@ -102,11 +102,11 @@ main (int argc, char **argv)
       while (mpz_cmp_ui (DEN (a), 0) == 0);
 
       mpz_intrandom2 (NUM (b), rands, (mp_size_t) 1);
-      mpz_mod_ui (NUM (b), NUM (b), ~(unsigned long int) 0);
+      mpz_mod_ui (NUM (b), NUM (b), ~(mpir_ui) 0);
       mpz_add_ui (NUM (b), NUM (b), 1);
 
       mpz_intrandom2 (DEN (b), rands ,(mp_size_t) 1);
-      mpz_mod_ui (DEN (b), DEN (b), ~(unsigned long int) 0);
+      mpz_mod_ui (DEN (b), DEN (b), ~(mpir_ui) 0);
       mpz_add_ui (DEN (b), DEN (b), 1);
 
       mpq_canonicalize (a);

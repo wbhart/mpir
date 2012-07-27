@@ -79,7 +79,7 @@ MA 02110-1301, USA. */
    later.  */
 
 void
-mpf_mul_ui (mpf_ptr r, mpf_srcptr u, unsigned long int v)
+mpf_mul_ui (mpf_ptr r, mpf_srcptr u, mpir_ui v)
 {
   mp_srcptr up;
   mp_size_t usize;
@@ -96,7 +96,7 @@ mpf_mul_ui (mpf_ptr r, mpf_srcptr u, unsigned long int v)
       return;
     }
 
-#if BITS_PER_ULONG > GMP_NUMB_BITS  /* avoid warnings about shift amount */
+#if BITS_PER_UI > GMP_NUMB_BITS  /* avoid warnings about shift amount */
   if (v > GMP_NUMB_MAX)
     {
       mpf_t     vf;

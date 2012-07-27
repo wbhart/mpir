@@ -56,11 +56,11 @@ MA 02110-1301, USA. */
 #define FACMUL4 CNST_LIMB(0xfffd)
 #endif /* 64 bits */
 
-static void odd_product _PROTO ((unsigned long low, unsigned long high, mpz_t * st));
-static void ap_product_small _PROTO ((mpz_t ret, mp_limb_t start, mp_limb_t step, unsigned long count, unsigned long nm));
-static void binary_splitting _PROTO ((mpz_ptr result,unsigned long int *a,unsigned long int L));
-static void large_mpz_fac_ui _PROTO ((mpz_ptr result, unsigned long int n));
-static unsigned long int ulsqrt _PROTO ((unsigned long int n));
+static void odd_product _PROTO ((mpir_ui low, mpir_ui high, mpz_t * st));
+static void ap_product_small _PROTO ((mpz_t ret, mp_limb_t start, mp_limb_t step, mpir_ui count, mpir_ui nm));
+static void binary_splitting _PROTO ((mpz_ptr result, mpir_ui *a, mpir_ui L));
+static void large_mpz_fac_ui _PROTO ((mpz_ptr result, mpir_ui n));
+static mpir_ui ulsqrt _PROTO ((mpir_ui n));
 
 /* must be >=2	*/
 #define APCONST	5
@@ -95,8 +95,8 @@ static unsigned long int ulsqrt _PROTO ((unsigned long int n));
   } while (0)
 
 
-#if BITS_PER_ULONG == BITS_PER_MP_LIMB
-#define BSWAP_ULONG(x,y)	BSWAP_LIMB(x,y)
+#if BITS_PER_UI == BITS_PER_MP_LIMB
+#define BSWAP_UI(x,y)	BSWAP_LIMB(x,y)
 #endif
 
 /* We used to have a case here for limb==2*long, doing a BSWAP_LIMB followed
@@ -105,13 +105,13 @@ static unsigned long int ulsqrt _PROTO ((unsigned long int n));
    case would have been nice for gcc ia64 where BSWAP_LIMB is a mux1, but we
    can get that directly muxing a 4-byte ulong if it matters enough.  */
 
-#if ! defined (BSWAP_ULONG)
-#define BSWAP_ULONG(dst, src)						\
+#if ! defined (BSWAP_UI)
+#define BSWAP_UI(dst, src)						\
   do {									\
-    unsigned long  __bswapl_src = (src);				\
-    unsigned long  __bswapl_dst = 0;					\
+    mpir_ui  __bswapl_src = (src);				\
+    mpir_ui  __bswapl_dst = 0;					\
     int	       __i;							\
-    for (__i = 0; __i < sizeof(unsigned long); __i++)			\
+    for (__i = 0; __i < sizeof(mpir_ui); __i++)			\
       {									\
 	__bswapl_dst = (__bswapl_dst << 8) | (__bswapl_src & 0xFF);	\
 	__bswapl_src >>= 8;						\
@@ -122,13 +122,13 @@ static unsigned long int ulsqrt _PROTO ((unsigned long int n));
 
 /* x is bit reverse of y */
 /* Note the divides below are all exact */
-#define BITREV_ULONG(x,y)						   \
+#define BITREV_UI(x,y)						   \
   do {									   \
-   unsigned long __dst;							   \
-   BSWAP_ULONG(__dst,y);						   \
-   __dst = ((__dst>>4)&(ULONG_MAX/17)) | ((__dst<<4)&((ULONG_MAX/17)*16)); \
-   __dst = ((__dst>>2)&(ULONG_MAX/5) ) | ((__dst<<2)&((ULONG_MAX/5)*4)  ); \
-   __dst = ((__dst>>1)&(ULONG_MAX/3) ) | ((__dst<<1)&((ULONG_MAX/3)*2)  ); \
+   mpir_ui __dst;							   \
+   BSWAP_UI(__dst,y);						   \
+   __dst = ((__dst>>4)&(GMP_UI_MAX/17)) | ((__dst<<4)&((GMP_UI_MAX/17)*16)); \
+   __dst = ((__dst>>2)&(GMP_UI_MAX/5) ) | ((__dst<<2)&((GMP_UI_MAX/5)*4)  ); \
+   __dst = ((__dst>>1)&(GMP_UI_MAX/3) ) | ((__dst<<1)&((GMP_UI_MAX/3)*2)  ); \
    (x) = __dst;								   \
   } while(0)
 /* above could be improved if cpu has a nibble/bit swap/muxing instruction */
@@ -137,11 +137,11 @@ static unsigned long int ulsqrt _PROTO ((unsigned long int n));
 
 
 void
-mpz_fac_ui (mpz_ptr x, unsigned long n)
+mpz_fac_ui (mpz_ptr x, mpir_ui n)
 {
-  unsigned long z, stt;
+  mpir_ui z, stt;
   int i, j;
-  mpz_t t1, st[8 * sizeof (unsigned long) + 1 - APCONST];
+  mpz_t t1, st[8 * sizeof (mpir_ui) + 1 - APCONST];
   mp_limb_t d[4];
 
   static const mp_limb_t table[] = { ONE_LIMB_FACTORIAL_TABLE };
@@ -176,13 +176,13 @@ mpz_fac_ui (mpz_ptr x, unsigned long n)
   /* so z is the number of bits wanted for st[0]    */
 
 
-  if (n <= ((unsigned long) 1) << (APCONST))
+  if (n <= ((mpir_ui) 1) << (APCONST))
     {
       mpz_realloc2 (x, 4 * z);
       ap_product_small (x, CNST_LIMB(2), CNST_LIMB(1), n - 1, 4L);
       return;
     }
-  if (n <= ((unsigned long) 1) << (APCONST + 1))
+  if (n <= ((mpir_ui) 1) << (APCONST + 1))
     {				/*  use n!=odd(1,n)*(n/2)!*2^(n/2)         */
       mpz_init2 (t1, 2 * z);
       mpz_realloc2 (x, 4 * z);
@@ -193,7 +193,7 @@ mpz_fac_ui (mpz_ptr x, unsigned long n)
       mpz_mul_2exp (x, x, n / 2);
       return;
     }
-  if (n <= ((unsigned long) 1) << (APCONST + 2))
+  if (n <= ((mpir_ui) 1) << (APCONST + 2))
     {
       /* use n!=C_2(1,n/2)^2*C_2(n/2,n)*(n/4)!*2^(n/2+n/4) all int divs
 	 so need (BITS_IN_N-APCONST+1)=(APCONST+3-APCONST+1)=4 stack entries */
@@ -232,7 +232,7 @@ mpz_fac_ui (mpz_ptr x, unsigned long n)
     }
 
   count_leading_zeros (z, (mp_limb_t) (n / 3));
-  /* find z st 2^z>n/3 range for z is 1 <= z <= 8 * sizeof(unsigned long)-1 */
+  /* find z st 2^z>n/3 range for z is 1 <= z <= 8 * sizeof(mpir_ui)-1 */
   z = GMP_LIMB_BITS - z;
 
   /*
@@ -242,11 +242,11 @@ mpz_fac_ui (mpz_ptr x, unsigned long n)
 
 
   mpz_init_set_ui (t1, 1);
-  for (j = 8 * sizeof (unsigned long) / 2; j != 0; j >>= 1)
+  for (j = 8 * sizeof (mpir_ui) / 2; j != 0; j >>= 1)
     {
       MPZ_SET_1_NZ (x, 1);
-      for (i = 8 * sizeof (unsigned long) - j; i >= j; i -= 2 * j)
-	if ((signed long) z >= i)
+      for (i = 8 * sizeof (mpir_ui) - j; i >= j; i -= 2 * j)
+	if ((mpir_si) z >= i)
 	  {
 	    odd_product (n >> i, n >> (i - 1), st);
 	    /* largest odd product when j=i=1 then we have
@@ -257,13 +257,13 @@ mpz_fac_ui (mpz_ptr x, unsigned long n)
 	      mpz_pow_ui (st[0], st[0], i / j);
 	    mpz_mul (x, x, st[0]);
 	  }
-      if ((signed long) z >= j && j != 1)
+      if ((mpir_si) z >= j && j != 1)
 	{
 	  mpz_mul (t1, t1, x);
 	  mpz_mul (t1, t1, t1);
 	}
     }
-  for (i = 0; i < (signed long) stt; i++)
+  for (i = 0; i < (mpir_si) stt; i++)
     mpz_clear (st[i]);
   mpz_mul (x, x, t1);
   mpz_clear (t1);
@@ -272,15 +272,15 @@ mpz_fac_ui (mpz_ptr x, unsigned long n)
   return;
 }
 
-/* start,step are mp_limb_t although they will fit in unsigned long	*/
+/* start,step are mp_limb_t although they will fit in mpir_ui	*/
 static void
 ap_product_small (mpz_t ret, mp_limb_t start, mp_limb_t step,
-		  unsigned long count, unsigned long nm)
+		  mpir_ui count, mpir_ui nm)
 {
-  unsigned long a;
+  mpir_ui a;
   mp_limb_t b;
 
-  ASSERT (count <= (((unsigned long) 1) << APCONST));
+  ASSERT (count <= (((mpir_ui) 1) << APCONST));
 /* count can never be zero ? check this and remove test below */
   if (count == 0)
     {
@@ -362,10 +362,10 @@ ap_product_small (mpz_t ret, mp_limb_t start, mp_limb_t step,
    so st[0] needs enough bits for above, st[1] needs half these bits and
    st[2] needs 1/4 of these bits etc	*/
 static void
-odd_product (unsigned long low, unsigned long high, mpz_t * st)
+odd_product (mpir_ui low, mpir_ui high, mpz_t * st)
 {
-  unsigned long stc = 1, stn = 0, n, y, mask, a, nm = 1;
-  signed long z;
+  mpir_ui stc = 1, stn = 0, n, y, mask, a, nm = 1;
+  mpir_si z;
 
   low++;
   if (low % 2 == 0)
@@ -395,8 +395,8 @@ odd_product (unsigned long low, unsigned long high, mpz_t * st)
 	    nm = 4;
 	}
     }
-  high = (high - low) / 2 + 1;	/* high is now count,high<=2^(BITS_PER_ULONG-1) */
-  if (high <= (((unsigned long) 1) << APCONST))
+  high = (high - low) / 2 + 1;	/* high is now count,high<=2^(BITS_PER_UI-1) */
+  if (high <= (((mpir_ui) 1) << APCONST))
     {
       ap_product_small (st[0], (mp_limb_t) low, CNST_LIMB(2), high, nm);
       return;
@@ -404,19 +404,19 @@ odd_product (unsigned long low, unsigned long high, mpz_t * st)
   count_leading_zeros (n, (mp_limb_t) high);
 /* assumes clz above is LIMB based not NUMB based */
   n = GMP_LIMB_BITS - n - APCONST;
-  mask = (((unsigned long) 1) << n);
+  mask = (((mpir_ui) 1) << n);
   a = mask << 1;
   mask--;
 /* have 2^(BITS_IN_N-APCONST) iterations so need
    (BITS_IN_N-APCONST+1) stack entries	*/
   for (z = mask; z >= 0; z--)
     {
-      BITREV_ULONG (y, z);
-      y >>= (BITS_PER_ULONG - n);
+      BITREV_UI (y, z);
+      y >>= (BITS_PER_UI - n);
       ap_product_small (st[stn],
 			(mp_limb_t) (low + 2 * ((~y) & mask)), (mp_limb_t) a,
 			(high + y) >> n, nm);
-      ASSERT (((high + y) >> n) <= (((unsigned long) 1) << APCONST));
+      ASSERT (((high + y) >> n) <= (((mpir_ui) 1) << APCONST));
       stn++;
       y = stc++;
       while ((y & 1) == 0)
@@ -439,9 +439,9 @@ odd_product (unsigned long low, unsigned long high, mpz_t * st)
 // Machine Implementation" by A. Schonhage, A. F. W. Grotefeld and E. Vetter,
 // BI Wissenschafts-Verlag, Mannheim, 1994. 
 
-static void binary_splitting (mpz_ptr result,unsigned long int *a,unsigned long int L)  {
+static void binary_splitting (mpz_ptr result,mpir_ui *a, mpir_ui L)  {
 // mulptiplication by binary splitting
-  unsigned long int i,L0,L1;
+  mpir_ui i,L0,L1;
   mpz_t temp;
 
   if(L==0)  {
@@ -466,8 +466,8 @@ static void binary_splitting (mpz_ptr result,unsigned long int *a,unsigned long 
   return;
 }
 
-static unsigned long int ulsqrt(unsigned long int n) 
-{unsigned long int x,y;
+static mpir_ui ulsqrt(mpir_ui n) 
+{mpir_ui x,y;
 
 x=y=n;
 do{x=y;
@@ -475,12 +475,12 @@ do{x=y;
   }while(y<x);
 return x;}
 
-static void large_mpz_fac_ui(mpz_ptr result, unsigned long int n)  {
-   unsigned long int Bit[32],e,N,g,p2,*S,*exponent,*isprime,*primes,count,i,p,primepi,sq,n2=(n-1)>>1,n64=(n>>6)+1,memalloc;
+static void large_mpz_fac_ui(mpz_ptr result, mpir_ui n)  {
+   mpir_ui Bit[32],e,N,g,p2,*S,*exponent,*isprime,*primes,count,i,p,primepi,sq,n2=(n-1)>>1,n64=(n>>6)+1,memalloc;
    int h,expo;
    mpz_t temp;
    mpz_init(temp);
-   isprime=__GMP_ALLOCATE_FUNC_TYPE(n64,unsigned long int);
+   isprime=__GMP_ALLOCATE_FUNC_TYPE(n64,mpir_ui);
    ASSERT(n>=2);// cant handle n<2
    Bit[0]=1;
    for(i=1;i<32;i++)  Bit[i]=Bit[i-1]<<1; // Bit[i]=2^i
@@ -500,9 +500,9 @@ static void large_mpz_fac_ui(mpz_ptr result, unsigned long int n)  {
        primepi+=((isprime[i>>5]&Bit[i&31])>0);
    
    memalloc=primepi;
-   primes=__GMP_ALLOCATE_FUNC_TYPE(memalloc,unsigned long int);
-   S=__GMP_ALLOCATE_FUNC_TYPE(memalloc,unsigned long int);
-   exponent=__GMP_ALLOCATE_FUNC_TYPE(memalloc,unsigned long int);
+   primes=__GMP_ALLOCATE_FUNC_TYPE(memalloc,mpir_ui);
+   S=__GMP_ALLOCATE_FUNC_TYPE(memalloc,mpir_ui);
+   exponent=__GMP_ALLOCATE_FUNC_TYPE(memalloc,mpir_ui);
 
    primepi=0;
    // 1 is not prime and hasn't cancelled, so start from 1*2+1=3
@@ -517,7 +517,7 @@ static void large_mpz_fac_ui(mpz_ptr result, unsigned long int n)  {
           primepi++;
       }
           
-   __GMP_FREE_FUNC_TYPE(isprime,n64,unsigned long int);
+   __GMP_FREE_FUNC_TYPE(isprime,n64,mpir_ui);
   
    mpz_set_ui(result,1);
    
@@ -544,9 +544,9 @@ static void large_mpz_fac_ui(mpz_ptr result, unsigned long int n)  {
    while(N)  N>>=1,e+=N;
    mpz_mul_2exp(result,result,e);  // shift the number to finally get n!
    
-   __GMP_FREE_FUNC_TYPE(S,memalloc,unsigned long int);
-   __GMP_FREE_FUNC_TYPE(primes,memalloc,unsigned long int);
-   __GMP_FREE_FUNC_TYPE(exponent,memalloc,unsigned long int);
+   __GMP_FREE_FUNC_TYPE(S,memalloc,mpir_ui);
+   __GMP_FREE_FUNC_TYPE(primes,memalloc,mpir_ui);
+   __GMP_FREE_FUNC_TYPE(exponent,memalloc,mpir_ui);
    mpz_clear(temp);
    return;
 }

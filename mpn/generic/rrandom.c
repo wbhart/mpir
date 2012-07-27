@@ -27,7 +27,7 @@ Boston, MA 02110-1301, USA.
 #include "mpir.h"
 #include "gmp-impl.h"
 
-static void gmp_rrandomb _PROTO ((mp_ptr rp, gmp_randstate_t rstate, unsigned long int nbits));
+static void gmp_rrandomb _PROTO ((mp_ptr rp, gmp_randstate_t rstate, mpir_ui nbits));
 
 /* Ask _gmp_rand for 32 bits per call unless that's more than a limb can hold.
    Thus, we get the same random number sequence in the common cases.
@@ -58,9 +58,9 @@ mpn_rrandom (mp_ptr rp, gmp_randstate_t rnd, mp_size_t n)
 }
 
 static void
-gmp_rrandomb (mp_ptr rp, gmp_randstate_t rstate, unsigned long int nbits)
+gmp_rrandomb (mp_ptr rp, gmp_randstate_t rstate, mpir_ui nbits)
 {
-  unsigned long int bi;
+  mpir_ui bi;
   mp_limb_t ranm;		/* buffer for random bits */
   unsigned cap_chunksize, chunksize;
   mp_size_t i;

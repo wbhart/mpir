@@ -48,7 +48,7 @@ mpir_dir = '../'
 build_dir = mpir_dir + build_vc
 
 # paths that might include source files(*.c, *.h, *.asm)
-c_directories  = ( '', 'build.vc10', 'mpf', 'mpq', 'mpz', 'printf', 'scanf' )
+c_directories  = ( '', 'build.vc10', 'fft', 'mpf', 'mpq', 'mpz', 'printf', 'scanf' )
 
 # files that are to be excluded from the build
 exclude_file_list = ('config.guess', 'cfg', 'getopt', 'getrusage', 'gettimeofday', 'cpuid',
@@ -273,6 +273,8 @@ def filter_folders(cf_list, af_list, outf):
       t = d if d != 'mpn\generic' else 'mpn'
       outf.write(f2.format(t))
   outf.write(f3)
+
+filter_hdr_item = '    <ClInclude Include="..\..\{}">\n      <Filter>Header Files</Filter>\n    </ClInclude>\n'
 
 def filter_headers(hdr_list, outf):
   

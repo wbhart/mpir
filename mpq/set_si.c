@@ -24,11 +24,11 @@ MA 02110-1301, USA. */
 #include "gmp-impl.h"
 
 void
-mpq_set_si (mpq_ptr dest, signed long int num, unsigned long int den)
+mpq_set_si (mpq_ptr dest, mpir_si num, mpir_ui den)
 {
-  unsigned long int abs_num;
+  mpir_ui abs_num;
 
-  if (GMP_NUMB_BITS < BITS_PER_ULONG)
+  if (GMP_NUMB_BITS < BITS_PER_UI)
     {
       if (num == 0)  /* Canonicalize 0/d to 0/1.  */
         den = 1;

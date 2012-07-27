@@ -25,6 +25,7 @@ MA 02110-1301, USA. */
 #include "gmp-impl.h"
 #include "tests.h"
 
+#define printf gmp_printf
 
 /* Usage: t-fac_ui [x|num]
 
@@ -37,14 +38,14 @@ MA 02110-1301, USA. */
 int
 main (int argc, char *argv[])
 {
-  unsigned long  n;
-  unsigned long  limit = 1500;
+  mpir_ui  n;
+  mpir_ui  limit = 1500;
   mpz_t          f, r;
 
   tests_start ();
 
   if (argc > 1 && argv[1][0] == 'x')
-    limit = ULONG_MAX;
+    limit = GMP_UI_MAX;
   else if (argc > 1)
     limit = atoi (argv[1]);
 
@@ -61,13 +62,13 @@ main (int argc, char *argv[])
 
       if (mpz_cmp (f, r) != 0)
         {
-          printf ("mpz_fac_ui(%lu) wrong\n", n);
+          printf ("mpz_fac_ui(%Mu) wrong\n", n);
           printf ("  got  "); mpz_out_str (stdout, 10, r); printf("\n");
           printf ("  want "); mpz_out_str (stdout, 10, f); printf("\n");
           abort ();
         }
 
-      mpz_mul_ui (f, f, n+1);  /* (n+1)! = n! * n */
+      mpz_mul_ui (f, f, n + 1);  /* (n+1)! = n! * n */
     }
 
   mpz_clear (f);

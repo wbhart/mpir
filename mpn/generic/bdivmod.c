@@ -55,7 +55,7 @@ MA 02110-1301, USA. */
 
 mp_limb_t
 mpn_bdivmod (mp_ptr qp, mp_ptr up, mp_size_t usize,
-	     mp_srcptr vp, mp_size_t vsize, unsigned long int d)
+	     mp_srcptr vp, mp_size_t vsize, mpir_ui d)
 {
   mp_limb_t v_inv;
 

@@ -26,7 +26,7 @@ MA 02110-1301, USA. */
 #include "gmp-impl.h"
 
 int
-_mpq_cmp_ui (mpq_srcptr op1, unsigned long int num2, unsigned long int den2)
+_mpq_cmp_ui (mpq_srcptr op1, mpir_ui num2, mpir_ui den2)
 {
   mp_size_t num1_size = op1->_mp_num._mp_size;
   mp_size_t den1_size = op1->_mp_den._mp_size;

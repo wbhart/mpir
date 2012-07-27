@@ -25,15 +25,15 @@ MA 02110-1301, USA. */
 
 
 void
-mpz_lcm_ui (mpz_ptr r, mpz_srcptr u, unsigned long v)
+mpz_lcm_ui (mpz_ptr r, mpz_srcptr u, mpir_ui v)
 {
   mp_size_t      usize;
   mp_srcptr      up;
   mp_ptr         rp;
-  unsigned long  g;
+  mpir_ui         g;
   mp_limb_t      c;
 
-#if BITS_PER_ULONG > GMP_NUMB_BITS  /* avoid warnings about shift amount */
+#if BITS_PER_UI > GMP_NUMB_BITS  /* avoid warnings about shift amount */
   if (v > GMP_NUMB_MAX)
     {
       mpz_t vz;
@@ -59,7 +59,7 @@ mpz_lcm_ui (mpz_ptr r, mpz_srcptr u, unsigned long v)
   MPZ_REALLOC (r, usize+1);
 
   up = PTR(u);
-  g = (unsigned long) mpn_gcd_1 (up, usize, (mp_limb_t) v);
+  g = (mpir_ui) mpn_gcd_1 (up, usize, (mp_limb_t) v);
   v /= g;
 
   rp = PTR(r);

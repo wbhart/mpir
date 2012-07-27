@@ -25,7 +25,7 @@ MA 02110-1301, USA. */
 #include "gmp-impl.h"
 
 void
-mpz_init_set_ui (mpz_ptr dest, unsigned long int val)
+mpz_init_set_ui (mpz_ptr dest, mpir_ui val)
 {
   mp_size_t size;
 
@@ -35,7 +35,7 @@ mpz_init_set_ui (mpz_ptr dest, unsigned long int val)
   dest->_mp_d[0] = val & GMP_NUMB_MASK;
   size = val != 0;
 
-#if BITS_PER_ULONG > GMP_NUMB_BITS  /* avoid warnings about shift amount */
+#if BITS_PER_UI > GMP_NUMB_BITS  /* avoid warnings about shift amount */
   if (val > GMP_NUMB_MAX)
     {
       MPZ_REALLOC (dest, 2);

@@ -120,6 +120,22 @@ check_mpz (void)
     b = a; ASSERT_ALWAYS(b == 3456789012UL);
   }
 
+  // operator=(unsigned long int)
+  {
+    unsigned long long int a = 0x1234567812345678;
+    mpz_class b;
+    b = a; 
+    ASSERT_ALWAYS(b == 0x1234567812345678);
+  }
+
+  // operator=(unsigned long int)
+  {
+    long long int a = 0xfedcba9876543210;
+    mpz_class b;
+    b = a; 
+    ASSERT_ALWAYS(b == (mpir_si)0xfedcba9876543210);
+  }
+
   // operator=(float)
   {
     float a = 123.0;

@@ -24,7 +24,7 @@ MA 02110-1301, USA. */
 #include "gmp-impl.h"
 
 void
-mpf_init_set_ui (mpf_ptr r, unsigned long int val)
+mpf_init_set_ui (mpf_ptr r, mpir_ui val)
 {
   mp_size_t prec = __gmp_default_fp_limb_precision;
   mp_size_t size;
@@ -34,7 +34,7 @@ mpf_init_set_ui (mpf_ptr r, unsigned long int val)
   r->_mp_d[0] = val & GMP_NUMB_MASK;
   size = (val != 0);
 
-#if BITS_PER_ULONG > GMP_NUMB_BITS
+#if BITS_PER_UI > GMP_NUMB_BITS
   val >>= GMP_NUMB_BITS;
   r->_mp_d[1] = val;
   size += (val != 0);

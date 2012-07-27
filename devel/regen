@@ -13,6 +13,18 @@ cat ../Makefile.am | sed s/"MPZ_OBJECTS[[:space:]]*=.*"/"MPZ_OBJECTS = $srcs"/ >
 mv tmpfile ../Makefile.am
 cd ../devel
 
+# fft/Makefile.am
+cd ../fft
+srcs=$(ls *.h *.c 2>/dev/null)
+srcs=$(echo -n $srcs)
+cat Makefile.am | sed s/"libfft_la_SOURCES[[:space:]]*=[[:space:]]*.*"/"libfft_la_SOURCES = $srcs"/ > tmpfile
+mv tmpfile Makefile.am
+srcs=$(ls *.c)
+srcs=$(echo -n $srcs | sed s/"\([^[:space:]]\+\)\(\.c[[:space:]]*\)"/"fft\\\\\/\1\$U.lo "/g)
+cat ../Makefile.am | sed s/"FFT_OBJECTS[[:space:]]*=.*"/"FFT_OBJECTS = $srcs"/ > tmpfile
+mv tmpfile ../Makefile.am
+cd ../devel
+
 # mpf/Makefile.am
 cd ../mpf
 srcs=$(ls *.h *.c 2>/dev/null)
@@ -63,6 +75,14 @@ cd ../devel
 
 # tests/mpz/Makefile.am
 cd ../tests/mpz
+srcs=$(ls *.c)
+srcs=$(echo -n $srcs | sed s/"\([^[:space:]]\+\)\(\.c[[:space:]]*\)"/"\1 "/g)
+cat Makefile.am | sed s/"check_PROGRAMS[[:space:]]*=.*"/"check_PROGRAMS = $srcs"/ > tmpfile
+mv tmpfile Makefile.am
+cd ../../devel
+
+# tests/fft/Makefile.am
+cd ../tests/fft
 srcs=$(ls *.c)
 srcs=$(echo -n $srcs | sed s/"\([^[:space:]]\+\)\(\.c[[:space:]]*\)"/"\1 "/g)
 cat Makefile.am | sed s/"check_PROGRAMS[[:space:]]*=.*"/"check_PROGRAMS = $srcs"/ > tmpfile

@@ -29,7 +29,7 @@ void
 check_data (void)
 {
   static const struct {
-    unsigned long  x;
+    mpir_ui  x;
     mp_size_t      want_size;
     mp_limb_t      want_data[2];
   } data[] = {
@@ -37,14 +37,14 @@ check_data (void)
     {  0L,  0 },
     {  1L,  1, { 1 } },
 
-#if GMP_NUMB_BITS >= BITS_PER_ULONG
-    { ULONG_MAX,     1, { ULONG_MAX, 0 } },
-    { ULONG_HIGHBIT, 1, { ULONG_HIGHBIT, 0 } },
+#if GMP_NUMB_BITS >= BITS_PER_UI
+    { GMP_UI_MAX,     1, { GMP_UI_MAX, 0 } },
+    { GMP_UI_HIBIT, 1, { GMP_UI_HIBIT, 0 } },
 #else
-    { ULONG_MAX,     2, { ULONG_MAX & GMP_NUMB_MASK,
-                          ULONG_MAX >> GMP_NUMB_BITS } },
+    { GMP_UI_MAX,     2, { GMP_UI_MAX & GMP_NUMB_MASK,
+                          GMP_UI_MAX >> GMP_NUMB_BITS } },
     { LONG_HIGHBIT,  2, { 0,
-                          ULONG_HIGHBIT >> GMP_NUMB_BITS } },
+                          GMP_UI_HIBIT >> GMP_NUMB_BITS } },
 #endif
   };
 

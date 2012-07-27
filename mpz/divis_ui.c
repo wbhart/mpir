@@ -25,7 +25,7 @@ MA 02110-1301, USA. */
 
 
 int
-mpz_divisible_ui_p (mpz_srcptr a, unsigned long d)
+mpz_divisible_ui_p (mpz_srcptr a, mpir_ui d)
 {
   mp_size_t  asize;
   mp_ptr     ap;

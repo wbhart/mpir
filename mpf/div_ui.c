@@ -25,7 +25,7 @@ MA 02110-1301, USA. */
 #include "longlong.h"
 
 void
-mpf_div_ui (mpf_ptr r, mpf_srcptr u, unsigned long int v)
+mpf_div_ui (mpf_ptr r, mpf_srcptr u, mpir_ui v)
 {
   mp_srcptr up;
   mp_ptr rp, tp, rtp;
@@ -37,7 +37,7 @@ mpf_div_ui (mpf_ptr r, mpf_srcptr u, unsigned long int v)
   mp_exp_t rexp;
   TMP_DECL;
 
-#if BITS_PER_ULONG > GMP_NUMB_BITS  /* avoid warnings about shift amount */
+#if BITS_PER_UI > GMP_NUMB_BITS  /* avoid warnings about shift amount */
   if (v > GMP_NUMB_MAX)
     {
       mpf_t vf;

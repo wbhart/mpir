@@ -23,7 +23,7 @@ along with the GNU MP Library.  If not, see http://www.gnu.org/licenses/.  */
 #include "gmp-impl.h"
 
 int
-mpz_root (mpz_ptr root, mpz_srcptr u, unsigned long int nth)
+mpz_root (mpz_ptr root, mpz_srcptr u, mpir_ui nth)
 {
   mp_ptr rootp, up;
   mp_size_t us, un, rootn, remn;

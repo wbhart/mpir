@@ -47,14 +47,14 @@ Error, need OPERATION_add_ui or OPERATION_sub_ui
 
 
 void
-FUNCTION (mpz_ptr w, mpz_srcptr u, unsigned long int vval)
+FUNCTION (mpz_ptr w, mpz_srcptr u, mpir_ui vval)
 {
   mp_srcptr up;
   mp_ptr wp;
   mp_size_t usize, wsize;
   mp_size_t abs_usize;
 
-#if BITS_PER_ULONG > GMP_NUMB_BITS  /* avoid warnings about shift amount */
+#if BITS_PER_UI > GMP_NUMB_BITS  /* avoid warnings about shift amount */
   if (vval > GMP_NUMB_MAX)
     {
       mpz_t v;

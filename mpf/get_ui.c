@@ -63,7 +63,7 @@ MA 02110-1301, USA.
    exp-1>0, which is incorrect when exp==MP_EXP_T_MIN.  By having exp>0
    tested first we ensure MP_EXP_T_MIN doesn't reach exp>1.  */
 
-unsigned long
+mpir_ui
 mpf_get_ui (mpf_srcptr f)
 {
   mp_size_t size;
@@ -84,11 +84,11 @@ mpf_get_ui (mpf_srcptr f)
       if (size >= exp)
         fl = fp[size-exp];
 
-#if BITS_PER_ULONG > GMP_NUMB_BITS
+#if BITS_PER_UI > GMP_NUMB_BITS
       if (exp > 1 && size+1 >= exp)
         fl += (fp[size-exp+1] << GMP_NUMB_BITS);
 #endif
     }
 
-  return (unsigned long) fl;
+  return (mpir_ui) fl;
 }

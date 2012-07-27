@@ -27,6 +27,7 @@ MA 02110-1301, USA. */
 #include "gmp-impl.h"
 #include "tests.h"
 
+#define printf gmp_printf
 
 #define SGN(x)   ((x)<0 ? -1 : (x) != 0)
 
@@ -35,19 +36,19 @@ check_data (void)
 {
   static const struct {
     const char     *q;
-    long           n;
-    unsigned long  d;
+    mpir_si         n;
+    mpir_ui         d;
     int            want;
   } data[] = {
     { "0", 0, 1, 0 },
     { "0", 0, 123, 0 },
-    { "0", 0, ULONG_MAX, 0 },
+    { "0", 0, GMP_UI_MAX, 0 },
     { "1", 0, 1, 1 },
     { "1", 0, 123, 1 },
-    { "1", 0, ULONG_MAX, 1 },
+    { "1", 0, GMP_UI_MAX, 1 },
     { "-1", 0, 1, -1 },
     { "-1", 0, 123, -1 },
-    { "-1", 0, ULONG_MAX, -1 },
+    { "-1", 0, GMP_UI_MAX, -1 },
 
     { "123", 123, 1, 0 },
     { "124", 123, 1, 1 },
@@ -87,10 +88,10 @@ check_data (void)
           printf ("mpq_cmp_si wrong\n");
         error:
           mpq_trace ("  q", q);
-          printf ("  n=%ld\n", data[i].n);
-          printf ("  d=%lu\n", data[i].d);
+          printf ("  n=%Md\n", data[i].n);
+          printf ("  d=%Mu\n", data[i].d);
           printf ("  got=%d\n", got);
-          printf ("  want=%d\n", data[i].want);
+          printf ("  want=%Md\n", data[i].want);
           abort ();
         }
 

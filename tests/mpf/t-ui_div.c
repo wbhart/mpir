@@ -35,7 +35,7 @@ check_one (const char *desc, mpf_ptr got, unsigned long u, mpf_srcptr v)
 
   ulimbs[0] = u & GMP_NUMB_MASK;
   usize = (u != 0);
-#if BITS_PER_ULONG > GMP_NUMB_BITS
+#if BITS_PER_UI > GMP_NUMB_BITS
   u >>= GMP_NUMB_BITS;
   ulimbs[1] = u;
   usize += (u != 0);
@@ -74,7 +74,7 @@ check_rand (void)
       refmpf_set_prec_limbs (got, prec);
 
       /* u */
-      prec = gmp_urandomm_ui (rands, BITS_PER_ULONG+1);
+      prec = gmp_urandomm_ui (rands, BITS_PER_UI+1);
       u = gmp_urandomb_ui (rands, prec);
 
       /* v precision */

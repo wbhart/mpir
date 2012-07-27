@@ -24,7 +24,7 @@ MA 02110-1301, USA. */
 #include "gmp-impl.h"
 
 int
-mpf_cmp_si (mpf_srcptr u, long int vval)
+mpf_cmp_si (mpf_srcptr u, mpir_si vval)
 {
   mp_srcptr up;
   mp_size_t usize;
@@ -61,9 +61,9 @@ mpf_cmp_si (mpf_srcptr u, long int vval)
 
   /* 2. Are the exponents different (V's exponent == 1)?  */
 #if GMP_NAIL_BITS != 0
-  if (uexp > 1 + ((unsigned long) vval > GMP_NUMB_MAX))
+  if (uexp > 1 + ((mpir_ui) vval > GMP_NUMB_MAX))
     return usign;
-  if (uexp < 1 + ((unsigned long) vval > GMP_NUMB_MAX))
+  if (uexp < 1 + ((mpir_ui) vval > GMP_NUMB_MAX))
     return -usign;
 #else
   if (uexp > 1)
@@ -87,9 +87,9 @@ mpf_cmp_si (mpf_srcptr u, long int vval)
   usize--;
 
   /* 3. Compare the most significant mantissa limb with V.  */
-  if (ulimb > (unsigned long) vval)
+  if (ulimb > (mpir_ui) vval)
     return usign;
-  else if (ulimb < (unsigned long) vval)
+  else if (ulimb < (mpir_ui) vval)
     return -usign;
 
   /* Ignore zeroes at the low end of U.  */

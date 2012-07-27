@@ -25,6 +25,7 @@ MA 02110-1301, USA. */
 #include "gmp-impl.h"
 #include "tests.h"
 
+#define printf gmp_printf
 
 void
 check_limbdata (void)
@@ -35,7 +36,7 @@ check_limbdata (void)
     mp_exp_t       exp;
     mp_size_t      size;
     mp_limb_t      d[10];
-    unsigned long  want;
+    mpir_ui  want;
 
   } data[] = {
 
@@ -62,11 +63,11 @@ check_limbdata (void)
     { 1, 2, { 999, 2 }, 2L },                  /* 2.9 */
     { 5, 8, { 7, 8, 9, 3, 0, 0, 0, 1 }, 3L },  /* 10003.987 */
 
-    { 2, 2, { M, M },    ULONG_MAX }, /* FF. */
-    { 2, 2, { M, M, M }, ULONG_MAX }, /* FF.F */
-    { 3, 3, { M, M, M }, ULONG_MAX }, /* FFF. */
+    { 2, 2, { M, M },    GMP_UI_MAX }, /* FF. */
+    { 2, 2, { M, M, M }, GMP_UI_MAX }, /* FF.F */
+    { 3, 3, { M, M, M }, GMP_UI_MAX }, /* FFF. */
 
-#if GMP_NUMB_BITS >= BITS_PER_ULONG
+#if GMP_NUMB_BITS >= BITS_PER_UI
     /* normal case, numb bigger than long */
     { 2,  1, { 1 },    0L },      /* 1_. */
     { 2,  2, { 0, 1 }, 0L },      /* 10. */
@@ -86,7 +87,7 @@ check_limbdata (void)
   };
 
   mpf_t          f;
-  unsigned long  got;
+  mpir_ui         got;
   int            i;
   mp_limb_t      buf[20 + numberof(data[i].d)];
 
@@ -103,15 +104,15 @@ check_limbdata (void)
       MPF_CHECK_FORMAT (f);
 
       got = mpf_get_ui (f);
-      if (got != data[i].want)
+      if (got!= data[i].want)
         {
           printf    ("mpf_get_ui wrong at limb data[%d]\n", i);
           mpf_trace ("  f", f);
           mpn_trace ("  d", data[i].d, data[i].size);
-          printf    ("  size %ld\n", (long) data[i].size);
-          printf    ("  exp %ld\n", (long) data[i].exp);
-          printf    ("  got   %lu (0x%lX)\n", got, got);
-          printf    ("  want  %lu (0x%lX)\n", data[i].want, data[i].want);
+          printf    ("  size %Md\n", (long) data[i].size);
+          printf    ("  exp %Md\n", (long) data[i].exp);
+          printf    ("  got   %Mu (%#Mx)\n", got, got);
+          printf    ("  want  %Mu (%#Mx)\n", data[i].want, data[i].want);
           abort();
         }
     }

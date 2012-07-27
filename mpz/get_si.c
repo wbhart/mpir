@@ -23,7 +23,7 @@ MA 02110-1301, USA. */
 #include "mpir.h"
 #include "gmp-impl.h"
 
-signed long int
+mpir_si
 mpz_get_si (mpz_srcptr z)
 {
   mp_ptr zp = z->_mp_d;
@@ -31,15 +31,15 @@ mpz_get_si (mpz_srcptr z)
   mp_limb_t zl = zp[0];
 
 #if GMP_NAIL_BITS != 0
-  if (ULONG_MAX > GMP_NUMB_MAX && ABS (size) >= 2)
+  if (GMP_UI_MAX > GMP_NUMB_MAX && ABS (size) >= 2)
     zl |= zp[1] << GMP_NUMB_BITS;
 #endif
 
   if (size > 0)
-    return (long) zl & LONG_MAX;
+    return (mpir_si) zl & GMP_UI_MAX;
   else if (size < 0)
     /* This expression is necessary to properly handle 0x80000000 */
-    return ~(((long) zl - 1L) & LONG_MAX);
+    return ~(((mpir_si) zl - 1L) & GMP_UI_MAX);
   else
     return 0;
 }

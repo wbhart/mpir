@@ -23,14 +23,14 @@ MA 02110-1301, USA. */
 #include "gmp-impl.h"
 
 void
-mpf_set_ui (mpf_ptr f, unsigned long val)
+mpf_set_ui (mpf_ptr f, mpir_ui val)
 {
   mp_size_t size;
 
   f->_mp_d[0] = val & GMP_NUMB_MASK;
   size = val != 0;
 
-#if BITS_PER_ULONG > GMP_NUMB_BITS
+#if BITS_PER_UI > GMP_NUMB_BITS
   val >>= GMP_NUMB_BITS;
   f->_mp_d[1] = val;
   size += (val != 0);

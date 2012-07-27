@@ -26,7 +26,7 @@ Boston, MA 02110-1301, USA.
 #include "gmp-impl.h"
 
 void
-mpz_nthroot (mpz_ptr root, mpz_srcptr u, unsigned long int nth)
+mpz_nthroot (mpz_ptr root, mpz_srcptr u, mpir_ui nth)
 {
   mp_ptr rootp, up, remp;
   mp_size_t us, un, rootn;

@@ -32,7 +32,7 @@ mpf_reldiff (mpf_t rdiff, mpf_srcptr x, mpf_srcptr y)
 {
   if (UNLIKELY (SIZ(x) == 0))
     {
-      mpf_set_ui (rdiff, (unsigned long int) (mpf_sgn (y) != 0));
+      mpf_set_ui (rdiff, (mpir_ui) (mpf_sgn (y) != 0));
     }
   else
     {

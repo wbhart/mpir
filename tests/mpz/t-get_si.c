@@ -31,7 +31,7 @@ check_data (void)
 {
   static const struct {
     const char  *n;
-    long        want;
+    mpir_si        want;
   } data[] = {
     { "0",      0L },
     { "1",      1L },
@@ -44,7 +44,7 @@ check_data (void)
 
   int    i;
   mpz_t  n;
-  long   got;
+  mpir_si   got;
 
   mpz_init (n);
   for (i = 0; i < numberof (data); i++)

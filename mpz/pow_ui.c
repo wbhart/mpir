@@ -23,7 +23,7 @@ MA 02110-1301, USA. */
 #include "gmp-impl.h"
 
 void
-mpz_pow_ui (mpz_ptr r, mpz_srcptr b, unsigned long int e)
+mpz_pow_ui (mpz_ptr r, mpz_srcptr b, mpir_ui e)
 {
   mpz_n_pow_ui (r, PTR(b), (mp_size_t) SIZ(b), e);
 }

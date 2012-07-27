@@ -47,7 +47,7 @@ MA 02110-1301, USA. */
    Allocation of rp[] and the temporary tp[] should be 2*prec+2 limbs.  */
 static mp_size_t
 mpn_pow_1_highpart (mp_ptr rp, mp_size_t *ignp,
-		    mp_limb_t base, unsigned long exp,
+		    mp_limb_t base, mpir_ui exp,
 		    mp_size_t prec, mp_ptr tp)
 {
   mp_size_t ign;		/* counts number of ignored low limbs in r */
@@ -180,10 +180,10 @@ mpf_get_str (char *dbuf, mp_exp_t *exp, int base, size_t n_digits, mpf_srcptr u)
     {
       /* We need to multiply number by base^n to get an n_digits integer part.  */
       mp_size_t n_more_limbs_needed, ign, off;
-      unsigned long e;
+      mpir_ui e;
 
       n_more_limbs_needed = n_limbs_needed - ue;
-      e = (unsigned long) n_more_limbs_needed * (GMP_NUMB_BITS * mp_bases[base].chars_per_bit_exactly);
+      e = (mpir_ui) n_more_limbs_needed * (GMP_NUMB_BITS * mp_bases[base].chars_per_bit_exactly);
 
       if (un > n_limbs_needed)
 	{
@@ -216,11 +216,11 @@ mpf_get_str (char *dbuf, mp_exp_t *exp, int base, size_t n_digits, mpf_srcptr u)
     {
       /* We need to divide number by base^n to get an n_digits integer part.  */
       mp_size_t n_less_limbs_needed, ign, off, xn;
-      unsigned long e;
+      mpir_ui e;
       mp_ptr dummyp, xp;
 
       n_less_limbs_needed = ue - n_limbs_needed;
-      e = (unsigned long) n_less_limbs_needed * (GMP_NUMB_BITS * mp_bases[base].chars_per_bit_exactly);
+      e = (mpir_ui) n_less_limbs_needed * (GMP_NUMB_BITS * mp_bases[base].chars_per_bit_exactly);
 
       if (un > n_limbs_needed)
 	{

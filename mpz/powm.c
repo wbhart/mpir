@@ -64,7 +64,7 @@ phi (mp_limb_t t)
       m = d - 1;
       for (;;)
 	{
-	  unsigned long int q = t / d;
+	  mpir_ui q = t / d;
 	  if (q < d)
 	    {
 	      if (t <= 1)
@@ -122,7 +122,7 @@ mpz_powm (mpz_ptr r, mpz_srcptr b, mpz_srcptr e, mpz_srcptr m)
   mp_srcptr bp, ep, mp;
   mp_size_t bn, es, en, mn, xn;
   mp_limb_t invm, c;
-  unsigned long int enb;
+  mpir_ui enb;
   mp_size_t i, K, j, l, k;
   int m_zero_cnt, e_zero_cnt;
   int sh;

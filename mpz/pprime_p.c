@@ -30,7 +30,7 @@ MA 02110-1301, USA. */
 #include "gmp-impl.h"
 #include "longlong.h"
 
-static int isprime _PROTO ((unsigned long int t));
+static int isprime _PROTO ((mpir_ui t));
 
 
 /* MPN_MOD_OR_MODEXACT_1_ODD can be used instead of mpn_mod_1 for the trial
@@ -101,8 +101,7 @@ mpz_probab_prime_p (mpz_srcptr n, int reps)
      overflow a single limb.  We divide our number by the small primes product,
      and look for factors in the remainder.  */
   {
-    unsigned long int ln2;
-    unsigned long int q;
+    mpir_ui ln2, q;
     mp_limb_t p1, p0, p;
     unsigned int primes[15];
     int nprimes;
@@ -141,9 +140,9 @@ mpz_probab_prime_p (mpz_srcptr n, int reps)
 }
 
 static int
-isprime (unsigned long int t)
+isprime (mpir_ui t)
 {
-  unsigned long int q, r, d;
+  mpir_ui q, r, d;
 
   if (t < 3 || (t & 1) == 0)
     return t == 2;

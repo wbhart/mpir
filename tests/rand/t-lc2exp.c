@@ -28,11 +28,11 @@ MA 02110-1301, USA. */
 
 /* a=0 and c=0 produces zero results always. */
 void
-check_zero (unsigned long m2exp)
+check_zero (mpir_ui m2exp)
 {
   gmp_randstate_t  r;
   mpz_t            a;
-  unsigned long    c;
+  mpir_ui           c;
   int              i;
 
   mpz_init_set_ui (a, 0L);
@@ -62,7 +62,7 @@ check_nega (void)
 {
   gmp_randstate_t  r;
   mpz_t            a;
-  unsigned long    c, m2exp;
+  mpir_ui    c, m2exp;
   int              i;
 
   mpz_init (a);
@@ -90,7 +90,7 @@ check_bigc (void)
 {
   gmp_randstate_t  r;
   mpz_t            a;
-  unsigned long    c, m2exp, bits;
+  mpir_ui    c, m2exp, bits;
   int              i;
 
   mpz_init_set_ui (a, 0L);
@@ -122,7 +122,7 @@ check_bigc1 (void)
 {
   gmp_randstate_t  r;
   mpz_t            a;
-  unsigned long    c, m2exp;
+  mpir_ui    c, m2exp;
   int              i;
 
   mpz_init_set_ui (a, 0L);

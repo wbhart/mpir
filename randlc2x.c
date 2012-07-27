@@ -51,8 +51,8 @@ typedef struct {
   mpz_t          _mp_seed;
   mpz_t          _mp_a;
   mp_size_t      _cn;
-  mp_limb_t      _cp[LIMBS_PER_ULONG];
-  unsigned long  _mp_m2exp;
+  mp_limb_t      _cp[LIMBS_PER_UI];
+  mpir_ui  _mp_m2exp;
 } gmp_rand_lc_struct;
 
 
@@ -60,14 +60,14 @@ typedef struct {
    number of valid bits in the result.  Discards the lower half of the
    result.  */
 
-static unsigned long int
+static mpir_ui
 lc (mp_ptr rp, gmp_randstate_t rstate)
 {
   mp_ptr tp, seedp, ap;
   mp_size_t ta;
   mp_size_t tn, seedn, an;
-  unsigned long int m2exp;
-  unsigned long int bits;
+  mpir_ui m2exp;
+  mpir_ui bits;
   int cy;
   mp_size_t xn;
   gmp_rand_lc_struct *p;
@@ -141,9 +141,9 @@ lc (mp_ptr rp, gmp_randstate_t rstate)
 
 /* Obtain a sequence of random numbers.  */
 static void
-randget_lc (gmp_randstate_t rstate, mp_ptr rp, unsigned long int nbits)
+randget_lc (gmp_randstate_t rstate, mp_ptr rp, mpir_ui nbits)
 {
-  unsigned long int rbitpos;
+  mpir_ui rbitpos;
   int chunk_nbits;
   mp_ptr tp;
   mp_size_t tn;
@@ -272,10 +272,10 @@ randiset_lc (gmp_randstate_ptr dst, gmp_randstate_srcptr src)
   dstp->_cn = srcp->_cn;
 
   dstp->_cp[0] = srcp->_cp[0];
-  if (LIMBS_PER_ULONG > 1)
+  if (LIMBS_PER_UI > 1)
     dstp->_cp[1] = srcp->_cp[1];
-  if (LIMBS_PER_ULONG > 2)  /* usually there's only 1 or 2 */
-    MPN_COPY (dstp->_cp + 2, srcp->_cp + 2, LIMBS_PER_ULONG - 2);
+  if (LIMBS_PER_UI > 2)  /* usually there's only 1 or 2 */
+    MPN_COPY (dstp->_cp + 2, srcp->_cp + 2, LIMBS_PER_UI - 2);
 
   dstp->_mp_m2exp = srcp->_mp_m2exp;
 }
@@ -284,7 +284,7 @@ randiset_lc (gmp_randstate_ptr dst, gmp_randstate_srcptr src)
 void
 gmp_randinit_lc_2exp (gmp_randstate_t rstate,
 		      mpz_srcptr a,
-		      unsigned long int c,
+		      mpir_ui c,
 		      mp_bitcnt_t m2exp)
 {
   gmp_rand_lc_struct *p;

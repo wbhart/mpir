@@ -28,7 +28,7 @@ MA 02110-1301, USA. */
    it a tail call here.  */
 
 int
-_mpq_cmp_si (mpq_srcptr q, long n, unsigned long d)
+_mpq_cmp_si (mpq_srcptr q, mpir_si n, mpir_ui d)
 {
   /* need canonical sign to get right result */
   ASSERT (q->_mp_den._mp_size > 0);

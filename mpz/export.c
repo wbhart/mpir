@@ -40,7 +40,7 @@ static const mp_limb_t  endian_test = (CNST_LIMB(1) << (GMP_LIMB_BITS-7)) - 1;
 #define MPN_SIZEINBASE_2EXP(result, ptr, size, base2exp)                \
   do {                                                                  \
     int            __cnt;                                               \
-    unsigned long  __totbits;                                           \
+    mp_bitcnt_t  __totbits;                                           \
     ASSERT ((size) > 0);                                                \
     ASSERT ((ptr)[(size)-1] != 0);                                      \
     count_leading_zeros (__cnt, (ptr)[(size)-1]);                       \
@@ -56,7 +56,7 @@ mpz_export (void *data, size_t *countp, int order,
   mp_size_t      zsize;
   mp_srcptr      zp;
   size_t         count, dummy;
-  unsigned long  numb;
+  mpir_ui         numb;
   unsigned       align;
 
   ASSERT (order == 1 || order == -1);

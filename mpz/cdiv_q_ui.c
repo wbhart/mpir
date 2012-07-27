@@ -25,8 +25,8 @@ MA 02110-1301, USA. */
 #include "mpir.h"
 #include "gmp-impl.h"
 
-unsigned long int
-mpz_cdiv_q_ui (mpz_ptr quot, mpz_srcptr dividend, unsigned long int divisor)
+mpir_ui
+mpz_cdiv_q_ui (mpz_ptr quot, mpz_srcptr dividend, mpir_ui divisor)
 {
   mp_size_t ns, nn, qn;
   mp_ptr np, qp;
@@ -47,7 +47,7 @@ mpz_cdiv_q_ui (mpz_ptr quot, mpz_srcptr dividend, unsigned long int divisor)
   qp = PTR(quot);
   np = PTR(dividend);
 
-#if BITS_PER_ULONG > GMP_NUMB_BITS  /* avoid warnings about shift amount */
+#if BITS_PER_UI > GMP_NUMB_BITS  /* avoid warnings about shift amount */
   if (divisor > GMP_NUMB_MAX)
     {
       mp_limb_t dp[2], rp[2];

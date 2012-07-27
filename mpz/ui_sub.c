@@ -23,13 +23,13 @@ MA 02110-1301, USA. */
 #include "gmp-impl.h"
 
 void
-mpz_ui_sub (mpz_ptr w, unsigned long int uval, mpz_srcptr v)
+mpz_ui_sub (mpz_ptr w, mpir_ui uval, mpz_srcptr v)
 {
   mp_ptr vp, wp;
   mp_size_t vn, wn;
   mp_limb_t cy;
 
-#if BITS_PER_ULONG > GMP_NUMB_BITS  /* avoid warnings about shift amount */
+#if BITS_PER_UI > GMP_NUMB_BITS  /* avoid warnings about shift amount */
   if (uval > GMP_NUMB_MAX)
     {
       mpz_t u;

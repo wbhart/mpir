@@ -398,9 +398,9 @@ gmpscan (const struct gmp_doscan_funs_t *funs, void *data,
               long  exp;
               exp = strtol (s + hexexp + 1, &dummy, 10);
               if (exp >= 0)
-                mpf_mul_2exp (f, f, (unsigned long) exp);
+                mpf_mul_2exp (f, f, (mpir_ui) exp);
               else
-                mpf_div_2exp (f, f, - (unsigned long) exp);
+                mpf_div_2exp (f, f, - (mpir_ui) exp);
             }
         }
         break;

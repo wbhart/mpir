@@ -24,6 +24,18 @@ MA 02110-1301, USA. */
 #include "mpir.h"
 #include "tests.h"
 
+#define printf gmp_printf
+
+#ifdef ULLONG_MAX
+char *ullong_max_def = "defined";
+#else
+char *ullong_max_def = "not defined";
+#endif
+#ifdef LLONG_MAX
+char *llong_max_def = "defined";
+#else
+char *llong_max_def = "not defined";
+#endif
 
 #ifdef ULONG_MAX
 char *ulong_max_def = "defined";
@@ -222,6 +234,8 @@ main (int argc, char *argv[])
   CHECK_HIGHBIT (UINT_HIGHBIT,      unsigned int,   "0x%X");
   CHECK_HIGHBIT (USHRT_HIGHBIT,     unsigned short, "0x%hX");
   CHECK_HIGHBIT (LONG_HIGHBIT,      long,           "0x%lX");
+  CHECK_HIGHBIT (GMP_UI_HIBIT,      mpir_ui,         "%#Mx");
+
 #if 0 /* Bad! */
   CHECK_HIGHBIT (INT_HIGHBIT,       int,            "0x%X");
   CHECK_HIGHBIT (SHRT_HIGHBIT,      short,          "0x%hX");
@@ -233,7 +247,8 @@ main (int argc, char *argv[])
   CHECK_MAX (SHRT_MAX,      SHRT_MIN,      short,          "%hd");
 #endif
   CHECK_MAX (ULONG_MAX,     0,             unsigned long,  "%lu");
-  CHECK_MAX (UINT_MAX,      0,             unsigned int,   "%u");
+  CHECK_MAX (UINT_MAX,      0,             unsigned int,    "%u");
+  CHECK_MAX (GMP_UI_MAX,    0,             mpir_ui,          "%M");
   CHECK_MAX (USHRT_MAX,     0,             unsigned short, "%hu");
 #if 0 /* Bad! */
   CHECK_MAX (MP_SIZE_T_MAX, MP_SIZE_T_MIN, mp_size_t,      SS("%d","%ld"));
@@ -310,6 +325,8 @@ main (int argc, char *argv[])
 
       printf ("\n");
       printf ("After mpir.h,\n");
+      printf ("  ULLONG_MAX  %s\n", ullong_max_def);
+      printf ("  LLONG_MAX   %s\n", llong_max_def);
       printf ("  ULONG_MAX  %s\n", ulong_max_def);
       printf ("  LONG_MAX   %s\n", long_max_def);
       printf ("  UINT_MAX   %s\n", uint_max_def);
@@ -318,12 +335,23 @@ main (int argc, char *argv[])
       printf ("  SHRT_MAX   %s\n", shrt_max_def);
       printf ("\n");
 
+#if HAVE_LONG_LONG && defined(ULLONG_MAX)
+      printf ("ULLONG_MAX     %llX\n", ULLONG_MAX);
+      printf ("LLONG_MAX      %llX\n", LLONG_MAX);
+      printf ("LLONG_MIN      %llX\n", LLONG_MIN);
+#endif
+#if defined(ULLONG_MAX)
+      printf ("GMP_UI_MAX     %Mx\n", ULLONG_MAX);
+      printf ("GMP_SI_MAX     %Mx\n", LLONG_MAX);
+      printf ("GMP_SI_MIN     %Mx\n", LLONG_MIN);
+#endif
+
       printf ("ULONG_MAX      %lX\n", ULONG_MAX);
       printf ("ULONG_HIGHBIT  %lX\n", ULONG_HIGHBIT);
       printf ("LONG_MAX       %lX\n", LONG_MAX);
       printf ("LONG_MIN       %lX\n", LONG_MIN);
 
-      printf ("UINT_MAX       %X\n", UINT_MAX);
+      printf ("UINT_MAX       %#X\n", UINT_MAX);
       printf ("UINT_HIGHBIT   %X\n", UINT_HIGHBIT);
       printf ("INT_MAX        %X\n", INT_MAX);
       printf ("INT_MIN        %X\n", INT_MIN);
@@ -335,13 +363,17 @@ main (int argc, char *argv[])
 
       printf ("\n");
       printf ("Bits\n");
-      CALC_BITS (bits, long);           printf ("  long           %d\n", bits);
-      CALC_BITS (bits, int);            printf ("  int            %d\n", bits);
-      CALC_BITS (bits, short);          printf ("  short          %d\n", bits);
-      CALC_BITS (bits, unsigned long);  printf ("  unsigned long  %d\n", bits);
-      CALC_BITS (bits, unsigned int);   printf ("  unsigned int   %d\n", bits);
-      CALC_BITS (bits, unsigned short); printf ("  unsigned short %d\n", bits);
-      CALC_BITS (bits, mp_size_t);      printf ("  mp_size_t      %d\n", bits);
+      CALC_BITS (bits, long long);           printf ("  long long           %d\n", bits);
+      CALC_BITS (bits, long);                printf ("  long                %d\n", bits);
+      CALC_BITS (bits, int);                 printf ("  int                 %d\n", bits);
+      CALC_BITS (bits, short);               printf ("  short               %d\n", bits);
+      CALC_BITS (bits, mpir_si);              printf ("  GMP signed int      %d\n", bits);
+      CALC_BITS (bits, unsigned long long);  printf ("  unsigned long long  %d\n", bits);
+      CALC_BITS (bits, unsigned long);       printf ("  unsigned long       %d\n", bits);
+      CALC_BITS (bits, unsigned int);        printf ("  unsigned int        %d\n", bits);
+      CALC_BITS (bits, unsigned short);      printf ("  unsigned short      %d\n", bits);
+      CALC_BITS (bits, mp_size_t);           printf ("  mp_size_t           %d\n", bits);
+      CALC_BITS (bits, mpir_ui);              printf ("  GMP unsigned int    %d\n", bits);
     }
 
   if (error)

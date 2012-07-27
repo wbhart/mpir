@@ -847,7 +847,7 @@ void __gmpz_aorsmul_1 _PROTO ((REGPARM_3_1 (mpz_ptr w, mpz_srcptr u, mp_limb_t v
 #define mpz_aorsmul_1(w,u,v,sub)  __gmpz_aorsmul_1 (REGPARM_3_1 (w, u, v, sub))
 
 #define mpz_n_pow_ui __gmpz_n_pow_ui
-void    mpz_n_pow_ui _PROTO ((mpz_ptr, mp_srcptr, mp_size_t, unsigned long));
+void    mpz_n_pow_ui _PROTO ((mpz_ptr, mp_srcptr, mp_size_t, mpir_ui));
 
 
 #define mpn_add_nc __MPN(add_nc)
@@ -960,7 +960,7 @@ __GMP_DECLSPEC mp_limb_t mpn_divrem_1c __GMP_PROTO ((mp_ptr, mp_size_t, mp_srcpt
 __GMP_DECLSPEC void mpn_dump __GMP_PROTO ((mp_srcptr, mp_size_t));
 
 #define mpn_fib2_ui __MPN(fib2_ui)
-mp_size_t mpn_fib2_ui _PROTO ((mp_ptr, mp_ptr, unsigned long));
+mp_size_t mpn_fib2_ui _PROTO ((mp_ptr, mp_ptr, mpir_ui));
 
 /* Remap names of internal mpn functions.  */
 #define __clz_tab               __MPN(clz_tab)
@@ -1079,13 +1079,131 @@ __GMP_DECLSPEC mp_limb_t mpn_rsh_divrem_hensel_qr_1_2 __GMP_PROTO ((mp_ptr, mp_s
 #define mpn_divrem_hensel_r_1 __MPN(divrem_hensel_r_1)
 __GMP_DECLSPEC mp_limb_t mpn_divrem_hensel_r_1 __GMP_PROTO ((mp_srcptr, mp_size_t,mp_limb_t));
 
+#define random_fermat(nn, state, limbs) \
+   do { mp_limb_t t; \
+      mpn_rrandom(nn, state, limbs); \
+      mpn_rrandom(&nn[limbs], state, 1); \
+      nn[limbs] %= 1024; \
+      mpn_rrandom(&t, state, 1); \
+      if (t % 2) \
+         nn[limbs] = -nn[limbs]; \
+   } while (0)
+
+__GMP_EXTERN_INLINE
+void mpn_addmod_2expp1_1(mp_ptr r, mp_size_t limbs, mp_limb_signed_t c)
+{
+   mp_limb_t sum = r[0] + c;
+
+   /* check if adding c would cause a carry to propagate */
+   if ((mp_limb_signed_t)(sum ^ r[0]) >= 0)
+      r[0] = sum;
+   else
+   {
+      if (c >= 0) mpn_add_1(r, r, limbs + 1, c);
+      else mpn_sub_1(r, r, limbs + 1, -c);
+   }
+}
+
+#define mpn_mul_2expmod_2expp1 __MPN(mul_2expmod_2expp1)
+__GMP_DECLSPEC void mpn_mul_2expmod_2expp1 __GMP_PROTO ((mp_ptr t, mp_ptr i1, mp_size_t limbs, mp_bitcnt_t d));
+
+#define n_revbin __n_revbin
+__GMP_DECLSPEC mp_limb_t n_revbin __GMP_PROTO ((mp_limb_t in, mp_limb_t bits));
+
+#define fft_adjust __fft_adjust
+__GMP_DECLSPEC void fft_adjust __GMP_PROTO ((mp_ptr r, mp_ptr i1, 
+                                     mp_size_t i, mp_size_t limbs, mp_bitcnt_t w));
+
+#define fft_adjust_sqrt2 __fft_adjust_sqrt2
+__GMP_DECLSPEC void fft_adjust_sqrt2 __GMP_PROTO ((mp_ptr r, mp_ptr i1, 
+                   mp_size_t i, mp_size_t limbs, mp_bitcnt_t w, mp_ptr temp));
+
+#define butterfly_lshB __butterfly_lshB
+__GMP_DECLSPEC void butterfly_lshB __GMP_PROTO ((mp_ptr t, mp_ptr u, mp_ptr i1, 
+                       mp_ptr i2, mp_size_t limbs, mp_size_t x, mp_size_t y));
+
+#define butterfly_rshB __butterfly_rshB
+__GMP_DECLSPEC void butterfly_rshB __GMP_PROTO ((mp_ptr t, mp_ptr u, mp_ptr i1, 
+                       mp_ptr i2, mp_size_t limbs, mp_size_t x, mp_size_t y));
+
+#define fermat_to_mpz __fermat_to_mpz
+__GMP_DECLSPEC void fermat_to_mpz __GMP_PROTO ((mpz_t m, mp_ptr i, mp_size_t limbs));
+
+#define fft_butterfly_twiddle __fft_butterfly_twiddle
+__GMP_DECLSPEC void fft_butterfly_twiddle __GMP_PROTO ((mp_ptr u, mp_ptr v, 
+   mp_ptr s, mp_ptr t, mp_size_t limbs, mp_bitcnt_t b1, mp_bitcnt_t b2));
+
+#define ifft_butterfly_twiddle __ifft_butterfly_twiddle
+__GMP_DECLSPEC void ifft_butterfly_twiddle __GMP_PROTO ((mp_ptr u, mp_ptr v, 
+   mp_ptr s, mp_ptr t, mp_size_t limbs, mp_bitcnt_t b1, mp_bitcnt_t b2));
+
+#define fft_butterfly_sqrt2 __fft_butterfly_sqrt2
+__GMP_DECLSPEC void fft_butterfly_sqrt2 __GMP_PROTO ((mp_ptr s, mp_ptr t, 
+                         mp_ptr i1, mp_ptr i2, mp_size_t i, 
+                                mp_size_t limbs, mp_bitcnt_t w, mp_ptr temp));
+
+#define ifft_butterfly_sqrt2 __ifft_butterfly_sqrt2
+__GMP_DECLSPEC void ifft_butterfly_sqrt2 __GMP_PROTO ((mp_ptr s, mp_ptr t, mp_ptr i1, 
+   mp_ptr i2, mp_size_t i, mp_size_t limbs, mp_bitcnt_t w, mp_ptr temp));
+
+#define fft_butterfly __fft_butterfly
+__GMP_DECLSPEC void fft_butterfly __GMP_PROTO ((mp_ptr s, mp_ptr t, mp_ptr i1, 
+                     mp_ptr i2, mp_size_t i, mp_size_t limbs, mp_bitcnt_t w));
+
+#define ifft_butterfly __ifft_butterfly
+__GMP_DECLSPEC void ifft_butterfly __GMP_PROTO ((mp_ptr s, mp_ptr t, mp_ptr i1, 
+                     mp_ptr i2, mp_size_t i, mp_size_t limbs, mp_bitcnt_t w));
+
+#define fft_combine_limbs __combine_limbs
+__GMP_DECLSPEC void fft_combine_limbs __GMP_PROTO ((mp_ptr res, mp_srcptr * poly, long length, 
+            mp_size_t coeff_limbs, mp_size_t output_limbs, mp_size_t total_limbs));
+
+#define fft_split_limbs __fft_split_limbs
+__GMP_DECLSPEC mp_size_t fft_split_limbs __GMP_PROTO ((mp_ptr * poly, mp_srcptr limbs, 
+            mp_size_t total_limbs, mp_size_t coeff_limbs, mp_size_t output_limbs));
+
+#define fft_truncate1 __fft_truncate1
+__GMP_DECLSPEC void fft_truncate1 __GMP_PROTO ((mp_ptr * ii, mp_size_t n, mp_bitcnt_t w, 
+                               mp_ptr * t1, mp_ptr * t2, mp_size_t trunc));
+
+#define ifft_truncate1 __ifft_truncate1
+__GMP_DECLSPEC void ifft_truncate1 __GMP_PROTO ((mp_ptr * ii, mp_size_t n, mp_bitcnt_t w, 
+                               mp_ptr * t1, mp_ptr * t2, mp_size_t trunc));
+
+#define fft_radix2_twiddle __fft_radix2_twiddle
+__GMP_DECLSPEC void fft_radix2_twiddle __GMP_PROTO ((mp_ptr * ii, mp_size_t is,
+      mp_size_t n, mp_bitcnt_t w, mp_ptr * t1, mp_ptr * t2,
+                            mp_size_t ws, mp_size_t r, mp_size_t c, mp_size_t rs));
+
+#define ifft_radix2_twiddle __ifft_radix2_twiddle
+__GMP_DECLSPEC void ifft_radix2_twiddle __GMP_PROTO ((mp_ptr * ii, mp_size_t is,
+        mp_size_t n, mp_bitcnt_t w, mp_ptr * t1, mp_ptr * t2,
+                            mp_size_t ws, mp_size_t r, mp_size_t c, mp_size_t rs));
+
+#define fft_truncate1_twiddle __fft_truncate1_twiddle
+__GMP_DECLSPEC void fft_truncate1_twiddle __GMP_PROTO ((mp_ptr * ii, mp_size_t is,
+        mp_size_t n, mp_bitcnt_t w, mp_ptr * t1, mp_ptr * t2,
+           mp_size_t ws, mp_size_t r, mp_size_t c, mp_size_t rs, mp_size_t trunc));
+
+#define ifft_truncate1_twiddle __ifft_truncate1_twiddle
+__GMP_DECLSPEC void ifft_truncate1_twiddle __GMP_PROTO ((mp_ptr * ii, mp_size_t is,
+        mp_size_t n, mp_bitcnt_t w, mp_ptr * t1, mp_ptr * t2,
+           mp_size_t ws, mp_size_t r, mp_size_t c, mp_size_t rs, mp_size_t trunc));
+
+#define fft_naive_convolution_1 __fft_naive_convolution_1
+__GMP_DECLSPEC void fft_naive_convolution_1 __GMP_PROTO ((mp_ptr r, mp_srcptr ii, 
+                                                     mp_srcptr jj, mp_size_t m));
+
+#define mpn_mulmod_2expp1_basecase __MPN(mulmod_2expp1_basecase)
+__GMP_DECLSPEC int mpn_mulmod_2expp1_basecase __GMP_PROTO ((mp_ptr, mp_srcptr, mp_srcptr, int, mpir_ui, mp_ptr));
+
 typedef __gmp_randstate_struct *gmp_randstate_ptr;
 typedef const __gmp_randstate_struct *gmp_randstate_srcptr;
 
 /* Pseudo-random number generator function pointers structure.  */
 typedef struct {
   void (*randseed_fn) __GMP_PROTO ((gmp_randstate_t rstate, mpz_srcptr seed));
-  void (*randget_fn) __GMP_PROTO ((gmp_randstate_t rstate, mp_ptr dest, unsigned long int nbits));
+  void (*randget_fn) __GMP_PROTO ((gmp_randstate_t rstate, mp_ptr dest, mpir_ui nbits));
   void (*randclear_fn) __GMP_PROTO ((gmp_randstate_t rstate));
   void (*randiset_fn) __GMP_PROTO ((gmp_randstate_ptr, gmp_randstate_srcptr));
 } gmp_randfnptr_t;
@@ -1294,22 +1412,10 @@ void mpn_toom8_sqr_n _PROTO((mp_ptr, mp_srcptr, mp_size_t));
 #define   mpn_toom42_mulmid __MPN(toom42_mulmid)
 __GMP_DECLSPEC void      mpn_toom42_mulmid __GMP_PROTO ((mp_ptr, mp_srcptr, mp_srcptr, mp_size_t, mp_ptr));
 
-#define mpn_fft_best_k __MPN(fft_best_k)
-int     mpn_fft_best_k _PROTO ((mp_size_t n, int sqr)) ATTRIBUTE_CONST;
-
-#define mpn_mul_fft  __MPN(mul_fft)
-int mpn_mul_fft _PROTO ((mp_ptr op, mp_size_t pl,
-                          mp_srcptr n, mp_size_t nl,
-                          mp_srcptr m, mp_size_t ml,
-                          int k));
-
-#define mpn_mul_fft_full  __MPN(mul_fft_full)
-void mpn_mul_fft_full _PROTO ((mp_ptr op,
-                               mp_srcptr n, mp_size_t nl,
-                               mp_srcptr m, mp_size_t ml));
-
-#define   mpn_fft_next_size __MPN(fft_next_size)
-mp_size_t mpn_fft_next_size _PROTO ((mp_size_t pl, int k)) ATTRIBUTE_CONST;
+#define mpn_mulmod_Bexpp1_fft __MPN(mulmod_Bexpp1_fft)
+int mpn_mulmod_Bexpp1_fft _PROTO ((mp_ptr op, mp_size_t pl,
+	     mp_srcptr n, mp_size_t nl,
+	     mp_srcptr m, mp_size_t ml));
 
 #define DC_DIVAPPR_Q_N_ITCH(n) ((n)*4 + 64)
 #define DC_BDIV_Q_N_ITCH(n) ((n)/2 + 2)
@@ -2475,11 +2581,11 @@ __GMP_DECLSPEC extern const struct bases mp_bases[257];
 #define BITS_TO_LIMBS(n)  (((n) + (GMP_NUMB_BITS - 1)) / GMP_NUMB_BITS)
 
 /* MPN_SET_UI sets an mpn (ptr, cnt) to given ui.  MPZ_FAKE_UI creates fake
-   mpz_t from ui.  The zp argument must have room for LIMBS_PER_ULONG limbs
-   in both cases (LIMBS_PER_ULONG is also defined here.) */
-#if BITS_PER_ULONG <= GMP_NUMB_BITS /* need one limb per ulong */
+   mpz_t from ui.  The zp argument must have room for LIMBS_PER_UI limbs
+   in both cases (LIMBS_PER_UI is also defined here.) */
+#if BITS_PER_UI <= GMP_NUMB_BITS /* need one limb per ulong */
 
-#define LIMBS_PER_ULONG 1
+#define LIMBS_PER_UI 1
 #define MPN_SET_UI(zp, zn, u)   \
   (zp)[0] = (u);                \
   (zn) = ((zp)[0] != 0);
@@ -2491,7 +2597,7 @@ __GMP_DECLSPEC extern const struct bases mp_bases[257];
 
 #else /* need two limbs per ulong */
 
-#define LIMBS_PER_ULONG 2
+#define LIMBS_PER_UI 2
 #define MPN_SET_UI(zp, zn, u)                          \
   (zp)[0] = (u) & GMP_NUMB_MASK;                       \
   (zp)[1] = (u) >> GMP_NUMB_BITS;                      \

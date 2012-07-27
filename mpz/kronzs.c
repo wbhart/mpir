@@ -28,7 +28,7 @@ MA 02110-1301, USA. */
    long, because 0x80..00 doesn't fit in a signed long. */
 
 int
-mpz_kronecker_si (mpz_srcptr a, long b)
+mpz_kronecker_si (mpz_srcptr a, mpir_si b)
 {
   mp_srcptr  a_ptr;
   mp_size_t  a_size;
@@ -39,7 +39,7 @@ mpz_kronecker_si (mpz_srcptr a, long b)
   if (a_size == 0)
     return JACOBI_0S (b);
 
-#if GMP_NUMB_BITS < BITS_PER_ULONG
+#if GMP_NUMB_BITS < BITS_PER_UI
   if (b > GMP_NUMB_MAX || b < -GMP_NUMB_MAX)
     {
       mp_limb_t  blimbs[2];
@@ -52,7 +52,7 @@ mpz_kronecker_si (mpz_srcptr a, long b)
 #endif
 
   result_bit1 = JACOBI_BSGN_SS_BIT1 (a_size, b);
-  b_limb = (unsigned long) ABS (b);
+  b_limb = (mpir_ui) ABS (b);
   a_ptr = PTR(a);
 
   if ((b_limb & 1) == 0)

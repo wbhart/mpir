@@ -40,7 +40,7 @@ MA 02110-1301, USA. */
   } while (0)
 
 void
-mpz_bin_ui (mpz_ptr r, mpz_srcptr n, unsigned long int k)
+mpz_bin_ui (mpz_ptr r, mpz_srcptr n, mpir_ui k)
 {
   mpz_t      ni;
   mp_limb_t  i;
@@ -81,7 +81,7 @@ mpz_bin_ui (mpz_ptr r, mpz_srcptr n, unsigned long int k)
      = ni, and new ni of ni+k-ni = k.  */
   if (mpz_cmp_ui (ni, k) < 0)
     {
-      unsigned long  tmp;
+      mpir_ui  tmp;
       tmp = k;
       k = mpz_get_ui (ni);
       mpz_set_ui (ni, tmp);

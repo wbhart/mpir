@@ -25,9 +25,8 @@ MA 02110-1301, USA. */
 #include "gmp-impl.h"
 #include "tests.h"
 
-
 void
-check_one (const char *desc, mpf_ptr got, mpf_srcptr u, unsigned long v)
+check_one (const char *desc, mpf_ptr got, mpf_srcptr u, mpir_ui v)
 {
   mp_size_t  usize, usign;
   mp_ptr     wp;
@@ -36,7 +35,7 @@ check_one (const char *desc, mpf_ptr got, mpf_srcptr u, unsigned long v)
   MPF_CHECK_FORMAT (got);
 
   /* this code not nailified yet */
-  ASSERT_ALWAYS (BITS_PER_ULONG <= GMP_NUMB_BITS);
+  ASSERT_ALWAYS (BITS_PER_UI <= GMP_NUMB_BITS);
   usign = SIZ (u);
   usize = ABS (usign);
   wp = refmpn_malloc_limbs (usize + 1);
@@ -70,7 +69,7 @@ check_rand (void)
 
   /* The nails code in mpf_mul_ui currently isn't exact, so suppress these
      tests for now.  */
-  if (BITS_PER_ULONG > GMP_NUMB_BITS)
+  if (BITS_PER_UI > GMP_NUMB_BITS)
     return;
 
   mpf_init (got);
@@ -128,9 +127,9 @@ check_various (void)
   mpf_init2 (got,  2*8*sizeof(long));
   mpf_init2 (want, 2*8*sizeof(long));
 
-  s = "0 * ULONG_MAX";
+  s = "0 * GMP_UI_MAX";
   mpf_set_ui (u, 0L);
-  mpf_mul_ui (got, u, ULONG_MAX);
+  mpf_mul_ui (got, u, GMP_UI_MAX);
   MPF_CHECK_FORMAT (got);
   mpf_set_ui (want, 0L);
   if (mpf_cmp (got, want) != 0)
@@ -143,11 +142,11 @@ check_various (void)
       abort ();
     }
 
-  s = "1 * ULONG_MAX";
+  s = "1 * GMP_UI_MAX";
   mpf_set_ui (u, 1L);
-  mpf_mul_ui (got, u, ULONG_MAX);
+  mpf_mul_ui (got, u, GMP_UI_MAX);
   MPF_CHECK_FORMAT (got);
-  mpf_set_ui (want, ULONG_MAX);
+  mpf_set_ui (want, GMP_UI_MAX);
   if (mpf_cmp (got, want) != 0)
     goto error;
 

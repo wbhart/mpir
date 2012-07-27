@@ -1237,9 +1237,9 @@ speed_mpn_mulmod_2expm1 (struct speed_params *s)
 }
 
 double
-speed_mpn_mulmod_2expp1 (struct speed_params *s)
+speed_mpn_mulmod_2expp1_basecase (struct speed_params *s)
 {
-  SPEED_ROUTINE_MPN_MULMOD_2EXPP1 (mpn_mulmod_2expp1);
+  SPEED_ROUTINE_MPN_MULMOD_2EXPP1_BASECASE (mpn_mulmod_2expp1_basecase);
 }
 
 double

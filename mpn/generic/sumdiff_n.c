@@ -31,8 +31,10 @@ ASSERT(MPN_SAME_OR_SEPARATE_P(s,x,n));
 ASSERT(MPN_SAME_OR_SEPARATE_P(s,y,n));
 ASSERT(MPN_SAME_OR_SEPARATE_P(d,x,n));
 ASSERT(MPN_SAME_OR_SEPARATE_P(d,y,n));
-ASSERT(!MPN_OVERLAP_P(s,n,d,n));
+ASSERT(!MPN_OVERLAP_P(s,d,n));
 
+if(n == 0)
+	return 0;
 if( (s==x && d==y)||(s==y && d==x) )
   {t=__GMP_ALLOCATE_FUNC_LIMBS(n);
    ret=mpn_sub_n(t,x,y,n);

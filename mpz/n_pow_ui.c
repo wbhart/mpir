@@ -150,7 +150,7 @@ MA 02110-1301, USA. */
 
 
 void
-mpz_n_pow_ui (mpz_ptr r, mp_srcptr bp, mp_size_t bsize, unsigned long int e)
+mpz_n_pow_ui (mpz_ptr r, mp_srcptr bp, mp_size_t bsize, mpir_ui e)
 {
   mp_ptr         rp;
   mp_size_t      rtwos_limbs, ralloc, rsize;

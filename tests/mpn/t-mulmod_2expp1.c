@@ -1,4 +1,4 @@
-/* Test mpn_mulmod_2expp1
+/* Test mpn_mulmod_2expp1_basecase
 
 Copyright 2009 Jason Moxham
 
@@ -47,9 +47,9 @@ for(   ;b<600;b++,tb*=2)
         ASSERT_MPN(xp,xn);ASSERT_MPN(yp,xn);ASSERT_MPN(zp,zn);ASSERT_MPN(dp,dn);
         mpn_mul_n(zp,xp,yp,xn);zn=xn*2;MPN_NORMALIZE(zp,zn);
         if(zn>=dn){mpn_tdiv_qr(qp,rp,0,zp,zn,dp,dn);}else{MPN_COPY(rp,zp,dn);}
-        cc=tp[xn]=mpn_mulmod_2expp1(tp,xp,yp,0,b,qp);
+        cc=tp[xn]=mpn_mulmod_2expp1_basecase(tp,xp,yp,0,b,qp);
         if(cc!=0 && dn==xn){tp[xn-1]|=tb;}
-        if(mpn_cmp(tp,rp,dn)!=0){printf("mpn_mulmod_2expp1 error %ld\n",b);abort();}        
+        if(mpn_cmp(tp,rp,dn)!=0){printf("mpn_mulmod_2expp1_basecase error %ld\n",b);abort();}        
        }
    }
 
@@ -70,9 +70,9 @@ for(   ;b<600;b++,tb*=2)
         ASSERT_MPN(dp,dn);
         mpn_mul(zp,yp,yn,xp,xn);zn=xn*2;MPN_NORMALIZE(zp,zn);MPN_ZERO(yp,xn);// set yp to 2^b
         if(zn>=dn){mpn_tdiv_qr(qp,rp,0,zp,zn,dp,dn);}else{MPN_COPY(rp,zp,dn);}
-        cc=tp[xn]=mpn_mulmod_2expp1(tp,xp,yp,1,b,qp);
+        cc=tp[xn]=mpn_mulmod_2expp1_basecase(tp,xp,yp,1,b,qp);
         if(cc!=0 && dn==xn){tp[xn-1]|=tb;}
-        if(mpn_cmp(tp,rp,dn)!=0){printf("mpn_mulmod_2expp1 error %ld\n",b);abort();}        
+        if(mpn_cmp(tp,rp,dn)!=0){printf("mpn_mulmod_2expp1_basecase error %ld\n",b);abort();}        
        }
    }
 
@@ -90,9 +90,9 @@ for(   ;b<600;b++,tb*=2)
         ASSERT_MPN(xp,xn);ASSERT_MPN(yp,yn);ASSERT_MPN(zp,zn);ASSERT_MPN(dp,dn);
         mpn_mul(zp,yp,yn,xp,xn);zn=xn*2;MPN_NORMALIZE(zp,zn);MPN_ZERO(yp,xn);// set yp to 2^b
         if(zn>=dn){mpn_tdiv_qr(qp,rp,0,zp,zn,dp,dn);}else{MPN_COPY(rp,zp,dn);}
-        cc=tp[xn]=mpn_mulmod_2expp1(tp,yp,xp,2,b,qp);
+        cc=tp[xn]=mpn_mulmod_2expp1_basecase(tp,yp,xp,2,b,qp);
         if(cc!=0 && dn==xn){tp[xn-1]|=tb;}
-        if(mpn_cmp(tp,rp,dn)!=0){printf("mpn_mulmod_2expp1 error %ld\n",b);abort();}        
+        if(mpn_cmp(tp,rp,dn)!=0){printf("mpn_mulmod_2expp1_basecase error %ld\n",b);abort();}        
        }
    }
 
@@ -106,9 +106,9 @@ for(   ;b<600;b++,tb*=2)
        {MPN_ZERO(xp,xn);MPN_ZERO(yp,xn);// set xp,yp to 2^b
         xp[xn-1]&=GMP_NUMB_MASK>>k;
         yp[xn-1]&=GMP_NUMB_MASK>>k;
-        cc=tp[xn]=mpn_mulmod_2expp1(tp,yp,xp,3,b,qp);
+        cc=tp[xn]=mpn_mulmod_2expp1_basecase(tp,yp,xp,3,b,qp);
         if(cc!=0 && dn==xn){tp[xn-1]|=tb;}
-        if(mpn_cmp(tp,rp,dn)!=0){printf("mpn_mulmod_2expp1 error %ld\n",b);abort();}        
+        if(mpn_cmp(tp,rp,dn)!=0){printf("mpn_mulmod_2expp1_basecase error %ld\n",b);abort();}        
        }
    }
   gmp_randclear(rands);

@@ -38,7 +38,7 @@ struct __gmp_rand_lc_scheme_struct
 {
   unsigned long int m2exp;	/* Modulus is 2 ^ m2exp. */
   const char *astr;		/* Multiplier in string form. */
-  unsigned long int c;		/* Addend. */
+  mpir_ui c;		/* Addend. */
 };
 
 static const struct __gmp_rand_lc_scheme_struct __gmp_rand_lc_scheme[] =

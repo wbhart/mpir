@@ -42,7 +42,7 @@ reduce (mp_ptr tp, mp_srcptr ap, mp_size_t an, mp_srcptr mp, mp_size_t mn)
 }
 
 void
-mpz_powm_ui (mpz_ptr r, mpz_srcptr b, unsigned long int el, mpz_srcptr m)
+mpz_powm_ui (mpz_ptr r, mpz_srcptr b, mpir_ui el, mpz_srcptr m)
 {
   mp_ptr xp, tp, qp, mp, bp;
   mp_size_t xn, tn, mn, bn;

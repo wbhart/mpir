@@ -27,7 +27,7 @@ MA 02110-1301, USA. */
 
 
 void
-mpf_ui_div (mpf_ptr r, unsigned long int u, mpf_srcptr v)
+mpf_ui_div (mpf_ptr r, mpir_ui u, mpf_srcptr v)
 {
   mp_srcptr vp;
   mp_ptr rp, tp, remp, new_vp;
@@ -93,7 +93,7 @@ mpf_ui_div (mpf_ptr r, unsigned long int u, mpf_srcptr v)
   MPN_ZERO (tp, tsize-1);
 
   tp[tsize - 1] = u & GMP_NUMB_MASK;
-#if BITS_PER_ULONG > GMP_NUMB_BITS
+#if BITS_PER_UI > GMP_NUMB_BITS
   if (u > GMP_NUMB_MAX)
     {
       /* tsize-vsize+1 == rsize, so tsize >= rsize.  rsize == prec+1 >= 2,

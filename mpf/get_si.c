@@ -42,7 +42,7 @@ MA 02110-1301, USA.
    through to the zany final "~ ((fl - 1) & LONG_MAX)", that would give
    -0x80000000 instead of the desired 0.  */
 
-long
+mpir_si
 mpf_get_si (mpf_srcptr f)
 {
   mp_exp_t exp;
@@ -66,14 +66,14 @@ mpf_get_si (mpf_srcptr f)
   if (abs_size >= exp)
     fl = fp[abs_size-exp];
 
-#if BITS_PER_ULONG > GMP_NUMB_BITS
+#if BITS_PER_UI > GMP_NUMB_BITS
   if (exp > 1 && abs_size+1 >= exp)
     fl |= fp[abs_size - exp + 1] << GMP_NUMB_BITS;
 #endif
 
   if (size > 0)
-    return fl & LONG_MAX;
+    return (mpir_si)(fl & GMP_SI_MAX);
   else
     /* this form necessary to correctly handle -0x80..00 */
-    return ~ ((fl - 1) & LONG_MAX);
+    return (mpir_si)(~((fl - 1) & GMP_SI_MAX));
 }

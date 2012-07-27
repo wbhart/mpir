@@ -35,7 +35,7 @@ MA 02110-1301, USA. */
 
 static int
 mill_rab (mpz_srcptr n, mpz_srcptr nm1, mpz_ptr x, mpz_ptr y,
-             mpz_srcptr q, unsigned long int k)
+             mpz_srcptr q, mpir_ui k)
 {
   unsigned long int i;
 

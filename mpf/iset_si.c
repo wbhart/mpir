@@ -24,7 +24,7 @@ MA 02110-1301, USA. */
 #include "gmp-impl.h"
 
 void
-mpf_init_set_si (mpf_ptr r, long int val)
+mpf_init_set_si (mpf_ptr r, mpir_si val)
 {
   mp_size_t prec = __gmp_default_fp_limb_precision;
   mp_size_t size;
@@ -33,12 +33,12 @@ mpf_init_set_si (mpf_ptr r, long int val)
   r->_mp_prec = prec;
   r->_mp_d = (mp_ptr) (*__gmp_allocate_func) ((prec + 1) * BYTES_PER_MP_LIMB);
 
-  vl = (mp_limb_t) (unsigned long int) (val >= 0 ? val : -val);
+  vl = (mp_limb_t) (mpir_ui) (val >= 0 ? val : -val);
 
   r->_mp_d[0] = vl & GMP_NUMB_MASK;
   size = vl != 0;
 
-#if BITS_PER_ULONG > GMP_NUMB_BITS
+#if BITS_PER_UI > GMP_NUMB_BITS
   vl >>= GMP_NUMB_BITS;
   r->_mp_d[1] = vl;
   size += (vl != 0);

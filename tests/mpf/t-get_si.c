@@ -1,4 +1,4 @@
-/* Exercise mpz_get_si.
+/* Exercise mpf_get_si.
 
 Copyright 2000, 2001 Free Software Foundation, Inc.
 
@@ -25,30 +25,30 @@ MA 02110-1301, USA. */
 #include "gmp-impl.h"
 #include "tests.h"
 
-
+#define printf gmp_printf
 void
 check_data (void)
 {
   static const struct {
     int         base;
     const char  *f;
-    long        want;
+    mpir_si      want;
   } data[] = {
-    { 10, "0",      0L },
-    { 10, "1",      1L },
-    { 10, "-1",     -1L },
-    { 10, "2",      2L },
-    { 10, "-2",     -2L },
-    { 10, "12345",  12345L },
-    { 10, "-12345", -12345L },
+    { 10, "0",      0 },
+    { 10, "1",      1 },
+    { 10, "-1",     -1 },
+    { 10, "2",      2 },
+    { 10, "-2",     -2 },
+    { 10, "12345",  12345 },
+    { 10, "-12345", -12345 },
 
     /* fraction bits ignored */
-    { 10, "0.5",    0L },
-    { 10, "-0.5",   0L },
-    { 10, "1.1",    1L },
-    { 10, "-1.1",   -1L },
-    { 10, "1.9",    1L },
-    { 10, "-1.9",   -1L },
+    { 10, "0.5",    0 },
+    { 10, "-0.5",   0 },
+    { 10, "1.1",    1 },
+    { 10, "-1.1",   -1 },
+    { 10, "1.9",    1 },
+    { 10, "-1.9",   -1 },
     { 16, "1.000000000000000000000000000000000000000000000000001", 1L },
     { 16, "-1.000000000000000000000000000000000000000000000000001", -1L },
 
@@ -59,9 +59,9 @@ check_data (void)
 
   int    i;
   mpf_t  f;
-  long   got;
+  mpir_si   got;
 
-  mpf_init2 (f, 2000L);
+  mpf_init2 (f, 2000);
   for (i = 0; i < numberof (data); i++)
     {
       mpf_set_str_or_abort (f, data[i].f, data[i].base);
@@ -75,8 +75,8 @@ check_data (void)
           printf ("     hex "); mpf_out_str (stdout, 16, 0, f); printf ("\n");
           printf ("     size %ld\n", (long) SIZ(f));
           printf ("     exp  %ld\n", (long) EXP(f));
-          printf ("   got   %ld (0x%lX)\n", got, got);
-          printf ("   want  %ld (0x%lX)\n", data[i].want, data[i].want);
+          printf ("   got   %Md (%#Mx)\n", got, got);
+          printf ("   want  %Md (%#Mx)\n", data[i].want, data[i].want);
           abort();                                    
         }
     }
@@ -88,8 +88,8 @@ void
 check_max (void)
 {
   mpf_t  f;
-  long   want;
-  long   got;
+  mpir_si   want;
+  mpir_si   got;
 
   mpf_init2 (f, 200L);
 
@@ -100,20 +100,20 @@ check_max (void)
       printf ("   f    ");                                      \
       mpf_out_str (stdout, 10, 0, f); printf (", hex ");        \
       mpf_out_str (stdout, 16, 0, f); printf ("\n");            \
-      printf ("   got  %ld, hex %lX\n", got, got);              \
-      printf ("   want %ld, hex %lX\n", want, want);            \
+      printf ("   got  %ld, hex %#Mx\n", got, got);             \
+      printf ("   want %ld, hex %#Mx\n", want, want);           \
       abort();                                                  \
     }
 
-  want = LONG_MAX;
+  want = GMP_SI_MAX;
   mpf_set_si (f, want);
   got = mpf_get_si (f);
-  CHECK_MAX ("LONG_MAX");
+  CHECK_MAX ("GMP_SI_MAX");
 
-  want = LONG_MIN;
+  want = GMP_SI_MIN;
   mpf_set_si (f, want);
   got = mpf_get_si (f);
-  CHECK_MAX ("LONG_MIN");
+  CHECK_MAX ("GMP_SI_MIN");
 
   mpf_clear (f);
 }
@@ -128,58 +128,58 @@ check_limbdata (void)
     mp_exp_t       exp;
     mp_size_t      size;
     mp_limb_t      d[10];
-    unsigned long  want;
+    mpir_si         want;
 
   } data[] = {
 
     /* in the comments here, a "_" indicates a digit (ie. limb) position not
        included in the d data, and therefore zero */
 
-    { 0, 0, { 0 }, 0L },    /* 0 */
+    { 0, 0, { 0 }, 0 },    /* 0 */
 
-    { 1,  1, { 1 }, 1L },   /* 1 */
-    { 1, -1, { 1 }, -1L },  /* -1 */
+    { 1,  1, { 1 }, 1 },   /* 1 */
+    { 1, -1, { 1 }, -1 },  /* -1 */
 
-    { 0,  1, { 1 }, 0L },   /* .1 */
-    { 0, -1, { 1 }, 0L },   /* -.1 */
+    { 0,  1, { 1 }, 0 },   /* .1 */
+    { 0, -1, { 1 }, 0 },   /* -.1 */
 
-    { -1,  1, { 1 }, 0L },  /* ._1 */
-    { -1, -1, { 1 }, 0L },  /* -._1 */
+    { -1,  1, { 1 }, 0 },  /* ._1 */
+    { -1, -1, { 1 }, 0 },  /* -._1 */
 
-    { -999,          1, { 1 }, 0L },   /* .___1 small */
-    { MP_EXP_T_MIN,  1, { 1 }, 0L },   /* .____1 very small */
+    { -999,          1, { 1 }, 0 },   /* .___1 small */
+    { MP_EXP_T_MIN,  1, { 1 }, 0 },   /* .____1 very small */
 
-    { 999,          1, { 1 }, 0L },    /* 1____. big */
-    { MP_EXP_T_MAX, 1, { 1 }, 0L },    /* 1_____. very big */
+    { 999,          1, { 1 }, 0 },    /* 1____. big */
+    { MP_EXP_T_MAX, 1, { 1 }, 0 },    /* 1_____. very big */
 
     { 1, 2, { 999, 2 }, 2L },                  /* 2.9 */
-    { 5, 8, { 7, 8, 9, 3, 0, 0, 0, 1 }, 3L },  /* 10003.987 */
+    { 5, 8, { 7, 8, 9, 3, 0, 0, 0, 1 }, 3 },  /* 10003.987 */
 
-    { 2, 2, { M, M },    LONG_MAX }, /* FF. */
-    { 2, 2, { M, M, M }, LONG_MAX }, /* FF.F */
-    { 3, 3, { M, M, M }, LONG_MAX }, /* FFF. */
+    { 2, 2, { M, M },    GMP_SI_MAX }, /* FF. */
+    { 2, 2, { M, M, M }, GMP_SI_MAX }, /* FF.F */
+    { 3, 3, { M, M, M }, GMP_SI_MAX }, /* FFF. */
 
-#if GMP_NUMB_BITS >= BITS_PER_ULONG
+#if GMP_NUMB_BITS >= BITS_PER_UI
     /* normal case, numb bigger than long */
-    { 2,  1, { 1 },    0L },      /* 1_. */
-    { 2,  2, { 0, 1 }, 0L },      /* 10. */
-    { 2,  2, { 999, 1 }, 999L },  /* 19. */
-    { 3,  2, { 999, 1 }, 0L },    /* 19_. */
+    { 2,  1, { 1 },    0 },      /* 1_. */
+    { 2,  2, { 0, 1 }, 0 },      /* 10. */
+    { 2,  2, { 999, 1 }, 999 },  /* 19. */
+    { 3,  2, { 999, 1 }, 0 },    /* 19_. */
 
 #else
     /* nails case, numb smaller than long */
-    { 2,  1, { 1 }, 1L << GMP_NUMB_BITS },  /* 1_. */
-    { 3,  1, { 1 }, 0L },                   /* 1__. */
+    { 2,  1, { 1 }, 1 << GMP_NUMB_BITS },  /* 1_. */
+    { 3,  1, { 1 }, 0 },                   /* 1__. */
 
-    { 2,  2, { 99, 1 },    99L + (1L << GMP_NUMB_BITS) },  /* 19. */
-    { 3,  2, { 1, 99 },    1L << GMP_NUMB_BITS },          /* 91_. */
-    { 3,  3, { 0, 1, 99 }, 1L << GMP_NUMB_BITS },          /* 910. */
+    { 2,  2, { 99, 1 },    99 + (1 << GMP_NUMB_BITS) },  /* 19. */
+    { 3,  2, { 1, 99 },    1 << GMP_NUMB_BITS },          /* 91_. */
+    { 3,  3, { 0, 1, 99 }, 1 << GMP_NUMB_BITS },          /* 910. */
 
 #endif
   };
 
   mpf_t          f;
-  unsigned long  got;
+  mpir_si         got;
   int            i;
   mp_limb_t      buf[20 + numberof(data[i].d)];
 
@@ -201,10 +201,10 @@ check_limbdata (void)
           printf    ("mpf_get_si wrong at limb data[%d]\n", i);
           mpf_trace ("  f", f);
           mpn_trace ("  d", data[i].d, data[i].size);
-          printf    ("  size %ld\n", (long) data[i].size);
-          printf    ("  exp %ld\n", (long) data[i].exp);
-          printf    ("  got   %lu (0x%lX)\n", got, got);
-          printf    ("  want  %lu (0x%lX)\n", data[i].want, data[i].want);
+          printf    ("  size %ld\n", (mpir_si) data[i].size);
+          printf    ("  exp %ld\n", (mpir_si) data[i].exp);
+          printf    ("  got   %Mu (%#Mx)\n", got, got);
+          printf    ("  want  %Mu (%#Mx)\n", data[i].want, data[i].want);
           abort();
         }
     }

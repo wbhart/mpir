@@ -37,6 +37,6 @@ typedef struct
 
 
 void __gmp_mt_recalc_buffer __GMP_PROTO ((gmp_uint_least32_t *));
-void __gmp_randget_mt __GMP_PROTO ((gmp_randstate_t, mp_ptr, unsigned long int));
+void __gmp_randget_mt __GMP_PROTO ((gmp_randstate_t, mp_ptr, mpir_ui));
 void __gmp_randclear_mt __GMP_PROTO ((gmp_randstate_t rstate));
 void __gmp_randiset_mt __GMP_PROTO ((gmp_randstate_ptr, gmp_randstate_srcptr));

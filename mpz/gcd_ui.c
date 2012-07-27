@@ -24,13 +24,13 @@ MA 02110-1301, USA. */
 #include "mpir.h"
 #include "gmp-impl.h"
 
-unsigned long int
-mpz_gcd_ui (mpz_ptr w, mpz_srcptr u, unsigned long int v)
+mpir_ui
+mpz_gcd_ui (mpz_ptr w, mpz_srcptr u, mpir_ui v)
 {
   mp_size_t un;
   mp_limb_t res;
 
-#if BITS_PER_ULONG > GMP_NUMB_BITS  /* avoid warnings about shift amount */
+#if BITS_PER_UI > GMP_NUMB_BITS  /* avoid warnings about shift amount */
   if (v > GMP_NUMB_MAX)
     {
       mpz_t vz;
@@ -41,7 +41,7 @@ mpz_gcd_ui (mpz_ptr w, mpz_srcptr u, unsigned long int v)
       SIZ(vz) = 2;
       mpz_gcd (w, u, vz);
       /* because v!=0 we will have w<=v hence fitting a ulong */
-      ASSERT (mpz_fits_ulong_p (w));
+      ASSERT (mpz_fits_ui_p (w));
       return mpz_get_ui (w);
     }
 #endif

@@ -46,11 +46,11 @@ MA 02110-1301, USA. */
    limb of F[4m+1] can certainly be 1, and an mpn_add_1 must be used.  */
 
 void
-mpz_fib_ui (mpz_ptr fn, unsigned long n)
+mpz_fib_ui (mpz_ptr fn, mpir_ui n)
 {
   mp_ptr         fp, xp, yp;
   mp_size_t      size, xalloc;
-  unsigned long  n2;
+  mpir_ui         n2;
   mp_limb_t      c, c2;
   TMP_DECL;
 
@@ -100,7 +100,7 @@ mpz_fib_ui (mpz_ptr fn, unsigned long n)
       size = xsize + ysize;
       c = mpn_mul (fp, xp, xsize, yp, ysize);
 
-#if GMP_NUMB_BITS >= BITS_PER_ULONG
+#if GMP_NUMB_BITS >= BITS_PER_UI
       /* no overflow, see comments above */
       ASSERT (n & 2 ? fp[0] >= 2 : fp[0] <= GMP_NUMB_MAX-2);
       fp[0] += (n & 2 ? -CNST_LIMB(2) : CNST_LIMB(2));

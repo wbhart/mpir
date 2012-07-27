@@ -104,8 +104,8 @@ mpn_get_d (mp_srcptr ptr, mp_size_t size, mp_size_t sign, long exp)
   /* Adjust exp to a radix point just above {ptr,size}, guarding against
      overflow.	After this exp can of course be reduced to anywhere within
      the {ptr,size} region without underflow.  */
-  if (UNLIKELY ((unsigned long) (GMP_NUMB_BITS * size)
-		> (unsigned long) (LONG_MAX - exp)))
+  if (UNLIKELY ((mpir_ui) (GMP_NUMB_BITS * size)
+		> (mpir_ui) (LONG_MAX - exp)))
     {
       goto ieee_infinity;
 

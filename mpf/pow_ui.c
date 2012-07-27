@@ -23,10 +23,10 @@ MA 02110-1301, USA. */
 #include "gmp-impl.h"
 
 void
-mpf_pow_ui (mpf_ptr r, mpf_srcptr b, unsigned long int e)
+mpf_pow_ui (mpf_ptr r, mpf_srcptr b, mpir_ui e)
 {
   mpf_t b2;
-  unsigned long int e2;
+  mpir_ui e2;
 
   mpf_init2 (b2, mpf_get_prec (r));
   mpf_set (b2, b);

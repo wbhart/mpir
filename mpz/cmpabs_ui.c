@@ -25,7 +25,7 @@ MA 02110-1301, USA. */
 #include "gmp-impl.h"
 
 int
-mpz_cmpabs_ui (mpz_srcptr u, unsigned long int v_digit)
+mpz_cmpabs_ui (mpz_srcptr u, mpir_ui v_digit)
 {
   mp_ptr up;
   mp_size_t un;

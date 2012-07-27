@@ -30,7 +30,7 @@ Boston, MA 02110-1301, USA.
 // NOTE: not reduced fully means the representation is redundant , although only 0 has two representations ie 0 and 2^b-1 
 inline static void
 mpn_mulmod_2expm1_basecase (mp_ptr xp, mp_srcptr yp, mp_srcptr zp,
-			    unsigned long b, mp_ptr tp)
+			    mpir_ui b, mp_ptr tp)
 {
   mp_size_t n, k;
   mp_limb_t c;
@@ -83,7 +83,7 @@ mpn_mulmod_2expm1_basecase (mp_ptr xp, mp_srcptr yp, mp_srcptr zp,
 */
 // tp requires 5(n+lg(b)) space 
 void
-mpn_mulmod_2expm1 (mp_ptr xp, mp_ptr yp, mp_ptr zp, unsigned long b,
+mpn_mulmod_2expm1 (mp_ptr xp, mp_ptr yp, mp_ptr zp, mpir_ui b,
 		   mp_ptr tp)
 {
   mp_size_t h, n, m, k;
@@ -180,7 +180,7 @@ mpn_mulmod_2expm1 (mp_ptr xp, mp_ptr yp, mp_ptr zp, unsigned long b,
       tzpp[m - 1] &= GMP_NUMB_MASK >> k;
     }
   mpn_mulmod_2expm1 (S, typm, tzpm, h, temp);	// unroll this recursion  S=A rename
-  c = mpn_mulmod_2expp1 (D, typp, tzpp, c1 * 2 + c2, h, temp);	// D=B rename
+  c = mpn_mulmod_2expp1_basecase (D, typp, tzpp, c1 * 2 + c2, h, temp);	// D=B rename
   if (LIKELY (c == 0))
     {
       c1 = mpn_sumdiff_n (S, D, S, D, m);
@@ -257,7 +257,7 @@ ASSERT_NOCARRY(mpn_add_1(xp,xp,n,c));
 return;}
 
 // (xp,n) = (yp,yn)%(2^b-1) not fully reduced , reduced to nearest limb
-void	mpn_mod_2expm1(mp_ptr xp,mp_srcptr yp,mp_size_t yn,unsigned long b)
+void	mpn_mod_2expm1(mp_ptr xp,mp_srcptr yp,mp_size_t yn,mpir_ui b)
 {mp_limb_t c=0;mp_size_t n;
 
 ASSERT(yn>0);//ASSERT(n>0);
@@ -297,7 +297,7 @@ if(c>=0){c=mpn_sub_1(xp,xp,n,c);}else{c=-c;}
 c=mpn_add_1(xp,xp,n,c);
 return c;}
 
-void	mpn_mod_2expm1(mp_ptr xp,mp_ptr tp,mp_size_t m,unsigned long b)
+void	mpn_mod_2expm1(mp_ptr xp,mp_ptr tp,mp_size_t m,mpir_ui b)
 {mp_limb_t c;mp_size_t n,k;mp_ptr ttp;
 n=BITS_TO_LIMBS(b);k=GMP_NUMB_BITS*n-b;
 ttp=__GMP_ALLOCATE_FUNC_LIMBS(2*n);MPN_ZERO(ttp,2*n);MPN_COPY(ttp,tp,m);
@@ -308,7 +308,7 @@ c=xp[n-1]>>(GMP_NUMB_BITS-k);xp[n-1]&=GMP_NUMB_MASK>>k;
 MPN_INCR_U(xp,n,c);return;}
 
 
-int      mpn_mod_2expp1(mp_ptr xp,mp_ptr tp,mp_size_t m,unsigned long b)
+int      mpn_mod_2expp1(mp_ptr xp,mp_ptr tp,mp_size_t m,mpir_ui b)
 {mp_size_t n,k;mp_limb_t c;mp_ptr ttp;
 
 n=BITS_TO_LIMBS(b);k=GMP_NUMB_BITS*n-b;
@@ -321,7 +321,7 @@ xp[n-1]&=GMP_NUMB_MASK>>k;
 return c;}
 
 
-void	mpn_mulmod_2expm1_new(mp_ptr xp,mp_ptr yp,mp_ptr zp,unsigned long b,mp_ptr tp)
+void	mpn_mulmod_2expm1_new(mp_ptr xp,mp_ptr yp,mp_ptr zp,mpir_ui b,mp_ptr tp)
 {mp_size_t h,n,m,k;int bor,c,c1,c2;mp_ptr S,D,typm,tzpm,typp,tzpp,temp;mp_limb_t car;
 
 // want y*z %(2^n-1)         // want y*z%(2^(2m)-1) = y*z%((2^m-1)(2^m+1)) // use CRT 
@@ -361,7 +361,7 @@ else
    tzpp[m-1]&=GMP_NUMB_MASK>>k;}
 
 mpn_mulmod_2expm1_new(S,typm,tzpm,h,temp);// unroll this recursion  S=A rename
-c=mpn_mulmod_2expp1(D,typp,tzpp,c1*2+c2,h,temp);	// D=B rename
+c=mpn_mulmod_2expp1_basecase(D,typp,tzpp,c1*2+c2,h,temp);	// D=B rename
 __GMP_FREE_FUNC_LIMBS(typm,m);__GMP_FREE_FUNC_LIMBS(tzpm,m);__GMP_FREE_FUNC_LIMBS(typp,m);__GMP_FREE_FUNC_LIMBS(tzpp,m);
 __GMP_FREE_FUNC_LIMBS(temp,2*m);
 if(LIKELY(c==0))

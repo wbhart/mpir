@@ -27,13 +27,13 @@ MA 02110-1301, USA. */
 
 #ifdef OPERATION_mul_si
 #define FUNCTION               mpz_mul_si
-#define MULTIPLICAND_UNSIGNED
-#define MULTIPLICAND_ABS(x)    ((unsigned long) ABS(x))
+#define MULTIPLICAND_UNSIGNED  mpir_si
+#define MULTIPLICAND_ABS(x)    ((mpir_ui) ABS(x))
 #endif
 
 #ifdef OPERATION_mul_ui
 #define FUNCTION               mpz_mul_ui
-#define MULTIPLICAND_UNSIGNED  unsigned
+#define MULTIPLICAND_UNSIGNED  mpir_ui
 #define MULTIPLICAND_ABS(x)    x
 #endif
 
@@ -44,7 +44,7 @@ Error, error, unrecognised OPERATION
 
 void
 FUNCTION (mpz_ptr prod, mpz_srcptr mult,
-          MULTIPLICAND_UNSIGNED long int small_mult)
+          MULTIPLICAND_UNSIGNED small_mult)
 {
   mp_size_t size = SIZ(mult);
   mp_size_t sign_product = size;

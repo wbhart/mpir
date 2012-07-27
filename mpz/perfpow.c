@@ -44,8 +44,8 @@ MA 02110-1301, USA. */
 #include "gmp-impl.h"
 #include "longlong.h"
 
-static unsigned long int gcd _PROTO ((unsigned long int a, unsigned long int b));
-static int isprime _PROTO ((unsigned long int t));
+static mpir_ui gcd _PROTO ((mpir_ui a, mpir_ui b));
+static int isprime _PROTO ((mpir_ui t));
 
 static const unsigned short primes[] =
 {  2,  3,  5,  7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53,
@@ -210,8 +210,8 @@ n2prime:
   return exact;
 }
 
-static unsigned long int
-gcd (unsigned long int a, unsigned long int b)
+static mpir_ui
+gcd (mpir_ui a, mpir_ui b)
 {
   int an2, bn2, n2;
 
@@ -250,9 +250,9 @@ gcd (unsigned long int a, unsigned long int b)
 }
 
 static int
-isprime (unsigned long int t)
+isprime (mpir_ui t)
 {
-  unsigned long int q, r, d;
+  mpir_ui q, r, d;
 
   if (t < 3 || (t & 1) == 0)
     return t == 2;

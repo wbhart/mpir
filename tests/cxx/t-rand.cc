@@ -37,19 +37,20 @@ check_randinit (void)
 
   {
     mpz_class a(0);
-    unsigned long c = 0, m2exp = 8;
+    mpir_ui c = 0;
+    mp_bitcnt_t m2exp = 8;
     gmp_randclass r(gmp_randinit_lc_2exp, a, c, m2exp);
   }
 
   {
-    unsigned long m2exp = 64;
+    mpir_ui m2exp = 64;
     gmp_randclass r(gmp_randinit_lc_2exp_size, m2exp);
   }
 
   /* gmp_randinit_lc_2exp_size, with excessive size */
   {
     try {
-      unsigned long m2exp = ULONG_MAX;
+      mpir_ui m2exp = ULONG_MAX;
       gmp_randclass r(gmp_randinit_lc_2exp_size, m2exp);
       ASSERT_ALWAYS (0);  /* should not be reached */
     } catch (length_error) {
@@ -63,17 +64,17 @@ check_randinit (void)
   /* obsolete, but still available */
   {
     gmp_randalg_t alg = GMP_RAND_ALG_LC;
-    unsigned long m2exp = 64;
+    mpir_ui m2exp = 64;
     gmp_randclass r(alg, m2exp);
   }
   {
     gmp_randalg_t alg = GMP_RAND_ALG_DEFAULT;
-    unsigned long m2exp = 64;
+    mpir_ui m2exp = 64;
     gmp_randclass r(alg, m2exp);
   }
   {
     gmp_randalg_t alg = (gmp_randalg_t) 0;
-    unsigned long m2exp = 64;
+    mpir_ui m2exp = 64;
     gmp_randclass r(alg, m2exp);
   }
 }
@@ -92,7 +93,7 @@ check_mpz (void)
   {
     gmp_randclass r(gmp_randinit_default);
     mpz_class a(256);
-    unsigned long b = 123;
+    mpir_ui b = 123;
     mpz_class c;
     r.seed(b);
     c = r.get_z_bits(a);

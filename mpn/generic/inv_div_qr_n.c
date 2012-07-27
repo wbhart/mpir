@@ -22,6 +22,7 @@ MA 02110-1301, USA. */
 #include <mpir.h>
 #include "gmp-impl.h"
 #include "longlong.h"
+#include "fft/fft_tuning.h"
 
 /* 
    Computes the quotient and remainder of { np, 2*dn } by { dp, dn }.
@@ -34,7 +35,7 @@ mpn_inv_div_qr_n(mp_ptr qp, mp_ptr np,
 {
    mp_limb_t cy, lo, ret = 0, ret2 = 0;
    mp_size_t m, i;
-   mp_ptr tp, tp2;
+   mp_ptr tp;
    TMP_DECL;
 
    TMP_MARK;
@@ -82,11 +83,11 @@ mpn_inv_div_qr_n(mp_ptr qp, mp_ptr np,
    } else
    {
       mp_limb_t cy, cy2;
-      mp_size_t k;
-      k = mpn_fft_best_k (m, 0);
-      m = mpn_fft_next_size (m, k);
-
-      cy = mpn_mul_fft (tp, m, qp, dn, dp, dn, k);
+      
+      if (m >= FFT_MULMOD_2EXPP1_CUTOFF)
+         m = fft_adjust_limbs (m);
+      cy = mpn_mulmod_Bexpp1_fft (tp, m, qp, dn, dp, dn);
+      
       /* cy, {tp, m} = qp * dp mod (B^m+1) */ 
       cy2 = mpn_add_n(tp, tp, np + m, 2*dn - m);
       mpn_add_1(tp + 2*dn - m, tp + 2*dn - m, 2*m - 2*dn, cy2);

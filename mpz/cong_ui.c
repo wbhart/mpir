@@ -31,7 +31,7 @@ MA 02110-1301, USA. */
    if modexact is being used exclusively then that's not reached.  */
 
 int
-mpz_congruent_ui_p (mpz_srcptr a, unsigned long cu, unsigned long du)
+mpz_congruent_ui_p (mpz_srcptr a, mpir_ui cu, mpir_ui du)
 {
   mp_srcptr  ap;
   mp_size_t  asize;

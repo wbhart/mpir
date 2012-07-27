@@ -50,11 +50,11 @@ MA 02110-1301, USA. */
 } while (0)
 
 void
-mpz_bin_uiui (mpz_ptr r, unsigned long int n, unsigned long int k)
+mpz_bin_uiui (mpz_ptr r, mpir_ui n, mpir_ui k)
 {
-  unsigned long int  i, j;
+  mpir_ui  i, j;
   mp_limb_t          nacc, kacc;
-  unsigned long int  cnt;
+  mpir_ui  cnt;
   mp_size_t          rsize, ralloc;
   mp_ptr             rp;
 

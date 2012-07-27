@@ -25,7 +25,7 @@ along with the GNU MP Library.  If not, see http://www.gnu.org/licenses/.  */
 #include "gmp-impl.h"
 
 void
-mpz_rootrem (mpz_ptr root, mpz_ptr rem, mpz_srcptr u, unsigned long int nth)
+mpz_rootrem (mpz_ptr root, mpz_ptr rem, mpz_srcptr u, mpir_ui nth)
 {
   mp_ptr rootp, up, remp;
   mp_size_t us, un, rootn, remn;

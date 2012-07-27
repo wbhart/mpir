@@ -25,7 +25,7 @@ MA 02110-1301, USA. */
 
 
 int
-mpz_kronecker_ui (mpz_srcptr a, unsigned long b)
+mpz_kronecker_ui (mpz_srcptr a, mpir_ui b)
 {
   mp_srcptr  a_ptr;
   mp_size_t  a_size;

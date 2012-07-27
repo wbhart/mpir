@@ -24,7 +24,7 @@ MA 02110-1301, USA.
 #include "gmp-impl.h"
 
 void
-mpz_divexact_ui (mpz_ptr dst, mpz_srcptr src, unsigned long divisor)
+mpz_divexact_ui (mpz_ptr dst, mpz_srcptr src, mpir_ui divisor)
 {
   mp_size_t  size, abs_size;
   mp_ptr     dst_ptr;

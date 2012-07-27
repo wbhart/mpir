@@ -26,16 +26,18 @@ MA 02110-1301, USA. */
 #include "gmp-impl.h"
 #include "tests.h"
 
+#define printf gmp_printf
+
 /* Check mpz_gcd_ui doesn't try to return a value out of range.
    This was wrong in gmp 4.1.2 with a long long limb.  */
 static void
 check_ui_range (void)
 {
-  unsigned long  got;
+  mpir_ui got;
   mpz_t  x;
   int  i;
 
-  mpz_init_set_ui (x, ULONG_MAX);
+  mpz_init_set_ui (x, GMP_UI_MAX);
 
   for (i = 0; i < 20; i++)
     {
@@ -43,8 +45,8 @@ check_ui_range (void)
       got = mpz_gcd_ui (NULL, x, 0L);
       if (got != 0)
         {
-          printf ("mpz_gcd_ui (ULONG_MAX*2^%d, 0)\n", i);
-          printf ("   return %#lx\n", got);
+          printf ("mpz_gcd_ui (GMP_UI_MAX*2^%d, 0)\n", i);
+          printf ("   return %#Mx\n", got);
           printf ("   should be 0\n");
           abort ();
         }
