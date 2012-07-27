@@ -480,16 +480,27 @@ gmp_prog_cc_works=yes
 # first see a simple "main()" works, then go on to other checks
 GMP_PROG_CC_WORKS_PART([$1], [])
 
-GMP_PROG_CC_WORKS_PART_MAIN([$1], [gcc-4.3.2 on 64bit is bad],
+GMP_PROG_CC_WORKS_PART_MAIN([$1], [gcc-4.3.2 on 64bit is bad , try -O1 or -fno-strict-aliasing for the flags],
 [/* The following aborts with gcc-4.3.2 on a 64bit system which is an unusable compiler */
-int main(){
-#ifdef __GNUC__
-#if __GNUC__ == 4 && __GNUC_MINOR__ == 3 && __GNUC_PATCHLEVEL__ == 2
-int *p;
-if(sizeof(p)==8)abort();
+#if defined(__GNUC__)
+int __attribute__((noinline))
+foo(int i)
+{
+  int *p = __builtin_malloc (4 * sizeof(int));
+  *p = 0;
+  p[i] = 1;
+  return *p;
+}
+extern void abort (void);
+int main()
+{
+   if (foo(0) != 1)
+        abort ();
+        return 0;
+}
+#else
+int main(){return 0;}
 #endif
-#endif
-return 0;}
 ])
 
 GMP_PROG_CC_WORKS_PART([$1], [function pointer return],

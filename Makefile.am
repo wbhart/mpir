@@ -73,6 +73,8 @@
 #	2.3.1	10.8.3	4.16.3
 #	2.4.0   11.0.4  4.17.3
 #	2.5.0	11.1.4	4.18.3
+#	2.5.1	11.2.4	4.19.3
+#	2.5.2	11.3.4	4.20.3
 
 # Starting at 3:0:0 is a slight abuse of the versioning system, but it
 # ensures we're past soname libgmp.so.2, which was used on Debian GNU/Linux
@@ -86,11 +88,11 @@
 # libgmpxx.so.3.0.4) incrementing, to make it clear which GMP it's from.
 
 LIBGMP_LT_CURRENT = 11
-LIBGMP_LT_REVISION = 1
+LIBGMP_LT_REVISION = 3
 LIBGMP_LT_AGE = 4
 
 LIBGMPXX_LT_CURRENT = 4
-LIBGMPXX_LT_REVISION = 18
+LIBGMPXX_LT_REVISION = 20
 LIBGMPXX_LT_AGE = 3
 
 SUBDIRS = tests

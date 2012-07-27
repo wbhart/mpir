@@ -20,6 +20,45 @@ along with the GNU MP Library; see the file COPYING.LIB.  If not, write to
 the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 MA 02110-1301, USA.
 
+Changes between MPIR 2.5.1 and MPIR 2.5.0
+
+Bug Fixes:
+
+ * Correct very rare errors in multiplication code
+ * Correct very rare error in GCD code
+ * minor MSVC build fixes
+
+Features:
+
+ * addadd addsub subadd sumdiff unconditionally availible on all systems 
+ * redc_2 availible
+
+Changes between MPIR 2.5.0 and MPIR 2.4.0
+
+Bug Fixes:
+
+ * Correct rounding mode make check tests
+
+Speedups:
+
+ * x86_64 fat build now uses RIP relative addressing
+ * Toom22 speedup via assembler
+ * New x86_64 assembler code
+ * New Toom eval function using the new assembler code
+ * Detect another Sandybridge CPU
+ * New GCD code (by the GMP project)
+
+Features:
+
+ * General cleanup of old features 
+ * Upgrade intenal component YASM
+ * MSVC build tweeks
+ * New experimental MSVC python build system
+
+Changes:
+
+ * Remove explicit support for thumb m68k and sh cpu's
+
 Changes between MPIR 2.4.0 and MPIR 2.3.1
 
 Bug Fixes:

@@ -1,7 +1,7 @@
 This is mpir.info, produced by makeinfo version 4.13 from mpir.texi.
 
 This manual describes how to install and use MPIR, the Multiple
-Precision Integers and Rationals library, version 2.5.0.
+Precision Integers and Rationals library, version 2.5.1.
 
    Copyright 1991, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000,
 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010 Free
@@ -21,6 +21,37 @@ INFO-DIR-SECTION GNU libraries
 START-INFO-DIR-ENTRY
 * mpir: (mpir).                   MPIR Multiple Precision Integers and Rationals Library.
 END-INFO-DIR-ENTRY
+
+
+File: mpir.info,  Node: Perfect Power Algorithm,  Prev: Perfect Square Algorithm,  Up: Root Extraction Algorithms
+
+15.5.4 Perfect Power
+--------------------
+
+Detecting perfect powers is required by some factorization algorithms.
+Currently `mpz_perfect_power_p' is implemented using repeated Nth root
+extractions, though naturally only prime roots need to be considered.
+(*Note Nth Root Algorithm::.)
+
+   If a prime divisor p with multiplicity e can be found, then only
+roots which are divisors of e need to be considered, much reducing the
+work necessary.  To this end divisibility by a set of small primes is
+checked.
+
+
+File: mpir.info,  Node: Radix Conversion Algorithms,  Next: Other Algorithms,  Prev: Root Extraction Algorithms,  Up: Algorithms
+
+15.6 Radix Conversion
+=====================
+
+Radix conversions are less important than other algorithms.  A program
+dominated by conversions should probably use a different data
+representation.
+
+* Menu:
+
+* Binary to Radix::
+* Radix to Binary::
 
 
 File: mpir.info,  Node: Binary to Radix,  Next: Radix to Binary,  Prev: Radix Conversion Algorithms,  Up: Radix Conversion Algorithms
@@ -2080,7 +2111,7 @@ Concept Index
 * -finstrument-functions:                Profiling.           (line  66)
 * 2exp functions:                        Efficiency.          (line  43)
 * 80x86:                                 Notes for Particular Systems.
-                                                              (line 115)
+                                                              (line 139)
 * ABI <1>:                               ABI and ISA.         (line   6)
 * ABI:                                   Build Options.       (line 169)
 * About this manual:                     Introduction to MPIR.
@@ -2212,7 +2243,7 @@ Concept Index
 * Division functions <2>:                Rational Arithmetic. (line  22)
 * Division functions:                    Integer Division.    (line   6)
 * DLLs:                                  Notes for Particular Systems.
-                                                              (line  49)
+                                                              (line  73)
 * DocBook:                               Build Options.       (line 347)
 * Documentation formats:                 Build Options.       (line 340)
 * Documentation license:                 GNU Free Documentation License.
@@ -2310,7 +2341,7 @@ Concept Index
 * I/O functions <2>:                     I/O of Rationals.    (line   6)
 * I/O functions:                         I/O of Integers.     (line   6)
 * i386:                                  Notes for Particular Systems.
-                                                              (line 115)
+                                                              (line 139)
 * IA-64:                                 ABI and ISA.         (line  69)
 * Import:                                Integer Import and Export.
                                                               (line  11)
@@ -2443,7 +2474,7 @@ Concept Index
 * Miscellaneous integer functions:       Miscellaneous Integer Functions.
                                                               (line   6)
 * MMX:                                   Notes for Particular Systems.
-                                                              (line 121)
+                                                              (line 145)
 * Modular inverse functions:             Number Theoretic Functions.
                                                               (line 110)
 * Most significant bit:                  Miscellaneous Integer Functions.
@@ -2480,7 +2511,7 @@ Concept Index
 * obstack output:                        Formatted Output Functions.
                                                               (line  81)
 * OpenBSD:                               Notes for Particular Systems.
-                                                              (line  72)
+                                                              (line  96)
 * Optimizing performance:                Performance optimization.
                                                               (line   6)
 * ostream output:                        C++ Formatted Output.
@@ -2593,17 +2624,17 @@ Concept Index
 * Solaris <1>:                           Known Build Problems.
                                                               (line  29)
 * Solaris <2>:                           Notes for Particular Systems.
-                                                              (line 111)
+                                                              (line 135)
 * Solaris:                               ABI and ISA.         (line 121)
 * Sparc:                                 Notes for Particular Systems.
-                                                              (line  78)
+                                                              (line 102)
 * Sparc V9:                              ABI and ISA.         (line 121)
 * Special integer functions:             Integer Special Functions.
                                                               (line   6)
 * Square root algorithm:                 Square Root Algorithm.
                                                               (line   6)
 * SSE2:                                  Notes for Particular Systems.
-                                                              (line 121)
+                                                              (line 145)
 * Stack backtrace:                       Debugging.           (line  47)
 * Stack overflow <1>:                    Debugging.           (line   7)
 * Stack overflow:                        Build Options.       (line 276)
@@ -2646,7 +2677,7 @@ Concept Index
 * Windows:                               Notes for Particular Systems.
                                                               (line  34)
 * x86:                                   Notes for Particular Systems.
-                                                              (line 115)
+                                                              (line 139)
 * x87:                                   Notes for Particular Systems.
                                                               (line  25)
 * XML:                                   Build Options.       (line 347)

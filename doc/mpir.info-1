@@ -1,7 +1,7 @@
 This is mpir.info, produced by makeinfo version 4.13 from mpir.texi.
 
 This manual describes how to install and use MPIR, the Multiple
-Precision Integers and Rationals library, version 2.5.0.
+Precision Integers and Rationals library, version 2.5.1.
 
    Copyright 1991, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000,
 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010 Free
@@ -29,7 +29,7 @@ MPIR
 ****
 
    This manual describes how to install and use MPIR, the Multiple
-Precision Integers and Rationals library, version 2.5.0.
+Precision Integers and Rationals library, version 2.5.1.
 
    Copyright 1991, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000,
 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010 Free
@@ -237,7 +237,7 @@ Build Directory
      directory.  For example
 
           cd /my/build/dir
-          /my/sources/mpir-2.5.0/configure
+          /my/sources/mpir-2.5.1/configure
 
      Not all `make' programs have the necessary features (`VPATH') to
      support this.  In particular, SunOS and Solaris `make' have bugs
@@ -849,13 +849,37 @@ MS-DOS and MS Windows
           `http://www.cygwin.com/'
           `http://www.mingw.org/'
 
+     Cygwin is a 32 bit build only but mingw is 32 or 64 bit build.
+     Depending on how the mingw tools are installed will determine the
+     best procedure for building , because of the large number of ways
+     this can be achieved it is best to search the MPIR devel mailing
+     list or the mingw mailing list.
+
+     For building with MSVC we provide a number of ways.
+
      In addition, project files for MSVC are provided, allowing MPIR to
-     build on Microsoft's compiler. For instructions on how to build
-     MPIR using Microsoft Visual Studio 2008 see the 'readme.txt' file
-     in the build.vc9 directory. For Visual Studio 2010 see the
+     build on Microsoft's compiler. For Visual Studio 2010 see the
      readme.txt file in the build.vc10 directory. The MSVC projects
      provides full assembler support and for `x86_64' CPU's this will
-     produce far superior results.
+     produce far superior results. These project files can also be
+     accessed via the command line with the batch files `configure.bat'
+     and `make.bat' which have a `unix like' interface , however they
+     are not very well tested and are due to be replaced.
+
+     An another alternative is `configure' and `make' in the `win'
+     directory , these again have a `unix like' syntax , these are
+     tested regularly and also have the advantage of working with
+     VS2005 and up (including the free/express versions). There is some
+     auto detection of the compiler , but it's probably best to set it
+     explicity using the usual `call
+     "%VS90COMNTOOLS%\..\..\VC\vcvarsall.bat" amd64' in the command
+     window.  The program `YASM' is also required and should be in path
+     or the `%YASMPATH%' varible set.  If `configure' guesses wrong ,
+     close the window and try again changing the `ABI=...' selection
+     and or the `vcvarsall.bat' options.  `make' supports the usual
+     `clean' and `check' options .  The `only' bug is that shared
+     library builds `dll's' fail the make check in the C++ parts for
+     `istream' and `ostream' with some unresolved symbols.
 
 MS Windows DLLs
      On systems `*-*-cygwin*' and `*-*-mingw*' by default MPIR builds
@@ -1359,7 +1383,7 @@ File: mpir.info,  Node: Useful Macros and Constants,  Next: Compatibility with o
 
  -- Global Constant: const char * const mpir_version
      The MPIR version number, as a null-terminated string, in the form
-     "i.j.k".  This release is "2.5.0".
+     "i.j.k".  This release is "2.5.1".
 
 
 File: mpir.info,  Node: Compatibility with older versions,  Next: Efficiency,  Prev: Useful Macros and Constants,  Up: MPIR Basics
@@ -1620,7 +1644,7 @@ Source File Paths
      path to the source directory.
 
           cd /my/build/dir
-          /my/source/dir/gmp-2.5.0/configure
+          /my/source/dir/gmp-2.5.1/configure
 
      This works via `VPATH', and might require GNU `make'.  Alternately
      it might be possible to change the `.c.lo' rules appropriately.
@@ -7054,35 +7078,4 @@ uses a compact and efficient set.  Big inputs would probably benefit
 from more residue testing, small inputs might be better off with less.
 The assumed distribution of squares versus non-squares in the input
 would affect such considerations.
-
-
-File: mpir.info,  Node: Perfect Power Algorithm,  Prev: Perfect Square Algorithm,  Up: Root Extraction Algorithms
-
-15.5.4 Perfect Power
---------------------
-
-Detecting perfect powers is required by some factorization algorithms.
-Currently `mpz_perfect_power_p' is implemented using repeated Nth root
-extractions, though naturally only prime roots need to be considered.
-(*Note Nth Root Algorithm::.)
-
-   If a prime divisor p with multiplicity e can be found, then only
-roots which are divisors of e need to be considered, much reducing the
-work necessary.  To this end divisibility by a set of small primes is
-checked.
-
-
-File: mpir.info,  Node: Radix Conversion Algorithms,  Next: Other Algorithms,  Prev: Root Extraction Algorithms,  Up: Algorithms
-
-15.6 Radix Conversion
-=====================
-
-Radix conversions are less important than other algorithms.  A program
-dominated by conversions should probably use a different data
-representation.
-
-* Menu:
-
-* Binary to Radix::
-* Radix to Binary::
 

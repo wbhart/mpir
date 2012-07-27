@@ -1,6 +1,6 @@
 dnl  mpn_karasub
 
-dnl  Copyright 2011 The Code Cavern
+dnl  Copyright 2011,2012 The Code Cavern
 
 dnl  This file is part of the MPIR Library.
 
@@ -199,58 +199,66 @@ case1:	#rcx=2
 	mov %r12,(%rbp,%rcx,8)
 fin:	mov $3,%rcx
 case0: 	#rcx=3
-	# if odd the do next two
-	mov -56(%rsp),%r8
-	bt $0,%r8
-	jnc notodd
-	xor %r10,%r10
-	mov (%rbp,%rdx,8),%r8
-	mov 8(%rbp,%rdx,8),%r9
-	sub (%rsi,%rdx,8),%r8
-	sbb 8(%rsi,%rdx,8),%r9
-	rcl $1,%r10
-	add %r8,24(%rbp)
-	adc %r9,32(%rbp)
-l7:	adcq $0,16(%rbp,%rcx,8)
-	inc %rcx
-	jc l7
-	mov $3,%rcx
-	bt $0,%r10
-l8:	sbbq $0,16(%rbp,%rcx,8)
-	inc %rcx
-	jc l8
-	mov $3,%rcx
-	# add in all carrys
-	# should we do the borrows last as it may be possible to underflow
-	# could use popcount
-notodd:	mov %rdx,%rsi
-	bt $0,%rax
-l1:	sbbq $0,(%rdi,%rdx,8)
-	inc %rdx
-	jc l1
+	#// store top two words of H as carrys could change them
+	mov -56(%rsp),%r15
+	bt $0,%r15
+	jnc skipload
+	mov (%rbp,%rdx,8),%r12
+        mov 8(%rbp,%rdx,8),%r13
+	#// the two carrys from 2nd to 3rd
+skipload:	mov %rdx,%r11
 	xor %r8,%r8
 	bt $1,%rax
 	adc %r8,%r8
 	bt $2,%rbx
 	adc $0,%r8
-	add %r8,(%rdi,%rsi,8)
-l2:	adcq $0,8(%rdi,%rsi,8)
-	inc %rsi
+	add %r8,(%rdi,%rdx,8)
+l2:	adcq $0,8(%rdi,%rdx,8)
+	inc %rdx
 	jc l2
-	mov %rcx,%rsi
-	bt $0,%rbx
-l4:	sbbq $0,(%rbp,%rcx,8)
-	inc %rcx
-	jc l4
+	# //the two carrys from 3rd to 4th
 	xor %r8,%r8
 	bt $1,%rbx
 	adc %r8,%r8
 	bt $2,%rbx
 	adc $0,%r8
-	add %r8,(%rbp,%rsi,8)
-l3:	adcq $0,8(%rbp,%rsi,8)
-	inc %rsi
+	add %r8,(%rbp,%rcx,8)
+l3:	adcq $0,8(%rbp,%rcx,8)
+	inc %rcx
 	jc l3
+	#// now the borrow from 2nd to 3rd
+	mov %r11,%rdx
+	bt $0,%rax
+l1:	sbbq $0,(%rdi,%rdx,8)
+	inc %rdx
+	jc l1
+	#// borrow from 3rd to 4th
+	mov $3,%rcx
+	bt $0,%rbx
+l4:	sbbq $0,(%rbp,%rcx,8)
+	inc %rcx
+	jc l4
+	#// if odd the do next two
+	mov $3,%rcx
+	mov %r11,%rdx
+	bt $0,%r15
+	jnc notodd
+	xor %r10,%r10
+	sub (%rsi,%rdx,8),%r12
+	sbb 8(%rsi,%rdx,8),%r13
+	rcl $1,%r10
+	add %r12,24(%rbp)
+	adc %r13,32(%rbp)
+	mov $0,%r8
+	adc %r8,%r8
+	bt $0,%r10
+	sbb $0,%r8
+l7:	add %r8,16(%rbp,%rcx,8)
+	adc $0,%r8
+	inc %rcx
+	sar $1,%r8
+	jnz l7
+notodd:	
 mov -8(%rsp),%rbx
 mov -16(%rsp),%rbp
 mov -24(%rsp),%r12

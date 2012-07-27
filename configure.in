@@ -1159,7 +1159,8 @@ case $host in
       X86_64_PATTERN)
         abilist="64 32"
         cclist_64="gcc cc"
-        gcc_64_cflags="-O2 -m64"
+        gcc_64_cflags="-m64"
+	gcc_cflags_opt="-O3 -O2 -O1"
 	case $host in
 	*-*-linux-gnu)
 	    gcc_64_ldflags="-Wl,-z,noexecstack" ;;
@@ -2153,10 +2154,11 @@ gmp_mpn_functions_optional="umul udiv copyi copyd com_n neg_n
   mul_2 mul_3 mul_4 store not karaadd karasub half double		\
   addmul_2 addmul_3 addmul_4 addmul_5 addmul_6 addmul_7 addmul_8	\
   addlsh1_n sublsh1_n rsh1add_n rsh1sub_n sumdiff_n lshiftc		\
-  addadd_n addsub_n subadd_n addlsh_n sublsh_n inclsh_n declsh_n"
+  addlsh_n sublsh_n inclsh_n declsh_n"
 
 gmp_mpn_functions="$extra_functions					   \
   add add_1 add_n sub sub_1 sub_n mul_1 addmul_1 submul_1 lshift rshift    \
+  addadd_n addsub_n subadd_n		\
   divexact_1 divexact_by3c divexact_byff divexact_byfobm1 divisible_p divrem divrem_1 divrem_2       \
   divrem_euclidean_qr_1 divrem_euclidean_qr_2 divrem_euclidean_r_1	\
   divrem_hensel_qr_1 divrem_hensel_qr_1_1 divrem_hensel_qr_1_2		\
@@ -2171,7 +2173,7 @@ gmp_mpn_functions="$extra_functions					   \
   urandomb urandomm randomb rrandom invert dc_divappr_q_n \	
   rootrem sqrtrem get_str set_str scan0 scan1 popcount hamdist cmp perfect_square_p \
   bdivmod gcd gcd_1 gcdext tdiv_qr jacobi_base get_d  \
-  mullow_n mulhigh_n mullow_n_basecase mullow_basecase redc_1 	\
+  mullow_n mulhigh_n mullow_n_basecase mullow_basecase redc_1 redc_2	\
   sb_divappr_q toom3_mul toom3_mul_n toom4_mul toom4_mul_n \
   dc_div_q dc_divappr_q sb_div_q sb_div_qr dc_div_qr dc_div_qr_n inv_divappr_q_n \
   inv_divappr_q inv_div_q inv_div_qr inv_div_qr_n rootrem_basecase \
@@ -2578,7 +2580,7 @@ for tmp_fn in $gmp_mpn_functions; do
           gmp_ep=[`
             sed -n 's/^[ 	]*MULFUNC_PROLOGUE(\(.*\))/\1/p' $tmp_file ;
             sed -n 's/^[ 	]*PROLOGUE(\([^,]*\).*)/\1/p' $tmp_file ;
-	    sed -n 's/[^G]*GLOBAL_FUNC[:space:]*\(.*\)/\1/p' $tmp_file
+            sed -n 's/^;[ 	]*PROLOGUE(\([^,]*\).*)/\1/p' $tmp_file ;
           `]
           for gmp_tmp in $gmp_ep; do
             AC_DEFINE_UNQUOTED(HAVE_NATIVE_$gmp_tmp)
@@ -2711,6 +2713,7 @@ AH_VERBATIM([HAVE_NATIVE],
 #undef HAVE_NATIVE_mpn_preinv_divrem_1
 #undef HAVE_NATIVE_mpn_preinv_mod_1
 #undef HAVE_NATIVE_mpn_redc_1
+#undef HAVE_NATIVE_mpn_redc_2
 #undef HAVE_NATIVE_mpn_rsh1add_n
 #undef HAVE_NATIVE_mpn_rsh1sub_n
 #undef HAVE_NATIVE_mpn_rshift1
