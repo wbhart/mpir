@@ -54,9 +54,9 @@ main (void)
 void dump _PROTO ((char *, mpz_t, mpz_t, mpz_t));
 
 typedef void (*dss_func) _PROTO ((mpz_ptr, mpz_srcptr, mpz_srcptr));
-typedef void (*dsi_func) _PROTO ((mpz_ptr, mpz_srcptr, unsigned long int));
-typedef unsigned long int (*dsi_div_func) _PROTO ((mpz_ptr, mpz_srcptr, unsigned long int));
-typedef unsigned long int (*ddsi_div_func) _PROTO ((mpz_ptr, mpz_ptr, mpz_srcptr, unsigned long int));
+typedef void (*dsi_func) _PROTO ((mpz_ptr, mpz_srcptr, mpir_ui));
+typedef mpir_ui (*dsi_div_func) _PROTO ((mpz_ptr, mpz_srcptr, mpir_ui));
+typedef mpir_ui (*ddsi_div_func) _PROTO ((mpz_ptr, mpz_ptr, mpz_srcptr, mpir_ui));
 typedef void (*ddss_div_func) _PROTO ((mpz_ptr, mpz_ptr, mpz_srcptr, mpz_srcptr));
 typedef void (*ds_func) _PROTO ((mpz_ptr, mpz_srcptr));
 
