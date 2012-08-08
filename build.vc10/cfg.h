@@ -24,6 +24,8 @@ MA 02111-1307, USA. */
 #  define HAVE_STDINT_H 1
 #endif
 
+#define HAVE_LITTLE_ENDIAN 1
+
 /* The gmp-mparam.h to update when tuning. */
 #undef GMP_MPARAM_H_SUGGEST
 
