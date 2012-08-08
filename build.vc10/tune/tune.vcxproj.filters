@@ -44,9 +44,6 @@
     <ClCompile Include="mullow_n.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="mul_fft.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="mul_n.c">
       <Filter>Source Files</Filter>
     </ClCompile>

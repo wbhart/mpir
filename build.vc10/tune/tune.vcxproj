@@ -194,7 +194,6 @@
     <ClCompile Include="mul.c" />
     <ClCompile Include="mulhigh_n.c" />
     <ClCompile Include="mulmod_2expm1.c" />
-    <ClCompile Include="mul_fft.c" />
     <ClCompile Include="mul_n.c" />
     <ClCompile Include="mullow_n.c" />
     <ClCompile Include="..\..\tests\refmpn.c" />

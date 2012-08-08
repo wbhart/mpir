@@ -28,8 +28,9 @@ which, for Visual Stduio 2010, is typically:
  C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin
  
 You will need to install Python if you wish to use the scripts that 
-automate the MPIR and MPFR tests. Otherwise these have to be compiled
-and run manually.
+automate the generation of MPIR build files for Visual Studio. Python
+is also needed for running the MPIR tests (although they can be run
+manually).
 
 Compiling MPIR with the Visual Studio C/C++
 ===========================================
@@ -48,8 +49,12 @@ If necessary, these changes can be removed by running the Python program
 Building MPIR
 =============
 
-The MPIR build is started by opening the Visual Studio C/C++ solution 
-file 'mpir.sln' in the build.vc10 directory.  
+1. Generic C Builds
+===================
+
+The basic build solution for Visual Studio contains build projects for
+the generic C version of MPIR.  The MPIR build is started by opening the
+Visual Studio C/C++ solution  file 'mpir.sln' in the build.vc10 directory.  
 
 It will be assumed here that the MPIR root directory is named 'mpir' so 
 that the build directory is mpir\build.vc10.  The output directories
@@ -67,33 +72,26 @@ appropriate, setting the build configuration and platform:
 All projects have release and debug configurations but not all projects
 provide for 32 and 64 bit Windows platforms. 
 
-The supported platforms and library formats are as follows:   
-
-1. Generic Build Projects (both 32 and 64 bit)
+By default the Visual Studio solution provides support for generic C
+builds: 
 
     lib_mpir_gc     - MPIR library using generic C (win32 & x64)
     lib_mpir_cxx    - MPIR C++ library (win32 & x64)
     dll_mpir_gc     - MPIR DLL using generic C (win32 & x64)
 
-2. 32-bit Build Projects
+2. Builds with Assembler Support
+================================
 
-    lib_mpir_p0     - MPIR library using Pentium assembler (win32)
-    lib_mpir_p3     - MPIR library using Pentium III assembler (win32
-    lib_mpir_p4     - MPIR library using Pentium IV assembler (win32)
-    dll_mpir_p0     - MPIR DLL using Pentium assembler (win32)
-    dll_mpir_p3     - MPIR DLL using Pentium III assembler (win32)
-    dll_mpir_p4     - MPIR DLL using Pentium IV assembler (win32)
+To build MPIR versions with assembler support, run the Python program
+mpir_config.py which outputs a list of the assembler builds that are
+available. After a particular build is selected the program outputs
+a Visual Studio project for this build and adds i9t to the Visual
+Studio solution.  When the Visual Studio solution file is then opened
+it will include this new build projects for both static library and
+DLL builds with the specified assembler support.
 
-3. 64-bit Build Projects
-    
-    lib_mpir_k8      - MPIR library using AMD k8 assembler (x64)
-    lib_mpir_k10     - MPIR library using AMD k10 assembler (x64)
-    lib_mpir_core2   - MPIR library Intel Core2 assembler (x64)
-    lib_mpir_nehalem - MPIR library Intel Core2 assembler (x64)
-    dll_mpir_k8      - MPIR DLL using AMD k8 assembler (x64)
-    dll_mpir_k8      - MPIR DLL using AMD k10 assembler (x64)
-    dll_mpir_core2   - MPIR DLL using Intel Core2 assembler (x64)
-    dll_mpir_nehalem - MPIR DLL using Intel Core2 assembler (x64)
+3. The build Process
+====================
 
 Before any of these libraries is built the appropriate MPIR configuration
 file is generated and copied into config.h.  After a static library is 
@@ -160,22 +158,6 @@ DLL) that has been built. To build the MPIR C+ library wrapper use:
 
 The DLL projects include the C++ functions so an additional library
 is not needed when they are used.
-
-Python Build File Generator
-===========================
-
-Only a limited number of build configurations are supported in the 
-VC++ IDE build.  If another build is needed, other configurations 
-can be created using the program mpir_config.py (Python 2.6 or later
-needs to be installed).
-
-When this program is run, it outputs a list of all available MPIR
-configurations and allows the user to select one of them.  It then
-creates VC++ IDE build projects for both a static library and DLL
-build for this configuaration. 
-
-These can then be added to a VC++ solution using the facilities of
-the IDE in the normal way.
 
 The Tests
 =========
@@ -417,4 +399,4 @@ My thanks to:
 4. Jeff Gilchrist for his help in testing, debugging and 
    improving the readme giving the VC++ build instructions
 
-       Brian Gladman, September 2011
+       Brian Gladman, August 2012
