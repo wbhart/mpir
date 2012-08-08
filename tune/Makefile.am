@@ -124,18 +124,31 @@ DISTCLEANFILES = sqr_basecase.c  $(MANY_DISTCLEAN)
 # FIXME: Would like say mul_n.c to depend on $(top_builddir)/mul_n.c so the
 # recompiled object will be rebuilt if that file changes.
 
-TUNE_MPN_SRCS = $(TUNE_MPN_SRCS_BASIC) divrem_1.c mod_1.c
+TUNE_MPN_SRCS = $(TUNE_MPN_SRCS_BASIC) $(TUNE_FFT_SRCS_BASIC) divrem_1.c mod_1.c
 TUNE_MPN_SRCS_BASIC = divrem_2.c gcd.c gcdext.c get_str.c \
   mul_n.c mullow_n.c mulhigh_n.c mul.c tdiv_qr.c \
   toom4_mul_n.c toom4_mul.c toom3_mul.c toom3_mul_n.c \
   toom8h_mul.c toom8_sqr_n.c mulmod_2expm1.c rootrem.c divrem_euclidean_r_1.c \
   divrem_hensel_qr_1.c rsh_divrem_hensel_qr_1.c dc_divappr_q.c dc_div_qr.c dc_div_qr_n.c \
   inv_divappr_q.c inv_div_qr.c tdiv_q.c dc_bdiv_qr.c dc_bdiv_qr_n.c dc_bdiv_q.c 
+TUNE_FFT_SRCS_BASIC = split_bits.c revbin.c normmod_2expp1.c mulmod_2expp1.c \
+  mul_truncate_sqrt2.c mul_mfa_truncate_sqrt2.c mul_fft_main.c \
+  mul_2expmod_2expp1.c ifft_truncate_sqrt2.c ifft_truncate.c ifft_radix2.c \
+  ifft_negacyclic.c fft_truncate.c fft_radix2.c fft_negacyclic.c \
+  fft_mfa_truncate_sqrt2.c fft_mfa_truncate_sqrt2_inner.c fermat_to_mpz.c \
+  div_2expmod_2expp1.c combine_bits.c butterfly_rshB.c butterfly_lshB.c \
+  adjust_sqrt2.c adjust.c
 
 $(TUNE_MPN_SRCS_BASIC):
 	for i in $(TUNE_MPN_SRCS_BASIC); do \
 	  echo "#define TUNE_PROGRAM_BUILD 1" >$$i; \
 	  echo "#include \"mpn/generic/$$i\"" >>$$i; \
+	done
+
+$(TUNE_FFT_SRCS_BASIC):
+	for i in $(TUNE_FFT_SRCS_BASIC); do \
+	  echo "#define TUNE_PROGRAM_BUILD 1" >$$i; \
+	  echo "#include \"fft/$$i\"" >>$$i; \
 	done
 
 divrem_1.c:
