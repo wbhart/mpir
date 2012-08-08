@@ -1745,14 +1745,14 @@ int speed_routine_count_zeros_setup _PROTO ((struct speed_params *s,
     mp_limb_t inv;                                             \
     double    t;							\
     TMP_DECL;								\
-									\
+	                                      \
     SPEED_RESTRICT_COND (s->size >= 2);					\
 									\
     TMP_MARK;								\
     SPEED_TMP_ALLOC_LIMBS (a, 4*s->size, s->align_xp);			\
     SPEED_TMP_ALLOC_LIMBS (d, 2*s->size,   s->align_yp);			\
     SPEED_TMP_ALLOC_LIMBS (q, 2*s->size, s->align_wp);			\
-    SPEED_TMP_ALLOC_LIMBS (tmp, 2*tsize,   s->align_wp2);			\
+    SPEED_TMP_ALLOC_LIMBS (tmp, tsize,   s->align_wp2);			\
     								\
     MPN_COPY (a, s->xp, s->size);					\
     MPN_COPY (a+s->size, s->xp, s->size);				\
@@ -1782,7 +1782,6 @@ int speed_routine_count_zeros_setup _PROTO ((struct speed_params *s,
       function(q, a, d, 2*s->size, inv, tmp);								\
     } while (--i != 0);							\
     t = speed_endtime ();						\
-									\
     TMP_FREE;								\
     return t;								\
   }

@@ -901,7 +901,7 @@ speed_mpn_tdiv_q2 (struct speed_params *s)
 double
 speed_mpn_dc_bdiv_qr_n (struct speed_params *s)
 {
-  SPEED_ROUTINE_MPN_DC_BDIV_N_TSIZE (mpn_dc_bdiv_qr_n, DC_BDIV_Q_N_ITCH(s->size));
+  SPEED_ROUTINE_MPN_DC_BDIV_N_TSIZE (mpn_dc_bdiv_qr_n, DC_BDIV_QR_N_ITCH(2*s->size));
 }
 double
 speed_mpn_dc_bdiv_q (struct speed_params *s)
