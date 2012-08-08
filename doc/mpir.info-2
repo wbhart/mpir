@@ -1,4 +1,4 @@
-This is mpir.info, produced by makeinfo version 4.13 from mpir.texi.
+This is mpir.info, produced by makeinfo version 4.11 from mpir.texi.
 
 This manual describes how to install and use MPIR, the Multiple
 Precision Integers and Rationals library, version 2.5.1.
@@ -3265,7 +3265,7 @@ Function and Type Index
 * mpz_popcount:                          Integer Logic and Bit Fiddling.
                                                               (line  23)
 * mpz_pow_ui:                            Integer Exponentiation.
-                                                              (line  18)
+                                                              (line  19)
 * mpz_powm:                              Integer Exponentiation.
                                                               (line   8)
 * mpz_powm_ui:                           Integer Exponentiation.
@@ -3327,7 +3327,7 @@ Function and Type Index
 * mpz_ui_kronecker:                      Number Theoretic Functions.
                                                               (line 128)
 * mpz_ui_pow_ui:                         Integer Exponentiation.
-                                                              (line  20)
+                                                              (line  21)
 * mpz_ui_sub:                            Integer Arithmetic.  (line  16)
 * mpz_urandomb:                          Integer Random Numbers.
                                                               (line  14)

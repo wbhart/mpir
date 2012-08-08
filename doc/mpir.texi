@@ -3125,8 +3125,9 @@ only when exactly equal.
 Set @var{rop} to @m{base^{exp} \bmod mod, (@var{base} raised to @var{exp})
 modulo @var{mod}}.
 
-Negative @var{exp} is supported if an inverse @math{@var{base}^@W{-1} @bmod
-@var{mod}} exists (see @code{mpz_invert} in @ref{Number Theoretic Functions}).
+A negative @var{exp} is supported in @code{mpz_powm} if an inverse 
+@math{@var{base}^@W{-1} @bmod @var{mod}} exists (see @code{mpz_invert} in 
+@ref{Number Theoretic Functions}).
 If an inverse doesn't exist then a divide by zero is raised.
 @end deftypefun
 

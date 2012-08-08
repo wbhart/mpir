@@ -1,4 +1,4 @@
-This is mpir.info, produced by makeinfo version 4.13 from mpir.texi.
+This is mpir.info, produced by makeinfo version 4.11 from mpir.texi.
 
 This manual describes how to install and use MPIR, the Multiple
 Precision Integers and Rationals library, version 2.5.1.
@@ -2384,9 +2384,10 @@ File: mpir.info,  Node: Integer Exponentiation,  Next: Integer Roots,  Prev: Int
           int EXP, mpz_t MOD)
      Set ROP to (BASE raised to EXP) modulo MOD.
 
-     Negative EXP is supported if an inverse BASE^-1 mod MOD exists
-     (see `mpz_invert' in *note Number Theoretic Functions::).  If an
-     inverse doesn't exist then a divide by zero is raised.
+     A negative EXP is supported in `mpz_powm' if an inverse BASE^-1
+     mod MOD exists (see `mpz_invert' in *note Number Theoretic
+     Functions::).  If an inverse doesn't exist then a divide by zero
+     is raised.
 
  -- Function: void mpz_pow_ui (mpz_t ROP, mpz_t BASE, unsigned long int
           EXP)
