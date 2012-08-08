@@ -134,7 +134,7 @@ TUNE_MPN_SRCS_BASIC = divrem_2.c gcd.c gcdext.c get_str.c \
 TUNE_FFT_SRCS_BASIC = split_bits.c revbin.c normmod_2expp1.c mulmod_2expp1.c \
   mul_truncate_sqrt2.c mul_mfa_truncate_sqrt2.c mul_fft_main.c \
   mul_2expmod_2expp1.c ifft_truncate_sqrt2.c ifft_truncate.c ifft_radix2.c \
-  ifft_negacyclic.c fft_truncate.c fft_radix2.c fft_negacyclic.c \
+  ifft_negacyclic.c fft_truncate.c fft_radix2.c fft_negacylic.c \
   fft_mfa_truncate_sqrt2.c fft_mfa_truncate_sqrt2_inner.c fermat_to_mpz.c \
   div_2expmod_2expp1.c combine_bits.c butterfly_rshB.c butterfly_lshB.c \
   adjust_sqrt2.c adjust.c
