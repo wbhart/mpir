@@ -82,13 +82,18 @@ builds:
 2. Builds with Assembler Support
 ================================
 
-To build MPIR versions with assembler support, run the Python program
-mpir_config.py which outputs a list of the assembler builds that are
-available. After a particular build is selected the program outputs
-a Visual Studio project for this build and adds i9t to the Visual
-Studio solution.  When the Visual Studio solution file is then opened
-it will include this new build projects for both static library and
-DLL builds with the specified assembler support.
+By default the Visual Studio solution for MPIR provides support for
+x64 builds with nassembler support for Intel core2 and nehalem and
+for the AMD k8.
+
+To build MPIR versions with assembler support for other processors,
+the Python program mpir_config.py has to be run before the Visual
+Studio solution is opened.  This outputs a list of the assembler
+builds that are available. After a particular build is selected the
+program outputs a Visual Studio project for this build and adds it
+to the Visual Studio solution.  When the Visual Studio solution file
+is then opened it will include this new build projects for both
+static library and DLL builds with the specified assembler support.
 
 3. The build Process
 ====================
