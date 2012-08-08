@@ -1150,16 +1150,16 @@ speed_mpn_toom8_sqr_n (struct speed_params *s)
 }
 
 double
-speed_mpn_mul_fft_full (struct speed_params *s)
+speed_mpn_mul_fft_main (struct speed_params *s)
 {
   SPEED_ROUTINE_MPN_MUL_N_CALL
-    (mpn_mul_fft_full (wp, s->xp, s->size, s->yp, s->size));
+    (mpn_mul_fft_main (wp, s->xp, s->size, s->yp, s->size));
 }
 double
-speed_mpn_mul_fft_full_sqr (struct speed_params *s)
+speed_mpn_sqr_fft_main (struct speed_params *s)
 {
   SPEED_ROUTINE_MPN_SQR_CALL
-    (mpn_mul_fft_full (wp, s->xp, s->size, s->xp, s->size));
+    (mpn_mul_fft_main (wp, s->xp, s->size, s->xp, s->size));
 }
 
 
@@ -1171,20 +1171,15 @@ speed_mpn_mul_fft_full_sqr (struct speed_params *s)
   {                                                     \
     mp_ptr     wp;                                      \
     mp_size_t  pl;                                      \
-    int        k;                                       \
     unsigned   i;                                       \
     double     t;                                       \
     TMP_DECL;                                           \
                                                         \
     SPEED_RESTRICT_COND (s->size >= 1);                 \
                                                         \
-    if (s->r != 0)                                      \
-      k = s->r;                                         \
-    else                                                \
-      k = mpn_fft_best_k (s->size, sqr);                \
                                                         \
     TMP_MARK;                                           \
-    pl = mpn_fft_next_size (s->size, k);                \
+    pl = fft_adjust_limbs (s->size);                \
     SPEED_TMP_ALLOC_LIMBS (wp, pl+1, s->align_wp);      \
                                                         \
     speed_operand_src (s, s->xp, s->size);              \
@@ -1203,20 +1198,6 @@ speed_mpn_mul_fft_full_sqr (struct speed_params *s)
     TMP_FREE;                                           \
     return t;                                           \
   }
-
-double
-speed_mpn_mul_fft (struct speed_params *s)
-{
-  SPEED_ROUTINE_MPN_MUL_FFT_CALL
-    (mpn_mul_fft (wp, pl, s->xp, s->size, s->yp, s->size, k), 0);
-}
-
-double
-speed_mpn_mul_fft_sqr (struct speed_params *s)
-{
-  SPEED_ROUTINE_MPN_MUL_FFT_CALL
-    (mpn_mul_fft (wp, pl, s->xp, s->size, s->xp, s->size, k), 1);
-}
 
 double
 speed_mpn_mullow_n (struct speed_params *s)

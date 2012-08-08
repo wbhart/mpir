@@ -1828,31 +1828,7 @@ __GMP_DECLSPEC extern const mp_limb_t __gmp_fib_table[];
 #define SQR_TOOM8_THRESHOLD_LIMIT  SQR_TOOM8_THRESHOLD
 #endif
 
-/* First k to use for an FFT modF multiply.  A modF FFT is an order
-   log(2^k)/log(2^(k-1)) algorithm, so k=3 is merely 1.5 like karatsuba,
-   whereas k=4 is 1.33 which is faster than toom3 at 1.485.    */
-#define FFT_FIRST_K  4
-
-/* Threshold at which FFT should be used to do a modF NxN -> N multiply. */
-#ifndef MUL_FFT_MODF_THRESHOLD
-#define MUL_FFT_MODF_THRESHOLD   (MUL_TOOM3_THRESHOLD * 3)
-#endif
-#ifndef SQR_FFT_MODF_THRESHOLD
-#define SQR_FFT_MODF_THRESHOLD   (SQR_TOOM3_THRESHOLD * 3)
-#endif
-
-/* Threshold at which FFT should be used to do an NxN -> 2N multiply.  This
-   will be a size where FFT is using k=7 or k=8, since an FFT-k used for an
-   NxN->2N multiply and not recursing into itself is an order
-   log(2^k)/log(2^(k-2)) algorithm, so it'll be at least k=7 at 1.39 which
-   is the first better than toom3.  */
-#ifndef MUL_FFT_THRESHOLD
-#define MUL_FFT_THRESHOLD   (MUL_FFT_MODF_THRESHOLD * 10)
-#endif
-#ifndef SQR_FFT_THRESHOLD
-#define SQR_FFT_THRESHOLD   (SQR_FFT_MODF_THRESHOLD * 10)
-#endif
-
+/* points at which fft is used for mul/sqr and mulmod_Bexp resp. */
 #ifndef MUL_FFT_FULL_THRESHOLD
 #define MUL_FFT_FULL_THRESHOLD   (MUL_TOOM8H_THRESHOLD * 10)
 #endif
@@ -1860,35 +1836,12 @@ __GMP_DECLSPEC extern const mp_limb_t __gmp_fib_table[];
 #define SQR_FFT_FULL_THRESHOLD   (SQR_TOOM8_THRESHOLD * 10)
 #endif
 
-/* Table of thresholds for successive modF FFT "k"s.  The first entry is
-   where FFT_FIRST_K+1 should be used, the second FFT_FIRST_K+2,
-   etc.  See mpn_fft_best_k(). */
-#ifndef MUL_FFT_TABLE
-#define MUL_FFT_TABLE                           \
-  { MUL_TOOM3_THRESHOLD * 4,   /* k=5 */        \
-    MUL_TOOM3_THRESHOLD * 8,   /* k=6 */        \
-    MUL_TOOM3_THRESHOLD * 16,  /* k=7 */        \
-    MUL_TOOM3_THRESHOLD * 32,  /* k=8 */        \
-    MUL_TOOM3_THRESHOLD * 96,  /* k=9 */        \
-    MUL_TOOM3_THRESHOLD * 288, /* k=10 */       \
-    0 }
+#ifndef MUL_FFT_THRESHOLD
+#define MUL_FFT_THRESHOLD   (MUL_FFT_FULL_THRESHOLD / 2)
 #endif
-#ifndef SQR_FFT_TABLE
-#define SQR_FFT_TABLE                           \
-  { SQR_TOOM3_THRESHOLD * 4,   /* k=5 */        \
-    SQR_TOOM3_THRESHOLD * 8,   /* k=6 */        \
-    SQR_TOOM3_THRESHOLD * 16,  /* k=7 */        \
-    SQR_TOOM3_THRESHOLD * 32,  /* k=8 */        \
-    SQR_TOOM3_THRESHOLD * 96,  /* k=9 */        \
-    SQR_TOOM3_THRESHOLD * 288, /* k=10 */       \
-    0 }
+#ifndef SQR_FFT_THRESHOLD
+#define SQR_FFT_THRESHOLD   (SQR_FFT_FULL_THRESHOLD / 2)
 #endif
-
-#ifndef FFT_TABLE_ATTRS
-#define FFT_TABLE_ATTRS   static const
-#endif
-
-#define MPN_FFT_TABLE_SIZE  16
 
 #ifndef DC_DIV_QR_THRESHOLD
 #define DC_DIV_QR_THRESHOLD    (3 * MUL_KARATSUBA_THRESHOLD)
@@ -4067,13 +4020,6 @@ extern mp_size_t                     mul_fft_threshold;
 #define MUL_FFT_FULL_THRESHOLD       mul_fft_full_threshold
 extern mp_size_t                     mul_fft_full_threshold;
 
-#undef  MUL_FFT_MODF_THRESHOLD
-#define MUL_FFT_MODF_THRESHOLD       mul_fft_modf_threshold
-extern mp_size_t                     mul_fft_modf_threshold;
-
-#undef  MUL_FFT_TABLE
-#define MUL_FFT_TABLE                { 0 }
-
 /* A native mpn_sqr_basecase is not tuned and SQR_BASECASE_THRESHOLD should
    remain as zero (always use it). */
 #if ! HAVE_NATIVE_mpn_sqr_basecase
@@ -4110,13 +4056,6 @@ extern mp_size_t                     sqr_fft_threshold;
 #undef SQR_FFT_FULL_THRESHOLD
 #define SQR_FFT_FULL_THRESHOLD       sqr_fft_full_threshold
 extern mp_size_t                     sqr_fft_full_threshold;
-
-#undef SQR_FFT_MODF_THRESHOLD
-#define SQR_FFT_MODF_THRESHOLD       sqr_fft_modf_threshold
-extern mp_size_t                     sqr_fft_modf_threshold;
-
-#undef  SQR_FFT_TABLE
-#define SQR_FFT_TABLE                { 0 }
 
 #undef  MULLOW_BASECASE_THRESHOLD
 #define MULLOW_BASECASE_THRESHOLD    mullow_basecase_threshold
@@ -4278,10 +4217,6 @@ extern mp_size_t			set_str_dc_threshold;
 #undef  SET_STR_PRECOMPUTE_THRESHOLD
 #define SET_STR_PRECOMPUTE_THRESHOLD	set_str_precompute_threshold
 extern mp_size_t			set_str_precompute_threshold;
-
-#undef  FFT_TABLE_ATTRS
-#define FFT_TABLE_ATTRS
-extern mp_size_t  mpn_fft_table[2][MPN_FFT_TABLE_SIZE];
 
 /* Sizes the tune program tests up to, used in a couple of recompilations. */
 #undef MUL_KARATSUBA_THRESHOLD_LIMIT

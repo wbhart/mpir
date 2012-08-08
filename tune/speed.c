@@ -326,11 +326,9 @@ const struct routine_t {
   { "mpn_toom8h_mul",    speed_mpn_toom8h_mul       },
   { "mpn_toom3_sqr_n",   speed_mpn_toom3_sqr_n      },
   { "mpn_toom4_sqr_n",   speed_mpn_toom4_sqr_n      },
-  { "mpn_mul_fft_full",      speed_mpn_mul_fft_full      },
-  { "mpn_mul_fft_full_sqr",  speed_mpn_mul_fft_full_sqr  },
-
-  { "mpn_mul_fft",       speed_mpn_mul_fft,     FLAG_R_OPTIONAL },
-  { "mpn_mul_fft_sqr",   speed_mpn_mul_fft_sqr, FLAG_R_OPTIONAL },
+  
+  { "mpn_mul_fft_main",   speed_mpn_mul_fft_main, FLAG_R_OPTIONAL },
+  { "mpn_sqr_fft_main",   speed_mpn_sqr_fft_main, FLAG_R_OPTIONAL },
 
   { "mpn_mullow_n",      speed_mpn_mullow_n         },
   { "mpn_mullow_n_basecase", speed_mpn_mullow_n_basecase},
