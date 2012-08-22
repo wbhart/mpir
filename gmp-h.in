@@ -201,12 +201,12 @@ typedef long int		mp_limb_signed_t;
 #define BITS_PER_UI         BITS_PER_MP_LIMB
 typedef mp_limb_t           mpir_ui;
 typedef mp_limb_signed_t    mpir_si;
-typedef unsigned long long  mp_bitcnt_t;
+typedef mpir_ui             mp_bitcnt_t;
 #else
 #define BITS_PER_UI         BITS_PER_ULONG
 typedef unsigned long       mpir_ui;
 typedef long                mpir_si;
-typedef unsigned long       mp_bitcnt_t;
+typedef mpir_ui             mp_bitcnt_t;
 #endif
 #define GMP_UI_MAX          ((mpir_ui)(~(mpir_ui)0))
 #define GMP_UI_HIBIT        (GMP_UI_MAX ^ (GMP_UI_MAX >> 1))

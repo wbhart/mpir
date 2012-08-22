@@ -98,7 +98,7 @@ main (void)
     { {"1","0x10000000000000000"}, 3, {"1","0x2000000000000000"} },
   };
 
-  void (*fun) _PROTO ((mpq_ptr, mpq_srcptr, unsigned long));
+  void (*fun) _PROTO ((mpq_ptr, mpq_srcptr, mpir_ui));
   const struct pair_t  *p_start, *p_want;
   const char  *name;
   mpq_t    sep, got, want;

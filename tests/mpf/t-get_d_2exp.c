@@ -35,7 +35,7 @@ check_onebit (void)
   };
   mpf_t   f;
   double  got, want;
-  long    got_exp, want_exp;
+  mpir_si got_exp, want_exp;
   int     i,sign;
 
   mpf_init2(f,1024L);
@@ -74,7 +74,7 @@ check_round (void)
   static const unsigned long data[] = { 1, 32, 53, 54, 64, 128, 256, 512 };
   mpf_t   f;
   double  got;
-  long    got_exp;
+  mpir_si got_exp;
   int     i, rnd_mode, old_rnd_mode;
 
   mpf_init2 (f, 1024L);

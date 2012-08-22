@@ -84,7 +84,7 @@ check_round (void)
   static const unsigned long data[] = { 1, 32, 53, 54, 64, 128, 256, 512 };
   mpz_t   z;
   double  got;
-  long    got_exp;
+  mpir_si got_exp;
   int     i, rnd_mode, old_rnd_mode;
 
   mpz_init (z);
@@ -140,7 +140,7 @@ check_rand (void)
   int     i;
   mpz_t   z;
   double  got;
-  long    got_exp;
+  mpir_si    got_exp;
   unsigned long  bits;
 
   mpz_init (z);
