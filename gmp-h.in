@@ -2526,6 +2526,7 @@ enum
 #define __GNU_MP_VERSION_MINOR 0 
 #define __GNU_MP_VERSION_PATCHLEVEL 2
 #define GMP_VERSION "5.0.2"
+#define __GNU_MP_RELEASE (__GNU_MP_VERSION * 10000 + __GNU_MP_VERSION_MINOR * 100 + __GNU_MP_VERSION_PATCHLEVEL)
 
 #define __MPIR_VERSION 2
 #define __MPIR_VERSION_MINOR 5
@@ -2533,6 +2534,7 @@ enum
 #if defined( _MSC_VER )
 #define _MSC_MPIR_VERSION "2.5.1"
 #endif
+#define __MPIR_RELEASE (__MPIR_VERSION * 10000 + __MPIR_VERSION_MINOR * 100 + __MPIR_VERSION_PATCHLEVEL)
 
 /* These are for programs like MPFR to use the same CC and CFLAGS as MPIR */
 
