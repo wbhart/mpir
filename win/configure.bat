@@ -51,7 +51,7 @@ if %PROCESSOR_ARCHITECTURE% == x86 ( set ARCH=32)
 set VCTARGET=
 if %ARCH% == 64 (
 	if %ABI% == 64 (set VCTARGET=amd64)
-	if %ABI% == 32 (set VCTARGET=x86_amd64)
+	if %ABI% == 32 (set VCTARGET=x86)
 )
 if %ARCH% == 32 (
 	if %ABI% == 64 (set VCTARGET=amd64_x86)
