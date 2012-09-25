@@ -56,10 +56,6 @@ USA. */
 #define GET_STR_PRECOMPUTE_THRESHOLD     25
 #define SET_STR_THRESHOLD               309
 
-#define MUL_FFT_TABLE  { 496, 1056, 2176, 5632, 14336, 40960, 0 }
-#define MUL_FFT_MODF_THRESHOLD          624
-#define MUL_FFT_THRESHOLD              5888
+#define MUL_FFT_FULL_THRESHOLD              5888
 
-#define SQR_FFT_TABLE  { 496, 1184, 2176, 5632, 14336, 40960, 0 }
-#define SQR_FFT_MODF_THRESHOLD          560
-#define SQR_FFT_THRESHOLD              5376
+#define SQR_FFT_FULL_THRESHOLD              5376

@@ -64,10 +64,6 @@ MA 02110-1301, USA. */
 /* The following values are old, we only had access to GNU/Linux ev5 machines
    and the Linux kernel doesn't maintain the cycle counter properly.  */
 
-#define MUL_FFT_TABLE  { 400, 864, 1856, 3840, 7168, 20480, 81920, 196608, 786432, 0 }
-#define MUL_FFT_MODF_THRESHOLD          392
-#define MUL_FFT_THRESHOLD              2176
+#define MUL_FFT_FULL_THRESHOLD              2176
 
-#define SQR_FFT_TABLE  { 432, 928, 1856, 3840, 9216, 20480, 81920, 196608, 786432, 0 }
-#define SQR_FFT_MODF_THRESHOLD          408
-#define SQR_FFT_THRESHOLD              2688
+#define SQR_FFT_FULL_THRESHOLD              2688

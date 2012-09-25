@@ -48,12 +48,8 @@
 #define GET_STR_PRECOMPUTE_THRESHOLD     36
 #define SET_STR_THRESHOLD              5835
 
-#define MUL_FFT_TABLE  { 400, 1056, 1408, 3584, 10240, 24576, 163840, 655360, 0 }
-#define MUL_FFT_MODF_THRESHOLD          312
-#define MUL_FFT_THRESHOLD              7168
+#define MUL_FFT_FULL_THRESHOLD              7168
 
-#define SQR_FFT_TABLE  { 368, 928, 1408, 3584, 10240, 40960, 98304, 655360, 0 }
-#define SQR_FFT_MODF_THRESHOLD          360
-#define SQR_FFT_THRESHOLD              3840
+#define SQR_FFT_FULL_THRESHOLD              3840
 
 /* Tuneup completed successfully, took 62 seconds */

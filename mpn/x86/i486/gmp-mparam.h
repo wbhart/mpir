@@ -52,10 +52,6 @@ MA 02110-1301, USA. */
 #define GET_STR_PRECOMPUTE_THRESHOLD     82
 #define SET_STR_THRESHOLD              3524
 
-#define MUL_FFT_TABLE  { 464, 928, 1920, 4608, 10240, 40960, 0 }
-#define MUL_FFT_MODF_THRESHOLD          392
-#define MUL_FFT_THRESHOLD              2816
+#define MUL_FFT_FULL_THRESHOLD              2816
 
-#define SQR_FFT_TABLE  { 432, 928, 1920, 4608, 14336, 40960, 0 }
-#define SQR_FFT_MODF_THRESHOLD          392
-#define SQR_FFT_THRESHOLD              2816
+#define SQR_FFT_FULL_THRESHOLD              2816
