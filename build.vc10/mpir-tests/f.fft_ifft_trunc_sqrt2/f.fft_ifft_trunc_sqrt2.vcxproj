@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <RootNamespace>fft.mul_truncate_sqrt2</RootNamespace>
+    <RootNamespace>f.fft_ifft_trunc_sqrt2</RootNamespace>
     <Keyword>Win32Proj</Keyword>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -150,7 +150,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\tests\fft\t-mul_truncate_sqrt2.c" />
+    <ClCompile Include="..\..\..\tests\fft\t-fft_ifft_trunc_sqrt2.c" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\add-test-lib\add-test-lib.vcxproj">

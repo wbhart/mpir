@@ -1039,7 +1039,7 @@ __GMP_DECLSPEC void mpn_invert_2exp __GMP_PROTO ((mp_ptr, mp_srcptr, mp_size_t, 
 #define mpn_is_invert __MPN(is_invert)
 __GMP_DECLSPEC int mpn_is_invert __GMP_PROTO ((mp_srcptr, mp_srcptr, mp_size_t));
 
-#define mpn_invert_truncate __MPN(invert_truncate)
+#define mpn_invert_truncate __MPN(invert_trunc)
 __GMP_DECLSPEC void mpn_invert_truncate __GMP_PROTO ((mp_ptr, mp_size_t, mp_srcptr, mp_size_t, mp_srcptr));
 
 #ifndef mpn_divrem_euclidean_qr_1    /* if not done with cpuvec in a fat binary */
@@ -1162,12 +1162,12 @@ __GMP_DECLSPEC void fft_combine_limbs __GMP_PROTO ((mp_ptr res, mp_srcptr * poly
 __GMP_DECLSPEC mp_size_t fft_split_limbs __GMP_PROTO ((mp_ptr * poly, mp_srcptr limbs, 
             mp_size_t total_limbs, mp_size_t coeff_limbs, mp_size_t output_limbs));
 
-#define fft_truncate1 __fft_truncate1
-__GMP_DECLSPEC void fft_truncate1 __GMP_PROTO ((mp_ptr * ii, mp_size_t n, mp_bitcnt_t w, 
+#define fft_trunc1 __fft_trunc1
+__GMP_DECLSPEC void fft_trunc1 __GMP_PROTO ((mp_ptr * ii, mp_size_t n, mp_bitcnt_t w, 
                                mp_ptr * t1, mp_ptr * t2, mp_size_t trunc));
 
-#define ifft_truncate1 __ifft_truncate1
-__GMP_DECLSPEC void ifft_truncate1 __GMP_PROTO ((mp_ptr * ii, mp_size_t n, mp_bitcnt_t w, 
+#define ifft_trunc1 __ifft_trunc1
+__GMP_DECLSPEC void ifft_trunc1 __GMP_PROTO ((mp_ptr * ii, mp_size_t n, mp_bitcnt_t w, 
                                mp_ptr * t1, mp_ptr * t2, mp_size_t trunc));
 
 #define fft_radix2_twiddle __fft_radix2_twiddle
@@ -1180,13 +1180,13 @@ __GMP_DECLSPEC void ifft_radix2_twiddle __GMP_PROTO ((mp_ptr * ii, mp_size_t is,
         mp_size_t n, mp_bitcnt_t w, mp_ptr * t1, mp_ptr * t2,
                             mp_size_t ws, mp_size_t r, mp_size_t c, mp_size_t rs));
 
-#define fft_truncate1_twiddle __fft_truncate1_twiddle
-__GMP_DECLSPEC void fft_truncate1_twiddle __GMP_PROTO ((mp_ptr * ii, mp_size_t is,
+#define fft_trunc1_twiddle __fft_trunc1_twiddle
+__GMP_DECLSPEC void fft_trunc1_twiddle __GMP_PROTO ((mp_ptr * ii, mp_size_t is,
         mp_size_t n, mp_bitcnt_t w, mp_ptr * t1, mp_ptr * t2,
            mp_size_t ws, mp_size_t r, mp_size_t c, mp_size_t rs, mp_size_t trunc));
 
-#define ifft_truncate1_twiddle __ifft_truncate1_twiddle
-__GMP_DECLSPEC void ifft_truncate1_twiddle __GMP_PROTO ((mp_ptr * ii, mp_size_t is,
+#define ifft_trunc1_twiddle __ifft_trunc1_twiddle
+__GMP_DECLSPEC void ifft_trunc1_twiddle __GMP_PROTO ((mp_ptr * ii, mp_size_t is,
         mp_size_t n, mp_bitcnt_t w, mp_ptr * t1, mp_ptr * t2,
            mp_size_t ws, mp_size_t r, mp_size_t c, mp_size_t rs, mp_size_t trunc));
 

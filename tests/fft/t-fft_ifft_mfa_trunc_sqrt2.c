@@ -83,8 +83,8 @@ main(void)
                 mpn_copyi(jj[i], ii[i], size);
             }
    
-            fft_mfa_truncate_sqrt2(ii, n, w, &t1, &t2, &s1, n1, trunc);
-            ifft_mfa_truncate_sqrt2(ii, n, w, &t1, &t2, &s1, n1, trunc);
+            fft_mfa_trunc_sqrt2(ii, n, w, &t1, &t2, &s1, n1, trunc);
+            ifft_mfa_trunc_sqrt2(ii, n, w, &t1, &t2, &s1, n1, trunc);
             for (i = 0; i < trunc; i++)
             {
                 mpn_div_2expmod_2expp1(ii[i], ii[i], limbs, depth + 2);

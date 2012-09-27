@@ -89,7 +89,7 @@ main(void)
             {
                start = clock();
                for (i = 0; i < iters; i++)
-                  mpn_mul_truncate_sqrt2(r1, i1, n1, i2, n2, depth - off, w*((mp_size_t)1 << (off*2)));
+                  mpn_mul_trunc_sqrt2(r1, i1, n1, i2, n2, depth - off, w*((mp_size_t)1 << (off*2)));
                end = clock();
                
                elapsed = ((double) (end - start)) / CLOCKS_PER_SEC;

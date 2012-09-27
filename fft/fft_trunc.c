@@ -31,7 +31,7 @@ or implied, of William Hart.
 #include "mpir.h"
 #include "gmp-impl.h"
       
-void fft_truncate1(mp_ptr * ii, mp_size_t n, mp_bitcnt_t w, 
+void fft_trunc1(mp_ptr * ii, mp_size_t n, mp_bitcnt_t w, 
                    mp_ptr * t1, mp_ptr * t2, mp_size_t trunc)
 {
     mp_size_t i;
@@ -44,7 +44,7 @@ void fft_truncate1(mp_ptr * ii, mp_size_t n, mp_bitcnt_t w,
         for (i = 0; i < n; i++)
             mpn_add_n(ii[i], ii[i], ii[i+n], limbs + 1);
       
-        fft_truncate1(ii, n/2, 2*w, t1, t2, trunc);
+        fft_trunc1(ii, n/2, 2*w, t1, t2, trunc);
     } else
     {
         for (i = 0; i < n; i++) 
@@ -56,11 +56,11 @@ void fft_truncate1(mp_ptr * ii, mp_size_t n, mp_bitcnt_t w,
         }
 
         fft_radix2(ii, n/2, 2*w, t1, t2);
-        fft_truncate1(ii+n, n/2, 2*w, t1, t2, trunc - n);
+        fft_trunc1(ii+n, n/2, 2*w, t1, t2, trunc - n);
    }
 }
 
-void fft_truncate(mp_ptr * ii,  mp_size_t n, mp_bitcnt_t w, 
+void fft_trunc(mp_ptr * ii,  mp_size_t n, mp_bitcnt_t w, 
                   mp_ptr * t1, mp_ptr * t2, mp_size_t trunc)
 {
     mp_size_t i;
@@ -69,7 +69,7 @@ void fft_truncate(mp_ptr * ii,  mp_size_t n, mp_bitcnt_t w,
     if (trunc == 2*n)
        fft_radix2(ii, n, w, t1, t2);
     else if (trunc <= n)
-       fft_truncate(ii, n/2, 2*w, t1, t2, trunc);
+       fft_trunc(ii, n/2, 2*w, t1, t2, trunc);
     else
     {
         for (i = 0; i < trunc - n; i++) 
@@ -84,6 +84,6 @@ void fft_truncate(mp_ptr * ii,  mp_size_t n, mp_bitcnt_t w,
             fft_adjust(ii[i+n], ii[i], i, limbs, w); 
    
         fft_radix2(ii, n/2, 2*w, t1, t2);
-        fft_truncate1(ii+n, n/2, 2*w, t1, t2, trunc - n);
+        fft_trunc1(ii+n, n/2, 2*w, t1, t2, trunc - n);
    }
 }

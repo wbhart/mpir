@@ -52,41 +52,42 @@ main(void)
         {
             mp_size_t n = (((mp_limb_t)1)<<depth);
             mp_limb_t trunc;
-            mp_size_t limbs = (n*w)/GMP_LIMB_BITS;
-            mp_size_t size = limbs + 1;
+            mp_size_t limbs;
+            mp_size_t size;
             mp_size_t i;
             mp_limb_t * ptr;
-            mp_limb_t ** ii, ** jj, * t1, * t2, * s1;
-        
+            mp_limb_t ** ii, ** jj, *t1, *t2;
+
             mpn_rrandom(&trunc, state, 1);
-            trunc = 2*n + trunc % (2 * n) + 1;
+            trunc = trunc % (2 * n) + 1;
+            limbs = (n*w)/GMP_LIMB_BITS;
+            size = limbs + 1;
             trunc = 2*((trunc + 1)/2);
 
-            ii = malloc((4*(n + n*size) + 3*size)*sizeof(mp_limb_t));
-            for (i = 0, ptr = (mp_limb_t *) ii + 4*n; i < 4*n; i++, ptr += size) 
+            ii = malloc((2*(n + n*size) + 2*size)*sizeof(mp_limb_t));
+            for (i = 0, ptr = (mp_limb_t *) ii + 2*n; i < 2*n; i++, ptr += size) 
             {
                 ii[i] = ptr;
                 random_fermat(ii[i], state, limbs);
             }
             t1 = ptr;
             t2 = t1 + size;
-            s1 = t2 + size;
    
-            for (i = 0; i < 4*n; i++)
+            for (i = 0; i < 2*n; i++)
                mpn_normmod_2expp1(ii[i], limbs);
     
-            jj = malloc(4*(n + n*size)*sizeof(mp_limb_t));
-            for (i = 0, ptr = (mp_limb_t *) jj + 4*n; i < 4*n; i++, ptr += size) 
+            jj = malloc(2*(n + n*size)*sizeof(mp_limb_t));
+            for (i = 0, ptr = (mp_limb_t *) jj + 2*n; i < 2*n; i++, ptr += size) 
             {
                 jj[i] = ptr;
                 mpn_copyi(jj[i], ii[i], size);
             }
    
-            fft_truncate_sqrt2(ii, n, w, &t1, &t2, &s1, trunc);
-            ifft_truncate_sqrt2(ii, n, w, &t1, &t2, &s1, trunc);
+            fft_trunc(ii, n, w, &t1, &t2, trunc);
+            ifft_trunc(ii, n, w, &t1, &t2, trunc);
             for (i = 0; i < trunc; i++)
             {
-                mpn_div_2expmod_2expp1(ii[i], ii[i], limbs, depth + 2);
+                mpn_div_2expmod_2expp1(ii[i], ii[i], limbs, depth + 1);
                 mpn_normmod_2expp1(ii[i], limbs);
             }
 
@@ -95,7 +96,6 @@ main(void)
                 if (mpn_cmp(ii[i], jj[i], size) != 0)
                 {
                     printf("FAIL:\n");
-                    printf("n = %ld, trunc = %ld\n", n, trunc);
                     printf("Error in entry %ld\n", i);
                     abort();
                 }

@@ -71,7 +71,7 @@ main(void)
             mpn_urandomb(i2, state, int_limbs*GMP_LIMB_BITS);
   
             mpn_mul(r2, i1, int_limbs, i2, int_limbs);
-            mpn_mul_mfa_truncate_sqrt2(r1, i1, int_limbs, i2, int_limbs, depth, w);
+            mpn_mul_mfa_trunc_sqrt2(r1, i1, int_limbs, i2, int_limbs, depth, w);
             
             for (j = 0; j < 2*int_limbs; j++)
             {
@@ -110,7 +110,7 @@ main(void)
             mpn_urandomb(i1, state, int_limbs*GMP_LIMB_BITS);
             
             mpn_mul(r2, i1, int_limbs, i1, int_limbs);
-            mpn_mul_mfa_truncate_sqrt2(r1, i1, int_limbs, i1, int_limbs, depth, w);
+            mpn_mul_mfa_trunc_sqrt2(r1, i1, int_limbs, i1, int_limbs, depth, w);
             
             for (j = 0; j < 2*int_limbs; j++)
             {

@@ -59,13 +59,13 @@ check_PROGRAMS = t-adjust$(EXEEXT) t-adjust_sqrt2$(EXEEXT) \
 	t-butterfly$(EXEEXT) t-butterfly_lshB$(EXEEXT) \
 	t-butterfly_rshB$(EXEEXT) t-butterfly_sqrt2$(EXEEXT) \
 	t-butterfly_twiddle$(EXEEXT) t-div_2expmod_2expp1$(EXEEXT) \
-	t-fft_ifft_mfa_truncate_sqrt2$(EXEEXT) \
+	t-fft_ifft_mfa_trunc_sqrt2$(EXEEXT) \
 	t-fft_ifft_negacyclic$(EXEEXT) t-fft_ifft_radix2$(EXEEXT) \
-	t-fft_ifft_truncate$(EXEEXT) \
-	t-fft_ifft_truncate_sqrt2$(EXEEXT) \
+	t-fft_ifft_trunc$(EXEEXT) \
+	t-fft_ifft_trunc_sqrt2$(EXEEXT) \
 	t-mul_2expmod_2expp1$(EXEEXT) t-mul_fft_main$(EXEEXT) \
-	t-mul_mfa_truncate_sqrt2$(EXEEXT) \
-	t-mul_truncate_sqrt2$(EXEEXT) t-mulmod_2expp1$(EXEEXT) \
+	t-mul_mfa_trunc_sqrt2$(EXEEXT) \
+	t-mul_trunc_sqrt2$(EXEEXT) t-mulmod_2expp1$(EXEEXT) \
 	t-normmod_2expp1$(EXEEXT) t-split_combine_bits$(EXEEXT)
 subdir = tests/fft
 DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in
@@ -118,12 +118,12 @@ t_div_2expmod_2expp1_OBJECTS = t-div_2expmod_2expp1.$(OBJEXT)
 t_div_2expmod_2expp1_LDADD = $(LDADD)
 t_div_2expmod_2expp1_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
 	$(top_builddir)/libmpir.la
-t_fft_ifft_mfa_truncate_sqrt2_SOURCES =  \
-	t-fft_ifft_mfa_truncate_sqrt2.c
-t_fft_ifft_mfa_truncate_sqrt2_OBJECTS =  \
-	t-fft_ifft_mfa_truncate_sqrt2.$(OBJEXT)
-t_fft_ifft_mfa_truncate_sqrt2_LDADD = $(LDADD)
-t_fft_ifft_mfa_truncate_sqrt2_DEPENDENCIES =  \
+t_fft_ifft_mfa_trunc_sqrt2_SOURCES =  \
+	t-fft_ifft_mfa_trunc_sqrt2.c
+t_fft_ifft_mfa_trunc_sqrt2_OBJECTS =  \
+	t-fft_ifft_mfa_trunc_sqrt2.$(OBJEXT)
+t_fft_ifft_mfa_trunc_sqrt2_LDADD = $(LDADD)
+t_fft_ifft_mfa_trunc_sqrt2_DEPENDENCIES =  \
 	$(top_builddir)/tests/libtests.la $(top_builddir)/libmpir.la
 t_fft_ifft_negacyclic_SOURCES = t-fft_ifft_negacyclic.c
 t_fft_ifft_negacyclic_OBJECTS = t-fft_ifft_negacyclic.$(OBJEXT)
@@ -135,16 +135,16 @@ t_fft_ifft_radix2_OBJECTS = t-fft_ifft_radix2.$(OBJEXT)
 t_fft_ifft_radix2_LDADD = $(LDADD)
 t_fft_ifft_radix2_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
 	$(top_builddir)/libmpir.la
-t_fft_ifft_truncate_SOURCES = t-fft_ifft_truncate.c
-t_fft_ifft_truncate_OBJECTS = t-fft_ifft_truncate.$(OBJEXT)
-t_fft_ifft_truncate_LDADD = $(LDADD)
-t_fft_ifft_truncate_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
+t_fft_ifft_trunc_SOURCES = t-fft_ifft_trunc.c
+t_fft_ifft_trunc_OBJECTS = t-fft_ifft_trunc.$(OBJEXT)
+t_fft_ifft_trunc_LDADD = $(LDADD)
+t_fft_ifft_trunc_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
 	$(top_builddir)/libmpir.la
-t_fft_ifft_truncate_sqrt2_SOURCES = t-fft_ifft_truncate_sqrt2.c
-t_fft_ifft_truncate_sqrt2_OBJECTS =  \
-	t-fft_ifft_truncate_sqrt2.$(OBJEXT)
-t_fft_ifft_truncate_sqrt2_LDADD = $(LDADD)
-t_fft_ifft_truncate_sqrt2_DEPENDENCIES =  \
+t_fft_ifft_trunc_sqrt2_SOURCES = t-fft_ifft_trunc_sqrt2.c
+t_fft_ifft_trunc_sqrt2_OBJECTS =  \
+	t-fft_ifft_trunc_sqrt2.$(OBJEXT)
+t_fft_ifft_trunc_sqrt2_LDADD = $(LDADD)
+t_fft_ifft_trunc_sqrt2_DEPENDENCIES =  \
 	$(top_builddir)/tests/libtests.la $(top_builddir)/libmpir.la
 t_mul_2expmod_2expp1_SOURCES = t-mul_2expmod_2expp1.c
 t_mul_2expmod_2expp1_OBJECTS = t-mul_2expmod_2expp1.$(OBJEXT)
@@ -156,15 +156,15 @@ t_mul_fft_main_OBJECTS = t-mul_fft_main.$(OBJEXT)
 t_mul_fft_main_LDADD = $(LDADD)
 t_mul_fft_main_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
 	$(top_builddir)/libmpir.la
-t_mul_mfa_truncate_sqrt2_SOURCES = t-mul_mfa_truncate_sqrt2.c
-t_mul_mfa_truncate_sqrt2_OBJECTS = t-mul_mfa_truncate_sqrt2.$(OBJEXT)
-t_mul_mfa_truncate_sqrt2_LDADD = $(LDADD)
-t_mul_mfa_truncate_sqrt2_DEPENDENCIES =  \
+t_mul_mfa_trunc_sqrt2_SOURCES = t-mul_mfa_trunc_sqrt2.c
+t_mul_mfa_trunc_sqrt2_OBJECTS = t-mul_mfa_trunc_sqrt2.$(OBJEXT)
+t_mul_mfa_trunc_sqrt2_LDADD = $(LDADD)
+t_mul_mfa_trunc_sqrt2_DEPENDENCIES =  \
 	$(top_builddir)/tests/libtests.la $(top_builddir)/libmpir.la
-t_mul_truncate_sqrt2_SOURCES = t-mul_truncate_sqrt2.c
-t_mul_truncate_sqrt2_OBJECTS = t-mul_truncate_sqrt2.$(OBJEXT)
-t_mul_truncate_sqrt2_LDADD = $(LDADD)
-t_mul_truncate_sqrt2_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
+t_mul_trunc_sqrt2_SOURCES = t-mul_trunc_sqrt2.c
+t_mul_trunc_sqrt2_OBJECTS = t-mul_trunc_sqrt2.$(OBJEXT)
+t_mul_trunc_sqrt2_LDADD = $(LDADD)
+t_mul_trunc_sqrt2_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
 	$(top_builddir)/libmpir.la
 t_mulmod_2expp1_SOURCES = t-mulmod_2expp1.c
 t_mulmod_2expp1_OBJECTS = t-mulmod_2expp1.$(OBJEXT)
@@ -195,20 +195,20 @@ LINK = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
 	$(LDFLAGS) -o $@
 SOURCES = t-adjust.c t-adjust_sqrt2.c t-butterfly.c t-butterfly_lshB.c \
 	t-butterfly_rshB.c t-butterfly_sqrt2.c t-butterfly_twiddle.c \
-	t-div_2expmod_2expp1.c t-fft_ifft_mfa_truncate_sqrt2.c \
+	t-div_2expmod_2expp1.c t-fft_ifft_mfa_trunc_sqrt2.c \
 	t-fft_ifft_negacyclic.c t-fft_ifft_radix2.c \
-	t-fft_ifft_truncate.c t-fft_ifft_truncate_sqrt2.c \
+	t-fft_ifft_trunc.c t-fft_ifft_trunc_sqrt2.c \
 	t-mul_2expmod_2expp1.c t-mul_fft_main.c \
-	t-mul_mfa_truncate_sqrt2.c t-mul_truncate_sqrt2.c \
+	t-mul_mfa_trunc_sqrt2.c t-mul_trunc_sqrt2.c \
 	t-mulmod_2expp1.c t-normmod_2expp1.c t-split_combine_bits.c
 DIST_SOURCES = t-adjust.c t-adjust_sqrt2.c t-butterfly.c \
 	t-butterfly_lshB.c t-butterfly_rshB.c t-butterfly_sqrt2.c \
 	t-butterfly_twiddle.c t-div_2expmod_2expp1.c \
-	t-fft_ifft_mfa_truncate_sqrt2.c t-fft_ifft_negacyclic.c \
-	t-fft_ifft_radix2.c t-fft_ifft_truncate.c \
-	t-fft_ifft_truncate_sqrt2.c t-mul_2expmod_2expp1.c \
-	t-mul_fft_main.c t-mul_mfa_truncate_sqrt2.c \
-	t-mul_truncate_sqrt2.c t-mulmod_2expp1.c t-normmod_2expp1.c \
+	t-fft_ifft_mfa_trunc_sqrt2.c t-fft_ifft_negacyclic.c \
+	t-fft_ifft_radix2.c t-fft_ifft_trunc.c \
+	t-fft_ifft_trunc_sqrt2.c t-mul_2expmod_2expp1.c \
+	t-mul_fft_main.c t-mul_mfa_trunc_sqrt2.c \
+	t-mul_trunc_sqrt2.c t-mulmod_2expp1.c t-normmod_2expp1.c \
 	t-split_combine_bits.c
 ETAGS = etags
 CTAGS = ctags
@@ -514,33 +514,33 @@ t-butterfly_twiddle$(EXEEXT): $(t_butterfly_twiddle_OBJECTS) $(t_butterfly_twidd
 t-div_2expmod_2expp1$(EXEEXT): $(t_div_2expmod_2expp1_OBJECTS) $(t_div_2expmod_2expp1_DEPENDENCIES) 
 	@rm -f t-div_2expmod_2expp1$(EXEEXT)
 	$(LINK) $(t_div_2expmod_2expp1_OBJECTS) $(t_div_2expmod_2expp1_LDADD) $(LIBS)
-t-fft_ifft_mfa_truncate_sqrt2$(EXEEXT): $(t_fft_ifft_mfa_truncate_sqrt2_OBJECTS) $(t_fft_ifft_mfa_truncate_sqrt2_DEPENDENCIES) 
-	@rm -f t-fft_ifft_mfa_truncate_sqrt2$(EXEEXT)
-	$(LINK) $(t_fft_ifft_mfa_truncate_sqrt2_OBJECTS) $(t_fft_ifft_mfa_truncate_sqrt2_LDADD) $(LIBS)
+t-fft_ifft_mfa_trunc_sqrt2$(EXEEXT): $(t_fft_ifft_mfa_trunc_sqrt2_OBJECTS) $(t_fft_ifft_mfa_trunc_sqrt2_DEPENDENCIES) 
+	@rm -f t-fft_ifft_mfa_trunc_sqrt2$(EXEEXT)
+	$(LINK) $(t_fft_ifft_mfa_trunc_sqrt2_OBJECTS) $(t_fft_ifft_mfa_trunc_sqrt2_LDADD) $(LIBS)
 t-fft_ifft_negacyclic$(EXEEXT): $(t_fft_ifft_negacyclic_OBJECTS) $(t_fft_ifft_negacyclic_DEPENDENCIES) 
 	@rm -f t-fft_ifft_negacyclic$(EXEEXT)
 	$(LINK) $(t_fft_ifft_negacyclic_OBJECTS) $(t_fft_ifft_negacyclic_LDADD) $(LIBS)
 t-fft_ifft_radix2$(EXEEXT): $(t_fft_ifft_radix2_OBJECTS) $(t_fft_ifft_radix2_DEPENDENCIES) 
 	@rm -f t-fft_ifft_radix2$(EXEEXT)
 	$(LINK) $(t_fft_ifft_radix2_OBJECTS) $(t_fft_ifft_radix2_LDADD) $(LIBS)
-t-fft_ifft_truncate$(EXEEXT): $(t_fft_ifft_truncate_OBJECTS) $(t_fft_ifft_truncate_DEPENDENCIES) 
-	@rm -f t-fft_ifft_truncate$(EXEEXT)
-	$(LINK) $(t_fft_ifft_truncate_OBJECTS) $(t_fft_ifft_truncate_LDADD) $(LIBS)
-t-fft_ifft_truncate_sqrt2$(EXEEXT): $(t_fft_ifft_truncate_sqrt2_OBJECTS) $(t_fft_ifft_truncate_sqrt2_DEPENDENCIES) 
-	@rm -f t-fft_ifft_truncate_sqrt2$(EXEEXT)
-	$(LINK) $(t_fft_ifft_truncate_sqrt2_OBJECTS) $(t_fft_ifft_truncate_sqrt2_LDADD) $(LIBS)
+t-fft_ifft_trunc$(EXEEXT): $(t_fft_ifft_trunc_OBJECTS) $(t_fft_ifft_trunc_DEPENDENCIES) 
+	@rm -f t-fft_ifft_trunc$(EXEEXT)
+	$(LINK) $(t_fft_ifft_trunc_OBJECTS) $(t_fft_ifft_trunc_LDADD) $(LIBS)
+t-fft_ifft_trunc_sqrt2$(EXEEXT): $(t_fft_ifft_trunc_sqrt2_OBJECTS) $(t_fft_ifft_trunc_sqrt2_DEPENDENCIES) 
+	@rm -f t-fft_ifft_trunc_sqrt2$(EXEEXT)
+	$(LINK) $(t_fft_ifft_trunc_sqrt2_OBJECTS) $(t_fft_ifft_trunc_sqrt2_LDADD) $(LIBS)
 t-mul_2expmod_2expp1$(EXEEXT): $(t_mul_2expmod_2expp1_OBJECTS) $(t_mul_2expmod_2expp1_DEPENDENCIES) 
 	@rm -f t-mul_2expmod_2expp1$(EXEEXT)
 	$(LINK) $(t_mul_2expmod_2expp1_OBJECTS) $(t_mul_2expmod_2expp1_LDADD) $(LIBS)
 t-mul_fft_main$(EXEEXT): $(t_mul_fft_main_OBJECTS) $(t_mul_fft_main_DEPENDENCIES) 
 	@rm -f t-mul_fft_main$(EXEEXT)
 	$(LINK) $(t_mul_fft_main_OBJECTS) $(t_mul_fft_main_LDADD) $(LIBS)
-t-mul_mfa_truncate_sqrt2$(EXEEXT): $(t_mul_mfa_truncate_sqrt2_OBJECTS) $(t_mul_mfa_truncate_sqrt2_DEPENDENCIES) 
-	@rm -f t-mul_mfa_truncate_sqrt2$(EXEEXT)
-	$(LINK) $(t_mul_mfa_truncate_sqrt2_OBJECTS) $(t_mul_mfa_truncate_sqrt2_LDADD) $(LIBS)
-t-mul_truncate_sqrt2$(EXEEXT): $(t_mul_truncate_sqrt2_OBJECTS) $(t_mul_truncate_sqrt2_DEPENDENCIES) 
-	@rm -f t-mul_truncate_sqrt2$(EXEEXT)
-	$(LINK) $(t_mul_truncate_sqrt2_OBJECTS) $(t_mul_truncate_sqrt2_LDADD) $(LIBS)
+t-mul_mfa_trunc_sqrt2$(EXEEXT): $(t_mul_mfa_trunc_sqrt2_OBJECTS) $(t_mul_mfa_trunc_sqrt2_DEPENDENCIES) 
+	@rm -f t-mul_mfa_trunc_sqrt2$(EXEEXT)
+	$(LINK) $(t_mul_mfa_trunc_sqrt2_OBJECTS) $(t_mul_mfa_trunc_sqrt2_LDADD) $(LIBS)
+t-mul_trunc_sqrt2$(EXEEXT): $(t_mul_trunc_sqrt2_OBJECTS) $(t_mul_trunc_sqrt2_DEPENDENCIES) 
+	@rm -f t-mul_trunc_sqrt2$(EXEEXT)
+	$(LINK) $(t_mul_trunc_sqrt2_OBJECTS) $(t_mul_trunc_sqrt2_LDADD) $(LIBS)
 t-mulmod_2expp1$(EXEEXT): $(t_mulmod_2expp1_OBJECTS) $(t_mulmod_2expp1_DEPENDENCIES) 
 	@rm -f t-mulmod_2expp1$(EXEEXT)
 	$(LINK) $(t_mulmod_2expp1_OBJECTS) $(t_mulmod_2expp1_LDADD) $(LIBS)
@@ -792,24 +792,24 @@ t-butterfly_twiddle.log: t-butterfly_twiddle$(EXEEXT)
 	@p='t-butterfly_twiddle$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
 t-div_2expmod_2expp1.log: t-div_2expmod_2expp1$(EXEEXT)
 	@p='t-div_2expmod_2expp1$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
-t-fft_ifft_mfa_truncate_sqrt2.log: t-fft_ifft_mfa_truncate_sqrt2$(EXEEXT)
-	@p='t-fft_ifft_mfa_truncate_sqrt2$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
+t-fft_ifft_mfa_trunc_sqrt2.log: t-fft_ifft_mfa_trunc_sqrt2$(EXEEXT)
+	@p='t-fft_ifft_mfa_trunc_sqrt2$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
 t-fft_ifft_negacyclic.log: t-fft_ifft_negacyclic$(EXEEXT)
 	@p='t-fft_ifft_negacyclic$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
 t-fft_ifft_radix2.log: t-fft_ifft_radix2$(EXEEXT)
 	@p='t-fft_ifft_radix2$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
-t-fft_ifft_truncate.log: t-fft_ifft_truncate$(EXEEXT)
-	@p='t-fft_ifft_truncate$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
-t-fft_ifft_truncate_sqrt2.log: t-fft_ifft_truncate_sqrt2$(EXEEXT)
-	@p='t-fft_ifft_truncate_sqrt2$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
+t-fft_ifft_trunc.log: t-fft_ifft_trunc$(EXEEXT)
+	@p='t-fft_ifft_trunc$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
+t-fft_ifft_trunc_sqrt2.log: t-fft_ifft_trunc_sqrt2$(EXEEXT)
+	@p='t-fft_ifft_trunc_sqrt2$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
 t-mul_2expmod_2expp1.log: t-mul_2expmod_2expp1$(EXEEXT)
 	@p='t-mul_2expmod_2expp1$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
 t-mul_fft_main.log: t-mul_fft_main$(EXEEXT)
 	@p='t-mul_fft_main$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
-t-mul_mfa_truncate_sqrt2.log: t-mul_mfa_truncate_sqrt2$(EXEEXT)
-	@p='t-mul_mfa_truncate_sqrt2$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
-t-mul_truncate_sqrt2.log: t-mul_truncate_sqrt2$(EXEEXT)
-	@p='t-mul_truncate_sqrt2$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
+t-mul_mfa_trunc_sqrt2.log: t-mul_mfa_trunc_sqrt2$(EXEEXT)
+	@p='t-mul_mfa_trunc_sqrt2$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
+t-mul_trunc_sqrt2.log: t-mul_trunc_sqrt2$(EXEEXT)
+	@p='t-mul_trunc_sqrt2$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
 t-mulmod_2expp1.log: t-mulmod_2expp1$(EXEEXT)
 	@p='t-mulmod_2expp1$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
 t-normmod_2expp1.log: t-normmod_2expp1$(EXEEXT)

@@ -18,6 +18,9 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\tune\tune-fft.c" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{3F33FC73-66DD-498B-886E-2AFD0984F5E6}</ProjectGuid>
     <RootNamespace>tune-fft</RootNamespace>
@@ -172,9 +175,6 @@
       <TargetMachine>MachineX64</TargetMachine>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="..\..\tune\tune-fft.c" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />
 </Project>

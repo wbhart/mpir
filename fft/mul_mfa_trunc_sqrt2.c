@@ -30,14 +30,15 @@ or implied, of William Hart.
 
 #include "mpir.h"
 #include "gmp-impl.h"
-      
+
 void 
-mpn_mul_truncate_sqrt2(mp_ptr r1, mp_srcptr i1, mp_size_t n1, 
+mpn_mul_mfa_trunc_sqrt2(mp_ptr r1, mp_srcptr i1, mp_size_t n1, 
                         mp_srcptr i2, mp_size_t n2, mp_bitcnt_t depth, mp_bitcnt_t w)
 {
    mp_size_t n = (((mp_size_t)1)<<depth);
    mp_bitcnt_t bits1 = (n*w - (depth+1))/2; 
-   
+   mp_size_t sqrt = (((mp_size_t)1)<<(depth/2));
+
    mp_size_t r_limbs = n1 + n2;
    mp_size_t limbs = (n*w)/GMP_LIMB_BITS;
    mp_size_t size = limbs + 1;
@@ -47,8 +48,8 @@ mpn_mul_truncate_sqrt2(mp_ptr r1, mp_srcptr i1, mp_size_t n1,
    
    mp_size_t i, j, trunc;
 
-   mp_limb_t ** ii, ** jj, * t1, * t2, * s1, * tt, * ptr;
-   mp_limb_t c;
+   mp_ptr * ii, * jj, t1, t2, s1, ptr;
+   mp_limb_t * tt;
    TMP_DECL;
 
    TMP_MARK;
@@ -61,7 +62,7 @@ mpn_mul_truncate_sqrt2(mp_ptr r1, mp_srcptr i1, mp_size_t n1,
    t2 = t1 + size;
    s1 = t2 + size;
    tt = s1 + size;
-
+   
    if (i1 != i2)
    {
       jj = TMP_BALLOC_MP_PTRS(4*(n + n*size));
@@ -70,45 +71,32 @@ mpn_mul_truncate_sqrt2(mp_ptr r1, mp_srcptr i1, mp_size_t n1,
          jj[i] = ptr;
       }
    } 
-   else
-      jj = ii;
+   else 
+       jj = ii;
 
    trunc = j1 + j2 - 1;
    if (trunc <= 2*n) trunc = 2*n + 1; /* trunc must be greater than 2n */
-   trunc = 2*((trunc + 1)/2); /* trunc must be divisible by 2 */
+   trunc = 2*sqrt*((trunc + 2*sqrt - 1)/(2*sqrt)); /* trunc must be divisible by 2*sqrt */
 
    j1 = fft_split_bits(ii, i1, n1, bits1, limbs);
    for (j = j1 ; j < 4*n; j++)
       mpn_zero(ii[j], limbs + 1);
    
-   fft_truncate_sqrt2(ii, n, w, &t1, &t2, &s1, trunc);
-    
+   fft_mfa_trunc_sqrt2_outer(ii, n, w, &t1, &t2, &s1, sqrt, trunc);
+   
    if (i1 != i2)
    {
       j2 = fft_split_bits(jj, i2, n2, bits1, limbs);
       for (j = j2 ; j < 4*n; j++)
-         mpn_zero(jj[j], limbs + 1);
-      fft_truncate_sqrt2(jj, n, w, &t1, &t2, &s1, trunc);      
+         mpn_zero(jj[j], limbs + 1); 
+      fft_mfa_trunc_sqrt2_outer(jj, n, w, &t1, &t2, &s1, sqrt, trunc);
    } 
    else 
        j2 = j1;
 
-   for (j = 0; j < trunc; j++)
-   {
-      mpn_normmod_2expp1(ii[j], limbs);
-      if (i1 != i2) mpn_normmod_2expp1(jj[j], limbs);
-      c = 2*ii[j][limbs] + jj[j][limbs];
-
-      ii[j][limbs] = mpn_mulmod_2expp1_basecase(ii[j], ii[j], jj[j], c, n*w, tt);
-   }
-
-   ifft_truncate_sqrt2(ii, n, w, &t1, &t2, &s1, trunc);
-   for (j = 0; j < trunc; j++)
-   {
-      mpn_div_2expmod_2expp1(ii[j], ii[j], limbs, depth + 2);
-      mpn_normmod_2expp1(ii[j], limbs);
-   }
-   
+   fft_mfa_trunc_sqrt2_inner(ii, jj, n, w, &t1, &t2, &s1, sqrt, trunc, tt);
+   ifft_mfa_trunc_sqrt2_outer(ii, n, w, &t1, &t2, &s1, sqrt, trunc);
+       
    mpn_zero(r1, r_limbs);
    fft_combine_bits(r1, ii, j1 + j2 - 1, bits1, limbs, r_limbs);
      

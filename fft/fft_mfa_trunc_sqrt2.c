@@ -104,7 +104,7 @@ start:
 #endif
 }
 
-void fft_truncate1_twiddle(mp_ptr * ii, mp_size_t is,
+void fft_trunc1_twiddle(mp_ptr * ii, mp_size_t is,
       mp_size_t n, mp_bitcnt_t w, mp_ptr * t1, mp_ptr * t2,
       mp_size_t ws, mp_size_t r, mp_size_t c, mp_size_t rs, mp_size_t trunc)
 {
@@ -118,7 +118,7 @@ void fft_truncate1_twiddle(mp_ptr * ii, mp_size_t is,
       for (i = 0; i < n; i++)
          mpn_add_n(ii[i*is], ii[i*is], ii[(i+n)*is], limbs + 1);
       
-      fft_truncate1_twiddle(ii, is, n/2, 2*w, t1, t2, ws, r, c, 2*rs, trunc);
+      fft_trunc1_twiddle(ii, is, n/2, 2*w, t1, t2, ws, r, c, 2*rs, trunc);
    } else
    {
       for (i = 0; i < n; i++) 
@@ -130,12 +130,12 @@ void fft_truncate1_twiddle(mp_ptr * ii, mp_size_t is,
       }
 
       fft_radix2_twiddle(ii, is, n/2, 2*w, t1, t2, ws, r, c, 2*rs);  
-      fft_truncate1_twiddle(ii + n*is, is, n/2, 2*w, 
+      fft_trunc1_twiddle(ii + n*is, is, n/2, 2*w, 
                                      t1, t2, ws, r + rs, c, 2*rs, trunc - n);
    }
 }
 
-void fft_mfa_truncate_sqrt2(mp_ptr * ii, mp_size_t n, 
+void fft_mfa_trunc_sqrt2(mp_ptr * ii, mp_size_t n, 
                    mp_bitcnt_t w, mp_ptr * t1, mp_ptr * t2, 
                              mp_ptr * temp, mp_size_t n1, mp_size_t trunc)
 {
@@ -224,7 +224,7 @@ void fft_mfa_truncate_sqrt2(mp_ptr * ii, mp_size_t n,
          of 1 starting at row 0, where z => w bits
       */
       
-      fft_truncate1_twiddle(ii + i, n1, n2/2, w*n1, t1, t2, w, 0, i, 1, trunc2);
+      fft_trunc1_twiddle(ii + i, n1, n2/2, w*n1, t1, t2, w, 0, i, 1, trunc2);
       for (j = 0; j < n2; j++)
       {
          mp_size_t s = n_revbin(j, depth);
@@ -246,7 +246,7 @@ void fft_mfa_truncate_sqrt2(mp_ptr * ii, mp_size_t n,
    }
 }
 
-void fft_mfa_truncate_sqrt2_outer(mp_ptr * ii, mp_size_t n, 
+void fft_mfa_trunc_sqrt2_outer(mp_ptr * ii, mp_size_t n, 
                    mp_bitcnt_t w, mp_ptr * t1, mp_ptr * t2, 
                              mp_ptr * temp, mp_size_t n1, mp_size_t trunc)
 {
@@ -324,7 +324,7 @@ void fft_mfa_truncate_sqrt2_outer(mp_ptr * ii, mp_size_t n,
          of 1 starting at row 0, where z => w bits
       */
       
-      fft_truncate1_twiddle(ii + i, n1, n2/2, w*n1, t1, t2, w, 0, i, 1, trunc2);
+      fft_trunc1_twiddle(ii + i, n1, n2/2, w*n1, t1, t2, w, 0, i, 1, trunc2);
       for (j = 0; j < n2; j++)
       {
          mp_size_t s = n_revbin(j, depth);

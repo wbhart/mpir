@@ -125,10 +125,10 @@
   <ClCompile Include="..\..\fft\fermat_to_mpz.c">
     <Filter>Source Files\fft</Filter>
   </ClCompile>
-  <ClCompile Include="..\..\fft\fft_mfa_truncate_sqrt2.c">
+  <ClCompile Include="..\..\fft\fft_mfa_trunc_sqrt2.c">
     <Filter>Source Files\fft</Filter>
   </ClCompile>
-  <ClCompile Include="..\..\fft\fft_mfa_truncate_sqrt2_inner.c">
+  <ClCompile Include="..\..\fft\fft_mfa_trunc_sqrt2_inner.c">
     <Filter>Source Files\fft</Filter>
   </ClCompile>
   <ClCompile Include="..\..\fft\fft_negacylic.c">
@@ -137,13 +137,13 @@
   <ClCompile Include="..\..\fft\fft_radix2.c">
     <Filter>Source Files\fft</Filter>
   </ClCompile>
-  <ClCompile Include="..\..\fft\fft_truncate.c">
+  <ClCompile Include="..\..\fft\fft_trunc.c">
     <Filter>Source Files\fft</Filter>
   </ClCompile>
-  <ClCompile Include="..\..\fft\fft_truncate_sqrt2.c">
+  <ClCompile Include="..\..\fft\fft_trunc_sqrt2.c">
     <Filter>Source Files\fft</Filter>
   </ClCompile>
-  <ClCompile Include="..\..\fft\ifft_mfa_truncate_sqrt2.c">
+  <ClCompile Include="..\..\fft\ifft_mfa_trunc_sqrt2.c">
     <Filter>Source Files\fft</Filter>
   </ClCompile>
   <ClCompile Include="..\..\fft\ifft_negacyclic.c">
@@ -152,10 +152,10 @@
   <ClCompile Include="..\..\fft\ifft_radix2.c">
     <Filter>Source Files\fft</Filter>
   </ClCompile>
-  <ClCompile Include="..\..\fft\ifft_truncate.c">
+  <ClCompile Include="..\..\fft\ifft_trunc.c">
     <Filter>Source Files\fft</Filter>
   </ClCompile>
-  <ClCompile Include="..\..\fft\ifft_truncate_sqrt2.c">
+  <ClCompile Include="..\..\fft\ifft_trunc_sqrt2.c">
     <Filter>Source Files\fft</Filter>
   </ClCompile>
   <ClCompile Include="..\..\fft\mul_2expmod_2expp1.c">
@@ -164,10 +164,10 @@
   <ClCompile Include="..\..\fft\mul_fft_main.c">
     <Filter>Source Files\fft</Filter>
   </ClCompile>
-  <ClCompile Include="..\..\fft\mul_mfa_truncate_sqrt2.c">
+  <ClCompile Include="..\..\fft\mul_mfa_trunc_sqrt2.c">
     <Filter>Source Files\fft</Filter>
   </ClCompile>
-  <ClCompile Include="..\..\fft\mul_truncate_sqrt2.c">
+  <ClCompile Include="..\..\fft\mul_trunc_sqrt2.c">
     <Filter>Source Files\fft</Filter>
   </ClCompile>
   <ClCompile Include="..\..\fft\mulmod_2expp1.c">

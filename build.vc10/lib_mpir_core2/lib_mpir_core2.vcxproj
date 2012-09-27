@@ -163,11 +163,11 @@ postbuild "$(TargetPath)"
         <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)fft\</ObjectFileName>
         <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)fft\</ObjectFileName>
     </ClCompile>
-    <ClCompile Include="..\..\fft\fft_mfa_truncate_sqrt2.c">
+    <ClCompile Include="..\..\fft\fft_mfa_trunc_sqrt2.c">
         <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)fft\</ObjectFileName>
         <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)fft\</ObjectFileName>
     </ClCompile>
-    <ClCompile Include="..\..\fft\fft_mfa_truncate_sqrt2_inner.c">
+    <ClCompile Include="..\..\fft\fft_mfa_trunc_sqrt2_inner.c">
         <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)fft\</ObjectFileName>
         <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)fft\</ObjectFileName>
     </ClCompile>
@@ -179,15 +179,15 @@ postbuild "$(TargetPath)"
         <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)fft\</ObjectFileName>
         <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)fft\</ObjectFileName>
     </ClCompile>
-    <ClCompile Include="..\..\fft\fft_truncate.c">
+    <ClCompile Include="..\..\fft\fft_trunc.c">
         <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)fft\</ObjectFileName>
         <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)fft\</ObjectFileName>
     </ClCompile>
-    <ClCompile Include="..\..\fft\fft_truncate_sqrt2.c">
+    <ClCompile Include="..\..\fft\fft_trunc_sqrt2.c">
         <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)fft\</ObjectFileName>
         <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)fft\</ObjectFileName>
     </ClCompile>
-    <ClCompile Include="..\..\fft\ifft_mfa_truncate_sqrt2.c">
+    <ClCompile Include="..\..\fft\ifft_mfa_trunc_sqrt2.c">
         <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)fft\</ObjectFileName>
         <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)fft\</ObjectFileName>
     </ClCompile>
@@ -199,11 +199,11 @@ postbuild "$(TargetPath)"
         <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)fft\</ObjectFileName>
         <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)fft\</ObjectFileName>
     </ClCompile>
-    <ClCompile Include="..\..\fft\ifft_truncate.c">
+    <ClCompile Include="..\..\fft\ifft_trunc.c">
         <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)fft\</ObjectFileName>
         <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)fft\</ObjectFileName>
     </ClCompile>
-    <ClCompile Include="..\..\fft\ifft_truncate_sqrt2.c">
+    <ClCompile Include="..\..\fft\ifft_trunc_sqrt2.c">
         <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)fft\</ObjectFileName>
         <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)fft\</ObjectFileName>
     </ClCompile>
@@ -215,11 +215,11 @@ postbuild "$(TargetPath)"
         <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)fft\</ObjectFileName>
         <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)fft\</ObjectFileName>
     </ClCompile>
-    <ClCompile Include="..\..\fft\mul_mfa_truncate_sqrt2.c">
+    <ClCompile Include="..\..\fft\mul_mfa_trunc_sqrt2.c">
         <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)fft\</ObjectFileName>
         <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)fft\</ObjectFileName>
     </ClCompile>
-    <ClCompile Include="..\..\fft\mul_truncate_sqrt2.c">
+    <ClCompile Include="..\..\fft\mul_trunc_sqrt2.c">
         <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)fft\</ObjectFileName>
         <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)fft\</ObjectFileName>
     </ClCompile>

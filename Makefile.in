@@ -492,7 +492,7 @@ MPF_OBJECTS = mpf/abs$U.lo mpf/add$U.lo mpf/add_ui$U.lo \
 	mpf/sqrt_ui$U.lo mpf/sub$U.lo mpf/sub_ui$U.lo mpf/swap$U.lo \
 	mpf/trunc$U.lo mpf/ui_div$U.lo mpf/ui_sub$U.lo \
 	mpf/urandomb$U.lo
-FFT_OBJECTS = fft/adjust$U.lo fft/adjust_sqrt2$U.lo fft/butterfly_lshB$U.lo fft/butterfly_rshB$U.lo fft/combine_bits$U.lo fft/div_2expmod_2expp1$U.lo fft/fermat_to_mpz$U.lo fft/fft_mfa_truncate_sqrt2$U.lo fft/fft_mfa_truncate_sqrt2_inner$U.lo fft/fft_negacylic$U.lo fft/fft_radix2$U.lo fft/fft_truncate$U.lo fft/fft_truncate_sqrt2$U.lo fft/ifft_mfa_truncate_sqrt2$U.lo fft/ifft_negacyclic$U.lo fft/ifft_radix2$U.lo fft/ifft_truncate$U.lo fft/ifft_truncate_sqrt2$U.lo fft/mul_2expmod_2expp1$U.lo fft/mul_fft_main$U.lo fft/mul_mfa_truncate_sqrt2$U.lo fft/mul_truncate_sqrt2$U.lo fft/mulmod_2expp1$U.lo fft/normmod_2expp1$U.lo fft/revbin$U.lo fft/split_bits$U.lo 
+FFT_OBJECTS = fft/adjust$U.lo fft/adjust_sqrt2$U.lo fft/butterfly_lshB$U.lo fft/butterfly_rshB$U.lo fft/combine_bits$U.lo fft/div_2expmod_2expp1$U.lo fft/fermat_to_mpz$U.lo fft/fft_mfa_trunc_sqrt2$U.lo fft/fft_mfa_trunc_sqrt2_inner$U.lo fft/fft_negacylic$U.lo fft/fft_radix2$U.lo fft/fft_trunc$U.lo fft/fft_trunc_sqrt2$U.lo fft/ifft_mfa_trunc_sqrt2$U.lo fft/ifft_negacyclic$U.lo fft/ifft_radix2$U.lo fft/ifft_trunc$U.lo fft/ifft_trunc_sqrt2$U.lo fft/mul_2expmod_2expp1$U.lo fft/mul_fft_main$U.lo fft/mul_mfa_trunc_sqrt2$U.lo fft/mul_trunc_sqrt2$U.lo fft/mulmod_2expp1$U.lo fft/normmod_2expp1$U.lo fft/revbin$U.lo fft/split_bits$U.lo 
 MPZ_OBJECTS = mpz/abs$U.lo mpz/add$U.lo mpz/add_ui$U.lo mpz/and$U.lo \
 	mpz/aorsmul$U.lo mpz/aorsmul_i$U.lo mpz/array_init$U.lo \
 	mpz/bin_ui$U.lo mpz/bin_uiui$U.lo mpz/cdiv_q$U.lo \
