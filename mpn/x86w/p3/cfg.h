@@ -13,12 +13,15 @@ mpn_lshift
 mpn_mod_1
 mpn_mod_1c
 mpn_mod_34lsub1
+mpn_modexact_1_odd
+mpn_modexact_1c_odd
 mpn_mul_1
 mpn_mul_basecase
 mpn_popcount
 mpn_preinv_divrem_1
 mpn_preinv_mod_1
 mpn_rshift
+mpn_sqr_basecase
 mpn_sub_n
 mpn_sub_nc
 mpn_submul_1

@@ -21,7 +21,7 @@
   <PropertyGroup Label="Globals">
     <RootNamespace>mpir</RootNamespace>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{c35abcee-d7e2-11e1-b219-b8ac6f6d3c92}</ProjectGuid>    
+    <ProjectGuid>{eb06ff68-08e1-11e2-a775-b8ac6f6d3c92}</ProjectGuid>    
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
