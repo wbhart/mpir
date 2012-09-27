@@ -216,7 +216,7 @@ mpn_invert (mp_ptr xp, mp_srcptr ap, mp_size_t n)
     }
 }
 
-void mpn_invert_truncate(mp_ptr x_new, mp_size_t m, mp_srcptr xp, mp_size_t n, mp_srcptr ap)
+void mpn_invert_trunc(mp_ptr x_new, mp_size_t m, mp_srcptr xp, mp_size_t n, mp_srcptr ap)
 {
   mp_ptr tp;
   mp_limb_t cy;

@@ -132,7 +132,7 @@ mpn_inv_divappr_q (mp_ptr qp, mp_ptr np, mp_size_t nn,
         qh = mpn_dc_div_qr_n (qp, np - qn, dp - qn, qn, dinv2, tp);
      else
         {
-   	    mpn_invert_truncate(tp, qn, dinv, dn, dp - dn);
+   	    mpn_invert_trunc(tp, qn, dinv, dn, dp - dn);
            qh = mpn_inv_div_qr_n (qp, np - qn, dp - qn, qn, tp);
         }
 
@@ -206,7 +206,7 @@ mpn_inv_divappr_q (mp_ptr qp, mp_ptr np, mp_size_t nn,
       else 
 	{
    	    tp = TMP_ALLOC_LIMBS (qn + 1);
-	    mpn_invert_truncate(tp, qn + 1, dinv, dn, dp - dn);
+	    mpn_invert_trunc(tp, qn + 1, dinv, dn, dp - dn);
            qh = mpn_inv_divappr_q_n (q2p, np - qn - 2, dp - (qn + 1), qn + 1, tp);
        }
 

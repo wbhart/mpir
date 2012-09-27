@@ -133,7 +133,7 @@ mpn_inv_div_qr (mp_ptr qp,
 	    qh = mpn_dc_div_qr_n (qp, np - qn, dp - qn, qn, dinv2, tp);
 	  else
          {
-   	    mpn_invert_truncate(tp, qn, dinv, dn, dp - dn);
+   	    mpn_invert_trunc(tp, qn, dinv, dn, dp - dn);
            qh = mpn_inv_div_qr_n (qp, np - qn, dp - qn, qn, tp);
          }
 
@@ -177,7 +177,7 @@ mpn_inv_div_qr (mp_ptr qp,
 	qh = mpn_dc_div_qr_n (qp, np - qn, dp - qn, qn, dinv2, tp);
       else
 	{
-   	    mpn_invert_truncate(tp, qn, dinv, dn, dp - dn);
+   	    mpn_invert_trunc(tp, qn, dinv, dn, dp - dn);
            qh = mpn_inv_div_qr_n (qp, np - qn, dp - qn, qn, tp);
        }
 
