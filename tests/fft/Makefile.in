@@ -61,12 +61,11 @@ check_PROGRAMS = t-adjust$(EXEEXT) t-adjust_sqrt2$(EXEEXT) \
 	t-butterfly_twiddle$(EXEEXT) t-div_2expmod_2expp1$(EXEEXT) \
 	t-fft_ifft_mfa_trunc_sqrt2$(EXEEXT) \
 	t-fft_ifft_negacyclic$(EXEEXT) t-fft_ifft_radix2$(EXEEXT) \
-	t-fft_ifft_trunc$(EXEEXT) \
-	t-fft_ifft_trunc_sqrt2$(EXEEXT) \
+	t-fft_ifft_trunc$(EXEEXT) t-fft_ifft_trunc_sqrt2$(EXEEXT) \
 	t-mul_2expmod_2expp1$(EXEEXT) t-mul_fft_main$(EXEEXT) \
-	t-mul_mfa_trunc_sqrt2$(EXEEXT) \
-	t-mul_trunc_sqrt2$(EXEEXT) t-mulmod_2expp1$(EXEEXT) \
-	t-normmod_2expp1$(EXEEXT) t-split_combine_bits$(EXEEXT)
+	t-mul_mfa_trunc_sqrt2$(EXEEXT) t-mul_trunc_sqrt2$(EXEEXT) \
+	t-mulmod_2expp1$(EXEEXT) t-normmod_2expp1$(EXEEXT) \
+	t-split_combine_bits$(EXEEXT)
 subdir = tests/fft
 DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
@@ -118,8 +117,7 @@ t_div_2expmod_2expp1_OBJECTS = t-div_2expmod_2expp1.$(OBJEXT)
 t_div_2expmod_2expp1_LDADD = $(LDADD)
 t_div_2expmod_2expp1_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
 	$(top_builddir)/libmpir.la
-t_fft_ifft_mfa_trunc_sqrt2_SOURCES =  \
-	t-fft_ifft_mfa_trunc_sqrt2.c
+t_fft_ifft_mfa_trunc_sqrt2_SOURCES = t-fft_ifft_mfa_trunc_sqrt2.c
 t_fft_ifft_mfa_trunc_sqrt2_OBJECTS =  \
 	t-fft_ifft_mfa_trunc_sqrt2.$(OBJEXT)
 t_fft_ifft_mfa_trunc_sqrt2_LDADD = $(LDADD)
@@ -141,8 +139,7 @@ t_fft_ifft_trunc_LDADD = $(LDADD)
 t_fft_ifft_trunc_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
 	$(top_builddir)/libmpir.la
 t_fft_ifft_trunc_sqrt2_SOURCES = t-fft_ifft_trunc_sqrt2.c
-t_fft_ifft_trunc_sqrt2_OBJECTS =  \
-	t-fft_ifft_trunc_sqrt2.$(OBJEXT)
+t_fft_ifft_trunc_sqrt2_OBJECTS = t-fft_ifft_trunc_sqrt2.$(OBJEXT)
 t_fft_ifft_trunc_sqrt2_LDADD = $(LDADD)
 t_fft_ifft_trunc_sqrt2_DEPENDENCIES =  \
 	$(top_builddir)/tests/libtests.la $(top_builddir)/libmpir.la
@@ -196,10 +193,9 @@ LINK = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
 SOURCES = t-adjust.c t-adjust_sqrt2.c t-butterfly.c t-butterfly_lshB.c \
 	t-butterfly_rshB.c t-butterfly_sqrt2.c t-butterfly_twiddle.c \
 	t-div_2expmod_2expp1.c t-fft_ifft_mfa_trunc_sqrt2.c \
-	t-fft_ifft_negacyclic.c t-fft_ifft_radix2.c \
-	t-fft_ifft_trunc.c t-fft_ifft_trunc_sqrt2.c \
-	t-mul_2expmod_2expp1.c t-mul_fft_main.c \
-	t-mul_mfa_trunc_sqrt2.c t-mul_trunc_sqrt2.c \
+	t-fft_ifft_negacyclic.c t-fft_ifft_radix2.c t-fft_ifft_trunc.c \
+	t-fft_ifft_trunc_sqrt2.c t-mul_2expmod_2expp1.c \
+	t-mul_fft_main.c t-mul_mfa_trunc_sqrt2.c t-mul_trunc_sqrt2.c \
 	t-mulmod_2expp1.c t-normmod_2expp1.c t-split_combine_bits.c
 DIST_SOURCES = t-adjust.c t-adjust_sqrt2.c t-butterfly.c \
 	t-butterfly_lshB.c t-butterfly_rshB.c t-butterfly_sqrt2.c \
@@ -207,9 +203,8 @@ DIST_SOURCES = t-adjust.c t-adjust_sqrt2.c t-butterfly.c \
 	t-fft_ifft_mfa_trunc_sqrt2.c t-fft_ifft_negacyclic.c \
 	t-fft_ifft_radix2.c t-fft_ifft_trunc.c \
 	t-fft_ifft_trunc_sqrt2.c t-mul_2expmod_2expp1.c \
-	t-mul_fft_main.c t-mul_mfa_trunc_sqrt2.c \
-	t-mul_trunc_sqrt2.c t-mulmod_2expp1.c t-normmod_2expp1.c \
-	t-split_combine_bits.c
+	t-mul_fft_main.c t-mul_mfa_trunc_sqrt2.c t-mul_trunc_sqrt2.c \
+	t-mulmod_2expp1.c t-normmod_2expp1.c t-split_combine_bits.c
 ETAGS = etags
 CTAGS = ctags
 am__tty_colors = \

@@ -71,12 +71,11 @@ am_libfft_la_OBJECTS = adjust.lo adjust_sqrt2.lo butterfly_lshB.lo \
 	butterfly_rshB.lo combine_bits.lo div_2expmod_2expp1.lo \
 	fermat_to_mpz.lo fft_mfa_trunc_sqrt2.lo \
 	fft_mfa_trunc_sqrt2_inner.lo fft_negacylic.lo fft_radix2.lo \
-	fft_trunc.lo fft_trunc_sqrt2.lo \
-	ifft_mfa_trunc_sqrt2.lo ifft_negacyclic.lo ifft_radix2.lo \
-	ifft_trunc.lo ifft_trunc_sqrt2.lo mul_2expmod_2expp1.lo \
-	mul_fft_main.lo mul_mfa_trunc_sqrt2.lo \
-	mul_trunc_sqrt2.lo mulmod_2expp1.lo normmod_2expp1.lo \
-	revbin.lo split_bits.lo
+	fft_trunc.lo fft_trunc_sqrt2.lo ifft_mfa_trunc_sqrt2.lo \
+	ifft_negacyclic.lo ifft_radix2.lo ifft_trunc.lo \
+	ifft_trunc_sqrt2.lo mul_2expmod_2expp1.lo mul_fft_main.lo \
+	mul_mfa_trunc_sqrt2.lo mul_trunc_sqrt2.lo mulmod_2expp1.lo \
+	normmod_2expp1.lo revbin.lo split_bits.lo
 libfft_la_OBJECTS = $(am_libfft_la_OBJECTS)
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
 depcomp =
