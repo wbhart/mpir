@@ -282,7 +282,8 @@ MA 02110-1301, USA.
 /* Define to 1 if you have the `processor_info' function. */
 #undef HAVE_PROCESSOR_INFO
 
-/* Define to 1 if <sys/pstat.h> `struct pst_processor' exists and contains
+/* Define to 1 if <sys/pstat.h> `struct pst_processor' exists
+ and contains
    `psp_iticksperclktick'. */
 #undef HAVE_PSP_ITICKSPERCLKTICK
 
