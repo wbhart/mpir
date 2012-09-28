@@ -2103,8 +2103,8 @@ Concept Index
 * --enable-cxx:                          Build Options.       (line 228)
 * --enable-fat:                          Build Options.       (line 161)
 * --enable-gmpcompat:                    Build Options.       (line  45)
-* --enable-profiling <1>:                Profiling.           (line   6)
-* --enable-profiling:                    Build Options.       (line 324)
+* --enable-profiling <1>:                Build Options.       (line 324)
+* --enable-profiling:                    Profiling.           (line   6)
 * --exec-prefix:                         Build Options.       (line  32)
 * --host:                                Build Options.       (line  73)
 * --prefix:                              Build Options.       (line  32)
@@ -2112,8 +2112,8 @@ Concept Index
 * 2exp functions:                        Efficiency.          (line  43)
 * 80x86:                                 Notes for Particular Systems.
                                                               (line 139)
-* ABI <1>:                               ABI and ISA.         (line   6)
-* ABI:                                   Build Options.       (line 169)
+* ABI <1>:                               Build Options.       (line 169)
+* ABI:                                   ABI and ISA.         (line   6)
 * About this manual:                     Introduction to MPIR.
                                                               (line  48)
 * AC_CHECK_LIB:                          Autoconf.            (line  11)
@@ -2149,14 +2149,14 @@ Concept Index
                                                               (line   6)
 * Assertion checking <1>:                Debugging.           (line  76)
 * Assertion checking:                    Build Options.       (line 320)
-* Assignment functions <1>:              Simultaneous Float Init & Assign.
+* Assignment functions <1>:              Initializing Rationals.
                                                               (line   6)
 * Assignment functions <2>:              Assigning Floats.    (line   6)
-* Assignment functions <3>:              Initializing Rationals.
+* Assignment functions <3>:              Simultaneous Float Init & Assign.
                                                               (line   6)
-* Assignment functions <4>:              Simultaneous Integer Init & Assign.
+* Assignment functions <4>:              Assigning Integers.  (line   6)
+* Assignment functions:                  Simultaneous Integer Init & Assign.
                                                               (line   6)
-* Assignment functions:                  Assigning Integers.  (line   6)
 * Autoconf:                              Autoconf.            (line   6)
 * Basics:                                MPIR Basics.         (line   6)
 * Binomial coefficient algorithm:        Binomial Coefficients Algorithm.
@@ -2199,9 +2199,9 @@ Concept Index
 * checkergcc:                            Debugging.           (line 119)
 * Code organisation:                     Assembler Code Organisation.
                                                               (line   6)
-* Comparison functions <1>:              Float Comparison.    (line   6)
+* Comparison functions <1>:              Integer Comparisons. (line   6)
 * Comparison functions <2>:              Comparing Rationals. (line   6)
-* Comparison functions:                  Integer Comparisons. (line   6)
+* Comparison functions:                  Float Comparison.    (line   6)
 * Compatibility with older versions:     Compatibility with older versions.
                                                               (line   6)
 * Conditions for copying MPIR:           Copying.             (line   6)
@@ -2221,9 +2221,9 @@ Concept Index
 * Conversion functions:                  Converting Integers. (line   6)
 * Copying conditions:                    Copying.             (line   6)
 * CPPFLAGS:                              Build Options.       (line 206)
-* CPU types <1>:                         Build Options.       (line 114)
-* CPU types:                             Introduction to MPIR.
+* CPU types <1>:                         Introduction to MPIR.
                                                               (line  24)
+* CPU types:                             Build Options.       (line 114)
 * Cross compiling:                       Build Options.       (line  73)
 * Custom allocation:                     Custom Allocation.   (line   6)
 * CXX:                                   Build Options.       (line 252)
@@ -2236,7 +2236,7 @@ Concept Index
 * Digits in an integer:                  Miscellaneous Integer Functions.
                                                               (line  23)
 * Divisibility algorithm:                Exact Remainder.     (line  30)
-* Divisibility functions:                Integer Division.    (line 112)
+* Divisibility functions:                Integer Division.    (line 124)
 * Divisibility testing:                  Efficiency.          (line  91)
 * Division algorithms:                   Division Algorithms. (line   6)
 * Division functions <1>:                Float Arithmetic.    (line  33)
@@ -2254,8 +2254,8 @@ Concept Index
 * Exact division functions:              Integer Division.    (line 102)
 * Exact remainder:                       Exact Remainder.     (line   6)
 * Exec prefix:                           Build Options.       (line  32)
-* Execution profiling <1>:               Profiling.           (line   6)
-* Execution profiling:                   Build Options.       (line 324)
+* Execution profiling <1>:               Build Options.       (line 324)
+* Execution profiling:                   Profiling.           (line   6)
 * Exponentiation functions <1>:          Float Arithmetic.    (line  41)
 * Exponentiation functions:              Integer Exponentiation.
                                                               (line   6)
@@ -2349,23 +2349,23 @@ Concept Index
 * Include files:                         Headers and Libraries.
                                                               (line   6)
 * info-lookup-symbol:                    Emacs.               (line   6)
-* Initialization functions <1>:          Random State Initialization.
+* Initialization functions <1>:          Initializing Integers.
                                                               (line   6)
-* Initialization functions <2>:          Simultaneous Float Init & Assign.
+* Initialization functions <2>:          Initializing Rationals.
                                                               (line   6)
-* Initialization functions <3>:          Initializing Floats. (line   6)
-* Initialization functions <4>:          Initializing Rationals.
+* Initialization functions <3>:          Simultaneous Float Init & Assign.
                                                               (line   6)
-* Initialization functions <5>:          Simultaneous Integer Init & Assign.
+* Initialization functions <4>:          Initializing Floats. (line   6)
+* Initialization functions <5>:          Random State Initialization.
                                                               (line   6)
-* Initialization functions:              Initializing Integers.
+* Initialization functions:              Simultaneous Integer Init & Assign.
                                                               (line   6)
 * Initializing and clearing:             Efficiency.          (line  21)
-* Input functions <1>:                   Formatted Input Functions.
+* Input functions <1>:                   I/O of Floats.       (line   6)
+* Input functions <2>:                   I/O of Rationals.    (line   6)
+* Input functions <3>:                   I/O of Integers.     (line   6)
+* Input functions:                       Formatted Input Functions.
                                                               (line   6)
-* Input functions <2>:                   I/O of Floats.       (line   6)
-* Input functions <3>:                   I/O of Rationals.    (line   6)
-* Input functions:                       I/O of Integers.     (line   6)
 * Install prefix:                        Build Options.       (line  32)
 * Installing MPIR:                       Installing MPIR.     (line   6)
 * Instruction Set Architecture:          ABI and ISA.         (line   6)
@@ -2388,9 +2388,9 @@ Concept Index
 * Integer functions:                     Integer Functions.   (line   6)
 * Integer import:                        Integer Import and Export.
                                                               (line  11)
-* Integer initialization functions <1>:  Simultaneous Integer Init & Assign.
+* Integer initialization functions <1>:  Initializing Integers.
                                                               (line   6)
-* Integer initialization functions:      Initializing Integers.
+* Integer initialization functions:      Simultaneous Integer Init & Assign.
                                                               (line   6)
 * Integer input and output functions:    I/O of Integers.     (line   6)
 * Integer internals:                     Integer Internals.   (line   6)
@@ -2445,7 +2445,7 @@ Concept Index
 * Linear congruential algorithm:         Random Number Algorithms.
                                                               (line  25)
 * Linear congruential random numbers:    Random State Initialization.
-                                                              (line  18)
+                                                              (line  32)
 * Linking:                               Headers and Libraries.
                                                               (line  22)
 * Logical functions:                     Integer Logic and Bit Fiddling.
@@ -2480,7 +2480,7 @@ Concept Index
 * Most significant bit:                  Miscellaneous Integer Functions.
                                                               (line  34)
 * MPIR version number:                   Useful Macros and Constants.
-                                                              (line  12)
+                                                              (line  20)
 * mpir.h:                                Headers and Libraries.
                                                               (line   6)
 * mpirxx.h:                              C++ Interface General.
@@ -2517,11 +2517,11 @@ Concept Index
 * ostream output:                        C++ Formatted Output.
                                                               (line   6)
 * Other languages:                       Language Bindings.   (line   6)
-* Output functions <1>:                  Formatted Output Functions.
+* Output functions <1>:                  I/O of Integers.     (line   6)
+* Output functions <2>:                  I/O of Rationals.    (line   6)
+* Output functions <3>:                  I/O of Floats.       (line   6)
+* Output functions:                      Formatted Output Functions.
                                                               (line   6)
-* Output functions <2>:                  I/O of Floats.       (line   6)
-* Output functions <3>:                  I/O of Rationals.    (line   6)
-* Output functions:                      I/O of Integers.     (line   6)
 * Packaged builds:                       Notes for Package Builds.
                                                               (line   6)
 * Parameter conventions:                 Parameter Conventions.
@@ -2539,9 +2539,9 @@ Concept Index
 * Perfect square functions:              Integer Roots.       (line  40)
 * Postscript:                            Build Options.       (line 343)
 * Powering algorithms:                   Powering Algorithms. (line   6)
-* Powering functions <1>:                Float Arithmetic.    (line  41)
-* Powering functions:                    Integer Exponentiation.
+* Powering functions <1>:                Integer Exponentiation.
                                                               (line   6)
+* Powering functions:                    Float Arithmetic.    (line  41)
 * PowerPC:                               ABI and ISA.         (line  94)
 * Precision of floats:                   Floating-point Functions.
                                                               (line   6)
@@ -2561,11 +2561,11 @@ Concept Index
                                                               (line   6)
 * Random number algorithms:              Random Number Algorithms.
                                                               (line   6)
-* Random number functions <1>:           Random Number Functions.
+* Random number functions <1>:           Integer Random Numbers.
                                                               (line   6)
 * Random number functions <2>:           Miscellaneous Float Functions.
                                                               (line  27)
-* Random number functions:               Integer Random Numbers.
+* Random number functions:               Random Number Functions.
                                                               (line   6)
 * Random number seeding:                 Random State Seeding.
                                                               (line   6)
@@ -2622,10 +2622,12 @@ Concept Index
                                                               (line  23)
 * Small operands:                        Efficiency.          (line   7)
 * Solaris <1>:                           Known Build Problems.
-                                                              (line  29)
-* Solaris <2>:                           Notes for Particular Systems.
+                                                              (line  35)
+* Solaris <2>:                           ABI and ISA.         (line 121)
+* Solaris <3>:                           Notes for Particular Systems.
                                                               (line 135)
-* Solaris:                               ABI and ISA.         (line 121)
+* Solaris:                               Known Build Problems.
+                                                              (line  29)
 * Sparc:                                 Notes for Particular Systems.
                                                               (line 102)
 * Sparc V9:                              ABI and ISA.         (line 121)
@@ -2650,9 +2652,9 @@ Concept Index
 * Texinfo:                               Build Options.       (line 340)
 * Text input/output:                     Efficiency.          (line 153)
 * Thread safety:                         Reentrancy.          (line   6)
-* Toom multiplication <1>:               Other Multiplication.
+* Toom multiplication <1>:               Toom 4-Way Multiplication.
                                                               (line   6)
-* Toom multiplication <2>:               Toom 4-Way Multiplication.
+* Toom multiplication <2>:               Other Multiplication.
                                                               (line   6)
 * Toom multiplication:                   Toom 3-Way Multiplication.
                                                               (line   6)
@@ -2671,7 +2673,7 @@ Concept Index
 * Variable conventions:                  Variable Conventions.
                                                               (line   6)
 * Version number:                        Useful Macros and Constants.
-                                                              (line  12)
+                                                              (line  20)
 * Web page:                              Introduction to MPIR.
                                                               (line  30)
 * Windows:                               Notes for Particular Systems.
@@ -2707,18 +2709,20 @@ Function and Type Index
                                                               (line  54)
 * abs <1>:                               C++ Interface Floats.
                                                               (line  70)
-* abs <2>:                               C++ Interface Rationals.
-                                                              (line  43)
-* abs:                                   C++ Interface Integers.
+* abs <2>:                               C++ Interface Integers.
                                                               (line  42)
+* abs:                                   C++ Interface Rationals.
+                                                              (line  43)
 * ceil:                                  C++ Interface Floats.
                                                               (line  71)
 * cmp <1>:                               C++ Interface Floats.
                                                               (line  72)
-* cmp <2>:                               C++ Interface Rationals.
+* cmp <2>:                               C++ Interface Integers.
                                                               (line  44)
-* cmp:                                   C++ Interface Integers.
-                                                              (line  43)
+* cmp <3>:                               C++ Interface Rationals.
+                                                              (line  45)
+* cmp:                                   C++ Interface Floats.
+                                                              (line  73)
 * floor:                                 C++ Interface Floats.
                                                               (line  80)
 * gmp_asprintf:                          Formatted Output Functions.
@@ -2845,7 +2849,7 @@ Function and Type Index
 * mpf_class::get_ui:                     C++ Interface Floats.
                                                               (line  86)
 * mpf_class::mpf_class:                  C++ Interface Floats.
-                                                              (line  12)
+                                                              (line  13)
 * mpf_class::operator=:                  C++ Interface Floats.
                                                               (line  47)
 * mpf_class::set_prec:                   C++ Interface Floats.
@@ -2853,7 +2857,7 @@ Function and Type Index
 * mpf_class::set_prec_raw:               C++ Interface Floats.
                                                               (line 102)
 * mpf_class::set_str:                    C++ Interface Floats.
-                                                              (line  87)
+                                                              (line  88)
 * mpf_clear:                             Initializing Floats. (line  37)
 * mpf_clears:                            Initializing Floats. (line  41)
 * mpf_cmp:                               Float Comparison.    (line   7)
@@ -3014,7 +3018,7 @@ Function and Type Index
 * mpq_class::get_str:                    C++ Interface Rationals.
                                                               (line  47)
 * mpq_class::mpq_class:                  C++ Interface Rationals.
-                                                              (line  11)
+                                                              (line  12)
 * mpq_class::set_str:                    C++ Interface Rationals.
                                                               (line  48)
 * mpq_clear:                             Initializing Rationals.
@@ -3120,7 +3124,7 @@ Function and Type Index
 * mpz_class::get_ui:                     C++ Interface Integers.
                                                               (line  54)
 * mpz_class::mpz_class:                  C++ Interface Integers.
-                                                              (line   7)
+                                                              (line  22)
 * mpz_class::set_str:                    C++ Interface Integers.
                                                               (line  55)
 * mpz_clear:                             Initializing Integers.
@@ -3340,16 +3344,17 @@ Function and Type Index
 * operator/:                             C++ Interface Integers.
                                                               (line  29)
 * operator<<:                            C++ Formatted Output.
-                                                              (line  11)
-* operator>> <1>:                        C++ Interface Rationals.
+                                                              (line  33)
+* operator>> <1>:                        C++ Formatted Input. (line  11)
+* operator>> <2>:                        C++ Interface Rationals.
                                                               (line  77)
-* operator>>:                            C++ Formatted Input. (line  11)
-* sgn <1>:                               C++ Interface Floats.
-                                                              (line  89)
+* operator>>:                            C++ Formatted Input. (line  25)
+* sgn <1>:                               C++ Interface Integers.
+                                                              (line  57)
 * sgn <2>:                               C++ Interface Rationals.
                                                               (line  50)
-* sgn:                                   C++ Interface Integers.
-                                                              (line  57)
+* sgn:                                   C++ Interface Floats.
+                                                              (line  89)
 * sqrt <1>:                              C++ Interface Floats.
                                                               (line  90)
 * sqrt:                                  C++ Interface Integers.
