@@ -235,7 +235,7 @@ mpn_gcdext (mp_ptr gp, mp_ptr up, mp_size_t *usizep,
 
       /* Final mpn_gcdext_lehmer_n call. Need space for u and for
 	 copies of a and b. */
-      scratch = MPN_GCDEXT_LEHMER_N_ITCH (GCDEXT_DC_THRESHOLD)
+      scratch = (mp_size_t) MPN_GCDEXT_LEHMER_N_ITCH (GCDEXT_DC_THRESHOLD)
 	+ 3*GCDEXT_DC_THRESHOLD;
 
       if (scratch > talloc)
