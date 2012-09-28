@@ -33,7 +33,7 @@ from copy import deepcopy
 from sys import argv, exit
 from filecmp import cmp
 from shutil import copy
-from re import compile, search, ASCII
+from re import compile, search
 from collections import defaultdict
 from uuid import uuid1
 
@@ -190,11 +190,11 @@ def find_src(dir_list):
 
 # scan the files in the input set and find the symbols
 # defined in the files
-fr_sym = compile(r'LEAF_PROC\s+(\w+)', ASCII)
-lf_sym = compile(r'FRAME_PROC\s+(\w+)', ASCII)
-wf_sym = compile(r'WIN64_GCC_PROC\s+(\w+)', ASCII)
-g3_sym = compile(r'global\s+___g(\w+)', ASCII)
-g2_sym = compile(r'global\s+__g(\w+)', ASCII)
+fr_sym = compile(r'LEAF_PROC\s+(\w+)')
+lf_sym = compile(r'FRAME_PROC\s+(\w+)')
+wf_sym = compile(r'WIN64_GCC_PROC\s+(\w+)')
+g3_sym = compile(r'global\s+___g(\w+)')
+g2_sym = compile(r'global\s+__g(\w+)')
 
 def get_symbols(setf, sym_dir):
   for f in setf:

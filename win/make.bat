@@ -41,6 +41,20 @@ copy ..\build.vc10\out_copy_rename.bat .
 copy ..\build.vc10\gen_config_h.bat .
 copy ..\build.vc10\cfg.h .
 
+@echo off
+for /f "usebackq tokens=1*" %%f in (`reg query HKCR\Python.File\shell\open\command`) do (set _my_=%%f %%g)
+goto next%errorlevel%
+
+:next1
+echo Cannot build without Python ...exiting
+exit /b 1
+
+:next0
+set _res_=%_my_:*REG_SZ=%
+set _end_=%_res_:*exe"=%
+call set _python_=%%_res_:%_end_%=%%
+call %_python_% ..\build.vc10\mpir_config.py 1
+
 if %ABI% == 64 (set LOCALABI=x64)
 if %ABI% == 32 (set LOCALABI=win32)
 set YASMFLAG=
