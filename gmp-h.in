@@ -1857,7 +1857,7 @@ __GMP_DECLSPEC void mpn_mul_fft_main __GMP_PROTO ((mp_ptr r1, mp_srcptr i1, mp_s
 __GMP_DECLSPEC mpir_si fft_adjust_limbs __GMP_PROTO ((mp_size_t limbs));
 
 #define fft_combine_bits __fft_combine_bits
-__GMP_DECLSPEC void fft_combine_bits __GMP_PROTO ((mp_ptr res, mp_srcptr * poly, 
+__GMP_DECLSPEC void fft_combine_bits __GMP_PROTO ((mp_ptr res, const mp_ptr * poly, 
                 long length, mp_bitcnt_t bits, mp_size_t output_limbs, mp_size_t total_limbs));
 
 #define fft_split_bits __fft_split_bits

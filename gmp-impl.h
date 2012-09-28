@@ -1155,7 +1155,7 @@ __GMP_DECLSPEC void ifft_butterfly __GMP_PROTO ((mp_ptr s, mp_ptr t, mp_ptr i1,
                      mp_ptr i2, mp_size_t i, mp_size_t limbs, mp_bitcnt_t w));
 
 #define fft_combine_limbs __combine_limbs
-__GMP_DECLSPEC void fft_combine_limbs __GMP_PROTO ((mp_ptr res, mp_srcptr * poly, long length, 
+__GMP_DECLSPEC void fft_combine_limbs __GMP_PROTO ((mp_ptr res, const mp_ptr * poly, long length, 
             mp_size_t coeff_limbs, mp_size_t output_limbs, mp_size_t total_limbs));
 
 #define fft_split_limbs __fft_split_limbs
