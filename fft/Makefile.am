@@ -23,7 +23,7 @@
 
 INCLUDES = -D__GMP_WITHIN_GMP -I$(top_srcdir)
 
-EXTRA_DIST = tune/tune_fft.c
+EXTRA_DIST = tune/tune-fft.c
 
 noinst_LTLIBRARIES = libfft.la
 libfft_la_SOURCES = adjust.c adjust_sqrt2.c butterfly_lshB.c butterfly_rshB.c combine_bits.c div_2expmod_2expp1.c fermat_to_mpz.c fft_mfa_trunc_sqrt2.c fft_mfa_trunc_sqrt2_inner.c fft_negacylic.c fft_radix2.c fft_trunc.c fft_trunc_sqrt2.c fft_tuning.h ifft_mfa_trunc_sqrt2.c ifft_negacyclic.c ifft_radix2.c ifft_trunc.c ifft_trunc_sqrt2.c mul_2expmod_2expp1.c mul_fft_main.c mul_mfa_trunc_sqrt2.c mul_trunc_sqrt2.c mulmod_2expp1.c normmod_2expp1.c revbin.c split_bits.c
