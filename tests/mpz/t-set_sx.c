@@ -55,9 +55,9 @@ check_data (void)
 #endif
 
 #if GMP_NUMB_BITS >= BITS_PER_UINTMAX
-    { INTMAX_MIN, -1, { -INTMAX_MIN, 0 } },
+    { INTMAX_MIN, -1, { INTMAX_MIN, 0 } },
 #else
-    { INTMAX_MIN,  -2, { -INTMAX_MIN & GMP_NUMB_MASK, -INTMAX_MIN >> GMP_NUMB_BITS } },
+    { INTMAX_MIN,  -2, { INTMAX_MIN & GMP_NUMB_MASK, INTMAX_MIN >> GMP_NUMB_BITS } },
 #endif
   };
 
