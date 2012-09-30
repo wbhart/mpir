@@ -61,23 +61,25 @@ that the build directory is mpir\build.vc10.  The output directories
 for builds are:
 
     mpir\lib   for static libraries
-    mpir\dll   for dynamic link libraries(DLL)
+    mpir\dll   for dynamic link libraries (DLL)
 
-MPIR is built by using the appropriate build projects and, where
-appropriate, setting the build configuration and platform:
-
-    win32 or x64
-    release or debug
+MPIR is built by selecting one of the individual build projects and then
+setting the library type (static or DLL), the Windows target architecture
+(win32 or x64) and the build configuration (release or debug).
 
 All projects have release and debug configurations but not all projects
-provide for 32 and 64 bit Windows platforms. 
+support win32 and x64.
 
-By default the Visual Studio solution provides support for generic C
-builds: 
+By default the Visual Studio solution provides support for these generic
+C builds: 
 
     lib_mpir_gc     - MPIR library using generic C (win32 & x64)
     lib_mpir_cxx    - MPIR C++ library (win32 & x64)
     dll_mpir_gc     - MPIR DLL using generic C (win32 & x64)
+
+There are two static libraries, one providing the C library functions and
+the other providing the C++ functions.  The DLL library supports both the
+C and the C++ functions.
 
 2. Builds with Assembler Support
 ================================
