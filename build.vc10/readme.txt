@@ -238,6 +238,14 @@ defines a symbol - localeconv - that is in the Microsoft runtime libraries.
 This is not significant for MPIR numeric operations.  Some tests are skipped
 for the DLL verssion as they are not relevant in this case.
 
+Speed and Tuning
+================
+
+The speed and tuning programs are built using the speed.sln and tune.sln   
+solutions respectively.  Except for tune, these programs (and the program
+'try') can be built with both the static and dynamic library versions of
+MPIR but it is preferable to use the static library versions.
+
 Using MPIR
 ==========
 

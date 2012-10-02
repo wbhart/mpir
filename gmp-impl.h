@@ -960,7 +960,7 @@ __GMP_DECLSPEC mp_limb_t mpn_divrem_1c __GMP_PROTO ((mp_ptr, mp_size_t, mp_srcpt
 __GMP_DECLSPEC void mpn_dump __GMP_PROTO ((mp_srcptr, mp_size_t));
 
 #define mpn_fib2_ui __MPN(fib2_ui)
-mp_size_t mpn_fib2_ui _PROTO ((mp_ptr, mp_ptr, mpir_ui));
+__GMP_DECLSPEC mp_size_t mpn_fib2_ui _PROTO ((mp_ptr, mp_ptr, mpir_ui));
 
 /* Remap names of internal mpn functions.  */
 #define __clz_tab               __MPN(clz_tab)
@@ -1317,103 +1317,103 @@ __GMP_DECLSPEC extern gmp_randstate_t  __gmp_rands;
 #define MPN_FFT_MUL_N_MINSIZE     64
 
 #define mpn_sqr_diagonal __MPN(sqr_diagonal)
-void mpn_sqr_diagonal _PROTO ((mp_ptr, mp_srcptr, mp_size_t));
+__GMP_DECLSPEC void mpn_sqr_diagonal _PROTO ((mp_ptr, mp_srcptr, mp_size_t));
 
 #define mpn_kara_mul_n	__MPN(kara_mul_n)
 __GMP_DECLSPEC void mpn_kara_mul_n _PROTO((mp_ptr, mp_srcptr, mp_srcptr, mp_size_t, mp_ptr));
 
 #define mpn_kara_sqr_n  __MPN(kara_sqr_n)
-void mpn_kara_sqr_n _PROTO ((mp_ptr, mp_srcptr, mp_size_t, mp_ptr));
+__GMP_DECLSPEC void mpn_kara_sqr_n _PROTO ((mp_ptr, mp_srcptr, mp_size_t, mp_ptr));
 
 #define mpn_toom3_mul_n  __MPN(toom3_mul_n)
 __GMP_DECLSPEC void mpn_toom3_mul_n _PROTO ((mp_ptr, mp_srcptr, mp_srcptr, mp_size_t,mp_ptr));
 
 #define mpn_toom3_mul  __MPN(toom3_mul)
-void mpn_toom3_mul _PROTO ((mp_ptr, mp_srcptr, mp_size_t, mp_srcptr, 
+__GMP_DECLSPEC void mpn_toom3_mul _PROTO ((mp_ptr, mp_srcptr, mp_size_t, mp_srcptr, 
                                                            mp_size_t,mp_ptr));
 
 #define mpn_toom3_interpolate __MPN(toom3_interpolate)
-void mpn_toom3_interpolate _PROTO ((mp_ptr c, mp_ptr v1, mp_ptr v2, mp_ptr vm1,
+__GMP_DECLSPEC void mpn_toom3_interpolate _PROTO ((mp_ptr c, mp_ptr v1, mp_ptr v2, mp_ptr vm1,
                      mp_ptr vinf, mp_size_t k, mp_size_t rr2, int sa,
                                           mp_limb_t vinf0, mp_ptr ws));
 
 #define mpn_toom32_mul __MPN(toom32_mul)
-void mpn_toom32_mul _PROTO ((mp_ptr c, mp_srcptr a, mp_size_t an, mp_srcptr b, 
+__GMP_DECLSPEC void mpn_toom32_mul _PROTO ((mp_ptr c, mp_srcptr a, mp_size_t an, mp_srcptr b, 
                                                       mp_size_t bn, mp_ptr t));
 
 #define mpn_toom42_mul  __MPN(toom42_mul)
-void mpn_toom42_mul _PROTO ((mp_ptr, mp_srcptr, mp_size_t, mp_srcptr, mp_size_t,mp_ptr));
+__GMP_DECLSPEC void mpn_toom42_mul _PROTO ((mp_ptr, mp_srcptr, mp_size_t, mp_srcptr, mp_size_t,mp_ptr));
 
 
 #define mpn_toom4_mul_n  __MPN(toom4_mul_n)
-void mpn_toom4_mul_n _PROTO ((mp_ptr, mp_srcptr, mp_srcptr, mp_size_t));
+__GMP_DECLSPEC void mpn_toom4_mul_n _PROTO ((mp_ptr, mp_srcptr, mp_srcptr, mp_size_t));
 
 #define mpn_toom4_mul  __MPN(toom4_mul)
-void mpn_toom4_mul _PROTO ((mp_ptr, mp_srcptr, mp_size_t, mp_srcptr,
+__GMP_DECLSPEC void mpn_toom4_mul _PROTO ((mp_ptr, mp_srcptr, mp_size_t, mp_srcptr,
                                                            mp_size_t));
 
 #define mpn_toom53_mul __MPN(toom53_mul)
-void mpn_toom53_mul _PROTO ((mp_ptr rp, mp_srcptr up, mp_size_t un,
+__GMP_DECLSPEC void mpn_toom53_mul _PROTO ((mp_ptr rp, mp_srcptr up, mp_size_t un,
                                            mp_srcptr vp, mp_size_t vn));
 
 #define mpn_toom4_interpolate __MPN(toom4_interpolate)
-void mpn_toom4_interpolate _PROTO ((mp_ptr rp, mp_size_t * rpn, mp_size_t sn,
+__GMP_DECLSPEC void mpn_toom4_interpolate _PROTO ((mp_ptr rp, mp_size_t * rpn, mp_size_t sn,
                mp_ptr tp, mp_size_t s4, mp_size_t n4, mp_size_t n6, 
                mp_limb_t r30));
 
 #define mpn_toom_eval_dgr3_pm1  __MPN(toom_eval_dgr3_pm1)
-int mpn_toom_eval_dgr3_pm1 _PROTO ((mp_ptr xp1, mp_ptr xm1,
+__GMP_DECLSPEC int mpn_toom_eval_dgr3_pm1 _PROTO ((mp_ptr xp1, mp_ptr xm1,
             mp_srcptr xp, mp_size_t n, mp_size_t x3n, mp_ptr tp));
 
 #define mpn_toom_eval_dgr3_pm2  __MPN(toom_eval_dgr3_pm2)
-int mpn_toom_eval_dgr3_pm2 _PROTO ((mp_ptr xp2, mp_ptr xm2,
+__GMP_DECLSPEC int mpn_toom_eval_dgr3_pm2 _PROTO ((mp_ptr xp2, mp_ptr xm2,
             mp_srcptr xp, mp_size_t n, mp_size_t x3n, mp_ptr tp));
 
 #define mpn_toom_eval_pm1  __MPN(toom_eval_pm1)
-int mpn_toom_eval_pm1 _PROTO ((mp_ptr xp1, mp_ptr xm1, unsigned k,
+__GMP_DECLSPEC int mpn_toom_eval_pm1 _PROTO ((mp_ptr xp1, mp_ptr xm1, unsigned k,
            mp_srcptr xp, mp_size_t n, mp_size_t hn, mp_ptr tp));
 
 #define mpn_toom_eval_pm2  __MPN(toom_eval_pm2)
-int mpn_toom_eval_pm2 _PROTO ((mp_ptr xp2, mp_ptr xm2, unsigned k,
+__GMP_DECLSPEC int mpn_toom_eval_pm2 _PROTO ((mp_ptr xp2, mp_ptr xm2, unsigned k,
            mp_srcptr xp, mp_size_t n, mp_size_t hn, mp_ptr tp));
 
 #define mpn_toom_eval_pm2exp  __MPN(toom_eval_pm2exp)
-int mpn_toom_eval_pm2exp _PROTO ((mp_ptr xp2, mp_ptr xm2, unsigned k,
+__GMP_DECLSPEC int mpn_toom_eval_pm2exp _PROTO ((mp_ptr xp2, mp_ptr xm2, unsigned k,
               mp_srcptr xp, mp_size_t n, mp_size_t hn, unsigned shift,
               mp_ptr tp));
 
 #define mpn_toom_eval_pm2rexp  __MPN(toom_eval_pm2rexp)
-int mpn_toom_eval_pm2rexp _PROTO ((mp_ptr rp, mp_ptr rm,
+__GMP_DECLSPEC int mpn_toom_eval_pm2rexp _PROTO ((mp_ptr rp, mp_ptr rm,
               unsigned int q, mp_srcptr ap, mp_size_t n, mp_size_t t,
               unsigned int s, mp_ptr ws));
 
 #define mpn_toom_interpolate_16pts  __MPN(toom_interpolate_16pts)
-void mpn_toom_interpolate_16pts _PROTO ((mp_ptr pp, mp_ptr r1, mp_ptr r3, 
+__GMP_DECLSPEC void mpn_toom_interpolate_16pts _PROTO ((mp_ptr pp, mp_ptr r1, mp_ptr r3, 
                    mp_ptr r5, mp_ptr r7, mp_size_t n, mp_size_t spt, 
                          int half, mp_ptr wsi));
 
 #define mpn_toom_couple_handling  __MPN(toom_couple_handling)
-void mpn_toom_couple_handling _PROTO ((mp_ptr pp, mp_size_t n, mp_ptr np,
+__GMP_DECLSPEC void mpn_toom_couple_handling _PROTO ((mp_ptr pp, mp_size_t n, mp_ptr np,
               int nsign, mp_size_t off, int ps, int ns));
 
 #define mpn_toom8h_mul  __MPN(toom8h_mul)
-void mpn_toom8h_mul _PROTO ((mp_ptr, mp_srcptr, mp_size_t, mp_srcptr,
+__GMP_DECLSPEC void mpn_toom8h_mul _PROTO ((mp_ptr, mp_srcptr, mp_size_t, mp_srcptr,
                                                              mp_size_t));
 
 #define mpn_toom3_sqr_n  __MPN(toom3_sqr_n)
-void mpn_toom3_sqr_n _PROTO((mp_ptr, mp_srcptr, mp_size_t, mp_ptr));
+__GMP_DECLSPEC void mpn_toom3_sqr_n _PROTO((mp_ptr, mp_srcptr, mp_size_t, mp_ptr));
 
 #define mpn_toom4_sqr_n  __MPN(toom4_sqr_n)
-void mpn_toom4_sqr_n _PROTO((mp_ptr, mp_srcptr, mp_size_t));
+__GMP_DECLSPEC void mpn_toom4_sqr_n _PROTO((mp_ptr, mp_srcptr, mp_size_t));
 
 #define mpn_toom8_sqr_n  __MPN(toom8_sqr_n)
-void mpn_toom8_sqr_n _PROTO((mp_ptr, mp_srcptr, mp_size_t));
+__GMP_DECLSPEC void mpn_toom8_sqr_n _PROTO((mp_ptr, mp_srcptr, mp_size_t));
 
 #define   mpn_toom42_mulmid __MPN(toom42_mulmid)
 __GMP_DECLSPEC void      mpn_toom42_mulmid __GMP_PROTO ((mp_ptr, mp_srcptr, mp_srcptr, mp_size_t, mp_ptr));
 
 #define mpn_mulmod_Bexpp1_fft __MPN(mulmod_Bexpp1_fft)
-int mpn_mulmod_Bexpp1_fft _PROTO ((mp_ptr op, mp_size_t pl,
+__GMP_DECLSPEC int mpn_mulmod_Bexpp1_fft _PROTO ((mp_ptr op, mp_size_t pl,
 	     mp_srcptr n, mp_size_t nl,
 	     mp_srcptr m, mp_size_t ml));
 
@@ -1425,22 +1425,22 @@ int mpn_mulmod_Bexpp1_fft _PROTO ((mp_ptr op, mp_size_t pl,
 /* void mpn_tdiv_q _PROTO ((mp_ptr, mp_size_t, mp_srcptr, mp_size_t, mp_srcptr, mp_size_t)); */
 
 #define mpz_divexact_gcd  __gmpz_divexact_gcd
-void mpz_divexact_gcd _PROTO ((mpz_ptr q, mpz_srcptr a, mpz_srcptr d));
+__GMP_DECLSPEC void mpz_divexact_gcd _PROTO ((mpz_ptr q, mpz_srcptr a, mpz_srcptr d));
 
 #define mpz_inp_str_nowhite __gmpz_inp_str_nowhite
 #ifdef _GMP_H_HAVE_FILE
-size_t mpz_inp_str_nowhite _PROTO ((mpz_ptr x, FILE *stream, int base, int c, size_t nread));
+__GMP_DECLSPEC size_t mpz_inp_str_nowhite _PROTO ((mpz_ptr x, FILE *stream, int base, int c, size_t nread));
 #endif
 
 #define mpn_divisible_p __MPN(divisible_p)
-int     mpn_divisible_p _PROTO ((mp_srcptr ap, mp_size_t asize,
+__GMP_DECLSPEC int mpn_divisible_p _PROTO ((mp_srcptr ap, mp_size_t asize,
                                  mp_srcptr dp, mp_size_t dsize)) __GMP_ATTRIBUTE_PURE;
 
 #define mpn_rootrem __MPN(rootrem)
-mp_size_t mpn_rootrem _PROTO ((mp_ptr, mp_ptr, mp_srcptr, mp_size_t, mp_limb_t));
+__GMP_DECLSPEC mp_size_t mpn_rootrem _PROTO ((mp_ptr, mp_ptr, mp_srcptr, mp_size_t, mp_limb_t));
 
 #define mpn_rootrem_basecase __MPN(rootrem_basecase)
-mp_size_t mpn_rootrem_basecase _PROTO ((mp_ptr, mp_ptr, mp_srcptr, mp_size_t, mp_limb_t));
+__GMP_DECLSPEC mp_size_t mpn_rootrem_basecase _PROTO ((mp_ptr, mp_ptr, mp_srcptr, mp_size_t, mp_limb_t));
 
 #if ! defined (MPN_COPY_INCR) && HAVE_NATIVE_mpn_copyi
 #define MPN_COPY_INCR(dst, src, size)                   \
@@ -2845,7 +2845,7 @@ __GMP_DECLSPEC mp_limb_t mpn_preinv_divrem_1 _PROTO ((mp_ptr, mp_size_t, mp_srcp
 
 #ifndef mpn_mod_34lsub1  /* if not done with cpuvec in a fat binary */
 #define mpn_mod_34lsub1 __MPN(mod_34lsub1)
-mp_limb_t mpn_mod_34lsub1 _PROTO ((mp_srcptr, mp_size_t)) __GMP_ATTRIBUTE_PURE;
+__GMP_DECLSPEC mp_limb_t mpn_mod_34lsub1 _PROTO ((mp_srcptr, mp_size_t)) __GMP_ATTRIBUTE_PURE;
 #endif
 
 
@@ -3298,10 +3298,10 @@ __GMP_DECLSPEC double mpn_get_d __GMP_PROTO ((mp_srcptr, mp_size_t, mp_size_t, l
 
 extern int __gmp_junk;
 extern const int __gmp_0;
-void __gmp_exception _PROTO ((int)) ATTRIBUTE_NORETURN;
-void __gmp_divide_by_zero _PROTO ((void)) ATTRIBUTE_NORETURN;
-void __gmp_sqrt_of_negative _PROTO ((void)) ATTRIBUTE_NORETURN;
-void __gmp_invalid_operation _PROTO ((void)) ATTRIBUTE_NORETURN;
+__GMP_DECLSPEC void __gmp_exception _PROTO ((int)) ATTRIBUTE_NORETURN;
+__GMP_DECLSPEC void __gmp_divide_by_zero _PROTO ((void)) ATTRIBUTE_NORETURN;
+__GMP_DECLSPEC void __gmp_sqrt_of_negative _PROTO ((void)) ATTRIBUTE_NORETURN;
+__GMP_DECLSPEC void __gmp_invalid_operation _PROTO ((void)) ATTRIBUTE_NORETURN;
 #define GMP_ERROR(code)   __gmp_exception (code)
 #define DIVIDE_BY_ZERO    __gmp_divide_by_zero ()
 #define SQRT_OF_NEGATIVE  __gmp_sqrt_of_negative ()
