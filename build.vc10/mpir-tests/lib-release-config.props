@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup Label="UserMacros">
+    <MPDIR>$(SolutionDir)..\lib\$(Platform)\$(Configuration)</MPDIR>
     <MPLIBS>$(SolutionDir)..\lib\$(Platform)\$(Configuration)\mpir.lib;$(SolutionDir)..\lib\$(Platform)\$(Configuration)\mpirxx.lib</MPLIBS>
   </PropertyGroup>
   <PropertyGroup>
@@ -11,7 +12,7 @@
   <ItemDefinitionGroup>
     <ClCompile>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <AdditionalIncludeDirectories>$(SolutionDir)..\;$(SolutionDir)..\tests</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(MPDIR);$(SolutionDir)..\tests</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <AdditionalDependencies>$(MPLIBS);$(OutDir)\add-test-lib.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -21,6 +22,9 @@
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <BuildMacro Include="MPDIR">
+      <Value>$(MPDIR)</Value>
+    </BuildMacro>
     <BuildMacro Include="MPLIBS">
       <Value>$(MPLIBS)</Value>
       <EnvironmentVariable>true</EnvironmentVariable>

@@ -10,10 +10,10 @@ if "%str2%" NEQ "build.vc10" goto dele
 rem we now have: build.vc10\<win32|x64>\<debug|release>\mpir.<lib|dll>
 
 rem extract platform (plat=<win32|x64>), configuration (conf=<debug|release>) and file name 
+rem for the current working directory = build.vc10\lib_mpir_nehalem
 rem IDE gives:     build.vc10\x64\Release\mpir.lib   
 rem MSBUILD gives: build.vc10\lib_mpir_nehalem\x64\Release\mpir.lib  
-rem Python gives:  build.vc10\lib_mpir_nehalem\x64\Release\mpir.dll
-rem current working directory = build.vc10\lib_mpir_nehalem
+rem Python gives:  build.vc10\lib_mpir_nehalem\x64\Release\mpir.lib
  
 set file=
 for /f "tokens=1,2,3,4,5 delims=\" %%a in ("%str%") do set plat=%%b&set conf=%%c&set file=%%d&set msbf=%%e
@@ -93,6 +93,8 @@ copy ..\config.h %1\config.h > nul 2>&1
 copy ..\gmp-mparam.h %1\gmp-mparam.h > nul 2>&1
 copy ..\mpir.h %1\mpir.h > nul 2>&1
 copy ..\mpir.h %1\gmp.h > nul 2>&1
+copy ..\gmp-impl.h %1\gmp-impl.h > nul 2>&1
+copy ..\longlong.h %1\longlong.h > nul 2>&1
 copy ..\mpirxx.h %1\mpirxx.h > nul 2>&1
 copy ..\mpirxx.h %1\gmpxx.h > nul 2>&1
 exit /b 0
