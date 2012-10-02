@@ -76,6 +76,7 @@
       <DebugInformationFormat>
       </DebugInformationFormat>
       <CompileAs>Default</CompileAs>
+      <AdditionalIncludeDirectories>$(MPDIR);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -99,6 +100,7 @@
       <PrecompiledHeader>
       </PrecompiledHeader>
       <CompileAs>Default</CompileAs>
+      <AdditionalIncludeDirectories>$(MPDIR);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -119,6 +121,7 @@
       <PrecompiledHeader>
       </PrecompiledHeader>
       <CompileAs>Default</CompileAs>
+      <AdditionalIncludeDirectories>$(MPDIR);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>false</GenerateDebugInformation>
@@ -145,6 +148,7 @@
       <PrecompiledHeader>
       </PrecompiledHeader>
       <CompileAs>Default</CompileAs>
+      <AdditionalIncludeDirectories>$(MPDIR);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

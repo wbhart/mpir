@@ -12,7 +12,7 @@
   <ItemDefinitionGroup>
     <ClCompile>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
-      <AdditionalIncludeDirectories>$(MPDIR);$(SolutionDir)..\tests</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\tests</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>__GMP_LIBGMP_DLL</PreprocessorDefinitions>
     </ClCompile>
     <Link>

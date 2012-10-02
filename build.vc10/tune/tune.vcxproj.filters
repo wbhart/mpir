@@ -136,5 +136,8 @@
     <ClInclude Include="..\win_timing.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\lib\x64\release\gmp-impl.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

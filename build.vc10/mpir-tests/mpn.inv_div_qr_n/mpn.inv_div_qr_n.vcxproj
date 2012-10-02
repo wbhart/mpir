@@ -73,6 +73,7 @@
       <PrecompiledHeader>
       </PrecompiledHeader>
       <CompileAs>Default</CompileAs>
+      <AdditionalIncludeDirectories>$(MPDIR);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <OutputFile>$(TestDir)$(OutDir)$(ProjectName).exe</OutputFile>
@@ -96,6 +97,7 @@
       <PrecompiledHeader>
       </PrecompiledHeader>
       <CompileAs>Default</CompileAs>
+      <AdditionalIncludeDirectories>$(MPDIR);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <OutputFile>$(TestDir)$(OutDir)$(ProjectName).exe</OutputFile>
@@ -116,6 +118,7 @@
       <PrecompiledHeader>
       </PrecompiledHeader>
       <CompileAs>Default</CompileAs>
+      <AdditionalIncludeDirectories>$(MPDIR);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <OutputFile>$(TestDir)$(OutDir)$(ProjectName).exe</OutputFile>
@@ -141,6 +144,7 @@
       <PrecompiledHeader>
       </PrecompiledHeader>
       <CompileAs>Default</CompileAs>
+      <AdditionalIncludeDirectories>$(MPDIR);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <OutputFile>$(TestDir)$(OutDir)$(ProjectName).exe</OutputFile>

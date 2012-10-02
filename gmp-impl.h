@@ -1,4 +1,4 @@
-/* Include file for internal GNU MP types and definitions.
+* Include file for internal GNU MP types and definitions.
 
    THE CONTENTS OF THIS FILE ARE FOR INTERNAL USE AND ARE ALMOST CERTAIN TO
    BE SUBJECT TO INCOMPATIBLE CHANGES IN FUTURE GNU MP RELEASES.

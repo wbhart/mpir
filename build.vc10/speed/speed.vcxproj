@@ -45,15 +45,19 @@
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" />
+    <Import Project="..\mpir-tests\test-config.props" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" />
+    <Import Project="..\mpir-tests\test-config.props" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" />
+    <Import Project="..\mpir-tests\test-config.props" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" />
+    <Import Project="..\mpir-tests\test-config.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
@@ -87,7 +91,7 @@
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <CompileAs>Default</CompileAs>
-      <AdditionalIncludeDirectories>.\;..\;..\..\lib\$(IntDir);..\..\;..\..\tests\;..\$(PlatformName)\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(MPDIR);..\..\lib\$(intDir);.\;..\;..\..\;..\..\tests\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <AdditionalDependencies>..\..\lib\$(IntDir)mpir.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -115,7 +119,7 @@
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <CompileAs>Default</CompileAs>
-      <AdditionalIncludeDirectories>.\;..\;..\..\lib\$(IntDir);..\..\;..\..\tests\;..\$(PlatformName)\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(MPDIR);..\..\lib\$(intDir);.\;..\;..\..\;..\..\tests\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <AdditionalDependencies>..\..\lib\$(IntDir)mpir.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -140,7 +144,7 @@
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <CompileAs>Default</CompileAs>
-      <AdditionalIncludeDirectories>.\;..\;..\..\lib\$(IntDir);..\..\;..\..\tests\;..\$(PlatformName)\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(MPDIR);..\..\lib\$(intDir);.\;..\;..\..\;..\..\tests\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <AdditionalDependencies>..\..\lib\$(IntDir)mpir.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -170,7 +174,7 @@
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <CompileAs>Default</CompileAs>
-      <AdditionalIncludeDirectories>.\;..\;..\..\lib\$(IntDir);..\..\;..\..\tests\;..\$(PlatformName)\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(MPDIR);..\..\lib\$(intDir);.\;..\;..\..\;..\..\tests\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <AdditionalDependencies>..\..\lib\$(IntDir)mpir.lib;%(AdditionalDependencies)</AdditionalDependencies>
