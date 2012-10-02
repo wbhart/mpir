@@ -503,7 +503,7 @@ prebuild {0:s} {1:s}
 
 def vcx_post_build(is_cpp, outf):
 
-  f1 = '''
+  f1 = r'''
   <PostBuildEvent>
       <Command>cd ..\
 postbuild "$(TargetPath)"
