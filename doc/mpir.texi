@@ -10077,6 +10077,10 @@ many other ways.
 
 Minh Van Nguyen served as release manager for MPIR 2.1.0.
 
+Case Vanhorsen helped with release testing.
+
+David Cleaver filed a bug report.
+
 @node References, GNU Free Documentation License, Contributors, Top
 @comment  node-name,  next,  previous,  up
 @appendix References
