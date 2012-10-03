@@ -6356,9 +6356,14 @@ The Toom algorithms described above (*note Toom 3-Way Multiplication::),
 number of pieces, as per Knuth section 4.3.3 algorithm C. MPIR currently
 implements Toom 8 routines.
 
-   In general a split into r+1 pieces is made, and evaluations and
-pointwise multiplications done at 2*r+1 points.  A 4-way split does 7
-pointwise multiplies, 5-way does 9, etc.  Asymptotically an (r+1)-way
+   These are generated automatically via a technique due to Bodrato
+(*note References::) which mixes evaluation, pointwise multiplication
+and interpolation phases. The routine used is called Toom 8.5. See
+Bodrato's paper.
+
+   For general Toom-n a split into r+1 pieces is made, and evaluations
+and pointwise multiplications done at 2*r+1 points.  A 4-way split does
+7 pointwise multiplies, 5-way does 9, etc.  Asymptotically an (r+1)-way
 algorithm is O(N^(log(2*r+1)/log(r+1))).  Only the pointwise
 multiplications count towards big-O complexity, but the time spent in
 the evaluate and interpolate stages grows with r and has a significant
