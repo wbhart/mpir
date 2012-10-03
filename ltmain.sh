@@ -81,7 +81,7 @@ PROGRAM=libtool
 PACKAGE=libtool
 VERSION=2.4
 TIMESTAMP=""
-package_revision=1.3294
+package_revision=1.3293
 
 # Be Bourne compatible
 if test -n "${ZSH_VERSION+set}" && (emulate sh) >/dev/null 2>&1; then
@@ -139,7 +139,7 @@ test "${ECHO+set}" = set || ECHO=${as_echo-'printf %s\n'}
 : ${EGREP="/bin/grep -E"}
 : ${FGREP="/bin/grep -F"}
 : ${GREP="/bin/grep"}
-: ${LN_S="cp -p"}
+: ${LN_S="ln -s"}
 : ${MAKE="make"}
 : ${MKDIR="mkdir"}
 : ${MV="mv -f"}
@@ -5066,41 +5066,6 @@ EOF
 }
 # end: func_emit_cwrapperexe_src
 
-# func_emit_exe_manifest
-# emit a Win32 UAC manifest for executable on stdout
-# Must ONLY be called from within func_mode_link because
-# it depends on a number of variable set therein.
-func_emit_exe_manifest ()
-{
-    cat <<EOF
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<assembly xmlns="urn:schemas-microsoft-com:asm.v1" manifestVersion="1.0">
-  <assemblyIdentity version="1.0.0.0"
-EOF
-
-    case $host in
-    i?86-*-* )   echo '     processorArchitecture="x86"' ;;
-    ia64-*-* )   echo '     processorArchitecture="ia64"' ;;
-    x86_64-*-* ) echo '     processorArchitecture="amd64"' ;;
-    *)           echo '     processorArchitecture="*"' ;;
-    esac
-
-    cat <<EOF
-     name="$host_os.$PROGRAM.$outputname"
-     type="win32"/>
-
-  <!-- Identify the application security requirements. -->
-  <trustInfo xmlns="urn:schemas-microsoft-com:asm.v3">
-    <security>
-      <requestedPrivileges>
-        <requestedExecutionLevel level="asInvoker" uiAccess="false"/>
-      </requestedPrivileges>
-    </security>
-  </trustInfo>
-</assembly>
-EOF
-}
-
 # func_win32_import_lib_p ARG
 # True if ARG is an import lib, as indicated by $file_magic_cmd
 func_win32_import_lib_p ()
@@ -5873,14 +5838,9 @@ func_mode_link ()
       # -tp=*                Portland pgcc target processor selection
       # --sysroot=*          for sysroot support
       # -O*, -flto*, -fwhopr*, -fuse-linker-plugin GCC link-time optimization
-      # -{shared,static}-libgcc, -static-{libgfortran|libstdc++}
-      #                      link against specified runtime library
-      # -fstack-protector*   stack protector flags for GCC
       -64|-mips[0-9]|-r[0-9][0-9]*|-xarch=*|-xtarget=*|+DA*|+DD*|-q*|-m*| \
       -t[45]*|-txscale*|-p|-pg|--coverage|-fprofile-*|-F*|@*|-tp=*|--sysroot=*| \
-      -O*|-flto*|-fwhopr*|-fuse-linker-plugin| \
-      -shared-libgcc|-static-libgcc|-static-libgfortran|-static-libstdc++| \
-      -fstack-protector*)
+      -O*|-flto*|-fwhopr*|-fuse-linker-plugin)
         func_quote_for_eval "$arg"
 	arg="$func_quote_for_eval_result"
         func_append compile_command " $arg"
@@ -8090,7 +8050,7 @@ EOF
 	    elif test -n "$runpath_var"; then
 	      case "$perm_rpath " in
 	      *" $libdir "*) ;;
-	      *) func_apped perm_rpath " $libdir" ;;
+	      *) func_append perm_rpath " $libdir" ;;
 	      esac
 	    fi
 	  done
@@ -9066,7 +9026,7 @@ EOF
 	    cwrappersource="$output_path/$objdir/lt-$output_name.c"
 	    cwrapper="$output_path/$output_name.exe"
 	    $RM $cwrappersource $cwrapper
-	    trap "$RM $cwrappersource $cwrapper $cwrapper.manifest; exit $EXIT_FAILURE" 1 2 15
+	    trap "$RM $cwrappersource $cwrapper; exit $EXIT_FAILURE" 1 2 15
 
 	    func_emit_cwrapperexe_src > $cwrappersource
 
@@ -9086,16 +9046,6 @@ EOF
 	    $opt_dry_run || {
 	      # note: this script will not be executed, so do not chmod.
 	      if test "x$build" = "x$host" ; then
-		# Create the UAC manifests first if necessary (but the
-		# manifest files must have executable permission regardless).
-		case $output_name in
-		  *instal*|*patch*|*setup*|*update*)
-		    func_emit_exe_manifest > $cwrapper.manifest
-		    func_emit_exe_manifest > $output_path/$objdir/$output_name.exe.manifest
-		    chmod +x $cwrapper.manifest
-		    chmod +x $output_path/$objdir/$output_name.exe.manifest
-		  ;;
-		esac
 		$cwrapper --lt-dump-script > $func_ltwrapper_scriptname_result
 	      else
 		func_emit_wrapper no > $func_ltwrapper_scriptname_result
@@ -9616,9 +9566,8 @@ func_mode_uninstall ()
 	    # note $name still contains .exe if it was in $file originally
 	    # as does the version of $file that was added into $rmfiles
 	    func_append rmfiles " $odir/$name $odir/${name}S.${objext}"
-	    func_append rmfiles " ${name}.manifest $objdir/${name}.manifest"
 	    if test "$fast_install" = yes && test -n "$relink_command"; then
-	      func_append rmfiles " $odir/lt-$name $objdir/lt-${name}.manifest"
+	      func_append rmfiles " $odir/lt-$name"
 	    fi
 	    if test "X$noexename" != "X$name" ; then
 	      func_append rmfiles " $odir/lt-${noexename}.c"
