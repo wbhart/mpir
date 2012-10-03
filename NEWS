@@ -276,7 +276,11 @@ Speedups:
 
 Features:
  
- * Toom8.5 code (by Marco Bodrato)
+ * Toom8.5 code (by Marco Bodrato) see the paper
+   M. Bodrato, "High degree Toom'n'half for balanced and unbalanced 
+   multiplication", E. Antelo, D. Hough and P. Ienne, editors, Proceedings 
+   of the 20th IEEE Symposium on Computer Arithmetic, IEEE, Tubingen, Germany, 
+   July 25-27, 2011, pp. 15--22.
  * Schoolbook Euclidean division code (by Torbjorn Granlund)
  * Divide and conquer Euclidean division code (by Torbjorn Granlund)
    and Marco Bodrato (adapted to use David Harvey's middle product based
