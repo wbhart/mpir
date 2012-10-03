@@ -20,6 +20,44 @@ along with the GNU MP Library; see the file COPYING.LIB.  If not, write to
 the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 MA 02110-1301, USA.
 
+Changes between MPIR 2.6.0 and MPIR 2.5.2
+
+Bug Fixes:
+
+* fixed bug in speed/common for dc_bdiv_qr_n
+* documentation error wrt -ve exponents in mpz_powm_ui
+* correct mpq_cmp_ui declaration error found by David Cleaver
+* correct bug in Windows assembler code for karasub
+
+Speedups:
+
+* Completely new FFT implementation (William Hart)
+
+Features:
+
+* Support for choice of intmax_t integer types in ui/si functions (Brian Gladman)
+* Python Windows build generator (Brian Gladman)
+
+Compatibility:
+
+* Add macros for __GNU_MP_RELEASE and __MPIR_RELEASE
+
+Changes between MPIR 2.5.2 and MPIR 2.5.1
+
+Bug Fixes:
+
+* fixed build bug due to incorrect header in redc_2
+* proper test for unpatched gcc-4.3.2
+
+Speedups:
+
+* Some new cpuids supported
+* assembly redc_1 for sandybridge and bobcat for x86_64 and x86_64w
+
+Compatibility:
+
+* Added undocumented macros in gmp-impl.h for mpfr-3.1.0
+
 Changes between MPIR 2.5.1 and MPIR 2.5.0
 
 Bug Fixes:

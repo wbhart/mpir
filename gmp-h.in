@@ -2530,7 +2530,7 @@ enum
 
 #define __MPIR_VERSION 2
 #define __MPIR_VERSION_MINOR 6 
-#define __MPIR_VERSION_PATCHLEVEL 1
+#define __MPIR_VERSION_PATCHLEVEL 0
 #if defined( _MSC_VER )
 #define _MSC_MPIR_VERSION "2.6.0"
 #endif
