@@ -84,7 +84,12 @@ if errorlevel 1 (
 )
 del comptest.*
 
-if %ABI% == 64 (echo #define HAVE_NATIVE_mpn_addmul_2 1 >> ..\mpir.h)
+if %ABI% == 64 (echo #define HAVE_NATIVE_mpn_addmul_2 1 >> ..\config.h)
+
+:: we delete asm files below for these symbols
+echo #undef HAVE_NATIVE_mpn_mod_1c >> ..\config.h
+echo #undef HAVE_NATIVE_mpn_divrem_1c >> ..\config.h
+echo #define USE_PREINV_DIVREM_1 1 >> ..\config.h
 
 if %ABI% == 64 (set OPT=/D "_WIN64" %FLAGS% %FLAGS1% /c)
 if %ABI% == 32 (set OPT=%FLAGS% %FLAGS1% /c)
