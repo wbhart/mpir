@@ -35,7 +35,7 @@ Speedups:
 
 Features:
 
-* Support for choice of intmax_t integer types in ui/si functions (Brian Gladman)
+* Capability to deal with full 32/64 bit words on 32/64 bit Windows (Brian Gladman)
 * Python Windows build generator (Brian Gladman)
 
 Compatibility:
