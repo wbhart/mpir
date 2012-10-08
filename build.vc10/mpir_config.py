@@ -38,6 +38,8 @@ from collections import defaultdict
 from uuid import uuid1
 from time import sleep
 
+# for script debugging
+debug = False
 # either add a prebuild step to the project files or do it here
 add_prebuild = True
 # output a build project for the C++ static library
@@ -720,11 +722,11 @@ del mpn_64['']
 if len(argv) != 1 and not (int(argv[1]) & 2):
   exit()
 
-# now ask our user which build they want to generate
-
 nd_gc = len(mpn_gc)
 nd_32 = nd_gc + len(mpn_32)
 nd_nd = nd_32 + len(mpn_64)
+
+# now ask user which builds they wish to generate
 
 while True:
   cnt = 0
@@ -747,10 +749,13 @@ while True:
   else:
     break
 
+# multiple builds must each have their own prebuilds
 if len(n_list) > 1:
   add_prebuild = True
 
+# now gnerate the requested builds
 for n in n_list:
+
   if 0 < n <= nd_gc:
     config = sorted(mpn_gc)[n - 1]
     mode = ('Win32', 'x64')
@@ -896,99 +901,99 @@ if add_cpp_lib:
   gen_vcxproj(proj_name, vcx_path, guid, config, mode, False, True, th, cc_src_list, '')
   add_proj_to_sln(vcx_name, vcx_path, guid)
 
-exit()
+# the following code is for diagnostic purposes only
+if debug:
 
-for x in sorted(mpn_f[0] + mpn_f[1]):
-  print(x)
-print()
-for x in sorted(mpn_f[2] + mpn_f[3]):
-  print(x)
-print()
-exit()
+  for x in sorted(mpn_f[0] + mpn_f[1]):
+    print(x)
+  print()
+  for x in sorted(mpn_f[2] + mpn_f[3]):
+    print(x)
+  print()
 
-# mpn_files = dict()
-# mpn_files.update(mpn_32)
-# mpn_files.update(mpn_64)
-for x in mpn_f[config]:
-  print(x)
-  if False:
-    print('1:')
-    for y in mpn_files[x][0]:
-      print(y)
-    print('2:')
-    for y in mpn_files[x][1]:
-      print(y)
-    print('3:')
-    for y in mpn_files[x][2]:
-      print(y)
-    print('4:')
-    for y in mpn_files[x][3]:
+  # mpn_files = dict()
+  # mpn_files.update(mpn_32)
+  # mpn_files.update(mpn_64)
+  for x in mpn_f[config]:
+    print(x)
+    if False:
+      print('1:')
+      for y in mpn_files[x][0]:
+        print(y)
+      print('2:')
+      for y in mpn_files[x][1]:
+        print(y)
+      print('3:')
+      for y in mpn_files[x][2]:
+        print(y)
+      print('4:')
+      for y in mpn_files[x][3]:
+        print(y)
+      print()
+    for y in sorted(x[2] + x[3]):
       print(y)
     print()
-  for y in sorted(x[2] + x[3]):
-    print(y)
+    print()
+
+if debug:
+
+  mpn_dirs =  ('mpn/generic', 'mpn/x86_64w', 'mpn/x86w' )
+
+  # compile a list of files in directories in 'dl' under root 'r' with extension 'p'
+  def findf(r, dl, p):
+    l = []
+    for d in dl:
+      for root, dirs, files in walk(r + d):
+        relp = relpath(root, r)  # path relative to mpir root directory
+        if '.svn' in dirs:
+          dirs.remove('.svn')            # ignore SVN directories
+        if d == '' or root.endswith(build_vc):
+          for d in reversed(dirs):       # don't scan build.vc10 subdirectories
+            dirs.remove(d)
+        for f in files:
+          if f.endswith(p):
+            l += [(tuple(relp.split('\\')), f)]
+    return sorted(l)
+
+  hdr_list = findf(mpir_dir, c_directories, '.h')
+  for x in hdr_list:
+    print(x)
   print()
+
+  src_list = findf(mpir_dir, c_directories, '.c')
+  for x in src_list:
+    print(x)
   print()
 
-exit()
+  cpp_list = findf(mpir_dir, ['cpp'], '.cc')
+  for x in cpp_list:
+    print(x)
+  print()
 
-mpn_dirs =  ('mpn/generic', 'mpn/x86_64w', 'mpn/x86w' )
+  gnc_list = findf(mpir_dir + 'mpn/', ['generic'], '.c')
+  for x in gnc_list:
+    print(x)
+  print()
 
-# compile a list of files in directories in 'dl' under root 'r' with extension 'p'
-def findf(r, dl, p):
-  l = []
-  for d in dl:
-    for root, dirs, files in os.walk(r + d):
-      relp = os.path.relpath(root, r)  # path relative to mpir root directory
-      if '.svn' in dirs:
-        dirs.remove('.svn')            # ignore SVN directories
-      if d == '' or root.endswith(build_vc):
-        for d in reversed(dirs):       # don't scan build.vc10 subdirectories
-          dirs.remove(d)
-      for f in files:
-        if f.endswith(p):
-          l += [(tuple(relp.split('\\')), f)]
-  return sorted(l)
+  w32_list = findf(mpir_dir + 'mpn/', ['x86w'], '.asm')
+  for x in w32_list:
+    print(x)
+  print()
 
-hdr_list = findf(dpath, c_dirs, '.h')
-for x in hdr_list:
-  print(x)
-print()
+  x64_list = findf(mpir_dir + 'mpn/', ['x86_64w'], '.asm')
+  for x in x64_list:
+    print(x)
+  print()
 
-src_list = findf(dpath, c_dirs, '.c')
-for x in src_list:
-  print(x)
-print()
-
-cpp_list = findf(dpath, ['cpp'], '.cc')
-for x in cpp_list:
-  print(x)
-print()
-
-gnc_list = findf(dpath + 'mpn/', ['generic'], '.c')
-for x in gnc_list:
-  print(x)
-print()
-
-w32_list = findf(dpath + 'mpn/', ['x86w'], '.asm')
-for x in w32_list:
-  print(x)
-print()
-
-x64_list = findf(dpath + 'mpn/', ['x86_64w'], '.asm')
-for x in x64_list:
-  print(x)
-print()
-
-nd = dict([])
-for d, f in gnc_list:
-  n, x = os.path.splitext(f)
-  nd[n] = nd.get(n, []) + [(d, 'c')]
-for d, f in x64_list:
-  n, x = os.path.splitext(f)
-  nd[n] = nd.get(n, []) + [(d, 'asm')]
-for d, f in w32_list:
-  n, x = os.path.splitext(f)
-  nd[n] = nd.get(n, []) + [(d, 'asm')]
-for x in nd:
-  print(x, nd[x])
+  nd = dict([])
+  for d, f in gnc_list:
+    n, x = splitext(f)
+    nd[n] = nd.get(n, []) + [(d, 'c')]
+  for d, f in x64_list:
+    n, x = splitext(f)
+    nd[n] = nd.get(n, []) + [(d, 'asm')]
+  for d, f in w32_list:
+    n, x = splitext(f)
+    nd[n] = nd.get(n, []) + [(d, 'asm')]
+  for x in nd:
+    print(x, nd[x])
