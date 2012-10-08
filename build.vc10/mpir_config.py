@@ -36,6 +36,7 @@ from shutil import copy
 from re import compile, search
 from collections import defaultdict
 from uuid import uuid1
+from time import sleep
 
 # either add a prebuild step to the project files or do it here
 add_prebuild = True
@@ -721,9 +722,10 @@ if len(argv) != 1 and not (int(argv[1]) & 2):
 
 # now ask our user which build they want to generate
 
-err = False
-config = ''
-mode = ''
+nd_gc = len(mpn_gc)
+nd_32 = nd_gc + len(mpn_32)
+nd_nd = nd_32 + len(mpn_64)
+
 while True:
   cnt = 0
   for v in sorted(mpn_gc):
@@ -735,155 +737,151 @@ while True:
   for v in sorted(mpn_64):
     cnt += 1
     print('{0:2d}. {1:18s}   (x64)'.format(cnt, v))
-  if err:
-    s = input('please enter a number <= {0:d} (0 to exit)? '.format(cnt))
-    err = False
+  s = input('Space separated list of builds (1..{0:d}, 0 to exit)? '.format(cnt))
+  n_list = [int(c) for c in s.split()]
+  if 0 in n_list:
+    exit()
+  if any(n < 1 or n > nd_nd for n in n_list):
+    print('list contains invalid build numbers')
+    sleep(2)
   else:
-    s = input('Number of configuation to build (0 to exit)? ')
-  nd_gc = len(mpn_gc)
-  nd_32 = nd_gc + len(mpn_32)
-  nd_nd = nd_32 + len(mpn_64)
-  try:
-    n = int(s)
-    if n < 1:
-      n = 0
-      break
-    if 0 < n <= nd_gc:
-      config = sorted(mpn_gc)[n - 1]
-      mode = ('Win32', 'x64')
-      mpn_f = mpn_gc[config]
-      break
-    elif nd_gc < n <= nd_32:
-      config = sorted(mpn_32)[n - 1 - nd_gc]
-      mode = ('Win32', )
-      mpn_f = mpn_32[config]
-      break
-    elif nd_32 < n <= nd_nd:
-      config = sorted(mpn_64)[n - 1 - nd_32]
-      mode = ('x64', )
-      mpn_f = mpn_64[config]
-      break
-  except:
-    pass
-  err = True
-if n == 0:
-  exit()
+    break
 
-if mode[0] == 'x64':
-  for l in mpn_f[1:]:
-    for t in l:
-      if t[0].startswith('preinv_'):
-        if ('x64' in mode and t[0] == 'preinv_divrem_1'):
-          l.remove(t)
+if len(n_list) > 1:
+  add_prebuild = True
 
-print(config, mode)
-
-if not add_prebuild:
-  # generate mpir.h and gmp.h from gmp_h.in
-  gmp_h = '''
-  #ifdef _WIN32
-  #  ifdef _WIN64
-  #    define _LONG_LONG_LIMB  1
-  #    define GMP_LIMB_BITS   64
-  #  else
-  #    define GMP_LIMB_BITS   32
-  #  endif
-  #  define __GMP_BITS_PER_MP_LIMB  GMP_LIMB_BITS
-  #  define SIZEOF_MP_LIMB_T (GMP_LIMB_BITS >> 3)
-  #  define GMP_NAIL_BITS                       0
-  #endif
-  '''
-
-  try:
-    lines = open(join(mpir_dir, 'gmp-h.in'), 'r').readlines()
-  except IOError:
-    print('error attempting to read from gmp_h.in')
-    exit()
-  try:
-    tfile = join(mpir_dir, 'tmp.h')
-    with open(tfile, 'w') as outf:
-      first = True
-      for line in lines:
-        if search('@\w+@', line):
-          if first:
-            first = False
-            outf.writelines(gmp_h)
-        else:
-          outf.writelines([line])
-
-    # write result to mpir.h but only overwrite the existing
-    # version if this version is different (don't trigger an
-    # unnecessary rebuild)
-    write_f(tfile, join(mpir_dir, 'mpir.h'))
-    write_f(tfile, join(mpir_dir, 'gmp.h'))
-    unlink(tfile)
-  except IOError:
-    print('error attempting to create mpir.h from gmp-h.in')
+for n in n_list:
+  if 0 < n <= nd_gc:
+    config = sorted(mpn_gc)[n - 1]
+    mode = ('Win32', 'x64')
+    mpn_f = mpn_gc[config]
+  elif nd_gc < n <= nd_32:
+    config = sorted(mpn_32)[n - 1 - nd_gc]
+    mode = ('Win32', )
+    mpn_f = mpn_32[config]
+  elif nd_32 < n <= nd_nd:
+    config = sorted(mpn_64)[n - 1 - nd_32]
+    mode = ('x64', )
+    mpn_f = mpn_64[config]
+  else:
+    print('internal error')
     exit()
 
-  # generate config.h
+  if mode[0] == 'x64':
+    for l in mpn_f[1:]:
+      for t in l:
+        if t[0].startswith('preinv_'):
+          if ('x64' in mode and t[0] == 'preinv_divrem_1'):
+            l.remove(t)
 
-  try:
-    tfile = join(mpir_dir, 'tmp.h')
-    with open(tfile, 'w') as outf:
-      for i in sorted(mpn_f[5] + mpn_f[6]):
-        outf.writelines(['#define HAVE_NATIVE_{0:s} 1\n'.format(i)])
+  print(config, mode)
 
-    append_f(join(build_dir, 'cfg.h'), tfile)
-    write_f(tfile, join(mpir_dir, 'config.h'))
-    unlink(tfile)
-  except IOError:
-    print('error attempting to write to {0:s}'.format(tfile))
-    exit()
+  if not add_prebuild:
+    # generate mpir.h and gmp.h from gmp_h.in
+    gmp_h = '''
+    #ifdef _WIN32
+    #  ifdef _WIN64
+    #    define _LONG_LONG_LIMB  1
+    #    define GMP_LIMB_BITS   64
+    #  else
+    #    define GMP_LIMB_BITS   32
+    #  endif
+    #  define __GMP_BITS_PER_MP_LIMB  GMP_LIMB_BITS
+    #  define SIZEOF_MP_LIMB_T (GMP_LIMB_BITS >> 3)
+    #  define GMP_NAIL_BITS                       0
+    #endif
+    '''
 
-  # generate longlong.h and copy gmp-mparam.h
+    try:
+      lines = open(join(mpir_dir, 'gmp-h.in'), 'r').readlines()
+    except IOError:
+      print('error attempting to read from gmp_h.in')
+      exit()
+    try:
+      tfile = join(mpir_dir, 'tmp.h')
+      with open(tfile, 'w') as outf:
+        first = True
+        for line in lines:
+          if search('@\w+@', line):
+            if first:
+              first = False
+              outf.writelines(gmp_h)
+          else:
+            outf.writelines([line])
 
-  try:
-    li_file = None
-    for i in mpn_f[0]:
-      if i[0] == 'longlong_inc':
-        li_file = join(mpir_dir, join(i[2], r'longlong_inc.h'))
-      if i[0] == 'gmp-mparam':
-        write_f(join(mpir_dir, join(i[2], 'gmp-mparam.h')), join(mpir_dir, 'gmp-mparam.h'))
-
-    if not li_file or not exists(li_file):
-      print('error attempting to read {0:s}'.format(li_file))
+      # write result to mpir.h but only overwrite the existing
+      # version if this version is different (don't trigger an
+      # unnecessary rebuild)
+      write_f(tfile, join(mpir_dir, 'mpir.h'))
+      write_f(tfile, join(mpir_dir, 'gmp.h'))
+      unlink(tfile)
+    except IOError:
+      print('error attempting to create mpir.h from gmp-h.in')
       exit()
 
-    tfile = join(mpir_dir, 'tmp.h')
-    write_f(join(mpir_dir, 'longlong_pre.h'), tfile)
-    append_f(li_file, tfile)
-    append_f(join(mpir_dir, 'longlong_post.h'), tfile)
-    write_f(tfile, join(mpir_dir, 'longlong.h'))
-    unlink(tfile)
-  except IOError:
-    print('error attempting to generate longlong.h')
-    exit()
+    # generate config.h
 
-# generate the vcxproj and the IDE filter files
-# and add/replace project in the solution file
+    try:
+      tfile = join(mpir_dir, 'tmp.h')
+      with open(tfile, 'w') as outf:
+        for i in sorted(mpn_f[5] + mpn_f[6]):
+          outf.writelines(['#define HAVE_NATIVE_{0:s} 1\n'.format(i)])
 
-hf_list = ('config.h', 'gmp-impl.h', 'longlong.h', 'mpir.h', 'gmp-mparam.h')
-af_list = sorted(mpn_f[2] + mpn_f[3])
+      append_f(join(build_dir, 'cfg.h'), tfile)
+      write_f(tfile, join(mpir_dir, 'config.h'))
+      unlink(tfile)
+    except IOError:
+      print('error attempting to write to {0:s}'.format(tfile))
+      exit()
 
-proj_name = 'mpir'
-cf = config.replace('\\', '_')
+    # generate longlong.h and copy gmp-mparam.h
 
-# set up DLL build
-guid = '{' + str(uuid1()) + '}'
-vcx_name = 'dll_mpir_' + cf
-vcx_path = 'dll_mpir_' + cf + '\\' + vcx_name + '.vcxproj'
-gen_filter(vcx_path + '.filters', hf_list, c_src_list + cc_src_list + mpn_f[1], af_list)
-gen_vcxproj(proj_name, vcx_path, guid, config, mode, True, False, hf_list, c_src_list + cc_src_list + mpn_f[1], af_list)
-add_proj_to_sln(vcx_name, vcx_path, guid)
+    try:
+      li_file = None
+      for i in mpn_f[0]:
+        if i[0] == 'longlong_inc':
+          li_file = join(mpir_dir, join(i[2], r'longlong_inc.h'))
+        if i[0] == 'gmp-mparam':
+          write_f(join(mpir_dir, join(i[2], 'gmp-mparam.h')), join(mpir_dir, 'gmp-mparam.h'))
 
-# set up LIB build
-guid = '{' + str(uuid1()) + '}'
-vcx_name = 'lib_mpir_' + cf
-vcx_path = 'lib_mpir_' + cf + '\\' + vcx_name + '.vcxproj'
-gen_filter(vcx_path + '.filters', hf_list, c_src_list + mpn_f[1], af_list)
-gen_vcxproj(proj_name, vcx_path, guid, config, mode, False, False, hf_list, c_src_list + mpn_f[1], af_list)
-add_proj_to_sln(vcx_name, vcx_path, guid)
+      if not li_file or not exists(li_file):
+        print('error attempting to read {0:s}'.format(li_file))
+        exit()
+
+      tfile = join(mpir_dir, 'tmp.h')
+      write_f(join(mpir_dir, 'longlong_pre.h'), tfile)
+      append_f(li_file, tfile)
+      append_f(join(mpir_dir, 'longlong_post.h'), tfile)
+      write_f(tfile, join(mpir_dir, 'longlong.h'))
+      unlink(tfile)
+    except IOError:
+      print('error attempting to generate longlong.h')
+      exit()
+
+  # generate the vcxproj and the IDE filter files
+  # and add/replace project in the solution file
+
+  hf_list = ('config.h', 'gmp-impl.h', 'longlong.h', 'mpir.h', 'gmp-mparam.h')
+  af_list = sorted(mpn_f[2] + mpn_f[3])
+
+  proj_name = 'mpir'
+  cf = config.replace('\\', '_')
+
+  # set up DLL build
+  guid = '{' + str(uuid1()) + '}'
+  vcx_name = 'dll_mpir_' + cf
+  vcx_path = 'dll_mpir_' + cf + '\\' + vcx_name + '.vcxproj'
+  gen_filter(vcx_path + '.filters', hf_list, c_src_list + cc_src_list + mpn_f[1], af_list)
+  gen_vcxproj(proj_name, vcx_path, guid, config, mode, True, False, hf_list, c_src_list + cc_src_list + mpn_f[1], af_list)
+  add_proj_to_sln(vcx_name, vcx_path, guid)
+
+  # set up LIB build
+  guid = '{' + str(uuid1()) + '}'
+  vcx_name = 'lib_mpir_' + cf
+  vcx_path = 'lib_mpir_' + cf + '\\' + vcx_name + '.vcxproj'
+  gen_filter(vcx_path + '.filters', hf_list, c_src_list + mpn_f[1], af_list)
+  gen_vcxproj(proj_name, vcx_path, guid, config, mode, False, False, hf_list, c_src_list + mpn_f[1], af_list)
+  add_proj_to_sln(vcx_name, vcx_path, guid)
 
 # C++ library build
 
