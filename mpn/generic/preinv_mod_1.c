@@ -26,6 +26,7 @@ USA. */
 #include "gmp-impl.h"
 #include "longlong.h"
 
+#if !HAVE_NATIVE_mpn_preinv_mod_1
 
 /* This function used to be documented, but is now considered obsolete.  It
    continues to exist for binary compatibility, even when not required
@@ -52,3 +53,5 @@ mpn_preinv_mod_1 (mp_srcptr up, mp_size_t un, mp_limb_t d, mp_limb_t dinv)
     }
   return r;
 }
+
+#endif
