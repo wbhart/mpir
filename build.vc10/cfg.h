@@ -138,6 +138,10 @@ MA 02111-1307, USA. */
 /* Define if you have the <locale.h> header file. */
 #define HAVE_LOCALE_H		1
 
+/* now required by MPFR */
+#define HAVE_STRUCT_LCONV_DECIMAL_POINT 1
+#define HAVE_STRUCT_LCONV_THOUSANDS_SEP 1
+
 /* Define if the system has the type `long double'. */
 #define HAVE_LONG_DOUBLE	1
 
