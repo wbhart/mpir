@@ -22,8 +22,9 @@ Visual Studio 2010.  You will need a recent revision of YASM from:
 
   http://www.tortall.net/projects/yasm/
 
-This assembler should be placed in the bin directory used by VC++, 
-which, for Visual Stduio 2010, is typically:
+This assembler (you need vsyasm.exe, NOT yasm.exe) should be placed
+in the bin directory used by VC++, which, for Visual Stduio 2010, is
+typically:
 
  C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin
  
