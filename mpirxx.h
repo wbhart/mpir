@@ -1662,7 +1662,7 @@ public:
   __gmp_expr & operator=(unsigned long long int i) { mpz_set_ui(mp, i); return *this; }
 #endif
 
-#ifdef _MSC_VER
+#if defined( _MSC_VER ) && _MSC_VER >= 1600
 #if defined( _STDINT_H ) || defined ( _STDINT_H_ ) || defined ( _STDINT )
   __gmp_expr & operator=(intmax_t i) { mpz_set_sx(mp, i); return *this; }
   __gmp_expr & operator=(uintmax_t i) { mpz_set_ux(mp, i); return *this; }
