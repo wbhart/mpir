@@ -42,9 +42,8 @@ along with the GNU MP Library.  If not, see http://www.gnu.org/licenses/.  */
 #include <cfloat>
 #include <mpir.h>
 
-#ifdef MSC_VER /* needed for definition of LLONG_MAX */
-#  include <limits.h>
-#endif
+#include <limits.h>
+#include <stdint.h>
 
 #ifdef LLONG_MAX
 #if LLONG_MAX != LONG_MAX
