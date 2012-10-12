@@ -1591,7 +1591,7 @@ public:
   __gmp_expr(unsigned long long int  l) { mpz_init_set_ui(mp, l); }
 #endif
 
-#ifdef _MSC_VER
+#if defined( _MSC_VER ) && _MSC_VER >= 1600
 #if defined( _STDINT_H ) || defined ( _STDINT_H_ ) || defined ( _STDINT )
   __gmp_expr(intmax_t l) { mpz_init_set_sx(mp, l); }
   __gmp_expr(uintmax_t l) { mpz_init_set_ux(mp, l); }
