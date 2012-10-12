@@ -1505,7 +1505,7 @@ void __gmp_set_expr(mpf_ptr, const __gmp_expr<T, U> &);
 #define __GMPP_DECLARE_COMPOUND_OPERATOR(fun)                         \
   template <class T, class U>                                         \
   __gmp_expr<value_type, value_type> & fun(const __gmp_expr<T, U> &);
-#if HAVE_LONG_LONG
+#ifdef LLONG_MAX
 #define __GMPN_DECLARE_COMPOUND_OPERATOR(fun) \
   __gmp_expr & fun(signed char);              \
   __gmp_expr & fun(unsigned char);            \
@@ -1578,17 +1578,20 @@ public:
   __gmp_expr(signed long int l) { mpz_init_set_si(mp, l); }
   __gmp_expr(unsigned long int  l) { mpz_init_set_ui(mp, l); }
 
-#if HAVE_LONG_LONG
+#ifdef LLONG_MAX
   __gmp_expr(signed long long int l) { mpz_init_set_si(mp, l); }
   __gmp_expr(unsigned long long int  l) { mpz_init_set_ui(mp, l); }
 #endif
 
 #if defined( _STDINT_H ) || defined ( _STDINT_H_ ) || defined ( _STDINT )
-#if !(HAVE_LONG_LONG && (INTMAX_MAX == LONG_LONG_MAX)) && !(INTMAX_MAX == LONG_MAX)
+#ifndef LLONG_MAX
+#if INTMAX_MAX != LONG_MAX
   __gmp_expr(intmax_t l) { mpz_init_set_sx(mp, l); }
   __gmp_expr(uintmax_t l) { mpz_init_set_ux(mp, l); }
 #endif
 #endif
+#endif
+
 
   __gmp_expr(float f) { mpz_init_set_d(mp, f); }
   __gmp_expr(double d) { mpz_init_set_d(mp, d); }
@@ -1649,15 +1652,17 @@ public:
   __gmp_expr & operator=(signed long int i) { mpz_set_si(mp, i); return *this; }
   __gmp_expr & operator=(unsigned long int i) { mpz_set_ui(mp, i); return *this; }
 
-#if HAVE_LONG_LONG
+#ifdef LLONG_MAX
   __gmp_expr & operator=(signed long long int i) { mpz_set_si(mp, i); return *this; }
   __gmp_expr & operator=(unsigned long long int i) { mpz_set_ui(mp, i); return *this; }
 #endif
 
 #if defined( _STDINT_H ) || defined ( _STDINT_H_ ) || defined ( _STDINT )
-#if !(HAVE_LONG_LONG && (INTMAX_MAX == LONG_LONG_MAX)) && !(INTMAX_MAX == LONG_MAX)
+#ifndef LLONG_MAX
+#if INTMAX_MAX != LONG_MAX
   __gmp_expr & operator=(intmax_t i) { mpz_set_sx(mp, i); return *this; }
   __gmp_expr & operator=(uintmax_t i) { mpz_set_ux(mp, i); return *this; }
+#endif
 #endif
 #endif
 
@@ -1771,7 +1776,7 @@ public:
   __gmp_expr(signed long int l) { mpq_init(mp); mpq_set_si(mp, l, 1); }
   __gmp_expr(unsigned long int l) { mpq_init(mp); mpq_set_ui(mp, l, 1); }
 
-#if HAVE_LONG_LONG
+#ifdef LLONG_MAX
   __gmp_expr(signed long long int l) { mpq_init(mp); mpq_set_si(mp, l, 1); }
   __gmp_expr(unsigned long long int l) { mpq_init(mp); mpq_set_ui(mp, l, 1); }
 #endif
@@ -1853,7 +1858,7 @@ public:
   __gmp_expr & operator=(unsigned long int l)
   { mpq_set_ui(mp, l, 1); return *this; }
 
-#if HAVE_LONG_LONG
+#ifdef LLONG_MAX
   __gmp_expr & operator=(signed long long int l)
   { mpq_set_si(mp, l, 1); return *this; }
   __gmp_expr & operator=(unsigned long long int l)
@@ -1988,7 +1993,7 @@ public:
   __gmp_expr(unsigned long int s, mp_bitcnt_t prec)
   { mpf_init2(mp, prec); mpf_set_ui(mp, s); }
 
-#if HAVE_LONG_LONG
+#ifdef LLONG_MAX
   __gmp_expr(signed long long int s) { mpf_init_set_si(mp, s); }
   __gmp_expr(signed long long int s, mp_bitcnt_t prec)
   { mpf_init2(mp, prec); mpf_set_si(mp, s); }
@@ -2072,7 +2077,7 @@ public:
   __gmp_expr & operator=(unsigned long int l)
   { mpf_set_ui(mp, l); return *this; }
 
-#if HAVE_LONG_LONG
+#ifdef LLONG_MAX
   __gmp_expr & operator=(signed long long int l)
   { mpf_set_si(mp, l); return *this; }
   __gmp_expr & operator=(unsigned long long int l)
@@ -2993,7 +2998,7 @@ __GMPNN_DEFINE_BINARY_FUNCTION(fun, eval_fun, type, double)
 #define __GMPNLD_DEFINE_BINARY_FUNCTION(fun, eval_fun, type)     \
 __GMPNN_DEFINE_BINARY_FUNCTION(fun, eval_fun, type, long double)
 
-#if HAVE_LONG_LONG
+#ifdef LLONG_MAX
 #define __GMPN_DEFINE_BINARY_FUNCTION(fun, eval_fun)              \
 __GMPNS_DEFINE_BINARY_FUNCTION(fun, eval_fun, signed char)        \
 __GMPNU_DEFINE_BINARY_FUNCTION(fun, eval_fun, unsigned char)      \
@@ -3083,7 +3088,7 @@ __GMPNN_DEFINE_BINARY_TYPE_FUNCTION(type, fun, eval_fun, type2, double)
 #define __GMPNLD_DEFINE_BINARY_TYPE_FUNCTION(type, fun, eval_fun, type2)     \
 __GMPNN_DEFINE_BINARY_TYPE_FUNCTION(type, fun, eval_fun, type2, long double)
 
-#if HAVE_LONG_LONG
+#ifdef LLONG_MAX
 #define __GMPN_DEFINE_BINARY_TYPE_FUNCTION(type, fun, eval_fun)              \
 __GMPNS_DEFINE_BINARY_TYPE_FUNCTION(type, fun, eval_fun, signed char)        \
 __GMPNU_DEFINE_BINARY_TYPE_FUNCTION(type, fun, eval_fun, unsigned char)      \
@@ -3154,7 +3159,7 @@ __GMPNN_DEFINE_COMPOUND_OPERATOR(type, fun, eval_fun, type2, double)
 #define __GMPNLD_DEFINE_COMPOUND_OPERATOR(type, fun, eval_fun, type2)     \
 __GMPNN_DEFINE_COMPOUND_OPERATOR(type, fun, eval_fun, type2, long double)
 
-#if HAVE_LONG_LONG
+#ifdef LLONG_MAX
 #define __GMPN_DEFINE_COMPOUND_OPERATOR(type, fun, eval_fun)              \
 __GMPNS_DEFINE_COMPOUND_OPERATOR(type, fun, eval_fun, signed char)        \
 __GMPNU_DEFINE_COMPOUND_OPERATOR(type, fun, eval_fun, unsigned char)      \
