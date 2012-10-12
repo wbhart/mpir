@@ -40,23 +40,17 @@ along with the GNU MP Library.  If not, see http://www.gnu.org/licenses/.  */
 #include <string>
 #include <stdexcept>
 #include <cfloat>
+
 #include <mpir.h>
 
-#include <limits.h>
-#include <stdint.h>
+#ifdef MSC_VER /* needed for LLONG_MAX */
+#include <climits>
+#endif
 
 #ifdef LLONG_MAX
 #if LLONG_MAX != LONG_MAX
 #define MPIRXX_HAVE_LLONG 1
 #endif
-#endif
-
-#ifndef INTMAX_MAX
-#error INTMAX_MAX_not_defined
-#endif
-
-#ifndef LONG_MAX
-#error LONG_MAX_not_defined
 #endif
 
 /**************** Function objects ****************/
@@ -1599,15 +1593,12 @@ public:
   __gmp_expr(unsigned long long int  l) { mpz_init_set_ui(mp, l); }
 #endif
 
+#ifdef MSC_VER
 #if defined( _STDINT_H ) || defined ( _STDINT_H_ ) || defined ( _STDINT )
-#ifndef MPIRXX_HAVE_LLONG
-#if INTMAX_MAX != LONG_MAX
   __gmp_expr(intmax_t l) { mpz_init_set_sx(mp, l); }
   __gmp_expr(uintmax_t l) { mpz_init_set_ux(mp, l); }
 #endif
 #endif
-#endif
-
 
   __gmp_expr(float f) { mpz_init_set_d(mp, f); }
   __gmp_expr(double d) { mpz_init_set_d(mp, d); }
@@ -1673,12 +1664,10 @@ public:
   __gmp_expr & operator=(unsigned long long int i) { mpz_set_ui(mp, i); return *this; }
 #endif
 
+#ifdef MSC_VER
 #if defined( _STDINT_H ) || defined ( _STDINT_H_ ) || defined ( _STDINT )
-#ifndef MPIRXX_HAVE_LLONG
-#if INTMAX_MAX != LONG_MAX
   __gmp_expr & operator=(intmax_t i) { mpz_set_sx(mp, i); return *this; }
   __gmp_expr & operator=(uintmax_t i) { mpz_set_ux(mp, i); return *this; }
-#endif
 #endif
 #endif
 
