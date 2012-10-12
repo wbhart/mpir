@@ -1584,7 +1584,7 @@ public:
 #endif
 
 #if defined( _STDINT_H ) || defined ( _STDINT_H_ ) || defined ( _STDINT )
-#if (HAVE_LONG_LONG && (sizeof(intmax_t) != sizeof(long long))) && sizeof(intmax_t) != sizeof(long)
+#if !(HAVE_LONG_LONG && (sizeof(intmax_t) == sizeof(long long))) && !(sizeof(intmax_t) == sizeof(long))
   __gmp_expr(intmax_t l) { mpz_init_set_sx(mp, l); }
   __gmp_expr(uintmax_t l) { mpz_init_set_ux(mp, l); }
 #endif
@@ -1655,8 +1655,10 @@ public:
 #endif
 
 #if defined( _STDINT_H ) || defined ( _STDINT_H_ ) || defined ( _STDINT )
+#if !(HAVE_LONG_LONG && (sizeof(intmax_t) == sizeof(long long))) && !(sizeof(intmax_t) == sizeof(long))
   __gmp_expr & operator=(intmax_t i) { mpz_set_sx(mp, i); return *this; }
   __gmp_expr & operator=(uintmax_t i) { mpz_set_ux(mp, i); return *this; }
+#endif
 #endif
 
   __gmp_expr & operator=(float f) { mpz_set_d(mp, f); return *this; }
