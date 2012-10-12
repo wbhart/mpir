@@ -1091,14 +1091,16 @@ __GMP_DECLSPEC mp_limb_t mpn_divrem_hensel_r_1 __GMP_PROTO ((mp_srcptr, mp_size_
 
 #define mpn_addmod_2expp1_1(r, limbs, c)                    \
 do {                                                        \
-   mp_limb_t __sum = (r)[0] + (c);                          \
+   mp_limb_t __sum = (r)[0] + (mp_limb_signed_t)(c);        \
    /* check if adding c causes carry propagation */         \
    if ((mp_limb_signed_t)(__sum ^ (r)[0]) >= 0)             \
       (r)[0] = __sum;                                       \
    else                                                     \
    {                                                        \
-      if ((c) >= 0) mpn_add_1((r), (r), (limbs) + 1, (c));  \
-      else mpn_sub_1((r), (r), (limbs) + 1, -(c));          \
+      if ((mp_limb_signed_t) (c) >= 0) mpn_add_1((r),       \
+          (r), (limbs) + 1, (mp_limb_signed_t) (c));        \
+      else mpn_sub_1((r), (r), (limbs) + 1,                 \
+                         -(mp_limb_signed_t) (c));          \
    }                                                        \
 } while (0)
 
