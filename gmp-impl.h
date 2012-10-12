@@ -1089,24 +1089,18 @@ __GMP_DECLSPEC mp_limb_t mpn_divrem_hensel_r_1 __GMP_PROTO ((mp_srcptr, mp_size_
          nn[limbs] = -nn[limbs]; \
    } while (0)
 
-#ifdef _MSC_VER
-__inline
-#else
-__inline__
-#endif
-void mpn_addmod_2expp1_1(mp_ptr r, mp_size_t limbs, mp_limb_signed_t c)
-{
-   mp_limb_t sum = r[0] + c;
-
-   /* check if adding c would cause a carry to propagate */
-   if ((mp_limb_signed_t)(sum ^ r[0]) >= 0)
-      r[0] = sum;
-   else
-   {
-      if (c >= 0) mpn_add_1(r, r, limbs + 1, c);
-      else mpn_sub_1(r, r, limbs + 1, -c);
-   }
-}
+#define mpn_addmod_2expp1_1(r, limbs, c)                    \
+do {                                                        \
+   mp_limb_t __sum = (r)[0] + (c);                          \
+   /* check if adding c causes carry propagation */         \
+   if ((mp_limb_signed_t)(__sum ^ (r)[0]) >= 0)             \
+      (r)[0] = __sum;                                       \
+   else                                                     \
+   {                                                        \
+      if ((c) >= 0) mpn_add_1((r), (r), (limbs) + 1, (c));  \
+      else mpn_sub_1((r), (r), (limbs) + 1, -(c));          \
+   }                                                        \
+} while (0)
 
 #define mpn_mul_2expmod_2expp1 __MPN(mul_2expmod_2expp1)
 __GMP_DECLSPEC void mpn_mul_2expmod_2expp1 __GMP_PROTO ((mp_ptr t, mp_ptr i1, mp_size_t limbs, mp_bitcnt_t d));
