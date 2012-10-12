@@ -120,6 +120,7 @@ check_mpz (void)
     b = a; ASSERT_ALWAYS(b == 3456789012UL);
   }
 
+#ifdef MPIRXX_HAVE_LLONG
   // operator=(unsigned long int)
   {
     unsigned long long int a = 0x1234567812345678;
@@ -135,6 +136,7 @@ check_mpz (void)
     b = a; 
     ASSERT_ALWAYS(b == (mpir_si)0xfedcba9876543210);
   }
+#endif
 
   // operator=(float)
   {
