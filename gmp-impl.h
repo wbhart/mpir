@@ -1089,7 +1089,11 @@ __GMP_DECLSPEC mp_limb_t mpn_divrem_hensel_r_1 __GMP_PROTO ((mp_srcptr, mp_size_
          nn[limbs] = -nn[limbs]; \
    } while (0)
 
-__GMP_EXTERN_INLINE
+#ifdef _MSC_VER
+__inline
+#else
+__inline__
+#endif
 void mpn_addmod_2expp1_1(mp_ptr r, mp_size_t limbs, mp_limb_signed_t c)
 {
    mp_limb_t sum = r[0] + c;
