@@ -1584,8 +1584,10 @@ public:
 #endif
 
 #if defined( _STDINT_H ) || defined ( _STDINT_H_ ) || defined ( _STDINT )
+#if (HAVE_LONG_LONG && (sizeof(intmax_t) != sizeof(long long))) && sizeof(intmax_t) != sizeof(long)
   __gmp_expr(intmax_t l) { mpz_init_set_sx(mp, l); }
   __gmp_expr(uintmax_t l) { mpz_init_set_ux(mp, l); }
+#endif
 #endif
 
   __gmp_expr(float f) { mpz_init_set_d(mp, f); }
