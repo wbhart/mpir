@@ -52,6 +52,14 @@ along with the GNU MP Library.  If not, see http://www.gnu.org/licenses/.  */
 #endif
 #endif
 
+#ifndef INTMAX_MAX
+#error INTMAX_MAX_not_defined
+#endif
+
+#ifndef LONG_MAX
+#error LONG_MAX_not_defined
+#endif
+
 /**************** Function objects ****************/
 /* Any evaluation of a __gmp_expr ends up calling one of these functions
    all intermediate functions being inline, the evaluation should optimize
