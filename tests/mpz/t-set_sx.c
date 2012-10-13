@@ -22,20 +22,40 @@ MA 02110-1301, USA. */
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "config.h"
-#ifdef HAVE_STDINT_H
-#include <stdint.h>
+
+#if defined( _MSC_VER )
+#  if _MSC_VER < 1600
+#    define SKIP_TEST
+#  else
+#    include <stdint.h>
+#  endif
+#else
+#  include "config.h"
+#  ifdef HAVE_STDINT_H
+#    include <stdint.h>
+#  else
+#    define SKIP_TEST
+#  endif
 #endif
+
+#ifdef SKIP_TEST
+
+int
+main (void)
+{
+  printf ("(u)intmax_t not available - test skipped\n");
+  exit (0);
+}
+
+#else
+
 #include "mpir.h"
 #include "gmp-impl.h"
 #include "tests.h"
 
-//#ifdef HAVE_STDINT_H
-
 void
 check_data (void)
 {
-#ifdef HAVE_INTMAX_T
   static const struct {
     intmax_t n;
     mp_size_t  want_size;
@@ -89,7 +109,6 @@ check_data (void)
         }
       mpz_clear (n);
     }
-#endif
 }
 
 
@@ -104,4 +123,4 @@ main (void)
   exit (0);
 }
 
-//#endif
+#endif
