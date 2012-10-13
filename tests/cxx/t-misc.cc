@@ -26,8 +26,6 @@ MA 02110-1301, USA. */
    means long is 64-bit long, but it's only 32-bits, causing fatal compile
    errors.  */
 
-#include "config.h"
-
 #include <string>
 
 #include "mpir.h"

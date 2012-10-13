@@ -23,7 +23,7 @@ MA 02110-1301, USA. */
 #define _GNU_SOURCE    /* for DECIMAL_POINT in glibc langinfo.h */
 #endif
 
-#include "config.h"
+#include <config.h>
 
 #include <stdio.h>
 #include <stdlib.h>
