@@ -23,11 +23,11 @@ MA 02110-1301, USA. */
 #define _GNU_SOURCE    /* for DECIMAL_POINT in glibc langinfo.h */
 #endif
 
-#include <config.h>
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
+#include "config.h"
 
 #if HAVE_NL_TYPES_H
 #include <nl_types.h>  /* for nl_item (on netbsd 1.4.1 at least) */

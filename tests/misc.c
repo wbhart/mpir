@@ -25,6 +25,8 @@ MA 02110-1301, USA. */
 #include <stdlib.h>     /* for getenv */
 #include <string.h>
 
+#include "config.h"
+
 #if HAVE_FLOAT_H || defined( _MSC_VER )	/* BRG */
 #include <float.h>      /* for DBL_MANT_DIG */
 #endif
