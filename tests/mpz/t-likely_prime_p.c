@@ -53,15 +53,15 @@ check_sqrt (void)
          m2 = m + mpz_get_ui(x) - MIN(p, 1000)/2;
       } while ((m2 == m) || ((mp_limb_signed_t) (m2 ^ m) < (mp_limb_signed_t) 0) || (m2 == 0) || (m2 == 1));
 
-      s = n_sqrt(m2);
+      s = mpir_sqrt(m2);
       if (((m2 < m) && (s != p - 1)) || ((m2 > m) && (s != p)))
       {
           printf ("mpz_likely_prime_p\n");
-          printf ("n_sqrt is broken\n");
+          printf ("mpir_sqrt is broken\n");
 #if defined( _MSC_VER ) && defined( _WIN64 )
-          printf ("%llu is returned as n_sqrt(%llu)\n", s, m2);
+          printf ("%llu is returned as mpir_sqrt(%llu)\n", s, m2);
 #else
-          printf ("%lu is returned as n_sqrt(%lu)\n", s, m2);
+          printf ("%lu is returned as mpir_sqrt(%lu)\n", s, m2);
 #endif
           abort();
       }
@@ -76,15 +76,15 @@ check_sqrt (void)
       p = mpz_getlimbn(x, 0);
       m = p*p;
 
-      s = n_sqrt(m);
+      s = mpir_sqrt(m);
       if (s != p)
       {
           printf ("mpz_likely_prime_p\n");
-          printf ("n_sqrt is broken\n");
+          printf ("mpir_sqrt is broken\n");
 #if defined( _MSC_VER ) && defined( _WIN64 )
-          printf ("%llu is returned as n_sqrt(%llu)\n", s, m);
+          printf ("%llu is returned as mpir_sqrt(%llu)\n", s, m);
 #else
-          printf ("%lu is returned as n_sqrt(%lu)\n", s, m);
+          printf ("%lu is returned as mpir_sqrt(%lu)\n", s, m);
 #endif
           abort();
       }
@@ -115,7 +115,7 @@ check_rand (void)
          bits = mpz_get_ui(x) + 1;
          mpz_rrandomb(x, rands, bits);
          p = mpz_getlimbn(x, 0);
-      } while (is_likely_prime_BPSW(p));
+      } while (mpir_is_likely_prime_BPSW(p));
 
       if (mpz_probab_prime_p(x, 100))
       {

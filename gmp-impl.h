@@ -839,9 +839,9 @@ __GMP_DECLSPEC void __gmp_default_free _PROTO ((void *, size_t));
 #define REGPARM_ATTR(n)
 #endif
 
-__GMP_DECLSPEC int is_likely_prime_BPSW(mp_limb_t n);
+__GMP_DECLSPEC int mpir_is_likely_prime_BPSW(mp_limb_t n);
 
-__GMP_DECLSPEC mp_limb_t n_sqrt(mp_limb_t r);
+__GMP_DECLSPEC mp_limb_t mpir_sqrt(mp_limb_t r);
 
 void __gmpz_aorsmul_1 _PROTO ((REGPARM_3_1 (mpz_ptr w, mpz_srcptr u, mp_limb_t v, mp_size_t sub))) REGPARM_ATTR(1);
 #define mpz_aorsmul_1(w,u,v,sub)  __gmpz_aorsmul_1 (REGPARM_3_1 (w, u, v, sub))

@@ -41,7 +41,7 @@ typedef struct pair_s
 #define r_shift(in, shift) \
    ((shift == GMP_LIMB_BITS) ? CNST_LIMB(0) : ((in)>>(shift)))
 
-mp_limb_t n_sqrt(mp_limb_t r)
+mp_limb_t mpir_sqrt(mp_limb_t r)
 {
 	mp_limb_t res, is;
 
@@ -126,11 +126,13 @@ mp_limb_t n_sqrt(mp_limb_t r)
 #endif
 }
 
+static
 double n_precompute_inverse(mp_limb_t n)
 {
    return (double) 1 / (double) n;
 }
 
+static
 unsigned int BIT_COUNT(mp_limb_t x)
 {
    unsigned int zeros = GMP_LIMB_BITS;
@@ -138,18 +140,22 @@ unsigned int BIT_COUNT(mp_limb_t x)
    return GMP_LIMB_BITS - zeros;
 }
 
+static
 int mod64[64] = {1,1,0,0,1,0,0,0,0,1,0,0,0,0,0,0,1,1,0,0,0,
                  0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,1,0,0,0,0,1,
                  0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0}; 
 
+static
 int mod65[65] = {1,1,0,0,1,0,0,0,0,1,1,0,0,0,1,0,1,0,0,0,0,0,
                  0,0,0,1,1,0,0,1,1,0,0,0,0,1,1,0,0,1,1,0,0,0,
                  0,0,0,0,0,1,0,1,0,0,0,1,1,0,0,0,0,1,0,0,1};
 
+static
 int mod63[63] = {1,1,0,0,1,0,0,1,0,1,0,0,0,0,1,0,1,0,1,0,0,
                  0,1,0,0,1,0,0,1,0,0,0,0,0,0,1,1,1,0,0,0,0,
                  0,1,0,0,1,0,0,1,0,0,0,0,0,0,1,0,1,0,0,0,0};
    
+static
 int n_is_square(mp_limb_t x)
 {
 	mp_limb_t sq;
@@ -157,11 +163,12 @@ int n_is_square(mp_limb_t x)
    if (!mod63[x%CNST_LIMB(63)]) return 0;
    if (!mod65[x%CNST_LIMB(65)]) return 0;
 
-   sq = n_sqrt(x); 
+   sq = mpir_sqrt(x); 
    
    return (x == sq*sq);
 }
 
+static
 mp_limb_t n_preinvert_limb(mp_limb_t n)
 {
    mp_limb_t norm, ninv;
@@ -172,6 +179,7 @@ mp_limb_t n_preinvert_limb(mp_limb_t n)
    return ninv;
 }
 
+static
 mp_limb_t n_addmod(mp_limb_t x, mp_limb_t y, mp_limb_t n)
 {
    if (n - y > x) return x + y;
@@ -185,6 +193,7 @@ mp_limb_t n_submod(mp_limb_t x, mp_limb_t y, mp_limb_t n)
    else return x - y;
 }
 
+static
 mp_limb_t n_mod2_preinv(mp_limb_t a, mp_limb_t n, mp_limb_t ninv)
 {
    unsigned int norm;
@@ -195,6 +204,7 @@ mp_limb_t n_mod2_preinv(mp_limb_t a, mp_limb_t n, mp_limb_t ninv)
    return (r>>norm);
 }
 
+static
 mp_limb_t n_ll_mod_preinv(mp_limb_t a_hi, mp_limb_t a_lo, 
                                              mp_limb_t n, mp_limb_t ninv)
 {
@@ -209,6 +219,7 @@ mp_limb_t n_ll_mod_preinv(mp_limb_t a_hi, mp_limb_t a_lo,
    return (r>>norm);
 }
 
+static
 mp_limb_t n_mulmod_precomp(mp_limb_t a, mp_limb_t b, mp_limb_t n, double npre)
 {
    mp_limb_t quot = (mp_limb_t) ((double) a * (double) b * npre);
@@ -221,6 +232,7 @@ mp_limb_t n_mulmod_precomp(mp_limb_t a, mp_limb_t b, mp_limb_t n, double npre)
    return rem;
 }
 
+static
 mp_limb_t n_mulmod2_preinv(mp_limb_t a, mp_limb_t b, mp_limb_t n, mp_limb_t ninv)
 {
    mp_limb_t p1, p2;
@@ -230,6 +242,7 @@ mp_limb_t n_mulmod2_preinv(mp_limb_t a, mp_limb_t b, mp_limb_t n, mp_limb_t ninv
    return n_ll_mod_preinv(p1, p2, n, ninv);
 }
 
+static
 mp_limb_t n_powmod_precomp(mp_limb_t a, mp_limb_t exp, mp_limb_t n, double npre)
 {
    
@@ -252,6 +265,7 @@ mp_limb_t n_powmod_precomp(mp_limb_t a, mp_limb_t exp, mp_limb_t n, double npre)
    return x;
 }
 
+static
 mp_limb_t n_powmod2_preinv(mp_limb_t a, mp_limb_t exp, mp_limb_t n, mp_limb_t ninv)
 {   
    mp_limb_t x, y;
@@ -272,6 +286,7 @@ mp_limb_t n_powmod2_preinv(mp_limb_t a, mp_limb_t exp, mp_limb_t n, mp_limb_t ni
    return x;
 } 
 
+static
 mp_limb_t n_powmod(mp_limb_t a, mp_limb_signed_t exp, mp_limb_t n)
 {
    double npre = n_precompute_inverse(n);
@@ -279,6 +294,7 @@ mp_limb_t n_powmod(mp_limb_t a, mp_limb_signed_t exp, mp_limb_t n)
    return n_powmod_precomp(a, exp, n, npre);
 }
 
+static
 mp_limb_t n_powmod2(mp_limb_t a, mp_limb_signed_t exp, mp_limb_t n)
 {
    mp_limb_t ninv = n_preinvert_limb(n);
@@ -286,6 +302,7 @@ mp_limb_t n_powmod2(mp_limb_t a, mp_limb_signed_t exp, mp_limb_t n)
    return n_powmod2_preinv(a, exp, n, ninv);
 }
 
+static
 mp_limb_t n_gcd(mp_limb_t x, mp_limb_t y)
 {
    mp_limb_t u3, v3;
@@ -347,6 +364,7 @@ mp_limb_t n_gcd(mp_limb_t x, mp_limb_t y)
    return u3;
 }
 
+static
 mp_limb_t n_invmod(mp_limb_t x, mp_limb_t y)
 {
    mp_limb_signed_t v1 = CNST_LIMB(0); 
@@ -423,6 +441,7 @@ mp_limb_t n_invmod(mp_limb_t x, mp_limb_t y)
    return v1;
 }
 
+static
 int n_jacobi(mp_limb_signed_t x, mp_limb_t y)
 {
 	mp_limb_t a, b, temp;
@@ -491,6 +510,7 @@ int n_jacobi(mp_limb_signed_t x, mp_limb_t y)
 	return s;
 }
 
+static
 int n_is_pseudoprime_fermat(mp_limb_t n, mp_limb_t i)
 {
 	if (BIT_COUNT(n) <= D_BITS) return (n_powmod(i, n - 1, n) == CNST_LIMB(1));
@@ -507,6 +527,7 @@ int n_is_pseudoprime_fermat(mp_limb_t n, mp_limb_t i)
    }
 }
 
+static
 int n_is_strong_pseudoprime_precomp(mp_limb_t n, double npre, mp_limb_t a, mp_limb_t d)
 {
    mp_limb_t t = d;
@@ -526,6 +547,7 @@ int n_is_strong_pseudoprime_precomp(mp_limb_t n, double npre, mp_limb_t a, mp_li
    return (y == n - 1);
 }
 
+static
 int n_is_strong_pseudoprime2_preinv(mp_limb_t n, mp_limb_t ninv, mp_limb_t a, mp_limb_t d)
 {
    mp_limb_t t = d;
@@ -545,6 +567,7 @@ int n_is_strong_pseudoprime2_preinv(mp_limb_t n, mp_limb_t ninv, mp_limb_t a, mp
    return (y == n - 1);
 }
 
+static
 n_pair_t fchain_precomp(mp_limb_t m, mp_limb_t n, double npre)
 {
 	n_pair_t current, old;
@@ -580,6 +603,7 @@ n_pair_t fchain_precomp(mp_limb_t m, mp_limb_t n, double npre)
 	return current;
 }
 
+static
 n_pair_t fchain2_preinv(mp_limb_t m, mp_limb_t n, mp_limb_t ninv)
 {
 	n_pair_t current, old;
@@ -615,6 +639,7 @@ n_pair_t fchain2_preinv(mp_limb_t m, mp_limb_t n, mp_limb_t ninv)
 	return current;
 }
 
+static
 int n_is_pseudoprime_fibonacci(mp_limb_t n)
 {
 	mp_limb_t m, left, right;
@@ -643,6 +668,7 @@ int n_is_pseudoprime_fibonacci(mp_limb_t n)
   }
 }
 
+static
 n_pair_t lchain_precomp(mp_limb_t m, mp_limb_t a, mp_limb_t n, double npre)
 {
 	n_pair_t current, old;
@@ -678,6 +704,7 @@ n_pair_t lchain_precomp(mp_limb_t m, mp_limb_t a, mp_limb_t n, double npre)
 	return current;
 }
 
+static
 n_pair_t lchain2_preinv(mp_limb_t m, mp_limb_t a, mp_limb_t n, mp_limb_t ninv)
 {
 	n_pair_t current, old;
@@ -713,6 +740,7 @@ n_pair_t lchain2_preinv(mp_limb_t m, mp_limb_t a, mp_limb_t n, mp_limb_t ninv)
 	return current;
 }
 
+static
 int n_is_pseudoprime_lucas(mp_limb_t n)
 {
 	int i, D, Q;
@@ -785,7 +813,7 @@ int n_is_pseudoprime_lucas(mp_limb_t n)
 	return (left == right);
 }
 
-int is_likely_prime_BPSW(mp_limb_t n)
+int mpir_is_likely_prime_BPSW(mp_limb_t n)
 {
 	if (n <= CNST_LIMB(1)) return 0;
 
@@ -847,7 +875,7 @@ mpz_likely_prime_p (mpz_srcptr N, gmp_randstate_t STATE, mpir_ui td)
 #if GMP_LIMB_BITS == 64 || GMP_LIMB_BITS == 32
   if (SIZ(n) == 1)
   {
-     return is_likely_prime_BPSW(PTR(n)[0]);
+     return mpir_is_likely_prime_BPSW(PTR(n)[0]);
   }
 #endif
 
