@@ -94,13 +94,17 @@ main(void)
                i2 = i1 + n1;
                r1 = i2 + n2;
                r2 = r1 + n1 + n2;
-   
+  
                mpn_urandomb(i1, state, b1);
                mpn_urandomb(i2, state, b2);
   
-               mpn_mul(r2, i1, n1, i2, n2);
+               if (ABOVE_THRESHOLD (n1 + n2, 2*MUL_FFT_FULL_THRESHOLD) && 
+                  n2 >= MUL_KARATSUBA_THRESHOLD && n1*5 <= n2*11)
+                   mpn_toom8h_mul(r2, i1, n1, i2, n2);
+               else
+                   mpn_mul(r2, i1, n1, i2, n2);
                mpn_mul_fft_main(r1, i1, n1, i2, n2);
-           
+               
                for (j = 0; j < n1 + n2; j++)
                {
                    if (r1[j] != r2[j]) 
