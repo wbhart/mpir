@@ -4,6 +4,9 @@
 #define FFT_TUNING_H
 
 #include "mpir.h"
+#include "gmp-impl.h"
+
+#ifndef FFT_TAB /* check if we already have tuning values */
 
 #if GMP_LIMB_BITS == 64
 
@@ -28,6 +31,8 @@
 #define FFT_N_NUM 15
 
 #define FFT_MULMOD_2EXPP1_CUTOFF 256
+
+#endif
 
 #endif
 

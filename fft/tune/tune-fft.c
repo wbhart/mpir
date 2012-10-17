@@ -125,7 +125,7 @@ main(void)
     {
         for (w = 1; w <= 2; w++)
         {
-            int iters, i;
+            int iters = 100*((mp_size_t) 1 << (3*(18 - depth)/2)), i;
             mp_size_t n = ((mp_limb_t)1<<depth);
             mp_bitcnt_t bits = n*w;
             mp_size_t int_limbs = (bits - 1)/GMP_LIMB_BITS + 1;
@@ -146,7 +146,7 @@ main(void)
             i2[int_limbs] = 0;
 
             depth1 = 1;
-            while ((((mp_limb_t)1)<<(2*depth1)) < bits) depth1++;
+            while ((((mp_limb_t)1)<<depth1) < bits) depth1++;
             depth1 = depth1/2;
 
             w1 = bits/(((mp_limb_t)1)<<(2*depth1));
@@ -192,7 +192,7 @@ main(void)
     
     printf("#define FFT_N_NUM %ld\n\n", 2*(depth - 12) + 1);
     
-    printf("#define FFT_MULMOD_2EXPP1_CUTOFF %ld\n\n", ((mp_limb_t) 1 << best_d)*best_w/(2*FLINT_BITS));
+    printf("#define FFT_MULMOD_2EXPP1_CUTOFF %ld\n\n", ((mp_limb_t) 1 << best_d)*best_w/(2*GMP_LIMB_BITS));
     
     gmp_randclear(state);
     
