@@ -61,7 +61,7 @@ main(void)
             for (i = 0, ptr = (mp_limb_t *) ii + 2*n; i < 2*n; i++, ptr += size) 
             {
                 ii[i] = ptr;
-                random_fermat(ii[i], state, limbs);
+                mpir_random_fermat(ii[i], state, limbs);
             }
             t1 = ptr;
             t2 = t1 + size;
@@ -77,8 +77,8 @@ main(void)
                 mpn_copyi(jj[i], ii[i], size);
             }
    
-            fft_negacyclic(ii, n, w, &t1, &t2, &s1);
-            ifft_negacyclic(ii, n, w, &t1, &t2, &s1);
+            mpir_fft_negacyclic(ii, n, w, &t1, &t2, &s1);
+            mpir_ifft_negacyclic(ii, n, w, &t1, &t2, &s1);
             for (i = 0; i < 2*n; i++)
             {
                 mpn_div_2expmod_2expp1(ii[i], ii[i], limbs, depth + 1);

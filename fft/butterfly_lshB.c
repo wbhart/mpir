@@ -31,7 +31,7 @@ or implied, of William Hart.
 #include "mpir.h"
 #include "gmp-impl.h"
 
-void butterfly_lshB(mp_ptr t, mp_ptr u, mp_ptr i1, 
+void mpir_butterfly_lshB(mp_ptr t, mp_ptr u, mp_ptr i1, 
                        mp_ptr i2, mp_size_t limbs, mp_size_t x, mp_size_t y)
 {
    mp_limb_t cy, cy1, cy2;

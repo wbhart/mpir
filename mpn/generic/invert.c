@@ -153,7 +153,7 @@ mpn_invert (mp_ptr xp, mp_srcptr ap, mp_size_t n)
           int cc;
 
           if (m >= FFT_MULMOD_2EXPP1_CUTOFF)
-             m = fft_adjust_limbs (m);
+             m = mpir_fft_adjust_limbs (m);
           /* we have m >= n + 1 by construction, thus m > h */
           ASSERT(m < n + h);
           cy = mpn_mulmod_Bexpp1_fft (tp, m, ap, n, xp + l, h);

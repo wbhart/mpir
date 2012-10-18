@@ -85,12 +85,12 @@ main(void)
                     nn1 = malloc((limbs+1)*sizeof(mp_limb_t));
                     r1 = malloc((limbs+1)*sizeof(mp_limb_t));
 
-                    random_fermat(nn1, state, limbs); 
-                    fermat_to_mpz(mn1, nn1, limbs);
+                    mpir_random_fermat(nn1, state, limbs); 
+                    mpir_fermat_to_mpz(mn1, nn1, limbs);
                     ref_adjust(m2a, mn1, p, c, w);
             
-                    fft_adjust(r1, nn1, c, limbs, w);
-                    fermat_to_mpz(m2b, r1, limbs);
+                    mpir_fft_adjust(r1, nn1, c, limbs, w);
+                    mpir_fermat_to_mpz(m2b, r1, limbs);
                     
                     mpz_mod(m2a, m2a, p);
                     mpz_mod(m2b, m2b, p);

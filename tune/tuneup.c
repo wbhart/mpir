@@ -703,7 +703,7 @@ fft_step_size (int size)
 {
   mp_size_t  step;
   
-  step = fft_adjust_limbs(size + 1) - size;
+  step = mpir_fft_adjust_limbs(size + 1) - size;
 
   if (step <= 0)
     {
@@ -733,7 +733,7 @@ fft (struct fft_param_t *p,gmp_randstate_t rands)
     {
       double  tk, tm;
 
-      size = fft_adjust_limbs (size+1);
+      size = mpir_fft_adjust_limbs (size+1);
       
       if (size >= p->max_size)
         break;
@@ -1908,7 +1908,7 @@ tune_fft(gmp_randstate_t state)
             {
                start = clock();
                for (i = 0; i < iters; i++)
-                  fft_mulmod_2expp1(r1, i1, i2, int_limbs, depth1 - off, w1*((mp_size_t)1 << (off*2)));
+                  mpir_fft_mulmod_2expp1(r1, i1, i2, int_limbs, depth1 - off, w1*((mp_size_t)1 << (off*2)));
                end = clock();
                
                elapsed = ((double) (end - start)) / CLOCKS_PER_SEC;

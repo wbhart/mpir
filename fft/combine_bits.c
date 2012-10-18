@@ -33,7 +33,7 @@ or implied, of William Hart.
 #include "gmp-impl.h"
 
 void 
-fft_combine_limbs(mp_ptr res, const mp_ptr * poly, long length, mp_size_t coeff_limbs, mp_size_t output_limbs, mp_size_t total_limbs)
+mpir_fft_combine_limbs(mp_ptr res, const mp_ptr * poly, long length, mp_size_t coeff_limbs, mp_size_t output_limbs, mp_size_t total_limbs)
 {
    mp_size_t skip, i;
    
@@ -51,7 +51,7 @@ fft_combine_limbs(mp_ptr res, const mp_ptr * poly, long length, mp_size_t coeff_
 }
 
 void 
-fft_combine_bits(mp_ptr res, const mp_ptr * poly, long length, mp_bitcnt_t bits, mp_size_t output_limbs, mp_size_t total_limbs)
+mpir_fft_combine_bits(mp_ptr res, const mp_ptr * poly, long length, mp_bitcnt_t bits, mp_size_t output_limbs, mp_size_t total_limbs)
 {
    mp_bitcnt_t shift_bits, top_bits = ((GMP_LIMB_BITS - 1) & bits);
    mp_size_t coeff_limbs, i;
@@ -60,7 +60,7 @@ fft_combine_bits(mp_ptr res, const mp_ptr * poly, long length, mp_bitcnt_t bits,
 
    if (top_bits == 0)
    {
-      fft_combine_limbs(res, poly, length, bits/GMP_LIMB_BITS, output_limbs, total_limbs);
+      mpir_fft_combine_limbs(res, poly, length, bits/GMP_LIMB_BITS, output_limbs, total_limbs);
       return;
    }
    

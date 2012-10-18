@@ -67,7 +67,7 @@ main(void)
             for (i = 0, ptr = (mp_limb_t *) ii + 4*n; i < 4*n; i++, ptr += size) 
             {
                 ii[i] = ptr;
-                random_fermat(ii[i], state, limbs);
+                mpir_random_fermat(ii[i], state, limbs);
             }
             t1 = ptr;
             t2 = t1 + size;
@@ -83,8 +83,8 @@ main(void)
                 mpn_copyi(jj[i], ii[i], size);
             }
    
-            fft_mfa_trunc_sqrt2(ii, n, w, &t1, &t2, &s1, n1, trunc);
-            ifft_mfa_trunc_sqrt2(ii, n, w, &t1, &t2, &s1, n1, trunc);
+            mpir_fft_mfa_trunc_sqrt2(ii, n, w, &t1, &t2, &s1, n1, trunc);
+            mpir_ifft_mfa_trunc_sqrt2(ii, n, w, &t1, &t2, &s1, n1, trunc);
             for (i = 0; i < trunc; i++)
             {
                 mpn_div_2expmod_2expp1(ii[i], ii[i], limbs, depth + 2);

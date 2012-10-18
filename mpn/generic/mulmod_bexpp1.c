@@ -71,7 +71,7 @@ int mpn_mulmod_Bexpp1(mp_ptr r, mp_srcptr i1, mp_srcptr i2, mp_size_t limbs, mp_
    
    w1 = bits/(((mp_limb_t)1)<<(2*depth1));
 
-   fft_mulmod_2expp1(r, i1, i2, limbs, depth1, w1);
+   mpir_fft_mulmod_2expp1(r, i1, i2, limbs, depth1, w1);
 
    return r[limbs];
 }

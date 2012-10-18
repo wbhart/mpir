@@ -31,7 +31,7 @@ or implied, of William Hart.
 #include "mpir.h"
 #include "gmp-impl.h"
 
-void fermat_to_mpz(mpz_t m, mp_ptr i, mp_size_t limbs)
+void mpir_fermat_to_mpz(mpz_t m, mp_ptr i, mp_size_t limbs)
 {
    mp_limb_signed_t hi;
    

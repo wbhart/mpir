@@ -31,7 +31,7 @@ or implied, of William Hart.
 #include "mpir.h"
 #include "gmp-impl.h"
       
-void ifft_butterfly(mp_ptr s, mp_ptr t, mp_ptr i1, 
+void mpir_ifft_butterfly(mp_ptr s, mp_ptr t, mp_ptr i1, 
                     mp_ptr i2, mp_size_t i, mp_size_t limbs, mp_bitcnt_t w)
 {
    mp_size_t y;
@@ -42,10 +42,10 @@ void ifft_butterfly(mp_ptr s, mp_ptr t, mp_ptr i1,
    b1 = b1%GMP_LIMB_BITS;
 
    mpn_div_2expmod_2expp1(i2, i2, limbs, b1);
-   butterfly_rshB(s, t, i1, i2, limbs, 0, y);
+   mpir_butterfly_rshB(s, t, i1, i2, limbs, 0, y);
 }
 
-void ifft_radix2(mp_ptr * ii, mp_size_t n, 
+void mpir_ifft_radix2(mp_ptr * ii, mp_size_t n, 
                  mp_bitcnt_t w, mp_ptr * t1, mp_ptr * t2)
 {
    mp_size_t i;
@@ -53,7 +53,7 @@ void ifft_radix2(mp_ptr * ii, mp_size_t n,
    
    if (n == 1) 
    {
-      ifft_butterfly(*t1, *t2, ii[0], ii[1], 0, limbs, w);
+      mpir_ifft_butterfly(*t1, *t2, ii[0], ii[1], 0, limbs, w);
       
       MP_PTR_SWAP(ii[0], *t1);
       MP_PTR_SWAP(ii[1], *t2);
@@ -61,12 +61,12 @@ void ifft_radix2(mp_ptr * ii, mp_size_t n,
       return;
    }
 
-   ifft_radix2(ii,   n/2, 2*w, t1, t2);
-   ifft_radix2(ii+n, n/2, 2*w, t1, t2);
+   mpir_ifft_radix2(ii,   n/2, 2*w, t1, t2);
+   mpir_ifft_radix2(ii+n, n/2, 2*w, t1, t2);
 
    for (i = 0; i < n; i++) 
    {   
-      ifft_butterfly(*t1, *t2, ii[i], ii[n+i], i, limbs, w);
+      mpir_ifft_butterfly(*t1, *t2, ii[i], ii[n+i], i, limbs, w);
    
       MP_PTR_SWAP(ii[i],   *t1);
       MP_PTR_SWAP(ii[n+i], *t2);

@@ -108,16 +108,16 @@ main(void)
                     nn2 = malloc((limbs + 1)*sizeof(mp_limb_t));
                     r1 = malloc((limbs + 1)*sizeof(mp_limb_t));
                     r2 = malloc((limbs + 1)*sizeof(mp_limb_t));
-                    random_fermat(nn1, state, limbs);
-                    random_fermat(nn2, state, limbs);
+                    mpir_random_fermat(nn1, state, limbs);
+                    mpir_random_fermat(nn2, state, limbs);
                      
-                    fermat_to_mpz(mn1, nn1, limbs);
-                    fermat_to_mpz(mn2, nn2, limbs);
+                    mpir_fermat_to_mpz(mn1, nn1, limbs);
+                    mpir_fermat_to_mpz(mn2, nn2, limbs);
                     set_p(p, n, w);
             
-                    fft_butterfly_twiddle(r1, r2, nn1, nn2, limbs, b1, b2);
-                    fermat_to_mpz(m2a, r1, limbs);
-                    fermat_to_mpz(m2b, r2, limbs);
+                    mpir_fft_butterfly_twiddle(r1, r2, nn1, nn2, limbs, b1, b2);
+                    mpir_fermat_to_mpz(m2a, r1, limbs);
+                    mpir_fermat_to_mpz(m2b, r2, limbs);
                     
                     mpz_mod(m2a, m2a, p);
                     mpz_mod(m2b, m2b, p);
@@ -174,16 +174,16 @@ main(void)
                     nn2 = malloc((limbs + 1)*sizeof(mp_limb_t));
                     r1 = malloc((limbs + 1)*sizeof(mp_limb_t));
                     r2 = malloc((limbs + 1)*sizeof(mp_limb_t));
-                    random_fermat(nn1, state, limbs);
-                    random_fermat(nn2, state, limbs);
+                    mpir_random_fermat(nn1, state, limbs);
+                    mpir_random_fermat(nn2, state, limbs);
                      
-                    fermat_to_mpz(mn1, nn1, limbs);
-                    fermat_to_mpz(mn2, nn2, limbs);
+                    mpir_fermat_to_mpz(mn1, nn1, limbs);
+                    mpir_fermat_to_mpz(mn2, nn2, limbs);
                     set_p(p, n, w);
             
-                    ifft_butterfly_twiddle(r1, r2, nn1, nn2, limbs, b1, b2);
-                    fermat_to_mpz(m2a, r1, limbs);
-                    fermat_to_mpz(m2b, r2, limbs);
+                    mpir_ifft_butterfly_twiddle(r1, r2, nn1, nn2, limbs, b1, b2);
+                    mpir_fermat_to_mpz(m2a, r1, limbs);
+                    mpir_fermat_to_mpz(m2b, r2, limbs);
                     
                     mpz_mod(m2a, m2a, p);
                     mpz_mod(m2b, m2b, p);

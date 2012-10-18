@@ -65,8 +65,8 @@ main(void)
                 r2 = r1 + int_limbs + 1;
                 tt = r2 + int_limbs + 1;
 
-                random_fermat(i1, state, int_limbs);
-                random_fermat(i2, state, int_limbs);
+                mpir_random_fermat(i1, state, int_limbs);
+                mpir_random_fermat(i2, state, int_limbs);
                 mpn_normmod_2expp1(i1, int_limbs);
                 mpn_normmod_2expp1(i2, int_limbs);
 
@@ -112,7 +112,7 @@ main(void)
                 r2 = r1 + int_limbs + 1;
                tt = r2 + int_limbs + 1;
 
-                random_fermat(i1, state, int_limbs);
+                mpir_random_fermat(i1, state, int_limbs);
                 mpn_normmod_2expp1(i1, int_limbs);
                 
                 mpn_mulmod_Bexpp1(r2, i1, i1, n * w / GMP_LIMB_BITS, tt);

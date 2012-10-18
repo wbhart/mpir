@@ -35,7 +35,7 @@ or implied, of William Hart.
 
 static mp_size_t mulmod_2expp1_table_n[FFT_N_NUM] = MULMOD_TAB;
 
-void fft_naive_convolution_1(mp_ptr r, mp_srcptr ii, mp_srcptr jj, mp_size_t m)
+void mpir_fft_naive_convolution_1(mp_ptr r, mp_srcptr ii, mp_srcptr jj, mp_size_t m)
 {
    mp_size_t i, j;
 
@@ -52,7 +52,7 @@ void fft_naive_convolution_1(mp_ptr r, mp_srcptr ii, mp_srcptr jj, mp_size_t m)
    }
 }
 
-void fft_mulmod_2expp1(mp_ptr r1, mp_srcptr i1, mp_srcptr i2, 
+void mpir_fft_mulmod_2expp1(mp_ptr r1, mp_srcptr i1, mp_srcptr i2, 
                  mp_size_t r_limbs, mp_bitcnt_t depth, mp_bitcnt_t w)
 {
    mp_size_t n = (((mp_size_t)1)<<depth);
@@ -94,27 +94,27 @@ void fft_mulmod_2expp1(mp_ptr r1, mp_srcptr i1, mp_srcptr i2,
       jj0 = ii0;
    }
 
-   j = fft_split_bits(ii, i1, r_limbs, bits1, limbs);
+   j = mpir_fft_split_bits(ii, i1, r_limbs, bits1, limbs);
    for ( ; j < 2*n; j++)
       mpn_zero(ii[j], limbs + 1);
 
    for (i = 0; i < 2*n; i++)
       ii0[i] = ii[i][0];
  
-   fft_negacyclic(ii, n, w, &t1, &t2, &s1);
+   mpir_fft_negacyclic(ii, n, w, &t1, &t2, &s1);
    for (j = 0; j < 2*n; j++)
       mpn_normmod_2expp1(ii[j], limbs);
 
    if (i1 != i2)
    {
-      j = fft_split_bits(jj, i2, r_limbs, bits1, limbs);
+      j = mpir_fft_split_bits(jj, i2, r_limbs, bits1, limbs);
       for ( ; j < 2*n; j++)
           mpn_zero(jj[j], limbs + 1);
 
       for (i = 0; i < 2*n; i++)
          jj0[i] = jj[i][0];
 
-      fft_negacyclic(jj, n, w, &t1, &t2, &s1);
+      mpir_fft_negacyclic(jj, n, w, &t1, &t2, &s1);
    }
       
    for (j = 0; j < 2*n; j++)
@@ -125,9 +125,9 @@ void fft_mulmod_2expp1(mp_ptr r1, mp_srcptr i1, mp_srcptr i2,
       ii[j][limbs] = mpn_mulmod_2expp1_basecase(ii[j], ii[j], jj[j], c, n*w, tt);
    }
    
-   ifft_negacyclic(ii, n, w, &t1, &t2, &s1);
+   mpir_ifft_negacyclic(ii, n, w, &t1, &t2, &s1);
    
-   fft_naive_convolution_1(r, ii0, jj0, 2*n);
+   mpir_fft_naive_convolution_1(r, ii0, jj0, 2*n);
 
    for (j = 0; j < 2*n; j++)
    {
@@ -144,7 +144,7 @@ void fft_mulmod_2expp1(mp_ptr r1, mp_srcptr i1, mp_srcptr i2,
    }
    
    mpn_zero(r1, r_limbs + 1);
-   fft_combine_bits(r1, ii, 2*n - 1, bits1, limbs + 1, r_limbs + 1);
+   mpir_fft_combine_bits(r1, ii, 2*n - 1, bits1, limbs + 1, r_limbs + 1);
    
    /* 
       as the negacyclic convolution has effectively done subtractions
@@ -178,7 +178,7 @@ void fft_mulmod_2expp1(mp_ptr r1, mp_srcptr i1, mp_srcptr i2,
    TMP_FREE;
 }
 
-mpir_si fft_adjust_limbs(mp_size_t limbs)
+mpir_si mpir_fft_adjust_limbs(mp_size_t limbs)
 {
    mp_size_t bits1 = limbs*GMP_LIMB_BITS, bits2;
    mp_size_t depth = 1, limbs2, depth1 = 1, depth2 = 1, adj;

@@ -31,7 +31,7 @@ or implied, of William Hart.
 #include "mpir.h"
 #include "gmp-impl.h"
 
-void fft_mfa_trunc_sqrt2_inner(mp_ptr * ii, mp_ptr * jj, mp_size_t n, 
+void mpir_fft_mfa_trunc_sqrt2_inner(mp_ptr * ii, mp_ptr * jj, mp_size_t n, 
                    mp_bitcnt_t w, mp_ptr * t1, mp_ptr * t2, 
                   mp_ptr * temp, mp_size_t n1, mp_size_t trunc, mp_ptr tt)
 {
@@ -51,9 +51,9 @@ void fft_mfa_trunc_sqrt2_inner(mp_ptr * ii, mp_ptr * jj, mp_size_t n,
    /* convolutions on relevant rows */
    for (s = 0; s < trunc2; s++)
    {
-      i = n_revbin(s, depth);
-      fft_radix2(ii + i*n1, n1/2, w*n2, t1, t2);
-      if (ii != jj) fft_radix2(jj + i*n1, n1/2, w*n2, t1, t2);
+      i = mpir_revbin(s, depth);
+      mpir_fft_radix2(ii + i*n1, n1/2, w*n2, t1, t2);
+      if (ii != jj) mpir_fft_radix2(jj + i*n1, n1/2, w*n2, t1, t2);
       
       for (j = 0; j < n1; j++)
       {
@@ -63,7 +63,7 @@ void fft_mfa_trunc_sqrt2_inner(mp_ptr * ii, mp_ptr * jj, mp_size_t n,
          mpn_mulmod_Bexpp1(ii[t], ii[t], jj[t], n * w / GMP_LIMB_BITS, tt);
       }      
       
-      ifft_radix2(ii + i*n1, n1/2, w*n2, t1, t2);
+      mpir_ifft_radix2(ii + i*n1, n1/2, w*n2, t1, t2);
    }
 
    ii -= 2*n;
@@ -72,8 +72,8 @@ void fft_mfa_trunc_sqrt2_inner(mp_ptr * ii, mp_ptr * jj, mp_size_t n,
    /* convolutions on rows */
    for (i = 0; i < n2; i++)
    {
-      fft_radix2(ii + i*n1, n1/2, w*n2, t1, t2);
-      if (ii != jj) fft_radix2(jj + i*n1, n1/2, w*n2, t1, t2);
+      mpir_fft_radix2(ii + i*n1, n1/2, w*n2, t1, t2);
+      if (ii != jj) mpir_fft_radix2(jj + i*n1, n1/2, w*n2, t1, t2);
 
       for (j = 0; j < n1; j++)
       {
@@ -83,7 +83,7 @@ void fft_mfa_trunc_sqrt2_inner(mp_ptr * ii, mp_ptr * jj, mp_size_t n,
          mpn_mulmod_Bexpp1(ii[t], ii[t], jj[t], n * w / GMP_LIMB_BITS, tt);
       }      
       
-      ifft_radix2(ii + i*n1, n1/2, w*n2, t1, t2);
+      mpir_ifft_radix2(ii + i*n1, n1/2, w*n2, t1, t2);
    }
 }
 

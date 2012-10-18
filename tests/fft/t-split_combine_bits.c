@@ -72,8 +72,8 @@ main(void)
 
         mpn_urandomb(in, state, total_limbs*GMP_LIMB_BITS);
 
-        fft_split_bits(poly, in, total_limbs, bits, limbs);
-        fft_combine_bits(out, poly, length, bits, limbs, total_limbs);
+        mpir_fft_split_bits(poly, in, total_limbs, bits, limbs);
+        mpir_fft_combine_bits(out, poly, length, bits, limbs, total_limbs);
         
         for (j = 0; j < total_limbs; j++)
         {

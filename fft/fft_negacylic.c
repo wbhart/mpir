@@ -31,7 +31,7 @@ or implied, of William Hart.
 #include "mpir.h"
 #include "gmp-impl.h"
       
-void fft_negacyclic(mp_ptr * ii, mp_size_t n, mp_bitcnt_t w, 
+void mpir_fft_negacyclic(mp_ptr * ii, mp_size_t n, mp_bitcnt_t w, 
                     mp_ptr * t1, mp_ptr * t2, mp_ptr * temp)
 {
    mp_size_t i;
@@ -42,25 +42,25 @@ void fft_negacyclic(mp_ptr * ii, mp_size_t n, mp_bitcnt_t w,
    {
       for (i = 0; i < n; i++) 
       {   
-          fft_adjust(*t1, ii[i], i/2, limbs, w);
+          mpir_fft_adjust(*t1, ii[i], i/2, limbs, w);
           MP_PTR_SWAP(ii[i], *t1);
             
-          fft_adjust(*t2, ii[n+i], (n+i)/2, limbs, w);
+          mpir_fft_adjust(*t2, ii[n+i], (n+i)/2, limbs, w);
           MP_PTR_SWAP(ii[n+i], *t2);
 
-          fft_butterfly(*t1, *t2, ii[i], ii[n+i], i, limbs, w);
+          mpir_fft_butterfly(*t1, *t2, ii[i], ii[n+i], i, limbs, w);
           MP_PTR_SWAP(ii[i],   *t1);
           MP_PTR_SWAP(ii[n+i], *t2);
 
           i++;
           
-          fft_adjust_sqrt2(*t1, ii[i], i, limbs, w, *temp);
+          mpir_fft_adjust_sqrt2(*t1, ii[i], i, limbs, w, *temp);
           MP_PTR_SWAP(ii[i], *t1);
           
-          fft_adjust_sqrt2(*t2, ii[n+i], n+i, limbs, w, *temp);
+          mpir_fft_adjust_sqrt2(*t2, ii[n+i], n+i, limbs, w, *temp);
           MP_PTR_SWAP(ii[n+i], *t2);
           
-          fft_butterfly(*t1, *t2, ii[i], ii[n+i], i, limbs, w);
+          mpir_fft_butterfly(*t1, *t2, ii[i], ii[n+i], i, limbs, w);
           MP_PTR_SWAP(ii[i],   *t1);
           MP_PTR_SWAP(ii[n+i], *t2);
        }
@@ -68,18 +68,18 @@ void fft_negacyclic(mp_ptr * ii, mp_size_t n, mp_bitcnt_t w,
    {
        for (i = 0; i < n; i++) 
        {   
-          fft_adjust(*t1, ii[i], i, limbs, w/2);
+          mpir_fft_adjust(*t1, ii[i], i, limbs, w/2);
           MP_PTR_SWAP(ii[i], *t1);
             
-          fft_adjust(*t2, ii[n+i], n+i, limbs, w/2);
+          mpir_fft_adjust(*t2, ii[n+i], n+i, limbs, w/2);
           MP_PTR_SWAP(ii[n+i], *t2);
       
-          fft_butterfly(*t1, *t2, ii[i], ii[n+i], i, limbs, w);
+          mpir_fft_butterfly(*t1, *t2, ii[i], ii[n+i], i, limbs, w);
           MP_PTR_SWAP(ii[i],   *t1);
           MP_PTR_SWAP(ii[n+i], *t2);
        }
    }
 
-   fft_radix2(ii, n/2, 2*w, t1, t2);
-   fft_radix2(ii+n, n/2, 2*w, t1, t2);
+   mpir_fft_radix2(ii, n/2, 2*w, t1, t2);
+   mpir_fft_radix2(ii+n, n/2, 2*w, t1, t2);
 }

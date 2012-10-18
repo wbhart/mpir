@@ -31,7 +31,7 @@ or implied, of William Hart.
 #include "mpir.h"
 #include "gmp-impl.h"
 
-void ifft_butterfly_twiddle(mp_ptr u, mp_ptr v, 
+void mpir_ifft_butterfly_twiddle(mp_ptr u, mp_ptr v, 
    mp_ptr s, mp_ptr t, mp_size_t limbs, mp_bitcnt_t b1, mp_bitcnt_t b2)
 {
    mp_limb_t nw = limbs*GMP_LIMB_BITS;
@@ -59,10 +59,10 @@ void ifft_butterfly_twiddle(mp_ptr u, mp_ptr v,
    mpn_div_2expmod_2expp1(s, s, limbs, b1);
    if (negate2) mpn_neg_n(t, t, limbs + 1);
    mpn_div_2expmod_2expp1(t, t, limbs, b2);
-   butterfly_rshB(u, v, s, t, limbs, x, y);
+   mpir_butterfly_rshB(u, v, s, t, limbs, x, y);
 }
 
-void ifft_radix2_twiddle(mp_ptr * ii, mp_size_t is,
+void mpir_ifft_radix2_twiddle(mp_ptr * ii, mp_size_t is,
         mp_size_t n, mp_bitcnt_t w, mp_ptr * t1, mp_ptr * t2,
                             mp_size_t ws, mp_size_t r, mp_size_t c, mp_size_t rs)
 {
@@ -75,25 +75,25 @@ void ifft_radix2_twiddle(mp_ptr * ii, mp_size_t is,
       tw1 = r*c;
       tw2 = tw1 + rs*c;
 
-      ifft_butterfly_twiddle(*t1, *t2, ii[0], ii[is], limbs, tw1*ws, tw2*ws);
+      mpir_ifft_butterfly_twiddle(*t1, *t2, ii[0], ii[is], limbs, tw1*ws, tw2*ws);
       MP_PTR_SWAP(ii[0],  *t1);
       MP_PTR_SWAP(ii[is], *t2);
       return;
    }
 
-   ifft_radix2_twiddle(ii, is, n/2, 2*w, t1, t2, ws, r, c, 2*rs);
-   ifft_radix2_twiddle(ii+n*is, is, n/2, 2*w, t1, t2, ws, r + rs, c, 2*rs);
+   mpir_ifft_radix2_twiddle(ii, is, n/2, 2*w, t1, t2, ws, r, c, 2*rs);
+   mpir_ifft_radix2_twiddle(ii+n*is, is, n/2, 2*w, t1, t2, ws, r + rs, c, 2*rs);
 
    for (i = 0; i < n; i++) 
    {   
-      ifft_butterfly(*t1, *t2, ii[i*is], ii[(n+i)*is], i, limbs, w);
+      mpir_ifft_butterfly(*t1, *t2, ii[i*is], ii[(n+i)*is], i, limbs, w);
    
       MP_PTR_SWAP(ii[i*is], *t1);
       MP_PTR_SWAP(ii[(n+i)*is], *t2);
    }
 }
 
-void ifft_trunc1_twiddle(mp_ptr * ii, mp_size_t is,
+void mpir_ifft_trunc1_twiddle(mp_ptr * ii, mp_size_t is,
         mp_size_t n, mp_bitcnt_t w, mp_ptr * t1, mp_ptr * t2,
            mp_size_t ws, mp_size_t r, mp_size_t c, mp_size_t rs, mp_size_t trunc)
 {
@@ -101,7 +101,7 @@ void ifft_trunc1_twiddle(mp_ptr * ii, mp_size_t is,
    mp_size_t limbs = (w*n)/GMP_LIMB_BITS;
    
    if (trunc == 2*n)
-      ifft_radix2_twiddle(ii, is, n, w, t1, t2, ws, r, c, rs);
+      mpir_ifft_radix2_twiddle(ii, is, n, w, t1, t2, ws, r, c, rs);
    else if (trunc <= n)
    {
       for (i = trunc; i < n; i++)
@@ -110,7 +110,7 @@ void ifft_trunc1_twiddle(mp_ptr * ii, mp_size_t is,
          mpn_div_2expmod_2expp1(ii[i*is], ii[i*is], limbs, 1);
       }
       
-      ifft_trunc1_twiddle(ii, is, n/2, 2*w, t1, t2, ws, r, c, 2*rs, trunc);
+      mpir_ifft_trunc1_twiddle(ii, is, n/2, 2*w, t1, t2, ws, r, c, 2*rs, trunc);
 
       for (i = 0; i < trunc; i++)
       {
@@ -123,21 +123,21 @@ void ifft_trunc1_twiddle(mp_ptr * ii, mp_size_t is,
       }
    } else
    {
-      ifft_radix2_twiddle(ii, is, n/2, 2*w, t1, t2, ws, r, c, 2*rs);
+      mpir_ifft_radix2_twiddle(ii, is, n/2, 2*w, t1, t2, ws, r, c, 2*rs);
       
       for (i = trunc - n; i < n; i++)
       {
           mpn_sub_n(ii[(i+n)*is], ii[i*is], ii[(i+n)*is], limbs + 1);
-          fft_adjust(*t1, ii[(i+n)*is], i, limbs, w);
+          mpir_fft_adjust(*t1, ii[(i+n)*is], i, limbs, w);
           mpn_add_n(ii[i*is], ii[i*is], ii[(i+n)*is], limbs + 1);
           MP_PTR_SWAP(ii[(i+n)*is], *t1);
       }
 
-      ifft_trunc1_twiddle(ii + n*is, is, n/2, 2*w, t1, t2, ws, r + rs, c, 2*rs, trunc - n);
+      mpir_ifft_trunc1_twiddle(ii + n*is, is, n/2, 2*w, t1, t2, ws, r + rs, c, 2*rs, trunc - n);
 
       for (i = 0; i < trunc - n; i++) 
       {   
-         ifft_butterfly(*t1, *t2, ii[i*is], ii[(n+i)*is], i, limbs, w);
+         mpir_ifft_butterfly(*t1, *t2, ii[i*is], ii[(n+i)*is], i, limbs, w);
    
          MP_PTR_SWAP(ii[i*is],     *t1);
          MP_PTR_SWAP(ii[(n+i)*is], *t2);
@@ -145,7 +145,7 @@ void ifft_trunc1_twiddle(mp_ptr * ii, mp_size_t is,
    }
 }
 
-void ifft_mfa_trunc_sqrt2(mp_ptr * ii, mp_size_t n, mp_bitcnt_t w, 
+void mpir_ifft_mfa_trunc_sqrt2(mp_ptr * ii, mp_size_t n, mp_bitcnt_t w, 
    mp_ptr * t1, mp_ptr * t2, mp_ptr * temp, mp_size_t n1, mp_size_t trunc)
 {
    mp_size_t i, j, s;
@@ -165,11 +165,11 @@ void ifft_mfa_trunc_sqrt2(mp_ptr * ii, mp_size_t n, mp_bitcnt_t w,
    {
       for (j = 0; j < n1; j++)
       {
-         mp_size_t s = n_revbin(j, depth2);
+         mp_size_t s = mpir_revbin(j, depth2);
          if (j < s) MP_PTR_SWAP(ii[i*n1+j], ii[i*n1+s]);
       }      
       
-      ifft_radix2(ii + i*n1, n1/2, w*n2, t1, t2);
+      mpir_ifft_radix2(ii + i*n1, n1/2, w*n2, t1, t2);
    }
    
    /* column IFFTs */
@@ -177,7 +177,7 @@ void ifft_mfa_trunc_sqrt2(mp_ptr * ii, mp_size_t n, mp_bitcnt_t w,
    {   
       for (j = 0; j < n2; j++)
       {
-         mp_size_t s = n_revbin(j, depth);
+         mp_size_t s = mpir_revbin(j, depth);
          if (j < s) MP_PTR_SWAP(ii[i+j*n1], ii[i+s*n1]);
       }
       
@@ -185,7 +185,7 @@ void ifft_mfa_trunc_sqrt2(mp_ptr * ii, mp_size_t n, mp_bitcnt_t w,
          IFFT of length n2 on column i, applying z^{r*i} for rows going up in steps 
          of 1 starting at row 0, where z => w bits
       */
-      ifft_radix2_twiddle(ii + i, n1, n2/2, w*n1, t1, t2, w, 0, i, 1);
+      mpir_ifft_radix2_twiddle(ii + i, n1, n2/2, w*n1, t1, t2, w, 0, i, 1);
    }
    
    /* second half IFFT : n2 rows, n1 cols */
@@ -194,14 +194,14 @@ void ifft_mfa_trunc_sqrt2(mp_ptr * ii, mp_size_t n, mp_bitcnt_t w,
    /* row IFFTs */
    for (s = 0; s < trunc2; s++)
    {
-      i = n_revbin(s, depth);
+      i = mpir_revbin(s, depth);
       for (j = 0; j < n1; j++)
       {
-         mp_size_t t = n_revbin(j, depth2);
+         mp_size_t t = mpir_revbin(j, depth2);
          if (j < t) MP_PTR_SWAP(ii[i*n1+j], ii[i*n1+t]);
       }      
       
-      ifft_radix2(ii + i*n1, n1/2, w*n2, t1, t2);
+      mpir_ifft_radix2(ii + i*n1, n1/2, w*n2, t1, t2);
    }
 
    /* column IFFTs with relevant sqrt2 layer butterflies combined */
@@ -209,7 +209,7 @@ void ifft_mfa_trunc_sqrt2(mp_ptr * ii, mp_size_t n, mp_bitcnt_t w,
    {   
       for (j = 0; j < trunc2; j++)
       {
-         mp_size_t s = n_revbin(j, depth);
+         mp_size_t s = mpir_revbin(j, depth);
          if (j < s) MP_PTR_SWAP(ii[i+j*n1], ii[i+s*n1]);
       }
 
@@ -219,18 +219,18 @@ void ifft_mfa_trunc_sqrt2(mp_ptr * ii, mp_size_t n, mp_bitcnt_t w,
          if (w & 1)
          {
             if (i & 1)
-               fft_adjust_sqrt2(ii[i + j*n1], ii[u - 2*n], u, limbs, w, *temp); 
+               mpir_fft_adjust_sqrt2(ii[i + j*n1], ii[u - 2*n], u, limbs, w, *temp); 
             else
-               fft_adjust(ii[i + j*n1], ii[u - 2*n], u/2, limbs, w); 
+               mpir_fft_adjust(ii[i + j*n1], ii[u - 2*n], u/2, limbs, w); 
          } else
-            fft_adjust(ii[i + j*n1], ii[u - 2*n], u, limbs, w/2);
+            mpir_fft_adjust(ii[i + j*n1], ii[u - 2*n], u, limbs, w/2);
       }
 
       /* 
          IFFT of length n2 on column i, applying z^{r*i} for rows going up in steps 
          of 1 starting at row 0, where z => w bits
       */
-      ifft_trunc1_twiddle(ii + i, n1, n2/2, w*n1, t1, t2, w, 0, i, 1, trunc2);
+      mpir_ifft_trunc1_twiddle(ii + i, n1, n2/2, w*n1, t1, t2, w, 0, i, 1, trunc2);
       
       /* relevant components of final sqrt2 layer of IFFT */
       if (w & 1)
@@ -238,9 +238,9 @@ void ifft_mfa_trunc_sqrt2(mp_ptr * ii, mp_size_t n, mp_bitcnt_t w,
          for (j = i; j < trunc - 2*n; j+=n1) 
          {   
             if (j & 1)
-               ifft_butterfly_sqrt2(*t1, *t2, ii[j - 2*n], ii[j], j, limbs, w, *temp); 
+               mpir_ifft_butterfly_sqrt2(*t1, *t2, ii[j - 2*n], ii[j], j, limbs, w, *temp); 
             else
-               ifft_butterfly(*t1, *t2, ii[j - 2*n], ii[j], j/2, limbs, w);
+               mpir_ifft_butterfly(*t1, *t2, ii[j - 2*n], ii[j], j/2, limbs, w);
 
             MP_PTR_SWAP(ii[j-2*n], *t1);
             MP_PTR_SWAP(ii[j],     *t2);
@@ -249,7 +249,7 @@ void ifft_mfa_trunc_sqrt2(mp_ptr * ii, mp_size_t n, mp_bitcnt_t w,
       {
          for (j = i; j < trunc - 2*n; j+=n1) 
          {   
-            ifft_butterfly(*t1, *t2, ii[j - 2*n], ii[j], j, limbs, w/2);
+            mpir_ifft_butterfly(*t1, *t2, ii[j - 2*n], ii[j], j, limbs, w/2);
    
             MP_PTR_SWAP(ii[j-2*n], *t1);
             MP_PTR_SWAP(ii[j],     *t2);
@@ -261,7 +261,7 @@ void ifft_mfa_trunc_sqrt2(mp_ptr * ii, mp_size_t n, mp_bitcnt_t w,
    }
 }
 
-void ifft_mfa_trunc_sqrt2_outer(mp_ptr * ii, mp_size_t n, mp_bitcnt_t w, 
+void mpir_ifft_mfa_trunc_sqrt2_outer(mp_ptr * ii, mp_size_t n, mp_bitcnt_t w, 
    mp_ptr * t1, mp_ptr * t2, mp_ptr * temp, mp_size_t n1, mp_size_t trunc)
 {
    mp_size_t i, j;
@@ -281,7 +281,7 @@ void ifft_mfa_trunc_sqrt2_outer(mp_ptr * ii, mp_size_t n, mp_bitcnt_t w,
    {   
       for (j = 0; j < n2; j++)
       {
-         mp_size_t s = n_revbin(j, depth);
+         mp_size_t s = mpir_revbin(j, depth);
          if (j < s) MP_PTR_SWAP(ii[i+j*n1], ii[i+s*n1]);
       }
       
@@ -289,7 +289,7 @@ void ifft_mfa_trunc_sqrt2_outer(mp_ptr * ii, mp_size_t n, mp_bitcnt_t w,
          IFFT of length n2 on column i, applying z^{r*i} for rows going up in steps 
          of 1 starting at row 0, where z => w bits
       */
-      ifft_radix2_twiddle(ii + i, n1, n2/2, w*n1, t1, t2, w, 0, i, 1);
+      mpir_ifft_radix2_twiddle(ii + i, n1, n2/2, w*n1, t1, t2, w, 0, i, 1);
    }
    
    /* second half IFFT : n2 rows, n1 cols */
@@ -300,7 +300,7 @@ void ifft_mfa_trunc_sqrt2_outer(mp_ptr * ii, mp_size_t n, mp_bitcnt_t w,
    {   
       for (j = 0; j < trunc2; j++)
       {
-         mp_size_t s = n_revbin(j, depth);
+         mp_size_t s = mpir_revbin(j, depth);
          if (j < s) MP_PTR_SWAP(ii[i+j*n1], ii[i+s*n1]);
       }
 
@@ -310,18 +310,18 @@ void ifft_mfa_trunc_sqrt2_outer(mp_ptr * ii, mp_size_t n, mp_bitcnt_t w,
          if (w & 1)
          {
             if (i & 1)
-               fft_adjust_sqrt2(ii[i + j*n1], ii[u - 2*n], u, limbs, w, *temp); 
+               mpir_fft_adjust_sqrt2(ii[i + j*n1], ii[u - 2*n], u, limbs, w, *temp); 
             else
-               fft_adjust(ii[i + j*n1], ii[u - 2*n], u/2, limbs, w); 
+               mpir_fft_adjust(ii[i + j*n1], ii[u - 2*n], u/2, limbs, w); 
          } else
-            fft_adjust(ii[i + j*n1], ii[u - 2*n], u, limbs, w/2);
+            mpir_fft_adjust(ii[i + j*n1], ii[u - 2*n], u, limbs, w/2);
       }
 
       /* 
          IFFT of length n2 on column i, applying z^{r*i} for rows going up in steps 
          of 1 starting at row 0, where z => w bits
       */
-      ifft_trunc1_twiddle(ii + i, n1, n2/2, w*n1, t1, t2, w, 0, i, 1, trunc2);
+      mpir_ifft_trunc1_twiddle(ii + i, n1, n2/2, w*n1, t1, t2, w, 0, i, 1, trunc2);
       
       /* relevant components of final sqrt2 layer of IFFT */
       if (w & 1)
@@ -329,9 +329,9 @@ void ifft_mfa_trunc_sqrt2_outer(mp_ptr * ii, mp_size_t n, mp_bitcnt_t w,
          for (j = i; j < trunc - 2*n; j+=n1) 
          {   
             if (j & 1)
-               ifft_butterfly_sqrt2(*t1, *t2, ii[j - 2*n], ii[j], j, limbs, w, *temp); 
+               mpir_ifft_butterfly_sqrt2(*t1, *t2, ii[j - 2*n], ii[j], j, limbs, w, *temp); 
             else
-               ifft_butterfly(*t1, *t2, ii[j - 2*n], ii[j], j/2, limbs, w);
+               mpir_ifft_butterfly(*t1, *t2, ii[j - 2*n], ii[j], j/2, limbs, w);
 
             MP_PTR_SWAP(ii[j-2*n], *t1);
             MP_PTR_SWAP(ii[j],     *t2);
@@ -340,7 +340,7 @@ void ifft_mfa_trunc_sqrt2_outer(mp_ptr * ii, mp_size_t n, mp_bitcnt_t w,
       {
          for (j = i; j < trunc - 2*n; j+=n1) 
          {   
-            ifft_butterfly(*t1, *t2, ii[j - 2*n], ii[j], j, limbs, w/2);
+            mpir_ifft_butterfly(*t1, *t2, ii[j - 2*n], ii[j], j, limbs, w/2);
    
             MP_PTR_SWAP(ii[j-2*n], *t1);
             MP_PTR_SWAP(ii[j],     *t2);

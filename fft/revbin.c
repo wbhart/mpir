@@ -37,7 +37,7 @@ const mp_limb_t * revtab[5] = { revtab0, revtab1, revtab2, revtab3, revtab4 };
 /*
    computes the reverse binary of a binary number of the given number of bits
  */
-mp_limb_t n_revbin(mp_limb_t in, mp_limb_t bits)
+mp_limb_t mpir_revbin(mp_limb_t in, mp_limb_t bits)
 {
     mp_limb_t out = 0, i;
     

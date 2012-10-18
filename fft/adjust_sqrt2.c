@@ -32,7 +32,7 @@ or implied, of William Hart.
 #include "gmp-impl.h"
 #include "longlong.h"
       
-void fft_adjust_sqrt2(mp_ptr r, mp_ptr i1, 
+void mpir_fft_adjust_sqrt2(mp_ptr r, mp_ptr i1, 
             mp_size_t i, mp_size_t limbs, mp_bitcnt_t w, mp_ptr temp)
 {
    mp_bitcnt_t wn = limbs*GMP_LIMB_BITS;

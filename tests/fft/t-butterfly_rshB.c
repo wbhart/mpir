@@ -113,16 +113,16 @@ main(void)
                     r1 = malloc((limbs + 1)*sizeof(mp_limb_t));
                     r2 = malloc((limbs + 1)*sizeof(mp_limb_t));
                     mpn_rrandom(nn1, state, limbs);
-                    random_fermat(nn1, state, limbs);
-                    random_fermat(nn2, state, limbs);
+                    mpir_random_fermat(nn1, state, limbs);
+                    mpir_random_fermat(nn2, state, limbs);
                      
-                    fermat_to_mpz(mn1, nn1, limbs);
-                    fermat_to_mpz(mn2, nn2, limbs);
+                    mpir_fermat_to_mpz(mn1, nn1, limbs);
+                    mpir_fermat_to_mpz(mn2, nn2, limbs);
                     set_p(p, n, w);
             
-                    butterfly_rshB(r1, r2, nn1, nn2, limbs, x, y);
-                    fermat_to_mpz(m2a, r1, limbs);
-                    fermat_to_mpz(m2b, r2, limbs);
+                    mpir_butterfly_rshB(r1, r2, nn1, nn2, limbs, x, y);
+                    mpir_fermat_to_mpz(m2a, r1, limbs);
+                    mpir_fermat_to_mpz(m2b, r2, limbs);
                     
                     mpz_mod(m2a, m2a, p);
                     mpz_mod(m2b, m2b, p);

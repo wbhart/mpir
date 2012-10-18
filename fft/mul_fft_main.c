@@ -33,7 +33,7 @@ or implied, of William Hart.
 #include "longlong.h"
 #include "fft_tuning.h"
 
-static int fft_tuning_table[5][2] = FFT_TAB;
+static int mpir_fft_tuning_table[5][2] = FFT_TAB;
 
 void 
 mpn_mul_fft_main(mp_ptr r1, mp_srcptr i1, mp_size_t n1, mp_srcptr i2, mp_size_t n2)
@@ -72,7 +72,7 @@ mpn_mul_fft_main(mp_ptr r1, mp_srcptr i1, mp_size_t n1, mp_srcptr i2, mp_size_t 
    {
       mp_size_t wadj = 1;
       
-      off = fft_tuning_table[depth - 6][w - 1]; /* adjust n and w */
+      off = mpir_fft_tuning_table[depth - 6][w - 1]; /* adjust n and w */
       depth -= off;
       n = ((mp_size_t) 1 << depth);
       w *= ((mp_size_t) 1 << (2*off));

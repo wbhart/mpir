@@ -32,7 +32,7 @@ or implied, of William Hart.
 #include "gmp-impl.h"
 
 mp_size_t 
-fft_split_limbs(mp_ptr * poly, mp_srcptr limbs, 
+mpir_fft_split_limbs(mp_ptr * poly, mp_srcptr limbs, 
                 mp_size_t total_limbs, mp_size_t coeff_limbs, mp_size_t output_limbs)
 {
    mp_size_t i, skip, length = (total_limbs - 1)/coeff_limbs + 1;
@@ -52,7 +52,7 @@ fft_split_limbs(mp_ptr * poly, mp_srcptr limbs,
    return length;
 }
 
-mp_size_t fft_split_bits(mp_ptr * poly, mp_srcptr limbs, 
+mp_size_t mpir_fft_split_bits(mp_ptr * poly, mp_srcptr limbs, 
                mp_size_t total_limbs, mp_bitcnt_t bits, mp_size_t output_limbs)
 {
    mp_size_t i, coeff_limbs, limbs_left, length = (GMP_LIMB_BITS*total_limbs - 1)/bits + 1;
@@ -61,7 +61,7 @@ mp_size_t fft_split_bits(mp_ptr * poly, mp_srcptr limbs,
    mp_limb_t mask;
    
    if (top_bits == 0)
-      return fft_split_limbs(poly, limbs, total_limbs, bits/GMP_LIMB_BITS, output_limbs);
+      return mpir_fft_split_limbs(poly, limbs, total_limbs, bits/GMP_LIMB_BITS, output_limbs);
 
    coeff_limbs = (bits/GMP_LIMB_BITS) + 1;
    mask = (((mp_limb_t)1)<<top_bits) - 1;

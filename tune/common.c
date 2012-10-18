@@ -1179,7 +1179,7 @@ speed_mpn_sqr_fft_main (struct speed_params *s)
                                                         \
                                                         \
     TMP_MARK;                                           \
-    pl = fft_adjust_limbs (s->size);                \
+    pl = mpir_fft_adjust_limbs (s->size);                \
     SPEED_TMP_ALLOC_LIMBS (wp, pl+1, s->align_wp);      \
                                                         \
     speed_operand_src (s, s->xp, s->size);              \

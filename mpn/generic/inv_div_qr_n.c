@@ -85,7 +85,7 @@ mpn_inv_div_qr_n(mp_ptr qp, mp_ptr np,
       mp_limb_t cy, cy2;
       
       if (m >= FFT_MULMOD_2EXPP1_CUTOFF)
-         m = fft_adjust_limbs (m);
+         m = mpir_fft_adjust_limbs (m);
       cy = mpn_mulmod_Bexpp1_fft (tp, m, qp, dn, dp, dn);
       
       /* cy, {tp, m} = qp * dp mod (B^m+1) */ 

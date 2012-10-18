@@ -1079,7 +1079,7 @@ __GMP_DECLSPEC mp_limb_t mpn_rsh_divrem_hensel_qr_1_2 __GMP_PROTO ((mp_ptr, mp_s
 #define mpn_divrem_hensel_r_1 __MPN(divrem_hensel_r_1)
 __GMP_DECLSPEC mp_limb_t mpn_divrem_hensel_r_1 __GMP_PROTO ((mp_srcptr, mp_size_t,mp_limb_t));
 
-#define random_fermat(nn, state, limbs) \
+#define mpir_random_fermat(nn, state, limbs) \
    do { mp_limb_t t; \
       mpn_rrandom(nn, state, limbs); \
       mpn_rrandom(&nn[limbs], state, 1); \
@@ -1107,91 +1107,163 @@ do {                                                        \
 #define mpn_mul_2expmod_2expp1 __MPN(mul_2expmod_2expp1)
 __GMP_DECLSPEC void mpn_mul_2expmod_2expp1 __GMP_PROTO ((mp_ptr t, mp_ptr i1, mp_size_t limbs, mp_bitcnt_t d));
 
-#define n_revbin __n_revbin
-__GMP_DECLSPEC mp_limb_t n_revbin __GMP_PROTO ((mp_limb_t in, mp_limb_t bits));
+#define mpir_revbin __mpir_revbin
+__GMP_DECLSPEC mp_limb_t mpir_revbin __GMP_PROTO ((mp_limb_t in, mp_limb_t bits));
 
-#define fft_adjust __fft_adjust
-__GMP_DECLSPEC void fft_adjust __GMP_PROTO ((mp_ptr r, mp_ptr i1, 
+#define  mpir_fft_adjust_limbs  __mpir_fft_adjust_limbs
+__GMP_DECLSPEC mpir_si mpir_fft_adjust_limbs __GMP_PROTO ((mp_size_t limbs));
+
+#define mpir_fft_combine_bits __mpir_fft_combine_bits
+__GMP_DECLSPEC void mpir_fft_combine_bits __GMP_PROTO ((mp_ptr res, const mp_ptr * poly, 
+                long length, mp_bitcnt_t bits, mp_size_t output_limbs, mp_size_t total_limbs));
+
+#define mpir_fft_split_bits __mpir_fft_split_bits
+__GMP_DECLSPEC mp_size_t mpir_fft_split_bits __GMP_PROTO ((mp_ptr * poly, mp_srcptr limbs, 
+                 mp_size_t total_limbs, mp_bitcnt_t bits, mp_size_t output_limbs));
+
+#define mpir_fft_adjust __mpir_fft_adjust
+__GMP_DECLSPEC void mpir_fft_adjust __GMP_PROTO ((mp_ptr r, mp_ptr i1, 
                                      mp_size_t i, mp_size_t limbs, mp_bitcnt_t w));
 
-#define fft_adjust_sqrt2 __fft_adjust_sqrt2
-__GMP_DECLSPEC void fft_adjust_sqrt2 __GMP_PROTO ((mp_ptr r, mp_ptr i1, 
+#define mpir_fft_adjust_sqrt2 __mpir_fft_adjust_sqrt2
+__GMP_DECLSPEC void mpir_fft_adjust_sqrt2 __GMP_PROTO ((mp_ptr r, mp_ptr i1, 
                    mp_size_t i, mp_size_t limbs, mp_bitcnt_t w, mp_ptr temp));
 
-#define butterfly_lshB __butterfly_lshB
-__GMP_DECLSPEC void butterfly_lshB __GMP_PROTO ((mp_ptr t, mp_ptr u, mp_ptr i1, 
+#define mpir_butterfly_lshB __mpir_butterfly_lshB
+__GMP_DECLSPEC void mpir_butterfly_lshB __GMP_PROTO ((mp_ptr t, mp_ptr u, mp_ptr i1, 
                        mp_ptr i2, mp_size_t limbs, mp_size_t x, mp_size_t y));
 
-#define butterfly_rshB __butterfly_rshB
-__GMP_DECLSPEC void butterfly_rshB __GMP_PROTO ((mp_ptr t, mp_ptr u, mp_ptr i1, 
+#define mpir_butterfly_rshB __mpir_butterfly_rshB
+__GMP_DECLSPEC void mpir_butterfly_rshB __GMP_PROTO ((mp_ptr t, mp_ptr u, mp_ptr i1, 
                        mp_ptr i2, mp_size_t limbs, mp_size_t x, mp_size_t y));
 
-#define fermat_to_mpz __fermat_to_mpz
-__GMP_DECLSPEC void fermat_to_mpz __GMP_PROTO ((mpz_t m, mp_ptr i, mp_size_t limbs));
+#define mpir_fermat_to_mpz __fermat_to_mpz
+__GMP_DECLSPEC void mpir_fermat_to_mpz __GMP_PROTO ((mpz_t m, mp_ptr i, mp_size_t limbs));
 
-#define fft_butterfly_twiddle __fft_butterfly_twiddle
-__GMP_DECLSPEC void fft_butterfly_twiddle __GMP_PROTO ((mp_ptr u, mp_ptr v, 
+#define mpir_fft_butterfly_twiddle __mpir_fft_butterfly_twiddle
+__GMP_DECLSPEC void mpir_fft_butterfly_twiddle __GMP_PROTO ((mp_ptr u, mp_ptr v, 
    mp_ptr s, mp_ptr t, mp_size_t limbs, mp_bitcnt_t b1, mp_bitcnt_t b2));
 
-#define ifft_butterfly_twiddle __ifft_butterfly_twiddle
-__GMP_DECLSPEC void ifft_butterfly_twiddle __GMP_PROTO ((mp_ptr u, mp_ptr v, 
+#define mpir_ifft_butterfly_twiddle __mpir_ifft_butterfly_twiddle
+__GMP_DECLSPEC void mpir_ifft_butterfly_twiddle __GMP_PROTO ((mp_ptr u, mp_ptr v, 
    mp_ptr s, mp_ptr t, mp_size_t limbs, mp_bitcnt_t b1, mp_bitcnt_t b2));
 
-#define fft_butterfly_sqrt2 __fft_butterfly_sqrt2
-__GMP_DECLSPEC void fft_butterfly_sqrt2 __GMP_PROTO ((mp_ptr s, mp_ptr t, 
+#define mpir_fft_butterfly_sqrt2 __mpir_fft_butterfly_sqrt2
+__GMP_DECLSPEC void mpir_fft_butterfly_sqrt2 __GMP_PROTO ((mp_ptr s, mp_ptr t, 
                          mp_ptr i1, mp_ptr i2, mp_size_t i, 
                                 mp_size_t limbs, mp_bitcnt_t w, mp_ptr temp));
 
-#define ifft_butterfly_sqrt2 __ifft_butterfly_sqrt2
-__GMP_DECLSPEC void ifft_butterfly_sqrt2 __GMP_PROTO ((mp_ptr s, mp_ptr t, mp_ptr i1, 
+#define mpir_ifft_butterfly_sqrt2 __mpir_ifft_butterfly_sqrt2
+__GMP_DECLSPEC void mpir_ifft_butterfly_sqrt2 __GMP_PROTO ((mp_ptr s, mp_ptr t, mp_ptr i1, 
    mp_ptr i2, mp_size_t i, mp_size_t limbs, mp_bitcnt_t w, mp_ptr temp));
 
-#define fft_butterfly __fft_butterfly
-__GMP_DECLSPEC void fft_butterfly __GMP_PROTO ((mp_ptr s, mp_ptr t, mp_ptr i1, 
+#define mpir_fft_butterfly __mpir_fft_butterfly
+__GMP_DECLSPEC void mpir_fft_butterfly __GMP_PROTO ((mp_ptr s, mp_ptr t, mp_ptr i1, 
                      mp_ptr i2, mp_size_t i, mp_size_t limbs, mp_bitcnt_t w));
 
-#define ifft_butterfly __ifft_butterfly
-__GMP_DECLSPEC void ifft_butterfly __GMP_PROTO ((mp_ptr s, mp_ptr t, mp_ptr i1, 
+#define mpir_ifft_butterfly __mpir_ifft_butterfly
+__GMP_DECLSPEC void mpir_ifft_butterfly __GMP_PROTO ((mp_ptr s, mp_ptr t, mp_ptr i1, 
                      mp_ptr i2, mp_size_t i, mp_size_t limbs, mp_bitcnt_t w));
 
-#define fft_combine_limbs __combine_limbs
-__GMP_DECLSPEC void fft_combine_limbs __GMP_PROTO ((mp_ptr res, const mp_ptr * poly, long length, 
+#define mpir_fft_combine_limbs __combine_limbs
+__GMP_DECLSPEC void mpir_fft_combine_limbs __GMP_PROTO ((mp_ptr res, const mp_ptr * poly, long length, 
             mp_size_t coeff_limbs, mp_size_t output_limbs, mp_size_t total_limbs));
 
-#define fft_split_limbs __fft_split_limbs
-__GMP_DECLSPEC mp_size_t fft_split_limbs __GMP_PROTO ((mp_ptr * poly, mp_srcptr limbs, 
+#define mpir_fft_split_limbs __mpir_fft_split_limbs
+__GMP_DECLSPEC mp_size_t mpir_fft_split_limbs __GMP_PROTO ((mp_ptr * poly, mp_srcptr limbs, 
             mp_size_t total_limbs, mp_size_t coeff_limbs, mp_size_t output_limbs));
 
-#define fft_trunc1 __fft_trunc1
-__GMP_DECLSPEC void fft_trunc1 __GMP_PROTO ((mp_ptr * ii, mp_size_t n, mp_bitcnt_t w, 
+#define mpir_fft_radix2 __mpir_fft_radix2
+__GMP_DECLSPEC void mpir_fft_radix2 __GMP_PROTO ((mp_ptr * ii, 
+                    mp_size_t n, mp_bitcnt_t w, mp_ptr * t1, mp_ptr * t2));
+
+#define mpir_ifft_radix2 __mpir_ifft_radix2
+__GMP_DECLSPEC void mpir_ifft_radix2 __GMP_PROTO ((mp_ptr * ii, mp_size_t n, 
+                                 mp_bitcnt_t w, mp_ptr * t1, mp_ptr * t2));
+
+#define mpir_fft_trunc __mpir_fft_trunc
+__GMP_DECLSPEC void mpir_fft_trunc __GMP_PROTO ((mp_ptr * ii,  mp_size_t n, mp_bitcnt_t w, 
                                mp_ptr * t1, mp_ptr * t2, mp_size_t trunc));
 
-#define ifft_trunc1 __ifft_trunc1
-__GMP_DECLSPEC void ifft_trunc1 __GMP_PROTO ((mp_ptr * ii, mp_size_t n, mp_bitcnt_t w, 
+#define mpir_ifft_trunc __mpir_ifft_trunc
+__GMP_DECLSPEC void mpir_ifft_trunc __GMP_PROTO ((mp_ptr * ii, mp_size_t n, mp_bitcnt_t w, 
                                mp_ptr * t1, mp_ptr * t2, mp_size_t trunc));
 
-#define fft_radix2_twiddle __fft_radix2_twiddle
-__GMP_DECLSPEC void fft_radix2_twiddle __GMP_PROTO ((mp_ptr * ii, mp_size_t is,
+#define mpir_fft_trunc_sqrt2 __mpir_fft_trunc_sqrt2
+__GMP_DECLSPEC void mpir_fft_trunc_sqrt2 __GMP_PROTO ((mp_ptr * ii, mp_size_t n, mp_bitcnt_t w, 
+            mp_ptr * t1, mp_ptr * t2, mp_ptr * temp, mp_size_t trunc));
+
+#define mpir_ifft_trunc_sqrt2 __mpir_ifft_trunc_sqrt2
+__GMP_DECLSPEC void mpir_ifft_trunc_sqrt2 __GMP_PROTO ((mp_ptr * ii, mp_size_t n, mp_bitcnt_t w, 
+            mp_ptr * t1, mp_ptr * t2, mp_ptr * temp, mp_size_t trunc));
+
+#define mpir_fft_mfa_trunc_sqrt2 __mpir_fft_mfa_trunc_sqrt2
+__GMP_DECLSPEC void mpir_fft_mfa_trunc_sqrt2 __GMP_PROTO ((mp_ptr * ii, mp_size_t n, 
+                       mp_bitcnt_t w, mp_ptr * t1, mp_ptr * t2, 
+                                mp_ptr * temp, mp_size_t n1, mp_size_t trunc));
+
+#define mpir_ifft_mfa_trunc_sqrt2 __mpir_ifft_mfa_trunc_sqrt2
+__GMP_DECLSPEC void mpir_ifft_mfa_trunc_sqrt2 __GMP_PROTO ((mp_ptr * ii, mp_size_t n, 
+                      mp_bitcnt_t w, mp_ptr * t1, mp_ptr * t2,
+                                mp_ptr * temp, mp_size_t n1, mp_size_t trunc));
+
+#define mpir_fft_negacyclic __mpir_fft_negacyclic
+__GMP_DECLSPEC void mpir_fft_negacyclic __GMP_PROTO ((mp_ptr * ii, mp_size_t n, mp_bitcnt_t w, 
+                             mp_ptr * t1, mp_ptr * t2, mp_ptr * temp));
+
+#define mpir_ifft_negacyclic __mpir_ifft_negacyclic
+__GMP_DECLSPEC void mpir_ifft_negacyclic __GMP_PROTO ((mp_ptr * ii, mp_size_t n, mp_bitcnt_t w, 
+                             mp_ptr * t1, mp_ptr * t2, mp_ptr * temp));
+
+#define mpir_fft_mfa_trunc_sqrt2_outer __mpir_fft_mfa_trunc_sqrt2_outer
+__GMP_DECLSPEC void mpir_fft_mfa_trunc_sqrt2_outer __GMP_PROTO ((mp_ptr * ii, mp_size_t n, 
+                      mp_bitcnt_t w, mp_ptr * t1, mp_ptr * t2, 
+                                mp_ptr * temp, mp_size_t n1, mp_size_t trunc));
+
+#define mpir_ifft_mfa_trunc_sqrt2_outer __mpir_ifft_mfa_trunc_sqrt2_outer
+__GMP_DECLSPEC void mpir_ifft_mfa_trunc_sqrt2_outer __GMP_PROTO ((mp_ptr * ii, mp_size_t n, 
+                        mp_bitcnt_t w, mp_ptr * t1, mp_ptr * t2, 
+                                mp_ptr * temp, mp_size_t n1, mp_size_t trunc));
+
+#define mpir_fft_mfa_trunc_sqrt2_inner __mpir_fft_mfa_trunc_sqrt2_inner
+__GMP_DECLSPEC void mpir_fft_mfa_trunc_sqrt2_inner __GMP_PROTO ((mp_ptr * ii, mp_ptr * jj, 
+            mp_size_t n, mp_bitcnt_t w, mp_ptr * t1, mp_ptr * t2, 
+                mp_ptr * temp, mp_size_t n1, mp_size_t trunc, mp_ptr tt));
+
+#define mpir_fft_mulmod_2expp1 __mpir_fft_mulmod_2expp1
+__GMP_DECLSPEC void mpir_fft_mulmod_2expp1(mp_ptr r1, mp_srcptr i1, mp_srcptr i2, 
+                 mp_size_t r_limbs, mp_bitcnt_t depth, mp_bitcnt_t w);
+
+#define mpir_fft_trunc1 __mpir_fft_trunc1
+__GMP_DECLSPEC void mpir_fft_trunc1 __GMP_PROTO ((mp_ptr * ii, mp_size_t n, mp_bitcnt_t w, 
+                               mp_ptr * t1, mp_ptr * t2, mp_size_t trunc));
+
+#define mpir_ifft_trunc1 __mpir_ifft_trunc1
+__GMP_DECLSPEC void mpir_ifft_trunc1 __GMP_PROTO ((mp_ptr * ii, mp_size_t n, mp_bitcnt_t w, 
+                               mp_ptr * t1, mp_ptr * t2, mp_size_t trunc));
+
+#define mpir_fft_radix2_twiddle __mpir_fft_radix2_twiddle
+__GMP_DECLSPEC void mpir_fft_radix2_twiddle __GMP_PROTO ((mp_ptr * ii, mp_size_t is,
       mp_size_t n, mp_bitcnt_t w, mp_ptr * t1, mp_ptr * t2,
                             mp_size_t ws, mp_size_t r, mp_size_t c, mp_size_t rs));
 
-#define ifft_radix2_twiddle __ifft_radix2_twiddle
-__GMP_DECLSPEC void ifft_radix2_twiddle __GMP_PROTO ((mp_ptr * ii, mp_size_t is,
+#define mpir_ifft_radix2_twiddle __mpir_ifft_radix2_twiddle
+__GMP_DECLSPEC void mpir_ifft_radix2_twiddle __GMP_PROTO ((mp_ptr * ii, mp_size_t is,
         mp_size_t n, mp_bitcnt_t w, mp_ptr * t1, mp_ptr * t2,
                             mp_size_t ws, mp_size_t r, mp_size_t c, mp_size_t rs));
 
-#define fft_trunc1_twiddle __fft_trunc1_twiddle
-__GMP_DECLSPEC void fft_trunc1_twiddle __GMP_PROTO ((mp_ptr * ii, mp_size_t is,
+#define mpir_fft_trunc1_twiddle __mpir_fft_trunc1_twiddle
+__GMP_DECLSPEC void mpir_fft_trunc1_twiddle __GMP_PROTO ((mp_ptr * ii, mp_size_t is,
         mp_size_t n, mp_bitcnt_t w, mp_ptr * t1, mp_ptr * t2,
            mp_size_t ws, mp_size_t r, mp_size_t c, mp_size_t rs, mp_size_t trunc));
 
-#define ifft_trunc1_twiddle __ifft_trunc1_twiddle
-__GMP_DECLSPEC void ifft_trunc1_twiddle __GMP_PROTO ((mp_ptr * ii, mp_size_t is,
+#define mpir_ifft_trunc1_twiddle __mpir_ifft_trunc1_twiddle
+__GMP_DECLSPEC void mpir_ifft_trunc1_twiddle __GMP_PROTO ((mp_ptr * ii, mp_size_t is,
         mp_size_t n, mp_bitcnt_t w, mp_ptr * t1, mp_ptr * t2,
            mp_size_t ws, mp_size_t r, mp_size_t c, mp_size_t rs, mp_size_t trunc));
 
-#define fft_naive_convolution_1 __fft_naive_convolution_1
-__GMP_DECLSPEC void fft_naive_convolution_1 __GMP_PROTO ((mp_ptr r, mp_srcptr ii, 
+#define mpir_fft_naive_convolution_1 __mpir_fft_naive_convolution_1
+__GMP_DECLSPEC void mpir_fft_naive_convolution_1 __GMP_PROTO ((mp_ptr r, mp_srcptr ii, 
                                                      mp_srcptr jj, mp_size_t m));
 
 #define mpn_mulmod_2expp1_basecase __MPN(mulmod_2expp1_basecase)

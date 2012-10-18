@@ -78,27 +78,27 @@ mpn_mul_mfa_trunc_sqrt2(mp_ptr r1, mp_srcptr i1, mp_size_t n1,
    if (trunc <= 2*n) trunc = 2*n + 1; /* trunc must be greater than 2n */
    trunc = 2*sqrt*((trunc + 2*sqrt - 1)/(2*sqrt)); /* trunc must be divisible by 2*sqrt */
 
-   j1 = fft_split_bits(ii, i1, n1, bits1, limbs);
+   j1 = mpir_fft_split_bits(ii, i1, n1, bits1, limbs);
    for (j = j1 ; j < 4*n; j++)
       mpn_zero(ii[j], limbs + 1);
    
-   fft_mfa_trunc_sqrt2_outer(ii, n, w, &t1, &t2, &s1, sqrt, trunc);
+   mpir_fft_mfa_trunc_sqrt2_outer(ii, n, w, &t1, &t2, &s1, sqrt, trunc);
    
    if (i1 != i2)
    {
-      j2 = fft_split_bits(jj, i2, n2, bits1, limbs);
+      j2 = mpir_fft_split_bits(jj, i2, n2, bits1, limbs);
       for (j = j2 ; j < 4*n; j++)
          mpn_zero(jj[j], limbs + 1); 
-      fft_mfa_trunc_sqrt2_outer(jj, n, w, &t1, &t2, &s1, sqrt, trunc);
+      mpir_fft_mfa_trunc_sqrt2_outer(jj, n, w, &t1, &t2, &s1, sqrt, trunc);
    } 
    else 
        j2 = j1;
 
-   fft_mfa_trunc_sqrt2_inner(ii, jj, n, w, &t1, &t2, &s1, sqrt, trunc, tt);
-   ifft_mfa_trunc_sqrt2_outer(ii, n, w, &t1, &t2, &s1, sqrt, trunc);
+   mpir_fft_mfa_trunc_sqrt2_inner(ii, jj, n, w, &t1, &t2, &s1, sqrt, trunc, tt);
+   mpir_ifft_mfa_trunc_sqrt2_outer(ii, n, w, &t1, &t2, &s1, sqrt, trunc);
        
    mpn_zero(r1, r_limbs);
-   fft_combine_bits(r1, ii, j1 + j2 - 1, bits1, limbs, r_limbs);
+   mpir_fft_combine_bits(r1, ii, j1 + j2 - 1, bits1, limbs, r_limbs);
      
    TMP_FREE;
 }

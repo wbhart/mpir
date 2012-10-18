@@ -31,14 +31,14 @@ or implied, of William Hart.
 #include "mpir.h"
 #include "gmp-impl.h"
       
-void ifft_trunc1(mp_ptr * ii, mp_size_t n, mp_bitcnt_t w, 
+void mpir_ifft_trunc1(mp_ptr * ii, mp_size_t n, mp_bitcnt_t w, 
                     mp_ptr * t1, mp_ptr * t2, mp_size_t trunc)
 {
     mp_size_t i;
     mp_size_t limbs = (w*n)/GMP_LIMB_BITS;
     
     if (trunc == 2*n)
-        ifft_radix2(ii, n, w, t1, t2);
+        mpir_ifft_radix2(ii, n, w, t1, t2);
     else if (trunc <= n)
     {
         for (i = trunc; i < n; i++)
@@ -47,7 +47,7 @@ void ifft_trunc1(mp_ptr * ii, mp_size_t n, mp_bitcnt_t w,
             mpn_div_2expmod_2expp1(ii[i], ii[i], limbs, 1);
         }
       
-        ifft_trunc1(ii, n/2, 2*w, t1, t2, trunc);
+        mpir_ifft_trunc1(ii, n/2, 2*w, t1, t2, trunc);
 
         for (i = 0; i < trunc; i++)
         {
@@ -60,21 +60,21 @@ void ifft_trunc1(mp_ptr * ii, mp_size_t n, mp_bitcnt_t w,
         }
     } else
     {
-        ifft_radix2(ii, n/2, 2*w, t1, t2);
+        mpir_ifft_radix2(ii, n/2, 2*w, t1, t2);
 
         for (i = trunc - n; i < n; i++)
         {
             mpn_sub_n(ii[i+n], ii[i], ii[i+n], limbs + 1);
-            fft_adjust(*t1, ii[i+n], i, limbs, w);
+            mpir_fft_adjust(*t1, ii[i+n], i, limbs, w);
             mpn_add_n(ii[i], ii[i], ii[i+n], limbs + 1);
             MP_PTR_SWAP(ii[i+n], *t1);
         }
    
-        ifft_trunc1(ii+n, n/2, 2*w, t1, t2, trunc - n);
+        mpir_ifft_trunc1(ii+n, n/2, 2*w, t1, t2, trunc - n);
 
         for (i = 0; i < trunc - n; i++) 
         {   
-            ifft_butterfly(*t1, *t2, ii[i], ii[n+i], i, limbs, w);
+            mpir_ifft_butterfly(*t1, *t2, ii[i], ii[n+i], i, limbs, w);
    
             MP_PTR_SWAP(ii[i],   *t1);
             MP_PTR_SWAP(ii[n+i], *t2);
@@ -82,32 +82,32 @@ void ifft_trunc1(mp_ptr * ii, mp_size_t n, mp_bitcnt_t w,
     }
 }
 
-void ifft_trunc(mp_ptr * ii, mp_size_t n, mp_bitcnt_t w, 
+void mpir_ifft_trunc(mp_ptr * ii, mp_size_t n, mp_bitcnt_t w, 
                    mp_ptr * t1, mp_ptr * t2, mp_size_t trunc)
 {
     mp_size_t i;
     mp_size_t limbs = (w*n)/GMP_LIMB_BITS;
    
     if (trunc == 2*n)
-        ifft_radix2(ii, n, w, t1, t2);
+        mpir_ifft_radix2(ii, n, w, t1, t2);
     else if (trunc <= n)
     {
-        ifft_trunc(ii, n/2, 2*w, t1, t2, trunc);
+        mpir_ifft_trunc(ii, n/2, 2*w, t1, t2, trunc);
 
         for (i = 0; i < trunc; i++)
             mpn_add_n(ii[i], ii[i], ii[i], limbs + 1);
     } else
     {
-        ifft_radix2(ii, n/2, 2*w, t1, t2);
+        mpir_ifft_radix2(ii, n/2, 2*w, t1, t2);
 
         for (i = trunc - n; i < n; i++)
-            fft_adjust(ii[i+n], ii[i], i, limbs, w);
+            mpir_fft_adjust(ii[i+n], ii[i], i, limbs, w);
         
-        ifft_trunc1(ii+n, n/2, 2*w, t1, t2, trunc - n);
+        mpir_ifft_trunc1(ii+n, n/2, 2*w, t1, t2, trunc - n);
 
         for (i = 0; i < trunc - n; i++) 
         {   
-            ifft_butterfly(*t1, *t2, ii[i], ii[n+i], i, limbs, w);
+            mpir_ifft_butterfly(*t1, *t2, ii[i], ii[n+i], i, limbs, w);
    
             MP_PTR_SWAP(ii[i],   *t1);
             MP_PTR_SWAP(ii[n+i], *t2);

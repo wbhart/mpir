@@ -31,7 +31,7 @@ or implied, of William Hart.
 #include "mpir.h"
 #include "gmp-impl.h"
 
-void ifft_butterfly_sqrt2(mp_ptr s, mp_ptr t, mp_ptr i1, 
+void mpir_ifft_butterfly_sqrt2(mp_ptr s, mp_ptr t, mp_ptr i1, 
    mp_ptr i2, mp_size_t i, mp_size_t limbs, mp_bitcnt_t w, mp_ptr temp)
 {
    mp_bitcnt_t wn = limbs*GMP_LIMB_BITS;
@@ -72,11 +72,11 @@ void ifft_butterfly_sqrt2(mp_ptr s, mp_ptr t, mp_ptr i1,
 
    /* ...negate and shift **left** by y2 limbs (i.e. shift right by 
    (size - y2) limbs) and sumdiff */
-   butterfly_rshB(s, t, i1, i2, limbs, 0, limbs - y2);
+   mpir_butterfly_rshB(s, t, i1, i2, limbs, 0, limbs - y2);
 }
 
 
-void ifft_trunc_sqrt2(mp_ptr * ii, mp_size_t n, mp_bitcnt_t w, 
+void mpir_ifft_trunc_sqrt2(mp_ptr * ii, mp_size_t n, mp_bitcnt_t w, 
             mp_ptr * t1, mp_ptr * t2, mp_ptr * temp, mp_size_t trunc)
 {
     mp_size_t i;
@@ -84,33 +84,33 @@ void ifft_trunc_sqrt2(mp_ptr * ii, mp_size_t n, mp_bitcnt_t w,
    
    if ((w & 1) == 0)
    {
-      ifft_trunc(ii, 2*n, w/2, t1, t2, trunc);
+      mpir_ifft_trunc(ii, 2*n, w/2, t1, t2, trunc);
       return;
    }
 
-   ifft_radix2(ii, n, w, t1, t2);
+   mpir_ifft_radix2(ii, n, w, t1, t2);
 
    for (i = trunc - 2*n; i < 2*n; i++)
    {
-      fft_adjust(ii[i+2*n], ii[i], i/2, limbs, w);
+      mpir_fft_adjust(ii[i+2*n], ii[i], i/2, limbs, w);
 
       i++;
 
-      fft_adjust_sqrt2(ii[i+2*n], ii[i], i, limbs, w, *temp);
+      mpir_fft_adjust_sqrt2(ii[i+2*n], ii[i], i, limbs, w, *temp);
    }
    
-   ifft_trunc1(ii + 2*n, n, w, t1, t2, trunc - 2*n);
+   mpir_ifft_trunc1(ii + 2*n, n, w, t1, t2, trunc - 2*n);
 
    for (i = 0; i < trunc - 2*n; i++) 
    {   
-      ifft_butterfly(*t1, *t2, ii[i], ii[2*n+i], i/2, limbs, w);
+      mpir_ifft_butterfly(*t1, *t2, ii[i], ii[2*n+i], i/2, limbs, w);
    
       MP_PTR_SWAP(ii[i], *t1);
       MP_PTR_SWAP(ii[2*n+i], *t2);
 
       i++;
 
-      ifft_butterfly_sqrt2(*t1, *t2, ii[i], ii[2*n+i], i, limbs, w, *temp);
+      mpir_ifft_butterfly_sqrt2(*t1, *t2, ii[i], ii[2*n+i], i, limbs, w, *temp);
    
       MP_PTR_SWAP(ii[i], *t1);
       MP_PTR_SWAP(ii[2*n+i], *t2);
