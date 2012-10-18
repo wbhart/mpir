@@ -19,13 +19,13 @@ along with the GNU MP Library; see the file COPYING.LIB.  If not, write to
 the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 MA 02110-1301, USA. */
 
+#include "config.h"
+
 #include <ctype.h>
 #include <signal.h>
 #include <stdio.h>
 #include <stdlib.h>     /* for getenv */
 #include <string.h>
-
-#include "config.h"
 
 #if HAVE_FLOAT_H || defined( _MSC_VER )	/* BRG */
 #include <float.h>      /* for DBL_MANT_DIG */
