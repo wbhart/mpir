@@ -194,8 +194,11 @@ the `--enable-gmpcompat' option when invoking configure:
    Note gmp.h is only created upon running make install.
 
    MPIR is compatible with GMP when the `--enable-gmpcompat' option is
-used. Some deprecated GMP functionality may be unavailable if this
-option is not selected.
+used, except that the GMP secure cryptographic functions are not
+available.
+
+   Some deprecated GMP functionality may be unavailable if this option
+is not selected.
 
    If you experience problems, please report them to
 
@@ -262,7 +265,8 @@ Build Directory
      headers are requested) and the mpir.h header file. This option
      allows you to specify that you want additional libraries created
      called libgmp (and libgmpxx), etc., for libraries and gmp.h for
-     compatibility with GMP.
+     compatibility with GMP (except for GMP secure cryptograhic
+     functions, which are not available in MPIR).
 
 `--disable-shared', `--disable-static'
      By default both shared and static libraries are built (where

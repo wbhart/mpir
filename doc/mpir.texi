@@ -554,7 +554,9 @@ then use the @samp{--enable-gmpcompat} option when invoking configure:
 
 Note gmp.h is only created upon running make install. 
 
-MPIR is compatible with GMP when the @samp{--enable-gmpcompat} option is used. Some deprecated GMP functionality may be unavailable if this option is not selected. 
+MPIR is compatible with GMP when the @samp{--enable-gmpcompat} option is used, except that the GMP secure cryptographic functions are not available. 
+
+Some deprecated GMP functionality may be unavailable if this option is not selected. 
 
 If you experience problems, please report them to 
 
@@ -625,7 +627,7 @@ it will be necessary to ensure both @file{$prefix/include} and
 
 @item @option{--enable-gmpcompat}
 @cindex @code{--enable-gmpcompat}
-By default make builds libmpir library files (and libmpirxx if C++ headers are requested) and the mpir.h header file. This option allows you to specify that you want additional libraries created called libgmp (and libgmpxx), etc., for libraries and gmp.h for compatibility with GMP.
+By default make builds libmpir library files (and libmpirxx if C++ headers are requested) and the mpir.h header file. This option allows you to specify that you want additional libraries created called libgmp (and libgmpxx), etc., for libraries and gmp.h for compatibility with GMP (except for GMP secure cryptograhic functions, which are not available in MPIR).
 
 @item @option{--disable-shared}, @option{--disable-static}
 @cindex @code{--disable-shared}
