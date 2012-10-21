@@ -91,6 +91,14 @@ mpn_mul_fft_main(mp_ptr r1, mp_srcptr i1, mp_size_t n1, mp_srcptr i2, mp_size_t 
       }
 
       mpn_mul_trunc_sqrt2(r1, i1, n1, i2, n2, depth, w);
-   } else
+   } else 
+   {   
+      if (j1 + j2 - 1 <= 3*n)
+      {
+         depth--;
+         w *= 3;
+      }
+      
       mpn_mul_mfa_trunc_sqrt2(r1, i1, n1, i2, n2, depth, w);
+   }
 }
