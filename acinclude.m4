@@ -482,7 +482,7 @@ GMP_PROG_CC_WORKS_PART([$1], [])
 
 GMP_PROG_CC_WORKS_PART_MAIN([$1], [gcc-4.3.2 on 64bit is bad , try -O1 or -fno-strict-aliasing for the flags],
 [/* The following aborts with gcc-4.3.2 on a 64bit system which is an unusable compiler */
-#if defined(__GNUC__)
+#if defined(__GNUC__) && !defined(__INTEL_COMPILER)
 int __attribute__((noinline))
 foo(int i)
 {
