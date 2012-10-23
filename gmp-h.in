@@ -1834,20 +1834,6 @@ __GMP_DECLSPEC void mpn_zero __GMP_PROTO ((mp_ptr, mp_size_t));
 
 /**************** MPN API for FFT ****************/
 
-#define mpn_normmod_2expp1 __MPN(normmod_2expp1)
-__GMP_DECLSPEC void mpn_normmod_2expp1 __GMP_PROTO ((mp_ptr t, mp_size_t limbs));
-
-#define mpn_div_2expmod_2expp1 __MPN(div_2expmod_2expp1)
-__GMP_DECLSPEC void mpn_div_2expmod_2expp1 __GMP_PROTO ((mp_ptr t, mp_srcptr i1, mp_size_t limbs, mp_bitcnt_t d));
-
-#define mpn_mul_trunc_sqrt2 __MPN(mul_trunc_sqrt2)
-__GMP_DECLSPEC void mpn_mul_trunc_sqrt2 __GMP_PROTO ((mp_ptr r1, mp_srcptr i1, mp_size_t n1, 
-                  mp_srcptr i2, mp_size_t n2, mp_bitcnt_t depth, mp_bitcnt_t w));
-
-#define mpn_mul_mfa_trunc_sqrt2 __MPN(mul_mfa_trunc_sqrt2)
-__GMP_DECLSPEC void mpn_mul_mfa_trunc_sqrt2 __GMP_PROTO ((mp_ptr r1, mp_srcptr i1, mp_size_t n1, 
-                  mp_srcptr i2, mp_size_t n2, mp_bitcnt_t depth, mp_bitcnt_t w));
-
 #define mpn_mul_fft_main __MPN(mul_fft_main)
 __GMP_DECLSPEC void mpn_mul_fft_main __GMP_PROTO ((mp_ptr r1, mp_srcptr i1, mp_size_t n1, mp_srcptr i2, mp_size_t n2));
 

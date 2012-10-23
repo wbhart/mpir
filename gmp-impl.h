@@ -1272,6 +1272,20 @@ __GMP_DECLSPEC int mpn_mulmod_2expp1_basecase __GMP_PROTO ((mp_ptr, mp_srcptr, m
 typedef __gmp_randstate_struct *gmp_randstate_ptr;
 typedef const __gmp_randstate_struct *gmp_randstate_srcptr;
 
+#define mpn_normmod_2expp1 __MPN(normmod_2expp1)
+__GMP_DECLSPEC void mpn_normmod_2expp1 __GMP_PROTO ((mp_ptr t, mp_size_t limbs));
+
+#define mpn_div_2expmod_2expp1 __MPN(div_2expmod_2expp1)
+__GMP_DECLSPEC void mpn_div_2expmod_2expp1 __GMP_PROTO ((mp_ptr t, mp_srcptr i1, mp_size_t limbs, mp_bitcnt_t d));
+
+#define mpn_mul_trunc_sqrt2 __MPN(mul_trunc_sqrt2)
+__GMP_DECLSPEC void mpn_mul_trunc_sqrt2 __GMP_PROTO ((mp_ptr r1, mp_srcptr i1, mp_size_t n1, 
+                  mp_srcptr i2, mp_size_t n2, mp_bitcnt_t depth, mp_bitcnt_t w));
+
+#define mpn_mul_mfa_trunc_sqrt2 __MPN(mul_mfa_trunc_sqrt2)
+__GMP_DECLSPEC void mpn_mul_mfa_trunc_sqrt2 __GMP_PROTO ((mp_ptr r1, mp_srcptr i1, mp_size_t n1, 
+                  mp_srcptr i2, mp_size_t n2, mp_bitcnt_t depth, mp_bitcnt_t w));
+
 /* Pseudo-random number generator function pointers structure.  */
 typedef struct {
   void (*randseed_fn) __GMP_PROTO ((gmp_randstate_t rstate, mpz_srcptr seed));
