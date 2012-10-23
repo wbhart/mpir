@@ -5132,7 +5132,7 @@ if test "$gmp_prog_cc_works" = yes; then
   rm -f conftest* a.out b.out a.exe a_out.exe
   cat >conftest.c <<EOF
 /* The following aborts with gcc-4.3.2 on a 64bit system which is an unusable compiler */
-#if defined(__GNUC__)
+#if defined(__GNUC__) && !defined(__INTEL_COMPILER)
 int __attribute__((noinline))
 foo(int i)
 {
@@ -6393,7 +6393,7 @@ if test "$gmp_prog_cc_works" = yes; then
   rm -f conftest* a.out b.out a.exe a_out.exe
   cat >conftest.c <<EOF
 /* The following aborts with gcc-4.3.2 on a 64bit system which is an unusable compiler */
-#if defined(__GNUC__)
+#if defined(__GNUC__) && !defined(__INTEL_COMPILER)
 int __attribute__((noinline))
 foo(int i)
 {
