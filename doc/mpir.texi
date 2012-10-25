@@ -10068,7 +10068,7 @@ quadratic Hensel code.
 
 T. R. Nicely wrote primality tests used in the benchmark code.
 
-Jeff Gilchrist assisted with the porting of T. R. Nicely's primality code to MPIR.
+Jeff Gilchrist assisted with the porting of T. R. Nicely's primality code to MPIR and helped with tuning.
 
 Peter Shrimpton wrote the BPSW primality test used up to GMP_LIMB_BITS.
 
@@ -10087,6 +10087,12 @@ Minh Van Nguyen served as release manager for MPIR 2.1.0.
 Case Vanhorsen helped with release testing.
 
 David Cleaver filed a bug report.
+
+Julien Puydt provided tuning values.
+
+Leif Lionhardy provided tuning values.
+
+Jean-Pierre Flori provided tuning values.
 
 @node References, GNU Free Documentation License, Contributors, Top
 @comment  node-name,  next,  previous,  up
