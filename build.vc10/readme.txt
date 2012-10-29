@@ -247,6 +247,61 @@ solutions respectively.  Except for tune, these programs (and the program
 'try') can be built with both the static and dynamic library versions of
 MPIR but it is preferable to use the static library versions.
 
+MPIR on Windows x64
+===================
+
+Although Windows x64 is a 64-bit operating system, Microsoft has decided to
+make long integers 32-bits, which is inconsistent when compared with almost
+all other 64-bit operating systems.   This has caused many subtle bugs when   
+open source code is ported to Windows x64 because many developers reasonably
+expect to find that long integers on a 64-bit operating system will be 64 
+bits long.  
+
+MPIR contains function with suffixes of _ui and _si that are used to input
+unsigned and signed integers into and convert them for use with MPIR's 
+multiple precision integers (mpz types).   For example, the functions:
+
+   void mpz_set_ui(mpz, unsigned long int)
+   void mpz_set_si(mpz, signed long int)
+
+set an mpz integer from usigned and signed long integers respectively, and
+the functions:
+
+   unsigned long int mpz_get_ui(mpz)
+   signed long int mpz_get_ui(mpz)
+
+obtain unsigned and signed long int values from an MPIR multiple precision
+integer (mpz).
+
+To bring MPIR on Windows x64 into line with other 64-bit operating systems
+two new types have been introduced throughout MPIR:
+
+    mpir_ui    defined as unsigned long it on all but Windows x64
+	           defined as unsigned long long int on Windows x64
+
+    mpir_si    defined as signed long it on all but Windows x64
+	           defined as signed long long int on Windows x64
+
+The above prototypes in MPIR 2.6.0 are changed to:
+ 
+   void mpz_set_ui(mpz, mpir_ui)
+   void mpz_set_si(mpz, mpir_ui)
+
+   mpir_ui mpz_get_ui(mpz)
+   mpir_si mpz_get_ui(mpz)
+
+and these changes are applied to all MPIR functions with _ui and _si
+suffixes.  
+
+Note, however that in the MPIR documentation these functions are still
+described with unsigned long int and signed long int parameter and 
+return types.  These protoypes are correct on all but Windows x64 but
+they arew wrong on Windows x64 where the types used are 64-bit long
+long types and not the native 32-bit long types that Windows uses. In
+practice this should not cause any problems since the compiler will
+maake any necessary conversions but there may be situations in which
+this facility may need to be considered carefully in program design.  
+
 Using MPIR
 ==========
 
@@ -415,4 +470,4 @@ My thanks to:
 4. Jeff Gilchrist for his help in testing, debugging and 
    improving the readme giving the VC++ build instructions
 
-       Brian Gladman, August 2012
+       Brian Gladman, October 2012
