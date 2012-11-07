@@ -23,6 +23,51 @@ START-INFO-DIR-ENTRY
 END-INFO-DIR-ENTRY
 
 
+File: mpir.info,  Node: Perfect Square Algorithm,  Next: Perfect Power Algorithm,  Prev: Nth Root Algorithm,  Up: Root Extraction Algorithms
+
+15.5.3 Perfect Square
+---------------------
+
+A significant fraction of non-squares can be quickly identified by
+checking whether the input is a quadratic residue modulo small integers.
+
+   `mpz_perfect_square_p' first tests the input mod 256, which means
+just examining the low byte.  Only 44 different values occur for
+squares mod 256, so 82.8% of inputs can be immediately identified as
+non-squares.
+
+   On a 32-bit system similar tests are done mod 9, 5, 7, 13 and 17,
+for a total 99.25% of inputs identified as non-squares.  On a 64-bit
+system 97 is tested too, for a total 99.62%.
+
+   These moduli are chosen because they're factors of 2^24-1 (or 2^48-1
+for 64-bits), and such a remainder can be quickly taken just using
+additions (see `mpn_mod_34lsub1').
+
+   When nails are in use moduli are instead selected by the `gen-psqr.c'
+program and applied with an `mpn_mod_1'.  The same 2^24-1 or 2^48-1
+could be done with nails using some extra bit shifts, but this is not
+currently implemented.
+
+   In any case each modulus is applied to the `mpn_mod_34lsub1' or
+`mpn_mod_1' remainder and a table lookup identifies non-squares.  By
+using a "modexact" style calculation, and suitably permuted tables,
+just one multiply each is required, see the code for details.  Moduli
+are also combined to save operations, so long as the lookup tables
+don't become too big.  `gen-psqr.c' does all the pre-calculations.
+
+   A square root must still be taken for any value that passes these
+tests, to verify it's really a square and not one of the small fraction
+of non-squares that get through (ie. a pseudo-square to all the tested
+bases).
+
+   Clearly more residue tests could be done, `mpz_perfect_square_p' only
+uses a compact and efficient set.  Big inputs would probably benefit
+from more residue testing, small inputs might be better off with less.
+The assumed distribution of squares versus non-squares in the input
+would affect such considerations.
+
+
 File: mpir.info,  Node: Perfect Power Algorithm,  Prev: Perfect Square Algorithm,  Up: Root Extraction Algorithms
 
 15.5.4 Perfect Power
@@ -2690,6 +2735,7 @@ Concept Index
                                                               (line  12)
 * Web page:                              Introduction to MPIR.
                                                               (line  30)
+* Windows <1>:                           MPIR on Windows x64. (line   6)
 * Windows:                               Notes for Particular Systems.
                                                               (line  34)
 * x86:                                   Notes for Particular Systems.
@@ -2817,6 +2863,7 @@ Function and Type Index
                                                               (line  31)
 * hypot:                                 C++ Interface Floats.
                                                               (line  81)
+* long:                                  MPIR on Windows x64. (line  26)
 * mp_bitcnt_t:                           Nomenclature and Types.
                                                               (line  41)
 * mp_bits_per_limb:                      Useful Macros and Constants.
@@ -3203,10 +3250,12 @@ Function and Type Index
                                                               (line  97)
 * mpz_get_d:                             Converting Integers. (line  43)
 * mpz_get_d_2exp:                        Converting Integers. (line  51)
-* mpz_get_si:                            Converting Integers. (line  18)
+* mpz_get_si <1>:                        Converting Integers. (line  18)
+* mpz_get_si:                            MPIR on Windows x64. (line  50)
 * mpz_get_str:                           Converting Integers. (line  62)
 * mpz_get_sx:                            Converting Integers. (line  35)
-* mpz_get_ui:                            Converting Integers. (line  11)
+* mpz_get_ui <1>:                        Converting Integers. (line  11)
+* mpz_get_ui:                            MPIR on Windows x64. (line  48)
 * mpz_get_ux:                            Converting Integers. (line  27)
 * mpz_getlimbn:                          Integer Special Functions.
                                                               (line  63)
@@ -3306,10 +3355,12 @@ Function and Type Index
 * mpz_set_d:                             Assigning Integers.  (line  15)
 * mpz_set_f:                             Assigning Integers.  (line  17)
 * mpz_set_q:                             Assigning Integers.  (line  16)
-* mpz_set_si:                            Assigning Integers.  (line  12)
+* mpz_set_si <1>:                        Assigning Integers.  (line  12)
+* mpz_set_si:                            MPIR on Windows x64. (line  21)
 * mpz_set_str:                           Assigning Integers.  (line  24)
 * mpz_set_sx:                            Assigning Integers.  (line  14)
-* mpz_set_ui:                            Assigning Integers.  (line  11)
+* mpz_set_ui <1>:                        Assigning Integers.  (line  11)
+* mpz_set_ui:                            MPIR on Windows x64. (line  19)
 * mpz_set_ux:                            Assigning Integers.  (line  13)
 * mpz_setbit:                            Integer Logic and Bit Fiddling.
                                                               (line  51)

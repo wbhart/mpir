@@ -1620,6 +1620,7 @@ to be incompatible with future versions of MPIR.}
 @menu
 * Headers and Libraries::
 * Nomenclature and Types::
+* MPIR on Windows x64::
 * Function Classes::
 * Variable Conventions::
 * Parameter Conventions::
@@ -1691,7 +1692,7 @@ to use @samp{-I} and @samp{-L} compiler options to point to the right
 directories, and some sort of run-time path for a shared library.
 
 
-@node Nomenclature and Types, Function Classes, Headers and Libraries, MPIR Basics
+@node Nomenclature and Types, MPIR on Windows x64, Headers and Libraries, MPIR Basics
 @section Nomenclature and Types
 @cindex Nomenclature
 @cindex Types
@@ -1763,8 +1764,70 @@ gmp_randstate_t rstate;
 Also, in general @code{mp_bitcnt_t} is used for bit counts and ranges, and
 @code{size_t} is used for byte or character counts.
 
+@node MPIR on Windows x64, Function Classes, Nomenclature and Types, MPIR Basics
+@section MPIR on Windows x64
+@cindex Windows
 
-@node Function Classes, Variable Conventions, Nomenclature and Types, MPIR Basics
+Although Windows x64 is a 64-bit operating system, Microsoft has decided to
+make long integers 32-bits, which is inconsistent when compared with almost
+all other 64-bit operating systems.   This has caused many subtle bugs when   
+open source code is ported to Windows x64 because many developers reasonably
+expect to find that long integers on a 64-bit operating system will be 64 
+bits long.  
+
+MPIR contains functions with suffixes of @code{_ui} and @code{_si} that are 
+used to input unsigned and signed integers into and convert them for use 
+with MPIR's multiple precision integers (mpz types).   For example, the 
+following functions set an @code{mpz_t} integer from @code{unsigned} and 
+@code{signed long} integers respectively.
+
+@deftypefun void mpz_set_ui (mpz_t, unsigned long int)
+@end deftypefun
+
+@deftypefun void mpz_set_si (mpz_t, signed long int)
+@end deftypefun
+
+@sp 1 
+Also, the following functions obtain @code{unsigned} and 
+@code{signed long int} values from an MPIR multiple precision integer 
+(@code{mpz_t}).
+
+@deftypefun unsigned long int mpz_get_ui (mpz_t)
+@end deftypefun
+
+@deftypefun signed long int mpz_get_si (mpz_t)
+@end deftypefun
+
+@sp 1
+To bring MPIR on Windows x64 into line with other 64-bit operating systems
+two new types have been introduced throughout MPIR:
+
+@itemize @bullet
+@item @code{mpir_ui} defined as @code{unsigned long int} on all but Windows, defined as @code{unsigned long long int} on Windows x64
+
+@item @code{mpir_si} defined as @code{signed long int} on all but Windows x64, defined as @code{signed long long int} on Windows x64
+@end itemize
+
+@sp 1 
+The above prototypes in MPIR 2.6.0 are changed to:
+ 
+@deftypefun void mpz_set_ui (mpz_t, mpir_ui)
+@end deftypefun
+
+@deftypefun void mpz_set_si (mpz_t, mpir_si)
+@end deftypefun
+
+@deftypefun mpir_ui mpz_get_ui (mpz_t)
+@end deftypefun
+
+@deftypefun mpir_si mpz_get_si (mpz_t)
+@end deftypefun
+
+@sp 1
+These changes are applied to all MPIR functions with @code{_ui} and 
+@code{_si} suffixes.    
+
+@node Function Classes, Variable Conventions, MPIR on Windows x64, MPIR Basics
 @section Function Classes
 @cindex Function classes
 
@@ -1873,9 +1936,9 @@ and storing the result to the indicated parameter.
 
 @example
 void
-foo (mpz_t result, const mpz_t param, unsigned long n)
+foo (mpz_t result, const mpz_t param, mpir_ui n)
 @{
-  unsigned long  i;
+  mpir_ui  i;
   mpz_mul_ui (result, param, n);
   for (i = 1; i < n; i++)
     mpz_add_ui (result, result, i*7);
@@ -2103,9 +2166,9 @@ usually be very rare and testing every time would be wasteful.
 @cindex @code{ui} and @code{si} functions
 The @code{ui} functions and the small number of @code{si} functions exist for
 convenience and should be used where applicable.  But if for example an
-@code{mpz_t} contains a value that fits in an @code{unsigned long} there's no
-need extract it and call a @code{ui} function, just use the regular @code{mpz}
-function.
+@code{mpz_t} contains a value that fits in an @code{unsigned long} 
+(@code{unsigned long long} on Windows x64) there's no need extract it and 
+call a @code{ui} function, just use the regular @code{mpz} function.
 
 @item In-Place Operations
 @cindex In-place operations
@@ -2727,8 +2790,8 @@ These functions assign new values to already initialized integers
 (@pxref{Initializing Integers}).
 
 @deftypefun void mpz_set (mpz_t @var{rop}, mpz_t @var{op})
-@deftypefunx void mpz_set_ui (mpz_t @var{rop}, unsigned long int @var{op})
-@deftypefunx void mpz_set_si (mpz_t @var{rop}, signed long int @var{op})
+@deftypefunx void mpz_set_ui (mpz_t @var{rop}, mpir_ui @var{op})
+@deftypefunx void mpz_set_si (mpz_t @var{rop}, mpir_si @var{op})
 @deftypefunx void mpz_set_ux (mpz_t @var{rop}, uintmax_t @var{op})
 @deftypefunx void mpz_set_sx (mpz_t @var{rop}, intmax_t @var{op})
 @deftypefunx void mpz_set_d (mpz_t @var{rop}, double @var{op})
@@ -2801,8 +2864,8 @@ integer functions.  Don't use an initialize-and-set function on a variable
 already initialized!
 
 @deftypefun void mpz_init_set (mpz_t @var{rop}, mpz_t @var{op})
-@deftypefunx void mpz_init_set_ui (mpz_t @var{rop}, unsigned long int @var{op})
-@deftypefunx void mpz_init_set_si (mpz_t @var{rop}, signed long int @var{op})
+@deftypefunx void mpz_init_set_ui (mpz_t @var{rop}, mpir_ui @var{op})
+@deftypefunx void mpz_init_set_si (mpz_t @var{rop}, mpir_si @var{op})
 @deftypefunx void mpz_init_set_ux (mpz_t @var{rop}, uintmax_t @var{op})
 @deftypefunx void mpz_init_set_sx (mpz_t @var{rop}, intmax_t @var{op})
 @deftypefunx void mpz_init_set_d (mpz_t @var{rop}, double @var{op})
@@ -2831,20 +2894,20 @@ This section describes functions for converting MPIR integers to standard C
 types.  Functions for converting @emph{to} MPIR integers are described in
 @ref{Assigning Integers} and @ref{I/O of Integers}.
 
-@deftypefun {unsigned long int} mpz_get_ui (mpz_t @var{op})
-Return the value of @var{op} as an @code{unsigned long}.
+@deftypefun mpir_ui mpz_get_ui (mpz_t @var{op})
+Return the value of @var{op} as an @code{mpir_ui}.
 
-If @var{op} is too big to fit an @code{unsigned long} then just the least
+If @var{op} is too big to fit an @code{mpir_ui} then just the least
 significant bits that do fit are returned.  The sign of @var{op} is ignored,
 only the absolute value is used.
 @end deftypefun
 
-@deftypefun {signed long int} mpz_get_si (mpz_t @var{op})
-If @var{op} fits into a @code{signed long int} return the value of @var{op}.
+@deftypefun mpir_si mpz_get_si (mpz_t @var{op})
+If @var{op} fits into a @code{mpir_si} return the value of @var{op}.
 Otherwise return the least significant part of @var{op}, with the same sign
 as @var{op}.
 
-If @var{op} is too big to fit in a @code{signed long int}, the returned
+If @var{op} is too big to fit in a @code{mpir_si}, the returned
 result is probably not very useful.  To find out if the value will fit, use
 the function @code{mpz_fits_slong_p}.
 @end deftypefun
@@ -2877,7 +2940,7 @@ dependent.  An infinity is returned where available.  A hardware overflow trap
 may or may not occur.
 @end deftypefun
 
-@deftypefun double mpz_get_d_2exp (signed long int *@var{exp}, mpz_t @var{op})
+@deftypefun double mpz_get_d_2exp (mpir_si *@var{exp}, mpz_t @var{op})
 Convert @var{op} to a @code{double}, truncating if necessary (ie.@: rounding
 towards zero), and returning the exponent separately.
 
@@ -2923,29 +2986,29 @@ or the given @var{str}.
 @cindex Arithmetic functions
 
 @deftypefun void mpz_add (mpz_t @var{rop}, mpz_t @var{op1}, mpz_t @var{op2})
-@deftypefunx void mpz_add_ui (mpz_t @var{rop}, mpz_t @var{op1}, unsigned long int @var{op2})
+@deftypefunx void mpz_add_ui (mpz_t @var{rop}, mpz_t @var{op1}, mpir_ui @var{op2})
 Set @var{rop} to @math{@var{op1} + @var{op2}}.
 @end deftypefun
 
 @deftypefun void mpz_sub (mpz_t @var{rop}, mpz_t @var{op1}, mpz_t @var{op2})
-@deftypefunx void mpz_sub_ui (mpz_t @var{rop}, mpz_t @var{op1}, unsigned long int @var{op2})
-@deftypefunx void mpz_ui_sub (mpz_t @var{rop}, unsigned long int @var{op1}, mpz_t @var{op2})
+@deftypefunx void mpz_sub_ui (mpz_t @var{rop}, mpz_t @var{op1}, mpir_ui @var{op2})
+@deftypefunx void mpz_ui_sub (mpz_t @var{rop}, mpir_ui @var{op1}, mpz_t @var{op2})
 Set @var{rop} to @var{op1} @minus{} @var{op2}.
 @end deftypefun
 
 @deftypefun void mpz_mul (mpz_t @var{rop}, mpz_t @var{op1}, mpz_t @var{op2})
-@deftypefunx void mpz_mul_si (mpz_t @var{rop}, mpz_t @var{op1}, long int @var{op2})
-@deftypefunx void mpz_mul_ui (mpz_t @var{rop}, mpz_t @var{op1}, unsigned long int @var{op2})
+@deftypefunx void mpz_mul_si (mpz_t @var{rop}, mpz_t @var{op1}, mpir_si @var{op2})
+@deftypefunx void mpz_mul_ui (mpz_t @var{rop}, mpz_t @var{op1}, mpir_ui @var{op2})
 Set @var{rop} to @math{@var{op1} @GMPtimes{} @var{op2}}.
 @end deftypefun
 
 @deftypefun void mpz_addmul (mpz_t @var{rop}, mpz_t @var{op1}, mpz_t @var{op2})
-@deftypefunx void mpz_addmul_ui (mpz_t @var{rop}, mpz_t @var{op1}, unsigned long int @var{op2})
+@deftypefunx void mpz_addmul_ui (mpz_t @var{rop}, mpz_t @var{op1}, mpir_ui @var{op2})
 Set @var{rop} to @math{@var{rop} + @var{op1} @GMPtimes{} @var{op2}}.
 @end deftypefun
 
 @deftypefun void mpz_submul (mpz_t @var{rop}, mpz_t @var{op1}, mpz_t @var{op2})
-@deftypefunx void mpz_submul_ui (mpz_t @var{rop}, mpz_t @var{op1}, unsigned long int @var{op2})
+@deftypefunx void mpz_submul_ui (mpz_t @var{rop}, mpz_t @var{op1}, mpir_ui @var{op2})
 Set @var{rop} to @math{@var{rop} - @var{op1} @GMPtimes{} @var{op2}}.
 @end deftypefun
 
@@ -2985,10 +3048,10 @@ same way as for normal C @code{int} arithmetic.
 @deftypefunx void mpz_cdiv_r (mpz_t @var{r}, mpz_t @var{n}, mpz_t @var{d})
 @deftypefunx void mpz_cdiv_qr (mpz_t @var{q}, mpz_t @var{r}, mpz_t @var{n}, mpz_t @var{d})
 @maybepagebreak
-@deftypefunx {unsigned long int} mpz_cdiv_q_ui (mpz_t @var{q}, mpz_t @var{n}, @w{unsigned long int @var{d}})
-@deftypefunx {unsigned long int} mpz_cdiv_r_ui (mpz_t @var{r}, mpz_t @var{n}, @w{unsigned long int @var{d}})
-@deftypefunx {unsigned long int} mpz_cdiv_qr_ui (mpz_t @var{q}, mpz_t @var{r}, @w{mpz_t @var{n}}, @w{unsigned long int @var{d}})
-@deftypefunx {unsigned long int} mpz_cdiv_ui (mpz_t @var{n}, @w{unsigned long int @var{d}})
+@deftypefunx mpir_ui mpz_cdiv_q_ui (mpz_t @var{q}, mpz_t @var{n}, mpir_ui @var{d})
+@deftypefunx mpir_ui mpz_cdiv_r_ui (mpz_t @var{r}, mpz_t @var{n}, mpir_ui @var{d})
+@deftypefunx mpir_ui mpz_cdiv_qr_ui (mpz_t @var{q}, mpz_t @var{r}, @w{mpz_t @var{n}}, mpir_ui @var{d})
+@deftypefunx mpir_ui mpz_cdiv_ui (mpz_t @var{n}, mpir_ui @var{d})
 @maybepagebreak
 @deftypefunx void mpz_cdiv_q_2exp (mpz_t @var{q}, mpz_t @var{n}, @w{mp_bitcnt_t @var{b}})
 @deftypefunx void mpz_cdiv_r_2exp (mpz_t @var{r}, mpz_t @var{n}, @w{mp_bitcnt_t @var{b}})
@@ -2998,10 +3061,10 @@ same way as for normal C @code{int} arithmetic.
 @deftypefunx void mpz_fdiv_r (mpz_t @var{r}, mpz_t @var{n}, mpz_t @var{d})
 @deftypefunx void mpz_fdiv_qr (mpz_t @var{q}, mpz_t @var{r}, mpz_t @var{n}, mpz_t @var{d})
 @maybepagebreak
-@deftypefunx {unsigned long int} mpz_fdiv_q_ui (mpz_t @var{q}, mpz_t @var{n}, @w{unsigned long int @var{d}})
-@deftypefunx {unsigned long int} mpz_fdiv_r_ui (mpz_t @var{r}, mpz_t @var{n}, @w{unsigned long int @var{d}})
-@deftypefunx {unsigned long int} mpz_fdiv_qr_ui (mpz_t @var{q}, mpz_t @var{r}, @w{mpz_t @var{n}}, @w{unsigned long int @var{d}})
-@deftypefunx {unsigned long int} mpz_fdiv_ui (mpz_t @var{n}, @w{unsigned long int @var{d}})
+@deftypefunx mpir_ui mpz_fdiv_q_ui (mpz_t @var{q}, mpz_t @var{n}, mpir_ui @var{d})
+@deftypefunx mpir_ui mpz_fdiv_r_ui (mpz_t @var{r}, mpz_t @var{n}, mpir_ui @var{d})
+@deftypefunx mpir_ui mpz_fdiv_qr_ui (mpz_t @var{q}, mpz_t @var{r}, @w{mpz_t @var{n}}, mpir_ui @var{d})
+@deftypefunx mpir_ui mpz_fdiv_ui (mpz_t @var{n}, mpir_ui @var{d})
 @maybepagebreak
 @deftypefunx void mpz_fdiv_q_2exp (mpz_t @var{q}, mpz_t @var{n}, @w{mp_bitcnt_t @var{b}})
 @deftypefunx void mpz_fdiv_r_2exp (mpz_t @var{r}, mpz_t @var{n}, @w{mp_bitcnt_t @var{b}})
@@ -3011,10 +3074,10 @@ same way as for normal C @code{int} arithmetic.
 @deftypefunx void mpz_tdiv_r (mpz_t @var{r}, mpz_t @var{n}, mpz_t @var{d})
 @deftypefunx void mpz_tdiv_qr (mpz_t @var{q}, mpz_t @var{r}, mpz_t @var{n}, mpz_t @var{d})
 @maybepagebreak
-@deftypefunx {unsigned long int} mpz_tdiv_q_ui (mpz_t @var{q}, mpz_t @var{n}, @w{unsigned long int @var{d}})
-@deftypefunx {unsigned long int} mpz_tdiv_r_ui (mpz_t @var{r}, mpz_t @var{n}, @w{unsigned long int @var{d}})
-@deftypefunx {unsigned long int} mpz_tdiv_qr_ui (mpz_t @var{q}, mpz_t @var{r}, @w{mpz_t @var{n}}, @w{unsigned long int @var{d}})
-@deftypefunx {unsigned long int} mpz_tdiv_ui (mpz_t @var{n}, @w{unsigned long int @var{d}})
+@deftypefunx mpir_ui mpz_tdiv_q_ui (mpz_t @var{q}, mpz_t @var{n}, mpir_ui @var{d})
+@deftypefunx mpir_ui mpz_tdiv_r_ui (mpz_t @var{r}, mpz_t @var{n}, mpir_ui @var{d})
+@deftypefunx mpir_ui mpz_tdiv_qr_ui (mpz_t @var{q}, mpz_t @var{r}, @w{mpz_t @var{n}}, mpir_ui @var{d})
+@deftypefunx mpir_ui mpz_tdiv_ui (mpz_t @var{n}, mpir_ui @var{d})
 @maybepagebreak
 @deftypefunx void mpz_tdiv_q_2exp (mpz_t @var{q}, mpz_t @var{n}, @w{mp_bitcnt_t @var{b}})
 @deftypefunx void mpz_tdiv_r_2exp (mpz_t @var{r}, mpz_t @var{n}, @w{mp_bitcnt_t @var{b}})
@@ -3066,7 +3129,7 @@ effectively treats @var{n} as sign and magnitude.
 @end deftypefun
 
 @deftypefun void mpz_mod (mpz_t @var{r}, mpz_t @var{n}, mpz_t @var{d})
-@deftypefunx {unsigned long int} mpz_mod_ui (mpz_t @var{r}, mpz_t @var{n}, @w{unsigned long int @var{d}})
+@deftypefunx mpir_ui mpz_mod_ui (mpz_t @var{r}, mpz_t @var{n}, mpir_ui @var{d})
 Set @var{r} to @var{n} @code{mod} @var{d}.  The sign of the divisor is
 ignored; the result is always non-negative.
 
@@ -3076,7 +3139,7 @@ the return value is wanted.
 @end deftypefun
 
 @deftypefun void mpz_divexact (mpz_t @var{q}, mpz_t @var{n}, mpz_t @var{d})
-@deftypefunx void mpz_divexact_ui (mpz_t @var{q}, mpz_t @var{n}, unsigned long @var{d})
+@deftypefunx void mpz_divexact_ui (mpz_t @var{q}, mpz_t @var{n}, mpir_ui @var{d})
 @cindex Exact division functions
 Set @var{q} to @var{n}/@var{d}.  These functions produce correct results only
 when it is known in advance that @var{d} divides @var{n}.
@@ -3087,7 +3150,7 @@ rational to lowest terms.
 @end deftypefun
 
 @deftypefun int mpz_divisible_p (mpz_t @var{n}, mpz_t @var{d})
-@deftypefunx int mpz_divisible_ui_p (mpz_t @var{n}, unsigned long int @var{d})
+@deftypefunx int mpz_divisible_ui_p (mpz_t @var{n}, mpir_ui @var{d})
 @deftypefunx int mpz_divisible_2exp_p (mpz_t @var{n}, mp_bitcnt_t @var{b})
 @cindex Divisibility functions
 Return non-zero if @var{n} is exactly divisible by @var{d}, or in the case of
@@ -3100,7 +3163,7 @@ that only 0 is considered divisible by 0.
 @end deftypefun
 
 @deftypefun int mpz_congruent_p (mpz_t @var{n}, mpz_t @var{c}, mpz_t @var{d})
-@deftypefunx int mpz_congruent_ui_p (mpz_t @var{n}, unsigned long int @var{c}, unsigned long int @var{d})
+@deftypefunx int mpz_congruent_ui_p (mpz_t @var{n}, mpir_ui @var{c}, mpir_ui @var{d})
 @deftypefunx int mpz_congruent_2exp_p (mpz_t @var{n}, mpz_t @var{c}, mp_bitcnt_t @var{b})
 @cindex Divisibility functions
 @cindex Congruence functions
@@ -3123,7 +3186,7 @@ only when exactly equal.
 @cindex Powering functions
 
 @deftypefun void mpz_powm (mpz_t @var{rop}, mpz_t @var{base}, mpz_t @var{exp}, mpz_t @var{mod})
-@deftypefunx void mpz_powm_ui (mpz_t @var{rop}, mpz_t @var{base}, unsigned long int @var{exp}, mpz_t @var{mod})
+@deftypefunx void mpz_powm_ui (mpz_t @var{rop}, mpz_t @var{base}, mpir_ui @var{exp}, mpz_t @var{mod})
 Set @var{rop} to @m{base^{exp} \bmod mod, (@var{base} raised to @var{exp})
 modulo @var{mod}}.
 
@@ -3133,8 +3196,8 @@ A negative @var{exp} is supported in @code{mpz_powm} if an inverse
 If an inverse doesn't exist then a divide by zero is raised.
 @end deftypefun
 
-@deftypefun void mpz_pow_ui (mpz_t @var{rop}, mpz_t @var{base}, unsigned long int @var{exp})
-@deftypefunx void mpz_ui_pow_ui (mpz_t @var{rop}, unsigned long int @var{base}, unsigned long int @var{exp})
+@deftypefun void mpz_pow_ui (mpz_t @var{rop}, mpz_t @var{base}, mpir_ui @var{exp})
+@deftypefunx void mpz_ui_pow_ui (mpz_t @var{rop}, mpir_ui @var{base}, mpir_ui @var{exp})
 Set @var{rop} to @m{base^{exp}, @var{base} raised to @var{exp}}.  The case
 @math{0^0} yields 1.
 @end deftypefun
@@ -3146,18 +3209,18 @@ Set @var{rop} to @m{base^{exp}, @var{base} raised to @var{exp}}.  The case
 @cindex Integer root functions
 @cindex Root extraction functions
 
-@deftypefun int mpz_root (mpz_t @var{rop}, mpz_t @var{op}, unsigned long int @var{n})
+@deftypefun int mpz_root (mpz_t @var{rop}, mpz_t @var{op}, mpir_ui @var{n})
 Set @var{rop} to @m{\lfloor\root n \of {op}\rfloor@C{},} the truncated integer
 part of the @var{n}th root of @var{op}.  Return non-zero if the computation
 was exact, i.e., if @var{op} is @var{rop} to the @var{n}th power.
 @end deftypefun
 
-@deftypefun void mpz_nthroot (mpz_t @var{rop}, mpz_t @var{op}, unsigned long int @var{n})
+@deftypefun void mpz_nthroot (mpz_t @var{rop}, mpz_t @var{op}, mpir_ui @var{n})
 Set @var{rop} to @m{\lfloor\root n \of {op}\rfloor@C{},} the truncated integer
 part of the @var{n}th root of @var{op}.
 @end deftypefun
 
-@deftypefun void mpz_rootrem (mpz_t @var{root}, mpz_t @var{rem}, mpz_t @var{u}, unsigned long int @var{n})
+@deftypefun void mpz_rootrem (mpz_t @var{root}, mpz_t @var{rem}, mpz_t @var{u}, mpir_ui @var{n})
 Set @var{root} to @m{\lfloor\root n \of {u}\rfloor@C{},} the truncated
 integer part of the @var{n}th root of @var{u}.  Set @var{rem} to the
 remainder, @m{(@var{u} - @var{root}^n),
@@ -3206,7 +3269,7 @@ be perfect squares.
 @section Number Theoretic Functions
 @cindex Number theoretic functions
 
-@deftypefun int mpz_probable_prime_p (mpz_t @var{n}, gmp_randstate_t @var{state}, int @var{prob}, unsigned long @var{div})
+@deftypefun int mpz_probable_prime_p (mpz_t @var{n}, gmp_randstate_t @var{state}, int @var{prob}, mpir_ui @var{div})
 @cindex Prime testing functions
 @cindex Probable prime testing functions
 Determine whether @var{n} is a probable prime with the chance of error being at most 1 in 2^prob.
@@ -3223,7 +3286,7 @@ inform the function that no trial division has been done.
 @strong{This function interface is preliminary and may change in the future.}
 @end deftypefun
 
-@deftypefun int mpz_likely_prime_p (mpz_t @var{n}, gmp_randstate_t @var{state}, unsigned long @var{div})
+@deftypefun int mpz_likely_prime_p (mpz_t @var{n}, gmp_randstate_t @var{state}, mpir_ui @var{div})
 @cindex Prime testing functions
 @cindex Probable prime testing functions
 Determine whether @var{n} is likely a prime, i.e. you can consider it a prime for practical purposes.
@@ -3291,11 +3354,11 @@ The result is always positive even if one or both input operands
 are negative.
 @end deftypefun
 
-@deftypefun {unsigned long int} mpz_gcd_ui (mpz_t @var{rop}, mpz_t @var{op1}, unsigned long int @var{op2})
+@deftypefun mpir_ui mpz_gcd_ui (mpz_t @var{rop}, mpz_t @var{op1}, mpir_ui @var{op2})
 Compute the greatest common divisor of @var{op1} and @var{op2}.  If
 @var{rop} is not @code{NULL}, store the result there.
 
-If the result is small enough to fit in an @code{unsigned long int}, it is
+If the result is small enough to fit in an @code{mpir_ui}, it is
 returned.  If the result does not fit, 0 is returned, and the result is equal
 to the argument @var{op1}.  Note that the result will always fit if @var{op2}
 is non-zero.
@@ -3314,7 +3377,7 @@ If @var{t} is @code{NULL} then that value is not computed.
 @end deftypefun
 
 @deftypefun void mpz_lcm (mpz_t @var{rop}, mpz_t @var{op1}, mpz_t @var{op2})
-@deftypefunx void mpz_lcm_ui (mpz_t @var{rop}, mpz_t @var{op1}, unsigned long @var{op2})
+@deftypefunx void mpz_lcm_ui (mpz_t @var{rop}, mpz_t @var{op1}, mpir_ui @var{op2})
 @cindex Least common multiple functions
 @cindex LCM functions
 Set @var{rop} to the least common multiple of @var{op1} and @var{op2}.
@@ -3345,10 +3408,10 @@ prime, and for such @var{p} it's identical to the Jacobi symbol.
 @end deftypefun
 
 @deftypefun int mpz_kronecker (mpz_t @var{a}, mpz_t @var{b})
-@deftypefunx int mpz_kronecker_si (mpz_t @var{a}, long @var{b})
-@deftypefunx int mpz_kronecker_ui (mpz_t @var{a}, unsigned long @var{b})
-@deftypefunx int mpz_si_kronecker (long @var{a}, mpz_t @var{b})
-@deftypefunx int mpz_ui_kronecker (unsigned long @var{a}, mpz_t @var{b})
+@deftypefunx int mpz_kronecker_si (mpz_t @var{a}, mpir_si @var{b})
+@deftypefunx int mpz_kronecker_ui (mpz_t @var{a}, mpir_ui @var{b})
+@deftypefunx int mpz_si_kronecker (mpir_si @var{a}, mpz_t @var{b})
+@deftypefunx int mpz_ui_kronecker (mpir_ui @var{a}, mpz_t @var{b})
 @cindex Kronecker symbol functions
 Calculate the Jacobi symbol @m{\left(a \over b\right),
 (@var{a}/@var{b})} with the Kronecker extension @m{\left(a \over
@@ -3372,13 +3435,13 @@ result in @var{rop}.  The return value is how many such occurrences were
 removed.
 @end deftypefun
 
-@deftypefun void mpz_fac_ui (mpz_t @var{rop}, unsigned long int @var{op})
+@deftypefun void mpz_fac_ui (mpz_t @var{rop}, mpir_ui @var{op})
 @cindex Factorial functions
 Set @var{rop} to @var{op}!, the factorial of @var{op}.
 @end deftypefun
 
-@deftypefun void mpz_bin_ui (mpz_t @var{rop}, mpz_t @var{n}, unsigned long int @var{k})
-@deftypefunx void mpz_bin_uiui (mpz_t @var{rop}, unsigned long int @var{n}, @w{unsigned long int @var{k}})
+@deftypefun void mpz_bin_ui (mpz_t @var{rop}, mpz_t @var{n}, mpir_ui @var{k})
+@deftypefunx void mpz_bin_uiui (mpz_t @var{rop}, mpir_ui @var{n}, mpir_ui @var{k})
 @cindex Binomial coefficient functions
 Compute the binomial coefficient @m{\left({n}\atop{k}\right), @var{n} over
 @var{k}} and store the result in @var{rop}.  Negative values of @var{n} are
@@ -3388,8 +3451,8 @@ bin(-n@C{}k) = (-1)^k * bin(n+k-1@C{}k)}, see Knuth volume 1 section 1.2.6
 part G.
 @end deftypefun
 
-@deftypefun void mpz_fib_ui (mpz_t @var{fn}, unsigned long int @var{n})
-@deftypefunx void mpz_fib2_ui (mpz_t @var{fn}, mpz_t @var{fnsub1}, unsigned long int @var{n})
+@deftypefun void mpz_fib_ui (mpz_t @var{fn}, mpir_ui @var{n})
+@deftypefunx void mpz_fib2_ui (mpz_t @var{fn}, mpz_t @var{fnsub1}, mpir_ui @var{n})
 @cindex Fibonacci sequence functions
 @code{mpz_fib_ui} sets @var{fn} to to @m{F_n,F[n]}, the @var{n}'th Fibonacci
 number.  @code{mpz_fib2_ui} sets @var{fn} to @m{F_n,F[n]}, and @var{fnsub1} to
@@ -3401,8 +3464,8 @@ iterate the defining @m{F_{n+1} = F_n + F_{n-1}, F[n+1]=F[n]+F[n-1]} or
 similar.
 @end deftypefun
 
-@deftypefun void mpz_lucnum_ui (mpz_t @var{ln}, unsigned long int @var{n})
-@deftypefunx void mpz_lucnum2_ui (mpz_t @var{ln}, mpz_t @var{lnsub1}, unsigned long int @var{n})
+@deftypefun void mpz_lucnum_ui (mpz_t @var{ln}, mpir_ui @var{n})
+@deftypefunx void mpz_lucnum2_ui (mpz_t @var{ln}, mpz_t @var{lnsub1}, mpir_ui @var{n})
 @cindex Lucas number functions
 @code{mpz_lucnum_ui} sets @var{ln} to to @m{L_n,L[n]}, the @var{n}'th Lucas
 number.  @code{mpz_lucnum2_ui} sets @var{ln} to @m{L_n,L[n]}, and @var{lnsub1}
@@ -3428,8 +3491,8 @@ Algorithm}, the reverse is straightforward too.
 
 @deftypefn Function int mpz_cmp (mpz_t @var{op1}, mpz_t @var{op2})
 @deftypefnx Function int mpz_cmp_d (mpz_t @var{op1}, double @var{op2})
-@deftypefnx Macro int mpz_cmp_si (mpz_t @var{op1}, signed long int @var{op2})
-@deftypefnx Macro int mpz_cmp_ui (mpz_t @var{op1}, unsigned long int @var{op2})
+@deftypefnx Macro int mpz_cmp_si (mpz_t @var{op1}, mpir_si @var{op2})
+@deftypefnx Macro int mpz_cmp_ui (mpz_t @var{op1}, mpir_ui @var{op2})
 Compare @var{op1} and @var{op2}.  Return a positive value if @math{@var{op1} >
 @var{op2}}, zero if @math{@var{op1} = @var{op2}}, or a negative value if
 @math{@var{op1} < @var{op2}}.
@@ -3441,7 +3504,7 @@ but results are undefined for a NaN.
 
 @deftypefn Function int mpz_cmpabs (mpz_t @var{op1}, mpz_t @var{op2})
 @deftypefnx Function int mpz_cmpabs_d (mpz_t @var{op1}, double @var{op2})
-@deftypefnx Function int mpz_cmpabs_ui (mpz_t @var{op1}, unsigned long int @var{op2})
+@deftypefnx Function int mpz_cmpabs_ui (mpz_t @var{op1}, mpir_ui @var{op2})
 Compare the absolute values of @var{op1} and @var{op2}.  Return a positive
 value if @math{@GMPabs{@var{op1}} > @GMPabs{@var{op2}}}, zero if
 @math{@GMPabs{@var{op1}} = @GMPabs{@var{op2}}}, or a negative value if
@@ -3675,17 +3738,17 @@ with @code{mpz_neg}.
 
 There are no data alignment restrictions on @var{op}, any address is allowed.
 
-Here's an example converting an array of @code{unsigned long} data, most
+Here's an example converting an array of @code{mpir_ui} data, most
 significant element first, and host byte order within each value.
 
 @example
-unsigned long  a[20];
+mpir_ui  a[20];
 mpz_t          z;
 mpz_import (z, 20, 1, sizeof(a[0]), 0, 0, a);
 @end example
 
 This example assumes the full @code{sizeof} bytes are used for data in the
-given type, which is usually true, and certainly true for @code{unsigned long}
+given type, which is usually true, and certainly true for @code{mpir_ui}
 everywhere we know of.  However on Cray vector systems it may be noted that
 @code{short} and @code{int} are always stored in 8 bytes (and with
 @code{sizeof} indicating that) but use only 32 or 46 bits.  The @var{nails}
@@ -3750,8 +3813,8 @@ p = malloc (count * size);
 @deftypefunx int mpz_fits_sint_p (mpz_t @var{op})
 @deftypefunx int mpz_fits_ushort_p (mpz_t @var{op})
 @deftypefunx int mpz_fits_sshort_p (mpz_t @var{op})
-Return non-zero iff the value of @var{op} fits in an @code{unsigned long int},
-@code{signed long int}, @code{unsigned int}, @code{signed int}, @code{unsigned
+Return non-zero iff the value of @var{op} fits in an @code{mpir_ui},
+@code{mpir_si}, @code{unsigned int}, @code{signed int}, @code{unsigned
 short int}, or @code{signed short int}, respectively.  Otherwise, return zero.
 @end deftypefun
 
@@ -3940,8 +4003,8 @@ Free the space occupied by a NULL-terminated list of @code{mpq_t} variables.
 Assign @var{rop} from @var{op}.
 @end deftypefun
 
-@deftypefun void mpq_set_ui (mpq_t @var{rop}, unsigned long int @var{op1}, unsigned long int @var{op2})
-@deftypefunx void mpq_set_si (mpq_t @var{rop}, signed long int @var{op1}, unsigned long int @var{op2})
+@deftypefun void mpq_set_ui (mpq_t @var{rop}, mpir_ui @var{op1}, mpir_ui @var{op2})
+@deftypefunx void mpq_set_si (mpq_t @var{rop}, mpir_si @var{op1}, mpir_ui @var{op2})
 Set the value of @var{rop} to @var{op1}/@var{op2}.  Note that if @var{op1} and
 @var{op2} have common factors, @var{rop} has to be passed to
 @code{mpq_canonicalize} before any operations are performed on @var{rop}.
@@ -4082,8 +4145,8 @@ To determine if two rationals are equal, @code{mpq_equal} is faster than
 @code{mpq_cmp}.
 @end deftypefun
 
-@deftypefn Macro int mpq_cmp_ui (mpq_t @var{op1}, unsigned long int @var{num2}, unsigned long int @var{den2})
-@deftypefnx Macro int mpq_cmp_si (mpq_t @var{op1}, long int @var{num2}, unsigned long int @var{den2})
+@deftypefn Macro int mpq_cmp_ui (mpq_t @var{op1}, mpir_ui @var{num2}, mpir_ui @var{den2})
+@deftypefnx Macro int mpq_cmp_si (mpq_t @var{op1}, mpir_si @var{num2}, mpir_ui @var{den2})
 Compare @var{op1} and @var{num2}/@var{den2}.  Return a positive value if
 @math{@var{op1} > @var{num2}/@var{den2}}, zero if @math{@var{op1} =
 @var{num2}/@var{den2}}, and a negative value if @math{@var{op1} <
@@ -4210,7 +4273,7 @@ for example on a 32-bit system this means a range of roughly
 @math{2^@W{-68719476768}} to @math{2^@W{68719476736}}, or on a 64-bit system
 this will be greater.  Note however @code{mpf_get_str} can only return an
 exponent which fits an @code{mp_exp_t} and currently @code{mpf_set_str}
-doesn't accept exponents bigger than a @code{long}.
+doesn't accept exponents bigger than a @code{mpir_si}.
 
 Each variable keeps a size for the mantissa data actually in use.  This means
 that if a float is exactly represented in only a few bits then only those bits
@@ -4373,8 +4436,8 @@ These functions assign new values to already initialized floats
 (@pxref{Initializing Floats}).
 
 @deftypefun void mpf_set (mpf_t @var{rop}, mpf_t @var{op})
-@deftypefunx void mpf_set_ui (mpf_t @var{rop}, unsigned long int @var{op})
-@deftypefunx void mpf_set_si (mpf_t @var{rop}, signed long int @var{op})
+@deftypefunx void mpf_set_ui (mpf_t @var{rop}, mpir_ui @var{op})
+@deftypefunx void mpf_set_si (mpf_t @var{rop}, mpir_si @var{op})
 @deftypefunx void mpf_set_d (mpf_t @var{rop}, double @var{op})
 @deftypefunx void mpf_set_z (mpf_t @var{rop}, mpz_t @var{op})
 @deftypefunx void mpf_set_q (mpf_t @var{rop}, mpq_t @var{op})
@@ -4437,8 +4500,8 @@ float functions.  Don't use an initialize-and-set function on a variable
 already initialized!
 
 @deftypefun void mpf_init_set (mpf_t @var{rop}, mpf_t @var{op})
-@deftypefunx void mpf_init_set_ui (mpf_t @var{rop}, unsigned long int @var{op})
-@deftypefunx void mpf_init_set_si (mpf_t @var{rop}, signed long int @var{op})
+@deftypefunx void mpf_init_set_ui (mpf_t @var{rop}, mpir_ui @var{op})
+@deftypefunx void mpf_init_set_si (mpf_t @var{rop}, mpir_si @var{op})
 @deftypefunx void mpf_init_set_d (mpf_t @var{rop}, double @var{op})
 Initialize @var{rop} and set its value from @var{op}.
 
@@ -4474,7 +4537,7 @@ available.  For too small @math{0.0} is normally returned.  Hardware overflow,
 underflow and denorm traps may or may not occur.
 @end deftypefun
 
-@deftypefun double mpf_get_d_2exp (signed long int *@var{exp}, mpf_t @var{op})
+@deftypefun double mpf_get_d_2exp (mpir_si *@var{exp}, mpf_t @var{op})
 Convert @var{op} to a @code{double}, truncating if necessary (ie.@: rounding
 towards zero), and with an exponent returned separately.
 
@@ -4488,9 +4551,9 @@ This is similar to the standard C @code{frexp} function (@pxref{Normalization
 Functions,,, libc, The GNU C Library Reference Manual}).
 @end deftypefun
 
-@deftypefun long mpf_get_si (mpf_t @var{op})
-@deftypefunx {unsigned long} mpf_get_ui (mpf_t @var{op})
-Convert @var{op} to a @code{long} or @code{unsigned long}, truncating any
+@deftypefun mpir_si mpf_get_si (mpf_t @var{op})
+@deftypefunx mpir_ui mpf_get_ui (mpf_t @var{op})
+Convert @var{op} to a @code{mpir_si} or @code{mpir_ui}, truncating any
 fraction part.  If @var{op} is too big for the return type, the result is
 undefined.
 
@@ -4541,18 +4604,18 @@ or the given @var{str}.
 @cindex Arithmetic functions
 
 @deftypefun void mpf_add (mpf_t @var{rop}, mpf_t @var{op1}, mpf_t @var{op2})
-@deftypefunx void mpf_add_ui (mpf_t @var{rop}, mpf_t @var{op1}, unsigned long int @var{op2})
+@deftypefunx void mpf_add_ui (mpf_t @var{rop}, mpf_t @var{op1}, mpir_ui @var{op2})
 Set @var{rop} to @math{@var{op1} + @var{op2}}.
 @end deftypefun
 
 @deftypefun void mpf_sub (mpf_t @var{rop}, mpf_t @var{op1}, mpf_t @var{op2})
-@deftypefunx void mpf_ui_sub (mpf_t @var{rop}, unsigned long int @var{op1}, mpf_t @var{op2})
-@deftypefunx void mpf_sub_ui (mpf_t @var{rop}, mpf_t @var{op1}, unsigned long int @var{op2})
+@deftypefunx void mpf_ui_sub (mpf_t @var{rop}, mpir_ui @var{op1}, mpf_t @var{op2})
+@deftypefunx void mpf_sub_ui (mpf_t @var{rop}, mpf_t @var{op1}, mpir_ui @var{op2})
 Set @var{rop} to @var{op1} @minus{} @var{op2}.
 @end deftypefun
 
 @deftypefun void mpf_mul (mpf_t @var{rop}, mpf_t @var{op1}, mpf_t @var{op2})
-@deftypefunx void mpf_mul_ui (mpf_t @var{rop}, mpf_t @var{op1}, unsigned long int @var{op2})
+@deftypefunx void mpf_mul_ui (mpf_t @var{rop}, mpf_t @var{op1}, mpir_ui @var{op2})
 Set @var{rop} to @math{@var{op1} @GMPtimes{} @var{op2}}.
 @end deftypefun
 
@@ -4562,19 +4625,19 @@ lets the user handle arithmetic exceptions in these functions in the same
 manner as other arithmetic exceptions.
 
 @deftypefun void mpf_div (mpf_t @var{rop}, mpf_t @var{op1}, mpf_t @var{op2})
-@deftypefunx void mpf_ui_div (mpf_t @var{rop}, unsigned long int @var{op1}, mpf_t @var{op2})
-@deftypefunx void mpf_div_ui (mpf_t @var{rop}, mpf_t @var{op1}, unsigned long int @var{op2})
+@deftypefunx void mpf_ui_div (mpf_t @var{rop}, mpir_ui @var{op1}, mpf_t @var{op2})
+@deftypefunx void mpf_div_ui (mpf_t @var{rop}, mpf_t @var{op1}, mpir_ui @var{op2})
 @cindex Division functions
 Set @var{rop} to @var{op1}/@var{op2}.
 @end deftypefun
 
 @deftypefun void mpf_sqrt (mpf_t @var{rop}, mpf_t @var{op})
-@deftypefunx void mpf_sqrt_ui (mpf_t @var{rop}, unsigned long int @var{op})
+@deftypefunx void mpf_sqrt_ui (mpf_t @var{rop}, mpir_ui @var{op})
 @cindex Root extraction functions
 Set @var{rop} to @m{\sqrt{@var{op}}, the square root of @var{op}}.
 @end deftypefun
 
-@deftypefun void mpf_pow_ui (mpf_t @var{rop}, mpf_t @var{op1}, unsigned long int @var{op2})
+@deftypefun void mpf_pow_ui (mpf_t @var{rop}, mpf_t @var{op1}, mpir_ui @var{op2})
 @cindex Exponentiation functions
 @cindex Powering functions
 Set @var{rop} to @m{@var{op1}^{op2}, @var{op1} raised to the power @var{op2}}.
@@ -4606,8 +4669,8 @@ Set @var{rop} to @m{@var{op1}/2^{op2}, @var{op1} divided by 2 raised to
 
 @deftypefun int mpf_cmp (mpf_t @var{op1}, mpf_t @var{op2})
 @deftypefunx int mpf_cmp_d (mpf_t @var{op1}, double @var{op2})
-@deftypefunx int mpf_cmp_ui (mpf_t @var{op1}, unsigned long int @var{op2})
-@deftypefunx int mpf_cmp_si (mpf_t @var{op1}, signed long int @var{op2})
+@deftypefunx int mpf_cmp_ui (mpf_t @var{op1}, mpir_ui @var{op2})
+@deftypefunx int mpf_cmp_si (mpf_t @var{op1}, mpir_si @var{op2})
 Compare @var{op1} and @var{op2}.  Return a positive value if @math{@var{op1} >
 @var{op2}}, zero if @math{@var{op1} = @var{op2}}, and a negative value if
 @math{@var{op1} < @var{op2}}.
@@ -5040,7 +5103,7 @@ Divide @{@var{s1p}, @var{s1n}@} by @var{s2limb}, and return the remainder.
 @var{s1n} can be zero.
 @end deftypefun
 
-@deftypefun mp_limb_t mpn_bdivmod (mp_limb_t *@var{rp}, mp_limb_t *@var{s1p}, mp_size_t @var{s1n}, const mp_limb_t *@var{s2p}, mp_size_t @var{s2n}, unsigned long int @var{d})
+@deftypefun mp_limb_t mpn_bdivmod (mp_limb_t *@var{rp}, mp_limb_t *@var{s1p}, mp_size_t @var{s1n}, const mp_limb_t *@var{s2p}, mp_size_t @var{s2n}, mpir_ui @var{d})
 This function puts the low
 @math{@GMPfloor{@var{d}/@nicode{mp\_bits\_per\_limb}}} limbs of @var{q} =
 @{@var{s1p}, @var{s1n}@}/@{@var{s2p}, @var{s2n}@} mod @m{2^d,2^@var{d}} at
@@ -5216,7 +5279,7 @@ routines.
 @strong{These functions are obsolete. They will disappear from future MPIR releases.}
 @end deftypefun
 
-@deftypefun void mpn_urandomb (mp_limb_t *@var{rp}, gmp_randstate_t @var{state}, unsigned long @var{n})
+@deftypefun void mpn_urandomb (mp_limb_t *@var{rp}, gmp_randstate_t @var{state}, mpir_ui @var{n})
 Generate a uniform random number of length @var{n} bits and store it at @var{rp}.
 
 @strong{This function interface is preliminary and may change in the future.}
@@ -5430,7 +5493,7 @@ Initialize @var{state} for a Mersenne Twister algorithm.  This algorithm is
 fast and has good randomness properties.
 @end deftypefun
 
-@deftypefun void gmp_randinit_lc_2exp (gmp_randstate_t @var{state}, mpz_t @var{a}, @w{unsigned long @var{c}}, @w{mp_bitcnt_t @var{m2exp}})
+@deftypefun void gmp_randinit_lc_2exp (gmp_randstate_t @var{state}, mpz_t @var{a}, @w{mpir_ui @var{c}}, @w{mp_bitcnt_t @var{m2exp}})
 @cindex Linear congruential random numbers
 Initialize @var{state} with a linear congruential algorithm @m{X = (@var{a}X +
 @var{c}) @bmod 2^{m2exp}, X = (@var{a}*X + @var{c}) mod 2^@var{m2exp}}.
@@ -5472,7 +5535,7 @@ Free all memory occupied by @var{state}.
 @cindex Seeding random numbers
 
 @deftypefun void gmp_randseed (gmp_randstate_t @var{state}, mpz_t @var{seed})
-@deftypefunx void gmp_randseed_ui (gmp_randstate_t @var{state}, @w{unsigned long int @var{seed}})
+@deftypefunx void gmp_randseed_ui (gmp_randstate_t @var{state}, mpir_ui @var{seed})
 Set an initial seed value into @var{state}.
 
 The size of a seed determines how many different sequences of random numbers
@@ -5495,13 +5558,13 @@ random data better suited for use as a seed.
 @node Random State Miscellaneous,  , Random State Seeding, Random Number Functions
 @section Random State Miscellaneous
 
-@deftypefun {unsigned long} gmp_urandomb_ui (gmp_randstate_t @var{state}, unsigned long @var{n})
+@deftypefun mpir_ui gmp_urandomb_ui (gmp_randstate_t @var{state}, mpir_ui @var{n})
 Return a uniformly distributed random number of @var{n} bits, ie.@: in the
 range 0 to @m{2^n-1,2^@var{n}-1} inclusive.  @var{n} must be less than or
-equal to the number of bits in an @code{unsigned long}.
+equal to the number of bits in an @code{mpir_ui}.
 @end deftypefun
 
-@deftypefun {unsigned long} gmp_urandomm_ui (gmp_randstate_t @var{state}, unsigned long @var{n})
+@deftypefun mpir_ui gmp_urandomm_ui (gmp_randstate_t @var{state}, mpir_ui @var{n})
 Return a uniformly distributed random number in the range 0 to
 @math{@var{n}-1}, inclusive.
 @end deftypefun
@@ -6185,7 +6248,7 @@ nature imply intermediate values, like @code{a=b*c+d*e}, still use temporaries
 though.
 
 The classes can be freely intermixed in expressions, as can the classes and
-the standard types @code{long}, @code{unsigned long} and @code{double}.
+the standard types @code{mpir_si}, @code{mpir_ui} and @code{double}.
 Smaller types like @code{int} or @code{float} can also be intermixed, since
 C++ will promote them.
 
@@ -6241,8 +6304,8 @@ anything.
 @section C++ Interface Integers
 
 @deftypefun void mpz_class::mpz_class (type @var{n})
-Construct an @code{mpz_class}.  All the standard C++ types may be used, except
-@code{long long} and @code{long double}, and all the MPIR C++ classes can be
+Construct an @code{mpz_class}.  All the standard C++ types may be used
+@code{long double}, and all the MPIR C++ classes can be
 used.  Any necessary conversion follows the corresponding C function, for
 example @code{double} follows @code{mpz_set_d} (@pxref{Assigning Integers}).
 @end deftypefun
@@ -6293,9 +6356,9 @@ mpz_fdiv_q (q.get_mpz_t(), a.get_mpz_t(), d.get_mpz_t());
 @deftypefunx bool mpz_class::fits_ushort_p (void)
 @maybepagebreak
 @deftypefunx double mpz_class::get_d (void)
-@deftypefunx long mpz_class::get_si (void)
+@deftypefunx mpir_si mpz_class::get_si (void)
 @deftypefunx string mpz_class::get_str (int @var{base} = 10)
-@deftypefunx {unsigned long} mpz_class::get_ui (void)
+@deftypefunx mpir_ui mpz_class::get_ui (void)
 @maybepagebreak
 @deftypefunx int mpz_class::set_str (const char *@var{str}, int @var{base})
 @deftypefunx int mpz_class::set_str (const string& @var{str}, int @var{base})
@@ -6305,7 +6368,7 @@ These functions provide a C++ class interface to the corresponding MPIR C
 routines.
 
 @code{cmp} can be used with any of the classes or the standard C++ types,
-except @code{long long} and @code{long double}.
+except @code{long double}.
 @end deftypefun
 
 @sp 1
@@ -6330,8 +6393,8 @@ canonical form, or if not then @code{mpq_class::canonicalize} called.
 @deftypefunx void mpq_class::mpq_class (integer @var{num}, integer @var{den})
 Construct an @code{mpq_class}.  The initial value can be a single value of any
 type, or a pair of integers (@code{mpz_class} or standard C++ integer types)
-representing a fraction, except that @code{long long} and @code{long double}
-are not supported.  For example,
+representing a fraction, except that @code{long double}
+is not supported.  For example,
 
 @example
 mpq_class q (99);
@@ -6377,7 +6440,7 @@ These functions provide a C++ class interface to the corresponding MPIR C
 routines.
 
 @code{cmp} can be used with any of the classes or the standard C++ types,
-except @code{long long} and @code{long double}.
+except @code{long double}.
 @end deftypefun
 
 @deftypefun {mpz_class&} mpq_class::get_num ()
@@ -6419,9 +6482,9 @@ as the destination @code{f}.  Explicit constructors can be used if this
 doesn't suit.
 
 @deftypefun {} mpf_class::mpf_class (type @var{op})
-@deftypefunx {} mpf_class::mpf_class (type @var{op}, unsigned long @var{prec})
+@deftypefunx {} mpf_class::mpf_class (type @var{op}, mpir_ui @var{prec})
 Construct an @code{mpf_class}.  Any standard C++ type can be used, except
-@code{long long} and @code{long double}, and any of the MPIR C++ classes can be
+@code{long double}, and any of the MPIR C++ classes can be
 used.
 
 If @var{prec} is given, the initial precision is that value, in bits.  If
@@ -6443,9 +6506,9 @@ mpf_class f(x+y);        // greater of precisions of x and y
 @end deftypefun
 
 @deftypefun void mpf_class::mpf_class (const char *@var{s})
-@deftypefunx void mpf_class::mpf_class (const char *@var{s}, unsigned long @var{prec}, int @var{base} = 0)
+@deftypefunx void mpf_class::mpf_class (const char *@var{s}, mpir_ui @var{prec}, int @var{base} = 0)
 @deftypefunx void mpf_class::mpf_class (const string& @var{s})
-@deftypefunx void mpf_class::mpf_class (const string& @var{s}, unsigned long @var{prec}, int @var{base} = 0)
+@deftypefunx void mpf_class::mpf_class (const string& @var{s}, mpir_ui @var{prec}, int @var{base} = 0)
 Construct an @code{mpf_class} converted from a string using @code{mpf_set_str}
 (@pxref{Assigning Floats}).  If @var{prec} is given, the initial precision is
 that value, in bits.  If not, the default @code{mpf} precision
@@ -6497,9 +6560,9 @@ with the builtin float types.
 @deftypefunx mpf_class hypot (mpf_class @var{op1}, mpf_class @var{op2})
 @maybepagebreak
 @deftypefunx double mpf_class::get_d (void)
-@deftypefunx long mpf_class::get_si (void)
+@deftypefunx mpir_si mpf_class::get_si (void)
 @deftypefunx string mpf_class::get_str (mp_exp_t& @var{exp}, int @var{base} = 10, size_t @var{digits} = 0)
-@deftypefunx {unsigned long} mpf_class::get_ui (void)
+@deftypefunx mpir_ui mpf_class::get_ui (void)
 @maybepagebreak
 @deftypefunx int mpf_class::set_str (const char *@var{str}, int @var{base})
 @deftypefunx int mpf_class::set_str (const string& @var{str}, int @var{base})
@@ -6510,7 +6573,7 @@ These functions provide a C++ class interface to the corresponding MPIR C
 routines.
 
 @code{cmp} can be used with any of the classes or the standard C++ types,
-except @code{long long} and @code{long double}.
+except @code{long double}.
 
 The accuracy provided by @code{hypot} is not currently guaranteed.
 @end deftypefun
@@ -6554,13 +6617,13 @@ gmp_randclass r4 (gmp_randinit_mt);
 an @code{std::length_error} exception is thrown in that case.
 @end deftypefun
 
-@deftypefun void gmp_randclass::seed (unsigned long int @var{s})
+@deftypefun void gmp_randclass::seed (mpir_ui @var{s})
 @deftypefunx void gmp_randclass::seed (mpz_class @var{s})
 Seed a random number generator.  See @pxref{Random Number Functions}, for how
 to choose a good seed.
 @end deftypefun
 
-@deftypefun mpz_class gmp_randclass::get_z_bits (unsigned long @var{bits})
+@deftypefun mpz_class gmp_randclass::get_z_bits (mpir_ui @var{bits})
 @deftypefunx mpz_class gmp_randclass::get_z_bits (mpz_class @var{bits})
 Generate a random integer with a specified number of bits.
 @end deftypefun
@@ -6570,7 +6633,7 @@ Generate a random integer in the range 0 to @math{@var{n}-1} inclusive.
 @end deftypefun
 
 @deftypefun mpf_class gmp_randclass::get_f ()
-@deftypefunx mpf_class gmp_randclass::get_f (unsigned long @var{prec})
+@deftypefunx mpf_class gmp_randclass::get_f (mpir_ui @var{prec})
 Generate a random float @var{f} in the range @math{0 <= @var{f} < 1}.  @var{f}
 will be to @var{prec} bits precision, or if @var{prec} is not given then to
 the precision of the destination.  For example,

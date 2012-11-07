@@ -1058,6 +1058,7 @@ guaranteed to be incompatible with future versions of MPIR.*
 
 * Headers and Libraries::
 * Nomenclature and Types::
+* MPIR on Windows x64::
 * Function Classes::
 * Variable Conventions::
 * Parameter Conventions::
@@ -1113,7 +1114,7 @@ necessary to use `-I' and `-L' compiler options to point to the right
 directories, and some sort of run-time path for a shared library.
 
 
-File: mpir.info,  Node: Nomenclature and Types,  Next: Function Classes,  Prev: Headers and Libraries,  Up: MPIR Basics
+File: mpir.info,  Node: Nomenclature and Types,  Next: MPIR on Windows x64,  Prev: Headers and Libraries,  Up: MPIR Basics
 
 3.2 Nomenclature and Types
 ==========================
@@ -1166,9 +1167,63 @@ The C data type for such objects is `gmp_randstate_t'.  For example:
 `size_t' is used for byte or character counts.
 
 
-File: mpir.info,  Node: Function Classes,  Next: Variable Conventions,  Prev: Nomenclature and Types,  Up: MPIR Basics
+File: mpir.info,  Node: MPIR on Windows x64,  Next: Function Classes,  Prev: Nomenclature and Types,  Up: MPIR Basics
 
-3.3 Function Classes
+3.3 MPIR on Windows x64
+=======================
+
+Although Windows x64 is a 64-bit operating system, Microsoft has
+decided to make long integers 32-bits, which is inconsistent when
+compared with almost all other 64-bit operating systems.   This has
+caused many subtle bugs when open source code is ported to Windows x64
+because many developers reasonably expect to find that long integers on
+a 64-bit operating system will be 64 bits long.
+
+   MPIR contains functions with suffixes of `_ui' and `_si' that are
+used to input unsigned and signed integers into and convert them for use
+with MPIR's multiple precision integers (mpz types).   For example, the
+functions:
+
+ -- Function: void mpz_set_ui (mpz_t, unsigned long int)
+
+ -- Function: void mpz_set_si (mpz_t, signed long int)
+
+   set an mpz integer from unsigned and signed long integers
+respectively, and the functions:
+
+ -- Function: unsigned long int mpz_get_ui (mpz_t)
+
+ -- Function: signed long int mpz_get_si (mpz_t)
+
+   obtain unsigned and signed long int values from an MPIR multiple
+precision integer (`mpz_r').
+
+   To bring MPIR on Windows x64 into line with other 64-bit operating
+systems two new types have been introduced throughout MPIR:
+
+   * mpir_ui defined as unsigned long int on all but Windows, defined
+     as unsigned long long int on Windows x64
+
+   * mpir_si defined as signed long int on all but Windows x64, defined
+     as signed long long int on Windows x64
+
+   The above prototypes in MPIR 2.6.0 are changed to:
+
+ -- Function: void mpz_set_ui (mpz_t, mpir_ui)
+
+ -- Function: void mpz_set_si (mpz_t, mpir_si)
+
+ -- Function: mpir_ui mpz_get_ui (mpz_t)
+
+ -- Function: mpir_si mpz_get_si (mpz_t)
+
+   and these changes are applied to all MPIR functions with `_ui' and
+`_si' suffixes.
+
+
+File: mpir.info,  Node: Function Classes,  Next: Variable Conventions,  Prev: MPIR on Windows x64,  Up: MPIR Basics
+
+3.4 Function Classes
 ====================
 
 There are five classes of functions in the MPIR library:
@@ -1201,7 +1256,7 @@ There are five classes of functions in the MPIR library:
 
 File: mpir.info,  Node: Variable Conventions,  Next: Parameter Conventions,  Prev: Function Classes,  Up: MPIR Basics
 
-3.4 Variable Conventions
+3.5 Variable Conventions
 ========================
 
 MPIR functions generally have output arguments before input arguments.
@@ -1246,7 +1301,7 @@ end.  For example,
 
 File: mpir.info,  Node: Parameter Conventions,  Next: Memory Management,  Prev: Variable Conventions,  Up: MPIR Basics
 
-3.5 Parameter Conventions
+3.6 Parameter Conventions
 =========================
 
 When an MPIR variable is used as a function parameter, it's effectively
@@ -1301,7 +1356,7 @@ MPIR releases.
 
 File: mpir.info,  Node: Memory Management,  Next: Reentrancy,  Prev: Parameter Conventions,  Up: MPIR Basics
 
-3.6 Memory Management
+3.7 Memory Management
 =====================
 
 The MPIR types like `mpz_t' are small, containing only a couple of
@@ -1326,7 +1381,7 @@ build-time if desired, see *note Build Options::.
 
 File: mpir.info,  Node: Reentrancy,  Next: Useful Macros and Constants,  Prev: Memory Management,  Up: MPIR Basics
 
-3.7 Reentrancy
+3.8 Reentrancy
 ==============
 
 MPIR is reentrant and thread-safe, with some exceptions:
@@ -1360,7 +1415,7 @@ MPIR is reentrant and thread-safe, with some exceptions:
 
 File: mpir.info,  Node: Useful Macros and Constants,  Next: Compatibility with older versions,  Prev: Reentrancy,  Up: MPIR Basics
 
-3.8 Useful Macros and Constants
+3.9 Useful Macros and Constants
 ===============================
 
  -- Global Constant: const int mp_bits_per_limb
@@ -1392,8 +1447,8 @@ File: mpir.info,  Node: Useful Macros and Constants,  Next: Compatibility with o
 
 File: mpir.info,  Node: Compatibility with older versions,  Next: Efficiency,  Prev: Useful Macros and Constants,  Up: MPIR Basics
 
-3.9 Compatibility with older versions
-=====================================
+3.10 Compatibility with older versions
+======================================
 
 This version of MPIR is upwardly binary compatible with all GMP 5.x,
 4.x and 3.x versions, and upwardly compatible at the source level with
@@ -1418,7 +1473,7 @@ and MPIR 1 and 2.  Please see the GMP 2 manual for details.
 
 File: mpir.info,  Node: Efficiency,  Next: Debugging,  Prev: Compatibility with older versions,  Up: MPIR Basics
 
-3.10 Efficiency
+3.11 Efficiency
 ===============
 
 Small Operands
@@ -1581,7 +1636,7 @@ Text Input/Output
 
 File: mpir.info,  Node: Debugging,  Next: Profiling,  Prev: Efficiency,  Up: MPIR Basics
 
-3.11 Debugging
+3.12 Debugging
 ==============
 
 Stack Overflow
@@ -1722,7 +1777,7 @@ Other Problems
 
 File: mpir.info,  Node: Profiling,  Next: Autoconf,  Prev: Debugging,  Up: MPIR Basics
 
-3.12 Profiling
+3.13 Profiling
 ==============
 
 Running a program under a profiler is a good way to find where it's
@@ -1816,7 +1871,7 @@ profiling choices for a MPIR build are as follows.
 
 File: mpir.info,  Node: Autoconf,  Next: Emacs,  Prev: Profiling,  Up: MPIR Basics
 
-3.13 Autoconf
+3.14 Autoconf
 =============
 
 Autoconf based applications can easily check whether MPIR is installed.
@@ -1861,7 +1916,7 @@ limb.  The following would suit Autoconf 2.50 or up,
 
 File: mpir.info,  Node: Emacs,  Prev: Autoconf,  Up: MPIR Basics
 
-3.14 Emacs
+3.15 Emacs
 ==========
 
 <C-h C-i> (`info-lookup-symbol') is a good way to find documentation on
@@ -7043,49 +7098,4 @@ above the true root.  The iteration converges quadratically when
 started from a good approximation.  When n is large more initial bits
 are needed to get good convergence.  The current implementation is not
 particularly well optimized.
-
-
-File: mpir.info,  Node: Perfect Square Algorithm,  Next: Perfect Power Algorithm,  Prev: Nth Root Algorithm,  Up: Root Extraction Algorithms
-
-15.5.3 Perfect Square
----------------------
-
-A significant fraction of non-squares can be quickly identified by
-checking whether the input is a quadratic residue modulo small integers.
-
-   `mpz_perfect_square_p' first tests the input mod 256, which means
-just examining the low byte.  Only 44 different values occur for
-squares mod 256, so 82.8% of inputs can be immediately identified as
-non-squares.
-
-   On a 32-bit system similar tests are done mod 9, 5, 7, 13 and 17,
-for a total 99.25% of inputs identified as non-squares.  On a 64-bit
-system 97 is tested too, for a total 99.62%.
-
-   These moduli are chosen because they're factors of 2^24-1 (or 2^48-1
-for 64-bits), and such a remainder can be quickly taken just using
-additions (see `mpn_mod_34lsub1').
-
-   When nails are in use moduli are instead selected by the `gen-psqr.c'
-program and applied with an `mpn_mod_1'.  The same 2^24-1 or 2^48-1
-could be done with nails using some extra bit shifts, but this is not
-currently implemented.
-
-   In any case each modulus is applied to the `mpn_mod_34lsub1' or
-`mpn_mod_1' remainder and a table lookup identifies non-squares.  By
-using a "modexact" style calculation, and suitably permuted tables,
-just one multiply each is required, see the code for details.  Moduli
-are also combined to save operations, so long as the lookup tables
-don't become too big.  `gen-psqr.c' does all the pre-calculations.
-
-   A square root must still be taken for any value that passes these
-tests, to verify it's really a square and not one of the small fraction
-of non-squares that get through (ie. a pseudo-square to all the tested
-bases).
-
-   Clearly more residue tests could be done, `mpz_perfect_square_p' only
-uses a compact and efficient set.  Big inputs would probably benefit
-from more residue testing, small inputs might be better off with less.
-The assumed distribution of squares versus non-squares in the input
-would affect such considerations.
 
