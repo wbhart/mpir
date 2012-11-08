@@ -1182,30 +1182,31 @@ a 64-bit operating system will be 64 bits long.
    MPIR contains functions with suffixes of `_ui' and `_si' that are
 used to input unsigned and signed integers into and convert them for use
 with MPIR's multiple precision integers (mpz types).   For example, the
-functions:
+following functions set an `mpz_t' integer from `unsigned' and `signed
+long' integers respectively.
 
  -- Function: void mpz_set_ui (mpz_t, unsigned long int)
 
  -- Function: void mpz_set_si (mpz_t, signed long int)
 
-   set an mpz integer from unsigned and signed long integers
-respectively, and the functions:
+
+   Also, the following functions obtain `unsigned' and `signed long
+int' values from an MPIR multiple precision integer (`mpz_t').
 
  -- Function: unsigned long int mpz_get_ui (mpz_t)
 
  -- Function: signed long int mpz_get_si (mpz_t)
 
-   obtain unsigned and signed long int values from an MPIR multiple
-precision integer (`mpz_r').
 
    To bring MPIR on Windows x64 into line with other 64-bit operating
 systems two new types have been introduced throughout MPIR:
 
-   * mpir_ui defined as unsigned long int on all but Windows, defined
-     as unsigned long long int on Windows x64
+   * `mpir_ui' defined as `unsigned long int' on all but Windows,
+     defined as `unsigned long long int' on Windows x64
 
-   * mpir_si defined as signed long int on all but Windows x64, defined
-     as signed long long int on Windows x64
+   * `mpir_si' defined as `signed long int' on all but Windows x64,
+     defined as `signed long long int' on Windows x64
+
 
    The above prototypes in MPIR 2.6.0 are changed to:
 
@@ -1217,8 +1218,9 @@ systems two new types have been introduced throughout MPIR:
 
  -- Function: mpir_si mpz_get_si (mpz_t)
 
-   and these changes are applied to all MPIR functions with `_ui' and
-`_si' suffixes.
+
+   These changes are applied to all MPIR functions with `_ui' and `_si'
+suffixes.
 
 
 File: mpir.info,  Node: Function Classes,  Next: Variable Conventions,  Prev: MPIR on Windows x64,  Up: MPIR Basics
@@ -1321,9 +1323,9 @@ certainly not what's wanted.
 calculation, and storing the result to the indicated parameter.
 
      void
-     foo (mpz_t result, const mpz_t param, unsigned long n)
+     foo (mpz_t result, const mpz_t param, mpir_ui n)
      {
-       unsigned long  i;
+       mpir_ui  i;
        mpz_mul_ui (result, param, n);
        for (i = 1; i < n; i++)
          mpz_add_ui (result, result, i*7);
@@ -1522,9 +1524,9 @@ Reallocations
 `ui' and `si' Functions
      The `ui' functions and the small number of `si' functions exist for
      convenience and should be used where applicable.  But if for
-     example an `mpz_t' contains a value that fits in an `unsigned
-     long' there's no need extract it and call a `ui' function, just
-     use the regular `mpz' function.
+     example an `mpz_t' contains a value that fits in an `unsigned long'
+     (`unsigned long long' on Windows x64) there's no need extract it
+     and call a `ui' function, just use the regular `mpz' function.
 
 In-Place Operations
      `mpz_abs', `mpq_abs', `mpf_abs', `mpz_neg', `mpq_neg' and
@@ -2096,8 +2098,8 @@ These functions assign new values to already initialized integers
 (*note Initializing Integers::).
 
  -- Function: void mpz_set (mpz_t ROP, mpz_t OP)
- -- Function: void mpz_set_ui (mpz_t ROP, unsigned long int OP)
- -- Function: void mpz_set_si (mpz_t ROP, signed long int OP)
+ -- Function: void mpz_set_ui (mpz_t ROP, mpir_ui OP)
+ -- Function: void mpz_set_si (mpz_t ROP, mpir_si OP)
  -- Function: void mpz_set_ux (mpz_t ROP, uintmax_t OP)
  -- Function: void mpz_set_sx (mpz_t ROP, intmax_t OP)
  -- Function: void mpz_set_d (mpz_t ROP, double OP)
@@ -2155,8 +2157,8 @@ ordinary integer functions.  Don't use an initialize-and-set function
 on a variable already initialized!
 
  -- Function: void mpz_init_set (mpz_t ROP, mpz_t OP)
- -- Function: void mpz_init_set_ui (mpz_t ROP, unsigned long int OP)
- -- Function: void mpz_init_set_si (mpz_t ROP, signed long int OP)
+ -- Function: void mpz_init_set_ui (mpz_t ROP, mpir_ui OP)
+ -- Function: void mpz_init_set_si (mpz_t ROP, mpir_si OP)
  -- Function: void mpz_init_set_ux (mpz_t ROP, uintmax_t OP)
  -- Function: void mpz_init_set_sx (mpz_t ROP, intmax_t OP)
  -- Function: void mpz_init_set_d (mpz_t ROP, double OP)
@@ -2182,21 +2184,20 @@ This section describes functions for converting MPIR integers to
 standard C types.  Functions for converting _to_ MPIR integers are
 described in *note Assigning Integers:: and *note I/O of Integers::.
 
- -- Function: unsigned long int mpz_get_ui (mpz_t OP)
-     Return the value of OP as an `unsigned long'.
+ -- Function: mpir_ui mpz_get_ui (mpz_t OP)
+     Return the value of OP as an `mpir_ui'.
 
-     If OP is too big to fit an `unsigned long' then just the least
+     If OP is too big to fit an `mpir_ui' then just the least
      significant bits that do fit are returned.  The sign of OP is
      ignored, only the absolute value is used.
 
- -- Function: signed long int mpz_get_si (mpz_t OP)
-     If OP fits into a `signed long int' return the value of OP.
-     Otherwise return the least significant part of OP, with the same
-     sign as OP.
+ -- Function: mpir_si mpz_get_si (mpz_t OP)
+     If OP fits into a `mpir_si' return the value of OP.  Otherwise
+     return the least significant part of OP, with the same sign as OP.
 
-     If OP is too big to fit in a `signed long int', the returned
-     result is probably not very useful.  To find out if the value will
-     fit, use the function `mpz_fits_slong_p'.
+     If OP is too big to fit in a `mpir_si', the returned result is
+     probably not very useful.  To find out if the value will fit, use
+     the function `mpz_fits_slong_p'.
 
  -- Function: uintmax_t mpz_get_ux (mpz_t OP)
      Return the value of OP as an `uintmax_t'.
@@ -2222,7 +2223,7 @@ described in *note Assigning Integers:: and *note I/O of Integers::.
      system dependent.  An infinity is returned where available.  A
      hardware overflow trap may or may not occur.
 
- -- Function: double mpz_get_d_2exp (signed long int *EXP, mpz_t OP)
+ -- Function: double mpz_get_d_2exp (mpir_si *EXP, mpz_t OP)
      Convert OP to a `double', truncating if necessary (ie. rounding
      towards zero), and returning the exponent separately.
 
@@ -2262,31 +2263,25 @@ File: mpir.info,  Node: Integer Arithmetic,  Next: Integer Division,  Prev: Conv
 ========================
 
  -- Function: void mpz_add (mpz_t ROP, mpz_t OP1, mpz_t OP2)
- -- Function: void mpz_add_ui (mpz_t ROP, mpz_t OP1, unsigned long int
-          OP2)
+ -- Function: void mpz_add_ui (mpz_t ROP, mpz_t OP1, mpir_ui OP2)
      Set ROP to OP1 + OP2.
 
  -- Function: void mpz_sub (mpz_t ROP, mpz_t OP1, mpz_t OP2)
- -- Function: void mpz_sub_ui (mpz_t ROP, mpz_t OP1, unsigned long int
-          OP2)
- -- Function: void mpz_ui_sub (mpz_t ROP, unsigned long int OP1, mpz_t
-          OP2)
+ -- Function: void mpz_sub_ui (mpz_t ROP, mpz_t OP1, mpir_ui OP2)
+ -- Function: void mpz_ui_sub (mpz_t ROP, mpir_ui OP1, mpz_t OP2)
      Set ROP to OP1 - OP2.
 
  -- Function: void mpz_mul (mpz_t ROP, mpz_t OP1, mpz_t OP2)
- -- Function: void mpz_mul_si (mpz_t ROP, mpz_t OP1, long int OP2)
- -- Function: void mpz_mul_ui (mpz_t ROP, mpz_t OP1, unsigned long int
-          OP2)
+ -- Function: void mpz_mul_si (mpz_t ROP, mpz_t OP1, mpir_si OP2)
+ -- Function: void mpz_mul_ui (mpz_t ROP, mpz_t OP1, mpir_ui OP2)
      Set ROP to OP1 times OP2.
 
  -- Function: void mpz_addmul (mpz_t ROP, mpz_t OP1, mpz_t OP2)
- -- Function: void mpz_addmul_ui (mpz_t ROP, mpz_t OP1, unsigned long
-          int OP2)
+ -- Function: void mpz_addmul_ui (mpz_t ROP, mpz_t OP1, mpir_ui OP2)
      Set ROP to ROP + OP1 times OP2.
 
  -- Function: void mpz_submul (mpz_t ROP, mpz_t OP1, mpz_t OP2)
- -- Function: void mpz_submul_ui (mpz_t ROP, mpz_t OP1, unsigned long
-          int OP2)
+ -- Function: void mpz_submul_ui (mpz_t ROP, mpz_t OP1, mpir_ui OP2)
      Set ROP to ROP - OP1 times OP2.
 
  -- Function: void mpz_mul_2exp (mpz_t ROP, mpz_t OP1, mp_bitcnt_t OP2)
@@ -2314,42 +2309,33 @@ these functions the same way as for normal C `int' arithmetic.
  -- Function: void mpz_cdiv_q (mpz_t Q, mpz_t N, mpz_t D)
  -- Function: void mpz_cdiv_r (mpz_t R, mpz_t N, mpz_t D)
  -- Function: void mpz_cdiv_qr (mpz_t Q, mpz_t R, mpz_t N, mpz_t D)
- -- Function: unsigned long int mpz_cdiv_q_ui (mpz_t Q, mpz_t N,
-          unsigned long int D)
- -- Function: unsigned long int mpz_cdiv_r_ui (mpz_t R, mpz_t N,
-          unsigned long int D)
- -- Function: unsigned long int mpz_cdiv_qr_ui (mpz_t Q, mpz_t R,
-          mpz_t N, unsigned long int D)
- -- Function: unsigned long int mpz_cdiv_ui (mpz_t N,
-          unsigned long int D)
+ -- Function: mpir_ui mpz_cdiv_q_ui (mpz_t Q, mpz_t N, mpir_ui D)
+ -- Function: mpir_ui mpz_cdiv_r_ui (mpz_t R, mpz_t N, mpir_ui D)
+ -- Function: mpir_ui mpz_cdiv_qr_ui (mpz_t Q, mpz_t R, mpz_t N,
+          mpir_ui D)
+ -- Function: mpir_ui mpz_cdiv_ui (mpz_t N, mpir_ui D)
  -- Function: void mpz_cdiv_q_2exp (mpz_t Q, mpz_t N, mp_bitcnt_t B)
  -- Function: void mpz_cdiv_r_2exp (mpz_t R, mpz_t N, mp_bitcnt_t B)
 
  -- Function: void mpz_fdiv_q (mpz_t Q, mpz_t N, mpz_t D)
  -- Function: void mpz_fdiv_r (mpz_t R, mpz_t N, mpz_t D)
  -- Function: void mpz_fdiv_qr (mpz_t Q, mpz_t R, mpz_t N, mpz_t D)
- -- Function: unsigned long int mpz_fdiv_q_ui (mpz_t Q, mpz_t N,
-          unsigned long int D)
- -- Function: unsigned long int mpz_fdiv_r_ui (mpz_t R, mpz_t N,
-          unsigned long int D)
- -- Function: unsigned long int mpz_fdiv_qr_ui (mpz_t Q, mpz_t R,
-          mpz_t N, unsigned long int D)
- -- Function: unsigned long int mpz_fdiv_ui (mpz_t N,
-          unsigned long int D)
+ -- Function: mpir_ui mpz_fdiv_q_ui (mpz_t Q, mpz_t N, mpir_ui D)
+ -- Function: mpir_ui mpz_fdiv_r_ui (mpz_t R, mpz_t N, mpir_ui D)
+ -- Function: mpir_ui mpz_fdiv_qr_ui (mpz_t Q, mpz_t R, mpz_t N,
+          mpir_ui D)
+ -- Function: mpir_ui mpz_fdiv_ui (mpz_t N, mpir_ui D)
  -- Function: void mpz_fdiv_q_2exp (mpz_t Q, mpz_t N, mp_bitcnt_t B)
  -- Function: void mpz_fdiv_r_2exp (mpz_t R, mpz_t N, mp_bitcnt_t B)
 
  -- Function: void mpz_tdiv_q (mpz_t Q, mpz_t N, mpz_t D)
  -- Function: void mpz_tdiv_r (mpz_t R, mpz_t N, mpz_t D)
  -- Function: void mpz_tdiv_qr (mpz_t Q, mpz_t R, mpz_t N, mpz_t D)
- -- Function: unsigned long int mpz_tdiv_q_ui (mpz_t Q, mpz_t N,
-          unsigned long int D)
- -- Function: unsigned long int mpz_tdiv_r_ui (mpz_t R, mpz_t N,
-          unsigned long int D)
- -- Function: unsigned long int mpz_tdiv_qr_ui (mpz_t Q, mpz_t R,
-          mpz_t N, unsigned long int D)
- -- Function: unsigned long int mpz_tdiv_ui (mpz_t N,
-          unsigned long int D)
+ -- Function: mpir_ui mpz_tdiv_q_ui (mpz_t Q, mpz_t N, mpir_ui D)
+ -- Function: mpir_ui mpz_tdiv_r_ui (mpz_t R, mpz_t N, mpir_ui D)
+ -- Function: mpir_ui mpz_tdiv_qr_ui (mpz_t Q, mpz_t R, mpz_t N,
+          mpir_ui D)
+ -- Function: mpir_ui mpz_tdiv_ui (mpz_t N, mpir_ui D)
  -- Function: void mpz_tdiv_q_2exp (mpz_t Q, mpz_t N, mp_bitcnt_t B)
  -- Function: void mpz_tdiv_r_2exp (mpz_t R, mpz_t N, mp_bitcnt_t B)
 
@@ -2390,8 +2376,7 @@ these functions the same way as for normal C `int' arithmetic.
      `mpz_tdiv_q_2exp' effectively treats N as sign and magnitude.
 
  -- Function: void mpz_mod (mpz_t R, mpz_t N, mpz_t D)
- -- Function: unsigned long int mpz_mod_ui (mpz_t R, mpz_t N,
-          unsigned long int D)
+ -- Function: mpir_ui mpz_mod_ui (mpz_t R, mpz_t N, mpir_ui D)
      Set R to N `mod' D.  The sign of the divisor is ignored; the
      result is always non-negative.
 
@@ -2400,7 +2385,7 @@ these functions the same way as for normal C `int' arithmetic.
      the return value is wanted.
 
  -- Function: void mpz_divexact (mpz_t Q, mpz_t N, mpz_t D)
- -- Function: void mpz_divexact_ui (mpz_t Q, mpz_t N, unsigned long D)
+ -- Function: void mpz_divexact_ui (mpz_t Q, mpz_t N, mpir_ui D)
      Set Q to N/D.  These functions produce correct results only when
      it is known in advance that D divides N.
 
@@ -2409,7 +2394,7 @@ these functions the same way as for normal C `int' arithmetic.
      example reducing a rational to lowest terms.
 
  -- Function: int mpz_divisible_p (mpz_t N, mpz_t D)
- -- Function: int mpz_divisible_ui_p (mpz_t N, unsigned long int D)
+ -- Function: int mpz_divisible_ui_p (mpz_t N, mpir_ui D)
  -- Function: int mpz_divisible_2exp_p (mpz_t N, mp_bitcnt_t B)
      Return non-zero if N is exactly divisible by D, or in the case of
      `mpz_divisible_2exp_p' by 2^B.
@@ -2420,8 +2405,7 @@ these functions the same way as for normal C `int' arithmetic.
      divisible by 0.
 
  -- Function: int mpz_congruent_p (mpz_t N, mpz_t C, mpz_t D)
- -- Function: int mpz_congruent_ui_p (mpz_t N, unsigned long int C,
-          unsigned long int D)
+ -- Function: int mpz_congruent_ui_p (mpz_t N, mpir_ui C, mpir_ui D)
  -- Function: int mpz_congruent_2exp_p (mpz_t N, mpz_t C, mp_bitcnt_t B)
      Return non-zero if N is congruent to C modulo D, or in the case of
      `mpz_congruent_2exp_p' modulo 2^B.
@@ -2439,8 +2423,8 @@ File: mpir.info,  Node: Integer Exponentiation,  Next: Integer Roots,  Prev: Int
 
  -- Function: void mpz_powm (mpz_t ROP, mpz_t BASE, mpz_t EXP, mpz_t
           MOD)
- -- Function: void mpz_powm_ui (mpz_t ROP, mpz_t BASE, unsigned long
-          int EXP, mpz_t MOD)
+ -- Function: void mpz_powm_ui (mpz_t ROP, mpz_t BASE, mpir_ui EXP,
+          mpz_t MOD)
      Set ROP to (BASE raised to EXP) modulo MOD.
 
      A negative EXP is supported in `mpz_powm' if an inverse BASE^-1
@@ -2448,10 +2432,8 @@ File: mpir.info,  Node: Integer Exponentiation,  Next: Integer Roots,  Prev: Int
      Functions::).  If an inverse doesn't exist then a divide by zero
      is raised.
 
- -- Function: void mpz_pow_ui (mpz_t ROP, mpz_t BASE, unsigned long int
-          EXP)
- -- Function: void mpz_ui_pow_ui (mpz_t ROP, unsigned long int BASE,
-          unsigned long int EXP)
+ -- Function: void mpz_pow_ui (mpz_t ROP, mpz_t BASE, mpir_ui EXP)
+ -- Function: void mpz_ui_pow_ui (mpz_t ROP, mpir_ui BASE, mpir_ui EXP)
      Set ROP to BASE raised to EXP.  The case 0^0 yields 1.
 
 
@@ -2460,17 +2442,16 @@ File: mpir.info,  Node: Integer Roots,  Next: Number Theoretic Functions,  Prev:
 5.8 Root Extraction Functions
 =============================
 
- -- Function: int mpz_root (mpz_t ROP, mpz_t OP, unsigned long int N)
+ -- Function: int mpz_root (mpz_t ROP, mpz_t OP, mpir_ui N)
      Set ROP to  the truncated integer part of the Nth root of OP.
      Return non-zero if the computation was exact, i.e., if OP is ROP
      to the Nth power.
 
- -- Function: void mpz_nthroot (mpz_t ROP, mpz_t OP, unsigned long int
-          N)
+ -- Function: void mpz_nthroot (mpz_t ROP, mpz_t OP, mpir_ui N)
      Set ROP to  the truncated integer part of the Nth root of OP.
 
- -- Function: void mpz_rootrem (mpz_t ROOT, mpz_t REM, mpz_t U,
-          unsigned long int N)
+ -- Function: void mpz_rootrem (mpz_t ROOT, mpz_t REM, mpz_t U, mpir_ui
+          N)
      Set ROOT to  the truncated integer part of the Nth root of U.  Set
      REM to the remainder, U-ROOT**N.
 
@@ -2505,7 +2486,7 @@ File: mpir.info,  Node: Number Theoretic Functions,  Next: Integer Comparisons, 
 ==============================
 
  -- Function: int mpz_probable_prime_p (mpz_t N, gmp_randstate_t STATE,
-          int PROB, unsigned long DIV)
+          int PROB, mpir_ui DIV)
      Determine whether N is a probable prime with the chance of error
      being at most 1 in 2^prob.  return value is 1 if N is probably
      prime, or 0 if N is definitely composite.
@@ -2523,7 +2504,7 @@ File: mpir.info,  Node: Number Theoretic Functions,  Next: Integer Comparisons, 
      future.*
 
  -- Function: int mpz_likely_prime_p (mpz_t N, gmp_randstate_t STATE,
-          unsigned long DIV)
+          mpir_ui DIV)
      Determine whether N is likely a prime, i.e. you can consider it a
      prime for practical purposes.  return value is 1 if N can be
      considered prime, or 0 if N is definitely composite.
@@ -2583,13 +2564,12 @@ File: mpir.info,  Node: Number Theoretic Functions,  Next: Integer Comparisons, 
      Set ROP to the greatest common divisor of OP1 and OP2.  The result
      is always positive even if one or both input operands are negative.
 
- -- Function: unsigned long int mpz_gcd_ui (mpz_t ROP, mpz_t OP1,
-          unsigned long int OP2)
+ -- Function: mpir_ui mpz_gcd_ui (mpz_t ROP, mpz_t OP1, mpir_ui OP2)
      Compute the greatest common divisor of OP1 and OP2.  If ROP is not
      `NULL', store the result there.
 
-     If the result is small enough to fit in an `unsigned long int', it
-     is returned.  If the result does not fit, 0 is returned, and the
+     If the result is small enough to fit in an `mpir_ui', it is
+     returned.  If the result does not fit, 0 is returned, and the
      result is equal to the argument OP1.  Note that the result will
      always fit if OP2 is non-zero.
 
@@ -2602,7 +2582,7 @@ File: mpir.info,  Node: Number Theoretic Functions,  Next: Integer Comparisons, 
      If T is `NULL' then that value is not computed.
 
  -- Function: void mpz_lcm (mpz_t ROP, mpz_t OP1, mpz_t OP2)
- -- Function: void mpz_lcm_ui (mpz_t ROP, mpz_t OP1, unsigned long OP2)
+ -- Function: void mpz_lcm_ui (mpz_t ROP, mpz_t OP1, mpir_ui OP2)
      Set ROP to the least common multiple of OP1 and OP2.  ROP is
      always positive, irrespective of the signs of OP1 and OP2.  ROP
      will be zero if either OP1 or OP2 is zero.
@@ -2622,10 +2602,10 @@ File: mpir.info,  Node: Number Theoretic Functions,  Next: Integer Comparisons, 
      symbol.
 
  -- Function: int mpz_kronecker (mpz_t A, mpz_t B)
- -- Function: int mpz_kronecker_si (mpz_t A, long B)
- -- Function: int mpz_kronecker_ui (mpz_t A, unsigned long B)
- -- Function: int mpz_si_kronecker (long A, mpz_t B)
- -- Function: int mpz_ui_kronecker (unsigned long A, mpz_t B)
+ -- Function: int mpz_kronecker_si (mpz_t A, mpir_si B)
+ -- Function: int mpz_kronecker_ui (mpz_t A, mpir_ui B)
+ -- Function: int mpz_si_kronecker (mpir_si A, mpz_t B)
+ -- Function: int mpz_ui_kronecker (mpir_ui A, mpz_t B)
      Calculate the Jacobi symbol (A/B) with the Kronecker extension
      (a/2)=(2/a) when a odd, or (a/2)=0 when a even.
 
@@ -2643,20 +2623,18 @@ File: mpir.info,  Node: Number Theoretic Functions,  Next: Integer Comparisons, 
      result in ROP.  The return value is how many such occurrences were
      removed.
 
- -- Function: void mpz_fac_ui (mpz_t ROP, unsigned long int OP)
+ -- Function: void mpz_fac_ui (mpz_t ROP, mpir_ui OP)
      Set ROP to OP!, the factorial of OP.
 
- -- Function: void mpz_bin_ui (mpz_t ROP, mpz_t N, unsigned long int K)
- -- Function: void mpz_bin_uiui (mpz_t ROP, unsigned long int N,
-          unsigned long int K)
+ -- Function: void mpz_bin_ui (mpz_t ROP, mpz_t N, mpir_ui K)
+ -- Function: void mpz_bin_uiui (mpz_t ROP, mpir_ui N, mpir_ui K)
      Compute the binomial coefficient N over K and store the result in
      ROP.  Negative values of N are supported by `mpz_bin_ui', using
      the identity bin(-n,k) = (-1)^k * bin(n+k-1,k), see Knuth volume 1
      section 1.2.6 part G.
 
- -- Function: void mpz_fib_ui (mpz_t FN, unsigned long int N)
- -- Function: void mpz_fib2_ui (mpz_t FN, mpz_t FNSUB1, unsigned long
-          int N)
+ -- Function: void mpz_fib_ui (mpz_t FN, mpir_ui N)
+ -- Function: void mpz_fib2_ui (mpz_t FN, mpz_t FNSUB1, mpir_ui N)
      `mpz_fib_ui' sets FN to to F[n], the N'th Fibonacci number.
      `mpz_fib2_ui' sets FN to F[n], and FNSUB1 to F[n-1].
 
@@ -2665,9 +2643,8 @@ File: mpir.info,  Node: Number Theoretic Functions,  Next: Integer Comparisons, 
      with `mpz_fib2_ui' and iterate the defining F[n+1]=F[n]+F[n-1] or
      similar.
 
- -- Function: void mpz_lucnum_ui (mpz_t LN, unsigned long int N)
- -- Function: void mpz_lucnum2_ui (mpz_t LN, mpz_t LNSUB1, unsigned
-          long int N)
+ -- Function: void mpz_lucnum_ui (mpz_t LN, mpir_ui N)
+ -- Function: void mpz_lucnum2_ui (mpz_t LN, mpz_t LNSUB1, mpir_ui N)
      `mpz_lucnum_ui' sets LN to to L[n], the N'th Lucas number.
      `mpz_lucnum2_ui' sets LN to L[n], and LNSUB1 to L[n-1].
 
@@ -2690,8 +2667,8 @@ File: mpir.info,  Node: Integer Comparisons,  Next: Integer Logic and Bit Fiddli
 
  -- Function: int mpz_cmp (mpz_t OP1, mpz_t OP2)
  -- Function: int mpz_cmp_d (mpz_t OP1, double OP2)
- -- Macro: int mpz_cmp_si (mpz_t OP1, signed long int OP2)
- -- Macro: int mpz_cmp_ui (mpz_t OP1, unsigned long int OP2)
+ -- Macro: int mpz_cmp_si (mpz_t OP1, mpir_si OP2)
+ -- Macro: int mpz_cmp_ui (mpz_t OP1, mpir_ui OP2)
      Compare OP1 and OP2.  Return a positive value if OP1 > OP2, zero
      if OP1 = OP2, or a negative value if OP1 < OP2.
 
@@ -2701,7 +2678,7 @@ File: mpir.info,  Node: Integer Comparisons,  Next: Integer Logic and Bit Fiddli
 
  -- Function: int mpz_cmpabs (mpz_t OP1, mpz_t OP2)
  -- Function: int mpz_cmpabs_d (mpz_t OP1, double OP2)
- -- Function: int mpz_cmpabs_ui (mpz_t OP1, unsigned long int OP2)
+ -- Function: int mpz_cmpabs_ui (mpz_t OP1, mpir_ui OP2)
      Compare the absolute values of OP1 and OP2.  Return a positive
      value if abs(OP1) > abs(OP2), zero if abs(OP1) = abs(OP2), or a
      negative value if abs(OP1) < abs(OP2).
@@ -2913,19 +2890,19 @@ data with the following functions.
      There are no data alignment restrictions on OP, any address is
      allowed.
 
-     Here's an example converting an array of `unsigned long' data, most
+     Here's an example converting an array of `mpir_ui' data, most
      significant element first, and host byte order within each value.
 
-          unsigned long  a[20];
+          mpir_ui  a[20];
           mpz_t          z;
           mpz_import (z, 20, 1, sizeof(a[0]), 0, 0, a);
 
      This example assumes the full `sizeof' bytes are used for data in
      the given type, which is usually true, and certainly true for
-     `unsigned long' everywhere we know of.  However on Cray vector
-     systems it may be noted that `short' and `int' are always stored
-     in 8 bytes (and with `sizeof' indicating that) but use only 32 or
-     46 bits.  The NAILS feature can account for this, by passing for
+     `mpir_ui' everywhere we know of.  However on Cray vector systems
+     it may be noted that `short' and `int' are always stored in 8
+     bytes (and with `sizeof' indicating that) but use only 32 or 46
+     bits.  The NAILS feature can account for this, by passing for
      instance `8*sizeof(int)-INT_BIT'.
 
  -- Function: void * mpz_export (void *ROP, size_t *COUNTP, int ORDER,
@@ -2982,9 +2959,9 @@ File: mpir.info,  Node: Miscellaneous Integer Functions,  Next: Integer Special 
  -- Function: int mpz_fits_sint_p (mpz_t OP)
  -- Function: int mpz_fits_ushort_p (mpz_t OP)
  -- Function: int mpz_fits_sshort_p (mpz_t OP)
-     Return non-zero iff the value of OP fits in an `unsigned long int',
-     `signed long int', `unsigned int', `signed int', `unsigned short
-     int', or `signed short int', respectively.  Otherwise, return zero.
+     Return non-zero iff the value of OP fits in an `unsigned long',
+     `long', `unsigned int', `signed int', `unsigned short int', or
+     `signed short int', respectively.  Otherwise, return zero.
 
  -- Macro: int mpz_odd_p (mpz_t OP)
  -- Macro: int mpz_even_p (mpz_t OP)
@@ -3144,10 +3121,8 @@ File: mpir.info,  Node: Initializing Rationals,  Next: Rational Conversions,  Pr
  -- Function: void mpq_set_z (mpq_t ROP, mpz_t OP)
      Assign ROP from OP.
 
- -- Function: void mpq_set_ui (mpq_t ROP, unsigned long int OP1,
-          unsigned long int OP2)
- -- Function: void mpq_set_si (mpq_t ROP, signed long int OP1, unsigned
-          long int OP2)
+ -- Function: void mpq_set_ui (mpq_t ROP, mpir_ui OP1, mpir_ui OP2)
+ -- Function: void mpq_set_si (mpq_t ROP, mpir_si OP1, mpir_ui OP2)
      Set the value of ROP to OP1/OP2.  Note that if OP1 and OP2 have
      common factors, ROP has to be passed to `mpq_canonicalize' before
      any operations are performed on ROP.
@@ -3268,10 +3243,8 @@ File: mpir.info,  Node: Comparing Rationals,  Next: Applying Integer Functions, 
      To determine if two rationals are equal, `mpq_equal' is faster than
      `mpq_cmp'.
 
- -- Macro: int mpq_cmp_ui (mpq_t OP1, unsigned long int NUM2, unsigned
-          long int DEN2)
- -- Macro: int mpq_cmp_si (mpq_t OP1, long int NUM2, unsigned long int
-          DEN2)
+ -- Macro: int mpq_cmp_ui (mpq_t OP1, mpir_ui NUM2, mpir_ui DEN2)
+ -- Macro: int mpq_cmp_si (mpq_t OP1, mpir_si NUM2, mpir_ui DEN2)
      Compare OP1 and NUM2/DEN2.  Return a positive value if OP1 >
      NUM2/DEN2, zero if OP1 = NUM2/DEN2, and a negative value if OP1 <
      NUM2/DEN2.
@@ -3383,7 +3356,7 @@ limbs, so for example on a 32-bit system this means a range of roughly
 2^-68719476768 to 2^68719476736, or on a 64-bit system this will be
 greater.  Note however `mpf_get_str' can only return an exponent which
 fits an `mp_exp_t' and currently `mpf_set_str' doesn't accept exponents
-bigger than a `long'.
+bigger than a `mpir_si'.
 
    Each variable keeps a size for the mantissa data actually in use.
 This means that if a float is exactly represented in only a few bits
@@ -3538,8 +3511,8 @@ These functions assign new values to already initialized floats (*note
 Initializing Floats::).
 
  -- Function: void mpf_set (mpf_t ROP, mpf_t OP)
- -- Function: void mpf_set_ui (mpf_t ROP, unsigned long int OP)
- -- Function: void mpf_set_si (mpf_t ROP, signed long int OP)
+ -- Function: void mpf_set_ui (mpf_t ROP, mpir_ui OP)
+ -- Function: void mpf_set_si (mpf_t ROP, mpir_si OP)
  -- Function: void mpf_set_d (mpf_t ROP, double OP)
  -- Function: void mpf_set_z (mpf_t ROP, mpz_t OP)
  -- Function: void mpf_set_q (mpf_t ROP, mpq_t OP)
@@ -3599,8 +3572,8 @@ ordinary float functions.  Don't use an initialize-and-set function on
 a variable already initialized!
 
  -- Function: void mpf_init_set (mpf_t ROP, mpf_t OP)
- -- Function: void mpf_init_set_ui (mpf_t ROP, unsigned long int OP)
- -- Function: void mpf_init_set_si (mpf_t ROP, signed long int OP)
+ -- Function: void mpf_init_set_ui (mpf_t ROP, mpir_ui OP)
+ -- Function: void mpf_init_set_si (mpf_t ROP, mpir_si OP)
  -- Function: void mpf_init_set_d (mpf_t ROP, double OP)
      Initialize ROP and set its value from OP.
 
@@ -3632,7 +3605,7 @@ File: mpir.info,  Node: Converting Floats,  Next: Float Arithmetic,  Prev: Simul
      returned when available.  For too small 0.0 is normally returned.
      Hardware overflow, underflow and denorm traps may or may not occur.
 
- -- Function: double mpf_get_d_2exp (signed long int *EXP, mpf_t OP)
+ -- Function: double mpf_get_d_2exp (mpir_si *EXP, mpf_t OP)
      Convert OP to a `double', truncating if necessary (ie. rounding
      towards zero), and with an exponent returned separately.
 
@@ -3643,9 +3616,9 @@ File: mpir.info,  Node: Converting Floats,  Next: Float Arithmetic,  Prev: Simul
      This is similar to the standard C `frexp' function (*note
      Normalization Functions: (libc)Normalization Functions.).
 
- -- Function: long mpf_get_si (mpf_t OP)
- -- Function: unsigned long mpf_get_ui (mpf_t OP)
-     Convert OP to a `long' or `unsigned long', truncating any fraction
+ -- Function: mpir_si mpf_get_si (mpf_t OP)
+ -- Function: mpir_ui mpf_get_ui (mpf_t OP)
+     Convert OP to a `mpir_si' or `mpir_ui', truncating any fraction
      part.  If OP is too big for the return type, the result is
      undefined.
 
@@ -3695,20 +3668,16 @@ File: mpir.info,  Node: Float Arithmetic,  Next: Float Comparison,  Prev: Conver
 ========================
 
  -- Function: void mpf_add (mpf_t ROP, mpf_t OP1, mpf_t OP2)
- -- Function: void mpf_add_ui (mpf_t ROP, mpf_t OP1, unsigned long int
-          OP2)
+ -- Function: void mpf_add_ui (mpf_t ROP, mpf_t OP1, mpir_ui OP2)
      Set ROP to OP1 + OP2.
 
  -- Function: void mpf_sub (mpf_t ROP, mpf_t OP1, mpf_t OP2)
- -- Function: void mpf_ui_sub (mpf_t ROP, unsigned long int OP1, mpf_t
-          OP2)
- -- Function: void mpf_sub_ui (mpf_t ROP, mpf_t OP1, unsigned long int
-          OP2)
+ -- Function: void mpf_ui_sub (mpf_t ROP, mpir_ui OP1, mpf_t OP2)
+ -- Function: void mpf_sub_ui (mpf_t ROP, mpf_t OP1, mpir_ui OP2)
      Set ROP to OP1 - OP2.
 
  -- Function: void mpf_mul (mpf_t ROP, mpf_t OP1, mpf_t OP2)
- -- Function: void mpf_mul_ui (mpf_t ROP, mpf_t OP1, unsigned long int
-          OP2)
+ -- Function: void mpf_mul_ui (mpf_t ROP, mpf_t OP1, mpir_ui OP2)
      Set ROP to OP1 times OP2.
 
    Division is undefined if the divisor is zero, and passing a zero
@@ -3717,18 +3686,15 @@ divide by zero.  This lets the user handle arithmetic exceptions in
 these functions in the same manner as other arithmetic exceptions.
 
  -- Function: void mpf_div (mpf_t ROP, mpf_t OP1, mpf_t OP2)
- -- Function: void mpf_ui_div (mpf_t ROP, unsigned long int OP1, mpf_t
-          OP2)
- -- Function: void mpf_div_ui (mpf_t ROP, mpf_t OP1, unsigned long int
-          OP2)
+ -- Function: void mpf_ui_div (mpf_t ROP, mpir_ui OP1, mpf_t OP2)
+ -- Function: void mpf_div_ui (mpf_t ROP, mpf_t OP1, mpir_ui OP2)
      Set ROP to OP1/OP2.
 
  -- Function: void mpf_sqrt (mpf_t ROP, mpf_t OP)
- -- Function: void mpf_sqrt_ui (mpf_t ROP, unsigned long int OP)
+ -- Function: void mpf_sqrt_ui (mpf_t ROP, mpir_ui OP)
      Set ROP to the square root of OP.
 
- -- Function: void mpf_pow_ui (mpf_t ROP, mpf_t OP1, unsigned long int
-          OP2)
+ -- Function: void mpf_pow_ui (mpf_t ROP, mpf_t OP1, mpir_ui OP2)
      Set ROP to OP1 raised to the power OP2.
 
  -- Function: void mpf_neg (mpf_t ROP, mpf_t OP)
@@ -3751,8 +3717,8 @@ File: mpir.info,  Node: Float Comparison,  Next: I/O of Floats,  Prev: Float Ari
 
  -- Function: int mpf_cmp (mpf_t OP1, mpf_t OP2)
  -- Function: int mpf_cmp_d (mpf_t OP1, double OP2)
- -- Function: int mpf_cmp_ui (mpf_t OP1, unsigned long int OP2)
- -- Function: int mpf_cmp_si (mpf_t OP1, signed long int OP2)
+ -- Function: int mpf_cmp_ui (mpf_t OP1, mpir_ui OP2)
+ -- Function: int mpf_cmp_si (mpf_t OP1, mpir_si OP2)
      Compare OP1 and OP2.  Return a positive value if OP1 > OP2, zero
      if OP1 = OP2, and a negative value if OP1 < OP2.
 
@@ -4145,8 +4111,7 @@ For example, {S1P, S1N}.
      zero.
 
  -- Function: mp_limb_t mpn_bdivmod (mp_limb_t *RP, mp_limb_t *S1P,
-          mp_size_t S1N, const mp_limb_t *S2P, mp_size_t S2N, unsigned
-          long int D)
+          mp_size_t S1N, const mp_limb_t *S2P, mp_size_t S2N, mpir_ui D)
      This function puts the low floor(D/mp_bits_per_limb) limbs of Q =
      {S1P, S1N}/{S2P, S2N} mod 2^D at RP, and returns the high D mod
      `mp_bits_per_limb' bits of Q.
@@ -4314,7 +4279,7 @@ For example, {S1P, S1N}.
      MPIR releases.*
 
  -- Function: void mpn_urandomb (mp_limb_t *RP, gmp_randstate_t STATE,
-          unsigned long N)
+          mpir_ui N)
      Generate a uniform random number of length N bits and store it at
      RP.
 
@@ -4531,7 +4496,7 @@ File: mpir.info,  Node: Random State Initialization,  Next: Random State Seeding
      is fast and has good randomness properties.
 
  -- Function: void gmp_randinit_lc_2exp (gmp_randstate_t STATE, mpz_t
-          A, unsigned long C, mp_bitcnt_t M2EXP)
+          A, mpir_ui C, mp_bitcnt_t M2EXP)
      Initialize STATE with a linear congruential algorithm X = (A*X +
      C) mod 2^M2EXP.
 
@@ -4569,8 +4534,7 @@ File: mpir.info,  Node: Random State Seeding,  Next: Random State Miscellaneous,
 ========================
 
  -- Function: void gmp_randseed (gmp_randstate_t STATE, mpz_t SEED)
- -- Function: void gmp_randseed_ui (gmp_randstate_t STATE,
-          unsigned long int SEED)
+ -- Function: void gmp_randseed_ui (gmp_randstate_t STATE, mpir_ui SEED)
      Set an initial seed value into STATE.
 
      The size of a seed determines how many different sequences of
@@ -4596,14 +4560,12 @@ File: mpir.info,  Node: Random State Miscellaneous,  Prev: Random State Seeding,
 9.3 Random State Miscellaneous
 ==============================
 
- -- Function: unsigned long gmp_urandomb_ui (gmp_randstate_t STATE,
-          unsigned long N)
+ -- Function: mpir_ui gmp_urandomb_ui (gmp_randstate_t STATE, mpir_ui N)
      Return a uniformly distributed random number of N bits, ie. in the
      range 0 to 2^N-1 inclusive.  N must be less than or equal to the
-     number of bits in an `unsigned long'.
+     number of bits in an `mpir_ui'.
 
- -- Function: unsigned long gmp_urandomm_ui (gmp_randstate_t STATE,
-          unsigned long N)
+ -- Function: mpir_ui gmp_urandomm_ui (gmp_randstate_t STATE, mpir_ui N)
      Return a uniformly distributed random number in the range 0 to
      N-1, inclusive.
 
@@ -5234,7 +5196,7 @@ their nature imply intermediate values, like `a=b*c+d*e', still use
 temporaries though.
 
    The classes can be freely intermixed in expressions, as can the
-classes and the standard types `long', `unsigned long' and `double'.
+classes and the standard types `mpir_si', `mpir_ui' and `double'.
 Smaller types like `int' or `float' can also be intermixed, since C++
 will promote them.
 
@@ -5287,11 +5249,10 @@ File: mpir.info,  Node: C++ Interface Integers,  Next: C++ Interface Rationals, 
 ===========================
 
  -- Function: void mpz_class::mpz_class (type N)
-     Construct an `mpz_class'.  All the standard C++ types may be used,
-     except `long long' and `long double', and all the MPIR C++ classes
-     can be used.  Any necessary conversion follows the corresponding C
-     function, for example `double' follows `mpz_set_d' (*note
-     Assigning Integers::).
+     Construct an `mpz_class'.  All the standard C++ types may be used
+     `long double', and all the MPIR C++ classes can be used.  Any
+     necessary conversion follows the corresponding C function, for
+     example `double' follows `mpz_set_d' (*note Assigning Integers::).
 
  -- Function: void mpz_class::mpz_class (mpz_t Z)
      Construct an `mpz_class' from an `mpz_t'.  The value in Z is
@@ -5331,9 +5292,9 @@ File: mpir.info,  Node: C++ Interface Integers,  Next: C++ Interface Rationals, 
  -- Function: bool mpz_class::fits_ulong_p (void)
  -- Function: bool mpz_class::fits_ushort_p (void)
  -- Function: double mpz_class::get_d (void)
- -- Function: long mpz_class::get_si (void)
+ -- Function: mpir_si mpz_class::get_si (void)
  -- Function: string mpz_class::get_str (int BASE = 10)
- -- Function: unsigned long mpz_class::get_ui (void)
+ -- Function: mpir_ui mpz_class::get_ui (void)
  -- Function: int mpz_class::set_str (const char *STR, int BASE)
  -- Function: int mpz_class::set_str (const string& STR, int BASE)
  -- Function: int sgn (mpz_class OP)
@@ -5342,7 +5303,7 @@ File: mpir.info,  Node: C++ Interface Integers,  Next: C++ Interface Rationals, 
      MPIR C routines.
 
      `cmp' can be used with any of the classes or the standard C++
-     types, except `long long' and `long double'.
+     types, except `long double'.
 
 
    Overloaded operators for combinations of `mpz_class' and `double'
@@ -5370,8 +5331,8 @@ called.
  -- Function: void mpq_class::mpq_class (integer NUM, integer DEN)
      Construct an `mpq_class'.  The initial value can be a single value
      of any type, or a pair of integers (`mpz_class' or standard C++
-     integer types) representing a fraction, except that `long long'
-     and `long double' are not supported.  For example,
+     integer types) representing a fraction, except that `long double'
+     is not supported.  For example,
 
           mpq_class q (99);
           mpq_class q (1.75);
@@ -5410,7 +5371,7 @@ called.
      MPIR C routines.
 
      `cmp' can be used with any of the classes or the standard C++
-     types, except `long long' and `long double'.
+     types, except `long double'.
 
  -- Function: mpz_class& mpq_class::get_num ()
  -- Function: mpz_class& mpq_class::get_den ()
@@ -5451,10 +5412,9 @@ same precision as the destination `f'.  Explicit constructors can be
 used if this doesn't suit.
 
  -- Function:  mpf_class::mpf_class (type OP)
- -- Function:  mpf_class::mpf_class (type OP, unsigned long PREC)
+ -- Function:  mpf_class::mpf_class (type OP, mpir_ui PREC)
      Construct an `mpf_class'.  Any standard C++ type can be used,
-     except `long long' and `long double', and any of the MPIR C++
-     classes can be used.
+     except `long double', and any of the MPIR C++ classes can be used.
 
      If PREC is given, the initial precision is that value, in bits.  If
      PREC is not given, then the initial precision is determined by the
@@ -5472,11 +5432,11 @@ used if this doesn't suit.
           mpf_class f(x+y);        // greater of precisions of x and y
 
  -- Function: void mpf_class::mpf_class (const char *S)
- -- Function: void mpf_class::mpf_class (const char *S, unsigned long
-          PREC, int BASE = 0)
+ -- Function: void mpf_class::mpf_class (const char *S, mpir_ui PREC,
+          int BASE = 0)
  -- Function: void mpf_class::mpf_class (const string& S)
- -- Function: void mpf_class::mpf_class (const string& S, unsigned long
-          PREC, int BASE = 0)
+ -- Function: void mpf_class::mpf_class (const string& S, mpir_ui PREC,
+          int BASE = 0)
      Construct an `mpf_class' converted from a string using
      `mpf_set_str' (*note Assigning Floats::).  If PREC is given, the
      initial precision is that value, in bits.  If not, the default
@@ -5521,10 +5481,10 @@ used if this doesn't suit.
  -- Function: mpf_class floor (mpf_class OP)
  -- Function: mpf_class hypot (mpf_class OP1, mpf_class OP2)
  -- Function: double mpf_class::get_d (void)
- -- Function: long mpf_class::get_si (void)
+ -- Function: mpir_si mpf_class::get_si (void)
  -- Function: string mpf_class::get_str (mp_exp_t& EXP, int BASE = 10,
           size_t DIGITS = 0)
- -- Function: unsigned long mpf_class::get_ui (void)
+ -- Function: mpir_ui mpf_class::get_ui (void)
  -- Function: int mpf_class::set_str (const char *STR, int BASE)
  -- Function: int mpf_class::set_str (const string& STR, int BASE)
  -- Function: int sgn (mpf_class OP)
@@ -5534,7 +5494,7 @@ used if this doesn't suit.
      MPIR C routines.
 
      `cmp' can be used with any of the classes or the standard C++
-     types, except `long long' and `long double'.
+     types, except `long double'.
 
      The accuracy provided by `hypot' is not currently guaranteed.
 
@@ -5575,12 +5535,12 @@ File: mpir.info,  Node: C++ Interface Random Numbers,  Next: C++ Interface Limit
      `gmp_randinit_lc_2exp_size' will fail if the size requested is too
      big, an `std::length_error' exception is thrown in that case.
 
- -- Function: void gmp_randclass::seed (unsigned long int S)
+ -- Function: void gmp_randclass::seed (mpir_ui S)
  -- Function: void gmp_randclass::seed (mpz_class S)
      Seed a random number generator.  See *note Random Number
      Functions::, for how to choose a good seed.
 
- -- Function: mpz_class gmp_randclass::get_z_bits (unsigned long BITS)
+ -- Function: mpz_class gmp_randclass::get_z_bits (mpir_ui BITS)
  -- Function: mpz_class gmp_randclass::get_z_bits (mpz_class BITS)
      Generate a random integer with a specified number of bits.
 
@@ -5588,7 +5548,7 @@ File: mpir.info,  Node: C++ Interface Random Numbers,  Next: C++ Interface Limit
      Generate a random integer in the range 0 to N-1 inclusive.
 
  -- Function: mpf_class gmp_randclass::get_f ()
- -- Function: mpf_class gmp_randclass::get_f (unsigned long PREC)
+ -- Function: mpf_class gmp_randclass::get_f (mpir_ui PREC)
      Generate a random float F in the range 0 <= F < 1.  F will be to
      PREC bits precision, or if PREC is not given then to the precision
      of the destination.  For example,
