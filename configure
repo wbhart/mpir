@@ -4727,7 +4727,7 @@ echo "include_mpn(\`sparc32/sparc-defs.m4')" >> $gmp_tmpconfigm4i
         abilist="64 32"
         cclist_64="gcc cc"
         gcc_64_cflags="-m64"
-	gcc_cflags_opt="-O3 -O2 -O1"
+	gcc_cflags_opt="-O2 -O1"
 	case $host in
 	*-*-linux-gnu)
 	    gcc_64_ldflags="-Wl,-z,noexecstack" ;;
