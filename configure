@@ -3875,8 +3875,8 @@ abilist="standard"
 #
 cclist="gcc cc"
 
-gcc_cflags="-O3"
-gcc_64_cflags="-O3"
+gcc_cflags="-O2"
+gcc_64_cflags="-O2"
 cc_cflags="-O"
 cc_64_cflags="-O"
 
