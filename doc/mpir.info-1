@@ -1201,7 +1201,7 @@ int' values from an MPIR multiple precision integer (`mpz_t').
    To bring MPIR on Windows x64 into line with other 64-bit operating
 systems two new types have been introduced throughout MPIR:
 
-   * `mpir_ui' defined as `unsigned long int' on all but Windows,
+   * `mpir_ui' defined as `unsigned long int' on all but Windows x64,
      defined as `unsigned long long int' on Windows x64
 
    * `mpir_si' defined as `signed long int' on all but Windows x64,

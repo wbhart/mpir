@@ -1803,7 +1803,7 @@ To bring MPIR on Windows x64 into line with other 64-bit operating systems
 two new types have been introduced throughout MPIR:
 
 @itemize @bullet
-@item @code{mpir_ui} defined as @code{unsigned long int} on all but Windows, defined as @code{unsigned long long int} on Windows x64
+@item @code{mpir_ui} defined as @code{unsigned long int} on all but Windows x64, defined as @code{unsigned long long int} on Windows x64
 
 @item @code{mpir_si} defined as @code{signed long int} on all but Windows x64, defined as @code{signed long long int} on Windows x64
 @end itemize
