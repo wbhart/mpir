@@ -184,9 +184,9 @@ for %%X in ( ..\..\cxx\*.cc) do (
 cd ..
 
 if %LIBTYPE% == dll (
-	link /DLL /NODEFAULTLIB:LIBCMT.lib /nologo scanf\*.obj printf\*.obj mpz\*.obj fft\*.obj mpq\*.obj mpf\*.obj mpn\*.obj *.obj /out:mpir.%LIBTYPE%
+	link /DLL /NODEFAULTLIB:LIBCMT.lib /nologo scanf\*.obj printf\*.obj mpz\*.obj fft\*.obj mpq\*.obj mpf\*.obj mpn\*.obj cxx\*.obj *.obj /out:mpir.%LIBTYPE%
 	if errorlevel 1 goto :err
-	link /DLL /NODEFAULTLIB:LIBCMT.lib /nologo scanf\*.obj printf\*.obj mpz\*.obj fft\*.obj mpq\*.obj mpf\*.obj mpn\*.obj *.obj /out:mpirxx.%LIBTYPE%
+	link /DLL /NODEFAULTLIB:LIBCMT.lib /nologo scanf\*.obj printf\*.obj mpz\*.obj fft\*.obj mpq\*.obj mpf\*.obj mpn\*.obj cxx\*.obj *.obj /out:mpirxx.%LIBTYPE%
 	if errorlevel 1 goto :err
 )
 if %LIBTYPE% == lib (
