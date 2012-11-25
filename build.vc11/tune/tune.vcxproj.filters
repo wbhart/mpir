@@ -1,0 +1,143 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\tests\memory.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\tests\misc.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\tests\refmpn.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\tune\tuneup.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="divrem_1.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="divrem_2.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="gcdext.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="get_str.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="mod_1.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="mul.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="mullow_n.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="mul_n.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tdiv_qr.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="dc_bdiv_q.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="dc_bdiv_qr.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="dc_div_qr.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="dc_divappr_q.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="divrem_euclidean_r_1.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="divrem_hensel_qr_1.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="inv_div_qr.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="inv_divappr_q.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="mulhigh_n.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="mulmod_2expm1.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rootrem.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rsh_divrem_hensel_qr_1.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tdiv_q.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="toom3_mul.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="toom3_mul_n.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="toom4_mul.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="toom4_mul_n.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="toom8_sqr_n.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="toom8h_mul.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\win_timing.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\getopt.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="gcd.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\config.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\tune\speed.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\getopt.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\getrusage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\gettimeofday.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\win_timing.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lib\x64\release\gmp-impl.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
