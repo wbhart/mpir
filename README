@@ -76,7 +76,7 @@ There are five classes of functions in MPIR.
     low-level functions.
 
 For more information on how to use MPIR, please refer to the documentation.
-It is composed from the file gmp.texi, and can be displayed on the screen or
+It is composed from the file mpir.texi, and can be displayed on the screen or
 printed.  How to do that, as well how to build the library, is described in
 the INSTALL file in this directory.
 
