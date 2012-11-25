@@ -161,3 +161,21 @@ pip-log.txt
 
 # Mac crap
 .DS_Store
+
+############
+# *nix
+############
+*.lo
+*.o
+*.a
+*.la
+.libs
+mpn/*.c
+mpn/*.as
+mpn/*.asm
+Makefile
+mpir.h
+config.h
+config.log
+config.status
+
