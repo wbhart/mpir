@@ -179,3 +179,4 @@ config.h
 config.log
 config.status
 
+/build.vc11/output_params.bat
