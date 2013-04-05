@@ -19,6 +19,8 @@ dnl  License for more details.
 dnl  You should have received a copy of the GNU Lesser General Public License
 dnl  along with the GNU MP Library.  If not, see http://www.gnu.org/licenses/.
 
+dnl  Minor modifications (not copyrightable) for MPIR made by William Hart.
+
 include(`../config.m4')
 
 C The inner loops of this code are the result of running a code generation and
@@ -55,7 +57,7 @@ ASM_START()
 	TEXT
 	ALIGN(16)
 PROLOGUE(mpn_mullo_basecase)
-	FUNC_ENTRY(4)
+	
 	cmp	$4, n
 	jge	L(gen)
 	mov	(up), %rax		C u0
@@ -87,7 +89,7 @@ dnl	JMPENT(	L(3m4), L(tab))			C 11
 
 L(1):	imul	%r8, %rax
 	mov	%rax, (rp)
-	FUNC_EXIT()
+	
 	ret
 
 L(2):	mov	8(vp_param), %r11
@@ -98,7 +100,7 @@ L(2):	mov	8(vp_param), %r11
 	lea	(%r11, %rdx), %rax
 	add	%r8, %rax
 	mov	%rax, 8(rp)
-	FUNC_EXIT()
+	
 	ret
 
 L(3):	mov	8(vp_param), %r9	C v1
@@ -123,7 +125,7 @@ L(3):	mov	8(vp_param), %r9	C v1
 	add	%rax, %r9
 	mov	%rcx, 8(rp)
 	mov	%r9, 16(rp)
-	FUNC_EXIT()
+	
 	ret
 
 L(0m4):
@@ -417,6 +419,6 @@ L(ret):	pop	%r15
 	pop	%r13
 	pop	%rbp
 	pop	%rbx
-	FUNC_EXIT()
+	
 	ret
 EPILOGUE()
