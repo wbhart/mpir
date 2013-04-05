@@ -1,4 +1,4 @@
-dnl  AMD64 mpn_mullo_basecase.
+dnl  AMD64 mpn_mullow_basecase.
 
 dnl  Contributed to the GNU project by Torbjorn Granlund.
 
@@ -56,7 +56,7 @@ define(`w3',	`%r10')
 ASM_START()
 	TEXT
 	ALIGN(16)
-PROLOGUE(mpn_mullo_basecase)
+PROLOGUE(mpn_mullow_basecase)
 	
 	cmp	$4, n
 	jge	L(gen)
