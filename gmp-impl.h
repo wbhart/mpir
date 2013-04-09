@@ -2745,6 +2745,70 @@ mp_limb_t mpn_invert_limb _PROTO ((mp_limb_t)) ATTRIBUTE_CONST;
     dinv = v;						\
   } while (0)
 
+#define add_sssaaaaaa(sh, sm, sl, ah, am, al, bh, bm, bl)  \
+  __asm__ ("addq %8,%q2\n\tadcq %6,%q1\n\tadcq %4,%q0"     \
+       : "=r" (sh), "=r" (sm), "=&r" (sl)                  \
+       : "0"  ((mp_limb_t)(ah)), "rme" ((mp_limb_t)(bh)),  \
+         "1"  ((mp_limb_t)(am)), "rme" ((mp_limb_t)(bm)),  \
+         "2"  ((mp_limb_t)(al)), "rme" ((mp_limb_t)(bl)))  \
+
+#define sub_dddmmmsss(sh, sm, sl, ah, am, al, bh, bm, bl)  \
+  __asm__ ("subq %8,%q2\n\tsbbq %6,%q1\n\tsbbq %4,%q0"     \
+       : "=r" (sh), "=r" (sm), "=&r" (sl)                  \
+       : "0"  ((mp_limb_t)(ah)), "rme" ((mp_limb_t)(bh)),  \
+         "1"  ((mp_limb_t)(am)), "rme" ((mp_limb_t)(bm)),  \
+         "2"  ((mp_limb_t)(al)), "rme" ((mp_limb_t)(bl)))  \
+
+#define mpir_invert_pi2(dinv, d1, d2)                        \
+do {                                                         \
+   mp_limb_t __q, __r[2], __p[2], __cy;                      \
+                                                             \
+   if ((d2) + 1 == 0 && (d1) + 1 == 0)                       \
+      (dinv) = 0;                                            \
+   else {                                                    \
+      if ((d1) + 1 == 0)                                     \
+         (dinv) = ~(d1), __r[1] = ~(d2);                     \
+      else                                                   \
+         udiv_qrnnd((dinv), __r[1], ~(d1), ~(d2), (d1) + 1); \
+                                                             \
+      if ((d2) + 1 != 0) {                                   \
+         __r[0] = 0;                                         \
+         umul_ppmm(__p[1], __p[0], (dinv), ~(d2));           \
+         __cy = mpn_add_n(__r, __r, __p, 2);                 \
+                                                             \
+         __p[0] = (d2) + 1, __p[1] = (d1) + ((d2) + 1 == 0); \
+         while (__cy || mpn_cmp(__r, __p, 2) >= 0)           \
+         { (dinv)++; __cy -= mpn_sub_n(__r, __r, __p, 2); }  \
+      }                                                      \
+   }                                                         \
+} while (0)
+
+#define mpir_div32_preinv2(q, a1, a2, a3, d1, d2, dinv)          \
+   do {                                                          \
+      mp_limb_t __q2, __q3, __q4, __r2, __r3, __p1, __p2;        \
+      umul_ppmm((q), __q2, (a1), (dinv));                        \
+      add_ssaaaa((q), __q2, (q), __q2, (a1), (a2));              \
+      umul_ppmm(__p1, __p2, (q), (d2));                          \
+      sub_ddmmss(__r2, __r3, (a2) - (q)*(d1), (a3), __p1, __p2); \
+      sub_ddmmss(__r2, __r3, __r2, __r3, (d1), (d2));            \
+      if (__r2 < __q2) (q)++;                                    \
+   } while (0)
+
+#define mpir_divrem32_preinv2(q, r2, r3, a1, a2, a3, d1, d2, dinv)      \
+   do {                                                                 \
+      mp_limb_t __q2, __q3, __q4, __p1, __p2, __cy;                     \
+      umul_ppmm((q), __q2, (a1), (dinv));                               \
+      add_ssaaaa((q), __q2, (q), __q2, (a1), (a2));                     \
+      umul_ppmm(__p1, __p2, (q), (d2));                                 \
+      (r3) = (a3);                                                      \
+      (r2) = (a2) - (q)*(d1);                                           \
+      sub_ddmmss((r2), (r3), (r2), (r3), __p1, __p2);                   \
+      sub_ddmmss((r2), (r3), (r2), (r3), (d1), (d2));                   \
+      (q)++;                                                            \
+      if ((r2) >= __q2)                                                 \
+      { (q)--; add_ssaaaa((r2), (r3), (r2), (r3), (d1), (d2)); }        \
+   } while (0)
+
 /* Compute quotient the quotient and remainder for n / d. Requires d
    >= B^2 / 2 and n < d B. di is the inverse
 
