@@ -4633,9 +4633,13 @@ echo "include_mpn(\`sparc32/sparc-defs.m4')" >> $gmp_tmpconfigm4i
         gcc_cflags_cpu="-mtune=c3 -mcpu=c3 -mcpu=i486 -m486"
         gcc_cflags_arch="-march=c3 -march=pentium-mmx -march=pentium"
         ;;
-      x86_64 | k8 | k10 | k102 | k103 | bulldozer)
+      x86_64 | k8 | bulldozer)
         gcc_cflags_cpu="-mtune=k8 -mcpu=athlon -mcpu=pentiumpro -mcpu=i486 -m486"
         gcc_cflags_arch="-march=k8 -march=k8~-mno-sse2 -march=athlon -march=pentiumpro -march=pentium"
+        ;;
+      k10 | k102 | k103)
+        gcc_cflags_cpu="-mtune=amdfam10 mtune=k8 -mcpu=athlon -mcpu=pentiumpro -mcpu=i486 -m486"
+        gcc_cflags_arch="-march=amdfam10 -march=k8 -march=k8~-mno-sse2 -march=athlon -march=pentiumpro -march=pentium"
         ;;
       bobcat)
         gcc_cflags_cpu="-mtune=btver1 -mtune=k8 -mcpu=athlon -mcpu=pentiumpro -mcpu=i486 -m486"
@@ -4726,7 +4730,7 @@ echo "include_mpn(\`sparc32/sparc-defs.m4')" >> $gmp_tmpconfigm4i
       x86_64-*-* | netburst-*-* | netburstlahf-*-* | k8-*-* | k10-*-* | k102-*-* | k103-*-* | core2-*-* | penryn-*-* | nehalem-*-* | westmere-*-* | sandybridge-*-* | atom-*-* | nano-*-* | bobcat-*-* | bulldozer-*-*)
         abilist="64 32"
         cclist_64="gcc cc"
-        gcc_64_cflags="-m64"
+        gcc_64_cflags="-m64 $fomit_frame_pointer"
 	gcc_cflags_opt="-O2 -O1"
 	case $host in
 	*-*-linux-gnu)

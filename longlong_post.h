@@ -114,6 +114,34 @@ extern UWtype mpn_udiv_qrnnd_r _PROTO ((UWtype, UWtype, UWtype, UWtype *));
   } while (0)
 #endif
 
+#if !defined (add_333)
+#define add_333(sh, sm, sl, ah, am, al, bh, bm, bl)  \
+   do { \
+      UWtype __cy1, __cy2; \
+      __cy1 = ((al) + (bl) < (al)); \
+      (sl) = (al) + (bl); \
+      __cy2 = ((am) + (bm) < (am)); \
+      (sm) = (am) + (bm); \
+      __cy2 += ((sm) + __cy1 < (sm)); \
+      (sm) = (sm) + __cy1; \
+      (sh) = (ah) + (bh) + __cy2; \
+   } while (0)
+#endif
+
+#if !defined(sub_333)
+#define sub_333(sh, sm, sl, ah, am, al, bh, bm, bl)  \
+   do { \
+      UWtype __cy1, __cy2; \
+      __cy1 = ((al) < (bl)); \
+      (sl) = (al) - (bl); \
+      __cy2 = ((am) < (bm)); \
+      (sm) = (am) - (bm); \
+      __cy2 += ((sm) < __cy1); \
+      (sm) = (sm) - __cy1; \
+      (sh) = (ah) - (bh) - __cy2; \
+   } while (0)
+#endif
+
 /* If we lack umul_ppmm but have smul_ppmm, define umul_ppmm in terms of
    smul_ppmm.  */
 #if !defined (umul_ppmm) && defined (smul_ppmm)

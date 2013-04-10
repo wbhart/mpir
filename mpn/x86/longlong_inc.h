@@ -30,6 +30,18 @@ MA 02110-1301, USA. */
 	   : "=r" (sh), "=&r" (sl)					\
 	   : "0" ((USItype)(ah)), "g" ((USItype)(bh)),			\
 	     "1" ((USItype)(al)), "g" ((USItype)(bl)))
+#define add_333(sh, sm, sl, ah, am, al, bh, bm, bl)  \
+  __asm__ ("addl %8,%q2\n\tadcl %6,%q1\n\tadcl %4,%q0"     \
+       : "=r" (sh), "=r" (sm), "=&r" (sl)                  \
+       : "0"  ((USItype)(ah)), "rme" ((USItype)(bh)),  \
+         "1"  ((USItype)(am)), "rme" ((USItype)(bm)),  \
+         "2"  ((USItype)(al)), "rme" ((USItype)(bl)))  
+#define sub_333(sh, sm, sl, ah, am, al, bh, bm, bl)  \
+  __asm__ ("subl %8,%q2\n\tsbbl %6,%q1\n\tsbbl %4,%q0"     \
+       : "=r" (sh), "=r" (sm), "=&r" (sl)                  \
+       : "0"  ((USItype)(ah)), "rme" ((USItype)(bh)),  \
+         "1"  ((USItype)(am)), "rme" ((USItype)(bm)),  \
+         "2"  ((USItype)(al)), "rme" ((USItype)(bl)))  
 #define umul_ppmm(w1, w0, u, v) \
   __asm__ ("mull %3"							\
 	   : "=a" (w0), "=d" (w1)					\

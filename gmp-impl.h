@@ -2745,20 +2745,6 @@ mp_limb_t mpn_invert_limb _PROTO ((mp_limb_t)) ATTRIBUTE_CONST;
     dinv = v;						\
   } while (0)
 
-#define add_sssaaaaaa(sh, sm, sl, ah, am, al, bh, bm, bl)  \
-  __asm__ ("addq %8,%q2\n\tadcq %6,%q1\n\tadcq %4,%q0"     \
-       : "=r" (sh), "=r" (sm), "=&r" (sl)                  \
-       : "0"  ((mp_limb_t)(ah)), "rme" ((mp_limb_t)(bh)),  \
-         "1"  ((mp_limb_t)(am)), "rme" ((mp_limb_t)(bm)),  \
-         "2"  ((mp_limb_t)(al)), "rme" ((mp_limb_t)(bl)))  \
-
-#define sub_dddmmmsss(sh, sm, sl, ah, am, al, bh, bm, bl)  \
-  __asm__ ("subq %8,%q2\n\tsbbq %6,%q1\n\tsbbq %4,%q0"     \
-       : "=r" (sh), "=r" (sm), "=&r" (sl)                  \
-       : "0"  ((mp_limb_t)(ah)), "rme" ((mp_limb_t)(bh)),  \
-         "1"  ((mp_limb_t)(am)), "rme" ((mp_limb_t)(bm)),  \
-         "2"  ((mp_limb_t)(al)), "rme" ((mp_limb_t)(bl)))  \
-
 #define mpir_invert_pi2(dinv, d1, d2)                        \
 do {                                                         \
    mp_limb_t __q, __r[2], __p[2], __cy;                      \
@@ -2783,15 +2769,13 @@ do {                                                         \
    }                                                         \
 } while (0)
 
-#define mpir_div32_preinv2(q, a1, a2, a3, d1, d2, dinv)          \
-   do {                                                          \
-      mp_limb_t __q2, __q3, __q4, __r2, __r3, __p1, __p2;        \
-      umul_ppmm((q), __q2, (a1), (dinv));                        \
-      add_ssaaaa((q), __q2, (q), __q2, (a1), (a2));              \
-      umul_ppmm(__p1, __p2, (q), (d2));                          \
-      sub_ddmmss(__r2, __r3, (a2) - (q)*(d1), (a3), __p1, __p2); \
-      sub_ddmmss(__r2, __r3, __r2, __r3, (d1), (d2));            \
-      if (__r2 < __q2) (q)++;                                    \
+#define mpir_divapprox32_preinv2(q, a_hi, a_lo, dinv) \
+   do { \
+      mp_limb_t __q2, __q3, __q4; \
+      umul_ppmm((q), __q2, (a_hi), (dinv)); \
+      umul_ppmm(__q3, __q4, (a_lo), (dinv)); \
+      add_ssaaaa((q), __q2, (q), __q2, (a_hi), (a_lo)); \
+      add_ssaaaa((q), __q2, (q), __q2, 0, __q3); \
    } while (0)
 
 #define mpir_divrem32_preinv2(q, r2, r3, a1, a2, a3, d1, d2, dinv)      \
@@ -2819,22 +2803,21 @@ do {                                                         \
 */
 #define tdiv_qr_3by2(q, r1, r0, n2, n1, n0, d1, d0, dinv)		\
   do {									\
-    mp_limb_t _q0, _t1, _t0, _mask;					\
+    mp_limb_t _q0, _t1, _t0;					\
     umul_ppmm ((q), _q0, (n2), (dinv));					\
     add_ssaaaa ((q), _q0, (q), _q0, (n2), (n1));			\
                                     \
     /* Compute the two most significant limbs of n - q'd */		\
     (r1) = (n1) - (d1) * (q);						\
-    (r0) = (n0);							\
-    sub_ddmmss ((r1), (r0), (r1), (r0), (d1), (d0));			\
+    sub_ddmmss ((r1), (r0), (r1), (n0), (d1), (d0));			\
     umul_ppmm (_t1, _t0, (d0), (q));					\
     sub_ddmmss ((r1), (r0), (r1), (r0), _t1, _t0);			\
     (q)++;								\
                                     \
     /* Conditionally adjust q and the remainders */			\
-    _mask = - (mp_limb_t) ((r1) >= _q0);				\
-    (q) += _mask;							\
-    add_ssaaaa ((r1), (r0), (r1), (r0), _mask & (d1), _mask & (d0));	\
+    if ((r1) >= _q0) {				\
+       (q)--;							\
+       add_ssaaaa ((r1), (r0), (r1), (r0), (d1), (d0));	} \
     if (UNLIKELY ((r1) >= (d1)))					\
       {									\
     if ((r1) > (d1) || (r0) >= (d0))				\
@@ -2933,29 +2916,28 @@ do {                                                         \
 */
 #define udiv_qr_3by2(q, r1, r0, n2, n1, n0, d1, d0, dinv)		\
   do {									\
-    mp_limb_t _q0, _t1, _t0, _mask;					\
+    mp_limb_t _q0, _t1, _t0;					\
     umul_ppmm ((q), _q0, (n2), (dinv));					\
     add_ssaaaa ((q), _q0, (q), _q0, (n2), (n1));			\
-									\
+                                    \
     /* Compute the two most significant limbs of n - q'd */		\
     (r1) = (n1) - (d1) * (q);						\
-    (r0) = (n0);							\
-    sub_ddmmss ((r1), (r0), (r1), (r0), (d1), (d0));			\
+    sub_ddmmss ((r1), (r0), (r1), (n0), (d1), (d0));			\
     umul_ppmm (_t1, _t0, (d0), (q));					\
     sub_ddmmss ((r1), (r0), (r1), (r0), _t1, _t0);			\
     (q)++;								\
-									\
+                                    \
     /* Conditionally adjust q and the remainders */			\
-    _mask = - (mp_limb_t) ((r1) >= _q0);				\
-    (q) += _mask;							\
-    add_ssaaaa ((r1), (r0), (r1), (r0), _mask & (d1), _mask & (d0));	\
+    if ((r1) >= _q0) {				\
+       (q)--;							\
+       add_ssaaaa ((r1), (r0), (r1), (r0), (d1), (d0));	} \
     if (UNLIKELY ((r1) >= (d1)))					\
       {									\
-	if ((r1) > (d1) || (r0) >= (d0))				\
-	  {								\
-	    (q)++;							\
-	    sub_ddmmss ((r1), (r0), (r1), (r0), (d1), (d0));		\
-	  }								\
+    if ((r1) > (d1) || (r0) >= (d0))				\
+      {								\
+        (q)++;							\
+        sub_ddmmss ((r1), (r0), (r1), (r0), (d1), (d0));		\
+      }								\
       }									\
   } while (0)
 

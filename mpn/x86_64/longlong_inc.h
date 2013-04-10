@@ -38,6 +38,19 @@ MA 02110-1301, USA. */
   __asm__ ("divq %4"		     /* stringification in K&R C */	\
 	   : "=a" (q), "=d" (r)						\
 	   : "0" ((UDItype)(n0)), "1" ((UDItype)(n1)), "rm" ((UDItype)(dx)))
+#define add_333(sh, sm, sl, ah, am, al, bh, bm, bl)  \
+  __asm__ ("addq %8,%q2\n\tadcq %6,%q1\n\tadcq %4,%q0"     \
+       : "=r" (sh), "=r" (sm), "=&r" (sl)                  \
+       : "0"  ((UDItype)(ah)), "rme" ((UDItype)(bh)),  \
+         "1"  ((UDItype)(am)), "rme" ((UDItype)(bm)),  \
+         "2"  ((UDItype)(al)), "rme" ((UDItype)(bl)))  
+#define sub_333(sh, sm, sl, ah, am, al, bh, bm, bl)  \
+  __asm__ ("subq %8,%q2\n\tsbbq %6,%q1\n\tsbbq %4,%q0"     \
+       : "=r" (sh), "=r" (sm), "=&r" (sl)                  \
+       : "0"  ((UDItype)(ah)), "rme" ((UDItype)(bh)),  \
+         "1"  ((UDItype)(am)), "rme" ((UDItype)(bm)),  \
+         "2"  ((UDItype)(al)), "rme" ((UDItype)(bl)))  
+
 /* bsrq destination must be a 64-bit register, hence UDItype for __cbtmp. */
 #define count_leading_zeros(count, x)					\
   do {									\
