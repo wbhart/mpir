@@ -6,7 +6,7 @@
 Copyright 1991, 1993, 1994, 1995, 1996, 1997, 1999, 2000, 2001, 2002, 2003,
 2004, 2005, 2006, 2007, 2008, 2009, 2010 Free Software Foundation, Inc.
 
-Copyright 2009 William Hart
+Copyright 2009, 2013 William Hart
 
 
 This file is part of the GNU MP Library.
