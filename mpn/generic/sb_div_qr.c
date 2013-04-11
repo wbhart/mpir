@@ -110,15 +110,7 @@ mpn_sb_div_qr (mp_ptr qp,
 	}
       else
 	{
-	  mpir_divrem32_preinv2(q, n1, n0, n1, np[1], np[0], d11, d01, dinv);
-
-     add_333(cy, n1, n0, 0, n1, n0, 0, 0, q);        
-     while (UNLIKELY(cy != 0 || n1 >= d1))                            
-     { 
-        if (n1 == d1 && n0 < d0 && cy == 0) break;            
-        sub_333(cy, n1, n0, cy, n1, n0, 0, d1, d0); 
-        (q)++; 
-     }                                                          
+	  mpir_divrem32_preinv2(q, n1, n0, n1, np[1], np[0], d11, d01, d1, d0, dinv);
 
      cy2 = mpn_submul_1 (np - dn, dp, dn, q);
 

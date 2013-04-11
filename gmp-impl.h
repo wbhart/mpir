@@ -2778,19 +2778,26 @@ do {                                                         \
       add_ssaaaa((q), __q2, (q), __q2, 0, __q3); \
    } while (0)
 
-#define mpir_divrem32_preinv2(q, r2, r3, a1, a2, a3, d1, d2, dinv)      \
+#define mpir_divrem32_preinv2(q, r2, r3, a1, a2, a3, d11, d21, d1, d2, dinv) \
    do {                                                                 \
       mp_limb_t __q2, __q3, __q4, __p1, __p2, __cy;                     \
       umul_ppmm((q), __q2, (a1), (dinv));                               \
       add_ssaaaa((q), __q2, (q), __q2, (a1), (a2));                     \
-      umul_ppmm(__p1, __p2, (q), (d2));                                 \
+      umul_ppmm(__p1, __p2, (q), (d21));                                \
       (r3) = (a3);                                                      \
-      (r2) = (a2) - (q)*(d1);                                           \
+      (r2) = (a2) - (q)*(d11);                                          \
       sub_ddmmss((r2), (r3), (r2), (r3), __p1, __p2);                   \
-      sub_ddmmss((r2), (r3), (r2), (r3), (d1), (d2));                   \
+      sub_ddmmss((r2), (r3), (r2), (r3), (d11), (d21));                 \
       (q)++;                                                            \
       if ((r2) >= __q2)                                                 \
-      { (q)--; add_ssaaaa((r2), (r3), (r2), (r3), (d1), (d2)); }        \
+      { (q)--; add_ssaaaa((r2), (r3), (r2), (r3), (d11), (d21)); }      \
+      add_333(__cy, (r2), (r3), 0, (r2), (r3), 0, 0, (q));              \
+      while (UNLIKELY(__cy != 0 || (r2) >= (d1)))                       \
+      {                                                                 \
+         if ((r2) == (d1) && (r3) < (d2) && __cy == 0) break;           \
+         sub_333(__cy, (r2), (r3), __cy, (r2), (r3), 0, (d1), (d2));    \
+         (q)++;                                                         \
+      }                                                                 \
    } while (0)
 
 /* Compute quotient the quotient and remainder for n / d. Requires d
