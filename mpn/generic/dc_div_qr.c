@@ -93,7 +93,7 @@ mpn_dc_div_qr (mp_ptr qp,
 	    }
 	  else
 	    {
-	      tdiv_qr_3by2 (q, n1, n0, n2, n1, n0, d1, d0, dinv);
+	      udiv_qr_3by2 (q, n1, n0, n2, n1, n0, d1, d0, dinv);
 
 	      if (dn > 2)
 		{

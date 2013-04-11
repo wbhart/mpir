@@ -85,7 +85,7 @@ mpn_sb_divappr_q (mp_ptr qp,
 	}
       else
 	{
-	  tdiv_qr_3by2 (q, n1, n0, n1, np[1], np[0], d1, d0, dinv);
+	  udiv_qr_3by2 (q, n1, n0, n1, np[1], np[0], d1, d0, dinv);
 
 	  cy = mpn_submul_1 (np - dn, dp, dn, q);
 
@@ -131,7 +131,7 @@ mpn_sb_divappr_q (mp_ptr qp,
 	    }
 	  else
 	    {
-	      tdiv_qr_3by2 (q, n1, n0, n1, np[1], np[0], d1, d0, dinv);
+	      udiv_qr_3by2 (q, n1, n0, n1, np[1], np[0], d1, d0, dinv);
 
 	      cy = mpn_submul_1 (np - dn, dp, dn, q);
 
@@ -175,7 +175,7 @@ mpn_sb_divappr_q (mp_ptr qp,
 	}
       else
 	{
-	  tdiv_qr_3by2 (q, n1, n0, n1, np[1], np[0], d1, d0, dinv);
+	  udiv_qr_3by2 (q, n1, n0, n1, np[1], np[0], d1, d0, dinv);
 
 	  np[1] = n1;
 	  np[0] = n0;

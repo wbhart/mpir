@@ -94,7 +94,7 @@ mpn_inv_divappr_q (mp_ptr qp, mp_ptr np, mp_size_t nn,
 	  else
 	    {
 	      invert_1(dinv2, d1, d0);
-         tdiv_qr_3by2 (q, n1, n0, n2, n1, n0, d1, d0, dinv2);
+         udiv_qr_3by2 (q, n1, n0, n2, n1, n0, d1, d0, dinv2);
 
 	      if (dn > 2)
 		{
