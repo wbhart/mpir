@@ -64,7 +64,7 @@ check_dc_div_qr_n (void)
 
       MPN_COPY(np2, np, 2*dn);
       
-      invert_1(dip, dp[dn - 1], dp[dn - 2]);
+      mpir_invert_pi1(dip, dp[dn - 1], dp[dn - 2]);
       
       qn = dn + 1;
          

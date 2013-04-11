@@ -1487,7 +1487,7 @@ int speed_routine_count_zeros_setup _PROTO ((struct speed_params *s,
     speed_operand_dst (s, q, 2*s->size+1);				\
     speed_cache_fill (s);						\
 	                                                         \
-    invert_1(inv, d[2*s->size-1], d[2*s->size-2]);                        \
+    mpir_invert_pi1(inv, d[2*s->size-1], d[2*s->size-2]);                        \
 								\
     speed_starttime ();							\
     i = s->reps;							\
@@ -1535,7 +1535,7 @@ int speed_routine_count_zeros_setup _PROTO ((struct speed_params *s,
     speed_operand_dst (s, q, s->size+1);				\
     speed_cache_fill (s);						\
 	                                                         \
-    invert_1(inv, d[2*s->size-1], d[2*s->size-2]);                        \
+    mpir_invert_pi1(inv, d[2*s->size-1], d[2*s->size-2]);                        \
 								\
     speed_starttime ();							\
     i = s->reps;							\

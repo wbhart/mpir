@@ -2688,7 +2688,7 @@ mp_limb_t mpn_invert_limb _PROTO ((mp_limb_t)) ATTRIBUTE_CONST;
   } while (0)
 #endif
 
-#define invert_1(dinv, d1, d0)					\
+#define mpir_invert_pi1(dinv, d1, d0)					\
   do {									\
     mp_limb_t _v, _p, _t1, _t0, _mask;					\
     invert_limb (_v, d1);						\
@@ -2718,7 +2718,7 @@ mp_limb_t mpn_invert_limb _PROTO ((mp_limb_t)) ATTRIBUTE_CONST;
 
 /* For compatibility with GMP only */
 #define invert_pi1(dinv, d1, d0)				\
-   invert_1((dinv).inv32, d1, d0)
+   mpir_invert_pi1((dinv).inv32, d1, d0)
 
 #define mpir_invert_pi2(dinv, d1, d2)                        \
 do {                                                         \

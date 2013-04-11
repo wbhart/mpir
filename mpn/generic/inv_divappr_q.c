@@ -93,7 +93,7 @@ mpn_inv_divappr_q (mp_ptr qp, mp_ptr np, mp_size_t nn,
 	    }
 	  else
 	    {
-	      invert_1(dinv2, d1, d0);
+	      mpir_invert_pi1(dinv2, d1, d0);
          udiv_qr_3by2 (q, n1, n0, n2, n1, n0, d1, d0, dinv2);
 
 	      if (dn > 2)
@@ -123,7 +123,7 @@ mpn_inv_divappr_q (mp_ptr qp, mp_ptr np, mp_size_t nn,
 	}
       else
 	{
-	  invert_1(dinv2, dp[-1], dp[-2]);
+	  mpir_invert_pi1(dinv2, dp[-1], dp[-2]);
      if (qn == 2)
 	    qh = mpn_divrem_2 (qp, 0L, np - 2, 4, dp - 2);
 	  else if (BELOW_THRESHOLD (qn, DC_DIV_QR_THRESHOLD))
@@ -185,7 +185,7 @@ mpn_inv_divappr_q (mp_ptr qp, mp_ptr np, mp_size_t nn,
 
       q2p = TMP_ALLOC_LIMBS (qn + 1);
       
-      invert_1(dinv2, dp[-1], dp[-2]);
+      mpir_invert_pi1(dinv2, dp[-1], dp[-2]);
       
        if (qn == 1)
         {

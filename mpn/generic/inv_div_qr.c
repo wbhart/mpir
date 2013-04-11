@@ -48,7 +48,7 @@ mpn_inv_div_qr (mp_ptr qp,
   ASSERT (nn - dn >= 3);	/* to adhere to mpn_sb_div_qr's limits */
   ASSERT (dp[dn-1] & GMP_NUMB_HIGHBIT);
 
-  invert_1(dinv2, dp[dn - 1], dp[dn - 2]);
+  mpir_invert_pi1(dinv2, dp[dn - 1], dp[dn - 2]);
 
   tp = TMP_ALLOC_LIMBS (DC_DIVAPPR_Q_N_ITCH(dn));
 

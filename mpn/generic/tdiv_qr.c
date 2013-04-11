@@ -131,7 +131,7 @@ mpn_tdiv_qr (mp_ptr qp, mp_ptr rp, mp_size_t qxn,
 		nn += adjust;
 	      }
 
-	    invert_1 (dinv, d2p[dn - 1], d2p[dn - 2]);
+	    mpir_invert_pi1 (dinv, d2p[dn - 1], d2p[dn - 2]);
 	    if (BELOW_THRESHOLD (dn, DC_DIV_QR_THRESHOLD))
 	      ASSERT_NOCARRY(mpn_sb_div_qr (qp, n2p, nn, d2p, dn, dinv));
 	    else if (BELOW_THRESHOLD (dn, INV_DIV_QR_THRESHOLD) ||
@@ -258,7 +258,7 @@ mpn_tdiv_qr (mp_ptr qp, mp_ptr rp, mp_size_t qxn,
 	      mpn_divrem_2 (qp, 0L, n2p, 4L, d2p); /* FIXME: obsolete function */
 	    else
 	      {
-		invert_1 (dinv, d2p[qn - 1], d2p[qn - 2]);
+		mpir_invert_pi1 (dinv, d2p[qn - 1], d2p[qn - 2]);
 		if (BELOW_THRESHOLD (qn, DC_DIV_QR_THRESHOLD))
 		  ASSERT_NOCARRY(mpn_sb_div_qr (qp, n2p, 2 * qn, d2p, qn, dinv));
 		else if (BELOW_THRESHOLD (qn, INV_DIV_QR_THRESHOLD))
