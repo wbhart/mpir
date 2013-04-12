@@ -69,7 +69,7 @@ mpn_sb_div_qr (mp_ptr qp,
       
       mpir_divapprox32_preinv2(q, cy, np[0], dinv);
       
-	  /* a -= d*q1 */
+	  /* np -= dp*q */
       cy -= mpn_submul_1(np - dn + 1, dp, dn, q);
 
       /* correct if remainder is too large */

@@ -10,7 +10,7 @@
 
 Copyright 2007, 2009 Free Software Foundation, Inc.
 
-Copyright 2010 William Hart (minor modifications)
+Copyright 2010, 2013 William Hart
 
 This file is part of the GNU MP Library.
 
@@ -79,7 +79,7 @@ mpn_sb_divappr_q (mp_ptr qp,
 
   if (dn <= SB_DIVAPPR_Q_SMALL_THRESHOLD)
      {
-   /* Reduce until n - 2 >= qn */
+   /* Reduce until dn - 2 >= qn */
    for (qn--, np--; qn > dn - 2; qn--)
      {
        /* fetch next word */
@@ -88,7 +88,7 @@ mpn_sb_divappr_q (mp_ptr qp,
        np--;
        mpir_divapprox32_preinv2(q, cy, np[0], dinv);
       
-	    /* a -= d*q1 */
+	    /* np -= dp*q */
        cy -= mpn_submul_1(np - dn + 1, dp, dn, q);
 
        /* correct if remainder is too large */
@@ -105,7 +105,7 @@ mpn_sb_divappr_q (mp_ptr qp,
      }
    
    qn++;
-   dp = dp + dn - qn - 1; /* make d length qn + 1 */
+   dp = dp + dn - qn - 1; /* make dp length qn + 1 */
    
    for ( ; qn > 0; qn--)
      {
@@ -122,7 +122,7 @@ mpn_sb_divappr_q (mp_ptr qp,
        
        mpir_divapprox32_preinv2(q, cy, np[0], dinv);
          
-       /* a -= d*q1 */
+       /* np -= dp*q */
        cy -= mpn_submul_1(np - qn, dp, qn + 1, q);
 
        /* correct if remainder is too large */
