@@ -34,14 +34,14 @@ along with the GNU MP Library.  If not, see http://www.gnu.org/licenses/.  */
 
 #define SB_DIVAPPR_Q_SMALL_THRESHOLD 30
 
-void __divapprox_helper(mp_ptr qp, mp_ptr np, mp_srcptr dp, mp_size_t qn)
+void __divappr_helper(mp_ptr qp, mp_ptr np, mp_srcptr dp, mp_size_t qn)
 {   
    mpn_sub_n(np + 1, np + 1, dp, qn + 1);
    np[1] += dp[qn];
    
    for (qn--; qn >= 0; qn--)
    {
-      qp[qn] = ~(mp_limb_t) 0;
+      qp[qn] = ~CNST_LIMB(0);
       add_ssaaaa(np[1], np[0], np[1], np[0], 0, dp[qn]);
    }
 }
@@ -116,7 +116,7 @@ mpn_sb_divappr_q (mp_ptr qp,
        /* rare case where truncation ruins normalisation */
        if (cy > dp[qn] || (cy == dp[qn] && mpn_cmp(np - qn + 1, dp, qn) >= 0))
          {
-       __divapprox_helper(qp, np - qn, dp, qn);
+       __divappr_helper(qp, np - qn, dp, qn);
        return qh;
          }
        

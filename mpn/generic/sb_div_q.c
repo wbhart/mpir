@@ -33,7 +33,17 @@ along with the GNU MP Library.  If not, see http://www.gnu.org/licenses/.  */
 
 #define SB_DIVAPPR_Q_SMALL_THRESHOLD 30
 
-extern void __divapprox_helper(mp_ptr qp, mp_ptr np, mp_srcptr dp, mp_size_t qn);
+void __div_helper(mp_ptr qp, mp_ptr np, mp_srcptr dp, mp_size_t qn)
+{   
+   mpn_sub_n(np + 1, np + 1, dp, qn + 1);
+   np[1] += dp[qn];
+   
+   for (qn--; qn >= 0; qn--)
+   {
+      qp[qn] = ~CNST_LIMB(0);
+      add_ssaaaa(np[1], np[0], np[1], np[0], 0, dp[qn]);
+   }
+}
 
 mp_limb_t
 mpn_sb_div_q (mp_ptr qp,
@@ -44,7 +54,7 @@ mpn_sb_div_q (mp_ptr qp,
   mp_limb_t qh;
   mp_size_t qn, i;
   mp_limb_t n1, n0;
-  mp_limb_t d1, d0;
+  mp_limb_t d1, d0, d11, d01;
   mp_limb_t cy, cy1;
   mp_limb_t q;
   mp_limb_t flag;
@@ -113,7 +123,7 @@ mpn_sb_div_q (mp_ptr qp,
        /* rare case where truncation ruins normalisation */
        if (cy > dp[qn] || (cy == dp[qn] && mpn_cmp(np - qn + 1, dp, qn) >= 0))
          {
-       __divapprox_helper(qp, np - qn, dp, qn);
+       __div_helper(qp, np - qn, dp, qn);
        flag = 0;
        break;
          }
@@ -150,6 +160,9 @@ mpn_sb_div_q (mp_ptr qp,
   d1 = dp[dn + 1];
   d0 = dp[dn + 0];
 
+  d01 = d0 + 1;
+  d11 = d1 + (d01 < d0);
+  
   np -= 2;
 
   n1 = np[1];
@@ -165,7 +178,7 @@ mpn_sb_div_q (mp_ptr qp,
 	}
       else
 	{
-	  udiv_qr_3by2 (q, n1, n0, n1, np[1], np[0], d1, d0, dinv);
+	  mpir_divrem32_preinv2 (q, n1, n0, n1, np[1], np[0], d11, d01, d1, d0, dinv);
 
 	  cy = mpn_submul_1 (np - dn, dp, dn, q);
 
@@ -211,7 +224,7 @@ mpn_sb_div_q (mp_ptr qp,
 	    }
 	  else
 	    {
-	      udiv_qr_3by2 (q, n1, n0, n1, np[1], np[0], d1, d0, dinv);
+	      mpir_divrem32_preinv2 (q, n1, n0, n1, np[1], np[0], d11, d01, d1, d0, dinv);
 
 	      cy = mpn_submul_1 (np - dn, dp, dn, q);
 
@@ -255,7 +268,7 @@ mpn_sb_div_q (mp_ptr qp,
 	}
       else
 	{
-	  udiv_qr_3by2 (q, n1, n0, n1, np[1], np[0], d1, d0, dinv);
+	  mpir_divrem32_preinv2 (q, n1, n0, n1, np[1], np[0], d11, d01, d1, d0, dinv);
 
 	  np[0] = n0;
 	  np[1] = n1;
@@ -265,8 +278,6 @@ mpn_sb_div_q (mp_ptr qp,
     }
   ASSERT_ALWAYS (np[1] == n1);
   }
-
-/* ---------------------------------------- */
 
   np += 2;
 
