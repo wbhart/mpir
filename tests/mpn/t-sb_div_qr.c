@@ -82,14 +82,12 @@ check_sb_div_qr (void)
          
          if (rn > nn)
          {
-            printf("iteration = %ld\n", i);
             printf("failed: q*d has too many limbs\n");
             abort();
          }
          
          if (mpn_cmp(rp, np2, nn) > 0)
          {
-            printf("iteration = %ld\n", i);
             printf("failed: remainder negative\n");
             abort();
          }
@@ -106,7 +104,6 @@ check_sb_div_qr (void)
       s = (rn < dn) ? -1 : (rn > dn) ? 1 : mpn_cmp(rp, dp, dn);
       if (s >= 0)
       {
-         printf("iteration = %ld\n", i);
          printf ("failed:\n");
          printf ("nn = %lu, dn = %lu, qn = %lu, rn = %lu\n\n", nn, dn, qn, rn);
          gmp_printf (" np: %Nx\n\n", np2, nn);
@@ -118,7 +115,6 @@ check_sb_div_qr (void)
 
       if (mpn_cmp(rp, np, rn) != 0)
       {
-         printf("iteration = %ld\n", i);
          printf("failed: remainder does not match\n");
          gmp_printf (" np: %Nx\n\n", np2, nn);
          gmp_printf (" dp: %Nx\n\n", dp, dn);
