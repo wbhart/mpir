@@ -60,10 +60,6 @@ mpn_dc_divappr_q (mp_ptr qp, mp_ptr np, mp_size_t nn,
   np += nn - dn - qn;
   nn = dn + qn;
 
-  /* Base case */
-  if (dn <= SB_DIVAPPR_Q_CUTOFF || nn < dn + 3)
-     return qh + mpn_sb_divappr_q(qp, np, nn, dp, dn, dinv);
-
   /* Reduce until dn - 1 >= qn */
   while (dn - 1 < qn)
   {
@@ -89,7 +85,13 @@ mpn_dc_divappr_q (mp_ptr qp, mp_ptr np, mp_size_t nn,
   if (mpn_cmp(np + sl + dn - 1, dp + dn - sh - 1, sh + 1) >= 0)
      __divappr_helper(qp + sl, np + dn + sl - 2, dp + dn - sh - 1, sh);
   else
-     mpn_dc_divappr_q(qp + sl, np + sl, dn + sh, dp, dn, dinv);
+  {
+     if (sh < SB_DIVAPPR_Q_CUTOFF)
+        mpn_sb_divappr_q(qp + sl, np + sl, dn + sh, dp, dn, dinv);
+     else
+        mpn_dc_divappr_q(qp + sl, np + sl, dn + sh, dp, dn, dinv);
+  }
+
   cy = np[nn - sh];
 
   TMP_MARK;
@@ -122,7 +124,13 @@ mpn_dc_divappr_q (mp_ptr qp, mp_ptr np, mp_size_t nn,
      if (mpn_cmp(np + dn - 1, dp + dn - sl - 1, sl + 1) >= 0)
         __divappr_helper(qp, np + dn - 2, dp + dn - sl - 1, sl);
      else
-        mpn_dc_divappr_q(qp, np, dn + sl, dp, dn, dinv);
+     {
+        if (sl < SB_DIVAPPR_Q_CUTOFF)
+           mpn_sb_divappr_q(qp, np, dn + sl, dp, dn, dinv);
+        else
+           mpn_dc_divappr_q(qp, np, dn + sl, dp, dn, dinv);
+     }
+
   }
 
   return qh;
