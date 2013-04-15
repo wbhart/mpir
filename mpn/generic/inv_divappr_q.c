@@ -67,7 +67,7 @@ mpn_inv_divappr_q (mp_ptr qp, mp_ptr np, mp_size_t nn,
       /* Perform the typically smaller block first.  */
       if (qn == 1)
 	{
-	  mp_limb_t q, n2, n1, n0, d1, d0;
+	  mp_limb_t q, n2, n1, n0, d1, d0, d11, d01;
 
 	  /* Handle qh up front, for simplicity. */
 	  qh = mpn_cmp (np - dn + 1, dp - dn, dn) >= 0;
@@ -82,6 +82,8 @@ mpn_inv_divappr_q (mp_ptr qp, mp_ptr np, mp_size_t nn,
 	  n0 = np[-2];
 	  d1 = dp[-1];
 	  d0 = dp[-2];
+     d01 = d0 + 1;
+     d11 = d1 + (d01 < d0);
 
 	  ASSERT (n2 < d1 || (n2 == d1 && n1 <= d0));
 
@@ -93,8 +95,8 @@ mpn_inv_divappr_q (mp_ptr qp, mp_ptr np, mp_size_t nn,
 	    }
 	  else
 	    {
-	      mpir_invert_pi1(dinv2, d1, d0);
-         udiv_qr_3by2 (q, n1, n0, n2, n1, n0, d1, d0, dinv2);
+	      mpir_invert_pi2(dinv2, d1, d0);
+         mpir_divrem32_preinv2 (q, n1, n0, n2, n1, n0, d11, d01, d1, d0, dinv2);
 
 	      if (dn > 2)
 		{
@@ -123,7 +125,7 @@ mpn_inv_divappr_q (mp_ptr qp, mp_ptr np, mp_size_t nn,
 	}
       else
 	{
-	  mpir_invert_pi1(dinv2, dp[-1], dp[-2]);
+	  mpir_invert_pi2(dinv2, dp[-1], dp[-2]);
      if (qn == 2)
 	    qh = mpn_divrem_2 (qp, 0L, np - 2, 4, dp - 2);
 	  else if (BELOW_THRESHOLD (qn, DC_DIV_QR_THRESHOLD))
@@ -185,7 +187,7 @@ mpn_inv_divappr_q (mp_ptr qp, mp_ptr np, mp_size_t nn,
 
       q2p = TMP_ALLOC_LIMBS (qn + 1);
       
-      mpir_invert_pi1(dinv2, dp[-1], dp[-2]);
+      mpir_invert_pi2(dinv2, dp[-1], dp[-2]);
       
        if (qn == 1)
         {
