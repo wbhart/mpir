@@ -30,7 +30,7 @@ along with the GNU MP Library.  If not, see http://www.gnu.org/licenses/.  */
 #include "gmp-impl.h"
 #include "longlong.h"
 
-#define SB_DIVAPPR_Q_CUTOFF 43
+#define SB_DIVAPPR_Q_CUTOFF 43 /* must be at least 3 */
 
 mp_limb_t
 mpn_dc_divappr_q (mp_ptr qp, mp_ptr np, mp_size_t nn,
