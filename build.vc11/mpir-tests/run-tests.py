@@ -1,5 +1,5 @@
 #
-# Python script for running GMP tests 
+# Python script for running GMP tests
 #
 # Run this from the build.vc11\mpir-tests directory
 
@@ -99,7 +99,7 @@ if build_fail > 0 :
 if run_ok > 0 :
   print("\t{0} ran correctly".format(run_ok))
 if run_fail > 0 :
-  print("\t{0} failed".format(run_fail)) 
+  print("\t{0} failed".format(run_fail))
 if len(sys.argv) == 1 :
   try :
     input(".. completed - press ENTER")
