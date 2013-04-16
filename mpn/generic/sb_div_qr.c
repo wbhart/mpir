@@ -9,7 +9,7 @@
 
 Copyright 2007, 2009 Free Software Foundation, Inc.
 
-Copyright 2010 William Hart (minor modifications)
+Copyright 2010, 2013 William Hart
 
 This file is part of the GNU MP Library.
 
@@ -31,6 +31,8 @@ along with the GNU MP Library.  If not, see http://www.gnu.org/licenses/.  */
 #include "gmp-impl.h"
 #include "longlong.h"
 
+#define SB_DIV_QR_SMALL_THRESHOLD 30
+
 mp_limb_t
 mpn_sb_div_qr (mp_ptr qp,
 		  mp_ptr np, mp_size_t nn,
@@ -40,8 +42,8 @@ mpn_sb_div_qr (mp_ptr qp,
   mp_limb_t qh;
   mp_size_t i;
   mp_limb_t n1, n0;
-  mp_limb_t d1, d0;
-  mp_limb_t cy, cy1;
+  mp_limb_t d1, d0, d01, d11;
+  mp_limb_t cy, cy1, cy2;
   mp_limb_t q;
 
   ASSERT (dn > 2);
@@ -54,12 +56,44 @@ mpn_sb_div_qr (mp_ptr qp,
   if (qh != 0)
     mpn_sub_n (np - dn, np - dn, dp, dn);
 
+  d1 = dp[dn - 1];
+
+  if (dn <= SB_DIV_QR_SMALL_THRESHOLD)
+    {
+    np--;
+    
+  for (i = nn - dn - 1; i >= 0; i--)
+    {
+      /* fetch next word */
+      cy = *np--;
+      
+      mpir_divapprox32_preinv2(q, cy, np[0], dinv);
+      
+	  /* np -= dp*q */
+      cy -= mpn_submul_1(np - dn + 1, dp, dn, q);
+
+      /* correct if remainder is too large */
+      if (UNLIKELY(cy || np[0] >= d1))
+      {
+         if (cy || mpn_cmp(np - dn + 1, dp, dn) >= 0)
+         {
+            q++;
+            mpn_sub_n(np - dn + 1, np - dn + 1, dp, dn);
+         }
+      }
+      qp[i] = q;
+     }
+    }
+  else
+    {
   qp += nn - dn;
 
   dn -= 2;			/* offset dn by 2 for main division loops,
 				   saving two iterations in mpn_submul_1.  */
-  d1 = dp[dn + 1];
-  d0 = dp[dn + 0];
+  d0 = dp[dn];
+
+  d01 = d0 + 1;
+  d11 = d1 + (d01 == 0);
 
   np -= 2;
 
@@ -76,26 +110,25 @@ mpn_sb_div_qr (mp_ptr qp,
 	}
       else
 	{
-	  tdiv_qr_3by2 (q, n1, n0, n1, np[1], np[0], d1, d0, dinv);
+	  mpir_divrem32_preinv2(q, n1, n0, n1, np[1], np[0], d11, d01, d1, d0, dinv);
 
-	  cy = mpn_submul_1 (np - dn, dp, dn, q);
+     cy2 = mpn_submul_1 (np - dn, dp, dn, q);
 
-	  cy1 = n0 < cy;
-	  n0 = (n0 - cy) & GMP_NUMB_MASK;
-	  cy = n1 < cy1;
-	  n1 = (n1 - cy1) & GMP_NUMB_MASK;
+	  sub_333(cy, n1, n0, 0, n1, n0, 0, 0, cy2);
+
 	  np[0] = n0;
 
 	  if (UNLIKELY (cy != 0))
 	    {
 	      n1 += d1 + mpn_add_n (np - dn, np - dn, dp, dn + 1);
-	      q--;
+         q--;
 	    }
 	}
 
       *--qp = q;
     }
   np[1] = n1;
+  }
 
   return qh;
 }

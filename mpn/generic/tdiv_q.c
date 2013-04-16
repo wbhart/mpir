@@ -137,13 +137,13 @@ mpn_tdiv_q (mp_ptr qp,
 	  else if (BELOW_THRESHOLD (dn, DC_DIV_Q_THRESHOLD) ||
 		   BELOW_THRESHOLD (new_nn - dn, DC_DIV_Q_THRESHOLD))
 	    {
-          invert_1(dinv, new_dp[dn - 1], new_dp[dn - 2]);
+          mpir_invert_pi2(dinv, new_dp[dn - 1], new_dp[dn - 2]);
 	      qh = mpn_sb_div_q (qp, new_np, new_nn, new_dp, dn, dinv);
 	    }
 	  else if (BELOW_THRESHOLD (dn, INV_DIV_Q_THRESHOLD) || 
 		   BELOW_THRESHOLD (nn, 2 * INV_DIV_Q_THRESHOLD)) 
 	    {
-          invert_1(dinv, new_dp[dn - 1], new_dp[dn - 2]);
+          mpir_invert_pi2(dinv, new_dp[dn - 1], new_dp[dn - 2]);
           qh = mpn_dc_div_q (qp, new_np, new_nn, new_dp, dn, dinv);
 	    }
 	  else
@@ -177,13 +177,13 @@ mpn_tdiv_q (mp_ptr qp,
 	  else if (BELOW_THRESHOLD (dn, DC_DIV_Q_THRESHOLD) ||
 		   BELOW_THRESHOLD (nn - dn, DC_DIV_Q_THRESHOLD))
 	    {
-           invert_1(dinv, dh, dp[dn - 2]);
+           mpir_invert_pi2(dinv, dh, dp[dn - 2]);
            qh = mpn_sb_div_q (qp, new_np, nn, dp, dn, dinv);
 	    }
 	  else if (BELOW_THRESHOLD (dn, INV_DIV_Q_THRESHOLD) || 
 		   BELOW_THRESHOLD (nn, 2 * INV_DIV_Q_THRESHOLD))
 	    {
-           invert_1(dinv, dh, dp[dn - 2]);
+           mpir_invert_pi2(dinv, dh, dp[dn - 2]);
            qh = mpn_dc_div_q (qp, new_np, nn, dp, dn, dinv);
 	    }
 	  else
@@ -229,12 +229,12 @@ mpn_tdiv_q (mp_ptr qp,
 	    }
 	  else if (BELOW_THRESHOLD (qn - 1, DC_DIVAPPR_Q_THRESHOLD))
 	    {
-          invert_1(dinv, new_dp[qn], new_dp[qn - 1]);
+          mpir_invert_pi2(dinv, new_dp[qn], new_dp[qn - 1]);
 	      qh = mpn_sb_divappr_q (tp, new_np, new_nn, new_dp, qn + 1, dinv);
 	    }
 	  else if (BELOW_THRESHOLD (qn - 1, INV_DIVAPPR_Q_THRESHOLD))
 	    {
-          invert_1(dinv, new_dp[qn], new_dp[qn - 1]);
+          mpir_invert_pi2(dinv, new_dp[qn], new_dp[qn - 1]);
 	      qh = mpn_dc_divappr_q (tp, new_np, new_nn, new_dp, qn + 1, dinv);
 	    }
 	  else
@@ -268,12 +268,12 @@ mpn_tdiv_q (mp_ptr qp,
 	    }
 	  else if (BELOW_THRESHOLD (qn - 1, DC_DIVAPPR_Q_THRESHOLD))
 	    {
-          invert_1(dinv, dh, new_dp[qn - 1]);
+          mpir_invert_pi2(dinv, dh, new_dp[qn - 1]);
           qh = mpn_sb_divappr_q (tp, new_np, new_nn, new_dp, qn + 1, dinv);
 	    }
 	  else if (BELOW_THRESHOLD (qn - 1, INV_DIVAPPR_Q_THRESHOLD))
 	    {
-          invert_1(dinv, dh, new_dp[qn - 1]);
+          mpir_invert_pi2(dinv, dh, new_dp[qn - 1]);
           qh = mpn_dc_divappr_q (tp, new_np, new_nn, new_dp, qn + 1, dinv);
 	    }
 	  else

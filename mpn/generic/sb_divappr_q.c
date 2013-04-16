@@ -10,7 +10,7 @@
 
 Copyright 2007, 2009 Free Software Foundation, Inc.
 
-Copyright 2010 William Hart (minor modifications)
+Copyright 2010, 2013 William Hart
 
 This file is part of the GNU MP Library.
 
@@ -32,6 +32,20 @@ along with the GNU MP Library.  If not, see http://www.gnu.org/licenses/.  */
 #include "gmp-impl.h"
 #include "longlong.h"
 
+#define SB_DIVAPPR_Q_SMALL_THRESHOLD 30
+
+void __divappr_helper(mp_ptr qp, mp_ptr np, mp_srcptr dp, mp_size_t qn)
+{   
+   mpn_sub_n(np + 1, np + 1, dp, qn + 1);
+   add_ssaaaa(np[2], np[1], np[2], np[1], 0, dp[qn]);
+   
+   for (qn--; qn >= 0; qn--)
+   {
+      qp[qn] = ~CNST_LIMB(0);
+      mpn_add_1(np, np, 3, dp[qn]);
+   }
+}
+
 mp_limb_t
 mpn_sb_divappr_q (mp_ptr qp,
 		     mp_ptr np, mp_size_t nn,
@@ -41,7 +55,7 @@ mpn_sb_divappr_q (mp_ptr qp,
   mp_limb_t qh;
   mp_size_t qn, i;
   mp_limb_t n1, n0;
-  mp_limb_t d1, d0;
+  mp_limb_t d1, d0, d11, d01, r1, r2;
   mp_limb_t cy, cy1;
   mp_limb_t q;
   mp_limb_t flag;
@@ -63,128 +77,141 @@ mpn_sb_divappr_q (mp_ptr qp,
   if (qh != 0)
     mpn_sub_n (np - dn, np - dn, dp, dn);
 
-  qp += qn;
+  if (dn <= SB_DIVAPPR_Q_SMALL_THRESHOLD)
+     {
+   /* Reduce until dn - 2 >= qn */
+   for (qn--, np--; qn > dn - 2; qn--)
+     {
+       /* fetch next word */
+       cy = np[0];
 
-  dn -= 2;			/* offset dn by 2 for main division loops,
-				   saving two iterations in mpn_submul_1.  */
-  d1 = dp[dn + 1];
-  d0 = dp[dn + 0];
+       np--;
+       mpir_divapprox32_preinv2(q, cy, np[0], dinv);
+      
+	    /* np -= dp*q */
+       cy -= mpn_submul_1(np - dn + 1, dp, dn, q);
 
-  np -= 2;
+       /* correct if remainder is too large */
+       if (UNLIKELY(cy || np[0] >= dp[dn - 1]))
+         {
+       if (cy || mpn_cmp(np - dn + 1, dp, dn) >= 0)
+       {
+          q++;
+          cy -= mpn_sub_n(np - dn + 1, np - dn + 1, dp, dn);
+       }
+       }
 
-  n1 = np[1];
+       qp[qn] = q;
+     }
+   
+   qn++;
+   dp = dp + dn - qn - 1; /* make dp length qn + 1 */
+   
+   for ( ; qn > 0; qn--)
+     {
+       /* fetch next word */
+       cy = np[0];
+ 
+       np--;
+       /* rare case where truncation ruins normalisation */
+       if (cy > dp[qn] || (cy == dp[qn] && mpn_cmp(np - qn + 1, dp, qn) >= 0))
+         {
+       __divappr_helper(qp, np - qn, dp, qn);
+       return qh;
+         }
+       
+       mpir_divapprox32_preinv2(q, cy, np[0], dinv);
+         
+       /* np -= dp*q */
+       cy -= mpn_submul_1(np - qn, dp, qn + 1, q);
 
-  for (i = qn - (dn + 2); i >= 0; i--)
-    {
-      np--;
-      if (UNLIKELY (n1 == d1) && np[1] == d0)
-	{
-	  q = GMP_NUMB_MASK;
-	  mpn_submul_1 (np - dn, dp, dn + 2, q);
-	  n1 = np[1];		/* update n1, last loop's value will now be invalid */
-	}
-      else
-	{
-	  tdiv_qr_3by2 (q, n1, n0, n1, np[1], np[0], d1, d0, dinv);
+       /* correct if remainder is too large */
+       if (UNLIKELY(cy || np[0] >= dp[qn]))
+         {
+       if (cy || mpn_cmp(np - qn, dp, qn + 1) >= 0)
+         {
+       q++;
+       cy -= mpn_sub_n(np - qn, np - qn, dp, qn + 1);
+         }
+         }
+       
+       qp[qn - 1] = q;
+       dp++;
+     }
+  np[1] = cy;
+     } 
+  else
+     {
+  d1 = dp[dn - 1];
+  d0 = dp[dn - 2];
+  d01 = d0 + 1;
+  d11 = d1 + (d01 < d0);
 
-	  cy = mpn_submul_1 (np - dn, dp, dn, q);
+    /* Reduce until dn - 2 >= qn */
+   for (qn--, np--; qn > dn - 2; qn--)
+     {
+       /* fetch next word */
+       cy = np[0];
 
-	  cy1 = n0 < cy;
-	  n0 = (n0 - cy) & GMP_NUMB_MASK;
-	  cy = n1 < cy1;
-	  n1 -= cy1;
-	  np[0] = n0;
+       np --;
+       if (UNLIKELY(cy == d1 && np[0] == d0))
+          q = ~CNST_LIMB(0);
+       else
+          mpir_divrem32_preinv2(q, r1, r2, cy, np[0], np[-1], d11, d01, d1, d0, dinv);
+ 
+	    /* np -= dp*q */
+       cy -= mpn_submul_1(np - dn + 1, dp, dn, q);
 
-	  if (UNLIKELY (cy != 0))
-	    {
-	      n1 += d1 + mpn_add_n (np - dn, np - dn, dp, dn + 1);
-	      q--;
-	    }
-	}
+       /* correct if remainder is too large */
+       if (UNLIKELY(cy != 0))
+         {
+          q--;
+          cy += mpn_add_n(np - dn + 1, np - dn + 1, dp, dn);
+         }
+       
+       qp[qn] = q;
+     }
+   
+   qn++;
+   dp = dp + dn - qn - 1; /* make dp length qn + 1 */
+   
+   for ( ; qn > 0; qn--)
+     {
+       /* fetch next word */
+       cy = np[0];
+ 
+       np--;
+       /* rare case where truncation ruins normalisation */
+       if (UNLIKELY(cy >= d1))
+         {
+       if (cy > d1 || (cy == d1 && mpn_cmp(np - qn + 1, dp, qn) >= 0))
+         {
+       __divappr_helper(qp, np - qn, dp, qn);
+       return qh;
+         }
+       if (np[0] >= d0)
+          q = ~CNST_LIMB(0);
+       else
+          mpir_divrem32_preinv2(q, r1, r2, cy, np[0], np[-1], d11, d01, d1, d0, dinv);
+         }
+       else
+          mpir_divrem32_preinv2(q, r1, r2, cy, np[0], np[-1], d11, d01, d1, d0, dinv);
+         
+       /* np -= dp*q */
+       cy -= mpn_submul_1(np - qn, dp, qn + 1, q);
 
-      *--qp = q;
-    }
-
-  flag = ~CNST_LIMB(0);
-
-  if (dn >= 0)
-    {
-      for (i = dn; i > 0; i--)
-	{
-	  np--;
-	  if (UNLIKELY (n1 >= (d1 & flag)))
-	    {
-	      q = GMP_NUMB_MASK;
-	      cy = mpn_submul_1 (np - dn, dp, dn + 2, q);
-
-	      if (UNLIKELY (n1 != cy))
-		{
-		  if (n1 < (cy & flag))
-		    {
-		      q--;
-		      mpn_add_n (np - dn, np - dn, dp, dn + 2);
-		    }
-		  else
-		    flag = 0;
-		}
-	      n1 = np[1];
-	    }
-	  else
-	    {
-	      tdiv_qr_3by2 (q, n1, n0, n1, np[1], np[0], d1, d0, dinv);
-
-	      cy = mpn_submul_1 (np - dn, dp, dn, q);
-
-	      cy1 = n0 < cy;
-	      n0 = (n0 - cy) & GMP_NUMB_MASK;
-	      cy = n1 < cy1;
-	      n1 -= cy1;
-	      np[0] = n0;
-
-	      if (UNLIKELY (cy != 0))
-		{
-		  n1 += d1 + mpn_add_n (np - dn, np - dn, dp, dn + 1);
-		  q--;
-		}
-	    }
-
-	  *--qp = q;
-
-	  /* Truncate operands.  */
-	  dn--;
-	  dp++;
-	}
-
-      np--;
-      if (UNLIKELY (n1 >= (d1 & flag)))
-	{
-	  q = GMP_NUMB_MASK;
-	  cy = mpn_submul_1 (np, dp, 2, q);
-
-	  if (UNLIKELY (n1 != cy))
-	    {
-	      if (n1 < (cy & flag))
-		{
-		  q--;
-		  add_ssaaaa (np[1], np[0], np[1], np[0], dp[1], dp[0]);
-		}
-	      else
-		flag = 0;
-	    }
-	  n1 = np[1];
-	}
-      else
-	{
-	  tdiv_qr_3by2 (q, n1, n0, n1, np[1], np[0], d1, d0, dinv);
-
-	  np[1] = n1;
-	  np[0] = n0;
-	}
-
-      *--qp = q;
-    }
-
-  ASSERT_ALWAYS (np[1] == n1);
+       /* correct if remainder is too large */
+       if (UNLIKELY(cy != 0))
+         {
+       q--;
+       cy += mpn_add_n(np - qn, np - qn, dp, qn + 1);
+         }
+       
+       qp[qn - 1] = q;
+       dp++;
+     }
+  np[1] = cy;
+  }
 
   return qh;
 }

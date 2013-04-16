@@ -8,13 +8,14 @@ dnl  This file is just an adaptation of similar file in the x86 directory.
 dnl  Adapted by P. Gaudry in April 2005.
 dnl  Here is the copyright of the original x86 version:
 
-dnl  Copyright 1999, 2000, 2001, 2002 Free Software Foundation, Inc.
+dnl  Copyright 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2008, 2009, 2011, 2012
+dnl  Free Software Foundation, Inc.
 dnl 
 dnl  This file is part of the GNU MP Library.
 dnl
 dnl  The GNU MP Library is free software; you can redistribute it and/or
 dnl  modify it under the terms of the GNU Lesser General Public License as
-dnl  published by the Free Software Foundation; either version 2.1 of the
+dnl  published by the Free Software Foundation; either version 3 of the
 dnl  License, or (at your option) any later version.
 dnl
 dnl  The GNU MP Library is distributed in the hope that it will be useful,
@@ -22,10 +23,8 @@ dnl  but WITHOUT ANY WARRANTY; without even the implied warranty of
 dnl  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
 dnl  Lesser General Public License for more details.
 dnl
-dnl  You should have received a copy of the GNU Lesser General Public
-dnl  License along with the GNU MP Library; see the file COPYING.LIB.  If
-dnl  not, write to the Free Software Foundation, Inc., 59 Temple Place -
-dnl  Suite 330, Boston, MA 02111-1307, USA.
+dnl  You should have received a copy of the GNU Lesser General Public License
+dnl  along with the GNU MP Library.  If not, see http://www.gnu.org/licenses/.
 
 dnl  Usage: ret_internal
 dnl
@@ -617,6 +616,51 @@ define(`ASSERT_counter',incr(ASSERT_counter))')')')
 
 define(ASSERT_counter,1)
 
+define(`R32',
+        `ifelse($1,`%rax',`%eax',
+                $1,`%rbx',`%ebx',
+                $1,`%rcx',`%ecx',
+                $1,`%rdx',`%edx',
+                $1,`%rsi',`%esi',
+                $1,`%rdi',`%edi',
+                $1,`%rbp',`%ebp',
+                $1,`%r8',`%r8d',
+                $1,`%r9',`%r9d',
+                $1,`%r10',`%r10d',
+                $1,`%r11',`%r11d',
+                $1,`%r12',`%r12d',
+                $1,`%r13',`%r13d',
+                $1,`%r14',`%r14d',
+                $1,`%r15',`%r15d')')
+
+define(`R8',
+        `ifelse($1,`%rax',`%al',
+                $1,`%rbx',`%bl',
+                $1,`%rcx',`%cl',
+                $1,`%rdx',`%dl',
+                $1,`%rsi',`%sil',
+                $1,`%rdi',`%dil',
+                $1,`%rbp',`%bpl',
+                $1,`%r8',`%r8b',
+                $1,`%r9',`%r9b',
+                $1,`%r10',`%r10b',
+                $1,`%r11',`%r11b',
+                $1,`%r12',`%r12b',
+                $1,`%r13',`%r13b',
+                $1,`%r14',`%r14b',
+                $1,`%r15',`%r15b')')
+
+define(`JUMPTABSECT', `.section .data.rel.ro.local,"aw",@progbits')
+
+
+dnl  Usage: JMPENT(targlabel,tablabel)
+
+define(`JMPENT',`dnl
+ifdef(`PIC',
+        `.long  $1-$2'
+,
+        `.quad  $1'
+)')
 
 dnl  Usage: movl_text_address(label,register)
 dnl

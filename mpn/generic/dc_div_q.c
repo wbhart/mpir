@@ -9,8 +9,6 @@
 
 Copyright 2006, 2007, 2009, 2010 Free Software Foundation, Inc.
 
-Copyright 2010 William Hart (minor modifications)
-
 This file is part of the GNU MP Library.
 
 The GNU MP Library is free software; you can redistribute it and/or modify

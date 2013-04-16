@@ -3,6 +3,8 @@
 Copyright 1991, 1992, 1993, 1994, 1996, 1997, 1999, 2000, 2001, 2002, 2003,
 2004, 2005 Free Software Foundation, Inc.
 
+Copyright 2013 William Hart
+
 This file is free software; you can redistribute it and/or modify
 it under the terms of the GNU Lesser General Public License as published by
 the Free Software Foundation; either version 2.1 of the License, or (at your
@@ -38,6 +40,19 @@ MA 02110-1301, USA. */
   __asm__ ("divq %4"		     /* stringification in K&R C */	\
 	   : "=a" (q), "=d" (r)						\
 	   : "0" ((UDItype)(n0)), "1" ((UDItype)(n1)), "rm" ((UDItype)(dx)))
+#define add_333(sh, sm, sl, ah, am, al, bh, bm, bl)  \
+  __asm__ ("addq %8,%q2\n\tadcq %6,%q1\n\tadcq %4,%q0"     \
+       : "=r" (sh), "=r" (sm), "=&r" (sl)                  \
+       : "0"  ((UDItype)(ah)), "rme" ((UDItype)(bh)),  \
+         "1"  ((UDItype)(am)), "rme" ((UDItype)(bm)),  \
+         "2"  ((UDItype)(al)), "rme" ((UDItype)(bl)))  
+#define sub_333(sh, sm, sl, ah, am, al, bh, bm, bl)  \
+  __asm__ ("subq %8,%q2\n\tsbbq %6,%q1\n\tsbbq %4,%q0"     \
+       : "=r" (sh), "=r" (sm), "=&r" (sl)                  \
+       : "0"  ((UDItype)(ah)), "rme" ((UDItype)(bh)),  \
+         "1"  ((UDItype)(am)), "rme" ((UDItype)(bm)),  \
+         "2"  ((UDItype)(al)), "rme" ((UDItype)(bl)))  
+
 /* bsrq destination must be a 64-bit register, hence UDItype for __cbtmp. */
 #define count_leading_zeros(count, x)					\
   do {									\

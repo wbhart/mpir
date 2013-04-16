@@ -48,7 +48,7 @@ mpn_inv_div_qr (mp_ptr qp,
   ASSERT (nn - dn >= 3);	/* to adhere to mpn_sb_div_qr's limits */
   ASSERT (dp[dn-1] & GMP_NUMB_HIGHBIT);
 
-  invert_1(dinv2, dp[dn - 1], dp[dn - 2]);
+  mpir_invert_pi2(dinv2, dp[dn - 1], dp[dn - 2]);
 
   tp = TMP_ALLOC_LIMBS (DC_DIVAPPR_Q_N_ITCH(dn));
 
@@ -70,7 +70,7 @@ mpn_inv_div_qr (mp_ptr qp,
       /* Perform the typically smaller block first.  */
       if (qn == 1)
 	{
-	  mp_limb_t q, n2, n1, n0, d1, d0;
+	  mp_limb_t q, n2, n1, n0, d1, d0, d11, d01;
 
 	  /* Handle qh up front, for simplicity. */
 	  qh = mpn_cmp (np - dn + 1, dp - dn, dn) >= 0;
@@ -84,6 +84,8 @@ mpn_inv_div_qr (mp_ptr qp,
 	  n0 = np[-2];
 	  d1 = dp[-1];
 	  d0 = dp[-2];
+     d01 = d0 + 1;
+     d11 = d1 + (d01 < d0);
 
 	  ASSERT (n2 < d1 || (n2 == d1 && n1 <= d0));
 
@@ -95,7 +97,7 @@ mpn_inv_div_qr (mp_ptr qp,
 	    }
 	  else
 	    {
-	      tdiv_qr_3by2 (q, n1, n0, n2, n1, n0, d1, d0, dinv2);
+	      mpir_divrem32_preinv2 (q, n1, n0, n2, n1, n0, d11, d01, d1, d0, dinv2);
 
 	      if (dn > 2)
 		{

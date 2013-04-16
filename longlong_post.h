@@ -3,6 +3,8 @@
 Copyright 1991, 1992, 1993, 1994, 1996, 1997, 1999, 2000, 2001, 2002, 2003,
 2004, 2005 Free Software Foundation, Inc.
 
+Copyright 2013 William Hart
+
 This file is free software; you can redistribute it and/or modify
 it under the terms of the GNU Lesser General Public License as published by
 the Free Software Foundation; either version 2.1 of the License, or (at your
@@ -112,6 +114,34 @@ extern UWtype mpn_udiv_qrnnd_r _PROTO ((UWtype, UWtype, UWtype, UWtype *));
     (sh) = (ah) - (bh) - ((al) < (bl));                                 \
     (sl) = __x;								\
   } while (0)
+#endif
+
+#if !defined (add_333)
+#define add_333(sh, sm, sl, ah, am, al, bh, bm, bl)  \
+   do { \
+      UWtype __cy1, __cy2; \
+      __cy1 = ((al) + (bl) < (al)); \
+      (sl) = (al) + (bl); \
+      __cy2 = ((am) + (bm) < (am)); \
+      (sm) = (am) + (bm); \
+      __cy2 += ((sm) + __cy1 < (sm)); \
+      (sm) = (sm) + __cy1; \
+      (sh) = (ah) + (bh) + __cy2; \
+   } while (0)
+#endif
+
+#if !defined(sub_333)
+#define sub_333(sh, sm, sl, ah, am, al, bh, bm, bl)  \
+   do { \
+      UWtype __cy1, __cy2; \
+      __cy1 = ((al) < (bl)); \
+      (sl) = (al) - (bl); \
+      __cy2 = ((am) < (bm)); \
+      (sm) = (am) - (bm); \
+      __cy2 += ((sm) < __cy1); \
+      (sm) = (sm) - __cy1; \
+      (sh) = (ah) - (bh) - __cy2; \
+   } while (0)
 #endif
 
 /* If we lack umul_ppmm but have smul_ppmm, define umul_ppmm in terms of
