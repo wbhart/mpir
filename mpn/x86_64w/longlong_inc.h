@@ -20,7 +20,7 @@ along with this file; see the file COPYING.LIB.  If not, write to
 the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 MA 02110-1301, USA. */
 
-#if defined (__GNUC__) || defined(INTEL_COMPILER)  || defined(__ICL)
+#if defined (__GNUC__) || defined(__INTEL_COMPILER)  || defined(__ICL)
 
 #define add_ssaaaa(sh, sl, ah, al, bh, bl) \
   __asm__ ("addq %5,%q1\n\tadcq %3,%q0"					\

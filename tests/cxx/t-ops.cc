@@ -178,9 +178,9 @@ check_mpz (void)
     c = ai % b; ASSERT_ALWAYS(c == -1);
   }
   {
-    mpz_class a ((mpir_si)GMP_SI_MIN);
+    mpz_class a (static_cast<mpir_si>(GMP_SI_MIN));
     mpir_si ai = GMP_SI_MIN;
-    mpz_class b = - mpz_class ((mpir_si)GMP_SI_MIN);
+    mpz_class b = - mpz_class (static_cast<mpir_si>(GMP_SI_MIN));
     mpz_class c;
     c = a / b;  ASSERT_ALWAYS(c == -1);
     c = a % b;  ASSERT_ALWAYS(c == 0);
