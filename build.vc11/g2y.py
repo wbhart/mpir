@@ -133,7 +133,7 @@ def pass_one(code):
       continue
     m = m_la.match(l)
     if m:
-      lb = m.group(1) if m.group(1) else m.group(2)      
+      lb = m.group(1) if m.group(1) else m.group(2)
       if lb:
         labels += [lb]
   return labels
@@ -167,8 +167,8 @@ def pass_two(code, labels):
           mac_dict[mac_name][2] = mn
 
       m = m_la.match(l)
-      if m: 
-        lb = m.group(1) if m.group(1) else m.group(2)      
+      if m:
+        lb = m.group(1) if m.group(1) else m.group(2)
         if lb in labels:
           lab_idx += 1
           mac_dict[mac_name][3][lb] = lab_idx
@@ -187,12 +187,12 @@ def addr(dd, labels, macros, mac_name):
         return pfx + ss
       ss = '+' + ss
   elif dd['dis']:
-    ss = (dd['dis'] if not dd['dis'] or dd['dis'][0] in '+-' 
+    ss = (dd['dis'] if not dd['dis'] or dd['dis'][0] in '+-'
             else '+' + dd['dis']) + ']'
   ss = ('' if not dd['mul'] else '*' + dd['mul']) + ss
-  if dd['reg2']:    
+  if dd['reg2']:
     ss = '+' + dd['reg2'] + ss
-  if dd['reg1']:    
+  if dd['reg1']:
     ss = dd['reg1'] + ss
   return pfx + ss
 
@@ -218,12 +218,12 @@ def pass_three(code, labels, macros, level):
         continue
       if m.group(2):
         sfx = '\t;' + m.group(2)
-      
+
     # labels
     lp = ''
     m = m_la.match(l)
     if m:
-      lb = m.group(1) if m.group(1) else m.group(2)      
+      lb = m.group(1) if m.group(1) else m.group(2)
       l = l[ l.find(':') + 1 : -1 ]
       if mac_name:
         if lb in macros[mac_name][3]:
@@ -249,14 +249,14 @@ def pass_three(code, labels, macros, level):
             lp = '\n.{0}:'.format(ii)
           else:
             lp = '\nL_{0}:'.format(lb)
-    
+
     if not re.search(r'(\S+)', l):
       if lp:
         lo += [lp]
         continue
     elif not lp:
       lp = '\n'
-          
+
     # three operand instructions
     m = m_fa.search(l)
     if m:
@@ -292,7 +292,7 @@ def pass_three(code, labels, macros, level):
     if m:
       if debug:
         print(l, end = '')
-      d = m.groupdict()      
+      d = m.groupdict()
       s = addr(d, labels, macros, mac_name)
       lo += [lp + '\t{0[ins]:7s} {1}'.format(d, s)]
       continue
@@ -542,14 +542,14 @@ def conv_dirs(s, d, l):
         shutil.copyfile(sp, dp)
 
 if len(sys.argv) == 1:
-  cd = os.getcwd()                    # if run in the build.vc10 directory  
+  cd = os.getcwd()                   # if run in the build.vc10 directory
   if cd.endswith('build.vc10'):
-    cd1 = cd + '\\..\\mpn\\x86_64'    # the GAS assembler directory
-    cd2 = cd + '\\..\\mpn\\x86_64w'   # the YASM (Windows) assembler directory
-  elif cd.endswith('x86_64'):         # if run in the GAS assembler directory
+    cd1 = cd + '\\..\\mpn\\x86_64'   # the GAS assembler directory
+    cd2 = cd + '\\..\\mpn\\x86_64w'  # the YASM (Windows) assembler directory
+  elif cd.endswith('x86_64'):        # if run in the GAS assembler directory
     cd1 = cd
     cd2 = cd + '\\..\\x86_64w'
-  elif cd.endswith('x86_64w'):        # if run in the YASM assembler directory
+  elif cd.endswith('x86_64w'):       # if run in the YASM assembler directory
     cd2 = cd
     cd1 = cd + '\\..\\x86_64'
   else:
@@ -567,7 +567,7 @@ if cd1 and os.path.exists(cd1):
     if os.path.exists(cd2) and os.path.isdir(cd2):
       print("warning: output directory '{0}' already exists".format(cd2))
     if cd1 != cd2:
-      conv_dirs(cd1, cd2, 0)          # convert format from GAS to YASM
+      conv_dirs(cd1, cd2, 0)         # convert format from GAS to YASM
   elif os.path.isfile(cd1):
     if not os.path.exists(cd2):
       conv_file(cd1, cd2, 0)
