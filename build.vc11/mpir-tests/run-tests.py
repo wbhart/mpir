@@ -13,6 +13,9 @@ import code
 import sys
 import re
 
+cw, f = os.path.split(__file__)
+os.chdir(cw)
+
 try:
   f = open('..\output_params.bat')
   par = f.readlines()
@@ -37,18 +40,18 @@ else:
 print('Testing MPIR {:s} in {:s} Configuration'.format(xt, tdir))
 
 dir_list = []
-for x in os.walk(os.getcwd()) :
-  if x[0] == os.getcwd() :
+for x in os.walk(os.getcwd()):
+  if x[0] == os.getcwd():
     dir_list += x[1]
   else :
     break
 
 prj_list = []
-for x in dir_list :
+for x in dir_list:
   l = os.listdir(os.getcwd() + '\\' + x)
   for f in l :
     y = os.path.splitext(f)
-    if y[1] == '.vcxproj' and y[0] != 'add-test-lib' :
+    if y[1] == '.vcxproj' and y[0] != 'add-test-lib':
       prj_list += [y[0]]
 prj_list.sort()
 
@@ -59,20 +62,20 @@ except :
   print("Tests have not been built for this configuration")
   os._exit(-1)
 
-for f in l :
+for f in l:
   x = os.path.splitext(f)
-  if x[1] == '.exe' :
+  if x[1] == '.exe':
     exe_list += [x[0]]
 exe_list.sort()
-if len(exe_list) == 0 :
+if len(exe_list) == 0:
   print("No executable test files for this configuration")
   os._exit(-1)
 
 build_fail = 0
 run_ok = 0
 run_fail = 0
-for i in prj_list :
-  if i in exe_list :
+for i in prj_list:
+  if i in exe_list:
     ef = '.\\..\\' + tdir + '\\' + i + '.exe'
     try:
       prc = subprocess.Popen( ef, stdout = subprocess.PIPE,
@@ -82,28 +85,28 @@ for i in prj_list :
       run_fail += 1
       continue
     output = prc.communicate()[0]
-    if prc.returncode :
+    if prc.returncode:
       print(i, ': ERROR (', prc.returncode, ' )')
       run_fail += 1
-    else :
+    else:
       print(i, ': success')
       run_ok += 1
-    if output :
+    if output:
       print('    ', output.decode(), end = '')
-  else :
+  else:
     print("Build failure for {0}".format(i))
     build_fail += 1
 print(build_fail + run_ok + run_fail, "tests:")
-if build_fail > 0 :
+if build_fail > 0:
   print("\t{0} failed to build".format(build_fail))
-if run_ok > 0 :
+if run_ok > 0:
   print("\t{0} ran correctly".format(run_ok))
-if run_fail > 0 :
+if run_fail > 0:
   print("\t{0} failed".format(run_fail))
-if len(sys.argv) == 1 :
-  try :
+if len(sys.argv) == 1:
+  try:
     input(".. completed - press ENTER")
-  except :
+  except:
     pass
-else :
+else:
   sys.exit(build_fail + run_fail)
