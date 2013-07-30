@@ -1268,8 +1268,8 @@ complexity and all subexpressions are evaluated to the precision of `f'.
 
 File: mpir.info,  Node: Contributors,  Next: References,  Prev: Internals,  Up: Top
 
-Appendix A Contributors
-***********************
+Annexe A Contributors
+*********************
 
 Torbjorn Granlund wrote the original GMP library and is still
 developing and maintaining it.  Several other individuals and
@@ -1486,8 +1486,8 @@ supporting us in inumerably many other ways.
 
 File: mpir.info,  Node: References,  Next: GNU Free Documentation License,  Prev: Contributors,  Up: Top
 
-Appendix B References
-*********************
+Annexe B References
+*******************
 
 B.1 Books
 =========
@@ -1661,8 +1661,8 @@ B.2 Papers
 
 File: mpir.info,  Node: GNU Free Documentation License,  Next: Concept Index,  Prev: References,  Up: Top
 
-Appendix C GNU Free Documentation License
-*****************************************
+Annexe C GNU Free Documentation License
+***************************************
 
                      Version 1.3, 3 November 2008
 
