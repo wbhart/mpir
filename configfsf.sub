@@ -1298,7 +1298,7 @@ case $basic_machine in
 	pmac | pmac-mpw)
 		basic_machine=powerpc-apple
 		;;
-	*-unknown)
+	*-unknown | *-pc | *-apple | *-w64)
 		# Make sure to match an already-canonicalized machine name.
 		;;
 	*)
