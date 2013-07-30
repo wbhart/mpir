@@ -69,7 +69,7 @@ dnl
 dnl  Note that there's a copy of these options in the top-level Makefile.am,
 dnl  so update there too if changing anything.
 dnl
-AM_INIT_AUTOMAKE([1.11 gnu no-dependencies parallel-tests dist-bzip2 no-dist-gzip dist-lzma])
+AM_INIT_AUTOMAKE([1.11 gnu no-dependencies parallel-tests no-dist-gzip dist-bzip2 dist-xz dist-lzip])
 AM_CONFIG_HEADER(config.h:config.in)
 AM_MAINTAINER_MODE
 
