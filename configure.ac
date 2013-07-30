@@ -207,10 +207,6 @@ yes|no) ;;
 esac],
 [enable_fat=no])
 
-# Work around an autoconf bug
-MKDIR_P=@mkdir_p@
-AC_SUBST(MKDIR_P)
-
 # Table of compilers, options, and mpn paths.  This code has various related
 # purposes
 #
@@ -1180,38 +1176,38 @@ case $host in
         esac
 
         case $host in
-		# NOTE x86_64w and x86_64 paths MUST be the same , for the fat structure
-          x86_64-w64-mingw*)
+          # NOTE x86_64w and x86_64 paths MUST be the same , for the fat structure
+          x86_64-w64-mingw*|x86_64-*-cygwin*)
             path_64="x86_64w" ;;
-          netburst-w64-mingw*)
+          netburst-w64-mingw*|netburst-*-cygwin*)
             path_64="x86_64w/netburst x86_64w" ;;
-          netburstlahf-w64-mingw*)
+          netburstlahf-w64-mingw*|netburstlahf-*-cygwin*)
             path_64="x86_64w/netburst x86_64w" ;;
-          k8-w64-mingw*)
+          k8-w64-mingw*|k8-*-cygwin*)
             path_64="x86_64w/k8/k8only x86_64w/k8 x86_64w" ;;
-          k10-w64-mingw*)
+          k10-w64-mingw*|k10-*-cygwin*)
             path_64="x86_64w/k8/k10 x86_64w/k8 x86_64w" ;;
-          k102-w64-mingw*)
+          k102-w64-mingw*|k102-*-cygwin*)
             path_64="x86_64w/k8/k10/k102 x86_64w/k8/k10 x86_64w/k8 x86_64w" ;;
-	  k103-w64-mingw*)
+          k103-w64-mingw*|k103-*-cygwin*)
             path_64="x86_64w/k8/k10/k102 x86_64w/k8/k10 x86_64w/k8 x86_64w" ;;
-	  bulldozer-w64-mingw*)
+          bulldozer-w64-mingw*|bulldozer-*-cygwin*)
             path_64="x86_64w/k8/k10/k102 x86_64w/k8/k10 x86_64w/k8 x86_64w" ;;
-	  bobcat-w64-mingw*)
+          bobcat-w64-mingw*|bobcat-*-cygwin*)
             path_64="x86_64w/bobcat x86_64w" ;;
-          core2-w64-mingw*) 
+          core2-w64-mingw*|core2-*-cygwin*)
             path_64="x86_64w/core2 x86_64w" ;;
-          penryn-w64-mingw*) 
+          penryn-w64-mingw*|penryn-*-cygwin*)
             path_64="x86_64w/core2/penryn x86_64w/core2 x86_64w" ;;
-          nehalem-w64-mingw*) 
+          nehalem-w64-mingw*|nehalem-*-cygwin*)
             path_64="x86_64w/nehalem x86_64w" ;;
-          westmere-w64-mingw*) 
+          westmere-w64-mingw*|westmere-*-cygwin*)
             path_64="x86_64w/nehalem/westmere x86_64w/nehalem x86_64w" ;;
-          sandybridge-w64-mingw*) 
+          sandybridge-w64-mingw*|sandybridge-*-cygwin*)
             path_64="x86_64w/sandybridge x86_64w" ;;
-          atom-w64-mingw*) 
+          atom-w64-mingw*|atom-*-cygwin*)
             path_64="x86_64w/atom x86_64w" ;;
-          nano-w64-mingw*) 
+          nano-w64-mingw*|nano-*-cygwin*)
             path_64="x86_64w/k8/k8only x86_64w/k8 x86_64w" ;;
 
           x86_64-*-*)
@@ -1253,14 +1249,14 @@ case $host in
           gcc_64_cflags_cpu=""
           gcc_64_cflags_arch=""
           extra_functions_64="$extra_functions_64 fat fat_entry"
-	  case $host in
-		*-w64-mingw*)
-	          path_64="x86_64w x86_64w/fat"
-		  fat_path_64="x86_64w x86_64w/fat x86_64w/netburst x86_64w/k8 x86_64w/k8/k8only x86_64w/k8/k10 x86_64w/k8/k10/k102  x86_64w/core2 x86_64w/core2/penryn x86_64w/nehalem x86_64w/nehalem/westmere x86_64w/atom x86_64w/bobcat x86_64w/sandybridge" ;;
-		*-*-*)
-	          path_64="x86_64 x86_64/fat"
-        	  fat_path_64="x86_64 x86_64/fat x86_64/netburst x86_64/k8 x86_64/k8/k8only x86_64/k8/k10 x86_64/k8/k10/k102  x86_64/core2 x86_64/core2/penryn x86_64/nehalem x86_64/nehalem/westmere x86_64/atom x86_64/bobcat x86_64/sandybridge" ;;
-	  esac
+          case $host in
+            *-w64-mingw*|*-*-cygwin*)
+              path_64="x86_64w x86_64w/fat"
+              fat_path_64="x86_64w x86_64w/fat x86_64w/netburst x86_64w/k8 x86_64w/k8/k8only x86_64w/k8/k10 x86_64w/k8/k10/k102  x86_64w/core2 x86_64w/core2/penryn x86_64w/nehalem x86_64w/nehalem/westmere x86_64w/atom x86_64w/bobcat x86_64w/sandybridge" ;;
+            *-*-*)
+              path_64="x86_64 x86_64/fat"
+              fat_path_64="x86_64 x86_64/fat x86_64/netburst x86_64/k8 x86_64/k8/k8only x86_64/k8/k10 x86_64/k8/k10/k102  x86_64/core2 x86_64/core2/penryn x86_64/nehalem x86_64/nehalem/westmere x86_64/atom x86_64/bobcat x86_64/sandybridge" ;;
+          esac
         fi
         ;;
 
@@ -2615,7 +2611,7 @@ done
 # for mingw64 rename all *.asm files to *.as files so we then will use yasm 
 # cant move them yet as the mpn directory is not created until the end
 case $host in
-*-w64-mingw*)
+*-w64-mingw*|*-*-cygwin*)
 	old_gmp_srclinks=$gmp_srclinks
 	gmp_srclinks=
 	for jay in $old_gmp_srclinks; do
@@ -2829,10 +2825,10 @@ if test "$gmp_asm_syntax_testing" != no; then
           case $host in 
             *-*-darwin*)
               OBJECT_FORMAT="-f macho64" ;;
-	    *-w64-mingw*)
-		OBJECT_FORMAT="-f x64"  ;;
-	    *)
-	      OBJECT_FORMAT="-f elf64" ;;
+            *-w64-mingw*|*-*-cygwin*)
+              OBJECT_FORMAT="-f x64"  ;;
+            *)
+              OBJECT_FORMAT="-f elf64" ;;
           esac
           GMP_INCLUDE_MPN(x86_64/x86_64-defs.m4)
           ;;
@@ -2987,7 +2983,7 @@ GMP_FINISH
 AC_CONFIG_SUBDIRS([yasm])
 
 case $host in
-  *-w64-mingw*)
+  *-w64-mingw*|*-*-cygwin*)
 	if test $enable_fat = yes; then
 	YASM_MAC_INC=yasm_macwin.inc.fat
 	else
@@ -3014,7 +3010,7 @@ fi
 # now we have created and populated the mpn directory we can rename the files
 # and post process the "m4 macros" into "yasm macros"
 case $host in
-*-w64-mingw*)
+*-w64-mingw*|*-*-cygwin*)
 	for jay in $old_gmp_srclinks; do
 		jayext=`echo "$jay" | awk -F . '{print $NF}'`
 		#jayext=`/bin/echo "${jay#*.}"`
