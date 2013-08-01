@@ -61,11 +61,6 @@ dnl  are not useful to us.  Pretty much everything depends just on mpir.h,
 dnl  gmp-impl.h and longlong.h, and yet only rarely does everything need to
 dnl  be rebuilt for changes to those files.
 dnl
-dnl  "no-dependencies" also helps with the way we're setup to run
-dnl  AC_PROG_CXX only conditionally.  If dependencies are used then recent
-dnl  automake (eg 1.7.2) appends an AM_CONDITIONAL to AC_PROG_CXX, and then
-dnl  gets upset if it's not actually executed.
-dnl
 dnl  Note that there's a copy of these options in the top-level Makefile.am,
 dnl  so update there too if changing anything.
 dnl
@@ -1730,10 +1725,15 @@ AM_CONDITIONAL(BUILD_YASM, test "$build_yasm" = "yes")
 AC_SUBST(MPIR_AS)
 
 # The C++ compiler, if desired.
+
+# The following test is quick and harmless.
+# It defaults to 'g++' if no compiler is found.
+AC_PROG_CXX
+
+# Now actually check that the C++ compiler works if it is needed.
 want_cxx=no
 if test $enable_cxx != no; then
   test_CXXFLAGS=${CXXFLAGS+set}
-  AC_PROG_CXX
 
   echo "CXXFLAGS chosen by autoconf: $CXXFLAGS" >&AC_FD_CC
   cxxflags_ac_prog_cxx=$CXXFLAGS
@@ -1773,15 +1773,6 @@ if test $enable_cxx != no; then
 fi
 
 AM_CONDITIONAL(WANT_CXX, test $want_cxx = yes)
-
-# FIXME: We're not interested in CXXCPP for ourselves, but if we don't do it
-# here then AC_PROG_LIBTOOL will AC_REQUIRE it (via _LT_AC_TAGCONFIG) and
-# hence execute it unconditionally, and that will fail if there's no C++
-# compiler (and no generic /lib/cpp).
-#
-if test $want_cxx = yes; then
-  AC_PROG_CXXCPP
-fi
 
 if test -z "$MPN_PATH"; then
   path="$add_path $path"
@@ -1873,9 +1864,10 @@ case $host in
 esac
 
 
-# Configs for Windows DLLs.
+# Enable various configuration flags and DLL on Windows
+LT_INIT([win32-dll])
 
-AC_LIBTOOL_WIN32_DLL
+# Configs for Windows DLLs.
 
 AC_SUBST(LIBGMP_DLL,0)
 case $host in
@@ -1924,8 +1916,6 @@ Use "--disable-static --enable-shared" to build just a DLL.])
     fi
     ;;
 esac
-
-AC_PROG_LIBTOOL
 
 # Generate an error here if attempting to build both shared and static when
 # $libname.a is in $library_names_spec (as mentioned above), rather than
@@ -2038,7 +2028,7 @@ GMP_C_ATTRIBUTE_NORETURN
 GMP_H_EXTERN_INLINE
 
 # from libtool
-AC_CHECK_LIBM
+LT_LIB_M
 AC_SUBST(LIBM)
 
 GMP_FUNC_ALLOCA
