@@ -1925,47 +1925,6 @@ Use "--disable-static --enable-shared" to build just a DLL.])
     ;;
 esac
 
-
-# Ensure that $CONFIG_SHELL is available for AC_LIBTOOL_SYS_MAX_CMD_LEN.
-# It's often set already by _LT_AC_PROG_ECHO_BACKSLASH or
-# _AS_LINENO_PREPARE, but not always.
-#
-# The symptom of CONFIG_SHELL unset is some "expr" errors during the test,
-# and an empty result.  This only happens when invoked as "sh configure",
-# ie. no path, and can be seen for instance on ia64-*-hpux*.
-#
-# FIXME: Newer libtool should have it's own fix for this.
-#
-if test -z "$CONFIG_SHELL"; then
-  CONFIG_SHELL=$SHELL
-fi
-
-# Enable CXX in libtool only if we want it, and never enable GCJ, nor RC on
-# mingw and cygwin.  Under --disable-cxx this avoids some error messages
-# from libtool arising from the fact we didn't actually run AC_PROG_CXX.
-# Notice that any user-supplied --with-tags setting takes precedence.
-#
-# FIXME: Is this the right way to get this effect?  Very possibly not, but
-# the current _LT_AC_TAGCONFIG doesn't really suggest an alternative.
-#
-if test "${with_tags+set}" != set; then
-  if test $want_cxx = yes; then
-    with_tags=CXX
-  else
-    with_tags=
-  fi
-fi
-
-# The dead hand of AC_REQUIRE makes AC_PROG_LIBTOOL expand and execute
-# AC_PROG_F77, even when F77 is not in the selected with_tags.  This is
-# probably harmless, but it's unsightly and bloats our configure, so pretend
-# AC_PROG_F77 has been expanded already.
-#
-# FIXME: Rumour has it libtool will one day provide a way for a configure.in
-# to say what it wants from among supported languages etc.
-#
-AC_PROVIDE([AC_PROG_F77])
-
 AC_PROG_LIBTOOL
 
 # Generate an error here if attempting to build both shared and static when
