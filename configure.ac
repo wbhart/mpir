@@ -1131,12 +1131,10 @@ case $host in
 
     # 32bit apple darwin doesn't like our PIC format asm code
     case $host in
-	core2-apple-darwin* | penryn-apple-darwin*)		path="x86/applenopic/core2 x86/applenopic" ;;
-	prescott-apple-darwin* | pentium4-apple-darwin*)	path="x86/applenopic" ;;
-	pentium3-apple-darwin* | pentium2-apple-darwin*)	path="x86/applenopic" ;;
-	i686-apple-darwin* | pentiumpro-apple-darwin*)		path="x86/applenopic" ;;
-	core-apple-darwin*)					path="x86/applenopic" ;;
-	*)							;;
+	i[34567]86-apple-darwin* | pentium*-apple-darwin* | prescott-apple-darwin* | core-apple-darwin* )	path="x86/applenopic" ;;
+	# assume Core2 or later
+	*-apple-darwin* )	path="x86/applenopic/core2 x86/applenopic" ;;
+	*)			;;
     esac
 
     # If the user asked for a fat build, override the path set above
