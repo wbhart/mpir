@@ -47,7 +47,7 @@ dnl  Maximum possible with the current code is 64.
 
 deflit(UNROLL_COUNT, 16)
 
-define(OPERATION_submul_1,1)
+define(`OPERATION_submul_1',1)
 
 ifdef(`OPERATION_addmul_1',`
 	define(M4_inst,        addl)

@@ -52,7 +52,7 @@ dnl  byte block, which might explain the good speed at that unrolling.
 
 deflit(UNROLL_COUNT, 16)
 
-define(OPERATION_addmul_1,1)
+define(`OPERATION_addmul_1',1)
 
 ifdef(`OPERATION_addmul_1', `
 	define(M4_inst,        addl)

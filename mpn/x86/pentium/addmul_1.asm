@@ -25,7 +25,7 @@ include(`../config.m4')
 
 C P5: 14.0 cycles/limb
 
-define(OPERATION_addmul_1,1)
+define(`OPERATION_addmul_1',1)
 
 ifdef(`OPERATION_addmul_1', `
       define(M4_inst,        addl)

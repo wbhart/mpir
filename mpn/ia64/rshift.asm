@@ -39,7 +39,7 @@ define(`cnt',`r35')
 
 define(`tnc',`r9')
 
-define(OPERATION_rshift,1)
+define(`OPERATION_rshift',1)
 
 ifdef(`OPERATION_lshift',`
 	define(`FSH',`shl')

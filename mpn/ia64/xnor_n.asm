@@ -34,7 +34,7 @@ define(`up', `r33')
 define(`vp', `r34')
 define(`n', `r35')
 
-define(OPERATION_xnor_n,1)
+define(`OPERATION_xnor_n',1)
 
 ifdef(`OPERATION_and_n',
 `	define(`func',`mpn_and_n')

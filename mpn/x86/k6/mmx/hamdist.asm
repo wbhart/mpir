@@ -34,7 +34,7 @@ C
 C The code here isn't optimal, but it's already a 2x speedup over the plain
 C integer mpn/generic/popcount.c,hamdist.c.
 
-define(OPERATION_hamdist,1)
+define(`OPERATION_hamdist',1)
 
 ifdef(`OPERATION_popcount',,
 `ifdef(`OPERATION_hamdist',,
