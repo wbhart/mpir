@@ -73,6 +73,24 @@ AM_INIT_AUTOMAKE([1.11 gnu no-dependencies parallel-tests no-dist-gzip dist-bzip
 AM_CONFIG_HEADER(config.h:config.in)
 AM_MAINTAINER_MODE
 
+dnl  Yasm configuration
+AC_ARG_WITH([yasm],
+[AC_HELP_STRING([--with-yasm],[use a custom Yasm [[default=no]]])],
+[case "$withval" in
+  no) ;;
+  *) AC_MSG_ERROR([bad value $withval for --with-yasm, need no or path to Yasm's executable]) ;;
+esac],
+[with_yasm=no]
+)
+
+AC_ARG_WITH([system-yasm],
+[AC_HELP_STRING([--with-system-yasm],[use a system-wide Yasm [[default=no]]])],
+[case "$withval" in
+  yes|no) ;;
+  *) AC_MSG_ERROR([bad value $withval for --with-system-yasm, need yes or no]) ;;
+esac],
+[with_system_yasm=no]
+)
 
 AC_ARG_ENABLE(assert,
 AC_HELP_STRING([--enable-assert],[enable ASSERT checking [[default=no]]]),
@@ -1291,8 +1309,6 @@ case $host in
     ;;
 esac
 
-AM_CONDITIONAL(BUILD_YASM, test "$want_yasm" = "yes")
-
 CFLAGS_or_unset=${CFLAGS-'(unset)'}
 CPPFLAGS_or_unset=${CPPFLAGS-'(unset)'}
 
@@ -1676,17 +1692,41 @@ GMP_PROG_EXEEXT_FOR_BUILD
 GMP_C_FOR_BUILD_ANSI
 GMP_CHECK_LIBM_FOR_BUILD
 
-
-MPIR_AS="/yasm/yasm"
-
 # How to assemble, used with CFLAGS etc, see mpn/Makeasm.am.
 # Using the compiler is a lot easier than figuring out how to invoke the
 # assembler directly.
 #
-
 test -n "$CCAS" || CCAS="$CC -c"
-  
 AC_SUBST(CCAS)
+
+# If the user provided its Yasm, check it seems functional
+if test "$with_yasm" != "no" && test "$with_system_yasm" != "no"; then
+  AC_MSG_ERROR([you cannot provide non-default values to both --with-yasm and --with-system-yasm])
+fi
+MPIR_AS=""
+if test "$with_system_yasm" = "yes"; then
+  echo "Looking for a system-wide yasm..."
+  MPIR_AS=`which yasm`
+  if test $? -ne 0; then
+    AC_MSG_ERROR([no system-wide yasm found])
+  fi
+fi
+if test "$with_yasm" != no; then
+  MPIR_AS="$with_yasm"
+fi
+if test -n "$MPIR_AS"; then
+  echo "Checking user-provided yasm..."
+  if ! test -f "$MPIR_AS" || ! test -x "$MPIR_AS"; then
+    AC_MSG_ERROR([$MPIR_AS does not seem functional])
+  fi
+fi
+# Otherwise build it if needed.
+if test "$want_yasm" = "yes" && test -z "$MPIR_AS"; then
+  build_yasm="yes"
+  MPIR_AS="\$(top_builddir)/yasm/yasm"
+fi
+
+AM_CONDITIONAL(BUILD_YASM, test "$build_yasm" = "yes")
 AC_SUBST(MPIR_AS)
 
 # The C++ compiler, if desired.
@@ -2975,12 +3015,14 @@ AC_SUBST(TUNE_SQR_OBJ)
 # Create config.m4.
 GMP_FINISH
 
-# Create Makefiles
-# FIXME: Upcoming version of autoconf/automake don't like broken lines.
-#        Right now automake isn't accepting the new AC_CONFIG_FILES scheme.
-
-#     allways configure all subdirectorys , even if there are not going to be built , 
+# Always configure subdirectories or "make dist" and so on will fail.
+# A better solution would be to ship a vanilla Yasm tarball
+# and modify the way MPIR builds it when it is needed;
+# in particular this should not rely on autotools.
+#
+#if test "$build_yasm" = "yes"; then
 AC_CONFIG_SUBDIRS([yasm])
+#fi
 
 case $host in
   *-w64-mingw*|*-*-cygwin*)
@@ -2999,6 +3041,10 @@ case $host in
   ;;
 esac
 AC_CONFIG_LINKS(yasm_mac.inc:$YASM_MAC_INC)
+
+# Create Makefiles
+# FIXME: Upcoming version of autoconf/automake don't like broken lines.
+#        Right now automake isn't accepting the new AC_CONFIG_FILES scheme.
 
 AC_OUTPUT(Makefile mpf/Makefile mpn/Makefile fft/Makefile mpq/Makefile mpz/Makefile printf/Makefile scanf/Makefile cxx/Makefile tests/Makefile tests/devel/Makefile tests/mpf/Makefile tests/mpn/Makefile tests/fft/Makefile tests/mpq/Makefile tests/mpz/Makefile tests/rand/Makefile tests/misc/Makefile tests/cxx/Makefile doc/Makefile tune/Makefile mpir.h:gmp-h.in)
 if test $enable_gmpcompat = yes; then
