@@ -2600,25 +2600,27 @@ for tmp_fn in $gmp_mpn_functions; do
   fi
 done
 
-# for mingw64 rename all *.asm files to *.as files so we then will use yasm 
+# For win64 rename all *.asm files to *.as files so we then will use yasm 
 # cant move them yet as the mpn directory is not created until the end
 case $host in
-*-w64-mingw*|*-*-cygwin*)
-	old_gmp_srclinks=$gmp_srclinks
-	gmp_srclinks=
-	for jay in $old_gmp_srclinks; do
-		jayext=`echo "$jay" | awk -F . '{print $NF}'`
-		#jayext=`/bin/echo "${jay#*.}"`
-		#jayext=`echo "$jay" | sed -n 's/.*\.//'`
-		base=`echo "${jay%.*}"`
-		name=`basename $base`
-		if test "$jayext" = "asm" && test "$name" != "fat_entry"; then
-			gmp_srclinks="gmp_srclinks $base.as"
-		else
-			gmp_srclinks="$gmp_srclinks $jay"
-		fi
-	done
-	;;
+  *-w64-mingw*|*-*-cygwin*)
+    if "$ABI" = "64"; then
+      old_gmp_srclinks=$gmp_srclinks
+      gmp_srclinks=
+      for jay in $old_gmp_srclinks; do
+        jayext=`echo "$jay" | awk -F . '{print $NF}'`
+        #jayext=`/bin/echo "${jay#*.}"`
+        #jayext=`echo "$jay" | sed -n 's/.*\.//'`
+        base=`echo "${jay%.*}"`
+        name=`basename $base`
+        if test "$jayext" = "asm" && test "$name" != "fat_entry"; then
+          gmp_srclinks="gmp_srclinks $base.as"
+        else
+          gmp_srclinks="$gmp_srclinks $jay"
+        fi
+      done
+    fi
+  ;;
 esac
 
 # All cycle counters are .asm files currently
@@ -2978,18 +2980,26 @@ AC_CONFIG_SUBDIRS([yasm])
 
 case $host in
   *-w64-mingw*|*-*-cygwin*)
-	if test $enable_fat = yes; then
-	YASM_MAC_INC=yasm_macwin.inc.fat
-	else
-	YASM_MAC_INC=yasm_macwin.inc.nofat
-	fi
+    if test "$ABI" = "64"; then
+      if test $enable_fat = yes; then
+        YASM_MAC_INC=yasm_macwin.inc.fat
+      else
+        YASM_MAC_INC=yasm_macwin.inc.nofat
+      fi
+    else
+      if test $enable_fat = yes; then
+        YASM_MAC_INC=yasm_mac.inc.fat
+      else
+        YASM_MAC_INC=yasm_mac.inc.nofat
+      fi
+    fi
   ;;
   *-*-*)
-	if test $enable_fat = yes; then
-	YASM_MAC_INC=yasm_mac.inc.fat
-	else
-	YASM_MAC_INC=yasm_mac.inc.nofat
-	fi
+    if test $enable_fat = yes; then
+      YASM_MAC_INC=yasm_mac.inc.fat
+    else
+      YASM_MAC_INC=yasm_mac.inc.nofat
+    fi
   ;;
 esac
 AC_CONFIG_LINKS(yasm_mac.inc:$YASM_MAC_INC)
@@ -3000,36 +3010,38 @@ AC_CONFIG_LINKS(yasm_mac.inc:$YASM_MAC_INC)
 
 AC_OUTPUT(Makefile mpf/Makefile mpn/Makefile fft/Makefile mpq/Makefile mpz/Makefile printf/Makefile scanf/Makefile cxx/Makefile tests/Makefile tests/devel/Makefile tests/mpf/Makefile tests/mpn/Makefile tests/fft/Makefile tests/mpq/Makefile tests/mpz/Makefile tests/rand/Makefile tests/misc/Makefile tests/cxx/Makefile doc/Makefile tune/Makefile mpir.h:gmp-h.in)
 if test $enable_gmpcompat = yes; then
-	AC_OUTPUT(gmp.h:gmp-h.in)
-	if test $enable_cxx = yes ; then
-		AC_OUTPUT(gmpxx.h:mpirxx.h)
-	fi
+  AC_OUTPUT(gmp.h:gmp-h.in)
+  if test $enable_cxx = yes ; then
+    AC_OUTPUT(gmpxx.h:mpirxx.h)
+  fi
 fi
 # now we have created and populated the mpn directory we can rename the files
 # and post process the "m4 macros" into "yasm macros"
 case $host in
-*-w64-mingw*|*-*-cygwin*)
-	for jay in $old_gmp_srclinks; do
-		jayext=`echo "$jay" | awk -F . '{print $NF}'`
-		#jayext=`/bin/echo "${jay#*.}"`
-		#jayext=`echo "$jay" | sed -n 's/.*\.//'`
-		base=`echo "${jay%.*}"`
-		name=`basename $base`
-		if test "$jayext" = "asm" && test "$name" != "fat_entry" ; then
-			got=`grep -ce "d""nl  This line is to help MINGW64" $jay`
-			if test "$got" = "1" ; then
-				cat $jay | sed s/"include(\(.*\))"/"%include \"\1\""/ | sed s/"d""efine(\(.*\),\(.*\))"/"%d""efine \1 \2"/ | sed s/"d""efine(\(.*\))"/"%d""efine \1"/ | sed s/"d""nl\(.*\)"/"; \1"/ | sed s/ifdef.*// | sed s/"\`.*"// > $base.as
-				rm -f $jay
-			else
-				mv $jay $base.as
-			fi
-		fi
-	done
+  *-w64-mingw*|*-*-cygwin*)
+    if "$ABI" = "64"; then
+      for jay in $old_gmp_srclinks; do
+        jayext=`echo "$jay" | awk -F . '{print $NF}'`
+        #jayext=`/bin/echo "${jay#*.}"`
+        #jayext=`echo "$jay" | sed -n 's/.*\.//'`
+        base=`echo "${jay%.*}"`
+        name=`basename $base`
+        if test "$jayext" = "asm" && test "$name" != "fat_entry" ; then
+          got=`grep -ce "d""nl  This line is to help MINGW64" $jay`
+          if test "$got" = "1" ; then
+            cat $jay | sed s/"include(\(.*\))"/"%include \"\1\""/ | sed s/"d""efine(\(.*\),\(.*\))"/"%d""efine \1 \2"/ | sed s/"d""efine(\(.*\))"/"%d""efine \1"/ | sed s/"d""nl\(.*\)"/"; \1"/ | sed s/ifdef.*// | sed s/"\`.*"// > $base.as
+            rm -f $jay
+          else
+            mv $jay $base.as
+          fi
+        fi
+      done
 # the file x86_64_divrem_euclidean_qr_1.as should detect the defined macro EXCLUDE_PREINV , but for some reason it doesnt, so we hack it
-	if test $enable_fat = yes; then
-		echo "%d""efine EXCLUDE_PREINV 1" > mpn/x86_64_divrem_euclidean_qr_1.tmp
-		cat mpn/x86_64_divrem_euclidean_qr_1.as >> mpn/x86_64_divrem_euclidean_qr_1.tmp
-		mv mpn/x86_64_divrem_euclidean_qr_1.tmp mpn/x86_64_divrem_euclidean_qr_1.as
-	fi
-;;
+      if test $enable_fat = yes; then
+        echo "%d""efine EXCLUDE_PREINV 1" > mpn/x86_64_divrem_euclidean_qr_1.tmp
+        cat mpn/x86_64_divrem_euclidean_qr_1.as >> mpn/x86_64_divrem_euclidean_qr_1.tmp
+        mv mpn/x86_64_divrem_euclidean_qr_1.tmp mpn/x86_64_divrem_euclidean_qr_1.as
+      fi
+    fi
+  ;;
 esac
