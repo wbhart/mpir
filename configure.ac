@@ -2604,7 +2604,7 @@ done
 # cant move them yet as the mpn directory is not created until the end
 case $host in
   *-w64-mingw*|*-*-cygwin*)
-    if "$ABI" = "64"; then
+    if test "$ABI" = "64"; then
       old_gmp_srclinks=$gmp_srclinks
       gmp_srclinks=
       for jay in $old_gmp_srclinks; do
@@ -3022,7 +3022,7 @@ fi
 # and post process the "m4 macros" into "yasm macros"
 case $host in
   *-w64-mingw*|*-*-cygwin*)
-    if "$ABI" = "64"; then
+    if test "$ABI" = "64"; then
       for jay in $old_gmp_srclinks; do
         jayext=`echo "$jay" | awk -F . '{print $NF}'`
         #jayext=`/bin/echo "${jay#*.}"`
