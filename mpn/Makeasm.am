@@ -108,7 +108,7 @@ RM_TMP = rm -f
 	$(RM_TMP) tmp-$*.s
 
 #if BUILD_YASM
-#ASSEMBLER = $(top_srcdir)/strip_fPIC.sh $(top_builddir)$(MPIR_AS) -p gas -I $(top_builddir) $(OBJECT_FORMAT) $(GSYM_FLAG) -o $@ 
+#ASSEMBLER = $(top_srcdir)/strip_fPIC.sh $(MPIR_AS) -p gas -I $(top_builddir) $(OBJECT_FORMAT) $(GSYM_FLAG) -o $@ 
 #else
 ASSEMBLER = $(CCAS) $(COMPILE_FLAGS)
 #endif
@@ -119,4 +119,4 @@ ASSEMBLER = $(CCAS) $(COMPILE_FLAGS)
 #  .as assembler, assembled with Yasm
 
 .as.lo:
-	$(LIBTOOL) --mode=compile --tag=CC $(top_srcdir)/strip_fPIC.sh $(top_builddir)$(MPIR_AS) -I $(top_builddir) $(OBJECT_FORMAT) $(GSYM_FLAG) -o $@ `test -f '$<' || echo '$(srcdir)/'`$<
+	$(LIBTOOL) --mode=compile --tag=CC $(top_srcdir)/strip_fPIC.sh $(MPIR_AS) -I $(top_builddir) $(OBJECT_FORMAT) $(GSYM_FLAG) -o $@ `test -f '$<' || echo '$(srcdir)/'`$<
