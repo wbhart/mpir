@@ -17,22 +17,6 @@ AM_MAINTAINER_MODE
 #
 # autoconf command-line options
 #
-AC_ARG_ENABLE(assert,,,)
-
-AC_ARG_ENABLE(alloca,,,)
-
-AC_ARG_ENABLE(cxx,,,)
-
-AC_ARG_ENABLE(fft,,,)
-
-AC_ARG_ENABLE(nails,,,)
-
-AC_ARG_ENABLE(gmpcompat,,,)
-
-AC_ARG_WITH(readline,,,)
-
-AC_ARG_ENABLE(fat,,,)
-
 AC_ARG_ENABLE(debug,
 AC_HELP_STRING([--enable-debug],
 	       [Turn on debugging and compile time warnings]),
