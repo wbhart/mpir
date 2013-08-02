@@ -2974,6 +2974,8 @@ GMP_FINISH
 # and modify the way MPIR builds it when it is needed;
 # in particular this should not rely on autotools.
 #
+AC_CONFIG_FILES(yasm/config/config.guess:config.guess yasm/config/config.log:config.log)
+AC_CONFIG_FILES(yasm/configure.gnu:configure.yasm)
 #if test "$build_yasm" = "yes"; then
 AC_CONFIG_SUBDIRS([yasm])
 #fi
