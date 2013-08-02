@@ -3011,11 +3011,11 @@ AC_CONFIG_LINKS(yasm_mac.inc:$YASM_MAC_INC)
 #        Right now automake isn't accepting the new AC_CONFIG_FILES scheme.
 
 AC_CONFIG_FILES(Makefile mpf/Makefile mpn/Makefile fft/Makefile mpq/Makefile mpz/Makefile printf/Makefile scanf/Makefile cxx/Makefile tests/Makefile tests/devel/Makefile tests/mpf/Makefile tests/mpn/Makefile tests/fft/Makefile tests/mpq/Makefile tests/mpz/Makefile tests/rand/Makefile tests/misc/Makefile tests/cxx/Makefile doc/Makefile tune/Makefile)
-AC_CONFIG_HEADERS(mpir.h:gmp-h.in)
+AC_CONFIG_FILES(mpir.h:gmp-h.in)
 if test $enable_gmpcompat = yes; then
-  AC_CONFIG_HEADERS(gmp.h:gmp-h.in)
+  AC_CONFIG_FILES(gmp.h:gmp-h.in)
   if test $enable_cxx = yes ; then
-    AC_CONFIG_HEADERS(gmpxx.h:mpirxx.h)
+    AC_CONFIG_FILES(gmpxx.h:mpirxx.h)
   fi
 fi
 # now we have created and populated the mpn directory we can rename the files
