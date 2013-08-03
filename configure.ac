@@ -2600,28 +2600,9 @@ for tmp_fn in $gmp_mpn_functions; do
   fi
 done
 
-# For win64 rename all *.asm files to *.as files so we then will use yasm 
+# for mingw64 rename all *.asm files to *.as files so we then will use yasm 
 # cant move them yet as the mpn directory is not created until the end
-case $host in
-  *-w64-mingw*|*-*-cygwin*)
-    if test "$ABI" = "64"; then
-      old_gmp_srclinks=$gmp_srclinks
-      gmp_srclinks=
-      for jay in $old_gmp_srclinks; do
-        jayext=`echo "$jay" | awk -F . '{print $NF}'`
-        #jayext=`/bin/echo "${jay#*.}"`
-        #jayext=`echo "$jay" | sed -n 's/.*\.//'`
-        base=`echo "${jay%.*}"`
-        name=`basename $base`
-        if test "$jayext" = "asm" && test "$name" != "fat_entry"; then
-          gmp_srclinks="gmp_srclinks $base.as"
-        else
-          gmp_srclinks="$gmp_srclinks $jay"
-        fi
-      done
-    fi
-  ;;
-esac
+old_gmp_srclinks=$gmp_srclinks
 
 # All cycle counters are .asm files currently
 if test -n "$SPEED_CYCLECOUNTER_OBJ"; then
@@ -3018,11 +2999,15 @@ if test $enable_gmpcompat = yes; then
     AC_CONFIG_FILES(gmpxx.h:mpirxx.h)
   fi
 fi
+
+AC_OUTPUT
+
 # now we have created and populated the mpn directory we can rename the files
 # and post process the "m4 macros" into "yasm macros"
 case $host in
   *-w64-mingw*|*-*-cygwin*)
     if test "$ABI" = "64"; then
+      echo "Renaming assembly files on Win64..."
       for jay in $old_gmp_srclinks; do
         jayext=`echo "$jay" | awk -F . '{print $NF}'`
         #jayext=`/bin/echo "${jay#*.}"`
@@ -3048,5 +3033,3 @@ case $host in
     fi
   ;;
 esac
-
-AC_OUTPUT
