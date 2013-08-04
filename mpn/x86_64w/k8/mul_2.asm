@@ -1,4 +1,4 @@
-; PROLOGUE(mul_2)
+; PROLOGUE(mpn_mul_2)
 
 ;  X86_64 mpn_mul_2
 ;

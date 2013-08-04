@@ -1,4 +1,4 @@
-; PROLOGUE(addmul_2)
+; PROLOGUE(mpn_addmul_2)
 
 ;  Copyright 2008 Jason Moxham
 ;

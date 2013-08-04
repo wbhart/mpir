@@ -1,4 +1,4 @@
-; PROLOGUE(sqr_basecase)
+; PROLOGUE(mpn_sqr_basecase)
 
 ;  Version 1.0L5
 ;

@@ -1,4 +1,4 @@
-; PROLOGUE(copyd)
+; PROLOGUE(mpn_copyd)
 
 ;  Copyright 2009 Jason Moxham
 ;

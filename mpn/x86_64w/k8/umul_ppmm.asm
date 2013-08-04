@@ -1,4 +1,4 @@
-; PROLOGUE(umul_ppmm)
+; PROLOGUE(mpn_umul_ppmm)
 
 ;  Copyright 2008 Brian Gladman
 ;

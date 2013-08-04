@@ -1,4 +1,4 @@
-; PROLOGUE(and_n)
+; PROLOGUE(mpn_and_n)
 
 ;  Version 1.0.4
 ;

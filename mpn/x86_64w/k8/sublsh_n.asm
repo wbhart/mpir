@@ -1,4 +1,4 @@
-; PROLOGUE(sublsh_n)
+; PROLOGUE(mpn_sublsh_n)
 
 ;  Copyright 2009 Jason Moxham
 ;

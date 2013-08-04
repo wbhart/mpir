@@ -1,4 +1,4 @@
-; PROLOGUE(divexact_by3c)
+; PROLOGUE(mpn_divexact_by3c)
 
 ; Version 1.0.4.
 ;

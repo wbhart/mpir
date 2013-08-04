@@ -1,4 +1,4 @@
-; PROLOGUE(divrem_euclidean_qr_1)
+; PROLOGUE(mpn_divrem_euclidean_qr_1)
 
 ;  x86-64 mpn_divrem_euclidean_qr_1 -- mpn by limb division.
 

@@ -1,4 +1,4 @@
-; PROLOGUE(addsub_n)
+; PROLOGUE(mpn_addsub_n)
 ;        
 ;  Copyright 2011 The Code Cavern
 ;

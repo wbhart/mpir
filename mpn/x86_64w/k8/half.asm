@@ -1,4 +1,4 @@
-; PROLOGUE(half)
+; PROLOGUE(mpn_half)
 
 ;  Copyright 2009 Jason Moxham
 ;

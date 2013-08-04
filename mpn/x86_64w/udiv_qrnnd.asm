@@ -1,4 +1,4 @@
-; PROLOGUE(udiv_qrnnd)
+; PROLOGUE(mpn_udiv_qrnnd)
 
 ;  Copyright 2008 Brian Gladman
 ;

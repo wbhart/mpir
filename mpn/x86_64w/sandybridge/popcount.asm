@@ -1,4 +1,4 @@
-; PROLOGUE(popcount)
+; PROLOGUE(mpn_popcount)
 
 ;  AMD64 mpn_popcount
 ;  Copyright 2009 Jason Moxham

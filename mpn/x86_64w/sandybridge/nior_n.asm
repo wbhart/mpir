@@ -1,4 +1,4 @@
-; PROLOGUE(nior_n)
+; PROLOGUE(mpn_nior_n)
 
 ;  mpn_nior_n
 

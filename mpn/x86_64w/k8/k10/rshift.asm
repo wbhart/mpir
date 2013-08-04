@@ -1,4 +1,4 @@
-; PROLOGUE(rshift)
+; PROLOGUE(mpn_rshift)
 
 ;  Version 1.0.4.
 ;

@@ -1,4 +1,4 @@
-; PROLOGUE(add_err1_n)
+; PROLOGUE(mpn_add_err1_n)
 
 ;  Copyright 2009 Jason Moxham
 ;

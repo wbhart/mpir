@@ -1,4 +1,4 @@
-; PROLOGUE(not)
+; PROLOGUE(mpn_not)
 
 ;  Copyright 2011 The Code Cavern  
 ;

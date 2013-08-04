@@ -1,4 +1,4 @@
-; PROLOGUE(addadd_n)
+; PROLOGUE(mpn_addadd_n)
 
 ;  Copyright 2009 Jason Moxham
 ;

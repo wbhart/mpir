@@ -1,4 +1,4 @@
-; PROLOGUE(divrem_hensel_qr_1_1)
+; PROLOGUE(mpn_divrem_hensel_qr_1_1)
 
 ;  Copyright 2009 Jason Moxham
 ;

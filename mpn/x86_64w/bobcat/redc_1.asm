@@ -1,4 +1,4 @@
-; PROLOGUE(redc_1)
+; PROLOGUE(mpn_redc_1)
 
 ;  Copyright 2009 Jason Moxham
 ;

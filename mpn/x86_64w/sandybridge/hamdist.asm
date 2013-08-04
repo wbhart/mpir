@@ -1,4 +1,4 @@
-; PROLOGUE(hamdist)
+; PROLOGUE(mpn_hamdist)
 
 ;  AMD64 mpn_hamdist
 ;  Copyright 2009 Jason Moxham

@@ -1,4 +1,4 @@
-; PROLOGUE(andn_n)
+; PROLOGUE(mpn_andn_n)
 
 ;  mpn_andn_n
 

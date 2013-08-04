@@ -1,4 +1,4 @@
-; PROLOGUE(store)
+; PROLOGUE(mpn_store)
 
 ;  Copyright 2009 Jason Moxham
 ;
