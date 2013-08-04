@@ -180,10 +180,11 @@ DIST_COMMON = INSTALL NEWS README AUTHORS ChangeLog \
 	$(srcdir)/Makefile.in $(srcdir)/Makefile.am \
 	$(top_srcdir)/configure $(am__configure_deps) \
 	$(srcdir)/config.in $(srcdir)/longlong_pre.h \
-	$(srcdir)/longlong_post.h $(srcdir)/gmp-h.in \
-	$(srcdir)/mpirxx.h $(am__include_HEADERS_DIST) COPYING \
-	COPYING.LIB config.guess config.sub install-sh missing ylwrap \
-	ltmain.sh
+	$(srcdir)/longlong_post.h $(srcdir)/configfsf.guess \
+	$(srcdir)/configfsf.sub $(srcdir)/configure.yasm \
+	$(srcdir)/gmp-h.in $(srcdir)/mpirxx.h \
+	$(am__include_HEADERS_DIST) COPYING COPYING.LIB config.guess \
+	config.sub install-sh missing ylwrap ltmain.sh
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/acinclude.m4 \
 	$(top_srcdir)/configure.ac
@@ -193,8 +194,9 @@ am__CONFIG_DISTCLEAN_FILES = config.status config.cache config.log \
  configure.lineno config.status.lineno
 mkinstalldirs = $(install_sh) -d
 CONFIG_HEADER = config.h
-CONFIG_CLEAN_FILES = longlong.h mpir.h gmp.h gmpxx.h gmp-mparam.h \
-	yasm_mac.inc
+CONFIG_CLEAN_FILES = longlong.h yasm/config/config.guess \
+	yasm/config/config.sub yasm/configure.gnu mpir.h gmp.h gmpxx.h \
+	gmp-mparam.h yasm_mac.inc
 CONFIG_CLEAN_VPATH_FILES =
 am__vpath_adj_setup = srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`;
 am__vpath_adj = case $$p in \
@@ -786,6 +788,12 @@ $(srcdir)/config.in: @MAINTAINER_MODE_TRUE@ $(am__configure_deps)
 distclean-hdr:
 	-rm -f config.h stamp-h1
 longlong.h: $(top_builddir)/config.status $(srcdir)/longlong_pre.h $(srcdir)/longlong_post.h
+	cd $(top_builddir) && $(SHELL) ./config.status $@
+yasm/config/config.guess: $(top_builddir)/config.status $(srcdir)/configfsf.guess
+	cd $(top_builddir) && $(SHELL) ./config.status $@
+yasm/config/config.sub: $(top_builddir)/config.status $(srcdir)/configfsf.sub
+	cd $(top_builddir) && $(SHELL) ./config.status $@
+yasm/configure.gnu: $(top_builddir)/config.status $(srcdir)/configure.yasm
 	cd $(top_builddir) && $(SHELL) ./config.status $@
 mpir.h: $(top_builddir)/config.status $(srcdir)/gmp-h.in
 	cd $(top_builddir) && $(SHELL) ./config.status $@
