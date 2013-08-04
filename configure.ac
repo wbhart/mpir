@@ -2600,9 +2600,31 @@ for tmp_fn in $gmp_mpn_functions; do
   fi
 done
 
-# for mingw64 rename all *.asm files to *.as files so we then will use yasm 
-# cant move them yet as the mpn directory is not created until the end
-old_gmp_srclinks=$gmp_srclinks
+# For mingw64 rename all *.asm files to *.as files so we then will use yasm
+# cant move them yet as the mpn directory is not created until the end.
+# Apart from defining old_gmp_srclinks (and we could do without it...),
+# what follows is not strictly needed and just make gmp_srclinks more
+# consistent.
+case $host in
+  *-w64-mingw*|*-*-cygwin*)
+    if test "$ABI" = "64"; then
+      old_gmp_srclinks=$gmp_srclinks
+      gmp_srclinks=
+      for jay in $old_gmp_srclinks; do
+        jayext=`echo "$jay" | awk -F . '{print $NF}'`
+        #jayext=`/bin/echo "${jay#*.}"`
+        #jayext=`echo "$jay" | sed -n 's/.*\.//'`
+        base=`echo "${jay%.*}"`
+        name=`basename $base`
+        if test "$jayext" = "asm" && test "$name" != "fat_entry"; then
+          gmp_srclinks="$gmp_srclinks $base.as"
+        else
+          gmp_srclinks="$gmp_srclinks $jay"
+        fi
+      done
+    fi
+  ;;
+esac
 
 # All cycle counters are .asm files currently
 if test -n "$SPEED_CYCLECOUNTER_OBJ"; then
