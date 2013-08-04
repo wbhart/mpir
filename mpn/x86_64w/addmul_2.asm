@@ -22,8 +22,6 @@
 ;  rax                       rdi     rsi        rdx     rcx
 ;  rax                       rcx     rdx         r8      r9
 
-; PROLOGUE(mpn_addmul_2)
-
 %include "yasm_mac.inc"
 
     CPU  Athlon64
