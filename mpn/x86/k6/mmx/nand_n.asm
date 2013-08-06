@@ -41,7 +41,7 @@ dnl  M4_p and M4_i are the MMX and integer instructions
 dnl  M4_*_neg_dst means whether to negate the final result before writing
 dnl  M4_*_neg_src2 means whether to negate the src2 values before using them
 
-define(OPERATION_nand_n,1)
+define(`OPERATION_nand_n',1)
 
 define(M4_choose_op,
 m4_assert_numargs(7)

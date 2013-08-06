@@ -1,4 +1,4 @@
-; PROLOGUE(hamdist)
+; PROLOGUE(mpn_hamdist)
 ;
 ;  Copyright 2008 Jason Moxham
 ;

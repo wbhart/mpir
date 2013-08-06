@@ -1,4 +1,4 @@
-; PROLOGUE(com_n)
+; PROLOGUE(mpn_com_n)
 
 ;  mpn_com_n
 

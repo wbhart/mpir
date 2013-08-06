@@ -1,4 +1,4 @@
-; PROLOGUE(copyd)
+; PROLOGUE(mpn_copyd)
 
 ;  mpn_copyd
 

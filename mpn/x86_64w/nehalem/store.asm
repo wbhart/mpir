@@ -1,4 +1,4 @@
-; PROLOGUE(store)
+; PROLOGUE(mpn_store)
 
 ;  mpn_store
 

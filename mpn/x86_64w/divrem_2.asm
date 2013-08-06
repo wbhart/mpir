@@ -1,4 +1,4 @@
-; PROLOGUE(divrem_2)
+; PROLOGUE(mpn_divrem_2)
 
 ;  x86-64 mpn_divrem_2 -- Divide an mpn number by a normalized 2-limb number.
 

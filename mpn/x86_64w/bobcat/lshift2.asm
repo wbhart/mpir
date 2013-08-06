@@ -1,4 +1,4 @@
-; PROLOGUE(lshift2)
+; PROLOGUE(mpn_lshift2)
 
 ;  Copyright 2009 Jason Moxham
 ;

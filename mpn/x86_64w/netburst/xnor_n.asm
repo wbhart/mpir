@@ -1,4 +1,4 @@
-; PROLOGUE(xnor_n)
+; PROLOGUE(mpn_xnor_n)
 
 ;  Version 1.0.4
 ;

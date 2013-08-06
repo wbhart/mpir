@@ -1,4 +1,4 @@
-; PROLOGUE(subadd_n)
+; PROLOGUE(mpn_subadd_n)
 ;        
 ;  Copyright 2011 The Code Cavern
 ;

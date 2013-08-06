@@ -25,7 +25,7 @@ include(`../config.m4')
 
 C P5: 2.375 cycles/limb
 
-define(OPERATION_add_n,1)
+define(`OPERATION_add_n',1)
 
 ifdef(`OPERATION_add_n',`
 	define(M4_inst,        adcl)

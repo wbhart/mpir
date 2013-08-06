@@ -1,4 +1,4 @@
-; PROLOGUE(hamdist)
+; PROLOGUE(mpn_hamdist)
 
 ;  mpn_hamdist
 

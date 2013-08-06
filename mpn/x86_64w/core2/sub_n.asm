@@ -1,4 +1,4 @@
-; PROLOGUE(sub_n)
+; PROLOGUE(mpn_sub_n)
 
 ;  Version 1.0.3.
 ;

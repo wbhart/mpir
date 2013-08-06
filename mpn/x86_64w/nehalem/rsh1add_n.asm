@@ -1,4 +1,4 @@
-; PROLOGUE(rsh1add_n)
+; PROLOGUE(mpn_rsh1add_n)
 
 ;  Copyright 2009 Jason Moxham
 ;

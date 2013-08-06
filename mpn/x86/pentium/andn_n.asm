@@ -25,7 +25,7 @@ include(`../config.m4')
 C P5: 3.0 c/l  and, ior, xor
 C     3.5 c/l  andn, iorn, nand, nior, xnor
 
-define(OPERATION_andn_n,1)
+define(`OPERATION_andn_n',1)
 
 define(M4_choose_op,
 `ifdef(`OPERATION_$1',`

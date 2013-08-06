@@ -1,4 +1,4 @@
-; PROLOGUE(mod_1_3)
+; PROLOGUE(mpn_mod_1_3)
 
 ;  Copyright 2009 Jason Moxham
 ;

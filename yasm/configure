@@ -745,14 +745,6 @@ ac_subst_files=''
 ac_user_opts='
 enable_option_checking
 enable_maintainer_mode
-enable_assert
-enable_alloca
-enable_cxx
-enable_fft
-enable_nails
-enable_gmpcompat
-with_readline
-enable_fat
 enable_debug
 enable_warnerror
 enable_profiling
@@ -1401,7 +1393,6 @@ Optional Features:
   --enable-FEATURE[=ARG]  include FEATURE [ARG=yes]
   --enable-maintainer-mode  enable make rules and dependencies not useful
 			  (and sometimes confusing) to the casual installer
-
   --enable-debug          Turn on debugging and compile time warnings
   --enable-warnerror      Treat GCC warnings as errors
   --enable-profiling      Enable profiling (requires GCC)
@@ -1417,7 +1408,6 @@ Optional Features:
 Optional Packages:
   --with-PACKAGE[=ARG]    use PACKAGE [ARG=yes]
   --without-PACKAGE       do not use PACKAGE (same as --with-PACKAGE=no)
-
   --with-dmalloc          use dmalloc, as in
 			  http://www.dmalloc.com/dmalloc.tar.gz
   --with-gnu-ld           assume the C compiler uses GNU ld default=no
@@ -2996,55 +2986,6 @@ fi
 #
 # autoconf command-line options
 #
-# Check whether --enable-assert was given.
-if test "${enable_assert+set}" = set; then :
-  enableval=$enable_assert;
-fi
-
-
-# Check whether --enable-alloca was given.
-if test "${enable_alloca+set}" = set; then :
-  enableval=$enable_alloca;
-fi
-
-
-# Check whether --enable-cxx was given.
-if test "${enable_cxx+set}" = set; then :
-  enableval=$enable_cxx;
-fi
-
-
-# Check whether --enable-fft was given.
-if test "${enable_fft+set}" = set; then :
-  enableval=$enable_fft;
-fi
-
-
-# Check whether --enable-nails was given.
-if test "${enable_nails+set}" = set; then :
-  enableval=$enable_nails;
-fi
-
-
-# Check whether --enable-gmpcompat was given.
-if test "${enable_gmpcompat+set}" = set; then :
-  enableval=$enable_gmpcompat;
-fi
-
-
-
-# Check whether --with-readline was given.
-if test "${with_readline+set}" = set; then :
-  withval=$with_readline;
-fi
-
-
-# Check whether --enable-fat was given.
-if test "${enable_fat+set}" = set; then :
-  enableval=$enable_fat;
-fi
-
-
 # Check whether --enable-debug was given.
 if test "${enable_debug+set}" = set; then :
   enableval=$enable_debug; case "${enableval}" in
@@ -7908,7 +7849,7 @@ if ${am_cv_pathless_PYTHON+:} false; then :
   $as_echo_n "(cached) " >&6
 else
 
-	for am_cv_pathless_PYTHON in python python2 python3 python3.0 python2.5 python2.4 python2.3 python2.2 python2.1 python2.0 none; do
+	for am_cv_pathless_PYTHON in python python2 python3 python3.2 python3.1 python3.0 python2.7 python2.6 python2.5 python2.4 python2.3 python2.2 python2.1 python2.0 none; do
 	  test "$am_cv_pathless_PYTHON" = none && break
 	  prog="import sys
 # split strings by '.' and convert to numeric.  Append some zeros

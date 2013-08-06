@@ -845,6 +845,23 @@ best ABI available, but a particular ABI can be selected.  For example
 See @ref{ABI and ISA}, for the available choices on relevant CPUs, and what
 applications need to do.
 
+@item @option{--with-yasm}, @option{--with-system-yasm}
+@cindex Yasm
+@cindex @option{--with-yasm}
+@cindex @option{--with-system-yasm}
+By default MPIR will compile its own version of Yasm if needed.
+Passing @option{--with-yasm} or @option{--with-system-yasm} let MPIR use a
+precompiled version of Yasm. With the former option a full path to Yasm's
+binary should be given, for example
+
+@example
+./configure --with-yasm=/usr/local/bin/yasm
+@end example
+
+with the latter option MPIR will try to detect a system-wide installation of
+Yasm.
+Both options are mutually exclusive.
+
 @item @option{CC}, @option{CFLAGS}
 @cindex C compiler
 @cindex @code{CC}

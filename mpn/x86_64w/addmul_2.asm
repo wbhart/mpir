@@ -1,4 +1,4 @@
-; PROLOGUE(addmul_2)
+; PROLOGUE(mpn_addmul_2)
 
 ;  Copyright 2008 Jason Moxham
 ;
@@ -21,8 +21,6 @@
 ;  mp_limb_t mpn_addmul_2(mp_ptr, mp_ptr, mp_size_t, mp_ptr)
 ;  rax                       rdi     rsi        rdx     rcx
 ;  rax                       rcx     rdx         r8      r9
-
-; PROLOGUE(mpn_addmul_2)
 
 %include "yasm_mac.inc"
 

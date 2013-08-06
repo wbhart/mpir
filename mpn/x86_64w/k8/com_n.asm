@@ -1,4 +1,4 @@
-; PROLOGUE(com_n)
+; PROLOGUE(mpn_com_n)
 
 ;  Version 1.0.4
 ;

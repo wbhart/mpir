@@ -1,4 +1,4 @@
-; PROLOGUE(rshift)
+; PROLOGUE(mpn_rshift)
 
 ;  Verdxon 1.0.3.
 ;

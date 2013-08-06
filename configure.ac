@@ -61,18 +61,31 @@ dnl  are not useful to us.  Pretty much everything depends just on mpir.h,
 dnl  gmp-impl.h and longlong.h, and yet only rarely does everything need to
 dnl  be rebuilt for changes to those files.
 dnl
-dnl  "no-dependencies" also helps with the way we're setup to run
-dnl  AC_PROG_CXX only conditionally.  If dependencies are used then recent
-dnl  automake (eg 1.7.2) appends an AM_CONDITIONAL to AC_PROG_CXX, and then
-dnl  gets upset if it's not actually executed.
-dnl
 dnl  Note that there's a copy of these options in the top-level Makefile.am,
 dnl  so update there too if changing anything.
 dnl
-AM_INIT_AUTOMAKE([1.11 gnu no-dependencies parallel-tests dist-bzip2 no-dist-gzip dist-lzma])
-AM_CONFIG_HEADER(config.h:config.in)
+AM_INIT_AUTOMAKE([1.11 gnu no-dependencies parallel-tests no-dist-gzip dist-bzip2 dist-xz dist-lzip])
+AC_CONFIG_HEADERS(config.h:config.in)
 AM_MAINTAINER_MODE
 
+dnl  Yasm configuration
+AC_ARG_WITH([yasm],
+[AC_HELP_STRING([--with-yasm],[use a custom Yasm [[default=no]]])],
+[case "$withval" in
+  no) ;;
+  *) AC_MSG_ERROR([bad value $withval for --with-yasm, need no or path to Yasm's executable]) ;;
+esac],
+[with_yasm=no]
+)
+
+AC_ARG_WITH([system-yasm],
+[AC_HELP_STRING([--with-system-yasm],[use a system-wide Yasm [[default=no]]])],
+[case "$withval" in
+  yes|no) ;;
+  *) AC_MSG_ERROR([bad value $withval for --with-system-yasm, need yes or no]) ;;
+esac],
+[with_system_yasm=no]
+)
 
 AC_ARG_ENABLE(assert,
 AC_HELP_STRING([--enable-assert],[enable ASSERT checking [[default=no]]]),
@@ -206,10 +219,6 @@ yes|no) ;;
 *) AC_MSG_ERROR([bad value $enableval for --enable-fat, need yes or no]) ;;
 esac],
 [enable_fat=no])
-
-# Work around an autoconf bug
-MKDIR_P=@mkdir_p@
-AC_SUBST(MKDIR_P)
 
 # Table of compilers, options, and mpn paths.  This code has various related
 # purposes
@@ -1018,6 +1027,10 @@ case $host in
         gcc_cflags_cpu="-mtune=pentium3 -mcpu=pentium3 -mcpu=pentiumpro -mcpu=i486 -m486"
         gcc_cflags_arch="-march=pentium3 -march=pentiumpro -march=pentium"
         ;;
+      core)
+        gcc_cflags_cpu="-mtune=pentium-m -mtune=pentium3m -mtune=pentium3 -mcpu=pentium3 -mcpu=pentiumpro -mcpu=i486 -m486"
+        gcc_cflags_arch="-march=pentium-m -march=pentium3m -march=pentium3 -march=pentiumpro -march=pentium"
+        ;;
       k6)
         gcc_cflags_cpu="-mtune=k6 -mcpu=k6 -mcpu=i486 -m486"
         gcc_cflags_arch="-march=k6"
@@ -1104,6 +1117,7 @@ case $host in
       i686 | pentiumpro)       path="x86/p6 x86" ;;
       pentium2)                path="x86/p6/mmx x86/p6 x86" ;;
       pentium3)                path="x86/p6/p3mmx x86/p6/mmx x86/p6 x86";;
+      core)                    path="x86/p6/p3mmx x86/p6/mmx x86/p6 x86";;
       [k6[23]])                path="x86/k6/k62mmx x86/k6/mmx x86/k6 x86" ;;
       k6)                      path="x86/k6/mmx x86/k6 x86" ;;
       athlon | k7 | x86_64 | atom)   path="x86/k7/mmx x86/k7 x86" ;;
@@ -1122,12 +1136,10 @@ case $host in
 
     # 32bit apple darwin doesn't like our PIC format asm code
     case $host in
-	core2-apple-darwin* | penryn-apple-darwin*)		path="x86/applenopic/core2 x86/applenopic" ;;
-	prescott-apple-darwin* | pentium4-apple-darwin*)	path="x86/applenopic" ;;
-	pentium3-apple-darwin* | pentium2-apple-darwin*)	path="x86/applenopic" ;;
-	i686-apple-darwin* | pentiumpro-apple-darwin*)		path="x86/applenopic" ;;
-	core-apple-darwin*)					path="x86/applenopic" ;;
-	*)							;;
+	i[34567]86-apple-darwin* | pentium*-apple-darwin* | prescott-apple-darwin* | core-apple-darwin* )	path="x86/applenopic" ;;
+	# assume Core2 or later
+	*-apple-darwin* )	path="x86/applenopic/core2 x86/applenopic" ;;
+	*)			;;
     esac
 
     # If the user asked for a fat build, override the path set above
@@ -1180,38 +1192,38 @@ case $host in
         esac
 
         case $host in
-		# NOTE x86_64w and x86_64 paths MUST be the same , for the fat structure
-          x86_64-w64-mingw*)
+          # NOTE x86_64w and x86_64 paths MUST be the same , for the fat structure
+          x86_64-w64-mingw*|x86_64-*-cygwin*)
             path_64="x86_64w" ;;
-          netburst-w64-mingw*)
+          netburst-w64-mingw*|netburst-*-cygwin*)
             path_64="x86_64w/netburst x86_64w" ;;
-          netburstlahf-w64-mingw*)
+          netburstlahf-w64-mingw*|netburstlahf-*-cygwin*)
             path_64="x86_64w/netburst x86_64w" ;;
-          k8-w64-mingw*)
+          k8-w64-mingw*|k8-*-cygwin*)
             path_64="x86_64w/k8/k8only x86_64w/k8 x86_64w" ;;
-          k10-w64-mingw*)
+          k10-w64-mingw*|k10-*-cygwin*)
             path_64="x86_64w/k8/k10 x86_64w/k8 x86_64w" ;;
-          k102-w64-mingw*)
+          k102-w64-mingw*|k102-*-cygwin*)
             path_64="x86_64w/k8/k10/k102 x86_64w/k8/k10 x86_64w/k8 x86_64w" ;;
-	  k103-w64-mingw*)
+          k103-w64-mingw*|k103-*-cygwin*)
             path_64="x86_64w/k8/k10/k102 x86_64w/k8/k10 x86_64w/k8 x86_64w" ;;
-	  bulldozer-w64-mingw*)
+          bulldozer-w64-mingw*|bulldozer-*-cygwin*)
             path_64="x86_64w/k8/k10/k102 x86_64w/k8/k10 x86_64w/k8 x86_64w" ;;
-	  bobcat-w64-mingw*)
+          bobcat-w64-mingw*|bobcat-*-cygwin*)
             path_64="x86_64w/bobcat x86_64w" ;;
-          core2-w64-mingw*) 
+          core2-w64-mingw*|core2-*-cygwin*)
             path_64="x86_64w/core2 x86_64w" ;;
-          penryn-w64-mingw*) 
+          penryn-w64-mingw*|penryn-*-cygwin*)
             path_64="x86_64w/core2/penryn x86_64w/core2 x86_64w" ;;
-          nehalem-w64-mingw*) 
+          nehalem-w64-mingw*|nehalem-*-cygwin*)
             path_64="x86_64w/nehalem x86_64w" ;;
-          westmere-w64-mingw*) 
+          westmere-w64-mingw*|westmere-*-cygwin*)
             path_64="x86_64w/nehalem/westmere x86_64w/nehalem x86_64w" ;;
-          sandybridge-w64-mingw*) 
+          sandybridge-w64-mingw*|sandybridge-*-cygwin*)
             path_64="x86_64w/sandybridge x86_64w" ;;
-          atom-w64-mingw*) 
+          atom-w64-mingw*|atom-*-cygwin*)
             path_64="x86_64w/atom x86_64w" ;;
-          nano-w64-mingw*) 
+          nano-w64-mingw*|nano-*-cygwin*)
             path_64="x86_64w/k8/k8only x86_64w/k8 x86_64w" ;;
 
           x86_64-*-*)
@@ -1253,14 +1265,14 @@ case $host in
           gcc_64_cflags_cpu=""
           gcc_64_cflags_arch=""
           extra_functions_64="$extra_functions_64 fat fat_entry"
-	  case $host in
-		*-w64-mingw*)
-	          path_64="x86_64w x86_64w/fat"
-		  fat_path_64="x86_64w x86_64w/fat x86_64w/netburst x86_64w/k8 x86_64w/k8/k8only x86_64w/k8/k10 x86_64w/k8/k10/k102  x86_64w/core2 x86_64w/core2/penryn x86_64w/nehalem x86_64w/nehalem/westmere x86_64w/atom x86_64w/bobcat x86_64w/sandybridge" ;;
-		*-*-*)
-	          path_64="x86_64 x86_64/fat"
-        	  fat_path_64="x86_64 x86_64/fat x86_64/netburst x86_64/k8 x86_64/k8/k8only x86_64/k8/k10 x86_64/k8/k10/k102  x86_64/core2 x86_64/core2/penryn x86_64/nehalem x86_64/nehalem/westmere x86_64/atom x86_64/bobcat x86_64/sandybridge" ;;
-	  esac
+          case $host in
+            *-w64-mingw*|*-*-cygwin*)
+              path_64="x86_64w x86_64w/fat"
+              fat_path_64="x86_64w x86_64w/fat x86_64w/netburst x86_64w/k8 x86_64w/k8/k8only x86_64w/k8/k10 x86_64w/k8/k10/k102  x86_64w/core2 x86_64w/core2/penryn x86_64w/nehalem x86_64w/nehalem/westmere x86_64w/atom x86_64w/bobcat x86_64w/sandybridge" ;;
+            *-*-*)
+              path_64="x86_64 x86_64/fat"
+              fat_path_64="x86_64 x86_64/fat x86_64/netburst x86_64/k8 x86_64/k8/k8only x86_64/k8/k10 x86_64/k8/k10/k102  x86_64/core2 x86_64/core2/penryn x86_64/nehalem x86_64/nehalem/westmere x86_64/atom x86_64/bobcat x86_64/sandybridge" ;;
+          esac
         fi
         ;;
 
@@ -1294,8 +1306,6 @@ case $host in
     gcc_cflags_nocygwin="-mno-cygwin"
     ;;
 esac
-
-AM_CONDITIONAL(BUILD_YASM, test "$want_yasm" = "yes")
 
 CFLAGS_or_unset=${CFLAGS-'(unset)'}
 CPPFLAGS_or_unset=${CPPFLAGS-'(unset)'}
@@ -1680,24 +1690,53 @@ GMP_PROG_EXEEXT_FOR_BUILD
 GMP_C_FOR_BUILD_ANSI
 GMP_CHECK_LIBM_FOR_BUILD
 
-
-MPIR_AS="/yasm/yasm"
-
 # How to assemble, used with CFLAGS etc, see mpn/Makeasm.am.
 # Using the compiler is a lot easier than figuring out how to invoke the
 # assembler directly.
 #
-
 test -n "$CCAS" || CCAS="$CC -c"
-  
 AC_SUBST(CCAS)
+
+# If the user provided its Yasm, check it seems functional
+if test "$with_yasm" != "no" && test "$with_system_yasm" != "no"; then
+  AC_MSG_ERROR([you cannot provide non-default values to both --with-yasm and --with-system-yasm])
+fi
+MPIR_AS=""
+if test "$with_system_yasm" = "yes"; then
+  echo "Looking for a system-wide yasm..."
+  MPIR_AS=`which yasm`
+  if test $? -ne 0; then
+    AC_MSG_ERROR([no system-wide yasm found])
+  fi
+fi
+if test "$with_yasm" != no; then
+  MPIR_AS="$with_yasm"
+fi
+if test -n "$MPIR_AS"; then
+  echo "Checking user-provided yasm..."
+  if ! test -f "$MPIR_AS" || ! test -x "$MPIR_AS"; then
+    AC_MSG_ERROR([$MPIR_AS does not seem functional])
+  fi
+fi
+# Otherwise build it if needed.
+if test "$want_yasm" = "yes" && test -z "$MPIR_AS"; then
+  build_yasm="yes"
+  MPIR_AS="\$(top_builddir)/yasm/yasm"
+fi
+
+AM_CONDITIONAL(BUILD_YASM, test "$build_yasm" = "yes")
 AC_SUBST(MPIR_AS)
 
 # The C++ compiler, if desired.
+
+# The following test is quick and harmless.
+# It defaults to 'g++' if no compiler is found.
+AC_PROG_CXX
+
+# Now actually check that the C++ compiler works if it is needed.
 want_cxx=no
 if test $enable_cxx != no; then
   test_CXXFLAGS=${CXXFLAGS+set}
-  AC_PROG_CXX
 
   echo "CXXFLAGS chosen by autoconf: $CXXFLAGS" >&AC_FD_CC
   cxxflags_ac_prog_cxx=$CXXFLAGS
@@ -1737,15 +1776,6 @@ if test $enable_cxx != no; then
 fi
 
 AM_CONDITIONAL(WANT_CXX, test $want_cxx = yes)
-
-# FIXME: We're not interested in CXXCPP for ourselves, but if we don't do it
-# here then AC_PROG_LIBTOOL will AC_REQUIRE it (via _LT_AC_TAGCONFIG) and
-# hence execute it unconditionally, and that will fail if there's no C++
-# compiler (and no generic /lib/cpp).
-#
-if test $want_cxx = yes; then
-  AC_PROG_CXXCPP
-fi
 
 if test -z "$MPN_PATH"; then
   path="$add_path $path"
@@ -1837,9 +1867,10 @@ case $host in
 esac
 
 
-# Configs for Windows DLLs.
+# Enable various configuration flags and DLL on Windows
+LT_INIT([win32-dll])
 
-AC_LIBTOOL_WIN32_DLL
+# Configs for Windows DLLs.
 
 AC_SUBST(LIBGMP_DLL,0)
 case $host in
@@ -1888,49 +1919,6 @@ Use "--disable-static --enable-shared" to build just a DLL.])
     fi
     ;;
 esac
-
-
-# Ensure that $CONFIG_SHELL is available for AC_LIBTOOL_SYS_MAX_CMD_LEN.
-# It's often set already by _LT_AC_PROG_ECHO_BACKSLASH or
-# _AS_LINENO_PREPARE, but not always.
-#
-# The symptom of CONFIG_SHELL unset is some "expr" errors during the test,
-# and an empty result.  This only happens when invoked as "sh configure",
-# ie. no path, and can be seen for instance on ia64-*-hpux*.
-#
-# FIXME: Newer libtool should have it's own fix for this.
-#
-if test -z "$CONFIG_SHELL"; then
-  CONFIG_SHELL=$SHELL
-fi
-
-# Enable CXX in libtool only if we want it, and never enable GCJ, nor RC on
-# mingw and cygwin.  Under --disable-cxx this avoids some error messages
-# from libtool arising from the fact we didn't actually run AC_PROG_CXX.
-# Notice that any user-supplied --with-tags setting takes precedence.
-#
-# FIXME: Is this the right way to get this effect?  Very possibly not, but
-# the current _LT_AC_TAGCONFIG doesn't really suggest an alternative.
-#
-if test "${with_tags+set}" != set; then
-  if test $want_cxx = yes; then
-    with_tags=CXX
-  else
-    with_tags=
-  fi
-fi
-
-# The dead hand of AC_REQUIRE makes AC_PROG_LIBTOOL expand and execute
-# AC_PROG_F77, even when F77 is not in the selected with_tags.  This is
-# probably harmless, but it's unsightly and bloats our configure, so pretend
-# AC_PROG_F77 has been expanded already.
-#
-# FIXME: Rumour has it libtool will one day provide a way for a configure.in
-# to say what it wants from among supported languages etc.
-#
-AC_PROVIDE([AC_PROG_F77])
-
-AC_PROG_LIBTOOL
 
 # Generate an error here if attempting to build both shared and static when
 # $libname.a is in $library_names_spec (as mentioned above), rather than
@@ -2043,7 +2031,7 @@ GMP_C_ATTRIBUTE_NORETURN
 GMP_H_EXTERN_INLINE
 
 # from libtool
-AC_CHECK_LIBM
+LT_LIB_M
 AC_SUBST(LIBM)
 
 GMP_FUNC_ALLOCA
@@ -2612,25 +2600,30 @@ for tmp_fn in $gmp_mpn_functions; do
   fi
 done
 
-# for mingw64 rename all *.asm files to *.as files so we then will use yasm 
-# cant move them yet as the mpn directory is not created until the end
+# For mingw64 rename all *.asm files to *.as files so we then will use yasm
+# cant move them yet as the mpn directory is not created until the end.
+# Apart from defining old_gmp_srclinks (and we could do without it...),
+# what follows is not strictly needed and just make gmp_srclinks more
+# consistent.
 case $host in
-*-w64-mingw*)
-	old_gmp_srclinks=$gmp_srclinks
-	gmp_srclinks=
-	for jay in $old_gmp_srclinks; do
-		jayext=`echo "$jay" | awk -F . '{print $NF}'`
-		#jayext=`/bin/echo "${jay#*.}"`
-		#jayext=`echo "$jay" | sed -n 's/.*\.//'`
-		base=`echo "${jay%.*}"`
-		name=`basename $base`
-		if test "$jayext" = "asm" && test "$name" != "fat_entry"; then
-			gmp_srclinks="gmp_srclinks $base.as"
-		else
-			gmp_srclinks="$gmp_srclinks $jay"
-		fi
-	done
-	;;
+  *-w64-mingw*|*-*-cygwin*)
+    if test "$ABI" = "64"; then
+      old_gmp_srclinks=$gmp_srclinks
+      gmp_srclinks=
+      for jay in $old_gmp_srclinks; do
+        jayext=`echo "$jay" | awk -F . '{print $NF}'`
+        #jayext=`/bin/echo "${jay#*.}"`
+        #jayext=`echo "$jay" | sed -n 's/.*\.//'`
+        base=`echo "${jay%.*}"`
+        name=`basename $base`
+        if test "$jayext" = "asm" && test "$name" != "fat_entry"; then
+          gmp_srclinks="$gmp_srclinks $base.as"
+        else
+          gmp_srclinks="$gmp_srclinks $jay"
+        fi
+      done
+    fi
+  ;;
 esac
 
 # All cycle counters are .asm files currently
@@ -2829,10 +2822,10 @@ if test "$gmp_asm_syntax_testing" != no; then
           case $host in 
             *-*-darwin*)
               OBJECT_FORMAT="-f macho64" ;;
-	    *-w64-mingw*)
-		OBJECT_FORMAT="-f x64"  ;;
-	    *)
-	      OBJECT_FORMAT="-f elf64" ;;
+            *-w64-mingw*|*-*-cygwin*)
+              OBJECT_FORMAT="-f x64"  ;;
+            *)
+              OBJECT_FORMAT="-f elf64" ;;
           esac
           GMP_INCLUDE_MPN(x86_64/x86_64-defs.m4)
           ;;
@@ -2979,63 +2972,86 @@ AC_SUBST(TUNE_SQR_OBJ)
 # Create config.m4.
 GMP_FINISH
 
-# Create Makefiles
-# FIXME: Upcoming version of autoconf/automake don't like broken lines.
-#        Right now automake isn't accepting the new AC_CONFIG_FILES scheme.
-
-#     allways configure all subdirectorys , even if there are not going to be built , 
+# Always configure subdirectories or "make dist" and so on will fail.
+# A better solution would be to ship a vanilla Yasm tarball
+# and modify the way MPIR builds it when it is needed;
+# in particular this should not rely on autotools.
+#
+AC_CONFIG_FILES(yasm/config/config.guess:configfsf.guess yasm/config/config.sub:configfsf.sub)
+AC_CONFIG_FILES(yasm/configure.gnu:configure.yasm)
+#if test "$build_yasm" = "yes"; then
 AC_CONFIG_SUBDIRS([yasm])
+#fi
 
 case $host in
-  *-w64-mingw*)
-	if test $enable_fat = yes; then
-	YASM_MAC_INC=yasm_macwin.inc.fat
-	else
-	YASM_MAC_INC=yasm_macwin.inc.nofat
-	fi
+  *-w64-mingw*|*-*-cygwin*)
+    if test "$ABI" = "64"; then
+      if test $enable_fat = yes; then
+        YASM_MAC_INC=yasm_macwin.inc.fat
+      else
+        YASM_MAC_INC=yasm_macwin.inc.nofat
+      fi
+    else
+      if test $enable_fat = yes; then
+        YASM_MAC_INC=yasm_mac.inc.fat
+      else
+        YASM_MAC_INC=yasm_mac.inc.nofat
+      fi
+    fi
   ;;
   *-*-*)
-	if test $enable_fat = yes; then
-	YASM_MAC_INC=yasm_mac.inc.fat
-	else
-	YASM_MAC_INC=yasm_mac.inc.nofat
-	fi
+    if test $enable_fat = yes; then
+      YASM_MAC_INC=yasm_mac.inc.fat
+    else
+      YASM_MAC_INC=yasm_mac.inc.nofat
+    fi
   ;;
 esac
 AC_CONFIG_LINKS(yasm_mac.inc:$YASM_MAC_INC)
 
-AC_OUTPUT(Makefile mpf/Makefile mpn/Makefile fft/Makefile mpq/Makefile mpz/Makefile printf/Makefile scanf/Makefile cxx/Makefile tests/Makefile tests/devel/Makefile tests/mpf/Makefile tests/mpn/Makefile tests/fft/Makefile tests/mpq/Makefile tests/mpz/Makefile tests/rand/Makefile tests/misc/Makefile tests/cxx/Makefile doc/Makefile tune/Makefile mpir.h:gmp-h.in)
+# Create Makefiles
+# FIXME: Upcoming version of autoconf/automake don't like broken lines.
+#        Right now automake isn't accepting the new AC_CONFIG_FILES scheme.
+
+AC_CONFIG_FILES(Makefile mpf/Makefile mpn/Makefile fft/Makefile mpq/Makefile mpz/Makefile printf/Makefile scanf/Makefile cxx/Makefile tests/Makefile tests/devel/Makefile tests/mpf/Makefile tests/mpn/Makefile tests/fft/Makefile tests/mpq/Makefile tests/mpz/Makefile tests/rand/Makefile tests/misc/Makefile tests/cxx/Makefile doc/Makefile tune/Makefile)
+AC_CONFIG_FILES(mpir.h:gmp-h.in)
 if test $enable_gmpcompat = yes; then
-	AC_OUTPUT(gmp.h:gmp-h.in)
-	if test $enable_cxx = yes ; then
-		AC_OUTPUT(gmpxx.h:mpirxx.h)
-	fi
+  AC_CONFIG_FILES(gmp.h:gmp-h.in)
+  if test $enable_cxx = yes ; then
+    AC_CONFIG_FILES(gmpxx.h:mpirxx.h)
+  fi
 fi
+
+AC_OUTPUT
+
 # now we have created and populated the mpn directory we can rename the files
 # and post process the "m4 macros" into "yasm macros"
 case $host in
-*-w64-mingw*)
-	for jay in $old_gmp_srclinks; do
-		jayext=`echo "$jay" | awk -F . '{print $NF}'`
-		#jayext=`/bin/echo "${jay#*.}"`
-		#jayext=`echo "$jay" | sed -n 's/.*\.//'`
-		base=`echo "${jay%.*}"`
-		name=`basename $base`
-		if test "$jayext" = "asm" && test "$name" != "fat_entry" ; then
-			got=`grep -ce "d""nl  This line is to help MINGW64" $jay`
-			if test "$got" = "1" ; then
-				cat $jay | sed s/"include(\(.*\))"/"%include \"\1\""/ | sed s/"d""efine(\(.*\),\(.*\))"/"%d""efine \1 \2"/ | sed s/"d""efine(\(.*\))"/"%d""efine \1"/ | sed s/"d""nl\(.*\)"/"; \1"/ | sed s/ifdef.*// | sed s/"\`.*"// > $base.as
-				rm -f $jay
-			else
-				mv $jay $base.as
-			fi
-		fi
-	done
+  *-w64-mingw*|*-*-cygwin*)
+    if test "$ABI" = "64"; then
+      echo "Renaming assembly files on Win64..."
+      for jay in $old_gmp_srclinks; do
+        jayext=`echo "$jay" | awk -F . '{print $NF}'`
+        #jayext=`/bin/echo "${jay#*.}"`
+        #jayext=`echo "$jay" | sed -n 's/.*\.//'`
+        base=`echo "${jay%.*}"`
+        name=`basename $base`
+        if test "$jayext" = "asm" && test "$name" != "fat_entry" ; then
+          got=`grep -ce "d""nl  This line is to help MINGW64" $jay`
+          if test "$got" = "1" ; then
+            cat $jay | sed s/"include(\(.*\))"/"%include \"\1\""/ | sed s/"d""efine(\(.*\),\(.*\))"/"%d""efine \1 \2"/ | sed s/"d""efine(\(.*\))"/"%d""efine \1"/ | sed s/"d""nl\(.*\)"/"; \1"/ | sed s/ifdef.*// | sed s/"\`.*"// > $base.as
+            rm -f $jay
+          else
+            mv $jay $base.as
+          fi
+        fi
+      done
 # the file x86_64_divrem_euclidean_qr_1.as should detect the defined macro EXCLUDE_PREINV , but for some reason it doesnt, so we hack it
-	if test $enable_fat = yes; then
-		echo "%d""efine EXCLUDE_PREINV 1" > mpn/x86_64_divrem_euclidean_qr_1.tmp
-		cat mpn/x86_64_divrem_euclidean_qr_1.as >> mpn/x86_64_divrem_euclidean_qr_1.tmp
-		mv mpn/x86_64_divrem_euclidean_qr_1.tmp mpn/x86_64_divrem_euclidean_qr_1.as
-	fi
-;;
+      if test $enable_fat = yes; then
+        echo "%d""efine EXCLUDE_PREINV 1" > mpn/x86_64_divrem_euclidean_qr_1.tmp
+        cat mpn/x86_64_divrem_euclidean_qr_1.as >> mpn/x86_64_divrem_euclidean_qr_1.tmp
+        mv mpn/x86_64_divrem_euclidean_qr_1.tmp mpn/x86_64_divrem_euclidean_qr_1.as
+      fi
+    fi
+  ;;
 esac

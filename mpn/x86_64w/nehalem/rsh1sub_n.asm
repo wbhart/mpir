@@ -1,4 +1,4 @@
-; PROLOGUE(rsh1sub_n)
+; PROLOGUE(mpn_rsh1sub_n)
 
 ;  AMD64 mpn_rsh1sub_n
 

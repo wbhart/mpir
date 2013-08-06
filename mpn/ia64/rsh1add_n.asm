@@ -33,7 +33,7 @@ define(`up',`r33')
 define(`vp',`r34')
 define(`n',`r35')
 
-define(OPERATION_rsh1add_n,1)
+define(`OPERATION_rsh1add_n',1)
 
 ifdef(`OPERATION_rsh1add_n',`
   define(ADDSUB,       add)

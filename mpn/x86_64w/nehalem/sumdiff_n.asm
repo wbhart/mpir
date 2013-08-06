@@ -1,4 +1,4 @@
-; PROLOGUE(sumdiff_n)
+; PROLOGUE(mpn_sumdiff_n)
 ;
 ;  Copyright 2011 The Code Cavern
 ;

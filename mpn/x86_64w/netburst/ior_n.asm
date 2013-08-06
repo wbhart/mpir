@@ -1,4 +1,4 @@
-; PROLOGUE(ior_n)
+; PROLOGUE(mpn_ior_n)
 
 ;  Version 1.0.4
 ;

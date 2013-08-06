@@ -1,4 +1,4 @@
-; PROLOGUE(submul_1)
+; PROLOGUE(mpn_submul_1)
 
 ;  Copyright 2006  Jason Worth Martin <jason.worth.martin@gmail.com>
 ;

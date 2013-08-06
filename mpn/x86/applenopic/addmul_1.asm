@@ -38,7 +38,7 @@ C K6:                           12.5
 C K7:                            5.25
 C K8:
 
-define(OPERATION_addmul_1,1)
+define(`OPERATION_addmul_1',1)
 
 ifdef(`OPERATION_addmul_1',`
       define(M4_inst,        addl)

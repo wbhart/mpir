@@ -1,4 +1,4 @@
-; PROLOGUE(mulmid_basecase)
+; PROLOGUE(mpn_mulmid_basecase)
 ;
 ;  AMD64 mpn_mulmid_basecase
 ;

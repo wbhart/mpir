@@ -22,6 +22,11 @@ along with the GNU MP Library.  If not, see http://www.gnu.org/licenses/.  */
 
 #ifndef __GMP_H__
 
+#ifdef __SUNPRO_CC    /* See: http://trac.sagemath.org/sage_trac/ticket/7849 */
+#include <stddef.h>   /* This is Bill Hart's fix, but I've applied it only */
+#include <stdarg.h>   /* on Sun Studio */
+#endif 
+
 #if defined (__cplusplus)
 #include <iosfwd>   /* for std::istream, std::ostream, std::string */
 #include <cstdio>

@@ -1,4 +1,4 @@
-; PROLOGUE(mul_1)
+; PROLOGUE(mpn_mul_1)
 
 ; Version 1.0.3.
 ;

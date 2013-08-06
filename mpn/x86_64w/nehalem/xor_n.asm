@@ -1,4 +1,4 @@
-; PROLOGUE(xor_n)
+; PROLOGUE(mpn_xor_n)
 
 ;  mpn_xor_n
 

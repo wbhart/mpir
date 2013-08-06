@@ -56,7 +56,7 @@ define(`LIMBS_PER_2VR', eval(32/GMP_LIMB_BYTES))
 define(`vnegb', `')		C default neg-before to null
 define(`vnega', `')		C default neg-before to null
 
-define(OPERATION_xor_n,1)
+define(`OPERATION_xor_n',1)
 
 ifdef(`OPERATION_and_n',
 `	define(`func',	`mpn_and_n')

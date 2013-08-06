@@ -1,4 +1,4 @@
-; PROLOGUE(lshift6)
+; PROLOGUE(mpn_lshift6)
 
 ;  mpn_lshift6
 
