@@ -105,6 +105,7 @@ for %%X in ( ..\..\mpn\generic\*.c) do (
 	if errorlevel 1 goto :err
 	)
 )
+if %YASMEXE% == noyasm goto :noyasm
 for %%X in ( %MPNPATH% ) do (
 	for %%i in ( ..\..\mpn\%%X\*.asm ) do (
 		%YASMEXE% %YASMFLAG% -I ..\..\mpn\%LOCALDIR% -f %LOCALABI% %%i
@@ -112,6 +113,7 @@ for %%X in ( %MPNPATH% ) do (
 		echo assemblin %%i		
 	)
 )
+:noyasm
 :: dont know what the asm version have so delete them
 del preinv_divrem_1.obj preinv_mod_1.obj divrem_1.obj mod_1.obj divrem_euclidean_qr_1.obj > nul 2>&1
 cl %OPT% -I..\.. ..\..\mpn\generic\divrem_1.c
