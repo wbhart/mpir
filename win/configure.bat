@@ -67,6 +67,10 @@ call config.guess.bat
 if %ABI% == ? goto :gotcc
 if %GBITS% == %ABI% goto :gotcc
 :step1
+if exist "%VS110COMNTOOLS%\..\..\VC\vcvarsall.bat" (
+	call "%VS110COMNTOOLS%\..\..\VC\vcvarsall.bat" %VCTARGET%
+	goto :checkcc
+)
 if exist "%VS100COMNTOOLS%\..\..\VC\vcvarsall.bat" (
 	call "%VS100COMNTOOLS%\..\..\VC\vcvarsall.bat" %VCTARGET%
 	goto :checkcc
@@ -112,6 +116,10 @@ if exist "%VS100COMNTOOLS%\..\..\VC\bin\vsyasm.exe" (
 	set YASMEXE="%VS100COMNTOOLS%\..\..\VC\bin\vsyasm.exe"
 	goto :gotyasm
 )
+if exist "%VS110COMNTOOLS%\..\..\VC\bin\vsyasm.exe" (
+	set YASMEXE="%VS110COMNTOOLS%\..\..\VC\bin\vsyasm.exe"
+	goto :gotyasm
+)
 if exist "c:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\BuildCustomizations\vsyasm.exe" (
 	set YASMEXE="c:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\BuildCustomizations\vsyasm.exe"
 	goto :gotyasm
@@ -121,7 +129,8 @@ if exist "%VS90COMNTOOLS%\..\..\VC\bin\yasm.exe" (
 	goto :gotyasm
 )
 echo cant find yasm
-exit /b 1
+rem exit /b 1
+set YASMEXE=noyasm
 :gotyasm
 
 :: set config.params.bat to the settings needed by make etc
