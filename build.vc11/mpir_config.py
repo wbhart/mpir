@@ -43,7 +43,7 @@ debug = False
 # either add a prebuild step to the project files or do it here
 add_prebuild = True
 # output a build project for the C++ static library
-add_cpp_lib = False
+add_cpp_lib = True
 
 # The path to the mpir root directory
 build_vc = 'build.vc11/'
@@ -614,7 +614,8 @@ def gen_vcxproj(proj_name, file_name, guid, config, plat, is_dll, is_cpp, hf_lis
     vcx_default_cpp_props(outf)
     vcx_library_type(plat, is_dll, outf)
     vcx_cpp_props(outf)
-    vcx_extensions(outf)
+    if af_list:
+      vcx_extensions(outf)
     vcx_user_props(plat, outf)
     outf.write(f2)
     vcx_target_name_and_dirs(proj_name, plat, is_dll, outf)
