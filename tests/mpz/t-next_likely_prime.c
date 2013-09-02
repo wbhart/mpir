@@ -58,7 +58,7 @@ main (int argc, char **argv)
     for( i = 0 ; i < sizeof(tests1) / sizeof(tests1[0]) ; ++i )
     {
       mpz_ui_pow_ui(x, 10, tests1[i].pow10);
-      mpz_next_likely_prime(y, x, rnd);
+      mpz_next_prime_candidate(y, x, rnd);
       mpz_sub(y, y, x);
       j = mpz_get_ui(y);
       if(j != tests1[i].np_off)
@@ -76,7 +76,7 @@ main (int argc, char **argv)
       s = j = 0;
       for( ; ; )
       {
-          mpz_next_likely_prime(y, y, rnd);
+          mpz_next_prime_candidate(y, y, rnd);
           mpz_sub(z, y, x);
           k = mpz_get_si(z);
           if(k >= 1000)
