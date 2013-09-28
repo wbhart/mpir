@@ -1,4 +1,3 @@
-
 echo off
 if exist lib\win32\release call :sub lib\win32\release
 if exist lib\win32\debug   call :sub lib\win32\debug
