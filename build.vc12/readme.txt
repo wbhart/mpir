@@ -6,7 +6,7 @@ A Note On Licensing
 ===================
 
 Files in this distribution that have been created for use in building 
-MPIR with Microsoft Visual Studio 2010 are provided under the terms of
+MPIR with Microsoft Visual Studio 2012 are provided under the terms of
 the LGPL v2.1+ license.
 
 The MPIR library uses numerous files which are LGPL v3+ and so the 
