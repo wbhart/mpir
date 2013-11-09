@@ -1,5 +1,5 @@
 
-Building MPIR with Microsoft Visual Studio 2010
+Building MPIR with Microsoft Visual Studio 2012
 ===============================================
 
 A Note On Licensing
