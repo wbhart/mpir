@@ -1,12 +1,12 @@
 
-Building MPIR with Microsoft Visual Studio 2012
+Building MPIR with Microsoft Visual Studio 2013
 ===============================================
 
 A Note On Licensing
 ===================
 
 Files in this distribution that have been created for use in building 
-MPIR with Microsoft Visual Studio 2012 are provided under the terms of
+MPIR with Microsoft Visual Studio 2013 are provided under the terms of
 the LGPL v2.1+ license.
 
 The MPIR library uses numerous files which are LGPL v3+ and so the 
@@ -18,12 +18,12 @@ Using the Assembler Based Build Projects
 
 If you wish to use the assembler files you will need VSYASM, a version 
 of YASM x86/x64 assembler tailored specifically for use with Microsoft 
-Visual Studio 2010.  You will need a recent revision of YASM from:
+Visual Studio 2013.  You will need a recent revision of YASM from:
 
   http://www.tortall.net/projects/yasm/
 
 This assembler (you need vsyasm.exe, NOT yasm.exe) should be placed
-in the bin directory used by VC++, which, for Visual Stduio 2010, is
+in the bin directory used by VC++, which, for Visual Stduio 2013, is
 typically:
 
  C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin
@@ -37,11 +37,11 @@ Compiling MPIR with the Visual Studio C/C++
 ===========================================
 
 These VC++ build projects are primarily designed to work with Microsoft
-Visual Studio 2010 Professional. The win32 build projects also work with
-Microsoft Visual C++ 2010 Express. 
+Visual Studio 2013 Professional. The win32 build projects also work with
+Microsoft Visual C++ 2013 Express. 
 
 To build the x64 libraries with VC++ Express you will need to install 
-the Windows 7.1 SDK and Python (2.6 or later). Once you have these 
+the Windows 7.1 SDK and Python 3.1 (or later). Once you have these 
 installed, you can run the Python program 'add.express.py' before starting
 the build process to convert the build filles for use with VC++ Express.
 If necessary, these changes can be removed by running the Python program 
@@ -171,7 +171,7 @@ The Tests
 =========
 
 There is a separate solution for the MPIR tests: mpir-tests.sln. In
-Visual Studio 2010 this is in build.vc10 folder.  
+Visual Studio 2013 this is in build.vc10 folder.  
 
 The tests are configured to always test the last version of MPIR that
 has been built. This is automatic but it can be changed by editing 
@@ -461,4 +461,4 @@ My thanks to:
 4. Jeff Gilchrist for his help in testing, debugging and 
    improving the readme giving the VC++ build instructions
 
-       Brian Gladman, October 2012
+       Brian Gladman, December 2013

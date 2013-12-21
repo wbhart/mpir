@@ -41,7 +41,7 @@ Visual Studio 2010 Professional. The win32 build projects also work with
 Microsoft Visual C++ 2010 Express. 
 
 To build the x64 libraries with VC++ Express you will need to install 
-the Windows 7.1 SDK and Python (2.6 or later). Once you have these 
+the Windows 7.1 SDK and Python 3.1 (or later). Once you have these 
 installed, you can run the Python program 'add.express.py' before starting
 the build process to convert the build filles for use with VC++ Express.
 If necessary, these changes can be removed by running the Python program 

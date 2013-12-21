@@ -43,7 +43,7 @@ debug = False
 # either add a prebuild step to the project files or do it here
 add_prebuild = True
 # output a build project for the C++ static library
-add_cpp_lib = True
+add_cpp_lib = False
 
 # The path to the mpir root directory
 build_vc = 'build.vc11/'
@@ -51,7 +51,7 @@ mpir_dir = '../'
 build_dir = mpir_dir + build_vc
 
 # paths that might include source files(*.c, *.h, *.asm)
-c_directories  = ( '', 'build.vc10', 'fft', 'mpf', 'mpq', 'mpz', 'printf', 'scanf' )
+c_directories  = ( '', 'build.vc11', 'fft', 'mpf', 'mpq', 'mpz', 'printf', 'scanf' )
 
 # files that are to be excluded from the build
 exclude_file_list = ('config.guess', 'cfg', 'getopt', 'getrusage', 'gettimeofday', 'cpuid',
@@ -949,7 +949,7 @@ if debug:
         if '.svn' in dirs:
           dirs.remove('.svn')            # ignore SVN directories
         if d == '' or root.endswith(build_vc):
-          for d in reversed(dirs):       # don't scan build.vc10 subdirectories
+          for d in reversed(dirs):       # don't scan build.vc11 subdirectories
             dirs.remove(d)
         for f in files:
           if f.endswith(p):

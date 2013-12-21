@@ -51,7 +51,7 @@ mpir_dir = '../'
 build_dir = mpir_dir + build_vc
 
 # paths that might include source files(*.c, *.h, *.asm)
-c_directories  = ( '', 'build.vc10', 'fft', 'mpf', 'mpq', 'mpz', 'printf', 'scanf' )
+c_directories  = ( '', 'build.vc12', 'fft', 'mpf', 'mpq', 'mpz', 'printf', 'scanf' )
 
 # files that are to be excluded from the build
 exclude_file_list = ('config.guess', 'cfg', 'getopt', 'getrusage', 'gettimeofday', 'cpuid',
@@ -614,7 +614,8 @@ def gen_vcxproj(proj_name, file_name, guid, config, plat, is_dll, is_cpp, hf_lis
     vcx_default_cpp_props(outf)
     vcx_library_type(plat, is_dll, outf)
     vcx_cpp_props(outf)
-    vcx_extensions(outf)
+    if af_list:
+      vcx_extensions(outf)
     vcx_user_props(plat, outf)
     outf.write(f2)
     vcx_target_name_and_dirs(proj_name, plat, is_dll, outf)
@@ -948,7 +949,7 @@ if debug:
         if '.svn' in dirs:
           dirs.remove('.svn')            # ignore SVN directories
         if d == '' or root.endswith(build_vc):
-          for d in reversed(dirs):       # don't scan build.vc10 subdirectories
+          for d in reversed(dirs):       # don't scan build.vc12 subdirectories
             dirs.remove(d)
         for f in files:
           if f.endswith(p):
