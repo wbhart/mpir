@@ -5376,11 +5376,13 @@ if test "$gmp_prog_cc_works" = yes; then
    on AIX 4.3 under "-maix64 -mpowerpc64 -mcpu=630".  The -mcpu=630
    option causes gcc to incorrectly select the 32-bit libgcc.a, not
    the 64-bit one, and consequently it misses out on the __fixunsdfdi
-   helper (double -> uint64 conversion).  */
-double d;
-unsigned long gcc303 () { return (unsigned long) d; }
+   helper (double -> uint64 conversion).
+   This also provokers errors on x86 when AVX instructions are
+   generated but not understood by the assembler or processor.*/
+volatile double d;
+volatile unsigned long u;
+int main() { d = 0.1; u = (unsigned long)d; return (int)u; }
 
-int main () { return 0; }
 EOF
   echo "Test compile: double -> ulong conversion" >&5
   gmp_compile="$cc $cflags $cppflags conftest.c >&5"
@@ -5424,7 +5426,6 @@ fi
 
 
 
-
 if test "$gmp_prog_cc_works" = yes; then
   # remove anything that might look like compiler output to our "||" expression
   rm -f conftest* a.out b.out a.exe a_out.exe
@@ -5432,10 +5433,10 @@ if test "$gmp_prog_cc_works" = yes; then
 /* The following provokes an error from hppa gcc 2.95 under -mpa-risc-2-0 if
    the assembler doesn't know hppa 2.0 instructions.  fneg is a 2.0
    instruction, and a negation like this comes out using it.  */
-double fneg_data;
-unsigned long fneg () { return -fneg_data; }
+volatile double d;
+volatile double d2;
+int main() { d = -0.1; d2 = -d; return (int)d2; }
 
-int main () { return 0; }
 EOF
   echo "Test compile: double negation" >&5
   gmp_compile="$cc $cflags $cppflags conftest.c >&5"
@@ -5479,7 +5480,6 @@ fi
 
 
 
-
 if test "$gmp_prog_cc_works" = yes; then
   # remove anything that might look like compiler output to our "||" expression
   rm -f conftest* a.out b.out a.exe a_out.exe
@@ -5488,10 +5488,10 @@ if test "$gmp_prog_cc_works" = yes; then
    (cvtsd2ss) which will provoke an error if the assembler doesn't recognise
    those instructions.  Not sure how much of the gmp code will come out
    wanting sse2, but it's easiest to reject an option we know is bad.  */
-double ftod_data;
-float ftod () { return (float) ftod_data; }
+volatile double d;
+volatile float f;
+int main() { d = 0.1; f = (float)d; return (int)f; }
 
-int main () { return 0; }
 EOF
   echo "Test compile: double -> float conversion" >&5
   gmp_compile="$cc $cflags $cppflags conftest.c >&5"
@@ -5533,6 +5533,59 @@ EOF
   esac
 fi
 
+
+
+if test "$gmp_prog_cc_works" = yes; then
+  # remove anything that might look like compiler output to our "||" expression
+  rm -f conftest* a.out b.out a.exe a_out.exe
+  cat >conftest.c <<EOF
+/* The following generates a vmovd instruction on Sandy Bridge.
+   Check that the assembler knows this instruction. */
+volatile unsigned long a;
+volatile double b;
+int main()
+{ a = 1; b = 3; return (int)(a/b); }
+
+EOF
+  echo "Test compile: unsigned long/double division" >&5
+  gmp_compile="$cc $cflags $cppflags conftest.c >&5"
+  if { { eval echo "\"\$as_me\":${as_lineno-$LINENO}: \"$gmp_compile\""; } >&5
+  (eval $gmp_compile) 2>&5
+  ac_status=$?
+  $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
+  test $ac_status = 0; }; then
+    cc_works_part=yes
+    if test "$cross_compiling" = no; then
+      if { ac_try='./a.out || ./b.out || ./a.exe || ./a_out.exe || ./conftest'
+  { { eval echo "\"\$as_me\":${as_lineno-$LINENO}: \"$ac_try\""; } >&5
+  (eval $ac_try) 2>&5
+  ac_status=$?
+  $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
+  test $ac_status = 0; }; }; then :;
+      else
+        cc_works_part=norun
+      fi
+    fi
+  else
+    cc_works_part=no
+  fi
+  if test "$cc_works_part" != yes; then
+    echo "failed program was:" >&5
+    cat conftest.c >&5
+  fi
+  rm -f conftest* a.out b.out a.exe a_out.exe
+  case $cc_works_part in
+    yes)
+
+      ;;
+    no)
+      gmp_prog_cc_works="no, unsigned long/double division"
+      ;;
+    norun)
+      gmp_prog_cc_works="no, unsigned long/double division, program does not run"
+      ;;
+  esac
+fi
 
 
 
@@ -6637,11 +6690,13 @@ if test "$gmp_prog_cc_works" = yes; then
    on AIX 4.3 under "-maix64 -mpowerpc64 -mcpu=630".  The -mcpu=630
    option causes gcc to incorrectly select the 32-bit libgcc.a, not
    the 64-bit one, and consequently it misses out on the __fixunsdfdi
-   helper (double -> uint64 conversion).  */
-double d;
-unsigned long gcc303 () { return (unsigned long) d; }
+   helper (double -> uint64 conversion).
+   This also provokers errors on x86 when AVX instructions are
+   generated but not understood by the assembler or processor.*/
+volatile double d;
+volatile unsigned long u;
+int main() { d = 0.1; u = (unsigned long)d; return (int)u; }
 
-int main () { return 0; }
 EOF
   echo "Test compile: double -> ulong conversion" >&5
   gmp_compile="$cc $cflags $cppflags $flag conftest.c >&5"
@@ -6685,7 +6740,6 @@ fi
 
 
 
-
 if test "$gmp_prog_cc_works" = yes; then
   # remove anything that might look like compiler output to our "||" expression
   rm -f conftest* a.out b.out a.exe a_out.exe
@@ -6693,10 +6747,10 @@ if test "$gmp_prog_cc_works" = yes; then
 /* The following provokes an error from hppa gcc 2.95 under -mpa-risc-2-0 if
    the assembler doesn't know hppa 2.0 instructions.  fneg is a 2.0
    instruction, and a negation like this comes out using it.  */
-double fneg_data;
-unsigned long fneg () { return -fneg_data; }
+volatile double d;
+volatile double d2;
+int main() { d = -0.1; d2 = -d; return (int)d2; }
 
-int main () { return 0; }
 EOF
   echo "Test compile: double negation" >&5
   gmp_compile="$cc $cflags $cppflags $flag conftest.c >&5"
@@ -6740,7 +6794,6 @@ fi
 
 
 
-
 if test "$gmp_prog_cc_works" = yes; then
   # remove anything that might look like compiler output to our "||" expression
   rm -f conftest* a.out b.out a.exe a_out.exe
@@ -6749,10 +6802,10 @@ if test "$gmp_prog_cc_works" = yes; then
    (cvtsd2ss) which will provoke an error if the assembler doesn't recognise
    those instructions.  Not sure how much of the gmp code will come out
    wanting sse2, but it's easiest to reject an option we know is bad.  */
-double ftod_data;
-float ftod () { return (float) ftod_data; }
+volatile double d;
+volatile float f;
+int main() { d = 0.1; f = (float)d; return (int)f; }
 
-int main () { return 0; }
 EOF
   echo "Test compile: double -> float conversion" >&5
   gmp_compile="$cc $cflags $cppflags $flag conftest.c >&5"
@@ -6794,6 +6847,59 @@ EOF
   esac
 fi
 
+
+
+if test "$gmp_prog_cc_works" = yes; then
+  # remove anything that might look like compiler output to our "||" expression
+  rm -f conftest* a.out b.out a.exe a_out.exe
+  cat >conftest.c <<EOF
+/* The following generates a vmovd instruction on Sandy Bridge.
+   Check that the assembler knows this instruction. */
+volatile unsigned long a;
+volatile double b;
+int main()
+{ a = 1; b = 3; return (int)(a/b); }
+
+EOF
+  echo "Test compile: unsigned long/double division" >&5
+  gmp_compile="$cc $cflags $cppflags $flag conftest.c >&5"
+  if { { eval echo "\"\$as_me\":${as_lineno-$LINENO}: \"$gmp_compile\""; } >&5
+  (eval $gmp_compile) 2>&5
+  ac_status=$?
+  $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
+  test $ac_status = 0; }; then
+    cc_works_part=yes
+    if test "$cross_compiling" = no; then
+      if { ac_try='./a.out || ./b.out || ./a.exe || ./a_out.exe || ./conftest'
+  { { eval echo "\"\$as_me\":${as_lineno-$LINENO}: \"$ac_try\""; } >&5
+  (eval $ac_try) 2>&5
+  ac_status=$?
+  $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
+  test $ac_status = 0; }; }; then :;
+      else
+        cc_works_part=norun
+      fi
+    fi
+  else
+    cc_works_part=no
+  fi
+  if test "$cc_works_part" != yes; then
+    echo "failed program was:" >&5
+    cat conftest.c >&5
+  fi
+  rm -f conftest* a.out b.out a.exe a_out.exe
+  case $cc_works_part in
+    yes)
+
+      ;;
+    no)
+      gmp_prog_cc_works="no, unsigned long/double division"
+      ;;
+    norun)
+      gmp_prog_cc_works="no, unsigned long/double division, program does not run"
+      ;;
+  esac
+fi
 
 
 

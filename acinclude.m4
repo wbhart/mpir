@@ -519,31 +519,45 @@ int n;
 int cmov () { return (n >= 0 ? n : 0); }
 ])
 
-GMP_PROG_CC_WORKS_PART([$1], [double -> ulong conversion],
+GMP_PROG_CC_WORKS_PART_MAIN([$1], [double -> ulong conversion],
 [/* The following provokes a linker invocation problem with gcc 3.0.3
    on AIX 4.3 under "-maix64 -mpowerpc64 -mcpu=630".  The -mcpu=630
    option causes gcc to incorrectly select the 32-bit libgcc.a, not
    the 64-bit one, and consequently it misses out on the __fixunsdfdi
-   helper (double -> uint64 conversion).  */
-double d;
-unsigned long gcc303 () { return (unsigned long) d; }
+   helper (double -> uint64 conversion).
+   This also provokers errors on x86 when AVX instructions are
+   generated but not understood by the assembler or processor.*/
+volatile double d;
+volatile unsigned long u;
+int main() { d = 0.1; u = (unsigned long)d; return (int)u; }
 ])
 
-GMP_PROG_CC_WORKS_PART([$1], [double negation],
+GMP_PROG_CC_WORKS_PART_MAIN([$1], [double negation],
 [/* The following provokes an error from hppa gcc 2.95 under -mpa-risc-2-0 if
    the assembler doesn't know hppa 2.0 instructions.  fneg is a 2.0
    instruction, and a negation like this comes out using it.  */
-double fneg_data;
-unsigned long fneg () { return -fneg_data; }
+volatile double d;
+volatile double d2;
+int main() { d = -0.1; d2 = -d; return (int)d2; }
 ])
 
-GMP_PROG_CC_WORKS_PART([$1], [double -> float conversion],
+GMP_PROG_CC_WORKS_PART_MAIN([$1], [double -> float conversion],
 [/* The following makes gcc 3.3 -march=pentium4 generate an SSE2 xmm insn
    (cvtsd2ss) which will provoke an error if the assembler doesn't recognise
    those instructions.  Not sure how much of the gmp code will come out
    wanting sse2, but it's easiest to reject an option we know is bad.  */
-double ftod_data;
-float ftod () { return (float) ftod_data; }
+volatile double d;
+volatile float f;
+int main() { d = 0.1; f = (float)d; return (int)f; }
+])
+
+GMP_PROG_CC_WORKS_PART_MAIN([$1], [unsigned long/double division],
+[/* The following generates a vmovd instruction on Sandy Bridge.
+   Check that the assembler knows this instruction. */
+volatile unsigned long a;
+volatile double b;
+int main()
+{ a = 1; b = 3; return (int)(a/b); }
 ])
 
 # __builtin_alloca is not available everywhere, check it exists before

@@ -1,4 +1,4 @@
-/* mpz_next_likely_prime(p,t,rnd) - compute the next likely prime > t and store that in p.
+/* mpz_next_prime_candidate(p,t,rnd) - compute the next likely prime > t and store that in p.
 
 Copyright 1999, 2000, 2001 Free Software Foundation, Inc.
 Copyright 2009 Jason Moxham, Brian Gladman
@@ -27,7 +27,7 @@ Boston, MA 02110-1301, USA.
 #if 0
 
 void 
-mpz_next_likely_prime (mpz_ptr p, mpz_srcptr t, gmp_randstate_t rnd)
+mpz_next_prime_candidate (mpz_ptr p, mpz_srcptr t, gmp_randstate_t rnd)
 {
   mpz_add_ui (p, t, 1L);
   while (! mpz_likely_prime_p (p, rnd,0))
@@ -55,7 +55,7 @@ static unsigned short primes[] =
 #define NUMBER_OF_PRIMES (sizeof(primes) / sizeof(primes[0]))
 
 void
-mpz_next_likely_prime (mpz_ptr p, mpz_srcptr n, gmp_randstate_t rnd)
+mpz_next_prime_candidate (mpz_ptr p, mpz_srcptr n, gmp_randstate_t rnd)
 {
   unsigned short *moduli;
   unsigned long difference;

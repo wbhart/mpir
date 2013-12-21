@@ -56,6 +56,15 @@ along with the GNU MP Library.  If not, see http://www.gnu.org/licenses/.  */
 #endif
 #endif
 
+#if defined( _STDINT_H ) || defined ( _STDINT_H_ ) || defined ( _STDINT )
+#  if INTMAX_MAX != LONG_MAX && (INTMAX_MAX != LLONG_MAX || !defined(MPIRXX_HAVE_LLONG))
+#    define MPIRXX_INTMAX_T 1
+#  endif
+#  if UINTMAX_MAX != ULONG_MAX && (UINTMAX_MAX != ULLONG_MAX || !defined(MPIRXX_HAVE_LLONG))
+#    define MPIRXX_UINTMAX_T 1
+#  endif
+#endif
+
 // wrapper for gcc's __builtin_constant_p
 // __builtin_constant_p has been in gcc since forever,
 // but g++-3.4 miscompiles it.
@@ -1533,8 +1542,12 @@ public:
   __gmp_expr(signed long long int l) { mpz_init_set_si(mp, l); }
   __gmp_expr(unsigned long long int  l) { mpz_init_set_ui(mp, l); }
 #endif
-#if defined( _STDINT_H ) || defined ( _STDINT_H_ ) || defined ( _STDINT )
+
+#ifdef MPIRXX_INTMAX_T
   __gmp_expr(intmax_t l) { mpz_init_set_sx(mp, l); }
+#endif
+
+#ifdef MPIRXX_UINTMAX_T
   __gmp_expr(uintmax_t l) { mpz_init_set_ux(mp, l); }
 #endif
 
@@ -1596,10 +1609,15 @@ __gmp_expr & operator=(unsigned int i) { mpz_set_ui(mp, i); return *this; }
   __gmp_expr & operator=(signed long long int i) { mpz_set_si(mp, i); return *this; }
   __gmp_expr & operator=(unsigned long long int i) { mpz_set_ui(mp, i); return *this; }
 #endif
-#if defined( _STDINT_H ) || defined ( _STDINT_H_ ) || defined ( _STDINT )
+
+#ifdef MPIRXX_INTMAX_T
   __gmp_expr & operator=(intmax_t i) { mpz_set_sx(mp, i); return *this; }
+#endif
+
+#ifdef MPIRXX_UINTMAX_T
   __gmp_expr & operator=(uintmax_t i) { mpz_set_ux(mp, i); return *this; }
 #endif
+
   __gmp_expr & operator=(float f) { mpz_set_d(mp, f); return *this; }
   __gmp_expr & operator=(double d) { mpz_set_d(mp, d); return *this; }
   // __gmp_expr & operator=(long double ld)
@@ -1637,10 +1655,14 @@ __gmp_expr & operator=(unsigned int i) { mpz_set_ui(mp, i); return *this; }
 
   mpir_si get_si() const { return mpz_get_si(mp); }
   mpir_ui get_ui() const { return mpz_get_ui(mp); }
-#if defined( _STDINT_H ) || defined ( _STDINT_H_ ) || defined ( _STDINT )
+
+#ifdef MPIRXX_INTMAX_T
   intmax_t get_sx() const { return mpz_get_sx(mp); }
+#endif
+#ifdef MPIRXX_UINTMAX_T
   uintmax_t get_ux() const { return mpz_get_ux(mp); }
 #endif
+
   double get_d() const { return mpz_get_d(mp); }
 
   // bool fits_schar_p() const { return mpz_fits_schar_p(mp); }

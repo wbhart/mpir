@@ -3,7 +3,7 @@
    Test all relevant functions except:
 	mpz_bin_ui
 	mpz_nextprime
-	mpz_next_likely_prime
+	mpz_next_prime_candidate
 	mpz_mul_si
 	mpz_addmul_ui (should this really allow a+=a*c?)
 

@@ -127,7 +127,7 @@ speed_measure (double (*fun) _PROTO ((struct speed_params *s)),
                struct speed_params *s)
 {
 #define TOLERANCE    1.05  /* 0.5% */
-  const int max_zeros = 10;
+  const int max_zeros = 40;
 
   struct speed_params  s_dummy;
   int     i, j, e;
