@@ -102,7 +102,7 @@ mpn_dc_divappr_q (mp_ptr qp, mp_ptr np, mp_size_t nn,
 
   TMP_FREE;
 
-  while ((mp_limb_signed_t) cy < 0)
+  if ((mp_limb_signed_t) cy < 0)
   {
       
      qh -= mpn_sub_1(qp + sl, qp + sl, q_orig - sl, 1); /* ensure quotient is not too big */
