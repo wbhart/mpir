@@ -60,7 +60,7 @@ dnl  Automake "no-dependencies" is used because include file dependencies
 dnl  are not useful to us.  Pretty much everything depends just on mpir.h,
 dnl  gmp-impl.h and longlong.h, and yet only rarely does everything need to
 dnl  be rebuilt for changes to those files.
-dnl
+dnl 
 dnl  Note that there's a copy of these options in the top-level Makefile.am,
 dnl  so update there too if changing anything.
 dnl
