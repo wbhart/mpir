@@ -182,6 +182,8 @@ config.status
 libtool
 stamp-h1
 yasm/.deps/
+yasm/config/config.guess
+yasm/config/config.sub
 yasm/configure.gnu
 yasm/configure.lineno
 yasm/libyasm-stdint.h
@@ -192,6 +194,7 @@ yasm_mac.inc
 gmp.h
 longlong.h
 gmp-mparam.h
+tune/sqr_basecase.c
 
 /build.vc11/output_params.bat
 /build.vc11/mpir-tests/test-config.props
