@@ -181,6 +181,10 @@ config.log
 config.status
 libtool
 stamp-h1
+autom4te.cache/
+yasm/YASM-VERSION-FILE
+yasm/YASM-VERSION.h
+yasm/autom4te.cache/
 yasm/.deps/
 yasm/config/config.guess
 yasm/config/config.sub
