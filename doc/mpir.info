@@ -25,7 +25,7 @@ END-INFO-DIR-ENTRY
 
 Indirect:
 mpir.info-1: 1026
-mpir.info-2: 299211
+mpir.info-2: 299690
 
 Tag Table:
 (Indirect)
@@ -34,144 +34,144 @@ Node: Copying3245
 Node: Introduction to MPIR4965
 Node: Installing MPIR7135
 Node: Build Options8573
-Node: ABI and ISA24632
-Node: Notes for Package Builds31401
-Node: Notes for Particular Systems34839
-Node: Known Build Problems42271
-Node: Performance optimization43959
-Node: MPIR Basics45095
-Node: Headers and Libraries45746
-Node: Nomenclature and Types47201
-Node: MPIR on Windows x6449122
-Node: Function Classes51049
-Node: Variable Conventions52584
-Node: Parameter Conventions54113
-Node: Memory Management56165
-Node: Reentrancy57297
-Node: Useful Macros and Constants58734
-Node: Compatibility with older versions59925
-Node: Efficiency60962
-Node: Debugging68641
-Node: Profiling75041
-Node: Autoconf79075
-Node: Emacs80949
-Node: Reporting Bugs81558
-Node: Integer Functions84125
-Node: Initializing Integers84904
-Node: Assigning Integers86838
-Node: Simultaneous Integer Init & Assign88617
-Node: Converting Integers90445
-Node: Integer Arithmetic94061
-Node: Integer Division95527
-Node: Integer Exponentiation101432
-Node: Integer Roots102255
-Node: Number Theoretic Functions104042
-Node: Integer Comparisons112099
-Node: Integer Logic and Bit Fiddling113450
-Node: I/O of Integers116010
-Node: Integer Random Numbers118897
-Node: Integer Import and Export120661
-Node: Miscellaneous Integer Functions124648
-Node: Integer Special Functions126494
-Node: Rational Number Functions129665
-Node: Initializing Rationals130860
-Node: Rational Conversions133316
-Node: Rational Arithmetic135048
-Node: Comparing Rationals136353
-Node: Applying Integer Functions137670
-Node: I/O of Rationals139154
-Node: Floating-point Functions141017
-Node: Initializing Floats143908
-Node: Assigning Floats147996
-Node: Simultaneous Float Init & Assign150546
-Node: Converting Floats152058
-Node: Float Arithmetic155281
-Node: Float Comparison157145
-Node: I/O of Floats158473
-Node: Miscellaneous Float Functions161044
-Node: Low-level Functions163677
-Node: Random Number Functions189839
-Node: Random State Initialization190909
-Node: Random State Seeding192962
-Node: Random State Miscellaneous194332
-Node: Formatted Output194924
-Node: Formatted Output Strings195170
-Node: Formatted Output Functions200410
-Node: C++ Formatted Output204487
-Node: Formatted Input207174
-Node: Formatted Input Strings207411
-Node: Formatted Input Functions212073
-Node: C++ Formatted Input215046
-Node: C++ Class Interface216954
-Node: C++ Interface General217952
-Node: C++ Interface Integers221032
-Node: C++ Interface Rationals224418
-Node: C++ Interface Floats228064
-Node: C++ Interface Random Numbers233291
-Node: C++ Interface Limitations235399
-Node: Custom Allocation238245
-Node: Language Bindings242891
-Node: Algorithms246921
-Node: Multiplication Algorithms247626
-Node: Basecase Multiplication248838
-Node: Karatsuba Multiplication250750
-Node: Toom 3-Way Multiplication254380
-Node: Toom 4-Way Multiplication260796
-Node: FFT Multiplication262170
-Node: Other Multiplication267596
-Node: Unbalanced Multiplication270278
-Node: Division Algorithms271174
-Node: Single Limb Division271522
-Node: Basecase Division274442
-Node: Divide and Conquer Division275645
-Node: Exact Division277915
-Node: Exact Remainder281115
-Node: Small Quotient Division283408
-Node: Greatest Common Divisor Algorithms285007
-Node: Binary GCD285299
-Node: Lehmer's GCD287975
-Node: Subquadratic GCD290179
-Node: Extended GCD292633
-Node: Jacobi Symbol293192
-Node: Powering Algorithms294109
-Node: Normal Powering Algorithm294373
-Node: Modular Powering Algorithm294902
-Node: Root Extraction Algorithms295966
-Node: Square Root Algorithm296282
-Node: Nth Root Algorithm298425
-Node: Perfect Square Algorithm299211
-Node: Perfect Power Algorithm301298
-Node: Radix Conversion Algorithms301920
-Node: Binary to Radix302297
-Node: Radix to Binary306228
-Node: Other Algorithms308193
-Node: Prime Testing Algorithm308547
-Node: Factorial Algorithm309774
-Node: Binomial Coefficients Algorithm311211
-Node: Fibonacci Numbers Algorithm312106
-Node: Lucas Numbers Algorithm314582
-Node: Random Number Algorithms315304
-Node: Assembler Coding317428
-Node: Assembler Code Organisation318405
-Node: Assembler Basics319378
-Node: Assembler Carry Propagation320537
-Node: Assembler Cache Handling322375
-Node: Assembler Functional Units324543
-Node: Assembler Floating Point326164
-Node: Assembler SIMD Instructions329947
-Node: Assembler Software Pipelining330936
-Node: Assembler Loop Unrolling332004
-Node: Assembler Writing Guide334224
-Node: Internals336994
-Node: Integer Internals337508
-Node: Rational Internals339765
-Node: Float Internals341005
-Node: Raw Output Internals348333
-Node: C++ Interface Internals349528
-Node: Contributors352815
-Node: References361806
-Node: GNU Free Documentation License369549
-Node: Concept Index394715
-Node: Function Index437093
+Node: ABI and ISA25111
+Node: Notes for Package Builds31880
+Node: Notes for Particular Systems35318
+Node: Known Build Problems42750
+Node: Performance optimization44438
+Node: MPIR Basics45574
+Node: Headers and Libraries46225
+Node: Nomenclature and Types47680
+Node: MPIR on Windows x6449601
+Node: Function Classes51528
+Node: Variable Conventions53063
+Node: Parameter Conventions54592
+Node: Memory Management56644
+Node: Reentrancy57776
+Node: Useful Macros and Constants59213
+Node: Compatibility with older versions60404
+Node: Efficiency61441
+Node: Debugging69120
+Node: Profiling75520
+Node: Autoconf79554
+Node: Emacs81428
+Node: Reporting Bugs82037
+Node: Integer Functions84604
+Node: Initializing Integers85383
+Node: Assigning Integers87317
+Node: Simultaneous Integer Init & Assign89096
+Node: Converting Integers90924
+Node: Integer Arithmetic94540
+Node: Integer Division96006
+Node: Integer Exponentiation101911
+Node: Integer Roots102734
+Node: Number Theoretic Functions104521
+Node: Integer Comparisons112578
+Node: Integer Logic and Bit Fiddling113929
+Node: I/O of Integers116489
+Node: Integer Random Numbers119376
+Node: Integer Import and Export121140
+Node: Miscellaneous Integer Functions125127
+Node: Integer Special Functions126973
+Node: Rational Number Functions130144
+Node: Initializing Rationals131339
+Node: Rational Conversions133795
+Node: Rational Arithmetic135527
+Node: Comparing Rationals136832
+Node: Applying Integer Functions138149
+Node: I/O of Rationals139633
+Node: Floating-point Functions141496
+Node: Initializing Floats144387
+Node: Assigning Floats148475
+Node: Simultaneous Float Init & Assign151025
+Node: Converting Floats152537
+Node: Float Arithmetic155760
+Node: Float Comparison157624
+Node: I/O of Floats158952
+Node: Miscellaneous Float Functions161523
+Node: Low-level Functions164156
+Node: Random Number Functions190318
+Node: Random State Initialization191388
+Node: Random State Seeding193441
+Node: Random State Miscellaneous194811
+Node: Formatted Output195403
+Node: Formatted Output Strings195649
+Node: Formatted Output Functions200889
+Node: C++ Formatted Output204966
+Node: Formatted Input207653
+Node: Formatted Input Strings207890
+Node: Formatted Input Functions212552
+Node: C++ Formatted Input215525
+Node: C++ Class Interface217433
+Node: C++ Interface General218431
+Node: C++ Interface Integers221511
+Node: C++ Interface Rationals224897
+Node: C++ Interface Floats228543
+Node: C++ Interface Random Numbers233770
+Node: C++ Interface Limitations235878
+Node: Custom Allocation238724
+Node: Language Bindings243370
+Node: Algorithms247400
+Node: Multiplication Algorithms248105
+Node: Basecase Multiplication249317
+Node: Karatsuba Multiplication251229
+Node: Toom 3-Way Multiplication254859
+Node: Toom 4-Way Multiplication261275
+Node: FFT Multiplication262649
+Node: Other Multiplication268075
+Node: Unbalanced Multiplication270757
+Node: Division Algorithms271653
+Node: Single Limb Division272001
+Node: Basecase Division274921
+Node: Divide and Conquer Division276124
+Node: Exact Division278394
+Node: Exact Remainder281594
+Node: Small Quotient Division283887
+Node: Greatest Common Divisor Algorithms285486
+Node: Binary GCD285778
+Node: Lehmer's GCD288454
+Node: Subquadratic GCD290658
+Node: Extended GCD293112
+Node: Jacobi Symbol293671
+Node: Powering Algorithms294588
+Node: Normal Powering Algorithm294852
+Node: Modular Powering Algorithm295381
+Node: Root Extraction Algorithms296445
+Node: Square Root Algorithm296761
+Node: Nth Root Algorithm298904
+Node: Perfect Square Algorithm299690
+Node: Perfect Power Algorithm301777
+Node: Radix Conversion Algorithms302399
+Node: Binary to Radix302776
+Node: Radix to Binary306707
+Node: Other Algorithms308672
+Node: Prime Testing Algorithm309026
+Node: Factorial Algorithm310253
+Node: Binomial Coefficients Algorithm311690
+Node: Fibonacci Numbers Algorithm312585
+Node: Lucas Numbers Algorithm315061
+Node: Random Number Algorithms315783
+Node: Assembler Coding317907
+Node: Assembler Code Organisation318884
+Node: Assembler Basics319857
+Node: Assembler Carry Propagation321016
+Node: Assembler Cache Handling322854
+Node: Assembler Functional Units325022
+Node: Assembler Floating Point326643
+Node: Assembler SIMD Instructions330426
+Node: Assembler Software Pipelining331415
+Node: Assembler Loop Unrolling332483
+Node: Assembler Writing Guide334703
+Node: Internals337473
+Node: Integer Internals337987
+Node: Rational Internals340244
+Node: Float Internals341484
+Node: Raw Output Internals348812
+Node: C++ Interface Internals350007
+Node: Contributors353294
+Node: References362289
+Node: GNU Free Documentation License370036
+Node: Concept Index395206
+Node: Function Index437803
 
 End Tag Table

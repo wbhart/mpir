@@ -176,8 +176,22 @@ mpn/*.asm
 Makefile
 mpir.h
 config.h
+config.m4
 config.log
 config.status
+libtool
+stamp-h1
+yasm/.deps/
+yasm/configure.gnu
+yasm/configure.lineno
+yasm/libyasm-stdint.h
+yasm/po/Makefile.in
+yasm/po/POTFILES
+yasm/stamp-h1
+yasm_mac.inc
+gmp.h
+longlong.h
+gmp-mparam.h
 
 /build.vc11/output_params.bat
 /build.vc11/mpir-tests/test-config.props
