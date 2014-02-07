@@ -37,6 +37,10 @@ C P4:		 ?
 C P6-15 (Core2): ?
 C P6-28 (Atom):	 ?
 
+C
+C mp_limb_t mpn_add_err2_n (* rp,* up, * vp, * ep, * yp1, * yp2, n, cy)
+C
+
 C INPUT PARAMETERS
 define(`rp',	`%rdi')
 define(`up',	`%rsi')
@@ -62,8 +66,8 @@ ASM_START()
 	TEXT
 	ALIGN(16)
 PROLOGUE(mpn_add_err2_n)
-	mov	cy_param, cy2
-	mov	n_param, n
+	mov	cy_param, cy2    C cy2
+	mov	n_param, n       C n
 
 	push	%rbx
 	push	%rbp
@@ -71,52 +75,52 @@ PROLOGUE(mpn_add_err2_n)
 	push	%r13
 	push	%r14
 
-	xor e1l, e1l
+	xor e1l, e1l        C zero e1l, e1h, e2l, e2h
 	xor e1h, e1h
 	xor e2l, e2l
 	xor e2h, e2h
 
-	sub	yp1, yp2
+	sub	yp1, yp2           C yp2 -= yp1
 
-	lea	(rp,n,8), rp
+	lea	(rp,n,8), rp       C rp += n, up += n, vp += n
 	lea	(up,n,8), up
 	lea	(vp,n,8), vp
 
-	test	$1, n
+	test	$1, n              C if n is odd goto L(odd)
 	jnz	L(odd)
 
-	lea	-8(yp1,n,8), yp1
-	neg	n
+	lea	-8(yp1,n,8), yp1   C { yp1 += n - 1 }
+	neg	n                  C { n = -n }
 	jmp	L(top)
 
 	ALIGN(16)
-L(odd):
-	lea	-16(yp1,n,8), yp1
-	neg	n
-	shr	$1, cy2
+L(odd):                          C n is odd, do extra iteration
+	lea	-16(yp1,n,8), yp1  C yp1 += n - 2
+	neg	n                  C { n = -n }
+	shr	$1, cy2            C rp[0] = up[0] + vp[0] + (cy2&1)
 	mov	(up,n,8), w
 	adc	(vp,n,8), w
-	cmovc	8(yp1), e1l
-	cmovc	8(yp1,yp2), e2l
+	cmovc	8(yp1), e1l        C if carry2 el1 = *(yp1+1)
+	cmovc	8(yp1,yp2), e2l    C if carry2 e2l = *(yp2+1)
 	mov	w, (rp,n,8)
-	sbb	cy2, cy2
-	inc	n
-	jz	L(end)
+	sbb	cy2, cy2           C move carry2 into cy2
+	inc	n                  C n++
+	jz	L(end)             C goto end if we are done
 	
 	ALIGN(16)
 L(top):
-        mov     (up,n,8), w
-	shr     $1, cy2         C restore carry
-	adc  (vp,n,8), w
-	mov     w, (rp,n,8)
+       mov     (up,n,8), w
+	shr     $1, cy2         C restore carry2
+	adc     (vp,n,8), w
+	mov     w, (rp,n,8)     C rp[n] = up[n] + vp[n] + carry2
 	sbb     cy1, cy1        C generate mask, preserve CF
 
-	mov     8(up,n,8), w
-	adc  8(vp,n,8), w
+	mov     8(up,n,8), w    C rp[n] = up[n+1] + vp[n+1] + carry1
+	adc     8(vp,n,8), w
 	mov     w, 8(rp,n,8)
 	sbb     cy2, cy2        C generate mask, preserve CF
 
-	mov     (yp1), w	C (e1h:e1l) += cy1 * yp1 limb
+	mov     (yp1), w	   C (e1h:e1l) += cy1 * yp1 limb
 	and     cy1, w
 	add     w, e1l
 	adc     $0, e1h
@@ -125,7 +129,7 @@ L(top):
 	add     cy1, e2l
 	adc     $0, e2h
 
-	mov     -8(yp1), w	C (e1h:e1l) += cy2 * next yp1 limb
+	mov     -8(yp1), w	       C (e1h:e1l) += cy2 * next yp1 limb
 	and     cy2, w
 	add     w, e1l
 	adc     $0, e1h
@@ -135,12 +139,12 @@ L(top):
 	add     w, e2l
 	adc     $0, e2h
 
-	add     $2, n
-	lea     -16(yp1), yp1
-	jnz     L(top)
+	add     $2, n               C n += 2
+	lea     -16(yp1), yp1       C yp1 -= 2
+	jnz     L(top)              C if not done goto top
 L(end):
 
-	mov	e1l, (ep)
+	mov	e1l, (ep)            C write out e1l, e1h, e2l, e2h
 	mov	e1h, 8(ep)
 	mov	e2l, 16(ep)
 	mov	e2h, 24(ep)

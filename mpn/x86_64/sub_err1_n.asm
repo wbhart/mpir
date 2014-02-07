@@ -37,6 +37,9 @@ C P4:		 ?
 C P6-15 (Core2): ?
 C P6-28 (Atom):	 ?
 
+C ret mpn_sub_err1(mp_ptr rp,mp_ptr up,mp_ptr vp,mp_ptr ep,mp_ptr_t yp,mp_size_t n,mp_limb_t cy)
+C rax                    rdi,      rsi,      rdx,      rcx,         r8           r9       8(rsp)=>r10
+
 C INPUT PARAMETERS
 define(`rp',	`%rdi')
 define(`up',	`%rsi')
@@ -91,7 +94,7 @@ L(odd):                         C n is odd, do extra iteration
 	ALIGN(16)
 L(top):
        mov     (up,n,8), w     C rp[n] = up[n] - vp[n] - borrow
-	shr     $1, %rax        C restore borrow
+	shr     $1, %rax        C { restore borrow }
 	sbb     (vp,n,8), w
 	mov     $0, t1          C initialise t1
 	mov     w, (rp,n,8)
@@ -100,13 +103,13 @@ L(top):
 	cmovc   (yp), t0        C if borrow t0 = yp
 	sbb     8(vp,n,8), w
 	cmovc   -8(yp), t1      C if next borrow t1 = *(yp-1)
-	setc    %al             C save carry
+	setc    %al             C { save borrow }
 	add     t0, el          C (eh:el) += borrow*yp limb
 	adc     $0, eh
 	add     t1, el          C (eh:el) += next borrow*next yp limb
 	mov     w, 8(rp,n,8)
 	adc     $0, eh
-	add     $2, n
+	add     $2, n           C n += 2
 	lea     -16(yp), yp     C yp -= 2
 	jnz     L(top)          C if not done goto top
 
