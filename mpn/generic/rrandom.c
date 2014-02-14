@@ -31,7 +31,7 @@ static void gmp_rrandomb _PROTO ((mp_ptr rp, gmp_randstate_t rstate, mpir_ui nbi
 
 /* Ask _gmp_rand for 32 bits per call unless that's more than a limb can hold.
    Thus, we get the same random number sequence in the common cases.
-   FIXME: We should always generate the same random number sequence!  */
+   FIXME: We should always generate the same random number sequence! */
 #if GMP_NUMB_BITS < 32
 #define BITS_PER_RANDCALL GMP_NUMB_BITS
 #else
@@ -42,16 +42,16 @@ void
 mpn_rrandom (mp_ptr rp, gmp_randstate_t rnd, mp_size_t n)
 {
   int bit_pos;			/* bit number of least significant bit where
-				   next bit field to be inserted */
-  mp_limb_t ran, ranm;		/* buffer for random bits */
+				            next bit field to be inserted */
+  mp_limb_t ran, ranm; /* buffer for random bits */
 
-  /* FIXME: Is n==0 supposed to be allowed? */
+  /* FIXME: Is n == 0 supposed to be allowed? */
   ASSERT (n >= 0);
 
   _gmp_rand (&ranm, rnd, BITS_PER_RANDCALL);
   ran = ranm;
 
-  /* Start off at a random bit position in the most significant limb.  */
+  /* Start off at a random bit position in the most significant limb. */
   bit_pos = ran % GMP_NUMB_BITS;
 
   gmp_rrandomb (rp, rnd, n * GMP_NUMB_BITS - bit_pos);
@@ -61,7 +61,7 @@ static void
 gmp_rrandomb (mp_ptr rp, gmp_randstate_t rstate, mpir_ui nbits)
 {
   mpir_ui bi;
-  mp_limb_t ranm;		/* buffer for random bits */
+  mp_limb_t ranm; /* buffer for random bits */
   unsigned cap_chunksize, chunksize;
   mp_size_t i;
 
@@ -95,6 +95,6 @@ gmp_rrandomb (mp_ptr rp, gmp_randstate_t rstate, mpir_ui nbits)
       mpn_incr_u (rp + bi / GMP_NUMB_BITS, CNST_LIMB (1) << bi % GMP_NUMB_BITS);
 
       if (bi == 0)
-	break;			/* low chunk is ...0 */
+	break; /* low chunk is ...0 */
     }
 }

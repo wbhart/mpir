@@ -23,11 +23,17 @@ Boston, MA 02110-1301, USA.
 #include "gmp-impl.h"
 #include "longlong.h"
 
-mp_limb_t mpn_rsh_divrem_hensel_qr_1(mp_ptr qp, mp_srcptr xp, mp_size_t n, mp_limb_t d,int s,mp_limb_t cin)
+mp_limb_t mpn_rsh_divrem_hensel_qr_1(mp_ptr qp, mp_srcptr xp, 
+                               mp_size_t n, mp_limb_t d, int s, mp_limb_t cin)
 {
-ASSERT(n>0);ASSERT(s>=0);
-ASSERT_MPN(xp,n);
-ASSERT(MPN_SAME_OR_SEPARATE_P(qp,xp,n));
-ASSERT(d%2==1);
-if(BELOW_THRESHOLD(n,RSH_DIVREM_HENSEL_QR_1_THRESHOLD))return mpn_rsh_divrem_hensel_qr_1_1(qp,xp,n,d,s,cin);
-return mpn_rsh_divrem_hensel_qr_1_2(qp,xp,n,d,s,cin);}
+   ASSERT(n > 0);
+   ASSERT(s >= 0);
+   ASSERT_MPN(xp, n);
+   ASSERT(MPN_SAME_OR_SEPARATE_P(qp, xp, n));
+   ASSERT(d%2 == 1);
+
+   if (BELOW_THRESHOLD(n, RSH_DIVREM_HENSEL_QR_1_THRESHOLD))
+      return mpn_rsh_divrem_hensel_qr_1_1(qp, xp, n, d, s, cin);
+
+   return mpn_rsh_divrem_hensel_qr_1_2(qp, xp, n, d, s, cin);
+}

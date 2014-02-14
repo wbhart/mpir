@@ -24,21 +24,36 @@
 #include "gmp-impl.h"
 #include "longlong.h"
 
-mp_limb_t	mpn_divexact_by3c(mp_ptr qp,mp_srcptr xp,mp_size_t n,mp_limb_t ci)
-{mp_size_t j;mp_limb_t c,m,acc,ax,dx;
+/* (xp, n) = (qp, n)*3 - ret*B^n and 0 <= ret < 3 */
+mp_limb_t mpn_divexact_by3c(mp_ptr qp, mp_srcptr xp, mp_size_t n, mp_limb_t ci)
+{
+   mp_size_t j;
+   mp_limb_t c, m, acc, ax, dx;
 
-ASSERT(n>0);
-ASSERT_MPN(xp,n);
-ASSERT(MPN_SAME_OR_SEPARATE_P(qp,xp,n));
-m=0;m=~m;m=m/3;// m=(B-1)/3
-acc=ci*m;
-for(j=0;j<=n-1;j++)
-   {umul_ppmm(dx,ax,xp[j],m);
-    SUBC_LIMB(c,acc,acc,ax);
-    qp[j]=acc;
-    acc-=dx+c;}
-// return next quotient*-3    
-return acc*-3;}   // so  (xp,n) = (qp,n)*3 -ret*B^n    and 0 <= ret < 3
+   ASSERT(n > 0);
+   ASSERT_MPN(xp, n);
+   ASSERT(MPN_SAME_OR_SEPARATE_P(qp, xp, n));
+
+   m = 0;
+   m = ~m;
+   m = m/3; /* m = (B - 1)/3 */
+
+   acc = ci*m;
+
+   for (j = 0; j <= n - 1; j++)
+   {
+      umul_ppmm(dx, ax, xp[j], m);
+    
+      SUBC_LIMB(c, acc, acc, ax);
+    
+      qp[j] = acc;
+      acc -= dx + c;
+   }
+
+   /* return next quotient*(-3) */    
+
+   return acc*(-3);
+}   
 
 
 

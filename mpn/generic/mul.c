@@ -8,6 +8,7 @@
 
 Copyright 1991, 1993, 1994, 1996, 1997, 1999, 2000, 2001, 2002, 2003, 2005
 Free Software Foundation, Inc.
+
 Copyright William Hart 2009
 
 This file is part of the GNU MP Library.

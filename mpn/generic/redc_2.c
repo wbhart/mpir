@@ -27,7 +27,7 @@ along with the GNU MP Library.  If not, see http://www.gnu.org/licenses/.  */
 
 
 #if GMP_NAIL_BITS != 0
-you lose
+#error not supported
 #endif
 
 /* For testing purposes, define our own mpn_addmul_2 if there is none already

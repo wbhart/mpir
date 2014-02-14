@@ -37,5 +37,5 @@ mpn_mullow_n_basecase (mp_ptr rp, mp_srcptr up, mp_srcptr vp, mp_size_t n)
   mpn_mul_1 (rp, up, n, vp[0]);
 
   for (i = 1; i < n; i++)
-    mpn_addmul_1 (rp + i, up, n - i, vp[i]);
+     mpn_addmul_1(rp + i, up, n - i, vp[i]);
 }

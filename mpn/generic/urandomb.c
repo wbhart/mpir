@@ -23,4 +23,6 @@ Boston, MA 02110-1301, USA.
 #include "gmp-impl.h"
 
 void mpn_urandomb(mp_ptr rp, gmp_randstate_t rnd, mpir_ui n)
-{_gmp_rand(rp,rnd,n);return;}
+{
+   _gmp_rand(rp, rnd, n);
+}

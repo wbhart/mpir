@@ -25,22 +25,31 @@ dnl  Boston, MA 02110-1301, USA.
 #include "gmp-impl.h"
 #include "longlong.h"
 
-void mpn_mod_1_1(mp_ptr rem,mp_srcptr xp,mp_size_t xn,mp_srcptr db)// in each round we hack off a limb from the body , ie k=1
-{mp_limb_t h,l,sh,sl;
- mp_size_t j;
+/* in each round we remove one limb from the body, i.e. k = 1 */
+void mpn_mod_1_1(mp_ptr rem, mp_srcptr xp, mp_size_t xn, mp_srcptr db)
+{
+   mp_limb_t h, l, sh, sl;
+   mp_size_t j;
  
-ASSERT(xn>=3);
-ASSERT_MPN(xp,xn);
-ASSERT_LIMB(db[0]);ASSERT_LIMB(db[1]);
+   ASSERT(xn >= 3);
+   ASSERT_MPN(xp, xn);
+   ASSERT_LIMB(db[0]);
+   ASSERT_LIMB(db[1]);
 
-h=xp[xn-1];l=xp[xn-2];
-for(j=xn-3;j>=0;j--)
-   {umul_ppmm(sh,sl,l,db[0]);
-    add_ssaaaa(sh,sl,sh,sl,0,xp[j]);
-    umul_ppmm(h,l,h,db[1]);
-    add_ssaaaa(h,l,h,l,sh,sl);}
-umul_ppmm(sh,sl,h,db[0]);
-add_ssaaaa(sh,sl,sh,sl,0,l);
-//ASSERT(sh<d);
-rem[0]=sl;rem[1]=sh;
-return;}
+   h = xp[xn - 1];
+   l = xp[xn - 2];
+
+   for (j = xn - 3; j >= 0; j--)
+   {
+      umul_ppmm(sh, sl, l, db[0]);
+      add_ssaaaa(sh, sl, sh, sl, 0, xp[j]);
+      umul_ppmm(h, l, h, db[1]);
+      add_ssaaaa(h, l, h, l, sh, sl);
+   }
+
+   umul_ppmm(sh, sl, h, db[0]);
+   add_ssaaaa(sh, sl, sh, sl, 0, l);
+
+   rem[0] = sl;
+   rem[1] = sh;
+}

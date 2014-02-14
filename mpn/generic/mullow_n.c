@@ -39,33 +39,42 @@ mpn_mullow_n (mp_ptr rp, mp_srcptr xp, mp_srcptr yp, mp_size_t n)
   ASSERT_MPN (yp, n);
   ASSERT (!MPN_OVERLAP_P (rp, 2 * n, xp, n));
   ASSERT (!MPN_OVERLAP_P (rp, 2 * n, yp, n));
+
   if (BELOW_THRESHOLD (n, MULLOW_BASECASE_THRESHOLD))
     {
       mpn_mul_basecase (rp, xp, n, yp, n);
       return;
     }
+
   if (BELOW_THRESHOLD (n, MULLOW_DC_THRESHOLD))
     {
       mpn_mullow_n_basecase (rp, xp, yp, n);
       return;
     }
+  
   if (ABOVE_THRESHOLD (n, MULLOW_MUL_THRESHOLD))
     {
       mpn_mul_n (rp, xp, yp, n);
       return;
     }
-//choose optimal  m st n/2 <= m <= n   , choosing m==n is same as above
+
+  /* choose optimal m st n/2 <= m <= n, choosing m == n is same as above */
   m = n * 87 / 128;
+
   if (2 * m < n)
     m = n - n / 2;
+  
   if (m > n)
     m = n;
+  
   ASSERT (n / 2 <= m);
   ASSERT (m <= n);
-  mpn_mul_n (rp, xp, yp, m);
-  mpn_mullow_n (rp + 2 * m, xp, yp + m, n - m);
-  mpn_add_n (rp + m, rp + m, rp + 2 * m, n - m);
-  mpn_mullow_n (rp + 2 * m, xp + m, yp, n - m);
-  mpn_add_n (rp + m, rp + m, rp + 2 * m, n - m);
+  
+  mpn_mul_n(rp, xp, yp, m);
+  mpn_mullow_n(rp + 2 * m, xp, yp + m, n - m);
+  mpn_add_n(rp + m, rp + m, rp + 2 * m, n - m);
+  mpn_mullow_n(rp + 2 * m, xp + m, yp, n - m);
+  mpn_add_n(rp + m, rp + m, rp + 2 * m, n - m);
+  
   return;
 }

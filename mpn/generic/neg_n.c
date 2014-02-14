@@ -25,10 +25,15 @@ to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 #include "mpir.h"
 #include "gmp-impl.h"
 
-// macro this 
-// or use asm if we can get the loop running at same speed as a com_n , then we only make one pass over the data
+/* 
+   macro this or use asm if we can get the loop running at same speed as a 
+   com_n, then we only make one pass over the data.
+*/
 
 mp_limb_t
 mpn_neg_n(mp_ptr rp, mp_srcptr up, mp_size_t n)
-{mpn_com_n(rp,up,n);
-return 1-mpn_add_1(rp,rp,n,1);}
+{
+   mpn_com_n(rp, up, n);
+
+   return 1 - mpn_add_1(rp, rp, n, 1);
+}

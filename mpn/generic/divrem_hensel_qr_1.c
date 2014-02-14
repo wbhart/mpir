@@ -23,12 +23,16 @@ Boston, MA 02110-1301, USA.
 #include "gmp-impl.h"
 #include "longlong.h"
 
+/* (xp, n) = (qp, n)*d - ret*B^n and 0 <= ret < d */
 mp_limb_t mpn_divrem_hensel_qr_1(mp_ptr qp, mp_srcptr xp, mp_size_t n, mp_limb_t d)
 {
-ASSERT(n>0);
-ASSERT_MPN(xp,n);
-ASSERT(MPN_SAME_OR_SEPARATE_P(qp,xp,n));
-ASSERT(d%2==1);
-if(BELOW_THRESHOLD(n,DIVREM_HENSEL_QR_1_THRESHOLD))return mpn_divrem_hensel_qr_1_1(qp,xp,n,d);
-return mpn_divrem_hensel_qr_1_2(qp,xp,n,d);}
-// so  (xp,n) = (qp,n)*d -ret*B^n    and 0 <= ret < d
+   ASSERT(n > 0);
+   ASSERT_MPN(xp, n);
+   ASSERT(MPN_SAME_OR_SEPARATE_P(qp, xp, n));
+   ASSERT(d%2 == 1);
+
+   if (BELOW_THRESHOLD(n, DIVREM_HENSEL_QR_1_THRESHOLD))
+      return mpn_divrem_hensel_qr_1_1(qp, xp, n, d);
+
+   return mpn_divrem_hensel_qr_1_2(qp, xp, n, d);
+}

@@ -25,7 +25,7 @@ dnl  Boston, MA 02110-1301, USA.
 #include "gmp-impl.h"
 
 /*
-	where (xp,n) = (qp,n)*(B-1) -ret*B^n    and 0 <= ret < B-1      B=2^GMP_NUMB_BITS
+	Where (xp,n) = (qp, n)*(B - 1) - ret*B^n and 0 <= ret < B - 1, B = 2^GMP_NUMB_BITS
 	
 	This is the standard divexact algorithm with simplifications for the divisior B-1
 */
@@ -38,6 +38,7 @@ mpn_divexact_byff (mp_ptr qp, mp_srcptr xp, mp_size_t n)
   ASSERT (n > 0);
   ASSERT_MPN (xp, n);
   ASSERT (MPN_SAME_OR_SEPARATE_P (qp, xp, n));
+
   a = 0;
   for (j = 0; j <= n - 1; j++)
     {

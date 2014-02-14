@@ -40,8 +40,8 @@ along with the GNU MP Library.  If not, see http://www.gnu.org/licenses/.  */
    Stores q at qp. Stores the n least significant limbs of r at the high half
    of np, and returns the borrow from the subtraction n - q*d.
 
-   d must be odd. dinv is d^-1 mod 2^GMP_NUMB_BITS. */
-
+   d must be odd. dinv is d^-1 mod 2^GMP_NUMB_BITS. 
+*/
 mp_limb_t
 mpn_dc_bdiv_qr (mp_ptr qp, mp_ptr np, mp_size_t nn,
 		   mp_srcptr dp, mp_size_t dn, mp_limb_t dinv)

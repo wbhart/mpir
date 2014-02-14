@@ -36,123 +36,248 @@ MA 02110-1301, USA. */
 
 
 #if ! HAVE_NATIVE_mpn_karasub && HAVE_NATIVE_mpn_addsub_n
-static void	mpn_karasub(mp_ptr rp,mp_ptr tp,mp_size_t n)
-{mp_size_t n2,n3;mp_limb_t c1=0,c2,c3,top[2];
 
-n2=n>>1;n3=n-n2;
-c2=mpn_addsub_n(tp,rp,rp+2*n2,tp,2*n2);
-//if(n3!=n2)c1=mpn_sub_n(tp+2*n2,rp+4*n2,tp+2*n2,2);
-c3=mpn_add_n(rp+n2,rp+n2,tp,2*n2);//c3=mpn_add_n(rp+n2,rp+n2,tp,2*n3);
-top[1]=rp[2*n2+2*n3-1];top[0]=rp[2*n2+2*n3-2];
-mpn_incr_u(rp+3*n2,c3);//mpn_incr_u(rp+n2+2*n3,c3);
-if(c2==1)mpn_incr_u(rp+3*n2,1);
-if(c2==-1)mpn_decr_u(rp+3*n2,1);
-//mpn_decr_u(rp+n2+2*n3,c1);
-if(n2==n3)return;
-c1=mpn_sub_n(rp+3*n2,rp+3*n2,tp+2*n2,2);
-c2=mpn_add_n(rp+3*n2,rp+3*n2,top,2);
-if(c2==1 && c1==0)mpn_incr_u(rp+3*n2+2,1);
-if(c2==0 && c1==1)mpn_decr_u(rp+3*n2+2,1);
-return;}
+static void	mpn_karasub(mp_ptr rp, mp_ptr tp, mp_size_t n)
+{
+   mp_size_t n2, n3;
+   mp_limb_t c1 = 0, c2, c3, top[2];
+
+   n2 = n>>1;
+   n3 = n - n2;
+
+   c2 = mpn_addsub_n(tp, rp, rp + 2*n2, tp, 2*n2);
+   c3 = mpn_add_n(rp + n2, rp + n2, tp, 2*n2);
+
+   top[1] = rp[2*n2 + 2*n3 - 1];
+   top[0] = rp[2*n2 + 2*n3 - 2];
+
+   mpn_incr_u(rp + 3*n2, c3);
+
+   if (c2 == 1) mpn_incr_u(rp + 3*n2, 1);
+   if (c2 == -1) mpn_decr_u(rp + 3*n2, 1);
+
+   if (n2 == n3) 
+      return;
+
+   c1=mpn_sub_n(rp + 3*n2, rp + 3*n2, tp + 2*n2, 2);
+   c2=mpn_add_n(rp + 3*n2, rp + 3*n2, top, 2);
+
+   if(c2 == 1 && c1 == 0) mpn_incr_u(rp + 3*n2 + 2, 1);
+   if(c2 == 0 && c1 == 1) mpn_decr_u(rp + 3*n2 + 2, 1);
+}
 #endif
 
 #if ! HAVE_NATIVE_mpn_karaadd && HAVE_NATIVE_mpn_addadd_n
-static void	mpn_karaadd(mp_ptr rp,mp_ptr tp,mp_size_t n)
-{mp_size_t n2,n3;mp_limb_t c1=0,c2,c3;
 
-n2=n>>1;n3=n-n2;
-c2=mpn_addadd_n(tp,rp,rp+2*n2,tp,2*n2);
-if(n3!=n2)c1=mpn_add_n(tp+2*n2,rp+4*n2,tp+2*n2,2);
-c3=mpn_add_n(rp+n2,rp+n2,tp,2*n3);
-mpn_incr_u(rp+n2+2*n3,c3+c1);
-mpn_incr_u(rp+n2+2*n2,c2);
-//mpn_incr_u(rp+n2+2*n3,c1);
-return;}
+static void	mpn_karaadd(mp_ptr rp, mp_ptr tp, mp_size_t n)
+{
+   mp_size_t n2, n3;
+   mp_limb_t c1 = 0, c2, c3;
+
+   n2 = n>>1;
+   n3 = n - n2;
+
+   c2 = mpn_addadd_n(tp, rp, rp + 2*n2, tp, 2*n2);
+
+   if (n3 != n2) c1 = mpn_add_n(tp + 2*n2, rp + 4*n2, tp + 2*n2, 2);
+
+   c3 = mpn_add_n(rp + n2, rp + n2, tp, 2*n3);
+
+   mpn_incr_u(rp + n2 + 2*n3, c3 + c1);
+   mpn_incr_u(rp + n2 + 2*n2, c2);
+}
 #endif
 
 #if ! HAVE_NATIVE_mpn_karasub && ! HAVE_NATIVE_mpn_addsub_n
-static void	mpn_karasub(mp_ptr rp,mp_ptr tp,mp_size_t n)
-{mp_size_t n2,n3;mp_limb_t c1,c2,c3,top[2];
 
-n2=n>>1;n3=n-n2;
-c1=mpn_sub_n(tp,rp+2*n2,tp,2*n2);//c1=mpn_sub_n(tp,rp+2*n2,tp,2*n3);
-c2=mpn_add_n(tp,tp,rp,2*n2);
-c3=mpn_add_n(rp+n2,rp+n2,tp,2*n2);//c3=mpn_add_n(rp+n2,rp+n2,tp,2*n3);
-top[1]=rp[2*n2+2*n3-1];top[0]=rp[2*n2+2*n3-2];
-mpn_incr_u(rp+3*n2,c3);//mpn_incr_u(rp+n2+2*n3,c3);
-mpn_incr_u(rp+3*n2,c2);
-mpn_decr_u(rp+3*n2,c1);//mpn_decr_u(rp+n2+2*n3,c1);
-if(n2==n3)return;
-c1=mpn_sub_n(rp+3*n2,rp+3*n2,tp+2*n2,2);
-c2=mpn_add_n(rp+3*n2,rp+3*n2,top,2);
-if(c2==1 && c1==0)mpn_incr_u(rp+3*n2+2,1);
-if(c2==0 && c1==1)mpn_decr_u(rp+3*n2+2,1);
-return;}
+static void	mpn_karasub(mp_ptr rp, mp_ptr tp, mp_size_t n)
+{
+   mp_size_t n2, n3;
+   mp_limb_t c1, c2, c3, top[2];
+
+   n2 = n>>1;
+   n3 = n - n2;
+
+   c1 = mpn_sub_n(tp, rp + 2*n2, tp, 2*n2);
+   c2 = mpn_add_n(tp, tp, rp, 2*n2);
+   c3 = mpn_add_n(rp + n2, rp + n2, tp, 2*n2);
+
+   top[1] = rp[2*n2 + 2*n3 - 1];
+   top[0] = rp[2*n2 + 2*n3 - 2];
+
+   mpn_incr_u(rp + 3*n2, c3);
+   mpn_incr_u(rp + 3*n2, c2);
+   mpn_decr_u(rp + 3*n2, c1);
+
+   if(n2 == n3)
+      return;
+
+   c1 = mpn_sub_n(rp + 3*n2, rp + 3*n2, tp + 2*n2, 2);
+   c2 = mpn_add_n(rp + 3*n2, rp + 3*n2, top, 2);
+
+   if(c2 == 1 && c1 == 0) mpn_incr_u(rp + 3*n2 + 2, 1);
+   if(c2 == 0 && c1 == 1) mpn_decr_u(rp + 3*n2 + 2, 1);
+}
 #endif
 
 #if ! HAVE_NATIVE_mpn_karaadd && ! HAVE_NATIVE_mpn_addadd_n
-static void	mpn_karaadd(mp_ptr rp,mp_ptr tp,mp_size_t n)
-{mp_size_t n2,n3;mp_limb_t c1,c2,c3;
 
-n2=n>>1;n3=n-n2;
-c1=mpn_add_n(tp,rp+2*n2,tp,2*n3);
-c2=mpn_add_n(tp,tp,rp,2*n2);
-c3=mpn_add_n(rp+n2,rp+n2,tp,2*n3);
-mpn_incr_u(rp+n2+2*n3,c3+c1);
-mpn_incr_u(rp+n2+2*n2,c2);
-//mpn_incr_u(rp+n2+2*n3,c1);
-return;}
+static void	mpn_karaadd(mp_ptr rp, mp_ptr tp, mp_size_t n)
+{
+   mp_size_t n2, n3;
+   mp_limb_t c1, c2, c3;
+
+   n2 = n>>1;
+   n3 = n - n2;
+
+   c1 = mpn_add_n(tp, rp + 2*n2, tp, 2*n3);
+   c2 = mpn_add_n(tp, tp, rp, 2*n2);
+   c3 = mpn_add_n(rp + n2, rp + n2, tp, 2*n3);
+   
+   mpn_incr_u(rp + n2 + 2*n3, c3 + c1);
+   mpn_incr_u(rp + n2 + 2*n2, c2);
+}
 #endif
 
-// (rp,2n)=(xp,n)*(yp,n) with temp space (tp,2*n+C)
-void	mpn_kara_mul_n(mp_ptr rp,mp_srcptr xp,mp_srcptr yp,mp_size_t n,mp_ptr tp)
-{mp_size_t n2,n3;mp_srcptr xl,yl,xh,yh;mp_ptr dx,dy;int suboradd;mp_limb_t c;
+/* (rp, 2n) = (xp, n)*(yp, n) with temp space (tp, 2*n + C) */
+void	mpn_kara_mul_n(mp_ptr rp, mp_srcptr xp, mp_srcptr yp, mp_size_t n, mp_ptr tp)
+{
+   mp_size_t n2, n3;
+   mp_srcptr xl, yl, xh, yh;
+   mp_ptr dx, dy;
+   int suboradd;
+   mp_limb_t c;
 
-n2=n>>1;suboradd=-1;
-xl=xp;xh=xp+n2;yl=yp;yh=yp+n2;n3=n-n2;
-dx=rp+2*n2;dy=dx+n3;
-if((n&1)==0)
-  {if(mpn_cmp(xh,xl,n2)>=0){mpn_sub_n(dx,xh,xl,n2);}else{mpn_sub_n(dx,xl,xh,n2);suboradd=-suboradd;}
-   if(mpn_cmp(yh,yl,n2)>=0){mpn_sub_n(dy,yh,yl,n2);}else{mpn_sub_n(dy,yl,yh,n2);suboradd=-suboradd;}}
-else
-  {if(xh[n2]!=0 || mpn_cmp(xh,xl,n2)>=0){c=mpn_sub_n(dx,xh,xl,n2);dx[n2]=xh[n2]-c;}else{mpn_sub_n(dx,xl,xh,n2);dx[n2]=0;suboradd=-suboradd;}
-   if(yh[n2]!=0 || mpn_cmp(yh,yl,n2)>=0){c=mpn_sub_n(dy,yh,yl,n2);dy[n2]=yh[n2]-c;}else{mpn_sub_n(dy,yl,yh,n2);dy[n2]=0;suboradd=-suboradd;}}
-if(BELOW_THRESHOLD(n3,MUL_KARATSUBA_THRESHOLD))
-  {mpn_mul_basecase(rp,xl,n2,yl,n2);
-   mpn_mul_basecase(tp,dx,n3,dy,n3);
-   mpn_mul_basecase(rp+2*n2,xh,n3,yh,n3);}
-else
-  {mpn_kara_mul_n(rp,xl,yl,n2,tp+2*n3);
-   mpn_kara_mul_n(tp,dx,dy,n3,tp+2*n3);   
-   mpn_kara_mul_n(rp+2*n2,xh,yh,n3,tp+2*n3);}
-if(suboradd==-1){mpn_karasub(rp,tp,n);}else{mpn_karaadd(rp,tp,n);}
-return;}
+   n2 = n>>1;
+   suboradd = -1;
+   xl = xp;
+   xh = xp + n2;
+   yl = yp;
+   yh = yp + n2;
+   n3 = n - n2;
+   dx = rp + 2*n2;
+   dy = dx + n3;
 
-// (rp,2n)=(xp,n)^2 with temp space (tp,2*n+C)
-void	mpn_kara_sqr_n(mp_ptr rp,mp_srcptr xp,mp_size_t n,mp_ptr tp)
-{mp_size_t n2,n3;mp_srcptr xl,xh;mp_ptr dx;mp_limb_t c;
+   if ((n&1) == 0)
+   {
+      if (mpn_cmp(xh, xl, n2) >= 0)
+         mpn_sub_n(dx, xh, xl, n2);
+      else
+      {
+         mpn_sub_n(dx, xl, xh, n2);
+         suboradd = -suboradd;
+      }
+      
+      if (mpn_cmp(yh, yl, n2) >= 0)
+         mpn_sub_n(dy, yh, yl, n2);
+      else
+      {
+         mpn_sub_n(dy, yl, yh, n2);
+         suboradd = -suboradd;
+      }
+   }
+   else
+   {
+      if (xh[n2] !=0 || mpn_cmp(xh, xl, n2) >= 0)
+      {
+         c = mpn_sub_n(dx, xh, xl, n2);
+         dx[n2] = xh[n2] - c;
+      }
+      else
+      {
+         mpn_sub_n(dx, xl, xh, n2);
+         dx[n2] = 0;
+         suboradd = -suboradd;
+      }
+      
+      if (yh[n2] != 0 || mpn_cmp(yh, yl, n2) >= 0)
+      {
+         c = mpn_sub_n(dy, yh, yl, n2);
+         dy[n2] = yh[n2] - c;
+      }
+      else
+      {
+         mpn_sub_n(dy, yl, yh, n2);
+         dy[n2] = 0;
+         suboradd = -suboradd;
+      }
+   }
 
-n2=n>>1;
-xl=xp;xh=xp+n2;n3=n-n2;
-dx=rp+2*n2;
-if((n&1)==0)
-  {if(mpn_cmp(xh,xl,n2)>=0){mpn_sub_n(dx,xh,xl,n2);}else{mpn_sub_n(dx,xl,xh,n2);}}
-else
-  {if(xh[n2]!=0 || mpn_cmp(xh,xl,n2)>=0){c=mpn_sub_n(dx,xh,xl,n2);dx[n2]=xh[n2]-c;}else{mpn_sub_n(dx,xl,xh,n2);dx[n2]=0;}}
-if(BELOW_THRESHOLD(n3,MUL_KARATSUBA_THRESHOLD))
-  {mpn_mul_basecase(rp,xl,n2,xl,n2);
-   mpn_mul_basecase(tp,dx,n3,dx,n3);
-   mpn_mul_basecase(rp+2*n2,xh,n3,xh,n3);}
-else if(BELOW_THRESHOLD(n3,SQR_KARATSUBA_THRESHOLD))
-  {mpn_sqr_basecase(rp,xl,n2);
-   mpn_sqr_basecase(tp,dx,n3);
-   mpn_sqr_basecase(rp+2*n2,xh,n3);}
-else
-  {mpn_kara_sqr_n(rp,xl,n2,tp+2*n3);
-   mpn_kara_sqr_n(tp,dx,n3,tp+2*n3);   
-   mpn_kara_sqr_n(rp+2*n2,xh,n3,tp+2*n3);}
-mpn_karasub(rp,tp,n);
-return;}
+   if (BELOW_THRESHOLD(n3, MUL_KARATSUBA_THRESHOLD))
+   {
+      mpn_mul_basecase(rp, xl, n2, yl, n2);
+      mpn_mul_basecase(tp, dx, n3, dy, n3);
+      mpn_mul_basecase(rp + 2*n2, xh, n3, yh, n3);
+   }
+   else
+   {
+      mpn_kara_mul_n(rp, xl, yl, n2, tp + 2*n3);
+      mpn_kara_mul_n(tp, dx, dy, n3, tp + 2*n3);   
+      mpn_kara_mul_n(rp + 2*n2, xh, yh, n3, tp + 2*n3);
+   }
+
+   if (suboradd == -1)
+      mpn_karasub(rp, tp, n);
+   else
+      mpn_karaadd(rp, tp, n);
+}
+
+/* (rp, 2n) = (xp, n)^2 with temp space (tp, 2*n + C) */
+void mpn_kara_sqr_n(mp_ptr rp, mp_srcptr xp, mp_size_t n, mp_ptr tp)
+{
+   mp_size_t n2, n3;
+   mp_srcptr xl, xh;
+   mp_ptr dx;
+   mp_limb_t c;
+
+   n2 = n>>1;
+   xl = xp;
+   xh = xp + n2;
+   n3 = n - n2;
+   dx = rp + 2*n2;
+
+   if ((n&1) == 0)
+   {
+      if (mpn_cmp(xh, xl, n2) >=0)
+         mpn_sub_n(dx, xh, xl, n2);
+      else
+         mpn_sub_n(dx, xl, xh, n2);
+   }
+   else
+   {
+      if (xh[n2] != 0 || mpn_cmp(xh, xl, n2) >= 0)
+      {
+         c = mpn_sub_n(dx, xh, xl, n2);
+         dx[n2] = xh[n2] - c;
+      }
+      else
+      {
+         mpn_sub_n(dx, xl, xh, n2);
+         dx[n2] = 0;
+      }
+   }
+
+   if (BELOW_THRESHOLD(n3, MUL_KARATSUBA_THRESHOLD))
+   {
+      mpn_mul_basecase(rp, xl, n2, xl, n2);
+      mpn_mul_basecase(tp, dx, n3, dx, n3);
+      mpn_mul_basecase(rp + 2*n2, xh, n3, xh, n3);
+   }
+   else if (BELOW_THRESHOLD(n3, SQR_KARATSUBA_THRESHOLD))
+   {
+      mpn_sqr_basecase(rp, xl, n2);
+      mpn_sqr_basecase(tp, dx, n3);
+      mpn_sqr_basecase(rp + 2*n2, xh, n3);
+   }
+   else
+   {
+      mpn_kara_sqr_n(rp, xl, n2, tp + 2*n3);
+      mpn_kara_sqr_n(tp, dx, n3, tp + 2*n3);   
+      mpn_kara_sqr_n(rp + 2*n2, xh, n3, tp + 2*n3);
+   }
+
+   mpn_karasub(rp, tp, n);
+}
 
 void
 mpn_mul_n (mp_ptr p, mp_srcptr a, mp_srcptr b, mp_size_t n)
@@ -217,7 +342,8 @@ mpn_sqr (mp_ptr p, mp_srcptr a, mp_size_t n)
 #endif
 
   if (BELOW_THRESHOLD (n, SQR_BASECASE_THRESHOLD))
-    { /* mul_basecase is faster than sqr_basecase on small sizes sometimes */
+    { 
+      /* mul_basecase is faster than sqr_basecase on small sizes sometimes */
       mpn_mul_basecase (p, a, n, a, n);
     }
   else if (BELOW_THRESHOLD (n, SQR_KARATSUBA_THRESHOLD))

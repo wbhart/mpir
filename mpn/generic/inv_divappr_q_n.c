@@ -57,7 +57,7 @@ mpn_inv_divappr_q_n(mp_ptr qp, mp_ptr np,
       Let X = B^dn + inv, D = { dp, dn }, N = { np, 2*dn }, then
       DX < B^{2*dn} <= D(X+1), thus
       Let N' = { np + n - 1, n + 1 }
-	  N'X/B^{dn+1} < B^{dn-1}N'/D <= N'X/B^{dn+1} + N'/B^{dn+1} < N'X/B^{dn+1} + 1
+	   N'X/B^{dn+1} < B^{dn-1}N'/D <= N'X/B^{dn+1} + N'/B^{dn+1} < N'X/B^{dn+1} + 1
       N'X/B^{dn+1} < N/D <=  N'X/B^{dn+1} + 1 + 2/B
       There is either one integer in this range, or two. However, in the latter case
 	  the left hand bound is either an integer or < 2/B below one.
@@ -73,19 +73,22 @@ mpn_inv_divappr_q_n(mp_ptr qp, mp_ptr np,
    {
 	   /* Special case, multiply out to get accurate quotient */
 	   ret -= mpn_sub_1(qp, qp, dn, 1);
-       if (UNLIKELY(ret == ~CNST_LIMB(0)))
-          ret += mpn_add_1(qp, qp, dn, 1);
-       /* ret is now guaranteed to be 0*/
-       ASSERT(ret == 0);
-       mpn_mul_n(tp, qp, dp, dn);
-       mpn_sub_n(tp, np, tp, dn+1);
-       while (tp[dn] || mpn_cmp(tp, dp, dn) >= 0)
+      if (UNLIKELY(ret == ~CNST_LIMB(0)))
+         ret += mpn_add_1(qp, qp, dn, 1);
+      
+      /* ret is now guaranteed to be 0 */
+      ASSERT(ret == 0);
+       
+      mpn_mul_n(tp, qp, dp, dn);
+      mpn_sub_n(tp, np, tp, dn+1);
+      while (tp[dn] || mpn_cmp(tp, dp, dn) >= 0)
 	   {
 		   ret += mpn_add_1(qp, qp, dn, 1);
 		   tp[dn] -= mpn_sub_n(tp, tp, dp, dn);
 	   }
-       /* Not possible for ret == 2 as we have qp*dp <= np */
-       ASSERT(ret + ret2 < 2);
+       
+      /* Not possible for ret == 2 as we have qp*dp <= np */
+      ASSERT(ret + ret2 < 2);
    }
 
    TMP_FREE;

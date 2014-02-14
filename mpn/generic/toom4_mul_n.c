@@ -40,7 +40,8 @@ void
 mpn_toom4_mul_n (mp_ptr rp, mp_srcptr up,
 		          mp_srcptr vp, mp_size_t n);
 
-void _tc4_add(mp_ptr rp, mp_size_t * rn, mp_srcptr r1, mp_size_t r1n, mp_srcptr r2, mp_size_t r2n)
+void _tc4_add(mp_ptr rp, mp_size_t * rn, mp_srcptr r1, mp_size_t r1n, 
+                                                 mp_srcptr r2, mp_size_t r2n)
 {
    mp_limb_t cy;
    mp_size_t s1 = ABS(r1n);
@@ -87,7 +88,8 @@ void _tc4_add(mp_ptr rp, mp_size_t * rn, mp_srcptr r1, mp_size_t r1n, mp_srcptr 
    }
 }
 
-void tc4_add(mp_ptr rp, mp_size_t * rn, mp_srcptr r1, mp_size_t r1n, mp_srcptr r2, mp_size_t r2n)
+void tc4_add(mp_ptr rp, mp_size_t * rn, mp_srcptr r1, mp_size_t r1n, 
+                                                 mp_srcptr r2, mp_size_t r2n)
 {
    mp_size_t s1 = ABS(r1n);
    mp_size_t s2 = ABS(r2n);
@@ -96,7 +98,8 @@ void tc4_add(mp_ptr rp, mp_size_t * rn, mp_srcptr r1, mp_size_t r1n, mp_srcptr r
 	else _tc4_add(rp, rn, r1, r1n, r2, r2n);
 } 
 
-void _tc4_add_unsigned(mp_ptr rp, mp_size_t * rn, mp_srcptr r1, mp_size_t r1n, mp_srcptr r2, mp_size_t r2n)
+void _tc4_add_unsigned(mp_ptr rp, mp_size_t * rn, mp_srcptr r1, 
+                                   mp_size_t r1n, mp_srcptr r2, mp_size_t r2n)
 {
    mp_limb_t cy;
    mp_size_t s1 = r1n;
@@ -123,18 +126,21 @@ void _tc4_add_unsigned(mp_ptr rp, mp_size_t * rn, mp_srcptr r1, mp_size_t r1n, m
    } 
 }
 
-void tc4_add_unsigned(mp_ptr rp, mp_size_t * rn, mp_srcptr r1, mp_size_t r1n, mp_srcptr r2, mp_size_t r2n)
+void tc4_add_unsigned(mp_ptr rp, mp_size_t * rn, mp_srcptr r1, 
+                                    mp_size_t r1n, mp_srcptr r2, mp_size_t r2n)
 {
    if (r1n < r2n) _tc4_add_unsigned(rp, rn, r2, r2n, r1, r1n);
 	else _tc4_add_unsigned(rp, rn, r1, r1n, r2, r2n);
 } 
 
-void tc4_sub(mp_ptr rp, mp_size_t * rn, mp_srcptr r1, mp_size_t r1n, mp_srcptr r2, mp_size_t r2n)
+void tc4_sub(mp_ptr rp, mp_size_t * rn, mp_srcptr r1, mp_size_t r1n, 
+                                                   mp_srcptr r2, mp_size_t r2n)
 {
    tc4_add(rp, rn, r1, r1n, r2, -r2n);
 }
 	
-void tc4_lshift(mp_ptr rp, mp_size_t * rn, mp_srcptr xp, mp_size_t xn, mp_size_t bits)
+void tc4_lshift(mp_ptr rp, mp_size_t * rn, mp_srcptr xp, 
+                                                  mp_size_t xn, mp_size_t bits)
 {
    if (xn == 0) *rn = 0;
    else
@@ -242,7 +248,7 @@ void tc4_divexact_by15(mp_ptr rp, mp_size_t * rn, mp_ptr x, mp_size_t xn)
 	if (xn)
 	{
 		mp_size_t xu = ABS(xn);
-		mpn_divexact_byfobm1(rp, x, xu, CNST_LIMB(15), CNST_LIMB((~0)/15)); // works for 32 and 64 bits
+		mpn_divexact_byfobm1(rp, x, xu, CNST_LIMB(15), CNST_LIMB((~0)/15)); /* works for 32 and 64 bits */
 		if (xn > 0)
 		{
 			if (rp[xu - 1] == CNST_LIMB(0)) *rn = xn - 1;

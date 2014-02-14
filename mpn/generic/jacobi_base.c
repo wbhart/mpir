@@ -34,7 +34,6 @@ MA 02110-1301, USA. */
 #define JACOBI_BASE_METHOD  2
 #endif
 
-
 /* Use count_trailing_zeros.  */
 #if JACOBI_BASE_METHOD == 1
 #define PROCESS_TWOS_ANY                                \

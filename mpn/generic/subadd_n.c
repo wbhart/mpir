@@ -22,50 +22,74 @@ Boston, MA 02110-1301, USA.
 #include "mpir.h"
 #include "gmp-impl.h"
 
-//t=x-y-z or t=x-(y+z) which explains the name
-mp_limb_t	mpn_subadd_n(mp_ptr t,mp_srcptr x,mp_srcptr y,mp_srcptr z,mp_size_t n)
-{mp_limb_t ret;
+/* 
+   t = x - y - z or t = x - (y + z) which explains the name 
+*/
+mp_limb_t mpn_subadd_n(mp_ptr t, mp_srcptr x, mp_srcptr y, mp_srcptr z, mp_size_t n)
+{
+   mp_limb_t ret;
 
-ASSERT(n>0);
-ASSERT_MPN(x,n);ASSERT_MPN(y,n);ASSERT_MPN(z,n);//ASSERT_SPACE(t,n);
-ASSERT(MPN_SAME_OR_SEPARATE_P(t,x,n));
-ASSERT(MPN_SAME_OR_SEPARATE_P(t,y,n));
-ASSERT(MPN_SAME_OR_SEPARATE_P(t,z,n));
-if(t==x && t==y && t==z)
-  {
-  return mpn_neg(t,z,n);  
-  }
-if(t==x && t==y)
-  {ret=mpn_sub_n(t,x,y,n);
-   ret+=mpn_sub_n(t,t,z,n);
+   ASSERT(n > 0);
+   ASSERT_MPN(x, n);
+   ASSERT_MPN(y, n);
+   ASSERT_MPN(z, n);
+   ASSERT(MPN_SAME_OR_SEPARATE_P(t, x, n));
+   ASSERT(MPN_SAME_OR_SEPARATE_P(t, y, n));
+   ASSERT(MPN_SAME_OR_SEPARATE_P(t, z, n));
+
+   if (t == x && t == y && t == z)
+      return mpn_neg(t,z,n);  
+
+   if (t == x && t == y)
+   {
+      ret = mpn_sub_n(t, x, y, n);
+      ret += mpn_sub_n(t, t, z, n);
+      
+      return ret;
+   }
+
+   if (t == x && t == z)
+   {
+      ret = mpn_sub_n(t, x, z, n);
+      ret += mpn_sub_n(t, t, y, n);
+   
+      return ret;
+   }
+
+   if (t == y && t == z)
+   {
+      ret = mpn_add_n(t, y, z, n);
+      ret += mpn_sub_n(t, x, t, n);
+   
+      return ret;
+   }
+
+   if (t == x)
+   {
+      ret = mpn_sub_n(t, x, y, n);
+      ret += mpn_sub_n(t, t, z, n);
+   
+      return ret;
+   }
+ 
+   if (t == y)
+   {
+      ret = mpn_sub_n(t, x, y, n);
+      ret += mpn_sub_n(t, t, z, n);
+   
+      return ret;
+   }
+
+   if (t == z)
+   {
+      ret = mpn_sub_n(t, x, z, n);
+      ret += mpn_sub_n(t, t, y, n);
+   
+      return ret;
+   }
+
+   ret = mpn_sub_n(t, x, z, n);
+   ret += mpn_sub_n(t, t, y, n);
+
    return ret;
-  }
-if(t==x && t==z)
-  {ret=mpn_sub_n(t,x,z,n);
-   ret+=mpn_sub_n(t,t,y,n);
-   return ret;
-  }
-if(t==y && t==z)
-  {ret=mpn_add_n(t,y,z,n);
-   ret+=mpn_sub_n(t,x,t,n);// checkcarry
-   return ret;
-  }
-if(t==x)
-  {ret=mpn_sub_n(t,x,y,n);
-   ret+=mpn_sub_n(t,t,z,n);
-   return ret;
-  }
-if(t==y)
-  {ret=mpn_sub_n(t,x,y,n);
-   ret+=mpn_sub_n(t,t,z,n);
-   return ret;
-  }
-if(t==z)
-  {ret=mpn_sub_n(t,x,z,n);
-   ret+=mpn_sub_n(t,t,y,n);
-   return ret;
-  }
-ret=mpn_sub_n(t,x,z,n);
-ret+=mpn_sub_n(t,t,y,n);
-return ret;
 }

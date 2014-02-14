@@ -37,8 +37,8 @@ mpn_dc_div_qr_n (mp_ptr qp, mp_ptr np, mp_srcptr dp, mp_size_t n,
   mp_size_t lo, hi;
   mp_limb_t cy, qh, ql;
 
-  lo = n >> 1;			/* floor(n/2) */
-  hi = n - lo;			/* ceil(n/2) */
+  lo = n >> 1; /* floor(n/2) */
+  hi = n - lo;	/* ceil(n/2) */
 
   
   if (BELOW_THRESHOLD (hi, DC_DIV_QR_THRESHOLD))

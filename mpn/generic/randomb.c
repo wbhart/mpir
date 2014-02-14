@@ -24,7 +24,12 @@ Boston, MA 02110-1301, USA.
 
 void mpn_randomb(mp_ptr rp, gmp_randstate_t rnd, mp_size_t n)
 {
-ASSERT(n>0);
-_gmp_rand(rp,rnd,n*GMP_NUMB_BITS);
-while(rp[n-1]==0)_gmp_rand(rp+n-1,rnd,GMP_NUMB_BITS);
-return;}
+   ASSERT(n > 0);
+
+   _gmp_rand(rp, rnd, n*GMP_NUMB_BITS);
+
+   while (rp[n - 1] == 0)
+      _gmp_rand(rp + n - 1, rnd, GMP_NUMB_BITS);
+
+   return;
+}

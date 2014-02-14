@@ -40,7 +40,9 @@ void mpn_redc_1 (mp_ptr cp, mp_ptr tp, mp_srcptr mp, mp_size_t n, mp_limb_t Npri
       tp[0] = mpn_addmul_1 (tp, mp, n, q);
       tp++;
     }
+
   cy = mpn_add_n (cp, tp, tp - n, n);
+  
   if (cy != 0)
     mpn_sub_n (cp, cp, mp, n);
 }

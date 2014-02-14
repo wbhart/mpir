@@ -23,11 +23,20 @@ Boston, MA 02110-1301, USA.
 #include "gmp-impl.h"
 #include "longlong.h"
 
-void mpn_urandomm(mp_ptr rp, gmp_randstate_t rnd, mp_srcptr mp,mp_size_t n)
-{mp_size_t c,b;
+void mpn_urandomm(mp_ptr rp, gmp_randstate_t rnd, mp_srcptr mp, mp_size_t n)
+{
+   mp_size_t c, b;
 
-ASSERT(n>0);ASSERT_MPN(mp,n);ASSERT(mp[n-1]!=0);
-count_leading_zeros(c,mp[n-1]);
-c=GMP_LIMB_BITS-c;b=GMP_NUMB_BITS*(n-1)+c;
-do{_gmp_rand(rp,rnd,b);}while(mpn_cmp(rp,mp,n)>=0);
+   ASSERT(n > 0);
+   ASSERT_MPN(mp, n);
+   ASSERT(mp[n - 1] != 0);
+
+   count_leading_zeros(c, mp[n - 1]); /* compute number of bits of n */
+   c = GMP_LIMB_BITS - c;
+   b = GMP_NUMB_BITS*(n - 1) + c;
+
+   do
+   {
+      _gmp_rand(rp, rnd, b);
+   } while(mpn_cmp(rp, mp, n) >= 0);
 return;}

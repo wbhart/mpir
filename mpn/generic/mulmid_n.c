@@ -57,15 +57,15 @@ mpn_mulmid_n (mp_ptr rp, mp_srcptr ap, mp_srcptr bp, mp_size_t n)
     {
       mp_size_t k;
       mp_ptr scratch;
-	  TMP_DECL;
+	   TMP_DECL;
 	  
       k = mpn_toom42_mulmid_itch (n);
 
       if (k <= 1000) k = 1000;
 	
-	  TMP_MARK;
-	  scratch = TMP_ALLOC_LIMBS (k);
-	  mpn_toom42_mulmid (rp, ap, bp, n, scratch);
-	  TMP_FREE;
+	   TMP_MARK;
+	   scratch = TMP_ALLOC_LIMBS (k);
+	   mpn_toom42_mulmid (rp, ap, bp, n, scratch);
+	   TMP_FREE;
     }
 }

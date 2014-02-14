@@ -236,7 +236,8 @@ mpn_toom3_interpolate (mp_ptr c, mp_ptr v1, mp_ptr v2, mp_ptr vm1,
   We'll pass v2 and vm1 to the interpolate function in temporary space.
 
   Temporary space needed is t(na) = 4k+4 + t(k+1) where k = (na + 2)/3
-  i.e t(na) = (4na + 20)/3 + t((na+5)/3) <= 5na/3 + t(5na/12) <= (5na/3)/(1-5/12) = 60na/21 < 3na
+  i.e t(na) = (4na + 20)/3 + t((na+5)/3) <= 5na/3 + t(5na/12) 
+                                         <= (5na/3)/(1-5/12) = 60na/21 < 3na
   for na >= 20.
  */
 
@@ -413,7 +414,8 @@ mpn_toom3_mul (mp_ptr c, mp_srcptr a, mp_size_t an, mp_srcptr b, mp_size_t bn, m
 }
 
 void
-mpn_toom42_mul (mp_ptr c, mp_srcptr a, mp_size_t an, mp_srcptr b, mp_size_t bn, mp_ptr t)
+mpn_toom42_mul (mp_ptr c, mp_srcptr a, mp_size_t an, 
+                                      mp_srcptr b, mp_size_t bn, mp_ptr t)
 {
   mp_size_t k, k1, kk1, r, r2, twok, threek, rr2, n1, n2;
   mp_limb_t cy, cc, saved, vinf0, c20, c21;
@@ -613,7 +615,8 @@ mpn_toom42_mul (mp_ptr c, mp_srcptr a, mp_size_t an, mp_srcptr b, mp_size_t bn, 
 	space for 3k + rr2 limbs.
 */
 void
-mpn_toom32_mul (mp_ptr c, mp_srcptr a, mp_size_t an, mp_srcptr b, mp_size_t bn, mp_ptr t)
+mpn_toom32_mul (mp_ptr c, mp_srcptr a, mp_size_t an, 
+                                           mp_srcptr b, mp_size_t bn, mp_ptr t)
 {
   mp_size_t k, k1, kk1, r, r2, twok, threek, rr2, n1, n2;
   mp_limb_t cy, cc, saved;

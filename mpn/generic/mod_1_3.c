@@ -25,36 +25,56 @@ dnl  Boston, MA 02110-1301, USA.
 #include "gmp-impl.h"
 #include "longlong.h"
 
-void mpn_mod_1_3(mp_ptr rem,mp_srcptr xp,mp_size_t xn,mp_srcptr db)// in each round we hack off a limb from the body , ie k=1
-{mp_limb_t h,l,sh,sl,th,tl;
- mp_size_t j,jj;
+/* in each round we remove one limb from the body, i.e. k = 1 */
+void mpn_mod_1_3(mp_ptr rem, mp_srcptr xp, mp_size_t xn, mp_srcptr db)
+{
+   mp_limb_t h, l, sh, sl, th, tl;
+   mp_size_t j, jj;
  
-ASSERT(xn>=5);
-ASSERT_MPN(xp,xn);
-ASSERT_LIMB(db[0]);ASSERT_LIMB(db[1]);ASSERT_LIMB(db[2]);ASSERT_LIMB(db[3]);
+   ASSERT(xn >= 5);
+   ASSERT_MPN(xp, xn);
+   ASSERT_LIMB(db[0]);
+   ASSERT_LIMB(db[1]);
+   ASSERT_LIMB(db[2]);
+   ASSERT_LIMB(db[3]);
 
-tl=xp[xn-2];th=xp[xn-1];
-for(j=xn-5;j>=0;j-=3)
-   {umul_ppmm(sh,sl,xp[j+1],db[0]);
-    add_ssaaaa(sh,sl,sh,sl,0,xp[j]);
-    umul_ppmm(h,l,xp[j+2],db[1]);
-    add_ssaaaa(sh,sl,sh,sl,h,l);
-    umul_ppmm(h,l,tl,db[2]);
-    add_ssaaaa(sh,sl,sh,sl,h,l);
-    umul_ppmm(th,tl,th,db[3]);
-    add_ssaaaa(th,tl,th,tl,sh,sl);}
-if(j>-3)// we have at least three limbs to do still ie xp[0],...,tl,th
-  {sh=0;sl=xp[0];jj=1;
-   if(j==-1)
-     {umul_ppmm(sh,sl,xp[1],db[0]);
-      add_ssaaaa(sh,sl,sh,sl,0,xp[0]);
-      jj=2;}
-   umul_ppmm(h,l,tl,db[jj-1]);
-   add_ssaaaa(sh,sl,sh,sl,h,l);
-   umul_ppmm(th,tl,th,db[jj]);
-   add_ssaaaa(th,tl,th,tl,sh,sl);}
-umul_ppmm(h,l,th,db[0]);
-add_ssaaaa(h,l,h,l,0,tl);
+   tl = xp[xn - 2];
+   th = xp[xn - 1];
 
-rem[0]=l;rem[1]=h;
-return;}
+   for (j = xn - 5; j >= 0; j -= 3)
+   {
+      umul_ppmm(sh, sl, xp[j + 1], db[0]);
+      add_ssaaaa(sh, sl, sh, sl, 0, xp[j]);
+      umul_ppmm(h, l, xp[j + 2], db[1]);
+      add_ssaaaa(sh, sl, sh, sl, h, l);
+      umul_ppmm(h, l, tl, db[2]);
+      add_ssaaaa(sh, sl, sh, sl, h, l);
+      umul_ppmm(th, tl, th, db[3]);
+      add_ssaaaa(th, tl, th, tl, sh, sl);
+   }
+
+   if (j > -3) /* we have at least three limbs to do, i.e. xp[0], ..., tl, th */
+   {
+      sh = 0;
+      sl = xp[0];
+      jj = 1;
+
+      if (j == -1)
+      {
+         umul_ppmm(sh, sl, xp[1], db[0]);
+         add_ssaaaa(sh, sl, sh, sl, 0, xp[0]);
+         jj = 2;
+      }
+
+      umul_ppmm(h, l, tl, db[jj - 1]);
+      add_ssaaaa(sh, sl, sh, sl, h, l);
+      umul_ppmm(th, tl, th, db[jj]);
+      add_ssaaaa(th, tl, th, tl, sh, sl);
+   }
+
+   umul_ppmm(h, l, th, db[0]);
+   add_ssaaaa(h, l, h, l, 0, tl);
+
+   rem[0] = l;
+   rem[1] = h;
+}

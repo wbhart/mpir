@@ -24,20 +24,35 @@
 #include "gmp-impl.h"
 #include "longlong.h"
 
-mp_limb_t	mpn_divexact_byfobm1(mp_ptr qp,mp_srcptr xp,mp_size_t n,mp_limb_t f,mp_limb_t Bm1of)
-{mp_size_t j;mp_limb_t c,acc,ax,dx;
+/*
+   (xp, n) = (qp, n)*f - ret*B^n and 0 <= ret < f
 
-ASSERT(n>0);
-ASSERT_MPN(xp,n);
-ASSERT(MPN_SAME_OR_SEPARATE_P(qp,xp,n));
-ASSERT(Bm1of*f+1==0);
-acc=0*Bm1of;// carry in is 0
-for(j=0;j<=n-1;j++)
-   {umul_ppmm(dx,ax,xp[j],Bm1of);
-    SUBC_LIMB(c,acc,acc,ax);
-    qp[j]=acc;
-    acc-=dx+c;}
-// return next quotient*-f    
-return acc*-f;}   // so  (xp,n) = (qp,n)*f -ret*B^n    and 0 <= ret < f
+   Note the divexact_by3 code is just a special case of this
+*/
+mp_limb_t mpn_divexact_byfobm1(mp_ptr qp, mp_srcptr xp, mp_size_t n,
+                                             mp_limb_t f, mp_limb_t Bm1of)
+{
+   mp_size_t j;
+   mp_limb_t c, acc, ax, dx;
 
-// Note the divexact_by3 code is just a special case of this
+   ASSERT(n > 0);
+   ASSERT_MPN(xp, n);
+   ASSERT(MPN_SAME_OR_SEPARATE_P(qp, xp, n));
+   ASSERT(Bm1of*f + 1 == 0);
+
+   acc = 0*Bm1of; /* carry in is 0 */
+
+   for (j = 0; j <= n - 1; j++)
+   {
+      umul_ppmm(dx, ax, xp[j], Bm1of);
+    
+      SUBC_LIMB(c, acc, acc, ax);
+    
+      qp[j] = acc;
+      acc -= dx + c;
+   }
+
+   /* return next quotient*(-f) */ 
+
+   return acc*(-f);
+}   

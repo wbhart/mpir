@@ -23,17 +23,46 @@ Boston, MA 02110-1301, USA.
 #include "gmp-impl.h"
 #include "longlong.h"
 
+/* 
+   (xp, n) = (qp, n)*d - ret*B^n and 0 <= ret < d  
+   same as qr version but with q not stored
+*/
 mp_limb_t mpn_divrem_hensel_r_1(mp_srcptr xp, mp_size_t n, mp_limb_t d)
-{mp_size_t j;mp_limb_t c,h,q,dummy,h1,t,m;
+{
+   mp_size_t j;
+   mp_limb_t c, h, q, dummy, h1, t, m;
 
-ASSERT(n>0);ASSERT_MPN(xp,n);
-ASSERT(d%2==1);modlimb_invert(m,d);
-c=0;h=0;t=0;
-for(j=0;j<=n-1;j++)
-   {h1=xp[j];
-    t=h+c;if(t>h1){h1=h1-t;c=1;}else{h1=h1-t;c=0;}
-    q=h1*m;
-    umul_ppmm(h,dummy,q,d);
-    ASSERT(dummy==h1);}
-return h+c;}   // so  (xp,n) = (qp,n)*d -ret*B^n    and 0 <= ret < d  
-// same as qr version but with q not stored
+   ASSERT(n > 0);
+   ASSERT_MPN(xp, n);
+   ASSERT(d%2 == 1);
+
+   modlimb_invert(m, d);
+
+   c = 0;
+   h = 0;
+   t = 0;
+
+   for (j = 0; j <= n - 1; j++)
+   {
+      h1 = xp[j];
+      t = h + c;
+      
+      if (t > h1)
+      {
+         h1 = h1 - t;
+         c = 1;
+      }
+      else
+      {
+         h1 = h1 - t;
+         c = 0;
+      }
+     
+      q = h1*m;
+      umul_ppmm(h, dummy, q, d);
+    
+      ASSERT(dummy == h1);
+   }
+
+   return h + c;
+}   

@@ -22,30 +22,46 @@ Boston, MA 02110-1301, USA.
 #include "mpir.h"
 #include "gmp-impl.h"
 
-mp_limb_t	mpn_sumdiff_n(mp_ptr s,mp_ptr d,mp_srcptr x,mp_srcptr y,mp_size_t n)
-{mp_limb_t ret;mp_ptr t;
+mp_limb_t mpn_sumdiff_n(mp_ptr s, mp_ptr d, mp_srcptr x, mp_srcptr y, mp_size_t n)
+{
+   mp_limb_t ret;
+   mp_ptr t;
 
-ASSERT(n>0);
-ASSERT_MPN(x,n);ASSERT_MPN(y,n);//ASSERT_SPACE(s,n);ASSERT_SPACE(d,n);
-ASSERT(MPN_SAME_OR_SEPARATE_P(s,x,n));
-ASSERT(MPN_SAME_OR_SEPARATE_P(s,y,n));
-ASSERT(MPN_SAME_OR_SEPARATE_P(d,x,n));
-ASSERT(MPN_SAME_OR_SEPARATE_P(d,y,n));
-ASSERT(!MPN_OVERLAP_P(s,n, d,n));
+   ASSERT(n > 0);
+   ASSERT_MPN(x, n);
+   ASSERT_MPN(y, n);
+   ASSERT(MPN_SAME_OR_SEPARATE_P(s, x, n));
+   ASSERT(MPN_SAME_OR_SEPARATE_P(s, y, n));
+   ASSERT(MPN_SAME_OR_SEPARATE_P(d, x, n));
+   ASSERT(MPN_SAME_OR_SEPARATE_P(d, y, n));
+   ASSERT(!MPN_OVERLAP_P(s, n, d, n));
 
-if(n == 0)
-	return 0;
-if( (s==x && d==y)||(s==y && d==x) )
-  {t=__GMP_ALLOCATE_FUNC_LIMBS(n);
-   ret=mpn_sub_n(t,x,y,n);
-   ret+=2*mpn_add_n(s,x,y,n);
-   MPN_COPY(d,t,n);
-   __GMP_FREE_FUNC_LIMBS(t,n);
-   return ret;}
-if(s==x || s==y)
-  {ret=mpn_sub_n(d,x,y,n);
-   ret+=2*mpn_add_n(s,x,y,n);
-   return ret;}
-ret=2*mpn_add_n(s,x,y,n);
-ret+=mpn_sub_n(d,x,y,n);
-return ret;}
+   if (n == 0)
+	   return 0;
+
+   if ((s == x && d == y) || (s == y && d == x))
+   {
+      t = __GMP_ALLOCATE_FUNC_LIMBS(n);
+
+      ret = mpn_sub_n(t, x, y, n);
+      ret += 2*mpn_add_n(s, x, y, n);
+      MPN_COPY(d, t, n);
+
+      __GMP_FREE_FUNC_LIMBS(t, n);
+
+      return ret;
+   }
+
+   if (s == x || s == y)
+   {
+      ret = mpn_sub_n(d, x, y, n);
+      ret += 2*mpn_add_n(s, x, y, n);
+      
+      return ret;
+   }
+
+   ret = 2*mpn_add_n(s, x, y, n);
+   ret += mpn_sub_n(d, x, y, n);
+
+   return ret;
+}
