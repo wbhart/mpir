@@ -54,7 +54,7 @@ mp_limb_t mpir_sqrt(mp_limb_t r)
 
    mp_limb_t bits32 = (r & GMP_LIMB_HIGHBIT);
    mp_limb_t r2;
-   // algorithm can't handle 32 bits
+   /* algorithm can't handle 32 bits */
    if (bits32) 
    {
       r2 = r;
@@ -93,7 +93,7 @@ mp_limb_t mpir_sqrt(mp_limb_t r)
 
    mp_limb_t bits64 = (r & GMP_LIMB_HIGHBIT);
    mp_limb_t r2;
-   // algorithm can't handle 64 bits
+   /* algorithm can't handle 64 bits */
    if (bits64) 
    {
       r2 = r;
@@ -101,7 +101,7 @@ mp_limb_t mpir_sqrt(mp_limb_t r)
    }
 
 	temp.f = (double) r;
-	temp.l = (CNST_LIMB(0xbfcdd90a00000000) - temp.l)>>1; // estimate of 1/sqrt(y) 
+	temp.l = (CNST_LIMB(0xbfcdd90a00000000) - temp.l)>>1; /* estimate of 1/sqrt(y) */ 
 	x =  temp.f;
 	z =  (double) r*0.5;                        
    x = (1.5*x) - (x*x)*(x*z);
@@ -214,7 +214,8 @@ mp_limb_t n_ll_mod_preinv(mp_limb_t a_hi, mp_limb_t a_lo,
 
    count_leading_zeros(norm, n);
    
-   udiv_qrnnd_preinv(q, r, (a_hi<<norm) + r_shift(a_lo, GMP_LIMB_BITS-norm), a_lo<<norm, n<<norm, ninv);
+   udiv_qrnnd_preinv(q, r, (a_hi<<norm) + 
+      r_shift(a_lo, GMP_LIMB_BITS-norm), a_lo<<norm, n<<norm, ninv);
 
    return (r>>norm);
 }
@@ -382,7 +383,7 @@ mp_limb_t n_invmod(mp_limb_t x, mp_limb_t y)
          t2 = v2; v2 = v1; v1 = t2; v3 = rem;
    }
    
-   if ((mp_limb_signed_t) (y & x) < 0L) // y and x both have top bit set  
+   if ((mp_limb_signed_t) (y & x) < 0L) /* y and x both have top bit set */ 
    {
      quot=u3-v3;
      t2 = v2; 
@@ -390,7 +391,7 @@ mp_limb_t n_invmod(mp_limb_t x, mp_limb_t y)
      v2 = v1 - v2; v1 = t2; v3 = quot;
    }
 
-   while ((mp_limb_signed_t) (v3<<1) < 0L) // second value has second msb set 
+   while ((mp_limb_signed_t) (v3<<1) < 0L) /* second value has second msb set */
    {
      quot=u3-v3;
      if (quot < v3)
@@ -411,7 +412,7 @@ mp_limb_t n_invmod(mp_limb_t x, mp_limb_t y)
    
    while (v3) {
       quot=u3-v3;
-      if (u3 < (v3<<2)) // overflow not possible due to top 2 bits of v3 not being set 
+      if (u3 < (v3<<2)) /* overflow not possible due to top 2 bits of v3 not being set */
       {
          if (quot < v3)
          {
@@ -469,11 +470,11 @@ int n_jacobi(mp_limb_signed_t x, mp_limb_t y)
       count_trailing_zeros(exp, b);
 	   b>>=exp;
 
-      if (((exp*(a*a - 1))/8)%2 == CNST_LIMB(1)) // we are only interested in values mod 8, 
-		   s = -s;                        //so overflows don't matter here
+      if (((exp*(a*a - 1))/8)%2 == CNST_LIMB(1)) /* only want values mod 8, */
+		   s = -s;                        /* so overflows don't matter here */
 
-		if ((((a - 1)*(b - 1))/4)%2 == CNST_LIMB(1)) // we are only interested in values mod 4, 
-		   s = -s;                          //so overflows don't matter here
+		if ((((a - 1)*(b - 1))/4)%2 == CNST_LIMB(1)) /* only want values mod 4, */
+		   s = -s;                          /* so overflows don't matter here */
    }
 
 	while (b != CNST_LIMB(1))
@@ -500,11 +501,11 @@ int n_jacobi(mp_limb_signed_t x, mp_limb_t y)
       count_trailing_zeros(exp, b);
 	   b>>=exp;
 
-      if (((exp*(a*a - 1))/8)%2 == CNST_LIMB(1)) // we are only interested in values mod 8, 
-		   s = -s;                        //so overflows don't matter here
+      if (((exp*(a*a - 1))/8)%2 == CNST_LIMB(1)) /* only want values mod 8, */ 
+		   s = -s;                        /* so overflows don't matter here */
 
-		if ((((a - 1)*(b - 1))/4)%2 == CNST_LIMB(1)) // we are only interested in values mod 4, 
-		   s = -s;                          //so overflows don't matter here
+		if ((((a - 1)*(b - 1))/4)%2 == CNST_LIMB(1)) /* only want values mod 4, */
+		   s = -s;                          /* so overflows don't matter here */
 	}
 
 	return s;
@@ -651,20 +652,22 @@ int n_is_pseudoprime_fibonacci(mp_limb_t n)
       return 0;
    }
 
-	m = (n - n_jacobi(CNST_LIMB(5), n))/2; // cannot overflow as (5/n) = 0 for n = 2^64-1
+	m = (n - n_jacobi(CNST_LIMB(5), n))/2; /* no overflow as (5/n) = 0 for n = 2^64 - 1 */
 
    if (BIT_COUNT(n) <= D_BITS)
    {
       double npre = n_precompute_inverse(n);
 	
       V = fchain_precomp(m, n, npre);
-	   return (n_mulmod_precomp(n - CNST_LIMB(3), V.x, n, npre) == n_mulmod_precomp(CNST_LIMB(2), V.y, n, npre));
+	   return (n_mulmod_precomp(n - CNST_LIMB(3), V.x, n, npre) 
+           == n_mulmod_precomp(CNST_LIMB(2), V.y, n, npre));
    } else
    {
       mp_limb_t ninv = n_preinvert_limb(n);
 	
       V = fchain2_preinv(m, n, ninv);
-	   return (n_mulmod2_preinv(n - CNST_LIMB(3), V.x, n, ninv) == n_mulmod2_preinv(CNST_LIMB(2), V.y, n, ninv));
+	   return (n_mulmod2_preinv(n - CNST_LIMB(3), V.x, n, ninv) 
+           == n_mulmod2_preinv(CNST_LIMB(2), V.y, n, ninv));
   }
 }
 
@@ -849,13 +852,18 @@ int mpir_is_likely_prime_BPSW(mp_limb_t n)
 	}
 }
 
-#endif // GMP_LIMB_BITS
+#endif /* GMP_LIMB_BITS */
 
-// could have another parameter to specify what likely means
-// ie for factoring , for RSA 
-// or to state that we have already done trial div
+/* 
+   Could have another parameter to specify what "likely" means
+   i.e. for factoring, for RSA or to state that we have already done 
+   trial div
+*/
 
-// could call it mpz_likely_composite_p then when true we could return more info about it , ie a factor
+/* 
+   could call it mpz_likely_composite_p then when true return more info, 
+   i.e. a factor 
+*/
 int
 mpz_likely_prime_p (mpz_srcptr N, gmp_randstate_t STATE, mpir_ui td)
 {
@@ -863,12 +871,14 @@ mpz_likely_prime_p (mpz_srcptr N, gmp_randstate_t STATE, mpir_ui td)
   unsigned long tdlim, i;
   mpz_t base, nm1, x, e, n;
 
-  ALLOC (n) = ALLOC (N);
-  SIZ (n) = ABSIZ (N);
-  PTR (n) = PTR (N);		// fake up an absolute value that we dont have de-allocate
-// algorithm does not handle small values , get rid of them here
+  ALLOC (n) = ALLOC(N);
+  SIZ (n) = ABSIZ(N);
+  PTR (n) = PTR(N);		/* fake up an absolute value that we don't have de-allocate */
+
+  /* algorithm does not handle small values, get rid of them here */
   if (mpz_cmp_ui (n, 2) == 0 || mpz_cmp_ui (n, 3) == 0)
     return 1;
+
   if (mpz_cmp_ui (n, 5) < 0 || mpz_even_p (n))
     return 0;
 
@@ -879,26 +889,36 @@ mpz_likely_prime_p (mpz_srcptr N, gmp_randstate_t STATE, mpir_ui td)
   }
 #endif
 
-// for factoring purposes 
-// we assume we know nothing about N ie it is a random integer
-// therefore it has a good chance of factoring by small divisiors , 
-// so try trial division as its fast and it checks small divisors
-// checking for other divisors is not worth it even if the test is 
-// fast as we have random integer so only small divisors are common
-// enough , remember this is not exact so it doesn't matter if we 
-// miss a few divisors
-  tdlim=mpz_sizeinbase(n,2);
-  tdlim=MAX(1000,tdlim);
-  d=mpz_trial_division(n,3,tdlim);
-  if(d!=0)
-    {if(mpz_cmp_ui(n, d) == 0)return 1;
-     return 0;}
+/* 
+   For factoring purposes we assume we know nothing about N i.e. it is 
+   a random integer. Therefore it has a good chance of factoring by small 
+   divisiors. So try trial division as its fast and it checks small 
+   divisors. Checking for other divisors is not worth it even if the test 
+   is fast as we have random integer so only small divisors are common
+   enough. Remember this is not exact so it doesn't matter if we miss a 
+   few divisors
+*/
+  tdlim = mpz_sizeinbase(n, 2);
+  tdlim = MAX(1000, tdlim);
+  
+  d = mpz_trial_division(n, 3, tdlim);
+  
+  if (d != 0)
+  {
+     if (mpz_cmp_ui(n, d) == 0)
+        return 1;
+     
+     return 0;
+  }
+  
   if (mpz_cmp_ui (n, tdlim * tdlim) < 0)
-    return 1;	// if tdlim*tdlim overflows then n is not a single limb so cant be true anyway
-  ASSERT (mpz_odd_p (n));
-  ASSERT (mpz_cmp_ui (n, 5) >= 0);	// so we can choose a base
-// now do strong pseudoprime test 
-// get random base , for now choose any size , later choose a small one
+     return 1;	/* if tdlim*tdlim overflows, n is not a single limb so can't be true */
+  
+  ASSERT (mpz_odd_p(n));
+  ASSERT (mpz_cmp_ui (n, 5) >= 0);	/* so we can choose a base */
+
+  /* now do strong pseudoprime test */
+  /* get random base, for now choose any size, later choose a small one */
   mpz_init (base);
   mpz_init_set (nm1, n);
   mpz_sub_ui (nm1, nm1, 1);
@@ -908,35 +928,48 @@ mpz_likely_prime_p (mpz_srcptr N, gmp_randstate_t STATE, mpir_ui td)
      
   r = 1;
   
-  for (i = 0; i < 10; i++) // try LP_ITERS random bases
+  for (i = 0; i < 10; i++) /* try LP_ITERS random bases */
   {
      do
      {
-        mpz_urandomm (base, STATE, nm1);
-     }
-     while (mpz_cmp_ui (base, 1) <= 0);
+        mpz_urandomm(base, STATE, nm1);
+     } while (mpz_cmp_ui(base, 1) <= 0);
      
-     // so base is 2 to n-2  which implies n >= 4 , only really want a small base, and ignore the rare base = n-1 condition etc
-     t = mpz_scan1 (nm1, 0);	// so 2^t divides nm1
-     ASSERT (t > 0);
-     mpz_tdiv_q_2exp (e, nm1, t);	// so e = nm1/2^t
-     mpz_powm (x, base, e, n);	// x = base^e mod n
+     /* 
+        Base is 2 to n - 2 which implies n >= 4. Only really want a 
+        small base, and ignore the rare base = n - 1 condition etc.
+     */
+     t = mpz_scan1(nm1, 0);	/* 2^t divides nm1 */
+
+     ASSERT(t > 0);
      
-     if (mpz_cmp_ui (x, 1) == 0) continue;
-     if (mpz_cmp (x, nm1) == 0) continue;
+     mpz_tdiv_q_2exp(e, nm1, t);	/* e = nm1/2^t */
+     mpz_powm(x, base, e, n);	/* x = base^e mod n */
+     
+     if (mpz_cmp_ui(x, 1) == 0) 
+        continue;
+     
+     if (mpz_cmp(x, nm1) == 0) 
+        continue;
+     
      for (r = 0, t = t - 1; t > 0; t--)
      {
-        mpz_mul (x, x, x);
-        mpz_mod (x, x, n);
-        if (mpz_cmp (x, nm1) == 0)
+        mpz_mul(x, x, x);
+        mpz_mod(x, x, n);
+        
+        if (mpz_cmp(x, nm1) == 0)
 	     {
 	        r = 1;
 	        break;
 	     }
+        
         if (mpz_cmp_ui (x, 1) == 0)
-	     break;
+	        break;
      }
-     if (r == 1) continue;
+     
+     if (r == 1) 
+        continue;
+     
      break;
   }
 

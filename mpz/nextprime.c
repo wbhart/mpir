@@ -24,13 +24,12 @@ Boston, MA 02110-1301, USA.
 #include "gmp-impl.h"
 
 
-// This function is Obsolete  17/8/2009
-void	mpz_nextprime(mpz_ptr x, mpz_srcptr y)
+/* This function is Obsolete  17/8/2009 */
+void mpz_nextprime(mpz_ptr x, mpz_srcptr y)
 {
   gmp_randstate_t rnd;
   
-  gmp_randinit_default (rnd);
-  mpz_next_prime_candidate(x,y, rnd);
-  gmp_randclear (rnd);
-
-return;}
+  gmp_randinit_default(rnd);
+  mpz_next_prime_candidate(x, y, rnd);
+  gmp_randclear(rnd);
+}

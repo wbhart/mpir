@@ -30,25 +30,31 @@ mpz_nthroot (mpz_ptr root, mpz_srcptr u, mpir_ui nth)
 {
   mp_ptr rootp, up, remp;
   mp_size_t us, un, rootn;
+
   up = PTR(u);
   us = SIZ(u);
+  
   /* even roots of negatives provoke an exception */
   if (us < 0 && (nth & 1) == 0)
     SQRT_OF_NEGATIVE;
+  
   /* root extraction interpreted as c^(1/nth) means a zeroth root should
      provoke a divide by zero, do this even if c==0 */
   if (nth == 0)
     DIVIDE_BY_ZERO;
+  
   if (us == 0)
     {
       if (root != 0)
 	SIZ(root) = 0;
       return;
     }
+ 
   un = ABS (us);
   rootn = (un - 1) / nth + 1;
   rootp = MPZ_REALLOC (root, rootn);
   up = PTR(u);
+
   if (nth == 1)
     {
       MPN_COPY (rootp, up, un);
@@ -57,6 +63,8 @@ mpz_nthroot (mpz_ptr root, mpz_srcptr u, mpir_ui nth)
     {
       mpn_rootrem (rootp, 0, up, un, (mp_limb_t) nth);
     }
+
   SIZ(root) = us >= 0 ? rootn : -rootn;
+
   return;
 }

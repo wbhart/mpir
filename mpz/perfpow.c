@@ -80,6 +80,7 @@ mpz_perfect_power_p (mpz_srcptr u)
     return 1;			/* consider 0 a perfect power */
 
   n2 = mpz_scan1 (u, 0);
+
   if (n2 == 1)
     return 0;			/* 2 divides exactly once.  */
 
