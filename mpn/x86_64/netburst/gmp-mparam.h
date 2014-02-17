@@ -6,8 +6,8 @@
 #define MUL_TOOM8H_THRESHOLD            262
 
 #define SQR_BASECASE_THRESHOLD            0  /* always (native) */
-#define SQR_KARATSUBA_THRESHOLD          28
-#define SQR_TOOM3_THRESHOLD             170
+#define SQR_KARATSUBA_THRESHOLD          30 
+#define SQR_TOOM3_THRESHOLD             179
 #define SQR_TOOM4_THRESHOLD             280
 #define SQR_TOOM8_THRESHOLD             286
 
