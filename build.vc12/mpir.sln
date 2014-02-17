@@ -24,6 +24,10 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "dll_mpir_sandybridge", "dll
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lib_mpir_sandybridge", "lib_mpir_sandybridge\lib_mpir_sandybridge.vcxproj", "{B7AC3058-9824-11E3-9CF3-24FD5238C490}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "dll_mpir_k8_k10", "dll_mpir_k8_k10\dll_mpir_k8_k10.vcxproj", "{1556a9d0-9829-11e3-8ff5-24fd5238c490}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lib_mpir_k8_k10", "lib_mpir_k8_k10\lib_mpir_k8_k10.vcxproj", "{155dcf94-9829-11e3-b6b6-24fd5238c490}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
