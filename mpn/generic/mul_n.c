@@ -257,7 +257,7 @@ void mpn_kara_sqr_n(mp_ptr rp, mp_srcptr xp, mp_size_t n, mp_ptr tp)
       }
    }
 
-   if (BELOW_THRESHOLD(n3, MUL_KARATSUBA_THRESHOLD))
+   if (BELOW_THRESHOLD(n3, SQR_BASECASE_THRESHOLD))
    {
       mpn_mul_basecase(rp, xl, n2, xl, n2);
       mpn_mul_basecase(tp, dx, n3, dx, n3);
