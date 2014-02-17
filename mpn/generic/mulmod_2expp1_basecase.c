@@ -83,7 +83,10 @@ mpn_mulmod_2expp1_internal (mp_ptr xp, mp_srcptr yp, mp_srcptr zp,
     }
 #endif
 
-  mpn_mul_n (tp, yp, zp, n);
+  if (yp == zp)
+     mpn_sqr(tp, yp, n);
+  else
+     mpn_mul_n (tp, yp, zp, n);
 
   if (k == 0)
     {
