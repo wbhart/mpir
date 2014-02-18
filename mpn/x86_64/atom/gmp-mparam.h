@@ -42,7 +42,7 @@
 
 #define MUL_FFT_FULL_THRESHOLD         2016
 
-#define SQR_FFT_FULL_THRESHOLD         2368
+#define SQR_FFT_FULL_THRESHOLD         1760 
 
 #define MULLOW_BASECASE_THRESHOLD         0  /* always */
 #define MULLOW_DC_THRESHOLD              10
