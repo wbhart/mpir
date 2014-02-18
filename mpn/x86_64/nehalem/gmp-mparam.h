@@ -6,7 +6,7 @@
 #define MUL_TOOM8H_THRESHOLD            270
 
 #define SQR_BASECASE_THRESHOLD            0  /* always (native) */
-#define SQR_KARATSUBA_THRESHOLD          27
+#define SQR_KARATSUBA_THRESHOLD          26
 #define SQR_TOOM3_THRESHOLD              90
 #define SQR_TOOM4_THRESHOLD             248
 #define SQR_TOOM8_THRESHOLD             351
@@ -40,9 +40,9 @@
 #define SET_STR_DC_THRESHOLD           6082
 #define SET_STR_PRECOMPUTE_THRESHOLD   7122
 
-#define MUL_FFT_FULL_THRESHOLD         2880
+#define MUL_FFT_FULL_THRESHOLD         3528
 
-#define SQR_FFT_FULL_THRESHOLD         2880
+#define SQR_FFT_FULL_THRESHOLD         2368
 
 #define MULLOW_BASECASE_THRESHOLD         7
 #define MULLOW_DC_THRESHOLD              11
