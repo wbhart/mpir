@@ -13,7 +13,7 @@
   <PropertyGroup Label="Globals">
     <RootNamespace>mpir</RootNamespace>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{b7a57900-9824-11e3-b8d4-24fd5238c490}</ProjectGuid>
+    <ProjectGuid>{75eb14c8-98c1-11e3-9183-24fd5238c490}</ProjectGuid>
     </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
@@ -1922,7 +1922,7 @@ postbuild "$(TargetPath)"
     <YASM Include="..\..\mpn\x86_64w\sandybridge\rsh_divrem_hensel_qr_1_1.asm" />
     <YASM Include="..\..\mpn\x86_64w\sandybridge\rsh_divrem_hensel_qr_1_2.asm" />
     <YASM Include="..\..\mpn\x86_64w\sandybridge\rshift.asm" />
-    <YASM Include="..\..\mpn\x86_64w\sandybridge\sqr_basecase.asm" />
+    <YASM Include="..\..\mpn\x86_64w\sqr_basecase.asm" />
     <YASM Include="..\..\mpn\x86_64w\sandybridge\store.asm" />
     <YASM Include="..\..\mpn\x86_64w\sub_err1_n.asm" />
     <YASM Include="..\..\mpn\x86_64w\sub_err2_n.asm" />

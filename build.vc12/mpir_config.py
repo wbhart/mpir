@@ -254,7 +254,7 @@ def gen_have_lists(cf, sym_dir):
 #     for sym in sorted(set_sym3):
 #       print(sym, file=outf)
 
-# generate Visual Studio 2010 IDE Filter
+# generate Visual Studio IDE Filter
 
 def filter_folders(cf_list, af_list, outf):
 

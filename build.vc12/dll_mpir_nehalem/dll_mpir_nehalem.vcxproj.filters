@@ -1533,7 +1533,7 @@
   <YASM Include="..\..\mpn\x86_64w\nehalem\rshift.asm">
     <Filter>Source Files\mpn\yasm</Filter>
     </YASM>
-  <YASM Include="..\..\mpn\x86_64w\nehalem\sqr_basecase.asm">
+  <YASM Include="..\..\mpn\x86_64w\sqr_basecase.asm">
     <Filter>Source Files\mpn\yasm</Filter>
     </YASM>
   <YASM Include="..\..\mpn\x86_64w\nehalem\store.asm">
