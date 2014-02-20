@@ -37,12 +37,12 @@ mp_limb_t
 mpn_sb_div_qr (mp_ptr qp,
 		  mp_ptr np, mp_size_t nn,
 		  mp_srcptr dp, mp_size_t dn,
-		  mp_limb_t dinv)
+		  mp_limb_t dinv, mp_limb_t d1inv)
 {
   mp_limb_t qh;
   mp_size_t i;
   mp_limb_t n1, n0;
-  mp_limb_t d1, d0, d01, d11;
+  mp_limb_t d1, d0;
   mp_limb_t cy, cy1, cy2;
   mp_limb_t q;
 
@@ -67,7 +67,7 @@ mpn_sb_div_qr (mp_ptr qp,
       /* fetch next word */
       cy = *np--;
       
-      mpir_divapprox32_preinv2(q, cy, np[0], dinv);
+      mpir_divapprox32_preinv2(q, cy, np[0], d1inv);
       
 	  /* np -= dp*q */
       cy -= mpn_submul_1(np - dn + 1, dp, dn, q);
@@ -92,9 +92,6 @@ mpn_sb_div_qr (mp_ptr qp,
 				   saving two iterations in mpn_submul_1.  */
   d0 = dp[dn];
 
-  d01 = d0 + 1;
-  d11 = d1 + (d01 == 0);
-
   np -= 2;
 
   n1 = np[1];
@@ -110,7 +107,7 @@ mpn_sb_div_qr (mp_ptr qp,
 	}
       else
 	{
-	  mpir_divrem32_preinv2(q, n1, n0, n1, np[1], np[0], d11, d01, d1, d0, dinv);
+	  udiv_qr_3by2(q, n1, n0, n1, np[1], np[0], d1, d0, dinv);
 
      cy2 = mpn_submul_1 (np - dn, dp, dn, q);
 

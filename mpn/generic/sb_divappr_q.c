@@ -50,12 +50,12 @@ mp_limb_t
 mpn_sb_divappr_q (mp_ptr qp,
 		     mp_ptr np, mp_size_t nn,
 		     mp_srcptr dp, mp_size_t dn,
-		     mp_limb_t dinv)
+		     mp_limb_t dinv, mp_limb_t d1inv)
 {
   mp_limb_t qh;
   mp_size_t qn, i;
   mp_limb_t n1, n0;
-  mp_limb_t d1, d0, d11, d01, r1, r2;
+  mp_limb_t d1, d0, r1, r2;
   mp_limb_t cy, cy1;
   mp_limb_t q;
   mp_limb_t flag;
@@ -86,7 +86,7 @@ mpn_sb_divappr_q (mp_ptr qp,
        cy = np[0];
 
        np--;
-       mpir_divapprox32_preinv2(q, cy, np[0], dinv);
+       mpir_divapprox32_preinv2(q, cy, np[0], d1inv);
       
 	    /* np -= dp*q */
        cy -= mpn_submul_1(np - dn + 1, dp, dn, q);
@@ -120,7 +120,7 @@ mpn_sb_divappr_q (mp_ptr qp,
        return qh;
          }
        
-       mpir_divapprox32_preinv2(q, cy, np[0], dinv);
+       mpir_divapprox32_preinv2(q, cy, np[0], d1inv);
          
        /* np -= dp*q */
        cy -= mpn_submul_1(np - qn, dp, qn + 1, q);
@@ -144,9 +144,7 @@ mpn_sb_divappr_q (mp_ptr qp,
      {
   d1 = dp[dn - 1];
   d0 = dp[dn - 2];
-  d01 = d0 + 1;
-  d11 = d1 + (d01 < d0);
-
+  
     /* Reduce until dn - 2 >= qn */
    for (qn--, np--; qn > dn - 2; qn--)
      {
@@ -157,7 +155,7 @@ mpn_sb_divappr_q (mp_ptr qp,
        if (UNLIKELY(cy == d1 && np[0] == d0))
           q = ~CNST_LIMB(0);
        else
-          mpir_divrem32_preinv2(q, r1, r2, cy, np[0], np[-1], d11, d01, d1, d0, dinv);
+          udiv_qr_3by2(q, r1, r2, cy, np[0], np[-1], d1, d0, dinv);
  
 	    /* np -= dp*q */
        cy -= mpn_submul_1(np - dn + 1, dp, dn, q);
@@ -192,10 +190,10 @@ mpn_sb_divappr_q (mp_ptr qp,
        if (np[0] >= d0)
           q = ~CNST_LIMB(0);
        else
-          mpir_divrem32_preinv2(q, r1, r2, cy, np[0], np[-1], d11, d01, d1, d0, dinv);
+          udiv_qr_3by2(q, r1, r2, cy, np[0], np[-1], d1, d0, dinv);
          }
        else
-          mpir_divrem32_preinv2(q, r1, r2, cy, np[0], np[-1], d11, d01, d1, d0, dinv);
+          udiv_qr_3by2(q, r1, r2, cy, np[0], np[-1], d1, d0, dinv);
          
        /* np -= dp*q */
        cy -= mpn_submul_1(np - qn, dp, qn + 1, q);

@@ -2720,28 +2720,32 @@ mp_limb_t mpn_invert_limb _PROTO ((mp_limb_t)) ATTRIBUTE_CONST;
 #define invert_pi1(dinv, d1, d0)				\
    mpir_invert_pi1((dinv).inv32, d1, d0)
 
-#define mpir_invert_pi2(dinv, d1, d2)                        \
-do {                                                         \
-   mp_limb_t __q, __r[2], __p[2], __cy;                      \
-                                                             \
-   if ((d2) + 1 == 0 && (d1) + 1 == 0)                       \
-      (dinv) = 0;                                            \
-   else {                                                    \
-      if ((d1) + 1 == 0)                                     \
-         (dinv) = ~(d1), __r[1] = ~(d2);                     \
-      else                                                   \
-         udiv_qrnnd((dinv), __r[1], ~(d1), ~(d2), (d1) + 1); \
-                                                             \
-      if ((d2) + 1 != 0) {                                   \
-         __r[0] = 0;                                         \
-         umul_ppmm(__p[1], __p[0], (dinv), ~(d2));           \
-         __cy = mpn_add_n(__r, __r, __p, 2);                 \
-                                                             \
-         __p[0] = (d2) + 1, __p[1] = (d1) + ((d2) + 1 == 0); \
-         while (__cy || mpn_cmp(__r, __p, 2) >= 0)           \
-         { (dinv)++; __cy -= mpn_sub_n(__r, __r, __p, 2); }  \
-      }                                                      \
-   }                                                         \
+#define mpir_invert_pi2(dinv, d1inv, d1, d2)                  \
+do {                                                          \
+   mp_limb_t __q, __r[2], __p[2], __cy;                       \
+                                                              \
+   if ((d2) + 1 == 0 && (d1) + 1 == 0)                        \
+      (dinv) = (d1inv) = 0;                                   \
+   else {                                                     \
+      if ((d1) + 1 == 0)                                      \
+         (d1inv) = ~(d1), __r[1] = ~(d2);                     \
+      else                                                    \
+         udiv_qrnnd((d1inv), __r[1], ~(d1), ~(d2), (d1) + 1); \
+                                                              \
+      if ((d2) + 1 != 0) {                                    \
+         __r[0] = 0;                                          \
+         umul_ppmm(__p[1], __p[0], (d1inv), ~(d2));           \
+         __cy = mpn_add_n(__r, __r, __p, 2);                  \
+                                                              \
+         __p[0] = (d2) + 1, __p[1] = (d1);                    \
+         while (__cy || mpn_cmp(__r, __p, 2) >= 0)            \
+         { (d1inv)++; __cy -= mpn_sub_n(__r, __r, __p, 2); }  \
+      }                                                       \
+      if (UNLIKELY(__r[1] >= d1 - 2))                         \
+        mpir_invert_pi1(dinv, d1, d2);                        \
+      else                                                    \
+        (dinv) = (d1inv);                                     \
+   }                                                          \
 } while (0)
 
 /* Compute quotient the quotient and remainder for n / d. Requires d
