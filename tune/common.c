@@ -874,6 +874,11 @@ speed_mpn_dc_div_qr_n (struct speed_params *s)
   SPEED_ROUTINE_MPN_DC_DIV_N_TSIZE (mpn_dc_div_qr_n, DC_DIVAPPR_Q_N_ITCH(s->size));
 }
 double
+speed_mpn_sb_divappr_q (struct speed_params *s)
+{
+  SPEED_ROUTINE_MPN_DC_DIV_SMALL_Q (mpn_sb_divappr_q);
+}
+double
 speed_mpn_dc_divappr_q (struct speed_params *s)
 {
   SPEED_ROUTINE_MPN_DC_DIV_SMALL_Q (mpn_dc_divappr_q);

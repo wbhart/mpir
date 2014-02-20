@@ -240,6 +240,7 @@ const struct routine_t {
 
   { "mpn_inv_divappr_q",  speed_mpn_inv_divappr_q, },
   { "mpn_inv_div_qr",  speed_mpn_inv_div_qr,  },
+  { "mpn_sb_divappr_q",  speed_mpn_sb_divappr_q,  },
   { "mpn_dc_divappr_q",  speed_mpn_dc_divappr_q,  },
   { "mpn_dc_div_qr_n",  speed_mpn_dc_div_qr_n,  },
    
