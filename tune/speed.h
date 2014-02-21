@@ -1508,18 +1508,19 @@ int speed_routine_count_zeros_setup _PROTO ((struct speed_params *s,
 #define SPEED_ROUTINE_MPN_DC_DIV_SMALL_Q(function)				\
   {									\
     unsigned  i;							\
-    mp_ptr    a, d, q;						\
-    mp_limb_t inv, inv1;                                             \
-    double    t;							\
+    mp_ptr    a, d, t, q;						\
+    mp_limb_t inv, inv1;                                                \
+    double    td;       						\
     TMP_DECL;								\
 									\
     SPEED_RESTRICT_COND (s->size >= 2);					\
 									\
     TMP_MARK;								\
     SPEED_TMP_ALLOC_LIMBS (a, 2*s->size, s->align_xp);			\
+    SPEED_TMP_ALLOC_LIMBS (t, 2*s->size, s->align_wp2);                 \
     SPEED_TMP_ALLOC_LIMBS (d, s->size,   s->align_yp);			\
     SPEED_TMP_ALLOC_LIMBS (q, s->size+1, s->align_wp);			\
-    								\
+    						         		\
     MPN_COPY (a, s->xp, s->size);					\
     MPN_COPY (a+s->size, s->xp, s->size);				\
 									\
@@ -1530,23 +1531,23 @@ int speed_routine_count_zeros_setup _PROTO ((struct speed_params *s,
     a[2*s->size-1] = d[s->size-1] - 1;					\
 									\
     speed_operand_src (s, a, 2*s->size);				\
+    speed_operand_dst (s, t, 2*s->size);                                \
     speed_operand_src (s, d, s->size);					\
     speed_operand_dst (s, q, s->size+1);				\
     speed_cache_fill (s);						\
-	                                                         \
-    mpir_invert_pi2(inv, inv1, d[s->size-1], d[s->size-2]);                        \
-								\
+	                                                                \
+    mpir_invert_pi2(inv, inv1, d[s->size-1], d[s->size-2]);             \
+								        \
     speed_starttime ();							\
     i = s->reps;							\
     do	{								\
-      MPN_COPY (a, s->xp, s->size);					\
-      MPN_COPY (a+s->size, s->xp, s->size);				\
-      function(q, a, 2*s->size, d, s->size, inv, inv1);								\
+      MPN_COPY (t, a, 2*s->size);					\
+      function(q, t, 2*s->size, d, s->size, inv, inv1);		        \
     } while (--i != 0);							\
-    t = speed_endtime ();						\
+    td = speed_endtime ();						\
 									\
     TMP_FREE;								\
-    return t;								\
+    return td;								\
   }
 
 #define SPEED_ROUTINE_MPN_INV_DIV(function)				\
