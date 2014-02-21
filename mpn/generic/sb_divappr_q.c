@@ -187,11 +187,9 @@ mpn_sb_divappr_q (mp_ptr qp,
        qp[qn] = q;
      }
    
-   qn++;
-   dp = dp + dn - qn - 1; /* make dp length qn + 1 */
+   dp = dp + dn - qn - 2; /* make dp length qn + 1 */
    np--;
-   qn--;
-
+   
    for ( ; qn > 0; qn--)
      {
        /* fetch next word */
@@ -244,7 +242,8 @@ mpn_sb_divappr_q (mp_ptr qp,
        dp++;
      }
 
-          /* fetch next word */
+     {
+       /* fetch next word */
        cy = np[1];
  
        np--;
@@ -252,9 +251,9 @@ mpn_sb_divappr_q (mp_ptr qp,
        /* rare case where truncation ruins normalisation */
        if (UNLIKELY(cy >= d1))
          {
-       if (cy > d1 || (cy == d1 && mpn_cmp(np - qn + 1, dp, qn + 1) >= 0))
+       if (cy > d1 || (cy == d1 && np[1] >= dp[0]))
          {
-       __divappr_helper(qp, np - qn, dp, qn + 1);
+       __divappr_helper(qp, np, dp, 1);
        return qh;
          }
        if (np[1] >= d0)
@@ -262,26 +261,31 @@ mpn_sb_divappr_q (mp_ptr qp,
           q = ~CNST_LIMB(0);
 
           /* np -= dp*q */
-          cy -= mpn_submul_1(np - qn, dp, qn + 2, q);
+          cy -= mpn_submul_1(np, dp, 2, q);
        
+          /* correct if quotient is too large */
+          if (UNLIKELY(cy != 0))
+          {
+             q--;
+             np[2] = cy + mpn_add_n(np, np, dp, 2);
+          }
        } else
+       {
           udiv_qr_3by2(q, np[1], np[0], cy, np[1], np[0], d1, d0, dinv);
+
+          np[2] = 0;
+       }
 
          }
        else
+       {
           udiv_qr_3by2(q, np[1], np[0], cy, np[1], np[0], d1, d0, dinv);
-         
-       /* correct if quotient is too large */
-       if (UNLIKELY(cy != 0))
-         {
-       q--;
-       cy += mpn_add_n(np - qn, np - qn, dp, qn + 2);
-         }
-       
-       qp[qn] = q;
-       dp++;
 
-  np[2] = cy;
+          np[2] = 0;
+       }       
+       
+       qp[0] = q;
+     }
   }
 
   return qh;
