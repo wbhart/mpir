@@ -32,7 +32,7 @@ along with the GNU MP Library.  If not, see http://www.gnu.org/licenses/.  */
 #include "gmp-impl.h"
 #include "longlong.h"
 
-#define SB_DIVAPPR_Q_SMALL_THRESHOLD 30
+#define SB_DIVAPPR_Q_SMALL_THRESHOLD 6
 
 void __divappr_helper(mp_ptr qp, mp_ptr np, mp_srcptr dp, mp_size_t qn)
 {   
@@ -141,7 +141,7 @@ mpn_sb_divappr_q (mp_ptr qp,
   np[1] = cy;
      } 
   else
-     {
+  {
   d1 = dp[dn - 1];
   d0 = dp[dn - 2];
   
@@ -153,12 +153,16 @@ mpn_sb_divappr_q (mp_ptr qp,
 
        np --;
        if (UNLIKELY(cy == d1 && np[0] == d0))
+       {
           q = ~CNST_LIMB(0);
-       else
-          udiv_qr_3by2(q, r1, r2, cy, np[0], np[-1], d1, d0, dinv);
- 
-	    /* np -= dp*q */
-       cy -= mpn_submul_1(np - dn + 1, dp, dn, q);
+          /* np -= dp*q */
+          cy -= mpn_submul_1(np - dn + 1, dp, dn, q);
+       } else
+       {
+          udiv_qr_3by2(q, np[0], np[-1], cy, np[0], np[-1], d1, d0, dinv);
+          cy1 = mpn_submul_1(np - dn + 1, dp, dn - 2, q);
+          sub_333(cy, np[0], np[-1], 0, np[0], np[-1], 0, 0, cy1);
+       }
 
        /* correct if remainder is too large */
        if (UNLIKELY(cy != 0))
@@ -172,43 +176,61 @@ mpn_sb_divappr_q (mp_ptr qp,
    
    qn++;
    dp = dp + dn - qn - 1; /* make dp length qn + 1 */
-   
-   for ( ; qn > 0; qn--)
+   np--;
+   qn--;
+
+   for ( ; qn >= 0; qn--)
      {
        /* fetch next word */
-       cy = np[0];
+       cy = np[1];
  
        np--;
+
        /* rare case where truncation ruins normalisation */
        if (UNLIKELY(cy >= d1))
          {
-       if (cy > d1 || (cy == d1 && mpn_cmp(np - qn + 1, dp, qn) >= 0))
+       if (cy > d1 || (cy == d1 && mpn_cmp(np - qn + 1, dp, qn + 1) >= 0))
          {
-       __divappr_helper(qp, np - qn, dp, qn);
+       __divappr_helper(qp, np - qn, dp, qn + 1);
        return qh;
          }
-       if (np[0] >= d0)
+       if (np[1] >= d0)
+       {
           q = ~CNST_LIMB(0);
-       else
-          udiv_qr_3by2(q, r1, r2, cy, np[0], np[-1], d1, d0, dinv);
+
+          /* np -= dp*q */
+          cy -= mpn_submul_1(np - qn, dp, qn + 2, q);
+       
+       } else
+       {
+          udiv_qr_3by2(q, np[1], np[0], cy, np[1], np[0], d1, d0, dinv);
+
+          /* np -= dp*q */
+          cy1 = qn == 0 ? 0 : mpn_submul_1(np - qn, dp, qn, q);
+          sub_333(cy, np[1], np[0], 0, np[1], np[0], 0, 0, cy1);
+       }
+
          }
        else
-          udiv_qr_3by2(q, r1, r2, cy, np[0], np[-1], d1, d0, dinv);
-         
-       /* np -= dp*q */
-       cy -= mpn_submul_1(np - qn, dp, qn + 1, q);
+       {
+          udiv_qr_3by2(q, np[1], np[0], cy, np[1], np[0], d1, d0, dinv);
 
-       /* correct if remainder is too large */
+          /* np -= dp*q */
+          cy1 = qn == 0 ? 0 : mpn_submul_1(np - qn, dp, qn, q);
+          sub_333(cy, np[1], np[0], 0, np[1], np[0], 0, 0, cy1);
+       }
+         
+       /* correct if quotient is too large */
        if (UNLIKELY(cy != 0))
          {
        q--;
-       cy += mpn_add_n(np - qn, np - qn, dp, qn + 1);
+       cy += mpn_add_n(np - qn, np - qn, dp, qn + 2);
          }
        
-       qp[qn - 1] = q;
+       qp[qn] = q;
        dp++;
      }
-  np[1] = cy;
+  np[2] = cy;
   }
 
   return qh;
