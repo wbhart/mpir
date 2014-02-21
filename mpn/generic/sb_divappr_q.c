@@ -46,19 +46,41 @@ void __divappr_helper(mp_ptr qp, mp_ptr np, mp_srcptr dp, mp_size_t qn)
    }
 }
 
-void
-mpn_sb_divappr_q_small (mp_ptr qp,
+           
+mp_limb_t
+mpn_sb_divappr_q (mp_ptr qp,
 		     mp_ptr np, mp_size_t nn,
 		     mp_srcptr dp, mp_size_t dn,
-		     mp_limb_t d1inv, mp_size_t qn)
+		     mp_limb_t dinv, mp_limb_t d1inv)
 {
-  mp_size_t i;
+  mp_limb_t qh;
+  mp_size_t qn, i;
   mp_limb_t n1, n0;
   mp_limb_t d1, d0, r1, r2;
   mp_limb_t cy, cy1;
   mp_limb_t q;
   
-  /* Reduce until dn - 2 >= qn */
+  ASSERT (dn > 2);
+  ASSERT (nn >= dn);
+  ASSERT ((dp[dn-1] & GMP_NUMB_HIGHBIT) != 0);
+
+  np += nn;
+
+  qn = nn - dn;
+  if (qn + 1 < dn)
+    {
+      dp += dn - (qn + 1);
+      dn = qn + 1;
+    }
+
+  qh = mpn_cmp (np - dn, dp, dn) >= 0;
+  if (qh != 0)
+    mpn_sub_n (np - dn, np - dn, dp, dn);
+
+  if (dn <= SB_DIVAPPR_Q_SMALL_THRESHOLD)
+  {
+   
+   /* Reduce until dn - 2 >= qn */
    for (qn--, np--; qn > dn - 2; qn--)
      {
        /* fetch next word */
@@ -96,7 +118,7 @@ mpn_sb_divappr_q_small (mp_ptr qp,
        if (cy > dp[qn] || (cy == dp[qn] && mpn_cmp(np - qn + 1, dp, qn) >= 0))
          {
        __divappr_helper(qp, np - qn, dp, qn);
-       return;
+       return qh;
          }
        
        mpir_divapprox32_preinv2(q, cy, np[0], d1inv);
@@ -118,41 +140,8 @@ mpn_sb_divappr_q_small (mp_ptr qp,
        dp++;
      }
      np[1] = cy;
-}
-
-           
-mp_limb_t
-mpn_sb_divappr_q (mp_ptr qp,
-		     mp_ptr np, mp_size_t nn,
-		     mp_srcptr dp, mp_size_t dn,
-		     mp_limb_t dinv, mp_limb_t d1inv)
-{
-  mp_limb_t qh;
-  mp_size_t qn, i;
-  mp_limb_t n1, n0;
-  mp_limb_t d1, d0, r1, r2;
-  mp_limb_t cy, cy1;
-  mp_limb_t q;
   
-  ASSERT (dn > 2);
-  ASSERT (nn >= dn);
-  ASSERT ((dp[dn-1] & GMP_NUMB_HIGHBIT) != 0);
-
-  np += nn;
-
-  qn = nn - dn;
-  if (qn + 1 < dn)
-    {
-      dp += dn - (qn + 1);
-      dn = qn + 1;
-    }
-
-  qh = mpn_cmp (np - dn, dp, dn) >= 0;
-  if (qh != 0)
-    mpn_sub_n (np - dn, np - dn, dp, dn);
-
-  if (dn <= SB_DIVAPPR_Q_SMALL_THRESHOLD)
-     mpn_sb_divappr_q_small (qp, np, nn, dp, dn, d1inv, qn);
+  }
   else
   {
   d1 = dp[dn - 1];
