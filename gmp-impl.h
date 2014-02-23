@@ -2787,8 +2787,8 @@ do {                                                          \
    do { \
       mp_limb_t __q2, __q3, __q4; \
       umul_ppmm((q), __q2, (a_hi), (dinv)); \
-      add_ssaaaa((q), __q2, (q), __q2, (a_hi), (a_lo)); \
       umul_ppmm(__q3, __q4, (a_lo), (dinv)); \
+      add_ssaaaa((q), __q2, (q), __q2, (a_hi), (a_lo)); \
       add_ssaaaa((q), __q2, (q), __q2, 0, __q3); \
    } while (0)
 
