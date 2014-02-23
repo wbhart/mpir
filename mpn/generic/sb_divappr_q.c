@@ -32,7 +32,7 @@ along with the GNU MP Library.  If not, see http://www.gnu.org/licenses/.  */
 #include "gmp-impl.h"
 #include "longlong.h"
 
-#define SB_DIVAPPR_Q_SMALL_THRESHOLD 30 
+#define SB_DIVAPPR_Q_SMALL_THRESHOLD 11
 
 void __divappr_helper(mp_ptr qp, mp_ptr np, mp_srcptr dp, mp_size_t qn)
 {   
@@ -57,7 +57,7 @@ mpn_sb_divappr_q (mp_ptr qp,
   mp_size_t qn, i;
   mp_limb_t n1, n0;
   mp_limb_t d1, d0, r1, r2;
-  mp_limb_t cy, cy1;
+  mp_limb_t cy, cy1, cy2;
   mp_limb_t q;
   
   ASSERT (dn > 2);
@@ -147,89 +147,123 @@ mpn_sb_divappr_q (mp_ptr qp,
   d1 = dp[dn - 1];
   d0 = dp[dn - 2];
   
-    /* Reduce until dn - 2 >= qn */
-   for (qn--, np--; qn > dn - 2; qn--)
-     {
-       /* fetch next word */
-       cy = np[0];
+  qn--, np--;
+  
+  if (qn > dn - 2)
+  {
+   cy = np[0];
+   n1 = np[-1];
 
+   /* Reduce until dn - 2 >= qn */
+   for ( ; qn > dn - 2; qn--)
+     {
        np --;
-       if (UNLIKELY(cy == d1 && np[0] == d0))
+       
+       if (UNLIKELY(cy == d1 && n1 == d0))
        {
           q = ~CNST_LIMB(0);
+
           /* np -= dp*q */
-          cy -= mpn_submul_1(np - dn + 1, dp, dn, q);
-       } else
+          np[0] = n1;
+          cy2 = cy - mpn_submul_1(np - dn + 1, dp, dn, q);
+          cy = np[0];
+          n1 = np[-1];
+       }
+       else
        {
-          udiv_qr_3by2(q, np[0], np[-1], cy, np[0], np[-1], d1, d0, dinv);
+          udiv_qr_3by2(q, cy, n1, cy, n1, np[-1], d1, d0, dinv);
+          
+          /* np -= dp*q */
           cy1 = mpn_submul_1(np - dn + 1, dp, dn - 2, q);
-          sub_333(cy, np[0], np[-1], 0, np[0], np[-1], 0, 0, cy1);
+          sub_333(cy2, cy, n1, 0, cy, n1, 0, 0, cy1);
        }
 
        /* correct if remainder is too large */
-       if (UNLIKELY(cy != 0))
+       if (UNLIKELY(cy2 != 0))
          {
           q--;
-          cy += mpn_add_n(np - dn + 1, np - dn + 1, dp, dn);
+          cy1 = mpn_add_n(np - dn + 1, np - dn + 1, dp, dn - 2);
+          add_ssaaaa(cy, n1, cy, n1, d1, d0);
+          add_ssaaaa(cy, n1, cy, n1, 0, cy1);
          }
        
        qp[qn] = q;
      }
    
+   np[0] = cy;
+   np[-1] = n1;
+  }
+
    dp = dp + dn - qn - 2; /* make dp length qn + 1 */
    np--;
    
+   if (qn > 0)
+  {
+   cy = np[1];
+   n1 = np[0];
+
    for ( ; qn > 0; qn--)
      {
        /* fetch next word */
-       cy = np[1];
- 
        np--;
 
        /* rare case where truncation ruins normalisation */
        if (UNLIKELY(cy >= d1))
          {
+
+       np[1] = n1;
+       
        if (cy > d1 || (cy == d1 && mpn_cmp(np - qn + 1, dp, qn + 1) >= 0))
          {
        __divappr_helper(qp, np - qn, dp, qn + 1);
        return qh;
          }
-       if (np[1] >= d0)
+
+       if (n1 >= d0)
        {
-          q = ~CNST_LIMB(0);
+          q = ~CNST_LIMB(0);       
 
           /* np -= dp*q */
-          cy -= mpn_submul_1(np - qn, dp, qn + 2, q);
-       
-       } else
-       {
-          udiv_qr_3by2(q, np[1], np[0], cy, np[1], np[0], d1, d0, dinv);
-
-          /* np -= dp*q */
-          cy1 = mpn_submul_1(np - qn, dp, qn, q);
-          sub_333(cy, np[1], np[0], 0, np[1], np[0], 0, 0, cy1);
+          cy2 = cy - mpn_submul_1(np - qn, dp, qn + 2, q);
+          cy = np[1];
+          n1 = np[0];
        }
-
-         }
        else
        {
-          udiv_qr_3by2(q, np[1], np[0], cy, np[1], np[0], d1, d0, dinv);
+          udiv_qr_3by2(q, cy, n1, cy, n1, np[0], d1, d0, dinv);
+          
+          /* np -= dp*q */
+          cy1 = mpn_submul_1(np - qn, dp, qn, q);
+          sub_333(cy2, cy, n1, 0, cy, n1, 0, 0, cy1);
+       }
+
+         } 
+       else
+       {
+          udiv_qr_3by2(q, cy, n1, cy, n1, np[0], d1, d0, dinv);
 
           /* np -= dp*q */
           cy1 = mpn_submul_1(np - qn, dp, qn, q);
-          sub_333(cy, np[1], np[0], 0, np[1], np[0], 0, 0, cy1);
+          sub_333(cy2, cy, n1, 0, cy, n1, 0, 0, cy1);
        }
          
        /* correct if quotient is too large */
-       if (UNLIKELY(cy != 0))
+       if (UNLIKELY(cy2 != 0))
          {
        q--;
-       cy += mpn_add_n(np - qn, np - qn, dp, qn + 2);
+       cy1 = mpn_add_n(np - qn, np - qn, dp, qn);
+       add_ssaaaa(cy, n1, cy, n1, d1, d0);
+       add_ssaaaa(cy, n1, cy, n1, 0, cy1);
          }
        
        qp[qn] = q;
        dp++;
      }
+
+   np[1] = cy;
+   np[0] = n1;
+   }
+
 
      {
        /* fetch next word */
