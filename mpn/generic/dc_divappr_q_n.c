@@ -66,7 +66,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 mp_limb_t
 mpn_dc_divappr_q_n (mp_ptr qp, mp_ptr np, mp_srcptr dp, mp_size_t n, 
-		    mp_limb_t dip, mp_ptr tp)
+		    mp_limb_t dip, mp_limb_t d1ip, mp_ptr tp)
 {
   mp_limb_t qh, cy;
   mp_ptr q_hi;
@@ -99,10 +99,10 @@ mpn_dc_divappr_q_n (mp_ptr qp, mp_ptr np, mp_srcptr dp, mp_size_t n,
      to the truncation we've done to a 2*m by m division... */
   if (m < DC_DIVAPPR_Q_N_THRESHOLD)
     qh = mpn_sb_divappr_q (q_hi, tp + 2*n - 2*m, 2*m,
-			   dp + n - m, m, dip);
+			   dp + n - m, m, dip, d1ip);
   else
     qh = mpn_dc_divappr_q_n (q_hi, tp + 2*n - 2*m,
-			     dp + n - m, m, dip, tp + 2*n);
+			     dp + n - m, m, dip, d1ip, tp + 2*n);
 
   /* we therefore decrease the estimate by 3... */
   qh -= mpn_sub_1 (q_hi, q_hi, m, (mp_limb_t) 3);
@@ -143,10 +143,10 @@ mpn_dc_divappr_q_n (mp_ptr qp, mp_ptr np, mp_srcptr dp, mp_size_t n,
      results in a quotient which is at most 1 too large */
   if (n - m + 2 < DC_DIVAPPR_Q_N_THRESHOLD)
     cy = mpn_sb_divappr_q (tp, np + m - 3, 2*n - 2*m + 4,
-			   dp + m - 2, n - m + 2, dip);
+			   dp + m - 2, n - m + 2, dip, d1ip);
   else
     cy = mpn_dc_divappr_q_n (tp, np + m - 3, dp + m - 2, n - m + 2,
-			     dip, tp + n - m + 2);
+			     dip, d1ip, tp + n - m + 2);
 
   /* FIXME: The only reason this copy happens is that we elected to 
      develop one extra quotient limb in the second recursive quotient. */

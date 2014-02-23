@@ -45,7 +45,7 @@ check_dc_divappr_q_n (void)
    mp_limb_t rp[2*MAX_LIMBS];
    mp_limb_t dp[MAX_LIMBS];
    mp_limb_t qp[MAX_LIMBS];
-   mp_limb_t dip;
+   mp_limb_t dip, d1ip;
 
    mp_size_t nn, rn, dn, qn;
 
@@ -65,11 +65,11 @@ check_dc_divappr_q_n (void)
 
       MPN_COPY(np2, np, nn);
       
-      mpir_invert_pi2(dip, dp[dn - 1], dp[dn - 2]);
+      mpir_invert_pi2(dip, d1ip, dp[dn - 1], dp[dn - 2]);
       
       qn = nn - dn + 1;
          
-      qp[qn - 1] = mpn_dc_divappr_q_n(qp, np, dp, dn, dip, tp);
+      qp[qn - 1] = mpn_dc_divappr_q_n(qp, np, dp, dn, dip, d1ip, tp);
       
       MPN_NORMALIZE(qp, qn);
 

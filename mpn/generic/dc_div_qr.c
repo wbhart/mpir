@@ -33,7 +33,7 @@ mp_limb_t
 mpn_dc_div_qr (mp_ptr qp,
 		  mp_ptr np, mp_size_t nn,
 		  mp_srcptr dp, mp_size_t dn,
-		  mp_limb_t dinv)
+		  mp_limb_t dinv, mp_limb_t d1inv)
 {
   mp_size_t qn;
   mp_limb_t qh, cy;
@@ -66,7 +66,7 @@ mpn_dc_div_qr (mp_ptr qp,
       /* Perform the typically smaller block first.  */
       if (qn == 1)
 	{
-	  mp_limb_t q, n2, n1, n0, d1, d0, d11, d01;
+	  mp_limb_t q, n2, n1, n0, d1, d0;
 
 	  /* Handle qh up front, for simplicity. */
 	  qh = mpn_cmp (np - dn + 1, dp - dn, dn) >= 0;
@@ -80,9 +80,7 @@ mpn_dc_div_qr (mp_ptr qp,
 	  n0 = np[-2];
 	  d1 = dp[-1];
 	  d0 = dp[-2];
-     d01 = d0 + 1;
-     d11 = d1 + (d01 < d0);
-
+     
 	  ASSERT (n2 < d1 || (n2 == d1 && n1 <= d0));
 
 	  if (UNLIKELY (n2 == d1) && n1 == d0)
@@ -93,7 +91,7 @@ mpn_dc_div_qr (mp_ptr qp,
 	    }
 	  else
 	    {
-	      mpir_divrem32_preinv2 (q, n1, n0, n2, n1, n0, d11, d01, d1, d0, dinv);
+	      udiv_qr_3by2 (q, n1, n0, n2, n1, n0, d1, d0, dinv);
 
 	      if (dn > 2)
 		{
@@ -126,9 +124,9 @@ mpn_dc_div_qr (mp_ptr qp,
 	  if (qn == 2)
 	    qh = mpn_divrem_2 (qp, 0L, np - 2, 4, dp - 2); /* FIXME: obsolete function. Use 5/3 division? */
 	  else if (BELOW_THRESHOLD (qn, DC_DIV_QR_THRESHOLD))
-	    qh = mpn_sb_div_qr (qp, np - qn, 2 * qn, dp - qn, qn, dinv);
+	    qh = mpn_sb_div_qr (qp, np - qn, 2 * qn, dp - qn, qn, dinv, d1inv);
 	  else
-	    qh = mpn_dc_div_qr_n (qp, np - qn, dp - qn, qn, dinv, tp);
+	    qh = mpn_dc_div_qr_n (qp, np - qn, dp - qn, qn, dinv, d1inv, tp);
 
 	  if (qn != dn)
 	    {
@@ -154,7 +152,7 @@ mpn_dc_div_qr (mp_ptr qp,
 	{
 	  qp -= dn;
 	  np -= dn;
-	  ASSERT_NOCARRY(mpn_dc_div_qr_n (qp, np - dn, dp - dn, dn, dinv, tp));
+	  ASSERT_NOCARRY(mpn_dc_div_qr_n (qp, np - dn, dp - dn, dn, dinv, d1inv, tp));
 	  qn -= dn;
 	}
       while (qn > 0);
@@ -165,9 +163,9 @@ mpn_dc_div_qr (mp_ptr qp,
       np -= qn;			/* point in the middle of partial remainder */
 
       if (BELOW_THRESHOLD (qn, DC_DIV_QR_THRESHOLD))
-	qh = mpn_sb_div_qr (qp, np - qn, 2 * qn, dp - qn, qn, dinv);
+	qh = mpn_sb_div_qr (qp, np - qn, 2 * qn, dp - qn, qn, dinv, d1inv);
       else
-	qh = mpn_dc_div_qr_n (qp, np - qn, dp - qn, qn, dinv, tp);
+	qh = mpn_dc_div_qr_n (qp, np - qn, dp - qn, qn, dinv, d1inv, tp);
 
       if (qn != dn)
 	{

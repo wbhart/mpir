@@ -55,14 +55,14 @@
 #define MULMOD_2EXPM1_THRESHOLD          16
 
 #define FAC_UI_THRESHOLD               1024
-#define DC_DIV_QR_THRESHOLD             298
-#define DC_DIVAPPR_Q_N_THRESHOLD        134
-#define INV_DIV_QR_THRESHOLD            807
-#define INV_DIVAPPR_Q_N_THRESHOLD       134
-#define DC_DIV_Q_THRESHOLD              186
-#define INV_DIV_Q_THRESHOLD            7356
-#define DC_DIVAPPR_Q_THRESHOLD          162
-#define INV_DIVAPPR_Q_THRESHOLD       18500
+#define DC_DIV_QR_THRESHOLD              60
+#define DC_DIVAPPR_Q_N_THRESHOLD        126
+#define INV_DIV_QR_THRESHOLD           2747
+#define INV_DIVAPPR_Q_N_THRESHOLD       126
+#define DC_DIV_Q_THRESHOLD               44
+#define INV_DIV_Q_THRESHOLD            8121
+#define DC_DIVAPPR_Q_THRESHOLD           35
+#define INV_DIVAPPR_Q_THRESHOLD       19406
 #define DC_BDIV_QR_THRESHOLD            278
 #define DC_BDIV_Q_THRESHOLD              33
 
