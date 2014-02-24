@@ -1117,6 +1117,14 @@ check_align_option (const char *name, mp_size_t align)
     }
 }
 
+#ifdef _WIN64
+#  define s2_format "%lld-%lld"
+#  define s3_format "%lld(%lld)%lld"
+#else
+#  define s2_format "%ld-%ld"
+#  define s3_format "%ld(%ld)%ld"
+#endif
+
 int
 main (int argc, char *argv[])
 {
@@ -1228,13 +1236,13 @@ main (int argc, char *argv[])
                   size_allocnum += 10;
                 }
               size_array[size_num].inc = 0;
-              if (sscanf (s, "%ld(%ld)%ld",
+              if (sscanf (s, s3_format,
                           &size_array[size_num].start,
                           &size_array[size_num].inc,
                           &size_array[size_num].end) != 3)
                 {
 
-                  if (sscanf (s, "%ld-%ld",
+                  if (sscanf (s, s2_format,
                               &size_array[size_num].start,
                               &size_array[size_num].end) != 2)
                     {
