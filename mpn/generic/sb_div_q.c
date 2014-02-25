@@ -31,7 +31,7 @@ along with the GNU MP Library.  If not, see http://www.gnu.org/licenses/.  */
 #include "gmp-impl.h"
 #include "longlong.h"
 
-#define SB_DIVAPPR_Q_SMALL_THRESHOLD 30
+#define SB_DIVAPPR_Q_SMALL_THRESHOLD 11
 
 void __div_helper(mp_ptr qp, mp_ptr np, mp_srcptr dp, mp_size_t qn)
 {   
@@ -121,12 +121,15 @@ mpn_sb_div_q (mp_ptr qp,
  
        np--;
        /* rare case where truncation ruins normalisation */
-       if (cy > dp[qn] || (cy == dp[qn] && mpn_cmp(np - qn + 1, dp, qn) >= 0))
+       if (cy >= dp[qn])
+       {
+          if (cy > dp[qn] || mpn_cmp(np - qn + 1, dp, qn) >= 0)
          {
        __div_helper(qp, np - qn, dp, qn);
        flag = 0;
        break;
          }
+       }
        
        mpir_divapprox32_preinv2(q, cy, np[0], d1inv);
          
