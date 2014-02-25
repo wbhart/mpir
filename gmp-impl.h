@@ -2716,16 +2716,12 @@ mp_limb_t mpn_invert_limb _PROTO ((mp_limb_t)) ATTRIBUTE_CONST;
     dinv = _v;							\
   } while (0)
 
-/* For compatibility with GMP only */
-#define invert_pi1(dinv, d1, d0)				\
-   mpir_invert_pi1((dinv).inv32, d1, d0)
-
-#define mpir_invert_pi2(dinv, d1inv, d1, d2)                  \
+#define __mpir_invert_pi2(d1inv, d1, d2)                      \
 do {                                                          \
    mp_limb_t __q, __r[2], __p[2], __cy;                       \
                                                               \
    if ((d2) + 1 == 0 && (d1) + 1 == 0)                        \
-      (dinv) = (d1inv) = 0;                                   \
+      (d1inv) = 0;                                   \
    else {                                                     \
       if ((d1) + 1 == 0)                                      \
          (d1inv) = ~(d1), __r[1] = ~(d2);                     \
@@ -2741,12 +2737,46 @@ do {                                                          \
          while (__cy || mpn_cmp(__r, __p, 2) >= 0)            \
          { (d1inv)++; __cy -= mpn_sub_n(__r, __r, __p, 2); }  \
       }                                                       \
-      if (UNLIKELY(__r[1] >= d1 - 2))                         \
-        mpir_invert_pi1(dinv, d1, d2);                        \
-      else                                                    \
-        (dinv) = (d1inv);                                     \
    }                                                          \
 } while (0)
+
+#define mpir_invert_pi2(dinv, d1inv, d1, d0)					\
+  do {									\
+    mp_limb_t _v, _p, _t1, _t0, _mask;					\
+    invert_limb (_v, d1);						\
+    _p = (d1) * _v;							\
+    _p += (d0);								\
+    if (_p < (d0))							\
+      {									\
+	_v--;								\
+	_mask = -(mp_limb_t) (_p >= (d1));				\
+	_p -= (d1);							\
+	_v += _mask;							\
+	_p -= _mask & (d1);						\
+      }									\
+    umul_ppmm (_t1, _t0, d0, _v);					\
+    _p += _t1;								\
+    if (_p < _t1)							\
+      {									\
+	_v--;								\
+	if (UNLIKELY (_p >= (d1)))					\
+	  {								\
+	    if (_p > (d1) || _t0 >= (d0))				\
+	      _v--;							\
+         sub_ddmmss(_p, _t0, _p, _t0, (d1), (d0)); \
+     } \
+    sub_ddmmss(_p, _t0, _p, _t0, (d1), (d0)); \
+      }									\
+    if (UNLIKELY(_p <= 2))  \
+       __mpir_invert_pi2(d1inv, d1, d0); \
+    else \
+       d1inv = _v; \
+    dinv = _v;							\
+  } while (0)
+
+/* For compatibility with GMP only */
+#define invert_pi1(dinv, d1, d0)				\
+   mpir_invert_pi1((dinv).inv32, d1, d0)
 
 /* Compute quotient the quotient and remainder for n / d. Requires d
    >= B^2 / 2 and n < d B. di is the inverse
