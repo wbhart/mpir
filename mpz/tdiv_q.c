@@ -31,7 +31,7 @@ mpz_tdiv_q (mpz_ptr quot, mpz_srcptr num, mpz_srcptr den)
 {
   mp_size_t ql;
   mp_size_t ns, ds, nl, dl;
-  mp_ptr np, dp, qp, rp;
+  mp_ptr np, dp, qp;
   TMP_DECL;
 
   ns = SIZ (num);
@@ -53,7 +53,6 @@ mpz_tdiv_q (mpz_ptr quot, mpz_srcptr num, mpz_srcptr den)
 
   TMP_MARK;
   qp = PTR (quot);
-  rp = (mp_ptr) TMP_ALLOC (dl * BYTES_PER_MP_LIMB);
   np = PTR (num);
   dp = PTR (den);
 
