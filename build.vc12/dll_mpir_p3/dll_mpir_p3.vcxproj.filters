@@ -64,6 +64,12 @@
   <ClCompile Include="..\..\mp_set_fns.c">
     <Filter>Source Files</Filter>
     </ClCompile>
+  <ClCompile Include="..\..\nextprime.c">
+    <Filter>Source Files</Filter>
+    </ClCompile>
+  <ClCompile Include="..\..\primesieve.c">
+    <Filter>Source Files</Filter>
+    </ClCompile>
   <ClCompile Include="..\..\randbui.c">
     <Filter>Source Files</Filter>
     </ClCompile>
@@ -811,6 +817,9 @@
   <ClCompile Include="..\..\mpz\nthroot.c">
     <Filter>Source Files\mpz</Filter>
     </ClCompile>
+  <ClCompile Include="..\..\mpz\oddfac_1.c">
+    <Filter>Source Files\mpz</Filter>
+    </ClCompile>
   <ClCompile Include="..\..\mpz\out_raw.c">
     <Filter>Source Files\mpz</Filter>
     </ClCompile>
@@ -839,6 +848,9 @@
     <Filter>Source Files\mpz</Filter>
     </ClCompile>
   <ClCompile Include="..\..\mpz\probable_prime_p.c">
+    <Filter>Source Files\mpz</Filter>
+    </ClCompile>
+  <ClCompile Include="..\..\mpz\prodlimbs.c">
     <Filter>Source Files\mpz</Filter>
     </ClCompile>
   <ClCompile Include="..\..\mpz\realloc.c">
@@ -1118,6 +1130,9 @@
     <Filter>Source Files\mpn</Filter>
     </ClCompile>
   <ClCompile Include="..\..\mpn\generic\com_n.c">
+    <Filter>Source Files\mpn</Filter>
+    </ClCompile>
+  <ClCompile Include="..\..\mpn\generic\comb_tables.c">
     <Filter>Source Files\mpn</Filter>
     </ClCompile>
   <ClCompile Include="..\..\mpn\generic\dc_bdiv_q.c">

@@ -13,7 +13,7 @@
   <PropertyGroup Label="Globals">
     <RootNamespace>mpir</RootNamespace>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{f1c40450-9fcc-11e3-947c-24fd5238c490}</ProjectGuid>
+    <ProjectGuid>{e7b42d3e-9ffa-11e3-8855-24fd5238c490}</ProjectGuid>
     </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
@@ -121,6 +121,8 @@ postbuild "$(TargetPath)"
     <ClCompile Include="..\..\mp_get_fns.c" />
     <ClCompile Include="..\..\mp_minv_tab.c" />
     <ClCompile Include="..\..\mp_set_fns.c" />
+    <ClCompile Include="..\..\nextprime.c" />
+    <ClCompile Include="..\..\primesieve.c" />
     <ClCompile Include="..\..\randbui.c" />
     <ClCompile Include="..\..\randclr.c" />
     <ClCompile Include="..\..\randdef.c" />
@@ -1075,6 +1077,10 @@ postbuild "$(TargetPath)"
         <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpz\</ObjectFileName>
         <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpz\</ObjectFileName>
     </ClCompile>
+    <ClCompile Include="..\..\mpz\oddfac_1.c">
+        <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpz\</ObjectFileName>
+        <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpz\</ObjectFileName>
+    </ClCompile>
     <ClCompile Include="..\..\mpz\out_raw.c">
         <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpz\</ObjectFileName>
         <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpz\</ObjectFileName>
@@ -1112,6 +1118,10 @@ postbuild "$(TargetPath)"
         <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpz\</ObjectFileName>
     </ClCompile>
     <ClCompile Include="..\..\mpz\probable_prime_p.c">
+        <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpz\</ObjectFileName>
+        <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpz\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\mpz\prodlimbs.c">
         <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpz\</ObjectFileName>
         <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpz\</ObjectFileName>
     </ClCompile>
@@ -1420,6 +1430,10 @@ postbuild "$(TargetPath)"
         <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpn\</ObjectFileName>
     </ClCompile>
     <ClCompile Include="..\..\mpn\generic\cmp.c">
+        <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpn\</ObjectFileName>
+        <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpn\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\mpn\generic\comb_tables.c">
         <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpn\</ObjectFileName>
         <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpn\</ObjectFileName>
     </ClCompile>
