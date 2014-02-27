@@ -630,6 +630,13 @@ void  __gmp_tmp_debug_free  _PROTO ((const char *, int, int,
    return true though, so avoid that.  */
 #define POW2_P(n)  (((n) & ((n) - 1)) == 0)
 
+/* This is intended for constant THRESHOLDs only, where the compiler
+   can completely fold the result.  */
+#define LOG2C(n) \
+ (((n) >=    0x1) + ((n) >=    0x2) + ((n) >=    0x4) + ((n) >=    0x8) + \
+  ((n) >=   0x10) + ((n) >=   0x20) + ((n) >=   0x40) + ((n) >=   0x80) + \
+  ((n) >=  0x100) + ((n) >=  0x200) + ((n) >=  0x400) + ((n) >=  0x800) + \
+  ((n) >= 0x1000) + ((n) >= 0x2000) + ((n) >= 0x4000) + ((n) >= 0x8000))
 
 /* The "short" defines are a bit different because shorts are promoted to
    ints by ~ or >> etc.
@@ -1514,6 +1521,12 @@ __GMP_DECLSPEC int mpn_mulmod_Bexpp1_fft _PROTO ((mp_ptr op, mp_size_t pl,
 #define mpz_divexact_gcd  __gmpz_divexact_gcd
 __GMP_DECLSPEC void mpz_divexact_gcd _PROTO ((mpz_ptr q, mpz_srcptr a, mpz_srcptr d));
 
+#define mpz_prodlimbs  __gmpz_prodlimbs
+__GMP_DECLSPEC mp_size_t mpz_prodlimbs (mpz_ptr, mp_ptr, mp_size_t);
+
+#define mpz_oddfac_1  __gmpz_oddfac_1
+__GMP_DECLSPEC void mpz_oddfac_1 (mpz_ptr, mp_limb_t, unsigned);
+
 #define mpz_inp_str_nowhite __gmpz_inp_str_nowhite
 #ifdef _GMP_H_HAVE_FILE
 __GMP_DECLSPEC size_t mpz_inp_str_nowhite _PROTO ((mpz_ptr x, FILE *stream, int base, int c, size_t nread));
@@ -1696,10 +1709,13 @@ __GMP_DECLSPEC mp_size_t mpn_rootrem_basecase _PROTO ((mp_ptr, mp_ptr, mp_srcptr
     __x->_mp_d = (mp_ptr) TMP_ALLOC ((NLIMBS) * BYTES_PER_MP_LIMB);     \
   } while (0)
 
+
 /* Realloc for an mpz_t WHAT if it has less than NEEDED limbs.  */
 #define MPZ_REALLOC(z,n) (UNLIKELY ((n) > ALLOC(z))     \
                           ? (mp_ptr) _mpz_realloc(z,n)  \
                           : PTR(z))
+
+#define MPZ_NEWALLOC MPZ_REALLOC
 
 #define MPZ_EQUAL_1_P(z)  (SIZ(z)==1 && PTR(z)[0] == 1)
 
@@ -1737,6 +1753,37 @@ __GMP_DECLSPEC mp_size_t mpn_rootrem_basecase _PROTO ((mp_ptr, mp_ptr, mp_srcptr
 __GMP_DECLSPEC extern const mp_limb_t __gmp_fib_table[];
 #define FIB_TABLE(n)  (__gmp_fib_table[(n)+1])
 
+extern const mp_limb_t __gmp_oddfac_table[];
+extern const mp_limb_t __gmp_odd2fac_table[];
+extern const unsigned char __gmp_fac2cnt_table[];
+extern const mp_limb_t __gmp_limbroots_table[];
+
+/* n^log <= GMP_NUMB_MAX, a limb can store log factors less than n */
+static inline unsigned
+log_n_max (mp_limb_t n)
+{
+  unsigned log;
+  for (log = 8; n > __gmp_limbroots_table[log - 1]; log--);
+  return log;
+}
+
+#define SIEVESIZE 512		/* FIXME: Allow gmp_init_primesieve to choose */
+typedef struct
+{
+  unsigned long d;		   /* current index in s[] */
+  unsigned long s0;		   /* number corresponding to s[0] */
+  unsigned long sqrt_s0;	   /* misnomer for sqrt(s[SIEVESIZE-1]) */
+  unsigned char s[SIEVESIZE + 1];  /* sieve table */
+} gmp_primesieve_t;
+
+#define gmp_init_primesieve __gmp_init_primesieve
+__GMP_DECLSPEC void gmp_init_primesieve (gmp_primesieve_t *);
+
+#define gmp_nextprime __gmp_nextprime
+__GMP_DECLSPEC unsigned long int gmp_nextprime (gmp_primesieve_t *);
+
+#define gmp_primesieve __gmp_primesieve
+__GMP_DECLSPEC mp_limb_t gmp_primesieve (mp_ptr, mp_limb_t);
 
 /* For a threshold between algorithms A and B, size>=thresh is where B
    should be used.  Special value MP_SIZE_T_MAX means only ever use A, or
@@ -1984,6 +2031,14 @@ __GMP_DECLSPEC extern const mp_limb_t __gmp_fib_table[];
 
 #ifndef SET_STR_PRECOMPUTE_THRESHOLD
 #define SET_STR_PRECOMPUTE_THRESHOLD   2000
+#endif
+
+#ifndef FAC_ODD_THRESHOLD
+#define FAC_ODD_THRESHOLD    35
+#endif
+
+#ifndef FAC_DSC_THRESHOLD
+#define FAC_DSC_THRESHOLD   400
 #endif
 
 /* Return non-zero if xp,xsize and yp,ysize overlap.
