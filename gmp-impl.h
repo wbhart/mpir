@@ -4,7 +4,8 @@
    BE SUBJECT TO INCOMPATIBLE CHANGES IN FUTURE GNU MP RELEASES.
 
 Copyright 1991, 1993, 1994, 1995, 1996, 1997, 1999, 2000, 2001, 2002, 2003,
-2004, 2005, 2006, 2007, 2008, 2009, 2010 Free Software Foundation, Inc.
+2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013 Free Software 
+Foundation, Inc.
 
 Copyright 2009, 2013 William Hart
 
@@ -3450,8 +3451,6 @@ __GMP_DECLSPEC void __gmp_invalid_operation _PROTO ((void)) ATTRIBUTE_NORETURN;
 #define PP_FIRST_OMITTED 3
 #endif
 
-
-
 /* BIT1 means a result value in bit 1 (second least significant bit), with a
    zero bit representing +1 and a one bit representing -1.  Bits other than
    bit 1 are garbage.  These are meant to be kept in "int"s, and casts are
@@ -3596,6 +3595,71 @@ __GMP_DECLSPEC void __gmp_invalid_operation _PROTO ((void)) ATTRIBUTE_NORETURN;
       }                                                                    \
   } while (0)
 
+/* State for the Jacobi computation using Lehmer. */
+#define jacobi_table __gmp_jacobi_table
+__GMP_DECLSPEC extern const unsigned char jacobi_table[208];
+
+/* Bit layout for the initial state. b must be odd.
+
+      3  2  1 0
+   +--+--+--+--+
+   |a1|a0|b1| s|
+   +--+--+--+--+
+
+ */
+static inline unsigned
+mpn_jacobi_init (unsigned a, unsigned b, unsigned s)
+{
+  ASSERT (b & 1);
+  ASSERT (s <= 1);
+  return ((a & 3) << 2) + (b & 2) + s;
+}
+
+static inline int
+mpn_jacobi_finish (unsigned bits)
+{
+  /* (a, b) = (1,0) or (0,1) */
+  ASSERT ( (bits & 14) == 0);
+
+  return 1-2*(bits & 1);
+}
+
+static inline unsigned
+mpn_jacobi_update (unsigned bits, unsigned denominator, unsigned q)
+{
+  /* FIXME: Could halve table size by not including the e bit in the
+   * index, and instead xor when updating. Then the lookup would be
+   * like
+   *
+   *   bits ^= table[((bits & 30) << 2) + (denominator << 2) + q];
+   */
+
+  ASSERT (bits < 26);
+  ASSERT (denominator < 2);
+  ASSERT (q < 4);
+
+  /* For almost all calls, denominator is constant and quite often q
+     is constant too. So use addition rather than or, so the compiler
+     can put the constant part can into the offset of an indexed
+     addressing instruction.
+
+     With constant denominator, the below table lookup is compiled to
+
+       C Constant q = 1, constant denominator = 1
+       movzbl table+5(%eax,8), %eax
+
+     or
+
+       C q in %edx, constant denominator = 1
+       movzbl table+4(%edx,%eax,8), %eax
+
+     One could maintain the state preshifted 3 bits, to save a shift
+     here, but at least on x86, that's no real saving.
+  */
+  return bits = jacobi_table[(bits << 3) + (denominator << 2) + q];
+}
+
+
 /* Matrix multiplication */
 #define   mpn_matrix22_mul __MPN(matrix22_mul)
 __GMP_DECLSPEC void      mpn_matrix22_mul __GMP_PROTO ((mp_ptr, mp_ptr, mp_ptr, mp_ptr, mp_size_t, mp_srcptr, mp_srcptr, mp_srcptr, mp_srcptr, mp_size_t, mp_ptr));
@@ -3640,13 +3704,16 @@ struct hgcd_matrix1
 };
 
 #define mpn_hgcd2 __MPN (hgcd2)
-__GMP_DECLSPEC int mpn_hgcd2 __GMP_PROTO ((mp_limb_t, mp_limb_t, mp_limb_t, mp_limb_t,	struct hgcd_matrix1 *));
+__GMP_DECLSPEC int mpn_hgcd2 (mp_limb_t, mp_limb_t, mp_limb_t, mp_limb_t,	struct hgcd_matrix1 *);
 
 #define mpn_hgcd_mul_matrix1_vector __MPN (hgcd_mul_matrix1_vector)
-__GMP_DECLSPEC mp_size_t mpn_hgcd_mul_matrix1_vector __GMP_PROTO ((const struct hgcd_matrix1 *, mp_ptr, mp_srcptr, mp_ptr, mp_size_t));
+__GMP_DECLSPEC mp_size_t mpn_hgcd_mul_matrix1_vector (const struct hgcd_matrix1 *, mp_ptr, mp_srcptr, mp_ptr, mp_size_t);
 
-#define mpn_hgcd_mul_matrix1_inverse_vector __MPN (hgcd_mul_matrix1_inverse_vector)
-__GMP_DECLSPEC mp_size_t mpn_hgcd_mul_matrix1_inverse_vector __GMP_PROTO ((const struct hgcd_matrix1 *, mp_ptr, mp_srcptr, mp_ptr, mp_size_t));
+#define mpn_matrix22_mul1_inverse_vector __MPN (matrix22_mul1_inverse_vector)
+__GMP_DECLSPEC mp_size_t mpn_matrix22_mul1_inverse_vector (const struct hgcd_matrix1 *, mp_ptr, mp_srcptr, mp_ptr, mp_size_t);
+
+#define mpn_hgcd2_jacobi __MPN (hgcd2_jacobi)
+__GMP_DECLSPEC int mpn_hgcd2_jacobi (mp_limb_t, mp_limb_t, mp_limb_t, mp_limb_t, struct hgcd_matrix1 *, unsigned *);
 
 struct hgcd_matrix
 {
@@ -3658,49 +3725,86 @@ struct hgcd_matrix
 #define MPN_HGCD_MATRIX_INIT_ITCH(n) (4 * ((n+1)/2 + 1))
 
 #define mpn_hgcd_matrix_init __MPN (hgcd_matrix_init)
-__GMP_DECLSPEC void mpn_hgcd_matrix_init __GMP_PROTO ((struct hgcd_matrix *, mp_size_t, mp_ptr));
+__GMP_DECLSPEC void mpn_hgcd_matrix_init (struct hgcd_matrix *, mp_size_t, mp_ptr);
+
+#define mpn_hgcd_matrix_update_q __MPN (hgcd_matrix_update_q)
+__GMP_DECLSPEC void mpn_hgcd_matrix_update_q (struct hgcd_matrix *, mp_srcptr, mp_size_t, unsigned, mp_ptr);
+
+#define mpn_hgcd_matrix_mul_1 __MPN (hgcd_matrix_mul_1)
+__GMP_DECLSPEC void mpn_hgcd_matrix_mul_1 (struct hgcd_matrix *, const struct hgcd_matrix1 *, mp_ptr);
 
 #define mpn_hgcd_matrix_mul __MPN (hgcd_matrix_mul)
-__GMP_DECLSPEC void mpn_hgcd_matrix_mul __GMP_PROTO ((struct hgcd_matrix *, const struct hgcd_matrix *, mp_ptr));
+__GMP_DECLSPEC void mpn_hgcd_matrix_mul (struct hgcd_matrix *, const struct hgcd_matrix *, mp_ptr);
 
 #define mpn_hgcd_matrix_adjust __MPN (hgcd_matrix_adjust)
-__GMP_DECLSPEC mp_size_t mpn_hgcd_matrix_adjust __GMP_PROTO ((struct hgcd_matrix *, mp_size_t, mp_ptr, mp_ptr, mp_size_t, mp_ptr));
+__GMP_DECLSPEC mp_size_t mpn_hgcd_matrix_adjust (const struct hgcd_matrix *, mp_size_t, mp_ptr, mp_ptr, mp_size_t, mp_ptr);
+
+#define mpn_hgcd_step __MPN(hgcd_step)
+__GMP_DECLSPEC mp_size_t mpn_hgcd_step (mp_size_t, mp_ptr, mp_ptr, mp_size_t, struct hgcd_matrix *, mp_ptr);
+
+#define mpn_hgcd_reduce __MPN(hgcd_reduce)
+__GMP_DECLSPEC mp_size_t mpn_hgcd_reduce (struct hgcd_matrix *, mp_ptr, mp_ptr, mp_size_t, mp_size_t, mp_ptr);
+
+#define mpn_hgcd_reduce_itch __MPN(hgcd_reduce_itch)
+__GMP_DECLSPEC mp_size_t mpn_hgcd_reduce_itch (mp_size_t, mp_size_t);
 
 #define mpn_hgcd_itch __MPN (hgcd_itch)
-__GMP_DECLSPEC mp_size_t mpn_hgcd_itch __GMP_PROTO ((mp_size_t));
+__GMP_DECLSPEC mp_size_t mpn_hgcd_itch (mp_size_t);
 
 #define mpn_hgcd __MPN (hgcd)
-__GMP_DECLSPEC mp_size_t mpn_hgcd __GMP_PROTO ((mp_ptr, mp_ptr, mp_size_t, struct hgcd_matrix *, mp_ptr));
+__GMP_DECLSPEC mp_size_t mpn_hgcd (mp_ptr, mp_ptr, mp_size_t, struct hgcd_matrix *, mp_ptr);
 
-#define MPN_HGCD_LEHMER_ITCH(n) (n)
+#define mpn_hgcd_appr_itch __MPN (hgcd_appr_itch)
+__GMP_DECLSPEC mp_size_t mpn_hgcd_appr_itch (mp_size_t);
 
-#define mpn_hgcd_lehmer __MPN (hgcd_lehmer)
-__GMP_DECLSPEC mp_size_t mpn_hgcd_lehmer __GMP_PROTO ((mp_ptr, mp_ptr, mp_size_t, struct hgcd_matrix *, mp_ptr));
+#define mpn_hgcd_appr __MPN (hgcd_appr)
+__GMP_DECLSPEC int mpn_hgcd_appr (mp_ptr, mp_ptr, mp_size_t, struct hgcd_matrix *, mp_ptr);
+
+#define mpn_hgcd_jacobi __MPN (hgcd_jacobi)
+__GMP_DECLSPEC mp_size_t mpn_hgcd_jacobi (mp_ptr, mp_ptr, mp_size_t, struct hgcd_matrix *, unsigned *, mp_ptr);
+
+typedef void gcd_subdiv_step_hook(void *, mp_srcptr, mp_size_t, mp_srcptr, mp_size_t, int);
 
 /* Needs storage for the quotient */
 #define MPN_GCD_SUBDIV_STEP_ITCH(n) (n)
 
 #define mpn_gcd_subdiv_step __MPN(gcd_subdiv_step)
-__GMP_DECLSPEC mp_size_t mpn_gcd_subdiv_step __GMP_PROTO ((mp_ptr, mp_size_t *, mp_ptr, mp_ptr, mp_size_t, mp_ptr));
+__GMP_DECLSPEC mp_size_t mpn_gcd_subdiv_step (mp_ptr, mp_ptr, mp_size_t, mp_size_t, gcd_subdiv_step_hook *, void *, mp_ptr);
 
-#define MPN_GCD_LEHMER_N_ITCH(n) (n)
+struct gcdext_ctx
+{
+  /* Result parameters. */
+  mp_ptr gp;
+  mp_size_t gn;
+  mp_ptr up;
+  mp_size_t *usize;
 
-#define mpn_gcd_lehmer_n __MPN(gcd_lehmer_n)
-__GMP_DECLSPEC mp_size_t mpn_gcd_lehmer_n __GMP_PROTO ((mp_ptr, mp_ptr, mp_ptr, mp_size_t, mp_ptr));
+  /* Cofactors updated in each step. */
+  mp_size_t un;
+  mp_ptr u0, u1, tp;
+};
 
-#define mpn_gcdext_subdiv_step __MPN(gcdext_subdiv_step)
-__GMP_DECLSPEC mp_size_t mpn_gcdext_subdiv_step __GMP_PROTO ((mp_ptr, mp_size_t *, mp_ptr, mp_size_t *, mp_ptr, mp_ptr, mp_size_t, mp_ptr, mp_ptr, mp_size_t *, mp_ptr, mp_ptr));
+#define mpn_gcdext_hook __MPN (gcdext_hook)
+gcd_subdiv_step_hook mpn_gcdext_hook;
 
 #define MPN_GCDEXT_LEHMER_N_ITCH(n) (4*(n) + 3)
 
 #define mpn_gcdext_lehmer_n __MPN(gcdext_lehmer_n)
-__GMP_DECLSPEC mp_size_t mpn_gcdext_lehmer_n __GMP_PROTO ((mp_ptr, mp_ptr, mp_size_t *, mp_ptr, mp_ptr, mp_size_t, mp_ptr));
+__GMP_DECLSPEC mp_size_t mpn_gcdext_lehmer_n (mp_ptr, mp_ptr, mp_size_t *, mp_ptr, mp_ptr, mp_size_t, mp_ptr);
 
 /* 4*(an + 1) + 4*(bn + 1) + an */
 #define MPN_GCDEXT_LEHMER_ITCH(an, bn) (5*(an) + 4*(bn) + 8)
 
 #ifndef HGCD_THRESHOLD
 #define HGCD_THRESHOLD 400
+#endif
+
+#ifndef HGCD_APPR_THRESHOLD
+#define HGCD_APPR_THRESHOLD 400
+#endif
+
+#ifndef HGCD_REDUCE_THRESHOLD
+#define HGCD_REDUCE_THRESHOLD 1000
 #endif
 
 #ifndef GCD_DC_THRESHOLD
@@ -3710,6 +3814,16 @@ __GMP_DECLSPEC mp_size_t mpn_gcdext_lehmer_n __GMP_PROTO ((mp_ptr, mp_ptr, mp_si
 #ifndef GCDEXT_DC_THRESHOLD
 #define GCDEXT_DC_THRESHOLD 600
 #endif
+
+#define mpn_mulmod_bnm1 __MPN(mulmod_bnm1)
+__GMP_DECLSPEC void mpn_mulmod_bnm1 (mp_ptr, mp_size_t, mp_srcptr, mp_size_t, mp_srcptr, mp_size_t, mp_ptr);
+
+#define mpn_mulmod_bnm1_next_size(x) x
+
+static inline mp_size_t
+mpn_mulmod_bnm1_itch (mp_size_t rn, mp_size_t an, mp_size_t bn) {
+  return 5*rn + 220;
+}
 
 /* Definitions for mpn_set_str and mpn_get_str */
 struct powers
