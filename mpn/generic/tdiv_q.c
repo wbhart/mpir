@@ -167,8 +167,7 @@ mpn_tdiv_q (mp_ptr qp,
 	}
       else  /* divisor is already normalised */
 	{
-	  if (new_np != np)
-	    MPN_COPY (new_np, np, nn);
+	  MPN_COPY (new_np, np, nn);
 
 	  if (dn == 2)
 	    {
@@ -203,12 +202,7 @@ mpn_tdiv_q (mp_ptr qp,
 
       new_np = scratch;
       new_nn = 2 * qn + 1;
-      if (new_np == np)
-	/* We need {np,nn} to remain untouched until the final adjustment, so
-	   we need to allocate separate space for new_np.  */
-	new_np = TMP_ALLOC_LIMBS (new_nn + 1);
-
-
+      
       dh = dp[dn - 1];
       if (LIKELY ((dh & GMP_NUMB_HIGHBIT) == 0))
 	{
@@ -286,7 +280,7 @@ mpn_tdiv_q (mp_ptr qp,
 	}
 
       MPN_COPY (qp, tp + 1, qn);
-      if (tp[0] <= 4)
+      if (UNLIKELY(tp[0] <= 4))
         {
 	  mp_size_t rn;
 

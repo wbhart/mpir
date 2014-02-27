@@ -108,7 +108,7 @@ mpn_sb_divappr_q (mp_ptr qp,
    qn++;
    dp = dp + dn - qn - 1; /* make dp length qn + 1 */
    
-   for ( ; qn > 0; qn--)
+   for ( ; qn > 1; qn--)
      {
        /* fetch next word */
        cy = np[0];
@@ -139,8 +139,39 @@ mpn_sb_divappr_q (mp_ptr qp,
        qp[qn - 1] = q;
        dp++;
      }
+
+     if (qn > 0)
+     {
+       /* fetch next word */
+       cy = np[0];
+ 
+       np--;
+       /* rare case where truncation ruins normalisation */
+       if (cy > dp[1] || (cy == dp[1] && np[0] >= dp[0]))
+         {
+       __divappr_helper(qp, np - 1, dp, 1);
+       return qh;
+         }
+       
+       mpir_divapprox32_preinv2(q, cy, np[0], d1inv);
+         
+       /* np -= dp*q */
+       cy -= mpn_submul_1(np - 1, dp, 2, q);
+
+       /* correct if remainder is too large */
+       if (UNLIKELY(cy || np[0] >= dp[1]))
+         {
+       if (cy || mpn_cmp(np - 1, dp, 2) >= 0)
+         {
+       q++;
+       cy -= mpn_sub_n(np - 1, np - 1, dp, 2);
+         }
+         }
+       
+       qp[0] = q;
+     }
+
      np[1] = cy;
-  
   }
   else
   {
