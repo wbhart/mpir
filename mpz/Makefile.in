@@ -87,17 +87,17 @@ am_libmpz_la_OBJECTS = abs.lo add.lo add_ui.lo and.lo aorsmul.lo \
 	kronzu.lo lcm.lo lcm_ui.lo likely_prime_p.lo lucnum2_ui.lo \
 	lucnum_ui.lo miller_rabin.lo millerrabin.lo mod.lo mul.lo \
 	mul_2exp.lo mul_si.lo mul_ui.lo n_pow_ui.lo neg.lo \
-	next_likely_prime.lo nextprime.lo nthroot.lo out_raw.lo \
-	out_str.lo perfpow.lo perfsqr.lo popcount.lo pow_ui.lo powm.lo \
-	powm_ui.lo pprime_p.lo probable_prime_p.lo realloc.lo \
-	realloc2.lo remove.lo root.lo rootrem.lo rrandomb.lo scan0.lo \
-	scan1.lo set.lo set_d.lo set_f.lo set_q.lo set_si.lo \
-	set_str.lo set_sx.lo set_ui.lo set_ux.lo setbit.lo size.lo \
-	sizeinbase.lo sqrt.lo sqrtrem.lo sub.lo sub_ui.lo swap.lo \
-	tdiv_q.lo tdiv_q_2exp.lo tdiv_q_ui.lo tdiv_qr.lo tdiv_qr_ui.lo \
-	tdiv_r.lo tdiv_r_2exp.lo tdiv_r_ui.lo tdiv_ui.lo \
-	trial_division.lo tstbit.lo ui_pow_ui.lo ui_sub.lo urandomb.lo \
-	urandomm.lo xor.lo
+	next_likely_prime.lo nextprime.lo nthroot.lo oddfac_1.lo \
+	out_raw.lo out_str.lo perfpow.lo perfsqr.lo popcount.lo \
+	pow_ui.lo powm.lo powm_ui.lo pprime_p.lo probable_prime_p.lo \
+	prodlimbs.lo realloc.lo realloc2.lo remove.lo root.lo \
+	rootrem.lo rrandomb.lo scan0.lo scan1.lo set.lo set_d.lo \
+	set_f.lo set_q.lo set_si.lo set_str.lo set_sx.lo set_ui.lo \
+	set_ux.lo setbit.lo size.lo sizeinbase.lo sqrt.lo sqrtrem.lo \
+	sub.lo sub_ui.lo swap.lo tdiv_q.lo tdiv_q_2exp.lo tdiv_q_ui.lo \
+	tdiv_qr.lo tdiv_qr_ui.lo tdiv_r.lo tdiv_r_2exp.lo tdiv_r_ui.lo \
+	tdiv_ui.lo trial_division.lo tstbit.lo ui_pow_ui.lo ui_sub.lo \
+	urandomb.lo urandomm.lo xor.lo
 libmpz_la_OBJECTS = $(am_libmpz_la_OBJECTS)
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
 depcomp =
@@ -281,15 +281,16 @@ libmpz_la_SOURCES = abs.c add.c add_ui.c and.c aors.h aors_ui.h \
 	lcm_ui.c likely_prime_p.c lucnum2_ui.c lucnum_ui.c \
 	miller_rabin.c millerrabin.c mod.c mul.c mul_2exp.c mul_i.h \
 	mul_si.c mul_ui.c n_pow_ui.c neg.c next_likely_prime.c \
-	nextprime.c nthroot.c out_raw.c out_str.c perfpow.c perfsqr.c \
-	popcount.c pow_ui.c powm.c powm_ui.c pprime_p.c \
-	probable_prime_p.c realloc.c realloc2.c remove.c root.c \
-	rootrem.c rrandomb.c scan0.c scan1.c set.c set_d.c set_f.c \
-	set_q.c set_si.c set_str.c set_sx.c set_ui.c set_ux.c setbit.c \
-	size.c sizeinbase.c sqrt.c sqrtrem.c sub.c sub_ui.c swap.c \
-	tdiv_q.c tdiv_q_2exp.c tdiv_q_ui.c tdiv_qr.c tdiv_qr_ui.c \
-	tdiv_r.c tdiv_r_2exp.c tdiv_r_ui.c tdiv_ui.c trial_division.c \
-	tstbit.c ui_pow_ui.c ui_sub.c urandomb.c urandomm.c xor.c
+	nextprime.c nthroot.c oddfac_1.c out_raw.c out_str.c perfpow.c \
+	perfsqr.c popcount.c pow_ui.c powm.c powm_ui.c pprime_p.c \
+	probable_prime_p.c prodlimbs.c realloc.c realloc2.c remove.c \
+	root.c rootrem.c rrandomb.c scan0.c scan1.c set.c set_d.c \
+	set_f.c set_q.c set_si.c set_str.c set_sx.c set_ui.c set_ux.c \
+	setbit.c size.c sizeinbase.c sqrt.c sqrtrem.c sub.c sub_ui.c \
+	swap.c tdiv_q.c tdiv_q_2exp.c tdiv_q_ui.c tdiv_qr.c \
+	tdiv_qr_ui.c tdiv_r.c tdiv_r_2exp.c tdiv_r_ui.c tdiv_ui.c \
+	trial_division.c tstbit.c ui_pow_ui.c ui_sub.c urandomb.c \
+	urandomm.c xor.c
 all: all-am
 
 .SUFFIXES:

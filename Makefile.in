@@ -191,7 +191,8 @@ am__objects_1 = assert.lo compat.lo errno.lo extract-dbl.lo invalid.lo \
 	memory.lo mp_bpl.lo mp_clz_tab.lo mp_dv_tab.lo mp_minv_tab.lo \
 	mp_get_fns.lo mp_set_fns.lo randclr.lo randdef.lo randiset.lo \
 	randlc2s.lo randlc2x.lo randmt.lo randmts.lo rands.lo \
-	randsd.lo randsdui.lo randbui.lo randmui.lo version.lo
+	randsd.lo randsdui.lo randbui.lo randmui.lo primesieve.lo \
+	nextprime.lo version.lo
 am_libgmp_la_OBJECTS = $(am__objects_1)
 libgmp_la_OBJECTS = $(am_libgmp_la_OBJECTS)
 libgmp_la_LINK = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) \
@@ -211,7 +212,7 @@ am_libmpir_la_OBJECTS = assert.lo compat.lo errno.lo extract-dbl.lo \
 	mp_minv_tab.lo mp_get_fns.lo mp_set_fns.lo randclr.lo \
 	randdef.lo randiset.lo randlc2s.lo randlc2x.lo randmt.lo \
 	randmts.lo rands.lo randsd.lo randsdui.lo randbui.lo \
-	randmui.lo version.lo
+	randmui.lo primesieve.lo nextprime.lo version.lo
 libmpir_la_OBJECTS = $(am_libmpir_la_OBJECTS)
 libmpir_la_LINK = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) \
 	$(LIBTOOLFLAGS) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) \
@@ -540,14 +541,15 @@ MPZ_OBJECTS = mpz/abs$U.lo mpz/add$U.lo mpz/add_ui$U.lo mpz/and$U.lo \
 	mpz/miller_rabin$U.lo mpz/millerrabin$U.lo mpz/mod$U.lo \
 	mpz/mul$U.lo mpz/mul_2exp$U.lo mpz/mul_si$U.lo mpz/mul_ui$U.lo \
 	mpz/n_pow_ui$U.lo mpz/neg$U.lo mpz/next_likely_prime$U.lo \
-	mpz/nextprime$U.lo mpz/nthroot$U.lo mpz/out_raw$U.lo \
-	mpz/out_str$U.lo mpz/perfpow$U.lo mpz/perfsqr$U.lo \
-	mpz/popcount$U.lo mpz/pow_ui$U.lo mpz/powm$U.lo \
-	mpz/powm_ui$U.lo mpz/pprime_p$U.lo mpz/probable_prime_p$U.lo \
-	mpz/realloc$U.lo mpz/realloc2$U.lo mpz/remove$U.lo \
-	mpz/root$U.lo mpz/rootrem$U.lo mpz/rrandomb$U.lo \
-	mpz/scan0$U.lo mpz/scan1$U.lo mpz/set$U.lo mpz/set_d$U.lo \
-	mpz/set_f$U.lo mpz/set_q$U.lo mpz/set_si$U.lo mpz/set_str$U.lo \
+	mpz/nextprime$U.lo mpz/nthroot$U.lo mpz/oddfac_1$U.lo \
+	mpz/out_raw$U.lo mpz/out_str$U.lo mpz/perfpow$U.lo \
+	mpz/perfsqr$U.lo mpz/popcount$U.lo mpz/pow_ui$U.lo \
+	mpz/powm$U.lo mpz/powm_ui$U.lo mpz/pprime_p$U.lo \
+	mpz/probable_prime_p$U.lo mpz/prodlimbs$U.lo mpz/realloc$U.lo \
+	mpz/realloc2$U.lo mpz/remove$U.lo mpz/root$U.lo \
+	mpz/rootrem$U.lo mpz/rrandomb$U.lo mpz/scan0$U.lo \
+	mpz/scan1$U.lo mpz/set$U.lo mpz/set_d$U.lo mpz/set_f$U.lo \
+	mpz/set_q$U.lo mpz/set_si$U.lo mpz/set_str$U.lo \
 	mpz/set_sx$U.lo mpz/set_ui$U.lo mpz/set_ux$U.lo \
 	mpz/setbit$U.lo mpz/size$U.lo mpz/sizeinbase$U.lo \
 	mpz/sqrt$U.lo mpz/sqrtrem$U.lo mpz/sub$U.lo mpz/sub_ui$U.lo \
@@ -586,7 +588,8 @@ libmpir_la_SOURCES = gmp-impl.h longlong_pre.h longlong_post.h randmt.h			\
   assert.c compat.c errno.c extract-dbl.c invalid.c memory.c		\
   mp_bpl.c mp_clz_tab.c mp_dv_tab.c mp_minv_tab.c mp_get_fns.c mp_set_fns.c \
   randclr.c randdef.c randiset.c randlc2s.c randlc2x.c randmt.c	\
-  randmts.c rands.c randsd.c randsdui.c randbui.c randmui.c version.c
+  randmts.c rands.c randsd.c randsdui.c randbui.c randmui.c primesieve.c \
+  nextprime.c version.c
 
 EXTRA_libmpir_la_SOURCES = tal-debug.c tal-notreent.c tal-reent.c
 libmpir_la_DEPENDENCIES = @TAL_OBJECT@		\

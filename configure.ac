@@ -2151,7 +2151,7 @@ gmp_mpn_functions_optional="umul udiv copyi copyd com_n neg_n
 gmp_mpn_functions="$extra_functions					   \
   add add_1 add_n sub sub_1 sub_n mul_1 addmul_1 submul_1 lshift rshift    \
   addadd_n addsub_n subadd_n		\
-  divexact_1 divexact_by3c divexact_byff divexact_byfobm1 divisible_p divrem divrem_1 divrem_2       \
+  comb_tables divexact_1 divexact_by3c divexact_byff divexact_byfobm1 divisible_p divrem divrem_1 divrem_2       \
   divrem_euclidean_qr_1 divrem_euclidean_qr_2 divrem_euclidean_r_1	\
   divrem_hensel_qr_1 divrem_hensel_qr_1_1 divrem_hensel_qr_1_2		\
   divrem_hensel_r_1 divrem_hensel_rsh_qr_1 rsh_divrem_hensel_qr_1	\
