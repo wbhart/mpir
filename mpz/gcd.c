@@ -26,7 +26,7 @@ along with the GNU MP Library.  If not, see http://www.gnu.org/licenses/.  */
 void
 mpz_gcd (mpz_ptr g, mpz_srcptr u, mpz_srcptr v)
 {
-  unsigned long int g_zero_bits, u_zero_bits, v_zero_bits;
+  mpir_ui g_zero_bits, u_zero_bits, v_zero_bits;
   mp_size_t g_zero_limbs, u_zero_limbs, v_zero_limbs;
   mp_ptr tp;
   mp_ptr up;
