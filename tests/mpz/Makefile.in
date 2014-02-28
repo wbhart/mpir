@@ -72,11 +72,12 @@ check_PROGRAMS = bit$(EXEEXT) convert$(EXEEXT) dive$(EXEEXT) \
 	t-next_likely_prime$(EXEEXT) t-oddeven$(EXEEXT) \
 	t-perfpow$(EXEEXT) t-perfsqr$(EXEEXT) t-popcount$(EXEEXT) \
 	t-pow$(EXEEXT) t-powm$(EXEEXT) t-powm_ui$(EXEEXT) \
-	t-pprime_p$(EXEEXT) t-root$(EXEEXT) t-scan$(EXEEXT) \
-	t-set_d$(EXEEXT) t-set_f$(EXEEXT) t-set_si$(EXEEXT) \
-	t-set_str$(EXEEXT) t-set_sx$(EXEEXT) t-set_ux$(EXEEXT) \
-	t-sizeinbase$(EXEEXT) t-sqrtrem$(EXEEXT) t-tdiv$(EXEEXT) \
-	t-tdiv_ui$(EXEEXT) t-trial_division$(EXEEXT) $(am__EXEEXT_1)
+	t-pprime_p$(EXEEXT) t-primorial_ui$(EXEEXT) t-root$(EXEEXT) \
+	t-scan$(EXEEXT) t-set_d$(EXEEXT) t-set_f$(EXEEXT) \
+	t-set_si$(EXEEXT) t-set_str$(EXEEXT) t-set_sx$(EXEEXT) \
+	t-set_ux$(EXEEXT) t-sizeinbase$(EXEEXT) t-sqrtrem$(EXEEXT) \
+	t-tdiv$(EXEEXT) t-tdiv_ui$(EXEEXT) t-trial_division$(EXEEXT) \
+	$(am__EXEEXT_1)
 @ENABLE_SHARED_TRUE@@ENABLE_STATIC_TRUE@am__append_1 = st_hamdist st_popcount
 subdir = tests/mpz
 DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in
@@ -372,6 +373,11 @@ t_pprime_p_OBJECTS = t-pprime_p.$(OBJEXT)
 t_pprime_p_LDADD = $(LDADD)
 t_pprime_p_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
 	$(top_builddir)/libmpir.la
+t_primorial_ui_SOURCES = t-primorial_ui.c
+t_primorial_ui_OBJECTS = t-primorial_ui.$(OBJEXT)
+t_primorial_ui_LDADD = $(LDADD)
+t_primorial_ui_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
+	$(top_builddir)/libmpir.la
 t_root_SOURCES = t-root.c
 t_root_OBJECTS = t-root.$(OBJEXT)
 t_root_LDADD = $(LDADD)
@@ -459,9 +465,9 @@ SOURCES = bit.c convert.c dive.c dive_ui.c io.c logic.c reuse.c \
 	t-io_raw.c t-jac.c t-lcm.c t-likely_prime_p.c t-lucnum_ui.c \
 	t-mfac_uiui.c t-mul.c t-mul_i.c t-next_likely_prime.c \
 	t-oddeven.c t-perfpow.c t-perfsqr.c t-popcount.c t-pow.c \
-	t-powm.c t-powm_ui.c t-pprime_p.c t-root.c t-scan.c t-set_d.c \
-	t-set_f.c t-set_si.c t-set_str.c t-set_sx.c t-set_ux.c \
-	t-sizeinbase.c t-sqrtrem.c t-tdiv.c t-tdiv_ui.c \
+	t-powm.c t-powm_ui.c t-pprime_p.c t-primorial_ui.c t-root.c \
+	t-scan.c t-set_d.c t-set_f.c t-set_si.c t-set_str.c t-set_sx.c \
+	t-set_ux.c t-sizeinbase.c t-sqrtrem.c t-tdiv.c t-tdiv_ui.c \
 	t-trial_division.c
 DIST_SOURCES = bit.c convert.c dive.c dive_ui.c io.c logic.c reuse.c \
 	$(am__st_hamdist_SOURCES_DIST) $(am__st_popcount_SOURCES_DIST) \
@@ -474,9 +480,10 @@ DIST_SOURCES = bit.c convert.c dive.c dive_ui.c io.c logic.c reuse.c \
 	t-likely_prime_p.c t-lucnum_ui.c t-mfac_uiui.c t-mul.c \
 	t-mul_i.c t-next_likely_prime.c t-oddeven.c t-perfpow.c \
 	t-perfsqr.c t-popcount.c t-pow.c t-powm.c t-powm_ui.c \
-	t-pprime_p.c t-root.c t-scan.c t-set_d.c t-set_f.c t-set_si.c \
-	t-set_str.c t-set_sx.c t-set_ux.c t-sizeinbase.c t-sqrtrem.c \
-	t-tdiv.c t-tdiv_ui.c t-trial_division.c
+	t-pprime_p.c t-primorial_ui.c t-root.c t-scan.c t-set_d.c \
+	t-set_f.c t-set_si.c t-set_str.c t-set_sx.c t-set_ux.c \
+	t-sizeinbase.c t-sqrtrem.c t-tdiv.c t-tdiv_ui.c \
+	t-trial_division.c
 ETAGS = etags
 CTAGS = ctags
 am__tty_colors = \
@@ -955,6 +962,9 @@ t-powm_ui$(EXEEXT): $(t_powm_ui_OBJECTS) $(t_powm_ui_DEPENDENCIES) $(EXTRA_t_pow
 t-pprime_p$(EXEEXT): $(t_pprime_p_OBJECTS) $(t_pprime_p_DEPENDENCIES) $(EXTRA_t_pprime_p_DEPENDENCIES) 
 	@rm -f t-pprime_p$(EXEEXT)
 	$(LINK) $(t_pprime_p_OBJECTS) $(t_pprime_p_LDADD) $(LIBS)
+t-primorial_ui$(EXEEXT): $(t_primorial_ui_OBJECTS) $(t_primorial_ui_DEPENDENCIES) $(EXTRA_t_primorial_ui_DEPENDENCIES) 
+	@rm -f t-primorial_ui$(EXEEXT)
+	$(LINK) $(t_primorial_ui_OBJECTS) $(t_primorial_ui_LDADD) $(LIBS)
 t-root$(EXEEXT): $(t_root_OBJECTS) $(t_root_DEPENDENCIES) $(EXTRA_t_root_DEPENDENCIES) 
 	@rm -f t-root$(EXEEXT)
 	$(LINK) $(t_root_OBJECTS) $(t_root_LDADD) $(LIBS)
@@ -1299,6 +1309,8 @@ t-powm_ui.log: t-powm_ui$(EXEEXT)
 	@p='t-powm_ui$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
 t-pprime_p.log: t-pprime_p$(EXEEXT)
 	@p='t-pprime_p$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
+t-primorial_ui.log: t-primorial_ui$(EXEEXT)
+	@p='t-primorial_ui$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
 t-root.log: t-root$(EXEEXT)
 	@p='t-root$(EXEEXT)'; $(am__check_pre) $(LOG_COMPILE) "$$tst" $(am__check_post)
 t-scan.log: t-scan$(EXEEXT)
