@@ -23,11 +23,11 @@ Boston, MA 02110-1301, USA.
 #include "gmp-impl.h"
 #include "longlong.h"
 
-mp_limb_t mpn_divrem_hensel_rsh_qr_1(mp_ptr qp, mp_srcptr xp, 
-                                     mp_size_t n, mp_limb_t d, int s)
+mp_limb_t mpn_divrem_hensel_rsh_qr_1_preinv(mp_ptr qp, mp_srcptr xp, 
+                                     mp_size_t n, mp_limb_t d, mp_limb_t m, int s)
 {
    mp_size_t j;
-   mp_limb_t c, h, q, dummy, h1, t, m;
+   mp_limb_t c, h, q, dummy, h1, t;
 
    ASSERT(n > 0);
    ASSERT(d%2 == 1);
@@ -35,8 +35,6 @@ mp_limb_t mpn_divrem_hensel_rsh_qr_1(mp_ptr qp, mp_srcptr xp,
    ASSERT(MPN_SAME_OR_SEPARATE_P(qp, xp, n));
    ASSERT(s >= 0);
    
-   modlimb_invert(m, d); /* should we allow s=0 ?? */
-
    c = 0;
    h = 0;
    t = 0;
@@ -85,3 +83,13 @@ mp_limb_t mpn_divrem_hensel_rsh_qr_1(mp_ptr qp, mp_srcptr xp,
 
    return h + c;
 }   
+
+mp_limb_t mpn_divrem_hensel_rsh_qr_1(mp_ptr qp, mp_srcptr xp, 
+                                     mp_size_t n, mp_limb_t d, int s)
+{
+   mp_limb_t m;
+
+   modlimb_invert(m, d); /* should we allow s=0 ?? */
+
+   return mpn_divrem_hensel_rsh_qr_1_preinv(qp, xp, n, d, m, s);
+}

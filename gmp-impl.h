@@ -1072,6 +1072,9 @@ __GMP_DECLSPEC mp_limb_t mpn_divrem_hensel_qr_1_1 __GMP_PROTO ((mp_ptr, mp_srcpt
 #define mpn_divrem_hensel_qr_1_2 __MPN(divrem_hensel_qr_1_2)
 __GMP_DECLSPEC mp_limb_t mpn_divrem_hensel_qr_1_2 __GMP_PROTO ((mp_ptr, mp_srcptr, mp_size_t,mp_limb_t));
 
+#define mpn_divrem_hensel_rsh_qr_1_preinv __MPN(divrem_hensel_rsh_qr_1_preinv)
+__GMP_DECLSPEC mp_limb_t mpn_divrem_hensel_rsh_qr_1_preinv __GMP_PROTO ((mp_ptr, mp_srcptr, mp_size_t,mp_limb_t,mp_limb_t,int));
+
 #define mpn_divrem_hensel_rsh_qr_1 __MPN(divrem_hensel_rsh_qr_1)
 __GMP_DECLSPEC mp_limb_t mpn_divrem_hensel_rsh_qr_1 __GMP_PROTO ((mp_ptr, mp_srcptr, mp_size_t,mp_limb_t,int));
 
