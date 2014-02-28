@@ -41,7 +41,7 @@ along with the GNU MP Library.  If not, see http://www.gnu.org/licenses/.  */
      division.
 */
 
-#include "gmp.h"
+#include "mpir.h"
 #include "gmp-impl.h"
 #include <string.h>		/* for memset */
 
