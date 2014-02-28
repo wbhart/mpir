@@ -493,6 +493,9 @@
   <ClCompile Include="..\..\mpq\swap.c">
     <Filter>Source Files\mpq</Filter>
     </ClCompile>
+  <ClCompile Include="..\..\mpz\2fac_ui.c">
+    <Filter>Source Files\mpz</Filter>
+    </ClCompile>
   <ClCompile Include="..\..\mpz\abs.c">
     <Filter>Source Files\mpz</Filter>
     </ClCompile>
@@ -781,6 +784,9 @@
   <ClCompile Include="..\..\mpz\lucnum_ui.c">
     <Filter>Source Files\mpz</Filter>
     </ClCompile>
+  <ClCompile Include="..\..\mpz\mfac_uiui.c">
+    <Filter>Source Files\mpz</Filter>
+    </ClCompile>
   <ClCompile Include="..\..\mpz\miller_rabin.c">
     <Filter>Source Files\mpz</Filter>
     </ClCompile>
@@ -845,6 +851,9 @@
     <Filter>Source Files\mpz</Filter>
     </ClCompile>
   <ClCompile Include="..\..\mpz\pprime_p.c">
+    <Filter>Source Files\mpz</Filter>
+    </ClCompile>
+  <ClCompile Include="..\..\mpz\primorial_ui.c">
     <Filter>Source Files\mpz</Filter>
     </ClCompile>
   <ClCompile Include="..\..\mpz\probable_prime_p.c">
