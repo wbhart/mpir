@@ -1773,9 +1773,9 @@ log_n_max (mp_limb_t n)
 #define SIEVESIZE 512		/* FIXME: Allow gmp_init_primesieve to choose */
 typedef struct
 {
-  unsigned long d;		   /* current index in s[] */
-  unsigned long s0;		   /* number corresponding to s[0] */
-  unsigned long sqrt_s0;	   /* misnomer for sqrt(s[SIEVESIZE-1]) */
+  mpir_ui d;		   /* current index in s[] */
+  mpir_ui s0;		   /* number corresponding to s[0] */
+  mpir_ui sqrt_s0;	   /* misnomer for sqrt(s[SIEVESIZE-1]) */
   unsigned char s[SIEVESIZE + 1];  /* sieve table */
 } gmp_primesieve_t;
 
@@ -1783,7 +1783,7 @@ typedef struct
 __GMP_DECLSPEC void gmp_init_primesieve (gmp_primesieve_t *);
 
 #define gmp_nextprime __gmp_nextprime
-__GMP_DECLSPEC unsigned long int gmp_nextprime (gmp_primesieve_t *);
+__GMP_DECLSPEC mpir_ui gmp_nextprime (gmp_primesieve_t *);
 
 #define gmp_primesieve __gmp_primesieve
 __GMP_DECLSPEC mp_limb_t gmp_primesieve (mp_ptr, mp_limb_t);

@@ -54,7 +54,7 @@ along with the GNU MP Library.  If not, see http://www.gnu.org/licenses/.  */
    WARNING: it assumes that n fits in a limb!
  */
 void
-mpz_2fac_ui (mpz_ptr x, unsigned long n)
+mpz_2fac_ui (mpz_ptr x, mpir_ui n)
 {
   ASSERT (n <= GMP_NUMB_MAX);
 

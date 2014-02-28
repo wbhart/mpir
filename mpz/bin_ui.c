@@ -38,7 +38,7 @@ along with the GNU MP Library.  If not, see http://www.gnu.org/licenses/.  */
   } while (0)
 
 void
-mpz_bin_ui (mpz_ptr r, mpz_srcptr n, unsigned long int k)
+mpz_bin_ui (mpz_ptr r, mpz_srcptr n, mpir_ui k)
 {
   mpz_t      ni;
   mp_limb_t  i;

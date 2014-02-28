@@ -46,16 +46,16 @@ along with the GNU MP Library.  If not, see http://www.gnu.org/licenses/.  */
 #include <string.h>		/* for memset */
 
 
-unsigned long int
+mpir_ui
 gmp_nextprime (gmp_primesieve_t *ps)
 {
-  unsigned long p, d, pi;
+  mpir_ui p, d, pi;
   unsigned char *sp;
   static unsigned char addtab[] =
     { 2,4,2,4,6,2,6,4,2,4,6,6,2,6,4,2,6,4,6,8,4,2,4,2,4,8,6,4,6,2,4,6,2,6,6,4,
       2,4,6,2,6,4,2,4,2,10,2,10 };
   unsigned char *addp = addtab;
-  unsigned long ai;
+  mpir_ui ai;
 
   /* Look for already sieved primes.  A sentinel at the end of the sieving
      area allows us to use a very simple loop here.  */

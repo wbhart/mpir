@@ -240,7 +240,7 @@ static const unsigned long ftab[] =
 static const mp_limb_t facinv[] = { ONE_LIMB_ODD_FACTORIAL_INVERSES_TABLE };
 
 static void
-mpz_bdiv_bin_uiui (mpz_ptr r, unsigned long int n, unsigned long int k)
+mpz_bdiv_bin_uiui (mpz_ptr r, mpir_ui n, mpir_ui k)
 {
   int nmax, kmax, nmaxnow, numfac;
   mp_ptr np, kp;
@@ -358,7 +358,7 @@ mpz_bdiv_bin_uiui (mpz_ptr r, unsigned long int n, unsigned long int k)
 }
 
 static void
-mpz_smallk_bin_uiui (mpz_ptr r, unsigned long int n, unsigned long int k)
+mpz_smallk_bin_uiui (mpz_ptr r, mpir_ui n, mpir_ui k)
 {
   int nmax, numfac;
   mp_ptr rp;
@@ -416,7 +416,7 @@ mpz_smallk_bin_uiui (mpz_ptr r, unsigned long int n, unsigned long int k)
 */
 
 static mp_limb_t
-bc_bin_uiui (unsigned int n, unsigned int k)
+bc_bin_uiui (mpir_ui n, mpir_ui k)
 {
   return ((__gmp_oddfac_table[n] * facinv[k - 2] * facinv[n - k - 2])
     << (__gmp_fac2cnt_table[n / 2 - 1] - __gmp_fac2cnt_table[k / 2 - 1] - __gmp_fac2cnt_table[(n-k) / 2 - 1]))
@@ -443,11 +443,11 @@ static const mp_limb_t bin2kkinv[] = { ONE_LIMB_ODD_CENTRAL_BINOMIAL_INVERSE_TAB
 static const unsigned char fac2bin[] = { CENTRAL_BINOMIAL_2FAC_TABLE };
 
 static void
-mpz_smallkdc_bin_uiui (mpz_ptr r, unsigned long int n, unsigned long int k)
+mpz_smallkdc_bin_uiui (mpz_ptr r, mpir_ui n, mpir_ui k)
 {
   mp_ptr rp;
   mp_size_t rn;
-  unsigned long int hk;
+  mpir_ui hk;
 
   hk = k >> 1;
 
@@ -706,7 +706,7 @@ mpz_goetgheluck_bin_uiui (mpz_ptr r, unsigned long int n, unsigned long int k)
 /*********************************************************/
 
 void
-mpz_bin_uiui (mpz_ptr r, unsigned long int n, unsigned long int k)
+mpz_bin_uiui (mpz_ptr r, mpir_ui n, mpir_ui k)
 {
   if (UNLIKELY (n < k)) {
     SIZ (r) = 0;

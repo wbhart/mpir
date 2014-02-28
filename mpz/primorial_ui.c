@@ -95,7 +95,7 @@ primesieve_size (mp_limb_t n) { return n_to_bit(n) / GMP_LIMB_BITS + 1; }
 /*********************************************************/
 
 void
-mpz_primorial_ui (mpz_ptr x, unsigned long n)
+mpz_primorial_ui (mpz_ptr x, mpir_ui n)
 {
   static const mp_limb_t table[] = { 1, 1, 2, 6, 6 };
 
