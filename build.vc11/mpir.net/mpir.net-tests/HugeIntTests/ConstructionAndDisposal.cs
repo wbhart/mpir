@@ -75,5 +75,19 @@ namespace MPIR.Tests.HugeIntTests
             Assert.AreEqual(3, a.NumberOfLimbsAllocated());
             Assert.AreEqual(0, a.NumberOfLimbsUsed());
         }
+
+        [TestMethod]
+        public void StringConstructor()
+        {
+            var a = new HugeInt("5432109876543212345789023245987");
+            Assert.AreEqual(2, a.NumberOfLimbsUsed());
+        }
+
+        [TestMethod]
+        public void StringConstructorHex()
+        {
+            var a = new HugeInt("143210ABCDEF32123457ACDB324598799", 16);
+            Assert.AreEqual(3, a.NumberOfLimbsUsed());
+        }
     }
 }

@@ -46,6 +46,8 @@ along with the MPIR Library.  If not, see http://www.gnu.org/licenses/.
 	_numberOfLimbsUsed = src_this->_mp_size; \
 	_limbs = src_this->_mp_d
 
+using namespace System::Runtime::InteropServices;
+
 namespace MPIR
 {
 	HugeInt::HugeInt(mpz_srcptr src_this)
@@ -64,6 +66,28 @@ namespace MPIR
 	{
 		mpz_t src_this;
 		mpz_init2(src_this, value);
+		SAVE_THIS;
+	}
+
+	HugeInt::HugeInt(String^ value)
+	{
+		FromString(value, 10);
+	}
+
+	HugeInt::HugeInt(String^ value, int base)
+	{
+		FromString(value, base);
+	}
+
+	void HugeInt::FromString(String^ value, int base)
+	{
+		mpz_t src_this;
+
+		IntPtr ptr = Marshal::StringToHGlobalAnsi(value);
+		char* ansi = (char*)(void*)ptr;
+		mpz_init_set_str(src_this, ansi, base);
+		Marshal::FreeHGlobal(ptr);
+
 		SAVE_THIS;
 	}
 

@@ -19,6 +19,8 @@ along with the MPIR Library.  If not, see http://www.gnu.org/licenses/.
 
 #pragma once
 
+using namespace System;
+
 namespace MPIR
 {
 	public ref class HugeInt sealed
@@ -31,9 +33,13 @@ namespace MPIR
 		//construction
 		private:
 			HugeInt(mpz_srcptr src);
+			void FromString(String^ value, int base);
+			
 		public:
 			HugeInt();
 			HugeInt(mp_bitcnt_t bits);
+			HugeInt(String^ value);
+			HugeInt(String^ value, int base);
 			static HugeInt^ FromLong(mpir_si value);
 			static HugeInt^ FromUlong(mpir_ui value);
 
