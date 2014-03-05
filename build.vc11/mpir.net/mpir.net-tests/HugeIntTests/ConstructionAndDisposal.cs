@@ -28,10 +28,13 @@ namespace MPIR.Tests.HugeIntTests
         [TestMethod]
         public void DefaultConstructor()
         {
-            var a = new HugeInt();
-            Assert.AreNotEqual(0, a.NumberOfLimbsAllocated());
-            Assert.AreEqual(0, a.NumberOfLimbsUsed());
-            Assert.AreNotEqual(IntPtr.Zero, a.Limbs());
+            using (var a = new HugeInt())
+            {
+                Assert.AreNotEqual(0, a.NumberOfLimbsAllocated());
+                Assert.AreEqual(0, a.NumberOfLimbsUsed());
+                Assert.AreNotEqual(IntPtr.Zero, a.Limbs());
+                Assert.AreEqual("0", a.ToString());
+            }
         }
 
         [TestMethod]
@@ -47,47 +50,74 @@ namespace MPIR.Tests.HugeIntTests
         [TestMethod]
         public void ConstructorFromLong()
         {
-            var a = HugeInt.FromLong(123456789123456);
-            Assert.AreEqual(1, a.NumberOfLimbsAllocated());
-            Assert.AreEqual(1, a.NumberOfLimbsUsed());
+            var n = "123456789123456";
+            using (var a = HugeInt.FromLong(long.Parse(n)))
+            {
+                Assert.AreEqual(1, a.NumberOfLimbsAllocated());
+                Assert.AreEqual(1, a.NumberOfLimbsUsed());
+                Assert.AreEqual(n, a.ToString());
+            }
         }
 
         [TestMethod]
         public void ConstructorFromLongNegative()
         {
-            var a = HugeInt.FromLong(-123456789123456);
-            Assert.AreEqual(1, a.NumberOfLimbsAllocated());
-            Assert.AreEqual(-1, a.NumberOfLimbsUsed());
+            var n = "-123456789123456";
+            using (var a = HugeInt.FromLong(long.Parse(n)))
+            {
+                Assert.AreEqual(1, a.NumberOfLimbsAllocated());
+                Assert.AreEqual(-1, a.NumberOfLimbsUsed());
+                Assert.AreEqual(n, a.ToString());
+            }
         }
 
         [TestMethod]
         public void ConstructorFromULong()
         {
-            var a = HugeInt.FromUlong(ulong.MaxValue);
-            Assert.AreEqual(1, a.NumberOfLimbsAllocated());
-            Assert.AreEqual(1, a.NumberOfLimbsUsed());
+            using (var a = HugeInt.FromUlong(ulong.MaxValue))
+            {
+                Assert.AreEqual(1, a.NumberOfLimbsAllocated());
+                Assert.AreEqual(1, a.NumberOfLimbsUsed());
+                Assert.AreEqual(ulong.MaxValue.ToString(), a.ToString());
+            }
         }
 
         [TestMethod]
         public void Allocate()
         {
-            var a = new HugeInt(129);
-            Assert.AreEqual(3, a.NumberOfLimbsAllocated());
-            Assert.AreEqual(0, a.NumberOfLimbsUsed());
+            using (var a = new HugeInt(129))
+            {
+                Assert.AreEqual(3, a.NumberOfLimbsAllocated());
+                Assert.AreEqual(0, a.NumberOfLimbsUsed());
+                Assert.AreEqual("0", a.ToString());
+            }
         }
 
         [TestMethod]
         public void StringConstructor()
         {
-            var a = new HugeInt("5432109876543212345789023245987");
-            Assert.AreEqual(2, a.NumberOfLimbsUsed());
+            var n = "5432109876543212345789023245987";
+            using (var a = new HugeInt(n))
+            {
+                Assert.AreEqual(2, a.NumberOfLimbsUsed());
+                Assert.AreEqual(n, a.ToString());
+            }
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void StringConstructorInvalid()
+        {
+            var a = new HugeInt("12345A");
         }
 
         [TestMethod]
         public void StringConstructorHex()
         {
-            var a = new HugeInt("143210ABCDEF32123457ACDB324598799", 16);
-            Assert.AreEqual(3, a.NumberOfLimbsUsed());
+            using (var a = new HugeInt("143210ABCDEF32123457ACDB324598799", 16))
+            {
+                Assert.AreEqual(3, a.NumberOfLimbsUsed());
+            }
         }
     }
 }

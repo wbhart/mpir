@@ -21,31 +21,57 @@ along with the MPIR Library.  If not, see http://www.gnu.org/licenses/.
 
 using namespace System;
 
+#define DECLARE_VOID_FROM_MPZ(x) void x(HugeInt^ a);
+#define DECLARE_VOID_FROM_UI(x) void x(mpir_ui a);
+#define DECLARE_VOID_FROM_SI(x) void x(mpir_si a);
+
+#define DECLARE_VOID_FROM_MPZ_OR_UI(x)          \
+        DECLARE_VOID_FROM_MPZ(x)                \
+        DECLARE_VOID_FROM_UI(x)
+
+#define DECLARE_VOID_FROM_MPZ_OR_UI_OR_SI(x)    \
+        DECLARE_VOID_FROM_MPZ(x)                \
+        DECLARE_VOID_FROM_UI(x)                 \
+        DECLARE_VOID_FROM_SI(x)
+
 namespace MPIR
 {
-	public ref class HugeInt sealed
-	{
-		private:
-			int _numberOfLimbsAllocated;
-			int _numberOfLimbsUsed;
-			mp_limb_t* _limbs;
+    public ref class HugeInt sealed
+    {
+        private:
 
-		//construction
-		private:
-			HugeInt(mpz_srcptr src);
-			void FromString(String^ value, int base);
-			
-		public:
-			HugeInt();
-			HugeInt(mp_bitcnt_t bits);
-			HugeInt(String^ value);
-			HugeInt(String^ value, int base);
-			static HugeInt^ FromLong(mpir_si value);
-			static HugeInt^ FromUlong(mpir_ui value);
+            //fields
+            int _numberOfLimbsAllocated;
+            int _numberOfLimbsUsed;
+            mp_limb_t* _limbs;
 
-		//disposal
-		public:
-			~HugeInt();
-			!HugeInt();
-	};
+            //construction
+            HugeInt(mpz_srcptr src);
+            void FromString(String^ value, int base);
+
+        public:
+            //construction
+            HugeInt();
+            HugeInt(mp_bitcnt_t bits);
+            HugeInt(String^ value);
+            HugeInt(String^ value, int base);
+            static HugeInt^ FromLong(mpir_si value);
+            static HugeInt^ FromUlong(mpir_ui value);
+
+            //disposal
+            ~HugeInt();
+            !HugeInt();
+
+            //object overrides
+            virtual String^ ToString() override;
+            String^ ToString(int base);
+
+            //arithmetic
+            DECLARE_VOID_FROM_MPZ_OR_UI(Add)
+            DECLARE_VOID_FROM_MPZ_OR_UI(Subtract)
+            DECLARE_VOID_FROM_UI(SubtractFrom)
+            DECLARE_VOID_FROM_MPZ_OR_UI_OR_SI(MultiplyBy)
+
+            //void Add(HugeInt^ a);
+    };
 };

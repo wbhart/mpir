@@ -86,6 +86,8 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="HugeIntTests\Arithmetic.cs" />
+    <Compile Include="HugeIntTests\ObjectOverrides.cs" />
     <Compile Include="Utilities\Accessors.cs" />
     <Compile Include="HugeIntTests\ConstructionAndDisposal.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

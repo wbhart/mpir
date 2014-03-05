@@ -1,0 +1,116 @@
+/*
+Copyright 2014 Alex Dyachenko
+
+This file is part of the MPIR Library.
+
+The MPIR Library is free software; you can redistribute it and/or modify
+it under the terms of the GNU Lesser General Public License as published
+by the Free Software Foundation; either version 3 of the License, or (at
+your option) any later version.
+
+The MPIR Library is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public
+License for more details.
+
+You should have received a copy of the GNU Lesser General Public License
+along with the MPIR Library.  If not, see http://www.gnu.org/licenses/.  
+*/
+
+using System;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+namespace MPIR.Tests.HugeIntTests
+{
+    [TestClass]
+    public class Arithmetic
+    {
+        [TestMethod]
+        public void Add()
+        {
+            using (var a = new HugeInt("222509832503450298345029835740293845720"))
+            using (var b = new HugeInt("222987435987982730594288574029879874539"))
+            {
+                a.Add(b);
+                Assert.AreEqual("445497268491433028939318409770173720259", a.ToString());
+            }
+        }
+
+        [TestMethod]
+        public void AddLimb()
+        {
+            using (var a = new HugeInt("222509832503450298345029835740293845720"))
+            {
+                var b = 4288574029879874539UL;
+                a.Add(b);
+                Assert.AreEqual("222509832503450298349318409770173720259", a.ToString());
+            }
+        }
+       
+        [TestMethod]
+        public void Subtract()
+        {
+            using (var a = new HugeInt("445497268491433028939318409770173720259"))
+            using (var b = new HugeInt("222987435987982730594288574029879874539"))
+            {
+                a.Subtract(b);
+                Assert.AreEqual("222509832503450298345029835740293845720", a.ToString());
+            }
+        }
+
+        [TestMethod]
+        public void SubtractLimb()
+        {
+            using (var a = new HugeInt("222509832503450298349318409770173720259"))
+            {
+                var b = 4288574029879874539UL;
+                a.Subtract(b);
+                Assert.AreEqual("222509832503450298345029835740293845720", a.ToString());
+            }
+        }
+
+        [TestMethod]
+        public void SubtractFromLimb()
+        {
+            using (var a = new HugeInt("222509832503450298349318409770173720259"))
+            {
+                var b = 4288574029879874539UL;
+                a.SubtractFrom(b);
+                Assert.AreEqual("-222509832503450298345029835740293845720", a.ToString());
+            }
+        }
+
+        [TestMethod]
+        public void MultiplyBy()
+        {
+            using (var a = new HugeInt("90234098723098475098479385345098345"))
+            using (var b = new HugeInt("7859487359873459872354987610987897"))
+            {
+                a.MultiplyBy(b);
+                Assert.AreEqual("709193758343766370701419953880162061353595657143399816050772069730465", a.ToString());
+            }
+        }
+
+        [TestMethod]
+        public void MultiplyByLimb()
+        {
+            using (var a = new HugeInt("90234098723098475098479385345098345"))
+            {
+                ulong b = 17390538260286101342;
+                a.MultiplyBy(b);
+                Assert.AreEqual("1569219546226477273686601978789044606491747469626478990", a.ToString());
+            }
+        }
+
+        [TestMethod]
+        public void MultiplyBySignedLimb()
+        {
+            using (var a = new HugeInt("90234098723098475098479385345098345"))
+            {
+                long b = -7390538260286101342;
+                a.MultiplyBy(b);
+                Assert.AreEqual("-666878558995492522701808125338061156491747469626478990", a.ToString());
+            }
+        }
+    }
+}
