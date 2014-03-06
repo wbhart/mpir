@@ -26,7 +26,7 @@ namespace MPIR.Tests.HugeIntTests
     public class Arithmetic
     {
         [TestMethod]
-        public void Add()
+        public void AddHugeInt()
         {
             using (var a = new HugeInt("222509832503450298345029835740293845720"))
             using (var b = new HugeInt("222987435987982730594288574029879874539"))
@@ -48,7 +48,7 @@ namespace MPIR.Tests.HugeIntTests
         }
        
         [TestMethod]
-        public void Subtract()
+        public void SubtractHugeInt()
         {
             using (var a = new HugeInt("445497268491433028939318409770173720259"))
             using (var b = new HugeInt("222987435987982730594288574029879874539"))
@@ -81,7 +81,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void MultiplyBy()
+        public void MultiplyByHugeInt()
         {
             using (var a = new HugeInt("90234098723098475098479385345098345"))
             using (var b = new HugeInt("7859487359873459872354987610987897"))
@@ -112,5 +112,6 @@ namespace MPIR.Tests.HugeIntTests
                 Assert.AreEqual("-666878558995492522701808125338061156491747469626478990", a.ToString());
             }
         }
+        //more tests coming here
     }
 }

@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("mpir.net-tests")]
-[assembly: AssemblyDescription("Unit Tests for the mpir.net project")]
+[assembly: AssemblyTitle("Spells")]
+[assembly: AssemblyDescription("Magic spells for the mpir.net project")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("mpir.net-tests")]
+[assembly: AssemblyProduct("Spells")]
 [assembly: AssemblyCopyright("Copyright © Alex Dyachenko 2014")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("b2d6c60d-1243-4284-aa0c-2944a83fb2d7")]
+[assembly: Guid("374fa529-b825-4a20-8c3a-9bc1aa170d29")]
 
 // Version information for an assembly consists of the following four values:
 //
