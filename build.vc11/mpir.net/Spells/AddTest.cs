@@ -28,7 +28,7 @@ namespace Spells
     /// <summary>
     /// This spell generates a typical set of unit tests and adds it to the active file.
     /// </summary>
-    internal class AddTest : ISpell
+    internal class AddTest : AddTestBase, ISpell
     {
         public string Name
         {
@@ -38,14 +38,14 @@ namespace Spells
         public void Execute(IDevelopmentEnvironment env)
         {
             var args = env.Prompt("Add Test")
-                .Instructions(string.Format("Add a set of unit tests for an MPIR HugeInt method family to the active file ({0}):", env.ActiveFile.Name))
+                .Instructions(string.Format("Add a set of unit tests for an MPIR {1} method family to the active file ({0}):", env.ActiveFile.Name, MpirType))
                 .ForString("Method").Label("&Method under test:").PreviousDefaultOr("").Required()
                 .ForString("InitialValue").Label("&Initial value of the class:").PreviousDefaultOr("").Required()
                 .ForBoolean("FromNone").Label("Test with&out arguments:").PreviousDefaultOr(false)
                 .ForString("NoArgumentsResultValue").Label("Res&ult Value:").PreviousDefaultOr("").Required().EnabledBy("FromNone")
-                .ForBoolean("FromHugeInt").Label("Test with another &HugeInt:").PreviousDefaultOr(true)
-                .ForString("HugeIntInitialValue").Label("&With Initial Value:").PreviousDefaultOr("").Required().EnabledBy("FromHugeInt")
-                .ForString("HugeIntResultValue").Label("&Result Value:").PreviousDefaultOr("").Required().EnabledBy("FromHugeInt")
+                .ForBoolean("FromMpirType").Label(string.Format("Test with another &{0}:", MpirType)).PreviousDefaultOr(true)
+                .ForString("MpirTypeInitialValue").Label("&With Initial Value:").PreviousDefaultOr("").Required().EnabledBy("FromMpirType")
+                .ForString("MpirTypeResultValue").Label("&Result Value:").PreviousDefaultOr("").Required().EnabledBy("FromMpirType")
                 .ForBoolean("FromLimb").Label("Test with a &Limb:").PreviousDefaultOr(true)
                 .ForString("LimbInitialValue").Label("Wi&th Initial Value:").PreviousDefaultOr("").Required().EnabledBy("FromLimb")
                 .ForString("LimbResultValue").Label("R&esult Value:").PreviousDefaultOr("").Required().EnabledBy("FromLimb")
@@ -62,53 +62,25 @@ namespace Spells
 
             if ((bool)args["FromNone"])
             {
-                methods.Add(Format(@"
-                    [TestMethod]
-                    public void {0}()
-                    {{
-                        using (var a = new HugeInt(""{1}""))
-                        {{
-                            a.{0}();
-                            Assert.AreEqual(""{2}"", a.ToString());
-                        }}
-                    }}",
+                methods.Add(MakeTest("", null, 
                     args["Method"],
                     args["InitialValue"],
+                    null,
                     args["NoArgumentsResultValue"]));
             }
 
-            if ((bool)args["FromHugeInt"])
+            if ((bool)args["FromMpirType"])
             {
-                methods.Add(Format(@"
-                    [TestMethod]
-                    public void {0}HugeInt()
-                    {{
-                        using (var a = new HugeInt(""{1}""))
-                        using (var b = new HugeInt(""{2}""))
-                        {{
-                            a.{0}(b);
-                            Assert.AreEqual(""{3}"", a.ToString());
-                        }}
-                    }}",
+                methods.Add(MakeTest(MpirType, MpirType,
                     args["Method"],
                     args["InitialValue"],
-                    args["HugeIntInitialValue"],
-                    args["HugeIntResultValue"]));
+                    args["MpirTypeInitialValue"],
+                    args["MpirTypeResultValue"]));
             }
 
             if ((bool)args["FromLimb"])
             {
-                methods.Add(Format(@"
-                    [TestMethod]
-                    public void {0}Limb()
-                    {{
-                        using (var a = new HugeInt(""{1}""))
-                        {{
-                            ulong b = {2};
-                            a.{0}(b);
-                            Assert.AreEqual(""{3}"", a.ToString());
-                        }}
-                    }}",
+                methods.Add(MakeTest("Limb", "ulong",
                     args["Method"],
                     args["InitialValue"],
                     args["LimbInitialValue"],
@@ -117,17 +89,7 @@ namespace Spells
 
             if ((bool)args["FromSignedLimb"])
             {
-                methods.Add(Format(@"
-                    [TestMethod]
-                    public void {0}SignedLimb()
-                    {{
-                        using (var a = new HugeInt(""{1}""))
-                        {{
-                            long b = {2};
-                            a.{0}(b);
-                            Assert.AreEqual(""{3}"", a.ToString());
-                        }}
-                    }}",
+                methods.Add(MakeTest("SignedLimb", "long",
                     args["Method"],
                     args["InitialValue"],
                     args["SignedLimbInitialValue"],
@@ -138,11 +100,38 @@ namespace Spells
                 .InsertMembers(methods.ToArray());
         }
 
-        private string Format(string format, params object[] args)
+        protected override string MpirType
         {
-            return string.Format(format, args)
+            get { return "HugeInt"; }
+        }
+    }
+
+    internal abstract class AddTestBase
+    {
+        protected abstract string MpirType { get; }
+
+        protected string MakeTest(string suffix, string secondArgType, params object[] args)
+        {
+            var format = new StringBuilder();
+            format.AppendLine();
+            format.AppendLine("[TestMethod]");
+            format.AppendLine("public void {0}" + suffix + "()");
+            format.AppendLine("{{");
+            format.AppendLine("    using (var a = new " + MpirType + "(\"{1}\"))");
+        if (secondArgType == MpirType)
+            format.AppendLine("    using (var b = new " + MpirType + "(\"{2}\"))");
+            format.AppendLine("    {{");
+        if (secondArgType != MpirType && secondArgType != null)
+            format.AppendLine("        " + secondArgType + " b = {2};");
+            format.AppendLine("        a.{0}(" + (secondArgType != null ? "b" : "") + ");");
+            format.AppendLine("        Assert.AreEqual(\"{3}\", a.ToString());");
+            format.AppendLine("    }}");
+            format.Append    ("}}");
+
+
+            return string.Format(format.ToString(), args)
                 .Replace("\r", "")
-                .Replace("\n            ", Environment.NewLine);
+                .Replace("\n", Environment.NewLine + new string(' ', 8));
         }
     }
 }
