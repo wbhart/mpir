@@ -55,11 +55,46 @@ along with the MPIR Library.  If not, see http://www.gnu.org/licenses/.
         SAVE_THIS;                                      \
     }
 
+#define DEFINE_VOID_FROM_MPZ_MPZ(x, impl)               \
+    void HugeInt::x(HugeInt^ a, HugeInt^ b)             \
+    {                                                   \
+        THIS_PTR;                                       \
+        SRC_PTR(a);                                     \
+        SRC_PTR(b);                                     \
+        mpz_##impl(src_this, src_a, src_b);             \
+        SAVE_THIS;                                      \
+    }
+
 #define DEFINE_VOID_FROM_UI(x, impl)                    \
     void HugeInt::x(mpir_ui a)                          \
     {                                                   \
         THIS_PTR;                                       \
         mpz_##impl##_ui(src_this, src_this, a);         \
+        SAVE_THIS;                                      \
+    }
+
+#define DEFINE_VOID_FROM_NONE(x, impl)                  \
+    void HugeInt::x()                                   \
+    {                                                   \
+        THIS_PTR;                                       \
+        mpz_##impl##(src_this, src_this);               \
+        SAVE_THIS;                                      \
+    }
+
+#define DEFINE_VOID_FROM_2EXP(x, impl)                  \
+    void HugeInt::x(mp_bitcnt_t a)                      \
+    {                                                   \
+        THIS_PTR;                                       \
+        mpz_##impl##_2exp(src_this, src_this, a);       \
+        SAVE_THIS;                                      \
+    }
+
+#define DEFINE_VOID_FROM_MPZ_UI(x, impl)                \
+    void HugeInt::x(HugeInt^ a, mpir_ui b)              \
+    {                                                   \
+        THIS_PTR;                                       \
+        SRC_PTR(a);                                     \
+        mpz_##impl##_ui(src_this, src_a, b);            \
         SAVE_THIS;                                      \
     }
 
@@ -79,6 +114,15 @@ along with the MPIR Library.  If not, see http://www.gnu.org/licenses/.
         SAVE_THIS;                                      \
     }
 
+#define DEFINE_VOID_FROM_MPZ_SI(x, impl)                \
+    void HugeInt::x(HugeInt^ a, mpir_si b)              \
+    {                                                   \
+        THIS_PTR;                                       \
+        SRC_PTR(a);                                     \
+        mpz_##impl##_si(src_this, src_a, b);            \
+        SAVE_THIS;                                      \
+    }
+
 #define DEFINE_VOID_FROM_MPZ_OR_UI_OR_SI(x, impl)       \
         DEFINE_VOID_FROM_MPZ(x, impl)                   \
         DEFINE_VOID_FROM_UI(x, impl)                    \
@@ -87,6 +131,10 @@ along with the MPIR Library.  If not, see http://www.gnu.org/licenses/.
 #define DEFINE_VOID_FROM_MPZ_OR_UI(x, impl)             \
         DEFINE_VOID_FROM_MPZ(x, impl)                   \
         DEFINE_VOID_FROM_UI(x, impl)
+
+#define DEFINE_VOID_FROM_MPZ_MPZ_OR_UI(x, impl)         \
+        DEFINE_VOID_FROM_MPZ_MPZ(x, impl)               \
+        DEFINE_VOID_FROM_MPZ_UI(x, impl)
 
 using namespace System::Runtime::InteropServices;
 
@@ -203,6 +251,11 @@ namespace MPIR
     DEFINE_VOID_FROM_MPZ_OR_UI(Subtract, sub)
     DEFINE_VOID_UI_FROM(SubtractFrom, sub)
     DEFINE_VOID_FROM_MPZ_OR_UI_OR_SI(MultiplyBy, mul)
+    DEFINE_VOID_FROM_MPZ_MPZ_OR_UI(AddProduct, addmul)
+    DEFINE_VOID_FROM_MPZ_MPZ_OR_UI(SubtractProduct, submul)
+    DEFINE_VOID_FROM_2EXP(ShiftLeft, mul)
+    DEFINE_VOID_FROM_NONE(Negate, neg)
+    DEFINE_VOID_FROM_NONE(MakeAbsolute, abs)
 
     #pragma endregion
 };

@@ -22,12 +22,21 @@ along with the MPIR Library.  If not, see http://www.gnu.org/licenses/.
 using namespace System;
 
 #define DECLARE_VOID_FROM_MPZ(x) void x(HugeInt^ a);
-#define DECLARE_VOID_FROM_UI(x) void x(mpir_ui a);
-#define DECLARE_VOID_FROM_SI(x) void x(mpir_si a);
+#define DECLARE_VOID_FROM_UI(x)  void x(mpir_ui a);
+#define DECLARE_VOID_FROM_SI(x)  void x(mpir_si a);
+#define DECLARE_VOID_FROM_2EXP(x)  void x(mp_bitcnt_t a);
+#define DECLARE_VOID_FROM_NONE(x)  void x();
+#define DECLARE_VOID_FROM_MPZ_MPZ(x) void x(HugeInt^ a, HugeInt^ b);
+#define DECLARE_VOID_FROM_MPZ_UI(x)  void x(HugeInt^ a, mpir_ui b);
+#define DECLARE_VOID_FROM_MPZ_SI(x)  void x(HugeInt^ a, mpir_si b);
 
 #define DECLARE_VOID_FROM_MPZ_OR_UI(x)          \
         DECLARE_VOID_FROM_MPZ(x)                \
         DECLARE_VOID_FROM_UI(x)
+
+#define DECLARE_VOID_FROM_MPZ_MPZ_OR_UI(x)          \
+        DECLARE_VOID_FROM_MPZ_MPZ(x)                \
+        DECLARE_VOID_FROM_MPZ_UI(x)
 
 #define DECLARE_VOID_FROM_MPZ_OR_UI_OR_SI(x)    \
         DECLARE_VOID_FROM_MPZ(x)                \
@@ -71,6 +80,11 @@ namespace MPIR
             DECLARE_VOID_FROM_MPZ_OR_UI(Subtract)
             DECLARE_VOID_FROM_UI(SubtractFrom)
             DECLARE_VOID_FROM_MPZ_OR_UI_OR_SI(MultiplyBy)
+            DECLARE_VOID_FROM_MPZ_MPZ_OR_UI(AddProduct)
+            DECLARE_VOID_FROM_MPZ_MPZ_OR_UI(SubtractProduct)
+            DECLARE_VOID_FROM_2EXP(ShiftLeft)
+            DECLARE_VOID_FROM_NONE(Negate)
+            DECLARE_VOID_FROM_NONE(MakeAbsolute)
 
             //void Add(HugeInt^ a);
     };
