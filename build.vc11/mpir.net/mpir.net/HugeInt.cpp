@@ -237,6 +237,17 @@ namespace MPIR
 
     #pragma endregion
 
+    #pragma region Properties
+
+    void HugeInt::Value::set(HugeInt^ a)
+    {
+        THIS_PTR;
+        mpz_set(src_this, a->_value);
+        SAVE_THIS;
+    }
+
+    #pragma endregion
+
     #pragma region Arithmetic
 
     HugeInt^ HugeInt::operator+(HugeInt^ destination, HugeInt^ source)

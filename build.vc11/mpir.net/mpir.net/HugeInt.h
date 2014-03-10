@@ -74,6 +74,12 @@ namespace MPIR
             virtual String^ ToString() override;
             String^ ToString(int base);
 
+            //properties
+            property HugeInt^ Value
+            {
+                void set(HugeInt^ value);
+            }
+
             //arithmetic
             static HugeInt^ operator+(HugeInt^ destination, HugeInt^ source);
             DECLARE_VOID_FROM_MPZ_OR_UI(Add)

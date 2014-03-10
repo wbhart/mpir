@@ -29,15 +29,11 @@ namespace MPIR.Tests
     internal static class Accessors
     {
         private static readonly ConstructorInfo _intPtrConstructor;
-        private static readonly FieldInfo _getNumberOfLimbsAllocated;
-        private static readonly FieldInfo _getNumberOfLimbsUsed;
-        private static readonly FieldInfo _getLimbs;
+        private static readonly FieldInfo _getValue;
 
         static Accessors()
         {
-            _getNumberOfLimbsAllocated = GetAccessor("_numberOfLimbsAllocated");
-            _getNumberOfLimbsUsed = GetAccessor("_numberOfLimbsUsed");
-            _getLimbs = GetAccessor("_limbs");
+            _getValue = GetAccessor("_value");
 
             _intPtrConstructor = typeof(IntPtr).GetConstructor(new[] { Type.GetType("System.Void*") });
         }
@@ -49,17 +45,40 @@ namespace MPIR.Tests
 
         public static int NumberOfLimbsAllocated(this HugeInt x)
         {
-            return (int)_getNumberOfLimbsAllocated.GetValue(x);
+            if (x._value() == IntPtr.Zero)
+                return 0;
+
+            unsafe
+            {
+                return ((int*)x._value().ToPointer())[0];
+            }
         }
 
         public static int NumberOfLimbsUsed(this HugeInt x)
         {
-            return (int)_getNumberOfLimbsUsed.GetValue(x);
+            if (x._value() == IntPtr.Zero)
+                return 0;
+
+            unsafe
+            {
+                return ((int*)x._value().ToPointer())[1];
+            }
         }
 
         public static IntPtr Limbs(this HugeInt x)
         {
-            return (IntPtr)_intPtrConstructor.Invoke(new object[] { _getLimbs.GetValue(x) });
+            if (x._value() == IntPtr.Zero)
+                return IntPtr.Zero;
+
+            unsafe
+            {
+                return new IntPtr(((void**)x._value().ToPointer())[1]);
+            }
+        }
+
+        public static IntPtr _value(this HugeInt x)
+        {
+            return (IntPtr)_intPtrConstructor.Invoke(new object[] { _getValue.GetValue(x) });
         }
     }
 }
