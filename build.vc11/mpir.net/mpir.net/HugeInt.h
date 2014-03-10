@@ -50,9 +50,7 @@ namespace MPIR
         private:
 
             //fields
-            int _numberOfLimbsAllocated;
-            int _numberOfLimbsUsed;
-            mp_limb_t* _limbs;
+            __mpz_struct* _value;
 
             //construction
             HugeInt(mpz_srcptr src);
@@ -60,6 +58,7 @@ namespace MPIR
 
         public:
             //construction
+            static HugeInt();
             HugeInt();
             HugeInt(mp_bitcnt_t bits);
             HugeInt(String^ value);
@@ -76,6 +75,7 @@ namespace MPIR
             String^ ToString(int base);
 
             //arithmetic
+            static HugeInt^ operator+(HugeInt^ destination, HugeInt^ source);
             DECLARE_VOID_FROM_MPZ_OR_UI(Add)
             DECLARE_VOID_FROM_MPZ_OR_UI(Subtract)
             DECLARE_VOID_FROM_UI(SubtractFrom)
@@ -85,7 +85,5 @@ namespace MPIR
             DECLARE_VOID_FROM_2EXP(ShiftLeft)
             DECLARE_VOID_FROM_NONE(Negate)
             DECLARE_VOID_FROM_NONE(MakeAbsolute)
-
-            //void Add(HugeInt^ a);
     };
 };

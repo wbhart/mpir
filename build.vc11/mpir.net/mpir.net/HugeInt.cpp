@@ -19,39 +19,34 @@ along with the MPIR Library.  If not, see http://www.gnu.org/licenses/.
 
 #include "Stdafx.h"
 #include "HugeInt.h"
+#include "Common.h"
+
+typedef __mpz_struct StructType;
+static const int StructSize = sizeof(StructType);
 
 //makes a local var from the managed mpz struct data of the specified instance
-#define SRC_PTR(x)                                      \
-    mpz_t src_##x;                                      \
-    src_##x->_mp_alloc = x->_numberOfLimbsAllocated;    \
-    src_##x->_mp_size = x->_numberOfLimbsUsed;          \
-    src_##x->_mp_d = x->_limbs
+#define SRC_PTR(x) mpz_t src_##x; src_##x[0] = *x->_value
 
 //makes a local var from the managed mpz struct data of this instance
-#define THIS_PTR                                        \
-    mpz_t src_this;                                     \
-    src_this->_mp_alloc = _numberOfLimbsAllocated;      \
-    src_this->_mp_size = _numberOfLimbsUsed;            \
-    src_this->_mp_d = _limbs
+#define THIS_PTR mpz_t src_this; src_this[0] = *_value
 
-////updated the managed mpz struct data for the specified instance from a local var
-//#define SAVE_PTR(x)                                   \
-//    x->_numberOfLimbsAllocated = src_##x->_mp_alloc;  \
-//    x->_numberOfLimbsUsed = src_##x->_mp_size;        \
-//    x->_limbs = src_##x->_mp_d;
+#define ToStructPtr(x) (StructType*)((char*)x - StructSize)
+
+//updated the managed mpz struct data for the specified instance from a local var
+#define SAVE_PTR(x)                                     \
+    x->_value = ToStructPtr(src_##x->_mp_d);            \
+    *x->_value = src_##x[0]
 
 //updated the managed mpz struct data for this instance from a local var
 #define SAVE_THIS                                       \
-    _numberOfLimbsAllocated = src_this->_mp_alloc;      \
-    _numberOfLimbsUsed = src_this->_mp_size;            \
-    _limbs = src_this->_mp_d
+    _value = ToStructPtr(src_this->_mp_d);              \
+    *_value = src_this[0]
 
 #define DEFINE_VOID_FROM_MPZ(x, impl)                   \
     void HugeInt::x(HugeInt^ a)                         \
     {                                                   \
         THIS_PTR;                                       \
-        SRC_PTR(a);                                     \
-        mpz_##impl(src_this, src_this, src_a);          \
+        mpz_##impl(src_this, src_this, a->_value);      \
         SAVE_THIS;                                      \
     }
 
@@ -59,9 +54,7 @@ along with the MPIR Library.  If not, see http://www.gnu.org/licenses/.
     void HugeInt::x(HugeInt^ a, HugeInt^ b)             \
     {                                                   \
         THIS_PTR;                                       \
-        SRC_PTR(a);                                     \
-        SRC_PTR(b);                                     \
-        mpz_##impl(src_this, src_a, src_b);             \
+        mpz_##impl(src_this, a->_value, b->_value);     \
         SAVE_THIS;                                      \
     }
 
@@ -93,8 +86,7 @@ along with the MPIR Library.  If not, see http://www.gnu.org/licenses/.
     void HugeInt::x(HugeInt^ a, mpir_ui b)              \
     {                                                   \
         THIS_PTR;                                       \
-        SRC_PTR(a);                                     \
-        mpz_##impl##_ui(src_this, src_a, b);            \
+        mpz_##impl##_ui(src_this, a->_value, b);        \
         SAVE_THIS;                                      \
     }
 
@@ -118,8 +110,7 @@ along with the MPIR Library.  If not, see http://www.gnu.org/licenses/.
     void HugeInt::x(HugeInt^ a, mpir_si b)              \
     {                                                   \
         THIS_PTR;                                       \
-        SRC_PTR(a);                                     \
-        mpz_##impl##_si(src_this, src_a, b);            \
+        mpz_##impl##_si(src_this, a->_value, b);        \
         SAVE_THIS;                                      \
     }
 
@@ -141,6 +132,11 @@ using namespace System::Runtime::InteropServices;
 namespace MPIR
 {
     #pragma region construction
+
+    static HugeInt::HugeInt()
+    {
+        SetCustomAllocationFunctions();
+    }
 
     HugeInt::HugeInt(mpz_srcptr src_this)
     {
@@ -212,13 +208,11 @@ namespace MPIR
     //managed finalizer
     HugeInt::!HugeInt()
     {
-        if(_limbs != 0)
+        if(_value != 0)
         {
             THIS_PTR;
             mpz_clear(src_this);
-            _numberOfLimbsAllocated = 0;
-            _numberOfLimbsUsed = 0;
-            _limbs = 0;
+            _value = 0;
         }
     }
 
@@ -236,16 +230,23 @@ namespace MPIR
         THIS_PTR;
         char* str = mpz_get_str(NULL, base, src_this);
         String^ result = gcnew String(str);
-        //void (*freefunc) (void*, size_t);
-        //mp_get_memory_functions (NULL, NULL, &freefunc);
-        //freefunc(str, ?);
-        free(str);
+        CustomFree(str, 0);
+
         return result;
     }
 
     #pragma endregion
 
     #pragma region Arithmetic
+
+    HugeInt^ HugeInt::operator+(HugeInt^ destination, HugeInt^ source)
+    {
+        mpz_t result;
+        mpz_init(result);
+        mpz_add(result, destination->_value, source->_value);
+        return gcnew HugeInt(result);
+    }
+
 
     DEFINE_VOID_FROM_MPZ_OR_UI(Add, add)
     DEFINE_VOID_FROM_MPZ_OR_UI(Subtract, sub)

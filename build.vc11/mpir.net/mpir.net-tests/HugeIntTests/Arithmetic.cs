@@ -31,8 +31,10 @@ namespace MPIR.Tests.HugeIntTests
             using (var a = new HugeInt("222509832503450298345029835740293845720"))
             using (var b = new HugeInt("222987435987982730594288574029879874539"))
             {
+                var c = a + b;
                 a.Add(b);
                 Assert.AreEqual("445497268491433028939318409770173720259", a.ToString());
+                Assert.AreEqual("445497268491433028939318409770173720259", c.ToString());
             }
         }
 
