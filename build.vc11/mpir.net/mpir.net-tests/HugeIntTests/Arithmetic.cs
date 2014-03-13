@@ -30,10 +30,9 @@ namespace MPIR.Tests.HugeIntTests
         {
             using (var a = new HugeInt("222509832503450298345029835740293845720"))
             using (var b = new HugeInt("222987435987982730594288574029879874539"))
+            using (var c = new HugeInt())
             {
-                var c = a + b;
-                a.Add(b);
-                Assert.AreEqual("445497268491433028939318409770173720259", a.ToString());
+                c.Value = a + b;
                 Assert.AreEqual("445497268491433028939318409770173720259", c.ToString());
             }
         }
@@ -44,7 +43,18 @@ namespace MPIR.Tests.HugeIntTests
             using (var a = new HugeInt("222509832503450298345029835740293845720"))
             {
                 var b = 4288574029879874539UL;
-                a.Add(b);
+                a.Value = a + b;
+                Assert.AreEqual("222509832503450298349318409770173720259", a.ToString());
+            }
+        }
+
+        [TestMethod]
+        public void AddToLimb()
+        {
+            using (var a = new HugeInt("222509832503450298345029835740293845720"))
+            {
+                var b = 4288574029879874539UL;
+                a.Value = b + a;
                 Assert.AreEqual("222509832503450298349318409770173720259", a.ToString());
             }
         }

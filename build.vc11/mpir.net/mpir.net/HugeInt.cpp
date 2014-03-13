@@ -18,29 +18,7 @@ along with the MPIR Library.  If not, see http://www.gnu.org/licenses/.
 */
 
 #include "Stdafx.h"
-#include "HugeInt.h"
 #include "Common.h"
-
-typedef __mpz_struct StructType;
-static const int StructSize = sizeof(StructType);
-
-//makes a local var from the managed mpz struct data of the specified instance
-#define SRC_PTR(x) mpz_t src_##x; src_##x[0] = *x->_value
-
-//makes a local var from the managed mpz struct data of this instance
-#define THIS_PTR mpz_t src_this; src_this[0] = *_value
-
-#define ToStructPtr(x) (StructType*)((char*)x - StructSize)
-
-//updated the managed mpz struct data for the specified instance from a local var
-#define SAVE_PTR(x)                                     \
-    x->_value = ToStructPtr(src_##x->_mp_d);            \
-    *x->_value = src_##x[0]
-
-//updated the managed mpz struct data for this instance from a local var
-#define SAVE_THIS                                       \
-    _value = ToStructPtr(src_this->_mp_d);              \
-    *_value = src_this[0]
 
 #define DEFINE_VOID_FROM_MPZ(x, impl)                   \
     void HugeInt::x(HugeInt^ a)                         \
@@ -237,29 +215,27 @@ namespace MPIR
 
     #pragma endregion
 
-    #pragma region Properties
-
-    void HugeInt::Value::set(HugeInt^ a)
-    {
-        THIS_PTR;
-        mpz_set(src_this, a->_value);
-        SAVE_THIS;
-    }
-
-    #pragma endregion
-
     #pragma region Arithmetic
 
-    HugeInt^ HugeInt::operator+(HugeInt^ destination, HugeInt^ source)
+    IMpirExpression^ HugeInt::operator+(HugeInt^ a, HugeInt^ b) { return gcnew MpirAddIntIntExpression(a, b); }
+    IMpirExpression^ HugeInt::operator+(HugeInt^ a, mpir_ui b) { return gcnew MpirAddIntUiExpression(a, b); }
+    IMpirExpression^ HugeInt::operator+(mpir_ui a, HugeInt^ b) { return gcnew MpirAddIntUiExpression(b, a); }
+
+    void MpirAddIntIntExpression::AssignTo(HugeInt^ destination)
     {
-        mpz_t result;
-        mpz_init(result);
-        mpz_add(result, destination->_value, source->_value);
-        return gcnew HugeInt(result);
+        SRC_PTR(destination);
+        mpz_add(src_destination, Left->_value, Right->_value);
+        SAVE_PTR(destination);
     }
 
+    void MpirAddIntUiExpression::AssignTo(HugeInt^ destination)
+    {
+        SRC_PTR(destination);
+        mpz_add_ui(src_destination, Left->_value, Right);
+        SAVE_PTR(destination);
+    }
 
-    DEFINE_VOID_FROM_MPZ_OR_UI(Add, add)
+    //DEFINE_VOID_FROM_MPZ_OR_UI(Add, add)
     DEFINE_VOID_FROM_MPZ_OR_UI(Subtract, sub)
     DEFINE_VOID_UI_FROM(SubtractFrom, sub)
     DEFINE_VOID_FROM_MPZ_OR_UI_OR_SI(MultiplyBy, mul)

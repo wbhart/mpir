@@ -21,7 +21,6 @@ along with the MPIR Library.  If not, see http://www.gnu.org/licenses/.
 #include "Common.h"
 
 static bool AllocationFunctionsConfigured = false;
-static const int StructSize = sizeof(__mpz_struct);
 
 void* CustomAllocate (size_t alloc_size)
 {

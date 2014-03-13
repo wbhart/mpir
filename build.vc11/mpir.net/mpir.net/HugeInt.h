@@ -43,15 +43,44 @@ using namespace System;
         DECLARE_VOID_FROM_UI(x)                 \
         DECLARE_VOID_FROM_SI(x)
 
+typedef __mpz_struct StructType;
+static const int StructSize = sizeof(StructType);
+
+//makes a local var from the managed mpz struct data of the specified instance
+#define SRC_PTR(x) mpz_t src_##x; src_##x[0] = *x->_value
+
+//makes a local var from the managed mpz struct data of this instance
+#define THIS_PTR mpz_t src_this; src_this[0] = *_value
+
+#define ToStructPtr(x) (StructType*)((char*)x - StructSize)
+
+//updated the managed mpz struct data for the specified instance from a local var
+#define SAVE_PTR(x)                                     \
+    x->_value = ToStructPtr(src_##x->_mp_d);            \
+    *x->_value = src_##x[0]
+
+//updated the managed mpz struct data for this instance from a local var
+#define SAVE_THIS                                       \
+    _value = ToStructPtr(src_this->_mp_d);              \
+    *_value = src_this[0]
+
 namespace MPIR
 {
-    public ref class HugeInt sealed
-    {
-        private:
 
+    public interface class IMpirExpression
+    {
+        public:
+            void AssignTo(HugeInt^ destination);
+    };
+    ref class MpirExpression;
+
+    public ref class HugeInt sealed : IMpirExpression
+    {
+        internal:
             //fields
             __mpz_struct* _value;
 
+        private:
             //construction
             HugeInt(mpz_srcptr src);
             void FromString(String^ value, int base);
@@ -75,14 +104,33 @@ namespace MPIR
             String^ ToString(int base);
 
             //properties
-            property HugeInt^ Value
+            property IMpirExpression^ Value
             {
-                void set(HugeInt^ value);
+                void set(IMpirExpression^ expr)
+                {
+                    expr->AssignTo(this);
+                };
             }
 
+            virtual void AssignTo(HugeInt^ destination)
+            {
+                SRC_PTR(destination);
+                mpz_set(src_destination, _value);
+                SAVE_PTR(destination);
+            }
+
+            //conversions
+            //static operator MpirValueExpression^(HugeInt^ a)
+            //{
+            //    return gcnew MpirValueExpression(a);
+            //}
+
             //arithmetic
-            static HugeInt^ operator+(HugeInt^ destination, HugeInt^ source);
-            DECLARE_VOID_FROM_MPZ_OR_UI(Add)
+            static IMpirExpression^ operator+(HugeInt^ a, HugeInt^ b);
+            static IMpirExpression^ operator+(HugeInt^ a, mpir_ui b);
+            static IMpirExpression^ operator+(mpir_ui a, HugeInt^ b);
+
+            //DECLARE_VOID_FROM_MPZ_OR_UI(Add)
             DECLARE_VOID_FROM_MPZ_OR_UI(Subtract)
             DECLARE_VOID_FROM_UI(SubtractFrom)
             DECLARE_VOID_FROM_MPZ_OR_UI_OR_SI(MultiplyBy)
@@ -91,5 +139,33 @@ namespace MPIR
             DECLARE_VOID_FROM_2EXP(ShiftLeft)
             DECLARE_VOID_FROM_NONE(Negate)
             DECLARE_VOID_FROM_NONE(MakeAbsolute)
+    };
+
+    public ref class MpirAddIntIntExpression : IMpirExpression //MpirBinaryExpression<HugeInt^, HugeInt^>
+    {
+        public:
+            HugeInt^ Left;
+            HugeInt^ Right;
+
+            MpirAddIntIntExpression(HugeInt^ left, HugeInt^ right)
+            {
+                Left = left;
+                Right = right;
+            }
+            virtual void AssignTo(HugeInt^ destination);
+    };
+
+    public ref class MpirAddIntUiExpression : IMpirExpression //MpirBinaryExpression<HugeInt^, mpir_ui>
+    {
+        public:
+            HugeInt^ Left;
+            mpir_ui Right;
+
+            MpirAddIntUiExpression(HugeInt^ left, mpir_ui right)// : MpirBinaryExpression(left, right) { }
+            {
+                Left = left;
+                Right= right;
+            }
+            virtual void AssignTo(HugeInt^ destination);
     };
 };
