@@ -276,35 +276,6 @@ namespace MPIR
 
     #pragma region Arithmetic
 
-    MpirAddIntIntExpression^ HugeInt::operator+(HugeInt^ a, HugeInt^ b) { return gcnew MpirAddIntIntExpression(a, b); }
-    MpirAddIntUiExpression^  HugeInt::operator+(HugeInt^ a, mpir_ui  b) { return gcnew MpirAddIntUiExpression (a, b); }
-    MpirAddIntUiExpression^  HugeInt::operator+(mpir_ui  a, HugeInt^ b) { return gcnew MpirAddIntUiExpression (b, a); }
-    MpirAddIntSiExpression^  HugeInt::operator+(HugeInt^ a, mpir_si  b) { return gcnew MpirAddIntSiExpression (a, b); }
-    MpirAddIntSiExpression^  HugeInt::operator+(mpir_si  a, HugeInt^ b) { return gcnew MpirAddIntSiExpression (b, a); }
-
-    MpirAddProductIntIntExpression^ HugeInt::operator+(HugeInt^ a, MpirMultiplyIntIntExpression^ b) { return gcnew MpirAddProductIntIntExpression(a, b); }
-    MpirAddProductIntIntExpression^ HugeInt::operator+(MpirMultiplyIntIntExpression^ a, HugeInt^ b) { return gcnew MpirAddProductIntIntExpression(b, a); }
-    MpirAddProductIntUiExpression^  HugeInt::operator+(HugeInt^ a, MpirMultiplyIntUiExpression^ b)  { return gcnew MpirAddProductIntUiExpression(a, b); }
-    MpirAddProductIntUiExpression^  HugeInt::operator+(MpirMultiplyIntUiExpression^ a, HugeInt^ b)  { return gcnew MpirAddProductIntUiExpression(b, a); }
-    MpirAddProductIntSiExpression^  HugeInt::operator+(HugeInt^ a, MpirMultiplyIntSiExpression^ b)  { return gcnew MpirAddProductIntSiExpression(a, b); }
-    MpirAddProductIntSiExpression^  HugeInt::operator+(MpirMultiplyIntSiExpression^ a, HugeInt^ b)  { return gcnew MpirAddProductIntSiExpression(b, a); }
-
-    MpirSubtractIntIntExpression^ HugeInt::operator-(HugeInt^ a, HugeInt^ b) { return gcnew MpirSubtractIntIntExpression(a, b); }
-    MpirSubtractIntUiExpression^  HugeInt::operator-(HugeInt^ a, mpir_ui  b) { return gcnew MpirSubtractIntUiExpression (a, b); }
-    MpirSubtractUiIntExpression^  HugeInt::operator-(mpir_ui  a, HugeInt^ b) { return gcnew MpirSubtractUiIntExpression (a, b); }
-    MpirSubtractIntSiExpression^  HugeInt::operator-(HugeInt^ a, mpir_si  b) { return gcnew MpirSubtractIntSiExpression (a, b); }
-    MpirSubtractSiIntExpression^  HugeInt::operator-(mpir_si  a, HugeInt^ b) { return gcnew MpirSubtractSiIntExpression (a, b); }
-
-    MpirSubtractProductIntIntExpression^ HugeInt::operator-(HugeInt^ a, MpirMultiplyIntIntExpression^ b) { return gcnew MpirSubtractProductIntIntExpression(a, b); }
-    MpirSubtractProductIntUiExpression^  HugeInt::operator-(HugeInt^ a, MpirMultiplyIntUiExpression^ b)  { return gcnew MpirSubtractProductIntUiExpression(a, b); }
-    MpirSubtractProductIntSiExpression^  HugeInt::operator-(HugeInt^ a, MpirMultiplyIntSiExpression^ b)  { return gcnew MpirSubtractProductIntSiExpression(a, b); }
-
-    MpirMultiplyIntIntExpression^ HugeInt::operator*(HugeInt^ a, HugeInt^ b) { return gcnew MpirMultiplyIntIntExpression(a, b); }
-    MpirMultiplyIntUiExpression^  HugeInt::operator*(HugeInt^ a, mpir_ui  b) { return gcnew MpirMultiplyIntUiExpression (a, b); }
-    MpirMultiplyIntUiExpression^  HugeInt::operator*(mpir_ui  a, HugeInt^ b) { return gcnew MpirMultiplyIntUiExpression (b, a); }
-    MpirMultiplyIntSiExpression^  HugeInt::operator*(HugeInt^ a, mpir_si  b) { return gcnew MpirMultiplyIntSiExpression (a, b); }
-    MpirMultiplyIntSiExpression^  HugeInt::operator*(mpir_si  a, HugeInt^ b) { return gcnew MpirMultiplyIntSiExpression (b, a); }
-
     DEFINE_BINARY_ASSIGNMENT_REF_REF(AddIntInt, mpz_add)
     DEFINE_BINARY_ASSIGNMENT_REF_VAL(AddIntUi, mpz_add_ui)
     DEFINE_BINARY_ASSIGNMENT_REF_SI (AddIntSi, mpz_add_ui, mpz_sub_ui)

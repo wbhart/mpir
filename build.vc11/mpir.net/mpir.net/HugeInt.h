@@ -161,34 +161,34 @@ namespace MPIR
             }
 
             //arithmetic
-            static MpirAddIntIntExpression^ operator+(HugeInt^ a, HugeInt^ b);
-            static MpirAddIntUiExpression^  operator+(HugeInt^ a, mpir_ui b);
-            static MpirAddIntUiExpression^  operator+(mpir_ui  a, HugeInt^ b);
-            static MpirAddIntSiExpression^  operator+(HugeInt^ a, mpir_si b);
-            static MpirAddIntSiExpression^  operator+(mpir_si  a, HugeInt^ b);
+            static MpirAddIntIntExpression^ operator+(HugeInt^ a, HugeInt^ b) { return gcnew MpirAddIntIntExpression(a, b); }
+            static MpirAddIntUiExpression^  operator+(HugeInt^ a, mpir_ui  b) { return gcnew MpirAddIntUiExpression (a, b); }
+            static MpirAddIntUiExpression^  operator+(mpir_ui  a, HugeInt^ b) { return gcnew MpirAddIntUiExpression (b, a); }
+            static MpirAddIntSiExpression^  operator+(HugeInt^ a, mpir_si  b) { return gcnew MpirAddIntSiExpression (a, b); }
+            static MpirAddIntSiExpression^  operator+(mpir_si  a, HugeInt^ b) { return gcnew MpirAddIntSiExpression (b, a); }
 
-            static MpirAddProductIntIntExpression^ operator+(HugeInt^ a, MpirMultiplyIntIntExpression^ b);
-            static MpirAddProductIntIntExpression^ operator+(MpirMultiplyIntIntExpression^ a, HugeInt^ b);
-            static MpirAddProductIntUiExpression^  operator+(HugeInt^ a, MpirMultiplyIntUiExpression^ b);
-            static MpirAddProductIntUiExpression^  operator+(MpirMultiplyIntUiExpression^ a, HugeInt^ b);
-            static MpirAddProductIntSiExpression^  operator+(HugeInt^ a, MpirMultiplyIntSiExpression^ b);
-            static MpirAddProductIntSiExpression^  operator+(MpirMultiplyIntSiExpression^ a, HugeInt^ b);
+            static MpirAddProductIntIntExpression^ operator+(HugeInt^ a, MpirMultiplyIntIntExpression^ b) { return gcnew MpirAddProductIntIntExpression(a, b); }
+            static MpirAddProductIntIntExpression^ operator+(MpirMultiplyIntIntExpression^ a, HugeInt^ b) { return gcnew MpirAddProductIntIntExpression(b, a); }
+            static MpirAddProductIntUiExpression^  operator+(HugeInt^ a, MpirMultiplyIntUiExpression^ b)  { return gcnew MpirAddProductIntUiExpression(a, b); }
+            static MpirAddProductIntUiExpression^  operator+(MpirMultiplyIntUiExpression^ a, HugeInt^ b)  { return gcnew MpirAddProductIntUiExpression(b, a); }
+            static MpirAddProductIntSiExpression^  operator+(HugeInt^ a, MpirMultiplyIntSiExpression^ b)  { return gcnew MpirAddProductIntSiExpression(a, b); }
+            static MpirAddProductIntSiExpression^  operator+(MpirMultiplyIntSiExpression^ a, HugeInt^ b)  { return gcnew MpirAddProductIntSiExpression(b, a); }
 
-            static MpirSubtractIntIntExpression^ operator-(HugeInt^ a, HugeInt^ b);
-            static MpirSubtractIntUiExpression^  operator-(HugeInt^ a, mpir_ui  b);
-            static MpirSubtractUiIntExpression^  operator-(mpir_ui  a, HugeInt^ b);
-            static MpirSubtractIntSiExpression^  operator-(HugeInt^ a, mpir_si  b);
-            static MpirSubtractSiIntExpression^  operator-(mpir_si  a, HugeInt^ b);
+            static MpirSubtractIntIntExpression^ operator-(HugeInt^ a, HugeInt^ b) { return gcnew MpirSubtractIntIntExpression(a, b); }
+            static MpirSubtractIntUiExpression^  operator-(HugeInt^ a, mpir_ui  b) { return gcnew MpirSubtractIntUiExpression (a, b); }
+            static MpirSubtractUiIntExpression^  operator-(mpir_ui  a, HugeInt^ b) { return gcnew MpirSubtractUiIntExpression (a, b); }
+            static MpirSubtractIntSiExpression^  operator-(HugeInt^ a, mpir_si  b) { return gcnew MpirSubtractIntSiExpression (a, b); }
+            static MpirSubtractSiIntExpression^  operator-(mpir_si  a, HugeInt^ b) { return gcnew MpirSubtractSiIntExpression (a, b); }
 
-            static MpirSubtractProductIntIntExpression^ operator-(HugeInt^ a, MpirMultiplyIntIntExpression^ b);
-            static MpirSubtractProductIntUiExpression^  operator-(HugeInt^ a, MpirMultiplyIntUiExpression^ b);
-            static MpirSubtractProductIntSiExpression^  operator-(HugeInt^ a, MpirMultiplyIntSiExpression^ b);
+            static MpirSubtractProductIntIntExpression^ operator-(HugeInt^ a, MpirMultiplyIntIntExpression^ b) { return gcnew MpirSubtractProductIntIntExpression(a, b); }
+            static MpirSubtractProductIntUiExpression^  operator-(HugeInt^ a, MpirMultiplyIntUiExpression^ b)  { return gcnew MpirSubtractProductIntUiExpression(a, b); }
+            static MpirSubtractProductIntSiExpression^  operator-(HugeInt^ a, MpirMultiplyIntSiExpression^ b)  { return gcnew MpirSubtractProductIntSiExpression(a, b); }
 
-            static MpirMultiplyIntIntExpression^ operator*(HugeInt^ a, HugeInt^ b);
-            static MpirMultiplyIntUiExpression^  operator*(HugeInt^ a, mpir_ui  b);
-            static MpirMultiplyIntUiExpression^  operator*(mpir_ui  a, HugeInt^ b);
-            static MpirMultiplyIntSiExpression^  operator*(HugeInt^ a, mpir_si  b);
-            static MpirMultiplyIntSiExpression^  operator*(mpir_si  a, HugeInt^ b);
+            static MpirMultiplyIntIntExpression^ operator*(HugeInt^ a, HugeInt^ b) { return gcnew MpirMultiplyIntIntExpression(a, b); }
+            static MpirMultiplyIntUiExpression^  operator*(HugeInt^ a, mpir_ui  b) { return gcnew MpirMultiplyIntUiExpression (a, b); }
+            static MpirMultiplyIntUiExpression^  operator*(mpir_ui  a, HugeInt^ b) { return gcnew MpirMultiplyIntUiExpression (b, a); }
+            static MpirMultiplyIntSiExpression^  operator*(HugeInt^ a, mpir_si  b) { return gcnew MpirMultiplyIntSiExpression (a, b); }
+            static MpirMultiplyIntSiExpression^  operator*(mpir_si  a, HugeInt^ b) { return gcnew MpirMultiplyIntSiExpression (b, a); }
 
             //DECLARE_VOID_FROM_MPZ_OR_UI(Add)
             //DECLARE_VOID_FROM_MPZ_OR_UI(Subtract)
