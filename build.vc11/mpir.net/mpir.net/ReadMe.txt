@@ -16,5 +16,10 @@ You should have received a copy of the GNU Lesser General Public License
 along with the MPIR Library.  If not, see http://www.gnu.org/licenses/.  
 
 ========================================================================
-    This project is an experimental .Net wrapper for the MPIR library.
+This project is an experimental .Net wrapper for the MPIR library.
+It is a re-implementation of the C++ interface in CLI
+for consumption by managed .Net languages.
+It is a Visual Studio build only, targeting .Net on Windows x64.
+It can be linked with an x64 MPIR static (Lib) build for any 
+MPIR-supported processor architecture.
 ========================================================================
