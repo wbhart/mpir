@@ -231,7 +231,9 @@ namespace MPIR.Tests.HugeIntTests
             using (var c = new HugeInt("23094582093845093574093845093485039450934"))
             using (var b = new HugeInt("-394580293847502987609283945873594873409587"))
             {
-                a.AddProduct(c, b);
+                var expr = a + c*b;
+                Assert.IsInstanceOfType(expr, typeof(MpirAddProductIntIntExpression));
+                a.Value = expr;
                 Assert.AreEqual("-9112666988874677841199955832262586145147830205230375090322356322089362221491205901", a.ToString());
             }
         }
@@ -243,8 +245,53 @@ namespace MPIR.Tests.HugeIntTests
             using (var c = new HugeInt("-23094582093845093574093845093485039450934"))
             {
                 ulong b = 498734523097853458;
-                a.AddProduct(c, b);
+                var expr = a + c*b;
+                Assert.IsInstanceOfType(expr, typeof(MpirAddProductIntUiExpression));
+                a.Value = expr;
                 Assert.AreEqual("-11518065386718058599763388064972875060082210203928832731415", a.ToString());
+            }
+        }
+
+        [TestMethod]
+        public void AddProductLimbTo()
+        {
+            using (var a = new HugeInt("98750293847520938457029384572093480498357"))
+            using (var c = new HugeInt("-23094582093845093574093845093485039450934"))
+            {
+                ulong b = 498734523097853458;
+                var expr = a + b*c;
+                Assert.IsInstanceOfType(expr, typeof(MpirAddProductIntUiExpression));
+                a.Value = expr;
+                Assert.AreEqual("-11518065386718058599763388064972875060082210203928832731415", a.ToString());
+            }
+        }
+
+        [TestMethod]
+        public void AddProductLimbTo2()
+        {
+            using (var a = new HugeInt("98750293847520938457029384572093480498357"))
+            using (var c = new HugeInt("-23094582093845093574093845093485039450934"))
+            {
+                ulong b = 498734523097853458;
+                var expr = b*c + a;
+                Assert.IsInstanceOfType(expr, typeof(MpirAddProductIntUiExpression));
+                a.Value = expr;
+                //TODO how can we test a single addmul was called?
+                Assert.AreEqual("-11518065386718058599763388064972875060082210203928832731415", a.ToString());
+            }
+        }
+
+        [TestMethod]
+        public void AddProductLimbTo3()
+        {
+            using (var a = new HugeInt("98750293847520938457029384572093480498357"))
+            using (var c = new HugeInt("-23094582093845093574093845093485039450934"))
+            using (var d = new HugeInt())
+            {
+                ulong b = 498734523097853458;
+                var expr = b*c + a;
+                d.Value = expr;
+                Assert.AreEqual("-11518065386718058599763388064972875060082210203928832731415", d.ToString());
             }
         }
 

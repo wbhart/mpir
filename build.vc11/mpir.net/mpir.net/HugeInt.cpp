@@ -143,6 +143,16 @@ void Mpir##name##Expression::AssignTo(HugeInt^ destination)       \
     }                                                                               \
     DEFINE_ASSIGNMENT_EPILOG
 
+#define DEFINE_ADDMUL_ASSIGNMENT(name, operation, left, right)                      \
+    DEFINE_ASSIGNMENT_PROLOG(name)                                                  \
+    if(destination->_value != Left->_value)                                         \
+        mpz_set(src_destination, Left->_value);                                     \
+    operation(src_destination, Right->left, Right->right);                          \
+    DEFINE_ASSIGNMENT_EPILOG
+
+#define DEFINE_ADDMUL_ASSIGNMENT_REF_REF(name, operation) DEFINE_ADDMUL_ASSIGNMENT(name, operation, Left->_value, Right->_value)
+#define DEFINE_ADDMUL_ASSIGNMENT_REF_VAL(name, operation) DEFINE_ADDMUL_ASSIGNMENT(name, operation, Left->_value, Right)
+
 using namespace System::Runtime::InteropServices;
 
 namespace MPIR
@@ -261,6 +271,11 @@ namespace MPIR
     MpirAddIntSiExpression^  HugeInt::operator+(HugeInt^ a, mpir_si  b) { return gcnew MpirAddIntSiExpression (a, b); }
     MpirAddIntSiExpression^  HugeInt::operator+(mpir_si  a, HugeInt^ b) { return gcnew MpirAddIntSiExpression (b, a); }
 
+    MpirAddProductIntIntExpression^ HugeInt::operator+(HugeInt^ a, MpirMultiplyIntIntExpression^ b) { return gcnew MpirAddProductIntIntExpression(a, b); }
+    MpirAddProductIntIntExpression^ HugeInt::operator+(MpirMultiplyIntIntExpression^ a, HugeInt^ b) { return gcnew MpirAddProductIntIntExpression(b, a); }
+    MpirAddProductIntUiExpression^  HugeInt::operator+(HugeInt^ a, MpirMultiplyIntUiExpression^ b)  { return gcnew MpirAddProductIntUiExpression(a, b); }
+    MpirAddProductIntUiExpression^  HugeInt::operator+(MpirMultiplyIntUiExpression^ a, HugeInt^ b)  { return gcnew MpirAddProductIntUiExpression(b, a); }
+
     MpirSubtractIntIntExpression^ HugeInt::operator-(HugeInt^ a, HugeInt^ b) { return gcnew MpirSubtractIntIntExpression(a, b); }
     MpirSubtractIntUiExpression^  HugeInt::operator-(HugeInt^ a, mpir_ui  b) { return gcnew MpirSubtractIntUiExpression (a, b); }
     MpirSubtractUiIntExpression^  HugeInt::operator-(mpir_ui  a, HugeInt^ b) { return gcnew MpirSubtractUiIntExpression (a, b); }
@@ -287,11 +302,14 @@ namespace MPIR
     DEFINE_BINARY_ASSIGNMENT_REF_VAL(MultiplyIntUi, mpz_mul_ui)
     DEFINE_BINARY_ASSIGNMENT_REF_VAL(MultiplyIntSi, mpz_mul_si)
 
+    DEFINE_ADDMUL_ASSIGNMENT_REF_REF(AddProductIntInt, mpz_addmul)
+    DEFINE_ADDMUL_ASSIGNMENT_REF_VAL(AddProductIntUi, mpz_addmul_ui)
+
     //DEFINE_VOID_FROM_MPZ_OR_UI(Add, add)
     //DEFINE_VOID_FROM_MPZ_OR_UI(Subtract, sub)
     //DEFINE_VOID_UI_FROM(SubtractFrom, sub)
     //DEFINE_VOID_FROM_MPZ_OR_UI_OR_SI(MultiplyBy, mul)
-    DEFINE_VOID_FROM_MPZ_MPZ_OR_UI(AddProduct, addmul)
+    //DEFINE_VOID_FROM_MPZ_MPZ_OR_UI(AddProduct, addmul)
     DEFINE_VOID_FROM_MPZ_MPZ_OR_UI(SubtractProduct, submul)
     DEFINE_VOID_FROM_2EXP(ShiftLeft, mul)
     DEFINE_VOID_FROM_NONE(Negate, neg)
