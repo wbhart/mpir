@@ -52,27 +52,48 @@ static const int StructSize = sizeof(StructType);
 //makes a local var from the managed mpz struct data of this instance
 #define THIS_PTR mpz_t src_this; src_this[0] = *_value
 
+//converts from allocated limbs pointer to the mpz struct pointer the class will keep
 #define ToStructPtr(x) (StructType*)((char*)x - StructSize)
 
-//updated the managed mpz struct data for the specified instance from a local var
+//updates the managed mpz struct data for the specified instance from a local var
 #define SAVE_PTR(x)                                     \
     x->_value = ToStructPtr(src_##x->_mp_d);            \
     *x->_value = src_##x[0]
 
-//updated the managed mpz struct data for this instance from a local var
+//updates the managed mpz struct data for this instance from a local var
 #define SAVE_THIS                                       \
     _value = ToStructPtr(src_this->_mp_d);              \
     *_value = src_this[0]
 
+
+//defines a binary expression class
+#define DEFINE_BINARY_EXPRESSION(name, leftType, rightType)      \
+public ref class Mpir##name##Expression : IMpirExpression        \
+{                                                                \
+    public:                                                      \
+        leftType Left;                                           \
+        rightType Right;                                         \
+                                                                 \
+        Mpir##name##Expression(leftType left, rightType right)   \
+        {                                                        \
+            Left = left;                                         \
+            Right = right;                                       \
+        }                                                        \
+        virtual void AssignTo(HugeInt^ destination);             \
+};
+
 namespace MPIR
 {
+    ref class HugeInt;
 
     public interface class IMpirExpression
     {
         public:
             void AssignTo(HugeInt^ destination);
     };
-    ref class MpirExpression;
+
+    DEFINE_BINARY_EXPRESSION(AddIntInt, HugeInt^, HugeInt^)
+    DEFINE_BINARY_EXPRESSION(AddIntUi, HugeInt^, mpir_ui)
 
     public ref class HugeInt sealed : IMpirExpression
     {
@@ -119,16 +140,10 @@ namespace MPIR
                 SAVE_PTR(destination);
             }
 
-            //conversions
-            //static operator MpirValueExpression^(HugeInt^ a)
-            //{
-            //    return gcnew MpirValueExpression(a);
-            //}
-
             //arithmetic
-            static IMpirExpression^ operator+(HugeInt^ a, HugeInt^ b);
-            static IMpirExpression^ operator+(HugeInt^ a, mpir_ui b);
-            static IMpirExpression^ operator+(mpir_ui a, HugeInt^ b);
+            static MpirAddIntIntExpression^ operator+(HugeInt^ a, HugeInt^ b);
+            static MpirAddIntUiExpression^ operator+(HugeInt^ a, mpir_ui b);
+            static MpirAddIntUiExpression^ operator+(mpir_ui a, HugeInt^ b);
 
             //DECLARE_VOID_FROM_MPZ_OR_UI(Add)
             DECLARE_VOID_FROM_MPZ_OR_UI(Subtract)
@@ -139,33 +154,5 @@ namespace MPIR
             DECLARE_VOID_FROM_2EXP(ShiftLeft)
             DECLARE_VOID_FROM_NONE(Negate)
             DECLARE_VOID_FROM_NONE(MakeAbsolute)
-    };
-
-    public ref class MpirAddIntIntExpression : IMpirExpression //MpirBinaryExpression<HugeInt^, HugeInt^>
-    {
-        public:
-            HugeInt^ Left;
-            HugeInt^ Right;
-
-            MpirAddIntIntExpression(HugeInt^ left, HugeInt^ right)
-            {
-                Left = left;
-                Right = right;
-            }
-            virtual void AssignTo(HugeInt^ destination);
-    };
-
-    public ref class MpirAddIntUiExpression : IMpirExpression //MpirBinaryExpression<HugeInt^, mpir_ui>
-    {
-        public:
-            HugeInt^ Left;
-            mpir_ui Right;
-
-            MpirAddIntUiExpression(HugeInt^ left, mpir_ui right)// : MpirBinaryExpression(left, right) { }
-            {
-                Left = left;
-                Right= right;
-            }
-            virtual void AssignTo(HugeInt^ destination);
     };
 };

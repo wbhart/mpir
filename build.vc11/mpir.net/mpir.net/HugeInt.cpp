@@ -217,9 +217,9 @@ namespace MPIR
 
     #pragma region Arithmetic
 
-    IMpirExpression^ HugeInt::operator+(HugeInt^ a, HugeInt^ b) { return gcnew MpirAddIntIntExpression(a, b); }
-    IMpirExpression^ HugeInt::operator+(HugeInt^ a, mpir_ui b) { return gcnew MpirAddIntUiExpression(a, b); }
-    IMpirExpression^ HugeInt::operator+(mpir_ui a, HugeInt^ b) { return gcnew MpirAddIntUiExpression(b, a); }
+    MpirAddIntIntExpression^ HugeInt::operator+(HugeInt^ a, HugeInt^ b) { return gcnew MpirAddIntIntExpression(a, b); }
+    MpirAddIntUiExpression^ HugeInt::operator+(HugeInt^ a, mpir_ui b) { return gcnew MpirAddIntUiExpression(a, b); }
+    MpirAddIntUiExpression^ HugeInt::operator+(mpir_ui a, HugeInt^ b) { return gcnew MpirAddIntUiExpression(b, a); }
 
     void MpirAddIntIntExpression::AssignTo(HugeInt^ destination)
     {
