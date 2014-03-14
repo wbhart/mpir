@@ -58,6 +58,39 @@ namespace MPIR.Tests.HugeIntTests
                 Assert.AreEqual("222509832503450298349318409770173720259", a.ToString());
             }
         }
+
+        [TestMethod]
+        public void AddSignedLimb()
+        {
+            using (var a = new HugeInt("222509832503450298345029835740293845720"))
+            {
+                var b = -4288574029879874539L;
+                a.Value = a + b;
+                Assert.AreEqual("222509832503450298340741261710413971181", a.ToString());
+            }
+        }
+
+        [TestMethod]
+        public void AddToSignedLimb()
+        {
+            using (var a = new HugeInt("222509832503450298345029835740293845720"))
+            {
+                var b = -4288574029879874539L;
+                a.Value = b + a;
+                Assert.AreEqual("222509832503450298340741261710413971181", a.ToString());
+            }
+        }
+
+        [TestMethod]
+        public void AddToMaxSignedLimb()
+        {
+            using (var a = new HugeInt("222509832503450298345029835740293845720"))
+            {
+                var b = long.MinValue;
+                a.Value = b + a;
+                Assert.AreEqual("222509832503450298335806463703439069912", a.ToString());
+            }
+        }
        
         [TestMethod]
         public void SubtractHugeInt()

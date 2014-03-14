@@ -94,6 +94,7 @@ namespace MPIR
 
     DEFINE_BINARY_EXPRESSION(AddIntInt, HugeInt^, HugeInt^)
     DEFINE_BINARY_EXPRESSION(AddIntUi, HugeInt^, mpir_ui)
+    DEFINE_BINARY_EXPRESSION(AddIntSi, HugeInt^, mpir_si)
 
     DEFINE_BINARY_EXPRESSION(SubtractIntInt, HugeInt^, HugeInt^)
     DEFINE_BINARY_EXPRESSION(SubtractIntUi, HugeInt^, mpir_ui)
@@ -101,7 +102,7 @@ namespace MPIR
 
     DEFINE_BINARY_EXPRESSION(MultiplyIntInt, HugeInt^, HugeInt^)
     DEFINE_BINARY_EXPRESSION(MultiplyIntUi, HugeInt^, mpir_ui)
-    DEFINE_BINARY_EXPRESSION(MultiplyIntSi, HugeInt^, mpir_ui)
+    DEFINE_BINARY_EXPRESSION(MultiplyIntSi, HugeInt^, mpir_si)
 
     public ref class HugeInt sealed : IMpirExpression
     {
@@ -151,17 +152,19 @@ namespace MPIR
             //arithmetic
             static MpirAddIntIntExpression^ operator+(HugeInt^ a, HugeInt^ b);
             static MpirAddIntUiExpression^  operator+(HugeInt^ a, mpir_ui b);
-            static MpirAddIntUiExpression^  operator+(mpir_ui a, HugeInt^ b);
+            static MpirAddIntUiExpression^  operator+(mpir_ui  a, HugeInt^ b);
+            static MpirAddIntSiExpression^  operator+(HugeInt^ a, mpir_si b);
+            static MpirAddIntSiExpression^  operator+(mpir_si  a, HugeInt^ b);
 
             static MpirSubtractIntIntExpression^ operator-(HugeInt^ a, HugeInt^ b);
-            static MpirSubtractIntUiExpression^  operator-(HugeInt^ a, mpir_ui b);
-            static MpirSubtractUiIntExpression^  operator-(mpir_ui a, HugeInt^ b);
+            static MpirSubtractIntUiExpression^  operator-(HugeInt^ a, mpir_ui  b);
+            static MpirSubtractUiIntExpression^  operator-(mpir_ui  a, HugeInt^ b);
 
             static MpirMultiplyIntIntExpression^ operator*(HugeInt^ a, HugeInt^ b);
-            static MpirMultiplyIntUiExpression^  operator*(HugeInt^ a, mpir_ui b);
-            static MpirMultiplyIntUiExpression^  operator*(mpir_ui a, HugeInt^ b);
-            static MpirMultiplyIntSiExpression^  operator*(HugeInt^ a, mpir_si b);
-            static MpirMultiplyIntSiExpression^  operator*(mpir_si a, HugeInt^ b);
+            static MpirMultiplyIntUiExpression^  operator*(HugeInt^ a, mpir_ui  b);
+            static MpirMultiplyIntUiExpression^  operator*(mpir_ui  a, HugeInt^ b);
+            static MpirMultiplyIntSiExpression^  operator*(HugeInt^ a, mpir_si  b);
+            static MpirMultiplyIntSiExpression^  operator*(mpir_si  a, HugeInt^ b);
 
             //DECLARE_VOID_FROM_MPZ_OR_UI(Add)
             //DECLARE_VOID_FROM_MPZ_OR_UI(Subtract)

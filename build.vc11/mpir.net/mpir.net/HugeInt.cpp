@@ -105,18 +105,32 @@ along with the MPIR Library.  If not, see http://www.gnu.org/licenses/.
         DEFINE_VOID_FROM_MPZ_MPZ(x, impl)               \
         DEFINE_VOID_FROM_MPZ_UI(x, impl)
 
-#define DEFINE_BINARY_ASSIGNMENT(name, operation, left, right)    \
+#define DEFINE_ASSIGNMENT_PROLOG(name)                            \
 void Mpir##name##Expression::AssignTo(HugeInt^ destination)       \
 {                                                                 \
-    SRC_PTR(destination);                                         \
-    operation(src_destination, left, right);                      \
-    SAVE_PTR(destination);                                        \
+    SRC_PTR(destination);                                         
+
+#define DEFINE_ASSIGNMENT_EPILOG    \
+    SAVE_PTR(destination);          \
 }
+
+#define DEFINE_BINARY_ASSIGNMENT(name, operation, left, right)    \
+    DEFINE_ASSIGNMENT_PROLOG(name)                                \
+    operation(src_destination, left, right);                      \
+    DEFINE_ASSIGNMENT_EPILOG
 
 #define DEFINE_BINARY_ASSIGNMENT_REF_REF(name, operation) DEFINE_BINARY_ASSIGNMENT(name, operation, Left->_value, Right->_value)
 #define DEFINE_BINARY_ASSIGNMENT_REF_VAL(name, operation) DEFINE_BINARY_ASSIGNMENT(name, operation, Left->_value, Right)
 #define DEFINE_BINARY_ASSIGNMENT_VAL_REF(name, operation) DEFINE_BINARY_ASSIGNMENT(name, operation, Left, Right->_value)
 #define DEFINE_BINARY_ASSIGNMENT_VAL_VAL(name, operation) DEFINE_BINARY_ASSIGNMENT(name, operation, Left, Right)
+
+#define DEFINE_BINARY_ASSIGNMENT_REF_SI(name, positiveOp, negativeOp)               \
+    DEFINE_ASSIGNMENT_PROLOG(name)                                                  \
+    if (Right >= 0)                                                                 \
+        positiveOp(src_destination, Left->_value, static_cast<mpir_ui>(Right));     \
+    else                                                                            \
+        negativeOp(src_destination, Left->_value, -static_cast<mpir_ui>(Right));    \
+    DEFINE_ASSIGNMENT_EPILOG
 
 using namespace System::Runtime::InteropServices;
 
@@ -231,21 +245,24 @@ namespace MPIR
     #pragma region Arithmetic
 
     MpirAddIntIntExpression^ HugeInt::operator+(HugeInt^ a, HugeInt^ b) { return gcnew MpirAddIntIntExpression(a, b); }
-    MpirAddIntUiExpression^  HugeInt::operator+(HugeInt^ a, mpir_ui b)  { return gcnew MpirAddIntUiExpression(a, b); }
-    MpirAddIntUiExpression^  HugeInt::operator+(mpir_ui a,  HugeInt^ b) { return gcnew MpirAddIntUiExpression(b, a); }
+    MpirAddIntUiExpression^  HugeInt::operator+(HugeInt^ a, mpir_ui  b) { return gcnew MpirAddIntUiExpression (a, b); }
+    MpirAddIntUiExpression^  HugeInt::operator+(mpir_ui  a, HugeInt^ b) { return gcnew MpirAddIntUiExpression (b, a); }
+    MpirAddIntSiExpression^  HugeInt::operator+(HugeInt^ a, mpir_si  b) { return gcnew MpirAddIntSiExpression (a, b); }
+    MpirAddIntSiExpression^  HugeInt::operator+(mpir_si  a, HugeInt^ b) { return gcnew MpirAddIntSiExpression (b, a); }
 
     MpirSubtractIntIntExpression^ HugeInt::operator-(HugeInt^ a, HugeInt^ b) { return gcnew MpirSubtractIntIntExpression(a, b); }
-    MpirSubtractIntUiExpression^  HugeInt::operator-(HugeInt^ a, mpir_ui b)  { return gcnew MpirSubtractIntUiExpression(a, b); }
-    MpirSubtractUiIntExpression^  HugeInt::operator-(mpir_ui a,  HugeInt^ b) { return gcnew MpirSubtractUiIntExpression(a, b); }
+    MpirSubtractIntUiExpression^  HugeInt::operator-(HugeInt^ a, mpir_ui  b) { return gcnew MpirSubtractIntUiExpression (a, b); }
+    MpirSubtractUiIntExpression^  HugeInt::operator-(mpir_ui  a, HugeInt^ b) { return gcnew MpirSubtractUiIntExpression (a, b); }
 
     MpirMultiplyIntIntExpression^ HugeInt::operator*(HugeInt^ a, HugeInt^ b) { return gcnew MpirMultiplyIntIntExpression(a, b); }
-    MpirMultiplyIntUiExpression^  HugeInt::operator*(HugeInt^ a, mpir_ui b)  { return gcnew MpirMultiplyIntUiExpression(a, b); }
-    MpirMultiplyIntUiExpression^  HugeInt::operator*(mpir_ui a,  HugeInt^ b) { return gcnew MpirMultiplyIntUiExpression(b, a); }
-    MpirMultiplyIntSiExpression^  HugeInt::operator*(HugeInt^ a, mpir_si b)  { return gcnew MpirMultiplyIntSiExpression(a, b); }
-    MpirMultiplyIntSiExpression^  HugeInt::operator*(mpir_si a,  HugeInt^ b) { return gcnew MpirMultiplyIntSiExpression(b, a); }
+    MpirMultiplyIntUiExpression^  HugeInt::operator*(HugeInt^ a, mpir_ui  b) { return gcnew MpirMultiplyIntUiExpression (a, b); }
+    MpirMultiplyIntUiExpression^  HugeInt::operator*(mpir_ui  a, HugeInt^ b) { return gcnew MpirMultiplyIntUiExpression (b, a); }
+    MpirMultiplyIntSiExpression^  HugeInt::operator*(HugeInt^ a, mpir_si  b) { return gcnew MpirMultiplyIntSiExpression (a, b); }
+    MpirMultiplyIntSiExpression^  HugeInt::operator*(mpir_si  a, HugeInt^ b) { return gcnew MpirMultiplyIntSiExpression (b, a); }
 
     DEFINE_BINARY_ASSIGNMENT_REF_REF(AddIntInt, mpz_add)
     DEFINE_BINARY_ASSIGNMENT_REF_VAL(AddIntUi, mpz_add_ui)
+    DEFINE_BINARY_ASSIGNMENT_REF_SI (AddIntSi, mpz_add_ui, mpz_sub_ui)
 
     DEFINE_BINARY_ASSIGNMENT_REF_REF(SubtractIntInt, mpz_sub)
     DEFINE_BINARY_ASSIGNMENT_REF_VAL(SubtractIntUi, mpz_sub_ui)
