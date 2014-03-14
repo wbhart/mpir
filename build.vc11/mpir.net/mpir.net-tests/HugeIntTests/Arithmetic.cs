@@ -126,6 +126,50 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
+        public void SubtractPositiveSignedLimb()
+        {
+            using (var a = new HugeInt("222509832503450298349318409770173720259"))
+            {
+                var b = 4288574029879874539L;
+                a.Value = a - b;
+                Assert.AreEqual("222509832503450298345029835740293845720", a.ToString());
+            }
+        }
+
+        [TestMethod]
+        public void SubtractFromPositiveSignedLimb()
+        {
+            using (var a = new HugeInt("222509832503450298349318409770173720259"))
+            {
+                var b = 4288574029879874539L;
+                a.Value = b - a;
+                Assert.AreEqual("-222509832503450298345029835740293845720", a.ToString());
+            }
+        }
+
+        [TestMethod]
+        public void SubtractSignedLimb()
+        {
+            using (var a = new HugeInt("222509832503450298345029835740293845720"))
+            {
+                var b = -4288574029879874539L;
+                a.Value = a - b;
+                Assert.AreEqual("222509832503450298349318409770173720259", a.ToString());
+            }
+        }
+
+        [TestMethod]
+        public void SubtractFromSignedLimb()
+        {
+            using (var a = new HugeInt("222509832503450298345029835740293845720"))
+            {
+                var b = -4288574029879874539L;
+                a.Value = b - a;
+                Assert.AreEqual("-222509832503450298349318409770173720259", a.ToString());
+            }
+        }
+
+        [TestMethod]
         public void MultiplyByHugeInt()
         {
             using (var a = new HugeInt("90234098723098475098479385345098345"))

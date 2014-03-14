@@ -132,6 +132,17 @@ void Mpir##name##Expression::AssignTo(HugeInt^ destination)       \
         negativeOp(src_destination, Left->_value, -static_cast<mpir_ui>(Right));    \
     DEFINE_ASSIGNMENT_EPILOG
 
+#define DEFINE_BINARY_ASSIGNMENT_SI_REF(name, positiveOp, negativeOp1, negativeOp2) \
+    DEFINE_ASSIGNMENT_PROLOG(name)                                                  \
+    if (Left >= 0)                                                                  \
+        positiveOp(src_destination, static_cast<mpir_ui>(Left), Right->_value);     \
+    else                                                                            \
+    {                                                                               \
+        negativeOp1(src_destination, Right->_value, -static_cast<mpir_ui>(Left));   \
+        negativeOp2(src_destination, src_destination);                              \
+    }                                                                               \
+    DEFINE_ASSIGNMENT_EPILOG
+
 using namespace System::Runtime::InteropServices;
 
 namespace MPIR
@@ -253,6 +264,8 @@ namespace MPIR
     MpirSubtractIntIntExpression^ HugeInt::operator-(HugeInt^ a, HugeInt^ b) { return gcnew MpirSubtractIntIntExpression(a, b); }
     MpirSubtractIntUiExpression^  HugeInt::operator-(HugeInt^ a, mpir_ui  b) { return gcnew MpirSubtractIntUiExpression (a, b); }
     MpirSubtractUiIntExpression^  HugeInt::operator-(mpir_ui  a, HugeInt^ b) { return gcnew MpirSubtractUiIntExpression (a, b); }
+    MpirSubtractIntSiExpression^  HugeInt::operator-(HugeInt^ a, mpir_si  b) { return gcnew MpirSubtractIntSiExpression (a, b); }
+    MpirSubtractSiIntExpression^  HugeInt::operator-(mpir_si  a, HugeInt^ b) { return gcnew MpirSubtractSiIntExpression (a, b); }
 
     MpirMultiplyIntIntExpression^ HugeInt::operator*(HugeInt^ a, HugeInt^ b) { return gcnew MpirMultiplyIntIntExpression(a, b); }
     MpirMultiplyIntUiExpression^  HugeInt::operator*(HugeInt^ a, mpir_ui  b) { return gcnew MpirMultiplyIntUiExpression (a, b); }
@@ -267,6 +280,8 @@ namespace MPIR
     DEFINE_BINARY_ASSIGNMENT_REF_REF(SubtractIntInt, mpz_sub)
     DEFINE_BINARY_ASSIGNMENT_REF_VAL(SubtractIntUi, mpz_sub_ui)
     DEFINE_BINARY_ASSIGNMENT_VAL_REF(SubtractUiInt, mpz_ui_sub)
+    DEFINE_BINARY_ASSIGNMENT_REF_SI (SubtractIntSi, mpz_sub_ui, mpz_add_ui)
+    DEFINE_BINARY_ASSIGNMENT_SI_REF (SubtractSiInt, mpz_ui_sub, mpz_add_ui, mpz_neg)
 
     DEFINE_BINARY_ASSIGNMENT_REF_REF(MultiplyIntInt, mpz_mul)
     DEFINE_BINARY_ASSIGNMENT_REF_VAL(MultiplyIntUi, mpz_mul_ui)

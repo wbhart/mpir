@@ -70,10 +70,11 @@ static const int StructSize = sizeof(StructType);
 #define DEFINE_BINARY_EXPRESSION(name, leftType, rightType)      \
 public ref class Mpir##name##Expression : IMpirExpression        \
 {                                                                \
-    public:                                                      \
+    internal:                                                    \
         leftType Left;                                           \
         rightType Right;                                         \
                                                                  \
+    public:                                                      \
         Mpir##name##Expression(leftType left, rightType right)   \
         {                                                        \
             Left = left;                                         \
@@ -99,6 +100,8 @@ namespace MPIR
     DEFINE_BINARY_EXPRESSION(SubtractIntInt, HugeInt^, HugeInt^)
     DEFINE_BINARY_EXPRESSION(SubtractIntUi, HugeInt^, mpir_ui)
     DEFINE_BINARY_EXPRESSION(SubtractUiInt, mpir_ui, HugeInt^)
+    DEFINE_BINARY_EXPRESSION(SubtractIntSi, HugeInt^, mpir_si)
+    DEFINE_BINARY_EXPRESSION(SubtractSiInt, mpir_si, HugeInt^)
 
     DEFINE_BINARY_EXPRESSION(MultiplyIntInt, HugeInt^, HugeInt^)
     DEFINE_BINARY_EXPRESSION(MultiplyIntUi, HugeInt^, mpir_ui)
@@ -159,6 +162,8 @@ namespace MPIR
             static MpirSubtractIntIntExpression^ operator-(HugeInt^ a, HugeInt^ b);
             static MpirSubtractIntUiExpression^  operator-(HugeInt^ a, mpir_ui  b);
             static MpirSubtractUiIntExpression^  operator-(mpir_ui  a, HugeInt^ b);
+            static MpirSubtractIntSiExpression^  operator-(HugeInt^ a, mpir_si  b);
+            static MpirSubtractSiIntExpression^  operator-(mpir_si  a, HugeInt^ b);
 
             static MpirMultiplyIntIntExpression^ operator*(HugeInt^ a, HugeInt^ b);
             static MpirMultiplyIntUiExpression^  operator*(HugeInt^ a, mpir_ui  b);
