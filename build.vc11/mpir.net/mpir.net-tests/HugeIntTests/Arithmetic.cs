@@ -290,6 +290,65 @@ namespace MPIR.Tests.HugeIntTests
             {
                 ulong b = 498734523097853458;
                 var expr = b*c + a;
+                Assert.IsInstanceOfType(expr, typeof(MpirAddProductIntUiExpression));
+                d.Value = expr;
+                Assert.AreEqual("-11518065386718058599763388064972875060082210203928832731415", d.ToString());
+            }
+        }
+
+        [TestMethod]
+        public void AddProductSignedLimb()
+        {
+            using (var a = new HugeInt("98750293847520938457029384572093480498357"))
+            using (var c = new HugeInt("23094582093845093574093845093485039450934"))
+            {
+                long b = -498734523097853458;
+                var expr = a + c*b;
+                Assert.IsInstanceOfType(expr, typeof(MpirAddProductIntSiExpression));
+                a.Value = expr;
+                Assert.AreEqual("-11518065386718058599763388064972875060082210203928832731415", a.ToString());
+            }
+        }
+
+        [TestMethod]
+        public void AddProductSignedLimbTo()
+        {
+            using (var a = new HugeInt("98750293847520938457029384572093480498357"))
+            using (var c = new HugeInt("-23094582093845093574093845093485039450934"))
+            {
+                long b = 498734523097853458;
+                var expr = a + b*c;
+                Assert.IsInstanceOfType(expr, typeof(MpirAddProductIntSiExpression));
+                a.Value = expr;
+                Assert.AreEqual("-11518065386718058599763388064972875060082210203928832731415", a.ToString());
+            }
+        }
+
+        [TestMethod]
+        public void AddProductSignedLimbTo2()
+        {
+            using (var a = new HugeInt("98750293847520938457029384572093480498357"))
+            using (var c = new HugeInt("-23094582093845093574093845093485039450934"))
+            {
+                long b = 498734523097853458;
+                var expr = b*c + a;
+                Assert.IsInstanceOfType(expr, typeof(MpirAddProductIntSiExpression));
+                a.Value = expr;
+                //TODO how can we test a single addmul was called?
+                Assert.AreEqual("-11518065386718058599763388064972875060082210203928832731415", a.ToString());
+            }
+        }
+
+        [TestMethod]
+        public void AddProductSignedLimbTo3()
+        {
+            using (var a = new HugeInt("98750293847520938457029384572093480498357"))
+            using (var c = new HugeInt("23094582093845093574093845093485039450934"))
+            using (var d = new HugeInt())
+            {
+                long b = -498734523097853458;
+                var expr = b*c + a;
+                Assert.IsInstanceOfType(expr, typeof(MpirAddProductIntSiExpression));
                 d.Value = expr;
                 Assert.AreEqual("-11518065386718058599763388064972875060082210203928832731415", d.ToString());
             }
@@ -302,7 +361,9 @@ namespace MPIR.Tests.HugeIntTests
             using (var c = new HugeInt("23094582093845093574093845093485039450934"))
             using (var b = new HugeInt("394580293847502987609283945873594873409587"))
             {
-                a.SubtractProduct(c, b);
+                var expr = a - c*b;
+                Assert.IsInstanceOfType(expr, typeof(MpirSubtractProductIntIntExpression));
+                a.Value = expr;
                 Assert.AreEqual("-9112666988874677841199955832262586145147830205230375090322356322089362221491205901", a.ToString());
             }
         }
@@ -314,8 +375,49 @@ namespace MPIR.Tests.HugeIntTests
             using (var c = new HugeInt("23094582093845093574093845093485039450934"))
             {
                 ulong b = 498734523097853458;
-                a.SubtractProduct(c, b);
+                var expr = a - c*b;
+                Assert.IsInstanceOfType(expr, typeof(MpirSubtractProductIntUiExpression));
+                a.Value = expr;
                 Assert.AreEqual("-11518065386718058599763388064972875060082210203928832731415", a.ToString());
+            }
+        }
+
+        [TestMethod]
+        public void SubtractProductSignedLimb()
+        {
+            using (var a = new HugeInt("98750293847520938457029384572093480498357"))
+            using (var c = new HugeInt("-23094582093845093574093845093485039450934"))
+            {
+                long b = -498734523097853458;
+                var expr = a - b*c;
+                Assert.IsInstanceOfType(expr, typeof(MpirSubtractProductIntSiExpression));
+                a.Value = expr;
+                Assert.AreEqual("-11518065386718058599763388064972875060082210203928832731415", a.ToString());
+            }
+        }
+
+        [TestMethod]
+        public void SubtractProductSignedLimb2()
+        {
+            using (var a = new HugeInt("98750293847520938457029384572093480498357"))
+            using (var c = new HugeInt("-23094582093845093574093845093485039450934"))
+            {
+                long b = -498734523097853458;
+                a.Value = a - c*b;
+                Assert.AreEqual("-11518065386718058599763388064972875060082210203928832731415", a.ToString());
+            }
+        }
+
+        [TestMethod]
+        public void SubtractProductSignedLimb3()
+        {
+            using (var a = new HugeInt("98750293847520938457029384572093480498357"))
+            using (var c = new HugeInt("23094582093845093574093845093485039450934"))
+            using (var d = new HugeInt())
+            {
+                long b = 498734523097853458;
+                d.Value = a - c*b;
+                Assert.AreEqual("-11518065386718058599763388064972875060082210203928832731415", d.ToString());
             }
         }
 
