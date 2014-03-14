@@ -105,6 +105,19 @@ along with the MPIR Library.  If not, see http://www.gnu.org/licenses/.
         DEFINE_VOID_FROM_MPZ_MPZ(x, impl)               \
         DEFINE_VOID_FROM_MPZ_UI(x, impl)
 
+#define DEFINE_BINARY_ASSIGNMENT(name, operation, left, right)    \
+void Mpir##name##Expression::AssignTo(HugeInt^ destination)       \
+{                                                                 \
+    SRC_PTR(destination);                                         \
+    operation(src_destination, left, right);                      \
+    SAVE_PTR(destination);                                        \
+}
+
+#define DEFINE_BINARY_ASSIGNMENT_REF_REF(name, operation) DEFINE_BINARY_ASSIGNMENT(name, operation, Left->_value, Right->_value)
+#define DEFINE_BINARY_ASSIGNMENT_REF_VAL(name, operation) DEFINE_BINARY_ASSIGNMENT(name, operation, Left->_value, Right)
+#define DEFINE_BINARY_ASSIGNMENT_VAL_REF(name, operation) DEFINE_BINARY_ASSIGNMENT(name, operation, Left, Right->_value)
+#define DEFINE_BINARY_ASSIGNMENT_VAL_VAL(name, operation) DEFINE_BINARY_ASSIGNMENT(name, operation, Left, Right)
+
 using namespace System::Runtime::InteropServices;
 
 namespace MPIR
@@ -218,27 +231,34 @@ namespace MPIR
     #pragma region Arithmetic
 
     MpirAddIntIntExpression^ HugeInt::operator+(HugeInt^ a, HugeInt^ b) { return gcnew MpirAddIntIntExpression(a, b); }
-    MpirAddIntUiExpression^ HugeInt::operator+(HugeInt^ a, mpir_ui b) { return gcnew MpirAddIntUiExpression(a, b); }
-    MpirAddIntUiExpression^ HugeInt::operator+(mpir_ui a, HugeInt^ b) { return gcnew MpirAddIntUiExpression(b, a); }
+    MpirAddIntUiExpression^  HugeInt::operator+(HugeInt^ a, mpir_ui b)  { return gcnew MpirAddIntUiExpression(a, b); }
+    MpirAddIntUiExpression^  HugeInt::operator+(mpir_ui a,  HugeInt^ b) { return gcnew MpirAddIntUiExpression(b, a); }
 
-    void MpirAddIntIntExpression::AssignTo(HugeInt^ destination)
-    {
-        SRC_PTR(destination);
-        mpz_add(src_destination, Left->_value, Right->_value);
-        SAVE_PTR(destination);
-    }
+    MpirSubtractIntIntExpression^ HugeInt::operator-(HugeInt^ a, HugeInt^ b) { return gcnew MpirSubtractIntIntExpression(a, b); }
+    MpirSubtractIntUiExpression^  HugeInt::operator-(HugeInt^ a, mpir_ui b)  { return gcnew MpirSubtractIntUiExpression(a, b); }
+    MpirSubtractUiIntExpression^  HugeInt::operator-(mpir_ui a,  HugeInt^ b) { return gcnew MpirSubtractUiIntExpression(a, b); }
 
-    void MpirAddIntUiExpression::AssignTo(HugeInt^ destination)
-    {
-        SRC_PTR(destination);
-        mpz_add_ui(src_destination, Left->_value, Right);
-        SAVE_PTR(destination);
-    }
+    MpirMultiplyIntIntExpression^ HugeInt::operator*(HugeInt^ a, HugeInt^ b) { return gcnew MpirMultiplyIntIntExpression(a, b); }
+    MpirMultiplyIntUiExpression^  HugeInt::operator*(HugeInt^ a, mpir_ui b)  { return gcnew MpirMultiplyIntUiExpression(a, b); }
+    MpirMultiplyIntUiExpression^  HugeInt::operator*(mpir_ui a,  HugeInt^ b) { return gcnew MpirMultiplyIntUiExpression(b, a); }
+    MpirMultiplyIntSiExpression^  HugeInt::operator*(HugeInt^ a, mpir_si b)  { return gcnew MpirMultiplyIntSiExpression(a, b); }
+    MpirMultiplyIntSiExpression^  HugeInt::operator*(mpir_si a,  HugeInt^ b) { return gcnew MpirMultiplyIntSiExpression(b, a); }
+
+    DEFINE_BINARY_ASSIGNMENT_REF_REF(AddIntInt, mpz_add)
+    DEFINE_BINARY_ASSIGNMENT_REF_VAL(AddIntUi, mpz_add_ui)
+
+    DEFINE_BINARY_ASSIGNMENT_REF_REF(SubtractIntInt, mpz_sub)
+    DEFINE_BINARY_ASSIGNMENT_REF_VAL(SubtractIntUi, mpz_sub_ui)
+    DEFINE_BINARY_ASSIGNMENT_VAL_REF(SubtractUiInt, mpz_ui_sub)
+
+    DEFINE_BINARY_ASSIGNMENT_REF_REF(MultiplyIntInt, mpz_mul)
+    DEFINE_BINARY_ASSIGNMENT_REF_VAL(MultiplyIntUi, mpz_mul_ui)
+    DEFINE_BINARY_ASSIGNMENT_REF_VAL(MultiplyIntSi, mpz_mul_si)
 
     //DEFINE_VOID_FROM_MPZ_OR_UI(Add, add)
-    DEFINE_VOID_FROM_MPZ_OR_UI(Subtract, sub)
-    DEFINE_VOID_UI_FROM(SubtractFrom, sub)
-    DEFINE_VOID_FROM_MPZ_OR_UI_OR_SI(MultiplyBy, mul)
+    //DEFINE_VOID_FROM_MPZ_OR_UI(Subtract, sub)
+    //DEFINE_VOID_UI_FROM(SubtractFrom, sub)
+    //DEFINE_VOID_FROM_MPZ_OR_UI_OR_SI(MultiplyBy, mul)
     DEFINE_VOID_FROM_MPZ_MPZ_OR_UI(AddProduct, addmul)
     DEFINE_VOID_FROM_MPZ_MPZ_OR_UI(SubtractProduct, submul)
     DEFINE_VOID_FROM_2EXP(ShiftLeft, mul)

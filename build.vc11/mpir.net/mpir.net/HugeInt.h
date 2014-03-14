@@ -95,6 +95,14 @@ namespace MPIR
     DEFINE_BINARY_EXPRESSION(AddIntInt, HugeInt^, HugeInt^)
     DEFINE_BINARY_EXPRESSION(AddIntUi, HugeInt^, mpir_ui)
 
+    DEFINE_BINARY_EXPRESSION(SubtractIntInt, HugeInt^, HugeInt^)
+    DEFINE_BINARY_EXPRESSION(SubtractIntUi, HugeInt^, mpir_ui)
+    DEFINE_BINARY_EXPRESSION(SubtractUiInt, mpir_ui, HugeInt^)
+
+    DEFINE_BINARY_EXPRESSION(MultiplyIntInt, HugeInt^, HugeInt^)
+    DEFINE_BINARY_EXPRESSION(MultiplyIntUi, HugeInt^, mpir_ui)
+    DEFINE_BINARY_EXPRESSION(MultiplyIntSi, HugeInt^, mpir_ui)
+
     public ref class HugeInt sealed : IMpirExpression
     {
         internal:
@@ -142,13 +150,23 @@ namespace MPIR
 
             //arithmetic
             static MpirAddIntIntExpression^ operator+(HugeInt^ a, HugeInt^ b);
-            static MpirAddIntUiExpression^ operator+(HugeInt^ a, mpir_ui b);
-            static MpirAddIntUiExpression^ operator+(mpir_ui a, HugeInt^ b);
+            static MpirAddIntUiExpression^  operator+(HugeInt^ a, mpir_ui b);
+            static MpirAddIntUiExpression^  operator+(mpir_ui a, HugeInt^ b);
+
+            static MpirSubtractIntIntExpression^ operator-(HugeInt^ a, HugeInt^ b);
+            static MpirSubtractIntUiExpression^  operator-(HugeInt^ a, mpir_ui b);
+            static MpirSubtractUiIntExpression^  operator-(mpir_ui a, HugeInt^ b);
+
+            static MpirMultiplyIntIntExpression^ operator*(HugeInt^ a, HugeInt^ b);
+            static MpirMultiplyIntUiExpression^  operator*(HugeInt^ a, mpir_ui b);
+            static MpirMultiplyIntUiExpression^  operator*(mpir_ui a, HugeInt^ b);
+            static MpirMultiplyIntSiExpression^  operator*(HugeInt^ a, mpir_si b);
+            static MpirMultiplyIntSiExpression^  operator*(mpir_si a, HugeInt^ b);
 
             //DECLARE_VOID_FROM_MPZ_OR_UI(Add)
-            DECLARE_VOID_FROM_MPZ_OR_UI(Subtract)
-            DECLARE_VOID_FROM_UI(SubtractFrom)
-            DECLARE_VOID_FROM_MPZ_OR_UI_OR_SI(MultiplyBy)
+            //DECLARE_VOID_FROM_MPZ_OR_UI(Subtract)
+            //DECLARE_VOID_FROM_UI(SubtractFrom)
+            //DECLARE_VOID_FROM_MPZ_OR_UI_OR_SI(MultiplyBy)
             DECLARE_VOID_FROM_MPZ_MPZ_OR_UI(AddProduct)
             DECLARE_VOID_FROM_MPZ_MPZ_OR_UI(SubtractProduct)
             DECLARE_VOID_FROM_2EXP(ShiftLeft)

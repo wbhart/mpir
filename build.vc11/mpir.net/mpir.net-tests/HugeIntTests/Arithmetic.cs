@@ -65,7 +65,7 @@ namespace MPIR.Tests.HugeIntTests
             using (var a = new HugeInt("445497268491433028939318409770173720259"))
             using (var b = new HugeInt("222987435987982730594288574029879874539"))
             {
-                a.Subtract(b);
+                a.Value = a - b;
                 Assert.AreEqual("222509832503450298345029835740293845720", a.ToString());
             }
         }
@@ -76,7 +76,7 @@ namespace MPIR.Tests.HugeIntTests
             using (var a = new HugeInt("222509832503450298349318409770173720259"))
             {
                 var b = 4288574029879874539UL;
-                a.Subtract(b);
+                a.Value = a - b;
                 Assert.AreEqual("222509832503450298345029835740293845720", a.ToString());
             }
         }
@@ -87,7 +87,7 @@ namespace MPIR.Tests.HugeIntTests
             using (var a = new HugeInt("222509832503450298349318409770173720259"))
             {
                 var b = 4288574029879874539UL;
-                a.SubtractFrom(b);
+                a.Value = b - a;
                 Assert.AreEqual("-222509832503450298345029835740293845720", a.ToString());
             }
         }
@@ -98,7 +98,7 @@ namespace MPIR.Tests.HugeIntTests
             using (var a = new HugeInt("90234098723098475098479385345098345"))
             using (var b = new HugeInt("7859487359873459872354987610987897"))
             {
-                a.MultiplyBy(b);
+                a.Value = a * b;
                 Assert.AreEqual("709193758343766370701419953880162061353595657143399816050772069730465", a.ToString());
             }
         }
@@ -109,7 +109,18 @@ namespace MPIR.Tests.HugeIntTests
             using (var a = new HugeInt("90234098723098475098479385345098345"))
             {
                 ulong b = 17390538260286101342;
-                a.MultiplyBy(b);
+                a.Value = a * b;
+                Assert.AreEqual("1569219546226477273686601978789044606491747469626478990", a.ToString());
+            }
+        }
+
+        [TestMethod]
+        public void MultiplyLimbBy()
+        {
+            using (var a = new HugeInt("90234098723098475098479385345098345"))
+            {
+                ulong b = 17390538260286101342;
+                a.Value = b * a;
                 Assert.AreEqual("1569219546226477273686601978789044606491747469626478990", a.ToString());
             }
         }
@@ -120,7 +131,18 @@ namespace MPIR.Tests.HugeIntTests
             using (var a = new HugeInt("90234098723098475098479385345098345"))
             {
                 long b = -7390538260286101342;
-                a.MultiplyBy(b);
+                a.Value = a * b;
+                Assert.AreEqual("-666878558995492522701808125338061156491747469626478990", a.ToString());
+            }
+        }
+
+        [TestMethod]
+        public void MultiplySignedLimbBy()
+        {
+            using (var a = new HugeInt("90234098723098475098479385345098345"))
+            {
+                long b = -7390538260286101342;
+                a.Value = b * a;
                 Assert.AreEqual("-666878558995492522701808125338061156491747469626478990", a.ToString());
             }
         }
