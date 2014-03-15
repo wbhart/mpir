@@ -437,9 +437,9 @@ namespace MPIR.Tests.HugeIntTests
         {
             using (var a = new HugeInt("24092854092874502983745029345723098457209"))
             {
-                a.Negate();
+                a.Value = -a;
                 Assert.AreEqual("-24092854092874502983745029345723098457209", a.ToString());
-                a.Negate();
+                a.Value = -a;
                 Assert.AreEqual("24092854092874502983745029345723098457209", a.ToString());
             }
         }
@@ -449,9 +449,9 @@ namespace MPIR.Tests.HugeIntTests
         {
             using (var a = new HugeInt("-24092854092874502983745029345723098457209"))
             {
-                a.MakeAbsolute();
+                a.Value = a.Abs();
                 Assert.AreEqual("24092854092874502983745029345723098457209", a.ToString());
-                a.MakeAbsolute();
+                a.Value = a.Abs();
                 Assert.AreEqual("24092854092874502983745029345723098457209", a.ToString());
             }
         }

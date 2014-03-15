@@ -21,36 +21,20 @@ along with the MPIR Library.  If not, see http://www.gnu.org/licenses/.
 
 using namespace System;
 
-#define DECLARE_VOID_FROM_MPZ(x) void x(HugeInt^ a);
-#define DECLARE_VOID_FROM_UI(x)  void x(mpir_ui a);
-#define DECLARE_VOID_FROM_SI(x)  void x(mpir_si a);
-#define DECLARE_VOID_FROM_2EXP(x)  void x(mp_bitcnt_t a);
-#define DECLARE_VOID_FROM_NONE(x)  void x();
-#define DECLARE_VOID_FROM_MPZ_MPZ(x) void x(HugeInt^ a, HugeInt^ b);
-#define DECLARE_VOID_FROM_MPZ_UI(x)  void x(HugeInt^ a, mpir_ui b);
-#define DECLARE_VOID_FROM_MPZ_SI(x)  void x(HugeInt^ a, mpir_si b);
-
-#define DECLARE_VOID_FROM_MPZ_OR_UI(x)          \
-        DECLARE_VOID_FROM_MPZ(x)                \
-        DECLARE_VOID_FROM_UI(x)
-
-#define DECLARE_VOID_FROM_MPZ_MPZ_OR_UI(x)          \
-        DECLARE_VOID_FROM_MPZ_MPZ(x)                \
-        DECLARE_VOID_FROM_MPZ_UI(x)
-
-#define DECLARE_VOID_FROM_MPZ_OR_UI_OR_SI(x)    \
-        DECLARE_VOID_FROM_MPZ(x)                \
-        DECLARE_VOID_FROM_UI(x)                 \
-        DECLARE_VOID_FROM_SI(x)
-
 typedef __mpz_struct StructType;
 static const int StructSize = sizeof(StructType);
 
-//makes a local var from the managed mpz struct data of the specified instance
-#define SRC_PTR(x) mpz_t src_##x; src_##x[0] = *x->_value
+//makes a local var from the managed mpz struct data of the specified instance.
+//this must be done when we're about to call an MPIR method that may realloc
+//the limb data, since we're using a custom alloc scheme where the referencing MP* struct 
+//is stored in the same allocated block.
+//Local var must subsequently be saved with SAVE_PTR.
+//all other pointers used in the same method that are "const" for MPIR
+//must be wrapped in CONST_PTR
+#define EDIT_PTR(x) mpz_t src_##x; src_##x[0] = *x->_value
 
-//makes a local var from the managed mpz struct data of this instance
-#define THIS_PTR mpz_t src_this; src_this[0] = *_value
+////makes a local var from the managed mpz struct data of this instance
+//#define THIS_PTR EDIT_PTR(this)
 
 //converts from allocated limbs pointer to the mpz struct pointer the class will keep
 #define ToStructPtr(x) (StructType*)((char*)x - StructSize)
@@ -60,11 +44,31 @@ static const int StructSize = sizeof(StructType);
     x->_value = ToStructPtr(src_##x->_mp_d);            \
     *x->_value = src_##x[0]
 
-//updates the managed mpz struct data for this instance from a local var
-#define SAVE_THIS                                       \
-    _value = ToStructPtr(src_this->_mp_d);              \
-    *_value = src_this[0]
+////updates the managed mpz struct data for this instance from a local var
+//#define SAVE_THIS SAVE_PTR(this)                                       
 
+//wraps a "const" pointer for safe calling into MPIR methods.
+//The underlying MP* structs for any editable pointers are copied to local vars.
+//"const" pointers distinct from those are used unchanged;
+//but if a "const" pointer is the same as one that was copied,
+//it must reference the same local var because some MPIR methods compare them and
+//optimize for such equality.
+#define CONST_PTR(x) (x != destination ? x->_value : src_destination)
+
+//defines a unary expression class
+#define DEFINE_UNARY_EXPRESSION(name, type)                      \
+public ref class Mpir##name##Expression : IMpirExpression        \
+{                                                                \
+    internal:                                                    \
+        type Operand;                                            \
+                                                                 \
+    public:                                                      \
+        Mpir##name##Expression(type operand)                     \
+        {                                                        \
+            Operand = operand;                                   \
+        }                                                        \
+        virtual void AssignTo(HugeInt^ destination);             \
+};
 
 //defines a binary expression class
 #define DEFINE_BINARY_EXPRESSION(name, leftType, rightType)      \
@@ -116,6 +120,9 @@ namespace MPIR
     DEFINE_BINARY_EXPRESSION(SubtractProductIntSi, HugeInt^, MpirMultiplyIntSiExpression^)
 
     DEFINE_BINARY_EXPRESSION(ShiftLeft, HugeInt^, mp_bitcnt_t)
+    
+    DEFINE_UNARY_EXPRESSION(Negate, HugeInt^)
+    DEFINE_UNARY_EXPRESSION(Abs, HugeInt^)
 
     public ref class HugeInt sealed : IMpirExpression
     {
@@ -157,9 +164,12 @@ namespace MPIR
 
             virtual void AssignTo(HugeInt^ destination)
             {
-                SRC_PTR(destination);
-                mpz_set(src_destination, _value);
-                SAVE_PTR(destination);
+                if(this != destination)
+                {
+                    EDIT_PTR(destination);
+                    mpz_set(src_destination, _value);
+                    SAVE_PTR(destination);
+                }
             }
 
             //arithmetic
@@ -194,14 +204,8 @@ namespace MPIR
 
             static MpirShiftLeftExpression^ operator<<(HugeInt^ a, mp_bitcnt_t b) { return gcnew MpirShiftLeftExpression(a, b); }
 
-            //DECLARE_VOID_FROM_MPZ_OR_UI(Add)
-            //DECLARE_VOID_FROM_MPZ_OR_UI(Subtract)
-            //DECLARE_VOID_FROM_UI(SubtractFrom)
-            //DECLARE_VOID_FROM_MPZ_OR_UI_OR_SI(MultiplyBy)
-            //DECLARE_VOID_FROM_MPZ_MPZ_OR_UI(AddProduct)
-            //DECLARE_VOID_FROM_MPZ_MPZ_OR_UI(SubtractProduct)
-            //DECLARE_VOID_FROM_2EXP(ShiftLeft)
-            DECLARE_VOID_FROM_NONE(Negate)
-            DECLARE_VOID_FROM_NONE(MakeAbsolute)
+            static MpirNegateExpression^ operator-(HugeInt^ a) { return gcnew MpirNegateExpression(a); }
+
+            MpirAbsExpression^ Abs() { return gcnew MpirAbsExpression(this); }
     };
 };

@@ -22,6 +22,15 @@ along with the MPIR Library.  If not, see http://www.gnu.org/licenses/.
 
 static bool AllocationFunctionsConfigured = false;
 
+//This custom allocation is used in order to store an MP* struct immediately
+//before the limb data it references.  They are always allocated together.
+//Therefore, our managed classes only need to store a pointer to the MP struct,
+//rather than the MP struct itself.
+//Becasue we cannot store an unmanaged struct in a managed class or struct,
+//we would need to either pin or copy the struct on stack field by field
+//every time we had to use it, this way we can just pass "const" pointers around.
+//for pointers that may be reallocated to MPIR, the struct must still be copied
+//to stack, but that's only one of three or so for a typical MPIR call.
 void* CustomAllocate (size_t alloc_size)
 {
     auto ptr = malloc(alloc_size + StructSize);

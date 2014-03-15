@@ -19,7 +19,9 @@ along with the MPIR Library.  If not, see http://www.gnu.org/licenses/.
 
 #pragma once
 
+//call this method from the static constructor of all MPIR.Net wrapper classes.
 void SetCustomAllocationFunctions();
+
 void* CustomAllocate (size_t alloc_size);
 void* CustomReallocate (void* ptr, size_t old_size, size_t new_size);
 void CustomFree (void* ptr, size_t size);
