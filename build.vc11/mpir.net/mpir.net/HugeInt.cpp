@@ -297,13 +297,15 @@ namespace MPIR
     DEFINE_ADDMUL_ASSIGNMENT_REF_VAL(SubtractProductIntUi, mpz_submul_ui)
     DEFINE_ADDMUL_ASSIGNMENT_REF_SI (SubtractProductIntSi, mpz_submul_ui, mpz_addmul_ui)
 
+    DEFINE_BINARY_ASSIGNMENT_REF_VAL(ShiftLeft, mpz_mul_2exp)
+
     //DEFINE_VOID_FROM_MPZ_OR_UI(Add, add)
     //DEFINE_VOID_FROM_MPZ_OR_UI(Subtract, sub)
     //DEFINE_VOID_UI_FROM(SubtractFrom, sub)
     //DEFINE_VOID_FROM_MPZ_OR_UI_OR_SI(MultiplyBy, mul)
     //DEFINE_VOID_FROM_MPZ_MPZ_OR_UI(AddProduct, addmul)
     //DEFINE_VOID_FROM_MPZ_MPZ_OR_UI(SubtractProduct, submul)
-    DEFINE_VOID_FROM_2EXP(ShiftLeft, mul)
+    //DEFINE_VOID_FROM_2EXP(ShiftLeft, mul)
     DEFINE_VOID_FROM_NONE(Negate, neg)
     DEFINE_VOID_FROM_NONE(MakeAbsolute, abs)
 

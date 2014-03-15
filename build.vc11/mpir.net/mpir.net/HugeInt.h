@@ -115,6 +115,8 @@ namespace MPIR
     DEFINE_BINARY_EXPRESSION(SubtractProductIntUi, HugeInt^, MpirMultiplyIntUiExpression^)
     DEFINE_BINARY_EXPRESSION(SubtractProductIntSi, HugeInt^, MpirMultiplyIntSiExpression^)
 
+    DEFINE_BINARY_EXPRESSION(ShiftLeft, HugeInt^, mp_bitcnt_t)
+
     public ref class HugeInt sealed : IMpirExpression
     {
         internal:
@@ -190,13 +192,15 @@ namespace MPIR
             static MpirMultiplyIntSiExpression^  operator*(HugeInt^ a, mpir_si  b) { return gcnew MpirMultiplyIntSiExpression (a, b); }
             static MpirMultiplyIntSiExpression^  operator*(mpir_si  a, HugeInt^ b) { return gcnew MpirMultiplyIntSiExpression (b, a); }
 
+            static MpirShiftLeftExpression^ operator<<(HugeInt^ a, mp_bitcnt_t b) { return gcnew MpirShiftLeftExpression(a, b); }
+
             //DECLARE_VOID_FROM_MPZ_OR_UI(Add)
             //DECLARE_VOID_FROM_MPZ_OR_UI(Subtract)
             //DECLARE_VOID_FROM_UI(SubtractFrom)
             //DECLARE_VOID_FROM_MPZ_OR_UI_OR_SI(MultiplyBy)
             //DECLARE_VOID_FROM_MPZ_MPZ_OR_UI(AddProduct)
             //DECLARE_VOID_FROM_MPZ_MPZ_OR_UI(SubtractProduct)
-            DECLARE_VOID_FROM_2EXP(ShiftLeft)
+            //DECLARE_VOID_FROM_2EXP(ShiftLeft)
             DECLARE_VOID_FROM_NONE(Negate)
             DECLARE_VOID_FROM_NONE(MakeAbsolute)
     };

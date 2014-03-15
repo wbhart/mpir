@@ -427,7 +427,7 @@ namespace MPIR.Tests.HugeIntTests
             using (var a = new HugeInt("-12345700987ABCDEF2345CBDEFA245230948", 16))
             {
                 ulong b = 40;
-                a.ShiftLeft(b);
+                a.Value = a << b;
                 Assert.AreEqual("-12345700987ABCDEF2345CBDEFA2452309480000000000", a.ToString(-16));
             }
         }
