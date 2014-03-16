@@ -21,40 +21,6 @@ along with the MPIR Library.  If not, see http://www.gnu.org/licenses/.
 
 using namespace System;
 
-typedef __mpz_struct StructType;
-static const int StructSize = sizeof(StructType);
-
-//makes a local var from the managed mpz struct data of the specified instance.
-//this must be done when we're about to call an MPIR method that may realloc
-//the limb data, since we're using a custom alloc scheme where the referencing MP* struct 
-//is stored in the same allocated block.
-//Local var must subsequently be saved with SAVE_PTR.
-//all other pointers used in the same method that are "const" for MPIR
-//must be wrapped in CONST_PTR
-#define EDIT_PTR(x) mpz_t src_##x; src_##x[0] = *x->_value
-
-////makes a local var from the managed mpz struct data of this instance
-//#define THIS_PTR EDIT_PTR(this)
-
-//converts from allocated limbs pointer to the mpz struct pointer the class will keep
-#define ToStructPtr(x) (StructType*)((char*)x - StructSize)
-
-//updates the managed mpz struct data for the specified instance from a local var
-#define SAVE_PTR(x)                                     \
-    x->_value = ToStructPtr(src_##x->_mp_d);            \
-    *x->_value = src_##x[0]
-
-////updates the managed mpz struct data for this instance from a local var
-//#define SAVE_THIS SAVE_PTR(this)                                       
-
-//wraps a "const" pointer for safe calling into MPIR methods.
-//The underlying MP* structs for any editable pointers are copied to local vars.
-//"const" pointers distinct from those are used unchanged;
-//but if a "const" pointer is the same as one that was copied,
-//it must reference the same local var because some MPIR methods compare them and
-//optimize for such equality.
-#define CONST_PTR(x) (x != destination ? x->_value : src_destination)
-
 //defines a unary expression class
 #define DEFINE_UNARY_EXPRESSION(name, type)                      \
 public ref class Mpir##name##Expression : IMpirExpression        \
@@ -132,12 +98,21 @@ namespace MPIR
 
         private:
             //construction
-            HugeInt(mpz_srcptr src);
+            void AllocateStruct()
+            {
+                _value = (__mpz_struct*)CustomAllocate(sizeof(__mpz_struct));
+            }
+            void DeallocateStruct()
+            {
+                mpz_clear(_value);
+                CustomFree(_value);
+                _value = nullptr;
+            }
+            //HugeInt(mpz_srcptr src);
             void FromString(String^ value, int base);
 
         public:
             //construction
-            static HugeInt();
             HugeInt();
             HugeInt(mp_bitcnt_t bits);
             HugeInt(String^ value);
@@ -165,11 +140,7 @@ namespace MPIR
             virtual void AssignTo(HugeInt^ destination)
             {
                 if(this != destination)
-                {
-                    EDIT_PTR(destination);
-                    mpz_set(src_destination, _value);
-                    SAVE_PTR(destination);
-                }
+                    mpz_set(destination->_value, _value);
             }
 
             //arithmetic

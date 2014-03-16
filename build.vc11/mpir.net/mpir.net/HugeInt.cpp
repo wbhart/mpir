@@ -20,69 +20,68 @@ along with the MPIR Library.  If not, see http://www.gnu.org/licenses/.
 #include "Stdafx.h"
 #include "Common.h"
 
-#define DEFINE_ASSIGNMENT_PROLOG(name)                            \
-void Mpir##name##Expression::AssignTo(HugeInt^ destination)       \
-{                                                                 \
-    EDIT_PTR(destination);                                         
-
-#define DEFINE_ASSIGNMENT_EPILOG    \
-    SAVE_PTR(destination);          \
-}
+#define DEFINE_ASSIGNMENT_PROLOG(name) void Mpir##name##Expression::AssignTo(HugeInt^ destination)
 
 #define DEFINE_UNARY_ASSIGNMENT(name, operation)       \
     DEFINE_ASSIGNMENT_PROLOG(name)                     \
-    operation(src_destination, CONST_PTR(Operand));    \
-    DEFINE_ASSIGNMENT_EPILOG
+{                                                      \
+    operation(destination->_value, Operand->_value);   \
+}
 
 #define DEFINE_BINARY_ASSIGNMENT(name, operation, left, right)    \
     DEFINE_ASSIGNMENT_PROLOG(name)                                \
-    operation(src_destination, left, right);                      \
-    DEFINE_ASSIGNMENT_EPILOG
+{                                                                 \
+    operation(destination->_value, left, right);                  \
+}
 
-#define DEFINE_BINARY_ASSIGNMENT_REF_REF(name, operation) DEFINE_BINARY_ASSIGNMENT(name, operation, CONST_PTR(Left), CONST_PTR(Right))
-#define DEFINE_BINARY_ASSIGNMENT_REF_VAL(name, operation) DEFINE_BINARY_ASSIGNMENT(name, operation, CONST_PTR(Left), Right)
-#define DEFINE_BINARY_ASSIGNMENT_VAL_REF(name, operation) DEFINE_BINARY_ASSIGNMENT(name, operation, Left, CONST_PTR(Right))
+#define DEFINE_BINARY_ASSIGNMENT_REF_REF(name, operation) DEFINE_BINARY_ASSIGNMENT(name, operation, Left->_value, Right->_value)
+#define DEFINE_BINARY_ASSIGNMENT_REF_VAL(name, operation) DEFINE_BINARY_ASSIGNMENT(name, operation, Left->_value, Right)
+#define DEFINE_BINARY_ASSIGNMENT_VAL_REF(name, operation) DEFINE_BINARY_ASSIGNMENT(name, operation, Left, Right->_value)
 #define DEFINE_BINARY_ASSIGNMENT_VAL_VAL(name, operation) DEFINE_BINARY_ASSIGNMENT(name, operation, Left, Right)
 
-#define DEFINE_BINARY_ASSIGNMENT_REF_SI(name, positiveOp, negativeOp)                \
-    DEFINE_ASSIGNMENT_PROLOG(name)                                                   \
-    if (Right >= 0)                                                                  \
-        positiveOp(src_destination, CONST_PTR(Left), static_cast<mpir_ui>(Right));   \
-    else                                                                             \
-        negativeOp(src_destination, CONST_PTR(Left), -static_cast<mpir_ui>(Right));  \
-    DEFINE_ASSIGNMENT_EPILOG
+#define DEFINE_BINARY_ASSIGNMENT_REF_SI(name, positiveOp, negativeOp)                 \
+    DEFINE_ASSIGNMENT_PROLOG(name)                                                    \
+{                                                                                     \
+    if (Right >= 0)                                                                   \
+        positiveOp(destination->_value, Left->_value, static_cast<mpir_ui>(Right));   \
+    else                                                                              \
+        negativeOp(destination->_value, Left->_value, -static_cast<mpir_ui>(Right));  \
+}
 
-#define DEFINE_BINARY_ASSIGNMENT_SI_REF(name, positiveOp, negativeOp1, negativeOp2)  \
-    DEFINE_ASSIGNMENT_PROLOG(name)                                                   \
-    if (Left >= 0)                                                                   \
-        positiveOp(src_destination, static_cast<mpir_ui>(Left), CONST_PTR(Right));   \
-    else                                                                             \
-    {                                                                                \
-        negativeOp1(src_destination, CONST_PTR(Right), -static_cast<mpir_ui>(Left)); \
-        negativeOp2(src_destination, src_destination);                               \
-    }                                                                                \
-    DEFINE_ASSIGNMENT_EPILOG
+#define DEFINE_BINARY_ASSIGNMENT_SI_REF(name, positiveOp, negativeOp1, negativeOp2)   \
+    DEFINE_ASSIGNMENT_PROLOG(name)                                                    \
+{                                                                                     \
+    if (Left >= 0)                                                                    \
+        positiveOp(destination->_value, static_cast<mpir_ui>(Left), Right->_value);   \
+    else                                                                              \
+    {                                                                                 \
+        negativeOp1(destination->_value, Right->_value, -static_cast<mpir_ui>(Left)); \
+        negativeOp2(destination->_value, destination->_value);                        \
+    }                                                                                 \
+}
 
-#define DEFINE_ADDMUL_ASSIGNMENT(name, operation, left, right)                       \
-    DEFINE_ASSIGNMENT_PROLOG(name)                                                   \
-    if(destination != Left)                                                          \
-        mpz_set(src_destination, Left->_value);                                      \
-    operation(src_destination, left, right);                                         \
-    DEFINE_ASSIGNMENT_EPILOG
+#define DEFINE_ADDMUL_ASSIGNMENT(name, operation, left, right)                        \
+    DEFINE_ASSIGNMENT_PROLOG(name)                                                    \
+{                                                                                     \
+    if(destination != Left)                                                           \
+        mpz_set(destination->_value, Left->_value);                                   \
+    operation(destination->_value, left, right);                                      \
+}
 
-#define DEFINE_ADDMUL_ASSIGNMENT_SI(name, positiveOp, negativeOp, left, right)       \
-    DEFINE_ASSIGNMENT_PROLOG(name)                                                   \
-    if(destination != Left)                                                          \
-        mpz_set(src_destination, Left->_value);                                      \
-    if (right >= 0)                                                                  \
-        positiveOp(src_destination, left, static_cast<mpir_ui>(right));              \
-    else                                                                             \
-        negativeOp(src_destination, left, -static_cast<mpir_ui>(right));             \
-    DEFINE_ASSIGNMENT_EPILOG
+#define DEFINE_ADDMUL_ASSIGNMENT_SI(name, positiveOp, negativeOp, left, right)        \
+    DEFINE_ASSIGNMENT_PROLOG(name)                                                    \
+{                                                                                     \
+    if(destination != Left)                                                           \
+        mpz_set(destination->_value, Left->_value);                                   \
+    if (right >= 0)                                                                   \
+        positiveOp(destination->_value, left, static_cast<mpir_ui>(right));           \
+    else                                                                              \
+        negativeOp(destination->_value, left, -static_cast<mpir_ui>(right));          \
+}
 
-#define DEFINE_ADDMUL_ASSIGNMENT_REF_REF(name, operation) DEFINE_ADDMUL_ASSIGNMENT(name, operation, CONST_PTR(Right->Left), CONST_PTR(Right->Right))
-#define DEFINE_ADDMUL_ASSIGNMENT_REF_VAL(name, operation) DEFINE_ADDMUL_ASSIGNMENT(name, operation, CONST_PTR(Right->Left), Right->Right)
-#define DEFINE_ADDMUL_ASSIGNMENT_REF_SI(name, positiveop, negativeOp) DEFINE_ADDMUL_ASSIGNMENT_SI(name, positiveop, negativeOp, CONST_PTR(Right->Left), Right->Right)
+#define DEFINE_ADDMUL_ASSIGNMENT_REF_REF(name, operation) DEFINE_ADDMUL_ASSIGNMENT(name, operation, Right->Left->_value, Right->Right->_value)
+#define DEFINE_ADDMUL_ASSIGNMENT_REF_VAL(name, operation) DEFINE_ADDMUL_ASSIGNMENT(name, operation, Right->Left->_value, Right->Right)
+#define DEFINE_ADDMUL_ASSIGNMENT_REF_SI(name, positiveop, negativeOp) DEFINE_ADDMUL_ASSIGNMENT_SI(name, positiveop, negativeOp, Right->Left->_value, Right->Right)
 
 using namespace System::Runtime::InteropServices;
 
@@ -90,28 +89,16 @@ namespace MPIR
 {
     #pragma region construction
 
-    static HugeInt::HugeInt()
-    {
-        SetCustomAllocationFunctions();
-    }
-
-    HugeInt::HugeInt(mpz_srcptr src_this)
-    {
-        SAVE_PTR(this);
-    }
-
     HugeInt::HugeInt()
     {
-        mpz_t src_this;
-        mpz_init(src_this);
-        SAVE_PTR(this);
+        AllocateStruct();
+        mpz_init(_value);
     }
 
-    HugeInt::HugeInt(mp_bitcnt_t value)
+    HugeInt::HugeInt(mp_bitcnt_t bits)
     {
-        mpz_t src_this;
-        mpz_init2(src_this, value);
-        SAVE_PTR(this);
+        AllocateStruct();
+        mpz_init2(_value, bits);
     }
 
     HugeInt::HugeInt(String^ value)
@@ -126,33 +113,31 @@ namespace MPIR
 
     void HugeInt::FromString(String^ value, int base)
     {
-        mpz_t src_this;
+        AllocateStruct();
 
         IntPtr ptr = Marshal::StringToHGlobalAnsi(value);
-        bool success = 0 == mpz_init_set_str(src_this, (char*)(void*)ptr, base);
+        bool success = 0 == mpz_init_set_str(_value, (char*)(void*)ptr, base);
         Marshal::FreeHGlobal(ptr);
 
         if(!success)
         {
-            mpz_clear(src_this);
+            DeallocateStruct();
             throw gcnew ArgumentException("InvalidNumber", "value");
         }
-
-        SAVE_PTR(this);
     }
 
     HugeInt^ HugeInt::FromLong(mpir_si value)
     {
-        mpz_t src_a;
-        mpz_init_set_si(src_a, value);
-        return gcnew HugeInt(src_a);
+        auto result = gcnew HugeInt();
+        mpz_set_si(result->_value, value);
+        return result;
     }
 
     HugeInt^ HugeInt::FromUlong(mpir_ui value)
     {
-        mpz_t src_a;
-        mpz_init_set_ui(src_a, value);
-        return gcnew HugeInt(src_a);
+        auto result = gcnew HugeInt();
+        mpz_set_ui(result->_value, value);
+        return result;
     }
 
     //unmanaged destructor makes the compiler implement IDisposable
@@ -166,10 +151,7 @@ namespace MPIR
     HugeInt::!HugeInt()
     {
         if(_value != 0)
-        {
-            mpz_clear(_value);
-            _value = 0;
-        }
+            DeallocateStruct();
     }
 
     #pragma endregion
@@ -185,7 +167,7 @@ namespace MPIR
     {
         char* str = mpz_get_str(NULL, base, _value);
         String^ result = gcnew String(str);
-        CustomFree(str, 0);
+        CustomFree(str);
 
         return result;
     }

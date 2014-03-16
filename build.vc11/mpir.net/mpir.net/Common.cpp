@@ -20,39 +20,23 @@ along with the MPIR Library.  If not, see http://www.gnu.org/licenses/.
 #include "Stdafx.h"
 #include "Common.h"
 
-static bool AllocationFunctionsConfigured = false;
-
-//This custom allocation is used in order to store an MP* struct immediately
-//before the limb data it references.  They are always allocated together.
-//Therefore, our managed classes only need to store a pointer to the MP struct,
-//rather than the MP struct itself.
-//Becasue we cannot store an unmanaged struct in a managed class or struct,
-//we would need to either pin or copy the struct on stack field by field
-//every time we had to use it, this way we can just pass "const" pointers around.
-//for pointers that may be reallocated to MPIR, the struct must still be copied
-//to stack, but that's only one of three or so for a typical MPIR call.
-void* CustomAllocate (size_t alloc_size)
+void CustomFree (void* ptr)
 {
-    auto ptr = malloc(alloc_size + StructSize);
-    return (char*)ptr + StructSize;
+    void (*freeFunc) (void*, size_t);
+    mp_get_memory_functions (NULL, NULL, &freeFunc);
+    freeFunc(ptr, 0);
 }
 
-void* CustomReallocate (void* ptr, size_t old_size, size_t new_size)
+void* CustomAllocate(size_t size)
 {
-    auto newPtr = realloc((char*)ptr - StructSize, new_size + StructSize);
-    return (char*)newPtr + StructSize;
+    void* (*allocateFunc) (size_t);
+    mp_get_memory_functions(&allocateFunc, NULL, NULL);
+    return allocateFunc(size);
 }
 
-void CustomFree (void* ptr, size_t size)
+void* CustomReallocate(void* old, size_t size)
 {
-    free((char*)ptr - StructSize);
-}
-
-void SetCustomAllocationFunctions()
-{
-    if(!AllocationFunctionsConfigured)
-    {
-        mp_set_memory_functions(CustomAllocate, CustomReallocate, CustomFree);
-        AllocationFunctionsConfigured = true;
-    }
+    void* (*reallocateFunc) (void*, size_t, size_t);
+    mp_get_memory_functions(NULL, &reallocateFunc, NULL);
+    return reallocateFunc(old, 0, size);
 }

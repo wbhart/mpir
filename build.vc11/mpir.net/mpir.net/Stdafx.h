@@ -24,4 +24,5 @@ along with the MPIR Library.  If not, see http://www.gnu.org/licenses/.
 #pragma once
 
 #include "mpir.h"
+#include "Common.h"
 #include "HugeInt.h"
