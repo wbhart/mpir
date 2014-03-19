@@ -129,7 +129,8 @@ TUNE_MPN_SRCS_BASIC = divrem_2.c gcd.c gcdext.c get_str.c \
   mul_n.c mullow_n.c mulhigh_n.c mul.c tdiv_qr.c \
   toom4_mul_n.c toom4_mul.c toom3_mul.c toom3_mul_n.c \
   toom8h_mul.c toom8_sqr_n.c mulmod_2expm1.c rootrem.c divrem_euclidean_r_1.c \
-  divrem_hensel_qr_1.c rsh_divrem_hensel_qr_1.c dc_divappr_q.c dc_div_qr.c dc_div_qr_n.c \
+  divrem_hensel_qr_1.c rsh_divrem_hensel_qr_1.c sb_divappr_q.c sb_div_qr.c \
+  dc_divappr_q.c dc_div_qr.c dc_div_qr_n.c \
   inv_divappr_q.c inv_div_qr.c tdiv_q.c dc_bdiv_qr.c dc_bdiv_qr_n.c dc_bdiv_q.c 
 TUNE_FFT_SRCS_BASIC = split_bits.c revbin.c normmod_2expp1.c mulmod_2expp1.c \
   mul_trunc_sqrt2.c mul_mfa_trunc_sqrt2.c mul_fft_main.c \

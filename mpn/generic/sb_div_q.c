@@ -31,8 +31,6 @@ along with the GNU MP Library.  If not, see http://www.gnu.org/licenses/.  */
 #include "gmp-impl.h"
 #include "longlong.h"
 
-#define SB_DIVAPPR_Q_SMALL_THRESHOLD 11
-
 void __div_helper(mp_ptr qp, mp_ptr np, mp_srcptr dp, mp_size_t qn)
 {   
    mpn_sub_n(np + 1, np + 1, dp, qn + 1);
@@ -80,7 +78,7 @@ mpn_sb_div_q (mp_ptr qp,
   if (qh != 0)
     mpn_sub_n (np - dn, np - dn, dp, dn);
 
-  if (dn <= SB_DIVAPPR_Q_SMALL_THRESHOLD)
+  if (BELOW_THRESHOLD(dn, SB_DIVAPPR_Q_SMALL_THRESHOLD))
      {
    qn_orig = qn;
 

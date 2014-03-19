@@ -2012,6 +2012,14 @@ __GMP_DECLSPEC mp_limb_t gmp_primesieve (mp_ptr, mp_limb_t);
 #define INV_DIV_Q_THRESHOLD    (MUL_FFT_THRESHOLD/3)
 #endif
 
+#ifndef SB_DIVAPPR_Q_SMALL_THRESHOLD
+#define SB_DIVAPPR_Q_SMALL_THRESHOLD 11
+#endif
+
+#ifndef SB_DIV_QR_SMALL_THRESHOLD
+#define SB_DIV_QR_SMALL_THRESHOLD 11
+#endif
+
 #ifndef DC_DIVAPPR_Q_THRESHOLD
 #define DC_DIVAPPR_Q_THRESHOLD    (3 * MUL_TOOM3_THRESHOLD)
 #endif
@@ -4377,6 +4385,14 @@ extern mp_size_t                     mulmod_2expm1_threshold;
 #define DIV_SB_PREINV_THRESHOLD      div_sb_preinv_threshold
 extern mp_size_t                     div_sb_preinv_threshold;
 #endif
+
+#undef SB_DIVAPPR_Q_SMALL_THRESHOLD
+#define SB_DIVAPPR_Q_SMALL_THRESHOLD sb_divappr_q_small_threshold
+extern mp_size_t sb_divappr_q_small_threshold;
+
+#undef SB_DIV_QR_SMALL_THRESHOLD
+#define SB_DIV_QR_SMALL_THRESHOLD sb_div_qr_small_threshold
+extern mp_size_t sb_div_qr_small_threshold;
 
 #undef  DC_DIV_QR_THRESHOLD
 #define DC_DIV_QR_THRESHOLD          dc_div_qr_threshold
