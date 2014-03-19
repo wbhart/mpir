@@ -59,6 +59,12 @@ public ref class Mpir##name##Expression : MpirExpression         \
 #define TYPE_FOR_ABBR_Ui mpir_ui
 #define TYPE_FOR_ABBR_Bits mp_bitcnt_t
 
+//unary expressions
+#define DEFINE_UNARY_EXPRESSION_WITH_ONE(name, typeAbbr, type) \
+    DEFINE_UNARY_EXPRESSION(name##typeAbbr, type)              \
+    DEFINE_UNARY_EXPRESSION(name##Expr, MpirExpression^)           
+
+//binary expressions
 #define DEFINE_BINARY_EXPRESSION_WITH_TWO(name, typeAbbr, type)                     \
     DEFINE_BINARY_EXPRESSION(name##typeAbbr##typeAbbr, type, type)                  \
     DEFINE_BINARY_EXPRESSION(name##typeAbbr##Expr, type, MpirExpression^)           \
@@ -77,6 +83,35 @@ public ref class Mpir##name##Expression : MpirExpression         \
     DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT(name, leftTypeAbbr, rightTypeAbbr, leftType, rightType)                \
     DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_LEFT(name, rightTypeAbbr, leftTypeAbbr, rightType, leftType)
 
+//void functions
+#define MAKE_VOID_FUNCTION(action, kind, op, type)    MAKE_VOID_FUNCTION_##kind(action, op, type)
+#define MAKE_VOID_FUNCTION_Int(action, op, type)      MAKE_VOID_FUNCTION_##action(op, op##type)
+#define MAKE_VOID_FUNCTION_Expr(action, op, type)     MAKE_VOID_FUNCTION_##action(op, op##Expr)
+
+#define MAKE_VOID_FUNCTION_MAKE(op, result)   \
+    MpirExpression^ op() { return gcnew Mpir##result##Expression(this); }
+
+#define MAKE_VOID_FUNCTION_DECLARE(op, result)     \
+    MpirExpression^ op();
+
+#define MAKE_VOID_FUNCTION_DEFINE(op, result)      \
+    MpirExpression^ MpirExpression::op() { return gcnew Mpir##result##Expression(this); }
+
+//unary operators
+#define MAKE_UNARY_OPERATOR(action, kind, op, result, type)   MAKE_UNARY_OPERATOR_##kind(action, op, result, type)
+#define MAKE_UNARY_OPERATOR_Int(action, op, result, type)     MAKE_UNARY_OPERATOR_##action(op, result##type, type)
+#define MAKE_UNARY_OPERATOR_Expr(action, op, result, mpType)  MAKE_UNARY_OPERATOR_##action(op, result##Expr, Expr)
+
+#define MAKE_UNARY_OPERATOR_MAKE(op, result, type)   \
+    static MpirExpression^ operator op(TYPE_FOR_ABBR_##type a) { return gcnew Mpir##result##Expression(a); }
+
+#define MAKE_UNARY_OPERATOR_DECLARE(op, result, type)     \
+    static MpirExpression^ operator op(TYPE_FOR_ABBR_##type a);
+
+#define MAKE_UNARY_OPERATOR_DEFINE(op, result, type)      \
+    MpirExpression^ MpirExpression::operator op(TYPE_FOR_ABBR_##type a) { return gcnew Mpir##result##Expression(a); }
+
+//binary operators
 #define MAKE_BINARY_OPERATOR_MAKE(op, result, leftType, rightType, left, right)       \
     static MpirExpression^ operator op(TYPE_FOR_ABBR_##leftType a, TYPE_FOR_ABBR_##rightType b) { return gcnew Mpir##result##Expression(left, right); }
 
@@ -128,7 +163,8 @@ public ref class Mpir##name##Expression : MpirExpression         \
 #define MAKE_BINARY_OPERATOR_SIMPLE_Expr(action, op, result, mpType, limbType)  \
     MAKE_BINARY_OPERATOR_##action(op, result##Expr##limbType, Expr, limbType, a, b)          
 
-#define DEFINE_OPERATORS(action, kind)                                        \
+//master operators/functions definition
+#define DEFINE_OPERATIONS(action, kind)                                       \
     MAKE_BINARY_OPERATOR_STANDARD  (action, kind, +, Add, Int, Int)           \
     MAKE_BINARY_OPERATOR_RLIMB     (action, kind, +, Add, Int, Ui)            \
     MAKE_BINARY_OPERATOR_LLIMB_R   (action, kind, +, Add, Int, Ui)            \
@@ -148,6 +184,10 @@ public ref class Mpir##name##Expression : MpirExpression         \
     MAKE_BINARY_OPERATOR_LLIMB_R   (action, kind, *, Multiply, Int, Si)       \
                                                                               \
     MAKE_BINARY_OPERATOR_SIMPLE    (action, kind, <<, ShiftLeft, Int, Bits)   \
+                                                                              \
+    MAKE_UNARY_OPERATOR(action, kind, -, Negate, Int)                         \
+                                                                              \
+    MAKE_VOID_FUNCTION(action, kind, Abs, Int)                                \
 
 namespace MPIR
 {
@@ -159,7 +199,7 @@ namespace MPIR
             virtual void AssignTo(HugeInt^ destination) abstract;
 
         public:
-            DEFINE_OPERATORS(DECLARE, Expr)
+            DEFINE_OPERATIONS(DECLARE, Expr)
     };
 
     DEFINE_BINARY_EXPRESSION_WITH_TWO(Add, Int, HugeInt^)
@@ -176,10 +216,10 @@ namespace MPIR
 
     DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT(ShiftLeft, Int, Bits, HugeInt^, mp_bitcnt_t)
     
-    DEFINE_UNARY_EXPRESSION(Negate, HugeInt^)
-    DEFINE_UNARY_EXPRESSION(Abs, HugeInt^)
+    DEFINE_UNARY_EXPRESSION_WITH_ONE(Negate, Int, HugeInt^)
+    DEFINE_UNARY_EXPRESSION_WITH_ONE(Abs, Int, HugeInt^)
 
-    DEFINE_OPERATORS(DEFINE, Expr)
+    DEFINE_OPERATIONS(DEFINE, Expr)
 
     public ref class HugeInt sealed : MpirExpression
     {
@@ -232,9 +272,6 @@ namespace MPIR
             }
 
             //arithmetic
-            DEFINE_OPERATORS(MAKE, Int)
-
-    static MpirNegateExpression^ operator-(HugeInt^ a) { return gcnew MpirNegateExpression(a); }                                                                      \
-            MpirAbsExpression^ Abs() { return gcnew MpirAbsExpression(this); }
+            DEFINE_OPERATIONS(MAKE, Int)
     };
 };

@@ -22,11 +22,23 @@ along with the MPIR Library.  If not, see http://www.gnu.org/licenses/.
 
 #define DEFINE_ASSIGNMENT_PROLOG(name) void Mpir##name##Expression::AssignTo(HugeInt^ destination)
 
-#define DEFINE_UNARY_ASSIGNMENT(name, operation)       \
-    DEFINE_ASSIGNMENT_PROLOG(name)                     \
-{                                                      \
-    operation(destination->_value, Operand->_value);   \
+#define DEFINE_UNARY_ASSIGNMENT(name, operation, operand)     \
+    DEFINE_ASSIGNMENT_PROLOG(name)                            \
+{                                                             \
+    operation(destination->_value, operand);                  \
 }
+
+#define DEFINE_UNARY_ASSIGNMENT_EVAL(name, operation)         \
+    DEFINE_ASSIGNMENT_PROLOG(name)                            \
+{                                                             \
+    HugeInt temp;                                             \
+    Operand->AssignTo(%temp);                                 \
+    operation(destination->_value, temp._value);              \
+}
+
+#define DEFINE_UNARY_ASSIGNMENT_REF(name, typeAbbr, operation)                  \
+    DEFINE_UNARY_ASSIGNMENT(name##typeAbbr, operation, Operand->_value)         \
+    DEFINE_UNARY_ASSIGNMENT_EVAL(name##Expr, operation)
 
 #define DEFINE_BINARY_ASSIGNMENT(name, operation, left, right)    \
     DEFINE_ASSIGNMENT_PROLOG(name)                                \
@@ -230,8 +242,8 @@ namespace MPIR
 
     DEFINE_BINARY_ASSIGNMENT_REF_VAL(ShiftLeft, Int, Bits, mpz_mul_2exp)
 
-    DEFINE_UNARY_ASSIGNMENT(Negate, mpz_neg)
-    DEFINE_UNARY_ASSIGNMENT(Abs, mpz_abs)
+    DEFINE_UNARY_ASSIGNMENT_REF(Negate, Int, mpz_neg)
+    DEFINE_UNARY_ASSIGNMENT_REF(Abs, Int, mpz_abs)
 
     #pragma endregion
 };
