@@ -27,13 +27,13 @@ public ref class Mpir##name##Expression : MpirExpression         \
 {                                                                \
     internal:                                                    \
         type Operand;                                            \
+        virtual void AssignTo(HugeInt^ destination) override;    \
                                                                  \
     public:                                                      \
         Mpir##name##Expression(type operand)                     \
         {                                                        \
             Operand = operand;                                   \
         }                                                        \
-        virtual void AssignTo(HugeInt^ destination) override;    \
 };
 
 //defines a binary expression class
@@ -43,6 +43,7 @@ public ref class Mpir##name##Expression : MpirExpression         \
     internal:                                                    \
         leftType Left;                                           \
         rightType Right;                                         \
+        virtual void AssignTo(HugeInt^ destination) override;    \
                                                                  \
     public:                                                      \
         Mpir##name##Expression(leftType left, rightType right)   \
@@ -50,7 +51,6 @@ public ref class Mpir##name##Expression : MpirExpression         \
             Left = left;                                         \
             Right = right;                                       \
         }                                                        \
-        virtual void AssignTo(HugeInt^ destination) override;    \
 };
 
 #define TYPE_FOR_ABBR_Int HugeInt^
@@ -155,10 +155,11 @@ namespace MPIR
 
     public ref class MpirExpression abstract
     {
-        public:
+        internal:
             virtual void AssignTo(HugeInt^ destination) abstract;
 
-        DEFINE_OPERATORS(DECLARE, Expr)
+        public:
+            DEFINE_OPERATORS(DECLARE, Expr)
     };
 
     DEFINE_BINARY_EXPRESSION_WITH_TWO(Add, Int, HugeInt^)
