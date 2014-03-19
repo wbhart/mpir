@@ -232,7 +232,6 @@ namespace MPIR.Tests.HugeIntTests
             using (var b = new HugeInt("-394580293847502987609283945873594873409587"))
             {
                 var expr = a + c*b;
-                Assert.IsInstanceOfType(expr, typeof(MpirAddProductIntIntExpression));
                 a.Value = expr;
                 Assert.AreEqual("-9112666988874677841199955832262586145147830205230375090322356322089362221491205901", a.ToString());
             }
@@ -246,7 +245,6 @@ namespace MPIR.Tests.HugeIntTests
             {
                 ulong b = 498734523097853458;
                 var expr = a + c*b;
-                Assert.IsInstanceOfType(expr, typeof(MpirAddProductIntUiExpression));
                 a.Value = expr;
                 Assert.AreEqual("-11518065386718058599763388064972875060082210203928832731415", a.ToString());
             }
@@ -260,7 +258,6 @@ namespace MPIR.Tests.HugeIntTests
             {
                 ulong b = 498734523097853458;
                 var expr = a + b*c;
-                Assert.IsInstanceOfType(expr, typeof(MpirAddProductIntUiExpression));
                 a.Value = expr;
                 Assert.AreEqual("-11518065386718058599763388064972875060082210203928832731415", a.ToString());
             }
@@ -274,7 +271,6 @@ namespace MPIR.Tests.HugeIntTests
             {
                 ulong b = 498734523097853458;
                 var expr = b*c + a;
-                Assert.IsInstanceOfType(expr, typeof(MpirAddProductIntUiExpression));
                 a.Value = expr;
                 //TODO how can we test a single addmul was called?
                 Assert.AreEqual("-11518065386718058599763388064972875060082210203928832731415", a.ToString());
@@ -290,7 +286,6 @@ namespace MPIR.Tests.HugeIntTests
             {
                 ulong b = 498734523097853458;
                 var expr = b*c + a;
-                Assert.IsInstanceOfType(expr, typeof(MpirAddProductIntUiExpression));
                 d.Value = expr;
                 Assert.AreEqual("-11518065386718058599763388064972875060082210203928832731415", d.ToString());
             }
@@ -304,7 +299,6 @@ namespace MPIR.Tests.HugeIntTests
             {
                 long b = -498734523097853458;
                 var expr = a + c*b;
-                Assert.IsInstanceOfType(expr, typeof(MpirAddProductIntSiExpression));
                 a.Value = expr;
                 Assert.AreEqual("-11518065386718058599763388064972875060082210203928832731415", a.ToString());
             }
@@ -318,7 +312,6 @@ namespace MPIR.Tests.HugeIntTests
             {
                 long b = 498734523097853458;
                 var expr = a + b*c;
-                Assert.IsInstanceOfType(expr, typeof(MpirAddProductIntSiExpression));
                 a.Value = expr;
                 Assert.AreEqual("-11518065386718058599763388064972875060082210203928832731415", a.ToString());
             }
@@ -332,7 +325,6 @@ namespace MPIR.Tests.HugeIntTests
             {
                 long b = 498734523097853458;
                 var expr = b*c + a;
-                Assert.IsInstanceOfType(expr, typeof(MpirAddProductIntSiExpression));
                 a.Value = expr;
                 //TODO how can we test a single addmul was called?
                 Assert.AreEqual("-11518065386718058599763388064972875060082210203928832731415", a.ToString());
@@ -348,7 +340,6 @@ namespace MPIR.Tests.HugeIntTests
             {
                 long b = -498734523097853458;
                 var expr = b*c + a;
-                Assert.IsInstanceOfType(expr, typeof(MpirAddProductIntSiExpression));
                 d.Value = expr;
                 Assert.AreEqual("-11518065386718058599763388064972875060082210203928832731415", d.ToString());
             }
@@ -362,7 +353,6 @@ namespace MPIR.Tests.HugeIntTests
             using (var b = new HugeInt("394580293847502987609283945873594873409587"))
             {
                 var expr = a - c*b;
-                Assert.IsInstanceOfType(expr, typeof(MpirSubtractProductIntIntExpression));
                 a.Value = expr;
                 Assert.AreEqual("-9112666988874677841199955832262586145147830205230375090322356322089362221491205901", a.ToString());
             }
@@ -376,7 +366,6 @@ namespace MPIR.Tests.HugeIntTests
             {
                 ulong b = 498734523097853458;
                 var expr = a - c*b;
-                Assert.IsInstanceOfType(expr, typeof(MpirSubtractProductIntUiExpression));
                 a.Value = expr;
                 Assert.AreEqual("-11518065386718058599763388064972875060082210203928832731415", a.ToString());
             }
@@ -390,7 +379,6 @@ namespace MPIR.Tests.HugeIntTests
             {
                 long b = -498734523097853458;
                 var expr = a - b*c;
-                Assert.IsInstanceOfType(expr, typeof(MpirSubtractProductIntSiExpression));
                 a.Value = expr;
                 Assert.AreEqual("-11518065386718058599763388064972875060082210203928832731415", a.ToString());
             }
@@ -453,6 +441,18 @@ namespace MPIR.Tests.HugeIntTests
                 Assert.AreEqual("24092854092874502983745029345723098457209", a.ToString());
                 a.Value = a.Abs();
                 Assert.AreEqual("24092854092874502983745029345723098457209", a.ToString());
+            }
+        }
+
+        [TestMethod]
+        public void AddExpressionHugeInt()
+        {
+            using (var a = new HugeInt("222509832503450298345029835740293845720"))
+            using (var b = new HugeInt("222987435987982730594288574029879874539"))
+            using (var c = new HugeInt())
+            {
+                c.Value = 1 + (a + b);
+                Assert.AreEqual("445497268491433028939318409770173720260", c.ToString());
             }
         }
         //more tests coming here

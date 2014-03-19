@@ -23,7 +23,7 @@ using namespace System;
 
 //defines a unary expression class
 #define DEFINE_UNARY_EXPRESSION(name, type)                      \
-public ref class Mpir##name##Expression : IMpirExpression        \
+public ref class Mpir##name##Expression : MpirExpression         \
 {                                                                \
     internal:                                                    \
         type Operand;                                            \
@@ -33,12 +33,12 @@ public ref class Mpir##name##Expression : IMpirExpression        \
         {                                                        \
             Operand = operand;                                   \
         }                                                        \
-        virtual void AssignTo(HugeInt^ destination);             \
+        virtual void AssignTo(HugeInt^ destination) override;    \
 };
 
 //defines a binary expression class
 #define DEFINE_BINARY_EXPRESSION(name, leftType, rightType)      \
-public ref class Mpir##name##Expression : IMpirExpression        \
+public ref class Mpir##name##Expression : MpirExpression         \
 {                                                                \
     internal:                                                    \
         leftType Left;                                           \
@@ -50,47 +50,137 @@ public ref class Mpir##name##Expression : IMpirExpression        \
             Left = left;                                         \
             Right = right;                                       \
         }                                                        \
-        virtual void AssignTo(HugeInt^ destination);             \
+        virtual void AssignTo(HugeInt^ destination) override;    \
 };
+
+#define TYPE_FOR_ABBR_Int HugeInt^
+#define TYPE_FOR_ABBR_Expr MpirExpression^
+#define TYPE_FOR_ABBR_Si mpir_si
+#define TYPE_FOR_ABBR_Ui mpir_ui
+#define TYPE_FOR_ABBR_Bits mp_bitcnt_t
+
+#define DEFINE_BINARY_EXPRESSION_WITH_TWO(name, typeAbbr, type)                     \
+    DEFINE_BINARY_EXPRESSION(name##typeAbbr##typeAbbr, type, type)                  \
+    DEFINE_BINARY_EXPRESSION(name##typeAbbr##Expr, type, MpirExpression^)           \
+    DEFINE_BINARY_EXPRESSION(name##Expr##typeAbbr, MpirExpression^, type)           \
+    DEFINE_BINARY_EXPRESSION(name##ExprExpr, MpirExpression^, MpirExpression^)    
+
+#define DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT(name, leftTypeAbbr, rightTypeAbbr, leftType, rightType)    \
+    DEFINE_BINARY_EXPRESSION(name##leftTypeAbbr##rightTypeAbbr, leftType, rightType)                            \
+    DEFINE_BINARY_EXPRESSION(name##Expr##rightTypeAbbr, MpirExpression^, rightType)                            
+
+#define DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_LEFT(name, leftTypeAbbr, rightTypeAbbr, leftType, rightType)    \
+    DEFINE_BINARY_EXPRESSION(name##leftTypeAbbr##rightTypeAbbr, leftType, rightType)                           \
+    DEFINE_BINARY_EXPRESSION(name##leftTypeAbbr##Expr, leftType, MpirExpression^)                            
+    
+#define DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_LEFT_OR_RIGHT(name, leftTypeAbbr, rightTypeAbbr, leftType, rightType)    \
+    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT(name, leftTypeAbbr, rightTypeAbbr, leftType, rightType)                \
+    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_LEFT(name, rightTypeAbbr, leftTypeAbbr, rightType, leftType)
+
+#define MAKE_BINARY_OPERATOR_MAKE(op, result, leftType, rightType, left, right)       \
+    static MpirExpression^ operator op(TYPE_FOR_ABBR_##leftType a, TYPE_FOR_ABBR_##rightType b) { return gcnew Mpir##result##Expression(left, right); }
+
+#define MAKE_BINARY_OPERATOR_DECLARE(op, result, leftType, rightType, left, right)     \
+    static MpirExpression^ operator op(TYPE_FOR_ABBR_##leftType a, TYPE_FOR_ABBR_##rightType b);
+
+#define MAKE_BINARY_OPERATOR_DEFINE(op, result, leftType, rightType, left, right)      \
+    MpirExpression^ MpirExpression::operator op(TYPE_FOR_ABBR_##leftType a, TYPE_FOR_ABBR_##rightType b) { return gcnew Mpir##result##Expression(left, right); }
+
+#define MAKE_BINARY_OPERATOR_STANDARD(action, kind, op, result, leftType, rightType)   \
+    MAKE_BINARY_OPERATOR_STANDARD_##kind(action, op, result, leftType, rightType)
+
+#define MAKE_BINARY_OPERATOR_SIMPLE(action, kind, op, result, mpType, limbType)     \
+    MAKE_BINARY_OPERATOR_SIMPLE_##kind(action, op, result, mpType, limbType)
+
+#define MAKE_BINARY_OPERATOR_RLIMB(action, kind, op, result, mpType, limbType)      \
+    MAKE_BINARY_OPERATOR_RLIMB_##kind(action, op, result, mpType, limbType)
+
+#define MAKE_BINARY_OPERATOR_LLIMB(action, kind, op, result, mpType, limbType)      \
+    MAKE_BINARY_OPERATOR_LLIMB_##kind(action, op, result, limbType, mpType)
+
+#define MAKE_BINARY_OPERATOR_LLIMB_R(action, kind, op, result, mpType, limbType)      \
+    MAKE_BINARY_OPERATOR_LLIMB_R_##kind(action, op, result, limbType, mpType)
+
+#define MAKE_BINARY_OPERATOR_STANDARD_Int(action, op, result, leftType, rightType) \
+    MAKE_BINARY_OPERATOR_##action(op, result##leftType##rightType, leftType, rightType, a, b)
+
+#define MAKE_BINARY_OPERATOR_SIMPLE_Int   MAKE_BINARY_OPERATOR_STANDARD_Int
+#define MAKE_BINARY_OPERATOR_RLIMB_Int    MAKE_BINARY_OPERATOR_STANDARD_Int
+#define MAKE_BINARY_OPERATOR_LLIMB_Int    MAKE_BINARY_OPERATOR_STANDARD_Int
+
+#define MAKE_BINARY_OPERATOR_LLIMB_R_Int(action, op, result, limbType, mpType) \
+    MAKE_BINARY_OPERATOR_##action(op, result##mpType##limbType, limbType, mpType, b, a)
+
+#define MAKE_BINARY_OPERATOR_STANDARD_Expr(action, op, result, leftType, rightType)        \
+    MAKE_BINARY_OPERATOR_##action(op, result##Expr##rightType, Expr, rightType, a, b)      \
+    MAKE_BINARY_OPERATOR_##action(op, result##leftType##Expr, leftType, Expr, a, b)        \
+    MAKE_BINARY_OPERATOR_##action(op, result##Expr##Expr, Expr, Expr, a, b)               
+
+#define MAKE_BINARY_OPERATOR_RLIMB_Expr(action, op, result, mpType, limbType)  \
+    MAKE_BINARY_OPERATOR_##action(op, result##Expr##limbType, Expr, limbType, a, b)          
+
+#define MAKE_BINARY_OPERATOR_LLIMB_Expr(action, op, result, limbType, mpType)  \
+    MAKE_BINARY_OPERATOR_##action(op, result##limbType##Expr, limbType, Expr, a, b)           
+
+#define MAKE_BINARY_OPERATOR_LLIMB_R_Expr(action, op, result, limbType, mpType) \
+    MAKE_BINARY_OPERATOR_##action(op, result##Expr##limbType, limbType, Expr, b, a)
+
+#define MAKE_BINARY_OPERATOR_SIMPLE_Expr(action, op, result, mpType, limbType)  \
+    MAKE_BINARY_OPERATOR_##action(op, result##Expr##limbType, Expr, limbType, a, b)          
+
+#define DEFINE_OPERATORS(action, kind)                                        \
+    MAKE_BINARY_OPERATOR_STANDARD  (action, kind, +, Add, Int, Int)           \
+    MAKE_BINARY_OPERATOR_RLIMB     (action, kind, +, Add, Int, Ui)            \
+    MAKE_BINARY_OPERATOR_LLIMB_R   (action, kind, +, Add, Int, Ui)            \
+    MAKE_BINARY_OPERATOR_RLIMB     (action, kind, +, Add, Int, Si)            \
+    MAKE_BINARY_OPERATOR_LLIMB_R   (action, kind, +, Add, Int, Si)            \
+                                                                              \
+    MAKE_BINARY_OPERATOR_STANDARD  (action, kind, -, Subtract, Int, Int)      \
+    MAKE_BINARY_OPERATOR_RLIMB     (action, kind, -, Subtract, Int, Ui)       \
+    MAKE_BINARY_OPERATOR_LLIMB     (action, kind, -, Subtract, Int, Ui)       \
+    MAKE_BINARY_OPERATOR_RLIMB     (action, kind, -, Subtract, Int, Si)       \
+    MAKE_BINARY_OPERATOR_LLIMB     (action, kind, -, Subtract, Int, Si)       \
+                                                                              \
+    MAKE_BINARY_OPERATOR_STANDARD  (action, kind, *, Multiply, Int, Int)      \
+    MAKE_BINARY_OPERATOR_RLIMB     (action, kind, *, Multiply, Int, Ui)       \
+    MAKE_BINARY_OPERATOR_LLIMB_R   (action, kind, *, Multiply, Int, Ui)       \
+    MAKE_BINARY_OPERATOR_RLIMB     (action, kind, *, Multiply, Int, Si)       \
+    MAKE_BINARY_OPERATOR_LLIMB_R   (action, kind, *, Multiply, Int, Si)       \
+                                                                              \
+    MAKE_BINARY_OPERATOR_SIMPLE    (action, kind, <<, ShiftLeft, Int, Bits)   \
 
 namespace MPIR
 {
     ref class HugeInt;
 
-    public interface class IMpirExpression
+    public ref class MpirExpression abstract
     {
         public:
-            void AssignTo(HugeInt^ destination);
+            virtual void AssignTo(HugeInt^ destination) abstract;
+
+        DEFINE_OPERATORS(DECLARE, Expr)
     };
 
-    DEFINE_BINARY_EXPRESSION(AddIntInt, HugeInt^, HugeInt^)
-    DEFINE_BINARY_EXPRESSION(AddIntUi, HugeInt^, mpir_ui)
-    DEFINE_BINARY_EXPRESSION(AddIntSi, HugeInt^, mpir_si)
+    DEFINE_BINARY_EXPRESSION_WITH_TWO(Add, Int, HugeInt^)
+    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT(Add, Int, Ui, HugeInt^, mpir_ui)
+    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT(Add, Int, Si, HugeInt^, mpir_si)
 
-    DEFINE_BINARY_EXPRESSION(SubtractIntInt, HugeInt^, HugeInt^)
-    DEFINE_BINARY_EXPRESSION(SubtractIntUi, HugeInt^, mpir_ui)
-    DEFINE_BINARY_EXPRESSION(SubtractUiInt, mpir_ui, HugeInt^)
-    DEFINE_BINARY_EXPRESSION(SubtractIntSi, HugeInt^, mpir_si)
-    DEFINE_BINARY_EXPRESSION(SubtractSiInt, mpir_si, HugeInt^)
+    DEFINE_BINARY_EXPRESSION_WITH_TWO(Subtract, Int, HugeInt^)
+    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_LEFT_OR_RIGHT(Subtract, Int, Ui, HugeInt^, mpir_ui)
+    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_LEFT_OR_RIGHT(Subtract, Int, Si, HugeInt^, mpir_si)
 
-    DEFINE_BINARY_EXPRESSION(MultiplyIntInt, HugeInt^, HugeInt^)
-    DEFINE_BINARY_EXPRESSION(MultiplyIntUi, HugeInt^, mpir_ui)
-    DEFINE_BINARY_EXPRESSION(MultiplyIntSi, HugeInt^, mpir_si)
+    DEFINE_BINARY_EXPRESSION_WITH_TWO(Multiply, Int, HugeInt^)
+    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT(Multiply, Int, Ui, HugeInt^, mpir_ui)
+    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT(Multiply, Int, Si, HugeInt^, mpir_si)
 
-    DEFINE_BINARY_EXPRESSION(AddProductIntInt, HugeInt^, MpirMultiplyIntIntExpression^)
-    DEFINE_BINARY_EXPRESSION(AddProductIntUi, HugeInt^, MpirMultiplyIntUiExpression^)
-    DEFINE_BINARY_EXPRESSION(AddProductIntSi, HugeInt^, MpirMultiplyIntSiExpression^)
-
-    DEFINE_BINARY_EXPRESSION(SubtractProductIntInt, HugeInt^, MpirMultiplyIntIntExpression^)
-    DEFINE_BINARY_EXPRESSION(SubtractProductIntUi, HugeInt^, MpirMultiplyIntUiExpression^)
-    DEFINE_BINARY_EXPRESSION(SubtractProductIntSi, HugeInt^, MpirMultiplyIntSiExpression^)
-
-    DEFINE_BINARY_EXPRESSION(ShiftLeft, HugeInt^, mp_bitcnt_t)
+    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT(ShiftLeft, Int, Bits, HugeInt^, mp_bitcnt_t)
     
     DEFINE_UNARY_EXPRESSION(Negate, HugeInt^)
     DEFINE_UNARY_EXPRESSION(Abs, HugeInt^)
 
-    public ref class HugeInt sealed : IMpirExpression
+    DEFINE_OPERATORS(DEFINE, Expr)
+
+    public ref class HugeInt sealed : MpirExpression
     {
         internal:
             //fields
@@ -129,54 +219,21 @@ namespace MPIR
             String^ ToString(int base);
 
             //properties
-            property IMpirExpression^ Value
+            property MpirExpression^ Value
             {
-                void set(IMpirExpression^ expr)
-                {
-                    expr->AssignTo(this);
-                };
+                void set(MpirExpression^ expr);
             }
 
-            virtual void AssignTo(HugeInt^ destination)
+            virtual void AssignTo(HugeInt^ destination) override
             {
                 if(this != destination)
                     mpz_set(destination->_value, _value);
             }
 
             //arithmetic
-            static MpirAddIntIntExpression^ operator+(HugeInt^ a, HugeInt^ b) { return gcnew MpirAddIntIntExpression(a, b); }
-            static MpirAddIntUiExpression^  operator+(HugeInt^ a, mpir_ui  b) { return gcnew MpirAddIntUiExpression (a, b); }
-            static MpirAddIntUiExpression^  operator+(mpir_ui  a, HugeInt^ b) { return gcnew MpirAddIntUiExpression (b, a); }
-            static MpirAddIntSiExpression^  operator+(HugeInt^ a, mpir_si  b) { return gcnew MpirAddIntSiExpression (a, b); }
-            static MpirAddIntSiExpression^  operator+(mpir_si  a, HugeInt^ b) { return gcnew MpirAddIntSiExpression (b, a); }
+            DEFINE_OPERATORS(MAKE, Int)
 
-            static MpirAddProductIntIntExpression^ operator+(HugeInt^ a, MpirMultiplyIntIntExpression^ b) { return gcnew MpirAddProductIntIntExpression(a, b); }
-            static MpirAddProductIntIntExpression^ operator+(MpirMultiplyIntIntExpression^ a, HugeInt^ b) { return gcnew MpirAddProductIntIntExpression(b, a); }
-            static MpirAddProductIntUiExpression^  operator+(HugeInt^ a, MpirMultiplyIntUiExpression^ b)  { return gcnew MpirAddProductIntUiExpression(a, b); }
-            static MpirAddProductIntUiExpression^  operator+(MpirMultiplyIntUiExpression^ a, HugeInt^ b)  { return gcnew MpirAddProductIntUiExpression(b, a); }
-            static MpirAddProductIntSiExpression^  operator+(HugeInt^ a, MpirMultiplyIntSiExpression^ b)  { return gcnew MpirAddProductIntSiExpression(a, b); }
-            static MpirAddProductIntSiExpression^  operator+(MpirMultiplyIntSiExpression^ a, HugeInt^ b)  { return gcnew MpirAddProductIntSiExpression(b, a); }
-
-            static MpirSubtractIntIntExpression^ operator-(HugeInt^ a, HugeInt^ b) { return gcnew MpirSubtractIntIntExpression(a, b); }
-            static MpirSubtractIntUiExpression^  operator-(HugeInt^ a, mpir_ui  b) { return gcnew MpirSubtractIntUiExpression (a, b); }
-            static MpirSubtractUiIntExpression^  operator-(mpir_ui  a, HugeInt^ b) { return gcnew MpirSubtractUiIntExpression (a, b); }
-            static MpirSubtractIntSiExpression^  operator-(HugeInt^ a, mpir_si  b) { return gcnew MpirSubtractIntSiExpression (a, b); }
-            static MpirSubtractSiIntExpression^  operator-(mpir_si  a, HugeInt^ b) { return gcnew MpirSubtractSiIntExpression (a, b); }
-
-            static MpirSubtractProductIntIntExpression^ operator-(HugeInt^ a, MpirMultiplyIntIntExpression^ b) { return gcnew MpirSubtractProductIntIntExpression(a, b); }
-            static MpirSubtractProductIntUiExpression^  operator-(HugeInt^ a, MpirMultiplyIntUiExpression^ b)  { return gcnew MpirSubtractProductIntUiExpression(a, b); }
-            static MpirSubtractProductIntSiExpression^  operator-(HugeInt^ a, MpirMultiplyIntSiExpression^ b)  { return gcnew MpirSubtractProductIntSiExpression(a, b); }
-
-            static MpirMultiplyIntIntExpression^ operator*(HugeInt^ a, HugeInt^ b) { return gcnew MpirMultiplyIntIntExpression(a, b); }
-            static MpirMultiplyIntUiExpression^  operator*(HugeInt^ a, mpir_ui  b) { return gcnew MpirMultiplyIntUiExpression (a, b); }
-            static MpirMultiplyIntUiExpression^  operator*(mpir_ui  a, HugeInt^ b) { return gcnew MpirMultiplyIntUiExpression (b, a); }
-            static MpirMultiplyIntSiExpression^  operator*(HugeInt^ a, mpir_si  b) { return gcnew MpirMultiplyIntSiExpression (a, b); }
-            static MpirMultiplyIntSiExpression^  operator*(mpir_si  a, HugeInt^ b) { return gcnew MpirMultiplyIntSiExpression (b, a); }
-
-            static MpirShiftLeftExpression^ operator<<(HugeInt^ a, mp_bitcnt_t b) { return gcnew MpirShiftLeftExpression(a, b); }
-
-            static MpirNegateExpression^ operator-(HugeInt^ a) { return gcnew MpirNegateExpression(a); }
-
+    static MpirNegateExpression^ operator-(HugeInt^ a) { return gcnew MpirNegateExpression(a); }                                                                      \
             MpirAbsExpression^ Abs() { return gcnew MpirAbsExpression(this); }
     };
 };
