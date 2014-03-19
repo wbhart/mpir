@@ -3876,7 +3876,8 @@ __GMP_DECLSPEC mp_size_t mpn_gcdext_lehmer_n (mp_ptr, mp_ptr, mp_size_t *, mp_pt
 #define mpn_mulmod_bnm1 __MPN(mulmod_bnm1)
 __GMP_DECLSPEC void mpn_mulmod_bnm1 (mp_ptr, mp_size_t, mp_srcptr, mp_size_t, mp_srcptr, mp_size_t, mp_ptr);
 
-#define mpn_mulmod_bnm1_next_size(x) x
+#define mpn_mulmod_bnm1_next_size(x) \
+   ((x) <= 2*FFT_MULMOD_2EXPP1_CUTOFF ? (x) : 2*mpir_fft_adjust_limbs(((x) + 1)/2))
 
 static inline mp_size_t
 mpn_mulmod_bnm1_itch (mp_size_t rn, mp_size_t an, mp_size_t bn) {
