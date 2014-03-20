@@ -58,6 +58,7 @@ mpn_mulmod_2expp1_internal (mp_ptr xp, mp_srcptr yp, mp_srcptr zp,
   ASSERT(k == 0 || yp[n - 1] >> (GMP_NUMB_BITS - k) == 0);
   ASSERT(k == 0 || zp[n - 1] >> (GMP_NUMB_BITS - k) == 0);
 
+#ifndef TUNE_PROGRAM_BUILD
   if (k == 0 && n > FFT_MULMOD_2EXPP1_CUTOFF && n == mpir_fft_adjust_limbs(n))
   {
       mp_bitcnt_t depth1, depth = 1;
@@ -90,6 +91,7 @@ mpn_mulmod_2expp1_internal (mp_ptr xp, mp_srcptr yp, mp_srcptr zp,
 
 	   return tx[n];
   }
+#endif
 
   if (yp == zp)
      mpn_sqr(tp, yp, n);

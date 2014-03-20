@@ -1,13 +1,13 @@
 /* Header for speed and threshold things.
 
-Copyright 1999, 2000, 2001, 2002, 2003, 2005, 2006 Free Software Foundation,
-Inc.
+Copyright 1999, 2000, 2001, 2002, 2003, 2005, 2006, 2008, 2009, 2010, 2011,
+2012 Free Software Foundation, Inc.
 
 This file is part of the GNU MP Library.
 
 The GNU MP Library is free software; you can redistribute it and/or modify
 it under the terms of the GNU Lesser General Public License as published by
-the Free Software Foundation; either version 2.1 of the License, or (at your
+the Free Software Foundation; either version 3 of the License, or (at your
 option) any later version.
 
 The GNU MP Library is distributed in the hope that it will be useful, but
@@ -16,9 +16,9 @@ or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public
 License for more details.
 
 You should have received a copy of the GNU Lesser General Public License
-along with the GNU MP Library; see the file COPYING.LIB.  If not, write to
-the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
-MA 02110-1301, USA. */
+along with the GNU MP Library.  If not, see http://www.gnu.org/licenses/.  
+
+*/
 
 #ifndef __SPEED_H__
 #define __SPEED_H__
@@ -121,7 +121,7 @@ struct speed_params {
   struct {
     mp_ptr    ptr;
     mp_size_t size;
-  } src[3], dst[3];
+  } src[5], dst[5];
 };
 
 typedef double (*speed_function_t) _PROTO ((struct speed_params *s));
@@ -218,12 +218,22 @@ double speed_mpn_divrem_2_inv _PROTO ((struct speed_params *s));
 double speed_mpn_double _PROTO ((struct speed_params *s));
 double speed_mpn_half _PROTO ((struct speed_params *s));
 double speed_mpn_fib2_ui _PROTO ((struct speed_params *s));
-double speed_mpn_hgcd _PROTO ((struct speed_params *s));
-double speed_mpn_hgcd_lehmer _PROTO ((struct speed_params *s));
-double speed_mpn_gcd _PROTO ((struct speed_params *s));
-double speed_mpn_gcd_1 _PROTO ((struct speed_params *s));
-double speed_mpn_gcd_1N _PROTO ((struct speed_params *s));
-double speed_mpn_gcdext _PROTO ((struct speed_params *s));
+double speed_mpn_matrix22_mul (struct speed_params *);
+double speed_mpn_hgcd (struct speed_params *);
+double speed_mpn_hgcd_lehmer (struct speed_params *);
+double speed_mpn_hgcd_appr (struct speed_params *);
+double speed_mpn_hgcd_appr_lehmer (struct speed_params *);
+double speed_mpn_hgcd_reduce (struct speed_params *);
+double speed_mpn_hgcd_reduce_1 (struct speed_params *);
+double speed_mpn_hgcd_reduce_2 (struct speed_params *);
+double speed_mpn_gcd (struct speed_params *);
+double speed_mpn_gcd_1 (struct speed_params *);
+double speed_mpn_gcd_1N (struct speed_params *);
+double speed_mpn_gcdext (struct speed_params *);
+double speed_mpn_gcdext_double (struct speed_params *);
+double speed_mpn_gcdext_one_double (struct speed_params *);
+double speed_mpn_gcdext_one_single (struct speed_params *);
+double speed_mpn_gcdext_single (struct speed_params *);
 double speed_mpn_get_str _PROTO ((struct speed_params *s));
 double speed_mpn_hamdist _PROTO ((struct speed_params *s));
 double speed_mpn_ior_n _PROTO ((struct speed_params *s));
@@ -232,6 +242,7 @@ double speed_mpn_jacobi_base _PROTO ((struct speed_params *s));
 double speed_mpn_jacobi_base_1 _PROTO ((struct speed_params *s));
 double speed_mpn_jacobi_base_2 _PROTO ((struct speed_params *s));
 double speed_mpn_jacobi_base_3 _PROTO ((struct speed_params *s));
+double speed_mpn_jacobi_base_4 _PROTO ((struct speed_params *s));
 double speed_mpn_kara_mul_n _PROTO ((struct speed_params *s));
 double speed_mpn_kara_sqr_n _PROTO ((struct speed_params *s));
 double speed_mpn_karaadd _PROTO ((struct speed_params *s));
@@ -431,9 +442,26 @@ mp_limb_t mpn_divrem_2_inv _PROTO ((mp_ptr qp, mp_size_t qxn,
 int mpn_jacobi_base_1 _PROTO ((mp_limb_t a, mp_limb_t b, int result_bit1));
 int mpn_jacobi_base_2 _PROTO ((mp_limb_t a, mp_limb_t b, int result_bit1));
 int mpn_jacobi_base_3 _PROTO ((mp_limb_t a, mp_limb_t b, int result_bit1));
+int mpn_jacobi_base_4 _PROTO ((mp_limb_t a, mp_limb_t b, int result_bit1));
 
 mp_limb_t mpn_mod_1_div _PROTO ((mp_srcptr ap, mp_size_t size, mp_limb_t d));
 mp_limb_t mpn_mod_1_inv _PROTO ((mp_srcptr ap, mp_size_t size, mp_limb_t d));
+
+mp_size_t mpn_gcdext_one_double (mp_ptr, mp_ptr, mp_size_t *, mp_ptr, mp_size_t, mp_ptr, mp_size_t);
+mp_size_t mpn_gcdext_one_single (mp_ptr, mp_ptr, mp_size_t *, mp_ptr, mp_size_t, mp_ptr, mp_size_t);
+mp_size_t mpn_gcdext_single (mp_ptr, mp_ptr, mp_size_t *, mp_ptr, mp_size_t, mp_ptr, mp_size_t);
+mp_size_t mpn_gcdext_double (mp_ptr, mp_ptr, mp_size_t *, mp_ptr, mp_size_t, mp_ptr, mp_size_t);
+mp_size_t mpn_hgcd_lehmer (mp_ptr, mp_ptr, mp_size_t, struct hgcd_matrix *, mp_ptr);
+mp_size_t mpn_hgcd_lehmer_itch (mp_size_t);
+
+mp_size_t mpn_hgcd_appr_lehmer (mp_ptr, mp_ptr, mp_size_t, struct hgcd_matrix *, mp_ptr);
+mp_size_t mpn_hgcd_appr_lehmer_itch (mp_size_t);
+
+mp_size_t mpn_hgcd_reduce_1 (struct hgcd_matrix *, mp_ptr, mp_ptr, mp_size_t, mp_size_t, mp_ptr);
+mp_size_t mpn_hgcd_reduce_1_itch (mp_size_t, mp_size_t);
+
+mp_size_t mpn_hgcd_reduce_2 (struct hgcd_matrix *, mp_ptr, mp_ptr, mp_size_t, mp_size_t, mp_ptr);
+mp_size_t mpn_hgcd_reduce_2_itch (mp_size_t, mp_size_t);
 
 mp_size_t mpn_set_str_basecase _PROTO ((mp_ptr, const unsigned char *, size_t, int));
 mp_size_t mpn_set_str_subquad _PROTO ((mp_ptr, const unsigned char *, size_t, int));
@@ -2398,6 +2426,107 @@ int speed_routine_count_zeros_setup _PROTO ((struct speed_params *s,
      function (px[j-1], py[j-1], 0))
 
 
+#define SPEED_ROUTINE_MPN_HGCD_CALL(func, itchfunc)			\
+  {									\
+    mp_size_t hgcd_init_itch, hgcd_itch;				\
+    mp_ptr ap, bp, wp, tmp1;						\
+    struct hgcd_matrix hgcd;						\
+    int res;								\
+    unsigned i;								\
+    double t;								\
+    TMP_DECL;								\
+									\
+    if (s->size < 2)							\
+      return -1;							\
+									\
+    TMP_MARK;								\
+									\
+    SPEED_TMP_ALLOC_LIMBS (ap, s->size + 1, s->align_xp);		\
+    SPEED_TMP_ALLOC_LIMBS (bp, s->size + 1, s->align_yp);		\
+									\
+    s->xp[s->size - 1] |= 1;						\
+    s->yp[s->size - 1] |= 1;						\
+									\
+    hgcd_init_itch = MPN_HGCD_MATRIX_INIT_ITCH (s->size);		\
+    hgcd_itch = itchfunc (s->size);					\
+									\
+    SPEED_TMP_ALLOC_LIMBS (tmp1, hgcd_init_itch, s->align_wp);		\
+    SPEED_TMP_ALLOC_LIMBS (wp, hgcd_itch, s->align_wp);			\
+									\
+    speed_operand_src (s, s->xp, s->size);				\
+    speed_operand_src (s, s->yp, s->size);				\
+    speed_operand_dst (s, ap, s->size + 1);				\
+    speed_operand_dst (s, bp, s->size + 1);				\
+    speed_operand_dst (s, wp, hgcd_itch);				\
+    speed_operand_dst (s, tmp1, hgcd_init_itch);			\
+    speed_cache_fill (s);						\
+									\
+    speed_starttime ();							\
+    i = s->reps;							\
+    do									\
+      {									\
+	MPN_COPY (ap, s->xp, s->size);					\
+	MPN_COPY (bp, s->yp, s->size);					\
+	mpn_hgcd_matrix_init (&hgcd, s->size, tmp1);			\
+	res = func (ap, bp, s->size, &hgcd, wp);			\
+      }									\
+    while (--i != 0);							\
+    t = speed_endtime ();						\
+    TMP_FREE;								\
+    return t;								\
+  }
+
+#define SPEED_ROUTINE_MPN_HGCD_REDUCE_CALL(func, itchfunc)		\
+  {									\
+    mp_size_t hgcd_init_itch, hgcd_step_itch;				\
+    mp_ptr ap, bp, wp, tmp1;						\
+    struct hgcd_matrix hgcd;						\
+    mp_size_t p = s->size/2;						\
+    int res;								\
+    unsigned i;								\
+    double t;								\
+    TMP_DECL;								\
+									\
+    if (s->size < 2)							\
+      return -1;							\
+									\
+    TMP_MARK;								\
+									\
+    SPEED_TMP_ALLOC_LIMBS (ap, s->size + 1, s->align_xp);		\
+    SPEED_TMP_ALLOC_LIMBS (bp, s->size + 1, s->align_yp);		\
+									\
+    s->xp[s->size - 1] |= 1;						\
+    s->yp[s->size - 1] |= 1;						\
+									\
+    hgcd_init_itch = MPN_HGCD_MATRIX_INIT_ITCH (s->size);		\
+    hgcd_step_itch = itchfunc (s->size, p);				\
+									\
+    SPEED_TMP_ALLOC_LIMBS (tmp1, hgcd_init_itch, s->align_wp);		\
+    SPEED_TMP_ALLOC_LIMBS (wp, hgcd_step_itch, s->align_wp);			\
+									\
+    speed_operand_src (s, s->xp, s->size);				\
+    speed_operand_src (s, s->yp, s->size);				\
+    speed_operand_dst (s, ap, s->size + 1);				\
+    speed_operand_dst (s, bp, s->size + 1);				\
+    speed_operand_dst (s, wp, hgcd_step_itch);				\
+    speed_operand_dst (s, tmp1, hgcd_init_itch);			\
+    speed_cache_fill (s);						\
+									\
+    speed_starttime ();							\
+    i = s->reps;							\
+    do									\
+      {									\
+	MPN_COPY (ap, s->xp, s->size);					\
+	MPN_COPY (bp, s->yp, s->size);					\
+	mpn_hgcd_matrix_init (&hgcd, s->size, tmp1);			\
+	res = func (&hgcd, ap, bp, s->size, p, wp);			\
+      }									\
+    while (--i != 0);							\
+    t = speed_endtime ();						\
+    TMP_FREE;								\
+    return t;								\
+  }
+
 /* Run some GCDs of s->size limbs each.  The number of different data values
    is decreased as s->size**2, since GCD is a quadratic algorithm.
    SPEED_ROUTINE_MPN_GCD runs more times than SPEED_ROUTINE_MPN_GCDEXT
@@ -2484,6 +2613,7 @@ int speed_routine_count_zeros_setup _PROTO ((struct speed_params *s,
   SPEED_ROUTINE_MPN_GCD_CALL						\
     (4, { mp_size_t  wp2size;						\
 	  function (wp, wp2, &wp2size, xtmp, s->size, ytmp, s->size); })
+
 
 
 #define SPEED_ROUTINE_MPN_GCDEXT_ONE(function)				\

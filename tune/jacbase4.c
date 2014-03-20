@@ -1,7 +1,6 @@
-/* mpn/generic/gcdext.c forced to one double limb step. */
+/* mpn/generic/jacbase.c method 4.
 
-/*
-Copyright 2000 Free Software Foundation, Inc.
+Copyright 2002, 2010 Free Software Foundation, Inc.
 
 This file is part of the GNU MP Library.
 
@@ -21,9 +20,8 @@ along with the GNU MP Library.  If not, see http://www.gnu.org/licenses/.  */
 #include "mpir.h"
 #include "gmp-impl.h"
 
-#undef GCDEXT_THRESHOLD
-#define GCDEXT_THRESHOLD  0
-#define WANT_GCDEXT_ONE_STEP 1
-#define __gmpn_gcdext  mpn_gcdext_one_double
+#undef JACOBI_BASE_METHOD
+#define JACOBI_BASE_METHOD 4
+#define __gmpn_jacobi_base mpn_jacobi_base_4
 
-#include "../mpn/generic/gcdext.c"
+#include "mpn/generic/jacobi_base.c"

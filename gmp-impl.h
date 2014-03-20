@@ -4439,10 +4439,6 @@ extern mp_size_t                     inv_divappr_q_threshold;
 #define POWM_THRESHOLD               powm_threshold
 extern mp_size_t                     powm_threshold;
 
-#undef  FAC_UI_THRESHOLD
-#define FAC_UI_THRESHOLD             fac_ui_threshold
-extern mp_size_t                     fac_ui_threshold;
-
 #undef  ROOTREM_THRESHOLD
 #define ROOTREM_THRESHOLD            rootrem_threshold
 extern mp_size_t                     rootrem_threshold;
@@ -4471,17 +4467,29 @@ extern mp_size_t                     mod_1_2_threshold;
 #define MOD_1_3_THRESHOLD            mod_1_3_threshold
 extern mp_size_t                     mod_1_3_threshold;
 
-#undef  GCD_DC_THRESHOLD
-#define GCD_DC_THRESHOLD             gcd_dc_threshold
-extern mp_size_t                     gcd_dc_threshold;
+#undef	MATRIX22_STRASSEN_THRESHOLD
+#define MATRIX22_STRASSEN_THRESHOLD	matrix22_strassen_threshold
+extern mp_size_t			matrix22_strassen_threshold;
 
-#undef  HGCD_THRESHOLD
-#define HGCD_THRESHOLD             hgcd_threshold
-extern mp_size_t                     hgcd_threshold;
+#undef	HGCD_THRESHOLD
+#define HGCD_THRESHOLD			hgcd_threshold
+extern mp_size_t			hgcd_threshold;
+
+#undef	HGCD_APPR_THRESHOLD
+#define HGCD_APPR_THRESHOLD		hgcd_appr_threshold
+extern mp_size_t			hgcd_appr_threshold;
+
+#undef	HGCD_REDUCE_THRESHOLD
+#define HGCD_REDUCE_THRESHOLD		hgcd_reduce_threshold
+extern mp_size_t			hgcd_reduce_threshold;
+
+#undef	GCD_DC_THRESHOLD
+#define GCD_DC_THRESHOLD		gcd_dc_threshold
+extern mp_size_t			gcd_dc_threshold;
 
 #undef  GCDEXT_DC_THRESHOLD
-#define GCDEXT_DC_THRESHOLD             gcdext_dc_threshold
-extern mp_size_t                     gcdext_dc_threshold;
+#define GCDEXT_DC_THRESHOLD		gcdext_dc_threshold
+extern mp_size_t			gcdext_dc_threshold;
 
 #undef DIVREM_1_NORM_THRESHOLD
 #define DIVREM_1_NORM_THRESHOLD      divrem_1_norm_threshold
@@ -4521,6 +4529,14 @@ extern mp_size_t			set_str_dc_threshold;
 #define SET_STR_PRECOMPUTE_THRESHOLD	set_str_precompute_threshold
 extern mp_size_t			set_str_precompute_threshold;
 
+#undef  FAC_ODD_THRESHOLD
+#define FAC_ODD_THRESHOLD		fac_odd_threshold
+extern  mp_size_t			fac_odd_threshold;
+
+#undef  FAC_DSC_THRESHOLD
+#define FAC_DSC_THRESHOLD		fac_dsc_threshold
+extern  mp_size_t			fac_dsc_threshold;
+
 /* Sizes the tune program tests up to, used in a couple of recompilations. */
 #undef MUL_KARATSUBA_THRESHOLD_LIMIT
 #undef MUL_TOOM3_THRESHOLD_LIMIT
@@ -4540,6 +4556,7 @@ extern mp_size_t			set_str_precompute_threshold;
 #define SQR_TOOM4_THRESHOLD_LIMIT       1000
 #define SQR_TOOM8_THRESHOLD_LIMIT       2000
 #define GET_STR_THRESHOLD_LIMIT         150
+#define FAC_DSC_THRESHOLD_LIMIT         2048
 
 #endif /* TUNE_PROGRAM_BUILD */
 

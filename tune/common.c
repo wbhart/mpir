@@ -1,13 +1,13 @@
 /* Shared speed subroutines.
 
-Copyright 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2008, 2009, 2010 Free Software
-Foundation, Inc.
+Copyright 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2008, 2009, 2010,
+2011, 2012 Free Software Foundation, Inc.
 
 This file is part of the GNU MP Library.
 
 The GNU MP Library is free software; you can redistribute it and/or modify
 it under the terms of the GNU Lesser General Public License as published by
-the Free Software Foundation; either version 2.1 of the License, or (at your
+the Free Software Foundation; either version 3 of the License, or (at your
 option) any later version.
 
 The GNU MP Library is distributed in the hope that it will be useful, but
@@ -16,9 +16,9 @@ or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public
 License for more details.
 
 You should have received a copy of the GNU Lesser General Public License
-along with the GNU MP Library; see the file COPYING.LIB.  If not, write to
-the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
-MA 02110-1301, USA. */
+along with the GNU MP Library.  If not, see http://www.gnu.org/licenses/.  
+
+*/
 
 #define __GMP_NO_ATTRIBUTE_CONST_PURE
 
@@ -1245,68 +1245,129 @@ speed_mpn_mullow_n_basecase (struct speed_params *s)
 }
 
 double
-speed_mpn_gcd (struct speed_params *s)
+speed_mpn_matrix22_mul (struct speed_params *s)
 {
-  SPEED_ROUTINE_MPN_GCD (mpn_gcd);
-}
-double
-speed_mpn_hgcd (struct speed_params *s)
-{
-  mp_ptr wp;
-  mp_size_t hgcd_init_scratch = MPN_HGCD_MATRIX_INIT_ITCH (s->size);
-  mp_size_t hgcd_scratch = mpn_hgcd_itch (s->size);
-  mp_ptr ap;
-  mp_ptr bp;
-  mp_ptr tmp1;
+  /* Speed params only includes 2 inputs, so we have to invent the
+     other 6. */
 
-  struct hgcd_matrix hgcd;
-  int res;
+  mp_ptr a;
+  mp_ptr r;
+  mp_ptr b;
+  mp_ptr tp;
+  mp_size_t itch;
   unsigned i;
   double t;
   TMP_DECL;
 
-  if (s->size < 2)
-    return -1;
-
   TMP_MARK;
+  SPEED_TMP_ALLOC_LIMBS (a, 4 * s->size, s->align_xp);
+  SPEED_TMP_ALLOC_LIMBS (b, 4 * s->size, s->align_yp);
+  SPEED_TMP_ALLOC_LIMBS (r, 8 * s->size + 4, s->align_wp);
 
-  SPEED_TMP_ALLOC_LIMBS (ap, s->size + 1, s->align_xp);
-  SPEED_TMP_ALLOC_LIMBS (bp, s->size + 1, s->align_yp);
+  MPN_COPY (a, s->xp, s->size);
+  mpn_random (a + s->size, 3 * s->size);
+  MPN_COPY (b, s->yp, s->size);
+  mpn_random (b + s->size, 3 * s->size);
 
-  s->xp[s->size - 1] |= 1;
-  s->yp[s->size - 1] |= 1;
+  itch = mpn_matrix22_mul_itch (s->size, s->size);
+  SPEED_TMP_ALLOC_LIMBS (tp, itch, s->align_wp2);
 
-  SPEED_TMP_ALLOC_LIMBS (tmp1, hgcd_init_scratch, s->align_wp);
-  SPEED_TMP_ALLOC_LIMBS (wp, hgcd_scratch, s->align_wp);
+  speed_operand_src (s, a, 4 * s->size);
+  speed_operand_src (s, b, 4 * s->size);
+  speed_operand_dst (s, r, 8 * s->size + 4);
+  speed_operand_dst (s, tp, itch);
+  speed_cache_fill (s);
 
   speed_starttime ();
   i = s->reps;
   do
     {
-      MPN_COPY (ap, s->xp, s->size);
-      MPN_COPY (bp, s->yp, s->size);
-      mpn_hgcd_matrix_init (&hgcd, s->size, tmp1);
-      res = mpn_hgcd (ap, bp, s->size, &hgcd, wp);
+      mp_size_t sz = s->size;
+      MPN_COPY (r + 0 * sz + 0, a + 0 * sz, sz);
+      MPN_COPY (r + 2 * sz + 1, a + 1 * sz, sz);
+      MPN_COPY (r + 4 * sz + 2, a + 2 * sz, sz);
+      MPN_COPY (r + 6 * sz + 3, a + 3 * sz, sz);
+      mpn_matrix22_mul (r, r + 2 * sz + 1, r + 4 * sz + 2, r + 6 * sz + 3, sz,
+			b, b + 1 * sz,     b + 2 * sz,     b + 3 * sz,     sz,
+			tp);
     }
   while (--i != 0);
-  t = speed_endtime ();
+  t = speed_endtime();
   TMP_FREE;
   return t;
 }
 
+double
+speed_mpn_hgcd (struct speed_params *s)
+{
+  SPEED_ROUTINE_MPN_HGCD_CALL (mpn_hgcd, mpn_hgcd_itch);
+}
+
+double
+speed_mpn_hgcd_lehmer (struct speed_params *s)
+{
+  SPEED_ROUTINE_MPN_HGCD_CALL (mpn_hgcd_lehmer, mpn_hgcd_lehmer_itch);
+}
+
+double
+speed_mpn_hgcd_appr (struct speed_params *s)
+{
+  SPEED_ROUTINE_MPN_HGCD_CALL (mpn_hgcd_appr, mpn_hgcd_appr_itch);
+}
+
+double
+speed_mpn_hgcd_appr_lehmer (struct speed_params *s)
+{
+  SPEED_ROUTINE_MPN_HGCD_CALL (mpn_hgcd_appr_lehmer, mpn_hgcd_appr_lehmer_itch);
+}
+
+double
+speed_mpn_hgcd_reduce (struct speed_params *s)
+{
+  SPEED_ROUTINE_MPN_HGCD_REDUCE_CALL (mpn_hgcd_reduce, mpn_hgcd_reduce_itch);
+}
+double
+speed_mpn_hgcd_reduce_1 (struct speed_params *s)
+{
+  SPEED_ROUTINE_MPN_HGCD_REDUCE_CALL (mpn_hgcd_reduce_1, mpn_hgcd_reduce_1_itch);
+}
+double
+speed_mpn_hgcd_reduce_2 (struct speed_params *s)
+{
+  SPEED_ROUTINE_MPN_HGCD_REDUCE_CALL (mpn_hgcd_reduce_2, mpn_hgcd_reduce_2_itch);
+}
+
+double
+speed_mpn_gcd (struct speed_params *s)
+{
+  SPEED_ROUTINE_MPN_GCD (mpn_gcd);
+}
 
 double
 speed_mpn_gcdext (struct speed_params *s)
 {
   SPEED_ROUTINE_MPN_GCDEXT (mpn_gcdext);
 }
-#if 0
 double
-speed_mpn_gcdext_lehmer (struct speed_params *s)
+speed_mpn_gcdext_single (struct speed_params *s)
 {
-  SPEED_ROUTINE_MPN_GCDEXT (__gmpn_gcdext_lehmer);
+  SPEED_ROUTINE_MPN_GCDEXT (mpn_gcdext_single);
 }
-#endif
+double
+speed_mpn_gcdext_double (struct speed_params *s)
+{
+  SPEED_ROUTINE_MPN_GCDEXT (mpn_gcdext_double);
+}
+double
+speed_mpn_gcdext_one_single (struct speed_params *s)
+{
+  SPEED_ROUTINE_MPN_GCDEXT_ONE (mpn_gcdext_one_single);
+}
+double
+speed_mpn_gcdext_one_double (struct speed_params *s)
+{
+  SPEED_ROUTINE_MPN_GCDEXT_ONE (mpn_gcdext_one_double);
+}
 double
 speed_mpn_gcd_1 (struct speed_params *s)
 {
@@ -1343,6 +1404,11 @@ double
 speed_mpn_jacobi_base_3 (struct speed_params *s)
 {
   SPEED_ROUTINE_MPN_JACBASE (mpn_jacobi_base_3);
+}
+double
+speed_mpn_jacobi_base_4 (struct speed_params *s)
+{
+  SPEED_ROUTINE_MPN_JACBASE (mpn_jacobi_base_4);
 }
 
 

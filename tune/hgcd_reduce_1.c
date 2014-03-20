@@ -1,7 +1,7 @@
-/* mpn/generic/gcdext.c forced to one double limb step. */
+/* mpn/generic/hgcd_reduce.c forced to use hgcd. */
 
 /*
-Copyright 2000 Free Software Foundation, Inc.
+Copyright 2010 Free Software Foundation, Inc.
 
 This file is part of the GNU MP Library.
 
@@ -18,12 +18,13 @@ License for more details.
 You should have received a copy of the GNU Lesser General Public License
 along with the GNU MP Library.  If not, see http://www.gnu.org/licenses/.  */
 
-#include "mpir.h"
+#include "gmp.h"
 #include "gmp-impl.h"
 
-#undef GCDEXT_THRESHOLD
-#define GCDEXT_THRESHOLD  0
-#define WANT_GCDEXT_ONE_STEP 1
-#define __gmpn_gcdext  mpn_gcdext_one_double
+#undef  HGCD_REDUCE_THRESHOLD
+#define HGCD_REDUCE_THRESHOLD MP_SIZE_T_MAX
+#define __gmpn_hgcd_reduce  mpn_hgcd_reduce_1
+#define __gmpn_hgcd_reduce_itch  mpn_hgcd_reduce_1_itch
 
-#include "../mpn/generic/gcdext.c"
+
+#include "../mpn/generic/hgcd_reduce.c"
