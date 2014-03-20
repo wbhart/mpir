@@ -178,6 +178,7 @@ double speed_mpn_dc_div_qr_n _PROTO ((struct speed_params *s));
 double speed_mpn_tdiv_q _PROTO ((struct speed_params *s));
 double speed_mpn_tdiv_q1 _PROTO ((struct speed_params *s));
 double speed_mpn_sb_divappr_q _PROTO ((struct speed_params *s));
+double speed_mpn_sb_div_qr _PROTO ((struct speed_params *s));
 double speed_mpn_dc_divappr_q _PROTO ((struct speed_params *s));
 double speed_mpn_dc_bdiv_q _PROTO ((struct speed_params *s));
 double speed_mpn_dc_bdiv_qr_n _PROTO ((struct speed_params *s));
@@ -1632,7 +1633,53 @@ int speed_routine_count_zeros_setup _PROTO ((struct speed_params *s,
     TMP_FREE;								\
     return td;								\
   }
-
+#define SPEED_ROUTINE_MPN_SB_DIV_SMALL_Q(function)				\
+  {									\
+    unsigned  i;							\
+    mp_ptr    a, d, t, q;						\
+    mp_limb_t inv, inv1;                                                \
+    mp_size_t size1;   \
+    double    td;       						\
+    TMP_DECL;								\
+									\
+    size1 = 2 * s->size;				\
+	 SPEED_RESTRICT_COND (s->size >= 2);					\
+	 SPEED_RESTRICT_COND (size1 >= s->size);					\
+									\
+    TMP_MARK;								\
+    SPEED_TMP_ALLOC_LIMBS (a, size1, s->align_xp);			\
+    SPEED_TMP_ALLOC_LIMBS (t, size1, s->align_wp2);                 \
+    SPEED_TMP_ALLOC_LIMBS (d, s->size,   s->align_yp);			\
+    SPEED_TMP_ALLOC_LIMBS (q, size1 - s->size + 1, s->align_wp);			\
+    						         		\
+    MPN_COPY (a, s->xp, s->size);					\
+    MPN_COPY (a+size1-s->size, s->xp, s->size);				\
+									\
+    MPN_COPY (d, s->yp, s->size);					\
+									\
+    /* normalize the data */						\
+    d[s->size-1] |= GMP_NUMB_HIGHBIT;					\
+    a[size1-1] = d[s->size-1] - 1;					\
+									\
+    speed_operand_src (s, a, size1);				\
+    speed_operand_dst (s, t, size1);                                \
+    speed_operand_src (s, d, s->size);					\
+    speed_operand_dst (s, q, size1-s->size+1);				\
+    speed_cache_fill (s);						\
+	                                                                \
+    mpir_invert_pi2(inv, inv1, d[s->size-1], d[s->size-2]);             \
+								        \
+    speed_starttime ();							\
+    i = s->reps;							\
+    do	{								\
+      MPN_COPY (t, a, size1);					\
+      function(q, t, size1, d, s->size, inv, inv1);		        \
+    } while (--i != 0);							\
+    td = speed_endtime ();						\
+									\
+    TMP_FREE;								\
+    return td;								\
+  }
 #define SPEED_ROUTINE_MPN_INV_DIV(function)				\
   {									\
     unsigned  i;							\

@@ -24,15 +24,7 @@ Boston, MA 02110-1301, USA.
 #include "gmp-impl.h"
 #include "longlong.h"
 
-/* 
-   Needs tuning
-            k           0  1  2     3    4    5     6     7     8      9     10 */
-static mp_size_t tab[]={0, 0, 0, 2632, 304, 448, 1024, 2304, 6400, 11264, 45056, 
-/*                      11      12       13       14        15                  */
-                        114688, 327680, 1310720, 3145728, 12582912 };
-
-/* from K8 old mul_fft_table 560 1184 1856 3840
-   these thresholds could do with tuning, and extending */
+static mp_size_t mulmod_2expp1_table_n[FFT_N_NUM] = MULMOD_TAB;
 
 /*
    ret + (xp, n) = (yp, n)*(zp, n) % 2^b + 1  
@@ -51,6 +43,8 @@ mpn_mulmod_2expp1_internal (mp_ptr xp, mp_srcptr yp, mp_srcptr zp,
   n = BITS_TO_LIMBS (b);
   k = GMP_NUMB_BITS * n - b;
 
+  TMP_DECL;
+
   ASSERT(b > 0);
   ASSERT(n > 0);
   ASSERT_MPN(yp, n);
@@ -64,24 +58,38 @@ mpn_mulmod_2expp1_internal (mp_ptr xp, mp_srcptr yp, mp_srcptr zp,
   ASSERT(k == 0 || yp[n - 1] >> (GMP_NUMB_BITS - k) == 0);
   ASSERT(k == 0 || zp[n - 1] >> (GMP_NUMB_BITS - k) == 0);
 
-#if 0 && GMP_NAIL_BITS == 0
-/* 
-   mpn_mul_fft doesn't do nails
-   fft has changed can't use this like this, but can use it HOW?
-*/
-  if (k == 0 && n % 8 == 0)
-    {
-      count_trailing_zeros (c, n);
-      
-      if (c > 15)
-	c = 15;
+  if (k == 0 && n > FFT_MULMOD_2EXPP1_CUTOFF && n == mpir_fft_adjust_limbs(n))
+  {
+      mp_bitcnt_t depth1, depth = 1;
+      mp_size_t w1, off;
+      mp_ptr tx, ty, tz;
 
-      for (c = c; c > 2; c--)
+      TMP_MARK;
 
-	if (n >= tab[c])
-	  return mpn_mul_fft(xp, n, yp, n, zp, n, c);
-    }
-#endif
+      tx = TMP_BALLOC_LIMBS(3*n + 3);
+      ty = tx + n + 1;
+      tz = ty + n + 1;
+
+      MPN_COPY(ty, yp, n);
+      MPN_COPY(tz, zp, n);
+      ty[n] = 0;
+      tz[n] = 0;
+
+      while ((((mp_limb_t)1)<<depth) < b) depth++;
+   
+      if (depth < 12) off = mulmod_2expp1_table_n[0];
+      else off = mulmod_2expp1_table_n[MIN(depth, FFT_N_NUM + 11) - 12];
+      depth1 = depth/2 - off;
+   
+      w1 = b/(((mp_limb_t)1)<<(2*depth1));
+
+      mpir_fft_mulmod_2expp1(tx, ty, tz, n, depth1, w1);
+
+      MPN_COPY(xp, tx, n);
+      TMP_FREE;
+
+	   return tx[n];
+  }
 
   if (yp == zp)
      mpn_sqr(tp, yp, n);
