@@ -224,6 +224,58 @@ namespace MPIR
         expr->AssignTo(this);
     }
 
+    #pragma region expression exceptions
+
+    void MpirDivideExpression::custom_mpz_div(mpz_ptr q, mpz_srcptr n, mpz_srcptr d)
+    {
+        switch((rounding == RoundingModes::Default) ? MpirSettings::RoundingMode : rounding)
+        {
+            case RoundingModes::Floor:
+                (remainder == nullptr)
+                    ? mpz_fdiv_q(q, n, d)
+                    : mpz_fdiv_qr(q, remainder->_value, n, d);
+                break;
+
+            case RoundingModes::Ceiling:
+                (remainder == nullptr)
+                    ? mpz_cdiv_q(q, n, d)
+                    : mpz_cdiv_qr(q, remainder->_value, n, d);
+                break;
+
+            default:
+                (remainder == nullptr)
+                    ? mpz_tdiv_q(q, n, d)
+                    : mpz_tdiv_qr(q, remainder->_value, n, d);
+                break;
+        }
+    };
+
+    void MpirModExpression::custom_mpz_mod(mpz_ptr r, mpz_srcptr n, mpz_srcptr d)
+    {
+        switch((rounding == RoundingModes::Default) ? MpirSettings::RoundingMode : rounding)
+        {
+            case RoundingModes::Floor:
+                (quotient == nullptr)
+                    ? mpz_fdiv_r(r, n, d)
+                    : mpz_fdiv_qr(quotient->_value, r, n, d);
+                break;
+
+            case RoundingModes::Ceiling:
+                (quotient == nullptr)
+                    ? mpz_cdiv_r(r, n, d)
+                    : mpz_cdiv_qr(quotient->_value, r, n, d);
+                break;
+
+            default:
+                (quotient == nullptr)
+                    ? mpz_tdiv_r(r, n, d)
+                    : mpz_tdiv_qr(quotient->_value, r, n, d);
+                break;
+        }
+    };
+
+    #pragma endregion
+
     #pragma region Arithmetic
 
     DEFINE_BINARY_ASSIGNMENT_REF_REF(Add, Int, mpz_add)
@@ -239,6 +291,9 @@ namespace MPIR
     DEFINE_BINARY_ASSIGNMENT_REF_REF(Multiply, Int, mpz_mul)
     DEFINE_BINARY_ASSIGNMENT_REF_VAL(Multiply, Int, Ui, mpz_mul_ui)
     DEFINE_BINARY_ASSIGNMENT_REF_VAL(Multiply, Int, Si, mpz_mul_si)
+
+    DEFINE_BINARY_ASSIGNMENT_REF_REF(Divide, Int, custom_mpz_div)
+    DEFINE_BINARY_ASSIGNMENT_REF_REF(Mod, Int, custom_mpz_mod)
 
     DEFINE_BINARY_ASSIGNMENT_REF_VAL(ShiftLeft, Int, Bits, mpz_mul_2exp)
 

@@ -23,7 +23,7 @@ using namespace System;
 
 //defines a unary expression class
 #define DEFINE_UNARY_EXPRESSION(name, type)                      \
-public ref class Mpir##name##Expression : MpirExpression         \
+public ref class Mpir##name##Expression : BASE_EXPRESSION        \
 {                                                                \
     internal:                                                    \
         type Operand;                                            \
@@ -38,7 +38,7 @@ public ref class Mpir##name##Expression : MpirExpression         \
 
 //defines a binary expression class
 #define DEFINE_BINARY_EXPRESSION(name, leftType, rightType)      \
-public ref class Mpir##name##Expression : MpirExpression         \
+public ref class Mpir##name##Expression : BASE_EXPRESSION        \
 {                                                                \
     internal:                                                    \
         leftType Left;                                           \
@@ -103,23 +103,23 @@ public ref class Mpir##name##Expression : MpirExpression         \
 #define MAKE_UNARY_OPERATOR_Expr(action, op, result, mpType)  MAKE_UNARY_OPERATOR_##action(op, result##Expr, Expr)
 
 #define MAKE_UNARY_OPERATOR_MAKE(op, result, type)   \
-    static MpirExpression^ operator op(TYPE_FOR_ABBR_##type a) { return gcnew Mpir##result##Expression(a); }
+    static BASE_EXPRESSION^ operator op(TYPE_FOR_ABBR_##type a) { return gcnew Mpir##result##Expression(a); }
 
 #define MAKE_UNARY_OPERATOR_DECLARE(op, result, type)     \
-    static MpirExpression^ operator op(TYPE_FOR_ABBR_##type a);
+    static BASE_EXPRESSION^ operator op(TYPE_FOR_ABBR_##type a);
 
 #define MAKE_UNARY_OPERATOR_DEFINE(op, result, type)      \
-    MpirExpression^ MpirExpression::operator op(TYPE_FOR_ABBR_##type a) { return gcnew Mpir##result##Expression(a); }
+    BASE_EXPRESSION^ MpirExpression::operator op(TYPE_FOR_ABBR_##type a) { return gcnew Mpir##result##Expression(a); }
 
 //binary operators
 #define MAKE_BINARY_OPERATOR_MAKE(op, result, leftType, rightType, left, right)       \
-    static MpirExpression^ operator op(TYPE_FOR_ABBR_##leftType a, TYPE_FOR_ABBR_##rightType b) { return gcnew Mpir##result##Expression(left, right); }
+    static BASE_EXPRESSION^ operator op(TYPE_FOR_ABBR_##leftType a, TYPE_FOR_ABBR_##rightType b) { return gcnew Mpir##result##Expression(left, right); }
 
 #define MAKE_BINARY_OPERATOR_DECLARE(op, result, leftType, rightType, left, right)     \
-    static MpirExpression^ operator op(TYPE_FOR_ABBR_##leftType a, TYPE_FOR_ABBR_##rightType b);
+    static BASE_EXPRESSION^ operator op(TYPE_FOR_ABBR_##leftType a, TYPE_FOR_ABBR_##rightType b);
 
 #define MAKE_BINARY_OPERATOR_DEFINE(op, result, leftType, rightType, left, right)      \
-    MpirExpression^ MpirExpression::operator op(TYPE_FOR_ABBR_##leftType a, TYPE_FOR_ABBR_##rightType b) { return gcnew Mpir##result##Expression(left, right); }
+    BASE_EXPRESSION^ MpirExpression::operator op(TYPE_FOR_ABBR_##leftType a, TYPE_FOR_ABBR_##rightType b) { return gcnew Mpir##result##Expression(left, right); }
 
 #define MAKE_BINARY_OPERATOR_STANDARD(action, kind, op, result, leftType, rightType)   \
     MAKE_BINARY_OPERATOR_STANDARD_##kind(action, op, result, leftType, rightType)
@@ -189,9 +189,19 @@ public ref class Mpir##name##Expression : MpirExpression         \
                                                                               \
     MAKE_VOID_FUNCTION(action, kind, Abs, Int)                                \
 
+#define DEFINE_DIV_OPERATIONS(action, kind)                                   \
+    MAKE_BINARY_OPERATOR_STANDARD  (action, kind, /, Divide, Int, Int)        \
+    /*MAKE_LIMB_OPERATOR_RLIMB       (action, kind, /, Divide, Int, Ui)    */     \
+
+#define DEFINE_MOD_OPERATIONS(action, kind)                                   \
+    MAKE_BINARY_OPERATOR_STANDARD  (action, kind, %, Mod, Int, Int)           \
+    /*MAKE_LIMB_OPERATOR_RLIMB       (action, kind, %, Mod, Int, Ui)       */     \
+
 namespace MPIR
 {
     ref class HugeInt;
+    ref class MpirDivideExpression;
+    ref class MpirModExpression;
 
     public ref class MpirExpression abstract
     {
@@ -199,9 +209,79 @@ namespace MPIR
             virtual void AssignTo(HugeInt^ destination) abstract;
 
         public:
+#define BASE_EXPRESSION MpirExpression
             DEFINE_OPERATIONS(DECLARE, Expr)
+#define BASE_EXPRESSION MpirDivideExpression
+            DEFINE_DIV_OPERATIONS(DECLARE, Expr)
+#define BASE_EXPRESSION MpirModExpression
+            DEFINE_MOD_OPERATIONS(DECLARE, Expr)
     };
 
+    public enum class RoundingModes
+    {
+        Default,
+        Truncate,
+        Ceiling,
+        Floor,
+    };
+
+    static public ref class MpirSettings
+    {
+        public:
+            static property RoundingModes RoundingMode;
+
+            static MpirSettings()
+            {
+                RoundingMode = RoundingModes::Truncate;
+            }
+    };
+
+    public ref class MpirDivModExpression abstract : MpirExpression 
+    {
+        protected:
+            RoundingModes rounding;
+
+        public:
+            MpirExpression^ Rounding(RoundingModes mode)
+            {
+                rounding = mode;
+                return this;
+            }
+    };
+
+    public ref class MpirDivideExpression abstract : MpirDivModExpression 
+    {
+        private:
+            HugeInt^ remainder;
+
+        protected:
+            void custom_mpz_div(mpz_ptr q, mpz_srcptr n, mpz_srcptr d);
+
+        public:
+            MpirDivModExpression^ SavingRemainderTo(HugeInt^ destination)
+            {
+                remainder = destination;
+                return this;
+            }
+    };
+
+    public ref class MpirModExpression abstract : MpirDivModExpression 
+    {
+        private:
+            HugeInt^ quotient;
+        
+        protected:
+            void custom_mpz_mod(mpz_ptr r, mpz_srcptr n, mpz_srcptr d);
+
+        public:
+            MpirDivModExpression^ SavingQuotientTo(HugeInt^ destination)
+            {
+                quotient = destination;
+                return this;
+            }
+    };
+
+#define BASE_EXPRESSION MpirExpression
     DEFINE_BINARY_EXPRESSION_WITH_TWO(Add, Int, HugeInt^)
     DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT(Add, Int, Ui, HugeInt^, mpir_ui)
     DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT(Add, Int, Si, HugeInt^, mpir_si)
@@ -219,19 +299,31 @@ namespace MPIR
     DEFINE_UNARY_EXPRESSION_WITH_ONE(Negate, Int, HugeInt^)
     DEFINE_UNARY_EXPRESSION_WITH_ONE(Abs, Int, HugeInt^)
 
-    DEFINE_OPERATIONS(DEFINE, Expr)
+#define BASE_EXPRESSION MpirDivideExpression
+    DEFINE_BINARY_EXPRESSION_WITH_TWO(Divide, Int, HugeInt^)
+    //DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT(Divide, Int, Ui, HugeInt^, mpir_ui)
+
+#define BASE_EXPRESSION MpirModExpression
+    DEFINE_BINARY_EXPRESSION_WITH_TWO(Mod, Int, HugeInt^)
+
+#define BASE_EXPRESSION MpirExpression
+            DEFINE_OPERATIONS(DEFINE, Expr)
+#define BASE_EXPRESSION MpirDivideExpression
+            DEFINE_DIV_OPERATIONS(DEFINE, Expr)
+#define BASE_EXPRESSION MpirModExpression
+            DEFINE_MOD_OPERATIONS(DEFINE, Expr)
 
     public ref class HugeInt sealed : MpirExpression
     {
         internal:
             //fields
-            __mpz_struct* _value;
+            mpz_ptr _value;
 
         private:
             //construction
             void AllocateStruct()
             {
-                _value = (__mpz_struct*)CustomAllocate(sizeof(__mpz_struct));
+                _value = (mpz_ptr)CustomAllocate(sizeof(__mpz_struct));
             }
             void DeallocateStruct()
             {
@@ -272,6 +364,11 @@ namespace MPIR
             }
 
             //arithmetic
+#define BASE_EXPRESSION MpirExpression
             DEFINE_OPERATIONS(MAKE, Int)
+#define BASE_EXPRESSION MpirDivideExpression
+            DEFINE_DIV_OPERATIONS(MAKE, Int)
+#define BASE_EXPRESSION MpirModExpression
+            DEFINE_MOD_OPERATIONS(MAKE, Int)
     };
 };
