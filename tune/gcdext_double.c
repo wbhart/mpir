@@ -1,4 +1,4 @@
-/* mpn/generic/gcdext.c forced to one double limb step. */
+/* mpn/generic/gcdext.c forced to use double limb calculations. */
 
 /*
 Copyright 2000 Free Software Foundation, Inc.
@@ -23,7 +23,6 @@ along with the GNU MP Library.  If not, see http://www.gnu.org/licenses/.  */
 
 #undef GCDEXT_THRESHOLD
 #define GCDEXT_THRESHOLD  0
-#define WANT_GCDEXT_ONE_STEP 1
-#define __gmpn_gcdext  mpn_gcdext_one_double
+#define __gmpn_gcdext  mpn_gcdext_double
 
 #include "../mpn/generic/gcdext.c"
