@@ -20,21 +20,23 @@ along with the MPIR Library.  If not, see http://www.gnu.org/licenses/.
 #include "Stdafx.h"
 #include "Common.h"
 
-#define DEFINE_ASSIGNMENT_PROLOG(name) void Mpir##name##Expression::AssignTo(HugeInt^ destination)
+#define DEFINE_ASSIGNMENT_PROLOG(name) void Mpir##name##Expression::AssignTo(mpz_ptr destination)
 
 #define DEFINE_UNARY_ASSIGNMENT(name, operation, operand)     \
     DEFINE_ASSIGNMENT_PROLOG(name)                            \
-{                                                             \
-    operation(destination->_value, operand);                  \
-}
+    {                                                         \
+        operation(destination, operand);                      \
+    }
 
 #define DEFINE_UNARY_ASSIGNMENT_EVAL(name, operation)         \
     DEFINE_ASSIGNMENT_PROLOG(name)                            \
-{                                                             \
-    HugeInt temp;                                             \
-    Operand->AssignTo(%temp);                                 \
-    operation(destination->_value, temp._value);              \
-}
+    {                                                         \
+        mpz_t temp;                                           \
+        mpz_init(temp);                                       \
+        Operand->AssignTo(temp);                              \
+        operation(destination, temp);                         \
+        mpz_clear(temp);                                      \
+    }
 
 #define DEFINE_UNARY_ASSIGNMENT_REF(name, typeAbbr, operation)                  \
     DEFINE_UNARY_ASSIGNMENT(name##typeAbbr, operation, Operand->_value)         \
@@ -42,35 +44,42 @@ along with the MPIR Library.  If not, see http://www.gnu.org/licenses/.
 
 #define DEFINE_BINARY_ASSIGNMENT(name, operation, left, right)    \
     DEFINE_ASSIGNMENT_PROLOG(name)                                \
-{                                                                 \
-    operation(destination->_value, left, right);                  \
-}
+    {                                                             \
+        operation(destination, left, right);                      \
+    }
 
 #define DEFINE_BINARY_ASSIGNMENT_EVAL_LEFT(name, operation, right)    \
     DEFINE_ASSIGNMENT_PROLOG(name)                                    \
-{                                                                     \
-    HugeInt temp;                                                     \
-    Left->AssignTo(%temp);                                            \
-    operation(destination->_value, temp._value, right);               \
-}
+    {                                                                 \
+        mpz_t temp;                                                   \
+        mpz_init(temp);                                               \
+        Left->AssignTo(temp);                                         \
+        operation(destination, temp, right);                          \
+        mpz_clear(temp);                                              \
+    }
 
 #define DEFINE_BINARY_ASSIGNMENT_EVAL_RIGHT(name, operation, left)    \
     DEFINE_ASSIGNMENT_PROLOG(name)                                    \
-{                                                                     \
-    HugeInt temp;                                                     \
-    Right->AssignTo(%temp);                                           \
-    operation(destination->_value, left, temp._value);                \
-}
+    {                                                                 \
+        mpz_t temp;                                                   \
+        mpz_init(temp);                                               \
+        Right->AssignTo(temp);                                        \
+        operation(destination, left, temp);                           \
+        mpz_clear(temp);                                              \
+    }
 
 #define DEFINE_BINARY_ASSIGNMENT_EVAL_BOTH(name, operation)           \
     DEFINE_ASSIGNMENT_PROLOG(name)                                    \
-{                                                                     \
-    HugeInt temp1;                                                    \
-    HugeInt temp2;                                                    \
-    Left->AssignTo(%temp1);                                           \
-    Right->AssignTo(%temp2);                                          \
-    operation(destination->_value, temp1._value, temp2._value);       \
-}
+    {                                                                 \
+        mpz_t temp1, temp2;                                           \
+        mpz_init(temp1);                                              \
+        mpz_init(temp2);                                              \
+        Left->AssignTo(temp1);                                        \
+        Right->AssignTo(temp2);                                       \
+        operation(destination, temp1, temp2);                         \
+        mpz_clear(temp1);                                             \
+        mpz_clear(temp2);                                             \
+    }
 
 #define DEFINE_BINARY_ASSIGNMENT_REF_REF(name, typeAbbr, operation)                                     \
     DEFINE_BINARY_ASSIGNMENT(name##typeAbbr##typeAbbr, operation, Left->_value, Right->_value)          \
@@ -88,45 +97,49 @@ along with the MPIR Library.  If not, see http://www.gnu.org/licenses/.
 
 #define DEFINE_BINARY_ASSIGNMENT_REF_SI(name, leftTypeAbbr, rightTypeAbbr, positiveOp, negativeOp)      \
     DEFINE_ASSIGNMENT_PROLOG(name##leftTypeAbbr##rightTypeAbbr)                                         \
-{                                                                                                       \
-    if (Right >= 0)                                                                                     \
-        positiveOp(destination->_value, Left->_value, static_cast<mpir_ui>(Right));                     \
-    else                                                                                                \
-        negativeOp(destination->_value, Left->_value, -static_cast<mpir_ui>(Right));                    \
-}                                                                                                       \
+    {                                                                                                   \
+        if (Right >= 0)                                                                                 \
+            positiveOp(destination, Left->_value, static_cast<mpir_ui>(Right));                         \
+        else                                                                                            \
+            negativeOp(destination, Left->_value, -static_cast<mpir_ui>(Right));                        \
+    }                                                                                                   \
     DEFINE_ASSIGNMENT_PROLOG(name##Expr##rightTypeAbbr)                                                 \
-{                                                                                                       \
-    HugeInt temp;                                                                                       \
-    Left->AssignTo(%temp);                                                                              \
-    if (Right >= 0)                                                                                     \
-        positiveOp(destination->_value, temp._value, static_cast<mpir_ui>(Right));                      \
-    else                                                                                                \
-        negativeOp(destination->_value, temp._value, -static_cast<mpir_ui>(Right));                     \
-}
+    {                                                                                                   \
+        mpz_t temp;                                                                                     \
+        mpz_init(temp);                                                                                 \
+        Left->AssignTo(temp);                                                                           \
+        if (Right >= 0)                                                                                 \
+            positiveOp(destination, temp, static_cast<mpir_ui>(Right));                                 \
+        else                                                                                            \
+            negativeOp(destination, temp, -static_cast<mpir_ui>(Right));                                \
+        mpz_clear(temp);                                                                                \
+    }
 
-#define DEFINE_BINARY_ASSIGNMENT_SI_REF(name, leftTypeAbbr, rightTypeAbbr, positiveOp, negativeOp1, negativeOp2)    \
-    DEFINE_ASSIGNMENT_PROLOG(name##leftTypeAbbr##rightTypeAbbr)                                                     \
-{                                                                                                                   \
-    if (Left >= 0)                                                                                                  \
-        positiveOp(destination->_value, static_cast<mpir_ui>(Left), Right->_value);                                 \
-    else                                                                                                            \
-    {                                                                                                               \
-        negativeOp1(destination->_value, Right->_value, -static_cast<mpir_ui>(Left));                               \
-        negativeOp2(destination->_value, destination->_value);                                                      \
-    }                                                                                                               \
-}                                                                                                                   \
-    DEFINE_ASSIGNMENT_PROLOG(name##leftTypeAbbr##Expr)                                                              \
-{                                                                                                                   \
-    HugeInt temp;                                                                                                   \
-    Right->AssignTo(%temp);                                                                                         \
-    if (Left >= 0)                                                                                                  \
-        positiveOp(destination->_value, static_cast<mpir_ui>(Left), temp._value);                                   \
-    else                                                                                                            \
-    {                                                                                                               \
-        negativeOp1(destination->_value, temp._value, -static_cast<mpir_ui>(Left));                                 \
-        negativeOp2(destination->_value, destination->_value);                                                      \
-    }                                                                                                               \
-}                                                                                     
+#define DEFINE_BINARY_ASSIGNMENT_SI_REF(name, leftTypeAbbr, rightTypeAbbr, positiveOp, negativeOp1, negativeOp2)   \
+    DEFINE_ASSIGNMENT_PROLOG(name##leftTypeAbbr##rightTypeAbbr)                                                    \
+    {                                                                                                              \
+        if (Left >= 0)                                                                                             \
+            positiveOp(destination, static_cast<mpir_ui>(Left), Right->_value);                                    \
+        else                                                                                                       \
+        {                                                                                                          \
+            negativeOp1(destination, Right->_value, -static_cast<mpir_ui>(Left));                                  \
+            negativeOp2(destination, destination);                                                                 \
+        }                                                                                                          \
+    }                                                                                                              \
+    DEFINE_ASSIGNMENT_PROLOG(name##leftTypeAbbr##Expr)                                                             \
+    {                                                                                                              \
+        mpz_t temp;                                                                                                \
+        mpz_init(temp);                                                                                            \
+        Right->AssignTo(temp);                                                                                     \
+        if (Left >= 0)                                                                                             \
+            positiveOp(destination, static_cast<mpir_ui>(Left), temp);                                             \
+        else                                                                                                       \
+        {                                                                                                          \
+            negativeOp1(destination, temp, -static_cast<mpir_ui>(Left));                                           \
+            negativeOp2(destination, destination);                                                                 \
+        }                                                                                                          \
+        mpz_clear(temp);                                                                                           \
+    }                                                                                     
 
 using namespace System::Runtime::InteropServices;
 
@@ -221,7 +234,7 @@ namespace MPIR
 
     void HugeInt::Value::set(MpirExpression^ expr)
     {
-        expr->AssignTo(this);
+        expr->AssignTo(_value);
     }
 
     #pragma region expression exceptions

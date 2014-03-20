@@ -27,7 +27,7 @@ public ref class Mpir##name##Expression : BASE_EXPRESSION        \
 {                                                                \
     internal:                                                    \
         type Operand;                                            \
-        virtual void AssignTo(HugeInt^ destination) override;    \
+        virtual void AssignTo(mpz_ptr destination) override;     \
                                                                  \
     public:                                                      \
         Mpir##name##Expression(type operand)                     \
@@ -43,7 +43,7 @@ public ref class Mpir##name##Expression : BASE_EXPRESSION        \
     internal:                                                    \
         leftType Left;                                           \
         rightType Right;                                         \
-        virtual void AssignTo(HugeInt^ destination) override;    \
+        virtual void AssignTo(mpz_ptr destination) override;     \
                                                                  \
     public:                                                      \
         Mpir##name##Expression(leftType left, rightType right)   \
@@ -206,7 +206,7 @@ namespace MPIR
     public ref class MpirExpression abstract
     {
         internal:
-            virtual void AssignTo(HugeInt^ destination) abstract;
+            virtual void AssignTo(mpz_ptr destination) abstract;
 
         public:
 #define BASE_EXPRESSION MpirExpression
@@ -334,6 +334,13 @@ namespace MPIR
             //HugeInt(mpz_srcptr src);
             void FromString(String^ value, int base);
 
+        internal:
+            virtual void AssignTo(mpz_ptr destination) override
+            {
+                if(destination != _value)
+                    mpz_set(destination, _value);
+            }
+
         public:
             //construction
             HugeInt();
@@ -355,12 +362,6 @@ namespace MPIR
             property MpirExpression^ Value
             {
                 void set(MpirExpression^ expr);
-            }
-
-            virtual void AssignTo(HugeInt^ destination) override
-            {
-                if(this != destination)
-                    mpz_set(destination->_value, _value);
             }
 
             //arithmetic
