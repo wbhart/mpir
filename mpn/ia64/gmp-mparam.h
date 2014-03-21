@@ -82,6 +82,6 @@
 
 #define FFT_N_NUM 43
 
-#define FFT_MULMOD_2EXPP1_CUTOFF 128
+#define FFT_MULMOD_2EXPP1_CUTOFF 256 
 
 /* Tuneup never completed due to unusual tuning */
