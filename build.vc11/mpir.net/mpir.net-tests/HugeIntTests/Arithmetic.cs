@@ -25,6 +25,8 @@ namespace MPIR.Tests.HugeIntTests
     [TestClass]
     public class Arithmetic
     {
+        #region Add
+
         [TestMethod]
         public void AddHugeInt()
         {
@@ -91,7 +93,23 @@ namespace MPIR.Tests.HugeIntTests
                 Assert.AreEqual("222509832503450298335806463703439069912", a.ToString());
             }
         }
-       
+
+        [TestMethod]
+        public void AddExpressionHugeInt()
+        {
+            using (var a = new HugeInt("222509832503450298345029835740293845720"))
+            using (var b = new HugeInt("222987435987982730594288574029879874539"))
+            using (var c = new HugeInt())
+            {
+                c.Value = 1 + (a + b);
+                Assert.AreEqual("445497268491433028939318409770173720260", c.ToString());
+            }
+        }
+
+        #endregion
+
+        #region Subtract
+
         [TestMethod]
         public void SubtractHugeInt()
         {
@@ -169,6 +187,10 @@ namespace MPIR.Tests.HugeIntTests
             }
         }
 
+        #endregion
+
+        #region Multiply
+
         [TestMethod]
         public void MultiplyByHugeInt()
         {
@@ -223,6 +245,10 @@ namespace MPIR.Tests.HugeIntTests
                 Assert.AreEqual("-666878558995492522701808125338061156491747469626478990", a.ToString());
             }
         }
+
+        #endregion
+
+        #region Add Product
 
         [TestMethod]
         public void AddProductHugeInt()
@@ -345,6 +371,10 @@ namespace MPIR.Tests.HugeIntTests
             }
         }
 
+        #endregion
+
+        #region Subtract Product
+
         [TestMethod]
         public void SubtractProductHugeInt()
         {
@@ -409,6 +439,10 @@ namespace MPIR.Tests.HugeIntTests
             }
         }
 
+        #endregion
+
+        #region Shift Left
+
         [TestMethod]
         public void ShiftLeft()
         {
@@ -419,6 +453,10 @@ namespace MPIR.Tests.HugeIntTests
                 Assert.AreEqual("-12345700987ABCDEF2345CBDEFA2452309480000000000", a.ToString(-16));
             }
         }
+
+        #endregion
+
+        #region Negate
 
         [TestMethod]
         public void Negate()
@@ -432,6 +470,10 @@ namespace MPIR.Tests.HugeIntTests
             }
         }
 
+        #endregion
+
+        #region Abs
+
         [TestMethod]
         public void MakeAbsolute()
         {
@@ -444,17 +486,11 @@ namespace MPIR.Tests.HugeIntTests
             }
         }
 
-        [TestMethod]
-        public void AddExpressionHugeInt()
-        {
-            using (var a = new HugeInt("222509832503450298345029835740293845720"))
-            using (var b = new HugeInt("222987435987982730594288574029879874539"))
-            using (var c = new HugeInt())
-            {
-                c.Value = 1 + (a + b);
-                Assert.AreEqual("445497268491433028939318409770173720260", c.ToString());
-            }
-        }
+        #endregion
+
+        #region Divide
+
+        #region Int
 
         [TestMethod]
         public void DivideHugeInt()
@@ -533,82 +569,9 @@ namespace MPIR.Tests.HugeIntTests
             }
         }
 
-        [TestMethod]
-        public void ModHugeInt()
-        {
-            using (var a = new HugeInt("234052834524092854092874502983745029345723098457209305983434345"))
-            using (var b = new HugeInt("394580293847502987609283945873594873409587"))
-            {
-                a.Value = a % b;
-                Assert.AreEqual("114368714235760586972822754176083531704767", a.ToString());
-            }
-        }
+        #endregion
 
-        [TestMethod]
-        public void ModHugeIntCeiling()
-        {
-            using (var a = new HugeInt("234052834524092854092874502983745029345723098457209305983434345"))
-            using (var b = new HugeInt("394580293847502987609283945873594873409587"))
-            {
-                a.Value = (a % b).Rounding(RoundingModes.Ceiling);
-                Assert.AreEqual("-280211579611742400636461191697511341704820", a.ToString());
-            }
-        }
-
-        [TestMethod]
-        public void ModHugeIntNegativeCeiling()
-        {
-            using (var a = new HugeInt("-234052834524092854092874502983745029345723098457209305983434345"))
-            using (var b = new HugeInt("394580293847502987609283945873594873409587"))
-            {
-                a.Value = (a % b).Rounding(RoundingModes.Ceiling);
-                Assert.AreEqual("-114368714235760586972822754176083531704767", a.ToString());
-            }
-        }
-
-        [TestMethod]
-        public void ModHugeIntFloor()
-        {
-            using (var a = new HugeInt("234052834524092854092874502983745029345723098457209305983434345"))
-            using (var b = new HugeInt("394580293847502987609283945873594873409587"))
-            {
-                a.Value = (a % b).Rounding(RoundingModes.Floor);
-                Assert.AreEqual("114368714235760586972822754176083531704767", a.ToString());
-            }
-        }
-
-        [TestMethod]
-        public void ModHugeIntNegativeFloor()
-        {
-            using (var a = new HugeInt("-234052834524092854092874502983745029345723098457209305983434345"))
-            using (var b = new HugeInt("394580293847502987609283945873594873409587"))
-            {
-                a.Value = (a % b).Rounding(RoundingModes.Floor);
-                Assert.AreEqual("280211579611742400636461191697511341704820", a.ToString());
-            }
-        }
-
-        [TestMethod]
-        public void ModHugeIntTruncate()
-        {
-            using (var a = new HugeInt("234052834524092854092874502983745029345723098457209305983434345"))
-            using (var b = new HugeInt("394580293847502987609283945873594873409587"))
-            {
-                a.Value = (a % b).Rounding(RoundingModes.Truncate);
-                Assert.AreEqual("114368714235760586972822754176083531704767", a.ToString());
-            }
-        }
-
-        [TestMethod]
-        public void ModHugeIntNegativeTruncate()
-        {
-            using (var a = new HugeInt("-234052834524092854092874502983745029345723098457209305983434345"))
-            using (var b = new HugeInt("394580293847502987609283945873594873409587"))
-            {
-                a.Value = (a % b).Rounding(RoundingModes.Truncate);
-                Assert.AreEqual("-114368714235760586972822754176083531704767", a.ToString());
-            }
-        }
+        #region Int with mod
 
         [TestMethod]
         public void DivideHugeIntCeilingWithMod()
@@ -688,6 +651,95 @@ namespace MPIR.Tests.HugeIntTests
             }
         }
             
+        #endregion
+
+        #endregion
+
+        #region Mod
+
+        #region Int
+
+        [TestMethod]
+        public void ModHugeInt()
+        {
+            using (var a = new HugeInt("234052834524092854092874502983745029345723098457209305983434345"))
+            using (var b = new HugeInt("394580293847502987609283945873594873409587"))
+            {
+                a.Value = a % b;
+                Assert.AreEqual("114368714235760586972822754176083531704767", a.ToString());
+            }
+        }
+
+        [TestMethod]
+        public void ModHugeIntCeiling()
+        {
+            using (var a = new HugeInt("234052834524092854092874502983745029345723098457209305983434345"))
+            using (var b = new HugeInt("394580293847502987609283945873594873409587"))
+            {
+                a.Value = (a % b).Rounding(RoundingModes.Ceiling);
+                Assert.AreEqual("-280211579611742400636461191697511341704820", a.ToString());
+            }
+        }
+
+        [TestMethod]
+        public void ModHugeIntNegativeCeiling()
+        {
+            using (var a = new HugeInt("-234052834524092854092874502983745029345723098457209305983434345"))
+            using (var b = new HugeInt("394580293847502987609283945873594873409587"))
+            {
+                a.Value = (a % b).Rounding(RoundingModes.Ceiling);
+                Assert.AreEqual("-114368714235760586972822754176083531704767", a.ToString());
+            }
+        }
+
+        [TestMethod]
+        public void ModHugeIntFloor()
+        {
+            using (var a = new HugeInt("234052834524092854092874502983745029345723098457209305983434345"))
+            using (var b = new HugeInt("394580293847502987609283945873594873409587"))
+            {
+                a.Value = (a % b).Rounding(RoundingModes.Floor);
+                Assert.AreEqual("114368714235760586972822754176083531704767", a.ToString());
+            }
+        }
+
+        [TestMethod]
+        public void ModHugeIntNegativeFloor()
+        {
+            using (var a = new HugeInt("-234052834524092854092874502983745029345723098457209305983434345"))
+            using (var b = new HugeInt("394580293847502987609283945873594873409587"))
+            {
+                a.Value = (a % b).Rounding(RoundingModes.Floor);
+                Assert.AreEqual("280211579611742400636461191697511341704820", a.ToString());
+            }
+        }
+
+        [TestMethod]
+        public void ModHugeIntTruncate()
+        {
+            using (var a = new HugeInt("234052834524092854092874502983745029345723098457209305983434345"))
+            using (var b = new HugeInt("394580293847502987609283945873594873409587"))
+            {
+                a.Value = (a % b).Rounding(RoundingModes.Truncate);
+                Assert.AreEqual("114368714235760586972822754176083531704767", a.ToString());
+            }
+        }
+
+        [TestMethod]
+        public void ModHugeIntNegativeTruncate()
+        {
+            using (var a = new HugeInt("-234052834524092854092874502983745029345723098457209305983434345"))
+            using (var b = new HugeInt("394580293847502987609283945873594873409587"))
+            {
+                a.Value = (a % b).Rounding(RoundingModes.Truncate);
+                Assert.AreEqual("-114368714235760586972822754176083531704767", a.ToString());
+            }
+        }
+
+        #endregion
+
+        #region Int with quotient
+
         [TestMethod]
         public void ModHugeIntCeilingWithQuotient()
         {
@@ -765,7 +817,11 @@ namespace MPIR.Tests.HugeIntTests
                 Assert.AreEqual("-114368714235760586972822754176083531704767", c.ToString());
             }
         }
-        
+
+        #endregion
+
+        #endregion
+
         //[TestMethod]
         //public void DivideLimb()
         //{
