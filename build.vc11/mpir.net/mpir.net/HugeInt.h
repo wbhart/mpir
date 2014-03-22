@@ -146,7 +146,7 @@ public ref class Mpir##name##Expression : base                    \
     MAKE_BINARY_OPERATOR_RLIMB     (MpirDivideUiExpression, action, /, Divide, Int, Ui) \
                                                                                         \
     MAKE_BINARY_OPERATOR_STANDARD  (MpirModExpression, action, %, Mod, Int, Int)        \
-  /*MAKE_BINARY_OPERATOR_RLIMB       (MpirModUiExpression, action, %, Mod, Int, Ui)       */     \
+    MAKE_BINARY_OPERATOR_RLIMB     (MpirModUiExpression, action, %, Mod, Int, Ui)       \
 
 namespace MPIR
 {
@@ -225,7 +225,7 @@ namespace MPIR
             Action<mpir_ui>^ _limbRemainder;
 
         internal:
-            void custom_mpz_div(mpz_ptr q, mpz_srcptr n, mpir_ui d);
+            void custom_mpz_div_ui(mpz_ptr q, mpz_srcptr n, mpir_ui d);
 
         public:
             MpirDivideExpression^ SettingRemainderTo(Action<mpir_ui>^ callback)
@@ -237,16 +237,30 @@ namespace MPIR
 
     public ref class MpirModExpression abstract : MpirDivModExpression 
     {
-        private:
-            HugeInt^ quotient;
-        
         internal:
+            HugeInt^ _quotient;
             void custom_mpz_mod(mpz_ptr r, mpz_srcptr n, mpz_srcptr d);
 
         public:
             MpirDivModExpression^ SavingQuotientTo(HugeInt^ destination)
             {
-                quotient = destination;
+                _quotient = destination;
+                return this;
+            }
+    };
+
+    public ref class MpirModUiExpression abstract : MpirModExpression 
+    {
+        private:
+            Action<mpir_ui>^ _limbRemainder;
+
+        internal:
+            void custom_mpz_mod_ui(mpz_ptr r, mpz_srcptr n, mpir_ui d);
+
+        public:
+            MpirModExpression^ SettingRemainderTo(Action<mpir_ui>^ callback)
+            {
+                _limbRemainder = callback;
                 return this;
             }
     };
@@ -272,6 +286,7 @@ namespace MPIR
     DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT(MpirDivideUiExpression, Divide, Int, Ui, HugeInt^, mpir_ui)
 
     DEFINE_BINARY_EXPRESSION_WITH_TWO(MpirModExpression, Mod, Int, HugeInt^)
+    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT(MpirModUiExpression, Mod, Int, Ui, HugeInt^, mpir_ui)
 
     DEFINE_OPERATIONS(DEFINE)
 
