@@ -208,3 +208,5 @@ autoscript
 /build.vc12/output_params.bat
 
 /build.vc12/mpir-tests/test-config.props
+/mpn/x86_64w/bulldozer/piledriver
+bulldozer
