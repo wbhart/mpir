@@ -178,23 +178,52 @@ namespace MPIR
         switch((rounding == RoundingModes::Default) ? MpirSettings::RoundingMode : rounding)
         {
             case RoundingModes::Floor:
-                (remainder == nullptr)
+                (_remainder == nullptr)
                     ? mpz_fdiv_q(q, n, d)
-                    : mpz_fdiv_qr(q, remainder->_value, n, d);
+                    : mpz_fdiv_qr(q, _remainder->_value, n, d);
                 break;
 
             case RoundingModes::Ceiling:
-                (remainder == nullptr)
+                (_remainder == nullptr)
                     ? mpz_cdiv_q(q, n, d)
-                    : mpz_cdiv_qr(q, remainder->_value, n, d);
+                    : mpz_cdiv_qr(q, _remainder->_value, n, d);
                 break;
 
             default:
-                (remainder == nullptr)
+                (_remainder == nullptr)
                     ? mpz_tdiv_q(q, n, d)
-                    : mpz_tdiv_qr(q, remainder->_value, n, d);
+                    : mpz_tdiv_qr(q, _remainder->_value, n, d);
                 break;
         }
+    };
+
+    void MpirDivideUiExpression::custom_mpz_div(mpz_ptr q, mpz_srcptr n, mpir_ui d)
+    {
+        mpir_ui limb;
+
+        switch((rounding == RoundingModes::Default) ? MpirSettings::RoundingMode : rounding)
+        {
+            case RoundingModes::Floor:
+                limb = (_remainder == nullptr)
+                    ? mpz_fdiv_q_ui(q, n, d)
+                    : mpz_fdiv_qr_ui(q, _remainder->_value, n, d);
+                break;
+
+            case RoundingModes::Ceiling:
+                limb = (_remainder == nullptr)
+                    ? mpz_cdiv_q_ui(q, n, d)
+                    : mpz_cdiv_qr_ui(q, _remainder->_value, n, d);
+                break;
+
+            default:
+                limb = (_remainder == nullptr)
+                    ? mpz_tdiv_q_ui(q, n, d)
+                    : mpz_tdiv_qr_ui(q, _remainder->_value, n, d);
+                break;
+        }
+
+        if(_limbRemainder != nullptr)
+            _limbRemainder(limb);
     };
 
     void MpirModExpression::custom_mpz_mod(mpz_ptr r, mpz_srcptr n, mpz_srcptr d)
@@ -240,6 +269,7 @@ namespace MPIR
     DEFINE_BINARY_ASSIGNMENT_REF_VAL(Multiply, Int, Si, mpz_mul_si)
 
     DEFINE_BINARY_ASSIGNMENT_REF_REF(Divide, Int, custom_mpz_div)
+    DEFINE_BINARY_ASSIGNMENT_REF_VAL(Divide, Int, Ui, custom_mpz_div)
     DEFINE_BINARY_ASSIGNMENT_REF_REF(Mod, Int, custom_mpz_mod)
 
     DEFINE_BINARY_ASSIGNMENT_REF_VAL(ShiftLeft, Int, Bits, mpz_mul_2exp)
