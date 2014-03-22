@@ -22,125 +22,59 @@ along with the MPIR Library.  If not, see http://www.gnu.org/licenses/.
 
 #define DEFINE_ASSIGNMENT_PROLOG(name) void Mpir##name##Expression::AssignTo(mpz_ptr destination)
 
-#define DEFINE_UNARY_ASSIGNMENT(name, operation, operand)     \
-    DEFINE_ASSIGNMENT_PROLOG(name)                            \
-    {                                                         \
-        operation(destination, operand);                      \
+#define DEFINE_UNARY_ASSIGNMENT_REF(name, typeAbbr, operation)     \
+    DEFINE_ASSIGNMENT_PROLOG(name##typeAbbr)                       \
+    {                                                              \
+        Operand->AssignTo(destination);                            \
+        operation(destination, destination);                       \
     }
 
-#define DEFINE_UNARY_ASSIGNMENT_EVAL(name, operation)         \
-    DEFINE_ASSIGNMENT_PROLOG(name)                            \
-    {                                                         \
-        mpz_t temp;                                           \
-        mpz_init(temp);                                       \
-        Operand->AssignTo(temp);                              \
-        operation(destination, temp);                         \
-        mpz_clear(temp);                                      \
-    }
-
-#define DEFINE_UNARY_ASSIGNMENT_REF(name, typeAbbr, operation)                  \
-    DEFINE_UNARY_ASSIGNMENT(name##typeAbbr, operation, Operand->_value)         \
-    DEFINE_UNARY_ASSIGNMENT_EVAL(name##Expr, operation)
-
-#define DEFINE_BINARY_ASSIGNMENT(name, operation, left, right)    \
-    DEFINE_ASSIGNMENT_PROLOG(name)                                \
-    {                                                             \
-        operation(destination, left, right);                      \
-    }
-
-#define DEFINE_BINARY_ASSIGNMENT_EVAL_LEFT(name, operation, right)    \
-    DEFINE_ASSIGNMENT_PROLOG(name)                                    \
+#define DEFINE_BINARY_ASSIGNMENT_REF_REF(name, typeAbbr, operation)   \
+    DEFINE_ASSIGNMENT_PROLOG(name##typeAbbr##typeAbbr)                \
     {                                                                 \
-        mpz_t temp;                                                   \
-        mpz_init(temp);                                               \
-        Left->AssignTo(temp);                                         \
-        operation(destination, temp, right);                          \
-        mpz_clear(temp);                                              \
+        EvaluationContext context;                                    \
+        Left->AssignTo(context);                                      \
+        Right->AssignTo(context);                                     \
+        operation(destination, context.Args[0], context.Args[1]);     \
+    }                                                                 \
+
+#define DEFINE_BINARY_ASSIGNMENT_REF_VAL(name, leftTypeAbbr, rightTypeAbbr, operation)    \
+    DEFINE_ASSIGNMENT_PROLOG(name##leftTypeAbbr##rightTypeAbbr)                           \
+    {                                                                                     \
+        Left->AssignTo(destination);                                                      \
+        operation(destination, destination, Right);                                       \
     }
 
-#define DEFINE_BINARY_ASSIGNMENT_EVAL_RIGHT(name, operation, left)    \
-    DEFINE_ASSIGNMENT_PROLOG(name)                                    \
-    {                                                                 \
-        mpz_t temp;                                                   \
-        mpz_init(temp);                                               \
-        Right->AssignTo(temp);                                        \
-        operation(destination, left, temp);                           \
-        mpz_clear(temp);                                              \
+#define DEFINE_BINARY_ASSIGNMENT_VAL_REF(name, leftTypeAbbr, rightTypeAbbr, operation)    \
+    DEFINE_ASSIGNMENT_PROLOG(name##leftTypeAbbr##rightTypeAbbr)                           \
+    {                                                                                     \
+        Right->AssignTo(destination);                                                     \
+        operation(destination, Left, destination);                                        \
     }
-
-#define DEFINE_BINARY_ASSIGNMENT_EVAL_BOTH(name, operation)           \
-    DEFINE_ASSIGNMENT_PROLOG(name)                                    \
-    {                                                                 \
-        mpz_t temp1, temp2;                                           \
-        mpz_init(temp1);                                              \
-        mpz_init(temp2);                                              \
-        Left->AssignTo(temp1);                                        \
-        Right->AssignTo(temp2);                                       \
-        operation(destination, temp1, temp2);                         \
-        mpz_clear(temp1);                                             \
-        mpz_clear(temp2);                                             \
-    }
-
-#define DEFINE_BINARY_ASSIGNMENT_REF_REF(name, typeAbbr, operation)                                     \
-    DEFINE_BINARY_ASSIGNMENT(name##typeAbbr##typeAbbr, operation, Left->_value, Right->_value)          \
-    DEFINE_BINARY_ASSIGNMENT_EVAL_LEFT(name##Expr##typeAbbr, operation, Right->_value)                  \
-    DEFINE_BINARY_ASSIGNMENT_EVAL_RIGHT(name##typeAbbr##Expr, operation, Left->_value)                  \
-    DEFINE_BINARY_ASSIGNMENT_EVAL_BOTH(name##Expr##Expr, operation)        
-
-#define DEFINE_BINARY_ASSIGNMENT_REF_VAL(name, leftTypeAbbr, rightTypeAbbr, operation)                  \
-    DEFINE_BINARY_ASSIGNMENT(name##leftTypeAbbr##rightTypeAbbr, operation, Left->_value, Right)         \
-    DEFINE_BINARY_ASSIGNMENT_EVAL_LEFT(name##Expr##rightTypeAbbr, operation, Right)
-
-#define DEFINE_BINARY_ASSIGNMENT_VAL_REF(name, leftTypeAbbr, rightTypeAbbr, operation)                  \
-    DEFINE_BINARY_ASSIGNMENT(name##leftTypeAbbr##rightTypeAbbr, operation, Left, Right->_value)         \
-    DEFINE_BINARY_ASSIGNMENT_EVAL_RIGHT(name##leftTypeAbbr##Expr, operation, Left)
 
 #define DEFINE_BINARY_ASSIGNMENT_REF_SI(name, leftTypeAbbr, rightTypeAbbr, positiveOp, negativeOp)      \
     DEFINE_ASSIGNMENT_PROLOG(name##leftTypeAbbr##rightTypeAbbr)                                         \
     {                                                                                                   \
+        Left->AssignTo(destination);                                                                    \
         if (Right >= 0)                                                                                 \
-            positiveOp(destination, Left->_value, static_cast<mpir_ui>(Right));                         \
+            positiveOp(destination, destination, static_cast<mpir_ui>(Right));                          \
         else                                                                                            \
-            negativeOp(destination, Left->_value, -static_cast<mpir_ui>(Right));                        \
-    }                                                                                                   \
-    DEFINE_ASSIGNMENT_PROLOG(name##Expr##rightTypeAbbr)                                                 \
-    {                                                                                                   \
-        mpz_t temp;                                                                                     \
-        mpz_init(temp);                                                                                 \
-        Left->AssignTo(temp);                                                                           \
-        if (Right >= 0)                                                                                 \
-            positiveOp(destination, temp, static_cast<mpir_ui>(Right));                                 \
-        else                                                                                            \
-            negativeOp(destination, temp, -static_cast<mpir_ui>(Right));                                \
-        mpz_clear(temp);                                                                                \
-    }
+            negativeOp(destination, destination, -static_cast<mpir_ui>(Right));                         \
+    }                                                                     
 
 #define DEFINE_BINARY_ASSIGNMENT_SI_REF(name, leftTypeAbbr, rightTypeAbbr, positiveOp, negativeOp1, negativeOp2)   \
     DEFINE_ASSIGNMENT_PROLOG(name##leftTypeAbbr##rightTypeAbbr)                                                    \
     {                                                                                                              \
+        Right->AssignTo(destination);                                                                              \
         if (Left >= 0)                                                                                             \
-            positiveOp(destination, static_cast<mpir_ui>(Left), Right->_value);                                    \
+            positiveOp(destination, static_cast<mpir_ui>(Left), destination);                                      \
         else                                                                                                       \
         {                                                                                                          \
-            negativeOp1(destination, Right->_value, -static_cast<mpir_ui>(Left));                                  \
+            negativeOp1(destination, destination, -static_cast<mpir_ui>(Left));                                    \
             negativeOp2(destination, destination);                                                                 \
         }                                                                                                          \
-    }                                                                                                              \
-    DEFINE_ASSIGNMENT_PROLOG(name##leftTypeAbbr##Expr)                                                             \
-    {                                                                                                              \
-        mpz_t temp;                                                                                                \
-        mpz_init(temp);                                                                                            \
-        Right->AssignTo(temp);                                                                                     \
-        if (Left >= 0)                                                                                             \
-            positiveOp(destination, static_cast<mpir_ui>(Left), temp);                                             \
-        else                                                                                                       \
-        {                                                                                                          \
-            negativeOp1(destination, temp, -static_cast<mpir_ui>(Left));                                           \
-            negativeOp2(destination, destination);                                                                 \
-        }                                                                                                          \
-        mpz_clear(temp);                                                                                           \
-    }                                                                                     
-
+    }                                                                   
+    
 using namespace System::Runtime::InteropServices;
 
 namespace MPIR
@@ -237,7 +171,7 @@ namespace MPIR
         expr->AssignTo(_value);
     }
 
-    #pragma region expression exceptions
+    #pragma region expression special cases
 
     void MpirDivideExpression::custom_mpz_div(mpz_ptr q, mpz_srcptr n, mpz_srcptr d)
     {

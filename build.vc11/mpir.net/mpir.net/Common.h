@@ -22,3 +22,39 @@ along with the MPIR Library.  If not, see http://www.gnu.org/licenses/.
 void* CustomAllocate (size_t alloc_size);
 void* CustomReallocate (void* ptr, size_t new_size);
 void CustomFree (void* ptr);
+
+enum EvaluationOptions : __int8
+{
+    None = 0x0,
+    Temp1Initialized = 0x1,
+    Temp2Initialized = 0x2,
+};
+
+struct EvaluationContext
+{
+    public:
+        __mpz_struct Temp[2];
+        mpz_ptr Args[2];
+        union
+        {
+            struct
+            {
+                unsigned __int8 Index;
+                EvaluationOptions Options;
+            };
+            __int64 Zero;
+        };
+
+        EvaluationContext()
+        {
+            Zero = 0;
+        }
+
+        ~EvaluationContext()
+        {
+            if(Options & EvaluationOptions::Temp1Initialized)
+                mpz_clear(Args[0]);
+            if(Options & EvaluationOptions::Temp2Initialized)
+                mpz_clear(Args[1]);
+        }
+};
