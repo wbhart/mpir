@@ -62,6 +62,12 @@
   <ClCompile Include="..\..\mp_set_fns.c">
     <Filter>Source Files</Filter>
     </ClCompile>
+  <ClCompile Include="..\..\nextprime.c">
+    <Filter>Source Files</Filter>
+    </ClCompile>
+  <ClCompile Include="..\..\primesieve.c">
+    <Filter>Source Files</Filter>
+    </ClCompile>
   <ClCompile Include="..\..\randbui.c">
     <Filter>Source Files</Filter>
     </ClCompile>
@@ -485,6 +491,9 @@
   <ClCompile Include="..\..\mpq\swap.c">
     <Filter>Source Files\mpq</Filter>
     </ClCompile>
+  <ClCompile Include="..\..\mpz\2fac_ui.c">
+    <Filter>Source Files\mpz</Filter>
+    </ClCompile>
   <ClCompile Include="..\..\mpz\abs.c">
     <Filter>Source Files\mpz</Filter>
     </ClCompile>
@@ -773,6 +782,9 @@
   <ClCompile Include="..\..\mpz\lucnum_ui.c">
     <Filter>Source Files\mpz</Filter>
     </ClCompile>
+  <ClCompile Include="..\..\mpz\mfac_uiui.c">
+    <Filter>Source Files\mpz</Filter>
+    </ClCompile>
   <ClCompile Include="..\..\mpz\miller_rabin.c">
     <Filter>Source Files\mpz</Filter>
     </ClCompile>
@@ -809,6 +821,9 @@
   <ClCompile Include="..\..\mpz\nthroot.c">
     <Filter>Source Files\mpz</Filter>
     </ClCompile>
+  <ClCompile Include="..\..\mpz\oddfac_1.c">
+    <Filter>Source Files\mpz</Filter>
+    </ClCompile>
   <ClCompile Include="..\..\mpz\out_raw.c">
     <Filter>Source Files\mpz</Filter>
     </ClCompile>
@@ -836,7 +851,13 @@
   <ClCompile Include="..\..\mpz\pprime_p.c">
     <Filter>Source Files\mpz</Filter>
     </ClCompile>
+  <ClCompile Include="..\..\mpz\primorial_ui.c">
+    <Filter>Source Files\mpz</Filter>
+    </ClCompile>
   <ClCompile Include="..\..\mpz\probable_prime_p.c">
+    <Filter>Source Files\mpz</Filter>
+    </ClCompile>
+  <ClCompile Include="..\..\mpz\prodlimbs.c">
     <Filter>Source Files\mpz</Filter>
     </ClCompile>
   <ClCompile Include="..\..\mpz\realloc.c">
@@ -1091,6 +1112,9 @@
   <ClCompile Include="..\..\mpn\generic\com_n.c">
     <Filter>Source Files\mpn</Filter>
     </ClCompile>
+  <ClCompile Include="..\..\mpn\generic\comb_tables.c">
+    <Filter>Source Files\mpn</Filter>
+    </ClCompile>
   <ClCompile Include="..\..\mpn\generic\copyd.c">
     <Filter>Source Files\mpn</Filter>
     </ClCompile>
@@ -1190,9 +1214,6 @@
   <ClCompile Include="..\..\mpn\generic\gcd_1.c">
     <Filter>Source Files\mpn</Filter>
     </ClCompile>
-  <ClCompile Include="..\..\mpn\generic\gcd_lehmer.c">
-    <Filter>Source Files\mpn</Filter>
-    </ClCompile>
   <ClCompile Include="..\..\mpn\generic\gcd_subdiv_step.c">
     <Filter>Source Files\mpn</Filter>
     </ClCompile>
@@ -1203,9 +1224,6 @@
     <Filter>Source Files\mpn</Filter>
     </ClCompile>
   <ClCompile Include="..\..\mpn\generic\gcdext_lehmer.c">
-    <Filter>Source Files\mpn</Filter>
-    </ClCompile>
-  <ClCompile Include="..\..\mpn\generic\gcdext_subdiv_step.c">
     <Filter>Source Files\mpn</Filter>
     </ClCompile>
   <ClCompile Include="..\..\mpn\generic\get_d.c">
@@ -1221,6 +1239,24 @@
     <Filter>Source Files\mpn</Filter>
     </ClCompile>
   <ClCompile Include="..\..\mpn\generic\hgcd2.c">
+    <Filter>Source Files\mpn</Filter>
+    </ClCompile>
+  <ClCompile Include="..\..\mpn\generic\hgcd2_jacobi.c">
+    <Filter>Source Files\mpn</Filter>
+    </ClCompile>
+  <ClCompile Include="..\..\mpn\generic\hgcd_appr.c">
+    <Filter>Source Files\mpn</Filter>
+    </ClCompile>
+  <ClCompile Include="..\..\mpn\generic\hgcd_jacobi.c">
+    <Filter>Source Files\mpn</Filter>
+    </ClCompile>
+  <ClCompile Include="..\..\mpn\generic\hgcd_matrix.c">
+    <Filter>Source Files\mpn</Filter>
+    </ClCompile>
+  <ClCompile Include="..\..\mpn\generic\hgcd_reduce.c">
+    <Filter>Source Files\mpn</Filter>
+    </ClCompile>
+  <ClCompile Include="..\..\mpn\generic\hgcd_step.c">
     <Filter>Source Files\mpn</Filter>
     </ClCompile>
   <ClCompile Include="..\..\mpn\generic\inv_div_q.c">
@@ -1247,6 +1283,12 @@
   <ClCompile Include="..\..\mpn\generic\iorn_n.c">
     <Filter>Source Files\mpn</Filter>
     </ClCompile>
+  <ClCompile Include="..\..\mpn\generic\jacobi.c">
+    <Filter>Source Files\mpn</Filter>
+    </ClCompile>
+  <ClCompile Include="..\..\mpn\generic\jacobi_2.c">
+    <Filter>Source Files\mpn</Filter>
+    </ClCompile>
   <ClCompile Include="..\..\mpn\generic\jacobi_base.c">
     <Filter>Source Files\mpn</Filter>
     </ClCompile>
@@ -1254,6 +1296,9 @@
     <Filter>Source Files\mpn</Filter>
     </ClCompile>
   <ClCompile Include="..\..\mpn\generic\matrix22_mul.c">
+    <Filter>Source Files\mpn</Filter>
+    </ClCompile>
+  <ClCompile Include="..\..\mpn\generic\matrix22_mul1_inverse_vector.c">
     <Filter>Source Files\mpn</Filter>
     </ClCompile>
   <ClCompile Include="..\..\mpn\generic\mod_1.c">

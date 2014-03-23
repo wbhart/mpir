@@ -4,7 +4,7 @@
    SAFE TO REACH THEM THROUGH DOCUMENTED INTERFACES.  IN FACT, IT IS ALMOST
    GUARANTEED THAT THEY'LL CHANGE OR DISAPPEAR IN A FUTURE GNU MP RELEASE.
 
-Copyright 1996, 1998, 2000, 2001, 2002, 2003, 2004, 2008 Free Software
+Copyright 1996, 1998, 2000, 2001, 2002, 2003, 2004, 2008, 2012 Free Software
 Foundation, Inc.
 
 This file is part of the GNU MP Library.
@@ -43,43 +43,43 @@ div1 (mp_ptr rp,
     {
       int cnt;
       for (cnt = 1; (mp_limb_signed_t) d0 >= 0; cnt++)
-    {
-      d0 = d0 << 1;
-    }
+	{
+	  d0 = d0 << 1;
+	}
 
       q = 0;
       while (cnt)
-    {
-      q <<= 1;
-      if (n0 >= d0)
-        {
-          n0 = n0 - d0;
-          q |= 1;
-        }
-      d0 = d0 >> 1;
-      cnt--;
-    }
+	{
+	  q <<= 1;
+	  if (n0 >= d0)
+	    {
+	      n0 = n0 - d0;
+	      q |= 1;
+	    }
+	  d0 = d0 >> 1;
+	  cnt--;
+	}
     }
   else
     {
       int cnt;
       for (cnt = 0; n0 >= d0; cnt++)
-    {
-      d0 = d0 << 1;
-    }
+	{
+	  d0 = d0 << 1;
+	}
 
       q = 0;
       while (cnt)
-    {
-      d0 = d0 >> 1;
-      q <<= 1;
-      if (n0 >= d0)
-        {
-          n0 = n0 - d0;
-          q |= 1;
-        }
-      cnt--;
-    }
+	{
+	  d0 = d0 >> 1;
+	  q <<= 1;
+	  if (n0 >= d0)
+	    {
+	      n0 = n0 - d0;
+	      q |= 1;
+	    }
+	  cnt--;
+	}
     }
   *rp = n0;
   return q;
@@ -97,45 +97,45 @@ div2 (mp_ptr rp,
     {
       int cnt;
       for (cnt = 1; (mp_limb_signed_t) dh >= 0; cnt++)
-    {
-      dh = (dh << 1) | (dl >> (GMP_LIMB_BITS - 1));
-      dl = dl << 1;
-    }
+	{
+	  dh = (dh << 1) | (dl >> (GMP_LIMB_BITS - 1));
+	  dl = dl << 1;
+	}
 
       while (cnt)
-    {
-      q <<= 1;
-      if (nh > dh || (nh == dh && nl >= dl))
-        {
-          sub_ddmmss (nh, nl, nh, nl, dh, dl);
-          q |= 1;
-        }
-      dl = (dh << (GMP_LIMB_BITS - 1)) | (dl >> 1);
-      dh = dh >> 1;
-      cnt--;
-    }
+	{
+	  q <<= 1;
+	  if (nh > dh || (nh == dh && nl >= dl))
+	    {
+	      sub_ddmmss (nh, nl, nh, nl, dh, dl);
+	      q |= 1;
+	    }
+	  dl = (dh << (GMP_LIMB_BITS - 1)) | (dl >> 1);
+	  dh = dh >> 1;
+	  cnt--;
+	}
     }
   else
     {
       int cnt;
       for (cnt = 0; nh > dh || (nh == dh && nl >= dl); cnt++)
-    {
-      dh = (dh << 1) | (dl >> (GMP_LIMB_BITS - 1));
-      dl = dl << 1;
-    }
+	{
+	  dh = (dh << 1) | (dl >> (GMP_LIMB_BITS - 1));
+	  dl = dl << 1;
+	}
 
       while (cnt)
-    {
-      dl = (dh << (GMP_LIMB_BITS - 1)) | (dl >> 1);
-      dh = dh >> 1;
-      q <<= 1;
-      if (nh > dh || (nh == dh && nl >= dl))
-        {
-          sub_ddmmss (nh, nl, nh, nl, dh, dl);
-          q |= 1;
-        }
-      cnt--;
-    }
+	{
+	  dl = (dh << (GMP_LIMB_BITS - 1)) | (dl >> 1);
+	  dh = dh >> 1;
+	  q <<= 1;
+	  if (nh > dh || (nh == dh && nl >= dl))
+	    {
+	      sub_ddmmss (nh, nl, nh, nl, dh, dl);
+	      q |= 1;
+	    }
+	  cnt--;
+	}
     }
 
   rp[0] = nl;
@@ -168,9 +168,9 @@ div2 (mp_ptr rp,
       mp_limb_t bit;
       q <<= 1;
       if (UNLIKELY (nh == dh))
-    bit = (nl >= dl);
+	bit = (nl >= dl);
       else
-    bit = (nh > dh);
+	bit = (nh > dh);
 
       q |= bit;
 
@@ -199,7 +199,7 @@ div2 (mp_ptr rp,
 
 /* Reduces a,b until |a-b| (almost) fits in one limb + 1 bit. Constructs
    matrix M. Returns 1 if we make progress, i.e. can perform at least
-   one subtraction. Otherwise returns zero.. */
+   one subtraction. Otherwise returns zero. */
 
 /* FIXME: Possible optimizations:
 
@@ -214,7 +214,7 @@ div2 (mp_ptr rp,
 */
 int
 mpn_hgcd2 (mp_limb_t ah, mp_limb_t al, mp_limb_t bh, mp_limb_t bl,
-       struct hgcd_matrix1 *M)
+	   struct hgcd_matrix1 *M)
 {
   mp_limb_t u00, u01, u10, u11;
 
@@ -225,7 +225,7 @@ mpn_hgcd2 (mp_limb_t ah, mp_limb_t al, mp_limb_t bh, mp_limb_t bl,
     {
       sub_ddmmss (ah, al, ah, al, bh, bl);
       if (ah < 2)
-    return 0;
+	return 0;
 
       u00 = u01 = u11 = 1;
       u10 = 0;
@@ -234,7 +234,7 @@ mpn_hgcd2 (mp_limb_t ah, mp_limb_t al, mp_limb_t bh, mp_limb_t bl,
     {
       sub_ddmmss (bh, bl, bh, bl, ah, al);
       if (bh < 2)
-    return 0;
+	return 0;
 
       u00 = u10 = u11 = 1;
       u01 = 0;
@@ -247,88 +247,88 @@ mpn_hgcd2 (mp_limb_t ah, mp_limb_t al, mp_limb_t bh, mp_limb_t bl,
     {
       ASSERT (ah >= bh);
       if (ah == bh)
-    goto done;
+	goto done;
 
       if (ah < (CNST_LIMB(1) << (GMP_LIMB_BITS / 2)))
-    {
-      ah = (ah << (GMP_LIMB_BITS / 2) ) + (al >> (GMP_LIMB_BITS / 2));
-      bh = (bh << (GMP_LIMB_BITS / 2) ) + (bl >> (GMP_LIMB_BITS / 2));
+	{
+	  ah = (ah << (GMP_LIMB_BITS / 2) ) + (al >> (GMP_LIMB_BITS / 2));
+	  bh = (bh << (GMP_LIMB_BITS / 2) ) + (bl >> (GMP_LIMB_BITS / 2));
 
-      break;
-    }
+	  break;
+	}
 
       /* Subtract a -= q b, and multiply M from the right by (1 q ; 0
-     1), affecting the second column of M. */
+	 1), affecting the second column of M. */
       ASSERT (ah > bh);
       sub_ddmmss (ah, al, ah, al, bh, bl);
 
       if (ah < 2)
-    goto done;
+	goto done;
 
       if (ah <= bh)
-    {
-      /* Use q = 1 */
-      u01 += u00;
-      u11 += u10;
-    }
+	{
+	  /* Use q = 1 */
+	  u01 += u00;
+	  u11 += u10;
+	}
       else
-    {
-      mp_limb_t r[2];
-      mp_limb_t q = div2 (r, ah, al, bh, bl);
-      al = r[0]; ah = r[1];
-      if (ah < 2)
-        {
-          /* A is too small, but q is correct. */
-          u01 += q * u00;
-          u11 += q * u10;
-          goto done;
-        }
-      q++;
-      u01 += q * u00;
-      u11 += q * u10;
-    }
+	{
+	  mp_limb_t r[2];
+	  mp_limb_t q = div2 (r, ah, al, bh, bl);
+	  al = r[0]; ah = r[1];
+	  if (ah < 2)
+	    {
+	      /* A is too small, but q is correct. */
+	      u01 += q * u00;
+	      u11 += q * u10;
+	      goto done;
+	    }
+	  q++;
+	  u01 += q * u00;
+	  u11 += q * u10;
+	}
     subtract_a:
       ASSERT (bh >= ah);
       if (ah == bh)
-    goto done;
+	goto done;
 
       if (bh < (CNST_LIMB(1) << (GMP_LIMB_BITS / 2)))
-    {
-      ah = (ah << (GMP_LIMB_BITS / 2) ) + (al >> (GMP_LIMB_BITS / 2));
-      bh = (bh << (GMP_LIMB_BITS / 2) ) + (bl >> (GMP_LIMB_BITS / 2));
+	{
+	  ah = (ah << (GMP_LIMB_BITS / 2) ) + (al >> (GMP_LIMB_BITS / 2));
+	  bh = (bh << (GMP_LIMB_BITS / 2) ) + (bl >> (GMP_LIMB_BITS / 2));
 
-      goto subtract_a1;
-    }
+	  goto subtract_a1;
+	}
 
       /* Subtract b -= q a, and multiply M from the right by (1 0 ; q
-     1), affecting the first column of M. */
+	 1), affecting the first column of M. */
       sub_ddmmss (bh, bl, bh, bl, ah, al);
 
       if (bh < 2)
-    goto done;
+	goto done;
 
       if (bh <= ah)
-    {
-      /* Use q = 1 */
-      u00 += u01;
-      u10 += u11;
-    }
+	{
+	  /* Use q = 1 */
+	  u00 += u01;
+	  u10 += u11;
+	}
       else
-    {
-      mp_limb_t r[2];
-      mp_limb_t q = div2 (r, bh, bl, ah, al);
-      bl = r[0]; bh = r[1];
-      if (bh < 2)
-        {
-          /* B is too small, but q is correct. */
-          u00 += q * u01;
-          u10 += q * u11;
-          goto done;
-        }
-      q++;
-      u00 += q * u01;
-      u10 += q * u11;
-    }
+	{
+	  mp_limb_t r[2];
+	  mp_limb_t q = div2 (r, bh, bl, ah, al);
+	  bl = r[0]; bh = r[1];
+	  if (bh < 2)
+	    {
+	      /* B is too small, but q is correct. */
+	      u00 += q * u01;
+	      u10 += q * u11;
+	      goto done;
+	    }
+	  q++;
+	  u00 += q * u01;
+	  u10 += q * u11;
+	}
     }
 
   /* NOTE: Since we discard the least significant half limb, we don't
@@ -338,66 +338,62 @@ mpn_hgcd2 (mp_limb_t ah, mp_limb_t al, mp_limb_t bh, mp_limb_t bl,
   for (;;)
     {
       ASSERT (ah >= bh);
-      if (ah == bh)
-    break;
 
       ah -= bh;
       if (ah < (CNST_LIMB (1) << (GMP_LIMB_BITS / 2 + 1)))
-    break;
+	break;
 
       if (ah <= bh)
-    {
-      /* Use q = 1 */
-      u01 += u00;
-      u11 += u10;
-    }
+	{
+	  /* Use q = 1 */
+	  u01 += u00;
+	  u11 += u10;
+	}
       else
-    {
-      mp_limb_t r;
-      mp_limb_t q = div1 (&r, ah, bh);
-      ah = r;
-      if (ah < (CNST_LIMB(1) << (GMP_LIMB_BITS / 2 + 1)))
-        {
-          /* A is too small, but q is correct. */
-          u01 += q * u00;
-          u11 += q * u10;
-          break;
-        }
-      q++;
-      u01 += q * u00;
-      u11 += q * u10;
-    }
+	{
+	  mp_limb_t r;
+	  mp_limb_t q = div1 (&r, ah, bh);
+	  ah = r;
+	  if (ah < (CNST_LIMB(1) << (GMP_LIMB_BITS / 2 + 1)))
+	    {
+	      /* A is too small, but q is correct. */
+	      u01 += q * u00;
+	      u11 += q * u10;
+	      break;
+	    }
+	  q++;
+	  u01 += q * u00;
+	  u11 += q * u10;
+	}
     subtract_a1:
       ASSERT (bh >= ah);
-      if (ah == bh)
-    break;
 
       bh -= ah;
       if (bh < (CNST_LIMB (1) << (GMP_LIMB_BITS / 2 + 1)))
-    break;
+	break;
 
       if (bh <= ah)
-    {
-      /* Use q = 1 */
-      u00 += u01;
-      u10 += u11;
-    }
+	{
+	  /* Use q = 1 */
+	  u00 += u01;
+	  u10 += u11;
+	}
       else
-    {
-      mp_limb_t r;
-      mp_limb_t q = div1 (&r, bh, ah);
-      bh = r;
-      if (bh < (CNST_LIMB(1) << (GMP_LIMB_BITS / 2 + 1)))
-        {
-          /* B is too small, but q is correct. */
-          u00 += q * u01;
-          u10 += q * u11;
-          break;
-        }
-      q++;
-      u00 += q * u01;
-      u10 += q * u11;
-    }
+	{
+	  mp_limb_t r;
+	  mp_limb_t q = div1 (&r, bh, ah);
+	  bh = r;
+	  if (bh < (CNST_LIMB(1) << (GMP_LIMB_BITS / 2 + 1)))
+	    {
+	      /* B is too small, but q is correct. */
+	      u00 += q * u01;
+	      u10 += q * u11;
+	      break;
+	    }
+	  q++;
+	  u00 += q * u01;
+	  u10 += q * u11;
+	}
     }
 
  done:
@@ -411,7 +407,7 @@ mpn_hgcd2 (mp_limb_t ah, mp_limb_t al, mp_limb_t bh, mp_limb_t bl,
  * have space for n + 1 limbs. Uses three buffers to avoid a copy*/
 mp_size_t
 mpn_hgcd_mul_matrix1_vector (const struct hgcd_matrix1 *M,
-                 mp_ptr rp, mp_srcptr ap, mp_ptr bp, mp_size_t n)
+			     mp_ptr rp, mp_srcptr ap, mp_ptr bp, mp_size_t n)
 {
   mp_limb_t ah, bh;
 
@@ -437,33 +433,5 @@ mpn_hgcd_mul_matrix1_vector (const struct hgcd_matrix1 *M,
   bp[n] = bh;
 
   n += (ah | bh) > 0;
-  return n;
-}
-
-/* Sets (r;b) = M^{-1}(a;b), with M^{-1} = (u11, -u01; -u10, u00) from
-   the left. Uses three buffers, to avoid a copy. */
-mp_size_t
-mpn_hgcd_mul_matrix1_inverse_vector (const struct hgcd_matrix1 *M,
-                     mp_ptr rp, mp_srcptr ap, mp_ptr bp, mp_size_t n)
-{
-  mp_limb_t h0, h1;
-
-  /* Compute (r;b) <-- (u11 a - u01 b; -u10 a + u00 b) as
-
-     r  = u11 * a
-     r -= u01 * b
-     b *= u00
-     b -= u10 * a
-  */
-
-  h0 =    mpn_mul_1 (rp, ap, n, M->u[1][1]);
-  h1 = mpn_submul_1 (rp, bp, n, M->u[0][1]);
-  ASSERT (h0 == h1);
-
-  h0 =    mpn_mul_1 (bp, bp, n, M->u[0][0]);
-  h1 = mpn_submul_1 (bp, ap, n, M->u[1][0]);
-  ASSERT (h0 == h1);
-
-  n -= (rp[n-1] | bp[n-1]) == 0;
   return n;
 }

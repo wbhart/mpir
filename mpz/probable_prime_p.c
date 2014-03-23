@@ -32,7 +32,7 @@ mpz_probable_prime_p (mpz_srcptr N, gmp_randstate_t STATE, int PROB, mpir_ui td)
   SIZ(n) = ABSIZ(N);
   PTR(n) = PTR(N);		/* fake up an absolute value that we dont have de-allocate */
 
-  /* algorithm dose not handle small values, get rid of them here */
+  /* algorithm does not handle small values, get rid of them here */
   if (mpz_cmp_ui(n, 2) == 0 || mpz_cmp_ui(n, 3) == 0)
      return 1;
 

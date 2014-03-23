@@ -66,11 +66,11 @@ mpn_sb_bdiv_q (mp_ptr qp, mp_ptr wp,
   for (i = nn - dn; i > 0; i--)
     {
       q = dinv * np[0];
-      qp[0] = q;
-      qp++;
       cy = mpn_submul_1 (np, dp, dn, q);
       w0 += mpn_sub_1 (np + dn, np + dn, i, cy);
       ASSERT (np[0] == 0);
+      qp[0] = q;
+      qp++;
       np++;
     }
 
@@ -79,12 +79,12 @@ mpn_sb_bdiv_q (mp_ptr qp, mp_ptr wp,
   for (i = dn; i > 0; i--)
     {
       q = dinv * np[0];
-      qp[0] = q;
-      qp++;
       hi = mpn_submul_1 (np, dp, i, q);
       ADDC_LIMB(hi, w0, w0, hi);
       w1 += hi;
       ASSERT (np[0] == 0);
+      qp[0] = q;
+      qp++;
       np++;
     }
 

@@ -1,12 +1,13 @@
 ## Process this file with automake to generate Makefile.in
- 
-# Copyright 2000, 2001, 2002, 2003, 2005 Free Software Foundation, Inc.
+
+# Copyright 2000, 2001, 2002, 2003, 2005, 2006, 2007, 2008, 2009,
+# 2010, 2011 Free Software Foundation, Inc.
 #
 # This file is part of the GNU MP Library.
 #
 # The GNU MP Library is free software; you can redistribute it and/or modify
 # it under the terms of the GNU Lesser General Public License as published by
-# the Free Software Foundation; either version 2.1 of the License, or (at your
+# the Free Software Foundation; either version 3 of the License, or (at your
 # option) any later version.
 #
 # The GNU MP Library is distributed in the hope that it will be useful, but
@@ -15,9 +16,7 @@
 # License for more details.
 #
 # You should have received a copy of the GNU Lesser General Public License
-# along with the GNU MP Library; see the file COPYING.LIB.  If not, write to
-# the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
-# MA 02110-1301, USA.
+# along with the GNU MP Library.  If not, see http://www.gnu.org/licenses/.
 
 
 INCLUDES = -I$(top_srcdir) -I$(top_srcdir)/tests
@@ -43,9 +42,10 @@ EXTRA_LTLIBRARIES = libspeed.la
 
 libspeed_la_SOURCES =							\
   common.c divrem1div.c divrem1inv.c divrem2div.c divrem2inv.c		\
-  freq.c gcd_bin.c 				\
-  gcdextod.c gcdextos.c			\
-  jacbase1.c jacbase2.c jacbase3.c					\
+  freq.c 				\
+  gcdext_single.c gcdext_double.c gcdextod.c gcdextos.c			\
+  hgcd_lehmer.c hgcd_appr_lehmer.c hgcd_reduce_1.c hgcd_reduce_2.c      \
+  jacbase1.c jacbase2.c jacbase3.c jacbase4.c				\
   mod_1_div.c mod_1_inv.c modlinv.c					\
   noop.c powm_mod.c powm_redc.c preinv_divrem_1.c				\
   fac_ui_large.c fac_ui_small.c						\
@@ -85,7 +85,7 @@ speed_ext_SOURCES = speed-ext.c
 speed_ext_LDFLAGS = $(STATIC)
 
 tuneup_SOURCES = tuneup.c
-nodist_tuneup_SOURCES = sqr_basecase.c $(TUNE_MPN_SRCS)
+nodist_tuneup_SOURCES = sqr_basecase.c fac_ui.c $(TUNE_MPN_SRCS)
 tuneup_DEPENDENCIES = $(TUNE_SQR_OBJ) libspeed.la
 tuneup_LDADD = $(tuneup_DEPENDENCIES)
 tuneup_LDFLAGS = $(STATIC)
@@ -105,7 +105,7 @@ CLEANFILES = $(EXTRA_PROGRAMS) $(EXTRA_LTLIBRARIES) \
 	fibg.gnuplot fibg.data \
 	graph.gnuplot graph.data \
 	$(MANY_CLEAN)
-DISTCLEANFILES = sqr_basecase.c  $(MANY_DISTCLEAN)
+DISTCLEANFILES = sqr_basecase.c fac_ui.c $(MANY_DISTCLEAN)
 
 
 # Generating these little files at build time seems better than including
@@ -125,11 +125,14 @@ DISTCLEANFILES = sqr_basecase.c  $(MANY_DISTCLEAN)
 # recompiled object will be rebuilt if that file changes.
 
 TUNE_MPN_SRCS = $(TUNE_MPN_SRCS_BASIC) $(TUNE_FFT_SRCS_BASIC) divrem_1.c mod_1.c
-TUNE_MPN_SRCS_BASIC = divrem_2.c gcd.c gcdext.c get_str.c \
+TUNE_MPN_SRCS_BASIC = divrem_2.c gcd.c gcdext.c get_str.c set_str.c \
+  matrix22_mul.c hgcd.c hgcd_appr.c hgcd_reduce.c \
   mul_n.c mullow_n.c mulhigh_n.c mul.c tdiv_qr.c \
   toom4_mul_n.c toom4_mul.c toom3_mul.c toom3_mul_n.c \
-  toom8h_mul.c toom8_sqr_n.c mulmod_2expm1.c rootrem.c divrem_euclidean_r_1.c \
-  divrem_hensel_qr_1.c rsh_divrem_hensel_qr_1.c dc_divappr_q.c dc_div_qr.c dc_div_qr_n.c \
+  toom8h_mul.c toom8_sqr_n.c mulmod_2expm1.c mulmod_2expp1_basecase.c \
+  rootrem.c divrem_euclidean_r_1.c \
+  divrem_hensel_qr_1.c rsh_divrem_hensel_qr_1.c sb_divappr_q.c sb_div_qr.c \
+  dc_divappr_q.c dc_div_qr.c dc_div_qr_n.c \
   inv_divappr_q.c inv_div_qr.c tdiv_q.c dc_bdiv_qr.c dc_bdiv_qr_n.c dc_bdiv_q.c 
 TUNE_FFT_SRCS_BASIC = split_bits.c revbin.c normmod_2expp1.c mulmod_2expp1.c \
   mul_trunc_sqrt2.c mul_mfa_trunc_sqrt2.c mul_fft_main.c \
@@ -165,5 +168,12 @@ sqr_asm.asm: $(top_builddir)/mpn/sqr_basecase.asm
 	echo 'define(SQR_KARATSUBA_THRESHOLD_OVERRIDE,SQR_KARATSUBA_THRESHOLD_MAX)' >sqr_asm.asm
 	echo 'include(../mpn/sqr_basecase.asm)' >>sqr_asm.asm
 
+# FIXME: Should it depend on $(top_builddir)/fac_ui.h too?
+fac_ui.c: $(top_builddir)/mpz/fac_ui.c
+	echo "#define TUNE_PROGRAM_BUILD 1"          >fac_ui.c
+	echo "#define __gmpz_fac_ui mpz_fac_ui_tune" >>fac_ui.c
+	echo "#define __gmpz_oddfac_1 mpz_oddfac_1_tune" >>fac_ui.c
+	echo "#include \"mpz/oddfac_1.c\""           >>fac_ui.c
+	echo "#include \"mpz/fac_ui.c\""             >>fac_ui.c
 
 include ../mpn/Makeasm.am

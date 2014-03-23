@@ -290,3 +290,46 @@ mpn_mulmod_2expm1(mp_ptr xp, mp_ptr yp, mp_ptr zp, mpir_ui b,
 
   return;
 }
+
+/*
+   {rp, min(rn, an + bn)} = {ap, an} * {bp, bn} mod(B^rn - 1)
+*/
+void
+mpn_mulmod_bnm1 (mp_ptr rp, mp_size_t rn, mp_srcptr ap, mp_size_t an, 
+                                          mp_srcptr bp, mp_size_t bn, mp_ptr scratch)
+{
+  mp_ptr tp, rp2;
+  TMP_DECL;
+
+  ASSERT (0 < bn);
+  ASSERT (bn <= an);
+  ASSERT (an <= rn);
+
+  TMP_MARK;
+
+  if (an < rn)
+  {
+     tp = TMP_ALLOC_LIMBS(rn);
+     MPN_COPY(tp, ap, an);
+     MPN_ZERO(tp + an, rn - an);
+     ap = tp;
+  }
+
+  if (bn < rn)
+  {
+     tp = TMP_ALLOC_LIMBS(rn);
+     MPN_COPY(tp, bp, bn);
+     MPN_ZERO(tp + bn, rn - bn);
+     bp = tp;
+  }
+
+  if (an + bn < rn)
+  {
+     tp = TMP_ALLOC_LIMBS(rn);
+     mpn_mulmod_2expm1(tp, (mp_ptr) ap, (mp_ptr) bp, rn*GMP_LIMB_BITS, scratch);
+     MPN_COPY(rp, tp, an + bn);
+  } else
+     mpn_mulmod_2expm1(rp, (mp_ptr) ap, (mp_ptr) bp, rn*GMP_LIMB_BITS, scratch);
+     
+  TMP_FREE;
+}

@@ -47,7 +47,7 @@ static unsigned char zerotab[0x40] = {
 
 mp_limb_t
 mpn_gcdext_1 (mp_limb_signed_t *sp, mp_limb_signed_t *tp,
-          mp_limb_t u, mp_limb_t v)
+	      mp_limb_t u, mp_limb_t v)
 {
   /* Maintain
 
@@ -99,53 +99,53 @@ mpn_gcdext_1 (mp_limb_signed_t *sp, mp_limb_signed_t *tp,
     {
       unsigned count;
       if (u > v)
-    {
-      u -= v;
+	{
+	  u -= v;
 #if USE_ZEROTAB
-      count = zerotab [u & 0x3f];
-      u >>= count;
-      if (UNLIKELY (count == 6))
-        {
-          unsigned c;
-          do
-        {
-          c = zerotab[u & 0x3f];
-          u >>= c;
-          count += c;
-        }
-          while (c == 6);
-        }
+	  count = zerotab [u & 0x3f];
+	  u >>= count;
+	  if (UNLIKELY (count == 6))
+	    {
+	      unsigned c;
+	      do
+		{
+		  c = zerotab[u & 0x3f];
+		  u >>= c;
+		  count += c;
+		}
+	      while (c == 6);
+	    }
 #else
-      count_trailing_zeros (count, u);
-      u >>= count;
+	  count_trailing_zeros (count, u);
+	  u >>= count;
 #endif
-      t0 += t1; t1 <<= count;
-      s0 += s1; s1 <<= count;
-    }
+	  t0 += t1; t1 <<= count;
+	  s0 += s1; s1 <<= count;
+	}
       else
-    {
-      v -= u;
+	{
+	  v -= u;
 #if USE_ZEROTAB
-      count = zerotab [v & 0x3f];
-      v >>= count;
-      if (UNLIKELY (count == 6))
-        {
-          unsigned c;
-          do
-        {
-          c = zerotab[v & 0x3f];
-          v >>= c;
-          count += c;
-        }
-          while (c == 6);
-        }
+	  count = zerotab [v & 0x3f];
+	  v >>= count;
+	  if (UNLIKELY (count == 6))
+	    {
+	      unsigned c;
+	      do
+		{
+		  c = zerotab[v & 0x3f];
+		  v >>= c;
+		  count += c;
+		}
+	      while (c == 6);
+	    }
 #else
-      count_trailing_zeros (count, v);
-      v >>= count;
+	  count_trailing_zeros (count, v);
+	  v >>= count;
 #endif
-      t1 += t0; t0 <<= count;
-      s1 += s0; s0 <<= count;
-    }
+	  t1 += t0; t0 <<= count;
+	  s1 += s0; s0 <<= count;
+	}
       shift += count;
     }
 #else
@@ -165,15 +165,15 @@ mpn_gcdext_1 (mp_limb_signed_t *sp, mp_limb_signed_t *tp,
 
       /* When v <= u (vgtu == 0), the updates are:
 
-       (u; v)   <-- ( (u - v) >> count; v)    (det = +(1<<count) for corr. M factor)
-       (t1, t0) <-- (t1 << count, t0 + t1)
+	   (u; v)   <-- ( (u - v) >> count; v)    (det = +(1<<count) for corr. M factor)
+	   (t1, t0) <-- (t1 << count, t0 + t1)
 
-     and when v > 0, the updates are
+	 and when v > 0, the updates are
 
-       (u; v)   <-- ( (v - u) >> count; u)    (det = -(1<<count))
-       (t1, t0) <-- (t0 << count, t0 + t1)
+	   (u; v)   <-- ( (v - u) >> count; u)    (det = -(1<<count))
+	   (t1, t0) <-- (t0 << count, t0 + t1)
 
-     and similarly for s1, s0
+	 and similarly for s1, s0
       */
 
       /* v <-- min (u, v) */
@@ -187,16 +187,16 @@ mpn_gcdext_1 (mp_limb_signed_t *sp, mp_limb_signed_t *tp,
 #if USE_ZEROTAB
       count = zerotab[d & 0x3f];
       if (UNLIKELY (count == 6))
-    {
-      unsigned c = 6;
-      do
-        {
-          d >>= c;
-          c = zerotab[d & 0x3f];
-          count += c;
-        }
-      while (c == 6);
-    }
+	{
+	  unsigned c = 6;
+	  do
+	    {
+	      d >>= c;
+	      c = zerotab[d & 0x3f];
+	      count += c;
+	    }
+	  while (c == 6);
+	}
 #else
       count_trailing_zeros (count, d);
 #endif
@@ -265,7 +265,7 @@ mpn_gcdext_1 (mp_limb_signed_t *sp, mp_limb_signed_t *tp,
 
 mp_limb_t
 mpn_gcdext_1 (mp_limb_signed_t *up, mp_limb_signed_t *vp,
-          mp_limb_t a, mp_limb_t b)
+	      mp_limb_t a, mp_limb_t b)
 {
   /* Maintain
 
@@ -293,11 +293,11 @@ mpn_gcdext_1 (mp_limb_signed_t *up, mp_limb_signed_t *vp,
       a -= q * b;
 
       if (a == 0)
-    {
-      *up = u1;
-      *vp = v1;
-      return b;
-    }
+	{
+	  *up = u1;
+	  *vp = v1;
+	  return b;
+	}
       u0 -= q * u1;
       v0 -= q * v1;
 
@@ -306,11 +306,11 @@ mpn_gcdext_1 (mp_limb_signed_t *up, mp_limb_signed_t *vp,
       b -= q * a;
 
       if (b == 0)
-    {
-      *up = u0;
-      *vp = v0;
-      return a;
-    }
+	{
+	  *up = u0;
+	  *vp = v0;
+	  return a;
+	}
       u1 -= q * u0;
       v1 -= q * v0;
     }
