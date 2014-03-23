@@ -94,6 +94,28 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
+        public void Reallocate()
+        {
+            using (var a = new HugeInt("543209879487374938579837"))
+            {
+                Assert.AreEqual(3, a.NumberOfLimbsAllocated());
+                Assert.AreEqual("543209879487374938579837", a.ToString());
+
+                a.Reallocate(257);
+                Assert.AreEqual(5, a.NumberOfLimbsAllocated());
+                Assert.AreEqual("543209879487374938579837", a.ToString());
+
+                a.Reallocate(129);
+                Assert.AreEqual(3, a.NumberOfLimbsAllocated());
+                Assert.AreEqual("543209879487374938579837", a.ToString());
+
+                a.Reallocate(64);
+                Assert.AreEqual(1, a.NumberOfLimbsAllocated());
+                Assert.AreEqual("0", a.ToString());
+            }
+        }
+
+        [TestMethod]
         public void StringConstructor()
         {
             var n = "5432109876543212345789023245987";

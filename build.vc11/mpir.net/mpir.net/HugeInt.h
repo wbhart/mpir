@@ -318,7 +318,6 @@ namespace MPIR
                 CustomFree(_value);
                 _value = nullptr;
             }
-            //HugeInt(mpz_srcptr src);
             void FromString(String^ value, int base);
 
         internal:
@@ -336,10 +335,11 @@ namespace MPIR
             //construction
             HugeInt();
             HugeInt(mp_bitcnt_t bits);
-            HugeInt(String^ value);
-            HugeInt(String^ value, int base);
+            HugeInt(String^ value) { FromString(value, 10); }
+            HugeInt(String^ value, int base) { FromString(value, base); }
             static HugeInt^ FromLong(mpir_si value);
             static HugeInt^ FromUlong(mpir_ui value);
+            void Reallocate(mp_bitcnt_t bits) { mpz_realloc2(_value, bits); }
 
             //disposal
             ~HugeInt();

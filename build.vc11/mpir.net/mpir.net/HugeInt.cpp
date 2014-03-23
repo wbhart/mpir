@@ -93,16 +93,6 @@ namespace MPIR
         mpz_init2(_value, bits);
     }
 
-    HugeInt::HugeInt(String^ value)
-    {
-        FromString(value, 10);
-    }
-
-    HugeInt::HugeInt(String^ value, int base)
-    {
-        FromString(value, base);
-    }
-
     void HugeInt::FromString(String^ value, int base)
     {
         AllocateStruct();
