@@ -363,5 +363,10 @@ namespace MPIR
                 mpir_ui get() { return mpz_get_ui(_value); }
                 void set(mpir_ui value) { mpz_set_ui(_value, value); }
             }
+            property mpir_si AsLong
+            {
+                mpir_si get() { return mpz_get_si(_value); }
+                void set(mpir_si value) { mpz_set_si(_value, value); }
+            }
     };
 };

@@ -61,6 +61,20 @@ namespace MPIR.Tests.HugeIntTests
             }
         }
 
+        [TestMethod]
+        public void ToAndFromLong()
+        {
+            using (var a = new HugeInt())
+            {
+                long b = -0x784739ABCDEF4876;
+                a.AsLong = b;
+                Assert.AreEqual(b.ToString(), a.ToString());
+
+                long c = a.AsLong;
+                Assert.AreEqual(b.ToString(), c.ToString());
+            }
+        }
+
         //todo truncated test
     }
 }
