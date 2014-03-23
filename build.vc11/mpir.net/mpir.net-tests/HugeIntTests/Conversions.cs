@@ -75,6 +75,24 @@ namespace MPIR.Tests.HugeIntTests
             }
         }
 
+        [TestMethod]
+        public void ToAndFromDouble()
+        {
+            using (var a = new HugeInt())
+            using (var lo = new HugeInt())
+            using (var hi = new HugeInt())
+            {
+                a.AsDouble = -123.45e20;
+                lo.Value = (a/10000000000).Rounding(RoundingModes.Floor);
+                hi.Value = (a/10000000000).Rounding(RoundingModes.Ceiling);
+
+                Assert.IsTrue(lo.ToString() == "-1234500000000" || hi.ToString() == "-1234500000000");
+
+                double c = a.AsDouble;
+                Assert.AreEqual(-123.45e20, c);
+            }
+        }
+
         //todo truncated test
     }
 }

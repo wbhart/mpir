@@ -368,5 +368,10 @@ namespace MPIR
                 mpir_si get() { return mpz_get_si(_value); }
                 void set(mpir_si value) { mpz_set_si(_value, value); }
             }
+            property double AsDouble
+            {
+                double get() { return mpz_get_d(_value); }
+                void set(double value) { mpz_set_d(_value, value); }
+            }
     };
 };
