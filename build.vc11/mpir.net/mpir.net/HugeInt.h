@@ -87,6 +87,13 @@ public ref class Mpir##name##Expression : base                    \
 #define MAKE_VOID_FUNCTION_DEFINE(base, op, result)      \
     base^ MpirExpression::op() { return gcnew Mpir##result##Expression(this); }
 
+//functions with one argument and simple result
+//#define MAKE_SIMPLE_ONE_ARG_FUNCTION(action, op, resultType, argType) \
+//    MAKE_SIMPLE_ONE_ARG_FUNCTION_##action(op, resultType, argType)
+//
+//#define MAKE_SIMPLE_ONE_ARG_FUNCTION_DECLARE(op, resultType, argType) \
+//    resultType op(argType a);
+
 //unary operators
 #define MAKE_UNARY_OPERATOR(base, action, op, result, mpType) \
     MAKE_UNARY_OPERATOR_##action(base, op, result##mpType, Expr)
@@ -156,6 +163,14 @@ namespace MPIR
     ref class MpirModExpression;
     ref class MpirModUiExpression;
 
+    public enum class RoundingModes
+    {
+        Default,
+        Truncate,
+        Ceiling,
+        Floor,
+    };
+
     public ref class MpirExpression abstract
     {
         internal:
@@ -171,14 +186,9 @@ namespace MPIR
 
         public:
             DEFINE_OPERATIONS(DECLARE)
-    };
 
-    public enum class RoundingModes
-    {
-        Default,
-        Truncate,
-        Ceiling,
-        Floor,
+            mpir_ui Mod(mpir_ui a) { return Mod(a, RoundingModes::Default); }
+            mpir_ui Mod(mpir_ui a, RoundingModes roundingMode);
     };
 
     static public ref class MpirSettings

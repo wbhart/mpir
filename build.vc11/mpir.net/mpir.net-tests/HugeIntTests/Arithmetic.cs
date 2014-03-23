@@ -1582,6 +1582,87 @@ namespace MPIR.Tests.HugeIntTests
 
         #endregion
 
+        #region Mod Limb function
+
+        [TestMethod]
+        public void ModLimbFunction()
+        {
+            using (var a = new HugeInt("234052834524092854092874502983745029345723098457209305983434345"))
+            {
+                ulong b = 5931690917503076532;
+                ulong d = a.Mod(b);
+                Assert.AreEqual("5599417901817617409", d.ToString());
+            }
+        }
+
+        [TestMethod]
+        public void ModLimbFunctionCeiling()
+        {
+            using (var a = new HugeInt("234052834524092854092874502983745029345723098457209305983434345"))
+            {
+                ulong b = 5931690917503076532;
+                ulong d = a.Mod(b, RoundingModes.Ceiling);
+                Assert.AreEqual("332273015685459123", d.ToString());
+            }
+        }
+
+        [TestMethod]
+        public void ModLimbFunctionNegativeCeiling()
+        {
+            using (var a = new HugeInt("-234052834524092854092874502983745029345723098457209305983434345"))
+            {
+                ulong b = 5931690917503076532;
+                ulong d = a.Mod(b, RoundingModes.Ceiling);
+                Assert.AreEqual("5599417901817617409", d.ToString());
+            }
+        }
+
+        [TestMethod]
+        public void ModLimbFunctionFloor()
+        {
+            using (var a = new HugeInt("234052834524092854092874502983745029345723098457209305983434345"))
+            {
+                ulong b = 5931690917503076532;
+                ulong d = a.Mod(b, RoundingModes.Floor);
+                Assert.AreEqual("5599417901817617409", d.ToString());
+            }
+        }
+
+        [TestMethod]
+        public void ModLimbFunctionNegativeFloor()
+        {
+            using (var a = new HugeInt("-234052834524092854092874502983745029345723098457209305983434345"))
+            {
+                ulong b = 5931690917503076532;
+                ulong d = a.Mod(b, RoundingModes.Floor);
+                Assert.AreEqual("332273015685459123", d.ToString());
+            }
+        }
+
+        [TestMethod]
+        public void ModLimbFunctionTruncate()
+        {
+            using (var a = new HugeInt("234052834524092854092874502983745029345723098457209305983434345"))
+            {
+                ulong b = 5931690917503076532;
+                ulong d = a.Mod(b, RoundingModes.Truncate);
+                Assert.AreEqual("5599417901817617409", d.ToString());
+            }
+        }
+
+        [TestMethod]
+        public void ModLimbFunctionNegativeTruncate()
+        {
+            using (var a = new HugeInt("-234052834524092854092874502983745029345723098457209305983434345"))
+            {
+                ulong b = 5931690917503076532;
+                ulong d = a.Mod(b, RoundingModes.Truncate);
+                Assert.AreEqual("5599417901817617409", d.ToString());
+            }
+        }
+
+        #endregion
+
         #endregion
     }
 }

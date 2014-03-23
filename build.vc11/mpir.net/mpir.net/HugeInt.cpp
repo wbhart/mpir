@@ -307,5 +307,23 @@ namespace MPIR
     DEFINE_UNARY_ASSIGNMENT_REF(Negate, Int, mpz_neg)
     DEFINE_UNARY_ASSIGNMENT_REF(Abs, Int, mpz_abs)
 
+    mpir_ui MpirExpression::Mod(mpir_ui d, RoundingModes rounding)
+    {
+        EvaluationContext context;
+        AssignTo(context);
+
+        switch((rounding == RoundingModes::Default) ? MpirSettings::RoundingMode : rounding)
+        {
+            case RoundingModes::Floor:
+                return mpz_fdiv_ui(context.Args[0], d);
+
+            case RoundingModes::Ceiling:
+                return mpz_cdiv_ui(context.Args[0], d);
+
+            default:
+                return mpz_tdiv_ui(context.Args[0], d);
+        }
+    }
+
     #pragma endregion
 };
