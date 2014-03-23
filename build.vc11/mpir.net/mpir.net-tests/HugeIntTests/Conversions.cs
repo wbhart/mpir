@@ -23,7 +23,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace MPIR.Tests.HugeIntTests
 {
     [TestClass]
-    public class ObjectOverrides
+    public class Conversions
     {
         [TestMethod]
         public void ToStringDecimal()
@@ -43,6 +43,21 @@ namespace MPIR.Tests.HugeIntTests
             {
                 Assert.AreEqual(n, a.ToString(16));
                 Assert.AreEqual(n.ToUpper(), a.ToString(-16));
+            }
+        }
+
+        [TestMethod]
+        public void ToAndFromUlong()
+        {
+            using (var a = new HugeInt())
+            {
+                ulong b = 0xF84739ABCDEF4876;
+                a.AsUlong = b;
+                Assert.AreEqual(b.ToString(), a.ToString());
+
+                a.Value = -a;
+                ulong c = a.AsUlong;
+                Assert.AreEqual(b.ToString(), c.ToString());
             }
         }
 

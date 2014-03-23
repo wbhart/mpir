@@ -321,6 +321,7 @@ namespace MPIR
             void FromString(String^ value, int base);
 
         internal:
+            //assignment
             virtual void AssignTo(mpz_ptr destination) override
             {
                 if(destination != _value)
@@ -350,10 +351,17 @@ namespace MPIR
             virtual String^ ToString() override;
             String^ ToString(int base);
 
-            //properties
+            //assignment
             property MpirExpression^ Value
             {
-                void set(MpirExpression^ expr);
+                void set(MpirExpression^ expr) { expr->AssignTo(_value); }
+            }
+
+            //conversions
+            property mpir_ui AsUlong
+            {
+                mpir_ui get() { return mpz_get_ui(_value); }
+                void set(mpir_ui value) { mpz_set_ui(_value, value); }
             }
     };
 };

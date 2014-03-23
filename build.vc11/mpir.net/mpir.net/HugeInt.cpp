@@ -163,11 +163,6 @@ namespace MPIR
 
     #pragma endregion
 
-    void HugeInt::Value::set(MpirExpression^ expr)
-    {
-        expr->AssignTo(_value);
-    }
-
     #pragma region expression special cases
 
     void MpirDivideExpression::custom_mpz_div(mpz_ptr q, mpz_srcptr n, mpz_srcptr d)
