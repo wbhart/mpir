@@ -83,6 +83,24 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
+        public void ConstructorFromDouble()
+        {
+            using (var a = HugeInt.FromDouble(123456789123456.9))
+            {
+                Assert.AreEqual("123456789123456", a.ToString());
+            }
+        }
+
+        [TestMethod]
+        public void ConstructorFromDoubleNegative()
+        {
+            using (var a = HugeInt.FromDouble(-123456789123456.9))
+            {
+                Assert.AreEqual("-123456789123456", a.ToString());
+            }
+        }
+
+        [TestMethod]
         public void Allocate()
         {
             using (var a = new HugeInt(129))

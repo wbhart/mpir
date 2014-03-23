@@ -122,6 +122,13 @@ namespace MPIR
         return result;
     }
 
+    HugeInt^ HugeInt::FromDouble(double value)
+    {
+        auto result = gcnew HugeInt();
+        mpz_set_d(result->_value, value);
+        return result;
+    }
+
     //unmanaged destructor makes the compiler implement IDisposable
     //delegates the actual destruction to the finalizer
     HugeInt::~HugeInt()
