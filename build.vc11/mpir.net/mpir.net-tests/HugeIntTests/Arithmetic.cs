@@ -1102,6 +1102,53 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         #endregion
+        
+        #region IsCongruent
+
+        [TestMethod]
+        public void IsCongruentToHugeInt()
+        {
+            using (var a = new HugeInt("234052834524092854092874502983745029345723098457209305983434345"))
+            using (var b = new HugeInt("394580293847502987609283945873594873409587"))
+            using (var c = new HugeInt("293847502987609283945873594873409587"))
+            {
+                a.Value = (a * b) + c;
+                Assert.IsTrue(a.IsCongruentTo(c, b));
+                a.Value = a + 1;
+                Assert.IsFalse(a.IsCongruentTo(c, b));
+            }
+        }
+
+        [TestMethod]
+        public void IsCongruentToLimb()
+        {
+            using (var a = new HugeInt("234052834524092854092874502983745029345723098457209305983434345"))
+            {
+                ulong b = 5931690917503076532;
+                ulong c = 98764938475983745;
+                a.Value = (a * b) + c;
+                Assert.IsTrue(a.IsCongruentTo(c, b));
+                a.Value = a + 1;
+                Assert.IsFalse(a.IsCongruentTo(c, b));
+            }
+        }
+
+        [TestMethod]
+        public void IsCongruentToPowerOf2()
+        {
+            using (var a = new HugeInt("234052834524092854092874502983745029345723098457209305983434345"))
+            using (var c = new HugeInt("293847502987609283945873594873409587"))
+            {
+                ulong b = 120;
+                a.Value = (a << b) + c;
+                Assert.IsTrue(a.IsCongruentToModPowerOf2(c, b));
+                Assert.IsFalse(a.IsCongruentToModPowerOf2(c, b + 3));
+                c.Value = c + 1;
+                Assert.IsFalse(a.IsCongruentToModPowerOf2(c, b));
+            }
+        }
+
+        #endregion
 
         #endregion
 
