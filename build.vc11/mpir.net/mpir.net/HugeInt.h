@@ -88,6 +88,19 @@ public ref class Mpir##name##Expression : base                    \
 #define MAKE_VOID_FUNCTION_DEFINE(base, op, result)      \
     base^ MpirExpression::op() { return gcnew Mpir##result##Expression(this); }
 
+//one-arg functions
+#define MAKE_FUNCTION_WITH_ONE(base, action, op, argTypeAbbr)  \
+    MAKE_FUNCTION_WITH_ONE_##action(base, op, Expr, op##Int##argTypeAbbr)
+
+#define MAKE_FUNCTION_WITH_LIMB(base, action, op, argTypeAbbr)  \
+    MAKE_FUNCTION_WITH_ONE_##action(base, op, argTypeAbbr, op##Int##argTypeAbbr)
+
+#define MAKE_FUNCTION_WITH_ONE_DECLARE(base, op, argTypeAbbr, result)     \
+    base^ op(TYPE_FOR_ABBR_##argTypeAbbr a);
+
+#define MAKE_FUNCTION_WITH_ONE_DEFINE(base, op, argTypeAbbr, result)      \
+    base^ MpirExpression::op(TYPE_FOR_ABBR_##argTypeAbbr a) { return gcnew Mpir##result##Expression(this, a); }
+
 //functions with one argument and simple result
 //#define MAKE_SIMPLE_ONE_ARG_FUNCTION(action, op, resultType, argType) \
 //    MAKE_SIMPLE_ONE_ARG_FUNCTION_##action(op, resultType, argType)
@@ -155,6 +168,9 @@ public ref class Mpir##name##Expression : base                    \
                                                                                         \
     MAKE_BINARY_OPERATOR_STANDARD  (MpirModExpression, action, %, Mod, Int, Int)        \
     MAKE_BINARY_OPERATOR_RLIMB     (MpirModUiExpression, action, %, Mod, Int, Ui)       \
+                                                                                        \
+    MAKE_FUNCTION_WITH_ONE         (MpirExpression, action, DivideExactly, Int)         \
+    MAKE_FUNCTION_WITH_LIMB        (MpirExpression, action, DivideExactly, Ui)          \
 
 namespace MPIR
 {
@@ -298,6 +314,9 @@ namespace MPIR
 
     DEFINE_BINARY_EXPRESSION_WITH_TWO(MpirModExpression, Mod, Int, HugeInt^)
     DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT(MpirModUiExpression, Mod, Int, Ui, HugeInt^, mpir_ui)
+
+    DEFINE_BINARY_EXPRESSION_WITH_TWO           (MpirExpression, DivideExactly, Int, HugeInt^)
+    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT(MpirExpression, DivideExactly, Int, Ui, HugeInt^, mpir_ui)
 
     DEFINE_OPERATIONS(DEFINE)
 

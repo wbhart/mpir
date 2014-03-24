@@ -309,6 +309,9 @@ namespace MPIR
     DEFINE_UNARY_ASSIGNMENT_REF(Negate, Int, mpz_neg)
     DEFINE_UNARY_ASSIGNMENT_REF(Abs, Int, mpz_abs)
 
+    DEFINE_BINARY_ASSIGNMENT_REF_REF(DivideExactly, Int, mpz_divexact)
+    DEFINE_BINARY_ASSIGNMENT_REF_VAL(DivideExactly, Int, Ui, mpz_divexact_ui)
+
     mpir_ui MpirExpression::Mod(mpir_ui d, RoundingModes rounding)
     {
         EvaluationContext context;

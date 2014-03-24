@@ -1032,6 +1032,34 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         #endregion
+ 
+        #region Exact
+
+        [TestMethod]
+        public void DivideExactlyHugeInt()
+        {
+            using (var a = new HugeInt("234052834524092854092874502983745029345723098457209305983434345"))
+            using (var b = new HugeInt("394580293847502987609283945873594873409587"))
+            using (var c = new HugeInt())
+            {
+                c.Value = (a * b).DivideExactly(b);
+                Assert.AreEqual(a.ToString(), c.ToString());
+            }
+        }
+
+        [TestMethod]
+        public void DivideExactlyLimb()
+        {
+            using (var a = new HugeInt("234052834524092854092874502983745029345723098457209305983434345"))
+            using (var c = new HugeInt())
+            {
+                ulong b = 5931690917503076532;
+                c.Value = (a * b).DivideExactly(b);
+                Assert.AreEqual(a.ToString(), c.ToString());
+            }
+        }
+
+        #endregion
 
         #endregion
 
