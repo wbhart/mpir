@@ -102,11 +102,17 @@ public ref class Mpir##name##Expression : base                    \
     base^ MpirExpression::op(TYPE_FOR_ABBR_##argTypeAbbr a) { return gcnew Mpir##result##Expression(this, a); }
 
 //functions with one argument and simple result
-//#define MAKE_SIMPLE_ONE_ARG_FUNCTION(action, op, resultType, argType) \
-//    MAKE_SIMPLE_ONE_ARG_FUNCTION_##action(op, resultType, argType)
+//#define MAKE_SIMPLE_FUNCTION_WITH_ONE(base, action, op, resultType, argType) \
+//    MAKE_SIMPLE_FUNCTION_WITH_ONE_##action(base, op, resultType, Expr)
 //
-//#define MAKE_SIMPLE_ONE_ARG_FUNCTION_DECLARE(op, resultType, argType) \
-//    resultType op(argType a);
+//#define MAKE_SIMPLE_FUNCTION_WITH_LIMB(base, action, op, resultType, argType) \
+//    MAKE_SIMPLE_FUNCTION_WITH_ONE_##action(base, op, resultType, argType)
+//
+//#define MAKE_SIMPLE_FUNCTION_WITH_ONE_DECLARE(base, op, resultTypeAbbr, argTypeAbbr)     \
+//    TYPE_FOR_ABBR_##resultTypeAbbr op(TYPE_FOR_ABBR_##argTypeAbbr a);
+//
+//#define MAKE_SIMPLE_FUNCTION_WITH_ONE_DEFINE(base, op, resultTypeAbbr, argTypeAbbr)      \
+//    TYPE_FOR_ABBR_##resultTypeAbbr HugeInt::op(TYPE_FOR_ABBR_##argTypeAbbr a) { return gcnew Mpir##result##Expression(this, a); }
 
 //unary operators
 #define MAKE_UNARY_OPERATOR(base, action, op, result, mpType) \
@@ -394,6 +400,11 @@ namespace MPIR
             void SetTo(double value) { mpz_set_d(_value, value); }
             void SetTo(String^ value) { SetTo(value, 10); }
             void SetTo(String^ value, int base);
+
+            //arithmetic
+            bool IsDivisibleBy(HugeInt^ a) { return mpz_divisible_p(_value, a->_value) != 0; }
+            bool IsDivisibleBy(mpir_ui a) { return mpz_divisible_ui_p(_value, a) != 0; }
+            bool IsDivisibleByPowerOf2(mp_bitcnt_t bits) { return mpz_divisible_2exp_p(_value, bits) != 0; }
 
             //utility methods
             void Swap(HugeInt^ a) 

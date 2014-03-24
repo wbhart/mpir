@@ -1061,6 +1061,48 @@ namespace MPIR.Tests.HugeIntTests
 
         #endregion
 
+        #region IsDivisible
+
+        [TestMethod]
+        public void IsDivisibleByHugeInt()
+        {
+            using (var a = new HugeInt("234052834524092854092874502983745029345723098457209305983434345"))
+            using (var b = new HugeInt("394580293847502987609283945873594873409587"))
+            {
+                a.Value = (a * b);
+                Assert.IsTrue(a.IsDivisibleBy(b));
+                a.Value = a + 1;
+                Assert.IsFalse(a.IsDivisibleBy(b));
+            }
+        }
+
+        [TestMethod]
+        public void IsDivisibleByLimb()
+        {
+            using (var a = new HugeInt("234052834524092854092874502983745029345723098457209305983434345"))
+            {
+                ulong b = 5931690917503076532;
+                a.Value = (a * b);
+                Assert.IsTrue(a.IsDivisibleBy(b));
+                a.Value = a + 1;
+                Assert.IsFalse(a.IsDivisibleBy(b));
+            }
+        }
+
+        [TestMethod]
+        public void IsDivisibleByPowerOf2()
+        {
+            using (var a = new HugeInt("234052834524092854092874502983745029345723098457209305983434345"))
+            {
+                ulong b = 40;
+                a.Value = (a << b);
+                Assert.IsTrue(a.IsDivisibleByPowerOf2(b));
+                Assert.IsFalse(a.IsDivisibleByPowerOf2(b + 1));
+            }
+        }
+
+        #endregion
+
         #endregion
 
         #region Mod
