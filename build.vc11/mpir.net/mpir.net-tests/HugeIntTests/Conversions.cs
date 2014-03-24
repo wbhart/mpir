@@ -93,6 +93,31 @@ namespace MPIR.Tests.HugeIntTests
             }
         }
 
+        [TestMethod]
+        public void FromString()
+        {
+            using (var a = new HugeInt())
+            {
+                var n = "98762934876529834765234123984761";
+                a.SetTo(n);
+                Assert.AreEqual(n, a.ToString());
+
+                n = "-98ABCDEF876529834765234123984761";
+                a.SetTo(n, 16);
+                Assert.AreEqual(n, a.ToString(-16));
+            }
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void FromInvalidString()
+        {
+            using (var a = new HugeInt())
+            {
+                a.SetTo("12345A");
+            }
+        }
+
         //todo truncated test
     }
 }

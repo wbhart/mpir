@@ -359,10 +359,13 @@ namespace MPIR
 
             //conversions
             mpir_ui ToUlong() { return mpz_get_ui(_value); }
-            void SetTo(mpir_ui value) { mpz_set_ui(_value, value); }
             mpir_si ToLong() { return mpz_get_si(_value); }
-            void SetTo(mpir_si value) { mpz_set_si(_value, value); }
             double ToDouble() { return mpz_get_d(_value); }
+
+            void SetTo(mpir_ui value) { mpz_set_ui(_value, value); }
+            void SetTo(mpir_si value) { mpz_set_si(_value, value); }
             void SetTo(double value) { mpz_set_d(_value, value); }
+            void SetTo(String^ value) { SetTo(value, 10); }
+            void SetTo(String^ value, int base);
     };
 };

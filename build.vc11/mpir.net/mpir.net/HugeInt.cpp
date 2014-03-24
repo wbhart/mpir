@@ -104,8 +104,18 @@ namespace MPIR
         if(!success)
         {
             DeallocateStruct();
-            throw gcnew ArgumentException("InvalidNumber", "value");
+            throw gcnew ArgumentException("Invalid number", "value");
         }
+    }
+
+    void HugeInt::SetTo(String^ value, int base)
+    {
+        IntPtr ptr = Marshal::StringToHGlobalAnsi(value);
+        bool success = 0 == mpz_set_str(_value, (char*)(void*)ptr, base);
+        Marshal::FreeHGlobal(ptr);
+
+        if(!success)
+            throw gcnew ArgumentException("Invalid number", "value");
     }
 
     HugeInt^ HugeInt::FromLong(mpir_si value)
