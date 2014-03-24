@@ -1083,7 +1083,7 @@ tune_dc_div (gmp_randstate_t rands)
   param.name = "INV_DIV_QR_THRESHOLD";
   param.max_size = 10000;
   param.function = speed_mpn_inv_div_qr;
-  param.min_size = dc_div_qr_threshold;
+  param.min_size = MAX(300, dc_div_qr_threshold);
   param.step_factor = 0.02;
   one (&inv_div_qr_threshold, rands, &param);
   }
@@ -1116,7 +1116,7 @@ tune_tdiv_q (gmp_randstate_t rands)
   param.name = "INV_DIV_Q_THRESHOLD";
   param.function = speed_mpn_tdiv_q1;
   param.max_size = 10000;
-  param.min_size = dc_div_q_threshold;
+  param.min_size = MAX(300, dc_div_q_threshold);
   param.step_factor = 0.02;
   one (&inv_div_q_threshold, rands, &param);
   }
