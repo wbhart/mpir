@@ -35,6 +35,20 @@ namespace MPIR.Tests.HugeIntTests
                 Assert.AreEqual("-222509832503450298345029835740293845720", b.ToString());
             }
         }
+
+        [TestMethod]
+        public void Swap()
+        {
+            using (var a = new HugeInt("-222509832503450298345029835740293845720"))
+            using (var b = new HugeInt("2039847290878794872059384789347534534"))
+            {
+                var aValue = a._value();
+                var bValue = b._value();
+                a.Swap(b);
+                Assert.AreEqual(bValue, a._value());
+                Assert.AreEqual(aValue, b._value());
+            }
+        }
         //more tests coming here
     }
 }

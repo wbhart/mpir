@@ -367,5 +367,8 @@ namespace MPIR
             void SetTo(double value) { mpz_set_d(_value, value); }
             void SetTo(String^ value) { SetTo(value, 10); }
             void SetTo(String^ value, int base);
+
+            //utility methods
+            void Swap(HugeInt^ a) { mpz_ptr temp = a->_value; a->_value = _value; _value = temp; }
     };
 };
