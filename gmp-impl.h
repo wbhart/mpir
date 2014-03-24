@@ -1986,6 +1986,10 @@ __GMP_DECLSPEC mp_limb_t gmp_primesieve (mp_ptr, mp_limb_t);
 #define SQR_FFT_THRESHOLD   (SQR_FFT_FULL_THRESHOLD / 2)
 #endif
 
+#ifndef FFT_MULMOD_2EXPP1_CUTOFF
+#define FFT_MULMOD_2EXPP1_CUTOFF 128
+#endif
+
 #ifndef DC_DIV_QR_THRESHOLD
 #define DC_DIV_QR_THRESHOLD    (3 * MUL_KARATSUBA_THRESHOLD)
 #endif
