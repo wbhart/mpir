@@ -90,6 +90,13 @@ namespace MPIR.Tests.HugeIntTests
 
                 double c = a.ToDouble();
                 Assert.AreEqual(-123.45e20, c);
+                
+                long exp;
+                a.Value = a + a;
+                c = a.ToDouble(out exp);
+                //TODO refactor (and verify) these asserts
+                Assert.AreEqual("-0.653538858365896", c.ToString());
+                Assert.AreEqual(75, exp);
             }
         }
 

@@ -20,6 +20,7 @@ along with the MPIR Library.  If not, see http://www.gnu.org/licenses/.
 #pragma once
 
 using namespace System;
+using namespace System::Runtime::InteropServices;
 
 //defines a unary expression class
 #define DEFINE_UNARY_EXPRESSION(base, name, type)                \
@@ -361,6 +362,13 @@ namespace MPIR
             mpir_ui ToUlong() { return mpz_get_ui(_value); }
             mpir_si ToLong() { return mpz_get_si(_value); }
             double ToDouble() { return mpz_get_d(_value); }
+            double ToDouble([Out] mpir_si% exp) 
+            { 
+                mpir_si x; 
+                auto result = mpz_get_d_2exp(&x, _value); 
+                exp = x; 
+                return result; 
+            }
 
             void SetTo(mpir_ui value) { mpz_set_ui(_value, value); }
             void SetTo(mpir_si value) { mpz_set_si(_value, value); }
@@ -369,6 +377,11 @@ namespace MPIR
             void SetTo(String^ value, int base);
 
             //utility methods
-            void Swap(HugeInt^ a) { mpz_ptr temp = a->_value; a->_value = _value; _value = temp; }
+            void Swap(HugeInt^ a) 
+            { 
+                mpz_ptr temp = a->_value;
+                a->_value = _value;
+                _value = temp; 
+            }
     };
 };
