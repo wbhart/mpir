@@ -358,20 +358,11 @@ namespace MPIR
             }
 
             //conversions
-            property mpir_ui AsUlong
-            {
-                mpir_ui get() { return mpz_get_ui(_value); }
-                void set(mpir_ui value) { mpz_set_ui(_value, value); }
-            }
-            property mpir_si AsLong
-            {
-                mpir_si get() { return mpz_get_si(_value); }
-                void set(mpir_si value) { mpz_set_si(_value, value); }
-            }
-            property double AsDouble
-            {
-                double get() { return mpz_get_d(_value); }
-                void set(double value) { mpz_set_d(_value, value); }
-            }
+            mpir_ui ToUlong() { return mpz_get_ui(_value); }
+            void SetTo(mpir_ui value) { mpz_set_ui(_value, value); }
+            mpir_si ToLong() { return mpz_get_si(_value); }
+            void SetTo(mpir_si value) { mpz_set_si(_value, value); }
+            double ToDouble() { return mpz_get_d(_value); }
+            void SetTo(double value) { mpz_set_d(_value, value); }
     };
 };

@@ -52,11 +52,11 @@ namespace MPIR.Tests.HugeIntTests
             using (var a = new HugeInt())
             {
                 ulong b = 0xF84739ABCDEF4876;
-                a.AsUlong = b;
+                a.SetTo(b);
                 Assert.AreEqual(b.ToString(), a.ToString());
 
                 a.Value = -a;
-                ulong c = a.AsUlong;
+                ulong c = a.ToUlong();
                 Assert.AreEqual(b.ToString(), c.ToString());
             }
         }
@@ -67,10 +67,10 @@ namespace MPIR.Tests.HugeIntTests
             using (var a = new HugeInt())
             {
                 long b = -0x784739ABCDEF4876;
-                a.AsLong = b;
+                a.SetTo(b);
                 Assert.AreEqual(b.ToString(), a.ToString());
 
-                long c = a.AsLong;
+                long c = a.ToLong();
                 Assert.AreEqual(b.ToString(), c.ToString());
             }
         }
@@ -82,13 +82,13 @@ namespace MPIR.Tests.HugeIntTests
             using (var lo = new HugeInt())
             using (var hi = new HugeInt())
             {
-                a.AsDouble = -123.45e20;
+                a.SetTo(-123.45e20);
                 lo.Value = (a/10000000000).Rounding(RoundingModes.Floor);
                 hi.Value = (a/10000000000).Rounding(RoundingModes.Ceiling);
 
                 Assert.IsTrue(lo.ToString() == "-1234500000000" || hi.ToString() == "-1234500000000");
 
-                double c = a.AsDouble;
+                double c = a.ToDouble();
                 Assert.AreEqual(-123.45e20, c);
             }
         }
