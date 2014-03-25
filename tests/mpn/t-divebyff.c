@@ -39,8 +39,11 @@ main (void)
   tests_start ();
   gmp_randinit_default(rands);
 
-// where (xp,n) = (qp,n)*(B-1) -ret*B^n    and 0 <= ret < B-1      B=2^GMP_NUMB_BITS
-// this assumes we use a divexact algorithm , a bi-directional algorithm would give different results
+  /*
+     where (xp,n) = (qp,n)*(B-1) -ret*B^n and 0 <= ret < B-1      
+     B=2^GMP_NUMB_BITS. This assumes we use a divexact algorithm, 
+     a bi-directional algorithm would give different results.
+  */
   for (n = 1; n < 100; n++)
     {
       for (c = 0; c < 10; c++)
