@@ -463,9 +463,9 @@ namespace MPIR.Tests.HugeIntTests
         {
             using (var a = new HugeInt("ABCDEF052834524092854092874502983745029345723098457209305983434345", 16))
             {
-                ulong b = 64;
+                ulong b = 96;
                 a.Value = a >> b;
-                Assert.AreEqual("ABCDEF05283452409285409287450298374502934572309845", a.ToString(-16));
+                Assert.AreEqual("ABCDEF052834524092854092874502983745029345", a.ToString(-16));
             }
         }
 
@@ -474,9 +474,9 @@ namespace MPIR.Tests.HugeIntTests
         {
             using (var a = new HugeInt("ABCDEF052834524092854092874502983745029345723098457209305983434345", 16))
             {
-                ulong b = 64;
+                ulong b = 96;
                 a.Value = (a >> b).Rounding(RoundingModes.Ceiling);
-                Assert.AreEqual("ABCDEF05283452409285409287450298374502934572309846", a.ToString(-16));
+                Assert.AreEqual("ABCDEF052834524092854092874502983745029346", a.ToString(-16));
             }
         }
 
@@ -485,9 +485,9 @@ namespace MPIR.Tests.HugeIntTests
         {
             using (var a = new HugeInt("-ABCDEF052834524092854092874502983745029345723098457209305983434345", 16))
             {
-                ulong b = 64;
+                ulong b = 96;
                 a.Value = (a >> b).Rounding(RoundingModes.Ceiling);
-                Assert.AreEqual("-ABCDEF05283452409285409287450298374502934572309845", a.ToString(-16));
+                Assert.AreEqual("-ABCDEF052834524092854092874502983745029345", a.ToString(-16));
             }
         }
 
@@ -496,9 +496,9 @@ namespace MPIR.Tests.HugeIntTests
         {
             using (var a = new HugeInt("ABCDEF052834524092854092874502983745029345723098457209305983434345", 16))
             {
-                ulong b = 64;
+                ulong b = 96;
                 a.Value = (a >> b).Rounding(RoundingModes.Floor);
-                Assert.AreEqual("ABCDEF05283452409285409287450298374502934572309845", a.ToString(-16));
+                Assert.AreEqual("ABCDEF052834524092854092874502983745029345", a.ToString(-16));
             }
         }
 
@@ -507,9 +507,9 @@ namespace MPIR.Tests.HugeIntTests
         {
             using (var a = new HugeInt("-ABCDEF052834524092854092874502983745029345723098457209305983434345", 16))
             {
-                ulong b = 64;
+                ulong b = 96;
                 a.Value = (a >> b).Rounding(RoundingModes.Floor);
-                Assert.AreEqual("-ABCDEF05283452409285409287450298374502934572309846", a.ToString(-16));
+                Assert.AreEqual("-ABCDEF052834524092854092874502983745029346", a.ToString(-16));
             }
         }
 
@@ -518,9 +518,9 @@ namespace MPIR.Tests.HugeIntTests
         {
             using (var a = new HugeInt("ABCDEF052834524092854092874502983745029345723098457209305983434345", 16))
             {
-                ulong b = 64;
+                ulong b = 96;
                 a.Value = (a >> b).Rounding(RoundingModes.Truncate);
-                Assert.AreEqual("ABCDEF05283452409285409287450298374502934572309845", a.ToString(-16));
+                Assert.AreEqual("ABCDEF052834524092854092874502983745029345", a.ToString(-16));
             }
         }
 
@@ -529,9 +529,9 @@ namespace MPIR.Tests.HugeIntTests
         {
             using (var a = new HugeInt("-ABCDEF052834524092854092874502983745029345723098457209305983434345", 16))
             {
-                ulong b = 64;
+                ulong b = 96;
                 a.Value = (a >> b).Rounding(RoundingModes.Truncate);
-                Assert.AreEqual("-ABCDEF05283452409285409287450298374502934572309845", a.ToString(-16));
+                Assert.AreEqual("-ABCDEF052834524092854092874502983745029345", a.ToString(-16));
             }
         }
 
@@ -1856,6 +1856,87 @@ namespace MPIR.Tests.HugeIntTests
                 ulong b = 5931690917503076532;
                 ulong d = a.Mod(b, RoundingModes.Truncate);
                 Assert.AreEqual("5599417901817617409", d.ToString());
+            }
+        }
+
+        #endregion
+
+        #region Shift Right Remainder
+
+        [TestMethod]
+        public void ShiftRightRemainder()
+        {
+            using (var a = new HugeInt("ABCDEF052834524092854092874502983745029345723098457209305983434345", 16))
+            {
+                ulong b = 96;
+                a.Value = (a >> b).Remainder();
+                Assert.AreEqual("723098457209305983434345", a.ToString(-16));
+            }
+        }
+
+        [TestMethod]
+        public void ShiftRightRemainderCeiling()
+        {
+            using (var a = new HugeInt("ABCDEF052834524092854092874502983745029345723098457209305983434345", 16))
+            {
+                ulong b = 96;
+                a.Value = (a >> b).Remainder().Rounding(RoundingModes.Ceiling);
+                Assert.AreEqual("-8DCF67BA8DF6CFA67CBCBCBB", a.ToString(-16));
+            }
+        }
+
+        [TestMethod]
+        public void ShiftRightRemainderNegativeCeiling()
+        {
+            using (var a = new HugeInt("-ABCDEF052834524092854092874502983745029345723098457209305983434345", 16))
+            {
+                ulong b = 96;
+                a.Value = (a >> b).Remainder().Rounding(RoundingModes.Ceiling);
+                Assert.AreEqual("-723098457209305983434345", a.ToString(-16));
+            }
+        }
+
+        [TestMethod]
+        public void ShiftRightRemainderFloor()
+        {
+            using (var a = new HugeInt("ABCDEF052834524092854092874502983745029345723098457209305983434345", 16))
+            {
+                ulong b = 96;
+                a.Value = (a >> b).Remainder().Rounding(RoundingModes.Floor);
+                Assert.AreEqual("723098457209305983434345", a.ToString(-16));
+            }
+        }
+
+        [TestMethod]
+        public void ShiftRightRemainderNegativeFloor()
+        {
+            using (var a = new HugeInt("-ABCDEF052834524092854092874502983745029345723098457209305983434345", 16))
+            {
+                ulong b = 96;
+                a.Value = (a >> b).Remainder().Rounding(RoundingModes.Floor);
+                Assert.AreEqual("8DCF67BA8DF6CFA67CBCBCBB", a.ToString(-16));
+            }
+        }
+
+        [TestMethod]
+        public void ShiftRightRemainderTruncate()
+        {
+            using (var a = new HugeInt("ABCDEF052834524092854092874502983745029345723098457209305983434345", 16))
+            {
+                ulong b = 96;
+                a.Value = (a >> b).Remainder().Rounding(RoundingModes.Truncate);
+                Assert.AreEqual("723098457209305983434345", a.ToString(-16));
+            }
+        }
+
+        [TestMethod]
+        public void ShiftRightRemainderNegativeTruncate()
+        {
+            using (var a = new HugeInt("-ABCDEF052834524092854092874502983745029345723098457209305983434345", 16))
+            {
+                ulong b = 96;
+                a.Value = (a >> b).Remainder().Rounding(RoundingModes.Truncate);
+                Assert.AreEqual("-723098457209305983434345", a.ToString(-16));
             }
         }
 

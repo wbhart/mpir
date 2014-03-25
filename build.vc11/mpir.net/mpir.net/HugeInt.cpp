@@ -228,20 +228,26 @@ namespace MPIR
             _limbRemainder(limb);
     };
 
-    void MpirDivModExpression::custom_mpz_div_2exp(mpz_ptr q, mpz_srcptr n, mp_bitcnt_t d)
+    void MpirShiftRightExpression::custom_mpz_div_2exp(mpz_ptr q, mpz_srcptr n, mp_bitcnt_t d)
     {
         switch((rounding == RoundingModes::Default) ? MpirSettings::RoundingMode : rounding)
         {
             case RoundingModes::Floor:
-                mpz_fdiv_q_2exp(q, n, d);
+                _remainder
+                    ? mpz_fdiv_r_2exp(q, n, d)
+                    : mpz_fdiv_q_2exp(q, n, d);
                 break;
 
             case RoundingModes::Ceiling:
-                mpz_cdiv_q_2exp(q, n, d);
+                _remainder
+                    ? mpz_cdiv_r_2exp(q, n, d)
+                    : mpz_cdiv_q_2exp(q, n, d);
                 break;
 
             default:
-                mpz_tdiv_q_2exp(q, n, d);
+                _remainder
+                    ? mpz_tdiv_r_2exp(q, n, d)
+                    : mpz_tdiv_q_2exp(q, n, d);
                 break;
         }
     };

@@ -144,40 +144,40 @@ public ref class Mpir##name##Expression : base                    \
     MAKE_BINARY_OPERATOR_##action(base, op, result##mpType##limbType, limbType, Expr, b, a)
 
 //master operators/functions definition
-#define DEFINE_OPERATIONS(action)                                                       \
-    MAKE_BINARY_OPERATOR_STANDARD  (MpirExpression, action, +, Add, Int, Int)           \
-    MAKE_BINARY_OPERATOR_RLIMB     (MpirExpression, action, +, Add, Int, Ui)            \
-    MAKE_BINARY_OPERATOR_LLIMB_R   (MpirExpression, action, +, Add, Int, Ui)            \
-    MAKE_BINARY_OPERATOR_RLIMB     (MpirExpression, action, +, Add, Int, Si)            \
-    MAKE_BINARY_OPERATOR_LLIMB_R   (MpirExpression, action, +, Add, Int, Si)            \
-                                                                                        \
-    MAKE_BINARY_OPERATOR_STANDARD  (MpirExpression, action, -, Subtract, Int, Int)      \
-    MAKE_BINARY_OPERATOR_RLIMB     (MpirExpression, action, -, Subtract, Int, Ui)       \
-    MAKE_BINARY_OPERATOR_LLIMB     (MpirExpression, action, -, Subtract, Int, Ui)       \
-    MAKE_BINARY_OPERATOR_RLIMB     (MpirExpression, action, -, Subtract, Int, Si)       \
-    MAKE_BINARY_OPERATOR_LLIMB     (MpirExpression, action, -, Subtract, Int, Si)       \
-                                                                                        \
-    MAKE_BINARY_OPERATOR_STANDARD  (MpirExpression, action, *, Multiply, Int, Int)      \
-    MAKE_BINARY_OPERATOR_RLIMB     (MpirExpression, action, *, Multiply, Int, Ui)       \
-    MAKE_BINARY_OPERATOR_LLIMB_R   (MpirExpression, action, *, Multiply, Int, Ui)       \
-    MAKE_BINARY_OPERATOR_RLIMB     (MpirExpression, action, *, Multiply, Int, Si)       \
-    MAKE_BINARY_OPERATOR_LLIMB_R   (MpirExpression, action, *, Multiply, Int, Si)       \
-                                                                                        \
-    MAKE_BINARY_OPERATOR_RLIMB     (MpirExpression, action, <<, ShiftLeft, Int, Bits)   \
-    MAKE_BINARY_OPERATOR_RLIMB(MpirDivModExpression, action, >>, ShiftRight, Int, Bits) \
-                                                                                        \
-    MAKE_UNARY_OPERATOR(MpirExpression, action, -, Negate, Int)                         \
-                                                                                        \
-    MAKE_VOID_FUNCTION(MpirExpression, action, Abs, Int)                                \
-                                                                                        \
-    MAKE_BINARY_OPERATOR_STANDARD  (MpirDivideExpression, action, /, Divide, Int, Int)  \
-    MAKE_BINARY_OPERATOR_RLIMB     (MpirDivideUiExpression, action, /, Divide, Int, Ui) \
-                                                                                        \
-    MAKE_BINARY_OPERATOR_STANDARD  (MpirModExpression, action, %, Mod, Int, Int)        \
-    MAKE_BINARY_OPERATOR_RLIMB     (MpirModUiExpression, action, %, Mod, Int, Ui)       \
-                                                                                        \
-    MAKE_FUNCTION_WITH_ONE         (MpirExpression, action, DivideExactly, Int)         \
-    MAKE_FUNCTION_WITH_LIMB        (MpirExpression, action, DivideExactly, Ui)          \
+#define DEFINE_OPERATIONS(action)                                                                 \
+    MAKE_BINARY_OPERATOR_STANDARD  (MpirExpression,           action, +, Add, Int, Int)           \
+    MAKE_BINARY_OPERATOR_RLIMB     (MpirExpression,           action, +, Add, Int, Ui)            \
+    MAKE_BINARY_OPERATOR_LLIMB_R   (MpirExpression,           action, +, Add, Int, Ui)            \
+    MAKE_BINARY_OPERATOR_RLIMB     (MpirExpression,           action, +, Add, Int, Si)            \
+    MAKE_BINARY_OPERATOR_LLIMB_R   (MpirExpression,           action, +, Add, Int, Si)            \
+                                                                                                  \
+    MAKE_BINARY_OPERATOR_STANDARD  (MpirExpression,           action, -, Subtract, Int, Int)      \
+    MAKE_BINARY_OPERATOR_RLIMB     (MpirExpression,           action, -, Subtract, Int, Ui)       \
+    MAKE_BINARY_OPERATOR_LLIMB     (MpirExpression,           action, -, Subtract, Int, Ui)       \
+    MAKE_BINARY_OPERATOR_RLIMB     (MpirExpression,           action, -, Subtract, Int, Si)       \
+    MAKE_BINARY_OPERATOR_LLIMB     (MpirExpression,           action, -, Subtract, Int, Si)       \
+                                                                                                  \
+    MAKE_BINARY_OPERATOR_STANDARD  (MpirExpression,           action, *, Multiply, Int, Int)      \
+    MAKE_BINARY_OPERATOR_RLIMB     (MpirExpression,           action, *, Multiply, Int, Ui)       \
+    MAKE_BINARY_OPERATOR_LLIMB_R   (MpirExpression,           action, *, Multiply, Int, Ui)       \
+    MAKE_BINARY_OPERATOR_RLIMB     (MpirExpression,           action, *, Multiply, Int, Si)       \
+    MAKE_BINARY_OPERATOR_LLIMB_R   (MpirExpression,           action, *, Multiply, Int, Si)       \
+                                                                                                  \
+    MAKE_BINARY_OPERATOR_RLIMB     (MpirExpression,           action, <<, ShiftLeft, Int, Bits)   \
+    MAKE_BINARY_OPERATOR_RLIMB     (MpirShiftRightExpression, action, >>, ShiftRight, Int, Bits)  \
+                                                                                                  \
+    MAKE_UNARY_OPERATOR            (MpirExpression,           action, -, Negate, Int)             \
+                                                                                                  \
+    MAKE_VOID_FUNCTION             (MpirExpression,           action, Abs, Int)                   \
+                                                                                                  \
+    MAKE_BINARY_OPERATOR_STANDARD  (MpirDivideExpression,     action, /, Divide, Int, Int)        \
+    MAKE_BINARY_OPERATOR_RLIMB     (MpirDivideUiExpression,   action, /, Divide, Int, Ui)         \
+                                                                                                  \
+    MAKE_BINARY_OPERATOR_STANDARD  (MpirModExpression,        action, %, Mod, Int, Int)           \
+    MAKE_BINARY_OPERATOR_RLIMB     (MpirModUiExpression,      action, %, Mod, Int, Ui)            \
+                                                                                                  \
+    MAKE_FUNCTION_WITH_ONE         (MpirExpression,           action, DivideExactly, Int)         \
+    MAKE_FUNCTION_WITH_LIMB        (MpirExpression,           action, DivideExactly, Ui)          \
 
 namespace MPIR
 {
@@ -187,6 +187,7 @@ namespace MPIR
     ref class MpirModExpression;
     ref class MpirDivModExpression;
     ref class MpirModUiExpression;
+    ref class MpirShiftRightExpression;
 
     public enum class RoundingModes
     {
@@ -231,9 +232,6 @@ namespace MPIR
     {
         protected:
             RoundingModes rounding;
-
-        internal:
-            void custom_mpz_div_2exp(mpz_ptr q, mpz_srcptr n, mp_bitcnt_t bits);
 
         public:
             MpirExpression^ Rounding(RoundingModes mode)
@@ -303,6 +301,22 @@ namespace MPIR
             }
     };
 
+    public ref class MpirShiftRightExpression abstract : MpirDivModExpression
+    {
+        private:
+            bool _remainder;
+
+        internal:
+            void custom_mpz_div_2exp(mpz_ptr q, mpz_srcptr n, mp_bitcnt_t bits);
+
+        public:
+            MpirDivModExpression^ Remainder()
+            {
+                _remainder = true;
+                return this;
+            }
+    };
+
     DEFINE_BINARY_EXPRESSION_WITH_TWO           (MpirExpression, Add, Int, HugeInt^)
     DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT(MpirExpression, Add, Int, Ui, HugeInt^, mpir_ui)
     DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT(MpirExpression, Add, Int, Si, HugeInt^, mpir_si)
@@ -317,15 +331,15 @@ namespace MPIR
 
     DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT(MpirExpression, ShiftLeft, Int, Bits, HugeInt^, mp_bitcnt_t)
     
-    DEFINE_UNARY_EXPRESSION_WITH_ONE(MpirExpression, Negate, Int, HugeInt^)
-    DEFINE_UNARY_EXPRESSION_WITH_ONE(MpirExpression, Abs, Int, HugeInt^)
+    DEFINE_UNARY_EXPRESSION_WITH_ONE            (MpirExpression, Negate, Int, HugeInt^)
+    DEFINE_UNARY_EXPRESSION_WITH_ONE            (MpirExpression, Abs, Int, HugeInt^)
 
     DEFINE_BINARY_EXPRESSION_WITH_TWO           (MpirDivideExpression, Divide, Int, HugeInt^)
     DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT(MpirDivideUiExpression, Divide, Int, Ui, HugeInt^, mpir_ui)
 
-    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT(MpirDivModExpression, ShiftRight, Int, Bits, HugeInt^, mp_bitcnt_t)
+    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT(MpirShiftRightExpression, ShiftRight, Int, Bits, HugeInt^, mp_bitcnt_t)
 
-    DEFINE_BINARY_EXPRESSION_WITH_TWO(MpirModExpression, Mod, Int, HugeInt^)
+    DEFINE_BINARY_EXPRESSION_WITH_TWO           (MpirModExpression, Mod, Int, HugeInt^)
     DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT(MpirModUiExpression, Mod, Int, Ui, HugeInt^, mpir_ui)
 
     DEFINE_BINARY_EXPRESSION_WITH_TWO           (MpirExpression, DivideExactly, Int, HugeInt^)
