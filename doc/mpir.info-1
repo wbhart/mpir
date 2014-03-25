@@ -2559,9 +2559,9 @@ File: mpir.info,  Node: Number Theoretic Functions,  Next: Integer Comparisons, 
      *This function is obsolete.  It will disappear from future MPIR
      releases.*
 
- -- Function: void mpz_next_likely_prime (mpz_t ROP, mpz_t OP,
+ -- Function: void mpz_next_prime_candidate (mpz_t ROP, mpz_t OP,
           gmp_randstate_t STATE)
-     Set ROP to the next likely prime greater than OP.
+     Set ROP to the next candidate prime greater than OP.
 
      This function uses a probabilistic algorithm to identify primes.
      For practical purposes it's adequate, the chance of a composite

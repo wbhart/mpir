@@ -87,7 +87,7 @@ am_libmpz_la_OBJECTS = 2fac_ui.lo abs.lo add.lo add_ui.lo and.lo \
 	kronsz.lo kronuz.lo kronzs.lo kronzu.lo lcm.lo lcm_ui.lo \
 	likely_prime_p.lo lucnum2_ui.lo lucnum_ui.lo mfac_uiui.lo \
 	miller_rabin.lo millerrabin.lo mod.lo mul.lo mul_2exp.lo \
-	mul_si.lo mul_ui.lo n_pow_ui.lo neg.lo next_likely_prime.lo \
+	mul_si.lo mul_ui.lo n_pow_ui.lo neg.lo next_prime_candidate.lo \
 	nextprime.lo nthroot.lo oddfac_1.lo out_raw.lo out_str.lo \
 	perfpow.lo perfsqr.lo popcount.lo pow_ui.lo powm.lo powm_ui.lo \
 	pprime_p.lo primorial_ui.lo probable_prime_p.lo prodlimbs.lo \
@@ -282,9 +282,9 @@ libmpz_la_SOURCES = 2fac_ui.c abs.c add.c add_ui.c and.c aors.h \
 	kronzu.c lcm.c lcm_ui.c likely_prime_p.c lucnum2_ui.c \
 	lucnum_ui.c mfac_uiui.c miller_rabin.c millerrabin.c mod.c \
 	mul.c mul_2exp.c mul_i.h mul_si.c mul_ui.c n_pow_ui.c neg.c \
-	next_likely_prime.c nextprime.c nthroot.c oddfac_1.c out_raw.c \
-	out_str.c perfpow.c perfsqr.c popcount.c pow_ui.c powm.c \
-	powm_ui.c pprime_p.c primorial_ui.c probable_prime_p.c \
+	next_prime_candidate.c nextprime.c nthroot.c oddfac_1.c \
+	out_raw.c out_str.c perfpow.c perfsqr.c popcount.c pow_ui.c \
+	powm.c powm_ui.c pprime_p.c primorial_ui.c probable_prime_p.c \
 	prodlimbs.c realloc.c realloc2.c remove.c root.c rootrem.c \
 	rrandomb.c scan0.c scan1.c set.c set_d.c set_f.c set_q.c \
 	set_si.c set_str.c set_sx.c set_ui.c set_ux.c setbit.c size.c \

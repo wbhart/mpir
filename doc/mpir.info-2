@@ -2558,7 +2558,7 @@ Concept Index
                                                               (line   6)
 * Nails:                                 Low-level Functions. (line 530)
 * Native compilation:                    Build Options.       (line  60)
-* Next likely prime function:            Number Theoretic Functions.
+* Next candidate prime function:         Number Theoretic Functions.
                                                               (line  71)
 * Next prime function:                   Number Theoretic Functions.
                                                               (line  60)
@@ -3319,7 +3319,7 @@ Function and Type Index
 * mpz_mul_si:                            Integer Arithmetic.  (line  17)
 * mpz_mul_ui:                            Integer Arithmetic.  (line  18)
 * mpz_neg:                               Integer Arithmetic.  (line  33)
-* mpz_next_likely_prime:                 Number Theoretic Functions.
+* mpz_next_prime_candidate:              Number Theoretic Functions.
                                                               (line  71)
 * mpz_nextprime:                         Number Theoretic Functions.
                                                               (line  60)
