@@ -159,7 +159,11 @@ CPUVEC_SETUP_x86_64;
 	  if (model == 37){ CPUIS(westmere);break;}
 	  if (model == 38){ CPUIS(atom);break;}// atom z670 tunnel creek
 	  if (model == 39){ CPUIS(atom);break;}// Intel Atom Z2460 (Medfield platform, Penwell SoC, Saltwell core)
-	  if (model == 42){ CPUIS(sandybridge);break;}
+	  if (model == 42){
+        feat = ((int *)features)[2];
+        if (feat & 0x10000000) { CPUIS(sandybridge);break;}
+        else { CPUIS(westmere);break;} /* Really a crippled sandybridge with no avx */
+     }
 	  if (model == 43){ CPUIS(sandybridge);break;}
 	  if (model == 44){ CPUIS(westmere);break;}
 	  if (model == 45){ CPUIS(sandybridge);break;}
