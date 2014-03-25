@@ -160,6 +160,13 @@ namespace MPIR
         return result;
     }
 
+    HugeInt^ HugeInt::FromPower(mpir_ui value, mpir_ui power)
+    {
+        auto result = gcnew HugeInt();
+        mpz_ui_pow_ui(result->_value, value, power);
+        return result;
+    }
+
     //unmanaged destructor makes the compiler implement IDisposable
     //delegates the actual destruction to the finalizer
     HugeInt::~HugeInt()

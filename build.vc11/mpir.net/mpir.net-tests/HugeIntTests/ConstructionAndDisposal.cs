@@ -92,6 +92,15 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
+        public void ConstructorFromPower()
+        {
+            using (var a = HugeInt.FromPower(10, 41))
+            {
+                Assert.AreEqual("100000000000000000000000000000000000000000", a.ToString());
+            }
+        }
+
+        [TestMethod]
         public void ConstructorFromDoubleNegative()
         {
             using (var a = HugeInt.FromDouble(-123456789123456.9))

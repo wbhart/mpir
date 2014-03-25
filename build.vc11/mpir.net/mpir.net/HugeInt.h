@@ -435,6 +435,7 @@ namespace MPIR
             static HugeInt^ FromLong(mpir_si value);
             static HugeInt^ FromUlong(mpir_ui value);
             static HugeInt^ FromDouble(double value);
+            static HugeInt^ FromPower(mpir_ui value, mpir_ui power);
             void Reallocate(mp_bitcnt_t bits) { mpz_realloc2(_value, bits); }
 
             //disposal
