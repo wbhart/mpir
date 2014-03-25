@@ -101,6 +101,8 @@ struct cpuvec_t __gmpn_cpuvec = {
 #define CPUSETUP_nehalem	CPUVEC_SETUP_nehalem
 #define CPUSETUP_westmere	CPUVEC_SETUP_nehalem;CPUVEC_SETUP_nehalem_westmere
 #define CPUSETUP_sandybridge	CPUVEC_SETUP_sandybridge
+#define CPUSETUP_ivybridge	CPUVEC_SETUP_sandybridge;CPUVEC_SETUP_sandybridge_ivybridge
+#define CPUSETUP_haswell	CPUVEC_SETUP_sandybridge
 #define CPUSETUP_atom		CPUVEC_SETUP_atom
 #define CPUSETUP_nano		CPUVEC_SETUP_k8;CPUVEC_SETUP_k8_k8only
 #define CPUSETUP_netburst	CPUVEC_SETUP_netburst
@@ -110,6 +112,7 @@ struct cpuvec_t __gmpn_cpuvec = {
 #define CPUSETUP_k102		CPUVEC_SETUP_k8;CPUVEC_SETUP_k8_k10;CPUVEC_SETUP_k8_k10_k102
 #define CPUSETUP_k103		CPUVEC_SETUP_k8;CPUVEC_SETUP_k8_k10;CPUVEC_SETUP_k8_k10_k102
 #define CPUSETUP_bulldozer	CPUVEC_SETUP_k8;CPUVEC_SETUP_k8_k10;CPUVEC_SETUP_k8_k10_k102
+#define CPUSETUP_piledriver	CPUVEC_SETUP_k8;CPUVEC_SETUP_k8_k10;CPUVEC_SETUP_k8_k10_k102
 #define CPUSETUP_bobcat		CPUVEC_SETUP_bobcat
 
 #include "cpuid.c"
