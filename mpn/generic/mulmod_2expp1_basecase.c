@@ -51,8 +51,6 @@ mpn_mulmod_2expp1_internal (mp_ptr xp, mp_srcptr yp, mp_srcptr zp,
   ASSERT_MPN(zp, n);
   ASSERT(!MPN_OVERLAP_P (tp, 2 * n, yp, n));
   ASSERT(!MPN_OVERLAP_P (tp, 2 * n, zp, n));
-  ASSERT(!MPN_OVERLAP_P (xp, n, yp, n));
-  ASSERT(!MPN_OVERLAP_P (xp, n, zp, n));
   ASSERT(MPN_SAME_OR_SEPARATE_P (xp, tp, n));
   ASSERT(MPN_SAME_OR_SEPARATE_P (xp, tp + n, n));
   ASSERT(k == 0 || yp[n - 1] >> (GMP_NUMB_BITS - k) == 0);
