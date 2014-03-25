@@ -39,21 +39,23 @@ namespace MPIR.Tests.HugeIntTests
                 .Where(x => baseExpr.IsAssignableFrom(x) && !x.IsAbstract)
                 .ToList();
 
-            using (var a = new HugeInt("-9853204702983745098347985373498752039470593874"))
-            using (var b = new HugeInt("43827349058270349857203948752093847502934875203"))
+            using (var a = HugeInt.FromLong(-9))
+            using (var b = HugeInt.FromLong(4))
             {
-                var expr = a + (-a * 34905823049587UL) * -34598203452879L * (a.Abs() * -345 + 9870987987788UL - a * a) + 4 + a;
-                VerifyPartialResult(expr, "1155271201321676280644265576487030177551546144606868786264755274144013089760350323811075841993564191741000111852166670926558456544453200851203842962962472025062534692");
-                expr = expr + a * 25 + (a+b) * (b + 998989870978UL) * (b + -234409) * b - (b * -a) - (b * 55UL) - a + (b << 234) - ((a*b) << 15);
-                VerifyPartialResult(expr, "2860119216199941536354515972366384286047558544144468598293127129993055149639508359635093477375507907998472593637122254485772011662777815308345009141366885709424712843645103515111206450495");
-                expr = expr - 3453 - 92938457U + (b - (a << 4)) + (b * b - 15UL) * (b - a) * (a - 5432) * (b - 9874UL) - (448739847 - a) + (52034987UL - b);
-                VerifyPartialResult(expr, "-44527683379886113418724460764726984856717156388775636972448492072920883239528380583662970502609288272739831325295051352018030110273519077513070609558584766157041440002331614418072245492559788050566162568775201655691530703581293856377");
-                expr = expr + (-4253049870987L - 2 * a) + (9872340944UL - 4 * b) + -(a + b*2) + (3 * a).Abs();
-                VerifyPartialResult(expr, "-44527683379886113418724460764726984856717156388775636972448492072920883239528380583662970502609288272739831325295051352018030110273519077513070609558584766157041440002331614418072245492763632916697882197328337435963101280605257074394");
-                expr = expr / a + expr / (3 * b) - b / a - b / (a + 10) + b % a + (2 * b) % a + b % (3 * a) + (4 * b) % (5 * a) + (a * 6 / 5432987543).Rounding(RoundingModes.Floor) + (b * 3 % 9847364).Rounding(RoundingModes.Ceiling);
-                VerifyPartialResult(expr, "4180446902195206719617566310326378596565810835566654267781162776719604215299073884627215328230474593334065119233043655173219316755562839854837564100259580467992251557344571569524054712547");
-                expr = expr - (a * 5).DivideExactly(a) - (b * 7 * 5432198).DivideExactly(5432198) + (b >> 100);
-                VerifyPartialResult(expr, "4180446902195206719617566310326378596565810835566654267781162776719604215299073884627215328230474593334065119233043655173219316755562839854530772656851688018991823916079949210685762130528");
+                var expr = a + (-a * 2) * 3 * (a.Abs() * -2 + -64 + a * a) + 116UL + a;
+                VerifyPartialResult(expr, 44);
+                expr = expr + a * 5 + (a+b) * (b + 1) * (b + -3) * b + (b * -a) - (b * 25UL) - a + (b << 3) - ((a*b) << 1);
+                VerifyPartialResult(expr, -52);
+                expr = expr - 2 - 3UL + (b - (a << 1)) + (b * b - 15UL) * (b - a) * (a - 11) * (b - 3UL) - (-340 - a) + (20UL - b);
+                VerifyPartialResult(expr, 52);
+                expr = expr + (-7 - 2 * a) + (28UL - 4 * b) + -(a + b * 2) + (3 * a).Abs();
+                VerifyPartialResult(expr, 103);
+                expr = expr / a + expr / (3 * b) - a / b - b / (a + 10) + a % b - (3 * b) % a + a % (2 * b) - (12 * b) % (-5 * a) + (a * 4 / 8).Rounding(RoundingModes.Floor) + (b * 3 % 7).Rounding(RoundingModes.Ceiling);
+                VerifyPartialResult(expr, -20);
+                expr = expr - (a * 5).DivideExactly(a) + (b * 7 * 5432198).DivideExactly(5432198) + (b >> 1);
+                VerifyPartialResult(expr, 5);
+                expr = expr + (b ^ 3) + a.PowerMod(2, b) + (a + 6).PowerMod(b - 1, b * 5);
+                //VerifyPartialResult(expr, 63);
 
                 MarkExpressionsUsed(allExpressions, expr);
             }
@@ -62,12 +64,12 @@ namespace MPIR.Tests.HugeIntTests
                 allExpressions.Select(x => Environment.NewLine + x.Name).OrderBy(x => x)));
         }
 
-        private void VerifyPartialResult(MpirExpression expr, string expected)
+        private void VerifyPartialResult(MpirExpression expr, long expected)
         {
             using (var r = new HugeInt())
             {
                 r.Value = expr;
-                Assert.AreEqual(expected, r.ToString());
+                Assert.AreEqual(expected.ToString(), r.ToString());
             }
         }
 

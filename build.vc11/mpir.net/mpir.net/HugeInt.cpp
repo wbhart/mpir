@@ -357,6 +357,8 @@ namespace MPIR
 
     DEFINE_BINARY_ASSIGNMENT_REF_REF(DivideExactly, Int, mpz_divexact)
     DEFINE_BINARY_ASSIGNMENT_REF_VAL(DivideExactly, Int, Ui, mpz_divexact_ui)
+    
+    DEFINE_BINARY_ASSIGNMENT_REF_VAL(Power, Int, Ui, mpz_pow_ui)
 
     DEFINE_TERNARY_ASSIGNMENT_REF_REF_REF(PowerMod, Int, dummy_ternary)
     DEFINE_TERNARY_ASSIGNMENT_REF_VAL_REF(PowerMod, Int, Ui, Int, mpz_powm_ui)

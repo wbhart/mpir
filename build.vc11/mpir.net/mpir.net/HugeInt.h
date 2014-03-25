@@ -211,6 +211,8 @@ public ref class Mpir##name##Expression : base                                  
     MAKE_BINARY_OPERATOR_STANDARD  (MpirModExpression,        action, %, Mod, Int, Int)           \
     MAKE_BINARY_OPERATOR_RLIMB     (MpirModUiExpression,      action, %, Mod, Int, Ui)            \
                                                                                                   \
+    MAKE_BINARY_OPERATOR_RLIMB     (MpirExpression,           action, ^, Power, Int, Ui)          \
+                                                                                                  \
     MAKE_FUNCTION_WITH_ONE         (MpirExpression,           action, DivideExactly, Int)         \
     MAKE_FUNCTION_WITH_LIMB        (MpirExpression,           action, DivideExactly, Ui)          \
                                                                                                   \
@@ -387,6 +389,8 @@ namespace MPIR
 
     DEFINE_TERNARY_EXPRESSION_WITH_THREE           (MpirExpression, PowerMod, Int)
     DEFINE_TERNARY_EXPRESSION_WITH_BUILT_IN_MIDDLE (MpirExpression, PowerMod, Int, Ui, Int)
+
+    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (MpirExpression, Power, Int, Ui)
 
     DEFINE_OPERATIONS(DEFINE)
 

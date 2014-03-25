@@ -51,5 +51,20 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         #endregion
+
+        #region Power
+
+        [TestMethod]
+        public void PowerLimb()
+        {
+            using (var a = new HugeInt("9785412309485720938412983404349"))
+            {
+                a.Value = a ^ 4;
+                Assert.AreEqual("9168884832199547717402442404668238841010784738902226284286664833331445628675177089723224507720724521226586825967635414667601", a.ToString());
+            }
+        }
+
+        #endregion
+        //more tests coming here
     }
 }
