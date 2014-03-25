@@ -96,6 +96,7 @@
     <Compile Include="HugeIntTests\Assignment.cs" />
     <Compile Include="HugeIntTests\Conversions.cs" />
     <Compile Include="HugeIntTests\ExpressionTests.cs" />
+    <Compile Include="HugeIntTests\Math.cs" />
     <Compile Include="Utilities\Accessors.cs" />
     <Compile Include="HugeIntTests\ConstructionAndDisposal.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

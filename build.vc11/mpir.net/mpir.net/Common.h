@@ -28,13 +28,14 @@ enum EvaluationOptions : __int8
     None = 0x0,
     Temp1Initialized = 0x1,
     Temp2Initialized = 0x2,
+    Temp3Initialized = 0x4,
 };
 
 struct EvaluationContext
 {
     public:
-        __mpz_struct Temp[2];
-        mpz_ptr Args[2];
+        __mpz_struct Temp[3];
+        mpz_ptr Args[3];
         union
         {
             struct
@@ -56,5 +57,7 @@ struct EvaluationContext
                 mpz_clear(Args[0]);
             if(Options & EvaluationOptions::Temp2Initialized)
                 mpz_clear(Args[1]);
+            if(Options & EvaluationOptions::Temp3Initialized)
+                mpz_clear(Args[2]);
         }
 };

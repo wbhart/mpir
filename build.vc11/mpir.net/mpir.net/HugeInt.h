@@ -54,6 +54,25 @@ public ref class Mpir##name##Expression : base                    \
         }                                                         \
 };
 
+//defines a ternary expression class
+#define DEFINE_TERNARY_EXPRESSION(base, name, leftType, middleType, rightType)     \
+public ref class Mpir##name##Expression : base                                     \
+{                                                                                  \
+    internal:                                                                      \
+        leftType Left;                                                             \
+        middleType Middle;                                                         \
+        rightType Right;                                                           \
+        virtual void AssignTo(mpz_ptr destination) override;                       \
+                                                                                   \
+    public:                                                                        \
+        Mpir##name##Expression(leftType left, middleType middle, rightType right)  \
+        {                                                                          \
+            Left = left;                                                           \
+            Middle = middle;                                                       \
+            Right = right;                                                         \
+        }                                                                          \
+};
+
 #define TYPE_FOR_ABBR_Int HugeInt^
 #define TYPE_FOR_ABBR_Expr MpirExpression^
 #define TYPE_FOR_ABBR_Si mpir_si
@@ -61,22 +80,25 @@ public ref class Mpir##name##Expression : base                    \
 #define TYPE_FOR_ABBR_Bits mp_bitcnt_t
 
 //unary expressions
-#define DEFINE_UNARY_EXPRESSION_WITH_ONE(base, name, typeAbbr, type) \
+#define DEFINE_UNARY_EXPRESSION_WITH_ONE(base, name, typeAbbr) \
     DEFINE_UNARY_EXPRESSION(base, name##typeAbbr, MpirExpression^)           
 
 //binary expressions
 #define DEFINE_BINARY_EXPRESSION_WITH_TWO(base, name, typeAbbr, type) \
     DEFINE_BINARY_EXPRESSION(base, name##typeAbbr##typeAbbr, MpirExpression^, MpirExpression^)
 
-#define DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT(base, name, leftTypeAbbr, rightTypeAbbr, leftType, rightType)    \
-    DEFINE_BINARY_EXPRESSION(base, name##leftTypeAbbr##rightTypeAbbr, MpirExpression^, rightType) 
+#define DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT(base, name, leftTypeAbbr, rightTypeAbbr)    \
+    DEFINE_BINARY_EXPRESSION(base, name##leftTypeAbbr##rightTypeAbbr, MpirExpression^, TYPE_FOR_ABBR_##rightTypeAbbr) 
 
-#define DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_LEFT(base, name, leftTypeAbbr, rightTypeAbbr, leftType, rightType)     \
-    DEFINE_BINARY_EXPRESSION(base, name##leftTypeAbbr##rightTypeAbbr, leftType, MpirExpression^)
-    
-#define DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_LEFT_OR_RIGHT(base, name, leftTypeAbbr, rightTypeAbbr, leftType, rightType)    \
-    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT(base, name, leftTypeAbbr, rightTypeAbbr, leftType, rightType)                \
-    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_LEFT(base, name, rightTypeAbbr, leftTypeAbbr, rightType, leftType)
+#define DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_LEFT(base, name, leftTypeAbbr, rightTypeAbbr)     \
+    DEFINE_BINARY_EXPRESSION(base, name##leftTypeAbbr##rightTypeAbbr, TYPE_FOR_ABBR_##leftTypeAbbr, MpirExpression^)
+
+//ternary expressions
+#define DEFINE_TERNARY_EXPRESSION_WITH_THREE(base, name, typeAbbr) \
+    DEFINE_TERNARY_EXPRESSION(base, name##typeAbbr##typeAbbr##typeAbbr, MpirExpression^, MpirExpression^, MpirExpression^)
+
+#define DEFINE_TERNARY_EXPRESSION_WITH_BUILT_IN_MIDDLE(base, name, leftTypeAbbr, middleTypeAbbr, rightTypeAbbr)    \
+    DEFINE_TERNARY_EXPRESSION(base, name##leftTypeAbbr##middleTypeAbbr##rightTypeAbbr, MpirExpression^, TYPE_FOR_ABBR_##middleTypeAbbr, MpirExpression^)
 
 //void functions
 #define MAKE_VOID_FUNCTION(base, action, op, type)  \
@@ -100,6 +122,19 @@ public ref class Mpir##name##Expression : base                    \
 
 #define MAKE_FUNCTION_WITH_ONE_DEFINE(base, op, argTypeAbbr, result)      \
     base^ MpirExpression::op(TYPE_FOR_ABBR_##argTypeAbbr a) { return gcnew Mpir##result##Expression(this, a); }
+
+//two-arg functions
+#define MAKE_FUNCTION_WITH_TWO(base, action, op, leftTypeAbbr, rightTypeAbbr)  \
+    MAKE_FUNCTION_WITH_TWO_##action(base, op, Expr, Expr, op##Int##leftTypeAbbr##rightTypeAbbr)
+
+#define MAKE_FUNCTION_WITH_TWO_LLIMB(base, action, op, leftTypeAbbr, rightTypeAbbr)  \
+    MAKE_FUNCTION_WITH_TWO_##action(base, op, leftTypeAbbr, Expr, op##Int##leftTypeAbbr##rightTypeAbbr)
+
+#define MAKE_FUNCTION_WITH_TWO_DECLARE(base, op, leftTypeAbbr, rightTypeAbbr, result)     \
+    base^ op(TYPE_FOR_ABBR_##leftTypeAbbr a, TYPE_FOR_ABBR_##rightTypeAbbr b);
+
+#define MAKE_FUNCTION_WITH_TWO_DEFINE(base, op, leftTypeAbbr, rightTypeAbbr, result)      \
+    base^ MpirExpression::op(TYPE_FOR_ABBR_##leftTypeAbbr a, TYPE_FOR_ABBR_##rightTypeAbbr b) { return gcnew Mpir##result##Expression(this, a, b); }
 
 //functions with one argument and simple result
 //#define MAKE_SIMPLE_FUNCTION_WITH_ONE(base, action, op, resultType, argType) \
@@ -178,6 +213,9 @@ public ref class Mpir##name##Expression : base                    \
                                                                                                   \
     MAKE_FUNCTION_WITH_ONE         (MpirExpression,           action, DivideExactly, Int)         \
     MAKE_FUNCTION_WITH_LIMB        (MpirExpression,           action, DivideExactly, Ui)          \
+                                                                                                  \
+    MAKE_FUNCTION_WITH_TWO         (MpirExpression,           action, PowerMod, Int, Int)         \
+    MAKE_FUNCTION_WITH_TWO_LLIMB   (MpirExpression,           action, PowerMod, Ui, Int)          \
 
 namespace MPIR
 {
@@ -317,33 +355,38 @@ namespace MPIR
             }
     };
 
-    DEFINE_BINARY_EXPRESSION_WITH_TWO           (MpirExpression, Add, Int, HugeInt^)
-    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT(MpirExpression, Add, Int, Ui, HugeInt^, mpir_ui)
-    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT(MpirExpression, Add, Int, Si, HugeInt^, mpir_si)
+    DEFINE_BINARY_EXPRESSION_WITH_TWO              (MpirExpression, Add, Int)
+    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (MpirExpression, Add, Int, Ui)
+    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (MpirExpression, Add, Int, Si)
+                                                   
+    DEFINE_BINARY_EXPRESSION_WITH_TWO              (MpirExpression, Subtract, Int)
+    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (MpirExpression, Subtract, Int, Ui)
+    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_LEFT    (MpirExpression, Subtract, Ui, Int)
+    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (MpirExpression, Subtract, Int, Si)
+    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_LEFT    (MpirExpression, Subtract, Si, Int)
+                                                   
+    DEFINE_BINARY_EXPRESSION_WITH_TWO              (MpirExpression, Multiply, Int)
+    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (MpirExpression, Multiply, Int, Ui)
+    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (MpirExpression, Multiply, Int, Si)
+                                                   
+    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (MpirExpression, ShiftLeft, Int, Bits)
+                                                   
+    DEFINE_UNARY_EXPRESSION_WITH_ONE               (MpirExpression, Negate, Int)
+    DEFINE_UNARY_EXPRESSION_WITH_ONE               (MpirExpression, Abs, Int)
+                                                   
+    DEFINE_BINARY_EXPRESSION_WITH_TWO              (MpirDivideExpression, Divide, Int)
+    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (MpirDivideUiExpression, Divide, Int, Ui)
+                                                   
+    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (MpirShiftRightExpression, ShiftRight, Int, Bits)
+                                                   
+    DEFINE_BINARY_EXPRESSION_WITH_TWO              (MpirModExpression, Mod, Int)
+    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (MpirModUiExpression, Mod, Int, Ui)
+                                                   
+    DEFINE_BINARY_EXPRESSION_WITH_TWO              (MpirExpression, DivideExactly, Int)
+    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (MpirExpression, DivideExactly, Int, Ui)
 
-    DEFINE_BINARY_EXPRESSION_WITH_TWO                   (MpirExpression, Subtract, Int, HugeInt^)
-    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_LEFT_OR_RIGHT(MpirExpression, Subtract, Int, Ui, HugeInt^, mpir_ui)
-    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_LEFT_OR_RIGHT(MpirExpression, Subtract, Int, Si, HugeInt^, mpir_si)
-
-    DEFINE_BINARY_EXPRESSION_WITH_TWO           (MpirExpression, Multiply, Int, HugeInt^)
-    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT(MpirExpression, Multiply, Int, Ui, HugeInt^, mpir_ui)
-    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT(MpirExpression, Multiply, Int, Si, HugeInt^, mpir_si)
-
-    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT(MpirExpression, ShiftLeft, Int, Bits, HugeInt^, mp_bitcnt_t)
-    
-    DEFINE_UNARY_EXPRESSION_WITH_ONE            (MpirExpression, Negate, Int, HugeInt^)
-    DEFINE_UNARY_EXPRESSION_WITH_ONE            (MpirExpression, Abs, Int, HugeInt^)
-
-    DEFINE_BINARY_EXPRESSION_WITH_TWO           (MpirDivideExpression, Divide, Int, HugeInt^)
-    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT(MpirDivideUiExpression, Divide, Int, Ui, HugeInt^, mpir_ui)
-
-    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT(MpirShiftRightExpression, ShiftRight, Int, Bits, HugeInt^, mp_bitcnt_t)
-
-    DEFINE_BINARY_EXPRESSION_WITH_TWO           (MpirModExpression, Mod, Int, HugeInt^)
-    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT(MpirModUiExpression, Mod, Int, Ui, HugeInt^, mpir_ui)
-
-    DEFINE_BINARY_EXPRESSION_WITH_TWO           (MpirExpression, DivideExactly, Int, HugeInt^)
-    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT(MpirExpression, DivideExactly, Int, Ui, HugeInt^, mpir_ui)
+    DEFINE_TERNARY_EXPRESSION_WITH_THREE           (MpirExpression, PowerMod, Int)
+    DEFINE_TERNARY_EXPRESSION_WITH_BUILT_IN_MIDDLE (MpirExpression, PowerMod, Int, Ui, Int)
 
     DEFINE_OPERATIONS(DEFINE)
 

@@ -74,7 +74,28 @@ along with the MPIR Library.  If not, see http://www.gnu.org/licenses/.
             negativeOp2(destination, destination);                                                                 \
         }                                                                                                          \
     }                                                                   
-    
+
+#define DEFINE_TERNARY_ASSIGNMENT_REF_REF_REF(name, typeAbbr, operation)               \
+    DEFINE_ASSIGNMENT_PROLOG(name##typeAbbr##typeAbbr##typeAbbr)                       \
+    {                                                                                  \
+        EvaluationContext context;                                                     \
+        Left->AssignTo(context);                                                       \
+        Middle->AssignTo(context);                                                     \
+        Right->AssignTo(context);                                                      \
+        operation(destination, context.Args[0], context.Args[1], context.Args[2]);     \
+    }                                                                                  \
+
+#define DEFINE_TERNARY_ASSIGNMENT_REF_VAL_REF(name, leftT, middleT, rightT, operation) \
+    DEFINE_ASSIGNMENT_PROLOG(name##leftT##middleT##rightT)                             \
+    {                                                                                  \
+        EvaluationContext context;                                                     \
+        Left->AssignTo(context);                                                       \
+        Right->AssignTo(context);                                                      \
+        operation(destination, context.Args[0], Middle, context.Args[1]);              \
+    }                                                                                  \
+
+void dummy_ternary(mpz_ptr d, mpz_srcptr a, mpz_srcptr b, mpz_srcptr c) { };
+
 using namespace System::Runtime::InteropServices;
 
 namespace MPIR
@@ -309,6 +330,9 @@ namespace MPIR
 
     #pragma region Arithmetic
 
+    DEFINE_UNARY_ASSIGNMENT_REF(Negate, Int, mpz_neg)
+    DEFINE_UNARY_ASSIGNMENT_REF(Abs, Int, mpz_abs)
+
     DEFINE_BINARY_ASSIGNMENT_REF_REF(Add, Int, mpz_add)
     DEFINE_BINARY_ASSIGNMENT_REF_VAL(Add, Int, Ui, mpz_add_ui)
     DEFINE_BINARY_ASSIGNMENT_REF_SI (Add, Int, Si, mpz_add_ui, mpz_sub_ui)
@@ -331,11 +355,11 @@ namespace MPIR
     DEFINE_BINARY_ASSIGNMENT_REF_VAL(ShiftLeft, Int, Bits, mpz_mul_2exp)
     DEFINE_BINARY_ASSIGNMENT_REF_VAL(ShiftRight, Int, Bits, custom_mpz_div_2exp)
 
-    DEFINE_UNARY_ASSIGNMENT_REF(Negate, Int, mpz_neg)
-    DEFINE_UNARY_ASSIGNMENT_REF(Abs, Int, mpz_abs)
-
     DEFINE_BINARY_ASSIGNMENT_REF_REF(DivideExactly, Int, mpz_divexact)
     DEFINE_BINARY_ASSIGNMENT_REF_VAL(DivideExactly, Int, Ui, mpz_divexact_ui)
+
+    DEFINE_TERNARY_ASSIGNMENT_REF_REF_REF(PowerMod, Int, dummy_ternary)
+    DEFINE_TERNARY_ASSIGNMENT_REF_VAL_REF(PowerMod, Int, Ui, Int, mpz_powm_ui)
 
     mpir_ui MpirExpression::Mod(mpir_ui d, RoundingModes rounding)
     {
