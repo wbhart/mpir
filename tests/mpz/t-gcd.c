@@ -40,7 +40,6 @@ check_data (void)
     const char *b;
     const char *want;
   } data[] = {
-    /* This tickled a bug in gmp 4.1.2 mpn/x86/k6/gcd_finda.asm. */
     { "0x3FFC000007FFFFFFFFFF00000000003F83FFFFFFFFFFFFFFF80000000000000001",
       "0x1FFE0007FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFC000000000000000000000001",
       "5" }

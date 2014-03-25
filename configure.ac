@@ -2162,7 +2162,7 @@ fi
 
 gmp_mpn_functions_optional="umul udiv copyi copyd com_n neg_n
   and_n andn_n nand_n ior_n iorn_n nior_n xor_n xnor_n			\
-  gcd_finda invert_limb sqr_diagonal lshift1 rshift1 lshift2 rshift2	\
+  invert_limb sqr_diagonal lshift1 rshift1 lshift2 rshift2	\
   mul_2 mul_3 mul_4 store not karaadd karasub half double		\
   addmul_2 addmul_3 addmul_4 addmul_5 addmul_6 addmul_7 addmul_8	\
   addlsh1_n sublsh1_n rsh1add_n rsh1sub_n sumdiff_n lshiftc		\
@@ -2704,7 +2704,6 @@ AH_VERBATIM([HAVE_NATIVE],
 #undef HAVE_NATIVE_mpn_divrem_2
 #undef HAVE_NATIVE_mpn_double
 #undef HAVE_NATIVE_mpn_gcd_1
-#undef HAVE_NATIVE_mpn_gcd_finda
 #undef HAVE_NATIVE_mpn_half
 #undef HAVE_NATIVE_mpn_inclsh_n
 #undef HAVE_NATIVE_mpn_invert_limb
