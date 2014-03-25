@@ -164,6 +164,7 @@ public ref class Mpir##name##Expression : base                    \
     MAKE_BINARY_OPERATOR_LLIMB_R   (MpirExpression, action, *, Multiply, Int, Si)       \
                                                                                         \
     MAKE_BINARY_OPERATOR_RLIMB     (MpirExpression, action, <<, ShiftLeft, Int, Bits)   \
+    MAKE_BINARY_OPERATOR_RLIMB(MpirDivModExpression, action, >>, ShiftRight, Int, Bits) \
                                                                                         \
     MAKE_UNARY_OPERATOR(MpirExpression, action, -, Negate, Int)                         \
                                                                                         \
@@ -184,6 +185,7 @@ namespace MPIR
     ref class MpirDivideExpression;
     ref class MpirDivideUiExpression;
     ref class MpirModExpression;
+    ref class MpirDivModExpression;
     ref class MpirModUiExpression;
 
     public enum class RoundingModes
@@ -229,6 +231,9 @@ namespace MPIR
     {
         protected:
             RoundingModes rounding;
+
+        internal:
+            void custom_mpz_div_2exp(mpz_ptr q, mpz_srcptr n, mp_bitcnt_t bits);
 
         public:
             MpirExpression^ Rounding(RoundingModes mode)
@@ -317,6 +322,8 @@ namespace MPIR
 
     DEFINE_BINARY_EXPRESSION_WITH_TWO           (MpirDivideExpression, Divide, Int, HugeInt^)
     DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT(MpirDivideUiExpression, Divide, Int, Ui, HugeInt^, mpir_ui)
+
+    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT(MpirDivModExpression, ShiftRight, Int, Bits, HugeInt^, mp_bitcnt_t)
 
     DEFINE_BINARY_EXPRESSION_WITH_TWO(MpirModExpression, Mod, Int, HugeInt^)
     DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT(MpirModUiExpression, Mod, Int, Ui, HugeInt^, mpir_ui)

@@ -228,6 +228,24 @@ namespace MPIR
             _limbRemainder(limb);
     };
 
+    void MpirDivModExpression::custom_mpz_div_2exp(mpz_ptr q, mpz_srcptr n, mp_bitcnt_t d)
+    {
+        switch((rounding == RoundingModes::Default) ? MpirSettings::RoundingMode : rounding)
+        {
+            case RoundingModes::Floor:
+                mpz_fdiv_q_2exp(q, n, d);
+                break;
+
+            case RoundingModes::Ceiling:
+                mpz_cdiv_q_2exp(q, n, d);
+                break;
+
+            default:
+                mpz_tdiv_q_2exp(q, n, d);
+                break;
+        }
+    };
+
     void MpirModExpression::custom_mpz_mod(mpz_ptr r, mpz_srcptr n, mpz_srcptr d)
     {
         switch((rounding == RoundingModes::Default) ? MpirSettings::RoundingMode : rounding)
@@ -305,6 +323,7 @@ namespace MPIR
     DEFINE_BINARY_ASSIGNMENT_REF_VAL(Mod, Int, Ui, custom_mpz_mod_ui)
 
     DEFINE_BINARY_ASSIGNMENT_REF_VAL(ShiftLeft, Int, Bits, mpz_mul_2exp)
+    DEFINE_BINARY_ASSIGNMENT_REF_VAL(ShiftRight, Int, Bits, custom_mpz_div_2exp)
 
     DEFINE_UNARY_ASSIGNMENT_REF(Negate, Int, mpz_neg)
     DEFINE_UNARY_ASSIGNMENT_REF(Abs, Int, mpz_abs)
