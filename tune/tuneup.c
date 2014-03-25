@@ -196,7 +196,6 @@ mp_size_t  div_sb_preinv_threshold      = MP_SIZE_T_MAX;
 mp_size_t  sb_divappr_q_small_threshold = MP_SIZE_T_MAX;
 mp_size_t  sb_div_qr_small_threshold    = MP_SIZE_T_MAX;
 mp_size_t  dc_div_qr_threshold          = MP_SIZE_T_MAX;
-mp_size_t  dc_divappr_q_n_threshold     = MP_SIZE_T_MAX;
 mp_size_t  inv_div_qr_threshold         = MP_SIZE_T_MAX;
 mp_size_t  inv_divappr_q_n_threshold    = MP_SIZE_T_MAX;
 mp_size_t  dc_div_q_threshold           = MP_SIZE_T_MAX;

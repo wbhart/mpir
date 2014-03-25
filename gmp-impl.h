@@ -4430,10 +4430,6 @@ extern mp_size_t sb_div_qr_small_threshold;
 #define DC_DIV_QR_THRESHOLD          dc_div_qr_threshold
 extern mp_size_t                     dc_div_qr_threshold;
 
-#undef  DC_DIVAPPR_Q_N_THRESHOLD
-#define DC_DIVAPPR_Q_N_THRESHOLD     dc_divappr_q_n_threshold
-extern mp_size_t                     dc_divappr_q_n_threshold;
-
 #undef  DC_BDIV_QR_THRESHOLD
 #define DC_BDIV_QR_THRESHOLD         dc_bdiv_qr_threshold
 extern mp_size_t                     dc_bdiv_qr_threshold;
