@@ -37,6 +37,8 @@ MA 02110-1301, USA. */
 long __gmpn_cpuid __GMP_PROTO ((char dst[12], int id));
 
 struct cpuvec_t __gmpn_cpuvec = {
+  __MPN(add_err1_n_init),
+  __MPN(add_err2_n_init),
   __MPN(add_n_init),
   __MPN(addmul_1_init),
   __MPN(copyd_init),
@@ -55,11 +57,14 @@ struct cpuvec_t __gmpn_cpuvec = {
   __MPN(modexact_1c_odd_init),
   __MPN(mul_1_init),
   __MPN(mul_basecase_init),
+  __MPN(mulmid_basecase_init),
   __MPN(preinv_divrem_1_init),
   __MPN(preinv_mod_1_init),
   __MPN(redc_1_init),
   __MPN(rshift_init),
   __MPN(sqr_basecase_init),
+  __MPN(sub_err1_n_init),
+  __MPN(sub_err2_n_init),
   __MPN(sub_n_init),
   __MPN(submul_1_init),
   __MPN(sumdiff_n_init),

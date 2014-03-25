@@ -4696,13 +4696,13 @@ echo "include_mpn(\`sparc32/sparc-defs.m4')" >> $gmp_tmpconfigm4i
 		x86/p6 x86/p6/mmx x86/p6/p3mmx
 		x86/pentium4 x86/pentium4/mmx x86/pentium4/sse2
 		x86/core2 x86/nehalem"
-      fat_functions="add_n addmul_1 copyd copyi
+      fat_functions="add_n addmul_1 add_err1_n add_err2_n copyd copyi
 		     divexact_1 divexact_by3c divexact_byfobm1 divrem_1 divrem_2
 			 divrem_euclidean_qr_1
 			divrem_euclidean_qr_2 gcd_1 lshift
 		     mod_1 mod_34lsub1 modexact_1c_odd mul_1 mul_basecase
-		     preinv_divrem_1 preinv_mod_1 redc_1 rshift
-		     sqr_basecase sub_n submul_1 sumdiff_n"
+		     mulmid_basecase preinv_divrem_1 preinv_mod_1 redc_1 rshift
+		     sqr_basecase sub_n submul_1 sumdiff_n sub_err1_n sub_err2_n"
       fat_exclude=""
       fat_thresholds="MUL_KARATSUBA_THRESHOLD MUL_TOOM3_THRESHOLD
 		      SQR_KARATSUBA_THRESHOLD SQR_TOOM3_THRESHOLD"
