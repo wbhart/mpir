@@ -338,7 +338,7 @@ namespace MPIR
         if(_remainder != nullptr)
             mpz_rootrem(dest, _remainder->_value, oper, power);
         else if (_exact != nullptr)
-            _exact(mpz_root(dest, oper, power) != 0);
+            _exact(mpz_root(dest, oper, power));
         else
             mpz_nthroot(dest, oper, power);
     };

@@ -112,6 +112,40 @@ namespace MPIR.Tests.HugeIntTests
             }
         }
 
+        [TestMethod]
+        public void IsPerfectPower()
+        {
+            using (var a = new HugeInt("8984948281360922385394772450147012613851354303"))
+            using (var b = new HugeInt())
+            {
+                b.Value = a * a * a;
+                Assert.IsTrue(b.IsPerfectPower());
+                b.Value = a * a;
+                Assert.IsTrue(b.IsPerfectPower());
+                b.Value = a * a * a + 1;
+                Assert.IsFalse(b.IsPerfectPower());
+                b.Value = a * a + 1;
+                Assert.IsFalse(b.IsPerfectPower());
+            }
+        }
+
+        [TestMethod]
+        public void IsPerfectSquare()
+        {
+            using (var a = new HugeInt("8984948281360922385394772450147012613851354303"))
+            using (var b = new HugeInt())
+            {
+                b.Value = a * a * a;
+                Assert.IsFalse(b.IsPerfectSquare());
+                b.Value = a * a;
+                Assert.IsTrue(b.IsPerfectSquare());
+                b.Value = a * a * a + 1;
+                Assert.IsFalse(b.IsPerfectSquare());
+                b.Value = a * a + 1;
+                Assert.IsFalse(b.IsPerfectSquare());
+            }
+        }
+
         #endregion
         //more tests coming here
     }
