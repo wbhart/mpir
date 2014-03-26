@@ -1855,7 +1855,7 @@ tune_fft(gmp_randstate_t state)
     clock_t start, end;
     double elapsed;
     double best = 0.0;
-    mp_size_t best_off, off, best_d, best_w;
+    mp_size_t best_off, off, best_d, best_w, num_twos, num_printed;
 
     if (option_fft_max_size == 0)
        return;
@@ -1926,11 +1926,13 @@ tune_fft(gmp_randstate_t state)
     best_d = 12;
     best_w = 1;
     best_off = -1;
+    num_printed = 0;
+    num_twos = 0;
 
     printf("#define MULMOD_TAB \\\n");
     fflush(stdout);
     printf("   { "); fflush(stdout);
-    for (depth = 12; best_off != 1 ; depth++)
+    for (depth = 12; best_off != 1 && !(num_printed >= 25 && best_off == 2 && num_twos >= 5) ; depth++)
     {
         for (w = 1; w <= 2; w++)
         {
@@ -1991,15 +1993,25 @@ tune_fft(gmp_randstate_t state)
             }
 
             printf("%ld", best_off); 
+            if (best_off == 2)
+               num_twos++;
+            else
+               num_twos = 0;
+            num_printed++;
             if (w != 2) printf(", "); fflush(stdout);
 
             free(i1);
         }
         printf(", "); fflush(stdout);
     }
-    printf("1 }\n\n");
+    if (best_off == 2)
+    {
+       printf("2, 2, 2, 2, 2, 1, 1 }\n\n");
+       num_printed += 6;
+    } else
+       printf("1 }\n\n");
     
-    printf("#define FFT_N_NUM %ld\n\n", 2*(depth - 12) + 1);
+    printf("#define FFT_N_NUM %ld\n\n", num_printed + 1);
     
     printf("#define FFT_MULMOD_2EXPP1_CUTOFF %ld\n\n", ((mp_limb_t) 1 << best_d)*best_w/(2*GMP_LIMB_BITS));
 }
