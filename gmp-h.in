@@ -2458,16 +2458,16 @@ enum
 
 /* Major version number is the value of __GNU_MP__ too, above and in mp.h. */
 #define __GNU_MP_VERSION 5 
-#define __GNU_MP_VERSION_MINOR 0 
-#define __GNU_MP_VERSION_PATCHLEVEL 2
-#define GMP_VERSION "5.0.2"
+#define __GNU_MP_VERSION_MINOR 1 
+#define __GNU_MP_VERSION_PATCHLEVEL 3
+#define GMP_VERSION "5.1.3"
 #define __GNU_MP_RELEASE (__GNU_MP_VERSION * 10000 + __GNU_MP_VERSION_MINOR * 100 + __GNU_MP_VERSION_PATCHLEVEL)
 
 #define __MPIR_VERSION 2
-#define __MPIR_VERSION_MINOR 6 
+#define __MPIR_VERSION_MINOR 7 
 #define __MPIR_VERSION_PATCHLEVEL 0
 #if defined( _MSC_VER )
-#define _MSC_MPIR_VERSION "2.6.0"
+#define _MSC_MPIR_VERSION "2.7.0"
 #endif
 #define __MPIR_RELEASE (__MPIR_VERSION * 10000 + __MPIR_VERSION_MINOR * 100 + __MPIR_VERSION_PATCHLEVEL)
 

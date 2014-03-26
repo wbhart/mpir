@@ -1,7 +1,7 @@
 This is mpir.info, produced by makeinfo version 4.13 from mpir.texi.
 
 This manual describes how to install and use MPIR, the Multiple
-Precision Integers and Rationals library, version 2.6.0.
+Precision Integers and Rationals library, version 2.7.0.
 
    Copyright 1991, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000,
 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012,
@@ -2225,7 +2225,7 @@ Concept Index
 * Binomial coefficient algorithm:        Binomial Coefficients Algorithm.
                                                               (line   6)
 * Binomial coefficient functions:        Number Theoretic Functions.
-                                                              (line 152)
+                                                              (line 161)
 * Bit manipulation functions:            Integer Logic and Bit Fiddling.
                                                               (line   6)
 * Bit scanning functions:                Integer Logic and Bit Fiddling.
@@ -2330,7 +2330,7 @@ Concept Index
                                                               (line 143)
 * Factorial algorithm:                   Factorial Algorithm. (line   6)
 * Factorial functions:                   Number Theoretic Functions.
-                                                              (line 148)
+                                                              (line 151)
 * Fast Fourier Transform:                FFT Multiplication.  (line   6)
 * Fat binary:                            Build Options.       (line 162)
 * FFT multiplication <1>:                FFT Multiplication.  (line   6)
@@ -2338,7 +2338,7 @@ Concept Index
 * Fibonacci number algorithm:            Fibonacci Numbers Algorithm.
                                                               (line   6)
 * Fibonacci sequence functions:          Number Theoretic Functions.
-                                                              (line 159)
+                                                              (line 168)
 * Float arithmetic functions:            Float Arithmetic.    (line   6)
 * Float assignment functions <1>:        Simultaneous Float Init & Assign.
                                                               (line   6)
@@ -2517,7 +2517,7 @@ Concept Index
 * Lucas number algorithm:                Lucas Numbers Algorithm.
                                                               (line   6)
 * Lucas number functions:                Number Theoretic Functions.
-                                                              (line 169)
+                                                              (line 178)
 * MacOS X:                               Known Build Problems.
                                                               (line  23)
 * Mailing lists:                         Introduction to MPIR.
@@ -2556,7 +2556,7 @@ Concept Index
 * Multi-threading:                       Reentrancy.          (line   6)
 * Multiplication algorithms:             Multiplication Algorithms.
                                                               (line   6)
-* Nails:                                 Low-level Functions. (line 530)
+* Nails:                                 Low-level Functions. (line 513)
 * Native compilation:                    Build Options.       (line  60)
 * Next candidate prime function:         Number Theoretic Functions.
                                                               (line  72)
@@ -2615,6 +2615,8 @@ Concept Index
                                                               (line   6)
 * Prime testing functions:               Number Theoretic Functions.
                                                               (line   8)
+* Primorial functions:                   Number Theoretic Functions.
+                                                              (line 156)
 * printf formatted output:               Formatted Output.    (line   6)
 * Probable prime testing functions:      Number Theoretic Functions.
                                                               (line   8)
@@ -2796,12 +2798,12 @@ Function and Type Index
                                                               (line  29)
 * gmp_fscanf:                            Formatted Input Functions.
                                                               (line  25)
-* GMP_LIMB_BITS:                         Low-level Functions. (line 563)
-* GMP_NAIL_BITS:                         Low-level Functions. (line 561)
-* GMP_NAIL_MASK:                         Low-level Functions. (line 571)
-* GMP_NUMB_BITS:                         Low-level Functions. (line 562)
-* GMP_NUMB_MASK:                         Low-level Functions. (line 572)
-* GMP_NUMB_MAX:                          Low-level Functions. (line 580)
+* GMP_LIMB_BITS:                         Low-level Functions. (line 546)
+* GMP_NAIL_BITS:                         Low-level Functions. (line 544)
+* GMP_NAIL_MASK:                         Low-level Functions. (line 554)
+* GMP_NUMB_BITS:                         Low-level Functions. (line 545)
+* GMP_NUMB_MASK:                         Low-level Functions. (line 555)
+* GMP_NUMB_MAX:                          Low-level Functions. (line 563)
 * gmp_obstack_printf:                    Formatted Output Functions.
                                                               (line  79)
 * gmp_obstack_vprintf:                   Formatted Output Functions.
@@ -3012,55 +3014,54 @@ Function and Type Index
 * mpn_add_1:                             Low-level Functions. (line  65)
 * mpn_add_n:                             Low-level Functions. (line  55)
 * mpn_addmul_1:                          Low-level Functions. (line 131)
-* mpn_and_n:                             Low-level Functions. (line 472)
-* mpn_andn_n:                            Low-level Functions. (line 487)
-* mpn_bdivmod:                           Low-level Functions. (line 256)
-* mpn_cmp:                               Low-level Functions. (line 297)
-* mpn_com:                               Low-level Functions. (line 512)
-* mpn_copyd:                             Low-level Functions. (line 521)
-* mpn_copyi:                             Low-level Functions. (line 517)
+* mpn_and_n:                             Low-level Functions. (line 455)
+* mpn_andn_n:                            Low-level Functions. (line 470)
+* mpn_cmp:                               Low-level Functions. (line 280)
+* mpn_com:                               Low-level Functions. (line 495)
+* mpn_copyd:                             Low-level Functions. (line 504)
+* mpn_copyi:                             Low-level Functions. (line 500)
 * mpn_divexact_by3:                      Low-level Functions. (line 225)
 * mpn_divexact_by3c:                     Low-level Functions. (line 227)
 * mpn_divmod_1:                          Low-level Functions. (line 209)
 * mpn_divrem:                            Low-level Functions. (line 183)
 * mpn_divrem_1:                          Low-level Functions. (line 207)
-* mpn_gcd:                               Low-level Functions. (line 302)
-* mpn_gcd_1:                             Low-level Functions. (line 313)
-* mpn_gcdext:                            Low-level Functions. (line 319)
-* mpn_get_str:                           Low-level Functions. (line 361)
-* mpn_hamdist:                           Low-level Functions. (line 462)
-* mpn_ior_n:                             Low-level Functions. (line 477)
-* mpn_iorn_n:                            Low-level Functions. (line 492)
-* mpn_lshift:                            Low-level Functions. (line 273)
+* mpn_gcd:                               Low-level Functions. (line 285)
+* mpn_gcd_1:                             Low-level Functions. (line 296)
+* mpn_gcdext:                            Low-level Functions. (line 302)
+* mpn_get_str:                           Low-level Functions. (line 344)
+* mpn_hamdist:                           Low-level Functions. (line 445)
+* mpn_ior_n:                             Low-level Functions. (line 460)
+* mpn_iorn_n:                            Low-level Functions. (line 475)
+* mpn_lshift:                            Low-level Functions. (line 256)
 * mpn_mod_1:                             Low-level Functions. (line 251)
 * mpn_mul:                               Low-level Functions. (line 153)
 * mpn_mul_1:                             Low-level Functions. (line 116)
 * mpn_mul_n:                             Low-level Functions. (line 104)
-* mpn_nand_n:                            Low-level Functions. (line 497)
+* mpn_nand_n:                            Low-level Functions. (line 480)
 * mpn_neg:                               Low-level Functions. (line  99)
-* mpn_nior_n:                            Low-level Functions. (line 502)
-* mpn_perfect_square_p:                  Low-level Functions. (line 468)
-* mpn_popcount:                          Low-level Functions. (line 458)
-* mpn_random:                            Low-level Functions. (line 410)
-* mpn_random2:                           Low-level Functions. (line 411)
-* mpn_randomb:                           Low-level Functions. (line 440)
-* mpn_rrandom:                           Low-level Functions. (line 448)
-* mpn_rshift:                            Low-level Functions. (line 285)
-* mpn_scan0:                             Low-level Functions. (line 395)
-* mpn_scan1:                             Low-level Functions. (line 403)
-* mpn_set_str:                           Low-level Functions. (line 376)
+* mpn_nior_n:                            Low-level Functions. (line 485)
+* mpn_perfect_square_p:                  Low-level Functions. (line 451)
+* mpn_popcount:                          Low-level Functions. (line 441)
+* mpn_random:                            Low-level Functions. (line 393)
+* mpn_random2:                           Low-level Functions. (line 394)
+* mpn_randomb:                           Low-level Functions. (line 423)
+* mpn_rrandom:                           Low-level Functions. (line 431)
+* mpn_rshift:                            Low-level Functions. (line 268)
+* mpn_scan0:                             Low-level Functions. (line 378)
+* mpn_scan1:                             Low-level Functions. (line 386)
+* mpn_set_str:                           Low-level Functions. (line 359)
 * mpn_sqr:                               Low-level Functions. (line 164)
-* mpn_sqrtrem:                           Low-level Functions. (line 343)
+* mpn_sqrtrem:                           Low-level Functions. (line 326)
 * mpn_sub:                               Low-level Functions. (line  91)
 * mpn_sub_1:                             Low-level Functions. (line  86)
 * mpn_sub_n:                             Low-level Functions. (line  77)
 * mpn_submul_1:                          Low-level Functions. (line 142)
 * mpn_tdiv_qr:                           Low-level Functions. (line 173)
-* mpn_urandomb:                          Low-level Functions. (line 424)
-* mpn_urandomm:                          Low-level Functions. (line 432)
-* mpn_xnor_n:                            Low-level Functions. (line 507)
-* mpn_xor_n:                             Low-level Functions. (line 482)
-* mpn_zero:                              Low-level Functions. (line 524)
+* mpn_urandomb:                          Low-level Functions. (line 407)
+* mpn_urandomm:                          Low-level Functions. (line 415)
+* mpn_xnor_n:                            Low-level Functions. (line 490)
+* mpn_xor_n:                             Low-level Functions. (line 465)
+* mpn_zero:                              Low-level Functions. (line 507)
 * mpq_abs:                               Rational Arithmetic. (line  31)
 * mpq_add:                               Rational Arithmetic. (line   7)
 * mpq_canonicalize:                      Rational Number Functions.
@@ -3143,6 +3144,8 @@ Function and Type Index
                                                               (line  54)
 * mpq_t:                                 Nomenclature and Types.
                                                               (line  16)
+* mpz_2fac_ui:                           Number Theoretic Functions.
+                                                              (line 149)
 * mpz_abs:                               Integer Arithmetic.  (line  36)
 * mpz_add:                               Integer Arithmetic.  (line   7)
 * mpz_add_ui:                            Integer Arithmetic.  (line   8)
@@ -3153,9 +3156,9 @@ Function and Type Index
 * mpz_array_init:                        Integer Special Functions.
                                                               (line  11)
 * mpz_bin_ui:                            Number Theoretic Functions.
-                                                              (line 151)
+                                                              (line 160)
 * mpz_bin_uiui:                          Number Theoretic Functions.
-                                                              (line 152)
+                                                              (line 161)
 * mpz_cdiv_q:                            Integer Division.    (line  13)
 * mpz_cdiv_q_2exp:                       Integer Division.    (line  21)
 * mpz_cdiv_q_ui:                         Integer Division.    (line  16)
@@ -3234,9 +3237,9 @@ Function and Type Index
 * mpz_fdiv_r_ui:                         Integer Division.    (line  28)
 * mpz_fdiv_ui:                           Integer Division.    (line  31)
 * mpz_fib2_ui:                           Number Theoretic Functions.
-                                                              (line 159)
+                                                              (line 168)
 * mpz_fib_ui:                            Number Theoretic Functions.
-                                                              (line 158)
+                                                              (line 167)
 * mpz_fits_sint_p:                       Miscellaneous Integer Functions.
                                                               (line  10)
 * mpz_fits_slong_p:                      Miscellaneous Integer Functions.
@@ -3313,9 +3316,11 @@ Function and Type Index
 * mpz_likely_prime_p:                    Number Theoretic Functions.
                                                               (line  26)
 * mpz_lucnum2_ui:                        Number Theoretic Functions.
-                                                              (line 169)
+                                                              (line 178)
 * mpz_lucnum_ui:                         Number Theoretic Functions.
-                                                              (line 168)
+                                                              (line 177)
+* mpz_mfac_uiui:                         Number Theoretic Functions.
+                                                              (line 151)
 * mpz_mod:                               Integer Division.    (line  82)
 * mpz_mod_ui:                            Integer Division.    (line  83)
 * mpz_mul:                               Integer Arithmetic.  (line  16)
@@ -3342,6 +3347,8 @@ Function and Type Index
                                                               (line   8)
 * mpz_powm_ui:                           Integer Exponentiation.
                                                               (line  10)
+* mpz_primorial_ui:                      Number Theoretic Functions.
+                                                              (line 156)
 * mpz_probab_prime_p:                    Number Theoretic Functions.
                                                               (line  41)
 * mpz_probable_prime_p:                  Number Theoretic Functions.

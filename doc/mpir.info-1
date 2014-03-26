@@ -1,7 +1,7 @@
 This is mpir.info, produced by makeinfo version 4.13 from mpir.texi.
 
 This manual describes how to install and use MPIR, the Multiple
-Precision Integers and Rationals library, version 2.6.0.
+Precision Integers and Rationals library, version 2.7.0.
 
    Copyright 1991, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000,
 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012,
@@ -29,7 +29,7 @@ MPIR
 ****
 
    This manual describes how to install and use MPIR, the Multiple
-Precision Integers and Rationals library, version 2.6.0.
+Precision Integers and Rationals library, version 2.7.0.
 
    Copyright 1991, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000,
 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012,
@@ -240,7 +240,7 @@ Build Directory
      directory.  For example
 
           cd /my/build/dir
-          /my/sources/mpir-2.6.0/configure
+          /my/sources/mpir-2.7.0/configure
 
      Not all `make' programs have the necessary features (`VPATH') to
      support this.  In particular, SunOS and Solaris `make' have bugs
@@ -1460,7 +1460,7 @@ File: mpir.info,  Node: Useful Macros and Constants,  Next: Compatibility with o
 
  -- Global Constant: const char * const mpir_version
      The MPIR version number, as a null-terminated string, in the form
-     "i.j.k".  This release is "2.6.0".
+     "i.j.k".  This release is "2.7.0".
 
 
 File: mpir.info,  Node: Compatibility with older versions,  Next: Efficiency,  Prev: Useful Macros and Constants,  Up: MPIR Basics
@@ -1477,6 +1477,9 @@ all 2.x versions, with the following exceptions.
 
    * `mpf_get_prec' counted precision slightly differently in GMP 3.0
      and 3.0.1, but in 3.1 reverted to the 2.x style.
+
+   * `mpn_bdivmod' provided provisionally in the past has been removed
+     from MPIR 2.7.0.
 
    * MPIR does not support the secure cryptographic functions provided
      by GMP.
@@ -1721,7 +1724,7 @@ Source File Paths
      path to the source directory.
 
           cd /my/build/dir
-          /my/source/dir/gmp-2.6.0/configure
+          /my/source/dir/gmp-2.7.0/configure
 
      This works via `VPATH', and might require GNU `make'.  Alternately
      it might be possible to change the `.c.lo' rules appropriately.
@@ -2642,8 +2645,17 @@ File: mpir.info,  Node: Number Theoretic Functions,  Next: Integer Comparisons, 
      result in ROP.  The return value is how many such occurrences were
      removed.
 
- -- Function: void mpz_fac_ui (mpz_t ROP, mpir_ui OP)
-     Set ROP to OP!, the factorial of OP.
+ -- Function: void mpz_fac_ui (mpz_t ROP, unsigned long int N)
+ -- Function: void mpz_2fac_ui (mpz_t ROP, unsigned long int N)
+ -- Function: void mpz_mfac_uiui (mpz_t ROP, unsigned long int N,
+          unsigned long int M)
+     Set ROP to the factorial of N: `mpz_fac_ui' computes the plain
+     factorial N!, `mpz_2fac_ui' computes the double-factorial N!!, and
+     `mpz_mfac_uiui' the M-multi-factorial N!^(M).
+
+ -- Function: void mpz_primorial_ui (mpz_t ROP, unsigned long int N)
+     Set ROP to the primorial of N, i.e. the product of all positive
+     prime numbers <=N.
 
  -- Function: void mpz_bin_ui (mpz_t ROP, mpz_t N, mpir_ui K)
  -- Function: void mpz_bin_uiui (mpz_t ROP, mpir_ui N, mpir_ui K)
@@ -4128,23 +4140,6 @@ For example, {S1P, S1N}.
           mp_limb_t S2LIMB)
      Divide {S1P, S1N} by S2LIMB, and return the remainder.  S1N can be
      zero.
-
- -- Function: mp_limb_t mpn_bdivmod (mp_limb_t *RP, mp_limb_t *S1P,
-          mp_size_t S1N, const mp_limb_t *S2P, mp_size_t S2N, mpir_ui D)
-     This function puts the low floor(D/mp_bits_per_limb) limbs of Q =
-     {S1P, S1N}/{S2P, S2N} mod 2^D at RP, and returns the high D mod
-     `mp_bits_per_limb' bits of Q.
-
-     {S1P, S1N} - Q * {S2P, S2N} mod 2^(S1N*mp_bits_per_limb) is placed
-     at S1P.  Since the low floor(D/mp_bits_per_limb) limbs of this
-     difference are zero, it is possible to overwrite the low limbs at
-     S1P with this difference, provided RP <= S1P.
-
-     This function requires that S1N * mp_bits_per_limb >= D, and that
-     {S2P, S2N} is odd.
-
-     *This interface is preliminary.  It might change incompatibly in
-     future revisions.*
 
  -- Function: mp_limb_t mpn_lshift (mp_limb_t *RP, const mp_limb_t *SP,
           mp_size_t N, unsigned int COUNT)
