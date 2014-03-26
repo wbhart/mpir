@@ -1,7 +1,8 @@
 /* Definitions for GNU multiple precision functions.   -*- mode: c -*-
 
 Copyright 1991, 1993, 1994, 1995, 1996, 1997, 1999, 2000, 2001, 2002, 2003,
-2004, 2005, 2006, 2007, 2008, 2009 Free Software Foundation, Inc.
+2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012 Free Software Foundation, 
+Inc.
 
 Copyright 2008 William Hart, Gonzalo Tornaria
 
@@ -2450,6 +2451,10 @@ enum
   GMP_ERROR_SQRT_OF_NEGATIVE = 4,
   GMP_ERROR_INVALID_ARGUMENT = 8
 };
+
+/* Define CC and CFLAGS which were used to build this version of GMP */
+#define __GMP_CC "@CC@"
+#define __GMP_CFLAGS "@CFLAGS@"
 
 /* Major version number is the value of __GNU_MP__ too, above and in mp.h. */
 #define __GNU_MP_VERSION 5 

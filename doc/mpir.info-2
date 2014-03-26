@@ -4,8 +4,8 @@ This manual describes how to install and use MPIR, the Multiple
 Precision Integers and Rationals library, version 2.6.0.
 
    Copyright 1991, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000,
-2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010 Free
-Software Foundation, Inc.
+2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012,
+2013 Free Software Foundation, Inc.
 
    Copyright 2008, 2009, 2010 William Hart
 
@@ -2756,6 +2756,10 @@ Function and Type Index
  [index ]
 * Menu:
 
+* __GMP_CC:                              Useful Macros and Constants.
+                                                              (line  29)
+* __GMP_CFLAGS:                          Useful Macros and Constants.
+                                                              (line  30)
 * __GNU_MP_VERSION:                      Useful Macros and Constants.
                                                               (line  10)
 * __GNU_MP_VERSION_MINOR:                Useful Macros and Constants.
@@ -3003,7 +3007,7 @@ Function and Type Index
 * mpf_urandomb:                          Miscellaneous Float Functions.
                                                               (line  27)
 * mpir_version:                          Useful Macros and Constants.
-                                                              (line  29)
+                                                              (line  34)
 * mpn_add:                               Low-level Functions. (line  70)
 * mpn_add_1:                             Low-level Functions. (line  65)
 * mpn_add_n:                             Low-level Functions. (line  55)
