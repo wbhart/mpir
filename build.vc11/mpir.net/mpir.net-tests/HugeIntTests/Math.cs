@@ -25,7 +25,7 @@ namespace MPIR.Tests.HugeIntTests
     [TestClass]
     public class Math
     {
-        #region PowerMod
+        #region Exponentiation
 
         [TestMethod]
         public void PowerModHugeInt()
@@ -50,10 +50,6 @@ namespace MPIR.Tests.HugeIntTests
             }
         }
 
-        #endregion
-
-        #region Power
-
         [TestMethod]
         public void PowerLimb()
         {
@@ -61,6 +57,58 @@ namespace MPIR.Tests.HugeIntTests
             {
                 a.Value = a ^ 4;
                 Assert.AreEqual("9168884832199547717402442404668238841010784738902226284286664833331445628675177089723224507720724521226586825967635414667601", a.ToString());
+            }
+        }
+
+        #endregion
+
+        #region Roots
+
+        [TestMethod]
+        public void Root()
+        {
+            var n = "8984948281360922385394772450147012613851354303";
+            using (var a = new HugeInt(n))
+            using (var b = new HugeInt())
+            using (var c = new HugeInt())
+            {
+                a.Value = a * a * a;
+
+                b.Value = a.Root(3);
+                Assert.AreEqual(n, b.ToString());
+
+                bool exact = false;
+                b.Value = a.Root(3).SettingExactTo(x => exact = x);
+                Assert.AreEqual(n, b.ToString());
+                Assert.IsTrue(exact);
+                
+                b.Value = (a + 123).Root(3).SettingExactTo(x => exact = x);
+                Assert.AreEqual(n, b.ToString());
+                Assert.IsFalse(exact);
+
+                b.Value = (a + 123).Root(3).SavingRemainderTo(c);
+                Assert.AreEqual(n, b.ToString());
+                Assert.AreEqual("123", c.ToString());
+            }
+        }
+
+        [TestMethod]
+        public void SquareRoot()
+        {
+            var n = "8984948281360922385394772450147012613851354303";
+            using (var a = new HugeInt(n))
+            using (var b = new HugeInt())
+            using (var c = new HugeInt())
+            {
+                a.Value = a * a;
+
+                b.Value = a.SquareRoot();
+                Assert.AreEqual(n, b.ToString());
+
+                b.SetTo(0);
+                b.Value = (a + 123).SquareRoot().SavingRemainderTo(c);
+                Assert.AreEqual(n, b.ToString());
+                Assert.AreEqual("123", c.ToString());
             }
         }
 

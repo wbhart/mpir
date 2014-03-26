@@ -218,6 +218,9 @@ public ref class Mpir##name##Expression : base                                  
                                                                                                   \
     MAKE_FUNCTION_WITH_TWO         (MpirExpression,           action, PowerMod, Int, Int)         \
     MAKE_FUNCTION_WITH_TWO_LLIMB   (MpirExpression,           action, PowerMod, Ui, Int)          \
+                                                                                                  \
+    MAKE_FUNCTION_WITH_LIMB        (MpirRootExpression,       action, Root, Ui)                   \
+    MAKE_VOID_FUNCTION             (MpirSquareRootExpression, action, SquareRoot, Int)            \
 
 namespace MPIR
 {
@@ -228,6 +231,8 @@ namespace MPIR
     ref class MpirDivModExpression;
     ref class MpirModUiExpression;
     ref class MpirShiftRightExpression;
+    ref class MpirRootExpression;
+    ref class MpirSquareRootExpression;
 
     public enum class RoundingModes
     {
@@ -357,6 +362,36 @@ namespace MPIR
             }
     };
 
+    public ref class MpirSquareRootExpression abstract : MpirExpression 
+    {
+        internal:
+            HugeInt^ _remainder;
+            void custom_mpz_sqrt(mpz_ptr dest, mpz_srcptr oper);
+
+        public:
+            MpirExpression^ SavingRemainderTo(HugeInt^ destination)
+            {
+                _remainder = destination;
+                return this;
+            }
+    };
+
+    public ref class MpirRootExpression abstract : MpirSquareRootExpression 
+    {
+        private:
+            Action<bool>^ _exact;
+
+        internal:
+            void custom_mpz_root(mpz_ptr dest, mpz_srcptr oper, mpir_ui power);
+
+        public:
+            MpirExpression^ SettingExactTo(Action<bool>^ callback)
+            {
+                _exact = callback;
+                return this;
+            }
+    };
+
     DEFINE_BINARY_EXPRESSION_WITH_TWO              (MpirExpression, Add, Int)
     DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (MpirExpression, Add, Int, Ui)
     DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (MpirExpression, Add, Int, Si)
@@ -391,6 +426,9 @@ namespace MPIR
     DEFINE_TERNARY_EXPRESSION_WITH_BUILT_IN_MIDDLE (MpirExpression, PowerMod, Int, Ui, Int)
 
     DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (MpirExpression, Power, Int, Ui)
+
+    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (MpirRootExpression, Root, Int, Ui)
+    DEFINE_UNARY_EXPRESSION_WITH_ONE               (MpirSquareRootExpression, SquareRoot, Int)
 
     DEFINE_OPERATIONS(DEFINE)
 

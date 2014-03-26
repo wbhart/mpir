@@ -333,6 +333,23 @@ namespace MPIR
             _limbRemainder(limb);
     };
 
+    void MpirRootExpression::custom_mpz_root(mpz_ptr dest, mpz_srcptr oper, mpir_ui power)
+    {
+        if(_remainder != nullptr)
+            mpz_rootrem(dest, _remainder->_value, oper, power);
+        else if (_exact != nullptr)
+            _exact(mpz_root(dest, oper, power) != 0);
+        else
+            mpz_nthroot(dest, oper, power);
+    };
+
+    void MpirSquareRootExpression::custom_mpz_sqrt(mpz_ptr dest, mpz_srcptr oper)
+    {
+        (_remainder != nullptr)
+            ? mpz_sqrtrem(dest, _remainder->_value, oper)
+            : mpz_sqrt(dest, oper);
+    };
+
     #pragma endregion
 
     #pragma region Arithmetic
@@ -366,6 +383,9 @@ namespace MPIR
     DEFINE_BINARY_ASSIGNMENT_REF_VAL(DivideExactly, Int, Ui, mpz_divexact_ui)
     
     DEFINE_BINARY_ASSIGNMENT_REF_VAL(Power, Int, Ui, mpz_pow_ui)
+
+    DEFINE_BINARY_ASSIGNMENT_REF_VAL(Root, Int, Ui, custom_mpz_root)
+    DEFINE_UNARY_ASSIGNMENT_REF     (SquareRoot, Int, custom_mpz_sqrt)
 
     DEFINE_TERNARY_ASSIGNMENT_REF_REF_REF(PowerMod, Int, dummy_ternary)
     DEFINE_TERNARY_ASSIGNMENT_REF_VAL_REF(PowerMod, Int, Ui, Int, mpz_powm_ui)
