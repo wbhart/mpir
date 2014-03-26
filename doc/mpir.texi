@@ -3459,9 +3459,19 @@ result in @var{rop}.  The return value is how many such occurrences were
 removed.
 @end deftypefun
 
-@deftypefun void mpz_fac_ui (mpz_t @var{rop}, mpir_ui @var{op})
+@deftypefun void mpz_fac_ui (mpz_t @var{rop}, unsigned long int @var{n})
+@deftypefunx void mpz_2fac_ui (mpz_t @var{rop}, unsigned long int @var{n})
+@deftypefunx void mpz_mfac_uiui (mpz_t @var{rop}, unsigned long int @var{n}, unsigned long int @var{m})
 @cindex Factorial functions
-Set @var{rop} to @var{op}!, the factorial of @var{op}.
+Set @var{rop} to the factorial of @var{n}: @code{mpz_fac_ui} computes the plain factorial @var{n}!,
+@code{mpz_2fac_ui} computes the double-factorial @var{n}!!, and @code{mpz_mfac_uiui} the
+@var{m}-multi-factorial @m{n!^{(m)}, @var{n}!^(@var{m})}.
+@end deftypefun
+
+@deftypefun void mpz_primorial_ui (mpz_t @var{rop}, unsigned long int @var{n})
+@cindex Primorial functions
+Set @var{rop} to the primorial of @var{n}, i.e. the product of all positive
+prime numbers @math{@le{}@var{n}}.
 @end deftypefun
 
 @deftypefun void mpz_bin_ui (mpz_t @var{rop}, mpz_t @var{n}, mpir_ui @var{k})
