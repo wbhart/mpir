@@ -1,5 +1,5 @@
 
-rem %1 = mpn directory (generic, x86\... ot x86_64\...) 
+rem %1 = mpn directory (generic, x86\... or x86_64\...) 
 rem %2 = platform (win32 or x64)
 @echo off
 

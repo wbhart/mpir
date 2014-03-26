@@ -20,7 +20,7 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{B62C2D48-5D7E-48E7-96A2-F411CD8EB805}</ProjectGuid>
-    <RootNamespace>mpz.next_likely_prime</RootNamespace>
+    <RootNamespace>mpz.next_prime_candidate</RootNamespace>
     <Keyword>Win32Proj</Keyword>
     <VCTargetsPath Condition="'$(VCTargetsPath11)' != '' and '$(VSVersion)' == '' and $(VisualStudioVersion) == ''">$(VCTargetsPath11)</VCTargetsPath>
   </PropertyGroup>
@@ -156,7 +156,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\tests\mpz\t-next_likely_prime.c">
+    <ClCompile Include="..\..\..\tests\mpz\t-next_prime_candidate.c">
       <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Disabled</Optimization>
     </ClCompile>
   </ItemGroup>

@@ -139,7 +139,7 @@
   <ClCompile Include="..\..\fft\fft_mfa_trunc_sqrt2_inner.c">
     <Filter>Source Files\fft</Filter>
     </ClCompile>
-  <ClCompile Include="..\..\fft\fft_negacylic.c">
+  <ClCompile Include="..\..\fft\fft_negacyclic.c">
     <Filter>Source Files\fft</Filter>
     </ClCompile>
   <ClCompile Include="..\..\fft\fft_radix2.c">
@@ -814,7 +814,7 @@
   <ClCompile Include="..\..\mpz\neg.c">
     <Filter>Source Files\mpz</Filter>
     </ClCompile>
-  <ClCompile Include="..\..\mpz\next_likely_prime.c">
+  <ClCompile Include="..\..\mpz\next_prime_candidate.c">
     <Filter>Source Files\mpz</Filter>
     </ClCompile>
   <ClCompile Include="..\..\mpz\nextprime.c">
@@ -1147,9 +1147,6 @@
   <ClCompile Include="..\..\mpn\generic\dc_divappr_q.c">
     <Filter>Source Files\mpn</Filter>
     </ClCompile>
-  <ClCompile Include="..\..\mpn\generic\dc_divappr_q_n.c">
-    <Filter>Source Files\mpn</Filter>
-    </ClCompile>
   <ClCompile Include="..\..\mpn\generic\divexact.c">
     <Filter>Source Files\mpn</Filter>
     </ClCompile>
@@ -1467,9 +1464,6 @@
   <YASM Include="..\..\mpn\x86_64w\core2\addmul_1.asm">
     <Filter>Source Files\mpn\yasm</Filter>
     </YASM>
-  <YASM Include="..\..\mpn\x86_64w\core2\addmul_1.o.asm">
-    <Filter>Source Files\mpn\yasm</Filter>
-    </YASM>
   <YASM Include="..\..\mpn\x86_64w\core2\addmul_2.asm">
     <Filter>Source Files\mpn\yasm</Filter>
     </YASM>
@@ -1609,9 +1603,6 @@
     <Filter>Source Files\mpn\yasm</Filter>
     </YASM>
   <YASM Include="..\..\mpn\x86_64w\core2\submul_1.asm">
-    <Filter>Source Files\mpn\yasm</Filter>
-    </YASM>
-  <YASM Include="..\..\mpn\x86_64w\core2\submul_1.o.asm">
     <Filter>Source Files\mpn\yasm</Filter>
     </YASM>
   <YASM Include="..\..\mpn\x86_64w\core2\sumdiff_n.asm">
