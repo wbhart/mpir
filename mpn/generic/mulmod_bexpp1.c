@@ -31,7 +31,6 @@ or implied, of William Hart.
 #include "mpir.h"
 #include "gmp-impl.h"
 #include "longlong.h"
-#include "fft/fft_tuning.h"
 
 static mp_size_t mulmod_2expp1_table_n[FFT_N_NUM] = MULMOD_TAB;
 

@@ -22,7 +22,6 @@ MA 02110-1301, USA. */
 #include <mpir.h>
 #include "gmp-impl.h"
 #include "longlong.h"
-#include "fft/fft_tuning.h"
 
 /* 
    Computes the quotient and remainder of { np, 2*dn } by { dp, dn }.
