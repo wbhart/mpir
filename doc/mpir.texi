@@ -2124,6 +2124,10 @@ with other @code{mpn} functions.
 3.0.1, but in 3.1 reverted to the 2.x style.
 
 @item
+@code{mpn_bdivmod} provided provisionally in the past has been removed from MPIR
+2.7.0.
+
+@item
 MPIR does not support the secure cryptographic functions provided by GMP.
 
 @item
@@ -5135,26 +5139,6 @@ be 0, 1 or 2 (these are both borrows really).  When @math{c=0} clearly
 @deftypefun mp_limb_t mpn_mod_1 (mp_limb_t *@var{s1p}, mp_size_t @var{s1n}, mp_limb_t @var{s2limb})
 Divide @{@var{s1p}, @var{s1n}@} by @var{s2limb}, and return the remainder.
 @var{s1n} can be zero.
-@end deftypefun
-
-@deftypefun mp_limb_t mpn_bdivmod (mp_limb_t *@var{rp}, mp_limb_t *@var{s1p}, mp_size_t @var{s1n}, const mp_limb_t *@var{s2p}, mp_size_t @var{s2n}, mpir_ui @var{d})
-This function puts the low
-@math{@GMPfloor{@var{d}/@nicode{mp\_bits\_per\_limb}}} limbs of @var{q} =
-@{@var{s1p}, @var{s1n}@}/@{@var{s2p}, @var{s2n}@} mod @m{2^d,2^@var{d}} at
-@var{rp}, and returns the high @var{d} mod @code{mp_bits_per_limb} bits of
-@var{q}.
-
-@{@var{s1p}, @var{s1n}@} - @var{q} * @{@var{s2p}, @var{s2n}@} mod @m{2
-\GMPraise{@var{s1n}*@code{mp\_bits\_per\_limb}},
-2^(@var{s1n}*@nicode{mp\_bits\_per\_limb})} is placed at @var{s1p}.  Since the
-low @math{@GMPfloor{@var{d}/@nicode{mp\_bits\_per\_limb}}} limbs of this
-difference are zero, it is possible to overwrite the low limbs at @var{s1p}
-with this difference, provided @math{@var{rp} @le{} @var{s1p}}.
-
-This function requires that @math{@var{s1n} * @nicode{mp\_bits\_per\_limb}
-@ge{} @var{D}}, and that @{@var{s2p}, @var{s2n}@} is odd.
-
-@strong{This interface is preliminary.  It might change incompatibly in future revisions.}
 @end deftypefun
 
 @deftypefun mp_limb_t mpn_lshift (mp_limb_t *@var{rp}, const mp_limb_t *@var{sp}, mp_size_t @var{n}, unsigned int @var{count})
