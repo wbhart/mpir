@@ -3345,18 +3345,18 @@ Set @var{rop} to the next prime greater than @var{op}.
 
 This function uses a probabilistic algorithm to identify primes.  For
 practical purposes it's adequate, the chance of a composite passing will be
-extremely small.
+extremely small. However, despite the name, it does not guarantee primality.
 
 @strong{This function is obsolete.  It will disappear from future MPIR releases.}
 @end deftypefun
 
 @deftypefun void mpz_next_prime_candidate (mpz_t @var{rop}, mpz_t @var{op}, gmp_randstate_t @var{state})
 @cindex Next candidate prime function
-Set @var{rop} to the next candidate prime greater than @var{op}.
-
-This function uses a probabilistic algorithm to identify primes.  For
-practical purposes it's adequate, the chance of a composite passing will be
-extremely small.
+Set @var{rop} to the next candidate prime greater than @var{op}. Note that this
+function will occasionally return composites. It is designed to give a quick 
+method for generating numbers which do not have small prime factors (less than
+1000) and which pass a small number of rounds of Miller-Rabin (just two rounds).The test is designed for speed, assuming that a high quality followup test can 
+then be run to ensure primality. 
 
 The variable @var{state} must be initialized by calling one of the
 @code{gmp_randinit} functions (@ref{Random State Initialization})

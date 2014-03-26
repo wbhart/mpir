@@ -2554,18 +2554,21 @@ File: mpir.info,  Node: Number Theoretic Functions,  Next: Integer Comparisons, 
 
      This function uses a probabilistic algorithm to identify primes.
      For practical purposes it's adequate, the chance of a composite
-     passing will be extremely small.
+     passing will be extremely small. However, despite the name, it
+     does not guarantee primality.
 
      *This function is obsolete.  It will disappear from future MPIR
      releases.*
 
  -- Function: void mpz_next_prime_candidate (mpz_t ROP, mpz_t OP,
           gmp_randstate_t STATE)
-     Set ROP to the next candidate prime greater than OP.
-
-     This function uses a probabilistic algorithm to identify primes.
-     For practical purposes it's adequate, the chance of a composite
-     passing will be extremely small.
+     Set ROP to the next candidate prime greater than OP. Note that this
+     function will occasionally return composites. It is designed to
+     give a quick method for generating numbers which do not have small
+     prime factors (less than 1000) and which pass a small number of
+     rounds of Miller-Rabin (just two rounds).The test is designed for
+     speed, assuming that a high quality followup test can then be run
+     to ensure primality.
 
      The variable STATE must be initialized by calling one of the
      `gmp_randinit' functions (*note Random State Initialization::)
