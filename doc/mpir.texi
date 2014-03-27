@@ -6345,6 +6345,11 @@ If the string is not a valid integer, an @code{std::invalid_argument}
 exception is thrown.  The same applies to @code{operator=}.
 @end deftypefun
 
+@deftypefun mpz_class operator"" _mpz (const char *@var{str})
+With C++11 compilers, integers can be constructed with the syntax
+@code{123_mpz} which is equivalent to @code{mpz_class("123")}.
+@end deftypefun
+
 @deftypefun mpz_class operator/ (mpz_class @var{a}, mpz_class @var{d})
 @deftypefunx mpz_class operator% (mpz_class @var{a}, mpz_class @var{d})
 Divisions involving @code{mpz_class} round towards zero, as per the
@@ -6438,6 +6443,12 @@ Construct an @code{mpq_class} converted from a string using @code{mpq_set_str}
 
 If the string is not a valid rational, an @code{std::invalid_argument}
 exception is thrown.  The same applies to @code{operator=}.
+@end deftypefun
+
+@deftypefun mpq_class operator"" _mpq (const char *@var{str})
+With C++11 compilers, integral rationals can be constructed with the syntax
+@code{123_mpq} which is equivalent to @code{mpq_class(123_mpz)}. Other
+rationals can be built as @code{-1_mpq/2} or @code{0xb_mpq/123456_mpz}.
 @end deftypefun
 
 @deftypefun void mpq_class::canonicalize ()
@@ -6538,6 +6549,11 @@ that value, in bits.  If not, the default @code{mpf} precision
 
 If the string is not a valid float, an @code{std::invalid_argument} exception
 is thrown.  The same applies to @code{operator=}.
+@end deftypefun
+
+@deftypefun mpf_class operator"" _mpf (const char *@var{str})
+With C++11 compilers, floats can be constructed with the syntax
+@code{1.23e-1_mpf} which is equivalent to @code{mpf_class("1.23e-1")}.
 @end deftypefun
 
 @deftypefun {mpf_class&} mpf_class::operator= (type @var{op})

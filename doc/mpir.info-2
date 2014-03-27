@@ -2777,21 +2777,21 @@ Function and Type Index
 * _mpz_realloc:                          Integer Special Functions.
                                                               (line  54)
 * abs <1>:                               C++ Interface Floats.
-                                                              (line  69)
+                                                              (line  73)
 * abs <2>:                               C++ Interface Rationals.
-                                                              (line  43)
+                                                              (line  48)
 * abs:                                   C++ Interface Integers.
-                                                              (line  41)
+                                                              (line  45)
 * ceil:                                  C++ Interface Floats.
-                                                              (line  70)
+                                                              (line  74)
 * cmp <1>:                               C++ Interface Floats.
-                                                              (line  71)
+                                                              (line  75)
 * cmp <2>:                               C++ Interface Rationals.
-                                                              (line  44)
+                                                              (line  49)
 * cmp:                                   C++ Interface Integers.
-                                                              (line  42)
+                                                              (line  46)
 * floor:                                 C++ Interface Floats.
-                                                              (line  79)
+                                                              (line  83)
 * gmp_asprintf:                          Formatted Output Functions.
                                                               (line  65)
 * gmp_fprintf:                           Formatted Output Functions.
@@ -2871,7 +2871,7 @@ Function and Type Index
 * gmp_vsscanf:                           Formatted Input Functions.
                                                               (line  31)
 * hypot:                                 C++ Interface Floats.
-                                                              (line  80)
+                                                              (line  84)
 * long:                                  MPIR on Windows x64. (line  28)
 * mp_bitcnt_t:                           Nomenclature and Types.
                                                               (line  41)
@@ -2893,41 +2893,41 @@ Function and Type Index
 * mpf_class:                             C++ Interface General.
                                                               (line  20)
 * mpf_class::fits_sint_p:                C++ Interface Floats.
-                                                              (line  73)
-* mpf_class::fits_slong_p:               C++ Interface Floats.
-                                                              (line  74)
-* mpf_class::fits_sshort_p:              C++ Interface Floats.
-                                                              (line  75)
-* mpf_class::fits_uint_p:                C++ Interface Floats.
-                                                              (line  76)
-* mpf_class::fits_ulong_p:               C++ Interface Floats.
                                                               (line  77)
-* mpf_class::fits_ushort_p:              C++ Interface Floats.
+* mpf_class::fits_slong_p:               C++ Interface Floats.
                                                               (line  78)
-* mpf_class::get_d:                      C++ Interface Floats.
+* mpf_class::fits_sshort_p:              C++ Interface Floats.
+                                                              (line  79)
+* mpf_class::fits_uint_p:                C++ Interface Floats.
+                                                              (line  80)
+* mpf_class::fits_ulong_p:               C++ Interface Floats.
                                                               (line  81)
+* mpf_class::fits_ushort_p:              C++ Interface Floats.
+                                                              (line  82)
+* mpf_class::get_d:                      C++ Interface Floats.
+                                                              (line  85)
 * mpf_class::get_mpf_t:                  C++ Interface General.
                                                               (line  66)
 * mpf_class::get_prec:                   C++ Interface Floats.
-                                                              (line 101)
+                                                              (line 105)
 * mpf_class::get_si:                     C++ Interface Floats.
-                                                              (line  82)
+                                                              (line  86)
 * mpf_class::get_str:                    C++ Interface Floats.
-                                                              (line  84)
+                                                              (line  88)
 * mpf_class::get_ui:                     C++ Interface Floats.
-                                                              (line  85)
+                                                              (line  89)
 * mpf_class::mpf_class:                  C++ Interface Floats.
                                                               (line  12)
 * mpf_class::operator=:                  C++ Interface Floats.
-                                                              (line  46)
+                                                              (line  50)
 * mpf_class::set_prec:                   C++ Interface Floats.
-                                                              (line 102)
+                                                              (line 106)
 * mpf_class::set_prec_raw:               C++ Interface Floats.
-                                                              (line 103)
+                                                              (line 107)
 * mpf_class::set_str:                    C++ Interface Floats.
-                                                              (line  86)
-* mpf_class::swap:                       C++ Interface Floats.
                                                               (line  90)
+* mpf_class::swap:                       C++ Interface Floats.
+                                                              (line  94)
 * mpf_clear:                             Initializing Floats. (line  37)
 * mpf_clears:                            Initializing Floats. (line  41)
 * mpf_cmp:                               Float Comparison.    (line   7)
@@ -3071,27 +3071,27 @@ Function and Type Index
 * mpq_class:                             C++ Interface General.
                                                               (line  19)
 * mpq_class::canonicalize:               C++ Interface Rationals.
-                                                              (line  37)
+                                                              (line  42)
 * mpq_class::get_d:                      C++ Interface Rationals.
-                                                              (line  46)
+                                                              (line  51)
 * mpq_class::get_den:                    C++ Interface Rationals.
-                                                              (line  60)
+                                                              (line  65)
 * mpq_class::get_den_mpz_t:              C++ Interface Rationals.
-                                                              (line  70)
+                                                              (line  75)
 * mpq_class::get_mpq_t:                  C++ Interface General.
                                                               (line  65)
 * mpq_class::get_num:                    C++ Interface Rationals.
-                                                              (line  59)
+                                                              (line  64)
 * mpq_class::get_num_mpz_t:              C++ Interface Rationals.
-                                                              (line  69)
+                                                              (line  74)
 * mpq_class::get_str:                    C++ Interface Rationals.
-                                                              (line  47)
+                                                              (line  52)
 * mpq_class::mpq_class:                  C++ Interface Rationals.
                                                               (line  11)
 * mpq_class::set_str:                    C++ Interface Rationals.
-                                                              (line  48)
+                                                              (line  53)
 * mpq_class::swap:                       C++ Interface Rationals.
-                                                              (line  51)
+                                                              (line  56)
 * mpq_clear:                             Initializing Rationals.
                                                               (line  16)
 * mpq_clears:                            Initializing Rationals.
@@ -3175,33 +3175,33 @@ Function and Type Index
 * mpz_class:                             C++ Interface General.
                                                               (line  18)
 * mpz_class::fits_sint_p:                C++ Interface Integers.
-                                                              (line  44)
-* mpz_class::fits_slong_p:               C++ Interface Integers.
-                                                              (line  45)
-* mpz_class::fits_sshort_p:              C++ Interface Integers.
-                                                              (line  46)
-* mpz_class::fits_uint_p:                C++ Interface Integers.
-                                                              (line  47)
-* mpz_class::fits_ulong_p:               C++ Interface Integers.
                                                               (line  48)
-* mpz_class::fits_ushort_p:              C++ Interface Integers.
+* mpz_class::fits_slong_p:               C++ Interface Integers.
                                                               (line  49)
-* mpz_class::get_d:                      C++ Interface Integers.
+* mpz_class::fits_sshort_p:              C++ Interface Integers.
                                                               (line  50)
+* mpz_class::fits_uint_p:                C++ Interface Integers.
+                                                              (line  51)
+* mpz_class::fits_ulong_p:               C++ Interface Integers.
+                                                              (line  52)
+* mpz_class::fits_ushort_p:              C++ Interface Integers.
+                                                              (line  53)
+* mpz_class::get_d:                      C++ Interface Integers.
+                                                              (line  54)
 * mpz_class::get_mpz_t:                  C++ Interface General.
                                                               (line  64)
 * mpz_class::get_si:                     C++ Interface Integers.
-                                                              (line  51)
+                                                              (line  55)
 * mpz_class::get_str:                    C++ Interface Integers.
-                                                              (line  52)
+                                                              (line  56)
 * mpz_class::get_ui:                     C++ Interface Integers.
-                                                              (line  53)
+                                                              (line  57)
 * mpz_class::mpz_class:                  C++ Interface Integers.
                                                               (line   7)
 * mpz_class::set_str:                    C++ Interface Integers.
-                                                              (line  54)
-* mpz_class::swap:                       C++ Interface Integers.
                                                               (line  58)
+* mpz_class::swap:                       C++ Interface Integers.
+                                                              (line  62)
 * mpz_clear:                             Initializing Integers.
                                                               (line  41)
 * mpz_clears:                            Initializing Integers.
@@ -3422,32 +3422,38 @@ Function and Type Index
                                                               (line  23)
 * mpz_xor:                               Integer Logic and Bit Fiddling.
                                                               (line  17)
-* operator%:                             C++ Interface Integers.
-                                                              (line  29)
-* operator/:                             C++ Interface Integers.
+* operator"" <1>:                        C++ Interface Floats.
+                                                              (line  46)
+* operator"" <2>:                        C++ Interface Rationals.
+                                                              (line  37)
+* operator"":                            C++ Interface Integers.
                                                               (line  28)
+* operator%:                             C++ Interface Integers.
+                                                              (line  33)
+* operator/:                             C++ Interface Integers.
+                                                              (line  32)
 * operator<<:                            C++ Formatted Output.
                                                               (line  11)
 * operator>> <1>:                        C++ Interface Rationals.
-                                                              (line  79)
+                                                              (line  84)
 * operator>>:                            C++ Formatted Input. (line  11)
 * sgn <1>:                               C++ Interface Floats.
-                                                              (line  88)
-* sgn <2>:                               C++ Interface Rationals.
-                                                              (line  50)
-* sgn:                                   C++ Interface Integers.
-                                                              (line  56)
-* sqrt <1>:                              C++ Interface Floats.
-                                                              (line  89)
-* sqrt:                                  C++ Interface Integers.
-                                                              (line  57)
-* swap <1>:                              C++ Interface Floats.
-                                                              (line  91)
-* swap <2>:                              C++ Interface Rationals.
-                                                              (line  52)
-* swap:                                  C++ Interface Integers.
-                                                              (line  59)
-* trunc:                                 C++ Interface Floats.
                                                               (line  92)
+* sgn <2>:                               C++ Interface Rationals.
+                                                              (line  55)
+* sgn:                                   C++ Interface Integers.
+                                                              (line  60)
+* sqrt <1>:                              C++ Interface Floats.
+                                                              (line  93)
+* sqrt:                                  C++ Interface Integers.
+                                                              (line  61)
+* swap <1>:                              C++ Interface Floats.
+                                                              (line  95)
+* swap <2>:                              C++ Interface Rationals.
+                                                              (line  57)
+* swap:                                  C++ Interface Integers.
+                                                              (line  63)
+* trunc:                                 C++ Interface Floats.
+                                                              (line  96)
 
 
