@@ -5313,6 +5313,8 @@ File: mpir.info,  Node: C++ Interface Integers,  Next: C++ Interface Rationals, 
  -- Function: int mpz_class::set_str (const string& STR, int BASE)
  -- Function: int sgn (mpz_class OP)
  -- Function: mpz_class sqrt (mpz_class OP)
+ -- Function: void mpz_class::swap (mpz_class& OP)
+ -- Function: void swap (mpz_class& OP1, mpz_class& OP2)
      These functions provide a C++ class interface to the corresponding
      MPIR C routines.
 
@@ -5381,6 +5383,8 @@ called.
  -- Function: int mpq_class::set_str (const char *STR, int BASE)
  -- Function: int mpq_class::set_str (const string& STR, int BASE)
  -- Function: int sgn (mpq_class OP)
+ -- Function: void mpq_class::swap (mpq_class& OP)
+ -- Function: void swap (mpq_class& OP1, mpq_class& OP2)
      These functions provide a C++ class interface to the corresponding
      MPIR C routines.
 
@@ -5503,6 +5507,8 @@ used if this doesn't suit.
  -- Function: int mpf_class::set_str (const string& STR, int BASE)
  -- Function: int sgn (mpf_class OP)
  -- Function: mpf_class sqrt (mpf_class OP)
+ -- Function: void mpf_class::swap (mpf_class& OP)
+ -- Function: void swap (mpf_class& OP1, mpf_class& OP2)
  -- Function: mpf_class trunc (mpf_class OP)
      These functions provide a C++ class interface to the corresponding
      MPIR C routines.

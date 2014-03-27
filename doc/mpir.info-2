@@ -2909,7 +2909,7 @@ Function and Type Index
 * mpf_class::get_mpf_t:                  C++ Interface General.
                                                               (line  66)
 * mpf_class::get_prec:                   C++ Interface Floats.
-                                                              (line  99)
+                                                              (line 101)
 * mpf_class::get_si:                     C++ Interface Floats.
                                                               (line  82)
 * mpf_class::get_str:                    C++ Interface Floats.
@@ -2921,11 +2921,13 @@ Function and Type Index
 * mpf_class::operator=:                  C++ Interface Floats.
                                                               (line  46)
 * mpf_class::set_prec:                   C++ Interface Floats.
-                                                              (line 100)
+                                                              (line 102)
 * mpf_class::set_prec_raw:               C++ Interface Floats.
-                                                              (line 101)
+                                                              (line 103)
 * mpf_class::set_str:                    C++ Interface Floats.
                                                               (line  86)
+* mpf_class::swap:                       C++ Interface Floats.
+                                                              (line  90)
 * mpf_clear:                             Initializing Floats. (line  37)
 * mpf_clears:                            Initializing Floats. (line  41)
 * mpf_cmp:                               Float Comparison.    (line   7)
@@ -3073,21 +3075,23 @@ Function and Type Index
 * mpq_class::get_d:                      C++ Interface Rationals.
                                                               (line  46)
 * mpq_class::get_den:                    C++ Interface Rationals.
-                                                              (line  58)
+                                                              (line  60)
 * mpq_class::get_den_mpz_t:              C++ Interface Rationals.
-                                                              (line  68)
+                                                              (line  70)
 * mpq_class::get_mpq_t:                  C++ Interface General.
                                                               (line  65)
 * mpq_class::get_num:                    C++ Interface Rationals.
-                                                              (line  57)
+                                                              (line  59)
 * mpq_class::get_num_mpz_t:              C++ Interface Rationals.
-                                                              (line  67)
+                                                              (line  69)
 * mpq_class::get_str:                    C++ Interface Rationals.
                                                               (line  47)
 * mpq_class::mpq_class:                  C++ Interface Rationals.
                                                               (line  11)
 * mpq_class::set_str:                    C++ Interface Rationals.
                                                               (line  48)
+* mpq_class::swap:                       C++ Interface Rationals.
+                                                              (line  51)
 * mpq_clear:                             Initializing Rationals.
                                                               (line  16)
 * mpq_clears:                            Initializing Rationals.
@@ -3196,6 +3200,8 @@ Function and Type Index
                                                               (line   7)
 * mpz_class::set_str:                    C++ Interface Integers.
                                                               (line  54)
+* mpz_class::swap:                       C++ Interface Integers.
+                                                              (line  58)
 * mpz_clear:                             Initializing Integers.
                                                               (line  41)
 * mpz_clears:                            Initializing Integers.
@@ -3423,7 +3429,7 @@ Function and Type Index
 * operator<<:                            C++ Formatted Output.
                                                               (line  11)
 * operator>> <1>:                        C++ Interface Rationals.
-                                                              (line  77)
+                                                              (line  79)
 * operator>>:                            C++ Formatted Input. (line  11)
 * sgn <1>:                               C++ Interface Floats.
                                                               (line  88)
@@ -3435,7 +3441,13 @@ Function and Type Index
                                                               (line  89)
 * sqrt:                                  C++ Interface Integers.
                                                               (line  57)
+* swap <1>:                              C++ Interface Floats.
+                                                              (line  91)
+* swap <2>:                              C++ Interface Rationals.
+                                                              (line  52)
+* swap:                                  C++ Interface Integers.
+                                                              (line  59)
 * trunc:                                 C++ Interface Floats.
-                                                              (line  90)
+                                                              (line  92)
 
 

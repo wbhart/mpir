@@ -6382,6 +6382,8 @@ mpz_fdiv_q (q.get_mpz_t(), a.get_mpz_t(), d.get_mpz_t());
 @deftypefunx int mpz_class::set_str (const string& @var{str}, int @var{base})
 @deftypefunx int sgn (mpz_class @var{op})
 @deftypefunx mpz_class sqrt (mpz_class @var{op})
+@deftypefunx void mpz_class::swap (mpz_class& @var{op})
+@deftypefunx void swap (mpz_class& @var{op1}, mpz_class& @var{op2})
 These functions provide a C++ class interface to the corresponding MPIR C
 routines.
 
@@ -6454,6 +6456,8 @@ form, and will return results in canonical form.
 @deftypefunx int mpq_class::set_str (const char *@var{str}, int @var{base})
 @deftypefunx int mpq_class::set_str (const string& @var{str}, int @var{base})
 @deftypefunx int sgn (mpq_class @var{op})
+@deftypefunx void mpq_class::swap (mpq_class& @var{op})
+@deftypefunx void swap (mpq_class& @var{op1}, mpq_class& @var{op2})
 These functions provide a C++ class interface to the corresponding MPIR C
 routines.
 
@@ -6586,6 +6590,8 @@ with the builtin float types.
 @deftypefunx int mpf_class::set_str (const string& @var{str}, int @var{base})
 @deftypefunx int sgn (mpf_class @var{op})
 @deftypefunx mpf_class sqrt (mpf_class @var{op})
+@deftypefunx void mpf_class::swap (mpf_class& @var{op})
+@deftypefunx void swap (mpf_class& @var{op1}, mpf_class& @var{op2})
 @deftypefunx mpf_class trunc (mpf_class @var{op})
 These functions provide a C++ class interface to the corresponding MPIR C
 routines.
