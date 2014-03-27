@@ -56,6 +56,10 @@ along with the GNU MP Library.  If not, see http://www.gnu.org/licenses/.  */
    No need for __GMP_ATTRIBUTE_PURE or __GMP_NOTHROW, since functions
    declared this way are only used to set function pointers in __gmp_cpuvec,
    they're not called directly.  */
+#define DECL_add_err1_n(name) \
+  mp_limb_t name __GMP_PROTO ((mp_ptr, mp_srcptr, mp_srcptr, mp_ptr, mp_srcptr, mp_size_t, mp_limb_t))
+#define DECL_add_err2_n(name) \
+  mp_limb_t name __GMP_PROTO ((mp_ptr, mp_srcptr, mp_srcptr, mp_ptr, mp_srcptr, mp_srcptr, mp_size_t, mp_limb_t))
 #define DECL_add_n(name) \
   mp_limb_t name __GMP_PROTO ((mp_ptr, mp_srcptr, mp_srcptr, mp_size_t))
 #define DECL_addmul_1(name) \
@@ -92,6 +96,8 @@ along with the GNU MP Library.  If not, see http://www.gnu.org/licenses/.  */
   DECL_addmul_1 (name)
 #define DECL_mul_basecase(name) \
   void name __GMP_PROTO ((mp_ptr, mp_srcptr, mp_size_t, mp_srcptr, mp_size_t))
+#define DECL_mulmid_basecase(name) \
+  void name __GMP_PROTO ((mp_ptr, mp_srcptr, mp_size_t, mp_srcptr, mp_size_t))
 #define DECL_preinv_divrem_1(name) \
   mp_limb_t name __GMP_PROTO ((mp_ptr, mp_size_t, mp_srcptr, mp_size_t, mp_limb_t, mp_limb_t, int))
 #define DECL_preinv_mod_1(name) \
@@ -102,6 +108,10 @@ along with the GNU MP Library.  If not, see http://www.gnu.org/licenses/.  */
   DECL_lshift (name)
 #define DECL_sqr_basecase(name) \
   void name __GMP_PROTO ((mp_ptr, mp_srcptr, mp_size_t))
+#define DECL_sub_err1_n(name) \
+  mp_limb_t name __GMP_PROTO ((mp_ptr, mp_srcptr, mp_srcptr, mp_ptr, mp_srcptr, mp_size_t, mp_limb_t))
+#define DECL_sub_err2_n(name) \
+  mp_limb_t name __GMP_PROTO ((mp_ptr, mp_srcptr, mp_srcptr, mp_ptr, mp_srcptr, mp_srcptr, mp_size_t, mp_limb_t))
 #define DECL_sub_n(name) \
   DECL_add_n (name)
 #define DECL_submul_1(name) \
@@ -949,17 +959,25 @@ __GMP_DECLSPEC mp_limb_t mpn_divexact_byff __GMP_PROTO ((mp_ptr, mp_srcptr, mp_s
 __GMP_DECLSPEC mp_limb_t mpn_divexact_byfobm1 __GMP_PROTO ((mp_ptr, mp_srcptr, mp_size_t,mp_limb_t,mp_limb_t));
 #endif
 
+#ifndef mpn_add_err1_n      /* if not done with cpuvec in a fat binary */
 #define mpn_add_err1_n  __MPN(add_err1_n)
 __GMP_DECLSPEC mp_limb_t mpn_add_err1_n (mp_ptr, mp_srcptr, mp_srcptr, mp_ptr, mp_srcptr, mp_size_t, mp_limb_t);
+#endif
 
+#ifndef mpn_sub_err1_n      /* if not done with cpuvec in a fat binary */
 #define mpn_sub_err1_n  __MPN(sub_err1_n)
 __GMP_DECLSPEC mp_limb_t mpn_sub_err1_n (mp_ptr, mp_srcptr, mp_srcptr, mp_ptr, mp_srcptr, mp_size_t, mp_limb_t);
+#endif
 
+#ifndef mpn_add_err2_n      /* if not done with cpuvec in a fat binary */
 #define mpn_add_err2_n  __MPN(add_err2_n)
 __GMP_DECLSPEC mp_limb_t mpn_add_err2_n (mp_ptr, mp_srcptr, mp_srcptr, mp_ptr, mp_srcptr, mp_srcptr, mp_size_t, mp_limb_t);
+#endif
 
+#ifndef mpn_sub_err2_n      /* if not done with cpuvec in a fat binary */
 #define mpn_sub_err2_n  __MPN(sub_err2_n)
 __GMP_DECLSPEC mp_limb_t mpn_sub_err2_n (mp_ptr, mp_srcptr, mp_srcptr, mp_ptr, mp_srcptr, mp_srcptr, mp_size_t, mp_limb_t);
+#endif
 
 #define mpn_divrem_1c __MPN(divrem_1c)
 __GMP_DECLSPEC mp_limb_t mpn_divrem_1c __GMP_PROTO ((mp_ptr, mp_size_t, mp_srcptr, mp_size_t, mp_limb_t, mp_limb_t));
@@ -974,11 +992,14 @@ __GMP_DECLSPEC mp_size_t mpn_fib2_ui _PROTO ((mp_ptr, mp_ptr, mpir_ui));
 #define __clz_tab               __MPN(clz_tab)
 #define mpn_udiv_w_sdiv		__MPN(udiv_w_sdiv)
 
-#define mpn_gcd_finda	__MPN(gcd_finda)
-mp_limb_t mpn_gcd_finda _PROTO((const mp_limb_t cp[2])) __GMP_ATTRIBUTE_PURE;
-
 #define mpn_jacobi_base __MPN(jacobi_base)
 __GMP_DECLSPEC int mpn_jacobi_base _PROTO ((mp_limb_t a, mp_limb_t b, int result_bit1)) ATTRIBUTE_CONST;
+
+#define mpn_jacobi_2 __MPN(jacobi_2)
+__GMP_DECLSPEC int mpn_jacobi_2 _PROTO ((mp_srcptr, mp_srcptr, unsigned));
+
+#define mpn_jacobi_n __MPN(jacobi_n)
+__GMP_DECLSPEC int mpn_jacobi_n _PROTO ((mp_ptr, mp_ptr, mp_size_t, unsigned));
 
 #define mpn_mod_1c __MPN(mod_1c)
 __GMP_DECLSPEC mp_limb_t mpn_mod_1c __GMP_PROTO ((mp_srcptr, mp_size_t, mp_limb_t, mp_limb_t)) __GMP_ATTRIBUTE_PURE;
@@ -1006,8 +1027,10 @@ __GMP_DECLSPEC void mpn_mulhigh_n __GMP_PROTO ((mp_ptr, mp_srcptr, mp_srcptr, mp
 #define mpn_mullow_basecase __MPN(mullow_basecase)
 __GMP_DECLSPEC void mpn_mullow_basecase __GMP_PROTO ((mp_ptr, mp_srcptr,mp_size_t, mp_srcptr, mp_size_t,mp_size_t));
 
+#ifndef mpn_mulmid_basecase      /* if not done with cpuvec in a fat binary */
 #define mpn_mulmid_basecase __MPN(mulmid_basecase)
 __GMP_DECLSPEC void mpn_mulmid_basecase __GMP_PROTO ((mp_ptr, mp_srcptr, mp_size_t, mp_srcptr, mp_size_t));
+#endif
 
 #define mpn_mod_1_1 __MPN(mod_1_1)
 __GMP_DECLSPEC void mpn_mod_1_1 __GMP_PROTO ((mp_ptr,mp_srcptr, mp_size_t, mp_srcptr));
@@ -1978,6 +2001,10 @@ __GMP_DECLSPEC mp_limb_t gmp_primesieve (mp_ptr, mp_limb_t);
 #endif
 #ifndef SQR_FFT_THRESHOLD
 #define SQR_FFT_THRESHOLD   (SQR_FFT_FULL_THRESHOLD / 2)
+#endif
+
+#ifndef FFT_MULMOD_2EXPP1_CUTOFF
+#define FFT_MULMOD_2EXPP1_CUTOFF 128
 #endif
 
 #ifndef DC_DIV_QR_THRESHOLD
@@ -4224,6 +4251,8 @@ int __gmp_doscan _PROTO ((const struct gmp_doscan_funs_t *, void *,
    in mpn/x86/x86-defs.m4 and in mpn/x86_64/x86_64-defs.m4.  Be sure to 
     update them there when changing here.  */
 struct cpuvec_t {
+  DECL_add_err1_n      ((*add_err1_n));
+  DECL_add_err2_n      ((*add_err2_n));
   DECL_add_n           ((*add_n));
   DECL_addmul_1        ((*addmul_1));
   DECL_copyd           ((*copyd));
@@ -4242,11 +4271,14 @@ struct cpuvec_t {
   DECL_modexact_1c_odd ((*modexact_1c_odd));
   DECL_mul_1           ((*mul_1));
   DECL_mul_basecase    ((*mul_basecase));
+  DECL_mulmid_basecase ((*mulmid_basecase));
   DECL_preinv_divrem_1 ((*preinv_divrem_1));
   DECL_preinv_mod_1    ((*preinv_mod_1));
   DECL_redc_1   ((*redc_1));
   DECL_rshift          ((*rshift));
   DECL_sqr_basecase    ((*sqr_basecase));
+  DECL_sub_err1_n      ((*sub_err1_n));
+  DECL_sub_err2_n      ((*sub_err2_n));
   DECL_sub_n           ((*sub_n));
   DECL_submul_1        ((*submul_1));
   DECL_sumdiff_n       ((*sumdiff_n));
@@ -4397,10 +4429,6 @@ extern mp_size_t sb_div_qr_small_threshold;
 #undef  DC_DIV_QR_THRESHOLD
 #define DC_DIV_QR_THRESHOLD          dc_div_qr_threshold
 extern mp_size_t                     dc_div_qr_threshold;
-
-#undef  DC_DIVAPPR_Q_N_THRESHOLD
-#define DC_DIVAPPR_Q_N_THRESHOLD     dc_divappr_q_n_threshold
-extern mp_size_t                     dc_divappr_q_n_threshold;
 
 #undef  DC_BDIV_QR_THRESHOLD
 #define DC_BDIV_QR_THRESHOLD         dc_bdiv_qr_threshold

@@ -270,7 +270,7 @@ mpn_tdiv_q (mp_ptr qp,
 	  else
 	    {
           mp_ptr inv = TMP_ALLOC_LIMBS(qn + 1);
-	   mpn_invert(inv, new_dp, qn + 1);
+	       mpn_invert(inv, new_dp, qn + 1);
           qh = mpn_inv_divappr_q (tp, new_np, new_nn, new_dp, qn + 1, inv);
 	    }
 	  tp[qn] = qh;

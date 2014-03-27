@@ -281,7 +281,6 @@ void refmpn_fill __GMP_PROTO ((mp_ptr p, mp_size_t s, mp_limb_t v));
 mp_limb_t refmpn_gcd_1 __GMP_PROTO ((mp_srcptr xp, mp_size_t xsize, mp_limb_t y));
 mp_limb_t refmpn_gcd __GMP_PROTO ((mp_ptr gp, mp_ptr xp, mp_size_t xsize,
                               mp_ptr yp, mp_size_t ysize));
-mp_limb_t refmpn_gcd_finda __GMP_PROTO ((const mp_limb_t c[2]));
 
 size_t refmpn_get_str __GMP_PROTO ((unsigned char *, int, mp_ptr, mp_size_t));
 

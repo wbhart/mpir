@@ -1277,13 +1277,6 @@ param_init (void)
   p->data = DATA_GCD;
   REFERENCE (refmpn_gcd);
 
-  /* FIXME: size==2 */
-  p = &param[TYPE_GCD_FINDA];
-  p->retval = 1;
-  p->src[0] = 1;
-  REFERENCE (refmpn_gcd_finda);
-
-
   p = &param[TYPE_MPZ_JACOBI];
   p->retval = 1;
   p->src[0] = 1;
@@ -1945,9 +1938,6 @@ const struct choice_t choice_array[] = {
 
   { TRY(mpn_gcd_1),        TYPE_GCD_1            },
   { TRY(mpn_gcd),          TYPE_GCD              },
-#if HAVE_NATIVE_mpn_gcd_finda
-  { TRY(mpn_gcd_finda),    TYPE_GCD_FINDA        },
-#endif
   { TRY(mpz_jacobi),       TYPE_MPZ_JACOBI       },
   { TRY(mpz_kronecker_ui), TYPE_MPZ_KRONECKER_UI },
   { TRY(mpz_kronecker_si), TYPE_MPZ_KRONECKER_SI },

@@ -13,7 +13,7 @@
   <PropertyGroup Label="Globals">
     <RootNamespace>mpir</RootNamespace>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{ccbb8c98-a088-11e3-bf8f-24fd5238c490}</ProjectGuid>
+    <ProjectGuid>{40707cd8-b507-11e3-b041-24fd5238c490}</ProjectGuid>
     </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
@@ -181,7 +181,7 @@ postbuild "$(TargetPath)"
         <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)fft\</ObjectFileName>
         <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)fft\</ObjectFileName>
     </ClCompile>
-    <ClCompile Include="..\..\fft\fft_negacylic.c">
+    <ClCompile Include="..\..\fft\fft_negacyclic.c">
         <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)fft\</ObjectFileName>
         <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)fft\</ObjectFileName>
     </ClCompile>
@@ -1081,7 +1081,7 @@ postbuild "$(TargetPath)"
         <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpz\</ObjectFileName>
         <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpz\</ObjectFileName>
     </ClCompile>
-    <ClCompile Include="..\..\mpz\next_likely_prime.c">
+    <ClCompile Include="..\..\mpz\next_prime_candidate.c">
         <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpz\</ObjectFileName>
         <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpz\</ObjectFileName>
     </ClCompile>
@@ -1525,10 +1525,6 @@ postbuild "$(TargetPath)"
         <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpn\</ObjectFileName>
         <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpn\</ObjectFileName>
     </ClCompile>
-    <ClCompile Include="..\..\mpn\generic\dc_divappr_q_n.c">
-        <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpn\</ObjectFileName>
-        <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpn\</ObjectFileName>
-    </ClCompile>
     <ClCompile Include="..\..\mpn\generic\divexact.c">
         <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpn\</ObjectFileName>
         <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpn\</ObjectFileName>
@@ -1930,7 +1926,6 @@ postbuild "$(TargetPath)"
     <YASM Include="..\..\mpn\x86_64w\core2\addlsh1_n.asm" />
     <YASM Include="..\..\mpn\x86_64w\core2\addlsh_n.asm" />
     <YASM Include="..\..\mpn\x86_64w\core2\addmul_1.asm" />
-    <YASM Include="..\..\mpn\x86_64w\core2\addmul_1.o.asm" />
     <YASM Include="..\..\mpn\x86_64w\core2\addmul_2.asm" />
     <YASM Include="..\..\mpn\x86_64w\core2\addsub_n.asm" />
     <YASM Include="..\..\mpn\x86_64w\core2\and_n.asm" />
@@ -1978,7 +1973,6 @@ postbuild "$(TargetPath)"
     <YASM Include="..\..\mpn\x86_64w\core2\subadd_n.asm" />
     <YASM Include="..\..\mpn\x86_64w\core2\sublsh1_n.asm" />
     <YASM Include="..\..\mpn\x86_64w\core2\submul_1.asm" />
-    <YASM Include="..\..\mpn\x86_64w\core2\submul_1.o.asm" />
     <YASM Include="..\..\mpn\x86_64w\core2\sumdiff_n.asm" />
     <YASM Include="..\..\mpn\x86_64w\core2\udiv_qrnnd.asm" />
     <YASM Include="..\..\mpn\x86_64w\core2\umul_ppmm.asm" />

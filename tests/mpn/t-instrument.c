@@ -221,14 +221,6 @@ check (void)
   notdead += (unsigned long) mpn_gcd_1 (xp, size, CNST_LIMB(123));
   post ();
 
-#if HAVE_NATIVE_mpn_gcd_finda
-  pre ("mpn_gcd_finda");
-  xp[0] |= 1;
-  xp[1] |= 1;
-  notdead += mpn_gcd_finda (xp);
-  post ();
-#endif
-
   pre ("mpn_hamdist");
   notdead += mpn_hamdist (xp, yp, size);
   post ();

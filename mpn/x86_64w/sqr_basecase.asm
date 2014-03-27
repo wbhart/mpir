@@ -18,7 +18,7 @@
 %macro	do_jmp 0
 	lea     rax, [rel L0]
 	%ifdef PIC
-		movzx	r10, [rax+rcx*4]
+		mov     10d, dword[rax+rcx*4]
 		add     rax, r10
 		jmp     rax
 	%else

@@ -1083,9 +1083,17 @@ case $host in
         gcc_cflags_cpu="-mtune=k8 -mcpu=athlon -mcpu=pentiumpro -mcpu=i486 -m486"
         gcc_cflags_arch="-march=k8 -march=k8~-mno-sse2 -march=athlon -march=pentiumpro -march=pentium"
         ;;
-      k10 | k102 | k103 | bulldozer)
+      k10 | k102 | k103)
         gcc_cflags_cpu="-mtune=amdfam10 -mtune=k8 -mcpu=athlon -mcpu=pentiumpro -mcpu=i486 -m486"
         gcc_cflags_arch="-march=amdfam10 -march=k8 -march=k8~-mno-sse2 -march=athlon -march=pentiumpro -march=pentium"
+        ;;
+      bulldozer)
+        gcc_cflags_cpu="-mtune=bdver1 -mtune=amdfam10 -mtune=k8 -mcpu=athlon -mcpu=pentiumpro -mcpu=i486 -m486"
+        gcc_cflags_arch="-march=bdver1 -march=amdfam10 -march=k8 -march=k8~-mno-sse2 -march=athlon -march=pentiumpro -march=pentium"
+        ;;
+      piledriver)
+        gcc_cflags_cpu="-mtune=bdver2 -mtune=amdfam10 -mtune=k8 -mcpu=athlon -mcpu=pentiumpro -mcpu=i486 -m486"
+        gcc_cflags_arch="-march=bdver2 -march=amdfam10 -march=k8 -march=k8~-mno-sse2 -march=athlon -march=pentiumpro -march=pentium"
         ;;
       bobcat)
         gcc_cflags_cpu="-mtune=btver1 -mtune=k8 -mcpu=athlon -mcpu=pentiumpro -mcpu=i486 -m486"
@@ -1103,7 +1111,7 @@ case $host in
         gcc_cflags_cpu="-mtune=corei7 -mtune=core2 -mtune=nocona -mtune=pentium3 -mcpu=pentiumpro -mcpu=i486 -m486"
         gcc_cflags_arch="-march=corei7 -march=core2 -march=nocona -march=pentium3 -march=pentiumpro -march=pentium"
         ;;
-      sandybridge)
+      sandybridge | ivybridge | haswell)
         gcc_cflags_cpu="-mtune=corei7-avx -mtune=corei7 -mtune=core2 -mtune=nocona -mtune=pentium3 -mcpu=pentiumpro -mcpu=i486 -m486"
         gcc_cflags_arch="-march=corei7-avx -march=corei7 -march=core2 -march=nocona -march=pentium3 -march=pentiumpro -march=pentium"
         ;;
@@ -1125,12 +1133,12 @@ case $host in
       [k6[23]])                path="x86/k6/k62mmx x86/k6/mmx x86/k6 x86" ;;
       k6)                      path="x86/k6/mmx x86/k6 x86" ;;
       athlon | k7 | x86_64 | atom)   path="x86/k7/mmx x86/k7 x86" ;;
-      k102 | k103 | bulldozer)       path="x86/k7/mmx/k8/k10/k102  x86/k7/mmx/k8/k10 x86/k7/mmx/k8 x86/k7/mmx x86/k7 x86" ;; 
+      k102 | k103 | bulldozer | piledriver)       path="x86/k7/mmx/k8/k10/k102  x86/k7/mmx/k8/k10 x86/k7/mmx/k8 x86/k7/mmx x86/k7 x86" ;; 
       k10)			path="x86/k7/mmx/k8/k10 x86/k7/mmx/k8 x86/k7/mmx x86/k7 x86" ;;
       k8 | bobcat)		path="x86/k7/mmx/k8 x86/k7/mmx x86/k7 x86" ;;
       core2 | penryn)		path="x86/core2 x86" ;;
       i786 | pentium4)		path="x86/pentium4/sse2 x86/pentium4/mmx x86/pentium4 x86" ;;
-      nehalem | westmere | sandybridge)	path="x86/nehalem x86" ;;
+      nehalem | westmere | sandybridge | ivybridge | haswell)	path="x86/nehalem x86" ;;
       prescott | netburst | netburstlahf)       path="x86/pentium4/sse2 x86/pentium4/mmx x86/pentium4 x86" ;;
       # VIA/Centaur processors, sold as CyrixIII and C3.
       nano | viac32)           path="x86/p6/p3mmx x86/p6/mmx x86/p6 x86";;
@@ -1159,13 +1167,13 @@ case $host in
 		x86/p6 x86/p6/mmx x86/p6/p3mmx
 		x86/pentium4 x86/pentium4/mmx x86/pentium4/sse2
 		x86/core2 x86/nehalem"
-      fat_functions="add_n addmul_1 copyd copyi
+      fat_functions="add_n addmul_1 add_err1_n add_err2_n copyd copyi
 		     divexact_1 divexact_by3c divexact_byfobm1 divrem_1 divrem_2
 			 divrem_euclidean_qr_1 
 			divrem_euclidean_qr_2 gcd_1 lshift
 		     mod_1 mod_34lsub1 modexact_1c_odd mul_1 mul_basecase
-		     preinv_divrem_1 preinv_mod_1 redc_1 rshift
-		     sqr_basecase sub_n submul_1 sumdiff_n"
+		     mulmid_basecase preinv_divrem_1 preinv_mod_1 redc_1 rshift
+		     sqr_basecase sub_n submul_1 sumdiff_n sub_err1_n sub_err2_n"
       fat_exclude=""
       fat_thresholds="MUL_KARATSUBA_THRESHOLD MUL_TOOM3_THRESHOLD
 		      SQR_KARATSUBA_THRESHOLD SQR_TOOM3_THRESHOLD"
@@ -1213,6 +1221,8 @@ case $host in
             path_64="x86_64w/k8/k10/k102 x86_64w/k8/k10 x86_64w/k8 x86_64w" ;;
           bulldozer-w64-mingw*|bulldozer-*-cygwin*)
             path_64="x86_64w/k8/k10/k102 x86_64w/k8/k10 x86_64w/k8 x86_64w" ;;
+          piledriver-w64-mingw*|piledriver-*-cygwin*)
+            path_64="x86_64w/k8/k10/k102 x86_64w/k8/k10 x86_64w/k8 x86_64w" ;;
           bobcat-w64-mingw*|bobcat-*-cygwin*)
             path_64="x86_64w/bobcat x86_64w" ;;
           core2-w64-mingw*|core2-*-cygwin*)
@@ -1224,6 +1234,10 @@ case $host in
           westmere-w64-mingw*|westmere-*-cygwin*)
             path_64="x86_64w/nehalem/westmere x86_64w/nehalem x86_64w" ;;
           sandybridge-w64-mingw*|sandybridge-*-cygwin*)
+            path_64="x86_64w/sandybridge x86_64w" ;;
+          ivybridge-w64-mingw*|ivyybridge-*-cygwin*)
+            path_64="x86_64w/sandybridge x86_64w" ;;
+          haswell-w64-mingw*|haswell-*-cygwin*)
             path_64="x86_64w/sandybridge x86_64w" ;;
           atom-w64-mingw*|atom-*-cygwin*)
             path_64="x86_64w/atom x86_64w" ;;
@@ -1245,7 +1259,9 @@ case $host in
           k103-*-*)
             path_64="x86_64/k8/k10/k102 x86_64/k8/k10 x86_64/k8 x86_64" ;;
           bulldozer-*-*)
-            path_64="x86_64/k8/k10/k102 x86_64/k8/k10 x86_64/k8 x86_64" ;;
+            path_64="x86_64/bulldozer x86_64/k8/k10/k102 x86_64/k8/k10 x86_64/k8 x86_64" ;;
+          piledriver-*-*)
+            path_64="x86_64/bulldozer/piledriver x86_64/bulldozer x86_64/k8/k10/k102 x86_64/k8/k10 x86_64/k8 x86_64" ;;
           bobcat-*-*)
             path_64="x86_64/bobcat x86_64" ;;
           core2-*-*) 
@@ -1258,6 +1274,10 @@ case $host in
             path_64="x86_64/nehalem/westmere x86_64/nehalem x86_64" ;;
           sandybridge-*-*) 
             path_64="x86_64/sandybridge x86_64" ;;
+          ivybridge-*-*)
+            path_64="x86_64/sandybridge/ivybridge x86_64/sandybridge x86_64" ;;
+          haswell-*-*)
+            path_64="x86_64/haswell x86_64/sandybridge x86_64" ;;
           atom-*-*) 
             path_64="x86_64/atom x86_64" ;;
           nano-*-*) 
@@ -1275,7 +1295,7 @@ case $host in
               fat_path_64="x86_64w x86_64w/fat x86_64w/netburst x86_64w/k8 x86_64w/k8/k8only x86_64w/k8/k10 x86_64w/k8/k10/k102  x86_64w/core2 x86_64w/core2/penryn x86_64w/nehalem x86_64w/nehalem/westmere x86_64w/atom x86_64w/bobcat x86_64w/sandybridge" ;;
             *-*-*)
               path_64="x86_64 x86_64/fat"
-              fat_path_64="x86_64 x86_64/fat x86_64/netburst x86_64/k8 x86_64/k8/k8only x86_64/k8/k10 x86_64/k8/k10/k102  x86_64/core2 x86_64/core2/penryn x86_64/nehalem x86_64/nehalem/westmere x86_64/atom x86_64/bobcat x86_64/sandybridge" ;;
+              fat_path_64="x86_64 x86_64/fat x86_64/netburst x86_64/k8 x86_64/k8/k8only x86_64/k8/k10 x86_64/k8/k10/k102  x86_64/core2 x86_64/core2/penryn x86_64/nehalem x86_64/nehalem/westmere x86_64/atom x86_64/bobcat x86_64/bulldozer x86_64/bulldozer/piledriver x86_64/sandybridge x86_64/sandybridge/ivybridge x86_64/haswell" ;;
           esac
         fi
         ;;
@@ -2142,7 +2162,7 @@ fi
 
 gmp_mpn_functions_optional="umul udiv copyi copyd com_n neg_n
   and_n andn_n nand_n ior_n iorn_n nior_n xor_n xnor_n			\
-  gcd_finda invert_limb sqr_diagonal lshift1 rshift1 lshift2 rshift2	\
+  invert_limb sqr_diagonal lshift1 rshift1 lshift2 rshift2	\
   mul_2 mul_3 mul_4 store not karaadd karasub half double		\
   addmul_2 addmul_3 addmul_4 addmul_5 addmul_6 addmul_7 addmul_8	\
   addlsh1_n sublsh1_n rsh1add_n rsh1sub_n sumdiff_n lshiftc		\
@@ -2164,7 +2184,7 @@ gmp_mpn_functions="$extra_functions					   \
   mod_1_1 mod_1_2 mod_1_3 tdiv_q mp_bases fib_table			\
   mulmid_basecase mulmid mulmid_n toom42_mulmid	mulmod_bexpp1 mulmod_2expm1	mulmod_2expp1_basecase \
   mul mul_n mul_basecase sqr_basecase random random2 pow_1	   \
-  urandomb urandomm randomb rrandom invert dc_divappr_q_n \	
+  urandomb urandomm randomb rrandom invert \	
   rootrem sqrtrem get_str set_str scan0 scan1 popcount hamdist cmp perfect_square_p \
   bdivmod gcd gcd_1 gcdext tdiv_qr jacobi_base jacobi jacobi_2 get_d  \
   mullow_n mulhigh_n mullow_n_basecase mullow_basecase redc_1 redc_2	\
@@ -2684,7 +2704,6 @@ AH_VERBATIM([HAVE_NATIVE],
 #undef HAVE_NATIVE_mpn_divrem_2
 #undef HAVE_NATIVE_mpn_double
 #undef HAVE_NATIVE_mpn_gcd_1
-#undef HAVE_NATIVE_mpn_gcd_finda
 #undef HAVE_NATIVE_mpn_half
 #undef HAVE_NATIVE_mpn_inclsh_n
 #undef HAVE_NATIVE_mpn_invert_limb

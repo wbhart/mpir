@@ -147,6 +147,12 @@
     <ClCompile Include="..\..\..\tests\refmpz.c" />
     <ClCompile Include="..\..\..\tests\trace.c" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\lib\x64\Debug\gmp-impl.h" />
+    <ClInclude Include="..\..\..\lib\x64\Debug\gmp-mparam.h" />
+    <ClInclude Include="..\..\..\lib\x64\Debug\mpir.h" />
+    <ClInclude Include="..\..\getopt.h" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

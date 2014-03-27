@@ -14,7 +14,8 @@ This manual describes how to install and use MPIR, the Multiple Precision Intege
 library, version @value{VERSION}.
 
 Copyright 1991, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002,
-2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010 Free Software Foundation, Inc.
+2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013 Free Software 
+Foundation, Inc.
 
 Copyright 2008, 2009, 2010 William Hart
 
@@ -2091,6 +2092,12 @@ The GNU MP version number, as a null-terminated string, in the form
 ``i.j.k''.
 @end deftypevr
 
+@defmac __GMP_CC
+@defmacx __GMP_CFLAGS
+The compiler and compiler flags, respectively, used when compiling GMP, as
+strings.
+@end defmac
+
 @deftypevr {Global Constant} {const char * const} mpir_version
 @findex mpir_version
 The MPIR version number, as a null-terminated string, in the form
@@ -2115,6 +2122,10 @@ with other @code{mpn} functions.
 @item
 @code{mpf_get_prec} counted precision slightly differently in GMP 3.0 and
 3.0.1, but in 3.1 reverted to the 2.x style.
+
+@item
+@code{mpn_bdivmod} provided provisionally in the past has been removed from MPIR
+2.7.0.
 
 @item
 MPIR does not support the secure cryptographic functions provided by GMP.
@@ -3345,18 +3356,18 @@ Set @var{rop} to the next prime greater than @var{op}.
 
 This function uses a probabilistic algorithm to identify primes.  For
 practical purposes it's adequate, the chance of a composite passing will be
-extremely small.
+extremely small. However, despite the name, it does not guarantee primality.
 
 @strong{This function is obsolete.  It will disappear from future MPIR releases.}
 @end deftypefun
 
-@deftypefun void mpz_next_likely_prime (mpz_t @var{rop}, mpz_t @var{op}, gmp_randstate_t @var{state})
-@cindex Next likely prime function
-Set @var{rop} to the next likely prime greater than @var{op}.
-
-This function uses a probabilistic algorithm to identify primes.  For
-practical purposes it's adequate, the chance of a composite passing will be
-extremely small.
+@deftypefun void mpz_next_prime_candidate (mpz_t @var{rop}, mpz_t @var{op}, gmp_randstate_t @var{state})
+@cindex Next candidate prime function
+Set @var{rop} to the next candidate prime greater than @var{op}. Note that this
+function will occasionally return composites. It is designed to give a quick 
+method for generating numbers which do not have small prime factors (less than
+1000) and which pass a small number of rounds of Miller-Rabin (just two rounds).The test is designed for speed, assuming that a high quality followup test can 
+then be run to ensure primality. 
 
 The variable @var{state} must be initialized by calling one of the
 @code{gmp_randinit} functions (@ref{Random State Initialization})
@@ -3452,9 +3463,19 @@ result in @var{rop}.  The return value is how many such occurrences were
 removed.
 @end deftypefun
 
-@deftypefun void mpz_fac_ui (mpz_t @var{rop}, mpir_ui @var{op})
+@deftypefun void mpz_fac_ui (mpz_t @var{rop}, unsigned long int @var{n})
+@deftypefunx void mpz_2fac_ui (mpz_t @var{rop}, unsigned long int @var{n})
+@deftypefunx void mpz_mfac_uiui (mpz_t @var{rop}, unsigned long int @var{n}, unsigned long int @var{m})
 @cindex Factorial functions
-Set @var{rop} to @var{op}!, the factorial of @var{op}.
+Set @var{rop} to the factorial of @var{n}: @code{mpz_fac_ui} computes the plain factorial @var{n}!,
+@code{mpz_2fac_ui} computes the double-factorial @var{n}!!, and @code{mpz_mfac_uiui} the
+@var{m}-multi-factorial @m{n!^{(m)}, @var{n}!^(@var{m})}.
+@end deftypefun
+
+@deftypefun void mpz_primorial_ui (mpz_t @var{rop}, unsigned long int @var{n})
+@cindex Primorial functions
+Set @var{rop} to the primorial of @var{n}, i.e. the product of all positive
+prime numbers @math{@le{}@var{n}}.
 @end deftypefun
 
 @deftypefun void mpz_bin_ui (mpz_t @var{rop}, mpz_t @var{n}, mpir_ui @var{k})
@@ -5118,26 +5139,6 @@ be 0, 1 or 2 (these are both borrows really).  When @math{c=0} clearly
 @deftypefun mp_limb_t mpn_mod_1 (mp_limb_t *@var{s1p}, mp_size_t @var{s1n}, mp_limb_t @var{s2limb})
 Divide @{@var{s1p}, @var{s1n}@} by @var{s2limb}, and return the remainder.
 @var{s1n} can be zero.
-@end deftypefun
-
-@deftypefun mp_limb_t mpn_bdivmod (mp_limb_t *@var{rp}, mp_limb_t *@var{s1p}, mp_size_t @var{s1n}, const mp_limb_t *@var{s2p}, mp_size_t @var{s2n}, mpir_ui @var{d})
-This function puts the low
-@math{@GMPfloor{@var{d}/@nicode{mp\_bits\_per\_limb}}} limbs of @var{q} =
-@{@var{s1p}, @var{s1n}@}/@{@var{s2p}, @var{s2n}@} mod @m{2^d,2^@var{d}} at
-@var{rp}, and returns the high @var{d} mod @code{mp_bits_per_limb} bits of
-@var{q}.
-
-@{@var{s1p}, @var{s1n}@} - @var{q} * @{@var{s2p}, @var{s2n}@} mod @m{2
-\GMPraise{@var{s1n}*@code{mp\_bits\_per\_limb}},
-2^(@var{s1n}*@nicode{mp\_bits\_per\_limb})} is placed at @var{s1p}.  Since the
-low @math{@GMPfloor{@var{d}/@nicode{mp\_bits\_per\_limb}}} limbs of this
-difference are zero, it is possible to overwrite the low limbs at @var{s1p}
-with this difference, provided @math{@var{rp} @le{} @var{s1p}}.
-
-This function requires that @math{@var{s1n} * @nicode{mp\_bits\_per\_limb}
-@ge{} @var{D}}, and that @{@var{s2p}, @var{s2n}@} is odd.
-
-@strong{This interface is preliminary.  It might change incompatibly in future revisions.}
 @end deftypefun
 
 @deftypefun mp_limb_t mpn_lshift (mp_limb_t *@var{rp}, const mp_limb_t *@var{sp}, mp_size_t @var{n}, unsigned int @var{count})

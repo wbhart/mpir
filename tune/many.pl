@@ -494,12 +494,6 @@ my @table =
        'ret'   => 'mp_size_t',
        'args'  => 'mp_ptr gp, mp_ptr up, mp_size_t usize, mp_ptr vp, mp_size_t vsize',
      },
-     {
-       'regexp'=> 'gcd_finda',
-       'ret'   => 'mp_limb_t',
-       'args'  => 'mp_srcptr cp',
-     },
-     
 
      {
        'regexp'=> 'jacobi',

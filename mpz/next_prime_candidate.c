@@ -84,9 +84,9 @@ mpz_next_prime_candidate (mpz_ptr p, mpz_srcptr n, gmp_randstate_t rnd)
       while(lo <= hi)
       {
           mid = lo + (hi - lo) / 2;
-          if(i > primes[mid])
+          if (i > primes[mid])
              lo = mid + 1;
-          else if(i < primes[mid])
+          else if (i < primes[mid])
              hi = mid - 1;
           else
           {
