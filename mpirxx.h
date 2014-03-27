@@ -40,6 +40,7 @@ along with the GNU MP Library.  If not, see http://www.gnu.org/licenses/.  */
 #include <string>
 #include <stdexcept>
 #include <cfloat>
+#include <algorithm>  /* swap */
 #include <mpir.h>
 
 #if defined( _MSC_VER ) && _MSC_VER >= 1700
@@ -1383,7 +1384,7 @@ struct __gmp_resolve_expr<mpf_t, mpq_t>
   typedef mpf_t value_type;
 };
 
-#if defined( __GMPXX_USE_CXX11 ) || defined( MSC_CXX_11 )
+#if __GMPXX_USE_CXX11 || defined( MSC_CXX_11 )
 namespace std {
   template <class T, class U, class V, class W>
   struct common_type <__gmp_expr<T, U>, __gmp_expr<V, W> >
@@ -1515,7 +1516,7 @@ public:
   __gmp_expr() { mpz_init(mp); }
 
   __gmp_expr(const __gmp_expr &z) { mpz_init_set(mp, z.mp); }
-#if defined(__GMPXX_USE_CXX11) || defined( MSC_CXX_11 )
+#if __GMPXX_USE_CXX11 || defined( MSC_CXX_11 )
   __gmp_expr(__gmp_expr &&z)
   { *mp = *z.mp; mpz_init(z.mp); }
 #endif
@@ -1581,7 +1582,7 @@ public:
   // assignment operators
   __gmp_expr & operator=(const __gmp_expr &z)
   { mpz_set(mp, z.mp); return *this; }
-#if defined(__GMPXX_USE_CXX11) || defined( MSC_CXX_11 )
+#if __GMPXX_USE_CXX11 || defined( MSC_CXX_11 )
   __gmp_expr & operator=(__gmp_expr &&z) __GMPXX_NOEXCEPT
   { swap(z); return *this; }
 #endif
@@ -1724,7 +1725,7 @@ public:
     mpz_init_set(mpq_numref(mp), mpq_numref(q.mp));
     mpz_init_set(mpq_denref(mp), mpq_denref(q.mp));
   }
-#if defined(__GMPXX_USE_CXX11) || defined( MSC_CXX_11 )
+#if __GMPXX_USE_CXX11 || defined( MSC_CXX_11 )
   __gmp_expr(__gmp_expr &&q)
   { *mp = *q.mp; mpq_init(q.mp); }
 #endif
@@ -1803,7 +1804,7 @@ public:
   // assignment operators
   __gmp_expr & operator=(const __gmp_expr &q)
   { mpq_set(mp, q.mp); return *this; }
-#if defined(__GMPXX_USE_CXX11) || defined( MSC_CXX_11 )
+#if __GMPXX_USE_CXX11 || defined( MSC_CXX_11 )
   __gmp_expr & operator=(__gmp_expr &&q) __GMPXX_NOEXCEPT
   { swap(q); return *this; }
   __gmp_expr & operator=(mpz_class &&z)__GMPXX_NOEXCEPT
@@ -1933,7 +1934,7 @@ public:
 
   __gmp_expr(const __gmp_expr &f)
   { mpf_init2(mp, f.get_prec()); mpf_set(mp, f.mp); }
-#if defined(__GMPXX_USE_CXX11) || defined( MSC_CXX_11 )
+#if __GMPXX_USE_CXX11 || defined( MSC_CXX_11 )
   __gmp_expr(__gmp_expr &&f)
   { *mp = *f.mp; mpf_init2(f.mp, get_prec()); }
 #endif
@@ -2039,7 +2040,7 @@ public:
   // assignment operators
   __gmp_expr & operator=(const __gmp_expr &f)
   { mpf_set(mp, f.mp); return *this; }
-#if defined(__GMPXX_USE_CXX11) || defined( MSC_CXX_11 )
+#if __GMPXX_USE_CXX11 || defined( MSC_CXX_11 )
   __gmp_expr & operator=(__gmp_expr &&f) __GMPXX_NOEXCEPT
   { swap(f); return *this; }
 #endif

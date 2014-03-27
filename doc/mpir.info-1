@@ -5283,6 +5283,10 @@ File: mpir.info,  Node: C++ Interface Integers,  Next: C++ Interface Rationals, 
      If the string is not a valid integer, an `std::invalid_argument'
      exception is thrown.  The same applies to `operator='.
 
+ -- Function: mpz_class operator"" _mpz (const char *STR)
+     With C++11 compilers, integers can be constructed with the syntax
+     `123_mpz' which is equivalent to `mpz_class("123")'.
+
  -- Function: mpz_class operator/ (mpz_class A, mpz_class D)
  -- Function: mpz_class operator% (mpz_class A, mpz_class D)
      Divisions involving `mpz_class' round towards zero, as per the
@@ -5313,6 +5317,8 @@ File: mpir.info,  Node: C++ Interface Integers,  Next: C++ Interface Rationals, 
  -- Function: int mpz_class::set_str (const string& STR, int BASE)
  -- Function: int sgn (mpz_class OP)
  -- Function: mpz_class sqrt (mpz_class OP)
+ -- Function: void mpz_class::swap (mpz_class& OP)
+ -- Function: void swap (mpz_class& OP1, mpz_class& OP2)
      These functions provide a C++ class interface to the corresponding
      MPIR C routines.
 
@@ -5367,6 +5373,11 @@ called.
      If the string is not a valid rational, an `std::invalid_argument'
      exception is thrown.  The same applies to `operator='.
 
+ -- Function: mpq_class operator"" _mpq (const char *STR)
+     With C++11 compilers, integral rationals can be constructed with
+     the syntax `123_mpq' which is equivalent to `mpq_class(123_mpz)'.
+     Other rationals can be built as `-1_mpq/2' or `0xb_mpq/123456_mpz'.
+
  -- Function: void mpq_class::canonicalize ()
      Put an `mpq_class' into canonical form, as per *note Rational
      Number Functions::.  All arithmetic operators require their
@@ -5381,6 +5392,8 @@ called.
  -- Function: int mpq_class::set_str (const char *STR, int BASE)
  -- Function: int mpq_class::set_str (const string& STR, int BASE)
  -- Function: int sgn (mpq_class OP)
+ -- Function: void mpq_class::swap (mpq_class& OP)
+ -- Function: void swap (mpq_class& OP1, mpq_class& OP2)
      These functions provide a C++ class interface to the corresponding
      MPIR C routines.
 
@@ -5459,6 +5472,10 @@ used if this doesn't suit.
      If the string is not a valid float, an `std::invalid_argument'
      exception is thrown.  The same applies to `operator='.
 
+ -- Function: mpf_class operator"" _mpf (const char *STR)
+     With C++11 compilers, floats can be constructed with the syntax
+     `1.23e-1_mpf' which is equivalent to `mpf_class("1.23e-1")'.
+
  -- Function: mpf_class& mpf_class::operator= (type OP)
      Convert and store the given OP value to an `mpf_class' object.  The
      same types are accepted as for the constructors above.
@@ -5503,6 +5520,8 @@ used if this doesn't suit.
  -- Function: int mpf_class::set_str (const string& STR, int BASE)
  -- Function: int sgn (mpf_class OP)
  -- Function: mpf_class sqrt (mpf_class OP)
+ -- Function: void mpf_class::swap (mpf_class& OP)
+ -- Function: void swap (mpf_class& OP1, mpf_class& OP2)
  -- Function: mpf_class trunc (mpf_class OP)
      These functions provide a C++ class interface to the corresponding
      MPIR C routines.
