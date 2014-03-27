@@ -144,10 +144,13 @@ CPUVEC_SETUP_x86_64;
 	  if (model <= 6) { CPUIS(pentium2);break;}
 	  if (model <= 13){ CPUIS(pentium3);break;}
 	  if (model == 14){ CPUIS(core);break;}
+	  if (model == 16){ CPUIS(core);break;}
 	  #endif
 	  if (model == 15){ CPUIS(core2);break;}
+	  if (model == 17){ CPUIS(penryn);break;}
 	  if (model == 22){ CPUIS(core2);break;}
 	  if (model == 23){ CPUIS(penryn);break;}
+	  if (model == 25){ CPUIS(westmere);break;}
 	  if (model == 26){ CPUIS(nehalem);break;}
 	  if (model == 28){ CPUIS(atom);break;}// 45nm
 	  if (model == 29){ CPUIS(penryn);break;}
@@ -156,16 +159,23 @@ CPUVEC_SETUP_x86_64;
 	  if (model == 37){ CPUIS(westmere);break;}
 	  if (model == 38){ CPUIS(atom);break;}// atom z670 tunnel creek
 	  if (model == 39){ CPUIS(atom);break;}// Intel Atom Z2460 (Medfield platform, Penwell SoC, Saltwell core)
-	  if (model == 42){ CPUIS(sandybridge);break;}
+	  if (model == 42){
+        feat = ((int *)features)[2];
+        if (feat & 0x10000000) { CPUIS(sandybridge);break;}
+        else { CPUIS(westmere);break;} /* Really a crippled sandybridge with no avx */
+     }
+	  if (model == 43){ CPUIS(sandybridge);break;}
 	  if (model == 44){ CPUIS(westmere);break;}
 	  if (model == 45){ CPUIS(sandybridge);break;}
 	  if (model == 46){ CPUIS(nehalem);break;}
 	  if (model == 47){ CPUIS(westmere);break;}
 	  if (model == 54){ CPUIS(atom);break;}//DualCore Intel Atom D2700, 2133 MHz (16 x 133) (Cedarview, Saltwell core) 32nm
-	  if (model == 58){ CPUIS(sandybridge);break;}// this is ivybridge , map to sandybridge for now
-	  //if (model == 60){ CPUIS(haswell);break;}// ??????????????
-          break;
-        case 15:
+	  if (model == 55){ CPUIS(atom);break;}
+     if (model == 58){ CPUIS(ivybridge);break;}
+	  if (model == 60){ CPUIS(haswell);break;}
+     if (model == 62){ CPUIS(ivybridge);break;}
+     break;
+   case 15:
         #if CONFIG_GUESS_64BIT || FAT64
           __gmpn_cpuid(features,0x80000001);
           if ( features[8]&1 ){ CPUIS(netburstlahf);break;}
@@ -194,30 +204,40 @@ CPUVEC_SETUP_x86_64;
 	  CPUIS(k7);
 	  break;
         #endif
-        case 15:
+   case 15:
 	  CPUIS(k8);
 	  break;
-	case 16:
-	  if (model == 2) { CPUIS(k10);break;}
-	  if (model == 4) { CPUIS(k102);break;}
-	  if (model == 5) { CPUIS(k102);break;}
-	  if (model == 6) { CPUIS(k102);break;}
-	  if (model == 8) { CPUIS(k102);break;}
-	  if (model == 9) { CPUIS(k102);break;}
-	  if (model == 10) { CPUIS(k102);break;}
+   case 16:
+	  if (model == 2) { CPUIS(k10);break; }
+	  if (model == 4) { CPUIS(k102);break; }
+	  if (model == 5) { CPUIS(k102);break; }
+	  if (model == 6) { CPUIS(k102);break; }
+	  if (model == 8) { CPUIS(k102);break; }
+	  if (model == 9) { CPUIS(k102);break; }
+	  if (model == 10) { CPUIS(k102);break; }
 	  break;
-        case 17:
-          CPUIS(k8);// fusion of K8 and GPU , not so , just a low power k8 
-          break;
-        case 18:
-          CPUIS(k103);// like k102 but with hardware divider , this is lano
-          break;
-        case 20:
-          CPUIS(bobcat);// fusion of bobcat and GPU
-          break;
-        case 21:
-          CPUIS(bulldozer);//model=16 is piledriver?????
-          break;   
+   case 17:
+     CPUIS(k8);// low power k8 
+     break;
+   case 18:
+     CPUIS(k103);// like k102 but with hardware divider, this is lano
+     break;
+   case 20:
+     CPUIS(bobcat);// fusion of bobcat and GPU
+     break;
+   case 21:
+     if (model == 1) { CPUIS(bulldozer); break; }
+     if (model == 2) { CPUIS(piledriver); break; }
+     if (model == 3) { CPUIS(piledriver); break; }
+     if (model == 16) { CPUIS(piledriver); break; }
+     if (model == 18) { CPUIS(piledriver); break; }
+     if (model == 19) { CPUIS(piledriver); break; }
+     break;  
+   /* 
+   case 22:
+     CPUIS(jaguar); ?????
+     break;
+   */
         }
     }
   else if (strcmp (vendor_string, "CentaurHauls") == 0)

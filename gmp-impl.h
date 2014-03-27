@@ -4,7 +4,8 @@
    BE SUBJECT TO INCOMPATIBLE CHANGES IN FUTURE GNU MP RELEASES.
 
 Copyright 1991, 1993, 1994, 1995, 1996, 1997, 1999, 2000, 2001, 2002, 2003,
-2004, 2005, 2006, 2007, 2008, 2009, 2010 Free Software Foundation, Inc.
+2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013 Free Software 
+Foundation, Inc.
 
 Copyright 2009, 2013 William Hart
 
@@ -55,6 +56,10 @@ along with the GNU MP Library.  If not, see http://www.gnu.org/licenses/.  */
    No need for __GMP_ATTRIBUTE_PURE or __GMP_NOTHROW, since functions
    declared this way are only used to set function pointers in __gmp_cpuvec,
    they're not called directly.  */
+#define DECL_add_err1_n(name) \
+  mp_limb_t name __GMP_PROTO ((mp_ptr, mp_srcptr, mp_srcptr, mp_ptr, mp_srcptr, mp_size_t, mp_limb_t))
+#define DECL_add_err2_n(name) \
+  mp_limb_t name __GMP_PROTO ((mp_ptr, mp_srcptr, mp_srcptr, mp_ptr, mp_srcptr, mp_srcptr, mp_size_t, mp_limb_t))
 #define DECL_add_n(name) \
   mp_limb_t name __GMP_PROTO ((mp_ptr, mp_srcptr, mp_srcptr, mp_size_t))
 #define DECL_addmul_1(name) \
@@ -91,6 +96,8 @@ along with the GNU MP Library.  If not, see http://www.gnu.org/licenses/.  */
   DECL_addmul_1 (name)
 #define DECL_mul_basecase(name) \
   void name __GMP_PROTO ((mp_ptr, mp_srcptr, mp_size_t, mp_srcptr, mp_size_t))
+#define DECL_mulmid_basecase(name) \
+  void name __GMP_PROTO ((mp_ptr, mp_srcptr, mp_size_t, mp_srcptr, mp_size_t))
 #define DECL_preinv_divrem_1(name) \
   mp_limb_t name __GMP_PROTO ((mp_ptr, mp_size_t, mp_srcptr, mp_size_t, mp_limb_t, mp_limb_t, int))
 #define DECL_preinv_mod_1(name) \
@@ -101,6 +108,10 @@ along with the GNU MP Library.  If not, see http://www.gnu.org/licenses/.  */
   DECL_lshift (name)
 #define DECL_sqr_basecase(name) \
   void name __GMP_PROTO ((mp_ptr, mp_srcptr, mp_size_t))
+#define DECL_sub_err1_n(name) \
+  mp_limb_t name __GMP_PROTO ((mp_ptr, mp_srcptr, mp_srcptr, mp_ptr, mp_srcptr, mp_size_t, mp_limb_t))
+#define DECL_sub_err2_n(name) \
+  mp_limb_t name __GMP_PROTO ((mp_ptr, mp_srcptr, mp_srcptr, mp_ptr, mp_srcptr, mp_srcptr, mp_size_t, mp_limb_t))
 #define DECL_sub_n(name) \
   DECL_add_n (name)
 #define DECL_submul_1(name) \
@@ -629,6 +640,13 @@ void  __gmp_tmp_debug_free  _PROTO ((const char *, int, int,
    return true though, so avoid that.  */
 #define POW2_P(n)  (((n) & ((n) - 1)) == 0)
 
+/* This is intended for constant THRESHOLDs only, where the compiler
+   can completely fold the result.  */
+#define LOG2C(n) \
+ (((n) >=    0x1) + ((n) >=    0x2) + ((n) >=    0x4) + ((n) >=    0x8) + \
+  ((n) >=   0x10) + ((n) >=   0x20) + ((n) >=   0x40) + ((n) >=   0x80) + \
+  ((n) >=  0x100) + ((n) >=  0x200) + ((n) >=  0x400) + ((n) >=  0x800) + \
+  ((n) >= 0x1000) + ((n) >= 0x2000) + ((n) >= 0x4000) + ((n) >= 0x8000))
 
 /* The "short" defines are a bit different because shorts are promoted to
    ints by ~ or >> etc.
@@ -941,17 +959,25 @@ __GMP_DECLSPEC mp_limb_t mpn_divexact_byff __GMP_PROTO ((mp_ptr, mp_srcptr, mp_s
 __GMP_DECLSPEC mp_limb_t mpn_divexact_byfobm1 __GMP_PROTO ((mp_ptr, mp_srcptr, mp_size_t,mp_limb_t,mp_limb_t));
 #endif
 
+#ifndef mpn_add_err1_n      /* if not done with cpuvec in a fat binary */
 #define mpn_add_err1_n  __MPN(add_err1_n)
 __GMP_DECLSPEC mp_limb_t mpn_add_err1_n (mp_ptr, mp_srcptr, mp_srcptr, mp_ptr, mp_srcptr, mp_size_t, mp_limb_t);
+#endif
 
+#ifndef mpn_sub_err1_n      /* if not done with cpuvec in a fat binary */
 #define mpn_sub_err1_n  __MPN(sub_err1_n)
 __GMP_DECLSPEC mp_limb_t mpn_sub_err1_n (mp_ptr, mp_srcptr, mp_srcptr, mp_ptr, mp_srcptr, mp_size_t, mp_limb_t);
+#endif
 
+#ifndef mpn_add_err2_n      /* if not done with cpuvec in a fat binary */
 #define mpn_add_err2_n  __MPN(add_err2_n)
 __GMP_DECLSPEC mp_limb_t mpn_add_err2_n (mp_ptr, mp_srcptr, mp_srcptr, mp_ptr, mp_srcptr, mp_srcptr, mp_size_t, mp_limb_t);
+#endif
 
+#ifndef mpn_sub_err2_n      /* if not done with cpuvec in a fat binary */
 #define mpn_sub_err2_n  __MPN(sub_err2_n)
 __GMP_DECLSPEC mp_limb_t mpn_sub_err2_n (mp_ptr, mp_srcptr, mp_srcptr, mp_ptr, mp_srcptr, mp_srcptr, mp_size_t, mp_limb_t);
+#endif
 
 #define mpn_divrem_1c __MPN(divrem_1c)
 __GMP_DECLSPEC mp_limb_t mpn_divrem_1c __GMP_PROTO ((mp_ptr, mp_size_t, mp_srcptr, mp_size_t, mp_limb_t, mp_limb_t));
@@ -966,11 +992,14 @@ __GMP_DECLSPEC mp_size_t mpn_fib2_ui _PROTO ((mp_ptr, mp_ptr, mpir_ui));
 #define __clz_tab               __MPN(clz_tab)
 #define mpn_udiv_w_sdiv		__MPN(udiv_w_sdiv)
 
-#define mpn_gcd_finda	__MPN(gcd_finda)
-mp_limb_t mpn_gcd_finda _PROTO((const mp_limb_t cp[2])) __GMP_ATTRIBUTE_PURE;
-
 #define mpn_jacobi_base __MPN(jacobi_base)
 __GMP_DECLSPEC int mpn_jacobi_base _PROTO ((mp_limb_t a, mp_limb_t b, int result_bit1)) ATTRIBUTE_CONST;
+
+#define mpn_jacobi_2 __MPN(jacobi_2)
+__GMP_DECLSPEC int mpn_jacobi_2 _PROTO ((mp_srcptr, mp_srcptr, unsigned));
+
+#define mpn_jacobi_n __MPN(jacobi_n)
+__GMP_DECLSPEC int mpn_jacobi_n _PROTO ((mp_ptr, mp_ptr, mp_size_t, unsigned));
 
 #define mpn_mod_1c __MPN(mod_1c)
 __GMP_DECLSPEC mp_limb_t mpn_mod_1c __GMP_PROTO ((mp_srcptr, mp_size_t, mp_limb_t, mp_limb_t)) __GMP_ATTRIBUTE_PURE;
@@ -998,8 +1027,10 @@ __GMP_DECLSPEC void mpn_mulhigh_n __GMP_PROTO ((mp_ptr, mp_srcptr, mp_srcptr, mp
 #define mpn_mullow_basecase __MPN(mullow_basecase)
 __GMP_DECLSPEC void mpn_mullow_basecase __GMP_PROTO ((mp_ptr, mp_srcptr,mp_size_t, mp_srcptr, mp_size_t,mp_size_t));
 
+#ifndef mpn_mulmid_basecase      /* if not done with cpuvec in a fat binary */
 #define mpn_mulmid_basecase __MPN(mulmid_basecase)
 __GMP_DECLSPEC void mpn_mulmid_basecase __GMP_PROTO ((mp_ptr, mp_srcptr, mp_size_t, mp_srcptr, mp_size_t));
+#endif
 
 #define mpn_mod_1_1 __MPN(mod_1_1)
 __GMP_DECLSPEC void mpn_mod_1_1 __GMP_PROTO ((mp_ptr,mp_srcptr, mp_size_t, mp_srcptr));
@@ -1063,6 +1094,9 @@ __GMP_DECLSPEC mp_limb_t mpn_divrem_hensel_qr_1_1 __GMP_PROTO ((mp_ptr, mp_srcpt
 
 #define mpn_divrem_hensel_qr_1_2 __MPN(divrem_hensel_qr_1_2)
 __GMP_DECLSPEC mp_limb_t mpn_divrem_hensel_qr_1_2 __GMP_PROTO ((mp_ptr, mp_srcptr, mp_size_t,mp_limb_t));
+
+#define mpn_divrem_hensel_rsh_qr_1_preinv __MPN(divrem_hensel_rsh_qr_1_preinv)
+__GMP_DECLSPEC mp_limb_t mpn_divrem_hensel_rsh_qr_1_preinv __GMP_PROTO ((mp_ptr, mp_srcptr, mp_size_t,mp_limb_t,mp_limb_t,int));
 
 #define mpn_divrem_hensel_rsh_qr_1 __MPN(divrem_hensel_rsh_qr_1)
 __GMP_DECLSPEC mp_limb_t mpn_divrem_hensel_rsh_qr_1 __GMP_PROTO ((mp_ptr, mp_srcptr, mp_size_t,mp_limb_t,int));
@@ -1513,6 +1547,12 @@ __GMP_DECLSPEC int mpn_mulmod_Bexpp1_fft _PROTO ((mp_ptr op, mp_size_t pl,
 #define mpz_divexact_gcd  __gmpz_divexact_gcd
 __GMP_DECLSPEC void mpz_divexact_gcd _PROTO ((mpz_ptr q, mpz_srcptr a, mpz_srcptr d));
 
+#define mpz_prodlimbs  __gmpz_prodlimbs
+__GMP_DECLSPEC mp_size_t mpz_prodlimbs (mpz_ptr, mp_ptr, mp_size_t);
+
+#define mpz_oddfac_1  __gmpz_oddfac_1
+__GMP_DECLSPEC void mpz_oddfac_1 (mpz_ptr, mp_limb_t, unsigned);
+
 #define mpz_inp_str_nowhite __gmpz_inp_str_nowhite
 #ifdef _GMP_H_HAVE_FILE
 __GMP_DECLSPEC size_t mpz_inp_str_nowhite _PROTO ((mpz_ptr x, FILE *stream, int base, int c, size_t nread));
@@ -1695,10 +1735,13 @@ __GMP_DECLSPEC mp_size_t mpn_rootrem_basecase _PROTO ((mp_ptr, mp_ptr, mp_srcptr
     __x->_mp_d = (mp_ptr) TMP_ALLOC ((NLIMBS) * BYTES_PER_MP_LIMB);     \
   } while (0)
 
+
 /* Realloc for an mpz_t WHAT if it has less than NEEDED limbs.  */
 #define MPZ_REALLOC(z,n) (UNLIKELY ((n) > ALLOC(z))     \
                           ? (mp_ptr) _mpz_realloc(z,n)  \
                           : PTR(z))
+
+#define MPZ_NEWALLOC MPZ_REALLOC
 
 #define MPZ_EQUAL_1_P(z)  (SIZ(z)==1 && PTR(z)[0] == 1)
 
@@ -1736,6 +1779,37 @@ __GMP_DECLSPEC mp_size_t mpn_rootrem_basecase _PROTO ((mp_ptr, mp_ptr, mp_srcptr
 __GMP_DECLSPEC extern const mp_limb_t __gmp_fib_table[];
 #define FIB_TABLE(n)  (__gmp_fib_table[(n)+1])
 
+extern const mp_limb_t __gmp_oddfac_table[];
+extern const mp_limb_t __gmp_odd2fac_table[];
+extern const unsigned char __gmp_fac2cnt_table[];
+extern const mp_limb_t __gmp_limbroots_table[];
+
+/* n^log <= GMP_NUMB_MAX, a limb can store log factors less than n */
+static inline unsigned
+log_n_max (mp_limb_t n)
+{
+  unsigned log;
+  for (log = 8; n > __gmp_limbroots_table[log - 1]; log--);
+  return log;
+}
+
+#define SIEVESIZE 512		/* FIXME: Allow gmp_init_primesieve to choose */
+typedef struct
+{
+  mpir_ui d;		   /* current index in s[] */
+  mpir_ui s0;		   /* number corresponding to s[0] */
+  mpir_ui sqrt_s0;	   /* misnomer for sqrt(s[SIEVESIZE-1]) */
+  unsigned char s[SIEVESIZE + 1];  /* sieve table */
+} gmp_primesieve_t;
+
+#define gmp_init_primesieve __gmp_init_primesieve
+__GMP_DECLSPEC void gmp_init_primesieve (gmp_primesieve_t *);
+
+#define gmp_nextprime __gmp_nextprime
+__GMP_DECLSPEC mpir_ui gmp_nextprime (gmp_primesieve_t *);
+
+#define gmp_primesieve __gmp_primesieve
+__GMP_DECLSPEC mp_limb_t gmp_primesieve (mp_ptr, mp_limb_t);
 
 /* For a threshold between algorithms A and B, size>=thresh is where B
    should be used.  Special value MP_SIZE_T_MAX means only ever use A, or
@@ -1929,6 +2003,10 @@ __GMP_DECLSPEC extern const mp_limb_t __gmp_fib_table[];
 #define SQR_FFT_THRESHOLD   (SQR_FFT_FULL_THRESHOLD / 2)
 #endif
 
+#ifndef FFT_MULMOD_2EXPP1_CUTOFF
+#define FFT_MULMOD_2EXPP1_CUTOFF 128
+#endif
+
 #ifndef DC_DIV_QR_THRESHOLD
 #define DC_DIV_QR_THRESHOLD    (3 * MUL_KARATSUBA_THRESHOLD)
 #endif
@@ -1961,6 +2039,14 @@ __GMP_DECLSPEC extern const mp_limb_t __gmp_fib_table[];
 #define INV_DIV_Q_THRESHOLD    (MUL_FFT_THRESHOLD/3)
 #endif
 
+#ifndef SB_DIVAPPR_Q_SMALL_THRESHOLD
+#define SB_DIVAPPR_Q_SMALL_THRESHOLD 11
+#endif
+
+#ifndef SB_DIV_QR_SMALL_THRESHOLD
+#define SB_DIV_QR_SMALL_THRESHOLD 11
+#endif
+
 #ifndef DC_DIVAPPR_Q_THRESHOLD
 #define DC_DIVAPPR_Q_THRESHOLD    (3 * MUL_TOOM3_THRESHOLD)
 #endif
@@ -1983,6 +2069,14 @@ __GMP_DECLSPEC extern const mp_limb_t __gmp_fib_table[];
 
 #ifndef SET_STR_PRECOMPUTE_THRESHOLD
 #define SET_STR_PRECOMPUTE_THRESHOLD   2000
+#endif
+
+#ifndef FAC_ODD_THRESHOLD
+#define FAC_ODD_THRESHOLD    35
+#endif
+
+#ifndef FAC_DSC_THRESHOLD
+#define FAC_DSC_THRESHOLD   400
 #endif
 
 /* Return non-zero if xp,xsize and yp,ysize overlap.
@@ -2716,16 +2810,12 @@ mp_limb_t mpn_invert_limb _PROTO ((mp_limb_t)) ATTRIBUTE_CONST;
     dinv = _v;							\
   } while (0)
 
-/* For compatibility with GMP only */
-#define invert_pi1(dinv, d1, d0)				\
-   mpir_invert_pi1((dinv).inv32, d1, d0)
-
-#define mpir_invert_pi2(dinv, d1inv, d1, d2)                  \
+#define __mpir_invert_pi2(d1inv, d1, d2)                      \
 do {                                                          \
    mp_limb_t __q, __r[2], __p[2], __cy;                       \
                                                               \
    if ((d2) + 1 == 0 && (d1) + 1 == 0)                        \
-      (dinv) = (d1inv) = 0;                                   \
+      (d1inv) = 0;                                   \
    else {                                                     \
       if ((d1) + 1 == 0)                                      \
          (d1inv) = ~(d1), __r[1] = ~(d2);                     \
@@ -2741,12 +2831,46 @@ do {                                                          \
          while (__cy || mpn_cmp(__r, __p, 2) >= 0)            \
          { (d1inv)++; __cy -= mpn_sub_n(__r, __r, __p, 2); }  \
       }                                                       \
-      if (UNLIKELY(__r[1] >= d1 - 2))                         \
-        mpir_invert_pi1(dinv, d1, d2);                        \
-      else                                                    \
-        (dinv) = (d1inv);                                     \
    }                                                          \
 } while (0)
+
+#define mpir_invert_pi2(dinv, d1inv, d1, d0)					\
+  do {									\
+    mp_limb_t _v, _p, _t1, _t0, _mask;					\
+    invert_limb (_v, d1);						\
+    _p = (d1) * _v;							\
+    _p += (d0);								\
+    if (_p < (d0))							\
+      {									\
+	_v--;								\
+	_mask = -(mp_limb_t) (_p >= (d1));				\
+	_p -= (d1);							\
+	_v += _mask;							\
+	_p -= _mask & (d1);						\
+      }									\
+    umul_ppmm (_t1, _t0, d0, _v);					\
+    _p += _t1;								\
+    if (_p < _t1)							\
+      {									\
+	_v--;								\
+	if (UNLIKELY (_p >= (d1)))					\
+	  {								\
+	    if (_p > (d1) || _t0 >= (d0))				\
+	      _v--;							\
+         sub_ddmmss(_p, _t0, _p, _t0, (d1), (d0)); \
+     } \
+    sub_ddmmss(_p, _t0, _p, _t0, (d1), (d0)); \
+      }									\
+    if (UNLIKELY(_p <= 2))  \
+       __mpir_invert_pi2(d1inv, d1, d0); \
+    else \
+       d1inv = _v; \
+    dinv = _v;							\
+  } while (0)
+
+/* For compatibility with GMP only */
+#define invert_pi1(dinv, d1, d0)				\
+   mpir_invert_pi1((dinv).inv32, d1, d0)
 
 /* Compute quotient the quotient and remainder for n / d. Requires d
    >= B^2 / 2 and n < d B. di is the inverse
@@ -3420,8 +3544,6 @@ __GMP_DECLSPEC void __gmp_invalid_operation _PROTO ((void)) ATTRIBUTE_NORETURN;
 #define PP_FIRST_OMITTED 3
 #endif
 
-
-
 /* BIT1 means a result value in bit 1 (second least significant bit), with a
    zero bit representing +1 and a one bit representing -1.  Bits other than
    bit 1 are garbage.  These are meant to be kept in "int"s, and casts are
@@ -3566,6 +3688,71 @@ __GMP_DECLSPEC void __gmp_invalid_operation _PROTO ((void)) ATTRIBUTE_NORETURN;
       }                                                                    \
   } while (0)
 
+/* State for the Jacobi computation using Lehmer. */
+#define jacobi_table __gmp_jacobi_table
+__GMP_DECLSPEC extern const unsigned char jacobi_table[208];
+
+/* Bit layout for the initial state. b must be odd.
+
+      3  2  1 0
+   +--+--+--+--+
+   |a1|a0|b1| s|
+   +--+--+--+--+
+
+ */
+static inline unsigned
+mpn_jacobi_init (unsigned a, unsigned b, unsigned s)
+{
+  ASSERT (b & 1);
+  ASSERT (s <= 1);
+  return ((a & 3) << 2) + (b & 2) + s;
+}
+
+static inline int
+mpn_jacobi_finish (unsigned bits)
+{
+  /* (a, b) = (1,0) or (0,1) */
+  ASSERT ( (bits & 14) == 0);
+
+  return 1-2*(bits & 1);
+}
+
+static inline unsigned
+mpn_jacobi_update (unsigned bits, unsigned denominator, unsigned q)
+{
+  /* FIXME: Could halve table size by not including the e bit in the
+   * index, and instead xor when updating. Then the lookup would be
+   * like
+   *
+   *   bits ^= table[((bits & 30) << 2) + (denominator << 2) + q];
+   */
+
+  ASSERT (bits < 26);
+  ASSERT (denominator < 2);
+  ASSERT (q < 4);
+
+  /* For almost all calls, denominator is constant and quite often q
+     is constant too. So use addition rather than or, so the compiler
+     can put the constant part can into the offset of an indexed
+     addressing instruction.
+
+     With constant denominator, the below table lookup is compiled to
+
+       C Constant q = 1, constant denominator = 1
+       movzbl table+5(%eax,8), %eax
+
+     or
+
+       C q in %edx, constant denominator = 1
+       movzbl table+4(%edx,%eax,8), %eax
+
+     One could maintain the state preshifted 3 bits, to save a shift
+     here, but at least on x86, that's no real saving.
+  */
+  return bits = jacobi_table[(bits << 3) + (denominator << 2) + q];
+}
+
+
 /* Matrix multiplication */
 #define   mpn_matrix22_mul __MPN(matrix22_mul)
 __GMP_DECLSPEC void      mpn_matrix22_mul __GMP_PROTO ((mp_ptr, mp_ptr, mp_ptr, mp_ptr, mp_size_t, mp_srcptr, mp_srcptr, mp_srcptr, mp_srcptr, mp_size_t, mp_ptr));
@@ -3610,13 +3797,16 @@ struct hgcd_matrix1
 };
 
 #define mpn_hgcd2 __MPN (hgcd2)
-__GMP_DECLSPEC int mpn_hgcd2 __GMP_PROTO ((mp_limb_t, mp_limb_t, mp_limb_t, mp_limb_t,	struct hgcd_matrix1 *));
+__GMP_DECLSPEC int mpn_hgcd2 (mp_limb_t, mp_limb_t, mp_limb_t, mp_limb_t,	struct hgcd_matrix1 *);
 
 #define mpn_hgcd_mul_matrix1_vector __MPN (hgcd_mul_matrix1_vector)
-__GMP_DECLSPEC mp_size_t mpn_hgcd_mul_matrix1_vector __GMP_PROTO ((const struct hgcd_matrix1 *, mp_ptr, mp_srcptr, mp_ptr, mp_size_t));
+__GMP_DECLSPEC mp_size_t mpn_hgcd_mul_matrix1_vector (const struct hgcd_matrix1 *, mp_ptr, mp_srcptr, mp_ptr, mp_size_t);
 
-#define mpn_hgcd_mul_matrix1_inverse_vector __MPN (hgcd_mul_matrix1_inverse_vector)
-__GMP_DECLSPEC mp_size_t mpn_hgcd_mul_matrix1_inverse_vector __GMP_PROTO ((const struct hgcd_matrix1 *, mp_ptr, mp_srcptr, mp_ptr, mp_size_t));
+#define mpn_matrix22_mul1_inverse_vector __MPN (matrix22_mul1_inverse_vector)
+__GMP_DECLSPEC mp_size_t mpn_matrix22_mul1_inverse_vector (const struct hgcd_matrix1 *, mp_ptr, mp_srcptr, mp_ptr, mp_size_t);
+
+#define mpn_hgcd2_jacobi __MPN (hgcd2_jacobi)
+__GMP_DECLSPEC int mpn_hgcd2_jacobi (mp_limb_t, mp_limb_t, mp_limb_t, mp_limb_t, struct hgcd_matrix1 *, unsigned *);
 
 struct hgcd_matrix
 {
@@ -3628,49 +3818,86 @@ struct hgcd_matrix
 #define MPN_HGCD_MATRIX_INIT_ITCH(n) (4 * ((n+1)/2 + 1))
 
 #define mpn_hgcd_matrix_init __MPN (hgcd_matrix_init)
-__GMP_DECLSPEC void mpn_hgcd_matrix_init __GMP_PROTO ((struct hgcd_matrix *, mp_size_t, mp_ptr));
+__GMP_DECLSPEC void mpn_hgcd_matrix_init (struct hgcd_matrix *, mp_size_t, mp_ptr);
+
+#define mpn_hgcd_matrix_update_q __MPN (hgcd_matrix_update_q)
+__GMP_DECLSPEC void mpn_hgcd_matrix_update_q (struct hgcd_matrix *, mp_srcptr, mp_size_t, unsigned, mp_ptr);
+
+#define mpn_hgcd_matrix_mul_1 __MPN (hgcd_matrix_mul_1)
+__GMP_DECLSPEC void mpn_hgcd_matrix_mul_1 (struct hgcd_matrix *, const struct hgcd_matrix1 *, mp_ptr);
 
 #define mpn_hgcd_matrix_mul __MPN (hgcd_matrix_mul)
-__GMP_DECLSPEC void mpn_hgcd_matrix_mul __GMP_PROTO ((struct hgcd_matrix *, const struct hgcd_matrix *, mp_ptr));
+__GMP_DECLSPEC void mpn_hgcd_matrix_mul (struct hgcd_matrix *, const struct hgcd_matrix *, mp_ptr);
 
 #define mpn_hgcd_matrix_adjust __MPN (hgcd_matrix_adjust)
-__GMP_DECLSPEC mp_size_t mpn_hgcd_matrix_adjust __GMP_PROTO ((struct hgcd_matrix *, mp_size_t, mp_ptr, mp_ptr, mp_size_t, mp_ptr));
+__GMP_DECLSPEC mp_size_t mpn_hgcd_matrix_adjust (const struct hgcd_matrix *, mp_size_t, mp_ptr, mp_ptr, mp_size_t, mp_ptr);
+
+#define mpn_hgcd_step __MPN(hgcd_step)
+__GMP_DECLSPEC mp_size_t mpn_hgcd_step (mp_size_t, mp_ptr, mp_ptr, mp_size_t, struct hgcd_matrix *, mp_ptr);
+
+#define mpn_hgcd_reduce __MPN(hgcd_reduce)
+__GMP_DECLSPEC mp_size_t mpn_hgcd_reduce (struct hgcd_matrix *, mp_ptr, mp_ptr, mp_size_t, mp_size_t, mp_ptr);
+
+#define mpn_hgcd_reduce_itch __MPN(hgcd_reduce_itch)
+__GMP_DECLSPEC mp_size_t mpn_hgcd_reduce_itch (mp_size_t, mp_size_t);
 
 #define mpn_hgcd_itch __MPN (hgcd_itch)
-__GMP_DECLSPEC mp_size_t mpn_hgcd_itch __GMP_PROTO ((mp_size_t));
+__GMP_DECLSPEC mp_size_t mpn_hgcd_itch (mp_size_t);
 
 #define mpn_hgcd __MPN (hgcd)
-__GMP_DECLSPEC mp_size_t mpn_hgcd __GMP_PROTO ((mp_ptr, mp_ptr, mp_size_t, struct hgcd_matrix *, mp_ptr));
+__GMP_DECLSPEC mp_size_t mpn_hgcd (mp_ptr, mp_ptr, mp_size_t, struct hgcd_matrix *, mp_ptr);
 
-#define MPN_HGCD_LEHMER_ITCH(n) (n)
+#define mpn_hgcd_appr_itch __MPN (hgcd_appr_itch)
+__GMP_DECLSPEC mp_size_t mpn_hgcd_appr_itch (mp_size_t);
 
-#define mpn_hgcd_lehmer __MPN (hgcd_lehmer)
-__GMP_DECLSPEC mp_size_t mpn_hgcd_lehmer __GMP_PROTO ((mp_ptr, mp_ptr, mp_size_t, struct hgcd_matrix *, mp_ptr));
+#define mpn_hgcd_appr __MPN (hgcd_appr)
+__GMP_DECLSPEC int mpn_hgcd_appr (mp_ptr, mp_ptr, mp_size_t, struct hgcd_matrix *, mp_ptr);
+
+#define mpn_hgcd_jacobi __MPN (hgcd_jacobi)
+__GMP_DECLSPEC mp_size_t mpn_hgcd_jacobi (mp_ptr, mp_ptr, mp_size_t, struct hgcd_matrix *, unsigned *, mp_ptr);
+
+typedef void gcd_subdiv_step_hook(void *, mp_srcptr, mp_size_t, mp_srcptr, mp_size_t, int);
 
 /* Needs storage for the quotient */
 #define MPN_GCD_SUBDIV_STEP_ITCH(n) (n)
 
 #define mpn_gcd_subdiv_step __MPN(gcd_subdiv_step)
-__GMP_DECLSPEC mp_size_t mpn_gcd_subdiv_step __GMP_PROTO ((mp_ptr, mp_size_t *, mp_ptr, mp_ptr, mp_size_t, mp_ptr));
+__GMP_DECLSPEC mp_size_t mpn_gcd_subdiv_step (mp_ptr, mp_ptr, mp_size_t, mp_size_t, gcd_subdiv_step_hook *, void *, mp_ptr);
 
-#define MPN_GCD_LEHMER_N_ITCH(n) (n)
+struct gcdext_ctx
+{
+  /* Result parameters. */
+  mp_ptr gp;
+  mp_size_t gn;
+  mp_ptr up;
+  mp_size_t *usize;
 
-#define mpn_gcd_lehmer_n __MPN(gcd_lehmer_n)
-__GMP_DECLSPEC mp_size_t mpn_gcd_lehmer_n __GMP_PROTO ((mp_ptr, mp_ptr, mp_ptr, mp_size_t, mp_ptr));
+  /* Cofactors updated in each step. */
+  mp_size_t un;
+  mp_ptr u0, u1, tp;
+};
 
-#define mpn_gcdext_subdiv_step __MPN(gcdext_subdiv_step)
-__GMP_DECLSPEC mp_size_t mpn_gcdext_subdiv_step __GMP_PROTO ((mp_ptr, mp_size_t *, mp_ptr, mp_size_t *, mp_ptr, mp_ptr, mp_size_t, mp_ptr, mp_ptr, mp_size_t *, mp_ptr, mp_ptr));
+#define mpn_gcdext_hook __MPN (gcdext_hook)
+gcd_subdiv_step_hook mpn_gcdext_hook;
 
 #define MPN_GCDEXT_LEHMER_N_ITCH(n) (4*(n) + 3)
 
 #define mpn_gcdext_lehmer_n __MPN(gcdext_lehmer_n)
-__GMP_DECLSPEC mp_size_t mpn_gcdext_lehmer_n __GMP_PROTO ((mp_ptr, mp_ptr, mp_size_t *, mp_ptr, mp_ptr, mp_size_t, mp_ptr));
+__GMP_DECLSPEC mp_size_t mpn_gcdext_lehmer_n (mp_ptr, mp_ptr, mp_size_t *, mp_ptr, mp_ptr, mp_size_t, mp_ptr);
 
 /* 4*(an + 1) + 4*(bn + 1) + an */
 #define MPN_GCDEXT_LEHMER_ITCH(an, bn) (5*(an) + 4*(bn) + 8)
 
 #ifndef HGCD_THRESHOLD
 #define HGCD_THRESHOLD 400
+#endif
+
+#ifndef HGCD_APPR_THRESHOLD
+#define HGCD_APPR_THRESHOLD 400
+#endif
+
+#ifndef HGCD_REDUCE_THRESHOLD
+#define HGCD_REDUCE_THRESHOLD 1000
 #endif
 
 #ifndef GCD_DC_THRESHOLD
@@ -3680,6 +3907,17 @@ __GMP_DECLSPEC mp_size_t mpn_gcdext_lehmer_n __GMP_PROTO ((mp_ptr, mp_ptr, mp_si
 #ifndef GCDEXT_DC_THRESHOLD
 #define GCDEXT_DC_THRESHOLD 600
 #endif
+
+#define mpn_mulmod_bnm1 __MPN(mulmod_bnm1)
+__GMP_DECLSPEC void mpn_mulmod_bnm1 (mp_ptr, mp_size_t, mp_srcptr, mp_size_t, mp_srcptr, mp_size_t, mp_ptr);
+
+#define mpn_mulmod_bnm1_next_size(x) \
+   ((x) <= 2*FFT_MULMOD_2EXPP1_CUTOFF ? (x) : 2*mpir_fft_adjust_limbs(((x) + 1)/2))
+
+static inline mp_size_t
+mpn_mulmod_bnm1_itch (mp_size_t rn, mp_size_t an, mp_size_t bn) {
+  return 5*rn + 220;
+}
 
 /* Definitions for mpn_set_str and mpn_get_str */
 struct powers
@@ -4013,6 +4251,8 @@ int __gmp_doscan _PROTO ((const struct gmp_doscan_funs_t *, void *,
    in mpn/x86/x86-defs.m4 and in mpn/x86_64/x86_64-defs.m4.  Be sure to 
     update them there when changing here.  */
 struct cpuvec_t {
+  DECL_add_err1_n      ((*add_err1_n));
+  DECL_add_err2_n      ((*add_err2_n));
   DECL_add_n           ((*add_n));
   DECL_addmul_1        ((*addmul_1));
   DECL_copyd           ((*copyd));
@@ -4031,11 +4271,14 @@ struct cpuvec_t {
   DECL_modexact_1c_odd ((*modexact_1c_odd));
   DECL_mul_1           ((*mul_1));
   DECL_mul_basecase    ((*mul_basecase));
+  DECL_mulmid_basecase ((*mulmid_basecase));
   DECL_preinv_divrem_1 ((*preinv_divrem_1));
   DECL_preinv_mod_1    ((*preinv_mod_1));
   DECL_redc_1   ((*redc_1));
   DECL_rshift          ((*rshift));
   DECL_sqr_basecase    ((*sqr_basecase));
+  DECL_sub_err1_n      ((*sub_err1_n));
+  DECL_sub_err2_n      ((*sub_err2_n));
   DECL_sub_n           ((*sub_n));
   DECL_submul_1        ((*submul_1));
   DECL_sumdiff_n       ((*sumdiff_n));
@@ -4175,13 +4418,17 @@ extern mp_size_t                     mulmod_2expm1_threshold;
 extern mp_size_t                     div_sb_preinv_threshold;
 #endif
 
+#undef SB_DIVAPPR_Q_SMALL_THRESHOLD
+#define SB_DIVAPPR_Q_SMALL_THRESHOLD sb_divappr_q_small_threshold
+extern mp_size_t sb_divappr_q_small_threshold;
+
+#undef SB_DIV_QR_SMALL_THRESHOLD
+#define SB_DIV_QR_SMALL_THRESHOLD sb_div_qr_small_threshold
+extern mp_size_t sb_div_qr_small_threshold;
+
 #undef  DC_DIV_QR_THRESHOLD
 #define DC_DIV_QR_THRESHOLD          dc_div_qr_threshold
 extern mp_size_t                     dc_div_qr_threshold;
-
-#undef  DC_DIVAPPR_Q_N_THRESHOLD
-#define DC_DIVAPPR_Q_N_THRESHOLD     dc_divappr_q_n_threshold
-extern mp_size_t                     dc_divappr_q_n_threshold;
 
 #undef  DC_BDIV_QR_THRESHOLD
 #define DC_BDIV_QR_THRESHOLD         dc_bdiv_qr_threshold
@@ -4220,10 +4467,6 @@ extern mp_size_t                     inv_divappr_q_threshold;
 #define POWM_THRESHOLD               powm_threshold
 extern mp_size_t                     powm_threshold;
 
-#undef  FAC_UI_THRESHOLD
-#define FAC_UI_THRESHOLD             fac_ui_threshold
-extern mp_size_t                     fac_ui_threshold;
-
 #undef  ROOTREM_THRESHOLD
 #define ROOTREM_THRESHOLD            rootrem_threshold
 extern mp_size_t                     rootrem_threshold;
@@ -4252,17 +4495,29 @@ extern mp_size_t                     mod_1_2_threshold;
 #define MOD_1_3_THRESHOLD            mod_1_3_threshold
 extern mp_size_t                     mod_1_3_threshold;
 
-#undef  GCD_DC_THRESHOLD
-#define GCD_DC_THRESHOLD             gcd_dc_threshold
-extern mp_size_t                     gcd_dc_threshold;
+#undef	MATRIX22_STRASSEN_THRESHOLD
+#define MATRIX22_STRASSEN_THRESHOLD	matrix22_strassen_threshold
+extern mp_size_t			matrix22_strassen_threshold;
 
-#undef  HGCD_THRESHOLD
-#define HGCD_THRESHOLD             hgcd_threshold
-extern mp_size_t                     hgcd_threshold;
+#undef	HGCD_THRESHOLD
+#define HGCD_THRESHOLD			hgcd_threshold
+extern mp_size_t			hgcd_threshold;
+
+#undef	HGCD_APPR_THRESHOLD
+#define HGCD_APPR_THRESHOLD		hgcd_appr_threshold
+extern mp_size_t			hgcd_appr_threshold;
+
+#undef	HGCD_REDUCE_THRESHOLD
+#define HGCD_REDUCE_THRESHOLD		hgcd_reduce_threshold
+extern mp_size_t			hgcd_reduce_threshold;
+
+#undef	GCD_DC_THRESHOLD
+#define GCD_DC_THRESHOLD		gcd_dc_threshold
+extern mp_size_t			gcd_dc_threshold;
 
 #undef  GCDEXT_DC_THRESHOLD
-#define GCDEXT_DC_THRESHOLD             gcdext_dc_threshold
-extern mp_size_t                     gcdext_dc_threshold;
+#define GCDEXT_DC_THRESHOLD		gcdext_dc_threshold
+extern mp_size_t			gcdext_dc_threshold;
 
 #undef DIVREM_1_NORM_THRESHOLD
 #define DIVREM_1_NORM_THRESHOLD      divrem_1_norm_threshold
@@ -4302,6 +4557,14 @@ extern mp_size_t			set_str_dc_threshold;
 #define SET_STR_PRECOMPUTE_THRESHOLD	set_str_precompute_threshold
 extern mp_size_t			set_str_precompute_threshold;
 
+#undef  FAC_ODD_THRESHOLD
+#define FAC_ODD_THRESHOLD		fac_odd_threshold
+extern  mp_size_t			fac_odd_threshold;
+
+#undef  FAC_DSC_THRESHOLD
+#define FAC_DSC_THRESHOLD		fac_dsc_threshold
+extern  mp_size_t			fac_dsc_threshold;
+
 /* Sizes the tune program tests up to, used in a couple of recompilations. */
 #undef MUL_KARATSUBA_THRESHOLD_LIMIT
 #undef MUL_TOOM3_THRESHOLD_LIMIT
@@ -4321,6 +4584,7 @@ extern mp_size_t			set_str_precompute_threshold;
 #define SQR_TOOM4_THRESHOLD_LIMIT       1000
 #define SQR_TOOM8_THRESHOLD_LIMIT       2000
 #define GET_STR_THRESHOLD_LIMIT         150
+#define FAC_DSC_THRESHOLD_LIMIT         2048
 
 #endif /* TUNE_PROGRAM_BUILD */
 

@@ -31,7 +31,6 @@ or implied, of William Hart.
 #include "mpir.h"
 #include "gmp-impl.h"
 #include "longlong.h"
-#include "fft_tuning.h"
 
 static mp_size_t mulmod_2expp1_table_n[FFT_N_NUM] = MULMOD_TAB;
 
@@ -170,7 +169,8 @@ void mpir_fft_mulmod_2expp1(mp_ptr r1, mp_srcptr i1, mp_srcptr i2,
       mpn_sub_1(r1 + ll + 1, r1 + ll + 1, r_limbs - ll, 1);
    
    /* final coefficient wraps around */
-   r1[r_limbs] += mpn_add_n(r1 + r_limbs - limb_add, r1 + r_limbs - limb_add, ii[2*n - 1], limb_add);
+   if (limb_add)
+      r1[r_limbs] += mpn_add_n(r1 + r_limbs - limb_add, r1 + r_limbs - limb_add, ii[2*n - 1], limb_add);
    c = mpn_sub_n(r1, r1, ii[2*n - 1] + limb_add, limbs + 1 - limb_add);
    mpn_addmod_2expp1_1(r1 + limbs + 1 - limb_add, r_limbs - limbs - 1 + limb_add, -c);
    mpn_normmod_2expp1(r1, r_limbs);

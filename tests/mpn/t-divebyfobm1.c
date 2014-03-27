@@ -39,9 +39,13 @@ main (void)
   tests_start ();
   gmp_randinit_default(rands);
 
-// where (xp,n) = (qp,n)*f -ret*B^n    and 0 <= ret < f      B=2^GMP_NUMB_BITS  where f divides B-1
-// this assumes we use a divexact algorithm , a bi-directional algorithm would give different results
-// and so would a diveby3 type div without the correction
+  /* 
+     where (xp,n) = (qp,n)*f -ret*B^n    and 0 <= ret < f      
+     B=2^GMP_NUMB_BITS  where f divides B-1. This assumes 
+     we use a divexact algorithm, a bi-directional algorithm 
+     would give different results and so would a diveby3 type 
+     div without the correction
+  */
 
   for (i = 1; i < 10000; i += 2)
     {

@@ -28,7 +28,6 @@ MA 02110-1301, USA. */
 #include "mpir.h"
 #include "gmp-impl.h"
 #include "longlong.h"
-#include "fft/fft_tuning.h"
 
 #define ZERO (mp_limb_t) 0
 #define ONE  (mp_limb_t) 1

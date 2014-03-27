@@ -1,7 +1,8 @@
 /* Definitions for GNU multiple precision functions.   -*- mode: c -*-
 
 Copyright 1991, 1993, 1994, 1995, 1996, 1997, 1999, 2000, 2001, 2002, 2003,
-2004, 2005, 2006, 2007, 2008, 2009 Free Software Foundation, Inc.
+2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012 Free Software Foundation, 
+Inc.
 
 Copyright 2008 William Hart, Gonzalo Tornaria
 
@@ -817,6 +818,15 @@ __GMP_DECLSPEC void *mpz_export __GMP_PROTO ((void *, size_t *, int, size_t, int
 #define mpz_fac_ui __gmpz_fac_ui
 __GMP_DECLSPEC void mpz_fac_ui __GMP_PROTO ((mpz_ptr, mpir_ui));
 
+#define mpz_2fac_ui __gmpz_2fac_ui
+__GMP_DECLSPEC void mpz_2fac_ui __GMP_PROTO ((mpz_ptr, mpir_ui));
+
+#define mpz_mfac_uiui __gmpz_mfac_uiui
+__GMP_DECLSPEC void mpz_mfac_uiui __GMP_PROTO ((mpz_ptr, mpir_ui, mpir_ui));
+
+#define mpz_primorial_ui __gmpz_primorial_ui
+__GMP_DECLSPEC void mpz_primorial_ui __GMP_PROTO ((mpz_ptr, mpir_ui));
+
 #define mpz_fdiv_q __gmpz_fdiv_q
 __GMP_DECLSPEC void mpz_fdiv_q __GMP_PROTO ((mpz_ptr, mpz_srcptr, mpz_srcptr));
 
@@ -1626,10 +1636,6 @@ __GMP_DECLSPEC void mpn_invert __GMP_PROTO ((mp_ptr xp, mp_srcptr ap, mp_size_t 
 #define mpn_sb_divappr_q __MPN(sb_divappr_q)
 __GMP_DECLSPEC mp_limb_t mpn_sb_divappr_q __GMP_PROTO ((mp_ptr qp, mp_ptr np, mp_size_t nn,
 		  mp_srcptr dp, mp_size_t dn, mp_limb_t dip, mp_limb_t d1ip)); 
-
-#define mpn_dc_divappr_q_n __MPN(dc_divappr_q_n)
-__GMP_DECLSPEC mp_limb_t mpn_dc_divappr_q_n __GMP_PROTO ((mp_ptr qp, mp_ptr np, mp_srcptr dp, mp_size_t n, 
-		         mp_limb_t dip, mp_limb_t d1ip, mp_ptr tp));
 
 #define mpn_dc_bdiv_q_n __MPN(dc_bdiv_q_n)
 __GMP_DECLSPEC void mpn_dc_bdiv_q_n __GMP_PROTO ((mp_ptr qp, mp_ptr wp, mp_ptr np, mp_srcptr dp, mp_size_t n,
@@ -2446,18 +2452,22 @@ enum
   GMP_ERROR_INVALID_ARGUMENT = 8
 };
 
+/* Define CC and CFLAGS which were used to build this version of GMP */
+#define __GMP_CC "@CC@"
+#define __GMP_CFLAGS "@CFLAGS@"
+
 /* Major version number is the value of __GNU_MP__ too, above and in mp.h. */
 #define __GNU_MP_VERSION 5 
-#define __GNU_MP_VERSION_MINOR 0 
-#define __GNU_MP_VERSION_PATCHLEVEL 2
-#define GMP_VERSION "5.0.2"
+#define __GNU_MP_VERSION_MINOR 1 
+#define __GNU_MP_VERSION_PATCHLEVEL 3
+#define GMP_VERSION "5.1.3"
 #define __GNU_MP_RELEASE (__GNU_MP_VERSION * 10000 + __GNU_MP_VERSION_MINOR * 100 + __GNU_MP_VERSION_PATCHLEVEL)
 
 #define __MPIR_VERSION 2
-#define __MPIR_VERSION_MINOR 6 
+#define __MPIR_VERSION_MINOR 7 
 #define __MPIR_VERSION_PATCHLEVEL 0
 #if defined( _MSC_VER )
-#define _MSC_MPIR_VERSION "2.6.0"
+#define _MSC_MPIR_VERSION "2.7.0"
 #endif
 #define __MPIR_RELEASE (__MPIR_VERSION * 10000 + __MPIR_VERSION_MINOR * 100 + __MPIR_VERSION_PATCHLEVEL)
 

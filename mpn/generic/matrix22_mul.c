@@ -54,7 +54,7 @@ abs_sub_n (mp_ptr rp, mp_srcptr ap, mp_srcptr bp, mp_size_t n)
 
 static int
 add_signed_n (mp_ptr rp,
-          mp_srcptr ap, int as, mp_srcptr bp, int bs, mp_size_t n)
+	      mp_srcptr ap, int as, mp_srcptr bp, int bs, mp_size_t n)
 {
   if (as != bs)
     return as ^ abs_sub_n (rp, ap, bp, n);
@@ -102,9 +102,9 @@ mpn_matrix22_mul_itch (mp_size_t rn, mp_size_t mn)
     | r1 | = | 0 0 -1  1 -1  1  0 | | s1*t1 |
     | r2 |   | 0 1  0 -1  0 -1 -1 | | s2*t2 |
     \ r3 /   \ 0 1  1 -1  0 -1  0 / | s3*t3 |
-                    | s4*t5 |
-                    | s5*t6 |
-                    \ s6*t4 /
+				    | s4*t5 |
+				    | s5*t6 |
+				    \ s6*t4 /
 
   The scheduling uses two temporaries U0 and U1 to store products, and
   two, S0 and T0, to store combinations of entries of the two
@@ -118,8 +118,8 @@ mpn_matrix22_mul_itch (mp_size_t rn, mp_size_t mn)
  * Temporary storage: 3 rn + 3 mn + 5. */
 void
 mpn_matrix22_mul_strassen (mp_ptr r0, mp_ptr r1, mp_ptr r2, mp_ptr r3, mp_size_t rn,
-               mp_srcptr m0, mp_srcptr m1, mp_srcptr m2, mp_srcptr m3, mp_size_t mn,
-               mp_ptr tp)
+			   mp_srcptr m0, mp_srcptr m1, mp_srcptr m2, mp_srcptr m3, mp_size_t mn,
+			   mp_ptr tp)
 {
   mp_ptr s0, t0, u0, u1;
   int r1s, r3s, s0s, t0s, u1s;
@@ -149,7 +149,7 @@ mpn_matrix22_mul_strassen (mp_ptr r0, mp_ptr r1, mp_ptr r2, mp_ptr r3, mp_size_t
     {
       s0[rn] = r1[rn] - mpn_sub_n (s0, r1, r0, rn);
       s0s = 1;				/* s4 = -r0 + r1 - r2 + r3 */
-                        /* Reverse sign! */
+					/* Reverse sign! */
     }
   else
     {
@@ -185,7 +185,7 @@ mpn_matrix22_mul_strassen (mp_ptr r0, mp_ptr r1, mp_ptr r2, mp_ptr r3, mp_size_t
       MUL (r3, r1, rn, t0, mn + 1);	/* u3 = s3 * t3 */
       ASSERT (r1[rn] < 2);
       if (r1[rn] != 0)
-    mpn_add_n (r3 + rn, r3 + rn, t0, mn + 1);
+	mpn_add_n (r3 + rn, r3 + rn, t0, mn + 1);
     }
   else
     {
@@ -229,10 +229,10 @@ mpn_matrix22_mul_strassen (mp_ptr r0, mp_ptr r1, mp_ptr r2, mp_ptr r3, mp_size_t
     }
   rn++;
   t0s = add_signed_n (r2, r3, r3s, u0, t0s, rn + mn);
-                    /* u3 + u5 + u6 */
+					/* u3 + u5 + u6 */
   ASSERT (r2[rn+mn-1] < 4);
   r3s = add_signed_n (r3, r3, r3s, u1, u1s, rn + mn);
-                    /* -u2 + u3 + u5  */
+					/* -u2 + u3 + u5  */
   ASSERT (r3[rn+mn-1] < 3);
   MUL (u0, s0, rn, m1, mn);		/* u4 = s4 * t5 */
   ASSERT (u0[rn+mn-1] < 2);
@@ -242,7 +242,7 @@ mpn_matrix22_mul_strassen (mp_ptr r0, mp_ptr r1, mp_ptr r2, mp_ptr r3, mp_size_t
   ASSERT (u1[mn-1] < 4);
   ASSERT (u1[mn] == 0);
   ASSERT_NOCARRY (add_signed_n (r1, r3, r3s, u0, s0s, mn));
-                    /* -u2 + u3 - u4 + u5  */
+					/* -u2 + u3 - u4 + u5  */
   ASSERT (r1[mn-1] < 2);
   if (r3s)
     {
@@ -251,7 +251,7 @@ mpn_matrix22_mul_strassen (mp_ptr r0, mp_ptr r1, mp_ptr r2, mp_ptr r3, mp_size_t
   else
     {
       ASSERT_NOCARRY (mpn_sub_n (r3, u1, r3, mn));
-                    /* u1 + u2 - u3 - u5  */
+					/* u1 + u2 - u3 - u5  */
     }
   ASSERT (r3[mn-1] < 2);
   if (t0s)
@@ -261,15 +261,15 @@ mpn_matrix22_mul_strassen (mp_ptr r0, mp_ptr r1, mp_ptr r2, mp_ptr r3, mp_size_t
   else
     {
       ASSERT_NOCARRY (mpn_sub_n (r2, u1, r2, mn));
-                    /* u1 - u3 - u5 - u6  */
+					/* u1 - u3 - u5 - u6  */
     }
   ASSERT (r2[mn-1] < 2);
 }
 
 void
 mpn_matrix22_mul (mp_ptr r0, mp_ptr r1, mp_ptr r2, mp_ptr r3, mp_size_t rn,
-          mp_srcptr m0, mp_srcptr m1, mp_srcptr m2, mp_srcptr m3, mp_size_t mn,
-          mp_ptr tp)
+		  mp_srcptr m0, mp_srcptr m1, mp_srcptr m2, mp_srcptr m3, mp_size_t mn,
+		  mp_ptr tp)
 {
   if (BELOW_THRESHOLD (rn, MATRIX22_STRASSEN_THRESHOLD)
       || BELOW_THRESHOLD (mn, MATRIX22_STRASSEN_THRESHOLD))
@@ -282,30 +282,30 @@ mpn_matrix22_mul (mp_ptr r0, mp_ptr r1, mp_ptr r2, mp_ptr r3, mp_size_t rn,
       p1 = p0 + rn + mn;
 
       for (i = 0; i < 2; i++)
-    {
-      MPN_COPY (tp, r0, rn);
+	{
+	  MPN_COPY (tp, r0, rn);
 
-      if (rn >= mn)
-        {
-          mpn_mul (p0, r0, rn, m0, mn);
-          mpn_mul (p1, r1, rn, m3, mn);
-          mpn_mul (r0, r1, rn, m2, mn);
-          mpn_mul (r1, tp, rn, m1, mn);
-        }
-      else
-        {
-          mpn_mul (p0, m0, mn, r0, rn);
-          mpn_mul (p1, m3, mn, r1, rn);
-          mpn_mul (r0, m2, mn, r1, rn);
-          mpn_mul (r1, m1, mn, tp, rn);
-        }
-      r0[rn+mn] = mpn_add_n (r0, r0, p0, rn + mn);
-      r1[rn+mn] = mpn_add_n (r1, r1, p1, rn + mn);
+	  if (rn >= mn)
+	    {
+	      mpn_mul (p0, r0, rn, m0, mn);
+	      mpn_mul (p1, r1, rn, m3, mn);
+	      mpn_mul (r0, r1, rn, m2, mn);
+	      mpn_mul (r1, tp, rn, m1, mn);
+	    }
+	  else
+	    {
+	      mpn_mul (p0, m0, mn, r0, rn);
+	      mpn_mul (p1, m3, mn, r1, rn);
+	      mpn_mul (r0, m2, mn, r1, rn);
+	      mpn_mul (r1, m1, mn, tp, rn);
+	    }
+	  r0[rn+mn] = mpn_add_n (r0, r0, p0, rn + mn);
+	  r1[rn+mn] = mpn_add_n (r1, r1, p1, rn + mn);
 
-      r0 = r2; r1 = r3;
-    }
+	  r0 = r2; r1 = r3;
+	}
     }
   else
     mpn_matrix22_mul_strassen (r0, r1, r2, r3, rn,
-                   m0, m1, m2, m3, mn, tp);
+			       m0, m1, m2, m3, mn, tp);
 }

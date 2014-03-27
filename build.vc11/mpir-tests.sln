@@ -1,5 +1,5 @@
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "bswap", "mpir-tests\bswap\bswap.vcxproj", "{50EFC9E8-FB88-44C3-9F30-075547E22992}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "constants", "mpir-tests\constants\constants.vcxproj", "{5495242E-29D4-4C4E-9176-4A69F8CBD667}"
@@ -433,6 +433,10 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "f.split_combine_bits", "mpir-tests\f.split_combine_bits\f.split_combine_bits.vcxproj", "{6D207124-520E-C8B5-E8E8-9422FB90E683}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "f.mul_fft_main", "mpir-tests\f.mul_fft_main\f.mul_fft_main.vcxproj", "{A515100F-69C3-A0DC-33CE-DF4C224C19C2}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.mfac_uiui", "mpir-tests\mpz.mfac_uiui\mpz.mfac_uiui.vcxproj", "{21B1F802-A155-431E-AFFA-AB80286302A3}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.primorial_ui", "mpir-tests\mpz.primorial_ui\mpz.primorial_ui.vcxproj", "{BF223A30-8511-493B-9DE1-55170B408333}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -1696,6 +1700,22 @@ Global
 		{A515100F-69C3-A0DC-33CE-DF4C224C19C2}.Release|Win32.Build.0 = Release|Win32
 		{A515100F-69C3-A0DC-33CE-DF4C224C19C2}.Release|x64.ActiveCfg = Release|x64
 		{A515100F-69C3-A0DC-33CE-DF4C224C19C2}.Release|x64.Build.0 = Release|x64
+		{21B1F802-A155-431E-AFFA-AB80286302A3}.Debug|Win32.ActiveCfg = Debug|Win32
+		{21B1F802-A155-431E-AFFA-AB80286302A3}.Debug|Win32.Build.0 = Debug|Win32
+		{21B1F802-A155-431E-AFFA-AB80286302A3}.Debug|x64.ActiveCfg = Debug|x64
+		{21B1F802-A155-431E-AFFA-AB80286302A3}.Debug|x64.Build.0 = Debug|x64
+		{21B1F802-A155-431E-AFFA-AB80286302A3}.Release|Win32.ActiveCfg = Release|Win32
+		{21B1F802-A155-431E-AFFA-AB80286302A3}.Release|Win32.Build.0 = Release|Win32
+		{21B1F802-A155-431E-AFFA-AB80286302A3}.Release|x64.ActiveCfg = Release|x64
+		{21B1F802-A155-431E-AFFA-AB80286302A3}.Release|x64.Build.0 = Release|x64
+		{BF223A30-8511-493B-9DE1-55170B408333}.Debug|Win32.ActiveCfg = Debug|Win32
+		{BF223A30-8511-493B-9DE1-55170B408333}.Debug|Win32.Build.0 = Debug|Win32
+		{BF223A30-8511-493B-9DE1-55170B408333}.Debug|x64.ActiveCfg = Debug|x64
+		{BF223A30-8511-493B-9DE1-55170B408333}.Debug|x64.Build.0 = Debug|x64
+		{BF223A30-8511-493B-9DE1-55170B408333}.Release|Win32.ActiveCfg = Release|Win32
+		{BF223A30-8511-493B-9DE1-55170B408333}.Release|Win32.Build.0 = Release|Win32
+		{BF223A30-8511-493B-9DE1-55170B408333}.Release|x64.ActiveCfg = Release|x64
+		{BF223A30-8511-493B-9DE1-55170B408333}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

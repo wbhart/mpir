@@ -175,7 +175,7 @@ MA 02110-1301, USA. */
 #endif
 
 #if defined( _MSC_VER )
-#  if !deffined(COUNT_LEADING_ZEROS_NEED_CLZ_TAB)
+#  if !defined(COUNT_LEADING_ZEROS_NEED_CLZ_TAB)
 #    define COUNT_LEADING_ZEROS_NEED_CLZ_TAB
 #  endif
 #endif

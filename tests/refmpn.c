@@ -2101,35 +2101,6 @@ refmpn_mod2 (mp_limb_t r[2], const mp_limb_t a[2], const mp_limb_t d[2])
 }
 
 
-/* Return n with 0 < n < 2^GMP_NUMB_BITS such that there exists 0 < |d| <
-   2^GMP_NUMB_BITS, and n == d * c mod 2^(2*GMP_NUMB_BITS).  */
-mp_limb_t
-refmpn_gcd_finda (const mp_limb_t c[2])
-{
-  mp_limb_t  n1[2], n2[2];
-
-  ASSERT (c[0] != 0);
-  ASSERT (c[1] != 0);
-  ASSERT_MPN (c, 2);
-
-  n1[0] = c[0];
-  n1[1] = c[1];
-
-  n2[0] = -n1[0];
-  n2[1] = ~n1[1];
-
-  while (n2[1] != 0)
-    {
-      refmpn_mod2 (n1, n1, n2);
-
-      MP_LIMB_T_SWAP (n1[0], n2[0]);
-      MP_LIMB_T_SWAP (n1[1], n2[1]);
-    }
-
-  return n2[0];
-}
-
-
 /* Similar to mpn/generic/sb_divrem_mn.c, but somewhat simplified, in
    particular the trial quotient is allowed to be 2 too big. */
 mp_limb_t

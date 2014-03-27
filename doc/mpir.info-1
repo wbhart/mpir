@@ -1,11 +1,11 @@
 This is mpir.info, produced by makeinfo version 4.13 from mpir.texi.
 
 This manual describes how to install and use MPIR, the Multiple
-Precision Integers and Rationals library, version 2.6.0.
+Precision Integers and Rationals library, version 2.7.0.
 
    Copyright 1991, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000,
-2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010 Free
-Software Foundation, Inc.
+2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012,
+2013 Free Software Foundation, Inc.
 
    Copyright 2008, 2009, 2010 William Hart
 
@@ -29,11 +29,11 @@ MPIR
 ****
 
    This manual describes how to install and use MPIR, the Multiple
-Precision Integers and Rationals library, version 2.6.0.
+Precision Integers and Rationals library, version 2.7.0.
 
    Copyright 1991, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000,
-2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010 Free
-Software Foundation, Inc.
+2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012,
+2013 Free Software Foundation, Inc.
 
    Copyright 2008, 2009, 2010 William Hart
 
@@ -240,7 +240,7 @@ Build Directory
      directory.  For example
 
           cd /my/build/dir
-          /my/sources/mpir-2.6.0/configure
+          /my/sources/mpir-2.7.0/configure
 
      Not all `make' programs have the necessary features (`VPATH') to
      support this.  In particular, SunOS and Solaris `make' have bugs
@@ -1453,9 +1453,14 @@ File: mpir.info,  Node: Useful Macros and Constants,  Next: Compatibility with o
      The GNU MP version number, as a null-terminated string, in the form
      "i.j.k".
 
+ -- Macro: __GMP_CC
+ -- Macro: __GMP_CFLAGS
+     The compiler and compiler flags, respectively, used when compiling
+     GMP, as strings.
+
  -- Global Constant: const char * const mpir_version
      The MPIR version number, as a null-terminated string, in the form
-     "i.j.k".  This release is "2.6.0".
+     "i.j.k".  This release is "2.7.0".
 
 
 File: mpir.info,  Node: Compatibility with older versions,  Next: Efficiency,  Prev: Useful Macros and Constants,  Up: MPIR Basics
@@ -1472,6 +1477,9 @@ all 2.x versions, with the following exceptions.
 
    * `mpf_get_prec' counted precision slightly differently in GMP 3.0
      and 3.0.1, but in 3.1 reverted to the 2.x style.
+
+   * `mpn_bdivmod' provided provisionally in the past has been removed
+     from MPIR 2.7.0.
 
    * MPIR does not support the secure cryptographic functions provided
      by GMP.
@@ -1716,7 +1724,7 @@ Source File Paths
      path to the source directory.
 
           cd /my/build/dir
-          /my/source/dir/gmp-2.6.0/configure
+          /my/source/dir/gmp-2.7.0/configure
 
      This works via `VPATH', and might require GNU `make'.  Alternately
      it might be possible to change the `.c.lo' rules appropriately.
@@ -2554,18 +2562,21 @@ File: mpir.info,  Node: Number Theoretic Functions,  Next: Integer Comparisons, 
 
      This function uses a probabilistic algorithm to identify primes.
      For practical purposes it's adequate, the chance of a composite
-     passing will be extremely small.
+     passing will be extremely small. However, despite the name, it
+     does not guarantee primality.
 
      *This function is obsolete.  It will disappear from future MPIR
      releases.*
 
- -- Function: void mpz_next_likely_prime (mpz_t ROP, mpz_t OP,
+ -- Function: void mpz_next_prime_candidate (mpz_t ROP, mpz_t OP,
           gmp_randstate_t STATE)
-     Set ROP to the next likely prime greater than OP.
-
-     This function uses a probabilistic algorithm to identify primes.
-     For practical purposes it's adequate, the chance of a composite
-     passing will be extremely small.
+     Set ROP to the next candidate prime greater than OP. Note that this
+     function will occasionally return composites. It is designed to
+     give a quick method for generating numbers which do not have small
+     prime factors (less than 1000) and which pass a small number of
+     rounds of Miller-Rabin (just two rounds).The test is designed for
+     speed, assuming that a high quality followup test can then be run
+     to ensure primality.
 
      The variable STATE must be initialized by calling one of the
      `gmp_randinit' functions (*note Random State Initialization::)
@@ -2634,8 +2645,17 @@ File: mpir.info,  Node: Number Theoretic Functions,  Next: Integer Comparisons, 
      result in ROP.  The return value is how many such occurrences were
      removed.
 
- -- Function: void mpz_fac_ui (mpz_t ROP, mpir_ui OP)
-     Set ROP to OP!, the factorial of OP.
+ -- Function: void mpz_fac_ui (mpz_t ROP, unsigned long int N)
+ -- Function: void mpz_2fac_ui (mpz_t ROP, unsigned long int N)
+ -- Function: void mpz_mfac_uiui (mpz_t ROP, unsigned long int N,
+          unsigned long int M)
+     Set ROP to the factorial of N: `mpz_fac_ui' computes the plain
+     factorial N!, `mpz_2fac_ui' computes the double-factorial N!!, and
+     `mpz_mfac_uiui' the M-multi-factorial N!^(M).
+
+ -- Function: void mpz_primorial_ui (mpz_t ROP, unsigned long int N)
+     Set ROP to the primorial of N, i.e. the product of all positive
+     prime numbers <=N.
 
  -- Function: void mpz_bin_ui (mpz_t ROP, mpz_t N, mpir_ui K)
  -- Function: void mpz_bin_uiui (mpz_t ROP, mpir_ui N, mpir_ui K)
@@ -4121,23 +4141,6 @@ For example, {S1P, S1N}.
      Divide {S1P, S1N} by S2LIMB, and return the remainder.  S1N can be
      zero.
 
- -- Function: mp_limb_t mpn_bdivmod (mp_limb_t *RP, mp_limb_t *S1P,
-          mp_size_t S1N, const mp_limb_t *S2P, mp_size_t S2N, mpir_ui D)
-     This function puts the low floor(D/mp_bits_per_limb) limbs of Q =
-     {S1P, S1N}/{S2P, S2N} mod 2^D at RP, and returns the high D mod
-     `mp_bits_per_limb' bits of Q.
-
-     {S1P, S1N} - Q * {S2P, S2N} mod 2^(S1N*mp_bits_per_limb) is placed
-     at S1P.  Since the low floor(D/mp_bits_per_limb) limbs of this
-     difference are zero, it is possible to overwrite the low limbs at
-     S1P with this difference, provided RP <= S1P.
-
-     This function requires that S1N * mp_bits_per_limb >= D, and that
-     {S2P, S2N} is odd.
-
-     *This interface is preliminary.  It might change incompatibly in
-     future revisions.*
-
  -- Function: mp_limb_t mpn_lshift (mp_limb_t *RP, const mp_limb_t *SP,
           mp_size_t N, unsigned int COUNT)
      Shift {SP, N} left by COUNT bits, and write the result to {RP, N}.
@@ -5280,6 +5283,10 @@ File: mpir.info,  Node: C++ Interface Integers,  Next: C++ Interface Rationals, 
      If the string is not a valid integer, an `std::invalid_argument'
      exception is thrown.  The same applies to `operator='.
 
+ -- Function: mpz_class operator"" _mpz (const char *STR)
+     With C++11 compilers, integers can be constructed with the syntax
+     `123_mpz' which is equivalent to `mpz_class("123")'.
+
  -- Function: mpz_class operator/ (mpz_class A, mpz_class D)
  -- Function: mpz_class operator% (mpz_class A, mpz_class D)
      Divisions involving `mpz_class' round towards zero, as per the
@@ -5310,6 +5317,8 @@ File: mpir.info,  Node: C++ Interface Integers,  Next: C++ Interface Rationals, 
  -- Function: int mpz_class::set_str (const string& STR, int BASE)
  -- Function: int sgn (mpz_class OP)
  -- Function: mpz_class sqrt (mpz_class OP)
+ -- Function: void mpz_class::swap (mpz_class& OP)
+ -- Function: void swap (mpz_class& OP1, mpz_class& OP2)
      These functions provide a C++ class interface to the corresponding
      MPIR C routines.
 
@@ -5364,6 +5373,11 @@ called.
      If the string is not a valid rational, an `std::invalid_argument'
      exception is thrown.  The same applies to `operator='.
 
+ -- Function: mpq_class operator"" _mpq (const char *STR)
+     With C++11 compilers, integral rationals can be constructed with
+     the syntax `123_mpq' which is equivalent to `mpq_class(123_mpz)'.
+     Other rationals can be built as `-1_mpq/2' or `0xb_mpq/123456_mpz'.
+
  -- Function: void mpq_class::canonicalize ()
      Put an `mpq_class' into canonical form, as per *note Rational
      Number Functions::.  All arithmetic operators require their
@@ -5378,6 +5392,8 @@ called.
  -- Function: int mpq_class::set_str (const char *STR, int BASE)
  -- Function: int mpq_class::set_str (const string& STR, int BASE)
  -- Function: int sgn (mpq_class OP)
+ -- Function: void mpq_class::swap (mpq_class& OP)
+ -- Function: void swap (mpq_class& OP1, mpq_class& OP2)
      These functions provide a C++ class interface to the corresponding
      MPIR C routines.
 
@@ -5456,6 +5472,10 @@ used if this doesn't suit.
      If the string is not a valid float, an `std::invalid_argument'
      exception is thrown.  The same applies to `operator='.
 
+ -- Function: mpf_class operator"" _mpf (const char *STR)
+     With C++11 compilers, floats can be constructed with the syntax
+     `1.23e-1_mpf' which is equivalent to `mpf_class("1.23e-1")'.
+
  -- Function: mpf_class& mpf_class::operator= (type OP)
      Convert and store the given OP value to an `mpf_class' object.  The
      same types are accepted as for the constructors above.
@@ -5500,6 +5520,8 @@ used if this doesn't suit.
  -- Function: int mpf_class::set_str (const string& STR, int BASE)
  -- Function: int sgn (mpf_class OP)
  -- Function: mpf_class sqrt (mpf_class OP)
+ -- Function: void mpf_class::swap (mpf_class& OP)
+ -- Function: void swap (mpf_class& OP1, mpf_class& OP2)
  -- Function: mpf_class trunc (mpf_class OP)
      These functions provide a C++ class interface to the corresponding
      MPIR C routines.

@@ -31,8 +31,6 @@ along with the GNU MP Library.  If not, see http://www.gnu.org/licenses/.  */
 #include "gmp-impl.h"
 #include "longlong.h"
 
-#define SB_DIV_QR_SMALL_THRESHOLD 30
-
 mp_limb_t
 mpn_sb_div_qr (mp_ptr qp,
 		  mp_ptr np, mp_size_t nn,
@@ -58,7 +56,7 @@ mpn_sb_div_qr (mp_ptr qp,
 
   d1 = dp[dn - 1];
 
-  if (dn <= SB_DIV_QR_SMALL_THRESHOLD)
+  if (BELOW_THRESHOLD(dn, SB_DIV_QR_SMALL_THRESHOLD))
     {
     np--;
     

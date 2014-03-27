@@ -25,11 +25,25 @@ Boston, MA 02110-1301, USA.
 
 
 /* This function is Obsolete  17/8/2009 */
+
+/* 
+   But people use it anyway! 
+   
+   FIXME: This function should prove the primality of x using 
+   ECPP or APR-CL.
+*/
 void mpz_nextprime(mpz_ptr x, mpz_srcptr y)
 {
   gmp_randstate_t rnd;
   
   gmp_randinit_default(rnd);
   mpz_next_prime_candidate(x, y, rnd);
+
+  while (!mpz_miller_rabin (x, 23, rnd)) /* we've done 2 rounds already, do another 23 */
+  {
+     mpz_add_ui(x, x, 2);
+     mpz_next_prime_candidate(x, x, rnd);
+  }
+
   gmp_randclear(rnd);
 }
