@@ -1464,9 +1464,6 @@
   <YASM Include="..\..\mpn\x86_64w\core2\addmul_1.asm">
     <Filter>Source Files\mpn\yasm</Filter>
     </YASM>
-  <YASM Include="..\..\mpn\x86_64w\core2\addmul_1.o.asm">
-    <Filter>Source Files\mpn\yasm</Filter>
-    </YASM>
   <YASM Include="..\..\mpn\x86_64w\core2\addmul_2.asm">
     <Filter>Source Files\mpn\yasm</Filter>
     </YASM>
@@ -1606,9 +1603,6 @@
     <Filter>Source Files\mpn\yasm</Filter>
     </YASM>
   <YASM Include="..\..\mpn\x86_64w\core2\submul_1.asm">
-    <Filter>Source Files\mpn\yasm</Filter>
-    </YASM>
-  <YASM Include="..\..\mpn\x86_64w\core2\submul_1.o.asm">
     <Filter>Source Files\mpn\yasm</Filter>
     </YASM>
   <YASM Include="..\..\mpn\x86_64w\core2\sumdiff_n.asm">
