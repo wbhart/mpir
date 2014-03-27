@@ -49,6 +49,7 @@ add_cpp_lib = False
 build_vc = 'build.vc11/'
 mpir_dir = '../'
 build_dir = mpir_dir + build_vc
+cfg_dir = './cdata'
 
 # paths that might include source files(*.c, *.h, *.asm)
 c_directories  = ( '', 'build.vc11', 'fft', 'mpf', 'mpq', 'mpz', 'printf', 'scanf' )
@@ -233,7 +234,7 @@ def file_symbols(cf):
     get_symbols(setf, sym_dir)
   return sym_dir
 
-def gen_have_list(c, sym_dir):
+def gen_have_list(c, sym_dir, out_dir):
   set_sym2 = set()
   for f in c[2]:
     set_sym2 |= sym_dir[f]
@@ -241,7 +242,12 @@ def gen_have_list(c, sym_dir):
   for f in c[3]:
     set_sym3 |= sym_dir[f]
   c += [sorted(list(set_sym2)), sorted(list(set_sym3))]
-  with open(join(mpir_dir, c[4], 'cfg.h'), 'w') as outf:
+  fd = join(out_dir, c[4])
+  try:
+    makedirs(fd)
+  except:
+    IOError
+  with open(join(fd, 'cfg.h'), 'w') as outf:
     for sym in sorted(set_sym2 | set_sym3):
       print(sym, file=outf)
 #     print('/* assembler symbols also available in C files */', file=outf)
@@ -757,13 +763,13 @@ for n in n_list:
   elif nd_gc < n <= nd_32:
     config = sorted(mpn_32)[n - 1 - nd_gc]
     if len(argv) == 1 or int(argv[1]) & 1:
-      gen_have_list(mpn_32[config], syms32)
+      gen_have_list(mpn_32[config], syms32, cfg_dir)
     mode = ('Win32', )
     mpn_f = mpn_32[config]
   elif nd_32 < n <= nd_nd:
     config = sorted(mpn_64)[n - 1 - nd_32]
     if len(argv) == 1 or int(argv[1]) & 1:
-      gen_have_list(mpn_64[config], syms64)
+      gen_have_list(mpn_64[config], syms64, cfg_dir)
     mode = ('x64', )
     mpn_f = mpn_64[config]
   else:

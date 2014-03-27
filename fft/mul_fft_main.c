@@ -31,7 +31,6 @@ or implied, of William Hart.
 #include "mpir.h"
 #include "gmp-impl.h"
 #include "longlong.h"
-#include "fft_tuning.h"
 
 static int mpir_fft_tuning_table[5][2] = FFT_TAB;
 

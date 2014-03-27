@@ -10,11 +10,12 @@ if not exist ..\mpn\%sdir% (call :seterr & echo ERROR: %1 is not supported & exi
 
 echo.building MPIR for %1 (%platform%) from directory mpn\%sdir%
 
+set cdir=cdata\mpn\%sdir%\
 set sdir=..\mpn\%sdir%\
 set bdir=..\mpn\%bdir%\
 
 call gen_mpir_h %platform%
-call gen_config_h %sdir%
+call gen_config_h %cdir%
 
 if exist %sdir%\gmp-mparam.h (call out_copy_rename %sdir%\gmp-mparam.h ..\ gmp-mparam.h) else (
     call out_copy_rename %bdir%\gmp-mparam.h ..\ gmp-mparam.h)

@@ -82,7 +82,7 @@
 
 #define FFT_N_NUM 23
 
-#define FFT_MULMOD_2EXPP1_CUTOFF 256
+#define FFT_MULMOD_2EXPP1_CUTOFF 256 
 
 
 /* Tuneup completed successfully, took 151 seconds */
