@@ -22,7 +22,6 @@
     <ProjectGuid>{8E73AD17-D49E-4F63-A483-C5A82A1FA312}</ProjectGuid>
     <RootNamespace>tune</RootNamespace>
     <Keyword>Win32Proj</Keyword>
-    <VCTargetsPath Condition="'$(VCTargetsPath11)' != '' and '$(VSVersion)' == '' and $(VisualStudioVersion) == ''">$(VCTargetsPath11)</VCTargetsPath>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
@@ -46,7 +45,9 @@
     <PlatformToolset>v110</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
-  <ImportGroup Label="ExtensionSettings" />
+  <ImportGroup Label="ExtensionSettings">
+    <Import Project="$(VCTargetsPath)\BuildCustomizations\vsyasm.props" />
+  </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" />
     <Import Project="..\mpir-tests\test-config.props" />
@@ -80,9 +81,7 @@
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkIncremental>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <PreBuildEvent>
-      <Command>tune_prebuild.py</Command>
-    </PreBuildEvent>
+    <PreBuildEvent />
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;HAVE_GETRUSAGE;HAVE_GETTIMEOFDAY;TUNE_PROGRAM_BUILD;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -103,9 +102,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <PreBuildEvent>
-      <Command>tune_prebuild.py</Command>
-    </PreBuildEvent>
+    <PreBuildEvent />
     <Midl>
       <TargetEnvironment>X64</TargetEnvironment>
     </Midl>
@@ -129,9 +126,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <PreBuildEvent>
-      <Command>tune_prebuild.py</Command>
-    </PreBuildEvent>
+    <PreBuildEvent />
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -154,9 +149,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <PreBuildEvent>
-      <Command>tune_prebuild.py</Command>
-    </PreBuildEvent>
+    <PreBuildEvent />
     <Midl>
       <TargetEnvironment>X64</TargetEnvironment>
     </Midl>
@@ -180,37 +173,79 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <TargetMachine>MachineX64</TargetMachine>
     </Link>
+    <PreBuildEvent />
+    <PreBuildEvent>
+      <Command>tune_prebuild.py</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\tune\hgcd_appr_lehmer.c" />
+    <ClCompile Include="..\..\tune\hgcd_lehmer.c" />
+    <ClCompile Include="..\..\tune\hgcd_reduce_1.c" />
+    <ClCompile Include="..\..\tune\hgcd_reduce_2.c" />
     <ClCompile Include="..\getopt.c" />
-    <ClCompile Include="..\win_timing.c" />
+    <ClCompile Include="..\..\tests\memory.c" />
+    <ClCompile Include="..\..\tests\misc.c" />
+    <ClCompile Include="..\..\tests\refmpn.c" />
+    <ClCompile Include="..\..\tune\tuneup.c" />
+    <ClCompile Include="adjust.c" />
+    <ClCompile Include="adjust_sqrt2.c" />
+    <ClCompile Include="butterfly_lshB.c" />
+    <ClCompile Include="butterfly_rshB.c" />
+    <ClCompile Include="combine_bits.c" />
     <ClCompile Include="dc_bdiv_q.c" />
     <ClCompile Include="dc_bdiv_qr.c" />
+    <ClCompile Include="dc_bdiv_qr_n.c" />
     <ClCompile Include="dc_divappr_q.c" />
     <ClCompile Include="dc_div_qr.c" />
+    <ClCompile Include="dc_div_qr_n.c" />
     <ClCompile Include="divrem_1.c" />
     <ClCompile Include="divrem_2.c" />
     <ClCompile Include="divrem_euclidean_r_1.c" />
     <ClCompile Include="divrem_hensel_qr_1.c" />
+    <ClCompile Include="div_2expmod_2expp1.c" />
+    <ClCompile Include="fac_ui.c" />
+    <ClCompile Include="fermat_to_mpz.c" />
+    <ClCompile Include="fft_mfa_trunc_sqrt2.c" />
+    <ClCompile Include="fft_mfa_trunc_sqrt2_inner.c" />
+    <ClCompile Include="fft_negacyclic.c" />
+    <ClCompile Include="fft_radix2.c" />
+    <ClCompile Include="fft_trunc.c" />
     <ClCompile Include="gcd.c" />
     <ClCompile Include="gcdext.c" />
     <ClCompile Include="get_str.c" />
-    <ClCompile Include="..\..\tests\memory.c" />
-    <ClCompile Include="..\..\tests\misc.c" />
+    <ClCompile Include="hgcd.c" />
+    <ClCompile Include="hgcd_appr.c" />
+    <ClCompile Include="hgcd_reduce.c" />
+    <ClCompile Include="ifft_negacyclic.c" />
+    <ClCompile Include="ifft_radix2.c" />
+    <ClCompile Include="ifft_trunc.c" />
+    <ClCompile Include="ifft_trunc_sqrt2.c" />
     <ClCompile Include="inv_divappr_q.c" />
     <ClCompile Include="inv_div_qr.c" />
+    <ClCompile Include="matrix22_mul.c" />
     <ClCompile Include="mod_1.c" />
     <ClCompile Include="mul.c" />
     <ClCompile Include="mulhigh_n.c" />
-    <ClCompile Include="mulmod_2expm1.c" />
-    <ClCompile Include="mul_n.c" />
     <ClCompile Include="mullow_n.c" />
-    <ClCompile Include="..\..\tests\refmpn.c" />
+    <ClCompile Include="mulmod_2expm1.c" />
+    <ClCompile Include="mulmod_2expp1.c" />
+    <ClCompile Include="mulmod_2expp1_basecase.c" />
+    <ClCompile Include="mul_2expmod_2expp1.c" />
+    <ClCompile Include="mul_fft_main.c" />
+    <ClCompile Include="mul_mfa_trunc_sqrt2.c" />
+    <ClCompile Include="mul_n.c" />
+    <ClCompile Include="mul_trunc_sqrt2.c" />
+    <ClCompile Include="normmod_2expp1.c" />
+    <ClCompile Include="revbin.c" />
     <ClCompile Include="rootrem.c" />
     <ClCompile Include="rsh_divrem_hensel_qr_1.c" />
+    <ClCompile Include="sb_divappr_q.c" />
+    <ClCompile Include="sb_div_qr.c" />
+    <ClCompile Include="set_str.c" />
+    <ClCompile Include="split_bits.c" />
     <ClCompile Include="tdiv_q.c" />
     <ClCompile Include="tdiv_qr.c" />
-    <ClCompile Include="..\..\tune\tuneup.c" />
     <ClCompile Include="toom3_mul.c" />
     <ClCompile Include="toom3_mul_n.c" />
     <ClCompile Include="toom4_mul.c" />
@@ -231,6 +266,13 @@
       <Project>{47b9e74c-7d7a-47da-83af-0a6ade4fbb69}</Project>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <YASM Include="sqr_basecase.asm">
+      <FileType>Document</FileType>
+    </YASM>
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
-  <ImportGroup Label="ExtensionTargets" />
+  <ImportGroup Label="ExtensionTargets">
+    <Import Project="$(VCTargetsPath)\BuildCustomizations\vsyasm.targets" />
+  </ImportGroup>
 </Project>
