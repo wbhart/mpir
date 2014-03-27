@@ -6345,6 +6345,11 @@ If the string is not a valid integer, an @code{std::invalid_argument}
 exception is thrown.  The same applies to @code{operator=}.
 @end deftypefun
 
+@deftypefun mpz_class operator"" _mpz (const char *@var{str})
+With C++11 compilers, integers can be constructed with the syntax
+@code{123_mpz} which is equivalent to @code{mpz_class("123")}.
+@end deftypefun
+
 @deftypefun mpz_class operator/ (mpz_class @var{a}, mpz_class @var{d})
 @deftypefunx mpz_class operator% (mpz_class @var{a}, mpz_class @var{d})
 Divisions involving @code{mpz_class} round towards zero, as per the
@@ -6382,6 +6387,8 @@ mpz_fdiv_q (q.get_mpz_t(), a.get_mpz_t(), d.get_mpz_t());
 @deftypefunx int mpz_class::set_str (const string& @var{str}, int @var{base})
 @deftypefunx int sgn (mpz_class @var{op})
 @deftypefunx mpz_class sqrt (mpz_class @var{op})
+@deftypefunx void mpz_class::swap (mpz_class& @var{op})
+@deftypefunx void swap (mpz_class& @var{op1}, mpz_class& @var{op2})
 These functions provide a C++ class interface to the corresponding MPIR C
 routines.
 
@@ -6438,6 +6445,12 @@ If the string is not a valid rational, an @code{std::invalid_argument}
 exception is thrown.  The same applies to @code{operator=}.
 @end deftypefun
 
+@deftypefun mpq_class operator"" _mpq (const char *@var{str})
+With C++11 compilers, integral rationals can be constructed with the syntax
+@code{123_mpq} which is equivalent to @code{mpq_class(123_mpz)}. Other
+rationals can be built as @code{-1_mpq/2} or @code{0xb_mpq/123456_mpz}.
+@end deftypefun
+
 @deftypefun void mpq_class::canonicalize ()
 Put an @code{mpq_class} into canonical form, as per @ref{Rational Number
 Functions}.  All arithmetic operators require their operands in canonical
@@ -6454,6 +6467,8 @@ form, and will return results in canonical form.
 @deftypefunx int mpq_class::set_str (const char *@var{str}, int @var{base})
 @deftypefunx int mpq_class::set_str (const string& @var{str}, int @var{base})
 @deftypefunx int sgn (mpq_class @var{op})
+@deftypefunx void mpq_class::swap (mpq_class& @var{op})
+@deftypefunx void swap (mpq_class& @var{op1}, mpq_class& @var{op2})
 These functions provide a C++ class interface to the corresponding MPIR C
 routines.
 
@@ -6536,6 +6551,11 @@ If the string is not a valid float, an @code{std::invalid_argument} exception
 is thrown.  The same applies to @code{operator=}.
 @end deftypefun
 
+@deftypefun mpf_class operator"" _mpf (const char *@var{str})
+With C++11 compilers, floats can be constructed with the syntax
+@code{1.23e-1_mpf} which is equivalent to @code{mpf_class("1.23e-1")}.
+@end deftypefun
+
 @deftypefun {mpf_class&} mpf_class::operator= (type @var{op})
 Convert and store the given @var{op} value to an @code{mpf_class} object.  The
 same types are accepted as for the constructors above.
@@ -6586,6 +6606,8 @@ with the builtin float types.
 @deftypefunx int mpf_class::set_str (const string& @var{str}, int @var{base})
 @deftypefunx int sgn (mpf_class @var{op})
 @deftypefunx mpf_class sqrt (mpf_class @var{op})
+@deftypefunx void mpf_class::swap (mpf_class& @var{op})
+@deftypefunx void swap (mpf_class& @var{op1}, mpf_class& @var{op2})
 @deftypefunx mpf_class trunc (mpf_class @var{op})
 These functions provide a C++ class interface to the corresponding MPIR C
 routines.
