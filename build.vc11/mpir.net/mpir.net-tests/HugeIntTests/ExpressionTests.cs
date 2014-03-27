@@ -55,7 +55,7 @@ namespace MPIR.Tests.HugeIntTests
                 expr = expr - (a * 5).DivideExactly(a) + (b * 7 * 5432198).DivideExactly(5432198) + (b >> 1);
                 VerifyPartialResult(expr, 5);
                 expr = expr + (b ^ 3) + a.PowerMod(2, b) + (a + 6).PowerMod(b - 1, b * 5) + (a * a * a).Root(3) + (b * b).SquareRoot();
-                VerifyPartialResult(expr, 58);
+                VerifyPartialResult(expr, 78);
 
                 MarkExpressionsUsed(allExpressions, expr);
             }
