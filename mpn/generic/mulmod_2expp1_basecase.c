@@ -62,6 +62,7 @@ mpn_mulmod_2expp1_internal (mp_ptr xp, mp_srcptr yp, mp_srcptr zp,
       mp_bitcnt_t depth1, depth = 1;
       mp_size_t w1, off;
       mp_ptr tx, ty, tz;
+      mp_limb_t ret;
 
       TMP_MARK;
 
@@ -85,9 +86,11 @@ mpn_mulmod_2expp1_internal (mp_ptr xp, mp_srcptr yp, mp_srcptr zp,
       mpir_fft_mulmod_2expp1(tx, ty, tz, n, depth1, w1);
 
       MPN_COPY(xp, tx, n);
+      ret = tx[n];
+      
       TMP_FREE;
 
-	   return tx[n];
+	   return ret;
   }
 #endif
 
