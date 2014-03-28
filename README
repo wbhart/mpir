@@ -50,7 +50,7 @@ the latter).
 
 			OVERVIEW OF MPIR
 
-There are five classes of functions in MPIR.
+There are four classes of functions in MPIR.
 
  1. Signed integer arithmetic functions (mpz).  These functions are intended
     to be easy to use, with their regular interface.  The associated type is
