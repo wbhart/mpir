@@ -2452,10 +2452,6 @@ enum
   GMP_ERROR_INVALID_ARGUMENT = 8
 };
 
-/* Define CC and CFLAGS which were used to build this version of GMP */
-#define __GMP_CC "@CC@"
-#define __GMP_CFLAGS "@CFLAGS@"
-
 /* Major version number is the value of __GNU_MP__ too, above and in mp.h. */
 #define __GNU_MP_VERSION 5 
 #define __GNU_MP_VERSION_MINOR 1 
