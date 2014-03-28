@@ -60,7 +60,7 @@ mpz_nthroot (mpz_ptr root, mpz_srcptr u, mpir_ui nth)
 
   if (root == u)
   {
-     MPZ_TMP_INIT(tmp_u, rootn);
+     MPZ_TMP_INIT(tmp_u, ABS(u->_mp_size));
      mpz_set(tmp_u, u);
      u = tmp_u;
   }

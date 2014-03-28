@@ -252,6 +252,32 @@ main (int argc, char **argv)
 	    }
 	}
     }
+
+  /* test case reported by Alex Dyachenko */
+    {
+  mpz_t a, cube;
+  
+  mpz_init_set_str(a, "8984948281360922385394772450147012613851354303", 10);
+  
+  mpz_init(cube);
+  mpz_mul(cube, a, a);
+  mpz_mul(cube, cube, a);
+
+  mpz_set(root1, cube);
+  mpz_nthroot(root1, root1, 3);
+  
+  mpz_nthroot(root2, cube, 3);
+
+  if (mpz_cmp(root1, root2) != 0)
+    {
+  printf("nthroot aliasing failed\n");
+  abort();
+    }
+
+  mpz_clear(cube);
+  mpz_clear(a);
+    }
+
   mpz_clear (bs);
   mpz_clear (x2);
   mpz_clear (root1);
