@@ -24,6 +24,10 @@ MA 02111-1307, USA. */
 #  define HAVE_STDINT_H 1
 #endif
 
+#if _MSC_VER >= 1800 
+#  define HAVE_INTTYPES_H 1
+#endif
+
 #define HAVE_LITTLE_ENDIAN 1
 
 /* The gmp-mparam.h to update when tuning. */
@@ -120,9 +124,6 @@ MA 02111-1307, USA. */
 
 /* Define if the system has the type `intmax_t'. */
 #undef HAVE_INTMAX_T
-
-/* Define if you have the <inttypes.h> header file. */
-#undef HAVE_INTTYPES_H
 
 /* Define one (just one) of the following for the endiannes of `mp_limb_t'.
    If the endianness is not a simple big or little, or you don't know what

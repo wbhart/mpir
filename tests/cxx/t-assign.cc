@@ -129,10 +129,10 @@ check_mpz (void)
 
   // operator=(unsigned long long int)
   {
-    long long int a = 0xfedcba9876543210LL;
+    long long int a = 0xfedcba9876543210ULL;
     mpz_class b;
     b = a; 
-    ASSERT_ALWAYS(b == (mpir_si)0xfedcba9876543210LL);
+    ASSERT_ALWAYS(b == (mpir_si)0xfedcba9876543210ULL);
   }
 #endif
 
