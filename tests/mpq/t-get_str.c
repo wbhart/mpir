@@ -67,8 +67,8 @@ check_one (mpq_srcptr q, int base, const char *want)
     {
       printf ("mpq_get_str wrong return value (passing non-NULL)\n");
       printf ("  base %d\n", base);
-      printf ("  got  0x%lX\n", (unsigned long) ret);
-      printf ("  want 0x%lX\n", (unsigned long) want);
+      printf ("  got  %p\n", ret);
+      printf ("  want %p\n", want);
       abort ();
     }
   if (strcmp (str, want) != 0)

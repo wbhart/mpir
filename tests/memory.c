@@ -91,23 +91,23 @@ tests_reallocate (void *ptr, size_t old_size, size_t new_size)
 
   if (new_size == 0)
     {
-      printf ("tests_reallocate(): attempt to reallocate 0x%lX to 0 bytes\n",
-              (unsigned long) ptr);
+      printf ("tests_reallocate(): attempt to reallocate %p to 0 bytes\n",
+              ptr);
       abort ();
     }
 
   hp = tests_memory_find (ptr);
   if (hp == NULL)
     {
-      printf ("tests_reallocate(): attempt to reallocate bad pointer 0x%lX\n",
-              (unsigned long) ptr);
+      printf ("tests_reallocate(): attempt to reallocate bad pointer %p\n",
+              ptr);
       abort ();
     }
   h = *hp;
 
   if (h->size != old_size)
     {
-      printf ("tests_reallocate(): bad old size %d, should be %d\n",
+      printf ("tests_reallocate(): bad old size %lu, should be %lu\n",
               old_size, h->size);
       abort ();
     }
@@ -123,8 +123,8 @@ tests_free_find (void *ptr)
   struct header  **hp = tests_memory_find (ptr);
   if (hp == NULL)
     {
-      printf ("tests_free(): attempt to free bad pointer 0x%lX\n",
-              (unsigned long) ptr);
+      printf ("tests_free(): attempt to free bad pointer %p\n",
+              ptr);
       abort ();
     }
   return hp;
@@ -150,7 +150,7 @@ tests_free (void *ptr, size_t size)
 
   if (h->size != size)
     {
-      printf ("tests_free(): bad size %d, should be %d\n", size, h->size);
+      printf ("tests_free(): bad size %lu, should be %lu\n", size, h->size);
       abort ();
     }
 
