@@ -119,20 +119,20 @@ check_mpz (void)
   }
 
 #ifdef MPIRXX_HAVE_LLONG
-  // operator=(unsigned long int)
+  // operator=(unsigned long long int)
   {
-    unsigned long long int a = 0x1234567812345678;
+    unsigned long long int a = 0x1234567812345678ULL;
     mpz_class b;
     b = a; 
-    ASSERT_ALWAYS(b == 0x1234567812345678);
+    ASSERT_ALWAYS(b == 0x1234567812345678ULL);
   }
 
-  // operator=(unsigned long int)
+  // operator=(unsigned long long int)
   {
-    long long int a = 0xfedcba9876543210;
+    long long int a = 0xfedcba9876543210ULL;
     mpz_class b;
     b = a; 
-    ASSERT_ALWAYS(b == (mpir_si)0xfedcba9876543210);
+    ASSERT_ALWAYS(b == (mpir_si)0xfedcba9876543210ULL);
   }
 #endif
 
