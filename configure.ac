@@ -1753,14 +1753,12 @@ AC_SUBST(MPIR_AS)
 
 # The C++ compiler, if desired.
 
-# The following test is quick and harmless.
-# It defaults to 'g++' if no compiler is found.
-AC_PROG_CXX
-
 # Now actually check that the C++ compiler works if it is needed.
 want_cxx=no
 if test $enable_cxx != no; then
   test_CXXFLAGS=${CXXFLAGS+set}
+
+  AC_PROG_CXX
 
   echo "CXXFLAGS chosen by autoconf: $CXXFLAGS" >&AC_FD_CC
   cxxflags_ac_prog_cxx=$CXXFLAGS
