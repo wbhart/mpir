@@ -201,6 +201,30 @@ namespace MPIR
 
     #pragma endregion
 
+    #pragma region Interface implementations
+
+    int MpirExpression::CompareTo(Object^ a)
+    {
+        MpirExpression^ expr = dynamic_cast<MpirExpression^>(a);
+        if(a != nullptr && expr == nullptr)
+            throw gcnew ArgumentException("Invalid argument type", "a");
+
+        return CompareTo(expr);
+    }
+
+    int MpirExpression::CompareTo(MpirExpression^ a)
+    {
+        if(a == nullptr)
+            return 1;
+
+        EvaluationContext context;
+        AssignTo(context);
+        a->AssignTo(context);
+        return mpz_cmp(context.Args[0], context.Args[1]);
+    }
+
+    #pragma endregion
+
     #pragma region expression special cases
 
     void MpirDivideExpression::custom_mpz_div(mpz_ptr q, mpz_srcptr n, mpz_srcptr d)

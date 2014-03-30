@@ -242,7 +242,7 @@ namespace MPIR
         Floor,
     };
 
-    public ref class MpirExpression abstract
+    public ref class MpirExpression abstract : public IComparable, IComparable<MpirExpression^>
     {
         internal:
             virtual void AssignTo(mpz_ptr destination) abstract;
@@ -257,6 +257,9 @@ namespace MPIR
 
         public:
             DEFINE_OPERATIONS(DECLARE)
+
+            virtual int CompareTo(Object^ a) sealed;
+            virtual int CompareTo(MpirExpression^ a) sealed;
 
             mpir_ui Mod(mpir_ui a) { return Mod(a, RoundingModes::Default); }
             mpir_ui Mod(mpir_ui a, RoundingModes roundingMode);
