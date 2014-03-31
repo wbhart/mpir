@@ -520,5 +520,12 @@ namespace MPIR
         return mpz_cmpabs_d(context.Args[0], a);
     }
 
+    int MpirExpression::Sign()
+    {
+        EvaluationContext context;
+        AssignTo(context);
+        return mpz_sgn(context.Args[0]);
+    }
+
     #pragma endregion
 };

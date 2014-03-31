@@ -321,6 +321,7 @@ namespace MPIR
             int CompareAbsTo(MpirExpression^ a);
             int CompareAbsTo(mpir_ui a);
             int CompareAbsTo(double a);
+            int Sign();
     };
 
     public ref class MpirSettings abstract sealed

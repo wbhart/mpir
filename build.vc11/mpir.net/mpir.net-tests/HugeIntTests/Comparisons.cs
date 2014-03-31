@@ -643,6 +643,21 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         #endregion
+
+        #region Sign
+
+        [TestMethod]
+        public void Sign()
+        {
+            using (var a = new HugeInt("-222509832503450298345029835740293845721"))
+            {
+                Assert.AreEqual(-1, a.Sign());
+                Assert.AreEqual(1, (-a).Sign());
+                Assert.AreEqual(0, (a-a).Sign());
+            }
+        }
+
+        #endregion
         //more tests coming here
     }
 }
