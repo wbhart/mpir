@@ -57,9 +57,9 @@ along with the MPIR Library.  If not, see http://www.gnu.org/licenses/.
     {                                                                                                   \
         Left->AssignTo(destination);                                                                    \
         if (Right >= 0)                                                                                 \
-            positiveOp(destination, destination, static_cast<mpir_ui>(Right));                          \
+            positiveOp(destination, destination, (mpir_ui)Right);                                       \
         else                                                                                            \
-            negativeOp(destination, destination, -static_cast<mpir_ui>(Right));                         \
+            negativeOp(destination, destination, (mpir_ui)-Right);                                      \
     }                                                                     
 
 #define DEFINE_BINARY_ASSIGNMENT_SI_REF(name, leftTypeAbbr, rightTypeAbbr, positiveOp, negativeOp1, negativeOp2)   \
@@ -67,10 +67,10 @@ along with the MPIR Library.  If not, see http://www.gnu.org/licenses/.
     {                                                                                                              \
         Right->AssignTo(destination);                                                                              \
         if (Left >= 0)                                                                                             \
-            positiveOp(destination, static_cast<mpir_ui>(Left), destination);                                      \
+            positiveOp(destination, (mpir_ui)Left, destination);                                                   \
         else                                                                                                       \
         {                                                                                                          \
-            negativeOp1(destination, destination, -static_cast<mpir_ui>(Left));                                    \
+            negativeOp1(destination, destination, (mpir_ui)-Left);                                                 \
             negativeOp2(destination, destination);                                                                 \
         }                                                                                                          \
     }                                                                   
@@ -210,7 +210,7 @@ namespace MPIR
             hash ^= *ptr++;
 
         if(context.Args[0]->_mp_size < 0)
-            hash = -hash;
+            hash = (mp_limb_t)-(mpir_si)hash;
 
         return hash.GetHashCode();
     }
@@ -235,19 +235,19 @@ namespace MPIR
         if(a->GetType() == mpir_ui::typeid)
         {
             AssignTo(context);
-            return mpz_cmp_ui(context.Args[0], static_cast<mpir_ui>(a));
+            return mpz_cmp_ui(context.Args[0], (mpir_ui)a);
         }
 
         if(a->GetType() == mpir_si::typeid)
         {
             AssignTo(context);
-            return mpz_cmp_si(context.Args[0], static_cast<mpir_si>(a));
+            return mpz_cmp_si(context.Args[0], (mpir_si)a);
         }
 
         if(a->GetType() == double::typeid)
         {
             AssignTo(context);
-            return mpz_cmp_d(context.Args[0], static_cast<double>(a));
+            return mpz_cmp_d(context.Args[0], (double)a);
         }
 
         valid = false;

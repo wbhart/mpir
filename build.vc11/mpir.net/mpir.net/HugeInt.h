@@ -268,7 +268,7 @@ namespace MPIR
             virtual int CompareTo(MpirExpression^ a) sealed;
             virtual bool Equals(MpirExpression^ a) sealed;
             virtual bool Equals(Object^ a) override sealed;
-            virtual int GetHashCode() override;
+            virtual int GetHashCode() override sealed;
 
             static bool operator <  (MpirExpression^ a, MpirExpression^ b) { return  IS_NULL(a) ? !IS_NULL(b) : a->CompareTo(b) < 0; }
             static bool operator >= (MpirExpression^ a, MpirExpression^ b) { return  IS_NULL(a) ?  IS_NULL(b) : a->CompareTo(b) >= 0; }
@@ -320,7 +320,7 @@ namespace MPIR
             mpir_ui Mod(mpir_ui a, RoundingModes roundingMode);
     };
 
-    static public ref class MpirSettings
+    public ref class MpirSettings abstract sealed
     {
         public:
             static property RoundingModes RoundingMode;
