@@ -284,6 +284,15 @@ namespace MPIR
             static bool operator >  (mpir_si b, MpirExpression^ a) { return (a == nullptr) || a->CompareTo(b) < 0; }
             static bool operator <= (mpir_si b, MpirExpression^ a) { return (a != nullptr) && a->CompareTo(b) >= 0; }
 
+            static bool operator <  (MpirExpression^ a, double b) { return (a == nullptr) || a->CompareTo(b) < 0; }
+            static bool operator >= (MpirExpression^ a, double b) { return (a != nullptr) && a->CompareTo(b) >= 0; }
+            static bool operator >  (MpirExpression^ a, double b) { return (a != nullptr) && a->CompareTo(b) > 0; }
+            static bool operator <= (MpirExpression^ a, double b) { return (a == nullptr) || a->CompareTo(b) <= 0; }
+            static bool operator <  (double b, MpirExpression^ a) { return (a != nullptr) && a->CompareTo(b) > 0; }
+            static bool operator >= (double b, MpirExpression^ a) { return (a == nullptr) || a->CompareTo(b) <= 0; }
+            static bool operator >  (double b, MpirExpression^ a) { return (a == nullptr) || a->CompareTo(b) < 0; }
+            static bool operator <= (double b, MpirExpression^ a) { return (a != nullptr) && a->CompareTo(b) >= 0; }
+
             mpir_ui Mod(mpir_ui a) { return Mod(a, RoundingModes::Default); }
             mpir_ui Mod(mpir_ui a, RoundingModes roundingMode);
     };

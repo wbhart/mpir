@@ -261,6 +261,69 @@ namespace MPIR.Tests.HugeIntTests
                 Assert.IsTrue(d >= a);
             }
         }
+
+        [TestMethod]
+        public void OperatorLessThanDouble()
+        {
+            using (var a = new HugeInt("-3845721"))
+            {
+                double c = -543254325432;
+                double b = -9587;
+                Assert.IsTrue(a < b);
+                Assert.IsFalse(b < a);
+                Assert.IsFalse(a < c);
+                Assert.IsTrue(c < a);
+            }
+        }
+
+        [TestMethod]
+        public void OperatorLessThanOrEqualDouble()
+        {
+            using (var a = new HugeInt("-3845721"))
+            {
+                double c = -543254325432;
+                double b = -9587;
+                double d = -3845721;
+                Assert.IsTrue(a <= b);
+                Assert.IsFalse(b <= a);
+                Assert.IsFalse(a <= c);
+                Assert.IsTrue(c <= a);
+                Assert.IsTrue(a <= d);
+                Assert.IsTrue(d <= a);
+            }
+        }
+
+        [TestMethod]
+        public void OperatorGreaterThanDouble()
+        {
+            using (var a = new HugeInt("-3845721"))
+            {
+                double c = -543254325432;
+                double b = -9587;
+                Assert.IsFalse(a > b);
+                Assert.IsTrue(b > a);
+                Assert.IsTrue(a > c);
+                Assert.IsFalse(c > a);
+            }
+        }
+
+        [TestMethod]
+        public void OperatorGreaterThanOrEqualDouble()
+        {
+            using (var a = new HugeInt("-3845721"))
+            {
+                double c = -543254325432;
+                double b = -9587;
+                double d = -3845721;
+                Assert.IsFalse(a >= b);
+                Assert.IsTrue(b >= a);
+                Assert.IsTrue(a >= c);
+                Assert.IsFalse(c >= a);
+                Assert.IsTrue(a >= d);
+                Assert.IsTrue(d >= a);
+                Assert.IsFalse(d - 0.1 >= a);
+            }
+        }
         //more tests coming here
     }
 }

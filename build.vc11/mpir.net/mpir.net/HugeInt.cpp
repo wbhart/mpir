@@ -226,6 +226,12 @@ namespace MPIR
             return mpz_cmp_si(context.Args[0], static_cast<mpir_si>(a));
         }
 
+        if(a->GetType() == double::typeid)
+        {
+            AssignTo(context);
+            return mpz_cmp_d(context.Args[0], static_cast<double>(a));
+        }
+
         throw gcnew ArgumentException("Invalid argument type", "a");
     }
 
