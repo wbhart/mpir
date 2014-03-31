@@ -119,8 +119,8 @@ check_in (void)
               if (error)
                 {
                   printf    ("  i=%d zeros=%d neg=%d\n", i, zeros, neg);
-                  printf    ("  got_ret  %u\n", got_ret);
-                  printf    ("  want_ret %u\n", want_ret);
+                  printf    ("  got_ret  %lu\n", got_ret);
+                  printf    ("  want_ret %lu\n", want_ret);
                   mpz_trace ("  got      ", got);
                   mpz_trace ("  want     ", want);
                   abort ();
@@ -197,9 +197,9 @@ check_out (void)
             {
               printf    ("  i=%d neg=%d\n", i, neg);
               mpz_trace ("  z", z);
-              printf    ("  got_ret  %u\n", got_ret);
-              printf    ("  got_read %u\n", got_read);
-              printf    ("  want_len %u\n", want_len);
+              printf    ("  got_ret  %lu\n", got_ret);
+              printf    ("  got_read %lu\n", got_read);
+              printf    ("  want_len %lu\n", want_len);
               printf    ("  want");
               for (j = 0; j < want_len; j++)
                 printf (" %02X", (unsigned) (unsigned char) want[j]);
@@ -260,8 +260,8 @@ check_rand (void)
         }
       if (error)
         {
-          printf    ("  out_ret %u\n", out_ret);
-          printf    ("  inp_ret %u\n", inp_ret);
+          printf    ("  out_ret %lu\n", out_ret);
+          printf    ("  inp_ret %lu\n", inp_ret);
           mpz_trace ("  want", want);
           mpz_trace ("  got ", got);
           abort ();

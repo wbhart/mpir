@@ -111,8 +111,8 @@ check_max (void)
       printf ("   n    ");                              \
       mpz_out_str (stdout, 10, n); printf (", hex ");   \
       mpz_out_str (stdout, 16, n); printf ("\n");       \
-      printf ("   got  %lld, hex %llX\n", got, got);      \
-      printf ("   want %lld, hex %llX\n", want, want);    \
+      printf ("   got  %ld, hex %lx\n", got, got);      \
+      printf ("   want %ld, hex %lx\n", want, want);    \
     }
 
   want = INTMAX_MAX;

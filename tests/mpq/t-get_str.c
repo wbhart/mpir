@@ -45,8 +45,8 @@ check_one (mpq_srcptr q, int base, const char *want)
     {
       printf ("mpq_get_str size bigger than should be (passing NULL)\n");
       printf ("  base %d\n", base);
-      printf ("  got  size %u \"%s\"\n", strlen(str)+1, str);
-      printf ("  want size %u\n", str_alloc);
+      printf ("  got  size %lu \"%s\"\n", strlen(str)+1, str);
+      printf ("  want size %lu\n", str_alloc);
       abort ();
     }
   if (strcmp (str, want) != 0)
