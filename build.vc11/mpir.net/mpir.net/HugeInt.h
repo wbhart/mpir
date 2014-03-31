@@ -538,7 +538,7 @@ namespace MPIR
             /// </summary>
             HugeInt();
             HugeInt(mp_bitcnt_t bits);
-            HugeInt(String^ value) { FromString(value, 10); }
+            HugeInt(String^ value) { FromString(value, 0); }
             HugeInt(String^ value, int base) { FromString(value, base); }
             static HugeInt^ FromLong(mpir_si value);
             static HugeInt^ FromUlong(mpir_ui value);
@@ -575,7 +575,7 @@ namespace MPIR
             void SetTo(mpir_ui value) { mpz_set_ui(_value, value); }
             void SetTo(mpir_si value) { mpz_set_si(_value, value); }
             void SetTo(double value) { mpz_set_d(_value, value); }
-            void SetTo(String^ value) { SetTo(value, 10); }
+            void SetTo(String^ value) { SetTo(value, 0); }
             void SetTo(String^ value, int base);
 
             //arithmetic

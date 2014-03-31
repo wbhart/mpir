@@ -168,5 +168,27 @@ namespace MPIR.Tests.HugeIntTests
                 Assert.AreEqual(3, a.NumberOfLimbsUsed());
             }
         }
+
+        [TestMethod]
+        public void StringConstructorHexPrefix()
+        {
+            var n = "143210ABCDEF32123457ACDB324598799";
+            using (var a = new HugeInt("0x" + n))
+            {
+                Assert.AreEqual(n, a.ToString(-16));
+            }
+        }
+
+        [TestMethod]
+        public void StringAssignmentHexPrefix()
+        {
+            var n = "143210ABCDEF32123457ACDB324598799";
+            using (var a = new HugeInt("0x" + n))
+            {
+                Assert.AreEqual(n, a.ToString(-16));
+                a.SetTo("-0x" + n);
+                Assert.AreEqual("-" + n, a.ToString(-16));
+            }
+        }
     }
 }
