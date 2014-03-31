@@ -593,6 +593,56 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         #endregion
+
+        #region CompareAbsTo
+
+        [TestMethod]
+        public void CompareAbsToHugeInt()
+        {
+            using (var a = new HugeInt("-222509832503450298345029835740293845721"))
+            using (var b = new HugeInt("222509832503450298345029835740293845720"))
+            {
+                Assert.AreEqual(1, System.Math.Sign(a.CompareAbsTo(b)));
+                Assert.AreEqual(-1, System.Math.Sign(b.CompareAbsTo(a)));
+                Assert.AreEqual(0, System.Math.Sign(a.CompareAbsTo(b + 1)));
+                Assert.AreEqual(0, System.Math.Sign((a + 1).CompareAbsTo(b)));
+                Assert.AreEqual(0, System.Math.Sign((a + 1).CompareAbsTo(-b)));
+            }
+        }
+
+        [TestMethod]
+        public void CompareAbsToLimb()
+        {
+            using (var a = new HugeInt("-222509821"))
+            {
+                ulong b = 222509820;
+                Assert.AreEqual(1, System.Math.Sign(a.CompareAbsTo(b)));
+                Assert.AreEqual(0, System.Math.Sign(a.CompareAbsTo(b + 1)));
+                Assert.AreEqual(0, System.Math.Sign((-a).CompareAbsTo(b + 1)));
+                Assert.AreEqual(0, System.Math.Sign((a + 1).CompareAbsTo(b)));
+                Assert.AreEqual(1, System.Math.Sign(a.CompareAbsTo(b)));
+                Assert.AreEqual(1, System.Math.Sign((-a).CompareAbsTo(b)));
+            }
+        }
+
+        [TestMethod]
+        public void CompareAbsToDouble()
+        {
+            using (var a = new HugeInt("-222509821"))
+            {
+                double b = 222509820;
+                Assert.AreEqual(1, System.Math.Sign(a.CompareAbsTo(b)));
+                Assert.AreEqual(0, System.Math.Sign(a.CompareAbsTo(b + 1)));
+                Assert.AreEqual(0, System.Math.Sign((-a).CompareAbsTo(b + 1)));
+                Assert.AreEqual(0, System.Math.Sign((a + 1).CompareAbsTo(b)));
+                Assert.AreEqual(0, System.Math.Sign((a + 1).CompareAbsTo(-b)));
+                Assert.AreEqual(1, System.Math.Sign((a + 1).CompareAbsTo(b - 0.1)));
+                Assert.AreEqual(1, System.Math.Sign(a.CompareAbsTo(b)));
+                Assert.AreEqual(1, System.Math.Sign((-a).CompareAbsTo(b)));
+            }
+        }
+
+        #endregion
         //more tests coming here
     }
 }

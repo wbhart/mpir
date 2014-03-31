@@ -498,5 +498,27 @@ namespace MPIR
         }
     }
 
+    int MpirExpression::CompareAbsTo(MpirExpression^ a)
+    {
+        EvaluationContext context;
+        AssignTo(context);
+        a->AssignTo(context);
+        return mpz_cmpabs(context.Args[0], context.Args[1]);
+    }
+
+    int MpirExpression::CompareAbsTo(mpir_ui a)
+    {
+        EvaluationContext context;
+        AssignTo(context);
+        return mpz_cmpabs_ui(context.Args[0], a);
+    }
+
+    int MpirExpression::CompareAbsTo(double a)
+    {
+        EvaluationContext context;
+        AssignTo(context);
+        return mpz_cmpabs_d(context.Args[0], a);
+    }
+
     #pragma endregion
 };

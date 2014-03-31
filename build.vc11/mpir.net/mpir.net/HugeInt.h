@@ -318,6 +318,9 @@ namespace MPIR
 
             mpir_ui Mod(mpir_ui a) { return Mod(a, RoundingModes::Default); }
             mpir_ui Mod(mpir_ui a, RoundingModes roundingMode);
+            int CompareAbsTo(MpirExpression^ a);
+            int CompareAbsTo(mpir_ui a);
+            int CompareAbsTo(double a);
     };
 
     public ref class MpirSettings abstract sealed
