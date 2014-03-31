@@ -199,6 +199,22 @@ namespace MPIR
         return result;
     }
 
+    int MpirExpression::GetHashCode()
+    {
+        EvaluationContext context;
+        AssignTo(context);
+
+        mp_limb_t hash = 0;
+        mp_limb_t* ptr = context.Args[0]->_mp_d;
+        for(int i = abs(context.Args[0]->_mp_size); i > 0; i--)
+            hash ^= *ptr++;
+
+        if(context.Args[0]->_mp_size < 0)
+            hash = -hash;
+
+        return hash.GetHashCode();
+    }
+
     #pragma endregion
 
     #pragma region Interface implementations

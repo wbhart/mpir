@@ -538,6 +538,20 @@ namespace MPIR.Tests.HugeIntTests
 
         #endregion
 
+        #region GetHashCode
+
+        [TestMethod]
+        public void GetHashCodeTest()
+        {
+            using (var a = new HugeInt("-222509832503450298345029835740293845721"))
+            {
+                Assert.AreNotEqual(0, a.GetHashCode());
+                Assert.AreEqual(a.GetHashCode(), (a + 0).GetHashCode());
+                Assert.AreNotEqual(a.GetHashCode(), (-a).GetHashCode());
+            }
+        }
+
+        #endregion
         //more tests coming here
     }
 }
