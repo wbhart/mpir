@@ -444,6 +444,7 @@ namespace MPIR
 
     #pragma region Arithmetic
 
+    DEFINE_UNARY_ASSIGNMENT_REF(Complement, Int, mpz_com)
     DEFINE_UNARY_ASSIGNMENT_REF(Negate, Int, mpz_neg)
     DEFINE_UNARY_ASSIGNMENT_REF(Abs, Int, mpz_abs)
 
@@ -476,6 +477,10 @@ namespace MPIR
 
     DEFINE_BINARY_ASSIGNMENT_REF_VAL(Root, Int, Ui, custom_mpz_root)
     DEFINE_UNARY_ASSIGNMENT_REF     (SquareRoot, Int, custom_mpz_sqrt)
+
+    DEFINE_BINARY_ASSIGNMENT_REF_REF(And, Int, mpz_and)
+    DEFINE_BINARY_ASSIGNMENT_REF_REF(Or, Int, mpz_ior)
+    DEFINE_BINARY_ASSIGNMENT_REF_REF(Xor, Int, mpz_xor)
 
     DEFINE_TERNARY_ASSIGNMENT_REF_REF_REF(PowerMod, Int, mpz_powm);
     DEFINE_TERNARY_ASSIGNMENT_REF_VAL_REF(PowerMod, Int, Ui, Int, mpz_powm_ui)

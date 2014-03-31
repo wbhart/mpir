@@ -94,6 +94,7 @@
   <ItemGroup>
     <Compile Include="HugeIntTests\Arithmetic.cs" />
     <Compile Include="HugeIntTests\Assignment.cs" />
+    <Compile Include="HugeIntTests\Bitwise.cs" />
     <Compile Include="HugeIntTests\Conversions.cs" />
     <Compile Include="HugeIntTests\Comparisons.cs" />
     <Compile Include="HugeIntTests\ExpressionTests.cs" />

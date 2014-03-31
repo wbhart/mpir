@@ -56,6 +56,8 @@ namespace MPIR.Tests.HugeIntTests
                 VerifyPartialResult(expr, 5);
                 expr = expr + (b ^ 3) + a.PowerMod(2, b) + (a + 6).PowerMod(b - 1, b * 5) + (a * a * a).Root(3) + (b * b).SquareRoot();
                 VerifyPartialResult(expr, 78);
+                expr = expr + ((b + 1) & -a) + (b | -a) - (b ^ a) + ~b;
+                VerifyPartialResult(expr, 100);
 
                 MarkExpressionsUsed(allExpressions, expr);
             }

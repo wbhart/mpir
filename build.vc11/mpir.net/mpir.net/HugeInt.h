@@ -223,6 +223,11 @@ public ref class Mpir##name##Expression : base                                  
                                                                                                   \
     MAKE_FUNCTION_WITH_LIMB        (MpirRootExpression,       action, Root, Ui)                   \
     MAKE_VOID_FUNCTION             (MpirSquareRootExpression, action, SquareRoot, Int)            \
+                                                                                                  \
+    MAKE_BINARY_OPERATOR_STANDARD  (MpirExpression,           action, &, And, Int, Int)           \
+    MAKE_BINARY_OPERATOR_STANDARD  (MpirExpression,           action, |, Or, Int, Int)            \
+    MAKE_BINARY_OPERATOR_STANDARD  (MpirExpression,           action, ^, Xor, Int, Int)           \
+    MAKE_UNARY_OPERATOR            (MpirExpression,           action, ~, Complement, Int)         \
 
 namespace MPIR
 {
@@ -495,6 +500,11 @@ namespace MPIR
 
     DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (MpirRootExpression, Root, Int, Ui)
     DEFINE_UNARY_EXPRESSION_WITH_ONE               (MpirSquareRootExpression, SquareRoot, Int)
+
+    DEFINE_BINARY_EXPRESSION_WITH_TWO              (MpirExpression, And, Int)
+    DEFINE_BINARY_EXPRESSION_WITH_TWO              (MpirExpression, Or, Int)
+    DEFINE_BINARY_EXPRESSION_WITH_TWO              (MpirExpression, Xor, Int)
+    DEFINE_UNARY_EXPRESSION_WITH_ONE               (MpirExpression, Complement, Int)
 
     DEFINE_OPERATIONS(DEFINE)
 
