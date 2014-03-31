@@ -195,7 +195,7 @@ libraries both the desired version of MPIR and the C++ library must be
 built before the tests are built and run.  This is not necessary for
 MPIR DLLs as they contain the C++ routines.
 
-On multi-processor systems, Visual Studio 12 will typically run several 
+On multi-processor systems, Visual Studio 13 will typically run several 
 builds in parallel so it is advisable to build add-test-lib first before
 building the tests.  
 
