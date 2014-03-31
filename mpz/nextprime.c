@@ -38,11 +38,14 @@ void mpz_nextprime(mpz_ptr x, mpz_srcptr y)
   
   gmp_randinit_default(rnd);
   mpz_next_prime_candidate(x, y, rnd);
-
-  while (!mpz_miller_rabin (x, 23, rnd)) /* we've done 2 rounds already, do another 23 */
+  
+  if (mpz_cmp_ui(x, 1000000L) >= 0) /* nextprime_candidate sieves primes up to 1000 */
   {
-     mpz_add_ui(x, x, 2);
-     mpz_next_prime_candidate(x, x, rnd);
+     while (!mpz_miller_rabin (x, 23, rnd)) /* we've done 2 rounds already, do another 23 */
+     {
+        mpz_add_ui(x, x, 2);
+        mpz_next_prime_candidate(x, x, rnd);
+     }
   }
 
   gmp_randclear(rnd);
