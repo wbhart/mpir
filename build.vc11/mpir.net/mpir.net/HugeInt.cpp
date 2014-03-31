@@ -205,11 +205,23 @@ namespace MPIR
 
     int MpirExpression::CompareTo(Object^ a)
     {
-        MpirExpression^ expr = dynamic_cast<MpirExpression^>(a);
-        if(a != nullptr && expr == nullptr)
-            throw gcnew ArgumentException("Invalid argument type", "a");
+        if (a == nullptr)
+            return 1;
 
-        return CompareTo(expr);
+        MpirExpression^ expr = dynamic_cast<MpirExpression^>(a);
+        if(expr != nullptr)
+            return CompareTo(expr);
+
+        EvaluationContext context;
+
+        if(a->GetType() == mpir_ui::typeid)
+        {
+            AssignTo(context);
+            return mpz_cmp_ui(context.Args[0], static_cast<mpir_ui>(a));
+        }
+
+
+        throw gcnew ArgumentException("Invalid argument type", "a");
     }
 
     int MpirExpression::CompareTo(MpirExpression^ a)
@@ -362,7 +374,7 @@ namespace MPIR
         if(_remainder != nullptr)
             mpz_rootrem(dest, _remainder->_value, oper, power);
         else if (_exact != nullptr)
-            _exact(mpz_root(dest, oper, power));
+            _exact(mpz_root(dest, oper, power) != 0);
         else
             mpz_nthroot(dest, oper, power);
     };

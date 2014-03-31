@@ -79,10 +79,12 @@ namespace MPIR.Tests.HugeIntTests
         {
             using (var a = new HugeInt("-222509832503450298345029835740293845721"))
             using (var b = new HugeInt("222509832503450298345029835740293845720"))
+            using (var c = new HugeInt())
             {
+                c.Value = a;
                 Assert.IsTrue(a < b);
                 Assert.IsFalse(b < a);
-                Assert.IsFalse(a < a);
+                Assert.IsFalse(a < c);
                 Assert.IsFalse(a < null);
                 Assert.IsTrue(null < a);
             }
@@ -93,10 +95,12 @@ namespace MPIR.Tests.HugeIntTests
         {
             using (var a = new HugeInt("-222509832503450298345029835740293845721"))
             using (var b = new HugeInt("222509832503450298345029835740293845720"))
+            using (var c = new HugeInt())
             {
+                c.Value = a;
                 Assert.IsTrue(a <= b);
                 Assert.IsFalse(b <= a);
-                Assert.IsTrue(a <= a);
+                Assert.IsTrue(a <= c);
                 Assert.IsFalse(a <= null);
                 Assert.IsTrue(null <= a);
             }
@@ -107,10 +111,12 @@ namespace MPIR.Tests.HugeIntTests
         {
             using (var a = new HugeInt("-222509832503450298345029835740293845721"))
             using (var b = new HugeInt("222509832503450298345029835740293845720"))
+            using (var c = new HugeInt())
             {
+                c.Value = a;
                 Assert.IsFalse(a > b);
                 Assert.IsTrue(b > a);
-                Assert.IsFalse(a > a);
+                Assert.IsFalse(a > c);
                 Assert.IsTrue(a > null);
                 Assert.IsFalse(null > a);
             }
@@ -121,12 +127,76 @@ namespace MPIR.Tests.HugeIntTests
         {
             using (var a = new HugeInt("-222509832503450298345029835740293845721"))
             using (var b = new HugeInt("222509832503450298345029835740293845720"))
+            using (var c = new HugeInt())
             {
+                c.Value = a;
                 Assert.IsFalse(a >= b);
                 Assert.IsTrue(b >= a);
-                Assert.IsTrue(a >= a);
+                Assert.IsTrue(a >= c);
                 Assert.IsTrue(a >= null);
                 Assert.IsFalse(null >= a);
+            }
+        }
+
+        [TestMethod]
+        public void OperatorLessThanLimb()
+        {
+            using (var a = new HugeInt("3845721"))
+            {
+                ulong c = 5432;
+                ulong b = 5432349587;
+                Assert.IsTrue(a < b);
+                Assert.IsFalse(b < a);
+                Assert.IsFalse(a < c);
+                Assert.IsTrue(c < a);
+            }
+        }
+
+        [TestMethod]
+        public void OperatorLessThanOrEqualLimb()
+        {
+            using (var a = new HugeInt("3845721"))
+            {
+                ulong c = 5432;
+                ulong b = 5432349587;
+                ulong d = 3845721;
+                Assert.IsTrue(a <= b);
+                Assert.IsFalse(b <= a);
+                Assert.IsFalse(a <= c);
+                Assert.IsTrue(c <= a);
+                Assert.IsTrue(a <= d);
+                Assert.IsTrue(d <= a);
+            }
+        }
+
+        [TestMethod]
+        public void OperatorGreaterThanLimb()
+        {
+            using (var a = new HugeInt("3845721"))
+            {
+                ulong c = 5432;
+                ulong b = 5432349587;
+                Assert.IsFalse(a > b);
+                Assert.IsTrue(b > a);
+                Assert.IsTrue(a > c);
+                Assert.IsFalse(c > a);
+            }
+        }
+
+        [TestMethod]
+        public void OperatorGreaterThanOrEqualLimb()
+        {
+            using (var a = new HugeInt("3845721"))
+            {
+                ulong c = 5432;
+                ulong b = 5432349587;
+                ulong d = 3845721;
+                Assert.IsFalse(a >= b);
+                Assert.IsTrue(b >= a);
+                Assert.IsTrue(a >= c);
+                Assert.IsFalse(c >= a);
+                Assert.IsTrue(a >= d);
+                Assert.IsTrue(d >= a);
             }
         }
         //more tests coming here

@@ -84,7 +84,7 @@ public ref class Mpir##name##Expression : base                                  
     DEFINE_UNARY_EXPRESSION(base, name##typeAbbr, MpirExpression^)           
 
 //binary expressions
-#define DEFINE_BINARY_EXPRESSION_WITH_TWO(base, name, typeAbbr, type) \
+#define DEFINE_BINARY_EXPRESSION_WITH_TWO(base, name, typeAbbr) \
     DEFINE_BINARY_EXPRESSION(base, name##typeAbbr##typeAbbr, MpirExpression^, MpirExpression^)
 
 #define DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT(base, name, leftTypeAbbr, rightTypeAbbr)    \
@@ -265,6 +265,14 @@ namespace MPIR
             static bool operator >= (MpirExpression^ a, MpirExpression^ b) { return (a == nullptr) ? b == nullptr : a->CompareTo(b) >= 0; }
             static bool operator >  (MpirExpression^ a, MpirExpression^ b) { return (a != nullptr) && a->CompareTo(b) > 0; }
             static bool operator <= (MpirExpression^ a, MpirExpression^ b) { return (a == nullptr) || a->CompareTo(b) <= 0; }
+            static bool operator <  (MpirExpression^ a, mpir_ui b) { return (a == nullptr) || a->CompareTo(b) < 0; }
+            static bool operator >= (MpirExpression^ a, mpir_ui b) { return (a != nullptr) && a->CompareTo(b) >= 0; }
+            static bool operator >  (MpirExpression^ a, mpir_ui b) { return (a != nullptr) && a->CompareTo(b) > 0; }
+            static bool operator <= (MpirExpression^ a, mpir_ui b) { return (a == nullptr) || a->CompareTo(b) <= 0; }
+            static bool operator <  (mpir_ui b, MpirExpression^ a) { return (a != nullptr) && a->CompareTo(b) > 0; }
+            static bool operator >= (mpir_ui b, MpirExpression^ a) { return (a == nullptr) || a->CompareTo(b) <= 0; }
+            static bool operator >  (mpir_ui b, MpirExpression^ a) { return (a == nullptr) || a->CompareTo(b) < 0; }
+            static bool operator <= (mpir_ui b, MpirExpression^ a) { return (a != nullptr) && a->CompareTo(b) >= 0; }
 
             mpir_ui Mod(mpir_ui a) { return Mod(a, RoundingModes::Default); }
             mpir_ui Mod(mpir_ui a, RoundingModes roundingMode);
@@ -517,16 +525,16 @@ namespace MPIR
             void SetTo(String^ value, int base);
 
             //arithmetic
-            bool IsDivisibleBy(HugeInt^ a) { return mpz_divisible_p(_value, a->_value); }
-            bool IsDivisibleBy(mpir_ui a) { return mpz_divisible_ui_p(_value, a); }
-            bool IsDivisibleByPowerOf2(mp_bitcnt_t bits) { return mpz_divisible_2exp_p(_value, bits); }
+            bool IsDivisibleBy(HugeInt^ a) { return mpz_divisible_p(_value, a->_value) != 0; }
+            bool IsDivisibleBy(mpir_ui a) { return mpz_divisible_ui_p(_value, a) != 0; }
+            bool IsDivisibleByPowerOf2(mp_bitcnt_t bits) { return mpz_divisible_2exp_p(_value, bits) != 0; }
 
-            bool IsCongruentTo(HugeInt^ a, HugeInt^ mod) { return mpz_congruent_p(_value, a->_value, mod->_value); }
-            bool IsCongruentTo(mpir_ui a, mpir_ui mod) { return mpz_congruent_ui_p(_value, a, mod); }
-            bool IsCongruentToModPowerOf2(HugeInt^ a, mp_bitcnt_t bits) { return mpz_congruent_2exp_p(_value, a->_value, bits); }
+            bool IsCongruentTo(HugeInt^ a, HugeInt^ mod) { return mpz_congruent_p(_value, a->_value, mod->_value) != 0; }
+            bool IsCongruentTo(mpir_ui a, mpir_ui mod) { return mpz_congruent_ui_p(_value, a, mod) != 0; }
+            bool IsCongruentToModPowerOf2(HugeInt^ a, mp_bitcnt_t bits) { return mpz_congruent_2exp_p(_value, a->_value, bits) != 0; }
 
-            bool IsPerfectPower() { return mpz_perfect_power_p(_value); }
-            bool IsPerfectSquare() { return mpz_perfect_square_p(_value); }
+            bool IsPerfectPower() { return mpz_perfect_power_p(_value) != 0; }
+            bool IsPerfectSquare() { return mpz_perfect_square_p(_value) != 0; }
 
             //utility methods
             void Swap(HugeInt^ a) 
