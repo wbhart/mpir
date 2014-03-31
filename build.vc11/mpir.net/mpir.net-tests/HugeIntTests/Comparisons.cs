@@ -25,6 +25,8 @@ namespace MPIR.Tests.HugeIntTests
     [TestClass]
     public class Comparisons
     {
+        #region CompareTo
+
         [TestMethod]
         public void CompareToHugeInt()
         {
@@ -73,6 +75,10 @@ namespace MPIR.Tests.HugeIntTests
                 a.CompareTo("abc");
             }
         }
+
+        #endregion
+
+        #region comparison operators with expr
 
         [TestMethod]
         public void OperatorLessThan()
@@ -138,6 +144,10 @@ namespace MPIR.Tests.HugeIntTests
             }
         }
 
+        #endregion
+
+        #region comparison operators with limb
+
         [TestMethod]
         public void OperatorLessThanLimb()
         {
@@ -199,6 +209,10 @@ namespace MPIR.Tests.HugeIntTests
                 Assert.IsTrue(d >= a);
             }
         }
+
+        #endregion
+
+        #region comparison operators with signed limb
 
         [TestMethod]
         public void OperatorLessThanSignedLimb()
@@ -262,6 +276,10 @@ namespace MPIR.Tests.HugeIntTests
             }
         }
 
+        #endregion
+
+        #region comparison operators with double
+
         [TestMethod]
         public void OperatorLessThanDouble()
         {
@@ -324,6 +342,202 @@ namespace MPIR.Tests.HugeIntTests
                 Assert.IsFalse(d - 0.1 >= a);
             }
         }
+
+        #endregion
+
+        #region Equals
+
+        [TestMethod]
+        public void EqualsHugeInt()
+        {
+            using (var a = new HugeInt("-222509832503450298345029835740293845721"))
+            using (var b = new HugeInt("222509832503450298345029835740293845720"))
+            {
+                Assert.IsFalse(b.Equals(a));
+                Assert.IsFalse(a.Equals(b + 1));
+                Assert.IsTrue((a + 1).Equals(-b));
+                Assert.IsFalse(a.Equals(null));
+                Assert.IsTrue(Equals(a + 1, -b));
+            }
+        }
+
+        [TestMethod]
+        public void EqualsExpression()
+        {
+            using (var a = new HugeInt("-222509832503450298345029835740293845721"))
+            using (var b = new HugeInt("222509832503450298345029835740293845720"))
+            {
+                Assert.IsFalse(((IEquatable<MpirExpression>)b).Equals(a));
+                Assert.IsFalse(((IEquatable<MpirExpression>)a).Equals(b));
+                Assert.IsFalse(((IEquatable<MpirExpression>)a).Equals(null));
+                Assert.IsTrue(((IEquatable<MpirExpression>)(a + 1)).Equals(-b));
+            }
+        }
+
+        [TestMethod]
+        public void EqualsNonExpression()
+        {
+            using (var a = new HugeInt("-222509832503450298345029835740293845721"))
+            {
+                Assert.IsFalse(a.Equals("abc"));
+            }
+        }
+
+        [TestMethod]
+        public void EqualsLimb()
+        {
+            using (var a = new HugeInt("222509832503"))
+            {
+                ulong b = 222509832504;
+                Assert.IsFalse(a.Equals(b + 1));
+                Assert.IsTrue(a.Equals(b - 1));
+                Assert.IsTrue((a + 1).Equals(b));
+            }
+        }
+
+        [TestMethod]
+        public void EqualsSignedLimb()
+        {
+            using (var a = new HugeInt("-222509832505"))
+            {
+                long b = -222509832504;
+                Assert.IsFalse(a.Equals(b + 1));
+                Assert.IsTrue(a.Equals(b - 1));
+                Assert.IsTrue((a + 1).Equals(b));
+            }
+        }
+
+        [TestMethod]
+        public void EqualsDouble()
+        {
+            using (var a = new HugeInt("-222509832505"))
+            {
+                double b = -222509832504;
+                Assert.IsFalse(a.Equals(b + 1));
+                Assert.IsTrue(a.Equals(b - 1));
+                Assert.IsTrue((a + 1).Equals(b));
+                Assert.IsFalse((a + 1).Equals(b + 0.1));
+            }
+        }
+
+        #endregion
+
+        #region Equality operators with expr
+
+        [TestMethod]
+        public void EqualsOperatorHugeInt()
+        {
+            using (var a = new HugeInt("-222509832503450298345029835740293845721"))
+            using (var b = new HugeInt("222509832503450298345029835740293845720"))
+            {
+                Assert.IsFalse(b == a);
+                Assert.IsFalse(a == b + 1);
+                Assert.IsTrue(a + 1 == -b);
+                Assert.IsFalse(a == null);
+            }
+        }
+
+        [TestMethod]
+        public void NotEqualOperatorHugeInt()
+        {
+            using (var a = new HugeInt("-222509832503450298345029835740293845721"))
+            using (var b = new HugeInt("222509832503450298345029835740293845720"))
+            {
+                Assert.IsTrue(b != a);
+                Assert.IsTrue(a != b + 1);
+                Assert.IsFalse(a + 1 != -b);
+                Assert.IsTrue(a != null);
+            }
+        }
+
+        #endregion
+
+        #region Equality operators with Limb
+
+        [TestMethod]
+        public void EqualsOperatorLimb()
+        {
+            using (var a = new HugeInt("-835740293845721"))
+            {
+                ulong b = 835740293845720;
+                Assert.IsFalse(b == a);
+                Assert.IsFalse(a == b + 1);
+                Assert.IsTrue(-(a + 1) == b);
+            }
+        }
+
+        [TestMethod]
+        public void NotEqualOperatorLimb()
+        {
+            using (var a = new HugeInt("-835740293845721"))
+            {
+                ulong b = 835740293845720;
+                Assert.IsTrue(b != a);
+                Assert.IsTrue(a != b + 1);
+                Assert.IsFalse(-(a + 1) != b);
+            }
+        }
+
+        #endregion
+        
+        #region Equality operators with Signed Limb
+
+        [TestMethod]
+        public void EqualsOperatorSignedLimb()
+        {
+            using (var a = new HugeInt("-835740293845721"))
+            {
+                long b = -835740293845720;
+                Assert.IsFalse(b == a);
+                Assert.IsFalse(a == b + 1);
+                Assert.IsTrue(a + 1 == b);
+            }
+        }
+
+        [TestMethod]
+        public void NotEqualOperatorSignedLimb()
+        {
+            using (var a = new HugeInt("-835740293845721"))
+            {
+                long b = -835740293845720;
+                Assert.IsTrue(b != a);
+                Assert.IsTrue(a != b + 1);
+                Assert.IsFalse(a + 1 != b);
+            }
+        }
+
+        #endregion
+
+        #region Equality operators with Double
+
+        [TestMethod]
+        public void EqualsOperatorDouble()
+        {
+            using (var a = new HugeInt("-835740293845721"))
+            {
+                double b = -835740293845720;
+                Assert.IsFalse(b == a);
+                Assert.IsFalse(a == b + 1);
+                Assert.IsTrue(a + 1 == b);
+                Assert.IsFalse(a + 1 == b + 0.1);
+            }
+        }
+
+        [TestMethod]
+        public void NotEqualOperatorDouble()
+        {
+            using (var a = new HugeInt("-835740293845721"))
+            {
+                double b = -835740293845720;
+                Assert.IsTrue(b != a);
+                Assert.IsTrue(a != b + 1);
+                Assert.IsFalse(a + 1 != b);
+                Assert.IsTrue(a + 1 != b + 0.1);
+            }
+        }
+
+        #endregion
+
         //more tests coming here
     }
 }

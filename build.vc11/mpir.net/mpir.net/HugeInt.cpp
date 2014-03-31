@@ -203,13 +203,15 @@ namespace MPIR
 
     #pragma region Interface implementations
 
-    int MpirExpression::CompareTo(Object^ a)
+    int MpirExpression::CompareTo(Object^ a, bool& valid)
     {
-        if (a == nullptr)
+        valid = true;
+
+        if (IS_NULL(a))
             return 1;
 
         MpirExpression^ expr = dynamic_cast<MpirExpression^>(a);
-        if(expr != nullptr)
+        if(!IS_NULL(expr))
             return CompareTo(expr);
 
         EvaluationContext context;
@@ -232,18 +234,43 @@ namespace MPIR
             return mpz_cmp_d(context.Args[0], static_cast<double>(a));
         }
 
+        valid = false;
+        return 0;
+    }
+
+    int MpirExpression::CompareTo(Object^ a)
+    {
+        bool valid;
+        auto result = CompareTo(a, valid);
+
+        if (valid)
+            return result;
+
         throw gcnew ArgumentException("Invalid argument type", "a");
     }
 
     int MpirExpression::CompareTo(MpirExpression^ a)
     {
-        if(a == nullptr)
+        if (IS_NULL(a))
             return 1;
 
         EvaluationContext context;
         AssignTo(context);
         a->AssignTo(context);
         return mpz_cmp(context.Args[0], context.Args[1]);
+    }
+
+    bool MpirExpression::Equals(Object^ a)
+    {
+        bool valid;
+        auto result = CompareTo(a, valid);
+
+        return valid && result == 0;
+    }
+
+    bool MpirExpression::Equals(MpirExpression^ a)
+    {
+        return CompareTo(a) == 0;
     }
 
     #pragma endregion

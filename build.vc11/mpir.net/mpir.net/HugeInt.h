@@ -22,6 +22,8 @@ along with the MPIR Library.  If not, see http://www.gnu.org/licenses/.
 using namespace System;
 using namespace System::Runtime::InteropServices;
 
+#define IS_NULL(a) (Object::ReferenceEquals(a, nullptr))
+
 //defines a unary expression class
 #define DEFINE_UNARY_EXPRESSION(base, name, type)                \
 public ref class Mpir##name##Expression : base                   \
@@ -242,7 +244,7 @@ namespace MPIR
         Floor,
     };
 
-    public ref class MpirExpression abstract : public IComparable, IComparable<MpirExpression^>
+    public ref class MpirExpression abstract : public IComparable, IComparable<MpirExpression^>, IEquatable<MpirExpression^>
     {
         internal:
             virtual void AssignTo(mpz_ptr destination) abstract;
@@ -258,40 +260,60 @@ namespace MPIR
         public:
             DEFINE_OPERATIONS(DECLARE)
 
+        private:
+            int CompareTo(Object^ a, bool& valid);
+
+        public:
             virtual int CompareTo(Object^ a) sealed;
             virtual int CompareTo(MpirExpression^ a) sealed;
+            virtual bool Equals(MpirExpression^ a) sealed;
+            virtual bool Equals(Object^ a) override sealed;
 
-            static bool operator <  (MpirExpression^ a, MpirExpression^ b) { return (a == nullptr) ? b != nullptr : a->CompareTo(b) < 0; }
-            static bool operator >= (MpirExpression^ a, MpirExpression^ b) { return (a == nullptr) ? b == nullptr : a->CompareTo(b) >= 0; }
-            static bool operator >  (MpirExpression^ a, MpirExpression^ b) { return (a != nullptr) && a->CompareTo(b) > 0; }
-            static bool operator <= (MpirExpression^ a, MpirExpression^ b) { return (a == nullptr) || a->CompareTo(b) <= 0; }
+            static bool operator <  (MpirExpression^ a, MpirExpression^ b) { return  IS_NULL(a) ? !IS_NULL(b) : a->CompareTo(b) < 0; }
+            static bool operator >= (MpirExpression^ a, MpirExpression^ b) { return  IS_NULL(a) ?  IS_NULL(b) : a->CompareTo(b) >= 0; }
+            static bool operator == (MpirExpression^ a, MpirExpression^ b) { return  IS_NULL(a) ?  IS_NULL(b) : a->CompareTo(b) == 0; }
+            static bool operator != (MpirExpression^ a, MpirExpression^ b) { return  IS_NULL(a) ? !IS_NULL(b) : a->CompareTo(b) != 0; }
+            static bool operator >  (MpirExpression^ a, MpirExpression^ b) { return !IS_NULL(a) && a->CompareTo(b) > 0; }
+            static bool operator <= (MpirExpression^ a, MpirExpression^ b) { return  IS_NULL(a) || a->CompareTo(b) <= 0; }
 
-            static bool operator <  (MpirExpression^ a, mpir_ui b) { return (a == nullptr) || a->CompareTo(b) < 0; }
-            static bool operator >= (MpirExpression^ a, mpir_ui b) { return (a != nullptr) && a->CompareTo(b) >= 0; }
-            static bool operator >  (MpirExpression^ a, mpir_ui b) { return (a != nullptr) && a->CompareTo(b) > 0; }
-            static bool operator <= (MpirExpression^ a, mpir_ui b) { return (a == nullptr) || a->CompareTo(b) <= 0; }
-            static bool operator <  (mpir_ui b, MpirExpression^ a) { return (a != nullptr) && a->CompareTo(b) > 0; }
-            static bool operator >= (mpir_ui b, MpirExpression^ a) { return (a == nullptr) || a->CompareTo(b) <= 0; }
-            static bool operator >  (mpir_ui b, MpirExpression^ a) { return (a == nullptr) || a->CompareTo(b) < 0; }
-            static bool operator <= (mpir_ui b, MpirExpression^ a) { return (a != nullptr) && a->CompareTo(b) >= 0; }
+            static bool operator <  (MpirExpression^ a, mpir_ui b) { return  IS_NULL(a) || a->CompareTo(b) < 0; }
+            static bool operator >= (MpirExpression^ a, mpir_ui b) { return !IS_NULL(a) && a->CompareTo(b) >= 0; }
+            static bool operator >  (MpirExpression^ a, mpir_ui b) { return !IS_NULL(a) && a->CompareTo(b) > 0; }
+            static bool operator <= (MpirExpression^ a, mpir_ui b) { return  IS_NULL(a) || a->CompareTo(b) <= 0; }
+            static bool operator != (MpirExpression^ a, mpir_ui b) { return  IS_NULL(a) || a->CompareTo(b) != 0; }
+            static bool operator == (MpirExpression^ a, mpir_ui b) { return !IS_NULL(a) && a->CompareTo(b) == 0; }
+            static bool operator <  (mpir_ui b, MpirExpression^ a) { return !IS_NULL(a) && a->CompareTo(b) > 0; }
+            static bool operator >= (mpir_ui b, MpirExpression^ a) { return  IS_NULL(a) || a->CompareTo(b) <= 0; }
+            static bool operator >  (mpir_ui b, MpirExpression^ a) { return  IS_NULL(a) || a->CompareTo(b) < 0; }
+            static bool operator <= (mpir_ui b, MpirExpression^ a) { return !IS_NULL(a) && a->CompareTo(b) >= 0; }
+            static bool operator != (mpir_ui b, MpirExpression^ a) { return  IS_NULL(a) || a->CompareTo(b) != 0; }
+            static bool operator == (mpir_ui b, MpirExpression^ a) { return !IS_NULL(a) && a->CompareTo(b) == 0; }
 
-            static bool operator <  (MpirExpression^ a, mpir_si b) { return (a == nullptr) || a->CompareTo(b) < 0; }
-            static bool operator >= (MpirExpression^ a, mpir_si b) { return (a != nullptr) && a->CompareTo(b) >= 0; }
-            static bool operator >  (MpirExpression^ a, mpir_si b) { return (a != nullptr) && a->CompareTo(b) > 0; }
-            static bool operator <= (MpirExpression^ a, mpir_si b) { return (a == nullptr) || a->CompareTo(b) <= 0; }
-            static bool operator <  (mpir_si b, MpirExpression^ a) { return (a != nullptr) && a->CompareTo(b) > 0; }
-            static bool operator >= (mpir_si b, MpirExpression^ a) { return (a == nullptr) || a->CompareTo(b) <= 0; }
-            static bool operator >  (mpir_si b, MpirExpression^ a) { return (a == nullptr) || a->CompareTo(b) < 0; }
-            static bool operator <= (mpir_si b, MpirExpression^ a) { return (a != nullptr) && a->CompareTo(b) >= 0; }
+            static bool operator <  (MpirExpression^ a, mpir_si b) { return  IS_NULL(a) || a->CompareTo(b) < 0; }
+            static bool operator >= (MpirExpression^ a, mpir_si b) { return !IS_NULL(a) && a->CompareTo(b) >= 0; }
+            static bool operator >  (MpirExpression^ a, mpir_si b) { return !IS_NULL(a) && a->CompareTo(b) > 0; }
+            static bool operator <= (MpirExpression^ a, mpir_si b) { return  IS_NULL(a) || a->CompareTo(b) <= 0; }
+            static bool operator != (MpirExpression^ a, mpir_si b) { return  IS_NULL(a) || a->CompareTo(b) != 0; }
+            static bool operator == (MpirExpression^ a, mpir_si b) { return !IS_NULL(a) && a->CompareTo(b) == 0; }
+            static bool operator <  (mpir_si b, MpirExpression^ a) { return !IS_NULL(a) && a->CompareTo(b) > 0; }
+            static bool operator >= (mpir_si b, MpirExpression^ a) { return  IS_NULL(a) || a->CompareTo(b) <= 0; }
+            static bool operator >  (mpir_si b, MpirExpression^ a) { return  IS_NULL(a) || a->CompareTo(b) < 0; }
+            static bool operator <= (mpir_si b, MpirExpression^ a) { return !IS_NULL(a) && a->CompareTo(b) >= 0; }
+            static bool operator != (mpir_si b, MpirExpression^ a) { return  IS_NULL(a) || a->CompareTo(b) != 0; }
+            static bool operator == (mpir_si b, MpirExpression^ a) { return !IS_NULL(a) && a->CompareTo(b) == 0; }
 
-            static bool operator <  (MpirExpression^ a, double b) { return (a == nullptr) || a->CompareTo(b) < 0; }
-            static bool operator >= (MpirExpression^ a, double b) { return (a != nullptr) && a->CompareTo(b) >= 0; }
-            static bool operator >  (MpirExpression^ a, double b) { return (a != nullptr) && a->CompareTo(b) > 0; }
-            static bool operator <= (MpirExpression^ a, double b) { return (a == nullptr) || a->CompareTo(b) <= 0; }
-            static bool operator <  (double b, MpirExpression^ a) { return (a != nullptr) && a->CompareTo(b) > 0; }
-            static bool operator >= (double b, MpirExpression^ a) { return (a == nullptr) || a->CompareTo(b) <= 0; }
-            static bool operator >  (double b, MpirExpression^ a) { return (a == nullptr) || a->CompareTo(b) < 0; }
-            static bool operator <= (double b, MpirExpression^ a) { return (a != nullptr) && a->CompareTo(b) >= 0; }
+            static bool operator <  (MpirExpression^ a, double b) { return  IS_NULL(a) || a->CompareTo(b) < 0; }
+            static bool operator >= (MpirExpression^ a, double b) { return !IS_NULL(a) && a->CompareTo(b) >= 0; }
+            static bool operator >  (MpirExpression^ a, double b) { return !IS_NULL(a) && a->CompareTo(b) > 0; }
+            static bool operator <= (MpirExpression^ a, double b) { return  IS_NULL(a) || a->CompareTo(b) <= 0; }
+            static bool operator != (MpirExpression^ a, double b) { return  IS_NULL(a) || a->CompareTo(b) != 0; }
+            static bool operator == (MpirExpression^ a, double b) { return !IS_NULL(a) && a->CompareTo(b) == 0; }
+            static bool operator <  (double b, MpirExpression^ a) { return !IS_NULL(a) && a->CompareTo(b) > 0; }
+            static bool operator >= (double b, MpirExpression^ a) { return  IS_NULL(a) || a->CompareTo(b) <= 0; }
+            static bool operator >  (double b, MpirExpression^ a) { return  IS_NULL(a) || a->CompareTo(b) < 0; }
+            static bool operator <= (double b, MpirExpression^ a) { return !IS_NULL(a) && a->CompareTo(b) >= 0; }
+            static bool operator != (double b, MpirExpression^ a) { return  IS_NULL(a) || a->CompareTo(b) != 0; }
+            static bool operator == (double b, MpirExpression^ a) { return !IS_NULL(a) && a->CompareTo(b) == 0; }
 
             mpir_ui Mod(mpir_ui a) { return Mod(a, RoundingModes::Default); }
             mpir_ui Mod(mpir_ui a, RoundingModes roundingMode);
