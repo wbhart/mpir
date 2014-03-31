@@ -76,6 +76,47 @@ namespace MPIR.Tests.HugeIntTests
             }
         }
 
+        [TestMethod]
+        public void CompareToLimb()
+        {
+            using (var a = new HugeInt("-222509821"))
+            {
+                ulong b = 222509820;
+                Assert.AreEqual(-1, System.Math.Sign(a.CompareTo(b)));
+                Assert.AreEqual(-1, System.Math.Sign(a.CompareTo(b + 1)));
+                Assert.AreEqual(0, System.Math.Sign((-(a + 1)).CompareTo(b)));
+                Assert.AreEqual(1, System.Math.Sign((-a).CompareTo(b)));
+            }
+        }
+
+        [TestMethod]
+        public void CompareToSignedLimb()
+        {
+            using (var a = new HugeInt("-222509821"))
+            {
+                long b = -222509820;
+                Assert.AreEqual(-1, System.Math.Sign(a.CompareTo(b)));
+                Assert.AreEqual(-1, System.Math.Sign(a.CompareTo(b + 1)));
+                Assert.AreEqual(0, System.Math.Sign((a + 1).CompareTo(b)));
+                Assert.AreEqual(0, System.Math.Sign(a.CompareTo(b - 1)));
+                Assert.AreEqual(1, System.Math.Sign(a.CompareTo(b - 2)));
+            }
+        }
+
+        [TestMethod]
+        public void CompareToSignedDouble()
+        {
+            using (var a = new HugeInt("-222509821"))
+            {
+                double b = -222509820;
+                Assert.AreEqual(-1, System.Math.Sign(a.CompareTo(b)));
+                Assert.AreEqual(-1, System.Math.Sign(a.CompareTo(b + 1)));
+                Assert.AreEqual(0, System.Math.Sign((a + 1).CompareTo(b)));
+                Assert.AreEqual(0, System.Math.Sign(a.CompareTo(b - 1)));
+                Assert.AreEqual(1, System.Math.Sign(a.CompareTo(b - 1.1)));
+            }
+        }
+
         #endregion
 
         #region comparison operators with expr
