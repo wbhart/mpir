@@ -331,6 +331,8 @@ namespace MPIR
             }
     };
 
+    #pragma region mid-level abstract expression specializations
+
     public ref class MpirDivModExpression abstract : MpirExpression 
     {
         protected:
@@ -450,6 +452,8 @@ namespace MPIR
             }
     };
 
+    #pragma endregion
+
     DEFINE_BINARY_EXPRESSION_WITH_TWO              (MpirExpression, Add, Int)
     DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (MpirExpression, Add, Int, Ui)
     DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (MpirExpression, Add, Int, Si)
@@ -524,6 +528,10 @@ namespace MPIR
 
         public:
             //construction
+
+            /// <summary>
+            /// Initializes a new integer instance and sets its value to 0.
+            /// </summary>
             HugeInt();
             HugeInt(mp_bitcnt_t bits);
             HugeInt(String^ value) { FromString(value, 10); }
