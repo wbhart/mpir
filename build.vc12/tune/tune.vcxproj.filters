@@ -9,6 +9,9 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
+    <Filter Include="Source Files\yasm">
+      <UniqueIdentifier>{026483f6-1c76-4a42-8e10-06ac17bdda96}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\tests\memory.c">
@@ -253,7 +256,7 @@
   </ItemGroup>
   <ItemGroup>
     <YASM Include="sqr_basecase.asm">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\yasm</Filter>
     </YASM>
   </ItemGroup>
 </Project>
