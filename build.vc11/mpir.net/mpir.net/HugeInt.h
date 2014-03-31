@@ -265,6 +265,7 @@ namespace MPIR
             static bool operator >= (MpirExpression^ a, MpirExpression^ b) { return (a == nullptr) ? b == nullptr : a->CompareTo(b) >= 0; }
             static bool operator >  (MpirExpression^ a, MpirExpression^ b) { return (a != nullptr) && a->CompareTo(b) > 0; }
             static bool operator <= (MpirExpression^ a, MpirExpression^ b) { return (a == nullptr) || a->CompareTo(b) <= 0; }
+
             static bool operator <  (MpirExpression^ a, mpir_ui b) { return (a == nullptr) || a->CompareTo(b) < 0; }
             static bool operator >= (MpirExpression^ a, mpir_ui b) { return (a != nullptr) && a->CompareTo(b) >= 0; }
             static bool operator >  (MpirExpression^ a, mpir_ui b) { return (a != nullptr) && a->CompareTo(b) > 0; }
@@ -273,6 +274,15 @@ namespace MPIR
             static bool operator >= (mpir_ui b, MpirExpression^ a) { return (a == nullptr) || a->CompareTo(b) <= 0; }
             static bool operator >  (mpir_ui b, MpirExpression^ a) { return (a == nullptr) || a->CompareTo(b) < 0; }
             static bool operator <= (mpir_ui b, MpirExpression^ a) { return (a != nullptr) && a->CompareTo(b) >= 0; }
+
+            static bool operator <  (MpirExpression^ a, mpir_si b) { return (a == nullptr) || a->CompareTo(b) < 0; }
+            static bool operator >= (MpirExpression^ a, mpir_si b) { return (a != nullptr) && a->CompareTo(b) >= 0; }
+            static bool operator >  (MpirExpression^ a, mpir_si b) { return (a != nullptr) && a->CompareTo(b) > 0; }
+            static bool operator <= (MpirExpression^ a, mpir_si b) { return (a == nullptr) || a->CompareTo(b) <= 0; }
+            static bool operator <  (mpir_si b, MpirExpression^ a) { return (a != nullptr) && a->CompareTo(b) > 0; }
+            static bool operator >= (mpir_si b, MpirExpression^ a) { return (a == nullptr) || a->CompareTo(b) <= 0; }
+            static bool operator >  (mpir_si b, MpirExpression^ a) { return (a == nullptr) || a->CompareTo(b) < 0; }
+            static bool operator <= (mpir_si b, MpirExpression^ a) { return (a != nullptr) && a->CompareTo(b) >= 0; }
 
             mpir_ui Mod(mpir_ui a) { return Mod(a, RoundingModes::Default); }
             mpir_ui Mod(mpir_ui a, RoundingModes roundingMode);

@@ -199,6 +199,68 @@ namespace MPIR.Tests.HugeIntTests
                 Assert.IsTrue(d >= a);
             }
         }
+
+        [TestMethod]
+        public void OperatorLessThanSignedLimb()
+        {
+            using (var a = new HugeInt("-3845721"))
+            {
+                long c = -543254325432;
+                long b = -9587;
+                Assert.IsTrue(a < b);
+                Assert.IsFalse(b < a);
+                Assert.IsFalse(a < c);
+                Assert.IsTrue(c < a);
+            }
+        }
+
+        [TestMethod]
+        public void OperatorLessThanOrEqualSignedLimb()
+        {
+            using (var a = new HugeInt("-3845721"))
+            {
+                long c = -543254325432;
+                long b = -9587;
+                long d = -3845721;
+                Assert.IsTrue(a <= b);
+                Assert.IsFalse(b <= a);
+                Assert.IsFalse(a <= c);
+                Assert.IsTrue(c <= a);
+                Assert.IsTrue(a <= d);
+                Assert.IsTrue(d <= a);
+            }
+        }
+
+        [TestMethod]
+        public void OperatorGreaterThanSignedLimb()
+        {
+            using (var a = new HugeInt("-3845721"))
+            {
+                long c = -543254325432;
+                long b = -9587;
+                Assert.IsFalse(a > b);
+                Assert.IsTrue(b > a);
+                Assert.IsTrue(a > c);
+                Assert.IsFalse(c > a);
+            }
+        }
+
+        [TestMethod]
+        public void OperatorGreaterThanOrEqualSignedLimb()
+        {
+            using (var a = new HugeInt("-3845721"))
+            {
+                long c = -543254325432;
+                long b = -9587;
+                long d = -3845721;
+                Assert.IsFalse(a >= b);
+                Assert.IsTrue(b >= a);
+                Assert.IsTrue(a >= c);
+                Assert.IsFalse(c >= a);
+                Assert.IsTrue(a >= d);
+                Assert.IsTrue(d >= a);
+            }
+        }
         //more tests coming here
     }
 }

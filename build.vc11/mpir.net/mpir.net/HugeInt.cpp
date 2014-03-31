@@ -220,6 +220,11 @@ namespace MPIR
             return mpz_cmp_ui(context.Args[0], static_cast<mpir_ui>(a));
         }
 
+        if(a->GetType() == mpir_si::typeid)
+        {
+            AssignTo(context);
+            return mpz_cmp_si(context.Args[0], static_cast<mpir_si>(a));
+        }
 
         throw gcnew ArgumentException("Invalid argument type", "a");
     }
