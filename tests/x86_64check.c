@@ -95,8 +95,8 @@ calling_conventions_check (void)
 
   if ((calling_conventions_fenv.tag & 0xFFFF) != 0xFFFF)
     {
-      printf ("%s   fpu tags  got 0x%lX want 0xFFFF\n",
-              header, calling_conventions_fenv.tag & 0xFFFF);
+      printf ("%s   fpu tags  got %x want 0xFFFF\n",
+              header, (unsigned int) calling_conventions_fenv.tag & 0xFFFF);
       header = "";
       ret = 0;
     }
