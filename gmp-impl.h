@@ -2417,7 +2417,7 @@ __GMP_DECLSPEC mp_limb_t mpn_declsh_n __GMP_PROTO ((mp_ptr, mp_srcptr, mp_size_t
 
 #if HAVE_NATIVE_mpn_store
 #define mpn_store __MPN(store)
-mp_limb_t mpn_store _PROTO ((mp_ptr,mp_size_t,mp_limb_t));
+__GMP_DECLSPEC mp_limb_t mpn_store _PROTO ((mp_ptr,mp_size_t,mp_limb_t));
 #else
 #define mpn_store(dst, n,val)			\
   do {						\
