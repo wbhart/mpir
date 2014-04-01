@@ -587,55 +587,367 @@ namespace MPIR
             virtual bool Equals(Object^ a) override sealed;
             virtual int GetHashCode() override sealed;
 
+            /// <summary>Compares two numbers.
+            /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
+            /// </para></summary>
+            /// <param name="a">Source value to compare</param>
+            /// <param name="b">Source value to compare with</param>
+            /// <returns>A boolean result of the comparison.</returns>
             static bool operator <  (MpirExpression^ a, MpirExpression^ b) { return  IS_NULL(a) ? !IS_NULL(b) : a->CompareTo(b) < 0; }
+
+            /// <summary>Compares two numbers.
+            /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
+            /// </para></summary>
+            /// <param name="a">Source value to compare</param>
+            /// <param name="b">Source value to compare with</param>
+            /// <returns>A boolean result of the comparison.</returns>
             static bool operator >= (MpirExpression^ a, MpirExpression^ b) { return  IS_NULL(a) ?  IS_NULL(b) : a->CompareTo(b) >= 0; }
+
+            /// <summary>Compares two numbers.
+            /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
+            /// </para></summary>
+            /// <param name="a">Source value to compare</param>
+            /// <param name="b">Source value to compare with</param>
+            /// <returns>A boolean result of the comparison.</returns>
             static bool operator == (MpirExpression^ a, MpirExpression^ b) { return  IS_NULL(a) ?  IS_NULL(b) : a->CompareTo(b) == 0; }
+
+            /// <summary>Compares two numbers.
+            /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
+            /// </para></summary>
+            /// <param name="a">Source value to compare</param>
+            /// <param name="b">Source value to compare with</param>
+            /// <returns>A boolean result of the comparison.</returns>
             static bool operator != (MpirExpression^ a, MpirExpression^ b) { return  IS_NULL(a) ? !IS_NULL(b) : a->CompareTo(b) != 0; }
+
+            /// <summary>Compares two numbers.
+            /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
+            /// </para></summary>
+            /// <param name="a">Source value to compare</param>
+            /// <param name="b">Source value to compare with</param>
+            /// <returns>A boolean result of the comparison.</returns>
             static bool operator >  (MpirExpression^ a, MpirExpression^ b) { return !IS_NULL(a) && a->CompareTo(b) > 0; }
+
+            /// <summary>Compares two numbers.
+            /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
+            /// </para></summary>
+            /// <param name="a">Source value to compare</param>
+            /// <param name="b">Source value to compare with</param>
+            /// <returns>A boolean result of the comparison.</returns>
             static bool operator <= (MpirExpression^ a, MpirExpression^ b) { return  IS_NULL(a) || a->CompareTo(b) <= 0; }
 
+            /// <summary>Compares two numbers.
+            /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
+            /// </para></summary>
+            /// <param name="a">Source value to compare</param>
+            /// <param name="b">Source value to compare with</param>
+            /// <returns>A boolean result of the comparison.</returns>
             static bool operator <  (MpirExpression^ a, mpir_ui b) { return  IS_NULL(a) || a->CompareTo(b) < 0; }
+
+            /// <summary>Compares two numbers.
+            /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
+            /// </para></summary>
+            /// <param name="a">Source value to compare</param>
+            /// <param name="b">Source value to compare with</param>
+            /// <returns>A boolean result of the comparison.</returns>
             static bool operator >= (MpirExpression^ a, mpir_ui b) { return !IS_NULL(a) && a->CompareTo(b) >= 0; }
+
+            /// <summary>Compares two numbers.
+            /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
+            /// </para></summary>
+            /// <param name="a">Source value to compare</param>
+            /// <param name="b">Source value to compare with</param>
+            /// <returns>A boolean result of the comparison.</returns>
             static bool operator >  (MpirExpression^ a, mpir_ui b) { return !IS_NULL(a) && a->CompareTo(b) > 0; }
+
+            /// <summary>Compares two numbers.
+            /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
+            /// </para></summary>
+            /// <param name="a">Source value to compare</param>
+            /// <param name="b">Source value to compare with</param>
+            /// <returns>A boolean result of the comparison.</returns>
             static bool operator <= (MpirExpression^ a, mpir_ui b) { return  IS_NULL(a) || a->CompareTo(b) <= 0; }
+
+            /// <summary>Compares two numbers.
+            /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
+            /// </para></summary>
+            /// <param name="a">Source value to compare</param>
+            /// <param name="b">Source value to compare with</param>
+            /// <returns>A boolean result of the comparison.</returns>
             static bool operator != (MpirExpression^ a, mpir_ui b) { return  IS_NULL(a) || a->CompareTo(b) != 0; }
+
+            /// <summary>Compares two numbers.
+            /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
+            /// </para></summary>
+            /// <param name="a">Source value to compare</param>
+            /// <param name="b">Source value to compare with</param>
+            /// <returns>A boolean result of the comparison.</returns>
             static bool operator == (MpirExpression^ a, mpir_ui b) { return !IS_NULL(a) && a->CompareTo(b) == 0; }
+
+            /// <summary>Compares two numbers.
+            /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
+            /// </para></summary>
+            /// <param name="a">Source value to compare</param>
+            /// <param name="b">Source value to compare with</param>
+            /// <returns>A boolean result of the comparison.</returns>
             static bool operator <  (mpir_ui b, MpirExpression^ a) { return !IS_NULL(a) && a->CompareTo(b) > 0; }
+
+            /// <summary>Compares two numbers.
+            /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
+            /// </para></summary>
+            /// <param name="a">Source value to compare</param>
+            /// <param name="b">Source value to compare with</param>
+            /// <returns>A boolean result of the comparison.</returns>
             static bool operator >= (mpir_ui b, MpirExpression^ a) { return  IS_NULL(a) || a->CompareTo(b) <= 0; }
+
+            /// <summary>Compares two numbers.
+            /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
+            /// </para></summary>
+            /// <param name="a">Source value to compare</param>
+            /// <param name="b">Source value to compare with</param>
+            /// <returns>A boolean result of the comparison.</returns>
             static bool operator >  (mpir_ui b, MpirExpression^ a) { return  IS_NULL(a) || a->CompareTo(b) < 0; }
+
+            /// <summary>Compares two numbers.
+            /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
+            /// </para></summary>
+            /// <param name="a">Source value to compare</param>
+            /// <param name="b">Source value to compare with</param>
+            /// <returns>A boolean result of the comparison.</returns>
             static bool operator <= (mpir_ui b, MpirExpression^ a) { return !IS_NULL(a) && a->CompareTo(b) >= 0; }
+
+            /// <summary>Compares two numbers.
+            /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
+            /// </para></summary>
+            /// <param name="a">Source value to compare</param>
+            /// <param name="b">Source value to compare with</param>
+            /// <returns>A boolean result of the comparison.</returns>
             static bool operator != (mpir_ui b, MpirExpression^ a) { return  IS_NULL(a) || a->CompareTo(b) != 0; }
+
+            /// <summary>Compares two numbers.
+            /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
+            /// </para></summary>
+            /// <param name="a">Source value to compare</param>
+            /// <param name="b">Source value to compare with</param>
+            /// <returns>A boolean result of the comparison.</returns>
             static bool operator == (mpir_ui b, MpirExpression^ a) { return !IS_NULL(a) && a->CompareTo(b) == 0; }
 
+            /// <summary>Compares two numbers.
+            /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
+            /// </para></summary>
+            /// <param name="a">Source value to compare</param>
+            /// <param name="b">Source value to compare with</param>
+            /// <returns>A boolean result of the comparison.</returns>
             static bool operator <  (MpirExpression^ a, mpir_si b) { return  IS_NULL(a) || a->CompareTo(b) < 0; }
+
+            /// <summary>Compares two numbers.
+            /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
+            /// </para></summary>
+            /// <param name="a">Source value to compare</param>
+            /// <param name="b">Source value to compare with</param>
+            /// <returns>A boolean result of the comparison.</returns>
             static bool operator >= (MpirExpression^ a, mpir_si b) { return !IS_NULL(a) && a->CompareTo(b) >= 0; }
+
+            /// <summary>Compares two numbers.
+            /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
+            /// </para></summary>
+            /// <param name="a">Source value to compare</param>
+            /// <param name="b">Source value to compare with</param>
+            /// <returns>A boolean result of the comparison.</returns>
             static bool operator >  (MpirExpression^ a, mpir_si b) { return !IS_NULL(a) && a->CompareTo(b) > 0; }
+
+            /// <summary>Compares two numbers.
+            /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
+            /// </para></summary>
+            /// <param name="a">Source value to compare</param>
+            /// <param name="b">Source value to compare with</param>
+            /// <returns>A boolean result of the comparison.</returns>
             static bool operator <= (MpirExpression^ a, mpir_si b) { return  IS_NULL(a) || a->CompareTo(b) <= 0; }
+
+            /// <summary>Compares two numbers.
+            /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
+            /// </para></summary>
+            /// <param name="a">Source value to compare</param>
+            /// <param name="b">Source value to compare with</param>
+            /// <returns>A boolean result of the comparison.</returns>
             static bool operator != (MpirExpression^ a, mpir_si b) { return  IS_NULL(a) || a->CompareTo(b) != 0; }
+
+            /// <summary>Compares two numbers.
+            /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
+            /// </para></summary>
+            /// <param name="a">Source value to compare</param>
+            /// <param name="b">Source value to compare with</param>
+            /// <returns>A boolean result of the comparison.</returns>
             static bool operator == (MpirExpression^ a, mpir_si b) { return !IS_NULL(a) && a->CompareTo(b) == 0; }
+
+            /// <summary>Compares two numbers.
+            /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
+            /// </para></summary>
+            /// <param name="a">Source value to compare</param>
+            /// <param name="b">Source value to compare with</param>
+            /// <returns>A boolean result of the comparison.</returns>
             static bool operator <  (mpir_si b, MpirExpression^ a) { return !IS_NULL(a) && a->CompareTo(b) > 0; }
+
+            /// <summary>Compares two numbers.
+            /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
+            /// </para></summary>
+            /// <param name="a">Source value to compare</param>
+            /// <param name="b">Source value to compare with</param>
+            /// <returns>A boolean result of the comparison.</returns>
             static bool operator >= (mpir_si b, MpirExpression^ a) { return  IS_NULL(a) || a->CompareTo(b) <= 0; }
+
+            /// <summary>Compares two numbers.
+            /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
+            /// </para></summary>
+            /// <param name="a">Source value to compare</param>
+            /// <param name="b">Source value to compare with</param>
+            /// <returns>A boolean result of the comparison.</returns>
             static bool operator >  (mpir_si b, MpirExpression^ a) { return  IS_NULL(a) || a->CompareTo(b) < 0; }
+
+            /// <summary>Compares two numbers.
+            /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
+            /// </para></summary>
+            /// <param name="a">Source value to compare</param>
+            /// <param name="b">Source value to compare with</param>
+            /// <returns>A boolean result of the comparison.</returns>
             static bool operator <= (mpir_si b, MpirExpression^ a) { return !IS_NULL(a) && a->CompareTo(b) >= 0; }
+
+            /// <summary>Compares two numbers.
+            /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
+            /// </para></summary>
+            /// <param name="a">Source value to compare</param>
+            /// <param name="b">Source value to compare with</param>
+            /// <returns>A boolean result of the comparison.</returns>
             static bool operator != (mpir_si b, MpirExpression^ a) { return  IS_NULL(a) || a->CompareTo(b) != 0; }
+
+            /// <summary>Compares two numbers.
+            /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
+            /// </para></summary>
+            /// <param name="a">Source value to compare</param>
+            /// <param name="b">Source value to compare with</param>
+            /// <returns>A boolean result of the comparison.</returns>
             static bool operator == (mpir_si b, MpirExpression^ a) { return !IS_NULL(a) && a->CompareTo(b) == 0; }
 
+            /// <summary>Compares two numbers.
+            /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
+            /// </para></summary>
+            /// <param name="a">Source value to compare</param>
+            /// <param name="b">Source value to compare with</param>
+            /// <returns>A boolean result of the comparison.</returns>
             static bool operator <  (MpirExpression^ a, double b) { return  IS_NULL(a) || a->CompareTo(b) < 0; }
+
+            /// <summary>Compares two numbers.
+            /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
+            /// </para></summary>
+            /// <param name="a">Source value to compare</param>
+            /// <param name="b">Source value to compare with</param>
+            /// <returns>A boolean result of the comparison.</returns>
             static bool operator >= (MpirExpression^ a, double b) { return !IS_NULL(a) && a->CompareTo(b) >= 0; }
+
+            /// <summary>Compares two numbers.
+            /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
+            /// </para></summary>
+            /// <param name="a">Source value to compare</param>
+            /// <param name="b">Source value to compare with</param>
+            /// <returns>A boolean result of the comparison.</returns>
             static bool operator >  (MpirExpression^ a, double b) { return !IS_NULL(a) && a->CompareTo(b) > 0; }
+
+            /// <summary>Compares two numbers.
+            /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
+            /// </para></summary>
+            /// <param name="a">Source value to compare</param>
+            /// <param name="b">Source value to compare with</param>
+            /// <returns>A boolean result of the comparison.</returns>
             static bool operator <= (MpirExpression^ a, double b) { return  IS_NULL(a) || a->CompareTo(b) <= 0; }
+
+            /// <summary>Compares two numbers.
+            /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
+            /// </para></summary>
+            /// <param name="a">Source value to compare</param>
+            /// <param name="b">Source value to compare with</param>
+            /// <returns>A boolean result of the comparison.</returns>
             static bool operator != (MpirExpression^ a, double b) { return  IS_NULL(a) || a->CompareTo(b) != 0; }
+
+            /// <summary>Compares two numbers.
+            /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
+            /// </para></summary>
+            /// <param name="a">Source value to compare</param>
+            /// <param name="b">Source value to compare with</param>
+            /// <returns>A boolean result of the comparison.</returns>
             static bool operator == (MpirExpression^ a, double b) { return !IS_NULL(a) && a->CompareTo(b) == 0; }
+
+            /// <summary>Compares two numbers.
+            /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
+            /// </para></summary>
+            /// <param name="a">Source value to compare</param>
+            /// <param name="b">Source value to compare with</param>
+            /// <returns>A boolean result of the comparison.</returns>
             static bool operator <  (double b, MpirExpression^ a) { return !IS_NULL(a) && a->CompareTo(b) > 0; }
+
+            /// <summary>Compares two numbers.
+            /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
+            /// </para></summary>
+            /// <param name="a">Source value to compare</param>
+            /// <param name="b">Source value to compare with</param>
+            /// <returns>A boolean result of the comparison.</returns>
             static bool operator >= (double b, MpirExpression^ a) { return  IS_NULL(a) || a->CompareTo(b) <= 0; }
+
+            /// <summary>Compares two numbers.
+            /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
+            /// </para></summary>
+            /// <param name="a">Source value to compare</param>
+            /// <param name="b">Source value to compare with</param>
+            /// <returns>A boolean result of the comparison.</returns>
             static bool operator >  (double b, MpirExpression^ a) { return  IS_NULL(a) || a->CompareTo(b) < 0; }
+
+            /// <summary>Compares two numbers.
+            /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
+            /// </para></summary>
+            /// <param name="a">Source value to compare</param>
+            /// <param name="b">Source value to compare with</param>
+            /// <returns>A boolean result of the comparison.</returns>
             static bool operator <= (double b, MpirExpression^ a) { return !IS_NULL(a) && a->CompareTo(b) >= 0; }
+
+            /// <summary>Compares two numbers.
+            /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
+            /// </para></summary>
+            /// <param name="a">Source value to compare</param>
+            /// <param name="b">Source value to compare with</param>
+            /// <returns>A boolean result of the comparison.</returns>
             static bool operator != (double b, MpirExpression^ a) { return  IS_NULL(a) || a->CompareTo(b) != 0; }
+
+            /// <summary>Compares two numbers.
+            /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
+            /// </para></summary>
+            /// <param name="a">Source value to compare</param>
+            /// <param name="b">Source value to compare with</param>
+            /// <returns>A boolean result of the comparison.</returns>
             static bool operator == (double b, MpirExpression^ a) { return !IS_NULL(a) && a->CompareTo(b) == 0; }
 
+            /// <summary>Compares the absolute values of two numbers.
+            /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
+            /// </para></summary>
+            /// <param name="a">Value to compare the source with</param>
+            /// <returns>A positive number if the absolute value of the source is greater than the absolute value of <paramref name="a"/>, negative if less, and zero if they are equal.</returns>
             int CompareAbsTo(MpirExpression^ a);
+
+            /// <summary>Compares the absolute values of two numbers.
+            /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
+            /// </para></summary>
+            /// <param name="a">Value to compare the source with</param>
+            /// <returns>A positive number if the absolute value of the source is greater than <paramref name="a"/>, negative if less, and zero if they are equal.</returns>
             int CompareAbsTo(mpir_ui a);
+
+            /// <summary>Compares the absolute values of two numbers.
+            /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
+            /// </para></summary>
+            /// <param name="a">Value to compare the source with</param>
+            /// <returns>A positive number if the absolute value of the source is greater than the absolute value of <paramref name="a"/>, negative if less, and zero if they are equal.</returns>
             int CompareAbsTo(double a);
+
+            /// <summary>Calculates the sign (+1, 0, or -1) of the source value.
+            /// <para>If the source is an expression, it is evaluated into a temporary variable before the sign is computed.
+            /// </para></summary>
+            /// <returns>+1 if the source is positive, -1 if negative, and 0 if zero.</returns>
             int Sign();
 
             #pragma endregion
