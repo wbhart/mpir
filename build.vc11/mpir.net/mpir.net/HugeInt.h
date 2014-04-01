@@ -26,7 +26,7 @@ using namespace System::Runtime::InteropServices;
 
 //defines a unary expression class
 #define DEFINE_UNARY_EXPRESSION(base, name, type)                \
-public ref class Mpir##name##Expression : base                   \
+private ref class Mpir##name##Expression : base                  \
 {                                                                \
     internal:                                                    \
         type Operand;                                            \
@@ -41,7 +41,7 @@ public ref class Mpir##name##Expression : base                   \
 
 //defines a binary expression class
 #define DEFINE_BINARY_EXPRESSION(base, name, leftType, rightType) \
-public ref class Mpir##name##Expression : base                    \
+private ref class Mpir##name##Expression : base                   \
 {                                                                 \
     internal:                                                     \
         leftType Left;                                            \
@@ -58,7 +58,7 @@ public ref class Mpir##name##Expression : base                    \
 
 //defines a ternary expression class
 #define DEFINE_TERNARY_EXPRESSION(base, name, leftType, middleType, rightType)     \
-public ref class Mpir##name##Expression : base                                     \
+private ref class Mpir##name##Expression : base                                    \
 {                                                                                  \
     internal:                                                                      \
         leftType Left;                                                             \
@@ -241,6 +241,9 @@ namespace MPIR
     ref class MpirRootExpression;
     ref class MpirSquareRootExpression;
 
+    /// <summary>
+    /// This enum defines the rounding modes MPIR supports.  Division and modulo operations take an optional rounding mode parameter, or use the default set in MpirSettings.
+    /// </summary>
     public enum class RoundingModes
     {
         Default,
@@ -249,6 +252,11 @@ namespace MPIR
         Floor,
     };
 
+    /// <summary>
+    /// Base class for all expressions resulting from many operations on MPIR types. Expressions can be arbitrarily nested, and are lazily evaluated 
+    /// when they are either assigned to the Value property of an MPIR object, or are consumed by a function or operator that returns a primitive type.
+    /// Assignment to the Value property is necessary because .Net does not support overloading the assignment operator.
+    /// </summary>
     public ref class MpirExpression abstract : public IComparable, IComparable<MpirExpression^>, IEquatable<MpirExpression^>
     {
         internal:
@@ -329,6 +337,9 @@ namespace MPIR
             int Sign();
     };
 
+    /// <summary>
+    /// Static class for MPIR settings such as rounding defaults
+    /// </summary>
     public ref class MpirSettings abstract sealed
     {
         public:
@@ -342,6 +353,9 @@ namespace MPIR
 
     #pragma region mid-level abstract expression specializations
 
+    /// <summary>
+    /// Expression that results from a division or modulo operator.  Allows to set the rounding mode for the division.
+    /// </summary>
     public ref class MpirDivModExpression abstract : MpirExpression 
     {
         protected:
@@ -355,6 +369,9 @@ namespace MPIR
             }
     };
 
+    /// <summary>
+    /// Expression that results from a division operator.  Allows to save the remainder to a separate result object, and/or set the rounding mode for the division.
+    /// </summary>
     public ref class MpirDivideExpression abstract : MpirDivModExpression 
     {
         internal:
@@ -369,6 +386,9 @@ namespace MPIR
             }
     };
 
+    /// <summary>
+    /// Expression that results from a division operator.  Allows to save the remainder, and/or set the rounding mode for the division.
+    /// </summary>
     public ref class MpirDivideUiExpression abstract : MpirDivideExpression 
     {
         private:
@@ -385,6 +405,9 @@ namespace MPIR
             }
     };
 
+    /// <summary>
+    /// Expression that results from a modulo operator.  Allows to save the division result to a separate object, and/or set the rounding mode for the division.
+    /// </summary>
     public ref class MpirModExpression abstract : MpirDivModExpression 
     {
         internal:
@@ -399,6 +422,9 @@ namespace MPIR
             }
     };
 
+    /// <summary>
+    /// Expression that results from a modulo operator.  Allows to save the division result to a separate object, and/or set the rounding mode for the division.
+    /// </summary>
     public ref class MpirModUiExpression abstract : MpirModExpression 
     {
         private:
@@ -415,6 +441,9 @@ namespace MPIR
             }
     };
 
+    /// <summary>
+    /// Expression that results from a right shift operator.  Allows to save the remainder to a separate result object, and/or set the rounding mode for the division.
+    /// </summary>
     public ref class MpirShiftRightExpression abstract : MpirDivModExpression
     {
         private:
@@ -431,6 +460,9 @@ namespace MPIR
             }
     };
 
+    /// <summary>
+    /// Expression that results from a square root function.  Allows to save the remainder to a separate result object.
+    /// </summary>
     public ref class MpirSquareRootExpression abstract : MpirExpression 
     {
         internal:
@@ -445,6 +477,9 @@ namespace MPIR
             }
     };
 
+    /// <summary>
+    /// Expression that results from a root function.  Allows to save a flag indicating whether the root was exact, or to save the remainder to a separate result object.
+    /// </summary>
     public ref class MpirRootExpression abstract : MpirSquareRootExpression 
     {
         private:
@@ -508,6 +543,9 @@ namespace MPIR
 
     DEFINE_OPERATIONS(DEFINE)
 
+    /// <summary>
+    /// Multi-precision Integer class.
+    /// </summary>
     public ref class HugeInt sealed : MpirExpression
     {
         internal:
@@ -544,12 +582,24 @@ namespace MPIR
             //construction
 
             /// <summary>
-            /// Initializes a new integer instance and sets its value to 0.
+            /// Initializes a new integer instance and sets its value to 0
             /// </summary>
             HugeInt();
+
+            /// <summary>
+            /// Initializes a new integer instance, allocating enough memory to hold at least <paramref name="bits"/> bits, and sets its value to 0
+            /// </summary>
+            /// <param name="bits">Minimum number of bits the initially allocated memory should hold</param>
             HugeInt(mp_bitcnt_t bits);
+
+            /// <summary>
+            /// 
+            /// </summary>
             HugeInt(String^ value) { FromString(value, 0); }
             HugeInt(String^ value, int base) { FromString(value, base); }
+            /// <summary>
+            /// 
+            /// </summary>
             static HugeInt^ FromLong(mpir_si value);
             static HugeInt^ FromUlong(mpir_ui value);
             static HugeInt^ FromDouble(double value);
@@ -574,6 +624,9 @@ namespace MPIR
             mpir_ui ToUlong() { return mpz_get_ui(_value); }
             mpir_si ToLong() { return mpz_get_si(_value); }
             double ToDouble() { return mpz_get_d(_value); }
+            /// <summary>
+            /// 
+            /// </summary>
             double ToDouble([Out] mpir_si% exp) 
             { 
                 mpir_si x; 
@@ -589,6 +642,9 @@ namespace MPIR
             void SetTo(String^ value, int base);
 
             //arithmetic
+            /// <summary>
+            /// 
+            /// </summary>
             bool IsDivisibleBy(HugeInt^ a) { return mpz_divisible_p(_value, a->_value) != 0; }
             bool IsDivisibleBy(mpir_ui a) { return mpz_divisible_ui_p(_value, a) != 0; }
             bool IsDivisibleByPowerOf2(mp_bitcnt_t bits) { return mpz_divisible_2exp_p(_value, bits) != 0; }
