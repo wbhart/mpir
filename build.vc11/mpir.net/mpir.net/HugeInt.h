@@ -270,58 +270,317 @@ namespace MPIR
                 AssignTo(ptr); 
             }
 
-        public:
-            static MpirExpression^ operator + (MpirExpression^ a, MpirExpression^ b);
-            static MpirExpression^ operator + (MpirExpression^ a, mpir_ui b);
-            static MpirExpression^ operator + (mpir_ui a, MpirExpression^ b);
-            static MpirExpression^ operator + (MpirExpression^ a, mpir_si b);
-            static MpirExpression^ operator + (mpir_si a, MpirExpression^ b);
-                                                                                                          
-            static MpirExpression^ operator - (MpirExpression^ a, MpirExpression^ b);
-            static MpirExpression^ operator - (MpirExpression^ a, mpir_ui b);
-            static MpirExpression^ operator - (mpir_ui a, MpirExpression^ b);
-            static MpirExpression^ operator - (MpirExpression^ a, mpir_si b);
-            static MpirExpression^ operator - (mpir_si a, MpirExpression^ b);
-                                                                                                          
-            static MpirExpression^ operator * (MpirExpression^ a, MpirExpression^ b);
-            static MpirExpression^ operator * (MpirExpression^ a, mpir_ui b);
-            static MpirExpression^ operator * (mpir_ui a, MpirExpression^ b);
-            static MpirExpression^ operator * (MpirExpression^ a, mpir_si b);
-            static MpirExpression^ operator * (mpir_si a, MpirExpression^ b);
-                                                                                                          
-            static MpirExpression^ operator << (MpirExpression^ a, mp_bitcnt_t bits);
-            static MpirShiftRightExpression^ operator >> (MpirExpression^ a, mp_bitcnt_t bits);
-                                                                                                          
-            static MpirExpression^ operator - (MpirExpression^ a);
-                                                          
-            static MpirDivideExpression^ operator / (MpirExpression^ a, MpirExpression^ b);
-            static MpirDivideUiExpression^ operator / (MpirExpression^ a, mpir_ui b);
-                                                                                                          
-            static MpirModExpression^ operator % (MpirExpression^ a, MpirExpression^ b);
-            static MpirModUiExpression^ operator % (MpirExpression^ a, mpir_ui b);
-                                                                                                          
-            static MpirExpression^ operator ^ (MpirExpression^ a, mpir_ui power);
-                                                                                                          
-            static MpirExpression^ operator & (MpirExpression^ a, MpirExpression^ b);
-            static MpirExpression^ operator | (MpirExpression^ a, MpirExpression^ b);
-            static MpirExpression^ operator ^ (MpirExpression^ a, MpirExpression^ b);
-            static MpirExpression^ operator ~ (MpirExpression^ a);
-                                                                                                          
-            MpirExpression^ Abs();
-                                                                                                          
-            MpirExpression^ DivideExactly(MpirExpression^ a);
-            MpirExpression^ DivideExactly(mpir_ui a);
-                                            
-            MpirExpression^ PowerMod(MpirExpression^ a, MpirExpression^ b);
-            MpirExpression^ PowerMod(mpir_ui a, MpirExpression^ b);
-                                                                                                          
-            MpirRootExpression^ Root(mpir_ui power);
-            MpirSquareRootExpression^ SquareRoot();
-
         private:
             int CompareTo(Object^ a, bool& valid);
 
         public:
+            #pragma region Arithmetic and Bitwise logic
+
+            /// <summary>Adds two numbers.
+            /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
+            /// </para></summary>
+            /// <param name="a">Source value to add to</param>
+            /// <param name="b">Source value to add</param>
+            /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
+            static MpirExpression^ operator + (MpirExpression^ a, MpirExpression^ b);
+
+            /// <summary>Adds two numbers.
+            /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
+            /// </para></summary>
+            /// <param name="a">Source value to add to</param>
+            /// <param name="b">Source value to add</param>
+            /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
+            static MpirExpression^ operator + (MpirExpression^ a, mpir_ui b);
+
+            /// <summary>Adds two numbers.
+            /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
+            /// </para></summary>
+            /// <param name="a">Source value to add to</param>
+            /// <param name="b">Source value to add</param>
+            /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
+            static MpirExpression^ operator + (mpir_ui a, MpirExpression^ b);
+
+            /// <summary>Adds two numbers.
+            /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
+            /// </para></summary>
+            /// <param name="a">Source value to add to</param>
+            /// <param name="b">Source value to add</param>
+            /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
+            static MpirExpression^ operator + (MpirExpression^ a, mpir_si b);
+
+            /// <summary>Adds two numbers.
+            /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
+            /// </para></summary>
+            /// <param name="a">Source value to add to</param>
+            /// <param name="b">Source value to add</param>
+            /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
+            static MpirExpression^ operator + (mpir_si a, MpirExpression^ b);
+                                                                                                          
+            /// <summary>Subtracts two numbers.
+            /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
+            /// </para></summary>
+            /// <param name="a">Source value to subtract from</param>
+            /// <param name="b">Source value to subtract</param>
+            /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
+            static MpirExpression^ operator - (MpirExpression^ a, MpirExpression^ b);
+                                                                                                          
+            /// <summary>Subtracts two numbers.
+            /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
+            /// </para></summary>
+            /// <param name="a">Source value to subtract from</param>
+            /// <param name="b">Source value to subtract</param>
+            /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
+            static MpirExpression^ operator - (MpirExpression^ a, mpir_ui b);
+                                                                                                          
+            /// <summary>Subtracts two numbers.
+            /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
+            /// </para></summary>
+            /// <param name="a">Source value to subtract from</param>
+            /// <param name="b">Source value to subtract</param>
+            /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
+            static MpirExpression^ operator - (mpir_ui a, MpirExpression^ b);
+                                                                                                          
+            /// <summary>Subtracts two numbers.
+            /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
+            /// </para></summary>
+            /// <param name="a">Source value to subtract from</param>
+            /// <param name="b">Source value to subtract</param>
+            /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
+            static MpirExpression^ operator - (MpirExpression^ a, mpir_si b);
+                                                                                                          
+            /// <summary>Subtracts two numbers.
+            /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
+            /// </para></summary>
+            /// <param name="a">Source value to subtract from</param>
+            /// <param name="b">Source value to subtract</param>
+            /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
+            static MpirExpression^ operator - (mpir_si a, MpirExpression^ b);
+                                                                                                          
+            /// <summary>Multiplies two numbers.
+            /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
+            /// </para></summary>
+            /// <param name="a">Source value to multiply</param>
+            /// <param name="b">Source value to multiply by</param>
+            /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
+            static MpirExpression^ operator * (MpirExpression^ a, MpirExpression^ b);
+                                                                                                          
+            /// <summary>Multiplies two numbers.
+            /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
+            /// </para></summary>
+            /// <param name="a">Source value to multiply</param>
+            /// <param name="b">Source value to multiply by</param>
+            /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
+            static MpirExpression^ operator * (MpirExpression^ a, mpir_ui b);
+                                                                                                          
+            /// <summary>Multiplies two numbers.
+            /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
+            /// </para></summary>
+            /// <param name="a">Source value to multiply</param>
+            /// <param name="b">Source value to multiply by</param>
+            /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
+            static MpirExpression^ operator * (mpir_ui a, MpirExpression^ b);
+                                                                                                          
+            /// <summary>Multiplies two numbers.
+            /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
+            /// </para></summary>
+            /// <param name="a">Source value to multiply</param>
+            /// <param name="b">Source value to multiply by</param>
+            /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
+            static MpirExpression^ operator * (MpirExpression^ a, mpir_si b);
+                                                                                                          
+            /// <summary>Multiplies two numbers.
+            /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
+            /// </para></summary>
+            /// <param name="a">Source value to multiply</param>
+            /// <param name="b">Source value to multiply by</param>
+            /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
+            static MpirExpression^ operator * (mpir_si a, MpirExpression^ b);
+                                                                                                          
+            /// <summary>Shifts the <paramref name="a"/> source operand to the left by <paramref name="bits"/>, i.e. multiplies <paramref name="a"/> by 2^<paramref name="bits"/>.
+            /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
+            /// </para></summary>
+            /// <param name="a">Source value to multiply</param>
+            /// <param name="bits">Number of bits to shift <paramref name="a"/> by, i.e. power of 2 to multiply <paramref name="a"/> by</param>
+            /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
+            static MpirExpression^ operator << (MpirExpression^ a, mp_bitcnt_t bits);
+                                                                                                          
+            /// <summary>Shifts the <paramref name="a"/> source operand to the right by <paramref name="bits"/>, i.e. divides <paramref name="a"/> by 2^<paramref name="bits"/>.
+            /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
+            /// </para>You can optionally save the remainder or specify the rounding mode to use for the division by calling methods on the resulting expression, before assigning it.</summary>
+            /// <param name="a">Source value to divide</param>
+            /// <param name="bits">Number of bits to shift <paramref name="a"/> by, i.e. power of 2 to divide <paramref name="a"/> by</param>
+            /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation.
+            /// <para>The expression exposes methods you can call optionally if you need to save the remainder of the division, and/or to set the rounding mode.
+            /// </para>By default, the remainder is not computed and the rounding mode defaults to the static MpirSettings.DefaultRoundingMode.
+            /// </returns>
+            static MpirShiftRightExpression^ operator >> (MpirExpression^ a, mp_bitcnt_t bits);
+
+            /// <summary>Negates the source value.
+            /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
+            /// </para></summary>
+            /// <param name="a">Source value to negate</param>
+            /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
+            static MpirExpression^ operator - (MpirExpression^ a);
+                                                                                                          
+            /// <summary>Divides two numbers.
+            /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
+            /// </para>You can optionally save the remainder or specify the rounding mode to use for the division by calling methods on the resulting expression, before assigning it.</summary>
+            /// <param name="a">Source value to divide</param>
+            /// <param name="b">Source value to divide <paramref name="a"/> by</param>
+            /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation.
+            /// <para>The expression exposes methods you can call optionally if you need to save the remainder of the division, and/or to set the rounding mode.
+            /// </para>By default, the remainder is not computed and the rounding mode defaults to the static MpirSettings.DefaultRoundingMode.
+            /// </returns>
+            static MpirDivideExpression^ operator / (MpirExpression^ a, MpirExpression^ b);
+                                                                                                          
+            /// <summary>Divides two numbers.
+            /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
+            /// </para>You can optionally save the remainder or specify the rounding mode to use for the division by calling methods on the resulting expression, before assigning it.</summary>
+            /// <param name="a">Source value to divide</param>
+            /// <param name="b">Source value to divide <paramref name="a"/> by</param>
+            /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation.
+            /// <para>The expression exposes methods you can call optionally if you need to save the remainder of the division, and/or to set the rounding mode.
+            /// </para>By default, the remainder is not computed and the rounding mode defaults to the static MpirSettings.DefaultRoundingMode.
+            /// </returns>
+            static MpirDivideUiExpression^ operator / (MpirExpression^ a, mpir_ui b);
+                                                                                                          
+            /// <summary>Calculates the remainder from the division of two numbers.
+            /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
+            /// </para>You can optionally save the quotient in addition to the remainder or specify the rounding mode to use for the division 
+            /// by calling methods on the resulting expression, before assigning it.</summary>
+            /// <param name="a">Source value to divide</param>
+            /// <param name="b">Source value to divide <paramref name="a"/> by</param>
+            /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation.
+            /// <para>The expression exposes methods you can call optionally if you need to save the quotient in addition to the remainder, and/or to set the rounding mode.
+            /// </para>By default, the remainder is not computed and the rounding mode defaults to the static MpirSettings.DefaultRoundingMode.
+            /// </returns>
+            static MpirModExpression^ operator % (MpirExpression^ a, MpirExpression^ b);
+                                                                                                          
+            /// <summary>Calculates the remainder from the division of two numbers.
+            /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
+            /// </para>You can optionally save the quotient in addition to the remainder or specify the rounding mode to use for the division 
+            /// by calling methods on the resulting expression, before assigning it.</summary>
+            /// <param name="a">Source value to divide</param>
+            /// <param name="b">Source value to divide <paramref name="a"/> by</param>
+            /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation.
+            /// <para>The expression exposes methods you can call optionally if you need to save the quotient in addition to the remainder, and/or to set the rounding mode.
+            /// </para>By default, the remainder is not computed and the rounding mode defaults to the static MpirSettings.DefaultRoundingMode.
+            /// </returns>
+            static MpirModUiExpression^ operator % (MpirExpression^ a, mpir_ui b);
+                                                                                                          
+            /// <summary>Raises the source value to the specified power.
+            /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
+            /// </para></summary>
+            /// <param name="a">Source value to multiply</param>
+            /// <param name="power">Power to raise <paramref name="a"/> to</param>
+            /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
+            static MpirExpression^ operator ^ (MpirExpression^ a, mpir_ui power);
+                                                                                                          
+            /// <summary>Computes the bitwise AND of two numbers.
+            /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
+            /// </para></summary>
+            /// <param name="a">Source value to AND</param>
+            /// <param name="b">Source value to AND with</param>
+            /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
+            static MpirExpression^ operator & (MpirExpression^ a, MpirExpression^ b);
+                                                                                                          
+            /// <summary>Computes the bitwise (inclusive) OR of two numbers.
+            /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
+            /// </para></summary>
+            /// <param name="a">Source value to OR</param>
+            /// <param name="b">Source value to OR with</param>
+            /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
+            static MpirExpression^ operator | (MpirExpression^ a, MpirExpression^ b);
+                                                                                                          
+            /// <summary>Computes the bitwise XOR (exclusive or) of two numbers.
+            /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
+            /// </para></summary>
+            /// <param name="a">Source value to XOR</param>
+            /// <param name="b">Source value to XOR with</param>
+            /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
+            static MpirExpression^ operator ^ (MpirExpression^ a, MpirExpression^ b);
+                                                                                                          
+            /// <summary>Computes the bitwise complement of a number.
+            /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
+            /// </para></summary>
+            /// <param name="a">Source value to complement</param>
+            /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
+            static MpirExpression^ operator ~ (MpirExpression^ a);
+                                                                                                          
+            /// <summary>Computes the absolute value of the source number.
+            /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
+            /// </para></summary>
+            /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
+            MpirExpression^ Abs();
+                                                                                                          
+            /// <summary>Divides two numbers where it is known in advance that the division is exact.  This method is faster than normal division,
+            /// but produces an undefined result when the division is not exact.
+            /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
+            /// </para></summary>
+            /// <param name="a">Source value to divide by</param>
+            /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation.
+            /// </returns>
+            MpirExpression^ DivideExactly(MpirExpression^ a);
+                                                                                                          
+            /// <summary>Divides two numbers where it is known in advance that the division is exact.  This method is faster than normal division,
+            /// but produces an undefined result when the division is not exact.
+            /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
+            /// </para></summary>
+            /// <param name="a">Source value to divide by</param>
+            /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation.
+            /// </returns>
+            MpirExpression^ DivideExactly(mpir_ui a);
+                                                                                                          
+            /// <summary>Raises the source value to the specified <paramref name="power"/> modulo <paramref name="modulo"/>.
+            /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
+            /// </para></summary>
+            /// <param name="power">Power to raise the source value to</param>
+            /// <param name="modulo">Modulo to perform the powering operation with</param>
+            /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
+            MpirExpression^ PowerMod(MpirExpression^ power, MpirExpression^ modulo);
+                                                                                                          
+            /// <summary>Raises the source value to the specified <paramref name="power"/> modulo <paramref name="modulo"/>.
+            /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
+            /// </para></summary>
+            /// <param name="power">Power to raise the source value to</param>
+            /// <param name="modulo">Modulo to perform the powering operation with</param>
+            /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
+            MpirExpression^ PowerMod(mpir_ui power, MpirExpression^ modulo);
+
+            /// <summary>Computes the root of the specified <paramref name="power"/> from the source value.
+            /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
+            /// </para>You can optionally save the remainder from the root operation, or a flag indicating whether the root was exact, 
+            /// by calling a method on the resulting expression, before assigning it.</summary>
+            /// <param name="power">Power of the root to compute.</param>
+            /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
+            MpirRootExpression^ Root(mpir_ui power);
+
+            /// <summary>Computes the square root of the source value.
+            /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
+            /// </para>You can optionally save the remainder from the root operation
+            /// by calling a method on the resulting expression, before assigning it.</summary>
+            /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
+            MpirSquareRootExpression^ SquareRoot();
+
+            /// <summary>Calculates the remainder from the division of two numbers, using the rounding mode set in MpirSettings.RoundingMode.
+            /// <para>Because the result is a primitive type, it is computed immediately.
+            /// </para></summary>
+            /// <param name="a">divisor to divide the source by</param>
+            /// <returns>The remainder of the division</returns>
+            mpir_ui Mod(mpir_ui a) { return Mod(a, RoundingModes::Default); }
+
+            /// <summary>Calculates the remainder from the division of two numbers, using the specified rounding mode.
+            /// <para>Because the result is a primitive type, it is computed immediately.
+            /// </para></summary>
+            /// <param name="a">divisor to divide the source by</param>
+            /// <param name="roundingMode">rounding mode to use for the division</param>
+            /// <returns>The remainder of the division</returns>
+            mpir_ui Mod(mpir_ui a, RoundingModes roundingMode);
+
+            #pragma endregion
+
+            #pragma region Comparisons
+
             virtual int CompareTo(Object^ a) sealed;
             virtual int CompareTo(MpirExpression^ a) sealed;
             virtual bool Equals(MpirExpression^ a) sealed;
@@ -374,12 +633,12 @@ namespace MPIR
             static bool operator != (double b, MpirExpression^ a) { return  IS_NULL(a) || a->CompareTo(b) != 0; }
             static bool operator == (double b, MpirExpression^ a) { return !IS_NULL(a) && a->CompareTo(b) == 0; }
 
-            mpir_ui Mod(mpir_ui a) { return Mod(a, RoundingModes::Default); }
-            mpir_ui Mod(mpir_ui a, RoundingModes roundingMode);
             int CompareAbsTo(MpirExpression^ a);
             int CompareAbsTo(mpir_ui a);
             int CompareAbsTo(double a);
             int Sign();
+
+            #pragma endregion
     };
 
     /// <summary>

@@ -72,6 +72,7 @@ namespace MPIR.Tests.HugeIntTests
         {
             var contents = File.ReadAllText(path);
             contents = Regex.Replace(contents, "<paramref[^>]*>", "paramref");
+            contents = Regex.Replace(contents, "</?para>", "");
 
             var serializer = new XmlSerializer(typeof(XmlCommentsDoc));
             using (var reader = new StringReader(contents))
@@ -138,22 +139,23 @@ namespace MPIR.Tests.HugeIntTests
 
             var method = member as MethodInfo;
             var ctor = member as ConstructorInfo;
+            var methodBase = member as MethodBase;
 
-            if (method != null)
-            {
-                sig.Append(method.Name)
-                    .Append('(')
-                    .Append(string.Join(",", method.GetParameters().Select(x => x.ParameterType.FullName)))
-                    .Append(')');
-            }
-            else if (ctor != null)
-            {
-                sig.Append("#ctor(")
-                    .Append(string.Join(",", ctor.GetParameters().Select(x => x.ParameterType.FullName)))
-                    .Append(')');
-            }
+            if (ctor != null)
+                sig.Append("#ctor");
             else
                 sig.Append(member.Name);
+
+            if(methodBase != null)
+            {
+                var parameters = methodBase.GetParameters();
+                if(parameters.Length > 0)
+                {
+                    sig.Append('(')
+                       .Append(string.Join(",", parameters.Select(x => x.ParameterType.FullName)))
+                       .Append(')');
+                }
+            }
 
             return sig.ToString();
         }
