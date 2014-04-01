@@ -271,7 +271,52 @@ namespace MPIR
             }
 
         public:
-            DEFINE_OPERATIONS(DECLARE)
+            static MpirExpression^ operator + (MpirExpression^ a, MpirExpression^ b);
+            static MpirExpression^ operator + (MpirExpression^ a, mpir_ui b);
+            static MpirExpression^ operator + (mpir_ui a, MpirExpression^ b);
+            static MpirExpression^ operator + (MpirExpression^ a, mpir_si b);
+            static MpirExpression^ operator + (mpir_si a, MpirExpression^ b);
+                                                                                                          
+            static MpirExpression^ operator - (MpirExpression^ a, MpirExpression^ b);
+            static MpirExpression^ operator - (MpirExpression^ a, mpir_ui b);
+            static MpirExpression^ operator - (mpir_ui a, MpirExpression^ b);
+            static MpirExpression^ operator - (MpirExpression^ a, mpir_si b);
+            static MpirExpression^ operator - (mpir_si a, MpirExpression^ b);
+                                                                                                          
+            static MpirExpression^ operator * (MpirExpression^ a, MpirExpression^ b);
+            static MpirExpression^ operator * (MpirExpression^ a, mpir_ui b);
+            static MpirExpression^ operator * (mpir_ui a, MpirExpression^ b);
+            static MpirExpression^ operator * (MpirExpression^ a, mpir_si b);
+            static MpirExpression^ operator * (mpir_si a, MpirExpression^ b);
+                                                                                                          
+            static MpirExpression^ operator << (MpirExpression^ a, mp_bitcnt_t bits);
+            static MpirShiftRightExpression^ operator >> (MpirExpression^ a, mp_bitcnt_t bits);
+                                                                                                          
+            static MpirExpression^ operator - (MpirExpression^ a);
+                                                          
+            static MpirDivideExpression^ operator / (MpirExpression^ a, MpirExpression^ b);
+            static MpirDivideUiExpression^ operator / (MpirExpression^ a, mpir_ui b);
+                                                                                                          
+            static MpirModExpression^ operator % (MpirExpression^ a, MpirExpression^ b);
+            static MpirModUiExpression^ operator % (MpirExpression^ a, mpir_ui b);
+                                                                                                          
+            static MpirExpression^ operator ^ (MpirExpression^ a, mpir_ui power);
+                                                                                                          
+            static MpirExpression^ operator & (MpirExpression^ a, MpirExpression^ b);
+            static MpirExpression^ operator | (MpirExpression^ a, MpirExpression^ b);
+            static MpirExpression^ operator ^ (MpirExpression^ a, MpirExpression^ b);
+            static MpirExpression^ operator ~ (MpirExpression^ a);
+                                                                                                          
+            MpirExpression^ Abs();
+                                                                                                          
+            MpirExpression^ DivideExactly(MpirExpression^ a);
+            MpirExpression^ DivideExactly(mpir_ui a);
+                                            
+            MpirExpression^ PowerMod(MpirExpression^ a, MpirExpression^ b);
+            MpirExpression^ PowerMod(mpir_ui a, MpirExpression^ b);
+                                                                                                          
+            MpirRootExpression^ Root(mpir_ui power);
+            MpirSquareRootExpression^ SquareRoot();
 
         private:
             int CompareTo(Object^ a, bool& valid);

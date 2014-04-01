@@ -143,13 +143,13 @@ namespace MPIR.Tests.HugeIntTests
             {
                 sig.Append(method.Name)
                     .Append('(')
-                    .Append(string.Join(", ", method.GetParameters().Select(x => x.ParameterType.FullName)))
+                    .Append(string.Join(",", method.GetParameters().Select(x => x.ParameterType.FullName)))
                     .Append(')');
             }
             else if (ctor != null)
             {
                 sig.Append("#ctor(")
-                    .Append(string.Join(", ", ctor.GetParameters().Select(x => x.ParameterType.FullName)))
+                    .Append(string.Join(",", ctor.GetParameters().Select(x => x.ParameterType.FullName)))
                     .Append(')');
             }
             else
