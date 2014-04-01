@@ -31,8 +31,6 @@ private ref class Mpir##name##Expression : base                  \
     internal:                                                    \
         type Operand;                                            \
         virtual void AssignTo(mpz_ptr destination) override;     \
-                                                                 \
-    public:                                                      \
         Mpir##name##Expression(type operand)                     \
         {                                                        \
             Operand = operand;                                   \
@@ -47,8 +45,6 @@ private ref class Mpir##name##Expression : base                   \
         leftType Left;                                            \
         rightType Right;                                          \
         virtual void AssignTo(mpz_ptr destination) override;      \
-                                                                  \
-    public:                                                       \
         Mpir##name##Expression(leftType left, rightType right)    \
         {                                                         \
             Left = left;                                          \
@@ -65,8 +61,6 @@ private ref class Mpir##name##Expression : base                                 
         middleType Middle;                                                         \
         rightType Right;                                                           \
         virtual void AssignTo(mpz_ptr destination) override;                       \
-                                                                                   \
-    public:                                                                        \
         Mpir##name##Expression(leftType left, middleType middle, rightType right)  \
         {                                                                          \
             Left = left;                                                           \
@@ -260,6 +254,7 @@ namespace MPIR
     public ref class MpirExpression abstract : public IComparable, IComparable<MpirExpression^>, IEquatable<MpirExpression^>
     {
         internal:
+            MpirExpression() { }
             virtual void AssignTo(mpz_ptr destination) abstract;
             virtual void AssignTo(EvaluationContext& destination)
             {
@@ -406,12 +401,13 @@ namespace MPIR
                                                                                                           
             /// <summary>Shifts the <paramref name="a"/> source operand to the right by <paramref name="bits"/>, i.e. divides <paramref name="a"/> by 2^<paramref name="bits"/>.
             /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
-            /// </para>You can optionally save the remainder or specify the rounding mode to use for the division by calling methods on the resulting expression, before assigning it.</summary>
+            /// </para>By default, the shifted value (i.e., the quotient of the division) is computed.  If instead the shifted bits (i.e., the remainder) is desired, you can call 
+            /// the Remainder method on the resulting expression before you assign it.  You can also specify the rounding mode to use for the division by calling a method on the resulting expression.</summary>
             /// <param name="a">Source value to divide</param>
             /// <param name="bits">Number of bits to shift <paramref name="a"/> by, i.e. power of 2 to divide <paramref name="a"/> by</param>
             /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation.
-            /// <para>The expression exposes methods you can call optionally if you need to save the remainder of the division, and/or to set the rounding mode.
-            /// </para>By default, the remainder is not computed and the rounding mode defaults to the static MpirSettings.DefaultRoundingMode.
+            /// <para>The expression exposes methods you can call to select whether you need to compute the quotient or remainder of the division, and/or to set the rounding mode.
+            /// </para>By default, the shifted value (i.e., quotient) is computed and the rounding mode defaults to the static MpirSettings.DefaultRoundingMode.
             /// </returns>
             static MpirShiftRightExpression^ operator >> (MpirExpression^ a, mp_bitcnt_t bits);
 
@@ -581,10 +577,39 @@ namespace MPIR
 
             #pragma region Comparisons
 
+            /// <summary>Compares two numbers.
+            /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
+            /// </para></summary>
+            /// <param name="a">Value to compare the source with</param>
+            /// <returns>A positive number if the source is greater than <paramref name="a"/>, negative if less, and zero if they are equal.</returns>
             virtual int CompareTo(Object^ a) sealed;
+
+            /// <summary>Compares two numbers.
+            /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
+            /// </para></summary>
+            /// <param name="a">Value to compare the source with</param>
+            /// <returns>A positive number if the source is greater than <paramref name="a"/>, negative if less, and zero if they are equal.</returns>
             virtual int CompareTo(MpirExpression^ a) sealed;
+
+            /// <summary>Compares two numbers.
+            /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
+            /// </para></summary>
+            /// <param name="a">Value to compare the source with</param>
+            /// <returns>true if the values of the source and <paramref name="a"/> are equal, false otherwise.</returns>
             virtual bool Equals(MpirExpression^ a) sealed;
+
+            /// <summary>Compares two numbers.
+            /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
+            /// </para></summary>
+            /// <param name="a">Value to compare the source with.  This can be a multi-precision number, an expression, or a supported primitive type (long, ulong, or double).</param>
+            /// <returns>true if the values of the source and <paramref name="a"/> are equal, false otherwise.</returns>
             virtual bool Equals(Object^ a) override sealed;
+
+            /// <summary>Computes the hash code of the source value.
+            /// <para>If called on an expression, it is evaluated into a temporary variable before the comparison is performed.
+            /// </para>Multi-precision classes are mutable with value semantics.  The hash code is based on the value, and will change if the value changes.
+            /// For this reason, the value of an object must not be modified while the object is contained in a hash table.</summary>
+            /// <returns>a signed integer hash code for the value.</returns>
             virtual int GetHashCode() override sealed;
 
             /// <summary>Compares two numbers.
@@ -974,7 +999,8 @@ namespace MPIR
     /// </summary>
     public ref class MpirDivModExpression abstract : MpirExpression 
     {
-        protected:
+        internal:
+            MpirDivModExpression() { }
             RoundingModes rounding;
 
         public:
@@ -991,6 +1017,7 @@ namespace MPIR
     public ref class MpirDivideExpression abstract : MpirDivModExpression 
     {
         internal:
+            MpirDivideExpression() { }
             HugeInt^ _remainder;
             void custom_mpz_div(mpz_ptr q, mpz_srcptr n, mpz_srcptr d);
 
@@ -1011,6 +1038,7 @@ namespace MPIR
             Action<mpir_ui>^ _limbRemainder;
 
         internal:
+            MpirDivideUiExpression() { }
             void custom_mpz_div_ui(mpz_ptr q, mpz_srcptr n, mpir_ui d);
 
         public:
@@ -1027,6 +1055,7 @@ namespace MPIR
     public ref class MpirModExpression abstract : MpirDivModExpression 
     {
         internal:
+            MpirModExpression() { }
             HugeInt^ _quotient;
             void custom_mpz_mod(mpz_ptr r, mpz_srcptr n, mpz_srcptr d);
 
@@ -1047,6 +1076,7 @@ namespace MPIR
             Action<mpir_ui>^ _limbRemainder;
 
         internal:
+            MpirModUiExpression() { }
             void custom_mpz_mod_ui(mpz_ptr r, mpz_srcptr n, mpir_ui d);
 
         public:
@@ -1066,6 +1096,7 @@ namespace MPIR
             bool _remainder;
 
         internal:
+            MpirShiftRightExpression() { }
             void custom_mpz_div_2exp(mpz_ptr q, mpz_srcptr n, mp_bitcnt_t bits);
 
         public:
@@ -1082,6 +1113,7 @@ namespace MPIR
     public ref class MpirSquareRootExpression abstract : MpirExpression 
     {
         internal:
+            MpirSquareRootExpression() { }
             HugeInt^ _remainder;
             void custom_mpz_sqrt(mpz_ptr dest, mpz_srcptr oper);
 
@@ -1102,6 +1134,7 @@ namespace MPIR
             Action<bool>^ _exact;
 
         internal:
+            MpirRootExpression() { }
             void custom_mpz_root(mpz_ptr dest, mpz_srcptr oper, mpir_ui power);
 
         public:

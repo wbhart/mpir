@@ -127,7 +127,13 @@ namespace MPIR.Tests.HugeIntTests
             {
                 if (method.Name.StartsWith("get_") || method.Name.StartsWith("set_"))
                     return false;
+
+                if (method.ReflectedType != method.DeclaringType)
+                    return false;
             }
+
+            if (member.Name == "value__" && member.DeclaringType.IsEnum)
+                return false;
 
             return true;
         }
