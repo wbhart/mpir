@@ -167,20 +167,6 @@ namespace MPIR
         return result;
     }
 
-    //unmanaged destructor makes the compiler implement IDisposable
-    //delegates the actual destruction to the finalizer
-    HugeInt::~HugeInt()
-    {
-        this->!HugeInt();
-    }
-
-    //managed finalizer
-    HugeInt::!HugeInt()
-    {
-        if(_value != 0)
-            DeallocateStruct();
-    }
-
     #pragma endregion
 
     #pragma region object overrides

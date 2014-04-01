@@ -1277,7 +1277,7 @@ namespace MPIR
             }
 
         public:
-            //construction
+            #pragma region construction and disposal
 
             /// <summary>
             /// Initializes a new integer instance and sets its value to 0
@@ -1291,22 +1291,75 @@ namespace MPIR
             HugeInt(mp_bitcnt_t bits);
 
             /// <summary>
-            /// 
+            /// Initializes a new integer instance and sets its value from the specified string, using leading characters to recognize the base:
+            /// 0x and 0X for hexadecimal, 0b and 0B for binary, 0 for octal, or decimal otherwise.
             /// </summary>
+            /// <param name="value">string representing the initial value for the new instance.  Whitespace in the string is ignored.</param>
             HugeInt(String^ value) { FromString(value, 0); }
-            HugeInt(String^ value, int base) { FromString(value, base); }
+
             /// <summary>
-            /// 
+            /// Initializes a new integer instance and sets its value from the specified string
             /// </summary>
+            /// <param name="value">string representing the initial value for the new instance.  Whitespace in the string is ignored.</param>
+            /// <param name="base">base the <paramref name="value"/> string is in.
+            /// <para>The base may vary from 2 to 62, or if base is 0, then the leading characters are used: 0x and 0X for hexadecimal, 0b and 0B for binary, 0 for octal, or decimal otherwise.
+            /// </para>For bases up to 36, case is ignored; upper-case and lower-case letters have the same value. 
+            /// For bases 37 to 62, upper-case letter represent the usual 10..35 while lower-case letter represent 36..61.</param>
+            HugeInt(String^ value, int base) { FromString(value, base); }
+
+            /// <summary>
+            /// Constructs and returns a new integer instance with its value set to the <paramref name="value"/> parameter.
+            /// </summary>
+            /// <param name="value">Initial value for the new integer instance</param>
+            /// <returns>the newly constructed instance</returns>
             static HugeInt^ FromLong(mpir_si value);
+
+            /// <summary>
+            /// Constructs and returns a new integer instance with its value set to the <paramref name="value"/> parameter.
+            /// </summary>
+            /// <param name="value">Initial value for the new integer instance</param>
+            /// <returns>the newly constructed instance</returns>
             static HugeInt^ FromUlong(mpir_ui value);
+
+            /// <summary>
+            /// Constructs and returns a new integer instance with its value set to the <paramref name="value"/> parameter.
+            /// </summary>
+            /// <param name="value">Initial value for the new integer instance.  Any fractional portion is truncated.</param>
+            /// <returns>the newly constructed instance</returns>
             static HugeInt^ FromDouble(double value);
+
+            /// <summary>
+            /// Constructs and returns a new integer instance with its value set to <paramref name="value"/> raised to the specified <paramref name="power"/>.
+            /// </summary>
+            /// <param name="value">Base for the initial value for the new integer instance</param>
+            /// <param name="power">Power to raise the <paramref name="value"/> to when calculating the initial value for the new instance</param>
+            /// <returns>the newly constructed instance</returns>
             static HugeInt^ FromPower(mpir_ui value, mpir_ui power);
+
+            /// <summary>
+            /// Change the space allocated for integer to <paramref name="bits"/> bits. The value in integer is preserved if it fits, or is set to 0 if not.
+            /// <para>This function can be used to increase the space for a variable in order to avoid repeated automatic reallocations, or to decrease it to give memory back to the heap.
+            /// </para></summary>
+            /// <param name="bits">Minimum number of bits the allocated memory should hold</param>
             void Reallocate(mp_bitcnt_t bits) { mpz_realloc2(_value, bits); }
 
             //disposal
-            ~HugeInt();
-            !HugeInt();
+
+            //creating a destructor in C++ implements IDisposable.
+
+            /// <summary>
+            /// Frees all memory allocated by the instance.
+            /// <para>To minimize memory footprint, multi-precision objects should be disposed of when no longer used, instead of relying on the garbage collector to free the memory.
+            /// </para></summary>
+            ~HugeInt() { this->!HugeInt(); }
+
+            /// <summary>
+            /// Frees all memory allocated by the instance.
+            /// <para>To minimize memory footprint, multi-precision objects should be disposed of when no longer used, instead of relying on the garbage collector to free the memory.
+            /// </para></summary>
+            !HugeInt() { if(_value != 0) DeallocateStruct(); }
+
+            #pragma endregion
 
             //object overrides
             virtual String^ ToString() override;
@@ -1322,6 +1375,7 @@ namespace MPIR
             mpir_ui ToUlong() { return mpz_get_ui(_value); }
             mpir_si ToLong() { return mpz_get_si(_value); }
             double ToDouble() { return mpz_get_d(_value); }
+
             /// <summary>
             /// 
             /// </summary>

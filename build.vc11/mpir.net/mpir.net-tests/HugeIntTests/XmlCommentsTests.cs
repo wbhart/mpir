@@ -117,7 +117,7 @@ namespace MPIR.Tests.HugeIntTests
             var method2 = member as MethodInfo;
             if (method2 != null)
             {
-                if (method2.ReturnType != null && ("" + Returns).Trim().Length == 0)
+                if (method2.ReturnType != typeof(void) && ("" + Returns).Trim().Length == 0)
                     yield return "Missing Returns on " + MemberName;
             }
         }
