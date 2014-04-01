@@ -34,6 +34,8 @@ namespace MPIR.Tests.HugeIntTests
     [TestClass]
     public class XmlCommentsTests
     {
+        private static readonly string[] ValidMemberTypePrefixes = { "M:", "P:", "F:" };
+
         [TestMethod]
         public void TestComments()
         {
@@ -49,7 +51,7 @@ namespace MPIR.Tests.HugeIntTests
             var publicMembers = publicTypes.SelectMany(x => x.GetMembers())
                 .Where(XmlCommentsMember.IsIncluded)
                 .ToArray();
-            var definedMemberComments = xml.Members.Where(x => x.Name.StartsWith("M:") && ("" + x.Summary).Trim().Length > 0).ToArray();
+            var definedMemberComments = xml.Members.Where(x => ValidMemberTypePrefixes.Contains(x.Name.Substring(0, 2)) && ("" + x.Summary).Trim().Length > 0).ToArray();
             var invalidComments = publicMembers.Join(definedMemberComments, XmlCommentsMember.Signature, x => x.MemberName, (Member, Comment) => new { Member, Comment })
                 .SelectMany(x => x.Comment.Validate(x.Member)).ToArray();
             Assert.AreEqual(0, invalidComments.Length, string.Join(Environment.NewLine, invalidComments));
@@ -158,12 +160,20 @@ namespace MPIR.Tests.HugeIntTests
                 if(parameters.Length > 0)
                 {
                     sig.Append('(')
-                       .Append(string.Join(",", parameters.Select(x => x.ParameterType.FullName)))
+                       .Append(string.Join(",", parameters.Select(FormatParameterType)))
                        .Append(')');
                 }
             }
 
             return sig.ToString();
+        }
+
+        public static string FormatParameterType(ParameterInfo p)
+        {
+            if (!p.ParameterType.IsGenericType)
+                return p.ParameterType.FullName;
+
+            return p.ParameterType.Namespace + "." + p.ParameterType.Name + "{" + string.Join(",", p.ParameterType.GetGenericArguments().Select(x => x.FullName)) + "}";
         }
     }
 

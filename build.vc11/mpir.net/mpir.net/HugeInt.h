@@ -236,13 +236,17 @@ namespace MPIR
     ref class MpirSquareRootExpression;
 
     /// <summary>
-    /// This enum defines the rounding modes MPIR supports.  Division and modulo operations take an optional rounding mode parameter, or use the default set in MpirSettings.
+    /// This enum defines the rounding modes MPIR supports.  Division and modulo operations take an optional rounding mode parameter, or use the default, which is set in the static MpirSettings class.
     /// </summary>
     public enum class RoundingModes
     {
+        /// <summary>Rounding mode is unspecified.  Use a higher level default if available, fall back to Truncate.</summary>
         Default,
+        /// <summary>Truncate to zero.</summary>
         Truncate,
+        /// <summary>Round up to +infinity.</summary>
         Ceiling,
+        /// <summary>Round down to -infinity.</summary>
         Floor,
     };
 
@@ -984,6 +988,9 @@ namespace MPIR
     public ref class MpirSettings abstract sealed
     {
         public:
+            /// <summary>
+            /// Gets or sets the default rounding mode used for MPIR division operations that don't explicitly specify a rounding mode.
+            /// </summary>
             static property RoundingModes RoundingMode;
 
             static MpirSettings()
@@ -1004,6 +1011,11 @@ namespace MPIR
             RoundingModes rounding;
 
         public:
+            /// <summary>
+            /// Optionally sets the rounding mode for the division.  If not set, the static MpirSettings.RoundingMode will be used.
+            /// </summary>
+            /// <param name="mode">the mode to use.  If this is Default, the static MpirSettings.Rounding mode is used.</param>
+            /// <returns>An updated expression, with its internal state updated to use the specified rounding mode.</returns>
             MpirExpression^ Rounding(RoundingModes mode)
             {
                 rounding = mode;
@@ -1022,6 +1034,11 @@ namespace MPIR
             void custom_mpz_div(mpz_ptr q, mpz_srcptr n, mpz_srcptr d);
 
         public:
+            /// <summary>
+            /// Optionally save the remainder of the division to a separate result.  This cannot be the same object the resulting division quotient is being assigned to.
+            /// </summary>
+            /// <param name="destination">destination for the remainder.  This cannot be the same object the resulting division quotient is being assigned to.</param>
+            /// <returns>An updated expression, with its internal state updated to compute the remainder.</returns>
             MpirDivModExpression^ SavingRemainderTo(HugeInt^ destination)
             {
                 _remainder = destination;
@@ -1042,6 +1059,12 @@ namespace MPIR
             void custom_mpz_div_ui(mpz_ptr q, mpz_srcptr n, mpir_ui d);
 
         public:
+            /// <summary>
+            /// Optionally saves the remainder of the division to a separate result.
+            /// </summary>
+            /// <param name="callback">The delegate that will be called with the remainder of the division.  
+            /// The delegate is called when the division is evaluated, i.e. is assigned to the Value property or consumed by a method that returns a primitive type.</param>
+            /// <returns>An updated expression, with its internal state updated to compute the remainder.</returns>
             MpirDivideExpression^ SettingRemainderTo(Action<mpir_ui>^ callback)
             {
                 _limbRemainder = callback;
@@ -1060,6 +1083,11 @@ namespace MPIR
             void custom_mpz_mod(mpz_ptr r, mpz_srcptr n, mpz_srcptr d);
 
         public:
+            /// <summary>
+            /// Optionally save the quotient of the division to a separate result.  This cannot be the same object the resulting division modulo is being assigned to.
+            /// </summary>
+            /// <param name="destination">destination for the quotient.  This cannot be the same object the resulting division modulo is being assigned to.</param>
+            /// <returns>An updated expression, with its internal state updated to compute the quotient.</returns>
             MpirDivModExpression^ SavingQuotientTo(HugeInt^ destination)
             {
                 _quotient = destination;
@@ -1080,6 +1108,12 @@ namespace MPIR
             void custom_mpz_mod_ui(mpz_ptr r, mpz_srcptr n, mpir_ui d);
 
         public:
+            /// <summary>
+            /// Optionally saves the remainder of the division to a separate result.
+            /// </summary>
+            /// <param name="callback">The delegate that will be called with the remainder of the division.  
+            /// The delegate is called when the division is evaluated, i.e. is assigned to the Value property or consumed by a method that returns a primitive type.</param>
+            /// <returns>An updated expression, with its internal state updated to compute the remainder.</returns>
             MpirModExpression^ SettingRemainderTo(Action<mpir_ui>^ callback)
             {
                 _limbRemainder = callback;
@@ -1100,6 +1134,10 @@ namespace MPIR
             void custom_mpz_div_2exp(mpz_ptr q, mpz_srcptr n, mp_bitcnt_t bits);
 
         public:
+            /// <summary>
+            /// Computes the remainder of the division, rather than the quotient, which is the default.
+            /// </summary>
+            /// <returns>An updated expression, with its internal state updated to compute the remainder, rather than the quotient.</returns>
             MpirDivModExpression^ Remainder()
             {
                 _remainder = true;
@@ -1118,6 +1156,11 @@ namespace MPIR
             void custom_mpz_sqrt(mpz_ptr dest, mpz_srcptr oper);
 
         public:
+            /// <summary>
+            /// Optionally saves the remainder of the root operation to a separate result.
+            /// </summary>
+            /// <param name="destination">destination for the remainder.  This cannot be the same object the result of the root operation is being assigned to.</param>
+            /// <returns>An updated expression, with its internal state updated to save the remainder.</returns>
             MpirExpression^ SavingRemainderTo(HugeInt^ destination)
             {
                 _remainder = destination;
@@ -1138,6 +1181,12 @@ namespace MPIR
             void custom_mpz_root(mpz_ptr dest, mpz_srcptr oper, mpir_ui power);
 
         public:
+            /// <summary>
+            /// Optionally gets a flag indicating whether the root operation was exact.
+            /// </summary>
+            /// <param name="callback">Delegate that will be called with the exact flag.
+            /// The delegate is called when the root operation is evaluated, i.e. is assigned to the Value property or consumed by a method that returns a primitive type.</param>
+            /// <returns>An updated expression, with its internal state updated to compute the exact flag.</returns>
             MpirExpression^ SettingExactTo(Action<bool>^ callback)
             {
                 _exact = callback;
