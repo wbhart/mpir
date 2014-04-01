@@ -19,8 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{D93FB003-B8E1-489A-ADC8-AE329B3B5F02}</ProjectGuid>
-    <RootNamespace>mpn.dc_divappr_q_n</RootNamespace>
+    <ProjectGuid>{A126621B-683C-4E4B-A893-CCE9EFE11F81}</ProjectGuid>
+    <RootNamespace>mpz.mfac_uiui</RootNamespace>
     <Keyword>Win32Proj</Keyword>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -154,7 +154,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\tests\mpn\t-dc_divappr_q_n.c" />
+    <ClCompile Include="..\..\..\tests\mpz\t-mfac_uiui.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\add-test-lib\add-test-lib.vcxproj">
+      <Project>{a742d3d1-6956-4f85-bfd6-b0e7b477041d}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
