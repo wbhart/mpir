@@ -4493,7 +4493,7 @@ echo "include_mpn(\`sparc32/sparc-defs.m4')" >> $gmp_tmpconfigm4i
   # mode, in case -m32 has failed not because it's an old gcc, but because
   # it's a dual 32/64-bit gcc without a 32-bit libc, or whatever.
   #
-  i?86*-*-* | k[5-8]*-*-* | pentium*-*-* | athlon-*-* | viac3*-*-* | x86_64-*-* | netburst-*-* | netburstlahf-*-* | k8-*-* | k10-*-* | k102-*-* | k103-*-* | core2-*-* | penryn-*-* | nehalem-*-* | westmere-*-* | sandybridge-*-* | atom-*-* | nano-*-* | bobcat-*-* | bulldozer-*-* | piledriver-*-* | ivybridge-*-* | haswell-*-*)
+  i?86*-*-* | k[5-8]*-*-* | pentium*-*-* | prescott-*-* | core-*-* | athlon-*-* | viac3*-*-* | x86_64-*-* | netburst-*-* | netburstlahf-*-* | k8-*-* | k10-*-* | k102-*-* | k103-*-* | core2-*-* | penryn-*-* | nehalem-*-* | westmere-*-* | sandybridge-*-* | atom-*-* | nano-*-* | bobcat-*-* | bulldozer-*-* | piledriver-*-* | ivybridge-*-* | haswell-*-*)
     abilist="32"
     cclist="gcc icc cc"
     gcc_cflags="-O2 $fomit_frame_pointer"
@@ -5151,8 +5151,8 @@ if test "$gmp_prog_cc_works" = yes; then
   # remove anything that might look like compiler output to our "||" expression
   rm -f conftest* a.out b.out a.exe a_out.exe
   cat >conftest.c <<EOF
-/* The following aborts with gcc-4.3.2 on a 64bit system which is an unusable compiler */
-#if defined(__GNUC__) && !defined(__INTEL_COMPILER)
+/* The following aborts with gcc-4.3.2 on a 64-bit system which is an unusable compiler */
+#if defined(__GNUC__) && !defined(__INTEL_COMPILER) && !defined(__clang__)
 int __attribute__((noinline))
 foo(int i)
 {
@@ -5173,7 +5173,7 @@ int main(){return 0;}
 #endif
 
 EOF
-  echo "Test compile: gcc-4.3.2 on 64bit is bad , try -O1 or -fno-strict-aliasing for the flags" >&5
+  echo "Test compile: gcc-4.3.2 on 64-bit is bad , try -O1 or -fno-strict-aliasing for the flags" >&5
   gmp_compile="$cc $cflags $cppflags conftest.c >&5"
   if { { eval echo "\"\$as_me\":${as_lineno-$LINENO}: \"$gmp_compile\""; } >&5
   (eval $gmp_compile) 2>&5
@@ -5205,10 +5205,10 @@ EOF
 
       ;;
     no)
-      gmp_prog_cc_works="no, gcc-4.3.2 on 64bit is bad , try -O1 or -fno-strict-aliasing for the flags"
+      gmp_prog_cc_works="no, gcc-4.3.2 on 64-bit is bad , try -O1 or -fno-strict-aliasing for the flags"
       ;;
     norun)
-      gmp_prog_cc_works="no, gcc-4.3.2 on 64bit is bad , try -O1 or -fno-strict-aliasing for the flags, program does not run"
+      gmp_prog_cc_works="no, gcc-4.3.2 on 64-bit is bad , try -O1 or -fno-strict-aliasing for the flags, program does not run"
       ;;
   esac
 fi
@@ -5659,9 +5659,9 @@ if test "$gmp_prog_cc_works" = yes; then
   cat >conftest.c <<EOF
 /* The following provokes a segfault in the compiler on powerpc-apple-darwin.
    Extracted from tests/mpn/t-iord_u.c.  Causes Apple's gcc 3.3 build 1640 and
-   1666 to segfault with e.g., -O2 -mpowerpc64.  */
+   1666 to segfault with, e.g., -O2 -mpowerpc64.  */
 
-#ifdef __GNUC__
+#if defined(__GNUC__) && !defined(__clang__)
 typedef unsigned long long t1;typedef t1*t2;
 __inline__ t1 e(t2 rp,t2 up,int n,t1 v0)
 {t1 c,x,r;int i;if(v0){c=1;for(i=1;i<n;i++){x=up[i];r=x+1;rp[i]=r;}}return c;}
@@ -5973,7 +5973,7 @@ fi
 #
 if test "$gmp_prog_cc_works" = yes; then
   case $host in
-    i?86*-*-* | k[5-8]*-*-* | pentium*-*-* | athlon-*-* | viac3*-*-*)
+    i?86*-*-* | k[5-8]*-*-* | pentium*-*-* | prescott-*-* | core-*-* | athlon-*-* | viac3*-*-*)
       # this problem only arises in PIC code, so don't need to test when
       # --disable-shared.  We don't necessarily have $enable_shared set to
       # yes at this point, it will still be unset for the default (which is
@@ -6465,8 +6465,8 @@ if test "$gmp_prog_cc_works" = yes; then
   # remove anything that might look like compiler output to our "||" expression
   rm -f conftest* a.out b.out a.exe a_out.exe
   cat >conftest.c <<EOF
-/* The following aborts with gcc-4.3.2 on a 64bit system which is an unusable compiler */
-#if defined(__GNUC__) && !defined(__INTEL_COMPILER)
+/* The following aborts with gcc-4.3.2 on a 64-bit system which is an unusable compiler */
+#if defined(__GNUC__) && !defined(__INTEL_COMPILER) && !defined(__clang__)
 int __attribute__((noinline))
 foo(int i)
 {
@@ -6487,7 +6487,7 @@ int main(){return 0;}
 #endif
 
 EOF
-  echo "Test compile: gcc-4.3.2 on 64bit is bad , try -O1 or -fno-strict-aliasing for the flags" >&5
+  echo "Test compile: gcc-4.3.2 on 64-bit is bad , try -O1 or -fno-strict-aliasing for the flags" >&5
   gmp_compile="$cc $cflags $cppflags $flag conftest.c >&5"
   if { { eval echo "\"\$as_me\":${as_lineno-$LINENO}: \"$gmp_compile\""; } >&5
   (eval $gmp_compile) 2>&5
@@ -6519,10 +6519,10 @@ EOF
 
       ;;
     no)
-      gmp_prog_cc_works="no, gcc-4.3.2 on 64bit is bad , try -O1 or -fno-strict-aliasing for the flags"
+      gmp_prog_cc_works="no, gcc-4.3.2 on 64-bit is bad , try -O1 or -fno-strict-aliasing for the flags"
       ;;
     norun)
-      gmp_prog_cc_works="no, gcc-4.3.2 on 64bit is bad , try -O1 or -fno-strict-aliasing for the flags, program does not run"
+      gmp_prog_cc_works="no, gcc-4.3.2 on 64-bit is bad , try -O1 or -fno-strict-aliasing for the flags, program does not run"
       ;;
   esac
 fi
@@ -6973,9 +6973,9 @@ if test "$gmp_prog_cc_works" = yes; then
   cat >conftest.c <<EOF
 /* The following provokes a segfault in the compiler on powerpc-apple-darwin.
    Extracted from tests/mpn/t-iord_u.c.  Causes Apple's gcc 3.3 build 1640 and
-   1666 to segfault with e.g., -O2 -mpowerpc64.  */
+   1666 to segfault with, e.g., -O2 -mpowerpc64.  */
 
-#ifdef __GNUC__
+#if defined(__GNUC__) && !defined(__clang__)
 typedef unsigned long long t1;typedef t1*t2;
 __inline__ t1 e(t2 rp,t2 up,int n,t1 v0)
 {t1 c,x,r;int i;if(v0){c=1;for(i=1;i<n;i++){x=up[i];r=x+1;rp[i]=r;}}return c;}
@@ -7287,7 +7287,7 @@ fi
 #
 if test "$gmp_prog_cc_works" = yes; then
   case $host in
-    i?86*-*-* | k[5-8]*-*-* | pentium*-*-* | athlon-*-* | viac3*-*-*)
+    i?86*-*-* | k[5-8]*-*-* | pentium*-*-* | prescott-*-* | core-*-* | athlon-*-* | viac3*-*-*)
       # this problem only arises in PIC code, so don't need to test when
       # --disable-shared.  We don't necessarily have $enable_shared set to
       # yes at this point, it will still be unset for the default (which is
@@ -10557,7 +10557,7 @@ done
 # enough assembler.
 #
 case $host in
-  i?86*-*-* | k[5-8]*-*-* | pentium*-*-* | athlon-*-* | viac3*-*-* | x86_64-*-* | netburst-*-* | netburstlahf-*-* | k8-*-* | k10-*-* | k102-*-* | k103-*-* | core2-*-* | penryn-*-* | nehalem-*-* | westmere-*-* | sandybridge-*-* | atom-*-* | nano-*-* | bobcat-*-* | bulldozer-*-* | piledriver-*-* | ivybridge-*-* | haswell-*-*)
+  i?86*-*-* | k[5-8]*-*-* | pentium*-*-* | prescott-*-* | core-*-* | athlon-*-* | viac3*-*-* | x86_64-*-* | netburst-*-* | netburstlahf-*-* | k8-*-* | k10-*-* | k102-*-* | k103-*-* | core2-*-* | penryn-*-* | nehalem-*-* | westmere-*-* | sandybridge-*-* | atom-*-* | nano-*-* | bobcat-*-* | bulldozer-*-* | piledriver-*-* | ivybridge-*-* | haswell-*-*)
     if test "$ABI" = 32; then
       case "$path $fat_path" in
         *mmx*)   { $as_echo "$as_me:${as_lineno-$LINENO}: checking if the assembler knows about MMX instructions" >&5
@@ -24450,7 +24450,7 @@ if ${gmp_cv_asm_rodata+:} false; then :
 else
 
 case $host in
-i?86*-*-* | k[5-8]*-*-* | pentium*-*-* | athlon-*-* | viac3*-*-* | x86_64-*-*)
+i?86*-*-* | k[5-8]*-*-* | pentium*-*-* | prescott-*-* | core-*-* | athlon-*-* | viac3*-*-* | x86_64-*-*)
   gmp_cv_asm_rodata="$gmp_cv_asm_data" ;;
 *)
   gmp_cv_asm_rodata="$gmp_cv_asm_text" ;;
@@ -25105,7 +25105,7 @@ echo "define(<HAVE_REGISTER>,<$gmp_cv_asm_sparc_register>)" >> $gmp_tmpconfigm4
           ;;
       esac
       ;;
-    i?86*-*-* | k[5-8]*-*-* | pentium*-*-* | athlon-*-* | viac3*-*-* | x86_64-*-* | netburst-*-* | netburstlahf-*-* | k8-*-* | k10-*-* | k102-*-* | k103-*-* | core2-*-* | penryn-*-* | nehalem-*-* | westmere-*-* | sandybridge-*-* | atom-*-* | nano-*-* | bobcat-*-* | bulldozer-*-* | piledriver-*-* | ivybridge-*-* | haswell-*-*)
+    i?86*-*-* | k[5-8]*-*-* | pentium*-*-* | prescott-*-* | core-*-* | athlon-*-* | viac3*-*-* | x86_64-*-* | netburst-*-* | netburstlahf-*-* | k8-*-* | k10-*-* | k102-*-* | k103-*-* | core2-*-* | penryn-*-* | nehalem-*-* | westmere-*-* | sandybridge-*-* | atom-*-* | nano-*-* | bobcat-*-* | bulldozer-*-* | piledriver-*-* | ivybridge-*-* | haswell-*-*)
 
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking if the .align directive accepts an 0x90 fill in .text" >&5
 $as_echo_n "checking if the .align directive accepts an 0x90 fill in .text... " >&6; }
