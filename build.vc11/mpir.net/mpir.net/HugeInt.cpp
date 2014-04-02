@@ -32,9 +32,7 @@ along with the MPIR Library.  If not, see http://www.gnu.org/licenses/.
 #define DEFINE_BINARY_ASSIGNMENT_REF_REF(name, typeAbbr, operation)   \
     DEFINE_ASSIGNMENT_PROLOG(name##typeAbbr##typeAbbr)                \
     {                                                                 \
-        EvaluationContext context;                                    \
-        Left->AssignTo(context);                                      \
-        Right->AssignTo(context);                                     \
+        IN_CONTEXT_2(Left, Right);                                    \
         operation(destination, context.Args[0], context.Args[1]);     \
     }                                                                 \
 
@@ -78,19 +76,14 @@ along with the MPIR Library.  If not, see http://www.gnu.org/licenses/.
 #define DEFINE_TERNARY_ASSIGNMENT_REF_REF_REF(name, typeAbbr, operation)               \
     DEFINE_ASSIGNMENT_PROLOG(name##typeAbbr##typeAbbr##typeAbbr)                       \
     {                                                                                  \
-        EvaluationContext context;                                                     \
-        Left->AssignTo(context);                                                       \
-        Middle->AssignTo(context);                                                     \
-        Right->AssignTo(context);                                                      \
+        IN_CONTEXT_3(Left, Middle, Right);                                             \
         operation(destination, context.Args[0], context.Args[1], context.Args[2]);     \
     }                                                                                  \
 
 #define DEFINE_TERNARY_ASSIGNMENT_REF_VAL_REF(name, leftT, middleT, rightT, operation) \
     DEFINE_ASSIGNMENT_PROLOG(name##leftT##middleT##rightT)                             \
     {                                                                                  \
-        EvaluationContext context;                                                     \
-        Left->AssignTo(context);                                                       \
-        Right->AssignTo(context);                                                      \
+        IN_CONTEXT_2(Left, Right);                                                     \
         operation(destination, context.Args[0], Middle, context.Args[1]);              \
     }                                                                                  \
 
@@ -176,8 +169,11 @@ namespace MPIR
         return ToString(10);
     }
 
-    String^ HugeInt::ToString(int base)
+    String^ HugeInt::ToString(int base, bool lowercase)
     {
+        if(base <= 36 && !lowercase)
+            base = -base;
+
         char* str = mpz_get_str(NULL, base, _value);
         String^ result = gcnew String(str);
         CustomFree(str);
@@ -187,8 +183,7 @@ namespace MPIR
 
     int MpirExpression::GetHashCode()
     {
-        EvaluationContext context;
-        AssignTo(context);
+        IN_CONTEXT_1(this);
 
         mp_limb_t hash = 0;
         mp_limb_t* ptr = context.Args[0]->_mp_d;
@@ -256,9 +251,7 @@ namespace MPIR
         if (IS_NULL(a))
             return 1;
 
-        EvaluationContext context;
-        AssignTo(context);
-        a->AssignTo(context);
+        IN_CONTEXT_2(this, a);
         return mpz_cmp(context.Args[0], context.Args[1]);
     }
 
@@ -473,8 +466,7 @@ namespace MPIR
 
     mpir_ui MpirExpression::Mod(mpir_ui d, RoundingModes rounding)
     {
-        EvaluationContext context;
-        AssignTo(context);
+        IN_CONTEXT_1(this);
 
         switch((rounding == RoundingModes::Default) ? MpirSettings::RoundingMode : rounding)
         {
@@ -488,35 +480,6 @@ namespace MPIR
                 return mpz_tdiv_ui(context.Args[0], d);
         }
     }
-
-    int MpirExpression::CompareAbsTo(MpirExpression^ a)
-    {
-        EvaluationContext context;
-        AssignTo(context);
-        a->AssignTo(context);
-        return mpz_cmpabs(context.Args[0], context.Args[1]);
-    }
-
-    int MpirExpression::CompareAbsTo(mpir_ui a)
-    {
-        EvaluationContext context;
-        AssignTo(context);
-        return mpz_cmpabs_ui(context.Args[0], a);
-    }
-
-    int MpirExpression::CompareAbsTo(double a)
-    {
-        EvaluationContext context;
-        AssignTo(context);
-        return mpz_cmpabs_d(context.Args[0], a);
-    }
-
-    int MpirExpression::Sign()
-    {
-        EvaluationContext context;
-        AssignTo(context);
-        return mpz_sgn(context.Args[0]);
-    }
-
+    
     #pragma endregion
 };

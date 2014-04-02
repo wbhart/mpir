@@ -35,7 +35,7 @@ namespace MPIR.Tests.HugeIntTests
             using (var c = new HugeInt())
             {
                 c.Value = a & b;
-                Assert.AreEqual("100000000000000000123456789ABCDEF0123456789ABCDEF", c.ToString(-16));
+                Assert.AreEqual("100000000000000000123456789ABCDEF0123456789ABCDEF", c.ToString(16));
             }
         }
 
@@ -47,7 +47,7 @@ namespace MPIR.Tests.HugeIntTests
             using (var c = new HugeInt())
             {
                 c.Value = a | b;
-                Assert.AreEqual("10123456789ABCDEF0123456789ABCDEFFFFFFFFFFFFFFFFF", c.ToString(-16));
+                Assert.AreEqual("10123456789ABCDEF0123456789ABCDEFFFFFFFFFFFFFFFFF", c.ToString(16));
             }
         }
 
@@ -59,7 +59,7 @@ namespace MPIR.Tests.HugeIntTests
             using (var c = new HugeInt())
             {
                 c.Value = a ^ b;
-                Assert.AreEqual("10123456789ABCDEF0000000000000000FEDCBA9876543210", c.ToString(-16));
+                Assert.AreEqual("10123456789ABCDEF0000000000000000FEDCBA9876543210", c.ToString(16));
             }
         }
 

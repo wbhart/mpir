@@ -170,10 +170,13 @@ namespace MPIR.Tests.HugeIntTests
 
         public static string FormatParameterType(ParameterInfo p)
         {
-            if (!p.ParameterType.IsGenericType)
-                return p.ParameterType.FullName;
+            if (p.ParameterType.IsGenericType)
+                return p.ParameterType.Namespace + "." + p.ParameterType.Name + "{" + string.Join(",", p.ParameterType.GetGenericArguments().Select(x => x.FullName)) + "}";
 
-            return p.ParameterType.Namespace + "." + p.ParameterType.Name + "{" + string.Join(",", p.ParameterType.GetGenericArguments().Select(x => x.FullName)) + "}";
+            if (p.IsOut)
+                return p.ParameterType.FullName.Replace('&', '@');
+
+            return p.ParameterType.FullName;
         }
     }
 

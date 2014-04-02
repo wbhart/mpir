@@ -175,7 +175,7 @@ namespace MPIR.Tests.HugeIntTests
             var n = "143210ABCDEF32123457ACDB324598799";
             using (var a = new HugeInt("0x" + n))
             {
-                Assert.AreEqual(n, a.ToString(-16));
+                Assert.AreEqual(n, a.ToString(16));
             }
         }
 
@@ -185,9 +185,11 @@ namespace MPIR.Tests.HugeIntTests
             var n = "143210ABCDEF32123457ACDB324598799";
             using (var a = new HugeInt("0x" + n))
             {
-                Assert.AreEqual(n, a.ToString(-16));
+                Assert.AreEqual(n, a.ToString(16));
+                Assert.AreEqual(n, a.ToString(16, false));
+                Assert.AreEqual(n.ToLower(), a.ToString(16, true));
                 a.SetTo("-0x" + n);
-                Assert.AreEqual("-" + n, a.ToString(-16));
+                Assert.AreEqual("-" + n, a.ToString(16));
             }
         }
     }

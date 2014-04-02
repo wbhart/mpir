@@ -69,6 +69,21 @@ private ref class Mpir##name##Expression : base                                 
         }                                                                          \
 };
 
+#define IN_CONTEXT_1(a)        \
+    EvaluationContext context; \
+    a->AssignTo(context)
+
+#define IN_CONTEXT_2(a, b)     \
+    EvaluationContext context; \
+    a->AssignTo(context);      \
+    b->AssignTo(context)
+
+#define IN_CONTEXT_3(a, b, c)  \
+    EvaluationContext context; \
+    a->AssignTo(context);      \
+    b->AssignTo(context);      \
+    c->AssignTo(context)
+
 #define TYPE_FOR_ABBR_Int HugeInt^
 #define TYPE_FOR_ABBR_Expr MpirExpression^
 #define TYPE_FOR_ABBR_Si mpir_si
@@ -957,27 +972,96 @@ namespace MPIR
             /// </para></summary>
             /// <param name="a">Value to compare the source with</param>
             /// <returns>A positive number if the absolute value of the source is greater than the absolute value of <paramref name="a"/>, negative if less, and zero if they are equal.</returns>
-            int CompareAbsTo(MpirExpression^ a);
+            int CompareAbsTo(MpirExpression^ a) { IN_CONTEXT_2(this, a); return mpz_cmpabs(context.Args[0], context.Args[1]); }
 
             /// <summary>Compares the absolute values of two numbers.
             /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
             /// </para></summary>
             /// <param name="a">Value to compare the source with</param>
             /// <returns>A positive number if the absolute value of the source is greater than <paramref name="a"/>, negative if less, and zero if they are equal.</returns>
-            int CompareAbsTo(mpir_ui a);
+            int CompareAbsTo(mpir_ui a) { IN_CONTEXT_1(this); return mpz_cmpabs_ui(context.Args[0], a); }
 
             /// <summary>Compares the absolute values of two numbers.
             /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
             /// </para></summary>
             /// <param name="a">Value to compare the source with</param>
             /// <returns>A positive number if the absolute value of the source is greater than the absolute value of <paramref name="a"/>, negative if less, and zero if they are equal.</returns>
-            int CompareAbsTo(double a);
+            int CompareAbsTo(double a) { IN_CONTEXT_1(this); return mpz_cmpabs_d(context.Args[0], a); }
 
             /// <summary>Calculates the sign (+1, 0, or -1) of the source value.
             /// <para>If the source is an expression, it is evaluated into a temporary variable before the sign is computed.
             /// </para></summary>
             /// <returns>+1 if the source is positive, -1 if negative, and 0 if zero.</returns>
-            int Sign();
+            int Sign() { IN_CONTEXT_1(this); return mpz_sgn(context.Args[0]); }
+
+            #pragma endregion
+
+            #pragma region Utility methods
+
+            /// <summary>
+            /// Checks if the source is evenly divisible by <paramref name="a"/>.
+            /// Because this method returns a primitive type, it is computed immediately.
+            /// </summary>
+            /// <param name="a">Divisor to test with</param>
+            /// <returns>True if the source is evenly divisible by <paramref name="a"/></returns>
+            bool IsDivisibleBy(MpirExpression^ a) { IN_CONTEXT_2(this, a); return mpz_divisible_p(context.Args[0], context.Args[1]) != 0; }
+
+            /// <summary>
+            /// Checks if the source is evenly divisible by <paramref name="a"/>.
+            /// Because this method returns a primitive type, it is computed immediately.
+            /// </summary>
+            /// <param name="a">Divisor to test with</param>
+            /// <returns>True if the source is evenly divisible by <paramref name="a"/></returns>
+            bool IsDivisibleBy(mpir_ui a) { IN_CONTEXT_1(this); return mpz_divisible_ui_p(context.Args[0], a) != 0; }
+
+            /// <summary>
+            /// Checks if the source is evenly divisible by 2^<paramref name="power"/>.
+            /// Because this method returns a primitive type, it is computed immediately.
+            /// </summary>
+            /// <param name="power">Power of 2 to use for the divisor</param>
+            /// <returns>True if the source is evenly divisible by 2^<paramref name="power"/></returns>
+            bool IsDivisibleByPowerOf2(mp_bitcnt_t power) { IN_CONTEXT_1(this); return mpz_divisible_2exp_p(context.Args[0], power) != 0; }
+
+            /// <summary>
+            /// Checks if the source is congruent to <paramref name="a"/> modulo <paramref name="mod"/>.
+            /// Because this method returns a primitive type, it is computed immediately.
+            /// </summary>
+            /// <param name="a">Divisor to test with</param>
+            /// <param name="mod">Modulo with respect to which to test for congruency</param>
+            /// <returns>True if the source is congruent to <paramref name="a"/> modulo <paramref name="mod"/></returns>
+            bool IsCongruentTo(MpirExpression^ a, MpirExpression^ mod) { IN_CONTEXT_3(this, a, mod); return mpz_congruent_p(context.Args[0], context.Args[1], context.Args[2]) != 0; }
+
+            /// <summary>
+            /// Checks if the source is congruent to <paramref name="a"/> modulo <paramref name="mod"/>.
+            /// Because this method returns a primitive type, it is computed immediately.
+            /// </summary>
+            /// <param name="a">Divisor to test with</param>
+            /// <param name="mod">Modulo with respect to which to test for congruency</param>
+            /// <returns>True if the source is congruent to <paramref name="a"/> modulo <paramref name="mod"/></returns>
+            bool IsCongruentTo(mpir_ui a, mpir_ui mod) { IN_CONTEXT_1(this); return mpz_congruent_ui_p(context.Args[0], a, mod) != 0; }
+
+            /// <summary>
+            /// Checks if the source is congruent to <paramref name="a"/> modulo 2^<paramref name="power"/>.
+            /// Because this method returns a primitive type, it is computed immediately.
+            /// </summary>
+            /// <param name="a">Divisor to test with</param>
+            /// <param name="power">Power of 2 to use for the modulo</param>
+            /// <returns>True if the source is congruent to <paramref name="a"/> modulo 2^<paramref name="power"/></returns>
+            bool IsCongruentToModPowerOf2(MpirExpression^ a, mp_bitcnt_t power) { IN_CONTEXT_2(this, a); return mpz_congruent_2exp_p(context.Args[0], context.Args[1], power) != 0; }
+
+            /// <summary>
+            /// Checks if the source is a perfect power.
+            /// Because this method returns a primitive type, it is computed immediately.
+            /// </summary>
+            /// <returns>True if the source is a perfect power</returns>
+            bool IsPerfectPower() { IN_CONTEXT_1(this); return mpz_perfect_power_p(context.Args[0]) != 0; }
+
+            /// <summary>
+            /// Checks if the source is a perfect square.
+            /// Because this method returns a primitive type, it is computed immediately.
+            /// </summary>
+            /// <returns>True if the source is a perfect square</returns>
+            bool IsPerfectSquare() { IN_CONTEXT_1(this); return mpz_perfect_square_p(context.Args[0]) != 0; }
 
             #pragma endregion
     };
@@ -990,12 +1074,23 @@ namespace MPIR
         public:
             /// <summary>
             /// Gets or sets the default rounding mode used for MPIR division operations that don't explicitly specify a rounding mode.
-            /// </summary>
+            /// <para>Defaults to Truncate.
+            /// </para></summary>
             static property RoundingModes RoundingMode;
+
+            /// <summary>
+            /// Gets or sets the maximum number of digits the object.ToString() method override will output.  
+            /// <para>If a number is longer than this number of digits, it will be output as "[-]...NNNNN" with the least significant digits shown.
+            /// </para>Defaults to 256.
+            /// <para>Specifying 0 will cause all digits to be output.  This should be used with care, as for example, the debugger calls ToString()
+            /// on watched objects, and may have performance issues with large objects.
+            /// </para></summary>
+            static property int ToStringDigits;
 
             static MpirSettings()
             {
                 RoundingMode = RoundingModes::Truncate;
+                ToStringDigits = 256;
             }
     };
 
@@ -1361,9 +1456,77 @@ namespace MPIR
 
             #pragma endregion
 
-            //object overrides
+            #pragma region conversions
+
+            /// <summary>
+            /// Converts the number to a string.
+            /// <para>To avoid debugging performance problems, this method outputs at most the number of digits specified in MpirSettings.ToStringDigits.
+            /// If the number is larger, the least significant digits are shown with a leading ellipsis (i.e., [-]...NNNNN)
+            /// </para>Setting MpirSettings.ToStringDigits to 0 removes the upper limit.
+            /// </summary>
+            /// <returns>A string representation of the number in decimal, possibly cut off if the number has more digits than MpirSettings.ToStringDigits.</returns>
             virtual String^ ToString() override;
-            String^ ToString(int base);
+
+            /// <summary>
+            /// Converts the number to a string in the specified base.
+            /// <para>This method always produces the complete output regardless of the MpirSettings.ToStringDigits setting.
+            /// </para></summary>
+            /// <param name="base">The base to use for the output.  The base can be from 2 to 62; uppercase letters represent digits 10-35 and lowercase letters represent digits 36-61.</param>
+            /// <returns>A string representation of the number in the specified base.</returns>
+            String^ ToString(int base) { return ToString(base, false); }
+
+            /// <summary>
+            /// Converts the number to a string in the specified base.
+            /// <para>This method always produces the complete output regardless of the MpirSettings.ToStringDigits setting.
+            /// </para></summary>
+            /// <param name="base">The base to use for the output.
+            /// <para>The base can be from 2 to 62; Bases up to 36 use uppercase or lowercase letters based on the <paramref name="lowercase"/> argument.
+            /// </para>For bases larger than 36, the <paramref name="lowercase"/> argument is ignored and uppercase letters represent digits 10-35 while lowercase letters represent digits 36-61.</param>
+            /// <param name="lowercase">Indicates if lowercase or uppercase letters should be used for the output.
+            /// <para>This argument is ignored for bases larger than 36, where both uppercase and lowercase letters are used.</para></param>
+            /// <returns>A string representation of the number in the specified base.</returns>
+            String^ ToString(int base, bool lowercase);
+
+            /// <summary>
+            /// Returns the absolute value of the number of the number as a ulong.
+            /// <para>If the number is too big, then just the least significant bits that do fit are returned.
+            /// </para>The sign of the number is ignored, only the absolute value is used.
+            /// </summary>
+            /// <returns>The absolute value as a ulong, possibly truncated to the least significant bits only.</returns>
+            mpir_ui ToUlong() { return mpz_get_ui(_value); }
+
+            /// <summary>
+            /// Returns the value of the number of the number as a long.
+            /// <para>If the number is too big, then just the least significant bits that do fit are returned, with the same sign as the number.
+            /// </para>When truncation occurs, the result is propobly not very useful.  Call FitsLong() to check if the number will fit.
+            /// </summary>
+            /// <returns>The value as a ulong, possibly truncated to the least significant bits only.</returns>
+            mpir_si ToLong() { return mpz_get_si(_value); }
+
+            /// <summary>
+            /// Returns the value of the number of the number as a double, truncating if necessary (rounding towards zero).
+            /// <para>If the exponent from the conversion is too big, the result is system dependent. An infinity is returned where available.             /// A hardware overflow trap may or may not occur.
+            /// </para></summary>
+            /// <returns>The value as a double, possibly truncated.</returns>
+            double ToDouble() { return mpz_get_d(_value); }
+
+            /// <summary>
+            /// Returns the value of the number of the number as a double, truncating if necessary (rounding towards zero), and returning the exponent separately.
+            /// <para>The return is the mantissa, its absolute value will be in the range [0.5 - 1).            /// </para>If the source value is zero, both mantissa and exponent are returned as 0.
+            /// </summary>
+            /// <param name="exp">variable to store the exponent in.</param>
+            /// <returns>The mantissa of the value as a double, possibly truncated.</returns>
+            double ToDouble([Out] mpir_si% exp) 
+            { 
+                mpir_si x; 
+                auto result = mpz_get_d_2exp(&x, _value); 
+                exp = x; 
+                return result; 
+            }
+
+            #pragma endregion
+
+            #pragma region assignment
 
             /// <summary>
             /// Sets the value of the integer object.
@@ -1386,22 +1549,6 @@ namespace MPIR
             property MpirExpression^ Value
             {
                 void set(MpirExpression^ expr) { expr->AssignTo(_value); }
-            }
-
-            //conversions
-            mpir_ui ToUlong() { return mpz_get_ui(_value); }
-            mpir_si ToLong() { return mpz_get_si(_value); }
-            double ToDouble() { return mpz_get_d(_value); }
-
-            /// <summary>
-            /// 
-            /// </summary>
-            double ToDouble([Out] mpir_si% exp) 
-            { 
-                mpir_si x; 
-                auto result = mpz_get_d_2exp(&x, _value); 
-                exp = x; 
-                return result; 
             }
 
             /// <summary>
@@ -1445,25 +1592,18 @@ namespace MPIR
             void SetTo(String^ value, int base);
 
             /// <summary>
-            /// 
+            /// Swaps the values of two integers.
+            /// <para>This operation is a pointer swap and doesn't affect allocated memory.
+            /// </para>Do not call this method while either object is contained in a hash table, because this would change their hash codes.
             /// </summary>
-            bool IsDivisibleBy(HugeInt^ a) { return mpz_divisible_p(_value, a->_value) != 0; }
-            bool IsDivisibleBy(mpir_ui a) { return mpz_divisible_ui_p(_value, a) != 0; }
-            bool IsDivisibleByPowerOf2(mp_bitcnt_t bits) { return mpz_divisible_2exp_p(_value, bits) != 0; }
-
-            bool IsCongruentTo(HugeInt^ a, HugeInt^ mod) { return mpz_congruent_p(_value, a->_value, mod->_value) != 0; }
-            bool IsCongruentTo(mpir_ui a, mpir_ui mod) { return mpz_congruent_ui_p(_value, a, mod) != 0; }
-            bool IsCongruentToModPowerOf2(HugeInt^ a, mp_bitcnt_t bits) { return mpz_congruent_2exp_p(_value, a->_value, bits) != 0; }
-
-            bool IsPerfectPower() { return mpz_perfect_power_p(_value) != 0; }
-            bool IsPerfectSquare() { return mpz_perfect_square_p(_value) != 0; }
-
-            //utility methods
+            /// <param name="a">Source number to swap this instance's value with</param>
             void Swap(HugeInt^ a) 
             { 
                 mpz_ptr temp = a->_value;
                 a->_value = _value;
                 _value = temp; 
             }
+
+            #pragma endregion
     };
 };
