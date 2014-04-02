@@ -1220,9 +1220,9 @@ case $host in
           k103-w64-mingw*|k103-*-cygwin*)
             path_64="x86_64w/k8/k10/k102 x86_64w/k8/k10 x86_64w/k8 x86_64w" ;;
           bulldozer-w64-mingw*|bulldozer-*-cygwin*)
-            path_64="x86_64w/k8/k10/k102 x86_64w/k8/k10 x86_64w/k8 x86_64w" ;;
+            path_64="x86_64w/bulldozer x86_64w/k8/k10/k102 x86_64w/k8/k10 x86_64w/k8 x86_64w" ;;
           piledriver-w64-mingw*|piledriver-*-cygwin*)
-            path_64="x86_64w/k8/k10/k102 x86_64w/k8/k10 x86_64w/k8 x86_64w" ;;
+            path_64="x86_64w/bulldozer/piledriver x86_64w/bulldozer x86_64w/k8/k10/k102 x86_64w/k8/k10 x86_64w/k8 x86_64w" ;;
           bobcat-w64-mingw*|bobcat-*-cygwin*)
             path_64="x86_64w/bobcat x86_64w" ;;
           core2-w64-mingw*|core2-*-cygwin*)
@@ -1236,9 +1236,9 @@ case $host in
           sandybridge-w64-mingw*|sandybridge-*-cygwin*)
             path_64="x86_64w/sandybridge x86_64w" ;;
           ivybridge-w64-mingw*|ivyybridge-*-cygwin*)
-            path_64="x86_64w/sandybridge x86_64w" ;;
+            path_64="x86_64w/sandybridge/ivybridge x86_64w/sandybridge x86_64w" ;;
           haswell-w64-mingw*|haswell-*-cygwin*)
-            path_64="x86_64w/sandybridge x86_64w" ;;
+            path_64="x86_64w/haswell x86_64w/sandybridge x86_64w" ;;
           atom-w64-mingw*|atom-*-cygwin*)
             path_64="x86_64w/atom x86_64w" ;;
           nano-w64-mingw*|nano-*-cygwin*)
