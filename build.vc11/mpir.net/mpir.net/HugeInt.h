@@ -1365,7 +1365,24 @@ namespace MPIR
             virtual String^ ToString() override;
             String^ ToString(int base);
 
-            //assignment
+            /// <summary>
+            /// Sets the value of the integer object.
+            /// <para>MPIR types are implemented as reference types with value semantics.
+            /// Like Strings, the objects themselves are just lightweight pointers to data allocated elsewhere.
+            /// Unlike Strings, MPIR types are mutable.  Value semantics requires you to be able to code, a = b + c.
+            /// However, .Net (outside of C++) does not allow overloading the assignment operator,
+            /// and assigning references would necessitate some unnecessary duplication and extra memory allocations.
+            /// </para>To solve this problem, MPIR.Net uses the property assignment.  
+            /// The setter of the Value property does what an overloaded assignment operator would do in C++.
+            /// The syntax is a little different: a.Value = b + c, but it is fluent enough to become a quick habit,
+            /// and additionally reinforces the concept that an existing object can change its value while reusing internally allocated memory.
+            /// <para>To this end, all overloaded operators and most functions that operate on MPIR types,
+            /// instead of eagerly computing a result, instead produce and return an expression that is basically a formula for the computation.
+            /// Expressions can then be composed using additional operators to achieve expression trees of arbitrary complexity.
+            /// All computations are deferred until an expression is assigned to the Value property of an MPIR object,
+            /// or is consumed by a method or operator that returns a primitive type.
+            /// </para>Do not set the Value of an object while it is contained in a hash table, because that changes its hash code.
+            /// </summary>
             property MpirExpression^ Value
             {
                 void set(MpirExpression^ expr) { expr->AssignTo(_value); }
@@ -1387,13 +1404,46 @@ namespace MPIR
                 return result; 
             }
 
+            /// <summary>
+            /// Sets the value of the integer object.
+            /// <para>Do not change the value of an object while it is contained in a hash table, because that changes its hash code.
+            /// </para></summary>
+            /// <param name="value">new value for the object</param>
             void SetTo(mpir_ui value) { mpz_set_ui(_value, value); }
+
+            /// <summary>
+            /// Sets the value of the integer object.
+            /// <para>Do not change the value of an object while it is contained in a hash table, because that changes its hash code.
+            /// </para></summary>
+            /// <param name="value">new value for the object</param>
             void SetTo(mpir_si value) { mpz_set_si(_value, value); }
+
+            /// <summary>
+            /// Sets the value of the integer object.  Any fractional portion is truncated.
+            /// <para>Do not change the value of an object while it is contained in a hash table, because that changes its hash code.
+            /// </para></summary>
+            /// <param name="value">new value for the object</param>
             void SetTo(double value) { mpz_set_d(_value, value); }
+
+            /// <summary>
+            /// Sets the value of the integer object.
+            /// <para>Do not change the value of an object while it is contained in a hash table, because that changes its hash code.
+            /// </para></summary>
+            /// <param name="value">new value for the object.  The string's leading characters may indicate base:
+            /// 0x and 0X for hexadecimal, 0b and 0B for binary, 0 for octal, or decimal otherwise</param>
             void SetTo(String^ value) { SetTo(value, 0); }
+
+            /// <summary>
+            /// Sets the value of the integer object.
+            /// <para>Do not change the value of an object while it is contained in a hash table, because that changes its hash code.
+            /// </para></summary>
+            /// <param name="value">new value for the object</param>
+            /// <param name="base">base the <paramref name="value"/> string is in.
+            /// <para>The base may vary from 2 to 62, or if base is 0, then the leading characters are used: 0x and 0X for hexadecimal, 0b and 0B for binary, 0 for octal, or decimal otherwise.
+            /// </para>For bases up to 36, case is ignored; upper-case and lower-case letters have the same value. 
+            /// For bases 37 to 62, upper-case letter represent the usual 10..35 while lower-case letter represent 36..61.</param>
             void SetTo(String^ value, int base);
 
-            //arithmetic
             /// <summary>
             /// 
             /// </summary>
