@@ -475,7 +475,7 @@ def compiler_options(plat, is_dll, is_debug, outf):
 '''
 
   if is_dll:
-    s1 = 'DEBUG;HAVE_CONFIG_H;__GMP_LIBGMP_DLL;__GMP_WITHIN_GMP;__GMP_WITHIN_GMPXX;'
+    s1 = 'DEBUG;HAVE_CONFIG_H;MSC_BUILD_DLL;'
     s2 = 'DLL'
   else:
     s1 = 'DEBUG;_LIB;HAVE_CONFIG_H;'

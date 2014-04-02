@@ -176,6 +176,16 @@ along with the GNU MP Library.  If not, see http://www.gnu.org/licenses/.  */
 #define __GMP_DECLSPEC_IMPORT  _Import
 #endif
 
+#if defined( _MSC_VER )
+#  if defined( MSC_BUILD_DLL )
+#    define __GMP_LIBGMP_DLL   1
+#    define __GMP_WITHIN_GMP   1
+#    define __GMP_WITHIN_GMPXX 1
+#  elif defined( MSC_USE_DLL )
+#    define __GMP_LIBGMP_DLL   1
+#  endif
+#endif
+
 #if __GMP_LIBGMP_DLL
 #if __GMP_WITHIN_GMP
 /* compiling to go into a DLL libmpir */
