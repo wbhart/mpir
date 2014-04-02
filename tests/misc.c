@@ -145,8 +145,8 @@ mp_limb_t (*calling_conventions_function) _PROTO ((ANYARGS));
 void *
 align_pointer (void *p, size_t align)
 {
-  unsigned long  d;
-  d = ((unsigned long) p) & (align-1);
+  mpir_ui  d;
+  d = ((mpir_ui) p) & (align-1);
   d = (d != 0 ? align-d : 0);
   return (void *) (((char *) p) + d);
 }
