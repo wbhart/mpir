@@ -18,6 +18,7 @@ along with the MPIR Library.  If not, see http://www.gnu.org/licenses/.
 */
 
 using System;
+using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace MPIR.Tests.HugeIntTests
@@ -94,9 +95,12 @@ namespace MPIR.Tests.HugeIntTests
                 long exp;
                 a.Value = a + a;
                 c = a.ToDouble(out exp);
-                //TODO refactor (and verify) these asserts
-                Assert.AreEqual("-0.653538858365896", c.ToString());
+
                 Assert.AreEqual(75, exp);
+                c *= System.Math.Pow(2, exp);
+
+                Assert.IsTrue(a + 10000000000 >= c);
+                Assert.IsTrue(a - 10000000000 <= c);
             }
         }
 
@@ -125,6 +129,17 @@ namespace MPIR.Tests.HugeIntTests
             }
         }
 
-        //todo truncated test
+        [TestMethod]
+        public void ToStringTruncated()
+        {
+            var n = string.Concat("123456789".Select(c => new string(c, 30)));
+            using (var a = new HugeInt(n))
+            {
+                Assert.AreEqual(n, a.ToString(10));
+                Assert.AreEqual("..." + n.Substring(n.Length - 256), a.ToString());
+                a.Value = -a;
+                Assert.AreEqual("-..." + n.Substring(n.Length - 256), a.ToString());
+            }
+        }
     }
 }

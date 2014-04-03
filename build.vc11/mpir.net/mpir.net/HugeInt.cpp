@@ -32,7 +32,7 @@ along with the MPIR Library.  If not, see http://www.gnu.org/licenses/.
 #define DEFINE_BINARY_ASSIGNMENT_REF_REF(name, typeAbbr, operation)   \
     DEFINE_ASSIGNMENT_PROLOG(name##typeAbbr##typeAbbr)                \
     {                                                                 \
-        IN_CONTEXT_2(Left, Right);                                    \
+        IN_CONTEXT(Left, Right);                                      \
         operation(destination, context.Args[0], context.Args[1]);     \
     }                                                                 \
 
@@ -76,14 +76,14 @@ along with the MPIR Library.  If not, see http://www.gnu.org/licenses/.
 #define DEFINE_TERNARY_ASSIGNMENT_REF_REF_REF(name, typeAbbr, operation)               \
     DEFINE_ASSIGNMENT_PROLOG(name##typeAbbr##typeAbbr##typeAbbr)                       \
     {                                                                                  \
-        IN_CONTEXT_3(Left, Middle, Right);                                             \
+        IN_CONTEXT(Left, Middle, Right);                                               \
         operation(destination, context.Args[0], context.Args[1], context.Args[2]);     \
     }                                                                                  \
 
 #define DEFINE_TERNARY_ASSIGNMENT_REF_VAL_REF(name, leftT, middleT, rightT, operation) \
     DEFINE_ASSIGNMENT_PROLOG(name##leftT##middleT##rightT)                             \
     {                                                                                  \
-        IN_CONTEXT_2(Left, Right);                                                     \
+        IN_CONTEXT(Left, Right);                                                       \
         operation(destination, context.Args[0], Middle, context.Args[1]);              \
     }                                                                                  \
 
@@ -93,6 +93,16 @@ using namespace System::Runtime::InteropServices;
 
 namespace MPIR
 {
+    #pragma region MpirSettings
+
+    void MpirSettings::ToStringDigits::set(int value)
+    {
+        _toStringDigits = value;
+        _toStringModulo = HugeInt::FromPower(10, value);
+    }
+
+    #pragma endregion
+
     #pragma region construction
 
     HugeInt::HugeInt()
@@ -164,26 +174,36 @@ namespace MPIR
 
     #pragma region object overrides
 
-    String^ HugeInt::ToString()
-    {
-        return ToString(10);
-    }
-
-    String^ HugeInt::ToString(int base, bool lowercase)
+    String^ HugeInt::ToString(int base, bool lowercase, int maxDigits)
     {
         if(base <= 36 && !lowercase)
             base = -base;
 
-        char* str = mpz_get_str(NULL, base, _value);
-        String^ result = gcnew String(str);
+        String^ sign = "";
+
+        EvaluationContext context;
+        if(maxDigits > 0 && CompareAbsTo(MpirSettings::_toStringModulo) >= 0)
+        {
+            (this->Abs() % MpirSettings::_toStringModulo)->Rounding(RoundingModes::Truncate)->AssignTo(context);
+            sign = (this->Sign() < 0) ? "-..." : "...";
+        }
+        else
+        {
+            AssignTo(context);
+        }
+
+        char* str = mpz_get_str(NULL, base, context.Args[0]);
+        auto result = gcnew System::Text::StringBuilder();
+        result->Append(sign);
+        result->Append(gcnew String(str));
         CustomFree(str);
 
-        return result;
+        return result->ToString();
     }
 
     int MpirExpression::GetHashCode()
     {
-        IN_CONTEXT_1(this);
+        IN_CONTEXT(this);
 
         mp_limb_t hash = 0;
         mp_limb_t* ptr = context.Args[0]->_mp_d;
@@ -251,7 +271,7 @@ namespace MPIR
         if (IS_NULL(a))
             return 1;
 
-        IN_CONTEXT_2(this, a);
+        IN_CONTEXT(this, a);
         return mpz_cmp(context.Args[0], context.Args[1]);
     }
 
@@ -423,6 +443,8 @@ namespace MPIR
 
     #pragma region Arithmetic
 
+    DEFINE_OPERATIONS(DEFINE)
+
     DEFINE_UNARY_ASSIGNMENT_REF(Complement, Int, mpz_com)
     DEFINE_UNARY_ASSIGNMENT_REF(Negate, Int, mpz_neg)
     DEFINE_UNARY_ASSIGNMENT_REF(Abs, Int, mpz_abs)
@@ -466,7 +488,7 @@ namespace MPIR
 
     mpir_ui MpirExpression::Mod(mpir_ui d, RoundingModes rounding)
     {
-        IN_CONTEXT_1(this);
+        IN_CONTEXT(this);
 
         switch((rounding == RoundingModes::Default) ? MpirSettings::RoundingMode : rounding)
         {

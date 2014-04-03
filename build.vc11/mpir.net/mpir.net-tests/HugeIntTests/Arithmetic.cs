@@ -298,7 +298,6 @@ namespace MPIR.Tests.HugeIntTests
                 ulong b = 498734523097853458;
                 var expr = b*c + a;
                 a.Value = expr;
-                //TODO how can we test a single addmul was called?
                 Assert.AreEqual("-11518065386718058599763388064972875060082210203928832731415", a.ToString());
             }
         }
@@ -352,7 +351,6 @@ namespace MPIR.Tests.HugeIntTests
                 long b = 498734523097853458;
                 var expr = b*c + a;
                 a.Value = expr;
-                //TODO how can we test a single addmul was called?
                 Assert.AreEqual("-11518065386718058599763388064972875060082210203928832731415", a.ToString());
             }
         }
