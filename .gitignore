@@ -227,3 +227,15 @@ dll_mpir_sandybridge_ivybridge
 lib_mpir_k8
 lib_mpir_nehalem
 lib_mpir_sandybridge
+dll_mpir_sandybridge
+lib_mpir_k8
+lib_mpir_nehalem
+lib_mpir_sandybridge
+dll_mpir_k8
+dll_mpir_nehalem
+dll_mpir_nehalem
+dll_mpir_sandybridge
+lib_mpir_k8
+lib_mpir_nehalem
+lib_mpir_sandybridge
+dll_mpir_k8
