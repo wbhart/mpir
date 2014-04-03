@@ -28,10 +28,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "dll_mpir_p3", "dll_mpir_p3\
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lib_mpir_p3", "lib_mpir_p3\lib_mpir_p3.vcxproj", "{31939CBA-BA67-11E3-BFC6-24FD5238C490}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "dll_mpir_sandybridge_ivybridge", "dll_mpir_sandybridge_ivybridge\dll_mpir_sandybridge_ivybridge.vcxproj", "{31D28038-BA67-11E3-B896-24FD5238C490}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lib_mpir_sandybridge_ivybridge", "lib_mpir_sandybridge_ivybridge\lib_mpir_sandybridge_ivybridge.vcxproj", "{31D9ACBE-BA67-11E3-AB57-24FD5238C490}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -124,18 +120,6 @@ Global
 		{31939CBA-BA67-11E3-BFC6-24FD5238C490}.Release|Win32.ActiveCfg = Release|Win32
 		{31939CBA-BA67-11E3-BFC6-24FD5238C490}.Release|Win32.Build.0 = Release|Win32
 		{31939CBA-BA67-11E3-BFC6-24FD5238C490}.Release|x64.ActiveCfg = Release|Win32
-		{31D28038-BA67-11E3-B896-24FD5238C490}.Debug|Win32.ActiveCfg = Debug|x64
-		{31D28038-BA67-11E3-B896-24FD5238C490}.Debug|x64.ActiveCfg = Debug|x64
-		{31D28038-BA67-11E3-B896-24FD5238C490}.Debug|x64.Build.0 = Debug|x64
-		{31D28038-BA67-11E3-B896-24FD5238C490}.Release|Win32.ActiveCfg = Release|x64
-		{31D28038-BA67-11E3-B896-24FD5238C490}.Release|x64.ActiveCfg = Release|x64
-		{31D28038-BA67-11E3-B896-24FD5238C490}.Release|x64.Build.0 = Release|x64
-		{31D9ACBE-BA67-11E3-AB57-24FD5238C490}.Debug|Win32.ActiveCfg = Debug|x64
-		{31D9ACBE-BA67-11E3-AB57-24FD5238C490}.Debug|x64.ActiveCfg = Debug|x64
-		{31D9ACBE-BA67-11E3-AB57-24FD5238C490}.Debug|x64.Build.0 = Debug|x64
-		{31D9ACBE-BA67-11E3-AB57-24FD5238C490}.Release|Win32.ActiveCfg = Release|x64
-		{31D9ACBE-BA67-11E3-AB57-24FD5238C490}.Release|x64.ActiveCfg = Release|x64
-		{31D9ACBE-BA67-11E3-AB57-24FD5238C490}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
