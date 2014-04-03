@@ -174,11 +174,11 @@ check_data (void)
               printf ("    at data[%d]  align=%d\n", i, (int) align);
               printf ("    src \"%s\"\n", data[i].src);
               mpz_trace ("    src", src);
-              printf ("    order=%d  size=%u endian=%d nail=%u\n",
+              printf ("    order=%d  size=%lu endian=%d nail=%u\n",
                       data[i].order,
                       data[i].size, data[i].endian, data[i].nail);
-              printf ("    want count %u\n", data[i].want_count);
-              printf ("    got count  %u\n", got_count);
+              printf ("    want count %lu\n", data[i].want_count);
+              printf ("    got count  %lu\n", got_count);
               printf ("    want");
               for (j = 0; j < data[i].want_count*data[i].size; j++)
                 printf (" 0x%02X,", (unsigned) (unsigned char) data[i].want_data[j]);

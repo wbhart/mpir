@@ -475,7 +475,7 @@ def compiler_options(plat, is_dll, is_debug, outf):
 '''
 
   if is_dll:
-    s1 = 'DEBUG;HAVE_CONFIG_H;__GMP_LIBGMP_DLL;__GMP_WITHIN_GMP;__GMP_WITHIN_GMPXX;'
+    s1 = 'DEBUG;HAVE_CONFIG_H;MSC_BUILD_DLL;'
     s2 = 'DLL'
   else:
     s1 = 'DEBUG;_LIB;HAVE_CONFIG_H;'
@@ -732,13 +732,13 @@ while True:
   cnt = 0
   for v in sorted(mpn_gc):
     cnt += 1
-    print('{0:2d}. {1:18s}        '.format(cnt, v))
+    print('{0:2d}. {1:24s}        '.format(cnt, v))
   for v in sorted(mpn_32):
     cnt += 1
-    print('{0:2d}. {1:18s} (win32)'.format(cnt, v))
+    print('{0:2d}. {1:24s} (win32)'.format(cnt, v))
   for v in sorted(mpn_64):
     cnt += 1
-    print('{0:2d}. {1:18s}   (x64)'.format(cnt, v))
+    print('{0:2d}. {1:24s}   (x64)'.format(cnt, v))
   s = input('Space separated list of builds (1..{0:d}, 0 to exit)? '.format(cnt))
   n_list = [int(c) for c in s.split()]
   if 0 in n_list:

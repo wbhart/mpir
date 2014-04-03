@@ -66,7 +66,7 @@ char *dss_func_names[] =
   "mpf_div", "mpf_add", "mpf_mul", "mpf_sub",
 };
 
-typedef void (*dsi_func) _PROTO ((mpf_ptr, mpf_srcptr, unsigned long int));
+typedef void (*dsi_func) _PROTO ((mpf_ptr, mpf_srcptr, mpir_ui));
 
 dsi_func dsi_funcs[] =
 {
@@ -80,7 +80,7 @@ char *dsi_func_names[] =
   "mpf_mul_2exp", "mpf_div_2exp"
 };
 
-typedef void (*dis_func) _PROTO ((mpf_ptr, unsigned long int, mpf_srcptr));
+typedef void (*dis_func) _PROTO ((mpf_ptr, mpir_ui, mpf_srcptr));
 
 dis_func dis_funcs[] =
 {

@@ -42,21 +42,21 @@ struct {
   int  tag;
   int  other[4];
 } calling_conventions_fenv;
-long  calling_conventions_rbx;
-long  calling_conventions_rbp;
-long  calling_conventions_r12;
-long  calling_conventions_r13;
-long  calling_conventions_r14;
-long  calling_conventions_r15;
-long  calling_conventions_rflags;
+mpir_si  calling_conventions_rbx;
+mpir_si  calling_conventions_rbp;
+mpir_si  calling_conventions_r12;
+mpir_si  calling_conventions_r13;
+mpir_si  calling_conventions_r14;
+mpir_si  calling_conventions_r15;
+mpir_si  calling_conventions_rflags;
 
 /* expected values, as per x86_64call.asm */
-const long  calling_conventions_want_rbx = 0x1234567887654321L;
-const long  calling_conventions_want_rbp = 0x89ABCDEFFEDCBA98L;
-const long  calling_conventions_want_r12 = 0xDEADBEEFBADECAFEL;
-const long  calling_conventions_want_r13 = 0xFFEEDDCCBBAA9988L;
-const long  calling_conventions_want_r14 = 0x0011223344556677L;
-const long  calling_conventions_want_r15 = 0x1234432156788765L;
+const mpir_si  calling_conventions_want_rbx = CNST_LIMB(0x1234567887654321);
+const mpir_si  calling_conventions_want_rbp = CNST_LIMB(0x89ABCDEFFEDCBA98);
+const mpir_si  calling_conventions_want_r12 = CNST_LIMB(0xDEADBEEFBADECAFE);
+const mpir_si  calling_conventions_want_r13 = CNST_LIMB(0xFFEEDDCCBBAA9988);
+const mpir_si  calling_conventions_want_r14 = CNST_LIMB(0x0011223344556677);
+const mpir_si  calling_conventions_want_r15 = CNST_LIMB(0x1234432156788765);
 
 #define DIR_BIT(rflags)   (((rflags) & (1<<10)) != 0)
 
@@ -95,8 +95,8 @@ calling_conventions_check (void)
 
   if ((calling_conventions_fenv.tag & 0xFFFF) != 0xFFFF)
     {
-      printf ("%s   fpu tags  got 0x%lX want 0xFFFF\n",
-              header, calling_conventions_fenv.tag & 0xFFFF);
+      printf ("%s   fpu tags  got %x want 0xFFFF\n",
+              header, (unsigned int) calling_conventions_fenv.tag & 0xFFFF);
       header = "";
       ret = 0;
     }

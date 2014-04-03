@@ -108,7 +108,7 @@ main (int argc, char **argv)
       if (nread != ftell(fp))
         {
           printf ("mpz_inp_str nread doesn't match ftell\n");
-          printf ("  nread  %u\n", nread);
+          printf ("  nread  %lu\n", nread);
           printf ("  ftell  %ld\n", ftell(fp));
           abort ();
         }

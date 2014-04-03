@@ -312,8 +312,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.likely_prime_p", "mpir-
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpn.invert", "mpir-tests\mpn.invert\mpn.invert.vcxproj", "{0C250CB2-EA98-4246-AB21-BFE15265C1D6}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpn.inv_divappr_q_n", "mpir-tests\mpn.inv_divappr_q_n\mpn.inv_divappr_q_n.vcxproj", "{98FA2015-3049-488B-A4A4-D6B8E9D10941}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpn.dc_div_q", "mpir-tests\mpn.dc_div_q\mpn.dc_div_q.vcxproj", "{16CC4474-B582-4666-9235-6D7731FCDA07}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
@@ -1373,12 +1371,6 @@ Global
 		{0C250CB2-EA98-4246-AB21-BFE15265C1D6}.Release|Win32.Build.0 = Release|Win32
 		{0C250CB2-EA98-4246-AB21-BFE15265C1D6}.Release|x64.ActiveCfg = Release|x64
 		{0C250CB2-EA98-4246-AB21-BFE15265C1D6}.Release|x64.Build.0 = Release|x64
-		{98FA2015-3049-488B-A4A4-D6B8E9D10941}.Debug|Win32.ActiveCfg = Debug|Win32
-		{98FA2015-3049-488B-A4A4-D6B8E9D10941}.Debug|x64.ActiveCfg = Debug|x64
-		{98FA2015-3049-488B-A4A4-D6B8E9D10941}.Release|Win32.ActiveCfg = Release|Win32
-		{98FA2015-3049-488B-A4A4-D6B8E9D10941}.Release|Win32.Build.0 = Release|Win32
-		{98FA2015-3049-488B-A4A4-D6B8E9D10941}.Release|x64.ActiveCfg = Release|x64
-		{98FA2015-3049-488B-A4A4-D6B8E9D10941}.Release|x64.Build.0 = Release|x64
 		{16CC4474-B582-4666-9235-6D7731FCDA07}.Debug|Win32.ActiveCfg = Debug|Win32
 		{16CC4474-B582-4666-9235-6D7731FCDA07}.Debug|x64.ActiveCfg = Debug|x64
 		{16CC4474-B582-4666-9235-6D7731FCDA07}.Release|Win32.ActiveCfg = Release|Win32

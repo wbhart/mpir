@@ -30,6 +30,9 @@ mpz_nthroot (mpz_ptr root, mpz_srcptr u, mpir_ui nth)
 {
   mp_ptr rootp, up, remp;
   mp_size_t us, un, rootn;
+  mpz_t tmp_u;
+
+  TMP_DECL;
 
   up = PTR(u);
   us = SIZ(u);
@@ -52,6 +55,16 @@ mpz_nthroot (mpz_ptr root, mpz_srcptr u, mpir_ui nth)
  
   un = ABS (us);
   rootn = (un - 1) / nth + 1;
+  
+  TMP_MARK;
+
+  if (root == u)
+  {
+     MPZ_TMP_INIT(tmp_u, ABS(u->_mp_size));
+     mpz_set(tmp_u, u);
+     u = tmp_u;
+  }
+
   rootp = MPZ_REALLOC (root, rootn);
   up = PTR(u);
 
@@ -65,6 +78,8 @@ mpz_nthroot (mpz_ptr root, mpz_srcptr u, mpir_ui nth)
     }
 
   SIZ(root) = us >= 0 ? rootn : -rootn;
+
+  TMP_FREE;
 
   return;
 }

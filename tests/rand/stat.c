@@ -225,8 +225,8 @@ main (argc, argv)
     "                maximum value when converting real numbers to integers\n" \
     "";
   
-  mpf_t fvec[FVECSIZ];
-  mpz_t zvec[FVECSIZ];
+  static mpf_t fvec[FVECSIZ];
+  static mpz_t zvec[FVECSIZ];
   unsigned long int f, n, vecentries;
   char *filen;
   FILE *fp;

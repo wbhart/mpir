@@ -75,7 +75,7 @@ main (void)
 
 #else /* ! DLL_EXPORT */
 
-#if ! (defined(__MINGW64__) || (defined(_MSC_VER) && _MSC_VER <= 1500))
+#if ! (defined(__MINGW64_VERSION_MAJOR) || (defined(_MSC_VER) && _MSC_VER <= 1500))
 #if HAVE_LOCALECONV
 #ifdef _MSC_VER
 __GMP_DECLSPEC

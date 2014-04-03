@@ -176,6 +176,16 @@ along with the GNU MP Library.  If not, see http://www.gnu.org/licenses/.  */
 #define __GMP_DECLSPEC_IMPORT  _Import
 #endif
 
+#if defined( _MSC_VER )
+#  if defined( MSC_BUILD_DLL )
+#    define __GMP_LIBGMP_DLL   1
+#    define __GMP_WITHIN_GMP   1
+#    define __GMP_WITHIN_GMPXX 1
+#  elif defined( MSC_USE_DLL )
+#    define __GMP_LIBGMP_DLL   1
+#  endif
+#endif
+
 #if __GMP_LIBGMP_DLL
 #if __GMP_WITHIN_GMP
 /* compiling to go into a DLL libmpir */
@@ -530,6 +540,10 @@ typedef __mpq_struct *mpq_ptr;
 #else
 #define __GMP_LIKELY(cond)    (cond)
 #define __GMP_UNLIKELY(cond)  (cond)
+#endif
+
+#if defined( _STDINT_H ) || defined ( _STDINT_H_ ) || defined ( _STDINT )
+#define MPIR_HAVE_STDINT 1
 #endif
 
 /* Allow direct user access to numerator and denominator of a mpq_t object.  */
@@ -1213,7 +1227,7 @@ __GMP_DECLSPEC void mpz_xor __GMP_PROTO ((mpz_ptr, mpz_srcptr, mpz_srcptr));
 
 /****** Integer (i.e. Z) routines for intmaax_t/uintmax_t types ******/
 
-#if defined( _STDINT_H ) || defined ( _STDINT_H_ ) || defined ( _STDINT )
+#if defined(MPIR_HAVE_STDINT)
 
 #define __GMP_BITS_PER_UINTMAX  (8*sizeof(uintmax_t))
 
@@ -2451,10 +2465,6 @@ enum
   GMP_ERROR_SQRT_OF_NEGATIVE = 4,
   GMP_ERROR_INVALID_ARGUMENT = 8
 };
-
-/* Define CC and CFLAGS which were used to build this version of GMP */
-#define __GMP_CC "@CC@"
-#define __GMP_CFLAGS "@CFLAGS@"
 
 /* Major version number is the value of __GNU_MP__ too, above and in mp.h. */
 #define __GNU_MP_VERSION 5 

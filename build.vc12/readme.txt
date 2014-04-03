@@ -1,6 +1,6 @@
 
-Building MPIR with Microsoft Visual Studio 2013
-===============================================
+Building MPIR with Microsoft Visual Studio 2013 and Express 2013
+================================================================
 
 A Note On Licensing
 ===================
@@ -26,7 +26,7 @@ This assembler (you need vsyasm.exe, NOT yasm.exe) should be placed
 in the bin directory used by VC++, which, for Visual Stduio 2013, is
 typically:
 
- C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin
+ C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin
  
 You will need to install Python if you wish to use the scripts that 
 automate the generation of MPIR build files for Visual Studio. Python
@@ -37,15 +37,8 @@ Compiling MPIR with the Visual Studio C/C++
 ===========================================
 
 These VC++ build projects are primarily designed to work with Microsoft
-Visual Studio 2013 Professional. The win32 build projects also work with
+Visual Studio 2013 Professional. The build projects also work with
 Microsoft Visual C++ 2013 Express. 
-
-To build the x64 libraries with VC++ Express you will need to install 
-the Windows 7.1 SDK and Python 3.1 (or later). Once you have these 
-installed, you can run the Python program 'add.express.py' before starting
-the build process to convert the build filles for use with VC++ Express.
-If necessary, these changes can be removed by running the Python program 
-'remove.express.py'.
 
 Building MPIR
 =============
@@ -55,10 +48,10 @@ Building MPIR
 
 The basic build solution for Visual Studio contains build projects for
 the generic C version of MPIR.  The MPIR build is started by opening the
-Visual Studio C/C++ solution  file 'mpir.sln' in the build.vc10 directory.  
+Visual Studio C/C++ solution  file 'mpir.sln' in the build.vc12 directory.  
 
 It will be assumed here that the MPIR root directory is named 'mpir' so 
-that the build directory is mpir\build.vc10.  The output directories
+that the build directory is mpir\build.vc12.  The output directories
 for builds are:
 
     mpir\lib   for static libraries
@@ -86,7 +79,7 @@ C and the C++ functions.
 ================================
 
 By default the Visual Studio solution for MPIR provides support for
-x64 builds with nassembler support for Intel core2 and nehalem and
+x64 builds with assembler support for Intel core2 and nehalem and
 for the AMD k8.
 
 To build MPIR versions with assembler support for other processors,
@@ -128,7 +121,7 @@ the mpir-tests, the speed, the tune or the try programs it is important
 to do so immediately after the MPIR library in question is built because
 these projects link to the last library built.   
 
-The MPIR DLL projects include the C++ files. If you want the relevent
+The MPIR DLL projects include the C++ files. If you want the relevant
 files excluded from the DLL(s) you build, go to the 'cpp' subdirectory
 of their build project in the IDE and exclude all the files in this
 subdirectory from the build process.
@@ -151,7 +144,7 @@ is:
 
 so that the appropriate library for the desired target platform can be
 easily located.  The individual project sub-directories also contain the 
-libraries once they have been built (as indicaated earlier, the 'dll' 
+libraries once they have been built (as indicated earlier, the 'dll' 
 and 'lib' directories are used to hold the latest built versions for 
 linking the tests).
 
@@ -171,7 +164,7 @@ The Tests
 =========
 
 There is a separate solution for the MPIR tests: mpir-tests.sln. In
-Visual Studio 2013 this is in build.vc10 folder.  
+Visual Studio 2013 this is in build.vc12 folder.  
 
 The tests are configured to always test the last version of MPIR that
 has been built. This is automatic but it can be changed by editing 
@@ -185,15 +178,15 @@ mpir-tests' directory.  Its content is typically:
 If this file can be edited to test a different version of MPIR, it
 is also necessary to copy either:
 
-   mpir\build.vc10\mpir-tests\lib-test-config.props
+   mpir\build.vc12\mpir-tests\lib-test-config.props
 
 or:
 
-   mpir\build.vc10\mpir-tests\dll-test-config.props#
+   mpir\build.vc12\mpir-tests\dll-test-config.props#
 
 into:
 
-   mpir\build.vc10\mpir-tests\test-config.props
+   mpir\build.vc12\mpir-tests\test-config.props
 
 depending on whether a static or DLL build of MPIR is to be tested.
 
@@ -202,7 +195,7 @@ libraries both the desired version of MPIR and the C++ library must be
 built before the tests are built and run.  This is not necessary for
 MPIR DLLs as they contain the C++ routines.
 
-On multporcessoer systems Visual Studio 10 will typically run several 
+On multi-processor systems, Visual Studio 13 will typically run several 
 builds in parallel so it is advisable to build add-test-lib first before
 building the tests.  
 
@@ -210,7 +203,7 @@ Test Automation
 ===============
 
 After they have been built the tests can be run using the Python script 
-run-tests.py in the build.vc10\mpir-tests directory. To see the test 
+run-tests.py in the build.vc12\mpir-tests directory. To see the test 
 output the python script should be run in a command window from within
 these sub-directories:
 
@@ -220,15 +213,15 @@ and the output can be directed to a file:
 
     cmd>run-tests.py >out.txt 
     
-When an MPIR library is built the file 'last_build.txt' is  written to
-the buid.vc10 subdirectory giving details of the build configuration. 
+When an MPIR library is built the file 'output_params.bat' is  written to
+the buid.vc12 subdirectory giving details of the build configuration. 
 These details are then used to run the MPIR tests and this means that 
 these tests need to be run immediately after the library to be tested 
 has been built.  It is possible to test a different library by editing 
-'lastbuild.txt' but this will only work if the files in the MPIR output
+'output_params.bat' but this will only work if the files in the MPIR output
 directory are correct.  In order to avoid errors, it is advisable before
 testing to do a clean build of the library under test (to do a completely
-clean build, the files in the build.vc10\Win32 and build.vc10\x64 
+clean build, the files in the build.vc12\Win32 and build.vc12\x64 
 directories should be deleted.  
 
 Two Tests Fail
@@ -237,15 +230,14 @@ Two Tests Fail
 The tests for cxx/locale and misc/locale fail to link because the test 
 defines a symbol - localeconv - that is in the Microsoft runtime libraries.  
 This is not significant for MPIR numeric operations.  Some tests are skipped
-for the DLL verssion as they are not relevant in this case.
+for the DLL version as they are not relevant in this case.
 
 Speed and Tuning
 ================
 
-The speed and tuning programs are built using the speed.sln and tune.sln   
-solutions respectively.  Except for tune, these programs (and the program
-'try') can be built with both the static and dynamic library versions of
-MPIR but it is preferable to use the static library versions.
+The speed and tuning programs are built using the tune.sln solutions.  
+These applications, which are set up to use the static library versions
+of MPIR, are not needed to use MPIR
 
 MPIR on Windows x64
 ===================
@@ -369,7 +361,7 @@ program will fail.
 
 It is hence important to build a MPIR application using the same run time 
 library as that used to build any DLL that is used - in this case the 
-appropriate version 10 library.
+appropriate version 12 library.
 
 6. MPIR Applications that Require _stdcall Functions
 ====================================================
@@ -391,7 +383,7 @@ It is not necessary to read this unless you want to change the build
 process.   The first step in an MPIR build is managed by the batch file
 prebuilld.bat which has the following steps:
 
-1. Read the connfiguation from the IDE input parameters which are the
+1. Read the configuration from the IDE input parameters which are the
    version (generic, core2, k8, k10, nehalem, p0, p3 or p4). For the 
    generic version there is a second parameter for a win32 build.
 
@@ -408,13 +400,14 @@ prebuilld.bat which has the following steps:
    of gmp-mparam.h into the mpir root directory.
 
 The gen_mpir_h batch file inputs gmp_h.in and searches for @symbol@,
-replacing those that matter with the appropiate values for the Windows
+replacing those that matter with the appropriate values for the Windows
 build.
 
 The gen_config_h batch file takes lists of symbols in the cfg.h files
-in the mpn sub-directories and generates HAVE_NATIVE defines from them. 
-The result is then prepended onto cfg.h in the build.vc10 directory and
-the result is output as config.h into the mpir root directory.
+within the build.vc12/cdata sub-directory and generates HAVE_NATIVE 
+defines from them.   The result is then prepended onto cfg.h in the 
+build.vc12 directory and the result is output as config.h into the 
+mpir root directory.
 
 The IDE build
 -------------
@@ -431,9 +424,8 @@ file postbuild.bat which has the following steps:
    determine the library type (lib or dll), the platform (win32 or 
    x64), the configuration (release or debug) and the filename.
 
-2. The final output directory is then creaated (mpir\build.vc10\lib
-   or mpir\build.vc10\dll) relative to the Visual Stduio solution
-   directory (build.vc10).
+2. The final output directory is then created in the mpir root 
+   directory,  mpir\lib or mpir\dll, as appropriate.
    
 3. The file 'output_params.bat' is written describing the MPIR 
    configuration that has been built.  This is used to signal
@@ -441,8 +433,8 @@ file postbuild.bat which has the following steps:
    mpir-tests, the appropriate property file is copied into
    test-config.props for later use in the tests.
    
-4. The header files used in the build are then copied into the output
-   directory.
+4. The header files used in the build are then copied into the 
+   output directory.
    
 5. The built library files (mpir.dll, mpir.exp, mpir.lib and mpir.pdb
    for a DLL, mpir.lib and mpir.pdb for a static library) are then
@@ -461,4 +453,4 @@ My thanks to:
 4. Jeff Gilchrist for his help in testing, debugging and 
    improving the readme giving the VC++ build instructions
 
-       Brian Gladman, December 2013
+       Brian Gladman, April 2014

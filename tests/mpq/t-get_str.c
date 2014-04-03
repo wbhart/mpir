@@ -45,8 +45,8 @@ check_one (mpq_srcptr q, int base, const char *want)
     {
       printf ("mpq_get_str size bigger than should be (passing NULL)\n");
       printf ("  base %d\n", base);
-      printf ("  got  size %u \"%s\"\n", strlen(str)+1, str);
-      printf ("  want size %u\n", str_alloc);
+      printf ("  got  size %lu \"%s\"\n", strlen(str)+1, str);
+      printf ("  want size %lu\n", str_alloc);
       abort ();
     }
   if (strcmp (str, want) != 0)
@@ -67,8 +67,8 @@ check_one (mpq_srcptr q, int base, const char *want)
     {
       printf ("mpq_get_str wrong return value (passing non-NULL)\n");
       printf ("  base %d\n", base);
-      printf ("  got  0x%lX\n", (unsigned long) ret);
-      printf ("  want 0x%lX\n", (unsigned long) want);
+      printf ("  got  %p\n", ret);
+      printf ("  want %p\n", want);
       abort ();
     }
   if (strcmp (str, want) != 0)

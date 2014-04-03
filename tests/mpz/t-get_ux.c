@@ -102,12 +102,12 @@ check_data (void)
 #endif
         if(z->_mp_size != k)
         {
-            printf("mpz_get_ux() failed for length on item %d (mpz size: %d, size: %d)\n", i, z->_mp_size, k);
+            printf("mpz_get_ux() failed for length on item %u (mpz size: %d, size: %lu)\n", i, z->_mp_size, k);
             abort();
         }
         if(z->_mp_alloc < k)
         {
-            printf("mpz_get_ux() failed for allocation on item %d (mpz alloc: %d, size: %d)\n", i, z->_mp_alloc, k);
+            printf("mpz_get_ux() failed for allocation on item %u (mpz alloc: %d, size: %lu)\n", i, z->_mp_alloc, k);
             abort();
         }
     }

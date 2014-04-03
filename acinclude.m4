@@ -41,7 +41,7 @@ define(POWERPC64_PATTERN,
 [[powerpc64-*-* | powerpc64le-*-* | powerpc620-*-* | powerpc630-*-* | powerpc970-*-* | power[3-9]-*-*]])
 
 define(X86_PATTERN,
-[[i?86*-*-* | k[5-8]*-*-* | pentium*-*-* | athlon-*-* | viac3*-*-*]])
+[[i?86*-*-* | k[5-8]*-*-* | pentium*-*-* | prescott-*-* | core-*-* | athlon-*-* | viac3*-*-*]])
 
 define(X86_64_PATTERN,
 [[x86_64-*-* | netburst-*-* | netburstlahf-*-* | k8-*-* | k10-*-* | k102-*-* | k103-*-* | core2-*-* | penryn-*-* | nehalem-*-* | westmere-*-* | sandybridge-*-* | atom-*-* | nano-*-* | bobcat-*-* | bulldozer-*-* | piledriver-*-* | ivybridge-*-* | haswell-*-*]])
@@ -480,9 +480,9 @@ gmp_prog_cc_works=yes
 # first see a simple "main()" works, then go on to other checks
 GMP_PROG_CC_WORKS_PART([$1], [])
 
-GMP_PROG_CC_WORKS_PART_MAIN([$1], [gcc-4.3.2 on 64bit is bad , try -O1 or -fno-strict-aliasing for the flags],
-[/* The following aborts with gcc-4.3.2 on a 64bit system which is an unusable compiler */
-#if defined(__GNUC__) && !defined(__INTEL_COMPILER)
+GMP_PROG_CC_WORKS_PART_MAIN([$1], [gcc-4.3.2 on 64-bit is bad , try -O1 or -fno-strict-aliasing for the flags],
+[/* The following aborts with gcc-4.3.2 on a 64-bit system which is an unusable compiler */
+#if defined(__GNUC__) && !defined(__INTEL_COMPILER) && !defined(__clang__)
 int __attribute__((noinline))
 foo(int i)
 {
@@ -580,9 +580,9 @@ int foo ()
 GMP_PROG_CC_WORKS_PART([$1], [long long reliability test 1],
 [/* The following provokes a segfault in the compiler on powerpc-apple-darwin.
    Extracted from tests/mpn/t-iord_u.c.  Causes Apple's gcc 3.3 build 1640 and
-   1666 to segfault with e.g., -O2 -mpowerpc64.  */
+   1666 to segfault with, e.g., -O2 -mpowerpc64.  */
 
-#ifdef __GNUC__
+#if defined(__GNUC__) && !defined(__clang__)
 typedef unsigned long long t1;typedef t1*t2;
 __inline__ t1 e(t2 rp,t2 up,int n,t1 v0)
 {t1 c,x,r;int i;if(v0){c=1;for(i=1;i<n;i++){x=up[i];r=x+1;rp[i]=r;}}return c;}

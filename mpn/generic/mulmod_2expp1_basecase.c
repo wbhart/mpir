@@ -40,10 +40,10 @@ mpn_mulmod_2expp1_internal (mp_ptr xp, mp_srcptr yp, mp_srcptr zp,
   mp_size_t n, k;
   mp_limb_t c;
 
+  TMP_DECL;
+
   n = BITS_TO_LIMBS (b);
   k = GMP_NUMB_BITS * n - b;
-
-  TMP_DECL;
 
   ASSERT(b > 0);
   ASSERT(n > 0);

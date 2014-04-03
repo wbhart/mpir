@@ -46,7 +46,7 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
-    <Import Project="$(VCTargetsPath)\BuildCustomizations\vsyasm.props" />
+    <Import Project="..\vsyasm.props" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" />
@@ -81,9 +81,7 @@
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkIncremental>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <PreBuildEvent>
-      <Command>tune_prebuild.py</Command>
-    </PreBuildEvent>
+    <PreBuildEvent />
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;HAVE_GETRUSAGE;HAVE_GETTIMEOFDAY;TUNE_PROGRAM_BUILD;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -104,9 +102,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <PreBuildEvent>
-      <Command>tune_prebuild.py</Command>
-    </PreBuildEvent>
+    <PreBuildEvent />
     <Midl>
       <TargetEnvironment>X64</TargetEnvironment>
     </Midl>
@@ -130,9 +126,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <PreBuildEvent>
-      <Command>tune_prebuild.py</Command>
-    </PreBuildEvent>
+    <PreBuildEvent />
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -155,9 +149,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <PreBuildEvent>
-      <Command>tune_prebuild.py</Command>
-    </PreBuildEvent>
+    <PreBuildEvent />
     <Midl>
       <TargetEnvironment>X64</TargetEnvironment>
     </Midl>
@@ -181,6 +173,10 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <TargetMachine>MachineX64</TargetMachine>
     </Link>
+    <PreBuildEvent />
+    <PreBuildEvent>
+      <Command>tune_prebuild.py</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\tune\hgcd_appr_lehmer.c" />
@@ -212,7 +208,7 @@
     <ClCompile Include="fermat_to_mpz.c" />
     <ClCompile Include="fft_mfa_trunc_sqrt2.c" />
     <ClCompile Include="fft_mfa_trunc_sqrt2_inner.c" />
-    <ClCompile Include="fft_negacylic.c" />
+    <ClCompile Include="fft_negacyclic.c" />
     <ClCompile Include="fft_radix2.c" />
     <ClCompile Include="fft_trunc.c" />
     <ClCompile Include="gcd.c" />
@@ -277,6 +273,6 @@
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
-    <Import Project="$(VCTargetsPath)\BuildCustomizations\vsyasm.targets" />
+    <Import Project="..\vsyasm.targets" />
   </ImportGroup>
 </Project>
