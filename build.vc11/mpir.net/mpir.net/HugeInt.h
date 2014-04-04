@@ -266,11 +266,11 @@ namespace MPIR
     {
         /// <summary>Rounding mode is unspecified.  Use a higher level default if available, fall back to Truncate.</summary>
         Default,
-        /// <summary>Truncate to zero.</summary>
+        /// <summary>Truncate.  Quotient is rounded toward zero, and remainder has the same sign as the source number.</summary>
         Truncate,
-        /// <summary>Round up to +infinity.</summary>
+        /// <summary>Round up.  Quotient is rounded toward +infinity, and remainder has the opposite sign to the divisor.</summary>
         Ceiling,
-        /// <summary>Round down to -infinity.</summary>
+        /// <summary>Round down.  Quotient is rounded toward -infinity, and remainder has the sames sign as the divisor.</summary>
         Floor,
     };
 
@@ -558,7 +558,8 @@ namespace MPIR
             /// <summary>Raises the source value to the specified <paramref name="power"/> modulo <paramref name="modulo"/>.
             /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
             /// </para></summary>
-            /// <param name="power">Power to raise the source value to</param>
+            /// <param name="power">Power to raise the source value to.
+            /// <para>Negative power values are supported if an inverse mod <paramref name="mod"/> exists, otherwise divide by zero is raised.</para></param>
             /// <param name="modulo">Modulo to perform the powering operation with</param>
             /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
             MpirExpression^ PowerMod(MpirExpression^ power, MpirExpression^ modulo);
@@ -571,7 +572,7 @@ namespace MPIR
             /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
             MpirExpression^ PowerMod(mpir_ui power, MpirExpression^ modulo);
 
-            /// <summary>Computes the root of the specified <paramref name="power"/> from the source value.
+            /// <summary>Computes the truncated integer part of the root of the specified <paramref name="power"/> from the source value.
             /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
             /// </para>You can optionally save the remainder from the root operation, or a flag indicating whether the root was exact, 
             /// by calling a method on the resulting expression, before assigning it.</summary>
@@ -579,7 +580,7 @@ namespace MPIR
             /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
             MpirRootExpression^ Root(mpir_ui power);
 
-            /// <summary>Computes the square root of the source value.
+            /// <summary>Computes the truncated integer part of the square root of the source value.
             /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
             /// </para>You can optionally save the remainder from the root operation
             /// by calling a method on the resulting expression, before assigning it.</summary>
@@ -1011,7 +1012,7 @@ namespace MPIR
             /// Checks if the source is evenly divisible by <paramref name="a"/>.
             /// Because this method returns a primitive type, it is computed immediately.
             /// </summary>
-            /// <param name="a">Divisor to test with</param>
+            /// <param name="a">Divisor to test with.  This can be zero; only zero is considired divisible by zero.</param>
             /// <returns>True if the source is evenly divisible by <paramref name="a"/></returns>
             bool IsDivisibleBy(MpirExpression^ a) { IN_CONTEXT(this, a); return mpz_divisible_p(context.Args[0], context.Args[1]) != 0; }
 
@@ -1019,7 +1020,7 @@ namespace MPIR
             /// Checks if the source is evenly divisible by <paramref name="a"/>.
             /// Because this method returns a primitive type, it is computed immediately.
             /// </summary>
-            /// <param name="a">Divisor to test with</param>
+            /// <param name="a">Divisor to test with.  This can be zero; only zero is considired divisible by zero.</param>
             /// <returns>True if the source is evenly divisible by <paramref name="a"/></returns>
             bool IsDivisibleBy(mpir_ui a) { IN_CONTEXT(this); return mpz_divisible_ui_p(context.Args[0], a) != 0; }
 
@@ -1035,7 +1036,7 @@ namespace MPIR
             /// Checks if the source is congruent to <paramref name="a"/> modulo <paramref name="mod"/>.
             /// Because this method returns a primitive type, it is computed immediately.
             /// </summary>
-            /// <param name="a">Divisor to test with</param>
+            /// <param name="a">Divisor to test with.  This can be zero; only zero is considired divisible by zero.</param>
             /// <param name="mod">Modulo with respect to which to test for congruency</param>
             /// <returns>True if the source is congruent to <paramref name="a"/> modulo <paramref name="mod"/></returns>
             bool IsCongruentTo(MpirExpression^ a, MpirExpression^ mod) { IN_CONTEXT(this, a, mod); return mpz_congruent_p(context.Args[0], context.Args[1], context.Args[2]) != 0; }
@@ -1044,7 +1045,7 @@ namespace MPIR
             /// Checks if the source is congruent to <paramref name="a"/> modulo <paramref name="mod"/>.
             /// Because this method returns a primitive type, it is computed immediately.
             /// </summary>
-            /// <param name="a">Divisor to test with</param>
+            /// <param name="a">Divisor to test with.  This can be zero; only zero is considired divisible by zero.</param>
             /// <param name="mod">Modulo with respect to which to test for congruency</param>
             /// <returns>True if the source is congruent to <paramref name="a"/> modulo <paramref name="mod"/></returns>
             bool IsCongruentTo(mpir_ui a, mpir_ui mod) { IN_CONTEXT(this); return mpz_congruent_ui_p(context.Args[0], a, mod) != 0; }
@@ -1060,14 +1061,17 @@ namespace MPIR
 
             /// <summary>
             /// Checks if the source is a perfect power.
-            /// Because this method returns a primitive type, it is computed immediately.
-            /// </summary>
+            /// <para>Because this method returns a primitive type, it is computed immediately.
+            /// </para>Both 0 and 1 are considered perfect powers.
+            /// <para>Negative values are accepted, but of course can only be odd powers.
+            /// </para></summary>
             /// <returns>True if the source is a perfect power</returns>
             bool IsPerfectPower() { IN_CONTEXT(this); return mpz_perfect_power_p(context.Args[0]) != 0; }
 
             /// <summary>
             /// Checks if the source is a perfect square.
-            /// Because this method returns a primitive type, it is computed immediately.
+            /// <para>Because this method returns a primitive type, it is computed immediately.
+            /// </para>Both 0 and 1 are considered perfect squares.
             /// </summary>
             /// <returns>True if the source is a perfect square</returns>
             bool IsPerfectSquare() { IN_CONTEXT(this); return mpz_perfect_square_p(context.Args[0]) != 0; }
@@ -1398,7 +1402,9 @@ namespace MPIR
             HugeInt();
 
             /// <summary>
-            /// Initializes a new integer instance, allocating enough memory to hold at least <paramref name="bits"/> bits, and sets its value to 0
+            /// Initializes a new integer instance, allocating enough memory to hold at least <paramref name="bits"/> bits, and sets its value to 0.
+            /// <para>This is only the initial space, integer will grow automatically in the normal way, if necessary, for subsequent values stored.
+            /// </para>This makes it possible to avoid repeated reallocations if a maximum size is known in advance.
             /// </summary>
             /// <param name="bits">Minimum number of bits the initially allocated memory should hold</param>
             HugeInt(mp_bitcnt_t bits);
