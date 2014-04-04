@@ -212,6 +212,7 @@ useful bug reports.
 * Build Options::
 * ABI and ISA::
 * Notes for Package Builds::
+* Building with Microsoft Visual Studio::
 * Notes for Particular Systems::
 * Known Build Problems::
 * Performance optimization::
@@ -757,7 +758,7 @@ Sparc V9 (`sparc64', `sparcv9', `ultrasparc*')
           ./configure --build=none --host=sparcv9-sun-solaris2.7 ABI=64
 
 
-File: mpir.info,  Node: Notes for Package Builds,  Next: Notes for Particular Systems,  Prev: ABI and ISA,  Up: Installing MPIR
+File: mpir.info,  Node: Notes for Package Builds,  Next: Building with Microsoft Visual Studio,  Prev: ABI and ISA,  Up: Installing MPIR
 
 2.3 Notes for Package Builds
 ============================
@@ -825,9 +826,128 @@ which tests preprocessor symbols and chooses the correct actual
 `mpir.h'.
 
 
-File: mpir.info,  Node: Notes for Particular Systems,  Next: Known Build Problems,  Prev: Notes for Package Builds,  Up: Installing MPIR
+File: mpir.info,  Node: Building with Microsoft Visual Studio,  Next: Notes for Particular Systems,  Prev: Notes for Package Builds,  Up: Installing MPIR
 
-2.4 Notes for Particular Systems
+2.4 Building with Microsoft Visual Studio
+=========================================
+
+MPIR can be built with the professional and higher versions of Microsoft
+Visual Studio 2010, 2012 and 2013.  It can also be built with Visual
+Studio Express 2013 for Windows Desktop.  In addition to one of these
+versions of Visual Studio, Python 3 and the YASM assembler will need to
+be installed if the assembler optimised versions are required. if
+installed, MPIR can also be built with the Intel compiler that can be
+integrated into tne full versions of Visual Studio.
+
+   Python can be obtained from:
+
+     `https://www.python.org/'
+
+   and the YASM assembler is available here:
+
+     `http://yasm.tortall.net/Download.html'
+
+   This assembler (`vsyasm.exe', NOT `yasm.exe') should be placed in the
+binary directory used by the Visual Studio version in use, which should
+be one of:
+
+     `C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin'
+     `C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin'
+     `C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin'
+
+   Alternatively `vsyasm.exe' can be placed elsewhere provided that the
+environment variable `YASMPATH' gives its location.
+
+Building MPIR
+     A build of MPIR is started by double clicking on the file
+     `mpir.sln' in the appropriate sub-directory within the MPIR root
+     directory:
+
+              Visual Studio 2010:  mpir/build.vc10/mpir.sln
+              Visual Studio 2012:  mpir/build.vc11/mpir.sln
+              Visual Studio 2013:  mpir/build.vc12/mpir.sln
+
+     Visual Studio will then display a list of individual build projects
+     from which an appropriate version of MPIR can be built. For
+     example, a typical list of projects:
+
+              dll_mpir_gc     standard DLL, no assembler (win32 and x64)
+              dll_mpir_p3     assembly optimised DLL for pentium 3 (win32)
+              lib_mpir_p3     assembly optimised static library for
+                              pentium 3 (x64)
+              lib_mpir_core2  assembly optimised static library for
+                              core2 (x64)
+              dll_mpir_core2  assembly optimised DLL for core2 (x64)
+
+     allows MPIR to be built either as a static library or as a DLL. A
+     DLL will include both the C and C++ features of MPIR but a static
+     library will include only the C features so in this case the
+     project:
+
+            lib_mpir_cxx     the MPIRXX C++ static library (win32 and x64)
+
+     should also be built to provide the MPIR C++ static library
+     (`MPIRXX').
+
+     Before a project is built, Visual Studio should be set to the
+     required configuration (Release or Debug) and the required target
+     architecture (win32 or x64).  The build process puts the output
+     files into one of the two sub-directories:
+
+          `mpir/lib'
+          `mpir/dll'
+
+     depending on whether static library or DLL versions have been
+     built.
+
+Additional Assembler Optimised Versions
+     The Visual Studio builds for MPIR are initially provided with a
+     small set of assembler optimised projects but many more are
+     available and can be obtained by running the Python program
+     `mpir_config.py' that is in the appropriate build sub-directory
+     for the version of Visual Studio in use.  This program is run
+     before Visual Studio is used and provides a list of all the
+     assembler optimised versions that are available.  Any number can
+     be chosen and these builds will then be available when Visual
+     Studio is subsequently opened by double clicking on `mpir.sln'.
+
+Testing Visual Studio versions of MPIR
+     Testing a version of the library once it has been built is started
+     by double clicking on the appropriate solution file:
+
+              Visual Studio 2010:  mpir/build.vc10/mpir-tests.sln
+              Visual Studio 2012:  mpir/build.vc11/mpir-tests.sln
+              Visual Studio 2013:  mpir/build.vc12/mpir-tests.sln
+
+     The tests are always run on the last version of MPIR built and it
+     is important to set the configuration for the tests (Release or
+     Debug, win32 or x64) to be the same as that used to build MPIR.
+     After loading there will be a large list of test projects starting:
+
+            Solution `mpir-tests' (202 projects)
+                  add-test-lib
+                  bswap
+                  constants
+                  ....
+
+     The project `add-test-lib' should be selected and built first,
+     after which the solution as a whole (i.e. the first line shown
+     above) can be selected to build all the tests.  After the build
+     has completed, the tests are run by executing the Python program
+     `run-tests.py' in the appropriate Visual Studio build
+     sub-directory, for example, for Visual Studio 2013:
+
+             mpir/build.vc12/mpir-tests/run-tests.py
+
+Further Details
+     Additional details can be found in the `readme.txt' files in the
+     appropriate Visual Studio build sub-directories.
+
+
+
+File: mpir.info,  Node: Notes for Particular Systems,  Next: Known Build Problems,  Prev: Building with Microsoft Visual Studio,  Up: Installing MPIR
+
+2.5 Notes for Particular Systems
 ================================
 
 AIX 3 and 4
@@ -858,43 +978,14 @@ Floating Point Mode
      including application code, not just MPIR.
 
 MS-DOS and MS Windows
-     On an MS Windows system Cygwin and MINGW can be used , they are
+     On an MS Windows system Cygwin and MINGW can be used, they are
      ports of GCC and the various GNU tools.
 
           `http://www.cygwin.com/'
           `http://www.mingw.org/'
 
-     Cygwin is a 32 bit build only but mingw is 32 or 64 bit build.
-     Depending on how the mingw tools are installed will determine the
-     best procedure for building , because of the large number of ways
-     this can be achieved it is best to search the MPIR devel mailing
-     list or the mingw mailing list.
-
-     For building with MSVC we provide a number of ways.
-
-     In addition, project files for MSVC are provided, allowing MPIR to
-     build on Microsoft's compiler. For Visual Studio 2010 see the
-     readme.txt file in the build.vc10 directory. The MSVC projects
-     provides full assembler support and for `x86_64' CPU's this will
-     produce far superior results. These project files can also be
-     accessed via the command line with the batch files `configure.bat'
-     and `make.bat' which have a `unix like' interface , however they
-     are not very well tested and are due to be replaced.
-
-     An another alternative is `configure' and `make' in the `win'
-     directory , these again have a `unix like' syntax , these are
-     tested regularly and also have the advantage of working with
-     VS2005 and up (including the free/express versions). There is some
-     auto detection of the compiler , but it's probably best to set it
-     explicity using the usual `call
-     "%VS90COMNTOOLS%\..\..\VC\vcvarsall.bat" amd64' in the command
-     window.  The program `YASM' is also required and should be in path
-     or the `%YASMPATH%' varible set.  If `configure' guesses wrong ,
-     close the window and try again changing the `ABI=...' selection
-     and or the `vcvarsall.bat' options.  `make' supports the usual
-     `clean' and `check' options .  The `only' bug is that shared
-     library builds `dll's' fail the make check in the C++ parts for
-     `istream' and `ostream' with some unresolved symbols.
+     Both 32 and 64 bit versions of MinGW and Cygwin are supported.
+     Building on these systems is very similar to building on Linux.
 
 MS Windows DLLs
      On systems `*-*-cygwin*' and `*-*-mingw*' by default MPIR builds
@@ -987,7 +1078,7 @@ x86 MMX and SSE2 Code
 
 File: mpir.info,  Node: Known Build Problems,  Next: Performance optimization,  Prev: Notes for Particular Systems,  Up: Installing MPIR
 
-2.5 Known Build Problems
+2.6 Known Build Problems
 ========================
 
 You might find more up-to-date information at `http://www.mpir.org/'.
@@ -1027,7 +1118,7 @@ Sparc Solaris 2.7 with gcc 2.95.2 in `ABI=32'
 
 File: mpir.info,  Node: Performance optimization,  Prev: Known Build Problems,  Up: Installing MPIR
 
-2.6 Performance optimization
+2.7 Performance optimization
 ============================
 
 For optimal performance, build MPIR for the exact CPU type of the target
@@ -6982,113 +7073,4 @@ successively squaring and then multiplying by the base when a 1 bit is
 seen in the exponent, as per Knuth section 4.6.3.  The "left to right"
 variant described there is used rather than algorithm A, since it's
 just as easy and can be done with somewhat less temporary memory.
-
-
-File: mpir.info,  Node: Modular Powering Algorithm,  Prev: Normal Powering Algorithm,  Up: Powering Algorithms
-
-15.4.2 Modular Powering
------------------------
-
-Modular powering is implemented using a 2^k-ary sliding window
-algorithm, as per "Handbook of Applied Cryptography" algorithm 14.85
-(*note References::).  k is chosen according to the size of the
-exponent.  Larger exponents use larger values of k, the choice being
-made to minimize the average number of multiplications that must
-supplement the squaring.
-
-   The modular multiplies and squares use either a simple division or
-the REDC method by Montgomery (*note References::).  REDC is a little
-faster, essentially saving N single limb divisions in a fashion similar
-to an exact remainder (*note Exact Remainder::).  The current REDC has
-some limitations.  It's only O(N^2) so above `POWM_THRESHOLD' division
-becomes faster and is used.  It doesn't attempt to detect small bases,
-but rather always uses a REDC form, which is usually a full size
-operand.  And lastly it's only applied to odd moduli.
-
-
-File: mpir.info,  Node: Root Extraction Algorithms,  Next: Radix Conversion Algorithms,  Prev: Powering Algorithms,  Up: Algorithms
-
-15.5 Root Extraction Algorithms
-===============================
-
-* Menu:
-
-* Square Root Algorithm::
-* Nth Root Algorithm::
-* Perfect Square Algorithm::
-* Perfect Power Algorithm::
-
-
-File: mpir.info,  Node: Square Root Algorithm,  Next: Nth Root Algorithm,  Prev: Root Extraction Algorithms,  Up: Root Extraction Algorithms
-
-15.5.1 Square Root
-------------------
-
-Square roots are taken using the "Karatsuba Square Root" algorithm by
-Paul Zimmermann (*note References::).
-
-   An input n is split into four parts of k bits each, so with b=2^k we
-have n = a3*b^3 + a2*b^2 + a1*b + a0.  Part a3 must be "normalized" so
-that either the high or second highest bit is set.  In MPIR, k is kept
-on a limb boundary and the input is left shifted (by an even number of
-bits) to normalize.
-
-   The square root of the high two parts is taken, by recursive
-application of the algorithm (bottoming out in a one-limb Newton's
-method),
-
-     s1,r1 = sqrtrem (a3*b + a2)
-
-   This is an approximation to the desired root and is extended by a
-division to give s,r,
-
-     q,u = divrem (r1*b + a1, 2*s1)
-     s = s1*b + q
-     r = u*b + a0 - q^2
-
-   The normalization requirement on a3 means at this point s is either
-correct or 1 too big.  r is negative in the latter case, so
-
-     if r < 0 then
-       r = r + 2*s - 1
-       s = s - 1
-
-   The algorithm is expressed in a divide and conquer form, but as
-noted in the paper it can also be viewed as a discrete variant of
-Newton's method, or as a variation on the schoolboy method (no longer
-taught) for square roots two digits at a time.
-
-   If the remainder r is not required then usually only a few high limbs
-of r and u need to be calculated to determine whether an adjustment to
-s is required.  This optimization is not currently implemented.
-
-   In the Karatsuba multiplication range this algorithm is
-O(1.5*M(N/2)), where M(n) is the time to multiply two numbers of n
-limbs.  In the FFT multiplication range this grows to a bound of
-O(6*M(N/2)).  In practice a factor of about 1.5 to 1.8 is found in the
-Karatsuba and Toom-3 ranges, growing to 2 or 3 in the FFT range.
-
-   The algorithm does all its calculations in integers and the resulting
-`mpn_sqrtrem' is used for both `mpz_sqrt' and `mpf_sqrt'.  The extended
-precision given by `mpf_sqrt_ui' is obtained by padding with zero limbs.
-
-
-File: mpir.info,  Node: Nth Root Algorithm,  Next: Perfect Square Algorithm,  Prev: Square Root Algorithm,  Up: Root Extraction Algorithms
-
-15.5.2 Nth Root
----------------
-
-Integer Nth roots are taken using Newton's method with the following
-iteration, where A is the input and n is the root to be taken.
-
-              1         A
-     a[i+1] = - * ( --------- + (n-1)*a[i] )
-              n     a[i]^(n-1)
-
-   The initial approximation a[1] is generated bitwise by successively
-powering a trial root with or without new 1 bits, aiming to be just
-above the true root.  The iteration converges quadratically when
-started from a good approximation.  When n is large more initial bits
-are needed to get good convergence.  The current implementation is not
-particularly well optimized.
 

@@ -23,6 +23,115 @@ START-INFO-DIR-ENTRY
 END-INFO-DIR-ENTRY
 
 
+File: mpir.info,  Node: Modular Powering Algorithm,  Prev: Normal Powering Algorithm,  Up: Powering Algorithms
+
+15.4.2 Modular Powering
+-----------------------
+
+Modular powering is implemented using a 2^k-ary sliding window
+algorithm, as per "Handbook of Applied Cryptography" algorithm 14.85
+(*note References::).  k is chosen according to the size of the
+exponent.  Larger exponents use larger values of k, the choice being
+made to minimize the average number of multiplications that must
+supplement the squaring.
+
+   The modular multiplies and squares use either a simple division or
+the REDC method by Montgomery (*note References::).  REDC is a little
+faster, essentially saving N single limb divisions in a fashion similar
+to an exact remainder (*note Exact Remainder::).  The current REDC has
+some limitations.  It's only O(N^2) so above `POWM_THRESHOLD' division
+becomes faster and is used.  It doesn't attempt to detect small bases,
+but rather always uses a REDC form, which is usually a full size
+operand.  And lastly it's only applied to odd moduli.
+
+
+File: mpir.info,  Node: Root Extraction Algorithms,  Next: Radix Conversion Algorithms,  Prev: Powering Algorithms,  Up: Algorithms
+
+15.5 Root Extraction Algorithms
+===============================
+
+* Menu:
+
+* Square Root Algorithm::
+* Nth Root Algorithm::
+* Perfect Square Algorithm::
+* Perfect Power Algorithm::
+
+
+File: mpir.info,  Node: Square Root Algorithm,  Next: Nth Root Algorithm,  Prev: Root Extraction Algorithms,  Up: Root Extraction Algorithms
+
+15.5.1 Square Root
+------------------
+
+Square roots are taken using the "Karatsuba Square Root" algorithm by
+Paul Zimmermann (*note References::).
+
+   An input n is split into four parts of k bits each, so with b=2^k we
+have n = a3*b^3 + a2*b^2 + a1*b + a0.  Part a3 must be "normalized" so
+that either the high or second highest bit is set.  In MPIR, k is kept
+on a limb boundary and the input is left shifted (by an even number of
+bits) to normalize.
+
+   The square root of the high two parts is taken, by recursive
+application of the algorithm (bottoming out in a one-limb Newton's
+method),
+
+     s1,r1 = sqrtrem (a3*b + a2)
+
+   This is an approximation to the desired root and is extended by a
+division to give s,r,
+
+     q,u = divrem (r1*b + a1, 2*s1)
+     s = s1*b + q
+     r = u*b + a0 - q^2
+
+   The normalization requirement on a3 means at this point s is either
+correct or 1 too big.  r is negative in the latter case, so
+
+     if r < 0 then
+       r = r + 2*s - 1
+       s = s - 1
+
+   The algorithm is expressed in a divide and conquer form, but as
+noted in the paper it can also be viewed as a discrete variant of
+Newton's method, or as a variation on the schoolboy method (no longer
+taught) for square roots two digits at a time.
+
+   If the remainder r is not required then usually only a few high limbs
+of r and u need to be calculated to determine whether an adjustment to
+s is required.  This optimization is not currently implemented.
+
+   In the Karatsuba multiplication range this algorithm is
+O(1.5*M(N/2)), where M(n) is the time to multiply two numbers of n
+limbs.  In the FFT multiplication range this grows to a bound of
+O(6*M(N/2)).  In practice a factor of about 1.5 to 1.8 is found in the
+Karatsuba and Toom-3 ranges, growing to 2 or 3 in the FFT range.
+
+   The algorithm does all its calculations in integers and the resulting
+`mpn_sqrtrem' is used for both `mpz_sqrt' and `mpf_sqrt'.  The extended
+precision given by `mpf_sqrt_ui' is obtained by padding with zero limbs.
+
+
+File: mpir.info,  Node: Nth Root Algorithm,  Next: Perfect Square Algorithm,  Prev: Square Root Algorithm,  Up: Root Extraction Algorithms
+
+15.5.2 Nth Root
+---------------
+
+Integer Nth roots are taken using Newton's method with the following
+iteration, where A is the input and n is the root to be taken.
+
+              1         A
+     a[i+1] = - * ( --------- + (n-1)*a[i] )
+              n     a[i]^(n-1)
+
+   The initial approximation a[1] is generated bitwise by successively
+powering a trial root with or without new 1 bits, aiming to be just
+above the true root.  The iteration converges quadratically when
+started from a good approximation.  When n is large more initial bits
+are needed to get good convergence.  The current implementation is not
+particularly well optimized.
+
+
 File: mpir.info,  Node: Perfect Square Algorithm,  Next: Perfect Power Algorithm,  Prev: Nth Root Algorithm,  Up: Root Extraction Algorithms
 
 15.5.3 Perfect Square
@@ -2174,7 +2283,7 @@ Concept Index
 * -finstrument-functions:                Profiling.           (line  66)
 * 2exp functions:                        Efficiency.          (line  43)
 * 80x86:                                 Notes for Particular Systems.
-                                                              (line 139)
+                                                              (line 110)
 * ABI <1>:                               ABI and ISA.         (line   6)
 * ABI:                                   Build Options.       (line 170)
 * About this manual:                     Introduction to MPIR.
@@ -2237,6 +2346,8 @@ Concept Index
 * Bug reporting:                         Reporting Bugs.      (line   6)
 * Build directory:                       Build Options.       (line  19)
 * Build notes for binary packaging:      Notes for Package Builds.
+                                                              (line   6)
+* Build notes for MSVC:                  Building with Microsoft Visual Studio.
                                                               (line   6)
 * Build notes for particular systems:    Notes for Particular Systems.
                                                               (line   6)
@@ -2306,7 +2417,7 @@ Concept Index
 * Division functions <2>:                Rational Arithmetic. (line  22)
 * Division functions:                    Integer Division.    (line   6)
 * DLLs:                                  Notes for Particular Systems.
-                                                              (line  73)
+                                                              (line  44)
 * DocBook:                               Build Options.       (line 359)
 * Documentation formats:                 Build Options.       (line 352)
 * Documentation license:                 GNU Free Documentation License.
@@ -2404,7 +2515,7 @@ Concept Index
 * I/O functions <2>:                     I/O of Rationals.    (line   6)
 * I/O functions:                         I/O of Integers.     (line   6)
 * i386:                                  Notes for Particular Systems.
-                                                              (line 139)
+                                                              (line 110)
 * IA-64:                                 ABI and ISA.         (line  69)
 * Import:                                Integer Import and Export.
                                                               (line  11)
@@ -2537,7 +2648,7 @@ Concept Index
 * Miscellaneous integer functions:       Miscellaneous Integer Functions.
                                                               (line   6)
 * MMX:                                   Notes for Particular Systems.
-                                                              (line 145)
+                                                              (line 116)
 * Modular inverse functions:             Number Theoretic Functions.
                                                               (line 112)
 * Most significant bit:                  Miscellaneous Integer Functions.
@@ -2553,6 +2664,8 @@ Concept Index
                                                               (line  34)
 * MS-DOS:                                Notes for Particular Systems.
                                                               (line  34)
+* MSVC:                                  Building with Microsoft Visual Studio.
+                                                              (line   6)
 * Multi-threading:                       Reentrancy.          (line   6)
 * Multiplication algorithms:             Multiplication Algorithms.
                                                               (line   6)
@@ -2574,7 +2687,7 @@ Concept Index
 * obstack output:                        Formatted Output Functions.
                                                               (line  81)
 * OpenBSD:                               Notes for Particular Systems.
-                                                              (line  96)
+                                                              (line  67)
 * Optimizing performance:                Performance optimization.
                                                               (line   6)
 * ostream output:                        C++ Formatted Output.
@@ -2689,17 +2802,17 @@ Concept Index
 * Solaris <1>:                           Known Build Problems.
                                                               (line  29)
 * Solaris <2>:                           Notes for Particular Systems.
-                                                              (line 135)
+                                                              (line 106)
 * Solaris:                               ABI and ISA.         (line 121)
 * Sparc:                                 Notes for Particular Systems.
-                                                              (line 102)
+                                                              (line  73)
 * Sparc V9:                              ABI and ISA.         (line 121)
 * Special integer functions:             Integer Special Functions.
                                                               (line   6)
 * Square root algorithm:                 Square Root Algorithm.
                                                               (line   6)
 * SSE2:                                  Notes for Particular Systems.
-                                                              (line 145)
+                                                              (line 116)
 * Stack backtrace:                       Debugging.           (line  47)
 * Stack overflow <1>:                    Debugging.           (line   7)
 * Stack overflow:                        Build Options.       (line 288)
@@ -2737,13 +2850,15 @@ Concept Index
                                                               (line   6)
 * Version number:                        Useful Macros and Constants.
                                                               (line  12)
+* Visual Studio:                         Building with Microsoft Visual Studio.
+                                                              (line   6)
 * Web page:                              Introduction to MPIR.
                                                               (line  30)
 * Windows <1>:                           MPIR on Windows x64. (line   6)
 * Windows:                               Notes for Particular Systems.
                                                               (line  34)
 * x86:                                   Notes for Particular Systems.
-                                                              (line 139)
+                                                              (line 110)
 * x87:                                   Notes for Particular Systems.
                                                               (line  25)
 * XML:                                   Build Options.       (line 359)

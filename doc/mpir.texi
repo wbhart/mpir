@@ -570,6 +570,7 @@ reports.
 * Build Options::
 * ABI and ISA::
 * Notes for Package Builds::
+* Building with Microsoft Visual Studio::
 * Notes for Particular Systems::
 * Known Build Problems::
 * Performance optimization::
@@ -1276,7 +1277,7 @@ cross-compile, for example
 
 
 @need 2000
-@node Notes for Package Builds, Notes for Particular Systems, ABI and ISA, Installing MPIR
+@node Notes for Package Builds, Building with Microsoft Visual Studio, ABI and ISA, Installing MPIR
 @section Notes for Package Builds
 @cindex Build notes for binary packaging
 @cindex Packaged builds
@@ -1346,9 +1347,149 @@ desired ABI@.  If compiler include paths don't vary with ABI options then it
 might be necessary to create a @file{/usr/include/mpir.h} which tests
 preprocessor symbols and chooses the correct actual @file{mpir.h}.
 
+@need 2000
+@node Building with Microsoft Visual Studio, Notes for Particular Systems, Notes for Package Builds, Installing MPIR
+@section Building with Microsoft Visual Studio 
+@cindex Build notes for MSVC
+@cindex MSVC
+@cindex Visual Studio
+
+MPIR can be built with the professional and higher versions of Microsoft
+Visual Studio 2010, 2012 and 2013.  It can also be built with Visual 
+Studio Express 2013 for Windows Desktop.  In addition to one of these
+versions of Visual Studio, Python 3 and the YASM assembler will need
+to be installed if the assembler optimised versions are required. if
+installed, MPIR can also be built with the Intel compiler that can be
+integrated into tne full versions of Visual Studio.
+
+Python can be obtained from:
+
+@display
+@uref{https://www.python.org/}
+@end display
+
+and the YASM assembler is available here:
+
+@display
+@uref{http://yasm.tortall.net/Download.html}
+@end display
+
+This assembler (@file{vsyasm.exe}, NOT @file{yasm.exe}) should be placed in the 
+binary directory used by the Visual Studio version in use, which should be one
+of:
+
+@display
+@file{C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin}
+@file{C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin}
+@file{C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin}
+@end display
+
+Alternatively @file{vsyasm.exe} can be placed elsewhere provided that the
+environment variable @samp{YASMPATH} gives its location.
+
+@table @asis
+
+@item Building MPIR
+
+A build of MPIR is started by double clicking on the file @file{mpir.sln}
+in the appropriate sub-directory within the MPIR root directory:
+
+@example
+    Visual Studio 2010:  mpir/build.vc10/mpir.sln
+    Visual Studio 2012:  mpir/build.vc11/mpir.sln
+    Visual Studio 2013:  mpir/build.vc12/mpir.sln
+@end example
+    
+Visual Studio will then display a list of individual build projects
+from which an appropriate version of MPIR can be built. For example,
+a typical list of projects:
+
+@example
+    dll_mpir_gc     standard DLL, no assembler (win32 and x64)
+    dll_mpir_p3     assembly optimised DLL for pentium 3 (win32)
+    lib_mpir_p3     assembly optimised static library for 
+                    pentium 3 (x64)
+    lib_mpir_core2  assembly optimised static library for 
+                    core2 (x64)
+    dll_mpir_core2  assembly optimised DLL for core2 (x64)
+@end example
+
+allows MPIR to be built either as a static library or as a DLL. A DLL will
+include both the C and C++ features of MPIR but a static library will include
+only the C features so in this case the project:
+
+@example
+  lib_mpir_cxx     the MPIRXX C++ static library (win32 and x64)
+@end example
+
+should also be built to provide the MPIR C++ static library (@samp{MPIRXX}).
+
+Before a project is built, Visual Studio should be set to the required 
+configuration (Release or Debug) and the required target architecture 
+(win32 or x64).  The build process puts the output files into one of the
+two sub-directories:
+
+@display
+@file{mpir/lib} 
+@file{mpir/dll} 
+@end display
+    
+depending on whether static library or DLL versions have been built.
+
+@item Additional Assembler Optimised Versions
+
+The Visual Studio builds for MPIR are initially provided with a small set
+of assembler optimised projects but many more are available and can be
+obtained by running the Python program @command{mpir_config.py} that is in the
+appropriate build sub-directory for the version of Visual Studio in use. 
+This program is run before Visual Studio is used and provides a list of
+all the assembler optimised versions that are available.  Any number can
+be chosen and these builds will then be available when Visual Studio is
+subsequently opened by double clicking on @file{mpir.sln}.
+
+@item Testing Visual Studio versions of MPIR 
+
+Testing a version of the library once it has been built is started by double
+clicking on the appropriate solution file:
+
+@example
+    Visual Studio 2010:  mpir/build.vc10/mpir-tests.sln
+    Visual Studio 2012:  mpir/build.vc11/mpir-tests.sln
+    Visual Studio 2013:  mpir/build.vc12/mpir-tests.sln
+@end example
+
+The tests are always run on the last version of MPIR built and it is important
+to set the configuration for the tests (Release or Debug, win32 or x64) to be 
+the same as that used to build MPIR.  After loading there will be a large list
+of test projects starting:
+
+@example
+  Solution `mpir-tests' (202 projects)
+        add-test-lib 
+        bswap
+        constants
+        ....
+@end example
+      
+The project @samp{add-test-lib} should be selected and built first, after which 
+the solution as a whole (i.e. the first line shown above) can be selected to 
+build all the tests.  After the build has completed, the tests are run by 
+executing the Python program @command{run-tests.py} in the appropriate Visual 
+Studio build sub-directory, for example, for Visual Studio 2013:
+
+@example
+   mpir/build.vc12/mpir-tests/run-tests.py 
+@end example
+
+@item Further Details
+
+Additional details can be found in the @file{readme.txt} files in the 
+appropriate Visual Studio build sub-directories.
+
+@end table
 
 @need 2000
-@node Notes for Particular Systems, Known Build Problems, Notes for Package Builds, Installing MPIR
+@node Notes for Particular Systems, Known Build Problems, Building with Microsoft Visual Studio, Installing MPIR
 @section Notes for Particular Systems
 @cindex Build notes for particular systems
 @cindex Particular systems
@@ -1400,7 +1541,7 @@ affects all code, including application code, not just MPIR.
 @cindex Windows
 @cindex Cygwin
 @cindex MINGW
-On an MS Windows system Cygwin and MINGW can be used , they 
+On an MS Windows system Cygwin and MINGW can be used, they 
 are ports of GCC and the various GNU tools.
 
 @display
@@ -1408,37 +1549,8 @@ are ports of GCC and the various GNU tools.
 @uref{http://www.mingw.org/}
 @end display
 
-Cygwin is a 32 bit build only but mingw is 32 or 64 bit build. Depending on how
-the mingw tools are installed will determine the best procedure for building ,
-because of the large number of ways this can be achieved it is best to search
-the MPIR devel mailing list or the mingw mailing list.
-
-For building with MSVC we provide a number of ways.
-
-In addition, project files for MSVC are provided, allowing MPIR to 
-build on Microsoft's compiler. For Visual Studio 2010 see the readme.txt 
-file in the build.vc10
-directory. The MSVC projects provides full assembler support and for
-@samp{x86_64} CPU's this will produce far superior results. These project
-files can also be accessed via the command line with the batch files 
-@samp{configure.bat} and @samp{make.bat} which have a @samp{unix like}
-interface , however they are not very well tested and are due to be replaced.
-
-An another alternative is @samp{configure} and @samp{make} in the @samp{win} 
-directory , these again have a @samp{unix like} syntax , these are tested 
-regularly and also have the advantage of working with VS2005 and up (including
-the free/express versions). There is some auto detection of the compiler , but it's
-probably best to set it explicity using the usual 
-@samp{call "%VS90COMNTOOLS%\..\..\VC\vcvarsall.bat" amd64} in the command window.
-The program @samp{YASM} is also required and should be in path or the @samp{%YASMPATH%}
-varible set.
-If @samp{configure} guesses wrong , close the window and try again changing the @samp{ABI=...}
-selection and or the @samp{vcvarsall.bat} options.
-@samp{make} supports the usual @samp{clean} and @samp{check} options .
-The @samp{only} bug is that shared library builds @samp{dll's} fail the make check
-in the C++ parts for @samp{istream} and @samp{ostream} with some unresolved
-symbols.
-
+Both 32 and 64 bit versions of MinGW and Cygwin are supported. Building on these
+systems is very similar to building on Linux. 
 
 @item MS Windows DLLs
 @cindex DLLs
