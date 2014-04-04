@@ -25,8 +25,6 @@ namespace MPIR.Tests.HugeIntTests
     [TestClass]
     public class Bitwise
     {
-        #region And
-
         [TestMethod]
         public void AndHugeInt()
         {
@@ -74,6 +72,118 @@ namespace MPIR.Tests.HugeIntTests
             }
         }
 
-        #endregion
+        [TestMethod]
+        public void PopCount()
+        {
+            using (var a = new HugeInt("0x1ABCDEF8984948281360922385394772450147012613851354303"))
+            {
+                Assert.AreEqual(83UL, a.PopCount());
+                Assert.AreEqual(ulong.MaxValue, (-a).PopCount());
+            }
+        }
+
+        [TestMethod]
+        public void HammingDistance()
+        {
+            using (var a = new HugeInt("0x1ABCDE08984948281360922385394772450147012613851354F03"))
+            using (var b = new HugeInt("0x1ABCDEF8984948281360922345394772450147012613851354303"))
+            {
+                Assert.AreEqual(8UL, a.HammingDistance(b));
+                Assert.AreEqual(8UL, (-b).HammingDistance(-a));
+                Assert.AreEqual(ulong.MaxValue, (-a).HammingDistance(b));
+                Assert.AreEqual(ulong.MaxValue, b.HammingDistance(-a));
+            }
+        }
+
+        [TestMethod]
+        public void FindBit()
+        {
+            using (var a = new HugeInt("0xA0000000000000000000800000000001"))
+            {
+                Assert.AreEqual(0UL, a.FindBit(true, 0));
+                Assert.AreEqual(47UL, a.FindBit(true, 1));
+                Assert.AreEqual(47UL, a.FindBit(true, 47));
+                Assert.AreEqual(125UL, a.FindBit(true, 48));
+                Assert.AreEqual(127UL, a.FindBit(true, 126));
+                Assert.AreEqual(ulong.MaxValue, a.FindBit(true, 128));
+
+                Assert.AreEqual(1UL, a.FindBit(false, 0));
+                Assert.AreEqual(1UL, a.FindBit(false, 1));
+                Assert.AreEqual(9UL, a.FindBit(false, 9));
+                Assert.AreEqual(128UL, a.FindBit(false, 127));
+                Assert.AreEqual(227UL, a.FindBit(false, 227));
+
+                a.Value = ~a;
+
+                Assert.AreEqual(0UL, a.FindBit(false, 0));
+                Assert.AreEqual(47UL, a.FindBit(false, 1));
+                Assert.AreEqual(47UL, a.FindBit(false, 47));
+                Assert.AreEqual(125UL, a.FindBit(false, 48));
+                Assert.AreEqual(127UL, a.FindBit(false, 126));
+                Assert.AreEqual(ulong.MaxValue, a.FindBit(false, 128));
+
+                Assert.AreEqual(1UL, a.FindBit(true, 0));
+                Assert.AreEqual(1UL, a.FindBit(true, 1));
+                Assert.AreEqual(9UL, a.FindBit(true, 9));
+                Assert.AreEqual(128UL, a.FindBit(true, 127));
+                Assert.AreEqual(227UL, a.FindBit(true, 227));
+            }
+        }
+
+        [TestMethod]
+        public void SetBit()
+        {
+            using (var a = new HugeInt("0xA0000000000000000000200000000001"))
+            {
+                a.SetBit(47, true);
+                Assert.AreEqual("A0000000000000000000A00000000001", a.ToString(16));
+                a.SetBit(47, true);
+                Assert.AreEqual("A0000000000000000000A00000000001", a.ToString(16));
+                a.SetBit(45, false);
+                Assert.AreEqual("A0000000000000000000800000000001", a.ToString(16));
+                a.SetBit(45, false);
+                Assert.AreEqual("A0000000000000000000800000000001", a.ToString(16));
+                a.SetBit(131, false);
+                Assert.AreEqual("A0000000000000000000800000000001", a.ToString(16));
+                a.SetBit(131, true);
+                Assert.AreEqual("8A0000000000000000000800000000001", a.ToString(16));
+            }
+        }
+
+        [TestMethod]
+        public void GetBit()
+        {
+            using (var a = new HugeInt("0xA000000000000000000200000000001"))
+            {
+                Assert.IsTrue(a.GetBit(45));
+                Assert.IsFalse(a.GetBit(46));
+                Assert.AreEqual(2, a.NumberOfLimbsUsed());
+                Assert.AreEqual(3, a.NumberOfLimbsAllocated());
+                Assert.IsFalse(a.GetBit(246));
+                Assert.AreEqual(2, a.NumberOfLimbsUsed());
+                Assert.AreEqual(3, a.NumberOfLimbsAllocated());
+                a.Value = ~a;
+                Assert.AreEqual(-2, a.NumberOfLimbsUsed());
+                Assert.AreEqual(3, a.NumberOfLimbsAllocated());
+                Assert.IsTrue(a.GetBit(246));
+                Assert.AreEqual(-2, a.NumberOfLimbsUsed());
+                Assert.AreEqual(3, a.NumberOfLimbsAllocated());
+            }
+        }
+
+        [TestMethod]
+        public void ComplementBit()
+        {
+            using (var a = new HugeInt("0xA0000000000000000000800000000001"))
+            {
+                a.ComplementBit(46);
+                Assert.AreEqual("A0000000000000000000C00000000001", a.ToString(16));
+                a.ComplementBit(47);
+                Assert.AreEqual("A0000000000000000000400000000001", a.ToString(16));
+                a.ComplementBit(131);
+                Assert.AreEqual("8A0000000000000000000400000000001", a.ToString(16));
+            }
+        }
+        //more tests coming here
     }
 }

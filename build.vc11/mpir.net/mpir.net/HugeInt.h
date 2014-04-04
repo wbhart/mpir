@@ -530,7 +530,34 @@ namespace MPIR
             /// <param name="a">Source value to complement</param>
             /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
             static MpirExpression^ operator ~ (MpirExpression^ a);
-                                                                                                          
+
+            /// <summary>If the source is &gt;= 0, returns the population count of op, which is the number of 1 bits in the binary representation.
+            /// <para>If the source is &lt; 0, the number of 1s is infinite, and the return value is ulong.MaxValue, the largest possible bit count.
+            /// </para>Because the result is a primitive type, it is computed immediately.
+            /// </summary>
+            /// <returns>The population count for a non-negative number</returns>
+            mp_bitcnt_t PopCount() { IN_CONTEXT(this); return mpz_popcount(context.Args[0]); }
+
+            /// <summary>If this number and the operand are both &gt;= 0 or both &lt; 0, returns the hamming distance between them, which is the number of bit positions with different bit values.
+            /// <para>If one operand is &gt;= 0 and the other &lt; 0 then the number of bits different is infinite, and the return value is ulong.MaxValue, the largest possible bit count.
+            /// </para>Because the result is a primitive type, it is computed immediately.
+            /// </summary>
+            /// <param name="a">Source value to compute the hamming distance to</param>
+            /// <returns>The hamming distance between this number and <paramref name="a"/></returns>
+            mp_bitcnt_t HammingDistance(MpirExpression^ a) { IN_CONTEXT(this, a); return mpz_hamdist(context.Args[0], context.Args[1]); }
+
+            /// <summary>Scans the source number, starting from the <paramref name="start"/> bit, towards more significant bits, until the first 0 or 1 bit
+            /// (depending on the <paramref name="value"/> is found, and return the index of the found bit.
+            /// <para>If the bit at the starting position is already what's sought, then <paramref name="start"/> is returned.
+            /// </para>If there's no bit found, then ulong.MaxValue (the largest possible bit count) is returned. 
+            /// This will happen with <paramref name="value"/> = true past the end of a non-negative number, or with <paramref name="value"/> = false past the end of a negative number.
+            /// <para>A false bit will always be found at the <paramref name="start"/> position past the end of a non-negatitve number, and a true bit past the end of a negative number.
+            /// </para></summary>
+            /// <param name="value">Value of the bit to scan for, true for 1, false for 0</param>
+            /// <param name="start">Starting bit position to search.  The least significant bit is zero.</param>
+            /// <returns>The index of the found bit, or ulong.MaxValue if no bit found.</returns>
+            mp_bitcnt_t FindBit(bool value, mp_bitcnt_t start) { IN_CONTEXT(this); return value ? mpz_scan1(context.Args[0], start) : mpz_scan0(context.Args[0], start); }
+
             /// <summary>Computes the absolute value of the source number.
             /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
             /// </para></summary>
@@ -559,7 +586,7 @@ namespace MPIR
             /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
             /// </para></summary>
             /// <param name="power">Power to raise the source value to.
-            /// <para>Negative power values are supported if an inverse mod <paramref name="mod"/> exists, otherwise divide by zero is raised.</para></param>
+            /// <para>Negative power values are supported if an inverse mod <paramref name="modulo"/> exists, otherwise divide by zero is raised.</para></param>
             /// <param name="modulo">Modulo to perform the powering operation with</param>
             /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
             MpirExpression^ PowerMod(MpirExpression^ power, MpirExpression^ modulo);
@@ -1627,6 +1654,37 @@ namespace MPIR
                 a->_value = _value;
                 _value = temp; 
             }
+
+            #pragma endregion
+
+            #pragma region bit assignment
+
+            /// <summary>
+            /// Sets a single bit at the specified position.
+            /// </summary>
+            /// <param name="value">Value of the bit to set, true for 1, false for 0</param>
+            /// <param name="position">Position of the bit to set.
+            /// <para>The least significant bit is zero.
+            /// </para>If position is beyond the current size of the number, the number is extended automatically.</param>
+            void SetBit(mp_bitcnt_t position, bool value) { value ? mpz_setbit(_value, position) : mpz_clrbit(_value, position); }
+
+            /// <summary>
+            /// Gets a single bit at the specified position.
+            /// </summary>
+            /// <param name="position">Position of the bit to get.
+            /// <para>The least significant bit is zero.
+            /// </para>If position is beyond the current size of the number, returns true for negative number, false for non-negative; the number itself is not extended.</param>
+            /// <returns>true if the specified bit is 1, false if zero.
+            /// <para>If position is beyond the current size of the number, returns true for negative number, false for non-negative; the number itself is not extended.</para></returns>
+            bool GetBit(mp_bitcnt_t position) { return mpz_tstbit(_value, position) != 0; }
+
+            /// <summary>
+            /// Complements (inverts) a single bit at the specified position.
+            /// </summary>
+            /// <param name="position">Position of the bit to flip.
+            /// <para>The least significant bit is zero.
+            /// </para>If position is beyond the current size of the number, the number is extended automatically.</param>
+            void ComplementBit(mp_bitcnt_t position) { mpz_combit(_value, position); }
 
             #pragma endregion
     };
