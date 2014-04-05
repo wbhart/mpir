@@ -166,10 +166,16 @@
     </ClCompile>
     <ClCompile Include="..\..\tune\gcdextod.c" />
     <ClCompile Include="..\..\tune\gcdextos.c" />
-    <ClCompile Include="..\..\tune\gcd_bin.c" />
+    <ClCompile Include="..\..\tune\gcdext_double.c" />
+    <ClCompile Include="..\..\tune\gcdext_single.c" />
+    <ClCompile Include="..\..\tune\hgcd_appr_lehmer.c" />
+    <ClCompile Include="..\..\tune\hgcd_lehmer.c" />
+    <ClCompile Include="..\..\tune\hgcd_reduce_1.c" />
+    <ClCompile Include="..\..\tune\hgcd_reduce_2.c" />
     <ClCompile Include="..\..\tune\jacbase1.c" />
     <ClCompile Include="..\..\tune\jacbase2.c" />
     <ClCompile Include="..\..\tune\jacbase3.c" />
+    <ClCompile Include="..\..\tune\jacbase4.c" />
     <ClCompile Include="..\..\tune\modlinv.c" />
     <ClCompile Include="..\..\tune\mod_1_div.c" />
     <ClCompile Include="..\..\tune\mod_1_inv.c" />

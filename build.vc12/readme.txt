@@ -225,9 +225,9 @@ and the output can be directed to a file:
 Speed and Tuning
 ================
 
-The speed and tuning programs are built using the tune.sln solutions.  
-These applications, which are set up to use the static library versions
-of MPIR, are not needed to use MPIR
+The speed and tuning programs are built using the tune.sln solution file
+and are only available on Windows x64. These applications, which are set
+up to use the static library versions of MPIR, are not needed to use MPIR.
 
 MPIR on Windows x64
 ===================
