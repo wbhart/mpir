@@ -304,7 +304,7 @@ am__relativize = \
   done; \
   reldir="$$dir2"
 GZIP_ENV = --best
-DIST_ARCHIVES = $(distdir).tar.bz2 $(distdir).tar.lz $(distdir).tar.xz
+DIST_ARCHIVES = $(distdir).tar.bz2 $(distdir).tar.lz $(distdir).zip
 distuninstallcheck_listfiles = find . -type f -print
 am__distuninstallcheck_listfiles = $(distuninstallcheck_listfiles) \
   | sed 's|^\./|$(prefix)/|' | grep -v '$(infodir)/dir$$'
@@ -1028,6 +1028,7 @@ dist-lzip: distdir
 dist-lzma: distdir
 	tardir=$(distdir) && $(am__tar) | lzma -9 -c >$(distdir).tar.lzma
 	$(am__remove_distdir)
+
 dist-xz: distdir
 	tardir=$(distdir) && $(am__tar) | XZ_OPT=$${XZ_OPT--e} xz -c >$(distdir).tar.xz
 	$(am__remove_distdir)
@@ -1039,7 +1040,6 @@ dist-tarZ: distdir
 dist-shar: distdir
 	shar $(distdir) | GZIP=$(GZIP_ENV) gzip -c >$(distdir).shar.gz
 	$(am__remove_distdir)
-
 dist-zip: distdir
 	-rm -f $(distdir).zip
 	zip -rq $(distdir).zip $(distdir)
@@ -1048,7 +1048,8 @@ dist-zip: distdir
 dist dist-all: distdir
 	tardir=$(distdir) && $(am__tar) | BZIP2=$${BZIP2--9} bzip2 -c >$(distdir).tar.bz2
 	tardir=$(distdir) && $(am__tar) | lzip -c $${LZIP_OPT--9} >$(distdir).tar.lz
-	tardir=$(distdir) && $(am__tar) | XZ_OPT=$${XZ_OPT--e} xz -c >$(distdir).tar.xz
+	-rm -f $(distdir).zip
+	zip -rq $(distdir).zip $(distdir)
 	$(am__remove_distdir)
 
 # This target untars the dist file and tries a VPATH configuration.  Then
