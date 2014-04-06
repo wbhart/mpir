@@ -2845,6 +2845,9 @@ if test "$gmp_asm_syntax_testing" != no; then
         64)
           case $host in 
             *-*-darwin*)
+              # Defined in mpn/x86_64/x86_64-defs.m4, but there currently
+              # hardcoded just for ELF, so redefine it here for Mach-O:
+              GMP_DEFINE_RAW(["define(\`JUMPTABSECT',RODATA)"],POST)
               OBJECT_FORMAT="-f macho64" ;;
             *-w64-mingw*|*-*-cygwin*)
               OBJECT_FORMAT="-f x64"  ;;
