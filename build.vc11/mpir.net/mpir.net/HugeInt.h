@@ -1687,5 +1687,61 @@ namespace MPIR
             void ComplementBit(mp_bitcnt_t position) { mpz_combit(_value, position); }
 
             #pragma endregion
+
+            #pragma region size checks
+
+            /// <summary>
+            /// Returns true if the value of the integer is in the ulong range.
+            /// </summary>
+            /// <returns>true if the value will fit in a ulong</returns>
+            bool FitsUlong() { return mpz_fits_ui_p(_value) != 0; }
+
+            /// <summary>
+            /// Returns true if the value of the integer is in the long range.
+            /// </summary>
+            /// <returns>true if the value will fit in a long</returns>
+            bool FitsLong() { return mpz_fits_si_p(_value) != 0; }
+
+            /// <summary>
+            /// Returns true if the value of the integer is in the uint range.
+            /// </summary>
+            /// <returns>true if the value will fit in a uint</returns>
+            bool FitsUint() { return mpz_fits_uint_p(_value) != 0; }
+
+            /// <summary>
+            /// Returns true if the value of the integer is in the int range.
+            /// </summary>
+            /// <returns>true if the value will fit in a int</returns>
+            bool FitsInt() { return mpz_fits_sint_p(_value) != 0; }
+
+            /// <summary>
+            /// Returns true if the value of the integer is in the ushort range.
+            /// </summary>
+            /// <returns>true if the value will fit in a ushort</returns>
+            bool FitsUshort() { return mpz_fits_ushort_p(_value) != 0; }
+
+            /// <summary>
+            /// Returns true if the value of the integer is in the short range.
+            /// </summary>
+            /// <returns>true if the value will fit in a short</returns>
+            bool FitsShort() { return mpz_fits_sshort_p(_value) != 0; }
+
+            /// <summary>
+            /// Returns the number of digits the number would take if written in the specified base.
+            /// <para>The sign of the number is ignored, just the absolute value is used.
+            /// </para>The result will be either exact or 1 too big.
+            /// If <paramref name="base"/> is a power of 2, the result will always be exact.
+            /// <para>If the number is 0, the result is always 1.
+            /// </para>This function can be used to estimate the space required when converting to a string.
+            /// The right amount of allocation is normally two more than the value returned,
+            /// one extra for a minus sign and one for the null-terminator.
+            /// <para>It will be noted that base=2 can be used to locate the most significant 1 bit in op,
+            /// counting from 1 (unlike all bitwise functions, which start from 0).
+            /// </para></summary>
+            /// <param name="base">Numeric base for the would-be string conversion, in the range from 2 to 62.</param>
+            /// <returns>The number of digits the number would take written in the specified base, possibly 1 too big, not counting a leading minus.</returns>
+            mp_size_t ApproximateSizeInBase(int base) { return mpz_sizeinbase(_value, base); }
+
+            #pragma endregion
     };
 };

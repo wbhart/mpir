@@ -141,5 +141,113 @@ namespace MPIR.Tests.HugeIntTests
                 Assert.AreEqual("-..." + n.Substring(n.Length - 256), a.ToString());
             }
         }
+
+        [TestMethod]
+        public void FitsUlong()
+        {
+            using (var a = HugeInt.FromUlong(ulong.MaxValue))
+            {
+                Assert.IsTrue(a.FitsUlong());
+                a.Value = a + 1;
+                Assert.IsFalse(a.FitsUlong());
+                a.SetTo(0);
+                Assert.IsTrue(a.FitsUlong());
+                a.Value = a - 1;
+                Assert.IsFalse(a.FitsUlong());
+            }
+        }
+
+        [TestMethod]
+        public void FitsLong()
+        {
+            using (var a = HugeInt.FromLong(long.MaxValue))
+            {
+                Assert.IsTrue(a.FitsLong());
+                a.Value = a + 1;
+                Assert.IsFalse(a.FitsLong());
+                a.SetTo(long.MinValue);
+                Assert.IsTrue(a.FitsLong());
+                a.Value = a - 1;
+                Assert.IsFalse(a.FitsLong());
+            }
+        }
+
+        [TestMethod]
+        public void FitsUint()
+        {
+            using (var a = HugeInt.FromUlong(uint.MaxValue))
+            {
+                Assert.IsTrue(a.FitsUint());
+                a.Value = a + 1;
+                Assert.IsFalse(a.FitsUint());
+                a.SetTo(0);
+                Assert.IsTrue(a.FitsUint());
+                a.Value = a - 1;
+                Assert.IsFalse(a.FitsUint());
+            }
+        }
+
+        [TestMethod]
+        public void FitsInt()
+        {
+            using (var a = HugeInt.FromLong(int.MaxValue))
+            {
+                Assert.IsTrue(a.FitsInt());
+                a.Value = a + 1;
+                Assert.IsFalse(a.FitsInt());
+                a.SetTo(int.MinValue);
+                Assert.IsTrue(a.FitsInt());
+                a.Value = a - 1;
+                Assert.IsFalse(a.FitsInt());
+            }
+        }
+
+        [TestMethod]
+        public void FitsUshort()
+        {
+            using (var a = HugeInt.FromUlong(ushort.MaxValue))
+            {
+                Assert.IsTrue(a.FitsUshort());
+                a.Value = a + 1;
+                Assert.IsFalse(a.FitsUshort());
+                a.SetTo(0);
+                Assert.IsTrue(a.FitsUshort());
+                a.Value = a - 1;
+                Assert.IsFalse(a.FitsUshort());
+            }
+        }
+
+        [TestMethod]
+        public void FitsShort()
+        {
+            using (var a = HugeInt.FromLong(short.MaxValue))
+            {
+                Assert.IsTrue(a.FitsShort());
+                a.Value = a + 1;
+                Assert.IsFalse(a.FitsShort());
+                a.SetTo(short.MinValue);
+                Assert.IsTrue(a.FitsShort());
+                a.Value = a - 1;
+                Assert.IsFalse(a.FitsShort());
+            }
+        }
+
+        [TestMethod]
+        public void ApproximateSizeInBase()
+        {
+            using (var a = new HugeInt("2983475029834750293429834750298347502934298347502983475029342983475029834750293429834750298347502934"))
+            {
+                AssertEither(100, 101, a.ApproximateSizeInBase(10));
+                AssertEither(331, 332, a.ApproximateSizeInBase(2));
+                AssertEither(83, 84, a.ApproximateSizeInBase(16));
+                AssertEither(64, 65, a.ApproximateSizeInBase(36));
+                AssertEither(56, 57, a.ApproximateSizeInBase(62));
+            }
+        }
+
+        private void AssertEither(int expected1, int expected2, long actual)
+        {
+            Assert.IsTrue(actual == expected1 || actual == expected2, "Expected {0} or {1}, actual {2}", expected1, expected2, actual);
+        }
     }
 }
