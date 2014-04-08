@@ -141,16 +141,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Common.h" />
-    <ClInclude Include="HugeInt.h" />
-    <ClInclude Include="resource.h" />
-    <ClInclude Include="Stdafx.h" />
+    <ClInclude Include="..\..\..\mpir.net\mpir.net\Common.h" />
+    <ClInclude Include="..\..\..\mpir.net\mpir.net\HugeInt.h" />
+    <ClInclude Include="..\..\..\mpir.net\mpir.net\resource.h" />
+    <ClInclude Include="..\..\..\mpir.net\mpir.net\Stdafx.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="AssemblyInfo.cpp" />
-    <ClCompile Include="Common.cpp" />
-    <ClCompile Include="HugeInt.cpp" />
-    <ClCompile Include="Stdafx.cpp">
+    <ClCompile Include="..\..\..\mpir.net\mpir.net\AssemblyInfo.cpp" />
+    <ClCompile Include="..\..\..\mpir.net\mpir.net\Common.cpp" />
+    <ClCompile Include="..\..\..\mpir.net\mpir.net\HugeInt.cpp" />
+    <ClCompile Include="..\..\..\mpir.net\mpir.net\Stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
@@ -158,13 +158,13 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="ReadMe.txt" />
+    <Text Include="..\..\..\mpir.net\mpir.net\ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="app.rc" />
+    <ResourceCompile Include="..\..\..\mpir.net\mpir.net\app.rc" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="app.ico" />
+    <Image Include="..\..\..\mpir.net\mpir.net\app.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

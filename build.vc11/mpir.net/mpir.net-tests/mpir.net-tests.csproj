@@ -94,17 +94,17 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="HugeIntTests\Arithmetic.cs" />
-    <Compile Include="HugeIntTests\Assignment.cs" />
-    <Compile Include="HugeIntTests\Bitwise.cs" />
-    <Compile Include="HugeIntTests\Conversions.cs" />
-    <Compile Include="HugeIntTests\Comparisons.cs" />
-    <Compile Include="HugeIntTests\ExpressionTests.cs" />
-    <Compile Include="HugeIntTests\Math.cs" />
-    <Compile Include="HugeIntTests\XmlCommentsTests.cs" />
-    <Compile Include="Utilities\Accessors.cs" />
-    <Compile Include="HugeIntTests\ConstructionAndDisposal.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="..\..\..\mpir.net\mpir.net-tests\HugeIntTests\Arithmetic.cs" />
+    <Compile Include="..\..\..\mpir.net\mpir.net-tests\HugeIntTests\Assignment.cs" />
+    <Compile Include="..\..\..\mpir.net\mpir.net-tests\HugeIntTests\Bitwise.cs" />
+    <Compile Include="..\..\..\mpir.net\mpir.net-tests\HugeIntTests\Conversions.cs" />
+    <Compile Include="..\..\..\mpir.net\mpir.net-tests\HugeIntTests\Comparisons.cs" />
+    <Compile Include="..\..\..\mpir.net\mpir.net-tests\HugeIntTests\ExpressionTests.cs" />
+    <Compile Include="..\..\..\mpir.net\mpir.net-tests\HugeIntTests\Math.cs" />
+    <Compile Include="..\..\..\mpir.net\mpir.net-tests\HugeIntTests\XmlCommentsTests.cs" />
+    <Compile Include="..\..\..\mpir.net\mpir.net-tests\Utilities\Accessors.cs" />
+    <Compile Include="..\..\..\mpir.net\mpir.net-tests\HugeIntTests\ConstructionAndDisposal.cs" />
+    <Compile Include="..\..\..\mpir.net\mpir.net-tests\Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\mpir.net\mpir.net.vcxproj">

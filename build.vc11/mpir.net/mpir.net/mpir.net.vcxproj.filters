@@ -15,43 +15,43 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Stdafx.h">
+    <ClInclude Include="..\..\..\mpir.net\mpir.net\Stdafx.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="resource.h">
+    <ClInclude Include="..\..\..\mpir.net\mpir.net\resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="HugeInt.h">
+    <ClInclude Include="..\..\..\mpir.net\mpir.net\HugeInt.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Common.h">
+    <ClInclude Include="..\..\..\mpir.net\mpir.net\Common.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="AssemblyInfo.cpp">
+    <ClCompile Include="..\..\..\mpir.net\mpir.net\AssemblyInfo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Stdafx.cpp">
+    <ClCompile Include="..\..\..\mpir.net\mpir.net\Stdafx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="HugeInt.cpp">
+    <ClCompile Include="..\..\..\mpir.net\mpir.net\HugeInt.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Common.cpp">
+    <ClCompile Include="..\..\..\mpir.net\mpir.net\Common.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="ReadMe.txt" />
+    <Text Include="..\..\..\mpir.net\mpir.net\ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="app.rc">
+    <ResourceCompile Include="..\..\..\mpir.net\mpir.net\app.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="app.ico">
+    <Image Include="..\..\..\mpir.net\mpir.net\app.ico">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>
