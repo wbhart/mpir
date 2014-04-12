@@ -1743,6 +1743,27 @@ namespace MPIR
             /// <returns>The number of digits the number would take written in the specified base, possibly 1 too big, not counting a leading minus.</returns>
             mp_size_t ApproximateSizeInBase(int base) { return mpz_sizeinbase(_value, base); }
 
+            /// <summary>
+            /// Output the integer to the <paramref name="stream"/> in raw binary format.
+            /// <para>The number is written in a portable format, with 4 bytes of size information, and that many bytes of limbs.
+            /// Both the size and the limbs are written in decreasing significance order (i.e., in big-endian).
+            /// </para>The output can be read with Read(Stream).
+            /// <para>The output cannot be read by mpz_inp_raw from GMP 1, because of changes necessary
+            /// for compatibility between 32-bit and 64-bit machines.
+            /// </para></summary>
+            /// <param name="stream">Stream to output the number to</param>
+            void Write(Stream^ stream);
+
+            /// <summary>
+            /// Reads the integer value from the <paramref name="stream"/> in raw binary format, as it would have been written by Write(Stream).
+            /// <para>The number is read in a portable format, with 4 bytes of size information, and that many bytes of limbs.
+            /// Both the size and the limbs are written in decreasing significance order (i.e., in big-endian).
+            /// </para>This routine can read the output from mpz_out_raw also from GMP 1, in spite of changes
+            /// necessary for compatibility between 32-bit and 64-bit machines.
+            /// </summary>
+            /// <param name="stream">Stream to input the number from</param>
+            void Read(Stream^ stream);
+
             #pragma endregion
 
             #pragma region IO
