@@ -17,30 +17,30 @@ You should have received a copy of the GNU Lesser General Public License
 along with the MPIR Library.  If not, see http://www.gnu.org/licenses/.  
 */
 
-#include "Stdafx.h"
+using System;
+using System.IO;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-void CustomFree (void* ptr)
+namespace MPIR.Tests.HugeIntTests
 {
-    CustomFree(ptr, 0);
-}
-
-void CustomFree(void* ptr, size_t size)
-{
-    void (*freeFunc) (void*, size_t);
-    mp_get_memory_functions (NULL, NULL, &freeFunc);
-    freeFunc(ptr, size);
-}
-
-void* CustomAllocate(size_t size)
-{
-    void* (*allocateFunc) (size_t);
-    mp_get_memory_functions(&allocateFunc, NULL, NULL);
-    return allocateFunc(size);
-}
-
-void* CustomReallocate(void* old, size_t size)
-{
-    void* (*reallocateFunc) (void*, size_t, size_t);
-    mp_get_memory_functions(NULL, &reallocateFunc, NULL);
-    return reallocateFunc(old, 0, size);
+    [TestClass]
+    public class IO
+    {
+        [TestMethod]
+        public void InputOutputRaw()
+        {
+            using (var a = new HugeInt("0x10123456789ABCDEF0123456789ABCDEF0123456789ABCDEF"))
+            using (var b = new HugeInt())
+            using (var ms = new MemoryStream())
+            {
+                a.Value = a ^ 100;
+                a.Write(ms);
+                ms.Position = 0;
+                b.Read(ms);
+                Assert.AreEqual(a, b);
+                Assert.AreEqual(ms.Length, ms.Position);
+            }
+        }
+        //more tests coming here
+    }
 }

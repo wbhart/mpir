@@ -100,6 +100,7 @@
     <Compile Include="..\..\..\mpir.net\mpir.net-tests\HugeIntTests\Conversions.cs" />
     <Compile Include="..\..\..\mpir.net\mpir.net-tests\HugeIntTests\Comparisons.cs" />
     <Compile Include="..\..\..\mpir.net\mpir.net-tests\HugeIntTests\ExpressionTests.cs" />
+    <Compile Include="..\..\..\mpir.net\mpir.net-tests\HugeIntTests\IO.cs" />
     <Compile Include="..\..\..\mpir.net\mpir.net-tests\HugeIntTests\Math.cs" />
     <Compile Include="..\..\..\mpir.net\mpir.net-tests\HugeIntTests\XmlCommentsTests.cs" />
     <Compile Include="..\..\..\mpir.net\mpir.net-tests\Utilities\Accessors.cs" />

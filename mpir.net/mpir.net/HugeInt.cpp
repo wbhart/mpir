@@ -18,7 +18,6 @@ along with the MPIR Library.  If not, see http://www.gnu.org/licenses/.
 */
 
 #include "Stdafx.h"
-#include "Common.h"
 
 #define DEFINE_ASSIGNMENT_PROLOG(name) void Mpir##name##Expression::AssignTo(mpz_ptr destination)
 
@@ -503,5 +502,69 @@ namespace MPIR
         }
     }
     
+    #pragma endregion
+
+    #pragma region IO
+
+    #define chunkSize 1024
+
+    void HugeInt::Write(Stream^ stream)
+    {
+        mpir_out_struct out;
+        mpz_out_raw_m(out, _value);
+
+        auto buffer = gcnew array<unsigned char>(chunkSize);
+        auto ptr = out->written;
+
+        while(out->writtenSize > 0)
+        {
+            auto len = Math::Min(chunkSize, (int)out->writtenSize);
+            Marshal::Copy(IntPtr(ptr), buffer, 0, len);
+            stream->Write(buffer, 0, len);
+            ptr += len;
+            out->writtenSize -= len;
+        }
+
+        CustomFree(out->allocated, out->allocatedSize);
+    }
+
+    void HugeInt::Read(Stream^ stream)
+    {
+        unsigned char csize_bytes[4];
+        mpir_out_struct out;
+
+        /* 4 bytes for size */
+        for(int i = 0; i < 4; i++)
+        {
+            auto byte = stream->ReadByte();
+            if(byte < 0)
+                throw gcnew Exception("Unexpected end of stream");
+
+            csize_bytes[i] = byte;
+        }
+
+        mpz_inp_raw_p(_value, csize_bytes, out);
+
+        if(out->writtenSize != 0)
+        {
+            auto buffer = gcnew array<unsigned char>(chunkSize);
+            auto ptr = out->written;
+            auto toRead = (int)out->writtenSize;
+
+            while(toRead > 0)
+            {
+                auto len = Math::Min(chunkSize, toRead);
+                if (len != stream->Read(buffer, 0, len))
+                    throw gcnew Exception("Unexpected end of stream");
+
+                Marshal::Copy(buffer, 0, IntPtr(ptr), len);
+                ptr += len;
+                toRead -= len;
+            }
+
+            mpz_inp_raw_m(_value, out);
+        }
+    }
+
     #pragma endregion
 };

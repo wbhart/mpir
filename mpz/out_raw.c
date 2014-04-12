@@ -47,9 +47,7 @@ MA 02110-1301, USA. */
   } while (0)
 #endif
 
-
-size_t
-mpz_out_raw (FILE *fp, mpz_srcptr x)
+void mpz_out_raw_m (mpir_out_ptr mpir_out, mpz_srcptr x)
 {
   mp_size_t   xsize, abs_xsize, bytes, i;
   mp_srcptr   xp;
@@ -151,11 +149,25 @@ mpz_out_raw (FILE *fp, mpz_srcptr x)
   bp[-1] = bytes;
   bp -= 4;
 
+  mpir_out->allocated = tp;
+  mpir_out->allocatedSize = tsize;
+  mpir_out->written = bp;
+  mpir_out->writtenSize = ssize;
+}
+
+size_t
+mpz_out_raw (FILE* fp, mpz_srcptr x)
+{
+  mpir_out_struct out;
+
   if (fp == 0)
     fp = stdout;
-  if (fwrite (bp, ssize, 1, fp) != 1)
-    ssize = 0;
 
-  (*__gmp_free_func) (tp, tsize);
-  return ssize;
+  mpz_out_raw_m(out, x);
+
+  if (fwrite (out->written, out->writtenSize, 1, fp) != 1)
+    out->writtenSize = 0;
+
+  (*__gmp_free_func) (out->allocated, out->allocatedSize);
+  return out->writtenSize;
 }
