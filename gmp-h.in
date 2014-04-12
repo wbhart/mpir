@@ -300,6 +300,17 @@ typedef struct
 } __gmp_randstate_struct;
 typedef __gmp_randstate_struct gmp_randstate_t[1];
 
+/* Output of mp?_out_raw_m */
+typedef struct
+{
+  unsigned char* allocated;
+  size_t allocatedSize;
+  unsigned char* written;
+  size_t writtenSize;
+} __mpir_out_struct;
+typedef __mpir_out_struct mpir_out_struct[1];
+typedef __mpir_out_struct *mpir_out_ptr;
+
 /* Types for function declarations in gmp files.  */
 /* ??? Should not pollute user name space with these ??? */
 typedef __gmp_const __mpz_struct *mpz_srcptr;
@@ -967,6 +978,9 @@ __GMP_DECLSPEC int mpz_init_set_str __GMP_PROTO ((mpz_ptr, __gmp_const char *, i
 #define mpz_init_set_ui __gmpz_init_set_ui
 __GMP_DECLSPEC void mpz_init_set_ui __GMP_PROTO ((mpz_ptr, mpir_ui));
 
+__GMP_DECLSPEC void mpz_inp_raw_p __GMP_PROTO ((mpz_ptr x, unsigned char* csize_bytes, mpir_out_ptr out));
+__GMP_DECLSPEC void mpz_inp_raw_m __GMP_PROTO ((mpz_ptr x, mpir_out_ptr out));
+
 #define mpz_inp_raw __gmpz_inp_raw
 #ifdef _GMP_H_HAVE_FILE
 __GMP_DECLSPEC size_t mpz_inp_raw __GMP_PROTO ((mpz_ptr, FILE *));
@@ -1051,6 +1065,8 @@ __GMP_DECLSPEC void mpz_nextprime __GMP_PROTO ((mpz_ptr, mpz_srcptr));
 
 #define mpz_next_prime_candidate __gmpz_next_prime_candidate
 __GMP_DECLSPEC void mpz_next_prime_candidate __GMP_PROTO ((mpz_ptr, mpz_srcptr, gmp_randstate_t));
+
+__GMP_DECLSPEC void mpz_out_raw_m __GMP_PROTO ((mpir_out_ptr, mpz_srcptr));
 
 #define mpz_out_raw __gmpz_out_raw
 #ifdef _GMP_H_HAVE_FILE

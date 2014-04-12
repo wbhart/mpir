@@ -22,6 +22,7 @@ along with the MPIR Library.  If not, see http://www.gnu.org/licenses/.
 void* CustomAllocate (size_t alloc_size);
 void* CustomReallocate (void* ptr, size_t new_size);
 void CustomFree (void* ptr);
+void CustomFree (void* ptr, size_t size);
 
 enum EvaluationOptions : __int8
 {
