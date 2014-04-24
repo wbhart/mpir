@@ -19,6 +19,7 @@ along with the MPIR Library.  If not, see http://www.gnu.org/licenses/.
 
 using System;
 using System.IO;
+using System.Text;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace MPIR.Tests.HugeIntTests
@@ -39,6 +40,149 @@ namespace MPIR.Tests.HugeIntTests
                 b.Read(ms);
                 Assert.AreEqual(a, b);
                 Assert.AreEqual(ms.Length, ms.Position);
+            }
+        }
+
+        [TestMethod]
+        public void InputOutputStr()
+        {
+            using (var a = new HugeInt("0x10123456789ABCDEF0123456789ABCDEF0123456789ABCDEF"))
+            using (var b = new HugeInt())
+            using (var ms = new MemoryStream())
+            {
+                a.Value = a ^ 100;
+                using (var writer = new StreamWriter(ms, Encoding.UTF8, 1024, true))
+                    a.Write(writer);
+
+                ms.Position = 0;
+
+                using (var reader = new StreamReader(ms, Encoding.UTF8, false, 1024, true))
+                    b.Read(reader);
+
+                Assert.AreEqual(a, b);
+                Assert.AreEqual(ms.Length, ms.Position);
+            }
+        }
+
+        [TestMethod]
+        public void InputOutputStrHex()
+        {
+            using (var a = new HugeInt("0x10123456789ABCDEF0123456789ABCDEF0123456789ABCDEF"))
+            using (var b = new HugeInt())
+            using (var ms = new MemoryStream())
+            {
+                a.Value = a ^ 100;
+                using (var writer = new StreamWriter(ms, Encoding.UTF8, 1024, true))
+                {
+                    writer.Write("0x");
+                    a.Write(writer, 16);
+                }
+
+                ms.Position = 0;
+
+                using (var reader = new StreamReader(ms, Encoding.UTF8, false, 1024, true))
+                    b.Read(reader);
+
+                Assert.AreEqual(a, b);
+                Assert.AreEqual(ms.Length, ms.Position);
+                Assert.AreEqual((char)0xFEFF + "0x" + a.ToString(16), Encoding.UTF8.GetString(ms.ToArray()));
+            }
+        }
+
+        [TestMethod]
+        public void InputOutputStrHexLower()
+        {
+            using (var a = new HugeInt("0x10123456789ABCDEF0123456789ABCDEF0123456789ABCDEF"))
+            using (var b = new HugeInt())
+            using (var ms = new MemoryStream())
+            {
+                a.Value = a ^ 100;
+                using (var writer = new StreamWriter(ms, Encoding.UTF8, 1024, true))
+                {
+                    writer.Write("0x");
+                    a.Write(writer, 16, true);
+                }
+
+                ms.Position = 0;
+
+                using (var reader = new StreamReader(ms, Encoding.UTF8, false, 1024, true))
+                    b.Read(reader);
+
+                Assert.AreEqual(a, b);
+                Assert.AreEqual(ms.Length, ms.Position);
+                Assert.AreEqual((char)0xFEFF + "0x" + a.ToString(16, true), Encoding.UTF8.GetString(ms.ToArray()));
+            }
+        }
+
+        [TestMethod]
+        public void InputOutputStrOctal()
+        {
+            using (var a = new HugeInt("0x10123456789ABCDEF0123456789ABCDEF0123456789ABCDEF"))
+            using (var b = new HugeInt())
+            using (var ms = new MemoryStream())
+            {
+                a.Value = a ^ 1;
+                using (var writer = new StreamWriter(ms, Encoding.UTF8, 1024, true))
+                {
+                    writer.Write('0');
+                    a.Write(writer, 8);
+                }
+
+                ms.Position = 0;
+
+                using (var reader = new StreamReader(ms, Encoding.UTF8, false, 1024, true))
+                    b.Read(reader);
+
+                Assert.AreEqual(a, b);
+                Assert.AreEqual(ms.Length, ms.Position);
+                Assert.AreEqual((char)0xFEFF + "0" + a.ToString(8), Encoding.UTF8.GetString(ms.ToArray()));
+            }
+        }
+
+        [TestMethod]
+        public void InputOutputStrBinary()
+        {
+            using (var a = new HugeInt("0x10123456789ABCDEF0123456789ABCDEF0123456789ABCDEF"))
+            using (var b = new HugeInt())
+            using (var ms = new MemoryStream())
+            {
+                a.Value = a ^ 100;
+                using (var writer = new StreamWriter(ms, Encoding.UTF8, 1024, true))
+                {
+                    writer.Write("0b");
+                    a.Write(writer, 2);
+                }
+
+                ms.Position = 0;
+
+                using (var reader = new StreamReader(ms, Encoding.UTF8, false, 1024, true))
+                    b.Read(reader);
+
+                Assert.AreEqual(a, b);
+                Assert.AreEqual(ms.Length, ms.Position);
+                Assert.AreEqual((char)0xFEFF + "0b" + a.ToString(2), Encoding.UTF8.GetString(ms.ToArray()));
+            }
+        }
+
+        [TestMethod]
+        public void InputOutputStr62()
+        {
+            using (var a = new HugeInt("0x10123456789ABCDEF0123456789ABCDEF0123456789ABCDEF"))
+            using (var b = new HugeInt())
+            using (var ms = new MemoryStream())
+            {
+                a.Value = a ^ 100;
+                using (var writer = new StreamWriter(ms, Encoding.UTF8, 1024, true))
+                    a.Write(writer, 62);
+
+                ms.Position = 0;
+
+                using (var reader = new StreamReader(ms, Encoding.UTF8, false, 1024, true))
+                    b.Read(reader, 62);
+
+                Assert.AreEqual(a, b);
+                Assert.AreEqual(ms.Length, ms.Position);
+                Assert.AreEqual((char)0xFEFF + a.ToString(62), Encoding.UTF8.GetString(ms.ToArray()));
             }
         }
         //more tests coming here

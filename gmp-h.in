@@ -303,9 +303,9 @@ typedef __gmp_randstate_struct gmp_randstate_t[1];
 /* Output of mp?_out_raw_m */
 typedef struct
 {
-  unsigned char* allocated;
+  char* allocated;
   size_t allocatedSize;
-  unsigned char* written;
+  char* written;
   size_t writtenSize;
 } __mpir_out_struct;
 typedef __mpir_out_struct mpir_out_struct[1];

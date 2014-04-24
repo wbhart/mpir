@@ -107,7 +107,7 @@ void mpz_inp_raw_p (mpz_ptr x, unsigned char* csize_bytes, mpir_out_ptr out)
       /* Get limb boundaries right in the read, for the benefit of the
          non-nails case.  */
       xp[0] = 0;
-      out->written = (unsigned char *) (xp + abs_xsize) - abs_csize;
+      out->written = (char *) (xp + abs_xsize) - abs_csize;
     }
   out->writtenSize = abs_csize;
   out->allocatedSize = abs_xsize;

@@ -1398,12 +1398,12 @@ namespace MPIR
             //construction
             void AllocateStruct()
             {
-                _value = (mpz_ptr)CustomAllocate(sizeof(__mpz_struct));
+                _value = (mpz_ptr)((*__gmp_allocate_func)(sizeof(__mpz_struct)));
             }
             void DeallocateStruct()
             {
                 mpz_clear(_value);
-                CustomFree(_value);
+                (*__gmp_free_func)(_value, 0);
                 _value = nullptr;
             }
             void FromString(String^ value, int base);
@@ -1743,27 +1743,6 @@ namespace MPIR
             /// <returns>The number of digits the number would take written in the specified base, possibly 1 too big, not counting a leading minus.</returns>
             mp_size_t ApproximateSizeInBase(int base) { return mpz_sizeinbase(_value, base); }
 
-            /// <summary>
-            /// Output the integer to the <paramref name="stream"/> in raw binary format.
-            /// <para>The number is written in a portable format, with 4 bytes of size information, and that many bytes of limbs.
-            /// Both the size and the limbs are written in decreasing significance order (i.e., in big-endian).
-            /// </para>The output can be read with Read(Stream).
-            /// <para>The output cannot be read by mpz_inp_raw from GMP 1, because of changes necessary
-            /// for compatibility between 32-bit and 64-bit machines.
-            /// </para></summary>
-            /// <param name="stream">Stream to output the number to</param>
-            void Write(Stream^ stream);
-
-            /// <summary>
-            /// Reads the integer value from the <paramref name="stream"/> in raw binary format, as it would have been written by Write(Stream).
-            /// <para>The number is read in a portable format, with 4 bytes of size information, and that many bytes of limbs.
-            /// Both the size and the limbs are written in decreasing significance order (i.e., in big-endian).
-            /// </para>This routine can read the output from mpz_out_raw also from GMP 1, in spite of changes
-            /// necessary for compatibility between 32-bit and 64-bit machines.
-            /// </summary>
-            /// <param name="stream">Stream to input the number from</param>
-            void Read(Stream^ stream);
-
             #pragma endregion
 
             #pragma region IO
@@ -1777,7 +1756,8 @@ namespace MPIR
             /// for compatibility between 32-bit and 64-bit machines.
             /// </para></summary>
             /// <param name="stream">Stream to output the number to</param>
-            void Write(Stream^ stream);
+            /// <returns>the number of bytes written, or 0 if an error occurs.</returns>
+            size_t Write(Stream^ stream);
 
             /// <summary>
             /// Reads the integer value from the <paramref name="stream"/> in raw binary format, as it would have been written by Write(Stream).
@@ -1787,8 +1767,79 @@ namespace MPIR
             /// necessary for compatibility between 32-bit and 64-bit machines.
             /// </summary>
             /// <param name="stream">Stream to input the number from</param>
-            void Read(Stream^ stream);
+            /// <returns>the number of bytes read, or 0 if an error occurs.</returns>
+            size_t Read(Stream^ stream);
 
+            /// <summary>
+            /// Output the integer to the <paramref name="writer"/> as a string of digits in decimal.
+            /// <para>When writing multiple numbers that are to be read back with the Read(TextReader) method,
+            /// it is useful to separate the numbers with a character that is not a valid decimal digit.
+            /// </para>This is because the Read method stops reading when it encounters a character that cannot represent a digit.
+            /// </summary>
+            /// <param name="writer">Text writer to output the number to</param>
+            /// <returns>the number of characters written</returns>
+            size_t Write(TextWriter^ writer) { return Write(writer, 0, false); }
+
+            /// <summary>
+            /// Output the integer to the <paramref name="writer"/> as a string of digits in base <paramref name="base"/>.
+            /// <para>When writing multiple numbers that are to be read back with the Read(TextReader) method,
+            /// it is useful to separate the numbers with a character that is not a valid digit in base <paramref name="base"/>.
+            /// </para>This is because the Read method stops reading when it encounters a character that cannot represent a digit.
+            /// <para>For hexadecimal, binary, or octal, no leading base indication is written.
+            /// </para>Therefore, for bases other than 10, use the Read(reader, base) overload rather than Read(reader) to read the number back.
+            /// </summary>
+            /// <param name="writer">Text writer to output the number to</param>
+            /// <param name="base">The base to use for the output.
+            /// <para>The base can be from 2 to 62; uppercase letters represent digits 10-35 while lowercase letters represent digits 36-61.</para></param>
+            /// <returns>the number of characters written</returns>
+            size_t Write(TextWriter^ writer, int base) { return Write(writer, base, false); }
+
+            /// <summary>
+            /// Output the integer to the <paramref name="writer"/> as a string of digits in base <paramref name="base"/>.
+            /// <para>When writing multiple numbers that are to be read back with the Read(TextReader) method,
+            /// it is useful to separate the numbers with a character that is not a valid digit in base <paramref name="base"/>.
+            /// </para>This is because the Read method stops reading when it encounters a character that cannot represent a digit.
+            /// <para>For hexadecimal, binary, or octal, no leading base indication is written.
+            /// </para>Therefore, for bases other than 10, use the Read(reader, base) overload rather than Read(reader) to read the number back.
+            /// </summary>
+            /// <param name="writer">Text writer to output the number to</param>
+            /// <param name="base">The base to use for the output.
+            /// <para>The base can be from 2 to 62; Bases up to 36 use uppercase or lowercase letters based on the <paramref name="lowercase"/> argument.
+            /// </para>For bases larger than 36, the <paramref name="lowercase"/> argument is ignored and uppercase letters represent digits 10-35 while lowercase letters represent digits 36-61.</param>
+            /// <param name="lowercase">Indicates if lowercase or uppercase letters should be used for the output.
+            /// <para>This argument is ignored for bases larger than 36, where both uppercase and lowercase letters are used.</para></param>
+            /// <returns>the number of characters written</returns>
+            size_t Write(TextWriter^ writer, int base, bool lowercase);
+
+            /// <summary>
+            /// Input the number as a possibly white-space preceeded string.
+            /// <para>The base of the number is determined from the leading characters: 0x or 0X for hexadecimal, 0b or 0B for binary, 0 for octal, decimal otherwise.
+            /// </para>Reading terminates at end-of-stream, or up to but not including a character that is not a valid digit.
+            /// <para>This method reads the output of a Write(TextWriter) when decimal base is used.
+            /// </para>For hexadecimal, binary, or octal, because Write(TextWriter) doesn't write leading base indication characters, 
+            /// using this overload of Read will fail to recognize the correct base.</summary>
+            /// <param name="reader">Text reader to input the number from</param>
+            /// <returns>the number of characters read</returns>
+            size_t Read(TextReader^ reader) { return Read(reader, 0); }
+
+            /// <summary>
+            /// Input the number as a possibly white-space preceeded string in base <paramref name="base"/> from the <paramref name="reader"/>.
+            /// <para>Reading terminates at end-of-stream, or up to but not including a character that is not a valid digit.
+            /// </para>This method reads the output of a Write(TextWriter) method.
+            /// </summary>
+            /// <param name="reader">Text reader to input the number from</param>
+            /// <param name="base">The base to use for the input.
+            /// <para>The base can be from 2 to 62; For bases up to 36 case is ignored.
+            /// </para>For bases larger than 36, uppercase letters represent digits 10-35 while lowercase letters represent digits 36-61.
+            /// <para>If 0, the base of the number is determined from the leading characters: 0x or 0X for hexadecimal, 0b or 0B for binary, 0 for octal, decimal otherwise.
+            /// </para>Note that the leading base characters are not written by the Write method.</param>
+            /// <returns>the number of characters read</returns>
+            size_t Read(TextReader^ reader, int base);
+
+        internal:
+            size_t ReadNoWhite(TextReader^ reader, int base, size_t nread);
+
+        public:
             #pragma endregion
     };
 };

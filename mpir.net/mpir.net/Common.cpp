@@ -18,29 +18,3 @@ along with the MPIR Library.  If not, see http://www.gnu.org/licenses/.
 */
 
 #include "Stdafx.h"
-
-void CustomFree (void* ptr)
-{
-    CustomFree(ptr, 0);
-}
-
-void CustomFree(void* ptr, size_t size)
-{
-    void (*freeFunc) (void*, size_t);
-    mp_get_memory_functions (NULL, NULL, &freeFunc);
-    freeFunc(ptr, size);
-}
-
-void* CustomAllocate(size_t size)
-{
-    void* (*allocateFunc) (size_t);
-    mp_get_memory_functions(&allocateFunc, NULL, NULL);
-    return allocateFunc(size);
-}
-
-void* CustomReallocate(void* old, size_t size)
-{
-    void* (*reallocateFunc) (void*, size_t, size_t);
-    mp_get_memory_functions(NULL, &reallocateFunc, NULL);
-    return reallocateFunc(old, 0, size);
-}

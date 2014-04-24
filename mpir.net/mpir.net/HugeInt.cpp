@@ -89,6 +89,7 @@ along with the MPIR Library.  If not, see http://www.gnu.org/licenses/.
 void dummy_ternary(mpz_ptr d, mpz_srcptr a, mpz_srcptr b, mpz_srcptr c) { };
 
 using namespace System::Runtime::InteropServices;
+using namespace System::Text;
 
 namespace MPIR
 {
@@ -195,7 +196,7 @@ namespace MPIR
         auto result = gcnew System::Text::StringBuilder();
         result->Append(sign);
         result->Append(gcnew String(str));
-        CustomFree(str);
+        (*__gmp_free_func)(str, 0);
 
         return result->ToString();
     }
@@ -508,27 +509,30 @@ namespace MPIR
 
     #define chunkSize 1024
 
-    void HugeInt::Write(Stream^ stream)
+    size_t HugeInt::Write(Stream^ stream)
     {
         mpir_out_struct out;
         mpz_out_raw_m(out, _value);
 
         auto buffer = gcnew array<unsigned char>(chunkSize);
         auto ptr = out->written;
+        auto toWrite = (int)out->writtenSize;
 
-        while(out->writtenSize > 0)
+        while(toWrite > 0)
         {
-            auto len = Math::Min(chunkSize, (int)out->writtenSize);
+            auto len = Math::Min(chunkSize, toWrite);
             Marshal::Copy(IntPtr(ptr), buffer, 0, len);
             stream->Write(buffer, 0, len);
             ptr += len;
-            out->writtenSize -= len;
+            toWrite -= len;
         }
 
-        CustomFree(out->allocated, out->allocatedSize);
+        (*__gmp_free_func)(out->allocated, out->allocatedSize);
+
+        return out->writtenSize;
     }
 
-    void HugeInt::Read(Stream^ stream)
+    size_t HugeInt::Read(Stream^ stream)
     {
         unsigned char csize_bytes[4];
         mpir_out_struct out;
@@ -564,6 +568,169 @@ namespace MPIR
 
             mpz_inp_raw_m(_value, out);
         }
+    }
+
+    size_t HugeInt::Write(TextWriter^ writer, int base, bool lowercase)
+    {
+        auto str = ToString(base, lowercase);
+        writer->Write(str);
+        return str->Length;
+    }
+
+    #define X 0xff
+    const unsigned char digit_value_tab[] =
+    {
+      X, X, X, X, X, X, X, X, X, X, X, X, X, X, X, X,
+      X, X, X, X, X, X, X, X, X, X, X, X, X, X, X, X,
+      X, X, X, X, X, X, X, X, X, X, X, X, X, X, X, X,
+      0, 1, 2, 3, 4, 5, 6, 7, 8, 9, X, X, X, X, X, X,
+      X,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,
+      25,26,27,28,29,30,31,32,33,34,35,X, X, X, X, X,
+      X,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,
+      25,26,27,28,29,30,31,32,33,34,35,X, X, X, X, X,
+      X, X, X, X, X, X, X, X, X, X, X, X, X, X, X, X,
+      X, X, X, X, X, X, X, X, X, X, X, X, X, X, X, X,
+      X, X, X, X, X, X, X, X, X, X, X, X, X, X, X, X,
+      X, X, X, X, X, X, X, X, X, X, X, X, X, X, X, X,
+      X, X, X, X, X, X, X, X, X, X, X, X, X, X, X, X,
+      X, X, X, X, X, X, X, X, X, X, X, X, X, X, X, X,
+      X, X, X, X, X, X, X, X, X, X, X, X, X, X, X, X,
+      X, X, X, X, X, X, X, X, X, X, X, X, X, X, X, X,
+      X, X, X, X, X, X, X, X, X, X, X, X, X, X, X, X,
+      0, 1, 2, 3, 4, 5, 6, 7, 8, 9, X, X, X, X, X, X,
+      X,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,
+      25,26,27,28,29,30,31,32,33,34,35,X, X, X, X, X,
+      X,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,
+      51,52,53,54,55,56,57,58,59,60,61,X, X, X, X, X,
+      X, X, X, X, X, X, X, X, X, X, X, X, X, X, X, X,
+      X, X, X, X, X, X, X, X, X, X, X, X, X, X, X, X,
+      X, X, X, X, X, X, X, X, X, X, X, X, X, X, X, X,
+      X, X, X, X, X, X, X, X, X, X, X, X, X, X, X, X,
+      X, X, X, X, X, X, X, X, X, X, X, X, X, X, X, X,
+      X, X, X, X, X, X, X, X, X, X, X, X, X, X, X, X,
+      X, X, X, X, X, X, X, X, X, X, X, X, X, X, X, X,
+      X, X, X, X, X, X, X, X, X, X, X, X, X, X, X, X
+    };
+
+    size_t HugeInt::Read(TextReader^ reader, int base)
+    {
+        int c;
+        size_t nread = 0;
+
+        /* Skip whitespace.  */
+        while ((c = reader->Peek()) >= 0 && Char::IsWhiteSpace(c))
+        {
+            nread++;
+            reader->Read();
+        }
+
+        return ReadNoWhite(reader, base, nread);
+    }
+
+#define PEEK_NEXT_CHAR  \
+    reader->Read();     \
+    c = reader->Peek(); \
+    nread++;
+
+    // adapted from inp_str, which is shared by mpq_inp_str
+    size_t HugeInt::ReadNoWhite(TextReader^ reader, int base, size_t nread)
+    {
+        char *str;
+        size_t alloc_size, str_size;
+        bool negative = false;
+        mp_size_t xsize;
+        const unsigned char* digit_value = digit_value_tab;
+        int c = reader->Peek();
+
+        if (base > 36)
+        {
+            // For bases > 36, use the collating sequence
+            // 0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz
+            digit_value += 224;
+            if (base > 62)
+                throw gcnew ArgumentException("Invalid base", "base");
+        }
+
+        if (c == '-')
+        {
+            negative = true;
+            PEEK_NEXT_CHAR;
+        }
+
+        if (c == EOF || digit_value[c] >= (base == 0 ? 10 : base))
+            throw gcnew Exception("No digits found");
+
+        // If BASE is 0, try to find out the base by looking at the initial characters.
+        if (base == 0)
+        {
+            base = 10;
+            if (c == '0')
+            {
+                base = 8;
+                PEEK_NEXT_CHAR;
+
+                switch(c = reader->Peek())
+                {
+                    case 'x':
+                    case 'X':
+                        base = 16;
+                        PEEK_NEXT_CHAR;
+                        break;
+
+                    case 'b':
+                    case 'B':
+                        base = 2;
+                        PEEK_NEXT_CHAR;
+                }
+            }
+        }
+
+        // Skip leading zeros
+        while (c == '0')
+        {
+            PEEK_NEXT_CHAR;
+        }
+
+        alloc_size = 100;
+        str = (char *) (*__gmp_allocate_func) (alloc_size);
+        str_size = 0;
+
+        while (c != EOF)
+        {
+            int dig = digit_value[c];
+            if (dig >= base)
+                break;
+
+            if (str_size >= alloc_size)
+            {
+                size_t old_alloc_size = alloc_size;
+                alloc_size = alloc_size * 3 / 2;
+                str = (char *) (*__gmp_reallocate_func) (str, old_alloc_size, alloc_size);
+            }
+            str[str_size++] = dig;
+            reader->Read();
+            c = reader->Peek();
+        }
+        nread += str_size;
+
+        // Make sure the string is not empty, mpn_set_str would fail.
+        if (str_size == 0)
+        {
+            _value ->_mp_size = 0;
+        }
+        else
+        {
+            xsize = (((mp_size_t)
+                (str_size / __mp_bases[base].chars_per_bit_exactly))
+                / GMP_NUMB_BITS + 2);
+            MPZ_REALLOC (_value, xsize);
+
+            // Convert the byte array in base BASE to our bignum format.
+            xsize = mpn_set_str (_value->_mp_d, (unsigned char *) str, str_size, base);
+            _value->_mp_size = negative ? -xsize : xsize;
+        }
+        (*__gmp_free_func) (str, alloc_size);
+        return nread;
     }
 
     #pragma endregion
