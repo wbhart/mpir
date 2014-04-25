@@ -1581,10 +1581,13 @@ namespace MPIR
             #pragma region assignment
 
             /// <summary>
-            /// Sets the value of the integer object.
-            /// <para>MPIR types are implemented as reference types with value semantics.
+            /// Sets the value of the integer object to the value resulting from computing the supplied expression.
+            /// </summary>
+            /// <remarks>
+            /// MPIR types are implemented as reference types with value semantics.
             /// Like Strings, the objects themselves are just lightweight pointers to data allocated elsewhere.
-            /// Unlike Strings, MPIR types are mutable.  Value semantics requires you to be able to code, a = b + c.
+            /// Unlike Strings, MPIR types are mutable.
+            /// <para>Value semantics requires you to be able to code, a = b + c.
             /// However, .Net (outside of C++) does not allow overloading the assignment operator,
             /// and assigning references would necessitate some unnecessary duplication and extra memory allocations.
             /// </para>To solve this problem, MPIR.Net uses the property assignment.  
@@ -1592,12 +1595,12 @@ namespace MPIR
             /// The syntax is a little different: a.Value = b + c, but it is fluent enough to become a quick habit,
             /// and additionally reinforces the concept that an existing object can change its value while reusing internally allocated memory.
             /// <para>To this end, all overloaded operators and most functions that operate on MPIR types,
-            /// instead of eagerly computing a result, instead produce and return an expression that is basically a formula for the computation.
+            /// instead of eagerly computing a result, produce and return an expression that is basically a formula for the computation.
             /// Expressions can then be composed using additional operators to achieve expression trees of arbitrary complexity.
             /// All computations are deferred until an expression is assigned to the Value property of an MPIR object,
             /// or is consumed by a method or operator that returns a primitive type.
             /// </para>Do not set the Value of an object while it is contained in a hash table, because that changes its hash code.
-            /// </summary>
+            /// </remarks>
             property MpirExpression^ Value
             {
                 void set(MpirExpression^ expr) { expr->AssignTo(_value); }
