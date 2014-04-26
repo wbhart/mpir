@@ -1868,7 +1868,7 @@ namespace MPIR.Tests.HugeIntTests
             {
                 ulong b = 96;
                 a.Value = (a >> b).Remainder();
-                Assert.AreEqual("723098457209305983434345", a.ToString(-16));
+                Assert.AreEqual("723098457209305983434345", a.ToString(16));
             }
         }
 

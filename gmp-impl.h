@@ -2650,6 +2650,7 @@ struct bases
 #define mp_bases __MPN(bases)
 #define __mp_bases __MPN(bases)
 __GMP_DECLSPEC extern const struct bases mp_bases[257];
+__GMP_DECLSPEC extern const unsigned char __gmp_digit_value_tab[480];
 
 
 /* For power of 2 bases this is exact.  For other bases the result is either

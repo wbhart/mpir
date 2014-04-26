@@ -176,29 +176,41 @@ namespace MPIR
 
     String^ HugeInt::ToString(int base, bool lowercase, int maxDigits)
     {
-        if(base <= 36 && !lowercase)
-            base = -base;
-
-        String^ sign = "";
+        int allocated;
+        bool negative = false;
+        bool truncated = false;
 
         EvaluationContext context;
         if(maxDigits > 0 && CompareAbsTo(MpirSettings::_toStringModulo) >= 0)
         {
             (this->Abs() % MpirSettings::_toStringModulo)->Rounding(RoundingModes::Truncate)->AssignTo(context);
-            sign = (this->Sign() < 0) ? "-..." : "...";
+            truncated = true;
+            negative = this->Sign() < 0;
+            allocated = maxDigits + 5;
         }
         else
         {
             AssignTo(context);
+            allocated = mpz_sizeinbase(_value, base == 0 ? 10 : base) + 2;
         }
 
-        char* str = mpz_get_str(NULL, base, context.Args[0]);
-        auto result = gcnew System::Text::StringBuilder();
-        result->Append(sign);
-        result->Append(gcnew String(str));
-        (*__gmp_free_func)(str, 0);
+        char* allocatedStr = (char*)(*__gmp_allocate_func)(allocated);
+        char* str = allocatedStr;
 
-        return result->ToString();
+        if(negative)
+            *str++ = '-';
+        if(truncated)
+        {
+            *str++ = '.';
+            *str++ = '.';
+            *str++ = '.';
+        }
+
+        mpz_get_str(str, (base <= 36 && !lowercase) ? -base : base, context.Args[0]);
+        auto result = gcnew String(allocatedStr);
+        (*__gmp_free_func)(allocatedStr, allocated);
+
+        return result;
     }
 
     int MpirExpression::GetHashCode()
@@ -577,41 +589,6 @@ namespace MPIR
         return str->Length;
     }
 
-    #define X 0xff
-    const unsigned char digit_value_tab[] =
-    {
-      X, X, X, X, X, X, X, X, X, X, X, X, X, X, X, X,
-      X, X, X, X, X, X, X, X, X, X, X, X, X, X, X, X,
-      X, X, X, X, X, X, X, X, X, X, X, X, X, X, X, X,
-      0, 1, 2, 3, 4, 5, 6, 7, 8, 9, X, X, X, X, X, X,
-      X,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,
-      25,26,27,28,29,30,31,32,33,34,35,X, X, X, X, X,
-      X,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,
-      25,26,27,28,29,30,31,32,33,34,35,X, X, X, X, X,
-      X, X, X, X, X, X, X, X, X, X, X, X, X, X, X, X,
-      X, X, X, X, X, X, X, X, X, X, X, X, X, X, X, X,
-      X, X, X, X, X, X, X, X, X, X, X, X, X, X, X, X,
-      X, X, X, X, X, X, X, X, X, X, X, X, X, X, X, X,
-      X, X, X, X, X, X, X, X, X, X, X, X, X, X, X, X,
-      X, X, X, X, X, X, X, X, X, X, X, X, X, X, X, X,
-      X, X, X, X, X, X, X, X, X, X, X, X, X, X, X, X,
-      X, X, X, X, X, X, X, X, X, X, X, X, X, X, X, X,
-      X, X, X, X, X, X, X, X, X, X, X, X, X, X, X, X,
-      0, 1, 2, 3, 4, 5, 6, 7, 8, 9, X, X, X, X, X, X,
-      X,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,
-      25,26,27,28,29,30,31,32,33,34,35,X, X, X, X, X,
-      X,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,
-      51,52,53,54,55,56,57,58,59,60,61,X, X, X, X, X,
-      X, X, X, X, X, X, X, X, X, X, X, X, X, X, X, X,
-      X, X, X, X, X, X, X, X, X, X, X, X, X, X, X, X,
-      X, X, X, X, X, X, X, X, X, X, X, X, X, X, X, X,
-      X, X, X, X, X, X, X, X, X, X, X, X, X, X, X, X,
-      X, X, X, X, X, X, X, X, X, X, X, X, X, X, X, X,
-      X, X, X, X, X, X, X, X, X, X, X, X, X, X, X, X,
-      X, X, X, X, X, X, X, X, X, X, X, X, X, X, X, X,
-      X, X, X, X, X, X, X, X, X, X, X, X, X, X, X, X
-    };
-
     size_t HugeInt::Read(TextReader^ reader, int base)
     {
         int c;
@@ -639,7 +616,7 @@ namespace MPIR
         size_t alloc_size, str_size;
         bool negative = false;
         mp_size_t xsize;
-        const unsigned char* digit_value = digit_value_tab;
+        const unsigned char* digit_value = __gmp_digit_value_tab;
         int c = reader->Peek();
 
         if (base > 36)
