@@ -274,6 +274,26 @@ namespace MPIR.Tests.HugeIntTests
                 Assert.AreEqual(a, b);
             }
         }
+
+        [TestMethod]
+        public void Size()
+        {
+            using (var a = new HugeInt("-0x10123456789ABCDEF0123456789ABCDEF0123456789ABCDEF"))
+            {
+                Assert.AreEqual(4UL, a.Size());
+                Assert.AreEqual(4UL, (-a).Size());
+            }
+        }
+
+        [TestMethod]
+        public void GetLimb()
+        {
+            using (var a = new HugeInt("-0x10123456789ABCDEFA123456789ABCDEF0123456789ABCDEF"))
+            {
+                Assert.AreEqual(0x0123456789ABCDEFUL, a.GetLimb(0));
+                Assert.AreEqual(0xA123456789ABCDEFUL, a.GetLimb(1));
+            }
+        }
         //more tests coming here
     }
 }

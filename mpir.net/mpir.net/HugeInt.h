@@ -1129,6 +1129,14 @@ namespace MPIR
             /// <returns>True if the source is a perfect square</returns>
             bool IsPerfectSquare() { IN_CONTEXT(this); return mpz_perfect_square_p(context.Args[0]) != 0; }
 
+            /// <summary>
+            /// Returns the size of the absolute value of the number, measured in number of limbs.
+            /// <para>If op is zero, the returned value will be zero.
+            /// </para>Because this method returns a primitive type, it is computed immediately.
+            /// </summary>
+            /// <returns>The number of limbs used to represent the number</returns>
+            size_t Size() { IN_CONTEXT(this); return mpz_size(context.Args[0]); }
+
             #pragma endregion
     };
 
@@ -1686,7 +1694,7 @@ namespace MPIR
 
             #pragma endregion
 
-            #pragma region bit assignment
+            #pragma region bit operations
 
             /// <summary>
             /// Sets a single bit at the specified position.
@@ -1942,6 +1950,18 @@ namespace MPIR
             size_t ReadNoWhite(TextReader^ reader, int base, size_t nread);
 
         public:
+
+            /// <summary>
+            /// Returns the specified limb of the number.
+            /// <para>The least significant limb is zero.
+            /// </para>The sign of the number is ignored.
+            /// </summary>
+            /// <param name="index">The index of the limb to return.
+            /// <para>The least significant limb is zero.
+            /// </para>If the index is outside the range 0 to Size()-1, zero is returned.</param>
+            /// <returns>The specified limb, or zero if <paramref name="index"/> is outside of the valid range.</returns>
+            size_t GetLimb(mp_size_t index) { return mpz_getlimbn(_value, index); }
+
             #pragma endregion
     };
 };
