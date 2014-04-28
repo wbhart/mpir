@@ -89,6 +89,8 @@ namespace MPIR.Tests.HugeIntTests
         public string Name { get; set; }
         [XmlElement("summary")]
         public string Summary { get; set; }
+        [XmlElement("typeparam")]
+        public List<XmlCommentsParam> TypeParams { get; set; }
         [XmlElement("param")]
         public List<XmlCommentsParam> Params { get; set; }
         [XmlElement("returns")]
@@ -112,6 +114,17 @@ namespace MPIR.Tests.HugeIntTests
                 var invalidParams = Params.Select(x => x.Name).Except(method.GetParameters().Select(x => x.Name)).ToArray();
                 if (invalidParams.Any())
                     yield return string.Format("Invalid param {0} on {1}", string.Join(", ", missingParams), MemberName);
+
+                if (method.ContainsGenericParameters)
+                {
+                    var missingGenericParms = method.GetGenericArguments().Select(x => x.Name).Except(TypeParams.Where(x => ("" + x.Text).Trim().Length > 0).Select(x => x.Name)).ToArray();
+                    if (missingGenericParms.Any())
+                        yield return string.Format("Missing generic param {0} on {1}", string.Join(", ", missingGenericParms), MemberName);
+
+                    var invalidGenericParams = TypeParams.Select(x => x.Name).Except(method.GetGenericArguments().Select(x => x.Name)).ToArray();
+                    if (invalidGenericParams.Any())
+                        yield return string.Format("Invalid generic param {0} on {1}", string.Join(", ", invalidGenericParams), MemberName);
+                }
             }
 
             var method2 = member as MethodInfo;
@@ -156,6 +169,11 @@ namespace MPIR.Tests.HugeIntTests
 
             if(methodBase != null)
             {
+                if (methodBase.IsGenericMethodDefinition)
+                {
+                    sig.Append("``").Append(methodBase.GetGenericArguments().Length);
+                }
+
                 var parameters = methodBase.GetParameters();
                 if(parameters.Length > 0)
                 {
@@ -173,10 +191,18 @@ namespace MPIR.Tests.HugeIntTests
             if (p.ParameterType.IsGenericType)
                 return p.ParameterType.Namespace + "." + p.ParameterType.Name + "{" + string.Join(",", p.ParameterType.GetGenericArguments().Select(x => x.FullName)) + "}";
 
+            if (p.ParameterType.FullName == null)
+                return "``" + p.ParameterType.Name.Replace((p.Member as MethodInfo).GetGenericArguments()[p.Position].Name, p.Position.ToString());
+
             if (p.IsOut)
                 return p.ParameterType.FullName.Replace('&', '@');
 
             return p.ParameterType.FullName;
+        }
+
+        public override string ToString()
+        {
+            return MemberName;
         }
     }
 

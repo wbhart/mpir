@@ -24,6 +24,7 @@ using namespace System::IO;
 using namespace System::Runtime::InteropServices;
 
 #define IS_NULL(a) (Object::ReferenceEquals(a, nullptr))
+#define PIN(x) pin_ptr<T> pinptr##x = &x[0]; void* pinned_##x = pinptr##x;
 
 //defines a unary expression class
 #define DEFINE_UNARY_EXPRESSION(base, name, type)                \
@@ -273,6 +274,30 @@ namespace MPIR
         Ceiling,
         /// <summary>Round down.  Quotient is rounded toward -infinity, and remainder has the sames sign as the divisor.</summary>
         Floor,
+    };
+
+    /// <summary>
+    /// This enum defines the limb order used when importing or exporting a number.
+    /// </summary>
+    public enum class LimbOrder : __int8
+    {
+        /// <summary>Most significant limb comes first.</summary>
+        MostSignificantFirst = 1,
+        /// <summary>Least significant limb comes first.</summary>
+        LeastSignificantFirst = -1,
+    };
+
+    /// <summary>
+    /// This enum defines the byte order within each limb when importing or exporting a number.
+    /// </summary>
+    public enum class Endianness : __int8
+    {
+        /// <summary>The native byte order of the CPU is used.</summary>
+        Native = 0,
+        /// <summary>Most significant byte comes first in a limb.</summary>
+        BigEndian = 1,
+        /// <summary>Least significant byte comes first in a limb.</summary>
+        LittleEndian = -1,
     };
 
     /// <summary>
@@ -1751,7 +1776,7 @@ namespace MPIR
             #pragma region IO
 
             /// <summary>
-            /// Output the integer to the <paramref name="stream"/> in raw binary format.
+            /// Outputs the integer to the <paramref name="stream"/> in raw binary format.
             /// <para>The number is written in a portable format, with 4 bytes of size information, and that many bytes of limbs.
             /// Both the size and the limbs are written in decreasing significance order (i.e., in big-endian).
             /// </para>The output can be read with Read(Stream).
@@ -1774,7 +1799,7 @@ namespace MPIR
             size_t Read(Stream^ stream);
 
             /// <summary>
-            /// Output the integer to the <paramref name="writer"/> as a string of digits in decimal.
+            /// Outputs the integer to the <paramref name="writer"/> as a string of digits in decimal.
             /// <para>When writing multiple numbers that are to be read back with the Read(TextReader) method,
             /// it is useful to separate the numbers with a character that is not a valid decimal digit.
             /// </para>This is because the Read method stops reading when it encounters a character that cannot represent a digit.
@@ -1784,7 +1809,7 @@ namespace MPIR
             size_t Write(TextWriter^ writer) { return Write(writer, 0, false); }
 
             /// <summary>
-            /// Output the integer to the <paramref name="writer"/> as a string of digits in base <paramref name="base"/>.
+            /// Outputs the integer to the <paramref name="writer"/> as a string of digits in base <paramref name="base"/>.
             /// <para>When writing multiple numbers that are to be read back with the Read(TextReader) method,
             /// it is useful to separate the numbers with a character that is not a valid digit in base <paramref name="base"/>.
             /// </para>This is because the Read method stops reading when it encounters a character that cannot represent a digit.
@@ -1798,7 +1823,7 @@ namespace MPIR
             size_t Write(TextWriter^ writer, int base) { return Write(writer, base, false); }
 
             /// <summary>
-            /// Output the integer to the <paramref name="writer"/> as a string of digits in base <paramref name="base"/>.
+            /// Outputs the integer to the <paramref name="writer"/> as a string of digits in base <paramref name="base"/>.
             /// <para>When writing multiple numbers that are to be read back with the Read(TextReader) method,
             /// it is useful to separate the numbers with a character that is not a valid digit in base <paramref name="base"/>.
             /// </para>This is because the Read method stops reading when it encounters a character that cannot represent a digit.
@@ -1815,7 +1840,7 @@ namespace MPIR
             size_t Write(TextWriter^ writer, int base, bool lowercase);
 
             /// <summary>
-            /// Input the number as a possibly white-space preceeded string.
+            /// Inputs the number as a possibly white-space preceeded string.
             /// <para>The base of the number is determined from the leading characters: 0x or 0X for hexadecimal, 0b or 0B for binary, 0 for octal, decimal otherwise.
             /// </para>Reading terminates at end-of-stream, or up to but not including a character that is not a valid digit.
             /// <para>This method reads the output of a Write(TextWriter) when decimal base is used.
@@ -1826,7 +1851,7 @@ namespace MPIR
             size_t Read(TextReader^ reader) { return Read(reader, 0); }
 
             /// <summary>
-            /// Input the number as a possibly white-space preceeded string in base <paramref name="base"/> from the <paramref name="reader"/>.
+            /// Inputs the number as a possibly white-space preceeded string in base <paramref name="base"/> from the <paramref name="reader"/>.
             /// <para>Reading terminates at end-of-stream, or up to but not including a character that is not a valid digit.
             /// </para>This method reads the output of a Write(TextWriter) method.
             /// </summary>
@@ -1838,6 +1863,53 @@ namespace MPIR
             /// </para>Note that the leading base characters are not written by the Write method.</param>
             /// <returns>the number of characters read</returns>
             size_t Read(TextReader^ reader, int base);
+
+            /// <summary>
+            /// Imports the number from arbitrary words of binary data.
+            /// <para>No sign information is taken from the data, the imported number will be positive or zero.</para>
+            /// </summary>
+            /// <typeparam name="T">Type of element in the data array.  This must be a value type, but does not need to represent a single limb.  Data is interpreted as a flat byte array.</typeparam>
+            /// <param name="data">Array of binary "limbs" to import from.
+            /// <para>Elements don't necessarily need to be of the <paramref name="bytesPerLimb"/> size; the data is interpreted as a flat byte array.</para></param>
+            /// <param name="limbCount">Number of "limbs" to import</param>
+            /// <param name="bytesPerLimb">Number of bytes per "limb."</param>
+            /// <param name="limbOrder">Specifies the order of the "limbs."</param>
+            /// <param name="endianness">Specifies the byte order within each "limb."</param>
+            /// <param name="nails">The number of most-significant bits to ignore in each "limb."</param>
+            generic<typename T> where T : value class void Import(array<T>^ data, size_t limbCount, int bytesPerLimb, LimbOrder limbOrder, Endianness endianness, int nails)
+            {
+                PIN(data);
+                mpz_import(_value, limbCount, (int)limbOrder, bytesPerLimb, (int)endianness, nails, pinned_data);
+            }
+
+            /// <summary>
+            /// Exports the absolute value of the number to arbitrary words of binary data.
+            /// <para>The sign of op is ignored.
+            /// </para></summary>
+            /// <typeparam name="T">Type of element in the data array.  This must be a value type, but does not need to represent a single limb.  Data is interpreted as a flat byte array.</typeparam>
+            /// <param name="data">Array of binary "limbs" to export to.
+            /// <para>Elements don't necessarily need to be of the <paramref name="bytesPerLimb"/> size; the data is interpreted as a flat byte array.
+            /// </para>The total size of the array in bytes must be sufficient for the export.
+            /// <para>If null, a new array is automatically allocated.</para></param>
+            /// <param name="bytesPerLimb">Number of bytes per "limb."</param>
+            /// <param name="limbOrder">Specifies the order of the "limbs."</param>
+            /// <param name="endianness">Specifies the byte order within each "limb."</param>
+            /// <param name="nails">The number of most-significant bits to reserve, and set to zero, in each "limb."</param>
+            /// <returns>The number of limbs exported.
+            /// <para>If the number is non-zero, then the most significant word produced will be non-zero.
+            /// </para>If the number is zero, then the count returned will be zero and nothing written to the data.</returns>
+            generic<typename T> where T : value class size_t Export(array<T>^ data, int bytesPerLimb, LimbOrder limbOrder, Endianness endianness, int nails)
+            {
+                if(IS_NULL(data))
+                {
+                    //todo allocate
+                }
+
+                PIN(data);
+                size_t limbCount;
+                mpz_export(pinned_data, &limbCount, (int)limbOrder, bytesPerLimb, (int)endianness, nails, _value);
+                return limbCount;
+            }
 
         internal:
             size_t ReadNoWhite(TextReader^ reader, int base, size_t nread);

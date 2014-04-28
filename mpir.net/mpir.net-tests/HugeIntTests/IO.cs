@@ -20,6 +20,7 @@ along with the MPIR Library.  If not, see http://www.gnu.org/licenses/.
 using System;
 using System.IO;
 using System.Text;
+using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace MPIR.Tests.HugeIntTests
@@ -183,6 +184,30 @@ namespace MPIR.Tests.HugeIntTests
                 Assert.AreEqual(a, b);
                 Assert.AreEqual(ms.Length, ms.Position);
                 Assert.AreEqual((char)0xFEFF + a.ToString(62), Encoding.UTF8.GetString(ms.ToArray()));
+            }
+        }
+
+        [TestMethod]
+        public void ImportExport()
+        {
+            using (var a = new HugeInt("0x10123456789ABCDEF0123456789ABCDEF0123456789ABCDEF"))
+            using (var b = new HugeInt())
+            {
+                var bytes = new byte[1000];
+
+                foreach (var order in Enum.GetValues(typeof(LimbOrder)).Cast<LimbOrder>())
+                foreach (var endianness in Enum.GetValues(typeof(Endianness)).Cast<Endianness>())
+                foreach (var nails in new[] { 0, 5, 10, 16 })
+                foreach (var size in new[] { 8, 11, 16 })
+                {
+                    var words = a.Export(bytes, size, order, endianness, nails);
+                    var expected = (ulong)System.Math.Ceiling(193m / (size * 8 - nails));
+                    Assert.AreEqual(expected, words);
+
+                    b.SetTo(0);
+                    b.Import(bytes, words, size, order, endianness, nails);
+                    Assert.AreEqual(a, b);
+                }
             }
         }
         //more tests coming here
