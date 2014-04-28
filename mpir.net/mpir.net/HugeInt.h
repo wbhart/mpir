@@ -1878,6 +1878,12 @@ namespace MPIR
             /// <param name="nails">The number of most-significant bits to ignore in each "limb."</param>
             generic<typename T> where T : value class void Import(array<T>^ data, size_t limbCount, int bytesPerLimb, LimbOrder limbOrder, Endianness endianness, int nails)
             {
+                if(limbCount == 0)
+                {
+                    mpz_set_ui(_value, 0);
+                    return;
+                }
+
                 PIN(data);
                 mpz_import(_value, limbCount, (int)limbOrder, bytesPerLimb, (int)endianness, nails, pinned_data);
             }
@@ -1889,8 +1895,7 @@ namespace MPIR
             /// <typeparam name="T">Type of element in the data array.  This must be a value type, but does not need to represent a single limb.  Data is interpreted as a flat byte array.</typeparam>
             /// <param name="data">Array of binary "limbs" to export to.
             /// <para>Elements don't necessarily need to be of the <paramref name="bytesPerLimb"/> size; the data is interpreted as a flat byte array.
-            /// </para>The total size of the array in bytes must be sufficient for the export.
-            /// <para>If null, a new array is automatically allocated.</para></param>
+            /// </para>The total size of the array in bytes must be sufficient for the export.</param>
             /// <param name="bytesPerLimb">Number of bytes per "limb."</param>
             /// <param name="limbOrder">Specifies the order of the "limbs."</param>
             /// <param name="endianness">Specifies the byte order within each "limb."</param>
@@ -1900,15 +1905,37 @@ namespace MPIR
             /// </para>If the number is zero, then the count returned will be zero and nothing written to the data.</returns>
             generic<typename T> where T : value class size_t Export(array<T>^ data, int bytesPerLimb, LimbOrder limbOrder, Endianness endianness, int nails)
             {
-                if(IS_NULL(data))
-                {
-                    //todo allocate
-                }
-
                 PIN(data);
                 size_t limbCount;
                 mpz_export(pinned_data, &limbCount, (int)limbOrder, bytesPerLimb, (int)endianness, nails, _value);
                 return limbCount;
+            }
+
+            /// <summary>
+            /// Exports the absolute value of the number to arbitrary words of binary data.  An array of type T is allocated for the export.
+            /// <para>The sign of op is ignored.
+            /// </para></summary>
+            /// <typeparam name="T">Type of element in the data array.  This must be a value type, but does not need to represent a single limb.  Data is interpreted as a flat byte array.</typeparam>
+            /// <param name="bytesPerLimb">Number of bytes per "limb."</param>
+            /// <param name="limbOrder">Specifies the order of the "limbs."</param>
+            /// <param name="endianness">Specifies the byte order within each "limb."</param>
+            /// <param name="nails">The number of most-significant bits to reserve, and set to zero, in each "limb."</param>
+            /// <returns>An array of type T containing the exported limb data.
+            /// <para>If the number is non-zero, then the most significant word produced will be non-zero.
+            /// </para>If the number is zero, then a zero-length array is returned.</returns>
+            generic<typename T> where T : value class array<T>^ Export(int bytesPerLimb, LimbOrder limbOrder, Endianness endianness, int nails)
+            {
+                if(this->Sign() == 0)
+                    return gcnew array<T>(0);
+
+                auto bitsPerLimb = 8 * bytesPerLimb - nails;
+                auto limbCount = (mpz_sizeinbase(_value, 2) - 1) / bitsPerLimb + 1;
+                auto arrayCount = (limbCount * bytesPerLimb - 1) / sizeof(T) + 1;
+                auto data = gcnew array<T>(arrayCount);
+
+                PIN(data);
+                mpz_export(pinned_data, &limbCount, (int)limbOrder, bytesPerLimb, (int)endianness, nails, _value);
+                return data;
             }
 
         internal:

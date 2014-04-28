@@ -210,6 +210,70 @@ namespace MPIR.Tests.HugeIntTests
                 }
             }
         }
+
+        [TestMethod]
+        public void ImportExportAllocating()
+        {
+            using (var a = new HugeInt("0x10123456789ABCDEF0123456789ABCDEF0123456789ABCDEF"))
+            using (var b = new HugeInt())
+            {
+                foreach (var order in Enum.GetValues(typeof(LimbOrder)).Cast<LimbOrder>())
+                    foreach (var endianness in Enum.GetValues(typeof(Endianness)).Cast<Endianness>())
+                        foreach (var nails in new[] { 0, 5, 10, 16 })
+                            foreach (var size in new[] { 8, 11, 16 })
+                            {
+                                var bytes = a.Export<byte>(size, order, endianness, nails);
+                                var expected = (int)System.Math.Ceiling(193m / (size * 8 - nails));
+                                Assert.AreEqual(expected, bytes.Length / size);
+
+                                b.SetTo(0);
+                                b.Import(bytes, (ulong)(bytes.Length / size), size, order, endianness, nails);
+                                Assert.AreEqual(a, b);
+                            }
+            }
+        }
+
+        [TestMethod]
+        public void ImportExportAllocatingShort()
+        {
+            using (var a = new HugeInt("0x10123456789ABCDEF0123456789ABCDEF0123456789ABCDEF"))
+            using (var b = new HugeInt())
+            {
+                foreach (var order in Enum.GetValues(typeof(LimbOrder)).Cast<LimbOrder>())
+                    foreach (var endianness in Enum.GetValues(typeof(Endianness)).Cast<Endianness>())
+                        foreach (var nails in new[] { 0, 5, 10, 16 })
+                            foreach (var size in new[] { 8, 11, 16 })
+                            {
+                                var bytes = a.Export<short>(size, order, endianness, nails);
+                                var expected = (int)System.Math.Ceiling(193m / (size * 8 - nails));
+                                Assert.AreEqual(expected, bytes.Length * 2 / size);
+
+                                b.SetTo(0);
+                                b.Import(bytes, (ulong)(bytes.Length * 2 / size), size, order, endianness, nails);
+                                Assert.AreEqual(a, b);
+                            }
+            }
+        }
+
+        [TestMethod]
+        public void ImportExportAllocatingZero()
+        {
+            using (var a = new HugeInt())
+            using (var b = new HugeInt())
+            {
+                var order = LimbOrder.LeastSignificantFirst;
+                var endianness = Endianness.Native;
+                var nails = 5;
+                var size = 4;
+
+                var bytes = a.Export<byte>(size, order, endianness, nails);
+                Assert.AreEqual(0, bytes.Length);
+
+                b.SetTo(1);
+                b.Import(bytes, 0, size, order, endianness, nails);
+                Assert.AreEqual(a, b);
+            }
+        }
         //more tests coming here
     }
 }
