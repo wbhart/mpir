@@ -2182,11 +2182,13 @@ gmp_mpn_functions="$extra_functions					   \
   matrix22_mul1_inverse_vector \
   mod_1_1 mod_1_2 mod_1_3 tdiv_q mp_bases fib_table			\
   mulmid_basecase mulmid mulmid_n toom42_mulmid	mulmod_bexpp1 mulmod_2expm1	mulmod_2expp1_basecase \
-  mul mul_n mul_basecase sqr_basecase random random2 pow_1	   \
+  mul mul_n mul_basecase sqr_basecase random random2 \
+  pow_1 powlo powm binvert \
   urandomb urandomm randomb rrandom invert \	
   rootrem sqrtrem get_str set_str scan0 scan1 popcount hamdist cmp perfect_square_p \
   bdivmod gcd gcd_1 gcdext tdiv_qr jacobi_base jacobi jacobi_2 get_d  \
-  mullow_n mulhigh_n mullow_n_basecase mullow_basecase redc_1 redc_2	\
+  mullow_n mulhigh_n mullow_n_basecase mullow_basecase \
+  redc_1 redc_2 redc_n \
   sb_divappr_q toom3_mul toom3_mul_n toom4_mul toom4_mul_n \
   dc_div_q dc_divappr_q sb_div_q sb_div_qr dc_div_qr dc_div_qr_n inv_divappr_q_n \
   inv_divappr_q inv_div_q inv_div_qr inv_div_qr_n rootrem_basecase \

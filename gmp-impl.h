@@ -1073,6 +1073,16 @@ __GMP_DECLSPEC int mpn_is_invert __GMP_PROTO ((mp_srcptr, mp_srcptr, mp_size_t))
 #define mpn_invert_trunc __MPN(invert_trunc)
 __GMP_DECLSPEC void mpn_invert_trunc __GMP_PROTO ((mp_ptr, mp_size_t, mp_srcptr, mp_size_t, mp_srcptr));
 
+#define   mpn_binvert __MPN(binvert)
+__GMP_DECLSPEC void      mpn_binvert __GMP_PROTO ((mp_ptr, mp_srcptr, mp_size_t, mp_ptr));
+#define   mpn_binvert_itch __MPN(binvert_itch)
+__GMP_DECLSPEC mp_size_t mpn_binvert_itch __GMP_PROTO ((mp_size_t)) ATTRIBUTE_CONST;
+
+#define   mpn_powm __MPN(powm)
+__GMP_DECLSPEC void      mpn_powm __GMP_PROTO ((mp_ptr, mp_srcptr, mp_size_t, mp_srcptr, mp_size_t, mp_srcptr, mp_size_t, mp_ptr));
+#define   mpn_powlo __MPN(powlo)
+__GMP_DECLSPEC void      mpn_powlo __GMP_PROTO ((mp_ptr, mp_srcptr, mp_srcptr, mp_size_t, mp_size_t, mp_ptr));
+
 #ifndef mpn_divrem_euclidean_qr_1    /* if not done with cpuvec in a fat binary */
 #define mpn_divrem_euclidean_qr_1 __MPN(divrem_euclidean_qr_1)
 __GMP_DECLSPEC mp_limb_t mpn_divrem_euclidean_qr_1 __GMP_PROTO ((mp_ptr, mp_size_t, mp_srcptr, mp_size_t,mp_limb_t));
@@ -2007,6 +2017,23 @@ __GMP_DECLSPEC mp_limb_t gmp_primesieve (mp_ptr, mp_limb_t);
 #define FFT_MULMOD_2EXPP1_CUTOFF 128
 #endif
 
+#if HAVE_NATIVE_mpn_addmul_2 || HAVE_NATIVE_mpn_redc_2
+
+#ifndef REDC_1_TO_REDC_2_THRESHOLD
+#define REDC_1_TO_REDC_2_THRESHOLD       15
+#endif
+#ifndef REDC_2_TO_REDC_N_THRESHOLD
+#define REDC_2_TO_REDC_N_THRESHOLD      100
+#endif
+
+#else
+
+#ifndef REDC_1_TO_REDC_N_THRESHOLD
+#define REDC_1_TO_REDC_N_THRESHOLD      100
+#endif
+
+#endif /* HAVE_NATIVE_mpn_addmul_2 || HAVE_NATIVE_mpn_redc_2 */
+
 #ifndef DC_DIV_QR_THRESHOLD
 #define DC_DIV_QR_THRESHOLD    (3 * MUL_KARATSUBA_THRESHOLD)
 #endif
@@ -2037,6 +2064,10 @@ __GMP_DECLSPEC mp_limb_t gmp_primesieve (mp_ptr, mp_limb_t);
 
 #ifndef INV_DIV_Q_THRESHOLD
 #define INV_DIV_Q_THRESHOLD    (MUL_FFT_THRESHOLD/3)
+#endif
+
+#ifndef BINV_NEWTON_THRESHOLD
+#define BINV_NEWTON_THRESHOLD           300
 #endif
 
 #ifndef SB_DIVAPPR_Q_SMALL_THRESHOLD
@@ -2688,6 +2719,17 @@ __GMP_DECLSPEC extern const struct bases mp_bases[257];
           (result) = (size_t)                                           \
             (__totbits * mp_bases[base].chars_per_bit_exactly) + 1;     \
       }                                                                 \
+  } while (0)
+
+#define MPN_SIZEINBASE_2EXP(result, ptr, size, base2exp)			\
+  do {										\
+    int          __cnt;								\
+    mp_bitcnt_t  __totbits;							\
+    ASSERT ((size) > 0);							\
+    ASSERT ((ptr)[(size)-1] != 0);						\
+    count_leading_zeros (__cnt, (ptr)[(size)-1]);				\
+    __totbits = (mp_bitcnt_t) (size) * GMP_NUMB_BITS - (__cnt - GMP_NAIL_BITS);	\
+    (result) = (__totbits + (base2exp)-1) / (base2exp);				\
   } while (0)
 
 /* eliminate mp_bases lookups for base==16 */
@@ -4462,11 +4504,6 @@ extern mp_size_t                     dc_divappr_q_threshold;
 #define INV_DIVAPPR_Q_THRESHOLD      inv_divappr_q_threshold
 extern mp_size_t                     inv_divappr_q_threshold;
 
-
-#undef  POWM_THRESHOLD
-#define POWM_THRESHOLD               powm_threshold
-extern mp_size_t                     powm_threshold;
-
 #undef  ROOTREM_THRESHOLD
 #define ROOTREM_THRESHOLD            rootrem_threshold
 extern mp_size_t                     rootrem_threshold;
@@ -4494,6 +4531,18 @@ extern mp_size_t                     mod_1_2_threshold;
 #undef  MOD_1_3_THRESHOLD
 #define MOD_1_3_THRESHOLD            mod_1_3_threshold
 extern mp_size_t                     mod_1_3_threshold;
+
+#undef	REDC_1_TO_REDC_2_THRESHOLD
+#define REDC_1_TO_REDC_2_THRESHOLD	redc_1_to_redc_2_threshold
+extern mp_size_t			redc_1_to_redc_2_threshold;
+
+#undef	REDC_2_TO_REDC_N_THRESHOLD
+#define REDC_2_TO_REDC_N_THRESHOLD	redc_2_to_redc_n_threshold
+extern mp_size_t			redc_2_to_redc_n_threshold;
+
+#undef	REDC_1_TO_REDC_N_THRESHOLD
+#define REDC_1_TO_REDC_N_THRESHOLD	redc_1_to_redc_n_threshold
+extern mp_size_t			redc_1_to_redc_n_threshold;
 
 #undef	MATRIX22_STRASSEN_THRESHOLD
 #define MATRIX22_STRASSEN_THRESHOLD	matrix22_strassen_threshold
