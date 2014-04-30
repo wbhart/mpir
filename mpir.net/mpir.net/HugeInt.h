@@ -1436,7 +1436,7 @@ namespace MPIR
             void DeallocateStruct()
             {
                 mpz_clear(_value);
-                (*__gmp_free_func)(_value, 0);
+                (*__gmp_free_func)(_value, sizeof(__mpz_struct));
                 _value = nullptr;
             }
             void FromString(String^ value, int base);

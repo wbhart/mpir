@@ -94,18 +94,45 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="..\..\..\mpir.net\mpir.net-tests\HugeIntTests\Arithmetic.cs" />
-    <Compile Include="..\..\..\mpir.net\mpir.net-tests\HugeIntTests\Assignment.cs" />
-    <Compile Include="..\..\..\mpir.net\mpir.net-tests\HugeIntTests\Bitwise.cs" />
-    <Compile Include="..\..\..\mpir.net\mpir.net-tests\HugeIntTests\Conversions.cs" />
-    <Compile Include="..\..\..\mpir.net\mpir.net-tests\HugeIntTests\Comparisons.cs" />
-    <Compile Include="..\..\..\mpir.net\mpir.net-tests\HugeIntTests\ExpressionTests.cs" />
-    <Compile Include="..\..\..\mpir.net\mpir.net-tests\HugeIntTests\IO.cs" />
-    <Compile Include="..\..\..\mpir.net\mpir.net-tests\HugeIntTests\Math.cs" />
-    <Compile Include="..\..\..\mpir.net\mpir.net-tests\HugeIntTests\XmlCommentsTests.cs" />
-    <Compile Include="..\..\..\mpir.net\mpir.net-tests\Utilities\Accessors.cs" />
-    <Compile Include="..\..\..\mpir.net\mpir.net-tests\HugeIntTests\ConstructionAndDisposal.cs" />
-    <Compile Include="..\..\..\mpir.net\mpir.net-tests\Properties\AssemblyInfo.cs" />
+    <Compile Include="..\..\..\mpir.net\mpir.net-tests\HugeIntTests\Arithmetic.cs">
+      <Link>HugeIntTests\Arithmetic.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\mpir.net\mpir.net-tests\HugeIntTests\Assignment.cs">
+      <Link>HugeIntTests\Assignment.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\mpir.net\mpir.net-tests\HugeIntTests\Bitwise.cs">
+      <Link>HugeIntTests\Bitwise.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\mpir.net\mpir.net-tests\HugeIntTests\Conversions.cs">
+      <Link>HugeIntTests\Conversions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\mpir.net\mpir.net-tests\HugeIntTests\Comparisons.cs">
+      <Link>HugeIntTests\Comparisons.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\mpir.net\mpir.net-tests\HugeIntTests\ExpressionTests.cs">
+      <Link>HugeIntTests\ExpressionTests.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\mpir.net\mpir.net-tests\HugeIntTests\IO.cs">
+      <Link>HugeIntTests\IO.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\mpir.net\mpir.net-tests\HugeIntTests\Math.cs">
+      <Link>HugeIntTests\Math.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\mpir.net\mpir.net-tests\HugeIntTests\XmlCommentsTests.cs">
+      <Link>IntegrationTests\XmlCommentsTests.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\mpir.net\mpir.net-tests\RandomTests\Random.cs">
+      <Link>RandomTests\Random.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\mpir.net\mpir.net-tests\Utilities\Accessors.cs">
+      <Link>Utilities\Accessors.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\mpir.net\mpir.net-tests\HugeIntTests\ConstructionAndDisposal.cs">
+      <Link>HugeIntTests\ConstructionAndDisposal.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\mpir.net\mpir.net-tests\Properties\AssemblyInfo.cs">
+      <Link>Properties\AssemblyInfo.cs</Link>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\mpir.net\mpir.net.vcxproj">
@@ -113,6 +140,7 @@
       <Name>mpir.net</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>
