@@ -51,5 +51,15 @@ namespace MPIR.Tests.HugeIntTests
                 Assert.IsFalse(a.IsLikelyPrime(random, 0));
             }
         }
+
+        [TestMethod]
+        public void NextPrimeCandidate()
+        {
+            using (var a = new HugeInt("622288097498926496141095869268883999563096063592498055290460"))
+            using (var random = MpirRandom.Default())
+            {
+                Assert.AreEqual(a + 1, a.NextPrimeCandidate(random));
+            }
+        }
     }
 }

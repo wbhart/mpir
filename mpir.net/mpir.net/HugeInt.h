@@ -106,6 +106,7 @@ private ref class Mpir##name##Expression : base                                 
 #define TYPE_FOR_ABBR_Si mpir_si
 #define TYPE_FOR_ABBR_Ui mpir_ui
 #define TYPE_FOR_ABBR_Bits mp_bitcnt_t
+#define TYPE_FOR_ABBR_Rnd MpirRandom^
 
 //unary expressions
 #define DEFINE_UNARY_EXPRESSION_WITH_ONE(base, name, typeAbbr) \
@@ -1157,6 +1158,22 @@ namespace MPIR
             size_t Size() { IN_CONTEXT(this); return mpz_size(context.Args[0]); }
 
             #pragma endregion
+
+            #pragma region Number-theoretic
+
+            /// <summary>
+            /// Looks for the next candidate prime greater than this number.
+            /// <para>Note that this function will occasionally return composites.
+            /// It is designed to give a quick method for generating numbers which do not have small prime factors (less than 1000)
+            /// and which pass a small number of rounds of Miller-Rabin (just two rounds).
+            /// </para>The test is designed for speed, assuming that a high quality followup test can then be run to ensure primality.
+            /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
+            /// </para></summary>
+            /// <param name="random">Random number generator to use for probabilistic primality tests</param>
+            /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, performs the requested operation</returns>
+            MpirExpression^ NextPrimeCandidate(MpirRandom^ random);
+
+            #pragma endregion
     };
 
     #pragma endregion
@@ -1444,6 +1461,8 @@ namespace MPIR
     DEFINE_BINARY_EXPRESSION_WITH_TWO              (MpirExpression, Or, Int)
     DEFINE_BINARY_EXPRESSION_WITH_TWO              (MpirExpression, Xor, Int)
     DEFINE_UNARY_EXPRESSION_WITH_ONE               (MpirExpression, Complement, Int)
+
+    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (MpirExpression, NextPrimeCandidate, Int, Rnd)
 
     #pragma endregion
 

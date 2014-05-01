@@ -188,7 +188,7 @@ namespace MPIR
             /// </remarks>
             void Seed(HugeInt^ seed) { gmp_randseed(_value, seed->_value); }
 
-        #pragma endergion
+        #pragma endregion
 
         #pragma region Random Limb
 
@@ -206,7 +206,7 @@ namespace MPIR
             /// <returns>The newly generated number</returns>
             mpir_ui GetLimb(mpir_ui max) { return gmp_urandomm_ui(_value, max); }
 
-        #pragma endergion
+        #pragma endregion
 
         #pragma region Random Int
 

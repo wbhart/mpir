@@ -108,7 +108,7 @@ namespace MPIR
 
     String^ HugeInt::ToString(int base, bool lowercase, int maxDigits)
     {
-        int allocated;
+        size_t allocated;
         bool negative = false;
         bool truncated = false;
 
@@ -512,6 +512,8 @@ namespace MPIR
 
             mpz_inp_raw_m(_value, out);
         }
+
+        return 4 + out->writtenSize;
     }
 
     size_t HugeInt::Write(TextWriter^ writer, int base, bool lowercase)
@@ -636,7 +638,7 @@ namespace MPIR
 
             // Convert the byte array in base BASE to our bignum format.
             xsize = mpn_set_str (_value->_mp_d, (unsigned char *) str, str_size, base);
-            _value->_mp_size = negative ? -xsize : xsize;
+            _value->_mp_size = (int)(negative ? -xsize : xsize);
         }
         (*__gmp_free_func) (str, alloc_size);
         return nread;
@@ -654,6 +656,13 @@ namespace MPIR
     bool HugeInt::IsLikelyPrime(MpirRandom^ random, mpir_ui pretested)
     {
         return mpz_likely_prime_p(_value, random->_value, pretested) != 0;
+    }
+
+    MAKE_FUNCTION_WITH_LIMB (MpirExpression, DEFINE, NextPrimeCandidate, Rnd)
+    DEFINE_ASSIGNMENT_PROLOG(NextPrimeCandidateIntRnd)
+    {
+        IN_CONTEXT(Left);
+        mpz_next_prime_candidate(destination, context.Args[0], Right->_value);
     }
 
     #pragma endregion
