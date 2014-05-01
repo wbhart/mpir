@@ -78,9 +78,9 @@ namespace MPIR.Tests.RandomTests
 
                 TestRandom(r, seed, x =>
                 {
-                    Assert.AreEqual(expected1, x.GetRandomLimb(max));
-                    Assert.AreEqual(expected2, x.GetRandomLimb(max));
-                    Assert.AreEqual(expected3, x.GetRandomLimbBits(bits));
+                    Assert.AreEqual(expected1, x.GetLimb(max));
+                    Assert.AreEqual(expected2, x.GetLimb(max));
+                    Assert.AreEqual(expected3, x.GetLimbBits(bits));
                 });
             }
         }
@@ -99,9 +99,9 @@ namespace MPIR.Tests.RandomTests
 
                 TestRandom(r, seed, x =>
                 {
-                    Assert.AreEqual(expected1, x.GetRandomLimb(max));
-                    Assert.AreEqual(expected2, x.GetRandomLimb(max));
-                    Assert.AreEqual(expected3, x.GetRandomLimbBits(bits));
+                    Assert.AreEqual(expected1, x.GetLimb(max));
+                    Assert.AreEqual(expected2, x.GetLimb(max));
+                    Assert.AreEqual(expected3, x.GetLimbBits(bits));
                 });
             }
         }
@@ -120,9 +120,9 @@ namespace MPIR.Tests.RandomTests
 
                 TestRandom(r, seed, x =>
                 {
-                    Assert.AreEqual(expected1, x.GetRandomLimb(max));
-                    Assert.AreEqual(expected2, x.GetRandomLimb(max));
-                    Assert.AreEqual(expected3, x.GetRandomLimbBits(bits));
+                    Assert.AreEqual(expected1, x.GetLimb(max));
+                    Assert.AreEqual(expected2, x.GetLimb(max));
+                    Assert.AreEqual(expected3, x.GetLimbBits(bits));
                 });
             }
         }
@@ -142,10 +142,46 @@ namespace MPIR.Tests.RandomTests
 
                 TestRandom(r, seed, x =>
                 {
-                    Assert.AreEqual(expected1, x.GetRandomLimb(max));
-                    Assert.AreEqual(expected2, x.GetRandomLimb(max));
-                    Assert.AreEqual(expected3, x.GetRandomLimbBits(bits));
+                    Assert.AreEqual(expected1, x.GetLimb(max));
+                    Assert.AreEqual(expected2, x.GetLimb(max));
+                    Assert.AreEqual(expected3, x.GetLimbBits(bits));
                 });
+            }
+        }
+
+        [TestMethod]
+        public void HugeIntBits()
+        {
+            using (var r = MpirRandom.Default())
+            using (var a = new HugeInt())
+            {
+                r.Seed(12345789);
+                a.Value = r.GetIntBits(256);
+                Assert.AreEqual("9E056474F27BEDF9AE62FB31A30B68DFA0B96F29D0C8767A88F8937D6F3A00FD", a.ToString(16));
+            }
+        }
+
+        [TestMethod]
+        public void HugeInt1()
+        {
+            using (var r = MpirRandom.Default())
+            using (var a = new HugeInt())
+            {
+                r.Seed(12345789);
+                a.Value = r.GetInt((a + 2345234534) ^ 10);
+                Assert.AreEqual("1157052590454954734126533665801738434624905444540864190630086248362027895885687865247828410621", a.ToString());
+            }
+        }
+
+        [TestMethod]
+        public void HugeIntBitsChunky()
+        {
+            using (var r = MpirRandom.Default())
+            using (var a = new HugeInt())
+            {
+                r.Seed(12345789);
+                a.Value = r.GetIntBitsChunky(256);
+                Assert.AreEqual("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFC0000000000000000000000000000007F", a.ToString(16));
             }
         }
     }

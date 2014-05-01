@@ -23,8 +23,14 @@ using namespace System;
 using namespace System::IO;
 using namespace System::Runtime::InteropServices;
 
+#pragma region misc macros
+
 #define IS_NULL(a) (Object::ReferenceEquals(a, nullptr))
 #define PIN(x) pin_ptr<T> pinptr##x = &x[0]; void* pinned_##x = pinptr##x;
+
+#pragma endregion
+
+#pragma region Expression macros
 
 //defines a unary expression class
 #define DEFINE_UNARY_EXPRESSION(base, name, type)                \
@@ -121,6 +127,10 @@ private ref class Mpir##name##Expression : base                                 
 
 #define DEFINE_TERNARY_EXPRESSION_WITH_BUILT_IN_MIDDLE(base, name, leftTypeAbbr, middleTypeAbbr, rightTypeAbbr)    \
     DEFINE_TERNARY_EXPRESSION(base, name##leftTypeAbbr##middleTypeAbbr##rightTypeAbbr, MpirExpression^, TYPE_FOR_ABBR_##middleTypeAbbr, MpirExpression^)
+
+#pragma endregion
+
+#pragma region Method macros
 
 //void functions
 #define MAKE_VOID_FUNCTION(base, action, op, type)  \
@@ -249,6 +259,8 @@ private ref class Mpir##name##Expression : base                                 
     MAKE_BINARY_OPERATOR_STANDARD  (MpirExpression,           action, ^, Xor, Int, Int)           \
     MAKE_UNARY_OPERATOR            (MpirExpression,           action, ~, Complement, Int)         \
 
+#pragma endregion
+
 namespace MPIR
 {
     ref class HugeInt;
@@ -260,6 +272,8 @@ namespace MPIR
     ref class MpirShiftRightExpression;
     ref class MpirRootExpression;
     ref class MpirSquareRootExpression;
+
+    #pragma region enums
 
     /// <summary>
     /// This enum defines the rounding modes MPIR supports.  Division and modulo operations take an optional rounding mode parameter, or use the default, which is set in the static MpirSettings class.
@@ -299,6 +313,10 @@ namespace MPIR
         /// <summary>Least significant byte comes first in a limb.</summary>
         LittleEndian = -1,
     };
+
+    #pragma endregion
+
+    #pragma region MpirExpression
 
     /// <summary>
     /// Base class for all expressions resulting from many operations on MPIR types. Expressions can be arbitrarily nested, and are lazily evaluated 
@@ -1140,6 +1158,10 @@ namespace MPIR
             #pragma endregion
     };
 
+    #pragma endregion
+
+    #pragma region MpirSettings
+
     /// <summary>
     /// Static class for MPIR settings such as rounding defaults
     /// </summary>
@@ -1177,6 +1199,8 @@ namespace MPIR
                 ToStringDigits = 256;
             }
     };
+
+    #pragma endregion
 
     #pragma region mid-level abstract expression specializations
 
@@ -1375,6 +1399,8 @@ namespace MPIR
 
     #pragma endregion
 
+    #pragma region concrete expressions
+
     DEFINE_BINARY_EXPRESSION_WITH_TWO              (MpirExpression, Add, Int)
     DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (MpirExpression, Add, Int, Ui)
     DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (MpirExpression, Add, Int, Si)
@@ -1417,6 +1443,10 @@ namespace MPIR
     DEFINE_BINARY_EXPRESSION_WITH_TWO              (MpirExpression, Or, Int)
     DEFINE_BINARY_EXPRESSION_WITH_TWO              (MpirExpression, Xor, Int)
     DEFINE_UNARY_EXPRESSION_WITH_ONE               (MpirExpression, Complement, Int)
+
+    #pragma endregion
+
+    #pragma region HugeInt class
 
     /// <summary>
     /// Multi-precision Integer class.
@@ -1964,4 +1994,6 @@ namespace MPIR
 
             #pragma endregion
     };
+
+    #pragma endregion
 };

@@ -23,6 +23,12 @@ using namespace System;
 
 namespace MPIR
 {
+    ref class MpirRandom;
+
+    DEFINE_BINARY_EXPRESSION(MpirExpression, RandomIntBits, MpirRandom^, mp_bitcnt_t)
+    DEFINE_BINARY_EXPRESSION(MpirExpression, RandomIntBitsChunky, MpirRandom^, mp_bitcnt_t)
+    DEFINE_BINARY_EXPRESSION(MpirExpression, RandomInt, MpirRandom^, MpirExpression^)
+
     /// <summary>
     /// This class encapsulates a random number generator algorithm and state
     /// </summary>
@@ -191,15 +197,46 @@ namespace MPIR
             /// </summary>
             /// <param name="bitCount">The number of random bits to generate.  Must be less than or equal to the number of bits in a limb.</param>
             /// <returns>The newly generated number</returns>
-            mpir_ui GetRandomLimbBits(mpir_ui bitCount) { return gmp_urandomb_ui(_value, bitCount); }
+            mpir_ui GetLimbBits(mpir_ui bitCount) { return gmp_urandomb_ui(_value, bitCount); }
 
             /// <summary>
             /// Generates a uniformly distributed random number in the range 0 to <paramref name="max"/>-1 inclusive.
             /// </summary>
             /// <param name="max">The exclusive upper bound for the random number</param>
             /// <returns>The newly generated number</returns>
-            mpir_ui GetRandomLimb(mpir_ui max) { return gmp_urandomm_ui(_value, max); }
+            mpir_ui GetLimb(mpir_ui max) { return gmp_urandomm_ui(_value, max); }
 
         #pragma endergion
+
+        #pragma region Random Int
+
+        /// <summary>
+        /// Generates a uniformly distributed random integer in the range 0 to 2^<paramref name="bitCount"/> - 1, inclusive.
+        /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
+        /// </para></summary>
+        /// <param name="bitCount">number of bits to generate</param>
+        /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, generates the random number</returns>
+        MpirExpression^ GetIntBits(mp_bitcnt_t bitCount) { return gcnew MpirRandomIntBitsExpression(this, bitCount); }
+
+        /// <summary>
+        /// Generates a random integer with long strings of zeros and ones in the binary representation.
+        /// <para>Useful for testing functions and algorithms, since this kind of random numbers have proven
+        /// to be more likely to trigger corner-case bugs.
+        /// </para>The random number will be in the range 0 to 2^<paramref name="bitCount"/> - 1, inclusive.
+        /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
+        /// </para></summary>
+        /// <param name="bitCount">number of bits to generate</param>
+        /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, generates the random number</returns>
+        MpirExpression^ GetIntBitsChunky(mp_bitcnt_t bitCount) { return gcnew MpirRandomIntBitsChunkyExpression(this, bitCount); }
+
+        /// <summary>
+        /// Generates a uniformly distributed random integer in the range 0 to <paramref name="max"/> - 1, inclusive.
+        /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
+        /// </para></summary>
+        /// <param name="max">exclusive upper bound for the number to generate</param>
+        /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, generates the random number</returns>
+        MpirExpression^ GetInt(MpirExpression^ max) { return gcnew MpirRandomIntExpression(this, max); }
+
+        #pragma endregion
     };
 };

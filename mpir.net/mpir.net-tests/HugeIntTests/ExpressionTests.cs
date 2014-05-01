@@ -41,7 +41,10 @@ namespace MPIR.Tests.HugeIntTests
 
             using (var a = HugeInt.FromLong(-9))
             using (var b = HugeInt.FromLong(4))
+            using (var r = MpirRandom.Default())
             {
+                r.Seed(123);
+
                 var expr = a + (-a * 2) * 3 * (a.Abs() * -2 + -64 + a * a) + 116UL + a;
                 VerifyPartialResult(expr, 44);
                 expr = expr + a * 5 + (a+b) * (b + 1) * (b + -3) * b + (b * -a) - (b * 25UL) - a + (b << 3) - ((a*b) << 1);
@@ -58,6 +61,8 @@ namespace MPIR.Tests.HugeIntTests
                 VerifyPartialResult(expr, 78);
                 expr = expr + ((b + 1) & -a) + (b | -a) - (b ^ a) + ~b;
                 VerifyPartialResult(expr, 100);
+                expr = expr + r.GetInt(b + 1) + r.GetIntBits(3) + r.GetIntBitsChunky(3);
+                VerifyPartialResult(expr, 115);
 
                 MarkExpressionsUsed(allExpressions, expr);
             }

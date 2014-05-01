@@ -17,10 +17,24 @@ You should have received a copy of the GNU Lesser General Public License
 along with the MPIR Library.  If not, see http://www.gnu.org/licenses/.  
 */
 
-#include "Stdafx.h"
+#include "StdAfx.h"
 #include "Random.h"
 
 namespace MPIR
 {
+    DEFINE_ASSIGNMENT_PROLOG(RandomInt)
+    {
+        IN_CONTEXT(Right);
+        mpz_urandomm(destination, Left->_value, context.Args[0]);
+    }
 
+    DEFINE_ASSIGNMENT_PROLOG(RandomIntBits)
+    {
+        mpz_urandomb(destination, Left->_value, Right);
+    }
+
+    DEFINE_ASSIGNMENT_PROLOG(RandomIntBitsChunky)
+    {
+        mpz_rrandomb(destination, Left->_value, Right);
+    }
 };
