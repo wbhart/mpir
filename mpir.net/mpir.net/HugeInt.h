@@ -263,6 +263,7 @@ private ref class Mpir##name##Expression : base                                 
 
 namespace MPIR
 {
+    ref class MpirRandom;
     ref class HugeInt;
     ref class MpirDivideExpression;
     ref class MpirDivideUiExpression;
@@ -1991,6 +1992,38 @@ namespace MPIR
             /// </para>If the index is outside the range 0 to Size()-1, zero is returned.</param>
             /// <returns>The specified limb, or zero if <paramref name="index"/> is outside of the valid range.</returns>
             size_t GetLimb(mp_size_t index) { return mpz_getlimbn(_value, index); }
+
+            #pragma endregion
+    
+            #pragma region number-theoretic
+
+            /// <summary>
+            /// Determines whether the number is a probable prime with the chance of error being at most 1 in 2^<paramref name="probability"/>.
+            /// <para>This function does some trial divisions to speed up the average case, then some probabilistic
+            /// primality tests to achieve the desired level of error.
+            /// </para>This function interface is preliminary and may change in the future.
+            /// </summary>
+            /// <param name="random">Random number generator to use for probabilistic primality tests</param>
+            /// <param name="probability">Defines the maximum allowed probability of a false positive.
+            /// <para>The odds of a composite number being reported as a probable prime are at most 1 in 2^probability</para></param>
+            /// <param name="pretested">Used to inform the function that trial division up to div has already been performed,
+            /// and so the number is known to have NO divisors &lt;= pretested.
+            /// <para>Use 0 to inform the function that no trial division has been done.</para></param>
+            /// <returns>true if the number is probably prime, or false if it is definitely composite.</returns>
+            bool IsProbablePrime(MpirRandom^ random, int probability, mpir_ui pretested);
+
+            /// <summary>
+            /// Determine whether the number is likely a prime, i.e. you can consider it a prime for practical purposes.
+            /// <para>This function does some trial divisions to speed up the average case, then some probabilistic primality tests.
+            /// </para>The term "likely" refers to the fact that the number will not have small factors.
+            /// <para>This function interface is preliminary and may change in the future.
+            /// </para></summary>
+            /// <param name="random">Random number generator to use for probabilistic primality tests</param>
+            /// <param name="pretested">Used to inform the function that trial division up to div has already been performed,
+            /// and so the number is known to have NO divisors &lt;= pretested.
+            /// <para>Use 0 to inform the function that no trial division has been done.</para></param>
+            /// <returns>true if the number is likely prime, or false if it is definitely composite.</returns>
+            bool IsLikelyPrime(MpirRandom^ random, mpir_ui pretested);
 
             #pragma endregion
     };

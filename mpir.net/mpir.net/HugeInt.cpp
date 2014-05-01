@@ -18,6 +18,7 @@ along with the MPIR Library.  If not, see http://www.gnu.org/licenses/.
 */
 
 #include "Stdafx.h"
+#include "Random.h"
 
 using namespace System::Runtime::InteropServices;
 using namespace System::Text;
@@ -639,6 +640,20 @@ namespace MPIR
         }
         (*__gmp_free_func) (str, alloc_size);
         return nread;
+    }
+
+    #pragma endregion
+
+    #pragma region number-theoretic
+
+    bool HugeInt::IsProbablePrime(MpirRandom^ random, int probability, mpir_ui pretested)
+    {
+        return mpz_probable_prime_p(_value, random->_value, probability, pretested) != 0;
+    }
+            
+    bool HugeInt::IsLikelyPrime(MpirRandom^ random, mpir_ui pretested)
+    {
+        return mpz_likely_prime_p(_value, random->_value, pretested) != 0;
     }
 
     #pragma endregion
