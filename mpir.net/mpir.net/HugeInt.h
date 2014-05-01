@@ -274,6 +274,7 @@ namespace MPIR
     ref class MpirShiftRightExpression;
     ref class MpirRootExpression;
     ref class MpirSquareRootExpression;
+    ref class MpirGcdExpression;
 
     #pragma region enums
 
@@ -1173,6 +1174,23 @@ namespace MPIR
             /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, performs the requested operation</returns>
             MpirExpression^ NextPrimeCandidate(MpirRandom^ random);
 
+            /// <summary>Computes the greatest common divisor of this number and <paramref name="a"/>.
+            /// <para>The result is always positive even if one or both inputs are negative.
+            /// </para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
+            /// </summary>
+            /// <param name="a">Source value to compute the GCD with</param>
+            /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
+            MpirGcdExpression^ Gcd(MpirExpression^ a);
+
+            /// <summary>
+            /// Computes the greatest common divisor of this number and <paramref name="a"/>.
+            /// <para>The result is always positive even if the source number is negative.
+            /// </para>Because the result is a primitive type, it is computed immediately.
+            /// </summary>
+            /// <param name="a">Source value to compute the GCD with.  If zero, zero is returned.</param>
+            /// <returns>The greatest common divisor of the absolute value of this number and <paramref name="a"/>.</returns>
+            mpir_ui Gcd(mpir_ui a) { IN_CONTEXT(this); return mpz_gcd_ui(nullptr, context.Args[0], a); }
+
             #pragma endregion
     };
 
@@ -1415,6 +1433,33 @@ namespace MPIR
             }
     };
 
+    /// <summary>
+    /// Expression that results from a Gcd method.  Allows to additionally compute Diophantine equation multiplier(s).
+    /// </summary>
+    public ref class MpirGcdExpression abstract : MpirExpression 
+    {
+        internal:
+            MpirGcdExpression() { }
+            HugeInt^ _s;
+            HugeInt^ _t;
+            void custom_mpz_gcd(mpz_ptr dest, mpz_srcptr a, mpz_srcptr b);
+
+        public:
+            /// <summary>
+            /// Optionally computes and saves the coefficients <paramref name="s"/> and <paramref name="t"/> such that x*s + y*t = gcd(x, y).
+            /// <para>If only one of the coefficients is needed, use null for the other.
+            /// </para></summary>
+            /// <param name="s">destination for the first coefficient. Can be null if not needed.</param>
+            /// <param name="t">destination for the second coefficient. Can be null if not needed.</param>
+            /// <returns>An updated expression, with its internal state updated to save the coefficients.</returns>
+            MpirExpression^ SavingDiophantineMultipliersTo(HugeInt^ s, HugeInt^ t)
+            {
+                _s = s;
+                _t = t;
+                return this;
+            }
+    };
+
     #pragma endregion
 
     #pragma region concrete expressions
@@ -1463,6 +1508,7 @@ namespace MPIR
     DEFINE_UNARY_EXPRESSION_WITH_ONE               (MpirExpression, Complement, Int)
 
     DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (MpirExpression, NextPrimeCandidate, Int, Rnd)
+    DEFINE_BINARY_EXPRESSION_WITH_TWO              (MpirGcdExpression, Gcd, Int)
 
     #pragma endregion
 

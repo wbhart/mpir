@@ -241,24 +241,24 @@ namespace MPIR
         switch((rounding == RoundingModes::Default) ? MpirSettings::RoundingMode : rounding)
         {
             case RoundingModes::Floor:
-                (_remainder == nullptr)
+                IS_NULL(_remainder)
                     ? mpz_fdiv_q(q, n, d)
                     : mpz_fdiv_qr(q, _remainder->_value, n, d);
                 break;
 
             case RoundingModes::Ceiling:
-                (_remainder == nullptr)
+                IS_NULL(_remainder)
                     ? mpz_cdiv_q(q, n, d)
                     : mpz_cdiv_qr(q, _remainder->_value, n, d);
                 break;
 
             default:
-                (_remainder == nullptr)
+                IS_NULL(_remainder)
                     ? mpz_tdiv_q(q, n, d)
                     : mpz_tdiv_qr(q, _remainder->_value, n, d);
                 break;
         }
-    };
+    }
 
     void MpirDivideUiExpression::custom_mpz_div_ui(mpz_ptr q, mpz_srcptr n, mpir_ui d)
     {
@@ -267,27 +267,27 @@ namespace MPIR
         switch((rounding == RoundingModes::Default) ? MpirSettings::RoundingMode : rounding)
         {
             case RoundingModes::Floor:
-                limb = (_remainder == nullptr)
+                limb = IS_NULL(_remainder)
                     ? mpz_fdiv_q_ui(q, n, d)
                     : mpz_fdiv_qr_ui(q, _remainder->_value, n, d);
                 break;
 
             case RoundingModes::Ceiling:
-                limb = (_remainder == nullptr)
+                limb = IS_NULL(_remainder)
                     ? mpz_cdiv_q_ui(q, n, d)
                     : mpz_cdiv_qr_ui(q, _remainder->_value, n, d);
                 break;
 
             default:
-                limb = (_remainder == nullptr)
+                limb = IS_NULL(_remainder)
                     ? mpz_tdiv_q_ui(q, n, d)
                     : mpz_tdiv_qr_ui(q, _remainder->_value, n, d);
                 break;
         }
 
-        if(_limbRemainder != nullptr)
+        if(!IS_NULL(_limbRemainder))
             _limbRemainder(limb);
-    };
+    }
 
     void MpirShiftRightExpression::custom_mpz_div_2exp(mpz_ptr q, mpz_srcptr n, mp_bitcnt_t d)
     {
@@ -311,31 +311,31 @@ namespace MPIR
                     : mpz_tdiv_q_2exp(q, n, d);
                 break;
         }
-    };
+    }
 
     void MpirModExpression::custom_mpz_mod(mpz_ptr r, mpz_srcptr n, mpz_srcptr d)
     {
         switch((rounding == RoundingModes::Default) ? MpirSettings::RoundingMode : rounding)
         {
             case RoundingModes::Floor:
-                (_quotient == nullptr)
+                IS_NULL(_quotient)
                     ? mpz_fdiv_r(r, n, d)
                     : mpz_fdiv_qr(_quotient->_value, r, n, d);
                 break;
 
             case RoundingModes::Ceiling:
-                (_quotient == nullptr)
+                IS_NULL(_quotient)
                     ? mpz_cdiv_r(r, n, d)
                     : mpz_cdiv_qr(_quotient->_value, r, n, d);
                 break;
 
             default:
-                (_quotient == nullptr)
+                IS_NULL(_quotient)
                     ? mpz_tdiv_r(r, n, d)
                     : mpz_tdiv_qr(_quotient->_value, r, n, d);
                 break;
         }
-    };
+    }
 
     void MpirModUiExpression::custom_mpz_mod_ui(mpz_ptr r, mpz_srcptr n, mpir_ui d)
     {
@@ -344,44 +344,66 @@ namespace MPIR
         switch((rounding == RoundingModes::Default) ? MpirSettings::RoundingMode : rounding)
         {
             case RoundingModes::Floor:
-                limb = (_quotient == nullptr)
+                limb = IS_NULL(_quotient)
                     ? mpz_fdiv_r_ui(r, n, d)
                     : mpz_fdiv_qr_ui(_quotient->_value, r, n, d);
                 break;
 
             case RoundingModes::Ceiling:
-                limb = (_quotient == nullptr)
+                limb = IS_NULL(_quotient)
                     ? mpz_cdiv_r_ui(r, n, d)
                     : mpz_cdiv_qr_ui(_quotient->_value, r, n, d);
                 break;
 
             default:
-                limb = (_quotient == nullptr)
+                limb = IS_NULL(_quotient)
                     ? mpz_tdiv_r_ui(r, n, d)
                     : mpz_tdiv_qr_ui(_quotient->_value, r, n, d);
                 break;
         }
 
-        if(_limbRemainder != nullptr)
+        if(!IS_NULL(_limbRemainder))
             _limbRemainder(limb);
-    };
+    }
 
     void MpirRootExpression::custom_mpz_root(mpz_ptr dest, mpz_srcptr oper, mpir_ui power)
     {
-        if(_remainder != nullptr)
+        if(!IS_NULL(_remainder))
             mpz_rootrem(dest, _remainder->_value, oper, power);
-        else if (_exact != nullptr)
-            _exact(mpz_root(dest, oper, power) != 0);
-        else
+        else if (IS_NULL(_exact))
             mpz_nthroot(dest, oper, power);
-    };
+        else
+            _exact(mpz_root(dest, oper, power) != 0);
+    }
 
     void MpirSquareRootExpression::custom_mpz_sqrt(mpz_ptr dest, mpz_srcptr oper)
     {
-        (_remainder != nullptr)
-            ? mpz_sqrtrem(dest, _remainder->_value, oper)
-            : mpz_sqrt(dest, oper);
-    };
+        IS_NULL(_remainder)
+            ? mpz_sqrt(dest, oper)
+            : mpz_sqrtrem(dest, _remainder->_value, oper);
+    }
+
+    void MpirGcdExpression::custom_mpz_gcd(mpz_ptr dest, mpz_srcptr a, mpz_srcptr b)
+    {
+        switch ((IS_NULL(_s) ? 0 : 1) + (IS_NULL(_t) ? 0 : 2))
+        {
+            case 0:
+               mpz_gcd(dest, a, b);
+               break;
+
+            case 1:
+               mpz_gcdext(dest, _s->_value, NULL, a, b);
+               break;
+
+            case 2:
+               mpz_gcdext(dest, _t->_value, NULL, b, a);
+               break;
+
+            case 3:
+               mpz_gcdext(dest, _s->_value, _t->_value, a, b);
+               break;
+        }
+    }
 
     #pragma endregion
 
@@ -426,6 +448,8 @@ namespace MPIR
     DEFINE_BINARY_ASSIGNMENT_REF_REF(And, Int, mpz_and)
     DEFINE_BINARY_ASSIGNMENT_REF_REF(Or, Int, mpz_ior)
     DEFINE_BINARY_ASSIGNMENT_REF_REF(Xor, Int, mpz_xor)
+
+    DEFINE_BINARY_ASSIGNMENT_REF_REF(Gcd, Int, custom_mpz_gcd)
 
     DEFINE_TERNARY_ASSIGNMENT_REF_REF_REF(PowerMod, Int, mpz_powm);
     DEFINE_TERNARY_ASSIGNMENT_REF_VAL_REF(PowerMod, Int, Ui, Int, mpz_powm_ui)
@@ -664,6 +688,8 @@ namespace MPIR
         IN_CONTEXT(Left);
         mpz_next_prime_candidate(destination, context.Args[0], Right->_value);
     }
+
+    MAKE_FUNCTION_WITH_ONE (MpirGcdExpression, DEFINE, Gcd, Int)
 
     #pragma endregion
 };

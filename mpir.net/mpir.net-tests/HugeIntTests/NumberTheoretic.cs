@@ -61,5 +61,72 @@ namespace MPIR.Tests.HugeIntTests
                 Assert.AreEqual(a + 1, a.NextPrimeCandidate(random));
             }
         }
+
+        [TestMethod]
+        public void Gcd()
+        {
+            using (var a = new HugeInt("29927402397991286489627837734179186385188296382227"))
+            using (var b = new HugeInt())
+            using (var c = new HugeInt())
+            {
+                b.Value = a * 39;
+                c.Value = a * 41;
+                Assert.AreEqual(a, b.Gcd(c));
+            }
+        }
+
+        [TestMethod]
+        public void GcdExt()
+        {
+            using (var a = HugeInt.FromUlong(12))
+            using (var b = HugeInt.FromUlong(21))
+            using (var g = new HugeInt())
+            using (var s = new HugeInt())
+            using (var t = new HugeInt())
+            {
+                g.Value = a.Gcd(b).SavingDiophantineMultipliersTo(s, t);
+                Assert.AreEqual("3", g.ToString());
+                Assert.AreEqual("2", s.ToString());
+                Assert.AreEqual("-1", t.ToString());
+            }
+        }
+
+        [TestMethod]
+        public void GcdExt1()
+        {
+            using (var a = HugeInt.FromUlong(12))
+            using (var b = HugeInt.FromUlong(21))
+            using (var g = new HugeInt())
+            using (var s = new HugeInt())
+            {
+                g.Value = a.Gcd(b).SavingDiophantineMultipliersTo(s, null);
+                Assert.AreEqual("3", g.ToString());
+                Assert.AreEqual("2", s.ToString());
+            }
+        }
+
+        [TestMethod]
+        public void GcdExt2()
+        {
+            using (var a = HugeInt.FromUlong(12))
+            using (var b = HugeInt.FromUlong(21))
+            using (var g = new HugeInt())
+            using (var t = new HugeInt())
+            {
+                g.Value = a.Gcd(b).SavingDiophantineMultipliersTo(null, t);
+                Assert.AreEqual("3", g.ToString());
+                Assert.AreEqual("-1", t.ToString());
+            }
+        }
+
+        [TestMethod]
+        public void GcdLimb()
+        {
+            using (var a = new HugeInt("29927402397991286489627837734179186385188296382227"))
+            {
+                a.Value = a * 127;
+                Assert.AreEqual(127UL, a.Gcd(254));
+            }
+        }
     }
 }
