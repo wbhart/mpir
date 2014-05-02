@@ -90,7 +90,7 @@ mpn_binvert (mp_ptr rp, mp_srcptr up, mp_size_t n, mp_ptr scratch)
   if (rn == n)
     return;
   newrn = *--sizp;
-  for (; newrn < n; rn = newrn)
+  for (; newrn < n;)
     {
       mp_size_t m;
 
@@ -103,6 +103,7 @@ mpn_binvert (mp_ptr rp, mp_srcptr up, mp_size_t n, mp_ptr scratch)
       mpn_mullow_n (rp + rn, rp, xp + rn, newrn - rn);
       mpn_neg (rp + rn, rp + rn, newrn - rn);
 
+      rn = newrn;
       newrn = *--sizp;
     }
   /* Last iteration would overflow in the mullow call */
