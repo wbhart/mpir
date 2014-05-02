@@ -197,5 +197,18 @@ namespace MPIR.Tests.HugeIntTests
                 Assert.AreEqual(-1, HugeInt.Kronecker(2UL, b));
             }
         }
+
+        [TestMethod]
+        public void RemoveFactors()
+        {
+            using (var a = new HugeInt("9288562863495827364985273645298367452"))
+            using (var b = new HugeInt("29927402397991286489627837734179186385188296382227"))
+            {
+                Assert.AreEqual(a, (a * b * b).RemoveFactors(b));
+                ulong count = 0;
+                Assert.AreEqual(a, (a * b * b).RemoveFactors(b).SavingCountRemovedTo(x => count = x));
+                Assert.AreEqual(2UL, count);
+            }
+        }
     }
 }

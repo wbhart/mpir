@@ -692,7 +692,6 @@ namespace MPIR
     }
 
     MAKE_FUNCTION_WITH_ONE (MpirGcdExpression, DEFINE, Gcd, Int)
-
     MAKE_FUNCTION_WITH_ONE (MpirExpression, DEFINE, Lcm, Int)
     MAKE_FUNCTION_WITH_LIMB (MpirExpression, DEFINE, Lcm, Ui)
 
@@ -702,6 +701,15 @@ namespace MPIR
         IN_CONTEXT(Left, Right);
         if (mpz_invert(destination, context.Args[0], context.Args[1]) == 0)
             throw gcnew ArgumentException("Inverse does not exist");
+    }
+
+    MAKE_FUNCTION_WITH_ONE (MpirRemoveFactorsExpression, DEFINE, RemoveFactors, Int)
+    DEFINE_ASSIGNMENT_PROLOG(RemoveFactorsIntInt)
+    {
+        IN_CONTEXT(Left, Right);
+        auto result = mpz_remove(destination, context.Args[0], context.Args[1]);
+        if(!IS_NULL(_count))
+            _count(result);
     }
 
     #pragma endregion

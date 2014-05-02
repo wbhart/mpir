@@ -275,6 +275,7 @@ namespace MPIR
     ref class MpirRootExpression;
     ref class MpirSquareRootExpression;
     ref class MpirGcdExpression;
+    ref class MpirRemoveFactorsExpression;
 
     #pragma region enums
 
@@ -1218,6 +1219,14 @@ namespace MPIR
             /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
             MpirExpression^ Invert(MpirExpression^ modulo);
 
+            /// <summary>Remove all occurrences of the <paramref name="factor"/> from the source number.
+            /// <para>You can optionally save the number of such occurrences that were removed.
+            /// </para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
+            /// </summary>
+            /// <param name="factor">Factor to remove from the source number.</param>
+            /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
+            MpirRemoveFactorsExpression^ RemoveFactors(MpirExpression^ factor);
+
             #pragma endregion
     };
 
@@ -1487,6 +1496,29 @@ namespace MPIR
             }
     };
 
+    /// <summary>
+    /// Expression that results from a RemoveFactors method.  Allows to additionally save the number of factors that were removed.
+    /// </summary>
+    public ref class MpirRemoveFactorsExpression abstract : MpirExpression 
+    {
+        internal:
+            MpirRemoveFactorsExpression() { }
+            Action<mp_bitcnt_t>^ _count;
+
+        public:
+            /// <summary>
+            /// Optionally gets the number of factors removed.
+            /// </summary>
+            /// <param name="callback">Delegate that will be called with the number of factors that were removed.
+            /// The delegate is called when the root operation is evaluated, i.e. is assigned to the Value property or consumed by a method that returns a primitive type.</param>
+            /// <returns>An updated expression, with its internal state updated to save the number of factors.</returns>
+            MpirExpression^ SavingCountRemovedTo(Action<mp_bitcnt_t>^ callback)
+            {
+                _count = callback;
+                return this;
+            }
+    };
+
     #pragma endregion
 
     #pragma region concrete expressions
@@ -1537,6 +1569,7 @@ namespace MPIR
     DEFINE_BINARY_EXPRESSION_WITH_TWO              (MpirExpression, Invert, Int)
     DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (MpirExpression, NextPrimeCandidate, Int, Rnd)
     DEFINE_BINARY_EXPRESSION_WITH_TWO              (MpirGcdExpression, Gcd, Int)
+    DEFINE_BINARY_EXPRESSION_WITH_TWO              (MpirRemoveFactorsExpression, RemoveFactors, Int)
 
     DEFINE_BINARY_EXPRESSION_WITH_TWO              (MpirExpression, Lcm, Int)
     DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (MpirExpression, Lcm, Int, Ui)
