@@ -149,5 +149,18 @@ namespace MPIR.Tests.HugeIntTests
                 Assert.AreEqual(a * 39 * 41, b.Lcm(39));
             }
         }
+
+        [TestMethod]
+        public void Invert()
+        {
+            using (var a = new HugeInt("29927402397991286489627837734179186385188296382227"))
+            using (var m = new HugeInt("622288097498926496141095869268883999563096063592498055290461"))
+            using (var r = new HugeInt())
+            {
+                r.Value = a.Invert(m);
+                Assert.IsTrue(r > 0);
+                Assert.IsTrue(1 == (r * a) % m);
+            }
+        }
     }
 }

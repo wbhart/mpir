@@ -1208,6 +1208,15 @@ namespace MPIR
             /// <param name="a">Source value to compute the LCM with.</param>
             /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
             MpirExpression^ Lcm(mpir_ui a);
+                                                                                                          
+            /// <summary>Computes the inverse of this number modulo <paramref name="modulo"/>.
+            /// <para>If the inverse exists, the result will satisfy 0 &lt;= result &lt; <paramref name="modulo"/>.
+            /// </para>If an inverse doesn't exist an ArgumentException is thrown.
+            /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
+            /// </para></summary>
+            /// <param name="modulo">Modulo with respect to which to invert the number.</param>
+            /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
+            MpirExpression^ Invert(MpirExpression^ modulo);
 
             #pragma endregion
     };
@@ -1525,6 +1534,7 @@ namespace MPIR
     DEFINE_BINARY_EXPRESSION_WITH_TWO              (MpirExpression, Xor, Int)
     DEFINE_UNARY_EXPRESSION_WITH_ONE               (MpirExpression, Complement, Int)
 
+    DEFINE_BINARY_EXPRESSION_WITH_TWO              (MpirExpression, Invert, Int)
     DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (MpirExpression, NextPrimeCandidate, Int, Rnd)
     DEFINE_BINARY_EXPRESSION_WITH_TWO              (MpirGcdExpression, Gcd, Int)
 
