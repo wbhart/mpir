@@ -43,26 +43,26 @@ namespace MPIR.Tests.HugeIntTests
             using (var b = HugeInt.FromLong(4))
             using (var r = MpirRandom.Default())
             {
-                r.Seed(123);
-
                 var expr = a + (-a * 2) * 3 * (a.Abs() * -2 + -64 + a * a) + 116UL + a;
-                VerifyPartialResult(expr, 44);
+                VerifyPartialResult(r, expr, 44);
                 expr = expr + a * 5 + (a+b) * (b + 1) * (b + -3) * b + (b * -a) - (b * 25UL) - a + (b << 3) - ((a*b) << 1);
-                VerifyPartialResult(expr, -52);
+                VerifyPartialResult(r, expr, -52);
                 expr = expr - 2 - 3UL + (b - (a << 1)) + (b * b - 15UL) * (b - a) * (a - 11) * (b - 3UL) - (-340 - a) + (20UL - b);
-                VerifyPartialResult(expr, 52);
+                VerifyPartialResult(r, expr, 52);
                 expr = expr + (-7 - 2 * a) + (28UL - 4 * b) + -(a + b * 2) + (3 * a).Abs();
-                VerifyPartialResult(expr, 103);
+                VerifyPartialResult(r, expr, 103);
                 expr = expr / a + expr / (3 * b) - a / b - b / (a + 10) + a % b - (3 * b) % a + a % (2 * b) - (12 * b) % (-5 * a) + (a * 4 / 8).Rounding(RoundingModes.Floor) + (b * 3 % 7).Rounding(RoundingModes.Ceiling);
-                VerifyPartialResult(expr, -20);
+                VerifyPartialResult(r, expr, -20);
                 expr = expr - (a * 5).DivideExactly(a) + (b * 7 * 5432198).DivideExactly(5432198) + (b >> 1);
-                VerifyPartialResult(expr, 5);
+                VerifyPartialResult(r, expr, 5);
                 expr = expr + (b ^ 3) + a.PowerMod(2, b) + (a + 6).PowerMod(b - 1, b * 5) + (a * a * a).Root(3) + (b * b).SquareRoot();
-                VerifyPartialResult(expr, 78);
+                VerifyPartialResult(r, expr, 78);
                 expr = expr + ((b + 1) & -a) + (b | -a) - (b ^ a) + ~b;
-                VerifyPartialResult(expr, 100);
+                VerifyPartialResult(r, expr, 100);
                 expr = expr + r.GetInt(b + 1) + r.GetIntBits(3) + r.GetIntBitsChunky(3) + (b * 2).NextPrimeCandidate(r) - b.Gcd(a - 1);
-                VerifyPartialResult(expr, 124);
+                VerifyPartialResult(r, expr, 124);
+                expr = expr - a.Lcm(b * 3) - (b + 1).Lcm(2);
+                VerifyPartialResult(r, expr, 78);
 
                 MarkExpressionsUsed(allExpressions, expr);
             }
@@ -71,8 +71,10 @@ namespace MPIR.Tests.HugeIntTests
                 allExpressions.Select(x => Environment.NewLine + x.Name).OrderBy(x => x)));
         }
 
-        private void VerifyPartialResult(MpirExpression expr, long expected)
+        private void VerifyPartialResult(MpirRandom rnd, MpirExpression expr, long expected)
         {
+            rnd.Seed(123);
+
             using (var r = new HugeInt())
             {
                 r.Value = expr;

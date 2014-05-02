@@ -450,6 +450,8 @@ namespace MPIR
     DEFINE_BINARY_ASSIGNMENT_REF_REF(Xor, Int, mpz_xor)
 
     DEFINE_BINARY_ASSIGNMENT_REF_REF(Gcd, Int, custom_mpz_gcd)
+    DEFINE_BINARY_ASSIGNMENT_REF_REF(Lcm, Int, mpz_lcm)
+    DEFINE_BINARY_ASSIGNMENT_REF_VAL(Lcm, Int, Ui, mpz_lcm_ui)
 
     DEFINE_TERNARY_ASSIGNMENT_REF_REF_REF(PowerMod, Int, mpz_powm);
     DEFINE_TERNARY_ASSIGNMENT_REF_VAL_REF(PowerMod, Int, Ui, Int, mpz_powm_ui)
@@ -690,6 +692,9 @@ namespace MPIR
     }
 
     MAKE_FUNCTION_WITH_ONE (MpirGcdExpression, DEFINE, Gcd, Int)
+
+    MAKE_FUNCTION_WITH_ONE (MpirExpression, DEFINE, Lcm, Int)
+    MAKE_FUNCTION_WITH_LIMB (MpirExpression, DEFINE, Lcm, Ui)
 
     #pragma endregion
 };

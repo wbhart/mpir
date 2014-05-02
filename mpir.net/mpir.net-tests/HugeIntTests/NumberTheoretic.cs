@@ -128,5 +128,26 @@ namespace MPIR.Tests.HugeIntTests
                 Assert.AreEqual(127UL, a.Gcd(254));
             }
         }
+
+        [TestMethod]
+        public void Lcm()
+        {
+            using (var a = new HugeInt("29927402397991286489627837734179186385188296382227"))
+            {
+                var b = a * 39;
+                var c = a * 41;
+                Assert.AreEqual(a * 39 * 41, b.Lcm(c));
+            }
+        }
+
+        [TestMethod]
+        public void LcmLimb()
+        {
+            using (var a = new HugeInt("29927402397991286489627837734179186385188296382227"))
+            {
+                var b = a * 41;
+                Assert.AreEqual(a * 39 * 41, b.Lcm(39));
+            }
+        }
     }
 }

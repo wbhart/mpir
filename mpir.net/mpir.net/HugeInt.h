@@ -1190,6 +1190,24 @@ namespace MPIR
             /// <param name="a">Source value to compute the GCD with.  If zero, zero is returned.</param>
             /// <returns>The greatest common divisor of the absolute value of this number and <paramref name="a"/>.</returns>
             mpir_ui Gcd(mpir_ui a) { IN_CONTEXT(this); return mpz_gcd_ui(nullptr, context.Args[0], a); }
+                                                                                                          
+            /// <summary>Computes the least common multiple of this number and <paramref name="a"/>.
+            /// <para>The result is always positive, irrespective of the signs of the source numbers.
+            /// </para>The result will be zero if either source number is zero.
+            /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
+            /// </para></summary>
+            /// <param name="a">Source value to compute the LCM with.</param>
+            /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
+            MpirExpression^ Lcm(MpirExpression^ a);
+                                                                                                          
+            /// <summary>Computes the least common multiple of this number and <paramref name="a"/>.
+            /// <para>The result is always positive, irrespective of the signs of the source numbers.
+            /// </para>The result will be zero if either source number is zero.
+            /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
+            /// </para></summary>
+            /// <param name="a">Source value to compute the LCM with.</param>
+            /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
+            MpirExpression^ Lcm(mpir_ui a);
 
             #pragma endregion
     };
@@ -1509,6 +1527,9 @@ namespace MPIR
 
     DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (MpirExpression, NextPrimeCandidate, Int, Rnd)
     DEFINE_BINARY_EXPRESSION_WITH_TWO              (MpirGcdExpression, Gcd, Int)
+
+    DEFINE_BINARY_EXPRESSION_WITH_TWO              (MpirExpression, Lcm, Int)
+    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (MpirExpression, Lcm, Int, Ui)
 
     #pragma endregion
 
