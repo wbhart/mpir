@@ -162,5 +162,25 @@ namespace MPIR.Tests.HugeIntTests
                 Assert.IsTrue(1 == (r * a) % m);
             }
         }
+
+        [TestMethod]
+        public void Jacobi()
+        {
+            using (var a = new HugeInt("9288562863495827364985273645298367452"))
+            using (var b = new HugeInt("876428957629387610928574612341"))
+            {
+                Assert.AreEqual(-1, HugeInt.Jacobi(a, b));
+            }
+        }
+
+        [TestMethod]
+        public void Legendre()
+        {
+            using (var a = new HugeInt("9288562863495827364985273645298367452"))
+            using (var p = new HugeInt("29927402397991286489627837734179186385188296382227"))
+            {
+                Assert.AreEqual(-1, HugeInt.Legendre(a, p));
+            }
+        }
     }
 }

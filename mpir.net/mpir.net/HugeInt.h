@@ -2109,7 +2109,7 @@ namespace MPIR
             bool IsProbablePrime(MpirRandom^ random, int probability, mpir_ui pretested);
 
             /// <summary>
-            /// Determine whether the number is likely a prime, i.e. you can consider it a prime for practical purposes.
+            /// Determines whether the number is likely a prime, i.e. you can consider it a prime for practical purposes.
             /// <para>This function does some trial divisions to speed up the average case, then some probabilistic primality tests.
             /// </para>The term "likely" refers to the fact that the number will not have small factors.
             /// <para>This function interface is preliminary and may change in the future.
@@ -2120,6 +2120,24 @@ namespace MPIR
             /// <para>Use 0 to inform the function that no trial division has been done.</para></param>
             /// <returns>true if the number is likely prime, or false if it is definitely composite.</returns>
             bool IsLikelyPrime(MpirRandom^ random, mpir_ui pretested);
+
+            /// <summary>
+            /// Calculates the Jacobi symbol (<paramref name="a"/>/<paramref name="b"/>).
+            /// <para>This is defined only for <paramref name="b"/> odd.
+            /// </para></summary>
+            /// <param name="a">First source value for the Jacobi symbol</param>
+            /// <param name="b">Second source value for the Jacobi symbol</param>
+            /// <returns>The Jacobi symbol (-1, 0, or 1).  Return is undefined unless <paramref name="b"/> is odd.</returns>
+            static int Jacobi(HugeInt^ a, HugeInt^ b) { return mpz_jacobi(a->_value, b->_value); }
+
+            /// <summary>
+            /// Calculates the Legendre symbol (<paramref name="a"/>/<paramref name="b"/>).
+            /// <para>This is defined only when <paramref name="b"/> is an odd prime.
+            /// </para></summary>
+            /// <param name="a">First source value for the Legendre symbol</param>
+            /// <param name="b">Second source value for the Legendre symbol</param>
+            /// <returns>The Legendre symbol (-1, 0, or 1).  Return is undefined unless <paramref name="b"/> is an odd prime.</returns>
+            static int Legendre(HugeInt^ a, HugeInt^ b) { return mpz_legendre(a->_value, b->_value); }
 
             #pragma endregion
     };
