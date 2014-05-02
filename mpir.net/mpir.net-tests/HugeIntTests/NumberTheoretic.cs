@@ -182,5 +182,20 @@ namespace MPIR.Tests.HugeIntTests
                 Assert.AreEqual(-1, HugeInt.Legendre(a, p));
             }
         }
+
+        [TestMethod]
+        public void Kronecker()
+        {
+            using (var a = new HugeInt("9288562863495827364985273645298367452"))
+            using (var b = new HugeInt("29927402397991286489627837734179186385188296382227"))
+            {
+                Assert.AreEqual(-1, HugeInt.Kronecker(a, b));
+                Assert.AreEqual(0, HugeInt.Kronecker(a, 2));
+                Assert.AreEqual(-1, HugeInt.Kronecker(b, 2));
+                Assert.AreEqual(-1, HugeInt.Kronecker(2, b));
+                Assert.AreEqual(-1, HugeInt.Kronecker(b, 2UL));
+                Assert.AreEqual(-1, HugeInt.Kronecker(2UL, b));
+            }
+        }
     }
 }

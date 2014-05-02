@@ -2139,6 +2139,61 @@ namespace MPIR
             /// <returns>The Legendre symbol (-1, 0, or 1).  Return is undefined unless <paramref name="b"/> is an odd prime.</returns>
             static int Legendre(HugeInt^ a, HugeInt^ b) { return mpz_legendre(a->_value, b->_value); }
 
+            /// <summary>
+            /// Calculates the Jacobi symbol (<paramref name="a"/>/<paramref name="b"/>) with the Kronecker extension
+            /// (<paramref name="a"/>/2) = (2/<paramref name="a"/>) when a odd, or (<paramref name="a"/>/2) = 0 when a even.
+            /// <para>When <paramref name="b"/> is odd the Jacobi symbol and Kronecker symbol are identical, so the various Kronecker overloads 
+            /// can be used for mixed precision Jacobi symbols too.
+            /// </para></summary>
+            /// <param name="a">First source value for the Kronecker symbol</param>
+            /// <param name="b">Second source value for the Kronecker symbol</param>
+            /// <returns>The Kronecker symbol (-1, 0, or 1).</returns>
+            static int Kronecker(HugeInt^ a, HugeInt^ b) { return mpz_kronecker(a->_value, b->_value); }
+
+            /// <summary>
+            /// Calculates the Jacobi symbol (<paramref name="a"/>/<paramref name="b"/>) with the Kronecker extension
+            /// (<paramref name="a"/>/2) = (2/<paramref name="a"/>) when a odd, or (<paramref name="a"/>/2) = 0 when a even.
+            /// <para>When <paramref name="b"/> is odd the Jacobi symbol and Kronecker symbol are identical, so the various Kronecker overloads 
+            /// can be used for mixed precision Jacobi symbols too.
+            /// </para></summary>
+            /// <param name="a">First source value for the Kronecker symbol</param>
+            /// <param name="b">Second source value for the Kronecker symbol</param>
+            /// <returns>The Kronecker symbol (-1, 0, or 1).</returns>
+            static int Kronecker(HugeInt^ a, mpir_ui b) { return mpz_kronecker_ui(a->_value, b); }
+
+            /// <summary>
+            /// Calculates the Jacobi symbol (<paramref name="a"/>/<paramref name="b"/>) with the Kronecker extension
+            /// (<paramref name="a"/>/2) = (2/<paramref name="a"/>) when a odd, or (<paramref name="a"/>/2) = 0 when a even.
+            /// <para>When <paramref name="b"/> is odd the Jacobi symbol and Kronecker symbol are identical, so the various Kronecker overloads 
+            /// can be used for mixed precision Jacobi symbols too.
+            /// </para></summary>
+            /// <param name="a">First source value for the Kronecker symbol</param>
+            /// <param name="b">Second source value for the Kronecker symbol</param>
+            /// <returns>The Kronecker symbol (-1, 0, or 1).</returns>
+            static int Kronecker(HugeInt^ a, mpir_si b) { return mpz_kronecker_si(a->_value, b); }
+
+            /// <summary>
+            /// Calculates the Jacobi symbol (<paramref name="a"/>/<paramref name="b"/>) with the Kronecker extension
+            /// (<paramref name="a"/>/2) = (2/<paramref name="a"/>) when a odd, or (<paramref name="a"/>/2) = 0 when a even.
+            /// <para>When <paramref name="b"/> is odd the Jacobi symbol and Kronecker symbol are identical, so the various Kronecker overloads 
+            /// can be used for mixed precision Jacobi symbols too.
+            /// </para></summary>
+            /// <param name="a">First source value for the Kronecker symbol</param>
+            /// <param name="b">Second source value for the Kronecker symbol</param>
+            /// <returns>The Kronecker symbol (-1, 0, or 1).</returns>
+            static int Kronecker(mpir_ui a, HugeInt^ b) { return mpz_ui_kronecker(a, b->_value); }
+
+            /// <summary>
+            /// Calculates the Jacobi symbol (<paramref name="a"/>/<paramref name="b"/>) with the Kronecker extension
+            /// (<paramref name="a"/>/2) = (2/<paramref name="a"/>) when a odd, or (<paramref name="a"/>/2) = 0 when a even.
+            /// <para>When <paramref name="b"/> is odd the Jacobi symbol and Kronecker symbol are identical, so the various Kronecker overloads 
+            /// can be used for mixed precision Jacobi symbols too.
+            /// </para></summary>
+            /// <param name="a">First source value for the Kronecker symbol</param>
+            /// <param name="b">Second source value for the Kronecker symbol</param>
+            /// <returns>The Kronecker symbol (-1, 0, or 1).</returns>
+            static int Kronecker(mpir_si a, HugeInt^ b) { return mpz_si_kronecker(a, b->_value); }
+
             #pragma endregion
     };
 
