@@ -49,6 +49,12 @@ along with the MPIR Library.  If not, see http://www.gnu.org/licenses/.
         operation(destination, Left, destination);                                        \
     }
 
+#define DEFINE_BINARY_ASSIGNMENT_VAL_VAL(name, leftTypeAbbr, rightTypeAbbr, operation)    \
+    DEFINE_ASSIGNMENT_PROLOG(name##leftTypeAbbr##rightTypeAbbr)                           \
+    {                                                                                     \
+        operation(destination, Left, Right);                                              \
+    }
+
 #define DEFINE_BINARY_ASSIGNMENT_REF_SI(name, leftTypeAbbr, rightTypeAbbr, positiveOp, negativeOp)      \
     DEFINE_ASSIGNMENT_PROLOG(name##leftTypeAbbr##rightTypeAbbr)                                         \
     {                                                                                                   \

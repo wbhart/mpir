@@ -94,7 +94,7 @@ namespace MPIR.Tests.HugeIntTests
         [TestMethod]
         public void ConstructorFromPower()
         {
-            using (var a = HugeInt.FromPower(10, 41))
+            using (var a = new HugeInt(HugeInt.Power(10, 41)))
             {
                 Assert.AreEqual("100000000000000000000000000000000000000000", a.ToString());
             }

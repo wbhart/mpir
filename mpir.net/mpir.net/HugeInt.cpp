@@ -30,7 +30,7 @@ namespace MPIR
     void MpirSettings::ToStringDigits::set(int value)
     {
         _toStringDigits = value;
-        _toStringModulo = HugeInt::FromPower(10, value);
+        _toStringModulo = gcnew HugeInt(HugeInt::Power(10, value));
     }
 
     #pragma endregion
@@ -99,13 +99,6 @@ namespace MPIR
     {
         auto result = gcnew HugeInt();
         mpz_set_d(result->_value, value);
-        return result;
-    }
-
-    HugeInt^ HugeInt::FromPower(mpir_ui value, mpir_ui power)
-    {
-        auto result = gcnew HugeInt();
-        mpz_ui_pow_ui(result->_value, value, power);
         return result;
     }
 
@@ -718,6 +711,8 @@ namespace MPIR
         if(!IS_NULL(_count))
             _count(result);
     }
+
+    DEFINE_BINARY_ASSIGNMENT_VAL_VAL(Power, Ui, Ui, mpz_ui_pow_ui)
 
     #pragma endregion
 };

@@ -113,6 +113,9 @@ private ref class Mpir##name##Expression : base                                 
     DEFINE_UNARY_EXPRESSION(base, name##typeAbbr, MpirExpression^)           
 
 //binary expressions
+#define DEFINE_BINARY_EXPRESSION_WITH_BUILT_INS_ONLY(base, name, leftTypeAbbr, rightTypeAbbr)    \
+    DEFINE_BINARY_EXPRESSION(base, name##leftTypeAbbr##rightTypeAbbr, TYPE_FOR_ABBR_##leftTypeAbbr, TYPE_FOR_ABBR_##rightTypeAbbr)
+
 #define DEFINE_BINARY_EXPRESSION_WITH_TWO(base, name, typeAbbr) \
     DEFINE_BINARY_EXPRESSION(base, name##typeAbbr##typeAbbr, MpirExpression^, MpirExpression^)
 
@@ -1574,6 +1577,8 @@ namespace MPIR
     DEFINE_BINARY_EXPRESSION_WITH_TWO              (MpirExpression, Lcm, Int)
     DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (MpirExpression, Lcm, Int, Ui)
 
+    DEFINE_BINARY_EXPRESSION_WITH_BUILT_INS_ONLY   (MpirExpression, Power, Ui, Ui)
+
     #pragma endregion
 
     #pragma region HugeInt class
@@ -1673,14 +1678,6 @@ namespace MPIR
             /// <param name="value">Initial value for the new integer instance.  Any fractional portion is truncated.</param>
             /// <returns>the newly constructed instance</returns>
             static HugeInt^ FromDouble(double value);
-
-            /// <summary>
-            /// Constructs and returns a new integer instance with its value set to <paramref name="value"/> raised to the specified <paramref name="power"/>.
-            /// </summary>
-            /// <param name="value">Base for the initial value for the new integer instance</param>
-            /// <param name="power">Power to raise the <paramref name="value"/> to when calculating the initial value for the new instance</param>
-            /// <returns>the newly constructed instance</returns>
-            static HugeInt^ FromPower(mpir_ui value, mpir_ui power);
 
             /// <summary>
             /// Change the space allocated for integer to <paramref name="bits"/> bits. The value in integer is preserved if it fits, or is set to 0 if not.
@@ -2233,6 +2230,15 @@ namespace MPIR
             /// <param name="b">Second source value for the Kronecker symbol</param>
             /// <returns>The Kronecker symbol (-1, 0, or 1).</returns>
             static int Kronecker(mpir_si a, HugeInt^ b) { return mpz_si_kronecker(a, b->_value); }
+
+            /// <summary>
+            /// Returns an expression for calculating <paramref name="value"/> raised to the specified <paramref name="power"/>.
+            /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
+            /// </para></summary>
+            /// <param name="value">Base for the initial value for the new integer instance</param>
+            /// <param name="power">Power to raise the <paramref name="value"/> to when calculating the initial value for the new instance</param>
+            /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
+            static MpirExpression^ Power(mpir_ui value, mpir_ui power) { return gcnew MpirPowerUiUiExpression(value, power); }
 
             #pragma endregion
     };

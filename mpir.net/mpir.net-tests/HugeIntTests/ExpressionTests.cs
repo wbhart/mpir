@@ -61,8 +61,8 @@ namespace MPIR.Tests.HugeIntTests
                 VerifyPartialResult(r, expr, 100);
                 expr = expr + r.GetInt(b + 1) + r.GetIntBits(3) + r.GetIntBitsChunky(3) + (b * 2).NextPrimeCandidate(r) - b.Gcd(a - 1);
                 VerifyPartialResult(r, expr, 124);
-                expr = expr - a.Lcm(b * 3) - (b + 1).Lcm(2) - (-a).Invert(b + 7) - (1-a).RemoveFactors(b / 2);
-                VerifyPartialResult(r, expr, 68);
+                expr = expr - a.Lcm(b * 3) - (b + 1).Lcm(2) - (-a).Invert(b + 7) - (1-a).RemoveFactors(b / 2) - HugeInt.Power(2, 3);
+                VerifyPartialResult(r, expr, 60);
 
                 MarkExpressionsUsed(allExpressions, expr);
             }
