@@ -192,5 +192,15 @@ namespace MPIR.Tests.HugeIntTests
                 Assert.AreEqual("-" + n, a.ToString(16));
             }
         }
+
+        [TestMethod]
+        public void ConstructorFromExpression()
+        {
+            using (var a = new HugeInt("2340958273409578234095823045723490587"))
+            using (var b = new HugeInt(a + 1))
+            {
+                Assert.AreEqual(a + 1, b);
+            }
+        }
     }
 }

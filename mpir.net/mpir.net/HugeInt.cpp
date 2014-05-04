@@ -43,6 +43,13 @@ namespace MPIR
         mpz_init(_value);
     }
 
+    HugeInt::HugeInt(MpirExpression^ value)
+    {
+        AllocateStruct();
+        mpz_init(_value);
+        value->AssignTo(_value);
+    }
+
     HugeInt::HugeInt(mp_bitcnt_t bits)
     {
         AllocateStruct();

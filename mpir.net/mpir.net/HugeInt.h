@@ -1648,6 +1648,12 @@ namespace MPIR
             HugeInt(String^ value, int base) { FromString(value, base); }
 
             /// <summary>
+            /// Initializes a new integer instance and sets its value to the result of computing the source expression.
+            /// </summary>
+            /// <param name="value">the expression that will be computed, and the result set as the initial value of the new instance.</param>
+            HugeInt(MpirExpression^ value);
+
+            /// <summary>
             /// Constructs and returns a new integer instance with its value set to the <paramref name="value"/> parameter.
             /// </summary>
             /// <param name="value">Initial value for the new integer instance</param>
@@ -1791,7 +1797,8 @@ namespace MPIR
             /// instead of eagerly computing a result, produce and return an expression that is basically a formula for the computation.
             /// Expressions can then be composed using additional operators to achieve expression trees of arbitrary complexity.
             /// All computations are deferred until an expression is assigned to the Value property of an MPIR object,
-            /// or is consumed by a method or operator that returns a primitive type.
+            /// consumed by a method or operator that returns a primitive type,
+            /// or supplied as an argument to an MPIR type constructor.
             /// </para>Do not set the Value of an object while it is contained in a hash table, because that changes its hash code.
             /// </remarks>
             property MpirExpression^ Value
