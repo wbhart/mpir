@@ -1578,6 +1578,7 @@ namespace MPIR
     DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (MpirExpression, Lcm, Int, Ui)
 
     DEFINE_BINARY_EXPRESSION_WITH_BUILT_INS_ONLY   (MpirExpression, Power, Ui, Ui)
+    DEFINE_BINARY_EXPRESSION_WITH_BUILT_INS_ONLY   (MpirExpression, Factorial, Ui, Ui)
 
     #pragma endregion
 
@@ -1777,8 +1778,11 @@ namespace MPIR
             #pragma region assignment
 
             /// <summary>
-            /// Sets the value of the integer object to the value resulting from computing the supplied expression.
-            /// </summary>
+            /// When getting, returns this integer.
+            /// <para>When setting, sets the value of the integer object to the value resulting from computing the supplied expression.
+            /// </para>The getter is a no-op and never needs to be invoked directly, but makes compound operators such as +=, *=, etc. possible.
+            /// <para>Do not set the Value of an object while it is contained in a hash table, because that changes its hash code.
+            /// </para></summary>
             /// <remarks>
             /// MPIR types are implemented as reference types with value semantics.
             /// Like Strings, the objects themselves are just lightweight pointers to data allocated elsewhere.
@@ -1796,11 +1800,16 @@ namespace MPIR
             /// All computations are deferred until an expression is assigned to the Value property of an MPIR object,
             /// consumed by a method or operator that returns a primitive type,
             /// or supplied as an argument to an MPIR type constructor.
-            /// </para>Do not set the Value of an object while it is contained in a hash table, because that changes its hash code.
+            /// </para>The getter is a no-op defined to make possible constructs such as a.Value += 5, a.Value *= 10, etc.
+            /// <para>Direct assignments such as a = b + c, a *= 10 will not compile because there is no implicit conversion from an expression.
+            /// Even if an implicit conversion were defined, such code would incur an extra allocation plus garbage collection,
+            /// and would not perform as well as doing the same operations on a.Value.
+            /// </para>It would also not compile if the source were a "using" variable, as all method-local integers should be.
             /// </remarks>
             property MpirExpression^ Value
             {
                 void set(MpirExpression^ expr) { expr->AssignTo(_value); }
+                MpirExpression^ get() { return this; }
             }
 
             /// <summary>
@@ -2239,6 +2248,23 @@ namespace MPIR
             /// <param name="power">Power to raise the <paramref name="value"/> to when calculating the initial value for the new instance</param>
             /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
             static MpirExpression^ Power(mpir_ui value, mpir_ui power) { return gcnew MpirPowerUiUiExpression(value, power); }
+
+            /// <summary>
+            /// Returns an expression for calculating the factorial of <paramref name="a"/>.
+            /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
+            /// </para></summary>
+            /// <param name="a">The source number to take the factorial of</param>
+            /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
+            static MpirExpression^ Factorial(mpir_ui a) { return gcnew MpirFactorialUiUiExpression(a, 1); }
+
+            /// <summary>
+            /// Returns an expression for calculating the multifactorial of <paramref name="a"/> of the specified order.
+            /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
+            /// </para></summary>
+            /// <param name="a">The source number to take the multifactorial of</param>
+            /// <param name="order">The order of the multifactorial, i.e. 2 for <paramref name="a"/>!!, 3 for <paramref name="a"/>!!!, etc.</param>
+            /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
+            static MpirExpression^ Factorial(mpir_ui a, mpir_ui order) { return gcnew MpirFactorialUiUiExpression(a, order); }
 
             #pragma endregion
     };

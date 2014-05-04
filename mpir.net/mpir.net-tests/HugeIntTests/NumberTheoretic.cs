@@ -210,5 +210,25 @@ namespace MPIR.Tests.HugeIntTests
                 Assert.AreEqual(2UL, count);
             }
         }
+
+        [TestMethod]
+        public void Factorial()
+        {
+            using (var a = new HugeInt(HugeInt.Factorial(30)))
+            using (var b = new HugeInt("50"))
+            using (var c = new HugeInt("70"))
+            using (var x = new HugeInt())
+            {
+                for (x.Value = b - 2; x > 0; x.Value -= 2)
+                    b.Value *= x;
+
+                for (x.Value = c - 3; x > 0; x.Value -= 3)
+                    c.Value *= x;
+
+                Assert.AreEqual("265252859812191058636308480000000", a.ToString());
+                Assert.AreEqual(b, HugeInt.Factorial(50, 2));
+                Assert.AreEqual(c, HugeInt.Factorial(70, 3));
+            }
+        }
     }
 }

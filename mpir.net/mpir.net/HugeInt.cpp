@@ -714,5 +714,23 @@ namespace MPIR
 
     DEFINE_BINARY_ASSIGNMENT_VAL_VAL(Power, Ui, Ui, mpz_ui_pow_ui)
 
+    DEFINE_ASSIGNMENT_PROLOG(FactorialUiUi)
+    {
+        switch (Right)
+        {
+            case 1:
+                mpz_fac_ui(destination, Left);
+                break;
+
+            case 2:
+                mpz_2fac_ui(destination, Left);
+                break;
+
+            default:
+                mpz_mfac_uiui(destination, Left, Right);
+                break;
+        }
+    }
+
     #pragma endregion
 };

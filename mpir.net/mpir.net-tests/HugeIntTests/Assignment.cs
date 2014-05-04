@@ -49,6 +49,17 @@ namespace MPIR.Tests.HugeIntTests
                 Assert.AreEqual(aValue, b._value());
             }
         }
+
+        [TestMethod]
+        public void CompoundOperators()
+        {
+            using (var a = new HugeInt("938475092834705928347523452345"))
+            {
+                a.Value += 1;
+                a.Value *= 10;
+                Assert.AreEqual("9384750928347059283475234523460", a.ToString());
+            }
+        }
         //more tests coming here
     }
 }
