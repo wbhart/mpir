@@ -112,6 +112,9 @@ private ref class Mpir##name##Expression : base                                 
 #define DEFINE_UNARY_EXPRESSION_WITH_ONE(base, name, typeAbbr) \
     DEFINE_UNARY_EXPRESSION(base, name##typeAbbr, MpirExpression^)           
 
+#define DEFINE_UNARY_EXPRESSION_WITH_BUILT_INS_ONLY(base, name, typeAbbr)    \
+    DEFINE_UNARY_EXPRESSION(base, name##typeAbbr, TYPE_FOR_ABBR_##typeAbbr)
+
 //binary expressions
 #define DEFINE_BINARY_EXPRESSION_WITH_BUILT_INS_ONLY(base, name, leftTypeAbbr, rightTypeAbbr)    \
     DEFINE_BINARY_EXPRESSION(base, name##leftTypeAbbr##rightTypeAbbr, TYPE_FOR_ABBR_##leftTypeAbbr, TYPE_FOR_ABBR_##rightTypeAbbr)
@@ -1579,6 +1582,7 @@ namespace MPIR
 
     DEFINE_BINARY_EXPRESSION_WITH_BUILT_INS_ONLY   (MpirExpression, Power, Ui, Ui)
     DEFINE_BINARY_EXPRESSION_WITH_BUILT_INS_ONLY   (MpirExpression, Factorial, Ui, Ui)
+    DEFINE_UNARY_EXPRESSION_WITH_BUILT_INS_ONLY    (MpirExpression, Primorial, Ui)
 
     #pragma endregion
 
@@ -2265,6 +2269,14 @@ namespace MPIR
             /// <param name="order">The order of the multifactorial, i.e. 2 for <paramref name="a"/>!!, 3 for <paramref name="a"/>!!!, etc.</param>
             /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
             static MpirExpression^ Factorial(mpir_ui a, mpir_ui order) { return gcnew MpirFactorialUiUiExpression(a, order); }
+
+            /// <summary>
+            /// Returns an expression for calculating the primorial of <paramref name="a"/>, i.e. the product of all positive prime numbers &lt;= a.
+            /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
+            /// </para></summary>
+            /// <param name="a">The source number to take the primorial of</param>
+            /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
+            static MpirExpression^ Primorial(mpir_ui a) { return gcnew MpirPrimorialUiExpression(a); }
 
             #pragma endregion
     };

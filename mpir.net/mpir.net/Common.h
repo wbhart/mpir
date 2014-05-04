@@ -28,6 +28,12 @@ along with the MPIR Library.  If not, see http://www.gnu.org/licenses/.
         operation(destination, destination);                       \
     }
 
+#define DEFINE_UNARY_ASSIGNMENT_VAL(name, typeAbbr, operation)     \
+    DEFINE_ASSIGNMENT_PROLOG(name##typeAbbr)                       \
+    {                                                              \
+        operation(destination, Operand);                           \
+    }
+
 #define DEFINE_BINARY_ASSIGNMENT_REF_REF(name, typeAbbr, operation)   \
     DEFINE_ASSIGNMENT_PROLOG(name##typeAbbr##typeAbbr)                \
     {                                                                 \

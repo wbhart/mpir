@@ -732,5 +732,7 @@ namespace MPIR
         }
     }
 
+    DEFINE_UNARY_ASSIGNMENT_VAL(Primorial, Ui, mpz_primorial_ui)
+
     #pragma endregion
 };

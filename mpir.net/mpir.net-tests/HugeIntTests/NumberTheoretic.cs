@@ -230,5 +230,25 @@ namespace MPIR.Tests.HugeIntTests
                 Assert.AreEqual(c, HugeInt.Factorial(70, 3));
             }
         }
+
+        [TestMethod]
+        public void Primorial()
+        {
+            var N = 256;
+            var sieve = new bool[N];
+            for (var x = 2; x < 16; x++)
+                if (!sieve[x])
+                    for (var n = x * 2; n < N; n += x)
+                        sieve[n] = true;
+
+            using (var a = HugeInt.FromLong(1))
+            {
+                for (var n = 2; n < N; n++)
+                    if (!sieve[n])
+                        a.Value *= n;
+
+                Assert.AreEqual(a, HugeInt.Primorial((ulong)N));
+            }
+        }
     }
 }
