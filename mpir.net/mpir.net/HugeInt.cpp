@@ -736,5 +736,19 @@ namespace MPIR
     DEFINE_BINARY_ASSIGNMENT_VAL_VAL(Binomial, Ui, Ui, mpz_bin_uiui)
     DEFINE_BINARY_ASSIGNMENT_REF_VAL(Binomial, Int, Ui, mpz_bin_ui)
 
+    DEFINE_ASSIGNMENT_PROLOG(FibonacciUi)
+    {
+        IS_NULL(_previous)
+            ? mpz_fib_ui(destination, Operand)
+            : mpz_fib2_ui(destination, _previous->_value, Operand);
+    }
+
+    DEFINE_ASSIGNMENT_PROLOG(LucasUi)
+    {
+        IS_NULL(_previous)
+            ? mpz_lucnum_ui(destination, Operand)
+            : mpz_lucnum2_ui(destination, _previous->_value, Operand);
+    }
+
     #pragma endregion
 };

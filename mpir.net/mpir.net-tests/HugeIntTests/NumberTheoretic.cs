@@ -262,5 +262,39 @@ namespace MPIR.Tests.HugeIntTests
                 Assert.AreEqual(a * 41 / 26, c);
             }
         }
+
+        [TestMethod]
+        public void Fibonacci()
+        {
+            using (var a = new HugeInt(HugeInt.Fibonacci(300)))
+            using (var b = new HugeInt())
+            using (var c = new HugeInt(HugeInt.Fibonacci(300).SavingPreviousTo(b)))
+            using (var even = new HugeInt("1"))
+            using (var odd = new HugeInt("1"))
+            {
+                for(var i = 3; i <= 299; i += 2)
+                {
+                    odd.Value += even;
+                    even.Value += odd;
+                }
+                Assert.AreEqual(even, a);
+                Assert.AreEqual(odd, b);
+                Assert.AreEqual(even, c);
+            }
+        }
+
+        [TestMethod]
+        public void Lucas()
+        {
+            using (var f299 = new HugeInt())
+            using (var f300 = new HugeInt(HugeInt.Fibonacci(300).SavingPreviousTo(f299)))
+            using (var a = new HugeInt())
+            {
+                var f298 = f300 - f299;
+                Assert.AreEqual(f299 * 2 + f300, HugeInt.Lucas(300));
+                Assert.AreEqual(f299 * 2 + f300, HugeInt.Lucas(300).SavingPreviousTo(a));
+                Assert.AreEqual(f298 * 2 + f299, a);
+            }
+        }
     }
 }

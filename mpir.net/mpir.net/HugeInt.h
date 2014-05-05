@@ -282,6 +282,7 @@ namespace MPIR
     ref class MpirSquareRootExpression;
     ref class MpirGcdExpression;
     ref class MpirRemoveFactorsExpression;
+    ref class MpirSequenceExpression;
 
     #pragma region enums
 
@@ -1525,6 +1526,28 @@ namespace MPIR
             }
     };
 
+    /// <summary>
+    /// Expression that results from a method calculating a single number from a sequence, such as a fibonacci or lucas number.  Allows to save the previous number in addition to the requested one, so that the sequence can be continued.
+    /// </summary>
+    public ref class MpirSequenceExpression abstract : MpirExpression 
+    {
+        internal:
+            MpirSequenceExpression() { }
+            HugeInt^ _previous;
+
+        public:
+            /// <summary>
+            /// Optionally save the previous number in the sequence to a separate result.  This cannot be the same object to which the expression is assigned.
+            /// </summary>
+            /// <param name="destination">destination for the previous number.  This cannot be the same object to which the expression is assigned.</param>
+            /// <returns>An updated expression, with its internal state updated to additionally compute the previous number.</returns>
+            MpirExpression^ SavingPreviousTo(HugeInt^ destination)
+            {
+                _previous = destination;
+                return this;
+            }
+    };
+
     #pragma endregion
 
     #pragma region concrete expressions
@@ -1585,6 +1608,8 @@ namespace MPIR
     DEFINE_UNARY_EXPRESSION_WITH_BUILT_INS_ONLY    (MpirExpression, Primorial, Ui)
     DEFINE_BINARY_EXPRESSION_WITH_BUILT_INS_ONLY   (MpirExpression, Binomial, Ui, Ui)
     DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (MpirExpression, Binomial, Int, Ui)
+    DEFINE_UNARY_EXPRESSION_WITH_BUILT_INS_ONLY    (MpirSequenceExpression, Fibonacci, Ui)
+    DEFINE_UNARY_EXPRESSION_WITH_BUILT_INS_ONLY    (MpirSequenceExpression, Lucas, Ui)
 
     #pragma endregion
 
@@ -2300,6 +2325,32 @@ namespace MPIR
             /// <param name="k">The second source value of the binomial coefficient, a.k.a. subset size</param>
             /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
             static MpirExpression^ Binomial(MpirExpression^ n, mpir_ui k) { return gcnew MpirBinomialIntUiExpression(n, k); }
+
+            /// <summary>
+            /// Returns an expression for calculating the <paramref name="n"/>th Fibonacci number.
+            /// <para>You can also optionally save the (<paramref name="n"/>-1)th number by calling a method on the resulting expression.
+            /// </para>This method is designed for calculating isolated Fibonacci numbers. When a sequence of
+            /// values is wanted it’s best to start with a pair of numbers (Fn and Fn-1) by calling SettingPreviousTo(),
+            /// and then iterate the defining Fn+1 = Fn + Fn-1.
+            /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
+            /// </para>Fibonacci and Lucas numbers are closely related, and it's never necessary to calculate both Fn and Ln.
+            /// </summary>
+            /// <param name="n">The index of the Fibonacci number to calculate</param>
+            /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
+            static MpirSequenceExpression^ Fibonacci(mpir_ui n) { return gcnew MpirFibonacciUiExpression(n); }
+
+            /// <summary>
+            /// Returns an expression for calculating the <paramref name="n"/>th Lucas number.
+            /// <para>You can also optionally save the (<paramref name="n"/>-1)th number by calling a method on the resulting expression.
+            /// </para>This method is designed for calculating isolated Lucas numbers. When a sequence of
+            /// values is wanted it’s best to start with a pair of numbers (Ln and Ln-1) by calling SettingPreviousTo(),
+            /// and then iterate the defining Ln+1 = Ln + Ln-1.
+            /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
+            /// </para>Fibonacci and Lucas numbers are closely related, and it's never necessary to calculate both Fn and Ln.
+            /// </summary>
+            /// <param name="n">The index of the Lucas number to calculate</param>
+            /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
+            static MpirSequenceExpression^ Lucas(mpir_ui n) { return gcnew MpirLucasUiExpression(n); }
 
             #pragma endregion
     };

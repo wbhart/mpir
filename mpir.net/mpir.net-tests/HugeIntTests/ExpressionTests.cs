@@ -63,8 +63,8 @@ namespace MPIR.Tests.HugeIntTests
                 VerifyPartialResult(r, expr, 124);
                 expr = expr - a.Lcm(b * 3) - (b + 1).Lcm(2) - (-a).Invert(b + 7) - (1-a).RemoveFactors(b / 2) - HugeInt.Power(2, 3) - HugeInt.Factorial(4);
                 VerifyPartialResult(r, expr, 36);
-                expr = expr - HugeInt.Primorial(6) + HugeInt.Binomial(4, 2) + HugeInt.Binomial(b, 3);
-                VerifyPartialResult(r, expr, 16);
+                expr = expr - HugeInt.Primorial(6) + HugeInt.Binomial(4, 2) + HugeInt.Binomial(b, 3) + HugeInt.Fibonacci(6) + HugeInt.Lucas(7);
+                VerifyPartialResult(r, expr, 53);
 
                 MarkExpressionsUsed(allExpressions, expr);
             }
