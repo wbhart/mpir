@@ -1583,6 +1583,8 @@ namespace MPIR
     DEFINE_BINARY_EXPRESSION_WITH_BUILT_INS_ONLY   (MpirExpression, Power, Ui, Ui)
     DEFINE_BINARY_EXPRESSION_WITH_BUILT_INS_ONLY   (MpirExpression, Factorial, Ui, Ui)
     DEFINE_UNARY_EXPRESSION_WITH_BUILT_INS_ONLY    (MpirExpression, Primorial, Ui)
+    DEFINE_BINARY_EXPRESSION_WITH_BUILT_INS_ONLY   (MpirExpression, Binomial, Ui, Ui)
+    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (MpirExpression, Binomial, Int, Ui)
 
     #pragma endregion
 
@@ -2277,6 +2279,27 @@ namespace MPIR
             /// <param name="a">The source number to take the primorial of</param>
             /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
             static MpirExpression^ Primorial(mpir_ui a) { return gcnew MpirPrimorialUiExpression(a); }
+
+            /// <summary>
+            /// Returns an expression for calculating the binomial coefficient (<paramref name="n"/>, <paramref name="k"/>), a.k.a. number of k-element combinations out of an n-element set.
+            /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
+            /// </para></summary>
+            /// <param name="n">The first source value of the binomial coefficient, a.k.a. set size</param>
+            /// <param name="k">The second source value of the binomial coefficient, a.k.a. subset size</param>
+            /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
+            static MpirExpression^ Binomial(mpir_ui n, mpir_ui k) { return gcnew MpirBinomialUiUiExpression(n, k); }
+
+            /// <summary>
+            /// Returns an expression for calculating the binomial coefficient (<paramref name="n"/>, <paramref name="k"/>), a.k.a. number of k-element combinations out of an n-element set.
+            /// <para>Negative values of <paramref name="n"/> are supported, using the identity (-n, k) = (-1)^k * (n + k - 1, k).
+            /// </para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
+            /// </summary>
+            /// <param name="n">The first source value of the binomial coefficient, a.k.a. set size
+            /// <para>Negative values of <paramref name="n"/> are supported, using the identity (-n, k) = (-1)^k * (n + k - 1, k).
+            /// </para></param>
+            /// <param name="k">The second source value of the binomial coefficient, a.k.a. subset size</param>
+            /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
+            static MpirExpression^ Binomial(MpirExpression^ n, mpir_ui k) { return gcnew MpirBinomialIntUiExpression(n, k); }
 
             #pragma endregion
     };

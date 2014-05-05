@@ -733,6 +733,8 @@ namespace MPIR
     }
 
     DEFINE_UNARY_ASSIGNMENT_VAL(Primorial, Ui, mpz_primorial_ui)
+    DEFINE_BINARY_ASSIGNMENT_VAL_VAL(Binomial, Ui, Ui, mpz_bin_uiui)
+    DEFINE_BINARY_ASSIGNMENT_REF_VAL(Binomial, Int, Ui, mpz_bin_ui)
 
     #pragma endregion
 };

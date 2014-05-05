@@ -250,5 +250,17 @@ namespace MPIR.Tests.HugeIntTests
                 Assert.AreEqual(a, HugeInt.Primorial((ulong)N));
             }
         }
+
+        [TestMethod]
+        public void Binomial()
+        {
+            using (var a = new HugeInt(HugeInt.Binomial(40, 15)))
+            using (var b = new HugeInt("41"))
+            using (var c = new HugeInt(HugeInt.Binomial(b, 15)))
+            {
+                Assert.AreEqual(HugeInt.Factorial(40).DivideExactly(HugeInt.Factorial(15) * HugeInt.Factorial(25)), a);
+                Assert.AreEqual(a * 41 / 26, c);
+            }
+        }
     }
 }
