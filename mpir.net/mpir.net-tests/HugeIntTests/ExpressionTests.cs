@@ -33,7 +33,7 @@ namespace MPIR.Tests.HugeIntTests
         [TestMethod]
         public void TestAllExpressions()
         {
-            var baseExpr = typeof(MpirExpression);
+            var baseExpr = typeof(IntegerExpression);
             var allExpressions =
                 baseExpr.Assembly.GetTypes()
                 .Where(x => baseExpr.IsAssignableFrom(x) && !x.IsAbstract)
@@ -73,7 +73,7 @@ namespace MPIR.Tests.HugeIntTests
                 allExpressions.Select(x => Environment.NewLine + x.Name).OrderBy(x => x)));
         }
 
-        private void VerifyPartialResult(MpirRandom rnd, MpirExpression expr, long expected)
+        private void VerifyPartialResult(MpirRandom rnd, IntegerExpression expr, long expected)
         {
             rnd.Seed(123);
 
@@ -84,14 +84,14 @@ namespace MPIR.Tests.HugeIntTests
             }
         }
 
-        private void MarkExpressionsUsed(List<Type> allExpressions, MpirExpression expr)
+        private void MarkExpressionsUsed(List<Type> allExpressions, IntegerExpression expr)
         {
             var type = expr.GetType();
             allExpressions.Remove(type);
             
             var children = type.GetFields(BindingFlags.NonPublic | BindingFlags.Instance)
-                .Where(x => typeof(MpirExpression).IsAssignableFrom(x.FieldType))
-                .Select(x => (MpirExpression)x.GetValue(expr))
+                .Where(x => typeof(IntegerExpression).IsAssignableFrom(x.FieldType))
+                .Select(x => (IntegerExpression)x.GetValue(expr))
                 .Where(x => x != null)
                 .ToList();
 

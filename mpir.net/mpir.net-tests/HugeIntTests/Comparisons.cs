@@ -59,10 +59,10 @@ namespace MPIR.Tests.HugeIntTests
             using (var a = new HugeInt("-222509832503450298345029835740293845721"))
             using (var b = new HugeInt("222509832503450298345029835740293845720"))
             {
-                Assert.AreEqual(1, System.Math.Sign(((IComparable<MpirExpression>)b).CompareTo(a)));
-                Assert.AreEqual(-1, System.Math.Sign(((IComparable<MpirExpression>)a).CompareTo(b)));
-                Assert.AreEqual(1, System.Math.Sign(((IComparable<MpirExpression>)a).CompareTo(null)));
-                Assert.AreEqual(0, System.Math.Sign(((IComparable<MpirExpression>)(a + 1)).CompareTo(-b)));
+                Assert.AreEqual(1, System.Math.Sign(((IComparable<IntegerExpression>)b).CompareTo(a)));
+                Assert.AreEqual(-1, System.Math.Sign(((IComparable<IntegerExpression>)a).CompareTo(b)));
+                Assert.AreEqual(1, System.Math.Sign(((IComparable<IntegerExpression>)a).CompareTo(null)));
+                Assert.AreEqual(0, System.Math.Sign(((IComparable<IntegerExpression>)(a + 1)).CompareTo(-b)));
             }
         }
 
@@ -408,10 +408,10 @@ namespace MPIR.Tests.HugeIntTests
             using (var a = new HugeInt("-222509832503450298345029835740293845721"))
             using (var b = new HugeInt("222509832503450298345029835740293845720"))
             {
-                Assert.IsFalse(((IEquatable<MpirExpression>)b).Equals(a));
-                Assert.IsFalse(((IEquatable<MpirExpression>)a).Equals(b));
-                Assert.IsFalse(((IEquatable<MpirExpression>)a).Equals(null));
-                Assert.IsTrue(((IEquatable<MpirExpression>)(a + 1)).Equals(-b));
+                Assert.IsFalse(((IEquatable<IntegerExpression>)b).Equals(a));
+                Assert.IsFalse(((IEquatable<IntegerExpression>)a).Equals(b));
+                Assert.IsFalse(((IEquatable<IntegerExpression>)a).Equals(null));
+                Assert.IsTrue(((IEquatable<IntegerExpression>)(a + 1)).Equals(-b));
             }
         }
 

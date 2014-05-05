@@ -25,9 +25,9 @@ namespace MPIR
 {
     ref class MpirRandom;
 
-    DEFINE_BINARY_EXPRESSION(MpirExpression, RandomIntBits, MpirRandom^, mp_bitcnt_t)
-    DEFINE_BINARY_EXPRESSION(MpirExpression, RandomIntBitsChunky, MpirRandom^, mp_bitcnt_t)
-    DEFINE_BINARY_EXPRESSION(MpirExpression, RandomInt, MpirRandom^, MpirExpression^)
+    DEFINE_BINARY_EXPRESSION(IntegerExpression, RandomIntBits, MpirRandom^, mp_bitcnt_t)
+    DEFINE_BINARY_EXPRESSION(IntegerExpression, RandomIntBitsChunky, MpirRandom^, mp_bitcnt_t)
+    DEFINE_BINARY_EXPRESSION(IntegerExpression, RandomInt, MpirRandom^, IntegerExpression^)
 
     /// <summary>
     /// This class encapsulates a random number generator algorithm and state
@@ -216,7 +216,7 @@ namespace MPIR
         /// </para></summary>
         /// <param name="bitCount">number of bits to generate</param>
         /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, generates the random number</returns>
-        MpirExpression^ GetIntBits(mp_bitcnt_t bitCount) { return gcnew MpirRandomIntBitsExpression(this, bitCount); }
+        IntegerExpression^ GetIntBits(mp_bitcnt_t bitCount) { return gcnew MpirRandomIntBitsExpression(this, bitCount); }
 
         /// <summary>
         /// Generates a random integer with long strings of zeros and ones in the binary representation.
@@ -227,7 +227,7 @@ namespace MPIR
         /// </para></summary>
         /// <param name="bitCount">number of bits to generate</param>
         /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, generates the random number</returns>
-        MpirExpression^ GetIntBitsChunky(mp_bitcnt_t bitCount) { return gcnew MpirRandomIntBitsChunkyExpression(this, bitCount); }
+        IntegerExpression^ GetIntBitsChunky(mp_bitcnt_t bitCount) { return gcnew MpirRandomIntBitsChunkyExpression(this, bitCount); }
 
         /// <summary>
         /// Generates a uniformly distributed random integer in the range 0 to <paramref name="max"/> - 1, inclusive.
@@ -235,7 +235,7 @@ namespace MPIR
         /// </para></summary>
         /// <param name="max">exclusive upper bound for the number to generate</param>
         /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, generates the random number</returns>
-        MpirExpression^ GetInt(MpirExpression^ max) { return gcnew MpirRandomIntExpression(this, max); }
+        IntegerExpression^ GetInt(IntegerExpression^ max) { return gcnew MpirRandomIntExpression(this, max); }
 
         #pragma endregion
     };

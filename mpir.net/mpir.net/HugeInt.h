@@ -102,7 +102,7 @@ private ref class Mpir##name##Expression : base                                 
 #define IN_CONTEXT(...) MACRO_GLUE(MACRO_CHOOSE(IN_CONTEXT_, COUNT_ARGS(__VA_ARGS__)), (__VA_ARGS__))
 
 #define TYPE_FOR_ABBR_Int HugeInt^
-#define TYPE_FOR_ABBR_Expr MpirExpression^
+#define TYPE_FOR_ABBR_Expr IntegerExpression^
 #define TYPE_FOR_ABBR_Si mpir_si
 #define TYPE_FOR_ABBR_Ui mpir_ui
 #define TYPE_FOR_ABBR_Bits mp_bitcnt_t
@@ -110,7 +110,7 @@ private ref class Mpir##name##Expression : base                                 
 
 //unary expressions
 #define DEFINE_UNARY_EXPRESSION_WITH_ONE(base, name, typeAbbr) \
-    DEFINE_UNARY_EXPRESSION(base, name##typeAbbr, MpirExpression^)           
+    DEFINE_UNARY_EXPRESSION(base, name##typeAbbr, IntegerExpression^)           
 
 #define DEFINE_UNARY_EXPRESSION_WITH_BUILT_INS_ONLY(base, name, typeAbbr)    \
     DEFINE_UNARY_EXPRESSION(base, name##typeAbbr, TYPE_FOR_ABBR_##typeAbbr)
@@ -120,20 +120,20 @@ private ref class Mpir##name##Expression : base                                 
     DEFINE_BINARY_EXPRESSION(base, name##leftTypeAbbr##rightTypeAbbr, TYPE_FOR_ABBR_##leftTypeAbbr, TYPE_FOR_ABBR_##rightTypeAbbr)
 
 #define DEFINE_BINARY_EXPRESSION_WITH_TWO(base, name, typeAbbr) \
-    DEFINE_BINARY_EXPRESSION(base, name##typeAbbr##typeAbbr, MpirExpression^, MpirExpression^)
+    DEFINE_BINARY_EXPRESSION(base, name##typeAbbr##typeAbbr, IntegerExpression^, IntegerExpression^)
 
 #define DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT(base, name, leftTypeAbbr, rightTypeAbbr)    \
-    DEFINE_BINARY_EXPRESSION(base, name##leftTypeAbbr##rightTypeAbbr, MpirExpression^, TYPE_FOR_ABBR_##rightTypeAbbr) 
+    DEFINE_BINARY_EXPRESSION(base, name##leftTypeAbbr##rightTypeAbbr, IntegerExpression^, TYPE_FOR_ABBR_##rightTypeAbbr) 
 
 #define DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_LEFT(base, name, leftTypeAbbr, rightTypeAbbr)     \
-    DEFINE_BINARY_EXPRESSION(base, name##leftTypeAbbr##rightTypeAbbr, TYPE_FOR_ABBR_##leftTypeAbbr, MpirExpression^)
+    DEFINE_BINARY_EXPRESSION(base, name##leftTypeAbbr##rightTypeAbbr, TYPE_FOR_ABBR_##leftTypeAbbr, IntegerExpression^)
 
 //ternary expressions
 #define DEFINE_TERNARY_EXPRESSION_WITH_THREE(base, name, typeAbbr) \
-    DEFINE_TERNARY_EXPRESSION(base, name##typeAbbr##typeAbbr##typeAbbr, MpirExpression^, MpirExpression^, MpirExpression^)
+    DEFINE_TERNARY_EXPRESSION(base, name##typeAbbr##typeAbbr##typeAbbr, IntegerExpression^, IntegerExpression^, IntegerExpression^)
 
 #define DEFINE_TERNARY_EXPRESSION_WITH_BUILT_IN_MIDDLE(base, name, leftTypeAbbr, middleTypeAbbr, rightTypeAbbr)    \
-    DEFINE_TERNARY_EXPRESSION(base, name##leftTypeAbbr##middleTypeAbbr##rightTypeAbbr, MpirExpression^, TYPE_FOR_ABBR_##middleTypeAbbr, MpirExpression^)
+    DEFINE_TERNARY_EXPRESSION(base, name##leftTypeAbbr##middleTypeAbbr##rightTypeAbbr, IntegerExpression^, TYPE_FOR_ABBR_##middleTypeAbbr, IntegerExpression^)
 
 #pragma endregion
 
@@ -147,7 +147,7 @@ private ref class Mpir##name##Expression : base                                 
     base^ op();
 
 #define MAKE_VOID_FUNCTION_DEFINE(base, op, result)      \
-    base^ MpirExpression::op() { return gcnew Mpir##result##Expression(this); }
+    base^ IntegerExpression::op() { return gcnew Mpir##result##Expression(this); }
 
 //one-arg functions
 #define MAKE_FUNCTION_WITH_ONE(base, action, op, argTypeAbbr)  \
@@ -160,7 +160,7 @@ private ref class Mpir##name##Expression : base                                 
     base^ op(TYPE_FOR_ABBR_##argTypeAbbr a);
 
 #define MAKE_FUNCTION_WITH_ONE_DEFINE(base, op, argTypeAbbr, result)      \
-    base^ MpirExpression::op(TYPE_FOR_ABBR_##argTypeAbbr a) { return gcnew Mpir##result##Expression(this, a); }
+    base^ IntegerExpression::op(TYPE_FOR_ABBR_##argTypeAbbr a) { return gcnew Mpir##result##Expression(this, a); }
 
 //two-arg functions
 #define MAKE_FUNCTION_WITH_TWO(base, action, op, leftTypeAbbr, rightTypeAbbr)  \
@@ -173,7 +173,7 @@ private ref class Mpir##name##Expression : base                                 
     base^ op(TYPE_FOR_ABBR_##leftTypeAbbr a, TYPE_FOR_ABBR_##rightTypeAbbr b);
 
 #define MAKE_FUNCTION_WITH_TWO_DEFINE(base, op, leftTypeAbbr, rightTypeAbbr, result)      \
-    base^ MpirExpression::op(TYPE_FOR_ABBR_##leftTypeAbbr a, TYPE_FOR_ABBR_##rightTypeAbbr b) { return gcnew Mpir##result##Expression(this, a, b); }
+    base^ IntegerExpression::op(TYPE_FOR_ABBR_##leftTypeAbbr a, TYPE_FOR_ABBR_##rightTypeAbbr b) { return gcnew Mpir##result##Expression(this, a, b); }
 
 //functions with one argument and simple result
 //#define MAKE_SIMPLE_FUNCTION_WITH_ONE(base, action, op, resultType, argType) \
@@ -196,14 +196,14 @@ private ref class Mpir##name##Expression : base                                 
     static base^ operator op(TYPE_FOR_ABBR_##type a);
 
 #define MAKE_UNARY_OPERATOR_DEFINE(base, op, result, type)      \
-    base^ MpirExpression::operator op(TYPE_FOR_ABBR_##type a) { return gcnew Mpir##result##Expression(a); }
+    base^ IntegerExpression::operator op(TYPE_FOR_ABBR_##type a) { return gcnew Mpir##result##Expression(a); }
 
 //binary operators
 #define MAKE_BINARY_OPERATOR_DECLARE(base, op, result, leftType, rightType, left, right)     \
     static base^ operator op(TYPE_FOR_ABBR_##leftType a, TYPE_FOR_ABBR_##rightType b);
 
 #define MAKE_BINARY_OPERATOR_DEFINE(base, op, result, leftType, rightType, left, right)      \
-    base^ MpirExpression::operator op(TYPE_FOR_ABBR_##leftType a, TYPE_FOR_ABBR_##rightType b) { return gcnew Mpir##result##Expression(left, right); }
+    base^ IntegerExpression::operator op(TYPE_FOR_ABBR_##leftType a, TYPE_FOR_ABBR_##rightType b) { return gcnew Mpir##result##Expression(left, right); }
 
 #define MAKE_BINARY_OPERATOR_STANDARD(base, action, op, result, leftType, rightType)        \
     MAKE_BINARY_OPERATOR_##action(base, op, result##leftType##rightType, Expr, Expr, a, b)      
@@ -218,53 +218,53 @@ private ref class Mpir##name##Expression : base                                 
     MAKE_BINARY_OPERATOR_##action(base, op, result##mpType##limbType, limbType, Expr, b, a)
 
 //master operators/functions definition
-#define DEFINE_OPERATIONS(action)                                                                 \
-    MAKE_BINARY_OPERATOR_STANDARD  (MpirExpression,           action, +, Add, Int, Int)           \
-    MAKE_BINARY_OPERATOR_RLIMB     (MpirExpression,           action, +, Add, Int, Ui)            \
-    MAKE_BINARY_OPERATOR_LLIMB_R   (MpirExpression,           action, +, Add, Int, Ui)            \
-    MAKE_BINARY_OPERATOR_RLIMB     (MpirExpression,           action, +, Add, Int, Si)            \
-    MAKE_BINARY_OPERATOR_LLIMB_R   (MpirExpression,           action, +, Add, Int, Si)            \
-                                                                                                  \
-    MAKE_BINARY_OPERATOR_STANDARD  (MpirExpression,           action, -, Subtract, Int, Int)      \
-    MAKE_BINARY_OPERATOR_RLIMB     (MpirExpression,           action, -, Subtract, Int, Ui)       \
-    MAKE_BINARY_OPERATOR_LLIMB     (MpirExpression,           action, -, Subtract, Int, Ui)       \
-    MAKE_BINARY_OPERATOR_RLIMB     (MpirExpression,           action, -, Subtract, Int, Si)       \
-    MAKE_BINARY_OPERATOR_LLIMB     (MpirExpression,           action, -, Subtract, Int, Si)       \
-                                                                                                  \
-    MAKE_BINARY_OPERATOR_STANDARD  (MpirExpression,           action, *, Multiply, Int, Int)      \
-    MAKE_BINARY_OPERATOR_RLIMB     (MpirExpression,           action, *, Multiply, Int, Ui)       \
-    MAKE_BINARY_OPERATOR_LLIMB_R   (MpirExpression,           action, *, Multiply, Int, Ui)       \
-    MAKE_BINARY_OPERATOR_RLIMB     (MpirExpression,           action, *, Multiply, Int, Si)       \
-    MAKE_BINARY_OPERATOR_LLIMB_R   (MpirExpression,           action, *, Multiply, Int, Si)       \
-                                                                                                  \
-    MAKE_BINARY_OPERATOR_RLIMB     (MpirExpression,           action, <<, ShiftLeft, Int, Bits)   \
-    MAKE_BINARY_OPERATOR_RLIMB     (MpirShiftRightExpression, action, >>, ShiftRight, Int, Bits)  \
-                                                                                                  \
-    MAKE_UNARY_OPERATOR            (MpirExpression,           action, -, Negate, Int)             \
-                                                                                                  \
-    MAKE_VOID_FUNCTION             (MpirExpression,           action, Abs, Int)                   \
-                                                                                                  \
-    MAKE_BINARY_OPERATOR_STANDARD  (MpirDivideExpression,     action, /, Divide, Int, Int)        \
-    MAKE_BINARY_OPERATOR_RLIMB     (MpirDivideUiExpression,   action, /, Divide, Int, Ui)         \
-                                                                                                  \
-    MAKE_BINARY_OPERATOR_STANDARD  (MpirModExpression,        action, %, Mod, Int, Int)           \
-    MAKE_BINARY_OPERATOR_RLIMB     (MpirModUiExpression,      action, %, Mod, Int, Ui)            \
-                                                                                                  \
-    MAKE_BINARY_OPERATOR_RLIMB     (MpirExpression,           action, ^, Power, Int, Ui)          \
-                                                                                                  \
-    MAKE_FUNCTION_WITH_ONE         (MpirExpression,           action, DivideExactly, Int)         \
-    MAKE_FUNCTION_WITH_LIMB        (MpirExpression,           action, DivideExactly, Ui)          \
-                                                                                                  \
-    MAKE_FUNCTION_WITH_TWO         (MpirExpression,           action, PowerMod, Int, Int)         \
-    MAKE_FUNCTION_WITH_TWO_LLIMB   (MpirExpression,           action, PowerMod, Ui, Int)          \
-                                                                                                  \
-    MAKE_FUNCTION_WITH_LIMB        (MpirRootExpression,       action, Root, Ui)                   \
-    MAKE_VOID_FUNCTION             (MpirSquareRootExpression, action, SquareRoot, Int)            \
-                                                                                                  \
-    MAKE_BINARY_OPERATOR_STANDARD  (MpirExpression,           action, &, And, Int, Int)           \
-    MAKE_BINARY_OPERATOR_STANDARD  (MpirExpression,           action, |, Or, Int, Int)            \
-    MAKE_BINARY_OPERATOR_STANDARD  (MpirExpression,           action, ^, Xor, Int, Int)           \
-    MAKE_UNARY_OPERATOR            (MpirExpression,           action, ~, Complement, Int)         \
+#define DEFINE_OPERATIONS(action)                                                                    \
+    MAKE_BINARY_OPERATOR_STANDARD  (IntegerExpression,           action, +, Add, Int, Int)           \
+    MAKE_BINARY_OPERATOR_RLIMB     (IntegerExpression,           action, +, Add, Int, Ui)            \
+    MAKE_BINARY_OPERATOR_LLIMB_R   (IntegerExpression,           action, +, Add, Int, Ui)            \
+    MAKE_BINARY_OPERATOR_RLIMB     (IntegerExpression,           action, +, Add, Int, Si)            \
+    MAKE_BINARY_OPERATOR_LLIMB_R   (IntegerExpression,           action, +, Add, Int, Si)            \
+                                                                                                     \
+    MAKE_BINARY_OPERATOR_STANDARD  (IntegerExpression,           action, -, Subtract, Int, Int)      \
+    MAKE_BINARY_OPERATOR_RLIMB     (IntegerExpression,           action, -, Subtract, Int, Ui)       \
+    MAKE_BINARY_OPERATOR_LLIMB     (IntegerExpression,           action, -, Subtract, Int, Ui)       \
+    MAKE_BINARY_OPERATOR_RLIMB     (IntegerExpression,           action, -, Subtract, Int, Si)       \
+    MAKE_BINARY_OPERATOR_LLIMB     (IntegerExpression,           action, -, Subtract, Int, Si)       \
+                                                                                                     \
+    MAKE_BINARY_OPERATOR_STANDARD  (IntegerExpression,           action, *, Multiply, Int, Int)      \
+    MAKE_BINARY_OPERATOR_RLIMB     (IntegerExpression,           action, *, Multiply, Int, Ui)       \
+    MAKE_BINARY_OPERATOR_LLIMB_R   (IntegerExpression,           action, *, Multiply, Int, Ui)       \
+    MAKE_BINARY_OPERATOR_RLIMB     (IntegerExpression,           action, *, Multiply, Int, Si)       \
+    MAKE_BINARY_OPERATOR_LLIMB_R   (IntegerExpression,           action, *, Multiply, Int, Si)       \
+                                                                                                     \
+    MAKE_BINARY_OPERATOR_RLIMB     (IntegerExpression,           action, <<, ShiftLeft, Int, Bits)   \
+    MAKE_BINARY_OPERATOR_RLIMB     (IntegerShiftRightExpression, action, >>, ShiftRight, Int, Bits)  \
+                                                                                                     \
+    MAKE_UNARY_OPERATOR            (IntegerExpression,           action, -, Negate, Int)             \
+                                                                                                     \
+    MAKE_VOID_FUNCTION             (IntegerExpression,           action, Abs, Int)                   \
+                                                                                                     \
+    MAKE_BINARY_OPERATOR_STANDARD  (IntegerDivideExpression,     action, /, Divide, Int, Int)        \
+    MAKE_BINARY_OPERATOR_RLIMB     (IntegerDivideUiExpression,   action, /, Divide, Int, Ui)         \
+                                                                                                     \
+    MAKE_BINARY_OPERATOR_STANDARD  (IntegerModExpression,        action, %, Mod, Int, Int)           \
+    MAKE_BINARY_OPERATOR_RLIMB     (IntegerModUiExpression,      action, %, Mod, Int, Ui)            \
+                                                                                                     \
+    MAKE_BINARY_OPERATOR_RLIMB     (IntegerExpression,           action, ^, Power, Int, Ui)          \
+                                                                                                     \
+    MAKE_FUNCTION_WITH_ONE         (IntegerExpression,           action, DivideExactly, Int)         \
+    MAKE_FUNCTION_WITH_LIMB        (IntegerExpression,           action, DivideExactly, Ui)          \
+                                                                                                     \
+    MAKE_FUNCTION_WITH_TWO         (IntegerExpression,           action, PowerMod, Int, Int)         \
+    MAKE_FUNCTION_WITH_TWO_LLIMB   (IntegerExpression,           action, PowerMod, Ui, Int)          \
+                                                                                                     \
+    MAKE_FUNCTION_WITH_LIMB        (IntegerRootExpression,       action, Root, Ui)                   \
+    MAKE_VOID_FUNCTION             (IntegerSquareRootExpression, action, SquareRoot, Int)            \
+                                                                                                     \
+    MAKE_BINARY_OPERATOR_STANDARD  (IntegerExpression,           action, &, And, Int, Int)           \
+    MAKE_BINARY_OPERATOR_STANDARD  (IntegerExpression,           action, |, Or, Int, Int)            \
+    MAKE_BINARY_OPERATOR_STANDARD  (IntegerExpression,           action, ^, Xor, Int, Int)           \
+    MAKE_UNARY_OPERATOR            (IntegerExpression,           action, ~, Complement, Int)         \
 
 #pragma endregion
 
@@ -272,17 +272,17 @@ namespace MPIR
 {
     ref class MpirRandom;
     ref class HugeInt;
-    ref class MpirDivideExpression;
-    ref class MpirDivideUiExpression;
-    ref class MpirModExpression;
-    ref class MpirDivModExpression;
-    ref class MpirModUiExpression;
-    ref class MpirShiftRightExpression;
-    ref class MpirRootExpression;
-    ref class MpirSquareRootExpression;
-    ref class MpirGcdExpression;
-    ref class MpirRemoveFactorsExpression;
-    ref class MpirSequenceExpression;
+    ref class IntegerDivideExpression;
+    ref class IntegerDivideUiExpression;
+    ref class IntegerModExpression;
+    ref class IntegerDivModExpression;
+    ref class IntegerModUiExpression;
+    ref class IntegerShiftRightExpression;
+    ref class IntegerRootExpression;
+    ref class IntegerSquareRootExpression;
+    ref class IntegerGcdExpression;
+    ref class IntegerRemoveFactorsExpression;
+    ref class IntegerSequenceExpression;
 
     #pragma region enums
 
@@ -327,17 +327,17 @@ namespace MPIR
 
     #pragma endregion
 
-    #pragma region MpirExpression
+    #pragma region IntegerExpression
 
     /// <summary>
     /// Base class for all expressions resulting from many operations on MPIR types. Expressions can be arbitrarily nested, and are lazily evaluated 
     /// when they are either assigned to the Value property of an MPIR object, or are consumed by a function or operator that returns a primitive type.
     /// Assignment to the Value property is necessary because .Net does not support overloading the assignment operator.
     /// </summary>
-    public ref class MpirExpression abstract : public IComparable, IComparable<MpirExpression^>, IEquatable<MpirExpression^>
+    public ref class IntegerExpression abstract : public IComparable, IComparable<IntegerExpression^>, IEquatable<IntegerExpression^>
     {
         internal:
-            MpirExpression() { }
+            IntegerExpression() { }
             virtual void AssignTo(mpz_ptr destination) abstract;
             virtual void AssignTo(EvaluationContext& destination)
             {
@@ -360,7 +360,7 @@ namespace MPIR
             /// <param name="a">Source value to add to</param>
             /// <param name="b">Source value to add</param>
             /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
-            static MpirExpression^ operator + (MpirExpression^ a, MpirExpression^ b);
+            static IntegerExpression^ operator + (IntegerExpression^ a, IntegerExpression^ b);
 
             /// <summary>Adds two numbers.
             /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
@@ -368,7 +368,7 @@ namespace MPIR
             /// <param name="a">Source value to add to</param>
             /// <param name="b">Source value to add</param>
             /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
-            static MpirExpression^ operator + (MpirExpression^ a, mpir_ui b);
+            static IntegerExpression^ operator + (IntegerExpression^ a, mpir_ui b);
 
             /// <summary>Adds two numbers.
             /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
@@ -376,7 +376,7 @@ namespace MPIR
             /// <param name="a">Source value to add to</param>
             /// <param name="b">Source value to add</param>
             /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
-            static MpirExpression^ operator + (mpir_ui a, MpirExpression^ b);
+            static IntegerExpression^ operator + (mpir_ui a, IntegerExpression^ b);
 
             /// <summary>Adds two numbers.
             /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
@@ -384,7 +384,7 @@ namespace MPIR
             /// <param name="a">Source value to add to</param>
             /// <param name="b">Source value to add</param>
             /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
-            static MpirExpression^ operator + (MpirExpression^ a, mpir_si b);
+            static IntegerExpression^ operator + (IntegerExpression^ a, mpir_si b);
 
             /// <summary>Adds two numbers.
             /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
@@ -392,7 +392,7 @@ namespace MPIR
             /// <param name="a">Source value to add to</param>
             /// <param name="b">Source value to add</param>
             /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
-            static MpirExpression^ operator + (mpir_si a, MpirExpression^ b);
+            static IntegerExpression^ operator + (mpir_si a, IntegerExpression^ b);
                                                                                                           
             /// <summary>Subtracts two numbers.
             /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
@@ -400,7 +400,7 @@ namespace MPIR
             /// <param name="a">Source value to subtract from</param>
             /// <param name="b">Source value to subtract</param>
             /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
-            static MpirExpression^ operator - (MpirExpression^ a, MpirExpression^ b);
+            static IntegerExpression^ operator - (IntegerExpression^ a, IntegerExpression^ b);
                                                                                                           
             /// <summary>Subtracts two numbers.
             /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
@@ -408,7 +408,7 @@ namespace MPIR
             /// <param name="a">Source value to subtract from</param>
             /// <param name="b">Source value to subtract</param>
             /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
-            static MpirExpression^ operator - (MpirExpression^ a, mpir_ui b);
+            static IntegerExpression^ operator - (IntegerExpression^ a, mpir_ui b);
                                                                                                           
             /// <summary>Subtracts two numbers.
             /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
@@ -416,7 +416,7 @@ namespace MPIR
             /// <param name="a">Source value to subtract from</param>
             /// <param name="b">Source value to subtract</param>
             /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
-            static MpirExpression^ operator - (mpir_ui a, MpirExpression^ b);
+            static IntegerExpression^ operator - (mpir_ui a, IntegerExpression^ b);
                                                                                                           
             /// <summary>Subtracts two numbers.
             /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
@@ -424,7 +424,7 @@ namespace MPIR
             /// <param name="a">Source value to subtract from</param>
             /// <param name="b">Source value to subtract</param>
             /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
-            static MpirExpression^ operator - (MpirExpression^ a, mpir_si b);
+            static IntegerExpression^ operator - (IntegerExpression^ a, mpir_si b);
                                                                                                           
             /// <summary>Subtracts two numbers.
             /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
@@ -432,7 +432,7 @@ namespace MPIR
             /// <param name="a">Source value to subtract from</param>
             /// <param name="b">Source value to subtract</param>
             /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
-            static MpirExpression^ operator - (mpir_si a, MpirExpression^ b);
+            static IntegerExpression^ operator - (mpir_si a, IntegerExpression^ b);
                                                                                                           
             /// <summary>Multiplies two numbers.
             /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
@@ -440,7 +440,7 @@ namespace MPIR
             /// <param name="a">Source value to multiply</param>
             /// <param name="b">Source value to multiply by</param>
             /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
-            static MpirExpression^ operator * (MpirExpression^ a, MpirExpression^ b);
+            static IntegerExpression^ operator * (IntegerExpression^ a, IntegerExpression^ b);
                                                                                                           
             /// <summary>Multiplies two numbers.
             /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
@@ -448,7 +448,7 @@ namespace MPIR
             /// <param name="a">Source value to multiply</param>
             /// <param name="b">Source value to multiply by</param>
             /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
-            static MpirExpression^ operator * (MpirExpression^ a, mpir_ui b);
+            static IntegerExpression^ operator * (IntegerExpression^ a, mpir_ui b);
                                                                                                           
             /// <summary>Multiplies two numbers.
             /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
@@ -456,7 +456,7 @@ namespace MPIR
             /// <param name="a">Source value to multiply</param>
             /// <param name="b">Source value to multiply by</param>
             /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
-            static MpirExpression^ operator * (mpir_ui a, MpirExpression^ b);
+            static IntegerExpression^ operator * (mpir_ui a, IntegerExpression^ b);
                                                                                                           
             /// <summary>Multiplies two numbers.
             /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
@@ -464,7 +464,7 @@ namespace MPIR
             /// <param name="a">Source value to multiply</param>
             /// <param name="b">Source value to multiply by</param>
             /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
-            static MpirExpression^ operator * (MpirExpression^ a, mpir_si b);
+            static IntegerExpression^ operator * (IntegerExpression^ a, mpir_si b);
                                                                                                           
             /// <summary>Multiplies two numbers.
             /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
@@ -472,7 +472,7 @@ namespace MPIR
             /// <param name="a">Source value to multiply</param>
             /// <param name="b">Source value to multiply by</param>
             /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
-            static MpirExpression^ operator * (mpir_si a, MpirExpression^ b);
+            static IntegerExpression^ operator * (mpir_si a, IntegerExpression^ b);
                                                                                                           
             /// <summary>Shifts the <paramref name="a"/> source operand to the left by <paramref name="bits"/>, i.e. multiplies <paramref name="a"/> by 2^<paramref name="bits"/>.
             /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
@@ -480,7 +480,7 @@ namespace MPIR
             /// <param name="a">Source value to multiply</param>
             /// <param name="bits">Number of bits to shift <paramref name="a"/> by, i.e. power of 2 to multiply <paramref name="a"/> by</param>
             /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
-            static MpirExpression^ operator << (MpirExpression^ a, mp_bitcnt_t bits);
+            static IntegerExpression^ operator << (IntegerExpression^ a, mp_bitcnt_t bits);
                                                                                                           
             /// <summary>Shifts the <paramref name="a"/> source operand to the right by <paramref name="bits"/>, i.e. divides <paramref name="a"/> by 2^<paramref name="bits"/>.
             /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
@@ -492,14 +492,14 @@ namespace MPIR
             /// <para>The expression exposes methods you can call to select whether you need to compute the quotient or remainder of the division, and/or to set the rounding mode.
             /// </para>By default, the shifted value (i.e., quotient) is computed and the rounding mode defaults to the static MpirSettings.DefaultRoundingMode.
             /// </returns>
-            static MpirShiftRightExpression^ operator >> (MpirExpression^ a, mp_bitcnt_t bits);
+            static IntegerShiftRightExpression^ operator >> (IntegerExpression^ a, mp_bitcnt_t bits);
 
             /// <summary>Negates the source value.
             /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
             /// </para></summary>
             /// <param name="a">Source value to negate</param>
             /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
-            static MpirExpression^ operator - (MpirExpression^ a);
+            static IntegerExpression^ operator - (IntegerExpression^ a);
                                                                                                           
             /// <summary>Divides two numbers.
             /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
@@ -510,7 +510,7 @@ namespace MPIR
             /// <para>The expression exposes methods you can call optionally if you need to save the remainder of the division, and/or to set the rounding mode.
             /// </para>By default, the remainder is not computed and the rounding mode defaults to the static MpirSettings.DefaultRoundingMode.
             /// </returns>
-            static MpirDivideExpression^ operator / (MpirExpression^ a, MpirExpression^ b);
+            static IntegerDivideExpression^ operator / (IntegerExpression^ a, IntegerExpression^ b);
                                                                                                           
             /// <summary>Divides two numbers.
             /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
@@ -521,7 +521,7 @@ namespace MPIR
             /// <para>The expression exposes methods you can call optionally if you need to save the remainder of the division, and/or to set the rounding mode.
             /// </para>By default, the remainder is not computed and the rounding mode defaults to the static MpirSettings.DefaultRoundingMode.
             /// </returns>
-            static MpirDivideUiExpression^ operator / (MpirExpression^ a, mpir_ui b);
+            static IntegerDivideUiExpression^ operator / (IntegerExpression^ a, mpir_ui b);
                                                                                                           
             /// <summary>Calculates the remainder from the division of two numbers.
             /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
@@ -533,7 +533,7 @@ namespace MPIR
             /// <para>The expression exposes methods you can call optionally if you need to save the quotient in addition to the remainder, and/or to set the rounding mode.
             /// </para>By default, the remainder is not computed and the rounding mode defaults to the static MpirSettings.DefaultRoundingMode.
             /// </returns>
-            static MpirModExpression^ operator % (MpirExpression^ a, MpirExpression^ b);
+            static IntegerModExpression^ operator % (IntegerExpression^ a, IntegerExpression^ b);
                                                                                                           
             /// <summary>Calculates the remainder from the division of two numbers.
             /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
@@ -545,7 +545,7 @@ namespace MPIR
             /// <para>The expression exposes methods you can call optionally if you need to save the quotient in addition to the remainder, and/or to set the rounding mode.
             /// </para>By default, the remainder is not computed and the rounding mode defaults to the static MpirSettings.DefaultRoundingMode.
             /// </returns>
-            static MpirModUiExpression^ operator % (MpirExpression^ a, mpir_ui b);
+            static IntegerModUiExpression^ operator % (IntegerExpression^ a, mpir_ui b);
                                                                                                           
             /// <summary>Raises the source value to the specified power.
             /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
@@ -553,7 +553,7 @@ namespace MPIR
             /// <param name="a">Source value to multiply</param>
             /// <param name="power">Power to raise <paramref name="a"/> to</param>
             /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
-            static MpirExpression^ operator ^ (MpirExpression^ a, mpir_ui power);
+            static IntegerExpression^ operator ^ (IntegerExpression^ a, mpir_ui power);
                                                                                                           
             /// <summary>Computes the bitwise AND of two numbers.
             /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
@@ -561,7 +561,7 @@ namespace MPIR
             /// <param name="a">Source value to AND</param>
             /// <param name="b">Source value to AND with</param>
             /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
-            static MpirExpression^ operator & (MpirExpression^ a, MpirExpression^ b);
+            static IntegerExpression^ operator & (IntegerExpression^ a, IntegerExpression^ b);
                                                                                                           
             /// <summary>Computes the bitwise (inclusive) OR of two numbers.
             /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
@@ -569,7 +569,7 @@ namespace MPIR
             /// <param name="a">Source value to OR</param>
             /// <param name="b">Source value to OR with</param>
             /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
-            static MpirExpression^ operator | (MpirExpression^ a, MpirExpression^ b);
+            static IntegerExpression^ operator | (IntegerExpression^ a, IntegerExpression^ b);
                                                                                                           
             /// <summary>Computes the bitwise XOR (exclusive or) of two numbers.
             /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
@@ -577,14 +577,14 @@ namespace MPIR
             /// <param name="a">Source value to XOR</param>
             /// <param name="b">Source value to XOR with</param>
             /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
-            static MpirExpression^ operator ^ (MpirExpression^ a, MpirExpression^ b);
+            static IntegerExpression^ operator ^ (IntegerExpression^ a, IntegerExpression^ b);
                                                                                                           
             /// <summary>Computes the bitwise complement of a number.
             /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
             /// </para></summary>
             /// <param name="a">Source value to complement</param>
             /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
-            static MpirExpression^ operator ~ (MpirExpression^ a);
+            static IntegerExpression^ operator ~ (IntegerExpression^ a);
 
             /// <summary>If the source is &gt;= 0, returns the population count of op, which is the number of 1 bits in the binary representation.
             /// <para>If the source is &lt; 0, the number of 1s is infinite, and the return value is ulong.MaxValue, the largest possible bit count.
@@ -599,7 +599,7 @@ namespace MPIR
             /// </summary>
             /// <param name="a">Source value to compute the hamming distance to</param>
             /// <returns>The hamming distance between this number and <paramref name="a"/></returns>
-            mp_bitcnt_t HammingDistance(MpirExpression^ a) { IN_CONTEXT(this, a); return mpz_hamdist(context.Args[0], context.Args[1]); }
+            mp_bitcnt_t HammingDistance(IntegerExpression^ a) { IN_CONTEXT(this, a); return mpz_hamdist(context.Args[0], context.Args[1]); }
 
             /// <summary>Scans the source number, starting from the <paramref name="start"/> bit, towards more significant bits, until the first 0 or 1 bit
             /// (depending on the <paramref name="value"/> is found, and return the index of the found bit.
@@ -617,7 +617,7 @@ namespace MPIR
             /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
             /// </para></summary>
             /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
-            MpirExpression^ Abs();
+            IntegerExpression^ Abs();
                                                                                                           
             /// <summary>Divides two numbers where it is known in advance that the division is exact.  This method is faster than normal division,
             /// but produces an undefined result when the division is not exact.
@@ -626,7 +626,7 @@ namespace MPIR
             /// <param name="a">Source value to divide by</param>
             /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation.
             /// </returns>
-            MpirExpression^ DivideExactly(MpirExpression^ a);
+            IntegerExpression^ DivideExactly(IntegerExpression^ a);
                                                                                                           
             /// <summary>Divides two numbers where it is known in advance that the division is exact.  This method is faster than normal division,
             /// but produces an undefined result when the division is not exact.
@@ -635,7 +635,7 @@ namespace MPIR
             /// <param name="a">Source value to divide by</param>
             /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation.
             /// </returns>
-            MpirExpression^ DivideExactly(mpir_ui a);
+            IntegerExpression^ DivideExactly(mpir_ui a);
                                                                                                           
             /// <summary>Raises the source value to the specified <paramref name="power"/> modulo <paramref name="modulo"/>.
             /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
@@ -644,7 +644,7 @@ namespace MPIR
             /// <para>Negative power values are supported if an inverse mod <paramref name="modulo"/> exists, otherwise divide by zero is raised.</para></param>
             /// <param name="modulo">Modulo to perform the powering operation with</param>
             /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
-            MpirExpression^ PowerMod(MpirExpression^ power, MpirExpression^ modulo);
+            IntegerExpression^ PowerMod(IntegerExpression^ power, IntegerExpression^ modulo);
                                                                                                           
             /// <summary>Raises the source value to the specified <paramref name="power"/> modulo <paramref name="modulo"/>.
             /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
@@ -652,7 +652,7 @@ namespace MPIR
             /// <param name="power">Power to raise the source value to</param>
             /// <param name="modulo">Modulo to perform the powering operation with</param>
             /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
-            MpirExpression^ PowerMod(mpir_ui power, MpirExpression^ modulo);
+            IntegerExpression^ PowerMod(mpir_ui power, IntegerExpression^ modulo);
 
             /// <summary>Computes the truncated integer part of the root of the specified <paramref name="power"/> from the source value.
             /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
@@ -660,14 +660,14 @@ namespace MPIR
             /// by calling a method on the resulting expression, before assigning it.</summary>
             /// <param name="power">Power of the root to compute.</param>
             /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
-            MpirRootExpression^ Root(mpir_ui power);
+            IntegerRootExpression^ Root(mpir_ui power);
 
             /// <summary>Computes the truncated integer part of the square root of the source value.
             /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
             /// </para>You can optionally save the remainder from the root operation
             /// by calling a method on the resulting expression, before assigning it.</summary>
             /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
-            MpirSquareRootExpression^ SquareRoot();
+            IntegerSquareRootExpression^ SquareRoot();
 
             /// <summary>Calculates the remainder from the division of two numbers, using the rounding mode set in MpirSettings.RoundingMode.
             /// <para>Because the result is a primitive type, it is computed immediately.
@@ -700,14 +700,14 @@ namespace MPIR
             /// </para></summary>
             /// <param name="a">Value to compare the source with</param>
             /// <returns>A positive number if the source is greater than <paramref name="a"/>, negative if less, and zero if they are equal.</returns>
-            virtual int CompareTo(MpirExpression^ a) sealed;
+            virtual int CompareTo(IntegerExpression^ a) sealed;
 
             /// <summary>Compares two numbers.
             /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
             /// </para></summary>
             /// <param name="a">Value to compare the source with</param>
             /// <returns>true if the values of the source and <paramref name="a"/> are equal, false otherwise.</returns>
-            virtual bool Equals(MpirExpression^ a) sealed;
+            virtual bool Equals(IntegerExpression^ a) sealed;
 
             /// <summary>Compares two numbers.
             /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
@@ -729,7 +729,7 @@ namespace MPIR
             /// <param name="a">Source value to compare</param>
             /// <param name="b">Source value to compare with</param>
             /// <returns>A boolean result of the comparison.</returns>
-            static bool operator <  (MpirExpression^ a, MpirExpression^ b) { return  IS_NULL(a) ? !IS_NULL(b) : a->CompareTo(b) < 0; }
+            static bool operator <  (IntegerExpression^ a, IntegerExpression^ b) { return  IS_NULL(a) ? !IS_NULL(b) : a->CompareTo(b) < 0; }
 
             /// <summary>Compares two numbers.
             /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
@@ -737,7 +737,7 @@ namespace MPIR
             /// <param name="a">Source value to compare</param>
             /// <param name="b">Source value to compare with</param>
             /// <returns>A boolean result of the comparison.</returns>
-            static bool operator >= (MpirExpression^ a, MpirExpression^ b) { return  IS_NULL(a) ?  IS_NULL(b) : a->CompareTo(b) >= 0; }
+            static bool operator >= (IntegerExpression^ a, IntegerExpression^ b) { return  IS_NULL(a) ?  IS_NULL(b) : a->CompareTo(b) >= 0; }
 
             /// <summary>Compares two numbers.
             /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
@@ -745,7 +745,7 @@ namespace MPIR
             /// <param name="a">Source value to compare</param>
             /// <param name="b">Source value to compare with</param>
             /// <returns>A boolean result of the comparison.</returns>
-            static bool operator == (MpirExpression^ a, MpirExpression^ b) { return  IS_NULL(a) ?  IS_NULL(b) : a->CompareTo(b) == 0; }
+            static bool operator == (IntegerExpression^ a, IntegerExpression^ b) { return  IS_NULL(a) ?  IS_NULL(b) : a->CompareTo(b) == 0; }
 
             /// <summary>Compares two numbers.
             /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
@@ -753,7 +753,7 @@ namespace MPIR
             /// <param name="a">Source value to compare</param>
             /// <param name="b">Source value to compare with</param>
             /// <returns>A boolean result of the comparison.</returns>
-            static bool operator != (MpirExpression^ a, MpirExpression^ b) { return  IS_NULL(a) ? !IS_NULL(b) : a->CompareTo(b) != 0; }
+            static bool operator != (IntegerExpression^ a, IntegerExpression^ b) { return  IS_NULL(a) ? !IS_NULL(b) : a->CompareTo(b) != 0; }
 
             /// <summary>Compares two numbers.
             /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
@@ -761,7 +761,7 @@ namespace MPIR
             /// <param name="a">Source value to compare</param>
             /// <param name="b">Source value to compare with</param>
             /// <returns>A boolean result of the comparison.</returns>
-            static bool operator >  (MpirExpression^ a, MpirExpression^ b) { return !IS_NULL(a) && a->CompareTo(b) > 0; }
+            static bool operator >  (IntegerExpression^ a, IntegerExpression^ b) { return !IS_NULL(a) && a->CompareTo(b) > 0; }
 
             /// <summary>Compares two numbers.
             /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
@@ -769,7 +769,7 @@ namespace MPIR
             /// <param name="a">Source value to compare</param>
             /// <param name="b">Source value to compare with</param>
             /// <returns>A boolean result of the comparison.</returns>
-            static bool operator <= (MpirExpression^ a, MpirExpression^ b) { return  IS_NULL(a) || a->CompareTo(b) <= 0; }
+            static bool operator <= (IntegerExpression^ a, IntegerExpression^ b) { return  IS_NULL(a) || a->CompareTo(b) <= 0; }
 
             /// <summary>Compares two numbers.
             /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
@@ -777,7 +777,7 @@ namespace MPIR
             /// <param name="a">Source value to compare</param>
             /// <param name="b">Source value to compare with</param>
             /// <returns>A boolean result of the comparison.</returns>
-            static bool operator <  (MpirExpression^ a, mpir_ui b) { return  IS_NULL(a) || a->CompareTo(b) < 0; }
+            static bool operator <  (IntegerExpression^ a, mpir_ui b) { return  IS_NULL(a) || a->CompareTo(b) < 0; }
 
             /// <summary>Compares two numbers.
             /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
@@ -785,7 +785,7 @@ namespace MPIR
             /// <param name="a">Source value to compare</param>
             /// <param name="b">Source value to compare with</param>
             /// <returns>A boolean result of the comparison.</returns>
-            static bool operator >= (MpirExpression^ a, mpir_ui b) { return !IS_NULL(a) && a->CompareTo(b) >= 0; }
+            static bool operator >= (IntegerExpression^ a, mpir_ui b) { return !IS_NULL(a) && a->CompareTo(b) >= 0; }
 
             /// <summary>Compares two numbers.
             /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
@@ -793,7 +793,7 @@ namespace MPIR
             /// <param name="a">Source value to compare</param>
             /// <param name="b">Source value to compare with</param>
             /// <returns>A boolean result of the comparison.</returns>
-            static bool operator >  (MpirExpression^ a, mpir_ui b) { return !IS_NULL(a) && a->CompareTo(b) > 0; }
+            static bool operator >  (IntegerExpression^ a, mpir_ui b) { return !IS_NULL(a) && a->CompareTo(b) > 0; }
 
             /// <summary>Compares two numbers.
             /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
@@ -801,7 +801,7 @@ namespace MPIR
             /// <param name="a">Source value to compare</param>
             /// <param name="b">Source value to compare with</param>
             /// <returns>A boolean result of the comparison.</returns>
-            static bool operator <= (MpirExpression^ a, mpir_ui b) { return  IS_NULL(a) || a->CompareTo(b) <= 0; }
+            static bool operator <= (IntegerExpression^ a, mpir_ui b) { return  IS_NULL(a) || a->CompareTo(b) <= 0; }
 
             /// <summary>Compares two numbers.
             /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
@@ -809,7 +809,7 @@ namespace MPIR
             /// <param name="a">Source value to compare</param>
             /// <param name="b">Source value to compare with</param>
             /// <returns>A boolean result of the comparison.</returns>
-            static bool operator != (MpirExpression^ a, mpir_ui b) { return  IS_NULL(a) || a->CompareTo(b) != 0; }
+            static bool operator != (IntegerExpression^ a, mpir_ui b) { return  IS_NULL(a) || a->CompareTo(b) != 0; }
 
             /// <summary>Compares two numbers.
             /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
@@ -817,7 +817,7 @@ namespace MPIR
             /// <param name="a">Source value to compare</param>
             /// <param name="b">Source value to compare with</param>
             /// <returns>A boolean result of the comparison.</returns>
-            static bool operator == (MpirExpression^ a, mpir_ui b) { return !IS_NULL(a) && a->CompareTo(b) == 0; }
+            static bool operator == (IntegerExpression^ a, mpir_ui b) { return !IS_NULL(a) && a->CompareTo(b) == 0; }
 
             /// <summary>Compares two numbers.
             /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
@@ -825,7 +825,7 @@ namespace MPIR
             /// <param name="a">Source value to compare</param>
             /// <param name="b">Source value to compare with</param>
             /// <returns>A boolean result of the comparison.</returns>
-            static bool operator <  (mpir_ui b, MpirExpression^ a) { return !IS_NULL(a) && a->CompareTo(b) > 0; }
+            static bool operator <  (mpir_ui b, IntegerExpression^ a) { return !IS_NULL(a) && a->CompareTo(b) > 0; }
 
             /// <summary>Compares two numbers.
             /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
@@ -833,7 +833,7 @@ namespace MPIR
             /// <param name="a">Source value to compare</param>
             /// <param name="b">Source value to compare with</param>
             /// <returns>A boolean result of the comparison.</returns>
-            static bool operator >= (mpir_ui b, MpirExpression^ a) { return  IS_NULL(a) || a->CompareTo(b) <= 0; }
+            static bool operator >= (mpir_ui b, IntegerExpression^ a) { return  IS_NULL(a) || a->CompareTo(b) <= 0; }
 
             /// <summary>Compares two numbers.
             /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
@@ -841,7 +841,7 @@ namespace MPIR
             /// <param name="a">Source value to compare</param>
             /// <param name="b">Source value to compare with</param>
             /// <returns>A boolean result of the comparison.</returns>
-            static bool operator >  (mpir_ui b, MpirExpression^ a) { return  IS_NULL(a) || a->CompareTo(b) < 0; }
+            static bool operator >  (mpir_ui b, IntegerExpression^ a) { return  IS_NULL(a) || a->CompareTo(b) < 0; }
 
             /// <summary>Compares two numbers.
             /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
@@ -849,7 +849,7 @@ namespace MPIR
             /// <param name="a">Source value to compare</param>
             /// <param name="b">Source value to compare with</param>
             /// <returns>A boolean result of the comparison.</returns>
-            static bool operator <= (mpir_ui b, MpirExpression^ a) { return !IS_NULL(a) && a->CompareTo(b) >= 0; }
+            static bool operator <= (mpir_ui b, IntegerExpression^ a) { return !IS_NULL(a) && a->CompareTo(b) >= 0; }
 
             /// <summary>Compares two numbers.
             /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
@@ -857,7 +857,7 @@ namespace MPIR
             /// <param name="a">Source value to compare</param>
             /// <param name="b">Source value to compare with</param>
             /// <returns>A boolean result of the comparison.</returns>
-            static bool operator != (mpir_ui b, MpirExpression^ a) { return  IS_NULL(a) || a->CompareTo(b) != 0; }
+            static bool operator != (mpir_ui b, IntegerExpression^ a) { return  IS_NULL(a) || a->CompareTo(b) != 0; }
 
             /// <summary>Compares two numbers.
             /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
@@ -865,7 +865,7 @@ namespace MPIR
             /// <param name="a">Source value to compare</param>
             /// <param name="b">Source value to compare with</param>
             /// <returns>A boolean result of the comparison.</returns>
-            static bool operator == (mpir_ui b, MpirExpression^ a) { return !IS_NULL(a) && a->CompareTo(b) == 0; }
+            static bool operator == (mpir_ui b, IntegerExpression^ a) { return !IS_NULL(a) && a->CompareTo(b) == 0; }
 
             /// <summary>Compares two numbers.
             /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
@@ -873,7 +873,7 @@ namespace MPIR
             /// <param name="a">Source value to compare</param>
             /// <param name="b">Source value to compare with</param>
             /// <returns>A boolean result of the comparison.</returns>
-            static bool operator <  (MpirExpression^ a, mpir_si b) { return  IS_NULL(a) || a->CompareTo(b) < 0; }
+            static bool operator <  (IntegerExpression^ a, mpir_si b) { return  IS_NULL(a) || a->CompareTo(b) < 0; }
 
             /// <summary>Compares two numbers.
             /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
@@ -881,7 +881,7 @@ namespace MPIR
             /// <param name="a">Source value to compare</param>
             /// <param name="b">Source value to compare with</param>
             /// <returns>A boolean result of the comparison.</returns>
-            static bool operator >= (MpirExpression^ a, mpir_si b) { return !IS_NULL(a) && a->CompareTo(b) >= 0; }
+            static bool operator >= (IntegerExpression^ a, mpir_si b) { return !IS_NULL(a) && a->CompareTo(b) >= 0; }
 
             /// <summary>Compares two numbers.
             /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
@@ -889,7 +889,7 @@ namespace MPIR
             /// <param name="a">Source value to compare</param>
             /// <param name="b">Source value to compare with</param>
             /// <returns>A boolean result of the comparison.</returns>
-            static bool operator >  (MpirExpression^ a, mpir_si b) { return !IS_NULL(a) && a->CompareTo(b) > 0; }
+            static bool operator >  (IntegerExpression^ a, mpir_si b) { return !IS_NULL(a) && a->CompareTo(b) > 0; }
 
             /// <summary>Compares two numbers.
             /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
@@ -897,7 +897,7 @@ namespace MPIR
             /// <param name="a">Source value to compare</param>
             /// <param name="b">Source value to compare with</param>
             /// <returns>A boolean result of the comparison.</returns>
-            static bool operator <= (MpirExpression^ a, mpir_si b) { return  IS_NULL(a) || a->CompareTo(b) <= 0; }
+            static bool operator <= (IntegerExpression^ a, mpir_si b) { return  IS_NULL(a) || a->CompareTo(b) <= 0; }
 
             /// <summary>Compares two numbers.
             /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
@@ -905,7 +905,7 @@ namespace MPIR
             /// <param name="a">Source value to compare</param>
             /// <param name="b">Source value to compare with</param>
             /// <returns>A boolean result of the comparison.</returns>
-            static bool operator != (MpirExpression^ a, mpir_si b) { return  IS_NULL(a) || a->CompareTo(b) != 0; }
+            static bool operator != (IntegerExpression^ a, mpir_si b) { return  IS_NULL(a) || a->CompareTo(b) != 0; }
 
             /// <summary>Compares two numbers.
             /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
@@ -913,7 +913,7 @@ namespace MPIR
             /// <param name="a">Source value to compare</param>
             /// <param name="b">Source value to compare with</param>
             /// <returns>A boolean result of the comparison.</returns>
-            static bool operator == (MpirExpression^ a, mpir_si b) { return !IS_NULL(a) && a->CompareTo(b) == 0; }
+            static bool operator == (IntegerExpression^ a, mpir_si b) { return !IS_NULL(a) && a->CompareTo(b) == 0; }
 
             /// <summary>Compares two numbers.
             /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
@@ -921,7 +921,7 @@ namespace MPIR
             /// <param name="a">Source value to compare</param>
             /// <param name="b">Source value to compare with</param>
             /// <returns>A boolean result of the comparison.</returns>
-            static bool operator <  (mpir_si b, MpirExpression^ a) { return !IS_NULL(a) && a->CompareTo(b) > 0; }
+            static bool operator <  (mpir_si b, IntegerExpression^ a) { return !IS_NULL(a) && a->CompareTo(b) > 0; }
 
             /// <summary>Compares two numbers.
             /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
@@ -929,7 +929,7 @@ namespace MPIR
             /// <param name="a">Source value to compare</param>
             /// <param name="b">Source value to compare with</param>
             /// <returns>A boolean result of the comparison.</returns>
-            static bool operator >= (mpir_si b, MpirExpression^ a) { return  IS_NULL(a) || a->CompareTo(b) <= 0; }
+            static bool operator >= (mpir_si b, IntegerExpression^ a) { return  IS_NULL(a) || a->CompareTo(b) <= 0; }
 
             /// <summary>Compares two numbers.
             /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
@@ -937,7 +937,7 @@ namespace MPIR
             /// <param name="a">Source value to compare</param>
             /// <param name="b">Source value to compare with</param>
             /// <returns>A boolean result of the comparison.</returns>
-            static bool operator >  (mpir_si b, MpirExpression^ a) { return  IS_NULL(a) || a->CompareTo(b) < 0; }
+            static bool operator >  (mpir_si b, IntegerExpression^ a) { return  IS_NULL(a) || a->CompareTo(b) < 0; }
 
             /// <summary>Compares two numbers.
             /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
@@ -945,7 +945,7 @@ namespace MPIR
             /// <param name="a">Source value to compare</param>
             /// <param name="b">Source value to compare with</param>
             /// <returns>A boolean result of the comparison.</returns>
-            static bool operator <= (mpir_si b, MpirExpression^ a) { return !IS_NULL(a) && a->CompareTo(b) >= 0; }
+            static bool operator <= (mpir_si b, IntegerExpression^ a) { return !IS_NULL(a) && a->CompareTo(b) >= 0; }
 
             /// <summary>Compares two numbers.
             /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
@@ -953,7 +953,7 @@ namespace MPIR
             /// <param name="a">Source value to compare</param>
             /// <param name="b">Source value to compare with</param>
             /// <returns>A boolean result of the comparison.</returns>
-            static bool operator != (mpir_si b, MpirExpression^ a) { return  IS_NULL(a) || a->CompareTo(b) != 0; }
+            static bool operator != (mpir_si b, IntegerExpression^ a) { return  IS_NULL(a) || a->CompareTo(b) != 0; }
 
             /// <summary>Compares two numbers.
             /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
@@ -961,7 +961,7 @@ namespace MPIR
             /// <param name="a">Source value to compare</param>
             /// <param name="b">Source value to compare with</param>
             /// <returns>A boolean result of the comparison.</returns>
-            static bool operator == (mpir_si b, MpirExpression^ a) { return !IS_NULL(a) && a->CompareTo(b) == 0; }
+            static bool operator == (mpir_si b, IntegerExpression^ a) { return !IS_NULL(a) && a->CompareTo(b) == 0; }
 
             /// <summary>Compares two numbers.
             /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
@@ -969,7 +969,7 @@ namespace MPIR
             /// <param name="a">Source value to compare</param>
             /// <param name="b">Source value to compare with</param>
             /// <returns>A boolean result of the comparison.</returns>
-            static bool operator <  (MpirExpression^ a, double b) { return  IS_NULL(a) || a->CompareTo(b) < 0; }
+            static bool operator <  (IntegerExpression^ a, double b) { return  IS_NULL(a) || a->CompareTo(b) < 0; }
 
             /// <summary>Compares two numbers.
             /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
@@ -977,7 +977,7 @@ namespace MPIR
             /// <param name="a">Source value to compare</param>
             /// <param name="b">Source value to compare with</param>
             /// <returns>A boolean result of the comparison.</returns>
-            static bool operator >= (MpirExpression^ a, double b) { return !IS_NULL(a) && a->CompareTo(b) >= 0; }
+            static bool operator >= (IntegerExpression^ a, double b) { return !IS_NULL(a) && a->CompareTo(b) >= 0; }
 
             /// <summary>Compares two numbers.
             /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
@@ -985,7 +985,7 @@ namespace MPIR
             /// <param name="a">Source value to compare</param>
             /// <param name="b">Source value to compare with</param>
             /// <returns>A boolean result of the comparison.</returns>
-            static bool operator >  (MpirExpression^ a, double b) { return !IS_NULL(a) && a->CompareTo(b) > 0; }
+            static bool operator >  (IntegerExpression^ a, double b) { return !IS_NULL(a) && a->CompareTo(b) > 0; }
 
             /// <summary>Compares two numbers.
             /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
@@ -993,7 +993,7 @@ namespace MPIR
             /// <param name="a">Source value to compare</param>
             /// <param name="b">Source value to compare with</param>
             /// <returns>A boolean result of the comparison.</returns>
-            static bool operator <= (MpirExpression^ a, double b) { return  IS_NULL(a) || a->CompareTo(b) <= 0; }
+            static bool operator <= (IntegerExpression^ a, double b) { return  IS_NULL(a) || a->CompareTo(b) <= 0; }
 
             /// <summary>Compares two numbers.
             /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
@@ -1001,7 +1001,7 @@ namespace MPIR
             /// <param name="a">Source value to compare</param>
             /// <param name="b">Source value to compare with</param>
             /// <returns>A boolean result of the comparison.</returns>
-            static bool operator != (MpirExpression^ a, double b) { return  IS_NULL(a) || a->CompareTo(b) != 0; }
+            static bool operator != (IntegerExpression^ a, double b) { return  IS_NULL(a) || a->CompareTo(b) != 0; }
 
             /// <summary>Compares two numbers.
             /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
@@ -1009,7 +1009,7 @@ namespace MPIR
             /// <param name="a">Source value to compare</param>
             /// <param name="b">Source value to compare with</param>
             /// <returns>A boolean result of the comparison.</returns>
-            static bool operator == (MpirExpression^ a, double b) { return !IS_NULL(a) && a->CompareTo(b) == 0; }
+            static bool operator == (IntegerExpression^ a, double b) { return !IS_NULL(a) && a->CompareTo(b) == 0; }
 
             /// <summary>Compares two numbers.
             /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
@@ -1017,7 +1017,7 @@ namespace MPIR
             /// <param name="a">Source value to compare</param>
             /// <param name="b">Source value to compare with</param>
             /// <returns>A boolean result of the comparison.</returns>
-            static bool operator <  (double b, MpirExpression^ a) { return !IS_NULL(a) && a->CompareTo(b) > 0; }
+            static bool operator <  (double b, IntegerExpression^ a) { return !IS_NULL(a) && a->CompareTo(b) > 0; }
 
             /// <summary>Compares two numbers.
             /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
@@ -1025,7 +1025,7 @@ namespace MPIR
             /// <param name="a">Source value to compare</param>
             /// <param name="b">Source value to compare with</param>
             /// <returns>A boolean result of the comparison.</returns>
-            static bool operator >= (double b, MpirExpression^ a) { return  IS_NULL(a) || a->CompareTo(b) <= 0; }
+            static bool operator >= (double b, IntegerExpression^ a) { return  IS_NULL(a) || a->CompareTo(b) <= 0; }
 
             /// <summary>Compares two numbers.
             /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
@@ -1033,7 +1033,7 @@ namespace MPIR
             /// <param name="a">Source value to compare</param>
             /// <param name="b">Source value to compare with</param>
             /// <returns>A boolean result of the comparison.</returns>
-            static bool operator >  (double b, MpirExpression^ a) { return  IS_NULL(a) || a->CompareTo(b) < 0; }
+            static bool operator >  (double b, IntegerExpression^ a) { return  IS_NULL(a) || a->CompareTo(b) < 0; }
 
             /// <summary>Compares two numbers.
             /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
@@ -1041,7 +1041,7 @@ namespace MPIR
             /// <param name="a">Source value to compare</param>
             /// <param name="b">Source value to compare with</param>
             /// <returns>A boolean result of the comparison.</returns>
-            static bool operator <= (double b, MpirExpression^ a) { return !IS_NULL(a) && a->CompareTo(b) >= 0; }
+            static bool operator <= (double b, IntegerExpression^ a) { return !IS_NULL(a) && a->CompareTo(b) >= 0; }
 
             /// <summary>Compares two numbers.
             /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
@@ -1049,7 +1049,7 @@ namespace MPIR
             /// <param name="a">Source value to compare</param>
             /// <param name="b">Source value to compare with</param>
             /// <returns>A boolean result of the comparison.</returns>
-            static bool operator != (double b, MpirExpression^ a) { return  IS_NULL(a) || a->CompareTo(b) != 0; }
+            static bool operator != (double b, IntegerExpression^ a) { return  IS_NULL(a) || a->CompareTo(b) != 0; }
 
             /// <summary>Compares two numbers.
             /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
@@ -1057,14 +1057,14 @@ namespace MPIR
             /// <param name="a">Source value to compare</param>
             /// <param name="b">Source value to compare with</param>
             /// <returns>A boolean result of the comparison.</returns>
-            static bool operator == (double b, MpirExpression^ a) { return !IS_NULL(a) && a->CompareTo(b) == 0; }
+            static bool operator == (double b, IntegerExpression^ a) { return !IS_NULL(a) && a->CompareTo(b) == 0; }
 
             /// <summary>Compares the absolute values of two numbers.
             /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
             /// </para></summary>
             /// <param name="a">Value to compare the source with</param>
             /// <returns>A positive number if the absolute value of the source is greater than the absolute value of <paramref name="a"/>, negative if less, and zero if they are equal.</returns>
-            int CompareAbsTo(MpirExpression^ a) { IN_CONTEXT(this, a); return mpz_cmpabs(context.Args[0], context.Args[1]); }
+            int CompareAbsTo(IntegerExpression^ a) { IN_CONTEXT(this, a); return mpz_cmpabs(context.Args[0], context.Args[1]); }
 
             /// <summary>Compares the absolute values of two numbers.
             /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
@@ -1096,7 +1096,7 @@ namespace MPIR
             /// </summary>
             /// <param name="a">Divisor to test with.  This can be zero; only zero is considired divisible by zero.</param>
             /// <returns>True if the source is evenly divisible by <paramref name="a"/></returns>
-            bool IsDivisibleBy(MpirExpression^ a) { IN_CONTEXT(this, a); return mpz_divisible_p(context.Args[0], context.Args[1]) != 0; }
+            bool IsDivisibleBy(IntegerExpression^ a) { IN_CONTEXT(this, a); return mpz_divisible_p(context.Args[0], context.Args[1]) != 0; }
 
             /// <summary>
             /// Checks if the source is evenly divisible by <paramref name="a"/>.
@@ -1121,7 +1121,7 @@ namespace MPIR
             /// <param name="a">Divisor to test with.  This can be zero; only zero is considired divisible by zero.</param>
             /// <param name="mod">Modulo with respect to which to test for congruency</param>
             /// <returns>True if the source is congruent to <paramref name="a"/> modulo <paramref name="mod"/></returns>
-            bool IsCongruentTo(MpirExpression^ a, MpirExpression^ mod) { IN_CONTEXT(this, a, mod); return mpz_congruent_p(context.Args[0], context.Args[1], context.Args[2]) != 0; }
+            bool IsCongruentTo(IntegerExpression^ a, IntegerExpression^ mod) { IN_CONTEXT(this, a, mod); return mpz_congruent_p(context.Args[0], context.Args[1], context.Args[2]) != 0; }
 
             /// <summary>
             /// Checks if the source is congruent to <paramref name="a"/> modulo <paramref name="mod"/>.
@@ -1139,7 +1139,7 @@ namespace MPIR
             /// <param name="a">Divisor to test with</param>
             /// <param name="power">Power of 2 to use for the modulo</param>
             /// <returns>True if the source is congruent to <paramref name="a"/> modulo 2^<paramref name="power"/></returns>
-            bool IsCongruentToModPowerOf2(MpirExpression^ a, mp_bitcnt_t power) { IN_CONTEXT(this, a); return mpz_congruent_2exp_p(context.Args[0], context.Args[1], power) != 0; }
+            bool IsCongruentToModPowerOf2(IntegerExpression^ a, mp_bitcnt_t power) { IN_CONTEXT(this, a); return mpz_congruent_2exp_p(context.Args[0], context.Args[1], power) != 0; }
 
             /// <summary>
             /// Checks if the source is a perfect power.
@@ -1180,7 +1180,7 @@ namespace MPIR
             /// </para></summary>
             /// <param name="random">Random number generator to use for probabilistic primality tests</param>
             /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, performs the requested operation</returns>
-            MpirExpression^ NextPrimeCandidate(MpirRandom^ random);
+            IntegerExpression^ NextPrimeCandidate(MpirRandom^ random);
 
             /// <summary>Computes the greatest common divisor of this number and <paramref name="a"/>.
             /// <para>The result is always positive even if one or both inputs are negative.
@@ -1188,7 +1188,7 @@ namespace MPIR
             /// </summary>
             /// <param name="a">Source value to compute the GCD with</param>
             /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
-            MpirGcdExpression^ Gcd(MpirExpression^ a);
+            IntegerGcdExpression^ Gcd(IntegerExpression^ a);
 
             /// <summary>
             /// Computes the greatest common divisor of this number and <paramref name="a"/>.
@@ -1206,7 +1206,7 @@ namespace MPIR
             /// </para></summary>
             /// <param name="a">Source value to compute the LCM with.</param>
             /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
-            MpirExpression^ Lcm(MpirExpression^ a);
+            IntegerExpression^ Lcm(IntegerExpression^ a);
                                                                                                           
             /// <summary>Computes the least common multiple of this number and <paramref name="a"/>.
             /// <para>The result is always positive, irrespective of the signs of the source numbers.
@@ -1215,7 +1215,7 @@ namespace MPIR
             /// </para></summary>
             /// <param name="a">Source value to compute the LCM with.</param>
             /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
-            MpirExpression^ Lcm(mpir_ui a);
+            IntegerExpression^ Lcm(mpir_ui a);
                                                                                                           
             /// <summary>Computes the inverse of this number modulo <paramref name="modulo"/>.
             /// <para>If the inverse exists, the result will satisfy 0 &lt;= result &lt; <paramref name="modulo"/>.
@@ -1224,7 +1224,7 @@ namespace MPIR
             /// </para></summary>
             /// <param name="modulo">Modulo with respect to which to invert the number.</param>
             /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
-            MpirExpression^ Invert(MpirExpression^ modulo);
+            IntegerExpression^ Invert(IntegerExpression^ modulo);
 
             /// <summary>Remove all occurrences of the <paramref name="factor"/> from the source number.
             /// <para>You can optionally save the number of such occurrences that were removed.
@@ -1232,7 +1232,7 @@ namespace MPIR
             /// </summary>
             /// <param name="factor">Factor to remove from the source number.</param>
             /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
-            MpirRemoveFactorsExpression^ RemoveFactors(MpirExpression^ factor);
+            IntegerRemoveFactorsExpression^ RemoveFactors(IntegerExpression^ factor);
 
             #pragma endregion
     };
@@ -1286,10 +1286,10 @@ namespace MPIR
     /// <summary>
     /// Expression that results from a division or modulo operator.  Allows to set the rounding mode for the division.
     /// </summary>
-    public ref class MpirDivModExpression abstract : MpirExpression 
+    public ref class IntegerDivModExpression abstract : IntegerExpression 
     {
         internal:
-            MpirDivModExpression() { }
+            IntegerDivModExpression() { }
             RoundingModes rounding;
 
         public:
@@ -1298,7 +1298,7 @@ namespace MPIR
             /// </summary>
             /// <param name="mode">the mode to use.  If this is Default, the static MpirSettings.Rounding mode is used.</param>
             /// <returns>An updated expression, with its internal state updated to use the specified rounding mode.</returns>
-            MpirExpression^ Rounding(RoundingModes mode)
+            IntegerExpression^ Rounding(RoundingModes mode)
             {
                 rounding = mode;
                 return this;
@@ -1308,10 +1308,10 @@ namespace MPIR
     /// <summary>
     /// Expression that results from a division operator.  Allows to save the remainder to a separate result object, and/or set the rounding mode for the division.
     /// </summary>
-    public ref class MpirDivideExpression abstract : MpirDivModExpression 
+    public ref class IntegerDivideExpression abstract : IntegerDivModExpression 
     {
         internal:
-            MpirDivideExpression() { }
+            IntegerDivideExpression() { }
             HugeInt^ _remainder;
             void custom_mpz_div(mpz_ptr q, mpz_srcptr n, mpz_srcptr d);
 
@@ -1321,7 +1321,7 @@ namespace MPIR
             /// </summary>
             /// <param name="destination">destination for the remainder.  This cannot be the same object the resulting division quotient is being assigned to.</param>
             /// <returns>An updated expression, with its internal state updated to compute the remainder.</returns>
-            MpirDivModExpression^ SavingRemainderTo(HugeInt^ destination)
+            IntegerDivModExpression^ SavingRemainderTo(HugeInt^ destination)
             {
                 _remainder = destination;
                 return this;
@@ -1331,13 +1331,13 @@ namespace MPIR
     /// <summary>
     /// Expression that results from a division operator.  Allows to save the remainder, and/or set the rounding mode for the division.
     /// </summary>
-    public ref class MpirDivideUiExpression abstract : MpirDivideExpression 
+    public ref class IntegerDivideUiExpression abstract : IntegerDivideExpression 
     {
         private:
             Action<mpir_ui>^ _limbRemainder;
 
         internal:
-            MpirDivideUiExpression() { }
+            IntegerDivideUiExpression() { }
             void custom_mpz_div_ui(mpz_ptr q, mpz_srcptr n, mpir_ui d);
 
         public:
@@ -1347,7 +1347,7 @@ namespace MPIR
             /// <param name="callback">The delegate that will be called with the remainder of the division.  
             /// The delegate is called when the division is evaluated, i.e. is assigned to the Value property or consumed by a method that returns a primitive type.</param>
             /// <returns>An updated expression, with its internal state updated to compute the remainder.</returns>
-            MpirDivideExpression^ SettingRemainderTo(Action<mpir_ui>^ callback)
+            IntegerDivideExpression^ SettingRemainderTo(Action<mpir_ui>^ callback)
             {
                 _limbRemainder = callback;
                 return this;
@@ -1357,10 +1357,10 @@ namespace MPIR
     /// <summary>
     /// Expression that results from a modulo operator.  Allows to save the division result to a separate object, and/or set the rounding mode for the division.
     /// </summary>
-    public ref class MpirModExpression abstract : MpirDivModExpression 
+    public ref class IntegerModExpression abstract : IntegerDivModExpression 
     {
         internal:
-            MpirModExpression() { }
+            IntegerModExpression() { }
             HugeInt^ _quotient;
             void custom_mpz_mod(mpz_ptr r, mpz_srcptr n, mpz_srcptr d);
 
@@ -1370,7 +1370,7 @@ namespace MPIR
             /// </summary>
             /// <param name="destination">destination for the quotient.  This cannot be the same object the resulting division modulo is being assigned to.</param>
             /// <returns>An updated expression, with its internal state updated to compute the quotient.</returns>
-            MpirDivModExpression^ SavingQuotientTo(HugeInt^ destination)
+            IntegerDivModExpression^ SavingQuotientTo(HugeInt^ destination)
             {
                 _quotient = destination;
                 return this;
@@ -1380,13 +1380,13 @@ namespace MPIR
     /// <summary>
     /// Expression that results from a modulo operator.  Allows to save the division result to a separate object, and/or set the rounding mode for the division.
     /// </summary>
-    public ref class MpirModUiExpression abstract : MpirModExpression 
+    public ref class IntegerModUiExpression abstract : IntegerModExpression 
     {
         private:
             Action<mpir_ui>^ _limbRemainder;
 
         internal:
-            MpirModUiExpression() { }
+            IntegerModUiExpression() { }
             void custom_mpz_mod_ui(mpz_ptr r, mpz_srcptr n, mpir_ui d);
 
         public:
@@ -1396,7 +1396,7 @@ namespace MPIR
             /// <param name="callback">The delegate that will be called with the remainder of the division.  
             /// The delegate is called when the division is evaluated, i.e. is assigned to the Value property or consumed by a method that returns a primitive type.</param>
             /// <returns>An updated expression, with its internal state updated to compute the remainder.</returns>
-            MpirModExpression^ SettingRemainderTo(Action<mpir_ui>^ callback)
+            IntegerModExpression^ SettingRemainderTo(Action<mpir_ui>^ callback)
             {
                 _limbRemainder = callback;
                 return this;
@@ -1406,13 +1406,13 @@ namespace MPIR
     /// <summary>
     /// Expression that results from a right shift operator.  Allows to save the remainder to a separate result object, and/or set the rounding mode for the division.
     /// </summary>
-    public ref class MpirShiftRightExpression abstract : MpirDivModExpression
+    public ref class IntegerShiftRightExpression abstract : IntegerDivModExpression
     {
         private:
             bool _remainder;
 
         internal:
-            MpirShiftRightExpression() { }
+            IntegerShiftRightExpression() { }
             void custom_mpz_div_2exp(mpz_ptr q, mpz_srcptr n, mp_bitcnt_t bits);
 
         public:
@@ -1420,7 +1420,7 @@ namespace MPIR
             /// Computes the remainder of the division, rather than the quotient, which is the default.
             /// </summary>
             /// <returns>An updated expression, with its internal state updated to compute the remainder, rather than the quotient.</returns>
-            MpirDivModExpression^ Remainder()
+            IntegerDivModExpression^ Remainder()
             {
                 _remainder = true;
                 return this;
@@ -1430,10 +1430,10 @@ namespace MPIR
     /// <summary>
     /// Expression that results from a square root function.  Allows to save the remainder to a separate result object.
     /// </summary>
-    public ref class MpirSquareRootExpression abstract : MpirExpression 
+    public ref class IntegerSquareRootExpression abstract : IntegerExpression 
     {
         internal:
-            MpirSquareRootExpression() { }
+            IntegerSquareRootExpression() { }
             HugeInt^ _remainder;
             void custom_mpz_sqrt(mpz_ptr dest, mpz_srcptr oper);
 
@@ -1443,7 +1443,7 @@ namespace MPIR
             /// </summary>
             /// <param name="destination">destination for the remainder.  This cannot be the same object the result of the root operation is being assigned to.</param>
             /// <returns>An updated expression, with its internal state updated to save the remainder.</returns>
-            MpirExpression^ SavingRemainderTo(HugeInt^ destination)
+            IntegerExpression^ SavingRemainderTo(HugeInt^ destination)
             {
                 _remainder = destination;
                 return this;
@@ -1453,13 +1453,13 @@ namespace MPIR
     /// <summary>
     /// Expression that results from a root function.  Allows to save a flag indicating whether the root was exact, or to save the remainder to a separate result object.
     /// </summary>
-    public ref class MpirRootExpression abstract : MpirSquareRootExpression 
+    public ref class IntegerRootExpression abstract : IntegerSquareRootExpression 
     {
         private:
             Action<bool>^ _exact;
 
         internal:
-            MpirRootExpression() { }
+            IntegerRootExpression() { }
             void custom_mpz_root(mpz_ptr dest, mpz_srcptr oper, mpir_ui power);
 
         public:
@@ -1469,7 +1469,7 @@ namespace MPIR
             /// <param name="callback">Delegate that will be called with the exact flag.
             /// The delegate is called when the root operation is evaluated, i.e. is assigned to the Value property or consumed by a method that returns a primitive type.</param>
             /// <returns>An updated expression, with its internal state updated to compute the exact flag.</returns>
-            MpirExpression^ SettingExactTo(Action<bool>^ callback)
+            IntegerExpression^ SettingExactTo(Action<bool>^ callback)
             {
                 _exact = callback;
                 return this;
@@ -1479,10 +1479,10 @@ namespace MPIR
     /// <summary>
     /// Expression that results from a Gcd method.  Allows to additionally compute Diophantine equation multiplier(s).
     /// </summary>
-    public ref class MpirGcdExpression abstract : MpirExpression 
+    public ref class IntegerGcdExpression abstract : IntegerExpression 
     {
         internal:
-            MpirGcdExpression() { }
+            IntegerGcdExpression() { }
             HugeInt^ _s;
             HugeInt^ _t;
             void custom_mpz_gcd(mpz_ptr dest, mpz_srcptr a, mpz_srcptr b);
@@ -1495,7 +1495,7 @@ namespace MPIR
             /// <param name="s">destination for the first coefficient. Can be null if not needed.</param>
             /// <param name="t">destination for the second coefficient. Can be null if not needed.</param>
             /// <returns>An updated expression, with its internal state updated to save the coefficients.</returns>
-            MpirExpression^ SavingDiophantineMultipliersTo(HugeInt^ s, HugeInt^ t)
+            IntegerExpression^ SavingDiophantineMultipliersTo(HugeInt^ s, HugeInt^ t)
             {
                 _s = s;
                 _t = t;
@@ -1506,10 +1506,10 @@ namespace MPIR
     /// <summary>
     /// Expression that results from a RemoveFactors method.  Allows to additionally save the number of factors that were removed.
     /// </summary>
-    public ref class MpirRemoveFactorsExpression abstract : MpirExpression 
+    public ref class IntegerRemoveFactorsExpression abstract : IntegerExpression 
     {
         internal:
-            MpirRemoveFactorsExpression() { }
+            IntegerRemoveFactorsExpression() { }
             Action<mp_bitcnt_t>^ _count;
 
         public:
@@ -1519,7 +1519,7 @@ namespace MPIR
             /// <param name="callback">Delegate that will be called with the number of factors that were removed.
             /// The delegate is called when the root operation is evaluated, i.e. is assigned to the Value property or consumed by a method that returns a primitive type.</param>
             /// <returns>An updated expression, with its internal state updated to save the number of factors.</returns>
-            MpirExpression^ SavingCountRemovedTo(Action<mp_bitcnt_t>^ callback)
+            IntegerExpression^ SavingCountRemovedTo(Action<mp_bitcnt_t>^ callback)
             {
                 _count = callback;
                 return this;
@@ -1529,10 +1529,10 @@ namespace MPIR
     /// <summary>
     /// Expression that results from a method calculating a single number from a sequence, such as a fibonacci or lucas number.  Allows to save the previous number in addition to the requested one, so that the sequence can be continued.
     /// </summary>
-    public ref class MpirSequenceExpression abstract : MpirExpression 
+    public ref class IntegerSequenceExpression abstract : IntegerExpression 
     {
         internal:
-            MpirSequenceExpression() { }
+            IntegerSequenceExpression() { }
             HugeInt^ _previous;
 
         public:
@@ -1541,7 +1541,7 @@ namespace MPIR
             /// </summary>
             /// <param name="destination">destination for the previous number.  This cannot be the same object to which the expression is assigned.</param>
             /// <returns>An updated expression, with its internal state updated to additionally compute the previous number.</returns>
-            MpirExpression^ SavingPreviousTo(HugeInt^ destination)
+            IntegerExpression^ SavingPreviousTo(HugeInt^ destination)
             {
                 _previous = destination;
                 return this;
@@ -1552,64 +1552,64 @@ namespace MPIR
 
     #pragma region concrete expressions
 
-    DEFINE_BINARY_EXPRESSION_WITH_TWO              (MpirExpression, Add, Int)
-    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (MpirExpression, Add, Int, Ui)
-    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (MpirExpression, Add, Int, Si)
+    DEFINE_BINARY_EXPRESSION_WITH_TWO              (IntegerExpression, Add, Int)
+    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (IntegerExpression, Add, Int, Ui)
+    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (IntegerExpression, Add, Int, Si)
                                                    
-    DEFINE_BINARY_EXPRESSION_WITH_TWO              (MpirExpression, Subtract, Int)
-    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (MpirExpression, Subtract, Int, Ui)
-    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_LEFT    (MpirExpression, Subtract, Ui, Int)
-    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (MpirExpression, Subtract, Int, Si)
-    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_LEFT    (MpirExpression, Subtract, Si, Int)
+    DEFINE_BINARY_EXPRESSION_WITH_TWO              (IntegerExpression, Subtract, Int)
+    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (IntegerExpression, Subtract, Int, Ui)
+    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_LEFT    (IntegerExpression, Subtract, Ui, Int)
+    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (IntegerExpression, Subtract, Int, Si)
+    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_LEFT    (IntegerExpression, Subtract, Si, Int)
                                                    
-    DEFINE_BINARY_EXPRESSION_WITH_TWO              (MpirExpression, Multiply, Int)
-    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (MpirExpression, Multiply, Int, Ui)
-    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (MpirExpression, Multiply, Int, Si)
+    DEFINE_BINARY_EXPRESSION_WITH_TWO              (IntegerExpression, Multiply, Int)
+    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (IntegerExpression, Multiply, Int, Ui)
+    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (IntegerExpression, Multiply, Int, Si)
                                                    
-    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (MpirExpression, ShiftLeft, Int, Bits)
+    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (IntegerExpression, ShiftLeft, Int, Bits)
                                                    
-    DEFINE_UNARY_EXPRESSION_WITH_ONE               (MpirExpression, Negate, Int)
-    DEFINE_UNARY_EXPRESSION_WITH_ONE               (MpirExpression, Abs, Int)
+    DEFINE_UNARY_EXPRESSION_WITH_ONE               (IntegerExpression, Negate, Int)
+    DEFINE_UNARY_EXPRESSION_WITH_ONE               (IntegerExpression, Abs, Int)
                                                    
-    DEFINE_BINARY_EXPRESSION_WITH_TWO              (MpirDivideExpression, Divide, Int)
-    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (MpirDivideUiExpression, Divide, Int, Ui)
+    DEFINE_BINARY_EXPRESSION_WITH_TWO              (IntegerDivideExpression, Divide, Int)
+    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (IntegerDivideUiExpression, Divide, Int, Ui)
                                                    
-    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (MpirShiftRightExpression, ShiftRight, Int, Bits)
+    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (IntegerShiftRightExpression, ShiftRight, Int, Bits)
                                                    
-    DEFINE_BINARY_EXPRESSION_WITH_TWO              (MpirModExpression, Mod, Int)
-    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (MpirModUiExpression, Mod, Int, Ui)
+    DEFINE_BINARY_EXPRESSION_WITH_TWO              (IntegerModExpression, Mod, Int)
+    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (IntegerModUiExpression, Mod, Int, Ui)
                                                    
-    DEFINE_BINARY_EXPRESSION_WITH_TWO              (MpirExpression, DivideExactly, Int)
-    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (MpirExpression, DivideExactly, Int, Ui)
+    DEFINE_BINARY_EXPRESSION_WITH_TWO              (IntegerExpression, DivideExactly, Int)
+    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (IntegerExpression, DivideExactly, Int, Ui)
 
-    DEFINE_TERNARY_EXPRESSION_WITH_THREE           (MpirExpression, PowerMod, Int)
-    DEFINE_TERNARY_EXPRESSION_WITH_BUILT_IN_MIDDLE (MpirExpression, PowerMod, Int, Ui, Int)
+    DEFINE_TERNARY_EXPRESSION_WITH_THREE           (IntegerExpression, PowerMod, Int)
+    DEFINE_TERNARY_EXPRESSION_WITH_BUILT_IN_MIDDLE (IntegerExpression, PowerMod, Int, Ui, Int)
 
-    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (MpirExpression, Power, Int, Ui)
+    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (IntegerExpression, Power, Int, Ui)
 
-    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (MpirRootExpression, Root, Int, Ui)
-    DEFINE_UNARY_EXPRESSION_WITH_ONE               (MpirSquareRootExpression, SquareRoot, Int)
+    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (IntegerRootExpression, Root, Int, Ui)
+    DEFINE_UNARY_EXPRESSION_WITH_ONE               (IntegerSquareRootExpression, SquareRoot, Int)
 
-    DEFINE_BINARY_EXPRESSION_WITH_TWO              (MpirExpression, And, Int)
-    DEFINE_BINARY_EXPRESSION_WITH_TWO              (MpirExpression, Or, Int)
-    DEFINE_BINARY_EXPRESSION_WITH_TWO              (MpirExpression, Xor, Int)
-    DEFINE_UNARY_EXPRESSION_WITH_ONE               (MpirExpression, Complement, Int)
+    DEFINE_BINARY_EXPRESSION_WITH_TWO              (IntegerExpression, And, Int)
+    DEFINE_BINARY_EXPRESSION_WITH_TWO              (IntegerExpression, Or, Int)
+    DEFINE_BINARY_EXPRESSION_WITH_TWO              (IntegerExpression, Xor, Int)
+    DEFINE_UNARY_EXPRESSION_WITH_ONE               (IntegerExpression, Complement, Int)
 
-    DEFINE_BINARY_EXPRESSION_WITH_TWO              (MpirExpression, Invert, Int)
-    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (MpirExpression, NextPrimeCandidate, Int, Rnd)
-    DEFINE_BINARY_EXPRESSION_WITH_TWO              (MpirGcdExpression, Gcd, Int)
-    DEFINE_BINARY_EXPRESSION_WITH_TWO              (MpirRemoveFactorsExpression, RemoveFactors, Int)
+    DEFINE_BINARY_EXPRESSION_WITH_TWO              (IntegerExpression, Invert, Int)
+    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (IntegerExpression, NextPrimeCandidate, Int, Rnd)
+    DEFINE_BINARY_EXPRESSION_WITH_TWO              (IntegerGcdExpression, Gcd, Int)
+    DEFINE_BINARY_EXPRESSION_WITH_TWO              (IntegerRemoveFactorsExpression, RemoveFactors, Int)
 
-    DEFINE_BINARY_EXPRESSION_WITH_TWO              (MpirExpression, Lcm, Int)
-    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (MpirExpression, Lcm, Int, Ui)
+    DEFINE_BINARY_EXPRESSION_WITH_TWO              (IntegerExpression, Lcm, Int)
+    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (IntegerExpression, Lcm, Int, Ui)
 
-    DEFINE_BINARY_EXPRESSION_WITH_BUILT_INS_ONLY   (MpirExpression, Power, Ui, Ui)
-    DEFINE_BINARY_EXPRESSION_WITH_BUILT_INS_ONLY   (MpirExpression, Factorial, Ui, Ui)
-    DEFINE_UNARY_EXPRESSION_WITH_BUILT_INS_ONLY    (MpirExpression, Primorial, Ui)
-    DEFINE_BINARY_EXPRESSION_WITH_BUILT_INS_ONLY   (MpirExpression, Binomial, Ui, Ui)
-    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (MpirExpression, Binomial, Int, Ui)
-    DEFINE_UNARY_EXPRESSION_WITH_BUILT_INS_ONLY    (MpirSequenceExpression, Fibonacci, Ui)
-    DEFINE_UNARY_EXPRESSION_WITH_BUILT_INS_ONLY    (MpirSequenceExpression, Lucas, Ui)
+    DEFINE_BINARY_EXPRESSION_WITH_BUILT_INS_ONLY   (IntegerExpression, Power, Ui, Ui)
+    DEFINE_BINARY_EXPRESSION_WITH_BUILT_INS_ONLY   (IntegerExpression, Factorial, Ui, Ui)
+    DEFINE_UNARY_EXPRESSION_WITH_BUILT_INS_ONLY    (IntegerExpression, Primorial, Ui)
+    DEFINE_BINARY_EXPRESSION_WITH_BUILT_INS_ONLY   (IntegerExpression, Binomial, Ui, Ui)
+    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (IntegerExpression, Binomial, Int, Ui)
+    DEFINE_UNARY_EXPRESSION_WITH_BUILT_INS_ONLY    (IntegerSequenceExpression, Fibonacci, Ui)
+    DEFINE_UNARY_EXPRESSION_WITH_BUILT_INS_ONLY    (IntegerSequenceExpression, Lucas, Ui)
 
     #pragma endregion
 
@@ -1618,7 +1618,7 @@ namespace MPIR
     /// <summary>
     /// Multi-precision Integer class.
     /// </summary>
-    public ref class HugeInt sealed : MpirExpression
+    public ref class HugeInt sealed : IntegerExpression
     {
         internal:
             //fields
@@ -1688,7 +1688,7 @@ namespace MPIR
             /// Initializes a new integer instance and sets its value to the result of computing the source expression.
             /// </summary>
             /// <param name="value">the expression that will be computed, and the result set as the initial value of the new instance.</param>
-            HugeInt(MpirExpression^ value);
+            HugeInt(IntegerExpression^ value);
 
             /// <summary>
             /// Constructs and returns a new integer instance with its value set to the <paramref name="value"/> parameter.
@@ -1837,10 +1837,10 @@ namespace MPIR
             /// and would not perform as well as doing the same operations on a.Value.
             /// </para>It would also not compile if the source were a "using" variable, as all method-local integers should be.
             /// </remarks>
-            property MpirExpression^ Value
+            property IntegerExpression^ Value
             {
-                void set(MpirExpression^ expr) { expr->AssignTo(_value); }
-                MpirExpression^ get() { return this; }
+                void set(IntegerExpression^ expr) { expr->AssignTo(_value); }
+                IntegerExpression^ get() { return this; }
             }
 
             /// <summary>
@@ -2278,7 +2278,7 @@ namespace MPIR
             /// <param name="value">Base for the initial value for the new integer instance</param>
             /// <param name="power">Power to raise the <paramref name="value"/> to when calculating the initial value for the new instance</param>
             /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
-            static MpirExpression^ Power(mpir_ui value, mpir_ui power) { return gcnew MpirPowerUiUiExpression(value, power); }
+            static IntegerExpression^ Power(mpir_ui value, mpir_ui power) { return gcnew MpirPowerUiUiExpression(value, power); }
 
             /// <summary>
             /// Returns an expression for calculating the factorial of <paramref name="a"/>.
@@ -2286,7 +2286,7 @@ namespace MPIR
             /// </para></summary>
             /// <param name="a">The source number to take the factorial of</param>
             /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
-            static MpirExpression^ Factorial(mpir_ui a) { return gcnew MpirFactorialUiUiExpression(a, 1); }
+            static IntegerExpression^ Factorial(mpir_ui a) { return gcnew MpirFactorialUiUiExpression(a, 1); }
 
             /// <summary>
             /// Returns an expression for calculating the multifactorial of <paramref name="a"/> of the specified order.
@@ -2295,7 +2295,7 @@ namespace MPIR
             /// <param name="a">The source number to take the multifactorial of</param>
             /// <param name="order">The order of the multifactorial, i.e. 2 for <paramref name="a"/>!!, 3 for <paramref name="a"/>!!!, etc.</param>
             /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
-            static MpirExpression^ Factorial(mpir_ui a, mpir_ui order) { return gcnew MpirFactorialUiUiExpression(a, order); }
+            static IntegerExpression^ Factorial(mpir_ui a, mpir_ui order) { return gcnew MpirFactorialUiUiExpression(a, order); }
 
             /// <summary>
             /// Returns an expression for calculating the primorial of <paramref name="a"/>, i.e. the product of all positive prime numbers &lt;= a.
@@ -2303,7 +2303,7 @@ namespace MPIR
             /// </para></summary>
             /// <param name="a">The source number to take the primorial of</param>
             /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
-            static MpirExpression^ Primorial(mpir_ui a) { return gcnew MpirPrimorialUiExpression(a); }
+            static IntegerExpression^ Primorial(mpir_ui a) { return gcnew MpirPrimorialUiExpression(a); }
 
             /// <summary>
             /// Returns an expression for calculating the binomial coefficient (<paramref name="n"/>, <paramref name="k"/>), a.k.a. number of k-element combinations out of an n-element set.
@@ -2312,7 +2312,7 @@ namespace MPIR
             /// <param name="n">The first source value of the binomial coefficient, a.k.a. set size</param>
             /// <param name="k">The second source value of the binomial coefficient, a.k.a. subset size</param>
             /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
-            static MpirExpression^ Binomial(mpir_ui n, mpir_ui k) { return gcnew MpirBinomialUiUiExpression(n, k); }
+            static IntegerExpression^ Binomial(mpir_ui n, mpir_ui k) { return gcnew MpirBinomialUiUiExpression(n, k); }
 
             /// <summary>
             /// Returns an expression for calculating the binomial coefficient (<paramref name="n"/>, <paramref name="k"/>), a.k.a. number of k-element combinations out of an n-element set.
@@ -2324,7 +2324,7 @@ namespace MPIR
             /// </para></param>
             /// <param name="k">The second source value of the binomial coefficient, a.k.a. subset size</param>
             /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
-            static MpirExpression^ Binomial(MpirExpression^ n, mpir_ui k) { return gcnew MpirBinomialIntUiExpression(n, k); }
+            static IntegerExpression^ Binomial(IntegerExpression^ n, mpir_ui k) { return gcnew MpirBinomialIntUiExpression(n, k); }
 
             /// <summary>
             /// Returns an expression for calculating the <paramref name="n"/>th Fibonacci number.
@@ -2337,7 +2337,7 @@ namespace MPIR
             /// </summary>
             /// <param name="n">The index of the Fibonacci number to calculate</param>
             /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
-            static MpirSequenceExpression^ Fibonacci(mpir_ui n) { return gcnew MpirFibonacciUiExpression(n); }
+            static IntegerSequenceExpression^ Fibonacci(mpir_ui n) { return gcnew MpirFibonacciUiExpression(n); }
 
             /// <summary>
             /// Returns an expression for calculating the <paramref name="n"/>th Lucas number.
@@ -2350,7 +2350,7 @@ namespace MPIR
             /// </summary>
             /// <param name="n">The index of the Lucas number to calculate</param>
             /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
-            static MpirSequenceExpression^ Lucas(mpir_ui n) { return gcnew MpirLucasUiExpression(n); }
+            static IntegerSequenceExpression^ Lucas(mpir_ui n) { return gcnew MpirLucasUiExpression(n); }
 
             #pragma endregion
     };

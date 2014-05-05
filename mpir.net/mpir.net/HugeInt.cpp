@@ -43,7 +43,7 @@ namespace MPIR
         mpz_init(_value);
     }
 
-    HugeInt::HugeInt(MpirExpression^ value)
+    HugeInt::HugeInt(IntegerExpression^ value)
     {
         AllocateStruct();
         mpz_init(_value);
@@ -145,7 +145,7 @@ namespace MPIR
         return result;
     }
 
-    int MpirExpression::GetHashCode()
+    int IntegerExpression::GetHashCode()
     {
         IN_CONTEXT(this);
 
@@ -164,14 +164,14 @@ namespace MPIR
 
     #pragma region Interface implementations
 
-    int MpirExpression::CompareTo(Object^ a, bool& valid)
+    int IntegerExpression::CompareTo(Object^ a, bool& valid)
     {
         valid = true;
 
         if (IS_NULL(a))
             return 1;
 
-        MpirExpression^ expr = dynamic_cast<MpirExpression^>(a);
+        IntegerExpression^ expr = dynamic_cast<IntegerExpression^>(a);
         if(!IS_NULL(expr))
             return CompareTo(expr);
 
@@ -199,7 +199,7 @@ namespace MPIR
         return 0;
     }
 
-    int MpirExpression::CompareTo(Object^ a)
+    int IntegerExpression::CompareTo(Object^ a)
     {
         bool valid;
         auto result = CompareTo(a, valid);
@@ -210,7 +210,7 @@ namespace MPIR
         throw gcnew ArgumentException("Invalid argument type", "a");
     }
 
-    int MpirExpression::CompareTo(MpirExpression^ a)
+    int IntegerExpression::CompareTo(IntegerExpression^ a)
     {
         if (IS_NULL(a))
             return 1;
@@ -219,7 +219,7 @@ namespace MPIR
         return mpz_cmp(context.Args[0], context.Args[1]);
     }
 
-    bool MpirExpression::Equals(Object^ a)
+    bool IntegerExpression::Equals(Object^ a)
     {
         bool valid;
         auto result = CompareTo(a, valid);
@@ -227,7 +227,7 @@ namespace MPIR
         return valid && result == 0;
     }
 
-    bool MpirExpression::Equals(MpirExpression^ a)
+    bool IntegerExpression::Equals(IntegerExpression^ a)
     {
         return CompareTo(a) == 0;
     }
@@ -236,7 +236,7 @@ namespace MPIR
 
     #pragma region expression special cases
 
-    void MpirDivideExpression::custom_mpz_div(mpz_ptr q, mpz_srcptr n, mpz_srcptr d)
+    void IntegerDivideExpression::custom_mpz_div(mpz_ptr q, mpz_srcptr n, mpz_srcptr d)
     {
         switch((rounding == RoundingModes::Default) ? MpirSettings::RoundingMode : rounding)
         {
@@ -260,7 +260,7 @@ namespace MPIR
         }
     }
 
-    void MpirDivideUiExpression::custom_mpz_div_ui(mpz_ptr q, mpz_srcptr n, mpir_ui d)
+    void IntegerDivideUiExpression::custom_mpz_div_ui(mpz_ptr q, mpz_srcptr n, mpir_ui d)
     {
         mpir_ui limb;
 
@@ -289,7 +289,7 @@ namespace MPIR
             _limbRemainder(limb);
     }
 
-    void MpirShiftRightExpression::custom_mpz_div_2exp(mpz_ptr q, mpz_srcptr n, mp_bitcnt_t d)
+    void IntegerShiftRightExpression::custom_mpz_div_2exp(mpz_ptr q, mpz_srcptr n, mp_bitcnt_t d)
     {
         switch((rounding == RoundingModes::Default) ? MpirSettings::RoundingMode : rounding)
         {
@@ -313,7 +313,7 @@ namespace MPIR
         }
     }
 
-    void MpirModExpression::custom_mpz_mod(mpz_ptr r, mpz_srcptr n, mpz_srcptr d)
+    void IntegerModExpression::custom_mpz_mod(mpz_ptr r, mpz_srcptr n, mpz_srcptr d)
     {
         switch((rounding == RoundingModes::Default) ? MpirSettings::RoundingMode : rounding)
         {
@@ -337,7 +337,7 @@ namespace MPIR
         }
     }
 
-    void MpirModUiExpression::custom_mpz_mod_ui(mpz_ptr r, mpz_srcptr n, mpir_ui d)
+    void IntegerModUiExpression::custom_mpz_mod_ui(mpz_ptr r, mpz_srcptr n, mpir_ui d)
     {
         mpir_ui limb;
 
@@ -366,7 +366,7 @@ namespace MPIR
             _limbRemainder(limb);
     }
 
-    void MpirRootExpression::custom_mpz_root(mpz_ptr dest, mpz_srcptr oper, mpir_ui power)
+    void IntegerRootExpression::custom_mpz_root(mpz_ptr dest, mpz_srcptr oper, mpir_ui power)
     {
         if(!IS_NULL(_remainder))
             mpz_rootrem(dest, _remainder->_value, oper, power);
@@ -376,14 +376,14 @@ namespace MPIR
             _exact(mpz_root(dest, oper, power) != 0);
     }
 
-    void MpirSquareRootExpression::custom_mpz_sqrt(mpz_ptr dest, mpz_srcptr oper)
+    void IntegerSquareRootExpression::custom_mpz_sqrt(mpz_ptr dest, mpz_srcptr oper)
     {
         IS_NULL(_remainder)
             ? mpz_sqrt(dest, oper)
             : mpz_sqrtrem(dest, _remainder->_value, oper);
     }
 
-    void MpirGcdExpression::custom_mpz_gcd(mpz_ptr dest, mpz_srcptr a, mpz_srcptr b)
+    void IntegerGcdExpression::custom_mpz_gcd(mpz_ptr dest, mpz_srcptr a, mpz_srcptr b)
     {
         switch ((IS_NULL(_s) ? 0 : 1) + (IS_NULL(_t) ? 0 : 2))
         {
@@ -456,7 +456,7 @@ namespace MPIR
     DEFINE_TERNARY_ASSIGNMENT_REF_REF_REF(PowerMod, Int, mpz_powm);
     DEFINE_TERNARY_ASSIGNMENT_REF_VAL_REF(PowerMod, Int, Ui, Int, mpz_powm_ui)
 
-    mpir_ui MpirExpression::Mod(mpir_ui d, RoundingModes rounding)
+    mpir_ui IntegerExpression::Mod(mpir_ui d, RoundingModes rounding)
     {
         IN_CONTEXT(this);
 
@@ -684,18 +684,18 @@ namespace MPIR
         return mpz_likely_prime_p(_value, random->_value, pretested) != 0;
     }
 
-    MAKE_FUNCTION_WITH_LIMB (MpirExpression, DEFINE, NextPrimeCandidate, Rnd)
+    MAKE_FUNCTION_WITH_LIMB (IntegerExpression, DEFINE, NextPrimeCandidate, Rnd)
     DEFINE_ASSIGNMENT_PROLOG(NextPrimeCandidateIntRnd)
     {
         IN_CONTEXT(Left);
         mpz_next_prime_candidate(destination, context.Args[0], Right->_value);
     }
 
-    MAKE_FUNCTION_WITH_ONE (MpirGcdExpression, DEFINE, Gcd, Int)
-    MAKE_FUNCTION_WITH_ONE (MpirExpression, DEFINE, Lcm, Int)
-    MAKE_FUNCTION_WITH_LIMB (MpirExpression, DEFINE, Lcm, Ui)
+    MAKE_FUNCTION_WITH_ONE (IntegerGcdExpression, DEFINE, Gcd, Int)
+    MAKE_FUNCTION_WITH_ONE (IntegerExpression, DEFINE, Lcm, Int)
+    MAKE_FUNCTION_WITH_LIMB (IntegerExpression, DEFINE, Lcm, Ui)
 
-    MAKE_FUNCTION_WITH_ONE (MpirExpression, DEFINE, Invert, Int)
+    MAKE_FUNCTION_WITH_ONE (IntegerExpression, DEFINE, Invert, Int)
     DEFINE_ASSIGNMENT_PROLOG(InvertIntInt)
     {
         IN_CONTEXT(Left, Right);
@@ -703,7 +703,7 @@ namespace MPIR
             throw gcnew ArgumentException("Inverse does not exist");
     }
 
-    MAKE_FUNCTION_WITH_ONE (MpirRemoveFactorsExpression, DEFINE, RemoveFactors, Int)
+    MAKE_FUNCTION_WITH_ONE (IntegerRemoveFactorsExpression, DEFINE, RemoveFactors, Int)
     DEFINE_ASSIGNMENT_PROLOG(RemoveFactorsIntInt)
     {
         IN_CONTEXT(Left, Right);
