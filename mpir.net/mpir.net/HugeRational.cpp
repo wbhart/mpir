@@ -19,22 +19,14 @@ along with the MPIR Library.  If not, see http://www.gnu.org/licenses/.
 
 #include "Stdafx.h"
 #include "Random.h"
+#include "HugeRational.h"
 
 using namespace System::Runtime::InteropServices;
 using namespace System::Text;
 
 namespace MPIR
 {
-    #pragma region MpirSettings
-
-    void MpirSettings::ToStringDigits::set(int value)
-    {
-        _toStringDigits = value;
-        _toStringModulo = gcnew HugeInt(HugeInt::Power(10, value));
-    }
-
-    #pragma endregion
-
+    /*
     #pragma region construction
 
     HugeInt::HugeInt()
@@ -751,4 +743,6 @@ namespace MPIR
     }
 
     #pragma endregion
+
+    */
 };

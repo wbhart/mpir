@@ -143,6 +143,7 @@
   <ItemGroup>
     <ClInclude Include="..\..\..\mpir.net\mpir.net\Common.h" />
     <ClInclude Include="..\..\..\mpir.net\mpir.net\HugeInt.h" />
+    <ClInclude Include="..\..\..\mpir.net\mpir.net\HugeRational.h" />
     <ClInclude Include="..\..\..\mpir.net\mpir.net\Random.h" />
     <ClInclude Include="..\..\..\mpir.net\mpir.net\resource.h" />
     <ClInclude Include="..\..\..\mpir.net\mpir.net\Stdafx.h" />
@@ -151,6 +152,7 @@
     <ClCompile Include="..\..\..\mpir.net\mpir.net\AssemblyInfo.cpp" />
     <ClCompile Include="..\..\..\mpir.net\mpir.net\Common.cpp" />
     <ClCompile Include="..\..\..\mpir.net\mpir.net\HugeInt.cpp" />
+    <ClCompile Include="..\..\..\mpir.net\mpir.net\HugeRational.cpp" />
     <ClCompile Include="..\..\..\mpir.net\mpir.net\Random.cpp" />
     <ClCompile Include="..\..\..\mpir.net\mpir.net\Stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

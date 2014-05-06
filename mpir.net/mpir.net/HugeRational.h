@@ -23,322 +23,39 @@ using namespace System;
 using namespace System::IO;
 using namespace System::Runtime::InteropServices;
 
-#pragma region misc macros
-
-#define IS_NULL(a) (Object::ReferenceEquals(a, nullptr))
-#define PIN(x) pin_ptr<T> pinptr##x = &x[0]; void* pinned_##x = pinptr##x;
-
-#pragma endregion
-
-#pragma region Expression macros
-
-//defines a unary expression class
-#define DEFINE_UNARY_EXPRESSION(base, name, type)                \
-private ref class Mpir##name##Expression : base                  \
-{                                                                \
-    internal:                                                    \
-        type Operand;                                            \
-        virtual void AssignTo(mpz_ptr destination) override;     \
-        Mpir##name##Expression(type operand)                     \
-        {                                                        \
-            Operand = operand;                                   \
-        }                                                        \
-};
-
-//defines a binary expression class
-#define DEFINE_BINARY_EXPRESSION(base, name, leftType, rightType) \
-private ref class Mpir##name##Expression : base                   \
-{                                                                 \
-    internal:                                                     \
-        leftType Left;                                            \
-        rightType Right;                                          \
-        virtual void AssignTo(mpz_ptr destination) override;      \
-        Mpir##name##Expression(leftType left, rightType right)    \
-        {                                                         \
-            Left = left;                                          \
-            Right = right;                                        \
-        }                                                         \
-};
-
-//defines a ternary expression class
-#define DEFINE_TERNARY_EXPRESSION(base, name, leftType, middleType, rightType)     \
-private ref class Mpir##name##Expression : base                                    \
-{                                                                                  \
-    internal:                                                                      \
-        leftType Left;                                                             \
-        middleType Middle;                                                         \
-        rightType Right;                                                           \
-        virtual void AssignTo(mpz_ptr destination) override;                       \
-        Mpir##name##Expression(leftType left, middleType middle, rightType right)  \
-        {                                                                          \
-            Left = left;                                                           \
-            Middle = middle;                                                       \
-            Right = right;                                                         \
-        }                                                                          \
-};
-
-#define IN_CONTEXT_1(a)        \
-    EvaluationContext context; \
-    a->AssignTo(context)
-
-#define IN_CONTEXT_2(a, b)     \
-    EvaluationContext context; \
-    a->AssignTo(context);      \
-    b->AssignTo(context)
-
-#define IN_CONTEXT_3(a, b, c)  \
-    EvaluationContext context; \
-    a->AssignTo(context);      \
-    b->AssignTo(context);      \
-    c->AssignTo(context)
-
-#define COUNT_ARGS_IMPL2(_1, _2, _3, name, ...) name
-#define COUNT_ARGS_IMPL(args) COUNT_ARGS_IMPL2 args
-#define COUNT_ARGS(...) COUNT_ARGS_IMPL((__VA_ARGS__, 3, 2, 1))
-#define MACRO_CHOOSE2(prefix, number) prefix##number
-#define MACRO_CHOOSE1(prefix, number) MACRO_CHOOSE2(prefix, number)
-#define MACRO_CHOOSE(prefix, number) MACRO_CHOOSE1(prefix, number)
-#define MACRO_GLUE(x, y) x y
-#define IN_CONTEXT(...) MACRO_GLUE(MACRO_CHOOSE(IN_CONTEXT_, COUNT_ARGS(__VA_ARGS__)), (__VA_ARGS__))
-
-#define TYPE_FOR_ABBR_Int HugeInt^
-#define TYPE_FOR_ABBR_Expr IntegerExpression^
-#define TYPE_FOR_ABBR_Si mpir_si
-#define TYPE_FOR_ABBR_Ui mpir_ui
-#define TYPE_FOR_ABBR_Bits mp_bitcnt_t
-#define TYPE_FOR_ABBR_Rnd MpirRandom^
-
-//unary expressions
-#define DEFINE_UNARY_EXPRESSION_WITH_ONE(base, name, typeAbbr) \
-    DEFINE_UNARY_EXPRESSION(base, name##typeAbbr, IntegerExpression^)           
-
-#define DEFINE_UNARY_EXPRESSION_WITH_BUILT_INS_ONLY(base, name, typeAbbr)    \
-    DEFINE_UNARY_EXPRESSION(base, name##typeAbbr, TYPE_FOR_ABBR_##typeAbbr)
-
-//binary expressions
-#define DEFINE_BINARY_EXPRESSION_WITH_BUILT_INS_ONLY(base, name, leftTypeAbbr, rightTypeAbbr)    \
-    DEFINE_BINARY_EXPRESSION(base, name##leftTypeAbbr##rightTypeAbbr, TYPE_FOR_ABBR_##leftTypeAbbr, TYPE_FOR_ABBR_##rightTypeAbbr)
-
-#define DEFINE_BINARY_EXPRESSION_WITH_TWO(base, name, typeAbbr) \
-    DEFINE_BINARY_EXPRESSION(base, name##typeAbbr##typeAbbr, IntegerExpression^, IntegerExpression^)
-
-#define DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT(base, name, leftTypeAbbr, rightTypeAbbr)    \
-    DEFINE_BINARY_EXPRESSION(base, name##leftTypeAbbr##rightTypeAbbr, IntegerExpression^, TYPE_FOR_ABBR_##rightTypeAbbr) 
-
-#define DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_LEFT(base, name, leftTypeAbbr, rightTypeAbbr)     \
-    DEFINE_BINARY_EXPRESSION(base, name##leftTypeAbbr##rightTypeAbbr, TYPE_FOR_ABBR_##leftTypeAbbr, IntegerExpression^)
-
-//ternary expressions
-#define DEFINE_TERNARY_EXPRESSION_WITH_THREE(base, name, typeAbbr) \
-    DEFINE_TERNARY_EXPRESSION(base, name##typeAbbr##typeAbbr##typeAbbr, IntegerExpression^, IntegerExpression^, IntegerExpression^)
-
-#define DEFINE_TERNARY_EXPRESSION_WITH_BUILT_IN_MIDDLE(base, name, leftTypeAbbr, middleTypeAbbr, rightTypeAbbr)    \
-    DEFINE_TERNARY_EXPRESSION(base, name##leftTypeAbbr##middleTypeAbbr##rightTypeAbbr, IntegerExpression^, TYPE_FOR_ABBR_##middleTypeAbbr, IntegerExpression^)
-
-#pragma endregion
-
-#pragma region Method macros
-
-//void functions
-#define MAKE_VOID_FUNCTION(base, action, op, type)  \
-    MAKE_VOID_FUNCTION_##action(base, op, op##type)
-
-#define MAKE_VOID_FUNCTION_DECLARE(base, op, result)     \
-    base^ op();
-
-#define MAKE_VOID_FUNCTION_DEFINE(base, op, result)      \
-    base^ IntegerExpression::op() { return gcnew Mpir##result##Expression(this); }
-
-//one-arg functions
-#define MAKE_FUNCTION_WITH_ONE(base, action, op, argTypeAbbr)  \
-    MAKE_FUNCTION_WITH_ONE_##action(base, op, Expr, op##Int##argTypeAbbr)
-
-#define MAKE_FUNCTION_WITH_LIMB(base, action, op, argTypeAbbr)  \
-    MAKE_FUNCTION_WITH_ONE_##action(base, op, argTypeAbbr, op##Int##argTypeAbbr)
-
-#define MAKE_FUNCTION_WITH_ONE_DECLARE(base, op, argTypeAbbr, result)     \
-    base^ op(TYPE_FOR_ABBR_##argTypeAbbr a);
-
-#define MAKE_FUNCTION_WITH_ONE_DEFINE(base, op, argTypeAbbr, result)      \
-    base^ IntegerExpression::op(TYPE_FOR_ABBR_##argTypeAbbr a) { return gcnew Mpir##result##Expression(this, a); }
-
-//two-arg functions
-#define MAKE_FUNCTION_WITH_TWO(base, action, op, leftTypeAbbr, rightTypeAbbr)  \
-    MAKE_FUNCTION_WITH_TWO_##action(base, op, Expr, Expr, op##Int##leftTypeAbbr##rightTypeAbbr)
-
-#define MAKE_FUNCTION_WITH_TWO_LLIMB(base, action, op, leftTypeAbbr, rightTypeAbbr)  \
-    MAKE_FUNCTION_WITH_TWO_##action(base, op, leftTypeAbbr, Expr, op##Int##leftTypeAbbr##rightTypeAbbr)
-
-#define MAKE_FUNCTION_WITH_TWO_DECLARE(base, op, leftTypeAbbr, rightTypeAbbr, result)     \
-    base^ op(TYPE_FOR_ABBR_##leftTypeAbbr a, TYPE_FOR_ABBR_##rightTypeAbbr b);
-
-#define MAKE_FUNCTION_WITH_TWO_DEFINE(base, op, leftTypeAbbr, rightTypeAbbr, result)      \
-    base^ IntegerExpression::op(TYPE_FOR_ABBR_##leftTypeAbbr a, TYPE_FOR_ABBR_##rightTypeAbbr b) { return gcnew Mpir##result##Expression(this, a, b); }
-
-//functions with one argument and simple result
-//#define MAKE_SIMPLE_FUNCTION_WITH_ONE(base, action, op, resultType, argType) \
-//    MAKE_SIMPLE_FUNCTION_WITH_ONE_##action(base, op, resultType, Expr)
-//
-//#define MAKE_SIMPLE_FUNCTION_WITH_LIMB(base, action, op, resultType, argType) \
-//    MAKE_SIMPLE_FUNCTION_WITH_ONE_##action(base, op, resultType, argType)
-//
-//#define MAKE_SIMPLE_FUNCTION_WITH_ONE_DECLARE(base, op, resultTypeAbbr, argTypeAbbr)     \
-//    TYPE_FOR_ABBR_##resultTypeAbbr op(TYPE_FOR_ABBR_##argTypeAbbr a);
-//
-//#define MAKE_SIMPLE_FUNCTION_WITH_ONE_DEFINE(base, op, resultTypeAbbr, argTypeAbbr)      \
-//    TYPE_FOR_ABBR_##resultTypeAbbr HugeInt::op(TYPE_FOR_ABBR_##argTypeAbbr a) { return gcnew Mpir##result##Expression(this, a); }
-
-//unary operators
-#define MAKE_UNARY_OPERATOR(base, action, op, result, mpType) \
-    MAKE_UNARY_OPERATOR_##action(base, op, result##mpType, Expr)
-
-#define MAKE_UNARY_OPERATOR_DECLARE(base, op, result, type)     \
-    static base^ operator op(TYPE_FOR_ABBR_##type a);
-
-#define MAKE_UNARY_OPERATOR_DEFINE(base, op, result, type)      \
-    base^ IntegerExpression::operator op(TYPE_FOR_ABBR_##type a) { return gcnew Mpir##result##Expression(a); }
-
-//binary operators
-#define MAKE_BINARY_OPERATOR_DECLARE(base, op, result, leftType, rightType, left, right)     \
-    static base^ operator op(TYPE_FOR_ABBR_##leftType a, TYPE_FOR_ABBR_##rightType b);
-
-#define MAKE_BINARY_OPERATOR_DEFINE(base, op, result, leftType, rightType, left, right)      \
-    base^ IntegerExpression::operator op(TYPE_FOR_ABBR_##leftType a, TYPE_FOR_ABBR_##rightType b) { return gcnew Mpir##result##Expression(left, right); }
-
-#define MAKE_BINARY_OPERATOR_STANDARD(base, action, op, result, leftType, rightType)        \
-    MAKE_BINARY_OPERATOR_##action(base, op, result##leftType##rightType, Expr, Expr, a, b)      
-
-#define MAKE_BINARY_OPERATOR_RLIMB(base, action, op, result, mpType, limbType)  \
-    MAKE_BINARY_OPERATOR_##action(base, op, result##mpType##limbType, Expr, limbType, a, b)          
-
-#define MAKE_BINARY_OPERATOR_LLIMB(base, action, op, result, mpType, limbType)  \
-    MAKE_BINARY_OPERATOR_##action(base, op, result##limbType##mpType, limbType, Expr, a, b)           
-
-#define MAKE_BINARY_OPERATOR_LLIMB_R(base, action, op, result, mpType, limbType) \
-    MAKE_BINARY_OPERATOR_##action(base, op, result##mpType##limbType, limbType, Expr, b, a)
-
-//master operators/functions definition
-#define DEFINE_OPERATIONS(action)                                                                    \
-    MAKE_BINARY_OPERATOR_STANDARD  (IntegerExpression,           action, +, Add, Int, Int)           \
-    MAKE_BINARY_OPERATOR_RLIMB     (IntegerExpression,           action, +, Add, Int, Ui)            \
-    MAKE_BINARY_OPERATOR_LLIMB_R   (IntegerExpression,           action, +, Add, Int, Ui)            \
-    MAKE_BINARY_OPERATOR_RLIMB     (IntegerExpression,           action, +, Add, Int, Si)            \
-    MAKE_BINARY_OPERATOR_LLIMB_R   (IntegerExpression,           action, +, Add, Int, Si)            \
-                                                                                                     \
-    MAKE_BINARY_OPERATOR_STANDARD  (IntegerExpression,           action, -, Subtract, Int, Int)      \
-    MAKE_BINARY_OPERATOR_RLIMB     (IntegerExpression,           action, -, Subtract, Int, Ui)       \
-    MAKE_BINARY_OPERATOR_LLIMB     (IntegerExpression,           action, -, Subtract, Int, Ui)       \
-    MAKE_BINARY_OPERATOR_RLIMB     (IntegerExpression,           action, -, Subtract, Int, Si)       \
-    MAKE_BINARY_OPERATOR_LLIMB     (IntegerExpression,           action, -, Subtract, Int, Si)       \
-                                                                                                     \
-    MAKE_BINARY_OPERATOR_STANDARD  (IntegerExpression,           action, *, Multiply, Int, Int)      \
-    MAKE_BINARY_OPERATOR_RLIMB     (IntegerExpression,           action, *, Multiply, Int, Ui)       \
-    MAKE_BINARY_OPERATOR_LLIMB_R   (IntegerExpression,           action, *, Multiply, Int, Ui)       \
-    MAKE_BINARY_OPERATOR_RLIMB     (IntegerExpression,           action, *, Multiply, Int, Si)       \
-    MAKE_BINARY_OPERATOR_LLIMB_R   (IntegerExpression,           action, *, Multiply, Int, Si)       \
-                                                                                                     \
-    MAKE_BINARY_OPERATOR_RLIMB     (IntegerExpression,           action, <<, ShiftLeft, Int, Bits)   \
-    MAKE_BINARY_OPERATOR_RLIMB     (IntegerShiftRightExpression, action, >>, ShiftRight, Int, Bits)  \
-                                                                                                     \
-    MAKE_UNARY_OPERATOR            (IntegerExpression,           action, -, Negate, Int)             \
-                                                                                                     \
-    MAKE_VOID_FUNCTION             (IntegerExpression,           action, Abs, Int)                   \
-                                                                                                     \
-    MAKE_BINARY_OPERATOR_STANDARD  (IntegerDivideExpression,     action, /, Divide, Int, Int)        \
-    MAKE_BINARY_OPERATOR_RLIMB     (IntegerDivideUiExpression,   action, /, Divide, Int, Ui)         \
-                                                                                                     \
-    MAKE_BINARY_OPERATOR_STANDARD  (IntegerModExpression,        action, %, Mod, Int, Int)           \
-    MAKE_BINARY_OPERATOR_RLIMB     (IntegerModUiExpression,      action, %, Mod, Int, Ui)            \
-                                                                                                     \
-    MAKE_BINARY_OPERATOR_RLIMB     (IntegerExpression,           action, ^, Power, Int, Ui)          \
-                                                                                                     \
-    MAKE_FUNCTION_WITH_ONE         (IntegerExpression,           action, DivideExactly, Int)         \
-    MAKE_FUNCTION_WITH_LIMB        (IntegerExpression,           action, DivideExactly, Ui)          \
-                                                                                                     \
-    MAKE_FUNCTION_WITH_TWO         (IntegerExpression,           action, PowerMod, Int, Int)         \
-    MAKE_FUNCTION_WITH_TWO_LLIMB   (IntegerExpression,           action, PowerMod, Ui, Int)          \
-                                                                                                     \
-    MAKE_FUNCTION_WITH_LIMB        (IntegerRootExpression,       action, Root, Ui)                   \
-    MAKE_VOID_FUNCTION             (IntegerSquareRootExpression, action, SquareRoot, Int)            \
-                                                                                                     \
-    MAKE_BINARY_OPERATOR_STANDARD  (IntegerExpression,           action, &, And, Int, Int)           \
-    MAKE_BINARY_OPERATOR_STANDARD  (IntegerExpression,           action, |, Or, Int, Int)            \
-    MAKE_BINARY_OPERATOR_STANDARD  (IntegerExpression,           action, ^, Xor, Int, Int)           \
-    MAKE_UNARY_OPERATOR            (IntegerExpression,           action, ~, Complement, Int)         \
-
-#pragma endregion
-
 namespace MPIR
 {
-    ref class MpirRandom;
-    ref class HugeInt;
-    ref class IntegerDivideExpression;
-    ref class IntegerDivideUiExpression;
-    ref class IntegerModExpression;
-    ref class IntegerDivModExpression;
-    ref class IntegerModUiExpression;
-    ref class IntegerShiftRightExpression;
-    ref class IntegerRootExpression;
-    ref class IntegerSquareRootExpression;
-    ref class IntegerGcdExpression;
-    ref class IntegerRemoveFactorsExpression;
-    ref class IntegerSequenceExpression;
+    ref class HugeRational;
 
-    #pragma region enums
+    #pragma region HugeIntComponent
 
-    /// <summary>
-    /// This enum defines the rounding modes MPIR supports.  Division and modulo operations take an optional rounding mode parameter, or use the default, which is set in the static MpirSettings class.
+    /// <summary>This internal class is used to provide access to the numerator and denominator of a Rational number.
+    /// <para>It is a thin override of HugeInt with the only changes being that it does not perform any allocation/cleanup, 
+    /// it simply reuses an mpz_ptr from a Rational struct that is allocated and freed by HugeRational.
+    /// </para>It inherits the IDisposable implementation from HugeInt, but overrides the DeallocateStruct worker with a no-op.
     /// </summary>
-    public enum class RoundingModes
+    private ref class HugeIntComponent sealed : HugeInt
     {
-        /// <summary>Rounding mode is unspecified.  Use a higher level default if available, fall back to Truncate.</summary>
-        Default,
-        /// <summary>Truncate.  Quotient is rounded toward zero, and remainder has the same sign as the source number.</summary>
-        Truncate,
-        /// <summary>Round up.  Quotient is rounded toward +infinity, and remainder has the opposite sign to the divisor.</summary>
-        Ceiling,
-        /// <summary>Round down.  Quotient is rounded toward -infinity, and remainder has the sames sign as the divisor.</summary>
-        Floor,
-    };
-
-    /// <summary>
-    /// This enum defines the limb order used when importing or exporting a number.
-    /// </summary>
-    public enum class LimbOrder : __int8
-    {
-        /// <summary>Most significant limb comes first.</summary>
-        MostSignificantFirst = 1,
-        /// <summary>Least significant limb comes first.</summary>
-        LeastSignificantFirst = -1,
-    };
-
-    /// <summary>
-    /// This enum defines the byte order within each limb when importing or exporting a number.
-    /// </summary>
-    public enum class Endianness : __int8
-    {
-        /// <summary>The native byte order of the CPU is used.</summary>
-        Native = 0,
-        /// <summary>Most significant byte comes first in a limb.</summary>
-        BigEndian = 1,
-        /// <summary>Least significant byte comes first in a limb.</summary>
-        LittleEndian = -1,
+        internal:
+            virtual void DeallocateStruct() override { }
+            HugeIntComponent(mpz_ptr value) { _value = value; }
     };
 
     #pragma endregion
 
-    #pragma region IntegerExpression
+    #pragma region RationalExpression
 
     /// <summary>
-    /// Base class for all integer expressions resulting from many integer operations on MPIR types.
+    /// Base class for all rational expressions resulting from many rational operations on MPIR types.
     /// <para>Expressions can be arbitrarily nested, and are lazily evaluated 
     /// when they are either assigned to the Value property of an MPIR object, or are consumed by a function or operator that returns a primitive type.
     /// </para>Assignment to the Value property is necessary because .Net does not support overloading the assignment operator.
     /// </summary>
-    public ref class IntegerExpression abstract : public IComparable, IComparable<IntegerExpression^>, IEquatable<IntegerExpression^>
+    public ref class RationalExpression abstract : public IComparable, IComparable<RationalExpression^>, IEquatable<RationalExpression^>
     {
         internal:
-            IntegerExpression() { }
+            RationalExpression() { }
+            /*
             virtual void AssignTo(mpz_ptr destination) abstract;
             virtual void AssignTo(EvaluationContext& destination)
             {
@@ -1236,54 +953,14 @@ namespace MPIR
             IntegerRemoveFactorsExpression^ RemoveFactors(IntegerExpression^ factor);
 
             #pragma endregion
-    };
-
-    #pragma endregion
-
-    #pragma region MpirSettings
-
-    /// <summary>
-    /// Static class for MPIR settings such as rounding defaults
-    /// </summary>
-    public ref class MpirSettings abstract sealed
-    {
-        private:
-            static int _toStringDigits;
-
-        internal:
-            static HugeInt^ _toStringModulo;
-
-        public:
-            /// <summary>
-            /// Gets or sets the default rounding mode used for MPIR division operations that don't explicitly specify a rounding mode.
-            /// <para>Defaults to Truncate.
-            /// </para></summary>
-            static property RoundingModes RoundingMode;
-
-            /// <summary>
-            /// Gets or sets the maximum number of digits the object.ToString() method override will output.  
-            /// <para>If a number is longer than this number of digits, it will be output as "[-]...NNNNN" with the least significant digits shown.
-            /// </para>Defaults to 256.
-            /// <para>Specifying 0 will cause all digits to be output.  This should be used with care, as for example, the debugger calls ToString()
-            /// on watched objects, and may have performance issues with large objects.
-            /// </para></summary>
-            static property int ToStringDigits
-            {
-                int get() { return _toStringDigits; }
-                void set(int value);
-            }
-
-            static MpirSettings()
-            {
-                RoundingMode = RoundingModes::Truncate;
-                ToStringDigits = 256;
-            }
+            */
     };
 
     #pragma endregion
 
     #pragma region mid-level abstract expression specializations
 
+    /*
     /// <summary>
     /// Expression that results from a division or modulo operator.  Allows to set the rounding mode for the division.
     /// </summary>
@@ -1548,11 +1225,11 @@ namespace MPIR
                 return this;
             }
     };
-
+    */
     #pragma endregion
 
     #pragma region concrete expressions
-
+        /*
     DEFINE_BINARY_EXPRESSION_WITH_TWO              (IntegerExpression, Add, Int)
     DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (IntegerExpression, Add, Int, Ui)
     DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (IntegerExpression, Add, Int, Si)
@@ -1611,20 +1288,20 @@ namespace MPIR
     DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (IntegerExpression, Binomial, Int, Ui)
     DEFINE_UNARY_EXPRESSION_WITH_BUILT_INS_ONLY    (IntegerSequenceExpression, Fibonacci, Ui)
     DEFINE_UNARY_EXPRESSION_WITH_BUILT_INS_ONLY    (IntegerSequenceExpression, Lucas, Ui)
-
+    */
     #pragma endregion
 
-    #pragma region HugeInt class
+    #pragma region HugeRational class
 
     /// <summary>
-    /// Multi-precision Integer class.
+    /// Multi-precision Rational class.
     /// </summary>
-    public ref class HugeInt : IntegerExpression
+    public ref class HugeRational : RationalExpression
     {
         internal:
             //fields
-            mpz_ptr _value;
-
+            mpq_ptr _value;
+            /*
         private:
             //construction
             void AllocateStruct()
@@ -2355,6 +2032,7 @@ namespace MPIR
             static IntegerSequenceExpression^ Lucas(mpir_ui n) { return gcnew MpirLucasUiExpression(n); }
 
             #pragma endregion
+            */
     };
 
     #pragma endregion
