@@ -4438,6 +4438,10 @@ extern mp_size_t                     mullow_dc_threshold;
 #define MULLOW_MUL_THRESHOLD         mullow_mul_threshold
 extern mp_size_t                     mullow_mul_threshold;
 
+#undef  MULMID_TOOM42_THRESHOLD
+#define MULMID_TOOM42_THRESHOLD      mulmid_toom42_threshold
+extern mp_size_t                     mulmid_toom42_threshold;
+
 #undef  MULHIGH_BASECASE_THRESHOLD
 #define MULHIGH_BASECASE_THRESHOLD   mulhigh_basecase_threshold
 extern mp_size_t                     mulhigh_basecase_threshold;

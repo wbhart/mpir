@@ -348,6 +348,10 @@ const struct routine_t {
 
   { "mpn_mullow_n",      speed_mpn_mullow_n         },
   { "mpn_mullow_n_basecase", speed_mpn_mullow_n_basecase},
+  { "mpn_mulmid_basecase",  speed_mpn_mulmid_basecase, FLAG_R_OPTIONAL },
+  { "mpn_toom42_mulmid",    speed_mpn_toom42_mulmid },
+  { "mpn_mulmid_n",         speed_mpn_mulmid_n },
+  { "mpn_mulmid",           speed_mpn_mulmid, FLAG_R_OPTIONAL },
   { "mpn_mulhigh_n",      speed_mpn_mulhigh_n         },
   { "mpn_mulmod_2expm1",  speed_mpn_mulmod_2expm1     },
   { "mpn_mulmod_2expp1_basecase",  speed_mpn_mulmod_2expp1_basecase     },

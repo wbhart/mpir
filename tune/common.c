@@ -1240,6 +1240,30 @@ speed_mpn_mullow_n_basecase (struct speed_params *s)
 }
 
 double
+speed_mpn_mulmid_basecase (struct speed_params *s)
+{
+  SPEED_ROUTINE_MPN_MULMID (mpn_mulmid_basecase);
+}
+
+double
+speed_mpn_mulmid (struct speed_params *s)
+{
+  SPEED_ROUTINE_MPN_MULMID (mpn_mulmid);
+}
+
+double
+speed_mpn_mulmid_n (struct speed_params *s)
+{
+  SPEED_ROUTINE_MPN_MULMID_N (mpn_mulmid_n);
+}
+
+double
+speed_mpn_toom42_mulmid (struct speed_params *s)
+{
+  SPEED_ROUTINE_MPN_TOOM42_MULMID (mpn_toom42_mulmid);
+}
+
+double
 speed_mpn_matrix22_mul (struct speed_params *s)
 {
   /* Speed params only includes 2 inputs, so we have to invent the

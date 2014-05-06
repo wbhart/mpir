@@ -189,6 +189,7 @@ mp_size_t  mulmod_2expm1_threshold	= MP_SIZE_T_MAX;
 mp_size_t  mullow_basecase_threshold    = MP_SIZE_T_MAX;
 mp_size_t  mullow_dc_threshold          = MP_SIZE_T_MAX;
 mp_size_t  mullow_mul_threshold         = MP_SIZE_T_MAX;
+mp_size_t  mulmid_toom42_threshold      = MP_SIZE_T_MAX;
 mp_size_t  mulhigh_basecase_threshold   = MP_SIZE_T_MAX;
 mp_size_t  mulhigh_dc_threshold         = MP_SIZE_T_MAX;
 mp_size_t  mulhigh_mul_threshold        = MP_SIZE_T_MAX;
@@ -840,6 +841,21 @@ tune_mullow (gmp_randstate_t rands)
   param.min_size = mullow_dc_threshold;
   param.max_size = 10000;
   one (&mullow_mul_threshold, rands, &param);
+
+  /* disabled until tuned */
+  MUL_FFT_FULL_THRESHOLD = MP_SIZE_T_MAX;
+}
+
+void
+tune_mulmid (gmp_randstate_t rands)
+{
+  static struct param_t  param;
+
+  param.name = "MULMID_TOOM42_THRESHOLD";
+  param.function = speed_mpn_mulmid_n;
+  param.min_size = 4;
+  param.max_size = 100;
+  one (&mulmid_toom42_threshold, rands, &param);
 
   /* disabled until tuned */
   MUL_FFT_FULL_THRESHOLD = MP_SIZE_T_MAX;
@@ -2221,6 +2237,8 @@ all (gmp_randstate_t rands)
   printf ("\n");
 
   tune_mullow (rands);
+  printf("\n");
+  tune_mulmid (rands);
   printf("\n");
   tune_mulhigh (rands);
   printf("\n");

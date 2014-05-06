@@ -275,6 +275,10 @@ double speed_mpn_mulhigh_n _PROTO ((struct speed_params *s));
 double speed_mpn_mulmod_2expm1 _PROTO ((struct speed_params *s));
 double speed_mpn_mulmod_2expp1_basecase _PROTO ((struct speed_params *s));
 double speed_mpn_mullow_n_basecase _PROTO ((struct speed_params *s));
+double speed_mpn_mulmid _PROTO ((struct speed_params *s));
+double speed_mpn_mulmid_basecase _PROTO ((struct speed_params *s));
+double speed_mpn_mulmid_n _PROTO ((struct speed_params *s));
+double speed_mpn_toom42_mulmid _PROTO ((struct speed_params *s));
 double speed_mpn_nand_n _PROTO ((struct speed_params *s));
 double speed_mpn_nior_n _PROTO ((struct speed_params *s));
 double speed_mpn_popcount _PROTO ((struct speed_params *s));
@@ -1175,6 +1179,106 @@ int speed_routine_count_zeros_setup _PROTO ((struct speed_params *s,
     i = s->reps;							\
     do									\
       call;								\
+    while (--i != 0);							\
+    t = speed_endtime ();						\
+									\
+    TMP_FREE;								\
+    return t;								\
+  }
+
+/* For mpn_mulmid, mpn_mulmid_basecase, xsize=r, ysize=s->size. */
+#define SPEED_ROUTINE_MPN_MULMID(function)				\
+  {									\
+    mp_ptr    wp, xp;							\
+    mp_size_t size1;							\
+    unsigned  i;							\
+    double    t;							\
+    TMP_DECL;								\
+									\
+    size1 = (s->r == 0 ? (2 * s->size - 1) : s->r);			\
+									\
+    SPEED_RESTRICT_COND (s->size >= 1);					\
+    SPEED_RESTRICT_COND (size1 >= s->size);				\
+									\
+    TMP_MARK;								\
+    SPEED_TMP_ALLOC_LIMBS (wp, size1 - s->size + 3, s->align_wp);	\
+    SPEED_TMP_ALLOC_LIMBS (xp, size1, s->align_xp);			\
+									\
+    speed_operand_src (s, xp, size1);					\
+    speed_operand_src (s, s->yp, s->size);				\
+    speed_operand_dst (s, wp, size1 - s->size + 3);			\
+    speed_cache_fill (s);						\
+									\
+    speed_starttime ();							\
+    i = s->reps;							\
+    do									\
+      function (wp, xp, size1, s->yp, s->size);				\
+    while (--i != 0);							\
+    t = speed_endtime ();						\
+									\
+    TMP_FREE;								\
+    return t;								\
+  }
+
+#define SPEED_ROUTINE_MPN_MULMID_N(function)				\
+  {									\
+    mp_ptr    wp, xp;							\
+    mp_size_t size1;							\
+    unsigned  i;							\
+    double    t;							\
+    TMP_DECL;								\
+									\
+    size1 = 2 * s->size - 1;						\
+									\
+    SPEED_RESTRICT_COND (s->size >= 1);					\
+									\
+    TMP_MARK;								\
+    SPEED_TMP_ALLOC_LIMBS (wp, size1 - s->size + 3, s->align_wp);	\
+    SPEED_TMP_ALLOC_LIMBS (xp, size1, s->align_xp);			\
+									\
+    speed_operand_src (s, xp, size1);					\
+    speed_operand_src (s, s->yp, s->size);				\
+    speed_operand_dst (s, wp, size1 - s->size + 3);			\
+    speed_cache_fill (s);						\
+									\
+    speed_starttime ();							\
+    i = s->reps;							\
+    do									\
+      function (wp, xp, s->yp, s->size);				\
+    while (--i != 0);							\
+    t = speed_endtime ();						\
+									\
+    TMP_FREE;								\
+    return t;								\
+  }
+
+#define SPEED_ROUTINE_MPN_TOOM42_MULMID(function)			\
+  {									\
+    mp_ptr    wp, xp, scratch;						\
+    mp_size_t size1, scratch_size;					\
+    unsigned  i;							\
+    double    t;							\
+    TMP_DECL;								\
+									\
+    size1 = 2 * s->size - 1;						\
+									\
+    SPEED_RESTRICT_COND (s->size >= 1);					\
+									\
+    TMP_MARK;								\
+    SPEED_TMP_ALLOC_LIMBS (wp, size1 - s->size + 3, s->align_wp);	\
+    SPEED_TMP_ALLOC_LIMBS (xp, size1, s->align_xp);			\
+    scratch_size = mpn_toom42_mulmid_itch (s->size);			\
+    SPEED_TMP_ALLOC_LIMBS (scratch, scratch_size, 0);			\
+									\
+    speed_operand_src (s, xp, size1);					\
+    speed_operand_src (s, s->yp, s->size);				\
+    speed_operand_dst (s, wp, size1 - s->size + 3);			\
+    speed_cache_fill (s);						\
+									\
+    speed_starttime ();							\
+    i = s->reps;							\
+    do									\
+      function (wp, xp, s->yp, s->size, scratch);			\
     while (--i != 0);							\
     t = speed_endtime ();						\
 									\
