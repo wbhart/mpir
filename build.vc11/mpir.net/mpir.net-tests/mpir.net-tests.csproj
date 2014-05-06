@@ -121,7 +121,10 @@
     <Compile Include="..\..\..\mpir.net\mpir.net-tests\HugeIntTests\NumberTheoretic.cs">
       <Link>HugeIntTests\NumberTheoretic.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\mpir.net\mpir.net-tests\HugeIntTests\XmlCommentsTests.cs">
+    <Compile Include="..\..\..\mpir.net\mpir.net-tests\HugeRationalTests\ConstructionAndDisposal.cs">
+      <Link>HugeRationalTests\ConstructionAndDisposal.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\mpir.net\mpir.net-tests\IntegrationTests\XmlCommentsTests.cs">
       <Link>IntegrationTests\XmlCommentsTests.cs</Link>
     </Compile>
     <Compile Include="..\..\..\mpir.net\mpir.net-tests\RandomTests\Random.cs">
