@@ -1269,15 +1269,15 @@ case $host in
           penryn-*-*) 
             path_64="x86_64/core2/penryn x86_64/core2 x86_64" ;;
           nehalem-*-*) 
-            path_64="x86_64/nehalem x86_64" ;;
+            path_64="x86_64/nehalem x86_64/core2 x86_64" ;;
           westmere-*-*) 
-            path_64="x86_64/nehalem/westmere x86_64/nehalem x86_64" ;;
+            path_64="x86_64/nehalem/westmere x86_64/nehalem x86_64/core2 x86_64" ;;
           sandybridge-*-*) 
-            path_64="x86_64/sandybridge x86_64" ;;
+            path_64="x86_64/sandybridge x86_64/nehalem x86_64/core2 x86_64" ;;
           ivybridge-*-*)
-            path_64="x86_64/sandybridge/ivybridge x86_64/sandybridge x86_64" ;;
+            path_64="x86_64/sandybridge/ivybridge x86_64/sandybridge x86_64/nehalem x86_64/core2 x86_64" ;;
           haswell-*-*)
-            path_64="x86_64/haswell x86_64/sandybridge x86_64" ;;
+            path_64="x86_64/haswell x86_64/sandybridge x86_64/nehalem x86_64/core2 x86_64" ;;
           atom-*-*) 
             path_64="x86_64/atom x86_64" ;;
           nano-*-*) 
