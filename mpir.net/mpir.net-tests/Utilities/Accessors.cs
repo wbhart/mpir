@@ -26,7 +26,7 @@ using System.Reflection;
 
 namespace MPIR.Tests
 {
-    internal static class Accessors
+    internal static class Accessors<T>
     {
         private static readonly ConstructorInfo _intPtrConstructor;
         private static readonly FieldInfo _getValue;
@@ -40,45 +40,127 @@ namespace MPIR.Tests
 
         private static FieldInfo GetAccessor(string name)
         {
-            return typeof(HugeInt).GetField(name, BindingFlags.NonPublic | BindingFlags.Instance);
+            return typeof(T).GetField(name, BindingFlags.NonPublic | BindingFlags.Instance);
         }
 
-        public static int NumberOfLimbsAllocated(this HugeInt x)
+        internal static IntPtr _value(T x)
         {
-            if (x._value() == IntPtr.Zero)
+            return (IntPtr)_intPtrConstructor.Invoke(new object[] { _getValue.GetValue(x) });
+        }
+    }
+
+    internal static class IntAccessors
+    {
+        internal static IntPtr _value(this HugeInt x)
+        {
+            return Accessors<HugeInt>._value(x);
+        }
+
+        internal static int NumberOfLimbsAllocated(this HugeInt x)
+        {
+            if (_value(x) == IntPtr.Zero)
                 return 0;
 
             unsafe
             {
-                return ((int*)x._value().ToPointer())[0];
+                return ((int*)_value(x).ToPointer())[0];
             }
         }
 
-        public static int NumberOfLimbsUsed(this HugeInt x)
+        internal static int NumberOfLimbsUsed(this HugeInt x)
         {
-            if (x._value() == IntPtr.Zero)
+            if (_value(x) == IntPtr.Zero)
                 return 0;
 
             unsafe
             {
-                return ((int*)x._value().ToPointer())[1];
+                return ((int*)_value(x).ToPointer())[1];
             }
         }
 
-        public static IntPtr Limbs(this HugeInt x)
+        internal static IntPtr Limbs(this HugeInt x)
         {
-            if (x._value() == IntPtr.Zero)
+            if (_value(x) == IntPtr.Zero)
                 return IntPtr.Zero;
 
             unsafe
             {
-                return new IntPtr(((void**)x._value().ToPointer())[1]);
+                return new IntPtr(((void**)_value(x).ToPointer())[1]);
+            }
+        }
+    }
+
+    internal static class RationalAccessors
+    {
+        internal static IntPtr _value(this HugeRational x)
+        {
+            return Accessors<HugeRational>._value(x);
+        }
+
+        internal static int NumeratorNumberOfLimbsAllocated(this HugeRational x)
+        {
+            if (_value(x) == IntPtr.Zero)
+                return 0;
+
+            unsafe
+            {
+                return ((int*)_value(x).ToPointer())[0];
             }
         }
 
-        public static IntPtr _value(this HugeInt x)
+        internal static int NumeratorNumberOfLimbsUsed(this HugeRational x)
         {
-            return (IntPtr)_intPtrConstructor.Invoke(new object[] { _getValue.GetValue(x) });
+            if (_value(x) == IntPtr.Zero)
+                return 0;
+
+            unsafe
+            {
+                return ((int*)_value(x).ToPointer())[1];
+            }
+        }
+
+        internal static IntPtr NumeratorLimbs(this HugeRational x)
+        {
+            if (_value(x) == IntPtr.Zero)
+                return IntPtr.Zero;
+
+            unsafe
+            {
+                return new IntPtr(((void**)_value(x).ToPointer())[1]);
+            }
+        }
+
+        internal static int DenominatorNumberOfLimbsAllocated(this HugeRational x)
+        {
+            if (_value(x) == IntPtr.Zero)
+                return 0;
+
+            unsafe
+            {
+                return ((int*)_value(x).ToPointer())[4];
+            }
+        }
+
+        internal static int DenominatorNumberOfLimbsUsed(this HugeRational x)
+        {
+            if (_value(x) == IntPtr.Zero)
+                return 0;
+
+            unsafe
+            {
+                return ((int*)_value(x).ToPointer())[5];
+            }
+        }
+
+        internal static IntPtr DenominatorLimbs(this HugeRational x)
+        {
+            if (_value(x) == IntPtr.Zero)
+                return IntPtr.Zero;
+
+            unsafe
+            {
+                return new IntPtr(((void**)_value(x).ToPointer())[3]);
+            }
         }
     }
 }

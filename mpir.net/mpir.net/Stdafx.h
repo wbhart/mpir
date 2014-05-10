@@ -26,4 +26,3 @@ along with the MPIR Library.  If not, see http://www.gnu.org/licenses/.
 #include "mpir.h"
 #include "gmp-impl.h"
 #include "Common.h"
-#include "HugeInt.h"

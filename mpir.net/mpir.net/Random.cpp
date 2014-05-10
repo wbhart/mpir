@@ -18,6 +18,7 @@ along with the MPIR Library.  If not, see http://www.gnu.org/licenses/.
 */
 
 #include "StdAfx.h"
+#include "HugeInt.h"
 #include "Random.h"
 
 namespace MPIR
@@ -25,7 +26,7 @@ namespace MPIR
     DEFINE_ASSIGNMENT_PROLOG(RandomInt)
     {
         IN_CONTEXT(Right);
-        mpz_urandomm(destination, Left->_value, context.Args[0]);
+        mpz_urandomm(destination, Left->_value, context.IntArgs[0]);
     }
 
     DEFINE_ASSIGNMENT_PROLOG(RandomIntBits)

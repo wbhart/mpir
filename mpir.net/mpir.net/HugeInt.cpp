@@ -18,6 +18,7 @@ along with the MPIR Library.  If not, see http://www.gnu.org/licenses/.
 */
 
 #include "Stdafx.h"
+#include "HugeInt.h"
 #include "Random.h"
 
 using namespace System::Runtime::InteropServices;
@@ -30,38 +31,38 @@ namespace MPIR
     void MpirSettings::ToStringDigits::set(int value)
     {
         _toStringDigits = value;
-        _toStringModulo = gcnew HugeInt(HugeInt::Power(10, value));
+        _toStringModulo = gcnew MPTYPE(MPTYPE::Power(10, value));
     }
 
     #pragma endregion
 
     #pragma region construction
 
-    HugeInt::HugeInt()
+    MPTYPE::MPTYPE()
     {
         AllocateStruct();
-        mpz_init(_value);
+        MP(init)(_value);
     }
 
-    HugeInt::HugeInt(IntegerExpression^ value)
+    MPTYPE::MPTYPE(MPEXPR_NAME^ value)
     {
         AllocateStruct();
-        mpz_init(_value);
+        MP(init)(_value);
         value->AssignTo(_value);
     }
 
-    HugeInt::HugeInt(mp_bitcnt_t bits)
+    MPTYPE::MPTYPE(mp_bitcnt_t bits)
     {
         AllocateStruct();
-        mpz_init2(_value, bits);
+        MP(init2)(_value, bits);
     }
 
-    void HugeInt::FromString(String^ value, int base)
+    void MPTYPE::FromString(String^ value, int base)
     {
         AllocateStruct();
 
         IntPtr ptr = Marshal::StringToHGlobalAnsi(value);
-        bool success = 0 == mpz_init_set_str(_value, (char*)(void*)ptr, base);
+        bool success = 0 == MP(init_set_str)(_value, (char*)(void*)ptr, base);
         Marshal::FreeHGlobal(ptr);
 
         if(!success)
@@ -71,34 +72,34 @@ namespace MPIR
         }
     }
 
-    void HugeInt::SetTo(String^ value, int base)
+    void MPTYPE::SetTo(String^ value, int base)
     {
         IntPtr ptr = Marshal::StringToHGlobalAnsi(value);
-        bool success = 0 == mpz_set_str(_value, (char*)(void*)ptr, base);
+        bool success = 0 == MP(set_str)(_value, (char*)(void*)ptr, base);
         Marshal::FreeHGlobal(ptr);
 
         if(!success)
             throw gcnew ArgumentException("Invalid number", "value");
     }
 
-    HugeInt^ HugeInt::FromLong(mpir_si value)
+    MPTYPE^ MPTYPE::FromLong(mpir_si value)
     {
-        auto result = gcnew HugeInt();
-        mpz_set_si(result->_value, value);
+        auto result = gcnew MPTYPE();
+        MP(set_si)(result->_value, value);
         return result;
     }
 
-    HugeInt^ HugeInt::FromUlong(mpir_ui value)
+    MPTYPE^ MPTYPE::FromUlong(mpir_ui value)
     {
-        auto result = gcnew HugeInt();
-        mpz_set_ui(result->_value, value);
+        auto result = gcnew MPTYPE();
+        MP(set_ui)(result->_value, value);
         return result;
     }
 
-    HugeInt^ HugeInt::FromDouble(double value)
+    MPTYPE^ MPTYPE::FromDouble(double value)
     {
-        auto result = gcnew HugeInt();
-        mpz_set_d(result->_value, value);
+        auto result = gcnew MPTYPE();
+        MP(set_d)(result->_value, value);
         return result;
     }
 
@@ -106,7 +107,7 @@ namespace MPIR
 
     #pragma region object overrides
 
-    String^ HugeInt::ToString(int base, bool lowercase, int maxDigits)
+    String^ MPTYPE::ToString(int base, bool lowercase, int maxDigits)
     {
         size_t allocated;
         bool negative = false;
@@ -123,7 +124,7 @@ namespace MPIR
         else
         {
             AssignTo(context);
-            allocated = mpz_sizeinbase(_value, base == 0 ? 10 : base) + 2;
+            allocated = MP(sizeinbase)(_value, base == 0 ? 10 : base) + 2;
         }
 
         char* allocatedStr = (char*)(*__gmp_allocate_func)(allocated);
@@ -138,23 +139,23 @@ namespace MPIR
             *str++ = '.';
         }
 
-        mpz_get_str(str, (base <= 36 && !lowercase) ? -base : base, context.Args[0]);
+        MP(get_str)(str, (base <= 36 && !lowercase) ? -base : base, CTXT(0));
         auto result = gcnew String(allocatedStr);
         (*__gmp_free_func)(allocatedStr, allocated);
 
         return result;
     }
 
-    int IntegerExpression::GetHashCode()
+    int MPEXPR_NAME::GetHashCode()
     {
         IN_CONTEXT(this);
 
         mp_limb_t hash = 0;
-        mp_limb_t* ptr = context.Args[0]->_mp_d;
-        for(int i = abs(context.Args[0]->_mp_size); i > 0; i--)
+        mp_limb_t* ptr = CTXT(0)->_mp_d;
+        for(int i = abs(CTXT(0)->_mp_size); i > 0; i--)
             hash ^= *ptr++;
 
-        if(context.Args[0]->_mp_size < 0)
+        if(CTXT(0)->_mp_size < 0)
             hash = (mp_limb_t)-(mpir_si)hash;
 
         return hash.GetHashCode();
@@ -164,14 +165,14 @@ namespace MPIR
 
     #pragma region Interface implementations
 
-    int IntegerExpression::CompareTo(Object^ a, bool& valid)
+    int MPEXPR_NAME::CompareTo(Object^ a, bool& valid)
     {
         valid = true;
 
         if (IS_NULL(a))
             return 1;
 
-        IntegerExpression^ expr = dynamic_cast<IntegerExpression^>(a);
+        MPEXPR_NAME^ expr = dynamic_cast<MPEXPR_NAME^>(a);
         if(!IS_NULL(expr))
             return CompareTo(expr);
 
@@ -180,26 +181,26 @@ namespace MPIR
         if(a->GetType() == mpir_ui::typeid)
         {
             AssignTo(context);
-            return mpz_cmp_ui(context.Args[0], (mpir_ui)a);
+            return MP(cmp_ui)(CTXT(0), (mpir_ui)a);
         }
 
         if(a->GetType() == mpir_si::typeid)
         {
             AssignTo(context);
-            return mpz_cmp_si(context.Args[0], (mpir_si)a);
+            return MP(cmp_si)(CTXT(0), (mpir_si)a);
         }
 
         if(a->GetType() == double::typeid)
         {
             AssignTo(context);
-            return mpz_cmp_d(context.Args[0], (double)a);
+            return MP(cmp_d)(CTXT(0), (double)a);
         }
 
         valid = false;
         return 0;
     }
 
-    int IntegerExpression::CompareTo(Object^ a)
+    int MPEXPR_NAME::CompareTo(Object^ a)
     {
         bool valid;
         auto result = CompareTo(a, valid);
@@ -210,16 +211,16 @@ namespace MPIR
         throw gcnew ArgumentException("Invalid argument type", "a");
     }
 
-    int IntegerExpression::CompareTo(IntegerExpression^ a)
+    int MPEXPR_NAME::CompareTo(MPEXPR_NAME^ a)
     {
         if (IS_NULL(a))
             return 1;
 
         IN_CONTEXT(this, a);
-        return mpz_cmp(context.Args[0], context.Args[1]);
+        return MP(cmp)(CTXT(0), CTXT(1));
     }
 
-    bool IntegerExpression::Equals(Object^ a)
+    bool MPEXPR_NAME::Equals(Object^ a)
     {
         bool valid;
         auto result = CompareTo(a, valid);
@@ -227,7 +228,7 @@ namespace MPIR
         return valid && result == 0;
     }
 
-    bool IntegerExpression::Equals(IntegerExpression^ a)
+    bool MPEXPR_NAME::Equals(MPEXPR_NAME^ a)
     {
         return CompareTo(a) == 0;
     }
@@ -236,31 +237,31 @@ namespace MPIR
 
     #pragma region expression special cases
 
-    void IntegerDivideExpression::custom_mpz_div(mpz_ptr q, mpz_srcptr n, mpz_srcptr d)
+    void MPEXPR(Divide)::CUSTOM_MP(div)(MP(ptr) q, MP(srcptr) n, MP(srcptr) d)
     {
         switch((rounding == RoundingModes::Default) ? MpirSettings::RoundingMode : rounding)
         {
             case RoundingModes::Floor:
                 IS_NULL(_remainder)
-                    ? mpz_fdiv_q(q, n, d)
-                    : mpz_fdiv_qr(q, _remainder->_value, n, d);
+                    ? MP(fdiv_q)(q, n, d)
+                    : MP(fdiv_qr)(q, _remainder->_value, n, d);
                 break;
 
             case RoundingModes::Ceiling:
                 IS_NULL(_remainder)
-                    ? mpz_cdiv_q(q, n, d)
-                    : mpz_cdiv_qr(q, _remainder->_value, n, d);
+                    ? MP(cdiv_q)(q, n, d)
+                    : MP(cdiv_qr)(q, _remainder->_value, n, d);
                 break;
 
             default:
                 IS_NULL(_remainder)
-                    ? mpz_tdiv_q(q, n, d)
-                    : mpz_tdiv_qr(q, _remainder->_value, n, d);
+                    ? MP(tdiv_q)(q, n, d)
+                    : MP(tdiv_qr)(q, _remainder->_value, n, d);
                 break;
         }
     }
 
-    void IntegerDivideUiExpression::custom_mpz_div_ui(mpz_ptr q, mpz_srcptr n, mpir_ui d)
+    void MPEXPR(DivideUi)::CUSTOM_MP(div_ui)(MP(ptr) q, MP(srcptr) n, mpir_ui d)
     {
         mpir_ui limb;
 
@@ -268,20 +269,20 @@ namespace MPIR
         {
             case RoundingModes::Floor:
                 limb = IS_NULL(_remainder)
-                    ? mpz_fdiv_q_ui(q, n, d)
-                    : mpz_fdiv_qr_ui(q, _remainder->_value, n, d);
+                    ? MP(fdiv_q_ui)(q, n, d)
+                    : MP(fdiv_qr_ui)(q, _remainder->_value, n, d);
                 break;
 
             case RoundingModes::Ceiling:
                 limb = IS_NULL(_remainder)
-                    ? mpz_cdiv_q_ui(q, n, d)
-                    : mpz_cdiv_qr_ui(q, _remainder->_value, n, d);
+                    ? MP(cdiv_q_ui)(q, n, d)
+                    : MP(cdiv_qr_ui)(q, _remainder->_value, n, d);
                 break;
 
             default:
                 limb = IS_NULL(_remainder)
-                    ? mpz_tdiv_q_ui(q, n, d)
-                    : mpz_tdiv_qr_ui(q, _remainder->_value, n, d);
+                    ? MP(tdiv_q_ui)(q, n, d)
+                    : MP(tdiv_qr_ui)(q, _remainder->_value, n, d);
                 break;
         }
 
@@ -289,55 +290,55 @@ namespace MPIR
             _limbRemainder(limb);
     }
 
-    void IntegerShiftRightExpression::custom_mpz_div_2exp(mpz_ptr q, mpz_srcptr n, mp_bitcnt_t d)
+    void MPEXPR(ShiftRight)::CUSTOM_MP(div_2exp)(MP(ptr) q, MP(srcptr) n, mp_bitcnt_t d)
     {
         switch((rounding == RoundingModes::Default) ? MpirSettings::RoundingMode : rounding)
         {
             case RoundingModes::Floor:
                 _remainder
-                    ? mpz_fdiv_r_2exp(q, n, d)
-                    : mpz_fdiv_q_2exp(q, n, d);
+                    ? MP(fdiv_r_2exp)(q, n, d)
+                    : MP(fdiv_q_2exp)(q, n, d);
                 break;
 
             case RoundingModes::Ceiling:
                 _remainder
-                    ? mpz_cdiv_r_2exp(q, n, d)
-                    : mpz_cdiv_q_2exp(q, n, d);
+                    ? MP(cdiv_r_2exp)(q, n, d)
+                    : MP(cdiv_q_2exp)(q, n, d);
                 break;
 
             default:
                 _remainder
-                    ? mpz_tdiv_r_2exp(q, n, d)
-                    : mpz_tdiv_q_2exp(q, n, d);
+                    ? MP(tdiv_r_2exp)(q, n, d)
+                    : MP(tdiv_q_2exp)(q, n, d);
                 break;
         }
     }
 
-    void IntegerModExpression::custom_mpz_mod(mpz_ptr r, mpz_srcptr n, mpz_srcptr d)
+    void MPEXPR(Mod)::CUSTOM_MP(mod)(MP(ptr) r, MP(srcptr) n, MP(srcptr) d)
     {
         switch((rounding == RoundingModes::Default) ? MpirSettings::RoundingMode : rounding)
         {
             case RoundingModes::Floor:
                 IS_NULL(_quotient)
-                    ? mpz_fdiv_r(r, n, d)
-                    : mpz_fdiv_qr(_quotient->_value, r, n, d);
+                    ? MP(fdiv_r)(r, n, d)
+                    : MP(fdiv_qr)(_quotient->_value, r, n, d);
                 break;
 
             case RoundingModes::Ceiling:
                 IS_NULL(_quotient)
-                    ? mpz_cdiv_r(r, n, d)
-                    : mpz_cdiv_qr(_quotient->_value, r, n, d);
+                    ? MP(cdiv_r)(r, n, d)
+                    : MP(cdiv_qr)(_quotient->_value, r, n, d);
                 break;
 
             default:
                 IS_NULL(_quotient)
-                    ? mpz_tdiv_r(r, n, d)
-                    : mpz_tdiv_qr(_quotient->_value, r, n, d);
+                    ? MP(tdiv_r)(r, n, d)
+                    : MP(tdiv_qr)(_quotient->_value, r, n, d);
                 break;
         }
     }
 
-    void IntegerModUiExpression::custom_mpz_mod_ui(mpz_ptr r, mpz_srcptr n, mpir_ui d)
+    void MPEXPR(ModUi)::CUSTOM_MP(mod_ui)(MP(ptr) r, MP(srcptr) n, mpir_ui d)
     {
         mpir_ui limb;
 
@@ -345,20 +346,20 @@ namespace MPIR
         {
             case RoundingModes::Floor:
                 limb = IS_NULL(_quotient)
-                    ? mpz_fdiv_r_ui(r, n, d)
-                    : mpz_fdiv_qr_ui(_quotient->_value, r, n, d);
+                    ? MP(fdiv_r_ui)(r, n, d)
+                    : MP(fdiv_qr_ui)(_quotient->_value, r, n, d);
                 break;
 
             case RoundingModes::Ceiling:
                 limb = IS_NULL(_quotient)
-                    ? mpz_cdiv_r_ui(r, n, d)
-                    : mpz_cdiv_qr_ui(_quotient->_value, r, n, d);
+                    ? MP(cdiv_r_ui)(r, n, d)
+                    : MP(cdiv_qr_ui)(_quotient->_value, r, n, d);
                 break;
 
             default:
                 limb = IS_NULL(_quotient)
-                    ? mpz_tdiv_r_ui(r, n, d)
-                    : mpz_tdiv_qr_ui(_quotient->_value, r, n, d);
+                    ? MP(tdiv_r_ui)(r, n, d)
+                    : MP(tdiv_qr_ui)(_quotient->_value, r, n, d);
                 break;
         }
 
@@ -366,41 +367,41 @@ namespace MPIR
             _limbRemainder(limb);
     }
 
-    void IntegerRootExpression::custom_mpz_root(mpz_ptr dest, mpz_srcptr oper, mpir_ui power)
+    void MPEXPR(Root)::CUSTOM_MP(root)(MP(ptr) dest, MP(srcptr) oper, mpir_ui power)
     {
         if(!IS_NULL(_remainder))
-            mpz_rootrem(dest, _remainder->_value, oper, power);
+            MP(rootrem)(dest, _remainder->_value, oper, power);
         else if (IS_NULL(_exact))
-            mpz_nthroot(dest, oper, power);
+            MP(nthroot)(dest, oper, power);
         else
-            _exact(mpz_root(dest, oper, power) != 0);
+            _exact(MP(root)(dest, oper, power) != 0);
     }
 
-    void IntegerSquareRootExpression::custom_mpz_sqrt(mpz_ptr dest, mpz_srcptr oper)
+    void MPEXPR(SquareRoot)::CUSTOM_MP(sqrt)(MP(ptr) dest, MP(srcptr) oper)
     {
         IS_NULL(_remainder)
-            ? mpz_sqrt(dest, oper)
-            : mpz_sqrtrem(dest, _remainder->_value, oper);
+            ? MP(sqrt)(dest, oper)
+            : MP(sqrtrem)(dest, _remainder->_value, oper);
     }
 
-    void IntegerGcdExpression::custom_mpz_gcd(mpz_ptr dest, mpz_srcptr a, mpz_srcptr b)
+    void MPEXPR(Gcd)::CUSTOM_MP(gcd)(MP(ptr) dest, MP(srcptr) a, MP(srcptr) b)
     {
         switch ((IS_NULL(_s) ? 0 : 1) + (IS_NULL(_t) ? 0 : 2))
         {
             case 0:
-               mpz_gcd(dest, a, b);
+               MP(gcd)(dest, a, b);
                break;
 
             case 1:
-               mpz_gcdext(dest, _s->_value, NULL, a, b);
+               MP(gcdext)(dest, _s->_value, NULL, a, b);
                break;
 
             case 2:
-               mpz_gcdext(dest, _t->_value, NULL, b, a);
+               MP(gcdext)(dest, _t->_value, NULL, b, a);
                break;
 
             case 3:
-               mpz_gcdext(dest, _s->_value, _t->_value, a, b);
+               MP(gcdext)(dest, _s->_value, _t->_value, a, b);
                break;
         }
     }
@@ -409,67 +410,112 @@ namespace MPIR
 
     #pragma region Arithmetic
 
-    DEFINE_OPERATIONS(DEFINE)
+    MAKE_BINARY_OPERATOR_STANDARD  (MPEXPR_NAME,        DEFINE, +, Add, Int, Int)           
+    MAKE_BINARY_OPERATOR_RLIMB     (MPEXPR_NAME,        DEFINE, +, Add, Int, Ui)            
+    MAKE_BINARY_OPERATOR_LLIMB_R   (MPEXPR_NAME,        DEFINE, +, Add, Int, Ui)            
+    MAKE_BINARY_OPERATOR_RLIMB     (MPEXPR_NAME,        DEFINE, +, Add, Int, Si)            
+    MAKE_BINARY_OPERATOR_LLIMB_R   (MPEXPR_NAME,        DEFINE, +, Add, Int, Si)            
+                                                                                                        
+    MAKE_BINARY_OPERATOR_STANDARD  (MPEXPR_NAME,        DEFINE, -, Subtract, Int, Int)      
+    MAKE_BINARY_OPERATOR_RLIMB     (MPEXPR_NAME,        DEFINE, -, Subtract, Int, Ui)       
+    MAKE_BINARY_OPERATOR_LLIMB     (MPEXPR_NAME,        DEFINE, -, Subtract, Int, Ui)       
+    MAKE_BINARY_OPERATOR_RLIMB     (MPEXPR_NAME,        DEFINE, -, Subtract, Int, Si)       
+    MAKE_BINARY_OPERATOR_LLIMB     (MPEXPR_NAME,        DEFINE, -, Subtract, Int, Si)       
+                                                                                                        
+    MAKE_BINARY_OPERATOR_STANDARD  (MPEXPR_NAME,        DEFINE, *, Multiply, Int, Int)      
+    MAKE_BINARY_OPERATOR_RLIMB     (MPEXPR_NAME,        DEFINE, *, Multiply, Int, Ui)       
+    MAKE_BINARY_OPERATOR_LLIMB_R   (MPEXPR_NAME,        DEFINE, *, Multiply, Int, Ui)       
+    MAKE_BINARY_OPERATOR_RLIMB     (MPEXPR_NAME,        DEFINE, *, Multiply, Int, Si)       
+    MAKE_BINARY_OPERATOR_LLIMB_R   (MPEXPR_NAME,        DEFINE, *, Multiply, Int, Si)       
+                                                                                                        
+    MAKE_BINARY_OPERATOR_RLIMB     (MPEXPR_NAME,        DEFINE, <<, ShiftLeft, Int, Bits)   
+    MAKE_BINARY_OPERATOR_RLIMB     (MPEXPR(ShiftRight), DEFINE, >>, ShiftRight, Int, Bits)  
+                                                                                                           
+    MAKE_UNARY_OPERATOR            (MPEXPR_NAME,        DEFINE, -, Negate, Int)             
+                                                                                                        
+    MAKE_VOID_FUNCTION             (MPEXPR_NAME,        DEFINE, Abs, Int)                   
+                                                                                                           
+    MAKE_BINARY_OPERATOR_STANDARD  (MPEXPR(Divide),     DEFINE, /, Divide, Int, Int)        
+    MAKE_BINARY_OPERATOR_RLIMB     (MPEXPR(DivideUi),   DEFINE, /, Divide, Int, Ui)         
+                                                                                                           
+    MAKE_BINARY_OPERATOR_STANDARD  (MPEXPR(Mod),        DEFINE, %, Mod, Int, Int)           
+    MAKE_BINARY_OPERATOR_RLIMB     (MPEXPR(ModUi),      DEFINE, %, Mod, Int, Ui)            
+                                                                                                           
+    MAKE_BINARY_OPERATOR_RLIMB     (MPEXPR_NAME,        DEFINE, ^, Power, Int, Ui)          
+                                                                                                        
+    MAKE_FUNCTION_WITH_ONE         (MPEXPR_NAME,        DEFINE, DivideExactly, Int)         
+    MAKE_FUNCTION_WITH_LIMB        (MPEXPR_NAME,        DEFINE, DivideExactly, Ui)          
+                                                                                                        
+    MAKE_FUNCTION_WITH_TWO         (MPEXPR_NAME,        DEFINE, PowerMod, Int, Int)         
+    MAKE_FUNCTION_WITH_TWO_LLIMB   (MPEXPR_NAME,        DEFINE, PowerMod, Ui, Int)          
+                                                                                                           
+    MAKE_FUNCTION_WITH_LIMB        (MPEXPR(Root),       DEFINE, Root, Ui)                   
+    MAKE_VOID_FUNCTION             (MPEXPR(SquareRoot), DEFINE, SquareRoot, Int)            
+                                                                                                           
+    MAKE_BINARY_OPERATOR_STANDARD  (MPEXPR_NAME,        DEFINE, &, And, Int, Int)           
+    MAKE_BINARY_OPERATOR_STANDARD  (MPEXPR_NAME,        DEFINE, |, Or, Int, Int)            
+    MAKE_BINARY_OPERATOR_STANDARD  (MPEXPR_NAME,        DEFINE, ^, Xor, Int, Int)           
+    MAKE_UNARY_OPERATOR            (MPEXPR_NAME,        DEFINE, ~, Complement, Int)         
 
-    DEFINE_UNARY_ASSIGNMENT_REF(Complement, Int, mpz_com)
-    DEFINE_UNARY_ASSIGNMENT_REF(Negate, Int, mpz_neg)
-    DEFINE_UNARY_ASSIGNMENT_REF(Abs, Int, mpz_abs)
+    DEFINE_UNARY_ASSIGNMENT_REF(Complement, Int, MP(com))
+    DEFINE_UNARY_ASSIGNMENT_REF(Negate, Int, MP(neg))
+    DEFINE_UNARY_ASSIGNMENT_REF(Abs, Int, MP(abs))
 
-    DEFINE_BINARY_ASSIGNMENT_REF_REF(Add, Int, mpz_add)
-    DEFINE_BINARY_ASSIGNMENT_REF_VAL(Add, Int, Ui, mpz_add_ui)
-    DEFINE_BINARY_ASSIGNMENT_REF_SI (Add, Int, Si, mpz_add_ui, mpz_sub_ui)
+    DEFINE_BINARY_ASSIGNMENT_REF_REF(Add, Int, MP(add))
+    DEFINE_BINARY_ASSIGNMENT_REF_VAL(Add, Int, Ui, MP(add_ui))
+    DEFINE_BINARY_ASSIGNMENT_REF_SI (Add, Int, Si, MP(add_ui), MP(sub_ui))
 
-    DEFINE_BINARY_ASSIGNMENT_REF_REF(Subtract, Int, mpz_sub)
-    DEFINE_BINARY_ASSIGNMENT_REF_VAL(Subtract, Int, Ui, mpz_sub_ui)
-    DEFINE_BINARY_ASSIGNMENT_VAL_REF(Subtract, Ui, Int, mpz_ui_sub)
-    DEFINE_BINARY_ASSIGNMENT_REF_SI (Subtract, Int, Si, mpz_sub_ui, mpz_add_ui)
-    DEFINE_BINARY_ASSIGNMENT_SI_REF (Subtract, Si, Int, mpz_ui_sub, mpz_add_ui, mpz_neg)
+    DEFINE_BINARY_ASSIGNMENT_REF_REF(Subtract, Int, MP(sub))
+    DEFINE_BINARY_ASSIGNMENT_REF_VAL(Subtract, Int, Ui, MP(sub_ui))
+    DEFINE_BINARY_ASSIGNMENT_VAL_REF(Subtract, Ui, Int, MP(ui_sub))
+    DEFINE_BINARY_ASSIGNMENT_REF_SI (Subtract, Int, Si, MP(sub_ui), MP(add_ui))
+    DEFINE_BINARY_ASSIGNMENT_SI_REF (Subtract, Si, Int, MP(ui_sub), MP(add_ui), MP(neg))
 
-    DEFINE_BINARY_ASSIGNMENT_REF_REF(Multiply, Int, mpz_mul)
-    DEFINE_BINARY_ASSIGNMENT_REF_VAL(Multiply, Int, Ui, mpz_mul_ui)
-    DEFINE_BINARY_ASSIGNMENT_REF_VAL(Multiply, Int, Si, mpz_mul_si)
+    DEFINE_BINARY_ASSIGNMENT_REF_REF(Multiply, Int, MP(mul))
+    DEFINE_BINARY_ASSIGNMENT_REF_VAL(Multiply, Int, Ui, MP(mul_ui))
+    DEFINE_BINARY_ASSIGNMENT_REF_VAL(Multiply, Int, Si, MP(mul_si))
 
-    DEFINE_BINARY_ASSIGNMENT_REF_REF(Divide, Int, custom_mpz_div)
-    DEFINE_BINARY_ASSIGNMENT_REF_VAL(Divide, Int, Ui, custom_mpz_div_ui)
-    DEFINE_BINARY_ASSIGNMENT_REF_REF(Mod, Int, custom_mpz_mod)
-    DEFINE_BINARY_ASSIGNMENT_REF_VAL(Mod, Int, Ui, custom_mpz_mod_ui)
+    DEFINE_BINARY_ASSIGNMENT_REF_REF(Divide, Int, CUSTOM_MP(div))
+    DEFINE_BINARY_ASSIGNMENT_REF_VAL(Divide, Int, Ui, CUSTOM_MP(div_ui))
+    DEFINE_BINARY_ASSIGNMENT_REF_REF(Mod, Int, CUSTOM_MP(mod))
+    DEFINE_BINARY_ASSIGNMENT_REF_VAL(Mod, Int, Ui, CUSTOM_MP(mod_ui))
 
-    DEFINE_BINARY_ASSIGNMENT_REF_VAL(ShiftLeft, Int, Bits, mpz_mul_2exp)
-    DEFINE_BINARY_ASSIGNMENT_REF_VAL(ShiftRight, Int, Bits, custom_mpz_div_2exp)
+    DEFINE_BINARY_ASSIGNMENT_REF_VAL(ShiftLeft, Int, Bits, MP(mul_2exp))
+    DEFINE_BINARY_ASSIGNMENT_REF_VAL(ShiftRight, Int, Bits, CUSTOM_MP(div_2exp))
 
-    DEFINE_BINARY_ASSIGNMENT_REF_REF(DivideExactly, Int, mpz_divexact)
-    DEFINE_BINARY_ASSIGNMENT_REF_VAL(DivideExactly, Int, Ui, mpz_divexact_ui)
+    DEFINE_BINARY_ASSIGNMENT_REF_REF(DivideExactly, Int, MP(divexact))
+    DEFINE_BINARY_ASSIGNMENT_REF_VAL(DivideExactly, Int, Ui, MP(divexact_ui))
     
-    DEFINE_BINARY_ASSIGNMENT_REF_VAL(Power, Int, Ui, mpz_pow_ui)
+    DEFINE_BINARY_ASSIGNMENT_REF_VAL(Power, Int, Ui, MP(pow_ui))
 
-    DEFINE_BINARY_ASSIGNMENT_REF_VAL(Root, Int, Ui, custom_mpz_root)
-    DEFINE_UNARY_ASSIGNMENT_REF     (SquareRoot, Int, custom_mpz_sqrt)
+    DEFINE_BINARY_ASSIGNMENT_REF_VAL(Root, Int, Ui, CUSTOM_MP(root))
+    DEFINE_UNARY_ASSIGNMENT_REF     (SquareRoot, Int, CUSTOM_MP(sqrt))
 
-    DEFINE_BINARY_ASSIGNMENT_REF_REF(And, Int, mpz_and)
-    DEFINE_BINARY_ASSIGNMENT_REF_REF(Or, Int, mpz_ior)
-    DEFINE_BINARY_ASSIGNMENT_REF_REF(Xor, Int, mpz_xor)
+    DEFINE_BINARY_ASSIGNMENT_REF_REF(And, Int, MP(and))
+    DEFINE_BINARY_ASSIGNMENT_REF_REF(Or, Int, MP(ior))
+    DEFINE_BINARY_ASSIGNMENT_REF_REF(Xor, Int, MP(xor))
 
-    DEFINE_BINARY_ASSIGNMENT_REF_REF(Gcd, Int, custom_mpz_gcd)
-    DEFINE_BINARY_ASSIGNMENT_REF_REF(Lcm, Int, mpz_lcm)
-    DEFINE_BINARY_ASSIGNMENT_REF_VAL(Lcm, Int, Ui, mpz_lcm_ui)
+    DEFINE_BINARY_ASSIGNMENT_REF_REF(Gcd, Int, CUSTOM_MP(gcd))
+    DEFINE_BINARY_ASSIGNMENT_REF_REF(Lcm, Int, MP(lcm))
+    DEFINE_BINARY_ASSIGNMENT_REF_VAL(Lcm, Int, Ui, MP(lcm_ui))
 
-    DEFINE_TERNARY_ASSIGNMENT_REF_REF_REF(PowerMod, Int, mpz_powm);
-    DEFINE_TERNARY_ASSIGNMENT_REF_VAL_REF(PowerMod, Int, Ui, Int, mpz_powm_ui)
+    DEFINE_TERNARY_ASSIGNMENT_REF_REF_REF(PowerMod, Int, MP(powm));
+    DEFINE_TERNARY_ASSIGNMENT_REF_VAL_REF(PowerMod, Int, Ui, Int, MP(powm_ui))
 
-    mpir_ui IntegerExpression::Mod(mpir_ui d, RoundingModes rounding)
+    mpir_ui MPEXPR_NAME::Mod(mpir_ui d, RoundingModes rounding)
     {
         IN_CONTEXT(this);
 
         switch((rounding == RoundingModes::Default) ? MpirSettings::RoundingMode : rounding)
         {
             case RoundingModes::Floor:
-                return mpz_fdiv_ui(context.Args[0], d);
+                return MP(fdiv_ui)(CTXT(0), d);
 
             case RoundingModes::Ceiling:
-                return mpz_cdiv_ui(context.Args[0], d);
+                return MP(cdiv_ui)(CTXT(0), d);
 
             default:
-                return mpz_tdiv_ui(context.Args[0], d);
+                return MP(tdiv_ui)(CTXT(0), d);
         }
     }
     
@@ -479,10 +525,10 @@ namespace MPIR
 
     #define chunkSize 1024
 
-    size_t HugeInt::Write(Stream^ stream)
+    size_t MPTYPE::Write(Stream^ stream)
     {
         mpir_out_struct out;
-        mpz_out_raw_m(out, _value);
+        MP(out_raw_m)(out, _value);
 
         auto buffer = gcnew array<unsigned char>(chunkSize);
         auto ptr = out->written;
@@ -502,7 +548,7 @@ namespace MPIR
         return out->writtenSize;
     }
 
-    size_t HugeInt::Read(Stream^ stream)
+    size_t MPTYPE::Read(Stream^ stream)
     {
         unsigned char csize_bytes[4];
         mpir_out_struct out;
@@ -517,7 +563,7 @@ namespace MPIR
             csize_bytes[i] = byte;
         }
 
-        mpz_inp_raw_p(_value, csize_bytes, out);
+        MP(inp_raw_p)(_value, csize_bytes, out);
 
         if(out->writtenSize != 0)
         {
@@ -536,20 +582,20 @@ namespace MPIR
                 toRead -= len;
             }
 
-            mpz_inp_raw_m(_value, out);
+            MP(inp_raw_m)(_value, out);
         }
 
         return 4 + out->writtenSize;
     }
 
-    size_t HugeInt::Write(TextWriter^ writer, int base, bool lowercase)
+    size_t MPTYPE::Write(TextWriter^ writer, int base, bool lowercase)
     {
         auto str = ToString(base, lowercase);
         writer->Write(str);
         return str->Length;
     }
 
-    size_t HugeInt::Read(TextReader^ reader, int base)
+    size_t MPTYPE::Read(TextReader^ reader, int base)
     {
         int c;
         size_t nread = 0;
@@ -570,7 +616,7 @@ namespace MPIR
     nread++;
 
     // adapted from inp_str, which is shared by mpq_inp_str
-    size_t HugeInt::ReadNoWhite(TextReader^ reader, int base, size_t nread)
+    size_t MPTYPE::ReadNoWhite(TextReader^ reader, int base, size_t nread)
     {
         char *str;
         size_t alloc_size, str_size;
@@ -660,7 +706,7 @@ namespace MPIR
             xsize = (((mp_size_t)
                 (str_size / __mp_bases[base].chars_per_bit_exactly))
                 / GMP_NUMB_BITS + 2);
-            MPZ_REALLOC (_value, xsize);
+            MP(realloc) (_value, xsize);
 
             // Convert the byte array in base BASE to our bignum format.
             xsize = mpn_set_str (_value->_mp_d, (unsigned char *) str, str_size, base);
@@ -674,80 +720,80 @@ namespace MPIR
 
     #pragma region number-theoretic
 
-    bool HugeInt::IsProbablePrime(MpirRandom^ random, int probability, mpir_ui pretested)
+    bool MPTYPE::IsProbablePrime(MpirRandom^ random, int probability, mpir_ui pretested)
     {
-        return mpz_probable_prime_p(_value, random->_value, probability, pretested) != 0;
+        return MP(probable_prime_p)(_value, random->_value, probability, pretested) != 0;
     }
             
-    bool HugeInt::IsLikelyPrime(MpirRandom^ random, mpir_ui pretested)
+    bool MPTYPE::IsLikelyPrime(MpirRandom^ random, mpir_ui pretested)
     {
-        return mpz_likely_prime_p(_value, random->_value, pretested) != 0;
+        return MP(likely_prime_p)(_value, random->_value, pretested) != 0;
     }
 
-    MAKE_FUNCTION_WITH_LIMB (IntegerExpression, DEFINE, NextPrimeCandidate, Rnd)
+    MAKE_FUNCTION_WITH_LIMB (MPEXPR_NAME, DEFINE, NextPrimeCandidate, Rnd)
     DEFINE_ASSIGNMENT_PROLOG(NextPrimeCandidateIntRnd)
     {
         IN_CONTEXT(Left);
-        mpz_next_prime_candidate(destination, context.Args[0], Right->_value);
+        MP(next_prime_candidate)(destination, CTXT(0), Right->_value);
     }
 
-    MAKE_FUNCTION_WITH_ONE (IntegerGcdExpression, DEFINE, Gcd, Int)
-    MAKE_FUNCTION_WITH_ONE (IntegerExpression, DEFINE, Lcm, Int)
-    MAKE_FUNCTION_WITH_LIMB (IntegerExpression, DEFINE, Lcm, Ui)
+    MAKE_FUNCTION_WITH_ONE (MPEXPR(Gcd), DEFINE, Gcd, Int)
+    MAKE_FUNCTION_WITH_ONE (MPEXPR_NAME, DEFINE, Lcm, Int)
+    MAKE_FUNCTION_WITH_LIMB (MPEXPR_NAME, DEFINE, Lcm, Ui)
 
-    MAKE_FUNCTION_WITH_ONE (IntegerExpression, DEFINE, Invert, Int)
+    MAKE_FUNCTION_WITH_ONE (MPEXPR_NAME, DEFINE, Invert, Int)
     DEFINE_ASSIGNMENT_PROLOG(InvertIntInt)
     {
         IN_CONTEXT(Left, Right);
-        if (mpz_invert(destination, context.Args[0], context.Args[1]) == 0)
+        if (MP(invert)(destination, CTXT(0), CTXT(1)) == 0)
             throw gcnew ArgumentException("Inverse does not exist");
     }
 
-    MAKE_FUNCTION_WITH_ONE (IntegerRemoveFactorsExpression, DEFINE, RemoveFactors, Int)
+    MAKE_FUNCTION_WITH_ONE (MPEXPR(RemoveFactors), DEFINE, RemoveFactors, Int)
     DEFINE_ASSIGNMENT_PROLOG(RemoveFactorsIntInt)
     {
         IN_CONTEXT(Left, Right);
-        auto result = mpz_remove(destination, context.Args[0], context.Args[1]);
+        auto result = MP(remove)(destination, CTXT(0), CTXT(1));
         if(!IS_NULL(_count))
             _count(result);
     }
 
-    DEFINE_BINARY_ASSIGNMENT_VAL_VAL(Power, Ui, Ui, mpz_ui_pow_ui)
+    DEFINE_BINARY_ASSIGNMENT_VAL_VAL(Power, Ui, Ui, MP(ui_pow_ui))
 
     DEFINE_ASSIGNMENT_PROLOG(FactorialUiUi)
     {
         switch (Right)
         {
             case 1:
-                mpz_fac_ui(destination, Left);
+                MP(fac_ui)(destination, Left);
                 break;
 
             case 2:
-                mpz_2fac_ui(destination, Left);
+                MP(2fac_ui)(destination, Left);
                 break;
 
             default:
-                mpz_mfac_uiui(destination, Left, Right);
+                MP(mfac_uiui)(destination, Left, Right);
                 break;
         }
     }
 
-    DEFINE_UNARY_ASSIGNMENT_VAL(Primorial, Ui, mpz_primorial_ui)
-    DEFINE_BINARY_ASSIGNMENT_VAL_VAL(Binomial, Ui, Ui, mpz_bin_uiui)
-    DEFINE_BINARY_ASSIGNMENT_REF_VAL(Binomial, Int, Ui, mpz_bin_ui)
+    DEFINE_UNARY_ASSIGNMENT_VAL(Primorial, Ui, MP(primorial_ui))
+    DEFINE_BINARY_ASSIGNMENT_VAL_VAL(Binomial, Ui, Ui, MP(bin_uiui))
+    DEFINE_BINARY_ASSIGNMENT_REF_VAL(Binomial, Int, Ui, MP(bin_ui))
 
     DEFINE_ASSIGNMENT_PROLOG(FibonacciUi)
     {
         IS_NULL(_previous)
-            ? mpz_fib_ui(destination, Operand)
-            : mpz_fib2_ui(destination, _previous->_value, Operand);
+            ? MP(fib_ui)(destination, Operand)
+            : MP(fib2_ui)(destination, _previous->_value, Operand);
     }
 
     DEFINE_ASSIGNMENT_PROLOG(LucasUi)
     {
         IS_NULL(_previous)
-            ? mpz_lucnum_ui(destination, Operand)
-            : mpz_lucnum2_ui(destination, _previous->_value, Operand);
+            ? MP(lucnum_ui)(destination, Operand)
+            : MP(lucnum2_ui)(destination, _previous->_value, Operand);
     }
 
     #pragma endregion

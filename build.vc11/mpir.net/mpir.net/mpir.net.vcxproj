@@ -150,7 +150,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\mpir.net\mpir.net\AssemblyInfo.cpp" />
-    <ClCompile Include="..\..\..\mpir.net\mpir.net\Common.cpp" />
     <ClCompile Include="..\..\..\mpir.net\mpir.net\HugeInt.cpp" />
     <ClCompile Include="..\..\..\mpir.net\mpir.net\HugeRational.cpp" />
     <ClCompile Include="..\..\..\mpir.net\mpir.net\Random.cpp" />
@@ -169,6 +168,9 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="..\..\..\mpir.net\mpir.net\app.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\mpir.net\mpir.net\ExpressionMacros.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

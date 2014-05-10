@@ -44,9 +44,6 @@
     <ClCompile Include="..\..\..\mpir.net\mpir.net\HugeInt.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\mpir.net\mpir.net\Common.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\mpir.net\mpir.net\Random.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -66,5 +63,10 @@
     <Image Include="..\..\..\mpir.net\mpir.net\app.ico">
       <Filter>Resource Files</Filter>
     </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\mpir.net\mpir.net\ExpressionMacros.h">
+      <Filter>Header Files</Filter>
+    </None>
   </ItemGroup>
 </Project>
