@@ -50,8 +50,8 @@ along with the MPIR Library.  If not, see http://www.gnu.org/licenses/.
 #define MACRO_GLUE(x, y) x y
 #define IN_CONTEXT(...) MACRO_GLUE(MACRO_CHOOSE(IN_CONTEXT_, COUNT_ARGS(__VA_ARGS__)), (__VA_ARGS__))
 
-#define TYPE_FOR_ABBR_Int HugeInt^
-#define TYPE_FOR_ABBR_Expr IntegerExpression^
+#define TYPE_FOR_ABBR_Int MPTYPE^
+#define TYPE_FOR_ABBR_Expr MPEXPR_NAME^
 #define TYPE_FOR_ABBR_Si mpir_si
 #define TYPE_FOR_ABBR_Ui mpir_ui
 #define TYPE_FOR_ABBR_Bits mp_bitcnt_t

@@ -23,18 +23,18 @@ along with the MPIR Library.  If not, see http://www.gnu.org/licenses/.
 
 namespace MPIR
 {
-    DEFINE_ASSIGNMENT_PROLOG(RandomInt)
+    DEFINE_ASSIGNMENT_PROLOG(Random)
     {
         IN_CONTEXT(Right);
         mpz_urandomm(destination, Left->_value, context.IntArgs[0]);
     }
 
-    DEFINE_ASSIGNMENT_PROLOG(RandomIntBits)
+    DEFINE_ASSIGNMENT_PROLOG(RandomBits)
     {
         mpz_urandomb(destination, Left->_value, Right);
     }
 
-    DEFINE_ASSIGNMENT_PROLOG(RandomIntBitsChunky)
+    DEFINE_ASSIGNMENT_PROLOG(RandomBitsChunky)
     {
         mpz_rrandomb(destination, Left->_value, Right);
     }

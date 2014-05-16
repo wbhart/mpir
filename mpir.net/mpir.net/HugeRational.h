@@ -23,39 +23,71 @@ using namespace System;
 using namespace System::IO;
 using namespace System::Runtime::InteropServices;
 
+#ifdef SPECIALIZE_EXPRESSIONS
+#undef SPECIALIZE_EXPRESSIONS
+#undef MP
+#undef CUSTOM_MP
+#undef MPSTRUCT
+#undef MPTYPE
+#undef MPTYPE_NAME
+#undef MPEXPR_NAME
+#undef MPEXPR
+#undef CTXT
+#endif
+#define SPECIALIZE_EXPRESSIONS
+#define CUSTOM_MP(x) custom_mpq_##x
+#define MPSTRUCT __mpq_struct
+#define MP(x) mpq_##x
+#define MPTYPE HugeRational
+#define MPTYPE_NAME Rational
+#define MPEXPR_NAME LIT(MPTYPE_NAME)Expression
+#define MPEXPR(x) LIT(MPTYPE_NAME)##x##Expression
+#define CTXT(x) context.RationalArgs[x]
+#include "ExpressionMacros.h"
+
 namespace MPIR
 {
-    ref class HugeRational;
+    ref class MpirRandom;
+    ref class MPTYPE;
+    ref class MPEXPR(Divide);
+    ref class MPEXPR(DivideUi);
+    ref class MPEXPR(Mod);
+    ref class MPEXPR(DivMod);
+    ref class MPEXPR(ModUi);
+    ref class MPEXPR(ShiftRight);
+    ref class MPEXPR(Root);
+    ref class MPEXPR(SquareRoot);
+    ref class MPEXPR(Gcd);
+    ref class MPEXPR(RemoveFactors);
+    ref class MPEXPR(Sequence);
 
-    #pragma region RationalExpression
+    #pragma region IntegerExpression
 
     /// <summary>
-    /// Base class for all rational expressions resulting from many rational operations on MPIR types.
+    /// Base class for all integer expressions resulting from many integer operations on MPIR types.
     /// <para>Expressions can be arbitrarily nested, and are lazily evaluated 
     /// when they are either assigned to the Value property of an MPIR object, or are consumed by a function or operator that returns a primitive type.
     /// </para>Assignment to the Value property is necessary because .Net does not support overloading the assignment operator.
     /// </summary>
-    public ref class RationalExpression abstract : public IComparable, IComparable<RationalExpression^>, IEquatable<RationalExpression^>
+    public ref class MPEXPR_NAME abstract : public IComparable, IComparable<MPEXPR_NAME^>, IEquatable<MPEXPR_NAME^>
     {
         internal:
-            RationalExpression() { }
-            /*
-            virtual void AssignTo(mpq_ptr destination) abstract;
-            virtual void AssignTo(EvaluationContext& destination)
+            MPEXPR_NAME() { }
+            virtual void AssignTo(MP(ptr) destination) abstract;
+            virtual void AssignTo(EvaluationContext& context)
             {
-                destination.Options = (EvaluationOptions) (destination.Options | (1 << destination.Index));
-                auto ptr = &destination.Temp[destination.Index];
-                destination.Args[destination.Index++] = ptr;
-                mpq_init(ptr);
+                context.Options = (EvaluationOptions) (context.Options | (1 << context.Index));
+                auto ptr = &context.Temp[context.Index].MPTYPE_NAME;
+                CTXT(context.Index++) = ptr;
+                MP(init)(ptr);
                 AssignTo(ptr); 
             }
-            */
+
         private:
             int CompareTo(Object^ a, bool& valid);
 
         public:
-            /*
-            #pragma region Arithmetic and Bitwise logic
+            #pragma region Arithmetic
 
             /// <summary>Adds two numbers.
             /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
@@ -63,39 +95,39 @@ namespace MPIR
             /// <param name="a">Source value to add to</param>
             /// <param name="b">Source value to add</param>
             /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
-            static RationalExpression^ operator + (RationalExpression^ a, RationalExpression^ b);
+            static MPEXPR_NAME^ operator + (MPEXPR_NAME^ a, MPEXPR_NAME^ b);
 
-            /// <summary>Adds two numbers.
-            /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
-            /// </para></summary>
-            /// <param name="a">Source value to add to</param>
-            /// <param name="b">Source value to add</param>
-            /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
-            static RationalExpression^ operator + (RationalExpression^ a, mpir_ui b);
+///// <summary>Adds two numbers.
+///// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
+///// </para></summary>
+///// <param name="a">Source value to add to</param>
+///// <param name="b">Source value to add</param>
+///// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
+//static MPEXPR_NAME^ operator + (MPEXPR_NAME^ a, mpir_ui b);
 
-            /// <summary>Adds two numbers.
-            /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
-            /// </para></summary>
-            /// <param name="a">Source value to add to</param>
-            /// <param name="b">Source value to add</param>
-            /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
-            static RationalExpression^ operator + (mpir_ui a, RationalExpression^ b);
+///// <summary>Adds two numbers.
+///// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
+///// </para></summary>
+///// <param name="a">Source value to add to</param>
+///// <param name="b">Source value to add</param>
+///// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
+//static MPEXPR_NAME^ operator + (mpir_ui a, MPEXPR_NAME^ b);
 
-            /// <summary>Adds two numbers.
-            /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
-            /// </para></summary>
-            /// <param name="a">Source value to add to</param>
-            /// <param name="b">Source value to add</param>
-            /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
-            static RationalExpression^ operator + (RationalExpression^ a, mpir_si b);
+///// <summary>Adds two numbers.
+///// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
+///// </para></summary>
+///// <param name="a">Source value to add to</param>
+///// <param name="b">Source value to add</param>
+///// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
+//static MPEXPR_NAME^ operator + (MPEXPR_NAME^ a, mpir_si b);
 
-            /// <summary>Adds two numbers.
-            /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
-            /// </para></summary>
-            /// <param name="a">Source value to add to</param>
-            /// <param name="b">Source value to add</param>
-            /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
-            static RationalExpression^ operator + (mpir_si a, RationalExpression^ b);
+///// <summary>Adds two numbers.
+///// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
+///// </para></summary>
+///// <param name="a">Source value to add to</param>
+///// <param name="b">Source value to add</param>
+///// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
+//static MPEXPR_NAME^ operator + (mpir_si a, MPEXPR_NAME^ b);
                                                                                                           
             /// <summary>Subtracts two numbers.
             /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
@@ -103,47 +135,39 @@ namespace MPIR
             /// <param name="a">Source value to subtract from</param>
             /// <param name="b">Source value to subtract</param>
             /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
-            static RationalExpression^ operator - (RationalExpression^ a, RationalExpression^ b);
-                                                                                                          
-            /// <summary>Subtracts two numbers.
-            /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
-            /// </para></summary>
-            /// <param name="a">Source value to subtract from</param>
-            /// <param name="b">Source value to subtract</param>
-            /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
-            static RationalExpression^ operator - (RationalExpression^ a, mpir_ui b);
-                                                                                                          
-            /// <summary>Subtracts two numbers.
-            /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
-            /// </para></summary>
-            /// <param name="a">Source value to subtract from</param>
-            /// <param name="b">Source value to subtract</param>
-            /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
-            static RationalExpression^ operator - (mpir_ui a, RationalExpression^ b);
-                                                                                                          
-            /// <summary>Subtracts two numbers.
-            /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
-            /// </para></summary>
-            /// <param name="a">Source value to subtract from</param>
-            /// <param name="b">Source value to subtract</param>
-            /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
-            static RationalExpression^ operator - (RationalExpression^ a, mpir_si b);
-                                                                                                          
-            /// <summary>Subtracts two numbers.
-            /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
-            /// </para></summary>
-            /// <param name="a">Source value to subtract from</param>
-            /// <param name="b">Source value to subtract</param>
-            /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
-            static RationalExpression^ operator - (mpir_si a, RationalExpression^ b);
-                                                                                                          
-            /// <summary>Multiplies two numbers.
-            /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
-            /// </para></summary>
-            /// <param name="a">Source value to multiply</param>
-            /// <param name="b">Source value to multiply by</param>
-            /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
-            static RationalExpression^ operator * (RationalExpression^ a, RationalExpression^ b);
+            static MPEXPR_NAME^ operator - (MPEXPR_NAME^ a, MPEXPR_NAME^ b);
+//                                                                                              
+///// <summary>Subtracts two numbers.
+///// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
+///// </para></summary>
+///// <param name="a">Source value to subtract from</param>
+///// <param name="b">Source value to subtract</param>
+///// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
+//static MPEXPR_NAME^ operator - (MPEXPR_NAME^ a, mpir_ui b);
+//                                                                                              
+///// <summary>Subtracts two numbers.
+///// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
+///// </para></summary>
+///// <param name="a">Source value to subtract from</param>
+///// <param name="b">Source value to subtract</param>
+///// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
+//static MPEXPR_NAME^ operator - (mpir_ui a, MPEXPR_NAME^ b);
+//                                                                                              
+///// <summary>Subtracts two numbers.
+///// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
+///// </para></summary>
+///// <param name="a">Source value to subtract from</param>
+///// <param name="b">Source value to subtract</param>
+///// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
+//static MPEXPR_NAME^ operator - (MPEXPR_NAME^ a, mpir_si b);
+//                                                                                              
+///// <summary>Subtracts two numbers.
+///// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
+///// </para></summary>
+///// <param name="a">Source value to subtract from</param>
+///// <param name="b">Source value to subtract</param>
+///// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
+//static MPEXPR_NAME^ operator - (mpir_si a, MPEXPR_NAME^ b);
                                                                                                           
             /// <summary>Multiplies two numbers.
             /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
@@ -151,31 +175,39 @@ namespace MPIR
             /// <param name="a">Source value to multiply</param>
             /// <param name="b">Source value to multiply by</param>
             /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
-            static RationalExpression^ operator * (RationalExpression^ a, mpir_ui b);
-                                                                                                          
-            /// <summary>Multiplies two numbers.
-            /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
-            /// </para></summary>
-            /// <param name="a">Source value to multiply</param>
-            /// <param name="b">Source value to multiply by</param>
-            /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
-            static RationalExpression^ operator * (mpir_ui a, RationalExpression^ b);
-                                                                                                          
-            /// <summary>Multiplies two numbers.
-            /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
-            /// </para></summary>
-            /// <param name="a">Source value to multiply</param>
-            /// <param name="b">Source value to multiply by</param>
-            /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
-            static RationalExpression^ operator * (RationalExpression^ a, mpir_si b);
-                                                                                                          
-            /// <summary>Multiplies two numbers.
-            /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
-            /// </para></summary>
-            /// <param name="a">Source value to multiply</param>
-            /// <param name="b">Source value to multiply by</param>
-            /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
-            static RationalExpression^ operator * (mpir_si a, RationalExpression^ b);
+            static MPEXPR_NAME^ operator * (MPEXPR_NAME^ a, MPEXPR_NAME^ b);
+//                                                                                              
+///// <summary>Multiplies two numbers.
+///// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
+///// </para></summary>
+///// <param name="a">Source value to multiply</param>
+///// <param name="b">Source value to multiply by</param>
+///// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
+//static MPEXPR_NAME^ operator * (MPEXPR_NAME^ a, mpir_ui b);
+//                                                                                              
+///// <summary>Multiplies two numbers.
+///// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
+///// </para></summary>
+///// <param name="a">Source value to multiply</param>
+///// <param name="b">Source value to multiply by</param>
+///// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
+//static MPEXPR_NAME^ operator * (mpir_ui a, MPEXPR_NAME^ b);
+//                                                                                              
+///// <summary>Multiplies two numbers.
+///// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
+///// </para></summary>
+///// <param name="a">Source value to multiply</param>
+///// <param name="b">Source value to multiply by</param>
+///// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
+//static MPEXPR_NAME^ operator * (MPEXPR_NAME^ a, mpir_si b);
+//                                                                                              
+///// <summary>Multiplies two numbers.
+///// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
+///// </para></summary>
+///// <param name="a">Source value to multiply</param>
+///// <param name="b">Source value to multiply by</param>
+///// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
+//static MPEXPR_NAME^ operator * (mpir_si a, MPEXPR_NAME^ b);
                                                                                                           
             /// <summary>Shifts the <paramref name="a"/> source operand to the left by <paramref name="bits"/>, i.e. multiplies <paramref name="a"/> by 2^<paramref name="bits"/>.
             /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
@@ -183,7 +215,7 @@ namespace MPIR
             /// <param name="a">Source value to multiply</param>
             /// <param name="bits">Number of bits to shift <paramref name="a"/> by, i.e. power of 2 to multiply <paramref name="a"/> by</param>
             /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
-            static RationalExpression^ operator << (RationalExpression^ a, mp_bitcnt_t bits);
+            static MPEXPR_NAME^ operator << (MPEXPR_NAME^ a, mp_bitcnt_t bits);
                                                                                                           
             /// <summary>Shifts the <paramref name="a"/> source operand to the right by <paramref name="bits"/>, i.e. divides <paramref name="a"/> by 2^<paramref name="bits"/>.
             /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
@@ -195,14 +227,14 @@ namespace MPIR
             /// <para>The expression exposes methods you can call to select whether you need to compute the quotient or remainder of the division, and/or to set the rounding mode.
             /// </para>By default, the shifted value (i.e., quotient) is computed and the rounding mode defaults to the static MpirSettings.DefaultRoundingMode.
             /// </returns>
-            static RationalShiftRightExpression^ operator >> (RationalExpression^ a, mp_bitcnt_t bits);
+            static MPEXPR_NAME^ operator >> (MPEXPR_NAME^ a, mp_bitcnt_t bits);
 
             /// <summary>Negates the source value.
             /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
             /// </para></summary>
             /// <param name="a">Source value to negate</param>
             /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
-            static RationalExpression^ operator - (RationalExpression^ a);
+            static MPEXPR_NAME^ operator - (MPEXPR_NAME^ a);
                                                                                                           
             /// <summary>Divides two numbers.
             /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
@@ -213,182 +245,34 @@ namespace MPIR
             /// <para>The expression exposes methods you can call optionally if you need to save the remainder of the division, and/or to set the rounding mode.
             /// </para>By default, the remainder is not computed and the rounding mode defaults to the static MpirSettings.DefaultRoundingMode.
             /// </returns>
-            static RationalDivideExpression^ operator / (RationalExpression^ a, RationalExpression^ b);
+            static MPEXPR_NAME^ operator / (MPEXPR_NAME^ a, MPEXPR_NAME^ b);
+//                                                                                              
+///// <summary>Divides two numbers.
+///// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
+///// </para>You can optionally save the remainder or specify the rounding mode to use for the division by calling methods on the resulting expression, before assigning it.</summary>
+///// <param name="a">Source value to divide</param>
+///// <param name="b">Source value to divide <paramref name="a"/> by</param>
+///// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation.
+///// <para>The expression exposes methods you can call optionally if you need to save the remainder of the division, and/or to set the rounding mode.
+///// </para>By default, the remainder is not computed and the rounding mode defaults to the static MpirSettings.DefaultRoundingMode.
+///// </returns>
+//static MPEXPR_NAME^ operator / (MPEXPR_NAME^ a, mpir_ui b);
                                                                                                           
-            /// <summary>Divides two numbers.
-            /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
-            /// </para>You can optionally save the remainder or specify the rounding mode to use for the division by calling methods on the resulting expression, before assigning it.</summary>
-            /// <param name="a">Source value to divide</param>
-            /// <param name="b">Source value to divide <paramref name="a"/> by</param>
-            /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation.
-            /// <para>The expression exposes methods you can call optionally if you need to save the remainder of the division, and/or to set the rounding mode.
-            /// </para>By default, the remainder is not computed and the rounding mode defaults to the static MpirSettings.DefaultRoundingMode.
-            /// </returns>
-            static RationalDivideUiExpression^ operator / (RationalExpression^ a, mpir_ui b);
-                                                                                                          
-            /// <summary>Calculates the remainder from the division of two numbers.
-            /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
-            /// </para>You can optionally save the quotient in addition to the remainder or specify the rounding mode to use for the division 
-            /// by calling methods on the resulting expression, before assigning it.</summary>
-            /// <param name="a">Source value to divide</param>
-            /// <param name="b">Source value to divide <paramref name="a"/> by</param>
-            /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation.
-            /// <para>The expression exposes methods you can call optionally if you need to save the quotient in addition to the remainder, and/or to set the rounding mode.
-            /// </para>By default, the remainder is not computed and the rounding mode defaults to the static MpirSettings.DefaultRoundingMode.
-            /// </returns>
-            static RationalModExpression^ operator % (RationalExpression^ a, RationalExpression^ b);
-                                                                                                          
-            /// <summary>Calculates the remainder from the division of two numbers.
-            /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
-            /// </para>You can optionally save the quotient in addition to the remainder or specify the rounding mode to use for the division 
-            /// by calling methods on the resulting expression, before assigning it.</summary>
-            /// <param name="a">Source value to divide</param>
-            /// <param name="b">Source value to divide <paramref name="a"/> by</param>
-            /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation.
-            /// <para>The expression exposes methods you can call optionally if you need to save the quotient in addition to the remainder, and/or to set the rounding mode.
-            /// </para>By default, the remainder is not computed and the rounding mode defaults to the static MpirSettings.DefaultRoundingMode.
-            /// </returns>
-            static RationalModUiExpression^ operator % (RationalExpression^ a, mpir_ui b);
-                                                                                                          
-            /// <summary>Raises the source value to the specified power.
-            /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
-            /// </para></summary>
-            /// <param name="a">Source value to multiply</param>
-            /// <param name="power">Power to raise <paramref name="a"/> to</param>
-            /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
-            static RationalExpression^ operator ^ (RationalExpression^ a, mpir_ui power);
-                                                                                                          
-            /// <summary>Computes the bitwise AND of two numbers.
-            /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
-            /// </para></summary>
-            /// <param name="a">Source value to AND</param>
-            /// <param name="b">Source value to AND with</param>
-            /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
-            static RationalExpression^ operator & (RationalExpression^ a, RationalExpression^ b);
-                                                                                                          
-            /// <summary>Computes the bitwise (inclusive) OR of two numbers.
-            /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
-            /// </para></summary>
-            /// <param name="a">Source value to OR</param>
-            /// <param name="b">Source value to OR with</param>
-            /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
-            static RationalExpression^ operator | (RationalExpression^ a, RationalExpression^ b);
-                                                                                                          
-            /// <summary>Computes the bitwise XOR (exclusive or) of two numbers.
-            /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
-            /// </para></summary>
-            /// <param name="a">Source value to XOR</param>
-            /// <param name="b">Source value to XOR with</param>
-            /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
-            static RationalExpression^ operator ^ (RationalExpression^ a, RationalExpression^ b);
-                                                                                                          
-            /// <summary>Computes the bitwise complement of a number.
-            /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
-            /// </para></summary>
-            /// <param name="a">Source value to complement</param>
-            /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
-            static RationalExpression^ operator ~ (RationalExpression^ a);
-
-            /// <summary>If the source is &gt;= 0, returns the population count of op, which is the number of 1 bits in the binary representation.
-            /// <para>If the source is &lt; 0, the number of 1s is infinite, and the return value is ulong.MaxValue, the largest possible bit count.
-            /// </para>Because the result is a primitive type, it is computed immediately.
-            /// </summary>
-            /// <returns>The population count for a non-negative number</returns>
-            mp_bitcnt_t PopCount() { IN_CONTEXT(this); return mpq_popcount(context.Args[0]); }
-
-            /// <summary>If this number and the operand are both &gt;= 0 or both &lt; 0, returns the hamming distance between them, which is the number of bit positions with different bit values.
-            /// <para>If one operand is &gt;= 0 and the other &lt; 0 then the number of bits different is infinite, and the return value is ulong.MaxValue, the largest possible bit count.
-            /// </para>Because the result is a primitive type, it is computed immediately.
-            /// </summary>
-            /// <param name="a">Source value to compute the hamming distance to</param>
-            /// <returns>The hamming distance between this number and <paramref name="a"/></returns>
-            mp_bitcnt_t HammingDistance(RationalExpression^ a) { IN_CONTEXT(this, a); return mpq_hamdist(context.Args[0], context.Args[1]); }
-
-            /// <summary>Scans the source number, starting from the <paramref name="start"/> bit, towards more significant bits, until the first 0 or 1 bit
-            /// (depending on the <paramref name="value"/> is found, and return the index of the found bit.
-            /// <para>If the bit at the starting position is already what's sought, then <paramref name="start"/> is returned.
-            /// </para>If there's no bit found, then ulong.MaxValue (the largest possible bit count) is returned. 
-            /// This will happen with <paramref name="value"/> = true past the end of a non-negative number, or with <paramref name="value"/> = false past the end of a negative number.
-            /// <para>A false bit will always be found at the <paramref name="start"/> position past the end of a non-negatitve number, and a true bit past the end of a negative number.
-            /// </para></summary>
-            /// <param name="value">Value of the bit to scan for, true for 1, false for 0</param>
-            /// <param name="start">Starting bit position to search.  The least significant bit is zero.</param>
-            /// <returns>The index of the found bit, or ulong.MaxValue if no bit found.</returns>
-            mp_bitcnt_t FindBit(bool value, mp_bitcnt_t start) { IN_CONTEXT(this); return value ? mpq_scan1(context.Args[0], start) : mpq_scan0(context.Args[0], start); }
 
             /// <summary>Computes the absolute value of the source number.
             /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
             /// </para></summary>
             /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
-            RationalExpression^ Abs();
-                                                                                                          
-            /// <summary>Divides two numbers where it is known in advance that the division is exact.  This method is faster than normal division,
-            /// but produces an undefined result when the division is not exact.
-            /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
-            /// </para></summary>
-            /// <param name="a">Source value to divide by</param>
-            /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation.
-            /// </returns>
-            RationalExpression^ DivideExactly(RationalExpression^ a);
-                                                                                                          
-            /// <summary>Divides two numbers where it is known in advance that the division is exact.  This method is faster than normal division,
-            /// but produces an undefined result when the division is not exact.
-            /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
-            /// </para></summary>
-            /// <param name="a">Source value to divide by</param>
-            /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation.
-            /// </returns>
-            RationalExpression^ DivideExactly(mpir_ui a);
-                                                                                                          
-            /// <summary>Raises the source value to the specified <paramref name="power"/> modulo <paramref name="modulo"/>.
-            /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
-            /// </para></summary>
-            /// <param name="power">Power to raise the source value to.
-            /// <para>Negative power values are supported if an inverse mod <paramref name="modulo"/> exists, otherwise divide by zero is raised.</para></param>
-            /// <param name="modulo">Modulo to perform the powering operation with</param>
-            /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
-            RationalExpression^ PowerMod(RationalExpression^ power, RationalExpression^ modulo);
-                                                                                                          
-            /// <summary>Raises the source value to the specified <paramref name="power"/> modulo <paramref name="modulo"/>.
-            /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
-            /// </para></summary>
-            /// <param name="power">Power to raise the source value to</param>
-            /// <param name="modulo">Modulo to perform the powering operation with</param>
-            /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
-            RationalExpression^ PowerMod(mpir_ui power, RationalExpression^ modulo);
+            MPEXPR_NAME^ Abs();
 
-            /// <summary>Computes the truncated integer part of the root of the specified <paramref name="power"/> from the source value.
+            /// <summary>Inverts the number (1/source).
             /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
-            /// </para>You can optionally save the remainder from the root operation, or a flag indicating whether the root was exact, 
-            /// by calling a method on the resulting expression, before assigning it.</summary>
-            /// <param name="power">Power of the root to compute.</param>
+            /// </para>If the new denominator is zero, a division by zero is thrown.</summary>
             /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
-            RationalRootExpression^ Root(mpir_ui power);
-
-            /// <summary>Computes the truncated integer part of the square root of the source value.
-            /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
-            /// </para>You can optionally save the remainder from the root operation
-            /// by calling a method on the resulting expression, before assigning it.</summary>
-            /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
-            RationalSquareRootExpression^ SquareRoot();
-
-            /// <summary>Calculates the remainder from the division of two numbers, using the rounding mode set in MpirSettings.RoundingMode.
-            /// <para>Because the result is a primitive type, it is computed immediately.
-            /// </para></summary>
-            /// <param name="a">divisor to divide the source by</param>
-            /// <returns>The remainder of the division</returns>
-            mpir_ui Mod(mpir_ui a) { return Mod(a, RoundingModes::Default); }
-
-            /// <summary>Calculates the remainder from the division of two numbers, using the specified rounding mode.
-            /// <para>Because the result is a primitive type, it is computed immediately.
-            /// </para></summary>
-            /// <param name="a">divisor to divide the source by</param>
-            /// <param name="roundingMode">rounding mode to use for the division</param>
-            /// <returns>The remainder of the division</returns>
-            mpir_ui Mod(mpir_ui a, RoundingModes roundingMode);
+            MPEXPR_NAME^ Invert();
 
             #pragma endregion
-            */
+
             #pragma region Comparisons
 
             /// <summary>Compares two numbers.
@@ -403,14 +287,14 @@ namespace MPIR
             /// </para></summary>
             /// <param name="a">Value to compare the source with</param>
             /// <returns>A positive number if the source is greater than <paramref name="a"/>, negative if less, and zero if they are equal.</returns>
-            virtual int CompareTo(RationalExpression^ a) sealed;
+            virtual int CompareTo(MPEXPR_NAME^ a) sealed;
 
             /// <summary>Compares two numbers.
             /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
             /// </para></summary>
             /// <param name="a">Value to compare the source with</param>
             /// <returns>true if the values of the source and <paramref name="a"/> are equal, false otherwise.</returns>
-            virtual bool Equals(RationalExpression^ a) sealed;
+            virtual bool Equals(MPEXPR_NAME^ a) sealed;
 
             /// <summary>Compares two numbers.
             /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
@@ -425,14 +309,6 @@ namespace MPIR
             /// For this reason, the value of an object must not be modified while the object is contained in a hash table.</summary>
             /// <returns>a signed integer hash code for the value.</returns>
             virtual int GetHashCode() override sealed;
-            /*
-            /// <summary>Compares two numbers.
-            /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
-            /// </para></summary>
-            /// <param name="a">Source value to compare</param>
-            /// <param name="b">Source value to compare with</param>
-            /// <returns>A boolean result of the comparison.</returns>
-            static bool operator <  (RationalExpression^ a, RationalExpression^ b) { return  IS_NULL(a) ? !IS_NULL(b) : a->CompareTo(b) < 0; }
 
             /// <summary>Compares two numbers.
             /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
@@ -440,7 +316,7 @@ namespace MPIR
             /// <param name="a">Source value to compare</param>
             /// <param name="b">Source value to compare with</param>
             /// <returns>A boolean result of the comparison.</returns>
-            static bool operator >= (RationalExpression^ a, RationalExpression^ b) { return  IS_NULL(a) ?  IS_NULL(b) : a->CompareTo(b) >= 0; }
+            static bool operator <  (MPEXPR_NAME^ a, MPEXPR_NAME^ b) { return  IS_NULL(a) ? !IS_NULL(b) : a->CompareTo(b) < 0; }
 
             /// <summary>Compares two numbers.
             /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
@@ -448,7 +324,7 @@ namespace MPIR
             /// <param name="a">Source value to compare</param>
             /// <param name="b">Source value to compare with</param>
             /// <returns>A boolean result of the comparison.</returns>
-            static bool operator == (RationalExpression^ a, RationalExpression^ b) { return  IS_NULL(a) ?  IS_NULL(b) : a->CompareTo(b) == 0; }
+            static bool operator >= (MPEXPR_NAME^ a, MPEXPR_NAME^ b) { return  IS_NULL(a) ?  IS_NULL(b) : a->CompareTo(b) >= 0; }
 
             /// <summary>Compares two numbers.
             /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
@@ -456,7 +332,7 @@ namespace MPIR
             /// <param name="a">Source value to compare</param>
             /// <param name="b">Source value to compare with</param>
             /// <returns>A boolean result of the comparison.</returns>
-            static bool operator != (RationalExpression^ a, RationalExpression^ b) { return  IS_NULL(a) ? !IS_NULL(b) : a->CompareTo(b) != 0; }
+            static bool operator == (MPEXPR_NAME^ a, MPEXPR_NAME^ b) { return  IS_NULL(a) ?  IS_NULL(b) : a->Equals(b); }
 
             /// <summary>Compares two numbers.
             /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
@@ -464,7 +340,7 @@ namespace MPIR
             /// <param name="a">Source value to compare</param>
             /// <param name="b">Source value to compare with</param>
             /// <returns>A boolean result of the comparison.</returns>
-            static bool operator >  (RationalExpression^ a, RationalExpression^ b) { return !IS_NULL(a) && a->CompareTo(b) > 0; }
+            static bool operator != (MPEXPR_NAME^ a, MPEXPR_NAME^ b) { return  IS_NULL(a) ? !IS_NULL(b) : !a->Equals(b); }
 
             /// <summary>Compares two numbers.
             /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
@@ -472,7 +348,7 @@ namespace MPIR
             /// <param name="a">Source value to compare</param>
             /// <param name="b">Source value to compare with</param>
             /// <returns>A boolean result of the comparison.</returns>
-            static bool operator <= (RationalExpression^ a, RationalExpression^ b) { return  IS_NULL(a) || a->CompareTo(b) <= 0; }
+            static bool operator >  (MPEXPR_NAME^ a, MPEXPR_NAME^ b) { return !IS_NULL(a) && a->CompareTo(b) > 0; }
 
             /// <summary>Compares two numbers.
             /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
@@ -480,7 +356,7 @@ namespace MPIR
             /// <param name="a">Source value to compare</param>
             /// <param name="b">Source value to compare with</param>
             /// <returns>A boolean result of the comparison.</returns>
-            static bool operator <  (RationalExpression^ a, mpir_ui b) { return  IS_NULL(a) || a->CompareTo(b) < 0; }
+            static bool operator <= (MPEXPR_NAME^ a, MPEXPR_NAME^ b) { return  IS_NULL(a) || a->CompareTo(b) <= 0; }
 
             /// <summary>Compares two numbers.
             /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
@@ -488,7 +364,7 @@ namespace MPIR
             /// <param name="a">Source value to compare</param>
             /// <param name="b">Source value to compare with</param>
             /// <returns>A boolean result of the comparison.</returns>
-            static bool operator >= (RationalExpression^ a, mpir_ui b) { return !IS_NULL(a) && a->CompareTo(b) >= 0; }
+            static bool operator <  (MPEXPR_NAME^ a, mpir_ui b) { return  IS_NULL(a) || a->CompareTo(b) < 0; }
 
             /// <summary>Compares two numbers.
             /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
@@ -496,7 +372,7 @@ namespace MPIR
             /// <param name="a">Source value to compare</param>
             /// <param name="b">Source value to compare with</param>
             /// <returns>A boolean result of the comparison.</returns>
-            static bool operator >  (RationalExpression^ a, mpir_ui b) { return !IS_NULL(a) && a->CompareTo(b) > 0; }
+            static bool operator >= (MPEXPR_NAME^ a, mpir_ui b) { return !IS_NULL(a) && a->CompareTo(b) >= 0; }
 
             /// <summary>Compares two numbers.
             /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
@@ -504,7 +380,7 @@ namespace MPIR
             /// <param name="a">Source value to compare</param>
             /// <param name="b">Source value to compare with</param>
             /// <returns>A boolean result of the comparison.</returns>
-            static bool operator <= (RationalExpression^ a, mpir_ui b) { return  IS_NULL(a) || a->CompareTo(b) <= 0; }
+            static bool operator >  (MPEXPR_NAME^ a, mpir_ui b) { return !IS_NULL(a) && a->CompareTo(b) > 0; }
 
             /// <summary>Compares two numbers.
             /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
@@ -512,7 +388,7 @@ namespace MPIR
             /// <param name="a">Source value to compare</param>
             /// <param name="b">Source value to compare with</param>
             /// <returns>A boolean result of the comparison.</returns>
-            static bool operator != (RationalExpression^ a, mpir_ui b) { return  IS_NULL(a) || a->CompareTo(b) != 0; }
+            static bool operator <= (MPEXPR_NAME^ a, mpir_ui b) { return  IS_NULL(a) || a->CompareTo(b) <= 0; }
 
             /// <summary>Compares two numbers.
             /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
@@ -520,7 +396,7 @@ namespace MPIR
             /// <param name="a">Source value to compare</param>
             /// <param name="b">Source value to compare with</param>
             /// <returns>A boolean result of the comparison.</returns>
-            static bool operator == (RationalExpression^ a, mpir_ui b) { return !IS_NULL(a) && a->CompareTo(b) == 0; }
+            static bool operator != (MPEXPR_NAME^ a, mpir_ui b) { return  IS_NULL(a) || !a->Equals(b); }
 
             /// <summary>Compares two numbers.
             /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
@@ -528,7 +404,7 @@ namespace MPIR
             /// <param name="a">Source value to compare</param>
             /// <param name="b">Source value to compare with</param>
             /// <returns>A boolean result of the comparison.</returns>
-            static bool operator <  (mpir_ui b, RationalExpression^ a) { return !IS_NULL(a) && a->CompareTo(b) > 0; }
+            static bool operator == (MPEXPR_NAME^ a, mpir_ui b) { return !IS_NULL(a) && a->Equals(b); }
 
             /// <summary>Compares two numbers.
             /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
@@ -536,7 +412,7 @@ namespace MPIR
             /// <param name="a">Source value to compare</param>
             /// <param name="b">Source value to compare with</param>
             /// <returns>A boolean result of the comparison.</returns>
-            static bool operator >= (mpir_ui b, RationalExpression^ a) { return  IS_NULL(a) || a->CompareTo(b) <= 0; }
+            static bool operator <  (mpir_ui b, MPEXPR_NAME^ a) { return !IS_NULL(a) && a->CompareTo(b) > 0; }
 
             /// <summary>Compares two numbers.
             /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
@@ -544,7 +420,7 @@ namespace MPIR
             /// <param name="a">Source value to compare</param>
             /// <param name="b">Source value to compare with</param>
             /// <returns>A boolean result of the comparison.</returns>
-            static bool operator >  (mpir_ui b, RationalExpression^ a) { return  IS_NULL(a) || a->CompareTo(b) < 0; }
+            static bool operator >= (mpir_ui b, MPEXPR_NAME^ a) { return  IS_NULL(a) || a->CompareTo(b) <= 0; }
 
             /// <summary>Compares two numbers.
             /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
@@ -552,7 +428,7 @@ namespace MPIR
             /// <param name="a">Source value to compare</param>
             /// <param name="b">Source value to compare with</param>
             /// <returns>A boolean result of the comparison.</returns>
-            static bool operator <= (mpir_ui b, RationalExpression^ a) { return !IS_NULL(a) && a->CompareTo(b) >= 0; }
+            static bool operator >  (mpir_ui b, MPEXPR_NAME^ a) { return  IS_NULL(a) || a->CompareTo(b) < 0; }
 
             /// <summary>Compares two numbers.
             /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
@@ -560,7 +436,7 @@ namespace MPIR
             /// <param name="a">Source value to compare</param>
             /// <param name="b">Source value to compare with</param>
             /// <returns>A boolean result of the comparison.</returns>
-            static bool operator != (mpir_ui b, RationalExpression^ a) { return  IS_NULL(a) || a->CompareTo(b) != 0; }
+            static bool operator <= (mpir_ui b, MPEXPR_NAME^ a) { return !IS_NULL(a) && a->CompareTo(b) >= 0; }
 
             /// <summary>Compares two numbers.
             /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
@@ -568,7 +444,7 @@ namespace MPIR
             /// <param name="a">Source value to compare</param>
             /// <param name="b">Source value to compare with</param>
             /// <returns>A boolean result of the comparison.</returns>
-            static bool operator == (mpir_ui b, RationalExpression^ a) { return !IS_NULL(a) && a->CompareTo(b) == 0; }
+            static bool operator != (mpir_ui b, MPEXPR_NAME^ a) { return  IS_NULL(a) || !a->Equals(b); }
 
             /// <summary>Compares two numbers.
             /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
@@ -576,7 +452,7 @@ namespace MPIR
             /// <param name="a">Source value to compare</param>
             /// <param name="b">Source value to compare with</param>
             /// <returns>A boolean result of the comparison.</returns>
-            static bool operator <  (RationalExpression^ a, mpir_si b) { return  IS_NULL(a) || a->CompareTo(b) < 0; }
+            static bool operator == (mpir_ui b, MPEXPR_NAME^ a) { return !IS_NULL(a) && a->Equals(b); }
 
             /// <summary>Compares two numbers.
             /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
@@ -584,7 +460,7 @@ namespace MPIR
             /// <param name="a">Source value to compare</param>
             /// <param name="b">Source value to compare with</param>
             /// <returns>A boolean result of the comparison.</returns>
-            static bool operator >= (RationalExpression^ a, mpir_si b) { return !IS_NULL(a) && a->CompareTo(b) >= 0; }
+            static bool operator <  (MPEXPR_NAME^ a, mpir_si b) { return  IS_NULL(a) || a->CompareTo(b) < 0; }
 
             /// <summary>Compares two numbers.
             /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
@@ -592,7 +468,7 @@ namespace MPIR
             /// <param name="a">Source value to compare</param>
             /// <param name="b">Source value to compare with</param>
             /// <returns>A boolean result of the comparison.</returns>
-            static bool operator >  (RationalExpression^ a, mpir_si b) { return !IS_NULL(a) && a->CompareTo(b) > 0; }
+            static bool operator >= (MPEXPR_NAME^ a, mpir_si b) { return !IS_NULL(a) && a->CompareTo(b) >= 0; }
 
             /// <summary>Compares two numbers.
             /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
@@ -600,7 +476,7 @@ namespace MPIR
             /// <param name="a">Source value to compare</param>
             /// <param name="b">Source value to compare with</param>
             /// <returns>A boolean result of the comparison.</returns>
-            static bool operator <= (RationalExpression^ a, mpir_si b) { return  IS_NULL(a) || a->CompareTo(b) <= 0; }
+            static bool operator >  (MPEXPR_NAME^ a, mpir_si b) { return !IS_NULL(a) && a->CompareTo(b) > 0; }
 
             /// <summary>Compares two numbers.
             /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
@@ -608,7 +484,7 @@ namespace MPIR
             /// <param name="a">Source value to compare</param>
             /// <param name="b">Source value to compare with</param>
             /// <returns>A boolean result of the comparison.</returns>
-            static bool operator != (RationalExpression^ a, mpir_si b) { return  IS_NULL(a) || a->CompareTo(b) != 0; }
+            static bool operator <= (MPEXPR_NAME^ a, mpir_si b) { return  IS_NULL(a) || a->CompareTo(b) <= 0; }
 
             /// <summary>Compares two numbers.
             /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
@@ -616,7 +492,7 @@ namespace MPIR
             /// <param name="a">Source value to compare</param>
             /// <param name="b">Source value to compare with</param>
             /// <returns>A boolean result of the comparison.</returns>
-            static bool operator == (RationalExpression^ a, mpir_si b) { return !IS_NULL(a) && a->CompareTo(b) == 0; }
+            static bool operator != (MPEXPR_NAME^ a, mpir_si b) { return  IS_NULL(a) || !a->Equals(b); }
 
             /// <summary>Compares two numbers.
             /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
@@ -624,7 +500,7 @@ namespace MPIR
             /// <param name="a">Source value to compare</param>
             /// <param name="b">Source value to compare with</param>
             /// <returns>A boolean result of the comparison.</returns>
-            static bool operator <  (mpir_si b, RationalExpression^ a) { return !IS_NULL(a) && a->CompareTo(b) > 0; }
+            static bool operator == (MPEXPR_NAME^ a, mpir_si b) { return !IS_NULL(a) && a->Equals(b); }
 
             /// <summary>Compares two numbers.
             /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
@@ -632,7 +508,7 @@ namespace MPIR
             /// <param name="a">Source value to compare</param>
             /// <param name="b">Source value to compare with</param>
             /// <returns>A boolean result of the comparison.</returns>
-            static bool operator >= (mpir_si b, RationalExpression^ a) { return  IS_NULL(a) || a->CompareTo(b) <= 0; }
+            static bool operator <  (mpir_si b, MPEXPR_NAME^ a) { return !IS_NULL(a) && a->CompareTo(b) > 0; }
 
             /// <summary>Compares two numbers.
             /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
@@ -640,7 +516,7 @@ namespace MPIR
             /// <param name="a">Source value to compare</param>
             /// <param name="b">Source value to compare with</param>
             /// <returns>A boolean result of the comparison.</returns>
-            static bool operator >  (mpir_si b, RationalExpression^ a) { return  IS_NULL(a) || a->CompareTo(b) < 0; }
+            static bool operator >= (mpir_si b, MPEXPR_NAME^ a) { return  IS_NULL(a) || a->CompareTo(b) <= 0; }
 
             /// <summary>Compares two numbers.
             /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
@@ -648,7 +524,7 @@ namespace MPIR
             /// <param name="a">Source value to compare</param>
             /// <param name="b">Source value to compare with</param>
             /// <returns>A boolean result of the comparison.</returns>
-            static bool operator <= (mpir_si b, RationalExpression^ a) { return !IS_NULL(a) && a->CompareTo(b) >= 0; }
+            static bool operator >  (mpir_si b, MPEXPR_NAME^ a) { return  IS_NULL(a) || a->CompareTo(b) < 0; }
 
             /// <summary>Compares two numbers.
             /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
@@ -656,7 +532,7 @@ namespace MPIR
             /// <param name="a">Source value to compare</param>
             /// <param name="b">Source value to compare with</param>
             /// <returns>A boolean result of the comparison.</returns>
-            static bool operator != (mpir_si b, RationalExpression^ a) { return  IS_NULL(a) || a->CompareTo(b) != 0; }
+            static bool operator <= (mpir_si b, MPEXPR_NAME^ a) { return !IS_NULL(a) && a->CompareTo(b) >= 0; }
 
             /// <summary>Compares two numbers.
             /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
@@ -664,7 +540,7 @@ namespace MPIR
             /// <param name="a">Source value to compare</param>
             /// <param name="b">Source value to compare with</param>
             /// <returns>A boolean result of the comparison.</returns>
-            static bool operator == (mpir_si b, RationalExpression^ a) { return !IS_NULL(a) && a->CompareTo(b) == 0; }
+            static bool operator != (mpir_si b, MPEXPR_NAME^ a) { return  IS_NULL(a) || !a->Equals(b); }
 
             /// <summary>Compares two numbers.
             /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
@@ -672,7 +548,7 @@ namespace MPIR
             /// <param name="a">Source value to compare</param>
             /// <param name="b">Source value to compare with</param>
             /// <returns>A boolean result of the comparison.</returns>
-            static bool operator <  (RationalExpression^ a, double b) { return  IS_NULL(a) || a->CompareTo(b) < 0; }
+            static bool operator == (mpir_si b, MPEXPR_NAME^ a) { return !IS_NULL(a) && a->Equals(b); }
 
             /// <summary>Compares two numbers.
             /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
@@ -680,7 +556,7 @@ namespace MPIR
             /// <param name="a">Source value to compare</param>
             /// <param name="b">Source value to compare with</param>
             /// <returns>A boolean result of the comparison.</returns>
-            static bool operator >= (RationalExpression^ a, double b) { return !IS_NULL(a) && a->CompareTo(b) >= 0; }
+            static bool operator <  (MPEXPR_NAME^ a, double b) { return  IS_NULL(a) || a->CompareTo(b) < 0; }
 
             /// <summary>Compares two numbers.
             /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
@@ -688,7 +564,7 @@ namespace MPIR
             /// <param name="a">Source value to compare</param>
             /// <param name="b">Source value to compare with</param>
             /// <returns>A boolean result of the comparison.</returns>
-            static bool operator >  (RationalExpression^ a, double b) { return !IS_NULL(a) && a->CompareTo(b) > 0; }
+            static bool operator >= (MPEXPR_NAME^ a, double b) { return !IS_NULL(a) && a->CompareTo(b) >= 0; }
 
             /// <summary>Compares two numbers.
             /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
@@ -696,7 +572,7 @@ namespace MPIR
             /// <param name="a">Source value to compare</param>
             /// <param name="b">Source value to compare with</param>
             /// <returns>A boolean result of the comparison.</returns>
-            static bool operator <= (RationalExpression^ a, double b) { return  IS_NULL(a) || a->CompareTo(b) <= 0; }
+            static bool operator >  (MPEXPR_NAME^ a, double b) { return !IS_NULL(a) && a->CompareTo(b) > 0; }
 
             /// <summary>Compares two numbers.
             /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
@@ -704,7 +580,7 @@ namespace MPIR
             /// <param name="a">Source value to compare</param>
             /// <param name="b">Source value to compare with</param>
             /// <returns>A boolean result of the comparison.</returns>
-            static bool operator != (RationalExpression^ a, double b) { return  IS_NULL(a) || a->CompareTo(b) != 0; }
+            static bool operator <= (MPEXPR_NAME^ a, double b) { return  IS_NULL(a) || a->CompareTo(b) <= 0; }
 
             /// <summary>Compares two numbers.
             /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
@@ -712,7 +588,7 @@ namespace MPIR
             /// <param name="a">Source value to compare</param>
             /// <param name="b">Source value to compare with</param>
             /// <returns>A boolean result of the comparison.</returns>
-            static bool operator == (RationalExpression^ a, double b) { return !IS_NULL(a) && a->CompareTo(b) == 0; }
+            static bool operator != (MPEXPR_NAME^ a, double b) { return  IS_NULL(a) || !a->Equals(b); }
 
             /// <summary>Compares two numbers.
             /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
@@ -720,7 +596,7 @@ namespace MPIR
             /// <param name="a">Source value to compare</param>
             /// <param name="b">Source value to compare with</param>
             /// <returns>A boolean result of the comparison.</returns>
-            static bool operator <  (double b, RationalExpression^ a) { return !IS_NULL(a) && a->CompareTo(b) > 0; }
+            static bool operator == (MPEXPR_NAME^ a, double b) { return !IS_NULL(a) && a->Equals(b); }
 
             /// <summary>Compares two numbers.
             /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
@@ -728,7 +604,7 @@ namespace MPIR
             /// <param name="a">Source value to compare</param>
             /// <param name="b">Source value to compare with</param>
             /// <returns>A boolean result of the comparison.</returns>
-            static bool operator >= (double b, RationalExpression^ a) { return  IS_NULL(a) || a->CompareTo(b) <= 0; }
+            static bool operator <  (double b, MPEXPR_NAME^ a) { return !IS_NULL(a) && a->CompareTo(b) > 0; }
 
             /// <summary>Compares two numbers.
             /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
@@ -736,7 +612,7 @@ namespace MPIR
             /// <param name="a">Source value to compare</param>
             /// <param name="b">Source value to compare with</param>
             /// <returns>A boolean result of the comparison.</returns>
-            static bool operator >  (double b, RationalExpression^ a) { return  IS_NULL(a) || a->CompareTo(b) < 0; }
+            static bool operator >= (double b, MPEXPR_NAME^ a) { return  IS_NULL(a) || a->CompareTo(b) <= 0; }
 
             /// <summary>Compares two numbers.
             /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
@@ -744,7 +620,7 @@ namespace MPIR
             /// <param name="a">Source value to compare</param>
             /// <param name="b">Source value to compare with</param>
             /// <returns>A boolean result of the comparison.</returns>
-            static bool operator <= (double b, RationalExpression^ a) { return !IS_NULL(a) && a->CompareTo(b) >= 0; }
+            static bool operator >  (double b, MPEXPR_NAME^ a) { return  IS_NULL(a) || a->CompareTo(b) < 0; }
 
             /// <summary>Compares two numbers.
             /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
@@ -752,7 +628,7 @@ namespace MPIR
             /// <param name="a">Source value to compare</param>
             /// <param name="b">Source value to compare with</param>
             /// <returns>A boolean result of the comparison.</returns>
-            static bool operator != (double b, RationalExpression^ a) { return  IS_NULL(a) || a->CompareTo(b) != 0; }
+            static bool operator <= (double b, MPEXPR_NAME^ a) { return !IS_NULL(a) && a->CompareTo(b) >= 0; }
 
             /// <summary>Compares two numbers.
             /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
@@ -760,584 +636,117 @@ namespace MPIR
             /// <param name="a">Source value to compare</param>
             /// <param name="b">Source value to compare with</param>
             /// <returns>A boolean result of the comparison.</returns>
-            static bool operator == (double b, RationalExpression^ a) { return !IS_NULL(a) && a->CompareTo(b) == 0; }
+            static bool operator != (double b, MPEXPR_NAME^ a) { return  IS_NULL(a) || !a->Equals(b); }
 
-            /// <summary>Compares the absolute values of two numbers.
+            /// <summary>Compares two numbers.
             /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
             /// </para></summary>
-            /// <param name="a">Value to compare the source with</param>
-            /// <returns>A positive number if the absolute value of the source is greater than the absolute value of <paramref name="a"/>, negative if less, and zero if they are equal.</returns>
-            int CompareAbsTo(RationalExpression^ a) { IN_CONTEXT(this, a); return mpq_cmpabs(context.Args[0], context.Args[1]); }
-
-            /// <summary>Compares the absolute values of two numbers.
-            /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
-            /// </para></summary>
-            /// <param name="a">Value to compare the source with</param>
-            /// <returns>A positive number if the absolute value of the source is greater than <paramref name="a"/>, negative if less, and zero if they are equal.</returns>
-            int CompareAbsTo(mpir_ui a) { IN_CONTEXT(this); return mpq_cmpabs_ui(context.Args[0], a); }
-
-            /// <summary>Compares the absolute values of two numbers.
-            /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
-            /// </para></summary>
-            /// <param name="a">Value to compare the source with</param>
-            /// <returns>A positive number if the absolute value of the source is greater than the absolute value of <paramref name="a"/>, negative if less, and zero if they are equal.</returns>
-            int CompareAbsTo(double a) { IN_CONTEXT(this); return mpq_cmpabs_d(context.Args[0], a); }
+            /// <param name="a">Source value to compare</param>
+            /// <param name="b">Source value to compare with</param>
+            /// <returns>A boolean result of the comparison.</returns>
+            static bool operator == (double b, MPEXPR_NAME^ a) { return !IS_NULL(a) && a->Equals(b); }
 
             /// <summary>Calculates the sign (+1, 0, or -1) of the source value.
             /// <para>If the source is an expression, it is evaluated into a temporary variable before the sign is computed.
             /// </para></summary>
             /// <returns>+1 if the source is positive, -1 if negative, and 0 if zero.</returns>
-            int Sign() { IN_CONTEXT(this); return mpq_sgn(context.Args[0]); }
+            int Sign() { IN_CONTEXT(this); return MP(sgn)(CTXT(0)); }
 
             #pragma endregion
-
-            #pragma region Utility methods
-
-            /// <summary>
-            /// Checks if the source is evenly divisible by <paramref name="a"/>.
-            /// Because this method returns a primitive type, it is computed immediately.
-            /// </summary>
-            /// <param name="a">Divisor to test with.  This can be zero; only zero is considired divisible by zero.</param>
-            /// <returns>True if the source is evenly divisible by <paramref name="a"/></returns>
-            bool IsDivisibleBy(RationalExpression^ a) { IN_CONTEXT(this, a); return mpq_divisible_p(context.Args[0], context.Args[1]) != 0; }
-
-            /// <summary>
-            /// Checks if the source is evenly divisible by <paramref name="a"/>.
-            /// Because this method returns a primitive type, it is computed immediately.
-            /// </summary>
-            /// <param name="a">Divisor to test with.  This can be zero; only zero is considired divisible by zero.</param>
-            /// <returns>True if the source is evenly divisible by <paramref name="a"/></returns>
-            bool IsDivisibleBy(mpir_ui a) { IN_CONTEXT(this); return mpq_divisible_ui_p(context.Args[0], a) != 0; }
-
-            /// <summary>
-            /// Checks if the source is evenly divisible by 2^<paramref name="power"/>.
-            /// Because this method returns a primitive type, it is computed immediately.
-            /// </summary>
-            /// <param name="power">Power of 2 to use for the divisor</param>
-            /// <returns>True if the source is evenly divisible by 2^<paramref name="power"/></returns>
-            bool IsDivisibleByPowerOf2(mp_bitcnt_t power) { IN_CONTEXT(this); return mpq_divisible_2exp_p(context.Args[0], power) != 0; }
-
-            /// <summary>
-            /// Checks if the source is congruent to <paramref name="a"/> modulo <paramref name="mod"/>.
-            /// Because this method returns a primitive type, it is computed immediately.
-            /// </summary>
-            /// <param name="a">Divisor to test with.  This can be zero; only zero is considired divisible by zero.</param>
-            /// <param name="mod">Modulo with respect to which to test for congruency</param>
-            /// <returns>True if the source is congruent to <paramref name="a"/> modulo <paramref name="mod"/></returns>
-            bool IsCongruentTo(RationalExpression^ a, RationalExpression^ mod) { IN_CONTEXT(this, a, mod); return mpq_congruent_p(context.Args[0], context.Args[1], context.Args[2]) != 0; }
-
-            /// <summary>
-            /// Checks if the source is congruent to <paramref name="a"/> modulo <paramref name="mod"/>.
-            /// Because this method returns a primitive type, it is computed immediately.
-            /// </summary>
-            /// <param name="a">Divisor to test with.  This can be zero; only zero is considired divisible by zero.</param>
-            /// <param name="mod">Modulo with respect to which to test for congruency</param>
-            /// <returns>True if the source is congruent to <paramref name="a"/> modulo <paramref name="mod"/></returns>
-            bool IsCongruentTo(mpir_ui a, mpir_ui mod) { IN_CONTEXT(this); return mpq_congruent_ui_p(context.Args[0], a, mod) != 0; }
-
-            /// <summary>
-            /// Checks if the source is congruent to <paramref name="a"/> modulo 2^<paramref name="power"/>.
-            /// Because this method returns a primitive type, it is computed immediately.
-            /// </summary>
-            /// <param name="a">Divisor to test with</param>
-            /// <param name="power">Power of 2 to use for the modulo</param>
-            /// <returns>True if the source is congruent to <paramref name="a"/> modulo 2^<paramref name="power"/></returns>
-            bool IsCongruentToModPowerOf2(RationalExpression^ a, mp_bitcnt_t power) { IN_CONTEXT(this, a); return mpq_congruent_2exp_p(context.Args[0], context.Args[1], power) != 0; }
-
-            /// <summary>
-            /// Checks if the source is a perfect power.
-            /// <para>Because this method returns a primitive type, it is computed immediately.
-            /// </para>Both 0 and 1 are considered perfect powers.
-            /// <para>Negative values are accepted, but of course can only be odd powers.
-            /// </para></summary>
-            /// <returns>True if the source is a perfect power</returns>
-            bool IsPerfectPower() { IN_CONTEXT(this); return mpq_perfect_power_p(context.Args[0]) != 0; }
-
-            /// <summary>
-            /// Checks if the source is a perfect square.
-            /// <para>Because this method returns a primitive type, it is computed immediately.
-            /// </para>Both 0 and 1 are considered perfect squares.
-            /// </summary>
-            /// <returns>True if the source is a perfect square</returns>
-            bool IsPerfectSquare() { IN_CONTEXT(this); return mpq_perfect_square_p(context.Args[0]) != 0; }
-
-            /// <summary>
-            /// Returns the size of the absolute value of the number, measured in number of limbs.
-            /// <para>If op is zero, the returned value will be zero.
-            /// </para>Because this method returns a primitive type, it is computed immediately.
-            /// </summary>
-            /// <returns>The number of limbs used to represent the number</returns>
-            size_t Size() { IN_CONTEXT(this); return mpq_size(context.Args[0]); }
-
-            #pragma endregion
-
-            #pragma region Number-theoretic
-
-            /// <summary>
-            /// Looks for the next candidate prime greater than this number.
-            /// <para>Note that this function will occasionally return composites.
-            /// It is designed to give a quick method for generating numbers which do not have small prime factors (less than 1000)
-            /// and which pass a small number of rounds of Miller-Rabin (just two rounds).
-            /// </para>The test is designed for speed, assuming that a high quality followup test can then be run to ensure primality.
-            /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
-            /// </para></summary>
-            /// <param name="random">Random number generator to use for probabilistic primality tests</param>
-            /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, performs the requested operation</returns>
-            RationalExpression^ NextPrimeCandidate(MpirRandom^ random);
-
-            /// <summary>Computes the greatest common divisor of this number and <paramref name="a"/>.
-            /// <para>The result is always positive even if one or both inputs are negative.
-            /// </para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
-            /// </summary>
-            /// <param name="a">Source value to compute the GCD with</param>
-            /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
-            RationalGcdExpression^ Gcd(RationalExpression^ a);
-
-            /// <summary>
-            /// Computes the greatest common divisor of this number and <paramref name="a"/>.
-            /// <para>The result is always positive even if the source number is negative.
-            /// </para>Because the result is a primitive type, it is computed immediately.
-            /// </summary>
-            /// <param name="a">Source value to compute the GCD with.  If zero, zero is returned.</param>
-            /// <returns>The greatest common divisor of the absolute value of this number and <paramref name="a"/>.</returns>
-            mpir_ui Gcd(mpir_ui a) { IN_CONTEXT(this); return mpq_gcd_ui(nullptr, context.Args[0], a); }
-                                                                                                          
-            /// <summary>Computes the least common multiple of this number and <paramref name="a"/>.
-            /// <para>The result is always positive, irrespective of the signs of the source numbers.
-            /// </para>The result will be zero if either source number is zero.
-            /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
-            /// </para></summary>
-            /// <param name="a">Source value to compute the LCM with.</param>
-            /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
-            RationalExpression^ Lcm(RationalExpression^ a);
-                                                                                                          
-            /// <summary>Computes the least common multiple of this number and <paramref name="a"/>.
-            /// <para>The result is always positive, irrespective of the signs of the source numbers.
-            /// </para>The result will be zero if either source number is zero.
-            /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
-            /// </para></summary>
-            /// <param name="a">Source value to compute the LCM with.</param>
-            /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
-            RationalExpression^ Lcm(mpir_ui a);
-                                                                                                          
-            /// <summary>Computes the inverse of this number modulo <paramref name="modulo"/>.
-            /// <para>If the inverse exists, the result will satisfy 0 &lt;= result &lt; <paramref name="modulo"/>.
-            /// </para>If an inverse doesn't exist an ArgumentException is thrown.
-            /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
-            /// </para></summary>
-            /// <param name="modulo">Modulo with respect to which to invert the number.</param>
-            /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
-            RationalExpression^ Invert(RationalExpression^ modulo);
-
-            /// <summary>Remove all occurrences of the <paramref name="factor"/> from the source number.
-            /// <para>You can optionally save the number of such occurrences that were removed.
-            /// </para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
-            /// </summary>
-            /// <param name="factor">Factor to remove from the source number.</param>
-            /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
-            RationalRemoveFactorsExpression^ RemoveFactors(RationalExpression^ factor);
-
-            #pragma endregion
-            */
     };
 
-    #pragma endregion
-
-    #pragma region mid-level abstract expression specializations
-
-    /*
-    /// <summary>
-    /// Expression that results from a division or modulo operator.  Allows to set the rounding mode for the division.
-    /// </summary>
-    public ref class RationalDivModExpression abstract : RationalExpression 
-    {
-        internal:
-            RationalDivModExpression() { }
-            RoundingModes rounding;
-
-        public:
-            /// <summary>
-            /// Optionally sets the rounding mode for the division.  If not set, the static MpirSettings.RoundingMode will be used.
-            /// </summary>
-            /// <param name="mode">the mode to use.  If this is Default, the static MpirSettings.Rounding mode is used.</param>
-            /// <returns>An updated expression, with its internal state updated to use the specified rounding mode.</returns>
-            RationalExpression^ Rounding(RoundingModes mode)
-            {
-                rounding = mode;
-                return this;
-            }
-    };
-
-    /// <summary>
-    /// Expression that results from a division operator.  Allows to save the remainder to a separate result object, and/or set the rounding mode for the division.
-    /// </summary>
-    public ref class RationalDivideExpression abstract : RationalDivModExpression 
-    {
-        internal:
-            RationalDivideExpression() { }
-            HugeRational^ _remainder;
-            void custom_mpq_div(mpq_ptr q, mpq_srcptr n, mpq_srcptr d);
-
-        public:
-            /// <summary>
-            /// Optionally save the remainder of the division to a separate result.  This cannot be the same object the resulting division quotient is being assigned to.
-            /// </summary>
-            /// <param name="destination">destination for the remainder.  This cannot be the same object the resulting division quotient is being assigned to.</param>
-            /// <returns>An updated expression, with its internal state updated to compute the remainder.</returns>
-            RationalDivModExpression^ SavingRemainderTo(HugeRational^ destination)
-            {
-                _remainder = destination;
-                return this;
-            }
-    };
-
-    /// <summary>
-    /// Expression that results from a division operator.  Allows to save the remainder, and/or set the rounding mode for the division.
-    /// </summary>
-    public ref class RationalDivideUiExpression abstract : RationalDivideExpression 
-    {
-        private:
-            Action<mpir_ui>^ _limbRemainder;
-
-        internal:
-            RationalDivideUiExpression() { }
-            void custom_mpq_div_ui(mpq_ptr q, mpq_srcptr n, mpir_ui d);
-
-        public:
-            /// <summary>
-            /// Optionally saves the remainder of the division to a separate result.
-            /// </summary>
-            /// <param name="callback">The delegate that will be called with the remainder of the division.  
-            /// The delegate is called when the division is evaluated, i.e. is assigned to the Value property or consumed by a method that returns a primitive type.</param>
-            /// <returns>An updated expression, with its internal state updated to compute the remainder.</returns>
-            RationalDivideExpression^ SettingRemainderTo(Action<mpir_ui>^ callback)
-            {
-                _limbRemainder = callback;
-                return this;
-            }
-    };
-
-    /// <summary>
-    /// Expression that results from a modulo operator.  Allows to save the division result to a separate object, and/or set the rounding mode for the division.
-    /// </summary>
-    public ref class RationalModExpression abstract : RationalDivModExpression 
-    {
-        internal:
-            RationalModExpression() { }
-            HugeRational^ _quotient;
-            void custom_mpq_mod(mpq_ptr r, mpq_srcptr n, mpq_srcptr d);
-
-        public:
-            /// <summary>
-            /// Optionally save the quotient of the division to a separate result.  This cannot be the same object the resulting division modulo is being assigned to.
-            /// </summary>
-            /// <param name="destination">destination for the quotient.  This cannot be the same object the resulting division modulo is being assigned to.</param>
-            /// <returns>An updated expression, with its internal state updated to compute the quotient.</returns>
-            RationalDivModExpression^ SavingQuotientTo(HugeRational^ destination)
-            {
-                _quotient = destination;
-                return this;
-            }
-    };
-
-    /// <summary>
-    /// Expression that results from a modulo operator.  Allows to save the division result to a separate object, and/or set the rounding mode for the division.
-    /// </summary>
-    public ref class RationalModUiExpression abstract : RationalModExpression 
-    {
-        private:
-            Action<mpir_ui>^ _limbRemainder;
-
-        internal:
-            RationalModUiExpression() { }
-            void custom_mpq_mod_ui(mpq_ptr r, mpq_srcptr n, mpir_ui d);
-
-        public:
-            /// <summary>
-            /// Optionally saves the remainder of the division to a separate result.
-            /// </summary>
-            /// <param name="callback">The delegate that will be called with the remainder of the division.  
-            /// The delegate is called when the division is evaluated, i.e. is assigned to the Value property or consumed by a method that returns a primitive type.</param>
-            /// <returns>An updated expression, with its internal state updated to compute the remainder.</returns>
-            RationalModExpression^ SettingRemainderTo(Action<mpir_ui>^ callback)
-            {
-                _limbRemainder = callback;
-                return this;
-            }
-    };
-
-    /// <summary>
-    /// Expression that results from a right shift operator.  Allows to save the remainder to a separate result object, and/or set the rounding mode for the division.
-    /// </summary>
-    public ref class RationalShiftRightExpression abstract : RationalDivModExpression
-    {
-        private:
-            bool _remainder;
-
-        internal:
-            RationalShiftRightExpression() { }
-            void custom_mpq_div_2exp(mpq_ptr q, mpq_srcptr n, mp_bitcnt_t bits);
-
-        public:
-            /// <summary>
-            /// Computes the remainder of the division, rather than the quotient, which is the default.
-            /// </summary>
-            /// <returns>An updated expression, with its internal state updated to compute the remainder, rather than the quotient.</returns>
-            RationalDivModExpression^ Remainder()
-            {
-                _remainder = true;
-                return this;
-            }
-    };
-
-    /// <summary>
-    /// Expression that results from a square root function.  Allows to save the remainder to a separate result object.
-    /// </summary>
-    public ref class RationalSquareRootExpression abstract : RationalExpression 
-    {
-        internal:
-            RationalSquareRootExpression() { }
-            HugeRational^ _remainder;
-            void custom_mpq_sqrt(mpq_ptr dest, mpq_srcptr oper);
-
-        public:
-            /// <summary>
-            /// Optionally saves the remainder of the root operation to a separate result.
-            /// </summary>
-            /// <param name="destination">destination for the remainder.  This cannot be the same object the result of the root operation is being assigned to.</param>
-            /// <returns>An updated expression, with its internal state updated to save the remainder.</returns>
-            RationalExpression^ SavingRemainderTo(HugeRational^ destination)
-            {
-                _remainder = destination;
-                return this;
-            }
-    };
-
-    /// <summary>
-    /// Expression that results from a root function.  Allows to save a flag indicating whether the root was exact, or to save the remainder to a separate result object.
-    /// </summary>
-    public ref class RationalRootExpression abstract : RationalSquareRootExpression 
-    {
-        private:
-            Action<bool>^ _exact;
-
-        internal:
-            RationalRootExpression() { }
-            void custom_mpq_root(mpq_ptr dest, mpq_srcptr oper, mpir_ui power);
-
-        public:
-            /// <summary>
-            /// Optionally gets a flag indicating whether the root operation was exact.
-            /// </summary>
-            /// <param name="callback">Delegate that will be called with the exact flag.
-            /// The delegate is called when the root operation is evaluated, i.e. is assigned to the Value property or consumed by a method that returns a primitive type.</param>
-            /// <returns>An updated expression, with its internal state updated to compute the exact flag.</returns>
-            RationalExpression^ SettingExactTo(Action<bool>^ callback)
-            {
-                _exact = callback;
-                return this;
-            }
-    };
-
-    /// <summary>
-    /// Expression that results from a Gcd method.  Allows to additionally compute Diophantine equation multiplier(s).
-    /// </summary>
-    public ref class RationalGcdExpression abstract : RationalExpression 
-    {
-        internal:
-            RationalGcdExpression() { }
-            HugeRational^ _s;
-            HugeRational^ _t;
-            void custom_mpq_gcd(mpq_ptr dest, mpq_srcptr a, mpq_srcptr b);
-
-        public:
-            /// <summary>
-            /// Optionally computes and saves the coefficients <paramref name="s"/> and <paramref name="t"/> such that x*s + y*t = gcd(x, y).
-            /// <para>If only one of the coefficients is needed, use null for the other.
-            /// </para></summary>
-            /// <param name="s">destination for the first coefficient. Can be null if not needed.</param>
-            /// <param name="t">destination for the second coefficient. Can be null if not needed.</param>
-            /// <returns>An updated expression, with its internal state updated to save the coefficients.</returns>
-            RationalExpression^ SavingDiophantineMultipliersTo(HugeRational^ s, HugeRational^ t)
-            {
-                _s = s;
-                _t = t;
-                return this;
-            }
-    };
-
-    /// <summary>
-    /// Expression that results from a RemoveFactors method.  Allows to additionally save the number of factors that were removed.
-    /// </summary>
-    public ref class RationalRemoveFactorsExpression abstract : RationalExpression 
-    {
-        internal:
-            RationalRemoveFactorsExpression() { }
-            Action<mp_bitcnt_t>^ _count;
-
-        public:
-            /// <summary>
-            /// Optionally gets the number of factors removed.
-            /// </summary>
-            /// <param name="callback">Delegate that will be called with the number of factors that were removed.
-            /// The delegate is called when the root operation is evaluated, i.e. is assigned to the Value property or consumed by a method that returns a primitive type.</param>
-            /// <returns>An updated expression, with its internal state updated to save the number of factors.</returns>
-            RationalExpression^ SavingCountRemovedTo(Action<mp_bitcnt_t>^ callback)
-            {
-                _count = callback;
-                return this;
-            }
-    };
-
-    /// <summary>
-    /// Expression that results from a method calculating a single number from a sequence, such as a fibonacci or lucas number.  Allows to save the previous number in addition to the requested one, so that the sequence can be continued.
-    /// </summary>
-    public ref class RationalSequenceExpression abstract : RationalExpression 
-    {
-        internal:
-            RationalSequenceExpression() { }
-            HugeRational^ _previous;
-
-        public:
-            /// <summary>
-            /// Optionally save the previous number in the sequence to a separate result.  This cannot be the same object to which the expression is assigned.
-            /// </summary>
-            /// <param name="destination">destination for the previous number.  This cannot be the same object to which the expression is assigned.</param>
-            /// <returns>An updated expression, with its internal state updated to additionally compute the previous number.</returns>
-            RationalExpression^ SavingPreviousTo(HugeRational^ destination)
-            {
-                _previous = destination;
-                return this;
-            }
-    };
-    */
     #pragma endregion
 
     #pragma region concrete expressions
-        /*
-    DEFINE_BINARY_EXPRESSION_WITH_TWO              (RationalExpression, Add, Rational)
-    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (RationalExpression, Add, Rational, Ui)
-    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (RationalExpression, Add, Rational, Si)
-                                                   
-    DEFINE_BINARY_EXPRESSION_WITH_TWO              (RationalExpression, Subtract, Rational)
-    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (RationalExpression, Subtract, Rational, Ui)
-    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_LEFT    (RationalExpression, Subtract, Ui, Rational)
-    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (RationalExpression, Subtract, Rational, Si)
-    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_LEFT    (RationalExpression, Subtract, Si, Rational)
-                                                   
-    DEFINE_BINARY_EXPRESSION_WITH_TWO              (RationalExpression, Multiply, Rational)
-    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (RationalExpression, Multiply, Rational, Ui)
-    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (RationalExpression, Multiply, Rational, Si)
-                                                   
-    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (RationalExpression, ShiftLeft, Rational, Bits)
-                                                   
-    DEFINE_UNARY_EXPRESSION_WITH_ONE               (RationalExpression, Negate, Rational)
-    DEFINE_UNARY_EXPRESSION_WITH_ONE               (RationalExpression, Abs, Rational)
-                                                   
-    DEFINE_BINARY_EXPRESSION_WITH_TWO              (RationalDivideExpression, Divide, Rational)
-    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (RationalDivideUiExpression, Divide, Rational, Ui)
-                                                   
-    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (RationalShiftRightExpression, ShiftRight, Rational, Bits)
-                                                   
-    DEFINE_BINARY_EXPRESSION_WITH_TWO              (RationalModExpression, Mod, Rational)
-    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (RationalModUiExpression, Mod, Rational, Ui)
-                                                   
-    DEFINE_BINARY_EXPRESSION_WITH_TWO              (RationalExpression, DivideExactly, Rational)
-    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (RationalExpression, DivideExactly, Rational, Ui)
 
-    DEFINE_TERNARY_EXPRESSION_WITH_THREE           (RationalExpression, PowerMod, Rational)
-    DEFINE_TERNARY_EXPRESSION_WITH_BUILT_IN_MIDDLE (RationalExpression, PowerMod, Rational, Ui, Rational)
-
-    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (RationalExpression, Power, Rational, Ui)
-
-    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (RationalRootExpression, Root, Rational, Ui)
-    DEFINE_UNARY_EXPRESSION_WITH_ONE               (RationalSquareRootExpression, SquareRoot, Rational)
-
-    DEFINE_BINARY_EXPRESSION_WITH_TWO              (RationalExpression, And, Rational)
-    DEFINE_BINARY_EXPRESSION_WITH_TWO              (RationalExpression, Or, Rational)
-    DEFINE_BINARY_EXPRESSION_WITH_TWO              (RationalExpression, Xor, Rational)
-    DEFINE_UNARY_EXPRESSION_WITH_ONE               (RationalExpression, Complement, Rational)
-
-    DEFINE_BINARY_EXPRESSION_WITH_TWO              (RationalExpression, Invert, Rational)
-    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (RationalExpression, NextPrimeCandidate, Rational, Rnd)
-    DEFINE_BINARY_EXPRESSION_WITH_TWO              (RationalGcdExpression, Gcd, Rational)
-    DEFINE_BINARY_EXPRESSION_WITH_TWO              (RationalRemoveFactorsExpression, RemoveFactors, Rational)
-
-    DEFINE_BINARY_EXPRESSION_WITH_TWO              (RationalExpression, Lcm, Rational)
-    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (RationalExpression, Lcm, Rational, Ui)
-
-    DEFINE_BINARY_EXPRESSION_WITH_BUILT_INS_ONLY   (RationalExpression, Power, Ui, Ui)
-    DEFINE_BINARY_EXPRESSION_WITH_BUILT_INS_ONLY   (RationalExpression, Factorial, Ui, Ui)
-    DEFINE_UNARY_EXPRESSION_WITH_BUILT_INS_ONLY    (RationalExpression, Primorial, Ui)
-    DEFINE_BINARY_EXPRESSION_WITH_BUILT_INS_ONLY   (RationalExpression, Binomial, Ui, Ui)
-    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (RationalExpression, Binomial, Rational, Ui)
-    DEFINE_UNARY_EXPRESSION_WITH_BUILT_INS_ONLY    (RationalSequenceExpression, Fibonacci, Ui)
-    DEFINE_UNARY_EXPRESSION_WITH_BUILT_INS_ONLY    (RationalSequenceExpression, Lucas, Ui)
-    */
+    DEFINE_BINARY_EXPRESSION_WITH_TWO              (MPEXPR_NAME, Add, Int)
+//    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (MPEXPR_NAME, Add, Int, Ui)
+//    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (MPEXPR_NAME, Add, Int, Si)
+                                                   
+    DEFINE_BINARY_EXPRESSION_WITH_TWO              (MPEXPR_NAME, Subtract, Int)
+    //DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (MPEXPR_NAME, Subtract, Int, Ui)
+    //DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_LEFT    (MPEXPR_NAME, Subtract, Ui, Int)
+    //DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (MPEXPR_NAME, Subtract, Int, Si)
+    //DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_LEFT    (MPEXPR_NAME, Subtract, Si, Int)
+                                                   
+    DEFINE_BINARY_EXPRESSION_WITH_TWO              (MPEXPR_NAME, Multiply, Int)
+    //DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (MPEXPR_NAME, Multiply, Int, Ui)
+    //DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (MPEXPR_NAME, Multiply, Int, Si)
+                                                   
+    DEFINE_BINARY_EXPRESSION_WITH_TWO              (MPEXPR_NAME, Divide, Int)
+    //DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (MPEXPR_NAME, Divide, Int, Ui)
+                                                   
+    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (MPEXPR_NAME, ShiftLeft, Int, Bits)
+    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (MPEXPR_NAME, ShiftRight, Int, Bits)
+                                                   
+    DEFINE_UNARY_EXPRESSION_WITH_ONE               (MPEXPR_NAME, Negate, Int)
+    DEFINE_UNARY_EXPRESSION_WITH_ONE               (MPEXPR_NAME, Abs, Int)
+    DEFINE_UNARY_EXPRESSION_WITH_ONE               (MPEXPR_NAME, Invert, Int)
+                                                   
     #pragma endregion
 
     #pragma region HugeRational class
 
     /// <summary>
-    /// Multi-precision Rational class.
+    /// Multi-precision Integer class.
     /// </summary>
-    public ref class HugeRational : RationalExpression
+    public ref class MPTYPE : MPEXPR_NAME
     {
         internal:
             //fields
-            mpq_ptr _value;
-            
+            MP(ptr) _value;
+
         private:
             //construction
             void AllocateStruct()
             {
-                _value = (mpq_ptr)((*__gmp_allocate_func)(sizeof(__mpq_struct)));
+                _value = (MP(ptr))((*__gmp_allocate_func)(sizeof(MPSTRUCT)));
             }
-            /*
             void FromString(String^ value, int base);
             String^ ToString(int base, bool lowercase, int maxDigits);
-            */
+
         internal:
             virtual void DeallocateStruct()
             {
-                mpq_clear(_value);
-                (*__gmp_free_func)(_value, sizeof(__mpq_struct));
+                MP(clear)(_value);
+                (*__gmp_free_func)(_value, sizeof(MPSTRUCT));
                 _value = nullptr;
             }
-            /*
+
             //assignment
-            virtual void AssignTo(mpq_ptr destination) override
+            virtual void AssignTo(MP(ptr) destination) override
             {
                 if(destination != _value)
-                    mpq_set(destination, _value);
+                    MP(set)(destination, _value);
             }
-            virtual void AssignTo(EvaluationContext& destination) override
+            virtual void AssignTo(EvaluationContext& context) override
             {
-                destination.Args[destination.Index++] = _value;
+                CTXT(context.Index++) = _value;
             }
-            */
+
         public:
             #pragma region construction and disposal
 
             /// <summary>
-            /// Initializes a new integer instance and sets its value to 0
+            /// Initializes a new integer instance and sets its value to 0/1
             /// </summary>
-            HugeRational();
-            /*
+            MPTYPE();
+
             /// <summary>
-            /// Initializes a new integer instance, allocating enough memory to hold at least <paramref name="bits"/> bits, and sets its value to 0.
+            /// Initializes a new integer instance, allocating enough memory to hold at least <paramref name="numeratorBits"/> + <paramref name="denominatorBits"/> bits, and sets its value to 0/1.
             /// <para>This is only the initial space, integer will grow automatically in the normal way, if necessary, for subsequent values stored.
             /// </para>This makes it possible to avoid repeated reallocations if a maximum size is known in advance.
             /// </summary>
-            /// <param name="bits">Minimum number of bits the initially allocated memory should hold</param>
-            HugeRational(mp_bitcnt_t bits);
+            /// <param name="numeratorBits">Minimum number of bits the initially allocated memory should hold for the numerator</param>
+            /// <param name="denominatorBits">Minimum number of bits the initially allocated memory should hold for the denominator</param>
+            MPTYPE(mp_bitcnt_t numeratorBits, mp_bitcnt_t denominatorBits);
 
             /// <summary>
             /// Initializes a new integer instance and sets its value from the specified string, using leading characters to recognize the base:
             /// 0x and 0X for hexadecimal, 0b and 0B for binary, 0 for octal, or decimal otherwise.
             /// </summary>
             /// <param name="value">string representing the initial value for the new instance.  Whitespace in the string is ignored.</param>
-            HugeRational(String^ value) { FromString(value, 0); }
+            MPTYPE(String^ value) { FromString(value, 0); }
 
             /// <summary>
             /// Initializes a new integer instance and sets its value from the specified string
@@ -1347,42 +756,45 @@ namespace MPIR
             /// <para>The base may vary from 2 to 62, or if base is 0, then the leading characters are used: 0x and 0X for hexadecimal, 0b and 0B for binary, 0 for octal, or decimal otherwise.
             /// </para>For bases up to 36, case is ignored; upper-case and lower-case letters have the same value. 
             /// For bases 37 to 62, upper-case letter represent the usual 10..35 while lower-case letter represent 36..61.</param>
-            HugeRational(String^ value, int base) { FromString(value, base); }
+            MPTYPE(String^ value, int base) { FromString(value, base); }
 
             /// <summary>
             /// Initializes a new integer instance and sets its value to the result of computing the source expression.
             /// </summary>
             /// <param name="value">the expression that will be computed, and the result set as the initial value of the new instance.</param>
-            HugeRational(RationalExpression^ value);
+            MPTYPE(MPEXPR_NAME^ value);
 
             /// <summary>
-            /// Constructs and returns a new integer instance with its value set to the <paramref name="value"/> parameter.
+            /// Constructs and returns a new integer instance with its value set to <paramref name="numerator"/> / <paramref name="denominator"/>.
+            /// <para>If the fraction is not in canonical form, Canonicalize() must be called.</para>
             /// </summary>
             /// <param name="value">Initial value for the new integer instance</param>
             /// <returns>the newly constructed instance</returns>
-            static HugeRational^ FromLong(mpir_si value);
+            static MPTYPE^ FromLong(mpir_si numerator, mpir_ui denominator);
 
             /// <summary>
-            /// Constructs and returns a new integer instance with its value set to the <paramref name="value"/> parameter.
+            /// Constructs and returns a new integer instance with its value set to <paramref name="numerator"/> / <paramref name="denominator"/>.
+            /// <para>If the fraction is not in canonical form, Canonicalize() must be called.</para>
             /// </summary>
             /// <param name="value">Initial value for the new integer instance</param>
             /// <returns>the newly constructed instance</returns>
-            static HugeRational^ FromUlong(mpir_ui value);
+            static MPTYPE^ FromUlong(mpir_ui numerator, mpir_ui denominator);
 
             /// <summary>
-            /// Constructs and returns a new integer instance with its value set to the <paramref name="value"/> parameter.
+            /// Constructs and returns a new rational instance with its value set to the <paramref name="value"/> parameter.
+            /// <para>There is no rounding, this conversion is exact.</para>
             /// </summary>
-            /// <param name="value">Initial value for the new integer instance.  Any fractional portion is truncated.</param>
+            /// <param name="value">Initial value for the new rational instance.  This is an exact conversion.</param>
             /// <returns>the newly constructed instance</returns>
-            static HugeRational^ FromDouble(double value);
+            static MPTYPE^ FromDouble(double value);
 
-            /// <summary>
-            /// Change the space allocated for integer to <paramref name="bits"/> bits. The value in integer is preserved if it fits, or is set to 0 if not.
-            /// <para>This function can be used to increase the space for a variable in order to avoid repeated automatic reallocations, or to decrease it to give memory back to the heap.
-            /// </para></summary>
-            /// <param name="bits">Minimum number of bits the allocated memory should hold</param>
-            void Reallocate(mp_bitcnt_t bits) { mpq_realloc2(_value, bits); }
-            */
+///// <summary>
+///// Change the space allocated for integer to <paramref name="bits"/> bits. The value in integer is preserved if it fits, or is set to 0 if not.
+///// <para>This function can be used to increase the space for a variable in order to avoid repeated automatic reallocations, or to decrease it to give memory back to the heap.
+///// </para></summary>
+///// <param name="bits">Minimum number of bits the allocated memory should hold</param>
+//void Reallocate(mp_bitcnt_t bits) { MP(realloc2)(_value, bits); }
+
             //disposal
 
             //creating a destructor in C++ implements IDisposable.
@@ -1391,14 +803,14 @@ namespace MPIR
             /// Frees all memory allocated by the instance.
             /// <para>To minimize memory footprint, multi-precision objects should be disposed of when no longer used, instead of relying on the garbage collector to free the memory.
             /// </para></summary>
-            ~HugeRational() { this->!HugeRational(); }
+            ~MPTYPE() { this->!MPTYPE(); }
 
             /// <summary>
             /// Frees all memory allocated by the instance.
             /// <para>To minimize memory footprint, multi-precision objects should be disposed of when no longer used, instead of relying on the garbage collector to free the memory.
             /// </para></summary>
-            !HugeRational() { if(_value != 0) DeallocateStruct(); }
-            /*
+            !MPTYPE() { if(_value != 0) DeallocateStruct(); }
+
             #pragma endregion
 
             #pragma region conversions
@@ -1432,42 +844,52 @@ namespace MPIR
             /// <returns>A string representation of the number in the specified base.</returns>
             String^ ToString(int base, bool lowercase) { return ToString(base, lowercase, 0); }
 
-            /// <summary>
-            /// Returns the absolute value of the number of the number as a ulong.
-            /// <para>If the number is too big, then just the least significant bits that do fit are returned.
-            /// </para>The sign of the number is ignored, only the absolute value is used.
-            /// </summary>
-            /// <returns>The absolute value as a ulong, possibly truncated to the least significant bits only.</returns>
-            mpir_ui ToUlong() { return mpq_get_ui(_value); }
+///// <summary>
+///// Returns the absolute value of the number as a ulong.
+///// <para>If the number is too big, then just the least significant bits that do fit are returned.
+///// </para>The sign of the number is ignored, only the absolute value is used.
+///// </summary>
+///// <returns>The absolute value as a ulong, possibly truncated to the least significant bits only.</returns>
+//mpir_ui ToUlong() { return MP(get_ui)(_value); }
+
+///// <summary>
+///// Returns the value of the number as a long.
+///// <para>If the number is too big, then just the least significant bits that do fit are returned, with the same sign as the number.
+///// </para>When truncation occurs, the result is propobly not very useful.  Call FitsLong() to check if the number will fit.
+///// </summary>
+///// <returns>The value as a ulong, possibly truncated to the least significant bits only.</returns>
+//mpir_si ToLong() { return MP(get_si)(_value); }
 
             /// <summary>
-            /// Returns the value of the number of the number as a long.
-            /// <para>If the number is too big, then just the least significant bits that do fit are returned, with the same sign as the number.
-            /// </para>When truncation occurs, the result is propobly not very useful.  Call FitsLong() to check if the number will fit.
-            /// </summary>
-            /// <returns>The value as a ulong, possibly truncated to the least significant bits only.</returns>
-            mpir_si ToLong() { return mpq_get_si(_value); }
-
-            /// <summary>
-            /// Returns the value of the number of the number as a double, truncating if necessary (rounding towards zero).
+            /// Returns the value of the number as a double, truncating if necessary (rounding towards zero).
             /// <para>If the exponent from the conversion is too big, the result is system dependent. An infinity is returned where available.             /// A hardware overflow trap may or may not occur.
             /// </para></summary>
             /// <returns>The value as a double, possibly truncated.</returns>
-            double ToDouble() { return mpq_get_d(_value); }
+            double ToDouble() { return MP(get_d)(_value); }
 
-            /// <summary>
-            /// Returns the value of the number of the number as a double, truncating if necessary (rounding towards zero), and returning the exponent separately.
-            /// <para>The return is the mantissa, its absolute value will be in the range [0.5 - 1).            /// </para>If the source value is zero, both mantissa and exponent are returned as 0.
-            /// </summary>
-            /// <param name="exp">variable to store the exponent in.</param>
-            /// <returns>The mantissa of the value as a double, possibly truncated.</returns>
-            double ToDouble([Out] mpir_si% exp) 
-            { 
-                mpir_si x; 
-                auto result = mpq_get_d_2exp(&x, _value); 
-                exp = x; 
-                return result; 
-            }
+///// <summary>
+///// Returns the value of the number as a double, truncating if necessary (rounding towards zero), and returning the exponent separately.
+///// <para>The return is the mantissa, its absolute value will be in the range [0.5 - 1).///// </para>If the source value is zero, both mantissa and exponent are returned as 0.
+///// </summary>
+///// <param name="exp">variable to store the exponent in.</param>
+///// <returns>The mantissa of the value as a double, possibly truncated.</returns>
+//double ToDouble([Out] mpir_si% exp) 
+//{ 
+//    mpir_si x; 
+//    auto result = MP(get_d_2exp)(&x, _value); 
+//    exp = x; 
+//    return result; 
+//}
+
+            property HugeInt^ Numerator
+            {
+                HugeInt^ get() { return gcnew HugeIntComponent(&_value->_mp_num); }
+            };
+
+            property HugeInt^ Denominator
+            {
+                HugeInt^ get() { return gcnew HugeIntComponent(&_value->_mp_den); }
+            };
 
             #pragma endregion
 
@@ -1502,45 +924,53 @@ namespace MPIR
             /// and would not perform as well as doing the same operations on a.Value.
             /// </para>It would also not compile if the source were a "using" variable, as all method-local integers should be.
             /// </remarks>
-            property RationalExpression^ Value
+            property MPEXPR_NAME^ Value
             {
-                void set(RationalExpression^ expr) { expr->AssignTo(_value); }
-                RationalExpression^ get() { return this; }
+                void set(MPEXPR_NAME^ expr) { expr->AssignTo(_value); }
+                MPEXPR_NAME^ get() { return this; }
             }
 
             /// <summary>
             /// Sets the value of the integer object.
             /// <para>Do not change the value of an object while it is contained in a hash table, because that changes its hash code.
-            /// </para></summary>
-            /// <param name="value">new value for the object</param>
-            void SetTo(mpir_ui value) { mpq_set_ui(_value, value); }
+            /// </para>If the fraction is not in canonical form, Canonicalize() must be called.
+            /// </summary>
+            /// <param name="numerator">numerator for the new value for the object</param>
+            /// <param name="denominator">denominator for the new value for the object</param>
+            void SetTo(mpir_ui numerator, mpir_ui denominator) { MP(set_ui)(_value, numerator, denominator); }
 
             /// <summary>
             /// Sets the value of the integer object.
             /// <para>Do not change the value of an object while it is contained in a hash table, because that changes its hash code.
-            /// </para></summary>
+            /// </para>If the fraction is not in canonical form, Canonicalize() must be called.
+            /// </summary>
             /// <param name="value">new value for the object</param>
-            void SetTo(mpir_si value) { mpq_set_si(_value, value); }
+            /// <param name="denominator">denominator for the new value for the object</param>
+            void SetTo(mpir_si numerator, mpir_ui denominator) { MP(set_si)(_value, numerator, denominator); }
 
             /// <summary>
-            /// Sets the value of the integer object.  Any fractional portion is truncated.
+            /// Sets the value of the integer object.  This is an exact conversion, there is no rounting.
             /// <para>Do not change the value of an object while it is contained in a hash table, because that changes its hash code.
             /// </para></summary>
             /// <param name="value">new value for the object</param>
-            void SetTo(double value) { mpq_set_d(_value, value); }
+            void SetTo(double value) { MP(set_d)(_value, value); }
 
             /// <summary>
             /// Sets the value of the integer object.
             /// <para>Do not change the value of an object while it is contained in a hash table, because that changes its hash code.
-            /// </para></summary>
-            /// <param name="value">new value for the object.  The string's leading characters may indicate base:
+            /// </para>If the fraction is not in canonical form, Canonicalize() must be called.
+            /// </summary>
+            /// <param name="value">new value for the object.
+            /// <para>May be an integer or a pair of integers separated by a slash.
+            /// </para>The string's leading characters may indicate base:
             /// 0x and 0X for hexadecimal, 0b and 0B for binary, 0 for octal, or decimal otherwise</param>
             void SetTo(String^ value) { SetTo(value, 0); }
 
             /// <summary>
             /// Sets the value of the integer object.
             /// <para>Do not change the value of an object while it is contained in a hash table, because that changes its hash code.
-            /// </para></summary>
+            /// </para>If the fraction is not in canonical form, Canonicalize() must be called.
+            /// </summary>
             /// <param name="value">new value for the object</param>
             /// <param name="base">base the <paramref name="value"/> string is in.
             /// <para>The base may vary from 2 to 62, or if base is 0, then the leading characters are used: 0x and 0X for hexadecimal, 0b and 0B for binary, 0 for octal, or decimal otherwise.
@@ -1554,99 +984,12 @@ namespace MPIR
             /// </para>Do not call this method while either object is contained in a hash table, because this would change their hash codes.
             /// </summary>
             /// <param name="a">Source number to swap this instance's value with</param>
-            void Swap(HugeRational^ a) 
+            void Swap(MPTYPE^ a) 
             { 
-                mpq_ptr temp = a->_value;
+                MP(ptr) temp = a->_value;
                 a->_value = _value;
                 _value = temp; 
             }
-
-            #pragma endregion
-
-            #pragma region bit operations
-
-            /// <summary>
-            /// Sets a single bit at the specified position.
-            /// </summary>
-            /// <param name="value">Value of the bit to set, true for 1, false for 0</param>
-            /// <param name="position">Position of the bit to set.
-            /// <para>The least significant bit is zero.
-            /// </para>If position is beyond the current size of the number, the number is extended automatically.</param>
-            void SetBit(mp_bitcnt_t position, bool value) { value ? mpq_setbit(_value, position) : mpq_clrbit(_value, position); }
-
-            /// <summary>
-            /// Gets a single bit at the specified position.
-            /// </summary>
-            /// <param name="position">Position of the bit to get.
-            /// <para>The least significant bit is zero.
-            /// </para>If position is beyond the current size of the number, returns true for negative number, false for non-negative; the number itself is not extended.</param>
-            /// <returns>true if the specified bit is 1, false if zero.
-            /// <para>If position is beyond the current size of the number, returns true for negative number, false for non-negative; the number itself is not extended.</para></returns>
-            bool GetBit(mp_bitcnt_t position) { return mpq_tstbit(_value, position) != 0; }
-
-            /// <summary>
-            /// Complements (inverts) a single bit at the specified position.
-            /// </summary>
-            /// <param name="position">Position of the bit to flip.
-            /// <para>The least significant bit is zero.
-            /// </para>If position is beyond the current size of the number, the number is extended automatically.</param>
-            void ComplementBit(mp_bitcnt_t position) { mpq_combit(_value, position); }
-
-            #pragma endregion
-
-            #pragma region size checks
-
-            /// <summary>
-            /// Returns true if the value of the integer is in the ulong range.
-            /// </summary>
-            /// <returns>true if the value will fit in a ulong</returns>
-            bool FitsUlong() { return mpq_fits_ui_p(_value) != 0; }
-
-            /// <summary>
-            /// Returns true if the value of the integer is in the long range.
-            /// </summary>
-            /// <returns>true if the value will fit in a long</returns>
-            bool FitsLong() { return mpq_fits_si_p(_value) != 0; }
-
-            /// <summary>
-            /// Returns true if the value of the integer is in the uint range.
-            /// </summary>
-            /// <returns>true if the value will fit in a uint</returns>
-            bool FitsUint() { return mpq_fits_uint_p(_value) != 0; }
-
-            /// <summary>
-            /// Returns true if the value of the integer is in the int range.
-            /// </summary>
-            /// <returns>true if the value will fit in a int</returns>
-            bool FitsRational() { return mpq_fits_sint_p(_value) != 0; }
-
-            /// <summary>
-            /// Returns true if the value of the integer is in the ushort range.
-            /// </summary>
-            /// <returns>true if the value will fit in a ushort</returns>
-            bool FitsUshort() { return mpq_fits_ushort_p(_value) != 0; }
-
-            /// <summary>
-            /// Returns true if the value of the integer is in the short range.
-            /// </summary>
-            /// <returns>true if the value will fit in a short</returns>
-            bool FitsShort() { return mpq_fits_sshort_p(_value) != 0; }
-
-            /// <summary>
-            /// Returns the number of digits the number would take if written in the specified base.
-            /// <para>The sign of the number is ignored, just the absolute value is used.
-            /// </para>The result will be either exact or 1 too big.
-            /// If <paramref name="base"/> is a power of 2, the result will always be exact.
-            /// <para>If the number is 0, the result is always 1.
-            /// </para>This function can be used to estimate the space required when converting to a string.
-            /// The right amount of allocation is normally two more than the value returned,
-            /// one extra for a minus sign and one for the null-terminator.
-            /// <para>It will be noted that base=2 can be used to locate the most significant 1 bit in op,
-            /// counting from 1 (unlike all bitwise functions, which start from 0).
-            /// </para></summary>
-            /// <param name="base">Numeric base for the would-be string conversion, in the range from 2 to 62.</param>
-            /// <returns>The number of digits the number would take written in the specified base, possibly 1 too big, not counting a leading minus.</returns>
-            mp_size_t ApproximateSizeInBase(int base) { return mpq_sizeinbase(_value, base); }
 
             #pragma endregion
 
@@ -1657,7 +1000,7 @@ namespace MPIR
             /// <para>The number is written in a portable format, with 4 bytes of size information, and that many bytes of limbs.
             /// Both the size and the limbs are written in decreasing significance order (i.e., in big-endian).
             /// </para>The output can be read with Read(Stream).
-            /// <para>The output cannot be read by mpq_inp_raw from GMP 1, because of changes necessary
+            /// <para>The output cannot be read by MP(inp_raw) from GMP 1, because of changes necessary
             /// for compatibility between 32-bit and 64-bit machines.
             /// </para></summary>
             /// <param name="stream">Stream to output the number to</param>
@@ -1668,7 +1011,7 @@ namespace MPIR
             /// Reads the integer value from the <paramref name="stream"/> in raw binary format, as it would have been written by Write(Stream).
             /// <para>The number is read in a portable format, with 4 bytes of size information, and that many bytes of limbs.
             /// Both the size and the limbs are written in decreasing significance order (i.e., in big-endian).
-            /// </para>This routine can read the output from mpq_out_raw also from GMP 1, in spite of changes
+            /// </para>This routine can read the output from MP(out_raw) also from GMP 1, in spite of changes
             /// necessary for compatibility between 32-bit and 64-bit machines.
             /// </summary>
             /// <param name="stream">Stream to input the number from</param>
@@ -1741,284 +1084,97 @@ namespace MPIR
             /// <returns>the number of characters read</returns>
             size_t Read(TextReader^ reader, int base);
 
-            /// <summary>
-            /// Imports the number from arbitrary words of binary data.
-            /// <para>No sign information is taken from the data, the imported number will be positive or zero.</para>
-            /// </summary>
-            /// <typeparam name="T">Type of element in the data array.  This must be a value type, but does not need to represent a single limb.  Data is interpreted as a flat byte array.</typeparam>
-            /// <param name="data">Array of binary "limbs" to import from.
-            /// <para>Elements don't necessarily need to be of the <paramref name="bytesPerLimb"/> size; the data is interpreted as a flat byte array.</para></param>
-            /// <param name="limbCount">Number of "limbs" to import</param>
-            /// <param name="bytesPerLimb">Number of bytes per "limb."</param>
-            /// <param name="limbOrder">Specifies the order of the "limbs."</param>
-            /// <param name="endianness">Specifies the byte order within each "limb."</param>
-            /// <param name="nails">The number of most-significant bits to ignore in each "limb."</param>
-            generic<typename T> where T : value class void Import(array<T>^ data, size_t limbCount, int bytesPerLimb, LimbOrder limbOrder, Endianness endianness, int nails)
-            {
-                if(limbCount == 0)
-                {
-                    mpq_set_ui(_value, 0);
-                    return;
-                }
+///// <summary>
+///// Imports the number from arbitrary words of binary data.
+///// <para>No sign information is taken from the data, the imported number will be positive or zero.</para>
+///// </summary>
+///// <typeparam name="T">Type of element in the data array.  This must be a value type, but does not need to represent a single limb.  Data is interpreted as a flat byte array.</typeparam>
+///// <param name="data">Array of binary "limbs" to import from.
+///// <para>Elements don't necessarily need to be of the <paramref name="bytesPerLimb"/> size; the data is interpreted as a flat byte array.</para></param>
+///// <param name="limbCount">Number of "limbs" to import</param>
+///// <param name="bytesPerLimb">Number of bytes per "limb."</param>
+///// <param name="limbOrder">Specifies the order of the "limbs."</param>
+///// <param name="endianness">Specifies the byte order within each "limb."</param>
+///// <param name="nails">The number of most-significant bits to ignore in each "limb."</param>
+//generic<typename T> where T : value class void Import(array<T>^ data, size_t limbCount, int bytesPerLimb, LimbOrder limbOrder, Endianness endianness, int nails)
+//{
+//    if(limbCount == 0)
+//    {
+//        MP(set_ui)(_value, 0);
+//        return;
+//    }
 
-                PIN(data);
-                mpq_import(_value, limbCount, (int)limbOrder, bytesPerLimb, (int)endianness, nails, pinned_data);
-            }
+//    PIN(data);
+//    MP(import)(_value, limbCount, (int)limbOrder, bytesPerLimb, (int)endianness, nails, pinned_data);
+//}
 
-            /// <summary>
-            /// Exports the absolute value of the number to arbitrary words of binary data.
-            /// <para>The sign of op is ignored.
-            /// </para></summary>
-            /// <typeparam name="T">Type of element in the data array.  This must be a value type, but does not need to represent a single limb.  Data is interpreted as a flat byte array.</typeparam>
-            /// <param name="data">Array of binary "limbs" to export to.
-            /// <para>Elements don't necessarily need to be of the <paramref name="bytesPerLimb"/> size; the data is interpreted as a flat byte array.
-            /// </para>The total size of the array in bytes must be sufficient for the export.</param>
-            /// <param name="bytesPerLimb">Number of bytes per "limb."</param>
-            /// <param name="limbOrder">Specifies the order of the "limbs."</param>
-            /// <param name="endianness">Specifies the byte order within each "limb."</param>
-            /// <param name="nails">The number of most-significant bits to reserve, and set to zero, in each "limb."</param>
-            /// <returns>The number of limbs exported.
-            /// <para>If the number is non-zero, then the most significant word produced will be non-zero.
-            /// </para>If the number is zero, then the count returned will be zero and nothing written to the data.</returns>
-            generic<typename T> where T : value class size_t Export(array<T>^ data, int bytesPerLimb, LimbOrder limbOrder, Endianness endianness, int nails)
-            {
-                PIN(data);
-                size_t limbCount;
-                mpq_export(pinned_data, &limbCount, (int)limbOrder, bytesPerLimb, (int)endianness, nails, _value);
-                return limbCount;
-            }
+///// <summary>
+///// Exports the absolute value of the number to arbitrary words of binary data.
+///// <para>The sign of op is ignored.
+///// </para></summary>
+///// <typeparam name="T">Type of element in the data array.  This must be a value type, but does not need to represent a single limb.  Data is interpreted as a flat byte array.</typeparam>
+///// <param name="data">Array of binary "limbs" to export to.
+///// <para>Elements don't necessarily need to be of the <paramref name="bytesPerLimb"/> size; the data is interpreted as a flat byte array.
+///// </para>The total size of the array in bytes must be sufficient for the export.</param>
+///// <param name="bytesPerLimb">Number of bytes per "limb."</param>
+///// <param name="limbOrder">Specifies the order of the "limbs."</param>
+///// <param name="endianness">Specifies the byte order within each "limb."</param>
+///// <param name="nails">The number of most-significant bits to reserve, and set to zero, in each "limb."</param>
+///// <returns>The number of limbs exported.
+///// <para>If the number is non-zero, then the most significant word produced will be non-zero.
+///// </para>If the number is zero, then the count returned will be zero and nothing written to the data.</returns>
+//generic<typename T> where T : value class size_t Export(array<T>^ data, int bytesPerLimb, LimbOrder limbOrder, Endianness endianness, int nails)
+//{
+//    PIN(data);
+//    size_t limbCount;
+//    MP(export)(pinned_data, &limbCount, (int)limbOrder, bytesPerLimb, (int)endianness, nails, _value);
+//    return limbCount;
+//}
 
-            /// <summary>
-            /// Exports the absolute value of the number to arbitrary words of binary data.  An array of type T is allocated for the export.
-            /// <para>The sign of op is ignored.
-            /// </para></summary>
-            /// <typeparam name="T">Type of element in the data array.  This must be a value type, but does not need to represent a single limb.  Data is interpreted as a flat byte array.</typeparam>
-            /// <param name="bytesPerLimb">Number of bytes per "limb."</param>
-            /// <param name="limbOrder">Specifies the order of the "limbs."</param>
-            /// <param name="endianness">Specifies the byte order within each "limb."</param>
-            /// <param name="nails">The number of most-significant bits to reserve, and set to zero, in each "limb."</param>
-            /// <returns>An array of type T containing the exported limb data.
-            /// <para>If the number is non-zero, then the most significant word produced will be non-zero.
-            /// </para>If the number is zero, then a zero-length array is returned.</returns>
-            generic<typename T> where T : value class array<T>^ Export(int bytesPerLimb, LimbOrder limbOrder, Endianness endianness, int nails)
-            {
-                if(this->Sign() == 0)
-                    return gcnew array<T>(0);
+//    /// <summary>
+//    /// Exports the absolute value of the number to arbitrary words of binary data.  An array of type T is allocated for the export.
+//    /// <para>The sign of op is ignored.
+//    /// </para></summary>
+//    /// <typeparam name="T">Type of element in the data array.  This must be a value type, but does not need to represent a single limb.  Data is interpreted as a flat byte array.</typeparam>
+//    /// <param name="bytesPerLimb">Number of bytes per "limb."</param>
+//    /// <param name="limbOrder">Specifies the order of the "limbs."</param>
+//    /// <param name="endianness">Specifies the byte order within each "limb."</param>
+//    /// <param name="nails">The number of most-significant bits to reserve, and set to zero, in each "limb."</param>
+//    /// <returns>An array of type T containing the exported limb data.
+//    /// <para>If the number is non-zero, then the most significant word produced will be non-zero.
+//    /// </para>If the number is zero, then a zero-length array is returned.</returns>
+//    generic<typename T> where T : value class array<T>^ Export(int bytesPerLimb, LimbOrder limbOrder, Endianness endianness, int nails)
+//    {
+//        if(this->Sign() == 0)
+//            return gcnew array<T>(0);
 
-                auto bitsPerLimb = 8 * bytesPerLimb - nails;
-                auto limbCount = (mpq_sizeinbase(_value, 2) - 1) / bitsPerLimb + 1;
-                auto arrayCount = (limbCount * bytesPerLimb - 1) / sizeof(T) + 1;
-                auto data = gcnew array<T>(arrayCount);
+//        auto bitsPerLimb = 8 * bytesPerLimb - nails;
+//        auto limbCount = (MP(sizeinbase)(_value, 2) - 1) / bitsPerLimb + 1;
+//        auto arrayCount = (limbCount * bytesPerLimb - 1) / sizeof(T) + 1;
+//        auto data = gcnew array<T>(arrayCount);
 
-                PIN(data);
-                mpq_export(pinned_data, &limbCount, (int)limbOrder, bytesPerLimb, (int)endianness, nails, _value);
-                return data;
-            }
+//        PIN(data);
+//        MP(export)(pinned_data, &limbCount, (int)limbOrder, bytesPerLimb, (int)endianness, nails, _value);
+//        return data;
+//    }
 
-        internal:
-            size_t ReadNoWhite(TextReader^ reader, int base, size_t nread);
+//internal:
+//    size_t ReadNoWhite(TextReader^ reader, int base, size_t nread);
 
-        public:
+//public:
 
-            /// <summary>
-            /// Returns the specified limb of the number.
-            /// <para>The least significant limb is zero.
-            /// </para>The sign of the number is ignored.
-            /// </summary>
-            /// <param name="index">The index of the limb to return.
-            /// <para>The least significant limb is zero.
-            /// </para>If the index is outside the range 0 to Size()-1, zero is returned.</param>
-            /// <returns>The specified limb, or zero if <paramref name="index"/> is outside of the valid range.</returns>
-            size_t GetLimb(mp_size_t index) { return mpq_getlimbn(_value, index); }
-
-            #pragma endregion
-    
-            #pragma region number-theoretic
-
-            /// <summary>
-            /// Determines whether the number is a probable prime with the chance of error being at most 1 in 2^<paramref name="probability"/>.
-            /// <para>This function does some trial divisions to speed up the average case, then some probabilistic
-            /// primality tests to achieve the desired level of error.
-            /// </para>This function interface is preliminary and may change in the future.
-            /// </summary>
-            /// <param name="random">Random number generator to use for probabilistic primality tests</param>
-            /// <param name="probability">Defines the maximum allowed probability of a false positive.
-            /// <para>The odds of a composite number being reported as a probable prime are at most 1 in 2^probability</para></param>
-            /// <param name="pretested">Used to inform the function that trial division up to div has already been performed,
-            /// and so the number is known to have NO divisors &lt;= pretested.
-            /// <para>Use 0 to inform the function that no trial division has been done.</para></param>
-            /// <returns>true if the number is probably prime, or false if it is definitely composite.</returns>
-            bool IsProbablePrime(MpirRandom^ random, int probability, mpir_ui pretested);
-
-            /// <summary>
-            /// Determines whether the number is likely a prime, i.e. you can consider it a prime for practical purposes.
-            /// <para>This function does some trial divisions to speed up the average case, then some probabilistic primality tests.
-            /// </para>The term "likely" refers to the fact that the number will not have small factors.
-            /// <para>This function interface is preliminary and may change in the future.
-            /// </para></summary>
-            /// <param name="random">Random number generator to use for probabilistic primality tests</param>
-            /// <param name="pretested">Used to inform the function that trial division up to div has already been performed,
-            /// and so the number is known to have NO divisors &lt;= pretested.
-            /// <para>Use 0 to inform the function that no trial division has been done.</para></param>
-            /// <returns>true if the number is likely prime, or false if it is definitely composite.</returns>
-            bool IsLikelyPrime(MpirRandom^ random, mpir_ui pretested);
-
-            /// <summary>
-            /// Calculates the Jacobi symbol (<paramref name="a"/>/<paramref name="b"/>).
-            /// <para>This is defined only for <paramref name="b"/> odd.
-            /// </para></summary>
-            /// <param name="a">First source value for the Jacobi symbol</param>
-            /// <param name="b">Second source value for the Jacobi symbol</param>
-            /// <returns>The Jacobi symbol (-1, 0, or 1).  Return is undefined unless <paramref name="b"/> is odd.</returns>
-            static int Jacobi(HugeRational^ a, HugeRational^ b) { return mpq_jacobi(a->_value, b->_value); }
-
-            /// <summary>
-            /// Calculates the Legendre symbol (<paramref name="a"/>/<paramref name="b"/>).
-            /// <para>This is defined only when <paramref name="b"/> is an odd prime.
-            /// </para></summary>
-            /// <param name="a">First source value for the Legendre symbol</param>
-            /// <param name="b">Second source value for the Legendre symbol</param>
-            /// <returns>The Legendre symbol (-1, 0, or 1).  Return is undefined unless <paramref name="b"/> is an odd prime.</returns>
-            static int Legendre(HugeRational^ a, HugeRational^ b) { return mpq_legendre(a->_value, b->_value); }
-
-            /// <summary>
-            /// Calculates the Jacobi symbol (<paramref name="a"/>/<paramref name="b"/>) with the Kronecker extension
-            /// (<paramref name="a"/>/2) = (2/<paramref name="a"/>) when a odd, or (<paramref name="a"/>/2) = 0 when a even.
-            /// <para>When <paramref name="b"/> is odd the Jacobi symbol and Kronecker symbol are identical, so the various Kronecker overloads 
-            /// can be used for mixed precision Jacobi symbols too.
-            /// </para></summary>
-            /// <param name="a">First source value for the Kronecker symbol</param>
-            /// <param name="b">Second source value for the Kronecker symbol</param>
-            /// <returns>The Kronecker symbol (-1, 0, or 1).</returns>
-            static int Kronecker(HugeRational^ a, HugeRational^ b) { return mpq_kronecker(a->_value, b->_value); }
-
-            /// <summary>
-            /// Calculates the Jacobi symbol (<paramref name="a"/>/<paramref name="b"/>) with the Kronecker extension
-            /// (<paramref name="a"/>/2) = (2/<paramref name="a"/>) when a odd, or (<paramref name="a"/>/2) = 0 when a even.
-            /// <para>When <paramref name="b"/> is odd the Jacobi symbol and Kronecker symbol are identical, so the various Kronecker overloads 
-            /// can be used for mixed precision Jacobi symbols too.
-            /// </para></summary>
-            /// <param name="a">First source value for the Kronecker symbol</param>
-            /// <param name="b">Second source value for the Kronecker symbol</param>
-            /// <returns>The Kronecker symbol (-1, 0, or 1).</returns>
-            static int Kronecker(HugeRational^ a, mpir_ui b) { return mpq_kronecker_ui(a->_value, b); }
-
-            /// <summary>
-            /// Calculates the Jacobi symbol (<paramref name="a"/>/<paramref name="b"/>) with the Kronecker extension
-            /// (<paramref name="a"/>/2) = (2/<paramref name="a"/>) when a odd, or (<paramref name="a"/>/2) = 0 when a even.
-            /// <para>When <paramref name="b"/> is odd the Jacobi symbol and Kronecker symbol are identical, so the various Kronecker overloads 
-            /// can be used for mixed precision Jacobi symbols too.
-            /// </para></summary>
-            /// <param name="a">First source value for the Kronecker symbol</param>
-            /// <param name="b">Second source value for the Kronecker symbol</param>
-            /// <returns>The Kronecker symbol (-1, 0, or 1).</returns>
-            static int Kronecker(HugeRational^ a, mpir_si b) { return mpq_kronecker_si(a->_value, b); }
-
-            /// <summary>
-            /// Calculates the Jacobi symbol (<paramref name="a"/>/<paramref name="b"/>) with the Kronecker extension
-            /// (<paramref name="a"/>/2) = (2/<paramref name="a"/>) when a odd, or (<paramref name="a"/>/2) = 0 when a even.
-            /// <para>When <paramref name="b"/> is odd the Jacobi symbol and Kronecker symbol are identical, so the various Kronecker overloads 
-            /// can be used for mixed precision Jacobi symbols too.
-            /// </para></summary>
-            /// <param name="a">First source value for the Kronecker symbol</param>
-            /// <param name="b">Second source value for the Kronecker symbol</param>
-            /// <returns>The Kronecker symbol (-1, 0, or 1).</returns>
-            static int Kronecker(mpir_ui a, HugeRational^ b) { return mpq_ui_kronecker(a, b->_value); }
-
-            /// <summary>
-            /// Calculates the Jacobi symbol (<paramref name="a"/>/<paramref name="b"/>) with the Kronecker extension
-            /// (<paramref name="a"/>/2) = (2/<paramref name="a"/>) when a odd, or (<paramref name="a"/>/2) = 0 when a even.
-            /// <para>When <paramref name="b"/> is odd the Jacobi symbol and Kronecker symbol are identical, so the various Kronecker overloads 
-            /// can be used for mixed precision Jacobi symbols too.
-            /// </para></summary>
-            /// <param name="a">First source value for the Kronecker symbol</param>
-            /// <param name="b">Second source value for the Kronecker symbol</param>
-            /// <returns>The Kronecker symbol (-1, 0, or 1).</returns>
-            static int Kronecker(mpir_si a, HugeRational^ b) { return mpq_si_kronecker(a, b->_value); }
-
-            /// <summary>
-            /// Returns an expression for calculating <paramref name="value"/> raised to the specified <paramref name="power"/>.
-            /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
-            /// </para></summary>
-            /// <param name="value">Base for the initial value for the new integer instance</param>
-            /// <param name="power">Power to raise the <paramref name="value"/> to when calculating the initial value for the new instance</param>
-            /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
-            static RationalExpression^ Power(mpir_ui value, mpir_ui power) { return gcnew MpirPowerUiUiExpression(value, power); }
-
-            /// <summary>
-            /// Returns an expression for calculating the factorial of <paramref name="a"/>.
-            /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
-            /// </para></summary>
-            /// <param name="a">The source number to take the factorial of</param>
-            /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
-            static RationalExpression^ Factorial(mpir_ui a) { return gcnew MpirFactorialUiUiExpression(a, 1); }
-
-            /// <summary>
-            /// Returns an expression for calculating the multifactorial of <paramref name="a"/> of the specified order.
-            /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
-            /// </para></summary>
-            /// <param name="a">The source number to take the multifactorial of</param>
-            /// <param name="order">The order of the multifactorial, i.e. 2 for <paramref name="a"/>!!, 3 for <paramref name="a"/>!!!, etc.</param>
-            /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
-            static RationalExpression^ Factorial(mpir_ui a, mpir_ui order) { return gcnew MpirFactorialUiUiExpression(a, order); }
-
-            /// <summary>
-            /// Returns an expression for calculating the primorial of <paramref name="a"/>, i.e. the product of all positive prime numbers &lt;= a.
-            /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
-            /// </para></summary>
-            /// <param name="a">The source number to take the primorial of</param>
-            /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
-            static RationalExpression^ Primorial(mpir_ui a) { return gcnew MpirPrimorialUiExpression(a); }
-
-            /// <summary>
-            /// Returns an expression for calculating the binomial coefficient (<paramref name="n"/>, <paramref name="k"/>), a.k.a. number of k-element combinations out of an n-element set.
-            /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
-            /// </para></summary>
-            /// <param name="n">The first source value of the binomial coefficient, a.k.a. set size</param>
-            /// <param name="k">The second source value of the binomial coefficient, a.k.a. subset size</param>
-            /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
-            static RationalExpression^ Binomial(mpir_ui n, mpir_ui k) { return gcnew MpirBinomialUiUiExpression(n, k); }
-
-            /// <summary>
-            /// Returns an expression for calculating the binomial coefficient (<paramref name="n"/>, <paramref name="k"/>), a.k.a. number of k-element combinations out of an n-element set.
-            /// <para>Negative values of <paramref name="n"/> are supported, using the identity (-n, k) = (-1)^k * (n + k - 1, k).
-            /// </para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
-            /// </summary>
-            /// <param name="n">The first source value of the binomial coefficient, a.k.a. set size
-            /// <para>Negative values of <paramref name="n"/> are supported, using the identity (-n, k) = (-1)^k * (n + k - 1, k).
-            /// </para></param>
-            /// <param name="k">The second source value of the binomial coefficient, a.k.a. subset size</param>
-            /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
-            static RationalExpression^ Binomial(RationalExpression^ n, mpir_ui k) { return gcnew MpirBinomialRationalUiExpression(n, k); }
-
-            /// <summary>
-            /// Returns an expression for calculating the <paramref name="n"/>th Fibonacci number.
-            /// <para>You can also optionally save the (<paramref name="n"/>-1)th number by calling a method on the resulting expression.
-            /// </para>This method is designed for calculating isolated Fibonacci numbers. When a sequence of
-            /// values is wanted it’s best to start with a pair of numbers (Fn and Fn-1) by calling SettingPreviousTo(),
-            /// and then iterate the defining Fn+1 = Fn + Fn-1.
-            /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
-            /// </para>Fibonacci and Lucas numbers are closely related, and it's never necessary to calculate both Fn and Ln.
-            /// </summary>
-            /// <param name="n">The index of the Fibonacci number to calculate</param>
-            /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
-            static RationalSequenceExpression^ Fibonacci(mpir_ui n) { return gcnew MpirFibonacciUiExpression(n); }
-
-            /// <summary>
-            /// Returns an expression for calculating the <paramref name="n"/>th Lucas number.
-            /// <para>You can also optionally save the (<paramref name="n"/>-1)th number by calling a method on the resulting expression.
-            /// </para>This method is designed for calculating isolated Lucas numbers. When a sequence of
-            /// values is wanted it’s best to start with a pair of numbers (Ln and Ln-1) by calling SettingPreviousTo(),
-            /// and then iterate the defining Ln+1 = Ln + Ln-1.
-            /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
-            /// </para>Fibonacci and Lucas numbers are closely related, and it's never necessary to calculate both Fn and Ln.
-            /// </summary>
-            /// <param name="n">The index of the Lucas number to calculate</param>
-            /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
-            static RationalSequenceExpression^ Lucas(mpir_ui n) { return gcnew MpirLucasUiExpression(n); }
+//    /// <summary>
+//    /// Returns the specified limb of the number.
+//    /// <para>The least significant limb is zero.
+//    /// </para>The sign of the number is ignored.
+//    /// </summary>
+//    /// <param name="index">The index of the limb to return.
+//    /// <para>The least significant limb is zero.
+//    /// </para>If the index is outside the range 0 to Size()-1, zero is returned.</param>
+//    /// <returns>The specified limb, or zero if <paramref name="index"/> is outside of the valid range.</returns>
+//    size_t GetLimb(mp_size_t index) { return MP(getlimbn)(_value, index); }
 
             #pragma endregion
-            */
     };
 
     #pragma endregion

@@ -30,25 +30,56 @@ namespace MPIR.Tests.HugeRationalTests
         {
             using (var a = new HugeRational())
             {
-                /*
-                Assert.AreNotEqual(0, a.NumberOfLimbsAllocated());
-                Assert.AreEqual(0, a.NumberOfLimbsUsed());
-                Assert.AreNotEqual(IntPtr.Zero, a.Limbs());
-                 */
-                Assert.AreEqual("0", a.ToString());
+                Assert.AreNotEqual(0, a.NumeratorNumberOfLimbsAllocated());
+                Assert.AreEqual(0, a.NumeratorNumberOfLimbsUsed());
+                Assert.AreNotEqual(IntPtr.Zero, a.NumeratorLimbs());
+                Assert.AreEqual("0", a.Numerator.ToString());
+
+                Assert.AreNotEqual(0, a.DenominatorNumberOfLimbsAllocated());
+                Assert.AreEqual(1, a.DenominatorNumberOfLimbsUsed());
+                Assert.AreNotEqual(IntPtr.Zero, a.DenominatorLimbs());
+                Assert.AreEqual("1", a.Denominator.ToString());
             }
         }
-        /*
+
+        [TestMethod]
+        public void Numerator()
+        {
+            using (var a = new HugeRational())
+            {
+                a.Numerator.Dispose();
+                Assert.AreNotEqual(0, a.Numerator.NumberOfLimbsAllocated());
+                Assert.AreEqual("0", a.Numerator.ToString());
+            }
+        }
+
+        [TestMethod]
+        public void Denominator()
+        {
+            using (var a = new HugeRational())
+            {
+                a.Denominator.Dispose();
+                Assert.AreNotEqual(0, a.Denominator.NumberOfLimbsAllocated());
+                Assert.AreEqual("1", a.Denominator.ToString());
+            }
+        }
+
         [TestMethod]
         public void Dispose()
         {
             var a = new HugeRational();
             a.Dispose();
-            Assert.AreEqual(0, a.NumberOfLimbsAllocated());
-            Assert.AreEqual(0, a.NumberOfLimbsUsed());
-            Assert.AreEqual(IntPtr.Zero, a.Limbs());
+            
+            Assert.AreEqual(0, a.NumeratorNumberOfLimbsAllocated());
+            Assert.AreEqual(0, a.NumeratorNumberOfLimbsUsed());
+            Assert.AreEqual(IntPtr.Zero, a.NumeratorLimbs());
+
+            Assert.AreEqual(0, a.DenominatorNumberOfLimbsAllocated());
+            Assert.AreEqual(0, a.DenominatorNumberOfLimbsUsed());
+            Assert.AreEqual(IntPtr.Zero, a.DenominatorLimbs());
         }
 
+        /*
         [TestMethod]
         public void ConstructorFromLong()
         {

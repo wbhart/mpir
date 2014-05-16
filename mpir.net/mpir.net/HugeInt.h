@@ -1346,6 +1346,10 @@ namespace MPIR
     DEFINE_UNARY_EXPRESSION_WITH_BUILT_INS_ONLY    (MPEXPR(Sequence), Fibonacci, Ui)
     DEFINE_UNARY_EXPRESSION_WITH_BUILT_INS_ONLY    (MPEXPR(Sequence), Lucas, Ui)
 
+    DEFINE_BINARY_EXPRESSION(MPEXPR_NAME, RandomBits, MpirRandom^, mp_bitcnt_t)
+    DEFINE_BINARY_EXPRESSION(MPEXPR_NAME, RandomBitsChunky, MpirRandom^, mp_bitcnt_t)
+    DEFINE_BINARY_EXPRESSION(MPEXPR_NAME, Random, MpirRandom^, MPEXPR_NAME^)
+
     #pragma endregion
 
     #pragma region HugeInt class
@@ -1366,9 +1370,9 @@ namespace MPIR
                 _value = (MP(ptr))((*__gmp_allocate_func)(sizeof(MPSTRUCT)));
             }
             void FromString(String^ value, int base);
-            String^ ToString(int base, bool lowercase, int maxDigits);
 
         internal:
+            String^ ToString(int base, bool lowercase, int maxDigits);
             virtual void DeallocateStruct()
             {
                 MP(clear)(_value);
@@ -1504,7 +1508,7 @@ namespace MPIR
             String^ ToString(int base, bool lowercase) { return ToString(base, lowercase, 0); }
 
             /// <summary>
-            /// Returns the absolute value of the number of the number as a ulong.
+            /// Returns the absolute value of the number as a ulong.
             /// <para>If the number is too big, then just the least significant bits that do fit are returned.
             /// </para>The sign of the number is ignored, only the absolute value is used.
             /// </summary>
@@ -1512,7 +1516,7 @@ namespace MPIR
             mpir_ui ToUlong() { return MP(get_ui)(_value); }
 
             /// <summary>
-            /// Returns the value of the number of the number as a long.
+            /// Returns the value of the number as a long.
             /// <para>If the number is too big, then just the least significant bits that do fit are returned, with the same sign as the number.
             /// </para>When truncation occurs, the result is propobly not very useful.  Call FitsLong() to check if the number will fit.
             /// </summary>
@@ -1520,14 +1524,14 @@ namespace MPIR
             mpir_si ToLong() { return MP(get_si)(_value); }
 
             /// <summary>
-            /// Returns the value of the number of the number as a double, truncating if necessary (rounding towards zero).
+            /// Returns the value of the number as a double, truncating if necessary (rounding towards zero).
             /// <para>If the exponent from the conversion is too big, the result is system dependent. An infinity is returned where available.             /// A hardware overflow trap may or may not occur.
             /// </para></summary>
             /// <returns>The value as a double, possibly truncated.</returns>
             double ToDouble() { return MP(get_d)(_value); }
 
             /// <summary>
-            /// Returns the value of the number of the number as a double, truncating if necessary (rounding towards zero), and returning the exponent separately.
+            /// Returns the value of the number as a double, truncating if necessary (rounding towards zero), and returning the exponent separately.
             /// <para>The return is the mantissa, its absolute value will be in the range [0.5 - 1).            /// </para>If the source value is zero, both mantissa and exponent are returned as 0.
             /// </summary>
             /// <param name="exp">variable to store the exponent in.</param>
@@ -2089,6 +2093,22 @@ namespace MPIR
             static MPEXPR(Sequence)^ Lucas(mpir_ui n) { return gcnew MPEXPR(LucasUi)(n); }
 
             #pragma endregion
+    };
+
+    #pragma endregion
+
+    #pragma region HugeIntComponent
+
+    /// <summary>This internal class is used to provide access to the numerator and denominator of a Rational number.
+    /// <para>It is a thin override of HugeInt with the only changes being that it does not perform any allocation/cleanup, 
+    /// it simply reuses an mpz_ptr from a Rational struct that is allocated and freed by HugeRational.
+    /// </para>It inherits the IDisposable implementation from HugeInt, but overrides the DeallocateStruct worker with a no-op.
+    /// </summary>
+    private ref class HugeIntComponent sealed : MPTYPE
+    {
+        internal:
+            virtual void DeallocateStruct() override { }
+            HugeIntComponent(MP(ptr) value) { _value = value; }
     };
 
     #pragma endregion
