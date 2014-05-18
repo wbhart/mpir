@@ -206,11 +206,27 @@ private ref class MPEXPR(name) : base                                           
         operation(destination, destination, Right);                                       \
     }
 
+#define DEFINE_BINARY_ASSIGNMENT_REF_RATVAL(name, leftTypeAbbr, rightTypeAbbr, operation) \
+    DEFINE_ASSIGNMENT_PROLOG(name##leftTypeAbbr##rightTypeAbbr)                           \
+    {                                                                                     \
+        IN_CONTEXT(Left);                                                                 \
+        CTXT_ADD_RATIONAL(Right, 1);                                                      \
+        operation(destination, CTXT(0), CTXT(1));                                         \
+    }
+
 #define DEFINE_BINARY_ASSIGNMENT_VAL_REF(name, leftTypeAbbr, rightTypeAbbr, operation)    \
     DEFINE_ASSIGNMENT_PROLOG(name##leftTypeAbbr##rightTypeAbbr)                           \
     {                                                                                     \
         Right->AssignTo(destination);                                                     \
         operation(destination, Left, destination);                                        \
+    }
+
+#define DEFINE_BINARY_ASSIGNMENT_RATVAL_REF(name, leftTypeAbbr, rightTypeAbbr, operation) \
+    DEFINE_ASSIGNMENT_PROLOG(name##leftTypeAbbr##rightTypeAbbr)                           \
+    {                                                                                     \
+        IN_CONTEXT(Right);                                                                \
+        CTXT_ADD_RATIONAL(Left, 1);                                                       \
+        operation(destination, CTXT(1), CTXT(0));                                         \
     }
 
 #define DEFINE_BINARY_ASSIGNMENT_VAL_VAL(name, leftTypeAbbr, rightTypeAbbr, operation)    \

@@ -249,22 +249,22 @@ namespace MPIR
     #pragma region Arithmetic
 
     MAKE_BINARY_OPERATOR_STANDARD  (MPEXPR_NAME,        DEFINE, +, Add, Int, Int)           
-    //MAKE_BINARY_OPERATOR_RLIMB     (MPEXPR_NAME,        DEFINE, +, Add, Int, Ui)            
-    //MAKE_BINARY_OPERATOR_LLIMB_R   (MPEXPR_NAME,        DEFINE, +, Add, Int, Ui)            
-    //MAKE_BINARY_OPERATOR_RLIMB     (MPEXPR_NAME,        DEFINE, +, Add, Int, Si)            
-    //MAKE_BINARY_OPERATOR_LLIMB_R   (MPEXPR_NAME,        DEFINE, +, Add, Int, Si)            
+    MAKE_BINARY_OPERATOR_RLIMB     (MPEXPR_NAME,        DEFINE, +, Add, Int, Ui)            
+    MAKE_BINARY_OPERATOR_LLIMB_R   (MPEXPR_NAME,        DEFINE, +, Add, Int, Ui)            
+    MAKE_BINARY_OPERATOR_RLIMB     (MPEXPR_NAME,        DEFINE, +, Add, Int, Si)            
+    MAKE_BINARY_OPERATOR_LLIMB_R   (MPEXPR_NAME,        DEFINE, +, Add, Int, Si)            
                                                                                                         
     MAKE_BINARY_OPERATOR_STANDARD  (MPEXPR_NAME,        DEFINE, -, Subtract, Int, Int)      
-    //MAKE_BINARY_OPERATOR_RLIMB     (MPEXPR_NAME,        DEFINE, -, Subtract, Int, Ui)       
-    //MAKE_BINARY_OPERATOR_LLIMB     (MPEXPR_NAME,        DEFINE, -, Subtract, Int, Ui)       
-    //MAKE_BINARY_OPERATOR_RLIMB     (MPEXPR_NAME,        DEFINE, -, Subtract, Int, Si)       
-    //MAKE_BINARY_OPERATOR_LLIMB     (MPEXPR_NAME,        DEFINE, -, Subtract, Int, Si)       
+    MAKE_BINARY_OPERATOR_RLIMB     (MPEXPR_NAME,        DEFINE, -, Subtract, Int, Ui)       
+    MAKE_BINARY_OPERATOR_LLIMB     (MPEXPR_NAME,        DEFINE, -, Subtract, Int, Ui)       
+    MAKE_BINARY_OPERATOR_RLIMB     (MPEXPR_NAME,        DEFINE, -, Subtract, Int, Si)       
+    MAKE_BINARY_OPERATOR_LLIMB     (MPEXPR_NAME,        DEFINE, -, Subtract, Int, Si)       
                                                                                                         
     MAKE_BINARY_OPERATOR_STANDARD  (MPEXPR_NAME,        DEFINE, *, Multiply, Int, Int)      
-    //MAKE_BINARY_OPERATOR_RLIMB     (MPEXPR_NAME,        DEFINE, *, Multiply, Int, Ui)       
-    //MAKE_BINARY_OPERATOR_LLIMB_R   (MPEXPR_NAME,        DEFINE, *, Multiply, Int, Ui)       
-    //MAKE_BINARY_OPERATOR_RLIMB     (MPEXPR_NAME,        DEFINE, *, Multiply, Int, Si)       
-    //MAKE_BINARY_OPERATOR_LLIMB_R   (MPEXPR_NAME,        DEFINE, *, Multiply, Int, Si)       
+    MAKE_BINARY_OPERATOR_RLIMB     (MPEXPR_NAME,        DEFINE, *, Multiply, Int, Ui)       
+    MAKE_BINARY_OPERATOR_LLIMB_R   (MPEXPR_NAME,        DEFINE, *, Multiply, Int, Ui)       
+    MAKE_BINARY_OPERATOR_RLIMB     (MPEXPR_NAME,        DEFINE, *, Multiply, Int, Si)       
+    MAKE_BINARY_OPERATOR_LLIMB_R   (MPEXPR_NAME,        DEFINE, *, Multiply, Int, Si)       
                                                                                                         
     MAKE_BINARY_OPERATOR_RLIMB     (MPEXPR_NAME,        DEFINE, <<, ShiftLeft, Int, Bits)   
     MAKE_BINARY_OPERATOR_RLIMB     (MPEXPR_NAME,        DEFINE, >>, ShiftRight, Int, Bits)  
@@ -274,7 +274,10 @@ namespace MPIR
     MAKE_VOID_FUNCTION             (MPEXPR_NAME,        DEFINE, Invert, Int)
                                                                                                            
     MAKE_BINARY_OPERATOR_STANDARD  (MPEXPR_NAME,        DEFINE, /, Divide, Int, Int)        
-//    MAKE_BINARY_OPERATOR_RLIMB     (MPEXPR_NAME,        DEFINE, /, Divide, Int, Ui)         
+    MAKE_BINARY_OPERATOR_RLIMB     (MPEXPR_NAME,        DEFINE, /, Divide, Int, Ui)       
+    MAKE_BINARY_OPERATOR_LLIMB     (MPEXPR_NAME,        DEFINE, /, Divide, Int, Ui)       
+    MAKE_BINARY_OPERATOR_RLIMB     (MPEXPR_NAME,        DEFINE, /, Divide, Int, Si)       
+    MAKE_BINARY_OPERATOR_LLIMB     (MPEXPR_NAME,        DEFINE, /, Divide, Int, Si)       
                                                                                                            
                                                                                                            
     DEFINE_UNARY_ASSIGNMENT_REF(Negate, Int, MP(neg))
@@ -282,21 +285,24 @@ namespace MPIR
     DEFINE_UNARY_ASSIGNMENT_REF(Abs, Int, MP(abs))
 
     DEFINE_BINARY_ASSIGNMENT_REF_REF(Add, Int, MP(add))
-    //DEFINE_BINARY_ASSIGNMENT_REF_VAL(Add, Int, Ui, MP(add_ui))
-    //DEFINE_BINARY_ASSIGNMENT_REF_SI (Add, Int, Si, MP(add_ui), MP(sub_ui))
+    DEFINE_BINARY_ASSIGNMENT_REF_RATVAL(Add, Int, Ui, MP(add))
+    DEFINE_BINARY_ASSIGNMENT_REF_RATVAL(Add, Int, Si, MP(add))
 
     DEFINE_BINARY_ASSIGNMENT_REF_REF(Subtract, Int, MP(sub))
-    //DEFINE_BINARY_ASSIGNMENT_REF_VAL(Subtract, Int, Ui, MP(sub_ui))
-    //DEFINE_BINARY_ASSIGNMENT_VAL_REF(Subtract, Ui, Int, MP(ui_sub))
-    //DEFINE_BINARY_ASSIGNMENT_REF_SI (Subtract, Int, Si, MP(sub_ui), MP(add_ui))
-    //DEFINE_BINARY_ASSIGNMENT_SI_REF (Subtract, Si, Int, MP(ui_sub), MP(add_ui), MP(neg))
+    DEFINE_BINARY_ASSIGNMENT_REF_RATVAL(Subtract, Int, Ui, MP(sub))
+    DEFINE_BINARY_ASSIGNMENT_RATVAL_REF(Subtract, Ui, Int, MP(sub))
+    DEFINE_BINARY_ASSIGNMENT_REF_RATVAL(Subtract, Int, Si, MP(sub))
+    DEFINE_BINARY_ASSIGNMENT_RATVAL_REF(Subtract, Si, Int, MP(sub))
 
     DEFINE_BINARY_ASSIGNMENT_REF_REF(Multiply, Int, MP(mul))
-    //DEFINE_BINARY_ASSIGNMENT_REF_VAL(Multiply, Int, Ui, MP(mul_ui))
-    //DEFINE_BINARY_ASSIGNMENT_REF_VAL(Multiply, Int, Si, MP(mul_si))
+    DEFINE_BINARY_ASSIGNMENT_REF_RATVAL(Multiply, Int, Ui, MP(mul))
+    DEFINE_BINARY_ASSIGNMENT_REF_RATVAL(Multiply, Int, Si, MP(mul))
 
     DEFINE_BINARY_ASSIGNMENT_REF_REF(Divide, Int, MP(div))
-    //DEFINE_BINARY_ASSIGNMENT_REF_VAL(Divide, Int, Ui, CUSTOM_MP(div_ui))
+    DEFINE_BINARY_ASSIGNMENT_REF_RATVAL(Divide, Int, Ui, MP(div))
+    DEFINE_BINARY_ASSIGNMENT_RATVAL_REF(Divide, Ui, Int, MP(div))
+    DEFINE_BINARY_ASSIGNMENT_REF_RATVAL(Divide, Int, Si, MP(div))
+    DEFINE_BINARY_ASSIGNMENT_RATVAL_REF(Divide, Si, Int, MP(div))
 
     DEFINE_BINARY_ASSIGNMENT_REF_VAL(ShiftLeft, Int, Bits, MP(mul_2exp))
     DEFINE_BINARY_ASSIGNMENT_REF_VAL(ShiftRight, Int, Bits, MP(div_2exp))
