@@ -134,27 +134,39 @@ namespace MPIR
 
         EvaluationContext context;
 
-        //todo
-        //if(a->GetType() == mpir_ui::typeid)
-        //{
-        //    AssignTo(context);
-        //    return MP(cmp_ui)(CTXT(0), (mpir_ui)a);
-        //}
+        if(a->GetType() == mpir_ui::typeid)
+        {
+            AssignTo(context);
+            return MP(cmp_ui)(CTXT(0), (mpir_ui)a, 1);
+        }
 
-        //if(a->GetType() == mpir_si::typeid)
-        //{
-        //    AssignTo(context);
-        //    return MP(cmp_si)(CTXT(0), (mpir_si)a);
-        //}
+        if(a->GetType() == mpir_si::typeid)
+        {
+            AssignTo(context);
+            return MP(cmp_si)(CTXT(0), (mpir_si)a, 1);
+        }
 
-        //if(a->GetType() == double::typeid)
-        //{
-        //    AssignTo(context);
-        //    return MP(cmp_d)(CTXT(0), (double)a);
-        //}
+        if(a->GetType() == double::typeid)
+        {
+            AssignTo(context);
+            CTXT_ADD_RATIONAL_DOUBLE((double)a);
+            return MP(cmp)(CTXT(0), CTXT(1));
+        }
 
         valid = false;
         return 0;
+    }
+
+    int MPEXPR_NAME::CompareTo(mpir_si numerator, mpir_ui denominator)
+    {
+        IN_CONTEXT(this);
+        return MP(cmp_si)(CTXT(0), numerator, denominator);
+    }
+
+    int MPEXPR_NAME::CompareTo(mpir_ui numerator, mpir_ui denominator)
+    {
+        IN_CONTEXT(this);
+        return MP(cmp_ui)(CTXT(0), numerator, denominator);
     }
 
     int MPEXPR_NAME::CompareTo(Object^ a)
@@ -179,15 +191,57 @@ namespace MPIR
 
     bool MPEXPR_NAME::Equals(Object^ a)
     {
-        bool valid;
-        auto result = CompareTo(a, valid);
+        if (IS_NULL(a))
+            return false;
 
-        return valid && result == 0;
+        MPEXPR_NAME^ expr = dynamic_cast<MPEXPR_NAME^>(a);
+        if(!IS_NULL(expr))
+            return Equals(expr);
+
+        EvaluationContext context;
+
+        if(a->GetType() == mpir_ui::typeid)
+        {
+            AssignTo(context);
+            CTXT_ADD_RATIONAL((mpir_ui)a, 1);
+            return MP(equal)(CTXT(0), CTXT(1)) != 0;
+        }
+
+        if(a->GetType() == mpir_si::typeid)
+        {
+            AssignTo(context);
+            CTXT_ADD_RATIONAL((mpir_si)a, 1);
+            return MP(equal)(CTXT(0), CTXT(1)) != 0;
+        }
+
+        if(a->GetType() == double::typeid)
+        {
+            AssignTo(context);
+            CTXT_ADD_RATIONAL_DOUBLE((double)a);
+            return MP(equal)(CTXT(0), CTXT(1)) != 0;
+        }
+
+        return false;
     }
 
     bool MPEXPR_NAME::Equals(MPEXPR_NAME^ a)
     {
-        return CompareTo(a) == 0;
+        IN_CONTEXT(this, a);
+        return MP(equal)(CTXT(0), CTXT(1)) != 0;
+    }
+
+    bool MPEXPR_NAME::Equals(mpir_si numerator, mpir_ui denominator)
+    {
+        IN_CONTEXT(this);
+        CTXT_ADD_RATIONAL(numerator, denominator);
+        return MP(equal)(CTXT(0), CTXT(1)) != 0;
+    }
+
+    bool MPEXPR_NAME::Equals(mpir_ui numerator, mpir_ui denominator)
+    {
+        IN_CONTEXT(this);
+        CTXT_ADD_RATIONAL(numerator, denominator);
+        return MP(equal)(CTXT(0), CTXT(1)) != 0;
     }
 
     #pragma endregion

@@ -76,7 +76,7 @@ namespace MPIR
             virtual void AssignTo(MP(ptr) destination) abstract;
             virtual void AssignTo(EvaluationContext& context)
             {
-                context.Options = (EvaluationOptions) (context.Options | (1 << context.Index));
+                context.Initialized(RationalInitialized);
                 auto ptr = &context.Temp[context.Index].MPTYPE_NAME;
                 CTXT(context.Index++) = ptr;
                 MP(init)(ptr);
@@ -290,6 +290,22 @@ namespace MPIR
             virtual int CompareTo(MPEXPR_NAME^ a) sealed;
 
             /// <summary>Compares two numbers.
+            /// <para>If the source number is an expression, it is evaluated into a temporary variable before the comparison is performed.
+            /// </para></summary>
+            /// <param name="numerator">Numerator of the number to compare the source with</param>
+            /// <param name="denominator">Denominator of the number to compare the source with</param>
+            /// <returns>A positive number if the source is greater than <paramref name="numerator"/> / <paramref name="denominator"/>, negative if less, and zero if they are equal.</returns>
+            int CompareTo(mpir_si numerator, mpir_ui denominator);
+
+            /// <summary>Compares two numbers.
+            /// <para>If the source number is an expression, it is evaluated into a temporary variable before the comparison is performed.
+            /// </para></summary>
+            /// <param name="numerator">Numerator of the number to compare the source with</param>
+            /// <param name="denominator">Denominator of the number to compare the source with</param>
+            /// <returns>A positive number if the source is greater than <paramref name="numerator"/> / <paramref name="denominator"/>, negative if less, and zero if they are equal.</returns>
+            int CompareTo(mpir_ui numerator, mpir_ui denominator);
+
+            /// <summary>Compares two numbers.
             /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
             /// </para></summary>
             /// <param name="a">Value to compare the source with</param>
@@ -302,6 +318,22 @@ namespace MPIR
             /// <param name="a">Value to compare the source with.  This can be a multi-precision number, an expression, or a supported primitive type (long, ulong, or double).</param>
             /// <returns>true if the values of the source and <paramref name="a"/> are equal, false otherwise.</returns>
             virtual bool Equals(Object^ a) override sealed;
+
+            /// <summary>Compares two numbers.
+            /// <para>If the source number is an expression, it is evaluated into a temporary variable before the comparison is performed.
+            /// </para></summary>
+            /// <param name="numerator">Numerator of the number to compare the source with</param>
+            /// <param name="denominator">Denominator of the number to compare the source with</param>
+            /// <returns>true if the values of the source and <paramref name="numerator"/> / <paramref name="denominator"/> are equal, false otherwise.</returns>
+            bool Equals(mpir_si numerator, mpir_ui denominator);
+
+            /// <summary>Compares two numbers.
+            /// <para>If the source number is an expression, it is evaluated into a temporary variable before the comparison is performed.
+            /// </para></summary>
+            /// <param name="numerator">Numerator of the number to compare the source with</param>
+            /// <param name="denominator">Denominator of the number to compare the source with</param>
+            /// <returns>true if the values of the source and <paramref name="numerator"/> / <paramref name="denominator"/> are equal, false otherwise.</returns>
+            bool Equals(mpir_ui numerator, mpir_ui denominator);
 
             /// <summary>Computes the hash code of the source value.
             /// <para>If called on an expression, it is evaluated into a temporary variable before the comparison is performed.

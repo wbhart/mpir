@@ -76,7 +76,7 @@ namespace MPIR
             virtual void AssignTo(MP(ptr) destination) abstract;
             virtual void AssignTo(EvaluationContext& context)
             {
-                context.Options = (EvaluationOptions) (context.Options | (1 << context.Index));
+                context.Initialized(IntInitialized);
                 auto ptr = &context.Temp[context.Index].MPTYPE_NAME;
                 CTXT(context.Index++) = ptr;
                 MP(init)(ptr);

@@ -25,6 +25,7 @@ along with the MPIR Library.  If not, see http://www.gnu.org/licenses/.
 #define LIT(x) LIT2(x)
 #define IS_NULL(a) (Object::ReferenceEquals(a, nullptr))
 #define PIN(x) pin_ptr<T> pinptr##x = &x[0]; void* pinned_##x = pinptr##x;
+#define SGN(Z) ((Z) < 0 ? -1 : (Z) > 0)
 
 #define IN_CONTEXT_1(a)        \
     EvaluationContext context; \
@@ -40,6 +41,11 @@ along with the MPIR Library.  If not, see http://www.gnu.org/licenses/.
     a->AssignTo(context);      \
     b->AssignTo(context);      \
     c->AssignTo(context)
+
+#define IN_CONTEXT_THIS_AND_RATIONAL(n, d)  \
+    EvaluationContext context;              \
+    this->AssignTo(context);                \
+    context.AddRational(n, d)
 
 #define COUNT_ARGS_IMPL2(_1, _2, _3, name, ...) name
 #define COUNT_ARGS_IMPL(args) COUNT_ARGS_IMPL2 args
@@ -151,10 +157,36 @@ struct EvaluationContext
             __int64 Zero;
         };
 
+        void inline Initialized(EvaluationOptions flag)
+        {
+            Options = (EvaluationOptions) (Options | (flag << Index));
+        }
+
         EvaluationContext()
         {
             Zero = 0;
         }
+
+#define CTXT_ADD_RATIONAL(numerator, denominator)     \
+    auto ptr = &context.Temp[context.Index].Rational; \
+    context.RationalArgs[context.Index++] = ptr;      \
+                                                      \
+    auto _n = (mpir_ui)ABS(numerator);                \
+    ptr->_mp_num._mp_alloc = 1;                       \
+    ptr->_mp_num._mp_size = (int)SGN(numerator);      \
+    ptr->_mp_num._mp_d = &_n;                         \
+                                                      \
+    auto _d = (mpir_ui)denominator;                   \
+    ptr->_mp_den._mp_alloc = 1;                       \
+    ptr->_mp_den._mp_size = (int)SGN(denominator);    \
+    ptr->_mp_den._mp_d = &_d;
+
+#define CTXT_ADD_RATIONAL_DOUBLE(value)               \
+    context.Initialized(RationalInitialized);         \
+    auto ptr = &context.Temp[context.Index].Rational; \
+    context.RationalArgs[context.Index++] = ptr;      \
+    mpq_init(ptr);                                    \
+    mpq_set_d(ptr, value);
 
         ~EvaluationContext()
         {
