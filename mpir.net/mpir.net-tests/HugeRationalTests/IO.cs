@@ -31,6 +31,7 @@ namespace MPIR.Tests.HugeRationalTests
         [TestMethod]
         public void InputOutputRaw()
         {
+            Assert.Fail("This test currently crashes");
             using (var a = new HugeRational("0x10123456789ABCDEF0123456789ABCDEF0123456789ABCDEF/361720912810755408215708460645842859722715865206816237944587"))
             using (var b = new HugeRational())
             using (var ms = new MemoryStream())

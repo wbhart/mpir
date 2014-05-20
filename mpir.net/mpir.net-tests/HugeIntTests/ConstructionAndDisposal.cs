@@ -51,7 +51,7 @@ namespace MPIR.Tests.HugeIntTests
         public void ConstructorFromLong()
         {
             var n = "123456789123456";
-            using (var a = HugeInt.FromLong(long.Parse(n)))
+            using (var a = new HugeInt(long.Parse(n)))
             {
                 Assert.AreEqual(1, a.NumberOfLimbsAllocated());
                 Assert.AreEqual(1, a.NumberOfLimbsUsed());
@@ -63,7 +63,7 @@ namespace MPIR.Tests.HugeIntTests
         public void ConstructorFromLongNegative()
         {
             var n = "-123456789123456";
-            using (var a = HugeInt.FromLong(long.Parse(n)))
+            using (var a = new HugeInt(long.Parse(n)))
             {
                 Assert.AreEqual(1, a.NumberOfLimbsAllocated());
                 Assert.AreEqual(-1, a.NumberOfLimbsUsed());
@@ -74,7 +74,7 @@ namespace MPIR.Tests.HugeIntTests
         [TestMethod]
         public void ConstructorFromULong()
         {
-            using (var a = HugeInt.FromUlong(ulong.MaxValue))
+            using (var a = new HugeInt(ulong.MaxValue))
             {
                 Assert.AreEqual(1, a.NumberOfLimbsAllocated());
                 Assert.AreEqual(1, a.NumberOfLimbsUsed());
@@ -85,7 +85,7 @@ namespace MPIR.Tests.HugeIntTests
         [TestMethod]
         public void ConstructorFromDouble()
         {
-            using (var a = HugeInt.FromDouble(123456789123456.9))
+            using (var a = new HugeInt(123456789123456.9))
             {
                 Assert.AreEqual("123456789123456", a.ToString());
             }
@@ -103,7 +103,7 @@ namespace MPIR.Tests.HugeIntTests
         [TestMethod]
         public void ConstructorFromDoubleNegative()
         {
-            using (var a = HugeInt.FromDouble(-123456789123456.9))
+            using (var a = new HugeInt(-123456789123456.9))
             {
                 Assert.AreEqual("-123456789123456", a.ToString());
             }
@@ -112,7 +112,7 @@ namespace MPIR.Tests.HugeIntTests
         [TestMethod]
         public void Allocate()
         {
-            using (var a = new HugeInt(129))
+            using (var a = HugeInt.Allocate(129))
             {
                 Assert.AreEqual(3, a.NumberOfLimbsAllocated());
                 Assert.AreEqual(0, a.NumberOfLimbsUsed());

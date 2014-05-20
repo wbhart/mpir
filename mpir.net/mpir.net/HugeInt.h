@@ -1370,6 +1370,7 @@ namespace MPIR
                 _value = (MP(ptr))((*__gmp_allocate_func)(sizeof(MPSTRUCT)));
             }
             void FromString(String^ value, int base);
+            MPTYPE(bool initialize);
 
         internal:
             String^ ToString(int base, bool lowercase, int maxDigits);
@@ -1405,7 +1406,8 @@ namespace MPIR
             /// </para>This makes it possible to avoid repeated reallocations if a maximum size is known in advance.
             /// </summary>
             /// <param name="bits">Minimum number of bits the initially allocated memory should hold</param>
-            MPTYPE(mp_bitcnt_t bits);
+            /// <returns>the newly constructed instance</returns>
+            static MPTYPE^ Allocate(mp_bitcnt_t bits);
 
             /// <summary>
             /// Initializes a new integer instance and sets its value from the specified string, using leading characters to recognize the base:
@@ -1434,22 +1436,19 @@ namespace MPIR
             /// Constructs and returns a new integer instance with its value set to the <paramref name="value"/> parameter.
             /// </summary>
             /// <param name="value">Initial value for the new integer instance</param>
-            /// <returns>the newly constructed instance</returns>
-            static MPTYPE^ FromLong(mpir_si value);
+            MPTYPE(mpir_si value);
 
             /// <summary>
             /// Constructs and returns a new integer instance with its value set to the <paramref name="value"/> parameter.
             /// </summary>
             /// <param name="value">Initial value for the new integer instance</param>
-            /// <returns>the newly constructed instance</returns>
-            static MPTYPE^ FromUlong(mpir_ui value);
+            MPTYPE(mpir_ui value);
 
             /// <summary>
             /// Constructs and returns a new integer instance with its value set to the <paramref name="value"/> parameter.
             /// </summary>
             /// <param name="value">Initial value for the new integer instance.  Any fractional portion is truncated.</param>
-            /// <returns>the newly constructed instance</returns>
-            static MPTYPE^ FromDouble(double value);
+            MPTYPE(double value);
 
             /// <summary>
             /// Change the space allocated for integer to <paramref name="bits"/> bits. The value in integer is preserved if it fits, or is set to 0 if not.

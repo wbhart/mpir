@@ -145,7 +145,7 @@ namespace MPIR.Tests.HugeIntTests
         [TestMethod]
         public void FitsUlong()
         {
-            using (var a = HugeInt.FromUlong(ulong.MaxValue))
+            using (var a = new HugeInt(ulong.MaxValue))
             {
                 Assert.IsTrue(a.FitsUlong());
                 a.Value = a + 1;
@@ -160,7 +160,7 @@ namespace MPIR.Tests.HugeIntTests
         [TestMethod]
         public void FitsLong()
         {
-            using (var a = HugeInt.FromLong(long.MaxValue))
+            using (var a = new HugeInt(long.MaxValue))
             {
                 Assert.IsTrue(a.FitsLong());
                 a.Value = a + 1;
@@ -175,7 +175,7 @@ namespace MPIR.Tests.HugeIntTests
         [TestMethod]
         public void FitsUint()
         {
-            using (var a = HugeInt.FromUlong(uint.MaxValue))
+            using (var a = new HugeInt(uint.MaxValue))
             {
                 Assert.IsTrue(a.FitsUint());
                 a.Value = a + 1;
@@ -190,7 +190,7 @@ namespace MPIR.Tests.HugeIntTests
         [TestMethod]
         public void FitsInt()
         {
-            using (var a = HugeInt.FromLong(int.MaxValue))
+            using (var a = new HugeInt(int.MaxValue))
             {
                 Assert.IsTrue(a.FitsInt());
                 a.Value = a + 1;
@@ -205,7 +205,7 @@ namespace MPIR.Tests.HugeIntTests
         [TestMethod]
         public void FitsUshort()
         {
-            using (var a = HugeInt.FromUlong(ushort.MaxValue))
+            using (var a = new HugeInt(ushort.MaxValue))
             {
                 Assert.IsTrue(a.FitsUshort());
                 a.Value = a + 1;
@@ -220,7 +220,7 @@ namespace MPIR.Tests.HugeIntTests
         [TestMethod]
         public void FitsShort()
         {
-            using (var a = HugeInt.FromLong(short.MaxValue))
+            using (var a = new HugeInt(short.MaxValue))
             {
                 Assert.IsTrue(a.FitsShort());
                 a.Value = a + 1;

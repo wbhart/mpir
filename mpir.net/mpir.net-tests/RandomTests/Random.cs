@@ -43,12 +43,12 @@ namespace MPIR.Tests.RandomTests
                         break;
 
                     case 2:
-                        using (var s = HugeInt.FromUlong(seed))
+                        using (var s = new HugeInt(seed))
                             r.Seed(s);
                         break;
 
                     case 3:
-                        using (var s = HugeInt.FromUlong(seed))
+                        using (var s = new HugeInt(seed))
                             r.Seed(s);
                         copy = r.Copy();
                         break;

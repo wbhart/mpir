@@ -44,6 +44,13 @@ namespace MPIR
         MP(init)(_value);
     }
 
+    MPTYPE::MPTYPE(bool initialize)
+    {
+        AllocateStruct();
+        if(initialize)
+            MP(init)(_value);
+    }
+
     MPTYPE::MPTYPE(MPEXPR_NAME^ value)
     {
         AllocateStruct();
@@ -51,10 +58,11 @@ namespace MPIR
         value->AssignTo(_value);
     }
 
-    MPTYPE::MPTYPE(mp_bitcnt_t bits)
+    MPTYPE^ MPTYPE::Allocate(mp_bitcnt_t bits)
     {
-        AllocateStruct();
-        MP(init2)(_value, bits);
+        auto result = gcnew MPTYPE(false);
+        MP(init2)(result->_value, bits);
+        return result;
     }
 
     void MPTYPE::FromString(String^ value, int base)
@@ -82,25 +90,22 @@ namespace MPIR
             throw gcnew ArgumentException("Invalid number", "value");
     }
 
-    MPTYPE^ MPTYPE::FromLong(mpir_si value)
+    MPTYPE::MPTYPE(mpir_si value)
     {
-        auto result = gcnew MPTYPE();
-        MP(set_si)(result->_value, value);
-        return result;
+        AllocateStruct();
+        MP(init_set_si)(_value, value);
     }
 
-    MPTYPE^ MPTYPE::FromUlong(mpir_ui value)
+    MPTYPE::MPTYPE(mpir_ui value)
     {
-        auto result = gcnew MPTYPE();
-        MP(set_ui)(result->_value, value);
-        return result;
+        AllocateStruct();
+        MP(init_set_ui)(_value, value);
     }
 
-    MPTYPE^ MPTYPE::FromDouble(double value)
+    MPTYPE::MPTYPE(double value)
     {
-        auto result = gcnew MPTYPE();
-        MP(set_d)(result->_value, value);
-        return result;
+        AllocateStruct();
+        MP(init_set_d)(_value, value);
     }
 
     #pragma endregion

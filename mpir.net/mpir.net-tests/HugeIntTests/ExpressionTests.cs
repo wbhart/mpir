@@ -39,8 +39,8 @@ namespace MPIR.Tests.HugeIntTests
                 .Where(x => baseExpr.IsAssignableFrom(x) && !x.IsAbstract)
                 .ToList();
 
-            using (var a = HugeInt.FromLong(-9))
-            using (var b = HugeInt.FromLong(4))
+            using (var a = new HugeInt(-9L))
+            using (var b = new HugeInt(4L))
             using (var r = MpirRandom.Default())
             {
                 var expr = a + (-a * 2) * 3 * (a.Abs() * -2 + -64 + a * a) + 116UL + a;

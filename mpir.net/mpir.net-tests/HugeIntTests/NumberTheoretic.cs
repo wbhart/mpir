@@ -78,8 +78,8 @@ namespace MPIR.Tests.HugeIntTests
         [TestMethod]
         public void GcdExt()
         {
-            using (var a = HugeInt.FromUlong(12))
-            using (var b = HugeInt.FromUlong(21))
+            using (var a = new HugeInt(12))
+            using (var b = new HugeInt(21))
             using (var g = new HugeInt())
             using (var s = new HugeInt())
             using (var t = new HugeInt())
@@ -94,8 +94,8 @@ namespace MPIR.Tests.HugeIntTests
         [TestMethod]
         public void GcdExt1()
         {
-            using (var a = HugeInt.FromUlong(12))
-            using (var b = HugeInt.FromUlong(21))
+            using (var a = new HugeInt(12))
+            using (var b = new HugeInt(21))
             using (var g = new HugeInt())
             using (var s = new HugeInt())
             {
@@ -108,8 +108,8 @@ namespace MPIR.Tests.HugeIntTests
         [TestMethod]
         public void GcdExt2()
         {
-            using (var a = HugeInt.FromUlong(12))
-            using (var b = HugeInt.FromUlong(21))
+            using (var a = new HugeInt(12))
+            using (var b = new HugeInt(21))
             using (var g = new HugeInt())
             using (var t = new HugeInt())
             {
@@ -241,7 +241,7 @@ namespace MPIR.Tests.HugeIntTests
                     for (var n = x * 2; n < N; n += x)
                         sieve[n] = true;
 
-            using (var a = HugeInt.FromLong(1))
+            using (var a = new HugeInt(1))
             {
                 for (var n = 2; n < N; n++)
                     if (!sieve[n])
