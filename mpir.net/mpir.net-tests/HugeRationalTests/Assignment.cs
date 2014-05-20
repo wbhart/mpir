@@ -28,19 +28,19 @@ namespace MPIR.Tests.HugeRationalTests
         [TestMethod]
         public void RationalAssignCopy()
         {
-            using (var a = new HugeRational("-222509832503450298345029835740293845720"))
+            using (var a = new HugeRational("-222509832503450298345029835740293845720/115756986668303657898962467957"))
             using (var b = new HugeRational())
             {
                 b.Value = a;
-                Assert.AreEqual("-222509832503450298345029835740293845720", b.ToString());
+                Assert.AreEqual("-222509832503450298345029835740293845720/115756986668303657898962467957", b.ToString());
             }
         }
 
         [TestMethod]
         public void RationalSwap()
         {
-            using (var a = new HugeRational("-222509832503450298345029835740293845720"))
-            using (var b = new HugeRational("2039847290878794872059384789347534534"))
+            using (var a = new HugeRational("-222509832503450298345029835740293845720/115756986668303657898962467957"))
+            using (var b = new HugeRational("2039847290878794872059384789347534534/590872612825179551336102196593"))
             {
                 var aValue = a._value();
                 var bValue = b._value();
@@ -53,11 +53,11 @@ namespace MPIR.Tests.HugeRationalTests
         [TestMethod]
         public void RationalCompoundOperators()
         {
-            using (var a = new HugeRational("938475092834705928347523452345"))
+            using (var a = new HugeRational("938475092834705928347523452345/115756986668303657898962467957"))
             {
                 a.Value += 1;
                 a.Value *= 10;
-                Assert.AreEqual("9384750928347059283475234523460", a.ToString());
+                Assert.AreEqual("9384750928347059283475234523460/115756986668303657898962467957", a.ToString());
             }
         }
         //more tests coming here
