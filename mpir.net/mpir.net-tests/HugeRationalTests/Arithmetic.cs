@@ -30,79 +30,90 @@ namespace MPIR.Tests.HugeRationalTests
         [TestMethod]
         public void RationalAddHugeRational()
         {
-            using (var a = new HugeRational("222509832503450298345029835740293845720"))
-            using (var b = new HugeRational("222987435987982730594288574029879874539"))
-            using (var c = new HugeRational())
+            using (var a = new HugeRational("222509832503450298345029835740293845720/115756986668303657898962467957"))
+            using (var b = new HugeRational("222987435987982730594288574029879874539/590872612825179551336102196593"))
+            using (var c = new HugeRational(a + b))
             {
-                c.Value = a + b;
-                Assert.AreEqual("445497268491433028939318409770173720259", c.ToString());
+                Assert.AreEqual(a.Numerator * b.Denominator + b.Numerator * a.Denominator, c.Numerator);
+                Assert.AreEqual(a.Denominator * b.Denominator, c.Denominator);
             }
         }
 
         [TestMethod]
         public void RationalAddLimb()
         {
-            using (var a = new HugeRational("222509832503450298345029835740293845720"))
+            using (var a = new HugeRational("222509832503450298345029835740293845720/115756986668303657898962467957"))
+            using (var c = new HugeRational())
             {
                 var b = 4288574029879874539UL;
-                a.Value = a + b;
-                Assert.AreEqual("222509832503450298349318409770173720259", a.ToString());
+                c.Value = a + b;
+                Assert.AreEqual(a.Numerator + b * a.Denominator, c.Numerator);
+                Assert.AreEqual(a.Denominator, c.Denominator);
             }
         }
 
         [TestMethod]
         public void RationalAddToLimb()
         {
-            using (var a = new HugeRational("222509832503450298345029835740293845720"))
+            using (var a = new HugeRational("222509832503450298345029835740293845720/115756986668303657898962467957"))
+            using (var c = new HugeRational())
             {
                 var b = 4288574029879874539UL;
-                a.Value = b + a;
-                Assert.AreEqual("222509832503450298349318409770173720259", a.ToString());
+                c.Value = b + a;
+                Assert.AreEqual(a.Numerator + b * a.Denominator, c.Numerator);
+                Assert.AreEqual(a.Denominator, c.Denominator);
             }
         }
 
         [TestMethod]
         public void RationalAddSignedLimb()
         {
-            using (var a = new HugeRational("222509832503450298345029835740293845720"))
+            using (var a = new HugeRational("222509832503450298345029835740293845720/115756986668303657898962467957"))
+            using (var c = new HugeRational())
             {
                 var b = -4288574029879874539L;
-                a.Value = a + b;
-                Assert.AreEqual("222509832503450298340741261710413971181", a.ToString());
+                c.Value = a + b;
+                Assert.AreEqual(a.Numerator + b * a.Denominator, c.Numerator);
+                Assert.AreEqual(a.Denominator, c.Denominator);
             }
         }
 
         [TestMethod]
         public void RationalAddToSignedLimb()
         {
-            using (var a = new HugeRational("222509832503450298345029835740293845720"))
+            using (var a = new HugeRational("222509832503450298345029835740293845720/115756986668303657898962467957"))
+            using (var c = new HugeRational())
             {
                 var b = -4288574029879874539L;
-                a.Value = b + a;
-                Assert.AreEqual("222509832503450298340741261710413971181", a.ToString());
+                c.Value = b + a;
+                Assert.AreEqual(a.Numerator + b * a.Denominator, c.Numerator);
+                Assert.AreEqual(a.Denominator, c.Denominator);
             }
         }
 
         [TestMethod]
         public void RationalAddToMaxSignedLimb()
         {
-            using (var a = new HugeRational("222509832503450298345029835740293845720"))
+            using (var a = new HugeRational("222509832503450298345029835740293845720/115756986668303657898962467957"))
+            using (var c = new HugeRational())
             {
                 var b = long.MinValue;
-                a.Value = b + a;
-                Assert.AreEqual("222509832503450298335806463703439069912", a.ToString());
+                c.Value = b + a;
+                Assert.AreEqual(a.Numerator + b * a.Denominator, c.Numerator);
+                Assert.AreEqual(a.Denominator, c.Denominator);
             }
         }
 
         [TestMethod]
         public void RationalAddExpressionHugeRational()
         {
-            using (var a = new HugeRational("222509832503450298345029835740293845720"))
-            using (var b = new HugeRational("222987435987982730594288574029879874539"))
+            using (var a = new HugeRational("222509832503450298345029835740293845720/115756986668303657898962467957"))
+            using (var b = new HugeRational("222987435987982730594288574029879874539/590872612825179551336102196593"))
             using (var c = new HugeRational())
             {
                 c.Value = 1 + (a + b);
-                Assert.AreEqual("445497268491433028939318409770173720260", c.ToString());
+                Assert.AreEqual(a.Numerator * b.Denominator + b.Numerator * a.Denominator + a.Denominator * b.Denominator, c.Numerator);
+                Assert.AreEqual(a.Denominator * b.Denominator, c.Denominator);
             }
         }
 
@@ -113,77 +124,84 @@ namespace MPIR.Tests.HugeRationalTests
         [TestMethod]
         public void RationalSubtractHugeRational()
         {
-            using (var a = new HugeRational("445497268491433028939318409770173720259"))
-            using (var b = new HugeRational("222987435987982730594288574029879874539"))
+            using (var a = new HugeRational("445497268491433028939318409770173720259/115756986668303657898962467957"))
+            using (var b = new HugeRational("222987435987982730594288574029879874539/590872612825179551336102196593"))
+            using (var c = new HugeRational(a - b))
             {
-                a.Value = a - b;
-                Assert.AreEqual("222509832503450298345029835740293845720", a.ToString());
+                Assert.AreEqual(a.Numerator * b.Denominator - b.Numerator * a.Denominator, c.Numerator);
+                Assert.AreEqual(a.Denominator * b.Denominator, c.Denominator);
             }
         }
 
         [TestMethod]
         public void RationalSubtractLimb()
         {
-            using (var a = new HugeRational("222509832503450298349318409770173720259"))
+            var b = 4288574029879874539UL;
+            using (var a = new HugeRational("222509832503450298349318409770173720259/115756986668303657898962467957"))
+            using (var c = new HugeRational(a - b))
             {
-                var b = 4288574029879874539UL;
-                a.Value = a - b;
-                Assert.AreEqual("222509832503450298345029835740293845720", a.ToString());
+                Assert.AreEqual(a.Numerator - b * a.Denominator, c.Numerator);
+                Assert.AreEqual(a.Denominator, c.Denominator);
             }
         }
 
         [TestMethod]
         public void RationalSubtractFromLimb()
         {
-            using (var a = new HugeRational("222509832503450298349318409770173720259"))
+            var b = 4288574029879874539UL;
+            using (var a = new HugeRational("222509832503450298349318409770173720259/115756986668303657898962467957"))
+            using (var c = new HugeRational(b - a))
             {
-                var b = 4288574029879874539UL;
-                a.Value = b - a;
-                Assert.AreEqual("-222509832503450298345029835740293845720", a.ToString());
+                Assert.AreEqual(b * a.Denominator - a.Numerator, c.Numerator);
+                Assert.AreEqual(a.Denominator, c.Denominator);
             }
         }
 
         [TestMethod]
         public void RationalSubtractPositiveSignedLimb()
         {
-            using (var a = new HugeRational("222509832503450298349318409770173720259"))
+            var b = 4288574029879874539L;
+            using (var a = new HugeRational("222509832503450298349318409770173720259/115756986668303657898962467957"))
+            using (var c = new HugeRational(a - b))
             {
-                var b = 4288574029879874539L;
-                a.Value = a - b;
-                Assert.AreEqual("222509832503450298345029835740293845720", a.ToString());
+                Assert.AreEqual(a.Numerator - b * a.Denominator, c.Numerator);
+                Assert.AreEqual(a.Denominator, c.Denominator);
             }
         }
 
         [TestMethod]
         public void RationalSubtractFromPositiveSignedLimb()
         {
-            using (var a = new HugeRational("222509832503450298349318409770173720259"))
+            var b = 4288574029879874539L;
+            using (var a = new HugeRational("222509832503450298349318409770173720259/115756986668303657898962467957"))
+            using (var c = new HugeRational(a - b))
             {
-                var b = 4288574029879874539L;
-                a.Value = b - a;
-                Assert.AreEqual("-222509832503450298345029835740293845720", a.ToString());
+                Assert.AreEqual(a.Numerator - b * a.Denominator, c.Numerator);
+                Assert.AreEqual(a.Denominator, c.Denominator);
             }
         }
 
         [TestMethod]
         public void RationalSubtractSignedLimb()
         {
-            using (var a = new HugeRational("222509832503450298345029835740293845720"))
+            var b = -4288574029879874539L;
+            using (var a = new HugeRational("222509832503450298345029835740293845720/115756986668303657898962467957"))
+            using (var c = new HugeRational(a - b))
             {
-                var b = -4288574029879874539L;
-                a.Value = a - b;
-                Assert.AreEqual("222509832503450298349318409770173720259", a.ToString());
+                Assert.AreEqual(a.Numerator - b * a.Denominator, c.Numerator);
+                Assert.AreEqual(a.Denominator, c.Denominator);
             }
         }
 
         [TestMethod]
         public void RationalSubtractFromSignedLimb()
         {
-            using (var a = new HugeRational("222509832503450298345029835740293845720"))
+            var b = -4288574029879874539L;
+            using (var a = new HugeRational("222509832503450298345029835740293845720/115756986668303657898962467957"))
+            using (var c = new HugeRational(b - a))
             {
-                var b = -4288574029879874539L;
-                a.Value = b - a;
-                Assert.AreEqual("-222509832503450298349318409770173720259", a.ToString());
+                Assert.AreEqual(b * a.Denominator - a.Numerator, c.Numerator);
+                Assert.AreEqual(a.Denominator, c.Denominator);
             }
         }
 
@@ -194,246 +212,56 @@ namespace MPIR.Tests.HugeRationalTests
         [TestMethod]
         public void RationalMultiplyByHugeRational()
         {
-            using (var a = new HugeRational("90234098723098475098479385345098345"))
-            using (var b = new HugeRational("7859487359873459872354987610987897"))
+            using (var a = new HugeRational("90234098723098475098479385345098345/115756986668303657898962467957"))
+            using (var b = new HugeRational("7859487359873459872354987610987897/590872612825179551336102196593"))
+            using (var c = new HugeRational(a * b))
             {
-                a.Value = a * b;
-                Assert.AreEqual("709193758343766370701419953880162061353595657143399816050772069730465", a.ToString());
+                Assert.AreEqual(a.Numerator * b.Numerator, c.Numerator);
+                Assert.AreEqual(a.Denominator * b.Denominator, c.Denominator);
             }
         }
 
         [TestMethod]
         public void RationalMultiplyByLimb()
         {
-            using (var a = new HugeRational("90234098723098475098479385345098345"))
+            using (var a = new HugeRational("90234098723098475098479385345098345/115756986668303657898962467957"))
             {
                 ulong b = 17390538260286101342;
                 a.Value = a * b;
-                Assert.AreEqual("1569219546226477273686601978789044606491747469626478990", a.ToString());
+                Assert.AreEqual("1569219546226477273686601978789044606491747469626478990/115756986668303657898962467957", a.ToString());
             }
         }
 
         [TestMethod]
         public void RationalMultiplyLimbBy()
         {
-            using (var a = new HugeRational("90234098723098475098479385345098345"))
+            using (var a = new HugeRational("90234098723098475098479385345098345/115756986668303657898962467957"))
             {
                 ulong b = 17390538260286101342;
                 a.Value = b * a;
-                Assert.AreEqual("1569219546226477273686601978789044606491747469626478990", a.ToString());
+                Assert.AreEqual("1569219546226477273686601978789044606491747469626478990/115756986668303657898962467957", a.ToString());
             }
         }
 
         [TestMethod]
         public void RationalMultiplyBySignedLimb()
         {
-            using (var a = new HugeRational("90234098723098475098479385345098345"))
+            using (var a = new HugeRational("90234098723098475098479385345098345/115756986668303657898962467957"))
             {
                 long b = -7390538260286101342;
                 a.Value = a * b;
-                Assert.AreEqual("-666878558995492522701808125338061156491747469626478990", a.ToString());
+                Assert.AreEqual("-666878558995492522701808125338061156491747469626478990/115756986668303657898962467957", a.ToString());
             }
         }
 
         [TestMethod]
         public void RationalMultiplySignedLimbBy()
         {
-            using (var a = new HugeRational("90234098723098475098479385345098345"))
+            using (var a = new HugeRational("90234098723098475098479385345098345/115756986668303657898962467957"))
             {
                 long b = -7390538260286101342;
                 a.Value = b * a;
-                Assert.AreEqual("-666878558995492522701808125338061156491747469626478990", a.ToString());
-            }
-        }
-
-        #endregion
-
-        #region Add Product
-
-        [TestMethod]
-        public void RationalAddProductHugeRational()
-        {
-            using (var a = new HugeRational("98750293847520938457029384572093480498357"))
-            using (var c = new HugeRational("23094582093845093574093845093485039450934"))
-            using (var b = new HugeRational("-394580293847502987609283945873594873409587"))
-            {
-                var expr = a + c*b;
-                a.Value = expr;
-                Assert.AreEqual("-9112666988874677841199955832262586145147830205230375090322356322089362221491205901", a.ToString());
-            }
-        }
-
-        [TestMethod]
-        public void RationalAddProductLimb()
-        {
-            using (var a = new HugeRational("98750293847520938457029384572093480498357"))
-            using (var c = new HugeRational("-23094582093845093574093845093485039450934"))
-            {
-                ulong b = 498734523097853458;
-                var expr = a + c*b;
-                a.Value = expr;
-                Assert.AreEqual("-11518065386718058599763388064972875060082210203928832731415", a.ToString());
-            }
-        }
-
-        [TestMethod]
-        public void RationalAddProductLimbTo()
-        {
-            using (var a = new HugeRational("98750293847520938457029384572093480498357"))
-            using (var c = new HugeRational("-23094582093845093574093845093485039450934"))
-            {
-                ulong b = 498734523097853458;
-                var expr = a + b*c;
-                a.Value = expr;
-                Assert.AreEqual("-11518065386718058599763388064972875060082210203928832731415", a.ToString());
-            }
-        }
-
-        [TestMethod]
-        public void RationalAddProductLimbTo2()
-        {
-            using (var a = new HugeRational("98750293847520938457029384572093480498357"))
-            using (var c = new HugeRational("-23094582093845093574093845093485039450934"))
-            {
-                ulong b = 498734523097853458;
-                var expr = b*c + a;
-                a.Value = expr;
-                Assert.AreEqual("-11518065386718058599763388064972875060082210203928832731415", a.ToString());
-            }
-        }
-
-        [TestMethod]
-        public void RationalAddProductLimbTo3()
-        {
-            using (var a = new HugeRational("98750293847520938457029384572093480498357"))
-            using (var c = new HugeRational("-23094582093845093574093845093485039450934"))
-            using (var d = new HugeRational())
-            {
-                ulong b = 498734523097853458;
-                var expr = b*c + a;
-                d.Value = expr;
-                Assert.AreEqual("-11518065386718058599763388064972875060082210203928832731415", d.ToString());
-            }
-        }
-
-        [TestMethod]
-        public void RationalAddProductSignedLimb()
-        {
-            using (var a = new HugeRational("98750293847520938457029384572093480498357"))
-            using (var c = new HugeRational("23094582093845093574093845093485039450934"))
-            {
-                long b = -498734523097853458;
-                var expr = a + c*b;
-                a.Value = expr;
-                Assert.AreEqual("-11518065386718058599763388064972875060082210203928832731415", a.ToString());
-            }
-        }
-
-        [TestMethod]
-        public void RationalAddProductSignedLimbTo()
-        {
-            using (var a = new HugeRational("98750293847520938457029384572093480498357"))
-            using (var c = new HugeRational("-23094582093845093574093845093485039450934"))
-            {
-                long b = 498734523097853458;
-                var expr = a + b*c;
-                a.Value = expr;
-                Assert.AreEqual("-11518065386718058599763388064972875060082210203928832731415", a.ToString());
-            }
-        }
-
-        [TestMethod]
-        public void RationalAddProductSignedLimbTo2()
-        {
-            using (var a = new HugeRational("98750293847520938457029384572093480498357"))
-            using (var c = new HugeRational("-23094582093845093574093845093485039450934"))
-            {
-                long b = 498734523097853458;
-                var expr = b*c + a;
-                a.Value = expr;
-                Assert.AreEqual("-11518065386718058599763388064972875060082210203928832731415", a.ToString());
-            }
-        }
-
-        [TestMethod]
-        public void RationalAddProductSignedLimbTo3()
-        {
-            using (var a = new HugeRational("98750293847520938457029384572093480498357"))
-            using (var c = new HugeRational("23094582093845093574093845093485039450934"))
-            using (var d = new HugeRational())
-            {
-                long b = -498734523097853458;
-                var expr = b*c + a;
-                d.Value = expr;
-                Assert.AreEqual("-11518065386718058599763388064972875060082210203928832731415", d.ToString());
-            }
-        }
-
-        #endregion
-
-        #region Subtract Product
-
-        [TestMethod]
-        public void RationalSubtractProductHugeRational()
-        {
-            using (var a = new HugeRational("98750293847520938457029384572093480498357"))
-            using (var c = new HugeRational("23094582093845093574093845093485039450934"))
-            using (var b = new HugeRational("394580293847502987609283945873594873409587"))
-            {
-                var expr = a - c*b;
-                a.Value = expr;
-                Assert.AreEqual("-9112666988874677841199955832262586145147830205230375090322356322089362221491205901", a.ToString());
-            }
-        }
-
-        [TestMethod]
-        public void RationalSubtractProductLimb()
-        {
-            using (var a = new HugeRational("98750293847520938457029384572093480498357"))
-            using (var c = new HugeRational("23094582093845093574093845093485039450934"))
-            {
-                ulong b = 498734523097853458;
-                var expr = a - c*b;
-                a.Value = expr;
-                Assert.AreEqual("-11518065386718058599763388064972875060082210203928832731415", a.ToString());
-            }
-        }
-
-        [TestMethod]
-        public void RationalSubtractProductSignedLimb()
-        {
-            using (var a = new HugeRational("98750293847520938457029384572093480498357"))
-            using (var c = new HugeRational("-23094582093845093574093845093485039450934"))
-            {
-                long b = -498734523097853458;
-                var expr = a - b*c;
-                a.Value = expr;
-                Assert.AreEqual("-11518065386718058599763388064972875060082210203928832731415", a.ToString());
-            }
-        }
-
-        [TestMethod]
-        public void RationalSubtractProductSignedLimb2()
-        {
-            using (var a = new HugeRational("98750293847520938457029384572093480498357"))
-            using (var c = new HugeRational("-23094582093845093574093845093485039450934"))
-            {
-                long b = -498734523097853458;
-                a.Value = a - c*b;
-                Assert.AreEqual("-11518065386718058599763388064972875060082210203928832731415", a.ToString());
-            }
-        }
-
-        [TestMethod]
-        public void RationalSubtractProductSignedLimb3()
-        {
-            using (var a = new HugeRational("98750293847520938457029384572093480498357"))
-            using (var c = new HugeRational("23094582093845093574093845093485039450934"))
-            using (var d = new HugeRational())
-            {
-                long b = 498734523097853458;
-                d.Value = a - c*b;
-                Assert.AreEqual("-11518065386718058599763388064972875060082210203928832731415", d.ToString());
+                Assert.AreEqual("-666878558995492522701808125338061156491747469626478990/115756986668303657898962467957", a.ToString());
             }
         }
 
@@ -444,11 +272,11 @@ namespace MPIR.Tests.HugeRationalTests
         [TestMethod]
         public void RationalShiftLeft()
         {
-            using (var a = new HugeRational("-12345700987ABCDEF2345CBDEFA245230948", 16))
+            using (var a = new HugeRational("-12345700987ABCDEF2345CBDEFA245230948/115756986668303657898962467957", 16))
             {
                 ulong b = 40;
                 a.Value = a << b;
-                Assert.AreEqual("-12345700987ABCDEF2345CBDEFA2452309480000000000", a.ToString(16));
+                Assert.AreEqual("-12345700987ABCDEF2345CBDEFA2452309480000000000/115756986668303657898962467957", a.ToString(16));
             }
         }
 
@@ -459,11 +287,11 @@ namespace MPIR.Tests.HugeRationalTests
         [TestMethod]
         public void RationalShiftRight()
         {
-            using (var a = new HugeRational("ABCDEF052834524092854092874502983745029345723098457209305983434345", 16))
+            using (var a = new HugeRational("ABCDEF052834524092854092874502983745029345723098457209305983434345/115756986668303657898962467957", 16))
             {
                 ulong b = 96;
                 a.Value = a >> b;
-                Assert.AreEqual("ABCDEF052834524092854092874502983745029345", a.ToString(16));
+                Assert.AreEqual("ABCDEF052834524092854092874502983745029345/115756986668303657898962467957", a.ToString(16));
             }
         }
 
@@ -474,12 +302,12 @@ namespace MPIR.Tests.HugeRationalTests
         [TestMethod]
         public void RationalNegate()
         {
-            using (var a = new HugeRational("24092854092874502983745029345723098457209"))
+            using (var a = new HugeRational("24092854092874502983745029345723098457209/115756986668303657898962467957"))
             {
                 a.Value = -a;
-                Assert.AreEqual("-24092854092874502983745029345723098457209", a.ToString());
+                Assert.AreEqual("-24092854092874502983745029345723098457209/115756986668303657898962467957", a.ToString());
                 a.Value = -a;
-                Assert.AreEqual("24092854092874502983745029345723098457209", a.ToString());
+                Assert.AreEqual("24092854092874502983745029345723098457209/115756986668303657898962467957", a.ToString());
             }
         }
 
@@ -490,12 +318,12 @@ namespace MPIR.Tests.HugeRationalTests
         [TestMethod]
         public void RationalMakeAbsolute()
         {
-            using (var a = new HugeRational("-24092854092874502983745029345723098457209"))
+            using (var a = new HugeRational("-24092854092874502983745029345723098457209/115756986668303657898962467957"))
             {
                 a.Value = a.Abs();
-                Assert.AreEqual("24092854092874502983745029345723098457209", a.ToString());
+                Assert.AreEqual("24092854092874502983745029345723098457209/115756986668303657898962467957", a.ToString());
                 a.Value = a.Abs();
-                Assert.AreEqual("24092854092874502983745029345723098457209", a.ToString());
+                Assert.AreEqual("24092854092874502983745029345723098457209/115756986668303657898962467957", a.ToString());
             }
         }
 
@@ -508,11 +336,23 @@ namespace MPIR.Tests.HugeRationalTests
         [TestMethod]
         public void RationalDivideHugeRational()
         {
-            using (var a = new HugeRational("234052834524092854092874502983745029345723098457209305983434345"))
-            using (var b = new HugeRational("394580293847502987609283945873594873409587"))
+            using (var a = new HugeRational("115756986668303657898962467957/394580293847502987609283945873594873409587"))
+            using (var b = new HugeRational("593169091750307653294"))
             {
                 a.Value = a / b;
-                Assert.AreEqual("593169091750307653294", a.ToString());
+                Assert.AreEqual("115756986668303657898962467957/234052834524092854092760134269509268758750275703033222451729578", a.ToString());
+            }
+        }
+
+        [TestMethod]
+        public void RationalDivideHugeRational2()
+        {
+            using (var a = new HugeRational("90234098723098475098479385345098345/115756986668303657898962467957"))
+            using (var b = new HugeRational("6847944682037444681162770672798288913849/590872612825179551336102196593"))
+            using (var c = new HugeRational(a / b))
+            {
+                Assert.AreEqual(a.Numerator * b.Denominator, c.Numerator);
+                Assert.AreEqual(a.Denominator * b.Numerator, c.Denominator);
             }
         }
 
@@ -523,11 +363,11 @@ namespace MPIR.Tests.HugeRationalTests
         [TestMethod]
         public void RationalDivideLimb()
         {
-            using (var a = new HugeRational("234052834524092854092874502983745029345723098457209305983434345"))
+            using (var a = new HugeRational("115756986668303657898962467957/39458029384750298767200622330399462537522498"))
             {
                 ulong b = 5931690917503076532;
                 a.Value = a / b;
-                Assert.AreEqual("39458029384750298767200622330399462537522498", a.ToString());
+                Assert.AreEqual("115756986668303657898962467957/234052834524092854092874502983745029345723092857791404165816936", a.ToString());
             }
         }
 
