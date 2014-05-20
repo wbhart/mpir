@@ -28,7 +28,7 @@ namespace MPIR.Tests.HugeRationalTests
         #region CompareTo
 
         [TestMethod]
-        public void CompareToHugeRational()
+        public void RationalCompareToHugeRational()
         {
             using (var a = new HugeRational("-222509832503450298345029835740293845721"))
             using (var b = new HugeRational("222509832503450298345029835740293845720"))
@@ -41,7 +41,7 @@ namespace MPIR.Tests.HugeRationalTests
         }
 
         [TestMethod]
-        public void CompareToObject()
+        public void RationalCompareToObject()
         {
             using (var a = new HugeRational("-222509832503450298345029835740293845721"))
             using (var b = new HugeRational("222509832503450298345029835740293845720"))
@@ -54,7 +54,7 @@ namespace MPIR.Tests.HugeRationalTests
         }
 
         [TestMethod]
-        public void CompareToExpression()
+        public void RationalCompareToExpression()
         {
             using (var a = new HugeRational("-222509832503450298345029835740293845721"))
             using (var b = new HugeRational("222509832503450298345029835740293845720"))
@@ -68,7 +68,7 @@ namespace MPIR.Tests.HugeRationalTests
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
-        public void CompareToNonExpression()
+        public void RationalCompareToNonExpression()
         {
             using (var a = new HugeRational("-222509832503450298345029835740293845721"))
             {
@@ -77,7 +77,7 @@ namespace MPIR.Tests.HugeRationalTests
         }
 
         [TestMethod]
-        public void CompareToLimb()
+        public void RationalCompareToLimb()
         {
             using (var a = new HugeRational("-222509821"))
             {
@@ -90,7 +90,7 @@ namespace MPIR.Tests.HugeRationalTests
         }
 
         [TestMethod]
-        public void CompareToSignedLimb()
+        public void RationalCompareToSignedLimb()
         {
             using (var a = new HugeRational("-222509821"))
             {
@@ -104,7 +104,7 @@ namespace MPIR.Tests.HugeRationalTests
         }
 
         [TestMethod]
-        public void CompareToSignedDouble()
+        public void RationalCompareToSignedDouble()
         {
             using (var a = new HugeRational("-222509821"))
             {
@@ -122,7 +122,7 @@ namespace MPIR.Tests.HugeRationalTests
         #region comparison operators with expr
 
         [TestMethod]
-        public void OperatorLessThan()
+        public void RationalOperatorLessThan()
         {
             using (var a = new HugeRational("-222509832503450298345029835740293845721"))
             using (var b = new HugeRational("222509832503450298345029835740293845720"))
@@ -138,7 +138,7 @@ namespace MPIR.Tests.HugeRationalTests
         }
 
         [TestMethod]
-        public void OperatorLessThanOrEqual()
+        public void RationalOperatorLessThanOrEqual()
         {
             using (var a = new HugeRational("-222509832503450298345029835740293845721"))
             using (var b = new HugeRational("222509832503450298345029835740293845720"))
@@ -154,7 +154,7 @@ namespace MPIR.Tests.HugeRationalTests
         }
 
         [TestMethod]
-        public void OperatorGreaterThan()
+        public void RationalOperatorGreaterThan()
         {
             using (var a = new HugeRational("-222509832503450298345029835740293845721"))
             using (var b = new HugeRational("222509832503450298345029835740293845720"))
@@ -170,7 +170,7 @@ namespace MPIR.Tests.HugeRationalTests
         }
 
         [TestMethod]
-        public void OperatorGreaterThanOrEqual()
+        public void RationalOperatorGreaterThanOrEqual()
         {
             using (var a = new HugeRational("-222509832503450298345029835740293845721"))
             using (var b = new HugeRational("222509832503450298345029835740293845720"))
@@ -190,7 +190,7 @@ namespace MPIR.Tests.HugeRationalTests
         #region comparison operators with limb
 
         [TestMethod]
-        public void OperatorLessThanLimb()
+        public void RationalOperatorLessThanLimb()
         {
             using (var a = new HugeRational("3845721"))
             {
@@ -204,7 +204,7 @@ namespace MPIR.Tests.HugeRationalTests
         }
 
         [TestMethod]
-        public void OperatorLessThanOrEqualLimb()
+        public void RationalOperatorLessThanOrEqualLimb()
         {
             using (var a = new HugeRational("3845721"))
             {
@@ -221,7 +221,7 @@ namespace MPIR.Tests.HugeRationalTests
         }
 
         [TestMethod]
-        public void OperatorGreaterThanLimb()
+        public void RationalOperatorGreaterThanLimb()
         {
             using (var a = new HugeRational("3845721"))
             {
@@ -235,7 +235,7 @@ namespace MPIR.Tests.HugeRationalTests
         }
 
         [TestMethod]
-        public void OperatorGreaterThanOrEqualLimb()
+        public void RationalOperatorGreaterThanOrEqualLimb()
         {
             using (var a = new HugeRational("3845721"))
             {
@@ -256,7 +256,7 @@ namespace MPIR.Tests.HugeRationalTests
         #region comparison operators with signed limb
 
         [TestMethod]
-        public void OperatorLessThanSignedLimb()
+        public void RationalOperatorLessThanSignedLimb()
         {
             using (var a = new HugeRational("-3845721"))
             {
@@ -270,7 +270,7 @@ namespace MPIR.Tests.HugeRationalTests
         }
 
         [TestMethod]
-        public void OperatorLessThanOrEqualSignedLimb()
+        public void RationalOperatorLessThanOrEqualSignedLimb()
         {
             using (var a = new HugeRational("-3845721"))
             {
@@ -287,7 +287,7 @@ namespace MPIR.Tests.HugeRationalTests
         }
 
         [TestMethod]
-        public void OperatorGreaterThanSignedLimb()
+        public void RationalOperatorGreaterThanSignedLimb()
         {
             using (var a = new HugeRational("-3845721"))
             {
@@ -301,7 +301,7 @@ namespace MPIR.Tests.HugeRationalTests
         }
 
         [TestMethod]
-        public void OperatorGreaterThanOrEqualSignedLimb()
+        public void RationalOperatorGreaterThanOrEqualSignedLimb()
         {
             using (var a = new HugeRational("-3845721"))
             {
@@ -322,7 +322,7 @@ namespace MPIR.Tests.HugeRationalTests
         #region comparison operators with double
 
         [TestMethod]
-        public void OperatorLessThanDouble()
+        public void RationalOperatorLessThanDouble()
         {
             using (var a = new HugeRational("-3845721"))
             {
@@ -336,7 +336,7 @@ namespace MPIR.Tests.HugeRationalTests
         }
 
         [TestMethod]
-        public void OperatorLessThanOrEqualDouble()
+        public void RationalOperatorLessThanOrEqualDouble()
         {
             using (var a = new HugeRational("-3845721"))
             {
@@ -353,7 +353,7 @@ namespace MPIR.Tests.HugeRationalTests
         }
 
         [TestMethod]
-        public void OperatorGreaterThanDouble()
+        public void RationalOperatorGreaterThanDouble()
         {
             using (var a = new HugeRational("-3845721"))
             {
@@ -367,7 +367,7 @@ namespace MPIR.Tests.HugeRationalTests
         }
 
         [TestMethod]
-        public void OperatorGreaterThanOrEqualDouble()
+        public void RationalOperatorGreaterThanOrEqualDouble()
         {
             using (var a = new HugeRational("-3845721"))
             {
@@ -389,7 +389,7 @@ namespace MPIR.Tests.HugeRationalTests
         #region Equals
 
         [TestMethod]
-        public void EqualsHugeRational()
+        public void RationalEqualsHugeRational()
         {
             using (var a = new HugeRational("-222509832503450298345029835740293845721"))
             using (var b = new HugeRational("222509832503450298345029835740293845720"))
@@ -403,7 +403,7 @@ namespace MPIR.Tests.HugeRationalTests
         }
 
         [TestMethod]
-        public void EqualsExpression()
+        public void RationalEqualsExpression()
         {
             using (var a = new HugeRational("-222509832503450298345029835740293845721"))
             using (var b = new HugeRational("222509832503450298345029835740293845720"))
@@ -416,7 +416,7 @@ namespace MPIR.Tests.HugeRationalTests
         }
 
         [TestMethod]
-        public void EqualsNonExpression()
+        public void RationalEqualsNonExpression()
         {
             using (var a = new HugeRational("-222509832503450298345029835740293845721"))
             {
@@ -425,7 +425,7 @@ namespace MPIR.Tests.HugeRationalTests
         }
 
         [TestMethod]
-        public void EqualsLimb()
+        public void RationalEqualsLimb()
         {
             using (var a = new HugeRational("222509832503"))
             {
@@ -437,7 +437,7 @@ namespace MPIR.Tests.HugeRationalTests
         }
 
         [TestMethod]
-        public void EqualsSignedLimb()
+        public void RationalEqualsSignedLimb()
         {
             using (var a = new HugeRational("-222509832505"))
             {
@@ -449,7 +449,7 @@ namespace MPIR.Tests.HugeRationalTests
         }
 
         [TestMethod]
-        public void EqualsDouble()
+        public void RationalEqualsDouble()
         {
             using (var a = new HugeRational("-222509832505"))
             {
@@ -466,7 +466,7 @@ namespace MPIR.Tests.HugeRationalTests
         #region Equality operators with expr
 
         [TestMethod]
-        public void EqualsOperatorHugeRational()
+        public void RationalEqualsOperatorHugeRational()
         {
             using (var a = new HugeRational("-222509832503450298345029835740293845721"))
             using (var b = new HugeRational("222509832503450298345029835740293845720"))
@@ -479,7 +479,7 @@ namespace MPIR.Tests.HugeRationalTests
         }
 
         [TestMethod]
-        public void NotEqualOperatorHugeRational()
+        public void RationalNotEqualOperatorHugeRational()
         {
             using (var a = new HugeRational("-222509832503450298345029835740293845721"))
             using (var b = new HugeRational("222509832503450298345029835740293845720"))
@@ -496,7 +496,7 @@ namespace MPIR.Tests.HugeRationalTests
         #region Equality operators with Limb
 
         [TestMethod]
-        public void EqualsOperatorLimb()
+        public void RationalEqualsOperatorLimb()
         {
             using (var a = new HugeRational("-835740293845721"))
             {
@@ -508,7 +508,7 @@ namespace MPIR.Tests.HugeRationalTests
         }
 
         [TestMethod]
-        public void NotEqualOperatorLimb()
+        public void RationalNotEqualOperatorLimb()
         {
             using (var a = new HugeRational("-835740293845721"))
             {
@@ -524,7 +524,7 @@ namespace MPIR.Tests.HugeRationalTests
         #region Equality operators with Signed Limb
 
         [TestMethod]
-        public void EqualsOperatorSignedLimb()
+        public void RationalEqualsOperatorSignedLimb()
         {
             using (var a = new HugeRational("-835740293845721"))
             {
@@ -536,7 +536,7 @@ namespace MPIR.Tests.HugeRationalTests
         }
 
         [TestMethod]
-        public void NotEqualOperatorSignedLimb()
+        public void RationalNotEqualOperatorSignedLimb()
         {
             using (var a = new HugeRational("-835740293845721"))
             {
@@ -552,7 +552,7 @@ namespace MPIR.Tests.HugeRationalTests
         #region Equality operators with Double
 
         [TestMethod]
-        public void EqualsOperatorDouble()
+        public void RationalEqualsOperatorDouble()
         {
             using (var a = new HugeRational("-835740293845721"))
             {
@@ -565,7 +565,7 @@ namespace MPIR.Tests.HugeRationalTests
         }
 
         [TestMethod]
-        public void NotEqualOperatorDouble()
+        public void RationalNotEqualOperatorDouble()
         {
             using (var a = new HugeRational("-835740293845721"))
             {
@@ -582,7 +582,7 @@ namespace MPIR.Tests.HugeRationalTests
         #region GetHashCode
 
         [TestMethod]
-        public void GetHashCodeTest()
+        public void RationalGetHashCodeTest()
         {
             using (var a = new HugeRational("-222509832503450298345029835740293845721"))
             {
@@ -597,7 +597,7 @@ namespace MPIR.Tests.HugeRationalTests
         #region Sign
 
         [TestMethod]
-        public void Sign()
+        public void RationalSign()
         {
             using (var a = new HugeRational("-222509832503450298345029835740293845721"))
             {

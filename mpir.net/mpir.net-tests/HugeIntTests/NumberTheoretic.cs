@@ -29,7 +29,7 @@ namespace MPIR.Tests.HugeIntTests
     public class NumberTheoretic
     {
         [TestMethod]
-        public void IsProbablePrime()
+        public void IntIsProbablePrime()
         {
             using (var a = new HugeInt("622288097498926496141095869268883999563096063592498055290461"))
             using (var random = MpirRandom.Default())
@@ -41,7 +41,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void IsLikelyPrime()
+        public void IntIsLikelyPrime()
         {
             using (var a = new HugeInt("622288097498926496141095869268883999563096063592498055290461"))
             using (var random = MpirRandom.Default())
@@ -53,7 +53,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void NextPrimeCandidate()
+        public void IntNextPrimeCandidate()
         {
             using (var a = new HugeInt("622288097498926496141095869268883999563096063592498055290460"))
             using (var random = MpirRandom.Default())
@@ -63,7 +63,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void Gcd()
+        public void IntGcd()
         {
             using (var a = new HugeInt("29927402397991286489627837734179186385188296382227"))
             using (var b = new HugeInt())
@@ -76,7 +76,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void GcdExt()
+        public void IntGcdExt()
         {
             using (var a = new HugeInt(12))
             using (var b = new HugeInt(21))
@@ -92,7 +92,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void GcdExt1()
+        public void IntGcdExt1()
         {
             using (var a = new HugeInt(12))
             using (var b = new HugeInt(21))
@@ -106,7 +106,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void GcdExt2()
+        public void IntGcdExt2()
         {
             using (var a = new HugeInt(12))
             using (var b = new HugeInt(21))
@@ -120,7 +120,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void GcdLimb()
+        public void IntGcdLimb()
         {
             using (var a = new HugeInt("29927402397991286489627837734179186385188296382227"))
             {
@@ -130,7 +130,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void Lcm()
+        public void IntLcm()
         {
             using (var a = new HugeInt("29927402397991286489627837734179186385188296382227"))
             {
@@ -141,7 +141,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void LcmLimb()
+        public void IntLcmLimb()
         {
             using (var a = new HugeInt("29927402397991286489627837734179186385188296382227"))
             {
@@ -151,7 +151,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void Invert()
+        public void IntInvert()
         {
             using (var a = new HugeInt("29927402397991286489627837734179186385188296382227"))
             using (var m = new HugeInt("622288097498926496141095869268883999563096063592498055290461"))
@@ -164,7 +164,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void Jacobi()
+        public void IntJacobi()
         {
             using (var a = new HugeInt("9288562863495827364985273645298367452"))
             using (var b = new HugeInt("876428957629387610928574612341"))
@@ -174,7 +174,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void Legendre()
+        public void IntLegendre()
         {
             using (var a = new HugeInt("9288562863495827364985273645298367452"))
             using (var p = new HugeInt("29927402397991286489627837734179186385188296382227"))
@@ -184,7 +184,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void Kronecker()
+        public void IntKronecker()
         {
             using (var a = new HugeInt("9288562863495827364985273645298367452"))
             using (var b = new HugeInt("29927402397991286489627837734179186385188296382227"))
@@ -199,7 +199,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void RemoveFactors()
+        public void IntRemoveFactors()
         {
             using (var a = new HugeInt("9288562863495827364985273645298367452"))
             using (var b = new HugeInt("29927402397991286489627837734179186385188296382227"))
@@ -212,7 +212,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void Factorial()
+        public void IntFactorial()
         {
             using (var a = new HugeInt(HugeInt.Factorial(30)))
             using (var b = new HugeInt("50"))
@@ -232,7 +232,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void Primorial()
+        public void IntPrimorial()
         {
             var N = 256;
             var sieve = new bool[N];
@@ -252,7 +252,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void Binomial()
+        public void IntBinomial()
         {
             using (var a = new HugeInt(HugeInt.Binomial(40, 15)))
             using (var b = new HugeInt("41"))
@@ -264,7 +264,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void Fibonacci()
+        public void IntFibonacci()
         {
             using (var a = new HugeInt(HugeInt.Fibonacci(300)))
             using (var b = new HugeInt())
@@ -284,7 +284,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void Lucas()
+        public void IntLucas()
         {
             using (var f299 = new HugeInt())
             using (var f300 = new HugeInt(HugeInt.Fibonacci(300).SavingPreviousTo(f299)))

@@ -26,7 +26,7 @@ namespace MPIR.Tests.HugeIntTests
     public class Assignment
     {
         [TestMethod]
-        public void AssignCopy()
+        public void IntAssignCopy()
         {
             using (var a = new HugeInt("-222509832503450298345029835740293845720"))
             using (var b = new HugeInt())
@@ -37,7 +37,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void Swap()
+        public void IntSwap()
         {
             using (var a = new HugeInt("-222509832503450298345029835740293845720"))
             using (var b = new HugeInt("2039847290878794872059384789347534534"))
@@ -51,7 +51,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void CompoundOperators()
+        public void IntCompoundOperators()
         {
             using (var a = new HugeInt("938475092834705928347523452345"))
             {

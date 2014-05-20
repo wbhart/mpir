@@ -29,7 +29,7 @@ namespace MPIR.Tests.HugeIntTests
     public class IO
     {
         [TestMethod]
-        public void InputOutputRaw()
+        public void IntInputOutputRaw()
         {
             using (var a = new HugeInt("0x10123456789ABCDEF0123456789ABCDEF0123456789ABCDEF"))
             using (var b = new HugeInt())
@@ -45,7 +45,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void InputOutputStr()
+        public void IntInputOutputStr()
         {
             using (var a = new HugeInt("0x10123456789ABCDEF0123456789ABCDEF0123456789ABCDEF"))
             using (var b = new HugeInt())
@@ -66,7 +66,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void InputOutputStrHex()
+        public void IntInputOutputStrHex()
         {
             using (var a = new HugeInt("0x10123456789ABCDEF0123456789ABCDEF0123456789ABCDEF"))
             using (var b = new HugeInt())
@@ -91,7 +91,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void InputOutputStrHexLower()
+        public void IntInputOutputStrHexLower()
         {
             using (var a = new HugeInt("0x10123456789ABCDEF0123456789ABCDEF0123456789ABCDEF"))
             using (var b = new HugeInt())
@@ -116,7 +116,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void InputOutputStrOctal()
+        public void IntInputOutputStrOctal()
         {
             using (var a = new HugeInt("0x10123456789ABCDEF0123456789ABCDEF0123456789ABCDEF"))
             using (var b = new HugeInt())
@@ -141,7 +141,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void InputOutputStrBinary()
+        public void IntInputOutputStrBinary()
         {
             using (var a = new HugeInt("0x10123456789ABCDEF0123456789ABCDEF0123456789ABCDEF"))
             using (var b = new HugeInt())
@@ -166,7 +166,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void InputOutputStr62()
+        public void IntInputOutputStr62()
         {
             using (var a = new HugeInt("0x10123456789ABCDEF0123456789ABCDEF0123456789ABCDEF"))
             using (var b = new HugeInt())
@@ -188,7 +188,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void ImportExport()
+        public void IntImportExport()
         {
             using (var a = new HugeInt("0x10123456789ABCDEF0123456789ABCDEF0123456789ABCDEF"))
             using (var b = new HugeInt())
@@ -212,7 +212,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void ImportExportAllocating()
+        public void IntImportExportAllocating()
         {
             using (var a = new HugeInt("0x10123456789ABCDEF0123456789ABCDEF0123456789ABCDEF"))
             using (var b = new HugeInt())
@@ -234,7 +234,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void ImportExportAllocatingShort()
+        public void IntImportExportAllocatingShort()
         {
             using (var a = new HugeInt("0x10123456789ABCDEF0123456789ABCDEF0123456789ABCDEF"))
             using (var b = new HugeInt())
@@ -256,7 +256,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void ImportExportAllocatingZero()
+        public void IntImportExportAllocatingZero()
         {
             using (var a = new HugeInt())
             using (var b = new HugeInt())
@@ -276,7 +276,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void Size()
+        public void IntSize()
         {
             using (var a = new HugeInt("-0x10123456789ABCDEF0123456789ABCDEF0123456789ABCDEF"))
             {
@@ -286,7 +286,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void GetLimb()
+        public void IntGetLimb()
         {
             using (var a = new HugeInt("-0x10123456789ABCDEFA123456789ABCDEF0123456789ABCDEF"))
             {

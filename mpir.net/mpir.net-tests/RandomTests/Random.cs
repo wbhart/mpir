@@ -65,7 +65,7 @@ namespace MPIR.Tests.RandomTests
         }
 
         [TestMethod]
-        public void SeedingMersenneTwister()
+        public void RandomSeedingMersenneTwister()
         {
             using (var r = MpirRandom.MersenneTwister())
             {
@@ -86,7 +86,7 @@ namespace MPIR.Tests.RandomTests
         }
 
         [TestMethod]
-        public void SeedingDefault()
+        public void RandomSeedingDefault()
         {
             using (var r = MpirRandom.Default())
             {
@@ -107,7 +107,7 @@ namespace MPIR.Tests.RandomTests
         }
 
         [TestMethod]
-        public void SeedingLCSize()
+        public void RandomSeedingLCSize()
         {
             using (var r = MpirRandom.LinearCongruential(128))
             {
@@ -128,7 +128,7 @@ namespace MPIR.Tests.RandomTests
         }
 
         [TestMethod]
-        public void SeedingLC()
+        public void RandomSeedingLC()
         {
             using (var a = new HugeInt("5209384572093847098342590872309452304529345409827509283745078"))
             using (var r = MpirRandom.LinearCongruential(a, 98570948725939831, 256))
@@ -150,7 +150,7 @@ namespace MPIR.Tests.RandomTests
         }
 
         [TestMethod]
-        public void HugeIntBits()
+        public void RandomHugeIntBits()
         {
             using (var r = MpirRandom.Default())
             using (var a = new HugeInt())
@@ -162,7 +162,7 @@ namespace MPIR.Tests.RandomTests
         }
 
         [TestMethod]
-        public void HugeInt1()
+        public void RandomHugeInt1()
         {
             using (var r = MpirRandom.Default())
             using (var a = new HugeInt())
@@ -174,7 +174,7 @@ namespace MPIR.Tests.RandomTests
         }
 
         [TestMethod]
-        public void HugeIntBitsChunky()
+        public void RandomHugeIntBitsChunky()
         {
             using (var r = MpirRandom.Default())
             using (var a = new HugeInt())

@@ -26,7 +26,7 @@ namespace MPIR.Tests.HugeRationalTests
     public class Assignment
     {
         [TestMethod]
-        public void AssignCopy()
+        public void RationalAssignCopy()
         {
             using (var a = new HugeRational("-222509832503450298345029835740293845720"))
             using (var b = new HugeRational())
@@ -37,7 +37,7 @@ namespace MPIR.Tests.HugeRationalTests
         }
 
         [TestMethod]
-        public void Swap()
+        public void RationalSwap()
         {
             using (var a = new HugeRational("-222509832503450298345029835740293845720"))
             using (var b = new HugeRational("2039847290878794872059384789347534534"))
@@ -51,7 +51,7 @@ namespace MPIR.Tests.HugeRationalTests
         }
 
         [TestMethod]
-        public void CompoundOperators()
+        public void RationalCompoundOperators()
         {
             using (var a = new HugeRational("938475092834705928347523452345"))
             {

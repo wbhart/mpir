@@ -26,7 +26,7 @@ namespace MPIR.Tests.HugeRationalTests
     public class ConstructionAndDisposal
     {
         [TestMethod]
-        public void DefaultConstructor()
+        public void RationalDefaultConstructor()
         {
             using (var a = new HugeRational())
             {
@@ -43,7 +43,7 @@ namespace MPIR.Tests.HugeRationalTests
         }
 
         [TestMethod]
-        public void Numerator()
+        public void RationalNumerator()
         {
             using (var a = new HugeRational())
             {
@@ -54,7 +54,7 @@ namespace MPIR.Tests.HugeRationalTests
         }
 
         [TestMethod]
-        public void Denominator()
+        public void RationalDenominator()
         {
             using (var a = new HugeRational())
             {
@@ -65,7 +65,7 @@ namespace MPIR.Tests.HugeRationalTests
         }
 
         [TestMethod]
-        public void Dispose()
+        public void RationalDispose()
         {
             var a = new HugeRational();
             a.Dispose();
@@ -80,7 +80,7 @@ namespace MPIR.Tests.HugeRationalTests
         }
 
         [TestMethod]
-        public void ConstructorFromLong()
+        public void RationalConstructorFromLong()
         {
             var n = "123456789123456";
             var d = "12764787846358441471";
@@ -95,7 +95,7 @@ namespace MPIR.Tests.HugeRationalTests
         }
 
         [TestMethod]
-        public void ConstructorFromLongNegative()
+        public void RationalConstructorFromLongNegative()
         {
             var n = "-123456789123456";
             var d = "12764787846358441471";
@@ -110,7 +110,7 @@ namespace MPIR.Tests.HugeRationalTests
         }
 
         [TestMethod]
-        public void ConstructorFromULong()
+        public void RationalConstructorFromULong()
         {
             var d = "12764787846358441471";
             using (var a = new HugeRational(ulong.MaxValue, ulong.Parse(d)))
@@ -125,7 +125,7 @@ namespace MPIR.Tests.HugeRationalTests
         }
 
         [TestMethod]
-        public void ConstructorFromDouble()
+        public void RationalConstructorFromDouble()
         {
             using (var a = new HugeRational(123456789123456.9))
             {
@@ -134,7 +134,7 @@ namespace MPIR.Tests.HugeRationalTests
         }
 
         [TestMethod]
-        public void ConstructorFromDoubleNegative()
+        public void RationalConstructorFromDoubleNegative()
         {
             using (var a = new HugeRational(-123456789123456.9))
             {
@@ -143,7 +143,7 @@ namespace MPIR.Tests.HugeRationalTests
         }
 
         [TestMethod]
-        public void Allocate()
+        public void RationalAllocate()
         {
             using (var a = new HugeRational(129, 193))
             {
@@ -156,7 +156,7 @@ namespace MPIR.Tests.HugeRationalTests
         }
 
         [TestMethod]
-        public void StringConstructor()
+        public void RationalStringConstructor()
         {
             var n = "5432109876543212345789023245987/362736035870515331128527330659";
             using (var a = new HugeRational(n))
@@ -168,20 +168,20 @@ namespace MPIR.Tests.HugeRationalTests
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
-        public void StringConstructorInvalid()
+        public void RationalStringConstructorInvalid()
         {
             var a = new HugeRational("12345A");
         }
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
-        public void StringConstructorInvalid2()
+        public void RationalStringConstructorInvalid2()
         {
             var a = new HugeRational("12345/54321A");
         }
 
         [TestMethod]
-        public void StringConstructorHex()
+        public void RationalStringConstructorHex()
         {
             using (var i = new HugeInt("362736035870515331128527330659"))
             {
@@ -195,7 +195,7 @@ namespace MPIR.Tests.HugeRationalTests
         }
 
         [TestMethod]
-        public void StringConstructorHexPrefix()
+        public void RationalStringConstructorHexPrefix()
         {
             using (var i = new HugeInt("362736035870515331128527330659"))
             {
@@ -210,7 +210,7 @@ namespace MPIR.Tests.HugeRationalTests
         }
 
         [TestMethod]
-        public void StringAssignmentHexPrefix()
+        public void RationalStringAssignmentHexPrefix()
         {
             using (var i = new HugeInt("362736035870515331128527330659"))
             {
@@ -228,7 +228,7 @@ namespace MPIR.Tests.HugeRationalTests
         }
 
         [TestMethod]
-        public void ConstructorFromExpression()
+        public void RationalConstructorFromExpression()
         {
             using (var a = new HugeRational("2340958273409578234095823045723490587/362736035870515331128527330659"))
             using (var b = new HugeRational(a + 1))

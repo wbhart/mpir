@@ -28,7 +28,7 @@ namespace MPIR.Tests.HugeRationalTests
         #region Add
 
         [TestMethod]
-        public void AddHugeRational()
+        public void RationalAddHugeRational()
         {
             using (var a = new HugeRational("222509832503450298345029835740293845720"))
             using (var b = new HugeRational("222987435987982730594288574029879874539"))
@@ -40,7 +40,7 @@ namespace MPIR.Tests.HugeRationalTests
         }
 
         [TestMethod]
-        public void AddLimb()
+        public void RationalAddLimb()
         {
             using (var a = new HugeRational("222509832503450298345029835740293845720"))
             {
@@ -51,7 +51,7 @@ namespace MPIR.Tests.HugeRationalTests
         }
 
         [TestMethod]
-        public void AddToLimb()
+        public void RationalAddToLimb()
         {
             using (var a = new HugeRational("222509832503450298345029835740293845720"))
             {
@@ -62,7 +62,7 @@ namespace MPIR.Tests.HugeRationalTests
         }
 
         [TestMethod]
-        public void AddSignedLimb()
+        public void RationalAddSignedLimb()
         {
             using (var a = new HugeRational("222509832503450298345029835740293845720"))
             {
@@ -73,7 +73,7 @@ namespace MPIR.Tests.HugeRationalTests
         }
 
         [TestMethod]
-        public void AddToSignedLimb()
+        public void RationalAddToSignedLimb()
         {
             using (var a = new HugeRational("222509832503450298345029835740293845720"))
             {
@@ -84,7 +84,7 @@ namespace MPIR.Tests.HugeRationalTests
         }
 
         [TestMethod]
-        public void AddToMaxSignedLimb()
+        public void RationalAddToMaxSignedLimb()
         {
             using (var a = new HugeRational("222509832503450298345029835740293845720"))
             {
@@ -95,7 +95,7 @@ namespace MPIR.Tests.HugeRationalTests
         }
 
         [TestMethod]
-        public void AddExpressionHugeRational()
+        public void RationalAddExpressionHugeRational()
         {
             using (var a = new HugeRational("222509832503450298345029835740293845720"))
             using (var b = new HugeRational("222987435987982730594288574029879874539"))
@@ -111,7 +111,7 @@ namespace MPIR.Tests.HugeRationalTests
         #region Subtract
 
         [TestMethod]
-        public void SubtractHugeRational()
+        public void RationalSubtractHugeRational()
         {
             using (var a = new HugeRational("445497268491433028939318409770173720259"))
             using (var b = new HugeRational("222987435987982730594288574029879874539"))
@@ -122,7 +122,7 @@ namespace MPIR.Tests.HugeRationalTests
         }
 
         [TestMethod]
-        public void SubtractLimb()
+        public void RationalSubtractLimb()
         {
             using (var a = new HugeRational("222509832503450298349318409770173720259"))
             {
@@ -133,7 +133,7 @@ namespace MPIR.Tests.HugeRationalTests
         }
 
         [TestMethod]
-        public void SubtractFromLimb()
+        public void RationalSubtractFromLimb()
         {
             using (var a = new HugeRational("222509832503450298349318409770173720259"))
             {
@@ -144,7 +144,7 @@ namespace MPIR.Tests.HugeRationalTests
         }
 
         [TestMethod]
-        public void SubtractPositiveSignedLimb()
+        public void RationalSubtractPositiveSignedLimb()
         {
             using (var a = new HugeRational("222509832503450298349318409770173720259"))
             {
@@ -155,7 +155,7 @@ namespace MPIR.Tests.HugeRationalTests
         }
 
         [TestMethod]
-        public void SubtractFromPositiveSignedLimb()
+        public void RationalSubtractFromPositiveSignedLimb()
         {
             using (var a = new HugeRational("222509832503450298349318409770173720259"))
             {
@@ -166,7 +166,7 @@ namespace MPIR.Tests.HugeRationalTests
         }
 
         [TestMethod]
-        public void SubtractSignedLimb()
+        public void RationalSubtractSignedLimb()
         {
             using (var a = new HugeRational("222509832503450298345029835740293845720"))
             {
@@ -177,7 +177,7 @@ namespace MPIR.Tests.HugeRationalTests
         }
 
         [TestMethod]
-        public void SubtractFromSignedLimb()
+        public void RationalSubtractFromSignedLimb()
         {
             using (var a = new HugeRational("222509832503450298345029835740293845720"))
             {
@@ -192,7 +192,7 @@ namespace MPIR.Tests.HugeRationalTests
         #region Multiply
 
         [TestMethod]
-        public void MultiplyByHugeRational()
+        public void RationalMultiplyByHugeRational()
         {
             using (var a = new HugeRational("90234098723098475098479385345098345"))
             using (var b = new HugeRational("7859487359873459872354987610987897"))
@@ -203,7 +203,7 @@ namespace MPIR.Tests.HugeRationalTests
         }
 
         [TestMethod]
-        public void MultiplyByLimb()
+        public void RationalMultiplyByLimb()
         {
             using (var a = new HugeRational("90234098723098475098479385345098345"))
             {
@@ -214,7 +214,7 @@ namespace MPIR.Tests.HugeRationalTests
         }
 
         [TestMethod]
-        public void MultiplyLimbBy()
+        public void RationalMultiplyLimbBy()
         {
             using (var a = new HugeRational("90234098723098475098479385345098345"))
             {
@@ -225,7 +225,7 @@ namespace MPIR.Tests.HugeRationalTests
         }
 
         [TestMethod]
-        public void MultiplyBySignedLimb()
+        public void RationalMultiplyBySignedLimb()
         {
             using (var a = new HugeRational("90234098723098475098479385345098345"))
             {
@@ -236,7 +236,7 @@ namespace MPIR.Tests.HugeRationalTests
         }
 
         [TestMethod]
-        public void MultiplySignedLimbBy()
+        public void RationalMultiplySignedLimbBy()
         {
             using (var a = new HugeRational("90234098723098475098479385345098345"))
             {
@@ -251,7 +251,7 @@ namespace MPIR.Tests.HugeRationalTests
         #region Add Product
 
         [TestMethod]
-        public void AddProductHugeRational()
+        public void RationalAddProductHugeRational()
         {
             using (var a = new HugeRational("98750293847520938457029384572093480498357"))
             using (var c = new HugeRational("23094582093845093574093845093485039450934"))
@@ -264,7 +264,7 @@ namespace MPIR.Tests.HugeRationalTests
         }
 
         [TestMethod]
-        public void AddProductLimb()
+        public void RationalAddProductLimb()
         {
             using (var a = new HugeRational("98750293847520938457029384572093480498357"))
             using (var c = new HugeRational("-23094582093845093574093845093485039450934"))
@@ -277,7 +277,7 @@ namespace MPIR.Tests.HugeRationalTests
         }
 
         [TestMethod]
-        public void AddProductLimbTo()
+        public void RationalAddProductLimbTo()
         {
             using (var a = new HugeRational("98750293847520938457029384572093480498357"))
             using (var c = new HugeRational("-23094582093845093574093845093485039450934"))
@@ -290,7 +290,7 @@ namespace MPIR.Tests.HugeRationalTests
         }
 
         [TestMethod]
-        public void AddProductLimbTo2()
+        public void RationalAddProductLimbTo2()
         {
             using (var a = new HugeRational("98750293847520938457029384572093480498357"))
             using (var c = new HugeRational("-23094582093845093574093845093485039450934"))
@@ -303,7 +303,7 @@ namespace MPIR.Tests.HugeRationalTests
         }
 
         [TestMethod]
-        public void AddProductLimbTo3()
+        public void RationalAddProductLimbTo3()
         {
             using (var a = new HugeRational("98750293847520938457029384572093480498357"))
             using (var c = new HugeRational("-23094582093845093574093845093485039450934"))
@@ -317,7 +317,7 @@ namespace MPIR.Tests.HugeRationalTests
         }
 
         [TestMethod]
-        public void AddProductSignedLimb()
+        public void RationalAddProductSignedLimb()
         {
             using (var a = new HugeRational("98750293847520938457029384572093480498357"))
             using (var c = new HugeRational("23094582093845093574093845093485039450934"))
@@ -330,7 +330,7 @@ namespace MPIR.Tests.HugeRationalTests
         }
 
         [TestMethod]
-        public void AddProductSignedLimbTo()
+        public void RationalAddProductSignedLimbTo()
         {
             using (var a = new HugeRational("98750293847520938457029384572093480498357"))
             using (var c = new HugeRational("-23094582093845093574093845093485039450934"))
@@ -343,7 +343,7 @@ namespace MPIR.Tests.HugeRationalTests
         }
 
         [TestMethod]
-        public void AddProductSignedLimbTo2()
+        public void RationalAddProductSignedLimbTo2()
         {
             using (var a = new HugeRational("98750293847520938457029384572093480498357"))
             using (var c = new HugeRational("-23094582093845093574093845093485039450934"))
@@ -356,7 +356,7 @@ namespace MPIR.Tests.HugeRationalTests
         }
 
         [TestMethod]
-        public void AddProductSignedLimbTo3()
+        public void RationalAddProductSignedLimbTo3()
         {
             using (var a = new HugeRational("98750293847520938457029384572093480498357"))
             using (var c = new HugeRational("23094582093845093574093845093485039450934"))
@@ -374,7 +374,7 @@ namespace MPIR.Tests.HugeRationalTests
         #region Subtract Product
 
         [TestMethod]
-        public void SubtractProductHugeRational()
+        public void RationalSubtractProductHugeRational()
         {
             using (var a = new HugeRational("98750293847520938457029384572093480498357"))
             using (var c = new HugeRational("23094582093845093574093845093485039450934"))
@@ -387,7 +387,7 @@ namespace MPIR.Tests.HugeRationalTests
         }
 
         [TestMethod]
-        public void SubtractProductLimb()
+        public void RationalSubtractProductLimb()
         {
             using (var a = new HugeRational("98750293847520938457029384572093480498357"))
             using (var c = new HugeRational("23094582093845093574093845093485039450934"))
@@ -400,7 +400,7 @@ namespace MPIR.Tests.HugeRationalTests
         }
 
         [TestMethod]
-        public void SubtractProductSignedLimb()
+        public void RationalSubtractProductSignedLimb()
         {
             using (var a = new HugeRational("98750293847520938457029384572093480498357"))
             using (var c = new HugeRational("-23094582093845093574093845093485039450934"))
@@ -413,7 +413,7 @@ namespace MPIR.Tests.HugeRationalTests
         }
 
         [TestMethod]
-        public void SubtractProductSignedLimb2()
+        public void RationalSubtractProductSignedLimb2()
         {
             using (var a = new HugeRational("98750293847520938457029384572093480498357"))
             using (var c = new HugeRational("-23094582093845093574093845093485039450934"))
@@ -425,7 +425,7 @@ namespace MPIR.Tests.HugeRationalTests
         }
 
         [TestMethod]
-        public void SubtractProductSignedLimb3()
+        public void RationalSubtractProductSignedLimb3()
         {
             using (var a = new HugeRational("98750293847520938457029384572093480498357"))
             using (var c = new HugeRational("23094582093845093574093845093485039450934"))
@@ -442,7 +442,7 @@ namespace MPIR.Tests.HugeRationalTests
         #region Shift Left
 
         [TestMethod]
-        public void ShiftLeft()
+        public void RationalShiftLeft()
         {
             using (var a = new HugeRational("-12345700987ABCDEF2345CBDEFA245230948", 16))
             {
@@ -457,7 +457,7 @@ namespace MPIR.Tests.HugeRationalTests
         #region Shift Right
 
         [TestMethod]
-        public void ShiftRight()
+        public void RationalShiftRight()
         {
             using (var a = new HugeRational("ABCDEF052834524092854092874502983745029345723098457209305983434345", 16))
             {
@@ -472,7 +472,7 @@ namespace MPIR.Tests.HugeRationalTests
         #region Negate
 
         [TestMethod]
-        public void Negate()
+        public void RationalNegate()
         {
             using (var a = new HugeRational("24092854092874502983745029345723098457209"))
             {
@@ -488,7 +488,7 @@ namespace MPIR.Tests.HugeRationalTests
         #region Abs
 
         [TestMethod]
-        public void MakeAbsolute()
+        public void RationalMakeAbsolute()
         {
             using (var a = new HugeRational("-24092854092874502983745029345723098457209"))
             {
@@ -506,7 +506,7 @@ namespace MPIR.Tests.HugeRationalTests
         #region Int
 
         [TestMethod]
-        public void DivideHugeRational()
+        public void RationalDivideHugeRational()
         {
             using (var a = new HugeRational("234052834524092854092874502983745029345723098457209305983434345"))
             using (var b = new HugeRational("394580293847502987609283945873594873409587"))
@@ -521,7 +521,7 @@ namespace MPIR.Tests.HugeRationalTests
         #region Limb
 
         [TestMethod]
-        public void DivideLimb()
+        public void RationalDivideLimb()
         {
             using (var a = new HugeRational("234052834524092854092874502983745029345723098457209305983434345"))
             {

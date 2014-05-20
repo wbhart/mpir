@@ -29,7 +29,7 @@ namespace MPIR.Tests.HugeRationalTests
     public class IO
     {
         [TestMethod]
-        public void InputOutputRaw()
+        public void RationalInputOutputRaw()
         {
             Assert.Fail("This test currently crashes");
             using (var a = new HugeRational("0x10123456789ABCDEF0123456789ABCDEF0123456789ABCDEF/361720912810755408215708460645842859722715865206816237944587"))
@@ -46,7 +46,7 @@ namespace MPIR.Tests.HugeRationalTests
         }
 
         [TestMethod]
-        public void InputOutputStr()
+        public void RationalInputOutputStr()
         {
             using (var a = new HugeRational("0x10123456789ABCDEF0123456789ABCDEF0123456789ABCDEF"))
             using (var b = new HugeRational())
@@ -67,7 +67,7 @@ namespace MPIR.Tests.HugeRationalTests
         }
 
         [TestMethod]
-        public void InputOutputStrHex()
+        public void RationalInputOutputStrHex()
         {
             using (var a = new HugeRational("0x10123456789ABCDEF0123456789ABCDEF0123456789ABCDEF"))
             using (var b = new HugeRational())
@@ -92,7 +92,7 @@ namespace MPIR.Tests.HugeRationalTests
         }
 
         [TestMethod]
-        public void InputOutputStrHexLower()
+        public void RationalInputOutputStrHexLower()
         {
             using (var a = new HugeRational("0x10123456789ABCDEF0123456789ABCDEF0123456789ABCDEF"))
             using (var b = new HugeRational())
@@ -117,7 +117,7 @@ namespace MPIR.Tests.HugeRationalTests
         }
 
         [TestMethod]
-        public void InputOutputStrOctal()
+        public void RationalInputOutputStrOctal()
         {
             using (var a = new HugeRational("0x10123456789ABCDEF0123456789ABCDEF0123456789ABCDEF"))
             using (var b = new HugeRational())
@@ -142,7 +142,7 @@ namespace MPIR.Tests.HugeRationalTests
         }
 
         [TestMethod]
-        public void InputOutputStrBinary()
+        public void RationalInputOutputStrBinary()
         {
             using (var a = new HugeRational("0x10123456789ABCDEF0123456789ABCDEF0123456789ABCDEF"))
             using (var b = new HugeRational())
@@ -167,7 +167,7 @@ namespace MPIR.Tests.HugeRationalTests
         }
 
         [TestMethod]
-        public void InputOutputStr62()
+        public void RationalInputOutputStr62()
         {
             using (var a = new HugeRational("0x10123456789ABCDEF0123456789ABCDEF0123456789ABCDEF"))
             using (var b = new HugeRational())

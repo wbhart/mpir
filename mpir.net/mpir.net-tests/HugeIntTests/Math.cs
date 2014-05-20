@@ -28,7 +28,7 @@ namespace MPIR.Tests.HugeIntTests
         #region Exponentiation
 
         [TestMethod]
-        public void PowerModHugeInt()
+        public void IntPowerModHugeInt()
         {
             using (var a = new HugeInt("2835698356928736487698769283645293409781234"))
             using (var b = new HugeInt("3"))
@@ -40,7 +40,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void PowerModLimb()
+        public void IntPowerModLimb()
         {
             using (var a = new HugeInt("2835698356928736487698769283645293409781234"))
             using (var c = new HugeInt("9786459872639458729387304958673243509870923452745892673402935742456"))
@@ -51,7 +51,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void PowerLimb()
+        public void IntPowerLimb()
         {
             using (var a = new HugeInt("9785412309485720938412983404349"))
             {
@@ -65,7 +65,7 @@ namespace MPIR.Tests.HugeIntTests
         #region Roots
 
         [TestMethod]
-        public void Root()
+        public void IntRoot()
         {
             var n = "8984948281360922385394772450147012613851354303";
             using (var a = new HugeInt(n))
@@ -93,7 +93,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void SquareRoot()
+        public void IntSquareRoot()
         {
             var n = "8984948281360922385394772450147012613851354303";
             using (var a = new HugeInt(n))
@@ -113,7 +113,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void IsPerfectPower()
+        public void IntIsPerfectPower()
         {
             using (var a = new HugeInt("8984948281360922385394772450147012613851354303"))
             using (var b = new HugeInt())
@@ -130,7 +130,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void IsPerfectSquare()
+        public void IntIsPerfectSquare()
         {
             using (var a = new HugeInt("8984948281360922385394772450147012613851354303"))
             using (var b = new HugeInt())

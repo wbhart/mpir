@@ -28,7 +28,7 @@ namespace MPIR.Tests.HugeIntTests
         #region Add
 
         [TestMethod]
-        public void AddHugeInt()
+        public void IntAddHugeInt()
         {
             using (var a = new HugeInt("222509832503450298345029835740293845720"))
             using (var b = new HugeInt("222987435987982730594288574029879874539"))
@@ -40,7 +40,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void AddLimb()
+        public void IntAddLimb()
         {
             using (var a = new HugeInt("222509832503450298345029835740293845720"))
             {
@@ -51,7 +51,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void AddToLimb()
+        public void IntAddToLimb()
         {
             using (var a = new HugeInt("222509832503450298345029835740293845720"))
             {
@@ -62,7 +62,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void AddSignedLimb()
+        public void IntAddSignedLimb()
         {
             using (var a = new HugeInt("222509832503450298345029835740293845720"))
             {
@@ -73,7 +73,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void AddToSignedLimb()
+        public void IntAddToSignedLimb()
         {
             using (var a = new HugeInt("222509832503450298345029835740293845720"))
             {
@@ -84,7 +84,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void AddToMaxSignedLimb()
+        public void IntAddToMaxSignedLimb()
         {
             using (var a = new HugeInt("222509832503450298345029835740293845720"))
             {
@@ -95,7 +95,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void AddExpressionHugeInt()
+        public void IntAddExpressionHugeInt()
         {
             using (var a = new HugeInt("222509832503450298345029835740293845720"))
             using (var b = new HugeInt("222987435987982730594288574029879874539"))
@@ -111,7 +111,7 @@ namespace MPIR.Tests.HugeIntTests
         #region Subtract
 
         [TestMethod]
-        public void SubtractHugeInt()
+        public void IntSubtractHugeInt()
         {
             using (var a = new HugeInt("445497268491433028939318409770173720259"))
             using (var b = new HugeInt("222987435987982730594288574029879874539"))
@@ -122,7 +122,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void SubtractLimb()
+        public void IntSubtractLimb()
         {
             using (var a = new HugeInt("222509832503450298349318409770173720259"))
             {
@@ -133,7 +133,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void SubtractFromLimb()
+        public void IntSubtractFromLimb()
         {
             using (var a = new HugeInt("222509832503450298349318409770173720259"))
             {
@@ -144,7 +144,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void SubtractPositiveSignedLimb()
+        public void IntSubtractPositiveSignedLimb()
         {
             using (var a = new HugeInt("222509832503450298349318409770173720259"))
             {
@@ -155,7 +155,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void SubtractFromPositiveSignedLimb()
+        public void IntSubtractFromPositiveSignedLimb()
         {
             using (var a = new HugeInt("222509832503450298349318409770173720259"))
             {
@@ -166,7 +166,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void SubtractSignedLimb()
+        public void IntSubtractSignedLimb()
         {
             using (var a = new HugeInt("222509832503450298345029835740293845720"))
             {
@@ -177,7 +177,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void SubtractFromSignedLimb()
+        public void IntSubtractFromSignedLimb()
         {
             using (var a = new HugeInt("222509832503450298345029835740293845720"))
             {
@@ -192,7 +192,7 @@ namespace MPIR.Tests.HugeIntTests
         #region Multiply
 
         [TestMethod]
-        public void MultiplyByHugeInt()
+        public void IntMultiplyByHugeInt()
         {
             using (var a = new HugeInt("90234098723098475098479385345098345"))
             using (var b = new HugeInt("7859487359873459872354987610987897"))
@@ -203,7 +203,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void MultiplyByLimb()
+        public void IntMultiplyByLimb()
         {
             using (var a = new HugeInt("90234098723098475098479385345098345"))
             {
@@ -214,7 +214,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void MultiplyLimbBy()
+        public void IntMultiplyLimbBy()
         {
             using (var a = new HugeInt("90234098723098475098479385345098345"))
             {
@@ -225,7 +225,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void MultiplyBySignedLimb()
+        public void IntMultiplyBySignedLimb()
         {
             using (var a = new HugeInt("90234098723098475098479385345098345"))
             {
@@ -236,7 +236,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void MultiplySignedLimbBy()
+        public void IntMultiplySignedLimbBy()
         {
             using (var a = new HugeInt("90234098723098475098479385345098345"))
             {
@@ -251,7 +251,7 @@ namespace MPIR.Tests.HugeIntTests
         #region Add Product
 
         [TestMethod]
-        public void AddProductHugeInt()
+        public void IntAddProductHugeInt()
         {
             using (var a = new HugeInt("98750293847520938457029384572093480498357"))
             using (var c = new HugeInt("23094582093845093574093845093485039450934"))
@@ -264,7 +264,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void AddProductLimb()
+        public void IntAddProductLimb()
         {
             using (var a = new HugeInt("98750293847520938457029384572093480498357"))
             using (var c = new HugeInt("-23094582093845093574093845093485039450934"))
@@ -277,7 +277,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void AddProductLimbTo()
+        public void IntAddProductLimbTo()
         {
             using (var a = new HugeInt("98750293847520938457029384572093480498357"))
             using (var c = new HugeInt("-23094582093845093574093845093485039450934"))
@@ -290,7 +290,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void AddProductLimbTo2()
+        public void IntAddProductLimbTo2()
         {
             using (var a = new HugeInt("98750293847520938457029384572093480498357"))
             using (var c = new HugeInt("-23094582093845093574093845093485039450934"))
@@ -303,7 +303,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void AddProductLimbTo3()
+        public void IntAddProductLimbTo3()
         {
             using (var a = new HugeInt("98750293847520938457029384572093480498357"))
             using (var c = new HugeInt("-23094582093845093574093845093485039450934"))
@@ -317,7 +317,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void AddProductSignedLimb()
+        public void IntAddProductSignedLimb()
         {
             using (var a = new HugeInt("98750293847520938457029384572093480498357"))
             using (var c = new HugeInt("23094582093845093574093845093485039450934"))
@@ -330,7 +330,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void AddProductSignedLimbTo()
+        public void IntAddProductSignedLimbTo()
         {
             using (var a = new HugeInt("98750293847520938457029384572093480498357"))
             using (var c = new HugeInt("-23094582093845093574093845093485039450934"))
@@ -343,7 +343,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void AddProductSignedLimbTo2()
+        public void IntAddProductSignedLimbTo2()
         {
             using (var a = new HugeInt("98750293847520938457029384572093480498357"))
             using (var c = new HugeInt("-23094582093845093574093845093485039450934"))
@@ -356,7 +356,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void AddProductSignedLimbTo3()
+        public void IntAddProductSignedLimbTo3()
         {
             using (var a = new HugeInt("98750293847520938457029384572093480498357"))
             using (var c = new HugeInt("23094582093845093574093845093485039450934"))
@@ -374,7 +374,7 @@ namespace MPIR.Tests.HugeIntTests
         #region Subtract Product
 
         [TestMethod]
-        public void SubtractProductHugeInt()
+        public void IntSubtractProductHugeInt()
         {
             using (var a = new HugeInt("98750293847520938457029384572093480498357"))
             using (var c = new HugeInt("23094582093845093574093845093485039450934"))
@@ -387,7 +387,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void SubtractProductLimb()
+        public void IntSubtractProductLimb()
         {
             using (var a = new HugeInt("98750293847520938457029384572093480498357"))
             using (var c = new HugeInt("23094582093845093574093845093485039450934"))
@@ -400,7 +400,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void SubtractProductSignedLimb()
+        public void IntSubtractProductSignedLimb()
         {
             using (var a = new HugeInt("98750293847520938457029384572093480498357"))
             using (var c = new HugeInt("-23094582093845093574093845093485039450934"))
@@ -413,7 +413,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void SubtractProductSignedLimb2()
+        public void IntSubtractProductSignedLimb2()
         {
             using (var a = new HugeInt("98750293847520938457029384572093480498357"))
             using (var c = new HugeInt("-23094582093845093574093845093485039450934"))
@@ -425,7 +425,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void SubtractProductSignedLimb3()
+        public void IntSubtractProductSignedLimb3()
         {
             using (var a = new HugeInt("98750293847520938457029384572093480498357"))
             using (var c = new HugeInt("23094582093845093574093845093485039450934"))
@@ -442,7 +442,7 @@ namespace MPIR.Tests.HugeIntTests
         #region Shift Left
 
         [TestMethod]
-        public void ShiftLeft()
+        public void IntShiftLeft()
         {
             using (var a = new HugeInt("-12345700987ABCDEF2345CBDEFA245230948", 16))
             {
@@ -457,7 +457,7 @@ namespace MPIR.Tests.HugeIntTests
         #region Shift Right
 
         [TestMethod]
-        public void ShiftRight()
+        public void IntShiftRight()
         {
             using (var a = new HugeInt("ABCDEF052834524092854092874502983745029345723098457209305983434345", 16))
             {
@@ -468,7 +468,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void ShiftRightCeiling()
+        public void IntShiftRightCeiling()
         {
             using (var a = new HugeInt("ABCDEF052834524092854092874502983745029345723098457209305983434345", 16))
             {
@@ -479,7 +479,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void ShiftRightNegativeCeiling()
+        public void IntShiftRightNegativeCeiling()
         {
             using (var a = new HugeInt("-ABCDEF052834524092854092874502983745029345723098457209305983434345", 16))
             {
@@ -490,7 +490,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void ShiftRightFloor()
+        public void IntShiftRightFloor()
         {
             using (var a = new HugeInt("ABCDEF052834524092854092874502983745029345723098457209305983434345", 16))
             {
@@ -501,7 +501,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void ShiftRightNegativeFloor()
+        public void IntShiftRightNegativeFloor()
         {
             using (var a = new HugeInt("-ABCDEF052834524092854092874502983745029345723098457209305983434345", 16))
             {
@@ -512,7 +512,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void ShiftRightTruncate()
+        public void IntShiftRightTruncate()
         {
             using (var a = new HugeInt("ABCDEF052834524092854092874502983745029345723098457209305983434345", 16))
             {
@@ -523,7 +523,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void ShiftRightNegativeTruncate()
+        public void IntShiftRightNegativeTruncate()
         {
             using (var a = new HugeInt("-ABCDEF052834524092854092874502983745029345723098457209305983434345", 16))
             {
@@ -538,7 +538,7 @@ namespace MPIR.Tests.HugeIntTests
         #region Negate
 
         [TestMethod]
-        public void Negate()
+        public void IntNegate()
         {
             using (var a = new HugeInt("24092854092874502983745029345723098457209"))
             {
@@ -554,7 +554,7 @@ namespace MPIR.Tests.HugeIntTests
         #region Abs
 
         [TestMethod]
-        public void MakeAbsolute()
+        public void IntMakeAbsolute()
         {
             using (var a = new HugeInt("-24092854092874502983745029345723098457209"))
             {
@@ -572,7 +572,7 @@ namespace MPIR.Tests.HugeIntTests
         #region Int
 
         [TestMethod]
-        public void DivideHugeInt()
+        public void IntDivideHugeInt()
         {
             using (var a = new HugeInt("234052834524092854092874502983745029345723098457209305983434345"))
             using (var b = new HugeInt("394580293847502987609283945873594873409587"))
@@ -583,7 +583,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void DivideHugeIntCeiling()
+        public void IntDivideHugeIntCeiling()
         {
             using (var a = new HugeInt("234052834524092854092874502983745029345723098457209305983434345"))
             using (var b = new HugeInt("394580293847502987609283945873594873409587"))
@@ -594,7 +594,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void DivideHugeIntNegativeCeiling()
+        public void IntDivideHugeIntNegativeCeiling()
         {
             using (var a = new HugeInt("-234052834524092854092874502983745029345723098457209305983434345"))
             using (var b = new HugeInt("394580293847502987609283945873594873409587"))
@@ -605,7 +605,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void DivideHugeIntFloor()
+        public void IntDivideHugeIntFloor()
         {
             using (var a = new HugeInt("234052834524092854092874502983745029345723098457209305983434345"))
             using (var b = new HugeInt("394580293847502987609283945873594873409587"))
@@ -616,7 +616,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void DivideHugeIntNegativeFloor()
+        public void IntDivideHugeIntNegativeFloor()
         {
             using (var a = new HugeInt("-234052834524092854092874502983745029345723098457209305983434345"))
             using (var b = new HugeInt("394580293847502987609283945873594873409587"))
@@ -627,7 +627,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void DivideHugeIntTruncate()
+        public void IntDivideHugeIntTruncate()
         {
             using (var a = new HugeInt("234052834524092854092874502983745029345723098457209305983434345"))
             using (var b = new HugeInt("394580293847502987609283945873594873409587"))
@@ -638,7 +638,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void DivideHugeIntNegativeTruncate()
+        public void IntDivideHugeIntNegativeTruncate()
         {
             using (var a = new HugeInt("-234052834524092854092874502983745029345723098457209305983434345"))
             using (var b = new HugeInt("394580293847502987609283945873594873409587"))
@@ -653,7 +653,7 @@ namespace MPIR.Tests.HugeIntTests
         #region Int with mod
 
         [TestMethod]
-        public void DivideHugeIntCeilingWithMod()
+        public void IntDivideHugeIntCeilingWithMod()
         {
             using (var a = new HugeInt("234052834524092854092874502983745029345723098457209305983434345"))
             using (var b = new HugeInt("394580293847502987609283945873594873409587"))
@@ -666,7 +666,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void DivideHugeIntNegativeCeilingWithMod()
+        public void IntDivideHugeIntNegativeCeilingWithMod()
         {
             using (var a = new HugeInt("-234052834524092854092874502983745029345723098457209305983434345"))
             using (var b = new HugeInt("394580293847502987609283945873594873409587"))
@@ -679,7 +679,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void DivideHugeIntFloorWithMod()
+        public void IntDivideHugeIntFloorWithMod()
         {
             using (var a = new HugeInt("234052834524092854092874502983745029345723098457209305983434345"))
             using (var b = new HugeInt("394580293847502987609283945873594873409587"))
@@ -692,7 +692,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void DivideHugeIntNegativeFloorWithMod()
+        public void IntDivideHugeIntNegativeFloorWithMod()
         {
             using (var a = new HugeInt("-234052834524092854092874502983745029345723098457209305983434345"))
             using (var b = new HugeInt("394580293847502987609283945873594873409587"))
@@ -705,7 +705,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void DivideHugeIntTruncateWithMod()
+        public void IntDivideHugeIntTruncateWithMod()
         {
             using (var a = new HugeInt("234052834524092854092874502983745029345723098457209305983434345"))
             using (var b = new HugeInt("394580293847502987609283945873594873409587"))
@@ -718,7 +718,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void DivideHugeIntNegativeTruncateWithMod()
+        public void IntDivideHugeIntNegativeTruncateWithMod()
         {
             using (var a = new HugeInt("-234052834524092854092874502983745029345723098457209305983434345"))
             using (var b = new HugeInt("394580293847502987609283945873594873409587"))
@@ -735,7 +735,7 @@ namespace MPIR.Tests.HugeIntTests
         #region Limb
 
         [TestMethod]
-        public void DivideLimb()
+        public void IntDivideLimb()
         {
             using (var a = new HugeInt("234052834524092854092874502983745029345723098457209305983434345"))
             {
@@ -746,7 +746,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void DivideLimbCeiling()
+        public void IntDivideLimbCeiling()
         {
             using (var a = new HugeInt("234052834524092854092874502983745029345723098457209305983434345"))
             {
@@ -757,7 +757,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void DivideLimbNegativeCeiling()
+        public void IntDivideLimbNegativeCeiling()
         {
             using (var a = new HugeInt("-234052834524092854092874502983745029345723098457209305983434345"))
             {
@@ -768,7 +768,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void DivideLimbFloor()
+        public void IntDivideLimbFloor()
         {
             using (var a = new HugeInt("234052834524092854092874502983745029345723098457209305983434345"))
             {
@@ -779,7 +779,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void DivideLimbNegativeFloor()
+        public void IntDivideLimbNegativeFloor()
         {
             using (var a = new HugeInt("-234052834524092854092874502983745029345723098457209305983434345"))
             {
@@ -790,7 +790,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void DivideLimbTruncate()
+        public void IntDivideLimbTruncate()
         {
             using (var a = new HugeInt("234052834524092854092874502983745029345723098457209305983434345"))
             {
@@ -801,7 +801,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void DivideLimbNegativeTruncate()
+        public void IntDivideLimbNegativeTruncate()
         {
             using (var a = new HugeInt("-234052834524092854092874502983745029345723098457209305983434345"))
             {
@@ -816,7 +816,7 @@ namespace MPIR.Tests.HugeIntTests
         #region Limb with Mod
 
         [TestMethod]
-        public void DivideLimbWithMod()
+        public void IntDivideLimbWithMod()
         {
             using (var a = new HugeInt("234052834524092854092874502983745029345723098457209305983434345"))
             using (var c = new HugeInt())
@@ -829,7 +829,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void DivideLimbCeilingWithMod()
+        public void IntDivideLimbCeilingWithMod()
         {
             using (var a = new HugeInt("234052834524092854092874502983745029345723098457209305983434345"))
             using (var c = new HugeInt())
@@ -842,7 +842,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void DivideLimbNegativeCeilingWithMod()
+        public void IntDivideLimbNegativeCeilingWithMod()
         {
             using (var a = new HugeInt("-234052834524092854092874502983745029345723098457209305983434345"))
             using (var c = new HugeInt())
@@ -855,7 +855,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void DivideLimbFloorWithMod()
+        public void IntDivideLimbFloorWithMod()
         {
             using (var a = new HugeInt("234052834524092854092874502983745029345723098457209305983434345"))
             using (var c = new HugeInt())
@@ -868,7 +868,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void DivideLimbNegativeFloorWithMod()
+        public void IntDivideLimbNegativeFloorWithMod()
         {
             using (var a = new HugeInt("-234052834524092854092874502983745029345723098457209305983434345"))
             using (var c = new HugeInt())
@@ -881,7 +881,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void DivideLimbTruncateWithMod()
+        public void IntDivideLimbTruncateWithMod()
         {
             using (var a = new HugeInt("234052834524092854092874502983745029345723098457209305983434345"))
             using (var c = new HugeInt())
@@ -894,7 +894,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void DivideLimbNegativeTruncateWithMod()
+        public void IntDivideLimbNegativeTruncateWithMod()
         {
             using (var a = new HugeInt("-234052834524092854092874502983745029345723098457209305983434345"))
             using (var c = new HugeInt())
@@ -911,7 +911,7 @@ namespace MPIR.Tests.HugeIntTests
         #region Limb with Mod x 2
 
         [TestMethod]
-        public void DivideLimbWithMod2()
+        public void IntDivideLimbWithMod2()
         {
             using (var a = new HugeInt("234052834524092854092874502983745029345723098457209305983434345"))
             using (var c = new HugeInt())
@@ -926,7 +926,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void DivideLimbCeilingWithMod2()
+        public void IntDivideLimbCeilingWithMod2()
         {
             using (var a = new HugeInt("234052834524092854092874502983745029345723098457209305983434345"))
             using (var c = new HugeInt())
@@ -941,7 +941,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void DivideLimbNegativeCeilingWithMod2()
+        public void IntDivideLimbNegativeCeilingWithMod2()
         {
             using (var a = new HugeInt("-234052834524092854092874502983745029345723098457209305983434345"))
             using (var c = new HugeInt())
@@ -956,7 +956,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void DivideLimbFloorWithMod2()
+        public void IntDivideLimbFloorWithMod2()
         {
             using (var a = new HugeInt("234052834524092854092874502983745029345723098457209305983434345"))
             using (var c = new HugeInt())
@@ -971,7 +971,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void DivideLimbNegativeFloorWithMod2()
+        public void IntDivideLimbNegativeFloorWithMod2()
         {
             using (var a = new HugeInt("-234052834524092854092874502983745029345723098457209305983434345"))
             using (var c = new HugeInt())
@@ -986,7 +986,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void DivideLimbTruncateWithMod2()
+        public void IntDivideLimbTruncateWithMod2()
         {
             using (var a = new HugeInt("234052834524092854092874502983745029345723098457209305983434345"))
             using (var c = new HugeInt())
@@ -1001,7 +1001,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void DivideLimbNegativeTruncateWithMod2()
+        public void IntDivideLimbNegativeTruncateWithMod2()
         {
             using (var a = new HugeInt("-234052834524092854092874502983745029345723098457209305983434345"))
             using (var c = new HugeInt())
@@ -1020,7 +1020,7 @@ namespace MPIR.Tests.HugeIntTests
         #region Limb with Limb Mod
 
         [TestMethod]
-        public void DivideLimbWithMod3()
+        public void IntDivideLimbWithMod3()
         {
             using (var a = new HugeInt("234052834524092854092874502983745029345723098457209305983434345"))
             {
@@ -1033,7 +1033,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void DivideLimbCeilingWithMod3()
+        public void IntDivideLimbCeilingWithMod3()
         {
             using (var a = new HugeInt("234052834524092854092874502983745029345723098457209305983434345"))
             {
@@ -1046,7 +1046,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void DivideLimbNegativeCeilingWithMod3()
+        public void IntDivideLimbNegativeCeilingWithMod3()
         {
             using (var a = new HugeInt("-234052834524092854092874502983745029345723098457209305983434345"))
             {
@@ -1059,7 +1059,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void DivideLimbFloorWithMod3()
+        public void IntDivideLimbFloorWithMod3()
         {
             using (var a = new HugeInt("234052834524092854092874502983745029345723098457209305983434345"))
             {
@@ -1072,7 +1072,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void DivideLimbNegativeFloorWithMod3()
+        public void IntDivideLimbNegativeFloorWithMod3()
         {
             using (var a = new HugeInt("-234052834524092854092874502983745029345723098457209305983434345"))
             {
@@ -1085,7 +1085,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void DivideLimbTruncateWithMod3()
+        public void IntDivideLimbTruncateWithMod3()
         {
             using (var a = new HugeInt("234052834524092854092874502983745029345723098457209305983434345"))
             {
@@ -1098,7 +1098,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void DivideLimbNegativeTruncateWithMod3()
+        public void IntDivideLimbNegativeTruncateWithMod3()
         {
             using (var a = new HugeInt("-234052834524092854092874502983745029345723098457209305983434345"))
             {
@@ -1115,7 +1115,7 @@ namespace MPIR.Tests.HugeIntTests
         #region Exact
 
         [TestMethod]
-        public void DivideExactlyHugeInt()
+        public void IntDivideExactlyHugeInt()
         {
             using (var a = new HugeInt("234052834524092854092874502983745029345723098457209305983434345"))
             using (var b = new HugeInt("394580293847502987609283945873594873409587"))
@@ -1127,7 +1127,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void DivideExactlyLimb()
+        public void IntDivideExactlyLimb()
         {
             using (var a = new HugeInt("234052834524092854092874502983745029345723098457209305983434345"))
             using (var c = new HugeInt())
@@ -1143,7 +1143,7 @@ namespace MPIR.Tests.HugeIntTests
         #region IsDivisible
 
         [TestMethod]
-        public void IsDivisibleByHugeInt()
+        public void IntIsDivisibleByHugeInt()
         {
             using (var a = new HugeInt("234052834524092854092874502983745029345723098457209305983434345"))
             using (var b = new HugeInt("394580293847502987609283945873594873409587"))
@@ -1156,7 +1156,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void IsDivisibleByLimb()
+        public void IntIsDivisibleByLimb()
         {
             using (var a = new HugeInt("234052834524092854092874502983745029345723098457209305983434345"))
             {
@@ -1169,7 +1169,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void IsDivisibleByPowerOf2()
+        public void IntIsDivisibleByPowerOf2()
         {
             using (var a = new HugeInt("234052834524092854092874502983745029345723098457209305983434345"))
             {
@@ -1185,7 +1185,7 @@ namespace MPIR.Tests.HugeIntTests
         #region IsCongruent
 
         [TestMethod]
-        public void IsCongruentToHugeInt()
+        public void IntIsCongruentToHugeInt()
         {
             using (var a = new HugeInt("234052834524092854092874502983745029345723098457209305983434345"))
             using (var b = new HugeInt("394580293847502987609283945873594873409587"))
@@ -1199,7 +1199,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void IsCongruentToLimb()
+        public void IntIsCongruentToLimb()
         {
             using (var a = new HugeInt("234052834524092854092874502983745029345723098457209305983434345"))
             {
@@ -1213,7 +1213,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void IsCongruentToPowerOf2()
+        public void IntIsCongruentToPowerOf2()
         {
             using (var a = new HugeInt("234052834524092854092874502983745029345723098457209305983434345"))
             using (var c = new HugeInt("293847502987609283945873594873409587"))
@@ -1236,7 +1236,7 @@ namespace MPIR.Tests.HugeIntTests
         #region Int
 
         [TestMethod]
-        public void ModHugeInt()
+        public void IntModHugeInt()
         {
             using (var a = new HugeInt("234052834524092854092874502983745029345723098457209305983434345"))
             using (var b = new HugeInt("394580293847502987609283945873594873409587"))
@@ -1247,7 +1247,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void ModHugeIntCeiling()
+        public void IntModHugeIntCeiling()
         {
             using (var a = new HugeInt("234052834524092854092874502983745029345723098457209305983434345"))
             using (var b = new HugeInt("394580293847502987609283945873594873409587"))
@@ -1258,7 +1258,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void ModHugeIntNegativeCeiling()
+        public void IntModHugeIntNegativeCeiling()
         {
             using (var a = new HugeInt("-234052834524092854092874502983745029345723098457209305983434345"))
             using (var b = new HugeInt("394580293847502987609283945873594873409587"))
@@ -1269,7 +1269,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void ModHugeIntFloor()
+        public void IntModHugeIntFloor()
         {
             using (var a = new HugeInt("234052834524092854092874502983745029345723098457209305983434345"))
             using (var b = new HugeInt("394580293847502987609283945873594873409587"))
@@ -1280,7 +1280,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void ModHugeIntNegativeFloor()
+        public void IntModHugeIntNegativeFloor()
         {
             using (var a = new HugeInt("-234052834524092854092874502983745029345723098457209305983434345"))
             using (var b = new HugeInt("394580293847502987609283945873594873409587"))
@@ -1291,7 +1291,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void ModHugeIntTruncate()
+        public void IntModHugeIntTruncate()
         {
             using (var a = new HugeInt("234052834524092854092874502983745029345723098457209305983434345"))
             using (var b = new HugeInt("394580293847502987609283945873594873409587"))
@@ -1302,7 +1302,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void ModHugeIntNegativeTruncate()
+        public void IntModHugeIntNegativeTruncate()
         {
             using (var a = new HugeInt("-234052834524092854092874502983745029345723098457209305983434345"))
             using (var b = new HugeInt("394580293847502987609283945873594873409587"))
@@ -1317,7 +1317,7 @@ namespace MPIR.Tests.HugeIntTests
         #region Int with quotient
 
         [TestMethod]
-        public void ModHugeIntCeilingWithQuotient()
+        public void IntModHugeIntCeilingWithQuotient()
         {
             using (var a = new HugeInt("234052834524092854092874502983745029345723098457209305983434345"))
             using (var b = new HugeInt("394580293847502987609283945873594873409587"))
@@ -1330,7 +1330,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void ModHugeIntNegativeCeilingWithQuotient()
+        public void IntModHugeIntNegativeCeilingWithQuotient()
         {
             using (var a = new HugeInt("-234052834524092854092874502983745029345723098457209305983434345"))
             using (var b = new HugeInt("394580293847502987609283945873594873409587"))
@@ -1343,7 +1343,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void ModHugeIntFloorWithQuotient()
+        public void IntModHugeIntFloorWithQuotient()
         {
             using (var a = new HugeInt("234052834524092854092874502983745029345723098457209305983434345"))
             using (var b = new HugeInt("394580293847502987609283945873594873409587"))
@@ -1356,7 +1356,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void ModHugeIntNegativeFloorWithQuotient()
+        public void IntModHugeIntNegativeFloorWithQuotient()
         {
             using (var a = new HugeInt("-234052834524092854092874502983745029345723098457209305983434345"))
             using (var b = new HugeInt("394580293847502987609283945873594873409587"))
@@ -1369,7 +1369,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void ModHugeIntTruncateWithQuotient()
+        public void IntModHugeIntTruncateWithQuotient()
         {
             using (var a = new HugeInt("234052834524092854092874502983745029345723098457209305983434345"))
             using (var b = new HugeInt("394580293847502987609283945873594873409587"))
@@ -1382,7 +1382,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void ModHugeIntNegativeTruncateWithQuotient()
+        public void IntModHugeIntNegativeTruncateWithQuotient()
         {
             using (var a = new HugeInt("-234052834524092854092874502983745029345723098457209305983434345"))
             using (var b = new HugeInt("394580293847502987609283945873594873409587"))
@@ -1399,7 +1399,7 @@ namespace MPIR.Tests.HugeIntTests
         #region Limb
 
         [TestMethod]
-        public void ModLimb()
+        public void IntModLimb()
         {
             using (var a = new HugeInt("234052834524092854092874502983745029345723098457209305983434345"))
             {
@@ -1410,7 +1410,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void ModLimbCeiling()
+        public void IntModLimbCeiling()
         {
             using (var a = new HugeInt("234052834524092854092874502983745029345723098457209305983434345"))
             {
@@ -1421,7 +1421,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void ModLimbNegativeCeiling()
+        public void IntModLimbNegativeCeiling()
         {
             using (var a = new HugeInt("-234052834524092854092874502983745029345723098457209305983434345"))
             {
@@ -1432,7 +1432,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void ModLimbFloor()
+        public void IntModLimbFloor()
         {
             using (var a = new HugeInt("234052834524092854092874502983745029345723098457209305983434345"))
             {
@@ -1443,7 +1443,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void ModLimbNegativeFloor()
+        public void IntModLimbNegativeFloor()
         {
             using (var a = new HugeInt("-234052834524092854092874502983745029345723098457209305983434345"))
             {
@@ -1454,7 +1454,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void ModLimbTruncate()
+        public void IntModLimbTruncate()
         {
             using (var a = new HugeInt("234052834524092854092874502983745029345723098457209305983434345"))
             {
@@ -1465,7 +1465,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void ModLimbNegativeTruncate()
+        public void IntModLimbNegativeTruncate()
         {
             using (var a = new HugeInt("-234052834524092854092874502983745029345723098457209305983434345"))
             {
@@ -1480,7 +1480,7 @@ namespace MPIR.Tests.HugeIntTests
         #region Limb With Quotient
 
         [TestMethod]
-        public void ModLimbWithQuotient()
+        public void IntModLimbWithQuotient()
         {
             using (var a = new HugeInt("234052834524092854092874502983745029345723098457209305983434345"))
             using (var c = new HugeInt())
@@ -1493,7 +1493,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void ModLimbCeilingWithQuotient()
+        public void IntModLimbCeilingWithQuotient()
         {
             using (var a = new HugeInt("234052834524092854092874502983745029345723098457209305983434345"))
             using (var c = new HugeInt())
@@ -1506,7 +1506,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void ModLimbNegativeCeilingWithQuotient()
+        public void IntModLimbNegativeCeilingWithQuotient()
         {
             using (var a = new HugeInt("-234052834524092854092874502983745029345723098457209305983434345"))
             using (var c = new HugeInt())
@@ -1519,7 +1519,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void ModLimbFloorWithQuotient()
+        public void IntModLimbFloorWithQuotient()
         {
             using (var a = new HugeInt("234052834524092854092874502983745029345723098457209305983434345"))
             using (var c = new HugeInt())
@@ -1532,7 +1532,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void ModLimbNegativeFloorWithQuotient()
+        public void IntModLimbNegativeFloorWithQuotient()
         {
             using (var a = new HugeInt("-234052834524092854092874502983745029345723098457209305983434345"))
             using (var c = new HugeInt())
@@ -1545,7 +1545,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void ModLimbTruncateWithQuotient()
+        public void IntModLimbTruncateWithQuotient()
         {
             using (var a = new HugeInt("234052834524092854092874502983745029345723098457209305983434345"))
             using (var c = new HugeInt())
@@ -1558,7 +1558,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void ModLimbNegativeTruncateWithQuotient()
+        public void IntModLimbNegativeTruncateWithQuotient()
         {
             using (var a = new HugeInt("-234052834524092854092874502983745029345723098457209305983434345"))
             using (var c = new HugeInt())
@@ -1575,7 +1575,7 @@ namespace MPIR.Tests.HugeIntTests
         #region Limb With Quotient and Limb Mod
 
         [TestMethod]
-        public void ModLimbWithQuotient2()
+        public void IntModLimbWithQuotient2()
         {
             using (var a = new HugeInt("234052834524092854092874502983745029345723098457209305983434345"))
             using (var c = new HugeInt())
@@ -1590,7 +1590,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void ModLimbCeilingWithQuotient2()
+        public void IntModLimbCeilingWithQuotient2()
         {
             using (var a = new HugeInt("234052834524092854092874502983745029345723098457209305983434345"))
             using (var c = new HugeInt())
@@ -1605,7 +1605,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void ModLimbNegativeCeilingWithQuotient2()
+        public void IntModLimbNegativeCeilingWithQuotient2()
         {
             using (var a = new HugeInt("-234052834524092854092874502983745029345723098457209305983434345"))
             using (var c = new HugeInt())
@@ -1620,7 +1620,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void ModLimbFloorWithQuotient2()
+        public void IntModLimbFloorWithQuotient2()
         {
             using (var a = new HugeInt("234052834524092854092874502983745029345723098457209305983434345"))
             using (var c = new HugeInt())
@@ -1635,7 +1635,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void ModLimbNegativeFloorWithQuotient2()
+        public void IntModLimbNegativeFloorWithQuotient2()
         {
             using (var a = new HugeInt("-234052834524092854092874502983745029345723098457209305983434345"))
             using (var c = new HugeInt())
@@ -1650,7 +1650,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void ModLimbTruncateWithQuotient2()
+        public void IntModLimbTruncateWithQuotient2()
         {
             using (var a = new HugeInt("234052834524092854092874502983745029345723098457209305983434345"))
             using (var c = new HugeInt())
@@ -1665,7 +1665,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void ModLimbNegativeTruncateWithQuotient2()
+        public void IntModLimbNegativeTruncateWithQuotient2()
         {
             using (var a = new HugeInt("-234052834524092854092874502983745029345723098457209305983434345"))
             using (var c = new HugeInt())
@@ -1685,7 +1685,7 @@ namespace MPIR.Tests.HugeIntTests
         #region Limb With Limb Mod
 
         [TestMethod]
-        public void ModLimbWithQuotient3()
+        public void IntModLimbWithQuotient3()
         {
             using (var a = new HugeInt("234052834524092854092874502983745029345723098457209305983434345"))
             {
@@ -1698,7 +1698,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void ModLimbCeilingWithQuotient3()
+        public void IntModLimbCeilingWithQuotient3()
         {
             using (var a = new HugeInt("234052834524092854092874502983745029345723098457209305983434345"))
             {
@@ -1711,7 +1711,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void ModLimbNegativeCeilingWithQuotient3()
+        public void IntModLimbNegativeCeilingWithQuotient3()
         {
             using (var a = new HugeInt("-234052834524092854092874502983745029345723098457209305983434345"))
             {
@@ -1724,7 +1724,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void ModLimbFloorWithQuotient3()
+        public void IntModLimbFloorWithQuotient3()
         {
             using (var a = new HugeInt("234052834524092854092874502983745029345723098457209305983434345"))
             {
@@ -1737,7 +1737,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void ModLimbNegativeFloorWithQuotient3()
+        public void IntModLimbNegativeFloorWithQuotient3()
         {
             using (var a = new HugeInt("-234052834524092854092874502983745029345723098457209305983434345"))
             {
@@ -1750,7 +1750,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void ModLimbTruncateWithQuotient3()
+        public void IntModLimbTruncateWithQuotient3()
         {
             using (var a = new HugeInt("234052834524092854092874502983745029345723098457209305983434345"))
             {
@@ -1763,7 +1763,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void ModLimbNegativeTruncateWithQuotient3()
+        public void IntModLimbNegativeTruncateWithQuotient3()
         {
             using (var a = new HugeInt("-234052834524092854092874502983745029345723098457209305983434345"))
             {
@@ -1781,7 +1781,7 @@ namespace MPIR.Tests.HugeIntTests
         #region Mod Limb function
 
         [TestMethod]
-        public void ModLimbFunction()
+        public void IntModLimbFunction()
         {
             using (var a = new HugeInt("234052834524092854092874502983745029345723098457209305983434345"))
             {
@@ -1792,7 +1792,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void ModLimbFunctionCeiling()
+        public void IntModLimbFunctionCeiling()
         {
             using (var a = new HugeInt("234052834524092854092874502983745029345723098457209305983434345"))
             {
@@ -1803,7 +1803,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void ModLimbFunctionNegativeCeiling()
+        public void IntModLimbFunctionNegativeCeiling()
         {
             using (var a = new HugeInt("-234052834524092854092874502983745029345723098457209305983434345"))
             {
@@ -1814,7 +1814,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void ModLimbFunctionFloor()
+        public void IntModLimbFunctionFloor()
         {
             using (var a = new HugeInt("234052834524092854092874502983745029345723098457209305983434345"))
             {
@@ -1825,7 +1825,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void ModLimbFunctionNegativeFloor()
+        public void IntModLimbFunctionNegativeFloor()
         {
             using (var a = new HugeInt("-234052834524092854092874502983745029345723098457209305983434345"))
             {
@@ -1836,7 +1836,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void ModLimbFunctionTruncate()
+        public void IntModLimbFunctionTruncate()
         {
             using (var a = new HugeInt("234052834524092854092874502983745029345723098457209305983434345"))
             {
@@ -1847,7 +1847,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void ModLimbFunctionNegativeTruncate()
+        public void IntModLimbFunctionNegativeTruncate()
         {
             using (var a = new HugeInt("-234052834524092854092874502983745029345723098457209305983434345"))
             {
@@ -1862,7 +1862,7 @@ namespace MPIR.Tests.HugeIntTests
         #region Shift Right Remainder
 
         [TestMethod]
-        public void ShiftRightRemainder()
+        public void IntShiftRightRemainder()
         {
             using (var a = new HugeInt("ABCDEF052834524092854092874502983745029345723098457209305983434345", 16))
             {
@@ -1873,7 +1873,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void ShiftRightRemainderCeiling()
+        public void IntShiftRightRemainderCeiling()
         {
             using (var a = new HugeInt("ABCDEF052834524092854092874502983745029345723098457209305983434345", 16))
             {
@@ -1884,7 +1884,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void ShiftRightRemainderNegativeCeiling()
+        public void IntShiftRightRemainderNegativeCeiling()
         {
             using (var a = new HugeInt("-ABCDEF052834524092854092874502983745029345723098457209305983434345", 16))
             {
@@ -1895,7 +1895,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void ShiftRightRemainderFloor()
+        public void IntShiftRightRemainderFloor()
         {
             using (var a = new HugeInt("ABCDEF052834524092854092874502983745029345723098457209305983434345", 16))
             {
@@ -1906,7 +1906,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void ShiftRightRemainderNegativeFloor()
+        public void IntShiftRightRemainderNegativeFloor()
         {
             using (var a = new HugeInt("-ABCDEF052834524092854092874502983745029345723098457209305983434345", 16))
             {
@@ -1917,7 +1917,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void ShiftRightRemainderTruncate()
+        public void IntShiftRightRemainderTruncate()
         {
             using (var a = new HugeInt("ABCDEF052834524092854092874502983745029345723098457209305983434345", 16))
             {
@@ -1928,7 +1928,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void ShiftRightRemainderNegativeTruncate()
+        public void IntShiftRightRemainderNegativeTruncate()
         {
             using (var a = new HugeInt("-ABCDEF052834524092854092874502983745029345723098457209305983434345", 16))
             {

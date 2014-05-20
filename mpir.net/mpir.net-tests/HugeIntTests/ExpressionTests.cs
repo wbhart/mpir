@@ -31,7 +31,7 @@ namespace MPIR.Tests.HugeIntTests
     public class ExpressionTests
     {
         [TestMethod]
-        public void TestAllExpressions()
+        public void IntTestAllExpressions()
         {
             var baseExpr = typeof(IntegerExpression);
             var allExpressions =

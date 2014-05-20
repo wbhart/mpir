@@ -31,7 +31,7 @@ namespace MPIR.Tests.HugeRationalTests
     public class ExpressionTests
     {
         [TestMethod]
-        public void TestAllExpressions()
+        public void RationalTestAllExpressions()
         {
             var baseExpr = typeof(RationalExpression);
             var allExpressions =

@@ -26,7 +26,7 @@ namespace MPIR.Tests.HugeIntTests
     public class ConstructionAndDisposal
     {
         [TestMethod]
-        public void DefaultConstructor()
+        public void IntDefaultConstructor()
         {
             using (var a = new HugeInt())
             {
@@ -38,7 +38,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void Dispose()
+        public void IntDispose()
         {
             var a = new HugeInt();
             a.Dispose();
@@ -48,7 +48,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void ConstructorFromLong()
+        public void IntConstructorFromLong()
         {
             var n = "123456789123456";
             using (var a = new HugeInt(long.Parse(n)))
@@ -60,7 +60,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void ConstructorFromLongNegative()
+        public void IntConstructorFromLongNegative()
         {
             var n = "-123456789123456";
             using (var a = new HugeInt(long.Parse(n)))
@@ -72,7 +72,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void ConstructorFromULong()
+        public void IntConstructorFromULong()
         {
             using (var a = new HugeInt(ulong.MaxValue))
             {
@@ -83,7 +83,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void ConstructorFromDouble()
+        public void IntConstructorFromDouble()
         {
             using (var a = new HugeInt(123456789123456.9))
             {
@@ -92,7 +92,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void ConstructorFromPower()
+        public void IntConstructorFromPower()
         {
             using (var a = new HugeInt(HugeInt.Power(10, 41)))
             {
@@ -101,7 +101,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void ConstructorFromDoubleNegative()
+        public void IntConstructorFromDoubleNegative()
         {
             using (var a = new HugeInt(-123456789123456.9))
             {
@@ -110,7 +110,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void Allocate()
+        public void IntAllocate()
         {
             using (var a = HugeInt.Allocate(129))
             {
@@ -121,7 +121,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void Reallocate()
+        public void IntReallocate()
         {
             using (var a = new HugeInt("543209879487374938579837"))
             {
@@ -143,7 +143,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void StringConstructor()
+        public void IntStringConstructor()
         {
             var n = "5432109876543212345789023245987";
             using (var a = new HugeInt(n))
@@ -155,13 +155,13 @@ namespace MPIR.Tests.HugeIntTests
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
-        public void StringConstructorInvalid()
+        public void IntStringConstructorInvalid()
         {
             var a = new HugeInt("12345A");
         }
 
         [TestMethod]
-        public void StringConstructorHex()
+        public void IntStringConstructorHex()
         {
             using (var a = new HugeInt("143210ABCDEF32123457ACDB324598799", 16))
             {
@@ -170,7 +170,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void StringConstructorHexPrefix()
+        public void IntStringConstructorHexPrefix()
         {
             var n = "143210ABCDEF32123457ACDB324598799";
             using (var a = new HugeInt("0x" + n))
@@ -180,7 +180,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void StringAssignmentHexPrefix()
+        public void IntStringAssignmentHexPrefix()
         {
             var n = "143210ABCDEF32123457ACDB324598799";
             using (var a = new HugeInt("0x" + n))
@@ -194,7 +194,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void ConstructorFromExpression()
+        public void IntConstructorFromExpression()
         {
             using (var a = new HugeInt("2340958273409578234095823045723490587"))
             using (var b = new HugeInt(a + 1))

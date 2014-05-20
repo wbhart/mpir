@@ -26,7 +26,7 @@ namespace MPIR.Tests.HugeIntTests
     public class Bitwise
     {
         [TestMethod]
-        public void AndHugeInt()
+        public void IntAndHugeInt()
         {
             using (var a = new HugeInt("0x10123456789ABCDEF0123456789ABCDEF0123456789ABCDEF"))
             using (var b = new HugeInt("0x100000000000000000123456789ABCDEFFFFFFFFFFFFFFFFF"))
@@ -38,7 +38,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void OrHugeInt()
+        public void IntOrHugeInt()
         {
             using (var a = new HugeInt("0x10123456789ABCDEF0123456789ABCDEF0123456789ABCDEF"))
             using (var b = new HugeInt("0x100000000000000000123456789ABCDEFFFFFFFFFFFFFFFFF"))
@@ -50,7 +50,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void XorHugeInt()
+        public void IntXorHugeInt()
         {
             using (var a = new HugeInt("0x10123456789ABCDEF0123456789ABCDEF0123456789ABCDEF"))
             using (var b = new HugeInt("0x000000000000000000123456789ABCDEFFFFFFFFFFFFFFFFF"))
@@ -62,7 +62,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void Not()
+        public void IntNot()
         {
             using (var a = new HugeInt("0x10123456789ABCDEF0123456789ABCDEF0123456789ABCDEF"))
             using (var c = new HugeInt())
@@ -73,7 +73,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void PopCount()
+        public void IntPopCount()
         {
             using (var a = new HugeInt("0x1ABCDEF8984948281360922385394772450147012613851354303"))
             {
@@ -83,7 +83,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void HammingDistance()
+        public void IntHammingDistance()
         {
             using (var a = new HugeInt("0x1ABCDE08984948281360922385394772450147012613851354F03"))
             using (var b = new HugeInt("0x1ABCDEF8984948281360922345394772450147012613851354303"))
@@ -96,7 +96,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void FindBit()
+        public void IntFindBit()
         {
             using (var a = new HugeInt("0xA0000000000000000000800000000001"))
             {
@@ -131,7 +131,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void SetBit()
+        public void IntSetBit()
         {
             using (var a = new HugeInt("0xA0000000000000000000200000000001"))
             {
@@ -151,7 +151,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void GetBit()
+        public void IntGetBit()
         {
             using (var a = new HugeInt("0xA000000000000000000200000000001"))
             {
@@ -172,7 +172,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void ComplementBit()
+        public void IntComplementBit()
         {
             using (var a = new HugeInt("0xA0000000000000000000800000000001"))
             {

@@ -27,7 +27,7 @@ namespace MPIR.Tests.HugeRationalTests
     public class Conversions
     {
         [TestMethod]
-        public void ToStringDecimal()
+        public void RationalToStringDecimal()
         {
             var n = "-23429384756298357462983476598345623984756";
             using (var a = new HugeRational(n))
@@ -37,7 +37,7 @@ namespace MPIR.Tests.HugeRationalTests
         }
 
         [TestMethod]
-        public void ToStringHex()
+        public void RationalToStringHex()
         {
             var n = "-23429abcdef298357462983fedcba345623984756";
             using (var a = new HugeRational(n, 16))
@@ -48,7 +48,7 @@ namespace MPIR.Tests.HugeRationalTests
         }
 
         [TestMethod]
-        public void FromUlong()
+        public void RationalFromUlong()
         {
             using (var a = new HugeRational())
             {
@@ -60,7 +60,7 @@ namespace MPIR.Tests.HugeRationalTests
         }
 
         [TestMethod]
-        public void FromLong()
+        public void RationalFromLong()
         {
             using (var a = new HugeRational())
             {
@@ -72,7 +72,7 @@ namespace MPIR.Tests.HugeRationalTests
         }
 
         [TestMethod]
-        public void ToAndFromDouble()
+        public void RationalToAndFromDouble()
         {
             using (var a = new HugeRational())
             using (var lo = new HugeRational())
@@ -87,7 +87,7 @@ namespace MPIR.Tests.HugeRationalTests
         }
 
         [TestMethod]
-        public void ToAndFromFloat()
+        public void RationalToAndFromFloat()
         {
             using (var a = new HugeRational())
             using (var lo = new HugeRational())
@@ -103,7 +103,7 @@ namespace MPIR.Tests.HugeRationalTests
         }
 
         [TestMethod]
-        public void FromString()
+        public void RationalFromString()
         {
             using (var a = new HugeRational())
             {
@@ -119,7 +119,7 @@ namespace MPIR.Tests.HugeRationalTests
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
-        public void FromInvalidString()
+        public void RationalFromInvalidString()
         {
             using (var a = new HugeRational())
             {
@@ -128,7 +128,7 @@ namespace MPIR.Tests.HugeRationalTests
         }
 
         [TestMethod]
-        public void ToStringTruncated()
+        public void RationalToStringTruncated()
         {
             var n = string.Concat("123456789".Select(c => new string(c, 30)));
             using (var a = new HugeRational(n))
@@ -141,7 +141,7 @@ namespace MPIR.Tests.HugeRationalTests
         }
 
         [TestMethod]
-        public void ApproximateSizeInBase()
+        public void RationalApproximateSizeInBase()
         {
             using (var a = new HugeRational("2983475029834750293429834750298347502934298347502983475029342983475029834750293429834750298347502934"))
             {

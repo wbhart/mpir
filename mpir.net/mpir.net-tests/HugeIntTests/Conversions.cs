@@ -27,7 +27,7 @@ namespace MPIR.Tests.HugeIntTests
     public class Conversions
     {
         [TestMethod]
-        public void ToStringDecimal()
+        public void IntToStringDecimal()
         {
             var n = "-23429384756298357462983476598345623984756";
             using (var a = new HugeInt(n))
@@ -37,7 +37,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void ToStringHex()
+        public void IntToStringHex()
         {
             var n = "-23429abcdef298357462983fedcba345623984756";
             using (var a = new HugeInt(n, 16))
@@ -48,7 +48,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void ToAndFromUlong()
+        public void IntToAndFromUlong()
         {
             using (var a = new HugeInt())
             {
@@ -63,7 +63,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void ToAndFromLong()
+        public void IntToAndFromLong()
         {
             using (var a = new HugeInt())
             {
@@ -77,7 +77,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void ToAndFromDouble()
+        public void IntToAndFromDouble()
         {
             using (var a = new HugeInt())
             using (var lo = new HugeInt())
@@ -105,7 +105,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void FromString()
+        public void IntFromString()
         {
             using (var a = new HugeInt())
             {
@@ -121,7 +121,7 @@ namespace MPIR.Tests.HugeIntTests
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
-        public void FromInvalidString()
+        public void IntFromInvalidString()
         {
             using (var a = new HugeInt())
             {
@@ -130,7 +130,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void ToStringTruncated()
+        public void IntToStringTruncated()
         {
             var n = string.Concat("123456789".Select(c => new string(c, 30)));
             using (var a = new HugeInt(n))
@@ -143,7 +143,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void FitsUlong()
+        public void IntFitsUlong()
         {
             using (var a = new HugeInt(ulong.MaxValue))
             {
@@ -158,7 +158,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void FitsLong()
+        public void IntFitsLong()
         {
             using (var a = new HugeInt(long.MaxValue))
             {
@@ -173,7 +173,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void FitsUint()
+        public void IntFitsUint()
         {
             using (var a = new HugeInt(uint.MaxValue))
             {
@@ -188,7 +188,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void FitsInt()
+        public void IntFitsInt()
         {
             using (var a = new HugeInt(int.MaxValue))
             {
@@ -203,7 +203,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void FitsUshort()
+        public void IntFitsUshort()
         {
             using (var a = new HugeInt(ushort.MaxValue))
             {
@@ -218,7 +218,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void FitsShort()
+        public void IntFitsShort()
         {
             using (var a = new HugeInt(short.MaxValue))
             {
@@ -233,7 +233,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void ApproximateSizeInBase()
+        public void IntApproximateSizeInBase()
         {
             using (var a = new HugeInt("2983475029834750293429834750298347502934298347502983475029342983475029834750293429834750298347502934"))
             {

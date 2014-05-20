@@ -28,7 +28,7 @@ namespace MPIR.Tests.HugeIntTests
         #region CompareTo
 
         [TestMethod]
-        public void CompareToHugeInt()
+        public void IntCompareToHugeInt()
         {
             using (var a = new HugeInt("-222509832503450298345029835740293845721"))
             using (var b = new HugeInt("222509832503450298345029835740293845720"))
@@ -41,7 +41,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void CompareToObject()
+        public void IntCompareToObject()
         {
             using (var a = new HugeInt("-222509832503450298345029835740293845721"))
             using (var b = new HugeInt("222509832503450298345029835740293845720"))
@@ -54,7 +54,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void CompareToExpression()
+        public void IntCompareToExpression()
         {
             using (var a = new HugeInt("-222509832503450298345029835740293845721"))
             using (var b = new HugeInt("222509832503450298345029835740293845720"))
@@ -68,7 +68,7 @@ namespace MPIR.Tests.HugeIntTests
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
-        public void CompareToNonExpression()
+        public void IntCompareToNonExpression()
         {
             using (var a = new HugeInt("-222509832503450298345029835740293845721"))
             {
@@ -77,7 +77,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void CompareToLimb()
+        public void IntCompareToLimb()
         {
             using (var a = new HugeInt("-222509821"))
             {
@@ -90,7 +90,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void CompareToSignedLimb()
+        public void IntCompareToSignedLimb()
         {
             using (var a = new HugeInt("-222509821"))
             {
@@ -104,7 +104,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void CompareToSignedDouble()
+        public void IntCompareToSignedDouble()
         {
             using (var a = new HugeInt("-222509821"))
             {
@@ -122,7 +122,7 @@ namespace MPIR.Tests.HugeIntTests
         #region comparison operators with expr
 
         [TestMethod]
-        public void OperatorLessThan()
+        public void IntOperatorLessThan()
         {
             using (var a = new HugeInt("-222509832503450298345029835740293845721"))
             using (var b = new HugeInt("222509832503450298345029835740293845720"))
@@ -138,7 +138,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void OperatorLessThanOrEqual()
+        public void IntOperatorLessThanOrEqual()
         {
             using (var a = new HugeInt("-222509832503450298345029835740293845721"))
             using (var b = new HugeInt("222509832503450298345029835740293845720"))
@@ -154,7 +154,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void OperatorGreaterThan()
+        public void IntOperatorGreaterThan()
         {
             using (var a = new HugeInt("-222509832503450298345029835740293845721"))
             using (var b = new HugeInt("222509832503450298345029835740293845720"))
@@ -170,7 +170,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void OperatorGreaterThanOrEqual()
+        public void IntOperatorGreaterThanOrEqual()
         {
             using (var a = new HugeInt("-222509832503450298345029835740293845721"))
             using (var b = new HugeInt("222509832503450298345029835740293845720"))
@@ -190,7 +190,7 @@ namespace MPIR.Tests.HugeIntTests
         #region comparison operators with limb
 
         [TestMethod]
-        public void OperatorLessThanLimb()
+        public void IntOperatorLessThanLimb()
         {
             using (var a = new HugeInt("3845721"))
             {
@@ -204,7 +204,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void OperatorLessThanOrEqualLimb()
+        public void IntOperatorLessThanOrEqualLimb()
         {
             using (var a = new HugeInt("3845721"))
             {
@@ -221,7 +221,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void OperatorGreaterThanLimb()
+        public void IntOperatorGreaterThanLimb()
         {
             using (var a = new HugeInt("3845721"))
             {
@@ -235,7 +235,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void OperatorGreaterThanOrEqualLimb()
+        public void IntOperatorGreaterThanOrEqualLimb()
         {
             using (var a = new HugeInt("3845721"))
             {
@@ -256,7 +256,7 @@ namespace MPIR.Tests.HugeIntTests
         #region comparison operators with signed limb
 
         [TestMethod]
-        public void OperatorLessThanSignedLimb()
+        public void IntOperatorLessThanSignedLimb()
         {
             using (var a = new HugeInt("-3845721"))
             {
@@ -270,7 +270,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void OperatorLessThanOrEqualSignedLimb()
+        public void IntOperatorLessThanOrEqualSignedLimb()
         {
             using (var a = new HugeInt("-3845721"))
             {
@@ -287,7 +287,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void OperatorGreaterThanSignedLimb()
+        public void IntOperatorGreaterThanSignedLimb()
         {
             using (var a = new HugeInt("-3845721"))
             {
@@ -301,7 +301,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void OperatorGreaterThanOrEqualSignedLimb()
+        public void IntOperatorGreaterThanOrEqualSignedLimb()
         {
             using (var a = new HugeInt("-3845721"))
             {
@@ -322,7 +322,7 @@ namespace MPIR.Tests.HugeIntTests
         #region comparison operators with double
 
         [TestMethod]
-        public void OperatorLessThanDouble()
+        public void IntOperatorLessThanDouble()
         {
             using (var a = new HugeInt("-3845721"))
             {
@@ -336,7 +336,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void OperatorLessThanOrEqualDouble()
+        public void IntOperatorLessThanOrEqualDouble()
         {
             using (var a = new HugeInt("-3845721"))
             {
@@ -353,7 +353,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void OperatorGreaterThanDouble()
+        public void IntOperatorGreaterThanDouble()
         {
             using (var a = new HugeInt("-3845721"))
             {
@@ -367,7 +367,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void OperatorGreaterThanOrEqualDouble()
+        public void IntOperatorGreaterThanOrEqualDouble()
         {
             using (var a = new HugeInt("-3845721"))
             {
@@ -389,7 +389,7 @@ namespace MPIR.Tests.HugeIntTests
         #region Equals
 
         [TestMethod]
-        public void EqualsHugeInt()
+        public void IntEqualsHugeInt()
         {
             using (var a = new HugeInt("-222509832503450298345029835740293845721"))
             using (var b = new HugeInt("222509832503450298345029835740293845720"))
@@ -403,7 +403,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void EqualsExpression()
+        public void IntEqualsExpression()
         {
             using (var a = new HugeInt("-222509832503450298345029835740293845721"))
             using (var b = new HugeInt("222509832503450298345029835740293845720"))
@@ -416,7 +416,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void EqualsNonExpression()
+        public void IntEqualsNonExpression()
         {
             using (var a = new HugeInt("-222509832503450298345029835740293845721"))
             {
@@ -425,7 +425,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void EqualsLimb()
+        public void IntEqualsLimb()
         {
             using (var a = new HugeInt("222509832503"))
             {
@@ -437,7 +437,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void EqualsSignedLimb()
+        public void IntEqualsSignedLimb()
         {
             using (var a = new HugeInt("-222509832505"))
             {
@@ -449,7 +449,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void EqualsDouble()
+        public void IntEqualsDouble()
         {
             using (var a = new HugeInt("-222509832505"))
             {
@@ -466,7 +466,7 @@ namespace MPIR.Tests.HugeIntTests
         #region Equality operators with expr
 
         [TestMethod]
-        public void EqualsOperatorHugeInt()
+        public void IntEqualsOperatorHugeInt()
         {
             using (var a = new HugeInt("-222509832503450298345029835740293845721"))
             using (var b = new HugeInt("222509832503450298345029835740293845720"))
@@ -479,7 +479,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void NotEqualOperatorHugeInt()
+        public void IntNotEqualOperatorHugeInt()
         {
             using (var a = new HugeInt("-222509832503450298345029835740293845721"))
             using (var b = new HugeInt("222509832503450298345029835740293845720"))
@@ -496,7 +496,7 @@ namespace MPIR.Tests.HugeIntTests
         #region Equality operators with Limb
 
         [TestMethod]
-        public void EqualsOperatorLimb()
+        public void IntEqualsOperatorLimb()
         {
             using (var a = new HugeInt("-835740293845721"))
             {
@@ -508,7 +508,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void NotEqualOperatorLimb()
+        public void IntNotEqualOperatorLimb()
         {
             using (var a = new HugeInt("-835740293845721"))
             {
@@ -524,7 +524,7 @@ namespace MPIR.Tests.HugeIntTests
         #region Equality operators with Signed Limb
 
         [TestMethod]
-        public void EqualsOperatorSignedLimb()
+        public void IntEqualsOperatorSignedLimb()
         {
             using (var a = new HugeInt("-835740293845721"))
             {
@@ -536,7 +536,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void NotEqualOperatorSignedLimb()
+        public void IntNotEqualOperatorSignedLimb()
         {
             using (var a = new HugeInt("-835740293845721"))
             {
@@ -552,7 +552,7 @@ namespace MPIR.Tests.HugeIntTests
         #region Equality operators with Double
 
         [TestMethod]
-        public void EqualsOperatorDouble()
+        public void IntEqualsOperatorDouble()
         {
             using (var a = new HugeInt("-835740293845721"))
             {
@@ -565,7 +565,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void NotEqualOperatorDouble()
+        public void IntNotEqualOperatorDouble()
         {
             using (var a = new HugeInt("-835740293845721"))
             {
@@ -582,7 +582,7 @@ namespace MPIR.Tests.HugeIntTests
         #region GetHashCode
 
         [TestMethod]
-        public void GetHashCodeTest()
+        public void IntGetHashCodeTest()
         {
             using (var a = new HugeInt("-222509832503450298345029835740293845721"))
             {
@@ -597,7 +597,7 @@ namespace MPIR.Tests.HugeIntTests
         #region CompareAbsTo
 
         [TestMethod]
-        public void CompareAbsToHugeInt()
+        public void IntCompareAbsToHugeInt()
         {
             using (var a = new HugeInt("-222509832503450298345029835740293845721"))
             using (var b = new HugeInt("222509832503450298345029835740293845720"))
@@ -611,7 +611,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void CompareAbsToLimb()
+        public void IntCompareAbsToLimb()
         {
             using (var a = new HugeInt("-222509821"))
             {
@@ -626,7 +626,7 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
-        public void CompareAbsToDouble()
+        public void IntCompareAbsToDouble()
         {
             using (var a = new HugeInt("-222509821"))
             {
@@ -647,7 +647,7 @@ namespace MPIR.Tests.HugeIntTests
         #region Sign
 
         [TestMethod]
-        public void Sign()
+        public void IntSign()
         {
             using (var a = new HugeInt("-222509832503450298345029835740293845721"))
             {
