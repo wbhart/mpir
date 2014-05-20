@@ -767,6 +767,7 @@ namespace MPIR
                 _value = (MP(ptr))((*__gmp_allocate_func)(sizeof(MPSTRUCT)));
             }
             void FromString(String^ value, int base);
+            MPTYPE(bool initialize);
             String^ ToString(int base, bool lowercase, int maxDigits);
 
         internal:
@@ -803,7 +804,8 @@ namespace MPIR
             /// </summary>
             /// <param name="numeratorBits">Minimum number of bits the initially allocated memory should hold for the numerator</param>
             /// <param name="denominatorBits">Minimum number of bits the initially allocated memory should hold for the denominator</param>
-            MPTYPE(mp_bitcnt_t numeratorBits, mp_bitcnt_t denominatorBits);
+            /// <returns>the newly constructed instance</returns>
+            static MPTYPE^ Allocate(mp_bitcnt_t numeratorBits, mp_bitcnt_t denominatorBits);
 
             /// <summary>
             /// Initializes a new integer instance and sets its value from the specified string, using leading characters to recognize the base:
@@ -833,24 +835,21 @@ namespace MPIR
             /// <para>If the fraction is not in canonical form, Canonicalize() must be called.</para>
             /// </summary>
             /// <param name="value">Initial value for the new integer instance</param>
-            /// <returns>the newly constructed instance</returns>
-            static MPTYPE^ FromLong(mpir_si numerator, mpir_ui denominator);
+            MPTYPE(mpir_si numerator, mpir_ui denominator);
 
             /// <summary>
             /// Constructs and returns a new integer instance with its value set to <paramref name="numerator"/> / <paramref name="denominator"/>.
             /// <para>If the fraction is not in canonical form, Canonicalize() must be called.</para>
             /// </summary>
             /// <param name="value">Initial value for the new integer instance</param>
-            /// <returns>the newly constructed instance</returns>
-            static MPTYPE^ FromUlong(mpir_ui numerator, mpir_ui denominator);
+            MPTYPE(mpir_ui numerator, mpir_ui denominator);
 
             /// <summary>
             /// Constructs and returns a new rational instance with its value set to the <paramref name="value"/> parameter.
             /// <para>There is no rounding, this conversion is exact.</para>
             /// </summary>
             /// <param name="value">Initial value for the new rational instance.  This is an exact conversion.</param>
-            /// <returns>the newly constructed instance</returns>
-            static MPTYPE^ FromDouble(double value);
+            MPTYPE(double value);
 
             //disposal
 

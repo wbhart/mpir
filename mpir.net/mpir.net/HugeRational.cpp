@@ -35,18 +35,27 @@ namespace MPIR
         MP(init)(_value);
     }
 
+    MPTYPE::MPTYPE(bool initialize)
+    {
+        AllocateStruct();
+        if(initialize)
+            MP(init)(_value);
+    }
+
     MPTYPE::MPTYPE(MPEXPR_NAME^ value)
     {
         AllocateStruct();
         MP(init)(_value);
         value->AssignTo(_value);
     }
-
-    MPTYPE::MPTYPE(mp_bitcnt_t numeratorBits, mp_bitcnt_t denominatorBits)
+    
+    MPTYPE^ MPTYPE::Allocate(mp_bitcnt_t numeratorBits, mp_bitcnt_t denominatorBits)
     {
-        AllocateStruct();
-        mpz_init(&_value->_mp_num);
-        mpz_init_set_ui(&_value->_mp_den, 1);
+        auto result = gcnew MPTYPE(false);
+        mpz_init2(&result->_value->_mp_num, numeratorBits);
+        mpz_init2(&result->_value->_mp_den, denominatorBits);
+        mpz_set_ui(&result->_value->_mp_den, 1);
+        return result;
     }
 
     void MPTYPE::FromString(String^ value, int base)
@@ -75,25 +84,25 @@ namespace MPIR
             throw gcnew ArgumentException("Invalid number", "value");
     }
 
-    MPTYPE^ MPTYPE::FromLong(mpir_si numerator, mpir_ui denominator)
+    MPTYPE::MPTYPE(mpir_si numerator, mpir_ui denominator)
     {
-        auto result = gcnew MPTYPE();
-        MP(set_si)(result->_value, numerator, denominator);
-        return result;
+        AllocateStruct();
+        MP(init)(_value);
+        MP(set_si)(_value, numerator, denominator);
     }
 
-    MPTYPE^ MPTYPE::FromUlong(mpir_ui numerator, mpir_ui denominator)
+    MPTYPE::MPTYPE(mpir_ui numerator, mpir_ui denominator)
     {
-        auto result = gcnew MPTYPE();
-        MP(set_ui)(result->_value, numerator, denominator);
-        return result;
+        AllocateStruct();
+        MP(init)(_value);
+        MP(set_ui)(_value, numerator, denominator);
     }
 
-    MPTYPE^ MPTYPE::FromDouble(double value)
+    MPTYPE::MPTYPE(double value)
     {
-        auto result = gcnew MPTYPE();
-        MP(set_d)(result->_value, value);
-        return result;
+        AllocateStruct();
+        MP(init)(_value);
+        MP(set_d)(_value, value);
     }
 
     #pragma endregion
@@ -104,7 +113,7 @@ namespace MPIR
     {
         auto result = gcnew StringBuilder();
         result->Append(this->Numerator->ToString(base, lowercase, maxDigits));
-        result->Append('/');
+        result->Append((wchar_t)'/');
         result->Append(this->Denominator->ToString(base, lowercase, maxDigits));
         return result->ToString();
     }

@@ -79,16 +79,18 @@ namespace MPIR.Tests.HugeRationalTests
             Assert.AreEqual(IntPtr.Zero, a.DenominatorLimbs());
         }
 
-        /*
         [TestMethod]
         public void ConstructorFromLong()
         {
             var n = "123456789123456";
-            using (var a = HugeRational.FromLong(long.Parse(n)))
+            var d = "12764787846358441471";
+            using (var a = new HugeRational(long.Parse(n), ulong.Parse(d)))
             {
-                Assert.AreEqual(1, a.NumberOfLimbsAllocated());
-                Assert.AreEqual(1, a.NumberOfLimbsUsed());
-                Assert.AreEqual(n, a.ToString());
+                Assert.AreEqual(1, a.NumeratorNumberOfLimbsAllocated());
+                Assert.AreEqual(1, a.NumeratorNumberOfLimbsUsed());
+                Assert.AreEqual(1, a.DenominatorNumberOfLimbsAllocated());
+                Assert.AreEqual(1, a.DenominatorNumberOfLimbsUsed());
+                Assert.AreEqual(n + "/" + d, a.ToString());
             }
         }
 
@@ -96,92 +98,70 @@ namespace MPIR.Tests.HugeRationalTests
         public void ConstructorFromLongNegative()
         {
             var n = "-123456789123456";
-            using (var a = HugeRational.FromLong(long.Parse(n)))
+            var d = "12764787846358441471";
+            using (var a = new HugeRational(long.Parse(n), ulong.Parse(d)))
             {
-                Assert.AreEqual(1, a.NumberOfLimbsAllocated());
-                Assert.AreEqual(-1, a.NumberOfLimbsUsed());
-                Assert.AreEqual(n, a.ToString());
+                Assert.AreEqual(1, a.NumeratorNumberOfLimbsAllocated());
+                Assert.AreEqual(-1, a.NumeratorNumberOfLimbsUsed());
+                Assert.AreEqual(1, a.DenominatorNumberOfLimbsAllocated());
+                Assert.AreEqual(1, a.DenominatorNumberOfLimbsUsed());
+                Assert.AreEqual(n + "/" + d, a.ToString());
             }
         }
 
         [TestMethod]
         public void ConstructorFromULong()
         {
-            using (var a = HugeRational.FromUlong(ulong.MaxValue))
+            var d = "12764787846358441471";
+            using (var a = new HugeRational(ulong.MaxValue, ulong.Parse(d)))
             {
-                Assert.AreEqual(1, a.NumberOfLimbsAllocated());
-                Assert.AreEqual(1, a.NumberOfLimbsUsed());
-                Assert.AreEqual(ulong.MaxValue.ToString(), a.ToString());
+                Assert.AreEqual(1, a.NumeratorNumberOfLimbsAllocated());
+                Assert.AreEqual(1, a.NumeratorNumberOfLimbsUsed());
+                Assert.AreEqual(1, a.DenominatorNumberOfLimbsAllocated());
+                Assert.AreEqual(1, a.DenominatorNumberOfLimbsUsed());
+                Assert.AreEqual(ulong.MaxValue, a.Numerator);
+                Assert.AreEqual(ulong.MaxValue.ToString() + "/" + d, a.ToString());
             }
         }
 
         [TestMethod]
         public void ConstructorFromDouble()
         {
-            using (var a = HugeRational.FromDouble(123456789123456.9))
+            using (var a = new HugeRational(123456789123456.9))
             {
-                Assert.AreEqual("123456789123456", a.ToString());
-            }
-        }
-
-        [TestMethod]
-        public void ConstructorFromPower()
-        {
-            using (var a = new HugeRational(HugeRational.Power(10, 41)))
-            {
-                Assert.AreEqual("100000000000000000000000000000000000000000", a.ToString());
+                Assert.AreEqual("1234567891234569/10", a.ToString());
             }
         }
 
         [TestMethod]
         public void ConstructorFromDoubleNegative()
         {
-            using (var a = HugeRational.FromDouble(-123456789123456.9))
+            using (var a = new HugeRational(-123456789123456.9))
             {
-                Assert.AreEqual("-123456789123456", a.ToString());
+                Assert.AreEqual("-1234567891234569/10", a.ToString());
             }
         }
 
         [TestMethod]
         public void Allocate()
         {
-            using (var a = new HugeRational(129))
+            using (var a = new HugeRational(129, 193))
             {
-                Assert.AreEqual(3, a.NumberOfLimbsAllocated());
-                Assert.AreEqual(0, a.NumberOfLimbsUsed());
-                Assert.AreEqual("0", a.ToString());
-            }
-        }
-
-        [TestMethod]
-        public void Reallocate()
-        {
-            using (var a = new HugeRational("543209879487374938579837"))
-            {
-                Assert.AreEqual(3, a.NumberOfLimbsAllocated());
-                Assert.AreEqual("543209879487374938579837", a.ToString());
-
-                a.Reallocate(257);
-                Assert.AreEqual(5, a.NumberOfLimbsAllocated());
-                Assert.AreEqual("543209879487374938579837", a.ToString());
-
-                a.Reallocate(129);
-                Assert.AreEqual(3, a.NumberOfLimbsAllocated());
-                Assert.AreEqual("543209879487374938579837", a.ToString());
-
-                a.Reallocate(64);
-                Assert.AreEqual(1, a.NumberOfLimbsAllocated());
-                Assert.AreEqual("0", a.ToString());
+                Assert.AreEqual(3, a.NumeratorNumberOfLimbsAllocated());
+                Assert.AreEqual(0, a.NumeratorNumberOfLimbsUsed());
+                Assert.AreEqual(4, a.DenominatorNumberOfLimbsAllocated());
+                Assert.AreEqual(1, a.DenominatorNumberOfLimbsUsed());
+                Assert.AreEqual("0/1", a.ToString());
             }
         }
 
         [TestMethod]
         public void StringConstructor()
         {
-            var n = "5432109876543212345789023245987";
+            var n = "5432109876543212345789023245987/362736035870515331128527330659";
             using (var a = new HugeRational(n))
             {
-                Assert.AreEqual(2, a.NumberOfLimbsUsed());
+                Assert.AreEqual(2, a.NumeratorNumberOfLimbsUsed());
                 Assert.AreEqual(n, a.ToString());
             }
         }
@@ -194,47 +174,67 @@ namespace MPIR.Tests.HugeRationalTests
         }
 
         [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void StringConstructorInvalid2()
+        {
+            var a = new HugeRational("12345/54321A");
+        }
+
+        [TestMethod]
         public void StringConstructorHex()
         {
-            using (var a = new HugeRational("143210ABCDEF32123457ACDB324598799", 16))
+            using (var i = new HugeInt("362736035870515331128527330659"))
             {
-                Assert.AreEqual(3, a.NumberOfLimbsUsed());
+                var d = i.ToString(16);
+                using (var a = new HugeRational("143210ABCDEF32123457ACDB324598799/" + d, 16))
+                {
+                    Assert.AreEqual(3, a.NumeratorNumberOfLimbsUsed());
+                    Assert.AreEqual(i, a.Denominator);
+                }
             }
         }
 
         [TestMethod]
         public void StringConstructorHexPrefix()
         {
-            var n = "143210ABCDEF32123457ACDB324598799";
-            using (var a = new HugeRational("0x" + n))
+            using (var i = new HugeInt("362736035870515331128527330659"))
             {
-                Assert.AreEqual(n, a.ToString(16));
+                var d = i.ToString(16);
+                var n = "143210ABCDEF32123457ACDB324598799";
+                using (var a = new HugeRational("0x" + n + "/0x" + d))
+                {
+                    Assert.AreEqual(n, a.ToString(16));
+                    Assert.AreEqual(i, a.Denominator);
+                }
             }
         }
 
         [TestMethod]
         public void StringAssignmentHexPrefix()
         {
-            var n = "143210ABCDEF32123457ACDB324598799";
-            using (var a = new HugeRational("0x" + n))
+            using (var i = new HugeInt("362736035870515331128527330659"))
             {
-                Assert.AreEqual(n, a.ToString(16));
-                Assert.AreEqual(n, a.ToString(16, false));
-                Assert.AreEqual(n.ToLower(), a.ToString(16, true));
-                a.SetTo("-0x" + n);
-                Assert.AreEqual("-" + n, a.ToString(16));
+                var d = i.ToString(16);
+                var n = "143210ABCDEF32123457ACDB324598799";
+                using (var a = new HugeRational("0x" + n + "/0x" + d))
+                {
+                    Assert.AreEqual(n + "/" + d, a.ToString(16));
+                    Assert.AreEqual(n + "/" + d, a.ToString(16, false));
+                    Assert.AreEqual((n + "/" + d).ToLower(), a.ToString(16, true));
+                    a.SetTo("-0x" + n + "/0x17");
+                    Assert.AreEqual("-" + n + "/17", a.ToString(16));
+                }
             }
         }
 
         [TestMethod]
         public void ConstructorFromExpression()
         {
-            using (var a = new HugeRational("2340958273409578234095823045723490587"))
+            using (var a = new HugeRational("2340958273409578234095823045723490587/362736035870515331128527330659"))
             using (var b = new HugeRational(a + 1))
             {
                 Assert.AreEqual(a + 1, b);
             }
         }
-        */
     }
 }
