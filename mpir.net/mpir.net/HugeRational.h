@@ -61,7 +61,7 @@ namespace MPIR
     ref class MPEXPR(RemoveFactors);
     ref class MPEXPR(Sequence);
 
-    #pragma region IntegerExpression
+    #pragma region RationalExpression
 
     /// <summary>
     /// Base class for all integer expressions resulting from many integer operations on MPIR types.
@@ -277,6 +277,14 @@ namespace MPIR
             /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation.
             /// </returns>
             static MPEXPR_NAME^ operator / (mpir_si a, MPEXPR_NAME^ b);
+                                                                                                          
+            /// <summary>Raises the source value to the specified power.
+            /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
+            /// </para></summary>
+            /// <param name="a">Source value to multiply</param>
+            /// <param name="power">Power to raise <paramref name="a"/> to</param>
+            /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
+            static MPEXPR_NAME^ operator ^ (MPEXPR_NAME^ a, mpir_ui power);
 
             /// <summary>Computes the absolute value of the source number.
             /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
@@ -733,6 +741,8 @@ namespace MPIR
     DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (MPEXPR_NAME, ShiftLeft, Int, Bits)
     DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (MPEXPR_NAME, ShiftRight, Int, Bits)
                                                    
+    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (MPEXPR_NAME, Power, Int, Ui)
+
     DEFINE_UNARY_EXPRESSION_WITH_ONE               (MPEXPR_NAME, Negate, Int)
     DEFINE_UNARY_EXPRESSION_WITH_ONE               (MPEXPR_NAME, Abs, Int)
     DEFINE_UNARY_EXPRESSION_WITH_ONE               (MPEXPR_NAME, Invert, Int)
@@ -989,11 +999,25 @@ namespace MPIR
             /// <summary>
             /// Sets the value of the integer object.
             /// <para>Do not change the value of an object while it is contained in a hash table, because that changes its hash code.
+            /// </para></summary>
+            /// <param name="value">integer value for the new value for the object</param>
+            void SetTo(mpir_ui value) { SetTo(value, 1); }
+
+            /// <summary>
+            /// Sets the value of the integer object.
+            /// <para>Do not change the value of an object while it is contained in a hash table, because that changes its hash code.
             /// </para>If the fraction is not in canonical form, Canonicalize() must be called.
             /// </summary>
             /// <param name="value">new value for the object</param>
             /// <param name="denominator">denominator for the new value for the object</param>
             void SetTo(mpir_si numerator, mpir_ui denominator) { MP(set_si)(_value, numerator, denominator); }
+
+            /// <summary>
+            /// Sets the value of the integer object.
+            /// <para>Do not change the value of an object while it is contained in a hash table, because that changes its hash code.
+            /// </para></summary>
+            /// <param name="value">integer value for the new value for the object</param>
+            void SetTo(mpir_si value) { SetTo(value, 1); }
 
             /// <summary>
             /// Sets the value of the integer object.  This is an exact conversion, there is no rounting.
@@ -1037,6 +1061,24 @@ namespace MPIR
                 a->_value = _value;
                 _value = temp; 
             }
+
+            #pragma endregion
+
+            #pragma region Size checks
+
+            /// <summary>
+            /// Returns the number of digits the number would take if written in the specified base.
+            /// <para>The sign of the number is ignored, just the absolute value is used.
+            /// </para>The result will be either exact or at most 2 characters too big.
+            /// If <paramref name="base"/> is a power of 2, the result will always be exact.
+            /// <para>If the number is 0, the result is always 3.
+            /// </para>This function can be used to estimate the space required when converting to a string.
+            /// The right amount of allocation is normally two more than the value returned,
+            /// one extra for a minus sign and one for the null-terminator.
+            /// <para>A slash between numerator and denominator is accounted for.</para></summary>
+            /// <param name="base">Numeric base for the would-be string conversion, in the range from 2 to 62.</param>
+            /// <returns>The number of digits the number would take written in the specified base, possibly 1 or 2 too big, not counting a leading minus.</returns>
+            mp_size_t ApproximateSizeInBase(int base) { return mpz_sizeinbase(&_value->_mp_num, base) + mpz_sizeinbase(&_value->_mp_den, base) + 1; }
 
             #pragma endregion
 

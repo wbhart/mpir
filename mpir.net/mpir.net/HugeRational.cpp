@@ -268,6 +268,8 @@ namespace MPIR
                                                                                                         
     MAKE_BINARY_OPERATOR_RLIMB     (MPEXPR_NAME,        DEFINE, <<, ShiftLeft, Int, Bits)   
     MAKE_BINARY_OPERATOR_RLIMB     (MPEXPR_NAME,        DEFINE, >>, ShiftRight, Int, Bits)  
+
+    MAKE_BINARY_OPERATOR_RLIMB     (MPEXPR_NAME,        DEFINE, ^, Power, Int, Ui)          
                                                                                                            
     MAKE_UNARY_OPERATOR            (MPEXPR_NAME,        DEFINE, -, Negate, Int)             
     MAKE_VOID_FUNCTION             (MPEXPR_NAME,        DEFINE, Abs, Int)                   
@@ -306,6 +308,13 @@ namespace MPIR
 
     DEFINE_BINARY_ASSIGNMENT_REF_VAL(ShiftLeft, Int, Bits, MP(mul_2exp))
     DEFINE_BINARY_ASSIGNMENT_REF_VAL(ShiftRight, Int, Bits, MP(div_2exp))
+
+    DEFINE_ASSIGNMENT_PROLOG(PowerIntUi)
+    { 
+        IN_CONTEXT(Left);
+        mpz_pow_ui(&destination->_mp_num, &CTXT(0)->_mp_num, Right);
+        mpz_pow_ui(&destination->_mp_den, &CTXT(0)->_mp_den, Right);
+    }
 
     #pragma endregion
 

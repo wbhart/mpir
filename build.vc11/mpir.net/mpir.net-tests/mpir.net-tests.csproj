@@ -121,8 +121,26 @@
     <Compile Include="..\..\..\mpir.net\mpir.net-tests\HugeIntTests\NumberTheoretic.cs">
       <Link>HugeIntTests\NumberTheoretic.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\mpir.net\mpir.net-tests\HugeRationalTests\Arithmetic.cs">
+      <Link>HugeRationalTests\Arithmetic.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\mpir.net\mpir.net-tests\HugeRationalTests\Assignment.cs">
+      <Link>HugeRationalTests\Assignment.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\mpir.net\mpir.net-tests\HugeRationalTests\Comparisons.cs">
+      <Link>HugeRationalTests\Comparisons.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\mpir.net\mpir.net-tests\HugeRationalTests\ConstructionAndDisposal.cs">
       <Link>HugeRationalTests\ConstructionAndDisposal.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\mpir.net\mpir.net-tests\HugeRationalTests\Conversions.cs">
+      <Link>HugeRationalTests\Conversions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\mpir.net\mpir.net-tests\HugeRationalTests\ExpressionTests.cs">
+      <Link>HugeRationalTests\ExpressionTests.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\mpir.net\mpir.net-tests\HugeRationalTests\IO.cs">
+      <Link>HugeRationalTests\IO.cs</Link>
     </Compile>
     <Compile Include="..\..\..\mpir.net\mpir.net-tests\IntegrationTests\XmlCommentsTests.cs">
       <Link>IntegrationTests\XmlCommentsTests.cs</Link>
