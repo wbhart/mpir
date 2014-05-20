@@ -41,6 +41,7 @@ namespace MPIR.Tests.HugeIntTests
 
             using (var a = new HugeInt(-9L))
             using (var b = new HugeInt(4L))
+            using (var c = new HugeRational(6, 7))
             using (var r = MpirRandom.Default())
             {
                 var expr = a + (-a * 2) * 3 * (a.Abs() * -2 + -64 + a * a) + 116UL + a;
@@ -65,6 +66,8 @@ namespace MPIR.Tests.HugeIntTests
                 VerifyPartialResult(r, expr, 36);
                 expr = expr - HugeInt.Primorial(6) + HugeInt.Binomial(4, 2) + HugeInt.Binomial(b, 3) + HugeInt.Fibonacci(6) + HugeInt.Lucas(7);
                 VerifyPartialResult(r, expr, 53);
+                expr = expr + c.Numerator + c.Denominator;
+                VerifyPartialResult(r, expr, 66);
 
                 MarkExpressionsUsed(allExpressions, expr);
             }
