@@ -238,8 +238,8 @@ namespace MPIR.Tests.HugeIntTests
             using (var a = new HugeInt("2983475029834750293429834750298347502934298347502983475029342983475029834750293429834750298347502934"))
             {
                 AssertEither(100, 101, a.ApproximateSizeInBase(10));
-                AssertEither(331, 332, a.ApproximateSizeInBase(2));
-                AssertEither(83, 84, a.ApproximateSizeInBase(16));
+                AssertEither(331, 331, a.ApproximateSizeInBase(2));
+                AssertEither(83, 83, a.ApproximateSizeInBase(16));
                 AssertEither(64, 65, a.ApproximateSizeInBase(36));
                 AssertEither(56, 57, a.ApproximateSizeInBase(62));
             }

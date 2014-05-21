@@ -272,11 +272,11 @@ namespace MPIR.Tests.HugeRationalTests
         [TestMethod]
         public void RationalShiftLeft()
         {
-            using (var a = new HugeRational("-12345700987ABCDEF2345CBDEFA245230948/115756986668303657898962467957", 16))
+            using (var a = new HugeRational("-12345700987ABCDEF2345CBDEFA245230948/17607EF654EB9A13FFA163C75", 16))
             {
                 ulong b = 40;
                 a.Value = a << b;
-                Assert.AreEqual("-12345700987ABCDEF2345CBDEFA2452309480000000000/115756986668303657898962467957", a.ToString(16));
+                Assert.AreEqual("-12345700987ABCDEF2345CBDEFA2452309480000000000/17607EF654EB9A13FFA163C75", a.ToString(16));
             }
         }
 
@@ -287,11 +287,11 @@ namespace MPIR.Tests.HugeRationalTests
         [TestMethod]
         public void RationalShiftRight()
         {
-            using (var a = new HugeRational("ABCDEF052834524092854092874502983745029345723098457209305983434345/115756986668303657898962467957", 16))
+            using (var a = new HugeRational("ABCDEF052834524092854092874502983745029345723098457209305983434345/17607EF654EB9A13FFA163C75", 16))
             {
                 ulong b = 96;
                 a.Value = a >> b;
-                Assert.AreEqual("ABCDEF052834524092854092874502983745029345/115756986668303657898962467957", a.ToString(16));
+                Assert.AreEqual("ABCDEF052834524092854092874502983745029345723098457209305983434345/17607EF654EB9A13FFA163C75000000000000000000000000", a.ToString(16));
             }
         }
 

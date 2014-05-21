@@ -30,9 +30,11 @@ namespace MPIR.Tests.HugeRationalTests
         public void RationalToStringDecimal()
         {
             var n = "-23429384756298357462983476598345623984756";
-            using (var a = new HugeRational(n))
+            var d = "115756986668303657898962467957";
+            var s = n + "/" + d;
+            using (var a = new HugeRational(s))
             {
-                Assert.AreEqual(n, a.ToString());
+                Assert.AreEqual(s, a.ToString());
             }
         }
 
@@ -40,10 +42,12 @@ namespace MPIR.Tests.HugeRationalTests
         public void RationalToStringHex()
         {
             var n = "-23429abcdef298357462983fedcba345623984756";
-            using (var a = new HugeRational(n, 16))
+            var d = "17607ef654eb9a13ffa163c75";
+            var s = n + "/" + d;
+            using (var a = new HugeRational(s, 16))
             {
-                Assert.AreEqual(n, a.ToString(16, true));
-                Assert.AreEqual(n.ToUpper(), a.ToString(16));
+                Assert.AreEqual(s, a.ToString(16, true));
+                Assert.AreEqual(s.ToUpper(), a.ToString(16));
             }
         }
 
@@ -75,14 +79,12 @@ namespace MPIR.Tests.HugeRationalTests
         public void RationalToAndFromDouble()
         {
             using (var a = new HugeRational())
-            using (var lo = new HugeRational())
-            using (var hi = new HugeRational())
             {
-                a.SetTo(-123.45e20);
+                a.SetTo(-123.25);
 
                 double c = a.ToDouble();
-                Assert.AreEqual(-123.45e20, c);
-                Assert.AreEqual(-123.45e20, a);
+                Assert.AreEqual(-123.25, c);
+                Assert.AreEqual(-123.25, a);
             }
         }
 
@@ -90,15 +92,13 @@ namespace MPIR.Tests.HugeRationalTests
         public void RationalToAndFromFloat()
         {
             using (var a = new HugeRational())
-            using (var lo = new HugeRational())
-            using (var hi = new HugeRational())
             {
-                a.SetTo(-123.45e20f);
+                a.SetTo(-123.125f);
 
                 double c = a.ToDouble();
-                Assert.AreEqual(-123.45e20, c);
-                Assert.AreEqual(-123.45e20, a);
-                Assert.AreEqual(-123.45e20f, a);
+                Assert.AreEqual(-123.125, c);
+                Assert.AreEqual(-123.125, a);
+                Assert.AreEqual(-123.125f, a);
             }
         }
 
@@ -107,11 +107,11 @@ namespace MPIR.Tests.HugeRationalTests
         {
             using (var a = new HugeRational())
             {
-                var n = "98762934876529834765234123984761";
+                var n = "98762934876529834765234123984761/115756986668303657898962467957";
                 a.SetTo(n);
                 Assert.AreEqual(n, a.ToString());
 
-                n = "-98ABCDEF876529834765234123984761";
+                n = "-98ABCDEF876529834765234123984761/17607EF654EB9A13FFA163C75";
                 a.SetTo(n, 16);
                 Assert.AreEqual(n, a.ToString(16));
             }
@@ -128,34 +128,49 @@ namespace MPIR.Tests.HugeRationalTests
         }
 
         [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void RationalFromInvalidString2()
+        {
+            using (var a = new HugeRational())
+            {
+                a.SetTo("12345/13345A");
+            }
+        }
+
+        [TestMethod]
         public void RationalToStringTruncated()
         {
-            var n = string.Concat("123456789".Select(c => new string(c, 30)));
-            using (var a = new HugeRational(n))
+            using (var d = new HugeInt("115756986668303657898962467957"))
+            using (var e = new HugeInt(d ^ 10))
             {
-                Assert.AreEqual(n, a.ToString(10));
-                Assert.AreEqual("..." + n.Substring(n.Length - 256), a.ToString());
-                a.Value = -a;
-                Assert.AreEqual("-..." + n.Substring(n.Length - 256), a.ToString());
+                var s = e.ToString(10);
+                var n = string.Concat("123456789".Select(c => new string(c, 30)));
+                using (var a = new HugeRational(n + "/" + s))
+                {
+                    Assert.AreEqual(n + "/" + s, a.ToString(10));
+                    Assert.AreEqual("..." + n.Substring(n.Length - 256) + "/..." + s.Substring(s.Length - 256), a.ToString());
+                    a.Value = -a;
+                    Assert.AreEqual("-..." + n.Substring(n.Length - 256) + "/..." + s.Substring(s.Length - 256), a.ToString());
+                }
             }
         }
 
         [TestMethod]
         public void RationalApproximateSizeInBase()
         {
-            using (var a = new HugeRational("2983475029834750293429834750298347502934298347502983475029342983475029834750293429834750298347502934"))
+            using (var a = new HugeRational("2983475029834750293429834750298347502934298347502983475029342983475029834750293429834750298347502934/115756986668303657898962467957"))
             {
-                AssertEither(100, 101, a.ApproximateSizeInBase(10));
-                AssertEither(331, 332, a.ApproximateSizeInBase(2));
-                AssertEither(83, 84, a.ApproximateSizeInBase(16));
-                AssertEither(64, 65, a.ApproximateSizeInBase(36));
-                AssertEither(56, 57, a.ApproximateSizeInBase(62));
+                AssertBetween(131, 133, a.ApproximateSizeInBase(10));
+                AssertBetween(429, 429, a.ApproximateSizeInBase(2));
+                AssertBetween(109, 109, a.ApproximateSizeInBase(16));
+                AssertBetween(84, 86, a.ApproximateSizeInBase(36));
+                AssertBetween(74, 76, a.ApproximateSizeInBase(62));
             }
         }
 
-        private void AssertEither(int expected1, int expected2, long actual)
+        private void AssertBetween(int min, int max, long actual)
         {
-            Assert.IsTrue(actual == expected1 || actual == expected2, "Expected {0} or {1}, actual {2}", expected1, expected2, actual);
+            Assert.IsTrue(actual >= min && actual <= max, "Expected {0} to {1}, actual {2}", min, max, actual);
         }
     }
 }

@@ -119,7 +119,7 @@ namespace MPIR.Tests.HugeRationalTests
                 Assert.AreEqual(1, a.NumeratorNumberOfLimbsUsed());
                 Assert.AreEqual(1, a.DenominatorNumberOfLimbsAllocated());
                 Assert.AreEqual(1, a.DenominatorNumberOfLimbsUsed());
-                Assert.AreEqual(ulong.MaxValue, a.Numerator);
+                Assert.AreEqual(ulong.MaxValue.ToString(), a.Numerator.ToString());
                 Assert.AreEqual(ulong.MaxValue.ToString() + "/" + d, a.ToString());
             }
         }
@@ -127,18 +127,18 @@ namespace MPIR.Tests.HugeRationalTests
         [TestMethod]
         public void RationalConstructorFromDouble()
         {
-            using (var a = new HugeRational(123456789123456.9))
+            using (var a = new HugeRational(123456789123456.75))
             {
-                Assert.AreEqual("1234567891234569/10", a.ToString());
+                Assert.AreEqual("493827156493827/4", a.ToString());
             }
         }
 
         [TestMethod]
         public void RationalConstructorFromDoubleNegative()
         {
-            using (var a = new HugeRational(-123456789123456.9))
+            using (var a = new HugeRational(-123456789123456.75))
             {
-                Assert.AreEqual("-1234567891234569/10", a.ToString());
+                Assert.AreEqual("-493827156493827/4", a.ToString());
             }
         }
 
@@ -203,7 +203,7 @@ namespace MPIR.Tests.HugeRationalTests
                 var n = "143210ABCDEF32123457ACDB324598799";
                 using (var a = new HugeRational("0x" + n + "/0x" + d))
                 {
-                    Assert.AreEqual(n, a.ToString(16));
+                    Assert.AreEqual(n + "/" + d, a.ToString(16));
                     Assert.AreEqual(i, a.Denominator);
                 }
             }

@@ -57,7 +57,7 @@ namespace MPIR.Tests.HugeRationalTests
             {
                 a.Value += 1;
                 a.Value *= 10;
-                Assert.AreEqual("9384750928347059283475234523460/115756986668303657898962467957", a.ToString());
+                Assert.AreEqual("10542320795030095862464859203020/115756986668303657898962467957", a.ToString());
             }
         }
         //more tests coming here
