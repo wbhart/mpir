@@ -113,7 +113,7 @@ namespace MPIR.Tests.HugeIntTests
 
                 var invalidParams = Params.Select(x => x.Name).Except(method.GetParameters().Select(x => x.Name)).ToArray();
                 if (invalidParams.Any())
-                    yield return string.Format("Invalid param {0} on {1}", string.Join(", ", missingParams), MemberName);
+                    yield return string.Format("Invalid param {0} on {1}", string.Join(", ", invalidParams), MemberName);
 
                 if (method.ContainsGenericParameters)
                 {

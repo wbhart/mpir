@@ -145,7 +145,7 @@ namespace MPIR.Tests.HugeRationalTests
         [TestMethod]
         public void RationalAllocate()
         {
-            using (var a = new HugeRational(129, 193))
+            using (var a = HugeRational.Allocate(129, 193))
             {
                 Assert.AreEqual(3, a.NumeratorNumberOfLimbsAllocated());
                 Assert.AreEqual(0, a.NumeratorNumberOfLimbsUsed());

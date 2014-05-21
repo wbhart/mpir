@@ -235,6 +235,9 @@ namespace MPIR
 
     bool MPEXPR_NAME::Equals(MPEXPR_NAME^ a)
     {
+        if (IS_NULL(a))
+            return false;
+
         IN_CONTEXT(this, a);
         return MP(equal)(CTXT(0), CTXT(1)) != 0;
     }

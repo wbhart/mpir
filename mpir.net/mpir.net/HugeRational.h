@@ -64,7 +64,7 @@ namespace MPIR
     #pragma region RationalExpression
 
     /// <summary>
-    /// Base class for all integer expressions resulting from many integer operations on MPIR types.
+    /// Base class for all rational expressions resulting from many rational operations on MPIR types.
     /// <para>Expressions can be arbitrarily nested, and are lazily evaluated 
     /// when they are either assigned to the Value property of an MPIR object, or are consumed by a function or operator that returns a primitive type.
     /// </para>Assignment to the Value property is necessary because .Net does not support overloading the assignment operator.
@@ -366,7 +366,7 @@ namespace MPIR
             /// <para>If called on an expression, it is evaluated into a temporary variable before the comparison is performed.
             /// </para>Multi-precision classes are mutable with value semantics.  The hash code is based on the value, and will change if the value changes.
             /// For this reason, the value of an object must not be modified while the object is contained in a hash table.</summary>
-            /// <returns>a signed integer hash code for the value.</returns>
+            /// <returns>a signed rational hash code for the value.</returns>
             virtual int GetHashCode() override sealed;
 
             /// <summary>Compares two numbers.
@@ -752,7 +752,7 @@ namespace MPIR
     #pragma region HugeRational class
 
     /// <summary>
-    /// Multi-precision Integer class.
+    /// Multi-precision Rational class.
     /// </summary>
     public ref class MPTYPE : MPEXPR_NAME
     {
@@ -793,13 +793,13 @@ namespace MPIR
             #pragma region construction and disposal
 
             /// <summary>
-            /// Initializes a new integer instance and sets its value to 0/1
+            /// Initializes a new rational instance and sets its value to 0/1
             /// </summary>
             MPTYPE();
 
             /// <summary>
-            /// Initializes a new integer instance, allocating enough memory to hold at least <paramref name="numeratorBits"/> + <paramref name="denominatorBits"/> bits, and sets its value to 0/1.
-            /// <para>This is only the initial space, integer will grow automatically in the normal way, if necessary, for subsequent values stored.
+            /// Initializes a new rational instance, allocating enough memory to hold at least <paramref name="numeratorBits"/> + <paramref name="denominatorBits"/> bits, and sets its value to 0/1.
+            /// <para>This is only the initial space, rational will grow automatically in the normal way, if necessary, for subsequent values stored.
             /// </para>This makes it possible to avoid repeated reallocations if a maximum size is known in advance.
             /// </summary>
             /// <param name="numeratorBits">Minimum number of bits the initially allocated memory should hold for the numerator</param>
@@ -808,14 +808,14 @@ namespace MPIR
             static MPTYPE^ Allocate(mp_bitcnt_t numeratorBits, mp_bitcnt_t denominatorBits);
 
             /// <summary>
-            /// Initializes a new integer instance and sets its value from the specified string, using leading characters to recognize the base:
+            /// Initializes a new rational instance and sets its value from the specified string, using leading characters to recognize the base:
             /// 0x and 0X for hexadecimal, 0b and 0B for binary, 0 for octal, or decimal otherwise.
             /// </summary>
             /// <param name="value">string representing the initial value for the new instance.  Whitespace in the string is ignored.</param>
             MPTYPE(String^ value) { FromString(value, 0); }
 
             /// <summary>
-            /// Initializes a new integer instance and sets its value from the specified string
+            /// Initializes a new rational instance and sets its value from the specified string
             /// </summary>
             /// <param name="value">string representing the initial value for the new instance.  Whitespace in the string is ignored.</param>
             /// <param name="base">base the <paramref name="value"/> string is in.
@@ -825,23 +825,25 @@ namespace MPIR
             MPTYPE(String^ value, int base) { FromString(value, base); }
 
             /// <summary>
-            /// Initializes a new integer instance and sets its value to the result of computing the source expression.
+            /// Initializes a new rational instance and sets its value to the result of computing the source expression.
             /// </summary>
             /// <param name="value">the expression that will be computed, and the result set as the initial value of the new instance.</param>
             MPTYPE(MPEXPR_NAME^ value);
 
             /// <summary>
-            /// Constructs and returns a new integer instance with its value set to <paramref name="numerator"/> / <paramref name="denominator"/>.
+            /// Constructs and returns a new rational instance with its value set to <paramref name="numerator"/> / <paramref name="denominator"/>.
             /// <para>If the fraction is not in canonical form, Canonicalize() must be called.</para>
             /// </summary>
-            /// <param name="value">Initial value for the new integer instance</param>
+            /// <param name="numerator">Numerator for the initial value for the new rational instance</param>
+            /// <param name="denominator">Denominator for the initial value for the new rational instance</param>
             MPTYPE(mpir_si numerator, mpir_ui denominator);
 
             /// <summary>
-            /// Constructs and returns a new integer instance with its value set to <paramref name="numerator"/> / <paramref name="denominator"/>.
+            /// Constructs and returns a new rational instance with its value set to <paramref name="numerator"/> / <paramref name="denominator"/>.
             /// <para>If the fraction is not in canonical form, Canonicalize() must be called.</para>
             /// </summary>
-            /// <param name="value">Initial value for the new integer instance</param>
+            /// <param name="numerator">Numerator for the initial value for the new rational instance</param>
+            /// <param name="denominator">Denominator for the initial value for the new rational instance</param>
             MPTYPE(mpir_ui numerator, mpir_ui denominator);
 
             /// <summary>
@@ -937,11 +939,23 @@ namespace MPIR
 //    return result; 
 //}
 
+            /// <summary>
+            /// Gets the numerator of this rational.
+            /// <para>The numerator can be used as a regular integer for any read or write operations.  It does not need to be disposed of.
+            /// </para>If setting the Value of the numerator is not known to maintain canonical form for the rational, Canonicalize() must be called.
+            /// <para>Do not set the Value of the numerator while the rational object is contained in a hash table, because that changes its hash code.
+            /// </para></summary>
             property HugeInt^ Numerator
             {
                 HugeInt^ get() { return gcnew HugeIntComponent(&_value->_mp_num); }
             };
 
+            /// <summary>
+            /// Gets the denominator of this rational.
+            /// <para>The denominator can be used as a regular integer for any read or write operations.  It does not need to be disposed of.
+            /// </para>If setting the Value of the denominator is not known to maintain canonical form for the rational, Canonicalize() must be called.
+            /// <para>Do not set the Value of the denominator while the rational object is contained in a hash table, because that changes its hash code.
+            /// </para></summary>
             property HugeInt^ Denominator
             {
                 HugeInt^ get() { return gcnew HugeIntComponent(&_value->_mp_den); }
@@ -952,8 +966,8 @@ namespace MPIR
             #pragma region assignment
 
             /// <summary>
-            /// When getting, returns this integer.
-            /// <para>When setting, sets the value of the integer object to the value resulting from computing the supplied expression.
+            /// When getting, returns this rational.
+            /// <para>When setting, sets the value of the rational object to the value resulting from computing the supplied expression.
             /// </para>The getter is a no-op and never needs to be invoked directly, but makes compound operators such as +=, *=, etc. possible.
             /// <para>Do not set the Value of an object while it is contained in a hash table, because that changes its hash code.
             /// </para></summary>
@@ -978,7 +992,7 @@ namespace MPIR
             /// <para>Direct assignments such as a = b + c, a *= 10 will not compile because there is no implicit conversion from an expression.
             /// Even if an implicit conversion were defined, such code would incur an extra allocation plus garbage collection,
             /// and would not perform as well as doing the same operations on a.Value.
-            /// </para>It would also not compile if the source were a "using" variable, as all method-local integers should be.
+            /// </para>It would also not compile if the source were a "using" variable, as all method-local rationals should be.
             /// </remarks>
             property MPEXPR_NAME^ Value
             {
@@ -987,7 +1001,7 @@ namespace MPIR
             }
 
             /// <summary>
-            /// Sets the value of the integer object.
+            /// Sets the value of the rational object.
             /// <para>Do not change the value of an object while it is contained in a hash table, because that changes its hash code.
             /// </para>If the fraction is not in canonical form, Canonicalize() must be called.
             /// </summary>
@@ -996,48 +1010,48 @@ namespace MPIR
             void SetTo(mpir_ui numerator, mpir_ui denominator) { MP(set_ui)(_value, numerator, denominator); }
 
             /// <summary>
-            /// Sets the value of the integer object.
+            /// Sets the value of the rational object.
             /// <para>Do not change the value of an object while it is contained in a hash table, because that changes its hash code.
             /// </para></summary>
-            /// <param name="value">integer value for the new value for the object</param>
+            /// <param name="value">rational value for the new value for the object</param>
             void SetTo(mpir_ui value) { SetTo(value, 1); }
 
             /// <summary>
-            /// Sets the value of the integer object.
+            /// Sets the value of the rational object.
             /// <para>Do not change the value of an object while it is contained in a hash table, because that changes its hash code.
             /// </para>If the fraction is not in canonical form, Canonicalize() must be called.
             /// </summary>
-            /// <param name="value">new value for the object</param>
+            /// <param name="numerator">numerator for the new value for the object</param>
             /// <param name="denominator">denominator for the new value for the object</param>
             void SetTo(mpir_si numerator, mpir_ui denominator) { MP(set_si)(_value, numerator, denominator); }
 
             /// <summary>
-            /// Sets the value of the integer object.
+            /// Sets the value of the rational object.
             /// <para>Do not change the value of an object while it is contained in a hash table, because that changes its hash code.
             /// </para></summary>
-            /// <param name="value">integer value for the new value for the object</param>
+            /// <param name="value">rational value for the new value for the object</param>
             void SetTo(mpir_si value) { SetTo(value, 1); }
 
             /// <summary>
-            /// Sets the value of the integer object.  This is an exact conversion, there is no rounting.
+            /// Sets the value of the rational object.  This is an exact conversion, there is no rounting.
             /// <para>Do not change the value of an object while it is contained in a hash table, because that changes its hash code.
             /// </para></summary>
             /// <param name="value">new value for the object</param>
             void SetTo(double value) { MP(set_d)(_value, value); }
 
             /// <summary>
-            /// Sets the value of the integer object.
+            /// Sets the value of the rational object.
             /// <para>Do not change the value of an object while it is contained in a hash table, because that changes its hash code.
             /// </para>If the fraction is not in canonical form, Canonicalize() must be called.
             /// </summary>
             /// <param name="value">new value for the object.
-            /// <para>May be an integer or a pair of integers separated by a slash.
+            /// <para>May be an rational or a pair of rationals separated by a slash.
             /// </para>The string's leading characters may indicate base:
             /// 0x and 0X for hexadecimal, 0b and 0B for binary, 0 for octal, or decimal otherwise</param>
             void SetTo(String^ value) { SetTo(value, 0); }
 
             /// <summary>
-            /// Sets the value of the integer object.
+            /// Sets the value of the rational object.
             /// <para>Do not change the value of an object while it is contained in a hash table, because that changes its hash code.
             /// </para>If the fraction is not in canonical form, Canonicalize() must be called.
             /// </summary>
@@ -1049,7 +1063,7 @@ namespace MPIR
             void SetTo(String^ value, int base);
 
             /// <summary>
-            /// Swaps the values of two integers.
+            /// Swaps the values of two rationals.
             /// <para>This operation is a pointer swap and doesn't affect allocated memory.
             /// </para>Do not call this method while either object is contained in a hash table, because this would change their hash codes.
             /// </summary>
@@ -1084,7 +1098,7 @@ namespace MPIR
             #pragma region IO
 
             /// <summary>
-            /// Outputs the integer to the <paramref name="stream"/> in raw binary format.
+            /// Outputs the rational to the <paramref name="stream"/> in raw binary format.
             /// <para>The number is written in a portable format, with 4 bytes of size information, and that many bytes of limbs.
             /// Both the size and the limbs are written in decreasing significance order (i.e., in big-endian).
             /// </para>The output can be read with Read(Stream).
@@ -1096,7 +1110,7 @@ namespace MPIR
             size_t Write(Stream^ stream);
 
             /// <summary>
-            /// Reads the integer value from the <paramref name="stream"/> in raw binary format, as it would have been written by Write(Stream).
+            /// Reads the rational value from the <paramref name="stream"/> in raw binary format, as it would have been written by Write(Stream).
             /// <para>The number is read in a portable format, with 4 bytes of size information, and that many bytes of limbs.
             /// Both the size and the limbs are written in decreasing significance order (i.e., in big-endian).
             /// </para>This routine can read the output from MP(out_raw) also from GMP 1, in spite of changes
@@ -1107,7 +1121,7 @@ namespace MPIR
             size_t Read(Stream^ stream);
 
             /// <summary>
-            /// Outputs the integer to the <paramref name="writer"/> as a string of digits in decimal.
+            /// Outputs the rational to the <paramref name="writer"/> as a string of digits in decimal.
             /// <para>When writing multiple numbers that are to be read back with the Read(TextReader) method,
             /// it is useful to separate the numbers with a character that is not a valid decimal digit.
             /// </para>This is because the Read method stops reading when it encounters a character that cannot represent a digit.
@@ -1117,7 +1131,7 @@ namespace MPIR
             size_t Write(TextWriter^ writer) { return Write(writer, 0, false); }
 
             /// <summary>
-            /// Outputs the integer to the <paramref name="writer"/> as a string of digits in base <paramref name="base"/>.
+            /// Outputs the rational to the <paramref name="writer"/> as a string of digits in base <paramref name="base"/>.
             /// <para>When writing multiple numbers that are to be read back with the Read(TextReader) method,
             /// it is useful to separate the numbers with a character that is not a valid digit in base <paramref name="base"/>.
             /// </para>This is because the Read method stops reading when it encounters a character that cannot represent a digit.
@@ -1131,7 +1145,7 @@ namespace MPIR
             size_t Write(TextWriter^ writer, int base) { return Write(writer, base, false); }
 
             /// <summary>
-            /// Outputs the integer to the <paramref name="writer"/> as a string of digits in base <paramref name="base"/>.
+            /// Outputs the rational to the <paramref name="writer"/> as a string of digits in base <paramref name="base"/>.
             /// <para>When writing multiple numbers that are to be read back with the Read(TextReader) method,
             /// it is useful to separate the numbers with a character that is not a valid digit in base <paramref name="base"/>.
             /// </para>This is because the Read method stops reading when it encounters a character that cannot represent a digit.

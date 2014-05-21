@@ -30,12 +30,13 @@ namespace MPIR.Tests.HugeRationalTests
         [TestMethod]
         public void RationalCompareToHugeRational()
         {
-            using (var a = new HugeRational("-222509832503450298345029835740293845721"))
-            using (var b = new HugeRational("222509832503450298345029835740293845720"))
+            using (var a = new HugeRational("-222509832503450298345029835740293845721/115756986668303657898962467957"))
+            using (var b = new HugeRational("222509832503450298345029835740293845720/115756986668303657898962467957"))
+            using (var c = new HugeRational("1/115756986668303657898962467957"))
             {
                 Assert.AreEqual(1, System.Math.Sign(b.CompareTo(a)));
                 Assert.AreEqual(-1, System.Math.Sign(a.CompareTo(b + 1)));
-                Assert.AreEqual(0, System.Math.Sign((a + 1).CompareTo(-b)));
+                Assert.AreEqual(0, System.Math.Sign((a + c).CompareTo(-b)));
                 Assert.AreEqual(1, System.Math.Sign(a.CompareTo(null)));
             }
         }
@@ -43,26 +44,28 @@ namespace MPIR.Tests.HugeRationalTests
         [TestMethod]
         public void RationalCompareToObject()
         {
-            using (var a = new HugeRational("-222509832503450298345029835740293845721"))
-            using (var b = new HugeRational("222509832503450298345029835740293845720"))
+            using (var a = new HugeRational("-222509832503450298345029835740293845721/115756986668303657898962467957"))
+            using (var b = new HugeRational("222509832503450298345029835740293845720/115756986668303657898962467957"))
+            using (var c = new HugeRational("1/115756986668303657898962467957"))
             {
                 Assert.AreEqual(1, System.Math.Sign(((IComparable)b).CompareTo((object)a)));
                 Assert.AreEqual(-1, System.Math.Sign(((IComparable)a).CompareTo((object)b)));
                 Assert.AreEqual(1, System.Math.Sign(((IComparable)a).CompareTo(null)));
-                Assert.AreEqual(0, System.Math.Sign(((IComparable)(a + 1)).CompareTo((object)-b)));
+                Assert.AreEqual(0, System.Math.Sign(((IComparable)(a + c)).CompareTo((object)-b)));
             }
         }
 
         [TestMethod]
         public void RationalCompareToExpression()
         {
-            using (var a = new HugeRational("-222509832503450298345029835740293845721"))
-            using (var b = new HugeRational("222509832503450298345029835740293845720"))
+            using (var a = new HugeRational("-222509832503450298345029835740293845721/115756986668303657898962467957"))
+            using (var b = new HugeRational("222509832503450298345029835740293845720/115756986668303657898962467957"))
+            using (var c = new HugeRational("1/115756986668303657898962467957"))
             {
                 Assert.AreEqual(1, System.Math.Sign(((IComparable<RationalExpression>)b).CompareTo(a)));
                 Assert.AreEqual(-1, System.Math.Sign(((IComparable<RationalExpression>)a).CompareTo(b)));
                 Assert.AreEqual(1, System.Math.Sign(((IComparable<RationalExpression>)a).CompareTo(null)));
-                Assert.AreEqual(0, System.Math.Sign(((IComparable<RationalExpression>)(a + 1)).CompareTo(-b)));
+                Assert.AreEqual(0, System.Math.Sign(((IComparable<RationalExpression>)(a + c)).CompareTo(-b)));
             }
         }
 
@@ -70,7 +73,7 @@ namespace MPIR.Tests.HugeRationalTests
         [ExpectedException(typeof(ArgumentException))]
         public void RationalCompareToNonExpression()
         {
-            using (var a = new HugeRational("-222509832503450298345029835740293845721"))
+            using (var a = new HugeRational("-222509832503450298345029835740293845721/115756986668303657898962467957"))
             {
                 a.CompareTo("abc");
             }
@@ -124,8 +127,8 @@ namespace MPIR.Tests.HugeRationalTests
         [TestMethod]
         public void RationalOperatorLessThan()
         {
-            using (var a = new HugeRational("-222509832503450298345029835740293845721"))
-            using (var b = new HugeRational("222509832503450298345029835740293845720"))
+            using (var a = new HugeRational("-222509832503450298345029835740293845721/115756986668303657898962467957"))
+            using (var b = new HugeRational("222509832503450298345029835740293845720/115756986668303657898962467957"))
             using (var c = new HugeRational())
             {
                 c.Value = a;
@@ -140,8 +143,8 @@ namespace MPIR.Tests.HugeRationalTests
         [TestMethod]
         public void RationalOperatorLessThanOrEqual()
         {
-            using (var a = new HugeRational("-222509832503450298345029835740293845721"))
-            using (var b = new HugeRational("222509832503450298345029835740293845720"))
+            using (var a = new HugeRational("-222509832503450298345029835740293845721/115756986668303657898962467957"))
+            using (var b = new HugeRational("222509832503450298345029835740293845720/115756986668303657898962467957"))
             using (var c = new HugeRational())
             {
                 c.Value = a;
@@ -156,8 +159,8 @@ namespace MPIR.Tests.HugeRationalTests
         [TestMethod]
         public void RationalOperatorGreaterThan()
         {
-            using (var a = new HugeRational("-222509832503450298345029835740293845721"))
-            using (var b = new HugeRational("222509832503450298345029835740293845720"))
+            using (var a = new HugeRational("-222509832503450298345029835740293845721/115756986668303657898962467957"))
+            using (var b = new HugeRational("222509832503450298345029835740293845720/115756986668303657898962467957"))
             using (var c = new HugeRational())
             {
                 c.Value = a;
@@ -172,8 +175,8 @@ namespace MPIR.Tests.HugeRationalTests
         [TestMethod]
         public void RationalOperatorGreaterThanOrEqual()
         {
-            using (var a = new HugeRational("-222509832503450298345029835740293845721"))
-            using (var b = new HugeRational("222509832503450298345029835740293845720"))
+            using (var a = new HugeRational("-222509832503450298345029835740293845721/115756986668303657898962467957"))
+            using (var b = new HugeRational("222509832503450298345029835740293845720/115756986668303657898962467957"))
             using (var c = new HugeRational())
             {
                 c.Value = a;
@@ -391,34 +394,36 @@ namespace MPIR.Tests.HugeRationalTests
         [TestMethod]
         public void RationalEqualsHugeRational()
         {
-            using (var a = new HugeRational("-222509832503450298345029835740293845721"))
-            using (var b = new HugeRational("222509832503450298345029835740293845720"))
+            using (var a = new HugeRational("-222509832503450298345029835740293845721/115756986668303657898962467957"))
+            using (var b = new HugeRational("222509832503450298345029835740293845720/115756986668303657898962467957"))
+            using (var c = new HugeRational("1/115756986668303657898962467957"))
             {
                 Assert.IsFalse(b.Equals(a));
-                Assert.IsFalse(a.Equals(b + 1));
-                Assert.IsTrue((a + 1).Equals(-b));
+                Assert.IsFalse(a.Equals(b + c));
+                Assert.IsTrue((a + c).Equals(-b));
                 Assert.IsFalse(a.Equals(null));
-                Assert.IsTrue(Equals(a + 1, -b));
+                Assert.IsTrue(Equals(a + c, -b));
             }
         }
 
         [TestMethod]
         public void RationalEqualsExpression()
         {
-            using (var a = new HugeRational("-222509832503450298345029835740293845721"))
-            using (var b = new HugeRational("222509832503450298345029835740293845720"))
+            using (var a = new HugeRational("-222509832503450298345029835740293845721/115756986668303657898962467957"))
+            using (var b = new HugeRational("222509832503450298345029835740293845720/115756986668303657898962467957"))
+            using (var c = new HugeRational("1/115756986668303657898962467957"))
             {
                 Assert.IsFalse(((IEquatable<RationalExpression>)b).Equals(a));
                 Assert.IsFalse(((IEquatable<RationalExpression>)a).Equals(b));
                 Assert.IsFalse(((IEquatable<RationalExpression>)a).Equals(null));
-                Assert.IsTrue(((IEquatable<RationalExpression>)(a + 1)).Equals(-b));
+                Assert.IsTrue(((IEquatable<RationalExpression>)(a + c)).Equals(-b));
             }
         }
 
         [TestMethod]
         public void RationalEqualsNonExpression()
         {
-            using (var a = new HugeRational("-222509832503450298345029835740293845721"))
+            using (var a = new HugeRational("-222509832503450298345029835740293845721/115756986668303657898962467957"))
             {
                 Assert.IsFalse(a.Equals("abc"));
             }
@@ -468,12 +473,13 @@ namespace MPIR.Tests.HugeRationalTests
         [TestMethod]
         public void RationalEqualsOperatorHugeRational()
         {
-            using (var a = new HugeRational("-222509832503450298345029835740293845721"))
-            using (var b = new HugeRational("222509832503450298345029835740293845720"))
+            using (var a = new HugeRational("-222509832503450298345029835740293845721/115756986668303657898962467957"))
+            using (var b = new HugeRational("222509832503450298345029835740293845720/115756986668303657898962467957"))
+            using (var c = new HugeRational("1/115756986668303657898962467957"))
             {
                 Assert.IsFalse(b == a);
-                Assert.IsFalse(a == b + 1);
-                Assert.IsTrue(a + 1 == -b);
+                Assert.IsFalse(a == b + c);
+                Assert.IsTrue(a + c == -b);
                 Assert.IsFalse(a == null);
             }
         }
@@ -481,12 +487,13 @@ namespace MPIR.Tests.HugeRationalTests
         [TestMethod]
         public void RationalNotEqualOperatorHugeRational()
         {
-            using (var a = new HugeRational("-222509832503450298345029835740293845721"))
-            using (var b = new HugeRational("222509832503450298345029835740293845720"))
+            using (var a = new HugeRational("-222509832503450298345029835740293845721/115756986668303657898962467957"))
+            using (var b = new HugeRational("222509832503450298345029835740293845720/115756986668303657898962467957"))
+            using (var c = new HugeRational("1/115756986668303657898962467957"))
             {
                 Assert.IsTrue(b != a);
-                Assert.IsTrue(a != b + 1);
-                Assert.IsFalse(a + 1 != -b);
+                Assert.IsTrue(a != b + c);
+                Assert.IsFalse(a + c != -b);
                 Assert.IsTrue(a != null);
             }
         }
@@ -584,7 +591,7 @@ namespace MPIR.Tests.HugeRationalTests
         [TestMethod]
         public void RationalGetHashCodeTest()
         {
-            using (var a = new HugeRational("-222509832503450298345029835740293845721"))
+            using (var a = new HugeRational("-222509832503450298345029835740293845721/115756986668303657898962467957"))
             {
                 Assert.AreNotEqual(0, a.GetHashCode());
                 Assert.AreEqual(a.GetHashCode(), (a + 0).GetHashCode());
@@ -599,7 +606,7 @@ namespace MPIR.Tests.HugeRationalTests
         [TestMethod]
         public void RationalSign()
         {
-            using (var a = new HugeRational("-222509832503450298345029835740293845721"))
+            using (var a = new HugeRational("-222509832503450298345029835740293845721/115756986668303657898962467957"))
             {
                 Assert.AreEqual(-1, a.Sign());
                 Assert.AreEqual(1, (-a).Sign());

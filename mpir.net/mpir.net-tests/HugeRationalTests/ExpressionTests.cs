@@ -51,10 +51,12 @@ namespace MPIR.Tests.HugeRationalTests
                 VerifyPartialResult(r, expr, 52);
                 expr = expr + (-7 - 2 * a) + (28UL - 4 * b) + -(a + b * 2) + (3 * a).Abs();
                 VerifyPartialResult(r, expr, 103);
-                expr = expr / a + expr / (3 * b) - a / b - b / (a + 10); //to do: adjust result
+                expr = 36 * (expr / a + expr / (3 * b) - a / b) - b / (a + 10) + 6;
                 VerifyPartialResult(r, expr, -20);
-                expr = expr + (b >> 1);
-                VerifyPartialResult(r, expr, -18);
+                expr = expr + (b >> 1) + ((b / -7L) + (a / 7UL)) * 7 + (7L / a) - (2UL / (b + 5));
+                VerifyPartialResult(r, expr, -32);
+                expr = expr + (((a / b).Invert() * 3) ^ 3) - (b + 13) / a / -3;
+                VerifyPartialResult(r, expr, -35);
 
                 MarkExpressionsUsed(allExpressions, expr);
             }
@@ -70,7 +72,7 @@ namespace MPIR.Tests.HugeRationalTests
             using (var r = new HugeRational())
             {
                 r.Value = expr;
-                Assert.AreEqual(expected.ToString(), r.ToString());
+                Assert.AreEqual(expected.ToString() + "/1", r.ToString());
             }
         }
 

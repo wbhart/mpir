@@ -83,8 +83,8 @@ namespace MPIR.Tests.HugeRationalTests
                 a.SetTo(-123.25);
 
                 double c = a.ToDouble();
-                Assert.AreEqual(-123.25, c);
-                Assert.AreEqual(-123.25, a);
+                Assert.IsTrue(c.Equals(-123.25));
+                Assert.IsTrue(a.Equals(-123.25));
             }
         }
 
@@ -96,9 +96,9 @@ namespace MPIR.Tests.HugeRationalTests
                 a.SetTo(-123.125f);
 
                 double c = a.ToDouble();
-                Assert.AreEqual(-123.125, c);
-                Assert.AreEqual(-123.125, a);
-                Assert.AreEqual(-123.125f, a);
+                Assert.IsTrue(-123.125 == c);
+                Assert.IsTrue(-123.125 == a);
+                Assert.IsTrue(-123.125f == a);
             }
         }
 
