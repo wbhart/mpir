@@ -156,6 +156,18 @@ namespace MPIR.Tests.HugeRationalTests
         }
 
         [TestMethod]
+        public void RationalCanonicalize()
+        {
+            using (var a = new HugeRational(198, 15))
+            {
+                a.Denominator.Value = -a.Denominator;
+                Assert.AreEqual("198/-15", a.ToString());
+                a.Canonicalize();
+                Assert.AreEqual("-66/5", a.ToString());
+            }
+        }
+
+        [TestMethod]
         public void RationalStringConstructor()
         {
             var n = "5432109876543212345789023245987/362736035870515331128527330659";

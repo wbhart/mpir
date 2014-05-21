@@ -853,6 +853,15 @@ namespace MPIR
             /// <param name="value">Initial value for the new rational instance.  This is an exact conversion.</param>
             MPTYPE(double value);
 
+            /// <summary>
+            /// Removes any factors that are common to the numerator and denominator, and makes the denominator positive.
+            /// <para>Because this operation is expensive for large numbers, it must be called manually only when needed.
+            /// </para>Constructors do not automatically canonicalize the new instance.
+            /// <para>Changing the numerator or denominator directly may, obviously, violate canonical form.
+            /// </para>Normal rational operations assume canonical form of all operands and guarantee it for the result.
+            /// </summary>
+            void Canonicalize() { MP(canonicalize)(_value); }
+
             //disposal
 
             //creating a destructor in C++ implements IDisposable.
