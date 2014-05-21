@@ -31,7 +31,6 @@ namespace MPIR.Tests.HugeRationalTests
         [TestMethod]
         public void RationalInputOutputRaw()
         {
-            Assert.Fail("This test currently crashes");
             using (var a = new HugeRational("0x10123456789ABCDEF0123456789ABCDEF0123456789ABCDEF/361720912810755408215708460645842859722715865206816237944587"))
             using (var b = new HugeRational())
             using (var ms = new MemoryStream())
@@ -48,7 +47,7 @@ namespace MPIR.Tests.HugeRationalTests
         [TestMethod]
         public void RationalInputOutputStr()
         {
-            using (var a = new HugeRational("0x10123456789ABCDEF0123456789ABCDEF0123456789ABCDEF"))
+            using (var a = new HugeRational("0x10123456789ABCDEF0123456789ABCDEF0123456789ABCDEF/361720912810755408215708460645842859722715865206816237944587"))
             using (var b = new HugeRational())
             using (var ms = new MemoryStream())
             {
@@ -69,7 +68,29 @@ namespace MPIR.Tests.HugeRationalTests
         [TestMethod]
         public void RationalInputOutputStrHex()
         {
-            using (var a = new HugeRational("0x10123456789ABCDEF0123456789ABCDEF0123456789ABCDEF"))
+            using (var a = new HugeRational("0x10123456789ABCDEF0123456789ABCDEF0123456789ABCDEF/361720912810755408215708460645842859722715865206816237944587"))
+            using (var b = new HugeRational())
+            using (var ms = new MemoryStream())
+            {
+                a.Value = a ^ 100;
+                using (var writer = new StreamWriter(ms, Encoding.UTF8, 1024, true))
+                    a.Write(writer, 16);
+
+                ms.Position = 0;
+
+                using (var reader = new StreamReader(ms, Encoding.UTF8, false, 1024, true))
+                    b.Read(reader, 16);
+
+                Assert.AreEqual(a, b);
+                Assert.AreEqual(ms.Length, ms.Position);
+                Assert.AreEqual((char)0xFEFF + a.ToString(16), Encoding.UTF8.GetString(ms.ToArray()));
+            }
+        }
+
+        [TestMethod]
+        public void RationalInputOutputStrHexPrefix()
+        {
+            using (var a = new HugeRational("0x10123456789ABCDEF0123456789ABCDEF0123456789ABCDEF/361720912810755408215708460645842859722715865206816237944587"))
             using (var b = new HugeRational())
             using (var ms = new MemoryStream())
             {
@@ -77,7 +98,9 @@ namespace MPIR.Tests.HugeRationalTests
                 using (var writer = new StreamWriter(ms, Encoding.UTF8, 1024, true))
                 {
                     writer.Write("0x");
-                    a.Write(writer, 16);
+                    a.Numerator.Write(writer, 16);
+                    writer.Write("/0");
+                    a.Denominator.Write(writer, 8);
                 }
 
                 ms.Position = 0;
@@ -87,89 +110,78 @@ namespace MPIR.Tests.HugeRationalTests
 
                 Assert.AreEqual(a, b);
                 Assert.AreEqual(ms.Length, ms.Position);
-                Assert.AreEqual((char)0xFEFF + "0x" + a.ToString(16), Encoding.UTF8.GetString(ms.ToArray()));
             }
         }
 
         [TestMethod]
         public void RationalInputOutputStrHexLower()
         {
-            using (var a = new HugeRational("0x10123456789ABCDEF0123456789ABCDEF0123456789ABCDEF"))
+            using (var a = new HugeRational("0x10123456789ABCDEF0123456789ABCDEF0123456789ABCDEF/361720912810755408215708460645842859722715865206816237944587"))
             using (var b = new HugeRational())
             using (var ms = new MemoryStream())
             {
                 a.Value = a ^ 100;
                 using (var writer = new StreamWriter(ms, Encoding.UTF8, 1024, true))
-                {
-                    writer.Write("0x");
                     a.Write(writer, 16, true);
-                }
 
                 ms.Position = 0;
 
                 using (var reader = new StreamReader(ms, Encoding.UTF8, false, 1024, true))
-                    b.Read(reader);
+                    b.Read(reader, 16);
 
                 Assert.AreEqual(a, b);
                 Assert.AreEqual(ms.Length, ms.Position);
-                Assert.AreEqual((char)0xFEFF + "0x" + a.ToString(16, true), Encoding.UTF8.GetString(ms.ToArray()));
             }
         }
 
         [TestMethod]
         public void RationalInputOutputStrOctal()
         {
-            using (var a = new HugeRational("0x10123456789ABCDEF0123456789ABCDEF0123456789ABCDEF"))
+            using (var a = new HugeRational("0x10123456789ABCDEF0123456789ABCDEF0123456789ABCDEF/361720912810755408215708460645842859722715865206816237944587"))
             using (var b = new HugeRational())
             using (var ms = new MemoryStream())
             {
                 a.Value = a ^ 100;
                 using (var writer = new StreamWriter(ms, Encoding.UTF8, 1024, true))
-                {
-                    writer.Write('0');
                     a.Write(writer, 8);
-                }
 
                 ms.Position = 0;
 
                 using (var reader = new StreamReader(ms, Encoding.UTF8, false, 1024, true))
-                    b.Read(reader);
+                    b.Read(reader, 8);
 
                 Assert.AreEqual(a, b);
                 Assert.AreEqual(ms.Length, ms.Position);
-                Assert.AreEqual((char)0xFEFF + "0" + a.ToString(8), Encoding.UTF8.GetString(ms.ToArray()));
+                Assert.AreEqual((char)0xFEFF + a.ToString(8), Encoding.UTF8.GetString(ms.ToArray()));
             }
         }
 
         [TestMethod]
         public void RationalInputOutputStrBinary()
         {
-            using (var a = new HugeRational("0x10123456789ABCDEF0123456789ABCDEF0123456789ABCDEF"))
+            using (var a = new HugeRational("0x10123456789ABCDEF0123456789ABCDEF0123456789ABCDEF/361720912810755408215708460645842859722715865206816237944587"))
             using (var b = new HugeRational())
             using (var ms = new MemoryStream())
             {
                 a.Value = a ^ 100;
                 using (var writer = new StreamWriter(ms, Encoding.UTF8, 1024, true))
-                {
-                    writer.Write("0b");
                     a.Write(writer, 2);
-                }
 
                 ms.Position = 0;
 
                 using (var reader = new StreamReader(ms, Encoding.UTF8, false, 1024, true))
-                    b.Read(reader);
+                    b.Read(reader, 2);
 
                 Assert.AreEqual(a, b);
                 Assert.AreEqual(ms.Length, ms.Position);
-                Assert.AreEqual((char)0xFEFF + "0b" + a.ToString(2), Encoding.UTF8.GetString(ms.ToArray()));
+                Assert.AreEqual((char)0xFEFF + a.ToString(2), Encoding.UTF8.GetString(ms.ToArray()));
             }
         }
 
         [TestMethod]
         public void RationalInputOutputStr62()
         {
-            using (var a = new HugeRational("0x10123456789ABCDEF0123456789ABCDEF0123456789ABCDEF"))
+            using (var a = new HugeRational("0x10123456789ABCDEF0123456789ABCDEF0123456789ABCDEF/361720912810755408215708460645842859722715865206816237944587"))
             using (var b = new HugeRational())
             using (var ms = new MemoryStream())
             {

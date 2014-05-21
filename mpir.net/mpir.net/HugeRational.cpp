@@ -336,68 +336,28 @@ namespace MPIR
 
     size_t MPTYPE::Write(Stream^ stream)
     {
-        mpir_out_struct out;
-        //todo
-        //MP(out_raw_m)(out, _value);
+        auto writtenNumerator = Numerator->Write(stream);
+        if(writtenNumerator == 0)
+            return 0;
 
-        auto buffer = gcnew array<unsigned char>(chunkSize);
-        auto ptr = out->written;
-        auto toWrite = (int)out->writtenSize;
+        auto writtenDenominator = Denominator->Write(stream);
+        if(writtenDenominator == 0)
+            return 0;
 
-        while(toWrite > 0)
-        {
-            auto len = Math::Min(chunkSize, toWrite);
-            Marshal::Copy(IntPtr(ptr), buffer, 0, len);
-            stream->Write(buffer, 0, len);
-            ptr += len;
-            toWrite -= len;
-        }
-
-        (*__gmp_free_func)(out->allocated, out->allocatedSize);
-
-        return out->writtenSize;
+        return writtenNumerator + writtenDenominator;
     }
 
     size_t MPTYPE::Read(Stream^ stream)
     {
-        unsigned char csize_bytes[4];
-        mpir_out_struct out;
+        auto readNumerator = Numerator->Read(stream);
+        if(readNumerator == 0)
+            return 0;
 
-        // 4 bytes for size
-        for(int i = 0; i < 4; i++)
-        {
-            auto byte = stream->ReadByte();
-            if(byte < 0)
-                throw gcnew Exception("Unexpected end of stream");
+        auto readDenominator = Denominator->Read(stream);
+        if(readDenominator == 0)
+            return 0;
 
-            csize_bytes[i] = byte;
-        }
-
-        //todo
-        //MP(inp_raw_p)(_value, csize_bytes, out);
-
-        if(out->writtenSize != 0)
-        {
-            auto buffer = gcnew array<unsigned char>(chunkSize);
-            auto ptr = out->written;
-            auto toRead = (int)out->writtenSize;
-
-            while(toRead > 0)
-            {
-                auto len = Math::Min(chunkSize, toRead);
-                if (len != stream->Read(buffer, 0, len))
-                    throw gcnew Exception("Unexpected end of stream");
-
-                Marshal::Copy(buffer, 0, IntPtr(ptr), len);
-                ptr += len;
-                toRead -= len;
-            }
-
-            //todo
-            //MP(inp_raw_m)(_value, out);
-        }
-
-        return 4 + out->writtenSize;
+        return readNumerator + readDenominator;
     }
 
     size_t MPTYPE::Write(TextWriter^ writer, int base, bool lowercase)
@@ -409,126 +369,22 @@ namespace MPIR
 
     size_t MPTYPE::Read(TextReader^ reader, int base)
     {
-        int c;
-        size_t nread = 0;
+        auto readNumerator = Numerator->Read(reader, base);
+        if(readNumerator == 0)
+            return 0;
 
-        // Skip whitespace
-        while ((c = reader->Peek()) >= 0 && Char::IsWhiteSpace(c))
+        size_t readDenominator = 0;
+        char c = reader->Peek();
+        if (c == '/')
         {
-            nread++;
             reader->Read();
+            readDenominator = 1 + Denominator->Read(reader, base);
+            if(readDenominator == 1)
+                return 0;
         }
 
-        //todo
-//        return ReadNoWhite(reader, base, nread);
-        return 0;
+        return readNumerator + readDenominator;
     }
-
-//#define PEEK_NEXT_CHAR  \
-//    reader->Read();     \
-//    c = reader->Peek(); \
-//    nread++;
-//
-//    // adapted from inp_str, which is shared by mpq_inp_str
-//    size_t MPTYPE::ReadNoWhite(TextReader^ reader, int base, size_t nread)
-//    {
-//        char *str;
-//        size_t alloc_size, str_size;
-//        bool negative = false;
-//        mp_size_t xsize;
-//        const unsigned char* digit_value = __gmp_digit_value_tab;
-//        int c = reader->Peek();
-//
-//        if (base > 36)
-//        {
-//            // For bases > 36, use the collating sequence
-//            // 0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz
-//            digit_value += 224;
-//            if (base > 62)
-//                throw gcnew ArgumentException("Invalid base", "base");
-//        }
-//
-//        if (c == '-')
-//        {
-//            negative = true;
-//            PEEK_NEXT_CHAR;
-//        }
-//
-//        if (c == EOF || digit_value[c] >= (base == 0 ? 10 : base))
-//            throw gcnew Exception("No digits found");
-//
-//        // If BASE is 0, try to find out the base by looking at the initial characters.
-//        if (base == 0)
-//        {
-//            base = 10;
-//            if (c == '0')
-//            {
-//                base = 8;
-//                PEEK_NEXT_CHAR;
-//
-//                switch(c = reader->Peek())
-//                {
-//                    case 'x':
-//                    case 'X':
-//                        base = 16;
-//                        PEEK_NEXT_CHAR;
-//                        break;
-//
-//                    case 'b':
-//                    case 'B':
-//                        base = 2;
-//                        PEEK_NEXT_CHAR;
-//                }
-//            }
-//        }
-//
-//        // Skip leading zeros
-//        while (c == '0')
-//        {
-//            PEEK_NEXT_CHAR;
-//        }
-//
-//        alloc_size = 100;
-//        str = (char *) (*__gmp_allocate_func) (alloc_size);
-//        str_size = 0;
-//
-//        while (c != EOF)
-//        {
-//            int dig = digit_value[c];
-//            if (dig >= base)
-//                break;
-//
-//            if (str_size >= alloc_size)
-//            {
-//                size_t old_alloc_size = alloc_size;
-//                alloc_size = alloc_size * 3 / 2;
-//                str = (char *) (*__gmp_reallocate_func) (str, old_alloc_size, alloc_size);
-//            }
-//            str[str_size++] = dig;
-//            reader->Read();
-//            c = reader->Peek();
-//        }
-//        nread += str_size;
-//
-//        // Make sure the string is not empty, mpn_set_str would fail.
-//        if (str_size == 0)
-//        {
-//            _value ->_mp_size = 0;
-//        }
-//        else
-//        {
-//            xsize = (((mp_size_t)
-//                (str_size / __mp_bases[base].chars_per_bit_exactly))
-//                / GMP_NUMB_BITS + 2);
-//            MP(realloc) (_value, xsize);
-//
-//            // Convert the byte array in base BASE to our bignum format.
-//            xsize = mpn_set_str (_value->_mp_d, (unsigned char *) str, str_size, base);
-//            _value->_mp_size = (int)(negative ? -xsize : xsize);
-//        }
-//        (*__gmp_free_func) (str, alloc_size);
-//        return nread;
-//    }
 
     #pragma endregion
 };

@@ -615,11 +615,6 @@ namespace MPIR
         return ReadNoWhite(reader, base, nread);
     }
 
-#define PEEK_NEXT_CHAR  \
-    reader->Read();     \
-    c = reader->Peek(); \
-    nread++;
-
     // adapted from inp_str, which is shared by mpq_inp_str
     size_t MPTYPE::ReadNoWhite(TextReader^ reader, int base, size_t nread)
     {

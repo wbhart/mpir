@@ -27,6 +27,11 @@ along with the MPIR Library.  If not, see http://www.gnu.org/licenses/.
 #define PIN(x) pin_ptr<T> pinptr##x = &x[0]; void* pinned_##x = pinptr##x;
 #define SGN(Z) ((Z) < 0 ? -1 : (Z) > 0)
 
+#define PEEK_NEXT_CHAR  \
+    reader->Read();     \
+    c = reader->Peek(); \
+    nread++;
+
 #define IN_CONTEXT_1(a)        \
     EvaluationContext context; \
     a->AssignTo(context)
