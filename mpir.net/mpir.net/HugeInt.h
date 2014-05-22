@@ -48,6 +48,7 @@ using namespace System::Runtime::InteropServices;
 namespace MPIR
 {
     ref class MpirRandom;
+    ref class RationalExpression;
     ref class MPTYPE;
     ref class MPEXPR(Divide);
     ref class MPEXPR(DivideUi);
@@ -1621,6 +1622,13 @@ namespace MPIR
             /// </para>For bases up to 36, case is ignored; upper-case and lower-case letters have the same value. 
             /// For bases 37 to 62, upper-case letter represent the usual 10..35 while lower-case letter represent 36..61.</param>
             void SetTo(String^ value, int base);
+
+            /// <summary>
+            /// Sets the value of the integer object.  Any fractional portion is truncated.
+            /// <para>Do not change the value of an object while it is contained in a hash table, because that changes its hash code.
+            /// </para></summary>
+            /// <param name="value">new value for the object</param>
+            void SetTo(RationalExpression^ value);
 
             /// <summary>
             /// Swaps the values of two integers.

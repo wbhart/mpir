@@ -387,4 +387,14 @@ namespace MPIR
     }
 
     #pragma endregion
+
+    #pragma region methods in other classes with rational parameters
+
+    void HugeInt::SetTo(MPEXPR_NAME^ value)
+    {
+        IN_CONTEXT(value);
+        mpz_set_q(_value, CTXT(0));
+    }
+
+    #pragma endregion
 };

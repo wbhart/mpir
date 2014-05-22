@@ -37,6 +37,17 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
+        public void IntAssignRational()
+        {
+            using (var a = new HugeRational("222509832503450298345029835740293845720/7"))
+            using (var b = new HugeInt())
+            {
+                b.SetTo(a);
+                Assert.AreEqual("31787118929064328335004262248613406531", b.ToString());
+            }
+        }
+
+        [TestMethod]
         public void IntSwap()
         {
             using (var a = new HugeInt("-222509832503450298345029835740293845720"))
