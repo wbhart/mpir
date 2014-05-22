@@ -33,6 +33,7 @@ using namespace System::Runtime::InteropServices;
 #undef MPEXPR_NAME
 #undef MPEXPR
 #undef CTXT
+#undef CTXTI
 #endif
 #define SPECIALIZE_EXPRESSIONS
 #define CUSTOM_MP(x) custom_mpq_##x
@@ -43,6 +44,7 @@ using namespace System::Runtime::InteropServices;
 #define MPEXPR_NAME LIT(MPTYPE_NAME)Expression
 #define MPEXPR(x) LIT(MPTYPE_NAME)##x##Expression
 #define CTXT(x) context.RationalArgs[x]
+#define CTXTI(x) context.IntArgs[x]
 #include "ExpressionMacros.h"
 
 namespace MPIR
@@ -1070,6 +1072,17 @@ namespace MPIR
             /// </para>For bases up to 36, case is ignored; upper-case and lower-case letters have the same value. 
             /// For bases 37 to 62, upper-case letter represent the usual 10..35 while lower-case letter represent 36..61.</param>
             void SetTo(String^ value, int base);
+
+            /// <summary>
+            /// Sets the value of the raitonal object.
+            /// <para>Do not change the value of an object while it is contained in a hash table, because that changes its hash code.
+            /// </para></summary>
+            /// <param name="value">new value for the object</param>
+            void SetTo(IntegerExpression^ value)
+            {
+                IN_CONTEXT(value);
+                MP(set_z)(_value, CTXTI(0));
+            }
 
             /// <summary>
             /// Swaps the values of two rationals.

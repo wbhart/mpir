@@ -60,6 +60,17 @@ namespace MPIR.Tests.HugeRationalTests
                 Assert.AreEqual("10542320795030095862464859203020/115756986668303657898962467957", a.ToString());
             }
         }
+
+        [TestMethod]
+        public void RationalAssignInt()
+        {
+            using (var a = new HugeInt("222509832503450298345029835740293845720"))
+            using (var b = new HugeRational("1/3"))
+            {
+                b.SetTo(a);
+                Assert.AreEqual("222509832503450298345029835740293845720/1", b.ToString());
+            }
+        }
         //more tests coming here
     }
 }
