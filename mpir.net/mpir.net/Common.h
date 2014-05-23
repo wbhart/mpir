@@ -23,6 +23,8 @@ along with the MPIR Library.  If not, see http://www.gnu.org/licenses/.
 
 #define LIT2(x) x
 #define LIT(x) LIT2(x)
+#define CONCAT2(x,y) x##y
+#define CONCAT(x,y) CONCAT2(x,y)
 #define IS_NULL(a) (Object::ReferenceEquals(a, nullptr))
 #define PIN(x) pin_ptr<T> pinptr##x = &x[0]; void* pinned_##x = pinptr##x;
 #define SGN(Z) ((Z) < 0 ? -1 : (Z) > 0)
@@ -31,35 +33,6 @@ along with the MPIR Library.  If not, see http://www.gnu.org/licenses/.
     reader->Read();     \
     c = reader->Peek(); \
     nread++;
-
-#define IN_CONTEXT_1(a)        \
-    EvaluationContext context; \
-    a->AssignTo(context)
-
-#define IN_CONTEXT_2(a, b)     \
-    EvaluationContext context; \
-    a->AssignTo(context);      \
-    b->AssignTo(context)
-
-#define IN_CONTEXT_3(a, b, c)  \
-    EvaluationContext context; \
-    a->AssignTo(context);      \
-    b->AssignTo(context);      \
-    c->AssignTo(context)
-
-#define IN_CONTEXT_THIS_AND_RATIONAL(n, d)  \
-    EvaluationContext context;              \
-    this->AssignTo(context);                \
-    context.AddRational(n, d)
-
-#define COUNT_ARGS_IMPL2(_1, _2, _3, name, ...) name
-#define COUNT_ARGS_IMPL(args) COUNT_ARGS_IMPL2 args
-#define COUNT_ARGS(...) COUNT_ARGS_IMPL((__VA_ARGS__, 3, 2, 1))
-#define MACRO_CHOOSE2(prefix, number) prefix##number
-#define MACRO_CHOOSE1(prefix, number) MACRO_CHOOSE2(prefix, number)
-#define MACRO_CHOOSE(prefix, number) MACRO_CHOOSE1(prefix, number)
-#define MACRO_GLUE(x, y) x y
-#define IN_CONTEXT(...) MACRO_GLUE(MACRO_CHOOSE(IN_CONTEXT_, COUNT_ARGS(__VA_ARGS__)), (__VA_ARGS__))
 
 #define TYPE_FOR_ABBR_Int MPTYPE^
 #define TYPE_FOR_ABBR_Expr MPEXPR_NAME^

@@ -33,6 +33,7 @@ using namespace System::Runtime::InteropServices;
 #undef MPEXPR_NAME
 #undef MPEXPR
 #undef CTXT
+#undef ASSIGN_TO
 #endif
 #define SPECIALIZE_EXPRESSIONS
 #define CUSTOM_MP(x) custom_mpz_##x
@@ -43,6 +44,7 @@ using namespace System::Runtime::InteropServices;
 #define MPEXPR_NAME LIT(MPTYPE_NAME)Expression
 #define MPEXPR(x) LIT(MPTYPE_NAME)##x##Expression
 #define CTXT(x) context.IntArgs[x]
+#define ASSIGN_TO CONCAT(AssignTo, LIT(MPTYPE_NAME))
 #include "ExpressionMacros.h"
 
 namespace MPIR
@@ -75,7 +77,7 @@ namespace MPIR
         internal:
             MPEXPR_NAME() { }
             virtual void AssignTo(MP(ptr) destination) abstract;
-            virtual void AssignTo(EvaluationContext& context)
+            virtual void ASSIGN_TO(EvaluationContext& context)
             {
                 context.Initialized(IntInitialized);
                 auto ptr = &context.Temp[context.Index].MPTYPE_NAME;
@@ -1388,7 +1390,7 @@ namespace MPIR
                 if(destination != _value)
                     MP(set)(destination, _value);
             }
-            virtual void AssignTo(EvaluationContext& context) override
+            virtual void ASSIGN_TO(EvaluationContext& context) override
             {
                 CTXT(context.Index++) = _value;
             }

@@ -145,19 +145,19 @@ namespace MPIR
 
         if(a->GetType() == mpir_ui::typeid)
         {
-            AssignTo(context);
+            ASSIGN_TO(context);
             return MP(cmp_ui)(CTXT(0), (mpir_ui)a, 1);
         }
 
         if(a->GetType() == mpir_si::typeid)
         {
-            AssignTo(context);
+            ASSIGN_TO(context);
             return MP(cmp_si)(CTXT(0), (mpir_si)a, 1);
         }
 
         if(a->GetType() == double::typeid)
         {
-            AssignTo(context);
+            ASSIGN_TO(context);
             CTXT_ADD_RATIONAL_DOUBLE((double)a);
             return MP(cmp)(CTXT(0), CTXT(1));
         }
@@ -211,21 +211,21 @@ namespace MPIR
 
         if(a->GetType() == mpir_ui::typeid)
         {
-            AssignTo(context);
+            ASSIGN_TO(context);
             CTXT_ADD_RATIONAL((mpir_ui)a, 1);
             return MP(equal)(CTXT(0), CTXT(1)) != 0;
         }
 
         if(a->GetType() == mpir_si::typeid)
         {
-            AssignTo(context);
+            ASSIGN_TO(context);
             CTXT_ADD_RATIONAL((mpir_si)a, 1);
             return MP(equal)(CTXT(0), CTXT(1)) != 0;
         }
 
         if(a->GetType() == double::typeid)
         {
-            AssignTo(context);
+            ASSIGN_TO(context);
             CTXT_ADD_RATIONAL_DOUBLE((double)a);
             return MP(equal)(CTXT(0), CTXT(1)) != 0;
         }

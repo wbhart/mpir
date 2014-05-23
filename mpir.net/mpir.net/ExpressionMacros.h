@@ -19,6 +19,30 @@ along with the MPIR Library.  If not, see http://www.gnu.org/licenses/.
 
 #pragma region Expression macros
 
+#define IN_CONTEXT_1(a)                \
+    EvaluationContext context;         \
+    a->ASSIGN_TO(context)
+
+#define IN_CONTEXT_2(a, b)             \
+    EvaluationContext context;         \
+    a->ASSIGN_TO(context);             \
+    b->ASSIGN_TO(context)
+
+#define IN_CONTEXT_3(a, b, c)          \
+    EvaluationContext context;         \
+    a->ASSIGN_TO(context);             \
+    b->ASSIGN_TO(context);             \
+    c->ASSIGN_TO(context)
+
+#define COUNT_ARGS_IMPL2(_1, _2, _3, name, ...) name
+#define COUNT_ARGS_IMPL(args) COUNT_ARGS_IMPL2 args
+#define COUNT_ARGS(...) COUNT_ARGS_IMPL((__VA_ARGS__, 3, 2, 1))
+#define MACRO_CHOOSE2(prefix, number) prefix##number
+#define MACRO_CHOOSE1(prefix, number) MACRO_CHOOSE2(prefix, number)
+#define MACRO_CHOOSE(prefix, number) MACRO_CHOOSE1(prefix, number)
+#define MACRO_GLUE(x, y) x y
+#define IN_CONTEXT(...) MACRO_GLUE(MACRO_CHOOSE(IN_CONTEXT_, COUNT_ARGS(__VA_ARGS__)), (__VA_ARGS__))
+
 //defines a unary expression class
 #define DEFINE_UNARY_EXPRESSION(base, name, type)                \
 private ref class MPEXPR(name) : base                            \

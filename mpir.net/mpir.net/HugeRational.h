@@ -76,7 +76,7 @@ namespace MPIR
         internal:
             MPEXPR_NAME() { }
             virtual void AssignTo(MP(ptr) destination) abstract;
-            virtual void AssignTo(EvaluationContext& context)
+            virtual void ASSIGN_TO(EvaluationContext& context)
             {
                 context.Initialized(RationalInitialized);
                 auto ptr = &context.Temp[context.Index].MPTYPE_NAME;
@@ -786,7 +786,7 @@ namespace MPIR
                 if(destination != _value)
                     MP(set)(destination, _value);
             }
-            virtual void AssignTo(EvaluationContext& context) override
+            virtual void ASSIGN_TO(EvaluationContext& context) override
             {
                 CTXT(context.Index++) = _value;
             }
@@ -1080,7 +1080,8 @@ namespace MPIR
             /// <param name="value">new value for the object</param>
             void SetTo(IntegerExpression^ value)
             {
-                IN_CONTEXT(value);
+                EvaluationContext context;
+                value->AssignToInteger(context);
                 MP(set_z)(_value, CTXTI(0));
             }
 

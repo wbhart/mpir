@@ -121,14 +121,14 @@ namespace MPIR
         EvaluationContext context;
         if(maxDigits > 0 && CompareAbsTo(MpirSettings::_toStringModulo) >= 0)
         {
-            (this->Abs() % MpirSettings::_toStringModulo)->Rounding(RoundingModes::Truncate)->AssignTo(context);
+            (this->Abs() % MpirSettings::_toStringModulo)->Rounding(RoundingModes::Truncate)->ASSIGN_TO(context);
             truncated = true;
             negative = this->Sign() < 0;
             allocated = maxDigits + 5;
         }
         else
         {
-            AssignTo(context);
+            ASSIGN_TO(context);
             allocated = MP(sizeinbase)(_value, base == 0 ? 10 : base) + 2;
         }
 
@@ -185,19 +185,19 @@ namespace MPIR
 
         if(a->GetType() == mpir_ui::typeid)
         {
-            AssignTo(context);
+            ASSIGN_TO(context);
             return MP(cmp_ui)(CTXT(0), (mpir_ui)a);
         }
 
         if(a->GetType() == mpir_si::typeid)
         {
-            AssignTo(context);
+            ASSIGN_TO(context);
             return MP(cmp_si)(CTXT(0), (mpir_si)a);
         }
 
         if(a->GetType() == double::typeid)
         {
-            AssignTo(context);
+            ASSIGN_TO(context);
             return MP(cmp_d)(CTXT(0), (double)a);
         }
 
