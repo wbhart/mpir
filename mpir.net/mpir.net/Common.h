@@ -40,6 +40,7 @@ along with the MPIR Library.  If not, see http://www.gnu.org/licenses/.
 #define TYPE_FOR_ABBR_Ui mpir_ui
 #define TYPE_FOR_ABBR_Bits mp_bitcnt_t
 #define TYPE_FOR_ABBR_Rnd MpirRandom^
+#define TYPE_FOR_ABBR_IExpr IntegerExpression^
 
 #pragma endregion
 
@@ -165,6 +166,9 @@ struct EvaluationContext
     context.RationalArgs[context.Index++] = ptr;      \
     mpq_init(ptr);                                    \
     mpq_set_d(ptr, value);
+
+#define CTXT_ADD_RATIONAL_INT(value)         \
+    value->AssignToRational(context);
 
         ~EvaluationContext()
         {

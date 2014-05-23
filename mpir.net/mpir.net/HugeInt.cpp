@@ -24,6 +24,8 @@ along with the MPIR Library.  If not, see http://www.gnu.org/licenses/.
 using namespace System::Runtime::InteropServices;
 using namespace System::Text;
 
+__mpz_struct HugeIntConst1;
+
 namespace MPIR
 {
     #pragma region MpirSettings

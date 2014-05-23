@@ -130,6 +130,22 @@ namespace MPIR
             /// <param name="b">Source value to add</param>
             /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
             static MPEXPR_NAME^ operator + (mpir_si a, MPEXPR_NAME^ b);
+
+            /// <summary>Adds two numbers.
+            /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
+            /// </para></summary>
+            /// <param name="a">Source value to add to</param>
+            /// <param name="b">Source value to add</param>
+            /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
+            static MPEXPR_NAME^ operator + (MPEXPR_NAME^ a, IntegerExpression^ b);
+
+            /// <summary>Adds two numbers.
+            /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
+            /// </para></summary>
+            /// <param name="a">Source value to add to</param>
+            /// <param name="b">Source value to add</param>
+            /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
+            static MPEXPR_NAME^ operator + (IntegerExpression^ a, MPEXPR_NAME^ b);
                                                                                                           
             /// <summary>Subtracts two numbers.
             /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
@@ -723,6 +739,7 @@ namespace MPIR
     DEFINE_BINARY_EXPRESSION_WITH_TWO              (MPEXPR_NAME, Add, Int)
     DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (MPEXPR_NAME, Add, Int, Ui)
     DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (MPEXPR_NAME, Add, Int, Si)
+    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (MPEXPR_NAME, Add, Int, IExpr)
                                                    
     DEFINE_BINARY_EXPRESSION_WITH_TWO              (MPEXPR_NAME, Subtract, Int)
     DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (MPEXPR_NAME, Subtract, Int, Ui)

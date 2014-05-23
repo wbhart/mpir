@@ -47,6 +47,8 @@ using namespace System::Runtime::InteropServices;
 #define ASSIGN_TO CONCAT(AssignTo, LIT(MPTYPE_NAME))
 #include "ExpressionMacros.h"
 
+extern __mpz_struct HugeIntConst1;
+
 namespace MPIR
 {
     ref class MpirRandom;
@@ -63,7 +65,7 @@ namespace MPIR
     ref class MPEXPR(Gcd);
     ref class MPEXPR(RemoveFactors);
     ref class MPEXPR(Sequence);
-
+    
     #pragma region IntegerExpression
 
     /// <summary>
@@ -84,6 +86,15 @@ namespace MPIR
                 CTXT(context.Index++) = ptr;
                 MP(init)(ptr);
                 AssignTo(ptr); 
+            }
+            virtual void AssignToRational(EvaluationContext& context)
+            {
+                context.Initialized(IntInitialized);
+                auto ptr = &context.Temp[context.Index].Rational;
+                context.RationalArgs[context.Index++] = ptr;
+                MP(init)(&ptr->_mp_num);
+                AssignTo(&ptr->_mp_num); 
+                ptr->_mp_den = HugeIntConst1;
             }
 
         private:
@@ -1012,6 +1023,7 @@ namespace MPIR
 
             static MpirSettings()
             {
+                MP(init_set_ui)(&HugeIntConst1, 1);
                 RoundingMode = RoundingModes::Truncate;
                 ToStringDigits = 256;
             }

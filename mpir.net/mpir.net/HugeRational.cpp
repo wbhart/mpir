@@ -265,6 +265,8 @@ namespace MPIR
     MAKE_BINARY_OPERATOR_LLIMB_R   (MPEXPR_NAME,        DEFINE, +, Add, Int, Ui)            
     MAKE_BINARY_OPERATOR_RLIMB     (MPEXPR_NAME,        DEFINE, +, Add, Int, Si)            
     MAKE_BINARY_OPERATOR_LLIMB_R   (MPEXPR_NAME,        DEFINE, +, Add, Int, Si)            
+    MAKE_BINARY_OPERATOR_RLIMB     (MPEXPR_NAME,        DEFINE, +, Add, Int, IExpr)            
+    MAKE_BINARY_OPERATOR_LLIMB_R   (MPEXPR_NAME,        DEFINE, +, Add, Int, IExpr)            
                                                                                                         
     MAKE_BINARY_OPERATOR_STANDARD  (MPEXPR_NAME,        DEFINE, -, Subtract, Int, Int)      
     MAKE_BINARY_OPERATOR_RLIMB     (MPEXPR_NAME,        DEFINE, -, Subtract, Int, Ui)       
@@ -301,6 +303,7 @@ namespace MPIR
     DEFINE_BINARY_ASSIGNMENT_REF_REF(Add, Int, MP(add))
     DEFINE_BINARY_ASSIGNMENT_REF_RATVAL(Add, Int, Ui, MP(add))
     DEFINE_BINARY_ASSIGNMENT_REF_RATVAL(Add, Int, Si, MP(add))
+    DEFINE_BINARY_ASSIGNMENT_REF_INTVAL(Add, Int, IExpr, MP(add))
 
     DEFINE_BINARY_ASSIGNMENT_REF_REF(Subtract, Int, MP(sub))
     DEFINE_BINARY_ASSIGNMENT_REF_RATVAL(Subtract, Int, Ui, MP(sub))

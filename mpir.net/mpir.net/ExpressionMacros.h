@@ -216,12 +216,15 @@ private ref class MPEXPR(name) : base                                           
         operation(destination, Operand);                           \
     }
 
-#define DEFINE_BINARY_ASSIGNMENT_REF_REF(name, typeAbbr, operation)         \
-    DEFINE_ASSIGNMENT_PROLOG(name##typeAbbr##typeAbbr)                      \
-    {                                                                       \
-        IN_CONTEXT(Left, Right);                                            \
-        operation(destination, CTXT(0), CTXT(1));                           \
+#define DEFINE_BINARY_ASSIGNMENT_REF_INTVAL(name, leftTypeAbbr, rightTypeAbbr, operation) \
+    DEFINE_ASSIGNMENT_PROLOG(name##leftTypeAbbr##rightTypeAbbr)                           \
+    {                                                                                     \
+        IN_CONTEXT(Left, Right);                                                          \
+        operation(destination, CTXT(0), CTXT(1));                                         \
     }
+
+#define DEFINE_BINARY_ASSIGNMENT_REF_REF(name, typeAbbr, operation)                       \
+    DEFINE_BINARY_ASSIGNMENT_REF_INTVAL(name, typeAbbr, typeAbbr, operation)
 
 #define DEFINE_BINARY_ASSIGNMENT_REF_VAL(name, leftTypeAbbr, rightTypeAbbr, operation)    \
     DEFINE_ASSIGNMENT_PROLOG(name##leftTypeAbbr##rightTypeAbbr)                           \

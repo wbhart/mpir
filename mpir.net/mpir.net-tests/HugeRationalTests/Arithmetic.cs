@@ -40,6 +40,18 @@ namespace MPIR.Tests.HugeRationalTests
         }
 
         [TestMethod]
+        public void RationalAddHugeInt()
+        {
+            using (var a = new HugeRational("222509832503450298345029835740293845720/115756986668303657898962467957"))
+            using (var b = new HugeInt("222987435987982730594288574029879874539"))
+            using (var c = new HugeRational(a + b))
+            {
+                Assert.AreEqual(a.Numerator + b * a.Denominator, c.Numerator);
+                Assert.AreEqual(a.Denominator, c.Denominator);
+            }
+        }
+
+        [TestMethod]
         public void RationalAddLimb()
         {
             using (var a = new HugeRational("222509832503450298345029835740293845720/115756986668303657898962467957"))
