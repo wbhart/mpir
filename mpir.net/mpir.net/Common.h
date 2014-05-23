@@ -34,7 +34,8 @@ along with the MPIR Library.  If not, see http://www.gnu.org/licenses/.
     c = reader->Peek(); \
     nread++;
 
-#define TYPE_FOR_ABBR_Int MPTYPE^
+#define TYPE_FOR_ABBR_Int HugeInt^
+#define TYPE_FOR_ABBR_Rat HugeRational^
 #define TYPE_FOR_ABBR_Expr MPEXPR_NAME^
 #define TYPE_FOR_ABBR_Si mpir_si
 #define TYPE_FOR_ABBR_Ui mpir_ui

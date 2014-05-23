@@ -34,8 +34,10 @@ using namespace System::Runtime::InteropServices;
 #undef MPEXPR
 #undef CTXT
 #undef ASSIGN_TO
+#undef Mpt
 #endif
 #define SPECIALIZE_EXPRESSIONS
+#define Mpt Int
 #define CUSTOM_MP(x) custom_mpz_##x
 #define MPSTRUCT __mpz_struct
 #define MP(x) mpz_##x
@@ -1347,6 +1349,7 @@ namespace MPIR
 
     DEFINE_BINARY_EXPRESSION_WITH_TWO              (MPEXPR_NAME, Invert, Int)
     DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (MPEXPR_NAME, NextPrimeCandidate, Int, Rnd)
+
     DEFINE_BINARY_EXPRESSION_WITH_TWO              (MPEXPR(Gcd), Gcd, Int)
     DEFINE_BINARY_EXPRESSION_WITH_TWO              (MPEXPR(RemoveFactors), RemoveFactors, Int)
 

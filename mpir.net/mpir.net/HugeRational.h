@@ -34,8 +34,11 @@ using namespace System::Runtime::InteropServices;
 #undef MPEXPR
 #undef CTXT
 #undef CTXTI
+#undef ASSIGN_TO
+#undef Mpt
 #endif
 #define SPECIALIZE_EXPRESSIONS
+#define Mpt Rat
 #define CUSTOM_MP(x) custom_mpq_##x
 #define MPSTRUCT __mpq_struct
 #define MP(x) mpq_##x
@@ -45,6 +48,7 @@ using namespace System::Runtime::InteropServices;
 #define MPEXPR(x) LIT(MPTYPE_NAME)##x##Expression
 #define CTXT(x) context.RationalArgs[x]
 #define CTXTI(x) context.IntArgs[x]
+#define ASSIGN_TO CONCAT(AssignTo, LIT(MPTYPE_NAME))
 #include "ExpressionMacros.h"
 
 namespace MPIR
@@ -736,35 +740,35 @@ namespace MPIR
 
     #pragma region concrete expressions
 
-    DEFINE_BINARY_EXPRESSION_WITH_TWO              (MPEXPR_NAME, Add, Int)
-    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (MPEXPR_NAME, Add, Int, Ui)
-    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (MPEXPR_NAME, Add, Int, Si)
-    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (MPEXPR_NAME, Add, Int, IExpr)
+    DEFINE_BINARY_EXPRESSION_WITH_TWO              (MPEXPR_NAME, Add, Rat)
+    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (MPEXPR_NAME, Add, Rat, Ui)
+    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (MPEXPR_NAME, Add, Rat, Si)
+    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (MPEXPR_NAME, Add, Rat, IExpr)
                                                    
-    DEFINE_BINARY_EXPRESSION_WITH_TWO              (MPEXPR_NAME, Subtract, Int)
-    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (MPEXPR_NAME, Subtract, Int, Ui)
-    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_LEFT    (MPEXPR_NAME, Subtract, Ui, Int)
-    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (MPEXPR_NAME, Subtract, Int, Si)
-    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_LEFT    (MPEXPR_NAME, Subtract, Si, Int)
+    DEFINE_BINARY_EXPRESSION_WITH_TWO              (MPEXPR_NAME, Subtract, Rat)
+    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (MPEXPR_NAME, Subtract, Rat, Ui)
+    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_LEFT    (MPEXPR_NAME, Subtract, Ui, Rat)
+    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (MPEXPR_NAME, Subtract, Rat, Si)
+    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_LEFT    (MPEXPR_NAME, Subtract, Si, Rat)
                                                    
-    DEFINE_BINARY_EXPRESSION_WITH_TWO              (MPEXPR_NAME, Multiply, Int)
-    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (MPEXPR_NAME, Multiply, Int, Ui)
-    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (MPEXPR_NAME, Multiply, Int, Si)
+    DEFINE_BINARY_EXPRESSION_WITH_TWO              (MPEXPR_NAME, Multiply, Rat)
+    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (MPEXPR_NAME, Multiply, Rat, Ui)
+    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (MPEXPR_NAME, Multiply, Rat, Si)
                                                    
-    DEFINE_BINARY_EXPRESSION_WITH_TWO              (MPEXPR_NAME, Divide, Int)
-    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (MPEXPR_NAME, Divide, Int, Ui)
-    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_LEFT    (MPEXPR_NAME, Divide, Ui, Int)
-    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (MPEXPR_NAME, Divide, Int, Si)
-    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_LEFT    (MPEXPR_NAME, Divide, Si, Int)
+    DEFINE_BINARY_EXPRESSION_WITH_TWO              (MPEXPR_NAME, Divide, Rat)
+    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (MPEXPR_NAME, Divide, Rat, Ui)
+    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_LEFT    (MPEXPR_NAME, Divide, Ui, Rat)
+    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (MPEXPR_NAME, Divide, Rat, Si)
+    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_LEFT    (MPEXPR_NAME, Divide, Si, Rat)
                                                    
-    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (MPEXPR_NAME, ShiftLeft, Int, Bits)
-    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (MPEXPR_NAME, ShiftRight, Int, Bits)
+    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (MPEXPR_NAME, ShiftLeft, Rat, Bits)
+    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (MPEXPR_NAME, ShiftRight, Rat, Bits)
                                                    
-    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (MPEXPR_NAME, Power, Int, Ui)
+    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (MPEXPR_NAME, Power, Rat, Ui)
 
-    DEFINE_UNARY_EXPRESSION_WITH_ONE               (MPEXPR_NAME, Negate, Int)
-    DEFINE_UNARY_EXPRESSION_WITH_ONE               (MPEXPR_NAME, Abs, Int)
-    DEFINE_UNARY_EXPRESSION_WITH_ONE               (MPEXPR_NAME, Invert, Int)
+    DEFINE_UNARY_EXPRESSION_WITH_ONE               (MPEXPR_NAME, Negate, Rat)
+    DEFINE_UNARY_EXPRESSION_WITH_ONE               (MPEXPR_NAME, Abs, Rat)
+    DEFINE_UNARY_EXPRESSION_WITH_ONE               (MPEXPR_NAME, Invert, Rat)
                                                    
     #pragma endregion
 

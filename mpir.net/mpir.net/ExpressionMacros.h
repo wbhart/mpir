@@ -131,10 +131,10 @@ private ref class MPEXPR(name) : base                                           
 
 //one-arg functions
 #define MAKE_FUNCTION_WITH_ONE(base, action, op, argTypeAbbr)  \
-    MAKE_FUNCTION_WITH_ONE_##action(base, op, Expr, op##Int##argTypeAbbr)
+    MAKE_FUNCTION_WITH_ONE_##action(base, op, Expr, CONCAT(op, LIT(Mpt))argTypeAbbr)
 
 #define MAKE_FUNCTION_WITH_LIMB(base, action, op, argTypeAbbr)  \
-    MAKE_FUNCTION_WITH_ONE_##action(base, op, argTypeAbbr, op##Int##argTypeAbbr)
+    MAKE_FUNCTION_WITH_ONE_##action(base, op, argTypeAbbr, CONCAT(op, LIT(Mpt))argTypeAbbr)
 
 #define MAKE_FUNCTION_WITH_ONE_DECLARE(base, op, argTypeAbbr, result)     \
     base^ op(TYPE_FOR_ABBR_##argTypeAbbr a);
@@ -144,10 +144,10 @@ private ref class MPEXPR(name) : base                                           
 
 //two-arg functions
 #define MAKE_FUNCTION_WITH_TWO(base, action, op, leftTypeAbbr, rightTypeAbbr)  \
-    MAKE_FUNCTION_WITH_TWO_##action(base, op, Expr, Expr, op##Int##leftTypeAbbr##rightTypeAbbr)
+    MAKE_FUNCTION_WITH_TWO_##action(base, op, Expr, Expr, CONCAT(op, LIT(Mpt))leftTypeAbbr##rightTypeAbbr)
 
 #define MAKE_FUNCTION_WITH_TWO_LLIMB(base, action, op, leftTypeAbbr, rightTypeAbbr)  \
-    MAKE_FUNCTION_WITH_TWO_##action(base, op, leftTypeAbbr, Expr, op##Int##leftTypeAbbr##rightTypeAbbr)
+    MAKE_FUNCTION_WITH_TWO_##action(base, op, leftTypeAbbr, Expr, CONCAT(op, LIT(Mpt))leftTypeAbbr##rightTypeAbbr)
 
 #define MAKE_FUNCTION_WITH_TWO_DECLARE(base, op, leftTypeAbbr, rightTypeAbbr, result)     \
     base^ op(TYPE_FOR_ABBR_##leftTypeAbbr a, TYPE_FOR_ABBR_##rightTypeAbbr b);
