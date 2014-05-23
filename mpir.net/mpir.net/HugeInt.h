@@ -98,6 +98,10 @@ namespace MPIR
                 AssignTo(&ptr->_mp_num); 
                 ptr->_mp_den = HugeIntConst1;
             }
+            static MPEXPR_NAME()
+            {
+                MP(init_set_ui)(&HugeIntConst1, 1);
+            }
 
         private:
             int CompareTo(Object^ a, bool& valid);
@@ -1025,7 +1029,6 @@ namespace MPIR
 
             static MpirSettings()
             {
-                MP(init_set_ui)(&HugeIntConst1, 1);
                 RoundingMode = RoundingModes::Truncate;
                 ToStringDigits = 256;
             }

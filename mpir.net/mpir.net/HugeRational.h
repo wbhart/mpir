@@ -190,6 +190,22 @@ namespace MPIR
             /// <param name="b">Source value to subtract</param>
             /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
             static MPEXPR_NAME^ operator - (mpir_si a, MPEXPR_NAME^ b);
+                                                                                              
+            /// <summary>Subtracts two numbers.
+            /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
+            /// </para></summary>
+            /// <param name="a">Source value to subtract from</param>
+            /// <param name="b">Source value to subtract</param>
+            /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
+            static MPEXPR_NAME^ operator - (MPEXPR_NAME^ a, IntegerExpression^ b);
+                                                                                              
+            /// <summary>Subtracts two numbers.
+            /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
+            /// </para></summary>
+            /// <param name="a">Source value to subtract from</param>
+            /// <param name="b">Source value to subtract</param>
+            /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
+            static MPEXPR_NAME^ operator - (IntegerExpression^ a, MPEXPR_NAME^ b);
                                                                                                           
             /// <summary>Multiplies two numbers.
             /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
@@ -230,6 +246,22 @@ namespace MPIR
             /// <param name="b">Source value to multiply by</param>
             /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
             static MPEXPR_NAME^ operator * (mpir_si a, MPEXPR_NAME^ b);
+                                                                                              
+            /// <summary>Multiplies two numbers.
+            /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
+            /// </para></summary>
+            /// <param name="a">Source value to multiply</param>
+            /// <param name="b">Source value to multiply by</param>
+            /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
+            static MPEXPR_NAME^ operator * (MPEXPR_NAME^ a, IntegerExpression^ b);
+                                                                                              
+            /// <summary>Multiplies two numbers.
+            /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
+            /// </para></summary>
+            /// <param name="a">Source value to multiply</param>
+            /// <param name="b">Source value to multiply by</param>
+            /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
+            static MPEXPR_NAME^ operator * (IntegerExpression^ a, MPEXPR_NAME^ b);
                                                                                                           
             /// <summary>Shifts the <paramref name="a"/> source operand to the left by <paramref name="bits"/>, i.e. multiplies <paramref name="a"/> by 2^<paramref name="bits"/>.
             /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
@@ -750,10 +782,13 @@ namespace MPIR
     DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_LEFT    (MPEXPR_NAME, Subtract, Ui, Rat)
     DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (MPEXPR_NAME, Subtract, Rat, Si)
     DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_LEFT    (MPEXPR_NAME, Subtract, Si, Rat)
+    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (MPEXPR_NAME, Subtract, Rat, IExpr)
+    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_LEFT    (MPEXPR_NAME, Subtract, IExpr, Rat)
                                                    
     DEFINE_BINARY_EXPRESSION_WITH_TWO              (MPEXPR_NAME, Multiply, Rat)
     DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (MPEXPR_NAME, Multiply, Rat, Ui)
     DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (MPEXPR_NAME, Multiply, Rat, Si)
+    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (MPEXPR_NAME, Multiply, Rat, IExpr)
                                                    
     DEFINE_BINARY_EXPRESSION_WITH_TWO              (MPEXPR_NAME, Divide, Rat)
     DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (MPEXPR_NAME, Divide, Rat, Ui)
