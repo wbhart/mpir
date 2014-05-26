@@ -331,6 +331,24 @@ namespace MPIR
             /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation.
             /// </returns>
             static MPEXPR_NAME^ operator / (mpir_si a, MPEXPR_NAME^ b);
+                                                                                              
+            /// <summary>Divides two numbers.
+            /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
+            /// </para></summary>
+            /// <param name="a">Source value to divide</param>
+            /// <param name="b">Source value to divide <paramref name="a"/> by</param>
+            /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation.
+            /// </returns>
+            static MPEXPR_NAME^ operator / (MPEXPR_NAME^ a, IntegerExpression^ b);
+                                                                                                          
+            /// <summary>Divides two numbers.
+            /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
+            /// </para></summary>
+            /// <param name="a">Source value to divide</param>
+            /// <param name="b">Source value to divide <paramref name="a"/> by</param>
+            /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation.
+            /// </returns>
+            static MPEXPR_NAME^ operator / (IntegerExpression^ a, MPEXPR_NAME^ b);
                                                                                                           
             /// <summary>Raises the source value to the specified power.
             /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
@@ -795,6 +813,8 @@ namespace MPIR
     DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_LEFT    (MPEXPR_NAME, Divide, Ui, Rat)
     DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (MPEXPR_NAME, Divide, Rat, Si)
     DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_LEFT    (MPEXPR_NAME, Divide, Si, Rat)
+    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (MPEXPR_NAME, Divide, Rat, IExpr)
+    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_LEFT    (MPEXPR_NAME, Divide, IExpr, Rat)
                                                    
     DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (MPEXPR_NAME, ShiftLeft, Rat, Bits)
     DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (MPEXPR_NAME, ShiftRight, Rat, Bits)

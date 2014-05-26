@@ -58,8 +58,8 @@ namespace MPIR.Tests.HugeRationalTests
                 VerifyPartialResult(r, expr, -32);
                 expr = expr + (((a / b).Invert() * 3) ^ 3) - (b + 13) / a / -3;
                 VerifyPartialResult(r, expr, -35);
-                expr = expr + c + (b - 2 * c) + (-4 * c - a) - (c - 1) * (b - 1);
-                VerifyPartialResult(r, expr, -43);
+                expr = expr + c + (b - 2 * c) + (-4 * c - a) - (c - 1) * (b - 1) - (a / c) + (c * 2) / (b - 1);
+                VerifyPartialResult(r, expr, -38);
 
                 MarkExpressionsUsed(allExpressions, expr);
             }

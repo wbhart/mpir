@@ -298,7 +298,8 @@ namespace MPIR
     MAKE_BINARY_OPERATOR_LLIMB     (MPEXPR_NAME,        DEFINE, /, Divide, Rat, Ui)       
     MAKE_BINARY_OPERATOR_RLIMB     (MPEXPR_NAME,        DEFINE, /, Divide, Rat, Si)       
     MAKE_BINARY_OPERATOR_LLIMB     (MPEXPR_NAME,        DEFINE, /, Divide, Rat, Si)       
-                                                                                                           
+    MAKE_BINARY_OPERATOR_RLIMB     (MPEXPR_NAME,        DEFINE, /, Divide, Rat, IExpr)
+    MAKE_BINARY_OPERATOR_LLIMB     (MPEXPR_NAME,        DEFINE, /, Divide, Rat, IExpr)
                                                                                                            
     DEFINE_UNARY_ASSIGNMENT_REF(Negate, Rat, MP(neg))
     DEFINE_UNARY_ASSIGNMENT_REF(Invert, Rat, MP(inv))
@@ -327,6 +328,8 @@ namespace MPIR
     DEFINE_BINARY_ASSIGNMENT_RATVAL_REF(Divide, Ui, Rat, MP(div))
     DEFINE_BINARY_ASSIGNMENT_REF_RATVAL(Divide, Rat, Si, MP(div))
     DEFINE_BINARY_ASSIGNMENT_RATVAL_REF(Divide, Si, Rat, MP(div))
+    DEFINE_BINARY_ASSIGNMENT_REF_INTVAL(Divide, Rat, IExpr, MP(div))
+    DEFINE_BINARY_ASSIGNMENT_REF_INTVAL(Divide, IExpr, Rat, MP(div))
 
     DEFINE_BINARY_ASSIGNMENT_REF_VAL(ShiftLeft, Rat, Bits, MP(mul_2exp))
     DEFINE_BINARY_ASSIGNMENT_REF_VAL(ShiftRight, Rat, Bits, MP(div_2exp))
