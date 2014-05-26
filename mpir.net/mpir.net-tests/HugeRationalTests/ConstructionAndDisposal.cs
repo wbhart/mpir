@@ -248,5 +248,27 @@ namespace MPIR.Tests.HugeRationalTests
                 Assert.AreEqual(a + 1, b);
             }
         }
+
+        [TestMethod]
+        public void RationalConstructorFromIntExpression()
+        {
+            using (var a = new HugeInt("2340958273409578234095823045723490587"))
+            using (var b = new HugeRational(a + 1))
+            {
+                Assert.AreEqual("2340958273409578234095823045723490588/1", b.ToString());
+            }
+        }
+
+        [TestMethod]
+        public void RationalConstructorFromIntExpression2()
+        {
+            using (var a = new HugeInt("2340958273409578234095823045723490587"))
+            using (var d = new HugeInt("362736035870515331128527330659"))
+            using (var b = new HugeRational(a + 2, d * 2))
+            {
+                Assert.AreEqual(a + 2, b.Numerator);
+                Assert.AreEqual(d * 2, b.Denominator);
+            }
+        }
     }
 }

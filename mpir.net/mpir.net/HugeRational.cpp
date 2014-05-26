@@ -48,6 +48,20 @@ namespace MPIR
         MP(init)(_value);
         value->AssignTo(_value);
     }
+
+    MPTYPE::MPTYPE(IntegerExpression^ value)
+    {
+        AllocateStruct();
+        MP(init)(_value);
+        SetTo(value);
+    }
+
+    MPTYPE::MPTYPE(IntegerExpression^ numerator, IntegerExpression^ denominator)
+    {
+        AllocateStruct();
+        MP(init)(_value);
+        SetTo(numerator, denominator);
+    }
     
     MPTYPE^ MPTYPE::Allocate(mp_bitcnt_t numeratorBits, mp_bitcnt_t denominatorBits)
     {

@@ -909,6 +909,20 @@ namespace MPIR
             MPTYPE(MPEXPR_NAME^ value);
 
             /// <summary>
+            /// Initializes a new rational instance and sets its value to the result of computing the source expression.
+            /// </summary>
+            /// <param name="value">the expression that will be computed, and the result set as the initial value of the new instance.</param>
+            MPTYPE(IntegerExpression^ value);
+
+            /// <summary>
+            /// Constructs and returns a new rational instance with its value set to <paramref name="numerator"/> / <paramref name="denominator"/>.
+            /// <para>If the fraction is not in canonical form, Canonicalize() must be called.</para>
+            /// </summary>
+            /// <param name="numerator">Numerator for the initial value for the new rational instance</param>
+            /// <param name="denominator">Denominator for the initial value for the new rational instance</param>
+            MPTYPE(IntegerExpression^ numerator, IntegerExpression^ denominator);
+
+            /// <summary>
             /// Constructs and returns a new rational instance with its value set to <paramref name="numerator"/> / <paramref name="denominator"/>.
             /// <para>If the fraction is not in canonical form, Canonicalize() must be called.</para>
             /// </summary>
@@ -1156,9 +1170,25 @@ namespace MPIR
             /// <param name="value">new value for the object</param>
             void SetTo(IntegerExpression^ value)
             {
+                value->AssignTo(&_value->_mp_num);
+                mpz_set_ui(&_value->_mp_den, 1);
+            }
+
+            /// <summary>
+            /// Sets the value of the raitonal object.
+            /// <para>Do not change the value of an object while it is contained in a hash table, because that changes its hash code.
+            /// </para>If the fraction is not in canonical form, Canonicalize() must be called.
+            /// </summary>
+            /// <param name="numerator">Numerator for the new value for the object</param>
+            /// <param name="denominator">Denominator for the new value for the object</param>
+            void SetTo(IntegerExpression^ numerator, IntegerExpression^ denominator)
+            {
+                //use context in case source expressions reference the previous numerator or denominator of the rational
                 EvaluationContext context;
-                value->AssignToInteger(context);
-                MP(set_z)(_value, CTXTI(0));
+                numerator->AssignToInteger(context);
+                denominator->AssignToInteger(context);
+                mpz_set(&_value->_mp_num, CTXTI(0));
+                mpz_set(&_value->_mp_den, CTXTI(1));
             }
 
             /// <summary>
