@@ -438,7 +438,7 @@ namespace MPIR
             /// <para>If called on an expression, it is evaluated into a temporary variable before the comparison is performed.
             /// </para>Multi-precision classes are mutable with value semantics.  The hash code is based on the value, and will change if the value changes.
             /// For this reason, the value of an object must not be modified while the object is contained in a hash table.</summary>
-            /// <returns>a signed rational hash code for the value.</returns>
+            /// <returns>a signed integer hash code for the value.</returns>
             virtual int GetHashCode() override sealed;
 
             /// <summary>Compares two numbers.
@@ -1003,42 +1003,12 @@ namespace MPIR
             /// <returns>A string representation of the number in the specified base.</returns>
             String^ ToString(int base, bool lowercase) { return ToString(base, lowercase, 0); }
 
-///// <summary>
-///// Returns the absolute value of the number as a ulong.
-///// <para>If the number is too big, then just the least significant bits that do fit are returned.
-///// </para>The sign of the number is ignored, only the absolute value is used.
-///// </summary>
-///// <returns>The absolute value as a ulong, possibly truncated to the least significant bits only.</returns>
-//mpir_ui ToUlong() { return MP(get_ui)(_value); }
-
-///// <summary>
-///// Returns the value of the number as a long.
-///// <para>If the number is too big, then just the least significant bits that do fit are returned, with the same sign as the number.
-///// </para>When truncation occurs, the result is propobly not very useful.  Call FitsLong() to check if the number will fit.
-///// </summary>
-///// <returns>The value as a ulong, possibly truncated to the least significant bits only.</returns>
-//mpir_si ToLong() { return MP(get_si)(_value); }
-
             /// <summary>
             /// Returns the value of the number as a double, truncating if necessary (rounding towards zero).
             /// <para>If the exponent from the conversion is too big, the result is system dependent. An infinity is returned where available.             /// A hardware overflow trap may or may not occur.
             /// </para></summary>
             /// <returns>The value as a double, possibly truncated.</returns>
             double ToDouble() { return MP(get_d)(_value); }
-
-///// <summary>
-///// Returns the value of the number as a double, truncating if necessary (rounding towards zero), and returning the exponent separately.
-///// <para>The return is the mantissa, its absolute value will be in the range [0.5 - 1).///// </para>If the source value is zero, both mantissa and exponent are returned as 0.
-///// </summary>
-///// <param name="exp">variable to store the exponent in.</param>
-///// <returns>The mantissa of the value as a double, possibly truncated.</returns>
-//double ToDouble([Out] mpir_si% exp) 
-//{ 
-//    mpir_si x; 
-//    auto result = MP(get_d_2exp)(&x, _value); 
-//    exp = x; 
-//    return result; 
-//}
 
             /// <summary>
             /// Gets the numerator of this rational.
@@ -1316,96 +1286,6 @@ namespace MPIR
             /// </para>Note that the leading base characters are not written by the Write method.</param>
             /// <returns>the number of characters read</returns>
             size_t Read(TextReader^ reader, int base);
-
-///// <summary>
-///// Imports the number from arbitrary words of binary data.
-///// <para>No sign information is taken from the data, the imported number will be positive or zero.</para>
-///// </summary>
-///// <typeparam name="T">Type of element in the data array.  This must be a value type, but does not need to represent a single limb.  Data is interpreted as a flat byte array.</typeparam>
-///// <param name="data">Array of binary "limbs" to import from.
-///// <para>Elements don't necessarily need to be of the <paramref name="bytesPerLimb"/> size; the data is interpreted as a flat byte array.</para></param>
-///// <param name="limbCount">Number of "limbs" to import</param>
-///// <param name="bytesPerLimb">Number of bytes per "limb."</param>
-///// <param name="limbOrder">Specifies the order of the "limbs."</param>
-///// <param name="endianness">Specifies the byte order within each "limb."</param>
-///// <param name="nails">The number of most-significant bits to ignore in each "limb."</param>
-//generic<typename T> where T : value class void Import(array<T>^ data, size_t limbCount, int bytesPerLimb, LimbOrder limbOrder, Endianness endianness, int nails)
-//{
-//    if(limbCount == 0)
-//    {
-//        MP(set_ui)(_value, 0);
-//        return;
-//    }
-
-//    PIN(data);
-//    MP(import)(_value, limbCount, (int)limbOrder, bytesPerLimb, (int)endianness, nails, pinned_data);
-//}
-
-///// <summary>
-///// Exports the absolute value of the number to arbitrary words of binary data.
-///// <para>The sign of op is ignored.
-///// </para></summary>
-///// <typeparam name="T">Type of element in the data array.  This must be a value type, but does not need to represent a single limb.  Data is interpreted as a flat byte array.</typeparam>
-///// <param name="data">Array of binary "limbs" to export to.
-///// <para>Elements don't necessarily need to be of the <paramref name="bytesPerLimb"/> size; the data is interpreted as a flat byte array.
-///// </para>The total size of the array in bytes must be sufficient for the export.</param>
-///// <param name="bytesPerLimb">Number of bytes per "limb."</param>
-///// <param name="limbOrder">Specifies the order of the "limbs."</param>
-///// <param name="endianness">Specifies the byte order within each "limb."</param>
-///// <param name="nails">The number of most-significant bits to reserve, and set to zero, in each "limb."</param>
-///// <returns>The number of limbs exported.
-///// <para>If the number is non-zero, then the most significant word produced will be non-zero.
-///// </para>If the number is zero, then the count returned will be zero and nothing written to the data.</returns>
-//generic<typename T> where T : value class size_t Export(array<T>^ data, int bytesPerLimb, LimbOrder limbOrder, Endianness endianness, int nails)
-//{
-//    PIN(data);
-//    size_t limbCount;
-//    MP(export)(pinned_data, &limbCount, (int)limbOrder, bytesPerLimb, (int)endianness, nails, _value);
-//    return limbCount;
-//}
-
-//    /// <summary>
-//    /// Exports the absolute value of the number to arbitrary words of binary data.  An array of type T is allocated for the export.
-//    /// <para>The sign of op is ignored.
-//    /// </para></summary>
-//    /// <typeparam name="T">Type of element in the data array.  This must be a value type, but does not need to represent a single limb.  Data is interpreted as a flat byte array.</typeparam>
-//    /// <param name="bytesPerLimb">Number of bytes per "limb."</param>
-//    /// <param name="limbOrder">Specifies the order of the "limbs."</param>
-//    /// <param name="endianness">Specifies the byte order within each "limb."</param>
-//    /// <param name="nails">The number of most-significant bits to reserve, and set to zero, in each "limb."</param>
-//    /// <returns>An array of type T containing the exported limb data.
-//    /// <para>If the number is non-zero, then the most significant word produced will be non-zero.
-//    /// </para>If the number is zero, then a zero-length array is returned.</returns>
-//    generic<typename T> where T : value class array<T>^ Export(int bytesPerLimb, LimbOrder limbOrder, Endianness endianness, int nails)
-//    {
-//        if(this->Sign() == 0)
-//            return gcnew array<T>(0);
-
-//        auto bitsPerLimb = 8 * bytesPerLimb - nails;
-//        auto limbCount = (MP(sizeinbase)(_value, 2) - 1) / bitsPerLimb + 1;
-//        auto arrayCount = (limbCount * bytesPerLimb - 1) / sizeof(T) + 1;
-//        auto data = gcnew array<T>(arrayCount);
-
-//        PIN(data);
-//        MP(export)(pinned_data, &limbCount, (int)limbOrder, bytesPerLimb, (int)endianness, nails, _value);
-//        return data;
-//    }
-
-//internal:
-//    size_t ReadNoWhite(TextReader^ reader, int base, size_t nread);
-
-//public:
-
-//    /// <summary>
-//    /// Returns the specified limb of the number.
-//    /// <para>The least significant limb is zero.
-//    /// </para>The sign of the number is ignored.
-//    /// </summary>
-//    /// <param name="index">The index of the limb to return.
-//    /// <para>The least significant limb is zero.
-//    /// </para>If the index is outside the range 0 to Size()-1, zero is returned.</param>
-//    /// <returns>The specified limb, or zero if <paramref name="index"/> is outside of the valid range.</returns>
-//    size_t GetLimb(mp_size_t index) { return MP(getlimbn)(_value, index); }
 
             #pragma endregion
     };
