@@ -142,6 +142,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\mpir.net\mpir.net\Common.h" />
+    <ClInclude Include="..\..\..\mpir.net\mpir.net\HugeFloat.h" />
     <ClInclude Include="..\..\..\mpir.net\mpir.net\HugeInt.h" />
     <ClInclude Include="..\..\..\mpir.net\mpir.net\HugeRational.h" />
     <ClInclude Include="..\..\..\mpir.net\mpir.net\Random.h" />
@@ -150,6 +151,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\mpir.net\mpir.net\AssemblyInfo.cpp" />
+    <ClCompile Include="..\..\..\mpir.net\mpir.net\HugeFloat.cpp" />
     <ClCompile Include="..\..\..\mpir.net\mpir.net\HugeInt.cpp" />
     <ClCompile Include="..\..\..\mpir.net\mpir.net\HugeRational.cpp" />
     <ClCompile Include="..\..\..\mpir.net\mpir.net\Random.cpp" />

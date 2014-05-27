@@ -33,6 +33,9 @@
     <ClInclude Include="..\..\..\mpir.net\mpir.net\HugeRational.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\mpir.net\mpir.net\HugeFloat.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\mpir.net\mpir.net\AssemblyInfo.cpp">
@@ -48,6 +51,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\mpir.net\mpir.net\HugeRational.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\mpir.net\mpir.net\HugeFloat.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

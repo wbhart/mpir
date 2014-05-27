@@ -55,6 +55,7 @@ namespace MPIR
 {
     ref class MpirRandom;
     ref class RationalExpression;
+    ref class FloatExpression;
     ref class MPTYPE;
     ref class MPEXPR(Divide);
     ref class MPEXPR(DivideUi);
@@ -1649,6 +1650,13 @@ namespace MPIR
             /// </para></summary>
             /// <param name="value">new value for the object</param>
             void SetTo(RationalExpression^ value);
+
+            /// <summary>
+            /// Sets the value of the integer object.  Any fractional portion is truncated.
+            /// <para>Do not change the value of an object while it is contained in a hash table, because that changes its hash code.
+            /// </para></summary>
+            /// <param name="value">new value for the object</param>
+            void SetTo(FloatExpression^ value);
 
             /// <summary>
             /// Swaps the values of two integers.
