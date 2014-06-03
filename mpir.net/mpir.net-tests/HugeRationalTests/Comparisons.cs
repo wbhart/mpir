@@ -93,6 +93,21 @@ namespace MPIR.Tests.HugeRationalTests
         }
 
         [TestMethod]
+        public void RationalCompareToLimb2()
+        {
+            using(var a = new HugeRational("-222509947/127"))
+            {
+                ulong b = 222509820;
+                ulong d = 127;
+                Assert.AreEqual(-1, System.Math.Sign(a.CompareTo(b, d)));
+                Assert.AreEqual(-1, System.Math.Sign(a.CompareTo(b + 1, d)));
+                Assert.AreEqual(0, System.Math.Sign((-(a + 1)).CompareTo(b, d)));
+                Assert.AreEqual(0, System.Math.Sign((-a).CompareTo(b + d, d)));
+                Assert.AreEqual(1, System.Math.Sign((-a).CompareTo(b, d)));
+            }
+        }
+
+        [TestMethod]
         public void RationalCompareToSignedLimb()
         {
             using (var a = new HugeRational("-222509821"))
@@ -103,6 +118,22 @@ namespace MPIR.Tests.HugeRationalTests
                 Assert.AreEqual(0, System.Math.Sign((a + 1).CompareTo(b)));
                 Assert.AreEqual(0, System.Math.Sign(a.CompareTo(b - 1)));
                 Assert.AreEqual(1, System.Math.Sign(a.CompareTo(b - 2)));
+            }
+        }
+
+        [TestMethod]
+        public void RationalCompareToSignedLimb2()
+        {
+            using(var a = new HugeRational("-222509947/127"))
+            {
+                long b = -222509820;
+                long d = 127;
+                Assert.AreEqual(-1, System.Math.Sign(a.CompareTo(b, (ulong)d)));
+                Assert.AreEqual(-1, System.Math.Sign(a.CompareTo(b + 1, (ulong)d)));
+                Assert.AreEqual(0, System.Math.Sign((a + 1).CompareTo(b, (ulong)d)));
+                Assert.AreEqual(-1, System.Math.Sign(a.CompareTo(b - d + 1, (ulong)d)));
+                Assert.AreEqual(0, System.Math.Sign(a.CompareTo(b - d, (ulong)d)));
+                Assert.AreEqual(1, System.Math.Sign(a.CompareTo(b - d - 1, (ulong)d)));
             }
         }
 
@@ -450,6 +481,32 @@ namespace MPIR.Tests.HugeRationalTests
                 Assert.IsFalse(a.Equals(b + 1));
                 Assert.IsTrue(a.Equals(b - 1));
                 Assert.IsTrue((a + 1).Equals(b));
+            }
+        }
+
+        [TestMethod]
+        public void RationalEqualsLimb2()
+        {
+            using(var a = new HugeRational("222509832377/127"))
+            {
+                ulong b = 222509832504;
+                ulong d = 127;
+                Assert.IsFalse(a.Equals(b + 1, d));
+                Assert.IsTrue(a.Equals(b - d, d));
+                Assert.IsTrue((a + 1).Equals(b, d));
+            }
+        }
+
+        [TestMethod]
+        public void RationalEqualsSignedLimb2()
+        {
+            using(var a = new HugeRational("-222509832377/127"))
+            {
+                long b = -222509832504;
+                ulong d = 127;
+                Assert.IsFalse(a.Equals(b + 1, d));
+                Assert.IsTrue(a.Equals(b + (long)d, d));
+                Assert.IsTrue((a - 1).Equals(b, d));
             }
         }
 

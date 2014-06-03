@@ -1005,7 +1005,8 @@ namespace MPIR
 
             /// <summary>
             /// Returns the value of the number as a double, truncating if necessary (rounding towards zero).
-            /// <para>If the exponent from the conversion is too big, the result is system dependent. An infinity is returned where available.             /// A hardware overflow trap may or may not occur.
+            /// <para>If the exponent from the conversion is too big, the result is system dependent. An infinity is returned where available. 
+            /// A hardware overflow trap may or may not occur.
             /// </para></summary>
             /// <returns>The value as a double, possibly truncated.</returns>
             double ToDouble() { return MP(get_d)(_value); }

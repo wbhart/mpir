@@ -374,6 +374,39 @@ namespace MPIR.Tests.HugeRationalTests
 
         #endregion
 
+        #region Invert
+
+        [TestMethod]
+        public void RationalInvert()
+        {
+            using(var a = new HugeRational("-24092854092874502983745029345723098457209/115756986668303657898962467957"))
+            {
+                a.Value = a.Invert();
+                Assert.AreEqual("-115756986668303657898962467957/24092854092874502983745029345723098457209", a.ToString());
+                a.Value = a.Invert();
+                Assert.AreEqual("-24092854092874502983745029345723098457209/115756986668303657898962467957", a.ToString());
+            }
+        }
+
+        #endregion
+
+        #region Power
+
+        [TestMethod]
+        public void RationalPower()
+        {
+            using(var n = new HugeInt("-24092854092874502983745029345723098457209"))
+            using(var d = new HugeInt("115756986668303657898962467957"))
+            using(var a = new HugeRational(n, d))
+            {
+                a.Value = a ^ 5;
+                Assert.AreEqual(n ^ 5, a.Numerator);
+                Assert.AreEqual(d ^ 5, a.Denominator);
+            }
+        }
+
+        #endregion
+
         #region Divide
 
         #region Int
@@ -431,6 +464,39 @@ namespace MPIR.Tests.HugeRationalTests
                 ulong b = 5931690917503076532;
                 a.Value = a / b;
                 Assert.AreEqual("115756986668303657898962467957/234052834524092854092874502983745029345723092857791404165816936", a.ToString());
+            }
+        }
+
+        [TestMethod]
+        public void RationalDivideSignedLimb()
+        {
+            using(var a = new HugeRational("115756986668303657898962467957/39458029384750298767200622330399462537522498"))
+            {
+                long b = -5931690917503076532;
+                a.Value = a / b;
+                Assert.AreEqual("-115756986668303657898962467957/234052834524092854092874502983745029345723092857791404165816936", a.ToString());
+            }
+        }
+
+        [TestMethod]
+        public void RationalDivideLimbBy()
+        {
+            using(var a = new HugeRational("115756986668303657898962467957/39458029384750298767200622330399462537522498"))
+            {
+                ulong b = 5931690917503076532;
+                a.Value = b / a;
+                Assert.AreEqual("234052834524092854092874502983745029345723092857791404165816936/115756986668303657898962467957", a.ToString());
+            }
+        }
+
+        [TestMethod]
+        public void RationalDivideSignedLimbBy()
+        {
+            using(var a = new HugeRational("115756986668303657898962467957/39458029384750298767200622330399462537522498"))
+            {
+                long b = -5931690917503076532;
+                a.Value = b / a;
+                Assert.AreEqual("-234052834524092854092874502983745029345723092857791404165816936/115756986668303657898962467957", a.ToString());
             }
         }
 
