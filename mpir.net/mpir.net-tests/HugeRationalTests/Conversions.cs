@@ -60,6 +60,9 @@ namespace MPIR.Tests.HugeRationalTests
                 ulong d = 12764787846358441471;
                 a.SetTo(b, d);
                 Assert.AreEqual(b.ToString() + "/" + d.ToString(), a.ToString());
+
+                a.SetTo(b);
+                Assert.AreEqual(b.ToString() + "/1", a.ToString());
             }
         }
 
@@ -72,6 +75,9 @@ namespace MPIR.Tests.HugeRationalTests
                 ulong d = 12764787846358441471;
                 a.SetTo(b, d);
                 Assert.AreEqual(b.ToString() + "/" + d.ToString(), a.ToString());
+
+                a.SetTo(b);
+                Assert.AreEqual(b.ToString() + "/1", a.ToString());
             }
         }
 
@@ -114,6 +120,10 @@ namespace MPIR.Tests.HugeRationalTests
                 n = "-98ABCDEF876529834765234123984761/17607EF654EB9A13FFA163C75";
                 a.SetTo(n, 16);
                 Assert.AreEqual(n, a.ToString(16));
+
+                n = "-98ABCDEF876529834765234123984761";
+                a.SetTo(n, 16);
+                Assert.AreEqual(n + "/1", a.ToString(16));
             }
         }
 

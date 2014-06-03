@@ -179,6 +179,17 @@ namespace MPIR.Tests.HugeRationalTests
         }
 
         [TestMethod]
+        public void RationalStringConstructorNumeratorOnly()
+        {
+            var n = "5432109876543212345789023245987";
+            using(var a = new HugeRational(n))
+            {
+                Assert.AreEqual(2, a.NumeratorNumberOfLimbsUsed());
+                Assert.AreEqual(n + "/1", a.ToString());
+            }
+        }
+
+        [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
         public void RationalStringConstructorInvalid()
         {
@@ -198,8 +209,10 @@ namespace MPIR.Tests.HugeRationalTests
             using (var i = new HugeInt("362736035870515331128527330659"))
             {
                 var d = i.ToString(16);
-                using (var a = new HugeRational("143210ABCDEF32123457ACDB324598799/" + d, 16))
+                var n = "143210ABCDEF32123457ACDB324598799";
+                using (var a = new HugeRational(n + "/" + d, 16))
                 {
+                    Assert.AreEqual(n, a.Numerator.ToString(16));
                     Assert.AreEqual(3, a.NumeratorNumberOfLimbsUsed());
                     Assert.AreEqual(i, a.Denominator);
                 }
