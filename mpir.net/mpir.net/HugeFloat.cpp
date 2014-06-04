@@ -279,28 +279,12 @@ return result->ToString();
 
     size_t MPTYPE::Write(Stream^ stream)
     {
-        auto writtenNumerator = Numerator->Write(stream);
-        if(writtenNumerator == 0)
-            return 0;
-
-        auto writtenDenominator = Denominator->Write(stream);
-        if(writtenDenominator == 0)
-            return 0;
-
-        return writtenNumerator + writtenDenominator;
+        throw gcnew NotImplementedException();
     }
 
     size_t MPTYPE::Read(Stream^ stream)
     {
-        auto readNumerator = Numerator->Read(stream);
-        if(readNumerator == 0)
-            return 0;
-
-        auto readDenominator = Denominator->Read(stream);
-        if(readDenominator == 0)
-            return 0;
-
-        return readNumerator + readDenominator;
+        throw gcnew NotImplementedException();
     }
 
     size_t MPTYPE::Write(TextWriter^ writer, int base, bool lowercase)
@@ -312,21 +296,7 @@ return result->ToString();
 
     size_t MPTYPE::Read(TextReader^ reader, int base)
     {
-        auto readNumerator = Numerator->Read(reader, base);
-        if(readNumerator == 0)
-            return 0;
-
-        size_t readDenominator = 0;
-        char c = reader->Peek();
-        if (c == '/')
-        {
-            reader->Read();
-            readDenominator = 1 + Denominator->Read(reader, base);
-            if(readDenominator == 1)
-                return 0;
-        }
-
-        return readNumerator + readDenominator;
+        throw gcnew NotImplementedException();
     }
 
     #pragma endregion
