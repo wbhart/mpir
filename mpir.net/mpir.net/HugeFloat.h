@@ -359,7 +359,7 @@ namespace MPIR
             /// <param name="a">Source value to compare</param>
             /// <param name="b">Source value to compare with</param>
             /// <returns>A boolean result of the comparison.</returns>
-            static bool operator == (MPEXPR_NAME^ a, MPEXPR_NAME^ b) { return  IS_NULL(a) ?  IS_NULL(b) : a->Equals(b); }
+            static bool operator == (MPEXPR_NAME^ a, MPEXPR_NAME^ b) { return  IS_NULL(a) ?  IS_NULL(b) : a->CompareTo(b) == 0; }
 
             /// <summary>Compares two numbers.
             /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
@@ -367,7 +367,7 @@ namespace MPIR
             /// <param name="a">Source value to compare</param>
             /// <param name="b">Source value to compare with</param>
             /// <returns>A boolean result of the comparison.</returns>
-            static bool operator != (MPEXPR_NAME^ a, MPEXPR_NAME^ b) { return  IS_NULL(a) ? !IS_NULL(b) : !a->Equals(b); }
+            static bool operator != (MPEXPR_NAME^ a, MPEXPR_NAME^ b) { return  IS_NULL(a) ? !IS_NULL(b) : a->CompareTo(b) != 0; }
 
             /// <summary>Compares two numbers.
             /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
@@ -423,7 +423,7 @@ namespace MPIR
             /// <param name="a">Source value to compare</param>
             /// <param name="b">Source value to compare with</param>
             /// <returns>A boolean result of the comparison.</returns>
-            static bool operator != (MPEXPR_NAME^ a, mpir_ui b) { return  IS_NULL(a) || !a->Equals(b); }
+            static bool operator != (MPEXPR_NAME^ a, mpir_ui b) { return  IS_NULL(a) || a->CompareTo(b) != 0; }
 
             /// <summary>Compares two numbers.
             /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
@@ -431,7 +431,7 @@ namespace MPIR
             /// <param name="a">Source value to compare</param>
             /// <param name="b">Source value to compare with</param>
             /// <returns>A boolean result of the comparison.</returns>
-            static bool operator == (MPEXPR_NAME^ a, mpir_ui b) { return !IS_NULL(a) && a->Equals(b); }
+            static bool operator == (MPEXPR_NAME^ a, mpir_ui b) { return !IS_NULL(a) && a->CompareTo(b) == 0; }
 
             /// <summary>Compares two numbers.
             /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
@@ -471,7 +471,7 @@ namespace MPIR
             /// <param name="a">Source value to compare</param>
             /// <param name="b">Source value to compare with</param>
             /// <returns>A boolean result of the comparison.</returns>
-            static bool operator != (mpir_ui b, MPEXPR_NAME^ a) { return  IS_NULL(a) || !a->Equals(b); }
+            static bool operator != (mpir_ui b, MPEXPR_NAME^ a) { return  IS_NULL(a) || a->CompareTo(b) != 0; }
 
             /// <summary>Compares two numbers.
             /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
@@ -479,7 +479,7 @@ namespace MPIR
             /// <param name="a">Source value to compare</param>
             /// <param name="b">Source value to compare with</param>
             /// <returns>A boolean result of the comparison.</returns>
-            static bool operator == (mpir_ui b, MPEXPR_NAME^ a) { return !IS_NULL(a) && a->Equals(b); }
+            static bool operator == (mpir_ui b, MPEXPR_NAME^ a) { return !IS_NULL(a) && a->CompareTo(b) == 0; }
 
             /// <summary>Compares two numbers.
             /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
@@ -519,7 +519,7 @@ namespace MPIR
             /// <param name="a">Source value to compare</param>
             /// <param name="b">Source value to compare with</param>
             /// <returns>A boolean result of the comparison.</returns>
-            static bool operator != (MPEXPR_NAME^ a, mpir_si b) { return  IS_NULL(a) || !a->Equals(b); }
+            static bool operator != (MPEXPR_NAME^ a, mpir_si b) { return  IS_NULL(a) || a->CompareTo(b) != 0; }
 
             /// <summary>Compares two numbers.
             /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
@@ -527,7 +527,7 @@ namespace MPIR
             /// <param name="a">Source value to compare</param>
             /// <param name="b">Source value to compare with</param>
             /// <returns>A boolean result of the comparison.</returns>
-            static bool operator == (MPEXPR_NAME^ a, mpir_si b) { return !IS_NULL(a) && a->Equals(b); }
+            static bool operator == (MPEXPR_NAME^ a, mpir_si b) { return !IS_NULL(a) && a->CompareTo(b) == 0; }
 
             /// <summary>Compares two numbers.
             /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
@@ -567,7 +567,7 @@ namespace MPIR
             /// <param name="a">Source value to compare</param>
             /// <param name="b">Source value to compare with</param>
             /// <returns>A boolean result of the comparison.</returns>
-            static bool operator != (mpir_si b, MPEXPR_NAME^ a) { return  IS_NULL(a) || !a->Equals(b); }
+            static bool operator != (mpir_si b, MPEXPR_NAME^ a) { return  IS_NULL(a) || a->CompareTo(b) != 0; }
 
             /// <summary>Compares two numbers.
             /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
@@ -575,7 +575,7 @@ namespace MPIR
             /// <param name="a">Source value to compare</param>
             /// <param name="b">Source value to compare with</param>
             /// <returns>A boolean result of the comparison.</returns>
-            static bool operator == (mpir_si b, MPEXPR_NAME^ a) { return !IS_NULL(a) && a->Equals(b); }
+            static bool operator == (mpir_si b, MPEXPR_NAME^ a) { return !IS_NULL(a) && a->CompareTo(b) == 0; }
 
             /// <summary>Compares two numbers.
             /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
@@ -615,7 +615,7 @@ namespace MPIR
             /// <param name="a">Source value to compare</param>
             /// <param name="b">Source value to compare with</param>
             /// <returns>A boolean result of the comparison.</returns>
-            static bool operator != (MPEXPR_NAME^ a, double b) { return  IS_NULL(a) || !a->Equals(b); }
+            static bool operator != (MPEXPR_NAME^ a, double b) { return  IS_NULL(a) || a->CompareTo(b) != 0; }
 
             /// <summary>Compares two numbers.
             /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
@@ -623,7 +623,7 @@ namespace MPIR
             /// <param name="a">Source value to compare</param>
             /// <param name="b">Source value to compare with</param>
             /// <returns>A boolean result of the comparison.</returns>
-            static bool operator == (MPEXPR_NAME^ a, double b) { return !IS_NULL(a) && a->Equals(b); }
+            static bool operator == (MPEXPR_NAME^ a, double b) { return !IS_NULL(a) && a->CompareTo(b) == 0; }
 
             /// <summary>Compares two numbers.
             /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
@@ -663,7 +663,7 @@ namespace MPIR
             /// <param name="a">Source value to compare</param>
             /// <param name="b">Source value to compare with</param>
             /// <returns>A boolean result of the comparison.</returns>
-            static bool operator != (double b, MPEXPR_NAME^ a) { return  IS_NULL(a) || !a->Equals(b); }
+            static bool operator != (double b, MPEXPR_NAME^ a) { return  IS_NULL(a) || a->CompareTo(b) != 0; }
 
             /// <summary>Compares two numbers.
             /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
@@ -671,7 +671,7 @@ namespace MPIR
             /// <param name="a">Source value to compare</param>
             /// <param name="b">Source value to compare with</param>
             /// <returns>A boolean result of the comparison.</returns>
-            static bool operator == (double b, MPEXPR_NAME^ a) { return !IS_NULL(a) && a->Equals(b); }
+            static bool operator == (double b, MPEXPR_NAME^ a) { return !IS_NULL(a) && a->CompareTo(b) == 0; }
 
             /// <summary>Calculates the sign (+1, 0, or -1) of the source value.
             /// <para>If the source is an expression, it is evaluated into a temporary variable before the sign is computed.
