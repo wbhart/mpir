@@ -272,6 +272,15 @@ private ref class MPEXPR(name) : base                                           
             negativeOp(destination, destination, (mpir_ui)-Right);                                      \
     }
 
+#define DEFINE_BINARY_ASSIGNMENT_REF_SI2(name, leftTypeAbbr, rightTypeAbbr, operation, negateOp)        \
+    DEFINE_ASSIGNMENT_PROLOG(name##leftTypeAbbr##rightTypeAbbr)                                         \
+    {                                                                                                   \
+        Left->AssignTo(destination);                                                                    \
+        operation(destination, destination, (Right >= 0) ? (mpir_ui)Right : (mpir_ui)-Right);           \
+        if (Right < 0)                                                                                  \
+            negateOp(destination, destination);                                                         \
+    }
+
 #define DEFINE_BINARY_ASSIGNMENT_SI_REF(name, leftTypeAbbr, rightTypeAbbr, positiveOp, negativeOp1, negativeOp2)   \
     DEFINE_ASSIGNMENT_PROLOG(name##leftTypeAbbr##rightTypeAbbr)                                                    \
     {                                                                                                              \
@@ -281,6 +290,19 @@ private ref class MPEXPR(name) : base                                           
         else                                                                                                       \
         {                                                                                                          \
             negativeOp1(destination, destination, (mpir_ui)-Left);                                                 \
+            negativeOp2(destination, destination);                                                                 \
+        }                                                                                                          \
+    }
+
+#define DEFINE_BINARY_ASSIGNMENT_SI_REF2(name, leftTypeAbbr, rightTypeAbbr, positiveOp, negativeOp1, negativeOp2)  \
+    DEFINE_ASSIGNMENT_PROLOG(name##leftTypeAbbr##rightTypeAbbr)                                                    \
+    {                                                                                                              \
+        Right->AssignTo(destination);                                                                              \
+        if (Left >= 0)                                                                                             \
+            positiveOp(destination, (mpir_ui)Left, destination);                                                   \
+        else                                                                                                       \
+        {                                                                                                          \
+            negativeOp1(destination, (mpir_ui)-Left, destination);                                                 \
             negativeOp2(destination, destination);                                                                 \
         }                                                                                                          \
     }
