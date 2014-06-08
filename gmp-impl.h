@@ -2861,7 +2861,7 @@ do {                                                          \
      } \
     sub_ddmmss(_p, _t0, _p, _t0, (d1), (d0)); \
       }									\
-    if (UNLIKELY(_p <= 2))  \
+    if (UNLIKELY(-_p <= 2))  \
        __mpir_invert_pi2(d1inv, d1, d0); \
     else \
        d1inv = _v; \
