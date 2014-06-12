@@ -1319,6 +1319,9 @@
   <ClCompile Include="..\..\mpn\generic\mp_bases.c">
     <Filter>Source Files\mpn</Filter>
     </ClCompile>
+  <ClCompile Include="..\..\mpn\generic\mpn_mul_fft.c">
+    <Filter>Source Files\mpn</Filter>
+    </ClCompile>
   <ClCompile Include="..\..\mpn\generic\mul.c">
     <Filter>Source Files\mpn</Filter>
     </ClCompile>
@@ -1326,6 +1329,9 @@
     <Filter>Source Files\mpn</Filter>
     </ClCompile>
   <ClCompile Include="..\..\mpn\generic\mul_basecase.c">
+    <Filter>Source Files\mpn</Filter>
+    </ClCompile>
+  <ClCompile Include="..\..\mpn\generic\mul_fft.c">
     <Filter>Source Files\mpn</Filter>
     </ClCompile>
   <ClCompile Include="..\..\mpn\generic\mul_n.c">

@@ -1870,6 +1870,9 @@ __GMP_DECLSPEC mp_limb_t mpn_sumdiff_n __GMP_PROTO ((mp_ptr, mp_ptr, mp_srcptr, 
 #define mpn_mul_fft_main __MPN(mul_fft_main)
 __GMP_DECLSPEC void mpn_mul_fft_main __GMP_PROTO ((mp_ptr r1, mp_srcptr i1, mp_size_t n1, mp_srcptr i2, mp_size_t n2));
 
+#define mpn_mul_fft __MPN(mul_fft)
+__GMP_DECLSPEC int mpn_mul_fft __GMP_PROTO((mp_ptr rp, mp_size_t rn, mp_srcptr ap, mp_size_t an, mp_srcptr bp, mp_size_t bn, int k));
+
 /**************** mpz inlines ****************/
 
 /* The following are provided as inlines where possible, but always exist as
