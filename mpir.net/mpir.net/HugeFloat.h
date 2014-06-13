@@ -726,12 +726,15 @@ namespace MPIR
         internal:
             //fields
             MP(ptr) _value;
+            mp_bitcnt_t _allocatedPrecision;
 
         private:
             //construction
             void AllocateStruct()
             {
                 _value = (MP(ptr))((*__gmp_allocate_func)(sizeof(MPSTRUCT)));
+                //todo: move this to wherever init is called
+                _allocatedPrecision = MP(get_prec)(_value);
             }
             void FromString(String^ value, int base);
             MPTYPE(bool initialize);
@@ -740,6 +743,7 @@ namespace MPIR
         internal:
             virtual void DeallocateStruct()
             {
+                MP(set_prec_raw)(_value, _allocatedPrecision);
                 MP(clear)(_value);
                 (*__gmp_free_func)(_value, sizeof(MPSTRUCT));
                 _value = nullptr;
@@ -758,6 +762,17 @@ namespace MPIR
 
         public:
             #pragma region construction and disposal
+
+            static MPTYPE()
+            {
+                DefaultPrecision = sizeof(mpir_ui) * 8 * 2; //2 limbs
+            }
+
+            static property mp_bitcnt_t DefaultPrecision
+            {
+                mp_bitcnt_t get() { return MP(get_default_prec)(); }
+                void set(mp_bitcnt_t value) { MP(set_default_prec)(value); }
+            }
 
             /// <summary>
             /// Initializes a new float instance and sets its value to 0/1
@@ -889,14 +904,16 @@ namespace MPIR
 
             /// <summary>
             /// Returns the value of the number as a double, truncating if necessary (rounding towards zero).
-            /// <para>If the exponent from the conversion is too big, the result is system dependent. An infinity is returned where available.             /// A hardware overflow trap may or may not occur.
+            /// <para>If the exponent from the conversion is too big, the result is system dependent. An infinity is returned where available. 
+            /// A hardware overflow trap may or may not occur.
             /// </para></summary>
             /// <returns>The value as a double, possibly truncated.</returns>
             double ToDouble() { return MP(get_d)(_value); }
 
 ///// <summary>
 ///// Returns the value of the number as a double, truncating if necessary (rounding towards zero), and returning the exponent separately.
-///// <para>The return is the mantissa, its absolute value will be in the range [0.5 - 1).///// </para>If the source value is zero, both mantissa and exponent are returned as 0.
+///// <para>The return is the mantissa, its absolute value will be in the range [0.5 - 1).
+///// </para>If the source value is zero, both mantissa and exponent are returned as 0.
 ///// </summary>
 ///// <param name="exp">variable to store the exponent in.</param>
 ///// <returns>The mantissa of the value as a double, possibly truncated.</returns>

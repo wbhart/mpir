@@ -113,11 +113,40 @@ namespace MPIR
 
     String^ MPTYPE::ToString(int base, bool lowercase, int maxDigits)
     {
-auto result = gcnew StringBuilder();
-//result->Append(this->Numerator->ToString(base, lowercase, maxDigits));
-//result->Append((wchar_t)'/');
-//result->Append(this->Denominator->ToString(base, lowercase, maxDigits));
-return result->ToString();
+        if(base < 2 || base > 62)
+            throw gcnew ArgumentOutOfRangeException("base", "Invalid base");
+
+        mp_exp_t exponent;
+        auto allocatedStr = MP(get_str)(NULL, &exponent, (!lowercase && base <= 36) ? -base : base, maxDigits, _value);
+        auto str = allocatedStr;
+
+        auto result = maxDigits > 0 ? gcnew StringBuilder(maxDigits + 70) : gcnew StringBuilder();
+        
+        size_t allocated = 1;
+        if (*str == '-')
+        {
+            result->Append((wchar_t)'-');
+            allocated++;
+            str++;
+        }
+        result->Append((wchar_t)'0');
+
+        if (*str != 0)
+        {
+            result->Append((wchar_t)'.');
+            while (*str != 0)
+            {
+                result->Append((wchar_t)*str);
+                allocated++;
+                str++;
+            }
+            result->Append((wchar_t)'@');
+            result->Append(exponent);
+        }
+
+        (*__gmp_free_func)(allocatedStr, allocated);
+
+        return result->ToString();
     }
 
     int MPEXPR_NAME::GetHashCode()

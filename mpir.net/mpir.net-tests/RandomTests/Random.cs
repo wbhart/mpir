@@ -54,7 +54,7 @@ namespace MPIR.Tests.RandomTests
                         break;
 
                     case 4:
-                        r.Seed(seed); //r = copy; temporarily disabled copy tests due to MPIR bug
+                        r.Seed(seed); //todo r = copy; temporarily disabled copy tests due to MPIR bug
                         break;
                 }
 

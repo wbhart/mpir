@@ -157,6 +157,8 @@
     <Compile Include="..\..\..\mpir.net\mpir.net-tests\Properties\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="HugeFloatTests\Arithmetic.cs" />
+    <Compile Include="HugeFloatTests\Comparisons.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\mpir.net\mpir.net.vcxproj">
@@ -164,9 +166,7 @@
       <Name>mpir.net</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="HugeFloatTests\" />
-  </ItemGroup>
+  <ItemGroup />
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>
