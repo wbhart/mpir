@@ -336,6 +336,15 @@ namespace MPIR
             /// <returns>true if the values of the source and <paramref name="a"/> are equal, false otherwise.</returns>
             virtual bool Equals(Object^ a) override sealed;
 
+            /// <summary>Compares two numbers approximately, taking into account <paramref name="precision"/> most significant bits of the mantissa.
+            /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
+            /// </para>In the future values like 1000 and 0111 may be considered the same to 3 bits (on the basis that their difference is that small).
+            /// </summary>
+            /// <param name="a">Value to compare the source with</param>
+            /// <param name="precision">The number of most significant bits that must match for the two numbers to be considered equal</param>
+            /// <returns>true if the values of the source and <paramref name="a"/> are equal to <paramref name="precision"/>, false otherwise.</returns>
+            bool Equals(MPEXPR_NAME^ a, mp_bitcnt_t precision) { IN_CONTEXT(this, a); return MP(eq)(CTXT(0), CTXT(1), precision); }
+
             /// <summary>Computes the hash code of the source value.
             /// <para>If called on an expression, it is evaluated into a temporary variable before the comparison is performed.
             /// </para>Multi-precision classes are mutable with value semantics.  The hash code is based on the value, and will change if the value changes.
@@ -685,6 +694,13 @@ namespace MPIR
             /// <returns>+1 if the source is positive, -1 if negative, and 0 if zero.</returns>
             int Sign() { IN_CONTEXT(this); return MP(sgn)(CTXT(0)); }
 
+            /// <summary>Compares two numbers.
+            /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
+            /// </para>The result equals | source - a | / a.</summary>
+            /// <param name="a">Source value to compare with</param>
+            /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
+            MPEXPR_NAME^ RelativeDifferenceFrom(MPEXPR_NAME^ a);
+
             #pragma endregion
     };
 
@@ -722,6 +738,8 @@ namespace MPIR
     DEFINE_UNARY_EXPRESSION_WITH_ONE               (MPEXPR_NAME, SquareRoot, Flt)
     DEFINE_UNARY_EXPRESSION_WITH_BUILT_INS_ONLY    (MPEXPR_NAME, SquareRoot, Ui)
                                                    
+    DEFINE_BINARY_EXPRESSION_WITH_TWO              (MPEXPR_NAME, RelativeDifferenceFrom, Flt)
+
     #pragma endregion
 
     #pragma region HugeFloat class

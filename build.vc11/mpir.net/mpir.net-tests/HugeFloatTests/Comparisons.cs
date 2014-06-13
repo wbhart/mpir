@@ -463,6 +463,40 @@ namespace MPIR.Tests.HugeFloatTests
             }
         }
 
+        [TestMethod]
+        public void FloatEqualsHugeFloatApproximately()
+        {
+            using (var a = new HugeFloat("ABCDEF12948576AB49587.ACD34EFB345", 16))
+            using (var b = new HugeFloat("ABCDEF12948576AB49587.ACD34EFB245", 16))
+            {
+                Assert.IsTrue(a.Equals(b, 119));
+                Assert.IsFalse(a.Equals(b, 120));
+                Assert.IsTrue(a.Equals(b - 1, 83));
+                Assert.IsFalse(a.Equals(b - 1, 84));
+                Assert.IsTrue((a + 512).Equals(b, 74));
+                Assert.IsFalse((a + 512).Equals(b, 75));
+
+                //same mantissa, different exponent should always return false
+                Assert.IsFalse(a.Equals(a >> 1, 119));
+                Assert.IsFalse(a.Equals(a << 1, 119));
+                Assert.IsFalse(a.Equals(a * 2, 119));
+                Assert.IsFalse(a.Equals(a / 2, 119));
+            }
+        }
+
+        [TestMethod]
+        public void FloatRelDiff()
+        {
+            using (var a = new HugeFloat("1234523549876.24935230589472305894245"))
+            using (var b = new HugeFloat("1234523549541.45207354209357842979873"))
+            {
+                Assert.AreEqual(a.RelativeDifferenceFrom(b), (a - b).Abs() / a);
+                Assert.AreNotEqual(a.RelativeDifferenceFrom(b), (a - b).Abs() / b);
+                Assert.AreEqual(b.RelativeDifferenceFrom(a), (a - b).Abs() / b);
+                Assert.AreNotEqual(b.RelativeDifferenceFrom(a), (a - b).Abs() / a);
+            }
+        }
+
         #endregion
 
         #region Equality operators with expr

@@ -266,6 +266,7 @@ namespace MPIR
     MAKE_UNARY_OPERATOR            (MPEXPR_NAME,        DEFINE, -, Negate, Flt)             
     MAKE_VOID_FUNCTION             (MPEXPR_NAME,        DEFINE, Abs, Flt)                   
     MAKE_VOID_FUNCTION             (MPEXPR_NAME,        DEFINE, SquareRoot, Flt)                   
+    MAKE_FUNCTION_WITH_ONE         (MPEXPR_NAME,        DEFINE, RelativeDifferenceFrom, Flt)                   
                                                                                                            
     MAKE_BINARY_OPERATOR_STANDARD  (MPEXPR_NAME,        DEFINE, /, Divide, Flt, Flt)        
     MAKE_BINARY_OPERATOR_RLIMB     (MPEXPR_NAME,        DEFINE, /, Divide, Flt, Ui)       
@@ -302,6 +303,7 @@ namespace MPIR
     DEFINE_BINARY_ASSIGNMENT_REF_VAL(ShiftRight, Flt, Bits, MP(div_2exp))
 
     DEFINE_BINARY_ASSIGNMENT_REF_VAL(Power, Flt, Ui, MP(pow_ui))
+    DEFINE_BINARY_ASSIGNMENT_REF_REF(RelativeDifferenceFrom, Flt, MP(reldiff))
 
     #pragma endregion
 
