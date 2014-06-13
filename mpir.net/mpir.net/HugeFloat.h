@@ -310,7 +310,7 @@ namespace MPIR
 
             /// <summary>Compares two numbers.
             /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
-            /// </para></summary>
+            /// </para>When the argument is a double, it may be an infinity, but results are undefined for a NaN.</summary>
             /// <param name="a">Value to compare the source with</param>
             /// <returns>A positive number if the source is greater than <paramref name="a"/>, negative if less, and zero if they are equal.</returns>
             virtual int CompareTo(Object^ a) sealed;
@@ -331,7 +331,7 @@ namespace MPIR
 
             /// <summary>Compares two numbers.
             /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
-            /// </para></summary>
+            /// </para>When the argument is a double, it may be an infinity, but results are undefined for a NaN.</summary>
             /// <param name="a">Value to compare the source with.  This can be a multi-precision number, an expression, or a supported primitive type (long, ulong, or double).</param>
             /// <returns>true if the values of the source and <paramref name="a"/> are equal, false otherwise.</returns>
             virtual bool Equals(Object^ a) override sealed;
@@ -585,7 +585,7 @@ namespace MPIR
 
             /// <summary>Compares two numbers.
             /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
-            /// </para></summary>
+            /// </para>Can be called with an infinity, but results are undefined for a NaN.</summary>
             /// <param name="a">Source value to compare</param>
             /// <param name="b">Source value to compare with</param>
             /// <returns>A boolean result of the comparison.</returns>
@@ -593,7 +593,7 @@ namespace MPIR
 
             /// <summary>Compares two numbers.
             /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
-            /// </para></summary>
+            /// </para>Can be called with an infinity, but results are undefined for a NaN.</summary>
             /// <param name="a">Source value to compare</param>
             /// <param name="b">Source value to compare with</param>
             /// <returns>A boolean result of the comparison.</returns>
@@ -601,7 +601,7 @@ namespace MPIR
 
             /// <summary>Compares two numbers.
             /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
-            /// </para></summary>
+            /// </para>Can be called with an infinity, but results are undefined for a NaN.</summary>
             /// <param name="a">Source value to compare</param>
             /// <param name="b">Source value to compare with</param>
             /// <returns>A boolean result of the comparison.</returns>
@@ -609,7 +609,7 @@ namespace MPIR
 
             /// <summary>Compares two numbers.
             /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
-            /// </para></summary>
+            /// </para>Can be called with an infinity, but results are undefined for a NaN.</summary>
             /// <param name="a">Source value to compare</param>
             /// <param name="b">Source value to compare with</param>
             /// <returns>A boolean result of the comparison.</returns>
@@ -617,7 +617,7 @@ namespace MPIR
 
             /// <summary>Compares two numbers.
             /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
-            /// </para></summary>
+            /// </para>Can be called with an infinity, but results are undefined for a NaN.</summary>
             /// <param name="a">Source value to compare</param>
             /// <param name="b">Source value to compare with</param>
             /// <returns>A boolean result of the comparison.</returns>
@@ -625,7 +625,7 @@ namespace MPIR
 
             /// <summary>Compares two numbers.
             /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
-            /// </para></summary>
+            /// </para>Can be called with an infinity, but results are undefined for a NaN.</summary>
             /// <param name="a">Source value to compare</param>
             /// <param name="b">Source value to compare with</param>
             /// <returns>A boolean result of the comparison.</returns>
@@ -633,7 +633,7 @@ namespace MPIR
 
             /// <summary>Compares two numbers.
             /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
-            /// </para></summary>
+            /// </para>Can be called with an infinity, but results are undefined for a NaN.</summary>
             /// <param name="a">Source value to compare</param>
             /// <param name="b">Source value to compare with</param>
             /// <returns>A boolean result of the comparison.</returns>
@@ -641,7 +641,7 @@ namespace MPIR
 
             /// <summary>Compares two numbers.
             /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
-            /// </para></summary>
+            /// </para>Can be called with an infinity, but results are undefined for a NaN.</summary>
             /// <param name="a">Source value to compare</param>
             /// <param name="b">Source value to compare with</param>
             /// <returns>A boolean result of the comparison.</returns>
@@ -649,7 +649,7 @@ namespace MPIR
 
             /// <summary>Compares two numbers.
             /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
-            /// </para></summary>
+            /// </para>Can be called with an infinity, but results are undefined for a NaN.</summary>
             /// <param name="a">Source value to compare</param>
             /// <param name="b">Source value to compare with</param>
             /// <returns>A boolean result of the comparison.</returns>
@@ -657,7 +657,7 @@ namespace MPIR
 
             /// <summary>Compares two numbers.
             /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
-            /// </para></summary>
+            /// </para>Can be called with an infinity, but results are undefined for a NaN.</summary>
             /// <param name="a">Source value to compare</param>
             /// <param name="b">Source value to compare with</param>
             /// <returns>A boolean result of the comparison.</returns>
@@ -665,7 +665,7 @@ namespace MPIR
 
             /// <summary>Compares two numbers.
             /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
-            /// </para></summary>
+            /// </para>Can be called with an infinity, but results are undefined for a NaN.</summary>
             /// <param name="a">Source value to compare</param>
             /// <param name="b">Source value to compare with</param>
             /// <returns>A boolean result of the comparison.</returns>
@@ -673,7 +673,7 @@ namespace MPIR
 
             /// <summary>Compares two numbers.
             /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
-            /// </para></summary>
+            /// </para>Can be called with an infinity, but results are undefined for a NaN.</summary>
             /// <param name="a">Source value to compare</param>
             /// <param name="b">Source value to compare with</param>
             /// <returns>A boolean result of the comparison.</returns>
