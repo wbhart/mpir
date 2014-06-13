@@ -265,6 +265,7 @@ namespace MPIR
                                                                                                            
     MAKE_UNARY_OPERATOR            (MPEXPR_NAME,        DEFINE, -, Negate, Flt)             
     MAKE_VOID_FUNCTION             (MPEXPR_NAME,        DEFINE, Abs, Flt)                   
+    MAKE_VOID_FUNCTION             (MPEXPR_NAME,        DEFINE, SquareRoot, Flt)                   
                                                                                                            
     MAKE_BINARY_OPERATOR_STANDARD  (MPEXPR_NAME,        DEFINE, /, Divide, Flt, Flt)        
     MAKE_BINARY_OPERATOR_RLIMB     (MPEXPR_NAME,        DEFINE, /, Divide, Flt, Ui)       
@@ -274,6 +275,8 @@ namespace MPIR
                                                                                                            
     DEFINE_UNARY_ASSIGNMENT_REF(Negate, Flt, MP(neg))
     DEFINE_UNARY_ASSIGNMENT_REF(Abs, Flt, MP(abs))
+    DEFINE_UNARY_ASSIGNMENT_REF(SquareRoot, Flt, MP(sqrt))
+    DEFINE_UNARY_ASSIGNMENT_VAL(SquareRoot, Ui, MP(sqrt_ui))
 
     DEFINE_BINARY_ASSIGNMENT_REF_REF(Add, Flt, MP(add))
     DEFINE_BINARY_ASSIGNMENT_REF_VAL(Add, Flt, Ui, MP(add_ui))

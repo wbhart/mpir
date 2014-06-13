@@ -277,6 +277,30 @@ namespace MPIR.Tests.HugeFloatTests
 
         #endregion
 
+        #region Sqrt
+
+        [TestMethod]
+        public void FloatSqrt()
+        {
+            using(var a = new HugeFloat("9023404035982394058230584.9434590783455098345"))
+            {
+                a.Value = a.SquareRoot();
+                FloatAssert.AreEqual("3003898140081.0504277325488426221152130989784856425363142756", a);
+            }
+        }
+
+        [TestMethod]
+        public void FloatSqrtLimb()
+        {
+            using(var a = new HugeFloat())
+            {
+                a.Value = HugeFloat.SquareRoot(2540928740928357403UL);
+                FloatAssert.AreEqual("1594029090.3645257511790832426801336140951314995369452070983", a);
+            }
+        }
+
+        #endregion
+
         #region Divide
 
         #region Int

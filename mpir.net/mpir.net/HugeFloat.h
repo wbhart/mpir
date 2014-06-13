@@ -298,6 +298,12 @@ namespace MPIR
             /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
             MPEXPR_NAME^ Abs();
 
+            /// <summary>Computes the square root of the source number.
+            /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
+            /// </para></summary>
+            /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
+            MPEXPR_NAME^ SquareRoot();
+
             #pragma endregion
 
             #pragma region Comparisons
@@ -713,6 +719,8 @@ namespace MPIR
 
     DEFINE_UNARY_EXPRESSION_WITH_ONE               (MPEXPR_NAME, Negate, Flt)
     DEFINE_UNARY_EXPRESSION_WITH_ONE               (MPEXPR_NAME, Abs, Flt)
+    DEFINE_UNARY_EXPRESSION_WITH_ONE               (MPEXPR_NAME, SquareRoot, Flt)
+    DEFINE_UNARY_EXPRESSION_WITH_BUILT_INS_ONLY    (MPEXPR_NAME, SquareRoot, Ui)
                                                    
     #pragma endregion
 
@@ -1237,6 +1245,16 @@ namespace MPIR
 //    /// </para>If the index is outside the range 0 to Size()-1, zero is returned.</param>
 //    /// <returns>The specified limb, or zero if <paramref name="index"/> is outside of the valid range.</returns>
 //    size_t GetLimb(mp_size_t index) { return MP(getlimbn)(_value, index); }
+
+            #pragma endregion
+
+            #pragma region Arithmetic
+
+            /// <summary>Computes the square root of the source number.
+            /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
+            /// </para></summary>
+            /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
+            static MPEXPR_NAME^ SquareRoot(mpir_ui a) { return gcnew MPEXPR(SquareRootUi)(a); }
 
             #pragma endregion
     };
