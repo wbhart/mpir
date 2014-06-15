@@ -23632,7 +23632,8 @@ gmp_mpn_functions="$extra_functions					   \
   hgcd2_jacobi hgcd_appr hgcd_jacobi hgcd_matrix hgcd_reduce hgcd_step \
   matrix22_mul1_inverse_vector \
   mod_1_1 mod_1_2 mod_1_3 tdiv_q mp_bases fib_table			\
-  mulmid_basecase mulmid mulmid_n toom42_mulmid	mulmod_bexpp1 mulmod_2expm1	mulmod_2expp1_basecase \
+  mulmid_basecase mulmid mulmid_n toom42_mulmid	mulmod_bexpp1 mulmod_2expm1 \
+  mulmod_2expp1_basecase mul_fft \
   mul mul_n mul_basecase sqr_basecase random random2 pow_1	   \
   urandomb urandomm randomb rrandom invert \
   rootrem sqrtrem get_str set_str scan0 scan1 popcount hamdist cmp perfect_square_p \
