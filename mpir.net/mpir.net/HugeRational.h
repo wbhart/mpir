@@ -1135,7 +1135,7 @@ namespace MPIR
             void SetTo(String^ value, int base);
 
             /// <summary>
-            /// Sets the value of the raitonal object.
+            /// Sets the value of the rational object.
             /// <para>Do not change the value of an object while it is contained in a hash table, because that changes its hash code.
             /// </para></summary>
             /// <param name="value">new value for the object</param>
@@ -1146,7 +1146,7 @@ namespace MPIR
             }
 
             /// <summary>
-            /// Sets the value of the raitonal object.
+            /// Sets the value of the rational object.
             /// <para>Do not change the value of an object while it is contained in a hash table, because that changes its hash code.
             /// </para>If the fraction is not in canonical form, Canonicalize() must be called.
             /// </summary>

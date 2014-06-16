@@ -19,6 +19,7 @@ along with the MPIR Library.  If not, see http://www.gnu.org/licenses/.
 
 #include "Stdafx.h"
 #include "HugeInt.h"
+#include "HugeRational.h"
 #include "HugeFloat.h"
 //#include "Random.h"
 

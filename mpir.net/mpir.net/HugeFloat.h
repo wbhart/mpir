@@ -48,6 +48,7 @@ using namespace System::Runtime::InteropServices;
 #define MPEXPR(x) LIT(MPTYPE_NAME)##x##Expression
 #define CTXT(x) context.FloatArgs[x]
 #define CTXTI(x) context.IntArgs[x]
+#define CTXTR(x) context.RationalArgs[x]
 #define ASSIGN_TO CONCAT(AssignTo, LIT(MPTYPE_NAME))
 #include "ExpressionMacros.h"
 
@@ -1042,7 +1043,7 @@ namespace MPIR
             void SetTo(String^ value, int base);
 
             /// <summary>
-            /// Sets the value of the raitonal object.
+            /// Sets the value of the float object.
             /// <para>Do not change the value of an object while it is contained in a hash table, because that changes its hash code.
             /// </para></summary>
             /// <param name="value">new value for the object</param>
@@ -1054,6 +1055,18 @@ namespace MPIR
             }
 
             /// <summary>
+            /// Sets the value of the float object.
+            /// <para>Do not change the value of an object while it is contained in a hash table, because that changes its hash code.
+            /// </para></summary>
+            /// <param name="value">new value for the object</param>
+            void SetTo(RationalExpression^ value)
+            {
+                EvaluationContext context;
+                value->AssignToRational(context);
+                MP(set_q)(_value, CTXTR(0));
+            }
+
+            /// <summary>
             /// Swaps the values of two floats.
             /// <para>This operation is a pointer swap and doesn't affect allocated memory.
             /// </para>Do not call this method while either object is contained in a hash table, because this would change their hash codes.
@@ -1062,8 +1075,13 @@ namespace MPIR
             void Swap(MPTYPE^ a) 
             { 
                 MP(ptr) temp = a->_value;
+                mp_bitcnt_t prec = a->_allocatedPrecision;
+
                 a->_value = _value;
+                a->_allocatedPrecision = _allocatedPrecision;
+
                 _value = temp; 
+                _allocatedPrecision = prec;
             }
 
             #pragma endregion
