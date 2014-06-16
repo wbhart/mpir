@@ -49,7 +49,7 @@ __gmp_default_allocate (size_t size)
 #if defined _MSC_VER && defined _WIN64
       fprintf (stderr, "GNU MP: Cannot allocate memory (size=%llu)\n", size);
 #else
-      fprintf (stderr, "GNU MP: Cannot allocate memory (size=%u)\n", size);
+      fprintf (stderr, "GNU MP: Cannot allocate memory (size=%lu)\n", size);
 #endif
       abort ();
     }
@@ -101,7 +101,7 @@ __gmp_default_reallocate (void *oldptr, size_t old_size, size_t new_size)
 #if defined _MSC_VER && defined _WIN64
         fprintf (stderr, "GNU MP: Cannot reallocate memory (old_size=%llu new_size=%llu)\n", old_size, new_size);
 #else
-        fprintf (stderr, "GNU MP: Cannot reallocate memory (old_size=%u new_size=%u)\n", old_size, new_size);
+        fprintf (stderr, "GNU MP: Cannot reallocate memory (old_size=%lu new_size=%lu)\n", old_size, new_size);
 #endif
       abort ();
     }
