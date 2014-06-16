@@ -38,7 +38,7 @@ namespace MPIR.Tests
             _intPtrConstructor = typeof(IntPtr).GetConstructor(new[] { Type.GetType("System.Void*") });
         }
 
-        private static FieldInfo GetAccessor(string name)
+        internal static FieldInfo GetAccessor(string name)
         {
             return typeof(T).GetField(name, BindingFlags.NonPublic | BindingFlags.Instance);
         }
@@ -160,6 +160,58 @@ namespace MPIR.Tests
             unsafe
             {
                 return new IntPtr(((void**)_value(x).ToPointer())[3]);
+            }
+        }
+    }
+
+    internal static class FloatAccessors
+    {
+        internal static IntPtr _value(this HugeFloat x)
+        {
+            return Accessors<HugeFloat>._value(x);
+        }
+
+        internal static int Precision(this HugeFloat x)
+        {
+            if(_value(x) == IntPtr.Zero)
+                return 0;
+
+            unsafe
+            {
+                return ((int*)_value(x).ToPointer())[0];
+            }
+        }
+
+        internal static int NumberOfLimbsUsed(this HugeFloat x)
+        {
+            if(_value(x) == IntPtr.Zero)
+                return 0;
+
+            unsafe
+            {
+                return ((int*)_value(x).ToPointer())[1];
+            }
+        }
+
+        internal static int Exponent(this HugeFloat x)
+        {
+            if(_value(x) == IntPtr.Zero)
+                return 0;
+
+            unsafe
+            {
+                return ((int*)_value(x).ToPointer())[2];
+            }
+        }
+
+        internal static IntPtr Limbs(this HugeFloat x)
+        {
+            if(_value(x) == IntPtr.Zero)
+                return IntPtr.Zero;
+
+            unsafe
+            {
+                return new IntPtr((void**)((int*)_value(x).ToPointer() + 3));
             }
         }
     }

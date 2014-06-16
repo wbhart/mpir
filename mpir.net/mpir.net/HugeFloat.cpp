@@ -33,19 +33,24 @@ namespace MPIR
     {
         AllocateStruct();
         MP(init)(_value);
+        _allocatedPrecision = MP(get_prec)(_value);
     }
 
     MPTYPE::MPTYPE(bool initialize)
     {
         AllocateStruct();
         if(initialize)
+        {
             MP(init)(_value);
+            _allocatedPrecision = MP(get_prec)(_value);
+        }
     }
 
     MPTYPE::MPTYPE(MPEXPR_NAME^ value)
     {
         AllocateStruct();
         MP(init)(_value);
+        _allocatedPrecision = MP(get_prec)(_value);
         value->AssignTo(_value);
     }
 
@@ -53,6 +58,7 @@ namespace MPIR
     {
         AllocateStruct();
         MP(init)(_value);
+        _allocatedPrecision = MP(get_prec)(_value);
         SetTo(value);
     }
     
@@ -60,6 +66,7 @@ namespace MPIR
     {
         auto result = gcnew MPTYPE(false);
         MP(init2)(result->_value, precision);
+        result->_allocatedPrecision = MP(get_prec)(result->_value);
         return result;
     }
 
@@ -67,6 +74,7 @@ namespace MPIR
     {
         AllocateStruct();
         MP(init)(_value);
+        _allocatedPrecision = MP(get_prec)(_value);
 
         IntPtr ptr = Marshal::StringToHGlobalAnsi(value);
         bool success = 0 == MP(set_str)(_value, (char*)(void*)ptr, base);
@@ -93,18 +101,21 @@ namespace MPIR
     {
         AllocateStruct();
         MP(init_set_si)(_value, value);
+        _allocatedPrecision = MP(get_prec)(_value);
     }
 
     MPTYPE::MPTYPE(mpir_ui value)
     {
         AllocateStruct();
         MP(init_set_ui)(_value, value);
+        _allocatedPrecision = MP(get_prec)(_value);
     }
 
     MPTYPE::MPTYPE(double value)
     {
         AllocateStruct();
         MP(init_set_d)(_value, value);
+        _allocatedPrecision = MP(get_prec)(_value);
     }
 
     #pragma endregion

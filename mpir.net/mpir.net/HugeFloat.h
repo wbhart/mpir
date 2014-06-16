@@ -759,8 +759,6 @@ namespace MPIR
             void AllocateStruct()
             {
                 _value = (MP(ptr))((*__gmp_allocate_func)(sizeof(MPSTRUCT)));
-                //todo: move this to wherever init is called
-                _allocatedPrecision = MP(get_prec)(_value);
             }
             void FromString(String^ value, int base);
             MPTYPE(bool initialize);
@@ -794,6 +792,12 @@ namespace MPIR
                 DefaultPrecision = sizeof(mpir_ui) * 8 * 2; //2 limbs
             }
 
+            /// <summary>
+            /// Gets or sets the default precision of a float variable in bits.
+            /// <para>The actual precision may be slightly greater if the value is not a whole limb multiple.
+            /// </para>All subsequently constructed variables will use this precision, but previously constructed variables are unaffected.
+            /// <para>The initial default value is 2 limbs.
+            /// </para></summary>
             static property mp_bitcnt_t DefaultPrecision
             {
                 mp_bitcnt_t get() { return MP(get_default_prec)(); }
@@ -801,8 +805,9 @@ namespace MPIR
             }
 
             /// <summary>
-            /// Initializes a new float instance and sets its value to 0/1
-            /// </summary>
+            /// Initializes a new float instance and sets its value to 0/1.
+            /// <para>The precision of the new variable's mantissa is set from the static DefaultPrecision property.
+            /// </para></summary>
             MPTYPE();
 
             /// <summary>
@@ -1271,6 +1276,7 @@ namespace MPIR
             /// <summary>Computes the square root of the source number.
             /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
             /// </para></summary>
+            /// <param name="a">source number to take the square root of</param>
             /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
             static MPEXPR_NAME^ SquareRoot(mpir_ui a) { return gcnew MPEXPR(SquareRootUi)(a); }
 
