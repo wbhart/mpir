@@ -94,6 +94,15 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="..\..\..\mpir.net\mpir.net-tests\HugeFloatTests\Arithmetic.cs">
+      <Link>HugeFloatTests\Arithmetic.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\mpir.net\mpir.net-tests\HugeFloatTests\Comparisons.cs">
+      <Link>HugeFloatTests\Comparisons.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\mpir.net\mpir.net-tests\HugeFloatTests\ConstructionAndDisposal.cs">
+      <Link>HugeFloatTests\ConstructionAndDisposal.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\mpir.net\mpir.net-tests\HugeIntTests\Arithmetic.cs">
       <Link>HugeIntTests\Arithmetic.cs</Link>
     </Compile>
@@ -157,8 +166,6 @@
     <Compile Include="..\..\..\mpir.net\mpir.net-tests\Properties\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="HugeFloatTests\Arithmetic.cs" />
-    <Compile Include="HugeFloatTests\Comparisons.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\mpir.net\mpir.net.vcxproj">
