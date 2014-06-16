@@ -1070,6 +1070,41 @@ namespace MPIR
 
             #pragma region Size checks
 
+            /// <summary>
+            /// Gets or sets the effective precision of the number without changing the memory allocated.
+            /// <para>The number of bits cannot exceed the precision with which the variable was initialized or last reallocated.
+            /// </para>The value of the number is unchanged, and in particular if it previously had a higher precision it will retain that higher precision.
+            /// <para>New values assigned to the Value property will use the new precision.
+            /// </para>This is an efficient way to use a float variable at different precisions during a calculation,
+            /// perhaps to gradually increase precision in an iteration, or just to use various different 
+            /// precisions for different purposes during a calculation.
+            /// <para>The number can be safely disposed after modifying its precision (this would not be the case in unmanaged MPIR).
+            /// </para></summary>
+            property mp_bitcnt_t Precision
+            {
+                mp_bitcnt_t get() { return MP(get_prec)(_value); }
+                void set(mp_bitcnt_t value) 
+                {
+                    if(value > _allocatedPrecision)
+                        throw gcnew ArgumentException("Cannot set precision higher than allocated");
+
+                    MP(set_prec_raw)(_value, value);
+                }
+            }
+
+            /// <summary>
+            /// Set the precision of rop to be at least prec bits, reallocating its limbs data.
+            /// <para>The value in rop will be truncated to the new precision.
+            /// </para>This function requires a call to realloc, and so should not be used in a tight loop.
+            /// </summary>
+            /// <param name="precision">Minimum number of bits the allocated memory should hold for the mantissa.</param>
+            void Reallocate(mp_bitcnt_t precision)
+            { 
+                MP(set_prec_raw)(_value, _allocatedPrecision);
+                MP(set_prec)(_value, precision); 
+                _allocatedPrecision = precision; 
+            }
+
 ///// <summary>
 ///// Returns the number of digits the number would take if written in the specified base.
 ///// <para>The sign of the number is ignored, just the absolute value is used.

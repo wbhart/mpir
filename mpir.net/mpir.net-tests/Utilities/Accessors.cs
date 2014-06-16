@@ -171,17 +171,6 @@ namespace MPIR.Tests
             return Accessors<HugeFloat>._value(x);
         }
 
-        internal static int Precision(this HugeFloat x)
-        {
-            if(_value(x) == IntPtr.Zero)
-                return 0;
-
-            unsafe
-            {
-                return ((int*)_value(x).ToPointer())[0];
-            }
-        }
-
         internal static int NumberOfLimbsUsed(this HugeFloat x)
         {
             if(_value(x) == IntPtr.Zero)

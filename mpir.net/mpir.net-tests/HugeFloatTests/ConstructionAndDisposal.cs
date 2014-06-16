@@ -31,7 +31,7 @@ namespace MPIR.Tests.HugeFloatTests
             using (var a = new HugeFloat())
             {
                 Assert.AreEqual(0, a.NumberOfLimbsUsed());
-                Assert.AreEqual(3, a.Precision());
+                Assert.AreEqual(128UL, a.Precision);
                 Assert.AreEqual(128UL, a._allocatedPrecision);
                 Assert.AreNotEqual(IntPtr.Zero, a.Limbs());
                 Assert.AreEqual(0, a.Exponent());
@@ -46,7 +46,6 @@ namespace MPIR.Tests.HugeFloatTests
             a.Dispose();
 
             Assert.AreEqual(0, a.NumberOfLimbsUsed());
-            Assert.AreEqual(0, a.Precision());
             Assert.AreEqual(IntPtr.Zero, a.Limbs());
         }
 
@@ -57,7 +56,7 @@ namespace MPIR.Tests.HugeFloatTests
             using (var a = new HugeFloat(n))
             {
                 Assert.AreEqual(128UL, a._allocatedPrecision);
-                Assert.AreEqual(3, a.Precision());
+                Assert.AreEqual(128UL, a.Precision);
                 Assert.AreEqual(1, a.Exponent());
                 Assert.AreEqual("0." + n.ToString("X") + "@16", a.ToString(16));
             }
@@ -70,7 +69,7 @@ namespace MPIR.Tests.HugeFloatTests
             using(var a = new HugeFloat(-n))
             {
                 Assert.AreEqual(128UL, a._allocatedPrecision);
-                Assert.AreEqual(3, a.Precision());
+                Assert.AreEqual(128UL, a.Precision);
                 Assert.AreEqual(1, a.Exponent());
                 Assert.AreEqual("-0." + n.ToString("X") + "@16", a.ToString(16));
             }
@@ -83,7 +82,7 @@ namespace MPIR.Tests.HugeFloatTests
             using(var a = new HugeFloat(n))
             {
                 Assert.AreEqual(128UL, a._allocatedPrecision);
-                Assert.AreEqual(3, a.Precision());
+                Assert.AreEqual(128UL, a.Precision);
                 Assert.AreEqual(1, a.Exponent());
                 Assert.AreEqual("0." + n.ToString("X") + "@16", a.ToString(16));
             }
@@ -112,7 +111,7 @@ namespace MPIR.Tests.HugeFloatTests
         {
             using (var a = HugeFloat.Allocate(193))
             {
-                Assert.AreEqual(5, a.Precision());
+                Assert.AreEqual(256UL, a.Precision);
                 Assert.AreEqual(256UL, a._allocatedPrecision);
                 Assert.AreEqual("0", a.ToString());
             }
@@ -162,6 +161,62 @@ namespace MPIR.Tests.HugeFloatTests
             using (var b = new HugeFloat(a + 1))
             {
                 FloatAssert.AreEqual("2340958273409578234095823045723490588.", b);
+            }
+        }
+
+        [TestMethod]
+        public void FloatSetPrecision()
+        {
+            using (var a = new HugeFloat(1))
+            using (var b = new HugeFloat())
+            {
+                a.Value = a/3;
+                b.Value = a;
+                Assert.AreEqual(128UL, a._allocatedPrecision);
+                Assert.AreEqual(128UL, a.Precision);
+                Assert.AreEqual("0.3333333333333333333333333333333333333333@0", a.ToString());
+
+                a.Precision = 64;
+                Assert.AreEqual(128UL, a._allocatedPrecision);
+                Assert.AreEqual(64UL, a.Precision);
+                Assert.AreEqual("0.333333333333333333333@0", a.ToString());
+                Assert.AreEqual(a, b);
+
+                a.Precision = 128;
+                Assert.AreEqual("0.3333333333333333333333333333333333333333@0", a.ToString());
+
+                a.Precision = 64;
+                a.SetTo(1);
+                a.Value = a / 3;
+                Assert.AreNotEqual(a, b);
+                Assert.AreEqual("0.333333333333333333333@0", a.ToString());
+
+                a.Precision = 128;
+                Assert.AreNotEqual(a, b);
+            }
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void FloatSettingPrecisionOverAllocated()
+        {
+            using (var a = new HugeFloat())
+            {
+                a.Precision++;
+            }
+        }
+
+        [TestMethod]
+        public void FloatReallocate()
+        {
+            using (var a = HugeFloat.Allocate(128))
+            {
+                Assert.AreEqual(128UL, a._allocatedPrecision);
+                Assert.AreEqual(128UL, a.Precision);
+
+                a.Reallocate(256);
+                Assert.AreEqual(256UL, a._allocatedPrecision);
+                Assert.AreEqual(256UL, a.Precision);
             }
         }
     }
