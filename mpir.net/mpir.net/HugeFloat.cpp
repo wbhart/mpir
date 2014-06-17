@@ -123,7 +123,7 @@ namespace MPIR
 
     #pragma region object overrides
 
-    String^ MPTYPE::ToString(int base, bool lowercase, int maxDigits)
+    String^ MPTYPE::ToString(int base, bool lowercase, int maxDigits, bool exponentInDecimal)
     {
         if(base < 2 || base > 62)
             throw gcnew ArgumentOutOfRangeException("base", "Invalid base");
@@ -153,7 +153,16 @@ namespace MPIR
                 str++;
             }
             result->Append((wchar_t)'@');
-            result->Append(exponent);
+
+            if(exponentInDecimal)
+            {
+                result->Append(exponent);
+            }
+            else
+            {
+                HugeInt exp((mpir_si) exponent);
+                result->Append(exp.ToString(base, lowercase));
+            }
         }
 
         (*__gmp_free_func)(allocatedStr, allocated);

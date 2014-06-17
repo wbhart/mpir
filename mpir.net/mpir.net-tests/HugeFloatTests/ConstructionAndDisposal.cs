@@ -58,7 +58,7 @@ namespace MPIR.Tests.HugeFloatTests
                 Assert.AreEqual(128UL, a._allocatedPrecision);
                 Assert.AreEqual(128UL, a.Precision);
                 Assert.AreEqual(1, a.Exponent());
-                Assert.AreEqual("0." + n.ToString("X") + "@16", a.ToString(16));
+                Assert.AreEqual("0." + n.ToString("X") + "@16", a.ToString(16, false, true));
             }
         }
 
@@ -71,7 +71,7 @@ namespace MPIR.Tests.HugeFloatTests
                 Assert.AreEqual(128UL, a._allocatedPrecision);
                 Assert.AreEqual(128UL, a.Precision);
                 Assert.AreEqual(1, a.Exponent());
-                Assert.AreEqual("-0." + n.ToString("X") + "@16", a.ToString(16));
+                Assert.AreEqual("-0." + n.ToString("X") + "@16", a.ToString(16, false, true));
             }
         }
 
@@ -84,7 +84,7 @@ namespace MPIR.Tests.HugeFloatTests
                 Assert.AreEqual(128UL, a._allocatedPrecision);
                 Assert.AreEqual(128UL, a.Precision);
                 Assert.AreEqual(1, a.Exponent());
-                Assert.AreEqual("0." + n.ToString("X") + "@16", a.ToString(16));
+                Assert.AreEqual("0." + n.ToString("X") + "@16", a.ToString(16, false, true));
             }
         }
 
@@ -140,7 +140,7 @@ namespace MPIR.Tests.HugeFloatTests
             var n = "143210ABCDEF32123457ACDB324.59879";
             using (var a = new HugeFloat(n, 16))
             {
-                Assert.AreEqual("0.143210ABCDEF32123457ACDB32459879@27", a.ToString(16));
+                Assert.AreEqual("0.143210ABCDEF32123457ACDB32459879@27", a.ToString(16, false, true));
             }
         }
 

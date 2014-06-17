@@ -763,7 +763,7 @@ namespace MPIR
             }
             void FromString(String^ value, int base);
             MPTYPE(bool initialize);
-            String^ ToString(int base, bool lowercase, int maxDigits);
+            String^ ToString(int base, bool lowercase, int maxDigits, bool exponentInDecimal);
 
         internal:
             virtual void DeallocateStruct()
@@ -896,7 +896,7 @@ namespace MPIR
             /// </para>Setting MpirSettings.ToStringDigits to 0 removes the upper limit.
             /// </summary>
             /// <returns>A string representation of the number in decimal, possibly cut off if the number has more digits than MpirSettings.ToStringDigits.</returns>
-            virtual String^ ToString() override { return ToString(10, false, MpirSettings::ToStringDigits); }
+            virtual String^ ToString() override { return ToString(10, false, MpirSettings::ToStringDigits, false); }
 
             /// <summary>
             /// Converts the number to a string in the specified base.
@@ -904,7 +904,7 @@ namespace MPIR
             /// </para></summary>
             /// <param name="base">The base to use for the output.  The base can be from 2 to 62; uppercase letters represent digits 10-35 and lowercase letters represent digits 36-61.</param>
             /// <returns>A string representation of the number in the specified base.</returns>
-            String^ ToString(int base) { return ToString(base, false, 0); }
+            String^ ToString(int base) { return ToString(base, false, 0, false); }
 
             /// <summary>
             /// Converts the number to a string in the specified base.
@@ -916,7 +916,20 @@ namespace MPIR
             /// <param name="lowercase">Indicates if lowercase or uppercase letters should be used for the output.
             /// <para>This argument is ignored for bases larger than 36, where both uppercase and lowercase letters are used.</para></param>
             /// <returns>A string representation of the number in the specified base.</returns>
-            String^ ToString(int base, bool lowercase) { return ToString(base, lowercase, 0); }
+            String^ ToString(int base, bool lowercase) { return ToString(base, lowercase, 0, false); }
+
+            /// <summary>
+            /// Converts the number to a string in the specified base.
+            /// <para>This method always produces the complete output regardless of the MpirSettings.ToStringDigits setting.
+            /// </para></summary>
+            /// <param name="base">The base to use for the output.
+            /// <para>The base can be from 2 to 62; Bases up to 36 use uppercase or lowercase letters based on the <paramref name="lowercase"/> argument.
+            /// </para>For bases larger than 36, the <paramref name="lowercase"/> argument is ignored and uppercase letters represent digits 10-35 while lowercase letters represent digits 36-61.</param>
+            /// <param name="lowercase">Indicates if lowercase or uppercase letters should be used for the output.
+            /// <para>This argument is ignored for bases larger than 36, where both uppercase and lowercase letters are used.</para></param>
+            /// <param name="exponentInDecimal">True to always show the exponent in decimal, False to use the same base as the mantissa</param>
+            /// <returns>A string representation of the number in the specified base.</returns>
+            String^ ToString(int base, bool lowercase, bool exponentInDecimal) { return ToString(base, lowercase, 0, exponentInDecimal); }
 
 ///// <summary>
 ///// Returns the absolute value of the number as a ulong.
