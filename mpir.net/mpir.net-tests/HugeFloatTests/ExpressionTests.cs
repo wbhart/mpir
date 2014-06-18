@@ -25,24 +25,24 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace MPIR.Tests.HugeRationalTests
+namespace MPIR.Tests.HugeFloatTests
 {
     [TestClass]
     public class ExpressionTests
     {
         [TestMethod]
-        public void RationalTestAllExpressions()
+        public void FloatTestAllExpressions()
         {
-            var baseExpr = typeof(RationalExpression);
+            var baseExpr = typeof(FloatExpression);
             var allExpressions =
                 baseExpr.Assembly.GetTypes()
                 .Where(x => baseExpr.IsAssignableFrom(x) && !x.IsAbstract)
                 .ToList();
 
-            using (var a = new HugeRational(-9, 1))
-            using (var b = new HugeRational(4, 1))
+            using (var a = new HugeFloat(-9))
+            using (var b = new HugeFloat(4))
             using (var c = new HugeInt(3))
-            using (var r = MpirRandom.Default())
+            using(var r = MpirRandom.Default())
             {
                 var expr = a + (-a * 2) * 3 * (a.Abs() * -2 + -64 + a * a) + 116UL + a;
                 VerifyPartialResult(r, expr, 44);
@@ -56,10 +56,10 @@ namespace MPIR.Tests.HugeRationalTests
                 VerifyPartialResult(r, expr, -20);
                 expr = expr + (b >> 1) + ((b / -7L) + (a / 7UL)) * 7 + (7L / a) - (2UL / (b + 5));
                 VerifyPartialResult(r, expr, -32);
-                expr = expr + (((a / b).Invert() * 3) ^ 3) - (b + 13) / a / -3;
+                expr = expr - (b + 13 + 64) / a / -3;
                 VerifyPartialResult(r, expr, -35);
-                expr = expr + c + (b - 2 * c) + (-4 * c - a) - (c - 1) * (b - 1) - (a / c) + (c * 2) / (b - 1);
-                VerifyPartialResult(r, expr, -38);
+                expr = expr + b.SquareRoot() + HugeFloat.SquareRoot(25) + ((b - 2) ^ 3) - (-b).RelativeDifferenceFrom(a + 1);
+                VerifyPartialResult(r, expr, -19);
 
                 MarkExpressionsUsed(allExpressions, expr);
             }
@@ -68,25 +68,29 @@ namespace MPIR.Tests.HugeRationalTests
                 allExpressions.Select(x => Environment.NewLine + x.Name).OrderBy(x => x)));
         }
 
-        private void VerifyPartialResult(MpirRandom rnd, RationalExpression expr, long expected)
+        private void VerifyPartialResult(MpirRandom rnd, FloatExpression expr, long expected)
         {
             rnd.Seed(123);
 
-            using (var r = new HugeRational())
+            using (var r = new HugeFloat())
             {
-                r.Value = expr;
-                Assert.AreEqual(expected.ToString() + "/1", r.ToString());
+                using (var exp = new HugeFloat(expected))
+                using (var epsilon = new HugeFloat("0.001"))
+                {
+                    r.Value = expr;
+                    Assert.IsTrue(r - epsilon < exp && r + epsilon > exp, "Expected {0}, Actual {1}", exp, r);
+                }
             }
         }
 
-        private void MarkExpressionsUsed(List<Type> allExpressions, RationalExpression expr)
+        private void MarkExpressionsUsed(List<Type> allExpressions, FloatExpression expr)
         {
             var type = expr.GetType();
             allExpressions.Remove(type);
             
             var children = type.GetFields(BindingFlags.NonPublic | BindingFlags.Instance)
-                .Where(x => typeof(RationalExpression).IsAssignableFrom(x.FieldType))
-                .Select(x => (RationalExpression)x.GetValue(expr))
+                .Where(x => typeof(FloatExpression).IsAssignableFrom(x.FieldType))
+                .Select(x => (FloatExpression)x.GetValue(expr))
                 .Where(x => x != null)
                 .ToList();
 
