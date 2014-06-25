@@ -1136,204 +1136,108 @@ namespace MPIR
                 _allocatedPrecision = precision; 
             }
 
-///// <summary>
-///// Returns the number of digits the number would take if written in the specified base.
-///// <para>The sign of the number is ignored, just the absolute value is used.
-///// </para>The result will be either exact or at most 2 characters too big.
-///// If <paramref name="base"/> is a power of 2, the result will always be exact.
-///// <para>If the number is 0, the result is always 3.
-///// </para>This function can be used to estimate the space required when converting to a string.
-///// The right amount of allocation is normally two more than the value returned,
-///// one extra for a minus sign and one for the null-terminator.
-///// <para>A slash between numerator and denominator is accounted for.</para></summary>
-///// <param name="base">Numeric base for the would-be string conversion, in the range from 2 to 62.</param>
-///// <returns>The number of digits the number would take written in the specified base, possibly 1 or 2 too big, not counting a leading minus.</returns>
-//mp_size_t ApproximateSizeInBase(int base) { return mpz_sizeinbase(&_value->_mp_num, base) + mpz_sizeinbase(&_value->_mp_den, base) + 1; }
-
             #pragma endregion
 
             #pragma region IO
 
             /// <summary>
-            /// Outputs the float to the <paramref name="stream"/> in raw binary format.
-            /// <para>The number's numerator and denominator are written in sequence, each in a portable format,
-            /// with 4 bytes of size information, and that many bytes of limbs.
-            /// </para>Both the size and the limbs are written in decreasing significance order (i.e., in big-endian).
-            /// <para>The output can be read with Read(Stream).
-            /// </para>The output cannot be read by MP(inp_raw) from GMP 1, because of changes necessary
-            /// for compatibility between 32-bit and 64-bit machines.
-            /// </summary>
-            /// <param name="stream">Stream to output the number to</param>
-            /// <returns>the number of bytes written, or 0 if an error occurs.</returns>
-            size_t Write(Stream^ stream);
-
-            /// <summary>
-            /// Reads the float value from the <paramref name="stream"/> in raw binary format, as it would have been written by Write(Stream).
-            /// <para>The number's numerator and denominator are read in sequence, each in a portable format,
-            /// with 4 bytes of size information, and that many bytes of limbs.
-            /// </para>Both the size and the limbs are written in decreasing significance order (i.e., in big-endian).
-            /// <para>This routine can read the output from MP(out_raw) also from GMP 1, in spite of changes
-            /// necessary for compatibility between 32-bit and 64-bit machines.
-            /// </para></summary>
-            /// <param name="stream">Stream to input the number from</param>
-            /// <returns>the number of bytes read, or 0 if an error occurs.</returns>
-            size_t Read(Stream^ stream);
-
-            /// <summary>
             /// Outputs the float to the <paramref name="writer"/> as a string of digits in decimal.
-            /// <para>When writing multiple numbers that are to be read back with the Read(TextReader) method,
-            /// it is useful to separate the numbers with a character that is not a valid decimal digit.
-            /// </para>This is because the Read method stops reading when it encounters a character that cannot represent a digit.
-            /// </summary>
+            /// <para>The mantissa is prefixed with an '0.', and is followed by '@' and an integer exponent.
+            /// </para>When writing multiple numbers that are to be read back with the Read(TextReader) method,
+            /// it is useful to separate the numbers with a character that is not valid for this format.
+            /// <para>This is because the Read method stops reading when it encounters an invalid character.
+            /// </para></summary>
             /// <param name="writer">Text writer to output the number to</param>
             /// <returns>the number of characters written</returns>
-            size_t Write(TextWriter^ writer) { return Write(writer, 0, false); }
+            size_t Write(TextWriter^ writer) { return Write(writer, 10, 0, false, true); }
 
             /// <summary>
             /// Outputs the float to the <paramref name="writer"/> as a string of digits in base <paramref name="base"/>.
-            /// <para>When writing multiple numbers that are to be read back with the Read(TextReader) method,
-            /// it is useful to separate the numbers with a character that is not a valid digit in base <paramref name="base"/>.
-            /// </para>This is because the Read method stops reading when it encounters a character that cannot represent a digit.
-            /// <para>For hexadecimal, binary, or octal, no leading base indication is written.
-            /// </para>Therefore, for bases other than 10, use the Read(reader, base) overload rather than Read(reader) to read the number back.
-            /// </summary>
+            /// <para>The mantissa is prefixed with an '0.', and is followed by '@' and an integer exponent in the same base.
+            /// </para>When writing multiple numbers that are to be read back with the Read(TextReader) method,
+            /// it is useful to separate the numbers with a character that is not valid for this format.
+            /// <para>This is because the Read method stops reading when it encounters an invalid character.
+            /// </para></summary>
             /// <param name="writer">Text writer to output the number to</param>
             /// <param name="base">The base to use for the output.
             /// <para>The base can be from 2 to 62; uppercase letters represent digits 10-35 while lowercase letters represent digits 36-61.</para></param>
             /// <returns>the number of characters written</returns>
-            size_t Write(TextWriter^ writer, int base) { return Write(writer, base, false); }
+            size_t Write(TextWriter^ writer, int base) { return Write(writer, base, 0, false, true); }
 
             /// <summary>
             /// Outputs the float to the <paramref name="writer"/> as a string of digits in base <paramref name="base"/>.
-            /// <para>When writing multiple numbers that are to be read back with the Read(TextReader) method,
-            /// it is useful to separate the numbers with a character that is not a valid digit in base <paramref name="base"/>.
-            /// </para>This is because the Read method stops reading when it encounters a character that cannot represent a digit.
-            /// <para>For hexadecimal, binary, or octal, no leading base indication is written.
-            /// </para>Therefore, for bases other than 10, use the Read(reader, base) overload rather than Read(reader) to read the number back.
-            /// </summary>
+            /// <para>The mantissa is prefixed with an '0.', and is followed by '@' and an integer exponent.
+            /// </para>When writing multiple numbers that are to be read back with the Read(TextReader) method,
+            /// it is useful to separate the numbers with a character that is not valid for this format.
+            /// <para>This is because the Read method stops reading when it encounters an invalid character.
+            /// </para></summary>
+            /// <param name="writer">Text writer to output the number to</param>
+            /// <param name="lowercase">Indicates if lowercase or uppercase letters should be used for the output.
+            /// <para>This argument is ignored for bases larger than 36, where both uppercase and lowercase letters are used.</para></param>
+            /// <param name="base">The base to use for the output.
+            /// <para>The base can be from 2 to 62; Bases up to 36 use uppercase or lowercase letters based on the <paramref name="lowercase"/> argument.
+            /// </para>For bases larger than 36, the <paramref name="lowercase"/> argument is ignored and uppercase letters represent digits 10-35 while lowercase letters represent digits 36-61.</param>
+            /// <returns>the number of characters written</returns>
+            size_t Write(TextWriter^ writer, int base, bool lowercase) { return Write(writer, base, 0, lowercase, true); }
+
+            /// <summary>
+            /// Outputs the float to the <paramref name="writer"/> as a string of digits in base <paramref name="base"/>.
+            /// <para>The mantissa is prefixed with an '0.', and is followed by '@' and an integer exponent.
+            /// </para>When writing multiple numbers that are to be read back with the Read(TextReader) method,
+            /// it is useful to separate the numbers with a character that is not valid for this format.
+            /// <para>This is because the Read method stops reading when it encounters an invalid character.
+            /// </para></summary>
             /// <param name="writer">Text writer to output the number to</param>
             /// <param name="base">The base to use for the output.
             /// <para>The base can be from 2 to 62; Bases up to 36 use uppercase or lowercase letters based on the <paramref name="lowercase"/> argument.
             /// </para>For bases larger than 36, the <paramref name="lowercase"/> argument is ignored and uppercase letters represent digits 10-35 while lowercase letters represent digits 36-61.</param>
             /// <param name="lowercase">Indicates if lowercase or uppercase letters should be used for the output.
             /// <para>This argument is ignored for bases larger than 36, where both uppercase and lowercase letters are used.</para></param>
+            /// <param name="exponentInDecimal">Whether the exponent should always be written in decimal, or use the same base as the mantissa.</param>
+            /// <param name="maxDigits">Maximum number of digits for the mantissa.
+            /// <para>No more digits than are accurately representable by the number's precision will be printed.
+            /// </para>Use zero to select that accurate maximum.</param>
             /// <returns>the number of characters written</returns>
-            size_t Write(TextWriter^ writer, int base, bool lowercase);
+            size_t Write(TextWriter^ writer, int base, int maxDigits, bool lowercase, bool exponentInDecimal);
 
             /// <summary>
             /// Inputs the number as a possibly white-space preceeded string.
-            /// <para>The base of the number is determined from the leading characters: 0x or 0X for hexadecimal, 0b or 0B for binary, 0 for octal, decimal otherwise.
-            /// </para>Reading terminates at end-of-stream, or up to but not including a character that is not a valid digit.
-            /// <para>This method reads the output of a Write(TextWriter) when decimal base is used.
-            /// </para>For hexadecimal, binary, or octal, because Write(TextWriter) doesn't write leading base indication characters, 
-            /// using this overload of Read will fail to recognize the correct base.</summary>
+            /// <para>The string is in the form 'Mantissa@Exponent' or, if the base is 10 or less, alternatively 'MeN'.
+            /// </para>The mantissa and exponent are always in decimal, no leading base characters are allowed.
+            /// <para>Reading terminates at end-of-stream, or up to but not including a character that is not valid for this format.
+            /// </para>This method reads the output of a Write(TextWriter) when decimal base is used.
+            /// </summary>
             /// <param name="reader">Text reader to input the number from</param>
             /// <returns>the number of characters read</returns>
-            size_t Read(TextReader^ reader) { return Read(reader, 0); }
+            size_t Read(TextReader^ reader) { return Read(reader, 0, true); }
 
             /// <summary>
-            /// Inputs the number as a possibly white-space preceeded string in base <paramref name="base"/> from the <paramref name="reader"/>.
-            /// <para>Reading terminates at end-of-stream, or up to but not including a character that is not a valid digit.
-            /// </para>This method reads the output of a Write(TextWriter) method.
+            /// Inputs the number as a possibly white-space preceeded string.
+            /// <para>The string is in the form 'Mantissa@Exponent' or, if the base is 10 or less, alternatively 'MeN'.
+            /// </para>The mantissa is always in the specified base, the exponent is always in decimal.  No leading base characters are allowed.
+            /// <para>Reading terminates at end-of-stream, or up to but not including a character that is not valid for this format.
+            /// </para>This method reads the output of a Write(TextWriter) when decimal base is used.
+            /// </summary>
+            /// <param name="reader">Text reader to input the number from</param>
+            /// <param name="base">The base to use for the mantissa.
+            /// <para>The base can be from 2 to 62; uppercase letters represent digits 10-35 while lowercase letters represent digits 36-61.
+            /// </para>For bases larger than 36, the <paramref name="lowercase"/> argument is ignored and uppercase letters represent digits 10-35 while lowercase letters represent digits 36-61.</param>
+            /// <returns>the number of characters read</returns>
+            size_t Read(TextReader^ reader, int base) { return Read(reader, base, true); }
+
+            /// <summary>
+            /// <para>The string is in the form 'Mantissa@Exponent' or, if the base is 10 or less, alternatively 'MeN'.
+            /// </para>The mantissa is always in the specified base, the exponent is either in the same base or in decimal.  No leading base characters are allowed.
+            /// <para>Reading terminates at end-of-stream, or up to but not including a character that is not valid for this format.
+            /// </para>This method reads the output of a Write(TextWriter, ...) method with the same base.
             /// </summary>
             /// <param name="reader">Text reader to input the number from</param>
             /// <param name="base">The base to use for the input.
             /// <para>The base can be from 2 to 62; For bases up to 36 case is ignored.
-            /// </para>For bases larger than 36, uppercase letters represent digits 10-35 while lowercase letters represent digits 36-61.
-            /// <para>If 0, the base of the number is determined from the leading characters: 0x or 0X for hexadecimal, 0b or 0B for binary, 0 for octal, decimal otherwise.
-            /// </para>Note that the leading base characters are not written by the Write method.</param>
+            /// </para>For bases larger than 36, uppercase letters represent digits 10-35 while lowercase letters represent digits 36-61.</param>
+            /// <param name="exponentInDecimal">Whether the exponent should always be written in decimal, or use the same base as the mantissa.</param>
             /// <returns>the number of characters read</returns>
-            size_t Read(TextReader^ reader, int base);
-
-///// <summary>
-///// Imports the number from arbitrary words of binary data.
-///// <para>No sign information is taken from the data, the imported number will be positive or zero.</para>
-///// </summary>
-///// <typeparam name="T">Type of element in the data array.  This must be a value type, but does not need to represent a single limb.  Data is interpreted as a flat byte array.</typeparam>
-///// <param name="data">Array of binary "limbs" to import from.
-///// <para>Elements don't necessarily need to be of the <paramref name="bytesPerLimb"/> size; the data is interpreted as a flat byte array.</para></param>
-///// <param name="limbCount">Number of "limbs" to import</param>
-///// <param name="bytesPerLimb">Number of bytes per "limb."</param>
-///// <param name="limbOrder">Specifies the order of the "limbs."</param>
-///// <param name="endianness">Specifies the byte order within each "limb."</param>
-///// <param name="nails">The number of most-significant bits to ignore in each "limb."</param>
-//generic<typename T> where T : value class void Import(array<T>^ data, size_t limbCount, int bytesPerLimb, LimbOrder limbOrder, Endianness endianness, int nails)
-//{
-//    if(limbCount == 0)
-//    {
-//        MP(set_ui)(_value, 0);
-//        return;
-//    }
-
-//    PIN(data);
-//    MP(import)(_value, limbCount, (int)limbOrder, bytesPerLimb, (int)endianness, nails, pinned_data);
-//}
-
-///// <summary>
-///// Exports the absolute value of the number to arbitrary words of binary data.
-///// <para>The sign of op is ignored.
-///// </para></summary>
-///// <typeparam name="T">Type of element in the data array.  This must be a value type, but does not need to represent a single limb.  Data is interpreted as a flat byte array.</typeparam>
-///// <param name="data">Array of binary "limbs" to export to.
-///// <para>Elements don't necessarily need to be of the <paramref name="bytesPerLimb"/> size; the data is interpreted as a flat byte array.
-///// </para>The total size of the array in bytes must be sufficient for the export.</param>
-///// <param name="bytesPerLimb">Number of bytes per "limb."</param>
-///// <param name="limbOrder">Specifies the order of the "limbs."</param>
-///// <param name="endianness">Specifies the byte order within each "limb."</param>
-///// <param name="nails">The number of most-significant bits to reserve, and set to zero, in each "limb."</param>
-///// <returns>The number of limbs exported.
-///// <para>If the number is non-zero, then the most significant word produced will be non-zero.
-///// </para>If the number is zero, then the count returned will be zero and nothing written to the data.</returns>
-//generic<typename T> where T : value class size_t Export(array<T>^ data, int bytesPerLimb, LimbOrder limbOrder, Endianness endianness, int nails)
-//{
-//    PIN(data);
-//    size_t limbCount;
-//    MP(export)(pinned_data, &limbCount, (int)limbOrder, bytesPerLimb, (int)endianness, nails, _value);
-//    return limbCount;
-//}
-
-//    /// <summary>
-//    /// Exports the absolute value of the number to arbitrary words of binary data.  An array of type T is allocated for the export.
-//    /// <para>The sign of op is ignored.
-//    /// </para></summary>
-//    /// <typeparam name="T">Type of element in the data array.  This must be a value type, but does not need to represent a single limb.  Data is interpreted as a flat byte array.</typeparam>
-//    /// <param name="bytesPerLimb">Number of bytes per "limb."</param>
-//    /// <param name="limbOrder">Specifies the order of the "limbs."</param>
-//    /// <param name="endianness">Specifies the byte order within each "limb."</param>
-//    /// <param name="nails">The number of most-significant bits to reserve, and set to zero, in each "limb."</param>
-//    /// <returns>An array of type T containing the exported limb data.
-//    /// <para>If the number is non-zero, then the most significant word produced will be non-zero.
-//    /// </para>If the number is zero, then a zero-length array is returned.</returns>
-//    generic<typename T> where T : value class array<T>^ Export(int bytesPerLimb, LimbOrder limbOrder, Endianness endianness, int nails)
-//    {
-//        if(this->Sign() == 0)
-//            return gcnew array<T>(0);
-
-//        auto bitsPerLimb = 8 * bytesPerLimb - nails;
-//        auto limbCount = (MP(sizeinbase)(_value, 2) - 1) / bitsPerLimb + 1;
-//        auto arrayCount = (limbCount * bytesPerLimb - 1) / sizeof(T) + 1;
-//        auto data = gcnew array<T>(arrayCount);
-
-//        PIN(data);
-//        MP(export)(pinned_data, &limbCount, (int)limbOrder, bytesPerLimb, (int)endianness, nails, _value);
-//        return data;
-//    }
-
-//internal:
-//    size_t ReadNoWhite(TextReader^ reader, int base, size_t nread);
-
-//public:
-
-//    /// <summary>
-//    /// Returns the specified limb of the number.
-//    /// <para>The least significant limb is zero.
-//    /// </para>The sign of the number is ignored.
-//    /// </summary>
-//    /// <param name="index">The index of the limb to return.
-//    /// <para>The least significant limb is zero.
-//    /// </para>If the index is outside the range 0 to Size()-1, zero is returned.</param>
-//    /// <returns>The specified limb, or zero if <paramref name="index"/> is outside of the valid range.</returns>
-//    size_t GetLimb(mp_size_t index) { return MP(getlimbn)(_value, index); }
+            size_t Read(TextReader^ reader, int base, bool exponentInDecimal);
 
             #pragma endregion
 

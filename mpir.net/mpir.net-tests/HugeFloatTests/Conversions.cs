@@ -142,7 +142,6 @@ namespace MPIR.Tests.HugeFloatTests
                 Assert.AreEqual(75, exp);
                 c *= Math.Pow(2, exp);
 
-                //Assert.AreEqual(-123.45e20, c);
                 Assert.IsTrue(a + 10000000000 >= c);
                 Assert.IsTrue(a - 10000000000 <= c);
             }

@@ -330,26 +330,14 @@ namespace MPIR
 
     #pragma region IO
 
-    #define chunkSize 1024
-
-    size_t MPTYPE::Write(Stream^ stream)
+    size_t MPTYPE::Write(TextWriter^ writer, int base, int maxDigits, bool lowercase, bool exponentInDecimal)
     {
-        throw gcnew NotImplementedException();
-    }
-
-    size_t MPTYPE::Read(Stream^ stream)
-    {
-        throw gcnew NotImplementedException();
-    }
-
-    size_t MPTYPE::Write(TextWriter^ writer, int base, bool lowercase)
-    {
-        auto str = ToString(base, lowercase);
+        auto str = ToString(base, lowercase, maxDigits, exponentInDecimal);
         writer->Write(str);
         return str->Length;
     }
 
-    size_t MPTYPE::Read(TextReader^ reader, int base)
+    size_t MPTYPE::Read(TextReader^ reader, int base, bool exponentInDecimal)
     {
         throw gcnew NotImplementedException();
     }
