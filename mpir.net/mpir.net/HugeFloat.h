@@ -931,21 +931,21 @@ namespace MPIR
             /// <returns>A string representation of the number in the specified base.</returns>
             String^ ToString(int base, bool lowercase, bool exponentInDecimal) { return ToString(base, lowercase, 0, exponentInDecimal); }
 
-///// <summary>
-///// Returns the absolute value of the number as a ulong.
-///// <para>If the number is too big, then just the least significant bits that do fit are returned.
-///// </para>The sign of the number is ignored, only the absolute value is used.
-///// </summary>
-///// <returns>The absolute value as a ulong, possibly truncated to the least significant bits only.</returns>
-//mpir_ui ToUlong() { return MP(get_ui)(_value); }
+            /// <summary>
+            /// Returns the absolute value of the number as a ulong.
+            /// <para>If the number is too big, then just the least significant bits that do fit are returned.
+            /// </para>The sign of the number is ignored, only the absolute value is used.
+            /// </summary>
+            /// <returns>The absolute value as a ulong, possibly truncated to the least significant bits only.</returns>
+            mpir_ui ToUlong() { return MP(get_ui)(_value); }
 
-///// <summary>
-///// Returns the value of the number as a long.
-///// <para>If the number is too big, then just the least significant bits that do fit are returned, with the same sign as the number.
-///// </para>When truncation occurs, the result is propobly not very useful.  Call FitsLong() to check if the number will fit.
-///// </summary>
-///// <returns>The value as a ulong, possibly truncated to the least significant bits only.</returns>
-//mpir_si ToLong() { return MP(get_si)(_value); }
+            /// <summary>
+            /// Returns the value of the number as a long.
+            /// <para>If the number is too big, then just the least significant bits that do fit are returned, with the same sign as the number.
+            /// </para>When truncation occurs, the result is propobly not very useful.  Call FitsLong() to check if the number will fit.
+            /// </summary>
+            /// <returns>The value as a ulong, possibly truncated to the least significant bits only.</returns>
+            mpir_si ToLong() { return MP(get_si)(_value); }
 
             /// <summary>
             /// Returns the value of the number as a double, truncating if necessary (rounding towards zero).
@@ -955,20 +955,20 @@ namespace MPIR
             /// <returns>The value as a double, possibly truncated.</returns>
             double ToDouble() { return MP(get_d)(_value); }
 
-///// <summary>
-///// Returns the value of the number as a double, truncating if necessary (rounding towards zero), and returning the exponent separately.
-///// <para>The return is the mantissa, its absolute value will be in the range [0.5 - 1).
-///// </para>If the source value is zero, both mantissa and exponent are returned as 0.
-///// </summary>
-///// <param name="exp">variable to store the exponent in.</param>
-///// <returns>The mantissa of the value as a double, possibly truncated.</returns>
-//double ToDouble([Out] mpir_si% exp) 
-//{ 
-//    mpir_si x; 
-//    auto result = MP(get_d_2exp)(&x, _value); 
-//    exp = x; 
-//    return result; 
-//}
+            /// <summary>
+            /// Returns the value of the number as a double, truncating if necessary (rounding towards zero), and returning the exponent separately.
+            /// <para>The return is the mantissa, its absolute value will be in the range [0.5 - 1).
+            /// </para>If the source value is zero, both mantissa and exponent are returned as 0.
+            /// </summary>
+            /// <param name="exp">variable to store the exponent in.</param>
+            /// <returns>The mantissa of the value as a double, possibly truncated.</returns>
+            double ToDouble([Out] mpir_si% exp) 
+            { 
+                mpir_si x; 
+                auto result = MP(get_d_2exp)(&x, _value); 
+                exp = x; 
+                return result; 
+            }
 
             #pragma endregion
 

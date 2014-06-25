@@ -100,6 +100,55 @@ namespace MPIR.Tests.HugeFloatTests
         }
 
         [TestMethod]
+        public void FloatToAndFromUlong()
+        {
+            using(var a = new HugeFloat())
+            {
+                ulong b = 0xF84739ABCDEF4876;
+                a.SetTo(b);
+                FloatAssert.AreEqual(b + ".", a);
+
+                a.Value = -a;
+                ulong c = a.ToUlong();
+                Assert.AreEqual(b, c);
+            }
+        }
+
+        [TestMethod]
+        public void FloatToAndFromLong()
+        {
+            using(var a = new HugeFloat())
+            {
+                long b = -0x784739ABCDEF4876;
+                a.SetTo(b);
+                FloatAssert.AreEqual(b + ".", a);
+
+                long c = a.ToLong();
+                Assert.AreEqual(b, c);
+            }
+        }
+
+        [TestMethod]
+        public void FloatToAndFromDoubleOutExp()
+        {
+            using(var a = new HugeFloat())
+            {
+                a.SetTo(-123.45e20);
+
+                long exp;
+                a.Value = a + a;
+                double c = a.ToDouble(out exp);
+
+                Assert.AreEqual(75, exp);
+                c *= Math.Pow(2, exp);
+
+                //Assert.AreEqual(-123.45e20, c);
+                Assert.IsTrue(a + 10000000000 >= c);
+                Assert.IsTrue(a - 10000000000 <= c);
+            }
+        }
+
+        [TestMethod]
         public void FloatFromString()
         {
             using (var a = new HugeFloat())
