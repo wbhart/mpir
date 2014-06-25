@@ -159,6 +159,23 @@ namespace MPIR.Tests.HugeFloatTests
         }
 
         [TestMethod]
+        public void FloatFromStringExpDecimal()
+        {
+            using(var a = new HugeFloat())
+            {
+                var n = "0.12354523094527035843ABCDEF54@10";
+                
+                a.SetTo(n, 16);
+                Assert.AreEqual("0.12354523094527035843ABCDEF54@10", a.ToString(16, false, true));
+                Assert.AreEqual("0.12354523094527035843ABCDEF54@A", a.ToString(16, false, false));
+
+                a.SetTo(n, 16, false);
+                Assert.AreEqual("0.12354523094527035843ABCDEF54@16", a.ToString(16, false, true));
+                Assert.AreEqual("0.12354523094527035843ABCDEF54@10", a.ToString(16, false, false));
+            }
+        }
+
+        [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
         public void FloatFromInvalidString()
         {

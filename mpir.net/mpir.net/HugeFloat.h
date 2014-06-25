@@ -761,7 +761,7 @@ namespace MPIR
             {
                 _value = (MP(ptr))((*__gmp_allocate_func)(sizeof(MPSTRUCT)));
             }
-            void FromString(String^ value, int base);
+            void FromString(String^ value, int base, bool exponentInDecimal);
             MPTYPE(bool initialize);
             String^ ToString(int base, bool lowercase, int maxDigits, bool exponentInDecimal);
 
@@ -820,21 +820,33 @@ namespace MPIR
             static MPTYPE^ Allocate(mp_bitcnt_t precision);
 
             /// <summary>
-            /// Initializes a new float instance and sets its value from the specified string, using leading characters to recognize the base:
-            /// 0x and 0X for hexadecimal, 0b and 0B for binary, 0 for octal, or decimal otherwise.
+            /// Initializes a new float instance and sets its value from the specified string.
+            /// <para>No leading base characters are allowed.
+            /// </para>The exponent is always in decimal.
             /// </summary>
             /// <param name="value">string representing the initial value for the new instance.  Whitespace in the string is ignored.</param>
-            MPTYPE(String^ value) { FromString(value, 0); }
+            MPTYPE(String^ value) { FromString(value, 0, true); }
 
             /// <summary>
             /// Initializes a new float instance and sets its value from the specified string
             /// </summary>
             /// <param name="value">string representing the initial value for the new instance.  Whitespace in the string is ignored.</param>
             /// <param name="base">base the <paramref name="value"/> string is in.
-            /// <para>The base may vary from 2 to 62, or if base is 0, then the leading characters are used: 0x and 0X for hexadecimal, 0b and 0B for binary, 0 for octal, or decimal otherwise.
+            /// <para>The base may vary from 2 to 62.  No leading base characters are allowed.  The exponent is always in decimal
             /// </para>For bases up to 36, case is ignored; upper-case and lower-case letters have the same value. 
             /// For bases 37 to 62, upper-case letter represent the usual 10..35 while lower-case letter represent 36..61.</param>
-            MPTYPE(String^ value, int base) { FromString(value, base); }
+            MPTYPE(String^ value, int base) { FromString(value, base, true); }
+
+            /// <summary>
+            /// Initializes a new float instance and sets its value from the specified string
+            /// </summary>
+            /// <param name="value">string representing the initial value for the new instance.  Whitespace in the string is ignored.</param>
+            /// <param name="base">base the <paramref name="value"/> string is in.
+            /// <para>The base may vary from 2 to 62.  No leading base characters are allowed.
+            /// </para>For bases up to 36, case is ignored; upper-case and lower-case letters have the same value. 
+            /// For bases 37 to 62, upper-case letter represent the usual 10..35 while lower-case letter represent 36..61.</param>
+            /// <param name="exponentInDecimal">True if the exponent is in decimal, false to use the same base as the mantissa.</param>
+            MPTYPE(String^ value, int base, bool exponentInDecimal) { FromString(value, base, exponentInDecimal); }
 
             /// <summary>
             /// Initializes a new float instance and sets its value to the result of computing the source expression.
@@ -1049,11 +1061,24 @@ namespace MPIR
             /// </para>If the fraction is not in canonical form, Canonicalize() must be called.
             /// </summary>
             /// <param name="value">new value for the object</param>
-            /// <param name="base">base the <paramref name="value"/> string is in.
-            /// <para>The base may vary from 2 to 62, or if base is 0, then the leading characters are used: 0x and 0X for hexadecimal, 0b and 0B for binary, 0 for octal, or decimal otherwise.
+            /// <param name="base">base the mantissa in the <paramref name="value"/> string is in.  Exponent is always in decimcal.
+            /// <para>The base may vary from 2 to 62.  No leading leading base characters are allowed.
             /// </para>For bases up to 36, case is ignored; upper-case and lower-case letters have the same value. 
             /// For bases 37 to 62, upper-case letter represent the usual 10..35 while lower-case letter represent 36..61.</param>
-            void SetTo(String^ value, int base);
+            void SetTo(String^ value, int base) { SetTo(value, base, true); }
+
+            /// <summary>
+            /// Sets the value of the float object.
+            /// <para>Do not change the value of an object while it is contained in a hash table, because that changes its hash code.
+            /// </para>If the fraction is not in canonical form, Canonicalize() must be called.
+            /// </summary>
+            /// <param name="value">new value for the object</param>
+            /// <param name="base">base the <paramref name="value"/> string is in.
+            /// <para>The base may vary from 2 to 62.  No leading leading base characters are allowed.
+            /// </para>For bases up to 36, case is ignored; upper-case and lower-case letters have the same value. 
+            /// For bases 37 to 62, upper-case letter represent the usual 10..35 while lower-case letter represent 36..61.</param>
+            /// <param name="exponentInDecimal">If true, the exponent is in decimal; otherwise it is in the same base as the mantissa</param>
+            void SetTo(String^ value, int base, bool exponentInDecimal);
 
             /// <summary>
             /// Sets the value of the float object.

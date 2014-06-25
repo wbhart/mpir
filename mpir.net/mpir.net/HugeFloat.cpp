@@ -71,14 +71,15 @@ namespace MPIR
         return result;
     }
 
-    void MPTYPE::FromString(String^ value, int base)
+    void MPTYPE::FromString(String^ value, int base, bool exponentInDecimal)
     {
         AllocateStruct();
         MP(init)(_value);
         _allocatedPrecision = MP(get_prec)(_value);
 
+        base = Math::Abs(base);
         IntPtr ptr = Marshal::StringToHGlobalAnsi(value);
-        bool success = 0 == MP(set_str)(_value, (char*)(void*)ptr, base);
+        bool success = 0 == MP(set_str)(_value, (char*)(void*)ptr, exponentInDecimal ? -base : base);
         Marshal::FreeHGlobal(ptr);
 
         if(!success)
@@ -88,10 +89,11 @@ namespace MPIR
         }
     }
 
-    void MPTYPE::SetTo(String^ value, int base)
+    void MPTYPE::SetTo(String^ value, int base, bool exponentInDecimal)
     {
+        base = Math::Abs(base);
         IntPtr ptr = Marshal::StringToHGlobalAnsi(value);
-        bool success = 0 == MP(set_str)(_value, (char*)(void*)ptr, base);
+        bool success = 0 == MP(set_str)(_value, (char*)(void*)ptr, exponentInDecimal ? -base : base);
         Marshal::FreeHGlobal(ptr);
 
         if(!success)
@@ -339,7 +341,82 @@ namespace MPIR
 
     size_t MPTYPE::Read(TextReader^ reader, int base, bool exponentInDecimal)
     {
-        throw gcnew NotImplementedException();
+        StringBuilder str;
+        
+        int c;
+        size_t nread = 0;
+        const unsigned char* digit_value = __gmp_digit_value_tab;
+        bool hasDecimal = false;
+        bool inExponent = false;
+
+        if (base < 2)
+            throw gcnew ArgumentException("Invalid base", "base");
+
+        if (base > 36)
+        {
+            // For bases > 36, use the collating sequence
+            // 0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz
+            digit_value += 224;
+            if (base > 62)
+                throw gcnew ArgumentException("Invalid base", "base");
+        }
+
+        // Skip whitespace
+        while ((c = reader->Peek()) >= 0 && Char::IsWhiteSpace(c))
+        {
+            nread++;
+            reader->Read();
+        }
+
+        // possibly negative
+        if (c == '-')
+        {
+            str.Append((wchar_t)c);
+            PEEK_NEXT_CHAR;
+        }
+
+        while (c != EOF)
+        {
+            if (c == '.')
+            {
+                if (hasDecimal) break;
+                
+                hasDecimal = true;
+                str.Append((wchar_t)c);
+                PEEK_NEXT_CHAR;
+                continue;
+            }
+
+            if ((base <= 10 && Char::ToLower(c) == 'e') || c == '@')
+            {
+                if (inExponent) break;
+                
+                inExponent = true;
+                str.Append((wchar_t)c);
+                PEEK_NEXT_CHAR;
+
+                // possibly negative
+                if (c == '-')
+                {
+                    str.Append((wchar_t)c);
+                    PEEK_NEXT_CHAR;
+                }
+                continue;
+            }
+
+            if (inExponent && exponentInDecimal && !Char::IsDigit(c))
+                break;
+
+            int dig = digit_value[c];
+            if (dig >= base)
+                break;
+
+            str.Append((wchar_t)c);
+            PEEK_NEXT_CHAR;
+        }
+
+        SetTo(str.ToString(), base, exponentInDecimal);
+        return str.Length + nread;
     }
 
     #pragma endregion

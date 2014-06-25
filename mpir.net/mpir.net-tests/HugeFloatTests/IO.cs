@@ -45,7 +45,7 @@ namespace MPIR.Tests.HugeFloatTests
                 using (var reader = new StreamReader(ms, Encoding.UTF8, false, 1024, true))
                     b.Read(reader, 10, false);
 
-                Assert.AreEqual(a, b);
+                Assert.AreEqual(a.ToString(10), b.ToString(10));
                 Assert.AreEqual(ms.Length, ms.Position);
                 Assert.AreEqual((char)0xFEFF + a.ToString(10), Encoding.UTF8.GetString(ms.ToArray()));
             }
@@ -137,7 +137,7 @@ namespace MPIR.Tests.HugeFloatTests
                 using(var reader = new StreamReader(ms, Encoding.UTF8, false, 1024, true))
                     b.Read(reader, 62, false);
 
-                Assert.AreEqual(a, b);
+                Assert.AreEqual(a.ToString(62), b.ToString(62));
                 Assert.AreEqual(ms.Length, ms.Position);
                 Assert.AreEqual((char)0xFEFF + a.ToString(62), Encoding.UTF8.GetString(ms.ToArray()));
             }
