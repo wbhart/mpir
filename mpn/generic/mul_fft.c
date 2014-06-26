@@ -1,6 +1,6 @@
 
-#include <gmp.h>
-#include <gmp-impl.h>
+#include "mpir.h"
+#include "gmp-impl.h"
 
 int 
 mpn_mul_fft(mp_ptr rp, mp_size_t rn, mp_srcptr ap, mp_size_t an,
