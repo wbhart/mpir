@@ -358,5 +358,16 @@ namespace MPIR.Tests.HugeFloatTests
                 Assert.IsFalse(b.FitsUshort());
             }
         }
+
+        [TestMethod]
+        public void FloatIsInteger()
+        {
+            using (var a = new HugeFloat("-233454059287409285742345.125"))
+            {
+                Assert.IsFalse(a.IsInteger());
+                a.Value = a * 8;
+                Assert.IsTrue(a.IsInteger());
+            }
+        }
     }
 }

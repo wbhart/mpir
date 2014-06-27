@@ -1223,6 +1223,12 @@ namespace MPIR
             /// <returns>true if the value will fit in a short</returns>
             bool FitsUshort() { return MP(fits_ushort_p)(_value) != 0; }
 
+            /// <summary>
+            /// Returns true if the source number is a whole integer.
+            /// </summary>
+            /// <returns>true if the value is an integer</returns>
+            bool IsInteger() { return MP(integer_p)(_value) != 0; }
+
             #pragma endregion
 
             #pragma region IO
