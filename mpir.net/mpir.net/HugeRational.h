@@ -1163,6 +1163,13 @@ namespace MPIR
             }
 
             /// <summary>
+            /// Sets the value of the rational object.  There is no rounding, this conversion is exact.
+            /// <para>Do not change the value of an object while it is contained in a hash table, because that changes its hash code.
+            /// </para></summary>
+            /// <param name="value">new value for the object</param>
+            void SetTo(FloatExpression^ value);
+
+            /// <summary>
             /// Swaps the values of two rationals.
             /// <para>This operation is a pointer swap and doesn't affect allocated memory.
             /// </para>Do not call this method while either object is contained in a hash table, because this would change their hash codes.
