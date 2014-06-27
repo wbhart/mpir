@@ -60,6 +60,8 @@ namespace MPIR.Tests.HugeFloatTests
                 VerifyPartialResult(r, expr, -35);
                 expr = expr + b.SquareRoot() + HugeFloat.SquareRoot(25) + ((b - 2) ^ 3) - (-b).RelativeDifferenceFrom(a + 1);
                 VerifyPartialResult(r, expr, -19);
+                expr = expr - (a / 4).Floor() + (b / 3).Ceiling() - (a / b).Truncate();
+                VerifyPartialResult(r, expr, -12);
 
                 MarkExpressionsUsed(allExpressions, expr);
             }

@@ -288,6 +288,9 @@ namespace MPIR
                                                                                                            
     MAKE_UNARY_OPERATOR            (MPEXPR_NAME,        DEFINE, -, Negate, Flt)             
     MAKE_VOID_FUNCTION             (MPEXPR_NAME,        DEFINE, Abs, Flt)                   
+    MAKE_VOID_FUNCTION             (MPEXPR_NAME,        DEFINE, Floor, Flt)                   
+    MAKE_VOID_FUNCTION             (MPEXPR_NAME,        DEFINE, Ceiling, Flt)                   
+    MAKE_VOID_FUNCTION             (MPEXPR_NAME,        DEFINE, Truncate, Flt)                   
     MAKE_VOID_FUNCTION             (MPEXPR_NAME,        DEFINE, SquareRoot, Flt)                   
     MAKE_FUNCTION_WITH_ONE         (MPEXPR_NAME,        DEFINE, RelativeDifferenceFrom, Flt)                   
                                                                                                            
@@ -299,6 +302,9 @@ namespace MPIR
                                                                                                            
     DEFINE_UNARY_ASSIGNMENT_REF(Negate, Flt, MP(neg))
     DEFINE_UNARY_ASSIGNMENT_REF(Abs, Flt, MP(abs))
+    DEFINE_UNARY_ASSIGNMENT_REF(Floor, Flt, MP(floor))
+    DEFINE_UNARY_ASSIGNMENT_REF(Ceiling, Flt, MP(ceil))
+    DEFINE_UNARY_ASSIGNMENT_REF(Truncate, Flt, MP(trunc))
     DEFINE_UNARY_ASSIGNMENT_REF(SquareRoot, Flt, MP(sqrt))
     DEFINE_UNARY_ASSIGNMENT_VAL(SquareRoot, Ui, MP(sqrt_ui))
 

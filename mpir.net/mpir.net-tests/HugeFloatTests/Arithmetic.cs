@@ -34,6 +34,7 @@ namespace MPIR.Tests.HugeFloatTests
             }
 
             var exponent = expected.IndexOf('.');
+            if(exponent < 0) exponent = expected.Length;
             expected = expected.Replace(".", "");
 
             var exponentStr = "@" + exponent;

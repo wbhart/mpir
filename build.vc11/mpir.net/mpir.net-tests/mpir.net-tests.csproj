@@ -115,6 +115,9 @@
     <Compile Include="..\..\..\mpir.net\mpir.net-tests\HugeFloatTests\IO.cs">
       <Link>HugeFloatTests\IO.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\mpir.net\mpir.net-tests\HugeFloatTests\Math.cs">
+      <Link>HugeFloatTests\Math.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\mpir.net\mpir.net-tests\HugeIntTests\Arithmetic.cs">
       <Link>HugeIntTests\Arithmetic.cs</Link>
     </Compile>

@@ -293,6 +293,10 @@ namespace MPIR
             /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
             static MPEXPR_NAME^ operator ^ (MPEXPR_NAME^ a, mpir_ui power);
 
+            #pragma endregion
+
+            #pragma region Math
+
             /// <summary>Computes the absolute value of the source number.
             /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
             /// </para></summary>
@@ -304,6 +308,24 @@ namespace MPIR
             /// </para></summary>
             /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
             MPEXPR_NAME^ SquareRoot();
+
+            /// <summary>Rounds the source number down to the next integer.
+            /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
+            /// </para></summary>
+            /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
+            MPEXPR_NAME^ Floor();
+
+            /// <summary>Rounds the source number up to the next integer.
+            /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
+            /// </para></summary>
+            /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
+            MPEXPR_NAME^ Ceiling();
+
+            /// <summary>Rounds the source number to the next integer toward zero.
+            /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
+            /// </para></summary>
+            /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
+            MPEXPR_NAME^ Truncate();
 
             #pragma endregion
 
@@ -740,6 +762,10 @@ namespace MPIR
     DEFINE_UNARY_EXPRESSION_WITH_BUILT_INS_ONLY    (MPEXPR_NAME, SquareRoot, Ui)
                                                    
     DEFINE_BINARY_EXPRESSION_WITH_TWO              (MPEXPR_NAME, RelativeDifferenceFrom, Flt)
+
+    DEFINE_UNARY_EXPRESSION_WITH_ONE               (MPEXPR_NAME, Floor, Flt)
+    DEFINE_UNARY_EXPRESSION_WITH_ONE               (MPEXPR_NAME, Ceiling, Flt)
+    DEFINE_UNARY_EXPRESSION_WITH_ONE               (MPEXPR_NAME, Truncate, Flt)
 
     #pragma endregion
 
