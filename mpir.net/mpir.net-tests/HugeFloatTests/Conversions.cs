@@ -26,6 +26,14 @@ namespace MPIR.Tests.HugeFloatTests
     [TestClass]
     public class Conversions
     {
+        private static HugeFloat AlmostOne;
+
+        [ClassInitialize]
+        public static void Init(TestContext context)
+        {
+            AlmostOne = new HugeFloat(0.99999);
+        }
+
         [TestMethod]
         public void FloatToStringDecimal()
         {
@@ -198,6 +206,156 @@ namespace MPIR.Tests.HugeFloatTests
                     Assert.AreEqual(256, a.ToString().Replace("0.", "").Replace("@291", "").Length);
                     Assert.AreEqual(291, a.ToString(10).Replace("0.", "").Replace("@291", "").Length);
                 }
+            }
+        }
+
+        [TestMethod]
+        public void FloatFitsLong()
+        {
+            using (var a = new HugeFloat(long.MaxValue))
+            using (var b = new HugeFloat())
+            {
+                Assert.IsTrue(a.FitsLong());
+
+                b.Value = a + AlmostOne;
+                Assert.IsTrue(b.FitsLong());
+
+                b.Value = a + 1;
+                Assert.IsFalse(b.FitsLong());
+
+                a.SetTo(long.MinValue);
+                Assert.IsTrue(a.FitsLong());
+
+                b.Value = a - AlmostOne;
+                Assert.IsTrue(b.FitsLong());
+
+                b.Value = a - 1;
+                Assert.IsFalse(b.FitsLong());
+            }
+        }
+
+        [TestMethod]
+        public void FloatFitsUlong()
+        {
+            using(var a = new HugeFloat(ulong.MaxValue))
+            using(var b = new HugeFloat())
+            {
+                Assert.IsTrue(a.FitsUlong());
+
+                b.Value = a + AlmostOne;
+                Assert.IsTrue(b.FitsUlong());
+
+                b.Value = a + 1;
+                Assert.IsFalse(b.FitsUlong());
+
+                a.SetTo(ulong.MinValue);
+                Assert.IsTrue(a.FitsUlong());
+
+                b.Value = a - AlmostOne;
+                Assert.IsTrue(b.FitsUlong());
+
+                b.Value = a - 1;
+                Assert.IsFalse(b.FitsUlong());
+            }
+        }
+
+        [TestMethod]
+        public void FloatFitsInt()
+        {
+            using(var a = new HugeFloat(int.MaxValue))
+            using(var b = new HugeFloat())
+            {
+                Assert.IsTrue(a.FitsInt());
+
+                b.Value = a + AlmostOne;
+                Assert.IsTrue(b.FitsInt());
+
+                b.Value = a + 1;
+                Assert.IsFalse(b.FitsInt());
+
+                a.SetTo(int.MinValue);
+                Assert.IsTrue(a.FitsInt());
+
+                b.Value = a - AlmostOne;
+                Assert.IsTrue(b.FitsInt());
+
+                b.Value = a - 1;
+                Assert.IsFalse(b.FitsInt());
+            }
+        }
+
+        [TestMethod]
+        public void FloatFitsUint()
+        {
+            using(var a = new HugeFloat(uint.MaxValue))
+            using(var b = new HugeFloat())
+            {
+                Assert.IsTrue(a.FitsUint());
+
+                b.Value = a + AlmostOne;
+                Assert.IsTrue(b.FitsUint());
+
+                b.Value = a + 1;
+                Assert.IsFalse(b.FitsUint());
+
+                a.SetTo(uint.MinValue);
+                Assert.IsTrue(a.FitsUint());
+
+                b.Value = a - AlmostOne;
+                Assert.IsTrue(b.FitsUint());
+
+                b.Value = a - 1;
+                Assert.IsFalse(b.FitsUint());
+            }
+        }
+
+        [TestMethod]
+        public void FloatFitsShort()
+        {
+            using(var a = new HugeFloat(short.MaxValue))
+            using(var b = new HugeFloat())
+            {
+                Assert.IsTrue(a.FitsShort());
+
+                b.Value = a + AlmostOne;
+                Assert.IsTrue(b.FitsShort());
+
+                b.Value = a + 1;
+                Assert.IsFalse(b.FitsShort());
+
+                a.SetTo(short.MinValue);
+                Assert.IsTrue(a.FitsShort());
+
+                b.Value = a - AlmostOne;
+                Assert.IsTrue(b.FitsShort());
+
+                b.Value = a - 1;
+                Assert.IsFalse(b.FitsShort());
+            }
+        }
+
+        [TestMethod]
+        public void FloatFitsUshort()
+        {
+            using(var a = new HugeFloat(ushort.MaxValue))
+            using(var b = new HugeFloat())
+            {
+                Assert.IsTrue(a.FitsUshort());
+
+                b.Value = a + AlmostOne;
+                Assert.IsTrue(b.FitsUshort());
+
+                b.Value = a + 1;
+                Assert.IsFalse(b.FitsUshort());
+
+                a.SetTo(ushort.MinValue);
+                Assert.IsTrue(a.FitsUshort());
+
+                b.Value = a - AlmostOne;
+                Assert.IsTrue(b.FitsUshort());
+
+                b.Value = a - 1;
+                Assert.IsFalse(b.FitsUshort());
             }
         }
     }

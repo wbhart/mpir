@@ -1187,6 +1187,42 @@ namespace MPIR
                 _allocatedPrecision = precision; 
             }
 
+            /// <summary>
+            /// Returns true if the value of the source number, if truncated to an integer, is in the long range.
+            /// </summary>
+            /// <returns>true if the value will fit in a long</returns>
+            bool FitsLong() { return MP(fits_si_p)(_value) != 0; }
+
+            /// <summary>
+            /// Returns true if the value of the source number, if truncated to an integer, is in the ulong range.
+            /// </summary>
+            /// <returns>true if the value will fit in a long</returns>
+            bool FitsUlong() { return MP(fits_ui_p)(_value) != 0; }
+
+            /// <summary>
+            /// Returns true if the value of the source number, if truncated to an integer, is in the int range.
+            /// </summary>
+            /// <returns>true if the value will fit in an int</returns>
+            bool FitsInt() { return MP(fits_sint_p)(_value) != 0; }
+
+            /// <summary>
+            /// Returns true if the value of the source number, if truncated to an integer, is in the uint range.
+            /// </summary>
+            /// <returns>true if the value will fit in an int</returns>
+            bool FitsUint() { return MP(fits_uint_p)(_value) != 0; }
+
+            /// <summary>
+            /// Returns true if the value of the source number, if truncated to an integer, is in the short range.
+            /// </summary>
+            /// <returns>true if the value will fit in a short</returns>
+            bool FitsShort() { return MP(fits_sshort_p)(_value) != 0; }
+
+            /// <summary>
+            /// Returns true if the value of the source number, if truncated to an integer, is in the ushort range.
+            /// </summary>
+            /// <returns>true if the value will fit in a short</returns>
+            bool FitsUshort() { return MP(fits_ushort_p)(_value) != 0; }
+
             #pragma endregion
 
             #pragma region IO
