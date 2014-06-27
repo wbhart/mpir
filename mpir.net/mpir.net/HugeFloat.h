@@ -87,7 +87,7 @@ namespace MPIR
                 auto ptr = &context.Temp[context.Index].MPTYPE_NAME;
                 CTXT(context.Index++) = ptr;
                 MP(init)(ptr);
-                AssignTo(ptr); 
+                AssignTo(ptr);
             }
 
         private:
@@ -766,6 +766,11 @@ namespace MPIR
     DEFINE_UNARY_EXPRESSION_WITH_ONE               (MPEXPR_NAME, Floor, Flt)
     DEFINE_UNARY_EXPRESSION_WITH_ONE               (MPEXPR_NAME, Ceiling, Flt)
     DEFINE_UNARY_EXPRESSION_WITH_ONE               (MPEXPR_NAME, Truncate, Flt)
+
+    DEFINE_UNARY_EXPRESSION                        (MPEXPR_NAME, Random, MpirRandom^)
+    DEFINE_BINARY_EXPRESSION                       (MPEXPR_NAME, RandomBits, MpirRandom^, mp_bitcnt_t)
+    DEFINE_BINARY_EXPRESSION                       (MPEXPR_NAME, RandomChunky, MpirRandom^, mp_exp_t)
+    DEFINE_TERNARY_EXPRESSION                      (MPEXPR_NAME, RandomLimbsChunky, MpirRandom^, mp_size_t, mp_exp_t)
 
     #pragma endregion
 

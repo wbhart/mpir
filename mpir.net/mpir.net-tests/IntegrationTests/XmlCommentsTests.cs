@@ -75,6 +75,7 @@ namespace MPIR.Tests.HugeIntTests
             var contents = File.ReadAllText(path);
             contents = Regex.Replace(contents, "<paramref[^>]*>", "paramref");
             contents = Regex.Replace(contents, "</?para>", "");
+            contents = contents.Replace("!System.Runtime.CompilerServices.IsLong", "");
 
             var serializer = new XmlSerializer(typeof(XmlCommentsDoc));
             using (var reader = new StringReader(contents))

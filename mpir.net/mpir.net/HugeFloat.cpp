@@ -21,7 +21,6 @@ along with the MPIR Library.  If not, see http://www.gnu.org/licenses/.
 #include "HugeInt.h"
 #include "HugeRational.h"
 #include "HugeFloat.h"
-//#include "Random.h"
 
 using namespace System::Runtime::InteropServices;
 using namespace System::Text;

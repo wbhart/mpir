@@ -23,8 +23,6 @@ using namespace System;
 
 namespace MPIR
 {
-    ref class MpirRandom;
-
     /// <summary>
     /// This class encapsulates a random number generator algorithm and state
     /// </summary>
@@ -232,6 +230,47 @@ namespace MPIR
         /// <param name="max">exclusive upper bound for the number to generate</param>
         /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, generates the random number</returns>
         IntegerExpression^ GetInt(IntegerExpression^ max) { return gcnew IntegerRandomExpression(this, max); }
+
+        #pragma endregion
+
+        #pragma region Random Float
+
+        /// <summary>
+        /// Generates a uniformly distributed random float in the range 0 &lt;= n &lt; 1, using the precision of the destination.
+        /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
+        /// </para></summary>
+        /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, generates the random number</returns>
+        FloatExpression^ GetFloat();
+
+        /// <summary>
+        /// Generates a uniformly distributed random float in the range 0 &lt;= n &lt; 1 with the specified number of significant bits in the mantissa.
+        /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
+        /// </para></summary>
+        /// <param name="bitCount">number of mantissa bits to generate</param>
+        /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, generates the random number</returns>
+        FloatExpression^ GetFloatBits(mp_bitcnt_t bitCount);
+
+        /// <summary>
+        /// Generates a random float with long strings of zeros and ones in the binary representation, using the precision of the destination.
+        /// <para>Useful for testing functions and algorithms, since this kind of random numbers have proven
+        /// to be more likely to trigger corner-case bugs.
+        /// </para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
+        /// </summary>
+        /// <param name="maxExponent">The maximum absolute value for the exponent of the generated number.  Generated exponent may be positive or negative.</param>
+        /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, generates the random number</returns>
+        FloatExpression^ GetFloatChunky(mp_exp_t maxExponent);
+
+        /// <summary>
+        /// Generates a random float with long strings of zeros and ones in the binary representation, and the specified number of significant limbs in the mantissa.
+        /// <para>Useful for testing functions and algorithms, since this kind of random numbers have proven
+        /// to be more likely to trigger corner-case bugs.
+        /// </para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
+        /// </summary>
+        /// <param name="limbCount">number of mantissa limbs to generate.
+        /// <para>The sign of this parameter determines the sign of the generated mantissa.</para></param>
+        /// <param name="maxExponent">The maximum absolute value for the exponent of the generated number.  Generated exponent may be positive or negative.</param>
+        /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, generates the random number</returns>
+        FloatExpression^ GetFloatLimbsChunky(mp_size_t limbCount, mp_exp_t maxExponent);
 
         #pragma endregion
     };

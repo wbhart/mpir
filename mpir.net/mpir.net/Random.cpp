@@ -26,16 +26,16 @@ namespace MPIR
     DEFINE_ASSIGNMENT_PROLOG(Random)
     {
         IN_CONTEXT(Right);
-        mpz_urandomm(destination, Left->_value, context.IntArgs[0]);
+        MP(urandomm)(destination, Left->_value, context.IntArgs[0]);
     }
 
     DEFINE_ASSIGNMENT_PROLOG(RandomBits)
     {
-        mpz_urandomb(destination, Left->_value, Right);
+        MP(urandomb)(destination, Left->_value, Right);
     }
 
     DEFINE_ASSIGNMENT_PROLOG(RandomBitsChunky)
     {
-        mpz_rrandomb(destination, Left->_value, Right);
+        MP(rrandomb)(destination, Left->_value, Right);
     }
 };

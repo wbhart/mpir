@@ -62,6 +62,14 @@ namespace MPIR.Tests.HugeFloatTests
                 VerifyPartialResult(r, expr, -19);
                 expr = expr - (a / 4).Floor() + (b / 3).Ceiling() - (a / b).Truncate();
                 VerifyPartialResult(r, expr, -12);
+                expr = expr + (r.GetFloatBits(64) * 10).Ceiling();
+                VerifyPartialResult(r, expr, -10);
+                expr = expr + (r.GetFloatLimbsChunky(2, 4) << 233).Ceiling();
+                VerifyPartialResult(r, expr, -6);
+                expr = expr + (r.GetFloat() * 10).Floor();
+                VerifyPartialResult(r, expr, -2);
+                expr = expr + (r.GetFloatChunky(3) << 101).Truncate();
+                VerifyPartialResult(r, expr, 13);
 
                 MarkExpressionsUsed(allExpressions, expr);
             }
