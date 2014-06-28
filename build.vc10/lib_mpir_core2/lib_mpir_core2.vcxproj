@@ -13,7 +13,7 @@
   <PropertyGroup Label="Globals">
     <RootNamespace>mpir</RootNamespace>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{e7f07600-f233-11e3-8e84-24fd5238c490}</ProjectGuid>
+    <ProjectGuid>{ab07bee8-febf-11e3-92be-24fd5238c490}</ProjectGuid>
     </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
@@ -1638,10 +1638,6 @@ postbuild "$(TargetPath)"
         <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpn\</ObjectFileName>
     </ClCompile>
     <ClCompile Include="..\..\mpn\generic\mp_bases.c">
-        <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpn\</ObjectFileName>
-        <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpn\</ObjectFileName>
-    </ClCompile>
-    <ClCompile Include="..\..\mpn\generic\mpn_mul_fft.c">
         <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpn\</ObjectFileName>
         <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpn\</ObjectFileName>
     </ClCompile>
