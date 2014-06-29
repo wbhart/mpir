@@ -1680,6 +1680,15 @@ script to hide them, and for instance configure with
 Running @samp{make libgmp.la} directly helped, perhaps recursing into the
 various subdirectories uses up memory.
 
+@item GCC XOP issues
+@cindex GCC
+@cindex XOP
+GCC from version 4.6.0 to 4.8.x have a problem with the XOP instruction, 
+especially with @samp{-O3} on at least AMD Opteron @samp{62xx/63xx}, 
+@samp{FX-(4,6,8)[13]xx} and the Devil's Canyon @samp{9xxx} and the Kaveri APUs.
+
+A workaround is to pass @samp{-mno-xop} when compiling with @samp{-O3}.
+
 @item MacOS X (@samp{*-*-darwin*})
 @cindex MacOS X
 @cindex Darwin

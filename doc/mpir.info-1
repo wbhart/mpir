@@ -1097,6 +1097,14 @@ Compiler link options
      available.  Running `make libgmp.la' directly helped, perhaps
      recursing into the various subdirectories uses up memory.
 
+GCC XOP issues
+     GCC from version 4.6.0 to 4.8.x have a problem with the XOP
+     instruction, especially with `-O3' on at least AMD Opteron
+     `62xx/63xx', `FX-(4,6,8)[13]xx' and the Devil's Canyon `9xxx' and
+     the Kaveri APUs.
+
+     A workaround is to pass `-mno-xop' when compiling with `-O3'.
+
 MacOS X (`*-*-darwin*')
      Libtool currently only knows how to create shared libraries on
      MacOS X using the native `cc' (which is a modified GCC), not a
