@@ -125,7 +125,7 @@ def find_asm(path, cf_list):
   for root, dirs, files in walk(path):
     if '.svn' in dirs:                  # ignore SVN directories
       dirs.remove('.svn')
-    if 'fat' in dirs:                  # ignore fat directory
+    if 'fat' in dirs:                   # ignore fat directory
       dirs.remove('fat')
     relp = relpath(root, path)          # path from asm root
     relr = relpath(root, mpir_dir)      # path from MPIR root
@@ -873,6 +873,14 @@ for n in n_list:
   hf_list = ('config.h', 'gmp-impl.h', 'longlong.h', 'mpir.h', 'gmp-mparam.h')
   af_list = sorted(mpn_f[2] + mpn_f[3])
 
+  # find the gmp-mparam.h file to be used  
+  for name, ty, loc in mpn_f[0]:
+    if name == 'gmp-mparam':
+      mp_dir = loc
+      break
+  else:
+    mp_dir = config
+
   proj_name = 'mpir'
   cf = config.replace('\\', '_')
 
@@ -881,7 +889,7 @@ for n in n_list:
   vcx_name = 'dll_mpir_' + cf
   vcx_path = 'dll_mpir_' + cf + '\\' + vcx_name + '.vcxproj'
   gen_filter(vcx_path + '.filters', hf_list, c_src_list + cc_src_list + mpn_f[1], af_list)
-  gen_vcxproj(proj_name, vcx_path, guid, config, mode, True, False, hf_list, c_src_list + cc_src_list + mpn_f[1], af_list)
+  gen_vcxproj(proj_name, vcx_path, guid, mp_dir, mode, True, False, hf_list, c_src_list + cc_src_list + mpn_f[1], af_list)
   add_proj_to_sln(vcx_name, vcx_path, guid)
 
   # set up LIB build
@@ -889,7 +897,7 @@ for n in n_list:
   vcx_name = 'lib_mpir_' + cf
   vcx_path = 'lib_mpir_' + cf + '\\' + vcx_name + '.vcxproj'
   gen_filter(vcx_path + '.filters', hf_list, c_src_list + mpn_f[1], af_list)
-  gen_vcxproj(proj_name, vcx_path, guid, config, mode, False, False, hf_list, c_src_list + mpn_f[1], af_list)
+  gen_vcxproj(proj_name, vcx_path, guid, mp_dir, mode, False, False, hf_list, c_src_list + mpn_f[1], af_list)
   add_proj_to_sln(vcx_name, vcx_path, guid)
 
 # C++ library build
