@@ -1,33 +1,12 @@
 '''
-Set up Visual Sudio 2010 to build a specified MPIR configuration
+Set up Visual Sudio to build a specified MPIR configuration
 
-Copyright (C) 2011, Brian Gladman
-
-32-bit:
-x86w:  x86, i386, i486, i586, pentium, pentiummmx, k6, k62, k63, k7, athlon, viac3, viac32, x86_64
-p6:    pentiumpro, i686
-mmx:   pentium2
-sse2:  pentium4, prescott, core, netburst, netburstlahf
-p3mmx: pentium3, k8, k10, k102, k103, bulldozer, bobcat, core2, penryn, nehalem, westmere, sandybridge, atom, nano
-
-64-bit:
-x86_64:       x86_64w
-netburst:     netburst, netburstlahf
-k8only:       k8, nano
-k10:          k10
-k102:         k102, k103, bulldozer
-bobcat:       bobcat
-core2:        core2
-penryn:       penryn
-nehalem:      nehalem
-westmere:     westmere
-sandybridge:  sandybridge
-atom          atom
+Copyright (C) 2011, 2012, 2013, 2014 Brian Gladman
 '''
 
 from __future__ import print_function
 from operator import itemgetter
-from os import listdir, walk, unlink, makedirs, getcwd
+from os import listdir, walk, unlink, makedirs
 from os.path import split, splitext, isdir, relpath, join, exists
 from copy import deepcopy
 from sys import argv, exit
@@ -37,6 +16,11 @@ from re import compile, search
 from collections import defaultdict
 from uuid import uuid1
 from time import sleep
+
+try:
+  input = raw_input
+except NameError:
+  pass
 
 # for script debugging
 debug = False
@@ -52,12 +36,14 @@ build_dir = mpir_dir + build_vc
 cfg_dir = './cdata'
 
 # paths that might include source files(*.c, *.h, *.asm)
-c_directories  = ( '', 'build.vc12', 'fft', 'mpf', 'mpq', 'mpz', 'printf', 'scanf' )
+c_directories = ('', 'build.vc12', 'fft', 'mpf', 'mpq', 'mpz',
+                 'printf', 'scanf')
 
 # files that are to be excluded from the build
-exclude_file_list = ('config.guess', 'cfg', 'getopt', 'getrusage', 'gettimeofday', 'cpuid',
-                     'obsolete', 'win_timing', 'gmp-mparam', 'tal-debug', 'tal-notreent',
-                     'new_fft', 'new_fft_with_flint', 'compat', 'udiv_w_sdiv' )
+exclude_file_list = ('config.guess', 'cfg', 'getopt', 'getrusage',
+                     'gettimeofday', 'cpuid', 'obsolete', 'win_timing',
+                     'gmp-mparam', 'tal-debug', 'tal-notreent', 'new_fft',
+                     'new_fft_with_flint', 'compat', 'udiv_w_sdiv')
 
 # copy from file ipath to file opath but avoid copying if
 # opath exists and is the same as ipath (this is to avoid
@@ -91,8 +77,8 @@ def append_f(ipath, opath):
 def copy_files(file_list, in_dir, out_dir):
   try:
     makedirs(out_dir)
-  except:
-    IOError
+  except IOError:
+    pass
   for f in file_list:
     copy(join(in_dir, f), out_dir)
 
@@ -131,12 +117,12 @@ def find_asm(path, cf_list):
     relr = relpath(root, mpir_dir)      # path from MPIR root
     if relp == '.':                     # set C files as default
       relp = h = t = ''
-      d[''] = [ [], deepcopy(cf_list), [], [], relr ]
+      d[''] = [[], deepcopy(cf_list), [], [], relr]
     else:
-      h, t = split(relp)                # h = parent, t = this directory
+      h, _ = split(relp)                # h = parent, t = this directory
       # copy defaults from this directories parent
-      d[relp] = [ deepcopy(d[h][0]), deepcopy(d[h][1]),
-                  deepcopy(d[h][2]), deepcopy(d[h][3]), relr ]
+      d[relp] = [deepcopy(d[h][0]), deepcopy(d[h][1]),
+                 deepcopy(d[h][2]), deepcopy(d[h][3]), relr]
     for f in files:                     # for the files in this directory
       n, x = splitext(f)
       if x == '.h':                     # if it is a header file, remove
@@ -178,8 +164,8 @@ def find_asm(path, cf_list):
 
 def find_src(dir_list):
   # list number from file extension
-  di = { '.h': 0, '.c': 1, '.cc': 2, '.cpp': 2, '.asm': 3, '.as': 3 }
-  list = [ [], [], [], [] ]
+  di = {'.h': 0, '.c': 1, '.cc': 2, '.cpp': 2, '.asm': 3, '.as': 3}
+  list = [[], [], [], []]
   for d in dir_list:
     for f in listdir(join(mpir_dir, d)):
       if f == '.svn':
@@ -234,7 +220,7 @@ def file_symbols(cf):
     get_symbols(setf, sym_dir)
   return sym_dir
 
-def gen_have_list(c, sym_dir, out_dir):  
+def gen_have_list(c, sym_dir, out_dir):
   set_sym2 = set()
   for f in c[2]:
     set_sym2 |= sym_dir[f]
@@ -245,8 +231,8 @@ def gen_have_list(c, sym_dir, out_dir):
   fd = join(out_dir, c[4])
   try:
     makedirs(fd)
-  except:
-    IOError  
+  except IOError:
+    pass
   with open(join(fd, 'cfg.h'), 'w') as outf:
     for sym in sorted(set_sym2 | set_sym3):
       print(sym, file=outf)
@@ -272,15 +258,15 @@ def filter_folders(cf_list, af_list, outf):
   c_dirs = set(i[2] for i in cf_list)
   a_dirs = set(i[2] for i in af_list)
   if a_dirs:
-    c_dirs |= set(('mpn\yasm',))
+    c_dirs |= set((r'mpn\yasm',))
   outf.write(f1)
   for d in sorted(c_dirs):
     if d:
-      t = d if d != 'mpn\generic' else 'mpn'
+      t = d if d != r'mpn\generic' else r'mpn'
       outf.write(f2.format(t))
   outf.write(f3)
 
-filter_hdr_item = '    <ClInclude Include="..\..\{}">\n      <Filter>Header Files</Filter>\n    </ClInclude>\n'
+filter_hdr_item = r'    <ClInclude Include="..\..\{}">\n      <Filter>Header Files</Filter>\n    </ClInclude>\n'
 
 def filter_headers(hdr_list, outf):
 
@@ -349,8 +335,8 @@ def gen_filter(name, hf_list, cf_list, af_list):
   fn = join(build_dir, name)
   try:
     makedirs(split(fn)[0])
-  except:
-    IOError
+  except IOError:
+    pass
   with open(fn, 'w') as outf:
 
     outf.write(f1)
@@ -405,7 +391,7 @@ def vcx_library_type(plat, is_dll, outf):
 '''
   for pl in plat:
     for conf in ('Release', 'Debug'):
-      outf.write(f1.format(pl, conf, 'Dynamic' if is_dll else 'Static' ))
+      outf.write(f1.format(pl, conf, 'Dynamic' if is_dll else 'Static'))
 
 def vcx_cpp_props(outf):
 
@@ -590,7 +576,8 @@ def vcx_a_items(af_list, outf):
     outf.write(f2.format(nxd))
   outf.write(f3)
 
-def gen_vcxproj(proj_name, file_name, guid, config, plat, is_dll, is_cpp, hf_list, cf_list, af_list):
+def gen_vcxproj(proj_name, file_name, guid, config, plat, is_dll,
+                is_cpp, hf_list, cf_list, af_list):
 
   f1 = r'''<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
@@ -707,7 +694,7 @@ if t[2] or t[3]:
     print()
 
 # prepare the generic C build
-mpn_gc = dict((('gc',[ gc_hdr_list, gc_src_list, [], [] ]),))
+mpn_gc = dict((('gc', [gc_hdr_list, gc_src_list, [], []]),))
 
 # prepare the list of Win32 builds
 mpn_32 = find_asm(mpir_dir + 'mpn/x86w', gc_src_list)
@@ -719,7 +706,7 @@ mpn_64 = find_asm(mpir_dir + 'mpn/x86_64w', gc_src_list)
 syms64 = file_symbols(mpn_64)
 del mpn_64['']
 
-if len(argv) != 1 and not (int(argv[1]) & 2):
+if len(argv) != 1 and not int(argv[1]) & 2:
   exit()
 
 nd_gc = len(mpn_gc)
@@ -739,7 +726,8 @@ while True:
   for v in sorted(mpn_64):
     cnt += 1
     print('{0:2d}. {1:24s}   (x64)'.format(cnt, v))
-  s = input('Space separated list of builds (1..{0:d}, 0 to exit)? '.format(cnt))
+  fs = 'Space separated list of builds (1..{0:d}, 0 to exit)? '
+  s = input(fs.format(cnt))
   n_list = [int(c) for c in s.split()]
   if 0 in n_list:
     exit()
@@ -780,7 +768,7 @@ for n in n_list:
     for l in mpn_f[1:]:
       for t in l:
         if t[0].startswith('preinv_'):
-          if ('x64' in mode and t[0] == 'preinv_divrem_1'):
+          if 'x64' in mode and t[0] == 'preinv_divrem_1':
             l.remove(t)
 
   print(config, mode)
@@ -811,7 +799,7 @@ for n in n_list:
       with open(tfile, 'w') as outf:
         first = True
         for line in lines:
-          if search('@\w+@', line):
+          if search(r'@\w+@', line):
             if first:
               first = False
               outf.writelines(gmp_h)
@@ -851,7 +839,8 @@ for n in n_list:
         if i[0] == 'longlong_inc':
           li_file = join(mpir_dir, join(i[2], r'longlong_inc.h'))
         if i[0] == 'gmp-mparam':
-          write_f(join(mpir_dir, join(i[2], 'gmp-mparam.h')), join(mpir_dir, 'gmp-mparam.h'))
+          write_f(join(mpir_dir, join(i[2], 'gmp-mparam.h')),
+                  join(mpir_dir, 'gmp-mparam.h'))
 
       if not li_file or not exists(li_file):
         print('error attempting to read {0:s}'.format(li_file))
@@ -873,7 +862,7 @@ for n in n_list:
   hf_list = ('config.h', 'gmp-impl.h', 'longlong.h', 'mpir.h', 'gmp-mparam.h')
   af_list = sorted(mpn_f[2] + mpn_f[3])
 
-  # find the gmp-mparam.h file to be used  
+  # find the gmp-mparam.h file to be used
   for name, ty, loc in mpn_f[0]:
     if name == 'gmp-mparam':
       mp_dir = loc
@@ -888,8 +877,10 @@ for n in n_list:
   guid = '{' + str(uuid1()) + '}'
   vcx_name = 'dll_mpir_' + cf
   vcx_path = 'dll_mpir_' + cf + '\\' + vcx_name + '.vcxproj'
-  gen_filter(vcx_path + '.filters', hf_list, c_src_list + cc_src_list + mpn_f[1], af_list)
-  gen_vcxproj(proj_name, vcx_path, guid, mp_dir, mode, True, False, hf_list, c_src_list + cc_src_list + mpn_f[1], af_list)
+  gen_filter(vcx_path + '.filters', hf_list,
+             c_src_list + cc_src_list + mpn_f[1], af_list)
+  gen_vcxproj(proj_name, vcx_path, guid, mp_dir, mode, True,
+              False, hf_list, c_src_list + cc_src_list + mpn_f[1], af_list)
   add_proj_to_sln(vcx_name, vcx_path, guid)
 
   # set up LIB build
@@ -897,7 +888,8 @@ for n in n_list:
   vcx_name = 'lib_mpir_' + cf
   vcx_path = 'lib_mpir_' + cf + '\\' + vcx_name + '.vcxproj'
   gen_filter(vcx_path + '.filters', hf_list, c_src_list + mpn_f[1], af_list)
-  gen_vcxproj(proj_name, vcx_path, guid, mp_dir, mode, False, False, hf_list, c_src_list + mpn_f[1], af_list)
+  gen_vcxproj(proj_name, vcx_path, guid, mp_dir, mode, False,
+              False, hf_list, c_src_list + mpn_f[1], af_list)
   add_proj_to_sln(vcx_name, vcx_path, guid)
 
 # C++ library build
@@ -949,7 +941,7 @@ if debug:
 
 if debug:
 
-  mpn_dirs =  ('mpn/generic', 'mpn/x86_64w', 'mpn/x86w' )
+  mpn_dirs = ('mpn/generic', 'mpn/x86_64w', 'mpn/x86w')
 
   # compile a list of files in directories in 'dl' under root 'r' with extension 'p'
   def findf(r, dl, p):
