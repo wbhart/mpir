@@ -1,28 +1,7 @@
 '''
-Set up Visual Sudio 2010 to build a specified MPIR configuration
+Set up Visual Sudio to build a specified MPIR configuration
 
-Copyright (C) 2011, Brian Gladman
-
-32-bit:
-x86w:  x86, i386, i486, i586, pentium, pentiummmx, k6, k62, k63, k7, athlon, viac3, viac32, x86_64
-p6:    pentiumpro, i686
-mmx:   pentium2
-sse2:  pentium4, prescott, core, netburst, netburstlahf
-p3mmx: pentium3, k8, k10, k102, k103, bulldozer, bobcat, core2, penryn, nehalem, westmere, sandybridge, atom, nano
-
-64-bit:
-x86_64:       x86_64w
-netburst:     netburst, netburstlahf
-k8only:       k8, nano
-k10:          k10
-k102:         k102, k103, bulldozer
-bobcat:       bobcat
-core2:        core2
-penryn:       penryn
-nehalem:      nehalem
-westmere:     westmere
-sandybridge:  sandybridge
-atom          atom
+Copyright (C) 2011, 2012, 2013, 2014 Brian Gladman
 '''
 
 from __future__ import print_function
@@ -37,6 +16,11 @@ from re import compile, search
 from collections import defaultdict
 from uuid import uuid1
 from time import sleep
+
+try:
+  input = raw_input
+except NameError:
+  pass
 
 # for script debugging
 debug = False
