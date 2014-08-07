@@ -14,7 +14,7 @@ from filecmp import cmp
 from shutil import copy
 from re import compile, search
 from collections import defaultdict
-from uuid import uuid1
+from uuid import uuid4
 from time import sleep
 
 try:
@@ -639,6 +639,7 @@ def add_proj_to_sln(proj_name, file_name, guid):
         i_pos = (i, i + 2)
         break
     if ln.find(r'Global') != -1:
+      s_guid = '{' + str(uuid4()) + '}'
       i_pos = (i, i)
       break
   else:
@@ -865,7 +866,11 @@ for n in n_list:
   # find the gmp-mparam.h file to be used
   for name, ty, loc in mpn_f[0]:
     if name == 'gmp-mparam':
-      mp_dir = loc
+      loc = loc.replace('mpn\\x86w', '', 1)
+      loc = loc.replace('mpn\\x86_64w', '', 1)
+      if loc.startswith('\\'):
+        loc = loc[1:]
+      mp_dir = loc if loc else config
       break
   else:
     mp_dir = config
@@ -874,7 +879,7 @@ for n in n_list:
   cf = config.replace('\\', '_')
 
   # set up DLL build
-  guid = '{' + str(uuid1()) + '}'
+  guid = '{' + str(uuid4()) + '}'
   vcx_name = 'dll_mpir_' + cf
   vcx_path = 'dll_mpir_' + cf + '\\' + vcx_name + '.vcxproj'
   gen_filter(vcx_path + '.filters', hf_list,
@@ -884,7 +889,7 @@ for n in n_list:
   add_proj_to_sln(vcx_name, vcx_path, guid)
 
   # set up LIB build
-  guid = '{' + str(uuid1()) + '}'
+  guid = '{' + str(uuid4()) + '}'
   vcx_name = 'lib_mpir_' + cf
   vcx_path = 'lib_mpir_' + cf + '\\' + vcx_name + '.vcxproj'
   gen_filter(vcx_path + '.filters', hf_list, c_src_list + mpn_f[1], af_list)
@@ -895,7 +900,7 @@ for n in n_list:
 # C++ library build
 
 if add_cpp_lib:
-  guid = '{' + str(uuid1()) + '}'
+  guid = '{' + str(uuid4()) + '}'
   proj_name = 'mpirxx'
   mode = ('Win32', 'x64')
   vcx_name = 'lib_mpir_cxx'

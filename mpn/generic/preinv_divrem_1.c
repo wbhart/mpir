@@ -27,6 +27,7 @@ MA 02110-1301, USA. */
 #include "gmp-impl.h"
 #include "longlong.h"
 
+#if !HAVE_NATIVE_mpn_preinv_divrem_1 
 
 /* Don't bloat a shared library with unused code. */
 #if USE_PREINV_DIVREM_1
@@ -135,3 +136,4 @@ mpn_preinv_divrem_1 (mp_ptr qp, mp_size_t xsize,
 }
 
 #endif /* USE_PREINV_DIVREM_1 */
+#endif

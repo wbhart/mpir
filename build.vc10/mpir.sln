@@ -1,30 +1,18 @@
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "dll_mpir_core2", "dll_mpir_core2\dll_mpir_core2.vcxproj", "{e7ebba9a-f233-11e3-b870-24fd5238c490}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lib_mpir_core2", "lib_mpir_core2\lib_mpir_core2.vcxproj", "{e7f07600-f233-11e3-8e84-24fd5238c490}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lib_mpir_cxx", "lib_mpir_cxx\lib_mpir_cxx.vcxproj", "{A386A2A4-B6A2-11E3-A2BF-24FD5238C490}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lib_mpir_gc", "lib_mpir_gc\lib_mpir_gc.vcxproj", "{e7db3e66-f233-11e3-937b-24fd5238c490}"
+Project("{440ba3d6-3d6b-422b-a868-6e48ff321fa7}") = "dll_mpir_gc", "dll_mpir_gc\dll_mpir_gc.vcxproj", "{4448e1fa-4b79-4f2d-8e67-ca988b3a21ea}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "dll_mpir_gc", "dll_mpir_gc\dll_mpir_gc.vcxproj", "{e7d39c92-f233-11e3-9c2d-24fd5238c490}"
+Project("{fafc49bb-8556-4d2f-87e1-399a3ba433b8}") = "lib_mpir_gc", "lib_mpir_gc\lib_mpir_gc.vcxproj", "{1cd2001c-591b-4a57-8291-58e324690e50}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "dll_mpir_p3", "dll_mpir_p3\dll_mpir_p3.vcxproj", "{e7e1f652-f233-11e3-b98f-24fd5238c490}"
+Project("{39d111a3-fc4a-4321-910b-dbc63fc4beb5}") = "dll_mpir_p3", "dll_mpir_p3\dll_mpir_p3.vcxproj", "{7077cb7e-fb60-4c79-8472-d2a2eb1ed4af}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lib_mpir_p3", "lib_mpir_p3\lib_mpir_p3.vcxproj", "{e7e6d828-f233-11e3-92d0-24fd5238c490}"
+Project("{791acf26-d2bd-48b1-b95e-1d53f56aa33c}") = "lib_mpir_p3", "lib_mpir_p3\lib_mpir_p3.vcxproj", "{35373783-0316-4da5-99ab-00d009a7320c}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "dll_mpir_k8", "dll_mpir_k8\dll_mpir_k8.vcxproj", "{e7f5586e-f233-11e3-ae8a-24fd5238c490}"
+Project("{695149e4-0023-4963-8c1a-e3504393b506}") = "dll_mpir_core2", "dll_mpir_core2\dll_mpir_core2.vcxproj", "{dba9ea4d-86c8-4b77-b105-6f00a2649749}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lib_mpir_k8", "lib_mpir_k8\lib_mpir_k8.vcxproj", "{e7f9c5a2-f233-11e3-baff-24fd5238c490}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "dll_mpir_nehalem", "dll_mpir_nehalem\dll_mpir_nehalem.vcxproj", "{e7fe810a-f233-11e3-aacc-24fd5238c490}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lib_mpir_nehalem", "lib_mpir_nehalem\lib_mpir_nehalem.vcxproj", "{e8031558-f233-11e3-9eae-24fd5238c490}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "dll_mpir_sandybridge", "dll_mpir_sandybridge\dll_mpir_sandybridge.vcxproj", "{e807d0ae-f233-11e3-a348-24fd5238c490}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lib_mpir_sandybridge", "lib_mpir_sandybridge\lib_mpir_sandybridge.vcxproj", "{e80c8c00-f233-11e3-85e9-24fd5238c490}"
+Project("{6b8692ff-3e77-4f11-bb4c-3014583fbdc6}") = "lib_mpir_core2", "lib_mpir_core2\lib_mpir_core2.vcxproj", "{f60ba61f-bfba-47f6-84a1-aaf0abfc96f3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
