@@ -2405,7 +2405,7 @@ Concept Index
 * Cygwin:                                Notes for Particular Systems.
                                                               (line  34)
 * Darwin:                                Known Build Problems.
-                                                              (line  23)
+                                                              (line  31)
 * Debugging:                             Debugging.           (line   6)
 * Digits in an integer:                  Miscellaneous Integer Functions.
                                                               (line  23)
@@ -2485,6 +2485,8 @@ Concept Index
 * frexp:                                 Converting Integers. (line  57)
 * Function classes:                      Function Classes.    (line   6)
 * FunctionCheck:                         Profiling.           (line  77)
+* GCC:                                   Known Build Problems.
+                                                              (line  23)
 * GCC Checker:                           Debugging.           (line 112)
 * GCD algorithms:                        Greatest Common Divisor Algorithms.
                                                               (line   6)
@@ -2630,7 +2632,7 @@ Concept Index
 * Lucas number functions:                Number Theoretic Functions.
                                                               (line 178)
 * MacOS X:                               Known Build Problems.
-                                                              (line  23)
+                                                              (line  31)
 * Mailing lists:                         Introduction to MPIR.
                                                               (line  35)
 * Malloc debugger:                       Debugging.           (line  30)
@@ -2800,7 +2802,7 @@ Concept Index
                                                               (line  23)
 * Small operands:                        Efficiency.          (line   7)
 * Solaris <1>:                           Known Build Problems.
-                                                              (line  29)
+                                                              (line  37)
 * Solaris <2>:                           Notes for Particular Systems.
                                                               (line 106)
 * Solaris:                               ABI and ISA.         (line 121)
@@ -2862,6 +2864,8 @@ Concept Index
 * x87:                                   Notes for Particular Systems.
                                                               (line  25)
 * XML:                                   Build Options.       (line 359)
+* XOP:                                   Known Build Problems.
+                                                              (line  23)
 * Yasm:                                  Build Options.       (line 181)
 
 
