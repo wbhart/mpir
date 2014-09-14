@@ -132,6 +132,8 @@ EOF
   fi
   rm -f ${dummy}.c $dummy
   ;;
+*-pc-mingw64)
+  guess_rest="-w64-mingw64";;
 esac
 
 
