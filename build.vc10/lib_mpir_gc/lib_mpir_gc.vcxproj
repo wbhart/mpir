@@ -21,7 +21,7 @@
   <PropertyGroup Label="Globals">
     <RootNamespace>mpir</RootNamespace>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{6e18aac6-febf-11e3-98a3-24fd5238c490}</ProjectGuid>
+    <ProjectGuid>{3a9035a4-acd9-49f9-98fe-f5c55d536691}</ProjectGuid>
     </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
@@ -79,17 +79,17 @@ prebuild gc Win32
     <Optimization>Full</Optimization>
     <IntrinsicFunctions>true</IntrinsicFunctions>
     <AdditionalIncludeDirectories>..\..\</AdditionalIncludeDirectories>
-    <PreprocessorDefinitions>NDEBUG;_LIB;HAVE_CONFIG_H;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    <PreprocessorDefinitions>NDEBUG;WIN32;_LIB;HAVE_CONFIG_H;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     <ProgramDataBaseFileName>$(TargetDir)$(TargetName).pdb</ProgramDataBaseFileName>
     <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
 
-  <PostBuildEvent>
-      <Command>cd ..\
+    <PostBuildEvent>
+    <Command>cd ..\
 postbuild "$(TargetPath)"
-      </Command>
-  </PostBuildEvent>
+    </Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <PreBuildEvent>
@@ -101,17 +101,17 @@ prebuild gc Win32
     <Optimization>Disabled</Optimization>
     <IntrinsicFunctions>true</IntrinsicFunctions>
     <AdditionalIncludeDirectories>..\..\</AdditionalIncludeDirectories>
-    <PreprocessorDefinitions>_DEBUG;_LIB;HAVE_CONFIG_H;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    <PreprocessorDefinitions>_DEBUG;WIN32;_LIB;HAVE_CONFIG_H;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     <ProgramDataBaseFileName>$(TargetDir)$(TargetName).pdb</ProgramDataBaseFileName>
     <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
 
-  <PostBuildEvent>
-      <Command>cd ..\
+    <PostBuildEvent>
+    <Command>cd ..\
 postbuild "$(TargetPath)"
-      </Command>
-  </PostBuildEvent>
+    </Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <PreBuildEvent>
@@ -123,17 +123,17 @@ prebuild gc x64
     <Optimization>Full</Optimization>
     <IntrinsicFunctions>true</IntrinsicFunctions>
     <AdditionalIncludeDirectories>..\..\</AdditionalIncludeDirectories>
-    <PreprocessorDefinitions>NDEBUG;_LIB;HAVE_CONFIG_H;_WIN64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    <PreprocessorDefinitions>NDEBUG;WIN32;_LIB;HAVE_CONFIG_H;_WIN64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     <ProgramDataBaseFileName>$(TargetDir)$(TargetName).pdb</ProgramDataBaseFileName>
     <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
 
-  <PostBuildEvent>
-      <Command>cd ..\
+    <PostBuildEvent>
+    <Command>cd ..\
 postbuild "$(TargetPath)"
-      </Command>
-  </PostBuildEvent>
+    </Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <PreBuildEvent>
@@ -145,17 +145,17 @@ prebuild gc x64
     <Optimization>Disabled</Optimization>
     <IntrinsicFunctions>true</IntrinsicFunctions>
     <AdditionalIncludeDirectories>..\..\</AdditionalIncludeDirectories>
-    <PreprocessorDefinitions>_DEBUG;_LIB;HAVE_CONFIG_H;_WIN64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    <PreprocessorDefinitions>_DEBUG;WIN32;_LIB;HAVE_CONFIG_H;_WIN64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     <ProgramDataBaseFileName>$(TargetDir)$(TargetName).pdb</ProgramDataBaseFileName>
     <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
 
-  <PostBuildEvent>
-      <Command>cd ..\
+    <PostBuildEvent>
+    <Command>cd ..\
 postbuild "$(TargetPath)"
-      </Command>
-  </PostBuildEvent>
+    </Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\..\config.h" />

@@ -507,9 +507,9 @@ struct tmp_marker
   struct tmp_stack *which_chunk;
   void *alloc_point;
 };
-void *__gmp_tmp_alloc _PROTO ((unsigned long)) ATTRIBUTE_MALLOC;
-void __gmp_tmp_mark _PROTO ((struct tmp_marker *));
-void __gmp_tmp_free _PROTO ((struct tmp_marker *));
+__GMP_DECLSPEC void *__gmp_tmp_alloc _PROTO ((unsigned long)) ATTRIBUTE_MALLOC;
+__GMP_DECLSPEC void __gmp_tmp_mark _PROTO ((struct tmp_marker *));
+__GMP_DECLSPEC void __gmp_tmp_free _PROTO ((struct tmp_marker *));
 #define TMP_SDECL		TMP_DECL
 #define TMP_DECL		struct tmp_marker __tmp_marker
 #define TMP_SMARK		TMP_MARK
@@ -534,13 +534,13 @@ struct tmp_debug_entry_t {
   char                      *block;
   size_t                    size;
 };
-void  __gmp_tmp_debug_mark  _PROTO ((const char *, int, struct tmp_debug_t **,
+__GMP_DECLSPEC void  __gmp_tmp_debug_mark  _PROTO ((const char *, int, struct tmp_debug_t **,
                                      struct tmp_debug_t *,
                                      const char *, const char *));
-void *__gmp_tmp_debug_alloc _PROTO ((const char *, int, int,
+__GMP_DECLSPEC void *__gmp_tmp_debug_alloc _PROTO ((const char *, int, int,
                                      struct tmp_debug_t **, const char *,
                                      size_t)) ATTRIBUTE_MALLOC;
-void  __gmp_tmp_debug_free  _PROTO ((const char *, int, int,
+__GMP_DECLSPEC void  __gmp_tmp_debug_free  _PROTO ((const char *, int, int,
                                      struct tmp_debug_t **,
                                      const char *, const char *));
 #define TMP_SDECL TMP_DECL_NAME(__tmp_xmarker, "__tmp_marker")
@@ -861,11 +861,11 @@ __GMP_DECLSPEC int mpir_is_likely_prime_BPSW(mp_limb_t n);
 
 __GMP_DECLSPEC mp_limb_t mpir_sqrt(mp_limb_t r);
 
-void __gmpz_aorsmul_1 _PROTO ((REGPARM_3_1 (mpz_ptr w, mpz_srcptr u, mp_limb_t v, mp_size_t sub))) REGPARM_ATTR(1);
+__GMP_DECLSPEC void __gmpz_aorsmul_1 _PROTO ((REGPARM_3_1 (mpz_ptr w, mpz_srcptr u, mp_limb_t v, mp_size_t sub))) REGPARM_ATTR(1);
 #define mpz_aorsmul_1(w,u,v,sub)  __gmpz_aorsmul_1 (REGPARM_3_1 (w, u, v, sub))
 
 #define mpz_n_pow_ui __gmpz_n_pow_ui
-void    mpz_n_pow_ui _PROTO ((mpz_ptr, mp_srcptr, mp_size_t, mpir_ui));
+__GMP_DECLSPEC void    mpz_n_pow_ui _PROTO ((mpz_ptr, mp_srcptr, mp_size_t, mpir_ui));
 
 
 #define mpn_add_nc __MPN(add_nc)
@@ -2129,7 +2129,7 @@ __GMP_DECLSPEC mp_limb_t gmp_primesieve (mp_ptr, mp_limb_t);
 #define ASSERT_FILE  ""
 #endif
 
-void __gmp_assert_header _PROTO ((const char *filename, int linenum));
+__GMP_DECLSPEC void __gmp_assert_header _PROTO ((const char *filename, int linenum));
 __GMP_DECLSPEC void __gmp_assert_fail _PROTO ((const char *filename, int linenum, const char *expr)) ATTRIBUTE_NORETURN;
 
 #if HAVE_STRINGIZE
@@ -3091,7 +3091,7 @@ __GMP_DECLSPEC mp_limb_t mpn_modexact_1c_odd _PROTO ((mp_srcptr src, mp_size_t s
 
 #if HAVE_NATIVE_mpn_modexact_1_odd
 #define mpn_modexact_1_odd   __MPN(modexact_1_odd)
-mp_limb_t mpn_modexact_1_odd _PROTO ((mp_srcptr src, mp_size_t size,
+__GMP_DECLSPEC mp_limb_t mpn_modexact_1_odd _PROTO ((mp_srcptr src, mp_size_t size,
                                       mp_limb_t divisor)) __GMP_ATTRIBUTE_PURE;
 #else
 #define mpn_modexact_1_odd(src,size,divisor) \
@@ -3415,6 +3415,7 @@ typedef unsigned int UHWtype;
    strange system that did anything else.  */
 
 #if HAVE_DOUBLE_IEEE_LITTLE_SWAPPED
+#define _GMP_IEEE_FLOATS 1
 union ieee_double_extract
 {
   struct
@@ -3429,6 +3430,7 @@ union ieee_double_extract
 #endif
 
 #if HAVE_DOUBLE_IEEE_LITTLE_ENDIAN
+#define _GMP_IEEE_FLOATS 1
 union ieee_double_extract
 {
   struct
@@ -3443,6 +3445,7 @@ union ieee_double_extract
 #endif
 
 #if HAVE_DOUBLE_IEEE_BIG_ENDIAN
+#define _GMP_IEEE_FLOATS 1
 union ieee_double_extract
 {
   struct
@@ -3464,7 +3467,7 @@ union ieee_double_extract
    We assume doubles have 53 mantissam bits.  */
 #define LIMBS_PER_DOUBLE ((53 + GMP_NUMB_BITS - 1) / GMP_NUMB_BITS + 1)
 
-int __gmp_extract_double _PROTO ((mp_ptr, double));
+__GMP_DECLSPEC int __gmp_extract_double _PROTO ((mp_ptr, double));
 
 #define mpn_get_d __gmpn_get_d
 __GMP_DECLSPEC double mpn_get_d __GMP_PROTO ((mp_srcptr, mp_size_t, mp_size_t, long)) __GMP_ATTRIBUTE_PURE;
@@ -3474,6 +3477,7 @@ __GMP_DECLSPEC double mpn_get_d __GMP_PROTO ((mp_srcptr, mp_size_t, mp_size_t, l
    a_inf if x is an infinity.  Both are considered unlikely values, for
    branch prediction.  */
 
+#if _GMP_IEEE_FLOATS
 #define DOUBLE_NAN_INF_ACTION(x, a_nan, a_inf)  \
   do {                                          \
     union ieee_double_extract  u;               \
@@ -3486,6 +3490,7 @@ __GMP_DECLSPEC double mpn_get_d __GMP_PROTO ((mp_srcptr, mp_size_t, mp_size_t, l
           { a_nan; }                            \
       }                                         \
   } while (0)
+#endif
 
 #ifndef DOUBLE_NAN_INF_ACTION
 /* Unknown format, try something generic.
@@ -3502,8 +3507,8 @@ __GMP_DECLSPEC double mpn_get_d __GMP_PROTO ((mp_srcptr, mp_size_t, mp_size_t, l
   } while (0)
 #endif
 
-extern int __gmp_junk;
-extern const int __gmp_0;
+__GMP_DECLSPEC extern int __gmp_junk;
+__GMP_DECLSPEC extern const int __gmp_0;
 __GMP_DECLSPEC void __gmp_exception _PROTO ((int)) ATTRIBUTE_NORETURN;
 __GMP_DECLSPEC void __gmp_divide_by_zero _PROTO ((void)) ATTRIBUTE_NORETURN;
 __GMP_DECLSPEC void __gmp_sqrt_of_negative _PROTO ((void)) ATTRIBUTE_NORETURN;
@@ -3983,7 +3988,7 @@ void __divappr_helper(mp_ptr qp, mp_ptr np, mp_srcptr dp, mp_size_t qn);
 #define __GMPF_PREC_TO_BITS(n) \
   ((mp_bitcnt_t) (n) * GMP_NUMB_BITS - GMP_NUMB_BITS)
 
-extern mp_size_t __gmp_default_fp_limb_precision;
+__GMP_DECLSPEC extern mp_size_t __gmp_default_fp_limb_precision;
 
 
 /* Set n to the number of significant digits an mpf of the given _mp_prec
@@ -4170,7 +4175,7 @@ __GMP_DECLSPEC int __gmp_doprnt_integer _PROTO ((const struct doprnt_funs_t *, v
 #define __gmp_doprnt_mpf __gmp_doprnt_mpf2
 __GMP_DECLSPEC int __gmp_doprnt_mpf _PROTO ((const struct doprnt_funs_t *, void *, const struct doprnt_params_t *, const char *, mpf_srcptr));
 
-int __gmp_replacement_vsnprintf _PROTO ((char *, size_t, const char *, va_list));
+__GMP_DECLSPEC int __gmp_replacement_vsnprintf _PROTO ((char *, size_t, const char *, va_list));
 #endif /* _GMP_H_HAVE_VA_LIST */
 
 
@@ -4189,7 +4194,7 @@ extern const struct gmp_doscan_funs_t  __gmp_fscanf_funs;
 extern const struct gmp_doscan_funs_t  __gmp_sscanf_funs;
 
 #if _GMP_H_HAVE_VA_LIST
-int __gmp_doscan _PROTO ((const struct gmp_doscan_funs_t *, void *,
+__GMP_DECLSPEC int __gmp_doscan _PROTO ((const struct gmp_doscan_funs_t *, void *,
                           const char *, va_list));
 #endif
 
@@ -4292,7 +4297,7 @@ struct cpuvec_t {
 __GMP_DECLSPEC extern struct cpuvec_t __gmpn_cpuvec;
 #endif /* x86 fat binary */
 
-void __gmpn_cpuvec_init __GMP_PROTO ((void));
+__GMP_DECLSPEC void __gmpn_cpuvec_init __GMP_PROTO ((void));
 
 /* Get a threshold "field" from __gmpn_cpuvec, running __gmpn_cpuvec_init()
    if that hasn't yet been done (to establish the right values).  */
