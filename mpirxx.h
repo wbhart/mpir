@@ -58,10 +58,10 @@ along with the GNU MP Library.  If not, see http://www.gnu.org/licenses/.  */
 #endif
 
 #if defined(MPIR_HAVE_STDINT)
-#  if defined(LONG_MAX) && INTMAX_MAX != LONG_MAX && (INTMAX_MAX != LLONG_MAX || !defined(MPIRXX_HAVE_LLONG))
+#  if defined(LONG_MAX) && defined(INTMAX_MAX) && INTMAX_MAX != LONG_MAX && (INTMAX_MAX != LLONG_MAX || !defined(MPIRXX_HAVE_LLONG))
 #    define MPIRXX_INTMAX_T 1
 #  endif
-#  if defined(ULONG_MAX) && UINTMAX_MAX != ULONG_MAX && (UINTMAX_MAX != ULLONG_MAX || !defined(MPIRXX_HAVE_LLONG))
+#  if defined(ULONG_MAX) && defined(UINTMAX_MAX) && UINTMAX_MAX != ULONG_MAX && (UINTMAX_MAX != ULLONG_MAX || !defined(MPIRXX_HAVE_LLONG))
 #    define MPIRXX_UINTMAX_T 1
 #  endif
 #endif
