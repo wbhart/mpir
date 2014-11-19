@@ -94,6 +94,9 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="..\..\..\mpir.net\mpir.net-tests\HugeFloatTests\ConstructionAndDisposal.cs">
+      <Link>HugeFloatTests\ConstructionAndDisposal.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\mpir.net\mpir.net-tests\HugeIntTests\Arithmetic.cs">
       <Link>HugeIntTests\Arithmetic.cs</Link>
     </Compile>
@@ -164,9 +167,7 @@
       <Name>mpir.net</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="HugeFloatTests\" />
-  </ItemGroup>
+  <ItemGroup />
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

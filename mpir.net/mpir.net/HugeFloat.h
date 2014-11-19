@@ -803,14 +803,12 @@ namespace MPIR
 
             /// <summary>
             /// Constructs and returns a new float instance with its value set to <paramref name="value"/>.
-            /// <para>If the fraction is not in canonical form, Canonicalize() must be called.</para>
             /// </summary>
             /// <param name="value">value for the initial value for the new float instance</param>
             MPTYPE(mpir_si value);
 
             /// <summary>
             /// Constructs and returns a new float instance with its value set to <paramref name="value"/>.
-            /// <para>If the fraction is not in canonical form, Canonicalize() must be called.</para>
             /// </summary>
             /// <param name="value">value for the initial value for the new float instance</param>
             MPTYPE(mpir_ui value);
@@ -950,16 +948,14 @@ namespace MPIR
             /// <summary>
             /// Sets the value of the float object.
             /// <para>Do not change the value of an object while it is contained in a hash table, because that changes its hash code.
-            /// </para>If the fraction is not in canonical form, Canonicalize() must be called.
-            /// </summary>
+            /// </para></summary>
             /// <param name="value">value for the new value for the object</param>
             void SetTo(mpir_ui value) { MP(set_ui)(_value, value); }
 
             /// <summary>
             /// Sets the value of the float object.
             /// <para>Do not change the value of an object while it is contained in a hash table, because that changes its hash code.
-            /// </para>If the fraction is not in canonical form, Canonicalize() must be called.
-            /// </summary>
+            /// </para></summary>
             /// <param name="value">value for the new value for the object</param>
             void SetTo(mpir_si value) { MP(set_si)(_value, value); }
 
@@ -973,8 +969,7 @@ namespace MPIR
             /// <summary>
             /// Sets the value of the float object.
             /// <para>Do not change the value of an object while it is contained in a hash table, because that changes its hash code.
-            /// </para>If the fraction is not in canonical form, Canonicalize() must be called.
-            /// </summary>
+            /// </para></summary>
             /// <param name="value">new value for the object.
             /// <para>May be an float or a pair of floats separated by a slash.
             /// </para>The string's leading characters may indicate base:
@@ -984,8 +979,7 @@ namespace MPIR
             /// <summary>
             /// Sets the value of the float object.
             /// <para>Do not change the value of an object while it is contained in a hash table, because that changes its hash code.
-            /// </para>If the fraction is not in canonical form, Canonicalize() must be called.
-            /// </summary>
+            /// </para></summary>
             /// <param name="value">new value for the object</param>
             /// <param name="base">base the <paramref name="value"/> string is in.
             /// <para>The base may vary from 2 to 62, or if base is 0, then the leading characters are used: 0x and 0X for hexadecimal, 0b and 0B for binary, 0 for octal, or decimal otherwise.

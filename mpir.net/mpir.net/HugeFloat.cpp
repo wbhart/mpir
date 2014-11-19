@@ -113,11 +113,51 @@ namespace MPIR
 
     String^ MPTYPE::ToString(int base, bool lowercase, int maxDigits)
     {
-auto result = gcnew StringBuilder();
-//result->Append(this->Numerator->ToString(base, lowercase, maxDigits));
-//result->Append((wchar_t)'/');
-//result->Append(this->Denominator->ToString(base, lowercase, maxDigits));
-return result->ToString();
+        size_t allocated;
+        mp_exp_t exponent;
+        bool negative = false;
+        bool truncated = false;
+        char* allocatedStr = NULL;
+        EvaluationContext context;
+        auto result = gcnew StringBuilder(maxDigits + 20);
+
+        ASSIGN_TO(context);
+
+        if(maxDigits > 0)
+        {
+            allocated = maxDigits + 2;
+            allocatedStr = (char*)(*__gmp_allocate_func)(allocated);
+        }
+        else
+        {
+            allocated = 0;
+        }
+
+        allocatedStr = MP(get_str)(allocatedStr, &exponent, (base <= 36 && !lowercase) ? -base : base, maxDigits, CTXT(0));
+
+        char* str = allocatedStr;
+
+        if(*str == '-')
+            result->Append((wchar_t)*str++);
+        
+        result->Append((wchar_t)'0');
+        if (*str != 0)
+        {
+            result->Append((wchar_t)'.');
+
+            while (*str != 0)
+                result->Append((wchar_t)*str++);
+        }
+
+        if (exponent != 0)
+            result->Append((wchar_t)'@')->Append(exponent);
+
+        if (allocated == 0)
+            allocated = str - allocatedStr + 1;
+
+        (*__gmp_free_func)(allocatedStr, allocated);
+
+        return result->ToString();
     }
 
     int MPEXPR_NAME::GetHashCode()
