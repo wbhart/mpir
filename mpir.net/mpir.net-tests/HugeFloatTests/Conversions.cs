@@ -21,83 +21,72 @@ using System;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace MPIR.Tests.HugeRationalTests
+namespace MPIR.Tests.HugeFloatTests
 {
     [TestClass]
     public class Conversions
     {
         [TestMethod]
-        public void RationalToStringDecimal()
+        public void FloatToStringDecimal()
         {
-            var n = "-23429384756298357462983476598345623984756";
-            var d = "115756986668303657898962467957";
-            var s = n + "/" + d;
-            using (var a = new HugeRational(s))
+            var n = "-0.23429384756298357462@177";
+            using (var a = new HugeFloat(n))
             {
-                Assert.AreEqual(s, a.ToString());
+                Assert.AreEqual(n, a.ToString());
             }
         }
 
         [TestMethod]
-        public void RationalToStringHex()
+        public void FloatToStringHex()
         {
-            var n = "-23429abcdef298357462983fedcba345623984756";
-            var d = "17607ef654eb9a13ffa163c75";
-            var s = n + "/" + d;
-            using (var a = new HugeRational(s, 16))
+            var n = "-0.23429abcdef2983574@9";
+            using (var a = new HugeFloat(n, 16))
             {
-                Assert.AreEqual(s, a.ToString(16, true));
-                Assert.AreEqual(s.ToUpper(), a.ToString(16));
+                Assert.AreEqual(n, a.ToString(16, true));
+                Assert.AreEqual(n.ToUpper(), a.ToString(16));
             }
         }
 
         [TestMethod]
-        public void RationalFromUlong()
+        public void FloatFromUlong()
         {
-            using (var a = new HugeRational())
+            using (var a = new HugeFloat())
             {
                 ulong b = 0xF84739ABCDEF4876;
-                ulong d = 12764787846358441471;
-                a.SetTo(b, d);
-                Assert.AreEqual(b.ToString() + "/" + d.ToString(), a.ToString());
-
                 a.SetTo(b);
-                Assert.AreEqual(b.ToString() + "/1", a.ToString());
+                Assert.AreEqual("0." + b.ToString() + "@" + b.ToString().Length, a.ToString());
             }
         }
 
         [TestMethod]
-        public void RationalFromLong()
+        public void FloatFromLong()
         {
-            using (var a = new HugeRational())
+            using (var a = new HugeFloat())
             {
                 long b = -0x784739ABCDEF4876;
-                ulong d = 12764787846358441471;
-                a.SetTo(b, d);
-                Assert.AreEqual(b.ToString() + "/" + d.ToString(), a.ToString());
-
                 a.SetTo(b);
-                Assert.AreEqual(b.ToString() + "/1", a.ToString());
+                Assert.AreEqual("-0." + (-b).ToString() + "@" + (-b).ToString().Length, a.ToString());
             }
         }
 
         [TestMethod]
-        public void RationalToAndFromDouble()
+        public void FloatToAndFromDouble()
         {
-            using (var a = new HugeRational())
+            using (var a = new HugeFloat())
             {
                 a.SetTo(-123.25);
 
                 double c = a.ToDouble();
                 Assert.IsTrue(c.Equals(-123.25));
                 Assert.IsTrue(a.Equals(-123.25));
+                Assert.AreEqual("-0.12325@3", a.ToString());
             }
         }
 
         [TestMethod]
-        public void RationalToAndFromFloat()
+        public void FloatToAndFromFloat()
         {
-            using (var a = new HugeRational())
+            using (var a = new HugeFloat())
             {
                 a.SetTo(-123.125f);
 
@@ -109,78 +98,47 @@ namespace MPIR.Tests.HugeRationalTests
         }
 
         [TestMethod]
-        public void RationalFromString()
+        public void FloatFromString()
         {
-            using (var a = new HugeRational())
+            using (var a = HugeFloat.Allocate(256))
             {
-                var n = "98762934876529834765234123984761/115756986668303657898962467957";
+                var n = "98762934876529834765234123984761";
                 a.SetTo(n);
-                Assert.AreEqual(n, a.ToString());
-
-                n = "-98ABCDEF876529834765234123984761/17607EF654EB9A13FFA163C75";
-                a.SetTo(n, 16);
-                Assert.AreEqual(n, a.ToString(16));
+                Assert.AreEqual("0." + n + "@" + n.Length, a.ToString());
 
                 n = "-98ABCDEF876529834765234123984761";
                 a.SetTo(n, 16);
-                Assert.AreEqual(n + "/1", a.ToString(16));
+                Assert.AreEqual("-0." + n.Substring(1) + "@" + (n.Length - 1), a.ToString(16));
             }
         }
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
-        public void RationalFromInvalidString()
+        public void FloatFromInvalidString()
         {
-            using (var a = new HugeRational())
+            using (var a = new HugeFloat())
             {
                 a.SetTo("12345A");
             }
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
-        public void RationalFromInvalidString2()
+        public void FloatToStringTruncated()
         {
-            using (var a = new HugeRational())
+            var n = string.Concat("123456783".Select(c => new string(c, 30)));
+            using (var a = HugeFloat.Allocate(2000))
             {
-                a.SetTo("12345/13345A");
+                a.SetTo(n);
+                Assert.AreEqual("0." + n + "@" + n.Length, a.ToString(10));
+                Assert.AreEqual("0." + n.Substring(0, 256) + "@" + n.Length, a.ToString());
+                a.Value = -a;
+                Assert.AreEqual("-0." + n.Substring(0, 256) + "@" + n.Length, a.ToString());
             }
         }
 
-        [TestMethod]
-        public void RationalToStringTruncated()
-        {
-            using (var d = new HugeInt("115756986668303657898962467957"))
-            using (var e = new HugeInt(d ^ 10))
-            {
-                var s = e.ToString(10);
-                var n = string.Concat("123456789".Select(c => new string(c, 30)));
-                using (var a = new HugeRational(n + "/" + s))
-                {
-                    Assert.AreEqual(n + "/" + s, a.ToString(10));
-                    Assert.AreEqual("..." + n.Substring(n.Length - 256) + "/..." + s.Substring(s.Length - 256), a.ToString());
-                    a.Value = -a;
-                    Assert.AreEqual("-..." + n.Substring(n.Length - 256) + "/..." + s.Substring(s.Length - 256), a.ToString());
-                }
-            }
-        }
-
-        [TestMethod]
-        public void RationalApproximateSizeInBase()
-        {
-            using (var a = new HugeRational("2983475029834750293429834750298347502934298347502983475029342983475029834750293429834750298347502934/115756986668303657898962467957"))
-            {
-                AssertBetween(131, 133, a.ApproximateSizeInBase(10));
-                AssertBetween(429, 429, a.ApproximateSizeInBase(2));
-                AssertBetween(109, 109, a.ApproximateSizeInBase(16));
-                AssertBetween(84, 86, a.ApproximateSizeInBase(36));
-                AssertBetween(74, 76, a.ApproximateSizeInBase(62));
-            }
-        }
-
-        private void AssertBetween(int min, int max, long actual)
-        {
-            Assert.IsTrue(actual >= min && actual <= max, "Expected {0} to {1}, actual {2}", min, max, actual);
-        }
+        //private void AssertBetween(int min, int max, long actual)
+        //{
+        //    Assert.IsTrue(actual >= min && actual <= max, "Expected {0} to {1}, actual {2}", min, max, actual);
+        //}
     }
 }

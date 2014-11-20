@@ -760,6 +760,21 @@ namespace MPIR
             #pragma region construction and disposal
 
             /// <summary>
+            /// Gets or sets the default precision (in bits) assigned to new instances created with the default constructor
+            /// </summary>
+            static property mp_bitcnt_t DefaultPrecision
+            {
+                mp_bitcnt_t get()
+                {
+                    return MP(get_default_prec)();
+                }
+                void set(mp_bitcnt_t value)
+                {
+                    MP(set_default_prec)(value);
+                }
+            }
+
+            /// <summary>
             /// Initializes a new float instance and sets its value to 0/1
             /// </summary>
             MPTYPE();

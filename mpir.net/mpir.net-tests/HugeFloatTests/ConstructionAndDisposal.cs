@@ -122,6 +122,24 @@ namespace MPIR.Tests.HugeFloatTests
         }
 
         [TestMethod]
+        public void FloatDefaultConstructorHigherPrecision()
+        {
+            var oldPrecision = HugeFloat.DefaultPrecision;
+            HugeFloat.DefaultPrecision = 256;
+            using (var a = new HugeFloat())
+            {
+                Assert.AreEqual(5, a.NumberOfLimbsAllocated());
+                Assert.AreEqual(0, a.NumberOfLimbsUsed());
+                Assert.AreEqual("0", a.ToString());
+
+                var n = "2340958273409578234534534534523425343409582587";
+                a.SetTo(n);
+                Assert.AreEqual("0." + n + "@" + n.Length, a.ToString());
+            }
+            HugeFloat.DefaultPrecision = oldPrecision;
+        }
+
+        [TestMethod]
         public void FloatStringConstructor()
         {
             var n = "0.54321098765432123457@28";
