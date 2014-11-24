@@ -94,6 +94,9 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="..\..\..\mpir.net\mpir.net-tests\HugeFloatTests\Assignment.cs">
+      <Link>HugeFloatTests\Assignment.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\mpir.net\mpir.net-tests\HugeFloatTests\ConstructionAndDisposal.cs">
       <Link>HugeFloatTests\ConstructionAndDisposal.cs</Link>
     </Compile>

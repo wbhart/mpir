@@ -20,27 +20,39 @@ along with the MPIR Library.  If not, see http://www.gnu.org/licenses/.
 using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace MPIR.Tests.HugeRationalTests
+namespace MPIR.Tests.HugeFloatTests
 {
     [TestClass]
     public class Assignment
     {
-        [TestMethod]
-        public void RationalAssignCopy()
+        [TestInitialize]
+        public void Setup()
         {
-            using (var a = new HugeRational("-222509832503450298345029835740293845720/115756986668303657898962467957"))
-            using (var b = new HugeRational())
+            HugeFloat.DefaultPrecision = 256;
+        }
+
+        [TestCleanup]
+        public void Cleanup()
+        {
+            HugeFloat.DefaultPrecision = 64;
+        }
+
+        [TestMethod]
+        public void FloatAssignCopy()
+        {
+            using (var a = new HugeFloat("-222509832503450298345029835740293845720.5"))
+            using (var b = new HugeFloat())
             {
                 b.Value = a;
-                Assert.AreEqual("-222509832503450298345029835740293845720/115756986668303657898962467957", b.ToString());
+                Assert.AreEqual("-0.2225098325034502983450298357402938457205@39", b.ToString());
             }
         }
 
         [TestMethod]
-        public void RationalSwap()
+        public void FloatSwap()
         {
-            using (var a = new HugeRational("-222509832503450298345029835740293845720/115756986668303657898962467957"))
-            using (var b = new HugeRational("2039847290878794872059384789347534534/590872612825179551336102196593"))
+            using (var a = new HugeFloat("-222509832503450298345029835740293845720.5"))
+            using (var b = new HugeFloat("2039847290878794872059384789347534534.75"))
             {
                 var aValue = a._value();
                 var bValue = b._value();
@@ -51,41 +63,27 @@ namespace MPIR.Tests.HugeRationalTests
         }
 
         [TestMethod]
-        public void RationalCompoundOperators()
+        public void FloatCompoundOperators()
         {
-            using (var a = new HugeRational("938475092834705928347523452345/115756986668303657898962467957"))
+            using (var a = new HugeFloat("938475092834705928347523452345.125"))
             {
                 a.Value += 1;
                 a.Value *= 10;
-                Assert.AreEqual("10542320795030095862464859203020/115756986668303657898962467957", a.ToString());
+                Assert.AreEqual("0.938475092834705928347523452346125@31", a.ToString());
             }
         }
 
         [TestMethod]
-        public void RationalAssignInt()
+        public void FloatAssignInt()
         {
             using (var a = new HugeInt("222509832503450298345029835740293845720"))
-            using (var b = new HugeRational("1/3"))
+            using (var b = new HugeFloat("1234567"))
             {
                 b.SetTo(a);
-                Assert.AreEqual("222509832503450298345029835740293845720/1", b.ToString());
+                Assert.AreEqual("0.22250983250345029834502983574029384572@39", b.ToString());
             }
         }
 
-        [TestMethod]
-        public void RationalAssignInt2()
-        {
-            using (var a = new HugeInt("222509832503450298345029835740293845719"))
-            using (var d = new HugeInt("115756986668303657898962467957"))
-            using (var b = new HugeRational("1/3"))
-            {
-                b.SetTo(a, d);
-                Assert.AreEqual("222509832503450298345029835740293845719/115756986668303657898962467957", b.ToString());
-                b.SetTo(b.Numerator - b.Denominator, b.Denominator * 5);
-                Assert.AreEqual(a - d, b.Numerator);
-                Assert.AreEqual(d * 5, b.Denominator);
-            }
-        }
         //more tests coming here
     }
 }
