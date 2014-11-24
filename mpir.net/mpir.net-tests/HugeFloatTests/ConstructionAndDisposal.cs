@@ -188,10 +188,20 @@ namespace MPIR.Tests.HugeFloatTests
         [TestMethod]
         public void FloatConstructorFromIntExpression()
         {
-            using (var a = new HugeInt("234095827340957823409582587"))
+            using (var a = new HugeInt("23409582734095782340"))
             using (var b = new HugeFloat(a + 1))
             {
-                Assert.AreEqual("0.23409582734095782341@27", b.ToString());
+                Assert.AreEqual("0.23409582734095782341@20", b.ToString());
+            }
+        }
+
+        [TestMethod]
+        public void FloatConstructorFromRationalExpression()
+        {
+            using (var a = new HugeRational("23409582734095782340/16"))
+            using (var b = new HugeFloat(a + 1))
+            {
+                Assert.AreEqual("0.146309892088098639725@19", b.ToString());
             }
         }
     }

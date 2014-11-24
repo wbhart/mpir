@@ -62,6 +62,17 @@ namespace MPIR.Tests.HugeRationalTests
         }
 
         [TestMethod]
+        public void RationalAssignFloat()
+        {
+            using (var a = new HugeFloat("9363833093638312937.25"))
+            using (var b = new HugeRational())
+            {
+                b.SetTo(a);
+                Assert.AreEqual("37455332374553251749/4", b.ToString());
+            }
+        }
+
+        [TestMethod]
         public void RationalAssignInt()
         {
             using (var a = new HugeInt("222509832503450298345029835740293845720"))

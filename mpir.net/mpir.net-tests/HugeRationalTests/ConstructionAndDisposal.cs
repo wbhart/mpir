@@ -263,6 +263,16 @@ namespace MPIR.Tests.HugeRationalTests
         }
 
         [TestMethod]
+        public void RationalConstructorFromFloatExpression()
+        {
+            using (var a = new HugeFloat("2340958273409578234.25"))
+            using (var b = new HugeRational(a + 1))
+            {
+                Assert.AreEqual("9363833093638312941/4", b.ToString());
+            }
+        }
+
+        [TestMethod]
         public void RationalConstructorFromIntExpression()
         {
             using (var a = new HugeInt("2340958273409578234095823045723490587"))

@@ -915,6 +915,12 @@ namespace MPIR
             MPTYPE(IntegerExpression^ value);
 
             /// <summary>
+            /// Initializes a new rational instance and sets its value to the result of computing the source expression.
+            /// </summary>
+            /// <param name="value">the expression that will be computed, and the result set as the initial value of the new instance.</param>
+            MPTYPE(FloatExpression^ value);
+
+            /// <summary>
             /// Constructs and returns a new rational instance with its value set to <paramref name="numerator"/> / <paramref name="denominator"/>.
             /// <para>If the fraction is not in canonical form, Canonicalize() must be called.</para>
             /// </summary>
@@ -1144,6 +1150,13 @@ namespace MPIR
                 value->AssignTo(&_value->_mp_num);
                 mpz_set_ui(&_value->_mp_den, 1);
             }
+
+            /// <summary>
+            /// Sets the value of the raitonal object.
+            /// <para>Do not change the value of an object while it is contained in a hash table, because that changes its hash code.
+            /// </para></summary>
+            /// <param name="value">new value for the object</param>
+            void SetTo(FloatExpression^ value);
 
             /// <summary>
             /// Sets the value of the raitonal object.

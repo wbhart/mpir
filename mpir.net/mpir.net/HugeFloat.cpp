@@ -19,6 +19,7 @@ along with the MPIR Library.  If not, see http://www.gnu.org/licenses/.
 
 #include "Stdafx.h"
 #include "HugeInt.h"
+#include "HugeRational.h"
 #include "HugeFloat.h"
 //#include "Random.h"
 
@@ -50,6 +51,13 @@ namespace MPIR
     }
 
     MPTYPE::MPTYPE(IntegerExpression^ value)
+    {
+        AllocateStruct();
+        MP(init)(_value);
+        SetTo(value);
+    }
+
+    MPTYPE::MPTYPE(RationalExpression^ value)
     {
         AllocateStruct();
         MP(init)(_value);
@@ -341,12 +349,18 @@ namespace MPIR
 
     #pragma endregion
 
-    #pragma region methods in other classes with rational parameters
+    #pragma region methods in other classes with float parameters
 
     void HugeInt::SetTo(MPEXPR_NAME^ value)
     {
         IN_CONTEXT(value);
         mpz_set_f(_value, CTXT(0));
+    }
+
+    void HugeRational::SetTo(MPEXPR_NAME^ value)
+    {
+        IN_CONTEXT(value);
+        mpq_set_f(_value, CTXT(0));
     }
 
     #pragma endregion

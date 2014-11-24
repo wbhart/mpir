@@ -48,6 +48,7 @@ using namespace System::Runtime::InteropServices;
 #define MPEXPR(x) LIT(MPTYPE_NAME)##x##Expression
 #define CTXT(x) context.FloatArgs[x]
 #define CTXTI(x) context.IntArgs[x]
+#define CTXTR(x) context.RationalArgs[x]
 #define ASSIGN_TO CONCAT(AssignTo, LIT(MPTYPE_NAME))
 #include "ExpressionMacros.h"
 
@@ -817,6 +818,12 @@ namespace MPIR
             MPTYPE(IntegerExpression^ value);
 
             /// <summary>
+            /// Initializes a new float instance and sets its value to the result of computing the source expression.
+            /// </summary>
+            /// <param name="value">the expression that will be computed, and the result set as the initial value of the new instance.</param>
+            MPTYPE(RationalExpression^ value);
+
+            /// <summary>
             /// Constructs and returns a new float instance with its value set to <paramref name="value"/>.
             /// </summary>
             /// <param name="value">value for the initial value for the new float instance</param>
@@ -1003,7 +1010,7 @@ namespace MPIR
             void SetTo(String^ value, int base);
 
             /// <summary>
-            /// Sets the value of the raitonal object.
+            /// Sets the value of the float object.
             /// <para>Do not change the value of an object while it is contained in a hash table, because that changes its hash code.
             /// </para></summary>
             /// <param name="value">new value for the object</param>
@@ -1013,6 +1020,13 @@ namespace MPIR
                 value->AssignToInteger(context);
                 MP(set_z)(_value, CTXTI(0));
             }
+
+            /// <summary>
+            /// Sets the value of the float object.
+            /// <para>Do not change the value of an object while it is contained in a hash table, because that changes its hash code.
+            /// </para></summary>
+            /// <param name="value">new value for the object</param>
+            void SetTo(RationalExpression^ value);
 
             /// <summary>
             /// Swaps the values of two floats.

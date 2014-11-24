@@ -19,6 +19,7 @@ along with the MPIR Library.  If not, see http://www.gnu.org/licenses/.
 
 #include "Stdafx.h"
 #include "HugeInt.h"
+#include "HugeFloat.h"
 #include "HugeRational.h"
 //#include "Random.h"
 
@@ -50,6 +51,13 @@ namespace MPIR
     }
 
     MPTYPE::MPTYPE(IntegerExpression^ value)
+    {
+        AllocateStruct();
+        MP(init)(_value);
+        SetTo(value);
+    }
+
+    MPTYPE::MPTYPE(FloatExpression^ value)
     {
         AllocateStruct();
         MP(init)(_value);
@@ -421,6 +429,12 @@ namespace MPIR
     {
         IN_CONTEXT(value);
         mpz_set_q(_value, CTXT(0));
+    }
+
+    void HugeFloat::SetTo(MPEXPR_NAME^ value)
+    {
+        IN_CONTEXT(value);
+        mpf_set_q(_value, CTXT(0));
     }
 
     #pragma endregion
