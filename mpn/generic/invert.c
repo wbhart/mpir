@@ -207,7 +207,7 @@ mpn_invert (mp_ptr xp, mp_srcptr ap, mp_size_t n)
       mpn_add_1 (tp, tp, n, ONE);
       mpn_mul_n (up, tp + l, xp + l, h);
       mpn_add_n (up + h, up + h, tp + l, h);
-      if (up[2*h-l-1] + 4 <= CNST_LIMB(3)) special = 1;
+      if (up[2*h-l-1] + 3 <= CNST_LIMB(2)) special = 1;
       MPN_COPY (xp, up + 2 * h - l, l);
       TMP_FREE;
       if ((special) && !mpn_is_invert(xp, ap, n))
