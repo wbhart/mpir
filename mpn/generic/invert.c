@@ -50,7 +50,7 @@ mpn_is_invert (mp_srcptr xp, mp_srcptr ap, mp_size_t n)
   mpn_mul_n (tp, xp, ap, n);
   cy = mpn_add_n (tp + n, tp + n, ap, n); /* A * msb(X) */
   if (cy != 0)
-    res = 0;
+    return 0;
 
   /* now check B^(2n) - X*A <= A */
   mpn_not (tp, 2 * n);
@@ -198,14 +198,15 @@ mpn_invert (mp_ptr xp, mp_srcptr ap, mp_size_t n)
 	  cy -= mpn_sub (tp, tp, n + h, ap, n);
 	}
 
+	  /* 
+	     Note that we work with the inequality AX < B^2n < A(X+1)
+	     unlike the paper on which this code is based:
+		 http://www.loria.fr/~zimmerma/papers/invert.pdf
+	  */
       mpn_not (tp, n);
-      th = ~tp[n] + mpn_add_1 (tp, tp, n, ONE);
+      mpn_add_1 (tp, tp, n, ONE);
       mpn_mul_n (up, tp + l, xp + l, h);
-      cy = mpn_add_n (up + h, up + h, tp + l, h);
-      if (th != ZERO)
-      {
-         cy += ONE + mpn_add_n (up + h, up + h, xp + l, h);
-      }
+      mpn_add_n (up + h, up + h, tp + l, h);
       if (up[2*h-l-1] + 4 <= CNST_LIMB(3)) special = 1;
       MPN_COPY (xp, up + 2 * h - l, l);
       mpn_add_1 (xp + l, xp + l, h, cy);
