@@ -200,7 +200,7 @@ mpn_invert (mp_ptr xp, mp_srcptr ap, mp_size_t n)
 
 	  /* 
 	     Note that we work with the inequality AX < B^2n < A(X+1)
-	     unlike the paper on which this code is based:
+	     as per the revised version of the paper found here:
 		 http://www.loria.fr/~zimmerma/papers/invert.pdf
 	  */
       mpn_not (tp, n);
