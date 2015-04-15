@@ -1235,7 +1235,7 @@ case $host in
             path_64="x86_64w/nehalem/westmere x86_64w/nehalem x86_64w" ;;
           sandybridge-w64-mingw*|sandybridge-*-cygwin*)
             path_64="x86_64w/sandybridge x86_64w" ;;
-          ivybridge-w64-mingw*|ivyybridge-*-cygwin*)
+          ivybridge-w64-mingw*|ivybridge-*-cygwin*)
             path_64="x86_64w/sandybridge/ivybridge x86_64w/sandybridge x86_64w" ;;
           haswell-w64-mingw*|haswell-*-cygwin*)
             path_64="x86_64w/haswell x86_64w/sandybridge x86_64w" ;;
