@@ -3006,7 +3006,13 @@ GMP_FINISH
 # in particular this should not rely on autotools.
 #
 AC_CONFIG_FILES(yasm/config/config.guess:configfsf.guess yasm/config/config.sub:configfsf.sub)
-AC_CONFIG_FILES(yasm/configure.gnu:configure.yasm)
+# Commented below, somehow cross compiling doesn't work with
+# the following, doesn't pass --host parameter properly
+# see the following link, -evrim.
+# http://lists.gnu.org/archive/html/autoconf/2015-02/msg00015.html
+
+# AC_CONFIG_FILES(yasm/configure.gnu:configure.yasm)
+
 #if test "$build_yasm" = "yes"; then
 AC_CONFIG_SUBDIRS([yasm])
 #fi
