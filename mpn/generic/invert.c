@@ -2,8 +2,8 @@
 
 /* mpn_invert
 
-Copyright 2009 Paul Zimmermann
-Copyright 2009 William Hart
+Copyright 2009, 2015 Paul Zimmermann
+Copyright 2009, 2015 William Hart
 
 This file is part of the MPIR Library.
 
@@ -128,7 +128,6 @@ mpn_invert (mp_ptr xp, mp_srcptr ap, mp_size_t n)
       mp_size_t l, h;
       mp_ptr tp, up;
       mp_limb_t cy, th;
-      int special = 0;
       TMP_DECL;
 
       l = (n - 1) / 2;
@@ -200,19 +199,18 @@ mpn_invert (mp_ptr xp, mp_srcptr ap, mp_size_t n)
 
 	  /* 
 	     Note that we work with the inequality AX < B^2n < A(X+1)
-	     unlike the paper on which this code is based:
+	     as per the revised version of the paper found here:
 		 http://www.loria.fr/~zimmerma/papers/invert.pdf
 	  */
       mpn_not (tp, n);
       mpn_add_1 (tp, tp, n, ONE);
       mpn_mul_n (up, tp + l, xp + l, h);
-      mpn_add_n (up + h, up + h, tp + l, h);
-      if (up[2*h-l-1] + 4 <= CNST_LIMB(3)) special = 1;
-      MPN_COPY (xp, up + 2 * h - l, l);
-      mpn_add_1 (xp + l, xp + l, h, cy);
+      cy = mpn_add_n (up + h, up + h, tp + l, h - l);
+      mpn_add_n (xp, up + 2*h - l, tp + h, l);
+      mpn_add_1 (xp, xp, l, cy);
+      if (up[2*h-l-1] + 3 <= CNST_LIMB(2) && !mpn_is_invert(xp, ap, n))
+         mpn_add_1 (xp, xp, n, 1); 
       TMP_FREE;
-      if ((special) && !mpn_is_invert(xp, ap, n))
-         mpn_add_1 (xp, xp, n, 1);
     }
 }
 
