@@ -23,16 +23,16 @@ using System.Text;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace MPIR.Tests.HugeRationalTests
+namespace MPIR.Tests.HugeFloatTests
 {
     [TestClass]
     public class IO
     {
         [TestMethod]
-        public void RationalInputOutputRaw()
+        public void FloatInputOutputRaw()
         {
-            using (var a = new HugeRational("0x10123456789ABCDEF0123456789ABCDEF0123456789ABCDEF/361720912810755408215708460645842859722715865206816237944587"))
-            using (var b = new HugeRational())
+            using (var a = new HugeFloat("0x10123456789ABCDEF0123456789ABCDEF0123456789ABCDEF/361720912810755408215708460645842859722715865206816237944587"))
+            using (var b = new HugeFloat())
             using (var ms = new MemoryStream())
             {
                 a.Value = a ^ 100;
@@ -45,10 +45,10 @@ namespace MPIR.Tests.HugeRationalTests
         }
 
         [TestMethod]
-        public void RationalInputOutputStr()
+        public void FloatInputOutputStr()
         {
-            using (var a = new HugeRational("0x10123456789ABCDEF0123456789ABCDEF0123456789ABCDEF/361720912810755408215708460645842859722715865206816237944587"))
-            using (var b = new HugeRational())
+            using (var a = new HugeFloat("0x10123456789ABCDEF0123456789ABCDEF0123456789ABCDEF/361720912810755408215708460645842859722715865206816237944587"))
+            using (var b = new HugeFloat())
             using (var ms = new MemoryStream())
             {
                 a.Value = a ^ 100;
@@ -66,10 +66,10 @@ namespace MPIR.Tests.HugeRationalTests
         }
 
         [TestMethod]
-        public void RationalInputOutputStrHex()
+        public void FloatInputOutputStrHex()
         {
-            using (var a = new HugeRational("0x10123456789ABCDEF0123456789ABCDEF0123456789ABCDEF/361720912810755408215708460645842859722715865206816237944587"))
-            using (var b = new HugeRational())
+            using (var a = new HugeFloat("0x10123456789ABCDEF0123456789ABCDEF0123456789ABCDEF/361720912810755408215708460645842859722715865206816237944587"))
+            using (var b = new HugeFloat())
             using (var ms = new MemoryStream())
             {
                 a.Value = a ^ 100;
@@ -88,10 +88,10 @@ namespace MPIR.Tests.HugeRationalTests
         }
 
         [TestMethod]
-        public void RationalInputOutputStrHexPrefix()
+        public void FloatInputOutputStrHexPrefix()
         {
-            using (var a = new HugeRational("0x10123456789ABCDEF0123456789ABCDEF0123456789ABCDEF/361720912810755408215708460645842859722715865206816237944587"))
-            using (var b = new HugeRational())
+            using (var a = new HugeFloat("0x10123456789ABCDEF0123456789ABCDEF0123456789ABCDEF/361720912810755408215708460645842859722715865206816237944587"))
+            using (var b = new HugeFloat())
             using (var ms = new MemoryStream())
             {
                 a.Value = a ^ 100;
@@ -114,10 +114,10 @@ namespace MPIR.Tests.HugeRationalTests
         }
 
         [TestMethod]
-        public void RationalInputOutputStrHexLower()
+        public void FloatInputOutputStrHexLower()
         {
-            using (var a = new HugeRational("0x10123456789ABCDEF0123456789ABCDEF0123456789ABCDEF/361720912810755408215708460645842859722715865206816237944587"))
-            using (var b = new HugeRational())
+            using (var a = new HugeFloat("0x10123456789ABCDEF0123456789ABCDEF0123456789ABCDEF/361720912810755408215708460645842859722715865206816237944587"))
+            using (var b = new HugeFloat())
             using (var ms = new MemoryStream())
             {
                 a.Value = a ^ 100;
@@ -135,10 +135,10 @@ namespace MPIR.Tests.HugeRationalTests
         }
 
         [TestMethod]
-        public void RationalInputOutputStrOctal()
+        public void FloatInputOutputStrOctal()
         {
-            using (var a = new HugeRational("0x10123456789ABCDEF0123456789ABCDEF0123456789ABCDEF/361720912810755408215708460645842859722715865206816237944587"))
-            using (var b = new HugeRational())
+            using (var a = new HugeFloat("0x10123456789ABCDEF0123456789ABCDEF0123456789ABCDEF/361720912810755408215708460645842859722715865206816237944587"))
+            using (var b = new HugeFloat())
             using (var ms = new MemoryStream())
             {
                 a.Value = a ^ 100;
@@ -157,10 +157,10 @@ namespace MPIR.Tests.HugeRationalTests
         }
 
         [TestMethod]
-        public void RationalInputOutputStrBinary()
+        public void FloatInputOutputStrBinary()
         {
-            using (var a = new HugeRational("0x10123456789ABCDEF0123456789ABCDEF0123456789ABCDEF/361720912810755408215708460645842859722715865206816237944587"))
-            using (var b = new HugeRational())
+            using (var a = new HugeFloat("0x10123456789ABCDEF0123456789ABCDEF0123456789ABCDEF/361720912810755408215708460645842859722715865206816237944587"))
+            using (var b = new HugeFloat())
             using (var ms = new MemoryStream())
             {
                 a.Value = a ^ 100;
@@ -179,10 +179,10 @@ namespace MPIR.Tests.HugeRationalTests
         }
 
         [TestMethod]
-        public void RationalInputOutputStr62()
+        public void FloatInputOutputStr62()
         {
-            using (var a = new HugeRational("0x10123456789ABCDEF0123456789ABCDEF0123456789ABCDEF/361720912810755408215708460645842859722715865206816237944587"))
-            using (var b = new HugeRational())
+            using (var a = new HugeFloat("0x10123456789ABCDEF0123456789ABCDEF0123456789ABCDEF/361720912810755408215708460645842859722715865206816237944587"))
+            using (var b = new HugeFloat())
             using (var ms = new MemoryStream())
             {
                 a.Value = a ^ 100;

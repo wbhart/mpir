@@ -94,15 +94,27 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <None Include="..\..\..\mpir.net\mpir.net-tests\HugeFloatTests\Arithmetic.cs">
+      <Link>HugeFloatTests\Arithmetic.cs</Link>
+    </None>
     <Compile Include="..\..\..\mpir.net\mpir.net-tests\HugeFloatTests\Assignment.cs">
       <Link>HugeFloatTests\Assignment.cs</Link>
     </Compile>
+    <None Include="..\..\..\mpir.net\mpir.net-tests\HugeFloatTests\Comparisons.cs">
+      <Link>HugeFloatTests\Comparisons.cs</Link>
+    </None>
     <Compile Include="..\..\..\mpir.net\mpir.net-tests\HugeFloatTests\ConstructionAndDisposal.cs">
       <Link>HugeFloatTests\ConstructionAndDisposal.cs</Link>
     </Compile>
     <Compile Include="..\..\..\mpir.net\mpir.net-tests\HugeFloatTests\Conversions.cs">
       <Link>HugeFloatTests\Conversions.cs</Link>
     </Compile>
+    <None Include="..\..\..\mpir.net\mpir.net-tests\HugeFloatTests\ExpressionTests.cs">
+      <Link>HugeFloatTests\ExpressionTests.cs</Link>
+    </None>
+    <None Include="..\..\..\mpir.net\mpir.net-tests\HugeFloatTests\IO.cs">
+      <Link>HugeFloatTests\IO.cs</Link>
+    </None>
     <Compile Include="..\..\..\mpir.net\mpir.net-tests\HugeIntTests\Arithmetic.cs">
       <Link>HugeIntTests\Arithmetic.cs</Link>
     </Compile>

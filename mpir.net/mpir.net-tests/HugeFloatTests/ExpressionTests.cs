@@ -25,22 +25,22 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace MPIR.Tests.HugeRationalTests
+namespace MPIR.Tests.HugeFloatTests
 {
     [TestClass]
     public class ExpressionTests
     {
         [TestMethod]
-        public void RationalTestAllExpressions()
+        public void FloatTestAllExpressions()
         {
-            var baseExpr = typeof(RationalExpression);
+            var baseExpr = typeof(FloatExpression);
             var allExpressions =
                 baseExpr.Assembly.GetTypes()
                 .Where(x => baseExpr.IsAssignableFrom(x) && !x.IsAbstract)
                 .ToList();
 
-            using (var a = new HugeRational(-9, 1))
-            using (var b = new HugeRational(4, 1))
+            using (var a = new HugeFloat(-9, 1))
+            using (var b = new HugeFloat(4, 1))
             using (var c = new HugeInt(3))
             using (var r = MpirRandom.Default())
             {
@@ -68,25 +68,25 @@ namespace MPIR.Tests.HugeRationalTests
                 allExpressions.Select(x => Environment.NewLine + x.Name).OrderBy(x => x)));
         }
 
-        private void VerifyPartialResult(MpirRandom rnd, RationalExpression expr, long expected)
+        private void VerifyPartialResult(MpirRandom rnd, FloatExpression expr, long expected)
         {
             rnd.Seed(123);
 
-            using (var r = new HugeRational())
+            using (var r = new HugeFloat())
             {
                 r.Value = expr;
                 Assert.AreEqual(expected.ToString() + "/1", r.ToString());
             }
         }
 
-        private void MarkExpressionsUsed(List<Type> allExpressions, RationalExpression expr)
+        private void MarkExpressionsUsed(List<Type> allExpressions, FloatExpression expr)
         {
             var type = expr.GetType();
             allExpressions.Remove(type);
             
             var children = type.GetFields(BindingFlags.NonPublic | BindingFlags.Instance)
-                .Where(x => typeof(RationalExpression).IsAssignableFrom(x.FieldType))
-                .Select(x => (RationalExpression)x.GetValue(expr))
+                .Where(x => typeof(FloatExpression).IsAssignableFrom(x.FieldType))
+                .Select(x => (FloatExpression)x.GetValue(expr))
                 .Where(x => x != null)
                 .ToList();
 
