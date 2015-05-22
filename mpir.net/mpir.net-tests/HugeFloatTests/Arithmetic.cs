@@ -22,6 +22,47 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace MPIR.Tests.HugeFloatTests
 {
+    public static class FloatAssert
+    {
+        public static void AreEqual(string expected, HugeFloat actual)
+        {
+            var actualStr = actual.ToString();
+            if(expected[0] == '-')
+            {
+                Assert.AreEqual(expected[0], actualStr[0]);
+                actualStr = actualStr.TrimStart('-');
+                expected = expected.TrimStart('-');
+            }
+
+            var exponent = expected.IndexOf('.');
+            if(exponent < 0) exponent = expected.Length;
+            expected = expected.Replace(".", "");
+
+            var exponentStr = "@" + exponent;
+
+            Assert.IsTrue(actualStr.StartsWith("0."));
+            actualStr = actualStr.Substring(2);
+
+            Assert.IsTrue(actualStr.EndsWith(exponentStr));
+            actualStr = actualStr.Substring(0, actualStr.Length - exponentStr.Length);
+
+            if (expected.Length > actualStr.Length)
+            {
+                var roundedUp = expected[actualStr.Length] >= '5';
+                expected = expected.Substring(0, actualStr.Length);
+                if(roundedUp)
+                {
+                    using (var a = new HugeInt(expected))
+                    {
+                        a.Value += 1;
+                        expected = a.ToString(10);
+                    }
+                }
+            }
+            Assert.AreEqual(expected, actualStr);
+        }
+    }
+
     [TestClass]
     public class Arithmetic
     {
