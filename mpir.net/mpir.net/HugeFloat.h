@@ -891,21 +891,21 @@ namespace MPIR
             /// <returns>A string representation of the number in the specified base.</returns>
             String^ ToString(int base, bool lowercase) { return ToString(base, lowercase, 0); }
 
-///// <summary>
-///// Returns the absolute value of the number as a ulong.
-///// <para>If the number is too big, then just the least significant bits that do fit are returned.
-///// </para>The sign of the number is ignored, only the absolute value is used.
-///// </summary>
-///// <returns>The absolute value as a ulong, possibly truncated to the least significant bits only.</returns>
-//mpir_ui ToUlong() { return MP(get_ui)(_value); }
+            /// <summary>
+            /// Returns the absolute value of the number as a ulong, truncating any fractional part.
+            /// <para>If the number is too big, the result is undefined.  Call FitsUlong() to check if the number will fit.
+            /// </para>The sign of the number is ignored, only the absolute value is used.
+            /// </summary>
+            /// <returns>The absolute value as a ulong, with any fractional part truncated.</returns>
+            mpir_ui ToUlong() { return MP(get_ui)(_value); }
 
-///// <summary>
-///// Returns the value of the number as a long.
-///// <para>If the number is too big, then just the least significant bits that do fit are returned, with the same sign as the number.
-///// </para>When truncation occurs, the result is propobly not very useful.  Call FitsLong() to check if the number will fit.
-///// </summary>
-///// <returns>The value as a ulong, possibly truncated to the least significant bits only.</returns>
-//mpir_si ToLong() { return MP(get_si)(_value); }
+            /// <summary>
+            /// Returns the value of the number as a long.
+            /// <para>If the number is too big, the result is undefined.  Call FitsLong() to check if the number will fit.
+            /// </para>
+            /// </summary>
+            /// <returns>The value as a long, possibly truncated to the least significant bits only.</returns>
+            mpir_si ToLong() { return MP(get_si)(_value); }
 
             /// <summary>
             /// Returns the value of the number as a double, truncating if necessary (rounding towards zero).
@@ -914,19 +914,20 @@ namespace MPIR
             /// <returns>The value as a double, possibly truncated.</returns>
             double ToDouble() { return MP(get_d)(_value); }
 
-///// <summary>
-///// Returns the value of the number as a double, truncating if necessary (rounding towards zero), and returning the exponent separately.
-///// <para>The return is the mantissa, its absolute value will be in the range [0.5 - 1).///// </para>If the source value is zero, both mantissa and exponent are returned as 0.
-///// </summary>
-///// <param name="exp">variable to store the exponent in.</param>
-///// <returns>The mantissa of the value as a double, possibly truncated.</returns>
-//double ToDouble([Out] mpir_si% exp) 
-//{ 
-//    mpir_si x; 
-//    auto result = MP(get_d_2exp)(&x, _value); 
-//    exp = x; 
-//    return result; 
-//}
+            /// <summary>
+            /// Returns the value of the number as a double, truncating if necessary (rounding towards zero), and returning the exponent separately.
+            /// <para>The return is the mantissa, its absolute value will be in the range [0.5 - 1).            /// </para>The exponent is binary, i.e. mantissa * 2^exp is the value of the source number.
+            /// <para>If the source value is zero, both mantissa and exponent are returned as 0.
+            /// </para></summary>
+            /// <param name="exp">variable to store the exponent in.</param>
+            /// <returns>The mantissa of the value as a double, possibly truncated.</returns>
+            double ToDouble([Out] mpir_si% exp) 
+            { 
+                mpir_si x; 
+                auto result = MP(get_d_2exp)(&x, _value); 
+                exp = x; 
+                return result; 
+            }
 
             #pragma endregion
 
@@ -1045,19 +1046,41 @@ namespace MPIR
 
             #pragma region Size checks
 
-///// <summary>
-///// Returns the number of digits the number would take if written in the specified base.
-///// <para>The sign of the number is ignored, just the absolute value is used.
-///// </para>The result will be either exact or at most 2 characters too big.
-///// If <paramref name="base"/> is a power of 2, the result will always be exact.
-///// <para>If the number is 0, the result is always 3.
-///// </para>This function can be used to estimate the space required when converting to a string.
-///// The right amount of allocation is normally two more than the value returned,
-///// one extra for a minus sign and one for the null-terminator.
-///// <para>A slash between numerator and denominator is accounted for.</para></summary>
-///// <param name="base">Numeric base for the would-be string conversion, in the range from 2 to 62.</param>
-///// <returns>The number of digits the number would take written in the specified base, possibly 1 or 2 too big, not counting a leading minus.</returns>
-//mp_size_t ApproximateSizeInBase(int base) { return mpz_sizeinbase(&_value->_mp_num, base) + mpz_sizeinbase(&_value->_mp_den, base) + 1; }
+            /// <summary>
+            /// Returns true if the value of the float, when truncated to an integer, is in the ulong range.
+            /// </summary>
+            /// <returns>true if the value will fit in a ulong</returns>
+            bool FitsUlong() { return MP(fits_ui_p)(_value) != 0; }
+
+            /// <summary>
+            /// Returns true if the value of the float, when truncated to an integer, is in the long range.
+            /// </summary>
+            /// <returns>true if the value will fit in a long</returns>
+            bool FitsLong() { return MP(fits_si_p)(_value) != 0; }
+
+            /// <summary>
+            /// Returns true if the value of the float, when truncated to an integer, is in the uint range.
+            /// </summary>
+            /// <returns>true if the value will fit in a uint</returns>
+            bool FitsUint() { return MP(fits_uint_p)(_value) != 0; }
+
+            /// <summary>
+            /// Returns true if the value of the float, when truncated to an integer, is in the int range.
+            /// </summary>
+            /// <returns>true if the value will fit in a int</returns>
+            bool FitsInt() { return MP(fits_sint_p)(_value) != 0; }
+
+            /// <summary>
+            /// Returns true if the value of the float, when truncated to an integer, is in the ushort range.
+            /// </summary>
+            /// <returns>true if the value will fit in a ushort</returns>
+            bool FitsUshort() { return MP(fits_ushort_p)(_value) != 0; }
+
+            /// <summary>
+            /// Returns true if the value of the float, when truncated to an integer, is in the short range.
+            /// </summary>
+            /// <returns>true if the value will fit in a short</returns>
+            bool FitsShort() { return MP(fits_sshort_p)(_value) != 0; }
 
             #pragma endregion
 

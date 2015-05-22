@@ -1541,7 +1541,7 @@ namespace MPIR
             /// <para>If the number is too big, then just the least significant bits that do fit are returned, with the same sign as the number.
             /// </para>When truncation occurs, the result is propobly not very useful.  Call FitsLong() to check if the number will fit.
             /// </summary>
-            /// <returns>The value as a ulong, possibly truncated to the least significant bits only.</returns>
+            /// <returns>The value as a long, possibly truncated to the least significant bits only.</returns>
             mpir_si ToLong() { return MP(get_si)(_value); }
 
             /// <summary>
