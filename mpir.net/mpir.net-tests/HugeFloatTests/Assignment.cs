@@ -107,7 +107,7 @@ namespace MPIR.Tests.HugeFloatTests
             using (var b = new HugeFloat())
             {
                 b.SetTo(a);
-                FloatAssert.AreEqual(".3333333333333333333333333333333333333333333333333333333333", b);
+                FloatAssert.AreEqual(".33333333333333333333333333333333333333333333333333333333333333333333333333333333333", b);
             }
         }
         //more tests coming here

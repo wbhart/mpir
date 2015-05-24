@@ -32,6 +32,13 @@ namespace MPIR.Tests.HugeFloatTests
         public static void Init(TestContext context)
         {
             AlmostOne = new HugeFloat(0.99999);
+            HugeFloat.DefaultPrecision = 128;
+        }
+
+        [ClassCleanup]
+        public static void Cleanup()
+        {
+            HugeFloat.DefaultPrecision = 64;
         }
 
         [TestMethod]
@@ -204,7 +211,7 @@ namespace MPIR.Tests.HugeFloatTests
 
                 n = "-98ABCDEF876529834765234123984761";
                 a.SetTo(n, 16);
-                Assert.AreEqual("-0." + n.Substring(1) + "@" + (n.Length - 1), a.ToString(16));
+                Assert.AreEqual("-0." + n.Substring(1) + "@" + (n.Length - 1).ToString("x"), a.ToString(16));
             }
         }
 

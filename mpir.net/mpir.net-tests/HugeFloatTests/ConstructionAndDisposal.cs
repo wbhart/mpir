@@ -25,6 +25,18 @@ namespace MPIR.Tests.HugeFloatTests
     [TestClass]
     public class ConstructionAndDisposal
     {
+        [TestInitialize]
+        public void Setup()
+        {
+            HugeFloat.DefaultPrecision = 128;
+        }
+
+        [TestCleanup]
+        public void Cleanup()
+        {
+            HugeFloat.DefaultPrecision = 64;
+        }
+
         [TestMethod]
         public void FloatDefaultConstructor()
         {
