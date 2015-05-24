@@ -56,6 +56,9 @@
     <ClCompile Include="..\..\..\mpir.net\mpir.net\HugeFloat.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\mpir.net\mpir.net\RandomFloat.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\..\..\mpir.net\mpir.net\ReadMe.txt" />

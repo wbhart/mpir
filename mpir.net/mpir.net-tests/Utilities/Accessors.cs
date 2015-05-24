@@ -38,7 +38,7 @@ namespace MPIR.Tests
             _intPtrConstructor = typeof(IntPtr).GetConstructor(new[] { Type.GetType("System.Void*") });
         }
 
-        private static FieldInfo GetAccessor(string name)
+        internal static FieldInfo GetAccessor(string name)
         {
             return typeof(T).GetField(name, BindingFlags.NonPublic | BindingFlags.Instance);
         }

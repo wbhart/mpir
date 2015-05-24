@@ -26,24 +26,35 @@ namespace MPIR.Tests.HugeFloatTests
     [TestClass]
     public class Conversions
     {
+        private static HugeFloat AlmostOne;
+
+        [ClassInitialize]
+        public static void Init(TestContext context)
+        {
+            AlmostOne = new HugeFloat(0.99999);
+        }
+
         [TestMethod]
         public void FloatToStringDecimal()
         {
-            var n = "-0.23429384756298357462@177";
+            var n = "-234293847562.98357462983476598345623984756";
             using (var a = new HugeFloat(n))
             {
-                Assert.AreEqual(n, a.ToString());
+                FloatAssert.AreEqual(n, a);
             }
         }
 
         [TestMethod]
         public void FloatToStringHex()
         {
-            var n = "-0.23429abcdef2983574@9";
-            using (var a = new HugeFloat(n, 16))
+            var s = "-23429abcdef29835746298.3fedcba34562";
+            using (var a = new HugeFloat(s, 16))
             {
-                Assert.AreEqual(n, a.ToString(16, true));
-                Assert.AreEqual(n.ToUpper(), a.ToString(16));
+                Assert.AreEqual("-0.23429abcdef298357462983fedcba34562@16", a.ToString(16, true));
+                Assert.AreEqual("-0.23429ABCDEF298357462983FEDCBA34562@16", a.ToString(16));
+
+                Assert.AreEqual("-0.23429abcdef298357462983fedcba34562@22", a.ToString(16, true, true));
+                Assert.AreEqual("-0.23429ABCDEF298357462983FEDCBA34562@22", a.ToString(16, false, true));
             }
         }
 
@@ -54,7 +65,7 @@ namespace MPIR.Tests.HugeFloatTests
             {
                 ulong b = 0xF84739ABCDEF4876;
                 a.SetTo(b);
-                Assert.AreEqual("0." + b.ToString() + "@" + b.ToString().Length, a.ToString());
+                FloatAssert.AreEqual(b + ".", a);
             }
         }
 
@@ -65,7 +76,7 @@ namespace MPIR.Tests.HugeFloatTests
             {
                 long b = -0x784739ABCDEF4876;
                 a.SetTo(b);
-                Assert.AreEqual("-0." + (-b).ToString() + "@" + (-b).ToString().Length, a.ToString());
+                FloatAssert.AreEqual(b + ".", a);
             }
         }
 
@@ -120,6 +131,7 @@ namespace MPIR.Tests.HugeFloatTests
             {
                 ulong b = 0xF84739ABCDEF4876;
                 a.SetTo(b);
+                FloatAssert.AreEqual(b + ".", a);
 
                 a.Value = -a;
                 ulong c = a.ToUlong();
@@ -130,10 +142,11 @@ namespace MPIR.Tests.HugeFloatTests
         [TestMethod]
         public void FloatToAndFromLong()
         {
-            using (var a = new HugeFloat())
+            using(var a = new HugeFloat())
             {
                 long b = -0x784739ABCDEF4876;
                 a.SetTo(b);
+                FloatAssert.AreEqual(b + ".", a);
 
                 long c = a.ToLong();
                 Assert.AreEqual(b, c);
@@ -141,21 +154,21 @@ namespace MPIR.Tests.HugeFloatTests
         }
 
         [TestMethod]
-        public void FloatToUlong2()
+        public void FloatToAndFromDoubleOutExp()
         {
-            using (var a = new HugeFloat())
-            using (var small = new HugeFloat(0.0001))
+            using(var a = new HugeFloat())
             {
-                ulong b = ulong.MaxValue;
-                a.SetTo(b);
-                a.Value = a + 1 - small;
-                var c = a.ToUlong();
+                a.SetTo(-123.45e20);
 
-                Assert.AreEqual(b, c);
+                long exp;
+                a.Value = a + a;
+                double c = a.ToDouble(out exp);
 
-                a.Value = -1 + small;
-                c = a.ToUlong();
-                Assert.AreEqual(0UL, c);
+                Assert.AreEqual(75, exp);
+                c *= Math.Pow(2, exp);
+
+                Assert.IsTrue(a + 10000000000 >= c);
+                Assert.IsTrue(a - 10000000000 <= c);
             }
         }
 
@@ -192,6 +205,23 @@ namespace MPIR.Tests.HugeFloatTests
                 n = "-98ABCDEF876529834765234123984761";
                 a.SetTo(n, 16);
                 Assert.AreEqual("-0." + n.Substring(1) + "@" + (n.Length - 1), a.ToString(16));
+            }
+        }
+
+        [TestMethod]
+        public void FloatFromStringExpDecimal()
+        {
+            using(var a = new HugeFloat())
+            {
+                var n = "0.12354523094527035843ABCDEF54@10";
+                
+                a.SetTo(n, 16);
+                Assert.AreEqual("0.12354523094527035843ABCDEF54@10", a.ToString(16, false, true));
+                Assert.AreEqual("0.12354523094527035843ABCDEF54@A", a.ToString(16, false, false));
+
+                a.SetTo(n, 16, false);
+                Assert.AreEqual("0.12354523094527035843ABCDEF54@16", a.ToString(16, false, true));
+                Assert.AreEqual("0.12354523094527035843ABCDEF54@10", a.ToString(16, false, false));
             }
         }
 
@@ -336,6 +366,17 @@ namespace MPIR.Tests.HugeFloatTests
                 Assert.IsFalse(a.FitsShort());
                 a.Value = a + small;
                 Assert.IsTrue(a.FitsShort());
+            }
+        }
+
+        [TestMethod]
+        public void FloatIsInteger()
+        {
+            using (var a = new HugeFloat("-233454059287409285742345.125"))
+            {
+                Assert.IsFalse(a.IsInteger());
+                a.Value = a * 8;
+                Assert.IsTrue(a.IsInteger());
             }
         }
 

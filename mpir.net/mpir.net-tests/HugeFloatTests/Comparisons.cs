@@ -30,42 +30,39 @@ namespace MPIR.Tests.HugeFloatTests
         [TestMethod]
         public void FloatCompareToHugeFloat()
         {
-            using (var a = new HugeFloat("-222509832503450298345029835740293845721/115756986668303657898962467957"))
-            using (var b = new HugeFloat("222509832503450298345029835740293845720/115756986668303657898962467957"))
-            using (var c = new HugeFloat("1/115756986668303657898962467957"))
+            using (var a = new HugeFloat("-22250983250345029834503.9835740293845721345345354"))
+            using (var b = new HugeFloat("22250983250345029834502.9835740293845721345345354"))
             {
-                Assert.AreEqual(1, System.Math.Sign(b.CompareTo(a)));
-                Assert.AreEqual(-1, System.Math.Sign(a.CompareTo(b + 1)));
-                Assert.AreEqual(0, System.Math.Sign((a + c).CompareTo(-b)));
-                Assert.AreEqual(1, System.Math.Sign(a.CompareTo(null)));
+                Assert.AreEqual(1, Math.Sign(b.CompareTo(a)));
+                Assert.AreEqual(-1,Math.Sign(a.CompareTo(b + 1)));
+                Assert.AreEqual(0, Math.Sign((a + 1).CompareTo(-b)));
+                Assert.AreEqual(1, Math.Sign(a.CompareTo(null)));
             }
         }
 
         [TestMethod]
         public void FloatCompareToObject()
         {
-            using (var a = new HugeFloat("-222509832503450298345029835740293845721/115756986668303657898962467957"))
-            using (var b = new HugeFloat("222509832503450298345029835740293845720/115756986668303657898962467957"))
-            using (var c = new HugeFloat("1/115756986668303657898962467957"))
+            using (var a = new HugeFloat("-22250983250345029834503.9835740293845721345345354"))
+            using (var b = new HugeFloat("22250983250345029834502.9835740293845721345345354"))
             {
-                Assert.AreEqual(1, System.Math.Sign(((IComparable)b).CompareTo((object)a)));
-                Assert.AreEqual(-1, System.Math.Sign(((IComparable)a).CompareTo((object)b)));
-                Assert.AreEqual(1, System.Math.Sign(((IComparable)a).CompareTo(null)));
-                Assert.AreEqual(0, System.Math.Sign(((IComparable)(a + c)).CompareTo((object)-b)));
+                Assert.AreEqual(1, Math.Sign(((IComparable)b).CompareTo((object)a)));
+                Assert.AreEqual(-1,Math.Sign(((IComparable)a).CompareTo((object)b)));
+                Assert.AreEqual(1, Math.Sign(((IComparable)a).CompareTo(null)));
+                Assert.AreEqual(0, Math.Sign(((IComparable)(a + 1)).CompareTo((object)-b)));
             }
         }
 
         [TestMethod]
         public void FloatCompareToExpression()
         {
-            using (var a = new HugeFloat("-222509832503450298345029835740293845721/115756986668303657898962467957"))
-            using (var b = new HugeFloat("222509832503450298345029835740293845720/115756986668303657898962467957"))
-            using (var c = new HugeFloat("1/115756986668303657898962467957"))
+            using (var a = new HugeFloat("-22250983250345029834503.9835740293845721345345354"))
+            using (var b = new HugeFloat("22250983250345029834502.9835740293845721345345354"))
             {
-                Assert.AreEqual(1, System.Math.Sign(((IComparable<FloatExpression>)b).CompareTo(a)));
-                Assert.AreEqual(-1, System.Math.Sign(((IComparable<FloatExpression>)a).CompareTo(b)));
-                Assert.AreEqual(1, System.Math.Sign(((IComparable<FloatExpression>)a).CompareTo(null)));
-                Assert.AreEqual(0, System.Math.Sign(((IComparable<FloatExpression>)(a + c)).CompareTo(-b)));
+                Assert.AreEqual(1, Math.Sign(((IComparable<FloatExpression>)b).CompareTo(a)));
+                Assert.AreEqual(-1,Math.Sign(((IComparable<FloatExpression>)a).CompareTo(b)));
+                Assert.AreEqual(1, Math.Sign(((IComparable<FloatExpression>)a).CompareTo(null)));
+                Assert.AreEqual(0, Math.Sign(((IComparable<FloatExpression>)(a + 1)).CompareTo(-b)));
             }
         }
 
@@ -73,7 +70,7 @@ namespace MPIR.Tests.HugeFloatTests
         [ExpectedException(typeof(ArgumentException))]
         public void FloatCompareToNonExpression()
         {
-            using (var a = new HugeFloat("-222509832503450298345029835740293845721/115756986668303657898962467957"))
+            using (var a = new HugeFloat("-222509832503450298345029835740293845721.57898962467957"))
             {
                 a.CompareTo("abc");
             }
@@ -85,25 +82,11 @@ namespace MPIR.Tests.HugeFloatTests
             using (var a = new HugeFloat("-222509821"))
             {
                 ulong b = 222509820;
-                Assert.AreEqual(-1, System.Math.Sign(a.CompareTo(b)));
-                Assert.AreEqual(-1, System.Math.Sign(a.CompareTo(b + 1)));
-                Assert.AreEqual(0, System.Math.Sign((-(a + 1)).CompareTo(b)));
-                Assert.AreEqual(1, System.Math.Sign((-a).CompareTo(b)));
-            }
-        }
-
-        [TestMethod]
-        public void FloatCompareToLimb2()
-        {
-            using(var a = new HugeFloat("-222509947/127"))
-            {
-                ulong b = 222509820;
-                ulong d = 127;
-                Assert.AreEqual(-1, System.Math.Sign(a.CompareTo(b, d)));
-                Assert.AreEqual(-1, System.Math.Sign(a.CompareTo(b + 1, d)));
-                Assert.AreEqual(0, System.Math.Sign((-(a + 1)).CompareTo(b, d)));
-                Assert.AreEqual(0, System.Math.Sign((-a).CompareTo(b + d, d)));
-                Assert.AreEqual(1, System.Math.Sign((-a).CompareTo(b, d)));
+                Assert.AreEqual(-1,Math.Sign(a.CompareTo(b)));
+                Assert.AreEqual(-1,Math.Sign(a.CompareTo(b + 1)));
+                Assert.AreEqual(0, Math.Sign((-(a + 1)).CompareTo(b)));
+                Assert.AreEqual(0, Math.Sign((-a).CompareTo(b + 1)));
+                Assert.AreEqual(1, Math.Sign((-a).CompareTo(b)));
             }
         }
 
@@ -113,27 +96,11 @@ namespace MPIR.Tests.HugeFloatTests
             using (var a = new HugeFloat("-222509821"))
             {
                 long b = -222509820;
-                Assert.AreEqual(-1, System.Math.Sign(a.CompareTo(b)));
-                Assert.AreEqual(-1, System.Math.Sign(a.CompareTo(b + 1)));
-                Assert.AreEqual(0, System.Math.Sign((a + 1).CompareTo(b)));
-                Assert.AreEqual(0, System.Math.Sign(a.CompareTo(b - 1)));
-                Assert.AreEqual(1, System.Math.Sign(a.CompareTo(b - 2)));
-            }
-        }
-
-        [TestMethod]
-        public void FloatCompareToSignedLimb2()
-        {
-            using(var a = new HugeFloat("-222509947/127"))
-            {
-                long b = -222509820;
-                long d = 127;
-                Assert.AreEqual(-1, System.Math.Sign(a.CompareTo(b, (ulong)d)));
-                Assert.AreEqual(-1, System.Math.Sign(a.CompareTo(b + 1, (ulong)d)));
-                Assert.AreEqual(0, System.Math.Sign((a + 1).CompareTo(b, (ulong)d)));
-                Assert.AreEqual(-1, System.Math.Sign(a.CompareTo(b - d + 1, (ulong)d)));
-                Assert.AreEqual(0, System.Math.Sign(a.CompareTo(b - d, (ulong)d)));
-                Assert.AreEqual(1, System.Math.Sign(a.CompareTo(b - d - 1, (ulong)d)));
+                Assert.AreEqual(-1,Math.Sign(a.CompareTo(b)));
+                Assert.AreEqual(-1,Math.Sign(a.CompareTo(b + 1)));
+                Assert.AreEqual(0, Math.Sign((a + 1).CompareTo(b)));
+                Assert.AreEqual(0, Math.Sign(a.CompareTo(b - 1)));
+                Assert.AreEqual(1, Math.Sign(a.CompareTo(b - 2)));
             }
         }
 
@@ -143,11 +110,11 @@ namespace MPIR.Tests.HugeFloatTests
             using (var a = new HugeFloat("-222509821"))
             {
                 double b = -222509820;
-                Assert.AreEqual(-1, System.Math.Sign(a.CompareTo(b)));
-                Assert.AreEqual(-1, System.Math.Sign(a.CompareTo(b + 1)));
-                Assert.AreEqual(0, System.Math.Sign((a + 1).CompareTo(b)));
-                Assert.AreEqual(0, System.Math.Sign(a.CompareTo(b - 1)));
-                Assert.AreEqual(1, System.Math.Sign(a.CompareTo(b - 1.1)));
+                Assert.AreEqual(-1,Math.Sign(a.CompareTo(b)));
+                Assert.AreEqual(-1,Math.Sign(a.CompareTo(b + 1)));
+                Assert.AreEqual(0, Math.Sign((a + 1).CompareTo(b)));
+                Assert.AreEqual(0, Math.Sign(a.CompareTo(b - 1)));
+                Assert.AreEqual(1, Math.Sign(a.CompareTo(b - 1.1)));
             }
         }
 
@@ -158,14 +125,15 @@ namespace MPIR.Tests.HugeFloatTests
         [TestMethod]
         public void FloatOperatorLessThan()
         {
-            using (var a = new HugeFloat("-222509832503450298345029835740293845721/115756986668303657898962467957"))
-            using (var b = new HugeFloat("222509832503450298345029835740293845720/115756986668303657898962467957"))
+            using (var a = new HugeFloat("-2225098325034502983450.29835740293845721"))
+            using (var b = new HugeFloat("2225098325034502983450.29835740293845721"))
             using (var c = new HugeFloat())
             {
                 c.Value = a;
                 Assert.IsTrue(a < b);
                 Assert.IsFalse(b < a);
                 Assert.IsFalse(a < c);
+                Assert.IsFalse(a > c);
                 Assert.IsFalse(a < null);
                 Assert.IsTrue(null < a);
             }
@@ -174,8 +142,8 @@ namespace MPIR.Tests.HugeFloatTests
         [TestMethod]
         public void FloatOperatorLessThanOrEqual()
         {
-            using (var a = new HugeFloat("-222509832503450298345029835740293845721/115756986668303657898962467957"))
-            using (var b = new HugeFloat("222509832503450298345029835740293845720/115756986668303657898962467957"))
+            using (var a = new HugeFloat("-2225098325034502983451.29835740293845721"))
+            using (var b = new HugeFloat("2225098325034502983450.29835740293845721"))
             using (var c = new HugeFloat())
             {
                 c.Value = a;
@@ -190,8 +158,8 @@ namespace MPIR.Tests.HugeFloatTests
         [TestMethod]
         public void FloatOperatorGreaterThan()
         {
-            using (var a = new HugeFloat("-222509832503450298345029835740293845721/115756986668303657898962467957"))
-            using (var b = new HugeFloat("222509832503450298345029835740293845720/115756986668303657898962467957"))
+            using (var a = new HugeFloat("-2225098325034502983451.29835740293845721"))
+            using (var b = new HugeFloat("2225098325034502983450.29835740293845721"))
             using (var c = new HugeFloat())
             {
                 c.Value = a;
@@ -206,8 +174,8 @@ namespace MPIR.Tests.HugeFloatTests
         [TestMethod]
         public void FloatOperatorGreaterThanOrEqual()
         {
-            using (var a = new HugeFloat("-222509832503450298345029835740293845721/115756986668303657898962467957"))
-            using (var b = new HugeFloat("222509832503450298345029835740293845720/115756986668303657898962467957"))
+            using (var a = new HugeFloat("-2225098325034502983451.29835740293845721"))
+            using (var b = new HugeFloat("2225098325034502983450.29835740293845721"))
             using (var c = new HugeFloat())
             {
                 c.Value = a;
@@ -425,36 +393,34 @@ namespace MPIR.Tests.HugeFloatTests
         [TestMethod]
         public void FloatEqualsHugeFloat()
         {
-            using (var a = new HugeFloat("-222509832503450298345029835740293845721/115756986668303657898962467957"))
-            using (var b = new HugeFloat("222509832503450298345029835740293845720/115756986668303657898962467957"))
-            using (var c = new HugeFloat("1/115756986668303657898962467957"))
+            using (var a = new HugeFloat("-2225098325034502983451.29835740293845721"))
+            using (var b = new HugeFloat("2225098325034502983450.29835740293845721"))
             {
                 Assert.IsFalse(b.Equals(a));
-                Assert.IsFalse(a.Equals(b + c));
-                Assert.IsTrue((a + c).Equals(-b));
+                Assert.IsFalse(a.Equals(b + 1));
+                Assert.IsTrue((a + 1).Equals(-b));
                 Assert.IsFalse(a.Equals(null));
-                Assert.IsTrue(Equals(a + c, -b));
+                Assert.IsTrue(Equals(a + 1, -b));
             }
         }
 
         [TestMethod]
         public void FloatEqualsExpression()
         {
-            using (var a = new HugeFloat("-222509832503450298345029835740293845721/115756986668303657898962467957"))
-            using (var b = new HugeFloat("222509832503450298345029835740293845720/115756986668303657898962467957"))
-            using (var c = new HugeFloat("1/115756986668303657898962467957"))
+            using (var a = new HugeFloat("-2225098325034502983451.29835740293845721"))
+            using (var b = new HugeFloat("2225098325034502983450.29835740293845721"))
             {
                 Assert.IsFalse(((IEquatable<FloatExpression>)b).Equals(a));
                 Assert.IsFalse(((IEquatable<FloatExpression>)a).Equals(b));
                 Assert.IsFalse(((IEquatable<FloatExpression>)a).Equals(null));
-                Assert.IsTrue(((IEquatable<FloatExpression>)(a + c)).Equals(-b));
+                Assert.IsTrue(((IEquatable<FloatExpression>)(a + 1)).Equals(-b));
             }
         }
 
         [TestMethod]
         public void FloatEqualsNonExpression()
         {
-            using (var a = new HugeFloat("-222509832503450298345029835740293845721/115756986668303657898962467957"))
+            using (var a = new HugeFloat("-2225098325034502983450.29835740293845721"))
             {
                 Assert.IsFalse(a.Equals("abc"));
             }
@@ -485,32 +451,6 @@ namespace MPIR.Tests.HugeFloatTests
         }
 
         [TestMethod]
-        public void FloatEqualsLimb2()
-        {
-            using(var a = new HugeFloat("222509832377/127"))
-            {
-                ulong b = 222509832504;
-                ulong d = 127;
-                Assert.IsFalse(a.Equals(b + 1, d));
-                Assert.IsTrue(a.Equals(b - d, d));
-                Assert.IsTrue((a + 1).Equals(b, d));
-            }
-        }
-
-        [TestMethod]
-        public void FloatEqualsSignedLimb2()
-        {
-            using(var a = new HugeFloat("-222509832377/127"))
-            {
-                long b = -222509832504;
-                ulong d = 127;
-                Assert.IsFalse(a.Equals(b + 1, d));
-                Assert.IsTrue(a.Equals(b + (long)d, d));
-                Assert.IsTrue((a - 1).Equals(b, d));
-            }
-        }
-
-        [TestMethod]
         public void FloatEqualsDouble()
         {
             using (var a = new HugeFloat("-222509832505"))
@@ -523,6 +463,40 @@ namespace MPIR.Tests.HugeFloatTests
             }
         }
 
+        [TestMethod]
+        public void FloatEqualsHugeFloatApproximately()
+        {
+            using (var a = new HugeFloat("ABCDEF12948576AB49587.ACD34EFB345", 16))
+            using (var b = new HugeFloat("ABCDEF12948576AB49587.ACD34EFB245", 16))
+            {
+                Assert.IsTrue(a.Equals(b, 119));
+                Assert.IsFalse(a.Equals(b, 120));
+                Assert.IsTrue(a.Equals(b - 1, 83));
+                Assert.IsFalse(a.Equals(b - 1, 84));
+                Assert.IsTrue((a + 512).Equals(b, 74));
+                Assert.IsFalse((a + 512).Equals(b, 75));
+
+                //same mantissa, different exponent should always return false
+                Assert.IsFalse(a.Equals(a >> 1, 119));
+                Assert.IsFalse(a.Equals(a << 1, 119));
+                Assert.IsFalse(a.Equals(a * 2, 119));
+                Assert.IsFalse(a.Equals(a / 2, 119));
+            }
+        }
+
+        [TestMethod]
+        public void FloatRelDiff()
+        {
+            using (var a = new HugeFloat("1234523549876.24935230589472305894245"))
+            using (var b = new HugeFloat("1234523549541.45207354209357842979873"))
+            {
+                Assert.AreEqual(a.RelativeDifferenceFrom(b), (a - b).Abs() / a);
+                Assert.AreNotEqual(a.RelativeDifferenceFrom(b), (a - b).Abs() / b);
+                Assert.AreEqual(b.RelativeDifferenceFrom(a), (a - b).Abs() / b);
+                Assert.AreNotEqual(b.RelativeDifferenceFrom(a), (a - b).Abs() / a);
+            }
+        }
+
         #endregion
 
         #region Equality operators with expr
@@ -530,13 +504,12 @@ namespace MPIR.Tests.HugeFloatTests
         [TestMethod]
         public void FloatEqualsOperatorHugeFloat()
         {
-            using (var a = new HugeFloat("-222509832503450298345029835740293845721/115756986668303657898962467957"))
-            using (var b = new HugeFloat("222509832503450298345029835740293845720/115756986668303657898962467957"))
-            using (var c = new HugeFloat("1/115756986668303657898962467957"))
+            using (var a = new HugeFloat("-2225098325034502983451.29835740293845721"))
+            using (var b = new HugeFloat("2225098325034502983450.29835740293845721"))
             {
                 Assert.IsFalse(b == a);
-                Assert.IsFalse(a == b + c);
-                Assert.IsTrue(a + c == -b);
+                Assert.IsFalse(a == b + 1);
+                Assert.IsTrue(a + 1 == -b);
                 Assert.IsFalse(a == null);
             }
         }
@@ -544,13 +517,12 @@ namespace MPIR.Tests.HugeFloatTests
         [TestMethod]
         public void FloatNotEqualOperatorHugeFloat()
         {
-            using (var a = new HugeFloat("-222509832503450298345029835740293845721/115756986668303657898962467957"))
-            using (var b = new HugeFloat("222509832503450298345029835740293845720/115756986668303657898962467957"))
-            using (var c = new HugeFloat("1/115756986668303657898962467957"))
+            using (var a = new HugeFloat("-2225098325034502983451.29835740293845721"))
+            using (var b = new HugeFloat("2225098325034502983450.29835740293845721"))
             {
                 Assert.IsTrue(b != a);
-                Assert.IsTrue(a != b + c);
-                Assert.IsFalse(a + c != -b);
+                Assert.IsTrue(a != b + 1);
+                Assert.IsFalse(a + 1 != -b);
                 Assert.IsTrue(a != null);
             }
         }
@@ -648,7 +620,7 @@ namespace MPIR.Tests.HugeFloatTests
         [TestMethod]
         public void FloatGetHashCodeTest()
         {
-            using (var a = new HugeFloat("-222509832503450298345029835740293845721/115756986668303657898962467957"))
+            using (var a = new HugeFloat("-2225098325034502983450298357.40293845721"))
             {
                 Assert.AreNotEqual(0, a.GetHashCode());
                 Assert.AreEqual(a.GetHashCode(), (a + 0).GetHashCode());
@@ -663,7 +635,7 @@ namespace MPIR.Tests.HugeFloatTests
         [TestMethod]
         public void FloatSign()
         {
-            using (var a = new HugeFloat("-222509832503450298345029835740293845721/115756986668303657898962467957"))
+            using (var a = new HugeFloat("-22250983250345029834.502983574029384572134354"))
             {
                 Assert.AreEqual(-1, a.Sign());
                 Assert.AreEqual(1, (-a).Sign());

@@ -1141,7 +1141,7 @@ namespace MPIR
             void SetTo(String^ value, int base);
 
             /// <summary>
-            /// Sets the value of the raitonal object.
+            /// Sets the value of the rational object.
             /// <para>Do not change the value of an object while it is contained in a hash table, because that changes its hash code.
             /// </para></summary>
             /// <param name="value">new value for the object</param>
@@ -1150,13 +1150,6 @@ namespace MPIR
                 value->AssignTo(&_value->_mp_num);
                 mpz_set_ui(&_value->_mp_den, 1);
             }
-
-            /// <summary>
-            /// Sets the value of the raitonal object.
-            /// <para>Do not change the value of an object while it is contained in a hash table, because that changes its hash code.
-            /// </para></summary>
-            /// <param name="value">new value for the object</param>
-            void SetTo(FloatExpression^ value);
 
             /// <summary>
             /// Sets the value of the raitonal object.
@@ -1174,6 +1167,13 @@ namespace MPIR
                 mpz_set(&_value->_mp_num, CTXTI(0));
                 mpz_set(&_value->_mp_den, CTXTI(1));
             }
+
+            /// <summary>
+            /// Sets the value of the rational object.  There is no rounding, this conversion is exact.
+            /// <para>Do not change the value of an object while it is contained in a hash table, because that changes its hash code.
+            /// </para></summary>
+            /// <param name="value">new value for the object</param>
+            void SetTo(FloatExpression^ value);
 
             /// <summary>
             /// Swaps the values of two rationals.

@@ -103,6 +103,12 @@
     <None Include="..\..\..\mpir.net\mpir.net-tests\HugeFloatTests\Comparisons.cs">
       <Link>HugeFloatTests\Comparisons.cs</Link>
     </None>
+    <Compile Include="..\..\..\mpir.net\mpir.net-tests\HugeFloatTests\Arithmetic.cs">
+      <Link>HugeFloatTests\Arithmetic.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\mpir.net\mpir.net-tests\HugeFloatTests\Comparisons.cs">
+      <Link>HugeFloatTests\Comparisons.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\mpir.net\mpir.net-tests\HugeFloatTests\ConstructionAndDisposal.cs">
       <Link>HugeFloatTests\ConstructionAndDisposal.cs</Link>
     </Compile>
@@ -115,6 +121,15 @@
     <None Include="..\..\..\mpir.net\mpir.net-tests\HugeFloatTests\IO.cs">
       <Link>HugeFloatTests\IO.cs</Link>
     </None>
+    <Compile Include="..\..\..\mpir.net\mpir.net-tests\HugeFloatTests\ExpressionTests.cs">
+      <Link>HugeFloatTests\ExpressionTests.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\mpir.net\mpir.net-tests\HugeFloatTests\IO.cs">
+      <Link>HugeFloatTests\IO.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\mpir.net\mpir.net-tests\HugeFloatTests\Math.cs">
+      <Link>HugeFloatTests\Math.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\mpir.net\mpir.net-tests\HugeIntTests\Arithmetic.cs">
       <Link>HugeIntTests\Arithmetic.cs</Link>
     </Compile>

@@ -29,57 +29,44 @@ namespace MPIR.Tests.HugeFloatTests
     public class IO
     {
         [TestMethod]
-        public void FloatInputOutputRaw()
-        {
-            using (var a = new HugeFloat("0x10123456789ABCDEF0123456789ABCDEF0123456789ABCDEF/361720912810755408215708460645842859722715865206816237944587"))
-            using (var b = new HugeFloat())
-            using (var ms = new MemoryStream())
-            {
-                a.Value = a ^ 100;
-                a.Write(ms);
-                ms.Position = 0;
-                b.Read(ms);
-                Assert.AreEqual(a, b);
-                Assert.AreEqual(ms.Length, ms.Position);
-            }
-        }
-
-        [TestMethod]
         public void FloatInputOutputStr()
         {
-            using (var a = new HugeFloat("0x10123456789ABCDEF0123456789ABCDEF0123456789ABCDEF/361720912810755408215708460645842859722715865206816237944587"))
-            using (var b = new HugeFloat())
+            using (var a = new HugeFloat("10123456789ABCDEF012345.6789ABCDE", 16))
+            using (var b = HugeFloat.Allocate(12800))
             using (var ms = new MemoryStream())
             {
+                a.Reallocate(12800);
                 a.Value = a ^ 100;
                 using (var writer = new StreamWriter(ms, Encoding.UTF8, 1024, true))
-                    a.Write(writer);
+                    a.Write(writer, 10, 0, false, false);
 
                 ms.Position = 0;
 
                 using (var reader = new StreamReader(ms, Encoding.UTF8, false, 1024, true))
-                    b.Read(reader);
+                    b.Read(reader, 10, false);
 
-                Assert.AreEqual(a, b);
+                Assert.AreEqual(a.ToString(10), b.ToString(10));
                 Assert.AreEqual(ms.Length, ms.Position);
+                Assert.AreEqual((char)0xFEFF + a.ToString(10), Encoding.UTF8.GetString(ms.ToArray()));
             }
         }
 
         [TestMethod]
         public void FloatInputOutputStrHex()
         {
-            using (var a = new HugeFloat("0x10123456789ABCDEF0123456789ABCDEF0123456789ABCDEF/361720912810755408215708460645842859722715865206816237944587"))
-            using (var b = new HugeFloat())
+            using(var a = new HugeFloat("10123456789ABCDEF012345.6789ABCDE", 16))
+            using (var b = HugeFloat.Allocate(12800))
             using (var ms = new MemoryStream())
             {
+                a.Reallocate(12800);
                 a.Value = a ^ 100;
                 using (var writer = new StreamWriter(ms, Encoding.UTF8, 1024, true))
-                    a.Write(writer, 16);
+                    a.Write(writer, 16, 0, false, false);
 
                 ms.Position = 0;
 
                 using (var reader = new StreamReader(ms, Encoding.UTF8, false, 1024, true))
-                    b.Read(reader, 16);
+                    b.Read(reader, 16, false);
 
                 Assert.AreEqual(a, b);
                 Assert.AreEqual(ms.Length, ms.Position);
@@ -88,113 +75,69 @@ namespace MPIR.Tests.HugeFloatTests
         }
 
         [TestMethod]
-        public void FloatInputOutputStrHexPrefix()
-        {
-            using (var a = new HugeFloat("0x10123456789ABCDEF0123456789ABCDEF0123456789ABCDEF/361720912810755408215708460645842859722715865206816237944587"))
-            using (var b = new HugeFloat())
-            using (var ms = new MemoryStream())
-            {
-                a.Value = a ^ 100;
-                using (var writer = new StreamWriter(ms, Encoding.UTF8, 1024, true))
-                {
-                    writer.Write("0x");
-                    a.Numerator.Write(writer, 16);
-                    writer.Write("/0");
-                    a.Denominator.Write(writer, 8);
-                }
-
-                ms.Position = 0;
-
-                using (var reader = new StreamReader(ms, Encoding.UTF8, false, 1024, true))
-                    b.Read(reader);
-
-                Assert.AreEqual(a, b);
-                Assert.AreEqual(ms.Length, ms.Position);
-            }
-        }
-
-        [TestMethod]
         public void FloatInputOutputStrHexLower()
         {
-            using (var a = new HugeFloat("0x10123456789ABCDEF0123456789ABCDEF0123456789ABCDEF/361720912810755408215708460645842859722715865206816237944587"))
-            using (var b = new HugeFloat())
-            using (var ms = new MemoryStream())
+            using(var a = new HugeFloat("10123456789ABCDEF012345.6789ABCDE", 16))
+            using(var b = HugeFloat.Allocate(12800))
+            using(var ms = new MemoryStream())
             {
+                a.Reallocate(12800);
                 a.Value = a ^ 100;
-                using (var writer = new StreamWriter(ms, Encoding.UTF8, 1024, true))
-                    a.Write(writer, 16, true);
+                using(var writer = new StreamWriter(ms, Encoding.UTF8, 1024, true))
+                    a.Write(writer, 16, 0, true, false);
 
                 ms.Position = 0;
 
-                using (var reader = new StreamReader(ms, Encoding.UTF8, false, 1024, true))
-                    b.Read(reader, 16);
+                using(var reader = new StreamReader(ms, Encoding.UTF8, false, 1024, true))
+                    b.Read(reader, 16, false);
 
                 Assert.AreEqual(a, b);
                 Assert.AreEqual(ms.Length, ms.Position);
+                Assert.AreEqual((char)0xFEFF + a.ToString(16, true), Encoding.UTF8.GetString(ms.ToArray()));
             }
         }
 
         [TestMethod]
-        public void FloatInputOutputStrOctal()
+        public void FloatInputOutputStrHexExpDecimal()
         {
-            using (var a = new HugeFloat("0x10123456789ABCDEF0123456789ABCDEF0123456789ABCDEF/361720912810755408215708460645842859722715865206816237944587"))
-            using (var b = new HugeFloat())
-            using (var ms = new MemoryStream())
+            using(var a = new HugeFloat("10123456789ABCDEF012345.6789ABCDE", 16))
+            using(var b = HugeFloat.Allocate(12800))
+            using(var ms = new MemoryStream())
             {
+                a.Reallocate(12800);
                 a.Value = a ^ 100;
-                using (var writer = new StreamWriter(ms, Encoding.UTF8, 1024, true))
-                    a.Write(writer, 8);
+                using(var writer = new StreamWriter(ms, Encoding.UTF8, 1024, true))
+                    a.Write(writer, 16, 0, false, true);
 
                 ms.Position = 0;
 
-                using (var reader = new StreamReader(ms, Encoding.UTF8, false, 1024, true))
-                    b.Read(reader, 8);
+                using(var reader = new StreamReader(ms, Encoding.UTF8, false, 1024, true))
+                    b.Read(reader, 16, true);
 
                 Assert.AreEqual(a, b);
                 Assert.AreEqual(ms.Length, ms.Position);
-                Assert.AreEqual((char)0xFEFF + a.ToString(8), Encoding.UTF8.GetString(ms.ToArray()));
-            }
-        }
-
-        [TestMethod]
-        public void FloatInputOutputStrBinary()
-        {
-            using (var a = new HugeFloat("0x10123456789ABCDEF0123456789ABCDEF0123456789ABCDEF/361720912810755408215708460645842859722715865206816237944587"))
-            using (var b = new HugeFloat())
-            using (var ms = new MemoryStream())
-            {
-                a.Value = a ^ 100;
-                using (var writer = new StreamWriter(ms, Encoding.UTF8, 1024, true))
-                    a.Write(writer, 2);
-
-                ms.Position = 0;
-
-                using (var reader = new StreamReader(ms, Encoding.UTF8, false, 1024, true))
-                    b.Read(reader, 2);
-
-                Assert.AreEqual(a, b);
-                Assert.AreEqual(ms.Length, ms.Position);
-                Assert.AreEqual((char)0xFEFF + a.ToString(2), Encoding.UTF8.GetString(ms.ToArray()));
+                Assert.AreEqual((char)0xFEFF + a.ToString(16, false, true), Encoding.UTF8.GetString(ms.ToArray()));
             }
         }
 
         [TestMethod]
         public void FloatInputOutputStr62()
         {
-            using (var a = new HugeFloat("0x10123456789ABCDEF0123456789ABCDEF0123456789ABCDEF/361720912810755408215708460645842859722715865206816237944587"))
-            using (var b = new HugeFloat())
-            using (var ms = new MemoryStream())
+            using(var a = new HugeFloat("10123456789ABCDEF012345.6789ABCDE", 16))
+            using(var b = HugeFloat.Allocate(12800))
+            using(var ms = new MemoryStream())
             {
+                a.Reallocate(12800);
                 a.Value = a ^ 100;
-                using (var writer = new StreamWriter(ms, Encoding.UTF8, 1024, true))
-                    a.Write(writer, 62);
+                using(var writer = new StreamWriter(ms, Encoding.UTF8, 1024, true))
+                    a.Write(writer, 62, 0, false, false);
 
                 ms.Position = 0;
 
-                using (var reader = new StreamReader(ms, Encoding.UTF8, false, 1024, true))
-                    b.Read(reader, 62);
+                using(var reader = new StreamReader(ms, Encoding.UTF8, false, 1024, true))
+                    b.Read(reader, 62, false);
 
-                Assert.AreEqual(a, b);
+                Assert.AreEqual(a.ToString(62), b.ToString(62));
                 Assert.AreEqual(ms.Length, ms.Position);
                 Assert.AreEqual((char)0xFEFF + a.ToString(62), Encoding.UTF8.GetString(ms.ToArray()));
             }

@@ -54,7 +54,7 @@ namespace MPIR.Tests.RandomTests
                         break;
 
                     case 4:
-                        r.Seed(seed); //r = copy; temporarily disabled copy tests due to MPIR bug
+                        r.Seed(seed); //todo r = copy; temporarily disabled copy tests due to MPIR bug
                         break;
                 }
 
@@ -182,6 +182,54 @@ namespace MPIR.Tests.RandomTests
                 r.Seed(12345789);
                 a.Value = r.GetIntBitsChunky(256);
                 Assert.AreEqual("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFC0000000000000000000000000000007F", a.ToString(16));
+            }
+        }
+
+        [TestMethod]
+        public void RandomHugeFloat()
+        {
+            using(var r = MpirRandom.Default())
+            using(var a = HugeFloat.Allocate(256))
+            {
+                r.Seed(12345789);
+                a.Value = r.GetFloat();
+                Assert.AreEqual("0.9E056474F27BEDF9AE62FB31A30B68DFA0B96F29D0C8767A88F8937D6F3A00FD@0", a.ToString(16));
+            }
+        }
+
+        [TestMethod]
+        public void RandomHugeFloatBits()
+        {
+            using(var r = MpirRandom.Default())
+            using(var a = HugeFloat.Allocate(256))
+            {
+                r.Seed(12345789);
+                a.Value = r.GetFloatBits(128);
+                Assert.AreEqual("0.A0B96F29D0C8767A88F8937D6F3A00FD@0", a.ToString(16));
+            }
+        }
+
+        [TestMethod]
+        public void RandomHugeFloatChunky()
+        {
+            using(var r = MpirRandom.Default())
+            using(var a = HugeFloat.Allocate(256))
+            {
+                r.Seed(12345789);
+                a.Value = r.GetFloatChunky(100);
+                Assert.AreEqual("0.7FFFFFFF0180000000000000000007FFFFFFFFFFFFFFFFFFF@-2EF", a.ToString(16));
+            }
+        }
+
+        [TestMethod]
+        public void RandomHugeFloatLimbsChunky()
+        {
+            using(var r = MpirRandom.Default())
+            using(var a = HugeFloat.Allocate(256))
+            {
+                r.Seed(12345789);
+                a.Value = r.GetFloatLimbsChunky(2, 100);
+                Assert.AreEqual("0.7FFFFFF8000007FFF@2C1", a.ToString(16));
             }
         }
     }

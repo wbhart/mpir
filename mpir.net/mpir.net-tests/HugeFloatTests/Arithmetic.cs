@@ -17,7 +17,6 @@ You should have received a copy of the GNU Lesser General Public License
 along with the MPIR Library.  If not, see http://www.gnu.org/licenses/.  
 */
 
-using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace MPIR.Tests.HugeFloatTests
@@ -71,105 +70,41 @@ namespace MPIR.Tests.HugeFloatTests
         [TestMethod]
         public void FloatAddHugeFloat()
         {
-            using (var a = new HugeFloat("222509832503450298345029835740293845720/115756986668303657898962467957"))
-            using (var b = new HugeFloat("222987435987982730594288574029879874539/590872612825179551336102196593"))
+            using (var a = new HugeFloat("22250983250345029834502983.5740293845720"))
+            using (var b = new HugeFloat("2229874359879827.30594288574029879874539"))
             using (var c = new HugeFloat(a + b))
             {
-                Assert.AreEqual(a.Numerator * b.Denominator + b.Numerator * a.Denominator, c.Numerator);
-                Assert.AreEqual(a.Denominator * b.Denominator, c.Denominator);
-            }
-        }
-
-        [TestMethod]
-        public void FloatAddHugeInt()
-        {
-            using (var a = new HugeFloat("222509832503450298345029835740293845720/115756986668303657898962467957"))
-            using (var b = new HugeInt("222987435987982730594288574029879874539"))
-            using (var c = new HugeFloat(a + b))
-            {
-                Assert.AreEqual(a.Numerator + b * a.Denominator, c.Numerator);
-                Assert.AreEqual(a.Denominator, c.Denominator);
-                c.Value = (b + 1) + a;
-                Assert.AreEqual(a.Numerator + (b + 1) * a.Denominator, c.Numerator);
-                Assert.AreEqual(a.Denominator, c.Denominator);
+                FloatAssert.AreEqual("22250983252574904194382810.87997227031229879874539", c);
+                c.Value = a + (b + 1);
+                FloatAssert.AreEqual("22250983252574904194382811.87997227031229879874539", c);
             }
         }
 
         [TestMethod]
         public void FloatAddLimb()
         {
-            using (var a = new HugeFloat("222509832503450298345029835740293845720/115756986668303657898962467957"))
+            using (var a = new HugeFloat("22250983250345029834502983.5740293845720"))
             using (var c = new HugeFloat())
             {
                 var b = 4288574029879874539UL;
                 c.Value = a + b;
-                Assert.AreEqual(a.Numerator + b * a.Denominator, c.Numerator);
-                Assert.AreEqual(a.Denominator, c.Denominator);
-            }
-        }
-
-        [TestMethod]
-        public void FloatAddToLimb()
-        {
-            using (var a = new HugeFloat("222509832503450298345029835740293845720/115756986668303657898962467957"))
-            using (var c = new HugeFloat())
-            {
-                var b = 4288574029879874539UL;
+                FloatAssert.AreEqual("22250987538919059714377522.5740293845720", c);
                 c.Value = b + a;
-                Assert.AreEqual(a.Numerator + b * a.Denominator, c.Numerator);
-                Assert.AreEqual(a.Denominator, c.Denominator);
+                FloatAssert.AreEqual("22250987538919059714377522.5740293845720", c);
             }
         }
 
         [TestMethod]
         public void FloatAddSignedLimb()
         {
-            using (var a = new HugeFloat("222509832503450298345029835740293845720/115756986668303657898962467957"))
+            using (var a = new HugeFloat("22250983250345029834502983.5740293845720"))
             using (var c = new HugeFloat())
             {
-                var b = -4288574029879874539L;
+                var b = -4288574029879874539;
                 c.Value = a + b;
-                Assert.AreEqual(a.Numerator + b * a.Denominator, c.Numerator);
-                Assert.AreEqual(a.Denominator, c.Denominator);
-            }
-        }
-
-        [TestMethod]
-        public void FloatAddToSignedLimb()
-        {
-            using (var a = new HugeFloat("222509832503450298345029835740293845720/115756986668303657898962467957"))
-            using (var c = new HugeFloat())
-            {
-                var b = -4288574029879874539L;
+                FloatAssert.AreEqual("22250978961770999954628444.5740293845720", c);
                 c.Value = b + a;
-                Assert.AreEqual(a.Numerator + b * a.Denominator, c.Numerator);
-                Assert.AreEqual(a.Denominator, c.Denominator);
-            }
-        }
-
-        [TestMethod]
-        public void FloatAddToMaxSignedLimb()
-        {
-            using (var a = new HugeFloat("222509832503450298345029835740293845720/115756986668303657898962467957"))
-            using (var c = new HugeFloat())
-            {
-                var b = long.MinValue;
-                c.Value = b + a;
-                Assert.AreEqual(a.Numerator + b * a.Denominator, c.Numerator);
-                Assert.AreEqual(a.Denominator, c.Denominator);
-            }
-        }
-
-        [TestMethod]
-        public void FloatAddExpressionHugeFloat()
-        {
-            using (var a = new HugeFloat("222509832503450298345029835740293845720/115756986668303657898962467957"))
-            using (var b = new HugeFloat("222987435987982730594288574029879874539/590872612825179551336102196593"))
-            using (var c = new HugeFloat())
-            {
-                c.Value = 1 + (a + b);
-                Assert.AreEqual(a.Numerator * b.Denominator + b.Numerator * a.Denominator + a.Denominator * b.Denominator, c.Numerator);
-                Assert.AreEqual(a.Denominator * b.Denominator, c.Denominator);
+                FloatAssert.AreEqual("22250978961770999954628444.5740293845720", c);
             }
         }
 
@@ -180,99 +115,41 @@ namespace MPIR.Tests.HugeFloatTests
         [TestMethod]
         public void FloatSubtractHugeFloat()
         {
-            using (var a = new HugeFloat("445497268491433028939318409770173720259/115756986668303657898962467957"))
-            using (var b = new HugeFloat("222987435987982730594288574029879874539/590872612825179551336102196593"))
+            using (var a = new HugeFloat("22250983250345029834502983.5740293845720"))
+            using (var b = new HugeFloat("2229874359879827.30594288574029879874539"))
             using (var c = new HugeFloat(a - b))
             {
-                Assert.AreEqual(a.Numerator * b.Denominator - b.Numerator * a.Denominator, c.Numerator);
-                Assert.AreEqual(a.Denominator * b.Denominator, c.Denominator);
-            }
-        }
-
-        [TestMethod]
-        public void FloatSubtractHugeInt()
-        {
-            using (var a = new HugeFloat("222509832503450298345029835740293845720/115756986668303657898962467957"))
-            using (var b = new HugeInt("222987435987982730594288574029879874539"))
-            using (var c = new HugeFloat(a - b))
-            {
-                Assert.AreEqual(a.Numerator - b * a.Denominator, c.Numerator);
-                Assert.AreEqual(a.Denominator, c.Denominator);
-                c.Value = (b + 1) - a;
-                Assert.AreEqual((b + 1) * a.Denominator - a.Numerator, c.Numerator);
-                Assert.AreEqual(a.Denominator, c.Denominator);
+                FloatAssert.AreEqual("22250983248115155474623156.26808649883170120125461", c);
+                c.Value = b - (a + 1);
+                FloatAssert.AreEqual("-22250983248115155474623157.26808649883170120125461", c);
             }
         }
 
         [TestMethod]
         public void FloatSubtractLimb()
         {
-            var b = 4288574029879874539UL;
-            using (var a = new HugeFloat("222509832503450298349318409770173720259/115756986668303657898962467957"))
-            using (var c = new HugeFloat(a - b))
+            using(var a = new HugeFloat("22250983250345029834502983.5740293845720"))
+            using(var c = new HugeFloat())
             {
-                Assert.AreEqual(a.Numerator - b * a.Denominator, c.Numerator);
-                Assert.AreEqual(a.Denominator, c.Denominator);
-            }
-        }
-
-        [TestMethod]
-        public void FloatSubtractFromLimb()
-        {
-            var b = 4288574029879874539UL;
-            using (var a = new HugeFloat("222509832503450298349318409770173720259/115756986668303657898962467957"))
-            using (var c = new HugeFloat(b - a))
-            {
-                Assert.AreEqual(b * a.Denominator - a.Numerator, c.Numerator);
-                Assert.AreEqual(a.Denominator, c.Denominator);
-            }
-        }
-
-        [TestMethod]
-        public void FloatSubtractPositiveSignedLimb()
-        {
-            var b = 4288574029879874539L;
-            using (var a = new HugeFloat("222509832503450298349318409770173720259/115756986668303657898962467957"))
-            using (var c = new HugeFloat(a - b))
-            {
-                Assert.AreEqual(a.Numerator - b * a.Denominator, c.Numerator);
-                Assert.AreEqual(a.Denominator, c.Denominator);
-            }
-        }
-
-        [TestMethod]
-        public void FloatSubtractFromPositiveSignedLimb()
-        {
-            var b = 4288574029879874539L;
-            using (var a = new HugeFloat("222509832503450298349318409770173720259/115756986668303657898962467957"))
-            using (var c = new HugeFloat(a - b))
-            {
-                Assert.AreEqual(a.Numerator - b * a.Denominator, c.Numerator);
-                Assert.AreEqual(a.Denominator, c.Denominator);
+                var b = 4288574029879874539UL;
+                c.Value = a - b;
+                FloatAssert.AreEqual("22250978961770999954628444.5740293845720", c);
+                c.Value = b - a;
+                FloatAssert.AreEqual("-22250978961770999954628444.5740293845720", c);
             }
         }
 
         [TestMethod]
         public void FloatSubtractSignedLimb()
         {
-            var b = -4288574029879874539L;
-            using (var a = new HugeFloat("222509832503450298345029835740293845720/115756986668303657898962467957"))
-            using (var c = new HugeFloat(a - b))
+            using(var a = new HugeFloat("22250983250345029834502983.5740293845720"))
+            using(var c = new HugeFloat())
             {
-                Assert.AreEqual(a.Numerator - b * a.Denominator, c.Numerator);
-                Assert.AreEqual(a.Denominator, c.Denominator);
-            }
-        }
-
-        [TestMethod]
-        public void FloatSubtractFromSignedLimb()
-        {
-            var b = -4288574029879874539L;
-            using (var a = new HugeFloat("222509832503450298345029835740293845720/115756986668303657898962467957"))
-            using (var c = new HugeFloat(b - a))
-            {
-                Assert.AreEqual(b * a.Denominator - a.Numerator, c.Numerator);
-                Assert.AreEqual(a.Denominator, c.Denominator);
+                var b = -4288574029879874539;
+                c.Value = a - b;
+                FloatAssert.AreEqual("22250987538919059714377522.5740293845720", c);
+                c.Value = b - a;
+                FloatAssert.AreEqual("-22250987538919059714377522.5740293845720", c);
             }
         }
 
@@ -283,71 +160,41 @@ namespace MPIR.Tests.HugeFloatTests
         [TestMethod]
         public void FloatMultiplyByHugeFloat()
         {
-            using (var a = new HugeFloat("90234098723098475098479385345098345/115756986668303657898962467957"))
-            using (var b = new HugeFloat("7859487359873459872354987610987897/590872612825179551336102196593"))
+            using (var a = new HugeFloat("90234098723098475098479385.345098345"))
+            using (var b = new HugeFloat("78594873598734.59872354987610987897"))
             using (var c = new HugeFloat(a * b))
             {
-                Assert.AreEqual(a.Numerator * b.Numerator, c.Numerator);
-                Assert.AreEqual(a.Denominator * b.Denominator, c.Denominator);
-            }
-        }
-
-        [TestMethod]
-        public void FloatMultiplytHugeInt()
-        {
-            using (var a = new HugeFloat("222509832503450298345029835740293845720/115756986668303657898962467957"))
-            using (var b = new HugeInt("222987435987982730594288574029879874539"))
-            using (var c = new HugeFloat(a * b))
-            {
-                Assert.AreEqual(a.Numerator * b, c.Numerator);
-                Assert.AreEqual(a.Denominator, c.Denominator);
-                c.Value = (b + 1) * a;
-                Assert.AreEqual((b + 1) * a.Numerator, c.Numerator);
-                Assert.AreEqual(a.Denominator, c.Denominator);
+                FloatAssert.AreEqual("7091937583437663707014199538801620613535.95657143399816050772069730465", c);
+                c.Value = b * (a + 1);
+                FloatAssert.AreEqual("7091937583437663707014199617396494212270.55529498387427038669069730465", c);
             }
         }
 
         [TestMethod]
         public void FloatMultiplyByLimb()
         {
-            using (var a = new HugeFloat("90234098723098475098479385345098345/115756986668303657898962467957"))
+            using (var a = new HugeFloat("9023409872309847509847.9385345098345"))
+            using (var c = new HugeFloat())
             {
                 ulong b = 17390538260286101342;
-                a.Value = a * b;
-                Assert.AreEqual("1569219546226477273686601978789044606491747469626478990/115756986668303657898962467957", a.ToString());
-            }
-        }
-
-        [TestMethod]
-        public void FloatMultiplyLimbBy()
-        {
-            using (var a = new HugeFloat("90234098723098475098479385345098345/115756986668303657898962467957"))
-            {
-                ulong b = 17390538260286101342;
-                a.Value = b * a;
-                Assert.AreEqual("1569219546226477273686601978789044606491747469626478990/115756986668303657898962467957", a.ToString());
+                c.Value = a * b;
+                FloatAssert.AreEqual("156921954622647727368660197878904460649174.746962647899", c);
+                c.Value = b * -a;
+                FloatAssert.AreEqual("-156921954622647727368660197878904460649174.746962647899", c);
             }
         }
 
         [TestMethod]
         public void FloatMultiplyBySignedLimb()
         {
-            using (var a = new HugeFloat("90234098723098475098479385345098345/115756986668303657898962467957"))
+            using (var a = new HugeFloat("9023409872309847509847.9385345098345"))
+            using (var c = new HugeFloat())
             {
                 long b = -7390538260286101342;
-                a.Value = a * b;
-                Assert.AreEqual("-666878558995492522701808125338061156491747469626478990/115756986668303657898962467957", a.ToString());
-            }
-        }
-
-        [TestMethod]
-        public void FloatMultiplySignedLimbBy()
-        {
-            using (var a = new HugeFloat("90234098723098475098479385345098345/115756986668303657898962467957"))
-            {
-                long b = -7390538260286101342;
-                a.Value = b * a;
-                Assert.AreEqual("-666878558995492522701808125338061156491747469626478990/115756986668303657898962467957", a.ToString());
+                c.Value = a * b;
+                FloatAssert.AreEqual("-66687855899549252270180812533806115649174.746962647899", c);
+                c.Value = b * -a;
+                FloatAssert.AreEqual("66687855899549252270180812533806115649174.746962647899", c);
             }
         }
 
@@ -358,11 +205,12 @@ namespace MPIR.Tests.HugeFloatTests
         [TestMethod]
         public void FloatShiftLeft()
         {
-            using (var a = new HugeFloat("-12345700987ABCDEF2345CBDEFA245230948/17607EF654EB9A13FFA163C75", 16))
+            using (var a = new HugeFloat("-12345700987ABA245230948.17607EF", 16))
+            using (var e = new HugeFloat("-12345700987ABA24523094817607.EF", 16))
             {
-                ulong b = 40;
+                ulong b = 20;
                 a.Value = a << b;
-                Assert.AreEqual("-12345700987ABCDEF2345CBDEFA2452309480000000000/17607EF654EB9A13FFA163C75", a.ToString(16));
+                Assert.AreEqual(e, a);
             }
         }
 
@@ -373,11 +221,12 @@ namespace MPIR.Tests.HugeFloatTests
         [TestMethod]
         public void FloatShiftRight()
         {
-            using (var a = new HugeFloat("ABCDEF052834524092854092874502983745029345723098457209305983434345/17607EF654EB9A13FFA163C75", 16))
+            using (var a = new HugeFloat("-12345700987ABA24523094817607.EF", 16))
+            using (var e = new HugeFloat("-12345700987ABA245230948.17607EF", 16))
             {
-                ulong b = 96;
+                ulong b = 20;
                 a.Value = a >> b;
-                Assert.AreEqual("ABCDEF052834524092854092874502983745029345723098457209305983434345/17607EF654EB9A13FFA163C75000000000000000000000000", a.ToString(16));
+                Assert.AreEqual(e, a);
             }
         }
 
@@ -388,12 +237,12 @@ namespace MPIR.Tests.HugeFloatTests
         [TestMethod]
         public void FloatNegate()
         {
-            using (var a = new HugeFloat("24092854092874502983745029345723098457209/115756986668303657898962467957"))
+            using(var a = new HugeFloat("9023409872309847509847.9385345098345"))
             {
                 a.Value = -a;
-                Assert.AreEqual("-24092854092874502983745029345723098457209/115756986668303657898962467957", a.ToString());
+                FloatAssert.AreEqual("-9023409872309847509847.9385345098345", a);
                 a.Value = -a;
-                Assert.AreEqual("24092854092874502983745029345723098457209/115756986668303657898962467957", a.ToString());
+                FloatAssert.AreEqual("9023409872309847509847.9385345098345", a);
             }
         }
 
@@ -404,28 +253,12 @@ namespace MPIR.Tests.HugeFloatTests
         [TestMethod]
         public void FloatMakeAbsolute()
         {
-            using (var a = new HugeFloat("-24092854092874502983745029345723098457209/115756986668303657898962467957"))
+            using(var a = new HugeFloat("-9023409872309847509847.9385345098345"))
             {
                 a.Value = a.Abs();
-                Assert.AreEqual("24092854092874502983745029345723098457209/115756986668303657898962467957", a.ToString());
+                FloatAssert.AreEqual("9023409872309847509847.9385345098345", a);
                 a.Value = a.Abs();
-                Assert.AreEqual("24092854092874502983745029345723098457209/115756986668303657898962467957", a.ToString());
-            }
-        }
-
-        #endregion
-
-        #region Invert
-
-        [TestMethod]
-        public void FloatInvert()
-        {
-            using(var a = new HugeFloat("-24092854092874502983745029345723098457209/115756986668303657898962467957"))
-            {
-                a.Value = a.Invert();
-                Assert.AreEqual("-115756986668303657898962467957/24092854092874502983745029345723098457209", a.ToString());
-                a.Value = a.Invert();
-                Assert.AreEqual("-24092854092874502983745029345723098457209/115756986668303657898962467957", a.ToString());
+                FloatAssert.AreEqual("9023409872309847509847.9385345098345", a);
             }
         }
 
@@ -436,13 +269,34 @@ namespace MPIR.Tests.HugeFloatTests
         [TestMethod]
         public void FloatPower()
         {
-            using(var n = new HugeInt("-24092854092874502983745029345723098457209"))
-            using(var d = new HugeInt("115756986668303657898962467957"))
-            using(var a = new HugeFloat(n, d))
+            using(var a = new HugeFloat("-902340.945098345"))
             {
                 a.Value = a ^ 5;
-                Assert.AreEqual(n ^ 5, a.Numerator);
-                Assert.AreEqual(d ^ 5, a.Denominator);
+                FloatAssert.AreEqual("-598209523815275040074985233466.4619735146023546465747916785912044", a);
+            }
+        }
+
+        #endregion
+
+        #region Sqrt
+
+        [TestMethod]
+        public void FloatSqrt()
+        {
+            using(var a = new HugeFloat("9023404035982394058230584.9434590783455098345"))
+            {
+                a.Value = a.SquareRoot();
+                FloatAssert.AreEqual("3003898140081.0504277325488426221152130989784856425363142756", a);
+            }
+        }
+
+        [TestMethod]
+        public void FloatSqrtLimb()
+        {
+            using(var a = new HugeFloat())
+            {
+                a.Value = HugeFloat.SquareRoot(2540928740928357403UL);
+                FloatAssert.AreEqual("1594029090.3645257511790832426801336140951314995369452070983", a);
             }
         }
 
@@ -455,41 +309,11 @@ namespace MPIR.Tests.HugeFloatTests
         [TestMethod]
         public void FloatDivideHugeFloat()
         {
-            using (var a = new HugeFloat("115756986668303657898962467957/394580293847502987609283945873594873409587"))
-            using (var b = new HugeFloat("593169091750307653294"))
+            using (var a = new HugeFloat("1157569866683036578989624354347957.394580293847"))
+            using (var b = new HugeFloat("593169091750307653294.549782395235784"))
             {
                 a.Value = a / b;
-                Assert.AreEqual("115756986668303657898962467957/234052834524092854092760134269509268758750275703033222451729578", a.ToString());
-            }
-        }
-
-        [TestMethod]
-        public void FloatDivideHugeFloat2()
-        {
-            using (var a = new HugeFloat("90234098723098475098479385345098345/115756986668303657898962467957"))
-            using (var b = new HugeFloat("6847944682037444681162770672798288913849/590872612825179551336102196593"))
-            using (var c = new HugeFloat(a / b))
-            {
-                Assert.AreEqual(a.Numerator * b.Denominator, c.Numerator);
-                Assert.AreEqual(a.Denominator * b.Numerator, c.Denominator);
-            }
-        }
-
-        [TestMethod]
-        public void FloatDivideHugeInt()
-        {
-            using (var a = new HugeFloat("222509832503450298345029835740293845720/115756986668303657898962467957"))
-            using (var b = new HugeInt("222987435987982730594288574029879874539"))
-            using (var c = new HugeFloat(a / b))
-            using (var d = new HugeFloat())
-            {
-                Assert.AreEqual(a.Numerator, c.Numerator);
-                Assert.AreEqual(a.Denominator * b, c.Denominator);
-                c.Value = (b + 1) / a;
-                d.Numerator.Value = (b + 1) * a.Denominator;
-                d.Denominator.Value = a.Numerator;
-                d.Canonicalize();
-                Assert.AreEqual(d, c);
+                FloatAssert.AreEqual("1951500647593.2689953514865540344827449639493356367018584357", a);
             }
         }
 
@@ -500,44 +324,44 @@ namespace MPIR.Tests.HugeFloatTests
         [TestMethod]
         public void FloatDivideLimb()
         {
-            using (var a = new HugeFloat("115756986668303657898962467957/39458029384750298767200622330399462537522498"))
+            using (var a = new HugeFloat("1157569866683036578989624354347957.394580293847"))
             {
                 ulong b = 5931690917503076532;
                 a.Value = a / b;
-                Assert.AreEqual("115756986668303657898962467957/234052834524092854092874502983745029345723092857791404165816936", a.ToString());
+                FloatAssert.AreEqual("195150064759326.89956625512472902395197480398952074748799190", a);
             }
         }
 
         [TestMethod]
         public void FloatDivideSignedLimb()
         {
-            using(var a = new HugeFloat("115756986668303657898962467957/39458029384750298767200622330399462537522498"))
+            using(var a = new HugeFloat("1157569866683036578989624354347957.394580293847"))
             {
                 long b = -5931690917503076532;
                 a.Value = a / b;
-                Assert.AreEqual("-115756986668303657898962467957/234052834524092854092874502983745029345723092857791404165816936", a.ToString());
+                FloatAssert.AreEqual("-195150064759326.89956625512472902395197480398952074748799190", a);
             }
         }
 
         [TestMethod]
         public void FloatDivideLimbBy()
         {
-            using(var a = new HugeFloat("115756986668303657898962467957/39458029384750298767200622330399462537522498"))
+            using(var a = new HugeFloat("11575698666830.39458029384723405203984572"))
             {
                 ulong b = 5931690917503076532;
                 a.Value = b / a;
-                Assert.AreEqual("234052834524092854092874502983745029345723092857791404165816936/115756986668303657898962467957", a.ToString());
+                FloatAssert.AreEqual("512426.16866833708737257760720580856722540469109813901673959", a);
             }
         }
 
         [TestMethod]
         public void FloatDivideSignedLimbBy()
         {
-            using(var a = new HugeFloat("115756986668303657898962467957/39458029384750298767200622330399462537522498"))
+            using(var a = new HugeFloat("11575698666830.39458029384723405203984572"))
             {
                 long b = -5931690917503076532;
                 a.Value = b / a;
-                Assert.AreEqual("-234052834524092854092874502983745029345723092857791404165816936/115756986668303657898962467957", a.ToString());
+                FloatAssert.AreEqual("-512426.16866833708737257760720580856722540469109813901673959", a);
             }
         }
 

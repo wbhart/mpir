@@ -39,10 +39,10 @@ namespace MPIR.Tests.HugeFloatTests
                 .Where(x => baseExpr.IsAssignableFrom(x) && !x.IsAbstract)
                 .ToList();
 
-            using (var a = new HugeFloat(-9, 1))
-            using (var b = new HugeFloat(4, 1))
+            using (var a = new HugeFloat(-9))
+            using (var b = new HugeFloat(4))
             using (var c = new HugeInt(3))
-            using (var r = MpirRandom.Default())
+            using(var r = MpirRandom.Default())
             {
                 var expr = a + (-a * 2) * 3 * (a.Abs() * -2 + -64 + a * a) + 116UL + a;
                 VerifyPartialResult(r, expr, 44);
@@ -56,10 +56,20 @@ namespace MPIR.Tests.HugeFloatTests
                 VerifyPartialResult(r, expr, -20);
                 expr = expr + (b >> 1) + ((b / -7L) + (a / 7UL)) * 7 + (7L / a) - (2UL / (b + 5));
                 VerifyPartialResult(r, expr, -32);
-                expr = expr + (((a / b).Invert() * 3) ^ 3) - (b + 13) / a / -3;
+                expr = expr - (b + 13 + 64) / a / -3;
                 VerifyPartialResult(r, expr, -35);
-                expr = expr + c + (b - 2 * c) + (-4 * c - a) - (c - 1) * (b - 1) - (a / c) + (c * 2) / (b - 1);
-                VerifyPartialResult(r, expr, -38);
+                expr = expr + b.SquareRoot() + HugeFloat.SquareRoot(25) + ((b - 2) ^ 3) - (-b).RelativeDifferenceFrom(a + 1);
+                VerifyPartialResult(r, expr, -19);
+                expr = expr - (a / 4).Floor() + (b / 3).Ceiling() - (a / b).Truncate();
+                VerifyPartialResult(r, expr, -12);
+                expr = expr + (r.GetFloatBits(64) * 10).Ceiling();
+                VerifyPartialResult(r, expr, -10);
+                expr = expr + (r.GetFloatLimbsChunky(2, 4) << 233).Ceiling();
+                VerifyPartialResult(r, expr, -6);
+                expr = expr + (r.GetFloat() * 10).Floor();
+                VerifyPartialResult(r, expr, -2);
+                expr = expr + (r.GetFloatChunky(3) << 101).Truncate();
+                VerifyPartialResult(r, expr, 13);
 
                 MarkExpressionsUsed(allExpressions, expr);
             }
@@ -74,8 +84,12 @@ namespace MPIR.Tests.HugeFloatTests
 
             using (var r = new HugeFloat())
             {
-                r.Value = expr;
-                Assert.AreEqual(expected.ToString() + "/1", r.ToString());
+                using (var exp = new HugeFloat(expected))
+                using (var epsilon = new HugeFloat("0.001"))
+                {
+                    r.Value = expr;
+                    Assert.IsTrue(r - epsilon < exp && r + epsilon > exp, "Expected {0}, Actual {1}", exp, r);
+                }
             }
         }
 

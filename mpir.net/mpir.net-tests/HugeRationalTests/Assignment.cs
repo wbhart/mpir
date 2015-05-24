@@ -97,6 +97,17 @@ namespace MPIR.Tests.HugeRationalTests
                 Assert.AreEqual(d * 5, b.Denominator);
             }
         }
+
+        [TestMethod]
+        public void RationalAssignFloat2()
+        {
+            using(var a = new HugeFloat("222509832503450298342455029.125"))
+            using(var b = new HugeRational("1/3"))
+            {
+                b.SetTo(a);
+                Assert.AreEqual("1780078660027602386739640233/8", b.ToString());
+            }
+        }
         //more tests coming here
     }
 }

@@ -21,7 +21,6 @@ along with the MPIR Library.  If not, see http://www.gnu.org/licenses/.
 #include "HugeInt.h"
 #include "HugeRational.h"
 #include "HugeFloat.h"
-//#include "Random.h"
 
 using namespace System::Runtime::InteropServices;
 using namespace System::Text;
@@ -34,19 +33,24 @@ namespace MPIR
     {
         AllocateStruct();
         MP(init)(_value);
+        _allocatedPrecision = MP(get_prec)(_value);
     }
 
     MPTYPE::MPTYPE(bool initialize)
     {
         AllocateStruct();
         if(initialize)
+        {
             MP(init)(_value);
+            _allocatedPrecision = MP(get_prec)(_value);
+        }
     }
 
     MPTYPE::MPTYPE(MPEXPR_NAME^ value)
     {
         AllocateStruct();
         MP(init)(_value);
+        _allocatedPrecision = MP(get_prec)(_value);
         value->AssignTo(_value);
     }
 
@@ -54,6 +58,7 @@ namespace MPIR
     {
         AllocateStruct();
         MP(init)(_value);
+        _allocatedPrecision = MP(get_prec)(_value);
         SetTo(value);
     }
 
@@ -68,16 +73,19 @@ namespace MPIR
     {
         auto result = gcnew MPTYPE(false);
         MP(init2)(result->_value, precision);
+        result->_allocatedPrecision = MP(get_prec)(result->_value);
         return result;
     }
 
-    void MPTYPE::FromString(String^ value, int base)
+    void MPTYPE::FromString(String^ value, int base, bool exponentInDecimal)
     {
         AllocateStruct();
         MP(init)(_value);
+        _allocatedPrecision = MP(get_prec)(_value);
 
+        base = Math::Abs(base);
         IntPtr ptr = Marshal::StringToHGlobalAnsi(value);
-        bool success = 0 == MP(set_str)(_value, (char*)(void*)ptr, base);
+        bool success = 0 == MP(set_str)(_value, (char*)(void*)ptr, exponentInDecimal ? -base : base);
         Marshal::FreeHGlobal(ptr);
 
         if(!success)
@@ -87,10 +95,11 @@ namespace MPIR
         }
     }
 
-    void MPTYPE::SetTo(String^ value, int base)
+    void MPTYPE::SetTo(String^ value, int base, bool exponentInDecimal)
     {
+        base = Math::Abs(base);
         IntPtr ptr = Marshal::StringToHGlobalAnsi(value);
-        bool success = 0 == MP(set_str)(_value, (char*)(void*)ptr, base);
+        bool success = 0 == MP(set_str)(_value, (char*)(void*)ptr, exponentInDecimal ? -base : base);
         Marshal::FreeHGlobal(ptr);
 
         if(!success)
@@ -101,67 +110,68 @@ namespace MPIR
     {
         AllocateStruct();
         MP(init_set_si)(_value, value);
+        _allocatedPrecision = MP(get_prec)(_value);
     }
 
     MPTYPE::MPTYPE(mpir_ui value)
     {
         AllocateStruct();
         MP(init_set_ui)(_value, value);
+        _allocatedPrecision = MP(get_prec)(_value);
     }
 
     MPTYPE::MPTYPE(double value)
     {
         AllocateStruct();
         MP(init_set_d)(_value, value);
+        _allocatedPrecision = MP(get_prec)(_value);
     }
 
     #pragma endregion
 
     #pragma region object overrides
 
-    String^ MPTYPE::ToString(int base, bool lowercase, int maxDigits)
+    String^ MPTYPE::ToString(int base, bool lowercase, int maxDigits, bool exponentInDecimal)
     {
-        size_t allocated;
+        if(base < 2 || base > 62)
+            throw gcnew ArgumentOutOfRangeException("base", "Invalid base");
+
         mp_exp_t exponent;
-        bool negative = false;
-        bool truncated = false;
-        char* allocatedStr = NULL;
-        EvaluationContext context;
-        auto result = gcnew StringBuilder(maxDigits + 20);
+        auto allocatedStr = MP(get_str)(NULL, &exponent, (!lowercase && base <= 36) ? -base : base, maxDigits, _value);
+        auto str = allocatedStr;
 
-        ASSIGN_TO(context);
-
-        if(maxDigits > 0)
-        {
-            allocated = maxDigits + 2;
-            allocatedStr = (char*)(*__gmp_allocate_func)(allocated);
-        }
-        else
-        {
-            allocated = 0;
-        }
-
-        allocatedStr = MP(get_str)(allocatedStr, &exponent, (base <= 36 && !lowercase) ? -base : base, maxDigits, CTXT(0));
-
-        char* str = allocatedStr;
-
-        if(*str == '-')
-            result->Append((wchar_t)*str++);
+        auto result = maxDigits > 0 ? gcnew StringBuilder(maxDigits + 70) : gcnew StringBuilder();
         
+        size_t allocated = 1;
+        if (*str == '-')
+        {
+            result->Append((wchar_t)'-');
+            allocated++;
+            str++;
+        }
         result->Append((wchar_t)'0');
+
         if (*str != 0)
         {
             result->Append((wchar_t)'.');
-
             while (*str != 0)
-                result->Append((wchar_t)*str++);
+            {
+                result->Append((wchar_t)*str);
+                allocated++;
+                str++;
+            }
+            result->Append((wchar_t)'@');
+
+            if(exponentInDecimal)
+            {
+                result->Append(exponent);
+            }
+            else
+            {
+                HugeInt exp((mpir_si) exponent);
+                result->Append(exp.ToString(base, lowercase));
+            }
         }
-
-        if (exponent != 0)
-            result->Append((wchar_t)'@')->Append(exponent);
-
-        if (allocated == 0)
-            allocated = str - allocatedStr + 1;
 
         (*__gmp_free_func)(allocatedStr, allocated);
 
@@ -284,6 +294,11 @@ namespace MPIR
                                                                                                            
     MAKE_UNARY_OPERATOR            (MPEXPR_NAME,        DEFINE, -, Negate, Flt)             
     MAKE_VOID_FUNCTION             (MPEXPR_NAME,        DEFINE, Abs, Flt)                   
+    MAKE_VOID_FUNCTION             (MPEXPR_NAME,        DEFINE, Floor, Flt)                   
+    MAKE_VOID_FUNCTION             (MPEXPR_NAME,        DEFINE, Ceiling, Flt)                   
+    MAKE_VOID_FUNCTION             (MPEXPR_NAME,        DEFINE, Truncate, Flt)                   
+    MAKE_VOID_FUNCTION             (MPEXPR_NAME,        DEFINE, SquareRoot, Flt)                   
+    MAKE_FUNCTION_WITH_ONE         (MPEXPR_NAME,        DEFINE, RelativeDifferenceFrom, Flt)                   
                                                                                                            
     MAKE_BINARY_OPERATOR_STANDARD  (MPEXPR_NAME,        DEFINE, /, Divide, Flt, Flt)        
     MAKE_BINARY_OPERATOR_RLIMB     (MPEXPR_NAME,        DEFINE, /, Divide, Flt, Ui)       
@@ -293,6 +308,11 @@ namespace MPIR
                                                                                                            
     DEFINE_UNARY_ASSIGNMENT_REF(Negate, Flt, MP(neg))
     DEFINE_UNARY_ASSIGNMENT_REF(Abs, Flt, MP(abs))
+    DEFINE_UNARY_ASSIGNMENT_REF(Floor, Flt, MP(floor))
+    DEFINE_UNARY_ASSIGNMENT_REF(Ceiling, Flt, MP(ceil))
+    DEFINE_UNARY_ASSIGNMENT_REF(Truncate, Flt, MP(trunc))
+    DEFINE_UNARY_ASSIGNMENT_REF(SquareRoot, Flt, MP(sqrt))
+    DEFINE_UNARY_ASSIGNMENT_VAL(SquareRoot, Ui, MP(sqrt_ui))
 
     DEFINE_BINARY_ASSIGNMENT_REF_REF(Add, Flt, MP(add))
     DEFINE_BINARY_ASSIGNMENT_REF_VAL(Add, Flt, Ui, MP(add_ui))
@@ -318,33 +338,97 @@ namespace MPIR
     DEFINE_BINARY_ASSIGNMENT_REF_VAL(ShiftRight, Flt, Bits, MP(div_2exp))
 
     DEFINE_BINARY_ASSIGNMENT_REF_VAL(Power, Flt, Ui, MP(pow_ui))
+    DEFINE_BINARY_ASSIGNMENT_REF_REF(RelativeDifferenceFrom, Flt, MP(reldiff))
 
     #pragma endregion
 
     #pragma region IO
 
-    #define chunkSize 1024
-
-    size_t MPTYPE::Write(Stream^ stream)
+    size_t MPTYPE::Write(TextWriter^ writer, int base, int maxDigits, bool lowercase, bool exponentInDecimal)
     {
-        throw gcnew NotImplementedException();
-    }
-
-    size_t MPTYPE::Read(Stream^ stream)
-    {
-        throw gcnew NotImplementedException();
-    }
-
-    size_t MPTYPE::Write(TextWriter^ writer, int base, bool lowercase)
-    {
-        auto str = ToString(base, lowercase);
+        auto str = ToString(base, lowercase, maxDigits, exponentInDecimal);
         writer->Write(str);
         return str->Length;
     }
 
-    size_t MPTYPE::Read(TextReader^ reader, int base)
+    size_t MPTYPE::Read(TextReader^ reader, int base, bool exponentInDecimal)
     {
-        throw gcnew NotImplementedException();
+        StringBuilder str;
+        
+        int c;
+        size_t nread = 0;
+        const unsigned char* digit_value = __gmp_digit_value_tab;
+        bool hasDecimal = false;
+        bool inExponent = false;
+
+        if (base < 2)
+            throw gcnew ArgumentException("Invalid base", "base");
+
+        if (base > 36)
+        {
+            // For bases > 36, use the collating sequence
+            // 0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz
+            digit_value += 224;
+            if (base > 62)
+                throw gcnew ArgumentException("Invalid base", "base");
+        }
+
+        // Skip whitespace
+        while ((c = reader->Peek()) >= 0 && Char::IsWhiteSpace(c))
+        {
+            nread++;
+            reader->Read();
+        }
+
+        // possibly negative
+        if (c == '-')
+        {
+            str.Append((wchar_t)c);
+            PEEK_NEXT_CHAR;
+        }
+
+        while (c != EOF)
+        {
+            if (c == '.')
+            {
+                if (hasDecimal) break;
+                
+                hasDecimal = true;
+                str.Append((wchar_t)c);
+                PEEK_NEXT_CHAR;
+                continue;
+            }
+
+            if ((base <= 10 && Char::ToLower(c) == 'e') || c == '@')
+            {
+                if (inExponent) break;
+                
+                inExponent = true;
+                str.Append((wchar_t)c);
+                PEEK_NEXT_CHAR;
+
+                // possibly negative
+                if (c == '-')
+                {
+                    str.Append((wchar_t)c);
+                    PEEK_NEXT_CHAR;
+                }
+                continue;
+            }
+
+            if (inExponent && exponentInDecimal && !Char::IsDigit(c))
+                break;
+
+            int dig = digit_value[c];
+            if (dig >= base)
+                break;
+
+            str.Append((wchar_t)c);
+            PEEK_NEXT_CHAR;
+        }
+
+        SetTo(str.ToString(), base, exponentInDecimal);
+        return str.Length + nread;
     }
 
     #pragma endregion

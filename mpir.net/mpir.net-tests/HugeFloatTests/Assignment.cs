@@ -40,36 +40,43 @@ namespace MPIR.Tests.HugeFloatTests
         [TestMethod]
         public void FloatAssignCopy()
         {
-            using (var a = new HugeFloat("-222509832503450298345029835740293845720.5"))
+            var s = "-1.22250983250345029834502983574029384572";
+            using (var a = new HugeFloat(s))
             using (var b = new HugeFloat())
             {
                 b.Value = a;
-                Assert.AreEqual("-0.2225098325034502983450298357402938457205@39", b.ToString());
+                FloatAssert.AreEqual(s, b);
             }
         }
 
         [TestMethod]
         public void FloatSwap()
         {
-            using (var a = new HugeFloat("-222509832503450298345029835740293845720.5"))
-            using (var b = new HugeFloat("2039847290878794872059384789347534534.75"))
+            using (var a = HugeFloat.Allocate(192))
+            using (var b = HugeFloat.Allocate(128))
             {
                 var aValue = a._value();
                 var bValue = b._value();
+                var aPrec = a._allocatedPrecision;
+                var bPrec = b._allocatedPrecision;
                 a.Swap(b);
+                Assert.AreNotEqual(aValue, bValue);
                 Assert.AreEqual(bValue, a._value());
                 Assert.AreEqual(aValue, b._value());
+                Assert.AreNotEqual(aPrec, bPrec);
+                Assert.AreEqual(bPrec, a._allocatedPrecision);
+                Assert.AreEqual(aPrec, b._allocatedPrecision);
             }
         }
 
         [TestMethod]
         public void FloatCompoundOperators()
         {
-            using (var a = new HugeFloat("938475092834705928347523452345.125"))
+            using (var a = new HugeFloat("938475092834705928347523452345.115756986668303657898962467957"))
             {
                 a.Value += 1;
                 a.Value *= 10;
-                Assert.AreEqual("0.938475092834705928347523452346125@31", a.ToString());
+                FloatAssert.AreEqual("9384750928347059283475234523461.15756986668303657898962467957", a);
             }
         }
 
@@ -77,13 +84,32 @@ namespace MPIR.Tests.HugeFloatTests
         public void FloatAssignInt()
         {
             using (var a = new HugeInt("222509832503450298345029835740293845720"))
-            using (var b = new HugeFloat("1234567"))
+            using (var b = new HugeFloat())
             {
                 b.SetTo(a);
-                Assert.AreEqual("0.22250983250345029834502983574029384572@39", b.ToString());
+                FloatAssert.AreEqual("222509832503450298345029835740293845720.", b);
             }
         }
 
+        public void FloatAssignDouble()
+        {
+            using(var a = new HugeFloat())
+            {
+                a.SetTo(22250983250345.125);
+                Assert.IsTrue(a == 22250983250345.125);
+            }
+        }
+
+        [TestMethod]
+        public void FloatAssignRational()
+        {
+            using (var a = new HugeRational(1, 3))
+            using (var b = new HugeFloat())
+            {
+                b.SetTo(a);
+                FloatAssert.AreEqual(".3333333333333333333333333333333333333333333333333333333333", b);
+            }
+        }
         //more tests coming here
     }
 }
