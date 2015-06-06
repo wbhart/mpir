@@ -1,0 +1,278 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{8E73AD17-D49E-4F63-A483-C5A82A1FA312}</ProjectGuid>
+    <RootNamespace>tune</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <WholeProgramOptimization>false</WholeProgramOptimization>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <WholeProgramOptimization>false</WholeProgramOptimization>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <WholeProgramOptimization>false</WholeProgramOptimization>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <WholeProgramOptimization>false</WholeProgramOptimization>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+    <Import Project="..\vsyasm.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" />
+    <Import Project="..\mpir-tests\test-config.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" />
+    <Import Project="..\mpir-tests\test-config.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" />
+    <Import Project="..\mpir-tests\test-config.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" />
+    <Import Project="..\mpir-tests\test-config.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.21006.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(Platform)\$(Configuration)\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</LinkIncremental>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(Platform)\$(Configuration)\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</LinkIncremental>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(Platform)\$(Configuration)\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(Platform)\$(Configuration)\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <PreBuildEvent />
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;HAVE_GETRUSAGE;HAVE_GETTIMEOFDAY;TUNE_PROGRAM_BUILD;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <AdditionalIncludeDirectories>$(MPDIR);..\..\..\lib\$(IntDir);..\;..\..\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Console</SubSystem>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <PreBuildEvent />
+    <Midl>
+      <TargetEnvironment>X64</TargetEnvironment>
+    </Midl>
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;HAVE_GETRUSAGE;HAVE_GETTIMEOFDAY;TUNE_PROGRAM_BUILD;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <AdditionalIncludeDirectories>$(MPDIR);..\..\..\lib\$(IntDir);..\;..\..\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Console</SubSystem>
+      <TargetMachine>MachineX64</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <PreBuildEvent />
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;HAVE_GETRUSAGE;HAVE_GETTIMEOFDAY;TUNE_PROGRAM_BUILD;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <AdditionalIncludeDirectories>$(MPDIR);..\..\..\lib\$(IntDir);..\;..\..\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Console</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <PreBuildEvent />
+    <Midl>
+      <TargetEnvironment>X64</TargetEnvironment>
+    </Midl>
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;HAVE_GETRUSAGE;HAVE_GETTIMEOFDAY;TUNE_PROGRAM_BUILD;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <AdditionalIncludeDirectories>$(MPDIR);..\..\..\lib\$(IntDir);..\;..\..\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Console</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <TargetMachine>MachineX64</TargetMachine>
+    </Link>
+    <PreBuildEvent />
+    <PreBuildEvent>
+      <Command>tune_prebuild.py</Command>
+    </PreBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\tune\hgcd_appr_lehmer.c" />
+    <ClCompile Include="..\..\tune\hgcd_lehmer.c" />
+    <ClCompile Include="..\..\tune\hgcd_reduce_1.c" />
+    <ClCompile Include="..\..\tune\hgcd_reduce_2.c" />
+    <ClCompile Include="..\getopt.c" />
+    <ClCompile Include="..\..\tests\memory.c" />
+    <ClCompile Include="..\..\tests\misc.c" />
+    <ClCompile Include="..\..\tests\refmpn.c" />
+    <ClCompile Include="..\..\tune\tuneup.c" />
+    <ClCompile Include="adjust.c" />
+    <ClCompile Include="adjust_sqrt2.c" />
+    <ClCompile Include="butterfly_lshB.c" />
+    <ClCompile Include="butterfly_rshB.c" />
+    <ClCompile Include="combine_bits.c" />
+    <ClCompile Include="dc_bdiv_q.c" />
+    <ClCompile Include="dc_bdiv_qr.c" />
+    <ClCompile Include="dc_bdiv_qr_n.c" />
+    <ClCompile Include="dc_divappr_q.c" />
+    <ClCompile Include="dc_div_qr.c" />
+    <ClCompile Include="dc_div_qr_n.c" />
+    <ClCompile Include="divrem_1.c" />
+    <ClCompile Include="divrem_2.c" />
+    <ClCompile Include="divrem_euclidean_r_1.c" />
+    <ClCompile Include="divrem_hensel_qr_1.c" />
+    <ClCompile Include="div_2expmod_2expp1.c" />
+    <ClCompile Include="fac_ui.c" />
+    <ClCompile Include="fermat_to_mpz.c" />
+    <ClCompile Include="fft_mfa_trunc_sqrt2.c" />
+    <ClCompile Include="fft_mfa_trunc_sqrt2_inner.c" />
+    <ClCompile Include="fft_negacyclic.c" />
+    <ClCompile Include="fft_radix2.c" />
+    <ClCompile Include="fft_trunc.c" />
+    <ClCompile Include="gcd.c" />
+    <ClCompile Include="gcdext.c" />
+    <ClCompile Include="get_str.c" />
+    <ClCompile Include="hgcd.c" />
+    <ClCompile Include="hgcd_appr.c" />
+    <ClCompile Include="hgcd_reduce.c" />
+    <ClCompile Include="ifft_negacyclic.c" />
+    <ClCompile Include="ifft_radix2.c" />
+    <ClCompile Include="ifft_trunc.c" />
+    <ClCompile Include="ifft_trunc_sqrt2.c" />
+    <ClCompile Include="inv_divappr_q.c" />
+    <ClCompile Include="inv_div_qr.c" />
+    <ClCompile Include="matrix22_mul.c" />
+    <ClCompile Include="mod_1.c" />
+    <ClCompile Include="mul.c" />
+    <ClCompile Include="mulhigh_n.c" />
+    <ClCompile Include="mullow_n.c" />
+    <ClCompile Include="mulmod_2expm1.c" />
+    <ClCompile Include="mulmod_2expp1.c" />
+    <ClCompile Include="mulmod_2expp1_basecase.c" />
+    <ClCompile Include="mul_2expmod_2expp1.c" />
+    <ClCompile Include="mul_fft_main.c" />
+    <ClCompile Include="mul_mfa_trunc_sqrt2.c" />
+    <ClCompile Include="mul_n.c" />
+    <ClCompile Include="mul_trunc_sqrt2.c" />
+    <ClCompile Include="normmod_2expp1.c" />
+    <ClCompile Include="revbin.c" />
+    <ClCompile Include="rootrem.c" />
+    <ClCompile Include="rsh_divrem_hensel_qr_1.c" />
+    <ClCompile Include="sb_divappr_q.c" />
+    <ClCompile Include="sb_div_qr.c" />
+    <ClCompile Include="set_str.c" />
+    <ClCompile Include="split_bits.c" />
+    <ClCompile Include="tdiv_q.c" />
+    <ClCompile Include="tdiv_qr.c" />
+    <ClCompile Include="toom3_mul.c" />
+    <ClCompile Include="toom3_mul_n.c" />
+    <ClCompile Include="toom4_mul.c" />
+    <ClCompile Include="toom4_mul_n.c" />
+    <ClCompile Include="toom8h_mul.c" />
+    <ClCompile Include="toom8_sqr_n.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\config.h" />
+    <ClInclude Include="..\getopt.h" />
+    <ClInclude Include="..\getrusage.h" />
+    <ClInclude Include="..\gettimeofday.h" />
+    <ClInclude Include="..\..\tune\speed.h" />
+    <ClInclude Include="..\win_timing.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\lib_speed\lib_speed.vcxproj">
+      <Project>{47b9e74c-7d7a-47da-83af-0a6ade4fbb69}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <YASM Include="sqr_basecase.asm">
+      <FileType>Document</FileType>
+    </YASM>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+    <Import Project="..\vsyasm.targets" />
+  </ImportGroup>
+</Project>
