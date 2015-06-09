@@ -248,7 +248,8 @@ libgmp_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) \
 	$(LIBTOOLFLAGS) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) \
 	$(libgmp_la_LDFLAGS) $(LDFLAGS) -o $@
 @WANT_GMPCOMPAT_TRUE@am_libgmp_la_rpath = -rpath $(libdir)
-am__objects_2 = dummy.lo
+am__dirstamp = $(am__leading_dot)dirstamp
+am__objects_2 = cxx/dummy.lo
 am_libgmpxx_la_OBJECTS = $(am__objects_2)
 libgmpxx_la_OBJECTS = $(am_libgmpxx_la_OBJECTS)
 libgmpxx_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) \
@@ -266,7 +267,7 @@ libmpir_la_OBJECTS = $(am_libmpir_la_OBJECTS)
 libmpir_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) \
 	$(LIBTOOLFLAGS) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) \
 	$(libmpir_la_LDFLAGS) $(LDFLAGS) -o $@
-am_libmpirxx_la_OBJECTS = dummy.lo
+am_libmpirxx_la_OBJECTS = cxx/dummy.lo
 libmpirxx_la_OBJECTS = $(am_libmpirxx_la_OBJECTS)
 libmpirxx_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) \
 	$(LIBTOOLFLAGS) --mode=link $(CXXLD) $(AM_CXXFLAGS) \
@@ -595,7 +596,7 @@ BUILT_SOURCES = mpir.h $(am__append_3) $(am__append_5) mpn/dummy1.c
 DISTCLEANFILES = $(BUILT_SOURCES) config.m4 fat.h @gmp_srclinks@
 
 # Tell mpir.h it's building gmp, not an application, used by windows DLL stuff.
-INCLUDES = -D__GMP_WITHIN_GMP
+AM_CPPFLAGS = -D__GMP_WITHIN_GMP
 MPF_OBJECTS = mpf/abs$U.lo mpf/add$U.lo mpf/add_ui$U.lo \
 	mpf/ceilfloor$U.lo mpf/clear$U.lo mpf/clears$U.lo mpf/cmp$U.lo \
 	mpf/cmp_d$U.lo mpf/cmp_si$U.lo mpf/cmp_ui$U.lo mpf/div$U.lo \
@@ -845,6 +846,10 @@ clean-libLTLIBRARIES:
 
 libgmp.la: $(libgmp_la_OBJECTS) $(libgmp_la_DEPENDENCIES) $(EXTRA_libgmp_la_DEPENDENCIES) 
 	$(AM_V_CCLD)$(libgmp_la_LINK) $(am_libgmp_la_rpath) $(libgmp_la_OBJECTS) $(libgmp_la_LIBADD) $(LIBS)
+cxx/$(am__dirstamp):
+	@$(MKDIR_P) cxx
+	@: > cxx/$(am__dirstamp)
+cxx/dummy.lo: cxx/$(am__dirstamp)
 
 libgmpxx.la: $(libgmpxx_la_OBJECTS) $(libgmpxx_la_DEPENDENCIES) $(EXTRA_libgmpxx_la_DEPENDENCIES) 
 	$(AM_V_CXXLD)$(libgmpxx_la_LINK) $(am_libgmpxx_la_rpath) $(libgmpxx_la_OBJECTS) $(libgmpxx_la_LIBADD) $(LIBS)
@@ -857,6 +862,8 @@ libmpirxx.la: $(libmpirxx_la_OBJECTS) $(libmpirxx_la_DEPENDENCIES) $(EXTRA_libmp
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
+	-rm -f cxx/*.$(OBJEXT)
+	-rm -f cxx/*.lo
 
 distclean-compile:
 	-rm -f *.tab.c
@@ -879,14 +886,12 @@ distclean-compile:
 .cc.lo:
 	$(AM_V_CXX)$(LTCXXCOMPILE) -c -o $@ $<
 
-dummy.lo: cxx/dummy.cc
-	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o dummy.lo `test -f 'cxx/dummy.cc' || echo '$(srcdir)/'`cxx/dummy.cc
-
 mostlyclean-libtool:
 	-rm -f *.lo
 
 clean-libtool:
 	-rm -rf .libs _libs
+	-rm -rf cxx/.libs cxx/_libs
 
 distclean-libtool:
 	-rm -f libtool config.lt
@@ -1263,6 +1268,7 @@ clean-generic:
 distclean-generic:
 	-test -z "$(CONFIG_CLEAN_FILES)" || rm -f $(CONFIG_CLEAN_FILES)
 	-test . = "$(srcdir)" || test -z "$(CONFIG_CLEAN_VPATH_FILES)" || rm -f $(CONFIG_CLEAN_VPATH_FILES)
+	-rm -f cxx/$(am__dirstamp)
 	-test -z "$(DISTCLEANFILES)" || rm -f $(DISTCLEANFILES)
 
 maintainer-clean-generic:
