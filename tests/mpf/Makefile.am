@@ -21,7 +21,7 @@
 # MA 02110-1301, USA.
 
 
-INCLUDES = -I$(top_srcdir) -I$(top_srcdir)/tests
+AM_CPPFLAGS = -I$(top_srcdir) -I$(top_srcdir)/tests
 LDADD = $(top_builddir)/tests/libtests.la $(top_builddir)/libmpir.la
 
 check_PROGRAMS = reuse t-add t-cmp_d t-cmp_si t-conv t-div t-dm2exp t-eq t-fits t-get_d t-get_d_2exp t-get_si t-get_ui t-gsprec t-inp_str t-int_p t-mul_ui t-muldiv t-set t-set_q t-set_si t-set_ui t-sqrt t-sqrt_ui t-sub t-trunc t-ui_div 

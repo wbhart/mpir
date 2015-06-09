@@ -665,7 +665,7 @@ RM_TMP = rm -f
 #ASSEMBLER = $(top_srcdir)/strip_fPIC.sh $(MPIR_AS) -p gas -I $(top_builddir) $(OBJECT_FORMAT) $(GSYM_FLAG) -o $@ 
 #else
 ASSEMBLER = $(CCAS) $(COMPILE_FLAGS)
-INCLUDES = -I$(top_srcdir)
+AM_CPPFLAGS = -I$(top_srcdir)
 LDADD = libtests.la $(top_builddir)/libmpir.la
 check_LTLIBRARIES = libtests.la
 EXTRA_libtests_la_SOURCES = x86_64call.as x86_64check.c x86call.asm x86check.c

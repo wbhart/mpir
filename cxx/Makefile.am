@@ -20,7 +20,7 @@
 # MA 02110-1301, USA.
 
 
-INCLUDES = -D__GMP_WITHIN_GMPXX -I$(top_srcdir)
+AM_CPPFLAGS = -D__GMP_WITHIN_GMPXX -I$(top_srcdir)
 
 if WANT_CXX
 noinst_LTLIBRARIES = libcxx.la
