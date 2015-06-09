@@ -265,7 +265,7 @@ case $basic_machine in
 	| hexagon \
 	| i370 | i860 | i960 | ia64 \
 	| ip2k | iq2000 \
-	| k1om \
+	| k10m \
 	| le32 | le64 \
 	| lm32 \
 	| m32c | m32r | m32rle | m68000 | m68k | m88k \
@@ -286,9 +286,9 @@ case $basic_machine in
 	| mipsisa32r6 | mipsisa32r6el \
 	| mipsisa64 | mipsisa64el \
 	| mipsisa64r2 | mipsisa64r2el \
-	| mipsisa64r6 | mipsisa64r6el \
 	| mipsisa64sb1 | mipsisa64sb1el \
 	| mipsisa64sr71k | mipsisa64sr71kel \
+	| mipsisa64r6 | mipsisa64r6el \
 	| mipsr5900 | mipsr5900el \
 	| mipstx39 | mipstx39el \
 	| mn10200 | mn10300 \
@@ -329,8 +329,8 @@ case $basic_machine in
 		basic_machine=tic6x-unknown
 		;;
 	leon|leon[3-9])
-		basic_machine=sparc-$basic_machine
-		;;
+	        basic_machine=sparc-$basic_machine
+	        ;;
 	m6811 | m68hc11 | m6812 | m68hc12 | m68hcs12x | nvptx | picochip)
 		basic_machine=$basic_machine-unknown
 		os=-none
@@ -388,7 +388,7 @@ case $basic_machine in
 	| hexagon-* \
 	| i*86-* | i860-* | i960-* | ia64-* \
 	| ip2k-* | iq2000-* \
-	| k1om-* \
+	| k10m-* \
 	| le32-* | le64-* \
 	| lm32-* \
 	| m32c-* | m32r-* | m32rle-* \
@@ -518,9 +518,9 @@ case $basic_machine in
 		basic_machine=i386-pc
 		os=-aros
 		;;
-        asmjs)
-		basic_machine=asmjs-unknown
-		;;
+	asmjs)
+	        basic_machine=asmjs-unknown
+	        ;;
 	aux)
 		basic_machine=m68k-apple
 		os=-aux
@@ -783,8 +783,8 @@ case $basic_machine in
 		os=-sysv
 		;;
 	leon-*|leon[3-9]-*)
-		basic_machine=sparc-`echo $basic_machine | sed 's/-.*//'`
-		;;
+	        basic_machine=sparc-`echo $basic_machine | sed 's/-.*//'`
+	        ;;
 	m68knommu)
 		basic_machine=m68k-unknown
 		os=-linux
@@ -841,11 +841,11 @@ case $basic_machine in
 		os=-morphos
 		;;
 	moxiebox)
-		basic_machine=moxie-unknown
-		os=-moxiebox
-		;;
+	        basic_machine=moxie-unknown
+	        os=-moxiebox
+	        ;;
 	msdos)
-		basic_machine=i386-pc
+		basic_machine=i686-pc
 		os=-msdos
 		;;
 	ms1-*)
@@ -1320,7 +1320,7 @@ case $basic_machine in
 	pmac | pmac-mpw)
 		basic_machine=powerpc-apple
 		;;
-	*-unknown)
+	*-unknown | *-pc | *-apple | *-w64)
 		# Make sure to match an already-canonicalized machine name.
 		;;
 	*)
@@ -1389,7 +1389,7 @@ case $os in
 	      | -cygwin* | -msys* | -pe* | -psos* | -moss* | -proelf* | -rtems* \
 	      | -mingw32* | -mingw64* | -linux-gnu* | -linux-android* \
 	      | -linux-newlib* | -linux-musl* | -linux-uclibc* \
-	      | -uxpv* | -beos* | -mpeix* | -udk* | -moxiebox* \
+	      | -uxpv* | -beos* | -mpeix* | -udk* | -moviebox* \
 	      | -interix* | -uwin* | -mks* | -rhapsody* | -darwin* | -opened* \
 	      | -openstep* | -oskit* | -conix* | -pw32* | -nonstopux* \
 	      | -storm-chaos* | -tops10* | -tenex* | -tops20* | -its* \
@@ -1569,8 +1569,8 @@ case $basic_machine in
 		os=-coff
 		;;
 	c8051-*)
-		os=-elf
-		;;
+	        os=-elf
+	        ;;
 	hexagon-*)
 		os=-elf
 		;;
@@ -1808,4 +1808,3 @@ exit
 # time-stamp-format: "%:y-%02m-%02d"
 # time-stamp-end: "'"
 # End:
-
