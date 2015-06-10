@@ -32,6 +32,8 @@ along with the GNU MP Library.  If not, see http://www.gnu.org/licenses/.  */
 #ifndef __GMP_PLUSPLUS__
 #define __GMP_PLUSPLUS__
 
+#include <cstddef>     /* for size_t */
+
 #include <iosfwd>
 
 #include <cstring>  /* for strlen */

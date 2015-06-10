@@ -23,7 +23,7 @@
 # MA 02110-1301, USA.
 
 
-INCLUDES = -I$(top_srcdir) -I$(top_srcdir)/tests
+AM_CPPFLAGS = -I$(top_srcdir) -I$(top_srcdir)/tests
 LDADD = $(top_builddir)/tests/libtests.la $(top_builddir)/libmpir.la
 
 check_PROGRAMS = t-adjust t-adjust_sqrt2 t-butterfly t-butterfly_lshB t-butterfly_rshB t-butterfly_sqrt2 t-butterfly_twiddle t-div_2expmod_2expp1 t-fft_ifft_mfa_trunc_sqrt2 t-fft_ifft_negacyclic t-fft_ifft_radix2 t-fft_ifft_trunc t-fft_ifft_trunc_sqrt2 t-mul_2expmod_2expp1 t-mul_fft_main t-mul_mfa_trunc_sqrt2 t-mul_trunc_sqrt2 t-mulmod_2expp1 t-normmod_2expp1 t-split_combine_bits 

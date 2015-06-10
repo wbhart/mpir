@@ -2336,49 +2336,49 @@ __GMP_DECLSPEC void mpn_com_n _PROTO ((mp_ptr, mp_srcptr, mp_size_t));
 
 #if HAVE_NATIVE_mpn_not
 #define mpn_not __MPN(not)
-void mpn_not _PROTO ((mp_ptr,mp_size_t));
+__GMP_DECLSPEC void mpn_not _PROTO ((mp_ptr,mp_size_t));
 #else
 #define mpn_not(__xp,__n) mpn_com((__xp),(__xp),(__n))
 #endif
 
 #if HAVE_NATIVE_mpn_double
 #define mpn_double __MPN(double)
-mp_limb_t mpn_double _PROTO ((mp_ptr,mp_size_t));
+__GMP_DECLSPEC mp_limb_t mpn_double _PROTO ((mp_ptr,mp_size_t));
 #else
 #define mpn_double(__xp,__n) mpn_lshift1((__xp),(__xp),(__n))
 #endif
 
 #if HAVE_NATIVE_mpn_half
 #define mpn_half __MPN(half)
-mp_limb_t mpn_half _PROTO ((mp_ptr,mp_size_t));
+__GMP_DECLSPEC mp_limb_t mpn_half _PROTO ((mp_ptr,mp_size_t));
 #else
 #define mpn_half(__xp,__n) mpn_rshift1((__xp),(__xp),(__n))
 #endif
 
 #if HAVE_NATIVE_mpn_lshift1
 #define mpn_lshift1 __MPN(lshift1)
-mp_limb_t mpn_lshift1 _PROTO ((mp_ptr,mp_srcptr,mp_size_t));
+__GMP_DECLSPEC mp_limb_t mpn_lshift1 _PROTO ((mp_ptr,mp_srcptr,mp_size_t));
 #else
 #define mpn_lshift1(__xp,__yp,__n) mpn_lshift((__xp),(__yp),(__n),1)
 #endif
 
 #if HAVE_NATIVE_mpn_rshift1
 #define mpn_rshift1 __MPN(rshift1)
-mp_limb_t mpn_rshift1 _PROTO ((mp_ptr,mp_srcptr,mp_size_t));
+__GMP_DECLSPEC mp_limb_t mpn_rshift1 _PROTO ((mp_ptr,mp_srcptr,mp_size_t));
 #else
 #define mpn_rshift1(__xp,__yp,__n) mpn_rshift((__xp),(__yp),(__n),1)
 #endif
 
 #if HAVE_NATIVE_mpn_lshift2
 #define mpn_lshift2 __MPN(lshift2)
-mp_limb_t mpn_lshift2 _PROTO ((mp_ptr,mp_srcptr,mp_size_t));
+__GMP_DECLSPEC mp_limb_t mpn_lshift2 _PROTO ((mp_ptr,mp_srcptr,mp_size_t));
 #else
 #define mpn_lshift2(__xp,__yp,__n) mpn_lshift((__xp),(__yp),(__n),2)
 #endif
 
 #if HAVE_NATIVE_mpn_rshift2
 #define mpn_rshift2 __MPN(rshift2)
-mp_limb_t mpn_rshift2 _PROTO ((mp_ptr,mp_srcptr,mp_size_t));
+__GMP_DECLSPEC mp_limb_t mpn_rshift2 _PROTO ((mp_ptr,mp_srcptr,mp_size_t));
 #else
 #define mpn_rshift2(__xp,__yp,__n) mpn_rshift((__xp),(__yp),(__n),2)
 #endif
