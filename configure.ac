@@ -64,7 +64,7 @@ dnl
 dnl  Note that there's a copy of these options in the top-level Makefile.am,
 dnl  so update there too if changing anything.
 dnl
-AM_INIT_AUTOMAKE([1.11 gnu no-dependencies parallel-tests no-dist-gzip dist-bzip2 dist-zip dist-lzip])
+AM_INIT_AUTOMAKE([1.11 gnu subdir-objects no-dependencies parallel-tests no-dist-gzip dist-bzip2 dist-zip dist-lzip])
 AC_CONFIG_HEADERS(config.h:config.in)
 AM_MAINTAINER_MODE
 
@@ -1205,43 +1205,43 @@ case $host in
 
         case $host in
           # NOTE x86_64w and x86_64 paths MUST be the same , for the fat structure
-          x86_64-w64-mingw*|x86_64-*-cygwin*)
+          x86_64-pc-msys|x86_64-w64-mingw*|x86_64-*-cygwin*)
             path_64="x86_64w" ;;
-          netburst-w64-mingw*|netburst-*-cygwin*)
+          netburst-pc-msys|netburst-w64-mingw*|netburst-*-cygwin*)
             path_64="x86_64w/netburst x86_64w" ;;
-          netburstlahf-w64-mingw*|netburstlahf-*-cygwin*)
+          netburstlahf-pc-msys|netburstlahf-w64-mingw*|netburstlahf-*-cygwin*)
             path_64="x86_64w/netburst x86_64w" ;;
-          k8-w64-mingw*|k8-*-cygwin*)
+          k8-pc-msys|k8-w64-mingw*|k8-*-cygwin*)
             path_64="x86_64w/k8/k8only x86_64w/k8 x86_64w" ;;
-          k10-w64-mingw*|k10-*-cygwin*)
+          k10-pc-msys|k10-w64-mingw*|k10-*-cygwin*)
             path_64="x86_64w/k8/k10 x86_64w/k8 x86_64w" ;;
-          k102-w64-mingw*|k102-*-cygwin*)
+          k102-pc-msys|k102-w64-mingw*|k102-*-cygwin*)
             path_64="x86_64w/k8/k10/k102 x86_64w/k8/k10 x86_64w/k8 x86_64w" ;;
-          k103-w64-mingw*|k103-*-cygwin*)
+          k103-pc-msys|k103-w64-mingw*|k103-*-cygwin*)
             path_64="x86_64w/k8/k10/k102 x86_64w/k8/k10 x86_64w/k8 x86_64w" ;;
-          bulldozer-w64-mingw*|bulldozer-*-cygwin*)
+          bulldozer-pc-msys|bulldozer-w64-mingw*|bulldozer-*-cygwin*)
             path_64="x86_64w/bulldozer x86_64w/k8/k10/k102 x86_64w/k8/k10 x86_64w/k8 x86_64w" ;;
-          piledriver-w64-mingw*|piledriver-*-cygwin*)
+          piledriver-pc-msys|piledriver-w64-mingw*|piledriver-*-cygwin*)
             path_64="x86_64w/bulldozer/piledriver x86_64w/bulldozer x86_64w/k8/k10/k102 x86_64w/k8/k10 x86_64w/k8 x86_64w" ;;
-          bobcat-w64-mingw*|bobcat-*-cygwin*)
+          bobcat-pc-msys|bobcat-w64-mingw*|bobcat-*-cygwin*)
             path_64="x86_64w/bobcat x86_64w" ;;
-          core2-w64-mingw*|core2-*-cygwin*)
+          core2-pc-msys|core2-w64-mingw*|core2-*-cygwin*)
             path_64="x86_64w/core2 x86_64w" ;;
-          penryn-w64-mingw*|penryn-*-cygwin*)
+          penryn-pc-msys|penryn-w64-mingw*|penryn-*-cygwin*)
             path_64="x86_64w/core2/penryn x86_64w/core2 x86_64w" ;;
-          nehalem-w64-mingw*|nehalem-*-cygwin*)
+          nehalem-pc-msys|nehalem-w64-mingw*|nehalem-*-cygwin*)
             path_64="x86_64w/nehalem x86_64w" ;;
-          westmere-w64-mingw*|westmere-*-cygwin*)
+          westmere-pc-msys|westmere-w64-mingw*|westmere-*-cygwin*)
             path_64="x86_64w/nehalem/westmere x86_64w/nehalem x86_64w" ;;
-          sandybridge-w64-mingw*|sandybridge-*-cygwin*)
+          sandybridge-pc-msys|sandybridge-w64-mingw*|sandybridge-*-cygwin*)
             path_64="x86_64w/sandybridge x86_64w" ;;
-          ivybridge-w64-mingw*|ivyybridge-*-cygwin*)
+          ivybridge-pc-msys|ivybridge-w64-mingw*|ivybridge-*-cygwin*)
             path_64="x86_64w/sandybridge/ivybridge x86_64w/sandybridge x86_64w" ;;
-          haswell-w64-mingw*|haswell-*-cygwin*)
+          haswell-pc-msys|haswell-w64-mingw*|haswell-*-cygwin*)
             path_64="x86_64w/haswell x86_64w/sandybridge x86_64w" ;;
-          atom-w64-mingw*|atom-*-cygwin*)
+          atom-pc-msys|atom-w64-mingw*|atom-*-cygwin*)
             path_64="x86_64w/atom x86_64w" ;;
-          nano-w64-mingw*|nano-*-cygwin*)
+          nano-pc-msys|nano-w64-mingw*|nano-*-cygwin*)
             path_64="x86_64w/k8/k8only x86_64w/k8 x86_64w" ;;
 
           x86_64-*-*)
@@ -1290,7 +1290,7 @@ case $host in
           gcc_64_cflags_arch=""
           extra_functions_64="$extra_functions_64 fat fat_entry"
           case $host in
-            *-w64-mingw*|*-*-cygwin*)
+            *-pc-msys|*-w64-mingw*|*-*-cygwin*)
               path_64="x86_64w x86_64w/fat"
               fat_path_64="x86_64w x86_64w/fat x86_64w/netburst x86_64w/k8 x86_64w/k8/k8only x86_64w/k8/k10 x86_64w/k8/k10/k102  x86_64w/core2 x86_64w/core2/penryn x86_64w/nehalem x86_64w/nehalem/westmere x86_64w/atom x86_64w/bobcat x86_64w/sandybridge" ;;
             *-*-*)
@@ -1325,7 +1325,7 @@ esac
 # x86s, but allow any CPU here so as to catch "none" too.
 #
 case $host in
-  *-*-mingw*)
+  *-pc-msys|*-*-mingw*)
     gcc_cflags_optlist="$gcc_cflags_optlist nocygwin"
     gcc_cflags_nocygwin="-mno-cygwin"
     ;;
@@ -1897,7 +1897,7 @@ LT_INIT([win32-dll])
 
 AC_SUBST(LIBGMP_DLL,0)
 case $host in
-  *-*-cygwin* | *-*-mingw*)
+  *-pc-msys|*-*-cygwin* | *-*-mingw*)
     # By default, build only static.
     if test -z "$enable_shared"; then
       enable_shared=no
@@ -2113,7 +2113,7 @@ AC_CHECK_FUNCS(alarm attr_get clock clock_gettime cputime getpagesize getrusage 
 # mingw returns OK on mprotect , but it's broken
 #
 case $host in
-  *-*-mingw*)
+  *-pc-msys|*-*-mingw*)
     ;;
   *)
     AC_CHECK_FUNCS(mprotect)
@@ -2632,7 +2632,7 @@ done
 # what follows is not strictly needed and just make gmp_srclinks more
 # consistent.
 case $host in
-  *-w64-mingw*|*-*-cygwin*)
+  *-pc-msys|*-w64-mingw*|*-*-cygwin*)
     if test "$ABI" = "64"; then
       old_gmp_srclinks=$gmp_srclinks
       gmp_srclinks=
@@ -2850,7 +2850,7 @@ if test "$gmp_asm_syntax_testing" != no; then
               # hardcoded just for ELF, so redefine it here for Mach-O:
               GMP_DEFINE_RAW(["define(\`JUMPTABSECT',\`    .section    __DATA,__const')"],POST)
               OBJECT_FORMAT="-f macho64" ;;
-            *-w64-mingw*|*-*-cygwin*)
+            *-pc-msys|*-w64-mingw*|*-*-cygwin*)
               OBJECT_FORMAT="-f x64"  ;;
             *)
               OBJECT_FORMAT="-f elf64" ;;
@@ -3012,7 +3012,7 @@ AC_CONFIG_SUBDIRS([yasm])
 #fi
 
 case $host in
-  *-w64-mingw*|*-*-cygwin*)
+  *-pc-msys|*-w64-mingw*|*-*-cygwin*)
     if test "$ABI" = "64"; then
       if test $enable_fat = yes; then
         YASM_MAC_INC=yasm_macwin.inc.fat
@@ -3055,7 +3055,7 @@ AC_OUTPUT
 # now we have created and populated the mpn directory we can rename the files
 # and post process the "m4 macros" into "yasm macros"
 case $host in
-  *-w64-mingw*|*-*-cygwin*)
+  *-pc-msys|*-w64-mingw*|*-*-cygwin*)
     if test "$ABI" = "64"; then
       echo "Renaming assembly files on Win64..."
       for jay in $old_gmp_srclinks; do
