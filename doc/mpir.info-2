@@ -3574,7 +3574,7 @@ Function and Type Index
 * mpz_set_si:                            MPIR on Windows x64. (line  21)
 * mpz_set_si <1>:                        MPIR on Windows x64. (line  46)
 * mpz_set_si <2>:                        Assigning Integers.  (line  11)
-* mpz_set_str:                           Assigning Integers.  (line  23)
+* mpz_set_str:                           Assigning Integers.  (line  24)
 * mpz_set_sx:                            Assigning Integers.  (line  13)
 * mpz_set_ui:                            MPIR on Windows x64. (line  19)
 * mpz_set_ui <1>:                        MPIR on Windows x64. (line  44)
@@ -3593,7 +3593,7 @@ Function and Type Index
 * mpz_submul:                            Integer Arithmetic.  (line  24)
 * mpz_submul_ui:                         Integer Arithmetic.  (line  25)
 * mpz_sub_ui:                            Integer Arithmetic.  (line  11)
-* mpz_swap:                              Assigning Integers.  (line  39)
+* mpz_swap:                              Assigning Integers.  (line  40)
 * 'mpz_t':                               Nomenclature and Types.
                                                               (line   6)
 * mpz_tdiv_q:                            Integer Division.    (line  38)

@@ -545,7 +545,7 @@ make install
 @end example
 
 Important note: by default MPIR produces libraries named libmpir, etc., and the header file 
-mpir.h. If you wish to have MPIR to build a library named libgmp as well, etc., and a 
+@file{mpir.h}. If you wish to have MPIR to build a library named libgmp as well, etc., and a 
 gmp.h header file, so that you can use mpir with programs designed to only work with GMP, 
 then use the @samp{--enable-gmpcompat} option when invoking configure:
 
@@ -629,7 +629,7 @@ it will be necessary to ensure both @file{$prefix/include} and
 
 @item @option{--enable-gmpcompat}
 @cindex @code{--enable-gmpcompat}
-By default make builds libmpir library files (and libmpirxx if C++ headers are requested) and the mpir.h header file. This option allows you to specify that you want additional libraries created called libgmp (and libgmpxx), etc., for libraries and gmp.h for compatibility with GMP (except for GMP secure cryptograhic functions, which are not available in MPIR).
+By default make builds libmpir library files (and libmpirxx if C++ headers are requested) and the @file{mpir.h} header file. This option allows you to specify that you want additional libraries created called libgmp (and libgmpxx), etc., for libraries and gmp.h for compatibility with GMP (except for GMP secure cryptograhic functions, which are not available in MPIR).
 
 @item @option{--disable-shared}, @option{--disable-static}
 @cindex @code{--disable-shared}
@@ -2947,7 +2947,7 @@ These functions assign new values to already initialized integers
 @deftypefunx void mpz_set_q (mpz_t @var{rop}, mpq_t @var{op})
 @deftypefunx void mpz_set_f (mpz_t @var{rop}, mpf_t @var{op})
 Set the value of @var{rop} from @var{op}. Note the intmax versions are only available
-if you have stdint.h header file on your system.
+if you include the @file{stdint.h} header before including @file{mpir.h}.
 
 @code{mpz_set_d}, @code{mpz_set_q} and @code{mpz_set_f} truncate @var{op} to
 make it an integer.
@@ -3020,7 +3020,7 @@ already initialized!
 @deftypefunx void mpz_init_set_d (mpz_t @var{rop}, double @var{op})
 Initialize @var{rop} with limb space and set the initial numeric value from
 @var{op}. Note the intmax versions are only available
-if you have stdint.h header file on your system.
+if you include the @file{stdint.h} header before including @file{mpir.h}.
 @end deftypefun
 
 @deftypefun int mpz_init_set_str (mpz_t @var{rop}, char *@var{str}, int @var{base})
@@ -3066,8 +3066,8 @@ Return the value of @var{op} as an @code{uintmax_t}.
 
 If @var{op} is too big to fit an @code{uintmax_t} then just the least
 significant bits that do fit are returned.  The sign of @var{op} is ignored,
-only the absolute value is used. Note the intmax versions are only available
-if you have stdint.h header file on your system.
+only the absolute value is used. Note this function is only available if you
+include @file{stdint.h} before including @file{mpir.h}.
 @end deftypefun
 
 @deftypefun {intmax_t} mpz_get_sx (mpz_t @var{op})
@@ -3076,8 +3076,8 @@ Otherwise return the least significant part of @var{op}, with the same sign
 as @var{op}.
 
 If @var{op} is too big to fit in a @code{intmax_t}, the returned
-result is probably not very useful.  Note the intmax versions are only available
-if you have stdint.h header file on your system.
+result is probably not very useful. Note this function is only available if you
+include the @file{stdint.h} header before including @file{mpir.h}. 
 @end deftypefun
 
 @deftypefun double mpz_get_d (mpz_t @var{op})
