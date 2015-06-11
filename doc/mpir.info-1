@@ -358,8 +358,9 @@ CPU types
 
         * x86 family: pentium, pentiummmx, pentiumpro, pentium2,
           pentium3, pentium4, netburst, netburstlahf, prescott, core,
-          core2, penryn, nehalem, nano atom, k5, k6, k62, k63, k7, k8,
-          k10 k102 viac3, viac32
+          core2, penryn, nehalem, westmere sandybridge haswell nano
+          atom, k5, k6, k62, k63, k7, k8, k10 k102 piledriver bulldozer
+          bobcat viac3, viac32
 
         * Other: arm,
 
@@ -943,19 +944,6 @@ File: mpir.info,  Node: Notes for Particular Systems,  Next: Known Build Problem
 2.5 Notes for Particular Systems
 ================================
 
-AIX 3 and 4
-     On systems '*-*-aix[34]*' shared libraries are disabled by default,
-     since some versions of the native 'ar' fail on the convenience
-     libraries used.  A shared build can be attempted with
-
-          ./configure --enable-shared --disable-static
-
-     Note that the '--disable-static' is necessary because in a shared
-     build libtool makes 'libmpir.a' a symlink to 'libmpir.so',
-     apparently for the benefit of old versions of 'ld' which only
-     recognise '.a', but unfortunately this is done even if a fully
-     functional 'ld' is available.
-
 ARM
      On systems 'arm*-*-*', versions of GCC up to and including 2.95.3
      have a bug in unsigned division, giving wrong results for some
@@ -971,18 +959,22 @@ Floating Point Mode
      application code, not just MPIR.
 
 MS-DOS and MS Windows
-     On an MS Windows system Cygwin and MINGW can be used, they are
-     ports of GCC and the various GNU tools.
+     On an MS Windows system Cygwin and Cygwin64 and Msys2/Mingw can be
+     used, they are ports of GCC and the various GNU tools.
 
           <http://www.cygwin.com/>
-          <http://www.mingw.org/>
+          <https://msys2.github.io/>
 
-     Both 32 and 64 bit versions of MinGW and Cygwin are supported.
-     Building on these systems is very similar to building on Linux.
+     Both 32 and 64 bit versions of Msys2/Mingw and Cygwin are
+     supported.  Building on these systems is very similar to building
+     on Linux.
+
+     We strongly recommend using recent versions of Cygwin/Msys2.
 
 MS Windows DLLs
-     On systems '*-*-cygwin*' and '*-*-mingw*' by default MPIR builds
-     only a static library, but a DLL can be built instead using
+     On systems '*-*-cygwin*' and '*-*-mingw*' and '*-*-msys' by default
+     MPIR builds only a static library, but a DLL can be built instead
+     using
 
           ./configure --disable-static --enable-shared
 
@@ -995,19 +987,6 @@ MS Windows DLLs
 
           cd .libs
           lib /def:libgmp-3.dll.def /out:libgmp-3.lib
-
-     MINGW uses the C runtime library 'msvcrt.dll' for I/O, so
-     applications wanting to use the MPIR I/O routines must be compiled
-     with 'cl /MD' to do the same.  If one of the other C runtime
-     library choices provided by MS C is desired then the suggestion is
-     to use the MPIR string functions and confine I/O to the
-     application.
-
-OpenBSD 2.6
-     'm4' in this release of OpenBSD has a bug in 'eval' that makes it
-     unsuitable for '.asm' file processing.  './configure' will detect
-     the problem and either abort or choose another m4 in the 'PATH'.
-     The bug is fixed in OpenBSD 2.7, so either upgrade or use GNU m4.
 
 Sparc CPU Types
      'sparcv8' or 'supersparc' on relevant systems will give a
@@ -1076,20 +1055,6 @@ File: mpir.info,  Node: Known Build Problems,  Next: Performance optimization,  
 
 You might find more up-to-date information at <http://www.mpir.org/>.
 
-Compiler link options
-     The version of libtool currently in use rather aggressively strips
-     compiler options when linking a shared library.  This will
-     hopefully be relaxed in the future, but for now if this is a
-     problem the suggestion is to create a little script to hide them,
-     and for instance configure with
-
-          ./configure CC=gcc-with-my-options
-
-     'make all' was found to run out of memory during the final
-     'libgmp.la' link on one system tested, despite having 64Mb
-     available.  Running 'make libgmp.la' directly helped, perhaps
-     recursing into the various subdirectories uses up memory.
-
 GCC XOP issues
      GCC from version 4.6.0 to 4.8.x have a problem with the XOP
      instruction, especially with '-O3' on at least AMD Opteron
@@ -1097,24 +1062,6 @@ GCC XOP issues
      the Kaveri APUs.
 
      A workaround is to pass '-mno-xop' when compiling with '-O3'.
-
-MacOS X ('*-*-darwin*')
-     Libtool currently only knows how to create shared libraries on
-     MacOS X using the native 'cc' (which is a modified GCC), not a
-     plain GCC.  A static-only build should work though
-     ('--disable-shared').
-
-Solaris 2.6
-     The system 'sed' prints an error "Output line too long" when
-     libtool builds 'libmpir.la'.  This doesn't seem to cause any
-     obvious ill effects, but GNU 'sed' is recommended, to avoid any
-     doubt.
-
-Sparc Solaris 2.7 with gcc 2.95.2 in 'ABI=32'
-     A shared library build of MPIR seems to fail in this combination,
-     it builds but then fails the tests, apparently due to some
-     incorrect data relocations within 'gmp_randinit_lc_2exp_size'.  The
-     exact cause is unknown, '--disable-shared' is recommended.
 
 
 File: mpir.info,  Node: Performance optimization,  Prev: Known Build Problems,  Up: Installing MPIR
@@ -7043,4 +6990,116 @@ and the whole calculation in this case is quite efficient.
 
    In all the routines sign changes for the result are accumulated using
 some bit twiddling, avoiding table lookups or conditional jumps.
+
+
+File: mpir.info,  Node: Powering Algorithms,  Next: Root Extraction Algorithms,  Prev: Greatest Common Divisor Algorithms,  Up: Algorithms
+
+15.4 Powering Algorithms
+========================
+
+* Menu:
+
+* Normal Powering Algorithm::
+* Modular Powering Algorithm::
+
+
+File: mpir.info,  Node: Normal Powering Algorithm,  Next: Modular Powering Algorithm,  Prev: Powering Algorithms,  Up: Powering Algorithms
+
+15.4.1 Normal Powering
+----------------------
+
+Normal 'mpz' or 'mpf' powering uses a simple binary algorithm,
+successively squaring and then multiplying by the base when a 1 bit is
+seen in the exponent, as per Knuth section 4.6.3.  The "left to right"
+variant described there is used rather than algorithm A, since it's just
+as easy and can be done with somewhat less temporary memory.
+
+
+File: mpir.info,  Node: Modular Powering Algorithm,  Prev: Normal Powering Algorithm,  Up: Powering Algorithms
+
+15.4.2 Modular Powering
+-----------------------
+
+Modular powering is implemented using a 2^k-ary sliding window
+algorithm, as per "Handbook of Applied Cryptography" algorithm 14.85
+(*note References::).  k is chosen according to the size of the
+exponent.  Larger exponents use larger values of k, the choice being
+made to minimize the average number of multiplications that must
+supplement the squaring.
+
+   The modular multiplies and squares use either a simple division or
+the REDC method by Montgomery (*note References::).  REDC is a little
+faster, essentially saving N single limb divisions in a fashion similar
+to an exact remainder (*note Exact Remainder::).  The current REDC has
+some limitations.  It's only O(N^2) so above 'POWM_THRESHOLD' division
+becomes faster and is used.  It doesn't attempt to detect small bases,
+but rather always uses a REDC form, which is usually a full size
+operand.  And lastly it's only applied to odd moduli.
+
+
+File: mpir.info,  Node: Root Extraction Algorithms,  Next: Radix Conversion Algorithms,  Prev: Powering Algorithms,  Up: Algorithms
+
+15.5 Root Extraction Algorithms
+===============================
+
+* Menu:
+
+* Square Root Algorithm::
+* Nth Root Algorithm::
+* Perfect Square Algorithm::
+* Perfect Power Algorithm::
+
+
+File: mpir.info,  Node: Square Root Algorithm,  Next: Nth Root Algorithm,  Prev: Root Extraction Algorithms,  Up: Root Extraction Algorithms
+
+15.5.1 Square Root
+------------------
+
+Square roots are taken using the "Karatsuba Square Root" algorithm by
+Paul Zimmermann (*note References::).
+
+   An input n is split into four parts of k bits each, so with b=2^k we
+have n = a3*b^3 + a2*b^2 + a1*b + a0.  Part a3 must be "normalized" so
+that either the high or second highest bit is set.  In MPIR, k is kept
+on a limb boundary and the input is left shifted (by an even number of
+bits) to normalize.
+
+   The square root of the high two parts is taken, by recursive
+application of the algorithm (bottoming out in a one-limb Newton's
+method),
+
+     s1,r1 = sqrtrem (a3*b + a2)
+
+   This is an approximation to the desired root and is extended by a
+division to give s,r,
+
+     q,u = divrem (r1*b + a1, 2*s1)
+     s = s1*b + q
+     r = u*b + a0 - q^2
+
+   The normalization requirement on a3 means at this point s is either
+correct or 1 too big.  r is negative in the latter case, so
+
+     if r < 0 then
+       r = r + 2*s - 1
+       s = s - 1
+
+   The algorithm is expressed in a divide and conquer form, but as noted
+in the paper it can also be viewed as a discrete variant of Newton's
+method, or as a variation on the schoolboy method (no longer taught) for
+square roots two digits at a time.
+
+   If the remainder r is not required then usually only a few high limbs
+of r and u need to be calculated to determine whether an adjustment to s
+is required.  This optimization is not currently implemented.
+
+   In the Karatsuba multiplication range this algorithm is
+O(1.5*M(N/2)), where M(n) is the time to multiply two numbers of n
+limbs.  In the FFT multiplication range this grows to a bound of
+O(6*M(N/2)).  In practice a factor of about 1.5 to 1.8 is found in the
+Karatsuba and Toom-3 ranges, growing to 2 or 3 in the FFT range.
+
+   The algorithm does all its calculations in integers and the resulting
+'mpn_sqrtrem' is used for both 'mpz_sqrt' and 'mpf_sqrt'.  The extended
+precision given by 'mpf_sqrt_ui' is obtained by padding with zero limbs.
 

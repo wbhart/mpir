@@ -22,118 +22,6 @@ START-INFO-DIR-ENTRY
 END-INFO-DIR-ENTRY
 
 
-File: mpir.info,  Node: Powering Algorithms,  Next: Root Extraction Algorithms,  Prev: Greatest Common Divisor Algorithms,  Up: Algorithms
-
-15.4 Powering Algorithms
-========================
-
-* Menu:
-
-* Normal Powering Algorithm::
-* Modular Powering Algorithm::
-
-
-File: mpir.info,  Node: Normal Powering Algorithm,  Next: Modular Powering Algorithm,  Prev: Powering Algorithms,  Up: Powering Algorithms
-
-15.4.1 Normal Powering
-----------------------
-
-Normal 'mpz' or 'mpf' powering uses a simple binary algorithm,
-successively squaring and then multiplying by the base when a 1 bit is
-seen in the exponent, as per Knuth section 4.6.3.  The "left to right"
-variant described there is used rather than algorithm A, since it's just
-as easy and can be done with somewhat less temporary memory.
-
-
-File: mpir.info,  Node: Modular Powering Algorithm,  Prev: Normal Powering Algorithm,  Up: Powering Algorithms
-
-15.4.2 Modular Powering
------------------------
-
-Modular powering is implemented using a 2^k-ary sliding window
-algorithm, as per "Handbook of Applied Cryptography" algorithm 14.85
-(*note References::).  k is chosen according to the size of the
-exponent.  Larger exponents use larger values of k, the choice being
-made to minimize the average number of multiplications that must
-supplement the squaring.
-
-   The modular multiplies and squares use either a simple division or
-the REDC method by Montgomery (*note References::).  REDC is a little
-faster, essentially saving N single limb divisions in a fashion similar
-to an exact remainder (*note Exact Remainder::).  The current REDC has
-some limitations.  It's only O(N^2) so above 'POWM_THRESHOLD' division
-becomes faster and is used.  It doesn't attempt to detect small bases,
-but rather always uses a REDC form, which is usually a full size
-operand.  And lastly it's only applied to odd moduli.
-
-
-File: mpir.info,  Node: Root Extraction Algorithms,  Next: Radix Conversion Algorithms,  Prev: Powering Algorithms,  Up: Algorithms
-
-15.5 Root Extraction Algorithms
-===============================
-
-* Menu:
-
-* Square Root Algorithm::
-* Nth Root Algorithm::
-* Perfect Square Algorithm::
-* Perfect Power Algorithm::
-
-
-File: mpir.info,  Node: Square Root Algorithm,  Next: Nth Root Algorithm,  Prev: Root Extraction Algorithms,  Up: Root Extraction Algorithms
-
-15.5.1 Square Root
-------------------
-
-Square roots are taken using the "Karatsuba Square Root" algorithm by
-Paul Zimmermann (*note References::).
-
-   An input n is split into four parts of k bits each, so with b=2^k we
-have n = a3*b^3 + a2*b^2 + a1*b + a0.  Part a3 must be "normalized" so
-that either the high or second highest bit is set.  In MPIR, k is kept
-on a limb boundary and the input is left shifted (by an even number of
-bits) to normalize.
-
-   The square root of the high two parts is taken, by recursive
-application of the algorithm (bottoming out in a one-limb Newton's
-method),
-
-     s1,r1 = sqrtrem (a3*b + a2)
-
-   This is an approximation to the desired root and is extended by a
-division to give s,r,
-
-     q,u = divrem (r1*b + a1, 2*s1)
-     s = s1*b + q
-     r = u*b + a0 - q^2
-
-   The normalization requirement on a3 means at this point s is either
-correct or 1 too big.  r is negative in the latter case, so
-
-     if r < 0 then
-       r = r + 2*s - 1
-       s = s - 1
-
-   The algorithm is expressed in a divide and conquer form, but as noted
-in the paper it can also be viewed as a discrete variant of Newton's
-method, or as a variation on the schoolboy method (no longer taught) for
-square roots two digits at a time.
-
-   If the remainder r is not required then usually only a few high limbs
-of r and u need to be calculated to determine whether an adjustment to s
-is required.  This optimization is not currently implemented.
-
-   In the Karatsuba multiplication range this algorithm is
-O(1.5*M(N/2)), where M(n) is the time to multiply two numbers of n
-limbs.  In the FFT multiplication range this grows to a bound of
-O(6*M(N/2)).  In practice a factor of about 1.5 to 1.8 is found in the
-Karatsuba and Toom-3 ranges, growing to 2 or 3 in the FFT range.
-
-   The algorithm does all its calculations in integers and the resulting
-'mpn_sqrtrem' is used for both 'mpz_sqrt' and 'mpf_sqrt'.  The extended
-precision given by 'mpf_sqrt_ui' is obtained by padding with zero limbs.
-
-
 File: mpir.info,  Node: Nth Root Algorithm,  Next: Perfect Square Algorithm,  Prev: Square Root Algorithm,  Up: Root Extraction Algorithms
 
 15.5.2 Nth Root
@@ -2274,36 +2162,34 @@ Concept Index
 * '#include':                            Headers and Libraries.
                                                               (line   6)
 * '--build':                             Build Options.       (line  60)
-* '--disable-fft':                       Build Options.       (line 322)
+* '--disable-fft':                       Build Options.       (line 323)
 * '--disable-shared':                    Build Options.       (line  53)
 * '--disable-static':                    Build Options.       (line  53)
-* '--enable-alloca':                     Build Options.       (line 288)
-* '--enable-assert':                     Build Options.       (line 327)
-* '--enable-cxx':                        Build Options.       (line 240)
-* '--enable-fat':                        Build Options.       (line 162)
+* '--enable-alloca':                     Build Options.       (line 289)
+* '--enable-assert':                     Build Options.       (line 328)
+* '--enable-cxx':                        Build Options.       (line 241)
+* '--enable-fat':                        Build Options.       (line 163)
 * '--enable-gmpcompat':                  Build Options.       (line  45)
-* '--enable-profiling':                  Build Options.       (line 331)
+* '--enable-profiling':                  Build Options.       (line 332)
 * '--enable-profiling' <1>:              Profiling.           (line   6)
 * '--exec-prefix':                       Build Options.       (line  32)
 * '--host':                              Build Options.       (line  74)
 * '--prefix':                            Build Options.       (line  32)
-* '--with-system-yasm':                  Build Options.       (line 181)
-* '--with-yasm':                         Build Options.       (line 181)
+* '--with-system-yasm':                  Build Options.       (line 182)
+* '--with-yasm':                         Build Options.       (line 182)
 * '-finstrument-functions':              Profiling.           (line  66)
 * '2exp' functions:                      Efficiency.          (line  43)
 * 80x86:                                 Notes for Particular Systems.
-                                                              (line 110)
-* ABI:                                   Build Options.       (line 170)
+                                                              (line  88)
+* ABI:                                   Build Options.       (line 171)
 * ABI <1>:                               ABI and ISA.         (line   6)
 * About this manual:                     Introduction to MPIR.
                                                               (line  48)
 * 'AC_CHECK_LIB':                        Autoconf.            (line  11)
 * AIX:                                   ABI and ISA.         (line  95)
 * AIX <1>:                               ABI and ISA.         (line 103)
-* AIX <2>:                               Notes for Particular Systems.
-                                                              (line   7)
 * Algorithms:                            Algorithms.          (line   6)
-* 'alloca':                              Build Options.       (line 288)
+* 'alloca':                              Build Options.       (line 289)
 * Allocation of memory:                  Custom Allocation.   (line   6)
 * AMD64:                                 ABI and ISA.         (line  45)
 * Application Binary Interface:          ABI and ISA.         (line   6)
@@ -2311,7 +2197,7 @@ Concept Index
 * Arithmetic functions <1>:              Rational Arithmetic. (line   6)
 * Arithmetic functions <2>:              Float Arithmetic.    (line   6)
 * ARM:                                   Notes for Particular Systems.
-                                                              (line  20)
+                                                              (line   7)
 * Assembler cache handling:              Assembler Cache Handling.
                                                               (line   6)
 * Assembler carry propagation:           Assembler Carry Propagation.
@@ -2329,7 +2215,7 @@ Concept Index
                                                               (line   6)
 * Assembler writing guide:               Assembler Writing Guide.
                                                               (line   6)
-* Assertion checking:                    Build Options.       (line 327)
+* Assertion checking:                    Build Options.       (line 328)
 * Assertion checking <1>:                Debugging.           (line  75)
 * Assignment functions:                  Assigning Integers.  (line   6)
 * Assignment functions <1>:              Simultaneous Integer Init & Assign.
@@ -2367,18 +2253,18 @@ Concept Index
 * Build system:                          Build Options.       (line  60)
 * Building MPIR:                         Installing MPIR.     (line   6)
 * Bus error:                             Debugging.           (line   7)
-* C compiler:                            Build Options.       (line 192)
-* C++ compiler:                          Build Options.       (line 264)
+* C compiler:                            Build Options.       (line 193)
+* C++ compiler:                          Build Options.       (line 265)
 * C++ interface:                         C++ Class Interface. (line   6)
 * C++ interface internals:               C++ Interface Internals.
                                                               (line   6)
 * C++ 'istream' input:                   C++ Formatted Input. (line   6)
 * C++ 'ostream' output:                  C++ Formatted Output.
                                                               (line   6)
-* C++ support:                           Build Options.       (line 240)
-* 'CC':                                  Build Options.       (line 192)
-* 'CC_FOR_BUILD':                        Build Options.       (line 227)
-* 'CFLAGS':                              Build Options.       (line 192)
+* C++ support:                           Build Options.       (line 241)
+* 'CC':                                  Build Options.       (line 193)
+* 'CC_FOR_BUILD':                        Build Options.       (line 228)
+* 'CFLAGS':                              Build Options.       (line 193)
 * Checker:                               Debugging.           (line 111)
 * 'checkergcc':                          Debugging.           (line 118)
 * Code organisation:                     Assembler Code Organisation.
@@ -2404,18 +2290,16 @@ Concept Index
                                                               (line   6)
 * Conversion functions <2>:              Converting Floats.   (line   6)
 * Copying conditions:                    Copying.             (line   6)
-* 'CPPFLAGS':                            Build Options.       (line 218)
+* 'CPPFLAGS':                            Build Options.       (line 219)
 * CPU types:                             Introduction to MPIR.
                                                               (line  24)
 * CPU types <1>:                         Build Options.       (line 115)
 * Cross compiling:                       Build Options.       (line  74)
 * Custom allocation:                     Custom Allocation.   (line   6)
-* 'CXX':                                 Build Options.       (line 264)
-* 'CXXFLAGS':                            Build Options.       (line 264)
+* 'CXX':                                 Build Options.       (line 265)
+* 'CXXFLAGS':                            Build Options.       (line 265)
 * Cygwin:                                Notes for Particular Systems.
-                                                              (line  34)
-* Darwin:                                Known Build Problems.
-                                                              (line  31)
+                                                              (line  21)
 * Debugging:                             Debugging.           (line   6)
 * Digits in an integer:                  Miscellaneous Integer Functions.
                                                               (line  23)
@@ -2428,18 +2312,18 @@ Concept Index
 * Division functions <1>:                Rational Arithmetic. (line  22)
 * Division functions <2>:                Float Arithmetic.    (line  27)
 * DLLs:                                  Notes for Particular Systems.
-                                                              (line  44)
-* DocBook:                               Build Options.       (line 354)
-* Documentation formats:                 Build Options.       (line 347)
+                                                              (line  34)
+* DocBook:                               Build Options.       (line 355)
+* Documentation formats:                 Build Options.       (line 348)
 * Documentation license:                 GNU Free Documentation License.
                                                               (line   6)
-* DVI:                                   Build Options.       (line 350)
+* DVI:                                   Build Options.       (line 351)
 * Efficiency:                            Efficiency.          (line   6)
 * Emacs:                                 Emacs.               (line   6)
 * Exact division functions:              Integer Division.    (line  99)
 * Exact remainder:                       Exact Remainder.     (line   6)
 * Exec prefix:                           Build Options.       (line  32)
-* Execution profiling:                   Build Options.       (line 331)
+* Execution profiling:                   Build Options.       (line 332)
 * Execution profiling <1>:               Profiling.           (line   6)
 * Exponentiation functions:              Integer Exponentiation.
                                                               (line   6)
@@ -2454,8 +2338,8 @@ Concept Index
 * Factorial functions:                   Number Theoretic Functions.
                                                               (line 163)
 * Fast Fourier Transform:                FFT Multiplication.  (line   6)
-* Fat binary:                            Build Options.       (line 162)
-* FFT multiplication:                    Build Options.       (line 322)
+* Fat binary:                            Build Options.       (line 163)
+* FFT multiplication:                    Build Options.       (line 323)
 * FFT multiplication <1>:                FFT Multiplication.  (line   6)
 * Fibonacci number algorithm:            Fibonacci Numbers Algorithm.
                                                               (line   6)
@@ -2482,7 +2366,7 @@ Concept Index
                                                               (line   9)
 * Float sign tests:                      Float Comparison.    (line  28)
 * Floating point mode:                   Notes for Particular Systems.
-                                                              (line  25)
+                                                              (line  12)
 * Floating-point functions:              Floating-point Functions.
                                                               (line   6)
 * Floating-point number:                 Nomenclature and Types.
@@ -2497,7 +2381,7 @@ Concept Index
 * Function classes:                      Function Classes.    (line   6)
 * FunctionCheck:                         Profiling.           (line  77)
 * GCC:                                   Known Build Problems.
-                                                              (line  23)
+                                                              (line   9)
 * GCC Checker:                           Debugging.           (line 111)
 * GCD algorithms:                        Greatest Common Divisor Algorithms.
                                                               (line   6)
@@ -2506,7 +2390,7 @@ Concept Index
 * GCD functions:                         Number Theoretic Functions.
                                                               (line  85)
 * GDB:                                   Debugging.           (line  54)
-* Generic C:                             Build Options.       (line 151)
+* Generic C:                             Build Options.       (line 152)
 * GNU Debugger:                          Debugging.           (line  54)
 * GNU Free Documentation License:        GNU Free Documentation License.
                                                               (line   6)
@@ -2516,7 +2400,7 @@ Concept Index
 * Greatest common divisor functions:     Number Theoretic Functions.
                                                               (line  85)
 * Hardware floating point mode:          Notes for Particular Systems.
-                                                              (line  25)
+                                                              (line  12)
 * Headers:                               Headers and Libraries.
                                                               (line   6)
 * Heap problems:                         Debugging.           (line  23)
@@ -2528,7 +2412,7 @@ Concept Index
 * I/O functions <1>:                     I/O of Rationals.    (line   6)
 * I/O functions <2>:                     I/O of Floats.       (line   6)
 * i386:                                  Notes for Particular Systems.
-                                                              (line 110)
+                                                              (line  88)
 * IA-64:                                 ABI and ISA.         (line  69)
 * Import:                                Integer Import and Export.
                                                               (line  11)
@@ -2644,8 +2528,6 @@ Concept Index
                                                               (line   6)
 * Lucas number functions:                Number Theoretic Functions.
                                                               (line 190)
-* MacOS X:                               Known Build Problems.
-                                                              (line  31)
 * Mailing lists:                         Introduction to MPIR.
                                                               (line  35)
 * Malloc debugger:                       Debugging.           (line  29)
@@ -2657,13 +2539,13 @@ Concept Index
 * Mersenne twister random numbers:       Random State Initialization.
                                                               (line  13)
 * MINGW:                                 Notes for Particular Systems.
-                                                              (line  34)
+                                                              (line  21)
 * Miscellaneous float functions:         Miscellaneous Float Functions.
                                                               (line   6)
 * Miscellaneous integer functions:       Miscellaneous Integer Functions.
                                                               (line   6)
 * MMX:                                   Notes for Particular Systems.
-                                                              (line 116)
+                                                              (line  94)
 * Modular inverse functions:             Number Theoretic Functions.
                                                               (line 124)
 * Most significant bit:                  Miscellaneous Integer Functions.
@@ -2676,13 +2558,13 @@ Concept Index
                                                               (line   6)
 * 'mpirxx.h':                            C++ Interface General.
                                                               (line   8)
-* 'MPN_PATH':                            Build Options.       (line 335)
+* 'MPN_PATH':                            Build Options.       (line 336)
 * MS Windows:                            Notes for Particular Systems.
-                                                              (line  34)
+                                                              (line  21)
 * MS Windows <1>:                        Notes for Particular Systems.
-                                                              (line  44)
-* MS-DOS:                                Notes for Particular Systems.
                                                               (line  34)
+* MS-DOS:                                Notes for Particular Systems.
+                                                              (line  21)
 * MSVC:                                  Building with Microsoft Visual Studio.
                                                               (line   6)
 * Multi-threading:                       Reentrancy.          (line   6)
@@ -2705,8 +2587,6 @@ Concept Index
                                                               (line   6)
 * 'obstack' output:                      Formatted Output Functions.
                                                               (line  79)
-* OpenBSD:                               Notes for Particular Systems.
-                                                              (line  67)
 * Optimizing performance:                Performance optimization.
                                                               (line   6)
 * 'ostream' output:                      C++ Formatted Output.
@@ -2725,14 +2605,14 @@ Concept Index
                                                               (line   6)
 * Past GMP/MPIR versions:                Compatibility with older versions.
                                                               (line   6)
-* PDF:                                   Build Options.       (line 350)
+* PDF:                                   Build Options.       (line 351)
 * Perfect power algorithm:               Perfect Power Algorithm.
                                                               (line   6)
 * Perfect power functions:               Integer Roots.       (line  30)
 * Perfect square algorithm:              Perfect Square Algorithm.
                                                               (line   6)
 * Perfect square functions:              Integer Roots.       (line  39)
-* Postscript:                            Build Options.       (line 350)
+* Postscript:                            Build Options.       (line 351)
 * Powering algorithms:                   Powering Algorithms. (line   6)
 * Powering functions:                    Integer Exponentiation.
                                                               (line   6)
@@ -2741,7 +2621,7 @@ Concept Index
 * Precision of floats:                   Floating-point Functions.
                                                               (line   6)
 * Precision of hardware floating point:  Notes for Particular Systems.
-                                                              (line  25)
+                                                              (line  12)
 * Prefix:                                Build Options.       (line  32)
 * Prime testing algorithms:              Prime Testing Algorithm.
                                                               (line   6)
@@ -2829,26 +2709,22 @@ Concept Index
 * Small operands:                        Efficiency.          (line   7)
 * Solaris:                               ABI and ISA.         (line 120)
 * Solaris <1>:                           Notes for Particular Systems.
-                                                              (line 106)
-* Solaris <2>:                           Known Build Problems.
-                                                              (line  37)
-* Solaris <3>:                           Known Build Problems.
-                                                              (line  43)
+                                                              (line  84)
 * Sparc:                                 Notes for Particular Systems.
-                                                              (line  73)
+                                                              (line  51)
 * Sparc <1>:                             Notes for Particular Systems.
-                                                              (line  78)
+                                                              (line  56)
 * Sparc <2>:                             Notes for Particular Systems.
-                                                              (line  90)
+                                                              (line  68)
 * Sparc V9:                              ABI and ISA.         (line 120)
 * Special integer functions:             Integer Special Functions.
                                                               (line   6)
 * Square root algorithm:                 Square Root Algorithm.
                                                               (line   6)
 * SSE2:                                  Notes for Particular Systems.
-                                                              (line 116)
+                                                              (line  94)
 * Stack backtrace:                       Debugging.           (line  46)
-* Stack overflow:                        Build Options.       (line 288)
+* Stack overflow:                        Build Options.       (line 289)
 * Stack overflow <1>:                    Debugging.           (line   7)
 * Static linking:                        Efficiency.          (line  14)
 * 'stdarg.h':                            Headers and Libraries.
@@ -2858,8 +2734,8 @@ Concept Index
 * Sun:                                   ABI and ISA.         (line 120)
 * Systems:                               Notes for Particular Systems.
                                                               (line   6)
-* Temporary memory:                      Build Options.       (line 288)
-* Texinfo:                               Build Options.       (line 347)
+* Temporary memory:                      Build Options.       (line 289)
+* Texinfo:                               Build Options.       (line 348)
 * Text input/output:                     Efficiency.          (line 151)
 * Thread safety:                         Reentrancy.          (line   6)
 * Toom multiplication:                   Toom 3-Way Multiplication.
@@ -2891,18 +2767,18 @@ Concept Index
 * Web page:                              Introduction to MPIR.
                                                               (line  30)
 * Windows:                               Notes for Particular Systems.
-                                                              (line  34)
+                                                              (line  21)
 * Windows <1>:                           Notes for Particular Systems.
-                                                              (line  44)
+                                                              (line  34)
 * Windows <2>:                           MPIR on Windows x64. (line   6)
 * x86:                                   Notes for Particular Systems.
-                                                              (line 110)
+                                                              (line  88)
 * x87:                                   Notes for Particular Systems.
-                                                              (line  25)
-* XML:                                   Build Options.       (line 354)
+                                                              (line  12)
+* XML:                                   Build Options.       (line 355)
 * XOP:                                   Known Build Problems.
-                                                              (line  23)
-* Yasm:                                  Build Options.       (line 181)
+                                                              (line   9)
+* Yasm:                                  Build Options.       (line 182)
 
 
 File: mpir.info,  Node: Function Index,  Prev: Concept Index,  Up: Top
