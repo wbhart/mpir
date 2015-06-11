@@ -542,10 +542,6 @@ typedef __mpq_struct *mpq_ptr;
 #define __GMP_UNLIKELY(cond)  (cond)
 #endif
 
-#if defined( _STDINT_H ) || defined ( _STDINT_H_ ) || defined ( _STDINT )
-#define MPIR_HAVE_STDINT 1
-#endif
-
 /* Allow direct user access to numerator and denominator of a mpq_t object.  */
 #define mpq_numref(Q) (&((Q)->_mp_num))
 #define mpq_denref(Q) (&((Q)->_mp_den))
@@ -1227,7 +1223,8 @@ __GMP_DECLSPEC void mpz_xor __GMP_PROTO ((mpz_ptr, mpz_srcptr, mpz_srcptr));
 
 /****** Integer (i.e. Z) routines for intmaax_t/uintmax_t types ******/
 
-#if defined(MPIR_HAVE_STDINT)
+/* if stdint.h is available -- n.b: we do NOT include stdint.h ourselves */
+#if defined(UINT32_MAX)
 
 #define __GMP_BITS_PER_UINTMAX  (8*sizeof(uintmax_t))
 
