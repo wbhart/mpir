@@ -32,7 +32,6 @@ MA 02110-1301, USA. */
 #    include <stdint.h>
 #  endif
 #else
-#  include "config.h"
 #  ifdef MPIR_HAVE_STDINT
 #    include <stdint.h>
 #  else

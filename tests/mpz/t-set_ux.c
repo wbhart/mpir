@@ -23,6 +23,8 @@ MA 02110-1301, USA. */
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "mpir.h"
+
 #if defined( _MSC_VER )
 #  if _MSC_VER < 1600
 #    define SKIP_TEST
@@ -30,8 +32,7 @@ MA 02110-1301, USA. */
 #    include <stdint.h>
 #  endif
 #else
-#  include "config.h"
-#  ifdef HAVE_STDINT_H
+#  ifdef MPIR_HAVE_STDINT
 #    include <stdint.h>
 #  else
 #    define SKIP_TEST
@@ -49,7 +50,6 @@ main (void)
 
 #else
 
-#include "mpir.h"
 #include "gmp-impl.h"
 #include "tests.h"
 
