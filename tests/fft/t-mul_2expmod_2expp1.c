@@ -66,7 +66,7 @@ main(void)
     /* normalisation mod p = 2^wn + 1 where B divides nw and n is a power of 2 */
     for (bits = GMP_LIMB_BITS; bits < 16*GMP_LIMB_BITS; bits += GMP_LIMB_BITS)
     {
-        for (j = 1; j < 32; j++)
+        for (j = 1; j < 16; j++)
         {
             for (k = 1; k <= GMP_LIMB_BITS; k <<= 1)
             {
