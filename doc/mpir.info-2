@@ -2180,7 +2180,7 @@ Concept Index
 * '-finstrument-functions':              Profiling.           (line  66)
 * '2exp' functions:                      Efficiency.          (line  43)
 * 80x86:                                 Notes for Particular Systems.
-                                                              (line  88)
+                                                              (line  87)
 * ABI:                                   Build Options.       (line 171)
 * ABI <1>:                               ABI and ISA.         (line   6)
 * About this manual:                     Introduction to MPIR.
@@ -2412,7 +2412,7 @@ Concept Index
 * I/O functions <1>:                     I/O of Rationals.    (line   6)
 * I/O functions <2>:                     I/O of Floats.       (line   6)
 * i386:                                  Notes for Particular Systems.
-                                                              (line  88)
+                                                              (line  87)
 * IA-64:                                 ABI and ISA.         (line  69)
 * Import:                                Integer Import and Export.
                                                               (line  11)
@@ -2545,7 +2545,7 @@ Concept Index
 * Miscellaneous integer functions:       Miscellaneous Integer Functions.
                                                               (line   6)
 * MMX:                                   Notes for Particular Systems.
-                                                              (line  94)
+                                                              (line  93)
 * Modular inverse functions:             Number Theoretic Functions.
                                                               (line 124)
 * Most significant bit:                  Miscellaneous Integer Functions.
@@ -2709,20 +2709,20 @@ Concept Index
 * Small operands:                        Efficiency.          (line   7)
 * Solaris:                               ABI and ISA.         (line 120)
 * Solaris <1>:                           Notes for Particular Systems.
-                                                              (line  84)
+                                                              (line  83)
 * Sparc:                                 Notes for Particular Systems.
-                                                              (line  51)
+                                                              (line  50)
 * Sparc <1>:                             Notes for Particular Systems.
-                                                              (line  56)
+                                                              (line  55)
 * Sparc <2>:                             Notes for Particular Systems.
-                                                              (line  68)
+                                                              (line  67)
 * Sparc V9:                              ABI and ISA.         (line 120)
 * Special integer functions:             Integer Special Functions.
                                                               (line   6)
 * Square root algorithm:                 Square Root Algorithm.
                                                               (line   6)
 * SSE2:                                  Notes for Particular Systems.
-                                                              (line  94)
+                                                              (line  93)
 * Stack backtrace:                       Debugging.           (line  46)
 * Stack overflow:                        Build Options.       (line 289)
 * Stack overflow <1>:                    Debugging.           (line   7)
@@ -2772,7 +2772,7 @@ Concept Index
                                                               (line  34)
 * Windows <2>:                           MPIR on Windows x64. (line   6)
 * x86:                                   Notes for Particular Systems.
-                                                              (line  88)
+                                                              (line  87)
 * x87:                                   Notes for Particular Systems.
                                                               (line  12)
 * XML:                                   Build Options.       (line 355)

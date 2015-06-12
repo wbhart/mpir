@@ -972,14 +972,13 @@ MS-DOS and MS Windows
      We strongly recommend using recent versions of Cygwin/Msys2.
 
 MS Windows DLLs
-     On systems '*-*-cygwin*' and '*-*-mingw*' and '*-*-msys' by default
-     MPIR builds only a static library, but a DLL can be built instead
-     using
+     On systems '*-*-cygwin*' and '*-*-mingw*' and '*-*-msys' static and
+     DLL libraries can't both be built, since certain export directives
+     in 'mpir.h' must be different.  Therefore you must specify whether
+     you want a shared library or a static library.  For example if you
+     want just a shared library you can type the following.
 
           ./configure --disable-static --enable-shared
-
-     Static and DLL libraries can't both be built, since certain export
-     directives in 'mpir.h' must be different.
 
      Libtool doesn't install a '.lib' format import library, but it can
      be created with MS 'lib' as follows, and copied to the install

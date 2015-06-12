@@ -1548,15 +1548,15 @@ We strongly recommend using recent versions of Cygwin/Msys2.
 @cindex DLLs
 @cindex MS Windows
 @cindex Windows
-On systems @samp{*-*-cygwin*} and @samp{*-*-mingw*} and @samp{*-*-msys} by
-default MPIR builds only a static library, but a DLL can be built instead using
+On systems @samp{*-*-cygwin*} and @samp{*-*-mingw*} and @samp{*-*-msys} static
+and DLL libraries can't both be built, since certain export directives in 
+@file{mpir.h} must be different. Therefore you must specify whether you want
+a shared library or a static library. For example if you want just a shared
+library you can type the following.
 
 @example
 ./configure --disable-static --enable-shared
 @end example
-
-Static and DLL libraries can't both be built, since certain export directives
-in @file{mpir.h} must be different.
 
 Libtool doesn't install a @file{.lib} format import library, but it can be 
 created with MS @command{lib} as follows, and copied to the install directory.
