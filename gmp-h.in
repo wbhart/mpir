@@ -1224,7 +1224,7 @@ __GMP_DECLSPEC void mpz_xor __GMP_PROTO ((mpz_ptr, mpz_srcptr, mpz_srcptr));
 /****** Integer (i.e. Z) routines for intmaax_t/uintmax_t types ******/
 
 /* if stdint.h is available -- n.b: we do NOT include stdint.h ourselves */
-#if defined(UINT32_MAX)
+#if defined(INTMAX_MAX)
 
 #define __GMP_BITS_PER_UINTMAX  (8*sizeof(uintmax_t))
 
