@@ -4520,22 +4520,6 @@ EOF
 EOF
 
 	    case $host_os in
-	      mingw*)
-		cat <<"EOF"
-  /* execv doesn't actually work on mingw as expected on unix */
-  newargz = prepare_spawn (newargz);
-  rval = _spawnv (_P_WAIT, lt_argv_zero, (const char * const *) newargz);
-  if (rval == -1)
-    {
-      /* failed to start process */
-      lt_debugprintf (__FILE__, __LINE__,
-		      "(main) failed to launch target \"%s\": %s\n",
-		      lt_argv_zero, nonnull (strerror (errno)));
-      return 127;
-    }
-  return rval;
-EOF
-		;;
 	      *)
 		cat <<"EOF"
   execv (lt_argv_zero, newargz);

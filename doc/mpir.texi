@@ -545,7 +545,7 @@ make install
 @end example
 
 Important note: by default MPIR produces libraries named libmpir, etc., and the header file 
-mpir.h. If you wish to have MPIR to build a library named libgmp as well, etc., and a 
+@file{mpir.h}. If you wish to have MPIR to build a library named libgmp as well, etc., and a 
 gmp.h header file, so that you can use mpir with programs designed to only work with GMP, 
 then use the @samp{--enable-gmpcompat} option when invoking configure:
 
@@ -629,7 +629,7 @@ it will be necessary to ensure both @file{$prefix/include} and
 
 @item @option{--enable-gmpcompat}
 @cindex @code{--enable-gmpcompat}
-By default make builds libmpir library files (and libmpirxx if C++ headers are requested) and the mpir.h header file. This option allows you to specify that you want additional libraries created called libgmp (and libgmpxx), etc., for libraries and gmp.h for compatibility with GMP (except for GMP secure cryptograhic functions, which are not available in MPIR).
+By default make builds libmpir library files (and libmpirxx if C++ headers are requested) and the @file{mpir.h} header file. This option allows you to specify that you want additional libraries created called libgmp (and libgmpxx), etc., for libraries and gmp.h for compatibility with GMP (except for GMP secure cryptograhic functions, which are not available in MPIR).
 
 @item @option{--disable-shared}, @option{--disable-static}
 @cindex @code{--disable-shared}
@@ -793,6 +793,9 @@ x86 family:
 @nisamp{core2},
 @nisamp{penryn},
 @nisamp{nehalem},
+@nisamp{westmere}
+@nisamp{sandybridge}
+@nisamp{haswell}
 @nisamp{nano}
 @nisamp{atom},
 @nisamp{k5},
@@ -803,6 +806,9 @@ x86 family:
 @nisamp{k8},
 @nisamp{k10}
 @nisamp{k102}
+@nisamp{piledriver}
+@nisamp{bulldozer}
+@nisamp{bobcat}
 @nisamp{viac3},
 @nisamp{viac32}
 
@@ -1501,22 +1507,6 @@ appropriate Visual Studio build sub-directories.
 @c scratching their head.  Fun with different ABIs on a system belongs in the
 @c above section.
 
-@item AIX 3 and 4
-@cindex AIX
-On systems @samp{*-*-aix[34]*} shared libraries are disabled by default, since
-some versions of the native @command{ar} fail on the convenience libraries
-used.  A shared build can be attempted with
-
-@example
-./configure --enable-shared --disable-static
-@end example
-
-Note that the @samp{--disable-static} is necessary because in a shared build
-libtool makes @file{libmpir.a} a symlink to @file{libmpir.so}, apparently for
-the benefit of old versions of @command{ld} which only recognise @file{.a},
-but unfortunately this is done even if a fully functional @command{ld} is
-available.
-
 @item ARM
 @cindex ARM
 On systems @samp{arm*-*-*}, versions of GCC up to and including 2.95.3 have a
@@ -1541,30 +1531,32 @@ affects all code, including application code, not just MPIR.
 @cindex Windows
 @cindex Cygwin
 @cindex MINGW
-On an MS Windows system Cygwin and MINGW can be used, they 
+On an MS Windows system Cygwin and Cygwin64 and Msys2/Mingw can be used, they 
 are ports of GCC and the various GNU tools.
 
 @display
 @uref{http://www.cygwin.com/}
-@uref{http://www.mingw.org/}
+@uref{https://msys2.github.io/}
 @end display
 
-Both 32 and 64 bit versions of MinGW and Cygwin are supported. Building on these
-systems is very similar to building on Linux. 
+Both 32 and 64 bit versions of Msys2/Mingw and Cygwin are supported. Building
+on these systems is very similar to building on Linux. 
+
+We strongly recommend using recent versions of Cygwin/Msys2.
 
 @item MS Windows DLLs
 @cindex DLLs
 @cindex MS Windows
 @cindex Windows
-On systems @samp{*-*-cygwin*} and @samp{*-*-mingw*} by
-default MPIR builds only a static library, but a DLL can be built instead using
+On systems @samp{*-*-cygwin*} and @samp{*-*-mingw*} and @samp{*-*-msys} static
+and DLL libraries can't both be built, since certain export directives in 
+@file{mpir.h} must be different. Therefore you must specify whether you want
+a shared library or a static library. For example if you want just a shared
+library you can type the following.
 
 @example
 ./configure --disable-static --enable-shared
 @end example
-
-Static and DLL libraries can't both be built, since certain export directives
-in @file{mpir.h} must be different.
 
 Libtool doesn't install a @file{.lib} format import library, but it can be 
 created with MS @command{lib} as follows, and copied to the install directory.
@@ -1574,19 +1566,6 @@ Similarly for @file{libmpir} and @file{libmpirxx}.
 cd .libs
 lib /def:libgmp-3.dll.def /out:libgmp-3.lib
 @end example
-
-MINGW uses the C runtime library @samp{msvcrt.dll} for I/O, so applications
-wanting to use the MPIR I/O routines must be compiled with @samp{cl /MD} to do
-the same.  If one of the other C runtime library choices provided by MS C is
-desired then the suggestion is to use the MPIR string functions and confine I/O
-to the application.
-
-@item OpenBSD 2.6
-@cindex OpenBSD
-@command{m4} in this release of OpenBSD has a bug in @code{eval} that makes it
-unsuitable for @file{.asm} file processing.  @samp{./configure} will detect
-the problem and either abort or choose another m4 in the @env{PATH}.  The bug
-is fixed in OpenBSD 2.7, so either upgrade or use GNU m4.
 
 @item Sparc CPU Types
 @cindex Sparc
@@ -1665,21 +1644,6 @@ Install a recent @command{gas} if MMX code is wanted on these systems.
 You might find more up-to-date information at @uref{http://www.mpir.org/}.
 
 @table @asis
-@item Compiler link options
-The version of libtool currently in use rather aggressively strips compiler
-options when linking a shared library.  This will hopefully be relaxed in the
-future, but for now if this is a problem the suggestion is to create a little
-script to hide them, and for instance configure with
-
-@example
-./configure CC=gcc-with-my-options
-@end example
-
-@samp{make all} was found to run out of memory during the final
-@file{libgmp.la} link on one system tested, despite having 64Mb available.
-Running @samp{make libgmp.la} directly helped, perhaps recursing into the
-various subdirectories uses up memory.
-
 @item GCC XOP issues
 @cindex GCC
 @cindex XOP
@@ -1688,26 +1652,6 @@ especially with @samp{-O3} on at least AMD Opteron @samp{62xx/63xx},
 @samp{FX-(4,6,8)[13]xx} and the Devil's Canyon @samp{9xxx} and the Kaveri APUs.
 
 A workaround is to pass @samp{-mno-xop} when compiling with @samp{-O3}.
-
-@item MacOS X (@samp{*-*-darwin*})
-@cindex MacOS X
-@cindex Darwin
-Libtool currently only knows how to create shared libraries on MacOS X using
-the native @command{cc} (which is a modified GCC), not a plain GCC@.  A
-static-only build should work though (@samp{--disable-shared}).
-
-@item Solaris 2.6
-@cindex Solaris
-The system @command{sed} prints an error ``Output line too long'' when libtool
-builds @file{libmpir.la}.  This doesn't seem to cause any obvious ill effects,
-but GNU @command{sed} is recommended, to avoid any doubt.
-
-@item Sparc Solaris 2.7 with gcc 2.95.2 in @samp{ABI=32}
-@cindex Solaris
-A shared library build of MPIR seems to fail in this combination, it builds but
-then fails the tests, apparently due to some incorrect data relocations within
-@code{gmp_randinit_lc_2exp_size}.  The exact cause is unknown,
-@samp{--disable-shared} is recommended.
 @end table
 
 
@@ -2947,7 +2891,7 @@ These functions assign new values to already initialized integers
 @deftypefunx void mpz_set_q (mpz_t @var{rop}, mpq_t @var{op})
 @deftypefunx void mpz_set_f (mpz_t @var{rop}, mpf_t @var{op})
 Set the value of @var{rop} from @var{op}. Note the intmax versions are only available
-if you have stdint.h header file on your system.
+if you include the @file{stdint.h} header before including @file{mpir.h}.
 
 @code{mpz_set_d}, @code{mpz_set_q} and @code{mpz_set_f} truncate @var{op} to
 make it an integer.
@@ -3020,7 +2964,7 @@ already initialized!
 @deftypefunx void mpz_init_set_d (mpz_t @var{rop}, double @var{op})
 Initialize @var{rop} with limb space and set the initial numeric value from
 @var{op}. Note the intmax versions are only available
-if you have stdint.h header file on your system.
+if you include the @file{stdint.h} header before including @file{mpir.h}.
 @end deftypefun
 
 @deftypefun int mpz_init_set_str (mpz_t @var{rop}, char *@var{str}, int @var{base})
@@ -3066,8 +3010,8 @@ Return the value of @var{op} as an @code{uintmax_t}.
 
 If @var{op} is too big to fit an @code{uintmax_t} then just the least
 significant bits that do fit are returned.  The sign of @var{op} is ignored,
-only the absolute value is used. Note the intmax versions are only available
-if you have stdint.h header file on your system.
+only the absolute value is used. Note this function is only available if you
+include @file{stdint.h} before including @file{mpir.h}.
 @end deftypefun
 
 @deftypefun {intmax_t} mpz_get_sx (mpz_t @var{op})
@@ -3076,8 +3020,8 @@ Otherwise return the least significant part of @var{op}, with the same sign
 as @var{op}.
 
 If @var{op} is too big to fit in a @code{intmax_t}, the returned
-result is probably not very useful.  Note the intmax versions are only available
-if you have stdint.h header file on your system.
+result is probably not very useful. Note this function is only available if you
+include the @file{stdint.h} header before including @file{mpir.h}. 
 @end deftypefun
 
 @deftypefun double mpz_get_d (mpz_t @var{op})
