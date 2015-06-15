@@ -1,12 +1,12 @@
 
-Building MPIR with Microsoft Visual Studio 2013 and Express 2013
-================================================================
+Building MPIR with Microsoft Visual Studio 2015
+===============================================
 
 A Note On Licensing
 ===================
 
 Files in this distribution that have been created for use in building 
-MPIR with Microsoft Visual Studio 2013 are provided under the terms of
+MPIR with Microsoft Visual Studio 2015 are provided under the terms of
 the LGPL v2.1+ license.
 
 The MPIR library uses numerous files which are LGPL v3+ and so the 
@@ -18,18 +18,18 @@ Using the Assembler Based Build Projects
 
 If you wish to use the assembler files you will need VSYASM, a version 
 of YASM x86/x64 assembler tailored specifically for use with Microsoft 
-Visual Studio 2013.  You will need a recent revision of YASM from:
+Visual Studio 2015.  You will need a recent revision of YASM from:
 
   http://www.tortall.net/projects/yasm/
 
 This assembler (you need vsyasm.exe, NOT yasm.exe) should be placed
-in the bin directory used by VC++, which, for Visual Stduio 2013, is
+in the bin directory used by VC++, which, for Visual Stduio 2015, is
 typically:
 
- C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin
+ C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin
  
-You will need to install Python if you wish to use the scripts that 
-automate the generation of MPIR build files for Visual Studio. Python
+You will need to install Python (version 3) if you wish to use the scripts
+that automate the generation of MPIR build files for Visual Studio. Python
 is also needed for running the MPIR tests (although they can be run
 manually).
 
@@ -37,8 +37,7 @@ Compiling MPIR with the Visual Studio C/C++
 ===========================================
 
 These VC++ build projects are primarily designed to work with Microsoft
-Visual Studio 2013 Professional. The build projects also work with
-Microsoft Visual C++ 2013 Express. 
+Visual Studio 2015 Professional. 
 
 Building MPIR
 =============
@@ -79,8 +78,8 @@ C and the C++ functions.
 --------------------------------
 
 By default the Visual Studio solution for MPIR provides support for
-x64 builds with assembler support for AMD k8, Intel core2, nehalem
-and sandybridge (x64) and pentium 3 (win32).
+pentium 3 on win32, the AMD k8 on x64 and the Intel core2, haswell,
+nehalem, sandybridge and ivybridge processors on x64.
 
 To build MPIR versions with assembler support for other processors,
 the Python program mpir_config.py has to be run before the Visual
@@ -164,7 +163,7 @@ The Tests
 =========
 
 There is a separate solution for the MPIR tests: mpir-tests.sln. In
-Visual Studio 2013 this is in build.vc14 folder.  To run the tests
+Visual Studio 2015 this is in build.vc14 folder.  To run the tests
 it is important that both mpir.lib (the C library) and mpirxx.lib
 (the C++ library) are built prior to building the tests themselves.
 
@@ -196,7 +195,7 @@ is changed, it is also necessary to copy either:
 
 or:
 
-   mpir\build.vc14\mpir-tests\dll-test-config.props#
+   mpir\build.vc14\mpir-tests\dll-test-config.props
 
 into:
 
@@ -446,4 +445,4 @@ My thanks to:
 4. Jeff Gilchrist for his help in testing, debugging and 
    improving the readme giving the VC++ build instructions
 
-       Brian Gladman, April 2014
+       Brian Gladman, June 2015.
