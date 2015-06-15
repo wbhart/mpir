@@ -32,7 +32,7 @@ debug = False
 # either add a prebuild step to the project files or do it here
 add_prebuild = True
 # output a build project for the C++ static library
-add_cpp_lib = True
+add_cpp_lib = False
 
 # The path to the mpir root directory
 build_vc = 'build.vc14/'
