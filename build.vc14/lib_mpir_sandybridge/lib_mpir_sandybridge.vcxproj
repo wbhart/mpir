@@ -13,7 +13,7 @@
   <PropertyGroup Label="Globals">
     <RootNamespace>mpir</RootNamespace>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{436c9513-2fae-4e88-a9bf-02808930ed2e}</ProjectGuid>
+    <ProjectGuid>{8da0945e-29e4-46f6-b416-97c4ece87d39}</ProjectGuid>
     </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
@@ -47,7 +47,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <PreBuildEvent>
     <Command>cd ..\
-prebuild core2 x64
+prebuild sandybridge x64
     </Command>
     </PreBuildEvent>
     <YASM>
@@ -76,7 +76,7 @@ postbuild "$(TargetPath)"
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <PreBuildEvent>
     <Command>cd ..\
-prebuild core2 x64
+prebuild sandybridge x64
     </Command>
     </PreBuildEvent>
     <YASM>
@@ -1429,6 +1429,14 @@ postbuild "$(TargetPath)"
         <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpn\</ObjectFileName>
         <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpn\</ObjectFileName>
     </ClCompile>
+    <ClCompile Include="..\..\mpn\generic\addadd_n.c">
+        <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpn\</ObjectFileName>
+        <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpn\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\mpn\generic\addsub_n.c">
+        <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpn\</ObjectFileName>
+        <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpn\</ObjectFileName>
+    </ClCompile>
     <ClCompile Include="..\..\mpn\generic\bdivmod.c">
         <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpn\</ObjectFileName>
         <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpn\</ObjectFileName>
@@ -1497,7 +1505,7 @@ postbuild "$(TargetPath)"
         <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpn\</ObjectFileName>
         <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpn\</ObjectFileName>
     </ClCompile>
-    <ClCompile Include="..\..\mpn\generic\divrem_hensel_qr_1_1.c">
+    <ClCompile Include="..\..\mpn\generic\divrem_hensel_qr_1_2.c">
         <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpn\</ObjectFileName>
         <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpn\</ObjectFileName>
     </ClCompile>
@@ -1737,10 +1745,6 @@ postbuild "$(TargetPath)"
         <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpn\</ObjectFileName>
         <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpn\</ObjectFileName>
     </ClCompile>
-    <ClCompile Include="..\..\mpn\generic\rsh_divrem_hensel_qr_1_1.c">
-        <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpn\</ObjectFileName>
-        <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpn\</ObjectFileName>
-    </ClCompile>
     <ClCompile Include="..\..\mpn\generic\sb_bdiv_q.c">
         <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpn\</ObjectFileName>
         <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpn\</ObjectFileName>
@@ -1786,6 +1790,14 @@ postbuild "$(TargetPath)"
         <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpn\</ObjectFileName>
     </ClCompile>
     <ClCompile Include="..\..\mpn\generic\sub_1.c">
+        <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpn\</ObjectFileName>
+        <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpn\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\mpn\generic\subadd_n.c">
+        <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpn\</ObjectFileName>
+        <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpn\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\mpn\generic\sumdiff_n.c">
         <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpn\</ObjectFileName>
         <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpn\</ObjectFileName>
     </ClCompile>
@@ -1873,63 +1885,55 @@ postbuild "$(TargetPath)"
   <ItemGroup>
     <YASM Include="..\..\mpn\x86_64w\add_err1_n.asm" />
     <YASM Include="..\..\mpn\x86_64w\add_err2_n.asm" />
-    <YASM Include="..\..\mpn\x86_64w\core2\add_n.asm" />
-    <YASM Include="..\..\mpn\x86_64w\core2\addadd_n.asm" />
-    <YASM Include="..\..\mpn\x86_64w\core2\addlsh1_n.asm" />
-    <YASM Include="..\..\mpn\x86_64w\core2\addlsh_n.asm" />
-    <YASM Include="..\..\mpn\x86_64w\core2\addmul_1.asm" />
-    <YASM Include="..\..\mpn\x86_64w\core2\addmul_2.asm" />
-    <YASM Include="..\..\mpn\x86_64w\core2\addsub_n.asm" />
-    <YASM Include="..\..\mpn\x86_64w\core2\and_n.asm" />
-    <YASM Include="..\..\mpn\x86_64w\core2\andn_n.asm" />
-    <YASM Include="..\..\mpn\x86_64w\core2\com_n.asm" />
-    <YASM Include="..\..\mpn\x86_64w\core2\copyd.asm" />
-    <YASM Include="..\..\mpn\x86_64w\core2\copyi.asm" />
+    <YASM Include="..\..\mpn\x86_64w\sandybridge\add_n.asm" />
+    <YASM Include="..\..\mpn\x86_64w\sandybridge\addmul_1.asm" />
+    <YASM Include="..\..\mpn\x86_64w\sandybridge\addmul_2.asm" />
+    <YASM Include="..\..\mpn\x86_64w\sandybridge\and_n.asm" />
+    <YASM Include="..\..\mpn\x86_64w\sandybridge\andn_n.asm" />
+    <YASM Include="..\..\mpn\x86_64w\sandybridge\com_n.asm" />
+    <YASM Include="..\..\mpn\x86_64w\sandybridge\copyd.asm" />
+    <YASM Include="..\..\mpn\x86_64w\sandybridge\copyi.asm" />
     <YASM Include="..\..\mpn\x86_64w\divexact_1.asm" />
     <YASM Include="..\..\mpn\x86_64w\divexact_by3c.asm" />
-    <YASM Include="..\..\mpn\x86_64w\core2\divexact_byff.asm" />
+    <YASM Include="..\..\mpn\x86_64w\sandybridge\divexact_byff.asm" />
     <YASM Include="..\..\mpn\x86_64w\divexact_byfobm1.asm" />
     <YASM Include="..\..\mpn\x86_64w\divrem_2.asm" />
     <YASM Include="..\..\mpn\x86_64w\divrem_euclidean_qr_1.asm" />
     <YASM Include="..\..\mpn\x86_64w\divrem_euclidean_qr_2.asm" />
-    <YASM Include="..\..\mpn\x86_64w\core2\divrem_hensel_qr_1_2.asm" />
-    <YASM Include="..\..\mpn\x86_64w\core2\hamdist.asm" />
-    <YASM Include="..\..\mpn\x86_64w\core2\ior_n.asm" />
-    <YASM Include="..\..\mpn\x86_64w\core2\iorn_n.asm" />
-    <YASM Include="..\..\mpn\x86_64w\core2\karaadd.asm" />
-    <YASM Include="..\..\mpn\x86_64w\core2\karasub.asm" />
-    <YASM Include="..\..\mpn\x86_64w\core2\lshift.asm" />
-    <YASM Include="..\..\mpn\x86_64w\core2\lshift1.asm" />
-    <YASM Include="..\..\mpn\x86_64w\core2\mod_1_1.asm" />
-    <YASM Include="..\..\mpn\x86_64w\core2\mod_1_2.asm" />
-    <YASM Include="..\..\mpn\x86_64w\core2\mod_1_3.asm" />
+    <YASM Include="..\..\mpn\x86_64w\sandybridge\divrem_hensel_qr_1_1.asm" />
+    <YASM Include="..\..\mpn\x86_64w\sandybridge\hamdist.asm" />
+    <YASM Include="..\..\mpn\x86_64w\sandybridge\ior_n.asm" />
+    <YASM Include="..\..\mpn\x86_64w\sandybridge\iorn_n.asm" />
+    <YASM Include="..\..\mpn\x86_64w\sandybridge\karaadd.asm" />
+    <YASM Include="..\..\mpn\x86_64w\sandybridge\karasub.asm" />
+    <YASM Include="..\..\mpn\x86_64w\sandybridge\lshift.asm" />
+    <YASM Include="..\..\mpn\x86_64w\sandybridge\lshift1.asm" />
+    <YASM Include="..\..\mpn\x86_64w\sandybridge\lshiftc.asm" />
+    <YASM Include="..\..\mpn\x86_64w\sandybridge\mod_1_1.asm" />
+    <YASM Include="..\..\mpn\x86_64w\sandybridge\mod_1_2.asm" />
+    <YASM Include="..\..\mpn\x86_64w\sandybridge\mod_1_3.asm" />
     <YASM Include="..\..\mpn\x86_64w\modexact_1c_odd.asm" />
-    <YASM Include="..\..\mpn\x86_64w\core2\mul_1.asm" />
-    <YASM Include="..\..\mpn\x86_64w\core2\mul_2.asm" />
-    <YASM Include="..\..\mpn\x86_64w\core2\mul_basecase.asm" />
+    <YASM Include="..\..\mpn\x86_64w\sandybridge\mul_1.asm" />
+    <YASM Include="..\..\mpn\x86_64w\sandybridge\mul_2.asm" />
+    <YASM Include="..\..\mpn\x86_64w\sandybridge\mul_basecase.asm" />
     <YASM Include="..\..\mpn\x86_64w\mulmid_basecase.asm" />
-    <YASM Include="..\..\mpn\x86_64w\core2\nand_n.asm" />
-    <YASM Include="..\..\mpn\x86_64w\core2\nior_n.asm" />
-    <YASM Include="..\..\mpn\x86_64w\core2\popcount.asm" />
-    <YASM Include="..\..\mpn\x86_64w\core2\redc_1.asm" />
-    <YASM Include="..\..\mpn\x86_64w\core2\rsh1add_n.asm" />
-    <YASM Include="..\..\mpn\x86_64w\core2\rsh1sub_n.asm" />
-    <YASM Include="..\..\mpn\x86_64w\core2\rsh_divrem_hensel_qr_1_2.asm" />
-    <YASM Include="..\..\mpn\x86_64w\core2\rshift.asm" />
-    <YASM Include="..\..\mpn\x86_64w\core2\rshift1.asm" />
+    <YASM Include="..\..\mpn\x86_64w\sandybridge\nand_n.asm" />
+    <YASM Include="..\..\mpn\x86_64w\sandybridge\nior_n.asm" />
+    <YASM Include="..\..\mpn\x86_64w\sandybridge\popcount.asm" />
+    <YASM Include="..\..\mpn\x86_64w\sandybridge\redc_1.asm" />
+    <YASM Include="..\..\mpn\x86_64w\sandybridge\rsh_divrem_hensel_qr_1_1.asm" />
+    <YASM Include="..\..\mpn\x86_64w\sandybridge\rsh_divrem_hensel_qr_1_2.asm" />
+    <YASM Include="..\..\mpn\x86_64w\sandybridge\rshift.asm" />
     <YASM Include="..\..\mpn\x86_64w\sqr_basecase.asm" />
-    <YASM Include="..\..\mpn\x86_64w\core2\store.asm" />
+    <YASM Include="..\..\mpn\x86_64w\sandybridge\store.asm" />
     <YASM Include="..\..\mpn\x86_64w\sub_err1_n.asm" />
     <YASM Include="..\..\mpn\x86_64w\sub_err2_n.asm" />
-    <YASM Include="..\..\mpn\x86_64w\core2\sub_n.asm" />
-    <YASM Include="..\..\mpn\x86_64w\core2\subadd_n.asm" />
-    <YASM Include="..\..\mpn\x86_64w\core2\sublsh1_n.asm" />
-    <YASM Include="..\..\mpn\x86_64w\core2\submul_1.asm" />
-    <YASM Include="..\..\mpn\x86_64w\core2\sumdiff_n.asm" />
-    <YASM Include="..\..\mpn\x86_64w\core2\udiv_qrnnd.asm" />
-    <YASM Include="..\..\mpn\x86_64w\core2\umul_ppmm.asm" />
-    <YASM Include="..\..\mpn\x86_64w\core2\xnor_n.asm" />
-    <YASM Include="..\..\mpn\x86_64w\core2\xor_n.asm" />
+    <YASM Include="..\..\mpn\x86_64w\sandybridge\sub_n.asm" />
+    <YASM Include="..\..\mpn\x86_64w\sandybridge\submul_1.asm" />
+    <YASM Include="..\..\mpn\x86_64w\udiv_qrnnd.asm" />
+    <YASM Include="..\..\mpn\x86_64w\umul_ppmm.asm" />
+    <YASM Include="..\..\mpn\x86_64w\sandybridge\xnor_n.asm" />
+    <YASM Include="..\..\mpn\x86_64w\sandybridge\xor_n.asm" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
