@@ -61,7 +61,7 @@ Peter Shrimpton	     BPSW primality test code for integers up to GMP_LIMB_BITS
 Minh Van Nguyen      Release manager for MPIR 2.1.0
 Case Vanhorsen	     Release testing
 David Cleaver        Bug report
-JP Flori             Tuning values
+JP Flori             Many build system patches, tuning values
 Sisyphus (Rob)       Tuning values
-Leif Lionhardy       Tuning values
+Leif Lionhardy       Build system patches, tuning values
 Julien Puydt         Tuning values
