@@ -24,6 +24,10 @@ Changes between MPIR 2.7.0 and MPIR 2.6.0
 
 Bug Fixes:
 
+* Many build fixes
+* Fix fat binary build on 32 bit x86
+* Fix minor bugs in invert.c and t-invertc.
+* Remove broken assert in generic build
 * Fix bug in FFT that causes tuning code to crash
 * fix bug in sqr_basecase.asm on Windows
 * Fix bug in mpz_nextprime
