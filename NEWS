@@ -39,7 +39,7 @@ Speedups:
 
 * faster divide-and-conquer division using new algorithm of W. Hart
 * merge many speedups for number theoretic functions from GMP project
-  (factorial, double factorial, primorial, etc.)
+  (factorial, multi-factorial, primorial, n-choose-k, jacobi symbols)
 * fft versions of mpn_mulmod_bnm1/p1 to speed up GMP-ECM
 * switch to using the much cleaner gcdext implementation from GMP
 
