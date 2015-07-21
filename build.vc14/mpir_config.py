@@ -17,6 +17,7 @@ from re import compile, search
 from collections import defaultdict
 from uuid import uuid4
 from time import sleep
+from errno import EEXIST
 
 solution_name = 'mpir.sln'
 try:
@@ -341,8 +342,12 @@ def gen_filter(name, hf_list, cf_list, af_list):
   relp = split(relpath(mpir_dir, fn))[0] + '\\'
   try:
     makedirs(split(fn)[0])
-  except IOError:
-    pass
+  except IOError as e:
+    if e.errno != EEXIST:
+      raise
+    else:
+      pass
+
   with open(fn, 'w') as outf:
 
     outf.write(f1)
