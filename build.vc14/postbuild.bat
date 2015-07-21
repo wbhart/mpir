@@ -30,6 +30,7 @@ set extn=%extn:~-4,3%
 if "%extn%" EQU "lib" (goto is2nd)
 if "%extn%" EQU "dll" (goto is2nd)
 set extn=%msbf%#
+set filename=%extn:~0,-5%
 set extn=%extn:~-4,3%
 if "%extn%" EQU "lib" (goto is1st)
 if "%extn%" EQU "dll" (goto is1st)
@@ -60,7 +61,7 @@ rem %1 = source directory
 rem %2 = destination directory
 rem %3 = configuration (debug/release) 
 rem %4 = library (lib/dll)
-rem %5 = file naame
+rem %5 = file name
 
 :copyb
 if "%4" EQU "dll" (
