@@ -14,14 +14,15 @@ rem add a backslash if the output directory lacks one
 set str=%str:~-1%
 if "%str%" == "\" (set outf=%2%3) else (set outf=%2\%3)
 
-echo copying %1 to %outf% (if not present or changed)
+set op=copying
 if not exist "%outf%" goto copy
 
 rem don't overwrite if output exists and is not changed
 fc %1 %outf% > nul && if not %errorlevel 1 goto exit
-echo overwriting %outf% with %1
+set op=overwriting
 
 :copy
+if "%4" NEQ "" (echo %op% %outf% from %1)
 copy %1 %outf% > nul
 goto exit
 
