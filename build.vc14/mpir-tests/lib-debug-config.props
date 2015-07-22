@@ -4,11 +4,6 @@
     <MPDIR>$(SolutionDir)..\lib\$(Platform)\$(Configuration)</MPDIR>
     <MPLIBS>$(SolutionDir)..\lib\$(Platform)\$(Configuration)\mpir.lib;$(SolutionDir)..\lib\$(Platform)\$(Configuration)\mpirxx.lib</MPLIBS>
   </PropertyGroup>
-  <PropertyGroup>
-    <_ProjectFileVersion>10.0.21006.1</_ProjectFileVersion>
-    <OutDir>$(SolutionDir)$(PlatformName)\$(Configuration)\</OutDir>
-    <IntDir>$(PlatformName)\$(Configuration)\</IntDir>
-  </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -17,13 +12,11 @@
     <Link>
       <AdditionalDependencies>$(MPLIBS);$(OutDir)\add-test-lib.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
-    <PreBuildEvent>
-      <Command>if exist $(Bindir)$(OutDir)gmp-mparam.h (copy $(Bindir)$(OutDir)gmp-mparam.h ..\..\..\) else (echo $(Bindir)$(OutDir)gmp-mparam.h is not present )</Command>
-    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <BuildMacro Include="MPDIR">
       <Value>$(MPDIR)</Value>
+      <EnvironmentVariable>true</EnvironmentVariable>
     </BuildMacro>
     <BuildMacro Include="MPLIBS">
       <Value>$(MPLIBS)</Value>
