@@ -27,7 +27,6 @@ mp_limb_t mpn_sumdiff_n(mp_ptr s, mp_ptr d, mp_srcptr x, mp_srcptr y, mp_size_t 
    mp_limb_t ret;
    mp_ptr t;
 
-   ASSERT(n > 0);
    ASSERT_MPN(x, n);
    ASSERT_MPN(y, n);
    ASSERT(MPN_SAME_OR_SEPARATE_P(s, x, n));

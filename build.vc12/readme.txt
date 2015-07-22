@@ -319,18 +319,17 @@ an application is built).
 
 If you intend to use the DLL export libraries in an application you need to:
 
-   a. ensure that the application can locate the MPIR DLLs in 
-      question when it is run.  This involves putting the 
-      DLL(s) on a recognised directory path.
+   a. define the preprocessor symbol MSC_USE_DLL when the
+      application is built so that the use of a DLL version
+      of the MPIR library is recognised;
+ 
+   b. link the application to the mpir.lib library that is in
+      the same directory as the MPIR DLL library that is to be
+      used (this is produced when the DLL is built);
 
-   b. define MSC_USE_DLL when the application is built
-      in order to ensure that MPIR's DLL export symbols are 
-      properly recognised as such so that they can be 
-      accessed via the MPIR import library
-   
-   c. link the application to the gmp.lib library that is
-      provided with the DLL you intend to use (this is
-      produced when the DLL is built)
+   c. ensure that the application can locate the MPIR DLL in 
+      question when it is run (for example by copying it into 
+      the directory where the application exe file is located).
 
 4. Using DLL Dynamic loading
 ----------------------------

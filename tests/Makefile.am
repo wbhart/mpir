@@ -24,7 +24,7 @@ SUBDIRS = . devel mpn fft mpz mpq mpf rand misc cxx
 
 include ../mpn/Makeasm.am
 
-INCLUDES = -I$(top_srcdir)
+AM_CPPFLAGS = -I$(top_srcdir)
 LDADD = libtests.la $(top_builddir)/libmpir.la
 
 check_LTLIBRARIES = libtests.la

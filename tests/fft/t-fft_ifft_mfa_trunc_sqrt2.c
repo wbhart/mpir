@@ -59,7 +59,7 @@ main(void)
             mp_limb_t * ptr;
             mp_limb_t ** ii, ** jj, * t1, * t2, * s1;
         
-            mpn_rrandom(&trunc, state, 1);
+            mpn_rrandom((mp_ptr) &trunc, state, 1);
             trunc = 2*n + trunc % (2 * n) + 1;
             trunc = 2*n1*((trunc + 2*n1 - 1)/(2*n1));
 

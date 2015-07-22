@@ -29,12 +29,14 @@ MA 02110-1301, USA. */
 #define FUNCTION               mpz_mul_si
 #define MULTIPLICAND_UNSIGNED  mpir_si
 #define MULTIPLICAND_ABS(x)    ((mpir_ui) ABS(x))
+#define LT_ZERO(x)             (x < 0)
 #endif
 
 #ifdef OPERATION_mul_ui
 #define FUNCTION               mpz_mul_ui
 #define MULTIPLICAND_UNSIGNED  mpir_ui
 #define MULTIPLICAND_ABS(x)    x
+#define LT_ZERO(x)             0
 #endif
 
 #ifndef FUNCTION
@@ -94,5 +96,5 @@ FUNCTION (mpz_ptr prod, mpz_srcptr mult,
     }
 #endif
 
-  SIZ(prod) = ((sign_product < 0) ^ (small_mult < 0)) ? -size : size;
+  SIZ(prod) = ((sign_product < 0) ^ LT_ZERO(small_mult)) ? -size : size;
 }

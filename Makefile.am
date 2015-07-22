@@ -110,7 +110,7 @@ EXTRA_DIST = configfsf.guess configfsf.sub .gdbinit INSTALL.autoconf
 if WANT_CXX
 GMPXX_HEADERS_OPTION = mpirxx.h
 endif
-EXTRA_DIST += mpirxx.h yasm_macwin.inc.fat yasm_macwin.inc.nofat yasm_mac.inc.fat yasm_mac.inc.nofat strip_fPIC.sh mpn/x86w mpn/x86_64w build.vc10 build.vc11 build.vc12 doc/devel doc/fdl.texi cpuid.c gpl-2.0.txt lgpl-2.1.txt
+EXTRA_DIST += mpirxx.h yasm_macwin.inc.fat yasm_macwin.inc.nofat yasm_mac.inc.fat yasm_mac.inc.nofat strip_fPIC.sh mpn/x86w mpn/x86_64w build.vc10 build.vc11 build.vc12 build.vc14 doc/devel doc/fdl.texi cpuid.c gpl-2.0.txt lgpl-2.1.txt
 
 # mpir.h is architecture dependent, mainly since they encode the
 # limb size used in libmpir.  For that reason they belong under $exec_prefix
@@ -143,7 +143,7 @@ endif
 DISTCLEANFILES = $(BUILT_SOURCES) config.m4 fat.h @gmp_srclinks@
 
 # Tell mpir.h it's building gmp, not an application, used by windows DLL stuff.
-INCLUDES=-D__GMP_WITHIN_GMP
+AM_CPPFLAGS=-D__GMP_WITHIN_GMP
 
 MPF_OBJECTS = mpf/abs$U.lo mpf/add$U.lo mpf/add_ui$U.lo mpf/ceilfloor$U.lo mpf/clear$U.lo mpf/clears$U.lo mpf/cmp$U.lo mpf/cmp_d$U.lo mpf/cmp_si$U.lo mpf/cmp_ui$U.lo mpf/div$U.lo mpf/div_2exp$U.lo mpf/div_ui$U.lo mpf/dump$U.lo mpf/eq$U.lo mpf/fits_si$U.lo mpf/fits_sint$U.lo mpf/fits_slong$U.lo mpf/fits_sshort$U.lo mpf/fits_ui$U.lo mpf/fits_uint$U.lo mpf/fits_ulong$U.lo mpf/fits_ushort$U.lo mpf/get_d$U.lo mpf/get_d_2exp$U.lo mpf/get_dfl_prec$U.lo mpf/get_prc$U.lo mpf/get_si$U.lo mpf/get_str$U.lo mpf/get_ui$U.lo mpf/init$U.lo mpf/init2$U.lo mpf/inits$U.lo mpf/inp_str$U.lo mpf/int_p$U.lo mpf/iset$U.lo mpf/iset_d$U.lo mpf/iset_si$U.lo mpf/iset_str$U.lo mpf/iset_ui$U.lo mpf/mul$U.lo mpf/mul_2exp$U.lo mpf/mul_ui$U.lo mpf/neg$U.lo mpf/out_str$U.lo mpf/pow_ui$U.lo mpf/random2$U.lo mpf/reldiff$U.lo mpf/rrandomb$U.lo mpf/set$U.lo mpf/set_d$U.lo mpf/set_dfl_prec$U.lo mpf/set_prc$U.lo mpf/set_prc_raw$U.lo mpf/set_q$U.lo mpf/set_si$U.lo mpf/set_str$U.lo mpf/set_ui$U.lo mpf/set_z$U.lo mpf/size$U.lo mpf/sqrt$U.lo mpf/sqrt_ui$U.lo mpf/sub$U.lo mpf/sub_ui$U.lo mpf/swap$U.lo mpf/trunc$U.lo mpf/ui_div$U.lo mpf/ui_sub$U.lo mpf/urandomb$U.lo 
 

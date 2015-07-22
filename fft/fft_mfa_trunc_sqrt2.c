@@ -68,7 +68,11 @@ void mpir_fft_radix2_twiddle(mp_ptr * ii, mp_size_t is,
 {
    mp_size_t i;
    mp_size_t limbs;
+
+#if 0
 start:
+#endif
+
    limbs = (w*n)/GMP_LIMB_BITS;
    
    if (n == 1) 

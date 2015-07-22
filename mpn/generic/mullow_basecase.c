@@ -52,7 +52,7 @@ mpn_mullow_basecase (mp_ptr rp, mp_srcptr xp, mp_size_t xn, mp_srcptr yp,
   for (i = 1; i <= n - xn && i < yn; i++)
     rp[xn + i] = mpn_addmul_1(rp + i, xp, xn, yp[i]);
   
-  for (i = i; i > n - xn && i < yn; i++)
+  for ( ; i > n - xn && i < yn; i++)
     mpn_addmul_1(rp + i, xp, n - i, yp[i]);
 
   return;

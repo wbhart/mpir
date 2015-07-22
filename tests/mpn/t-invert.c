@@ -56,7 +56,7 @@ test_invert (mp_ptr xp, mp_srcptr ap, mp_size_t n)
   mpn_mul_n (tp, xp, ap, n);
   cy = mpn_add_n (tp + n, tp + n, ap, n); /* A * msb(X) */
   if (cy != 0)
-    res = 0;
+    return 0;
 
   /* now check B^(2n) - X*A <= A */
   mpn_com_n (tp, tp, 2 * n);

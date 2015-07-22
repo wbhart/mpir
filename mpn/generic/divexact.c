@@ -111,8 +111,6 @@ mpn_divexact (mp_ptr qp,
     {
        n2p = TMP_ALLOC_LIMBS(nn);
        MPN_COPY(n2p, np, nn);
-    
-       dp;
     } else
     { 
        count_leading_zeros (shift, dp[dn - 1]);
