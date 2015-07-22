@@ -59,7 +59,8 @@ along with the GNU MP Library.  If not, see http://www.gnu.org/licenses/.  */
 #endif
 #endif
 
-#if defined(MPIR_HAVE_STDINT)
+/* check availability of stdint.h -- note we do not include this ourselves */
+#if defined(INTMAX_MAX)
 #  if defined(LONG_MAX) && defined(INTMAX_MAX) && INTMAX_MAX != LONG_MAX && (INTMAX_MAX != LLONG_MAX || !defined(MPIRXX_HAVE_LLONG))
 #    define MPIRXX_INTMAX_T 1
 #  endif
