@@ -24,6 +24,7 @@ call :seterr & echo ERROR: %1 is not supported & exit /b %errorlevel%
 rem echo platform= %plat% configuration= %conf%, file= %file%
 
 rem get the filename extension (lib/dll) to set the output directory
+set loc=
 set extn=%file%#
 set filename=%extn:~0,-5%
 set extn=%extn:~-4,3%
@@ -37,12 +38,13 @@ if "%extn%" EQU "dll" (goto is1st)
 call :seterr & echo "postbuild copy error ERROR: file = %file%, msbf = %msbf% extn = %extn%" & exit /b %errorlevel%
 
 :is1st
+set loc=%plat%\
 set plat=%conf%
 set conf=%file%
 
 :is2nd:
-rem set the target aand output directories
-set source="%plat%\%conf%"
+rem set the target and output directories
+set source="%loc%%plat%\%conf%"
 set dest="..\%extn%\%plat%\%conf%"
 
 rem output parametrers for the MPIR tests

@@ -1,11 +1,10 @@
+@echo off
 rem %1 = architecture
 rem %2 = library type (LIB|DLL)
 rem %3 = platform (Win32|x64)
 rem %4 = configuration (Release|Debug)
 
 rem example use: msbuild sandybridge_ivybridge dll x64 release
-
-@echo off
 
 if /i "%2" EQU "DLL" (set libp=dll) else (set libp=lib)
 if /i "%3" EQU "x64" (set plat=x64) else (set plat=Win32)
