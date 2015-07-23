@@ -245,3 +245,7 @@ dll_mpir_k8
 /mpn/x86w/p6/mmx/gmp-mparam.h
 /mpn/x86w/p6/gmp-mparam.h
 /mpn/x86w/pentium4/gmp-mparam.h
+/build.vc14/mpir-tests/lib-release-config.props
+/build.vc14/mpir-tests/dll-debug-config.props
+/build.vc14/mpir-tests/dll-release-config.props
+/build.vc14/mpir-tests/lib-debug-config.props
