@@ -59,13 +59,11 @@ if "%4" EQU "dll" (
 	copy %1mpir.exp %2mpir.exp > nul 2>&1
 	copy %1mpir.lib %2mpir.lib > nul 2>&1
 	if exist %1mpir.pdb (copy %1mpir.pdb %2mpir.pdb  > nul 2>&1)
-	copy mpir-tests\%4-%3-config.props mpir-tests\test-config.props > nul 2>&1
 ) else if "%4" EQU "lib" (
     if "%5" EQU "mpir" ( 
   	    if exist %1mpir.lib (
         copy %1mpir.lib %2mpir.lib > nul 2>&1
 	    if exist %1mpir.pdb (copy %1mpir.pdb %2mpir.pdb > nul 2>&1)
-	    copy mpir-tests\%4-%3-config.props mpir-tests\test-config.props > nul 2>&1
         )
     ) else if "%5" EQU "mpirxx" (
 	    if exist %1mpirxx.lib (

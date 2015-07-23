@@ -4,6 +4,11 @@ rem %2 = library type (LIB|DLL)
 rem %3 = platform (Win32|x64)
 rem %4 = configuration (Release|Debug)
 
+if "%4" NEQ "" if "%3" NEQ "" if "%2" NEQ "" if "%1" NEQ "" goto cont
+echo usage: msbuild arcitecture library_type=^<LIB^|DLL^> platform=^<Win32^|x64^> configuration=^<Release^|Debug^>
+goto :eof
+
+:cont
 rem example use: msbuild sandybridge_ivybridge dll x64 release
 
 if /i "%2" EQU "DLL" (set libp=dll) else (set libp=lib)
