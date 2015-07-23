@@ -32,9 +32,9 @@ except Exception:
   print('Cannot determine test configuration from "output_params.bat"')
   sys.exit(-1)
 
-tdir = d[2] + '\\' + d[3] + '\\'
+tdir = '{}\\{}\\'.format(d[2], d[3])
 if d[1] == 'dll':
-  shutil.copy("..\\..\\dll\\" + tdir + "mpir.dll",  os.getcwd())
+  shutil.copy("..\\{}\\{}mpir.dll".format(d[0], tdir),  '..\\' + tdir)
   xt = 'Dynamic Link Library'
 else:
   xt = 'Static Library'

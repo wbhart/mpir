@@ -249,3 +249,5 @@ dll_mpir_k8
 /build.vc14/mpir-tests/dll-debug-config.props
 /build.vc14/mpir-tests/dll-release-config.props
 /build.vc14/mpir-tests/lib-debug-config.props
+/build.vc14/mpir-tests/test-config.props
+/build.vc14/output_params.bat
