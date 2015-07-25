@@ -1,4 +1,8 @@
 @echo off
+rem %1 = source file path
+rem %2 = destination directory
+rem %3 = destination file name
+
 if not exist %1 goto nofile
 if exist %2 goto next
 

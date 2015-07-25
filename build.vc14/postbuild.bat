@@ -1,4 +1,5 @@
 @echo off
+rem %1 = full target path
 set str=%~1
 
 rem delete anything from the path before 'build.vc14'
@@ -48,11 +49,10 @@ exit /b 0
 
 rem copy binaries to final bin_dirination directory
 rem %1 = target (build output) directory
-rem %2 = bin_dirination directory
+rem %2 = binary destination directory
 rem %3 = configuration (debug/release) 
 rem %4 = library (lib/dll)
 rem %5 = file name
-
 :copyb
 if "%4" EQU "dll" (
 	copy %1mpir.dll %2mpir.dll > nul 2>&1
@@ -75,6 +75,7 @@ if "%4" EQU "dll" (
 	call :seterr & echo ERROR: illegal library type %4  & exit /b %errorlevel%
 )
 
+rem set configuration for the tests
 call gen_test_config_props %plat% %conf%
 exit /b 0
 

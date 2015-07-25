@@ -1,4 +1,5 @@
-echo off
+@echo off
+
 if exist lib\win32\release call :sub lib\win32\release
 if exist lib\win32\debug   call :sub lib\win32\debug
 if exist lib\x64\release   call :sub lib\x64\release
@@ -13,14 +14,12 @@ exit /b 0
 :sub
 echo off
 if not exist %1 exit /b 0
-cd %1
+pushd %1
 if exist gmp.dll   (ren gmp.dll   mpir.dll)
 if exist gmp.lib   (ren gmp.lib   mpir.lib)
 if exist gmp.pdb   (ren gmp.pdb   mpir.pdb)
 if exist gmp.exp   (ren gmp.exp   mpir.exp)
 if exist gmpxx.lib (ren gmpxx.lib mpirxx.lib)
 if exist gmpxx.pdb (ren gmpxx.pdb mpirxx.pdb)
-cd ..
-cd ..
-cd ..
+popd
 exit /b 0
