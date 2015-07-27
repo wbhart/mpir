@@ -5,10 +5,11 @@ rem (set libr=lib)
 rem (set plat=x64) 
 rem (set conf=Release) 
 
-set dir_prefix=
+set prefix=..\..\
 call :clrerr
 
-if exist %prefix%output_params.bat (call %prefix%output_params.bat) else (call :seterr & echo ERROR: 'output_params.bat' not found & exit /b %errorlevel%)
+if exist output_params.bat (call output_params.bat) else (call :seterr & echo ERROR: 'output_params.bat' not found & exit /b %errorlevel%)
+
 set lib_dir=%prefix%%ldir%\%plat%\%conf%
  
 if /i "%plat%" EQU "" (call :seterr & echo ERROR: 'output_params.bat' is corrupt & exit /b %errorlevel%)
@@ -51,7 +52,7 @@ echo     ^</BuildMacro^> >>tmp.props
 echo   ^</ItemGroup^> >>tmp.props
 echo ^</Project^> >>tmp.props
 
-call %prefix%out_copy_rename tmp.props .\ test-config.props verb
+call out_copy_rename tmp.props .\ test-config.props verb
 del tmp.props
 goto clrerr
 
