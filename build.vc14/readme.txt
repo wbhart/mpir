@@ -57,33 +57,34 @@ However, additional optimised builds are available and can be added
 by running the Python script mpir_config.h (in mpir\build.vc14) and
 selecting the optimised builds required from the resulting list:
 
- 1. gc               (win32 and x64)
+C:\Users\brian\Documents\Visual Studio 2015\Projects\mpir\build.vc14>mpir_config.py
+ 1. gc
  2. p3                       (win32)
- 3. p3\p3mmx                 (win32)
+ 3. p3_p3mmx                 (win32)
  4. p4                       (win32)
- 5. p4\mmx                   (win32)
- 6. p4\sse2                  (win32)
+ 5. p4_mmx                   (win32)
+ 6. p4_sse2                  (win32)
  7. p6                       (win32)
- 8. p6\mmx                   (win32)
- 9. p6\p3mmx                 (win32)
+ 8. p6_mmx                   (win32)
+ 9. p6_p3mmx                 (win32)
 10. pentium4                 (win32)
-11. pentium4\mmx             (win32)
-12. pentium4\sse2            (win32)
+11. pentium4_mmx             (win32)
+12. pentium4_sse2            (win32)
 13. atom                       (x64)
 14. bobcat                     (x64)
 15. bulldozer                  (x64)
-16. bulldozer\piledriver       (x64)
+16. bulldozer_piledriver       (x64)
 17. core2                      (x64)
-18. core2\penryn               (x64)
+18. core2_penryn               (x64)
 19. haswell                    (x64)
 20. k8                         (x64)
-21. k8\k10                     (x64)
-22. k8\k10\k102                (x64)
+21. k8_k10                     (x64)
+22. k8_k10_k102                (x64)
 23. nehalem                    (x64)
-24. nehalem\westmere           (x64)
+24. nehalem_westmere           (x64)
 25. netburst                   (x64)
 26. sandybridge                (x64)
-27. sandybridge\ivybridge      (x64)
+27. sandybridge_ivybridge      (x64)
 Space separated list of builds (1..27, 0 to exit)?
 
 Dynamic Link Library (DLL) builds contain both the C and C++ features
@@ -102,14 +103,13 @@ command
 
 where:
       processor      is the name of the version wanted - this is 
-                     one of the 27 names listed earlier with any 
-                     '\' characters replaced by '_' characters
+                     one of the 27 names listed in section 3
       library_type   LIB or DLL 
       platform       win32 or x64
       configuration  Release or Debug
 
 For example, in order to build static library version of MPIR for the
-sandybridge\ivybridge processor (no 27 in the list above), the command 
+sandybridge_ivybridge processor (no 27 in the list above), the command 
 line is:
 
   > msbuild sandybridge_ivybridge lib x64 release
