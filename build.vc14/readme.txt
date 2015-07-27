@@ -10,8 +10,7 @@ MPIR with Microsoft Visual Studio 2015 are provided under the terms
 of the LGPL v2.1+ license.
 
 The MPIR library uses numerous files which are LGPL v3+ and so the 
-overall license of the library distribution is LGPL v3+.  Some of 
-the demos are GPL.
+overall license of the library distribution is LGPL v3+.  
 
 2. Using the Assembler Based Build Projects
 ===========================================
@@ -54,10 +53,9 @@ both static and dynamic libraries:
    Intel Sandybridge                  (x64)
 
 However, additional optimised builds are available and can be added
-by running the Python script mpir_config.h (in mpir\build.vc14) and
-selecting the optimised builds required from the resulting list:
+by running the Python script mpir_config.py (in mpir\build.vc14) and
+selecting the builds required from the resulting list:
 
-C:\Users\brian\Documents\Visual Studio 2015\Projects\mpir\build.vc14>mpir_config.py
  1. gc
  2. p3                       (win32)
  3. p3_p3mmx                 (win32)
@@ -95,7 +93,7 @@ the C++ features being provided by a separate library (mpirxx.lib).
 =========================
 
 Once the required versions of MPIR have been added to the Visual
-Studio build as descibed above, MPIR can be built by opeing a DOS
+Studio build as descibed above, MPIR can be built by opening a DOS
 command window in the directory mpir\build.vc14 and entering the
 command
 
@@ -104,6 +102,9 @@ command
 where:
       processor      is the name of the version wanted - this is 
                      one of the 27 names listed in section 3
+                     (the selected version must have been added
+                     to the Visual Studio solution as described
+                     in section 4)
       library_type   LIB or DLL 
       platform       win32 or x64
       configuration  Release or Debug
@@ -123,8 +124,10 @@ type, platform and confguration:
 
   mpir\build.vc14\<lib|dll>_mpir_<processor>\<win32|x64>\<release|debug>
 
-where a and b in <a|b> are alternatives. For example, the location of 
-the sandybridge_ivybridge release build static library is:  
+Here (and in what follows) the template <processor> indicates that a 
+specific processor build name has to be substituted at this point, while
+<a|b> indicates that either a or b  has to be chosen.  For example, the
+location of the sandybridge_ivybridge release build static library is:  
 
   mpir\build.vc14\lib_mpir_sandybridge_ivybridge\x64\Release
 
@@ -141,18 +144,19 @@ to the respective directories:
 5. The Build Using Visual Studio
 ================================
  
-The MPIR build is started by opening the Visual Studio C/C++ solution
-file 'mpir.sln' in the build.vc14 directory.  
+The MPIR build in Visual Studio is started by opening the Visual
+Studio C/C++ solution file 'mpir.sln' in the build.vc14 directory.  
 
 MPIR is built by selecting one of the build projects provided (which
 determines the library type - static or dynamic - and the processor
-architecture) ansd then setting the platform (win32 or x64) and the
+architecture) and then setting the platform (win32 or x64) and the
 configuration (release or debug). Once selected the Viusal Studio
 build command can be issued to complete the build.
 
-The MPIR static library builds contain only the MPIR functions for C  
-so the lib_mpir_cxx project has to be built to provide the additional
-C++ functions (DLL builds contain both the C and C++ functions).
+The MPIR static library builds only contain the MPIR functions of the
+C API so the lib_mpir_cxx project has to be built to provide the 
+additional functions for the C++ API (DLL builds contain both the C
+and C++ functions).
 
 The locations of the resulting library outputs are the same as those
 described above for the commandline build.
@@ -167,7 +171,7 @@ in section 3.
 
 The output locations of the MPIR libraries are described in section 4.
 As described the static libraries and related files are also copied
-to the loactions:
+to the locations:
 
   mpir\lib\<win32|x64>\<release|debug>
 
@@ -177,11 +181,10 @@ and its debug symbol file are copied to:
   mpir\dll\<win32|x64>\<release|debug>
 
 This means that the 'dll' and 'lib' sub-directories respectively contain
-the last MPIR DLLs and static libraries built.  These are then the 
-libraries used to build MPIR applications that require MPIR. For example
-the speed, the tune or the try programs link to the libraries placed in
-these directories, which means that these applications are always linked 
-to the last MPIR versions built.  
+the last MPIR DLLs and static libraries built.  These are convenient
+library locations that can be used to build MPIR applications.  But it
+is important to remember that these locations always contain the last
+MPIR (static or dynamic) libraaries built.
 
 The MPIR DLL projects include the C++ files. If you want the relevant
 files excluded from the DLL(s) you build, go to the 'cpp' subdirectory
