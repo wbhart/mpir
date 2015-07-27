@@ -49,19 +49,19 @@
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" />
-    <Import Project="..\mpir-tests\test-config.props" />
+    <Import Project="..\..\test-config.props" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" />
-    <Import Project="..\mpir-tests\test-config.props" />
+    <Import Project="..\..\test-config.props" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" />
-    <Import Project="..\mpir-tests\test-config.props" />
+    <Import Project="..\..\test-config.props" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" />
-    <Import Project="..\mpir-tests\test-config.props" />
+    <Import Project="..\..\test-config.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
@@ -83,8 +83,7 @@
       <PrecompiledHeader>
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
-      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
-      <AdditionalIncludeDirectories>$(MPDIR);..\..\lib\$(intDir);.\;..\;..\..\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(MPDIR);..\..\..\;..\..\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Lib>
@@ -102,8 +101,7 @@
       <PrecompiledHeader>
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
-      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <AdditionalIncludeDirectories>$(MPDIR);..\..\lib\$(intDir);.\;..\;..\..\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(MPDIR);..\..\..\;..\..\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Lib>
@@ -118,8 +116,7 @@
       <PrecompiledHeader>
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
-      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <AdditionalIncludeDirectories>$(MPDIR);..\..\lib\$(intDir);.\;..\;..\..\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(MPDIR);..\..\..\;..\..\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Lib>
@@ -136,8 +133,7 @@
       <PrecompiledHeader>
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
-      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <AdditionalIncludeDirectories>$(MPDIR);..\..\lib\$(intDir);.\;..\;..\..\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(MPDIR);..\..\..\;..\..\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <BufferSecurityCheck>false</BufferSecurityCheck>
       <PreprocessorDefinitions>%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
@@ -147,58 +143,81 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\config.h" />
-    <ClInclude Include="..\getopt.h" />
-    <ClInclude Include="..\getrusage.h" />
-    <ClInclude Include="..\gettimeofday.h" />
-    <ClInclude Include="..\..\tune\speed.h" />
-    <ClInclude Include="..\win_timing.h" />
+    <ClInclude Include="..\..\..\gmp-impl.h" />
+    <ClInclude Include="..\..\..\gmp-mparam.h" />
+    <ClInclude Include="..\..\..\longlong.h" />
+    <ClInclude Include="..\..\..\mpir.h" />
+    <ClInclude Include="..\..\..\tests\tests.h" />
+    <ClInclude Include="..\..\getopt.h" />
+    <ClInclude Include="..\..\getrusage.h" />
+    <ClInclude Include="..\..\gettimeofday.h" />
+    <ClInclude Include="..\..\lib_mpir_sandybridge_ivybridge\x64\Release\config.h" />
+    <ClInclude Include="..\..\lib_mpir_sandybridge_ivybridge\x64\Release\gmp-impl.h" />
+    <ClInclude Include="..\..\lib_mpir_sandybridge_ivybridge\x64\Release\gmp-mparam.h" />
+    <ClInclude Include="..\..\lib_mpir_sandybridge_ivybridge\x64\Release\longlong.h" />
+    <ClInclude Include="..\..\lib_mpir_sandybridge_ivybridge\x64\Release\mpir.h" />
+    <ClInclude Include="..\..\unistd.h" />
+    <ClInclude Include="..\..\win_timing.h" />
+    <ClInclude Include="..\..\..\tune\speed.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\tune\common.c" />
-    <ClCompile Include="..\..\tune\divrem1div.c" />
-    <ClCompile Include="..\..\tune\divrem1inv.c" />
-    <ClCompile Include="..\..\tune\divrem2div.c" />
-    <ClCompile Include="..\..\tune\divrem2inv.c" />
-    <ClCompile Include="..\..\tune\fac_ui_large.c" />
-    <ClCompile Include="..\..\tune\fac_ui_small.c" />
-    <ClCompile Include="..\..\tune\freq.c">
+    <ClCompile Include="..\..\..\mpn\generic\divrem_1.c" />
+    <ClCompile Include="..\..\..\mpn\generic\divrem_2.c" />
+    <ClCompile Include="..\..\..\mpn\generic\gcdext.c" />
+    <ClCompile Include="..\..\..\mpn\generic\hgcd.c" />
+    <ClCompile Include="..\..\..\mpn\generic\hgcd_appr.c" />
+    <ClCompile Include="..\..\..\mpn\generic\hgcd_reduce.c" />
+    <ClCompile Include="..\..\..\mpn\generic\jacobi_base.c" />
+    <ClCompile Include="..\..\..\mpn\generic\mod_1.c" />
+    <ClCompile Include="..\..\..\mpn\generic\preinv_divrem_1.c" />
+    <ClCompile Include="..\..\..\mpn\generic\set_str.c" />
+    <ClCompile Include="..\..\..\mpz\fac_ui.c" />
+    <ClCompile Include="..\..\..\mpz\powm.c" />
+    <ClCompile Include="..\..\..\mp_clz_tab.c" />
+    <ClCompile Include="..\..\..\tune\common.c" />
+    <ClCompile Include="..\..\..\tune\divrem1div.c" />
+    <ClCompile Include="..\..\..\tune\divrem1inv.c" />
+    <ClCompile Include="..\..\..\tune\divrem2div.c" />
+    <ClCompile Include="..\..\..\tune\divrem2inv.c" />
+    <ClCompile Include="..\..\..\tune\fac_ui_large.c" />
+    <ClCompile Include="..\..\..\tune\fac_ui_small.c" />
+    <ClCompile Include="..\..\..\tune\freq.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="..\..\tune\gcdextod.c" />
-    <ClCompile Include="..\..\tune\gcdextos.c" />
-    <ClCompile Include="..\..\tune\gcdext_double.c" />
-    <ClCompile Include="..\..\tune\gcdext_single.c" />
-    <ClCompile Include="..\..\tune\hgcd_appr_lehmer.c" />
-    <ClCompile Include="..\..\tune\hgcd_lehmer.c" />
-    <ClCompile Include="..\..\tune\hgcd_reduce_1.c" />
-    <ClCompile Include="..\..\tune\hgcd_reduce_2.c" />
-    <ClCompile Include="..\..\tune\jacbase1.c" />
-    <ClCompile Include="..\..\tune\jacbase2.c" />
-    <ClCompile Include="..\..\tune\jacbase3.c" />
-    <ClCompile Include="..\..\tune\jacbase4.c" />
-    <ClCompile Include="..\..\tune\modlinv.c" />
-    <ClCompile Include="..\..\tune\mod_1_div.c" />
-    <ClCompile Include="..\..\tune\mod_1_inv.c" />
-    <ClCompile Include="..\..\tune\noop.c" />
-    <ClCompile Include="..\..\tune\powm_mod.c" />
-    <ClCompile Include="..\..\tune\powm_redc.c" />
-    <ClCompile Include="..\..\tune\preinv_divrem_1.c" />
-    <ClCompile Include="..\..\tune\set_strb.c" />
-    <ClCompile Include="..\..\tune\set_strp.c" />
-    <ClCompile Include="..\..\tune\set_strs.c" />
-    <ClCompile Include="..\..\tune\time.c">
+    <ClCompile Include="..\..\..\tune\gcdextod.c" />
+    <ClCompile Include="..\..\..\tune\gcdextos.c" />
+    <ClCompile Include="..\..\..\tune\gcdext_double.c" />
+    <ClCompile Include="..\..\..\tune\gcdext_single.c" />
+    <ClCompile Include="..\..\..\tune\hgcd_appr_lehmer.c" />
+    <ClCompile Include="..\..\..\tune\hgcd_lehmer.c" />
+    <ClCompile Include="..\..\..\tune\hgcd_reduce_1.c" />
+    <ClCompile Include="..\..\..\tune\hgcd_reduce_2.c" />
+    <ClCompile Include="..\..\..\tune\jacbase1.c" />
+    <ClCompile Include="..\..\..\tune\jacbase2.c" />
+    <ClCompile Include="..\..\..\tune\jacbase3.c" />
+    <ClCompile Include="..\..\..\tune\jacbase4.c" />
+    <ClCompile Include="..\..\..\tune\modlinv.c" />
+    <ClCompile Include="..\..\..\tune\mod_1_div.c" />
+    <ClCompile Include="..\..\..\tune\mod_1_inv.c" />
+    <ClCompile Include="..\..\..\tune\noop.c" />
+    <ClCompile Include="..\..\..\tune\powm_mod.c" />
+    <ClCompile Include="..\..\..\tune\powm_redc.c" />
+    <ClCompile Include="..\..\..\tune\preinv_divrem_1.c" />
+    <ClCompile Include="..\..\..\tune\set_strb.c" />
+    <ClCompile Include="..\..\..\tune\set_strp.c" />
+    <ClCompile Include="..\..\..\tune\set_strs.c" />
+    <ClCompile Include="..\..\..\tune\time.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
       <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Full</Optimization>
     </ClCompile>
-    <ClCompile Include="..\getopt.c" />
-    <ClCompile Include="..\win_timing.c" />
+    <ClCompile Include="..\..\getopt.c" />
+    <ClCompile Include="..\..\win_timing.c" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

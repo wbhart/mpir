@@ -251,3 +251,8 @@ dll_mpir_k8
 /build.vc14/mpir-tests/lib-debug-config.props
 /build.vc14/mpir-tests/test-config.props
 /build.vc14/output_params.bat
+/build.vc14/lib_speed
+/build.vc14/mpir-tune
+/build.vc14/tune
+/build.vc14/speed
+/build.vc14/try
