@@ -97,8 +97,7 @@ Studio build as descibed above, MPIR can be built by opening a DOS
 command window in the directory mpir\build.vc14 and entering the
 command
 
-       msbuild processor library_type platform configuration
-
+       msbuild processor library_type platform configuration +tests
 where:
       processor      is the name of the version wanted - this is 
                      one of the 27 names listed in section 3
@@ -108,12 +107,14 @@ where:
       library_type   LIB or DLL 
       platform       win32 or x64
       configuration  Release or Debug
+      +tests         if the command line ends with "+tests" (without
+                     the quotes) build the tests after building MPIR
 
 For example, in order to build static library version of MPIR for the
-sandybridge_ivybridge processor (no 27 in the list above), the command 
-line is:
+sandybridge_ivybridge processor (no 27 in the list above) and the tests, 
+the command line is:
 
-  > msbuild sandybridge_ivybridge lib x64 release
+  > msbuild sandybridge_ivybridge lib x64 release +tests
 
 The inputs to msbuild are not case sensitive but it is important to
 use the correct platform (win32 or x64) for the chosen build.
@@ -140,6 +141,19 @@ to the respective directories:
 
   mpir\lib\<win32|x64>\<release|debug>
   mpir\dll\<win32|x64>\<release|debug>
+
+All the DLLs and static libraries are multi-threaded and are linked to the 
+multi-threaded Microsoft run-time libraries (the MPIR libraries are linked 
+to Microsoft libraries of the same type).
+
+If built, the tests are placed in one of the directories:
+
+    mpir\build.vc14\<win32|x64>\<release|debug>
+
+They can be run by executing the Python program run-tests.py in the appropriate
+Visual Studio build sub-directory:
+
+    mpir/build.vc14/mpir-tests/run-tests.py
 
 5. The Build Using Visual Studio
 ================================

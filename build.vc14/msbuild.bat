@@ -3,6 +3,7 @@ rem %1 = architecture
 rem %2 = library type (LIB|DLL)
 rem %3 = platform (Win32|x64)
 rem %4 = configuration (Release|Debug)
+rem %5 = build tests (|+tests)
 
 if "%4" NEQ "" if "%3" NEQ "" if "%2" NEQ "" if "%1" NEQ "" goto cont
 echo usage: msbuild arcitecture library_type=^<LIB^|DLL^> platform=^<Win32^|x64^> configuration=^<Release^|Debug^>
@@ -26,6 +27,15 @@ set srcdir="."
 
 if /i "%libp%" == "LIB" (
   %msbdir%\msbuild.exe /p:Platform=%plat% /p:Configuration=%conf% %srcdir%\lib_mpir_cxx\lib_mpir_cxx.vcxproj
+)
+
+if /i "%5" EQU "+tests" (
+  set TESTDIR=.\mpir-tests\
+  for /d %%d in (%TESTDIR%*) do (
+    for %%f in (%%d\*.vcxproj) do (
+      %msbdir%\msbuild.exe /property:SolutionDir=..\..\ /property:OutDir=..\..\%plat%\%conf%\ /p:Platform=%plat% /p:Configuration=%conf% %%f
+    )
+  )
 )
 
 :clrerr
