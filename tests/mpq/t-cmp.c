@@ -74,9 +74,10 @@ int
 main (int argc, char **argv)
 {
   mpq_t a, b;
+  mpz_t c;
   mp_size_t size;
   int reps = 10000;
-  int i;
+  int i,j,k,l;
   int cc, ccref;
   gmp_randstate_t rands;
   
@@ -88,7 +89,36 @@ main (int argc, char **argv)
 
   mpq_init (a);
   mpq_init (b);
+  mpz_init (c);
 
+  /* small numbers */
+  for(i=-20; i<20; ++i)
+    for(j=1; j<20; ++j)
+    {
+      mpq_set_si(a,i,j);
+      mpq_canonicalize(a);
+      for(k=-20; k<20; ++k)
+      {
+        mpz_set_si(c,k);
+
+        ccref = (i > j*k) - (i < j*k);
+        cc = mpq_cmp_mpz(a,c);
+        if (SGN(ccref) != SGN(cc)) abort ();
+
+      }
+        for(l=1; l<20; ++l)
+        {
+          mpq_set_si (b,k,l);
+          mpq_canonicalize(b);
+
+          ccref = (i*l > j*k) - (i*l < j*k);
+          cc = mpq_cmp(a,b);
+          if (SGN(ccref) != SGN(cc)) abort ();
+        }
+    }
+
+
+  /* large numbers */
   for (i = 0; i < reps; i++)
     {
       size = urandom (rands) % SIZE - SIZE/2;
@@ -115,12 +145,17 @@ main (int argc, char **argv)
       ccref = ref_mpq_cmp (a, b);
       cc = mpq_cmp (a, b);
 
-      if (SGN (ccref) != SGN (cc))
-	abort ();
+      if (SGN (ccref) != SGN (cc)) abort ();
+
+      mpz_set_ui(DEN(b), 1);
+      ccref = ref_mpq_cmp(a, b);
+      cc = mpq_cmp_mpz(a, NUM(b));
+      if (SGN (ccref) != SGN (cc)) abort ();
     }
 
   mpq_clear (a);
   mpq_clear (b);
+  mpz_clear (c);
   gmp_randclear(rands);
   tests_end ();
   exit (0);
