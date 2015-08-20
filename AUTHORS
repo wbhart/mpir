@@ -49,10 +49,14 @@ Alexander Kruppa     revised FFT code
 Torbjorn Granlund    revised FFT code, schoolbook and divide and conquer
                      division code (reused in asymptotically fast division
                      code), logops, rootrem, tdiv_q, tdiv_qr, linear division
-                     code for x86_64, itanium assembly code, divexact
+                     code for x86_64, itanium assembly code, divexact, 
+                     nextprime, n-choose-k 
 Marco Bodrato        mpz implementation of Toom 7, mpn implementation of 
                      toom 8.5, contributed to Schoolbook division code
+                     many improved number theoretical functions factorial,
+                     multi-factorial, primorial, n-choose-k, jacobi symbols
 Robert Gerbicz       fast factorial code
+Martin Boij          Miscellaneous improvements to nextprime code
 David Harvey         middle product and dc_divappr_q code, divide and conquer
                      Hensel division code and some work on basecase
 T. R. Nicely         primality tests used in benchmark
