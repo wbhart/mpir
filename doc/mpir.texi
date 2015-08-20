@@ -10233,17 +10233,21 @@ reused for parts of the asymptotically fast division code. He also helped
 write the root code and wrote much of the Itanium assembly code and a couple
 of Core 2 assembly functions and part of the basecase middle product assembly
 code for x86 64 bit. He also wrote the improved string input and output code
-and made improvements to the GCD and extended GCD code. Torbjorn is also 
-responsible for numerous other bits and pieces that have been used from 
-the GNU project.
+and made improvements to the GCD and extended GCD code. He also contributed the
+nextprime code and coauthored the bin_uiui code. Torbjorn is also responsible
+for numerous other bits and pieces that have been used from the GNU project.
 
 Marco Bodrato and Alberto Zanoni suggested the unbalanced multiply strategy
 and found optimal Toom multiplication sequences.
 
 Marco Bodrato wrote an mpz implementation of the Toom 7 code and wrote most of
-the Toom 8.5 multiply and squaring code. He also helped write the divide and conquer Euclidean division code.
+the Toom 8.5 multiply and squaring code. He also helped write the divide and conquer Euclidean division code. He also contributed many improved number
+theoretical functions including factorial, multi-factorial, primorial, 
+n-choose-k, jacobi symbols.
 
 Robert Gerbicz contributed fast factorial code.
+
+Martin Boij made assorted contributions to the nextprime code.
 
 David Harvey wrote fast middle product code and divide and conquer approximate 
 quotient code for both Euclidean and Hensel division and contributed to the
