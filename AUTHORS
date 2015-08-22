@@ -18,7 +18,7 @@ Pedro Gimeno		Mersenne Twister random generator, other random number
 			revisions
 Jason Moxham		New mpz/fac_ui.c and gen-fac_ui.c
 
-Contributors to MPIR (and authors whose code we use)
+Authors of code in MPIR (including code from recent GMP)
 
 Brian Gladman        Windows MSVC port and intel format x86_64 code
                      Port of tune, speed, try and benchmark code to MSVC. 
