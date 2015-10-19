@@ -2,7 +2,7 @@
 <Project ToolsMsvcver="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
   <ImportGroup Label="PropertySheets">
-    <Import Project="..\..\build.vc\PropsPaths.props"/>
+    <Import Project="..\..\build.vc\props_paths.props"/>
 
     <Import Condition="exists('MPIR_ProjectProps')"         Project="MPIR_ProjectProps"        />
     <Import Condition="exists('MPIR_ProjectConfProps')"     Project="MPIR_ProjectConfProps"    />
