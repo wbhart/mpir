@@ -1,0 +1,26 @@
+<?xml Msvcver="1.0" encoding="utf-8"?> 
+<Project ToolsMsvcver="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <ImportGroup Label="PropertySheets">
+    <Import Project="..\..\build.vc\PropsPaths.props"/>
+
+    <Import Condition="exists('MPIR_ProjectProps')"         Project="MPIR_ProjectProps"        />
+    <Import Condition="exists('MPIR_ProjectConfProps')"     Project="MPIR_ProjectConfProps"    />
+    <Import Condition="exists('MPIR_ProjectPlatfProps')"    Project="MPIR_ProjectPlatfProps"   />
+
+    <Import Condition="exists('MPIR_MsvcverProps')"         Project="MPIR_MsvcverProps"        />
+    <Import Condition="exists('MPIR_MsvcverConftypeProp')"  Project="MPIR_MsvcverConftypeProp" />
+    <Import Condition="exists('MPIR_MsvcverConfProps')"     Project="MPIR_MsvcverConfProps"    />
+    <Import Condition="exists('MPIR_MsvcverPlatfProps')"    Project="MPIR_MsvcverPlatfProps"   />
+
+    <Import Condition="exists('MPIR_CommonProps')"          Project="MPIR_CommonProps"         />
+    <Import Condition="exists('MPIR_CommonConftypeProps')"  Project="MPIR_CommonConftypeProps" />
+    <Import Condition="exists('MPIR_CommonConfProps')"      Project="MPIR_CommonConfProps"     />
+    <Import Condition="exists('MPIR_CommonPlatfProps')"     Project="MPIR_CommonPlatfProps"    />
+  </ImportGroup>
+
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup />
+  <ItemDefinitionGroup />
+  <ItemGroup />
+</Project>

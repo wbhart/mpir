@@ -1,0 +1,37 @@
+<?xml Msvcver="1.0" encoding="utf-8"?> 
+<Project ToolsMsvcver="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <MPIR_Conftype Condition="'$(ConfigurationType)' == 'StaticLibrary'">Lib</MPIR_Conftype>
+    <MPIR_Conftype Condition="'$(ConfigurationType)' == 'DynamicLibrary'">Dll</MPIR_Conftype>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <MPIR_ProjectPropsName>$(ProjectName)</MPIR_ProjectPropsName>
+
+    <MPIR_ProjectProps     >$(MPIR_ProjectPropsName).props</MPIR_ProjectProps>
+  	<MPIR_ProjectConfProps >$(MPIR_ProjectPropsName).$(Configuration).props</MPIR_ProjectConfProps>
+  	<MPIR_ProjectPlatfProps>$(MPIR_ProjectPropsName).$(Platform).props</MPIR_ProjectPlatfProps>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <MPIR_MsvcverPropsName>$(PlatformToolsetMsvcver)<MPIR_MsvcverPropsName>
+    <MPIR_MsvcverPropsDir>..\_props\<MPIR_MsvcverPropsDir>
+
+    <MPIR_MsvcverProps        >$(MPIR_MsvcverPropsDir)$(MPIR_MsvcverPropsName).props</MPIR_LocalProps>
+    <MPIR_MsvcverConftypeProps>$(MPIR_MsvcverPropsDir)$(MPIR_MsvcverPropsName).$(MPIR_Conftype).props</MPIR_MsvcverConftypeProps>
+    <MPIR_MsvcverConfProps    >$(MPIR_MsvcverPropsDir)$(MPIR_MsvcverPropsName).$(Configuration).props</MPIR_LocalConfProps>
+    <MPIR_MsvcverPlatfProps   >$(MPIR_MsvcverPropsDir)$(MPIR_MsvcverPropsName).$(Platform).props</MPIR_LocalPlatfProps>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <MPIR_CommonPropsName>Common<MPIR_CommonPropsName>
+    <MPIR_CommonPropsDir>..\..\build.vc\<MPIR_CommonPropsDir>
+
+    <MPIR_CommonProps        >$(MPIR_CommonPropsDir)$(MPIR_CommonPropsName).props</MPIR_LocalProps>
+    <MPIR_CommonConftypeProps>$(MPIR_CommonPropsDir)$(MPIR_CommonPropsName).$(MPIR_Conftype).props</MPIR_CommonConftypeProps>
+    <MPIR_CommonConfProps    >$(MPIR_CommonPropsDir)$(MPIR_CommonPropsName).$(Configuration).props</MPIR_LocalConfProps>
+    <MPIR_CommonPlatfProps   >$(MPIR_CommonPropsDir)$(MPIR_CommonPropsName).$(Platform).props</MPIR_LocalPlatfProps>
+  </PropertyGroup>
+
+</Project>
