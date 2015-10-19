@@ -1,0 +1,2 @@
+These files are empty property sheets.
+They used to quockly add property sheets to others directories
