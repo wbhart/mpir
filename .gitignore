@@ -219,26 +219,26 @@ bulldozer
 /build.vc10/lib_mpir_k8
 /build.vc10/lib_mpir_nehalem
 /build.vc10/lib_mpir_sandybridge
-lib_mpir_sandybridge_ivybridge
-dll_mpir_k8
-dll_mpir_nehalem
-dll_mpir_sandybridge
-dll_mpir_sandybridge_ivybridge
-lib_mpir_k8
-lib_mpir_nehalem
-lib_mpir_sandybridge
-dll_mpir_sandybridge
-lib_mpir_k8
-lib_mpir_nehalem
-lib_mpir_sandybridge
-dll_mpir_k8
-dll_mpir_nehalem
-dll_mpir_nehalem
-dll_mpir_sandybridge
-lib_mpir_k8
-lib_mpir_nehalem
-lib_mpir_sandybridge
-dll_mpir_k8
+# lib_mpir_sandybridge_ivybridge
+# dll_mpir_k8
+# dll_mpir_nehalem
+# dll_mpir_sandybridge
+# dll_mpir_sandybridge_ivybridge
+# lib_mpir_k8
+# lib_mpir_nehalem
+# lib_mpir_sandybridge
+# dll_mpir_sandybridge
+# lib_mpir_k8
+# lib_mpir_nehalem
+# lib_mpir_sandybridge
+# dll_mpir_k8
+# dll_mpir_nehalem
+# dll_mpir_nehalem
+# dll_mpir_sandybridge
+# lib_mpir_k8
+# lib_mpir_nehalem
+# lib_mpir_sandybridge
+# dll_mpir_k8
 /mpn/x86w/p0/gmp-mparam.h
 /mpn/x86w/p3/gmp-mparam.h
 /mpn/x86w/p4/gmp-mparam.h
