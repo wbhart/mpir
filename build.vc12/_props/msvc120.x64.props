@@ -6,6 +6,7 @@
   <ItemDefinitionGroup>
     <ClCompile>
       <ProgramDataBaseFileName>$(TargetDir)$(TargetName).pdb</ProgramDataBaseFileName>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup />
