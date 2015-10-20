@@ -5,6 +5,12 @@
   <PropertyGroup>
     <TargetName>mpir</TargetName>
   </PropertyGroup>
-  <ItemDefinitionGroup />
+  <ItemDefinitionGroup>
+    <PostBuildEvent>
+      <Command>cd ..\
+postbuild "$(TargetPath)"
+    </Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
   <ItemGroup />
 </Project>

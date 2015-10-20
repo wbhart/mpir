@@ -76,11 +76,7 @@ prebuild gc Win32
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <LargeAddressAware>true</LargeAddressAware>
     </Link>
-    <PostBuildEvent>
-      <Command>cd ..\
-postbuild "$(TargetPath)"
-    </Command>
-    </PostBuildEvent>
+    <PostBuildEvent />
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <PreBuildEvent>
@@ -97,11 +93,7 @@ prebuild gc Win32
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <LargeAddressAware>true</LargeAddressAware>
     </Link>
-    <PostBuildEvent>
-      <Command>cd ..\
-postbuild "$(TargetPath)"
-    </Command>
-    </PostBuildEvent>
+    <PostBuildEvent />
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <PreBuildEvent>
@@ -120,11 +112,7 @@ prebuild gc x64
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <LargeAddressAware>true</LargeAddressAware>
     </Link>
-    <PostBuildEvent>
-      <Command>cd ..\
-postbuild "$(TargetPath)"
-    </Command>
-    </PostBuildEvent>
+    <PostBuildEvent />
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <PreBuildEvent>
@@ -143,11 +131,7 @@ prebuild gc x64
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <LargeAddressAware>true</LargeAddressAware>
     </Link>
-    <PostBuildEvent>
-      <Command>cd ..\
-postbuild "$(TargetPath)"
-    </Command>
-    </PostBuildEvent>
+    <PostBuildEvent />
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\..\config.h" />

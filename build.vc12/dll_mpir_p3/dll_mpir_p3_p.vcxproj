@@ -62,11 +62,7 @@ prebuild p3 Win32
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <LargeAddressAware>true</LargeAddressAware>
     </Link>
-    <PostBuildEvent>
-      <Command>cd ..\
-postbuild "$(TargetPath)"
-    </Command>
-    </PostBuildEvent>
+    <PostBuildEvent />
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <PreBuildEvent>
@@ -90,11 +86,7 @@ prebuild p3 Win32
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <LargeAddressAware>true</LargeAddressAware>
     </Link>
-    <PostBuildEvent>
-      <Command>cd ..\
-postbuild "$(TargetPath)"
-    </Command>
-    </PostBuildEvent>
+    <PostBuildEvent />
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\..\config.h" />
