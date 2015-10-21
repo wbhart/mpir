@@ -6,7 +6,7 @@
   <ItemDefinitionGroup>
     <PreBuildEvent>
       <Command>cd ..\
-prebuild nehalem x64
+prebuild nehalem $(Platform)
     </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
