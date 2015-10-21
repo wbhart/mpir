@@ -11,7 +11,7 @@
     <Import Condition="exists('$(MPIR_CommonPlatfProps)')"     Project="$(MPIR_CommonPlatfProps)"    />
 
     <Import Condition="exists('$(MPIR_MsvcverProps)')"         Project="$(MPIR_MsvcverProps)"        />
-    <Import Condition="exists('$(MPIR_MsvcverConftypeProp)')"  Project="$(MPIR_MsvcverConftypeProp)" />
+    <Import Condition="exists('$(MPIR_MsvcverConftypeProps)')" Project="$(MPIR_MsvcverConftypeProps)"/>
     <Import Condition="exists('$(MPIR_MsvcverConfProps)')"     Project="$(MPIR_MsvcverConfProps)"    />
     <Import Condition="exists('$(MPIR_MsvcverPlatfProps)')"    Project="$(MPIR_MsvcverPlatfProps)"   />
 
