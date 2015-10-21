@@ -11,6 +11,9 @@
 postbuild "$(TargetPath)"
     </Command>
     </PostBuildEvent>
+    <ClCompile>
+      <PreprocessorDefinitions>WIN32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup />
 </Project>
