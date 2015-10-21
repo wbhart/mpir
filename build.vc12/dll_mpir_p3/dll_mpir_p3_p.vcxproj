@@ -41,7 +41,6 @@
     <_ProjectFileVersion>10.0.21006.1</_ProjectFileVersion>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <PreBuildEvent />
     <YASM>
       <Defines>DLL</Defines>
       <IncludePaths>..\..\mpn\x86_64w\</IncludePaths>
@@ -61,7 +60,6 @@
     <PostBuildEvent />
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <PreBuildEvent />
     <YASM>
       <Defines>DLL</Defines>
       <IncludePaths>..\..\mpn\x86_64w\</IncludePaths>
