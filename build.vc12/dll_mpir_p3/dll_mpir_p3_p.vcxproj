@@ -43,10 +43,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <YASM>
       <Defines>DLL</Defines>
-      <IncludePaths>..\..\mpn\x86_64w\</IncludePaths>
-      <Debug>true</Debug>
       <ObjectFileName>$(IntDir)mpn\</ObjectFileName>
-      <ObjectFile>$(IntDir)mpn\</ObjectFile>
     </YASM>
     <ClCompile>
       <Optimization>Full</Optimization>
@@ -60,10 +57,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <YASM>
       <Defines>DLL</Defines>
-      <IncludePaths>..\..\mpn\x86_64w\</IncludePaths>
-      <Debug>true</Debug>
       <ObjectFileName>$(IntDir)mpn\</ObjectFileName>
-      <ObjectFile>$(IntDir)mpn\</ObjectFile>
     </YASM>
     <ClCompile>
       <Optimization>Disabled</Optimization>

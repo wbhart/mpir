@@ -9,11 +9,6 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>_WIN64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
-    <YASM>
-      <Debug>true</Debug>
-      <IncludePaths>..\..\mpn\x86_64w\;%(IncludePaths)</IncludePaths>
-      <ObjectFile>$(IntDir)mpn\</ObjectFile>
-    </YASM>
   </ItemDefinitionGroup>
   <ItemGroup />
 </Project>
