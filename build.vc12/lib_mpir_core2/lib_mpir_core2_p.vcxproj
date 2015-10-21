@@ -41,11 +41,7 @@
     <_ProjectFileVersion>10.0.21006.1</_ProjectFileVersion>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <PreBuildEvent>
-      <Command>cd ..\
-prebuild core2 x64
-    </Command>
-    </PreBuildEvent>
+    <PreBuildEvent />
     <YASM>
       <Defines>
       </Defines>
@@ -62,11 +58,7 @@ prebuild core2 x64
     <PostBuildEvent />
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <PreBuildEvent>
-      <Command>cd ..\
-prebuild core2 x64
-    </Command>
-    </PreBuildEvent>
+    <PreBuildEvent />
     <YASM>
       <Defines>
       </Defines>
