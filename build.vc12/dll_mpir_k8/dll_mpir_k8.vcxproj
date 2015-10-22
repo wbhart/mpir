@@ -54,7 +54,6 @@ prebuild k8 x64
       <Defines>DLL</Defines>
       <IncludePaths>..\..\mpn\x86_64w\</IncludePaths>
       <Debug>true</Debug>
-      <ObjectFileName>$(IntDir)mpn\</ObjectFileName>
       <ObjectFile>$(IntDir)mpn\</ObjectFile>
     </YASM>
     <ClCompile>
@@ -86,7 +85,6 @@ prebuild k8 x64
       <Defines>DLL</Defines>
       <IncludePaths>..\..\mpn\x86_64w\</IncludePaths>
       <Debug>true</Debug>
-      <ObjectFileName>$(IntDir)mpn\</ObjectFileName>
       <ObjectFile>$(IntDir)mpn\</ObjectFile>
     </YASM>
     <ClCompile>
