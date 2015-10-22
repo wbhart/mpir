@@ -97,58 +97,32 @@
     <ClCompile Include="..\..\randsdui.c" />
     <ClCompile Include="..\..\tal-reent.c" />
     <ClCompile Include="..\..\version.c" />
-    <ClCompile Include="..\..\fft\adjust.c">
-    </ClCompile>
-    <ClCompile Include="..\..\fft\adjust_sqrt2.c">
-    </ClCompile>
-    <ClCompile Include="..\..\fft\butterfly_lshB.c">
-    </ClCompile>
-    <ClCompile Include="..\..\fft\butterfly_rshB.c">
-    </ClCompile>
-    <ClCompile Include="..\..\fft\combine_bits.c">
-    </ClCompile>
-    <ClCompile Include="..\..\fft\div_2expmod_2expp1.c">
-    </ClCompile>
-    <ClCompile Include="..\..\fft\fermat_to_mpz.c">
-    </ClCompile>
-    <ClCompile Include="..\..\fft\fft_mfa_trunc_sqrt2.c">
-    </ClCompile>
-    <ClCompile Include="..\..\fft\fft_mfa_trunc_sqrt2_inner.c">
-    </ClCompile>
-    <ClCompile Include="..\..\fft\fft_negacyclic.c">
-    </ClCompile>
-    <ClCompile Include="..\..\fft\fft_radix2.c">
-    </ClCompile>
-    <ClCompile Include="..\..\fft\fft_trunc.c">
-    </ClCompile>
-    <ClCompile Include="..\..\fft\fft_trunc_sqrt2.c">
-    </ClCompile>
-    <ClCompile Include="..\..\fft\ifft_mfa_trunc_sqrt2.c">
-    </ClCompile>
-    <ClCompile Include="..\..\fft\ifft_negacyclic.c">
-    </ClCompile>
-    <ClCompile Include="..\..\fft\ifft_radix2.c">
-    </ClCompile>
-    <ClCompile Include="..\..\fft\ifft_trunc.c">
-    </ClCompile>
-    <ClCompile Include="..\..\fft\ifft_trunc_sqrt2.c">
-    </ClCompile>
-    <ClCompile Include="..\..\fft\mul_2expmod_2expp1.c">
-    </ClCompile>
-    <ClCompile Include="..\..\fft\mul_fft_main.c">
-    </ClCompile>
-    <ClCompile Include="..\..\fft\mul_mfa_trunc_sqrt2.c">
-    </ClCompile>
-    <ClCompile Include="..\..\fft\mul_trunc_sqrt2.c">
-    </ClCompile>
-    <ClCompile Include="..\..\fft\mulmod_2expp1.c">
-    </ClCompile>
-    <ClCompile Include="..\..\fft\normmod_2expp1.c">
-    </ClCompile>
-    <ClCompile Include="..\..\fft\revbin.c">
-    </ClCompile>
-    <ClCompile Include="..\..\fft\split_bits.c">
-    </ClCompile>
+    <ClCompile Include="..\..\fft\adjust.c" />
+    <ClCompile Include="..\..\fft\adjust_sqrt2.c" />
+    <ClCompile Include="..\..\fft\butterfly_lshB.c" />
+    <ClCompile Include="..\..\fft\butterfly_rshB.c" />
+    <ClCompile Include="..\..\fft\combine_bits.c" />
+    <ClCompile Include="..\..\fft\div_2expmod_2expp1.c" />
+    <ClCompile Include="..\..\fft\fermat_to_mpz.c" />
+    <ClCompile Include="..\..\fft\fft_mfa_trunc_sqrt2.c" />
+    <ClCompile Include="..\..\fft\fft_mfa_trunc_sqrt2_inner.c" />
+    <ClCompile Include="..\..\fft\fft_negacyclic.c" />
+    <ClCompile Include="..\..\fft\fft_radix2.c" />
+    <ClCompile Include="..\..\fft\fft_trunc.c" />
+    <ClCompile Include="..\..\fft\fft_trunc_sqrt2.c" />
+    <ClCompile Include="..\..\fft\ifft_mfa_trunc_sqrt2.c" />
+    <ClCompile Include="..\..\fft\ifft_negacyclic.c" />
+    <ClCompile Include="..\..\fft\ifft_radix2.c" />
+    <ClCompile Include="..\..\fft\ifft_trunc.c" />
+    <ClCompile Include="..\..\fft\ifft_trunc_sqrt2.c" />
+    <ClCompile Include="..\..\fft\mul_2expmod_2expp1.c" />
+    <ClCompile Include="..\..\fft\mul_fft_main.c" />
+    <ClCompile Include="..\..\fft\mul_mfa_trunc_sqrt2.c" />
+    <ClCompile Include="..\..\fft\mul_trunc_sqrt2.c" />
+    <ClCompile Include="..\..\fft\mulmod_2expp1.c" />
+    <ClCompile Include="..\..\fft\normmod_2expp1.c" />
+    <ClCompile Include="..\..\fft\revbin.c" />
+    <ClCompile Include="..\..\fft\split_bits.c" />
     <ClCompile Include="..\..\mpf\abs.c">
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpf\</ObjectFileName>
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpf\</ObjectFileName>
