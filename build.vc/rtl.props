@@ -1,20 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?> 
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
-  <PropertyGroup Condition="'$(Configuration)|$(ConfigurationType)'=='Debug|DynamicLibrary'">
-    <MPIR_RuntimeLibrary>MultiThreadedDebugDLL</MPIR_RuntimeLibrary>
+  <PropertyGroup Condition="'$(ConfigurationType)'=='DynamicLibrary'">
+    <MPIR_RuntimeLibrary Condition="'$(Configuration)'=='Debug'"  >MultiThreadedDebugDLL</MPIR_RuntimeLibrary>
+    <MPIR_RuntimeLibrary Condition="'$(Configuration)'=='Release'">MultiThreadedDLL</MPIR_RuntimeLibrary>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(ConfigurationType)'=='Release|DynamicLibrary'">
-    <MPIR_RuntimeLibrary>MultiThreadedDLL</MPIR_RuntimeLibrary>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(ConfigurationType)'=='Debug|StaticLibrary'">
-    <MPIR_RuntimeLibrary>MultiThreadedDebug</MPIR_RuntimeLibrary>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(ConfigurationType)'=='Release|StaticLibrary'">
-    <MPIR_RuntimeLibrary>MultiThreaded</MPIR_RuntimeLibrary>
+  <PropertyGroup Condition="'$(ConfigurationType)'=='StaticLibrary'">
+    <MPIR_RuntimeLibrary Condition="'$(Configuration)'=='Debug'"  >MultiThreadedDebug</MPIR_RuntimeLibrary>
+    <MPIR_RuntimeLibrary Condition="'$(Configuration)'=='Release'">MultiThreaded</MPIR_RuntimeLibrary>
   </PropertyGroup>
 
 </Project>
