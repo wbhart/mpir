@@ -7,6 +7,9 @@
     <ClCompile>
       <PreprocessorDefinitions>MSC_BUILD_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
+    <YASM>
+      <Defines>DLL;%(Defines)</Defines>
+    </YASM>
   </ItemDefinitionGroup>
   <ItemGroup />
 </Project>

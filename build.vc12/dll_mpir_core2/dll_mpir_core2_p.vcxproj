@@ -42,7 +42,6 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <YASM>
-      <Defines>DLL</Defines>
       <ObjectFileName>$(IntDir)mpn\</ObjectFileName>
     </YASM>
     <ClCompile>
@@ -56,7 +55,6 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <YASM>
-      <Defines>DLL</Defines>
       <ObjectFileName>$(IntDir)mpn\</ObjectFileName>
     </YASM>
     <ClCompile>
