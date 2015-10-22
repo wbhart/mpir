@@ -55,7 +55,6 @@ prebuild p3 Win32
       </Defines>
       <IncludePaths>..\..\mpn\x86_64w\</IncludePaths>
       <Debug>true</Debug>
-      <ObjectFileName>$(IntDir)mpn\</ObjectFileName>
       <ObjectFile>$(IntDir)mpn\</ObjectFile>
     </YASM>
     <ClCompile>
@@ -84,7 +83,6 @@ prebuild p3 Win32
       </Defines>
       <IncludePaths>..\..\mpn\x86_64w\</IncludePaths>
       <Debug>true</Debug>
-      <ObjectFileName>$(IntDir)mpn\</ObjectFileName>
       <ObjectFile>$(IntDir)mpn\</ObjectFile>
     </YASM>
     <ClCompile>
