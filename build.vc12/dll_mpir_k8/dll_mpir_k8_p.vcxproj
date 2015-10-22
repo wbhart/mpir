@@ -41,8 +41,6 @@
     <_ProjectFileVersion>10.0.21006.1</_ProjectFileVersion>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <YASM>
-    </YASM>
     <ClCompile>
       <Optimization>Full</Optimization>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
@@ -53,8 +51,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <YASM>
-    </YASM>
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
