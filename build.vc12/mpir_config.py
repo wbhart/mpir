@@ -447,7 +447,6 @@ def yasm_options(plat, proj_type, outf):
     <Defines>{0:s}</Defines>
     <IncludePaths>..\..\mpn\x86{1:s}w\</IncludePaths>
     <Debug>true</Debug>
-    <ObjectFileName>$(IntDir)mpn\</ObjectFileName>
     <ObjectFile>$(IntDir)mpn\</ObjectFile>
     </YASM>
 '''
