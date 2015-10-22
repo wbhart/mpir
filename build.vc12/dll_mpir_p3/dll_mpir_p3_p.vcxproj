@@ -42,7 +42,6 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <YASM>
-      <ObjectFileName>$(IntDir)mpn\</ObjectFileName>
     </YASM>
     <ClCompile>
       <Optimization>Full</Optimization>
@@ -55,7 +54,6 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <YASM>
-      <ObjectFileName>$(IntDir)mpn\</ObjectFileName>
     </YASM>
     <ClCompile>
       <Optimization>Disabled</Optimization>

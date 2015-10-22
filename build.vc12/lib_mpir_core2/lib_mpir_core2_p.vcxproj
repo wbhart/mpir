@@ -44,7 +44,6 @@
     <YASM>
       <Defines>
       </Defines>
-      <ObjectFileName>$(IntDir)mpn\</ObjectFileName>
     </YASM>
     <ClCompile>
       <Optimization>Full</Optimization>
@@ -55,7 +54,6 @@
     <YASM>
       <Defines>
       </Defines>
-      <ObjectFileName>$(IntDir)mpn\</ObjectFileName>
     </YASM>
     <ClCompile>
       <Optimization>Disabled</Optimization>
