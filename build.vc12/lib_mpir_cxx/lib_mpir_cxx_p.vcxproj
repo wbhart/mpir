@@ -94,28 +94,17 @@
     <ClInclude Include="..\..\mpirxx.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\cxx\dummy.cc">
-    </ClCompile>
-    <ClCompile Include="..\..\cxx\isfuns.cc">
-    </ClCompile>
-    <ClCompile Include="..\..\cxx\ismpf.cc">
-    </ClCompile>
-    <ClCompile Include="..\..\cxx\ismpq.cc">
-    </ClCompile>
-    <ClCompile Include="..\..\cxx\ismpz.cc">
-    </ClCompile>
-    <ClCompile Include="..\..\cxx\ismpznw.cc">
-    </ClCompile>
-    <ClCompile Include="..\..\cxx\osdoprnti.cc">
-    </ClCompile>
-    <ClCompile Include="..\..\cxx\osfuns.cc">
-    </ClCompile>
-    <ClCompile Include="..\..\cxx\osmpf.cc">
-    </ClCompile>
-    <ClCompile Include="..\..\cxx\osmpq.cc">
-    </ClCompile>
-    <ClCompile Include="..\..\cxx\osmpz.cc">
-    </ClCompile>
+    <ClCompile Include="..\..\cxx\dummy.cc" />
+    <ClCompile Include="..\..\cxx\isfuns.cc" />
+    <ClCompile Include="..\..\cxx\ismpf.cc" />
+    <ClCompile Include="..\..\cxx\ismpq.cc" />
+    <ClCompile Include="..\..\cxx\ismpz.cc" />
+    <ClCompile Include="..\..\cxx\ismpznw.cc" />
+    <ClCompile Include="..\..\cxx\osdoprnti.cc" />
+    <ClCompile Include="..\..\cxx\osfuns.cc" />
+    <ClCompile Include="..\..\cxx\osmpf.cc" />
+    <ClCompile Include="..\..\cxx\osmpq.cc" />
+    <ClCompile Include="..\..\cxx\osmpz.cc" />
   </ItemGroup>
   <ItemGroup>
   </ItemGroup>
