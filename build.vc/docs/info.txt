@@ -1,0 +1,28 @@
+
+RegExps used for editing vcxproj files by SubLime2
+
+# Removing <ClCompile><ObjectFileName>
+# search:
+      <ObjectFileName Condition="'\$\(Configuration\)\|\$\(Platform\)'=='(Release|Debug)\|(x64|Win32)'">\$\(IntDir\)cxx\\</ObjectFileName>\n
+# or      
+      <ObjectFileName Condition="'\$\(Configuration\)\|\$\(Platform\)'=='(Release|Debug)\|(x64|Win32)'">\$\(IntDir\)mpn\\</ObjectFileName>\n      
+# etc.
+#
+# replaced by EMPTY
+
+
+# Convert 2-line <ClCompile></ClCompile> into <ClCompile />
+# search:
+(    <ClCompile Include="\.\.\\\.\.\\.*")>\n    </ClCompile>$
+# replace:
+\1 />
+
+
+# Removing <YASM><ObjectFileName>
+# search:
+      <ObjectFileName>\$\(IntDir\)mpn\\</ObjectFileName>\n
+# and      
+    <ObjectFileName>\$\(IntDir\)mpn\\</ObjectFileName>\n
+# etc.
+#
+# replaced by EMPTY
