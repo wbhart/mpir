@@ -1,3 +1,7 @@
+# Utility for cleaning source tree from unused *.props files
+# It scans directory tree and remove empty *.props files from project directories
+# It doesn't remove empty *.props from _props and build.vc directories
+
 import sys
 import os
 
