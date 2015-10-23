@@ -90,4 +90,4 @@ for root, dirs, files in os.walk(sRootDir):
     if bProjectDir:
         for sFile in FilesToDelete:
             print ("Deleting file: ", sFile)
-#            os.remove(sFile)
+           os.remove(sFile)
