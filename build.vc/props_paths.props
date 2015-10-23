@@ -1,41 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?> 
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <ImportGroup Label="PropertySheets" />
-  <PropertyGroup Label="UserMacros" />
 
   <PropertyGroup>
-    <MPIR_Conftype Condition="'$(ConfigurationType)' == 'StaticLibrary'">lib</MPIR_Conftype>
+    <MPIR_Conftype Condition="'$(ConfigurationType)' == 'StaticLibrary'" >lib</MPIR_Conftype>
     <MPIR_Conftype Condition="'$(ConfigurationType)' == 'DynamicLibrary'">dll</MPIR_Conftype>
   </PropertyGroup>
 
   <PropertyGroup>
-    <MPIR_ProjectPropsName>project</MPIR_ProjectPropsName>
+    <!-- MsvcverDir - build.vc11, build.vc11 etc. -->
+    <!-- Usually in MsBuild all directory paths has trailing slash. -->
+    <!-- BareDir    - without trailing slash. BareDir required for GetDirectoryName() function  -->
 
-    <MPIR_ProjectProps     >$(MPIR_ProjectPropsName).props</MPIR_ProjectProps>
-  	<MPIR_ProjectConfProps >$(MPIR_ProjectPropsName).$(Configuration.ToLower()).props</MPIR_ProjectConfProps>
-  	<MPIR_ProjectPlatfProps>$(MPIR_ProjectPropsName).$(Platform.ToLower()).props</MPIR_ProjectPlatfProps>
+    <MPIR_ProjectDir>$(ProjectDir)</MPIR_ProjectDir>
+    <MPIR_ProjectBareDir>$(MPIR_ProjectDir.TrimEnd('\').TrimEnd('/').TrimEnd('\').TrimEnd('/'))</MPIR_ProjectBareDir>
+
+    <MPIR_MsvcverBareDir>$([System.IO.Path]::GetDirectoryName($(MPIR_ProjectBareDir)))</MPIR_MsvcverBareDir>
+    <MPIR_MsvcverDir>$(MPIR_MsvcverBareDir)\</MPIR_MsvcverDir>
+
+    <MPIR_RootBareDir>$([System.IO.Path]::GetDirectoryName($(MPIR_MsvcverBareDir)))</MPIR_RootBareDir>
+    <MPIR_RootDir>$(MPIR_RootBareDir)\</MPIR_RootDir>
+  </PropertyGroup>
+
+  <!-- PropsPrefix contain only part of PropertySheet path: Absolute path to directory and first part of file name -->
+  <PropertyGroup>
+    <!-- Property sheets specific for each project. -->
+    <MPIR_ProjectPropsPrefix>$(MPIR_ProjectDir)project</MPIR_ProjectPropsPrefix>
+
+    <MPIR_ProjectProps     >$(MPIR_ProjectPropsPrefix).props</MPIR_ProjectProps>
+  	<MPIR_ProjectConfProps >$(MPIR_ProjectPropsPrefix).$(Configuration.ToLower()).props</MPIR_ProjectConfProps>
+  	<MPIR_ProjectPlatfProps>$(MPIR_ProjectPropsPrefix).$(Platform.ToLower()).props</MPIR_ProjectPlatfProps>
   </PropertyGroup>
 
   <PropertyGroup>
-    <MPIR_MsvcverPropsName>msvc$(PlatformToolsetVersion)</MPIR_MsvcverPropsName>
-    <MPIR_MsvcverPropsDir>..\_props\</MPIR_MsvcverPropsDir>
+    <!-- Property sheets specific for each Visual Studio version -->
+    <MPIR_MsvcverPropsPrefix>$(MPIR_MsvcverDir)_props\msvc$(PlatformToolsetVersion)</MPIR_MsvcverPropsPrefix>
 
-    <MPIR_MsvcverProps        >$(MPIR_MsvcverPropsDir)$(MPIR_MsvcverPropsName).props</MPIR_MsvcverProps>
-    <MPIR_MsvcverConftypeProps>$(MPIR_MsvcverPropsDir)$(MPIR_MsvcverPropsName).$(MPIR_Conftype).props</MPIR_MsvcverConftypeProps>
-    <MPIR_MsvcverConfProps    >$(MPIR_MsvcverPropsDir)$(MPIR_MsvcverPropsName).$(Configuration.ToLower()).props</MPIR_MsvcverConfProps>
-    <MPIR_MsvcverPlatfProps   >$(MPIR_MsvcverPropsDir)$(MPIR_MsvcverPropsName).$(Platform.ToLower()).props</MPIR_MsvcverPlatfProps>
+    <MPIR_MsvcverProps        >$(MPIR_MsvcverPropsPrefix).props</MPIR_MsvcverProps>
+    <MPIR_MsvcverConftypeProps>$(MPIR_MsvcverPropsPrefix).$(MPIR_Conftype).props</MPIR_MsvcverConftypeProps>
+    <MPIR_MsvcverConfProps    >$(MPIR_MsvcverPropsPrefix).$(Configuration.ToLower()).props</MPIR_MsvcverConfProps>
+    <MPIR_MsvcverPlatfProps   >$(MPIR_MsvcverPropsPrefix).$(Platform.ToLower()).props</MPIR_MsvcverPlatfProps>
   </PropertyGroup>
 
   <PropertyGroup>
-    <MPIR_CommonPropsName>common</MPIR_CommonPropsName>
-    <MPIR_CommonPropsDir>..\..\build.vc\</MPIR_CommonPropsDir>
+    <!-- Property sheets common for all projects. -->
+    <MPIR_CommonPropsPrefix>$(MPIR_RootDir)build.vc\common</MPIR_CommonPropsPrefix>
 
-    <MPIR_CommonProps        >$(MPIR_CommonPropsDir)$(MPIR_CommonPropsName).props</MPIR_CommonProps>
-    <MPIR_CommonConftypeProps>$(MPIR_CommonPropsDir)$(MPIR_CommonPropsName).$(MPIR_Conftype).props</MPIR_CommonConftypeProps>
-    <MPIR_CommonConfProps    >$(MPIR_CommonPropsDir)$(MPIR_CommonPropsName).$(Configuration.ToLower()).props</MPIR_CommonConfProps>
-    <MPIR_CommonPlatfProps   >$(MPIR_CommonPropsDir)$(MPIR_CommonPropsName).$(Platform.ToLower()).props</MPIR_CommonPlatfProps>
+    <MPIR_CommonProps        >$(MPIR_CommonPropsPrefix).props</MPIR_CommonProps>
+    <MPIR_CommonConftypeProps>$(MPIR_CommonPropsPrefix).$(MPIR_Conftype).props</MPIR_CommonConftypeProps>
+    <MPIR_CommonConfProps    >$(MPIR_CommonPropsPrefix).$(Configuration.ToLower()).props</MPIR_CommonConfProps>
+    <MPIR_CommonPlatfProps   >$(MPIR_CommonPropsPrefix).$(Platform.ToLower()).props</MPIR_CommonPlatfProps>
   </PropertyGroup>
 
-  <ItemDefinitionGroup />
-  <ItemGroup />
 </Project>
