@@ -1220,6 +1220,7 @@ __GMP_DECLSPEC void mpz_urandomm __GMP_PROTO ((mpz_ptr, gmp_randstate_t, mpz_src
 #define mpz_eor __gmpz_xor
 __GMP_DECLSPEC void mpz_xor __GMP_PROTO ((mpz_ptr, mpz_srcptr, mpz_srcptr));
 
+#define MPZ_ROINIT_N(xp, xs) {{0, (xs),(xp) }}
 
 /****** Integer (i.e. Z) routines for intmaax_t/uintmax_t types ******/
 
@@ -1276,6 +1277,9 @@ __GMP_DECLSPEC int _mpq_cmp_si __GMP_PROTO ((mpq_srcptr, mpir_si, mpir_ui)) __GM
 
 #define _mpq_cmp_ui __gmpq_cmp_ui
 __GMP_DECLSPEC int _mpq_cmp_ui __GMP_PROTO ((mpq_srcptr, mpir_ui, mpir_ui)) __GMP_ATTRIBUTE_PURE;
+
+#define mpq_cmp_z __gmpq_cmp_z
+__GMP_DECLSPEC int mpq_cmp_z (mpq_srcptr, mpz_srcptr) __GMP_ATTRIBUTE_PURE;
 
 #define mpq_div __gmpq_div
 __GMP_DECLSPEC void mpq_div __GMP_PROTO ((mpq_ptr, mpq_srcptr, mpq_srcptr));

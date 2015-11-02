@@ -634,6 +634,8 @@ __GMP_DECLSPEC void  __gmp_tmp_debug_free  _PROTO ((const char *, int, int,
 #define EXP(x) ((x)->_mp_exp)
 #define PREC(x) ((x)->_mp_prec)
 #define ALLOC(x) ((x)->_mp_alloc)
+#define NUM(x) mpq_numref(x)
+#define DEN(x) mpq_denref(x)
 
 /* n-1 inverts any low zeros and the lowest one bit.  If n&(n-1) leaves zero
    then that lowest one bit must have been the only bit set.  n==0 will

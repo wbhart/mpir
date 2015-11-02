@@ -99,7 +99,7 @@ host_triplet = @host@
 check_PROGRAMS = t-aors$(EXEEXT) t-cmp$(EXEEXT) t-cmp_si$(EXEEXT) \
 	t-cmp_ui$(EXEEXT) t-equal$(EXEEXT) t-get_d$(EXEEXT) \
 	t-get_str$(EXEEXT) t-inp_str$(EXEEXT) t-md_2exp$(EXEEXT) \
-	t-set_f$(EXEEXT) t-set_str$(EXEEXT)
+	t-set_f$(EXEEXT) t-set_str$(EXEEXT) t-cmp_z$(EXEEXT)
 subdir = tests/mpq
 DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/Makefile.am \
 	$(top_srcdir)/test-driver
@@ -135,6 +135,11 @@ t_cmp_ui_SOURCES = t-cmp_ui.c
 t_cmp_ui_OBJECTS = t-cmp_ui.$(OBJEXT)
 t_cmp_ui_LDADD = $(LDADD)
 t_cmp_ui_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
+	$(top_builddir)/libmpir.la
+t_cmp_z_SOURCES = t-cmp_z.c
+t_cmp_z_OBJECTS = t-cmp_z.$(OBJEXT)
+t_cmp_z_LDADD = $(LDADD)
+t_cmp_z_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
 	$(top_builddir)/libmpir.la
 t_equal_SOURCES = t-equal.c
 t_equal_OBJECTS = t-equal.$(OBJEXT)
@@ -204,11 +209,12 @@ AM_V_CCLD = $(am__v_CCLD_@AM_V@)
 am__v_CCLD_ = $(am__v_CCLD_@AM_DEFAULT_V@)
 am__v_CCLD_0 = @echo "  CCLD    " $@;
 am__v_CCLD_1 = 
-SOURCES = t-aors.c t-cmp.c t-cmp_si.c t-cmp_ui.c t-equal.c t-get_d.c \
-	t-get_str.c t-inp_str.c t-md_2exp.c t-set_f.c t-set_str.c
-DIST_SOURCES = t-aors.c t-cmp.c t-cmp_si.c t-cmp_ui.c t-equal.c \
+SOURCES = t-aors.c t-cmp.c t-cmp_si.c t-cmp_ui.c t-cmp_z.c t-equal.c \
 	t-get_d.c t-get_str.c t-inp_str.c t-md_2exp.c t-set_f.c \
 	t-set_str.c
+DIST_SOURCES = t-aors.c t-cmp.c t-cmp_si.c t-cmp_ui.c t-cmp_z.c \
+	t-equal.c t-get_d.c t-get_str.c t-inp_str.c t-md_2exp.c \
+	t-set_f.c t-set_str.c
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
@@ -651,6 +657,10 @@ t-cmp_ui$(EXEEXT): $(t_cmp_ui_OBJECTS) $(t_cmp_ui_DEPENDENCIES) $(EXTRA_t_cmp_ui
 	@rm -f t-cmp_ui$(EXEEXT)
 	$(AM_V_CCLD)$(LINK) $(t_cmp_ui_OBJECTS) $(t_cmp_ui_LDADD) $(LIBS)
 
+t-cmp_z$(EXEEXT): $(t_cmp_z_OBJECTS) $(t_cmp_z_DEPENDENCIES) $(EXTRA_t_cmp_z_DEPENDENCIES) 
+	@rm -f t-cmp_z$(EXEEXT)
+	$(AM_V_CCLD)$(LINK) $(t_cmp_z_OBJECTS) $(t_cmp_z_LDADD) $(LIBS)
+
 t-equal$(EXEEXT): $(t_equal_OBJECTS) $(t_equal_DEPENDENCIES) $(EXTRA_t_equal_DEPENDENCIES) 
 	@rm -f t-equal$(EXEEXT)
 	$(AM_V_CCLD)$(LINK) $(t_equal_OBJECTS) $(t_equal_LDADD) $(LIBS)
@@ -966,6 +976,13 @@ t-set_f.log: t-set_f$(EXEEXT)
 t-set_str.log: t-set_str$(EXEEXT)
 	@p='t-set_str$(EXEEXT)'; \
 	b='t-set_str'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+t-cmp_z.log: t-cmp_z$(EXEEXT)
+	@p='t-cmp_z$(EXEEXT)'; \
+	b='t-cmp_z'; \
 	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
 	--log-file $$b.log --trs-file $$b.trs \
 	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
