@@ -2039,14 +2039,6 @@ __GMP_DECLSPEC mp_limb_t gmp_primesieve (mp_ptr, mp_limb_t);
 #define INV_DIV_Q_THRESHOLD    (MUL_FFT_THRESHOLD/3)
 #endif
 
-#ifndef SB_DIVAPPR_Q_SMALL_THRESHOLD
-#define SB_DIVAPPR_Q_SMALL_THRESHOLD 11
-#endif
-
-#ifndef SB_DIV_QR_SMALL_THRESHOLD
-#define SB_DIV_QR_SMALL_THRESHOLD 11
-#endif
-
 #ifndef DC_DIVAPPR_Q_THRESHOLD
 #define DC_DIVAPPR_Q_THRESHOLD    (3 * MUL_TOOM3_THRESHOLD)
 #endif
@@ -2810,64 +2802,6 @@ mp_limb_t mpn_invert_limb _PROTO ((mp_limb_t)) ATTRIBUTE_CONST;
     dinv = _v;							\
   } while (0)
 
-#define __mpir_invert_pi2(d1inv, d1, d2)                      \
-do {                                                          \
-   mp_limb_t __q, __r[2], __p[2], __cy;                       \
-                                                              \
-   if ((d2) + 1 == 0 && (d1) + 1 == 0)                        \
-      (d1inv) = 0;                                   \
-   else {                                                     \
-      if ((d1) + 1 == 0)                                      \
-         (d1inv) = ~(d1), __r[1] = ~(d2);                     \
-      else                                                    \
-         udiv_qrnnd((d1inv), __r[1], ~(d1), ~(d2), (d1) + 1); \
-                                                              \
-      if ((d2) + 1 != 0) {                                    \
-         __r[0] = 0;                                          \
-         umul_ppmm(__p[1], __p[0], (d1inv), ~(d2));           \
-         __cy = mpn_add_n(__r, __r, __p, 2);                  \
-                                                              \
-         __p[0] = (d2) + 1, __p[1] = (d1);                    \
-         while (__cy || mpn_cmp(__r, __p, 2) >= 0)            \
-         { (d1inv)++; __cy -= mpn_sub_n(__r, __r, __p, 2); }  \
-      }                                                       \
-   }                                                          \
-} while (0)
-
-#define mpir_invert_pi2(dinv, d1inv, d1, d0)					\
-  do {									\
-    mp_limb_t _v, _p, _t1, _t0, _mask;					\
-    invert_limb (_v, d1);						\
-    _p = (d1) * _v;							\
-    _p += (d0);								\
-    if (_p < (d0))							\
-      {									\
-	_v--;								\
-	_mask = -(mp_limb_t) (_p >= (d1));				\
-	_p -= (d1);							\
-	_v += _mask;							\
-	_p -= _mask & (d1);						\
-      }									\
-    umul_ppmm (_t1, _t0, d0, _v);					\
-    _p += _t1;								\
-    if (_p < _t1)							\
-      {									\
-	_v--;								\
-	if (UNLIKELY (_p >= (d1)))					\
-	  {								\
-	    if (_p > (d1) || _t0 >= (d0))				\
-	      _v--;							\
-         sub_ddmmss(_p, _t0, _p, _t0, (d1), (d0)); \
-     } \
-    sub_ddmmss(_p, _t0, _p, _t0, (d1), (d0)); \
-      }									\
-    if (UNLIKELY(-_p <= 2))  \
-       __mpir_invert_pi2(d1inv, d1, d0); \
-    else \
-       d1inv = _v; \
-    dinv = _v;							\
-  } while (0)
-
 /* For compatibility with GMP only */
 #define invert_pi1(dinv, d1, d0)				\
    mpir_invert_pi1((dinv).inv32, d1, d0)
@@ -2906,37 +2840,6 @@ do {                                                          \
       }								\
       }									\
   } while (0)
-
-#define mpir_divapprox32_preinv2(q, a_hi, a_lo, dinv) \
-   do { \
-      mp_limb_t __q2, __q3, __q4; \
-      umul_ppmm((q), __q2, (a_hi), (dinv)); \
-      umul_ppmm(__q3, __q4, (a_lo), (dinv)); \
-      add_ssaaaa((q), __q2, (q), __q2, (a_hi), (a_lo)); \
-      add_ssaaaa((q), __q2, (q), __q2, 0, __q3); \
-   } while (0)
-
-#define mpir_divrem32_preinv2(q, r2, r3, a1, a2, a3, d11, d21, d1, d2, dinv) \
-   do {                                                                 \
-      mp_limb_t __q2, __q3, __q4, __p1, __p2, __cy;                     \
-      umul_ppmm((q), __q2, (a1), (dinv));                               \
-      add_ssaaaa((q), __q2, (q), __q2, (a1), (a2));                     \
-      umul_ppmm(__p1, __p2, (q), (d21));                                \
-      (r3) = (a3);                                                      \
-      (r2) = (a2) - (q)*(d11);                                          \
-      sub_ddmmss((r2), (r3), (r2), (r3), __p1, __p2);                   \
-      sub_ddmmss((r2), (r3), (r2), (r3), (d11), (d21));                 \
-      (q)++;                                                            \
-      if ((r2) >= __q2)                                                 \
-      { (q)--; add_ssaaaa((r2), (r3), (r2), (r3), (d11), (d21)); }      \
-      add_333(__cy, (r2), (r3), 0, (r2), (r3), 0, 0, (q));              \
-      while (UNLIKELY(__cy != 0 || (r2) >= (d1)))                       \
-      {                                                                 \
-         if ((r2) == (d1) && (r3) < (d2) && __cy == 0) break;           \
-         sub_333(__cy, (r2), (r3), __cy, (r2), (r3), 0, (d1), (d2));    \
-         (q)++;                                                         \
-      }                                                                 \
-   } while (0)
 
 #ifndef udiv_qrnnd_preinv
 #define udiv_qrnnd_preinv udiv_qrnnd_preinv2
@@ -4422,14 +4325,6 @@ extern mp_size_t                     mulmod_2expm1_threshold;
 #define DIV_SB_PREINV_THRESHOLD      div_sb_preinv_threshold
 extern mp_size_t                     div_sb_preinv_threshold;
 #endif
-
-#undef SB_DIVAPPR_Q_SMALL_THRESHOLD
-#define SB_DIVAPPR_Q_SMALL_THRESHOLD sb_divappr_q_small_threshold
-extern mp_size_t sb_divappr_q_small_threshold;
-
-#undef SB_DIV_QR_SMALL_THRESHOLD
-#define SB_DIV_QR_SMALL_THRESHOLD sb_div_qr_small_threshold
-extern mp_size_t sb_div_qr_small_threshold;
 
 #undef  DC_DIV_QR_THRESHOLD
 #define DC_DIV_QR_THRESHOLD          dc_div_qr_threshold

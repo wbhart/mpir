@@ -32,7 +32,7 @@ along with the GNU MP Library.  If not, see http://www.gnu.org/licenses/.  */
 
 mp_limb_t
 mpn_dc_div_qr_n (mp_ptr qp, mp_ptr np, mp_srcptr dp, mp_size_t n,
-		    mp_limb_t dinv, mp_limb_t d1inv, mp_ptr tp)
+		    mp_limb_t dinv, mp_ptr tp)
 {
   mp_size_t lo, hi;
   mp_limb_t cy, qh, ql;
@@ -42,9 +42,9 @@ mpn_dc_div_qr_n (mp_ptr qp, mp_ptr np, mp_srcptr dp, mp_size_t n,
 
   
   if (BELOW_THRESHOLD (hi, DC_DIV_QR_THRESHOLD))
-    qh = mpn_sb_div_qr (qp + lo, np + 2 * lo, 2 * hi, dp + lo, hi, dinv, d1inv);
+    qh = mpn_sb_div_qr (qp + lo, np + 2 * lo, 2 * hi, dp + lo, hi, dinv);
   else
-    qh = mpn_dc_div_qr_n (qp + lo, np + 2 * lo, dp + lo, hi, dinv, d1inv, tp);
+    qh = mpn_dc_div_qr_n (qp + lo, np + 2 * lo, dp + lo, hi, dinv, tp);
 
   mpn_mul (tp, qp + lo, hi, dp, lo);
 
@@ -59,9 +59,9 @@ mpn_dc_div_qr_n (mp_ptr qp, mp_ptr np, mp_srcptr dp, mp_size_t n,
     }
 
   if (BELOW_THRESHOLD (lo, DC_DIV_QR_THRESHOLD))
-    ql = mpn_sb_div_qr (qp, np + hi, 2 * lo, dp + hi, lo, dinv, d1inv);
+    ql = mpn_sb_div_qr (qp, np + hi, 2 * lo, dp + hi, lo, dinv);
   else
-    ql = mpn_dc_div_qr_n (qp, np + hi, dp + hi, lo, dinv, d1inv, tp);
+    ql = mpn_dc_div_qr_n (qp, np + hi, dp + hi, lo, dinv, tp);
 
   mpn_mul (tp, dp, hi, qp, lo);
 

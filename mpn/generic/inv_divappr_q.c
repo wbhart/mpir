@@ -36,7 +36,7 @@ mpn_inv_divappr_q (mp_ptr qp, mp_ptr np, mp_size_t nn,
 		     mp_srcptr dp, mp_size_t dn, mp_srcptr dinv)
 {
   mp_size_t qn;
-  mp_limb_t qh, cy, qsave, dinv2, dinv21;
+  mp_limb_t qh, cy, qsave, dinv2;
   mp_ptr tp, temp;
   TMP_DECL;
 
@@ -95,8 +95,8 @@ mpn_inv_divappr_q (mp_ptr qp, mp_ptr np, mp_size_t nn,
 	    }
 	  else
 	    {
-	      mpir_invert_pi2(dinv2, dinv21, d1, d0);
-         udiv_qr_3by2 (q, n1, n0, n2, n1, n0, d1, d0, dinv21);
+	      mpir_invert_pi1(dinv2, d1, d0);
+         udiv_qr_3by2 (q, n1, n0, n2, n1, n0, d1, d0, dinv2);
 
 	      if (dn > 2)
 		{
@@ -125,13 +125,13 @@ mpn_inv_divappr_q (mp_ptr qp, mp_ptr np, mp_size_t nn,
 	}
       else
 	{
-	  mpir_invert_pi2(dinv2, dinv21, dp[-1], dp[-2]);
+	  mpir_invert_pi1(dinv2, dp[-1], dp[-2]);
      if (qn == 2)
 	    qh = mpn_divrem_2 (qp, 0L, np - 2, 4, dp - 2);
 	  else if (BELOW_THRESHOLD (qn, DC_DIV_QR_THRESHOLD))
-        qh = mpn_sb_div_qr (qp, np - qn, 2 * qn, dp - qn, qn, dinv2, dinv21);
+        qh = mpn_sb_div_qr (qp, np - qn, 2 * qn, dp - qn, qn, dinv2);
      else if (BELOW_THRESHOLD (qn, INV_DIV_QR_THRESHOLD))
-        qh = mpn_dc_div_qr_n (qp, np - qn, dp - qn, qn, dinv2, dinv21, tp);
+        qh = mpn_dc_div_qr_n (qp, np - qn, dp - qn, qn, dinv2, tp);
      else
         {
    	    mpn_invert_trunc(tp, qn, dinv, dn, dp - dn);
@@ -187,7 +187,7 @@ mpn_inv_divappr_q (mp_ptr qp, mp_ptr np, mp_size_t nn,
 
       q2p = TMP_ALLOC_LIMBS (qn + 1);
       
-      mpir_invert_pi2(dinv2, dinv21, dp[-1], dp[-2]);
+      mpir_invert_pi1(dinv2, dp[-1], dp[-2]);
       
        if (qn == 1)
         {
@@ -196,14 +196,14 @@ mpn_inv_divappr_q (mp_ptr qp, mp_ptr np, mp_size_t nn,
       else if (BELOW_THRESHOLD (qn, DC_DIVAPPR_Q_THRESHOLD))
 	{
 	  qh = mpn_sb_divappr_q (q2p, np - qn - 2, 2 * (qn + 1),
-				    dp - (qn + 1), qn + 1, dinv2, dinv21);
+				    dp - (qn + 1), qn + 1, dinv2);
 	}
       else if (BELOW_THRESHOLD (qn, INV_DIVAPPR_Q_N_THRESHOLD))
 	{
 	  /* It is tempting to use qp for recursive scratch and put quotient in
 	     tp, but the recursive scratch needs one limb too many.  */
 	  tp = TMP_ALLOC_LIMBS (DC_DIVAPPR_Q_N_ITCH(qn + 1));
-	  qh = mpn_dc_divappr_q (q2p, np - qn - 2, 2 * (qn + 1), dp - (qn + 1), qn + 1, dinv2, dinv21);
+	  qh = mpn_dc_divappr_q (q2p, np - qn - 2, 2 * (qn + 1), dp - (qn + 1), qn + 1, dinv2);
        } 
       else 
 	{
