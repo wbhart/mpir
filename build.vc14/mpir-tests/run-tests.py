@@ -20,24 +20,25 @@ try:
   f = open('..\output_params.bat')
   par = f.readlines()
   f.close()
-  m1 = re.match(r'\(set libr\=(.*)\)', par[0])
-  m2 = re.match(r'\(set plat\=(.*)\)', par[1])
-  m3 = re.match(r'\(set conf\=(.*)\)', par[2])
-  if m1 and m2 and m3:
-    d = (m1.group(1), m2.group(1), m3.group(1))
+  m1 = re.match(r'\(set ldir\=(.*)\)', par[0])
+  m2 = re.match(r'\(set libr\=(.*)\)', par[1])
+  m3 = re.match(r'\(set plat\=(.*)\)', par[2])
+  m4 = re.match(r'\(set conf\=(.*)\)', par[3])
+  if m1 and m2 and m3 and m4:
+    d = (m1.group(1), m2.group(1), m3.group(1), m4.group(1))
   else:
     raise IOError
 except Exception:
   print('Cannot determine test configuration from "output_params.bat"')
   sys.exit(-1)
 
-tdir = d[1] + '\\' + d[2] + '\\'
-if d[0] == 'dll':
-  shutil.copy("..\\..\\dll\\" + tdir + "mpir.dll",  os.getcwd())
+tdir = '{}\\{}\\'.format(d[2], d[3])
+if d[1] == 'dll':
+  shutil.copy("..\\{}\\{}mpir.dll".format(d[0], tdir),  '..\\' + tdir)
   xt = 'Dynamic Link Library'
 else:
   xt = 'Static Library'
-print('Testing MPIR {:s} in {:s} Configuration'.format(xt, tdir))
+print('Testing MPIR {:s} ({:s}) in <{:s}> Configuration'.format(xt, d[0][:-1], tdir))
 
 dir_list = []
 for x in os.walk(os.getcwd()):

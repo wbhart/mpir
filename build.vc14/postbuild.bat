@@ -1,102 +1,94 @@
 @echo off
+rem %1 = full target path
 set str=%~1
 
-rem delete anything from path before 'build.vc14'
+rem delete anything from the path before 'build.vc14'
 :dele
 set str=%str:~1%
 set str2=%str:~0,10%
 if "%str2%" NEQ "build.vc14" goto dele
 
-rem we now have: build.vc14\<win32|x64>\<debug|release>\mpir.<lib|dll>
-
-rem extract platform (plat=<win32|x64>), configuration (conf=<debug|release>) and file name 
-rem for the current working directory = build.vc14\lib_mpir_nehalem
-rem IDE gives:     build.vc14\x64\Release\mpir.lib   
-rem MSBUILD gives: build.vc14\lib_mpir_nehalem\x64\Release\mpir.lib  
-rem Python gives:  build.vc14\lib_mpir_nehalem\x64\Release\mpir.lib
- 
+rem we now have: build.vc14\<project_directory>\<win32|x64>\<debug|release>\mpir.<lib|dll>
+rem extract: project_directory, platform (plat=<win32|x64>), configuration (conf=<debug|release>) and file name  
 set file=
-for /f "tokens=1,2,3,4,5 delims=\" %%a in ("%str%") do set plat=%%b&set conf=%%c&set file=%%d&set msbf=%%e
+for /f "tokens=1,2,3,4,5 delims=\" %%a in ("%str%") do set tloc=%%b&set plat=%%c&set conf=%%d&set file=%%e
 if /i "%file%" NEQ "" (goto next)
 call :seterr & echo ERROR: %1 is not supported & exit /b %errorlevel%
 
 :next
-rem echo platform= %plat% configuration= %conf%, file= %file%
+rem echo target=%tloc%, platform=%plat%, configuration=%conf%, file=%file%
 
 rem get the filename extension (lib/dll) to set the output directory
+set loc=%tloc%\
 set extn=%file%#
 set filename=%extn:~0,-5%
 set extn=%extn:~-4,3%
 if "%extn%" EQU "lib" (goto is2nd)
 if "%extn%" EQU "dll" (goto is2nd)
-set extn=%msbf%#
-set extn=%extn:~-4,3%
-if "%extn%" EQU "lib" (goto is1st)
-if "%extn%" EQU "dll" (goto is1st)
-call :seterr & echo "postbuild copy error ERROR: file = %file%, msbf = %msbf% extn = %extn%" & exit /b %errorlevel%
-
-:is1st
-set plat=%conf%
-set conf=%file%
+call :seterr & echo "postbuild copy error ERROR: target=%tloc%, plat=%plat%, conf=%conf%, file=%file%, filename=%filename%, extn=%extn%" & exit /b %errorlevel%
 
 :is2nd:
-rem set the target aand output directories
-set source="%plat%\%conf%"
-set dest="..\%extn%\%plat%\%conf%"
+rem set the target and final binary output directories
+set tgt_dir="%loc%%plat%\%conf%\"
+set bin_dir="..\%extn%\%plat%\%conf%\"
 
 rem output parametrers for the MPIR tests
-echo (set libr=%extn%)  > output_params.bat
+if /i "%filename%" EQU "mpirxx" goto skip 
+echo (set ldir=%loc%)   > output_params.bat
+echo (set libr=%extn%) >> output_params.bat
 echo (set plat=%plat%) >> output_params.bat
 echo (set conf=%conf%) >> output_params.bat
+:skip
 
-echo copying outputs from %source% to %dest%
-if not exist %dest% md %dest%
-call :copyh %dest%
-call :copyb %source% %dest% %conf% %extn% %filename%
+echo copying outputs from %tgt_dir% to %bin_dir%
+if not exist %bin_dir% md %bin_dir%
+call :copyh %tgt_dir%
+call :copyh %bin_dir%
+call :copyb %tgt_dir% %bin_dir% %conf% %extn% %filename%
 exit /b 0
 
-rem copy binaries to final destination directory
-rem %1 = source directory
-rem %2 = destination directory
+rem copy binaries to final bin_dirination directory
+rem %1 = target (build output) directory
+rem %2 = binary destination directory
 rem %3 = configuration (debug/release) 
 rem %4 = library (lib/dll)
-rem %5 = file naame
-
+rem %5 = file name
 :copyb
 if "%4" EQU "dll" (
-	copy %1\mpir.dll %2\mpir.dll > nul 2>&1
-	copy %1\mpir.exp %2\mpir.exp > nul 2>&1
-	copy %1\mpir.lib %2\mpir.lib > nul 2>&1
-	if exist %1\mpir.pdb (copy %1\mpir.pdb %2\mpir.pdb  > nul 2>&1)
-	copy mpir-tests\%4-%3-config.props mpir-tests\test-config.props > nul 2>&1
+	copy %1mpir.dll %2mpir.dll > nul 2>&1
+	copy %1mpir.exp %2mpir.exp > nul 2>&1
+	copy %1mpir.lib %2mpir.lib > nul 2>&1
+	if exist %1mpir.pdb (copy %1mpir.pdb %2mpir.pdb  > nul 2>&1)
 ) else if "%4" EQU "lib" (
     if "%5" EQU "mpir" ( 
-  	    if exist %1\mpir.lib (
-        copy %1\mpir.lib %2\mpir.lib > nul 2>&1
-	    if exist %1\mpir.pdb (copy %1\mpir.pdb %2\mpir.pdb > nul 2>&1)
-	    copy mpir-tests\%4-%3-config.props mpir-tests\test-config.props > nul 2>&1
+  	    if exist %1mpir.lib (
+        copy %1mpir.lib %2mpir.lib > nul 2>&1
+	    if exist %1mpir.pdb (copy %1mpir.pdb %2mpir.pdb > nul 2>&1)
         )
     ) else if "%5" EQU "mpirxx" (
-	    if exist %1\mpirxx.lib (
-        copy %1\mpirxx.lib %2\mpirxx.lib > nul 2>&1
-	    if exist %1\mpirxx.pdb (copy %1\mpirxx.pdb %2\mpirxx.pdb > nul 2>&1)
+	    if exist %1mpirxx.lib (
+        copy %1mpirxx.lib %2mpirxx.lib > nul 2>&1
+	    if exist %1mpirxx.pdb (copy %1mpirxx.pdb %2mpirxx.pdb > nul 2>&1)
         )
     )
 ) else (
 	call :seterr & echo ERROR: illegal library type %4  & exit /b %errorlevel%
 )
+
+rem set configuration for the tests
+call gen_test_config_props %plat% %conf%
 exit /b 0
 
-rem copy headers to final destination directory
+rem copy headers to final bin_dirination directory
 :copyh
-copy ..\config.h %1\config.h > nul 2>&1
-copy ..\gmp-mparam.h %1\gmp-mparam.h > nul 2>&1
-copy ..\mpir.h %1\mpir.h > nul 2>&1
-copy ..\mpir.h %1\gmp.h > nul 2>&1
-copy ..\gmp-impl.h %1\gmp-impl.h > nul 2>&1
-copy ..\longlong.h %1\longlong.h > nul 2>&1
-copy ..\mpirxx.h %1\mpirxx.h > nul 2>&1
-copy ..\mpirxx.h %1\gmpxx.h > nul 2>&1
+copy ..\config.h %1config.h > nul 2>&1
+copy ..\gmp-mparam.h %1gmp-mparam.h > nul 2>&1
+copy ..\mpir.h %1mpir.h > nul 2>&1
+copy ..\mpir.h %1gmp.h > nul 2>&1
+copy ..\gmp-impl.h %1gmp-impl.h > nul 2>&1
+copy ..\longlong.h %1longlong.h > nul 2>&1
+copy ..\mpirxx.h %1mpirxx.h > nul 2>&1
+copy ..\mpirxx.h %1gmpxx.h > nul 2>&1
 exit /b 0
 
 :seterr

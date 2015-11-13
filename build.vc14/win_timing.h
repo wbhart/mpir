@@ -25,7 +25,6 @@ struct timeval
     long    tv_usec;    /* and microseconds      */
 };
 
-#define ENODATA         61
 #define	RUSAGE_SELF	     0
 #define	RUSAGE_CHILDREN	-1
 

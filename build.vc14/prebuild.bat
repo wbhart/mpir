@@ -1,14 +1,13 @@
-
+@echo off
 rem %1 = mpn directory (generic, x86\... or x86_64\...) 
 rem %2 = platform (win32 or x64)
-@echo off
 
 if /i "%2" EQU "win32" ((set platform=win32) & (set bdir=x86w\)) else ((set platform=x64) & (set bdir=x86_64w\))
 set sdir=
 if /i "%1" EQU "gc" ((set sdir=generic) & (set bdir=generic)) else (set sdir=%bdir%%1)
 if not exist ..\mpn\%sdir% (call :seterr & echo ERROR: %1 is not supported & exit /b %errorlevel%)
 
-echo.building MPIR for %1 (%platform%) from directory mpn\%sdir%
+echo building MPIR for %1 (%platform%) from directory mpn\%sdir%
 
 set cdir=cdata\mpn\%sdir%\
 set sdir=..\mpn\%sdir%\

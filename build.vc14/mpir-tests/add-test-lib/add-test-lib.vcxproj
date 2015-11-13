@@ -22,6 +22,7 @@
     <ProjectGuid>{A742D3D1-6956-4F85-BFD6-B0E7B477041D}</ProjectGuid>
     <RootNamespace>addtestlib</RootNamespace>
     <Keyword>Win32Proj</Keyword>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
@@ -49,23 +50,31 @@
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" />
-    <Import Project="..\test-config.props" />
+    <Import Project="..\..\test-config.props" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" />
-    <Import Project="..\test-config.props" />
+    <Import Project="..\..\test-config.props" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" />
-    <Import Project="..\test-config.props" />
+    <Import Project="..\..\test-config.props" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" />
-    <Import Project="..\test-config.props" />
+    <Import Project="..\..\test-config.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
     <_ProjectFileVersion>10.0.21006.1</_ProjectFileVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>$(Platform)\$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <PreBuildEvent>
@@ -80,7 +89,7 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <AdditionalIncludeDirectories>$(MPDIR);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(MPDIR);$(SolutionDir)..\tests</AdditionalIncludeDirectories>
     </ClCompile>
     <Lib />
   </ItemDefinitionGroup>
@@ -99,7 +108,7 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <AdditionalIncludeDirectories>$(MPDIR);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(MPDIR);$(SolutionDir)..\tests</AdditionalIncludeDirectories>
     </ClCompile>
     <Lib />
   </ItemDefinitionGroup>
@@ -113,7 +122,7 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <AdditionalIncludeDirectories>$(MPDIR);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(MPDIR);$(SolutionDir)..\tests</AdditionalIncludeDirectories>
     </ClCompile>
     <Lib />
   </ItemDefinitionGroup>
@@ -131,7 +140,7 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <AdditionalIncludeDirectories>$(MPDIR);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(MPDIR);$(SolutionDir)..\tests</AdditionalIncludeDirectories>
     </ClCompile>
     <Lib />
   </ItemDefinitionGroup>
@@ -146,10 +155,13 @@
     <ClCompile Include="..\..\..\tests\trace.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\lib\x64\Debug\gmp-impl.h" />
-    <ClInclude Include="..\..\..\lib\x64\Debug\gmp-mparam.h" />
-    <ClInclude Include="..\..\..\lib\x64\Debug\mpir.h" />
+    <ClInclude Include="..\..\..\tests\tests.h" />
     <ClInclude Include="..\..\getopt.h" />
+    <ClInclude Include="..\..\lib_mpir_sandybridge_ivybridge\x64\Release\config.h" />
+    <ClInclude Include="..\..\lib_mpir_sandybridge_ivybridge\x64\Release\gmp-impl.h" />
+    <ClInclude Include="..\..\lib_mpir_sandybridge_ivybridge\x64\Release\gmp-mparam.h" />
+    <ClInclude Include="..\..\lib_mpir_sandybridge_ivybridge\x64\Release\longlong.h" />
+    <ClInclude Include="..\..\lib_mpir_sandybridge_ivybridge\x64\Release\mpir.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

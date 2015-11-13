@@ -1,6 +1,8 @@
 @echo off
+rem %1 = platform
+
 echo creating mpir.h for %1
-echo /* generated from gmp-h.in by gen_mpir_h.bat */>tmp.h
+echo /* generated from gmp-h.in by gen_mpir_h.bat */ >tmp.h
 
 rem if /i "%1" EQU "x64" (
 rem   echo ^#ifndef _WIN64 >>tmp.h

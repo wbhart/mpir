@@ -1,4 +1,4 @@
-'''
+﻿'''
 Set up Visual Sudio to build a specified MPIR configuration
 
 Copyright (C) 2011, 2012, 2013, 2014 Brian Gladman
@@ -17,6 +17,7 @@ from re import compile, search
 from collections import defaultdict
 from uuid import uuid4
 from time import sleep
+from errno import EEXIST
 
 solution_name = 'mpir.sln'
 try:
@@ -341,8 +342,12 @@ def gen_filter(name, hf_list, cf_list, af_list):
   relp = split(relpath(mpir_dir, fn))[0] + '\\'
   try:
     makedirs(split(fn)[0])
-  except IOError:
-    pass
+  except IOError as e:
+    if e.errno != EEXIST:
+      raise
+    else:
+      pass
+
   with open(fn, 'w') as outf:
 
     outf.write(f1)
@@ -431,7 +436,7 @@ def vcx_target_name_and_dirs(name, plat, proj_type, outf):
 '''
   f2 = r'''    <TargetName Condition="'$(Configuration)|$(Platform)'=='{1:s}|{0:s}'">{2:s}</TargetName>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='{1:s}|{0:s}'">$(Platform)\$(Configuration)\</IntDir>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='{1:s}|{0:s}'">$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='{1:s}|{0:s}'">$(Platform)\$(Configuration)\</OutDir>
 '''
   f3 = r'''  </PropertyGroup>
 '''
@@ -788,13 +793,13 @@ while True:
   cnt = 0
   for v in sorted(mpn_gc):
     cnt += 1
-    print('{0:2d}. {1:24s}        '.format(cnt, v))
+    print('{0:2d}. {1:24s}        '.format(cnt, v.replace('\\', '_')))
   for v in sorted(mpn_32):
     cnt += 1
-    print('{0:2d}. {1:24s} (win32)'.format(cnt, v))
+    print('{0:2d}. {1:24s} (win32)'.format(cnt, v.replace('\\', '_')))
   for v in sorted(mpn_64):
     cnt += 1
-    print('{0:2d}. {1:24s}   (x64)'.format(cnt, v))
+    print('{0:2d}. {1:24s}   (x64)'.format(cnt, v.replace('\\', '_')))
   fs = 'Space separated list of builds (1..{0:d}, 0 to exit)? '
   s = input(fs.format(cnt))
   n_list = [int(c) for c in s.split()]
