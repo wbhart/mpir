@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: yasm 1.2.0\n"
 "Report-Msgid-Bugs-To: bug-yasm@tortall.net\n"
-"POT-Creation-Date: 2011-10-31 00:12-0700\n"
+"POT-Creation-Date: 2015-11-13 21:28+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1769,6 +1769,7 @@ msgid "offset of %ld bytes, must be between %ld and %ld"
 msgstr ""
 
 #: modules/objfmts/dbg/dbg-objfmt.c:50
+#, c-format
 msgid "could not open temporary file"
 msgstr ""
 
