@@ -92,6 +92,7 @@
 #	2.5.2	11.3.4	4.20.3
 #	2.6.0   11.0.5  4.21.3               Clearly wrong!!
 #       2.7.0   16.0.6  8.0.4                Attempt to correct wrt all prev 
+#       2.7.1   16.1.6  8.1.4
 #
 # Starting at 3:0:0 is a slight abuse of the versioning system, but it
 # ensures we're past soname libgmp.so.2, which was used on Debian GNU/Linux
@@ -564,10 +565,10 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 LIBGMP_LT_CURRENT = 16
-LIBGMP_LT_REVISION = 0 
+LIBGMP_LT_REVISION = 1
 LIBGMP_LT_AGE = 6
 LIBGMPXX_LT_CURRENT = 8
-LIBGMPXX_LT_REVISION = 0 
+LIBGMPXX_LT_REVISION = 1 
 LIBGMPXX_LT_AGE = 4
 SUBDIRS = tests $(am__append_1) mpn fft mpz mpq mpf printf scanf cxx \
 	tune doc
