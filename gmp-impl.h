@@ -3,9 +3,7 @@
    THE CONTENTS OF THIS FILE ARE FOR INTERNAL USE AND ARE ALMOST CERTAIN TO
    BE SUBJECT TO INCOMPATIBLE CHANGES IN FUTURE GNU MP RELEASES.
 
-Copyright 1991, 1993, 1994, 1995, 1996, 1997, 1999, 2000, 2001, 2002, 2003,
-2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013 Free Software 
-Foundation, Inc.
+Copyright 1991, 1993-1997, 1999, 2000-2015 Free Software Foundation, Inc.
 
 Copyright 2009, 2013 William Hart
 
@@ -634,6 +632,8 @@ __GMP_DECLSPEC void  __gmp_tmp_debug_free  _PROTO ((const char *, int, int,
 #define EXP(x) ((x)->_mp_exp)
 #define PREC(x) ((x)->_mp_prec)
 #define ALLOC(x) ((x)->_mp_alloc)
+#define NUM(x) mpq_numref(x)
+#define DEN(x) mpq_denref(x)
 
 /* n-1 inverts any low zeros and the lowest one bit.  If n&(n-1) leaves zero
    then that lowest one bit must have been the only bit set.  n==0 will
