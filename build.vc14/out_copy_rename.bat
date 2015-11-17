@@ -6,7 +6,7 @@ rem %3 = destination file name
 if not exist %1 goto nofile
 if exist %2 goto next
 
-echo creating directory %2
+echo   creating directory %2
 md %2 > nul
 
 :next
@@ -26,7 +26,7 @@ fc %1 %outf% > nul && if not %errorlevel 1 goto exit
 set op=overwriting
 
 :copy
-if "%4" NEQ "" (echo %op% %outf% from %1)
+if "%4" NEQ "" (echo   %op% %outf% from %1)
 copy %1 %outf% > nul
 goto exit
 

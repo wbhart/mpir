@@ -2,13 +2,13 @@
 rem %1 = full target path
 set str=%~1
 
-rem delete anything from the path before 'build.vc14'
+rem delete anything from the path before 'build.vc'
 :dele
 set str=%str:~1%
-set str2=%str:~0,10%
-if "%str2%" NEQ "build.vc14" goto dele
+set str2=%str:~0,8%
+if "%str2%" NEQ "build.vc" goto dele
 
-rem we now have: build.vc14\<project_directory>\<win32|x64>\<debug|release>\mpir.<lib|dll>
+rem we now have: build.vc<nn>\<project_directory>\<win32|x64>\<debug|release>\mpir.<lib|dll>
 rem extract: project_directory, platform (plat=<win32|x64>), configuration (conf=<debug|release>) and file name  
 set file=
 for /f "tokens=1,2,3,4,5 delims=\" %%a in ("%str%") do set tloc=%%b&set plat=%%c&set conf=%%d&set file=%%e
@@ -79,7 +79,7 @@ rem set configuration for the tests
 call gen_test_config_props %plat% %conf%
 exit /b 0
 
-rem copy headers to final bin_dirination directory
+rem copy headers to final destination directory
 :copyh
 copy ..\config.h %1config.h > nul 2>&1
 copy ..\gmp-mparam.h %1gmp-mparam.h > nul 2>&1

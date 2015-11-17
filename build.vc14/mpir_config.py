@@ -534,7 +534,7 @@ def vcx_tool_options(config, plat, proj_type, is_cpp, af_list, outf):
       if add_prebuild and not is_cpp:
         vcx_pre_build(config, pl, outf)
       if af_list:
-        yasm_options(plat, proj_type, outf)
+        yasm_options(pl, proj_type, outf)
       compiler_options(pl, proj_type, is_debug, outf)
       if proj_type != lib_type:
         linker_options(outf)
@@ -641,7 +641,8 @@ def gen_vcxproj(proj_name, file_name, guid, config, plat, proj_type,
 # add a project file to the solution
 
 folder_guid = "{2150E333-8FDC-42A3-9474-1A3956D46DE8}"
-vcxproject_guid = "{59348fde-2f50-426c-9f74-184aa069c067}"
+vcxproj_guid = "{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}"
+pyproj_guid =  "{888888A0-9F3D-457C-B088-3A5042F75D52}"
 
 s_guid = r'\s*(\{\w{8}-\w{4}-\w{4}-\w{4}-\w{12}\})\s*'
 s_name = r'\s*\"([a-zA-Z][-.\\_a-zA-Z0-9]*\s*)\"\s*'
@@ -717,11 +718,12 @@ def add_proj_to_sln(soln_name, soln_folder, proj_name, file_name, guid):
     else:
       f_guid = '{' + str(uuid4()).upper() + '}'
       fd[soln_folder] = f_guid
-  pd[proj_name] = (vcxproject_guid, file_name, guid)
+  pd[proj_name] = (vcxproj_guid, file_name, guid)
   if soln_folder:
     p2f[guid] = f_guid
 
   write_solution_file(soln_name, fd, pd, p2f)
+
 # compile list of C files
 t = find_src(c_directories)
 c_hdr_list = t[0]
@@ -815,7 +817,7 @@ while True:
 if len(n_list) > 1:
   add_prebuild = True
 
-# now gnerate the requested builds
+# now generate the requested builds
 for n in n_list:
 
   if 0 < n <= nd_gc:
@@ -1030,7 +1032,7 @@ if debug:
         if '.svn' in dirs:
           dirs.remove('.svn')            # ignore SVN directories
         if d == '' or root.endswith(build_vc):
-          for d in reversed(dirs):       # don't scan build.vc14 subdirectories
+          for d in reversed(dirs):       # don't scan build.vc<nn> subdirectories
             dirs.remove(d)
         for f in files:
           if f.endswith(p):
