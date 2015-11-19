@@ -1,5 +1,8 @@
 @echo off
 rem %1 = full target path
+rem %2 = MSVC version number (e.g. 14)
+
+set msvc_ver=%2
 set str=%~1
 
 rem delete anything from the path before 'build.vc'
@@ -29,7 +32,7 @@ call :seterr & echo "postbuild copy error ERROR: target=%tloc%, plat=%plat%, con
 
 :is2nd:
 rem set the target and final binary output directories
-set tgt_dir="%loc%%plat%\%conf%\"
+set tgt_dir="..\build.vc%msvc_ver%\%loc%%plat%\%conf%\"
 set bin_dir="..\%extn%\%plat%\%conf%\"
 
 rem output parametrers for the MPIR tests
@@ -76,7 +79,7 @@ if "%4" EQU "dll" (
 )
 
 rem set configuration for the tests
-call gen_test_config_props %plat% %conf%
+call gen_test_config_props %plat% %conf% %msvc_ver%
 exit /b 0
 
 rem copy headers to final destination directory

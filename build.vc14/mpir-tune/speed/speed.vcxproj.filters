@@ -28,13 +28,10 @@
     <ClInclude Include="..\..\..\config.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\getopt.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\tune\speed.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\win_timing.h">
+    <ClInclude Include="..\..\..\build.vc\win_timing.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

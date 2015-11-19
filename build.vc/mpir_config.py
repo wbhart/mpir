@@ -6,27 +6,34 @@ Copyright (C) 2011, 2012, 2013, 2014 Brian Gladman
 
 from __future__ import print_function
 from operator import itemgetter
-from os import listdir, walk, unlink, makedirs
+from os import listdir, walk, unlink, makedirs, sep
 from os.path import split, splitext, isdir, relpath, join, exists
-from os.path import dirname, normpath
+from os.path import join, abspath, dirname, normpath
 from copy import deepcopy
-from sys import argv, exit
 from filecmp import cmp
 from shutil import copy
 from re import compile, search
 from collections import defaultdict
-from uuid import uuid4
 from time import sleep
-from errno import EEXIST
+import sys
+
+vs_version = 14
+if len(sys.argv) > 1:
+  vs_version = int(argv[1])
+
+build_dir_name = 'build.vc{0:d}'.format(vs_version)
+sys.path.append(abspath(join(dirname(__file__), '../' + build_dir_name)))
+from version_info import vs_info
+
+from _msvc_filters import gen_filter
+from _msvc_project import Project_Type, gen_vcxproj
+from _msvc_solution import msvc_solution
 
 solution_name = 'mpir.sln'
 try:
   input = raw_input
 except NameError:
   pass
-app_type, lib_type, dll_type = 0, 1, 2
-app_str = ('Application', 'StaticLibrary', 'DynamicLibrary')
-app_ext = ('.exe', '.lib', '.dll')
 
 # for script debugging
 debug = False
@@ -36,14 +43,14 @@ add_prebuild = True
 add_cpp_lib = False
 
 # The path to the mpir root directory
-build_vc = 'build.vc14/'
+cf_dir = './'
 mpir_dir = '../'
-build_dir = mpir_dir + build_vc
-cfg_dir = './cdata'
-solution_dir = join(mpir_dir, build_vc)
+build_dir = join(mpir_dir, build_dir_name)
+solution_dir = join(mpir_dir, build_dir)
+cfg_dir = join(solution_dir, 'cdata')
 
 # paths that might include source files(*.c, *.h, *.asm)
-c_directories = ('', 'build.vc14', 'fft', 'mpf', 'mpq', 'mpz',
+c_directories = ('', 'build.vc', 'fft', 'mpf', 'mpq', 'mpz',
                  'printf', 'scanf')
 
 # files that are to be excluded from the build
@@ -250,480 +257,6 @@ def gen_have_list(c, sym_dir, out_dir):
 #   for sym in sorted(set_sym3):
 #     print(sym, file=outf)
 
-# generate Visual Studio IDE Filter
-
-def filter_folders(cf_list, af_list, outf):
-
-  f1 = r'''  <ItemGroup>
-    <Filter Include="Header Files" />
-    <Filter Include="Source Files" />
-'''
-  f2 = r'''    <Filter Include="Source Files\{0:s}" />
-'''
-  f3 = r'''  </ItemGroup>
-'''
-  c_dirs = set(i[2] for i in cf_list)
-  a_dirs = set(i[2] for i in af_list)
-  if a_dirs:
-    c_dirs |= set((r'mpn\yasm',))
-  outf.write(f1)
-  for d in sorted(c_dirs):
-    if d:
-      t = d if d != r'mpn\generic' else r'mpn'
-      outf.write(f2.format(t))
-  outf.write(f3)
-
-
-def filter_headers(hdr_list, relp, outf):
-
-  f1 = r'''  <ItemGroup>
-'''
-  f2 = r'''    <ClInclude Include="{}{}">
-    <Filter>Header Files</Filter>
-    </ClInclude>
-'''
-  f3 = r'''  </ItemGroup>
-'''
-  outf.write(f1)
-  for h in hdr_list:
-    outf.write(f2.format(relp, h))
-  outf.write(f3)
-
-def filter_csrc(cf_list, relp, outf):
-
-  f1 = r'''  <ItemGroup>
-'''
-  f2 = r'''  <ClCompile Include="{}{}">
-    <Filter>Source Files</Filter>
-    </ClCompile>
-'''
-  f3 = r'''  <ClCompile Include="{}{}\{}">
-    <Filter>Source Files\{}</Filter>
-    </ClCompile>
-'''
-  f4 = r'''  </ItemGroup>
-'''
-  outf.write(f1)
-  for i in cf_list:
-    if not i[2]:
-      outf.write(f2.format(relp, i[0] + i[1]))
-    else:
-      t = 'mpn' if i[2].endswith('generic') else i[2]
-      outf.write(f3.format(relp, i[2], i[0] + i[1], t))
-  outf.write(f4)
-
-def filter_asrc(af_list, relp, outf):
-
-  f1 = r'''  <ItemGroup>
-'''
-  f2 = r'''  <YASM Include="{0:s}{2:s}\{1:s}">
-    <Filter>Source Files\mpn\yasm</Filter>
-    </YASM>
-'''
-  f3 = r'''  </ItemGroup>
-'''
-  outf.write(f1)
-  for i in af_list:
-    outf.write(f2.format(relp, i[0] + i[1], i[2], i[2]))
-  outf.write(f3)
-
-def gen_filter(name, hf_list, cf_list, af_list):
-
-  f1 = r'''<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-'''
-  f2 = r'''  <ItemGroup>
-    <None Include="..\..\gmp-h.in" />
-    </ItemGroup>
-</Project>
-'''
-
-  fn = normpath(join(build_dir, name))
-  relp = split(relpath(mpir_dir, fn))[0] + '\\'
-  try:
-    makedirs(split(fn)[0])
-  except IOError as e:
-    if e.errno != EEXIST:
-      raise
-    else:
-      pass
-
-  with open(fn, 'w') as outf:
-
-    outf.write(f1)
-    filter_folders(cf_list, af_list, outf)
-    if hf_list:
-      filter_headers(hf_list, relp, outf)
-    filter_csrc(cf_list, relp, outf)
-    if af_list:
-      filter_asrc(af_list, relp, outf)
-    outf.write(f2)
-
-# generate vcxproj file
-
-def vcx_proj_cfg(plat, outf):
-
-  f1 = r'''  <ItemGroup Label="ProjectConfigurations">
-'''
-  f2 = r'''    <ProjectConfiguration Include="{1:s}|{0:s}">
-    <Configuration>{1:s}</Configuration>
-    <Platform>{0:s}</Platform>
-    </ProjectConfiguration>
-'''
-  f3 = r'''  </ItemGroup>
-'''
-  outf.write(f1)
-  for pl in plat:
-    for conf in ('Release', 'Debug'):
-      outf.write(f2.format(pl, conf))
-  outf.write(f3)
-
-def vcx_globals(name, guid, outf):
-
-  f1 = r'''  <PropertyGroup Label="Globals">
-    <RootNamespace>{0:s}</RootNamespace>
-    <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{1:s}</ProjectGuid>
-    </PropertyGroup>
-'''
-  outf.write(f1.format(name, guid))
-
-def vcx_default_cpp_props(outf):
-
-  f1 = r'''  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
-'''
-  outf.write(f1)
-
-def vcx_library_type(plat, proj_type, outf):
-
-  f1 = r'''  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='{1:s}|{0:s}'" Label="Configuration">
-    <ConfigurationType>{2:s}</ConfigurationType>
-    <PlatformToolset>v140</PlatformToolset>
-    </PropertyGroup>
-'''
-  for pl in plat:
-    for conf in ('Release', 'Debug'):
-      outf.write(f1.format(pl, conf, app_str[proj_type]))
-
-def vcx_cpp_props(outf):
-
-  f1 = r'''  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
-'''
-  outf.write(f1)
-
-def vcx_extensions(outf):
-
-  f1 = r'''  <ImportGroup Label="ExtensionSettings">
-    <Import Project="..\vsyasm.props" />
-    </ImportGroup>
-'''
-  outf.write(f1)
-
-def vcx_user_props(plat, outf):
-
-  f1 = r'''  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='{1:s}|{0:s}'" Label="PropertySheets">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" />
-    </ImportGroup>
-'''
-  for pl in plat:
-    for conf in ('Release', 'Debug'):
-      outf.write(f1.format(pl, conf))
-
-def vcx_target_name_and_dirs(name, plat, proj_type, outf):
-
-  f1 = r'''  <PropertyGroup>
-    <_ProjectFileVersion>10.0.21006.1</_ProjectFileVersion>
-'''
-  f2 = r'''    <TargetName Condition="'$(Configuration)|$(Platform)'=='{1:s}|{0:s}'">{2:s}</TargetName>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='{1:s}|{0:s}'">$(Platform)\$(Configuration)\</IntDir>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='{1:s}|{0:s}'">$(Platform)\$(Configuration)\</OutDir>
-'''
-  f3 = r'''  </PropertyGroup>
-'''
-  outf.write(f1)
-  for pl in plat:
-    for conf in ('Release', 'Debug'):
-      outf.write(f2.format(pl, conf, name))
-  outf.write(f3)
-
-def yasm_options(plat, proj_type, outf):
-
-  f1 = r'''    <YASM>
-    <Defines>{0:s}</Defines>
-    <IncludePaths>..\..\mpn\x86{1:s}w\</IncludePaths>
-    <Debug>true</Debug>
-    <ObjectFileName>$(IntDir)mpn\</ObjectFileName>
-    <ObjectFile>$(IntDir)mpn\</ObjectFile>
-    </YASM>
-'''
-
-  outf.write(f1.format('DLL' if proj_type == dll_type else '', '' if plat == 'Win32' else '_64'))
-
-def compiler_options(plat, proj_type, is_debug, outf):
-
-  f1 = r'''    <ClCompile>
-    <Optimization>{0:s}</Optimization>
-    <IntrinsicFunctions>true</IntrinsicFunctions>
-    <AdditionalIncludeDirectories>..\..\</AdditionalIncludeDirectories>
-    <PreprocessorDefinitions>{1:s}%(PreprocessorDefinitions)</PreprocessorDefinitions>
-    <RuntimeLibrary>MultiThreaded{2:s}</RuntimeLibrary>
-    <ProgramDataBaseFileName>$(TargetDir)$(TargetName).pdb</ProgramDataBaseFileName>
-    <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-    </ClCompile>
-'''
-
-  if proj_type == app_type:
-    s1 = 'DEBUG;WIN32;_CONSOLE'
-    s2 = ''
-  if proj_type == dll_type:
-    s1 = 'DEBUG;WIN32;HAVE_CONFIG_H;MSC_BUILD_DLL;'
-    s2 = 'DLL'
-  elif proj_type == lib_type:
-    s1 = 'DEBUG;WIN32;_LIB;HAVE_CONFIG_H;'
-    s2 = ''
-  else:
-    pass
-  if plat == 'x64':
-    s1 = s1 + '_WIN64;'
-  if is_debug:
-    opt, defines, crt = 'Disabled', '_' + s1, 'Debug' + s2
-  else:
-    opt, defines, crt = 'Full', 'N' + s1, s2
-  outf.write(f1.format(opt, defines, crt))
-
-def linker_options(outf):
-
-  f1 = r'''    <Link>
-    <GenerateDebugInformation>true</GenerateDebugInformation>
-    <LargeAddressAware>true</LargeAddressAware>
-    </Link>
-'''
-  outf.write(f1)
-
-def vcx_pre_build(name, plat, outf):
-
-  f1 = r'''    <PreBuildEvent>
-    <Command>cd ..\
-prebuild {0:s} {1:s}
-    </Command>
-    </PreBuildEvent>
-'''
-  outf.write(f1.format(name, plat))
-
-def vcx_post_build(is_cpp, outf):
-
-  f1 = r'''
-    <PostBuildEvent>
-    <Command>cd ..\
-postbuild "$(TargetPath)"
-    </Command>
-    </PostBuildEvent>
-'''
-
-  outf.write(f1)
-
-def vcx_tool_options(config, plat, proj_type, is_cpp, af_list, outf):
-
-  f1 = r'''  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='{1:s}|{0:s}'">
-'''
-  f2 = r'''  </ItemDefinitionGroup>
-'''
-  for pl in plat:
-    for is_debug in (False, True):
-      outf.write(f1.format(pl, 'Debug' if is_debug else 'Release'))
-      if add_prebuild and not is_cpp:
-        vcx_pre_build(config, pl, outf)
-      if af_list:
-        yasm_options(pl, proj_type, outf)
-      compiler_options(pl, proj_type, is_debug, outf)
-      if proj_type != lib_type:
-        linker_options(outf)
-      vcx_post_build(is_cpp, outf)
-      outf.write(f2)
-
-def vcx_hdr_items(hdr_list, relp, outf):
-
-  f1 = r'''  <ItemGroup>
-'''
-  f2 = r'''    <ClInclude Include="{}{}" />
-'''
-  f3 = r'''  </ItemGroup>
-'''
-  outf.write(f1)
-  for i in hdr_list:
-    outf.write(f2.format(relp, i))
-  outf.write(f3)
-
-def vcx_c_items(cf_list, plat, relp, outf):
-
-  f1 = r'''  <ItemGroup>
-'''
-  f2 = r'''    <ClCompile Include="{0:s}{1[0]:s}{1[1]:s}" />
-'''
-  f3 = r'''    <ClCompile Include="{0:s}{1[2]:s}\{1[0]:s}{1[1]:s}">
-'''
-  f4 = r'''        <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='{0:s}|{1:s}'">$(IntDir){2:s}\</ObjectFileName>
-'''
-  f5 = r'''    </ClCompile>
-'''
-  f6 = r'''  </ItemGroup>
-'''
-  outf.write(f1)
-  for nxd in cf_list:
-    if nxd[2] == '':
-      outf.write(f2.format(relp, nxd))
-    else:
-      outf.write(f3.format(relp, nxd))
-      for cf in ('Release', 'Debug'):
-        for pl in plat:
-          outf.write(f4.format(cf, pl, 'mpn' if nxd[2].endswith('generic') else nxd[2]))
-      outf.write(f5)
-  outf.write(f6)
-
-def vcx_a_items(af_list, relp, outf):
-
-  f1 = r'''  <ItemGroup>
-'''
-  f2 = r'''    <YASM Include="{0:s}{1[2]:s}\{1[0]:s}{1[1]:s}" />
-'''
-  f3 = r'''  </ItemGroup>
-'''
-  outf.write(f1)
-  for nxd in af_list:
-    outf.write(f2.format(relp, nxd))
-  outf.write(f3)
-
-def gen_vcxproj(proj_name, file_name, guid, config, plat, proj_type,
-                is_cpp, hf_list, cf_list, af_list):
-
-  f1 = r'''<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-'''
-  f2 = r'''  <PropertyGroup Label="UserMacros" />
-'''
-  f3 = r'''  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
-'''
-  f4 = r'''  <ImportGroup Label="ExtensionTargets">
-    <Import Project="..\vsyasm.targets" />
-    </ImportGroup>
-'''
-
-  f5 = r'''<ItemGroup>
-    <None Include="..\..\gmp-h.in" />
-    </ItemGroup>
-</Project>
-'''
-
-  fn = normpath(join(build_dir, file_name))
-  relp = split(relpath(mpir_dir, fn))[0] + '\\'
-  with open(fn, 'w') as outf:
-    outf.write(f1)
-    vcx_proj_cfg(plat, outf)
-    vcx_globals(proj_name, guid, outf)
-    vcx_default_cpp_props(outf)
-    vcx_library_type(plat, proj_type, outf)
-    vcx_cpp_props(outf)
-    if af_list:
-      vcx_extensions(outf)
-    vcx_user_props(plat, outf)
-    outf.write(f2)
-    vcx_target_name_and_dirs(proj_name, plat, proj_type, outf)
-    vcx_tool_options(config, plat, proj_type, is_cpp, af_list, outf)
-    if hf_list:
-      vcx_hdr_items(hf_list, relp, outf)
-    vcx_c_items(cf_list, plat, relp, outf)
-    vcx_a_items(af_list, relp, outf)
-    outf.write(f3)
-    if af_list:
-      outf.write(f4)
-    outf.write(f5)
-
-# add a project file to the solution
-
-folder_guid = "{2150E333-8FDC-42A3-9474-1A3956D46DE8}"
-vcxproj_guid = "{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}"
-pyproj_guid =  "{888888A0-9F3D-457C-B088-3A5042F75D52}"
-
-s_guid = r'\s*(\{\w{8}-\w{4}-\w{4}-\w{4}-\w{12}\})\s*'
-s_name = r'\s*\"([a-zA-Z][-.\\_a-zA-Z0-9]*\s*)\"\s*'
-re_guid = compile(r'\s*\"\s*' + s_guid + r'\"\s*')
-re_proj = compile(r'Project\s*\(\s*\"' + s_guid + r'\"\)\s*=\s*'
-                  + s_name + r'\s*,\s*' + s_name + r'\s*,\s*\"' + s_guid + r'\"')
-re_fmap = compile(r'\s*' + s_guid + r'\s*=\s*' + s_guid)
-
-def read_solution_file(soln_name):
-  fd, pd, p2f = {}, {}, {}
-  solution_path = join(solution_dir, soln_name)
-  if exists(solution_path):
-    lines = open(solution_path).readlines()
-    for i, ln in enumerate(lines):
-      m = re_proj.search(ln)
-      if m:
-        if m.group(1) == folder_guid and m.group(2) == m.group(3):
-          fd[m.group(2)] = m.group(4)
-        elif m.group(3).endswith('.vcxproj') or m.group(3).endswith('.pyproj'):
-          pd[m.group(2)] = (m.group(1), m.group(3), m.group(4))
-      m = re_fmap.search(ln)
-      if m:
-        p2f[m.group(1)] = m.group(2)
-  return fd, pd, p2f
-
-sol_1 = '''Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.22823.1
-MinimumVisualStudioVersion = 10.0.40219.1
-'''
-
-sol_2 = '''Project("{}") = "{}", "{}", "{}"
-EndProject
-'''
-
-sol_3 = '''Global
-	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|Win32 = Debug|Win32
-		Debug|x64 = Debug|x64
-		Release|Win32 = Release|Win32
-		Release|x64 = Release|x64
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-'''
-
-sol_4 = '''		{} = {}
-'''
-
-sol_5 = r'''	EndGlobalSection
-EndGlobal
-'''
-
-def write_solution_file(file_name, fd, pd, p2f):
-  with open(join(solution_dir, file_name), 'w') as outf:
-    outf.write(sol_1)
-    for f, g in fd.items():
-      outf.write(sol_2.format(folder_guid, f, f, g))
-    for f, (g1, pn, g2) in pd.items():
-      outf.write(sol_2.format(g1, f, pn, g2))
-    outf.write(sol_3)
-    for f, g in p2f.items():
-      outf.write(sol_4.format(f, g))
-    outf.write(sol_5)
-
-def add_proj_to_sln(soln_name, soln_folder, proj_name, file_name, guid):
-  fd, pd, p2f = read_solution_file(soln_name)
-  if soln_folder:
-    if soln_folder in fd:
-      f_guid = fd[soln_folder]
-    else:
-      f_guid = '{' + str(uuid4()).upper() + '}'
-      fd[soln_folder] = f_guid
-  pd[proj_name] = (vcxproj_guid, file_name, guid)
-  if soln_folder:
-    p2f[guid] = f_guid
-
-  write_solution_file(soln_name, fd, pd, p2f)
-
 # compile list of C files
 t = find_src(c_directories)
 c_hdr_list = t[0]
@@ -782,9 +315,6 @@ mpn_64 = find_asm(mpir_dir + 'mpn/x86_64w', gc_src_list)
 syms64 = file_symbols(mpn_64)
 del mpn_64['']
 
-if len(argv) != 1 and not int(argv[1]) & 2:
-  exit()
-
 nd_gc = len(mpn_gc)
 nd_32 = nd_gc + len(mpn_32)
 nd_nd = nd_32 + len(mpn_64)
@@ -806,7 +336,7 @@ while True:
   s = input(fs.format(cnt))
   n_list = [int(c) for c in s.split()]
   if 0 in n_list:
-    exit()
+    sys.exit()
   if any(n < 1 or n > nd_nd for n in n_list):
     print('list contains invalid build numbers')
     sleep(2)
@@ -818,6 +348,7 @@ if len(n_list) > 1:
   add_prebuild = True
 
 # now generate the requested builds
+solc = msvc_solution(solution_name, solution_dir)
 for n in n_list:
 
   if 0 < n <= nd_gc:
@@ -826,19 +357,17 @@ for n in n_list:
     mpn_f = mpn_gc[config]
   elif nd_gc < n <= nd_32:
     config = sorted(mpn_32)[n - 1 - nd_gc]
-    if len(argv) == 1 or int(argv[1]) & 1:
-      gen_have_list(mpn_32[config], syms32, cfg_dir)
+    gen_have_list(mpn_32[config], syms32, cfg_dir)
     mode = ('Win32', )
     mpn_f = mpn_32[config]
   elif nd_32 < n <= nd_nd:
     config = sorted(mpn_64)[n - 1 - nd_32]
-    if len(argv) == 1 or int(argv[1]) & 1:
-      gen_have_list(mpn_64[config], syms64, cfg_dir)
+    gen_have_list(mpn_64[config], syms64, cfg_dir)
     mode = ('x64', )
     mpn_f = mpn_64[config]
   else:
     print('internal error')
-    exit()
+    sys.exit()
 
   if mode[0] == 'x64':
     for l in mpn_f[1:]:
@@ -869,7 +398,7 @@ for n in n_list:
       lines = open(join(mpir_dir, 'gmp-h.in'), 'r').readlines()
     except IOError:
       print('error attempting to read from gmp_h.in')
-      exit()
+      sys.exit()
     try:
       tfile = join(mpir_dir, 'tmp.h')
       with open(tfile, 'w') as outf:
@@ -890,22 +419,28 @@ for n in n_list:
       unlink(tfile)
     except IOError:
       print('error attempting to create mpir.h from gmp-h.in')
-      exit()
+      sys.exit()
 
     # generate config.h
 
     try:
       tfile = join(mpir_dir, 'tmp.h')
-      with open(tfile, 'w') as outf:
-        for i in sorted(mpn_f[5] + mpn_f[6]):
-          outf.writelines(['#define HAVE_NATIVE_{0:s} 1\n'.format(i)])
 
-      append_f(join(build_dir, 'cfg.h'), tfile)
+      if 5 < len(mpn_f) < 8:
+        if len(mpn_f) == 6:
+          t = sorted(mpn_f[5])
+        else:
+          t = sorted(mpn_f[5] + mpn_f[6])
+        with open(tfile, 'w') as outf:
+          for i in t:
+            outf.writelines(['#define HAVE_NATIVE_{0:s} 1\n'.format(i)])
+
+      append_f(join(cf_dir, 'cfg.h'), tfile)
       write_f(tfile, join(mpir_dir, 'config.h'))
       unlink(tfile)
     except IOError:
       print('error attempting to write to {0:s}'.format(tfile))
-      exit()
+      sys.exit()
 
     # generate longlong.h and copy gmp-mparam.h
 
@@ -920,7 +455,7 @@ for n in n_list:
 
       if not li_file or not exists(li_file):
         print('error attempting to read {0:s}'.format(li_file))
-        exit()
+        sys.exit()
 
       tfile = join(mpir_dir, 'tmp.h')
       write_f(join(mpir_dir, 'longlong_pre.h'), tfile)
@@ -930,7 +465,7 @@ for n in n_list:
       unlink(tfile)
     except IOError:
       print('error attempting to generate longlong.h')
-      exit()
+      sys.exit()
 
   # generate the vcxproj and the IDE filter files
   # and add/replace project in the solution file
@@ -954,36 +489,39 @@ for n in n_list:
   cf = config.replace('\\', '_')
 
   # set up DLL build
-  guid = '{' + str(uuid4()) + '}'
   vcx_name = 'dll_mpir_' + cf
   vcx_path = 'dll_mpir_' + cf + '\\' + vcx_name + '.vcxproj'
-  gen_filter(vcx_path + '.filters', hf_list,
-             c_src_list + cc_src_list + mpn_f[1], af_list)
-  gen_vcxproj(proj_name, vcx_path, guid, mp_dir, mode, dll_type,
-              False, hf_list, c_src_list + cc_src_list + mpn_f[1], af_list)
-  add_proj_to_sln(solution_name, '', vcx_name, vcx_path, guid)
+  guid = solc.get_project_guid(vcx_name, vcx_path)
+  gen_filter(vcx_path + '.filters', build_dir, mpir_dir, hf_list,
+             c_src_list + cc_src_list + mpn_f[1], af_list, 12.0)
+  gen_vcxproj(proj_name, vcx_path, build_dir, mpir_dir, guid, mp_dir, mode, Project_Type.DLL,
+              False, hf_list, c_src_list + cc_src_list + mpn_f[1], af_list, add_prebuild, vs_info)
+  solc.add_project('', vcx_name, vcx_path, guid)
 
   # set up LIB build
-  guid = '{' + str(uuid4()) + '}'
   vcx_name = 'lib_mpir_' + cf
   vcx_path = 'lib_mpir_' + cf + '\\' + vcx_name + '.vcxproj'
-  gen_filter(vcx_path + '.filters', hf_list, c_src_list + mpn_f[1], af_list)
-  gen_vcxproj(proj_name, vcx_path, guid, mp_dir, mode, lib_type,
-              False, hf_list, c_src_list + mpn_f[1], af_list)
-  add_proj_to_sln(solution_name, '', vcx_name, vcx_path, guid)
+  guid = solc.get_project_guid(vcx_name, vcx_path)
+  gen_filter(vcx_path + '.filters', build_dir, mpir_dir, hf_list, c_src_list + mpn_f[1], af_list, 12.0)
+  gen_vcxproj(proj_name, vcx_path, build_dir, mpir_dir, guid, mp_dir, mode, Project_Type.LIB,
+              False, hf_list, c_src_list + mpn_f[1], af_list, add_prebuild, vs_info)
+  solc.add_project('', vcx_name, vcx_path, guid)
 
 # C++ library build
 
 if add_cpp_lib:
-  guid = '{' + str(uuid4()) + '}'
   proj_name = 'mpirxx'
   mode = ('Win32', 'x64')
   vcx_name = 'lib_mpir_cxx'
   vcx_path = 'lib_mpir_cxx\\' + vcx_name + '.vcxproj'
   th = hf_list +  ('mpirxx.h',)
-  gen_filter(vcx_path + '.filters', th, cc_src_list, '')
-  gen_vcxproj(proj_name, vcx_path, guid, config, mode, lib_type, True, th, cc_src_list, '')
-  add_proj_to_sln('mpir.sln', '', vcx_name, vcx_path, guid)
+  guid = solc.get_project_guid(vcx_name, vcx_path)
+  gen_filter(vcx_path + '.filters', build_dir, mpir_dir, th, cc_src_list, '', 12.0)
+  gen_vcxproj(proj_name, vcx_path, build_dir, mpir_dir, guid, config, mode, Project_Type.LIB, 
+              True, th, cc_src_list, '', add_prebuild, vs_info)
+  solc.add_project('', vcx_name, vcx_path, guid)
+
+solc.write_solution(vs_info)
 
 # the following code is for diagnostic purposes only
 if debug:
