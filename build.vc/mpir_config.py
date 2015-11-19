@@ -19,7 +19,7 @@ import sys
 
 vs_version = 14
 if len(sys.argv) > 1:
-  vs_version = int(argv[1])
+  vs_version = int(sys.argv[1])
 
 build_dir_name = 'build.vc{0:d}'.format(vs_version)
 sys.path.append(abspath(join(dirname(__file__), '../' + build_dir_name)))

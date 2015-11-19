@@ -9,7 +9,14 @@
   <ItemDefinitionGroup>
     <ClCompile>
       <ObjectFileName>$(IntDir)dum\my\%(RelativeDir)</ObjectFileName>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <ProgramDataBaseFileName>$(TargetDir)$(TargetName).pdb</ProgramDataBaseFileName>
+      <AdditionalIncludeDirectories>..\..\</AdditionalIncludeDirectories>
     </ClCompile>
+    <Link>
+      <GenerateDebugInformation>Debug</GenerateDebugInformation>
+      <LargeAddressAware>true</LargeAddressAware>
+    </Link>
   </ItemDefinitionGroup>
   <ItemGroup />
 </Project>

@@ -1,42 +1,42 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Release|x64">
-    <Configuration>Release</Configuration>
-    <Platform>x64</Platform>
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
     </ProjectConfiguration>
     <ProjectConfiguration Include="Debug|x64">
-    <Configuration>Debug</Configuration>
-    <Platform>x64</Platform>
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <RootNamespace>mpir</RootNamespace>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{FBE03789-9627-401E-A7EF-6C75DAF7218A}</ProjectGuid>
-    </PropertyGroup>
+    <ProjectGuid>{49DD6B75-0009-40DC-BE9E-383C565494C8}</ProjectGuid>
+  </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v140</PlatformToolset>
-    </PropertyGroup>
+  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v140</PlatformToolset>
-    </PropertyGroup>
+  </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
     <Import Project="../../build.vc/vsyasm.props" />
-    </ImportGroup>
+  </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" />
-    <Import Project="..\..\build.vc\common_lib.props" />
+    <Import Project="..\..\build.vc\mpir_release_lib.props" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" />
-    <Import Project="..\..\build.vc\common_lib.props" />
+    <Import Project="..\..\build.vc\mpir_debug_lib.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
@@ -46,58 +46,46 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <PreBuildEvent>
-    <Command>cd ../../build.vc
+      <Command>cd ../../build.vc
 prebuild core2 x64 14
     </Command>
     </PreBuildEvent>
     <YASM>
-    <Defines></Defines>
-    <IncludePaths>..\..\mpn\x86_64w\</IncludePaths>
-    <Debug>true</Debug>
-    <ObjectFileName>$(IntDir)mpn\</ObjectFileName>
-    <ObjectFile>$(IntDir)mpn\</ObjectFile>
+      <Defines>
+      </Defines>
+      <IncludePaths>..\..\mpn\x86_64w\</IncludePaths>
+      <Debug>true</Debug>
+      <ObjectFileName>$(IntDir)mpn\</ObjectFileName>
+      <ObjectFile>$(IntDir)mpn\</ObjectFile>
     </YASM>
     <ClCompile>
-    <Optimization>Full</Optimization>
-    <IntrinsicFunctions>true</IntrinsicFunctions>
-    <AdditionalIncludeDirectories>..\..\</AdditionalIncludeDirectories>
-    <PreprocessorDefinitions>NDEBUG;WIN32;_LIB;HAVE_CONFIG_H;_WIN64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-    <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-    <ProgramDataBaseFileName>$(TargetDir)$(TargetName).pdb</ProgramDataBaseFileName>
-    <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <PreprocessorDefinitions>NDEBUG;WIN32;_LIB;HAVE_CONFIG_H;_WIN64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
-
     <PostBuildEvent>
-    <Command>cd ../../build.vc
+      <Command>cd ../../build.vc
 postbuild "$(TargetPath)" 14
     </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <PreBuildEvent>
-    <Command>cd ../../build.vc
+      <Command>cd ../../build.vc
 prebuild core2 x64 14
     </Command>
     </PreBuildEvent>
     <YASM>
-    <Defines></Defines>
-    <IncludePaths>..\..\mpn\x86_64w\</IncludePaths>
-    <Debug>true</Debug>
-    <ObjectFileName>$(IntDir)mpn\</ObjectFileName>
-    <ObjectFile>$(IntDir)mpn\</ObjectFile>
+      <Defines>
+      </Defines>
+      <IncludePaths>..\..\mpn\x86_64w\</IncludePaths>
+      <Debug>true</Debug>
+      <ObjectFileName>$(IntDir)mpn\</ObjectFileName>
+      <ObjectFile>$(IntDir)mpn\</ObjectFile>
     </YASM>
     <ClCompile>
-    <Optimization>Disabled</Optimization>
-    <IntrinsicFunctions>true</IntrinsicFunctions>
-    <AdditionalIncludeDirectories>..\..\</AdditionalIncludeDirectories>
-    <PreprocessorDefinitions>_DEBUG;WIN32;_LIB;HAVE_CONFIG_H;_WIN64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-    <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
-    <ProgramDataBaseFileName>$(TargetDir)$(TargetName).pdb</ProgramDataBaseFileName>
-    <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <PreprocessorDefinitions> DEBUG;WIN32;_LIB;HAVE_CONFIG_H;_WIN64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
-
     <PostBuildEvent>
-    <Command>cd ../../build.vc
+      <Command>cd ../../build.vc
 postbuild "$(TargetPath)" 14
     </Command>
     </PostBuildEvent>
@@ -635,8 +623,8 @@ postbuild "$(TargetPath)" 14
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
     <Import Project="../../build.vc/vsyasm.targets" />
-    </ImportGroup>
-<ItemGroup>
+  </ImportGroup>
+  <ItemGroup>
     <None Include="../../gmp-h.in" />
-    </ItemGroup>
+  </ItemGroup>
 </Project>

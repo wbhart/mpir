@@ -9,7 +9,6 @@ class Project_Type(IntEnum):
   LIB = 1
   DLL = 2
 
-app_type, lib_type, dll_type = 0, 1, 2
 app_ext = ('.exe', '.lib', '.dll')
 app_str = ('Application', 'StaticLibrary', 'DynamicLibrary')
 
@@ -76,12 +75,12 @@ def vcx_user_props(plat, proj_type, outf):
 
   f1 = r'''  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='{1:s}|{0:s}'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" />
-    <Import Project="..\..\build.vc\common_{2:s}.props" />
+    <Import Project="..\..\build.vc\mpir_{2:s}_{3:s}.props" />
   </ImportGroup>
 '''
   for pl in plat:
     for conf in ('Release', 'Debug'):
-      outf.write(f1.format(pl, conf, app_ext[proj_type][1:]))
+      outf.write(f1.format(pl, conf, conf.lower(), app_ext[proj_type][1:]))
 
 def vcx_target_name_and_dirs(name, plat, proj_type, outf):
 
@@ -109,45 +108,31 @@ def yasm_options(plat, proj_type, outf):
     </YASM>
 '''
 
-  outf.write(f1.format('DLL' if proj_type == dll_type else '', '' if plat == 'Win32' else '_64'))
+  outf.write(f1.format('DLL' if proj_type == Project_Type.DLL else '', '' if plat == 'Win32' else '_64'))
 
 def compiler_options(plat, proj_type, is_debug, outf):
 
   f1 = r'''    <ClCompile>
-    <Optimization>{0:s}</Optimization>
-    <IntrinsicFunctions>true</IntrinsicFunctions>
-    <AdditionalIncludeDirectories>..\..\</AdditionalIncludeDirectories>
-    <PreprocessorDefinitions>{1:s}%(PreprocessorDefinitions)</PreprocessorDefinitions>
-    <RuntimeLibrary>MultiThreaded{2:s}</RuntimeLibrary>
-    <ProgramDataBaseFileName>$(TargetDir)$(TargetName).pdb</ProgramDataBaseFileName>
-    <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    <PreprocessorDefinitions>{0:s}%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
 '''
 
-  if proj_type == app_type:
+  if proj_type == Project_Type.APP:
     s1 = 'DEBUG;WIN32;_CONSOLE'
-    s2 = ''
-  if proj_type == dll_type:
+  if proj_type == Project_Type.DLL:
     s1 = 'DEBUG;WIN32;HAVE_CONFIG_H;MSC_BUILD_DLL;'
-    s2 = 'DLL'
-  elif proj_type == lib_type:
+  elif proj_type == Project_Type.LIB:
     s1 = 'DEBUG;WIN32;_LIB;HAVE_CONFIG_H;'
-    s2 = ''
   else:
     pass
   if plat == 'x64':
     s1 = s1 + '_WIN64;'
-  if is_debug:
-    opt, defines, crt = 'Disabled', '_' + s1, 'Debug' + s2
-  else:
-    opt, defines, crt = 'Full', 'N' + s1, s2
-  outf.write(f1.format(opt, defines, crt))
+  s1 = (' ' if is_debug else 'N') + s1
+  outf.write(f1.format(s1))
 
 def linker_options(outf):
 
   f1 = r'''    <Link>
-    <GenerateDebugInformation>true</GenerateDebugInformation>
-    <LargeAddressAware>true</LargeAddressAware>
     </Link>
 '''
   outf.write(f1)
@@ -188,7 +173,7 @@ def vcx_tool_options(config, plat, proj_type, is_cpp, af_list, add_prebuild, out
       if af_list:
         yasm_options(pl, proj_type, outf)
       compiler_options(pl, proj_type, is_debug, outf)
-      if proj_type != lib_type:
+      if proj_type != Project_Type.LIB:
         linker_options(outf)
       vcx_post_build(is_cpp, outf)
       outf.write(f2)
