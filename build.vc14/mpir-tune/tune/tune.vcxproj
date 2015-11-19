@@ -92,7 +92,7 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
-      <AdditionalIncludeDirectories>$(MPDIR);..\..\..\..\..\..\lib\$(IntDir);..\..\;..\..\..\..\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(MPDIR);..\..\..\..\..\..\lib\$(IntDir);..\..\..\build.vc;..\..\..\..\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <AdditionalDependencies>$(OutDir)lib_speed.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -119,7 +119,7 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <AdditionalIncludeDirectories>$(MPDIR);..\..\..\..\..\..\lib\$(IntDir);..\..\;..\..\..\..\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(MPDIR);..\..\..\..\..\..\lib\$(IntDir);..\..\..\build.vc;..\..\..\..\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <AdditionalDependencies>$(OutDir)lib_speed.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -143,7 +143,7 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <AdditionalIncludeDirectories>$(MPDIR);..\..\..\..\..\..\lib\$(IntDir);..\..\;..\..\..\..\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(MPDIR);..\..\..\..\..\..\lib\$(IntDir);..\..\..\build.vc;..\..\..\..\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <AdditionalDependencies>$(OutDir)lib_speed.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -171,7 +171,7 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <AdditionalIncludeDirectories>$(MPDIR);..\..\..\..\..\..\lib\$(IntDir);..\..\;..\..\..\..\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(MPDIR);..\..\..\..\..\..\lib\$(IntDir);..\..\..\build.vc;..\..\..\..\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <BufferSecurityCheck>false</BufferSecurityCheck>
     </ClCompile>
     <Link>
@@ -188,6 +188,7 @@
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\build.vc\getopt.c" />
     <ClCompile Include="..\..\..\fft\adjust.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
@@ -587,7 +588,6 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="..\..\getopt.c" />
     <ClCompile Include="..\..\..\tests\memory.c" />
     <ClCompile Include="..\..\..\tests\misc.c" />
     <ClCompile Include="..\..\..\tests\refmpn.c" />
@@ -658,16 +658,13 @@
     <ClCompile Include="toom8_sqr_n.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\build.vc\getopt.h" />
+    <ClInclude Include="..\..\..\build.vc\win_timing.h" />
     <ClInclude Include="..\..\..\tune\speed.h" />
-    <ClInclude Include="..\..\getopt.h" />
-    <ClInclude Include="..\..\getrusage.h" />
-    <ClInclude Include="..\..\gettimeofday.h" />
     <ClInclude Include="..\..\lib_mpir_sandybridge_ivybridge\x64\Release\config.h" />
     <ClInclude Include="..\..\lib_mpir_sandybridge_ivybridge\x64\Release\gmp-impl.h" />
     <ClInclude Include="..\..\lib_mpir_sandybridge_ivybridge\x64\Release\gmp-mparam.h" />
     <ClInclude Include="..\..\lib_mpir_sandybridge_ivybridge\x64\Release\mpir.h" />
-    <ClInclude Include="..\..\unistd.h" />
-    <ClInclude Include="..\..\win_timing.h" />
   </ItemGroup>
   <ItemGroup>
     <YASM Include="sqr_basecase.asm">

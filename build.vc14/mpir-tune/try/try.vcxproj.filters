@@ -11,9 +11,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\getopt.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\tests\memory.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -35,9 +32,12 @@
     <ClCompile Include="..\..\..\tests\devel\try.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\build.vc\getopt.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\getopt.h">
+    <ClInclude Include="..\..\..\build.vc\getopt.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1,4 +1,8 @@
 @echo off
+rem %1 = plat
+rem %2 = conf
+rem %3 = output directory
+
 rem output_params.bat contains:
 rem (set ldir=architecture)   
 rem (set libr=lib) 
@@ -9,9 +13,8 @@ set prefix=..\..\
 call :clrerr
 
 if exist output_params.bat (call output_params.bat) else (call :seterr & echo ERROR: 'output_params.bat' not found & exit /b %errorlevel%)
-
 set lib_dir=%prefix%%ldir%\%plat%\%conf%
- 
+
 if /i "%plat%" EQU "" (call :seterr & echo ERROR: 'output_params.bat' is corrupt & exit /b %errorlevel%)
 if /i "%1" NEQ "%plat%" goto bad_config
 if /i "%2" NEQ "%conf%" goto bad_config
@@ -52,7 +55,7 @@ echo     ^</BuildMacro^> >>tmp.props
 echo   ^</ItemGroup^> >>tmp.props
 echo ^</Project^> >>tmp.props
 
-call out_copy_rename tmp.props .\ test-config.props verb
+call out_copy_rename tmp.props ..\build.vc%3 test-config.props verb
 del tmp.props
 goto clrerr
 

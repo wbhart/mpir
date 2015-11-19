@@ -26,7 +26,7 @@ fc %1 %outf% > nul && if not %errorlevel 1 goto exit
 set op=overwriting
 
 :copy
-if "%4" NEQ "" (echo   %op% %outf% from %1)
+if "%4" NEQ "" (echo %op% %outf% from %1)
 copy %1 %outf% > nul
 goto exit
 
