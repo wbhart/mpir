@@ -20,6 +20,16 @@ along with the GNU MP Library; see the file COPYING.LIB.  If not, write to
 the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 MA 02110-1301, USA.
 
+Changes between MPIR 2.7.2 and MPIR 2.7.1
+
+Bug Fixes:
+
+* Increase .so version numbering to prevent conflict with MPIR 2.7.1
+
+Features:
+
+* Wave motion gun
+
 Changes between MPIR 2.7.1 and MPIR 2.7.0
 
 Bug Fixes:
