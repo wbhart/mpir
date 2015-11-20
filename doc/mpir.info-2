@@ -2681,7 +2681,7 @@ Concept Index
                                                               (line   6)
 * Rational numerator and denominator:    Applying Integer Functions.
                                                               (line   6)
-* Rational sign tests:                   Comparing Rationals. (line  25)
+* Rational sign tests:                   Comparing Rationals. (line  26)
 * Raw output internals:                  Raw Output Internals.
                                                               (line   6)
 * Reallocations:                         Efficiency.          (line  30)
@@ -2708,7 +2708,7 @@ Concept Index
 * Shared library versioning:             Notes for Package Builds.
                                                               (line   9)
 * Sign tests:                            Integer Comparisons. (line  28)
-* Sign tests <1>:                        Comparing Rationals. (line  25)
+* Sign tests <1>:                        Comparing Rationals. (line  26)
 * Sign tests <2>:                        Float Comparison.    (line  28)
 * Size in digits:                        Miscellaneous Integer Functions.
                                                               (line  23)
@@ -3161,13 +3161,14 @@ Function and Type Index
 * mpq_clears:                            Initializing Rationals.
                                                               (line  19)
 * mpq_cmp:                               Comparing Rationals. (line   6)
-* mpq_cmp_si:                            Comparing Rationals. (line  14)
-* mpq_cmp_ui:                            Comparing Rationals. (line  13)
+* mpq_cmp_si:                            Comparing Rationals. (line  15)
+* mpq_cmp_ui:                            Comparing Rationals. (line  14)
+* mpq_cmp_z:                             Comparing Rationals. (line   7)
 * mpq_denref:                            Applying Integer Functions.
                                                               (line  16)
 * mpq_div:                               Rational Arithmetic. (line  20)
 * mpq_div_2exp:                          Rational Arithmetic. (line  24)
-* mpq_equal:                             Comparing Rationals. (line  30)
+* mpq_equal:                             Comparing Rationals. (line  31)
 * mpq_get_d:                             Rational Conversions.
                                                               (line   6)
 * mpq_get_den:                           Applying Integer Functions.
@@ -3206,7 +3207,7 @@ Function and Type Index
                                                               (line  27)
 * mpq_set_z:                             Initializing Rationals.
                                                               (line  24)
-* mpq_sgn:                               Comparing Rationals. (line  24)
+* mpq_sgn:                               Comparing Rationals. (line  25)
 * mpq_sub:                               Rational Arithmetic. (line   9)
 * mpq_swap:                              Initializing Rationals.
                                                               (line  52)

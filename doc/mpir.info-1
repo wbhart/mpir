@@ -3321,6 +3321,7 @@ File: mpir.info,  Node: Comparing Rationals,  Next: Applying Integer Functions, 
 ========================
 
  -- Function: int mpq_cmp (mpq_t OP1, mpq_t OP2)
+ -- Function: int mpq_cmp_z (const mpq_t OP1, const mpz_t OP2)
      Compare OP1 and OP2.  Return a positive value if OP1 > OP2, zero if
      OP1 = OP2, and a negative value if OP1 < OP2.
 
