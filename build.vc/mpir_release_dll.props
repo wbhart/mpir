@@ -10,7 +10,6 @@
     <ClCompile>
       <ObjectFileName>$(IntDir)dum\my\%(RelativeDir)</ObjectFileName>
       <ProgramDataBaseFileName>$(TargetDir)$(TargetName).pdb</ProgramDataBaseFileName>
-      <AdditionalIncludeDirectories>..\..\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>DebugFastLink</GenerateDebugInformation>

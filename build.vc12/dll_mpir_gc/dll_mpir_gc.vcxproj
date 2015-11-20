@@ -21,7 +21,7 @@
   <PropertyGroup Label="Globals">
     <RootNamespace>mpir</RootNamespace>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{0F808861-2FDC-4324-A035-0498F65E06AF}</ProjectGuid>
+    <ProjectGuid>{FD7B2677-75D5-48BA-BA83-0630FE808158}</ProjectGuid>
     </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
@@ -47,19 +47,19 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" />
-    <Import Project="..\..\build.vc\common_dll.props" />
+    <Import Project="..\..\build.vc\mpir_release_dll.props" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" />
-    <Import Project="..\..\build.vc\common_dll.props" />
+    <Import Project="..\..\build.vc\mpir_debug_dll.props" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" />
-    <Import Project="..\..\build.vc\common_dll.props" />
+    <Import Project="..\..\build.vc\mpir_release_dll.props" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" />
-    <Import Project="..\..\build.vc\common_dll.props" />
+    <Import Project="..\..\build.vc\mpir_debug_dll.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
@@ -76,17 +76,9 @@ prebuild gc Win32 14
     </Command>
     </PreBuildEvent>
     <ClCompile>
-    <Optimization>Full</Optimization>
-    <IntrinsicFunctions>true</IntrinsicFunctions>
-    <AdditionalIncludeDirectories>..\..\</AdditionalIncludeDirectories>
     <PreprocessorDefinitions>NDEBUG;WIN32;HAVE_CONFIG_H;MSC_BUILD_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-    <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
-    <ProgramDataBaseFileName>$(TargetDir)$(TargetName).pdb</ProgramDataBaseFileName>
-    <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
     <Link>
-    <GenerateDebugInformation>true</GenerateDebugInformation>
-    <LargeAddressAware>true</LargeAddressAware>
     </Link>
 
     <PostBuildEvent>
@@ -102,17 +94,9 @@ prebuild gc Win32 14
     </Command>
     </PreBuildEvent>
     <ClCompile>
-    <Optimization>Disabled</Optimization>
-    <IntrinsicFunctions>true</IntrinsicFunctions>
-    <AdditionalIncludeDirectories>..\..\</AdditionalIncludeDirectories>
-    <PreprocessorDefinitions>_DEBUG;WIN32;HAVE_CONFIG_H;MSC_BUILD_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-    <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
-    <ProgramDataBaseFileName>$(TargetDir)$(TargetName).pdb</ProgramDataBaseFileName>
-    <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    <PreprocessorDefinitions> DEBUG;WIN32;HAVE_CONFIG_H;MSC_BUILD_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
-    <GenerateDebugInformation>true</GenerateDebugInformation>
-    <LargeAddressAware>true</LargeAddressAware>
     </Link>
 
     <PostBuildEvent>
@@ -128,17 +112,9 @@ prebuild gc x64 14
     </Command>
     </PreBuildEvent>
     <ClCompile>
-    <Optimization>Full</Optimization>
-    <IntrinsicFunctions>true</IntrinsicFunctions>
-    <AdditionalIncludeDirectories>..\..\</AdditionalIncludeDirectories>
     <PreprocessorDefinitions>NDEBUG;WIN32;HAVE_CONFIG_H;MSC_BUILD_DLL;_WIN64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-    <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
-    <ProgramDataBaseFileName>$(TargetDir)$(TargetName).pdb</ProgramDataBaseFileName>
-    <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
     <Link>
-    <GenerateDebugInformation>true</GenerateDebugInformation>
-    <LargeAddressAware>true</LargeAddressAware>
     </Link>
 
     <PostBuildEvent>
@@ -154,17 +130,9 @@ prebuild gc x64 14
     </Command>
     </PreBuildEvent>
     <ClCompile>
-    <Optimization>Disabled</Optimization>
-    <IntrinsicFunctions>true</IntrinsicFunctions>
-    <AdditionalIncludeDirectories>..\..\</AdditionalIncludeDirectories>
-    <PreprocessorDefinitions>_DEBUG;WIN32;HAVE_CONFIG_H;MSC_BUILD_DLL;_WIN64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-    <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
-    <ProgramDataBaseFileName>$(TargetDir)$(TargetName).pdb</ProgramDataBaseFileName>
-    <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    <PreprocessorDefinitions> DEBUG;WIN32;HAVE_CONFIG_H;MSC_BUILD_DLL;_WIN64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
-    <GenerateDebugInformation>true</GenerateDebugInformation>
-    <LargeAddressAware>true</LargeAddressAware>
     </Link>
 
     <PostBuildEvent>

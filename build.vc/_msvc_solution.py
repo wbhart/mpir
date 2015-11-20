@@ -9,7 +9,7 @@ folder_guid = "{2150E333-8FDC-42A3-9474-1A3956D46DE8}"
 vcxproj_guid = "{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}"
 pyproj_guid =  "{888888A0-9F3D-457C-B088-3A5042F75D52}"
 
-sol_1 = '''Microsoft Visual Studio Solution File, Format Version {0}
+sol_1 = '''Microsoft Visual Studio Solution File, Format Version {0}.00
 # Visual Studio {1}
 VisualStudioVersion = {2}
 MinimumVisualStudioVersion = 10.0.40219.1
@@ -23,10 +23,8 @@ sol_3 = '''Global
 '''
 
 sol_4 = '''    GlobalSection(SolutionConfigurationPlatforms) = preSolution
-        Debug|Any CPU = Debug|Any CPU
         Debug|Win32 = Debug|Win32
         Debug|x64 = Debug|x64
-        Release|Any CPU = Release|Any CPU
         Release|Win32 = Release|Win32
         Release|x64 = Release|x64
     EndGlobalSection

@@ -72,6 +72,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
       <PreprocessorDefinitions>NDEBUG;WIN32;_LIB;HAVE_CONFIG_H;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\</AdditionalIncludeDirectories>
     </ClCompile>
     <PostBuildEvent>
       <Command>cd ../../build.vc
@@ -82,6 +83,7 @@ postbuild "$(TargetPath)" 14
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <PreprocessorDefinitions> DEBUG;WIN32;_LIB;HAVE_CONFIG_H;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\</AdditionalIncludeDirectories>
     </ClCompile>
     <PostBuildEvent>
       <Command>cd ../../build.vc
@@ -92,6 +94,7 @@ postbuild "$(TargetPath)" 14
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <PreprocessorDefinitions>NDEBUG;WIN32;_LIB;HAVE_CONFIG_H;_WIN64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\</AdditionalIncludeDirectories>
     </ClCompile>
     <PostBuildEvent>
       <Command>cd ../../build.vc
@@ -102,6 +105,7 @@ postbuild "$(TargetPath)" 14
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <PreprocessorDefinitions> DEBUG;WIN32;_LIB;HAVE_CONFIG_H;_WIN64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\</AdditionalIncludeDirectories>
     </ClCompile>
     <PostBuildEvent>
       <Command>cd ../../build.vc
