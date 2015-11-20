@@ -11,7 +11,6 @@
       <ObjectFileName>$(IntDir)dum\my\%(RelativeDir)</ObjectFileName>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <ProgramDataBaseFileName>$(TargetDir)$(TargetName).pdb</ProgramDataBaseFileName>
-      <AdditionalIncludeDirectories>..\..\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>DebugFastLink</GenerateDebugInformation>

@@ -103,7 +103,6 @@ def yasm_options(plat, proj_type, outf):
     <Defines>{0:s}</Defines>
     <IncludePaths>..\..\mpn\x86{1:s}w\</IncludePaths>
     <Debug>true</Debug>
-    <ObjectFileName>$(IntDir)mpn\</ObjectFileName>
     <ObjectFile>$(IntDir)mpn\</ObjectFile>
     </YASM>
 '''
@@ -113,6 +112,7 @@ def yasm_options(plat, proj_type, outf):
 def compiler_options(plat, proj_type, is_debug, outf):
 
   f1 = r'''    <ClCompile>
+    <AdditionalIncludeDirectories>..\..\</AdditionalIncludeDirectories>
     <PreprocessorDefinitions>{0:s}%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
 '''
@@ -137,29 +137,29 @@ def linker_options(outf):
 '''
   outf.write(f1)
 
-def vcx_pre_build(name, plat, outf):
+def vcx_pre_build(name, plat, msvc_ver, outf):
 
   f1 = r'''    <PreBuildEvent>
     <Command>cd ../../build.vc
-prebuild {0:s} {1:s} 14
+prebuild {0:s} {1:s} {2:s}
     </Command>
     </PreBuildEvent>
 '''
-  outf.write(f1.format(name, plat))
+  outf.write(f1.format(name, plat, msvc_ver))
 
-def vcx_post_build(is_cpp, outf):
+def vcx_post_build(is_cpp, msvc_ver, outf):
 
   f1 = r'''
     <PostBuildEvent>
     <Command>cd ../../build.vc
-postbuild "$(TargetPath)" 14
+postbuild "$(TargetPath)" {0:s}
     </Command>
     </PostBuildEvent>
 '''
 
-  outf.write(f1)
+  outf.write(f1.format(msvc_ver))
 
-def vcx_tool_options(config, plat, proj_type, is_cpp, af_list, add_prebuild, outf):
+def vcx_tool_options(config, plat, proj_type, is_cpp, af_list, add_prebuild, msvc_ver, outf):
 
   f1 = r'''  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='{1:s}|{0:s}'">
 '''
@@ -169,13 +169,13 @@ def vcx_tool_options(config, plat, proj_type, is_cpp, af_list, add_prebuild, out
     for is_debug in (False, True):
       outf.write(f1.format(pl, 'Debug' if is_debug else 'Release'))
       if add_prebuild and not is_cpp:
-        vcx_pre_build(config, pl, outf)
+        vcx_pre_build(config, pl, msvc_ver, outf)
       if af_list:
         yasm_options(pl, proj_type, outf)
       compiler_options(pl, proj_type, is_debug, outf)
       if proj_type != Project_Type.LIB:
         linker_options(outf)
-      vcx_post_build(is_cpp, outf)
+      vcx_post_build(is_cpp, msvc_ver, outf)
       outf.write(f2)
 
 def vcx_hdr_items(hdr_list, relp, outf):
@@ -258,7 +258,7 @@ def gen_vcxproj(proj_name, file_name, build_dir, mpir_dir, guid, config, plat, p
     vcx_user_props(plat, proj_type, outf)
     outf.write(f2)
     vcx_target_name_and_dirs(proj_name, plat, proj_type, outf)
-    vcx_tool_options(config, plat, proj_type, is_cpp, af_list, add_prebuild, outf)
+    vcx_tool_options(config, plat, proj_type, is_cpp, af_list, add_prebuild, vs_info['msvc'], outf)
     if hf_list:
       vcx_hdr_items(hf_list, relp, outf)
     vcx_c_items(cf_list, plat, relp, outf)

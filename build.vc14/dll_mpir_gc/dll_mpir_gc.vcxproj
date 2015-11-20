@@ -1,49 +1,49 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Release|Win32">
-      <Configuration>Release</Configuration>
-      <Platform>Win32</Platform>
+    <Configuration>Release</Configuration>
+    <Platform>Win32</Platform>
     </ProjectConfiguration>
     <ProjectConfiguration Include="Debug|Win32">
-      <Configuration>Debug</Configuration>
-      <Platform>Win32</Platform>
+    <Configuration>Debug</Configuration>
+    <Platform>Win32</Platform>
     </ProjectConfiguration>
     <ProjectConfiguration Include="Release|x64">
-      <Configuration>Release</Configuration>
-      <Platform>x64</Platform>
+    <Configuration>Release</Configuration>
+    <Platform>x64</Platform>
     </ProjectConfiguration>
     <ProjectConfiguration Include="Debug|x64">
-      <Configuration>Debug</Configuration>
-      <Platform>x64</Platform>
+    <Configuration>Debug</Configuration>
+    <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <RootNamespace>mpir</RootNamespace>
     <Keyword>Win32Proj</Keyword>
     <ProjectGuid>{EF286BFC-F78C-45A4-A818-C6C4CCB96D57}</ProjectGuid>
-  </PropertyGroup>
+    </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v140</PlatformToolset>
-  </PropertyGroup>
+    </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v140</PlatformToolset>
-  </PropertyGroup>
+    </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v140</PlatformToolset>
-  </PropertyGroup>
+    </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v140</PlatformToolset>
-  </PropertyGroup>
+    </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" />
@@ -71,68 +71,76 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <PreBuildEvent>
-      <Command>cd ../../build.vc
+    <Command>cd ../../build.vc
 prebuild gc Win32 14
     </Command>
     </PreBuildEvent>
     <ClCompile>
-      <PreprocessorDefinitions>NDEBUG;WIN32;HAVE_CONFIG_H;MSC_BUILD_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    <AdditionalIncludeDirectories>..\..\</AdditionalIncludeDirectories>
+    <PreprocessorDefinitions>NDEBUG;WIN32;HAVE_CONFIG_H;MSC_BUILD_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
     </Link>
+
     <PostBuildEvent>
-      <Command>cd ../../build.vc
+    <Command>cd ../../build.vc
 postbuild "$(TargetPath)" 14
     </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <PreBuildEvent>
-      <Command>cd ../../build.vc
+    <Command>cd ../../build.vc
 prebuild gc Win32 14
     </Command>
     </PreBuildEvent>
     <ClCompile>
-      <PreprocessorDefinitions> DEBUG;WIN32;HAVE_CONFIG_H;MSC_BUILD_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    <AdditionalIncludeDirectories>..\..\</AdditionalIncludeDirectories>
+    <PreprocessorDefinitions> DEBUG;WIN32;HAVE_CONFIG_H;MSC_BUILD_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
     </Link>
+
     <PostBuildEvent>
-      <Command>cd ../../build.vc
+    <Command>cd ../../build.vc
 postbuild "$(TargetPath)" 14
     </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <PreBuildEvent>
-      <Command>cd ../../build.vc
+    <Command>cd ../../build.vc
 prebuild gc x64 14
     </Command>
     </PreBuildEvent>
     <ClCompile>
-      <PreprocessorDefinitions>NDEBUG;WIN32;HAVE_CONFIG_H;MSC_BUILD_DLL;_WIN64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    <AdditionalIncludeDirectories>..\..\</AdditionalIncludeDirectories>
+    <PreprocessorDefinitions>NDEBUG;WIN32;HAVE_CONFIG_H;MSC_BUILD_DLL;_WIN64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
     </Link>
+
     <PostBuildEvent>
-      <Command>cd ../../build.vc
+    <Command>cd ../../build.vc
 postbuild "$(TargetPath)" 14
     </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <PreBuildEvent>
-      <Command>cd ../../build.vc
+    <Command>cd ../../build.vc
 prebuild gc x64 14
     </Command>
     </PreBuildEvent>
     <ClCompile>
-      <PreprocessorDefinitions> DEBUG;WIN32;HAVE_CONFIG_H;MSC_BUILD_DLL;_WIN64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    <AdditionalIncludeDirectories>..\..\</AdditionalIncludeDirectories>
+    <PreprocessorDefinitions> DEBUG;WIN32;HAVE_CONFIG_H;MSC_BUILD_DLL;_WIN64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
     </Link>
+
     <PostBuildEvent>
-      <Command>cd ../../build.vc
+    <Command>cd ../../build.vc
 postbuild "$(TargetPath)" 14
     </Command>
     </PostBuildEvent>
@@ -666,7 +674,7 @@ postbuild "$(TargetPath)" 14
   <ItemGroup>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
-  <ItemGroup>
+<ItemGroup>
     <None Include="../../gmp-h.in" />
-  </ItemGroup>
+    </ItemGroup>
 </Project>

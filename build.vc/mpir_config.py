@@ -46,7 +46,7 @@ add_cpp_lib = False
 cf_dir = './'
 mpir_dir = '../'
 build_dir = join(mpir_dir, build_dir_name)
-solution_dir = join(mpir_dir, build_dir)
+solution_dir = join(mpir_dir, build_dir_name)
 cfg_dir = join(solution_dir, 'cdata')
 
 # paths that might include source files(*.c, *.h, *.asm)

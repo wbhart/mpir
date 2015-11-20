@@ -13,7 +13,7 @@
   <PropertyGroup Label="Globals">
     <RootNamespace>mpir</RootNamespace>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{AB936E5F-3BF2-44E1-8309-E4E73776BD8A}</ProjectGuid>
+    <ProjectGuid>{304D8FD4-3C9F-46B6-939B-05C8B22CC339}</ProjectGuid>
     </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
@@ -32,11 +32,11 @@
     </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" />
-    <Import Project="..\..\build.vc\common_lib.props" />
+    <Import Project="..\..\build.vc\mpir_release_lib.props" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" />
-    <Import Project="..\..\build.vc\common_lib.props" />
+    <Import Project="..\..\build.vc\mpir_debug_lib.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
@@ -58,13 +58,7 @@ prebuild nehalem x64 14
     <ObjectFile>$(IntDir)mpn\</ObjectFile>
     </YASM>
     <ClCompile>
-    <Optimization>Full</Optimization>
-    <IntrinsicFunctions>true</IntrinsicFunctions>
-    <AdditionalIncludeDirectories>..\..\</AdditionalIncludeDirectories>
     <PreprocessorDefinitions>NDEBUG;WIN32;_LIB;HAVE_CONFIG_H;_WIN64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-    <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-    <ProgramDataBaseFileName>$(TargetDir)$(TargetName).pdb</ProgramDataBaseFileName>
-    <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
 
     <PostBuildEvent>
@@ -87,13 +81,7 @@ prebuild nehalem x64 14
     <ObjectFile>$(IntDir)mpn\</ObjectFile>
     </YASM>
     <ClCompile>
-    <Optimization>Disabled</Optimization>
-    <IntrinsicFunctions>true</IntrinsicFunctions>
-    <AdditionalIncludeDirectories>..\..\</AdditionalIncludeDirectories>
-    <PreprocessorDefinitions>_DEBUG;WIN32;_LIB;HAVE_CONFIG_H;_WIN64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-    <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
-    <ProgramDataBaseFileName>$(TargetDir)$(TargetName).pdb</ProgramDataBaseFileName>
-    <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    <PreprocessorDefinitions> DEBUG;WIN32;_LIB;HAVE_CONFIG_H;_WIN64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
 
     <PostBuildEvent>
