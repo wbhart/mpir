@@ -127,7 +127,7 @@ def compiler_options(plat, proj_type, is_debug, outf):
     pass
   if plat == 'x64':
     s1 = s1 + '_WIN64;'
-  s1 = (' ' if is_debug else 'N') + s1
+  s1 = ('_' if is_debug else 'N') + s1
   outf.write(f1.format(s1))
 
 def linker_options(outf):
