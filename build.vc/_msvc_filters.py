@@ -30,7 +30,7 @@ def filter_headers(hdr_list, relp, outf):
   f1 = r'''  <ItemGroup>
 '''
   f2 = r'''    <ClInclude Include="{}{}">
-    <Filter>Header Files</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
 '''
   f3 = r'''  </ItemGroup>
@@ -44,12 +44,12 @@ def filter_csrc(cf_list, relp, outf):
 
   f1 = r'''  <ItemGroup>
 '''
-  f2 = r'''  <ClCompile Include="{}{}">
-    <Filter>Source Files</Filter>
+  f2 = r'''    <ClCompile Include="{}{}">
+      <Filter>Source Files</Filter>
     </ClCompile>
 '''
-  f3 = r'''  <ClCompile Include="{}{}\{}">
-    <Filter>Source Files\{}</Filter>
+  f3 = r'''    <ClCompile Include="{}{}\{}">
+      <Filter>Source Files\{}</Filter>
     </ClCompile>
 '''
   f4 = r'''  </ItemGroup>
@@ -67,8 +67,8 @@ def filter_asrc(af_list, relp, outf):
 
   f1 = r'''  <ItemGroup>
 '''
-  f2 = r'''  <YASM Include="{0:s}{2:s}\{1:s}">
-    <Filter>Source Files\mpn\yasm</Filter>
+  f2 = r'''    <YASM Include="{0:s}{2:s}\{1:s}">
+      <Filter>Source Files\mpn\yasm</Filter>
     </YASM>
 '''
   f3 = r'''  </ItemGroup>
@@ -86,7 +86,7 @@ def gen_filter(name, build_dir, mpir_dir, hf_list, cf_list, af_list, tools_ver):
 
   f2 = r'''  <ItemGroup>
     <None Include="..\..\gmp-h.in" />
-    </ItemGroup>
+  </ItemGroup>
 </Project>
 '''
 
