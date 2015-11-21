@@ -17,8 +17,8 @@ def vcx_proj_cfg(plat, outf):
   f1 = r'''  <ItemGroup Label="ProjectConfigurations">
 '''
   f2 = r'''    <ProjectConfiguration Include="{1:s}|{0:s}">
-    <Configuration>{1:s}</Configuration>
-    <Platform>{0:s}</Platform>
+      <Configuration>{1:s}</Configuration>
+      <Platform>{0:s}</Platform>
     </ProjectConfiguration>
 '''
   f3 = r'''  </ItemGroup>
@@ -35,7 +35,7 @@ def vcx_globals(name, guid, outf):
     <RootNamespace>{0:s}</RootNamespace>
     <Keyword>Win32Proj</Keyword>
     <ProjectGuid>{1:s}</ProjectGuid>
-    </PropertyGroup>
+  </PropertyGroup>
 '''
   outf.write(f1.format(name, guid))
 
@@ -51,7 +51,7 @@ def vcx_library_type(plat, proj_type, msvc_ver, outf):
     <ConfigurationType>{2:s}</ConfigurationType>
     <UseDebugLibraries>{3:s}</UseDebugLibraries>
     <PlatformToolset>v{4:s}0</PlatformToolset>
-    </PropertyGroup>
+  </PropertyGroup>
 '''
   for pl in plat:
     for conf, bool in (('Release', 'false'), ('Debug', 'true')):
@@ -67,7 +67,7 @@ def vcx_extensions(outf):
 
   f1 = r'''  <ImportGroup Label="ExtensionSettings">
     <Import Project="../../build.vc/vsyasm.props" />
-    </ImportGroup>
+  </ImportGroup>
 '''
   outf.write(f1)
 
@@ -100,10 +100,10 @@ def vcx_target_name_and_dirs(name, plat, proj_type, outf):
 def yasm_options(plat, proj_type, outf):
 
   f1 = r'''    <YASM>
-    <Defines>{0:s}</Defines>
-    <IncludePaths>..\..\mpn\x86{1:s}w\</IncludePaths>
-    <Debug>true</Debug>
-    <ObjectFile>$(IntDir)mpn\</ObjectFile>
+      <Defines>{0:s}</Defines>
+      <IncludePaths>..\..\mpn\x86{1:s}w\</IncludePaths>
+      <Debug>true</Debug>
+      <ObjectFile>$(IntDir)mpn\</ObjectFile>
     </YASM>
 '''
 
@@ -112,8 +112,8 @@ def yasm_options(plat, proj_type, outf):
 def compiler_options(plat, proj_type, is_debug, outf):
 
   f1 = r'''    <ClCompile>
-    <AdditionalIncludeDirectories>..\..\</AdditionalIncludeDirectories>
-    <PreprocessorDefinitions>{0:s}%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>{0:s}%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
 '''
 
@@ -140,9 +140,9 @@ def linker_options(outf):
 def vcx_pre_build(name, plat, msvc_ver, outf):
 
   f1 = r'''    <PreBuildEvent>
-    <Command>cd ../../build.vc
+      <Command>cd ../../build.vc
 prebuild {0:s} {1:s} {2:s}
-    </Command>
+      </Command>
     </PreBuildEvent>
 '''
   outf.write(f1.format(name, plat, msvc_ver))
@@ -151,9 +151,9 @@ def vcx_post_build(is_cpp, msvc_ver, outf):
 
   f1 = r'''
     <PostBuildEvent>
-    <Command>cd ../../build.vc
+      <Command>cd ../../build.vc
 postbuild "$(TargetPath)" {0:s}
-    </Command>
+      </Command>
     </PostBuildEvent>
 '''
 
