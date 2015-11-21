@@ -118,7 +118,7 @@ def compiler_options(plat, proj_type, is_debug, outf):
 '''
 
   if proj_type == Project_Type.APP:
-    s1 = 'DEBUG;WIN32;_CONSOLE'
+    s1 = 'DEBUG;WIN32;_CONSOLE;'
   if proj_type == Project_Type.DLL:
     s1 = 'DEBUG;WIN32;HAVE_CONFIG_H;MSC_BUILD_DLL;'
   elif proj_type == Project_Type.LIB:
