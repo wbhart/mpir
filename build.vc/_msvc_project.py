@@ -66,7 +66,7 @@ def vcx_cpp_props(outf):
 def vcx_extensions(outf):
 
   f1 = r'''  <ImportGroup Label="ExtensionSettings">
-    <Import Project="../../build.vc/vsyasm.props" />
+    <Import Project="..\..\build.vc\vsyasm.props" />
   </ImportGroup>
 '''
   outf.write(f1)
@@ -140,7 +140,7 @@ def linker_options(outf):
 def vcx_pre_build(name, plat, msvc_ver, outf):
 
   f1 = r'''    <PreBuildEvent>
-      <Command>cd ../../build.vc
+      <Command>cd ..\..\build.vc
 prebuild {0:s} {1:s} {2:s}
       </Command>
     </PreBuildEvent>
@@ -151,7 +151,7 @@ def vcx_post_build(is_cpp, msvc_ver, outf):
 
   f1 = r'''
     <PostBuildEvent>
-      <Command>cd ../../build.vc
+      <Command>cd ..\..\build.vc
 postbuild "$(TargetPath)" {0:s}
       </Command>
     </PostBuildEvent>
@@ -234,12 +234,12 @@ def gen_vcxproj(proj_name, file_name, build_dir, mpir_dir, guid, config, plat, p
   f3 = r'''  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
 '''
   f4 = r'''  <ImportGroup Label="ExtensionTargets">
-    <Import Project="../../build.vc/vsyasm.targets" />
+    <Import Project="..\..\build.vc/vsyasm.targets" />
     </ImportGroup>
 '''
 
   f5 = r'''<ItemGroup>
-    <None Include="../../gmp-h.in" />
+    <None Include="..\..\gmp-h.in" />
     </ItemGroup>
 </Project>
 '''
