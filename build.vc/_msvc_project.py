@@ -178,6 +178,14 @@ def vcx_tool_options(config, plat, proj_type, is_cpp, af_list, add_prebuild, msv
       vcx_post_build(is_cpp, msvc_ver, outf)
       outf.write(f2)
 
+def vcx_external_props(outf):
+
+  f1 = r'''  <ImportGroup>
+    <Import Condition="exists('$(MPIR_Props_External)')" Project="$(MPIR_Props_External)" />
+  </ImportGroup>
+'''
+  outf.write(f1)
+
 def vcx_hdr_items(hdr_list, relp, outf):
 
   f1 = r'''  <ItemGroup>
@@ -259,6 +267,7 @@ def gen_vcxproj(proj_name, file_name, build_dir, mpir_dir, guid, config, plat, p
     outf.write(f2)
     vcx_target_name_and_dirs(proj_name, plat, proj_type, outf)
     vcx_tool_options(config, plat, proj_type, is_cpp, af_list, add_prebuild, vs_info['msvc'], outf)
+    vcx_external_props(outf)
     if hf_list:
       vcx_hdr_items(hf_list, relp, outf)
     vcx_c_items(cf_list, plat, relp, outf)
