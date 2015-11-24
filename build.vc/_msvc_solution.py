@@ -1,6 +1,6 @@
 ﻿# add a project file to the solution
 
-from collections import defaultdict
+from collections import defaultdict, OrderedDict
 from os.path import join, exists
 from uuid import uuid4
 from re import compile
@@ -64,7 +64,7 @@ class msvc_solution(object):
     self.soln_dir = directory
 
     self.g2fldr = {}
-    self.g2proj = {}
+    self.g2proj = OrderedDict()
     self.gf2gpl = defaultdict(list)
     
     solution_path = join(self.soln_dir, self.soln_name)
@@ -102,11 +102,12 @@ class msvc_solution(object):
       for g in list(self.g2fldr.keys()):
         if g not in self.gf2gpl.keys():
           del self.g2fldr[g]
+
     assert len(self.g2fldr.keys()) == len(self.gf2gpl.keys()) - (1 if '' in self.gf2gpl.keys() else 0)
     assert sum(len(gpl) for gf, gpl in self.gf2gpl.items()) == len(self.g2proj.keys())
 
     with open(join(self.soln_dir, self.soln_name), 'w') as outf:
-      outf.write(sol_1.format(vs_info['solution'], vs_info['visual studio'], vs_info['msvc_long']))
+      outf.write(sol_1.format(vs_info['solution'], vs_info['msvc'], vs_info['msvc_long']))
       for g, f in self.g2fldr.items():
         outf.write(sol_2.format(folder_guid, f, f, g))
       for g, (gg, f, n) in self.g2proj.items():
@@ -155,11 +156,7 @@ class msvc_solution(object):
 
     for g in list(self.g2proj.keys()):
       if self.g2proj[g] == (vcxproj_guid, proj_name, file_name):
-        del self.g2proj[g]
-        for _, gpl in self.gf2gpl.items():
-          if g in gpl:
-            del gpl[gpl.index(g)]
         break
-
-    self.g2proj[p_guid.upper()] = (vcxproj_guid, proj_name, file_name)
-    self.gf2gpl[f_guid if soln_folder else ''].append(p_guid.upper())
+    else:
+      self.g2proj[p_guid.upper()] = (vcxproj_guid, proj_name, file_name)
+      self.gf2gpl[f_guid if soln_folder else ''].append(p_guid.upper())

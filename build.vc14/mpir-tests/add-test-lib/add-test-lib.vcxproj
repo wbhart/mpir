@@ -79,7 +79,8 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <PreBuildEvent>
       <Command>cd ..\..\..\build.vc 
-check_config $(Platform) $(Configuration) 14</Command>
+check_config $(Platform) $(Configuration) 14
+      </Command>
     </PreBuildEvent>
     <ClCompile>
       <Optimization>Disabled</Optimization>
@@ -97,7 +98,8 @@ check_config $(Platform) $(Configuration) 14</Command>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <PreBuildEvent>
       <Command>cd ..\..\..\build.vc 
-check_config $(Platform) $(Configuration) 14</Command>
+check_config $(Platform) $(Configuration) 14
+      </Command>
     </PreBuildEvent>
     <Midl>
       <TargetEnvironment>X64</TargetEnvironment>
@@ -117,7 +119,8 @@ check_config $(Platform) $(Configuration) 14</Command>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <PreBuildEvent>
       <Command>cd ..\..\..\build.vc 
-check_config $(Platform) $(Configuration) 14</Command>
+check_config $(Platform) $(Configuration) 14
+      </Command>
     </PreBuildEvent>
     <ClCompile>
       <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -132,7 +135,8 @@ check_config $(Platform) $(Configuration) 14</Command>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <PreBuildEvent>
       <Command>cd ..\..\..\build.vc 
-check_config $(Platform) $(Configuration) 14</Command>
+check_config $(Platform) $(Configuration) 14
+      </Command>
     </PreBuildEvent>
     <Midl>
       <TargetEnvironment>X64</TargetEnvironment>

@@ -40,7 +40,7 @@ debug = False
 # either add a prebuild step to the project files or do it here
 add_prebuild = True
 # output a build project for the C++ static library
-add_cpp_lib = False
+add_cpp_lib = True
 
 # The path to the mpir root directory
 cf_dir = './'
@@ -349,6 +349,7 @@ if len(n_list) > 1:
 
 # now generate the requested builds
 solc = msvc_solution(solution_name, solution_dir)
+hf_list = ('config.h', 'gmp-impl.h', 'longlong.h', 'mpir.h', 'gmp-mparam.h')
 for n in n_list:
 
   if 0 < n <= nd_gc:
@@ -470,7 +471,6 @@ for n in n_list:
   # generate the vcxproj and the IDE filter files
   # and add/replace project in the solution file
 
-  hf_list = ('config.h', 'gmp-impl.h', 'longlong.h', 'mpir.h', 'gmp-mparam.h')
   af_list = sorted(mpn_f[2] + mpn_f[3])
 
   # find the gmp-mparam.h file to be used
@@ -517,7 +517,7 @@ if add_cpp_lib:
   th = hf_list +  ('mpirxx.h',)
   guid = solc.get_project_guid(vcx_name, vcx_path)
   gen_filter(vcx_path + '.filters', build_dir, mpir_dir, th, cc_src_list, '', 12.0)
-  gen_vcxproj(proj_name, vcx_path, build_dir, mpir_dir, guid, config, mode, Project_Type.LIB, 
+  gen_vcxproj(proj_name, vcx_path, build_dir, mpir_dir, guid, '', mode, Project_Type.LIB, 
               True, th, cc_src_list, '', add_prebuild, vs_info)
   solc.add_project('', vcx_name, vcx_path, guid)
 

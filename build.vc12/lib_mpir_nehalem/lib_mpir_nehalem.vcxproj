@@ -2,34 +2,34 @@
 <Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Release|x64">
-    <Configuration>Release</Configuration>
-    <Platform>x64</Platform>
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
     </ProjectConfiguration>
     <ProjectConfiguration Include="Debug|x64">
-    <Configuration>Debug</Configuration>
-    <Platform>x64</Platform>
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <RootNamespace>mpir</RootNamespace>
     <Keyword>Win32Proj</Keyword>
     <ProjectGuid>{304D8FD4-3C9F-46B6-939B-05C8B22CC339}</ProjectGuid>
-    </PropertyGroup>
+  </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v120</PlatformToolset>
-    </PropertyGroup>
+  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v120</PlatformToolset>
-    </PropertyGroup>
+  </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
-    <Import Project="../../build.vc/vsyasm.props" />
-    </ImportGroup>
+    <Import Project="..\..\build.vc\vsyasm.props" />
+  </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" />
     <Import Project="..\..\build.vc\mpir_release_lib.props" />
@@ -46,50 +46,53 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <PreBuildEvent>
-    <Command>cd ../../build.vc
-prebuild nehalem x64 14
-    </Command>
+      <Command>cd ..\..\build.vc
+prebuild nehalem x64 12
+      </Command>
     </PreBuildEvent>
     <YASM>
-    <Defines></Defines>
-    <IncludePaths>..\..\mpn\x86_64w\</IncludePaths>
-    <Debug>true</Debug>
-    <ObjectFileName>$(IntDir)mpn\</ObjectFileName>
-    <ObjectFile>$(IntDir)mpn\</ObjectFile>
+      <Defines></Defines>
+      <IncludePaths>..\..\mpn\x86_64w\</IncludePaths>
+      <Debug>true</Debug>
+      <ObjectFile>$(IntDir)mpn\</ObjectFile>
     </YASM>
     <ClCompile>
-    <PreprocessorDefinitions>NDEBUG;WIN32;_LIB;HAVE_CONFIG_H;_WIN64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>NDEBUG;WIN32;_LIB;HAVE_CONFIG_H;_WIN64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
 
     <PostBuildEvent>
-    <Command>cd ../../build.vc
-postbuild "$(TargetPath)" 14
-    </Command>
+      <Command>cd ..\..\build.vc
+postbuild "$(TargetPath)" 12
+      </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <PreBuildEvent>
-    <Command>cd ../../build.vc
-prebuild nehalem x64 14
-    </Command>
+      <Command>cd ..\..\build.vc
+prebuild nehalem x64 12
+      </Command>
     </PreBuildEvent>
     <YASM>
-    <Defines></Defines>
-    <IncludePaths>..\..\mpn\x86_64w\</IncludePaths>
-    <Debug>true</Debug>
-    <ObjectFileName>$(IntDir)mpn\</ObjectFileName>
-    <ObjectFile>$(IntDir)mpn\</ObjectFile>
+      <Defines></Defines>
+      <IncludePaths>..\..\mpn\x86_64w\</IncludePaths>
+      <Debug>true</Debug>
+      <ObjectFile>$(IntDir)mpn\</ObjectFile>
     </YASM>
     <ClCompile>
-    <PreprocessorDefinitions> DEBUG;WIN32;_LIB;HAVE_CONFIG_H;_WIN64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_DEBUG;WIN32;_LIB;HAVE_CONFIG_H;_WIN64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
 
     <PostBuildEvent>
-    <Command>cd ../../build.vc
-postbuild "$(TargetPath)" 14
-    </Command>
+      <Command>cd ..\..\build.vc
+postbuild "$(TargetPath)" 12
+      </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
+  <ImportGroup>
+    <Import Condition="exists('$(MPIR_Props_External)')" Project="$(MPIR_Props_External)" />
+  </ImportGroup>
   <ItemGroup>
     <ClInclude Include="..\..\config.h" />
     <ClInclude Include="..\..\gmp-impl.h" />
@@ -620,9 +623,9 @@ postbuild "$(TargetPath)" 14
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
-    <Import Project="../../build.vc/vsyasm.targets" />
+    <Import Project="..\..\build.vc/vsyasm.targets" />
     </ImportGroup>
 <ItemGroup>
-    <None Include="../../gmp-h.in" />
+    <None Include="..\..\gmp-h.in" />
     </ItemGroup>
 </Project>
