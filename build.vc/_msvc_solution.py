@@ -1,7 +1,7 @@
 ﻿# add a project file to the solution
 
 from collections import defaultdict, OrderedDict
-from os.path import join, exists
+from os.path import join, exists, relpath, split
 from uuid import uuid4
 from re import compile
 
@@ -62,17 +62,15 @@ re_fmap = compile(r'\s*' + s_guid + r'\s*=\s*' + s_guid)
 
 class msvc_solution(object):
 
-  def __init__(self, name, directory):
-    self.soln_name = name
-    self.soln_dir = directory
+  def __init__(self, path):
+    self.soln_path, self.soln_file = split(path)
 
     self.g2fldr = {}
     self.g2proj = OrderedDict()
     self.gf2gpl = defaultdict(list)
     
-    solution_path = join(self.soln_dir, self.soln_name)
-    if exists(solution_path):
-      lines = open(solution_path).readlines()
+    if exists(path):
+      lines = open(path).readlines()
       for i, ln in enumerate(lines):
         m = re_proj.search(ln)
         if m:
@@ -113,10 +111,12 @@ class msvc_solution(object):
     if int(vs_info['msvc']) > 12:
       vs_str += sol_12.format(vs_info['msvc_long'])
       
-    with open(join(self.soln_dir, self.soln_name), 'w') as outf:
+    with open(join(self.soln_path, self.soln_file), 'w') as outf:
       outf.write(vs_str)
+
       for g, f in self.g2fldr.items():
         outf.write(sol_2.format(folder_guid, f, f, g))
+      
       for g, (gg, f, n) in self.g2proj.items():
         outf.write(sol_2.format(gg, f, n, g))
       
@@ -141,17 +141,19 @@ class msvc_solution(object):
       outf.write(sol_9)
       outf.write(sol_10)
 
-  def get_project_guid(self, proj_name, file_name):
+  def get_project_guid(self, proj_name, file_path):
+    relp = relpath(file_path, self.soln_path)
     p_guid = None
     for g in list(self.g2proj.keys()):
-      if self.g2proj[g] == (vcxproj_guid, proj_name, file_name):
+      if self.g2proj[g] == (vcxproj_guid, proj_name, relp):
         p_guid = g
         break
     if not p_guid:
         p_guid = '{' + str(uuid4()).upper() + '}'
     return p_guid
 
-  def add_project(self, soln_folder, proj_name, file_name, p_guid):
+  def add_project(self, soln_folder, proj_name, file_path, p_guid):
+    relp = relpath(file_path, self.soln_path)
     if soln_folder:
       for g, f in self.g2fldr.items():
         if f == soln_folder:
@@ -162,8 +164,8 @@ class msvc_solution(object):
         self.g2fldr[f_guid] = soln_folder
 
     for g in list(self.g2proj.keys()):
-      if self.g2proj[g] == (vcxproj_guid, proj_name, file_name):
+      if self.g2proj[g] == (vcxproj_guid, proj_name, relp):
         break
     else:
-      self.g2proj[p_guid.upper()] = (vcxproj_guid, proj_name, file_name)
+      self.g2proj[p_guid.upper()] = (vcxproj_guid, proj_name, relp)
       self.gf2gpl[f_guid if soln_folder else ''].append(p_guid.upper())
