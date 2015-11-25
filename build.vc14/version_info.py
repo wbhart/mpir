@@ -6,7 +6,7 @@
 #   microsoft compiler version (long)
 #   vcx project tools version
 vs_info = { 'solution':'12',
-            'visual studio':'2015',
+            'visual studio':'14',
             'msvc':'14',
             'msvc_long':'14.0.22823.1',
             'vcx_tool':'14.0'

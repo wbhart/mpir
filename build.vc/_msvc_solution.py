@@ -9,9 +9,12 @@ folder_guid = "{2150E333-8FDC-42A3-9474-1A3956D46DE8}"
 vcxproj_guid = "{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}"
 pyproj_guid =  "{888888A0-9F3D-457C-B088-3A5042F75D52}"
 
-sol_1 = '''Microsoft Visual Studio Solution File, Format Version {0}.00
+sol_11 = '''
+Microsoft Visual Studio Solution File, Format Version {0}.00
 # Visual Studio {1}
-VisualStudioVersion = {2}
+'''
+
+sol_12 = '''VisualStudioVersion = {0}
 MinimumVisualStudioVersion = 10.0.40219.1
 '''
 
@@ -106,8 +109,12 @@ class msvc_solution(object):
     assert len(self.g2fldr.keys()) == len(self.gf2gpl.keys()) - (1 if '' in self.gf2gpl.keys() else 0)
     assert sum(len(gpl) for gf, gpl in self.gf2gpl.items()) == len(self.g2proj.keys())
 
+    vs_str = sol_11.format(vs_info['solution'], vs_info['visual studio'])
+    if int(vs_info['msvc']) > 12:
+      vs_str += sol_12.format(vs_info['msvc_long'])
+      
     with open(join(self.soln_dir, self.soln_name), 'w') as outf:
-      outf.write(sol_1.format(vs_info['solution'], vs_info['msvc'], vs_info['msvc_long']))
+      outf.write(vs_str)
       for g, f in self.g2fldr.items():
         outf.write(sol_2.format(folder_guid, f, f, g))
       for g, (gg, f, n) in self.g2proj.items():
