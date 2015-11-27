@@ -78,7 +78,7 @@ def filter_asrc(af_list, relp, outf):
     outf.write(f2.format(relp, i[0] + i[1], i[2], i[2]))
   outf.write(f3)
 
-def gen_filter(path, mpir_dir, hf_list, cf_list, af_list, tools_ver):
+def gen_filter(path, root_dir, hf_list, cf_list, af_list, tools_ver):
 
   f1 = r'''<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="{0}" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
@@ -90,7 +90,7 @@ def gen_filter(path, mpir_dir, hf_list, cf_list, af_list, tools_ver):
 </Project>
 '''
 
-  relp = split(relpath(mpir_dir, path))[0] + '\\'
+  relp = split(relpath(root_dir, path))[0] + '\\'
   try:
     makedirs(split(path)[0])
   except IOError as e:

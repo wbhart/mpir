@@ -134,7 +134,6 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <PreBuildEvent />
     <ClCompile>
-      <Optimization>MaxSpeed</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;HAVE_GETRUSAGE;HAVE_GETTIMEOFDAY;TUNE_PROGRAM_BUILD;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
@@ -163,7 +162,6 @@
       <TargetEnvironment>X64</TargetEnvironment>
     </Midl>
     <ClCompile>
-      <Optimization>Disabled</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;HAVE_GETRUSAGE;HAVE_GETTIMEOFDAY;TUNE_PROGRAM_BUILD;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
@@ -659,8 +657,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\build.vc\getopt.h" />
+    <ClInclude Include="..\..\..\build.vc\unistd.h" />
     <ClInclude Include="..\..\..\build.vc\win_timing.h" />
     <ClInclude Include="..\..\..\tune\speed.h" />
+    <ClInclude Include="..\..\lib_mpir_sandybridge_ivybridge\x64\Debug\gmp-impl.h" />
+    <ClInclude Include="..\..\lib_mpir_sandybridge_ivybridge\x64\Debug\gmp-mparam.h" />
+    <ClInclude Include="..\..\lib_mpir_sandybridge_ivybridge\x64\Debug\longlong.h" />
     <ClInclude Include="..\..\lib_mpir_sandybridge_ivybridge\x64\Release\config.h" />
     <ClInclude Include="..\..\lib_mpir_sandybridge_ivybridge\x64\Release\gmp-impl.h" />
     <ClInclude Include="..\..\lib_mpir_sandybridge_ivybridge\x64\Release\gmp-mparam.h" />

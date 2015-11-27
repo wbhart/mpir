@@ -9,12 +9,12 @@ folder_guid = "{2150E333-8FDC-42A3-9474-1A3956D46DE8}"
 vcxproj_guid = "{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}"
 pyproj_guid =  "{888888A0-9F3D-457C-B088-3A5042F75D52}"
 
-sol_11 = '''
+sol_11 = r'''
 Microsoft Visual Studio Solution File, Format Version {0}.00
 # Visual Studio {1}
 '''
 
-sol_12 = '''VisualStudioVersion = {0}
+sol_12 = r'''VisualStudioVersion = {0}
 MinimumVisualStudioVersion = 10.0.40219.1
 '''
 
@@ -22,32 +22,32 @@ sol_2 = '''Project("{}") = "{}", "{}", "{}"
 EndProject
 '''
 
-sol_3 = '''Global
+sol_3 = r'''Global
 '''
 
-sol_4 = '''    GlobalSection(SolutionConfigurationPlatforms) = preSolution
-        Debug|Win32 = Debug|Win32
-        Debug|x64 = Debug|x64
-        Release|Win32 = Release|Win32
-        Release|x64 = Release|x64
-    EndGlobalSection
+sol_4 = r'''	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Debug|x64 = Debug|x64
+		Release|Win32 = Release|Win32
+		Release|x64 = Release|x64
+	EndGlobalSection
 '''
 
-sol_5 = r'''    GlobalSection(ProjectConfigurationPlatforms) = postSolution
+sol_5 = r'''	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 '''
 
-sol_6 = '''    GlobalSection(NestedProjects) = preSolution
+sol_6 = r'''	GlobalSection(NestedProjects) = preSolution
 '''
 
-sol_7 = '''     {} = {}
+sol_7 = '''		{} = {}
 '''
 
-sol_8 = r'''    EndGlobalSection
+sol_8 = r'''	EndGlobalSection
 '''
 
-sol_9 = r'''    GlobalSection(SolutionProperties) = preSolution
-        HideSolutionNode = FALSE
-    EndGlobalSection
+sol_9 = r'''	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
 '''
 
 sol_10 = r'''EndGlobal
@@ -68,7 +68,7 @@ class msvc_solution(object):
     self.g2fldr = {}
     self.g2proj = OrderedDict()
     self.gf2gpl = defaultdict(list)
-    
+
     if exists(path):
       lines = open(path).readlines()
       for i, ln in enumerate(lines):
@@ -110,16 +110,16 @@ class msvc_solution(object):
     vs_str = sol_11.format(vs_info['solution'], vs_info['visual studio'])
     if int(vs_info['msvc']) > 12:
       vs_str += sol_12.format(vs_info['msvc_long'])
-      
+
     with open(join(self.soln_path, self.soln_file), 'w') as outf:
       outf.write(vs_str)
 
       for g, f in self.g2fldr.items():
         outf.write(sol_2.format(folder_guid, f, f, g))
-      
+
       for g, (gg, f, n) in self.g2proj.items():
         outf.write(sol_2.format(gg, f, n, g))
-      
+
       outf.write(sol_3)
       outf.write(sol_4)
 

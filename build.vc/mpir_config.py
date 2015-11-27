@@ -44,9 +44,9 @@ add_cpp_lib = True
 
 # The path to the mpir root directory
 cf_dir = './'
-mpir_dir = '../'
-build_dir = join(mpir_dir, build_dir_name)
-solution_dir = join(mpir_dir, build_dir_name)
+mpir_root_dir = '../'
+build_dir = join(mpir_root_dir, build_dir_name)
+solution_dir = join(mpir_root_dir, build_dir_name)
 cfg_dir = join(solution_dir, 'cdata')
 
 # paths that might include source files(*.c, *.h, *.asm)
@@ -128,7 +128,7 @@ def find_asm(path, cf_list):
     if 'fat' in dirs:                   # ignore fat directory
       dirs.remove('fat')
     relp = relpath(root, path)          # path from asm root
-    relr = relpath(root, mpir_dir)      # path from MPIR root
+    relr = relpath(root, mpir_root_dir)      # path from MPIR root
     if relp == '.':                     # set C files as default
       relp = h = t = ''
       d[''] = [[], deepcopy(cf_list), [], [], relr]
@@ -181,7 +181,7 @@ def find_src(dir_list):
   di = {'.h': 0, '.c': 1, '.cc': 2, '.cpp': 2, '.asm': 3, '.as': 3}
   list = [[], [], [], []]
   for d in dir_list:
-    for f in listdir(join(mpir_dir, d)):
+    for f in listdir(join(mpir_root_dir, d)):
       if f == '.svn':
         continue                        # ignore SVN directories
       if not isdir(f):
@@ -202,7 +202,7 @@ g2_sym = compile(r'global\s+__g(\w+)')
 
 def get_symbols(setf, sym_dir):
   for f in setf:
-    fn = join(mpir_dir, f[2], f[0] + f[1])
+    fn = join(mpir_root_dir, f[2], f[0] + f[1])
     with open(fn, 'r') as inf:
       lines = inf.readlines()
       for l in lines:
@@ -306,12 +306,12 @@ if t[2] or t[3]:
 mpn_gc = dict((('gc', [gc_hdr_list, gc_src_list, [], []]),))
 
 # prepare the list of Win32 builds
-mpn_32 = find_asm(mpir_dir + 'mpn/x86w', gc_src_list)
+mpn_32 = find_asm(mpir_root_dir + 'mpn/x86w', gc_src_list)
 syms32 = file_symbols(mpn_32)
 del mpn_32['']
 
 # prepare the list of x64 builds
-mpn_64 = find_asm(mpir_dir + 'mpn/x86_64w', gc_src_list)
+mpn_64 = find_asm(mpir_root_dir + 'mpn/x86_64w', gc_src_list)
 syms64 = file_symbols(mpn_64)
 del mpn_64['']
 
@@ -398,12 +398,12 @@ for n in n_list:
     '''
 
     try:
-      lines = open(join(mpir_dir, 'gmp-h.in'), 'r').readlines()
+      lines = open(join(mpir_root_dir, 'gmp-h.in'), 'r').readlines()
     except IOError:
       print('error attempting to read from gmp_h.in')
       sys.exit()
     try:
-      tfile = join(mpir_dir, 'tmp.h')
+      tfile = join(mpir_root_dir, 'tmp.h')
       with open(tfile, 'w') as outf:
         first = True
         for line in lines:
@@ -417,8 +417,8 @@ for n in n_list:
       # write result to mpir.h but only overwrite the existing
       # version if this version is different (don't trigger an
       # unnecessary rebuild)
-      write_f(tfile, join(mpir_dir, 'mpir.h'))
-      write_f(tfile, join(mpir_dir, 'gmp.h'))
+      write_f(tfile, join(mpir_root_dir, 'mpir.h'))
+      write_f(tfile, join(mpir_root_dir, 'gmp.h'))
       unlink(tfile)
     except IOError:
       print('error attempting to create mpir.h from gmp-h.in')
@@ -427,7 +427,7 @@ for n in n_list:
     # generate config.h
 
     try:
-      tfile = join(mpir_dir, 'tmp.h')
+      tfile = join(mpir_root_dir, 'tmp.h')
 
       if 5 < len(mpn_f) < 8:
         if len(mpn_f) == 6:
@@ -439,7 +439,7 @@ for n in n_list:
             outf.writelines(['#define HAVE_NATIVE_{0:s} 1\n'.format(i)])
 
       append_f(join(cf_dir, 'cfg.h'), tfile)
-      write_f(tfile, join(mpir_dir, 'config.h'))
+      write_f(tfile, join(mpir_root_dir, 'config.h'))
       unlink(tfile)
     except IOError:
       print('error attempting to write to {0:s}'.format(tfile))
@@ -451,20 +451,20 @@ for n in n_list:
       li_file = None
       for i in mpn_f[0]:
         if i[0] == 'longlong_inc':
-          li_file = join(mpir_dir, join(i[2], r'longlong_inc.h'))
+          li_file = join(mpir_root_dir, join(i[2], r'longlong_inc.h'))
         if i[0] == 'gmp-mparam':
-          write_f(join(mpir_dir, join(i[2], 'gmp-mparam.h')),
-                  join(mpir_dir, 'gmp-mparam.h'))
+          write_f(join(mpir_root_dir, join(i[2], 'gmp-mparam.h')),
+                  join(mpir_root_dir, 'gmp-mparam.h'))
 
       if not li_file or not exists(li_file):
         print('error attempting to read {0:s}'.format(li_file))
         sys.exit()
 
-      tfile = join(mpir_dir, 'tmp.h')
-      write_f(join(mpir_dir, 'longlong_pre.h'), tfile)
+      tfile = join(mpir_root_dir, 'tmp.h')
+      write_f(join(mpir_root_dir, 'longlong_pre.h'), tfile)
       append_f(li_file, tfile)
-      append_f(join(mpir_dir, 'longlong_post.h'), tfile)
-      write_f(tfile, join(mpir_dir, 'longlong.h'))
+      append_f(join(mpir_root_dir, 'longlong_post.h'), tfile)
+      write_f(tfile, join(mpir_root_dir, 'longlong.h'))
       unlink(tfile)
     except IOError:
       print('error attempting to generate longlong.h')
@@ -487,12 +487,12 @@ for n in n_list:
   else:
     mp_dir = config
 
-  proj_name = 'mpir'
   cf = config.replace('\\', '_')
 
   # set up DLL build
+  proj_name = 'mpir'
   vcx_name = 'dll_mpir_' + cf
-  vcx_path = abspath(join(build_dir, vcx_name + '\\' + vcx_name + '.vcxproj'))
+  vcx_path = abspath(join(build_dir, vcx_name, vcx_name + '.vcxproj'))
   guid = solc.get_project_guid(vcx_name, vcx_path)
   gen_filter(vcx_path + '.filters', mpir_root_dir, hf_list, c_src_list + cc_src_list + mpn_f[1], af_list, 12.0)
   gen_vcxproj(vcx_path, mpir_root_dir, proj_name, guid, mp_dir, mode, Project_Type.DLL,
@@ -500,8 +500,9 @@ for n in n_list:
   solc.add_project('', vcx_name, vcx_path, guid)
 
   # set up LIB build
+  proj_name = 'mpir'
   vcx_name = 'lib_mpir_' + cf
-  vcx_path = abspath(join(build_dir, vcx_name + '\\' + vcx_name + '.vcxproj'))
+  vcx_path = abspath(join(build_dir, vcx_name, vcx_name + '.vcxproj'))
   guid = solc.get_project_guid(vcx_name, vcx_path)
   gen_filter(vcx_path + '.filters', mpir_root_dir, hf_list, c_src_list + mpn_f[1], af_list, 12.0)
   gen_vcxproj(vcx_path, mpir_root_dir, proj_name, guid, mp_dir, mode, Project_Type.LIB,
@@ -514,11 +515,11 @@ if add_cpp_lib:
   proj_name = 'mpirxx'
   mode = ('Win32', 'x64')
   vcx_name = 'lib_mpir_cxx'
-  vcx_path = abspath(join(build_dir, vcx_name + '\\' + vcx_name + '.vcxproj'))
+  vcx_path = abspath(join(build_dir, vcx_name, vcx_name + '.vcxproj'))
   th = hf_list +  ('mpirxx.h',)
   guid = solc.get_project_guid(vcx_name, vcx_path)
-  gen_filter(vcx_path + '.filters', build_dir, mpir_dir, th, cc_src_list, '', 12.0)
-  gen_vcxproj(proj_name, vcx_path, build_dir, mpir_dir, guid, '', mode, Project_Type.LIB, 
+  gen_filter(vcx_path + '.filters', mpir_root_dir, th, cc_src_list, '', 12.0)
+  gen_vcxproj(vcx_path, mpir_root_dir, proj_name, guid, '', mode, Project_Type.LIB, 
               True, th, cc_src_list, '', add_prebuild, vs_info)
   solc.add_project('', vcx_name, vcx_path, guid)
 
@@ -578,32 +579,32 @@ if debug:
             l += [(tuple(relp.split('\\')), f)]
     return sorted(l)
 
-  hdr_list = findf(mpir_dir, c_directories, '.h')
+  hdr_list = findf(mpir_root_dir, c_directories, '.h')
   for x in hdr_list:
     print(x)
   print()
 
-  src_list = findf(mpir_dir, c_directories, '.c')
+  src_list = findf(mpir_root_dir, c_directories, '.c')
   for x in src_list:
     print(x)
   print()
 
-  cpp_list = findf(mpir_dir, ['cpp'], '.cc')
+  cpp_list = findf(mpir_root_dir, ['cpp'], '.cc')
   for x in cpp_list:
     print(x)
   print()
 
-  gnc_list = findf(mpir_dir + 'mpn/', ['generic'], '.c')
+  gnc_list = findf(mpir_root_dir + 'mpn/', ['generic'], '.c')
   for x in gnc_list:
     print(x)
   print()
 
-  w32_list = findf(mpir_dir + 'mpn/', ['x86w'], '.asm')
+  w32_list = findf(mpir_root_dir + 'mpn/', ['x86w'], '.asm')
   for x in w32_list:
     print(x)
   print()
 
-  x64_list = findf(mpir_dir + 'mpn/', ['x86_64w'], '.asm')
+  x64_list = findf(mpir_root_dir + 'mpn/', ['x86_64w'], '.asm')
   for x in x64_list:
     print(x)
   print()

@@ -231,7 +231,7 @@ def vcx_a_items(af_list, relp, outf):
     outf.write(f2.format(relp, nxd))
   outf.write(f3)
 
-def gen_vcxproj(path, mpir_root_dir, proj_name, guid, config, plat, proj_type,
+def gen_vcxproj(path, root_dir, proj_name, guid, config, plat, proj_type,
                 is_cpp, hf_list, cf_list, af_list, add_prebuild, vs_info):
 
   f1 = r'''<?xml version="1.0" encoding="utf-8"?>
@@ -252,9 +252,8 @@ def gen_vcxproj(path, mpir_root_dir, proj_name, guid, config, plat, proj_type,
 </Project>
 '''
 
-  fn = normpath(join(path))
-  relp = split(relpath(mpir_root_dir, fn))[0] + '\\'
-  with open(fn, 'w') as outf:
+  relp = split(relpath(root_dir, path))[0] + '\\'
+  with open(path, 'w') as outf:
     outf.write(f1.format(vs_info['vcx_tool']))
     vcx_proj_cfg(plat, outf)
     vcx_globals(proj_name, guid, outf)

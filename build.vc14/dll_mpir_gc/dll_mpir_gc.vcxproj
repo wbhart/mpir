@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Release|Win32">
@@ -81,6 +81,7 @@ prebuild gc Win32 14
     </ClCompile>
     <Link>
     </Link>
+
     <PostBuildEvent>
       <Command>cd ..\..\build.vc
 postbuild "$(TargetPath)" 14
@@ -99,6 +100,7 @@ prebuild gc Win32 14
     </ClCompile>
     <Link>
     </Link>
+
     <PostBuildEvent>
       <Command>cd ..\..\build.vc
 postbuild "$(TargetPath)" 14
@@ -117,6 +119,7 @@ prebuild gc x64 14
     </ClCompile>
     <Link>
     </Link>
+
     <PostBuildEvent>
       <Command>cd ..\..\build.vc
 postbuild "$(TargetPath)" 14
@@ -135,6 +138,7 @@ prebuild gc x64 14
     </ClCompile>
     <Link>
     </Link>
+
     <PostBuildEvent>
       <Command>cd ..\..\build.vc
 postbuild "$(TargetPath)" 14
@@ -673,7 +677,7 @@ postbuild "$(TargetPath)" 14
   <ItemGroup>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
-  <ItemGroup>
+<ItemGroup>
     <None Include="..\..\gmp-h.in" />
-  </ItemGroup>
+    </ItemGroup>
 </Project>
