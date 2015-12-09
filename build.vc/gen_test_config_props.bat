@@ -29,7 +29,9 @@ echo   ^<PropertyGroup Label="UserMacros"^> >>tmp.props
 echo     ^<MPDIR^>%prefix%%ldir%%plat%\%conf%\^</MPDIR^> >>tmp.props
 if /i "%libr%" EQU "LIB" (
 echo     ^<MPLIBS^>%prefix%%ldir%%plat%\%conf%\mpir.lib;%prefix%lib_mpir_cxx\%plat%\%conf%\mpirxx.lib^</MPLIBS^> >>tmp.props
-    )
+    ) else (
+echo     ^<MPLIBS^>%prefix%%ldir%%plat%\%conf%\mpir.lib^</MPLIBS^> >>tmp.props
+)
 echo   ^</PropertyGroup^> >>tmp.props
 echo   ^<ItemDefinitionGroup^> >>tmp.props
 echo     ^<ClCompile^> >>tmp.props

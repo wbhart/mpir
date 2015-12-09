@@ -17,7 +17,7 @@ cw, f = os.path.split(__file__)
 os.chdir(cw)
 
 try:
-  f = open(r'..\..\build.vc\output_params.bat')
+  f = open(r'output_params.bat')
   par = f.readlines()
   f.close()
   m1 = re.match(r'\(set ldir\=(.*)\)', par[0])
