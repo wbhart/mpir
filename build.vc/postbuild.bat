@@ -34,6 +34,7 @@ call :seterr & echo "postbuild copy error ERROR: target=%tloc%, plat=%plat%, con
 rem set the target and final binary output directories
 set tgt_dir="..\build.vc%msvc_ver%\%loc%%plat%\%conf%\"
 set bin_dir="..\%extn%\%plat%\%conf%\"
+set hdr_dir="..\%extn%\"
 
 rem output parametrers for the MPIR tests
 if /i "%filename%" EQU "mpirxx" goto skip 
@@ -46,7 +47,7 @@ echo (set conf=%conf%) >> output_params.bat
 echo copying outputs from %tgt_dir% to %bin_dir%
 if not exist %bin_dir% md %bin_dir%
 call :copyh %tgt_dir%
-call :copyh %bin_dir%
+call :copyh %hdr_dir%
 call :copyb %tgt_dir% %bin_dir% %conf% %extn% %filename%
 exit /b 0
 
