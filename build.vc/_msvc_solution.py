@@ -128,15 +128,16 @@ class msvc_solution(object):
         for conf in ('Release', 'Debug'):
           for plat in ('Win32', 'x64'):
             t = 'AnyCPU' if gg == pyproj_guid else plat
-            outf.write('        {0:s}.{1:s}|{2:s}.ActiveCfg = {1:s}|{3:s}\n'.format(g, conf, plat, t))
+            outf.write('		{0:s}.{1:s}|{2:s}.ActiveCfg = {1:s}|{3:s}\n'.format(g, conf, plat, t))
       outf.write(sol_8)
 
-      outf.write(sol_6)
-      for gf, gpl in self.gf2gpl.items():
-        if gf != '':
+      del self.gf2gpl['']
+      if len(self.gf2gpl.keys()): 
+        outf.write(sol_6)
+        for gf, gpl in self.gf2gpl.items():
           for gp in gpl:
             outf.write(sol_7.format(gp, gf))
-      outf.write(sol_8)
+        outf.write(sol_8)
 
       outf.write(sol_9)
       outf.write(sol_10)

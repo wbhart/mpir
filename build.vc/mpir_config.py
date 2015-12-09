@@ -10,30 +10,31 @@ from os import listdir, walk, unlink, makedirs, sep
 from os.path import split, splitext, isdir, relpath, join, exists
 from os.path import join, abspath, dirname, normpath
 from copy import deepcopy
+from sys import argv, exit, path
 from filecmp import cmp
 from shutil import copy
 from re import compile, search
 from collections import defaultdict
 from time import sleep
-import sys
-
-vs_version = 14
-if len(sys.argv) > 1:
-  vs_version = int(sys.argv[1])
-
-build_dir_name = 'build.vc{0:d}'.format(vs_version)
-sys.path.append(abspath(join(dirname(__file__), '../' + build_dir_name)))
-from version_info import vs_info
 
 from _msvc_filters import gen_filter
 from _msvc_project import Project_Type, gen_vcxproj
 from _msvc_solution import msvc_solution
 
-solution_name = 'mpir.sln'
 try:
   input = raw_input
 except NameError:
   pass
+
+vs_version = 14
+if len(argv) > 1:
+  vs_version = int(argv[1])
+
+solution_name = 'mpir.sln'
+script_dir = dirname(__file__)
+build_dir_name = 'build.vc{0:d}'.format(vs_version)
+path.append(abspath(join(script_dir, '../' + build_dir_name)))
+from version_info import vs_info
 
 # for script debugging
 debug = False
@@ -50,8 +51,7 @@ solution_dir = join(mpir_root_dir, build_dir_name)
 cfg_dir = join(solution_dir, 'cdata')
 
 # paths that might include source files(*.c, *.h, *.asm)
-c_directories = ('', 'build.vc', 'fft', 'mpf', 'mpq', 'mpz',
-                 'printf', 'scanf')
+c_directories = ('', 'build.vc', 'fft', 'mpf', 'mpq', 'mpz', 'printf', 'scanf')
 
 # files that are to be excluded from the build
 exclude_file_list = ('config.guess', 'cfg', 'getopt', 'getrusage',
@@ -336,7 +336,7 @@ while True:
   s = input(fs.format(cnt))
   n_list = [int(c) for c in s.split()]
   if 0 in n_list:
-    sys.exit()
+    exit()
   if any(n < 1 or n > nd_nd for n in n_list):
     print('list contains invalid build numbers')
     sleep(2)
@@ -370,7 +370,7 @@ for n in n_list:
     mpn_f = mpn_64[config]
   else:
     print('internal error')
-    sys.exit()
+    exit()
 
   if mode[0] == 'x64':
     for l in mpn_f[1:]:
@@ -401,7 +401,7 @@ for n in n_list:
       lines = open(join(mpir_root_dir, 'gmp-h.in'), 'r').readlines()
     except IOError:
       print('error attempting to read from gmp_h.in')
-      sys.exit()
+      exit()
     try:
       tfile = join(mpir_root_dir, 'tmp.h')
       with open(tfile, 'w') as outf:
@@ -422,7 +422,7 @@ for n in n_list:
       unlink(tfile)
     except IOError:
       print('error attempting to create mpir.h from gmp-h.in')
-      sys.exit()
+      exit()
 
     # generate config.h
 
@@ -443,7 +443,7 @@ for n in n_list:
       unlink(tfile)
     except IOError:
       print('error attempting to write to {0:s}'.format(tfile))
-      sys.exit()
+      exit()
 
     # generate longlong.h and copy gmp-mparam.h
 
@@ -458,7 +458,7 @@ for n in n_list:
 
       if not li_file or not exists(li_file):
         print('error attempting to read {0:s}'.format(li_file))
-        sys.exit()
+        exit()
 
       tfile = join(mpir_root_dir, 'tmp.h')
       write_f(join(mpir_root_dir, 'longlong_pre.h'), tfile)
@@ -468,7 +468,7 @@ for n in n_list:
       unlink(tfile)
     except IOError:
       print('error attempting to generate longlong.h')
-      sys.exit()
+      exit()
 
   # generate the vcxproj and the IDE filter files
   # and add/replace project in the solution file
@@ -519,7 +519,7 @@ if add_cpp_lib:
   th = hf_list +  ('mpirxx.h',)
   guid = solc.get_project_guid(vcx_name, vcx_path)
   gen_filter(vcx_path + '.filters', mpir_root_dir, th, cc_src_list, '', 12.0)
-  gen_vcxproj(vcx_path, mpir_root_dir, proj_name, guid, '', mode, Project_Type.LIB, 
+  gen_vcxproj(vcx_path, mpir_root_dir, proj_name, guid, '', mode, Project_Type.LIB,
               True, th, cc_src_list, '', add_prebuild, vs_info)
   solc.add_project('', vcx_name, vcx_path, guid)
 
