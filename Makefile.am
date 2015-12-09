@@ -64,19 +64,21 @@
 #	2.0.0	9:2:0	4:7:1
 #	2.1.0	10:0:1	4:8:1
 #	2.1.1	10:1:2	4:9:2
-#	2.1.2	10.2.2	4.10.2
-#	2.1.3	10.3.2	4.11.2
-#	2.1.4	10.4.2	4.12.2
-#	2.2.0	10.5.2	4.13.2
-#	2.2.1	10.6.3	4.14.3
-#	2.3.0	10.7.3	4.15.3
-#	2.3.1	10.8.3	4.16.3
-#	2.4.0   11.0.4  4.17.3
-#	2.5.0	11.1.4	4.18.3
-#	2.5.1	11.2.4	4.19.3
-#	2.5.2	11.3.4	4.20.3
-#	2.6.0   11.0.5  4.21.3               Clearly wrong!!
-#       2.7.0   16.0.6  8.0.4                Attempt to correct wrt all prev 
+#	2.1.2	10:2:2	4:10:2
+#	2.1.3	10:3:2	4:11:2
+#	2.1.4	10:4:2	4:12:2
+#	2.2.0	10:5:2	4:13:2
+#	2.2.1	10:6:3	4:14:3
+#	2.3.0	10:7:3	4:15:3
+#	2.3.1	10:8:3	4:16:3
+#	2.4.0   11:0:4  4:17:3
+#	2.5.0	11:1:4	4:18:3
+#	2.5.1	11:2:4	4:19:3
+#	2.5.2	11:3:4	4:20:3
+#	2.6.0   11:0:5  4:21:3               Clearly wrong!!
+#       2.7.0   16:0:6  8:0:4                Attempt to correct wrt all prev 
+#       2.7.1   22:1:6  12:1:4               Due to traiing space for 2.7.1
+#       2.7.2   22:2:6  12:2:4
 #
 # Starting at 3:0:0 is a slight abuse of the versioning system, but it
 # ensures we're past soname libgmp.so.2, which was used on Debian GNU/Linux
@@ -89,12 +91,12 @@
 # it's still good to get the shared library filename (like
 # libgmpxx.so.3.0.4) incrementing, to make it clear which GMP it's from.
 
-LIBGMP_LT_CURRENT = 16
-LIBGMP_LT_REVISION = 0 
+LIBGMP_LT_CURRENT = 22
+LIBGMP_LT_REVISION = 2
 LIBGMP_LT_AGE = 6
 
-LIBGMPXX_LT_CURRENT = 8
-LIBGMPXX_LT_REVISION = 0 
+LIBGMPXX_LT_CURRENT = 12
+LIBGMPXX_LT_REVISION = 2
 LIBGMPXX_LT_AGE = 4
 
 SUBDIRS = tests

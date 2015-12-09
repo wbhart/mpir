@@ -4255,6 +4255,7 @@ zero, this routine will divide by zero.
 @cindex Comparison functions
 
 @deftypefun int mpq_cmp (mpq_t @var{op1}, mpq_t @var{op2})
+@deftypefunx int mpq_cmp_z (const mpq_t @var{op1}, const mpz_t @var{op2})
 Compare @var{op1} and @var{op2}.  Return a positive value if @math{@var{op1} >
 @var{op2}}, zero if @math{@var{op1} = @var{op2}}, and a negative value if
 @math{@var{op1} < @var{op2}}.

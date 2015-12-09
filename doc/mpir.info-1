@@ -1,7 +1,7 @@
 This is mpir.info, produced by makeinfo version 5.2 from mpir.texi.
 
 This manual describes how to install and use MPIR, the Multiple
-Precision Integers and Rationals library, version 2.7.0.
+Precision Integers and Rationals library, version 2.7.2.
 
    Copyright 1991, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001,
 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013
@@ -28,7 +28,7 @@ MPIR
 ****
 
 This manual describes how to install and use MPIR, the Multiple
-Precision Integers and Rationals library, version 2.7.0.
+Precision Integers and Rationals library, version 2.7.2.
 
    Copyright 1991, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001,
 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013
@@ -239,7 +239,7 @@ Build Directory
      directory.  For example
 
           cd /my/build/dir
-          /my/sources/mpir-2.7.0/configure
+          /my/sources/mpir-2.7.2/configure
 
      Not all 'make' programs have the necessary features ('VPATH') to
      support this.  In particular, SunOS and Solaris 'make' have bugs
@@ -1498,7 +1498,7 @@ File: mpir.info,  Node: Useful Macros and Constants,  Next: Compatibility with o
 
  -- Global Constant: const char * const mpir_version
      The MPIR version number, as a null-terminated string, in the form
-     "i.j.k".  This release is "2.7.0".
+     "i.j.k".  This release is "2.7.2".
 
 
 File: mpir.info,  Node: Compatibility with older versions,  Next: Efficiency,  Prev: Useful Macros and Constants,  Up: MPIR Basics
@@ -1759,7 +1759,7 @@ Source File Paths
      to the source directory.
 
           cd /my/build/dir
-          /my/source/dir/gmp-2.7.0/configure
+          /my/source/dir/gmp-2.7.2/configure
 
      This works via 'VPATH', and might require GNU 'make'.  Alternately
      it might be possible to change the '.c.lo' rules appropriately.
@@ -3321,6 +3321,7 @@ File: mpir.info,  Node: Comparing Rationals,  Next: Applying Integer Functions, 
 ========================
 
  -- Function: int mpq_cmp (mpq_t OP1, mpq_t OP2)
+ -- Function: int mpq_cmp_z (const mpq_t OP1, const mpz_t OP2)
      Compare OP1 and OP2.  Return a positive value if OP1 > OP2, zero if
      OP1 = OP2, and a negative value if OP1 < OP2.
 
