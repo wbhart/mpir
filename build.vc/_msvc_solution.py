@@ -132,7 +132,7 @@ class msvc_solution(object):
       outf.write(sol_8)
 
       del self.gf2gpl['']
-      if len(self.gf2gpl.keys()): 
+      if len(self.gf2gpl.keys()):
         outf.write(sol_6)
         for gf, gpl in self.gf2gpl.items():
           for gp in gpl:

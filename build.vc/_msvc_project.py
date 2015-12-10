@@ -242,7 +242,7 @@ def gen_vcxproj(path, root_dir, proj_name, guid, config, plat, proj_type,
   f3 = r'''  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
 '''
   f4 = r'''  <ImportGroup Label="ExtensionTargets">
-    <Import Project="..\..\build.vc/vsyasm.targets" />
+    <Import Project="..\..\build.vc\vsyasm.targets" />
     </ImportGroup>
 '''
 
