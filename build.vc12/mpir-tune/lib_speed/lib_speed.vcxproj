@@ -150,11 +150,6 @@
     <ClInclude Include="..\..\..\longlong.h" />
     <ClInclude Include="..\..\..\mpir.h" />
     <ClInclude Include="..\..\..\tests\tests.h" />
-    <ClInclude Include="..\..\lib_mpir_sandybridge_ivybridge\x64\Release\config.h" />
-    <ClInclude Include="..\..\lib_mpir_sandybridge_ivybridge\x64\Release\gmp-impl.h" />
-    <ClInclude Include="..\..\lib_mpir_sandybridge_ivybridge\x64\Release\gmp-mparam.h" />
-    <ClInclude Include="..\..\lib_mpir_sandybridge_ivybridge\x64\Release\longlong.h" />
-    <ClInclude Include="..\..\lib_mpir_sandybridge_ivybridge\x64\Release\mpir.h" />
     <ClInclude Include="..\..\..\tune\speed.h" />
   </ItemGroup>
   <ItemGroup>

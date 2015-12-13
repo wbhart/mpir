@@ -157,10 +157,6 @@ check_config $(Platform) $(Configuration) 11
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\build.vc\getopt.h" />
-    <ClInclude Include="..\..\lib_mpir_sandybridge_ivybridge\x64\Release\gmp-impl.h" />
-    <ClInclude Include="..\..\lib_mpir_sandybridge_ivybridge\x64\Release\gmp-mparam.h" />
-    <ClInclude Include="..\..\lib_mpir_sandybridge_ivybridge\x64\Release\longlong.h" />
-    <ClInclude Include="..\..\lib_mpir_sandybridge_ivybridge\x64\Release\mpir.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

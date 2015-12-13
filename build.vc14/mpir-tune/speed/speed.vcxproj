@@ -183,13 +183,7 @@
     <ClInclude Include="..\..\..\build.vc\win_timing.h" />
     <ClInclude Include="..\..\..\config.h" />
     <ClInclude Include="..\..\..\tune\speed.h" />
-    <ClInclude Include="..\..\lib_mpir_sandybridge_ivybridge\x64\Debug\config.h" />
-    <ClInclude Include="..\..\lib_mpir_sandybridge_ivybridge\x64\Debug\gmp-impl.h" />
-    <ClInclude Include="..\..\lib_mpir_sandybridge_ivybridge\x64\Debug\gmp-mparam.h" />
-    <ClInclude Include="..\..\lib_mpir_sandybridge_ivybridge\x64\Debug\longlong.h" />
-    <ClInclude Include="..\..\lib_mpir_sandybridge_ivybridge\x64\Release\config.h" />
-    <ClInclude Include="..\..\lib_mpir_sandybridge_ivybridge\x64\Release\gmp-impl.h" />
-    <ClInclude Include="..\..\lib_mpir_sandybridge_ivybridge\x64\Release\gmp-mparam.h" />
+    <ClInclude Include="..\..\lib_mpir_core2\x64\Release\config.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\lib_speed\lib_speed.vcxproj">
