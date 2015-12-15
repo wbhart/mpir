@@ -660,7 +660,6 @@
     <ClInclude Include="..\..\..\build.vc\unistd.h" />
     <ClInclude Include="..\..\..\build.vc\win_timing.h" />
     <ClInclude Include="..\..\..\tune\speed.h" />
-    <ClInclude Include="..\..\lib_mpir_core2\x64\Release\config.h" />
   </ItemGroup>
   <ItemGroup>
     <YASM Include="sqr_basecase.asm">
