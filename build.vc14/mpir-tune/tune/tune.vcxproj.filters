@@ -442,9 +442,6 @@
     <ClInclude Include="..\..\..\build.vc\unistd.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\lib_mpir_core2\x64\Release\config.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <YASM Include="sqr_basecase.asm">
