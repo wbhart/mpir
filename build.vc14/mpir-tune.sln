@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.23107.0
+VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "add-test-lib", "mpir-tests\add-test-lib\add-test-lib.vcxproj", "{A742D3D1-6956-4F85-BFD6-B0E7B477041D}"
 EndProject
@@ -12,6 +12,9 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "try", "mpir-tune\try\try.vcxproj", "{DE0FCDC0-9DEF-48BA-852B-731117A967EE}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tune", "mpir-tune\tune\tune.vcxproj", "{8E73AD17-D49E-4F63-A483-C5A82A1FA312}"
+	ProjectSection(ProjectDependencies) = postProject
+		{A742D3D1-6956-4F85-BFD6-B0E7B477041D} = {A742D3D1-6956-4F85-BFD6-B0E7B477041D}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

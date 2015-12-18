@@ -675,6 +675,14 @@
       <FileType>Document</FileType>
     </YASM>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\mpir-tests\add-test-lib\add-test-lib.vcxproj">
+      <Project>{a742d3d1-6956-4f85-bfd6-b0e7b477041d}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\lib_speed\lib_speed.vcxproj">
+      <Project>{47b9e74c-7d7a-47da-83af-0a6ade4fbb69}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
     <Import Project="..\..\..\build.vc\vsyasm.targets" />

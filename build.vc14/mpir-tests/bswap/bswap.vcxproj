@@ -175,12 +175,6 @@ check_config $(Platform) $(Configuration) 14
   <ItemGroup>
     <ClCompile Include="..\..\..\tests\t-bswap.c" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\add-test-lib\add-test-lib.vcxproj">
-      <Project>{a742d3d1-6956-4f85-bfd6-b0e7b477041d}</Project>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

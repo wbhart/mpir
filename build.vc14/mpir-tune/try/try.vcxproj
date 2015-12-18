@@ -194,6 +194,11 @@
     <ClInclude Include="..\..\..\build.vc\getopt.h" />
     <ClInclude Include="..\..\..\build.vc\unistd.h" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\mpir-tests\add-test-lib\add-test-lib.vcxproj">
+      <Project>{a742d3d1-6956-4f85-bfd6-b0e7b477041d}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
