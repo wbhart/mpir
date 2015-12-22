@@ -45,8 +45,8 @@ namespace MPIR
         MP(rrandomb)(destination, Left->_value, BITS_TO_LIMBS(MP(get_prec)(destination)), Right);
     }
 
-    //TODO investigate why exponent does not seem to be in the promised range
     //TODO implement "precision of destination" for context ops
+    //TODO investigate implementing raw IO for floats
 
     DEFINE_ASSIGNMENT_PROLOG(RandomLimbsChunky)
     {

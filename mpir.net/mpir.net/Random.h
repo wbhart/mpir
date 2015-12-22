@@ -256,7 +256,7 @@ namespace MPIR
         /// to be more likely to trigger corner-case bugs.
         /// </para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
         /// </summary>
-        /// <param name="maxExponent">The maximum absolute value for the exponent of the generated number.  Generated exponent may be positive or negative.</param>
+        /// <param name="maxExponent">The maximum absolute value for the exponent of the generated number (expressed in limbs).  Generated exponent may be positive or negative.</param>
         /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, generates the random number</returns>
         FloatExpression^ GetFloatChunky(mp_exp_t maxExponent);
 
@@ -268,7 +268,7 @@ namespace MPIR
         /// </summary>
         /// <param name="limbCount">number of mantissa limbs to generate.
         /// <para>The sign of this parameter determines the sign of the generated mantissa.</para></param>
-        /// <param name="maxExponent">The maximum absolute value for the exponent of the generated number.  Generated exponent may be positive or negative.</param>
+        /// <param name="maxExponent">The maximum absolute value for the exponent of the generated number (expressed in limbs).  Generated exponent may be positive or negative.</param>
         /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, generates the random number</returns>
         FloatExpression^ GetFloatLimbsChunky(mp_size_t limbCount, mp_exp_t maxExponent);
 
