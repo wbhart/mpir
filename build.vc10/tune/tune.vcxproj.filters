@@ -9,6 +9,9 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
+    <Filter Include="Source Files\yasm">
+      <UniqueIdentifier>{0d2554f0-7080-4c9d-aaba-6ed5b0db6fb7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\tests\memory.c">
@@ -23,31 +26,34 @@
     <ClCompile Include="..\..\tune\tuneup.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="divrem_1.c">
+    <ClCompile Include="..\getopt.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="divrem_2.c">
+    <ClCompile Include="..\..\tune\hgcd_appr_lehmer.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="gcdext.c">
+    <ClCompile Include="..\..\tune\hgcd_lehmer.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="get_str.c">
+    <ClCompile Include="..\..\tune\hgcd_reduce_1.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="mod_1.c">
+    <ClCompile Include="..\..\tune\hgcd_reduce_2.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="mul.c">
+    <ClCompile Include="adjust.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="mullow_n.c">
+    <ClCompile Include="adjust_sqrt2.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="mul_n.c">
+    <ClCompile Include="butterfly_lshB.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="tdiv_qr.c">
+    <ClCompile Include="butterfly_rshB.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="combine_bits.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="dc_bdiv_q.c">
@@ -56,10 +62,25 @@
     <ClCompile Include="dc_bdiv_qr.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="dc_bdiv_qr_n.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="dc_div_qr.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="dc_div_qr_n.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="dc_divappr_q.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="div_2expmod_2expp1.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="divrem_1.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="divrem_2.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="divrem_euclidean_r_1.c">
@@ -68,16 +89,103 @@
     <ClCompile Include="divrem_hensel_qr_1.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="fac_ui.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="fermat_to_mpz.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="fft_mfa_trunc_sqrt2.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="fft_mfa_trunc_sqrt2_inner.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="fft_radix2.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="fft_trunc.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="gcd.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="gcdext.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="get_str.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="hgcd.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="hgcd_appr.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="hgcd_reduce.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ifft_negacyclic.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ifft_radix2.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ifft_trunc.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ifft_trunc_sqrt2.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="inv_div_qr.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="inv_divappr_q.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="matrix22_mul.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="mod_1.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="mul.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="mul_2expmod_2expp1.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="mul_fft_main.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="mul_mfa_trunc_sqrt2.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="mul_n.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="mul_trunc_sqrt2.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="mulhigh_n.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="mullow_n.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="mulmod_2expm1.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="mulmod_2expp1.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="mulmod_2expp1_basecase.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="normmod_2expp1.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="revbin.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="rootrem.c">
@@ -86,7 +194,22 @@
     <ClCompile Include="rsh_divrem_hensel_qr_1.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="sb_div_qr.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sb_divappr_q.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="set_str.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="split_bits.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="tdiv_q.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tdiv_qr.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="toom3_mul.c">
@@ -107,13 +230,7 @@
     <ClCompile Include="toom8h_mul.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\win_timing.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\getopt.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="gcd.c">
+    <ClCompile Include="fft_negacyclic.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -136,8 +253,10 @@
     <ClInclude Include="..\win_timing.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\lib\x64\release\gmp-impl.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <YASM Include="sqr_basecase.asm">
+      <Filter>Source Files\yasm</Filter>
+    </YASM>
   </ItemGroup>
 </Project>

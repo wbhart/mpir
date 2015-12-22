@@ -38,7 +38,7 @@ mpn_inv_div_qr (mp_ptr qp,
 		  mp_srcptr dinv)
 {
   mp_size_t qn;
-  mp_limb_t qh, cy, dinv2, dinv21;
+  mp_limb_t qh, cy, dinv2;
   mp_ptr tp;
   TMP_DECL;
 
@@ -48,7 +48,7 @@ mpn_inv_div_qr (mp_ptr qp,
   ASSERT (nn - dn >= 3);	/* to adhere to mpn_sb_div_qr's limits */
   ASSERT (dp[dn-1] & GMP_NUMB_HIGHBIT);
 
-  mpir_invert_pi2(dinv2, dinv21, dp[dn - 1], dp[dn - 2]);
+  mpir_invert_pi1(dinv2, dp[dn - 1], dp[dn - 2]);
 
   tp = TMP_ALLOC_LIMBS (DC_DIVAPPR_Q_N_ITCH(dn));
 
@@ -130,9 +130,9 @@ mpn_inv_div_qr (mp_ptr qp,
 	  if (qn == 2)
 	    qh = mpn_divrem_2 (qp, 0L, np - 2, 4, dp - 2); /* FIXME: obsolete function. Use 5/3 division? */
 	  else if (BELOW_THRESHOLD (qn, DC_DIV_QR_THRESHOLD))
-	    qh = mpn_sb_div_qr (qp, np - qn, 2 * qn, dp - qn, qn, dinv2, dinv21);
+	    qh = mpn_sb_div_qr (qp, np - qn, 2 * qn, dp - qn, qn, dinv2);
 	  else if (BELOW_THRESHOLD (qn, INV_DIV_QR_THRESHOLD))
-	    qh = mpn_dc_div_qr_n (qp, np - qn, dp - qn, qn, dinv2, dinv21, tp);
+	    qh = mpn_dc_div_qr_n (qp, np - qn, dp - qn, qn, dinv2, tp);
 	  else
          {
    	    mpn_invert_trunc(tp, qn, dinv, dn, dp - dn);
@@ -174,9 +174,9 @@ mpn_inv_div_qr (mp_ptr qp,
       np -= qn;			/* point in the middle of partial remainder */
 
       if (BELOW_THRESHOLD (qn, DC_DIV_QR_THRESHOLD))
-	qh = mpn_sb_div_qr (qp, np - qn, 2 * qn, dp - qn, qn, dinv2, dinv21);
+	qh = mpn_sb_div_qr (qp, np - qn, 2 * qn, dp - qn, qn, dinv2);
       else if (BELOW_THRESHOLD (qn, INV_DIV_QR_THRESHOLD))
-	qh = mpn_dc_div_qr_n (qp, np - qn, dp - qn, qn, dinv2, dinv21, tp);
+	qh = mpn_dc_div_qr_n (qp, np - qn, dp - qn, qn, dinv2, tp);
       else
 	{
    	    mpn_invert_trunc(tp, qn, dinv, dn, dp - dn);

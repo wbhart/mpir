@@ -1324,6 +1324,9 @@
   <ClCompile Include="..\..\mpn\generic\mul.c">
     <Filter>Source Files\mpn</Filter>
     </ClCompile>
+  <ClCompile Include="..\..\mpn\generic\mul_fft.c">
+    <Filter>Source Files\mpn</Filter>
+    </ClCompile>
   <ClCompile Include="..\..\mpn\generic\mul_n.c">
     <Filter>Source Files\mpn</Filter>
     </ClCompile>

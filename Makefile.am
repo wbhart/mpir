@@ -64,19 +64,21 @@
 #	2.0.0	9:2:0	4:7:1
 #	2.1.0	10:0:1	4:8:1
 #	2.1.1	10:1:2	4:9:2
-#	2.1.2	10.2.2	4.10.2
-#	2.1.3	10.3.2	4.11.2
-#	2.1.4	10.4.2	4.12.2
-#	2.2.0	10.5.2	4.13.2
-#	2.2.1	10.6.3	4.14.3
-#	2.3.0	10.7.3	4.15.3
-#	2.3.1	10.8.3	4.16.3
-#	2.4.0   11.0.4  4.17.3
-#	2.5.0	11.1.4	4.18.3
-#	2.5.1	11.2.4	4.19.3
-#	2.5.2	11.3.4	4.20.3
-#	2.6.0   11.0.5  4.21.3               Clearly wrong!!
-#       2.7.0   16.0.6  8.0.4                Attempt to correct wrt all prev 
+#	2.1.2	10:2:2	4:10:2
+#	2.1.3	10:3:2	4:11:2
+#	2.1.4	10:4:2	4:12:2
+#	2.2.0	10:5:2	4:13:2
+#	2.2.1	10:6:3	4:14:3
+#	2.3.0	10:7:3	4:15:3
+#	2.3.1	10:8:3	4:16:3
+#	2.4.0   11:0:4  4:17:3
+#	2.5.0	11:1:4	4:18:3
+#	2.5.1	11:2:4	4:19:3
+#	2.5.2	11:3:4	4:20:3
+#	2.6.0   11:0:5  4:21:3               Clearly wrong!!
+#       2.7.0   16:0:6  8:0:4                Attempt to correct wrt all prev 
+#       2.7.1   22:1:6  12:1:4               Due to traiing space for 2.7.1
+#       2.7.2   22:2:6  12:2:4
 #
 # Starting at 3:0:0 is a slight abuse of the versioning system, but it
 # ensures we're past soname libgmp.so.2, which was used on Debian GNU/Linux
@@ -89,12 +91,12 @@
 # it's still good to get the shared library filename (like
 # libgmpxx.so.3.0.4) incrementing, to make it clear which GMP it's from.
 
-LIBGMP_LT_CURRENT = 16
-LIBGMP_LT_REVISION = 0 
+LIBGMP_LT_CURRENT = 22
+LIBGMP_LT_REVISION = 2
 LIBGMP_LT_AGE = 6
 
-LIBGMPXX_LT_CURRENT = 8
-LIBGMPXX_LT_REVISION = 0 
+LIBGMPXX_LT_CURRENT = 12
+LIBGMPXX_LT_REVISION = 2
 LIBGMPXX_LT_AGE = 4
 
 SUBDIRS = tests
@@ -110,7 +112,7 @@ EXTRA_DIST = configfsf.guess configfsf.sub .gdbinit INSTALL.autoconf
 if WANT_CXX
 GMPXX_HEADERS_OPTION = mpirxx.h
 endif
-EXTRA_DIST += mpirxx.h yasm_macwin.inc.fat yasm_macwin.inc.nofat yasm_mac.inc.fat yasm_mac.inc.nofat strip_fPIC.sh mpn/x86w mpn/x86_64w build.vc10 win doc/devel doc/fdl.texi cpuid.c gpl-2.0.txt lgpl-2.1.txt
+EXTRA_DIST += mpirxx.h yasm_macwin.inc.fat yasm_macwin.inc.nofat yasm_mac.inc.fat yasm_mac.inc.nofat strip_fPIC.sh mpn/x86w mpn/x86_64w build.vc10 build.vc11 build.vc12 build.vc14 doc/devel doc/fdl.texi cpuid.c gpl-2.0.txt lgpl-2.1.txt
 
 # mpir.h is architecture dependent, mainly since they encode the
 # limb size used in libmpir.  For that reason they belong under $exec_prefix
@@ -143,7 +145,7 @@ endif
 DISTCLEANFILES = $(BUILT_SOURCES) config.m4 fat.h @gmp_srclinks@
 
 # Tell mpir.h it's building gmp, not an application, used by windows DLL stuff.
-INCLUDES=-D__GMP_WITHIN_GMP
+AM_CPPFLAGS=-D__GMP_WITHIN_GMP
 
 MPF_OBJECTS = mpf/abs$U.lo mpf/add$U.lo mpf/add_ui$U.lo mpf/ceilfloor$U.lo mpf/clear$U.lo mpf/clears$U.lo mpf/cmp$U.lo mpf/cmp_d$U.lo mpf/cmp_si$U.lo mpf/cmp_ui$U.lo mpf/div$U.lo mpf/div_2exp$U.lo mpf/div_ui$U.lo mpf/dump$U.lo mpf/eq$U.lo mpf/fits_si$U.lo mpf/fits_sint$U.lo mpf/fits_slong$U.lo mpf/fits_sshort$U.lo mpf/fits_ui$U.lo mpf/fits_uint$U.lo mpf/fits_ulong$U.lo mpf/fits_ushort$U.lo mpf/get_d$U.lo mpf/get_d_2exp$U.lo mpf/get_dfl_prec$U.lo mpf/get_prc$U.lo mpf/get_si$U.lo mpf/get_str$U.lo mpf/get_ui$U.lo mpf/init$U.lo mpf/init2$U.lo mpf/inits$U.lo mpf/inp_str$U.lo mpf/int_p$U.lo mpf/iset$U.lo mpf/iset_d$U.lo mpf/iset_si$U.lo mpf/iset_str$U.lo mpf/iset_ui$U.lo mpf/mul$U.lo mpf/mul_2exp$U.lo mpf/mul_ui$U.lo mpf/neg$U.lo mpf/out_str$U.lo mpf/pow_ui$U.lo mpf/random2$U.lo mpf/reldiff$U.lo mpf/rrandomb$U.lo mpf/set$U.lo mpf/set_d$U.lo mpf/set_dfl_prec$U.lo mpf/set_prc$U.lo mpf/set_prc_raw$U.lo mpf/set_q$U.lo mpf/set_si$U.lo mpf/set_str$U.lo mpf/set_ui$U.lo mpf/set_z$U.lo mpf/size$U.lo mpf/sqrt$U.lo mpf/sqrt_ui$U.lo mpf/sub$U.lo mpf/sub_ui$U.lo mpf/swap$U.lo mpf/trunc$U.lo mpf/ui_div$U.lo mpf/ui_sub$U.lo mpf/urandomb$U.lo 
 

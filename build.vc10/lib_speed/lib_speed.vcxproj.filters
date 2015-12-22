@@ -52,9 +52,6 @@
     <ClCompile Include="..\..\tune\divrem2inv.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\tune\gcd_bin.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\tune\gcdextod.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -91,12 +88,6 @@
     <ClCompile Include="..\..\tune\preinv_divrem_1.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\tune\fac_ui_large.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\tune\fac_ui_small.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\tune\set_strb.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -110,6 +101,33 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\getopt.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\tune\gcdext_double.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\tune\jacbase4.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\tune\gcdext_single.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\tune\fac_ui_small.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\tune\fac_ui_large.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\tune\hgcd_appr_lehmer.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\tune\hgcd_lehmer.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\tune\hgcd_reduce_1.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\tune\hgcd_reduce_2.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

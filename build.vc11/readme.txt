@@ -51,11 +51,11 @@ Building MPIR
 =============
 
 1. Generic C Builds
-===================
+-------------------
 
 The basic build solution for Visual Studio contains build projects for
 the generic C version of MPIR.  The MPIR build is started by opening the
-Visual Studio C/C++ solution  file 'mpir.sln' in the build.vc11 directory.  
+Visual Studio C/C++ solution file 'mpir.sln' in the build.vc11 directory.  
 
 It will be assumed here that the MPIR root directory is named 'mpir' so 
 that the build directory is mpir\build.vc11.  The output directories
@@ -83,11 +83,11 @@ the other providing the C++ functions.  The DLL library supports both the
 C and the C++ functions.
 
 2. Builds with Assembler Support
-================================
+--------------------------------
 
 By default the Visual Studio solution for MPIR provides support for
-x64 builds with assembler support for Intel core2 and nehalem and
-for the AMD k8.
+x64 builds with assembler support for Intel core2 (x64) and pentium 3
+(win32).
 
 To build MPIR versions with assembler support for other processors,
 the Python program mpir_config.py has to be run before the Visual
@@ -99,7 +99,7 @@ is then opened it will include this new build projects for both
 static library and DLL builds with the specified assembler support.
 
 3. The build Process
-====================
+--------------------
 
 Before any of these libraries is built the appropriate MPIR configuration
 file is generated and copied into config.h.  After a static library is 
@@ -173,23 +173,35 @@ The Tests
 There is a separate solution for the MPIR tests: mpir-tests.sln. In
 Visual Studio 2012 this is in build.vc11 folder.  
 
-The tests are configured to always test the last version of MPIR that
-has been built. This is automatic but it can be changed by editing 
-the file lastbuild.txt in the  mpir-tests directory whose content 
-controls the tests by setting the 'library type', the 'platform', 
-the 'configuration' and the 'MPIR binary directory' relative to the
-mpir-tests' directory.  Its content is typically:
+When an MPIR library is built the file 'output_params.bat' is  written to
+the buid.vc11 subdirectory giving details of the build configuration. 
+These details are then used to run the MPIR tests and this means that 
+these tests need to be run immediately after the library to be tested 
+has been built.  It is possible to test a different library by editing 
+'output_params.bat' but this will only work if the files in the MPIR output
+directory are correct.  In order to avoid errors, it is advisable before
+testing to do a clean build of the library under test (to do a completely
+clean build, the files in the build.vc11\Win32 and build.vc11\x64 
+directories should be deleted.  
 
-  dll Win32 Release "..\dll\Win32\Release" 
+The version to be tested can be changed by editing the output_params.bat
+file in the  mpir root directory, whose content controls the tests by 
+setting the 'library type', the 'platform', and the 'configuration'. 
+Its content is typically:
 
-If this file can be edited to test a different version of MPIR, it
-is also necessary to copy either:
+  (set libr=lib)  
+  (set plat=x64) 
+  (set conf=Release) 
+
+If this file can be edited to test a different version of MPIR, the 
+choices being lib/dll , win32/x64 and Debug/Release.  If this file
+is changed, it is also necessary to copy either:
 
    mpir\build.vc11\mpir-tests\lib-test-config.props
 
 or:
 
-   mpir\build.vc11\mpir-tests\dll-test-config.props
+   mpir\build.vc11\mpir-tests\dll-test-config.props#
 
 into:
 
@@ -201,50 +213,23 @@ The tests also use the C++ library functions so for testing MPIR static
 libraries both the desired version of MPIR and the C++ library must be 
 built before the tests are built and run.  This is not necessary for
 MPIR DLLs as they contain the C++ routines.
-
-On multporcessoer systems Visual Studio 12 will typically run several 
+On multi-processor systems, Visual Studio 12 will typically run several 
 builds in parallel so it is advisable to build add-test-lib first before
 building the tests.  
-
-Test Automation
-===============
-
 After they have been built the tests can be run using the Python script 
 run-tests.py in the build.vc11\mpir-tests directory. To see the test 
 output the python script should be run in a command window from within
 these sub-directories:
-
     cmd>run-tests.py 
-    
 and the output can be directed to a file:
-
     cmd>run-tests.py >out.txt 
-    
-When an MPIR library is built the file 'output_params.bat' is  written to
-the buid.vc12 subdirectory giving details of the build configuration. 
-These details are then used to run the MPIR tests and this means that 
-these tests need to be run immediately after the library to be tested 
-has been built.  It is possible to test a different library by editing 
-'output_params.bat' but this will only work if the files in the MPIR output
-directory are correct.  In order to avoid errors, it is advisable before
-testing to do a clean build of the library under test (to do a completely
-clean build, the files in the build.vc11\Win32 and build.vc11\x64 
-directories should be deleted.  
-
-Two Tests Fail
-==============
-
-The tests for cxx/locale and misc/locale fail to link because the test 
-defines a symbol - localeconv - that is in the Microsoft runtime libraries.  
-This is not significant for MPIR numeric operations.  Some tests are skipped
-for the DLL verssion as they are not relevant in this case.
 
 Speed and Tuning
 ================
 
-The speed and tuning programs are built using the tune.sln solutions.  
-These applications, which are set up to use the static library versions
-of MPIR, are not needed to use MPIR
+The speed and tuning programs are built using the tune.sln solution file
+and are only available on Windows x64. These applications, which are set
+up to use the static library versions of MPIR, are not needed to use MPIR.
 
 MPIR on Windows x64
 ===================
@@ -303,7 +288,7 @@ to build 64 bit applications, it is necessary to ensure that the compiler
 define _WIN64 is set when the application is built. 
 
 1. Using the Static Libraries
-=============================
+-----------------------------
 
 To build a MPIR C or C++ based application using the the static libraries
 all that needs to be done is to add the MPIR and/or the MPIR C++ static 
@@ -313,7 +298,7 @@ It is, of course, important to ensure that any libraries that are used
 have been built for the target platform.
 
 2. Using the DLL Export Libraries
-=================================
+---------------------------------
 
 The DLLs built by VC++ use the _cdecl calling convention in which exported
 symbols have their C names prefixed with an extra '_' character.  Some 
@@ -332,32 +317,31 @@ not the same as static libraries although they are used in a similar way when
 an application is built).
 
 3. Using the DLL Export Library
-===============================
+-------------------------------
 
 If you intend to use the DLL export libraries in an application you need to:
 
-   a. ensure that the application can locate the MPIR DLLs in 
-      question when it is run.  This involves putting the 
-      DLL(s) on a recognised directory path.
+   a. define the preprocessor symbol MSC_USE_DLL when the
+      application is built so that the use of a DLL version
+      of the MPIR library is recognised;
 
-   b. define __GMP_LIBGMP_DLL when the application is built
-      in order to ensure that MPIR's DLL export symbols are 
-      properly recognised as such so that they can be 
-      accessed via the MPIR import library
+   b. link the application to the mpir.lib library that is in
+      the same directory as the MPIR DLL library that is to be
+      used (this is produced when the DLL is built);
    
-   c. link the application to the gmp.lib library that is
-      provided with the DLL you intend to use (this is
-      produced when the DLL is built)
+   c. ensure that the application can locate the MPIR DLL in 
+      question when it is run (for example by copying it into 
+      the directory where the application exe file is located).
 
 4. Using DLL Dynamic loading
-============================
+----------------------------
 
 The second way of linking to a DLL is to use dynamic loading.  This is more
 complex and will not be discussed here. The VC++ documentation describes how 
 to use DLLs in this way.
 
 5. Using MPIR functions that use FILE's as Input or Output
-==========================================================
+----------------------------------------------------------
 
 In Windows the different C runtime libraries each have their own stream 
 input/output tables, which means that FILE* pointers cannot be passed from 
@@ -371,7 +355,7 @@ library as that used to build any DLL that is used - in this case the
 appropriate version 11 library.
 
 6. MPIR Applications that Require _stdcall Functions
-====================================================
+----------------------------------------------------
 
 Some applications, for example Visual Basic 6, require that DLL based 
 functions provide a _stdcall interface, whereas the VC++ default for DLLs 
@@ -381,14 +365,16 @@ To overcome this Jim White intends to make a wrapper DLL available for MPIR
 that provides a _stdcall interface to the normal _cdecl MPIR DLLs. 
 
 7. The MPIR Build Process in Outline
-====================================
+------------------------------------
+
+It is not necessary to read this unless you want to change the build
+process. 
 
 Prebuild
 --------
 
-It is not necessary to read this unless you want to change the build
-process.   The first step in an MPIR build is managed by the batch file
-prebuilld.bat which has the following steps:
+The first step in an MPIR build is managed by the batch file prebuilld.bat 
+which has the following steps:
 
 1. Read the configuration from the IDE input parameters which are the
    version (generic, core2, k8, k10, nehalem, p0, p3 or p4). For the 
@@ -407,7 +393,7 @@ prebuilld.bat which has the following steps:
    of gmp-mparam.h into the mpir root directory.
 
 The gen_mpir_h batch file inputs gmp_h.in and searches for @symbol@,
-replacing those that matter with the appropiate values for the Windows
+replacing those that matter with the appropriate values for the Windows
 build.
 
 The gen_config_h batch file takes lists of symbols in the cfg.h files

@@ -171,9 +171,12 @@ CPUVEC_SETUP_x86_64;
 	  if (model == 47){ CPUIS(westmere);break;}
 	  if (model == 54){ CPUIS(atom);break;}//DualCore Intel Atom D2700, 2133 MHz (16 x 133) (Cedarview, Saltwell core) 32nm
 	  if (model == 55){ CPUIS(atom);break;}
-     if (model == 58){ CPUIS(ivybridge);break;}
+          if (model == 58){ CPUIS(ivybridge);break;}
 	  if (model == 60){ CPUIS(haswell);break;}
-     if (model == 62){ CPUIS(ivybridge);break;}
+          if (model == 62){ CPUIS(ivybridge);break;}
+          if (model == 63){ CPUIS(haswell);break;}
+          if (model == 69){ CPUIS(haswell);break;}
+          if (model == 70){ CPUIS(haswell);break;}
      break;
    case 15:
         #if CONFIG_GUESS_64BIT || FAT64

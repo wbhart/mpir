@@ -25,7 +25,7 @@
 # required by libgmpxx.sl (ie. in its NEEDED records) is not found by the
 # linker.  FIXME: Presumably libtool should do something about this itself.
 #
-INCLUDES = -I$(top_srcdir) -I$(top_srcdir)/tests
+AM_CPPFLAGS = -I$(top_srcdir) -I$(top_srcdir)/tests
 LDADD = -L$(top_builddir)/.libs \
   $(top_builddir)/tests/libtests.la \
   $(top_builddir)/libmpirxx.la \

@@ -20,6 +20,70 @@ along with the GNU MP Library; see the file COPYING.LIB.  If not, write to
 the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 MA 02110-1301, USA.
 
+Changes between MPIR 2.7.2 and MPIR 2.7.1
+
+Bug Fixes:
+
+* Increase .so version numbering to prevent conflict with MPIR 2.7.1
+
+Features:
+
+* Wave motion gun
+
+Changes between MPIR 2.7.1 and MPIR 2.7.0
+
+Bug Fixes:
+
+* Fix bug in Karatsuba assembly code on Windows
+* Fix bug in basecase division code (by removing implementation)
+
+Features:
+
+* Add building of tests to command line build for Windows
+* Improve speed and tune targets on Windows
+* Various MSVC build improvements
+
+Other:
+
+* Add some missing information in AUTHORS
+* Travis continuous integration
+
+Changes between MPIR 2.7.0 and MPIR 2.6.0
+
+Bug Fixes:
+
+* Many build fixes
+* Fix fat binary build on 32 bit x86
+* Fix minor bugs in invert.c and t-invertc.
+* Remove broken assert in generic build
+* Fix bug in FFT that causes tuning code to crash
+* fix bug in sqr_basecase.asm on Windows
+* Fix bug in mpz_nextprime
+* Fix aliasing bug in mpz_nthroot
+* Fix bug in mpn_mulmod_basecase
+* Add missing GMP_DECLSPEC's causing segfaults on Windows
+
+Speedups:
+
+* faster divide-and-conquer division using new algorithm of W. Hart
+* merge many speedups for number theoretic functions from GMP project
+  (factorial, multi-factorial, primorial, n-choose-k, jacobi symbols)
+* fft versions of mpn_mulmod_bnm1/p1 to speed up GMP-ECM
+* switch to using the much cleaner gcdext implementation from GMP
+
+Features:
+
+* Cygwin64 support
+* MSYS2 support
+* configure support for latest Intel/AMD chips
+* MSVC 2015 support
+* Clean up Jason Moxham's old C code
+* change handling of stdint.h (user optionally includes it before mpir.h)
+* support OpenBSD 5.6 and later
+* GCC 4.9 and 5.x support
+* Clang support
+* C++11 C++ compiler support
+
 Changes between MPIR 2.6.0 and MPIR 2.5.2
 
 Bug Fixes:

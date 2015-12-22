@@ -130,7 +130,9 @@ operator>> (istream &i, mpf_ptr f)
     ASSERT_NOCARRY (mpf_set_str(f, s.c_str(), base)); // extract the number
   else
     {
+#if !HAVE_STD__LOCALE
     fail:
+#endif
       i.setstate(ios::failbit); // read failed
     }
 

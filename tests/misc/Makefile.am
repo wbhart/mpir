@@ -20,7 +20,7 @@
 # MA 02110-1301, USA.
 
 
-INCLUDES = -I$(top_srcdir) -I$(top_srcdir)/tests
+AM_CPPFLAGS = -I$(top_srcdir) -I$(top_srcdir)/tests
 LDADD = $(top_builddir)/tests/libtests.la $(top_builddir)/libmpir.la
 
 check_PROGRAMS = t-locale t-printf t-scanf 

@@ -13,7 +13,7 @@
   <PropertyGroup Label="Globals">
     <RootNamespace>mpir</RootNamespace>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{92e70562-ba67-11e3-8a9e-24fd5238c490}</ProjectGuid>
+    <ProjectGuid>{3ab80480-9806-478e-a8aa-7b1797c6679a}</ProjectGuid>
     </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
@@ -61,17 +61,17 @@ prebuild core2 x64
     <Optimization>Full</Optimization>
     <IntrinsicFunctions>true</IntrinsicFunctions>
     <AdditionalIncludeDirectories>..\..\</AdditionalIncludeDirectories>
-    <PreprocessorDefinitions>NDEBUG;_LIB;HAVE_CONFIG_H;_WIN64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    <PreprocessorDefinitions>NDEBUG;WIN32;_LIB;HAVE_CONFIG_H;_WIN64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     <ProgramDataBaseFileName>$(TargetDir)$(TargetName).pdb</ProgramDataBaseFileName>
     <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
 
-  <PostBuildEvent>
-      <Command>cd ..\
+    <PostBuildEvent>
+    <Command>cd ..\
 postbuild "$(TargetPath)"
-      </Command>
-  </PostBuildEvent>
+    </Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <PreBuildEvent>
@@ -90,17 +90,17 @@ prebuild core2 x64
     <Optimization>Disabled</Optimization>
     <IntrinsicFunctions>true</IntrinsicFunctions>
     <AdditionalIncludeDirectories>..\..\</AdditionalIncludeDirectories>
-    <PreprocessorDefinitions>_DEBUG;_LIB;HAVE_CONFIG_H;_WIN64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    <PreprocessorDefinitions>_DEBUG;WIN32;_LIB;HAVE_CONFIG_H;_WIN64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     <ProgramDataBaseFileName>$(TargetDir)$(TargetName).pdb</ProgramDataBaseFileName>
     <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
 
-  <PostBuildEvent>
-      <Command>cd ..\
+    <PostBuildEvent>
+    <Command>cd ..\
 postbuild "$(TargetPath)"
-      </Command>
-  </PostBuildEvent>
+    </Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\..\config.h" />
@@ -1642,6 +1642,10 @@ postbuild "$(TargetPath)"
         <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpn\</ObjectFileName>
     </ClCompile>
     <ClCompile Include="..\..\mpn\generic\mul.c">
+        <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpn\</ObjectFileName>
+        <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpn\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\mpn\generic\mul_fft.c">
         <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)mpn\</ObjectFileName>
         <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)mpn\</ObjectFileName>
     </ClCompile>

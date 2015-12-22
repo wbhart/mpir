@@ -35,7 +35,7 @@ mp_limb_t
 mpn_sb_div_qr (mp_ptr qp,
 		  mp_ptr np, mp_size_t nn,
 		  mp_srcptr dp, mp_size_t dn,
-		  mp_limb_t dinv, mp_limb_t d1inv)
+		  mp_limb_t dinv)
 {
   mp_limb_t qh;
   mp_size_t i;
@@ -56,34 +56,6 @@ mpn_sb_div_qr (mp_ptr qp,
 
   d1 = dp[dn - 1];
 
-  if (BELOW_THRESHOLD(dn, SB_DIV_QR_SMALL_THRESHOLD))
-    {
-    np--;
-    
-  for (i = nn - dn - 1; i >= 0; i--)
-    {
-      /* fetch next word */
-      cy = *np--;
-      
-      mpir_divapprox32_preinv2(q, cy, np[0], d1inv);
-      
-	  /* np -= dp*q */
-      cy -= mpn_submul_1(np - dn + 1, dp, dn, q);
-
-      /* correct if remainder is too large */
-      if (UNLIKELY(cy || np[0] >= d1))
-      {
-         if (cy || mpn_cmp(np - dn + 1, dp, dn) >= 0)
-         {
-            q++;
-            mpn_sub_n(np - dn + 1, np - dn + 1, dp, dn);
-         }
-      }
-      qp[i] = q;
-     }
-    }
-  else
-    {
   qp += nn - dn;
 
   dn -= 2;			/* offset dn by 2 for main division loops,
@@ -123,7 +95,6 @@ mpn_sb_div_qr (mp_ptr qp,
       *--qp = q;
     }
   np[1] = n1;
-  }
 
   return qh;
 }

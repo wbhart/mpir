@@ -99,7 +99,7 @@ mpn_tdiv_qr (mp_ptr qp, mp_ptr rp, mp_size_t qxn,
     default:
       {
 	int adjust;
-	mp_limb_t dinv, d1inv;
+	mp_limb_t dinv;
 	TMP_DECL;
 	TMP_MARK;
 	adjust = np[nn - 1] >= dp[dn - 1];	/* conservative tests for quotient size */
@@ -131,12 +131,12 @@ mpn_tdiv_qr (mp_ptr qp, mp_ptr rp, mp_size_t qxn,
 		nn += adjust;
 	      }
 
-	    mpir_invert_pi2 (dinv, d1inv, d2p[dn - 1], d2p[dn - 2]);
+	    mpir_invert_pi1 (dinv, d2p[dn - 1], d2p[dn - 2]);
 	    if (BELOW_THRESHOLD (dn, DC_DIV_QR_THRESHOLD))
-	      ASSERT_NOCARRY(mpn_sb_div_qr (qp, n2p, nn, d2p, dn, dinv, d1inv));
+	      ASSERT_NOCARRY(mpn_sb_div_qr (qp, n2p, nn, d2p, dn, dinv));
 	    else if (BELOW_THRESHOLD (dn, INV_DIV_QR_THRESHOLD) ||
 		     BELOW_THRESHOLD (nn, 2 * INV_DIV_QR_THRESHOLD))     
-	      ASSERT_NOCARRY(mpn_dc_div_qr (qp, n2p, nn, d2p, dn, dinv, d1inv));
+	      ASSERT_NOCARRY(mpn_dc_div_qr (qp, n2p, nn, d2p, dn, dinv));
 	    else
 		{
           mp_ptr dinv2 = TMP_ALLOC_LIMBS(dn);
@@ -258,13 +258,13 @@ mpn_tdiv_qr (mp_ptr qp, mp_ptr rp, mp_size_t qxn,
 	      mpn_divrem_2 (qp, 0L, n2p, 4L, d2p); /* FIXME: obsolete function */
 	    else
 	      {
-		mpir_invert_pi2 (dinv, d1inv, d2p[qn - 1], d2p[qn - 2]);
+		mpir_invert_pi1 (dinv, d2p[qn - 1], d2p[qn - 2]);
 		if (BELOW_THRESHOLD (qn, DC_DIV_QR_THRESHOLD))
-		  ASSERT_NOCARRY(mpn_sb_div_qr (qp, n2p, 2 * qn, d2p, qn, dinv, d1inv));
+		  ASSERT_NOCARRY(mpn_sb_div_qr (qp, n2p, 2 * qn, d2p, qn, dinv));
 		else if (BELOW_THRESHOLD (qn, INV_DIV_QR_THRESHOLD))
 		{
 			mp_ptr temp = TMP_ALLOC_LIMBS(DC_DIVAPPR_Q_N_ITCH(qn));
-			ASSERT_NOCARRY(mpn_dc_div_qr_n (qp, n2p, d2p, qn, dinv, d1inv, temp));
+			ASSERT_NOCARRY(mpn_dc_div_qr_n (qp, n2p, d2p, qn, dinv, temp));
 		} else
 		{
 	      mp_ptr dinv2 = TMP_ALLOC_LIMBS(qn);

@@ -44,7 +44,7 @@ check_sb_div_q (void)
    mp_limb_t rp[2*MAX_LIMBS+1];
    mp_limb_t dp[MAX_LIMBS];
    mp_limb_t qp[2*MAX_LIMBS];
-   mp_limb_t dip, d1ip, cy;
+   mp_limb_t dip, cy;
 
    mp_size_t nn, rn, dn, qn;
 
@@ -64,11 +64,11 @@ check_sb_div_q (void)
 
       MPN_COPY(np2, np, nn);
       
-      mpir_invert_pi2(dip, d1ip, dp[dn - 1], dp[dn - 2]);
+      mpir_invert_pi1(dip, dp[dn - 1], dp[dn - 2]);
       
       qn = nn - dn + 1;
          
-      qp[qn - 1] = mpn_sb_div_q(qp, np, nn, dp, dn, dip, d1ip);
+      qp[qn - 1] = mpn_sb_div_q(qp, np, nn, dp, dn, dip);
 
       MPN_NORMALIZE(qp, qn);
 

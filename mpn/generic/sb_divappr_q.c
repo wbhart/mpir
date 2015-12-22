@@ -49,7 +49,7 @@ mp_limb_t
 mpn_sb_divappr_q (mp_ptr qp,
 		     mp_ptr np, mp_size_t nn,
 		     mp_srcptr dp, mp_size_t dn,
-		     mp_limb_t dinv, mp_limb_t d1inv)
+		     mp_limb_t dinv)
 {
   mp_limb_t qh;
   mp_size_t qn, i;
@@ -75,104 +75,6 @@ mpn_sb_divappr_q (mp_ptr qp,
   if (qh != 0)
     mpn_sub_n (np - dn, np - dn, dp, dn);
 
-  if (BELOW_THRESHOLD(dn, SB_DIVAPPR_Q_SMALL_THRESHOLD))
-  {
-   
-   /* Reduce until dn - 2 >= qn */
-   for (qn--, np--; qn > dn - 2; qn--)
-     {
-       /* fetch next word */
-       cy = np[0];
-
-       np--;
-       mpir_divapprox32_preinv2(q, cy, np[0], d1inv);
-      
-	    /* np -= dp*q */
-       cy -= mpn_submul_1(np - dn + 1, dp, dn, q);
-
-       /* correct if remainder is too large */
-       if (UNLIKELY(cy || np[0] >= dp[dn - 1]))
-         {
-       if (cy || mpn_cmp(np - dn + 1, dp, dn) >= 0)
-       {
-          q++;
-          cy -= mpn_sub_n(np - dn + 1, np - dn + 1, dp, dn);
-       }
-       }
-
-       qp[qn] = q;
-     }
-   
-   qn++;
-   dp = dp + dn - qn - 1; /* make dp length qn + 1 */
-   
-   for ( ; qn > 1; qn--)
-     {
-       /* fetch next word */
-       cy = np[0];
- 
-       np--;
-       /* rare case where truncation ruins normalisation */
-       if (cy > dp[qn] || (cy == dp[qn] && mpn_cmp(np - qn + 1, dp, qn) >= 0))
-         {
-       __divappr_helper(qp, np - qn, dp, qn);
-       return qh;
-         }
-       
-       mpir_divapprox32_preinv2(q, cy, np[0], d1inv);
-         
-       /* np -= dp*q */
-       cy -= mpn_submul_1(np - qn, dp, qn + 1, q);
-
-       /* correct if remainder is too large */
-       if (UNLIKELY(cy || np[0] >= dp[qn]))
-         {
-       if (cy || mpn_cmp(np - qn, dp, qn + 1) >= 0)
-         {
-       q++;
-       cy -= mpn_sub_n(np - qn, np - qn, dp, qn + 1);
-         }
-         }
-       
-       qp[qn - 1] = q;
-       dp++;
-     }
-
-     if (qn > 0)
-     {
-       /* fetch next word */
-       cy = np[0];
- 
-       np--;
-       /* rare case where truncation ruins normalisation */
-       if (cy > dp[1] || (cy == dp[1] && np[0] >= dp[0]))
-         {
-       __divappr_helper(qp, np - 1, dp, 1);
-       return qh;
-         }
-       
-       mpir_divapprox32_preinv2(q, cy, np[0], d1inv);
-         
-       /* np -= dp*q */
-       cy -= mpn_submul_1(np - 1, dp, 2, q);
-
-       /* correct if remainder is too large */
-       if (UNLIKELY(cy || np[0] >= dp[1]))
-         {
-       if (cy || mpn_cmp(np - 1, dp, 2) >= 0)
-         {
-       q++;
-       cy -= mpn_sub_n(np - 1, np - 1, dp, 2);
-         }
-         }
-       
-       qp[0] = q;
-     }
-
-     np[1] = cy;
-  }
-  else
-  {
   d1 = dp[dn - 1];
   d0 = dp[dn - 2];
   
@@ -338,7 +240,6 @@ mpn_sb_divappr_q (mp_ptr qp,
        
        qp[0] = q;
      }
-  }
 
   return qh;
 }

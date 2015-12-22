@@ -545,7 +545,7 @@ make install
 @end example
 
 Important note: by default MPIR produces libraries named libmpir, etc., and the header file 
-mpir.h. If you wish to have MPIR to build a library named libgmp as well, etc., and a 
+@file{mpir.h}. If you wish to have MPIR to build a library named libgmp as well, etc., and a 
 gmp.h header file, so that you can use mpir with programs designed to only work with GMP, 
 then use the @samp{--enable-gmpcompat} option when invoking configure:
 
@@ -570,6 +570,7 @@ reports.
 * Build Options::
 * ABI and ISA::
 * Notes for Package Builds::
+* Building with Microsoft Visual Studio::
 * Notes for Particular Systems::
 * Known Build Problems::
 * Performance optimization::
@@ -628,7 +629,7 @@ it will be necessary to ensure both @file{$prefix/include} and
 
 @item @option{--enable-gmpcompat}
 @cindex @code{--enable-gmpcompat}
-By default make builds libmpir library files (and libmpirxx if C++ headers are requested) and the mpir.h header file. This option allows you to specify that you want additional libraries created called libgmp (and libgmpxx), etc., for libraries and gmp.h for compatibility with GMP (except for GMP secure cryptograhic functions, which are not available in MPIR).
+By default make builds libmpir library files (and libmpirxx if C++ headers are requested) and the @file{mpir.h} header file. This option allows you to specify that you want additional libraries created called libgmp (and libgmpxx), etc., for libraries and gmp.h for compatibility with GMP (except for GMP secure cryptograhic functions, which are not available in MPIR).
 
 @item @option{--disable-shared}, @option{--disable-static}
 @cindex @code{--disable-shared}
@@ -792,6 +793,9 @@ x86 family:
 @nisamp{core2},
 @nisamp{penryn},
 @nisamp{nehalem},
+@nisamp{westmere}
+@nisamp{sandybridge}
+@nisamp{haswell}
 @nisamp{nano}
 @nisamp{atom},
 @nisamp{k5},
@@ -802,6 +806,9 @@ x86 family:
 @nisamp{k8},
 @nisamp{k10}
 @nisamp{k102}
+@nisamp{piledriver}
+@nisamp{bulldozer}
+@nisamp{bobcat}
 @nisamp{viac3},
 @nisamp{viac32}
 
@@ -1276,7 +1283,7 @@ cross-compile, for example
 
 
 @need 2000
-@node Notes for Package Builds, Notes for Particular Systems, ABI and ISA, Installing MPIR
+@node Notes for Package Builds, Building with Microsoft Visual Studio, ABI and ISA, Installing MPIR
 @section Notes for Package Builds
 @cindex Build notes for binary packaging
 @cindex Packaged builds
@@ -1346,9 +1353,149 @@ desired ABI@.  If compiler include paths don't vary with ABI options then it
 might be necessary to create a @file{/usr/include/mpir.h} which tests
 preprocessor symbols and chooses the correct actual @file{mpir.h}.
 
+@need 2000
+@node Building with Microsoft Visual Studio, Notes for Particular Systems, Notes for Package Builds, Installing MPIR
+@section Building with Microsoft Visual Studio 
+@cindex Build notes for MSVC
+@cindex MSVC
+@cindex Visual Studio
+
+MPIR can be built with the professional and higher versions of Microsoft
+Visual Studio 2010, 2012 and 2013.  It can also be built with Visual 
+Studio Express 2013 for Windows Desktop.  In addition to one of these
+versions of Visual Studio, Python 3 and the YASM assembler will need
+to be installed if the assembler optimised versions are required. if
+installed, MPIR can also be built with the Intel compiler that can be
+integrated into tne full versions of Visual Studio.
+
+Python can be obtained from:
+
+@display
+@uref{https://www.python.org/}
+@end display
+
+and the YASM assembler is available here:
+
+@display
+@uref{http://yasm.tortall.net/Download.html}
+@end display
+
+This assembler (@file{vsyasm.exe}, NOT @file{yasm.exe}) should be placed in the 
+binary directory used by the Visual Studio version in use, which should be one
+of:
+
+@display
+@file{C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin}
+@file{C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin}
+@file{C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin}
+@end display
+
+Alternatively @file{vsyasm.exe} can be placed elsewhere provided that the
+environment variable @samp{YASMPATH} gives its location.
+
+@table @asis
+
+@item Building MPIR
+
+A build of MPIR is started by double clicking on the file @file{mpir.sln}
+in the appropriate sub-directory within the MPIR root directory:
+
+@example
+    Visual Studio 2010:  mpir/build.vc10/mpir.sln
+    Visual Studio 2012:  mpir/build.vc11/mpir.sln
+    Visual Studio 2013:  mpir/build.vc12/mpir.sln
+@end example
+    
+Visual Studio will then display a list of individual build projects
+from which an appropriate version of MPIR can be built. For example,
+a typical list of projects:
+
+@example
+    dll_mpir_gc     standard DLL, no assembler (win32 and x64)
+    dll_mpir_p3     assembly optimised DLL for pentium 3 (win32)
+    lib_mpir_p3     assembly optimised static library for 
+                    pentium 3 (x64)
+    lib_mpir_core2  assembly optimised static library for 
+                    core2 (x64)
+    dll_mpir_core2  assembly optimised DLL for core2 (x64)
+@end example
+
+allows MPIR to be built either as a static library or as a DLL. A DLL will
+include both the C and C++ features of MPIR but a static library will include
+only the C features so in this case the project:
+
+@example
+  lib_mpir_cxx     the MPIRXX C++ static library (win32 and x64)
+@end example
+
+should also be built to provide the MPIR C++ static library (@samp{MPIRXX}).
+
+Before a project is built, Visual Studio should be set to the required 
+configuration (Release or Debug) and the required target architecture 
+(win32 or x64).  The build process puts the output files into one of the
+two sub-directories:
+
+@display
+@file{mpir/lib} 
+@file{mpir/dll} 
+@end display
+    
+depending on whether static library or DLL versions have been built.
+
+@item Additional Assembler Optimised Versions
+
+The Visual Studio builds for MPIR are initially provided with a small set
+of assembler optimised projects but many more are available and can be
+obtained by running the Python program @command{mpir_config.py} that is in the
+appropriate build sub-directory for the version of Visual Studio in use. 
+This program is run before Visual Studio is used and provides a list of
+all the assembler optimised versions that are available.  Any number can
+be chosen and these builds will then be available when Visual Studio is
+subsequently opened by double clicking on @file{mpir.sln}.
+
+@item Testing Visual Studio versions of MPIR 
+
+Testing a version of the library once it has been built is started by double
+clicking on the appropriate solution file:
+
+@example
+    Visual Studio 2010:  mpir/build.vc10/mpir-tests.sln
+    Visual Studio 2012:  mpir/build.vc11/mpir-tests.sln
+    Visual Studio 2013:  mpir/build.vc12/mpir-tests.sln
+@end example
+
+The tests are always run on the last version of MPIR built and it is important
+to set the configuration for the tests (Release or Debug, win32 or x64) to be 
+the same as that used to build MPIR.  After loading there will be a large list
+of test projects starting:
+
+@example
+  Solution `mpir-tests' (202 projects)
+        add-test-lib 
+        bswap
+        constants
+        ....
+@end example
+      
+The project @samp{add-test-lib} should be selected and built first, after which 
+the solution as a whole (i.e. the first line shown above) can be selected to 
+build all the tests.  After the build has completed, the tests are run by 
+executing the Python program @command{run-tests.py} in the appropriate Visual 
+Studio build sub-directory, for example, for Visual Studio 2013:
+
+@example
+   mpir/build.vc12/mpir-tests/run-tests.py 
+@end example
+
+@item Further Details
+
+Additional details can be found in the @file{readme.txt} files in the 
+appropriate Visual Studio build sub-directories.
+
+@end table
 
 @need 2000
-@node Notes for Particular Systems, Known Build Problems, Notes for Package Builds, Installing MPIR
+@node Notes for Particular Systems, Known Build Problems, Building with Microsoft Visual Studio, Installing MPIR
 @section Notes for Particular Systems
 @cindex Build notes for particular systems
 @cindex Particular systems
@@ -1359,22 +1506,6 @@ preprocessor symbols and chooses the correct actual @file{mpir.h}.
 @c build problems that have been worked around but might leave a user
 @c scratching their head.  Fun with different ABIs on a system belongs in the
 @c above section.
-
-@item AIX 3 and 4
-@cindex AIX
-On systems @samp{*-*-aix[34]*} shared libraries are disabled by default, since
-some versions of the native @command{ar} fail on the convenience libraries
-used.  A shared build can be attempted with
-
-@example
-./configure --enable-shared --disable-static
-@end example
-
-Note that the @samp{--disable-static} is necessary because in a shared build
-libtool makes @file{libmpir.a} a symlink to @file{libmpir.so}, apparently for
-the benefit of old versions of @command{ld} which only recognise @file{.a},
-but unfortunately this is done even if a fully functional @command{ld} is
-available.
 
 @item ARM
 @cindex ARM
@@ -1400,59 +1531,32 @@ affects all code, including application code, not just MPIR.
 @cindex Windows
 @cindex Cygwin
 @cindex MINGW
-On an MS Windows system Cygwin and MINGW can be used , they 
+On an MS Windows system Cygwin and Cygwin64 and Msys2/Mingw can be used, they 
 are ports of GCC and the various GNU tools.
 
 @display
 @uref{http://www.cygwin.com/}
-@uref{http://www.mingw.org/}
+@uref{https://msys2.github.io/}
 @end display
 
-Cygwin is a 32 bit build only but mingw is 32 or 64 bit build. Depending on how
-the mingw tools are installed will determine the best procedure for building ,
-because of the large number of ways this can be achieved it is best to search
-the MPIR devel mailing list or the mingw mailing list.
+Both 32 and 64 bit versions of Msys2/Mingw and Cygwin are supported. Building
+on these systems is very similar to building on Linux. 
 
-For building with MSVC we provide a number of ways.
-
-In addition, project files for MSVC are provided, allowing MPIR to 
-build on Microsoft's compiler. For Visual Studio 2010 see the readme.txt 
-file in the build.vc10
-directory. The MSVC projects provides full assembler support and for
-@samp{x86_64} CPU's this will produce far superior results. These project
-files can also be accessed via the command line with the batch files 
-@samp{configure.bat} and @samp{make.bat} which have a @samp{unix like}
-interface , however they are not very well tested and are due to be replaced.
-
-An another alternative is @samp{configure} and @samp{make} in the @samp{win} 
-directory , these again have a @samp{unix like} syntax , these are tested 
-regularly and also have the advantage of working with VS2005 and up (including
-the free/express versions). There is some auto detection of the compiler , but it's
-probably best to set it explicity using the usual 
-@samp{call "%VS90COMNTOOLS%\..\..\VC\vcvarsall.bat" amd64} in the command window.
-The program @samp{YASM} is also required and should be in path or the @samp{%YASMPATH%}
-varible set.
-If @samp{configure} guesses wrong , close the window and try again changing the @samp{ABI=...}
-selection and or the @samp{vcvarsall.bat} options.
-@samp{make} supports the usual @samp{clean} and @samp{check} options .
-The @samp{only} bug is that shared library builds @samp{dll's} fail the make check
-in the C++ parts for @samp{istream} and @samp{ostream} with some unresolved
-symbols.
-
+We strongly recommend using recent versions of Cygwin/Msys2.
 
 @item MS Windows DLLs
 @cindex DLLs
 @cindex MS Windows
 @cindex Windows
-On systems @samp{*-*-cygwin*} and @samp{*-*-mingw*} by
-default MPIR builds only a static library, but a DLL can be built instead using
+On systems @samp{*-*-cygwin*} and @samp{*-*-mingw*} and @samp{*-*-msys} static
+and DLL libraries can't both be built, since certain export directives in 
+@file{mpir.h} must be different. Therefore you must specify whether you want
+a shared library or a static library. For example if you want just a shared
+library you can type the following.
 
 @example
 ./configure --disable-static --enable-shared
 @end example
-
-Static and DLL libraries can't both be built, since certain export directives
-in @file{mpir.h} must be different.
 
 Libtool doesn't install a @file{.lib} format import library, but it can be 
 created with MS @command{lib} as follows, and copied to the install directory.
@@ -1462,19 +1566,6 @@ Similarly for @file{libmpir} and @file{libmpirxx}.
 cd .libs
 lib /def:libgmp-3.dll.def /out:libgmp-3.lib
 @end example
-
-MINGW uses the C runtime library @samp{msvcrt.dll} for I/O, so applications
-wanting to use the MPIR I/O routines must be compiled with @samp{cl /MD} to do
-the same.  If one of the other C runtime library choices provided by MS C is
-desired then the suggestion is to use the MPIR string functions and confine I/O
-to the application.
-
-@item OpenBSD 2.6
-@cindex OpenBSD
-@command{m4} in this release of OpenBSD has a bug in @code{eval} that makes it
-unsuitable for @file{.asm} file processing.  @samp{./configure} will detect
-the problem and either abort or choose another m4 in the @env{PATH}.  The bug
-is fixed in OpenBSD 2.7, so either upgrade or use GNU m4.
 
 @item Sparc CPU Types
 @cindex Sparc
@@ -1553,40 +1644,14 @@ Install a recent @command{gas} if MMX code is wanted on these systems.
 You might find more up-to-date information at @uref{http://www.mpir.org/}.
 
 @table @asis
-@item Compiler link options
-The version of libtool currently in use rather aggressively strips compiler
-options when linking a shared library.  This will hopefully be relaxed in the
-future, but for now if this is a problem the suggestion is to create a little
-script to hide them, and for instance configure with
+@item GCC XOP issues
+@cindex GCC
+@cindex XOP
+GCC from version 4.6.0 to 4.8.x have a problem with the XOP instruction, 
+especially with @samp{-O3} on at least AMD Opteron @samp{62xx/63xx}, 
+@samp{FX-(4,6,8)[13]xx} and the Devil's Canyon @samp{9xxx} and the Kaveri APUs.
 
-@example
-./configure CC=gcc-with-my-options
-@end example
-
-@samp{make all} was found to run out of memory during the final
-@file{libgmp.la} link on one system tested, despite having 64Mb available.
-Running @samp{make libgmp.la} directly helped, perhaps recursing into the
-various subdirectories uses up memory.
-
-@item MacOS X (@samp{*-*-darwin*})
-@cindex MacOS X
-@cindex Darwin
-Libtool currently only knows how to create shared libraries on MacOS X using
-the native @command{cc} (which is a modified GCC), not a plain GCC@.  A
-static-only build should work though (@samp{--disable-shared}).
-
-@item Solaris 2.6
-@cindex Solaris
-The system @command{sed} prints an error ``Output line too long'' when libtool
-builds @file{libmpir.la}.  This doesn't seem to cause any obvious ill effects,
-but GNU @command{sed} is recommended, to avoid any doubt.
-
-@item Sparc Solaris 2.7 with gcc 2.95.2 in @samp{ABI=32}
-@cindex Solaris
-A shared library build of MPIR seems to fail in this combination, it builds but
-then fails the tests, apparently due to some incorrect data relocations within
-@code{gmp_randinit_lc_2exp_size}.  The exact cause is unknown,
-@samp{--disable-shared} is recommended.
+A workaround is to pass @samp{-mno-xop} when compiling with @samp{-O3}.
 @end table
 
 
@@ -2826,7 +2891,7 @@ These functions assign new values to already initialized integers
 @deftypefunx void mpz_set_q (mpz_t @var{rop}, mpq_t @var{op})
 @deftypefunx void mpz_set_f (mpz_t @var{rop}, mpf_t @var{op})
 Set the value of @var{rop} from @var{op}. Note the intmax versions are only available
-if you have stdint.h header file on your system.
+if you include the @file{stdint.h} header before including @file{mpir.h}.
 
 @code{mpz_set_d}, @code{mpz_set_q} and @code{mpz_set_f} truncate @var{op} to
 make it an integer.
@@ -2899,7 +2964,7 @@ already initialized!
 @deftypefunx void mpz_init_set_d (mpz_t @var{rop}, double @var{op})
 Initialize @var{rop} with limb space and set the initial numeric value from
 @var{op}. Note the intmax versions are only available
-if you have stdint.h header file on your system.
+if you include the @file{stdint.h} header before including @file{mpir.h}.
 @end deftypefun
 
 @deftypefun int mpz_init_set_str (mpz_t @var{rop}, char *@var{str}, int @var{base})
@@ -2945,8 +3010,8 @@ Return the value of @var{op} as an @code{uintmax_t}.
 
 If @var{op} is too big to fit an @code{uintmax_t} then just the least
 significant bits that do fit are returned.  The sign of @var{op} is ignored,
-only the absolute value is used. Note the intmax versions are only available
-if you have stdint.h header file on your system.
+only the absolute value is used. Note this function is only available if you
+include @file{stdint.h} before including @file{mpir.h}.
 @end deftypefun
 
 @deftypefun {intmax_t} mpz_get_sx (mpz_t @var{op})
@@ -2955,8 +3020,8 @@ Otherwise return the least significant part of @var{op}, with the same sign
 as @var{op}.
 
 If @var{op} is too big to fit in a @code{intmax_t}, the returned
-result is probably not very useful.  Note the intmax versions are only available
-if you have stdint.h header file on your system.
+result is probably not very useful. Note this function is only available if you
+include the @file{stdint.h} header before including @file{mpir.h}. 
 @end deftypefun
 
 @deftypefun double mpz_get_d (mpz_t @var{op})
@@ -3392,14 +3457,29 @@ to the argument @var{op1}.  Note that the result will always fit if @var{op2}
 is non-zero.
 @end deftypefun
 
-@deftypefun void mpz_gcdext (mpz_t @var{g}, mpz_t @var{s}, mpz_t @var{t}, mpz_t @var{a}, mpz_t @var{b})
+@deftypefun void mpz_gcdext (mpz_t @var{g}, mpz_t @var{s}, mpz_t @var{t}, const mpz_t @var{a}, const mpz_t @var{b})
 @cindex Extended GCD
 @cindex GCD extended
 Set @var{g} to the greatest common divisor of @var{a} and @var{b}, and in
 addition set @var{s} and @var{t} to coefficients satisfying
 @math{@var{a}@GMPmultiply{}@var{s} + @var{b}@GMPmultiply{}@var{t} = @var{g}}.
-@var{g} is always positive, even if one or both of @var{a} and @var{b} are
-negative.
+The value in @var{g} is always positive, even if one or both of @var{a} and
+@var{b} are negative (or zero if both inputs are zero).  The values in @var{s}
+and @var{t} are chosen such that normally, @math{@GMPabs{@var{s}} <
+@GMPabs{@var{b}} / (2 @var{g})} and @math{@GMPabs{@var{t}} < @GMPabs{@var{a}}
+/ (2 @var{g})}, and these relations define @var{s} and @var{t} uniquely.  There
+are a few exceptional cases:
+
+If @math{@GMPabs{@var{a}} = @GMPabs{@var{b}}}, then @math{@var{s} = 0},
+@math{@var{t} = sgn(@var{b})}.
+
+Otherwise, @math{@var{s} = sgn(@var{a})} if @math{@var{b} = 0} or
+@math{@GMPabs{@var{b}} = 2 @var{g}}, and @math{@var{t} = sgn(@var{b})} if
+@math{@var{a} = 0} or @math{@GMPabs{@var{a}} = 2 @var{g}}.
+
+In all cases, @math{@var{s} = 0} if and only if @math{@var{g} =
+@GMPabs{@var{b}}}, i.e., if @var{b} divides @var{a} or @math{@var{a} = @var{b}
+= 0}.
 
 If @var{t} is @code{NULL} then that value is not computed.
 @end deftypefun
@@ -4175,6 +4255,7 @@ zero, this routine will divide by zero.
 @cindex Comparison functions
 
 @deftypefun int mpq_cmp (mpq_t @var{op1}, mpq_t @var{op2})
+@deftypefunx int mpq_cmp_z (const mpq_t @var{op1}, const mpz_t @var{op2})
 Compare @var{op1} and @var{op2}.  Return a positive value if @math{@var{op1} >
 @var{op2}}, zero if @math{@var{op1} = @var{op2}}, and a negative value if
 @math{@var{op1} < @var{op2}}.
@@ -10135,7 +10216,8 @@ Michael Abshoff helped resolve some build issues on various platforms. He served
 Mariah Lennox contributed patches to mpirbench and various build failure reports. She has also reported gcc bugs found during MPIR development.
 
 Niels Moller wrote the fast ngcd code for computing integer GCD, the quadratic
-Hensel division code and precomputed inverse code for Euclidean division. 
+Hensel division code and precomputed inverse code for Euclidean division, along
+with fast jacobi symbols code. 
 He also made contributions to the Toom multiply code, 
 especially helper functions to simplify Toom evaluations.
 
@@ -10153,17 +10235,21 @@ reused for parts of the asymptotically fast division code. He also helped
 write the root code and wrote much of the Itanium assembly code and a couple
 of Core 2 assembly functions and part of the basecase middle product assembly
 code for x86 64 bit. He also wrote the improved string input and output code
-and made improvements to the GCD and extended GCD code. Torbjorn is also 
-responsible for numerous other bits and pieces that have been used from 
-the GNU project.
+and made improvements to the GCD and extended GCD code. He also contributed the
+nextprime code and coauthored the bin_uiui code. Torbjorn is also responsible
+for numerous other bits and pieces that have been used from the GNU project.
 
 Marco Bodrato and Alberto Zanoni suggested the unbalanced multiply strategy
 and found optimal Toom multiplication sequences.
 
 Marco Bodrato wrote an mpz implementation of the Toom 7 code and wrote most of
-the Toom 8.5 multiply and squaring code. He also helped write the divide and conquer Euclidean division code.
+the Toom 8.5 multiply and squaring code. He also helped write the divide and conquer Euclidean division code. He also contributed many improved number
+theoretical functions including factorial, multi-factorial, primorial, 
+n-choose-k.
 
 Robert Gerbicz contributed fast factorial code.
+
+Martin Boij made assorted contributions to the nextprime code.
 
 David Harvey wrote fast middle product code and divide and conquer approximate 
 quotient code for both Euclidean and Hensel division and contributed to the

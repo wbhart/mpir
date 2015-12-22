@@ -201,13 +201,3 @@ longlong.h
 gmp-mparam.h
 tune/sqr_basecase.c
 autoscript
-
-/build.vc11/output_params.bat
-/build.vc11/mpir-tests/test-config.props
-
-/build.vc12/output_params.bat
-
-/build.vc12/mpir-tests/test-config.props
-/mpn/x86_64w/bulldozer/piledriver
-bulldozer
-/mpn/x86_64w/haswell

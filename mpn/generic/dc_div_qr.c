@@ -33,7 +33,7 @@ mp_limb_t
 mpn_dc_div_qr (mp_ptr qp,
 		  mp_ptr np, mp_size_t nn,
 		  mp_srcptr dp, mp_size_t dn,
-		  mp_limb_t dinv, mp_limb_t d1inv)
+		  mp_limb_t dinv)
 {
   mp_size_t qn;
   mp_limb_t qh, cy;
@@ -124,9 +124,9 @@ mpn_dc_div_qr (mp_ptr qp,
 	  if (qn == 2)
 	    qh = mpn_divrem_2 (qp, 0L, np - 2, 4, dp - 2); /* FIXME: obsolete function. Use 5/3 division? */
 	  else if (BELOW_THRESHOLD (qn, DC_DIV_QR_THRESHOLD))
-	    qh = mpn_sb_div_qr (qp, np - qn, 2 * qn, dp - qn, qn, dinv, d1inv);
+	    qh = mpn_sb_div_qr (qp, np - qn, 2 * qn, dp - qn, qn, dinv);
 	  else
-	    qh = mpn_dc_div_qr_n (qp, np - qn, dp - qn, qn, dinv, d1inv, tp);
+	    qh = mpn_dc_div_qr_n (qp, np - qn, dp - qn, qn, dinv, tp);
 
 	  if (qn != dn)
 	    {
@@ -152,7 +152,7 @@ mpn_dc_div_qr (mp_ptr qp,
 	{
 	  qp -= dn;
 	  np -= dn;
-	  ASSERT_NOCARRY(mpn_dc_div_qr_n (qp, np - dn, dp - dn, dn, dinv, d1inv, tp));
+	  ASSERT_NOCARRY(mpn_dc_div_qr_n (qp, np - dn, dp - dn, dn, dinv, tp));
 	  qn -= dn;
 	}
       while (qn > 0);
@@ -163,9 +163,9 @@ mpn_dc_div_qr (mp_ptr qp,
       np -= qn;			/* point in the middle of partial remainder */
 
       if (BELOW_THRESHOLD (qn, DC_DIV_QR_THRESHOLD))
-	qh = mpn_sb_div_qr (qp, np - qn, 2 * qn, dp - qn, qn, dinv, d1inv);
+	qh = mpn_sb_div_qr (qp, np - qn, 2 * qn, dp - qn, qn, dinv);
       else
-	qh = mpn_dc_div_qr_n (qp, np - qn, dp - qn, qn, dinv, d1inv, tp);
+	qh = mpn_dc_div_qr_n (qp, np - qn, dp - qn, qn, dinv, tp);
 
       if (qn != dn)
 	{

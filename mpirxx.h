@@ -32,6 +32,8 @@ along with the GNU MP Library.  If not, see http://www.gnu.org/licenses/.  */
 #ifndef __GMP_PLUSPLUS__
 #define __GMP_PLUSPLUS__
 
+#include <cstddef>     /* for size_t */
+
 #include <iosfwd>
 
 #include <cstring>  /* for strlen */
@@ -51,17 +53,18 @@ along with the GNU MP Library.  If not, see http://www.gnu.org/licenses/.  */
 #  define MSC_CXX_11 1
 #endif
 
-#ifdef LLONG_MAX
+#if defined(LLONG_MAX) && defined(LONG_MAX)
 #if LLONG_MAX != LONG_MAX
 #define MPIRXX_HAVE_LLONG 1
 #endif
 #endif
 
-#if defined(MPIR_HAVE_STDINT)
-#  if INTMAX_MAX != LONG_MAX && (INTMAX_MAX != LLONG_MAX || !defined(MPIRXX_HAVE_LLONG))
+/* check availability of stdint.h -- note we do not include this ourselves */
+#if defined(INTMAX_MAX)
+#  if defined(LONG_MAX) && defined(INTMAX_MAX) && INTMAX_MAX != LONG_MAX && (INTMAX_MAX != LLONG_MAX || !defined(MPIRXX_HAVE_LLONG))
 #    define MPIRXX_INTMAX_T 1
 #  endif
-#  if UINTMAX_MAX != ULONG_MAX && (UINTMAX_MAX != ULLONG_MAX || !defined(MPIRXX_HAVE_LLONG))
+#  if defined(ULONG_MAX) && defined(UINTMAX_MAX) && UINTMAX_MAX != ULONG_MAX && (UINTMAX_MAX != ULLONG_MAX || !defined(MPIRXX_HAVE_LLONG))
 #    define MPIRXX_UINTMAX_T 1
 #  endif
 #endif

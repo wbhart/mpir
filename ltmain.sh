@@ -70,7 +70,7 @@
 #         compiler:		$LTCC
 #         compiler flags:		$LTCFLAGS
 #         linker:		$LD (gnu? $with_gnu_ld)
-#         $progname:	(GNU libtool) 2.4.2 Debian-2.4.2-1ubuntu1
+#         $progname:	(GNU libtool) 2.4.2 Debian-2.4.2-1.7ubuntu1
 #         automake:	$automake_version
 #         autoconf:	$autoconf_version
 #
@@ -80,7 +80,7 @@
 
 PROGRAM=libtool
 PACKAGE=libtool
-VERSION="2.4.2 Debian-2.4.2-1ubuntu1"
+VERSION="2.4.2 Debian-2.4.2-1.7ubuntu1"
 TIMESTAMP=""
 package_revision=1.3337
 
@@ -4520,22 +4520,6 @@ EOF
 EOF
 
 	    case $host_os in
-	      mingw*)
-		cat <<"EOF"
-  /* execv doesn't actually work on mingw as expected on unix */
-  newargz = prepare_spawn (newargz);
-  rval = _spawnv (_P_WAIT, lt_argv_zero, (const char * const *) newargz);
-  if (rval == -1)
-    {
-      /* failed to start process */
-      lt_debugprintf (__FILE__, __LINE__,
-		      "(main) failed to launch target \"%s\": %s\n",
-		      lt_argv_zero, nonnull (strerror (errno)));
-      return 127;
-    }
-  return rval;
-EOF
-		;;
 	      *)
 		cat <<"EOF"
   execv (lt_argv_zero, newargz);

@@ -193,8 +193,6 @@ mp_size_t  mulhigh_basecase_threshold   = MP_SIZE_T_MAX;
 mp_size_t  mulhigh_dc_threshold         = MP_SIZE_T_MAX;
 mp_size_t  mulhigh_mul_threshold        = MP_SIZE_T_MAX;
 mp_size_t  div_sb_preinv_threshold      = MP_SIZE_T_MAX;
-mp_size_t  sb_divappr_q_small_threshold = MP_SIZE_T_MAX;
-mp_size_t  sb_div_qr_small_threshold    = MP_SIZE_T_MAX;
 mp_size_t  dc_div_qr_threshold          = MP_SIZE_T_MAX;
 mp_size_t  inv_div_qr_threshold         = MP_SIZE_T_MAX;
 mp_size_t  inv_divappr_q_n_threshold    = MP_SIZE_T_MAX;
@@ -1039,30 +1037,6 @@ tune_sqr (gmp_randstate_t rands)
     param.max_size = SQR_TOOM8_THRESHOLD_LIMIT-1;
     one (&sqr_toom8_threshold, rands, &param);
   }
-  }
-}
-
-void
-tune_sb_div (gmp_randstate_t rands)
-{
-  {
-  static struct param_t  param;
-  param.name = "SB_DIVAPPR_Q_SMALL_THRESHOLD";
-  param.function = speed_mpn_sb_divappr_q;
-  param.min_size = 3;
-  param.min_is_always = 1;
-  param.step_factor = 0.02;
-  one (&sb_divappr_q_small_threshold, rands, &param);
-  }
-
-  {
-  static struct param_t  param;
-  param.name = "SB_DIV_QR_SMALL_THRESHOLD";
-  param.function = speed_mpn_sb_div_qr;
-  param.min_size = 3;
-  param.min_is_always = 1;
-  param.step_factor = 0.02;
-  one (&sb_div_qr_small_threshold, rands, &param);
   }
 }
 
@@ -2178,9 +2152,6 @@ all (gmp_randstate_t rands)
 
   tune_mulmod_2expm1(rands);
   printf("\n");
-
-  /* sb_divappr_q, sb_div_q, sb_div_qr */
-  tune_sb_div (rands);
 
   /* dc_div_qr_n, dc_divappr_q, inv_div_qr, inv_divappr_q */
   tune_dc_div (rands);

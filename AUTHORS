@@ -18,7 +18,7 @@ Pedro Gimeno		Mersenne Twister random generator, other random number
 			revisions
 Jason Moxham		New mpz/fac_ui.c and gen-fac_ui.c
 
-Contributors to MPIR (and authors whose code we use)
+Authors of code in MPIR (including code from recent GMP)
 
 Brian Gladman        Windows MSVC port and intel format x86_64 code
                      Port of tune, speed, try and benchmark code to MSVC. 
@@ -35,7 +35,7 @@ Jason Worth Martin   Core 2 assembly support,  merge of Moller's GCD patches,
 Michael Abshoff      Build system patches and failure reports, valgrinding,
                      build testing
 Niels Moller         GCD patches, nhgcd2.c, contributions to the schoolbook
-                     and divide and conquer division code
+                     and divide and conquer division code, jacobi symbols
 Jason Moxham	     Dramatic speed improvements for K8, K10 and Core 2 
                      assembler code and improvements to other x86_64 assembly 
                      code. Refactoring CPU detection code. Numerous bug and 
@@ -49,10 +49,15 @@ Alexander Kruppa     revised FFT code
 Torbjorn Granlund    revised FFT code, schoolbook and divide and conquer
                      division code (reused in asymptotically fast division
                      code), logops, rootrem, tdiv_q, tdiv_qr, linear division
-                     code for x86_64, itanium assembly code, divexact
+                     code for x86_64, itanium assembly code, divexact, 
+                     nextprime, n-choose-k 
 Marco Bodrato        mpz implementation of Toom 7, mpn implementation of 
                      toom 8.5, contributed to Schoolbook division code
+                     many improved number theoretical functions factorial,
+                     multi-factorial, primorial, n-choose-k
 Robert Gerbicz       fast factorial code
+Marc Glisse          gmpxx.h improvements
+Martin Boij          Miscellaneous improvements to nextprime code
 David Harvey         middle product and dc_divappr_q code, divide and conquer
                      Hensel division code and some work on basecase
 T. R. Nicely         primality tests used in benchmark
@@ -61,7 +66,8 @@ Peter Shrimpton	     BPSW primality test code for integers up to GMP_LIMB_BITS
 Minh Van Nguyen      Release manager for MPIR 2.1.0
 Case Vanhorsen	     Release testing
 David Cleaver        Bug report
-JP Flori             Tuning values
+JP Flori             Many build system patches, tuning values
 Sisyphus (Rob)       Tuning values
-Leif Lionhardy       Tuning values
+Leif Lionhardy       Build system patches, tuning values
 Julien Puydt         Tuning values
+Vincent Delecroix    port of mpq_cmp_z from gmp

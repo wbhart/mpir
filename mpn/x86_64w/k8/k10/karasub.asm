@@ -3,7 +3,7 @@
 ;       
 ;  Copyright 2011 The Code Cavern  
 ;
-;  Windows Conversion Copyright 2008 Brian Gladman
+;  Copyright 2012 Brian Gladman
 ;       
 ;  This file is part of the MPIR Library.  
 ;       
@@ -25,41 +25,79 @@
 ;  void mpn_karasub(mp_ptr, mp_ptr, mp_size_t)
 ;  rax                 rdi     rsi        rdx
 ;  rax                 rcx     rdx         r8
+;
+;  Karasuba Multiplication - split x and y into two equal length halves so
+;  that x = xh.B + xl and y = yh.B + yl. Then their product is:
+;
+;  x.y = xh.yh.B^2 + (xh.yl + xl.yh).B + xl.yl
+;      = xh.yh.B^2 + (xh.yh + xl.yl - {xh - xl}.{yh - yl}).B + xl.yl
+;
+; If the length of the elements is m (about n / 2), the output length is 4 * m 
+; as illustrated below.  The middle two blocks involve three additions and one 
+; subtraction: 
+; 
+;       -------------------- rp
+;       |                  |-->
+;       |   A:xl.yl[lo]    |   |
+;       |                  |   |      (xh - xl).(yh - yl)
+;       --------------------   |      -------------------- tp
+;  <--  |                  |<--<  <-- |                  |
+; |     |   B:xl.yl[hi]    |   |      |     E:[lo]       |
+; |     |                  |   |      |                  |
+; |     --------------------   |      --------------------
+; >-->  |                  |-->   <-- |                  |
+; |\___ |   C:xh.yh[lo]    | ____/    |     F:[hi]       |
+; |     |                  |          |                  |
+; |     --------------------          --------------------
+;  <--  |                  |   
+;       |   D:xh.yh[hi]    |
+;       |                  |
+;       --------------------
+;
+; To avoid overwriting B before it is used, we need to do two operations
+; in parallel:
+;
+; (1)   B = B + C + A - E = (B + C) + A - E
+; (2)   C = C + B + D - F = (B + C) + D - F
+;
+; The final carry from (1) has to be propagated into C and D, and the final
+; carry from (2) has to be propagated into D. When the number of input limbs
+; is odd, some extra operations have to be undertaken. 
 
 %include "yasm_mac.inc"
 
 %define reg_save_list   rbx, rbp, rsi, rdi, r12, r13, r14, r15
 
+%macro add_one 1
+    inc     %1
+%endmacro
+
     BITS 64
     TEXT
         
-;   requires n >= 8  
-        FRAME_PROC mpn_karasub, 1, reg_save_list
+;       requires n >= 8  
+        FRAME_PROC mpn_karasub, 2, reg_save_list
         mov     rdi, rcx
         mov     rsi, rdx
         mov     rdx, r8
         mov     [rsp], rdx
+        mov     [rsp+8], rdi
 
-;rp is rdi  
-;tp is rsi  
-;n is rdx and put it on the stack  
+;       rp is rdi, tp is rsi, L is rdi, H is rbp, tp is rsi
+;       carries/borrows in rax, rbx
+   
         shr     rdx, 1
-;n2 is rdx  
         lea     rcx, [rdx+rdx*1]
-; 2*n2 is rcx  
-; L is rdi  
-; H is rbp  
-; tp is rsi  
         lea     rbp, [rdi+rcx*8]
         xor     rax, rax
         xor     rbx, rbx
-; rax rbx are the carrys  
         lea     rdi, [rdi+rdx*8-24]
         lea     rsi, [rsi+rdx*8-24]
         lea     rbp, [rbp+rdx*8-24]
         mov     ecx, 3
         sub     rcx, rdx
         mov     edx, 3
+
         align   16
 .1:     bt      rbx, 2
         mov     r8, [rdi+rdx*8]
@@ -111,11 +149,11 @@
         add     rcx, 4
         jnc     .1
         cmp     rcx, 2
-        jg      .6
+        jg      .5
         jz      .4
         jp      .3
-.2:     
-        bt      rbx, 2
+
+.2:     bt      rbx, 2
         mov     r8, [rdi+rdx*8]
         adc     r8, [rbp]
         mov     r12, r8
@@ -154,8 +192,8 @@
         mov     [rbp+8], r13
         mov     [rbp+16], r14
         jmp     .5
-.3:     
-        bt      rbx, 2
+
+.3:     bt      rbx, 2
         mov     r8, [rdi+rdx*8]
         adc     r8, [rbp+8]
         mov     r12, r8
@@ -185,8 +223,8 @@
         mov     [rbp+8], r12
         mov     [rbp+16], r13
         jmp     .5
-.4:     
-        bt      rbx, 2
+
+.4:     bt      rbx, 2
         mov     r8, [rdi+rdx*8]
         adc     r8, [rbp+16]
         mov     r12, r8
@@ -204,59 +242,104 @@
         mov     [rdi+rdx*8], r8
         sbb     r12, [rsi+rdx*8]
         rcl     rbx, 1
-        inc     rdx
+        add_one rdx
         mov     [rbp+rcx*8], r12
-.5:     mov     rcx, 3
-.6:     
-; if odd the do next two  
+
+;       move low half rbx carry into rax
+.5:     rcr     rax, 3
+        bt      rbx, 2
+        rcl     rax, 3
         mov     r8, [rsp]
+        mov     rcx, rsi
+        mov     rsi,[rsp+8]
+        lea     r9, [r8+r8]
+        lea     rsi, [rsi+r9*8]
+        lea     r11, [rbp+24]
+        sub     r11, rsi
+        sar     r11, 3
         bt      r8, 0
         jnc     .9
-        xor     r10, r10
+
+;       if odd the do next two  
+        add     r11, 2
         mov     r8, [rbp+rdx*8]
         mov     r9, [rbp+rdx*8+8]
-        sub     r8, [rsi+rdx*8]
-        sbb     r9, [rsi+rdx*8+8]
-        rcl     r10, 1
-        add     [rbp+24], r8
+        rcr     rbx, 2
+        adc     r8,0
+        adc     r9, 0
+        rcl     rbx, 1
+        sbb     r8, [rcx+rdx*8]
+        sbb     r9, [rcx+rdx*8+8]
+        rcr     rbx, 2
+        adc     [rbp+24], r8
         adc     [rbp+32], r9
-.7:     adc     qword[rbp+rcx*8+16], 0
-        inc     rcx
-        jc      .7
-        mov     rcx, 3
-        bt      r10, 0
-.8:     sbb     qword[rbp+rcx*8+16], 0
-        inc     rcx
-        jc      .8
-        mov     rcx, 3
-; add in all carrys  
-; should we do the borrows last as it may be possible to underflow  
-; could use popcount  
-.9:     mov     rsi, rdx
+        rcl     rbx, 3
+
+; Now add in any accummulated carries and/or borrows
+;
+; NOTE: We can't propagate individual borrows or carries from the second
+; and third quarter blocks into the fourth quater block by simply waiting
+; for carry (or borrow) propagation to end.  This is because a carry into
+; the fourth quarter block when it contains only maximum integers or a 
+; borrow when it contains all zero integers will incorrectly propagate
+; beyond the end of the top quarter block.
+
+.9:     lea     rdx, [rdi+rdx*8]
+        sub     rdx, rsi
+        sar     rdx, 3
+
+; carries/borrrow from second to third quarter quarter block
+;   rax{2} is the carry in (B + C)
+;   rax{1} is the carry in (B + C) + A
+;   rax{0} is the borrow in (B + C + A) - E
+
+        mov     rcx, rdx
         bt      rax, 0
-.10:    sbb     qword[rdi+rdx*8], 0
-        inc     rdx
+.10:    sbb     qword[rsi+rcx*8], 0
+        add_one rcx
+        jrcxz   .11
         jc      .10
-        xor     r8, r8
+
+.11     mov     rcx, rdx
         bt      rax, 1
-        adc     r8, r8
-        bt      rbx, 2
-        adc     r8, 0
-        add     [rdi+rsi*8], r8
-.11:    adc     qword[rdi+rsi*8+8], 0
-        inc     rsi
-        jc      .11
-        mov     rsi, rcx
-        bt      rbx, 0
-.12:    sbb     qword[rbp+rcx*8], 0
-        inc     rcx
+.12:    adc     qword[rsi+rcx*8], 0
+        add_one rcx
+        jrcxz   .13
         jc      .12
-        and     rbx, 6
-        popcnt  r8, rbx
-        add     [rbp+rsi*8], r8
-.13:    adc     qword[rbp+rsi*8+8], 0
-        inc     rsi
-        jc      .13
+
+.13     mov     rcx, rdx
+        bt      rax, 2
+.14:    adc     qword[rsi+rcx*8], 0
+        add_one rcx
+        jrcxz   .15
+        jc      .14
+
+; carries/borrrow from third to fourth quarter quarter block
+;   rbx{2} is the carry in (B + C)
+;   rbx{1} is the carry in (B + C) + D
+;   rbx{0} is the borrow in (B + C + D) - F
+
+.15:    mov     rcx, r11
+        bt      rbx, 0
+.16:    sbb     qword[rsi+rcx*8], 0
+        add_one rcx
+        jrcxz   .17
+        jc      .16
+
+.17:    mov     rcx, r11
+        bt      rbx, 1
+.18:    adc     qword[rsi+rcx*8], 0
+        add_one rcx
+        jrcxz   .19
+        jc      .18
+
+.19:    mov     rcx, r11
+        bt      rbx, 2
+.20:    adc     qword[rsi+rcx*8], 0
+        add_one rcx
+        jrcxz   .21
+        jc      .20
+.21:
         END_PROC reg_save_list
 
         end
