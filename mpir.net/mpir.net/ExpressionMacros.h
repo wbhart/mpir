@@ -233,11 +233,19 @@ private ref class MPEXPR(name) : base                                           
         operation(destination, destination, Right);                                       \
     }
 
-#define DEFINE_BINARY_ASSIGNMENT_REF_RATVAL(name, leftTypeAbbr, rightTypeAbbr, operation) \
+#define DEFINE_BINARY_ASSIGNMENT_REF_RATUI(name, leftTypeAbbr, rightTypeAbbr, operation)  \
     DEFINE_ASSIGNMENT_PROLOG(name##leftTypeAbbr##rightTypeAbbr)                           \
     {                                                                                     \
         IN_CONTEXT(Left);                                                                 \
-        CTXT_ADD_RATIONAL(Right, 1);                                                      \
+        CTXT_ADD_RATIONAL_UI(Right, 1);                                                   \
+        operation(destination, CTXT(0), CTXT(1));                                         \
+    }
+
+#define DEFINE_BINARY_ASSIGNMENT_REF_RATSI(name, leftTypeAbbr, rightTypeAbbr, operation)  \
+    DEFINE_ASSIGNMENT_PROLOG(name##leftTypeAbbr##rightTypeAbbr)                           \
+    {                                                                                     \
+        IN_CONTEXT(Left);                                                                 \
+        CTXT_ADD_RATIONAL_SI(Right, 1);                                                   \
         operation(destination, CTXT(0), CTXT(1));                                         \
     }
 
@@ -248,11 +256,19 @@ private ref class MPEXPR(name) : base                                           
         operation(destination, Left, destination);                                        \
     }
 
-#define DEFINE_BINARY_ASSIGNMENT_RATVAL_REF(name, leftTypeAbbr, rightTypeAbbr, operation) \
+#define DEFINE_BINARY_ASSIGNMENT_RATUI_REF(name, leftTypeAbbr, rightTypeAbbr, operation)  \
     DEFINE_ASSIGNMENT_PROLOG(name##leftTypeAbbr##rightTypeAbbr)                           \
     {                                                                                     \
         IN_CONTEXT(Right);                                                                \
-        CTXT_ADD_RATIONAL(Left, 1);                                                       \
+        CTXT_ADD_RATIONAL_UI(Left, 1);                                                    \
+        operation(destination, CTXT(1), CTXT(0));                                         \
+    }
+
+#define DEFINE_BINARY_ASSIGNMENT_RATSI_REF(name, leftTypeAbbr, rightTypeAbbr, operation)  \
+    DEFINE_ASSIGNMENT_PROLOG(name##leftTypeAbbr##rightTypeAbbr)                           \
+    {                                                                                     \
+        IN_CONTEXT(Right);                                                                \
+        CTXT_ADD_RATIONAL_SI(Left, 1);                                                    \
         operation(destination, CTXT(1), CTXT(0));                                         \
     }
 

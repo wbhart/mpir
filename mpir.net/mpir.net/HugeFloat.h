@@ -366,7 +366,7 @@ namespace MPIR
             /// <param name="a">Value to compare the source with</param>
             /// <param name="precision">The number of most significant bits that must match for the two numbers to be considered equal</param>
             /// <returns>true if the values of the source and <paramref name="a"/> are equal to <paramref name="precision"/>, false otherwise.</returns>
-            bool Equals(MPEXPR_NAME^ a, mp_bitcnt_t precision) { IN_CONTEXT(this, a); return MP(eq)(CTXT(0), CTXT(1), precision); }
+            bool Equals(MPEXPR_NAME^ a, mp_bitcnt_t precision) { IN_CONTEXT(this, a); return MP(eq)(CTXT(0), CTXT(1), precision) != 0; }
 
             /// <summary>Computes the hash code of the source value.
             /// <para>If called on an expression, it is evaluated into a temporary variable before the comparison is performed.
@@ -1314,7 +1314,7 @@ namespace MPIR
             /// <param name="reader">Text reader to input the number from</param>
             /// <param name="base">The base to use for the mantissa.
             /// <para>The base can be from 2 to 62; uppercase letters represent digits 10-35 while lowercase letters represent digits 36-61.
-            /// </para>For bases larger than 36, the <paramref name="lowercase"/> argument is ignored and uppercase letters represent digits 10-35 while lowercase letters represent digits 36-61.</param>
+            /// </para>For bases 36 and less, uppercase and lowercase letters are equivalent.</param>
             /// <returns>the number of characters read</returns>
             size_t Read(TextReader^ reader, int base) { return Read(reader, base, true); }
 

@@ -147,11 +147,25 @@ struct EvaluationContext
             Zero = 0;
         }
 
-#define CTXT_ADD_RATIONAL(numerator, denominator)     \
+#define CTXT_ADD_RATIONAL_SI(numerator, denominator)  \
     auto ptr = &context.Temp[context.Index].Rational; \
     context.RationalArgs[context.Index++] = ptr;      \
                                                       \
     auto _n = (mpir_ui)ABS(numerator);                \
+    ptr->_mp_num._mp_alloc = 1;                       \
+    ptr->_mp_num._mp_size = (int)SGN(numerator);      \
+    ptr->_mp_num._mp_d = &_n;                         \
+                                                      \
+    auto _d = (mpir_ui)denominator;                   \
+    ptr->_mp_den._mp_alloc = 1;                       \
+    ptr->_mp_den._mp_size = (int)SGN(denominator);    \
+    ptr->_mp_den._mp_d = &_d;
+
+#define CTXT_ADD_RATIONAL_UI(numerator, denominator)  \
+    auto ptr = &context.Temp[context.Index].Rational; \
+    context.RationalArgs[context.Index++] = ptr;      \
+                                                      \
+    auto _n = (mpir_ui)numerator;                     \
     ptr->_mp_num._mp_alloc = 1;                       \
     ptr->_mp_num._mp_size = (int)SGN(numerator);      \
     ptr->_mp_num._mp_d = &_n;                         \

@@ -234,14 +234,14 @@ namespace MPIR
         if(a->GetType() == mpir_ui::typeid)
         {
             ASSIGN_TO(context);
-            CTXT_ADD_RATIONAL((mpir_ui)a, 1);
+            CTXT_ADD_RATIONAL_UI((mpir_ui)a, 1);
             return MP(equal)(CTXT(0), CTXT(1)) != 0;
         }
 
         if(a->GetType() == mpir_si::typeid)
         {
             ASSIGN_TO(context);
-            CTXT_ADD_RATIONAL((mpir_si)a, 1);
+            CTXT_ADD_RATIONAL_SI((mpir_si)a, 1);
             return MP(equal)(CTXT(0), CTXT(1)) != 0;
         }
 
@@ -267,14 +267,14 @@ namespace MPIR
     bool MPEXPR_NAME::Equals(mpir_si numerator, mpir_ui denominator)
     {
         IN_CONTEXT(this);
-        CTXT_ADD_RATIONAL(numerator, denominator);
+        CTXT_ADD_RATIONAL_SI(numerator, denominator);
         return MP(equal)(CTXT(0), CTXT(1)) != 0;
     }
 
     bool MPEXPR_NAME::Equals(mpir_ui numerator, mpir_ui denominator)
     {
         IN_CONTEXT(this);
-        CTXT_ADD_RATIONAL(numerator, denominator);
+        CTXT_ADD_RATIONAL_UI(numerator, denominator);
         return MP(equal)(CTXT(0), CTXT(1)) != 0;
     }
 
@@ -328,28 +328,28 @@ namespace MPIR
     DEFINE_UNARY_ASSIGNMENT_REF(Abs, Rat, MP(abs))
 
     DEFINE_BINARY_ASSIGNMENT_REF_REF(Add, Rat, MP(add))
-    DEFINE_BINARY_ASSIGNMENT_REF_RATVAL(Add, Rat, Ui, MP(add))
-    DEFINE_BINARY_ASSIGNMENT_REF_RATVAL(Add, Rat, Si, MP(add))
+    DEFINE_BINARY_ASSIGNMENT_REF_RATUI(Add, Rat, Ui, MP(add))
+    DEFINE_BINARY_ASSIGNMENT_REF_RATSI(Add, Rat, Si, MP(add))
     DEFINE_BINARY_ASSIGNMENT_REF_INTVAL(Add, Rat, IExpr, MP(add))
 
     DEFINE_BINARY_ASSIGNMENT_REF_REF(Subtract, Rat, MP(sub))
-    DEFINE_BINARY_ASSIGNMENT_REF_RATVAL(Subtract, Rat, Ui, MP(sub))
-    DEFINE_BINARY_ASSIGNMENT_RATVAL_REF(Subtract, Ui, Rat, MP(sub))
-    DEFINE_BINARY_ASSIGNMENT_REF_RATVAL(Subtract, Rat, Si, MP(sub))
-    DEFINE_BINARY_ASSIGNMENT_RATVAL_REF(Subtract, Si, Rat, MP(sub))
+    DEFINE_BINARY_ASSIGNMENT_REF_RATUI(Subtract, Rat, Ui, MP(sub))
+    DEFINE_BINARY_ASSIGNMENT_RATUI_REF(Subtract, Ui, Rat, MP(sub))
+    DEFINE_BINARY_ASSIGNMENT_REF_RATSI(Subtract, Rat, Si, MP(sub))
+    DEFINE_BINARY_ASSIGNMENT_RATSI_REF(Subtract, Si, Rat, MP(sub))
     DEFINE_BINARY_ASSIGNMENT_REF_INTVAL(Subtract, Rat, IExpr, MP(sub))
     DEFINE_BINARY_ASSIGNMENT_REF_INTVAL(Subtract, IExpr, Rat, MP(sub))
 
     DEFINE_BINARY_ASSIGNMENT_REF_REF(Multiply, Rat, MP(mul))
-    DEFINE_BINARY_ASSIGNMENT_REF_RATVAL(Multiply, Rat, Ui, MP(mul))
-    DEFINE_BINARY_ASSIGNMENT_REF_RATVAL(Multiply, Rat, Si, MP(mul))
+    DEFINE_BINARY_ASSIGNMENT_REF_RATUI(Multiply, Rat, Ui, MP(mul))
+    DEFINE_BINARY_ASSIGNMENT_REF_RATSI(Multiply, Rat, Si, MP(mul))
     DEFINE_BINARY_ASSIGNMENT_REF_INTVAL(Multiply, Rat, IExpr, MP(mul))
 
     DEFINE_BINARY_ASSIGNMENT_REF_REF(Divide, Rat, MP(div))
-    DEFINE_BINARY_ASSIGNMENT_REF_RATVAL(Divide, Rat, Ui, MP(div))
-    DEFINE_BINARY_ASSIGNMENT_RATVAL_REF(Divide, Ui, Rat, MP(div))
-    DEFINE_BINARY_ASSIGNMENT_REF_RATVAL(Divide, Rat, Si, MP(div))
-    DEFINE_BINARY_ASSIGNMENT_RATVAL_REF(Divide, Si, Rat, MP(div))
+    DEFINE_BINARY_ASSIGNMENT_REF_RATUI(Divide, Rat, Ui, MP(div))
+    DEFINE_BINARY_ASSIGNMENT_RATUI_REF(Divide, Ui, Rat, MP(div))
+    DEFINE_BINARY_ASSIGNMENT_REF_RATSI(Divide, Rat, Si, MP(div))
+    DEFINE_BINARY_ASSIGNMENT_RATSI_REF(Divide, Si, Rat, MP(div))
     DEFINE_BINARY_ASSIGNMENT_REF_INTVAL(Divide, Rat, IExpr, MP(div))
     DEFINE_BINARY_ASSIGNMENT_REF_INTVAL(Divide, IExpr, Rat, MP(div))
 

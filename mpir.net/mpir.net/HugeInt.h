@@ -1918,7 +1918,7 @@ namespace MPIR
                 auto bitsPerLimb = 8 * bytesPerLimb - nails;
                 auto limbCount = (MP(sizeinbase)(_value, 2) - 1) / bitsPerLimb + 1;
                 auto arrayCount = (limbCount * bytesPerLimb - 1) / sizeof(T) + 1;
-                auto data = gcnew array<T>(arrayCount);
+                auto data = gcnew array<T>((int)arrayCount);
 
                 PIN(data);
                 MP(export)(pinned_data, &limbCount, (int)limbOrder, bytesPerLimb, (int)endianness, nails, _value);
