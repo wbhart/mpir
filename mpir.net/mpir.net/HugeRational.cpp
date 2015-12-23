@@ -165,6 +165,14 @@ namespace MPIR
 
         EvaluationContext context;
 
+        IntegerExpression^ expr2 = dynamic_cast<IntegerExpression^>(a);
+        if (!IS_NULL(expr2))
+        {
+            ASSIGN_TO(context);
+            expr2->AssignToInteger(context);
+            return MP(cmp_z)(CTXT(0), CTXTI(1));
+        }
+
         if(a->GetType() == mpir_ui::typeid)
         {
             ASSIGN_TO(context);
@@ -230,6 +238,14 @@ namespace MPIR
             return Equals(expr);
 
         EvaluationContext context;
+
+        IntegerExpression^ expr2 = dynamic_cast<IntegerExpression^>(a);
+        if (!IS_NULL(expr2))
+        {
+            ASSIGN_TO(context);
+            expr2->AssignToRational(context);
+            return MP(equal)(CTXT(0), CTXT(1)) != 0;
+        }
 
         if(a->GetType() == mpir_ui::typeid)
         {
@@ -435,6 +451,49 @@ namespace MPIR
     {
         IN_CONTEXT(value);
         mpf_set_q(_value, CTXT(0));
+    }
+
+    int IntegerExpression::CompareTo(Object^ a, bool& valid)
+    {
+        valid = true;
+
+        if (IS_NULL(a))
+            return 1;
+
+        IntegerExpression^ expr = dynamic_cast<IntegerExpression^>(a);
+        if (!IS_NULL(expr))
+            return CompareTo(expr);
+
+        EvaluationContext context;
+
+        MPEXPR_NAME^ expr2 = dynamic_cast<MPEXPR_NAME^>(a);
+        if (!IS_NULL(expr2))
+        {
+            expr2->AssignToRational(context);
+            AssignToInteger(context);
+            return -MP(cmp_z)(CTXT(0), CTXTI(1));
+        }
+
+        if (a->GetType() == mpir_ui::typeid)
+        {
+            AssignToInteger(context);
+            return mpz_cmp_ui(CTXTI(0), (mpir_ui)a);
+        }
+
+        if (a->GetType() == mpir_si::typeid)
+        {
+            AssignToInteger(context);
+            return mpz_cmp_si(CTXTI(0), (mpir_si)a);
+        }
+
+        if (a->GetType() == double::typeid)
+        {
+            AssignToInteger(context);
+            return mpz_cmp_d(CTXTI(0), (double)a);
+        }
+
+        valid = false;
+        return 0;
     }
 
     #pragma endregion

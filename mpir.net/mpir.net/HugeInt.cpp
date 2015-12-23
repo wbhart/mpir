@@ -172,40 +172,7 @@ namespace MPIR
 
     #pragma region Interface implementations
 
-    int MPEXPR_NAME::CompareTo(Object^ a, bool& valid)
-    {
-        valid = true;
-
-        if (IS_NULL(a))
-            return 1;
-
-        MPEXPR_NAME^ expr = dynamic_cast<MPEXPR_NAME^>(a);
-        if(!IS_NULL(expr))
-            return CompareTo(expr);
-
-        EvaluationContext context;
-
-        if(a->GetType() == mpir_ui::typeid)
-        {
-            ASSIGN_TO(context);
-            return MP(cmp_ui)(CTXT(0), (mpir_ui)a);
-        }
-
-        if(a->GetType() == mpir_si::typeid)
-        {
-            ASSIGN_TO(context);
-            return MP(cmp_si)(CTXT(0), (mpir_si)a);
-        }
-
-        if(a->GetType() == double::typeid)
-        {
-            ASSIGN_TO(context);
-            return MP(cmp_d)(CTXT(0), (double)a);
-        }
-
-        valid = false;
-        return 0;
-    }
+    //CompareTo has to be defined in HugeRational.cpp because it depends on HugeRational.h
 
     int MPEXPR_NAME::CompareTo(Object^ a)
     {

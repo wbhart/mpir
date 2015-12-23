@@ -446,8 +446,11 @@ namespace MPIR
 
             /// <summary>Compares two numbers.
             /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
-            /// </para></summary>
-            /// <param name="a">Value to compare the source with</param>
+            /// </para>Both this method and Equals() allow the argument to be a RationalExpression, however we do not define mixed equality operators,
+            /// because otherwise testing for a null/non-null expression would require an awkward explicit cast on the null.
+            /// <para>Although this only applies to equality operators, while comparison operators could have possibly worked, we're leaving out all mixed operators for now.
+            /// </para>Since comparison via CompareTo() or Equals() is possible between ints and rationals, operators would just be another way to do the same thing.</summary>
+            /// <param name="a">Value to compare the source with.  This can be an integer or rational multi-precision number or expression, or a supported primitive type (long, ulong, or double).</param>
             /// <returns>A positive number if the source is greater than <paramref name="a"/>, negative if less, and zero if they are equal.</returns>
             virtual int CompareTo(Object^ a) sealed;
 
@@ -467,8 +470,11 @@ namespace MPIR
 
             /// <summary>Compares two numbers.
             /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
-            /// </para></summary>
-            /// <param name="a">Value to compare the source with.  This can be a multi-precision number, an expression, or a supported primitive type (long, ulong, or double).</param>
+            /// </para>Both this method and CompareTo() allow the argument to be a RationalExpression, however we do not define mixed equality operators,
+            /// because otherwise testing for a null/non-null expression would require an awkward explicit cast on the null.
+            /// <para>Although this only applies to equality operators, while comparison operators could have possibly worked, we're leaving out all mixed operators for now.
+            /// </para>Since comparison via CompareTo() or Equals() is possible between ints and rationals, operators would just be another way to do the same thing.</summary>
+            /// <param name="a">Value to compare the source with.  This can be an integer or rational multi-precision number or expression, or a supported primitive type (long, ulong, or double).</param>
             /// <returns>true if the values of the source and <paramref name="a"/> are equal, false otherwise.</returns>
             virtual bool Equals(Object^ a) override sealed;
 
@@ -939,7 +945,7 @@ namespace MPIR
             MPEXPR_NAME^ NextPrimeCandidate(MpirRandom^ random);
 
             /// <summary>Computes the greatest common divisor of this number and <paramref name="a"/>.
-            /// <para>The result is always positive even if one or both inputs are negative.
+            /// <para>The result is always positive even if one or both inputs are negative (or zero if both inputs are zero).
             /// </para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
             /// </summary>
             /// <param name="a">Source value to compute the GCD with</param>
@@ -1245,9 +1251,14 @@ namespace MPIR
 
         public:
             /// <summary>
-            /// Optionally computes and saves the coefficients <paramref name="s"/> and <paramref name="t"/> such that x*s + y*t = gcd(x, y).
+            /// Optionally computes and saves the coefficients <paramref name="s"/> and <paramref name="t"/> such that a<paramref name="s"/> + b<paramref name="t"/> = g = gcd(a, b).
             /// <para>If only one of the coefficients is needed, use null for the other.
-            /// </para></summary>
+            /// </para>The values <paramref name="s"/> and <paramref name="t"/> are chosen such that normally, |<paramref name="s"/>| &lt; |b|/(2g) and |<paramref name="t"/>| &lt; |a|/(2g),
+            /// and these relations define <paramref name="s"/> and <paramref name="t"/> uniquely.
+            /// <para>There are a few exceptional cases:
+            /// </para>If |a| = |b|, then <paramref name="s"/> = 0 and <paramref name="t"/> = sgn(b).
+            /// <para>Otherwise, <paramref name="s"/> = sgn(a) if b = 0 or |b| = 2g, and <paramref name="t"/> = sgn(b) if a = 0 or |a| = 2g.
+            /// </para>In all cases, <paramref name="s"/> = 0 if and only if g = |b|, i.e., if b divides a or a = b = 0.</summary>
             /// <param name="s">destination for the first coefficient. Can be null if not needed.</param>
             /// <param name="t">destination for the second coefficient. Can be null if not needed.</param>
             /// <returns>An updated expression, with its internal state updated to save the coefficients.</returns>

@@ -42,6 +42,33 @@ namespace MPIR.Tests.HugeRationalTests
         }
 
         [TestMethod]
+        public void RationalCompareToHugeInt()
+        {
+            using (var a = new HugeRational("-222509832503450298345029835740293845721/115756986668303657898962467957"))
+            using (var b = new HugeInt("115756986668303657898962467957"))
+            using (var c = new HugeRational("115756986668303657898962467957/1"))
+            using (var d = new HugeInt(1922215141))
+            {
+                Assert.AreEqual(-1, System.Math.Sign(a.CompareTo(d)));
+                Assert.AreEqual(1, System.Math.Sign((-a).CompareTo(d)));
+                Assert.AreEqual(-1, System.Math.Sign((-a).CompareTo(d + 1)));
+                Assert.AreEqual(1, System.Math.Sign(d.CompareTo(a)));
+                Assert.AreEqual(-1, System.Math.Sign(d.CompareTo(-a)));
+                Assert.AreEqual(1, System.Math.Sign((d + 1).CompareTo(-a)));
+
+                Assert.AreEqual(0, System.Math.Sign(b.CompareTo(c)));
+                Assert.AreEqual(0, System.Math.Sign(c.CompareTo(b)));
+                Assert.AreEqual(0, System.Math.Sign((-b).CompareTo(-c)));
+                Assert.AreEqual(0, System.Math.Sign((-c).CompareTo(-b)));
+
+                Assert.AreEqual(1, System.Math.Sign(b.CompareTo(c - 1)));
+                Assert.AreEqual(1, System.Math.Sign(c.CompareTo(b - 1)));
+                Assert.AreEqual(-1, System.Math.Sign((-b).CompareTo(1 - c)));
+                Assert.AreEqual(-1, System.Math.Sign((-c).CompareTo(1 - b)));
+            }
+        }
+
+        [TestMethod]
         public void RationalCompareToObject()
         {
             using (var a = new HugeRational("-222509832503450298345029835740293845721/115756986668303657898962467957"))
@@ -434,6 +461,28 @@ namespace MPIR.Tests.HugeRationalTests
                 Assert.IsTrue((a + c).Equals(-b));
                 Assert.IsFalse(a.Equals(null));
                 Assert.IsTrue(Equals(a + c, -b));
+            }
+        }
+
+        [TestMethod]
+        public void RationalEqualsHugeInt()
+        {
+            using (var a = new HugeRational("-222509832503450298345029835740293845721/115756986668303657898962467957"))
+            using (var b = new HugeInt(1922215142))
+            using (var c = new HugeRational("115756986668303657898962467957/1"))
+            using (var d = new HugeInt("-115756986668303657898962467957"))
+            {
+                Assert.IsFalse(a.Equals(b));
+                Assert.IsFalse(b.Equals(a));
+                Assert.IsFalse(a.Equals(-b));
+                Assert.IsFalse(b.Equals(-a));
+                Assert.IsFalse(c.Equals(d));
+                Assert.IsTrue(c.Equals(-d));
+                Assert.IsTrue((-c).Equals(d));
+                Assert.IsTrue(d.Equals(-c));
+                Assert.IsTrue((-d).Equals(c));
+                Assert.IsTrue(Equals(c, -d));
+                Assert.IsTrue(Equals(-c, d));
             }
         }
 

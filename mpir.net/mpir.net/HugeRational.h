@@ -376,8 +376,11 @@ namespace MPIR
 
             /// <summary>Compares two numbers.
             /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
-            /// </para></summary>
-            /// <param name="a">Value to compare the source with</param>
+            /// </para>Both this method and Equals() allow the argument to be an IntegerExpression, however we do not define mixed equality operators,
+            /// because otherwise testing for a null/non-null expression would require an awkward explicit cast on the null.
+            /// <para>Although this only applies to equality operators, while comparison operators could have possibly worked, we're leaving out all mixed operators for now.
+            /// </para>Since comparison via CompareTo() or Equals() is possible between ints and rationals, operators would just be another way to do the same thing.</summary>
+            /// <param name="a">Value to compare the source with.  This can be an integer or rational multi-precision number or expression, or a supported primitive type (long, ulong, or double).</param>
             /// <returns>A positive number if the source is greater than <paramref name="a"/>, negative if less, and zero if they are equal.</returns>
             virtual int CompareTo(Object^ a) sealed;
 
@@ -413,8 +416,11 @@ namespace MPIR
 
             /// <summary>Compares two numbers.
             /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
-            /// </para></summary>
-            /// <param name="a">Value to compare the source with.  This can be a multi-precision number, an expression, or a supported primitive type (long, ulong, or double).</param>
+            /// </para>Both this method and CompareTo() allow the argument to be an IntegerExpression, however we do not define mixed equality operators,
+            /// because otherwise testing for a null/non-null expression would require an awkward explicit cast on the null.
+            /// <para>Although this only applies to equality operators, while comparison operators could have possibly worked, we're leaving out all mixed operators for now.
+            /// </para>Since comparison via CompareTo() or Equals() is possible between ints and rationals, operators would just be another way to do the same thing.</summary>
+            /// <param name="a">Value to compare the source with.  This can be an integer or rational multi-precision number or expression, or a supported primitive type (long, ulong, or double).</param>
             /// <returns>true if the values of the source and <paramref name="a"/> are equal, false otherwise.</returns>
             virtual bool Equals(Object^ a) override sealed;
 
