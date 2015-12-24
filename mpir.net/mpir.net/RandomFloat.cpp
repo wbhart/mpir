@@ -45,7 +45,6 @@ namespace MPIR
         MP(rrandomb)(destination, Left->_value, BITS_TO_LIMBS(MP(get_prec)(destination)), Right);
     }
 
-    //TODO implement "precision of destination" for context ops
     //TODO investigate implementing raw IO for floats
 
     DEFINE_ASSIGNMENT_PROLOG(RandomLimbsChunky)

@@ -35,6 +35,7 @@ using namespace System::Runtime::InteropServices;
 #undef CTXT
 #undef ASSIGN_TO
 #undef Mpt
+#undef SET_CONTEXT_PRECISION
 #endif
 #define SPECIALIZE_EXPRESSIONS
 #define Mpt Int
@@ -47,6 +48,7 @@ using namespace System::Runtime::InteropServices;
 #define MPEXPR(x) LIT(MPTYPE_NAME)##x##Expression
 #define CTXT(x) context.IntArgs[x]
 #define ASSIGN_TO CONCAT(AssignTo, LIT(MPTYPE_NAME))
+#define SET_CONTEXT_PRECISION
 #include "ExpressionMacros.h"
 
 extern __mpz_struct HugeIntConst1;
@@ -1665,7 +1667,7 @@ namespace MPIR
             /// <summary>
             /// Sets the value of the integer object.  Any fractional portion is truncated.
             /// <para>Do not change the value of an object while it is contained in a hash table, because that changes its hash code.
-            /// </para></summary>
+            /// </para>If the argument is an expression, it is evaluated with the current default float precision.</summary>
             /// <param name="value">new value for the object</param>
             void SetTo(FloatExpression^ value);
 

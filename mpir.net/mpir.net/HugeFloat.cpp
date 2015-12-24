@@ -180,7 +180,7 @@ namespace MPIR
 
     int MPEXPR_NAME::GetHashCode()
     {
-        IN_CONTEXT(this);
+        IN_DEFAULT_CONTEXT(this);
 
         mp_limb_t hash = CTXT(0)->_mp_exp;
         mp_limb_t* ptr = CTXT(0)->_mp_d;
@@ -208,23 +208,24 @@ namespace MPIR
         if(!IS_NULL(expr))
             return CompareTo(expr);
 
-        EvaluationContext context;
+        auto f = dynamic_cast<MPTYPE^>(this);
+        auto precision = IS_NULL(f) ? MPTYPE::DefaultPrecision : f->Precision;
 
         if(a->GetType() == mpir_ui::typeid)
         {
-            ASSIGN_TO(context);
+            IN_SPECIFIC_CONTEXT(precision, this);
             return MP(cmp_ui)(CTXT(0), (mpir_ui)a);
         }
 
         if(a->GetType() == mpir_si::typeid)
         {
-            ASSIGN_TO(context);
+            IN_SPECIFIC_CONTEXT(precision, this);
             return MP(cmp_si)(CTXT(0), (mpir_si)a);
         }
 
         if(a->GetType() == double::typeid)
         {
-            ASSIGN_TO(context);
+            IN_SPECIFIC_CONTEXT(precision, this);
             return MP(cmp_d)(CTXT(0), (double)a);
         }
 
@@ -248,7 +249,11 @@ namespace MPIR
         if (IS_NULL(a))
             return 1;
 
-        IN_CONTEXT(this, a);
+        auto f = dynamic_cast<MPTYPE^>(this);
+        if (IS_NULL(f)) f = dynamic_cast<MPTYPE^>(a);
+        auto precision = IS_NULL(f) ? MPTYPE::DefaultPrecision : f->Precision;
+
+        IN_SPECIFIC_CONTEXT(precision, this, a);
         return MP(cmp)(CTXT(0), CTXT(1));
     }
 
@@ -339,6 +344,12 @@ namespace MPIR
 
     DEFINE_BINARY_ASSIGNMENT_REF_VAL(Power, Flt, Ui, MP(pow_ui))
     DEFINE_BINARY_ASSIGNMENT_REF_REF(RelativeDifferenceFrom, Flt, MP(reldiff))
+
+    int MPEXPR_NAME::Sign()
+    {
+        IN_DEFAULT_CONTEXT(this); 
+        return MP(sgn)(CTXT(0));
+    }
 
     #pragma endregion
 
@@ -437,13 +448,13 @@ namespace MPIR
 
     void HugeInt::SetTo(MPEXPR_NAME^ value)
     {
-        IN_CONTEXT(value);
+        IN_DEFAULT_CONTEXT(value);
         mpz_set_f(_value, CTXT(0));
     }
 
     void HugeRational::SetTo(MPEXPR_NAME^ value)
     {
-        IN_CONTEXT(value);
+        IN_DEFAULT_CONTEXT(value);
         mpq_set_f(_value, CTXT(0));
     }
 

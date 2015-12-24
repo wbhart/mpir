@@ -136,6 +136,7 @@ struct EvaluationContext
             };
             __int64 Zero;
         };
+        mp_bitcnt_t FloatPrecision;
 
         void inline Initialized(EvaluationOptions flag)
         {
@@ -145,6 +146,7 @@ struct EvaluationContext
         EvaluationContext()
         {
             Zero = 0;
+            FloatPrecision = 0;
         }
 
 #define CTXT_ADD_RATIONAL_SI(numerator, denominator)  \

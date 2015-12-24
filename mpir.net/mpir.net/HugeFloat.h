@@ -36,6 +36,7 @@ using namespace System::Runtime::InteropServices;
 #undef CTXTI
 #undef ASSIGN_TO
 #undef Mpt
+#undef SET_CONTEXT_PRECISION
 #endif
 #define SPECIALIZE_EXPRESSIONS
 #define Mpt Flt
@@ -50,6 +51,7 @@ using namespace System::Runtime::InteropServices;
 #define CTXTI(x) context.IntArgs[x]
 #define CTXTR(x) context.RationalArgs[x]
 #define ASSIGN_TO CONCAT(AssignTo, LIT(MPTYPE_NAME))
+#define SET_CONTEXT_PRECISION context.FloatPrecision = mpf_get_prec(destination);
 #include "ExpressionMacros.h"
 
 namespace MPIR
@@ -86,7 +88,7 @@ namespace MPIR
                 context.Initialized(FloatInitialized);
                 auto ptr = &context.Temp[context.Index].MPTYPE_NAME;
                 CTXT(context.Index++) = ptr;
-                MP(init)(ptr);
+                MP(init2)(ptr, context.FloatPrecision);
                 AssignTo(ptr);
             }
 
@@ -333,14 +335,17 @@ namespace MPIR
 
             /// <summary>Compares two numbers.
             /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
-            /// </para>When the argument is a double, it may be an infinity, but results are undefined for a NaN.</summary>
+            /// </para>The precision of the calculation is the precision of this instance if it is a computed number, otherwise the precision of <paramref name="a"/> if that is a computed number,
+            /// otherwise the current default float precision.
+            /// <para>When the argument is a double, it may be an infinity, but results are undefined for a NaN.</para></summary>
             /// <param name="a">Value to compare the source with</param>
             /// <returns>A positive number if the source is greater than <paramref name="a"/>, negative if less, and zero if they are equal.</returns>
             virtual int CompareTo(Object^ a) sealed;
 
             /// <summary>Compares two numbers.
             /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
-            /// </para></summary>
+            /// </para>The precision of the calculation is the precision of this instance if it is a computed number, otherwise the precision of <paramref name="a"/> if that is a computed number,
+            /// otherwise the current default float precision if both are expressions.</summary>
             /// <param name="a">Value to compare the source with</param>
             /// <returns>A positive number if the source is greater than <paramref name="a"/>, negative if less, and zero if they are equal.</returns>
             virtual int CompareTo(MPEXPR_NAME^ a) sealed;
@@ -360,16 +365,16 @@ namespace MPIR
             virtual bool Equals(Object^ a) override sealed;
 
             /// <summary>Compares two numbers approximately, taking into account <paramref name="precision"/> most significant bits of the mantissa.
-            /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
+            /// <para>If any argument is an expression, it is evaluated into a temporary variable with the specified <paramref name="precision"/> before the comparison is performed.
             /// </para>In the future values like 1000 and 0111 may be considered the same to 3 bits (on the basis that their difference is that small).
             /// </summary>
             /// <param name="a">Value to compare the source with</param>
             /// <param name="precision">The number of most significant bits that must match for the two numbers to be considered equal</param>
             /// <returns>true if the values of the source and <paramref name="a"/> are equal to <paramref name="precision"/>, false otherwise.</returns>
-            bool Equals(MPEXPR_NAME^ a, mp_bitcnt_t precision) { IN_CONTEXT(this, a); return MP(eq)(CTXT(0), CTXT(1), precision) != 0; }
+            bool Equals(MPEXPR_NAME^ a, mp_bitcnt_t precision) { IN_SPECIFIC_CONTEXT(precision, this, a); return MP(eq)(CTXT(0), CTXT(1), precision) != 0; }
 
             /// <summary>Computes the hash code of the source value.
-            /// <para>If called on an expression, it is evaluated into a temporary variable before the comparison is performed.
+            /// <para>If called on an expression, it is evaluated into a temporary variable with the current default float precision before the calculation is performed.
             /// </para>Multi-precision classes are mutable with value semantics.  The hash code is based on the value, and will change if the value changes.
             /// For this reason, the value of an object must not be modified while the object is contained in a hash table.</summary>
             /// <returns>a signed integer hash code for the value.</returns>
@@ -712,10 +717,10 @@ namespace MPIR
             static bool operator == (double b, MPEXPR_NAME^ a) { return !IS_NULL(a) && a->CompareTo(b) == 0; }
 
             /// <summary>Calculates the sign (+1, 0, or -1) of the source value.
-            /// <para>If the source is an expression, it is evaluated into a temporary variable before the sign is computed.
+            /// <para>If the source is an expression, it is evaluated into a temporary variable with the current default float precision before the sign is computed.
             /// </para></summary>
             /// <returns>+1 if the source is positive, -1 if negative, and 0 if zero.</returns>
-            int Sign() { IN_CONTEXT(this); return MP(sgn)(CTXT(0)); }
+            int Sign();
 
             /// <summary>Compares two numbers.
             /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
