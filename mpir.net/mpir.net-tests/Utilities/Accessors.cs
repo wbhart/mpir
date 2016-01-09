@@ -61,10 +61,7 @@ namespace MPIR.Tests
             if (_value(x) == IntPtr.Zero)
                 return 0;
 
-            unsafe
-            {
-                return ((int*)_value(x).ToPointer())[0];
-            }
+            return x.AllocatedSize;
         }
 
         internal static int NumberOfLimbsUsed(this HugeInt x)

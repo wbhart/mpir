@@ -1510,6 +1510,20 @@ namespace MPIR
 
             #pragma endregion
 
+            #pragma region Properties
+
+            /// <summary>
+            /// Gets the number of limbs currently allocated. This value will never be less than Size().
+            /// <para>When a new value is assigned to the object, more space is automatically allocated if necessary.
+            /// </para>Reallocate() can also be used manually.
+            /// </summary>
+            property int AllocatedSize
+            {
+                int get() { return _value->_mp_alloc; }
+            }
+
+            #pragma endregion
+
             #pragma region conversions
 
             /// <summary>

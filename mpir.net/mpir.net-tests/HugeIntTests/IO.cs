@@ -286,6 +286,23 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
+        public void IntAllocatedSize()
+        {
+            using (var a = new HugeInt("-0x10123456789ABCDEF0123456789ABCDEF0123456789ABCDEF"))
+            {
+                var allocated = a.AllocatedSize;
+                Assert.IsTrue(allocated >= (int)a.Size());
+                a.Value = -a;
+                Assert.AreEqual(allocated, a.AllocatedSize);
+                Assert.AreEqual(4UL, a.Size());
+
+                a.Value >>= 64;
+                Assert.AreEqual(3UL, a.Size());
+                Assert.AreEqual(allocated, a.AllocatedSize);
+            }
+        }
+
+        [TestMethod]
         public void IntGetLimb()
         {
             using (var a = new HugeInt("-0x10123456789ABCDEFA123456789ABCDEF0123456789ABCDEF"))

@@ -1181,6 +1181,18 @@ namespace MPIR
             }
 
             /// <summary>
+            /// Gets the precision in bits that is currently allocated for internal storage of the mantissa.
+            /// <para>The precision actually in effect, used in calculations, is initially the same but may be reduced by setting the Precision property.
+            /// </para>However Precision cannot exceed AllocatedPrecision.
+            /// <para>To change AllocatedPrecision, call Reallocate().
+            /// </para>The value actually allocated may be slightly more than the number of bits requested by Allocate() or Reallocate().
+            /// </summary>
+            property mp_bitcnt_t AllocatedPrecision
+            {
+                mp_bitcnt_t get() { return _allocatedPrecision; }
+            }
+
+            /// <summary>
             /// Set the precision of rop to be at least prec bits, reallocating its limbs data.
             /// <para>The value in rop will be truncated to the new precision.
             /// </para>This function requires a call to realloc, and so should not be used in a tight loop.

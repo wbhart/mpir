@@ -288,6 +288,23 @@ namespace MPIR.Tests.HugeFloatTests
         }
 
         [TestMethod]
+        public void FloatAllocatedPrecision()
+        {
+            using (var a = new HugeFloat(1))
+            using (var b = HugeFloat.Allocate(256))
+            {
+                var bAllocated = b.AllocatedPrecision;
+                var aAllocated = a.AllocatedPrecision;
+                Assert.IsTrue(bAllocated > aAllocated);
+
+                a.Precision = 64;
+                b.Precision = 64;
+                Assert.AreEqual(bAllocated, b.AllocatedPrecision);
+                Assert.AreEqual(aAllocated, a.AllocatedPrecision);
+            }
+        }
+
+        [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
         public void FloatSettingPrecisionOverAllocated()
         {
