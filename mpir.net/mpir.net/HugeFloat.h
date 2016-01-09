@@ -1193,8 +1193,8 @@ namespace MPIR
             }
 
             /// <summary>
-            /// Set the precision of rop to be at least prec bits, reallocating its limbs data.
-            /// <para>The value in rop will be truncated to the new precision.
+            /// Set the precision of this instance to be at least prec bits, reallocating its limbs data.
+            /// <para>The value of this instance will be truncated to the new precision.
             /// </para>This function requires a call to realloc, and so should not be used in a tight loop.
             /// </summary>
             /// <param name="precision">Minimum number of bits the allocated memory should hold for the mantissa.</param>
