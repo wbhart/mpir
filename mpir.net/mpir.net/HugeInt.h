@@ -925,6 +925,8 @@ namespace MPIR
             /// <summary>
             /// Returns the size of the absolute value of the number, measured in number of limbs.
             /// <para>If op is zero, the returned value will be zero.
+            /// </para>For a HugeInt object, this method simply retrieves the value from a stored private field.
+            /// <para>However for an expression it can potentially be very expensive, since it requires evaluation of the expression result.
             /// </para>Because this method returns a primitive type, it is computed immediately.
             /// </summary>
             /// <returns>The number of limbs used to represent the number</returns>
