@@ -1019,6 +1019,35 @@ namespace MPIR
             static MPTYPE^ _toStringModulo;
 
         public:
+
+#define _GMP_VERSION __GNU_MP_VERSION + "." + __GNU_MP_VERSION_MINOR + "." + __GNU_MP_VERSION_PATCHLEVEL
+#undef GMP_VERSION
+
+            /// <summary>
+            /// Represents the total number of bits in a single MPIR limb, including data bits and nail bits
+            /// </summary>
+            literal int BITS_PER_LIMB = BITS_PER_UI;
+
+            /// <summary>
+            /// Represents the number of nail bits in a single MPIR limb.  Nail bits are used internally by MPIR
+            /// </summary>
+            literal int NAIL_BITS_PER_LIMB = GMP_NAIL_BITS;
+
+            /// <summary>
+            /// Represents the number of data bits in a single MPIR limb
+            /// </summary>
+            literal int USABLE_BITS_PER_LIMB = GMP_NUMB_BITS;
+
+            /// <summary>
+            /// Represents the version of GMP with which the underlying MPIR library is compatible
+            /// </summary>
+            static initonly const Version^ GMP_VERSION = gcnew Version(_GMP_VERSION);
+
+            /// <summary>
+            /// Represents the version of the underlying MPIR library
+            /// </summary>
+            static initonly const Version^ MPIR_VERSION = gcnew Version(_MSC_MPIR_VERSION);
+
             /// <summary>
             /// Gets or sets the default rounding mode used for MPIR division operations that don't explicitly specify a rounding mode.
             /// <para>Defaults to Truncate.

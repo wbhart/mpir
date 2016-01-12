@@ -173,8 +173,11 @@
     <Compile Include="..\..\..\mpir.net\mpir.net-tests\IntegrationTests\XmlCommentsTests.cs">
       <Link>IntegrationTests\XmlCommentsTests.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\mpir.net\mpir.net-tests\RandomTests\Random.cs">
-      <Link>RandomTests\Random.cs</Link>
+    <Compile Include="..\..\..\mpir.net\mpir.net-tests\OtherTests\MpirSettings.cs">
+      <Link>OtherTests\MpirSettings.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\mpir.net\mpir.net-tests\OtherTests\Random.cs">
+      <Link>OtherTests\Random.cs</Link>
     </Compile>
     <Compile Include="..\..\..\mpir.net\mpir.net-tests\Utilities\Accessors.cs">
       <Link>Utilities\Accessors.cs</Link>

@@ -34,7 +34,7 @@ namespace MPIR.Tests.HugeIntTests
     [TestClass]
     public class XmlCommentsTests
     {
-        private static readonly string[] ValidMemberTypePrefixes = { "M:", "P:", "F:" };
+        private static readonly string[] ValidMemberTypePrefixes = { "M:", "P:", "F:", "C:" };
 
         [TestMethod]
         public void TestComments()
