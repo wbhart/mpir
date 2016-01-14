@@ -39,18 +39,20 @@ namespace MPIR.Tests.HugeIntTests
                 .Where(x => baseExpr.IsAssignableFrom(x) && !x.IsAbstract)
                 .ToList();
 
+            var one = Platform.Ui(1, 1);
+
             using (var a = new HugeInt(-9L))
             using (var b = new HugeInt(4L))
             using (var c = new HugeRational(6, 7))
             using (var r = MpirRandom.Default())
             {
-                var expr = a + (-a * 2) * 3 * (a.Abs() * -2 + -64 + a * a) + 116UL + a;
+                var expr = a + (-a * 2) * 3 * (a.Abs() * -2 + -64 + a * a) + (one * 116U) + a;
                 VerifyPartialResult(r, expr, 44);
-                expr = expr + a * 5 + (a+b) * (b + 1) * (b + -3) * b + (b * -a) - (b * 25UL) - a + (b << 3) - ((a*b) << 1);
+                expr = expr + a * 5 + (a+b) * (b + 1) * (b + -3) * b + (b * -a) - (b * (one * 25U)) - a + (b << 3) - ((a*b) << 1);
                 VerifyPartialResult(r, expr, -52);
-                expr = expr - 2 - 3UL + (b - (a << 1)) + (b * b - 15UL) * (b - a) * (a - 11) * (b - 3UL) - (-340 - a) + (20UL - b);
+                expr = expr - 2 - 3U + (b - (a << 1)) + (b * b - (one * 15U)) * (b - a) * (a - 11) * (b - 3U) - (-340 - a) + ((one * 20U) - b);
                 VerifyPartialResult(r, expr, 52);
-                expr = expr + (-7 - 2 * a) + (28UL - 4 * b) + -(a + b * 2) + (3 * a).Abs();
+                expr = expr + (-7 - 2 * a) + (28U - 4 * b) + -(a + b * 2) + (3 * a).Abs();
                 VerifyPartialResult(r, expr, 103);
                 expr = expr / a + expr / (3 * b) - a / b - b / (a + 10) + a % b - (3 * b) % a + a % (2 * b) - (12 * b) % (-5 * a) + (a * 4 / 8).Rounding(RoundingModes.Floor) + (b * 3 % 7).Rounding(RoundingModes.Ceiling);
                 VerifyPartialResult(r, expr, -20);

@@ -193,8 +193,8 @@ namespace MPIR.Tests.HugeIntTests
                 Assert.AreEqual(0, HugeInt.Kronecker(a, 2));
                 Assert.AreEqual(-1, HugeInt.Kronecker(b, 2));
                 Assert.AreEqual(-1, HugeInt.Kronecker(2, b));
-                Assert.AreEqual(-1, HugeInt.Kronecker(b, 2UL));
-                Assert.AreEqual(-1, HugeInt.Kronecker(2UL, b));
+                Assert.AreEqual(-1, HugeInt.Kronecker(b, 2U));
+                Assert.AreEqual(-1, HugeInt.Kronecker(2U, b));
             }
         }
 
@@ -234,7 +234,7 @@ namespace MPIR.Tests.HugeIntTests
         [TestMethod]
         public void IntPrimorial()
         {
-            var N = 256;
+            var N = 256U;
             var sieve = new bool[N];
             for (var x = 2; x < 16; x++)
                 if (!sieve[x])
@@ -247,7 +247,7 @@ namespace MPIR.Tests.HugeIntTests
                     if (!sieve[n])
                         a.Value *= n;
 
-                Assert.AreEqual(a, HugeInt.Primorial((ulong)N));
+                Assert.AreEqual(a, HugeInt.Primorial(N));
             }
         }
 

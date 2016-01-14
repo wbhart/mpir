@@ -82,9 +82,10 @@ namespace MPIR.Tests.HugeRationalTests
         [TestMethod]
         public void RationalConstructorFromLong()
         {
-            var n = "123456789123456";
-            var d = "12764787846358441471";
-            using (var a = new HugeRational(long.Parse(n), ulong.Parse(d)))
+            var n = Platform.Si(123456789123456, 1234567891);
+            var d = Platform.Ui(12764787846358441471U, 2860486313U);
+
+            using (var a = new HugeRational(n, d))
             {
                 Assert.AreEqual(1, a.NumeratorNumberOfLimbsAllocated());
                 Assert.AreEqual(1, a.NumeratorNumberOfLimbsUsed());
@@ -97,9 +98,10 @@ namespace MPIR.Tests.HugeRationalTests
         [TestMethod]
         public void RationalConstructorFromLongNegative()
         {
-            var n = "-123456789123456";
-            var d = "12764787846358441471";
-            using (var a = new HugeRational(long.Parse(n), ulong.Parse(d)))
+            var n = Platform.Si(-123456789123456, -1234567891);
+            var d = Platform.Ui(12764787846358441471U, 2860486313U);
+
+            using (var a = new HugeRational(n, d))
             {
                 Assert.AreEqual(1, a.NumeratorNumberOfLimbsAllocated());
                 Assert.AreEqual(-1, a.NumeratorNumberOfLimbsUsed());
@@ -112,15 +114,17 @@ namespace MPIR.Tests.HugeRationalTests
         [TestMethod]
         public void RationalConstructorFromULong()
         {
-            var d = "12764787846358441471";
-            using (var a = new HugeRational(ulong.MaxValue, ulong.Parse(d)))
+            var n = Platform.Ui(ulong.MaxValue, uint.MaxValue);
+            var d = Platform.Ui(12764787846358441471U, 2860486313U);
+
+            using (var a = new HugeRational(n, d))
             {
                 Assert.AreEqual(1, a.NumeratorNumberOfLimbsAllocated());
                 Assert.AreEqual(1, a.NumeratorNumberOfLimbsUsed());
                 Assert.AreEqual(1, a.DenominatorNumberOfLimbsAllocated());
                 Assert.AreEqual(1, a.DenominatorNumberOfLimbsUsed());
-                Assert.AreEqual(ulong.MaxValue.ToString(), a.Numerator.ToString());
-                Assert.AreEqual(ulong.MaxValue.ToString() + "/" + d, a.ToString());
+                Assert.AreEqual(n.ToString(), a.Numerator.ToString());
+                Assert.AreEqual(n.ToString() + "/" + d, a.ToString());
             }
         }
 
@@ -147,9 +151,9 @@ namespace MPIR.Tests.HugeRationalTests
         {
             using (var a = HugeRational.Allocate(129, 193))
             {
-                Assert.AreEqual(3, a.NumeratorNumberOfLimbsAllocated());
+                Assert.AreEqual(1 + 128 / MpirSettings.BITS_PER_LIMB, a.NumeratorNumberOfLimbsAllocated());
                 Assert.AreEqual(0, a.NumeratorNumberOfLimbsUsed());
-                Assert.AreEqual(4, a.DenominatorNumberOfLimbsAllocated());
+                Assert.AreEqual(1 + 192 / MpirSettings.BITS_PER_LIMB, a.DenominatorNumberOfLimbsAllocated());
                 Assert.AreEqual(1, a.DenominatorNumberOfLimbsUsed());
                 Assert.AreEqual("0/1", a.ToString());
             }
@@ -173,7 +177,7 @@ namespace MPIR.Tests.HugeRationalTests
             var n = "5432109876543212345789023245987/362736035870515331128527330659";
             using (var a = new HugeRational(n))
             {
-                Assert.AreEqual(2, a.NumeratorNumberOfLimbsUsed());
+                Assert.AreEqual(128 / MpirSettings.BITS_PER_LIMB, a.NumeratorNumberOfLimbsUsed());
                 Assert.AreEqual(n, a.ToString());
             }
         }
@@ -184,7 +188,7 @@ namespace MPIR.Tests.HugeRationalTests
             var n = "5432109876543212345789023245987";
             using(var a = new HugeRational(n))
             {
-                Assert.AreEqual(2, a.NumeratorNumberOfLimbsUsed());
+                Assert.AreEqual(128 / MpirSettings.BITS_PER_LIMB, a.NumeratorNumberOfLimbsUsed());
                 Assert.AreEqual(n + "/1", a.ToString());
             }
         }
@@ -213,7 +217,7 @@ namespace MPIR.Tests.HugeRationalTests
                 using (var a = new HugeRational(n + "/" + d, 16))
                 {
                     Assert.AreEqual(n, a.Numerator.ToString(16));
-                    Assert.AreEqual(3, a.NumeratorNumberOfLimbsUsed());
+                    Assert.AreEqual(1 + 128 / MpirSettings.BITS_PER_LIMB, a.NumeratorNumberOfLimbsUsed());
                     Assert.AreEqual(i, a.Denominator);
                 }
             }

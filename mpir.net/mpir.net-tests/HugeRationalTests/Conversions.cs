@@ -56,8 +56,8 @@ namespace MPIR.Tests.HugeRationalTests
         {
             using (var a = new HugeRational())
             {
-                ulong b = 0xF84739ABCDEF4876;
-                ulong d = 12764787846358441471;
+                var b = Platform.Ui(0xF84739ABCDEF4876, 0xF84776);
+                var d = Platform.Ui(12764787846358441471, 3628273133);
                 a.SetTo(b, d);
                 Assert.AreEqual(b.ToString() + "/" + d.ToString(), a.ToString());
 
@@ -71,8 +71,8 @@ namespace MPIR.Tests.HugeRationalTests
         {
             using (var a = new HugeRational())
             {
-                long b = -0x784739ABCDEF4876;
-                ulong d = 12764787846358441471;
+                var b = Platform.Si(-0x784739ABCDEF4876, -0xF84776);
+                var d = Platform.Ui(12764787846358441471, 3628273133);
                 a.SetTo(b, d);
                 Assert.AreEqual(b.ToString() + "/" + d.ToString(), a.ToString());
 

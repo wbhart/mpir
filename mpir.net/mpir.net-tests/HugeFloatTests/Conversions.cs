@@ -70,7 +70,7 @@ namespace MPIR.Tests.HugeFloatTests
         {
             using (var a = new HugeFloat())
             {
-                ulong b = 0xF84739ABCDEF4876;
+                var b = Platform.Ui(0xF84739ABCDEF4876, 0xF84739AB);
                 a.SetTo(b);
                 FloatAssert.AreEqual(b + ".", a);
             }
@@ -81,7 +81,7 @@ namespace MPIR.Tests.HugeFloatTests
         {
             using (var a = new HugeFloat())
             {
-                long b = -0x784739ABCDEF4876;
+                var b = Platform.Si(-0x784739ABCDEF4876, -0x784739AB);
                 a.SetTo(b);
                 FloatAssert.AreEqual(b + ".", a);
             }
@@ -107,8 +107,7 @@ namespace MPIR.Tests.HugeFloatTests
             using (var a = new HugeFloat())
             {
                 a.SetTo(-123.25);
-
-                long exp;
+                var exp = Platform.Si(0, 0);
                 double c = a.ToDouble(out exp);
                 Assert.IsTrue(c.Equals(-0.962890625));
                 Assert.AreEqual(7L, exp);
@@ -131,6 +130,7 @@ namespace MPIR.Tests.HugeFloatTests
             }
         }
 
+#if WIN64
         [TestMethod]
         public void FloatToAndFromUlong()
         {
@@ -159,6 +159,7 @@ namespace MPIR.Tests.HugeFloatTests
                 Assert.AreEqual(b, c);
             }
         }
+#endif
 
         [TestMethod]
         public void FloatToAndFromDoubleOutExp()
@@ -166,19 +167,20 @@ namespace MPIR.Tests.HugeFloatTests
             using(var a = new HugeFloat())
             {
                 a.SetTo(-123.45e20);
-
-                long exp;
+                var exp = Platform.Si(0, 0);
+                var zillion = Platform.Si(10000000000, 1000000000);
                 a.Value = a + a;
                 double c = a.ToDouble(out exp);
 
                 Assert.AreEqual(75, exp);
                 c *= Math.Pow(2, exp);
 
-                Assert.IsTrue(a + 10000000000 >= c);
-                Assert.IsTrue(a - 10000000000 <= c);
+                Assert.IsTrue(a + zillion >= c);
+                Assert.IsTrue(a - zillion <= c);
             }
         }
 
+#if WIN64
         [TestMethod]
         public void FloatToLong2()
         {
@@ -199,6 +201,7 @@ namespace MPIR.Tests.HugeFloatTests
                 Assert.AreEqual(b, c);
             }
         }
+#endif
 
         [TestMethod]
         public void FloatFromString()
@@ -256,6 +259,7 @@ namespace MPIR.Tests.HugeFloatTests
             }
         }
 
+#if WIN64
         [TestMethod]
         public void FloatFitsUlong()
         {
@@ -295,6 +299,7 @@ namespace MPIR.Tests.HugeFloatTests
                 Assert.IsTrue(a.FitsLong());
             }
         }
+#endif
 
         [TestMethod]
         public void FloatFitsUint()

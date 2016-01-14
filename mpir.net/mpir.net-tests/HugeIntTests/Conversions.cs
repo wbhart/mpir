@@ -47,6 +47,7 @@ namespace MPIR.Tests.HugeIntTests
             }
         }
 
+#if WIN64
         [TestMethod]
         public void IntToAndFromUlong()
         {
@@ -75,6 +76,7 @@ namespace MPIR.Tests.HugeIntTests
                 Assert.AreEqual(b.ToString(), c.ToString());
             }
         }
+#endif
 
         [TestMethod]
         public void IntToAndFromDouble()
@@ -83,24 +85,28 @@ namespace MPIR.Tests.HugeIntTests
             using (var lo = new HugeInt())
             using (var hi = new HugeInt())
             {
-                a.SetTo(-123.45e20);
-                lo.Value = (a/10000000000).Rounding(RoundingModes.Floor);
-                hi.Value = (a/10000000000).Rounding(RoundingModes.Ceiling);
+                var source = Platform.Select(-123.45e20, -123.45e19);
+                var zillion = Platform.Ui(10000000000U, 1000000000U);
+                var factor = Platform.Ui(1, 10);
+                var exp = Platform.Si(0, 0);
+
+                a.SetTo(source);
+                lo.Value = (a/zillion).Rounding(RoundingModes.Floor);
+                hi.Value = (a/zillion).Rounding(RoundingModes.Ceiling);
 
                 Assert.IsTrue(lo.ToString() == "-1234500000000" || hi.ToString() == "-1234500000000");
 
                 double c = a.ToDouble();
-                Assert.AreEqual(-123.45e20, c);
-                
-                long exp;
-                a.Value = a + a;
+                Assert.AreEqual(source, c);
+
+                a.Value = (a + a) * factor;
                 c = a.ToDouble(out exp);
 
                 Assert.AreEqual(75, exp);
                 c *= System.Math.Pow(2, exp);
 
-                Assert.IsTrue(a + 10000000000 >= c);
-                Assert.IsTrue(a - 10000000000 <= c);
+                Assert.IsTrue(a + zillion >= c);
+                Assert.IsTrue(a - zillion <= c);
             }
         }
 
@@ -142,6 +148,7 @@ namespace MPIR.Tests.HugeIntTests
             }
         }
 
+#if WIN64
         [TestMethod]
         public void IntFitsUlong()
         {
@@ -171,6 +178,7 @@ namespace MPIR.Tests.HugeIntTests
                 Assert.IsFalse(a.FitsLong());
             }
         }
+#endif
 
         [TestMethod]
         public void IntFitsUint()

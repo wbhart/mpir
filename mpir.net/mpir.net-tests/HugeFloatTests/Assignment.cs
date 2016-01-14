@@ -76,6 +76,7 @@ namespace MPIR.Tests.HugeFloatTests
             {
                 a.Value += 1;
                 a.Value *= 10;
+                a.Precision = 224;
                 FloatAssert.AreEqual("9384750928347059283475234523461.15756986668303657898962467957", a);
             }
         }

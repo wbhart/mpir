@@ -79,9 +79,9 @@ namespace MPIR.Tests.HugeFloatTests
         [TestMethod]
         public void FloatCompareToLimb()
         {
-            using (var a = new HugeFloat("-222509821"))
+            using (var a = new HugeFloat(Platform.Select("-22250982876541", "-222509821")))
             {
-                ulong b = 222509820;
+                var b = Platform.Ui(22250982876540, 222509820);
                 Assert.AreEqual(-1,Math.Sign(a.CompareTo(b)));
                 Assert.AreEqual(-1,Math.Sign(a.CompareTo(b + 1)));
                 Assert.AreEqual(0, Math.Sign((-(a + 1)).CompareTo(b)));
@@ -93,9 +93,9 @@ namespace MPIR.Tests.HugeFloatTests
         [TestMethod]
         public void FloatCompareToSignedLimb()
         {
-            using (var a = new HugeFloat("-222509821"))
+            using (var a = new HugeFloat(Platform.Select("-222509825551", "-222509821")))
             {
-                long b = -222509820;
+                var b = Platform.Si(-222509825550, -222509820);
                 Assert.AreEqual(-1,Math.Sign(a.CompareTo(b)));
                 Assert.AreEqual(-1,Math.Sign(a.CompareTo(b + 1)));
                 Assert.AreEqual(0, Math.Sign((a + 1).CompareTo(b)));
@@ -429,9 +429,9 @@ namespace MPIR.Tests.HugeFloatTests
         [TestMethod]
         public void FloatEqualsLimb()
         {
-            using (var a = new HugeFloat("222509832503"))
+            using (var a = new HugeFloat(Platform.Select("222509832503", "2225098323")))
             {
-                ulong b = 222509832504;
+                var b = Platform.Ui(222509832504, 2225098324);
                 Assert.IsFalse(a.Equals(b + 1));
                 Assert.IsTrue(a.Equals(b - 1));
                 Assert.IsTrue((a + 1).Equals(b));
@@ -441,9 +441,9 @@ namespace MPIR.Tests.HugeFloatTests
         [TestMethod]
         public void FloatEqualsSignedLimb()
         {
-            using (var a = new HugeFloat("-222509832505"))
+            using (var a = new HugeFloat(Platform.Select("-222509832505", "-222509835")))
             {
-                long b = -222509832504;
+                var b = Platform.Si(-222509832504, -222509834);
                 Assert.IsFalse(a.Equals(b + 1));
                 Assert.IsTrue(a.Equals(b - 1));
                 Assert.IsTrue((a + 1).Equals(b));
@@ -466,9 +466,12 @@ namespace MPIR.Tests.HugeFloatTests
         [TestMethod]
         public void FloatEqualsHugeFloatApproximately()
         {
-            using (var a = new HugeFloat("ABCDEF12948576AB49587.ACD34EFB345", 16))
-            using (var b = new HugeFloat("ABCDEF12948576AB49587.ACD34EFB245", 16))
+            using (var a = HugeFloat.Allocate(128))
+            using (var b = HugeFloat.Allocate(128))
             {
+                a.SetTo("ABCDEF12948576AB49587.ACD34EFB345", 16);
+                b.SetTo("ABCDEF12948576AB49587.ACD34EFB245", 16);
+
                 Assert.IsTrue(a.Equals(b, 119));
                 Assert.IsFalse(a.Equals(b, 120));
                 Assert.IsTrue(a.Equals(b - 1, 83));

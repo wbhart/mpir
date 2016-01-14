@@ -62,9 +62,10 @@ namespace MPIR.Tests.HugeFloatTests
         {
             using (var a = new HugeFloat(1))
             using (var b = new HugeFloat(3))
-            using (var c = new HugeFloat("12345234589234059823475029384572323452034958723049823408955"))
+            using (var c = HugeFloat.Allocate(256))
             using (var d = HugeFloat.Allocate(256))
             {
+                c.SetTo("12345234589234059823475029384572323452034958723049823408955");
                 Assert.IsTrue(c.Equals(c + a / b, 128));
                 Assert.IsFalse(c.Equals(c + a / b, 256));
 
@@ -81,7 +82,7 @@ namespace MPIR.Tests.HugeFloatTests
             using (var b = new HugeFloat(13))
             using (var c = new HugeFloat("12345234589234059823475029384572323"))
             {
-                c.Value *= 0x4000000000000000L;
+                ShiftLeftBy62(c);
                 var cHash = c.GetHashCode();
                 var expr = a / b + c;
                 Assert.AreEqual(cHash, expr.GetHashCode());
@@ -92,6 +93,16 @@ namespace MPIR.Tests.HugeFloatTests
             }
         }
 
+        private static void ShiftLeftBy62(HugeFloat c)
+        {
+#if WIN64
+            c.Value *= 0x4000000000000000L;
+#else
+            c.Value *= 0x80000000;
+            c.Value *= 0x80000000;
+#endif
+        }
+
         [TestMethod]
         public void CompareToCalculatedToDefaultPrecision()
         {
@@ -100,7 +111,7 @@ namespace MPIR.Tests.HugeFloatTests
             using (var c = new HugeFloat("12345234589234059823475029384572323"))
             using (var d = HugeFloat.Allocate(256))
             {
-                c.Value *= 0x4000000000000000L;
+                ShiftLeftBy62(c);
                 d.Value = c;
                 var expr = a / b + c;
                 Assert.AreEqual(0, c.CompareTo(expr)); //to precision of c
@@ -136,15 +147,15 @@ namespace MPIR.Tests.HugeFloatTests
             using (var c = new HugeFloat("12345234589234059823475029384572323"))
             using (var d = HugeFloat.Allocate(256))
             {
-                c.Value *= 0x4000000000000000L;
+                ShiftLeftBy62(c);
                 d.Value = c;
                 var expr = a / b + c - c;
-                Assert.AreEqual(0, Math.Sign(expr.CompareTo(0L))); 
-                Assert.AreEqual(0, Math.Sign(expr.CompareTo(0UL)));
+                Assert.AreEqual(0, Math.Sign(expr.CompareTo(Platform.Si(0, 0))));
+                Assert.AreEqual(0, Math.Sign(expr.CompareTo(Platform.Ui(0, 0))));
                 Assert.AreEqual(0, Math.Sign(expr.CompareTo(0.0)));
                 HugeFloat.DefaultPrecision = 256;
-                Assert.AreEqual(1, Math.Sign(expr.CompareTo(0L)));
-                Assert.AreEqual(1, Math.Sign(expr.CompareTo(0UL)));
+                Assert.AreEqual(1, Math.Sign(expr.CompareTo(Platform.Si(0, 0))));
+                Assert.AreEqual(1, Math.Sign(expr.CompareTo(Platform.Ui(0, 0))));
                 Assert.AreEqual(1, Math.Sign(expr.CompareTo(0.0)));
                 HugeFloat.DefaultPrecision = 128;
             }
@@ -158,15 +169,15 @@ namespace MPIR.Tests.HugeFloatTests
             using (var c = new HugeFloat("12345234589234059823475029384572323"))
             using (var d = HugeFloat.Allocate(256))
             {
-                c.Value *= 0x4000000000000000L;
+                ShiftLeftBy62(c);
                 d.Value = c;
                 var expr = a / b + c - c;
-                Assert.IsTrue(expr.Equals(0L));
-                Assert.IsTrue(expr.Equals(0UL));
+                Assert.IsTrue(expr.Equals(Platform.Si(0, 0)));
+                Assert.IsTrue(expr.Equals(Platform.Ui(0, 0)));
                 Assert.IsTrue(expr.Equals(0.0));
                 HugeFloat.DefaultPrecision = 256;
-                Assert.IsFalse(expr.Equals(0L));
-                Assert.IsFalse(expr.Equals(0UL));
+                Assert.IsFalse(expr.Equals(Platform.Si(0, 0)));
+                Assert.IsFalse(expr.Equals(Platform.Ui(0, 0)));
                 Assert.IsFalse(expr.Equals(0.0));
                 HugeFloat.DefaultPrecision = 128;
             }
@@ -180,7 +191,7 @@ namespace MPIR.Tests.HugeFloatTests
             using (var c = new HugeFloat("12345234589234059823475029384572323"))
             using (var d = HugeFloat.Allocate(256))
             {
-                c.Value *= 0x4000000000000000L;
+                ShiftLeftBy62(c);
                 var expr = (a / b + c) - c;
                 d.Value = expr;
                 Assert.AreEqual(0, expr.Sign());
@@ -204,8 +215,8 @@ namespace MPIR.Tests.HugeFloatTests
             using (var c = new HugeFloat("1234523458923405982347445029384572323"))
             using (var d = new HugeInt())
             {
-                c.Value *= 0x4000000000000000L;
-                c.Value *= 0x4000000000000000L;
+                ShiftLeftBy62(c);
+                ShiftLeftBy62(c);
                 var expr = a / b + c - c;
                 d.SetTo(expr);
                 Assert.IsTrue(d == 0);
@@ -225,8 +236,8 @@ namespace MPIR.Tests.HugeFloatTests
             using (var c = new HugeFloat("1234523458923405982347445029384572323"))
             using (var d = new HugeRational())
             {
-                c.Value *= 0x4000000000000000L;
-                c.Value *= 0x4000000000000000L;
+                ShiftLeftBy62(c);
+                ShiftLeftBy62(c);
                 var expr = a / b + c - c;
                 d.SetTo(expr);
                 Assert.IsTrue(d == 0);

@@ -39,22 +39,24 @@ namespace MPIR.Tests.HugeRationalTests
                 .Where(x => baseExpr.IsAssignableFrom(x) && !x.IsAbstract)
                 .ToList();
 
+            var one = Platform.Ui(1, 1);
+
             using (var a = new HugeRational(-9, 1))
             using (var b = new HugeRational(4, 1))
             using (var c = new HugeInt(3))
             using (var r = MpirRandom.Default())
             {
-                var expr = a + (-a * 2) * 3 * (a.Abs() * -2 + -64 + a * a) + 116UL + a;
+                var expr = a + (-a * 2) * 3 * (a.Abs() * -2 + -64 + a * a) + (one * 116U) + a;
                 VerifyPartialResult(r, expr, 44);
-                expr = expr + a * 5 + (a+b) * (b + 1) * (b + -3) * b + (b * -a) - (b * 25UL) - a + (b << 3) - ((a*b) << 1);
+                expr = expr + a * 5 + (a+b) * (b + 1) * (b + -3) * b + (b * -a) - (b * (one * 25U)) - a + (b << 3) - ((a*b) << 1);
                 VerifyPartialResult(r, expr, -52);
-                expr = expr - 2 - 3UL + (b - (a << 1)) + (b * b - 15UL) * (b - a) * (a - 11) * (b - 3UL) - (-340 - a) + (20UL - b);
+                expr = expr - 2 - 3U + (b - (a << 1)) + (b * b - (one * 15U)) * (b - a) * (a - 11) * (b - 3U) - (-340 - a) + ((one * 20U) - b);
                 VerifyPartialResult(r, expr, 52);
-                expr = expr + (-7 - 2 * a) + (28UL - 4 * b) + -(a + b * 2) + (3 * a).Abs();
+                expr = expr + (-7 - 2 * a) + (28U - 4 * b) + -(a + b * 2) + (3 * a).Abs();
                 VerifyPartialResult(r, expr, 103);
                 expr = 36 * (expr / a + expr / (3 * b) - a / b) - b / (a + 10) + 6;
                 VerifyPartialResult(r, expr, -20);
-                expr = expr + (b >> 1) + ((b / -7L) + (a / 7UL)) * 7 + (7L / a) - (2UL / (b + 5));
+                expr = expr + (b >> 1) + ((b / -7) + (a / (one * 7U))) * 7 + (7 / a) - ((one * 2U) / (b + 5));
                 VerifyPartialResult(r, expr, -32);
                 expr = expr + (((a / b).Invert() * 3) ^ 3) - (b + 13) / a / -3;
                 VerifyPartialResult(r, expr, -35);

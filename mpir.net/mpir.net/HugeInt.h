@@ -345,14 +345,22 @@ namespace MPIR
             static MPEXPR_NAME^ operator ~ (MPEXPR_NAME^ a);
 
             /// <summary>If the source is &gt;= 0, returns the population count of op, which is the number of 1 bits in the binary representation.
+#if BITS_PER_MP_LIMB == 64
             /// <para>If the source is &lt; 0, the number of 1s is infinite, and the return value is ulong.MaxValue, the largest possible bit count.
+#else
+            /// <para>If the source is &lt; 0, the number of 1s is infinite, and the return value is uint.MaxValue, the largest possible bit count.
+#endif
             /// </para>Because the result is a primitive type, it is computed immediately.
             /// </summary>
             /// <returns>The population count for a non-negative number</returns>
             mp_bitcnt_t PopCount() { IN_CONTEXT(this); return MP(popcount)(CTXT(0)); }
 
             /// <summary>If this number and the operand are both &gt;= 0 or both &lt; 0, returns the hamming distance between them, which is the number of bit positions with different bit values.
+#if BITS_PER_MP_LIMB == 64
             /// <para>If one operand is &gt;= 0 and the other &lt; 0 then the number of bits different is infinite, and the return value is ulong.MaxValue, the largest possible bit count.
+#else
+            /// <para>If one operand is &gt;= 0 and the other &lt; 0 then the number of bits different is infinite, and the return value is uint.MaxValue, the largest possible bit count.
+#endif
             /// </para>Because the result is a primitive type, it is computed immediately.
             /// </summary>
             /// <param name="a">Source value to compute the hamming distance to</param>
@@ -362,13 +370,21 @@ namespace MPIR
             /// <summary>Scans the source number, starting from the <paramref name="start"/> bit, towards more significant bits, until the first 0 or 1 bit
             /// (depending on the <paramref name="value"/> is found, and return the index of the found bit.
             /// <para>If the bit at the starting position is already what's sought, then <paramref name="start"/> is returned.
+#if BITS_PER_MP_LIMB == 64
             /// </para>If there's no bit found, then ulong.MaxValue (the largest possible bit count) is returned. 
+#else
+            /// </para>If there's no bit found, then uint.MaxValue (the largest possible bit count) is returned.
+#endif
             /// This will happen with <paramref name="value"/> = true past the end of a non-negative number, or with <paramref name="value"/> = false past the end of a negative number.
             /// <para>A false bit will always be found at the <paramref name="start"/> position past the end of a non-negatitve number, and a true bit past the end of a negative number.
             /// </para></summary>
             /// <param name="value">Value of the bit to scan for, true for 1, false for 0</param>
             /// <param name="start">Starting bit position to search.  The least significant bit is zero.</param>
+#if BITS_PER_MP_LIMB == 64
             /// <returns>The index of the found bit, or ulong.MaxValue if no bit found.</returns>
+#else
+            /// <returns>The index of the found bit, or uint.MaxValue if no bit found.</returns>
+#endif
             mp_bitcnt_t FindBit(bool value, mp_bitcnt_t start) { IN_CONTEXT(this); return value ? MP(scan1)(CTXT(0), start) : MP(scan0)(CTXT(0), start); }
 
             /// <summary>Computes the absolute value of the source number.
@@ -1586,10 +1602,12 @@ namespace MPIR
             /// <returns>A string representation of the number in the specified base.</returns>
             String^ ToString(int base, bool lowercase) { return ToString(base, lowercase, 0); }
 
+#if BITS_PER_MP_LIMB == 64
             /// <summary>
             /// Returns the absolute value of the number as a ulong.
             /// <para>If the number is too big, then just the least significant bits that do fit are returned.
             /// </para>The sign of the number is ignored, only the absolute value is used.
+            /// <para>This method is supported only on 64-bit builds</para>
             /// </summary>
             /// <returns>The absolute value as a ulong, possibly truncated to the least significant bits only.</returns>
             mpir_ui ToUlong() { return MP(get_ui)(_value); }
@@ -1598,9 +1616,11 @@ namespace MPIR
             /// Returns the value of the number as a long.
             /// <para>If the number is too big, then just the least significant bits that do fit are returned, with the same sign as the number.
             /// </para>When truncation occurs, the result is propobly not very useful.  Call FitsLong() to check if the number will fit.
+            /// <para>This method is supported only on 64-bit builds</para>
             /// </summary>
             /// <returns>The value as a long, possibly truncated to the least significant bits only.</returns>
             mpir_si ToLong() { return MP(get_si)(_value); }
+#endif
 
             /// <summary>
             /// Returns the value of the number as a double, truncating if necessary (rounding towards zero).
@@ -1764,17 +1784,21 @@ namespace MPIR
 
             #pragma region size checks
 
+#if BITS_PER_MP_LIMB == 64
             /// <summary>
             /// Returns true if the value of the integer is in the ulong range.
+            /// <para>This method is supported only on 64-bit builds</para>
             /// </summary>
             /// <returns>true if the value will fit in a ulong</returns>
             bool FitsUlong() { return MP(fits_ui_p)(_value) != 0; }
 
             /// <summary>
             /// Returns true if the value of the integer is in the long range.
+            /// <para>This method is supported only on 64-bit builds</para>
             /// </summary>
             /// <returns>true if the value will fit in a long</returns>
             bool FitsLong() { return MP(fits_si_p)(_value) != 0; }
+#endif
 
             /// <summary>
             /// Returns true if the value of the integer is in the uint range.

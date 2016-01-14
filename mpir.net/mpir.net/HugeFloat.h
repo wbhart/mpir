@@ -983,10 +983,12 @@ namespace MPIR
             /// <returns>A string representation of the number in the specified base.</returns>
             String^ ToString(int base, bool lowercase, bool exponentInDecimal) { return ToString(base, lowercase, 0, exponentInDecimal); }
 
+#if BITS_PER_MP_LIMB == 64
             /// <summary>
             /// Returns the absolute value of the number as a ulong, truncating any fractional part.
             /// <para>If the number is too big, the result is undefined.  Call FitsUlong() to check if the number will fit.
             /// </para>The sign of the number is ignored, only the absolute value is used.
+            /// <para>This method is supported only on 64-bit builds</para>
             /// </summary>
             /// <returns>The absolute value as a ulong, with any fractional part truncated.</returns>
             mpir_ui ToUlong() { return MP(get_ui)(_value); }
@@ -994,10 +996,11 @@ namespace MPIR
             /// <summary>
             /// Returns the value of the number as a long.
             /// <para>If the number is too big, the result is undefined.  Call FitsLong() to check if the number will fit.
-            /// </para>
+            /// </para>This method is supported only on 64-bit builds
             /// </summary>
             /// <returns>The value as a long, possibly truncated to the least significant bits only.</returns>
             mpir_si ToLong() { return MP(get_si)(_value); }
+#endif
 
             /// <summary>
             /// Returns the value of the number as a double, truncating if necessary (rounding towards zero).
@@ -1204,17 +1207,22 @@ namespace MPIR
                 MP(set_prec)(_value, precision); 
                 _allocatedPrecision = precision; 
             }
+
+#if BITS_PER_MP_LIMB == 64
             /// <summary>
             /// Returns true if the value of the source number, if truncated to an integer, is in the long range.
+            /// <para>This method is supported only on 64-bit builds</para>
             /// </summary>
             /// <returns>true if the value will fit in a long</returns>
             bool FitsLong() { return MP(fits_si_p)(_value) != 0; }
 
             /// <summary>
             /// Returns true if the value of the source number, if truncated to an integer, is in the ulong range.
+            /// <para>This method is supported only on 64-bit builds</para>
             /// </summary>
             /// <returns>true if the value will fit in a long</returns>
             bool FitsUlong() { return MP(fits_ui_p)(_value) != 0; }
+#endif
 
             /// <summary>
             /// Returns true if the value of the source number, if truncated to an integer, is in the int range.

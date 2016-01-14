@@ -64,39 +64,39 @@ namespace MPIR.Tests.HugeFloatTests
         [TestMethod]
         public void FloatConstructorFromLong()
         {
-            var n = 0x3123456789123456L;
+            var n = Platform.Si(0x3123456789123456L, 0x49384756);
             using (var a = new HugeFloat(n))
             {
                 Assert.AreEqual(128UL, a._allocatedPrecision);
                 Assert.AreEqual(128UL, a.Precision);
                 Assert.AreEqual(1, a.Exponent());
-                Assert.AreEqual("0." + n.ToString("X") + "@16", a.ToString(16, false, true));
+                Assert.AreEqual("0." + n.ToString("X") + "@" + MpirSettings.BITS_PER_LIMB / 4, a.ToString(16, false, true));
             }
         }
 
         [TestMethod]
         public void FloatConstructorFromLongNegative()
         {
-            var n = 0x3123456789123456L;
+            var n = Platform.Si(0x3123456789123456L, 0x49384756);
             using(var a = new HugeFloat(-n))
             {
                 Assert.AreEqual(128UL, a._allocatedPrecision);
                 Assert.AreEqual(128UL, a.Precision);
                 Assert.AreEqual(1, a.Exponent());
-                Assert.AreEqual("-0." + n.ToString("X") + "@16", a.ToString(16, false, true));
+                Assert.AreEqual("-0." + n.ToString("X") + "@" + MpirSettings.BITS_PER_LIMB / 4, a.ToString(16, false, true));
             }
         }
 
         [TestMethod]
         public void FloatConstructorFromULong()
         {
-            var n = ulong.MaxValue;
+            var n = Platform.Ui(ulong.MaxValue, uint.MaxValue);
             using(var a = new HugeFloat(n))
             {
                 Assert.AreEqual(128UL, a._allocatedPrecision);
                 Assert.AreEqual(128UL, a.Precision);
                 Assert.AreEqual(1, a.Exponent());
-                Assert.AreEqual("0." + n.ToString("X") + "@16", a.ToString(16, false, true));
+                Assert.AreEqual("0." + n.ToString("X") + "@" + MpirSettings.BITS_PER_LIMB / 4, a.ToString(16, false, true));
             }
         }
 
@@ -123,8 +123,8 @@ namespace MPIR.Tests.HugeFloatTests
         {
             using (var a = HugeFloat.Allocate(193))
             {
-                Assert.AreEqual(256UL, a.Precision);
-                Assert.AreEqual(256UL, a._allocatedPrecision);
+                Assert.AreEqual(192U + MpirSettings.BITS_PER_LIMB, a.Precision);
+                Assert.AreEqual(192U + MpirSettings.BITS_PER_LIMB, a._allocatedPrecision);
                 Assert.AreEqual("0", a.ToString());
 
                 var n = "234095827340957823409582587";
@@ -140,7 +140,7 @@ namespace MPIR.Tests.HugeFloatTests
             HugeFloat.DefaultPrecision = 256;
             using (var a = new HugeFloat())
             {
-                Assert.AreEqual(5, a.NumberOfLimbsAllocated());
+                Assert.AreEqual(256 / MpirSettings.BITS_PER_LIMB + 1, a.NumberOfLimbsAllocated());
                 Assert.AreEqual(0, a.NumberOfLimbsUsed());
                 Assert.AreEqual("0", a.ToString());
 

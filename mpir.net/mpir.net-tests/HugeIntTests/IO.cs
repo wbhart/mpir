@@ -227,7 +227,7 @@ namespace MPIR.Tests.HugeIntTests
                                 Assert.AreEqual(expected, bytes.Length / size);
 
                                 b.SetTo(0);
-                                b.Import(bytes, (ulong)(bytes.Length / size), size, order, endianness, nails);
+                                b.Import(bytes, (uint)(bytes.Length / size), size, order, endianness, nails);
                                 Assert.AreEqual(a, b);
                             }
             }
@@ -249,7 +249,7 @@ namespace MPIR.Tests.HugeIntTests
                                 Assert.AreEqual(expected, bytes.Length * 2 / size);
 
                                 b.SetTo(0);
-                                b.Import(bytes, (ulong)(bytes.Length * 2 / size), size, order, endianness, nails);
+                                b.Import(bytes, (uint)(bytes.Length * 2 / size), size, order, endianness, nails);
                                 Assert.AreEqual(a, b);
                             }
             }
@@ -280,8 +280,9 @@ namespace MPIR.Tests.HugeIntTests
         {
             using (var a = new HugeInt("-0x10123456789ABCDEF0123456789ABCDEF0123456789ABCDEF"))
             {
-                Assert.AreEqual(4UL, a.Size());
-                Assert.AreEqual(4UL, (-a).Size());
+                var limbs = 192U / MpirSettings.BITS_PER_LIMB + 1;
+                Assert.AreEqual(limbs, a.Size());
+                Assert.AreEqual(limbs, (-a).Size());
             }
         }
 
@@ -294,10 +295,10 @@ namespace MPIR.Tests.HugeIntTests
                 Assert.IsTrue(allocated >= (int)a.Size());
                 a.Value = -a;
                 Assert.AreEqual(allocated, a.AllocatedSize);
-                Assert.AreEqual(4UL, a.Size());
+                Assert.AreEqual(192U / MpirSettings.BITS_PER_LIMB + 1, a.Size());
 
                 a.Value >>= 64;
-                Assert.AreEqual(3UL, a.Size());
+                Assert.AreEqual(128U / MpirSettings.BITS_PER_LIMB + 1, a.Size());
                 Assert.AreEqual(allocated, a.AllocatedSize);
             }
         }
@@ -307,8 +308,8 @@ namespace MPIR.Tests.HugeIntTests
         {
             using (var a = new HugeInt("-0x10123456789ABCDEFA123456789ABCDEF0123456789ABCDEF"))
             {
-                Assert.AreEqual(0x0123456789ABCDEFUL, a.GetLimb(0));
-                Assert.AreEqual(0xA123456789ABCDEFUL, a.GetLimb(1));
+                Assert.AreEqual(Platform.Ui(0x0123456789ABCDEFUL, 0x89ABCDEFU), a.GetLimb(0));
+                Assert.AreEqual(Platform.Ui(0xA123456789ABCDEFUL, 0x01234567U), a.GetLimb(1));
             }
         }
         //more tests coming here

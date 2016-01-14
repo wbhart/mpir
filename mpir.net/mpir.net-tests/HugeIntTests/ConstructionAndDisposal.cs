@@ -53,8 +53,8 @@ namespace MPIR.Tests.HugeIntTests
             var n = "123456789123456";
             using (var a = new HugeInt(long.Parse(n)))
             {
-                Assert.AreEqual(1, a.NumberOfLimbsAllocated());
-                Assert.AreEqual(1, a.NumberOfLimbsUsed());
+                Assert.AreEqual(64 / MpirSettings.BITS_PER_LIMB, a.NumberOfLimbsAllocated());
+                Assert.AreEqual(64 / MpirSettings.BITS_PER_LIMB, a.NumberOfLimbsUsed());
                 Assert.AreEqual(n, a.ToString());
             }
         }
@@ -65,8 +65,8 @@ namespace MPIR.Tests.HugeIntTests
             var n = "-123456789123456";
             using (var a = new HugeInt(long.Parse(n)))
             {
-                Assert.AreEqual(1, a.NumberOfLimbsAllocated());
-                Assert.AreEqual(-1, a.NumberOfLimbsUsed());
+                Assert.AreEqual(64 / MpirSettings.BITS_PER_LIMB, a.NumberOfLimbsAllocated());
+                Assert.AreEqual(-64 / MpirSettings.BITS_PER_LIMB, a.NumberOfLimbsUsed());
                 Assert.AreEqual(n, a.ToString());
             }
         }
@@ -74,11 +74,12 @@ namespace MPIR.Tests.HugeIntTests
         [TestMethod]
         public void IntConstructorFromULong()
         {
-            using (var a = new HugeInt(ulong.MaxValue))
+            var max = Platform.Ui(ulong.MaxValue, uint.MaxValue);
+            using (var a = new HugeInt(max))
             {
                 Assert.AreEqual(1, a.NumberOfLimbsAllocated());
                 Assert.AreEqual(1, a.NumberOfLimbsUsed());
-                Assert.AreEqual(ulong.MaxValue.ToString(), a.ToString());
+                Assert.AreEqual(max.ToString(), a.ToString());
             }
         }
 
@@ -114,7 +115,7 @@ namespace MPIR.Tests.HugeIntTests
         {
             using (var a = HugeInt.Allocate(129))
             {
-                Assert.AreEqual(3, a.NumberOfLimbsAllocated());
+                Assert.AreEqual(1 + 128 / MpirSettings.BITS_PER_LIMB, a.NumberOfLimbsAllocated());
                 Assert.AreEqual(0, a.NumberOfLimbsUsed());
                 Assert.AreEqual("0", a.ToString());
             }
@@ -125,19 +126,19 @@ namespace MPIR.Tests.HugeIntTests
         {
             using (var a = new HugeInt("543209879487374938579837"))
             {
-                Assert.AreEqual(3, a.NumberOfLimbsAllocated());
+                Assert.AreEqual(2 + 64 / MpirSettings.BITS_PER_LIMB, a.NumberOfLimbsAllocated());
                 Assert.AreEqual("543209879487374938579837", a.ToString());
 
                 a.Reallocate(257);
-                Assert.AreEqual(5, a.NumberOfLimbsAllocated());
+                Assert.AreEqual(1 + 256 / MpirSettings.BITS_PER_LIMB, a.NumberOfLimbsAllocated());
                 Assert.AreEqual("543209879487374938579837", a.ToString());
 
                 a.Reallocate(129);
-                Assert.AreEqual(3, a.NumberOfLimbsAllocated());
+                Assert.AreEqual(1 + 128 / MpirSettings.BITS_PER_LIMB, a.NumberOfLimbsAllocated());
                 Assert.AreEqual("543209879487374938579837", a.ToString());
 
                 a.Reallocate(64);
-                Assert.AreEqual(1, a.NumberOfLimbsAllocated());
+                Assert.AreEqual(64 / MpirSettings.BITS_PER_LIMB, a.NumberOfLimbsAllocated());
                 Assert.AreEqual("0", a.ToString());
             }
         }
@@ -148,7 +149,7 @@ namespace MPIR.Tests.HugeIntTests
             var n = "5432109876543212345789023245987";
             using (var a = new HugeInt(n))
             {
-                Assert.AreEqual(2, a.NumberOfLimbsUsed());
+                Assert.AreEqual(128 / MpirSettings.BITS_PER_LIMB, a.NumberOfLimbsUsed());
                 Assert.AreEqual(n, a.ToString());
             }
         }
@@ -165,7 +166,7 @@ namespace MPIR.Tests.HugeIntTests
         {
             using (var a = new HugeInt("143210ABCDEF32123457ACDB324598799", 16))
             {
-                Assert.AreEqual(3, a.NumberOfLimbsUsed());
+                Assert.AreEqual(1 + 128 / MpirSettings.BITS_PER_LIMB, a.NumberOfLimbsUsed());
             }
         }
 

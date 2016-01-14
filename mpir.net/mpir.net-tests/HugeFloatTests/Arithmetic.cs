@@ -98,11 +98,12 @@ namespace MPIR.Tests.HugeFloatTests
             using (var a = new HugeFloat("22250983250345029834502983.5740293845720"))
             using (var c = new HugeFloat())
             {
-                var b = 4288574029879874539UL;
+                var b = Platform.Ui(4288574029879874539UL, 4288574029U);
+                var expected = Platform.Select("22250987538919059714377522.5740293845720", "22250983250345034123077012.5740293845720");
                 c.Value = a + b;
-                FloatAssert.AreEqual("22250987538919059714377522.5740293845720", c);
+                FloatAssert.AreEqual(expected, c);
                 c.Value = b + a;
-                FloatAssert.AreEqual("22250987538919059714377522.5740293845720", c);
+                FloatAssert.AreEqual(expected, c);
             }
         }
 
@@ -112,11 +113,12 @@ namespace MPIR.Tests.HugeFloatTests
             using (var a = new HugeFloat("22250983250345029834502983.5740293845720"))
             using (var c = new HugeFloat())
             {
-                var b = -4288574029879874539;
+                var b = Platform.Si(-4288574029879874539, -1288574029);
+                var expected = Platform.Select("22250978961770999954628444.5740293845720", "22250983250345028545928954.5740293845720");
                 c.Value = a + b;
-                FloatAssert.AreEqual("22250978961770999954628444.5740293845720", c);
+                FloatAssert.AreEqual(expected, c);
                 c.Value = b + a;
-                FloatAssert.AreEqual("22250978961770999954628444.5740293845720", c);
+                FloatAssert.AreEqual(expected, c);
             }
         }
 
@@ -143,11 +145,12 @@ namespace MPIR.Tests.HugeFloatTests
             using(var a = new HugeFloat("22250983250345029834502983.5740293845720"))
             using(var c = new HugeFloat())
             {
-                var b = 4288574029879874539UL;
+                var b = Platform.Ui(4288574029879874539UL, 2885740298U);
+                var expected = Platform.Select("22250978961770999954628444.5740293845720", "22250983250345026948762685.5740293845720");
                 c.Value = a - b;
-                FloatAssert.AreEqual("22250978961770999954628444.5740293845720", c);
+                FloatAssert.AreEqual(expected, c);
                 c.Value = b - a;
-                FloatAssert.AreEqual("-22250978961770999954628444.5740293845720", c);
+                FloatAssert.AreEqual("-" + expected, c);
             }
         }
 
@@ -157,11 +160,12 @@ namespace MPIR.Tests.HugeFloatTests
             using(var a = new HugeFloat("22250983250345029834502983.5740293845720"))
             using(var c = new HugeFloat())
             {
-                var b = -4288574029879874539;
+                var b = Platform.Si(-4288574029879874539, -1885740298);
+                var expected = Platform.Select("22250987538919059714377522.5740293845720", "22250983250345031720243281.5740293845720");
                 c.Value = a - b;
-                FloatAssert.AreEqual("22250987538919059714377522.5740293845720", c);
+                FloatAssert.AreEqual(expected, c);
                 c.Value = b - a;
-                FloatAssert.AreEqual("-22250987538919059714377522.5740293845720", c);
+                FloatAssert.AreEqual("-" + expected, c);
             }
         }
 
@@ -188,11 +192,12 @@ namespace MPIR.Tests.HugeFloatTests
             using (var a = new HugeFloat("9023409872309847509847.9385345098345"))
             using (var c = new HugeFloat())
             {
-                ulong b = 17390538260286101342;
+                var b = Platform.Ui(17390538260286101342, 1500450271);
+                var expected = Platform.Select("156921954622647727368660197878904460649174.746962647899", "13539177788251386092120014542896.6240276901495");
                 c.Value = a * b;
-                FloatAssert.AreEqual("156921954622647727368660197878904460649174.746962647899", c);
+                FloatAssert.AreEqual(expected, c);
                 c.Value = b * -a;
-                FloatAssert.AreEqual("-156921954622647727368660197878904460649174.746962647899", c);
+                FloatAssert.AreEqual("-" + expected, c);
             }
         }
 
@@ -202,11 +207,12 @@ namespace MPIR.Tests.HugeFloatTests
             using (var a = new HugeFloat("9023409872309847509847.9385345098345"))
             using (var c = new HugeFloat())
             {
-                long b = -7390538260286101342;
+                var b = Platform.Si(-7390538260286101342, -1500450271);
+                var expected = Platform.Select("66687855899549252270180812533806115649174.746962647899", "13539177788251386092120014542896.6240276901495");
                 c.Value = a * b;
-                FloatAssert.AreEqual("-66687855899549252270180812533806115649174.746962647899", c);
+                FloatAssert.AreEqual("-" + expected, c);
                 c.Value = b * -a;
-                FloatAssert.AreEqual("66687855899549252270180812533806115649174.746962647899", c);
+                FloatAssert.AreEqual(expected, c);
             }
         }
 
@@ -220,7 +226,7 @@ namespace MPIR.Tests.HugeFloatTests
             using (var a = new HugeFloat("-12345700987ABA245230948.17607EF", 16))
             using (var e = new HugeFloat("-12345700987ABA24523094817607.EF", 16))
             {
-                ulong b = 20;
+                uint b = 20;
                 a.Value = a << b;
                 Assert.AreEqual(e, a);
             }
@@ -236,7 +242,7 @@ namespace MPIR.Tests.HugeFloatTests
             using (var a = new HugeFloat("-12345700987ABA24523094817607.EF", 16))
             using (var e = new HugeFloat("-12345700987ABA245230948.17607EF", 16))
             {
-                ulong b = 20;
+                uint b = 20;
                 a.Value = a >> b;
                 Assert.AreEqual(e, a);
             }
@@ -307,8 +313,10 @@ namespace MPIR.Tests.HugeFloatTests
         {
             using(var a = new HugeFloat())
             {
-                a.Value = HugeFloat.SquareRoot(2540928740928357403UL);
-                FloatAssert.AreEqual("1594029090.3645257511790832426801336140951314995369452070983", a);
+                var source = Platform.Ui(2540928740928357403U, 254092874U);
+                var expected = Platform.Select("1594029090.3645257511790832426801336140951314995369452070983", "15940.290900733273631771121246631364490515292845317661757570");
+                a.Value = HugeFloat.SquareRoot(source);
+                FloatAssert.AreEqual(expected, a);
             }
         }
 
@@ -338,9 +346,9 @@ namespace MPIR.Tests.HugeFloatTests
         {
             using (var a = new HugeFloat("1157569866683036578989624354347957.394580293847"))
             {
-                ulong b = 5931690917503076532;
+                var b = Platform.Ui(5931690917503076532, 3931690917);
                 a.Value = a / b;
-                FloatAssert.AreEqual("195150064759326.89956625512472902395197480398952074748799190", a);
+                FloatAssert.AreEqual(Platform.Select("195150064759326.89956625512472902395197480398952074748799190", "294420362922703412240180.51527521877035185414779643015361677"), a);
             }
         }
 
@@ -349,31 +357,31 @@ namespace MPIR.Tests.HugeFloatTests
         {
             using(var a = new HugeFloat("1157569866683036578989624354347957.394580293847"))
             {
-                long b = -5931690917503076532;
+                var b = Platform.Si(-5931690917503076532, -1288574029);
                 a.Value = a / b;
-                FloatAssert.AreEqual("-195150064759326.89956625512472902395197480398952074748799190", a);
+                FloatAssert.AreEqual(Platform.Select("-195150064759326.89956625512472902395197480398952074748799190", "-898334003814565921993779.6482998629445295873233838084750038"), a);
             }
         }
 
         [TestMethod]
         public void FloatDivideLimbBy()
         {
-            using(var a = new HugeFloat("11575698666830.39458029384723405203984572"))
+            using(var a = new HugeFloat("115756986.6683039458029384723405203984572"))
             {
-                ulong b = 5931690917503076532;
+                var b = Platform.Ui(5931690917503076532, 3931690917);
                 a.Value = b / a;
-                FloatAssert.AreEqual("512426.16866833708737257760720580856722540469109813901673959", a);
+                FloatAssert.AreEqual(Platform.Select("51242616866.833708737257760720580856722540469109813901673959", "33.96504202606854669329208733080818384500235983519843605"), a);
             }
         }
 
         [TestMethod]
         public void FloatDivideSignedLimbBy()
         {
-            using(var a = new HugeFloat("11575698666830.39458029384723405203984572"))
+            using(var a = new HugeFloat("115756986.6683039458029384723405203984572"))
             {
-                long b = -5931690917503076532;
+                var b = Platform.Si(-5931690917503076532, -1288574029);
                 a.Value = b / a;
-                FloatAssert.AreEqual("-512426.16866833708737257760720580856722540469109813901673959", a);
+                FloatAssert.AreEqual(Platform.Select("-51242616866.833708737257760720580856722540469109813901673959", "-11.13171710915684632967551560098368670502676808644707224"), a);
             }
         }
 

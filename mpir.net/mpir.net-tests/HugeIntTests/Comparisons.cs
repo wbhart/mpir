@@ -81,7 +81,7 @@ namespace MPIR.Tests.HugeIntTests
         {
             using (var a = new HugeInt("-222509821"))
             {
-                ulong b = 222509820;
+                var b = Platform.Ui(222509820, 222509820);
                 Assert.AreEqual(-1, System.Math.Sign(a.CompareTo(b)));
                 Assert.AreEqual(-1, System.Math.Sign(a.CompareTo(b + 1)));
                 Assert.AreEqual(0, System.Math.Sign((-(a + 1)).CompareTo(b)));
@@ -94,7 +94,7 @@ namespace MPIR.Tests.HugeIntTests
         {
             using (var a = new HugeInt("-222509821"))
             {
-                long b = -222509820;
+                var b = Platform.Si(-222509820, -222509820);
                 Assert.AreEqual(-1, System.Math.Sign(a.CompareTo(b)));
                 Assert.AreEqual(-1, System.Math.Sign(a.CompareTo(b + 1)));
                 Assert.AreEqual(0, System.Math.Sign((a + 1).CompareTo(b)));
@@ -427,9 +427,11 @@ namespace MPIR.Tests.HugeIntTests
         [TestMethod]
         public void IntEqualsLimb()
         {
-            using (var a = new HugeInt("222509832503"))
+            var source = Platform.Select("222509832503", "2225032503");
+            var b = Platform.Ui(222509832504, 2225032504);
+
+            using (var a = new HugeInt(source))
             {
-                ulong b = 222509832504;
                 Assert.IsFalse(a.Equals(b + 1));
                 Assert.IsTrue(a.Equals(b - 1));
                 Assert.IsTrue((a + 1).Equals(b));
@@ -439,9 +441,11 @@ namespace MPIR.Tests.HugeIntTests
         [TestMethod]
         public void IntEqualsSignedLimb()
         {
-            using (var a = new HugeInt("-222509832505"))
+            var source = Platform.Select("-222509832505", "-225032505");
+            var b = Platform.Si(-222509832504, -225032504);
+
+            using (var a = new HugeInt(source))
             {
-                long b = -222509832504;
                 Assert.IsFalse(a.Equals(b + 1));
                 Assert.IsTrue(a.Equals(b - 1));
                 Assert.IsTrue((a + 1).Equals(b));

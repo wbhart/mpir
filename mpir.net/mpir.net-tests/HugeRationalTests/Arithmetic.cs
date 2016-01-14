@@ -60,7 +60,7 @@ namespace MPIR.Tests.HugeRationalTests
             using (var a = new HugeRational("222509832503450298345029835740293845720/115756986668303657898962467957"))
             using (var c = new HugeRational())
             {
-                var b = 4288574029879874539UL;
+                var b = Platform.Ui(4288574029879874539UL, 4288574029U);
                 c.Value = a + b;
                 Assert.AreEqual(a.Numerator + b * a.Denominator, c.Numerator);
                 Assert.AreEqual(a.Denominator, c.Denominator);
@@ -73,7 +73,7 @@ namespace MPIR.Tests.HugeRationalTests
             using (var a = new HugeRational("222509832503450298345029835740293845720/115756986668303657898962467957"))
             using (var c = new HugeRational())
             {
-                var b = 4288574029879874539UL;
+                var b = Platform.Ui(4288574029879874539UL, 4279874539U);
                 c.Value = b + a;
                 Assert.AreEqual(a.Numerator + b * a.Denominator, c.Numerator);
                 Assert.AreEqual(a.Denominator, c.Denominator);
@@ -86,7 +86,7 @@ namespace MPIR.Tests.HugeRationalTests
             using (var a = new HugeRational("222509832503450298345029835740293845720/115756986668303657898962467957"))
             using (var c = new HugeRational())
             {
-                var b = -4288574029879874539L;
+                var b = Platform.Si(-4288574029879874539L, -1279874539);
                 c.Value = a + b;
                 Assert.AreEqual(a.Numerator + b * a.Denominator, c.Numerator);
                 Assert.AreEqual(a.Denominator, c.Denominator);
@@ -99,7 +99,7 @@ namespace MPIR.Tests.HugeRationalTests
             using (var a = new HugeRational("222509832503450298345029835740293845720/115756986668303657898962467957"))
             using (var c = new HugeRational())
             {
-                var b = -4288574029879874539L;
+                var b = Platform.Si(-4288574029879874539L, -1279874539);
                 c.Value = b + a;
                 Assert.AreEqual(a.Numerator + b * a.Denominator, c.Numerator);
                 Assert.AreEqual(a.Denominator, c.Denominator);
@@ -112,7 +112,7 @@ namespace MPIR.Tests.HugeRationalTests
             using (var a = new HugeRational("222509832503450298345029835740293845720/115756986668303657898962467957"))
             using (var c = new HugeRational())
             {
-                var b = long.MinValue;
+                var b = Platform.Si(long.MinValue, int.MinValue);
                 c.Value = b + a;
                 Assert.AreEqual(a.Numerator + b * a.Denominator, c.Numerator);
                 Assert.AreEqual(a.Denominator, c.Denominator);
@@ -166,7 +166,7 @@ namespace MPIR.Tests.HugeRationalTests
         [TestMethod]
         public void RationalSubtractLimb()
         {
-            var b = 4288574029879874539UL;
+                var b = Platform.Ui(4288574029879874539UL, 2885740298U);
             using (var a = new HugeRational("222509832503450298349318409770173720259/115756986668303657898962467957"))
             using (var c = new HugeRational(a - b))
             {
@@ -178,7 +178,7 @@ namespace MPIR.Tests.HugeRationalTests
         [TestMethod]
         public void RationalSubtractFromLimb()
         {
-            var b = 4288574029879874539UL;
+                var b = Platform.Ui(4288574029879874539UL, 2885740298U);
             using (var a = new HugeRational("222509832503450298349318409770173720259/115756986668303657898962467957"))
             using (var c = new HugeRational(b - a))
             {
@@ -190,7 +190,7 @@ namespace MPIR.Tests.HugeRationalTests
         [TestMethod]
         public void RationalSubtractPositiveSignedLimb()
         {
-            var b = 4288574029879874539L;
+                var b = Platform.Si(4288574029879874539L, 1885740298);
             using (var a = new HugeRational("222509832503450298349318409770173720259/115756986668303657898962467957"))
             using (var c = new HugeRational(a - b))
             {
@@ -202,7 +202,7 @@ namespace MPIR.Tests.HugeRationalTests
         [TestMethod]
         public void RationalSubtractFromPositiveSignedLimb()
         {
-            var b = 4288574029879874539L;
+                var b = Platform.Si(4288574029879874539L, 1885740298);
             using (var a = new HugeRational("222509832503450298349318409770173720259/115756986668303657898962467957"))
             using (var c = new HugeRational(a - b))
             {
@@ -214,7 +214,7 @@ namespace MPIR.Tests.HugeRationalTests
         [TestMethod]
         public void RationalSubtractSignedLimb()
         {
-            var b = -4288574029879874539L;
+                var b = Platform.Si(-4288574029879874539L, -1885740298);
             using (var a = new HugeRational("222509832503450298345029835740293845720/115756986668303657898962467957"))
             using (var c = new HugeRational(a - b))
             {
@@ -226,7 +226,7 @@ namespace MPIR.Tests.HugeRationalTests
         [TestMethod]
         public void RationalSubtractFromSignedLimb()
         {
-            var b = -4288574029879874539L;
+                var b = Platform.Si(-4288574029879874539L, -1885740298);
             using (var a = new HugeRational("222509832503450298345029835740293845720/115756986668303657898962467957"))
             using (var c = new HugeRational(b - a))
             {
@@ -271,9 +271,12 @@ namespace MPIR.Tests.HugeRationalTests
         {
             using (var a = new HugeRational("90234098723098475098479385345098345/115756986668303657898962467957"))
             {
-                ulong b = 17390538260286101342;
+                var b = Platform.Ui(17390538260286101342, 1500450271);
                 a.Value = a * b;
-                Assert.AreEqual("1569219546226477273686601978789044606491747469626478990/115756986668303657898962467957", a.ToString());
+                Assert.AreEqual(Platform.Select(
+                    "1569219546226477273686601978789044606491747469626478990/115756986668303657898962467957",
+                    "135391777882513860921200145428966240276901495/115756986668303657898962467957"),
+                    a.ToString());
             }
         }
 
@@ -282,9 +285,12 @@ namespace MPIR.Tests.HugeRationalTests
         {
             using (var a = new HugeRational("90234098723098475098479385345098345/115756986668303657898962467957"))
             {
-                ulong b = 17390538260286101342;
+                var b = Platform.Ui(17390538260286101342, 1500450271);
                 a.Value = b * a;
-                Assert.AreEqual("1569219546226477273686601978789044606491747469626478990/115756986668303657898962467957", a.ToString());
+                Assert.AreEqual(Platform.Select(
+                    "1569219546226477273686601978789044606491747469626478990/115756986668303657898962467957",
+                    "135391777882513860921200145428966240276901495/115756986668303657898962467957"),
+                    a.ToString());
             }
         }
 
@@ -293,9 +299,12 @@ namespace MPIR.Tests.HugeRationalTests
         {
             using (var a = new HugeRational("90234098723098475098479385345098345/115756986668303657898962467957"))
             {
-                long b = -7390538260286101342;
+                var b = Platform.Si(-7390538260286101342, -1987450271);
                 a.Value = a * b;
-                Assert.AreEqual("-666878558995492522701808125338061156491747469626478990/115756986668303657898962467957", a.ToString());
+                Assert.AreEqual(Platform.Select(
+                    "-666878558995492522701808125338061156491747469626478990/115756986668303657898962467957",
+                    "-179335783960662818294159606092029134291901495/115756986668303657898962467957"),
+                    a.ToString());
             }
         }
 
@@ -304,9 +313,12 @@ namespace MPIR.Tests.HugeRationalTests
         {
             using (var a = new HugeRational("90234098723098475098479385345098345/115756986668303657898962467957"))
             {
-                long b = -7390538260286101342;
+                var b = Platform.Si(-7390538260286101342, -1987450271);
                 a.Value = b * a;
-                Assert.AreEqual("-666878558995492522701808125338061156491747469626478990/115756986668303657898962467957", a.ToString());
+                Assert.AreEqual(Platform.Select(
+                    "-666878558995492522701808125338061156491747469626478990/115756986668303657898962467957",
+                    "-179335783960662818294159606092029134291901495/115756986668303657898962467957"),
+                    a.ToString());
             }
         }
 
@@ -319,7 +331,7 @@ namespace MPIR.Tests.HugeRationalTests
         {
             using (var a = new HugeRational("-12345700987ABCDEF2345CBDEFA245230948/17607EF654EB9A13FFA163C75", 16))
             {
-                ulong b = 40;
+                uint b = 40;
                 a.Value = a << b;
                 Assert.AreEqual("-12345700987ABCDEF2345CBDEFA2452309480000000000/17607EF654EB9A13FFA163C75", a.ToString(16));
             }
@@ -334,7 +346,7 @@ namespace MPIR.Tests.HugeRationalTests
         {
             using (var a = new HugeRational("ABCDEF052834524092854092874502983745029345723098457209305983434345/17607EF654EB9A13FFA163C75", 16))
             {
-                ulong b = 96;
+                uint b = 96;
                 a.Value = a >> b;
                 Assert.AreEqual("ABCDEF052834524092854092874502983745029345723098457209305983434345/17607EF654EB9A13FFA163C75000000000000000000000000", a.ToString(16));
             }
@@ -461,9 +473,12 @@ namespace MPIR.Tests.HugeRationalTests
         {
             using (var a = new HugeRational("115756986668303657898962467957/39458029384750298767200622330399462537522498"))
             {
-                ulong b = 5931690917503076532;
+                var b = Platform.Ui(5931690917503076532, 3367900313);
                 a.Value = a / b;
-                Assert.AreEqual("115756986668303657898962467957/234052834524092854092874502983745029345723092857791404165816936", a.ToString());
+                Assert.AreEqual(Platform.Select(
+                    "115756986668303657898962467957/234052834524092854092874502983745029345723092857791404165816936",
+                    "115756986668303657898962467957/132890709515263728644898490080347139295153795258741874"),
+                    a.ToString());
             }
         }
 
@@ -472,9 +487,12 @@ namespace MPIR.Tests.HugeRationalTests
         {
             using(var a = new HugeRational("115756986668303657898962467957/39458029384750298767200622330399462537522498"))
             {
-                long b = -5931690917503076532;
+                var b = Platform.Si(-5931690917503076532, -1500450271);
                 a.Value = a / b;
-                Assert.AreEqual("-115756986668303657898962467957/234052834524092854092874502983745029345723092857791404165816936", a.ToString());
+                Assert.AreEqual(Platform.Select(
+                    "-115756986668303657898962467957/234052834524092854092874502983745029345723092857791404165816936",
+                    "-115756986668303657898962467957/59204810883474549052577139687016525102679979792696958"),
+                    a.ToString());
             }
         }
 
@@ -483,9 +501,12 @@ namespace MPIR.Tests.HugeRationalTests
         {
             using(var a = new HugeRational("115756986668303657898962467957/39458029384750298767200622330399462537522498"))
             {
-                ulong b = 5931690917503076532;
+                var b = Platform.Ui(5931690917503076532, 3367900313);
                 a.Value = b / a;
-                Assert.AreEqual("234052834524092854092874502983745029345723092857791404165816936/115756986668303657898962467957", a.ToString());
+                Assert.AreEqual(Platform.Select(
+                    "234052834524092854092874502983745029345723092857791404165816936/115756986668303657898962467957",
+                    "132890709515263728644898490080347139295153795258741874/115756986668303657898962467957"),
+                    a.ToString());
             }
         }
 
@@ -494,9 +515,12 @@ namespace MPIR.Tests.HugeRationalTests
         {
             using(var a = new HugeRational("115756986668303657898962467957/39458029384750298767200622330399462537522498"))
             {
-                long b = -5931690917503076532;
+                var b = Platform.Si(-5931690917503076532, -1500450271);
                 a.Value = b / a;
-                Assert.AreEqual("-234052834524092854092874502983745029345723092857791404165816936/115756986668303657898962467957", a.ToString());
+                Assert.AreEqual(Platform.Select(
+                    "-234052834524092854092874502983745029345723092857791404165816936/115756986668303657898962467957",
+                    "-59204810883474549052577139687016525102679979792696958/115756986668303657898962467957"),
+                    a.ToString());
             }
         }
 

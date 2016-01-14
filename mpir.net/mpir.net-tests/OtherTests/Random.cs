@@ -28,7 +28,11 @@ namespace MPIR.Tests.RandomTests
     [TestClass]
     public class RandomTests
     {
+#if WIN64
         private void TestRandom(MpirRandom r, ulong seed, Action<MpirRandom> assert)
+#else
+        private void TestRandom(MpirRandom r, uint seed, Action<MpirRandom> assert)
+#endif
         {
             MpirRandom copy = null;
 
@@ -69,12 +73,12 @@ namespace MPIR.Tests.RandomTests
         {
             using (var r = MpirRandom.MersenneTwister())
             {
-                ulong seed = 12345789;
-                ulong max = 10000000;
-                ulong bits = 62;
-                ulong expected1 = 3801341;
-                ulong expected2 = 747743;
-                ulong expected3 = 3637762780660169521;
+                uint seed = 12345789;
+                uint max = 10000000;
+                uint bits = 62;
+                uint expected1 = 3801341;
+                uint expected2 = 747743;
+                var expected3 = Platform.Ui(3637762780660169521, 2925722417);
 
                 TestRandom(r, seed, x =>
                 {
@@ -90,12 +94,12 @@ namespace MPIR.Tests.RandomTests
         {
             using (var r = MpirRandom.Default())
             {
-                ulong seed = 12345789;
-                ulong max = 10000000;
-                ulong bits = 62;
-                ulong expected1 = 3801341;
-                ulong expected2 = 747743;
-                ulong expected3 = 3637762780660169521;
+                uint seed = 12345789;
+                uint max = 10000000;
+                uint bits = 62;
+                uint expected1 = 3801341;
+                uint expected2 = 747743;
+                var expected3 = Platform.Ui(3637762780660169521, 2925722417);
 
                 TestRandom(r, seed, x =>
                 {
@@ -111,12 +115,12 @@ namespace MPIR.Tests.RandomTests
         {
             using (var r = MpirRandom.LinearCongruential(128))
             {
-                ulong seed = 12345789;
-                ulong max = 10000000;
-                ulong bits = 62;
-                ulong expected1 = 8017343;
-                ulong expected2 = 2122346;
-                ulong expected3 = 1653945017297503111;
+                uint seed = 12345789;
+                uint max = 10000000;
+                uint bits = 62;
+                uint expected1 = 8017343;
+                uint expected2 = 2122346;
+                var expected3 = Platform.Ui(1653945017297503111, 4060840839);
 
                 TestRandom(r, seed, x =>
                 {
@@ -130,15 +134,17 @@ namespace MPIR.Tests.RandomTests
         [TestMethod]
         public void RandomSeedingLC()
         {
+            uint seed = 12345789;
+            uint max = 10000000;
+            uint bits = 62;
+            var expected1 = Platform.Ui(6524662, 5635868);
+            var expected2 = Platform.Ui(5428780, 5488683);
+            var expected3 = Platform.Ui(4189233241027086562, 278391078);
+            var c = Platform.Ui(98570948725939831, 985709487);
+
             using (var a = new HugeInt("5209384572093847098342590872309452304529345409827509283745078"))
-            using (var r = MpirRandom.LinearCongruential(a, 98570948725939831, 256))
+            using (var r = MpirRandom.LinearCongruential(a, c, 256))
             {
-                ulong seed = 12345789;
-                ulong max = 10000000;
-                ulong bits = 62;
-                ulong expected1 = 6524662;
-                ulong expected2 = 5428780;
-                ulong expected3 = 4189233241027086562;
 
                 TestRandom(r, seed, x =>
                 {
@@ -217,7 +223,7 @@ namespace MPIR.Tests.RandomTests
             {
                 r.Seed(12345789);
                 a.Value = r.GetFloatChunky(100);
-                Assert.AreEqual("0.7FFFFFFF0180000000000000000007FFFFFFFFFFFFFFFFFFF@-2EF", a.ToString(16));
+                Assert.AreEqual(Platform.Select("0.7FFFFFFF0180000000000000000007FFFFFFFFFFFFFFFFFFF@-2EF", "0.7FFFFFFFFFFFF00000000001FFE000000000000000000000007FFFFFF@29"), a.ToString(16));
             }
         }
 
@@ -228,8 +234,8 @@ namespace MPIR.Tests.RandomTests
             using(var a = HugeFloat.Allocate(256))
             {
                 r.Seed(12345789);
-                a.Value = r.GetFloatLimbsChunky(2, 100);
-                Assert.AreEqual("0.7FFFFFF8000007FFF@2C1", a.ToString(16));
+                a.Value = r.GetFloatLimbsChunky(128 / MpirSettings.BITS_PER_LIMB, 100);
+                Assert.AreEqual(Platform.Select("0.7FFFFFF8000007FFF@2C1", "0.7FFFFFFFFFC000000003FFFFF@2A1"), a.ToString(16));
             }
         }
     }

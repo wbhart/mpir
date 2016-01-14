@@ -111,7 +111,7 @@ namespace MPIR.Tests.HugeRationalTests
         {
             using (var a = new HugeRational("-222509821"))
             {
-                ulong b = 222509820;
+                var b = Platform.Ui(222509820, 222509820);
                 Assert.AreEqual(-1, System.Math.Sign(a.CompareTo(b)));
                 Assert.AreEqual(-1, System.Math.Sign(a.CompareTo(b + 1)));
                 Assert.AreEqual(0, System.Math.Sign((-(a + 1)).CompareTo(b)));
@@ -124,8 +124,8 @@ namespace MPIR.Tests.HugeRationalTests
         {
             using(var a = new HugeRational("-222509947/127"))
             {
-                ulong b = 222509820;
-                ulong d = 127;
+                uint b = 222509820;
+                uint d = 127;
                 Assert.AreEqual(-1, System.Math.Sign(a.CompareTo(b, d)));
                 Assert.AreEqual(-1, System.Math.Sign(a.CompareTo(b + 1, d)));
                 Assert.AreEqual(0, System.Math.Sign((-(a + 1)).CompareTo(b, d)));
@@ -139,7 +139,7 @@ namespace MPIR.Tests.HugeRationalTests
         {
             using (var a = new HugeRational("-222509821"))
             {
-                long b = -222509820;
+                var b = Platform.Si(-222509820, -222509820);
                 Assert.AreEqual(-1, System.Math.Sign(a.CompareTo(b)));
                 Assert.AreEqual(-1, System.Math.Sign(a.CompareTo(b + 1)));
                 Assert.AreEqual(0, System.Math.Sign((a + 1).CompareTo(b)));
@@ -153,14 +153,14 @@ namespace MPIR.Tests.HugeRationalTests
         {
             using(var a = new HugeRational("-222509947/127"))
             {
-                long b = -222509820;
-                long d = 127;
-                Assert.AreEqual(-1, System.Math.Sign(a.CompareTo(b, (ulong)d)));
-                Assert.AreEqual(-1, System.Math.Sign(a.CompareTo(b + 1, (ulong)d)));
-                Assert.AreEqual(0, System.Math.Sign((a + 1).CompareTo(b, (ulong)d)));
-                Assert.AreEqual(-1, System.Math.Sign(a.CompareTo(b - d + 1, (ulong)d)));
-                Assert.AreEqual(0, System.Math.Sign(a.CompareTo(b - d, (ulong)d)));
-                Assert.AreEqual(1, System.Math.Sign(a.CompareTo(b - d - 1, (ulong)d)));
+                int b = -222509820;
+                int d = 127;
+                Assert.AreEqual(-1, System.Math.Sign(a.CompareTo(b, (uint)d)));
+                Assert.AreEqual(-1, System.Math.Sign(a.CompareTo(b + 1, (uint) d)));
+                Assert.AreEqual(0, System.Math.Sign((a + 1).CompareTo(b, (uint) d)));
+                Assert.AreEqual(-1, System.Math.Sign(a.CompareTo(b - d + 1, (uint) d)));
+                Assert.AreEqual(0, System.Math.Sign(a.CompareTo(b - d, (uint) d)));
+                Assert.AreEqual(1, System.Math.Sign(a.CompareTo(b - d - 1, (uint) d)));
             }
         }
 
@@ -255,8 +255,8 @@ namespace MPIR.Tests.HugeRationalTests
         {
             using (var a = new HugeRational("3845721"))
             {
-                ulong c = 5432;
-                ulong b = 5432349587;
+                uint c = 5432;
+                var b = Platform.Ui(5432349587, 543234958);
                 Assert.IsTrue(a < b);
                 Assert.IsFalse(b < a);
                 Assert.IsFalse(a < c);
@@ -512,9 +512,9 @@ namespace MPIR.Tests.HugeRationalTests
         [TestMethod]
         public void RationalEqualsLimb()
         {
-            using (var a = new HugeRational("222509832503"))
+            using (var a = new HugeRational(Platform.Select("222509832503", "2225098323")))
             {
-                ulong b = 222509832504;
+                var b = Platform.Ui(222509832504, 2225098324);
                 Assert.IsFalse(a.Equals(b + 1));
                 Assert.IsTrue(a.Equals(b - 1));
                 Assert.IsTrue((a + 1).Equals(b));
@@ -524,9 +524,9 @@ namespace MPIR.Tests.HugeRationalTests
         [TestMethod]
         public void RationalEqualsSignedLimb()
         {
-            using (var a = new HugeRational("-222509832505"))
+            using (var a = new HugeRational(Platform.Select("-222509832505", "-222509835")))
             {
-                long b = -222509832504;
+                var b = Platform.Si(-222509832504, -222509834);
                 Assert.IsFalse(a.Equals(b + 1));
                 Assert.IsTrue(a.Equals(b - 1));
                 Assert.IsTrue((a + 1).Equals(b));
@@ -536,10 +536,10 @@ namespace MPIR.Tests.HugeRationalTests
         [TestMethod]
         public void RationalEqualsLimb2()
         {
-            using(var a = new HugeRational("222509832377/127"))
+            using (var a = new HugeRational(Platform.Select("222509832377/127", "2509832377/127")))
             {
-                ulong b = 222509832504;
-                ulong d = 127;
+                var b = Platform.Ui(222509832504, 2509832504);
+                uint d = 127;
                 Assert.IsFalse(a.Equals(b + 1, d));
                 Assert.IsTrue(a.Equals(b - d, d));
                 Assert.IsTrue((a + 1).Equals(b, d));
@@ -549,12 +549,12 @@ namespace MPIR.Tests.HugeRationalTests
         [TestMethod]
         public void RationalEqualsSignedLimb2()
         {
-            using(var a = new HugeRational("-222509832377/127"))
+            using (var a = new HugeRational(Platform.Select("-222509832377/127", "-1509832377/127")))
             {
-                long b = -222509832504;
-                ulong d = 127;
+                var b = Platform.Si(-222509832504, -1509832504);
+                uint d = 127;
                 Assert.IsFalse(a.Equals(b + 1, d));
-                Assert.IsTrue(a.Equals(b + (long)d, d));
+                Assert.IsTrue(a.Equals(b + (int)d, d));
                 Assert.IsTrue((a - 1).Equals(b, d));
             }
         }

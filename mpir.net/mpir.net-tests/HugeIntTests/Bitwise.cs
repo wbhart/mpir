@@ -77,8 +77,9 @@ namespace MPIR.Tests.HugeIntTests
         {
             using (var a = new HugeInt("0x1ABCDEF8984948281360922385394772450147012613851354303"))
             {
+                var max = Platform.Ui(ulong.MaxValue, uint.MaxValue);
                 Assert.AreEqual(83UL, a.PopCount());
-                Assert.AreEqual(ulong.MaxValue, (-a).PopCount());
+                Assert.AreEqual(max, (-a).PopCount());
             }
         }
 
@@ -88,10 +89,11 @@ namespace MPIR.Tests.HugeIntTests
             using (var a = new HugeInt("0x1ABCDE08984948281360922385394772450147012613851354F03"))
             using (var b = new HugeInt("0x1ABCDEF8984948281360922345394772450147012613851354303"))
             {
-                Assert.AreEqual(8UL, a.HammingDistance(b));
-                Assert.AreEqual(8UL, (-b).HammingDistance(-a));
-                Assert.AreEqual(ulong.MaxValue, (-a).HammingDistance(b));
-                Assert.AreEqual(ulong.MaxValue, b.HammingDistance(-a));
+                var max = Platform.Ui(ulong.MaxValue, uint.MaxValue);
+                Assert.AreEqual(8U, a.HammingDistance(b));
+                Assert.AreEqual(8U, (-b).HammingDistance(-a));
+                Assert.AreEqual(max, (-a).HammingDistance(b));
+                Assert.AreEqual(max, b.HammingDistance(-a));
             }
         }
 
@@ -100,12 +102,13 @@ namespace MPIR.Tests.HugeIntTests
         {
             using (var a = new HugeInt("0xA0000000000000000000800000000001"))
             {
+                var max = Platform.Ui(ulong.MaxValue, uint.MaxValue);
                 Assert.AreEqual(0UL, a.FindBit(true, 0));
                 Assert.AreEqual(47UL, a.FindBit(true, 1));
                 Assert.AreEqual(47UL, a.FindBit(true, 47));
                 Assert.AreEqual(125UL, a.FindBit(true, 48));
                 Assert.AreEqual(127UL, a.FindBit(true, 126));
-                Assert.AreEqual(ulong.MaxValue, a.FindBit(true, 128));
+                Assert.AreEqual(max, a.FindBit(true, 128));
 
                 Assert.AreEqual(1UL, a.FindBit(false, 0));
                 Assert.AreEqual(1UL, a.FindBit(false, 1));
@@ -120,7 +123,7 @@ namespace MPIR.Tests.HugeIntTests
                 Assert.AreEqual(47UL, a.FindBit(false, 47));
                 Assert.AreEqual(125UL, a.FindBit(false, 48));
                 Assert.AreEqual(127UL, a.FindBit(false, 126));
-                Assert.AreEqual(ulong.MaxValue, a.FindBit(false, 128));
+                Assert.AreEqual(max, a.FindBit(false, 128));
 
                 Assert.AreEqual(1UL, a.FindBit(true, 0));
                 Assert.AreEqual(1UL, a.FindBit(true, 1));
@@ -155,19 +158,21 @@ namespace MPIR.Tests.HugeIntTests
         {
             using (var a = new HugeInt("0xA000000000000000000200000000001"))
             {
+                var limbs = 128 / MpirSettings.BITS_PER_LIMB;
+
                 Assert.IsTrue(a.GetBit(45));
                 Assert.IsFalse(a.GetBit(46));
-                Assert.AreEqual(2, a.NumberOfLimbsUsed());
-                Assert.AreEqual(3, a.NumberOfLimbsAllocated());
+                Assert.AreEqual(limbs, a.NumberOfLimbsUsed());
+                Assert.AreEqual(limbs + 1, a.NumberOfLimbsAllocated());
                 Assert.IsFalse(a.GetBit(246));
-                Assert.AreEqual(2, a.NumberOfLimbsUsed());
-                Assert.AreEqual(3, a.NumberOfLimbsAllocated());
+                Assert.AreEqual(limbs, a.NumberOfLimbsUsed());
+                Assert.AreEqual(limbs + 1, a.NumberOfLimbsAllocated());
                 a.Value = ~a;
-                Assert.AreEqual(-2, a.NumberOfLimbsUsed());
-                Assert.AreEqual(3, a.NumberOfLimbsAllocated());
+                Assert.AreEqual(-limbs, a.NumberOfLimbsUsed());
+                Assert.AreEqual(limbs + 1, a.NumberOfLimbsAllocated());
                 Assert.IsTrue(a.GetBit(246));
-                Assert.AreEqual(-2, a.NumberOfLimbsUsed());
-                Assert.AreEqual(3, a.NumberOfLimbsAllocated());
+                Assert.AreEqual(-limbs, a.NumberOfLimbsUsed());
+                Assert.AreEqual(limbs + 1, a.NumberOfLimbsAllocated());
             }
         }
 

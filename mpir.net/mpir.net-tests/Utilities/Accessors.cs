@@ -82,7 +82,7 @@ namespace MPIR.Tests
 
             unsafe
             {
-                return new IntPtr(((void**)_value(x).ToPointer())[1]);
+                return new IntPtr(*(void**)(((int*)_value(x).ToPointer()) + 2));
             }
         }
     }
@@ -123,7 +123,7 @@ namespace MPIR.Tests
 
             unsafe
             {
-                return new IntPtr(((void**)_value(x).ToPointer())[1]);
+                return new IntPtr(*(void**)(((int*) _value(x).ToPointer()) + 2));
             }
         }
 
@@ -134,7 +134,7 @@ namespace MPIR.Tests
 
             unsafe
             {
-                return ((int*)_value(x).ToPointer())[4];
+                return ((int*)_value(x).ToPointer())[2 + sizeof(IntPtr) / 4];
             }
         }
 
@@ -145,7 +145,7 @@ namespace MPIR.Tests
 
             unsafe
             {
-                return ((int*)_value(x).ToPointer())[5];
+                return ((int*)_value(x).ToPointer())[3 + sizeof (IntPtr) / 4];
             }
         }
 
@@ -156,7 +156,7 @@ namespace MPIR.Tests
 
             unsafe
             {
-                return new IntPtr(((void**)_value(x).ToPointer())[3]);
+                return new IntPtr(*(void**)(((int*)_value(x).ToPointer()) + 4 + sizeof(IntPtr) / 4));
             }
         }
     }
@@ -208,7 +208,7 @@ namespace MPIR.Tests
 
             unsafe
             {
-                return new IntPtr(((void**)_value(x).ToPointer())[2]);
+                return new IntPtr(*(void**)(((int*)_value(x).ToPointer()) + 2 + sizeof(IntPtr) / 4));
             }
         }
     }
