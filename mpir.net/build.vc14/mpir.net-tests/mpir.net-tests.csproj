@@ -96,100 +96,100 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="..\..\..\mpir.net\mpir.net-tests\HugeFloatTests\Assignment.cs">
+    <Compile Include="..\..\mpir.net-tests\HugeFloatTests\Assignment.cs">
       <Link>HugeFloatTests\Assignment.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\mpir.net\mpir.net-tests\HugeFloatTests\Arithmetic.cs">
+    <Compile Include="..\..\mpir.net-tests\HugeFloatTests\Arithmetic.cs">
       <Link>HugeFloatTests\Arithmetic.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\mpir.net\mpir.net-tests\HugeFloatTests\Comparisons.cs">
+    <Compile Include="..\..\mpir.net-tests\HugeFloatTests\Comparisons.cs">
       <Link>HugeFloatTests\Comparisons.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\mpir.net\mpir.net-tests\HugeFloatTests\ConstructionAndDisposal.cs">
+    <Compile Include="..\..\mpir.net-tests\HugeFloatTests\ConstructionAndDisposal.cs">
       <Link>HugeFloatTests\ConstructionAndDisposal.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\mpir.net\mpir.net-tests\HugeFloatTests\Conversions.cs">
+    <Compile Include="..\..\mpir.net-tests\HugeFloatTests\Conversions.cs">
       <Link>HugeFloatTests\Conversions.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\mpir.net\mpir.net-tests\HugeFloatTests\ExpressionTests.cs">
+    <Compile Include="..\..\mpir.net-tests\HugeFloatTests\ExpressionTests.cs">
       <Link>HugeFloatTests\ExpressionTests.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\mpir.net\mpir.net-tests\HugeFloatTests\IO.cs">
+    <Compile Include="..\..\mpir.net-tests\HugeFloatTests\IO.cs">
       <Link>HugeFloatTests\IO.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\mpir.net\mpir.net-tests\HugeFloatTests\Math.cs">
+    <Compile Include="..\..\mpir.net-tests\HugeFloatTests\Math.cs">
       <Link>HugeFloatTests\Math.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\mpir.net\mpir.net-tests\HugeFloatTests\Precision.cs">
+    <Compile Include="..\..\mpir.net-tests\HugeFloatTests\Precision.cs">
       <Link>HugeFloatTests\Precision.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\mpir.net\mpir.net-tests\HugeIntTests\Arithmetic.cs">
+    <Compile Include="..\..\mpir.net-tests\HugeIntTests\Arithmetic.cs">
       <Link>HugeIntTests\Arithmetic.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\mpir.net\mpir.net-tests\HugeIntTests\Assignment.cs">
+    <Compile Include="..\..\mpir.net-tests\HugeIntTests\Assignment.cs">
       <Link>HugeIntTests\Assignment.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\mpir.net\mpir.net-tests\HugeIntTests\Bitwise.cs">
+    <Compile Include="..\..\mpir.net-tests\HugeIntTests\Bitwise.cs">
       <Link>HugeIntTests\Bitwise.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\mpir.net\mpir.net-tests\HugeIntTests\Conversions.cs">
+    <Compile Include="..\..\mpir.net-tests\HugeIntTests\Conversions.cs">
       <Link>HugeIntTests\Conversions.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\mpir.net\mpir.net-tests\HugeIntTests\Comparisons.cs">
+    <Compile Include="..\..\mpir.net-tests\HugeIntTests\Comparisons.cs">
       <Link>HugeIntTests\Comparisons.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\mpir.net\mpir.net-tests\HugeIntTests\ExpressionTests.cs">
+    <Compile Include="..\..\mpir.net-tests\HugeIntTests\ExpressionTests.cs">
       <Link>HugeIntTests\ExpressionTests.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\mpir.net\mpir.net-tests\HugeIntTests\IO.cs">
+    <Compile Include="..\..\mpir.net-tests\HugeIntTests\IO.cs">
       <Link>HugeIntTests\IO.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\mpir.net\mpir.net-tests\HugeIntTests\Math.cs">
+    <Compile Include="..\..\mpir.net-tests\HugeIntTests\Math.cs">
       <Link>HugeIntTests\Math.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\mpir.net\mpir.net-tests\HugeIntTests\NumberTheoretic.cs">
+    <Compile Include="..\..\mpir.net-tests\HugeIntTests\NumberTheoretic.cs">
       <Link>HugeIntTests\NumberTheoretic.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\mpir.net\mpir.net-tests\HugeRationalTests\Arithmetic.cs">
+    <Compile Include="..\..\mpir.net-tests\HugeRationalTests\Arithmetic.cs">
       <Link>HugeRationalTests\Arithmetic.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\mpir.net\mpir.net-tests\HugeRationalTests\Assignment.cs">
+    <Compile Include="..\..\mpir.net-tests\HugeRationalTests\Assignment.cs">
       <Link>HugeRationalTests\Assignment.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\mpir.net\mpir.net-tests\HugeRationalTests\Comparisons.cs">
+    <Compile Include="..\..\mpir.net-tests\HugeRationalTests\Comparisons.cs">
       <Link>HugeRationalTests\Comparisons.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\mpir.net\mpir.net-tests\HugeRationalTests\ConstructionAndDisposal.cs">
+    <Compile Include="..\..\mpir.net-tests\HugeRationalTests\ConstructionAndDisposal.cs">
       <Link>HugeRationalTests\ConstructionAndDisposal.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\mpir.net\mpir.net-tests\HugeRationalTests\Conversions.cs">
+    <Compile Include="..\..\mpir.net-tests\HugeRationalTests\Conversions.cs">
       <Link>HugeRationalTests\Conversions.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\mpir.net\mpir.net-tests\HugeRationalTests\ExpressionTests.cs">
+    <Compile Include="..\..\mpir.net-tests\HugeRationalTests\ExpressionTests.cs">
       <Link>HugeRationalTests\ExpressionTests.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\mpir.net\mpir.net-tests\HugeRationalTests\IO.cs">
+    <Compile Include="..\..\mpir.net-tests\HugeRationalTests\IO.cs">
       <Link>HugeRationalTests\IO.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\mpir.net\mpir.net-tests\IntegrationTests\XmlCommentsTests.cs">
+    <Compile Include="..\..\mpir.net-tests\IntegrationTests\XmlCommentsTests.cs">
       <Link>IntegrationTests\XmlCommentsTests.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\mpir.net\mpir.net-tests\OtherTests\MpirSettings.cs">
+    <Compile Include="..\..\mpir.net-tests\OtherTests\MpirSettings.cs">
       <Link>OtherTests\MpirSettings.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\mpir.net\mpir.net-tests\OtherTests\Random.cs">
+    <Compile Include="..\..\mpir.net-tests\OtherTests\Random.cs">
       <Link>OtherTests\Random.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\mpir.net\mpir.net-tests\Utilities\Accessors.cs">
+    <Compile Include="..\..\mpir.net-tests\Utilities\Accessors.cs">
       <Link>Utilities\Accessors.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\mpir.net\mpir.net-tests\Utilities\Platform.cs">
+    <Compile Include="..\..\mpir.net-tests\Utilities\Platform.cs">
       <Link>Utilities\Platform.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\mpir.net\mpir.net-tests\HugeIntTests\ConstructionAndDisposal.cs">
+    <Compile Include="..\..\mpir.net-tests\HugeIntTests\ConstructionAndDisposal.cs">
       <Link>HugeIntTests\ConstructionAndDisposal.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\mpir.net\mpir.net-tests\Properties\AssemblyInfo.cs">
+    <Compile Include="..\..\mpir.net-tests\Properties\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
   </ItemGroup>

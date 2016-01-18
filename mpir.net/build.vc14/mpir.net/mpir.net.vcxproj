@@ -145,22 +145,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\mpir.net\mpir.net\Common.h" />
-    <ClInclude Include="..\..\..\mpir.net\mpir.net\HugeFloat.h" />
-    <ClInclude Include="..\..\..\mpir.net\mpir.net\HugeInt.h" />
-    <ClInclude Include="..\..\..\mpir.net\mpir.net\HugeRational.h" />
-    <ClInclude Include="..\..\..\mpir.net\mpir.net\Random.h" />
-    <ClInclude Include="..\..\..\mpir.net\mpir.net\resource.h" />
-    <ClInclude Include="..\..\..\mpir.net\mpir.net\Stdafx.h" />
+    <ClInclude Include="..\..\mpir.net\Common.h" />
+    <ClInclude Include="..\..\mpir.net\HugeFloat.h" />
+    <ClInclude Include="..\..\mpir.net\HugeInt.h" />
+    <ClInclude Include="..\..\mpir.net\HugeRational.h" />
+    <ClInclude Include="..\..\mpir.net\Random.h" />
+    <ClInclude Include="..\..\mpir.net\resource.h" />
+    <ClInclude Include="..\..\mpir.net\Stdafx.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\mpir.net\mpir.net\AssemblyInfo.cpp" />
-    <ClCompile Include="..\..\..\mpir.net\mpir.net\HugeFloat.cpp" />
-    <ClCompile Include="..\..\..\mpir.net\mpir.net\HugeInt.cpp" />
-    <ClCompile Include="..\..\..\mpir.net\mpir.net\HugeRational.cpp" />
-    <ClCompile Include="..\..\..\mpir.net\mpir.net\Random.cpp" />
-    <ClCompile Include="..\..\..\mpir.net\mpir.net\RandomFloat.cpp" />
-    <ClCompile Include="..\..\..\mpir.net\mpir.net\Stdafx.cpp">
+    <ClCompile Include="..\..\mpir.net\AssemblyInfo.cpp" />
+    <ClCompile Include="..\..\mpir.net\HugeFloat.cpp" />
+    <ClCompile Include="..\..\mpir.net\HugeInt.cpp" />
+    <ClCompile Include="..\..\mpir.net\HugeRational.cpp" />
+    <ClCompile Include="..\..\mpir.net\Random.cpp" />
+    <ClCompile Include="..\..\mpir.net\RandomFloat.cpp" />
+    <ClCompile Include="..\..\mpir.net\Stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
@@ -168,16 +168,16 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="..\..\..\mpir.net\mpir.net\ReadMe.txt" />
+    <Text Include="..\..\mpir.net\ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="..\..\..\mpir.net\mpir.net\app.rc" />
+    <ResourceCompile Include="..\..\mpir.net\app.rc" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="..\..\..\mpir.net\mpir.net\app.ico" />
+    <Image Include="..\..\mpir.net\app.ico" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\..\mpir.net\mpir.net\ExpressionMacros.h" />
+    <None Include="..\..\mpir.net\ExpressionMacros.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
