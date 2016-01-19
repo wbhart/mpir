@@ -59,6 +59,7 @@ namespace MPIR
     ref class RationalExpression;
     ref class FloatExpression;
     ref class MPTYPE;
+    ref class MPEXPR(Multiply);
     ref class MPEXPR(Divide);
     ref class MPEXPR(DivideUi);
     ref class MPEXPR(Mod);
@@ -198,7 +199,7 @@ namespace MPIR
             /// <param name="a">Source value to multiply</param>
             /// <param name="b">Source value to multiply by</param>
             /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
-            static MPEXPR_NAME^ operator * (MPEXPR_NAME^ a, MPEXPR_NAME^ b);
+            static MPEXPR(Multiply)^ operator * (MPEXPR_NAME^ a, MPEXPR_NAME^ b);
                                                                                                           
             /// <summary>Multiplies two numbers.
             /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
@@ -206,7 +207,7 @@ namespace MPIR
             /// <param name="a">Source value to multiply</param>
             /// <param name="b">Source value to multiply by</param>
             /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
-            static MPEXPR_NAME^ operator * (MPEXPR_NAME^ a, mpir_ui b);
+            static MPEXPR(Multiply)^ operator * (MPEXPR_NAME^ a, mpir_ui b);
                                                                                                           
             /// <summary>Multiplies two numbers.
             /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
@@ -214,7 +215,7 @@ namespace MPIR
             /// <param name="a">Source value to multiply</param>
             /// <param name="b">Source value to multiply by</param>
             /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
-            static MPEXPR_NAME^ operator * (mpir_ui a, MPEXPR_NAME^ b);
+            static MPEXPR(Multiply)^ operator * (mpir_ui a, MPEXPR_NAME^ b);
                                                                                                           
             /// <summary>Multiplies two numbers.
             /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
@@ -222,7 +223,7 @@ namespace MPIR
             /// <param name="a">Source value to multiply</param>
             /// <param name="b">Source value to multiply by</param>
             /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
-            static MPEXPR_NAME^ operator * (MPEXPR_NAME^ a, mpir_si b);
+            static MPEXPR(Multiply)^ operator * (MPEXPR_NAME^ a, mpir_si b);
                                                                                                           
             /// <summary>Multiplies two numbers.
             /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
@@ -230,7 +231,7 @@ namespace MPIR
             /// <param name="a">Source value to multiply</param>
             /// <param name="b">Source value to multiply by</param>
             /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
-            static MPEXPR_NAME^ operator * (mpir_si a, MPEXPR_NAME^ b);
+            static MPEXPR(Multiply)^ operator * (mpir_si a, MPEXPR_NAME^ b);
                                                                                                           
             /// <summary>Shifts the <paramref name="a"/> source operand to the left by <paramref name="bits"/>, i.e. multiplies <paramref name="a"/> by 2^<paramref name="bits"/>.
             /// <para>As with all expressions, the result is not computed until the expression is assigned to the Value property or consumed by a method.
@@ -1095,6 +1096,17 @@ namespace MPIR
     #pragma region mid-level abstract expression specializations
 
     /// <summary>
+    /// Expression that results from a multiplication operator.  Used internally to optimize computations that can use addmul/submul MPIR calls.
+    /// </summary>
+    public ref class MPEXPR(Multiply) abstract : MPEXPR_NAME
+    {
+        internal:
+            MPEXPR(Multiply)() { }
+            virtual void AddTo(MP(ptr) destination) abstract;
+            virtual void SubtractFrom(MP(ptr) destination) abstract;
+    };
+
+    /// <summary>
     /// Expression that results from a division or modulo operator.  Allows to set the rounding mode for the division.
     /// </summary>
     public ref class MPEXPR(DivMod) abstract : MPEXPR_NAME 
@@ -1377,11 +1389,19 @@ namespace MPIR
     DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_LEFT    (MPEXPR_NAME, Subtract, Ui, Int)
     DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (MPEXPR_NAME, Subtract, Int, Si)
     DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_LEFT    (MPEXPR_NAME, Subtract, Si, Int)
-                                                   
-    DEFINE_BINARY_EXPRESSION_WITH_TWO              (MPEXPR_NAME, Multiply, Int)
-    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (MPEXPR_NAME, Multiply, Int, Ui)
-    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (MPEXPR_NAME, Multiply, Int, Si)
-                                                   
+
+#undef ADDITIONAL_MEMBERS
+#define ADDITIONAL_MEMBERS                                   \
+    void virtual AddTo(MP(ptr) destination) override;        \
+    void virtual SubtractFrom(MP(ptr) destination) override;
+
+    DEFINE_BINARY_EXPRESSION_WITH_TWO              (MPEXPR(Multiply), Multiply, Int)
+    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (MPEXPR(Multiply), Multiply, Int, Ui)
+    DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (MPEXPR(Multiply), Multiply, Int, Si)
+
+#undef ADDITIONAL_MEMBERS
+#define ADDITIONAL_MEMBERS
+
     DEFINE_BINARY_EXPRESSION_WITH_BUILT_IN_RIGHT   (MPEXPR_NAME, ShiftLeft, Int, Bits)
                                                    
     DEFINE_UNARY_EXPRESSION_WITH_ONE               (MPEXPR_NAME, Negate, Int)

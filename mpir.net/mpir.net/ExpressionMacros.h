@@ -19,6 +19,11 @@ along with the MPIR Library.  If not, see http://www.gnu.org/licenses/.
 
 #pragma region Expression macros
 
+#ifdef ADDITIONAL_MEMBERS 
+#undef ADDITIONAL_MEMBERS
+#endif
+#define ADDITIONAL_MEMBERS
+
 #define IN_CONTEXT_1(a)                \
     a->ASSIGN_TO(context)
 
@@ -75,6 +80,7 @@ private ref class MPEXPR(name) : base                                 \
         initonly leftType Left;                                       \
         initonly rightType Right;                                     \
         virtual void AssignTo(MP(ptr) destination) override;          \
+        ADDITIONAL_MEMBERS                                            \
         MPEXPR(name)(leftType left, rightType right)                  \
         {                                                             \
             Left = left;                                              \

@@ -395,13 +395,13 @@ namespace MPIR
     MAKE_BINARY_OPERATOR_LLIMB     (MPEXPR_NAME,        DEFINE, -, Subtract, Int, Ui)       
     MAKE_BINARY_OPERATOR_RLIMB     (MPEXPR_NAME,        DEFINE, -, Subtract, Int, Si)       
     MAKE_BINARY_OPERATOR_LLIMB     (MPEXPR_NAME,        DEFINE, -, Subtract, Int, Si)       
-                                                                                                        
-    MAKE_BINARY_OPERATOR_STANDARD  (MPEXPR_NAME,        DEFINE, *, Multiply, Int, Int)      
-    MAKE_BINARY_OPERATOR_RLIMB     (MPEXPR_NAME,        DEFINE, *, Multiply, Int, Ui)       
-    MAKE_BINARY_OPERATOR_LLIMB_R   (MPEXPR_NAME,        DEFINE, *, Multiply, Int, Ui)       
-    MAKE_BINARY_OPERATOR_RLIMB     (MPEXPR_NAME,        DEFINE, *, Multiply, Int, Si)       
-    MAKE_BINARY_OPERATOR_LLIMB_R   (MPEXPR_NAME,        DEFINE, *, Multiply, Int, Si)       
-                                                                                                        
+
+    MAKE_BINARY_OPERATOR_STANDARD  (MPEXPR(Multiply),   DEFINE, *, Multiply, Int, Int)      
+    MAKE_BINARY_OPERATOR_RLIMB     (MPEXPR(Multiply),   DEFINE, *, Multiply, Int, Ui)       
+    MAKE_BINARY_OPERATOR_LLIMB_R   (MPEXPR(Multiply),   DEFINE, *, Multiply, Int, Ui)       
+    MAKE_BINARY_OPERATOR_RLIMB     (MPEXPR(Multiply),   DEFINE, *, Multiply, Int, Si)       
+    MAKE_BINARY_OPERATOR_LLIMB_R   (MPEXPR(Multiply),   DEFINE, *, Multiply, Int, Si)       
+
     MAKE_BINARY_OPERATOR_RLIMB     (MPEXPR_NAME,        DEFINE, <<, ShiftLeft, Int, Bits)   
     MAKE_BINARY_OPERATOR_RLIMB     (MPEXPR(ShiftRight), DEFINE, >>, ShiftRight, Int, Bits)  
                                                                                                            
@@ -474,63 +474,64 @@ namespace MPIR
     DEFINE_TERNARY_ASSIGNMENT_REF_REF_REF(PowerMod, Int, MP(powm));
     DEFINE_TERNARY_ASSIGNMENT_REF_VAL_REF(PowerMod, Int, Ui, Int, MP(powm_ui))
 
-#define WHEN_IS_DEST(i, a)                             \
-    auto x##i = dynamic_cast<MPTYPE^>(a);              \
-    if (!IS_NULL(x##i) && x##i->_value == destination)
+    void MPEXPR(MultiplyIntInt)::AddTo(MP(ptr) destination)
+    {
+        IN_CONTEXT(Left, Right);
+        MP(addmul)(destination, CTXT(0), CTXT(1));
+    }
 
-#define WHEN_IS(i, a, atype)                      \
-    auto x##i = dynamic_cast<MPEXPR(atype)^>(a);  \
-    if (!IS_NULL(x##i))
+    void MPEXPR(MultiplyIntUi)::AddTo(MP(ptr) destination)
+    {
+        IN_CONTEXT(Left);
+        MP(addmul_ui)(destination, CTXT(0), Right);
+    }
+
+    void MPEXPR(MultiplyIntSi)::AddTo(MP(ptr) destination)
+    {
+        IN_CONTEXT(Left);
+        if (Right < 0)
+            MP(submul_ui)(destination, CTXT(0), (mpir_ui)-Right);
+        else
+            MP(addmul_ui)(destination, CTXT(0), (mpir_ui)Right);
+        return;
+    }
+
+    void MPEXPR(MultiplyIntInt)::SubtractFrom(MP(ptr) destination)
+    {
+        IN_CONTEXT(Left, Right);
+        MP(submul)(destination, CTXT(0), CTXT(1));
+    }
+
+    void MPEXPR(MultiplyIntUi)::SubtractFrom(MP(ptr) destination)
+    {
+        IN_CONTEXT(Left);
+        MP(submul_ui)(destination, CTXT(0), Right);
+    }
+
+    void MPEXPR(MultiplyIntSi)::SubtractFrom(MP(ptr) destination)
+    {
+        IN_CONTEXT(Left);
+        if (Right < 0)
+            MP(addmul_ui)(destination, CTXT(0), (mpir_ui)-Right);
+        else
+            MP(submul_ui)(destination, CTXT(0), (mpir_ui)Right);
+    }
 
     DEFINE_ASSIGNMENT_PROLOG(AddIntInt)
     {
         WHEN_IS_DEST(1, Left)
         {
-            WHEN_IS(2, Right, MultiplyIntInt)
+            WHEN_IS(2, Right, MPEXPR(Multiply))
             {
-                IN_CONTEXT(x2->Left, x2->Right);
-                MP(addmul)(destination, CTXT(0), CTXT(1));
-                return;
-            }
-            WHEN_IS(3, Right, MultiplyIntUi)
-            {
-                IN_CONTEXT(x3->Left);
-                MP(addmul_ui)(destination, CTXT(0), x3->Right);
-                return;
-            }
-            WHEN_IS(4, Right, MultiplyIntSi)
-            {
-                IN_CONTEXT(x4->Left);
-                auto si = x4->Right;
-                if (si < 0)
-                    MP(submul_ui)(destination, CTXT(0), (mpir_ui)-si);
-                else
-                    MP(addmul_ui)(destination, CTXT(0), (mpir_ui)si);
+                x2->AddTo(destination);
                 return;
             }
         }
-        WHEN_IS_DEST(5, Right)
+        WHEN_IS_DEST(3, Right)
         {
-            WHEN_IS(6, Left, MultiplyIntInt)
+            WHEN_IS(4, Left, MPEXPR(Multiply))
             {
-                IN_CONTEXT(x6->Left, x6->Right);
-                MP(addmul)(destination, CTXT(0), CTXT(1));
-                return;
-            }
-            WHEN_IS(7, Left, MultiplyIntUi)
-            {
-                IN_CONTEXT(x7->Left);
-                MP(addmul_ui)(destination, CTXT(0), x7->Right);
-                return;
-            }
-            WHEN_IS(8, Left, MultiplyIntSi)
-            {
-                IN_CONTEXT(x8->Left);
-                auto si = x8->Right;
-                if (si < 0)
-                    MP(submul_ui)(destination, CTXT(0), (mpir_ui)-si);
-                else
-                    MP(addmul_ui)(destination, CTXT(0), (mpir_ui)si);
+                x4->AddTo(destination);
                 return;
             }
         }
@@ -543,53 +544,17 @@ namespace MPIR
     {
         WHEN_IS_DEST(1, Left)
         {
-            WHEN_IS(2, Right, MultiplyIntInt)
+            WHEN_IS(2, Right, MPEXPR(Multiply))
             {
-                IN_CONTEXT(x2->Left, x2->Right);
-                MP(submul)(destination, CTXT(0), CTXT(1));
-                return;
-            }
-            WHEN_IS(3, Right, MultiplyIntUi)
-            {
-                IN_CONTEXT(x3->Left);
-                MP(submul_ui)(destination, CTXT(0), x3->Right);
-                return;
-            }
-            WHEN_IS(4, Right, MultiplyIntSi)
-            {
-                IN_CONTEXT(x4->Left);
-                auto si = x4->Right;
-                if (si < 0)
-                    MP(addmul_ui)(destination, CTXT(0), (mpir_ui)-si);
-                else
-                    MP(submul_ui)(destination, CTXT(0), (mpir_ui)si);
+                x2->SubtractFrom(destination);
                 return;
             }
         }
-        WHEN_IS_DEST(5, Right)
+        WHEN_IS_DEST(3, Right)
         {
-            WHEN_IS(6, Left, MultiplyIntInt)
+            WHEN_IS(4, Left, MPEXPR(Multiply))
             {
-                IN_CONTEXT(x6->Left, x6->Right);
-                MP(submul)(destination, CTXT(0), CTXT(1));
-                MP(neg)(destination, destination);
-                return;
-            }
-            WHEN_IS(7, Left, MultiplyIntUi)
-            {
-                IN_CONTEXT(x7->Left);
-                MP(submul_ui)(destination, CTXT(0), x7->Right);
-                MP(neg)(destination, destination);
-                return;
-            }
-            WHEN_IS(8, Left, MultiplyIntSi)
-            {
-                IN_CONTEXT(x8->Left);
-                auto si = x8->Right;
-                if (si < 0)
-                    MP(addmul_ui)(destination, CTXT(0), (mpir_ui)-si);
-                else
-                    MP(submul_ui)(destination, CTXT(0), (mpir_ui)si);
+                x4->SubtractFrom(destination);
                 MP(neg)(destination, destination);
                 return;
             }
