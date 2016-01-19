@@ -59,7 +59,7 @@ along with the MPIR Library.  If not, see http://www.gnu.org/licenses/.
 private ref class MPEXPR(name) : base                            \
 {                                                                \
     internal:                                                    \
-        type Operand;                                            \
+        initonly type Operand;                                   \
         virtual void AssignTo(MP(ptr) destination) override;     \
         MPEXPR(name)(type operand)                               \
         {                                                        \
@@ -72,8 +72,8 @@ private ref class MPEXPR(name) : base                            \
 private ref class MPEXPR(name) : base                                 \
 {                                                                     \
     internal:                                                         \
-        leftType Left;                                                \
-        rightType Right;                                              \
+        initonly leftType Left;                                       \
+        initonly rightType Right;                                     \
         virtual void AssignTo(MP(ptr) destination) override;          \
         MPEXPR(name)(leftType left, rightType right)                  \
         {                                                             \
@@ -87,9 +87,9 @@ private ref class MPEXPR(name) : base                                 \
 private ref class MPEXPR(name) : base                                             \
 {                                                                                 \
     internal:                                                                     \
-        leftType Left;                                                            \
-        middleType Middle;                                                        \
-        rightType Right;                                                          \
+        initonly leftType Left;                                                   \
+        initonly middleType Middle;                                               \
+        initonly rightType Right;                                                 \
         virtual void AssignTo(MP(ptr) destination) override;                      \
         MPEXPR(name)(leftType left, middleType middle, rightType right)           \
         {                                                                         \

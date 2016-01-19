@@ -435,11 +435,9 @@ namespace MPIR
     DEFINE_UNARY_ASSIGNMENT_REF(Negate, Int, MP(neg))
     DEFINE_UNARY_ASSIGNMENT_REF(Abs, Int, MP(abs))
 
-    DEFINE_BINARY_ASSIGNMENT_REF_REF(Add, Int, MP(add))
     DEFINE_BINARY_ASSIGNMENT_REF_VAL(Add, Int, Ui, MP(add_ui))
     DEFINE_BINARY_ASSIGNMENT_REF_SI (Add, Int, Si, MP(add_ui), MP(sub_ui))
 
-    DEFINE_BINARY_ASSIGNMENT_REF_REF(Subtract, Int, MP(sub))
     DEFINE_BINARY_ASSIGNMENT_REF_VAL(Subtract, Int, Ui, MP(sub_ui))
     DEFINE_BINARY_ASSIGNMENT_VAL_REF(Subtract, Ui, Int, MP(ui_sub))
     DEFINE_BINARY_ASSIGNMENT_REF_SI (Subtract, Int, Si, MP(sub_ui), MP(add_ui))
@@ -475,6 +473,131 @@ namespace MPIR
 
     DEFINE_TERNARY_ASSIGNMENT_REF_REF_REF(PowerMod, Int, MP(powm));
     DEFINE_TERNARY_ASSIGNMENT_REF_VAL_REF(PowerMod, Int, Ui, Int, MP(powm_ui))
+
+#define WHEN_IS_DEST(i, a)                             \
+    auto x##i = dynamic_cast<MPTYPE^>(a);              \
+    if (!IS_NULL(x##i) && x##i->_value == destination)
+
+#define WHEN_IS(i, a, atype)                      \
+    auto x##i = dynamic_cast<MPEXPR(atype)^>(a);  \
+    if (!IS_NULL(x##i))
+
+    DEFINE_ASSIGNMENT_PROLOG(AddIntInt)
+    {
+        WHEN_IS_DEST(1, Left)
+        {
+            WHEN_IS(2, Right, MultiplyIntInt)
+            {
+                IN_CONTEXT(x2->Left, x2->Right);
+                MP(addmul)(destination, CTXT(0), CTXT(1));
+                return;
+            }
+            WHEN_IS(3, Right, MultiplyIntUi)
+            {
+                IN_CONTEXT(x3->Left);
+                MP(addmul_ui)(destination, CTXT(0), x3->Right);
+                return;
+            }
+            WHEN_IS(4, Right, MultiplyIntSi)
+            {
+                IN_CONTEXT(x4->Left);
+                auto si = x4->Right;
+                if (si < 0)
+                    MP(submul_ui)(destination, CTXT(0), (mpir_ui)-si);
+                else
+                    MP(addmul_ui)(destination, CTXT(0), (mpir_ui)si);
+                return;
+            }
+        }
+        WHEN_IS_DEST(5, Right)
+        {
+            WHEN_IS(6, Left, MultiplyIntInt)
+            {
+                IN_CONTEXT(x6->Left, x6->Right);
+                MP(addmul)(destination, CTXT(0), CTXT(1));
+                return;
+            }
+            WHEN_IS(7, Left, MultiplyIntUi)
+            {
+                IN_CONTEXT(x7->Left);
+                MP(addmul_ui)(destination, CTXT(0), x7->Right);
+                return;
+            }
+            WHEN_IS(8, Left, MultiplyIntSi)
+            {
+                IN_CONTEXT(x8->Left);
+                auto si = x8->Right;
+                if (si < 0)
+                    MP(submul_ui)(destination, CTXT(0), (mpir_ui)-si);
+                else
+                    MP(addmul_ui)(destination, CTXT(0), (mpir_ui)si);
+                return;
+            }
+        }
+
+        IN_CONTEXT(Left, Right);
+        MP(add)(destination, CTXT(0), CTXT(1));
+    }
+
+    DEFINE_ASSIGNMENT_PROLOG(SubtractIntInt)
+    {
+        WHEN_IS_DEST(1, Left)
+        {
+            WHEN_IS(2, Right, MultiplyIntInt)
+            {
+                IN_CONTEXT(x2->Left, x2->Right);
+                MP(submul)(destination, CTXT(0), CTXT(1));
+                return;
+            }
+            WHEN_IS(3, Right, MultiplyIntUi)
+            {
+                IN_CONTEXT(x3->Left);
+                MP(submul_ui)(destination, CTXT(0), x3->Right);
+                return;
+            }
+            WHEN_IS(4, Right, MultiplyIntSi)
+            {
+                IN_CONTEXT(x4->Left);
+                auto si = x4->Right;
+                if (si < 0)
+                    MP(addmul_ui)(destination, CTXT(0), (mpir_ui)-si);
+                else
+                    MP(submul_ui)(destination, CTXT(0), (mpir_ui)si);
+                return;
+            }
+        }
+        WHEN_IS_DEST(5, Right)
+        {
+            WHEN_IS(6, Left, MultiplyIntInt)
+            {
+                IN_CONTEXT(x6->Left, x6->Right);
+                MP(submul)(destination, CTXT(0), CTXT(1));
+                MP(neg)(destination, destination);
+                return;
+            }
+            WHEN_IS(7, Left, MultiplyIntUi)
+            {
+                IN_CONTEXT(x7->Left);
+                MP(submul_ui)(destination, CTXT(0), x7->Right);
+                MP(neg)(destination, destination);
+                return;
+            }
+            WHEN_IS(8, Left, MultiplyIntSi)
+            {
+                IN_CONTEXT(x8->Left);
+                auto si = x8->Right;
+                if (si < 0)
+                    MP(addmul_ui)(destination, CTXT(0), (mpir_ui)-si);
+                else
+                    MP(submul_ui)(destination, CTXT(0), (mpir_ui)si);
+                MP(neg)(destination, destination);
+                return;
+            }
+        }
+
+        IN_CONTEXT(Left, Right);
+        MP(sub)(destination, CTXT(0), CTXT(1));
+    }
 
     mpir_ui MPEXPR_NAME::Mod(mpir_ui d, RoundingModes rounding)
     {

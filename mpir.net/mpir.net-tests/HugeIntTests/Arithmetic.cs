@@ -264,6 +264,19 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
+        public void IntAddProductHugeInt2()
+        {
+            using (var a = new HugeInt("98750293847520938457029384572093480498357"))
+            using (var c = new HugeInt("23094582093845093574093845093485039450934"))
+            using (var b = new HugeInt("-394580293847502987609283945873594873409587"))
+            {
+                var expr = c * b + a;
+                a.Value = expr;
+                Assert.AreEqual("-9112666988874677841199955832262586145147830205230375090322356322089362221491205901", a.ToString());
+            }
+        }
+
+        [TestMethod]
         public void IntAddProductLimb()
         {
             using (var a = new HugeInt("98750293847520938457029384572093480498357"))
@@ -369,6 +382,19 @@ namespace MPIR.Tests.HugeIntTests
             }
         }
 
+        [TestMethod]
+        public void IntAddProductSignedLimbTo4()
+        {
+            using (var a = new HugeInt("98750293847520938457029384572093480498357"))
+            using (var c = new HugeInt("23094582093845093574093845093485039450934"))
+            {
+                var b = Platform.Si(-498734523097853458, -2017853458);
+                var expr = b * c + a;
+                a.Value = expr;
+                Assert.AreEqual(Platform.Select("-11518065386718058599763388064972875060082210203928832731415", "-46601482240379908737297906081375735555240112731415"), a.ToString());
+            }
+        }
+
         #endregion
 
         #region Subtract Product
@@ -387,6 +413,19 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
+        public void IntSubtractProductHugeIntFrom()
+        {
+            using (var a = new HugeInt("98750293847520938457029384572093480498359"))
+            using (var c = new HugeInt("23094582093845093574093845093485039450934"))
+            using (var b = new HugeInt("394580293847502987609283945873594873409587"))
+            {
+                var expr = c * b - a;
+                a.Value = expr;
+                Assert.AreEqual("9112666988874677841199955832262586145147830205230375090322356322089362221491205899", a.ToString());
+            }
+        }
+
+        [TestMethod]
         public void IntSubtractProductLimb()
         {
             using (var a = new HugeInt("98750293847520938457029384572093480498357"))
@@ -400,6 +439,19 @@ namespace MPIR.Tests.HugeIntTests
         }
 
         [TestMethod]
+        public void IntSubtractProductLimbFrom()
+        {
+            using (var a = new HugeInt("98750293847520938457029384572093480498359"))
+            using (var c = new HugeInt("23094582093845093574093845093485039450934"))
+            {
+                var b = Platform.Ui(498734523097853458, 3997853458);
+                var expr = c * b - a;
+                a.Value = expr;
+                Assert.AreEqual(Platform.Select("11518065386718058599763388064972875060082210203928832731413", "92328754786193194014003719366476113668089432731413"), a.ToString());
+            }
+        }
+
+        [TestMethod]
         public void IntSubtractProductSignedLimb()
         {
             using (var a = new HugeInt("98750293847520938457029384572093480498357"))
@@ -409,6 +461,19 @@ namespace MPIR.Tests.HugeIntTests
                 var expr = a - b*c;
                 a.Value = expr;
                 Assert.AreEqual(Platform.Select("-11518065386718058599763388064972875060082210203928832731415", "-46601482240379908737297906081375735555240112731415"), a.ToString());
+            }
+        }
+
+        [TestMethod]
+        public void IntSubtractProductSignedLimbFrom()
+        {
+            using (var a = new HugeInt("98750293847520938457029384572093480498359"))
+            using (var c = new HugeInt("-23094582093845093574093845093485039450934"))
+            {
+                var b = Platform.Si(-498734523097853458, -2017853458);
+                var expr = b * c - a;
+                a.Value = expr;
+                Assert.AreEqual(Platform.Select("11518065386718058599763388064972875060082210203928832731413", "46601482240379908737297906081375735555240112731413"), a.ToString());
             }
         }
 
@@ -434,6 +499,30 @@ namespace MPIR.Tests.HugeIntTests
                 var b = Platform.Si(498734523097853458, 2017853458);
                 d.Value = a - c*b;
                 Assert.AreEqual(Platform.Select("-11518065386718058599763388064972875060082210203928832731415", "-46601482240379908737297906081375735555240112731415"), d.ToString());
+            }
+        }
+
+        [TestMethod]
+        public void IntSubtractProductSignedLimbFrom3()
+        {
+            using (var a = new HugeInt("98750293847520938457029384572093480498359"))
+            using (var c = new HugeInt("-23094582093845093574093845093485039450934"))
+            {
+                var b = Platform.Si(498734523097853458, 2017853458);
+                a.Value = c * b - a;
+                Assert.AreEqual(Platform.Select("-11518065386718058797263975760014751974140979348115793728131", "-46601482437880496432339782995434504699427073728131"), a.ToString());
+            }
+        }
+
+        [TestMethod]
+        public void IntSubtractProductSignedLimb4()
+        {
+            using (var a = new HugeInt("98750293847520938457029384572093480498357"))
+            using (var c = new HugeInt("23094582093845093574093845093485039450934"))
+            {
+                var b = Platform.Si(498734523097853458, 2017853458);
+                a.Value = a - c * b;
+                Assert.AreEqual(Platform.Select("-11518065386718058599763388064972875060082210203928832731415", "-46601482240379908737297906081375735555240112731415"), a.ToString());
             }
         }
 
