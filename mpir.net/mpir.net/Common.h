@@ -34,6 +34,14 @@ along with the MPIR Library.  If not, see http://www.gnu.org/licenses/.
     c = reader->Peek(); \
     nread++;
 
+#define WHEN_IS_DEST(i, a)                             \
+    auto x##i = dynamic_cast<MPTYPE^>(a);              \
+    if (!IS_NULL(x##i) && x##i->_value == destination)
+
+#define WHEN_IS(i, a, atype)              \
+    auto x##i = dynamic_cast<atype^>(a);  \
+    if (!IS_NULL(x##i))
+
 #define TYPE_FOR_ABBR_Int HugeInt^
 #define TYPE_FOR_ABBR_Rat HugeRational^
 #define TYPE_FOR_ABBR_Expr MPEXPR_NAME^

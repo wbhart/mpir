@@ -159,17 +159,15 @@ namespace MPIR
         if (IS_NULL(a))
             return 1;
 
-        MPEXPR_NAME^ expr = dynamic_cast<MPEXPR_NAME^>(a);
-        if(!IS_NULL(expr))
-            return CompareTo(expr);
+        WHEN_IS(1, a, MPEXPR_NAME)
+            return CompareTo(x1);
 
         EvaluationContext context;
 
-        IntegerExpression^ expr2 = dynamic_cast<IntegerExpression^>(a);
-        if (!IS_NULL(expr2))
+        WHEN_IS(2, a, IntegerExpression)
         {
             ASSIGN_TO(context);
-            expr2->AssignToInteger(context);
+            x2->AssignToInteger(context);
             return MP(cmp_z)(CTXT(0), CTXTI(1));
         }
 
@@ -233,17 +231,15 @@ namespace MPIR
         if (IS_NULL(a))
             return false;
 
-        MPEXPR_NAME^ expr = dynamic_cast<MPEXPR_NAME^>(a);
-        if(!IS_NULL(expr))
-            return Equals(expr);
+        WHEN_IS(1, a, MPEXPR_NAME)
+            return Equals(x1);
 
         EvaluationContext context;
 
-        IntegerExpression^ expr2 = dynamic_cast<IntegerExpression^>(a);
-        if (!IS_NULL(expr2))
+        WHEN_IS(2, a, IntegerExpression)
         {
             ASSIGN_TO(context);
-            expr2->AssignToRational(context);
+            x2->AssignToRational(context);
             return MP(equal)(CTXT(0), CTXT(1)) != 0;
         }
 
@@ -460,16 +456,14 @@ namespace MPIR
         if (IS_NULL(a))
             return 1;
 
-        IntegerExpression^ expr = dynamic_cast<IntegerExpression^>(a);
-        if (!IS_NULL(expr))
-            return CompareTo(expr);
+        WHEN_IS(1, a, IntegerExpression)
+            return CompareTo(x1);
 
         EvaluationContext context;
 
-        MPEXPR_NAME^ expr2 = dynamic_cast<MPEXPR_NAME^>(a);
-        if (!IS_NULL(expr2))
+        WHEN_IS(2, a, MPEXPR_NAME)
         {
-            expr2->AssignToRational(context);
+            x2->AssignToRational(context);
             AssignToInteger(context);
             return -MP(cmp_z)(CTXT(0), CTXTI(1));
         }

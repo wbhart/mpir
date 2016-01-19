@@ -204,9 +204,8 @@ namespace MPIR
         if (IS_NULL(a))
             return 1;
 
-        MPEXPR_NAME^ expr = dynamic_cast<MPEXPR_NAME^>(a);
-        if(!IS_NULL(expr))
-            return CompareTo(expr);
+        WHEN_IS(1, a, MPEXPR_NAME)
+            return CompareTo(x1);
 
         auto f = dynamic_cast<MPTYPE^>(this);
         auto precision = IS_NULL(f) ? MPTYPE::DefaultPrecision : f->Precision;
