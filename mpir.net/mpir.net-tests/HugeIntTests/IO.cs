@@ -40,6 +40,24 @@ namespace MPIR.Tests.HugeIntTests
                 ms.Position = 0;
                 b.Read(ms);
                 Assert.AreEqual(a, b);
+                Assert.IsTrue(b > 0);
+                Assert.AreEqual(ms.Length, ms.Position);
+            }
+        }
+
+        [TestMethod]
+        public void IntInputOutputRawNegative()
+        {
+            using (var a = new HugeInt("0x10123456789ABCDEF0123456789ABCDEF0123456789ABCDEF"))
+            using (var b = new HugeInt())
+            using (var ms = new MemoryStream())
+            {
+                a.Value = -(a ^ 100);
+                a.Write(ms);
+                ms.Position = 0;
+                b.Read(ms);
+                Assert.AreEqual(a, b);
+                Assert.IsTrue(b < 0);
                 Assert.AreEqual(ms.Length, ms.Position);
             }
         }
