@@ -14,12 +14,12 @@ environment:
       ABI: 64
     - COMPILER: MinGW-w64
       ABI: 32
-    - BUILD_TYPE: Debug
-      COMPILER: MSVC15
-      PLATFORM: x64
-    - BUILD_TYPE: Debug
-      COMPILER: MSVC15
-      PLATFORM: Win32
+#    - BUILD_TYPE: Debug
+#      COMPILER: MSVC15
+#      PLATFORM: x64
+#    - BUILD_TYPE: Debug
+#      COMPILER: MSVC15
+#      PLATFORM: Win32
  
 build_script:
   - if [%COMPILER%]==[MinGW-w64] C:\msys64\usr\bin\sh.exe --login /c/projects/mpir/.appveyor_msys_build.sh
