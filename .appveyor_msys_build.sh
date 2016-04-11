@@ -1,9 +1,5 @@
-export PATH=/c/msys64/mingw$ABI/bin:$PATH
+export PATH=/c/msys64/mingw$ABI/bin:/c/projects/mpir/bin/:$PATH
 cd /c/projects/mpir
-./configure ABI=$ABI
+./configure ABI=$ABI --with-system-yasm
 make
-if [ "$ABI" = "32" ]
-then
-    rm yasm/Makefile
-fi
 make check
