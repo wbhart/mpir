@@ -7154,8 +7154,8 @@ can be used to make a copy of an existing variable, i.e. @code{HugeInt a = new H
 without creating any permanent association between them.
 @end deftypefn
 
-@deftypefn {Static Method} {static HugeInt} Allocate (mp_bitcnt_t @var{bits})
-@deftypefnx Method void Reallocate (mp_bitcnt_t @var{bits})
+@deftypefn {Static Method} {static HugeInt} Allocate (uint/ulong @var{bits})
+@deftypefnx Method void Reallocate (uint/ulong @var{bits})
 Controls the capacity in bits of the allocated integer.
 @end deftypefn
 
@@ -7455,6 +7455,106 @@ d.Value = e.RemoveFactors(f).SavingCountRemovedTo(x => numberRemoved = x);
 @node MPIR.Net Rationals, MPIR.Net Floats, MPIR.Net Integers, .Net Interface
 @section MPIR.Net Rationals
 
+MPIR multi-precision rational numbers are represented by the @code{HugeRational} class,
+along with its corresponding expression class @code{RationalExpression}. 
+Deferred evaluation, @code{Value} assignment, and the @code{IDisposable} interface
+are implemented for rationals the same way they are for integers.  
+This section highlights details specific to rationals.
+
+When constructing a rational number from a numerator and denominator, including
+the string constructors where both numerator and denominator are specified, the fraction 
+should be in canonical form, or if not then @code{Canonicalize()} should be called.
+
+@deftypefn Constructor HugeRational ()
+@deftypefnx Constructor HugeRational ( int/long @var{numerator}, uint/ulong @var{denominator} )
+@deftypefnx Constructor HugeRational ( uint/ulong @var{numerator}, uint/ulong @var{denominator} )
+@deftypefnx Constructor HugeRational ( IntegerExpression @var{numerator}, IntegerExpression @var{demoninator} )
+@deftypefnx Constructor HugeRational ( double @var{n} )
+Constructs a @code{HugeRational} object.  Single-limb constructors vary by architecture,
+32-bit builds take @code{int} or @code{uint} arguments, 64-bit builds take @code{long} or @code{ulong}.
+Any necessary conversion follows the corresponding C function, for
+example @code{double} follows @code{mpq_set_d} (@pxref{Initializing Rationals}).
+@end deftypefn
+
+@deftypefn Constructor HugeRational ( string @var{s} )
+@deftypefnx Constructor HugeRational ( string @var{s}, int @var{base} )
+Constructs a @code{HugeRational} converted from a string using @code{mpq_set_str}
+(@pxref{Initializing Rationals}).  If the string is not a valid integer or rational, an exception is thrown.
+@end deftypefn
+
+@deftypefn Constructor HugeRational ( IntegerExpression @var{e} )
+@deftypefnx Constructor HugeRational ( RationalExpression @var{e} )
+@deftypefnx Constructor HugeRational ( FloatExpression @var{e} )
+Evaluates the supplied expression and saves its result to the new instance.
+Because multi-precision classes are derived from their corresponding expression classes,
+these constructors can be used to make a copy of an existing variable, i.e. @code{HugeRational a = new HugeRational(b);}
+without creating any permanent association between them.
+@end deftypefn
+
+@deftypefn {Static Method} {static HugeRational} Allocate (uint/ulong @var{numeratorBits}, uint/ulong @var{denominatorBits})
+Controls the capacity in bits of the allocated integer.  HugeRational does not have a @code{Reallocate} method,
+but its numerator and demonimator are derived from HugeInt and can thus be reallocated separately.
+@end deftypefn
+
+@deftypefn Method void Canonicalize ()
+Puts a @code{HugeRational} into canonical form, as per @ref{Rational Number
+Functions}.  All arithmetic operators require their operands in canonical
+form, and will return results in canonical form.
+@end deftypefn
+
+@deftypefn Property HugeInt Numerator
+@deftypefnx Property HugeInt Denominator
+These read-only properties expose the numerator and denominator for direct manipulation.
+They return specialized instances of the @code{HugeInt} class
+that do not own their limb data.  They override the @code{Dispose()} method with a no-op, so they can be safely passed
+around as normal integers, even to code that tries to dispose of them.
+
+Once a numerator or denominator is obtained, it remains valid for the life of the @code{HugeRational} instance.
+It references live data, so for example, if the @code{Value} of the rational is modified, 
+it will be visible through a previously obtained numerator/denominator instance.
+Conversely, setting the @code{Value} of a numerator or denominator modifies the @code{Value} of its owning rational,
+and if this cannot be known to keep the rational in canonical form, @code{Canonicalize()} must be called
+before performing any further MPIR operations on the rational.
+
+Multiple copies can be safely obtained, and reference the same internal structures.
+Once the @code{HugeRational} is disposed, any numerator and denominator instances obtained from it
+are no longer valid.
+@end deftypefn
+
+@deftypefn Method void SetTo (int/long @var{numerator}, uint/ulong @var {denominator})
+@deftypefnx Method void SetTo (uint/ulong @var{numerator}, uint/ulong @var {denominator})
+@deftypefnx Method void SetTo (IntegerExpression @var{numerator}, IntegerExpression @var{denominator})
+In addition to the same @code{SetTo} overloads as @code{HugeInt}, rationals provide a way to set
+the numerator and denominator in one operation.  As always, canonicalization must be
+managed explicitly.
+@end deftypefn
+
+Rationals implement most of the same arithmetic and bit shift operators as integers.
+Due to the rationals' nature, division is always exact (there is no rounding)
+and the modulo operator (@code{%}) is not defined.
+Arithmetic operations will accept integer operands (@code{IntegerExpression} to be exact)
+and will automatically promote them.  In expressions, promotion of an @code{IntegerExpression} 
+to a @code{RationalExpression} is an O(1) operation.  Of course, when constructing a rational
+from an integer, a copy is made so this becomes O(n).
+
+@deftypefn Method bool Equals (int/long @var{numerator}, uint/ulong @var {denominator})
+@deftypefnx Method bool Equals (uint/ulong @var{numerator}, uint/ulong @var {denominator})
+@deftypefnx Method int CompareTo (int/long @var{numerator}, uint/ulong @var {denominator})
+@deftypefnx Method int CompareTo (uint/ulong @var{numerator}, uint/ulong @var {denominator})
+Single-limb comparisons for rationals take two arguments.
+@end deftypefn
+
+@deftypefn Method int CompareTo (object @var{a})
+@deftypefnx Method bool Equals (object @var{a})
+For rationals, these support any expression type (integer, rational, or float).
+@end deftypefn
+
+Comparison operators however are defined only for @code{RationalExpression}; same reasoning
+applies here as for integers.
+
+@code{RationalExpression} does not have any specialized subclasses, as there are no
+operations on the rational type that require additional inputs beyond the left and right 
+operator operands.
 
 @node MPIR.Net Floats, MPIR.Net Random Numbers, MPIR.Net Rationals, .Net Interface
 @section MPIR.Net Floats
@@ -7464,9 +7564,9 @@ d.Value = e.RemoveFactors(f).SavingCountRemovedTo(x => numberRemoved = x);
 @section MPIR.Net Random Numbers
 
 
-
 @node MPIR.Net Limitations,  , MPIR.Net Random Numbers, .Net Interface
 @section MPIR.Net Limitations
+
 
 
 @node Custom Allocation, Language Bindings, .Net Interface, Top

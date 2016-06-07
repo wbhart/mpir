@@ -58,17 +58,6 @@ namespace MPIR
 {
     ref class MpirRandom;
     ref class MPTYPE;
-    ref class MPEXPR(Divide);
-    ref class MPEXPR(DivideUi);
-    ref class MPEXPR(Mod);
-    ref class MPEXPR(DivMod);
-    ref class MPEXPR(ModUi);
-    ref class MPEXPR(ShiftRight);
-    ref class MPEXPR(Root);
-    ref class MPEXPR(SquareRoot);
-    ref class MPEXPR(Gcd);
-    ref class MPEXPR(RemoveFactors);
-    ref class MPEXPR(Sequence);
 
     #pragma region FloatExpression
 
