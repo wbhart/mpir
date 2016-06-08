@@ -713,7 +713,7 @@ namespace MPIR
 
             /// <summary>Compares two numbers.
             /// <para>If any argument is an expression, it is evaluated into a temporary variable before the comparison is performed.
-            /// </para>The result equals | source - a | / a.</summary>
+            /// </para>The result equals | source - a | / source.</summary>
             /// <param name="a">Source value to compare with</param>
             /// <returns>An expression object that, when assigned to the Value property or consumed by a primitive-returning method, computes the requested operation</returns>
             MPEXPR_NAME^ RelativeDifferenceFrom(MPEXPR_NAME^ a);
@@ -987,8 +987,25 @@ namespace MPIR
             /// <para>If the number is too big, the result is undefined.  Call FitsLong() to check if the number will fit.
             /// </para>This method is supported only on 64-bit builds
             /// </summary>
-            /// <returns>The value as a long, possibly truncated to the least significant bits only.</returns>
+            /// <returns>The value as a long, with any fractional part truncated.</returns>
             mpir_si ToLong() { return MP(get_si)(_value); }
+#else
+            /// <summary>
+            /// Returns the absolute value of the number as a uint, truncating any fractional part.
+            /// <para>If the number is too big, the result is undefined.  Call FitsUint() to check if the number will fit.
+            /// </para>The sign of the number is ignored, only the absolute value is used.
+            /// <para>This method is supported only on 32-bit builds</para>
+            /// </summary>
+            /// <returns>The absolute value as a uint, with any fractional part truncated.</returns>
+            mpir_ui ToUint() { return MP(get_ui)(_value); }
+
+            /// <summary>
+            /// Returns the value of the number as an int.
+            /// <para>If the number is too big, the result is undefined.  Call FitsInt() to check if the number will fit.
+            /// </para>This method is supported only on 32-bit builds
+            /// </summary>
+            /// <returns>The value as an int, with any fractional part truncated.</returns>
+            mpir_si ToInt() { return MP(get_si)(_value); }
 #endif
 
             /// <summary>

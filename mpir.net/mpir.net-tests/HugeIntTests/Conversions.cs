@@ -76,6 +76,35 @@ namespace MPIR.Tests.HugeIntTests
                 Assert.AreEqual(b.ToString(), c.ToString());
             }
         }
+#else
+        [TestMethod]
+        public void IntToAndFromUint()
+        {
+            using (var a = new HugeInt())
+            {
+                uint b = 0xF84739AB;
+                a.SetTo(b);
+                Assert.AreEqual(b.ToString(), a.ToString());
+
+                a.Value = -a;
+                uint c = a.ToUint();
+                Assert.AreEqual(b.ToString(), c.ToString());
+            }
+        }
+
+        [TestMethod]
+        public void IntToAndFromInt()
+        {
+            using (var a = new HugeInt())
+            {
+                int b = -0x784739AB;
+                a.SetTo(b);
+                Assert.AreEqual(b.ToString(), a.ToString());
+
+                long c = a.ToInt();
+                Assert.AreEqual(b.ToString(), c.ToString());
+            }
+        }
 #endif
 
         [TestMethod]

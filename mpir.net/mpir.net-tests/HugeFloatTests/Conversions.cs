@@ -159,6 +159,35 @@ namespace MPIR.Tests.HugeFloatTests
                 Assert.AreEqual(b, c);
             }
         }
+#else
+        [TestMethod]
+        public void FloatToAndFromUint()
+        {
+            using (var a = new HugeFloat())
+            {
+                ulong b = 0xF84739AB;
+                a.SetTo(b);
+                FloatAssert.AreEqual(b + ".", a);
+
+                a.Value = -a;
+                ulong c = a.ToUint();
+                Assert.AreEqual(b, c);
+            }
+        }
+
+        [TestMethod]
+        public void FloatToAndFromInt()
+        {
+            using (var a = new HugeFloat())
+            {
+                long b = -0x784739AB;
+                a.SetTo(b);
+                FloatAssert.AreEqual(b + ".", a);
+
+                long c = a.ToInt();
+                Assert.AreEqual(b, c);
+            }
+        }
 #endif
 
         [TestMethod]
@@ -198,6 +227,27 @@ namespace MPIR.Tests.HugeFloatTests
                 a.SetTo(b);
                 a.Value -= 1 - small;
                 c = a.ToLong();
+                Assert.AreEqual(b, c);
+            }
+        }
+#else
+        [TestMethod]
+        public void FloatToInt2()
+        {
+            using (var a = new HugeFloat())
+            using (var small = new HugeFloat(0.0001))
+            {
+                int b = int.MaxValue;
+                a.SetTo(b);
+                a.Value = a + 1 - small;
+                var c = a.ToInt();
+
+                Assert.AreEqual(b, c);
+
+                b = int.MinValue;
+                a.SetTo(b);
+                a.Value -= 1 - small;
+                c = a.ToInt();
                 Assert.AreEqual(b, c);
             }
         }

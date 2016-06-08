@@ -1640,6 +1640,24 @@ namespace MPIR
             /// </summary>
             /// <returns>The value as a long, possibly truncated to the least significant bits only.</returns>
             mpir_si ToLong() { return MP(get_si)(_value); }
+#else
+            /// <summary>
+            /// Returns the absolute value of the number as a uint.
+            /// <para>If the number is too big, then just the least significant bits that do fit are returned.
+            /// </para>The sign of the number is ignored, only the absolute value is used.
+            /// <para>This method is supported only on 32-bit builds</para>
+            /// </summary>
+            /// <returns>The absolute value as a uint, possibly truncated to the least significant bits only.</returns>
+            mpir_ui ToUint() { return MP(get_ui)(_value); }
+
+            /// <summary>
+            /// Returns the value of the number as an int.
+            /// <para>If the number is too big, then just the least significant bits that do fit are returned, with the same sign as the number.
+            /// </para>When truncation occurs, the result is propobly not very useful.  Call FitsInt() to check if the number will fit.
+            /// <para>This method is supported only on 32-bit builds</para>
+            /// </summary>
+            /// <returns>The value as an int, possibly truncated to the least significant bits only.</returns>
+            mpir_si ToInt() { return MP(get_si)(_value); }
 #endif
 
             /// <summary>
