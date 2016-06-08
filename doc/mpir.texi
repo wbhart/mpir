@@ -7472,7 +7472,7 @@ on expressions.
 
 Below is a brief summary of the supported multi-precision rational methods and operators.  
 To avoid repetition, implementation details are ommitted.  Since MPIR native functions are called behind the scenes,
-review @ref{Rational Functions} for further details about the native implementations.
+review @ref{Rational Number Functions} for further details about the native implementations.
 
 @deftypefn Constructor HugeRational ()
 @deftypefnx Constructor HugeRational ( int/long @var{numerator}, uint/ulong @var{denominator} )
@@ -7656,6 +7656,197 @@ operator operands.
 @node MPIR.Net Floats, MPIR.Net Random Numbers, MPIR.Net Rationals, .Net Interface
 @section MPIR.Net Floats
 
+The MPIR.Net class for multi-precision floating point numbers is @code{HugeFloat}, and its
+corresponding expression class is @code{FloatExpression},
+which is returned from all operators and methods whose
+value semantics are to compute another number from the source instance and any arguments. 
+@code{HugeFloat} derives from @code{FloatExpression}, and many operations are defined on the expression class.
+Operations defined on @code{HugeFloat} but not on @code{FloatExpression} are typically those that modify the value
+of the source number itself, and thus performing them on an expression is meaningless.
+Because through inheritance all operations are available on HugeFloat, the descriptions below 
+do not specifically indicate whether each operator or method is defined for expressions, 
+or just for @code{HugeFloat} instances. For the sake of brevity,
+they are listed as if they were methods of the @code{HugeFloat} class.
+Visual Studio provides Intellisense and immediate feedback to help sort out which operations are available
+on expressions.
+
+@deftypefn {Static Property} {static uint/ulong} DefaultPrecision
+Gets or sets the default precision of the floating point mantissa, in bits.
+If the value is not a multiple of limb size, the actual precision will be
+rounded up.  All newly constructed @code{HugeFloat} objects that don't
+explicitly specify precision will use this default.  Previously constructed
+objects are unaffected.  The initial default precision is 2 limbs.
+
+When an expression is evaluated, it is either because it is being assigned to some
+destination variable (e.g. @code{a.Value = b + c;}) or a primitive-computing method
+is being called (e.g. @code{int s = (b + c).Sign();}) In the former case,
+the precision of the destination is used for all computations and temporaries
+during expression evaluation.  In the latter case, there is no destination
+so the @code{DefaultPrecision} is used.
+@end deftypefn
+
+@deftypefn Constructor HugeFloat ()
+@deftypefnx Constructor HugeFloat ( int/long @var{value} )
+@deftypefnx Constructor HugeFloat ( uint/ulong @var{value} )
+@deftypefnx Constructor HugeFloat ( double @var{n} )
+Constructs a @code{HugeFloat} object.  Single-limb constructors vary by architecture,
+32-bit builds take @code{int} or @code{uint} arguments, 64-bit builds take @code{long} or @code{ulong}.
+Any necessary conversion follows the corresponding C function, for
+example @code{double} follows @code{mpf_set_d} (@pxref{Initializing Floats}).
+@end deftypefn
+
+@deftypefn Constructor HugeFloat ( string @var{s} )
+@deftypefnx Constructor HugeFloat ( string @var{s}, int @var{base} )
+@deftypefnx Constructor HugeFloat ( string @var{s}, int @var{base}, bool @var{exponentInDecimal} )
+Constructs a @code{HugeFloat} converted from a string using @code{mpf_set_str}
+(@pxref{Initializing Floats}).  If the string is not a valid integer or floating point number, an exception is thrown.
+@end deftypefn
+
+@deftypefn Constructor HugeFloat ( IntegerExpression @var{value} )
+@deftypefnx Constructor HugeFloat ( RationalExpression @var{value} )
+@deftypefnx Constructor HugeFloat ( FloatExpression @var{value} )
+Evaluates the supplied expression and saves its result to the new instance.
+Because multi-precision classes are derived from their corresponding expression classes,
+these constructors can be used to make a copy of an existing variable, i.e. @code{HugeFloat a = new HugeFloat(b);}
+without creating any permanent association between them.
+@end deftypefn
+
+@deftypefn {Static Method} {static HugeRational} Allocate (uint/ulong @var{precision})
+@deftypefnx Method void Reallocate (uint/ulong @var{precision})
+Controls the allocated precision in bits of the new or existing @code{HugeFloat}.
+@end deftypefn
+
+@deftypefn Property uint/ulong AllocatedPrecision
+Gets the precision in bits that is currently allocated for internal storage of the mantissa.
+The precision actually in effect, used in calculations, is initially the same 
+but may be reduced by setting the @code{Precision} property.
+@end deftypefn
+
+@deftypefn Property uint/ulong Precision
+Gets or sets the effective precision of the number without changing the memory allocated.
+The number of bits cannot exceed the precision with which the variable was initialized or last reallocated.
+The value of the number is unchanged, and in particular if it 
+previously had a higher precision it will retain that higher precision.
+New values assigned to the @code{Value} property will use the new precision.
+The number can be safely disposed after modifying its @code{Precision}
+(unlike the native MPIR, which requires you to restore the precision
+to the allocated value before the memory can be freed).
+@end deftypefn
+
+@deftypefn Method bool FitsUlong () //64-bit builds only
+@deftypefnx Method bool FitsLong () //64-bit builds only
+@deftypefnx Method bool FitsUint ()
+@deftypefnx Method bool FitsInt ()
+@deftypefnx Method bool FitsUshort ()
+@deftypefnx Method bool FitsShort ()
+Checks whether the number would fit in one of the built-in .Net types.
+@end deftypefn
+
+@deftypefn Method bool IsInteger ()
+Checks whether the number is a whole integer.
+@end deftypefn
+
+@deftypefn Method string ToString ()
+@deftypefnx Method string ToString (int @var{base})
+@deftypefnx Method string ToString (int @var{base}, bool @var{lowercase})
+@deftypefnx Method string ToString (int @var{base}, bool @var{lowercase}, bool @var{exponentInDecimal})
+Returns the string representation of the number.  The default @code{base} is 10,
+and the parameterless overload is limited to 256 mantissa digits by default. This is done
+to prevent huge numbers from unexpectedly consuming large amounts of memory in the debugger.
+The maximum number of digits output is configurable via the @code{MpirSettings.ToStringDigits} property,
+where zero means unlimited.  @code{MpirSettings.ToStringDigits} applies to integers and rationals as well.
+The other overloads always output all digits.
+@end deftypefn
+
+@deftypefn Method int ToInt () //32-bit builds
+@deftypefnx Method uint ToUint () //32-bit builds
+@deftypefnx Method long ToLong () //64-bit builds
+@deftypefnx Method ulong ToUlong () //64-bit builds
+@deftypefnx Method double ToDouble ()
+@deftypefnx Method double ToDouble (@code{out} int/long @var{exp})
+Converts the number to a primitive (built-in) .Net type, assuming it fits,
+which can be determined by calling one of the @code{Fits...} methods.
+@end deftypefn
+
+@deftypefn Property FloatExpression Value
+Getting this property is essentially a no-op, as it returns the object instance itself.
+This never needs to be done explicitly, but is used implicitly in statements like @code{a.Value += 5;}
+
+Setting the @code{Value} property evaluates the assigned expression and saves the result to the object.
+@end deftypefn
+
+@deftypefn Method void SetTo (int/long @var{value}) // 32/64-bit builds
+@deftypefnx Method void SetTo (uint/ulong @var{value}) // 32/64-bit builds
+@deftypefnx Method void SetTo (double @var{value})
+@deftypefnx Method void SetTo (string @var{value})
+@deftypefnx Method void SetTo (string @var{value}, int @var{base})
+@deftypefnx Method void SetTo (string @var{value}, int @var{base}, bool @var{exponentInDecimal})
+@deftypefnx Method void SetTo (IntegerExpression @var{value})
+@deftypefnx Method void SetTo (RationalExpression @var{value})
+Sets the value of existing variable from types other than @code{FloatExpression}.
+@end deftypefn
+
+Arithmetic operators (@code{+}, @code{-}, @code{*}, @code{/}) and bit shifts (@code{<<}, @code{>>})
+are overloaded to allow floats to participate
+in expressions much like primitive types can.  Single-limb primitive types can be used.
+These operators do not accept integer or rational expressions.  
+There is some cost of instantiating a floating point number from another multi-precision type, 
+so to make this point clear MPIR.Net forces you to use explicit constructors or assignments for this conversion.
+
+The modulo operator (@code{%}) and the bitwise operators {@code{&}, @code{|}, @code{^}, @code{~}) are not defined.
+
+Operator @code{^} raises the source number to the specified power.
+
+Comparison operators (@code{==}, @code{!=}, @code{<}, @code{<=}, @code{>}, @code{>=}) accept @code{FloatExpression},
+single-limb, or double arguments, but do not accept integer or rational expressions
+because that would require an awkward explicit cast when comparing with null.
+
+@deftypefn Method int CompareTo (FloatExpression @var{a})
+@deftypefnx Method bool Equals (FloatExpression @var{a})
+Implement @code{IComparable<FloatExpression>} and @code{IEquatable<FloatExpression>} for strongly-typed comparisons.
+@end deftypefn
+
+@deftypefn Method int CompareTo (object @var{a})
+@deftypefnx Method bool Equals (object @var{a})
+Implement @code{IComparable} and equality check for any object.  These support only float expressions or .Net primitive types. 
+When this method is called on a @code{HugeFloat} object, comparison is performed to the
+precision of the object.  When called on an expression, comparison is performed to the 
+default precision.
+@end deftypefn
+
+@deftypefn Method int GetHashCode ()
+This @code{object} override computes the hash code.  This is an O(n) operation where n is the number of limbs allocated.
+Changing a number's @code{Value} changes its hash code, so this should not be done on any object that has been added
+to a hash table or dictionary.
+@end deftypefn
+
+@deftypefn Method bool Equals (object @var{a}, uint/ulong @var{precision})
+Checks for equality using the specified precision.  The argument @code{a} can be
+a @code{FloatExpression} or a primitive type. 
+@end deftypefn
+
+@deftypefn Method FloatExpression RelativeDifferenceFrom (FloatExpression @var{a})
+Returns an expression that computes @math{@GMPabs{@var{this}-@var{a}}/@var{this}}
+@end deftypefn
+
+@deftypefn Method FloatExpression Abs ()
+@deftypefnx Method FloatExpression SquareRoot ()
+@deftypefnx {Static Method} {static FloatExpression} SquareRoot (uint/ulong a)
+@deftypefnx Method FloatExpression Floor ()
+@deftypefnx Method FloatExpression Ceiling ()
+@deftypefnx Method FloatExpression Truncate ()
+@deftypefnx Method int Sign ()
+Perform various floating-point operations.
+@end deftypefn
+
+@deftypefn Method long Write (TextWriter @var{writer})
+@deftypefnx Method long Write (TextWriter @var{writer}, int @var{base})
+@deftypefnx Method long Write (TextWriter @var{writer}, int @var{base}, int @var{maxDigits}, bool @var{lowercase}, bool @var{exponentInDecimal})
+@deftypefnx Method long Read (TextReader @var{reader})
+@deftypefnx Method long Read (TextReader @var{reader}, int @var{base})
+@deftypefnx Method long Read (TextReader @var{reader}, int @var{base}, bool @var{exponentInDecimal})
+Writes and reads floats as text.
+@end deftypefn
 
 @node MPIR.Net Random Numbers, MPIR.Net Limitations, MPIR.Net Floats, .Net Interface
 @section MPIR.Net Random Numbers
