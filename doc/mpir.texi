@@ -7121,7 +7121,7 @@ value semantics are to compute another number from the source instance and any a
 @code{HugeInt} derives from @code{IntegerExpression}, and many operations are defined on the expression class.
 Operations defined on @code{HugeInt} but not on @code{IntegerExpression} are typically those that modify the value
 of the source number itself, and thus performing them on an expression is meaningless.
-Because through inheritance all operations are available on HugeInt, the descriptions below 
+Because through inheritance all operations are available on @code{HugeInt}, the descriptions below 
 do not specifically indicate whether each operator or method is defined for expressions, 
 or just for @code{HugeInt} instances. For the sake of brevity, they are listed as if they were methods of the @code{HugeInt} class.
 Visual Studio provides Intellisense and immediate feedback to help sort out which operations are available
@@ -7353,13 +7353,16 @@ If you will need this result again, assign the expression to a @code{HugeInt} va
 @end deftypefn
 
 @deftypefn Method long Write (Stream @var{stream})
-@deftypefnx Method long Write (TextWriter @var{writer})
+@deftypefnx Method long Read (Stream @var{stream})
+Writes and reads integers to/from streams using the raw binary format.
+@end deftypefn
+
+@deftypefn Method long Write (TextWriter @var{writer})
 @deftypefnx Method long Write (TextWriter @var{writer}, int @var{base})
 @deftypefnx Method long Write (TextWriter @var{writer}, int @var{base}, bool @var{lowercase})
-@deftypefnx Method long Read (Stream @var{stream})
 @deftypefnx Method long Read (TextReader @var{reader})
 @deftypefnx Method long Read (TextReader @var{reader}, int @var{base})
-Writes and reads integers to/from streams using the raw binary format.
+Writes and reads integers as text.
 @end deftypefn
 
 @deftypefn Method void Import<T> (T[] @var{data}, long @var{limbCount}, int @var{bytesPerLimb}, LimbOrder @var{limbOrder}, Endianness @var{endianness}, int @var{nails})
@@ -7456,14 +7459,20 @@ d.Value = e.RemoveFactors(f).SavingCountRemovedTo(x => numberRemoved = x);
 @section MPIR.Net Rationals
 
 MPIR multi-precision rational numbers are represented by the @code{HugeRational} class,
-along with its corresponding expression class @code{RationalExpression}. 
-Deferred evaluation, @code{Value} assignment, and the @code{IDisposable} interface
-are implemented for rationals the same way they are for integers.  
-This section highlights details specific to rationals.
+along with its corresponding expression class @code{RationalExpression},
+which is returned from all operators and methods whose
+value semantics are to compute another number from the source instance and any arguments.
+Operations defined on @code{HugeRational} but not on @code{RationalExpression} are typically those that modify the value
+of the source number itself, and thus performing them on an expression is meaningless.
+Because through inheritance all operations are available on @code{HugeRational}, the descriptions below 
+do not specifically indicate whether each operator or method is defined for expressions, 
+or just for @code{HugeRational} instances. For the sake of brevity, they are listed as if they were methods of the @code{HugeRational} class.
+Visual Studio provides Intellisense and immediate feedback to help sort out which operations are available
+on expressions.
 
-When constructing a rational number from a numerator and denominator, including
-the string constructors where both numerator and denominator are specified, the fraction 
-should be in canonical form, or if not then @code{Canonicalize()} should be called.
+Below is a brief summary of the supported multi-precision rational methods and operators.  
+To avoid repetition, implementation details are ommitted.  Since MPIR native functions are called behind the scenes,
+review @ref{Rational Functions} for further details about the native implementations.
 
 @deftypefn Constructor HugeRational ()
 @deftypefnx Constructor HugeRational ( int/long @var{numerator}, uint/ulong @var{denominator} )
@@ -7481,6 +7490,10 @@ example @code{double} follows @code{mpq_set_d} (@pxref{Initializing Rationals}).
 Constructs a @code{HugeRational} converted from a string using @code{mpq_set_str}
 (@pxref{Initializing Rationals}).  If the string is not a valid integer or rational, an exception is thrown.
 @end deftypefn
+
+When constructing a rational number from a numerator and denominator, including
+the string constructors where both numerator and denominator are specified, the fraction 
+should be in canonical form, or if not then @code{Canonicalize()} should be called.
 
 @deftypefn Constructor HugeRational ( IntegerExpression @var{e} )
 @deftypefnx Constructor HugeRational ( RationalExpression @var{e} )
@@ -7521,21 +7534,78 @@ Once the @code{HugeRational} is disposed, any numerator and denominator instance
 are no longer valid.
 @end deftypefn
 
-@deftypefn Method void SetTo (int/long @var{numerator}, uint/ulong @var {denominator})
+@deftypefn Method long ApproximateSizeInBase (int @var{base})
+Returns the number of digits the absolute value of number would take if written in the specified base.
+The result can be at most 2 characters too long, and allows for a numerator, a division sign, 
+and a denominator, but excludes the leading minus sign.
+@end deftypefn
+
+@deftypefn Method string ToString ()
+@deftypefnx Method string ToString (int @var{base})
+@deftypefnx Method string ToString (int @var{base}, bool @var{lowercase})
+Returns the string representation of the number.  The default @code{base} is 10,
+and the parameterless overload is limited to 256 least significant digits by default,
+each for a numerator and a denominator, producing a leading ellipsis (i.e. ...12345) 
+when either component has more digits.
+This is done to prevent huge numbers from unexpectedly consuming large amounts of memory in the debugger.
+The maximum number of digits output is configurable via the @code{MpirSettings.ToStringDigits} property,
+where zero means unlimited.  The other overloads always output all digits.
+@end deftypefn
+
+@deftypefn Method double ToDouble ()
+Converts the number to a double, possibly truncated.
+@end deftypefn
+
+@deftypefn Property RationalExpression Value
+Getting this property is essentially a no-op, as it returns the object instance itself.
+This never needs to be done explicitly, but is used implicitly in statements like @code{a.Value += 5;}
+
+Setting the @code{Value} property evaluates the assigned expression and saves the result to the object.
+@end deftypefn
+
+@deftypefn Method void SetTo (int/long @var{value}) // 32/64-bit builds
+@deftypefnx Method void SetTo (int/long @var{numerator}, uint/ulong @var {denominator})
+@deftypefnx Method void SetTo (uint/ulong @var{value})
 @deftypefnx Method void SetTo (uint/ulong @var{numerator}, uint/ulong @var {denominator})
+@deftypefnx Method void SetTo (double @var{value})
+@deftypefnx Method void SetTo (string @var{value})
+@deftypefnx Method void SetTo (string @var{value}, int @var{base})
+@deftypefnx Method void SetTo (IntegerExpression @var{value})
 @deftypefnx Method void SetTo (IntegerExpression @var{numerator}, IntegerExpression @var{denominator})
-In addition to the same @code{SetTo} overloads as @code{HugeInt}, rationals provide a way to set
-the numerator and denominator in one operation.  As always, canonicalization must be
+@deftypefnx Method void SetTo (FloatExpression @var{value})
+Sets the value of existing variable from types other than @code{RationalExpression}.
+When setting both the numerator and denominator, canonicalization must be
 managed explicitly.
 @end deftypefn
 
-Rationals implement most of the same arithmetic and bit shift operators as integers.
-Due to the rationals' nature, division is always exact (there is no rounding)
-and the modulo operator (@code{%}) is not defined.
-Arithmetic operations will accept integer operands (@code{IntegerExpression} to be exact)
+Arithmetic operators (@code{+}, @code{-}, @code{*}, @code{/}) are overloaded to allow rationals to participate
+in expressions much like primitive integers can.  Single-limb primitive types can be used.
+These operators will also accept @code{IntegerExpression} arguments, 
 and will automatically promote them.  In expressions, promotion of an @code{IntegerExpression} 
 to a @code{RationalExpression} is an O(1) operation.  Of course, when constructing a rational
 from an integer, a copy is made so this becomes O(n).
+
+Due to the rationals' nature, division is always exact (there is no rounding)
+and the modulo operator (@code{%}) is not defined.  
+Also not defined are the bit shift operators (@code{<<}, @code{>>}),
+and the bitwise operators {@code{&}, @code{|}, @code{^}, @code{~}).
+
+Operator @code{^} raises the source number to the specified power.
+
+Comparison operators (@code{==}, @code{!=}, @code{<}, @code{<=}, @code{>}, @code{>=}) accept @code{RationalExpression},
+single-limb, or double arguments, but do not accept integer or float expressions because that would require an awkward explicit cast
+when comparing with null.  Use the @code{CompareTo(object)} method for cross-comparisons.
+
+@deftypefn Method int CompareTo (RationalExpression @var{a})
+@deftypefnx Method bool Equals (RationalExpression @var{a})
+Implement @code{IComparable<RationalExpression>} and @code{IEquatable<RationalExpression>} for strongly-typed comparisons.
+@end deftypefn
+
+@deftypefn Method int CompareTo (object @var{a})
+@deftypefnx Method bool Equals (object @var{a})
+Implement @code{IComparable} and equality check for any object.  
+For rationals, these methods support any expression type (integer, rational, or float).
+@end deftypefn
 
 @deftypefn Method bool Equals (int/long @var{numerator}, uint/ulong @var {denominator})
 @deftypefnx Method bool Equals (uint/ulong @var{numerator}, uint/ulong @var {denominator})
@@ -7544,13 +7614,40 @@ from an integer, a copy is made so this becomes O(n).
 Single-limb comparisons for rationals take two arguments.
 @end deftypefn
 
-@deftypefn Method int CompareTo (object @var{a})
-@deftypefnx Method bool Equals (object @var{a})
-For rationals, these support any expression type (integer, rational, or float).
+@deftypefn Method int GetHashCode ()
+This @code{object} override computes the hash code.  This is an O(n) operation where n is the number of limbs in use
+in the numerator and denominator combined.
+Changing a number's @code{Value} changes its hash code, so this should not be done on any object that has been added
+to a hash table or dictionary.
 @end deftypefn
 
-Comparison operators however are defined only for @code{RationalExpression}; same reasoning
-applies here as for integers.
+@deftypefn Method int Sign ()
+Returns the number's sign.
+@end deftypefn
+
+@deftypefn Method RationalExpression Abs ()
+Returns an expression that computes the absolute value of the number.
+@end deftypefn
+
+@deftypefn Method RationalExpression Invert ()
+Returns an expression that computes the inverse of the number.
+@end deftypefn
+
+@deftypefn Method long Write (Stream @var{stream})
+@deftypefnx Method long Read (Stream @var{stream})
+Writes and reads rationals to/from streams using the raw binary format.
+@end deftypefn
+
+@deftypefn Method long Write (TextWriter @var{writer})
+@deftypefnx Method long Write (TextWriter @var{writer}, int @var{base})
+@deftypefnx Method long Write (TextWriter @var{writer}, int @var{base}, bool @var{lowercase})
+@deftypefnx Method long Read (TextReader @var{reader})
+@deftypefnx Method long Read (TextReader @var{reader}, int @var{base})
+Writes and reads rationals as text.
+@end deftypefn
+
+There are no @code{Import}/@code{Export} methods, but they can of course be invoked
+on the numerator and/or denominator.
 
 @code{RationalExpression} does not have any specialized subclasses, as there are no
 operations on the rational type that require additional inputs beyond the left and right 
