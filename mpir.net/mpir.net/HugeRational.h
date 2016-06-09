@@ -1022,7 +1022,7 @@ namespace MPIR
             /// </para></summary>
             property HugeInt^ Numerator
             {
-                HugeInt^ get() { return gcnew HugeIntComponent(&_value->_mp_num); }
+                HugeInt^ get() { return gcnew HugeIntComponent(MP(numref)(_value)); }
             };
 
             /// <summary>
@@ -1033,7 +1033,7 @@ namespace MPIR
             /// </para></summary>
             property HugeInt^ Denominator
             {
-                HugeInt^ get() { return gcnew HugeIntComponent(&_value->_mp_den); }
+                HugeInt^ get() { return gcnew HugeIntComponent(MP(denref)(_value)); }
             };
 
             #pragma endregion
@@ -1180,9 +1180,7 @@ namespace MPIR
             /// <param name="a">Source number to swap this instance's value with</param>
             void Swap(MPTYPE^ a) 
             { 
-                MP(ptr) temp = a->_value;
-                a->_value = _value;
-                _value = temp; 
+                MP(swap)(_value, a->_value);
             }
 
             #pragma endregion

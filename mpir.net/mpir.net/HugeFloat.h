@@ -1153,13 +1153,10 @@ namespace MPIR
             /// <param name="a">Source number to swap this instance's value with</param>
             void Swap(MPTYPE^ a) 
             { 
-                MP(ptr) temp = a->_value;
+                MP(swap)(_value, a->_value);
+
                 mp_bitcnt_t prec = a->_allocatedPrecision;
-
-                a->_value = _value;
                 a->_allocatedPrecision = _allocatedPrecision;
-
-                _value = temp; 
                 _allocatedPrecision = prec;
             }
 

@@ -50,14 +50,18 @@ namespace MPIR.Tests.HugeIntTests
         [TestMethod]
         public void IntSwap()
         {
-            using (var a = new HugeInt("-222509832503450298345029835740293845720"))
-            using (var b = new HugeInt("2039847290878794872059384789347534534"))
+            var strA = "-222509832503450298345029835740293845720";
+            var strB = "2039847290878794872059384789347534534";
+            using (var a = new HugeInt(strA))
+            using (var b = new HugeInt(strB))
             {
                 var aValue = a._value();
                 var bValue = b._value();
                 a.Swap(b);
-                Assert.AreEqual(bValue, a._value());
-                Assert.AreEqual(aValue, b._value());
+                Assert.AreEqual(aValue, a._value());
+                Assert.AreEqual(bValue, b._value());
+                Assert.AreEqual(strA, b.ToString());
+                Assert.AreEqual(strB, a.ToString());
             }
         }
 

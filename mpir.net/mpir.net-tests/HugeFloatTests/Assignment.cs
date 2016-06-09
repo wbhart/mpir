@@ -55,14 +55,18 @@ namespace MPIR.Tests.HugeFloatTests
             using (var a = HugeFloat.Allocate(192))
             using (var b = HugeFloat.Allocate(128))
             {
+                a.SetTo(123.5);
+                b.SetTo(432.25);
                 var aValue = a._value();
                 var bValue = b._value();
                 var aPrec = a._allocatedPrecision;
                 var bPrec = b._allocatedPrecision;
                 a.Swap(b);
                 Assert.AreNotEqual(aValue, bValue);
-                Assert.AreEqual(bValue, a._value());
-                Assert.AreEqual(aValue, b._value());
+                Assert.AreEqual(aValue, a._value());
+                Assert.AreEqual(bValue, b._value());
+                Assert.IsTrue(432.25 == a);
+                Assert.IsTrue(123.5 == b);
                 Assert.AreNotEqual(aPrec, bPrec);
                 Assert.AreEqual(bPrec, a._allocatedPrecision);
                 Assert.AreEqual(aPrec, b._allocatedPrecision);

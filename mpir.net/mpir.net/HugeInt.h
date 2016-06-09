@@ -1782,9 +1782,7 @@ namespace MPIR
             /// <param name="a">Source number to swap this instance's value with</param>
             void Swap(MPTYPE^ a) 
             { 
-                MP(ptr) temp = a->_value;
-                a->_value = _value;
-                _value = temp; 
+                MP(swap)(_value, a->_value);
             }
 
             #pragma endregion

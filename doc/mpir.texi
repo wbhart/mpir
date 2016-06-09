@@ -7219,6 +7219,10 @@ Setting the @code{Value} property evaluates the assigned expression and saves th
 Sets the value of existing variable from types other than @code{IntegerExpression}.
 @end deftypefn
 
+@deftypefn Method void Swap (HugeInt @var{a})
+Swaps the values of the two objects. This is an O(1) operation.
+@end deftypefn
+
 Arithmetic operators (@code{+}, @code{-}, @code{*}, @code{/}, @code{%}) are overloaded to allow integers to participate
 in expressions much like primitive integers can.  Single-limb primitive types can be used.
 These operators will also accept @code{RationalExpression} arguments, producing a @code{RationalExpression} result.
@@ -7578,6 +7582,11 @@ When setting both the numerator and denominator, canonicalization must be
 managed explicitly.
 @end deftypefn
 
+@deftypefn Method void Swap (HugeRational @var{a})
+Swaps the values of the two objects. This is an O(1) operation. Any existing numerators and denominators
+remain associated with the object on which they were obtained, and reflect its new value.
+@end deftypefn
+
 Arithmetic operators (@code{+}, @code{-}, @code{*}, @code{/}) are overloaded to allow rationals to participate
 in expressions much like primitive integers can.  Single-limb primitive types can be used.
 These operators will also accept @code{IntegerExpression} arguments, 
@@ -7784,6 +7793,10 @@ Setting the @code{Value} property evaluates the assigned expression and saves th
 @deftypefnx Method void SetTo (IntegerExpression @var{value})
 @deftypefnx Method void SetTo (RationalExpression @var{value})
 Sets the value of existing variable from types other than @code{FloatExpression}.
+@end deftypefn
+
+@deftypefn Method void Swap (HugeFloat @var{a})
+Swaps the values (and precisions) of the two objects. This is an O(1) operation.
 @end deftypefn
 
 Arithmetic operators (@code{+}, @code{-}, @code{*}, @code{/}) and bit shifts (@code{<<}, @code{>>})

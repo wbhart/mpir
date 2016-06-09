@@ -39,14 +39,26 @@ namespace MPIR.Tests.HugeRationalTests
         [TestMethod]
         public void RationalSwap()
         {
-            using (var a = new HugeRational("-222509832503450298345029835740293845720/115756986668303657898962467957"))
-            using (var b = new HugeRational("2039847290878794872059384789347534534/590872612825179551336102196593"))
+            var strA = "-222509832503450298345029835740293845720/115756986668303657898962467957";
+            var strB = "2039847290878794872059384789347534534/590872612825179551336102196593";
+            using (var a = new HugeRational(strA))
+            using (var b = new HugeRational(strB))
             {
                 var aValue = a._value();
                 var bValue = b._value();
+
+                var an = a.Numerator;
+                var ad = a.Denominator;
+                var bn = b.Numerator;
+                var bd = b.Denominator;
+
                 a.Swap(b);
-                Assert.AreEqual(bValue, a._value());
-                Assert.AreEqual(aValue, b._value());
+                Assert.AreEqual(aValue, a._value());
+                Assert.AreEqual(bValue, b._value());
+                Assert.AreEqual(strB, a.ToString());
+                Assert.AreEqual(strA, b.ToString());
+                Assert.AreEqual(strB, string.Format("{0}/{1}", an, ad));
+                Assert.AreEqual(strA, string.Format("{0}/{1}", bn, bd));
             }
         }
 
