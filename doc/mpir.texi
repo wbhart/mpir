@@ -6903,7 +6903,7 @@ and have a recent version of Visual Studio available (a community edition will s
 * MPIR.Net Rationals::
 * MPIR.Net Floats::
 * MPIR.Net Random Numbers::
-* MPIR.Net Limitations::
+* MPIR.Net Settings::
 @end menu
 
 @node MPIR.Net Feature Overview, Building MPIR.Net, .Net Interface, .Net Interface
@@ -6915,6 +6915,7 @@ MPIR.Net exposes the following main classes:
 @deftp Class HugeInt
 @deftpx Class HugeRational
 @deftpx Class HugeFloat
+@deftpx Class MpirRandom
 @end deftp
 
 The standard operators are overloaded to allow arithmetic with these classes.  For example,
@@ -6936,7 +6937,7 @@ for local instances is as shown above, within a @code{using} clause
 to guarantee native memory clean-up when a variable is disposed.
 
 References that go out of scope without having been disposed are subject to the normal
-.Net garbage collection, which in most cases invokes object destructors, which
+.Net garbage collection, which in most cases invokes object finalizers, and those in turn
 deallocate native memory. Applications that don't have memory pressure should
 work just fine either way, although deterministic disposal is a best practice.
 
@@ -7115,6 +7116,7 @@ in a .Net language of your choice, add a reference to MPIR.Net, and take advanta
 @node MPIR.Net Integers, MPIR.Net Rationals, Building MPIR.Net, .Net Interface
 @section MPIR.Net Integers
 
+@deftp Class HugeInt : IntegerExpression, IDisposable
 The MPIR.Net type for the MPIR multi-precision integer is @code{HugeInt}.  
 A closely related type is @code{IntegerExpression}, which is returned from all operators and methods whose
 value semantics are to compute another number from the source instance and any arguments.
@@ -7126,6 +7128,7 @@ do not specifically indicate whether each operator or method is defined for expr
 or just for @code{HugeInt} instances. For the sake of brevity, they are listed as if they were methods of the @code{HugeInt} class.
 Visual Studio provides Intellisense and immediate feedback to help sort out which operations are available
 on expressions.
+@end deftp
 
 Below is a brief summary of the supported multi-precision integer methods and operators.  
 To avoid repetition, implementation details are ommitted.  Since MPIR native functions are called behind the scenes,
@@ -7220,7 +7223,7 @@ Sets the value of existing variable from types other than @code{IntegerExpressio
 @end deftypefn
 
 @deftypefn Method void Swap (HugeInt @var{a})
-Swaps the values of the two objects. This is an O(1) operation.
+Swaps the values of the two objects. This is an @math{O(1)} operation.
 @end deftypefn
 
 Arithmetic operators (@code{+}, @code{-}, @code{*}, @code{/}, @code{%}) are overloaded to allow integers to participate
@@ -7284,7 +7287,7 @@ allowing cross-type comparisons not possible with operators.
 @end deftypefn
 
 @deftypefn Method int GetHashCode ()
-This @code{object} override computes the hash code.  This is an O(n) operation where n is the number of limbs in use.
+This @code{object} override computes the hash code.  This is an @math{O(N)} operation where @math{N} is the number of limbs in use.
 Changing a number's @code{Value} changes its hash code, so this should not be done on any object that has been added
 to a hash table or dictionary.
 @end deftypefn
@@ -7462,6 +7465,7 @@ d.Value = e.RemoveFactors(f).SavingCountRemovedTo(x => numberRemoved = x);
 @node MPIR.Net Rationals, MPIR.Net Floats, MPIR.Net Integers, .Net Interface
 @section MPIR.Net Rationals
 
+@deftp Class HugeRational : RationalExpression, IDisposable
 MPIR multi-precision rational numbers are represented by the @code{HugeRational} class,
 along with its corresponding expression class @code{RationalExpression},
 which is returned from all operators and methods whose
@@ -7473,6 +7477,7 @@ do not specifically indicate whether each operator or method is defined for expr
 or just for @code{HugeRational} instances. For the sake of brevity, they are listed as if they were methods of the @code{HugeRational} class.
 Visual Studio provides Intellisense and immediate feedback to help sort out which operations are available
 on expressions.
+@end deftp
 
 Below is a brief summary of the supported multi-precision rational methods and operators.  
 To avoid repetition, implementation details are ommitted.  Since MPIR native functions are called behind the scenes,
@@ -7583,7 +7588,7 @@ managed explicitly.
 @end deftypefn
 
 @deftypefn Method void Swap (HugeRational @var{a})
-Swaps the values of the two objects. This is an O(1) operation. Any existing numerators and denominators
+Swaps the values of the two objects. This is an @math{O(1)} operation. Any existing numerators and denominators
 remain associated with the object on which they were obtained, and reflect its new value.
 @end deftypefn
 
@@ -7591,8 +7596,8 @@ Arithmetic operators (@code{+}, @code{-}, @code{*}, @code{/}) are overloaded to 
 in expressions much like primitive integers can.  Single-limb primitive types can be used.
 These operators will also accept @code{IntegerExpression} arguments, 
 and will automatically promote them.  In expressions, promotion of an @code{IntegerExpression} 
-to a @code{RationalExpression} is an O(1) operation.  Of course, when constructing a rational
-from an integer, a copy is made so this becomes O(n).
+to a @code{RationalExpression} is an @math{O(1)} operation.  Of course, when constructing a rational
+from an integer, a copy is made so this becomes @math{O(N)}.
 
 Due to the rationals' nature, division is always exact (there is no rounding)
 and the modulo operator (@code{%}) is not defined.  
@@ -7624,7 +7629,7 @@ Single-limb comparisons for rationals take two arguments.
 @end deftypefn
 
 @deftypefn Method int GetHashCode ()
-This @code{object} override computes the hash code.  This is an O(n) operation where n is the number of limbs in use
+This @code{object} override computes the hash code.  This is an @math{O(N)} operation where @math{N} is the number of limbs in use
 in the numerator and denominator combined.
 Changing a number's @code{Value} changes its hash code, so this should not be done on any object that has been added
 to a hash table or dictionary.
@@ -7665,6 +7670,7 @@ operator operands.
 @node MPIR.Net Floats, MPIR.Net Random Numbers, MPIR.Net Rationals, .Net Interface
 @section MPIR.Net Floats
 
+@deftp Class HugeFloat : FloatExpression, IDisposable
 The MPIR.Net class for multi-precision floating point numbers is @code{HugeFloat}, and its
 corresponding expression class is @code{FloatExpression},
 which is returned from all operators and methods whose
@@ -7678,6 +7684,11 @@ or just for @code{HugeFloat} instances. For the sake of brevity,
 they are listed as if they were methods of the @code{HugeFloat} class.
 Visual Studio provides Intellisense and immediate feedback to help sort out which operations are available
 on expressions.
+@end deftp
+
+Below is a brief summary of the supported multi-precision rational methods and operators.  
+To avoid repetition, implementation details are ommitted.  Since MPIR native functions are called behind the scenes,
+review @ref{Floating-point Functions} for further details about the native implementations.
 
 @deftypefn {Static Property} {static uint/ulong} DefaultPrecision
 Gets or sets the default precision of the floating point mantissa, in bits.
@@ -7796,7 +7807,7 @@ Sets the value of existing variable from types other than @code{FloatExpression}
 @end deftypefn
 
 @deftypefn Method void Swap (HugeFloat @var{a})
-Swaps the values (and precisions) of the two objects. This is an O(1) operation.
+Swaps the values (and precisions) of the two objects. This is an @math{O(1)} operation.
 @end deftypefn
 
 Arithmetic operators (@code{+}, @code{-}, @code{*}, @code{/}) and bit shifts (@code{<<}, @code{>>})
@@ -7828,7 +7839,7 @@ default precision.
 @end deftypefn
 
 @deftypefn Method int GetHashCode ()
-This @code{object} override computes the hash code.  This is an O(n) operation where n is the number of limbs allocated.
+This @code{object} override computes the hash code.  This is an @math{O(N)} operation where @math{N} is the number of limbs allocated.
 Changing a number's @code{Value} changes its hash code, so this should not be done on any object that has been added
 to a hash table or dictionary.
 @end deftypefn
@@ -7861,14 +7872,116 @@ Perform various floating-point operations.
 Writes and reads floats as text.
 @end deftypefn
 
-@node MPIR.Net Random Numbers, MPIR.Net Limitations, MPIR.Net Floats, .Net Interface
+@node MPIR.Net Random Numbers, MPIR.Net Settings, MPIR.Net Floats, .Net Interface
 @section MPIR.Net Random Numbers
 
+@deftp Class MpirRandom : IDisposable
+The MPIR.Net class that wraps the MPIR random number functions is @code{MpirRandom}.
+It holds an algorithm selection and current state, as per @code{gmp_randstate_t}.
+As the multi-precision classes, @code{MpirRandom} allocates unmanaged memory,
+and should be disposed of via its @code{IDisposable} implementation when no longer in use.
+@end deftp
 
-@node MPIR.Net Limitations,  , MPIR.Net Random Numbers, .Net Interface
-@section MPIR.Net Limitations
+@deftypefn {Static Method} {static MpirRandom} Default ()
+@deftypefnx {Static Method} {static MpirRandom} MersenneTwister ()
+@deftypefnx {Static Method} {static MpirRandom} LinearCongruential (HugeInt @var{a}, ulong/uint @var{c}, ulong/uint @var{m})
+@deftypefnx {Static Method} {static MpirRandom} LinearCongruential (ulong/uint @var{size})
+In lieu of constructors, @code{MpirRandom} uses more descriptive static factory methods to create new instances
+of specific random number generator algorithms.
+@end deftypefn
+
+@deftypefn Method MpirRandom Copy ()
+Creates a new random number generator with a copy of the algorithm and state from the source instance.
+@end deftypefn
+
+@deftypefn Method void Seed (ulong/uint @var{seed})
+@deftypefnx Method void Seed (HugeInt @var{seed})
+Sets an initial seed value into the random number generator.
+@end deftypefn
+
+@deftypefn Method ulong/uint GetLimbBits (ulong/uint @var{bitCount})
+Generates a uniformly distributed random number of @code{bitCount} bits,
+i.e. in the range 0 to @math{2^@W{bitCount-1}} inclusive.
+@end deftypefn
+
+@deftypefn Method ulong/uint GetLimb (ulong/uint @var{max})
+Generates a uniformly distributed random number in the range 0 to @math{@W{max-1}} inclusive.
+@end deftypefn
+
+@deftypefn Method IntegerExpression GetIntBits (ulong/uint @var{bitCount})
+@deftypefnx Method IntegerExpression GetIntBitsChunky (ulong/uint @var{bitCount})
+Returns an expression that generates a uniformly distributed random integer in the range 0 to @math{2^@W{bitCount-1}}, inclusive.
+@end deftypefn
+
+@deftypefn Method IntegerExpression GetInt (IntegerExpression @var{max})
+Returns an expression that generates a uniformly distributed random number in the range 0 to @math{@W{max-1}} inclusive.
+@end deftypefn
+
+@deftypefn Method FloatExpression GetFloat ()
+Returns an expression that generates a uniformly distributed random float
+in the range @math{0 @leq{} n < 1}.  As with all float expressions, precision of the destination is used when available.
+@end deftypefn
+
+@deftypefn Method FloatExpression GetFloatBits (ulong/uint @var{bitCount})
+Returns an expression that generates a uniformly distributed random float
+in the range @math{0 @leq{} n < 1}, with the specified number of significant mantissa bits.
+@end deftypefn
+
+@deftypefn Method FloatExpression GetFloatChunky (int @var{maxExponent})
+Returns an expression that generates a random float with long strings of zeros and ones in the binary representation,
+using the precision of the destination. The argument is the maximum absolute value for the
+exponent of the generated number, expressed in limbs.
+@end deftypefn
+
+@deftypefn Method FloatExpression GetFloatLimbsChunky (long @var{limbCount}, int @var{maxExponent})
+Returns an expression that generates a random float with long strings of zeros and ones in the binary representation, 
+and the specified number of significant limbs in the mantissa.
+@end deftypefn
 
 
+@node MPIR.Net Settings, , MPIR.Net Random Numbers, .Net Interface
+@section MPIR.Net Settings
+
+@deftp {Static Class} MpirSettings
+This static class contains several members that describe or control 
+various default behaviors of the other MPIR.Net classes.
+@end deftp
+
+@deftypefn Constant int BITS_PER_LIMB
+Represents the total number of bits in a single MPIR limb, including data bits and nail bits.
+This will be either 32 or 64, depending on your selected build architecture.
+@end deftypefn
+
+@deftypefn Constant int NAIL_BITS_PER_LIMB
+Represents the number of nail bits in a single MPIR limb.  Nail bits are used internally by MPIR.
+@end deftypefn
+
+@deftypefn Constant int USABLE_BITS_PER_LIMB
+Represents the number of data bits in a single MPIR limb.
+@end deftypefn
+
+@deftypefn Constant Version MPIR_VERSION
+Represents the version of the underlying MPIR library
+@end deftypefn
+
+@deftypefn Constant Version GMP_VERSION
+Represents the version of GMP with which the underlying MPIR library is compatible
+@end deftypefn
+
+@deftypefn {Static Property} RoundingModes RoundingMode
+Gets or sets the default rounding mode used for MPIR integer division operations that don't explicitly specify a rounding mode.
+Does not affect rational or float operations.  The default value is @code{Truncate}.
+@end deftypefn
+
+@deftypefn {Static Property} int ToStringDigits
+Gets or sets the maximum number of digits the @code{object.ToString()} method override will output.
+If an integer number is longer than this number of digits, it will be output as "@code{[-]...NNNNN}" with the least significant digits shown.
+Rational numbers apply the limit separately to the numerator and denominator.  
+Floats output the most significant digits, and there is no ellipsis.
+
+The primary purpose of this setting is to prevent accidental allocation of large memory blocks while inspecting variables in the debugger.
+The default value is 256.  Setting this property to 0 causes all digits to be output.
+@end deftypefn
 
 @node Custom Allocation, Language Bindings, .Net Interface, Top
 @comment  node-name,  next,  previous,  up
