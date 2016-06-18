@@ -14,7 +14,8 @@ import sys
 import re
 
 cw, f = os.path.split(__file__)
-os.chdir(cw)
+if cw != ''
+  os.chdir(cw)
 
 try:
   fn = r'..\..\build.vc\output_params.bat'

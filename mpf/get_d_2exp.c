@@ -25,12 +25,12 @@ MA 02110-1301, USA. */
 
 
 double
-mpf_get_d_2exp (mpir_si *exp2, mpf_srcptr src)
+mpf_get_d_2exp (signed long *exp2, mpf_srcptr src)
 {
   mp_size_t size, abs_size;
   mp_srcptr ptr;
   int cnt;
-  mpir_si exp;
+  signed long exp;
 
   size = SIZ(src);
   if (UNLIKELY (size == 0))

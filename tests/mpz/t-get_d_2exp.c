@@ -34,7 +34,7 @@ check_onebit (void)
   };
   mpz_t   z;
   double  got, want;
-  mpir_si    got_exp, want_exp;
+  signed long got_exp, want_exp;
   int     i;
 
   mpz_init (z);

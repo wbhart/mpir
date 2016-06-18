@@ -673,6 +673,8 @@
   <ItemGroup>
     <YASM Include="sqr_basecase.asm">
       <FileType>Document</FileType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </YASM>
   </ItemGroup>
   <ItemGroup>
