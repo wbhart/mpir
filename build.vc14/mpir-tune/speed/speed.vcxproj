@@ -83,15 +83,16 @@
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;HAVE_GETRUSAGE;HAVE_GETTIMEOFDAY;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <PrecompiledHeader>
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
-      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <CompileAs>Default</CompileAs>
-      <AdditionalIncludeDirectories>$(MPDIR);..\..\;..\..\..\tests\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(MPDIR);..\..\..\build.vc;..\..\..\tests\</AdditionalIncludeDirectories>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <FloatingPointModel>Strict</FloatingPointModel>
     </ClCompile>
     <Link>
       <AdditionalDependencies>$(SolutionDir)$(IntDir)lib_speed.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -107,7 +108,6 @@
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;HAVE_GETRUSAGE;HAVE_GETTIMEOFDAY;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <PrecompiledHeader>
@@ -115,7 +115,10 @@
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <CompileAs>Default</CompileAs>
-      <AdditionalIncludeDirectories>$(MPDIR);..\..\;..\..\..\tests\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(MPDIR);..\..\..\build.vc;..\..\..\tests\</AdditionalIncludeDirectories>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <FloatingPointModel>Strict</FloatingPointModel>
     </ClCompile>
     <Link>
       <AdditionalDependencies>$(SolutionDir)$(IntDir)lib_speed.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -126,7 +129,6 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <Optimization>MaxSpeed</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;HAVE_GETRUSAGE;HAVE_GETTIMEOFDAY;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
@@ -136,7 +138,10 @@
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <CompileAs>Default</CompileAs>
-      <AdditionalIncludeDirectories>$(MPDIR);..\..\;..\..\..\tests\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(MPDIR);..\..\..\build.vc;..\..\..\tests\</AdditionalIncludeDirectories>
+      <Optimization>Full</Optimization>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <FloatingPointModel>Strict</FloatingPointModel>
     </ClCompile>
     <Link>
       <AdditionalDependencies>$(SolutionDir)$(IntDir)lib_speed.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -152,7 +157,6 @@
       <TargetEnvironment>X64</TargetEnvironment>
     </Midl>
     <ClCompile>
-      <Optimization>Disabled</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;HAVE_GETRUSAGE;HAVE_GETTIMEOFDAY;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -161,7 +165,11 @@
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <CompileAs>Default</CompileAs>
-      <AdditionalIncludeDirectories>$(MPDIR);..\..\;..\..\..\tests\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(MPDIR);..\..\..\build.vc;..\..\..\tests\</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <Optimization>Full</Optimization>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <FloatingPointModel>Strict</FloatingPointModel>
     </ClCompile>
     <Link>
       <AdditionalDependencies>$(SolutionDir)$(IntDir)lib_speed.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -179,12 +187,16 @@
     <ClCompile Include="..\..\..\tune\speed.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\build.vc\getopt.h" />
+    <ClInclude Include="..\..\..\build.vc\unistd.h" />
+    <ClInclude Include="..\..\..\build.vc\win_timing.h" />
     <ClInclude Include="..\..\..\config.h" />
-    <ClInclude Include="..\..\getopt.h" />
-    <ClInclude Include="..\..\win_timing.h" />
     <ClInclude Include="..\..\..\tune\speed.h" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\mpir-tests\add-test-lib\add-test-lib.vcxproj">
+      <Project>{a742d3d1-6956-4f85-bfd6-b0e7b477041d}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\lib_speed\lib_speed.vcxproj">
       <Project>{47b9e74c-7d7a-47da-83af-0a6ade4fbb69}</Project>
     </ProjectReference>

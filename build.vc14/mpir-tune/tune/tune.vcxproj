@@ -46,7 +46,7 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
-    <Import Project="$(VCTargetsPath)\BuildCustomizations\vsyasm.props" />
+    <Import Project="..\..\..\build.vc\vsyasm.props" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" />
@@ -85,14 +85,15 @@
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;HAVE_GETRUSAGE;HAVE_GETTIMEOFDAY;TUNE_PROGRAM_BUILD;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <PrecompiledHeader>
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
-      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
-      <AdditionalIncludeDirectories>$(MPDIR);..\..\..\..\..\..\lib\$(IntDir);..\..\;..\..\..\..\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(MPDIR);..\..\..\..\..\..\lib\$(IntDir);..\..\..\build.vc;..\..\..\..\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <FloatingPointModel>Strict</FloatingPointModel>
     </ClCompile>
     <Link>
       <AdditionalDependencies>$(OutDir)lib_speed.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -112,14 +113,16 @@
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;HAVE_GETRUSAGE;HAVE_GETTIMEOFDAY;TUNE_PROGRAM_BUILD;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <PrecompiledHeader>
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <AdditionalIncludeDirectories>$(MPDIR);..\..\..\..\..\..\lib\$(IntDir);..\..\;..\..\..\..\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(MPDIR);..\..\..\..\..\..\lib\$(IntDir);..\..\..\build.vc;..\..\..\..\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <FloatingPointModel>Strict</FloatingPointModel>
     </ClCompile>
     <Link>
       <AdditionalDependencies>$(OutDir)lib_speed.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -134,7 +137,6 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <PreBuildEvent />
     <ClCompile>
-      <Optimization>MaxSpeed</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;HAVE_GETRUSAGE;HAVE_GETTIMEOFDAY;TUNE_PROGRAM_BUILD;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
@@ -143,7 +145,10 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <AdditionalIncludeDirectories>$(MPDIR);..\..\..\..\..\..\lib\$(IntDir);..\..\;..\..\..\..\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(MPDIR);..\..\..\..\..\..\lib\$(IntDir);..\..\..\build.vc;..\..\..\..\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <Optimization>Full</Optimization>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <FloatingPointModel>Strict</FloatingPointModel>
     </ClCompile>
     <Link>
       <AdditionalDependencies>$(OutDir)lib_speed.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -163,7 +168,6 @@
       <TargetEnvironment>X64</TargetEnvironment>
     </Midl>
     <ClCompile>
-      <Optimization>Disabled</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;HAVE_GETRUSAGE;HAVE_GETTIMEOFDAY;TUNE_PROGRAM_BUILD;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
@@ -171,8 +175,11 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <AdditionalIncludeDirectories>$(MPDIR);..\..\..\..\..\..\lib\$(IntDir);..\..\;..\..\..\..\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(MPDIR);..\..\..\..\..\..\lib\$(IntDir);..\..\..\build.vc;..\..\..\..\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <BufferSecurityCheck>false</BufferSecurityCheck>
+      <Optimization>Full</Optimization>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <FloatingPointModel>Strict</FloatingPointModel>
     </ClCompile>
     <Link>
       <AdditionalDependencies>$(OutDir)lib_speed.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -188,6 +195,7 @@
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\build.vc\getopt.c" />
     <ClCompile Include="..\..\..\fft\adjust.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
@@ -587,7 +595,6 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="..\..\getopt.c" />
     <ClCompile Include="..\..\..\tests\memory.c" />
     <ClCompile Include="..\..\..\tests\misc.c" />
     <ClCompile Include="..\..\..\tests\refmpn.c" />
@@ -658,24 +665,28 @@
     <ClCompile Include="toom8_sqr_n.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\build.vc\getopt.h" />
+    <ClInclude Include="..\..\..\build.vc\unistd.h" />
+    <ClInclude Include="..\..\..\build.vc\win_timing.h" />
     <ClInclude Include="..\..\..\tune\speed.h" />
-    <ClInclude Include="..\..\getopt.h" />
-    <ClInclude Include="..\..\getrusage.h" />
-    <ClInclude Include="..\..\gettimeofday.h" />
-    <ClInclude Include="..\..\lib_mpir_sandybridge_ivybridge\x64\Release\config.h" />
-    <ClInclude Include="..\..\lib_mpir_sandybridge_ivybridge\x64\Release\gmp-impl.h" />
-    <ClInclude Include="..\..\lib_mpir_sandybridge_ivybridge\x64\Release\gmp-mparam.h" />
-    <ClInclude Include="..\..\lib_mpir_sandybridge_ivybridge\x64\Release\mpir.h" />
-    <ClInclude Include="..\..\unistd.h" />
-    <ClInclude Include="..\..\win_timing.h" />
   </ItemGroup>
   <ItemGroup>
     <YASM Include="sqr_basecase.asm">
       <FileType>Document</FileType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </YASM>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\mpir-tests\add-test-lib\add-test-lib.vcxproj">
+      <Project>{a742d3d1-6956-4f85-bfd6-b0e7b477041d}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\lib_speed\lib_speed.vcxproj">
+      <Project>{47b9e74c-7d7a-47da-83af-0a6ade4fbb69}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
-    <Import Project="$(VCTargetsPath)\BuildCustomizations\vsyasm.targets" />
+    <Import Project="..\..\..\build.vc\vsyasm.targets" />
   </ImportGroup>
 </Project>

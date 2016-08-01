@@ -32,30 +32,15 @@
     <ClCompile Include="..\..\..\tests\trace.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\getopt.c">
+    <ClCompile Include="..\..\..\build.vc\getopt.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\getopt.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\lib_mpir_sandybridge_ivybridge\x64\Release\config.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\lib_mpir_sandybridge_ivybridge\x64\Release\gmp-impl.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\lib_mpir_sandybridge_ivybridge\x64\Release\gmp-mparam.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\tests\tests.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\lib_mpir_sandybridge_ivybridge\x64\Release\mpir.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\lib_mpir_sandybridge_ivybridge\x64\Release\longlong.h">
+    <ClInclude Include="..\..\..\build.vc\getopt.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

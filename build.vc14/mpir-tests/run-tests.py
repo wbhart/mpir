@@ -14,10 +14,12 @@ import sys
 import re
 
 cw, f = os.path.split(__file__)
-os.chdir(cw)
+if cw != '':
+  os.chdir(cw)
 
 try:
-  f = open('..\output_params.bat')
+  fn = r'..\..\build.vc\output_params.bat'
+  f = open(fn)
   par = f.readlines()
   f.close()
   m1 = re.match(r'\(set ldir\=(.*)\)', par[0])
@@ -27,9 +29,9 @@ try:
   if m1 and m2 and m3 and m4:
     d = (m1.group(1), m2.group(1), m3.group(1), m4.group(1))
   else:
-    raise IOError
-except Exception:
-  print('Cannot determine test configuration from "output_params.bat"')
+    raise OSError(2, 'Incorrect file content', fn)
+except OSError as e:
+  print(e.strerror, e.filename)
   sys.exit(-1)
 
 tdir = '{}\\{}\\'.format(d[2], d[3])

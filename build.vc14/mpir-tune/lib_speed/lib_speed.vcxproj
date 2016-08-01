@@ -78,13 +78,16 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <PrecompiledHeader>
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
-      <AdditionalIncludeDirectories>$(MPDIR);..\..\..\;..\..\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <AdditionalIncludeDirectories>$(MPDIR);..\..\..\;..\..\..\build.vc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <ProgramDataBaseFileName>$(TargetDir)$(TargetName).pdb</ProgramDataBaseFileName>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <FloatingPointModel>Strict</FloatingPointModel>
     </ClCompile>
     <Lib>
       <AdditionalDependencies>psapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -96,28 +99,35 @@
     </Midl>
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <PrecompiledHeader>
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
-      <AdditionalIncludeDirectories>$(MPDIR);..\..\..\;..\..\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <AdditionalIncludeDirectories>$(MPDIR);..\..\..\;..\..\..\build.vc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <ProgramDataBaseFileName>$(TargetDir)$(TargetName).pdb</ProgramDataBaseFileName>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <FloatingPointModel>Strict</FloatingPointModel>
     </ClCompile>
     <Lib>
       <AdditionalDependencies>psapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <TargetMachine />
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <Optimization>Full</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <PrecompiledHeader>
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
-      <AdditionalIncludeDirectories>$(MPDIR);..\..\..\;..\..\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(MPDIR);..\..\..\;..\..\..\build.vc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <ProgramDataBaseFileName>$(TargetDir)$(TargetName).pdb</ProgramDataBaseFileName>
+      <Optimization>Full</Optimization>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <FloatingPointModel>Strict</FloatingPointModel>
     </ClCompile>
     <Lib>
       <AdditionalDependencies>psapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -128,39 +138,40 @@
       <TargetEnvironment>X64</TargetEnvironment>
     </Midl>
     <ClCompile>
-      <Optimization>Disabled</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PrecompiledHeader>
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
-      <AdditionalIncludeDirectories>$(MPDIR);..\..\..\;..\..\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(MPDIR);..\..\..\;..\..\..\build.vc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <BufferSecurityCheck>false</BufferSecurityCheck>
       <PreprocessorDefinitions>%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <ProgramDataBaseFileName>$(TargetDir)$(TargetName).pdb</ProgramDataBaseFileName>
+      <Optimization>Full</Optimization>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <FloatingPointModel>Strict</FloatingPointModel>
     </ClCompile>
     <Lib>
       <AdditionalDependencies>psapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <TargetMachine />
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\build.vc\getopt.h" />
+    <ClInclude Include="..\..\..\build.vc\getrusage.h" />
+    <ClInclude Include="..\..\..\build.vc\gettimeofday.h" />
+    <ClInclude Include="..\..\..\build.vc\unistd.h" />
+    <ClInclude Include="..\..\..\build.vc\win_timing.h" />
     <ClInclude Include="..\..\..\gmp-impl.h" />
     <ClInclude Include="..\..\..\gmp-mparam.h" />
     <ClInclude Include="..\..\..\longlong.h" />
     <ClInclude Include="..\..\..\mpir.h" />
     <ClInclude Include="..\..\..\tests\tests.h" />
-    <ClInclude Include="..\..\getopt.h" />
-    <ClInclude Include="..\..\getrusage.h" />
-    <ClInclude Include="..\..\gettimeofday.h" />
-    <ClInclude Include="..\..\lib_mpir_sandybridge_ivybridge\x64\Release\config.h" />
-    <ClInclude Include="..\..\lib_mpir_sandybridge_ivybridge\x64\Release\gmp-impl.h" />
-    <ClInclude Include="..\..\lib_mpir_sandybridge_ivybridge\x64\Release\gmp-mparam.h" />
-    <ClInclude Include="..\..\lib_mpir_sandybridge_ivybridge\x64\Release\longlong.h" />
-    <ClInclude Include="..\..\lib_mpir_sandybridge_ivybridge\x64\Release\mpir.h" />
-    <ClInclude Include="..\..\unistd.h" />
-    <ClInclude Include="..\..\win_timing.h" />
     <ClInclude Include="..\..\..\tune\speed.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\build.vc\getopt.c" />
+    <ClCompile Include="..\..\..\build.vc\win_timing.c" />
     <ClCompile Include="..\..\..\mpn\generic\divrem_1.c" />
     <ClCompile Include="..\..\..\mpn\generic\divrem_2.c" />
     <ClCompile Include="..\..\..\mpn\generic\gcdext.c" />
@@ -216,8 +227,6 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
       <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Full</Optimization>
     </ClCompile>
-    <ClCompile Include="..\..\getopt.c" />
-    <ClCompile Include="..\..\win_timing.c" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

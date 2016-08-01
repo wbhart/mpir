@@ -294,7 +294,7 @@ extern UWtype mpn_udiv_qrnnd_r _PROTO ((UWtype, UWtype, UWtype, UWtype *));
 #endif
 
 #ifdef COUNT_LEADING_ZEROS_NEED_CLZ_TAB
-extern const unsigned char __GMP_DECLSPEC __clz_tab[128];
+extern const unsigned char __GMP_DECLSPEC __clz_tab[129];
 #endif
 
 #if !defined (count_trailing_zeros)
