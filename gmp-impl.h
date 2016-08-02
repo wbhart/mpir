@@ -2643,6 +2643,31 @@ struct bases
 #define __mp_bases __MPN(bases)
 __GMP_DECLSPEC extern const struct bases mp_bases[257];
 
+/* the following are exposed for the benefit of MPIR.Net. */
+
+__GMP_DECLSPEC extern const unsigned char __gmp_digit_value_tab[480];
+
+/* This struct is used to pass local state between functions that comprise the raw i/o interfaces mpz_inp_raw and mpz_out_raw.
+   Previously monolithic, they were split into several calls for the benefit of MPIR.Net.
+   The separation did not change the contract nor the implementation, merely separating the routines into several steps,
+   in order for MPIR.Net to consume the raw format processing code while substituting its own file I/O. */
+typedef struct
+{
+    char* allocated;
+    size_t allocatedSize;
+    char* written;
+    size_t writtenSize;
+} __mpir_out_struct;
+typedef __mpir_out_struct mpir_out_struct[1];
+typedef __mpir_out_struct *mpir_out_ptr;
+/* Part of mpz_inp_raw that decodes input size and allocates appropriate memory. Does not need _GMP_H_HAVE_FILE. Also used by MPIR.Net. */
+__GMP_DECLSPEC void mpz_inp_raw_p __GMP_PROTO ((mpz_ptr x, unsigned char* csize_bytes, mpir_out_ptr out));
+/* Part of mpz_inp_raw that reconstitutes limb data from raw format. Does not need _GMP_H_HAVE_FILE. Also used by MPIR.Net. */
+__GMP_DECLSPEC void mpz_inp_raw_m __GMP_PROTO ((mpz_ptr x, mpir_out_ptr out));
+/* Part of mpz_out_raw that performs raw output into memory in preparation for writing out to a file. Does not need _GMP_H_HAVE_FILE. Also used by MPIR.Net. */
+__GMP_DECLSPEC void mpz_out_raw_m __GMP_PROTO((mpir_out_ptr, mpz_srcptr));
+
+/* End of MPIR.Net consumables */
 
 /* For power of 2 bases this is exact.  For other bases the result is either
    exact or one too big.
