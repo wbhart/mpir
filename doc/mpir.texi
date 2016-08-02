@@ -7134,23 +7134,23 @@ Below is a brief summary of the supported multi-precision integer methods and op
 To avoid repetition, implementation details are ommitted.  Since MPIR native functions are called behind the scenes,
 review @ref{Integer Functions} for further details about the native implementations.
 
-@deftypefn Constructor HugeInt ()
-@deftypefnx Constructor HugeInt ( int/long @var{n} )
-@deftypefnx Constructor HugeInt ( uint/ulong @var{n} )
-@deftypefnx Constructor HugeInt ( double @var{n} )
+@deftypefn Constructor {} HugeInt ()
+@deftypefnx Constructor {} HugeInt (int/long @var{n})
+@deftypefnx Constructor {} HugeInt (uint/ulong @var{n})
+@deftypefnx Constructor {} HugeInt (double @var{n})
 Constructs a @code{HugeInt} object.  Single-limb constructors vary by architecture,
 32-bit builds take an @code{int} or @code{uint} argument, 64-bit builds take a @code{long} or @code{ulong}.
 Any necessary conversion follows the corresponding C function, for
 example @code{double} follows @code{mpz_set_d} (@pxref{Assigning Integers}).
 @end deftypefn
 
-@deftypefn Constructor HugeInt ( string @var{s} )
-@deftypefnx Constructor HugeInt ( string @var{s}, int @var{base} )
+@deftypefn Constructor {} HugeInt (string @var{s})
+@deftypefnx Constructor {} HugeInt (string @var{s}, int @var{base})
 Constructs a @code{HugeInt} converted from a string using @code{mpz_set_str}
 (@pxref{Assigning Integers}).  If the string is not a valid integer, an exception is thrown.
 @end deftypefn
 
-@deftypefn Constructor HugeInt ( IntegerExpression @var{e} )
+@deftypefn Constructor {} HugeInt (IntegerExpression @var{e})
 Evaluates the supplied expression and saves its result to the new instance.
 Because @code{HugeInt} is derived from @code{IntegerExpression}, this constructor 
 can be used to make a copy of an existing variable, i.e. @code{HugeInt a = new HugeInt(b);}
@@ -7483,19 +7483,19 @@ Below is a brief summary of the supported multi-precision rational methods and o
 To avoid repetition, implementation details are ommitted.  Since MPIR native functions are called behind the scenes,
 review @ref{Rational Number Functions} for further details about the native implementations.
 
-@deftypefn Constructor HugeRational ()
-@deftypefnx Constructor HugeRational ( int/long @var{numerator}, uint/ulong @var{denominator} )
-@deftypefnx Constructor HugeRational ( uint/ulong @var{numerator}, uint/ulong @var{denominator} )
-@deftypefnx Constructor HugeRational ( IntegerExpression @var{numerator}, IntegerExpression @var{demoninator} )
-@deftypefnx Constructor HugeRational ( double @var{n} )
+@deftypefn Constructor {} HugeRational ()
+@deftypefnx Constructor {} HugeRational (int/long @var{numerator}, uint/ulong @var{denominator})
+@deftypefnx Constructor {} HugeRational (uint/ulong @var{numerator}, uint/ulong @var{denominator})
+@deftypefnx Constructor {} HugeRational (IntegerExpression @var{numerator}, IntegerExpression @var{demoninator})
+@deftypefnx Constructor {} HugeRational (double @var{n})
 Constructs a @code{HugeRational} object.  Single-limb constructors vary by architecture,
 32-bit builds take @code{int} or @code{uint} arguments, 64-bit builds take @code{long} or @code{ulong}.
 Any necessary conversion follows the corresponding C function, for
 example @code{double} follows @code{mpq_set_d} (@pxref{Initializing Rationals}).
 @end deftypefn
 
-@deftypefn Constructor HugeRational ( string @var{s} )
-@deftypefnx Constructor HugeRational ( string @var{s}, int @var{base} )
+@deftypefn Constructor {} HugeRational (string @var{s})
+@deftypefnx Constructor {} HugeRational (string @var{s}, int @var{base})
 Constructs a @code{HugeRational} converted from a string using @code{mpq_set_str}
 (@pxref{Initializing Rationals}).  If the string is not a valid integer or rational, an exception is thrown.
 @end deftypefn
@@ -7504,9 +7504,9 @@ When constructing a rational number from a numerator and denominator, including
 the string constructors where both numerator and denominator are specified, the fraction 
 should be in canonical form, or if not then @code{Canonicalize()} should be called.
 
-@deftypefn Constructor HugeRational ( IntegerExpression @var{e} )
-@deftypefnx Constructor HugeRational ( RationalExpression @var{e} )
-@deftypefnx Constructor HugeRational ( FloatExpression @var{e} )
+@deftypefn Constructor {} HugeRational (IntegerExpression @var{e})
+@deftypefnx Constructor {} HugeRational (RationalExpression @var{e})
+@deftypefnx Constructor {} HugeRational (FloatExpression @var{e})
 Evaluates the supplied expression and saves its result to the new instance.
 Because multi-precision classes are derived from their corresponding expression classes,
 these constructors can be used to make a copy of an existing variable, i.e. @code{HugeRational a = new HugeRational(b);}
@@ -7705,26 +7705,26 @@ during expression evaluation.  In the latter case, there is no destination
 so the @code{DefaultPrecision} is used.
 @end deftypefn
 
-@deftypefn Constructor HugeFloat ()
-@deftypefnx Constructor HugeFloat ( int/long @var{value} )
-@deftypefnx Constructor HugeFloat ( uint/ulong @var{value} )
-@deftypefnx Constructor HugeFloat ( double @var{n} )
+@deftypefn Constructor {} HugeFloat ()
+@deftypefnx Constructor {} HugeFloat (int/long @var{value})
+@deftypefnx Constructor {} HugeFloat (uint/ulong @var{value})
+@deftypefnx Constructor {} HugeFloat (double @var{n})
 Constructs a @code{HugeFloat} object.  Single-limb constructors vary by architecture,
 32-bit builds take @code{int} or @code{uint} arguments, 64-bit builds take @code{long} or @code{ulong}.
 Any necessary conversion follows the corresponding C function, for
 example @code{double} follows @code{mpf_set_d} (@pxref{Initializing Floats}).
 @end deftypefn
 
-@deftypefn Constructor HugeFloat ( string @var{s} )
-@deftypefnx Constructor HugeFloat ( string @var{s}, int @var{base} )
-@deftypefnx Constructor HugeFloat ( string @var{s}, int @var{base}, bool @var{exponentInDecimal} )
+@deftypefn Constructor {} HugeFloat (string @var{s})
+@deftypefnx Constructor {} HugeFloat (string @var{s}, int @var{base})
+@deftypefnx Constructor {} HugeFloat (string @var{s}, int @var{base}, bool @var{exponentInDecimal})
 Constructs a @code{HugeFloat} converted from a string using @code{mpf_set_str}
 (@pxref{Initializing Floats}).  If the string is not a valid integer or floating point number, an exception is thrown.
 @end deftypefn
 
-@deftypefn Constructor HugeFloat ( IntegerExpression @var{value} )
-@deftypefnx Constructor HugeFloat ( RationalExpression @var{value} )
-@deftypefnx Constructor HugeFloat ( FloatExpression @var{value} )
+@deftypefn Constructor {} HugeFloat (IntegerExpression @var{value})
+@deftypefnx Constructor {} HugeFloat (RationalExpression @var{value})
+@deftypefnx Constructor {} HugeFloat (FloatExpression @var{value})
 Evaluates the supplied expression and saves its result to the new instance.
 Because multi-precision classes are derived from their corresponding expression classes,
 these constructors can be used to make a copy of an existing variable, i.e. @code{HugeFloat a = new HugeFloat(b);}
