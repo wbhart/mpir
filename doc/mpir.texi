@@ -7048,7 +7048,7 @@ MPIR classes can also be intermixed in expressions with primitive types.  For 64
 are the largest primitive types you can use.  Smaller integer primitives can always be used because they will be promoted by .Net.
 
 Conversions back from MPIR classes to primitive types aren't done automatically,
-instead methods @code{ToLong()}/{@code{ToUlong()} for 64-bit builds or @code{ToInt()}/@code{ToUint()} are provided.  
+instead methods @code{ToLong()}/@code{ToUlong()} for 64-bit builds or @code{ToInt()}/@code{ToUint()} are provided.  
 Integers also implement @code{GetLimb()}.
 
 @node Building MPIR.Net, MPIR.Net Integers, MPIR.Net Feature Overview, .Net Interface
@@ -7573,9 +7573,9 @@ Setting the @code{Value} property evaluates the assigned expression and saves th
 @end deftypefn
 
 @deftypefn Method void SetTo (int/long @var{value}) // 32/64-bit builds
-@deftypefnx Method void SetTo (int/long @var{numerator}, uint/ulong @var {denominator})
+@deftypefnx Method void SetTo (int/long @var{numerator}, uint/ulong @var{denominator})
 @deftypefnx Method void SetTo (uint/ulong @var{value})
-@deftypefnx Method void SetTo (uint/ulong @var{numerator}, uint/ulong @var {denominator})
+@deftypefnx Method void SetTo (uint/ulong @var{numerator}, uint/ulong @var{denominator})
 @deftypefnx Method void SetTo (double @var{value})
 @deftypefnx Method void SetTo (string @var{value})
 @deftypefnx Method void SetTo (string @var{value}, int @var{base})
@@ -7602,7 +7602,7 @@ from an integer, a copy is made so this becomes @math{O(N)}.
 Due to the rationals' nature, division is always exact (there is no rounding)
 and the modulo operator (@code{%}) is not defined.  
 Also not defined are the bit shift operators (@code{<<}, @code{>>}),
-and the bitwise operators {@code{&}, @code{|}, @code{^}, @code{~}).
+and the bitwise operators (@code{&}, @code{|}, @code{^}, @code{~}).
 
 Operator @code{^} raises the source number to the specified power.
 
@@ -7621,10 +7621,10 @@ Implement @code{IComparable} and equality check for any object.
 For rationals, these methods support any expression type (integer, rational, or float).
 @end deftypefn
 
-@deftypefn Method bool Equals (int/long @var{numerator}, uint/ulong @var {denominator})
-@deftypefnx Method bool Equals (uint/ulong @var{numerator}, uint/ulong @var {denominator})
-@deftypefnx Method int CompareTo (int/long @var{numerator}, uint/ulong @var {denominator})
-@deftypefnx Method int CompareTo (uint/ulong @var{numerator}, uint/ulong @var {denominator})
+@deftypefn Method bool Equals (int/long @var{numerator}, uint/ulong @var{denominator})
+@deftypefnx Method bool Equals (uint/ulong @var{numerator}, uint/ulong @var{denominator})
+@deftypefnx Method int CompareTo (int/long @var{numerator}, uint/ulong @var{denominator})
+@deftypefnx Method int CompareTo (uint/ulong @var{numerator}, uint/ulong @var{denominator})
 Single-limb comparisons for rationals take two arguments.
 @end deftypefn
 
@@ -7817,7 +7817,7 @@ These operators do not accept integer or rational expressions.
 There is some cost of instantiating a floating point number from another multi-precision type, 
 so to make this point clear MPIR.Net forces you to use explicit constructors or assignments for this conversion.
 
-The modulo operator (@code{%}) and the bitwise operators {@code{&}, @code{|}, @code{^}, @code{~}) are not defined.
+The modulo operator (@code{%}) and the bitwise operators (@code{&}, @code{|}, @code{^}, @code{~}) are not defined.
 
 Operator @code{^} raises the source number to the specified power.
 
@@ -7919,12 +7919,12 @@ Returns an expression that generates a uniformly distributed random number in th
 
 @deftypefn Method FloatExpression GetFloat ()
 Returns an expression that generates a uniformly distributed random float
-in the range @math{0 @leq{} n < 1}.  As with all float expressions, precision of the destination is used when available.
+in the range @math{0 @le{} n < 1}.  As with all float expressions, precision of the destination is used when available.
 @end deftypefn
 
 @deftypefn Method FloatExpression GetFloatBits (ulong/uint @var{bitCount})
 Returns an expression that generates a uniformly distributed random float
-in the range @math{0 @leq{} n < 1}, with the specified number of significant mantissa bits.
+in the range @math{0 @le{} n < 1}, with the specified number of significant mantissa bits.
 @end deftypefn
 
 @deftypefn Method FloatExpression GetFloatChunky (int @var{maxExponent})
