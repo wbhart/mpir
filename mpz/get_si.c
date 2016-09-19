@@ -36,10 +36,10 @@ mpz_get_si (mpz_srcptr z)
 #endif
 
   if (size > 0)
-    return (mpir_si) zl & GMP_UI_MAX;
+    return (mpir_si) zl & GMP_SI_MAX;
   else if (size < 0)
     /* This expression is necessary to properly handle 0x80000000 */
-    return ~(((mpir_si) zl - 1L) & GMP_UI_MAX);
+    return ~(((mpir_si) zl - 1L) & GMP_SI_MAX);
   else
     return 0;
 }
