@@ -1,5 +1,5 @@
 ﻿
-# returns: 
+# returns:
 #   solution file version
 #   visual studio version
 #   microsoft compiler version
@@ -9,5 +9,6 @@ vs_info = { 'solution':'12',
             'visual studio':'14',
             'msvc':'14',
             'msvc_long':'14.0.24720.0',
-            'vcx_tool':'14.0'
+            'vcx_tool':'14.0',
+            'platform_toolset':'140'
           }

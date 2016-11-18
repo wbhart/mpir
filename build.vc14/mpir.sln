@@ -32,6 +32,10 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "dll_mpir_sandybridge_ivybri
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lib_mpir_sandybridge_ivybridge", "lib_mpir_sandybridge_ivybridge\lib_mpir_sandybridge_ivybridge.vcxproj", "{51944AE9-3706-4F91-82FA-3AD733EE0FAA}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "dll_mpir_haswell", "dll_mpir_haswell\dll_mpir_haswell.vcxproj", "{6CA24950-D41E-4264-94FE-92AFB04CFD2F}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lib_mpir_haswell", "lib_mpir_haswell\lib_mpir_haswell.vcxproj", "{43CB4B7D-F204-4C79-8585-556B95C8C120}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -100,6 +104,14 @@ Global
 		{51944AE9-3706-4F91-82FA-3AD733EE0FAA}.Debug|x64.ActiveCfg = Debug|x64
 		{51944AE9-3706-4F91-82FA-3AD733EE0FAA}.Release|Win32.ActiveCfg = Release|x64
 		{51944AE9-3706-4F91-82FA-3AD733EE0FAA}.Release|x64.ActiveCfg = Release|x64
+		{6CA24950-D41E-4264-94FE-92AFB04CFD2F}.Debug|Win32.ActiveCfg = Debug|x64
+		{6CA24950-D41E-4264-94FE-92AFB04CFD2F}.Debug|x64.ActiveCfg = Debug|x64
+		{6CA24950-D41E-4264-94FE-92AFB04CFD2F}.Release|Win32.ActiveCfg = Release|x64
+		{6CA24950-D41E-4264-94FE-92AFB04CFD2F}.Release|x64.ActiveCfg = Release|x64
+		{43CB4B7D-F204-4C79-8585-556B95C8C120}.Debug|Win32.ActiveCfg = Debug|x64
+		{43CB4B7D-F204-4C79-8585-556B95C8C120}.Debug|x64.ActiveCfg = Debug|x64
+		{43CB4B7D-F204-4C79-8585-556B95C8C120}.Release|Win32.ActiveCfg = Release|x64
+		{43CB4B7D-F204-4C79-8585-556B95C8C120}.Release|x64.ActiveCfg = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
