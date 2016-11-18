@@ -45,17 +45,17 @@ def vcx_default_cpp_props(outf):
 '''
   outf.write(f1)
 
-def vcx_library_type(plat, proj_type, msvc_ver, outf):
+def vcx_library_type(plat, proj_type, vs_info, outf):
 
   f1 = r'''  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='{1:s}|{0:s}'" Label="Configuration">
     <ConfigurationType>{2:s}</ConfigurationType>
     <UseDebugLibraries>{3:s}</UseDebugLibraries>
-    <PlatformToolset>v{4:s}0</PlatformToolset>
+    <PlatformToolset>v{4:s}</PlatformToolset>
   </PropertyGroup>
 '''
   for pl in plat:
     for conf, bool in (('Release', 'false'), ('Debug', 'true')):
-      outf.write(f1.format(pl, conf, app_str[proj_type], bool, msvc_ver))
+      outf.write(f1.format(pl, conf, app_str[proj_type], bool, vs_info['platform_toolset']))
 
 def vcx_cpp_props(outf):
 
@@ -258,7 +258,7 @@ def gen_vcxproj(path, root_dir, proj_name, guid, config, plat, proj_type,
     vcx_proj_cfg(plat, outf)
     vcx_globals(proj_name, guid, outf)
     vcx_default_cpp_props(outf)
-    vcx_library_type(plat, proj_type, vs_info['msvc'], outf)
+    vcx_library_type(plat, proj_type, vs_info, outf)
     vcx_cpp_props(outf)
     if af_list:
       vcx_extensions(outf)
