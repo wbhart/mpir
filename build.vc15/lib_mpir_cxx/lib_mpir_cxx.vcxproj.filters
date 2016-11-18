@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Header Files" />
+    <Filter Include="Source Files" />
+    <Filter Include="Source Files\cxx" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\config.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\gmp-impl.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\longlong.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\mpir.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\gmp-mparam.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\mpirxx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\cxx\dummy.cc">
+      <Filter>Source Files\cxx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cxx\isfuns.cc">
+      <Filter>Source Files\cxx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cxx\ismpf.cc">
+      <Filter>Source Files\cxx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cxx\ismpq.cc">
+      <Filter>Source Files\cxx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cxx\ismpz.cc">
+      <Filter>Source Files\cxx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cxx\ismpznw.cc">
+      <Filter>Source Files\cxx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cxx\osdoprnti.cc">
+      <Filter>Source Files\cxx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cxx\osfuns.cc">
+      <Filter>Source Files\cxx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cxx\osmpf.cc">
+      <Filter>Source Files\cxx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cxx\osmpq.cc">
+      <Filter>Source Files\cxx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cxx\osmpz.cc">
+      <Filter>Source Files\cxx</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\gmp-h.in" />
+  </ItemGroup>
+</Project>
