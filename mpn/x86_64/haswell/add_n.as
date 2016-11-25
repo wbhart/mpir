@@ -50,20 +50,20 @@ end1:
 loop1:
 	mov     r11, [rsi]
 	mov     r8, [rsi+8]
-	lea     rsi, [rsi+32]
 	adc     r11, [rdx]
+	lea     rsi, [rsi+32]
 	adc     r8, [rdx+8]
 	lea     rdx, [rdx+32]
-	mov     [rdi], r11
 	mov     [rdi+8], r8
-	lea     rdi, [rdi+32]
+	mov     [rdi], r11
 	mov     r9, [rsi-16]
 	mov     r10, [rsi-8]
 	adc     r9, [rdx-16]
+	lea     rdi, [rdi+32]
 	adc     r10, [rdx-8]
+	mov     [rdi-8], r10
 	mov     [rdi-16], r9
 	dec     rcx
-	mov     [rdi-8], r10
 	jnz     loop1
 	inc     rax
 	dec     rax
@@ -85,3 +85,4 @@ loop1:
 end:
 	adc     rax, rax
 	ret
+
