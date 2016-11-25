@@ -118,7 +118,7 @@ inline void __mpz_set_si_safe(mpz_ptr p, mpir_si l)
 {
   if(l < 0)
   {
-    __mpz_set_ui_safe(p, -static_cast<mpir_ui>(l));
+    __mpz_set_ui_safe(p, static_cast<mpir_ui>(-l));
     mpz_neg(p, p);
   }
   else
@@ -164,7 +164,7 @@ inline void __mpz_set_si_safe(mpz_ptr p, mpir_si l)
 inline mpir_ui __gmpxx_abs_ui (mpir_si l)
 {
   return l >= 0 ? static_cast<mpir_ui>(l)
-	  : -static_cast<mpir_ui>(l);
+	  : static_cast<mpir_ui>(-l);
 }
 
 /**************** Function objects ****************/
@@ -215,7 +215,7 @@ struct __gmp_binary_plus
     if (l >= 0)
       eval(z, w, static_cast<mpir_ui>(l));
     else
-      mpz_sub_ui(z, w, -static_cast<mpir_ui>(l));
+      mpz_sub_ui(z, w, static_cast<mpir_ui>(-l));
   }
   static void eval(mpz_ptr z, mpir_si l, mpz_srcptr w)
   { eval(z, w, l); }
@@ -288,7 +288,7 @@ struct __gmp_binary_plus
     if (l >= 0)
       mpf_add_ui(f, g, l);
     else
-      mpf_sub_ui(f, g, -static_cast<mpir_ui>(l));
+      mpf_sub_ui(f, g, static_cast<mpir_ui>(-l));
   }
   static void eval(mpf_ptr f, mpir_si l, mpf_srcptr g)
   { eval(f, g, l); }
@@ -332,7 +332,7 @@ struct __gmp_binary_minus
     if (l >= 0)
       eval(z, w, static_cast<mpir_ui>(l));
     else
-      mpz_add_ui(z, w, -static_cast<mpir_ui>(l));
+      mpz_add_ui(z, w, static_cast<mpir_ui>(-l));
   }
   static void eval(mpz_ptr z, mpir_si l, mpz_srcptr w)
   {
@@ -340,7 +340,7 @@ struct __gmp_binary_minus
       eval(z, static_cast<mpir_ui>(l), w);
     else
       {
-        mpz_add_ui(z, w, -static_cast<mpir_ui>(l));
+        mpz_add_ui(z, w, static_cast<mpir_ui>(-l));
         mpz_neg(z, z);
       }
   }
@@ -377,7 +377,7 @@ struct __gmp_binary_minus
     if (l >= 0)
       eval(q, r, static_cast<mpir_ui>(l));
     else
-      __gmp_binary_plus::eval(q, r, -static_cast<mpir_ui>(l));
+      __gmp_binary_plus::eval(q, r, static_cast<mpir_ui>(-l));
   }
   static void eval(mpq_ptr q, mpir_si l, mpq_srcptr r)
   { eval(q, r, l); mpq_neg(q, q); }
@@ -424,14 +424,14 @@ struct __gmp_binary_minus
     if (l >= 0)
       mpf_sub_ui(f, g, l);
     else
-      mpf_add_ui(f, g, -static_cast<mpir_ui>(l));
+      mpf_add_ui(f, g, static_cast<mpir_ui>(-l));
   }
   static void eval(mpf_ptr f, mpir_si l, mpf_srcptr g)
   {
     if (l >= 0)
       mpf_sub_ui(f, g, l);
     else
-      mpf_add_ui(f, g, -static_cast<mpir_ui>(l));
+      mpf_add_ui(f, g, static_cast<mpir_ui>(-l));
     mpf_neg(f, f);
   }
   static void eval(mpf_ptr f, mpf_srcptr g, double d)
@@ -459,7 +459,7 @@ __gmp_binary_plus::eval(mpq_ptr q, mpq_srcptr r, mpir_si l)
   if (l >= 0)
     eval(q, r, static_cast<mpir_ui>(l));
   else
-    __gmp_binary_minus::eval(q, r, -static_cast<mpir_ui>(l));
+    __gmp_binary_minus::eval(q, r, static_cast<mpir_ui>(-l));
 }
 
 struct __gmp_binary_lshift
@@ -544,7 +544,7 @@ struct __gmp_binary_multiplies
         eval(z, w, static_cast<mpir_ui>(l));
       else
       {
-        eval(z, w, -static_cast<mpir_ui>(l));
+        eval(z, w, static_cast<mpir_ui>(-l));
 	mpz_neg(z, z);
       }
     }
@@ -592,7 +592,7 @@ struct __gmp_binary_multiplies
         eval(q, r, static_cast<mpir_ui>(l));
       else
       {
-        eval(q, r, -static_cast<mpir_ui>(l));
+        eval(q, r, static_cast<mpir_ui>(-l));
 	mpq_neg(q, q);
       }
     }
@@ -628,7 +628,7 @@ struct __gmp_binary_multiplies
       mpf_mul_ui(f, g, l);
     else
       {
-	mpf_mul_ui(f, g, -static_cast<mpir_ui>(l));
+	mpf_mul_ui(f, g, static_cast<mpir_ui>(-l));
 	mpf_neg(f, f);
       }
   }
@@ -696,7 +696,7 @@ struct __gmp_binary_divides
       eval(z, w, static_cast<mpir_ui>(l));
     else
       {
-	eval(z, w, -static_cast<mpir_ui>(l));
+	eval(z, w, static_cast<mpir_ui>(-l));
 	mpz_neg(z, z);
       }
   }
@@ -741,7 +741,7 @@ struct __gmp_binary_divides
         eval(q, r, static_cast<mpir_ui>(l));
       else
       {
-        eval(q, r, -static_cast<mpir_ui>(l));
+        eval(q, r, static_cast<mpir_ui>(-l));
 	mpq_neg(q, q);
       }
     }
@@ -783,7 +783,7 @@ struct __gmp_binary_divides
       mpf_div_ui(f, g, l);
     else
       {
-	mpf_div_ui(f, g, -static_cast<mpir_ui>(l));
+	mpf_div_ui(f, g, static_cast<mpir_ui>(-l));
 	mpf_neg(f, f);
       }
   }
@@ -793,7 +793,7 @@ struct __gmp_binary_divides
       mpf_ui_div(f, l, g);
     else
       {
-	mpf_ui_div(f, -static_cast<mpir_ui>(l), g);
+	mpf_ui_div(f, static_cast<mpir_ui>(-l), g);
 	mpf_neg(f, f);
       }
   }
@@ -1671,17 +1671,17 @@ __gmp_expr & operator=(unsigned int i) { mpz_set_ui(mp, i); return *this; }
 
   // bool fits_schar_p() const { return mpz_fits_schar_p(mp); }
   // bool fits_uchar_p() const { return mpz_fits_uchar_p(mp); }
-  bool fits_sint_p() const { return mpz_fits_sint_p(mp); }
-  bool fits_uint_p() const { return mpz_fits_uint_p(mp); }
-  bool fits_si_p() const { return mpz_fits_si_p(mp); }
-  bool fits_ui_p() const { return mpz_fits_ui_p(mp); }
-  bool fits_sshort_p() const { return mpz_fits_sshort_p(mp); }
-  bool fits_ushort_p() const { return mpz_fits_ushort_p(mp); }
-  bool fits_slong_p() const { return mpz_fits_slong_p(mp); }
-  bool fits_ulong_p() const { return mpz_fits_ulong_p(mp); }
-  // bool fits_float_p() const { return mpz_fits_float_p(mp); }
-  // bool fits_double_p() const { return mpz_fits_double_p(mp); }
-  // bool fits_ldouble_p() const { return mpz_fits_ldouble_p(mp); }
+  bool fits_sint_p() const { return mpz_fits_sint_p(mp) != 0; }
+  bool fits_uint_p() const { return mpz_fits_uint_p(mp) != 0; }
+  bool fits_si_p() const { return mpz_fits_si_p(mp) != 0; }
+  bool fits_ui_p() const { return mpz_fits_ui_p(mp) != 0; }
+  bool fits_sshort_p() const { return mpz_fits_sshort_p(mp) != 0; }
+  bool fits_ushort_p() const { return mpz_fits_ushort_p(mp) != 0; }
+  bool fits_slong_p() const { return mpz_fits_slong_p(mp) != 0; }
+  bool fits_ulong_p() const { return mpz_fits_ulong_p(mp) != 0; }
+  // bool fits_float_p() const { return mpz_fits_float_p(mp) != 0; }
+  // bool fits_double_p() const { return mpz_fits_double_p(mp) != 0; }
+  // bool fits_ldouble_p() const { return mpz_fits_ldouble_p(mp) != 0; }
 
 #if __GMPXX_USE_CXX11
   explicit operator bool() const { return mp->_mp_size != 0; }
@@ -2113,19 +2113,19 @@ public:
   mpir_ui get_ui() const { return mpf_get_ui(mp); }
   double get_d() const { return mpf_get_d(mp); }
 
-  // bool fits_schar_p() const { return mpf_fits_schar_p(mp); }
-  // bool fits_uchar_p() const { return mpf_fits_uchar_p(mp); }
-  bool fits_sint_p() const { return mpf_fits_sint_p(mp); }
-  bool fits_uint_p() const { return mpf_fits_uint_p(mp); }
-  bool fits_si_p() const { return mpf_fits_si_p(mp); }
-  bool fits_ui_p() const { return mpf_fits_ui_p(mp); }
-  bool fits_sshort_p() const { return mpf_fits_sshort_p(mp); }
-  bool fits_ushort_p() const { return mpf_fits_ushort_p(mp); }
-  bool fits_slong_p() const { return mpf_fits_slong_p(mp); }
-  bool fits_ulong_p() const { return mpf_fits_ulong_p(mp); }
-  // bool fits_float_p() const { return mpf_fits_float_p(mp); }
-  // bool fits_double_p() const { return mpf_fits_double_p(mp); }
-  // bool fits_ldouble_p() const { return mpf_fits_ldouble_p(mp); }
+  // bool fits_schar_p() const { return mpf_fits_schar_p(mp)!= 0; }
+  // bool fits_uchar_p() const { return mpf_fits_uchar_p(mp)!= 0; }
+  bool fits_sint_p() const { return mpf_fits_sint_p(mp) != 0; }
+  bool fits_uint_p() const { return mpf_fits_uint_p(mp) != 0; }
+  bool fits_si_p() const { return mpf_fits_si_p(mp) != 0; }
+  bool fits_ui_p() const { return mpf_fits_ui_p(mp) != 0; }
+  bool fits_sshort_p() const { return mpf_fits_sshort_p(mp) != 0; }
+  bool fits_ushort_p() const { return mpf_fits_ushort_p(mp) != 0; }
+  bool fits_slong_p() const { return mpf_fits_slong_p(mp) != 0; }
+  bool fits_ulong_p() const { return mpf_fits_ulong_p(mp) != 0; }
+  // bool fits_float_p() const { return mpf_fits_float_p(mp)!= 0; }
+  // bool fits_double_p() const { return mpf_fits_double_p(mp)!= 0; }
+  // bool fits_ldouble_p() const { return mpf_fits_ldouble_p(mp)!= 0; }
 
 #if __GMPXX_USE_CXX11
   explicit operator bool() const { return mp->_mp_size != 0; }
