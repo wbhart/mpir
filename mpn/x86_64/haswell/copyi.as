@@ -56,9 +56,9 @@ BITS 64
     %define Limb    R9
     %define Offs    R10
 %else
-    %define Op1     RDI
-    %define Size1   RSI
-    %define Op2     RDX
+    %define Op2     RDI
+    %define Op1     RSI
+    %define Size1   RDX
     %define Limb    RCX
     %define Offs    R10
 %endif
