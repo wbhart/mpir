@@ -47,6 +47,8 @@
 ;   - negative direction is unfavourable compared to positive "rep movsq" and
 ;     to AVX.
 
+%define USE_WIN64
+
 %include 'yasm_mac.inc'
 
 BITS 64

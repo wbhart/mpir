@@ -593,17 +593,23 @@ postbuild "$(TargetPath)" 14
     <YASM Include="..\..\mpn\x86_64w\add_err1_n.asm" />
     <YASM Include="..\..\mpn\x86_64w\add_err2_n.asm" />
     <YASM Include="..\..\mpn\x86_64w\haswell\add_n.asm">
-      <Defines Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">USE_WIN64</Defines>
-      <Defines Condition="'$(Configuration)|$(Platform)'=='Release|x64'">USE_WIN64</Defines>
+      <Defines Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </Defines>
+      <Defines Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </Defines>
     </YASM>
     <YASM Include="..\..\mpn\x86_64w\addmul_2.asm" />
     <YASM Include="..\..\mpn\x86_64w\haswell\copyd.asm">
-      <Defines Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">USE_WIN64</Defines>
-      <Defines Condition="'$(Configuration)|$(Platform)'=='Release|x64'">USE_WIN64</Defines>
+      <Defines Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </Defines>
+      <Defines Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </Defines>
     </YASM>
     <YASM Include="..\..\mpn\x86_64w\haswell\copyi.asm">
-      <Defines Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">USE_WIN64</Defines>
-      <Defines Condition="'$(Configuration)|$(Platform)'=='Release|x64'">USE_WIN64</Defines>
+      <Defines Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </Defines>
+      <Defines Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </Defines>
     </YASM>
     <YASM Include="..\..\mpn\x86_64w\divexact_1.asm" />
     <YASM Include="..\..\mpn\x86_64w\divexact_by3c.asm" />
@@ -612,23 +618,31 @@ postbuild "$(TargetPath)" 14
     <YASM Include="..\..\mpn\x86_64w\divrem_euclidean_qr_1.asm" />
     <YASM Include="..\..\mpn\x86_64w\divrem_euclidean_qr_2.asm" />
     <YASM Include="..\..\mpn\x86_64w\haswell\lshift.asm">
-      <Defines Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">USE_WIN64</Defines>
-      <Defines Condition="'$(Configuration)|$(Platform)'=='Release|x64'">USE_WIN64</Defines>
+      <Defines Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </Defines>
+      <Defines Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </Defines>
     </YASM>
     <YASM Include="..\..\mpn\x86_64w\haswell\lshift1.asm">
-      <Defines Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">USE_WIN64</Defines>
-      <Defines Condition="'$(Configuration)|$(Platform)'=='Release|x64'">USE_WIN64</Defines>
+      <Defines Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </Defines>
+      <Defines Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </Defines>
     </YASM>
     <YASM Include="..\..\mpn\x86_64w\modexact_1c_odd.asm" />
     <YASM Include="..\..\mpn\x86_64w\mul_2.asm" />
     <YASM Include="..\..\mpn\x86_64w\mulmid_basecase.asm" />
     <YASM Include="..\..\mpn\x86_64w\haswell\rshift.asm">
-      <Defines Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">USE_WIN64</Defines>
-      <Defines Condition="'$(Configuration)|$(Platform)'=='Release|x64'">USE_WIN64</Defines>
+      <Defines Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </Defines>
+      <Defines Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </Defines>
     </YASM>
     <YASM Include="..\..\mpn\x86_64w\haswell\rshift1.asm">
-      <Defines Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">USE_WIN64</Defines>
-      <Defines Condition="'$(Configuration)|$(Platform)'=='Release|x64'">USE_WIN64</Defines>
+      <Defines Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </Defines>
+      <Defines Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </Defines>
     </YASM>
     <YASM Include="..\..\mpn\x86_64w\sqr_basecase.asm" />
     <YASM Include="..\..\mpn\x86_64w\sub_err1_n.asm" />

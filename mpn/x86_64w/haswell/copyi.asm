@@ -45,6 +45,8 @@
 ;   - the break-even between AVX and "rep movsq" is around 10,000 limb
 ; - the prologue & epilogue can still be optimized!
 
+%define USE_WIN64
+
 %include 'yasm_mac.inc'
 
 BITS 64

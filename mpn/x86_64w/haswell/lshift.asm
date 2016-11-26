@@ -50,6 +50,8 @@
 ; - includes prefetching
 ; ============================================================================
 
+%define USE_WIN64
+
 %include 'yasm_mac.inc'
 
 BITS 64
