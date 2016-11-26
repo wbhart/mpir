@@ -51,7 +51,8 @@ prebuild haswell x64 14
       </Command>
     </PreBuildEvent>
     <YASM>
-      <Defines>USE_WIN64</Defines>
+      <Defines>
+      </Defines>
       <IncludePaths>..\..\mpn\x86_64w\</IncludePaths>
       <Debug>true</Debug>
       <ObjectFile>$(IntDir)mpn\</ObjectFile>
@@ -73,7 +74,8 @@ prebuild haswell x64 14
       </Command>
     </PreBuildEvent>
     <YASM>
-      <Defines>USE_WIN64</Defines>
+      <Defines>
+      </Defines>
       <IncludePaths>..\..\mpn\x86_64w\</IncludePaths>
       <Debug>true</Debug>
       <ObjectFile>$(IntDir)mpn\</ObjectFile>
@@ -449,7 +451,6 @@ postbuild "$(TargetPath)" 14
     <ClCompile Include="..\..\scanf\vsscanf.c" />
     <ClCompile Include="..\..\mpn\generic\add.c" />
     <ClCompile Include="..\..\mpn\generic\add_1.c" />
-    <ClCompile Include="..\..\mpn\generic\add_n.c" />
     <ClCompile Include="..\..\mpn\generic\addadd_n.c" />
     <ClCompile Include="..\..\mpn\generic\addmul_1.c" />
     <ClCompile Include="..\..\mpn\generic\addsub_n.c" />
@@ -459,8 +460,6 @@ postbuild "$(TargetPath)" 14
     <ClCompile Include="..\..\mpn\generic\cmp.c" />
     <ClCompile Include="..\..\mpn\generic\com_n.c" />
     <ClCompile Include="..\..\mpn\generic\comb_tables.c" />
-    <ClCompile Include="..\..\mpn\generic\copyd.c" />
-    <ClCompile Include="..\..\mpn\generic\copyi.c" />
     <ClCompile Include="..\..\mpn\generic\dc_bdiv_q.c" />
     <ClCompile Include="..\..\mpn\generic\dc_bdiv_q_n.c" />
     <ClCompile Include="..\..\mpn\generic\dc_bdiv_qr.c" />
@@ -511,7 +510,6 @@ postbuild "$(TargetPath)" 14
     <ClCompile Include="..\..\mpn\generic\jacobi.c" />
     <ClCompile Include="..\..\mpn\generic\jacobi_2.c" />
     <ClCompile Include="..\..\mpn\generic\jacobi_base.c" />
-    <ClCompile Include="..\..\mpn\generic\lshift.c" />
     <ClCompile Include="..\..\mpn\generic\matrix22_mul.c" />
     <ClCompile Include="..\..\mpn\generic\matrix22_mul1_inverse_vector.c" />
     <ClCompile Include="..\..\mpn\generic\mod_1.c" />
@@ -552,7 +550,6 @@ postbuild "$(TargetPath)" 14
     <ClCompile Include="..\..\mpn\generic\rsh_divrem_hensel_qr_1.c" />
     <ClCompile Include="..\..\mpn\generic\rsh_divrem_hensel_qr_1_1.c" />
     <ClCompile Include="..\..\mpn\generic\rsh_divrem_hensel_qr_1_2.c" />
-    <ClCompile Include="..\..\mpn\generic\rshift.c" />
     <ClCompile Include="..\..\mpn\generic\sb_bdiv_q.c" />
     <ClCompile Include="..\..\mpn\generic\sb_bdiv_qr.c" />
     <ClCompile Include="..\..\mpn\generic\sb_div_q.c" />
@@ -595,13 +592,29 @@ postbuild "$(TargetPath)" 14
   <ItemGroup>
     <YASM Include="..\..\mpn\x86_64w\add_err1_n.asm" />
     <YASM Include="..\..\mpn\x86_64w\add_err2_n.asm" />
+    <YASM Include="..\..\mpn\x86_64w\haswell\add_n.asm">
+      <Defines Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">USE_WIN64</Defines>
+      <Defines Condition="'$(Configuration)|$(Platform)'=='Release|x64'">USE_WIN64</Defines>
+    </YASM>
     <YASM Include="..\..\mpn\x86_64w\addmul_2.asm" />
+    <YASM Include="..\..\mpn\x86_64w\haswell\copyd.asm">
+      <Defines Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">USE_WIN64</Defines>
+      <Defines Condition="'$(Configuration)|$(Platform)'=='Release|x64'">USE_WIN64</Defines>
+    </YASM>
+    <YASM Include="..\..\mpn\x86_64w\haswell\copyi.asm">
+      <Defines Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">USE_WIN64</Defines>
+      <Defines Condition="'$(Configuration)|$(Platform)'=='Release|x64'">USE_WIN64</Defines>
+    </YASM>
     <YASM Include="..\..\mpn\x86_64w\divexact_1.asm" />
     <YASM Include="..\..\mpn\x86_64w\divexact_by3c.asm" />
     <YASM Include="..\..\mpn\x86_64w\divexact_byfobm1.asm" />
     <YASM Include="..\..\mpn\x86_64w\divrem_2.asm" />
     <YASM Include="..\..\mpn\x86_64w\divrem_euclidean_qr_1.asm" />
     <YASM Include="..\..\mpn\x86_64w\divrem_euclidean_qr_2.asm" />
+    <YASM Include="..\..\mpn\x86_64w\haswell\lshift.asm">
+      <Defines Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">USE_WIN64</Defines>
+      <Defines Condition="'$(Configuration)|$(Platform)'=='Release|x64'">USE_WIN64</Defines>
+    </YASM>
     <YASM Include="..\..\mpn\x86_64w\haswell\lshift1.asm">
       <Defines Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">USE_WIN64</Defines>
       <Defines Condition="'$(Configuration)|$(Platform)'=='Release|x64'">USE_WIN64</Defines>
@@ -609,11 +622,13 @@ postbuild "$(TargetPath)" 14
     <YASM Include="..\..\mpn\x86_64w\modexact_1c_odd.asm" />
     <YASM Include="..\..\mpn\x86_64w\mul_2.asm" />
     <YASM Include="..\..\mpn\x86_64w\mulmid_basecase.asm" />
+    <YASM Include="..\..\mpn\x86_64w\haswell\rshift.asm">
+      <Defines Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">USE_WIN64</Defines>
+      <Defines Condition="'$(Configuration)|$(Platform)'=='Release|x64'">USE_WIN64</Defines>
+    </YASM>
     <YASM Include="..\..\mpn\x86_64w\haswell\rshift1.asm">
-      <Defines Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-      </Defines>
-      <Defines Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-      </Defines>
+      <Defines Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">USE_WIN64</Defines>
+      <Defines Condition="'$(Configuration)|$(Platform)'=='Release|x64'">USE_WIN64</Defines>
     </YASM>
     <YASM Include="..\..\mpn\x86_64w\sqr_basecase.asm" />
     <YASM Include="..\..\mpn\x86_64w\sub_err1_n.asm" />

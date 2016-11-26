@@ -8,12 +8,14 @@ mpn_divexact_byfobm1
 mpn_divrem_2
 mpn_divrem_euclidean_qr_1
 mpn_divrem_euclidean_qr_2
+mpn_lshift
 mpn_lshift1
 mpn_modexact_1_odd
 mpn_modexact_1c_odd
 mpn_mul_2
 mpn_mulmid_basecase
 mpn_preinv_divrem_1
+mpn_rshift
 mpn_rshift1
 mpn_sqr_basecase
 mpn_sub_err1_n
