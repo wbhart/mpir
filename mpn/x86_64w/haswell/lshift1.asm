@@ -43,7 +43,6 @@
 ; - implemented, tested and benched on 21.02.2016 by jn
 ; - includes cache prefetching
 
-
 %include 'yasm_mac.inc'
 
 BITS 64
@@ -260,5 +259,6 @@ LEAF_PROC mpn_lshift1
 
   .Exit:
 
+    vzeroupper
     ret
 .end:

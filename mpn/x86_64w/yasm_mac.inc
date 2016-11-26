@@ -115,33 +115,35 @@
     %if %1 < 0
         %error Negative stack allocation not allowed
     %else
-        %if (%0 & 1) == (%1 & 1)
-            %assign stack_use 8 * (%1 + 1)
-        %else
-            %assign stack_use 8 * %1
-        %endif
+	    %assign var_slots %1
     %endif
     %rotate 1
 
+	%assign gpr_regs 0
     %if %0 > 2
         %rep %0 - 2
             push_reg  %1
+			%assign gpr_regs gpr_regs + 1
             %rotate 1
         %endrep
     %endif
 
-    %if stack_use > 0
-        alloc_stack stack_use
-    %endif
+	%if (gpr_regs & 1) == (var_slots & 1)
+	    %assign var_slots var_slots + 1
+	%endif
+
+    %if var_slots > 0
+        alloc_stack 8 * var_slots
+	%endif
+	%assign stack_use 8 * (gpr_regs + var_slots)
     
-    %assign stack_use stack_use + 8 * (%0 - 2)
     END_PROLOGUE
 
 %endmacro
 
 %macro EXIT_PROC 0-*
 
-    add rsp, stack_use - 8 * %0
+    add rsp, 8 * var_slots
     %if %0 > 0
         %rep %0
             %rotate -1
@@ -154,7 +156,7 @@
 
 %macro END_PROC 0-*
 
-    add rsp, stack_use - 8 * %0
+    add rsp, 8 * var_slots
     %if %0 > 0
         %rep %0
             %rotate -1
