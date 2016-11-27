@@ -256,5 +256,6 @@ GLOBAL_FUNC mpn_rshift1
 
   .Exit:
 
+    vzeroupper
     ret
 .end:

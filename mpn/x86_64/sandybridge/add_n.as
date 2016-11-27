@@ -47,7 +47,7 @@ end1:
 	adc     rax, rax
 	ret
 	align   8
-loop1
+loop1:
 	mov     r11, [rsi]
 	mov     r8, [rsi+8]
 	lea     rsi, [rsi+32]

@@ -115,37 +115,72 @@
     %if %1 < 0
         %error Negative stack allocation not allowed
     %else
-        %if (%0 & 1) == (%1 & 1)
-            %assign stack_use 8 * (%1 + 1)
-        %else
-            %assign stack_use 8 * %1
-        %endif
+	    %assign var_slots %1
     %endif
     %rotate 1
 
+	%assign stack_slots 0
+	%assign xmm_seen 0
     %if %0 > 2
         %rep %0 - 2
-            push_reg  %1
+		    %ifnum %1
+			    %if xmm_seen == 0
+				    %error Not an XMM register
+				%else
+				    alloc_stack 16
+					save_xmm128 XMM%1, 0
+					%assign stack_slots stack_slots + 2
+				%endif
+		    %elifid %1
+		        %ifidni XMM, %1 
+					%if stack_slots & 1 == 0
+					    alloc_stack 8
+  					    %assign stack_slots stack_slots + 1
+    				    %assign xmm_seen 1 
+					%else
+				        %assign xmm_seen 2					 
+					%endif
+				%elif xmm_seen == 0
+					push_reg  %1
+  					%assign stack_slots stack_slots + 1
+				%else
+				    %error XMM registers must be last in the save list
+				%endif 
+			%else
+			    %error Bad parameter list
+			%endif
             %rotate 1
         %endrep
     %endif
 
-    %if stack_use > 0
-        alloc_stack stack_use
-    %endif
-    
-    %assign stack_use stack_use + 8 * (%0 - 2)
+	%if (stack_slots & 1) == (var_slots & 1)
+	    %assign var_slots var_slots + 1
+	%endif
+
+    %if var_slots > 0
+        alloc_stack 8 * var_slots
+	%endif
+	%assign stack_use 8 * (stack_slots + var_slots)
     END_PROLOGUE
 
 %endmacro
 
 %macro EXIT_PROC 0-*
 
-    add rsp, stack_use - 8 * %0
+    add rsp, 8 * var_slots
     %if %0 > 0
         %rep %0
             %rotate -1
-            pop  %1  
+			%ifnum %1
+			    movdqa XMM%1, [rsp]
+				add rsp, 16
+			%elifidni %1, XMM
+			    %if xmm_seen == 1 
+				    add rsp, 8
+				%endif
+			%else 
+                pop  %1
+			%endif  
         %endrep
     %endif
     ret
@@ -154,14 +189,25 @@
 
 %macro END_PROC 0-*
 
-    add rsp, stack_use - 8 * %0
+    %if var_slots
+	    add rsp, 8 * var_slots
+    %endif
     %if %0 > 0
         %rep %0
             %rotate -1
-            pop  %1  
+			%ifnum %1
+			    movdqa XMM%1, [rsp]
+				add rsp, 16
+			%elifidni %1, XMM
+			    %if xmm_seen == 1 
+				    add rsp, 8
+				%endif
+			%else 
+                pop  %1
+			%endif  
         %endrep
     %endif
-    ret
+	ret
     ENDPROC_FRAME
 
 %endmacro

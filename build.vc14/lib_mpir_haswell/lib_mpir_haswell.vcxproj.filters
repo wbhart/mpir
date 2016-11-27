@@ -1080,9 +1080,6 @@
     <ClCompile Include="..\..\mpn\generic\add_1.c">
       <Filter>Source Files\mpn</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\mpn\generic\add_n.c">
-      <Filter>Source Files\mpn</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\mpn\generic\addadd_n.c">
       <Filter>Source Files\mpn</Filter>
     </ClCompile>
@@ -1108,12 +1105,6 @@
       <Filter>Source Files\mpn</Filter>
     </ClCompile>
     <ClCompile Include="..\..\mpn\generic\comb_tables.c">
-      <Filter>Source Files\mpn</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\mpn\generic\copyd.c">
-      <Filter>Source Files\mpn</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\mpn\generic\copyi.c">
       <Filter>Source Files\mpn</Filter>
     </ClCompile>
     <ClCompile Include="..\..\mpn\generic\dc_bdiv_q.c">
@@ -1266,9 +1257,6 @@
     <ClCompile Include="..\..\mpn\generic\jacobi_base.c">
       <Filter>Source Files\mpn</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\mpn\generic\lshift.c">
-      <Filter>Source Files\mpn</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\mpn\generic\matrix22_mul.c">
       <Filter>Source Files\mpn</Filter>
     </ClCompile>
@@ -1387,9 +1375,6 @@
       <Filter>Source Files\mpn</Filter>
     </ClCompile>
     <ClCompile Include="..\..\mpn\generic\rsh_divrem_hensel_qr_1_2.c">
-      <Filter>Source Files\mpn</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\mpn\generic\rshift.c">
       <Filter>Source Files\mpn</Filter>
     </ClCompile>
     <ClCompile Include="..\..\mpn\generic\sb_bdiv_q.c">
@@ -1514,7 +1499,16 @@
     <YASM Include="..\..\mpn\x86_64w\add_err2_n.asm">
       <Filter>Source Files\mpn\yasm</Filter>
     </YASM>
+    <YASM Include="..\..\mpn\x86_64w\haswell\add_n.asm">
+      <Filter>Source Files\mpn\yasm</Filter>
+    </YASM>
     <YASM Include="..\..\mpn\x86_64w\addmul_2.asm">
+      <Filter>Source Files\mpn\yasm</Filter>
+    </YASM>
+    <YASM Include="..\..\mpn\x86_64w\haswell\copyd.asm">
+      <Filter>Source Files\mpn\yasm</Filter>
+    </YASM>
+    <YASM Include="..\..\mpn\x86_64w\haswell\copyi.asm">
       <Filter>Source Files\mpn\yasm</Filter>
     </YASM>
     <YASM Include="..\..\mpn\x86_64w\divexact_1.asm">
@@ -1535,6 +1529,9 @@
     <YASM Include="..\..\mpn\x86_64w\divrem_euclidean_qr_2.asm">
       <Filter>Source Files\mpn\yasm</Filter>
     </YASM>
+    <YASM Include="..\..\mpn\x86_64w\haswell\lshift.asm">
+      <Filter>Source Files\mpn\yasm</Filter>
+    </YASM>
     <YASM Include="..\..\mpn\x86_64w\haswell\lshift1.asm">
       <Filter>Source Files\mpn\yasm</Filter>
     </YASM>
@@ -1545,6 +1542,9 @@
       <Filter>Source Files\mpn\yasm</Filter>
     </YASM>
     <YASM Include="..\..\mpn\x86_64w\mulmid_basecase.asm">
+      <Filter>Source Files\mpn\yasm</Filter>
+    </YASM>
+    <YASM Include="..\..\mpn\x86_64w\haswell\rshift.asm">
       <Filter>Source Files\mpn\yasm</Filter>
     </YASM>
     <YASM Include="..\..\mpn\x86_64w\haswell\rshift1.asm">
