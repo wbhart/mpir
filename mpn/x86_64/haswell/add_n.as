@@ -20,69 +20,84 @@
 
 %include 'yasm_mac.inc'
 
+%ifdef USE_WIN64
+    %define SumP    rcx
+    %define Inp1P   rdx
+    %define Inp2P   r8
+    %define Size    r9
+    %define LIMB1   r10
+    %define LIMB2   r11
+%else
+    %define SumP    rdi
+    %define Inp1P   rsi
+    %define Inp2P   rdx
+    %define Size    rcx
+    %define LIMB1   r9
+    %define LIMB2   r10
+%endif
+
     BITS    64
 
    GLOBAL_FUNC mpn_add_n
-	mov     rax, rcx
+	mov     rax, Size
 	and     rax, 3
-	shr     rcx, 2
-	cmp     rcx, 0
+	shr     Size, 2
+	cmp     Size, 0
 ;	carry flag is clear here
 	jnz     loop1
-	mov     r11, [rsi]
-	add     r11, [rdx]
-	mov     [rdi], r11
+	mov     LIMB1, [Inp1P]
+	add     LIMB1, [Inp2P]
+	mov     [SumP], LIMB1
 	dec     rax
 	jz      end1
-	mov     r11, [rsi+8]
-	adc     r11, [rdx+8]
-	mov     [rdi+8], r11
+	mov     LIMB1, [Inp1P+8]
+	adc     LIMB1, [Inp2P+8]
+	mov     [SumP+8], LIMB1
 	dec     rax
 	jz      end1
-	mov     r11, [rsi+16]
-	adc     r11, [rdx+16]
-	mov     [rdi+16], r11
+	mov     LIMB1, [Inp1P+16]
+	adc     LIMB1, [Inp2P+16]
+	mov     [SumP+16], LIMB1
 	dec     rax
 end1:
 	adc     rax, rax
 	ret
 	align   8
 loop1:
-	mov     r11, [rsi]
-	mov     r8, [rsi+8]
-	adc     r11, [rdx]
-	lea     rsi, [rsi+32]
-	adc     r8, [rdx+8]
-	lea     rdx, [rdx+32]
-	mov     [rdi+8], r8
-	mov     [rdi], r11
-	mov     r9, [rsi-16]
-	mov     r10, [rsi-8]
-	adc     r9, [rdx-16]
-	lea     rdi, [rdi+32]
-	adc     r10, [rdx-8]
-	mov     [rdi-8], r10
-	mov     [rdi-16], r9
-	dec     rcx
+	mov     LIMB2, [Inp1P]
+	mov     LIMB1, [Inp1P+8]
+	adc     LIMB2, [Inp2P]
+	lea     Inp1P, [Inp1P+32]
+	adc     LIMB1, [Inp2P+8]
+	lea     Inp2P, [Inp2P+32]
+	mov     [SumP+8], LIMB1
+	mov     [SumP], LIMB2
+	mov     LIMB1, [Inp1P-16]
+	mov     LIMB2, [Inp1P-8]
+	adc     LIMB1, [Inp2P-16]
+	lea     SumP, [SumP+32]
+	adc     LIMB2, [Inp2P-8]
+	mov     [SumP-8], LIMB2
+	mov     [SumP-16], LIMB1
+	dec     Size
 	jnz     loop1
 	inc     rax
 	dec     rax
 	jz      end
-	mov     r11, [rsi]
-	adc     r11, [rdx]
-	mov     [rdi], r11
+	mov     LIMB1, [Inp1P]
+	adc     LIMB1, [Inp2P]
+	mov     [SumP], LIMB1
 	dec     rax
 	jz      end
-	mov     r11, [rsi+8]
-	adc     r11, [rdx+8]
-	mov     [rdi+8], r11
+	mov     LIMB1, [Inp1P+8]
+	adc     LIMB1, [Inp2P+8]
+	mov     [SumP+8], LIMB1
 	dec     rax
 	jz      end
-	mov     r11, [rsi+16]
-	adc     r11, [rdx+16]
-	mov     [rdi+16], r11
+	mov     LIMB1, [Inp1P+16]
+	adc     LIMB1, [Inp2P+16]
+	mov     [SumP+16], LIMB1
 	dec     rax
 end:
 	adc     rax, rax
 	ret
-
