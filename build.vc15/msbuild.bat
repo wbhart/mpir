@@ -19,7 +19,8 @@ if /i "%4" EQU "Debug" (set conf=Debug) else (if /i "%4" EQU "Release" (set conf
 set src=%libp%_mpir_%1
 
 rem This is the directory where Microsoft MSBUILD is installed 
-set msbdir="C:\Program Files (x86)\MSBuild\14.0\Bin"
+set msbdir="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\15.0\Bin"
+
 rem This is the Visual Studio build directory (within the MPIR directory) 
 set srcdir="."
 
