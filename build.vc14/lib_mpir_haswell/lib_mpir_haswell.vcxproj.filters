@@ -1287,9 +1287,6 @@
     <ClCompile Include="..\..\mpn\generic\mul_1.c">
       <Filter>Source Files\mpn</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\mpn\generic\mul_basecase.c">
-      <Filter>Source Files\mpn</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\mpn\generic\mul_fft.c">
       <Filter>Source Files\mpn</Filter>
     </ClCompile>
@@ -1411,9 +1408,6 @@
       <Filter>Source Files\mpn</Filter>
     </ClCompile>
     <ClCompile Include="..\..\mpn\generic\sub_1.c">
-      <Filter>Source Files\mpn</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\mpn\generic\sub_n.c">
       <Filter>Source Files\mpn</Filter>
     </ClCompile>
     <ClCompile Include="..\..\mpn\generic\subadd_n.c">
@@ -1541,6 +1535,9 @@
     <YASM Include="..\..\mpn\x86_64w\mul_2.asm">
       <Filter>Source Files\mpn\yasm</Filter>
     </YASM>
+    <YASM Include="..\..\mpn\x86_64w\haswell\mul_basecase.asm">
+      <Filter>Source Files\mpn\yasm</Filter>
+    </YASM>
     <YASM Include="..\..\mpn\x86_64w\mulmid_basecase.asm">
       <Filter>Source Files\mpn\yasm</Filter>
     </YASM>
@@ -1557,6 +1554,9 @@
       <Filter>Source Files\mpn\yasm</Filter>
     </YASM>
     <YASM Include="..\..\mpn\x86_64w\sub_err2_n.asm">
+      <Filter>Source Files\mpn\yasm</Filter>
+    </YASM>
+    <YASM Include="..\..\mpn\x86_64w\haswell\sub_n.asm">
       <Filter>Source Files\mpn\yasm</Filter>
     </YASM>
     <YASM Include="..\..\mpn\x86_64w\udiv_qrnnd.asm">

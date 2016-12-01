@@ -76,11 +76,11 @@
 ;
 ; Windows x64 prologue macro
 ;
-;   FRAME_PROC name, stack_slots, register_save_list 
+;   FRAME_PROC name, var_slots, register_save_list 
 ;
 ;   name:                routine name
 ;   register_save_list:  comma separated list of registers to save
-;   stack_slots:         stack space needed in 8 byte units
+;   var_slots:           stack space needed in 8 byte units
 
 ; Windows x64 epilogue macro
 ;
@@ -119,7 +119,7 @@
     %endif
     %rotate 1
 
-	%assign stack_slots 0
+	%assign reg_slots 0
 	%assign xmm_seen 0
     %if %0 > 2
         %rep %0 - 2
@@ -129,20 +129,20 @@
 				%else
 				    alloc_stack 16
 					save_xmm128 XMM%1, 0
-					%assign stack_slots stack_slots + 2
+					%assign reg_slots reg_slots + 2
 				%endif
 		    %elifid %1
 		        %ifidni XMM, %1 
-					%if stack_slots & 1 == 0
+					%if reg_slots & 1 == 0
 					    alloc_stack 8
-  					    %assign stack_slots stack_slots + 1
+  					    %assign reg_slots reg_slots + 1
     				    %assign xmm_seen 1 
 					%else
 				        %assign xmm_seen 2					 
 					%endif
 				%elif xmm_seen == 0
 					push_reg  %1
-  					%assign stack_slots stack_slots + 1
+  					%assign reg_slots reg_slots + 1
 				%else
 				    %error XMM registers must be last in the save list
 				%endif 
@@ -153,14 +153,14 @@
         %endrep
     %endif
 
-	%if (stack_slots & 1) == (var_slots & 1)
+	%if (reg_slots & 1) == (var_slots & 1)
 	    %assign var_slots var_slots + 1
 	%endif
 
     %if var_slots > 0
         alloc_stack 8 * var_slots
 	%endif
-	%assign stack_use 8 * (stack_slots + var_slots)
+	%assign stack_use 8 * (reg_slots + var_slots)
     END_PROLOGUE
 
 %endmacro
@@ -251,7 +251,7 @@ __g%1:
 ;
 ;     reg_save_list   list of registers to be saved
 ;                     and restored
-;     stack_slots     number of 8 byte slots needed
+;     var_slots     number of 8 byte slots needed
 ;                     on the stack (excluding the 
 ;                     register save/restore space)
 
@@ -263,11 +263,11 @@ __g%1:
             %define reg_save_list rsi, rdi
         %endif
 
-        %ifndef stack_slots
-            %define stack_slots 0
+        %ifndef var_slots
+            %define var_slots 0
         %endif
 
-        FRAME_PROC %1, stack_slots, reg_save_list
+        FRAME_PROC %1, var_slots, reg_save_list
         
     %elifidn %3, leaf
 
