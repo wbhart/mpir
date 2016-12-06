@@ -36,6 +36,14 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "dll_mpir_haswell", "dll_mpi
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lib_mpir_haswell", "lib_mpir_haswell\lib_mpir_haswell.vcxproj", "{43CB4B7D-F204-4C79-8585-556B95C8C120}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "dll_mpir_skylake", "dll_mpir_skylake\dll_mpir_skylake.vcxproj", "{1BE624B2-5FEA-4DA6-A7FA-9A1340E3361F}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lib_mpir_skylake", "lib_mpir_skylake\lib_mpir_skylake.vcxproj", "{5811A327-3992-4365-95CC-47CB0F9532A5}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "dll_mpir_skylake_avx", "dll_mpir_skylake_avx\dll_mpir_skylake_avx.vcxproj", "{58ED6FD2-E37D-4364-9428-6314426FFCC2}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lib_mpir_skylake_avx", "lib_mpir_skylake_avx\lib_mpir_skylake_avx.vcxproj", "{1B807FDE-B444-4AD4-8A2A-814D52124585}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -112,6 +120,22 @@ Global
 		{43CB4B7D-F204-4C79-8585-556B95C8C120}.Debug|x64.ActiveCfg = Debug|x64
 		{43CB4B7D-F204-4C79-8585-556B95C8C120}.Release|Win32.ActiveCfg = Release|x64
 		{43CB4B7D-F204-4C79-8585-556B95C8C120}.Release|x64.ActiveCfg = Release|x64
+		{1BE624B2-5FEA-4DA6-A7FA-9A1340E3361F}.Debug|Win32.ActiveCfg = Debug|x64
+		{1BE624B2-5FEA-4DA6-A7FA-9A1340E3361F}.Debug|x64.ActiveCfg = Debug|x64
+		{1BE624B2-5FEA-4DA6-A7FA-9A1340E3361F}.Release|Win32.ActiveCfg = Release|x64
+		{1BE624B2-5FEA-4DA6-A7FA-9A1340E3361F}.Release|x64.ActiveCfg = Release|x64
+		{5811A327-3992-4365-95CC-47CB0F9532A5}.Debug|Win32.ActiveCfg = Debug|x64
+		{5811A327-3992-4365-95CC-47CB0F9532A5}.Debug|x64.ActiveCfg = Debug|x64
+		{5811A327-3992-4365-95CC-47CB0F9532A5}.Release|Win32.ActiveCfg = Release|x64
+		{5811A327-3992-4365-95CC-47CB0F9532A5}.Release|x64.ActiveCfg = Release|x64
+		{58ED6FD2-E37D-4364-9428-6314426FFCC2}.Debug|Win32.ActiveCfg = Debug|x64
+		{58ED6FD2-E37D-4364-9428-6314426FFCC2}.Debug|x64.ActiveCfg = Debug|x64
+		{58ED6FD2-E37D-4364-9428-6314426FFCC2}.Release|Win32.ActiveCfg = Release|x64
+		{58ED6FD2-E37D-4364-9428-6314426FFCC2}.Release|x64.ActiveCfg = Release|x64
+		{1B807FDE-B444-4AD4-8A2A-814D52124585}.Debug|Win32.ActiveCfg = Debug|x64
+		{1B807FDE-B444-4AD4-8A2A-814D52124585}.Debug|x64.ActiveCfg = Debug|x64
+		{1B807FDE-B444-4AD4-8A2A-814D52124585}.Release|Win32.ActiveCfg = Release|x64
+		{1B807FDE-B444-4AD4-8A2A-814D52124585}.Release|x64.ActiveCfg = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

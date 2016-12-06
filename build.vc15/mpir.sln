@@ -37,6 +37,14 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "dll_mpir_haswell", "dll_mpi
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lib_mpir_haswell", "lib_mpir_haswell\lib_mpir_haswell.vcxproj", "{A4D87C88-2541-473D-A2F3-CB4F37A3841F}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "dll_mpir_skylake", "dll_mpir_skylake\dll_mpir_skylake.vcxproj", "{0B0AC9A2-92A5-4EFD-84EC-943C420FA6A7}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lib_mpir_skylake", "lib_mpir_skylake\lib_mpir_skylake.vcxproj", "{B413A164-2165-470E-B48D-0B367B33E6CD}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "dll_mpir_skylake_avx", "dll_mpir_skylake_avx\dll_mpir_skylake_avx.vcxproj", "{ED050C7F-0A99-4D98-9460-DFE101FAA802}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lib_mpir_skylake_avx", "lib_mpir_skylake_avx\lib_mpir_skylake_avx.vcxproj", "{374FE033-A5E7-47F4-A497-C99C7509961E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -113,6 +121,22 @@ Global
 		{A4D87C88-2541-473D-A2F3-CB4F37A3841F}.Release|x64.ActiveCfg = Release|x64
 		{A4D87C88-2541-473D-A2F3-CB4F37A3841F}.Debug|Win32.ActiveCfg = Debug|Win32
 		{A4D87C88-2541-473D-A2F3-CB4F37A3841F}.Debug|x64.ActiveCfg = Debug|x64
+		{0B0AC9A2-92A5-4EFD-84EC-943C420FA6A7}.Release|Win32.ActiveCfg = Release|Win32
+		{0B0AC9A2-92A5-4EFD-84EC-943C420FA6A7}.Release|x64.ActiveCfg = Release|x64
+		{0B0AC9A2-92A5-4EFD-84EC-943C420FA6A7}.Debug|Win32.ActiveCfg = Debug|Win32
+		{0B0AC9A2-92A5-4EFD-84EC-943C420FA6A7}.Debug|x64.ActiveCfg = Debug|x64
+		{B413A164-2165-470E-B48D-0B367B33E6CD}.Release|Win32.ActiveCfg = Release|Win32
+		{B413A164-2165-470E-B48D-0B367B33E6CD}.Release|x64.ActiveCfg = Release|x64
+		{B413A164-2165-470E-B48D-0B367B33E6CD}.Debug|Win32.ActiveCfg = Debug|Win32
+		{B413A164-2165-470E-B48D-0B367B33E6CD}.Debug|x64.ActiveCfg = Debug|x64
+		{ED050C7F-0A99-4D98-9460-DFE101FAA802}.Release|Win32.ActiveCfg = Release|Win32
+		{ED050C7F-0A99-4D98-9460-DFE101FAA802}.Release|x64.ActiveCfg = Release|x64
+		{ED050C7F-0A99-4D98-9460-DFE101FAA802}.Debug|Win32.ActiveCfg = Debug|Win32
+		{ED050C7F-0A99-4D98-9460-DFE101FAA802}.Debug|x64.ActiveCfg = Debug|x64
+		{374FE033-A5E7-47F4-A497-C99C7509961E}.Release|Win32.ActiveCfg = Release|Win32
+		{374FE033-A5E7-47F4-A497-C99C7509961E}.Release|x64.ActiveCfg = Release|x64
+		{374FE033-A5E7-47F4-A497-C99C7509961E}.Debug|Win32.ActiveCfg = Debug|Win32
+		{374FE033-A5E7-47F4-A497-C99C7509961E}.Debug|x64.ActiveCfg = Debug|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
