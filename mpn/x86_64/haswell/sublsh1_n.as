@@ -18,14 +18,14 @@
 ;  to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 ;  Boston, MA 02110-1301, USA.
 
-; mp_limb_t addlsh1_n(mp_ptr Op3, mp_srcptr Op2, mp_srcptr Op1; mp_size_t Size )
+; mp_limb_t sublsh1_n(mp_ptr Op3, mp_srcptr Op2, mp_srcptr Op1; mp_size_t Size )
 ; Linux     RAX       RDI         RSI            RDX            RCX
 ; Win7      RAX       RCX         RDX            R8             R9
 ;
 ; Description:
-; The function shifts Op1 left one bit, adds this to Op2, stores the result
+; The function shifts Op1 left one bit, subtracts it from Op2, stores the result
 ; in Op3 and hands back the total carry. There is a gain in execution speed
-; compared to separate shift and add by interleaving the elementary operations
+; compared to separate shift and subtract by interleaving the elementary operations
 ; and reducing memory access. The factor depends on the size of the operands
 ; (the cache hierarchy in which the operands can be handled).
 ;
@@ -36,16 +36,16 @@
 ; Comments:
 ; - asm version implemented, tested & benched on 16.05.2015 by jn
 ; - improved asm version implemented, tested & benched on 30.07.2015 by jn
-; - On Nehalem per limb saving is 1 cycle in LD1$, LD2$ and 1-2 in LD3$
+; - On Nehalem per limb saving is 0.7 cycles in LD1$, LD2$ and 1-2 in LD3$
 ; - includes LAHF / SAHF
 ; - includes prefetching
 ; - includes XMM save & restore
 ;
-; Linux: (rdi, rcx) = (rsi, rcx) + (rdx, rcx)<<1
+; Linux: (rdi, rcx) = (rsi, rcx) - (rdx, rcx)<<1
 ; ============================================================================
 
-%define ADDSUB add
-%define ADCSBB adc
+%define ADDSUB sub
+%define ADCSBB sbb
 
 %include "yasm_mac.inc"
 
@@ -111,15 +111,15 @@ BITS 64
 
 
 %macro ACCUMULATE 1
-
-    ADCSBB  Limb%1, [Op2 + 8 * %1]
-    mov     [Op3 + 8 * %1], Limb%1
+    mov     rax, [Op2 + 8 * %1]
+    ADCSBB  rax, Limb%1
+    mov     [Op3 + 8 * %1], rax
 %endmacro
 
 
     align   32
 
-GLOBAL_FUNC  mpn_addlsh1_n
+GLOBAL_FUNC  mpn_sublsh1_n
 
 %ifdef USE_WIN64
   %ifdef USE_PREFETCH
@@ -151,7 +151,7 @@ GLOBAL_FUNC  mpn_addlsh1_n
     mov     Offs, PREFETCH_STRIDE   ; Attn: check if redefining Offs
   %endif
 
-    ; prepare shift & addition with loop-unrolling 8
+    ; prepare shift & subtraction with loop-unrolling 8
     xor     Limb0, Limb0
     lahf                        ; memorize clear carry (from "xor" above)
 
@@ -161,9 +161,9 @@ GLOBAL_FUNC  mpn_addlsh1_n
     mov     Limb1, [Op1]
     shrd    Limb0, Limb1, 63
 
-
-    ADDSUB  Limb0, [Op2]
-    mov     [Op3], Limb0
+    mov     rax, [Op2]
+    ADDSUB  rax, Limb0
+    mov     [Op3], rax
     lahf
 
     add     Op1, 8
@@ -248,7 +248,7 @@ GLOBAL_FUNC  mpn_addlsh1_n
     shrd    Limb7, Limb8, 63
 
     sahf                        ; restore carry
-    ACCUMULATE 0                ; add Op2 to oct-limb and store in Op3
+    ACCUMULATE 0                ; sub shifted Op1 from Op2 with result in Op3
     ACCUMULATE 1
     ACCUMULATE 2
     ACCUMULATE 3
