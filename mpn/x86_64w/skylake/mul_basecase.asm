@@ -1,912 +1,425 @@
-; PROLOGUE(mpn_mul_basecase)
+;  AMD64 mpn_mul_basecase optimised for Intel Haswell.
 
-;  Copyright 2009 Jason Moxham
-;
-;  Windows Conversion Copyright 2008 Brian Gladman
-;
-;  This file is part of the MPIR Library.
-;
-;  The MPIR Library is free software; you can redistribute it and/or modify
-;  it under the terms of the GNU Lesser General Public License as published
-;  by the Free Software Foundation; either version 2.1 of the License, or (at
-;  your option) any later version.
+;  Contributed to the GNU project by Torbjörn Granlund.
 
-;  The MPIR Library is distributed in the hope that it will be useful, but
+;  Copyright 2003-2005, 2007, 2008, 2011-2013 Free Software Foundation, Inc.
+
+;  This file is part of the GNU MP Library.
+;
+;  The GNU MP Library is free software; you can redistribute it and/or modify
+;  it under the terms of either:
+;
+;    * the GNU Lesser General Public License as published by the Free
+;      Software Foundation; either version 3 of the License, or (at your
+;      option) any later version.
+;
+;  or
+;
+;    * the GNU General Public License as published by the Free Software
+;      Foundation; either version 2 of the License, or (at your option) any
+;      later version.
+;
+;  or both in parallel, as here.
+;
+;  The GNU MP Library is distributed in the hope that it will be useful, but
 ;  WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
-;  or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public
-;  License for more details.
-
-;  You should have received a copy of the GNU Lesser General Public License
-;  along with the MPIR Library; see the file COPYING.LIB.  If not, write
-;  to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
-;  Boston, MA 02110-1301, USA.
+;  or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+;  for more details.
+;
+;  You should have received copies of the GNU General Public License and the
+;  GNU Lesser General Public License along with the GNU MP Library.  If not,
+;  see https://www.gnu.org/licenses/.
 ;
 ;  mp_limb_t mpn_mul_basecase(mp_ptr, mp_ptr, mp_size_t, mp_ptr, mp_size_t)
 ;  rax                           rdi     rsi        rdx     rcx         r8
-;  rax                           rcx     rdx         r8      r9   [rsp+40] 
+;  rax                           rcx     rdx         r8      r9   [rsp+40]
 
-%include "yasm_mac.inc"
+%include 'yasm_mac.inc'
 
-%macro addmul2lp 0
-    xalign  16
-%%1:mov     rax, [rsi+rbx*8]
-    mul     r8
-    add     r9, rax
-    mov     rax, [rsi+rbx*8+8]
-    adc     r10, rdx
-    mov     r11, 0
-    mul     rcx
-    add     [rdi+rbx*8], r12
-    adc     r9, rax
-    mov     r12, 0
-    adc     r10, rdx
-    mov     rax, [rsi+rbx*8+8]
-    adc     r11, 0
-    mul     r8
-    add     [rdi+rbx*8+8], r9
-    adc     r10, rax
-    adc     r11, rdx
-    mov     rax, [rsi+rbx*8+16]
-    mul     rcx
-    add     r10, rax
-    mov     rax, [rsi+rbx*8+16]
-    adc     r11, rdx
-    adc     r12, 0
-    mul     r8
-    add     [rdi+rbx*8+16], r10
-    mov     r9, 0
-    adc     r11, rax
-    mov     r10, 0
-    mov     rax, [rsi+rbx*8+24]
-    adc     r12, rdx
-    mov     r15, r15
-    mul     rcx
-    add     r11, rax
-    mov     rax, [rsi+rbx*8+24]
-    adc     r12, rdx
-    adc     r9, 0
-    mul     r8
-    add     [rdi+rbx*8+24], r11
-    adc     r12, rax
-    adc     r9, rdx
-    mov     rax, [rsi+rbx*8+32]
-    mul     rcx
-    add     r12, rax
-    adc     r9, rdx
-    adc     r10, 0
-    add     rbx, 4
-    jnc     %%1
-%endmacro
+%define reg_save_list rbx, rbp, rsi, rdi, r12, r13, r14, r15 
 
-%macro addmul2pro0 0
-    mov     rcx, [r13+r15*8]
-    mul     rcx
-    mov     r12, rax
-    mov     r9, rdx
-    mov     r10, 0
-    mov     r8, [r13+r15*8+8]
-%endmacro
+%define rp       rdi
+%define up       rsi
+%define un_param rdx
+%define vp       rcx
 
-%macro addmul2epi0 0
-    mov     rbx, r14
-    mov     rax, [rsi+24]
-    mul     r8
-    add     [rdi+24], r12
-    adc     r9, rax
-    adc     r10, rdx
-    add     r15, 2
-    mov     rax, [rsi+r14*8]
-    mov     [rdi+32], r9
-    lea     rdi, [rdi+16]
-    mov     [rdi+24], r10
-%endmacro
+%define un       rbx
+%define un8      bl
 
-%macro addmul2pro1 0
-    mov     rcx, [r13+r15*8]
-    mul     rcx
-    mov     r12, rax
-    mov     r10, 0
-    mov     r9, rdx
-    mov     r8, [r13+r15*8+8]
-%endmacro
+%define w0       r10
+%define w1       r11
+%define w2       r12
+%define w3       r13
+%define n        rbp
 
-%macro addmul2epi1 0
-    mov     rax, [rsi+16]
-    lea     rdi, [rdi+16]
-    mul     r8
-    add     r9, rax
-    mov     rax, [rsi+24]
-    mov     r11, 0
-    adc     r10, rdx
-    mul     rcx
-    add     [rdi], r12
-    adc     r9, rax
-    adc     r10, rdx
-    adc     r11, 0
-    mov     rax, [rsi+24]
-    mul     r8
-    add     [rdi+8], r9
-    adc     r10, rax
-    adc     r11, rdx
-    add     r15, 2
-    mov     rbx, r14
-    mov     rax, [rsi+r14*8]
-    mov     [rdi+24], r11
-    mov     [rdi+16], r10
-%endmacro
+BITS    64
 
-%macro addmul2pro2 0
-    mov     rcx, [r13+r15*8]
-    mul     rcx
-    mov     r10, 0
-    mov     r12, rax
-    mov     r9, rdx
-    mov     r8, [r13+r15*8+8]
-%endmacro
+align 16
 
-%macro addmul2epi2 0
-    mov     rax, [rsi+8]
-    lea     rdi, [rdi+16]
-    mul     r8
-    add     r9, rax
-    mov     rax, [rsi+16]
-    adc     r10, rdx
-    mov     r11, 0
-    mul     rcx
-    add     [rdi-8], r12
-    adc     r9, rax
-    mov     r12, 0
-    adc     r10, rdx
-    mov     rax, [rsi+16]
-    adc     r11, 0
-    mul     r8
-    add     [rdi], r9
-    adc     r10, rax
-    adc     r11, rdx
-    mov     rax, [rsi+24]
-    mul     rcx
-    add     r10, rax
-    mov     rax, [rsi+24]
-    adc     r11, rdx
-    adc     r12, 0
-    mul     r8
-    add     [rdi+8], r10
-    adc     r11, rax
-    adc     r12, rdx
-    mov     rax, [rsi+r14*8]
-    mov     [rdi+16], r11
-    mov     [rdi+24], r12
-    add     r15, 2
-    mov     rbx, r14
-%endmacro
+FRAME_PROC mpn_mul_basecase, 1, reg_save_list
+    mov     rdi, rcx
+    mov     rsi, rdx
+    mov     rdx, r8
+    mov     rcx, r9
+    mov     r8, [rsp+stack_use+40]
+	
+    mov 	un, rdx
+	neg 	un
+	mov 	n, rdx
+	sar 	n, 2
 
-%macro addmul2pro3 0
-    mov     rcx, [r13+r15*8]
-    mul     rcx
-    mov     r12, rax
-    mov     r9, rdx
-    mov     r8, [r13+r15*8+8]
-    mov     r10, 0
-%endmacro
+	test 	r8b, 1
+	jz 	.Ldo_mul_2
+	mov 	rdx, [vp]
 
-%macro addmul2epi3 0
-    mov     rax, [rsi]
-    lea     rdi, [rdi+16]
-    mul     r8
-    add     r9, rax
-    mov     rax, [rsi+8]
-    adc     r10, rdx
-    mov     r11, 0
-    mul     rcx
-    add     [rdi-16], r12
-    adc     r9, rax
-    mov     r12, 0
-    adc     r10, rdx
-    mov     rax, [rsi+8]
-    adc     r11, 0
-    mul     r8
-    add     [rdi-8], r9
-    adc     r10, rax
-    adc     r11, rdx
-    mov     rax, [rsi+16]
-    mul     rcx
-    add     r10, rax
-    mov     rax, [rsi+16]
-    adc     r11, rdx
-    adc     r12, 0
-    mul     r8
-    add     [rdi], r10
-    mov     r9, 0
-    adc     r11, rax
-    mov     r10, 0
-    mov     rax, [rsi+24]
-    adc     r12, rdx
-    mov     r15, r15
-    mul     rcx
-    add     r11, rax
-    mov     rax, [rsi+24]
-    adc     r12, rdx
-    adc     r9, 0
-    mul     r8
-    add     [rdi+8], r11
-    adc     r12, rax
-    adc     r9, rdx
-    mov     rax, [rsi+r14*8]
-    mov     [rdi+16], r12
-    mov     [rdi+24], r9
-    add     r15, 2
-    mov     rbx, r14
-%endmacro
+.Ldo_mul_1:
+	test 	un8, 1
+	jnz 	.Lm1x1
 
-%macro mul2lp 0
-    xalign  16
-%%1:mov     rax, [rsi+rbx*8]
-    mul     r8
-    add     r9, rax
-    mov     rax, [rsi+rbx*8+8]
-    adc     r10, rdx
-    mov     r11, 0
-    mul     rcx
-    mov     [rdi+rbx*8], r12
-    add     r9, rax
-    mov     r12, 0
-    adc     r10, rdx
-    mov     rax, [rsi+rbx*8+8]
-    adc     r11, 0
-    mul     r8
-    mov     [rdi+rbx*8+8], r9
-    add     r10, rax
-    adc     r11, rdx
-    mov     rax, [rsi+rbx*8+16]
-    mul     rcx
-    add     r10, rax
-    mov     rax, [rsi+rbx*8+16]
-    adc     r11, rdx
-    adc     r12, 0
-    mul     r8
-    mov     [rdi+rbx*8+16], r10
-    mov     r9, 0
-    add     r11, rax
-    mov     r10, 0
-    mov     rax, [rsi+rbx*8+24]
-    adc     r12, rdx
-    mov     r15, r15
-    mul     rcx
-    add     r11, rax
-    mov     rax, [rsi+rbx*8+24]
-    adc     r12, rdx
-    adc     r9, 0
-    mul     r8
-    mov     [rdi+rbx*8+24], r11
-    add     r12, rax
-    adc     r9, rdx
-    mov     rax, [rsi+rbx*8+32]
-    mul     rcx
-    add     r12, rax
-    adc     r9, rdx
-    adc     r10, 0
-    add     rbx, 4
-    jnc     %%1
-%endmacro
+.Lm1x0:
+	test 	un8, 2
+	jnz 	.Lm110
 
-%macro mul2pro0 0
-    mov     rcx, [r13+r15*8]
-    mul     rcx
-    mov     r12, rax
-    mov     r9, rdx
-    mov     r10, 0
-    mov     r8, [r13+r15*8+8]
-%endmacro
+.Lm100:
+	mulx 	w2, r14, [up]
+	mulx 	w3, w1, [up+8]
+	lea 	rp, [rp-24]
+	jmp 	.Lm1l0
 
-%macro mul2epi0 0
-    mov     rbx, r14
-    mov     rax, [rsi+24]
-    mul     r8
-    mov     [rdi+24], r12
-    add     r9, rax
-    adc     r10, rdx
-    add     r15, 2
-    mov     rax, [rsi+r14*8]
-    mov     [rdi+32], r9
-    lea     rdi, [rdi+16]
-    mov     [rdi+24], r10
-%endmacro
+.Lm110:
+	mulx 	r9, w3, [up]
+	mulx 	r14, w1, [up+8]
+	lea 	rp, [rp-8]
+	test 	n, n
+	jz 	.Lcj2
+	mulx 	w2, w0, [up+16]
+	lea 	up, [up+16]
+	jmp 	.Lm1l2
 
-%macro mul2pro1 0
-    mov     rcx, [r13+r15*8]
-    mul     rcx
-    mov     r12, rax
-    mov     r10, 0
-    mov     r9, rdx
-    mov     r8, [r13+r15*8+8]
-%endmacro
+.Lm1x1:
+	test 	un8, 2
+	jz 	.Lm111
 
-%macro mul2epi1 0
-    mov     rax, [rsi+16]
-    lea     rdi, [rdi+16]
-    mul     r8
-    add     r9, rax
-    mov     rax, [rsi+24]
-    mov     r11, 0
-    adc     r10, rdx
-    mul     rcx
-    mov     [rdi], r12
-    add     r9, rax
-    adc     r10, rdx
-    adc     r11, 0
-    mov     rax, [rsi+24]
-    mul     r8
-    mov     [rdi+8], r9
-    add     r10, rax
-    adc     r11, rdx
-    add     r15, 2
-    mov     rbx, r14
-    mov     rax, [rsi+r14*8]
-    mov     [rdi+24], r11
-    mov     [rdi+16], r10
-%endmacro
+.Lm101:
+	mulx 	r14, r9, [up]
+	lea 	rp, [rp-16]
+	test 	n, n
+	jz 	.Lcj1
+	mulx 	w2, w0, [up+8]
+	lea 	up, [up+8]
+	jmp 	.Lm1l1
 
-%macro mul2pro2 0
-    mov     rcx, [r13+r15*8]
-    mul     rcx
-    mov     r10, 0
-    mov     r12, rax
-    mov     r9, rdx
-    mov     r8, [r13+r15*8+8]
-%endmacro
+.Lm111:
+	mulx 	w3, w2, [up]
+	mulx 	r9, w0, [up+8]
+	mulx 	r14, w1, [up+16]
+	lea 	up, [up+24]
+	test 	n, n
+	jnz 	.Lgt3
+	add 	w3, w0
+	jmp 	.Lcj3
 
-%macro mul2epi2 0
-    mov     rax, [rsi+8]
-    lea     rdi, [rdi+16]
-    mul     r8
-    add     r9, rax
-    mov     rax, [rsi+16]
-    adc     r10, rdx
-    mov     r11, 0
-    mul     rcx
-    mov     [rdi-8], r12
-    add     r9, rax
-    mov     r12, 0
-    adc     r10, rdx
-    mov     rax, [rsi+16]
-    adc     r11, 0
-    mul     r8
-    mov     [rdi], r9
-    add     r10, rax
-    adc     r11, rdx
-    mov     rax, [rsi+24]
-    mul     rcx
-    add     r10, rax
-    mov     rax, [rsi+24]
-    adc     r11, rdx
-    adc     r12, 0
-    mul     r8
-    mov     [rdi+8], r10
-    add     r11, rax
-    adc     r12, rdx
-    mov     rax, [rsi+r14*8]
-    mov     [rdi+16], r11
-    mov     [rdi+24], r12
-    add     r15, 2
-    mov     rbx, r14
-%endmacro
+.Lgt3:
+	add 	w3, w0
+	jmp 	.Lm1l3
 
-%macro mul2pro3 0
-    mov     rcx, [r13+r15*8]
-    mul     rcx
-    mov     r12, rax
-    mov     r9, rdx
-    mov     r8, [r13+r15*8+8]
-    mov     r10, 0
-%endmacro
 
-%macro mul2epi3 0
-    mov     rax, [rsi]
-    lea     rdi, [rdi+16]
-    mul     r8
-    add     r9, rax
-    mov     rax, [rsi+8]
-    adc     r10, rdx
-    mov     r11, 0
-    mul     rcx
-    mov     [rdi-16], r12
-    add     r9, rax
-    mov     r12, 0
-    adc     r10, rdx
-    mov     rax, [rsi+8]
-    adc     r11, 0
-    mul     r8
-    mov     [rdi-8], r9
-    add     r10, rax
-    adc     r11, rdx
-    mov     rax, [rsi+16]
-    mul     rcx
-    add     r10, rax
-    mov     rax, [rsi+16]
-    adc     r11, rdx
-    adc     r12, 0
-    mul     r8
-    mov     [rdi], r10
-    mov     r9, 0
-    add     r11, rax
-    mov     r10, 0
-    mov     rax, [rsi+24]
-    adc     r12, rdx
-    mov     r15, r15
-    mul     rcx
-    add     r11, rax
-    mov     rax, [rsi+24]
-    adc     r12, rdx
-    adc     r9, 0
-    mul     r8
-    mov     [rdi+8], r11
-    add     r12, rax
-    adc     r9, rdx
-    mov     rax, [rsi+r14*8]
-    mov     [rdi+16], r12
-    mov     [rdi+24], r9
-    add     r15, 2
-    mov     rbx, r14
-%endmacro
+	align 32
+.Lm1tp:
+	lea 	rp, [rp+32]
+.Lm1l3:
+	mov 	[rp], w2
+	mulx 	w2, w0, [up]
+.Lm1l2:
+	mov 	[rp+8], w3
+	adc 	r9, w1
+.Lm1l1:
+	adc 	r14, w0
+	mov 	[rp+16], r9
+	mulx 	w3, w1, [up+8]
+.Lm1l0:
+	mov 	[rp+24], r14
+	mulx 	r9, w0, [up+16]
+	adc 	w2, w1
+	mulx 	r14, w1, [up+24]
+	adc 	w3, w0
+	lea 	up, [up+32]
+	dec 	n
+	jnz 	.Lm1tp
 
-%macro mul1lp 0
-    xalign  16
-%%1:
-    mov     r10, 0
-    mul     r8
-    mov     [rdi+rbx*8-8], r12
-    add     r9, rax
-    db      0x26
-    adc     r10, rdx
-    mov     rax, [rsi+rbx*8+8]
-    mul     r8
-    mov     [rdi+rbx*8], r9
-    add     r10, rax
-    mov     r11d, 0
-    adc     r11, rdx
-    mov     rax, [rsi+rbx*8+16]
-    mov     r12, 0
-    mov     r9, 0
-    mul     r8
-    mov     [rdi+rbx*8+8], r10
-    db      0x26
-    add     r11, rax
-    db      0x26
-    adc     r12, rdx
-    mov     rax, [rsi+rbx*8+24]
-    mul     r8
-    mov     [rdi+rbx*8+16], r11
-    db      0x26
-    add     r12, rax
-    db      0x26
-    adc     r9, rdx
-    add     rbx, 4
-    mov     rax, [rsi+rbx*8]
-    jnc     %%1
-%endmacro
+.Lm1ed:
+	lea 	rp, [rp+32]
+.Lcj3:
+	mov 	[rp], w2
+.Lcj2:
+	mov 	[rp+8], w3
+	adc 	r9, w1
+.Lcj1:
+	mov 	[rp+16], r9
+	adc 	r14, 0
+	mov 	[rp+24], r14
 
-; rbx is 0
-%macro mulnext0 0
-    mov     rax, [rsi+8]
-    mul     r8
-    mov     [rdi], r9
-    add     r10, rax
-    mov     r11d, 0
-    adc     r11, rdx
-    mov     rax, [rsi+16]
-    mov     r12d, 0
-    mul     r8
-    mov     [rdi+8], r10
-    add     r11, rax
-    adc     r12, rdx
-    mov     rax, [rsi+24]
-    mul     r8
-    mov     [rdi+16], r11
-    add     r12, rax
-    adc     rdx, 0
-    mov     [rdi+24], r12
-    mov     rax, [rsi+r14*8]
-    mov     [rdi+32], rdx
-    inc     r15
-    lea     rdi, [rdi+8]
-    mov     rbx, r14
-%endmacro
+	dec 	r8d
+	jz 	.Lret5
 
-; rbx is 1
-%macro mulnext1 0
-    mov     rax, [rsi+16]
-    mul     r8
-    mov     [rdi+8], r9
-    add     r10, rax
-    mov     r12d, 0
-    adc     r12, rdx
-    mov     rax, [rsi+24]
-    mul     r8
-    mov     [rdi+16], r10
-    add     r12, rax
-    adc     rdx, 0
-    mov     [rdi+24], r12
-    mov     [rdi+32], rdx
-    inc     r15
-    lea     rdi, [rdi+8]
-    mov     rbx, r14
-    mov     rax, [rsi+r14*8]
-%endmacro
+	lea 	vp, [vp+8]
+	lea 	rp, [rp+32]
+	jmp 	.Ldo_addmul
 
-; rbx is 2
-%macro mulnext2 0
-    mov     rax, [rsi+24]
-    mul     r8
-    mov     [rdi+16], r9
-    add     r10, rax
-    mov     r11d, 0
-    adc     r11, rdx
-    mov     [rdi+24], r10
-    mov     [rdi+32], r11
-    inc     r15
-    lea     rdi, [rdi+8]
-    mov     rax, [rsi+r14*8]
-    mov     rbx, r14
-%endmacro
+.Ldo_mul_2:
+	mov 	r9, [vp]
+	mov 	r14, [vp+8]
+	lea 	n, [un]
+	sar 	n, 2
+	test 	un8, 1
+	jnz 	.Lm2x1
 
-; rbx is 3
-%macro mulnext3 0
-    mov     [rdi+24], r9
-    mov     [rdi+32], r10
-    inc     r15
-    lea     rdi, [rdi+8]
-    mov     rax, [rsi+r14*8]
-    mov     rbx, r14
-%endmacro
+.Lm2x0:
+	xor 	w0, w0
+	test 	un8, 2
+	mov 	rdx, [up]
+	mulx 	w1, w2, r9
+	jz 	.Lm2l0
 
-%macro mpn_addmul_2_int 1
-    jz      %%2
-    xalign  16
-%%1:addmul2pro%1
-    addmul2lp
-    addmul2epi%1
-    jnz     %%1
-%%2:
-%endmacro
+.Lm210:
+	lea 	rp, [rp-16]
+	lea 	up, [up-16]
+	jmp 	.Lm2l2
 
-%macro oldmulnext0 0
-    mov     rax, [rsi+r11*8+16]
-    mul     r13
-    mov     [rdi+r11*8+8], r9
-    add     r10, rax
-    mov     ebx, 0
-    adc     rbx, rdx
-    mov     rax, [rsi+r11*8+24]
-    mov     r12d, 0
-    mul     r13
-    mov     [rdi+r11*8+16], r10
-    add     rbx, rax
-    adc     r12, rdx
-    mov     rax, [rsi+r11*8+32]
-    mul     r13
-    mov     [rdi+r11*8+24], rbx
-    add     r12, rax
-    adc     rdx, 0
-    mov     [rdi+r11*8+32], r12
-    mov     rax, [rsi+r14*8]
-    mov     [rdi+r11*8+40], rdx
-    inc     r8
-    mov     r11, r14
-%endmacro
+.Lm2x1:
+	xor 	w2, w2
+	test 	un8, 2
+	mov 	rdx, [up]
+	mulx 	w3, w0, r9
+	jz 	.Lm211
 
-%macro oldmulnext1 0
-    mov     rax, [rsi+r11*8+16]
-    mul     r13
-    mov     [rdi+r11*8+8], r9
-    add     r10, rax
-    mov     r12d, 0
-    adc     r12, rdx
-    mov     rax, [rsi+r11*8+24]
-    mul     r13
-    mov     [rdi+r11*8+16], r10
-    add     r12, rax
-    adc     rdx, 0
-    mov     [rdi+r11*8+24], r12
-    mov     [rdi+r11*8+32], rdx
-    inc     r8
-    lea     rdi, [rdi+8]
-    mov     r11, r14
-    mov     rax, [rsi+r14*8]
-%endmacro
+.Lm201:
+	lea 	rp, [rp-24]
+	lea 	up, [up+8]
+	jmp 	.Lm2l1
 
-%macro oldmulnext2 0
-    mov     rax, [rsi+r11*8+16]
-    mul     r13
-    mov     [rdi+r11*8+8], r9
-    add     r10, rax
-    mov     ebx, 0
-    adc     rbx, rdx
-    mov     [rdi+r11*8+16], r10
-    mov     [rdi+r11*8+24], rbx
-    inc     r8
-    mov     rax, [rsi+r14*8]
-    mov     r11, r14
-%endmacro
+.Lm211:
+	lea 	rp, [rp-8]
+	lea 	up, [up-8]
+	jmp 	.Lm2l3
 
-%macro oldmulnext3 0
-    mov     [rdi+r11*8+8], r9
-    mov     [rdi+r11*8+16], r10
-    inc     r8
-    mov     rax, [rsi+r14*8]
-    mov     r11, r14
-%endmacro
 
-%macro oldaddmulpro0 0
-    mov     r13, [rcx+r8*8]
-    db      0x26
-    mul     r13
-    db      0x26
-    mov     r12, rax
-    mov     rax, [rsi+r14*8+8]
-    db      0x26
-    mov     r9, rdx
-    lea     rdi, [rdi+8]
-%endmacro
+	align 16
+.Lm2tp:
+	mulx 	w0, rax, r14
+	add 	w2, rax
+	mov 	rdx, [up]
+	mulx 	w1, rax, r9
+	adc 	w0, 0
+	add 	w2, rax
+	adc 	w1, 0
+	add 	w2, w3
+.Lm2l0:
+	mov 	[rp], w2
+	adc 	w1, 0
+	mulx 	w2, rax, r14
+	add 	w0, rax
+	mov 	rdx, [up+8]
+	adc 	w2, 0
+	mulx 	w3, rax, r9
+	add 	w0, rax
+	adc 	w3, 0
+	add 	w0, w1
+.Lm2l3:
+	mov 	[rp+8], w0
+	adc 	w3, 0
+	mulx 	w0, rax, r14
+	add 	w2, rax
+	mov 	rdx, [up+16]
+	mulx 	w1, rax, r9
+	adc 	w0, 0
+	add 	w2, rax
+	adc 	w1, 0
+	add 	w2, w3
+.Lm2l2:
+	mov 	[rp+16], w2
+	adc 	w1, 0
+	mulx 	w2, rax, r14
+	add 	w0, rax
+	mov 	rdx, [up+24]
+	adc 	w2, 0
+	mulx 	w3, rax, r9
+	add 	w0, rax
+	adc 	w3, 0
+	add 	w0, w1
+	lea 	up, [up+32]
+.Lm2l1:
+	mov 	[rp+24], w0
+	adc 	w3, 0
+	inc 	n
+	lea 	rp, [rp+32]
+	jnz 	.Lm2tp
 
-%macro oldaddmulnext0 0
-    mov     r10d, 0
-    mul     r13
-    add     [rdi], r12
-    adc     r9, rax
-    adc     r10, rdx
-    mov     rax, [rsi+16]
-    mul     r13
-    add     [rdi+8], r9
-    adc     r10, rax
-    mov     ebx, 0
-    adc     rbx, rdx
-    mov     rax, [rsi+24]
-    mov     r12d, 0
-    mov     r11, r14
-    mul     r13
-    add     [rdi+16], r10
-    adc     rbx, rax
-    adc     r12, rdx
-    mov     rax, [rsi+32]
-    mul     r13
-    add     [rdi+24], rbx
-    adc     r12, rax
-    adc     rdx, 0
-    add     [rdi+32], r12
-    mov     rax, [rsi+r14*8]
-    adc     rdx, 0
-    inc     r8
-    mov     [rdi+40], rdx
-%endmacro
+.Lm2ed:
+	mulx 	rax, rdx, r14
+	add 	w2, rdx
+	adc 	rax, 0
+	add 	w2, w3
+	mov 	[rp], w2
+	adc 	rax, 0
+	mov 	[rp+8], rax
+	add 	r8d, -2
+	jz 	.Lret5
+	lea 	vp, [vp+16]
+	lea 	rp, [rp+16]
 
-%macro oldaddmulpro1 0
-    mov     r13, [rcx+r8*8]
-    mul     r13
-    mov     r12, rax
-    mov     rax, [rsi+r14*8+8]
-    mov     r9, rdx
-%endmacro
+.Ldo_addmul:
+	mov     [rsp], r8
+	lea 	rp, [un*8+rp]
+	lea 	up, [un*8+up]
 
-%macro oldaddmulnext1 0
-    mov     r10d, 0
-    mul     r13
-    add     [rdi+8], r12
-    adc     r9, rax
-    adc     r10, rdx
-    mov     rax, [rsi+24]
-    mul     r13
-    lea     rdi, [rdi+8]
-    add     [rdi+8], r9
-    adc     r10, rax
-    mov     r12d, 0
-    mov     rax, [rsi+32]
-    adc     r12, rdx
-    mov     r11, r14
-    mul     r13
-    add     [rdi+16], r10
-    adc     r12, rax
-    adc     rdx, 0
-    add     [rdi+24], r12
-    adc     rdx, 0
-    mov     [rdi+32], rdx
-    inc     r8
-    mov     rax, [rsi+r14*8]
-%endmacro
+.Louter:
+	mov 	r9, [vp]
+	mov 	r8, [vp+8]
+	lea 	n, [un+2]
+	sar 	n, 2
+	mov 	rdx, [up]
+	test 	un8, 1
+	jnz 	.Lbx1
 
-%macro oldaddmulpro2 0
-    mov     r13, [rcx+r8*8]
-    lea     rdi, [rdi+8]
-    mul     r13
-    mov     r12, rax
-    mov     rax, [rsi+r14*8+8]
-    mov     r9, rdx
-%endmacro
+.Lbx0:
+	mov 	r14, [rp]
+	mov 	r15, [rp+8]
+	mulx 	w1, rax, r9
+	add 	r14, rax
+	mulx 	w2, rax, r8
+	adc 	w1, 0
+	mov 	[rp], r14
+	add 	r15, rax
+	adc 	w2, 0
+	mov 	rdx, [up+8]
+	test 	un8, 2
+	jnz 	.Lb10
 
-%macro oldaddmulnext2 0
-    mov     r10d, 0
-    mul     r13
-    add     [rdi+r11*8], r12
-    adc     r9, rax
-    adc     r10, rdx
-    mov     rax, [rsi+r11*8+16]
-    mul     r13
-    mov     ebx, 0
-    add     [rdi+r11*8+8], r9
-    adc     r10, rax
-    adc     rbx, rdx
-    mov     rax, [rsi+r14*8]
-    add     [rdi+r11*8+16], r10
-    adc     rbx, 0
-    mov     [rdi+r11*8+24], rbx
-    inc     r8
-    mov     r11, r14
-%endmacro
+.Lb00:
+	lea 	up, [up+16]
+	lea 	rp, [rp+16]
+	jmp 	.Llo0
 
-%macro oldaddmulpro3 0
-    mov     r13, [rcx+r8*8]
-    db      0x26
-    mul     r13
-    db      0x26
-    mov     r12, rax
-    db      0x26
-    lea     rdi, [rdi+8]
-    db      0x26
-    mov     r9, rdx
-    mov     rax, [rsi+r14*8+8]
-%endmacro
+.Lb10:
+	mov 	r14, [rp+16]
+	lea 	up, [up+32]
+	mulx 	w3, rax, r9
+	jmp 	.Llo2
 
-%macro oldaddmulnext3 0
-    mov     r11, r14
-    mul     r13
-    add     [rdi+24], r12
-    adc     r9, rax
-    adc     rdx, 0
-    add     [rdi+32], r9
-    mov     rax, [rsi+r14*8]
-    adc     rdx, 0
-    inc     r8
-    mov     [rdi+40], rdx
-%endmacro
+.Lbx1:
+	mov 	r15, [rp]
+	mov 	r14, [rp+8]
+	mulx 	w3, rax, r9
+	add 	r15, rax
+	adc 	w3, 0
+	mulx 	w0, rax, r8
+	add 	r14, rax
+	adc 	w0, 0
+	mov 	rdx, [up+8]
+	mov 	[rp], r15
+	mulx 	w1, rax, r9
+	test 	un8, 2
+	jz 	.Lb11
 
-%macro oldmpn_muladdmul_1_int 1
-    oldmulnext%1
-    jz      %%2
-    xalign  16
-%%1:oldaddmulpro%1
-    oldaddmulnext%1
-    jnz     %%1
-%%2:
-%endmacro
+.Lb01:
+	mov 	r15, [rp+16]
+	lea 	rp, [rp+24]
+	lea 	up, [up+24]
+	jmp 	.Llo1
 
-    CPU  Core2
-    BITS 64
+.Lb11:
+	lea 	rp, [rp+8]
+	lea 	up, [up+8]
+	jmp 	.Llo3
 
-;  mp_limb_t mpn_mul_basecase(mp_ptr, mp_ptr, mp_size_t, mp_ptr, mp_size_t)
-;  rax                           rdi     rsi        rdx     rcx         r8
-;  rax                           rcx     rdx         r8      r9   [rsp+40] 
 
-%define reg_save_list   rbx, rsi, rdi, r12, r13, r14
+	align 16
+.Ltop:
+	mulx 	w3, rax, r9
+	add 	r15, w0
+	adc 	w2, 0
+.Llo2:
+	add 	r15, rax
+	adc 	w3, 0
+	mulx 	w0, rax, r8
+	add 	r14, rax
+	adc 	w0, 0
+	lea 	rp, [rp+32]
+	add 	r15, w1
+	mov 	rdx, [up-16]
+	mov 	[rp-24], r15
+	adc 	w3, 0
+	add 	r14, w2
+	mov 	r15, [rp-8]
+	mulx 	w1, rax, r9
+	adc 	w0, 0
+.Llo1:
+	add 	r14, rax
+	mulx 	w2, rax, r8
+	adc 	w1, 0
+	add 	r14, w3
+	mov 	[rp-16], r14
+	adc 	w1, 0
+	add 	r15, rax
+	adc 	w2, 0
+	add 	r15, w0
+	mov 	rdx, [up-8]
+	adc 	w2, 0
+.Llo0:
+	mulx 	w3, rax, r9
+	add 	r15, rax
+	adc 	w3, 0
+	mov 	r14, [rp]
+	mulx 	w0, rax, r8
+	add 	r14, rax
+	adc 	w0, 0
+	add 	r15, w1
+	mov 	[rp-8], r15
+	adc 	w3, 0
+	mov 	rdx, [up]
+	add 	r14, w2
+	mulx 	w1, rax, r9
+	adc 	w0, 0
+.Llo3:
+	add 	r14, rax
+	adc 	w1, 0
+	mulx 	w2, rax, r8
+	add 	r14, w3
+	mov 	r15, [rp+8]
+	mov 	[rp], r14
+	mov 	r14, [rp+16]
+	adc 	w1, 0
+	add 	r15, rax
+	adc 	w2, 0
+	mov 	rdx, [up+8]
+	lea 	up, [up+32]
+	inc 	n
+	jnz 	.Ltop
 
-    LEAF_PROC mpn_mul_basecase
-    ; the current mul does not handle case one
-    cmp     r8d, 4
-    jg      fiveormore
-    cmp     r8d, 1
-    je      one
+.Lend:
+	mulx 	w3, rax, r9
+	add 	r15, w0
+	adc 	w2, 0
+	add 	r15, rax
+	adc 	w3, 0
+	mulx 	rax, rdx, r8
+	add 	r15, w1
+	mov 	[rp+8], r15
+	adc 	w3, 0
+	add 	rdx, w2
+	adc 	rax, 0
+	add 	rdx, w3
+	mov 	[rp+16], rdx
+	adc 	rax, 0
+	mov 	[rp+24], rax
 
-    WIN64_GCC_PROC mpn_sandybridge_mbc1, 5, frame
+	add 	DWORD [rsp], -2
+	lea 	vp, [vp+16]
+	lea 	up, [up+un*8-16]
+	lea 	rp, [rp+un*8+32]
+	jnz 	.Louter
 
-    mov     r14, 5
-    sub     r14, rdx
-    lea     rdi, [rdi+rdx*8-40]
-    lea     rcx, [rcx+r8*8]
-    neg     r8
-    lea     rsi, [rsi+rdx*8-40]
-    mov     rax, [rsi+r14*8]
-    mov     r13, [rcx+r8*8]
-    mov     r11, r14
-    mul     r13
-    mov     r12, rax
-    mov     rax, [rsi+r14*8+8]
-    mov     r9, rdx
-    mov     r10d, 0
-    mul     r13
-    mov     [rdi+r11*8], r12
-    add     r9, rax
-    adc     r10, rdx
-    cmp     r11, 2
-    ja      .4
-    jz      .3
-    jp      .2
-.1:	oldmpn_muladdmul_1_int 0
-    jmp     .5
-.2:	oldmpn_muladdmul_1_int 1
-    jmp     .5
-.3:	oldmpn_muladdmul_1_int 2
-    jmp     .5
-.4:	oldmpn_muladdmul_1_int 3
-.5:	WIN64_GCC_END frame
-
-; rdx >= 5  as we dont have an inner jump
-; (rdi,rdx+r8)=(rsi,rdx)*(rcx,r8)
-
-%undef  reg_save_list
-%define reg_save_list   rbx, rsi, rdi, r12, r13, r14, r15
-
-    xalign  16
-fiveormore:
-    WIN64_GCC_PROC mpn_sandybridge_mbc2, 5, frame
-    movsxd  rdx, edx
-    movsxd  r8, r8d
-
-    mov     r14, 4
-    sub     r14, rdx
-    lea     rdi, [rdi+rdx*8-32]
-    lea     rsi, [rsi+rdx*8-32]
-    mov     r13, rcx
-    mov     r15, r8
-    lea     r13, [r13+r15*8]
-    neg     r15
-    mov     rbx, r14
-    mov     rax, [rsi+r14*8]
-    bt      r15, 0
-    jnc     .12
-.6:	inc     rbx
-    mov     r8, [r13+r15*8]
-    mul     r8
-    mov     r12, rax
-    mov     rax, [rsi+r14*8+8]
-    mov     r9, rdx
-    cmp     rbx, 0
-    jge     .7
-    mul1lp
-.7:	mov     r10d, 0
-    mul     r8
-    mov     [rdi+rbx*8-8], r12
-    add     r9, rax
-    adc     r10, rdx
-    cmp     rbx, 2
-    ja      .11
-    jz      .10
-    jp      .9
-.8:	mulnext0
-    jmp     .20
-.9:	mulnext1
-    jmp     .14
-.10:mulnext2
-    jmp     .16
-.11:mulnext3
-    jmp     .18
-     ; as all the mul2pro? are the same
-.12:mul2pro0
-    mul2lp
-    cmp     rbx, 2
-    ja      .19
-    jz      .17
-    jp      .15
-.13:mul2epi3
-.14:mpn_addmul_2_int 3
-    WIN64_GCC_EXIT frame
-
-.15:mul2epi2
-.16:mpn_addmul_2_int 2
-    WIN64_GCC_EXIT frame
-
-.17:mul2epi1
-.18:mpn_addmul_2_int 1
-    WIN64_GCC_EXIT frame
-
-.19:mul2epi0
-.20:mpn_addmul_2_int 0
-
-    xalign  16
-.21:WIN64_GCC_END frame
-
-    xalign  16
-one:mov     rax, [rdx]
-    mul     qword [r9]
-    mov     [rcx], rax
-    mov     [rcx+8], rdx
-    ret
-    
-    end
+	mov 	rax, [rsp]
+.Lret5:
+    END_PROC reg_save_list

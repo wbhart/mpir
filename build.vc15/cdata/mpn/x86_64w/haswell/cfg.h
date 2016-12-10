@@ -2,6 +2,7 @@ mpn_add_err1_n
 mpn_add_err2_n
 mpn_add_n
 mpn_add_nc
+mpn_addlsh1_n
 mpn_addmul_1
 mpn_addmul_2
 mpn_and_n
@@ -44,13 +45,16 @@ mpn_rsh_divrem_hensel_qr_1_1
 mpn_rsh_divrem_hensel_qr_1_2
 mpn_rshift
 mpn_rshift1
+mpn_sqr_basec1
 mpn_sqr_basecase
 mpn_store
 mpn_sub_err1_n
 mpn_sub_err2_n
 mpn_sub_n
 mpn_sub_nc
+mpn_sublsh1_n
 mpn_submul_1
+mpn_sumdiff_n
 mpn_udiv_qrnnd
 mpn_umul_ppmm
 mpn_xnor_n

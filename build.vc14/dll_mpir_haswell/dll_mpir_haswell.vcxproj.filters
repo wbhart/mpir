@@ -1390,9 +1390,6 @@
     <ClCompile Include="..\..\mpn\generic\subadd_n.c">
       <Filter>Source Files\mpn</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\mpn\generic\sumdiff_n.c">
-      <Filter>Source Files\mpn</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\mpn\generic\tdiv_q.c">
       <Filter>Source Files\mpn</Filter>
     </ClCompile>
@@ -1462,6 +1459,9 @@
       <Filter>Source Files\mpn\yasm</Filter>
     </YASM>
     <YASM Include="..\..\mpn\x86_64w\haswell\add_n.asm">
+      <Filter>Source Files\mpn\yasm</Filter>
+    </YASM>
+    <YASM Include="..\..\mpn\x86_64w\haswell\addlsh1_n.asm">
       <Filter>Source Files\mpn\yasm</Filter>
     </YASM>
     <YASM Include="..\..\mpn\x86_64w\haswell\addmul_1.asm">
@@ -1584,6 +1584,9 @@
     <YASM Include="..\..\mpn\x86_64w\sqr_basecase.asm">
       <Filter>Source Files\mpn\yasm</Filter>
     </YASM>
+    <YASM Include="..\..\mpn\x86_64w\haswell\sqr_basecase..asm">
+      <Filter>Source Files\mpn\yasm</Filter>
+    </YASM>
     <YASM Include="..\..\mpn\x86_64w\haswell\store.asm">
       <Filter>Source Files\mpn\yasm</Filter>
     </YASM>
@@ -1596,7 +1599,13 @@
     <YASM Include="..\..\mpn\x86_64w\haswell\sub_n.asm">
       <Filter>Source Files\mpn\yasm</Filter>
     </YASM>
+    <YASM Include="..\..\mpn\x86_64w\haswell\sublsh1_n.asm">
+      <Filter>Source Files\mpn\yasm</Filter>
+    </YASM>
     <YASM Include="..\..\mpn\x86_64w\haswell\submul_1.asm">
+      <Filter>Source Files\mpn\yasm</Filter>
+    </YASM>
+    <YASM Include="..\..\mpn\x86_64w\haswell\sumdiff_n.asm">
       <Filter>Source Files\mpn\yasm</Filter>
     </YASM>
     <YASM Include="..\..\mpn\x86_64w\udiv_qrnnd.asm">

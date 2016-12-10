@@ -1,199 +1,201 @@
-; PROLOGUE(mpn_copyi)
 
-;  Copyright 2009 Jason Moxham
-;
-;  Windows Conversion Copyright 2008 Brian Gladman
-;
+;  Copyright 2016 Jens Nurmann and Alexander Kruppa
+
 ;  This file is part of the MPIR Library.
+
 ;  The MPIR Library is free software; you can redistribute it and/or modify
 ;  it under the terms of the GNU Lesser General Public License as published
 ;  by the Free Software Foundation; either version 2.1 of the License, or (at
 ;  your option) any later version.
+
 ;  The MPIR Library is distributed in the hope that it will be useful, but
 ;  WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
 ;  or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public
 ;  License for more details.
+
 ;  You should have received a copy of the GNU Lesser General Public License
 ;  along with the MPIR Library; see the file COPYING.LIB.  If not, write
 ;  to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 ;  Boston, MA 02110-1301, USA.
+
+; mpn_copyi(mp_ptr Op2, mp_srcptr Op1, mp_size_t Size1)
+; Linux     RDI         RSI            RDX
+; Win7      RCX         RDX            R8
 ;
-;  void mpn_copyi(mp_ptr, mp_ptr, mp_size_t)
-;                    rdi     rsi        rdx
-;                    rcx     rdx         r8
+; Description:
+; The function copies a given number of limb from source to destination (while
+; moving low to high in memory) and hands back the size (in limb) of the
+; destination.
+;
+; Result:
+; - Op2[ 0..size-1 ] = Op1[ 0..size-1 ]
+; - number of copied limb: range [ 0..max tCounter ]
+;
+; Caveats:
+; - if size 0 is given the content of the destination will remain untouched!
+; - if Op1=Op2 no copy is done!
+;
+; Comments:
+; - AVX-based version implemented, tested & benched on 05.01.2016 by jn
+; - did some experiments with AVX based version with following results
+;   - AVX can be faster in L1$ (30%), L2$ (10%) if dest. is aligned on 32 byte
+;   - AVX is generally faster on small sized operands (<=100 limb) due too
+;     start-up overhead of "rep movsq" - however this could also be achieved by
+;     simple copy loop
+;   - the break-even between AVX and "rep movsq" is around 10,000 limb
+; - the prologue & epilogue can still be optimized!
 
-%define SMALL_LOOP  1
+%define USE_WIN64
 
-%include "yasm_mac.inc"
+%include 'yasm_mac.inc'
 
-    CPU  Core2
-    BITS 64
+BITS 64
 
-	LEAF_PROC mpn_copyi
-    cmp     r8, 0
-	jz      .9
-%if SMALL_LOOP <> 0
-	cmp     r8, 10
-	jge     .2
-	
-	xalign  16
-.1:	mov     rax, [rdx]
-	mov     [rcx], rax
-	lea     rdx, [rdx+8]
-	lea     rcx, [rcx+8]
-	sub     r8, 1
-	jnz     .1
-	ret
+%ifdef USE_WIN64
+    %define Op2     RCX
+    %define Op1     RDX
+    %define Size1   R8
+    %define Limb    R9
+    %define Offs    R10
+%else
+    %define Op2     RDI
+    %define Op1     RSI
+    %define Size1   RDX
+    %define Limb    RCX
+    %define Offs    R10
 %endif
 
-.2:	mov     rax, rcx
-	sub     rax, rdx
-	test    rax, 0xF
-	jz      .17
-	test    rcx, 0xF
-	jz      .10
-	mov     r9, 5
-	sub     r9, r8
-	lea     rdx, [rdx+r8*8-40]
-	lea     rcx, [rcx+r8*8-40]
-	movapd  xmm1, [rdx+r9*8]
-	movq    [rcx+r9*8], xmm1
-	add     rcx, 8
-%if SMALL_LOOP = 0
-	cmp     r8, 1
-	jz      .9
+%define DLimb0  XMM0
+%define QLimb0  YMM0
+%define QLimb1  YMM1
+%define QLimb2  YMM2
+%define QLimb3  YMM3
+
+    align   32
+
+LEAF_PROC   mpn_copyi
+    mov     RAX, Size1
+    cmp     Op1, Op2
+    je      .Exit               ; no copy required =>
+
+    or      RAX, RAX
+    je      .Exit               ; size=0 =>
+
+    ; align the destination (Op2) to 32 byte
+    test    Op2, 8
+    je      .lCpyIncA32
+
+    mov     Limb, [Op1]
+    mov     [Op2], Limb
+    dec     Size1
+    je      .Exit
+
+    add     Op1, 8
+    add     Op2, 8
+
+  .lCpyIncA32:
+
+    test    Op2, 16
+    je      .lCpyIncAVX
+
+    mov     Limb, [Op1]
+    mov     [Op2], Limb
+    dec     Size1
+    je      .Exit
+
+    mov     Limb, [Op1+8]
+    mov     [Op2+8], Limb
+    dec     Size1
+    je      .Exit
+
+    add     Op1, 16
+    add     Op2, 16
+
+  .lCpyIncAVX:
+
+    mov     Offs, 128
+    jmp     .lCpyIncAVXCheck
+
+    ; main loop (prefetching disabled; unloaded cache)
+    ; - lCpyInc is slightly slower than lCpyDec through all cache levels?!
+    ; - 0.30      cycles / limb in L1$
+    ; - 0.60      cycles / limb in L2$
+    ; - 0.70-0.90 cycles / limb in L3$
+    align   16
+  .lCpyIncAVXLoop:
+
+    vmovdqu QLimb0, [Op1]
+    vmovdqu QLimb1, [Op1+32]
+    vmovdqu QLimb2, [Op1+64]
+    vmovdqu QLimb3, [Op1+96]
+    vmovdqa [Op2], QLimb0
+    vmovdqa [Op2+32], QLimb1
+    vmovdqa [Op2+64], QLimb2
+    vmovdqa [Op2+96], QLimb3
+
+    add     Op1, Offs
+    add     Op2, Offs
+
+  .lCpyIncAVXCheck:
+
+    sub     Size1, 16
+    jnc     .lCpyIncAVXLoop
+
+    add     Size1, 16
+    je      .Exit               ; AVX copied operand fully =>
+
+    ; copy remaining max. 15 limb
+    test    Size1, 8
+    je      .lCpyIncFour
+
+    vmovdqu QLimb0, [Op1]
+    vmovdqu QLimb1, [Op1+32]
+    vmovdqa [Op2], QLimb0
+    vmovdqa [Op2+32], QLimb1
+
+    add     Op1, 64
+    add     Op2, 64
+
+  .lCpyIncFour:
+
+    test    Size1, 4
+    je      .lCpyIncTwo
+
+    vmovdqu QLimb0, [Op1]
+    vmovdqa [Op2], QLimb0
+
+    add     Op1, 32
+    add     Op2, 32
+
+  .lCpyIncTwo:
+
+    test    Size1, 2
+    je      .lCpyIncOne
+
+%if 1
+    ; Avoid SSE2 instruction due to stall on Haswell
+    mov     Limb, [Op1]
+    mov     [Op2], Limb
+    mov     Limb, [Op1+8]
+    mov     [Op2+8], Limb
+%else
+    movdqu  DLimb0, [Op1]
+    movdqa  [Op2], DLimb0
 %endif
-	cmp     r9, 0
-	jge     .4
 
-	xalign  16
-.3:	movapd  xmm0, [rdx+r9*8+16]
-	add     r9, 4
-	shufpd  xmm1, xmm0, 1
-	movapd  [rcx+r9*8-32], xmm1
-	movapd  xmm1, [rdx+r9*8+0]
-	shufpd  xmm0, xmm1, 1
-	movapd  [rcx+r9*8-16], xmm0
-	jnc     .3
-.4:	cmp     r9, 2
-	ja      .8
-	jz      .7
-	jp      .6
+    add     Op1, 16
+    add     Op2, 16
 
-	xalign  16
-.5:	movapd  xmm0, [rdx+r9*8+16]
-	shufpd  xmm1, xmm0, 1
-	movapd  [rcx+r9*8], xmm1
-	movapd  xmm1, [rdx+r9*8+32]
-	shufpd  xmm0, xmm1, 1
-	movapd  [rcx+r9*8+16], xmm0
-	ret
+  .lCpyIncOne:
 
-	xalign  16
-.6:	movapd  xmm0, [rdx+r9*8+16]
-	shufpd  xmm1, xmm0, 1
-	movapd  [rcx+r9*8], xmm1
-	movhpd  [rcx+r9*8+16], xmm0
-	ret
+    test    Size1, 1
+    je      .Exit
 
-	xalign  16
-.7:	movapd  xmm0, [rdx+r9*8+16]
-	shufpd  xmm1, xmm0, 1
-	movapd  [rcx+r9*8], xmm1
-	ret
+    mov     Limb, [Op1]
+    mov     [Op2], Limb
 
-	xalign  16
-.8:	movhpd  [rcx+r9*8], xmm1
-.9:	ret
+  .Exit:
 
-.10:mov     r9, 4
-	sub     r9, r8
-	lea     rdx, [rdx+r8*8-32]
-	lea     rcx, [rcx+r8*8-32]
-	movapd  xmm1, [rdx+r9*8-8]
-	sub     rdx, 8
-	cmp     r9, 0
-	jge     .12
-
-	xalign  16
-.11:movapd  xmm0, [rdx+r9*8+16]
-	add     r9, 4
-	shufpd  xmm1, xmm0, 1
-	movapd  [rcx+r9*8-32], xmm1
-	movapd  xmm1, [rdx+r9*8+0]
-	shufpd  xmm0, xmm1, 1
-	movapd  [rcx+r9*8-16], xmm0
-	jnc     .11
-.12:cmp     r9, 2
-	ja      .16
-	jz      .15
-	jp      .14
-
-	xalign  16
-.13:movapd  xmm0, [rdx+r9*8+16]
-	shufpd  xmm1, xmm0, 1
-	movapd  [rcx+r9*8], xmm1
-	movapd  xmm1, [rdx+r9*8+32]
-	shufpd  xmm0, xmm1, 1
-	movapd  [rcx+r9*8+16], xmm0
-	ret
-
-	xalign  16
-.14:movapd  xmm0, [rdx+r9*8+16]
-	shufpd  xmm1, xmm0, 1
-	movapd  [rcx+r9*8], xmm1
-	movhpd  [rcx+r9*8+16], xmm0
-	ret
-	
-	xalign  16
-.15:movapd  xmm0, [rdx+r9*8+16]
-	shufpd  xmm1, xmm0, 1
-	movapd  [rcx+r9*8], xmm1
-	ret
-
-	xalign  16
-.16:movhpd  [rcx+r9*8], xmm1
-	ret
-
-	xalign  16
-.17:mov     r9, 3
-	sub     r9, r8
-	test    rcx, 0xF
-	lea     rdx, [rdx+r8*8-24]
-	lea     rcx, [rcx+r8*8-24]
-	jz      .18
-	mov     rax, [rdx+r9*8]
-	mov     [rcx+r9*8], rax
-	add     r9, 1
-.18:cmp     r9, 0
-	jge     .20
-
-	xalign  16
-.19:add     r9, 4
-	movapd  xmm0, [rdx+r9*8-32]
-	movapd  [rcx+r9*8-32], xmm0
-	movapd  xmm1, [rdx+r9*8-16]
-	movapd  [rcx+r9*8-16], xmm1
-	jnc     .19
-.20:cmp     r9, 2
-	ja      .22
-	je      .24
-	jp      .23
-
-.21:movapd  xmm0, [rdx+r9*8]
-	movapd  [rcx+r9*8], xmm0
-	mov     rax, [rdx+r9*8+16]
-	mov     [rcx+r9*8+16], rax
-.22:ret
-
-	xalign  16
-.23:movapd  xmm0, [rdx+r9*8]
-	movapd  [rcx+r9*8], xmm0
-	ret
-
-	xalign  16
-.24:mov     rax, [rdx+r9*8]
-	mov     [rcx+r9*8], rax
-	ret
-
-	end
+    vzeroupper
+    ret
+.end:

@@ -543,7 +543,6 @@ postbuild "$(TargetPath)" 15
     <ClCompile Include="..\..\mpn\generic\sub.c" />
     <ClCompile Include="..\..\mpn\generic\sub_1.c" />
     <ClCompile Include="..\..\mpn\generic\subadd_n.c" />
-    <ClCompile Include="..\..\mpn\generic\sumdiff_n.c" />
     <ClCompile Include="..\..\mpn\generic\tdiv_q.c" />
     <ClCompile Include="..\..\mpn\generic\tdiv_qr.c" />
     <ClCompile Include="..\..\mpn\generic\toom3_mul.c" />
@@ -569,6 +568,7 @@ postbuild "$(TargetPath)" 15
     <YASM Include="..\..\mpn\x86_64w\add_err1_n.asm" />
     <YASM Include="..\..\mpn\x86_64w\add_err2_n.asm" />
     <YASM Include="..\..\mpn\x86_64w\haswell\add_n.asm" />
+    <YASM Include="..\..\mpn\x86_64w\haswell\addlsh1_n.asm" />
     <YASM Include="..\..\mpn\x86_64w\haswell\addmul_1.asm" />
     <YASM Include="..\..\mpn\x86_64w\haswell\addmul_2.asm" />
     <YASM Include="..\..\mpn\x86_64w\haswell\and_n.asm" />
@@ -609,11 +609,14 @@ postbuild "$(TargetPath)" 15
     <YASM Include="..\..\mpn\x86_64w\haswell\rshift.asm" />
     <YASM Include="..\..\mpn\x86_64w\haswell\rshift1.asm" />
     <YASM Include="..\..\mpn\x86_64w\sqr_basecase.asm" />
+    <YASM Include="..\..\mpn\x86_64w\haswell\sqr_basecase..asm" />
     <YASM Include="..\..\mpn\x86_64w\haswell\store.asm" />
     <YASM Include="..\..\mpn\x86_64w\sub_err1_n.asm" />
     <YASM Include="..\..\mpn\x86_64w\sub_err2_n.asm" />
     <YASM Include="..\..\mpn\x86_64w\haswell\sub_n.asm" />
+    <YASM Include="..\..\mpn\x86_64w\haswell\sublsh1_n.asm" />
     <YASM Include="..\..\mpn\x86_64w\haswell\submul_1.asm" />
+    <YASM Include="..\..\mpn\x86_64w\haswell\sumdiff_n.asm" />
     <YASM Include="..\..\mpn\x86_64w\udiv_qrnnd.asm" />
     <YASM Include="..\..\mpn\x86_64w\umul_ppmm.asm" />
     <YASM Include="..\..\mpn\x86_64w\haswell\xnor_n.asm" />

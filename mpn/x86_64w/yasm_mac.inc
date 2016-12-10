@@ -74,32 +74,34 @@
 ;
 ; Copyright 2008, 2009 Brian Gladman
 ;
-; Windows x64 prologue macro
+; Windows x64 prologue macro:
 ;
-;   FRAME_PROC name, var_slots, register_save_list 
+;     FRAME_PROC name, var_slots, register_save_list 
 ;
-;   name:                routine name
-;   register_save_list:  comma separated list of registers to save
-;   var_slots:           stack space needed in 8 byte units
+; Windows x64 epilogue macro:
+;
+;     EXIT_PROC register_save_list
+;
+; Windows x64 epilogue and end procedure macro
+;
+;     END_PROC register_save_list
+;
+; where:
 
-; Windows x64 epilogue macro
-;
-;   EXIT_PROC register_save_list
-;
-;   register_save_list:  comma separated list of registers to save
-;                        in same order used in prologue
-;
+;   name:                routine name
+;   var_slots:           stack space needed in 8 byte units
+;   register_save_list:  comma separated list of registers to
+;                        save and restore: a list of general
+;                        purpose registers followed, if XMM
+;                        registers are present, by XMM, and
+;                        then a list of the numbers of the 
+;                        XMM registers to save and restore
+;                        e.g.  rsi, rdi, rbp, XMM, 6, 7, 8
+
 ; On return the macro variable 'stack_use' gives the total number 
 ; of bytes used on the stack. This allows the function parameters
 ; to be accessed at [rsp + stack_use + 8 * n] where n starts at 1
 ; (for n = 1..4 this is shadow space for a register parameter)  
-;
-; Windows x64 epilogue and end procedure macro
-;
-;   END_PROC register_save_list
-;
-; Details as above but used at the end of a procedure to signal 
-; the end of its source code.
 
 %macro FRAME_PROC 2-*
 
@@ -229,13 +231,13 @@ __g%1:
 ; six integer parameters from Microsoft ABI calling
 ; calling conventions to those used by GCC: 
 ;
-;   function(     MSVC --> GCC
-;       p1,       rcx      rdi
-;       p2,       rdx      rsi
-;       p3,        r8      rdx
-;       p4,        r9      rcx
-;       p5,  [rsp+40]       r8
-;       p6,  [rsp+48]       r9
+;   function(    MSVC --> GCC
+;       p1,       rcx     rdi
+;       p2,       rdx     rsi
+;       p3,        r8     rdx
+;       p4,        r9     rcx
+;       p5,  [rsp+40]      r8
+;       p6,  [rsp+48]      r9
 ;
 ;   WIN64_GCC_PROC name, n_parms, (frame | leaf)
 ;
@@ -247,11 +249,12 @@ __g%1:
 ;     n_parms number of parameters (default 6)
 ;     type    frame or leaf function (default frame)
 ;
-; These defines are also used:
+; These defines are also used and must be set before the
+; macros are used:
 ;
 ;     reg_save_list   list of registers to be saved
 ;                     and restored
-;     var_slots     number of 8 byte slots needed
+;     var_slots       number of 8 byte slots needed
 ;                     on the stack (excluding the 
 ;                     register save/restore space)
 
