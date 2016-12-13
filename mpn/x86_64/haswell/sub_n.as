@@ -25,8 +25,9 @@
     %define Inp1P   rdx
     %define Inp2P   r8
     %define Size    r9
-    %define LIMB1   r10
-    %define LIMB2   r11
+    %define LIMB1   rax
+    %define LIMB2   r10
+    %define SizeRest r11
 %else
     %define SumP    rdi
     %define Inp1P   rsi
