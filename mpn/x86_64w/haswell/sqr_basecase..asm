@@ -37,7 +37,7 @@
 	ret
 
 	xalign  32
-.1:	FRAME_PROC mpn_sqr_basec1, 1, reg_save_list
+.1:	FRAME_PROC mpn_sqr_basec1, 0, reg_save_list
     mov     rdi, rcx
     mov     rsi, rdx
     mov     rdx, r8  
@@ -88,7 +88,7 @@
 .2:
 .3:	mov     r12, 0
 	sub     r12, rdx
-	mov     [rsp], r12
+	mov     [rsp+stack_use+8], r12
 	mov     r8, [rsi]
 	mov     rdx, [rsi+8]
 	lea     rcx, [r12+2]
@@ -299,7 +299,7 @@
 	adc     rax, 0
 	mov     [rdi+24], rax
 	jmp     .16
-.30:mov     r12, [rsp]
+.30:mov     r12, [rsp+stack_use+8]
 	mov     rdx, [rsi]
 	jg      .31
 	mov     r9, rdx

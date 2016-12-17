@@ -56,7 +56,7 @@ BITS    64
 
 align 16
 
-FRAME_PROC mpn_mul_basecase, 1, reg_save_list
+FRAME_PROC mpn_mul_basecase, 0, reg_save_list
     mov     rdi, rcx
     mov     rsi, rdx
     mov     rdx, r8
@@ -269,7 +269,7 @@ FRAME_PROC mpn_mul_basecase, 1, reg_save_list
 	lea 	rp, [rp+16]
 
 .Ldo_addmul:
-	mov     [rsp], r8
+	mov     [rsp+stack_use+8], r8
 	lea 	rp, [un*8+rp]
 	lea 	up, [un*8+up]
 
@@ -414,12 +414,12 @@ FRAME_PROC mpn_mul_basecase, 1, reg_save_list
 	adc 	rax, 0
 	mov 	[rp+24], rax
 
-	add 	DWORD [rsp], -2
+	add 	DWORD [rsp+stack_use+8], -2
 	lea 	vp, [vp+16]
 	lea 	up, [up+un*8-16]
 	lea 	rp, [rp+un*8+32]
 	jnz 	.Louter
 
-	mov 	rax, [rsp]
+	mov 	rax, [rsp+stack_use+8]
 .Lret5:
     END_PROC reg_save_list
