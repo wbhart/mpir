@@ -1289,11 +1289,11 @@ case $host in
           ivybridge-*-*)
             path_64="x86_64/sandybridge/ivybridge x86_64/sandybridge x86_64" ;;
           haswell-*-*)
-            path_64="x86_64/haswell x86_64/sandybridge x86_64" ;;
+            path_64="x86_64/haswell/avx x86_64/haswell x86_64/sandybridge x86_64" ;;
           skylake-*-*)
             path_64="x86_64/skylake x86_64/sandybridge x86_64" ;;
           skylakeavx-*-*)
-            path_64="x86_64/skylakeavx x86_64/skylake x86_64/haswell x86_64/sandybridge x86_64" ;;
+            path_64="x86_64/skylake/avx x86_64/haswell/avx x86_64/skylake x86_64/haswell x86_64/sandybridge x86_64" ;;
           atom-*-*) 
             path_64="x86_64/atom x86_64" ;;
           nano-*-*) 
