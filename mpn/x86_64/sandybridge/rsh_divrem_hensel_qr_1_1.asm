@@ -86,10 +86,10 @@ psllq %mm1,%mm5
 psrlq %mm1,%mm5
 mul %rcx
 cmp $0,%r9
-je one
+je L(one)
 add %r8,%r8
 ALIGN(16)
-loop:
+L(loop):
     movq %mm4,%mm2
     mov (%rsi,%r9,8),%rax
     sbb %rdx,%rax
@@ -104,14 +104,14 @@ loop:
     mul %rcx
     add %r8,%r8
     inc %r9
-    jnz loop
-skiploop:
+    jnz L(loop)
+L(skiploop):
 movq %mm4,-8(%rdi,%r9,8)
 mov $0,%rax
 adc %rdx,%rax
 emms
 ret
-one:
+L(one):
 movq %mm4,-8(%rdi,%r9,8)
 add %r8,%r8
 mov $0,%rax

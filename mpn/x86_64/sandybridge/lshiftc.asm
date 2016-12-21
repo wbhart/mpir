@@ -38,9 +38,9 @@ movq %mm5,%mm3
 psrlq %mm1,%mm5
 MOVQ %mm5,%rax
 psllq %mm0,%mm3
-jc skiplp
+jc L(skiplp)
 ALIGN(16)
-lp:
+L(lp):
 	movq 16(%rsi,%rdx,8),%mm2
 	movq %mm2,%mm4
 	psrlq %mm1,%mm2
@@ -70,13 +70,13 @@ lp:
 	pxor %mm6,%mm4
 	movq %mm4,32(%rdi,%rdx,8)
 	psllq %mm0,%mm3
-	jnc lp
-skiplp:
+	jnc L(lp)
+L(skiplp):
 cmp $-2,%rdx
-jz case2
-jp case1
-js case0
-case3:
+jz L(case2)
+jp L(case1)
+js L(case0)
+L(case3):
 	movq 16(%rsi,%rdx,8),%mm2
 	movq %mm2,%mm4
 	psrlq %mm1,%mm2
@@ -103,7 +103,7 @@ case3:
 	emms
 	ret
 ALIGN(16)
-case2:
+L(case2):
 	movq 16(%rsi,%rdx,8),%mm2
 	movq %mm2,%mm4
 	psrlq %mm1,%mm2
@@ -123,7 +123,7 @@ case2:
 	emms
 	ret
 ALIGN(16)
-case1:
+L(case1):
 	movq 16(%rsi,%rdx,8),%mm2
 	movq %mm2,%mm4
 	psrlq %mm1,%mm2
@@ -136,7 +136,7 @@ case1:
 	emms
 	ret
 ALIGN(16)
-case0:
+L(case0):
 	pxor %mm6,%mm3
 	movq %mm3,24(%rdi,%rdx,8)
 	emms
