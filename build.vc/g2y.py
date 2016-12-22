@@ -58,6 +58,7 @@ r_x = r'(?:x?mm1[0-5]|x?mm\d)|(?:mmx1[0-5]|mmx\d)|(?:st\([0-7]\))'
 p_r1 = r'(?:\s*%(?P<reg1>' + r_b + r_w + r_d + r_q + r_x + r'))'
 p_r2 = r'(?:\s*%(?P<reg2>' + r_b + r_w + r_d + r_q + r_x + r'))'
 p_r3 = r'(?:\s*%(?P<reg3>' + r_b + r_w + r_d + r_q + r_x + r'))'
+p_r4 = r'(?:\s*%(?P<reg4>' + r_b + r_w + r_d + r_q + r_x + r'))'
 
 # regular expression for immediate (numeric, not symbolic)
 
@@ -99,6 +100,7 @@ m_g7 = re.compile(p_in + r'\s+\*' + p_r1)
 m_f8 = re.compile(p_in + p_im)
 m_f9 = re.compile(p_in + p_lr)
 m_fa = re.compile(p_in + '(?:' + p_im + '|' + p_r1 + r')\s*,' + p_r2 + r'\s*,' + p_r3)
+m_fb = re.compile(p_in + p_t1 +  r'\s*,' + p_r3 +  r'\s*,' + p_r4)
 
 m_la = re.compile(p_la)
 m_jt = re.compile(p_jt)
@@ -265,6 +267,15 @@ def pass_three(code, labels, macros, level):
         print(l, end = '')
       e = d['imm'] if d['imm'] else d['reg1']
       lo += [lp + '\t{0[ins]:7s} {0[reg3]}, {0[reg2]}, {1}'.format(d, e)]
+      continue
+    
+    m = m_fb.search(l)
+    if m:
+      d = m.groupdict()
+      if debug:
+        print(l, end = '')
+      s = addr(d, labels, macros, mac_name)
+      lo += [lp + '\t{0[ins]:7s} {0[reg4]}, {0[reg3]}, {1}'.format(d, s)]
       continue
 
     # ins reg, dis(reg, reg, off)
@@ -477,6 +488,11 @@ def pass_three(code, labels, macros, level):
       lo += [lp + '{0}'.format(l.rstrip(string.whitespace))]
       continue
 
+    m = re.search(r'\s*\.(align\s+[0-9]*)', l)
+    if m:
+      lo += [lp + '\t{0}'.format(m.group(1))]
+      continue
+    
     m = re.search(r'\s*(\S+)', l)
     if m:
       if len(l):
