@@ -28,8 +28,6 @@
 ;  GNU Lesser General Public License along with the GNU MP Library.  If not,
 ;  see https://www.gnu.org/licenses/.
 ;
-;  Conversion to Windows by Brian Gladman
-;
 ;  mp_limb_t mpn_addmul_1(mp_ptr, mp_ptr, mp_size_t, mp_limb_t)
 ;  rax                       rdi     rsi        rdx        rcx
 ;  rax                       rcx     rdx         r8        r9d
