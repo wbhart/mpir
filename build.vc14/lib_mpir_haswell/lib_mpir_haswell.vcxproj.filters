@@ -1547,10 +1547,7 @@
     <YASM Include="..\..\mpn\x86_64w\haswell\rshift1.asm">
       <Filter>Source Files\mpn\yasm</Filter>
     </YASM>
-    <YASM Include="..\..\mpn\x86_64w\sqr_basecase.asm">
-      <Filter>Source Files\mpn\yasm</Filter>
-    </YASM>
-    <YASM Include="..\..\mpn\x86_64w\haswell\sqr_basecase..asm">
+    <YASM Include="..\..\mpn\x86_64w\haswell\sqr_basecase.asm">
       <Filter>Source Files\mpn\yasm</Filter>
     </YASM>
     <YASM Include="..\..\mpn\x86_64w\haswell\store.asm">

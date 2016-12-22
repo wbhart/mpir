@@ -623,8 +623,7 @@ postbuild "$(TargetPath)" 14
     <YASM Include="..\..\mpn\x86_64w\haswell\rsh_divrem_hensel_qr_1_2.asm" />
     <YASM Include="..\..\mpn\x86_64w\haswell\rshift.asm" />
     <YASM Include="..\..\mpn\x86_64w\haswell\rshift1.asm" />
-    <YASM Include="..\..\mpn\x86_64w\sqr_basecase.asm" />
-    <YASM Include="..\..\mpn\x86_64w\haswell\sqr_basecase..asm" />
+    <YASM Include="..\..\mpn\x86_64w\haswell\sqr_basecase.asm" />
     <YASM Include="..\..\mpn\x86_64w\haswell\store.asm" />
     <YASM Include="..\..\mpn\x86_64w\sub_err1_n.asm" />
     <YASM Include="..\..\mpn\x86_64w\sub_err2_n.asm" />
