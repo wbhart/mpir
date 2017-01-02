@@ -26,7 +26,7 @@ C	rax=carry
 
 ASM_START()
 PROLOGUE(mpn_lshift)
-C // odd and even n seem to have different runtimes
+C	// odd and even n seem to have different runtimes
 push %rbx
 mov %rdx,%rbx
 lea 24(%rsi),%rsi
