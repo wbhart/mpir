@@ -723,5 +723,6 @@ define(`adox', `ifelse(`$#',2,``adox' $1,$2',`$#',3,``adox' $1$2,$3',``adox'')')
 define(`ABI_SUPPORT', `')
 define(`FUNC_ENTRY', `')
 define(`FUNC_EXIT', `')
+define(`IFDOS', `')
 
 divert`'dnl
