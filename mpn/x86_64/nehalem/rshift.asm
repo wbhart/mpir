@@ -26,7 +26,7 @@ C	rax=carry
 
 ASM_START()
 PROLOGUE(mpn_rshift)
-C // when n=1 mod4 seem to have different runtimes
+C	//when n=1 mod4 seem to have different runtimes
 push %rbx
 mov $4,%rbx
 lea -24(%rsi,%rdx,8),%rsi

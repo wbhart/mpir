@@ -1,5 +1,5 @@
 
-;  AMD64 mpn_sub_n
+;  AMD64 mpn_sub_n, mpn_sub_nc
 ;  Copyright 2008, 2016 Jason Moxham and Alexander Kruppa
 ;  This file is part of the MPIR Library.
 ;  The MPIR Library is free software; you can redistribute it and/or modify
@@ -25,23 +25,36 @@
     %define Inp1P   rdx
     %define Inp2P   r8
     %define Size    r9
+    %define CarryIn
     %define LIMB1   rax
     %define LIMB2   r10
-    %define SizeRest r11
 %else
     %define SumP    rdi
     %define Inp1P   rsi
     %define Inp2P   rdx
     %define Size    rcx
+    %define CarryIn r8
     %define LIMB1   rax
-    %define LIMB2   r9
-    %define SizeRest r10
+    %define LIMB2   r8  ; may reuse CarryIn
+    %define SizeRest r9
 %endif
 
 %define ADCSBB sbb
 
     BITS    64
 
+	align   16
+   GLOBAL_FUNC mpn_sub_nc
+	mov     SizeRest, Size
+	and     SizeRest, 7
+	shr     Size, 3
+        neg	CarryIn		; Set CF iff CarryIn != 0
+	inc     Size
+	dec     Size		; Set ZF without affecting CF
+	jnz     mpn_sub_n.loop1
+        jmp     mpn_sub_n.rest ;ajs:notshortform
+
+	align   16
    GLOBAL_FUNC mpn_sub_n
 	mov     SizeRest, Size
 	and     SizeRest, 7
