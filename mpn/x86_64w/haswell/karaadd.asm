@@ -70,7 +70,7 @@ lp:     bt      rbx, 2
         adc     r10, [rbp+rcx*8+16]
         mov     r11, [rdi+rdx*8+24]
         adc     r11, [rbp+rcx*8+24]
-        rcl     rbx, 1
+        adc     rbx, rbx
         bt      rax, 1
         mov     r15, r11
         adc     r8, [rdi+rcx*8]
@@ -79,13 +79,13 @@ lp:     bt      rbx, 2
         mov     r14, r10
         adc     r10, [rdi+rcx*8+16]
         adc     r11, [rdi+rcx*8+24]
-        rcl     rax, 1
+        adc     rax, rax
         bt      rbx, 2
         adc     r12, [rbp+rdx*8]
         adc     r13, [rbp+rdx*8+8]
         adc     r14, [rbp+rdx*8+16]
         adc     r15, [rbp+rdx*8+24]
-        rcl     rbx, 1
+        adc     rbx, rbx
         bt      rax, 1
         adc     r8, [rsi+rcx*8]
         adc     r9, [rsi+rcx*8+8]
@@ -93,7 +93,7 @@ lp:     bt      rbx, 2
         adc     r11, [rsi+rcx*8+24]
         mov     [rdi+rdx*8+16], r10
         mov     [rdi+rdx*8+24], r11
-        rcl     rax, 1
+        adc     rax, rax
         bt      rbx, 2
         mov     [rdi+rdx*8], r8
         mov     [rdi+rdx*8+8], r9
@@ -101,7 +101,7 @@ lp:     bt      rbx, 2
         adc     r13, [rsi+rdx*8+8]
         adc     r14, [rsi+rdx*8+16]
         adc     r15, [rsi+rdx*8+24]
-        rcl     rbx, 1
+        adc     rbx, rbx
         add     rdx, 4
         mov     [rbp+rcx*8], r12
         mov     [rbp+rcx*8+8], r13
@@ -122,32 +122,32 @@ case3:
         adc     r9, [rbp+8]
         mov     r10, [rdi+rdx*8+16]
         adc     r10, [rbp+16]
-        rcl     rbx, 1
+        adc     rbx, rbx
         bt      rax, 1
         adc     r8, [rdi]
         mov     r13, r9
         adc     r9, [rdi+8]
         mov     r14, r10
         adc     r10, [rdi+16]
-        rcl     rax, 1
+        adc     rax, rax
         bt      rbx, 2
         adc     r12, [rbp+rdx*8]
         adc     r13, [rbp+rdx*8+8]
         adc     r14, [rbp+rdx*8+16]
-        rcl     rbx, 1
+        adc     rbx, rbx
         bt      rax, 1
         adc     r8, [rsi]
         adc     r9, [rsi+8]
         adc     r10, [rsi+16]
         mov     [rdi+rdx*8+16], r10
-        rcl     rax, 1
+        adc     rax, rax
         bt      rbx, 2
         mov     [rdi+rdx*8], r8
         mov     [rdi+rdx*8+8], r9
         adc     r12, [rsi+rdx*8]
         adc     r13, [rsi+rdx*8+8]
         adc     r14, [rsi+rdx*8+16]
-        rcl     rbx, 1
+        adc     rbx, rbx
         add     rdx, 3
         mov     [rbp], r12
         mov     [rbp+8], r13
@@ -160,26 +160,26 @@ case2:
         mov     r12, r8
         mov     r9, [rdi+rdx*8+8]
         adc     r9, [rbp+16]
-        rcl     rbx, 1
+        adc     rbx, rbx
         bt      rax, 1
         adc     r8, [rdi+8]
         mov     r13, r9
         adc     r9, [rdi+16]
-        rcl     rax, 1
+        adc     rax, rax
         bt      rbx, 2
         adc     r12, [rbp+rdx*8]
         adc     r13, [rbp+rdx*8+8]
-        rcl     rbx, 1
+        adc     rbx, rbx
         bt      rax, 1
         adc     r8, [rsi+8]
         adc     r9, [rsi+16]
-        rcl     rax, 1
+        adc     rax, rax
         bt      rbx, 2
         mov     [rdi+rdx*8], r8
         mov     [rdi+rdx*8+8], r9
         adc     r12, [rsi+rdx*8]
         adc     r13, [rsi+rdx*8+8]
-        rcl     rbx, 1
+        adc     rbx, rbx
         add     rdx, 2
         mov     [rbp+8], r12
         mov     [rbp+16], r13
@@ -189,20 +189,20 @@ case1:
         mov     r8, [rdi+rdx*8]
         adc     r8, [rbp+16]
         mov     r12, r8
-        rcl     rbx, 1
+        adc     rbx, rbx
         bt      rax, 1
         adc     r8, [rdi+16]
-        rcl     rax, 1
+        adc     rax, rax
         bt      rbx, 2
         adc     r12, [rbp+rdx*8]
-        rcl     rbx, 1
+        adc     rbx, rbx
         bt      rax, 1
         adc     r8, [rsi+16]
-        rcl     rax, 1
+        adc     rax, rax
         bt      rbx, 2
         mov     [rdi+rdx*8], r8
         adc     r12, [rsi+rdx*8]
-        rcl     rbx, 1
+        adc     rbx, rbx
         inc     rdx
         mov     [rbp+rcx*8], r12
 fin:    mov     rcx, 3
@@ -215,7 +215,7 @@ case0:
         mov     r9, [rbp+rdx*8+8]
         add     r8, [rsi+rdx*8]
         adc     r9, [rsi+rdx*8+8]
-        rcl     r10, 1
+        adc     r10, r10
         add     [rbp+24], r8
         adc     [rbp+32], r9
         adc     [rbp+40], r10
