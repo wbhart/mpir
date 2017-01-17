@@ -98,7 +98,7 @@ ll = [
       '-c -s 10(10)1000 mpn_rshift.33',
       '-c -s 10(10)1000 mpn_lshift1',
       '-c -s 10(10)1000 mpn_rshift1',
-      '-c -s 10(10)1000 mpn_duuble',
+      '-c -s 10(10)1000 mpn_double',
       '-c -s 10(10)1000 mpn_half',
       '-c -s 10(10)1000 mpn_lshift2',
       '-c -s 10(10)1000 mpn_rshift2',
