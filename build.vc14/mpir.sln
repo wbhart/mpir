@@ -44,6 +44,10 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "dll_mpir_skylake_avx", "dll
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lib_mpir_skylake_avx", "lib_mpir_skylake_avx\lib_mpir_skylake_avx.vcxproj", "{1B807FDE-B444-4AD4-8A2A-814D52124585}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "dll_mpir_haswell_avx", "dll_mpir_haswell_avx\dll_mpir_haswell_avx.vcxproj", "{DF571850-CFB2-4F13-9F15-DDA6B9D0210E}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lib_mpir_haswell_avx", "lib_mpir_haswell_avx\lib_mpir_haswell_avx.vcxproj", "{09A387AF-18EA-40EB-AD27-9DF346740987}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -136,6 +140,14 @@ Global
 		{1B807FDE-B444-4AD4-8A2A-814D52124585}.Debug|x64.ActiveCfg = Debug|x64
 		{1B807FDE-B444-4AD4-8A2A-814D52124585}.Release|Win32.ActiveCfg = Release|x64
 		{1B807FDE-B444-4AD4-8A2A-814D52124585}.Release|x64.ActiveCfg = Release|x64
+		{DF571850-CFB2-4F13-9F15-DDA6B9D0210E}.Debug|Win32.ActiveCfg = Debug|x64
+		{DF571850-CFB2-4F13-9F15-DDA6B9D0210E}.Debug|x64.ActiveCfg = Debug|x64
+		{DF571850-CFB2-4F13-9F15-DDA6B9D0210E}.Release|Win32.ActiveCfg = Release|x64
+		{DF571850-CFB2-4F13-9F15-DDA6B9D0210E}.Release|x64.ActiveCfg = Release|x64
+		{09A387AF-18EA-40EB-AD27-9DF346740987}.Debug|Win32.ActiveCfg = Debug|x64
+		{09A387AF-18EA-40EB-AD27-9DF346740987}.Debug|x64.ActiveCfg = Debug|x64
+		{09A387AF-18EA-40EB-AD27-9DF346740987}.Release|Win32.ActiveCfg = Release|x64
+		{09A387AF-18EA-40EB-AD27-9DF346740987}.Release|x64.ActiveCfg = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
