@@ -49,6 +49,10 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "dll_mpir_haswell_avx", "dll
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lib_mpir_haswell_avx", "lib_mpir_haswell_avx\lib_mpir_haswell_avx.vcxproj", "{09A387AF-18EA-40EB-AD27-9DF346740987}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "dll_mpir_bulldozer", "dll_mpir_bulldozer\dll_mpir_bulldozer.vcxproj", "{5EABF8E8-965B-4F9D-9BD7-86EFDA516F3E}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lib_mpir_bulldozer", "lib_mpir_bulldozer\lib_mpir_bulldozer.vcxproj", "{27DEF7AD-2EF5-45BE-839F-8A11C4D3AC8B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -149,6 +153,14 @@ Global
 		{09A387AF-18EA-40EB-AD27-9DF346740987}.Release|x64.ActiveCfg = Release|x64
 		{09A387AF-18EA-40EB-AD27-9DF346740987}.Debug|Win32.ActiveCfg = Debug|Win32
 		{09A387AF-18EA-40EB-AD27-9DF346740987}.Debug|x64.ActiveCfg = Debug|x64
+		{5EABF8E8-965B-4F9D-9BD7-86EFDA516F3E}.Release|Win32.ActiveCfg = Release|Win32
+		{5EABF8E8-965B-4F9D-9BD7-86EFDA516F3E}.Release|x64.ActiveCfg = Release|x64
+		{5EABF8E8-965B-4F9D-9BD7-86EFDA516F3E}.Debug|Win32.ActiveCfg = Debug|Win32
+		{5EABF8E8-965B-4F9D-9BD7-86EFDA516F3E}.Debug|x64.ActiveCfg = Debug|x64
+		{27DEF7AD-2EF5-45BE-839F-8A11C4D3AC8B}.Release|Win32.ActiveCfg = Release|Win32
+		{27DEF7AD-2EF5-45BE-839F-8A11C4D3AC8B}.Release|x64.ActiveCfg = Release|x64
+		{27DEF7AD-2EF5-45BE-839F-8A11C4D3AC8B}.Debug|Win32.ActiveCfg = Debug|Win32
+		{27DEF7AD-2EF5-45BE-839F-8A11C4D3AC8B}.Debug|x64.ActiveCfg = Debug|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
