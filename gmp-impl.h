@@ -116,6 +116,8 @@ along with the GNU MP Library.  If not, see http://www.gnu.org/licenses/.  */
   DECL_addmul_1 (name)
 #define DECL_sumdiff_n(name) \
   mp_limb_t name __GMP_PROTO ((mp_ptr, mp_ptr, mp_srcptr,mp_srcptr,mp_size_t))
+#define DECL_nsumdiff_n(name) \
+  DECL_sumdiff_n(name)
 
 #if ! __GMP_WITHIN_CONFIGURE
 #include "config.h"
@@ -946,6 +948,11 @@ __GMP_DECLSPEC void mpn_karasub __GMP_PROTO ((mp_ptr, mp_ptr, mp_size_t));
 #ifndef mpn_sumdiff_n  /* if not done with cpuvec in a fat binary */
 #define mpn_sumdiff_n __MPN(sumdiff_n)
 __GMP_DECLSPEC mp_limb_t mpn_sumdiff_n __GMP_PROTO ((mp_ptr, mp_ptr, mp_srcptr, mp_srcptr, mp_size_t));
+#endif
+
+#ifndef mpn_nsumdiff_n
+#define mpn_nsumdiff_n __MPN(nsumdiff_n)
+__GMP_DECLSPEC mp_limb_t mpn_nsumdiff_n __GMP_PROTO ((mp_ptr, mp_ptr, mp_srcptr, mp_srcptr, mp_size_t));
 #endif
 
 #define mpn_sumdiff_nc __MPN(sumdiff_nc)

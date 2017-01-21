@@ -581,6 +581,7 @@ validate_sqrtrem (void)
 #define TYPE_ADDMUL_8         20
 
 #define TYPE_SUMDIFF_N        21
+#define TYPE_NSUMDIFF_N       141
 #define TYPE_SUMDIFF_NC       22
 
 #define TYPE_RSHIFT           23
@@ -885,6 +886,10 @@ param_init (void)
   p->src[0] = 1;
   p->src[1] = 1;
   REFERENCE (refmpn_sumdiff_n);
+
+  p = &param[TYPE_NSUMDIFF_N];
+  COPY (TYPE_SUMDIFF_N);
+  REFERENCE (refmpn_nsumdiff_n);
 
   p = &param[TYPE_ADDERR1_N];
   p->retval=1;
@@ -1735,6 +1740,9 @@ const struct choice_t choice_array[] = {
 #endif
 
   { TRY(mpn_sumdiff_n),  TYPE_SUMDIFF_N  },
+#if HAVE_NATIVE_mpn_nsumdiff_n
+  { TRY(mpn_nsumdiff_n),  TYPE_NSUMDIFF_N  },
+#endif
 #if HAVE_NATIVE_mpn_sumdiff_nc
   { TRY(mpn_sumdiff_nc), TYPE_SUMDIFF_NC },
 #endif
@@ -2536,6 +2544,10 @@ call (struct each_t *e, tryfun_t function)
     break;
 
   case TYPE_SUMDIFF_N:
+    e->retval = CALLING_CONVENTIONS (function)
+      (e->d[0].p, e->d[1].p, e->s[0].p, e->s[1].p, size);
+    break;
+  case TYPE_NSUMDIFF_N:
     e->retval = CALLING_CONVENTIONS (function)
       (e->d[0].p, e->d[1].p, e->s[0].p, e->s[1].p, size);
     break;

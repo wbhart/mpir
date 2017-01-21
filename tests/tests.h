@@ -219,6 +219,9 @@ mp_limb_t refmpn_sub_err2_n __GMP_PROTO ((mp_ptr rp, mp_srcptr up, mp_srcptr vp,
 mp_limb_t refmpn_sumdiff_n __GMP_PROTO ((mp_ptr r1p, mp_ptr r2p,
                                    mp_srcptr s1p, mp_srcptr s2p,
                                    mp_size_t size));
+mp_limb_t refmpn_nsumdiff_n __GMP_PROTO ((mp_ptr r1p, mp_ptr r2p,
+                                   mp_srcptr s1p, mp_srcptr s2p,
+                                   mp_size_t size));
 mp_limb_t refmpn_sumdiff_nc __GMP_PROTO ((mp_ptr r1p, mp_ptr r2p,
                                     mp_srcptr s1p, mp_srcptr s2p,
                                     mp_size_t size, mp_limb_t carry));
