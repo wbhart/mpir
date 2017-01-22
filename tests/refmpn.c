@@ -1190,6 +1190,31 @@ refmpn_sumdiff_nc (mp_ptr r1p, mp_ptr r2p,
 }
 
 mp_limb_t
+refmpn_nsumdiff_n (mp_ptr r1p, mp_ptr r2p,
+                  mp_srcptr s1p, mp_srcptr s2p, mp_size_t size)
+{
+  mp_ptr p;
+  mp_limb_t acy, ncy, scy;
+
+  /* Destinations can't overlap. */
+  ASSERT (! refmpn_overlap_p (r1p, size, r2p, size));
+  ASSERT (refmpn_overlap_fullonly_two_p (r1p, s1p, s2p, size));
+  ASSERT (refmpn_overlap_fullonly_two_p (r2p, s1p, s2p, size));
+  ASSERT (size >= 1);
+
+  /* in case r1p==s1p or r1p==s2p */
+  p = refmpn_malloc_limbs (size);
+
+  acy = refmpn_add_n (p, s1p, s2p, size);
+  ncy = refmpn_neg_n (p, p, size);
+  scy = refmpn_sub_n (r2p, s1p, s2p, size);
+  refmpn_copyi (r1p, p, size);
+
+  free (p);
+  return 2 * (acy + ncy) + scy;
+}
+
+mp_limb_t
 refmpn_sumdiff_n (mp_ptr r1p, mp_ptr r2p,
 		 mp_srcptr s1p, mp_srcptr s2p, mp_size_t size)
 {

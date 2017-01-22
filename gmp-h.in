@@ -1866,6 +1866,11 @@ __GMP_DECLSPEC void mpn_zero __GMP_PROTO ((mp_ptr, mp_size_t));
 __GMP_DECLSPEC mp_limb_t mpn_sumdiff_n __GMP_PROTO ((mp_ptr, mp_ptr, mp_srcptr, mp_srcptr, mp_size_t));
 #endif
 
+#ifndef mpn_nsumdiff_n  /* if not done with cpuvec in a fat binary of in gmp-impl.h*/
+#define mpn_nsumdiff_n __MPN(nsumdiff_n)
+__GMP_DECLSPEC mp_limb_t mpn_nsumdiff_n __GMP_PROTO ((mp_ptr, mp_ptr, mp_srcptr, mp_srcptr, mp_size_t));
+#endif
+
 /**************** MPN API for FFT ****************/
 
 #define mpn_mul_fft_main __MPN(mul_fft_main)

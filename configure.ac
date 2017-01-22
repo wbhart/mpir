@@ -2181,7 +2181,7 @@ gmp_mpn_functions_optional="umul udiv copyi copyd com_n neg_n
   mul_2 mul_3 mul_4 store not karaadd karasub half double		\
   addmul_2 addmul_3 addmul_4 addmul_5 addmul_6 addmul_7 addmul_8	\
   addlsh1_n sublsh1_n rsh1add_n rsh1sub_n sumdiff_n lshiftc		\
-  addlsh_n sublsh_n inclsh_n declsh_n"
+  addlsh_n sublsh_n inclsh_n declsh_n nsumdiff_n"
 
 gmp_mpn_functions="$extra_functions					   \
   add add_1 add_n sub sub_1 sub_n mul_1 addmul_1 submul_1 lshift rshift    \
@@ -2696,6 +2696,7 @@ AH_VERBATIM([HAVE_NATIVE],
 #undef HAVE_NATIVE_mpn_addmul_8
 #undef HAVE_NATIVE_mpn_addsub_n
 #undef HAVE_NATIVE_mpn_sumdiff_n
+#undef HAVE_NATIVE_mpn_nsumdiff_n
 #undef HAVE_NATIVE_mpn_and_n
 #undef HAVE_NATIVE_mpn_andn_n
 #undef HAVE_NATIVE_mpn_com_n
