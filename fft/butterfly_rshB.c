@@ -69,16 +69,26 @@ void mpir_butterfly_rshB(mp_ptr t, mp_ptr u, mp_ptr i1,
       cy = mpn_sumdiff_n(t, u, i1 + x, i2 + x, limbs - x);
       cy1 = (cy>>1);
       cy2 = -(cy&1);
+#ifdef HAVE_NATIVE_mpn_nsumdiff_n
+      cy = mpn_nsumdiff_n(t + limbs - x, u + limbs - x, i2, i1, x);
+      cy3 = 0;
+#else
       cy = mpn_sumdiff_n(t + limbs - x, u + limbs - x, i2, i1, x);
       cy3 = mpn_neg_n(t + limbs - x, t + limbs - x, x);
+#endif
       u[limbs] = -(cy&1);
       t[limbs] = -(cy>>1) - cy3;
       mpn_addmod_2expp1_1(t + limbs - x, x, cy1 + i1[limbs] + i2[limbs]);
       mpn_addmod_2expp1_1(u + limbs - x, x, cy2 + i1[limbs] - i2[limbs]);
    } else if (x > y)
    {
+#ifdef HAVE_NATIVE_mpn_nsumdiff_n
+      cy = mpn_nsumdiff_n(t + limbs - y, u + limbs - y, i2, i1 + x - y, y);
+      cy3 = 0;
+#else
       cy = mpn_sumdiff_n(t + limbs - y, u + limbs - y, i2, i1 + x - y, y);
       cy3 = mpn_neg_n(t + limbs - y, t + limbs - y, y);
+#endif
       t[limbs] = -(cy>>1) - cy3;
       u[limbs] = -(cy&1);
       cy3 = mpn_neg_n(i1, i1, x - y);
@@ -90,8 +100,13 @@ void mpir_butterfly_rshB(mp_ptr t, mp_ptr u, mp_ptr i1,
       mpn_addmod_2expp1_1(u + limbs - x, x, -(cy&1) + i1[limbs]);
    } else /* x < y */
    {
+#ifdef HAVE_NATIVE_mpn_nsumdiff_n
+      cy = mpn_nsumdiff_n(t + limbs - x, u + limbs - x, i2 + y - x, i1, x);
+      cy3 = 0;
+#else
       cy = mpn_sumdiff_n(t + limbs - x, u + limbs - x, i2 + y - x, i1, x);
       cy3 = mpn_neg_n(t + limbs - x, t + limbs - x, x);
+#endif
       t[limbs] = -(cy>>1) - cy3;
       u[limbs] = -(cy&1);
       cy3 = mpn_neg_n(i2, i2, y - x);
