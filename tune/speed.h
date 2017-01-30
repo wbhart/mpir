@@ -158,6 +158,7 @@ double speed_mpn_sublsh_n _PROTO ((struct speed_params *s));
 double speed_mpn_declsh_n _PROTO ((struct speed_params *s));
 double speed_mpn_inclsh_n _PROTO ((struct speed_params *s));
 double speed_mpn_sumdiff_n _PROTO ((struct speed_params *s));
+double speed_mpn_nsumdiff_n _PROTO ((struct speed_params *s));
 double speed_mpn_and_n _PROTO ((struct speed_params *s));
 double speed_mpn_andn_n _PROTO ((struct speed_params *s));
 double speed_mpn_addmul_1 _PROTO ((struct speed_params *s));
