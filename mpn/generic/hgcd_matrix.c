@@ -253,3 +253,36 @@ mpn_hgcd_matrix_adjust (const struct hgcd_matrix *M,
   ASSERT (ap[n-1] > 0 || bp[n-1] > 0);
   return n;
 }
+
+/* Sets (r;b) = (a;b) M, with M = (u00, u01; u10, u11). Vector must
+ * have space for n + 1 limbs. Uses three buffers to avoid a copy*/
+mp_size_t
+mpn_hgcd_mul_matrix1_vector (const struct hgcd_matrix1 *M,
+			     mp_ptr rp, mp_srcptr ap, mp_ptr bp, mp_size_t n)
+{
+  mp_limb_t ah, bh;
+
+  /* Compute (r,b) <-- (u00 a + u10 b, u01 a + u11 b) as
+
+     r  = u00 * a
+     r += u10 * b
+     b *= u11
+     b += u01 * a
+  */
+
+#if HAVE_NATIVE_mpn_addaddmul_1msb0
+  ah = mpn_addaddmul_1msb0 (rp, ap, bp, n, M->u[0][0], M->u[1][0]);
+  bh = mpn_addaddmul_1msb0 (bp, bp, ap, n, M->u[1][1], M->u[0][1]);
+#else
+  ah =     mpn_mul_1 (rp, ap, n, M->u[0][0]);
+  ah += mpn_addmul_1 (rp, bp, n, M->u[1][0]);
+
+  bh =     mpn_mul_1 (bp, bp, n, M->u[1][1]);
+  bh += mpn_addmul_1 (bp, ap, n, M->u[0][1]);
+#endif
+  rp[n] = ah;
+  bp[n] = bh;
+
+  n += (ah | bh) > 0;
+  return n;
+}
