@@ -617,6 +617,7 @@ postbuild "$(TargetPath)" 14
     <YASM Include="..\..\mpn\x86_64w\mulmid_basecase.asm" />
     <YASM Include="..\..\mpn\x86_64w\haswell\nand_n.asm" />
     <YASM Include="..\..\mpn\x86_64w\haswell\nior_n.asm" />
+    <YASM Include="..\..\mpn\x86_64w\haswell\nsumdiff_n.asm" />
     <YASM Include="..\..\mpn\x86_64w\haswell\popcount.asm" />
     <YASM Include="..\..\mpn\x86_64w\haswell\redc_1.asm" />
     <YASM Include="..\..\mpn\x86_64w\haswell\rsh_divrem_hensel_qr_1_1.asm" />

@@ -534,6 +534,7 @@ postbuild "$(TargetPath)" 14
     <ClCompile Include="..\..\mpn\generic\mulmod_2expp1_basecase.c" />
     <ClCompile Include="..\..\mpn\generic\mulmod_bexpp1.c" />
     <ClCompile Include="..\..\mpn\generic\neg_n.c" />
+    <ClCompile Include="..\..\mpn\generic\nsumdiff_n.c" />
     <ClCompile Include="..\..\mpn\generic\perfect_square_p.c" />
     <ClCompile Include="..\..\mpn\generic\pow_1.c" />
     <ClCompile Include="..\..\mpn\generic\preinv_mod_1.c" />

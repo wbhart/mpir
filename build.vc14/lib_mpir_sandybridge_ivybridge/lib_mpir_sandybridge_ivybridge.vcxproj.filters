@@ -1284,6 +1284,9 @@
     <ClCompile Include="..\..\mpn\generic\neg_n.c">
       <Filter>Source Files\mpn</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\mpn\generic\nsumdiff_n.c">
+      <Filter>Source Files\mpn</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\mpn\generic\perfect_square_p.c">
       <Filter>Source Files\mpn</Filter>
     </ClCompile>

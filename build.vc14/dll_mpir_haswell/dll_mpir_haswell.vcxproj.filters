@@ -1563,6 +1563,9 @@
     <YASM Include="..\..\mpn\x86_64w\haswell\nior_n.asm">
       <Filter>Source Files\mpn\yasm</Filter>
     </YASM>
+    <YASM Include="..\..\mpn\x86_64w\haswell\nsumdiff_n.asm">
+      <Filter>Source Files\mpn\yasm</Filter>
+    </YASM>
     <YASM Include="..\..\mpn\x86_64w\haswell\popcount.asm">
       <Filter>Source Files\mpn\yasm</Filter>
     </YASM>
