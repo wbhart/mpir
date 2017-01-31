@@ -2611,7 +2611,7 @@ for tmp_fn in $gmp_mpn_functions; do
             sed -n 's/^[ 	]*MULFUNC_PROLOGUE(\(.*\))/\1/p' $tmp_file ;
             sed -n 's/^[ 	]*PROLOGUE(\([^,]*\).*)/\1/p' $tmp_file ;
             sed -n 's/^;[ 	]*PROLOGUE(\([^,]*\).*)/\1/p' $tmp_file ;
-            sed -n 's/[^G]*GLOBAL_FUNC[:space:]*\(.*\)/\1/p' $tmp_file ;
+            sed -n 's/[^G]*GLOBAL_FUNC[[:space:]]*\(.*\)/\1/p' $tmp_file ;
           `]
           for gmp_tmp in $gmp_ep; do
             AC_DEFINE_UNQUOTED(HAVE_NATIVE_$gmp_tmp)
