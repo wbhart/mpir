@@ -52,6 +52,10 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "dll_mpir_bulldozer", "dll_m
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lib_mpir_bulldozer", "lib_mpir_bulldozer\lib_mpir_bulldozer.vcxproj", "{27DEF7AD-2EF5-45BE-839F-8A11C4D3AC8B}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "dll_mpir_k8_k10_k102", "dll_mpir_k8_k10_k102\dll_mpir_k8_k10_k102.vcxproj", "{B76BF461-56B3-4537-89E2-FA9A480BFB6C}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lib_mpir_k8_k10_k102", "lib_mpir_k8_k10_k102\lib_mpir_k8_k10_k102.vcxproj", "{B6B9E9FA-38AE-438A-A0F9-24405031F29B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -160,6 +164,14 @@ Global
 		{27DEF7AD-2EF5-45BE-839F-8A11C4D3AC8B}.Debug|x64.ActiveCfg = Debug|x64
 		{27DEF7AD-2EF5-45BE-839F-8A11C4D3AC8B}.Release|Win32.ActiveCfg = Release|x64
 		{27DEF7AD-2EF5-45BE-839F-8A11C4D3AC8B}.Release|x64.ActiveCfg = Release|x64
+		{B76BF461-56B3-4537-89E2-FA9A480BFB6C}.Debug|Win32.ActiveCfg = Debug|x64
+		{B76BF461-56B3-4537-89E2-FA9A480BFB6C}.Debug|x64.ActiveCfg = Debug|x64
+		{B76BF461-56B3-4537-89E2-FA9A480BFB6C}.Release|Win32.ActiveCfg = Release|x64
+		{B76BF461-56B3-4537-89E2-FA9A480BFB6C}.Release|x64.ActiveCfg = Release|x64
+		{B6B9E9FA-38AE-438A-A0F9-24405031F29B}.Debug|Win32.ActiveCfg = Debug|x64
+		{B6B9E9FA-38AE-438A-A0F9-24405031F29B}.Debug|x64.ActiveCfg = Debug|x64
+		{B6B9E9FA-38AE-438A-A0F9-24405031F29B}.Release|Win32.ActiveCfg = Release|x64
+		{B6B9E9FA-38AE-438A-A0F9-24405031F29B}.Release|x64.ActiveCfg = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
