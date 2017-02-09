@@ -1220,6 +1220,21 @@ __GMP_DECLSPEC void mpz_urandomm __GMP_PROTO ((mpz_ptr, gmp_randstate_t, mpz_src
 #define mpz_eor __gmpz_xor
 __GMP_DECLSPEC void mpz_xor __GMP_PROTO ((mpz_ptr, mpz_srcptr, mpz_srcptr));
 
+#define mpz_limbs_read __gmpz_limbs_read
+__GMP_DECLSPEC mp_srcptr mpz_limbs_read (mpz_srcptr);
+
+#define mpz_limbs_write __gmpz_limbs_write
+__GMP_DECLSPEC mp_ptr mpz_limbs_write (mpz_ptr, mp_size_t);
+
+#define mpz_limbs_modify __gmpz_limbs_modify
+__GMP_DECLSPEC mp_ptr mpz_limbs_modify (mpz_ptr, mp_size_t);
+
+#define mpz_limbs_finish __gmpz_limbs_finish
+__GMP_DECLSPEC void mpz_limbs_finish (mpz_ptr, mp_size_t);
+
+#define mpz_roinit_n __gmpz_roinit_n
+__GMP_DECLSPEC mpz_srcptr mpz_roinit_n (mpz_ptr, mp_srcptr, mp_size_t);
+
 #define MPZ_ROINIT_N(xp, xs) {{0, (xs),(xp) }}
 
 /****** Integer (i.e. Z) routines for intmaax_t/uintmax_t types ******/
