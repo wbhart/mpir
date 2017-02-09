@@ -435,6 +435,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.next_prime_candidate", 
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.limbs", "mpir-tests\mpz.limbs\mpz.limbs.vcxproj", "{3E2DBDEA-693C-4541-8EC4-BA6FA362CB61}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpn.sizeinbase", "mpir-tests\mpn.sizeinbase\mpn.sizeinbase.vcxproj", "{5D6625A7-D775-49B6-9C6C-4FAF440F5F17}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -1663,6 +1665,14 @@ Global
 		{3E2DBDEA-693C-4541-8EC4-BA6FA362CB61}.Release|Win32.Build.0 = Release|Win32
 		{3E2DBDEA-693C-4541-8EC4-BA6FA362CB61}.Release|x64.ActiveCfg = Release|x64
 		{3E2DBDEA-693C-4541-8EC4-BA6FA362CB61}.Release|x64.Build.0 = Release|x64
+		{5D6625A7-D775-49B6-9C6C-4FAF440F5F17}.Debug|Win32.ActiveCfg = Debug|Win32
+		{5D6625A7-D775-49B6-9C6C-4FAF440F5F17}.Debug|Win32.Build.0 = Debug|Win32
+		{5D6625A7-D775-49B6-9C6C-4FAF440F5F17}.Debug|x64.ActiveCfg = Debug|x64
+		{5D6625A7-D775-49B6-9C6C-4FAF440F5F17}.Debug|x64.Build.0 = Debug|x64
+		{5D6625A7-D775-49B6-9C6C-4FAF440F5F17}.Release|Win32.ActiveCfg = Release|Win32
+		{5D6625A7-D775-49B6-9C6C-4FAF440F5F17}.Release|Win32.Build.0 = Release|Win32
+		{5D6625A7-D775-49B6-9C6C-4FAF440F5F17}.Release|x64.ActiveCfg = Release|x64
+		{5D6625A7-D775-49B6-9C6C-4FAF440F5F17}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

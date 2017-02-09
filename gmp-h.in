@@ -1830,6 +1830,9 @@ __GMP_DECLSPEC mp_bitcnt_t mpn_scan1 __GMP_PROTO ((mp_srcptr, mp_bitcnt_t)) __GM
 #define mpn_set_str __MPN(set_str)
 __GMP_DECLSPEC mp_size_t mpn_set_str __GMP_PROTO ((mp_ptr, __gmp_const unsigned char *, size_t, int));
 
+#define mpn_sizeinbase __MPN(sizeinbase)
+__GMP_DECLSPEC size_t mpn_sizeinbase (mp_srcptr, mp_size_t, int);
+
 #define mpn_sqrtrem __MPN(sqrtrem)
 __GMP_DECLSPEC mp_size_t mpn_sqrtrem __GMP_PROTO ((mp_ptr, mp_ptr, mp_srcptr, mp_size_t));
 
