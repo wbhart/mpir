@@ -435,6 +435,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.next_prime_candidate", 
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.limbs", "mpir-tests\mpz.limbs\mpz.limbs.vcxproj", "{5E89EA17-FAE8-4414-92A9-539A2CD811F0}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpn.sizeinbase", "mpir-tests\mpn.sizeinbase\mpn.sizeinbase.vcxproj", "{0A6AD15F-3ED8-4E18-B392-A2697DE48248}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -1663,6 +1665,14 @@ Global
 		{5E89EA17-FAE8-4414-92A9-539A2CD811F0}.Release|Win32.Build.0 = Release|Win32
 		{5E89EA17-FAE8-4414-92A9-539A2CD811F0}.Release|x64.ActiveCfg = Release|x64
 		{5E89EA17-FAE8-4414-92A9-539A2CD811F0}.Release|x64.Build.0 = Release|x64
+		{0A6AD15F-3ED8-4E18-B392-A2697DE48248}.Debug|Win32.ActiveCfg = Debug|Win32
+		{0A6AD15F-3ED8-4E18-B392-A2697DE48248}.Debug|Win32.Build.0 = Debug|Win32
+		{0A6AD15F-3ED8-4E18-B392-A2697DE48248}.Debug|x64.ActiveCfg = Debug|x64
+		{0A6AD15F-3ED8-4E18-B392-A2697DE48248}.Debug|x64.Build.0 = Debug|x64
+		{0A6AD15F-3ED8-4E18-B392-A2697DE48248}.Release|Win32.ActiveCfg = Release|Win32
+		{0A6AD15F-3ED8-4E18-B392-A2697DE48248}.Release|Win32.Build.0 = Release|Win32
+		{0A6AD15F-3ED8-4E18-B392-A2697DE48248}.Release|x64.ActiveCfg = Release|x64
+		{0A6AD15F-3ED8-4E18-B392-A2697DE48248}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
