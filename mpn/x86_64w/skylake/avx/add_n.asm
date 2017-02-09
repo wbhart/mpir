@@ -39,23 +39,31 @@
 
     align   32
 
+	LEAF_PROC mpn_add_nc
+    mov     CarryD, [rsp+40]
+    mov     Count, Size
+    shr     Count, 3
+    inc     Count
+    vpor    YMM0, YMM0, YMM0    ; see comment in main loop below
+    jmp     One
+
+    align   32
+
 	LEAF_PROC mpn_add_n
     xor     CarryD, CarryD
     mov     Count, Size
     shr     Count, 3
     inc     Count
-
     vpor    YMM0, YMM0, YMM0    ; see comment in main loop below
 
     ; unrolling the loop from small to high gives better timings
     ; when considering all sizes 1-100 limb
-  .One:
-
+  One:
     test    SizeB, 1
     je      .Two
-
-    mov     Limb0, [byte Op1]   ; I am using implicit code alignment through-
-    add     Limb0, [byte Op2]   ; out the following to get all branch targets
+    shr     CarryB, 1
+    mov     Limb0, [Op1]        ; I am using implicit code alignment through-
+    adc     Limb0, [Op2]        ; out the following to get all branch targets
     mov     [Op3], Limb0        ; on 16 byte alignments - check this if non-
     setc    CarryB              ; Linux register allocation is used!
 

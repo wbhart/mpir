@@ -38,24 +38,30 @@
 %define Count   R11
 
     align   32
+	LEAF_PROC mpn_sub_nc
+    mov     BorrowD, [rsp+40]
+    mov     Count, Size
+    shr     Count, 3
+    inc     Count
+    vpor    YMM0, YMM0, YMM0    ; see comment in main loop below
+    jmp     One
 
+    align   32
 	LEAF_PROC mpn_sub_n
     xor     BorrowD, BorrowD
     mov     Count, Size
     shr     Count, 3
     inc     Count
-
     vpor    YMM0, YMM0, YMM0    ; see comment in main loop below
 
     ; unrolling the loop from small to high gives better timings
     ; when considering all sizes 1-100 limb
-  .One:
-
+  One:
     test    SizeB, 1
     je      .Two
-
-    mov     Limb0, [byte Op1]   ; I am using implicit code alignment through-
-    sub     Limb0, [byte Op2]   ; out the following to get all branch targets
+    shr     BorrowB, 1
+    mov     Limb0, [Op1]        ; I am using implicit code alignment through-
+    sbb     Limb0, [Op2]        ; out the following to get all branch targets
     mov     [Op3], Limb0        ; on 16 byte alignments - check this if non-
     setc    BorrowB             ; Linux register allocation is used!
 
