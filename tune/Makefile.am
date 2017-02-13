@@ -128,6 +128,7 @@ TUNE_MPN_SRCS = $(TUNE_MPN_SRCS_BASIC) $(TUNE_FFT_SRCS_BASIC) divrem_1.c mod_1.c
 TUNE_MPN_SRCS_BASIC = divrem_2.c gcd.c gcdext.c get_str.c set_str.c \
   matrix22_mul.c hgcd.c hgcd_appr.c hgcd_reduce.c \
   mul_n.c mullow_n.c mulhigh_n.c mul.c tdiv_qr.c \
+  mulmid.c mulmid_n.c toom42_mulmid.c \
   toom4_mul_n.c toom4_mul.c toom3_mul.c toom3_mul_n.c \
   toom8h_mul.c toom8_sqr_n.c mulmod_2expm1.c mulmod_2expp1_basecase.c \
   rootrem.c divrem_euclidean_r_1.c \

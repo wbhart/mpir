@@ -35,7 +35,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
    then MP(a, m, b, n) = sum_{0<=i<m, 0<=j<n, n-1<=i+j<=m-1} a_ib_j B^{i+j-n+1}
 
-   Note there are m-n+1 different values of i+j and each product a_ib_j will be two limbs. Thus when added together, the sum must take up n-m+3 limbs of space.
+   Note there are m-n+1 different values of i+j and each product a_ib_j will be two limbs. Thus when added together, the sum must take up m-n+3 limbs of space.
 
    This function computes MP(up,un,vp,vn), writing the result to {rp,un-vn+3}.
    Must have un >= vn >= 1.
@@ -61,18 +61,118 @@ mpn_mulmid_basecase (mp_ptr rp,
   up += vn - 1;
   un -= vn - 1;
 
-  /* multiply by first limb, store result */
-  lo = mpn_mul_1 (rp, up, un, vp[0]);
-  hi = 0;
+  /* We first multiply by the first limb (or depending on optional function
+     availability, limbs).  This result can be stored, not added, to rp.  We
+     also avoid a loop for zeroing this way.  */
 
-  /* accumulate remaining rows */
-  for (vn--; vn; vn--)
+  hi = 0;
+#if HAVE_NATIVE_mpn_mul_2
+  if (vn >= 2)
     {
-      up--, vp++;
+      lo = mpn_mul_2 (rp, up, un, vp);
+      up -= 2, vp += 2, vn -= 2;
+    }
+  else
+    {
+      rp[un] = mpn_mul_1 (rp, up, un, vp[0]);
+      return;
+    }
+#else
+  lo = mpn_mul_1 (rp, up, un, vp[0]);
+  up -= 1, vp += 1, vn -= 1;
+#endif
+
+  /* Now accumulate the product of up[] and the next higher limb (or depending
+     on optional function availability, limbs) from vp[].  */
+
+#define MAX_LEFT MP_SIZE_T_MAX	/* Used to simplify loops into if statements */
+
+
+#if HAVE_NATIVE_mpn_addmul_6
+  while (vn >= 6)
+    {
+      temp = mpn_addmul_6 (rp, up, un, vp);
+      add_ssaaaa (hi, lo, hi, lo, 0, temp);
+      if (MAX_LEFT == 6)
+	goto overflow;
+      up -= 6, vp += 6, vn -= 6;
+      if (MAX_LEFT < 2 * 6)
+	break;
+    }
+#undef MAX_LEFT
+#define MAX_LEFT (6 - 1)
+#endif
+
+#if HAVE_NATIVE_mpn_addmul_5
+  while (vn >= 5)
+    {
+      temp = mpn_addmul_5 (rp, up, un, vp);
+      add_ssaaaa (hi, lo, hi, lo, 0, temp);
+      if (MAX_LEFT == 5)
+	goto overflow;
+      up -= 5, vp += 5, vn -= 5;
+      if (MAX_LEFT < 2 * 5)
+	break;
+    }
+#undef MAX_LEFT
+#define MAX_LEFT (5 - 1)
+#endif
+
+#if HAVE_NATIVE_mpn_addmul_4
+  while (vn >= 4)
+    {
+      temp = mpn_addmul_4 (rp, up, un, vp);
+      add_ssaaaa (hi, lo, hi, lo, 0, temp);
+      if (MAX_LEFT == 4)
+	goto overflow;
+      up -= 4, vp += 4, vn -= 4;
+      if (MAX_LEFT < 2 * 4)
+	break;
+    }
+#undef MAX_LEFT
+#define MAX_LEFT (4 - 1)
+#endif
+
+#if HAVE_NATIVE_mpn_addmul_3
+  while (vn >= 3)
+    {
+      temp = mpn_addmul_3 (rp, up, un, vp);
+      add_ssaaaa (hi, lo, hi, lo, 0, temp);
+      if (MAX_LEFT == 3)
+	goto overflow;
+      up -= 3, vp += 3, vn -= 3;
+      if (MAX_LEFT < 2 * 3)
+	break;
+    }
+#undef MAX_LEFT
+#define MAX_LEFT (3 - 1)
+#endif
+
+#if HAVE_NATIVE_mpn_addmul_2
+  while (vn >= 2)
+    {
+      temp = mpn_addmul_2 (rp, up, un, vp);
+      add_ssaaaa (hi, lo, hi, lo, 0, temp);
+      if (MAX_LEFT == 2)
+	goto overflow;
+      up -= 2, vp += 2, vn -= 2;
+      if (MAX_LEFT < 2 * 2)
+	break;
+    }
+#undef MAX_LEFT
+#define MAX_LEFT (2 - 1)
+#endif
+
+  while (vn >= 1)
+    {
       temp = mpn_addmul_1 (rp, up, un, vp[0]);
       add_ssaaaa (hi, lo, hi, lo, 0, temp);
+      if (MAX_LEFT == 1)
+	goto overflow;
+      up -= 1, vp += 1, vn -= 1;
     }
 
+overflow:
   /* store final limbs */
 #if GMP_NAIL_BITS != 0
   hi = (hi << GMP_NAIL_BITS) + (lo >> GMP_NUMB_BITS);

@@ -189,6 +189,7 @@ mp_size_t  mulmod_2expm1_threshold	= MP_SIZE_T_MAX;
 mp_size_t  mullow_basecase_threshold    = MP_SIZE_T_MAX;
 mp_size_t  mullow_dc_threshold          = MP_SIZE_T_MAX;
 mp_size_t  mullow_mul_threshold         = MP_SIZE_T_MAX;
+mp_size_t  mulmid_toom42_threshold      = MP_SIZE_T_MAX;
 mp_size_t  mulhigh_basecase_threshold   = MP_SIZE_T_MAX;
 mp_size_t  mulhigh_dc_threshold         = MP_SIZE_T_MAX;
 mp_size_t  mulhigh_mul_threshold        = MP_SIZE_T_MAX;
@@ -202,7 +203,10 @@ mp_size_t  dc_divappr_q_threshold       = MP_SIZE_T_MAX;
 mp_size_t  inv_divappr_q_threshold      = MP_SIZE_T_MAX;
 mp_size_t  dc_bdiv_qr_threshold         = MP_SIZE_T_MAX;
 mp_size_t  dc_bdiv_q_threshold          = MP_SIZE_T_MAX;
-mp_size_t  powm_threshold               = MP_SIZE_T_MAX;
+mp_size_t  binv_newton_threshold        = MP_SIZE_T_MAX;
+mp_size_t  redc_1_to_redc_2_threshold   = MP_SIZE_T_MAX;
+mp_size_t  redc_1_to_redc_n_threshold   = MP_SIZE_T_MAX;
+mp_size_t  redc_2_to_redc_n_threshold   = MP_SIZE_T_MAX;
 mp_size_t  matrix22_strassen_threshold  = MP_SIZE_T_MAX;
 mp_size_t  hgcd_threshold               = MP_SIZE_T_MAX;
 mp_size_t  hgcd_appr_threshold          = MP_SIZE_T_MAX;
@@ -841,6 +845,21 @@ tune_mullow (gmp_randstate_t rands)
 }
 
 void
+tune_mulmid (gmp_randstate_t rands)
+{
+  static struct param_t  param;
+
+  param.name = "MULMID_TOOM42_THRESHOLD";
+  param.function = speed_mpn_mulmid_n;
+  param.min_size = 4;
+  param.max_size = 100;
+  one (&mulmid_toom42_threshold, rands, &param);
+
+  /* disabled until tuned */
+  MUL_FFT_FULL_THRESHOLD = MP_SIZE_T_MAX;
+}
+
+void
 tune_mulmod_2expm1 (gmp_randstate_t rands)
 {
   static struct param_t  param;
@@ -1133,25 +1152,75 @@ tune_dc_bdiv (gmp_randstate_t rands)
   }
 }
 
-/* This is an indirect determination, based on a comparison between redc and
-   mpz_mod.  A fudge factor of 1.04 is applied to redc, to represent
-   additional overheads it gets in mpz_powm.
-
-   stop_factor is 1.1 to hopefully help cray vector systems, where otherwise
-   currently it hits the 1000 limb limit with only a factor of about 1.18
-   (threshold should be around 650).  */
-
 void
-tune_powm (gmp_randstate_t rands)
+tune_binvert (gmp_randstate_t rands)
 {
   static struct param_t  param;
-  param.name = "POWM_THRESHOLD";
-  param.function = speed_redc;
-  param.function2 = speed_mpz_mod;
-  param.step_factor = 0.03;
-  param.stop_factor = 1.1;
-  param.function_fudge = 1.04;
-  one (&powm_threshold, rands, &param);
+
+  param.function = speed_mpn_binvert;
+  param.name = "BINV_NEWTON_THRESHOLD";
+  param.min_size = 8;		/* pointless with smaller operands */
+  one (&binv_newton_threshold, rands, &param);
+}
+
+void
+tune_redc (gmp_randstate_t rands)
+{
+#define TUNE_REDC_2_MAX 100
+#if HAVE_NATIVE_mpn_addmul_2 || HAVE_NATIVE_mpn_redc_2
+#define WANT_REDC_2 1
+#endif
+
+#if WANT_REDC_2
+  {
+    static struct param_t  param;
+    param.name = "REDC_1_TO_REDC_2_THRESHOLD";
+    param.function = speed_mpn_redc_1;
+    param.function2 = speed_mpn_redc_2;
+    param.min_size = 1;
+    param.min_is_always = 1;
+    param.max_size = TUNE_REDC_2_MAX;
+    param.noprint = 1;
+    param.stop_factor = 1.5;
+    one (&redc_1_to_redc_2_threshold, rands, &param);
+  }
+  {
+    static struct param_t  param;
+    param.name = "REDC_2_TO_REDC_N_THRESHOLD";
+    param.function = speed_mpn_redc_2;
+    param.function2 = speed_mpn_redc_n;
+    param.min_size = 16;
+    param.noprint = 1;
+    one (&redc_2_to_redc_n_threshold, rands, &param);
+  }
+  if (redc_1_to_redc_2_threshold >= redc_2_to_redc_n_threshold)
+    {
+      redc_2_to_redc_n_threshold = 0;	/* disable redc_2 */
+
+      /* Never use redc2, measure redc_1 -> redc_n cutoff, store result as
+	 REDC_1_TO_REDC_2_THRESHOLD.  */
+      {
+	static struct param_t  param;
+	param.name = "REDC_1_TO_REDC_2_THRESHOLD";
+	param.function = speed_mpn_redc_1;
+	param.function2 = speed_mpn_redc_n;
+	param.min_size = 16;
+	param.noprint = 1;
+	one (&redc_1_to_redc_2_threshold, rands, &param);
+      }
+    }
+  print_define ("REDC_1_TO_REDC_2_THRESHOLD", REDC_1_TO_REDC_2_THRESHOLD);
+  print_define ("REDC_2_TO_REDC_N_THRESHOLD", REDC_2_TO_REDC_N_THRESHOLD);
+#else
+  {
+    static struct param_t  param;
+    param.name = "REDC_1_TO_REDC_N_THRESHOLD";
+    param.function = speed_mpn_redc_1;
+    param.function2 = speed_mpn_redc_n;
+    param.min_size = 16;
+    one (&redc_1_to_redc_n_threshold, rands, &param);
+  }
+#endif
 }
 
 void
@@ -2122,10 +2191,6 @@ all (gmp_randstate_t rands)
   tune_sqr (rands);
   printf("\n");
 
-  
-  tune_powm (rands);
-  printf("\n");
-
   tune_divrem_1 (rands);
   tune_mod_1 (rands);
   tune_preinv_divrem_1 (rands);
@@ -2147,6 +2212,8 @@ all (gmp_randstate_t rands)
 
   tune_mullow (rands);
   printf("\n");
+  tune_mulmid (rands);
+  printf("\n");
   tune_mulhigh (rands);
   printf("\n");
 
@@ -2161,6 +2228,10 @@ all (gmp_randstate_t rands)
   
   /* dc_bdiv_qr_n, dc_bdiv_q */
   tune_dc_bdiv (rands);  
+  printf("\n");
+
+  tune_binvert (rands);
+  tune_redc (rands);
   printf("\n");
 
   tune_rootrem(rands);
