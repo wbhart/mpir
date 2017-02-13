@@ -71,3 +71,4 @@ Sisyphus (Rob)       Tuning values
 Leif Lionhardy       Build system patches, tuning values
 Julien Puydt         Tuning values
 Vincent Delecroix    port of mpq_cmp_z from gmp
+sav-ix (Alexander)   patch for t-locale on Windows
