@@ -1115,6 +1115,14 @@ case $host in
         gcc_cflags_cpu="-mtune=corei7-avx -mtune=corei7 -mtune=core2 -mtune=nocona -mtune=pentium3 -mcpu=pentiumpro -mcpu=i486 -m486"
         gcc_cflags_arch="-march=corei7-avx -march=corei7 -march=core2 -march=nocona -march=pentium3 -march=pentiumpro -march=pentium"
         ;;
+      skylake)
+        gcc_cflags_cpu="-mtune=corei7 -mtune=core2 -mtune=nocona -mtune=pentium3 -mcpu=pentiumpro -mcpu=i486 -m486"
+        gcc_cflags_arch="-march=corei7 -march=core2 -march=nocona -march=pentium3 -march=pentiumpro -march=pentium"
+        ;;
+      skylakeavx)
+        gcc_cflags_cpu="-mtune=skylake -mtune=corei7-avx -mtune=corei7 -mtune=core2 -mtune=nocona -mtune=pentium3 -mcpu=pentiumpro -mcpu=i486 -m486"
+        gcc_cflags_arch="-march=skylake -march=corei7-avx -march=corei7 -march=core2 -march=nocona -march=pentium3 -march=pentiumpro -march=pentium"
+        ;;
       *)
         gcc_cflags_cpu="-mtune=i486 -mcpu=i486 -m486"
         gcc_cflags_arch="-march=i486"
@@ -1138,7 +1146,7 @@ case $host in
       k8 | bobcat)		path="x86/k7/mmx/k8 x86/k7/mmx x86/k7 x86" ;;
       core2 | penryn)		path="x86/core2 x86" ;;
       i786 | pentium4)		path="x86/pentium4/sse2 x86/pentium4/mmx x86/pentium4 x86" ;;
-      nehalem | westmere | sandybridge | ivybridge | haswell)	path="x86/nehalem x86" ;;
+      nehalem | westmere | sandybridge | ivybridge | haswell | skylake | skylakeavx)	path="x86/nehalem x86" ;;
       prescott | netburst | netburstlahf)       path="x86/pentium4/sse2 x86/pentium4/mmx x86/pentium4 x86" ;;
       # VIA/Centaur processors, sold as CyrixIII and C3.
       nano | viac32)           path="x86/p6/p3mmx x86/p6/mmx x86/p6 x86";;
@@ -1239,6 +1247,10 @@ case $host in
             path_64="x86_64w/sandybridge/ivybridge x86_64w/sandybridge x86_64w" ;;
           haswell-pc-msys|haswell-w64-mingw*|haswell-*-cygwin*)
             path_64="x86_64w/haswell x86_64w/sandybridge x86_64w" ;;
+          skylake-pc-msys|skylake-w64-mingw*|skylake-*-cygwin*)
+            path_64="x86_64w/skylake x86_64w/sandybridge x86_64w" ;;
+          skylakeavx-pc-msys|skylakeavx-w64-mingw*|skylakeavx-*-cygwin*)
+            path_64="x86_64w/skylakeavx x86_64w/skylake x86_64w/haswell x86_64w/sandybridge x86_64w" ;;
           atom-pc-msys|atom-w64-mingw*|atom-*-cygwin*)
             path_64="x86_64w/atom x86_64w" ;;
           nano-pc-msys|nano-w64-mingw*|nano-*-cygwin*)
@@ -1277,7 +1289,11 @@ case $host in
           ivybridge-*-*)
             path_64="x86_64/sandybridge/ivybridge x86_64/sandybridge x86_64/nehalem x86_64/core2 x86_64" ;;
           haswell-*-*)
-            path_64="x86_64/haswell x86_64/sandybridge x86_64/nehalem x86_64/core2 x86_64" ;;
+            path_64="x86_64/haswell/avx x86_64/haswell x86_64/sandybridge x86_64" ;;
+          skylake-*-*)
+            path_64="x86_64/skylake x86_64/sandybridge x86_64" ;;
+          skylakeavx-*-*)
+            path_64="x86_64/skylake/avx x86_64/haswell/avx x86_64/skylake x86_64/haswell x86_64/sandybridge x86_64" ;;
           atom-*-*) 
             path_64="x86_64/atom x86_64" ;;
           nano-*-*) 
@@ -2165,7 +2181,7 @@ gmp_mpn_functions_optional="umul udiv copyi copyd com_n neg_n
   mul_2 mul_3 mul_4 store not karaadd karasub half double		\
   addmul_2 addmul_3 addmul_4 addmul_5 addmul_6 addmul_7 addmul_8	\
   addlsh1_n sublsh1_n rsh1add_n rsh1sub_n sumdiff_n lshiftc		\
-  addlsh_n sublsh_n inclsh_n declsh_n"
+  addlsh_n sublsh_n inclsh_n declsh_n nsumdiff_n"
 
 gmp_mpn_functions="$extra_functions					   \
   add add_1 add_n sub sub_1 sub_n mul_1 addmul_1 submul_1 lshift rshift    \
@@ -2186,7 +2202,7 @@ gmp_mpn_functions="$extra_functions					   \
   mul mul_n mul_basecase sqr_basecase random random2 	   \
   pow_1 powlo powm binvert \
   urandomb urandomm randomb rrandom invert \	
-  rootrem sqrtrem get_str set_str scan0 scan1 popcount hamdist cmp perfect_square_p \
+  rootrem sizeinbase sqrtrem get_str set_str scan0 scan1 popcount hamdist cmp perfect_square_p \
   bdivmod gcd gcd_1 gcdext tdiv_qr jacobi_base jacobi jacobi_2 get_d  \
   mullow_n mulhigh_n mullow_n_basecase mullow_basecase \
   redc_1 redc_2 redc_n \
@@ -2597,7 +2613,7 @@ for tmp_fn in $gmp_mpn_functions; do
             sed -n 's/^[ 	]*MULFUNC_PROLOGUE(\(.*\))/\1/p' $tmp_file ;
             sed -n 's/^[ 	]*PROLOGUE(\([^,]*\).*)/\1/p' $tmp_file ;
             sed -n 's/^;[ 	]*PROLOGUE(\([^,]*\).*)/\1/p' $tmp_file ;
-            sed -n 's/[^G]*GLOBAL_FUNC[:space:]*\(.*\)/\1/p' $tmp_file ;
+            sed -n 's/[^G]*GLOBAL_FUNC[[:space:]]*\(.*\)/\1/p' $tmp_file ;
           `]
           for gmp_tmp in $gmp_ep; do
             AC_DEFINE_UNQUOTED(HAVE_NATIVE_$gmp_tmp)
@@ -2682,6 +2698,7 @@ AH_VERBATIM([HAVE_NATIVE],
 #undef HAVE_NATIVE_mpn_addmul_8
 #undef HAVE_NATIVE_mpn_addsub_n
 #undef HAVE_NATIVE_mpn_sumdiff_n
+#undef HAVE_NATIVE_mpn_nsumdiff_n
 #undef HAVE_NATIVE_mpn_and_n
 #undef HAVE_NATIVE_mpn_andn_n
 #undef HAVE_NATIVE_mpn_com_n

@@ -1,0 +1,451 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Source Files\yasm">
+      <UniqueIdentifier>{026483f6-1c76-4a42-8e10-06ac17bdda96}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="adjust.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="adjust_sqrt2.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="butterfly_lshB.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="butterfly_rshB.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="combine_bits.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="dc_bdiv_q.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="dc_bdiv_qr.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="dc_bdiv_qr_n.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="dc_div_qr.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="dc_div_qr_n.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="dc_divappr_q.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="div_2expmod_2expp1.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="divrem_1.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="divrem_2.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="divrem_euclidean_r_1.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="divrem_hensel_qr_1.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="fac_ui.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="fermat_to_mpz.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="fft_mfa_trunc_sqrt2.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="fft_mfa_trunc_sqrt2_inner.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="fft_radix2.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="fft_trunc.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="gcd.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="gcdext.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="get_str.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="hgcd.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="hgcd_appr.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="hgcd_reduce.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ifft_negacyclic.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ifft_radix2.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ifft_trunc.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ifft_trunc_sqrt2.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="inv_div_qr.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="inv_divappr_q.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="matrix22_mul.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="mod_1.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="mul.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="mul_2expmod_2expp1.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="mul_fft_main.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="mul_mfa_trunc_sqrt2.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="mul_n.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="mul_trunc_sqrt2.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="mulhigh_n.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="mullow_n.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="mulmod_2expm1.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="mulmod_2expp1.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="mulmod_2expp1_basecase.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="normmod_2expp1.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="revbin.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rootrem.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rsh_divrem_hensel_qr_1.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sb_div_qr.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sb_divappr_q.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="set_str.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="split_bits.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tdiv_q.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tdiv_qr.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="toom3_mul.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="toom3_mul_n.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="toom4_mul.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="toom4_mul_n.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="toom8_sqr_n.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="toom8h_mul.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="fft_negacyclic.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tune\hgcd_appr_lehmer.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tune\hgcd_lehmer.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tune\hgcd_reduce_1.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tune\hgcd_reduce_2.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\memory.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\misc.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\refmpn.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tune\tuneup.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\fft\adjust.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\fft\adjust_sqrt2.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\fft\butterfly_lshB.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\fft\butterfly_rshB.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\fft\combine_bits.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\mpn\generic\dc_bdiv_q.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\mpn\generic\dc_bdiv_qr.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\mpn\generic\dc_bdiv_qr_n.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\mpn\generic\dc_div_qr.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\mpn\generic\dc_div_qr_n.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\mpn\generic\dc_divappr_q.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\fft\div_2expmod_2expp1.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\mpn\generic\divrem_1.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\mpn\generic\divrem_2.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\mpn\generic\divrem_euclidean_r_1.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\mpn\generic\divrem_hensel_qr_1.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\mpz\fac_ui.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\fft\fft_mfa_trunc_sqrt2.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\fft\fft_mfa_trunc_sqrt2_inner.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\fft\fft_negacyclic.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\fft\fft_radix2.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\fft\fft_trunc.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\mpn\generic\gcd.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\mpn\generic\gcdext.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\mpn\generic\get_str.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\mpn\generic\hgcd.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\mpn\generic\hgcd_appr.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\mpn\generic\hgcd_reduce.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\fft\ifft_negacyclic.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\fft\ifft_radix2.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\fft\ifft_trunc.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\fft\ifft_trunc_sqrt2.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\mpn\generic\inv_div_qr.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\mpn\generic\inv_divappr_q.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\mpn\generic\matrix22_mul.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\mpn\generic\mod_1.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\mpn\generic\mul.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\fft\mul_2expmod_2expp1.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\fft\mul_fft_main.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\fft\mul_mfa_trunc_sqrt2.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\mpn\generic\mul_n.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\fft\mul_trunc_sqrt2.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\mpn\generic\mulhigh_n.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\mpn\generic\mullow_n.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\mpn\generic\mulmod_2expm1.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\fft\mulmod_2expp1.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\mpn\generic\mulmod_2expp1_basecase.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\mpz\oddfac_1.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\fft\revbin.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\mpn\generic\rootrem.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\mpn\generic\sb_div_qr.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\mpn\generic\sb_divappr_q.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\mpn\generic\set_str.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\fft\split_bits.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\mpn\generic\tdiv_q.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\mpn\generic\tdiv_qr.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\mpn\generic\toom3_mul.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\mpn\generic\toom3_mul_n.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\mpn\generic\toom4_mul.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\mpn\generic\toom4_mul_n.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\mpn\generic\toom8_sqr_n.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\mpn\generic\toom8h_mul.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\mpn\generic\rsh_divrem_hensel_qr_1.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\fft\fermat_to_mpz.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\fft\normmod_2expp1.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\build.vc\getopt.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\tune\speed.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\build.vc\getopt.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\build.vc\win_timing.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\build.vc\unistd.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <YASM Include="sqr_basecase.asm">
+      <Filter>Source Files\yasm</Filter>
+    </YASM>
+  </ItemGroup>
+</Project>

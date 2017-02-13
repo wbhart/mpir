@@ -43,8 +43,6 @@
 
 #define MULMOD_2EXPM1_THRESHOLD          26
 
-#define SB_DIVAPPR_Q_SMALL_THRESHOLD      0  /* always */
-#define SB_DIV_QR_SMALL_THRESHOLD         4
 #define DC_DIV_QR_THRESHOLD              75
 #define INV_DIV_QR_THRESHOLD           2801
 #define INV_DIVAPPR_Q_N_THRESHOLD        75

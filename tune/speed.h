@@ -158,6 +158,7 @@ double speed_mpn_sublsh_n _PROTO ((struct speed_params *s));
 double speed_mpn_declsh_n _PROTO ((struct speed_params *s));
 double speed_mpn_inclsh_n _PROTO ((struct speed_params *s));
 double speed_mpn_sumdiff_n _PROTO ((struct speed_params *s));
+double speed_mpn_nsumdiff_n _PROTO ((struct speed_params *s));
 double speed_mpn_and_n _PROTO ((struct speed_params *s));
 double speed_mpn_andn_n _PROTO ((struct speed_params *s));
 double speed_mpn_addmul_1 _PROTO ((struct speed_params *s));
@@ -1597,7 +1598,7 @@ int speed_routine_count_zeros_setup _PROTO ((struct speed_params *s,
   {									\
     unsigned  i;							\
     mp_ptr    a, d, q, tmp;						\
-    mp_limb_t inv, inv1;                                             \
+    mp_limb_t inv;                                             \
     double    t;							\
     TMP_DECL;								\
 									\
@@ -1626,7 +1627,7 @@ int speed_routine_count_zeros_setup _PROTO ((struct speed_params *s,
     speed_operand_dst (s, q, 2*s->size+1);				\
     speed_cache_fill (s);						\
 	                                                         \
-    mpir_invert_pi2(inv, inv1, d[2*s->size-1], d[2*s->size-2]);                        \
+    mpir_invert_pi1(inv, d[2*s->size-1], d[2*s->size-2]);                        \
 								\
     speed_starttime ();							\
     i = s->reps;							\
@@ -1635,7 +1636,7 @@ int speed_routine_count_zeros_setup _PROTO ((struct speed_params *s,
       MPN_COPY (a+s->size, s->xp, s->size);				\
       MPN_COPY (a+2*s->size, s->xp, s->size);				\
       MPN_COPY (a+3*s->size, s->xp, s->size);				\
-      function(q, a, d, 2*s->size, inv, inv1, tmp);								\
+      function(q, a, d, 2*s->size, inv, tmp);								\
     } while (--i != 0);							\
     t = speed_endtime ();						\
 									\
@@ -1725,7 +1726,7 @@ int speed_routine_count_zeros_setup _PROTO ((struct speed_params *s,
   {									\
     unsigned  i;							\
     mp_ptr    a, d, t, q;						\
-    mp_limb_t inv, inv1;                                                \
+    mp_limb_t inv;                                                \
     mp_size_t size1;   \
     double    td;       						\
     TMP_DECL;								\
@@ -1755,13 +1756,13 @@ int speed_routine_count_zeros_setup _PROTO ((struct speed_params *s,
     speed_operand_dst (s, q, size1-s->size+1);				\
     speed_cache_fill (s);						\
 	                                                                \
-    mpir_invert_pi2(inv, inv1, d[s->size-1], d[s->size-2]);             \
+    mpir_invert_pi1(inv, d[s->size-1], d[s->size-2]);             \
 								        \
     speed_starttime ();							\
     i = s->reps;							\
     do	{								\
       MPN_COPY (t, a, size1);					\
-      function(q, t, size1, d, s->size, inv, inv1);		        \
+      function(q, t, size1, d, s->size, inv);		        \
     } while (--i != 0);							\
     td = speed_endtime ();						\
 									\
@@ -1772,7 +1773,7 @@ int speed_routine_count_zeros_setup _PROTO ((struct speed_params *s,
   {									\
     unsigned  i;							\
     mp_ptr    a, d, t, q;						\
-    mp_limb_t inv, inv1;                                                \
+    mp_limb_t inv;                                                \
     mp_size_t size1;   \
     double    td;       						\
     TMP_DECL;								\
@@ -1802,13 +1803,13 @@ int speed_routine_count_zeros_setup _PROTO ((struct speed_params *s,
     speed_operand_dst (s, q, size1-s->size+1);				\
     speed_cache_fill (s);						\
 	                                                                \
-    mpir_invert_pi2(inv, inv1, d[s->size-1], d[s->size-2]);             \
+    mpir_invert_pi1(inv, d[s->size-1], d[s->size-2]);             \
 								        \
     speed_starttime ();							\
     i = s->reps;							\
     do	{								\
       MPN_COPY (t, a, size1);					\
-      function(q, t, size1, d, s->size, inv, inv1);		        \
+      function(q, t, size1, d, s->size, inv);		        \
     } while (--i != 0);							\
     td = speed_endtime ();						\
 									\

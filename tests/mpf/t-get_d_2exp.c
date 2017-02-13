@@ -35,7 +35,7 @@ check_onebit (void)
   };
   mpf_t   f;
   double  got, want;
-  mpir_si got_exp, want_exp;
+  signed long got_exp, want_exp;
   int     i,sign;
 
   mpf_init2(f,1024L);

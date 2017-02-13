@@ -1,7 +1,7 @@
 This is mpir.info, produced by makeinfo version 5.2 from mpir.texi.
 
 This manual describes how to install and use MPIR, the Multiple
-Precision Integers and Rationals library, version 2.7.0.
+Precision Integers and Rationals library, version 2.7.2.
 
    Copyright 1991, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001,
 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013
@@ -28,7 +28,7 @@ MPIR
 ****
 
 This manual describes how to install and use MPIR, the Multiple
-Precision Integers and Rationals library, version 2.7.0.
+Precision Integers and Rationals library, version 2.7.2.
 
    Copyright 1991, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001,
 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013
@@ -59,6 +59,7 @@ in *note GNU Free Documentation License::.
 * Formatted Output::           'printf' style output.
 * Formatted Input::            'scanf' style input.
 * C++ Class Interface::        Class wrappers around MPIR types.
+* .Net Interface::             Managed .Net wrappers for MPIR types.
 * Custom Allocation::          How to customize the internal allocation.
 * Language Bindings::          Using MPIR from other languages.
 * Algorithms::                 What happens behind the scenes.
@@ -239,7 +240,7 @@ Build Directory
      directory.  For example
 
           cd /my/build/dir
-          /my/sources/mpir-2.7.0/configure
+          /my/sources/mpir-2.7.2/configure
 
      Not all 'make' programs have the necessary features ('VPATH') to
      support this.  In particular, SunOS and Solaris 'make' have bugs
@@ -1498,7 +1499,7 @@ File: mpir.info,  Node: Useful Macros and Constants,  Next: Compatibility with o
 
  -- Global Constant: const char * const mpir_version
      The MPIR version number, as a null-terminated string, in the form
-     "i.j.k".  This release is "2.7.0".
+     "i.j.k".  This release is "2.7.2".
 
 
 File: mpir.info,  Node: Compatibility with older versions,  Next: Efficiency,  Prev: Useful Macros and Constants,  Up: MPIR Basics
@@ -1759,7 +1760,7 @@ Source File Paths
      to the source directory.
 
           cd /my/build/dir
-          /my/source/dir/gmp-2.7.0/configure
+          /my/source/dir/gmp-2.7.2/configure
 
      This works via 'VPATH', and might require GNU 'make'.  Alternately
      it might be possible to change the '.c.lo' rules appropriately.
@@ -3321,6 +3322,7 @@ File: mpir.info,  Node: Comparing Rationals,  Next: Applying Integer Functions, 
 ========================
 
  -- Function: int mpq_cmp (mpq_t OP1, mpq_t OP2)
+ -- Function: int mpq_cmp_z (const mpq_t OP1, const mpz_t OP2)
      Compare OP1 and OP2.  Return a positive value if OP1 > OP2, zero if
      OP1 = OP2, and a negative value if OP1 < OP2.
 
@@ -5182,7 +5184,7 @@ and that for instance using '+' with an 'mpz_t' will have unpredictable
 results.  For classes with overloading, see *note C++ Class Interface::.
 
 
-File: mpir.info,  Node: C++ Class Interface,  Next: Custom Allocation,  Prev: Formatted Input,  Up: Top
+File: mpir.info,  Node: C++ Class Interface,  Next: .Net Interface,  Prev: Formatted Input,  Up: Top
 
 12 C++ Class Interface
 **********************
@@ -5724,9 +5726,1224 @@ Templated Expressions
           }
 
 
-File: mpir.info,  Node: Custom Allocation,  Next: Language Bindings,  Prev: C++ Class Interface,  Up: Top
+File: mpir.info,  Node: .Net Interface,  Next: Custom Allocation,  Prev: C++ Class Interface,  Up: Top
 
-13 Custom Allocation
+13 .Net Interface
+*****************
+
+This chapter describes the Microsoft.Net wrapper around MPIR.
+
+   If you are a .Net developer on MS Windows, using MPIR is possible via
+the basic managed-to-native interop tooling provided by .Net.  While
+this would allow access to the full MPIR intreface, you would
+essentially be embedding C code inside whatever .Net language you are
+using.  This would virtually require familiarity with C/C++, the interop
+artefacts in your code would be distractingly evident, and it would be
+hard to maintain a smooth code style around managed/native transitions.
+
+   MPIR offers an alternative that addresses these issues: *MPIR.Net*.
+MPIR.Net is a Microsoft Visual Studio solution that interoperates with
+MPIR and exposes a full managed interface built from scratch, for
+consumption in any .Net language.  It internalizes all C-rooted
+idiosynchrasies and allows you to work with MPIR objects through managed
+classes that perform all necessary marshaling behind the scenes.  It
+strives to provide maximum performance by implementing MPIR operations
+with direct calls to the native routines while not requiring you to
+sacrifice any of your code style.  It eliminates any requirement of
+fluency in C, yet delivers the performance of native MPIR. In fact, it
+can consume any native MPIR build, including all supported
+processor-specific builds, and can thus take advantage of the entire
+wealth of assembly-optimized MPIR routines.
+
+   MPIR.Net is, however, limited to MS Windows and Visual Studio at this
+time.  The managed interface is written in Microsoft C++/CLI, which ties
+you to that specific environment.  If you use .Net on Linux and use a
+compiler other than Visual Studio, MPIR.Net will not work for you, but
+then again, you may already have better native interop facilities
+available to you than your Windows colleagues, making MPIR.Net rather
+moot.
+
+   MPIR.Net is bundled with MPIR as an optional feature.  To build it,
+you still need to build the native MPIR library first.  As you do, you
+can select the best processor architecture that matches your
+requirements.  Then you build MPIR.Net, and it is linked statically to
+the native MPIR library, producing a managed assembly.  Thus, to build
+MPIR.Net, you need to be familiar with the MPIR build process on
+Windows, and have a recent version of Visual Studio available (a
+community edition will suffice).
+
+* Menu:
+
+* MPIR.Net Feature Overview::
+* Building MPIR.Net::
+* MPIR.Net Integers::
+* MPIR.Net Rationals::
+* MPIR.Net Floats::
+* MPIR.Net Random Numbers::
+* MPIR.Net Settings::
+
+
+File: mpir.info,  Node: MPIR.Net Feature Overview,  Next: Building MPIR.Net,  Prev: .Net Interface,  Up: .Net Interface
+
+13.1 MPIR.Net Feature Overview
+==============================
+
+MPIR.Net exposes the following main classes:
+
+ -- Class: HugeInt
+ -- Class: HugeRational
+ -- Class: HugeFloat
+ -- Class: MpirRandom
+
+   The standard operators are overloaded to allow arithmetic with these
+classes.  For example,
+
+     void Calculate()
+     {
+       using (var a = new HugeInt(1234))
+       using (var b = new HugeInt("-5678"))
+       using (var c = new HugeInt(a + b))
+       {
+         Debug.WriteLine("Result: {0}", c);
+       }
+     }
+
+   MPIR.Net's multi-precision classes implement 'IDisposable', and the
+recommended usage for local instances is as shown above, within a
+'using' clause to guarantee native memory clean-up when a variable is
+disposed.
+
+   References that go out of scope without having been disposed are
+subject to the normal .Net garbage collection, which in most cases
+invokes object finalizers, and those in turn deallocate native memory.
+Applications that don't have memory pressure should work just fine
+either way, although deterministic disposal is a best practice.
+
+   Like MPIR's native *note C++ Class Interface::, MPIR.Net implements
+an expression like 'a.Value = b + c' with a single call to the
+corresponding native 'mpz_add', without using a temporary for the 'b +
+c' part.  More complex expressions that do not have a single-call native
+implementation like 'a.Value = b*c + d*e', still use temporary
+variables.  Importantly, 'a.Value = a + b*c' and the like will utilize
+the native 'mpz_addmul', etc.  Note that in all of the above cases the
+assignment syntax is to set the 'Value' property; more on that below.
+
+   Another similarity of MPIR.Net with the C++ interface is the deferral
+of evaluation.  All arithmetic operations and many methods produce an
+expression object rather than an immediate result.  This allows
+expressions of arbitrary complexity to be built.  They are not evaluated
+until the expression is assigned to a destination variable, or when
+calling a method that produces a primitive (non-MPIR.Net type) result.
+For example:
+
+     void Calculate()
+     {
+       var a = new HugeInt(12345);
+       var b = new HugeInt(67890);
+       var sum = a + b;                // produces an expression
+       var doubleSum = sum * 2;        // produces a new expression
+       bool positive = doubleSum > 0;  // evaluates the doubleSum expression
+       int sumSign = doubleSum.Sign(); // evaluates the doubleSum expression
+       a.Value = doubleSum - 4;        // evaluates the doubleSum expression
+     }
+
+   Here the addition and multiplication in '(a + b) * 2' are computed
+three times because they are part of an expression that is consumed by
+three destinations, 'positive', 'sumSign', and 'a'.  To avoid the triple
+addition, this method should be re-written as:
+
+     void Calculate()
+     {
+       var a = new HugeInt(12345);
+       var b = new HugeInt(67890);
+       var sum = a + b;                      // produces an expression
+       var doubleSum = new HugeInt(sum * 2); // evaluates the expression
+       bool positive = doubleSum > 0;        // evaluates the > comparison
+       int sumSign = doubleSum.Sign();       // computes the sign
+       a.Value = doubleSum - 4;              // computes the subtraction
+     }
+
+   Now the result of '(a + b) * 2' is computed once and stored in an
+intermediate variable, whose value is used in subsequent statements.
+This code can be shortened as follows without changing the internal
+calculation:
+
+     void Calculate()
+     {
+       var a = new HugeInt(12345);
+       var b = new HugeInt(67890);
+       var doubleSum = new HugeInt((a + b) * 2); // evaluates the expression
+       var positive = doubleSum > 0;             // evaluates the > comparison
+       var sumSign = doubleSum.Sign();           // computes the sign
+       a.Value = doubleSum - 4;                  // computes the subtraction
+     }
+
+   The main idiosyncrasy of MPIR.Net is its assignment pattern.
+MPIR.Net types are implemented as reference types with value semantics.
+Like .Net Strings, the objects themselves are just lightweight pointers
+to data allocated elsewhere.  In this case, the data is in native
+memory.  Unlike Strings, MPIR types are mutable.
+
+   Value semantics requires you to be able to code statements like 'a =
+b + c'.  However, .Net (outside of C++) does not allow overloading the
+assignment operator, while assigning references would necessitate some
+unnecessary duplication and extra memory allocations, require reliance
+on the garbage collector, and prevent the use of 'mpz_addmul' and the
+like.
+
+   To solve this problem, MPIR.Net uses the property assignment.  All
+MPIR.Net types have a 'Value' property.  The magic of this property is
+in its setter, which does what an overloaded assignment operator would
+do in C++.  So you write 'a.Value = b + c' to calculate the sum of 'b'
+and 'c' and store the result in the existing variable 'a'.  This seems
+to be as close to an overloaded assignment as you can get in .Net, but
+is fluent enough to become a quick habit, and additionally reinforces
+the concept that an existing object can change its value while reusing
+internally allocated memory.
+
+   Setting 'Value' evaluates the expression being assigned.  Since at
+this point the destination is known, 'mpz_addmul' and similar can be
+recognized and invoked.
+
+   Reading this property is less interesting, as it's equivalent to but
+wordier than using the reference itself, i.e.  'a + b' is equivalent to
+'a.Value + b.Value'.  However it is still useful for making possible
+constructs such as 'a.Value += 5', 'a.Value *= 10', etc.
+
+   If you absent-mindedly type 'a = b + c' or 'a *= 10', these will not
+compile because there is no implicit conversion from an expression.  If
+an implicit conversion were defined, such code would incur an extra
+allocation plus garbage collection, making it potentially slower than
+performing the same operations on 'a.Value'.  It would also not compile
+if the destination were a local variable defined in a 'using' clause, as
+is the recommended practice for method-local instances.
+
+   Care should be taken with the construct 'var a = b;'.  While
+perfectly legal (and cannot be made otherwise) in .Net, this only
+creates a copy of the managed reference to the same MPIR.Net object,
+without any copying of the data.  If 'b' is subsequently disposed,
+referencing 'a' will throw an error.
+
+   MPIR classes can be intermixed in expressions to some degree.  For
+example, most arithmetic operations with rational operands will accept
+integers.  Where mixed operations are defined in MPIR, they are also
+implemented in MPIR.Net.  Floats, on the other hand, typically don't
+accept operands of other types.  There is some cost associated with
+creating a floating point instance out of an integer, which would not be
+evident if automatic promotion existed.  Use explicit constructors to
+convert instances of one type to new instances of other types, or one of
+the 'SetTo()' overloads to save the result into an existing instance.
+
+   MPIR classes can also be intermixed in expressions with primitive
+types.  For 64-bit builds, this includes 'long' and 'ulong', which
+correspond to an MPIR limb.  For 32-bit builds, 'int' and 'uint' are the
+largest primitive types you can use.  Smaller integer primitives can
+always be used because they will be promoted by .Net.
+
+   Conversions back from MPIR classes to primitive types aren't done
+automatically, instead methods 'ToLong()'/'ToUlong()' for 64-bit builds
+or 'ToInt()'/'ToUint()' are provided.  Integers also implement
+'GetLimb()'.
+
+
+File: mpir.info,  Node: Building MPIR.Net,  Next: MPIR.Net Integers,  Prev: MPIR.Net Feature Overview,  Up: .Net Interface
+
+13.2 Building MPIR.Net
+======================
+
+To build MPIR.Net, follow the steps below:
+
+  1. Get the sources
+
+  2. Build MPIR
+
+  3. Run MPIR unit tests
+
+  4. Build MPIR.Net
+
+  5. Run MPIR.Net unit tests
+
+  6. Reference MPIR.Net in your managed project
+
+   *Get the sources*: Clone the MPIR repository on GitHub to get the
+latest stable MPIR release.  This repository includes MPIR.Net.  Or you
+can clone the MPIR.Net fork, which will get you the development
+repository.
+
+   *Build MPIR*: Once you have the sources, you will need to build MPIR
+first.  Read the MPIR manual, available as a Documentation link on the
+MPIR page, for full details.  Since MPIR.Net currently requires Windows,
+you will need to build MPIR for Windows using Microsoft Visual Studio.
+MPIR provides solutions for the three latest versions of Visual Studio,
+and includes full build instructions.  You can select either a generic C
+build or an optimized build for a specific processor.  You must also
+select the Windows architecture desired (32-bit or 64-bit), and build
+configuration (debug/release).  You will need to build MPIR as Lib, not
+DLL, to use it with MPIR.Net.
+
+   *Run MPIR unit tests*: MPIR contains a full suite of unit tests that
+you can (and should) execute to validate your build.  It is a large and
+complex project, and many things can go wrong while building from
+sources.  Building and running the tests only takes a few of minutes and
+might save you a lot of headache.  Note that you must also build MPIR's
+C++ interface to run unit tests, however it is not a dependency for
+MPIR.Net.
+
+   *Build MPIR.Net*: Next, load the MPIR.Net solution in Visual Studio.
+It is located in the MPIR.Net folder, under which there are folders for
+the different supported Visual Studio versions.  The projects are set up
+to look for the previously built MPIR library in its normal location in
+the Lib folder.  You will need to select the same architecture (x64 or
+x86) and configuration (debug/release) as when you built MPIR. Then
+simply build the solution, and you are good to go.
+
+   *Run MPIR.Net unit tests*: MPIR.Net includes its own suite of unit
+tests.  Because MPIR.Net is a wrapper around MPIR, these tests simply
+ensure that the right routines in MPIR are being called, but do not
+validate the robustness of the MPIR build itself.  Thus, it is necessary
+to run both MPIR tests and MPIR.Net tests.  MPIR.Net tests, though, are
+easier to run because they are included right in the MPIR.Net solution.
+
+   Through binary compatibility with GMP 5.x, MPIR 2.x inherits a known
+issue that causes a few MPIR.Net tests (2 for x86, 3 for x64) to fail.
+The issue has been corrected in GMP 6.x, and is expected to be corrected
+correspondingly in MPIR 3.x.  Because this behavior is not intuitive,
+these tests remain in their current failing state until this is
+resolved.
+
+   *Reference MPIR.Net*: With the MPIR.Net assembly built, you're ready
+to create your own project in a .Net language of your choice, add a
+reference to MPIR.Net, and take advantage of the great mathematical
+powers of MPIR!
+
+
+File: mpir.info,  Node: MPIR.Net Integers,  Next: MPIR.Net Rationals,  Prev: Building MPIR.Net,  Up: .Net Interface
+
+13.3 MPIR.Net Integers
+======================
+
+ -- Class: HugeInt : IntegerExpression, IDisposable
+     The MPIR.Net type for the MPIR multi-precision integer is
+     'HugeInt'.  A closely related type is 'IntegerExpression', which is
+     returned from all operators and methods whose value semantics are
+     to compute another number from the source instance and any
+     arguments.  'HugeInt' derives from 'IntegerExpression', and many
+     operations are defined on the expression class.  Operations defined
+     on 'HugeInt' but not on 'IntegerExpression' are typically those
+     that modify the value of the source number itself, and thus
+     performing them on an expression is meaningless.  Because through
+     inheritance all operations are available on 'HugeInt', the
+     descriptions below do not specifically indicate whether each
+     operator or method is defined for expressions, or just for
+     'HugeInt' instances.  For the sake of brevity, they are listed as
+     if they were methods of the 'HugeInt' class.  Visual Studio
+     provides Intellisense and immediate feedback to help sort out which
+     operations are available on expressions.
+
+   Below is a brief summary of the supported multi-precision integer
+methods and operators.  To avoid repetition, implementation details are
+ommitted.  Since MPIR native functions are called behind the scenes,
+review *note Integer Functions:: for further details about the native
+implementations.
+
+ -- Constructor: HugeInt ()
+ -- Constructor: HugeInt (int/long N)
+ -- Constructor: HugeInt (uint/ulong N)
+ -- Constructor: HugeInt (double N)
+     Constructs a 'HugeInt' object.  Single-limb constructors vary by
+     architecture, 32-bit builds take an 'int' or 'uint' argument,
+     64-bit builds take a 'long' or 'ulong'.  Any necessary conversion
+     follows the corresponding C function, for example 'double' follows
+     'mpz_set_d' (*note Assigning Integers::).
+
+ -- Constructor: HugeInt (string S)
+ -- Constructor: HugeInt (string S, int BASE)
+     Constructs a 'HugeInt' converted from a string using 'mpz_set_str'
+     (*note Assigning Integers::).  If the string is not a valid
+     integer, an exception is thrown.
+
+ -- Constructor: HugeInt (IntegerExpression E)
+     Evaluates the supplied expression and saves its result to the new
+     instance.  Because 'HugeInt' is derived from 'IntegerExpression',
+     this constructor can be used to make a copy of an existing
+     variable, i.e.  'HugeInt a = new HugeInt(b);' without creating any
+     permanent association between them.
+
+ -- Static Method: static HugeInt Allocate (uint/ulong BITS)
+ -- Method: void Reallocate (uint/ulong BITS)
+     Controls the capacity in bits of the allocated integer.
+
+ -- Property: int AllocatedSize
+     Returns the number of limbs currently allocated.
+
+ -- Method: ulong Size ()
+     Returns the number of limbs currently used.
+
+ -- Method: long GetLimb (mp_size_t INDEX)
+     Returns the specified limb.
+
+ -- Method: bool FitsUlong () //64-bit builds only
+ -- Method: bool FitsLong () //64-bit builds only
+ -- Method: bool FitsUint ()
+ -- Method: bool FitsInt ()
+ -- Method: bool FitsUshort ()
+ -- Method: bool FitsShort ()
+ -- Method: long ApproximateSizeInBase (int BASE)
+     Checks whether the number would fit in one of the built-in .Net
+     types.
+
+ -- Method: string ToString ()
+ -- Method: string ToString (int BASE)
+ -- Method: string ToString (int BASE, bool LOWERCASE)
+     Returns the string representation of the number.  The default
+     'base' is 10, and the parameterless overload is limited to 256
+     least significant digits by default, producing a leading ellipsis
+     (i.e.  ...12345) when the number has more digits.  This is done to
+     prevent huge numbers from unexpectedly consuming large amounts of
+     memory in the debugger.  The maximum number of digits output is
+     configurable via the 'MpirSettings.ToStringDigits' property, where
+     zero means unlimited.  The other overloads always output all
+     digits.
+
+ -- Method: int ToInt () //32-bit builds
+ -- Method: uint ToUint () //32-bit builds
+ -- Method: long ToLong () //64-bit builds
+ -- Method: ulong ToUlong () //64-bit builds
+ -- Method: double ToDouble ()
+ -- Method: double ToDouble ('out' int/long EXP)
+     Converts the number to a primitive (built-in) .Net type, assuming
+     it fits, which can be determined by calling one of the 'Fits...'
+     methods.
+
+ -- Property: IntegerExpression Value
+     Getting this property is essentially a no-op, as it returns the
+     object instance itself.  This never needs to be done explicitly,
+     but is used implicitly in statements like 'a.Value += 5;'
+
+     Setting the 'Value' property evaluates the assigned expression and
+     saves the result to the object.
+
+ -- Method: void SetTo (int/long VALUE) // 32/64-bit builds
+ -- Method: void SetTo (uint/ulong VALUE) // 32/64-bit builds
+ -- Method: void SetTo (double VALUE)
+ -- Method: void SetTo (string VALUE)
+ -- Method: void SetTo (string VALUE, int BASE)
+ -- Method: void SetTo (RationalExpression VALUE)
+ -- Method: void SetTo (FloatExpression VALUE)
+     Sets the value of existing variable from types other than
+     'IntegerExpression'.
+
+ -- Method: void Swap (HugeInt A)
+     Swaps the values of the two objects.  This is an O(1) operation.
+
+   Arithmetic operators ('+', '-', '*', '/', '%') are overloaded to
+allow integers to participate in expressions much like primitive
+integers can.  Single-limb primitive types can be used.  These operators
+will also accept 'RationalExpression' arguments, producing a
+'RationalExpression' result.  Some expression types expose additional
+methods, these are listed below.  Invoking these methods does not
+prevent the expression from participating in further expressions.
+
+   Expressions resulting from division or computing a modulo allow
+setting an explicit rounding mode:
+     c.Value = (a / b).Rounding(RoundingModes.Ceiling) + 4;
+     d.Value = (a % b).Rounding(RoundingModes.Floor) + 4;
+
+   Division expressions optionally allow the remainder to be saved:
+     c.Value = (a / b).SavingRemainderTo(e) + 4;
+
+   When dividing by a limb, the remainder is a single limb and is saved
+to an unsigned limb variable.  However, passing this variable as an
+'out' argument would not work because of the deferred evaluation.
+Instead, a delegate is passed which is called during evaluation:
+     ulong/uint remainder; // 64/32-bit builds
+     d.Value = (a / 100).SettingRemainderTo(x => remainder = x) + 4;
+
+   Symmetrically, the modulo expressions ('%') allow the quotient to be
+saved:
+     c.Value = (a % b).SavingQuotientTo(e).RoundingMode(RoundingModes.Ceiling) + 4;
+     ulong/uint quotient; // 64/32-bit builds
+     d.Value = (a % 100).SettingQuotientTo(x => quotient = x) + 4;
+
+ -- Method: uint/ulong Mod (uint/ulong DIVISOR)
+ -- Method: uint/ulong Mod (uint/ulong DIVISOR, RoundingModes
+          ROUNDINGMODE)
+     Computes the absolute value of the remainder from division of the
+     source number by the specified 'divisor'.  This operation differs
+     from using the '%' operator by where the result is saved.  The '%'
+     operator returns an expression, and a 'HugeInt' variable is
+     required to receive the result when the expression is assigned to
+     its 'Value' property.  The 'Mod' method, on the other hand,
+     computes and returns the remainder immediately since it's a
+     primitive type (single limb), and no destination 'HugeInt' variable
+     is needed.
+
+   Operator '^' serves dual purposes: when the right operand is a single
+limb, it raises the source number to a power, if the right operand is an
+'IntegerExpression' it performs a bitwise XOR.
+
+   Comparison operators ('==', '!=', '<', '<=', '>', '>=') accept
+'IntegerExpression', single-limb, or double arguments, but do not accept
+'RationalExpression' because that would require an awkward explicit cast
+when comparing with null.
+
+ -- Method: int CompareTo (IntegerExpression A)
+ -- Method: bool Equals (IntegerExpression A)
+     Implement 'IComparable<IntegerExpression>' and
+     'IEquatable<IntegerExpression>' for strongly-typed comparisons.
+
+ -- Method: int CompareTo (object A)
+ -- Method: bool Equals (object A)
+     Implement 'IComparable' and equality check for any object.  These
+     accept a 'RationalExpression' as an argument, allowing cross-type
+     comparisons not possible with operators.
+
+ -- Method: int GetHashCode ()
+     This 'object' override computes the hash code.  This is an O(N)
+     operation where N is the number of limbs in use.  Changing a
+     number's 'Value' changes its hash code, so this should not be done
+     on any object that has been added to a hash table or dictionary.
+
+ -- Method: int CompareAbsTo (IntegerExpression A)
+ -- Method: int CompareAbsTo (uint/ulong A)
+ -- Method: int CompareAbsTo (double A)
+     Compares the absolute value of the number with the operand.
+
+ -- Method: int Sign ()
+     Returns the number's sign.
+
+   Bit shift operators ('<<', '>>') accept an unsigned limb operand.
+
+   The right shift ('>>') expression provides a method to compute the
+modulo, rather than the default quotient:
+     var a = new HugeInt("0x1357");
+     Debug.WriteLine((a >> 8).ToString(16)); //prints 13
+     Debug.WriteLine((a >> 8).Remainder().ToString(16)); //prints 57
+
+   Bitwize operators ('&', '|', '^', '~') are defined for
+'IntegerExpression' operands only.  Note that operator '^' is also
+defined for a limb operand, and in that case computes a power.
+
+ -- Method: bool GetBit (uint/ulong POSITION)
+ -- Method: void SetBit (uint/ulong POSITION, bool VALUE)
+ -- Method: void ComplementBit (uint/ulong POSITION)
+     Allows access to individual bits of the number, using a "virtual"
+     two's complement representation.
+
+ -- Method: uint/ulong PopCount () // 32/64-bit builds
+     Gets the number of set bits in the number.
+
+ -- Method: uint/ulong HammingDistance (IntegerExpression TARGET) //
+          32/64-bit builds
+     Gets the hamming distance between this number and 'target'.
+
+ -- Method: uint/ulong FindBit (bool VALUE, uint/ulong START) //
+          32/64-bit builds
+     Scans the number for next set or cleared bit (depending on
+     'value').
+
+ -- Method: IntegerExpression Abs ()
+     Returns an expression that computes the absolute value of the
+     number.
+
+ -- Method: IntegerExpression DivideExactly (IntegerExpression DIVISOR)
+ -- Method: IntegerExpression DivideExactly (uint/ulong DIVISOR) //
+          32/64-bit builds
+     Returns an expression that performs a fast division where it is
+     known that there is no remainder.
+
+ -- Method: IntegerExpression PowerMod (IntegerExpression POWER,
+          IntegerExpression MODULO)
+ -- Method: IntegerExpression PowerMod (uint/ulong POWER,
+          IntegerExpression MODULO) // 32/64-bit builds
+     Returns an expression that raises the source to the specified
+     'power' modulo 'modulo'.
+
+ -- Method: bool IsDivisibleBy (IntegerExpression A)
+ -- Method: bool IsDivisibleBy (uint/ulong A)
+ -- Method: bool IsDivisibleByPowerOf2 (uint/ulong POWER)
+ -- Method: bool IsCongruentTo (IntegerExpression A, IntegerExpression
+          MODULO)
+ -- Method: bool IsCongruentTo (uint/ulong A, uint/ulong MODULO)
+ -- Method: bool IsCongruentToModPowerOf2 (IntegerExpression A,
+          uint/ulong POWER)
+ -- Method: bool IsPerfectPower ()
+ -- Method: bool IsPerfectSquare ()
+     Performs various divisibility checks.  These methods return a bool
+     result, and therefore are executed immediately.  If they are called
+     on an expression, the expression is evaluated to a temporary which
+     is discarded immediately afterwards.  If you will need this result
+     again, assign the expression to a 'HugeInt' variable and call the
+     method on it.
+
+ -- Method: long Write (Stream STREAM)
+ -- Method: long Read (Stream STREAM)
+     Writes and reads integers to/from streams using the raw binary
+     format.
+
+ -- Method: long Write (TextWriter WRITER)
+ -- Method: long Write (TextWriter WRITER, int BASE)
+ -- Method: long Write (TextWriter WRITER, int BASE, bool LOWERCASE)
+ -- Method: long Read (TextReader READER)
+ -- Method: long Read (TextReader READER, int BASE)
+     Writes and reads integers as text.
+
+ -- Method: void Import<T> (T[] DATA, long LIMBCOUNT, int BYTESPERLIMB,
+          LimbOrder LIMBORDER, Endianness ENDIANNESS, int NAILS)
+ -- Method: long Export<T> (T[] DATA, int BYTESPERLIMB, LimbOrder
+          LIMBORDER, Endianness ENDIANNESS, int NAILS)
+ -- Method: T[] Export<T> (int BYTESPERLIMB, LimbOrder LIMBORDER,
+          Endianness ENDIANNESS, int NAILS)
+     Imports/exports the absolute value of the number to/from arbitrary
+     words of data.
+
+ -- Method: bool IsProbablePrime (MpirRandom RANDOM, int PROBABILITY,
+          ulong/uint PRETESTED)
+ -- Method: bool IsLikelyPrime (MpirRandom RANDOM, ulong/uint PRETESTED)
+ -- Static Method: static int Jacobi (HugeInteger A, HugeInteger B)
+ -- Static Method: static int Legendre (HugeInteger A, HugeInteger B)
+ -- Static Method: static int Kronecker (HugeInteger A, HugeInteger B)
+ -- Static Method: static int Kronecker (HugeInteger A, int/long B)
+ -- Static Method: static int Kronecker (HugeInteger A, uint/ulong B)
+ -- Static Method: static int Kronecker (int/long A, HugeInteger B)
+ -- Static Method: static int Kronecker (uint/ulong A, HugeInteger B)
+ -- Static Method: static IntegerExpression Power (uint/ulong VALUE,
+          uint/ulong POWER)
+ -- Static Method: static IntegerExpression Factorial (uint/ulong VALUE)
+ -- Static Method: static IntegerExpression Factorial (uint/ulong VALUE,
+          uint/ulong ORDER)
+ -- Static Method: static IntegerExpression Primorial (uint/ulong VALUE)
+ -- Static Method: static IntegerExpression Binomial (uint/ulong N,
+          uint/ulong K)
+ -- Static Method: static IntegerExpression Binomial (IntegerExpression
+          N, uint/ulong K)
+     Performs various number-theoretic computations.
+
+ -- Static Method: static IntegerSequenceExpression Fibonacci (int/long
+          N)
+ -- Static Method: static IntegerSequenceExpression Lucas (int/long N)
+     These two methods return a specialized expression that provides an
+     additional method to optionally save the previous number in the
+     sequence, in addition to the number requested, for example:
+          var b = new HugeInt();
+          var c = new HugeInt(HugeInt.Fibonacci(300).SavingPreviousTo(b));
+
+ -- Method: IntegerSquareRootExpression SquareRoot ()
+     Returns an expression that evaluates to the square root of the
+     number.  The expression provides a method to optionally save the
+     remainder to a second variable:
+          a.Value = b.SquareRoot().SavingRemainderTo(c);
+
+ -- Method: IntegerRootExpression Root (ulong/uint POWER)
+     Returns an expression that evaluates to the root of the specified
+     'power' of the number.  The expression provides two optional
+     methods.  One allows to save the remainder to a second variable,
+     and the other allows to set a boolean flag indicating whether the
+     root operation was exact.  Note that computing the remainder is
+     more costly than just getting an exact flag.
+          bool exact = false;
+          a.Value = b.Root(3).SavingRemainderTo(r);
+          c.Value = d.Root(4).SettingExactTo(x => exact = x);
+          e.Value = f.Root(5).SavingRemainderTo(r).SettingExactTo(x => exact = x);
+
+ -- Method: IntegerExpression NextPrimeCandidate (MpirRandom RANDOM)
+     Returns an expression that looks for the next possible prime
+     greater than the source number.
+
+ -- Method: uint/ulong Gcd (uint/ulong A)
+     Computes the greatest common divisor with the specified single-limb
+     number.
+
+ -- Method: IntegerGcdExpression Gcd (IntegerExpression A)
+     Returns an expression that computes the greatest common divisor of
+     the source number and 'a'.  Provides a method to optionally
+     calculate the related Diophantine equation multiplier(s):
+          c.Value = a.Gcd(b).SavingDiophantineMultipliersTo(s, t);
+     If either 's' or 't' is null, that coefficient is not computed.
+
+ -- Method: IntegerExpression Lcm (IntegerExpression A)
+ -- Method: IntegerExpression Lcm (uint/ulong A)
+     Computes the least common multiple with 'a'.
+
+ -- Method: IntegerExpression Invert (IntegerExpression MODULO)
+     Returns an expression to compute the inverse of the source number
+     modulo 'modulo'.
+
+ -- Method: IntegerRemoveFactorsExpression RemoveFactors
+          (IntegerExpression FACTOR)
+     Returns an expression that evaluates to the result of removing all
+     occurrences of the specified 'factor' from the source number.
+     Provides a method to optionally save the number of factors that
+     were removed:
+          ulong/uint numberRemoved; // 64/32-bit builds
+          a.Value = b.RemoveFactors(c);
+          d.Value = e.RemoveFactors(f).SavingCountRemovedTo(x => numberRemoved = x);
+
+
+File: mpir.info,  Node: MPIR.Net Rationals,  Next: MPIR.Net Floats,  Prev: MPIR.Net Integers,  Up: .Net Interface
+
+13.4 MPIR.Net Rationals
+=======================
+
+ -- Class: HugeRational : RationalExpression, IDisposable
+     MPIR multi-precision rational numbers are represented by the
+     'HugeRational' class, along with its corresponding expression class
+     'RationalExpression', which is returned from all operators and
+     methods whose value semantics are to compute another number from
+     the source instance and any arguments.  Operations defined on
+     'HugeRational' but not on 'RationalExpression' are typically those
+     that modify the value of the source number itself, and thus
+     performing them on an expression is meaningless.  Because through
+     inheritance all operations are available on 'HugeRational', the
+     descriptions below do not specifically indicate whether each
+     operator or method is defined for expressions, or just for
+     'HugeRational' instances.  For the sake of brevity, they are listed
+     as if they were methods of the 'HugeRational' class.  Visual Studio
+     provides Intellisense and immediate feedback to help sort out which
+     operations are available on expressions.
+
+   Below is a brief summary of the supported multi-precision rational
+methods and operators.  To avoid repetition, implementation details are
+ommitted.  Since MPIR native functions are called behind the scenes,
+review *note Rational Number Functions:: for further details about the
+native implementations.
+
+ -- Constructor: HugeRational ()
+ -- Constructor: HugeRational (int/long NUMERATOR, uint/ulong
+          DENOMINATOR)
+ -- Constructor: HugeRational (uint/ulong NUMERATOR, uint/ulong
+          DENOMINATOR)
+ -- Constructor: HugeRational (IntegerExpression NUMERATOR,
+          IntegerExpression DEMONINATOR)
+ -- Constructor: HugeRational (double N)
+     Constructs a 'HugeRational' object.  Single-limb constructors vary
+     by architecture, 32-bit builds take 'int' or 'uint' arguments,
+     64-bit builds take 'long' or 'ulong'.  Any necessary conversion
+     follows the corresponding C function, for example 'double' follows
+     'mpq_set_d' (*note Initializing Rationals::).
+
+ -- Constructor: HugeRational (string S)
+ -- Constructor: HugeRational (string S, int BASE)
+     Constructs a 'HugeRational' converted from a string using
+     'mpq_set_str' (*note Initializing Rationals::).  If the string is
+     not a valid integer or rational, an exception is thrown.
+
+   When constructing a rational number from a numerator and denominator,
+including the string constructors where both numerator and denominator
+are specified, the fraction should be in canonical form, or if not then
+'Canonicalize()' should be called.
+
+ -- Constructor: HugeRational (IntegerExpression E)
+ -- Constructor: HugeRational (RationalExpression E)
+ -- Constructor: HugeRational (FloatExpression E)
+     Evaluates the supplied expression and saves its result to the new
+     instance.  Because multi-precision classes are derived from their
+     corresponding expression classes, these constructors can be used to
+     make a copy of an existing variable, i.e.  'HugeRational a = new
+     HugeRational(b);' without creating any permanent association
+     between them.
+
+ -- Static Method: static HugeRational Allocate (uint/ulong
+          NUMERATORBITS, uint/ulong DENOMINATORBITS)
+     Controls the capacity in bits of the allocated integer.
+     HugeRational does not have a 'Reallocate' method, but its numerator
+     and demonimator are derived from HugeInt and can thus be
+     reallocated separately.
+
+ -- Method: void Canonicalize ()
+     Puts a 'HugeRational' into canonical form, as per *note Rational
+     Number Functions::.  All arithmetic operators require their
+     operands in canonical form, and will return results in canonical
+     form.
+
+ -- Property: HugeInt Numerator
+ -- Property: HugeInt Denominator
+     These read-only properties expose the numerator and denominator for
+     direct manipulation.  They return specialized instances of the
+     'HugeInt' class that do not own their limb data.  They override the
+     'Dispose()' method with a no-op, so they can be safely passed
+     around as normal integers, even to code that tries to dispose of
+     them.
+
+     Once a numerator or denominator is obtained, it remains valid for
+     the life of the 'HugeRational' instance.  It references live data,
+     so for example, if the 'Value' of the rational is modified, it will
+     be visible through a previously obtained numerator/denominator
+     instance.  Conversely, setting the 'Value' of a numerator or
+     denominator modifies the 'Value' of its owning rational, and if
+     this cannot be known to keep the rational in canonical form,
+     'Canonicalize()' must be called before performing any further MPIR
+     operations on the rational.
+
+     Multiple copies can be safely obtained, and reference the same
+     internal structures.  Once the 'HugeRational' is disposed, any
+     numerator and denominator instances obtained from it are no longer
+     valid.
+
+ -- Method: long ApproximateSizeInBase (int BASE)
+     Returns the number of digits the absolute value of number would
+     take if written in the specified base.  The result can be at most 2
+     characters too long, and allows for a numerator, a division sign,
+     and a denominator, but excludes the leading minus sign.
+
+ -- Method: string ToString ()
+ -- Method: string ToString (int BASE)
+ -- Method: string ToString (int BASE, bool LOWERCASE)
+     Returns the string representation of the number.  The default
+     'base' is 10, and the parameterless overload is limited to 256
+     least significant digits by default, each for a numerator and a
+     denominator, producing a leading ellipsis (i.e.  ...12345) when
+     either component has more digits.  This is done to prevent huge
+     numbers from unexpectedly consuming large amounts of memory in the
+     debugger.  The maximum number of digits output is configurable via
+     the 'MpirSettings.ToStringDigits' property, where zero means
+     unlimited.  The other overloads always output all digits.
+
+ -- Method: double ToDouble ()
+     Converts the number to a double, possibly truncated.
+
+ -- Property: RationalExpression Value
+     Getting this property is essentially a no-op, as it returns the
+     object instance itself.  This never needs to be done explicitly,
+     but is used implicitly in statements like 'a.Value += 5;'
+
+     Setting the 'Value' property evaluates the assigned expression and
+     saves the result to the object.
+
+ -- Method: void SetTo (int/long VALUE) // 32/64-bit builds
+ -- Method: void SetTo (int/long NUMERATOR, uint/ulong DENOMINATOR)
+ -- Method: void SetTo (uint/ulong VALUE)
+ -- Method: void SetTo (uint/ulong NUMERATOR, uint/ulong DENOMINATOR)
+ -- Method: void SetTo (double VALUE)
+ -- Method: void SetTo (string VALUE)
+ -- Method: void SetTo (string VALUE, int BASE)
+ -- Method: void SetTo (IntegerExpression VALUE)
+ -- Method: void SetTo (IntegerExpression NUMERATOR, IntegerExpression
+          DENOMINATOR)
+ -- Method: void SetTo (FloatExpression VALUE)
+     Sets the value of existing variable from types other than
+     'RationalExpression'.  When setting both the numerator and
+     denominator, canonicalization must be managed explicitly.
+
+ -- Method: void Swap (HugeRational A)
+     Swaps the values of the two objects.  This is an O(1) operation.
+     Any existing numerators and denominators remain associated with the
+     object on which they were obtained, and reflect its new value.
+
+   Arithmetic operators ('+', '-', '*', '/') are overloaded to allow
+rationals to participate in expressions much like primitive integers
+can.  Single-limb primitive types can be used.  These operators will
+also accept 'IntegerExpression' arguments, and will automatically
+promote them.  In expressions, promotion of an 'IntegerExpression' to a
+'RationalExpression' is an O(1) operation.  Of course, when constructing
+a rational from an integer, a copy is made so this becomes O(N).
+
+   Due to the rationals' nature, division is always exact (there is no
+rounding) and the modulo operator ('%') is not defined.  Also not
+defined are the bit shift operators ('<<', '>>'), and the bitwise
+operators ('&', '|', '^', '~').
+
+   Operator '^' raises the source number to the specified power.
+
+   Comparison operators ('==', '!=', '<', '<=', '>', '>=') accept
+'RationalExpression', single-limb, or double arguments, but do not
+accept integer or float expressions because that would require an
+awkward explicit cast when comparing with null.  Use the
+'CompareTo(object)' method for cross-comparisons.
+
+ -- Method: int CompareTo (RationalExpression A)
+ -- Method: bool Equals (RationalExpression A)
+     Implement 'IComparable<RationalExpression>' and
+     'IEquatable<RationalExpression>' for strongly-typed comparisons.
+
+ -- Method: int CompareTo (object A)
+ -- Method: bool Equals (object A)
+     Implement 'IComparable' and equality check for any object.  For
+     rationals, these methods support any expression type (integer,
+     rational, or float).
+
+ -- Method: bool Equals (int/long NUMERATOR, uint/ulong DENOMINATOR)
+ -- Method: bool Equals (uint/ulong NUMERATOR, uint/ulong DENOMINATOR)
+ -- Method: int CompareTo (int/long NUMERATOR, uint/ulong DENOMINATOR)
+ -- Method: int CompareTo (uint/ulong NUMERATOR, uint/ulong DENOMINATOR)
+     Single-limb comparisons for rationals take two arguments.
+
+ -- Method: int GetHashCode ()
+     This 'object' override computes the hash code.  This is an O(N)
+     operation where N is the number of limbs in use in the numerator
+     and denominator combined.  Changing a number's 'Value' changes its
+     hash code, so this should not be done on any object that has been
+     added to a hash table or dictionary.
+
+ -- Method: int Sign ()
+     Returns the number's sign.
+
+ -- Method: RationalExpression Abs ()
+     Returns an expression that computes the absolute value of the
+     number.
+
+ -- Method: RationalExpression Invert ()
+     Returns an expression that computes the inverse of the number.
+
+ -- Method: long Write (Stream STREAM)
+ -- Method: long Read (Stream STREAM)
+     Writes and reads rationals to/from streams using the raw binary
+     format.
+
+ -- Method: long Write (TextWriter WRITER)
+ -- Method: long Write (TextWriter WRITER, int BASE)
+ -- Method: long Write (TextWriter WRITER, int BASE, bool LOWERCASE)
+ -- Method: long Read (TextReader READER)
+ -- Method: long Read (TextReader READER, int BASE)
+     Writes and reads rationals as text.
+
+   There are no 'Import'/'Export' methods, but they can of course be
+invoked on the numerator and/or denominator.
+
+   'RationalExpression' does not have any specialized subclasses, as
+there are no operations on the rational type that require additional
+inputs beyond the left and right operator operands.
+
+
+File: mpir.info,  Node: MPIR.Net Floats,  Next: MPIR.Net Random Numbers,  Prev: MPIR.Net Rationals,  Up: .Net Interface
+
+13.5 MPIR.Net Floats
+====================
+
+ -- Class: HugeFloat : FloatExpression, IDisposable
+     The MPIR.Net class for multi-precision floating point numbers is
+     'HugeFloat', and its corresponding expression class is
+     'FloatExpression', which is returned from all operators and methods
+     whose value semantics are to compute another number from the source
+     instance and any arguments.  'HugeFloat' derives from
+     'FloatExpression', and many operations are defined on the
+     expression class.  Operations defined on 'HugeFloat' but not on
+     'FloatExpression' are typically those that modify the value of the
+     source number itself, and thus performing them on an expression is
+     meaningless.  Because through inheritance all operations are
+     available on HugeFloat, the descriptions below do not specifically
+     indicate whether each operator or method is defined for
+     expressions, or just for 'HugeFloat' instances.  For the sake of
+     brevity, they are listed as if they were methods of the 'HugeFloat'
+     class.  Visual Studio provides Intellisense and immediate feedback
+     to help sort out which operations are available on expressions.
+
+   Below is a brief summary of the supported multi-precision rational
+methods and operators.  To avoid repetition, implementation details are
+ommitted.  Since MPIR native functions are called behind the scenes,
+review *note Floating-point Functions:: for further details about the
+native implementations.
+
+ -- Static Property: static uint/ulong DefaultPrecision
+     Gets or sets the default precision of the floating point mantissa,
+     in bits.  If the value is not a multiple of limb size, the actual
+     precision will be rounded up.  All newly constructed 'HugeFloat'
+     objects that don't explicitly specify precision will use this
+     default.  Previously constructed objects are unaffected.  The
+     initial default precision is 2 limbs.
+
+     When an expression is evaluated, it is either because it is being
+     assigned to some destination variable (e.g.  'a.Value = b + c;') or
+     a primitive-computing method is being called (e.g.  'int s = (b +
+     c).Sign();') In the former case, the precision of the destination
+     is used for all computations and temporaries during expression
+     evaluation.  In the latter case, there is no destination so the
+     'DefaultPrecision' is used.
+
+ -- Constructor: HugeFloat ()
+ -- Constructor: HugeFloat (int/long VALUE)
+ -- Constructor: HugeFloat (uint/ulong VALUE)
+ -- Constructor: HugeFloat (double N)
+     Constructs a 'HugeFloat' object.  Single-limb constructors vary by
+     architecture, 32-bit builds take 'int' or 'uint' arguments, 64-bit
+     builds take 'long' or 'ulong'.  Any necessary conversion follows
+     the corresponding C function, for example 'double' follows
+     'mpf_set_d' (*note Initializing Floats::).
+
+ -- Constructor: HugeFloat (string S)
+ -- Constructor: HugeFloat (string S, int BASE)
+ -- Constructor: HugeFloat (string S, int BASE, bool EXPONENTINDECIMAL)
+     Constructs a 'HugeFloat' converted from a string using
+     'mpf_set_str' (*note Initializing Floats::).  If the string is not
+     a valid integer or floating point number, an exception is thrown.
+
+ -- Constructor: HugeFloat (IntegerExpression VALUE)
+ -- Constructor: HugeFloat (RationalExpression VALUE)
+ -- Constructor: HugeFloat (FloatExpression VALUE)
+     Evaluates the supplied expression and saves its result to the new
+     instance.  Because multi-precision classes are derived from their
+     corresponding expression classes, these constructors can be used to
+     make a copy of an existing variable, i.e.  'HugeFloat a = new
+     HugeFloat(b);' without creating any permanent association between
+     them.
+
+ -- Static Method: static HugeRational Allocate (uint/ulong PRECISION)
+ -- Method: void Reallocate (uint/ulong PRECISION)
+     Controls the allocated precision in bits of the new or existing
+     'HugeFloat'.
+
+ -- Property: uint/ulong AllocatedPrecision
+     Gets the precision in bits that is currently allocated for internal
+     storage of the mantissa.  The precision actually in effect, used in
+     calculations, is initially the same but may be reduced by setting
+     the 'Precision' property.
+
+ -- Property: uint/ulong Precision
+     Gets or sets the effective precision of the number without changing
+     the memory allocated.  The number of bits cannot exceed the
+     precision with which the variable was initialized or last
+     reallocated.  The value of the number is unchanged, and in
+     particular if it previously had a higher precision it will retain
+     that higher precision.  New values assigned to the 'Value' property
+     will use the new precision.  The number can be safely disposed
+     after modifying its 'Precision' (unlike the native MPIR, which
+     requires you to restore the precision to the allocated value before
+     the memory can be freed).
+
+ -- Method: bool FitsUlong () //64-bit builds only
+ -- Method: bool FitsLong () //64-bit builds only
+ -- Method: bool FitsUint ()
+ -- Method: bool FitsInt ()
+ -- Method: bool FitsUshort ()
+ -- Method: bool FitsShort ()
+     Checks whether the number would fit in one of the built-in .Net
+     types.
+
+ -- Method: bool IsInteger ()
+     Checks whether the number is a whole integer.
+
+ -- Method: string ToString ()
+ -- Method: string ToString (int BASE)
+ -- Method: string ToString (int BASE, bool LOWERCASE)
+ -- Method: string ToString (int BASE, bool LOWERCASE, bool
+          EXPONENTINDECIMAL)
+     Returns the string representation of the number.  The default
+     'base' is 10, and the parameterless overload is limited to 256
+     mantissa digits by default.  This is done to prevent huge numbers
+     from unexpectedly consuming large amounts of memory in the
+     debugger.  The maximum number of digits output is configurable via
+     the 'MpirSettings.ToStringDigits' property, where zero means
+     unlimited.  'MpirSettings.ToStringDigits' applies to integers and
+     rationals as well.  The other overloads always output all digits.
+
+ -- Method: int ToInt () //32-bit builds
+ -- Method: uint ToUint () //32-bit builds
+ -- Method: long ToLong () //64-bit builds
+ -- Method: ulong ToUlong () //64-bit builds
+ -- Method: double ToDouble ()
+ -- Method: double ToDouble ('out' int/long EXP)
+     Converts the number to a primitive (built-in) .Net type, assuming
+     it fits, which can be determined by calling one of the 'Fits...'
+     methods.
+
+ -- Property: FloatExpression Value
+     Getting this property is essentially a no-op, as it returns the
+     object instance itself.  This never needs to be done explicitly,
+     but is used implicitly in statements like 'a.Value += 5;'
+
+     Setting the 'Value' property evaluates the assigned expression and
+     saves the result to the object.
+
+ -- Method: void SetTo (int/long VALUE) // 32/64-bit builds
+ -- Method: void SetTo (uint/ulong VALUE) // 32/64-bit builds
+ -- Method: void SetTo (double VALUE)
+ -- Method: void SetTo (string VALUE)
+ -- Method: void SetTo (string VALUE, int BASE)
+ -- Method: void SetTo (string VALUE, int BASE, bool EXPONENTINDECIMAL)
+ -- Method: void SetTo (IntegerExpression VALUE)
+ -- Method: void SetTo (RationalExpression VALUE)
+     Sets the value of existing variable from types other than
+     'FloatExpression'.
+
+ -- Method: void Swap (HugeFloat A)
+     Swaps the values (and precisions) of the two objects.  This is an
+     O(1) operation.
+
+   Arithmetic operators ('+', '-', '*', '/') and bit shifts ('<<', '>>')
+are overloaded to allow floats to participate in expressions much like
+primitive types can.  Single-limb primitive types can be used.  These
+operators do not accept integer or rational expressions.  There is some
+cost of instantiating a floating point number from another
+multi-precision type, so to make this point clear MPIR.Net forces you to
+use explicit constructors or assignments for this conversion.
+
+   The modulo operator ('%') and the bitwise operators ('&', '|', '^',
+'~') are not defined.
+
+   Operator '^' raises the source number to the specified power.
+
+   Comparison operators ('==', '!=', '<', '<=', '>', '>=') accept
+'FloatExpression', single-limb, or double arguments, but do not accept
+integer or rational expressions because that would require an awkward
+explicit cast when comparing with null.
+
+ -- Method: int CompareTo (FloatExpression A)
+ -- Method: bool Equals (FloatExpression A)
+     Implement 'IComparable<FloatExpression>' and
+     'IEquatable<FloatExpression>' for strongly-typed comparisons.
+
+ -- Method: int CompareTo (object A)
+ -- Method: bool Equals (object A)
+     Implement 'IComparable' and equality check for any object.  These
+     support only float expressions or .Net primitive types.  When this
+     method is called on a 'HugeFloat' object, comparison is performed
+     to the precision of the object.  When called on an expression,
+     comparison is performed to the default precision.
+
+ -- Method: int GetHashCode ()
+     This 'object' override computes the hash code.  This is an O(N)
+     operation where N is the number of limbs allocated.  Changing a
+     number's 'Value' changes its hash code, so this should not be done
+     on any object that has been added to a hash table or dictionary.
+
+ -- Method: bool Equals (object A, uint/ulong PRECISION)
+     Checks for equality using the specified precision.  The argument
+     'a' can be a 'FloatExpression' or a primitive type.
+
+ -- Method: FloatExpression RelativeDifferenceFrom (FloatExpression A)
+     Returns an expression that computes abs(THIS-A)/THIS
+
+ -- Method: FloatExpression Abs ()
+ -- Method: FloatExpression SquareRoot ()
+ -- Static Method: static FloatExpression SquareRoot (uint/ulong a)
+ -- Method: FloatExpression Floor ()
+ -- Method: FloatExpression Ceiling ()
+ -- Method: FloatExpression Truncate ()
+ -- Method: int Sign ()
+     Perform various floating-point operations.
+
+ -- Method: long Write (TextWriter WRITER)
+ -- Method: long Write (TextWriter WRITER, int BASE)
+ -- Method: long Write (TextWriter WRITER, int BASE, int MAXDIGITS, bool
+          LOWERCASE, bool EXPONENTINDECIMAL)
+ -- Method: long Read (TextReader READER)
+ -- Method: long Read (TextReader READER, int BASE)
+ -- Method: long Read (TextReader READER, int BASE, bool
+          EXPONENTINDECIMAL)
+     Writes and reads floats as text.
+
+
+File: mpir.info,  Node: MPIR.Net Random Numbers,  Next: MPIR.Net Settings,  Prev: MPIR.Net Floats,  Up: .Net Interface
+
+13.6 MPIR.Net Random Numbers
+============================
+
+ -- Class: MpirRandom : IDisposable
+     The MPIR.Net class that wraps the MPIR random number functions is
+     'MpirRandom'.  It holds an algorithm selection and current state,
+     as per 'gmp_randstate_t'.  As the multi-precision classes,
+     'MpirRandom' allocates unmanaged memory, and should be disposed of
+     via its 'IDisposable' implementation when no longer in use.
+
+ -- Static Method: static MpirRandom Default ()
+ -- Static Method: static MpirRandom MersenneTwister ()
+ -- Static Method: static MpirRandom LinearCongruential (HugeInt A,
+          ulong/uint C, ulong/uint M)
+ -- Static Method: static MpirRandom LinearCongruential (ulong/uint
+          SIZE)
+     In lieu of constructors, 'MpirRandom' uses more descriptive static
+     factory methods to create new instances of specific random number
+     generator algorithms.
+
+ -- Method: MpirRandom Copy ()
+     Creates a new random number generator with a copy of the algorithm
+     and state from the source instance.
+
+ -- Method: void Seed (ulong/uint SEED)
+ -- Method: void Seed (HugeInt SEED)
+     Sets an initial seed value into the random number generator.
+
+ -- Method: ulong/uint GetLimbBits (ulong/uint BITCOUNT)
+     Generates a uniformly distributed random number of 'bitCount' bits,
+     i.e.  in the range 0 to 2^bitCount-1 inclusive.
+
+ -- Method: ulong/uint GetLimb (ulong/uint MAX)
+     Generates a uniformly distributed random number in the range 0 to max-1
+     inclusive.
+
+ -- Method: IntegerExpression GetIntBits (ulong/uint BITCOUNT)
+ -- Method: IntegerExpression GetIntBitsChunky (ulong/uint BITCOUNT)
+     Returns an expression that generates a uniformly distributed random
+     integer in the range 0 to 2^bitCount-1, inclusive.
+
+ -- Method: IntegerExpression GetInt (IntegerExpression MAX)
+     Returns an expression that generates a uniformly distributed random
+     number in the range 0 to max-1 inclusive.
+
+ -- Method: FloatExpression GetFloat ()
+     Returns an expression that generates a uniformly distributed random
+     float in the range 0 <= n < 1.  As with all float expressions,
+     precision of the destination is used when available.
+
+ -- Method: FloatExpression GetFloatBits (ulong/uint BITCOUNT)
+     Returns an expression that generates a uniformly distributed random
+     float in the range 0 <= n < 1, with the specified number of
+     significant mantissa bits.
+
+ -- Method: FloatExpression GetFloatChunky (int MAXEXPONENT)
+     Returns an expression that generates a random float with long
+     strings of zeros and ones in the binary representation, using the
+     precision of the destination.  The argument is the maximum absolute
+     value for the exponent of the generated number, expressed in limbs.
+
+ -- Method: FloatExpression GetFloatLimbsChunky (long LIMBCOUNT, int
+          MAXEXPONENT)
+     Returns an expression that generates a random float with long
+     strings of zeros and ones in the binary representation, and the
+     specified number of significant limbs in the mantissa.
+
+
+File: mpir.info,  Node: MPIR.Net Settings,  Prev: MPIR.Net Random Numbers,  Up: .Net Interface
+
+13.7 MPIR.Net Settings
+======================
+
+ -- Static Class: MpirSettings
+     This static class contains several members that describe or control
+     various default behaviors of the other MPIR.Net classes.
+
+ -- Constant: int BITS_PER_LIMB
+     Represents the total number of bits in a single MPIR limb,
+     including data bits and nail bits.  This will be either 32 or 64,
+     depending on your selected build architecture.
+
+ -- Constant: int NAIL_BITS_PER_LIMB
+     Represents the number of nail bits in a single MPIR limb.  Nail
+     bits are used internally by MPIR.
+
+ -- Constant: int USABLE_BITS_PER_LIMB
+     Represents the number of data bits in a single MPIR limb.
+
+ -- Constant: Version MPIR_VERSION
+     Represents the version of the underlying MPIR library
+
+ -- Constant: Version GMP_VERSION
+     Represents the version of GMP with which the underlying MPIR
+     library is compatible
+
+ -- Static Property: RoundingModes RoundingMode
+     Gets or sets the default rounding mode used for MPIR integer
+     division operations that don't explicitly specify a rounding mode.
+     Does not affect rational or float operations.  The default value is
+     'Truncate'.
+
+ -- Static Property: int ToStringDigits
+     Gets or sets the maximum number of digits the 'object.ToString()'
+     method override will output.  If an integer number is longer than
+     this number of digits, it will be output as "'[-]...NNNNN'" with
+     the least significant digits shown.  Rational numbers apply the
+     limit separately to the numerator and denominator.  Floats output
+     the most significant digits, and there is no ellipsis.
+
+     The primary purpose of this setting is to prevent accidental
+     allocation of large memory blocks while inspecting variables in the
+     debugger.  The default value is 256.  Setting this property to 0
+     causes all digits to be output.
+
+
+File: mpir.info,  Node: Custom Allocation,  Next: Language Bindings,  Prev: .Net Interface,  Up: Top
+
+14 Custom Allocation
 ********************
 
 By default MPIR uses 'malloc', 'realloc' and 'free' for memory
@@ -5830,1275 +7047,4 @@ this is a problem.
           void (*freefunc) (void *, size_t);
 
           mp_get_memory_functions (NULL, NULL, &freefunc);
-
-
-File: mpir.info,  Node: Language Bindings,  Next: Algorithms,  Prev: Custom Allocation,  Up: Top
-
-14 Language Bindings
-********************
-
-The following packages and projects offer access to MPIR from languages
-other than C, though perhaps with varying levels of functionality and
-efficiency.
-
-
-C++
-        * MPIR C++ class interface, *note C++ Class Interface::
-          Straightforward interface, expression templates to eliminate
-          temporaries.
-        * ALP <http://www-sop.inria.fr/saga/logiciels/ALP/>
-          Linear algebra and polynomials using templates.
-        * CLN <http://www.ginac.de/CLN/>
-          High level classes for arithmetic.
-        * LiDIA <http://www.informatik.tu-darmstadt.de/TI/LiDIA/>
-          A C++ library for computational number theory.
-        * Linbox <http://www.linalg.org/>
-          Sparse vectors and matrices.
-        * NTL <http://www.shoup.net/ntl/>
-          A C++ number theory library.
-
-Eiffel
-        * Eiffel Interface <http://www.eiffelroom.org/node/407>
-          An Eiffel Interface to MPFR, MPC and MPIR by Chris Saunders.
-
-Fortran
-        * Omni F77 <http://phase.hpcc.jp/Omni/home.html>
-          Arbitrary precision floats.
-
-Haskell
-        * Glasgow Haskell Compiler <http://www.haskell.org/ghc/>
-
-Java
-        * Kaffe <http://www.kaffe.org/>
-
-Lisp
-        * Embeddable Common Lisp
-          <http://ecls.sourceforge.net/download.html>
-        * GNU Common Lisp <http://www.gnu.org/software/gcl/gcl.html>
-        * Librep <http://librep.sourceforge.net/>
-        * XEmacs (21.5.18 beta and up) <http://www.xemacs.org>
-          Optional big integers, rationals and floats using MPIR.
-
-M4
-        * GNU m4 betas <http://www.seindal.dk/rene/gnu/>
-          Optionally provides an arbitrary precision 'mpeval'.
-
-ML
-        * MLton compiler <http://mlton.org/>
-
-Objective Caml
-        * Numerix <http://pauillac.inria.fr/~quercia/>
-          Optionally using GMP.
-
-Oz
-        * Mozart <http://www.mozart-oz.org/>
-
-Pascal
-        * GNU Pascal Compiler <http://www.gnu-pascal.de/>
-          GMP unit.
-        * Numerix <http://pauillac.inria.fr/~quercia/>
-          For Free Pascal, optionally using GMP.
-
-Perl
-        * GMP module, see 'demos/perl' on the MPIR website.
-        * Math::GMP <http://www.cpan.org/>
-          Compatible with Math::BigInt, but not as many functions as the
-          GMP module above.
-        * Math::BigInt::GMP <http://www.cpan.org/>
-          Plug Math::GMP into normal Math::BigInt operations.
-
-PHP
-        * mpz module in the main distribution, <http://php.net/>
-
-Pike
-        * mpz module in the standard distribution,
-          <http://pike.ida.liu.se/>
-
-Prolog
-        * SWI Prolog <http://www.swi-prolog.org/>
-          Arbitrary precision floats.
-
-Python
-        * mpz module in the standard distribution,
-          <http://www.python.org/>
-        * GMPY <http://gmpy.sourceforge.net/>
-
-Scheme
-        * GNU Guile (upcoming 1.8)
-          <http://www.gnu.org/software/guile/guile.html>
-        * RScheme <http://www.rscheme.org/>
-
-Smalltalk
-        * GNU Smalltalk
-          <http://www.smalltalk.org/versions/GNUSmalltalk.html>
-
-Other
-        * ALGLIB <http://www.alglib.net/>
-          Numerical analysis and data processing library.
-        * Axiom <http://savannah.nongnu.org/projects/axiom>
-          Computer algebra using GCL.
-        * GiNaC <http://www.ginac.de/>
-          C++ computer algebra using CLN.
-        * GOO <http://www.googoogaga.org/>
-          Dynamic object oriented language.
-        * Maxima <http://www.ma.utexas.edu/users/wfs/maxima.html>
-          Macsyma computer algebra using GCL.
-        * Q <http://q-lang.sourceforge.net/>
-          Equational programming system.
-        * Regina <http://regina.sourceforge.net/>
-          Topological calculator.
-        * Sage <http://www.sagemath.org/>
-          Computer Algebra System written in Python and Cython.
-        * Yacas <http://yacas.sourceforge.net/homepage.html>
-          Yet another computer algebra system.
-
-
-File: mpir.info,  Node: Algorithms,  Next: Internals,  Prev: Language Bindings,  Up: Top
-
-15 Algorithms
-*************
-
-This chapter is an introduction to some of the algorithms used for
-various MPIR operations.  The code is likely to be hard to understand
-without knowing something about the algorithms.
-
-   Some MPIR internals are mentioned, but applications that expect to be
-compatible with future MPIR releases should take care to use only the
-documented functions.
-
-* Menu:
-
-* Multiplication Algorithms::
-* Division Algorithms::
-* Greatest Common Divisor Algorithms::
-* Powering Algorithms::
-* Root Extraction Algorithms::
-* Radix Conversion Algorithms::
-* Other Algorithms::
-* Assembler Coding::
-
-
-File: mpir.info,  Node: Multiplication Algorithms,  Next: Division Algorithms,  Prev: Algorithms,  Up: Algorithms
-
-15.1 Multiplication
-===================
-
-NxN limb multiplications and squares are done using one of six
-algorithms, as the size N increases.
-
-     Algorithm      Mul Threshold
-     Basecase       (none)
-     Karatsuba      'MUL_KARATSUBA_THRESHOLD'
-     Toom-3         'MUL_TOOM3_THRESHOLD'
-     Toom-4         'MUL_TOOM4_THRESHOLD'
-     Toom-8(.5)     'MUL_TOOM8H_THRESHOLD'
-     FFT            'MUL_FFT_FULL_THRESHOLD'
-
-     Algorithm      Sqr Threshold
-     Basecase       (none)
-     Karatsuba      'SQR_KARATSUBA_THRESHOLD'
-     Toom-3         'SQR_TOOM3_THRESHOLD'
-     Toom-4         'SQR_TOOM4_THRESHOLD'
-     Toom-8         'SQR_TOOM8_THRESHOLD'
-     FFT            'SQR_FFT_FULL_THRESHOLD'
-
-   NxM multiplications of operands with different sizes above
-'MUL_KARATSUBA_THRESHOLD' are done using unbalanced Toom algorithms or
-with the FFT. See (*note Unbalanced Multiplication::).
-
-* Menu:
-
-* Basecase Multiplication::
-* Karatsuba Multiplication::
-* Toom 3-Way Multiplication::
-* Toom 4-Way Multiplication::
-* FFT Multiplication::
-* Other Multiplication::
-* Unbalanced Multiplication::
-
-
-File: mpir.info,  Node: Basecase Multiplication,  Next: Karatsuba Multiplication,  Prev: Multiplication Algorithms,  Up: Multiplication Algorithms
-
-15.1.1 Basecase Multiplication
-------------------------------
-
-Basecase NxM multiplication is a straightforward rectangular set of
-cross-products, the same as long multiplication done by hand and for
-that reason sometimes known as the schoolbook or grammar school method.
-This is an O(N*M) algorithm.  See Knuth section 4.3.1 algorithm M (*note
-References::), and the 'mpn/generic/mul_basecase.c' code.
-
-   Assembler implementations of 'mpn_mul_basecase' are essentially the
-same as the generic C code, but have all the usual assembler tricks and
-obscurities introduced for speed.
-
-   A square can be done in roughly half the time of a multiply, by using
-the fact that the cross products above and below the diagonal are the
-same.  A triangle of products below the diagonal is formed, doubled
-(left shift by one bit), and then the products on the diagonal added.
-This can be seen in 'mpn/generic/sqr_basecase.c'.  Again the assembler
-implementations take essentially the same approach.
-
-          u0  u1  u2  u3  u4
-        +---+---+---+---+---+
-     u0 | d |   |   |   |   |
-        +---+---+---+---+---+
-     u1 |   | d |   |   |   |
-        +---+---+---+---+---+
-     u2 |   |   | d |   |   |
-        +---+---+---+---+---+
-     u3 |   |   |   | d |   |
-        +---+---+---+---+---+
-     u4 |   |   |   |   | d |
-        +---+---+---+---+---+
-
-   In practice squaring isn't a full 2x faster than multiplying, it's
-usually around 1.5x.  Less than 1.5x probably indicates
-'mpn_sqr_basecase' wants improving on that CPU.
-
-   On some CPUs 'mpn_mul_basecase' can be faster than the generic C
-'mpn_sqr_basecase' on some small sizes.  'SQR_BASECASE_THRESHOLD' is the
-size at which to use 'mpn_sqr_basecase', this will be zero if that
-routine should be used always.
-
-
-File: mpir.info,  Node: Karatsuba Multiplication,  Next: Toom 3-Way Multiplication,  Prev: Basecase Multiplication,  Up: Multiplication Algorithms
-
-15.1.2 Karatsuba Multiplication
--------------------------------
-
-The Karatsuba multiplication algorithm is described in Knuth section
-4.3.3 part A, and various other textbooks.  A brief description is given
-here.
-
-   The inputs x and y are treated as each split into two parts of equal
-length (or the most significant part one limb shorter if N is odd).
-
-      high              low
-     +----------+----------+
-     |    x1    |    x0    |
-     +----------+----------+
-
-     +----------+----------+
-     |    y1    |    y0    |
-     +----------+----------+
-
-   Let b be the power of 2 where the split occurs, ie. if x0 is k limbs
-(y0 the same) then b=2^(k*mp_bits_per_limb).  With that x=x1*b+x0 and
-y=y1*b+y0, and the following holds,
-
-     x*y = (b^2+b)*x1*y1 - b*(x1-x0)*(y1-y0) + (b+1)*x0*y0
-
-   This formula means doing only three multiplies of (N/2)x(N/2) limbs,
-whereas a basecase multiply of NxN limbs is equivalent to four
-multiplies of (N/2)x(N/2).  The factors (b^2+b) etc represent the
-positions where the three products must be added.
-
-      high                              low
-     +--------+--------+ +--------+--------+
-     |      x1*y1      | |      x0*y0      |
-     +--------+--------+ +--------+--------+
-               +--------+--------+
-           add |      x1*y1      |
-               +--------+--------+
-               +--------+--------+
-           add |      x0*y0      |
-               +--------+--------+
-               +--------+--------+
-           sub | (x1-x0)*(y1-y0) |
-               +--------+--------+
-
-   The term (x1-x0)*(y1-y0) is best calculated as an absolute value, and
-the sign used to choose to add or subtract.  Notice the sum
-high(x0*y0)+low(x1*y1) occurs twice, so it's possible to do 5*k limb
-additions, rather than 6*k, but in MPIR extra function call overheads
-outweigh the saving.
-
-   Squaring is similar to multiplying, but with x=y the formula reduces
-to an equivalent with three squares,
-
-     x^2 = (b^2+b)*x1^2 - b*(x1-x0)^2 + (b+1)*x0^2
-
-   The final result is accumulated from those three squares the same way
-as for the three multiplies above.  The middle term (x1-x0)^2 is now
-always positive.
-
-   A similar formula for both multiplying and squaring can be
-constructed with a middle term (x1+x0)*(y1+y0).  But those sums can
-exceed k limbs, leading to more carry handling and additions than the
-form above.
-
-   Karatsuba multiplication is asymptotically an O(N^1.585) algorithm,
-the exponent being log(3)/log(2), representing 3 multiplies each 1/2 the
-size of the inputs.  This is a big improvement over the basecase
-multiply at O(N^2) and the advantage soon overcomes the extra additions
-Karatsuba performs.  'MUL_KARATSUBA_THRESHOLD' can be as little as 10
-limbs.  The 'SQR' threshold is usually about twice the 'MUL'.
-
-   The basecase algorithm will take a time of the form M(N) = a*N^2 +
-b*N + c and the Karatsuba algorithm K(N) = 3*M(N/2) + d*N + e, which
-expands to K(N) = 3/4*a*N^2 + 3/2*b*N + 3*c + d*N + e.  The factor 3/4
-for a means per-crossproduct speedups in the basecase code will increase
-the threshold since they benefit M(N) more than K(N).  And conversely
-the 3/2 for b means linear style speedups of b will increase the
-threshold since they benefit K(N) more than M(N).  The latter can be
-seen for instance when adding an optimized 'mpn_sqr_diagonal' to
-'mpn_sqr_basecase'.  Of course all speedups reduce total time, and in
-that sense the algorithm thresholds are merely of academic interest.
-
-
-File: mpir.info,  Node: Toom 3-Way Multiplication,  Next: Toom 4-Way Multiplication,  Prev: Karatsuba Multiplication,  Up: Multiplication Algorithms
-
-15.1.3 Toom 3-Way Multiplication
---------------------------------
-
-The Karatsuba formula is the simplest case of a general approach to
-splitting inputs that leads to both Toom and FFT algorithms.  A
-description of Toom can be found in Knuth section 4.3.3, with an example
-3-way calculation after Theorem A.  The 3-way form used in MPIR is
-described here.
-
-   The operands are each considered split into 3 pieces of equal length
-(or the most significant part 1 or 2 limbs shorter than the other two).
-
-      high                         low
-     +----------+----------+----------+
-     |    x2    |    x1    |    x0    |
-     +----------+----------+----------+
-
-     +----------+----------+----------+
-     |    y2    |    y1    |    y0    |
-     +----------+----------+----------+
-
-These parts are treated as the coefficients of two polynomials
-
-     X(t) = x2*t^2 + x1*t + x0
-     Y(t) = y2*t^2 + y1*t + y0
-
-   Let b equal the power of 2 which is the size of the x0, x1, y0 and y1
-pieces, ie. if they're k limbs each then b=2^(k*mp_bits_per_limb).  With
-this x=X(b) and y=Y(b).
-
-   Let a polynomial W(t)=X(t)*Y(t) and suppose its coefficients are
-
-     W(t) = w4*t^4 + w3*t^3 + w2*t^2 + w1*t + w0
-
-   The w[i] are going to be determined, and when they are they'll give
-the final result using w=W(b), since x*y=X(b)*Y(b)=W(b).  The
-coefficients will be roughly b^2 each, and the final W(b) will be an
-addition like,
-
-      high                                        low
-     +-------+-------+
-     |       w4      |
-     +-------+-------+
-            +--------+-------+
-            |        w3      |
-            +--------+-------+
-                    +--------+-------+
-                    |        w2      |
-                    +--------+-------+
-                            +--------+-------+
-                            |        w1      |
-                            +--------+-------+
-                                     +-------+-------+
-                                     |       w0      |
-                                     +-------+-------+
-
-   The w[i] coefficients could be formed by a simple set of cross
-products, like w4=x2*y2, w3=x2*y1+x1*y2, w2=x2*y0+x1*y1+x0*y2 etc, but
-this would need all nine x[i]*y[j] for i,j=0,1,2, and would be
-equivalent merely to a basecase multiply.  Instead the following
-approach is used.
-
-   X(t) and Y(t) are evaluated and multiplied at 5 points, giving values
-of W(t) at those points.  In MPIR the following points are used,
-
-     Point    Value
-     t=0      x0 * y0, which gives w0 immediately
-     t=1      (x2+x1+x0) * (y2+y1+y0)
-     t=-1     (x2-x1+x0) * (y2-y1+y0)
-     t=2      (4*x2+2*x1+x0) * (4*y2+2*y1+y0)
-     t=inf    x2 * y2, which gives w4 immediately
-
-   At t=-1 the values can be negative and that's handled using the
-absolute values and tracking the sign separately.  At t=inf the value is
-actually X(t)*Y(t)/t^4 in the limit as t approaches infinity, but it's
-much easier to think of as simply x2*y2 giving w4 immediately (much like
-x0*y0 at t=0 gives w0 immediately).
-
-   Each of the points substituted into W(t)=w4*t^4+...+w0 gives a linear
-combination of the w[i] coefficients, and the value of those
-combinations has just been calculated.
-
-     W(0)   =                              w0
-     W(1)   =    w4 +   w3 +   w2 +   w1 + w0
-     W(-1)  =    w4 -   w3 +   w2 -   w1 + w0
-     W(2)   = 16*w4 + 8*w3 + 4*w2 + 2*w1 + w0
-     W(inf) =    w4
-
-   This is a set of five equations in five unknowns, and some elementary
-linear algebra quickly isolates each w[i].  This involves adding or
-subtracting one W(t) value from another, and a couple of divisions by
-powers of 2 and one division by 3, the latter using the special
-'mpn_divexact_by3' (*note Exact Division::).
-
-   The conversion of W(t) values to the coefficients is interpolation.
-A polynomial of degree 4 like W(t) is uniquely determined by values
-known at 5 different points.  The points are arbitrary and can be chosen
-to make the linear equations come out with a convenient set of steps for
-quickly isolating the w[i].
-
-   Squaring follows the same procedure as multiplication, but there's
-only one X(t) and it's evaluated at the 5 points, and those values
-squared to give values of W(t).  The interpolation is then identical,
-and in fact the same 'toom3_interpolate' subroutine is used for both
-squaring and multiplying.
-
-   Toom-3 is asymptotically O(N^1.465), the exponent being
-log(5)/log(3), representing 5 recursive multiplies of 1/3 the original
-size each.  This is an improvement over Karatsuba at O(N^1.585), though
-Toom does more work in the evaluation and interpolation and so it only
-realizes its advantage above a certain size.
-
-   Near the crossover between Toom-3 and Karatsuba there's generally a
-range of sizes where the difference between the two is small.
-'MUL_TOOM3_THRESHOLD' is a somewhat arbitrary point in that range and
-successive runs of the tune program can give different values due to
-small variations in measuring.  A graph of time versus size for the two
-shows the effect, see 'tune/README'.
-
-   At the fairly small sizes where the Toom-3 thresholds occur it's
-worth remembering that the asymptotic behaviour for Karatsuba and Toom-3
-can't be expected to make accurate predictions, due of course to the big
-influence of all sorts of overheads, and the fact that only a few
-recursions of each are being performed.  Even at large sizes there's a
-good chance machine dependent effects like cache architecture will mean
-actual performance deviates from what might be predicted.
-
-   The formula given for the Karatsuba algorithm (*note Karatsuba
-Multiplication::) has an equivalent for Toom-3 involving only five
-multiplies, but this would be complicated and unenlightening.
-
-   An alternate view of Toom-3 can be found in Zuras (*note
-References::), using a vector to represent the x and y splits and a
-matrix multiplication for the evaluation and interpolation stages.  The
-matrix inverses are not meant to be actually used, and they have
-elements with values much greater than in fact arise in the
-interpolation steps.  The diagram shown for the 3-way is attractive, but
-again doesn't have to be implemented that way and for example with a bit
-of rearrangement just one division by 6 can be done.
-
-
-File: mpir.info,  Node: Toom 4-Way Multiplication,  Next: FFT Multiplication,  Prev: Toom 3-Way Multiplication,  Up: Multiplication Algorithms
-
-15.1.4 Toom 4-Way Multiplication
---------------------------------
-
-Karatsuba and Toom-3 split the operands into 2 and 3 coefficients,
-respectively.  Toom-4 analogously splits the operands into 4
-coefficients.  Using the notation from the section on Toom-3
-multiplication, we form two polynomials:
-
-     X(t) = x3*t^3 + x2*t^2 + x1*t + x0
-     Y(t) = y3*t^3 + y2*t^2 + y1*t + y0
-
-   X(t) and Y(t) are evaluated and multiplied at 7 points, giving values
-of W(t) at those points.  In MPIR the following points are used,
-
-     Point    Value
-     t=0      x0 * y0, which gives w0 immediately
-     t=1/2    (x3+2*x2+4*x1+8*x0) * (y3+2*y2+4*y1+8*y0)
-     t=-1/2   (-x3+2*x2-4*x1+8*x0) * (-y3+2*y2-4*y1+8*y0)
-     t=1      (x3+x2+x1+x0) * (y3+y2+y1+y0)
-     t=-1     (-x3+x2-x1+x0) * (-y3+y2-y1+y0)
-     t=2      (8*x3+4*x2+2*x1+x0) * (8*y3+4*y2+2*y1+y0)
-     t=inf    x3 * y3, which gives w6 immediately
-
-   The number of additions and subtractions for Toom-4 is much larger
-than for Toom-3.  But several subexpressions occur multiple times, for
-example x2+x0, occurs for both t=1 and t=-1.
-
-   Toom-4 is asymptotically O(N^1.404), the exponent being
-log(7)/log(4), representing 7 recursive multiplies of 1/4 the original
-size each.
-
-
-File: mpir.info,  Node: FFT Multiplication,  Next: Other Multiplication,  Prev: Toom 4-Way Multiplication,  Up: Multiplication Algorithms
-
-15.1.5 FFT Multiplication
--------------------------
-
-This section is out-of-date and will be updated when the new FFT is
-added.
-
-   At large to very large sizes a Fermat style FFT multiplication is
-used, following Scho"nhage and Strassen (*note References::).
-Descriptions of FFTs in various forms can be found in many textbooks,
-for instance Knuth section 4.3.3 part C or Lipson chapter IX.  A brief
-description of the form used in MPIR is given here.
-
-   The multiplication done is x*y mod 2^N+1, for a given N.  A full
-product x*y is obtained by choosing N>=bits(x)+bits(y) and padding x and
-y with high zero limbs.  The modular product is the native form for the
-algorithm, so padding to get a full product is unavoidable.
-
-   The algorithm follows a split, evaluate, pointwise multiply,
-interpolate and combine similar to that described above for Karatsuba
-and Toom-3.  A k parameter controls the split, with an FFT-k splitting
-into 2^k pieces of M=N/2^k bits each.  N must be a multiple of
-(2^k)*mp_bits_per_limb so the split falls on limb boundaries, avoiding
-bit shifts in the split and combine stages.
-
-   The evaluations, pointwise multiplications, and interpolation, are
-all done modulo 2^N'+1 where N' is 2M+k+3 rounded up to a multiple of
-2^k and of 'mp_bits_per_limb'.  The results of interpolation will be the
-following negacyclic convolution of the input pieces, and the choice of
-N' ensures these sums aren't truncated.
-
-                ---
-                \         b
-     w[n] =     /     (-1) * x[i] * y[j]
-                ---
-            i+j==b*2^k+n
-               b=0,1
-
-   The points used for the evaluation are g^i for i=0 to 2^k-1 where
-g=2^(2N'/2^k).  g is a 2^k'th root of unity mod 2^N'+1, which produces
-necessary cancellations at the interpolation stage, and it's also a
-power of 2 so the fast fourier transforms used for the evaluation and
-interpolation do only shifts, adds and negations.
-
-   The pointwise multiplications are done modulo 2^N'+1 and either
-recurse into a further FFT or use a plain multiplication (Toom-3,
-Karatsuba or basecase), whichever is optimal at the size N'.  The
-interpolation is an inverse fast fourier transform.  The resulting set
-of sums of x[i]*y[j] are added at appropriate offsets to give the final
-result.
-
-   Squaring is the same, but x is the only input so it's one transform
-at the evaluate stage and the pointwise multiplies are squares.  The
-interpolation is the same.
-
-   For a mod 2^N+1 product, an FFT-k is an O(N^(k/(k-1))) algorithm, the
-exponent representing 2^k recursed modular multiplies each 1/2^(k-1) the
-size of the original.  Each successive k is an asymptotic improvement,
-but overheads mean each is only faster at bigger and bigger sizes.  In
-the code, 'MUL_FFT_TABLE' and 'SQR_FFT_TABLE' are the thresholds where
-each k is used.  Each new k effectively swaps some multiplying for some
-shifts, adds and overheads.
-
-   A mod 2^N+1 product can be formed with a normal NxN->2N bit multiply
-plus a subtraction, so an FFT and Toom-3 etc can be compared directly.
-A k=4 FFT at O(N^1.333) can be expected to be the first faster than
-Toom-3 at O(N^1.465).  In practice this is what's found, with
-'MUL_FFT_MODF_THRESHOLD' and 'SQR_FFT_MODF_THRESHOLD' being between 300
-and 1000 limbs, depending on the CPU.  So far it's been found that only
-very large FFTs recurse into pointwise multiplies above these sizes.
-
-   When an FFT is to give a full product, the change of N to 2N doesn't
-alter the theoretical complexity for a given k, but for the purposes of
-considering where an FFT might be first used it can be assumed that the
-FFT is recursing into a normal multiply and that on that basis it's
-doing 2^k recursed multiplies each 1/2^(k-2) the size of the inputs,
-making it O(N^(k/(k-2))).  This would mean k=7 at O(N^1.4) would be the
-first FFT faster than Toom-3.  In practice 'MUL_FFT_FULL_THRESHOLD' and
-'SQR_FFT_FULL_THRESHOLD' have been found to be in the k=8 range,
-somewhere between 3000 and 10000 limbs.
-
-   The way N is split into 2^k pieces and then 2M+k+3 is rounded up to a
-multiple of 2^k and 'mp_bits_per_limb' means that when
-2^k>=mp\_bits\_per\_limb the effective N is a multiple of 2^(2k-1) bits.
-The +k+3 means some values of N just under such a multiple will be
-rounded to the next.  The complexity calculations above assume that a
-favourable size is used, meaning one which isn't padded through
-rounding, and it's also assumed that the extra +k+3 bits are negligible
-at typical FFT sizes.
-
-   The practical effect of the 2^(2k-1) constraint is to introduce a
-step-effect into measured speeds.  For example k=8 will round N up to a
-multiple of 32768 bits, so for a 32-bit limb there'll be 512 limb groups
-of sizes for which 'mpn_mul_n' runs at the same speed.  Or for k=9
-groups of 2048 limbs, k=10 groups of 8192 limbs, etc.  In practice it's
-been found each k is used at quite small multiples of its size
-constraint and so the step effect is quite noticeable in a time versus
-size graph.
-
-   The threshold determinations currently measure at the mid-points of
-size steps, but this is sub-optimal since at the start of a new step it
-can happen that it's better to go back to the previous k for a while.
-Something more sophisticated for 'MUL_FFT_TABLE' and 'SQR_FFT_TABLE'
-will be needed.
-
-
-File: mpir.info,  Node: Other Multiplication,  Next: Unbalanced Multiplication,  Prev: FFT Multiplication,  Up: Multiplication Algorithms
-
-15.1.6 Other Multiplication
----------------------------
-
-The Toom algorithms described above (*note Toom 3-Way Multiplication::),
-*note Toom 4-Way Multiplication::) generalize to split into an arbitrary
-number of pieces, as per Knuth section 4.3.3 algorithm C.  MPIR
-currently implements Toom 8 routines.
-
-   These are generated automatically via a technique due to Bodrato
-(*note References::) which mixes evaluation, pointwise multiplication
-and interpolation phases.  The routine used is called Toom 8.5.  See
-Bodrato's paper.
-
-   For general Toom-n a split into r+1 pieces is made, and evaluations
-and pointwise multiplications done at 2*r+1 points.  A 4-way split does
-7 pointwise multiplies, 5-way does 9, etc.  Asymptotically an (r+1)-way
-algorithm is O(N^(log(2*r+1)/log(r+1))).  Only the pointwise
-multiplications count towards big-O complexity, but the time spent in
-the evaluate and interpolate stages grows with r and has a significant
-practical impact, with the asymptotic advantage of each r realized only
-at bigger and bigger sizes.  The overheads grow as O(N*r), whereas in an
-r=2^k FFT they grow only as O(N*log(r)).
-
-   Knuth algorithm C evaluates at points 0,1,2,...,2*r, but exercise 4
-uses -r,...,0,...,r and the latter saves some small multiplies in the
-evaluate stage (or rather trades them for additions), and has a further
-saving of nearly half the interpolate steps.  The idea is to separate
-odd and even final coefficients and then perform algorithm C steps C7
-and C8 on them separately.  The divisors at step C7 become j^2 and the
-multipliers at C8 become 2*t*j-j^2.
-
-   Splitting odd and even parts through positive and negative points can
-be thought of as using -1 as a square root of unity.  If a 4th root of
-unity was available then a further split and speedup would be possible,
-but no such root exists for plain integers.  Going to complex integers
-with i=sqrt(-1) doesn't help, essentially because in cartesian form it
-takes three real multiplies to do a complex multiply.  The existence of
-2^k'th roots of unity in a suitable ring or field lets the fast fourier
-transform keep splitting and get to O(N*log(r)).
-
-   Floating point FFTs use complex numbers approximating Nth roots of
-unity.  Some processors have special support for such FFTs.  But these
-are not used in MPIR since it's very difficult to guarantee an exact
-result (to some number of bits).  An occasional difference of 1 in the
-last bit might not matter to a typical signal processing algorithm, but
-is of course of vital importance to MPIR.
-
-
-File: mpir.info,  Node: Unbalanced Multiplication,  Prev: Other Multiplication,  Up: Multiplication Algorithms
-
-15.1.7 Unbalanced Multiplication
---------------------------------
-
-Multiplication of operands with different sizes, both below
-'MUL_KARATSUBA_THRESHOLD' are done with plain schoolbook multiplication
-(*note Basecase Multiplication::).
-
-   For really large operands, we invoke the FFT directly.
-
-   For operands between these sizes, we use Toom inspired algorithms
-suggested by Alberto Zanoni and Marco Bodrato.  The idea is to split the
-operands into polynomials of different degree.  These algorithms are
-denoted ToomMN where the first input is broken into M components and the
-second operand is broken into N components.  MPIR currently implements
-Toom32, Toom33, Toom44, Toom53 and Toom8h which deals with a variety of
-sizes where the product polynomial will have length 15 or 16.
-
-
-File: mpir.info,  Node: Division Algorithms,  Next: Greatest Common Divisor Algorithms,  Prev: Multiplication Algorithms,  Up: Algorithms
-
-15.2 Division Algorithms
-========================
-
-* Menu:
-
-* Single Limb Division::
-* Basecase Division::
-* Divide and Conquer Division::
-* Exact Division::
-* Exact Remainder::
-* Small Quotient Division::
-
-
-File: mpir.info,  Node: Single Limb Division,  Next: Basecase Division,  Prev: Division Algorithms,  Up: Division Algorithms
-
-15.2.1 Single Limb Division
----------------------------
-
-Nx1 division is implemented using repeated 2x1 divisions from high to
-low, either with a hardware divide instruction or a multiplication by
-inverse, whichever is best on a given CPU.
-
-   The multiply by inverse follows section 8 of "Division by Invariant
-Integers using Multiplication" by Granlund and Montgomery (*note
-References::) and is implemented as 'udiv_qrnnd_preinv' in 'gmp-impl.h'.
-The idea is to have a fixed-point approximation to 1/d (see
-'invert_limb') and then multiply by the high limb (plus one bit) of the
-dividend to get a quotient q.  With d normalized (high bit set), q is no
-more than 1 too small.  Subtracting q*d from the dividend gives a
-remainder, and reveals whether q or q-1 is correct.
-
-   The result is a division done with two multiplications and four or
-five arithmetic operations.  On CPUs with low latency multipliers this
-can be much faster than a hardware divide, though the cost of
-calculating the inverse at the start may mean it's only better on inputs
-bigger than say 4 or 5 limbs.
-
-   When a divisor must be normalized, either for the generic C
-'__udiv_qrnnd_c' or the multiply by inverse, the division performed is
-actually a*2^k by d*2^k where a is the dividend and k is the power
-necessary to have the high bit of d*2^k set.  The bit shifts for the
-dividend are usually accomplished "on the fly" meaning by extracting the
-appropriate bits at each step.  Done this way the quotient limbs come
-out aligned ready to store.  When only the remainder is wanted, an
-alternative is to take the dividend limbs unshifted and calculate r = a
-mod d*2^k followed by an extra final step r*2^k mod d*2^k.  This can
-help on CPUs with poor bit shifts or few registers.
-
-   The multiply by inverse can be done two limbs at a time.  The
-calculation is basically the same, but the inverse is two limbs and the
-divisor treated as if padded with a low zero limb.  This means more
-work, since the inverse will need a 2x2 multiply, but the four 1x1s to
-do that are independent and can therefore be done partly or wholly in
-parallel.  Likewise for a 2x1 calculating q*d.  The net effect is to
-process two limbs with roughly the same two multiplies worth of latency
-that one limb at a time gives.  This extends to 3 or 4 limbs at a time,
-though the extra work to apply the inverse will almost certainly soon
-reach the limits of multiplier throughput.
-
-   A similar approach in reverse can be taken to process just half a
-limb at a time if the divisor is only a half limb.  In this case the 1x1
-multiply for the inverse effectively becomes two (1/2)x1 for each limb,
-which can be a saving on CPUs with a fast half limb multiply, or in fact
-if the only multiply is a half limb, and especially if it's not
-pipelined.
-
-
-File: mpir.info,  Node: Basecase Division,  Next: Divide and Conquer Division,  Prev: Single Limb Division,  Up: Division Algorithms
-
-15.2.2 Basecase Division
-------------------------
-
-This section is out-of-date.
-
-   Basecase NxM division is like long division done by hand, but in base
-2^mp_bits_per_limb.  See Knuth section 4.3.1 algorithm D.
-
-   Briefly stated, while the dividend remains larger than the divisor, a
-high quotient limb is formed and the Nx1 product q*d subtracted at the
-top end of the dividend.  With a normalized divisor (most significant
-bit set), each quotient limb can be formed with a 2x1 division and a 1x1
-multiplication plus some subtractions.  The 2x1 division is by the high
-limb of the divisor and is done either with a hardware divide or a
-multiply by inverse (the same as in *note Single Limb Division::)
-whichever is faster.  Such a quotient is sometimes one too big,
-requiring an addback of the divisor, but that happens rarely.
-
-   With Q=N-M being the number of quotient limbs, this is an O(Q*M)
-algorithm and will run at a speed similar to a basecase QxM
-multiplication, differing in fact only in the extra multiply and divide
-for each of the Q quotient limbs.
-
-
-File: mpir.info,  Node: Divide and Conquer Division,  Next: Exact Division,  Prev: Basecase Division,  Up: Division Algorithms
-
-15.2.3 Divide and Conquer Division
-----------------------------------
-
-This section is out-of-date
-
-   For divisors larger than 'DIV_DC_THRESHOLD', division is done by
-dividing.  Or to be precise by a recursive divide and conquer algorithm
-based on work by Moenck and Borodin, Jebelean, and Burnikel and Ziegler
-(*note References::).
-
-   The algorithm consists essentially of recognising that a 2NxN
-division can be done with the basecase division algorithm (*note
-Basecase Division::), but using N/2 limbs as a base, not just a single
-limb.  This way the multiplications that arise are (N/2)x(N/2) and can
-take advantage of Karatsuba and higher multiplication algorithms (*note
-Multiplication Algorithms::).  The two "digits" of the quotient are
-formed by recursive Nx(N/2) divisions.
-
-   If the (N/2)x(N/2) multiplies are done with a basecase multiplication
-then the work is about the same as a basecase division, but with more
-function call overheads and with some subtractions separated from the
-multiplies.  These overheads mean that it's only when N/2 is above
-'MUL_KARATSUBA_THRESHOLD' that divide and conquer is of use.
-
-   'DIV_DC_THRESHOLD' is based on the divisor size N, so it will be
-somewhere above twice 'MUL_KARATSUBA_THRESHOLD', but how much above
-depends on the CPU.  An optimized 'mpn_mul_basecase' can lower
-'DIV_DC_THRESHOLD' a little by offering a ready-made advantage over
-repeated 'mpn_submul_1' calls.
-
-   Divide and conquer is asymptotically O(M(N)*log(N)) where M(N) is the
-time for an NxN multiplication done with FFTs.  The actual time is a sum
-over multiplications of the recursed sizes, as can be seen near the end
-of section 2.2 of Burnikel and Ziegler.  For example, within the Toom-3
-range, divide and conquer is 2.63*M(N).  With higher algorithms the M(N)
-term improves and the multiplier tends to log(N).  In practice, at
-moderate to large sizes, a 2NxN division is about 2 to 4 times slower
-than an NxN multiplication.
-
-   Newton's method used for division is asymptotically O(M(N)) and
-should therefore be superior to divide and conquer, but it's believed
-this would only be for large to very large N.
-
-
-File: mpir.info,  Node: Exact Division,  Next: Exact Remainder,  Prev: Divide and Conquer Division,  Up: Division Algorithms
-
-15.2.4 Exact Division
----------------------
-
-This section is out-of-date
-
-   A so-called exact division is when the dividend is known to be an
-exact multiple of the divisor.  Jebelean's exact division algorithm uses
-this knowledge to make some significant optimizations (*note
-References::).
-
-   The idea can be illustrated in decimal for example with 368154
-divided by 543.  Because the low digit of the dividend is 4, the low
-digit of the quotient must be 8.  This is arrived at from 4*7 mod 10,
-using the fact 7 is the modular inverse of 3 (the low digit of the
-divisor), since 3*7 == 1 mod 10.  So 8*543=4344 can be subtracted from
-the dividend leaving 363810.  Notice the low digit has become zero.
-
-   The procedure is repeated at the second digit, with the next quotient
-digit 7 (7 == 1*7 mod 10), subtracting 7*543=3801, leaving 325800.  And
-finally at the third digit with quotient digit 6 (8*7 mod 10),
-subtracting 6*543=3258 leaving 0.  So the quotient is 678.
-
-   Notice however that the multiplies and subtractions don't need to
-extend past the low three digits of the dividend, since that's enough to
-determine the three quotient digits.  For the last quotient digit no
-subtraction is needed at all.  On a 2NxN division like this one, only
-about half the work of a normal basecase division is necessary.
-
-   For an NxM exact division producing Q=N-M quotient limbs, the saving
-over a normal basecase division is in two parts.  Firstly, each of the Q
-quotient limbs needs only one multiply, not a 2x1 divide and multiply.
-Secondly, the crossproducts are reduced when Q>M to Q*M-M*(M+1)/2, or
-when Q<=M to Q*(Q-1)/2.  Notice the savings are complementary.  If Q is
-big then many divisions are saved, or if Q is small then the
-crossproducts reduce to a small number.
-
-   The modular inverse used is calculated efficiently by
-'modlimb_invert' in 'gmp-impl.h'.  This does four multiplies for a
-32-bit limb, or six for a 64-bit limb.  'tune/modlinv.c' has some
-alternate implementations that might suit processors better at bit
-twiddling than multiplying.
-
-   The sub-quadratic exact division described by Jebelean in "Exact
-Division with Karatsuba Complexity" is not currently implemented.  It
-uses a rearrangement similar to the divide and conquer for normal
-division (*note Divide and Conquer Division::), but operating from low
-to high.  A further possibility not currently implemented is
-"Bidirectional Exact Integer Division" by Krandick and Jebelean which
-forms quotient limbs from both the high and low ends of the dividend,
-and can halve once more the number of crossproducts needed in a 2NxN
-division.
-
-   A special case exact division by 3 exists in 'mpn_divexact_by3',
-supporting Toom-3 multiplication and 'mpq' canonicalizations.  It forms
-quotient digits with a multiply by the modular inverse of 3 (which is
-'0xAA..AAB') and uses two comparisons to determine a borrow for the next
-limb.  The multiplications don't need to be on the dependent chain, as
-long as the effect of the borrows is applied, which can help chips with
-pipelined multipliers.
-
-
-File: mpir.info,  Node: Exact Remainder,  Next: Small Quotient Division,  Prev: Exact Division,  Up: Division Algorithms
-
-15.2.5 Exact Remainder
-----------------------
-
-If the exact division algorithm is done with a full subtraction at each
-stage and the dividend isn't a multiple of the divisor, then low zero
-limbs are produced but with a remainder in the high limbs.  For dividend
-a, divisor d, quotient q, and b = 2^mp_bits_per_limb, this remainder r
-is of the form
-
-     a = q*d + r*b^n
-
-   n represents the number of zero limbs produced by the subtractions,
-that being the number of limbs produced for q.  r will be in the range
-0<=r<d and can be viewed as a remainder, but one shifted up by a factor
-of b^n.
-
-   Carrying out full subtractions at each stage means the same number of
-cross products must be done as a normal division, but there's still some
-single limb divisions saved.  When d is a single limb some
-simplifications arise, providing good speedups on a number of
-processors.
-
-   'mpn_bdivmod', 'mpn_divexact_by3', 'mpn_modexact_1_odd' and the
-'redc' function in 'mpz_powm' differ subtly in how they return r,
-leading to some negations in the above formula, but all are essentially
-the same.
-
-   Clearly r is zero when a is a multiple of d, and this leads to
-divisibility or congruence tests which are potentially more efficient
-than a normal division.
-
-   The factor of b^n on r can be ignored in a GCD when d is odd, hence
-the use of 'mpn_bdivmod' in 'mpn_gcd', and the use of
-'mpn_modexact_1_odd' by 'mpn_gcd_1' and 'mpz_kronecker_ui' etc (*note
-Greatest Common Divisor Algorithms::).
-
-   Montgomery's REDC method for modular multiplications uses operands of
-the form of x*b^-n and y*b^-n and on calculating (x*b^-n)*(y*b^-n) uses
-the factor of b^n in the exact remainder to reach a product in the same
-form (x*y)*b^-n (*note Modular Powering Algorithm::).
-
-   Notice that r generally gives no useful information about the
-ordinary remainder a mod d since b^n mod d could be anything.  If
-however b^n == 1 mod d, then r is the negative of the ordinary
-remainder.  This occurs whenever d is a factor of b^n-1, as for example
-with 3 in 'mpn_divexact_by3'.  For a 32 or 64 bit limb other such
-factors include 5, 17 and 257, but no particular use has been found for
-this.
-
-
-File: mpir.info,  Node: Small Quotient Division,  Prev: Exact Remainder,  Up: Division Algorithms
-
-15.2.6 Small Quotient Division
-------------------------------
-
-An NxM division where the number of quotient limbs Q=N-M is small can be
-optimized somewhat.
-
-   An ordinary basecase division normalizes the divisor by shifting it
-to make the high bit set, shifting the dividend accordingly, and
-shifting the remainder back down at the end of the calculation.  This is
-wasteful if only a few quotient limbs are to be formed.  Instead a
-division of just the top 2*Q limbs of the dividend by the top Q limbs of
-the divisor can be used to form a trial quotient.  This requires only
-those limbs normalized, not the whole of the divisor and dividend.
-
-   A multiply and subtract then applies the trial quotient to the M-Q
-unused limbs of the divisor and N-Q dividend limbs (which includes Q
-limbs remaining from the trial quotient division).  The starting trial
-quotient can be 1 or 2 too big, but all cases of 2 too big and most
-cases of 1 too big are detected by first comparing the most significant
-limbs that will arise from the subtraction.  An addback is done if the
-quotient still turns out to be 1 too big.
-
-   This whole procedure is essentially the same as one step of the
-basecase algorithm done in a Q limb base, though with the trial quotient
-test done only with the high limbs, not an entire Q limb "digit"
-product.  The correctness of this weaker test can be established by
-following the argument of Knuth section 4.3.1 exercise 20 but with the
-v2*q>b*r+u2 condition appropriately relaxed.
-
-
-File: mpir.info,  Node: Greatest Common Divisor Algorithms,  Next: Powering Algorithms,  Prev: Division Algorithms,  Up: Algorithms
-
-15.3 Greatest Common Divisor
-============================
-
-* Menu:
-
-* Binary GCD::
-* Lehmer's GCD::
-* Subquadratic GCD::
-* Extended GCD::
-* Jacobi Symbol::
-
-
-File: mpir.info,  Node: Binary GCD,  Next: Lehmer's GCD,  Prev: Greatest Common Divisor Algorithms,  Up: Greatest Common Divisor Algorithms
-
-15.3.1 Binary GCD
------------------
-
-At small sizes MPIR uses an O(N^2) binary style GCD.  This is described
-in many textbooks, for example Knuth section 4.5.2 algorithm B.  It
-simply consists of successively reducing odd operands a and b using
-
-     a,b = abs(a-b),min(a,b)
-     strip factors of 2 from a
-
-   The Euclidean GCD algorithm, as per Knuth algorithms E and A, reduces
-using a mod b but this has so far been found to be slower everywhere.
-One reason the binary method does well is that the implied quotient at
-each step is usually small, so often only one or two subtractions are
-needed to get the same effect as a division.  Quotients 1, 2 and 3 for
-example occur 67.7% of the time, see Knuth section 4.5.3 Theorem E.
-
-   When the implied quotient is large, meaning b is much smaller than a,
-then a division is worthwhile.  This is the basis for the initial a mod
-b reductions in 'mpn_gcd' and 'mpn_gcd_1' (the latter for both Nx1 and
-1x1 cases).  But after that initial reduction, big quotients occur too
-rarely to make it worth checking for them.
-
-
-   The final 1x1 GCD in 'mpn_gcd_1' is done in the generic C code as
-described above.  For two N-bit operands, the algorithm takes about 0.68
-iterations per bit.  For optimum performance some attention needs to be
-paid to the way the factors of 2 are stripped from a.
-
-   Firstly it may be noted that in twos complement the number of low
-zero bits on a-b is the same as b-a, so counting or testing can begin on
-a-b without waiting for abs(a-b) to be determined.
-
-   A loop stripping low zero bits tends not to branch predict well,
-since the condition is data dependent.  But on average there's only a
-few low zeros, so an option is to strip one or two bits arithmetically
-then loop for more (as done for AMD K6).  Or use a lookup table to get a
-count for several bits then loop for more (as done for AMD K7).  An
-alternative approach is to keep just one of a or b odd and iterate
-
-     a,b = abs(a-b), min(a,b)
-     a = a/2 if even
-     b = b/2 if even
-
-   This requires about 1.25 iterations per bit, but stripping of a
-single bit at each step avoids any branching.  Repeating the bit strip
-reduces to about 0.9 iterations per bit, which may be a worthwhile
-tradeoff.
-
-   Generally with the above approaches a speed of perhaps 6 cycles per
-bit can be achieved, which is still not terribly fast with for instance
-a 64-bit GCD taking nearly 400 cycles.  It's this sort of time which
-means it's not usually advantageous to combine a set of divisibility
-tests into a GCD.
-
-
-File: mpir.info,  Node: Lehmer's GCD,  Next: Subquadratic GCD,  Prev: Binary GCD,  Up: Greatest Common Divisor Algorithms
-
-15.3.2 Lehmer's GCD
--------------------
-
-Lehmer's improvement of the Euclidean algorithms is based on the
-observation that the initial part of the quotient sequence depends only
-on the most significant parts of the inputs.  The variant of Lehmer's
-algorithm used in MPIR splits off the most significant two limbs, as
-suggested, e.g., in "A Double-Digit Lehmer-Euclid Algorithm" by Jebelean
-(*note References::).  The quotients of two double-limb inputs are
-collected as a 2 by 2 matrix with single-limb elements.  This is done by
-the function 'mpn_hgcd2'.  The resulting matrix is applied to the inputs
-using 'mpn_mul_1' and 'mpn_submul_1'.  Each iteration usually reduces
-the inputs by almost one limb.  In the rare case of a large quotient, no
-progress can be made by examining just the most significant two limbs,
-and the quotient is computing using plain division.
-
-   The resulting algorithm is asymptotically O(N^2), just as the
-Euclidean algorithm and the binary algorithm.  The quadratic part of the
-work are the calls to 'mpn_mul_1' and 'mpn_submul_1'.  For small sizes,
-the linear work is also significant.  There are roughly N calls to the
-'mpn_hgcd2' function.  This function uses a couple of important
-optimizations:
-
-   * It uses the same relaxed notion of correctness as 'mpn_hgcd' (see
-     next section).  This means that when called with the most
-     significant two limbs of two large numbers, the returned matrix
-     does not always correspond exactly to the initial quotient sequence
-     for the two large numbers; the final quotient may sometimes be one
-     off.
-
-   * It takes advantage of the fact the quotients are usually small.
-     The division operator is not used, since the corresponding
-     assembler instruction is very slow on most architectures.  (This
-     code could probably be improved further, it uses many branches that
-     are unfriendly to prediction).
-
-   * It switches from double-limb calculations to single-limb
-     calculations half-way through, when the input numbers have been
-     reduced in size from two limbs to one and a half.
-
-
-File: mpir.info,  Node: Subquadratic GCD,  Next: Extended GCD,  Prev: Lehmer's GCD,  Up: Greatest Common Divisor Algorithms
-
-15.3.3 Subquadratic GCD
------------------------
-
-For inputs larger than 'GCD_DC_THRESHOLD', GCD is computed via the HGCD
-(Half GCD) function, as a generalization to Lehmer's algorithm.
-
-   Let the inputs a,b be of size N limbs each.  Put S = floor(N/2) + 1.
-Then HGCD(a,b) returns a transformation matrix T with non-negative
-elements, and reduced numbers (c;d) = T^{-1} (a;b).  The reduced numbers
-c,d must be larger than S limbs, while their difference abs(c-d) must
-fit in S limbs.  The matrix elements will also be of size roughly N/2.
-
-   The HGCD base case uses Lehmer's algorithm, but with the above stop
-condition that returns reduced numbers and the corresponding
-transformation matrix half-way through.  For inputs larger than
-'HGCD_THRESHOLD', HGCD is computed recursively, using the divide and
-conquer algorithm in "On Scho"nhage's algorithm and subquadratic integer
-GCD computation" by Mo"ller (*note References::).  The recursive
-algorithm consists of these main steps.
-
-   * Call HGCD recursively, on the most significant N/2 limbs.  Apply
-     the resulting matrix T_1 to the full numbers, reducing them to a
-     size just above 3N/2.
-
-   * Perform a small number of division or subtraction steps to reduce
-     the numbers to size below 3N/2.  This is essential mainly for the
-     unlikely case of large quotients.
-
-   * Call HGCD recursively, on the most significant N/2 limbs of the
-     reduced numbers.  Apply the resulting matrix T_2 to the full
-     numbers, reducing them to a size just above N/2.
-
-   * Compute T = T_1 T_2.
-
-   * Perform a small number of division and subtraction steps to satisfy
-     the requirements, and return.
-
-   GCD is then implemented as a loop around HGCD, similarly to Lehmer's
-algorithm.  Where Lehmer repeatedly chops off the top two limbs, calls
-'mpn_hgcd2', and applies the resulting matrix to the full numbers, the
-subquadratic GCD chops off the most significant third of the limbs (the
-proportion is a tuning parameter, and 1/3 seems to be more efficient
-than, e.g, 1/2), calls 'mpn_hgcd', and applies the resulting matrix.
-Once the input numbers are reduced to size below 'GCD_DC_THRESHOLD',
-Lehmer's algorithm is used for the rest of the work.
-
-   The asymptotic running time of both HGCD and GCD is O(M(N)*log(N)),
-where M(N) is the time for multiplying two N-limb numbers.
-
-
-File: mpir.info,  Node: Extended GCD,  Next: Jacobi Symbol,  Prev: Subquadratic GCD,  Up: Greatest Common Divisor Algorithms
-
-15.3.4 Extended GCD
--------------------
-
-The extended GCD function, or gcdext, calculates gcd(a,b) and also one
-of the cofactors x and y satisfying a*x+b*y=gcd(a,b).  The algorithms
-used for plain GCD are extended to handle this case.
-
-   Lehmer's algorithm is used for sizes up to 'GCDEXT_DC_THRESHOLD'.
-Above this threshold, GCDEXT is implemented as a loop around HGCD, but
-with more book-keeping to keep track of the cofactors.
-
-
-File: mpir.info,  Node: Jacobi Symbol,  Prev: Extended GCD,  Up: Greatest Common Divisor Algorithms
-
-15.3.5 Jacobi Symbol
---------------------
-
-'mpz_jacobi' and 'mpz_kronecker' are currently implemented with a simple
-binary algorithm similar to that described for the GCDs (*note Binary
-GCD::).  They're not very fast when both inputs are large.  Lehmer's
-multi-step improvement or a binary based multi-step algorithm is likely
-to be better.
-
-   When one operand fits a single limb, and that includes
-'mpz_kronecker_ui' and friends, an initial reduction is done with either
-'mpn_mod_1' or 'mpn_modexact_1_odd', followed by the binary algorithm on
-a single limb.  The binary algorithm is well suited to a single limb,
-and the whole calculation in this case is quite efficient.
-
-   In all the routines sign changes for the result are accumulated using
-some bit twiddling, avoiding table lookups or conditional jumps.
-
-
-File: mpir.info,  Node: Powering Algorithms,  Next: Root Extraction Algorithms,  Prev: Greatest Common Divisor Algorithms,  Up: Algorithms
-
-15.4 Powering Algorithms
-========================
-
-* Menu:
-
-* Normal Powering Algorithm::
-* Modular Powering Algorithm::
-
-
-File: mpir.info,  Node: Normal Powering Algorithm,  Next: Modular Powering Algorithm,  Prev: Powering Algorithms,  Up: Powering Algorithms
-
-15.4.1 Normal Powering
-----------------------
-
-Normal 'mpz' or 'mpf' powering uses a simple binary algorithm,
-successively squaring and then multiplying by the base when a 1 bit is
-seen in the exponent, as per Knuth section 4.6.3.  The "left to right"
-variant described there is used rather than algorithm A, since it's just
-as easy and can be done with somewhat less temporary memory.
-
-
-File: mpir.info,  Node: Modular Powering Algorithm,  Prev: Normal Powering Algorithm,  Up: Powering Algorithms
-
-15.4.2 Modular Powering
------------------------
-
-Modular powering is implemented using a 2^k-ary sliding window
-algorithm, as per "Handbook of Applied Cryptography" algorithm 14.85
-(*note References::).  k is chosen according to the size of the
-exponent.  Larger exponents use larger values of k, the choice being
-made to minimize the average number of multiplications that must
-supplement the squaring.
-
-   The modular multiplies and squares use either a simple division or
-the REDC method by Montgomery (*note References::).  REDC is a little
-faster, essentially saving N single limb divisions in a fashion similar
-to an exact remainder (*note Exact Remainder::).  The current REDC has
-some limitations.  It's only O(N^2) so above 'POWM_THRESHOLD' division
-becomes faster and is used.  It doesn't attempt to detect small bases,
-but rather always uses a REDC form, which is usually a full size
-operand.  And lastly it's only applied to odd moduli.
-
-
-File: mpir.info,  Node: Root Extraction Algorithms,  Next: Radix Conversion Algorithms,  Prev: Powering Algorithms,  Up: Algorithms
-
-15.5 Root Extraction Algorithms
-===============================
-
-* Menu:
-
-* Square Root Algorithm::
-* Nth Root Algorithm::
-* Perfect Square Algorithm::
-* Perfect Power Algorithm::
-
-
-File: mpir.info,  Node: Square Root Algorithm,  Next: Nth Root Algorithm,  Prev: Root Extraction Algorithms,  Up: Root Extraction Algorithms
-
-15.5.1 Square Root
-------------------
-
-Square roots are taken using the "Karatsuba Square Root" algorithm by
-Paul Zimmermann (*note References::).
-
-   An input n is split into four parts of k bits each, so with b=2^k we
-have n = a3*b^3 + a2*b^2 + a1*b + a0.  Part a3 must be "normalized" so
-that either the high or second highest bit is set.  In MPIR, k is kept
-on a limb boundary and the input is left shifted (by an even number of
-bits) to normalize.
-
-   The square root of the high two parts is taken, by recursive
-application of the algorithm (bottoming out in a one-limb Newton's
-method),
-
-     s1,r1 = sqrtrem (a3*b + a2)
-
-   This is an approximation to the desired root and is extended by a
-division to give s,r,
-
-     q,u = divrem (r1*b + a1, 2*s1)
-     s = s1*b + q
-     r = u*b + a0 - q^2
-
-   The normalization requirement on a3 means at this point s is either
-correct or 1 too big.  r is negative in the latter case, so
-
-     if r < 0 then
-       r = r + 2*s - 1
-       s = s - 1
-
-   The algorithm is expressed in a divide and conquer form, but as noted
-in the paper it can also be viewed as a discrete variant of Newton's
-method, or as a variation on the schoolboy method (no longer taught) for
-square roots two digits at a time.
-
-   If the remainder r is not required then usually only a few high limbs
-of r and u need to be calculated to determine whether an adjustment to s
-is required.  This optimization is not currently implemented.
-
-   In the Karatsuba multiplication range this algorithm is
-O(1.5*M(N/2)), where M(n) is the time to multiply two numbers of n
-limbs.  In the FFT multiplication range this grows to a bound of
-O(6*M(N/2)).  In practice a factor of about 1.5 to 1.8 is found in the
-Karatsuba and Toom-3 ranges, growing to 2 or 3 in the FFT range.
-
-   The algorithm does all its calculations in integers and the resulting
-'mpn_sqrtrem' is used for both 'mpz_sqrt' and 'mpf_sqrt'.  The extended
-precision given by 'mpf_sqrt_ui' is obtained by padding with zero limbs.
 

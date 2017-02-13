@@ -139,6 +139,7 @@ How to install and use the MPIR multiple precision arithmetic library, version @
 * Formatted Output::           @code{printf} style output.
 * Formatted Input::            @code{scanf} style input.
 * C++ Class Interface::        Class wrappers around MPIR types.
+* .Net Interface::             Managed .Net wrappers for MPIR types.
 * Custom Allocation::          How to customize the internal allocation.
 * Language Bindings::          Using MPIR from other languages.
 * Algorithms::                 What happens behind the scenes.
@@ -4255,6 +4256,7 @@ zero, this routine will divide by zero.
 @cindex Comparison functions
 
 @deftypefun int mpq_cmp (mpq_t @var{op1}, mpq_t @var{op2})
+@deftypefunx int mpq_cmp_z (const mpq_t @var{op1}, const mpz_t @var{op2})
 Compare @var{op1} and @var{op2}.  Return a positive value if @math{@var{op1} >
 @var{op2}}, zero if @math{@var{op1} = @var{op2}}, and a negative value if
 @math{@var{op1} < @var{op2}}.
@@ -6266,7 +6268,7 @@ results.  For classes with overloading, see @ref{C++ Class Interface}.
 
 
 
-@node C++ Class Interface, Custom Allocation, Formatted Input, Top
+@node C++ Class Interface, .Net Interface, Formatted Input, Top
 @chapter C++ Class Interface
 @cindex C++ interface
 
@@ -6852,7 +6854,1136 @@ void fun (T f, T g)
 @end example
 @end table
 
-@node Custom Allocation, Language Bindings, C++ Class Interface, Top
+@node .Net Interface, Custom Allocation, C++ Class Interface, Top
+@comment  node-name,  next,  previous,  up
+@chapter .Net Interface
+@cindex .Net Interface
+@cindex Microsoft.Net
+@cindex Managed Interface
+
+This chapter describes the Microsoft.Net wrapper around MPIR.
+
+If you are a .Net developer on MS Windows, using MPIR is possible
+via the basic managed-to-native interop tooling provided by .Net.
+While this would allow access to the full MPIR intreface, 
+you would essentially be embedding C code inside whatever .Net language you are using.
+This would virtually require familiarity with C/C++, 
+the interop artefacts in your code would be distractingly evident,
+and it would be hard to maintain a smooth code style around managed/native transitions.
+
+MPIR offers an alternative that addresses these issues: @strong{MPIR.Net}.
+MPIR.Net is a Microsoft Visual Studio solution that interoperates with MPIR
+and exposes a full managed interface built from scratch, for consumption in any .Net language.
+It internalizes all C-rooted idiosynchrasies and allows you to work with MPIR objects
+through managed classes that perform all necessary marshaling behind the scenes.
+It strives to provide maximum performance by implementing MPIR operations
+with direct calls to the native routines while not requiring
+you to sacrifice any of your code style.  It eliminates any requirement of fluency in C,
+yet delivers the performance of native MPIR.  In fact, it can consume any native MPIR build,
+including all supported processor-specific builds, and can thus take advantage of the
+entire wealth of assembly-optimized MPIR routines.
+
+MPIR.Net is, however, limited to MS Windows and Visual Studio at this time.  The managed
+interface is written in Microsoft C++/CLI, which ties you to that specific environment.
+If you use .Net on Linux and use a compiler other than Visual Studio, MPIR.Net will not
+work for you, but then again, you may already have better native interop facilities 
+available to you than your Windows colleagues, making MPIR.Net rather moot.
+
+MPIR.Net is bundled with MPIR as an optional feature.  To build it, you still
+need to build the native MPIR library first.  As you do, you can select the best
+processor architecture that matches your requirements.  Then you build MPIR.Net, and it
+is linked statically to the native MPIR library, producing a managed assembly.
+Thus, to build MPIR.Net, you need to be familiar with the MPIR build process on Windows,
+and have a recent version of Visual Studio available (a community edition will suffice).
+
+@menu
+* MPIR.Net Feature Overview::
+* Building MPIR.Net::
+* MPIR.Net Integers::
+* MPIR.Net Rationals::
+* MPIR.Net Floats::
+* MPIR.Net Random Numbers::
+* MPIR.Net Settings::
+@end menu
+
+@node MPIR.Net Feature Overview, Building MPIR.Net, .Net Interface, .Net Interface
+@section MPIR.Net Feature Overview
+
+@noindent
+MPIR.Net exposes the following main classes:
+
+@deftp Class HugeInt
+@deftpx Class HugeRational
+@deftpx Class HugeFloat
+@deftpx Class MpirRandom
+@end deftp
+
+The standard operators are overloaded to allow arithmetic with these classes.  For example,
+
+@example
+void Calculate()
+@{
+  using (var a = new HugeInt(1234))
+  using (var b = new HugeInt("-5678"))
+  using (var c = new HugeInt(a + b))
+  @{
+    Debug.WriteLine("Result: @{0@}", c);
+  @}
+@}
+@end example
+
+MPIR.Net's multi-precision classes implement @code{IDisposable}, and the recommended usage
+for local instances is as shown above, within a @code{using} clause 
+to guarantee native memory clean-up when a variable is disposed.
+
+References that go out of scope without having been disposed are subject to the normal
+.Net garbage collection, which in most cases invokes object finalizers, and those in turn
+deallocate native memory. Applications that don't have memory pressure should
+work just fine either way, although deterministic disposal is a best practice.
+
+Like MPIR's native @ref{C++ Class Interface}, MPIR.Net implements an expression like
+@code{a.Value = b + c} with a single call to the corresponding native @code{mpz_add},
+without using a temporary for the @code{b + c} part.  More complex expressions that do not have 
+a single-call native implementation like @code{a.Value = b*c + d*e}, still use temporary variables.
+Importantly, @code{a.Value = a + b*c} and the like will utilize the native @code{mpz_addmul}, etc.
+Note that in all of the above cases the assignment syntax is to set the @code{Value} property; more on that below.
+
+Another similarity of MPIR.Net with the C++ interface is the deferral of evaluation.
+All arithmetic operations and many methods produce an expression object rather than an immediate result.
+This allows expressions of arbitrary complexity to be built.  They are not evaluated until the expression
+is assigned to a destination variable, or when calling a method that produces a primitive (non-MPIR.Net type) result. For example:
+
+@example
+void Calculate()
+@{
+  var a = new HugeInt(12345);
+  var b = new HugeInt(67890);
+  var sum = a + b;                // produces an expression
+  var doubleSum = sum * 2;        // produces a new expression
+  bool positive = doubleSum > 0;  // evaluates the doubleSum expression
+  int sumSign = doubleSum.Sign(); // evaluates the doubleSum expression
+  a.Value = doubleSum - 4;        // evaluates the doubleSum expression
+@}
+@end example
+
+Here the addition and multiplication in @code{(a + b) * 2} are computed three times
+because they are part of an expression that is consumed
+by three destinations, @code{positive}, @code{sumSign}, and @code{a}.  
+To avoid the triple addition, this method should be re-written as:
+
+@example
+void Calculate()
+@{
+  var a = new HugeInt(12345);
+  var b = new HugeInt(67890);
+  var sum = a + b;                      // produces an expression
+  var doubleSum = new HugeInt(sum * 2); // evaluates the expression
+  bool positive = doubleSum > 0;        // evaluates the > comparison
+  int sumSign = doubleSum.Sign();       // computes the sign
+  a.Value = doubleSum - 4;              // computes the subtraction
+@}
+@end example
+
+Now the result of @code{(a + b) * 2} is computed once and stored in an intermediate variable,
+whose value is used in subsequent statements.  
+This code can be shortened as follows without changing the internal calculation:
+
+@example
+void Calculate()
+@{
+  var a = new HugeInt(12345);
+  var b = new HugeInt(67890);
+  var doubleSum = new HugeInt((a + b) * 2); // evaluates the expression
+  var positive = doubleSum > 0;             // evaluates the > comparison
+  var sumSign = doubleSum.Sign();           // computes the sign
+  a.Value = doubleSum - 4;                  // computes the subtraction
+@}
+@end example
+
+The main idiosyncrasy of MPIR.Net is its assignment pattern.  
+MPIR.Net types are implemented as reference types with value semantics.
+Like .Net Strings, the objects themselves are just lightweight pointers to data allocated elsewhere.
+In this case, the data is in native memory.
+Unlike Strings, MPIR types are mutable.
+
+Value semantics requires you to be able to code statements like @code{a = b + c}.
+However, .Net (outside of C++) does not allow overloading the assignment operator,
+while assigning references would necessitate some unnecessary duplication and extra memory allocations,
+require reliance on the garbage collector, and prevent the use of @code{mpz_addmul} and the like.
+
+To solve this problem, MPIR.Net uses the property assignment.
+All MPIR.Net types have a @code{Value} property.  
+The magic of this property is in its setter, which does what an overloaded assignment operator would do in C++.
+So you write @code{a.Value = b + c} to calculate the sum of @code{b} and @code{c} and store the result in the existing variable @code{a}.
+This seems to be as close to an overloaded assignment as you can get in .Net, but is fluent enough to become a quick habit,
+and additionally reinforces the concept that an existing object can change its value while reusing internally allocated memory.
+
+Setting @code{Value} evaluates the expression being assigned.  Since at this point the destination is known,
+@code{mpz_addmul} and similar can be recognized and invoked.
+
+Reading this property is less interesting,
+as it's equivalent to but wordier than using the reference itself, i.e. @code{a + b} is equivalent to @code{a.Value + b.Value}.
+However it is still useful for making possible constructs such as @code{a.Value += 5}, @code{a.Value *= 10}, etc.
+
+If you absent-mindedly type @code{a = b + c} or @code{a *= 10}, these will not compile 
+because there is no implicit conversion from an expression.
+If an implicit conversion were defined, such code would incur an extra allocation plus garbage collection,
+making it potentially slower than performing the same operations on @code{a.Value}. 
+It would also not compile if the destination were a local variable defined in a @code{using} clause, 
+as is the recommended practice for method-local instances.
+
+Care should be taken with the construct @code{var a = b;}. While perfectly legal (and cannot be made otherwise) in .Net, 
+this only creates a copy of the managed reference to the same MPIR.Net object, without any copying of the data.
+If @code{b} is subsequently disposed, referencing @code{a} will throw an error.
+
+MPIR classes can be intermixed in expressions to some degree.  For example, most arithmetic operations with 
+rational operands will accept integers.  Where mixed operations are defined in MPIR, they are also implemented in MPIR.Net.
+Floats, on the other hand, typically don't accept operands of other types.  There is some cost associated with
+creating a floating point instance out of an integer, which would not be evident if automatic promotion existed.
+Use explicit constructors to convert instances of one type to new instances of other types,
+or one of the @code{SetTo()} overloads to save the result into an existing instance.
+
+MPIR classes can also be intermixed in expressions with primitive types.  For 64-bit builds, this includes 
+@code{long} and @code{ulong}, which correspond to an MPIR limb.  For 32-bit builds, @code{int} and @code{uint}
+are the largest primitive types you can use.  Smaller integer primitives can always be used because they will be promoted by .Net.
+
+Conversions back from MPIR classes to primitive types aren't done automatically,
+instead methods @code{ToLong()}/@code{ToUlong()} for 64-bit builds or @code{ToInt()}/@code{ToUint()} are provided.  
+Integers also implement @code{GetLimb()}.
+
+@node Building MPIR.Net, MPIR.Net Integers, MPIR.Net Feature Overview, .Net Interface
+@section Building MPIR.Net
+
+To build MPIR.Net, follow the steps below:
+
+@enumerate
+@item
+Get the sources
+
+@item
+Build MPIR
+
+@item
+Run MPIR unit tests
+
+@item
+Build MPIR.Net
+
+@item
+Run MPIR.Net unit tests
+
+@item
+Reference MPIR.Net in your managed project
+@end enumerate
+
+@strong{Get the sources}: Clone the MPIR repository on GitHub to get the latest stable MPIR release.
+This repository includes MPIR.Net.
+Or you can clone the MPIR.Net fork, which will get you the development repository.
+
+@strong{Build MPIR}: Once you have the sources, you will need to build MPIR first. 
+Read the MPIR manual, available as a Documentation link on the MPIR page, for full details. 
+Since MPIR.Net currently requires Windows, you will need to build MPIR for Windows using Microsoft Visual Studio.
+MPIR provides solutions for the three latest versions of Visual Studio, and includes full build instructions.
+You can select either a generic C build or an optimized build for a specific processor.
+You must also select the Windows architecture desired (32-bit or 64-bit), and build configuration (debug/release).
+You will need to build MPIR as Lib, not DLL, to use it with MPIR.Net.
+
+@strong{Run MPIR unit tests}: MPIR contains a full suite of unit tests that you can (and should) execute to validate your build.
+It is a large and complex project, and many things can go wrong while building from sources.
+Building and running the tests only takes a few of minutes and might save you a lot of headache.
+Note that you must also build MPIR's C++ interface to run unit tests, however it is not a dependency for MPIR.Net.
+
+@strong{Build MPIR.Net}: Next, load the MPIR.Net solution in Visual Studio. 
+It is located in the MPIR.Net folder, under which there are folders for the different supported Visual Studio versions.
+The projects are set up to look for the previously built MPIR library in its normal location in the Lib folder.
+You will need to select the same architecture (x64 or x86) and configuration (debug/release) as when you built MPIR.
+Then simply build the solution, and you are good to go.
+
+@strong{Run MPIR.Net unit tests}: MPIR.Net includes its own suite of unit tests. 
+Because MPIR.Net is a wrapper around MPIR, these tests simply ensure that the right routines in MPIR are being called,
+but do not validate the robustness of the MPIR build itself.
+Thus, it is necessary to run both MPIR tests and MPIR.Net tests.
+MPIR.Net tests, though, are easier to run because they are included right in the MPIR.Net solution.
+
+Through binary compatibility with GMP 5.x, MPIR 2.x inherits a known issue that causes a few
+MPIR.Net tests (2 for x86, 3 for x64) to fail. The issue has been corrected in GMP 6.x, and is expected to be
+corrected correspondingly in MPIR 3.x. Because this behavior is not intuitive,
+these tests remain in their current failing state until this is resolved.
+
+@strong{Reference MPIR.Net}: With the MPIR.Net assembly built, you're ready to create your own project 
+in a .Net language of your choice, add a reference to MPIR.Net, and take advantage of the great mathematical powers of MPIR!
+
+@node MPIR.Net Integers, MPIR.Net Rationals, Building MPIR.Net, .Net Interface
+@section MPIR.Net Integers
+
+@deftp Class HugeInt : IntegerExpression, IDisposable
+The MPIR.Net type for the MPIR multi-precision integer is @code{HugeInt}.  
+A closely related type is @code{IntegerExpression}, which is returned from all operators and methods whose
+value semantics are to compute another number from the source instance and any arguments.
+@code{HugeInt} derives from @code{IntegerExpression}, and many operations are defined on the expression class.
+Operations defined on @code{HugeInt} but not on @code{IntegerExpression} are typically those that modify the value
+of the source number itself, and thus performing them on an expression is meaningless.
+Because through inheritance all operations are available on @code{HugeInt}, the descriptions below 
+do not specifically indicate whether each operator or method is defined for expressions, 
+or just for @code{HugeInt} instances. For the sake of brevity, they are listed as if they were methods of the @code{HugeInt} class.
+Visual Studio provides Intellisense and immediate feedback to help sort out which operations are available
+on expressions.
+@end deftp
+
+Below is a brief summary of the supported multi-precision integer methods and operators.  
+To avoid repetition, implementation details are ommitted.  Since MPIR native functions are called behind the scenes,
+review @ref{Integer Functions} for further details about the native implementations.
+
+@deftypefn Constructor {} HugeInt ()
+@deftypefnx Constructor {} HugeInt (int/long @var{n})
+@deftypefnx Constructor {} HugeInt (uint/ulong @var{n})
+@deftypefnx Constructor {} HugeInt (double @var{n})
+Constructs a @code{HugeInt} object.  Single-limb constructors vary by architecture,
+32-bit builds take an @code{int} or @code{uint} argument, 64-bit builds take a @code{long} or @code{ulong}.
+Any necessary conversion follows the corresponding C function, for
+example @code{double} follows @code{mpz_set_d} (@pxref{Assigning Integers}).
+@end deftypefn
+
+@deftypefn Constructor {} HugeInt (string @var{s})
+@deftypefnx Constructor {} HugeInt (string @var{s}, int @var{base})
+Constructs a @code{HugeInt} converted from a string using @code{mpz_set_str}
+(@pxref{Assigning Integers}).  If the string is not a valid integer, an exception is thrown.
+@end deftypefn
+
+@deftypefn Constructor {} HugeInt (IntegerExpression @var{e})
+Evaluates the supplied expression and saves its result to the new instance.
+Because @code{HugeInt} is derived from @code{IntegerExpression}, this constructor 
+can be used to make a copy of an existing variable, i.e. @code{HugeInt a = new HugeInt(b);}
+without creating any permanent association between them.
+@end deftypefn
+
+@deftypefn {Static Method} {static HugeInt} Allocate (uint/ulong @var{bits})
+@deftypefnx Method void Reallocate (uint/ulong @var{bits})
+Controls the capacity in bits of the allocated integer.
+@end deftypefn
+
+@deftypefn Property int AllocatedSize
+Returns the number of limbs currently allocated.
+@end deftypefn
+
+@deftypefn Method ulong Size ()
+Returns the number of limbs currently used.
+@end deftypefn
+
+@deftypefn Method long GetLimb (mp_size_t @var{index})
+Returns the specified limb.
+@end deftypefn
+
+@deftypefn Method bool FitsUlong () //64-bit builds only
+@deftypefnx Method bool FitsLong () //64-bit builds only
+@deftypefnx Method bool FitsUint ()
+@deftypefnx Method bool FitsInt ()
+@deftypefnx Method bool FitsUshort ()
+@deftypefnx Method bool FitsShort ()
+@deftypefnx Method long ApproximateSizeInBase (int @var{base})
+Checks whether the number would fit in one of the built-in .Net types.
+@end deftypefn
+
+@deftypefn Method string ToString ()
+@deftypefnx Method string ToString (int @var{base})
+@deftypefnx Method string ToString (int @var{base}, bool @var{lowercase})
+Returns the string representation of the number.  The default @code{base} is 10,
+and the parameterless overload is limited to 256 least significant digits by default,
+producing a leading ellipsis (i.e. ...12345) when the number has more digits. This is done
+to prevent huge numbers from unexpectedly consuming large amounts of memory in the debugger.
+The maximum number of digits output is configurable via the @code{MpirSettings.ToStringDigits} property,
+where zero means unlimited.  The other overloads always output all digits.
+@end deftypefn
+
+@deftypefn Method int ToInt () //32-bit builds
+@deftypefnx Method uint ToUint () //32-bit builds
+@deftypefnx Method long ToLong () //64-bit builds
+@deftypefnx Method ulong ToUlong () //64-bit builds
+@deftypefnx Method double ToDouble ()
+@deftypefnx Method double ToDouble (@code{out} int/long @var{exp})
+Converts the number to a primitive (built-in) .Net type, assuming it fits,
+which can be determined by calling one of the @code{Fits...} methods.
+@end deftypefn
+
+@deftypefn Property IntegerExpression Value
+Getting this property is essentially a no-op, as it returns the object instance itself.
+This never needs to be done explicitly, but is used implicitly in statements like @code{a.Value += 5;}
+
+Setting the @code{Value} property evaluates the assigned expression and saves the result to the object.
+@end deftypefn
+
+@deftypefn Method void SetTo (int/long @var{value}) // 32/64-bit builds
+@deftypefnx Method void SetTo (uint/ulong @var{value}) // 32/64-bit builds
+@deftypefnx Method void SetTo (double @var{value})
+@deftypefnx Method void SetTo (string @var{value})
+@deftypefnx Method void SetTo (string @var{value}, int @var{base})
+@deftypefnx Method void SetTo (RationalExpression @var{value})
+@deftypefnx Method void SetTo (FloatExpression @var{value})
+Sets the value of existing variable from types other than @code{IntegerExpression}.
+@end deftypefn
+
+@deftypefn Method void Swap (HugeInt @var{a})
+Swaps the values of the two objects. This is an @math{O(1)} operation.
+@end deftypefn
+
+Arithmetic operators (@code{+}, @code{-}, @code{*}, @code{/}, @code{%}) are overloaded to allow integers to participate
+in expressions much like primitive integers can.  Single-limb primitive types can be used.
+These operators will also accept @code{RationalExpression} arguments, producing a @code{RationalExpression} result.
+Some expression types expose additional methods, these are listed below.  
+Invoking these methods does not prevent the expression from participating in further expressions.
+
+Expressions resulting from division or computing a modulo allow setting an explicit rounding mode:
+@example
+c.Value = (a / b).Rounding(RoundingModes.Ceiling) + 4;
+d.Value = (a % b).Rounding(RoundingModes.Floor) + 4;
+@end example
+
+Division expressions optionally allow the remainder to be saved:
+@example
+c.Value = (a / b).SavingRemainderTo(e) + 4;
+@end example
+
+When dividing by a limb, the remainder is a single limb and is saved to an unsigned limb variable.
+However, passing this variable as an @code{out} argument would not work because
+of the deferred evaluation.  Instead, a delegate is passed which is called during evaluation:
+@example
+ulong/uint remainder; // 64/32-bit builds
+d.Value = (a / 100).SettingRemainderTo(x => remainder = x) + 4;
+@end example
+
+Symmetrically, the modulo expressions (@code{%}) allow the quotient to be saved:
+@example
+c.Value = (a % b).SavingQuotientTo(e).RoundingMode(RoundingModes.Ceiling) + 4;
+ulong/uint quotient; // 64/32-bit builds
+d.Value = (a % 100).SettingQuotientTo(x => quotient = x) + 4;
+@end example
+
+@deftypefn Method uint/ulong Mod (uint/ulong @var{divisor})
+@deftypefnx Method uint/ulong Mod (uint/ulong @var{divisor}, RoundingModes @var{roundingMode})
+Computes the absolute value of the remainder from division of the source number by the specified @code{divisor}.
+This operation differs from using the @code{%} operator by where the result is saved.  
+The @code{%} operator returns an expression, and a @code{HugeInt} variable is required to receive
+the result when the expression is assigned to its @code{Value} property.
+The @code{Mod} method, on the other hand, computes and returns the remainder immediately
+since it's a primitive type (single limb), and no destination @code{HugeInt} variable is needed.
+@end deftypefn
+
+Operator @code{^} serves dual purposes: when the right operand is a single limb, it raises the source number to a power,
+if the right operand is an @code{IntegerExpression} it performs a bitwise XOR.
+
+Comparison operators (@code{==}, @code{!=}, @code{<}, @code{<=}, @code{>}, @code{>=}) accept @code{IntegerExpression},
+single-limb, or double arguments, but do not accept @code{RationalExpression} because that would require an awkward explicit cast
+when comparing with null.
+
+@deftypefn Method int CompareTo (IntegerExpression @var{a})
+@deftypefnx Method bool Equals (IntegerExpression @var{a})
+Implement @code{IComparable<IntegerExpression>} and @code{IEquatable<IntegerExpression>} for strongly-typed comparisons.
+@end deftypefn
+
+@deftypefn Method int CompareTo (object @var{a})
+@deftypefnx Method bool Equals (object @var{a})
+Implement @code{IComparable} and equality check for any object.  These accept a @code{RationalExpression} as an argument, 
+allowing cross-type comparisons not possible with operators.
+@end deftypefn
+
+@deftypefn Method int GetHashCode ()
+This @code{object} override computes the hash code.  This is an @math{O(N)} operation where @math{N} is the number of limbs in use.
+Changing a number's @code{Value} changes its hash code, so this should not be done on any object that has been added
+to a hash table or dictionary.
+@end deftypefn
+
+@deftypefn Method int CompareAbsTo (IntegerExpression @var{a})
+@deftypefnx Method int CompareAbsTo (uint/ulong @var{a})
+@deftypefnx Method int CompareAbsTo (double @var{a})
+Compares the absolute value of the number with the operand.
+@end deftypefn
+
+@deftypefn Method int Sign ()
+Returns the number's sign.
+@end deftypefn
+
+Bit shift operators (@code{<<}, @code{>>}) accept an unsigned limb operand.
+
+The right shift (@code{>>}) expression provides a method to compute the modulo, rather than the default quotient:
+@example
+var a = new HugeInt("0x1357");
+Debug.WriteLine((a >> 8).ToString(16)); //prints 13
+Debug.WriteLine((a >> 8).Remainder().ToString(16)); //prints 57
+@end example
+
+Bitwize operators (@code{&}, @code{|}, @code{^}, @code{~}) are defined for @code{IntegerExpression} operands only.
+Note that operator @code{^} is also defined for a limb operand, and in that case computes a power.
+
+@deftypefn Method bool GetBit (uint/ulong @var{position})
+@deftypefnx Method void SetBit (uint/ulong @var{position}, bool @var{value})
+@deftypefnx Method void ComplementBit (uint/ulong @var{position})
+Allows access to individual bits of the number, using a "virtual" two's complement representation.
+@end deftypefn
+
+@deftypefn Method uint/ulong PopCount () // 32/64-bit builds
+Gets the number of set bits in the number.
+@end deftypefn
+
+@deftypefn Method uint/ulong HammingDistance (IntegerExpression @var{target}) // 32/64-bit builds
+Gets the hamming distance between this number and @code{target}.
+@end deftypefn
+
+@deftypefn Method uint/ulong FindBit (bool @var{value}, uint/ulong @var{start}) // 32/64-bit builds
+Scans the number for next set or cleared bit (depending on @code{value}).
+@end deftypefn
+
+@deftypefn Method IntegerExpression Abs ()
+Returns an expression that computes the absolute value of the number.
+@end deftypefn
+
+@deftypefn Method IntegerExpression DivideExactly (IntegerExpression @var{divisor})
+@deftypefnx Method IntegerExpression DivideExactly (uint/ulong @var{divisor}) // 32/64-bit builds
+Returns an expression that performs a fast division where it is known that there is no remainder.
+@end deftypefn
+
+@deftypefn Method IntegerExpression PowerMod (IntegerExpression @var{power}, IntegerExpression @var{modulo})
+@deftypefnx Method IntegerExpression PowerMod (uint/ulong @var{power}, IntegerExpression @var{modulo}) // 32/64-bit builds
+Returns an expression that raises the source to the specified @code{power} modulo @code{modulo}.
+@end deftypefn
+
+@deftypefn Method bool IsDivisibleBy (IntegerExpression @var{a})
+@deftypefnx Method bool IsDivisibleBy (uint/ulong @var{a})
+@deftypefnx Method bool IsDivisibleByPowerOf2 (uint/ulong @var{power})
+@deftypefnx Method bool IsCongruentTo (IntegerExpression @var{a}, IntegerExpression @var{modulo})
+@deftypefnx Method bool IsCongruentTo (uint/ulong @var{a}, uint/ulong @var{modulo})
+@deftypefnx Method bool IsCongruentToModPowerOf2 (IntegerExpression @var{a}, uint/ulong @var{power})
+@deftypefnx Method bool IsPerfectPower ()
+@deftypefnx Method bool IsPerfectSquare ()
+Performs various divisibility checks.  These methods return a bool result, and therefore are executed immediately.
+If they are called on an expression, the expression is evaluated to a temporary which is discarded immediately afterwards.
+If you will need this result again, assign the expression to a @code{HugeInt} variable and call the method on it.
+@end deftypefn
+
+@deftypefn Method long Write (Stream @var{stream})
+@deftypefnx Method long Read (Stream @var{stream})
+Writes and reads integers to/from streams using the raw binary format.
+@end deftypefn
+
+@deftypefn Method long Write (TextWriter @var{writer})
+@deftypefnx Method long Write (TextWriter @var{writer}, int @var{base})
+@deftypefnx Method long Write (TextWriter @var{writer}, int @var{base}, bool @var{lowercase})
+@deftypefnx Method long Read (TextReader @var{reader})
+@deftypefnx Method long Read (TextReader @var{reader}, int @var{base})
+Writes and reads integers as text.
+@end deftypefn
+
+@deftypefn Method void Import<T> (T[] @var{data}, long @var{limbCount}, int @var{bytesPerLimb}, LimbOrder @var{limbOrder}, Endianness @var{endianness}, int @var{nails})
+@deftypefnx Method long Export<T> (T[] @var{data}, int @var{bytesPerLimb}, LimbOrder @var{limbOrder}, Endianness @var{endianness}, int @var{nails})
+@deftypefnx Method T[] Export<T> (int @var{bytesPerLimb}, LimbOrder @var{limbOrder}, Endianness @var{endianness}, int @var{nails})
+Imports/exports the absolute value of the number to/from arbitrary words of data.
+@end deftypefn
+
+@deftypefn Method bool IsProbablePrime (MpirRandom @var{random}, int @var{probability}, ulong/uint @var{pretested})
+@deftypefnx Method bool IsLikelyPrime (MpirRandom @var{random}, ulong/uint @var{pretested})
+@deftypefnx {Static Method} {static int} Jacobi (HugeInteger @var{a}, HugeInteger @var{b})
+@deftypefnx {Static Method} {static int} Legendre (HugeInteger @var{a}, HugeInteger @var{b})
+@deftypefnx {Static Method} {static int} Kronecker (HugeInteger @var{a}, HugeInteger @var{b})
+@deftypefnx {Static Method} {static int} Kronecker (HugeInteger @var{a}, int/long @var{b})
+@deftypefnx {Static Method} {static int} Kronecker (HugeInteger @var{a}, uint/ulong @var{b})
+@deftypefnx {Static Method} {static int} Kronecker (int/long @var{a}, HugeInteger @var{b})
+@deftypefnx {Static Method} {static int} Kronecker (uint/ulong @var{a}, HugeInteger @var{b})
+@deftypefnx {Static Method} {static IntegerExpression} Power (uint/ulong @var{value}, uint/ulong @var{power})
+@deftypefnx {Static Method} {static IntegerExpression} Factorial (uint/ulong @var{value})
+@deftypefnx {Static Method} {static IntegerExpression} Factorial (uint/ulong @var{value}, uint/ulong @var{order})
+@deftypefnx {Static Method} {static IntegerExpression} Primorial (uint/ulong @var{value})
+@deftypefnx {Static Method} {static IntegerExpression} Binomial (uint/ulong @var{n}, uint/ulong @var{k})
+@deftypefnx {Static Method} {static IntegerExpression} Binomial (IntegerExpression @var{n}, uint/ulong @var{k})
+Performs various number-theoretic computations.
+@end deftypefn
+
+@deftypefn {Static Method} {static IntegerSequenceExpression} Fibonacci (int/long @var{n})
+@deftypefnx {Static Method} {static IntegerSequenceExpression} Lucas (int/long @var{n})
+These two methods return a specialized expression that provides an additional method to optionally
+save the previous number in the sequence, in addition to the number requested, for example:
+@example
+var b = new HugeInt();
+var c = new HugeInt(HugeInt.Fibonacci(300).SavingPreviousTo(b));
+@end example
+@end deftypefn
+
+@deftypefn Method IntegerSquareRootExpression SquareRoot ()
+Returns an expression that evaluates to the square root of the number.  The expression provides a method
+to optionally save the remainder to a second variable:
+@example
+a.Value = b.SquareRoot().SavingRemainderTo(c);
+@end example
+@end deftypefn
+
+@deftypefn Method IntegerRootExpression Root (ulong/uint @var{power})
+Returns an expression that evaluates to the root of the specified @code{power} of the number.  The expression provides two 
+optional methods.  One allows to save the remainder to a second variable, and the other allows to set a boolean flag
+indicating whether the root operation was exact. Note that computing the remainder is more costly than just getting an exact flag.
+@example
+bool exact = false;
+a.Value = b.Root(3).SavingRemainderTo(r);
+c.Value = d.Root(4).SettingExactTo(x => exact = x);
+e.Value = f.Root(5).SavingRemainderTo(r).SettingExactTo(x => exact = x);
+@end example
+@end deftypefn
+
+@deftypefn Method IntegerExpression NextPrimeCandidate (MpirRandom @var{random})
+Returns an expression that looks for the next possible prime greater than the source number.
+@end deftypefn
+
+@deftypefn Method uint/ulong Gcd (uint/ulong @var{a})
+Computes the greatest common divisor with the specified single-limb number.
+@end deftypefn
+
+@deftypefn Method IntegerGcdExpression Gcd (IntegerExpression @var{a})
+Returns an expression that computes the greatest common divisor of the source number and @code{a}. 
+Provides a method to optionally calculate the related Diophantine equation multiplier(s):
+@example
+c.Value = a.Gcd(b).SavingDiophantineMultipliersTo(s, t);
+@end example
+If either @code{s} or @code{t} is null, that coefficient is not computed.
+@end deftypefn
+
+@deftypefn Method IntegerExpression Lcm (IntegerExpression @var{a})
+@deftypefnx Method IntegerExpression Lcm (uint/ulong @var{a})
+Computes the least common multiple with @code{a}.
+@end deftypefn
+
+@deftypefn Method IntegerExpression Invert (IntegerExpression @var{modulo})
+Returns an expression to compute the inverse of the source number modulo @code{modulo}.
+@end deftypefn
+
+@deftypefn Method IntegerRemoveFactorsExpression RemoveFactors (IntegerExpression @var{factor})
+Returns an expression that evaluates to the result of removing all occurrences of the specified @code{factor} from the source number.
+Provides a method to optionally save the number of factors that were removed:
+@example
+ulong/uint numberRemoved; // 64/32-bit builds
+a.Value = b.RemoveFactors(c);
+d.Value = e.RemoveFactors(f).SavingCountRemovedTo(x => numberRemoved = x);
+@end example
+@end deftypefn
+
+@node MPIR.Net Rationals, MPIR.Net Floats, MPIR.Net Integers, .Net Interface
+@section MPIR.Net Rationals
+
+@deftp Class HugeRational : RationalExpression, IDisposable
+MPIR multi-precision rational numbers are represented by the @code{HugeRational} class,
+along with its corresponding expression class @code{RationalExpression},
+which is returned from all operators and methods whose
+value semantics are to compute another number from the source instance and any arguments.
+Operations defined on @code{HugeRational} but not on @code{RationalExpression} are typically those that modify the value
+of the source number itself, and thus performing them on an expression is meaningless.
+Because through inheritance all operations are available on @code{HugeRational}, the descriptions below 
+do not specifically indicate whether each operator or method is defined for expressions, 
+or just for @code{HugeRational} instances. For the sake of brevity, they are listed as if they were methods of the @code{HugeRational} class.
+Visual Studio provides Intellisense and immediate feedback to help sort out which operations are available
+on expressions.
+@end deftp
+
+Below is a brief summary of the supported multi-precision rational methods and operators.  
+To avoid repetition, implementation details are ommitted.  Since MPIR native functions are called behind the scenes,
+review @ref{Rational Number Functions} for further details about the native implementations.
+
+@deftypefn Constructor {} HugeRational ()
+@deftypefnx Constructor {} HugeRational (int/long @var{numerator}, uint/ulong @var{denominator})
+@deftypefnx Constructor {} HugeRational (uint/ulong @var{numerator}, uint/ulong @var{denominator})
+@deftypefnx Constructor {} HugeRational (IntegerExpression @var{numerator}, IntegerExpression @var{demoninator})
+@deftypefnx Constructor {} HugeRational (double @var{n})
+Constructs a @code{HugeRational} object.  Single-limb constructors vary by architecture,
+32-bit builds take @code{int} or @code{uint} arguments, 64-bit builds take @code{long} or @code{ulong}.
+Any necessary conversion follows the corresponding C function, for
+example @code{double} follows @code{mpq_set_d} (@pxref{Initializing Rationals}).
+@end deftypefn
+
+@deftypefn Constructor {} HugeRational (string @var{s})
+@deftypefnx Constructor {} HugeRational (string @var{s}, int @var{base})
+Constructs a @code{HugeRational} converted from a string using @code{mpq_set_str}
+(@pxref{Initializing Rationals}).  If the string is not a valid integer or rational, an exception is thrown.
+@end deftypefn
+
+When constructing a rational number from a numerator and denominator, including
+the string constructors where both numerator and denominator are specified, the fraction 
+should be in canonical form, or if not then @code{Canonicalize()} should be called.
+
+@deftypefn Constructor {} HugeRational (IntegerExpression @var{e})
+@deftypefnx Constructor {} HugeRational (RationalExpression @var{e})
+@deftypefnx Constructor {} HugeRational (FloatExpression @var{e})
+Evaluates the supplied expression and saves its result to the new instance.
+Because multi-precision classes are derived from their corresponding expression classes,
+these constructors can be used to make a copy of an existing variable, i.e. @code{HugeRational a = new HugeRational(b);}
+without creating any permanent association between them.
+@end deftypefn
+
+@deftypefn {Static Method} {static HugeRational} Allocate (uint/ulong @var{numeratorBits}, uint/ulong @var{denominatorBits})
+Controls the capacity in bits of the allocated integer.  HugeRational does not have a @code{Reallocate} method,
+but its numerator and demonimator are derived from HugeInt and can thus be reallocated separately.
+@end deftypefn
+
+@deftypefn Method void Canonicalize ()
+Puts a @code{HugeRational} into canonical form, as per @ref{Rational Number
+Functions}.  All arithmetic operators require their operands in canonical
+form, and will return results in canonical form.
+@end deftypefn
+
+@deftypefn Property HugeInt Numerator
+@deftypefnx Property HugeInt Denominator
+These read-only properties expose the numerator and denominator for direct manipulation.
+They return specialized instances of the @code{HugeInt} class
+that do not own their limb data.  They override the @code{Dispose()} method with a no-op, so they can be safely passed
+around as normal integers, even to code that tries to dispose of them.
+
+Once a numerator or denominator is obtained, it remains valid for the life of the @code{HugeRational} instance.
+It references live data, so for example, if the @code{Value} of the rational is modified, 
+it will be visible through a previously obtained numerator/denominator instance.
+Conversely, setting the @code{Value} of a numerator or denominator modifies the @code{Value} of its owning rational,
+and if this cannot be known to keep the rational in canonical form, @code{Canonicalize()} must be called
+before performing any further MPIR operations on the rational.
+
+Multiple copies can be safely obtained, and reference the same internal structures.
+Once the @code{HugeRational} is disposed, any numerator and denominator instances obtained from it
+are no longer valid.
+@end deftypefn
+
+@deftypefn Method long ApproximateSizeInBase (int @var{base})
+Returns the number of digits the absolute value of number would take if written in the specified base.
+The result can be at most 2 characters too long, and allows for a numerator, a division sign, 
+and a denominator, but excludes the leading minus sign.
+@end deftypefn
+
+@deftypefn Method string ToString ()
+@deftypefnx Method string ToString (int @var{base})
+@deftypefnx Method string ToString (int @var{base}, bool @var{lowercase})
+Returns the string representation of the number.  The default @code{base} is 10,
+and the parameterless overload is limited to 256 least significant digits by default,
+each for a numerator and a denominator, producing a leading ellipsis (i.e. ...12345) 
+when either component has more digits.
+This is done to prevent huge numbers from unexpectedly consuming large amounts of memory in the debugger.
+The maximum number of digits output is configurable via the @code{MpirSettings.ToStringDigits} property,
+where zero means unlimited.  The other overloads always output all digits.
+@end deftypefn
+
+@deftypefn Method double ToDouble ()
+Converts the number to a double, possibly truncated.
+@end deftypefn
+
+@deftypefn Property RationalExpression Value
+Getting this property is essentially a no-op, as it returns the object instance itself.
+This never needs to be done explicitly, but is used implicitly in statements like @code{a.Value += 5;}
+
+Setting the @code{Value} property evaluates the assigned expression and saves the result to the object.
+@end deftypefn
+
+@deftypefn Method void SetTo (int/long @var{value}) // 32/64-bit builds
+@deftypefnx Method void SetTo (int/long @var{numerator}, uint/ulong @var{denominator})
+@deftypefnx Method void SetTo (uint/ulong @var{value})
+@deftypefnx Method void SetTo (uint/ulong @var{numerator}, uint/ulong @var{denominator})
+@deftypefnx Method void SetTo (double @var{value})
+@deftypefnx Method void SetTo (string @var{value})
+@deftypefnx Method void SetTo (string @var{value}, int @var{base})
+@deftypefnx Method void SetTo (IntegerExpression @var{value})
+@deftypefnx Method void SetTo (IntegerExpression @var{numerator}, IntegerExpression @var{denominator})
+@deftypefnx Method void SetTo (FloatExpression @var{value})
+Sets the value of existing variable from types other than @code{RationalExpression}.
+When setting both the numerator and denominator, canonicalization must be
+managed explicitly.
+@end deftypefn
+
+@deftypefn Method void Swap (HugeRational @var{a})
+Swaps the values of the two objects. This is an @math{O(1)} operation. Any existing numerators and denominators
+remain associated with the object on which they were obtained, and reflect its new value.
+@end deftypefn
+
+Arithmetic operators (@code{+}, @code{-}, @code{*}, @code{/}) are overloaded to allow rationals to participate
+in expressions much like primitive integers can.  Single-limb primitive types can be used.
+These operators will also accept @code{IntegerExpression} arguments, 
+and will automatically promote them.  In expressions, promotion of an @code{IntegerExpression} 
+to a @code{RationalExpression} is an @math{O(1)} operation.  Of course, when constructing a rational
+from an integer, a copy is made so this becomes @math{O(N)}.
+
+Due to the rationals' nature, division is always exact (there is no rounding)
+and the modulo operator (@code{%}) is not defined.  
+Also not defined are the bit shift operators (@code{<<}, @code{>>}),
+and the bitwise operators (@code{&}, @code{|}, @code{^}, @code{~}).
+
+Operator @code{^} raises the source number to the specified power.
+
+Comparison operators (@code{==}, @code{!=}, @code{<}, @code{<=}, @code{>}, @code{>=}) accept @code{RationalExpression},
+single-limb, or double arguments, but do not accept integer or float expressions because that would require an awkward explicit cast
+when comparing with null.  Use the @code{CompareTo(object)} method for cross-comparisons.
+
+@deftypefn Method int CompareTo (RationalExpression @var{a})
+@deftypefnx Method bool Equals (RationalExpression @var{a})
+Implement @code{IComparable<RationalExpression>} and @code{IEquatable<RationalExpression>} for strongly-typed comparisons.
+@end deftypefn
+
+@deftypefn Method int CompareTo (object @var{a})
+@deftypefnx Method bool Equals (object @var{a})
+Implement @code{IComparable} and equality check for any object.  
+For rationals, these methods support any expression type (integer, rational, or float).
+@end deftypefn
+
+@deftypefn Method bool Equals (int/long @var{numerator}, uint/ulong @var{denominator})
+@deftypefnx Method bool Equals (uint/ulong @var{numerator}, uint/ulong @var{denominator})
+@deftypefnx Method int CompareTo (int/long @var{numerator}, uint/ulong @var{denominator})
+@deftypefnx Method int CompareTo (uint/ulong @var{numerator}, uint/ulong @var{denominator})
+Single-limb comparisons for rationals take two arguments.
+@end deftypefn
+
+@deftypefn Method int GetHashCode ()
+This @code{object} override computes the hash code.  This is an @math{O(N)} operation where @math{N} is the number of limbs in use
+in the numerator and denominator combined.
+Changing a number's @code{Value} changes its hash code, so this should not be done on any object that has been added
+to a hash table or dictionary.
+@end deftypefn
+
+@deftypefn Method int Sign ()
+Returns the number's sign.
+@end deftypefn
+
+@deftypefn Method RationalExpression Abs ()
+Returns an expression that computes the absolute value of the number.
+@end deftypefn
+
+@deftypefn Method RationalExpression Invert ()
+Returns an expression that computes the inverse of the number.
+@end deftypefn
+
+@deftypefn Method long Write (Stream @var{stream})
+@deftypefnx Method long Read (Stream @var{stream})
+Writes and reads rationals to/from streams using the raw binary format.
+@end deftypefn
+
+@deftypefn Method long Write (TextWriter @var{writer})
+@deftypefnx Method long Write (TextWriter @var{writer}, int @var{base})
+@deftypefnx Method long Write (TextWriter @var{writer}, int @var{base}, bool @var{lowercase})
+@deftypefnx Method long Read (TextReader @var{reader})
+@deftypefnx Method long Read (TextReader @var{reader}, int @var{base})
+Writes and reads rationals as text.
+@end deftypefn
+
+There are no @code{Import}/@code{Export} methods, but they can of course be invoked
+on the numerator and/or denominator.
+
+@code{RationalExpression} does not have any specialized subclasses, as there are no
+operations on the rational type that require additional inputs beyond the left and right 
+operator operands.
+
+@node MPIR.Net Floats, MPIR.Net Random Numbers, MPIR.Net Rationals, .Net Interface
+@section MPIR.Net Floats
+
+@deftp Class HugeFloat : FloatExpression, IDisposable
+The MPIR.Net class for multi-precision floating point numbers is @code{HugeFloat}, and its
+corresponding expression class is @code{FloatExpression},
+which is returned from all operators and methods whose
+value semantics are to compute another number from the source instance and any arguments. 
+@code{HugeFloat} derives from @code{FloatExpression}, and many operations are defined on the expression class.
+Operations defined on @code{HugeFloat} but not on @code{FloatExpression} are typically those that modify the value
+of the source number itself, and thus performing them on an expression is meaningless.
+Because through inheritance all operations are available on HugeFloat, the descriptions below 
+do not specifically indicate whether each operator or method is defined for expressions, 
+or just for @code{HugeFloat} instances. For the sake of brevity,
+they are listed as if they were methods of the @code{HugeFloat} class.
+Visual Studio provides Intellisense and immediate feedback to help sort out which operations are available
+on expressions.
+@end deftp
+
+Below is a brief summary of the supported multi-precision rational methods and operators.  
+To avoid repetition, implementation details are ommitted.  Since MPIR native functions are called behind the scenes,
+review @ref{Floating-point Functions} for further details about the native implementations.
+
+@deftypefn {Static Property} {static uint/ulong} DefaultPrecision
+Gets or sets the default precision of the floating point mantissa, in bits.
+If the value is not a multiple of limb size, the actual precision will be
+rounded up.  All newly constructed @code{HugeFloat} objects that don't
+explicitly specify precision will use this default.  Previously constructed
+objects are unaffected.  The initial default precision is 2 limbs.
+
+When an expression is evaluated, it is either because it is being assigned to some
+destination variable (e.g. @code{a.Value = b + c;}) or a primitive-computing method
+is being called (e.g. @code{int s = (b + c).Sign();}) In the former case,
+the precision of the destination is used for all computations and temporaries
+during expression evaluation.  In the latter case, there is no destination
+so the @code{DefaultPrecision} is used.
+@end deftypefn
+
+@deftypefn Constructor {} HugeFloat ()
+@deftypefnx Constructor {} HugeFloat (int/long @var{value})
+@deftypefnx Constructor {} HugeFloat (uint/ulong @var{value})
+@deftypefnx Constructor {} HugeFloat (double @var{n})
+Constructs a @code{HugeFloat} object.  Single-limb constructors vary by architecture,
+32-bit builds take @code{int} or @code{uint} arguments, 64-bit builds take @code{long} or @code{ulong}.
+Any necessary conversion follows the corresponding C function, for
+example @code{double} follows @code{mpf_set_d} (@pxref{Initializing Floats}).
+@end deftypefn
+
+@deftypefn Constructor {} HugeFloat (string @var{s})
+@deftypefnx Constructor {} HugeFloat (string @var{s}, int @var{base})
+@deftypefnx Constructor {} HugeFloat (string @var{s}, int @var{base}, bool @var{exponentInDecimal})
+Constructs a @code{HugeFloat} converted from a string using @code{mpf_set_str}
+(@pxref{Initializing Floats}).  If the string is not a valid integer or floating point number, an exception is thrown.
+@end deftypefn
+
+@deftypefn Constructor {} HugeFloat (IntegerExpression @var{value})
+@deftypefnx Constructor {} HugeFloat (RationalExpression @var{value})
+@deftypefnx Constructor {} HugeFloat (FloatExpression @var{value})
+Evaluates the supplied expression and saves its result to the new instance.
+Because multi-precision classes are derived from their corresponding expression classes,
+these constructors can be used to make a copy of an existing variable, i.e. @code{HugeFloat a = new HugeFloat(b);}
+without creating any permanent association between them.
+@end deftypefn
+
+@deftypefn {Static Method} {static HugeRational} Allocate (uint/ulong @var{precision})
+@deftypefnx Method void Reallocate (uint/ulong @var{precision})
+Controls the allocated precision in bits of the new or existing @code{HugeFloat}.
+@end deftypefn
+
+@deftypefn Property uint/ulong AllocatedPrecision
+Gets the precision in bits that is currently allocated for internal storage of the mantissa.
+The precision actually in effect, used in calculations, is initially the same 
+but may be reduced by setting the @code{Precision} property.
+@end deftypefn
+
+@deftypefn Property uint/ulong Precision
+Gets or sets the effective precision of the number without changing the memory allocated.
+The number of bits cannot exceed the precision with which the variable was initialized or last reallocated.
+The value of the number is unchanged, and in particular if it 
+previously had a higher precision it will retain that higher precision.
+New values assigned to the @code{Value} property will use the new precision.
+The number can be safely disposed after modifying its @code{Precision}
+(unlike the native MPIR, which requires you to restore the precision
+to the allocated value before the memory can be freed).
+@end deftypefn
+
+@deftypefn Method bool FitsUlong () //64-bit builds only
+@deftypefnx Method bool FitsLong () //64-bit builds only
+@deftypefnx Method bool FitsUint ()
+@deftypefnx Method bool FitsInt ()
+@deftypefnx Method bool FitsUshort ()
+@deftypefnx Method bool FitsShort ()
+Checks whether the number would fit in one of the built-in .Net types.
+@end deftypefn
+
+@deftypefn Method bool IsInteger ()
+Checks whether the number is a whole integer.
+@end deftypefn
+
+@deftypefn Method string ToString ()
+@deftypefnx Method string ToString (int @var{base})
+@deftypefnx Method string ToString (int @var{base}, bool @var{lowercase})
+@deftypefnx Method string ToString (int @var{base}, bool @var{lowercase}, bool @var{exponentInDecimal})
+Returns the string representation of the number.  The default @code{base} is 10,
+and the parameterless overload is limited to 256 mantissa digits by default. This is done
+to prevent huge numbers from unexpectedly consuming large amounts of memory in the debugger.
+The maximum number of digits output is configurable via the @code{MpirSettings.ToStringDigits} property,
+where zero means unlimited.  @code{MpirSettings.ToStringDigits} applies to integers and rationals as well.
+The other overloads always output all digits.
+@end deftypefn
+
+@deftypefn Method int ToInt () //32-bit builds
+@deftypefnx Method uint ToUint () //32-bit builds
+@deftypefnx Method long ToLong () //64-bit builds
+@deftypefnx Method ulong ToUlong () //64-bit builds
+@deftypefnx Method double ToDouble ()
+@deftypefnx Method double ToDouble (@code{out} int/long @var{exp})
+Converts the number to a primitive (built-in) .Net type, assuming it fits,
+which can be determined by calling one of the @code{Fits...} methods.
+@end deftypefn
+
+@deftypefn Property FloatExpression Value
+Getting this property is essentially a no-op, as it returns the object instance itself.
+This never needs to be done explicitly, but is used implicitly in statements like @code{a.Value += 5;}
+
+Setting the @code{Value} property evaluates the assigned expression and saves the result to the object.
+@end deftypefn
+
+@deftypefn Method void SetTo (int/long @var{value}) // 32/64-bit builds
+@deftypefnx Method void SetTo (uint/ulong @var{value}) // 32/64-bit builds
+@deftypefnx Method void SetTo (double @var{value})
+@deftypefnx Method void SetTo (string @var{value})
+@deftypefnx Method void SetTo (string @var{value}, int @var{base})
+@deftypefnx Method void SetTo (string @var{value}, int @var{base}, bool @var{exponentInDecimal})
+@deftypefnx Method void SetTo (IntegerExpression @var{value})
+@deftypefnx Method void SetTo (RationalExpression @var{value})
+Sets the value of existing variable from types other than @code{FloatExpression}.
+@end deftypefn
+
+@deftypefn Method void Swap (HugeFloat @var{a})
+Swaps the values (and precisions) of the two objects. This is an @math{O(1)} operation.
+@end deftypefn
+
+Arithmetic operators (@code{+}, @code{-}, @code{*}, @code{/}) and bit shifts (@code{<<}, @code{>>})
+are overloaded to allow floats to participate
+in expressions much like primitive types can.  Single-limb primitive types can be used.
+These operators do not accept integer or rational expressions.  
+There is some cost of instantiating a floating point number from another multi-precision type, 
+so to make this point clear MPIR.Net forces you to use explicit constructors or assignments for this conversion.
+
+The modulo operator (@code{%}) and the bitwise operators (@code{&}, @code{|}, @code{^}, @code{~}) are not defined.
+
+Operator @code{^} raises the source number to the specified power.
+
+Comparison operators (@code{==}, @code{!=}, @code{<}, @code{<=}, @code{>}, @code{>=}) accept @code{FloatExpression},
+single-limb, or double arguments, but do not accept integer or rational expressions
+because that would require an awkward explicit cast when comparing with null.
+
+@deftypefn Method int CompareTo (FloatExpression @var{a})
+@deftypefnx Method bool Equals (FloatExpression @var{a})
+Implement @code{IComparable<FloatExpression>} and @code{IEquatable<FloatExpression>} for strongly-typed comparisons.
+@end deftypefn
+
+@deftypefn Method int CompareTo (object @var{a})
+@deftypefnx Method bool Equals (object @var{a})
+Implement @code{IComparable} and equality check for any object.  These support only float expressions or .Net primitive types. 
+When this method is called on a @code{HugeFloat} object, comparison is performed to the
+precision of the object.  When called on an expression, comparison is performed to the 
+default precision.
+@end deftypefn
+
+@deftypefn Method int GetHashCode ()
+This @code{object} override computes the hash code.  This is an @math{O(N)} operation where @math{N} is the number of limbs allocated.
+Changing a number's @code{Value} changes its hash code, so this should not be done on any object that has been added
+to a hash table or dictionary.
+@end deftypefn
+
+@deftypefn Method bool Equals (object @var{a}, uint/ulong @var{precision})
+Checks for equality using the specified precision.  The argument @code{a} can be
+a @code{FloatExpression} or a primitive type. 
+@end deftypefn
+
+@deftypefn Method FloatExpression RelativeDifferenceFrom (FloatExpression @var{a})
+Returns an expression that computes @math{@GMPabs{@var{this}-@var{a}}/@var{this}}
+@end deftypefn
+
+@deftypefn Method FloatExpression Abs ()
+@deftypefnx Method FloatExpression SquareRoot ()
+@deftypefnx {Static Method} {static FloatExpression} SquareRoot (uint/ulong a)
+@deftypefnx Method FloatExpression Floor ()
+@deftypefnx Method FloatExpression Ceiling ()
+@deftypefnx Method FloatExpression Truncate ()
+@deftypefnx Method int Sign ()
+Perform various floating-point operations.
+@end deftypefn
+
+@deftypefn Method long Write (TextWriter @var{writer})
+@deftypefnx Method long Write (TextWriter @var{writer}, int @var{base})
+@deftypefnx Method long Write (TextWriter @var{writer}, int @var{base}, int @var{maxDigits}, bool @var{lowercase}, bool @var{exponentInDecimal})
+@deftypefnx Method long Read (TextReader @var{reader})
+@deftypefnx Method long Read (TextReader @var{reader}, int @var{base})
+@deftypefnx Method long Read (TextReader @var{reader}, int @var{base}, bool @var{exponentInDecimal})
+Writes and reads floats as text.
+@end deftypefn
+
+@node MPIR.Net Random Numbers, MPIR.Net Settings, MPIR.Net Floats, .Net Interface
+@section MPIR.Net Random Numbers
+
+@deftp Class MpirRandom : IDisposable
+The MPIR.Net class that wraps the MPIR random number functions is @code{MpirRandom}.
+It holds an algorithm selection and current state, as per @code{gmp_randstate_t}.
+As the multi-precision classes, @code{MpirRandom} allocates unmanaged memory,
+and should be disposed of via its @code{IDisposable} implementation when no longer in use.
+@end deftp
+
+@deftypefn {Static Method} {static MpirRandom} Default ()
+@deftypefnx {Static Method} {static MpirRandom} MersenneTwister ()
+@deftypefnx {Static Method} {static MpirRandom} LinearCongruential (HugeInt @var{a}, ulong/uint @var{c}, ulong/uint @var{m})
+@deftypefnx {Static Method} {static MpirRandom} LinearCongruential (ulong/uint @var{size})
+In lieu of constructors, @code{MpirRandom} uses more descriptive static factory methods to create new instances
+of specific random number generator algorithms.
+@end deftypefn
+
+@deftypefn Method MpirRandom Copy ()
+Creates a new random number generator with a copy of the algorithm and state from the source instance.
+@end deftypefn
+
+@deftypefn Method void Seed (ulong/uint @var{seed})
+@deftypefnx Method void Seed (HugeInt @var{seed})
+Sets an initial seed value into the random number generator.
+@end deftypefn
+
+@deftypefn Method ulong/uint GetLimbBits (ulong/uint @var{bitCount})
+Generates a uniformly distributed random number of @code{bitCount} bits,
+i.e. in the range 0 to @math{2^@W{bitCount-1}} inclusive.
+@end deftypefn
+
+@deftypefn Method ulong/uint GetLimb (ulong/uint @var{max})
+Generates a uniformly distributed random number in the range 0 to @math{@W{max-1}} inclusive.
+@end deftypefn
+
+@deftypefn Method IntegerExpression GetIntBits (ulong/uint @var{bitCount})
+@deftypefnx Method IntegerExpression GetIntBitsChunky (ulong/uint @var{bitCount})
+Returns an expression that generates a uniformly distributed random integer in the range 0 to @math{2^@W{bitCount-1}}, inclusive.
+@end deftypefn
+
+@deftypefn Method IntegerExpression GetInt (IntegerExpression @var{max})
+Returns an expression that generates a uniformly distributed random number in the range 0 to @math{@W{max-1}} inclusive.
+@end deftypefn
+
+@deftypefn Method FloatExpression GetFloat ()
+Returns an expression that generates a uniformly distributed random float
+in the range @math{0 @le{} n < 1}.  As with all float expressions, precision of the destination is used when available.
+@end deftypefn
+
+@deftypefn Method FloatExpression GetFloatBits (ulong/uint @var{bitCount})
+Returns an expression that generates a uniformly distributed random float
+in the range @math{0 @le{} n < 1}, with the specified number of significant mantissa bits.
+@end deftypefn
+
+@deftypefn Method FloatExpression GetFloatChunky (int @var{maxExponent})
+Returns an expression that generates a random float with long strings of zeros and ones in the binary representation,
+using the precision of the destination. The argument is the maximum absolute value for the
+exponent of the generated number, expressed in limbs.
+@end deftypefn
+
+@deftypefn Method FloatExpression GetFloatLimbsChunky (long @var{limbCount}, int @var{maxExponent})
+Returns an expression that generates a random float with long strings of zeros and ones in the binary representation, 
+and the specified number of significant limbs in the mantissa.
+@end deftypefn
+
+
+@node MPIR.Net Settings, , MPIR.Net Random Numbers, .Net Interface
+@section MPIR.Net Settings
+
+@deftp {Static Class} MpirSettings
+This static class contains several members that describe or control 
+various default behaviors of the other MPIR.Net classes.
+@end deftp
+
+@deftypefn Constant int BITS_PER_LIMB
+Represents the total number of bits in a single MPIR limb, including data bits and nail bits.
+This will be either 32 or 64, depending on your selected build architecture.
+@end deftypefn
+
+@deftypefn Constant int NAIL_BITS_PER_LIMB
+Represents the number of nail bits in a single MPIR limb.  Nail bits are used internally by MPIR.
+@end deftypefn
+
+@deftypefn Constant int USABLE_BITS_PER_LIMB
+Represents the number of data bits in a single MPIR limb.
+@end deftypefn
+
+@deftypefn Constant Version MPIR_VERSION
+Represents the version of the underlying MPIR library
+@end deftypefn
+
+@deftypefn Constant Version GMP_VERSION
+Represents the version of GMP with which the underlying MPIR library is compatible
+@end deftypefn
+
+@deftypefn {Static Property} RoundingModes RoundingMode
+Gets or sets the default rounding mode used for MPIR integer division operations that don't explicitly specify a rounding mode.
+Does not affect rational or float operations.  The default value is @code{Truncate}.
+@end deftypefn
+
+@deftypefn {Static Property} int ToStringDigits
+Gets or sets the maximum number of digits the @code{object.ToString()} method override will output.
+If an integer number is longer than this number of digits, it will be output as "@code{[-]...NNNNN}" with the least significant digits shown.
+Rational numbers apply the limit separately to the numerator and denominator.  
+Floats output the most significant digits, and there is no ellipsis.
+
+The primary purpose of this setting is to prevent accidental allocation of large memory blocks while inspecting variables in the debugger.
+The default value is 256.  Setting this property to 0 causes all digits to be output.
+@end deftypefn
+
+@node Custom Allocation, Language Bindings, .Net Interface, Top
 @comment  node-name,  next,  previous,  up
 @chapter Custom Allocation
 @cindex Custom allocation
@@ -10215,7 +11346,8 @@ Michael Abshoff helped resolve some build issues on various platforms. He served
 Mariah Lennox contributed patches to mpirbench and various build failure reports. She has also reported gcc bugs found during MPIR development.
 
 Niels Moller wrote the fast ngcd code for computing integer GCD, the quadratic
-Hensel division code and precomputed inverse code for Euclidean division. 
+Hensel division code and precomputed inverse code for Euclidean division, along
+with fast jacobi symbols code. 
 He also made contributions to the Toom multiply code, 
 especially helper functions to simplify Toom evaluations.
 
@@ -10233,17 +11365,21 @@ reused for parts of the asymptotically fast division code. He also helped
 write the root code and wrote much of the Itanium assembly code and a couple
 of Core 2 assembly functions and part of the basecase middle product assembly
 code for x86 64 bit. He also wrote the improved string input and output code
-and made improvements to the GCD and extended GCD code. Torbjorn is also 
-responsible for numerous other bits and pieces that have been used from 
-the GNU project.
+and made improvements to the GCD and extended GCD code. He also contributed the
+nextprime code and coauthored the bin_uiui code. Torbjorn is also responsible
+for numerous other bits and pieces that have been used from the GNU project.
 
 Marco Bodrato and Alberto Zanoni suggested the unbalanced multiply strategy
 and found optimal Toom multiplication sequences.
 
 Marco Bodrato wrote an mpz implementation of the Toom 7 code and wrote most of
-the Toom 8.5 multiply and squaring code. He also helped write the divide and conquer Euclidean division code.
+the Toom 8.5 multiply and squaring code. He also helped write the divide and conquer Euclidean division code. He also contributed many improved number
+theoretical functions including factorial, multi-factorial, primorial, 
+n-choose-k.
 
 Robert Gerbicz contributed fast factorial code.
+
+Martin Boij made assorted contributions to the nextprime code.
 
 David Harvey wrote fast middle product code and divide and conquer approximate 
 quotient code for both Euclidean and Hensel division and contributed to the
@@ -10488,3 +11624,4 @@ volume 43, number 8, August 1994, pp.@: 899-908.
 @c fill-column: 78
 @c compile-command: "make mpir.info"
 @c End:
+

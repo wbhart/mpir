@@ -24,12 +24,12 @@ MA 02110-1301, USA. */
 #include "longlong.h"
 
 double
-mpz_get_d_2exp (mpir_si *exp2, mpz_srcptr src)
+mpz_get_d_2exp (signed long *exp2, mpz_srcptr src)
 {
   mp_size_t size, abs_size;
   mp_srcptr ptr;
   int cnt;
-  mpir_si exp;
+  signed long exp;
 
   size = SIZ(src);
   if (UNLIKELY (size == 0))

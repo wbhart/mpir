@@ -717,5 +717,12 @@ m4_assert_numargs(1)
 `notl	`$1'',
 `xorl	$GMP_NUMB_MASK, `$1'')')
 
+define(`mulx', `ifelse(`$#',3,``mulx' $1,$2,$3',`$#',4,``mulx' $1$2,$3,$4',``mulx'')')
+define(`adcx', `ifelse(`$#',2,``adcx' $1,$2',`$#',3,``adcx' $1$2,$3',``adcx'')')
+define(`adox', `ifelse(`$#',2,``adox' $1,$2',`$#',3,``adox' $1$2,$3',``adox'')')
+define(`ABI_SUPPORT', `')
+define(`FUNC_ENTRY', `')
+define(`FUNC_EXIT', `')
+define(`IFDOS', `')
 
 divert`'dnl

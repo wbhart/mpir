@@ -30,7 +30,7 @@ along with the GNU MP Library.  If not, see http://www.gnu.org/licenses/.  */
 
 mp_limb_t
 mpn_dc_div_q (mp_ptr qp, mp_ptr np, mp_size_t nn,
-		 mp_srcptr dp, mp_size_t dn, mp_limb_t dinv, mp_limb_t d1inv)
+		 mp_srcptr dp, mp_size_t dn, mp_limb_t dinv)
 {
   mp_ptr tp, wp;
   mp_limb_t qh;
@@ -50,7 +50,7 @@ mpn_dc_div_q (mp_ptr qp, mp_ptr np, mp_size_t nn,
   qn = nn - dn;
   wp = TMP_ALLOC_LIMBS (qn + 1);
 
-  qh = mpn_dc_divappr_q (wp, tp, nn + 1, dp, dn, dinv, d1inv);
+  qh = mpn_dc_divappr_q (wp, tp, nn + 1, dp, dn, dinv);
 
   if (wp[0] == 0)
     {

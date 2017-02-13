@@ -980,6 +980,14 @@ speed_mpn_sumdiff_n (struct speed_params *s)
 }
 #endif
 
+#if HAVE_NATIVE_mpn_nsumdiff_n
+double
+speed_mpn_nsumdiff_n (struct speed_params *s)
+{
+  SPEED_ROUTINE_MPN_SUMDIFF_N_CALL (mpn_nsumdiff_n (ap, sp, s->xp, s->yp, s->size));
+}
+#endif
+
 #if HAVE_NATIVE_mpn_addlsh1_n
 double
 speed_mpn_addlsh1_n (struct speed_params *s)

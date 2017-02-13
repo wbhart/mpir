@@ -47,9 +47,14 @@ MA 02110-1301, USA. */
   } while (0)
 #endif
 
-
-size_t
-mpz_out_raw (FILE *fp, mpz_srcptr x)
+/* In order to allow mpz_out_raw() to be called from MPIR.Net, its implementation has been refactored into two separate functions.
+   Both the contract and implementation of mpz_out_raw() were unchanged, the split was made in order for MPIR.Net to access intermediate variables.
+   The basic flow of mpz_out_raw is to 1) allocate scratch memory, 2) write output there, 3) write the output to a file, and 4) free memory.
+   Of these, step 2 represents the bulk of the entire operation.
+   The new mpz_out_raw_m() function below performs steps 1 and 2.  At that point, local state is saved to the mpir_out struct.
+   mpz_out_raw() now calls into mpz_out_raw_m() and completes the remaining steps (3 and 4) using the saved local state.
+   For MPIR.Net, file I/O is done differently.  MPIR.Net calls into mpz_out_raw_m(), then performs its own step 3 and duplicates step 4. */
+void mpz_out_raw_m (mpir_out_ptr mpir_out, mpz_srcptr x)
 {
   mp_size_t   xsize, abs_xsize, bytes, i;
   mp_srcptr   xp;
@@ -151,11 +156,26 @@ mpz_out_raw (FILE *fp, mpz_srcptr x)
   bp[-1] = bytes;
   bp -= 4;
 
+  mpir_out->allocated = tp;
+  mpir_out->allocatedSize = tsize;
+  mpir_out->written = bp;
+  mpir_out->writtenSize = ssize;
+}
+
+size_t
+mpz_out_raw (FILE* fp, mpz_srcptr x)
+{
+  mpir_out_struct out;
+
   if (fp == 0)
     fp = stdout;
-  if (fwrite (bp, ssize, 1, fp) != 1)
-    ssize = 0;
 
-  (*__gmp_free_func) (tp, tsize);
-  return ssize;
+  //For re-use in MPIR.Net, the bulk of the work (output into a memory location) has been refactored into a separate function mpz_out_raw_m().
+  mpz_out_raw_m(out, x);
+
+  if (fwrite (out->written, out->writtenSize, 1, fp) != 1)
+    out->writtenSize = 0;
+
+  (*__gmp_free_func) (out->allocated, out->allocatedSize);
+  return out->writtenSize;
 }

@@ -64,7 +64,7 @@ local.properties
 *.dotCover
 
 ## TODO: If you have NuGet Package Restore enabled, uncomment this
-#packages/
+packages/
 
 # Visual C++ cache files
 ipch/
@@ -201,47 +201,3 @@ longlong.h
 gmp-mparam.h
 tune/sqr_basecase.c
 autoscript
-
-/build.vc11/output_params.bat
-/build.vc11/mpir-tests/test-config.props
-
-/build.vc12/output_params.bat
-
-/build.vc12/mpir-tests/test-config.props
-/mpn/x86_64w/bulldozer/piledriver
-bulldozer
-/mpn/x86_64w/haswell
-/build.vc10/lib_mpir_sandybridge_ivybridge
-/build.vc10/dll_mpir_k8
-/build.vc10/dll_mpir_nehalem
-/build.vc10/dll_mpir_sandybridge
-/build.vc10/dll_mpir_sandybridge_ivybridge
-/build.vc10/lib_mpir_k8
-/build.vc10/lib_mpir_nehalem
-/build.vc10/lib_mpir_sandybridge
-lib_mpir_sandybridge_ivybridge
-dll_mpir_k8
-dll_mpir_nehalem
-dll_mpir_sandybridge
-dll_mpir_sandybridge_ivybridge
-lib_mpir_k8
-lib_mpir_nehalem
-lib_mpir_sandybridge
-dll_mpir_sandybridge
-lib_mpir_k8
-lib_mpir_nehalem
-lib_mpir_sandybridge
-dll_mpir_k8
-dll_mpir_nehalem
-dll_mpir_nehalem
-dll_mpir_sandybridge
-lib_mpir_k8
-lib_mpir_nehalem
-lib_mpir_sandybridge
-dll_mpir_k8
-/mpn/x86w/p0/gmp-mparam.h
-/mpn/x86w/p3/gmp-mparam.h
-/mpn/x86w/p4/gmp-mparam.h
-/mpn/x86w/p6/mmx/gmp-mparam.h
-/mpn/x86w/p6/gmp-mparam.h
-/mpn/x86w/pentium4/gmp-mparam.h

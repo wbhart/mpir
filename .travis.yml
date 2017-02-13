@@ -1,0 +1,19 @@
+language: c
+sudo: false
+os:
+  - osx
+  - linux
+compiler:
+  - gcc
+  - clang
+addons:
+  apt:
+    packages:
+      - texinfo
+script:
+  - if [[ "${TRAVIS_OS_NAME}" == "osx" ]] && [[ "${CC}" == "gcc" ]]; then
+       export CC=gcc-4.8;
+       export CXX=g++-4.8;
+    fi
+  - $CC --version
+  - ./configure && make && make check

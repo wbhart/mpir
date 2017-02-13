@@ -3,9 +3,7 @@
    THE CONTENTS OF THIS FILE ARE FOR INTERNAL USE AND ARE ALMOST CERTAIN TO
    BE SUBJECT TO INCOMPATIBLE CHANGES IN FUTURE GNU MP RELEASES.
 
-Copyright 1991, 1993, 1994, 1995, 1996, 1997, 1999, 2000, 2001, 2002, 2003,
-2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013 Free Software 
-Foundation, Inc.
+Copyright 1991, 1993-1997, 1999, 2000-2015 Free Software Foundation, Inc.
 
 Copyright 2009, 2013 William Hart
 
@@ -118,6 +116,8 @@ along with the GNU MP Library.  If not, see http://www.gnu.org/licenses/.  */
   DECL_addmul_1 (name)
 #define DECL_sumdiff_n(name) \
   mp_limb_t name __GMP_PROTO ((mp_ptr, mp_ptr, mp_srcptr,mp_srcptr,mp_size_t))
+#define DECL_nsumdiff_n(name) \
+  DECL_sumdiff_n(name)
 
 #if ! __GMP_WITHIN_CONFIGURE
 #include "config.h"
@@ -634,6 +634,8 @@ __GMP_DECLSPEC void  __gmp_tmp_debug_free  _PROTO ((const char *, int, int,
 #define EXP(x) ((x)->_mp_exp)
 #define PREC(x) ((x)->_mp_prec)
 #define ALLOC(x) ((x)->_mp_alloc)
+#define NUM(x) mpq_numref(x)
+#define DEN(x) mpq_denref(x)
 
 /* n-1 inverts any low zeros and the lowest one bit.  If n&(n-1) leaves zero
    then that lowest one bit must have been the only bit set.  n==0 will
@@ -946,6 +948,11 @@ __GMP_DECLSPEC void mpn_karasub __GMP_PROTO ((mp_ptr, mp_ptr, mp_size_t));
 #ifndef mpn_sumdiff_n  /* if not done with cpuvec in a fat binary */
 #define mpn_sumdiff_n __MPN(sumdiff_n)
 __GMP_DECLSPEC mp_limb_t mpn_sumdiff_n __GMP_PROTO ((mp_ptr, mp_ptr, mp_srcptr, mp_srcptr, mp_size_t));
+#endif
+
+#ifndef mpn_nsumdiff_n
+#define mpn_nsumdiff_n __MPN(nsumdiff_n)
+__GMP_DECLSPEC mp_limb_t mpn_nsumdiff_n __GMP_PROTO ((mp_ptr, mp_ptr, mp_srcptr, mp_srcptr, mp_size_t));
 #endif
 
 #define mpn_sumdiff_nc __MPN(sumdiff_nc)
@@ -2066,18 +2073,6 @@ __GMP_DECLSPEC mp_limb_t gmp_primesieve (mp_ptr, mp_limb_t);
 #define INV_DIV_Q_THRESHOLD    (MUL_FFT_THRESHOLD/3)
 #endif
 
-#ifndef BINV_NEWTON_THRESHOLD
-#define BINV_NEWTON_THRESHOLD           300
-#endif
-
-#ifndef SB_DIVAPPR_Q_SMALL_THRESHOLD
-#define SB_DIVAPPR_Q_SMALL_THRESHOLD 11
-#endif
-
-#ifndef SB_DIV_QR_SMALL_THRESHOLD
-#define SB_DIV_QR_SMALL_THRESHOLD 11
-#endif
-
 #ifndef DC_DIVAPPR_Q_THRESHOLD
 #define DC_DIVAPPR_Q_THRESHOLD    (3 * MUL_TOOM3_THRESHOLD)
 #endif
@@ -2682,6 +2677,31 @@ struct bases
 #define __mp_bases __MPN(bases)
 __GMP_DECLSPEC extern const struct bases mp_bases[257];
 
+/* the following are exposed for the benefit of MPIR.Net. */
+
+__GMP_DECLSPEC extern const unsigned char __gmp_digit_value_tab[480];
+
+/* This struct is used to pass local state between functions that comprise the raw i/o interfaces mpz_inp_raw and mpz_out_raw.
+   Previously monolithic, they were split into several calls for the benefit of MPIR.Net.
+   The separation did not change the contract nor the implementation, merely separating the routines into several steps,
+   in order for MPIR.Net to consume the raw format processing code while substituting its own file I/O. */
+typedef struct
+{
+    char* allocated;
+    size_t allocatedSize;
+    char* written;
+    size_t writtenSize;
+} __mpir_out_struct;
+typedef __mpir_out_struct mpir_out_struct[1];
+typedef __mpir_out_struct *mpir_out_ptr;
+/* Part of mpz_inp_raw that decodes input size and allocates appropriate memory. Does not need _GMP_H_HAVE_FILE. Also used by MPIR.Net. */
+__GMP_DECLSPEC void mpz_inp_raw_p __GMP_PROTO ((mpz_ptr x, unsigned char* csize_bytes, mpir_out_ptr out));
+/* Part of mpz_inp_raw that reconstitutes limb data from raw format. Does not need _GMP_H_HAVE_FILE. Also used by MPIR.Net. */
+__GMP_DECLSPEC void mpz_inp_raw_m __GMP_PROTO ((mpz_ptr x, mpir_out_ptr out));
+/* Part of mpz_out_raw that performs raw output into memory in preparation for writing out to a file. Does not need _GMP_H_HAVE_FILE. Also used by MPIR.Net. */
+__GMP_DECLSPEC void mpz_out_raw_m __GMP_PROTO((mpir_out_ptr, mpz_srcptr));
+
+/* End of MPIR.Net consumables */
 
 /* For power of 2 bases this is exact.  For other bases the result is either
    exact or one too big.
@@ -2852,64 +2872,6 @@ mp_limb_t mpn_invert_limb _PROTO ((mp_limb_t)) ATTRIBUTE_CONST;
     dinv = _v;							\
   } while (0)
 
-#define __mpir_invert_pi2(d1inv, d1, d2)                      \
-do {                                                          \
-   mp_limb_t __q, __r[2], __p[2], __cy;                       \
-                                                              \
-   if ((d2) + 1 == 0 && (d1) + 1 == 0)                        \
-      (d1inv) = 0;                                   \
-   else {                                                     \
-      if ((d1) + 1 == 0)                                      \
-         (d1inv) = ~(d1), __r[1] = ~(d2);                     \
-      else                                                    \
-         udiv_qrnnd((d1inv), __r[1], ~(d1), ~(d2), (d1) + 1); \
-                                                              \
-      if ((d2) + 1 != 0) {                                    \
-         __r[0] = 0;                                          \
-         umul_ppmm(__p[1], __p[0], (d1inv), ~(d2));           \
-         __cy = mpn_add_n(__r, __r, __p, 2);                  \
-                                                              \
-         __p[0] = (d2) + 1, __p[1] = (d1);                    \
-         while (__cy || mpn_cmp(__r, __p, 2) >= 0)            \
-         { (d1inv)++; __cy -= mpn_sub_n(__r, __r, __p, 2); }  \
-      }                                                       \
-   }                                                          \
-} while (0)
-
-#define mpir_invert_pi2(dinv, d1inv, d1, d0)					\
-  do {									\
-    mp_limb_t _v, _p, _t1, _t0, _mask;					\
-    invert_limb (_v, d1);						\
-    _p = (d1) * _v;							\
-    _p += (d0);								\
-    if (_p < (d0))							\
-      {									\
-	_v--;								\
-	_mask = -(mp_limb_t) (_p >= (d1));				\
-	_p -= (d1);							\
-	_v += _mask;							\
-	_p -= _mask & (d1);						\
-      }									\
-    umul_ppmm (_t1, _t0, d0, _v);					\
-    _p += _t1;								\
-    if (_p < _t1)							\
-      {									\
-	_v--;								\
-	if (UNLIKELY (_p >= (d1)))					\
-	  {								\
-	    if (_p > (d1) || _t0 >= (d0))				\
-	      _v--;							\
-         sub_ddmmss(_p, _t0, _p, _t0, (d1), (d0)); \
-     } \
-    sub_ddmmss(_p, _t0, _p, _t0, (d1), (d0)); \
-      }									\
-    if (UNLIKELY(-_p <= 2))  \
-       __mpir_invert_pi2(d1inv, d1, d0); \
-    else \
-       d1inv = _v; \
-    dinv = _v;							\
-  } while (0)
-
 /* For compatibility with GMP only */
 #define invert_pi1(dinv, d1, d0)				\
    mpir_invert_pi1((dinv).inv32, d1, d0)
@@ -2948,37 +2910,6 @@ do {                                                          \
       }								\
       }									\
   } while (0)
-
-#define mpir_divapprox32_preinv2(q, a_hi, a_lo, dinv) \
-   do { \
-      mp_limb_t __q2, __q3, __q4; \
-      umul_ppmm((q), __q2, (a_hi), (dinv)); \
-      umul_ppmm(__q3, __q4, (a_lo), (dinv)); \
-      add_ssaaaa((q), __q2, (q), __q2, (a_hi), (a_lo)); \
-      add_ssaaaa((q), __q2, (q), __q2, 0, __q3); \
-   } while (0)
-
-#define mpir_divrem32_preinv2(q, r2, r3, a1, a2, a3, d11, d21, d1, d2, dinv) \
-   do {                                                                 \
-      mp_limb_t __q2, __q3, __q4, __p1, __p2, __cy;                     \
-      umul_ppmm((q), __q2, (a1), (dinv));                               \
-      add_ssaaaa((q), __q2, (q), __q2, (a1), (a2));                     \
-      umul_ppmm(__p1, __p2, (q), (d21));                                \
-      (r3) = (a3);                                                      \
-      (r2) = (a2) - (q)*(d11);                                          \
-      sub_ddmmss((r2), (r3), (r2), (r3), __p1, __p2);                   \
-      sub_ddmmss((r2), (r3), (r2), (r3), (d11), (d21));                 \
-      (q)++;                                                            \
-      if ((r2) >= __q2)                                                 \
-      { (q)--; add_ssaaaa((r2), (r3), (r2), (r3), (d11), (d21)); }      \
-      add_333(__cy, (r2), (r3), 0, (r2), (r3), 0, 0, (q));              \
-      while (UNLIKELY(__cy != 0 || (r2) >= (d1)))                       \
-      {                                                                 \
-         if ((r2) == (d1) && (r3) < (d2) && __cy == 0) break;           \
-         sub_333(__cy, (r2), (r3), __cy, (r2), (r3), 0, (d1), (d2));    \
-         (q)++;                                                         \
-      }                                                                 \
-   } while (0)
 
 #ifndef udiv_qrnnd_preinv
 #define udiv_qrnnd_preinv udiv_qrnnd_preinv2
@@ -4468,14 +4399,6 @@ extern mp_size_t                     mulmod_2expm1_threshold;
 #define DIV_SB_PREINV_THRESHOLD      div_sb_preinv_threshold
 extern mp_size_t                     div_sb_preinv_threshold;
 #endif
-
-#undef SB_DIVAPPR_Q_SMALL_THRESHOLD
-#define SB_DIVAPPR_Q_SMALL_THRESHOLD sb_divappr_q_small_threshold
-extern mp_size_t sb_divappr_q_small_threshold;
-
-#undef SB_DIV_QR_SMALL_THRESHOLD
-#define SB_DIV_QR_SMALL_THRESHOLD sb_div_qr_small_threshold
-extern mp_size_t sb_div_qr_small_threshold;
 
 #undef  DC_DIV_QR_THRESHOLD
 #define DC_DIV_QR_THRESHOLD          dc_div_qr_threshold

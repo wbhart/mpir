@@ -48,22 +48,20 @@ MA 02110-1301, USA. */
   } while (0)
 #endif
 
-size_t
-mpz_inp_raw (mpz_ptr x, FILE *fp)
+/* In order to allow mpz_inp_raw() to be called from MPIR.Net, its implementation has been refactored into three separate functions.
+   Both the contract and implementation of mpz_inp_raw() were unchanged, the split was made in order for MPIR.Net to access intermediate variables.
+   The basic flow of mpz_inp_raw is to 1) read a 4-byte size from file, 2) re-allocate the destination __mpz_struct accordingly, 
+   3) read raw limb data from file, and 4) reconstitute the limb data from raw format.
+   Of these, steps 2 and 4 represent the (in-memory) bulk of the entire operation.
+   The new mpz_inp_raw_p() function below performs step 2.  mpz_inp_raw_m() performs step 4.
+   To pass internal state from step to step an mpir_out struct is used.
+   mpz_inp_raw() now performs file I/O for steps 1 and 3, and calls into mpz_inp_raw_m() and mpz_inp_raw_p() for steps 2 and 4 respectively.
+   MPIR.Net performs its own file I/O using different infrastructure, and calls mpz_inp_raw_m() and mpz_inp_raw_p() for the rest. */
+void mpz_inp_raw_p (mpz_ptr x, unsigned char* csize_bytes, mpir_out_ptr out)
 {
-  unsigned char  csize_bytes[4];
   mp_size_t      csize, abs_xsize, i;
   size_t         abs_csize;
-  char           *cp;
-  mp_ptr         xp, sp, ep;
-  mp_limb_t      slimb, elimb;
-
-  if (fp == 0)
-    fp = stdin;
-
-  /* 4 bytes for size */
-  if (fread (csize_bytes, sizeof (csize_bytes), 1, fp) != 1)
-    return 0;
+  mp_ptr         xp;
 
   csize =
     (  (mp_size_t) csize_bytes[0] << 24)
@@ -93,10 +91,22 @@ mpz_inp_raw (mpz_ptr x, FILE *fp)
       /* Get limb boundaries right in the read, for the benefit of the
          non-nails case.  */
       xp[0] = 0;
-      cp = (char *) (xp + abs_xsize) - abs_csize;
-      if (fread (cp, abs_csize, 1, fp) != 1)
-        return 0;
+      out->written = (char *) (xp + abs_xsize) - abs_csize;
+    }
+  out->writtenSize = abs_csize;
+  out->allocatedSize = abs_xsize;
+  SIZ(x) = (csize >= 0 ? abs_xsize : -abs_xsize);
+}
 
+void mpz_inp_raw_m(mpz_ptr x, mpir_out_ptr out)
+{
+      mp_ptr         xp, sp, ep;
+      mp_size_t      abs_xsize, i;
+      mp_limb_t      slimb, elimb;
+
+      abs_xsize = out->allocatedSize;
+
+      xp = PTR(x);
       if (GMP_NAIL_BITS == 0)
         {
           /* Reverse limbs to least significant first, and byte swap.  If
@@ -128,9 +138,9 @@ mpz_inp_raw (mpz_ptr x, FILE *fp)
           limb = 0;
           bits = 0;
           tpos = 0;
-          for (i = abs_csize-1; i >= 0; i--)
+          for (i = out->writtenSize-1; i >= 0; i--)
             {
-              byte = (unsigned char) cp[i];
+              byte = out->written[i];
               limb |= (byte << bits);
               bits += 8;
               if (bits >= GMP_NUMB_BITS)
@@ -157,8 +167,30 @@ mpz_inp_raw (mpz_ptr x, FILE *fp)
          limbs resulting from this.  Should be a non-zero value here, but
          for safety don't assume that. */
       MPN_NORMALIZE (xp, abs_xsize);
-    }
+      SIZ(x) = (SIZ(x) >= 0 ? abs_xsize : -abs_xsize);
+}
 
-  SIZ(x) = (csize >= 0 ? abs_xsize : -abs_xsize);
-  return abs_csize + 4;
+size_t
+mpz_inp_raw(mpz_ptr x, FILE *fp)
+{
+    unsigned char  csize_bytes[4];
+    mpir_out_struct out;
+
+    if (fp == 0)
+        fp = stdin;
+
+    /* 4 bytes for size */
+    if (fread(csize_bytes, sizeof(csize_bytes), 1, fp) != 1)
+        return 0;
+
+    mpz_inp_raw_p(x, csize_bytes, out);
+
+    if (out->writtenSize != 0)
+    {
+        if (fread(out->written, out->writtenSize, 1, fp) != 1)
+            return 0;
+
+        mpz_inp_raw_m(x, out);
+    }
+    return out->writtenSize + 4;
 }

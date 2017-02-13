@@ -34,7 +34,7 @@ along with the GNU MP Library.  If not, see http://www.gnu.org/licenses/.  */
 
 mp_limb_t
 mpn_dc_divappr_q (mp_ptr qp, mp_ptr np, mp_size_t nn,
-		     mp_srcptr dp, mp_size_t dn, mp_limb_t dinv, mp_limb_t d1inv)
+		     mp_srcptr dp, mp_size_t dn, mp_limb_t dinv)
 {
   mp_size_t q_orig, qn, sh, sl, i;
   mp_limb_t qh, cy, cy2;
@@ -64,8 +64,8 @@ mpn_dc_divappr_q (mp_ptr qp, mp_ptr np, mp_size_t nn,
   while (dn - 1 < qn)
   {
      sh = MIN(dn, qn - dn + 1);
-     if (sh <= DC_DIV_QR_THRESHOLD) cy2 = mpn_sb_div_qr(qp + qn - sh, np + nn - dn - sh, dn + sh, dp, dn, dinv, d1inv);
-     else cy2 = mpn_dc_div_qr(qp + qn - sh, np + nn - dn - sh, dn + sh, dp, dn, dinv, d1inv);
+     if (sh <= DC_DIV_QR_THRESHOLD) cy2 = mpn_sb_div_qr(qp + qn - sh, np + nn - dn - sh, dn + sh, dp, dn, dinv);
+     else cy2 = mpn_dc_div_qr(qp + qn - sh, np + nn - dn - sh, dn + sh, dp, dn, dinv);
      qn -= sh; nn -= sh; 
   }
 
@@ -87,9 +87,9 @@ mpn_dc_divappr_q (mp_ptr qp, mp_ptr np, mp_size_t nn,
   else
   {
      if (sh < SB_DIVAPPR_Q_CUTOFF)
-        mpn_sb_divappr_q(qp + sl, np + sl, dn + sh, dp, dn, dinv, d1inv);
+        mpn_sb_divappr_q(qp + sl, np + sl, dn + sh, dp, dn, dinv);
      else
-        mpn_dc_divappr_q(qp + sl, np + sl, dn + sh, dp, dn, dinv, d1inv);
+        mpn_dc_divappr_q(qp + sl, np + sl, dn + sh, dp, dn, dinv);
   }
 
   cy = np[nn - sh];
@@ -126,9 +126,9 @@ mpn_dc_divappr_q (mp_ptr qp, mp_ptr np, mp_size_t nn,
      else
      {
         if (sl < SB_DIVAPPR_Q_CUTOFF)
-           mpn_sb_divappr_q(qp, np, dn + sl, dp, dn, dinv, d1inv);
+           mpn_sb_divappr_q(qp, np, dn + sl, dp, dn, dinv);
         else
-           mpn_dc_divappr_q(qp, np, dn + sl, dp, dn, dinv, d1inv);
+           mpn_dc_divappr_q(qp, np, dn + sl, dp, dn, dinv);
      }
 
   }

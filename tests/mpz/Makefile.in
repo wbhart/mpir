@@ -111,17 +111,17 @@ check_PROGRAMS = bit$(EXEEXT) convert$(EXEEXT) dive$(EXEEXT) \
 	t-get_d_2exp$(EXEEXT) t-get_si$(EXEEXT) t-get_sx$(EXEEXT) \
 	t-get_ux$(EXEEXT) t-hamdist$(EXEEXT) t-import$(EXEEXT) \
 	t-inp_str$(EXEEXT) t-io_raw$(EXEEXT) t-jac$(EXEEXT) \
-	t-lcm$(EXEEXT) t-likely_prime_p$(EXEEXT) t-lucnum_ui$(EXEEXT) \
-	t-mfac_uiui$(EXEEXT) t-mul$(EXEEXT) t-mul_i$(EXEEXT) \
-	t-next_prime_candidate$(EXEEXT) t-oddeven$(EXEEXT) \
-	t-perfpow$(EXEEXT) t-perfsqr$(EXEEXT) t-popcount$(EXEEXT) \
-	t-pow$(EXEEXT) t-powm$(EXEEXT) t-powm_ui$(EXEEXT) \
-	t-pprime_p$(EXEEXT) t-primorial_ui$(EXEEXT) t-root$(EXEEXT) \
-	t-scan$(EXEEXT) t-set_d$(EXEEXT) t-set_f$(EXEEXT) \
-	t-set_si$(EXEEXT) t-set_str$(EXEEXT) t-set_sx$(EXEEXT) \
-	t-set_ux$(EXEEXT) t-sizeinbase$(EXEEXT) t-sqrtrem$(EXEEXT) \
-	t-tdiv$(EXEEXT) t-tdiv_ui$(EXEEXT) t-trial_division$(EXEEXT) \
-	$(am__EXEEXT_1)
+	t-lcm$(EXEEXT) t-limbs$(EXEEXT) t-likely_prime_p$(EXEEXT) \
+	t-lucnum_ui$(EXEEXT) t-mfac_uiui$(EXEEXT) t-mul$(EXEEXT) \
+	t-mul_i$(EXEEXT) t-next_prime_candidate$(EXEEXT) \
+	t-oddeven$(EXEEXT) t-perfpow$(EXEEXT) t-perfsqr$(EXEEXT) \
+	t-popcount$(EXEEXT) t-pow$(EXEEXT) t-powm$(EXEEXT) \
+	t-powm_ui$(EXEEXT) t-pprime_p$(EXEEXT) t-primorial_ui$(EXEEXT) \
+	t-root$(EXEEXT) t-scan$(EXEEXT) t-set_d$(EXEEXT) \
+	t-set_f$(EXEEXT) t-set_si$(EXEEXT) t-set_str$(EXEEXT) \
+	t-set_sx$(EXEEXT) t-set_ux$(EXEEXT) t-sizeinbase$(EXEEXT) \
+	t-sqrtrem$(EXEEXT) t-tdiv$(EXEEXT) t-tdiv_ui$(EXEEXT) \
+	t-trial_division$(EXEEXT) $(am__EXEEXT_1)
 @ENABLE_SHARED_TRUE@@ENABLE_STATIC_TRUE@am__append_1 = st_hamdist st_popcount
 subdir = tests/mpz
 DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/Makefile.am \
@@ -357,6 +357,11 @@ t_likely_prime_p_OBJECTS = t-likely_prime_p.$(OBJEXT)
 t_likely_prime_p_LDADD = $(LDADD)
 t_likely_prime_p_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
 	$(top_builddir)/libmpir.la
+t_limbs_SOURCES = t-limbs.c
+t_limbs_OBJECTS = t-limbs.$(OBJEXT)
+t_limbs_LDADD = $(LDADD)
+t_limbs_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
+	$(top_builddir)/libmpir.la
 t_lucnum_ui_SOURCES = t-lucnum_ui.c
 t_lucnum_ui_OBJECTS = t-lucnum_ui.$(OBJEXT)
 t_lucnum_ui_LDADD = $(LDADD)
@@ -532,13 +537,13 @@ SOURCES = bit.c convert.c dive.c dive_ui.c io.c logic.c reuse.c \
 	t-export.c t-fac_ui.c t-fdiv.c t-fdiv_ui.c t-fib_ui.c t-fits.c \
 	t-gcd.c t-gcd_ui.c t-get_d.c t-get_d_2exp.c t-get_si.c \
 	t-get_sx.c t-get_ux.c t-hamdist.c t-import.c t-inp_str.c \
-	t-io_raw.c t-jac.c t-lcm.c t-likely_prime_p.c t-lucnum_ui.c \
-	t-mfac_uiui.c t-mul.c t-mul_i.c t-next_prime_candidate.c \
-	t-oddeven.c t-perfpow.c t-perfsqr.c t-popcount.c t-pow.c \
-	t-powm.c t-powm_ui.c t-pprime_p.c t-primorial_ui.c t-root.c \
-	t-scan.c t-set_d.c t-set_f.c t-set_si.c t-set_str.c t-set_sx.c \
-	t-set_ux.c t-sizeinbase.c t-sqrtrem.c t-tdiv.c t-tdiv_ui.c \
-	t-trial_division.c
+	t-io_raw.c t-jac.c t-lcm.c t-likely_prime_p.c t-limbs.c \
+	t-lucnum_ui.c t-mfac_uiui.c t-mul.c t-mul_i.c \
+	t-next_prime_candidate.c t-oddeven.c t-perfpow.c t-perfsqr.c \
+	t-popcount.c t-pow.c t-powm.c t-powm_ui.c t-pprime_p.c \
+	t-primorial_ui.c t-root.c t-scan.c t-set_d.c t-set_f.c \
+	t-set_si.c t-set_str.c t-set_sx.c t-set_ux.c t-sizeinbase.c \
+	t-sqrtrem.c t-tdiv.c t-tdiv_ui.c t-trial_division.c
 DIST_SOURCES = bit.c convert.c dive.c dive_ui.c io.c logic.c reuse.c \
 	$(am__st_hamdist_SOURCES_DIST) $(am__st_popcount_SOURCES_DIST) \
 	t-addsub.c t-aorsmul.c t-bin.c t-cdiv_ui.c t-cmp.c t-cmp_d.c \
@@ -547,12 +552,12 @@ DIST_SOURCES = bit.c convert.c dive.c dive_ui.c io.c logic.c reuse.c \
 	t-fib_ui.c t-fits.c t-gcd.c t-gcd_ui.c t-get_d.c \
 	t-get_d_2exp.c t-get_si.c t-get_sx.c t-get_ux.c t-hamdist.c \
 	t-import.c t-inp_str.c t-io_raw.c t-jac.c t-lcm.c \
-	t-likely_prime_p.c t-lucnum_ui.c t-mfac_uiui.c t-mul.c \
-	t-mul_i.c t-next_prime_candidate.c t-oddeven.c t-perfpow.c \
-	t-perfsqr.c t-popcount.c t-pow.c t-powm.c t-powm_ui.c \
-	t-pprime_p.c t-primorial_ui.c t-root.c t-scan.c t-set_d.c \
-	t-set_f.c t-set_si.c t-set_str.c t-set_sx.c t-set_ux.c \
-	t-sizeinbase.c t-sqrtrem.c t-tdiv.c t-tdiv_ui.c \
+	t-likely_prime_p.c t-limbs.c t-lucnum_ui.c t-mfac_uiui.c \
+	t-mul.c t-mul_i.c t-next_prime_candidate.c t-oddeven.c \
+	t-perfpow.c t-perfsqr.c t-popcount.c t-pow.c t-powm.c \
+	t-powm_ui.c t-pprime_p.c t-primorial_ui.c t-root.c t-scan.c \
+	t-set_d.c t-set_f.c t-set_si.c t-set_str.c t-set_sx.c \
+	t-set_ux.c t-sizeinbase.c t-sqrtrem.c t-tdiv.c t-tdiv_ui.c \
 	t-trial_division.c
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
@@ -1148,6 +1153,10 @@ t-likely_prime_p$(EXEEXT): $(t_likely_prime_p_OBJECTS) $(t_likely_prime_p_DEPEND
 	@rm -f t-likely_prime_p$(EXEEXT)
 	$(AM_V_CCLD)$(LINK) $(t_likely_prime_p_OBJECTS) $(t_likely_prime_p_LDADD) $(LIBS)
 
+t-limbs$(EXEEXT): $(t_limbs_OBJECTS) $(t_limbs_DEPENDENCIES) $(EXTRA_t_limbs_DEPENDENCIES) 
+	@rm -f t-limbs$(EXEEXT)
+	$(AM_V_CCLD)$(LINK) $(t_limbs_OBJECTS) $(t_limbs_LDADD) $(LIBS)
+
 t-lucnum_ui$(EXEEXT): $(t_lucnum_ui_OBJECTS) $(t_lucnum_ui_DEPENDENCIES) $(EXTRA_t_lucnum_ui_DEPENDENCIES) 
 	@rm -f t-lucnum_ui$(EXEEXT)
 	$(AM_V_CCLD)$(LINK) $(t_lucnum_ui_OBJECTS) $(t_lucnum_ui_LDADD) $(LIBS)
@@ -1732,6 +1741,13 @@ t-jac.log: t-jac$(EXEEXT)
 t-lcm.log: t-lcm$(EXEEXT)
 	@p='t-lcm$(EXEEXT)'; \
 	b='t-lcm'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+t-limbs.log: t-limbs$(EXEEXT)
+	@p='t-limbs$(EXEEXT)'; \
+	b='t-limbs'; \
 	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
 	--log-file $$b.log --trs-file $$b.trs \
 	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
