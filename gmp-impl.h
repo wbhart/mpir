@@ -4434,7 +4434,7 @@ extern mp_size_t                     inv_div_q_threshold;
 
 #undef BINV_NEWTON_THRESHOLD
 #define BINV_NEWTON_THRESHOLD        binv_newton_threshold
-extern mp_size_t                     binv_newton_threshold
+extern mp_size_t                     binv_newton_threshold;
 
 #undef  DC_DIVAPPR_Q_THRESHOLD
 #define DC_DIVAPPR_Q_THRESHOLD       dc_divappr_q_threshold
