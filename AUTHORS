@@ -1,6 +1,6 @@
 Authors of GNU MP (in chronological order of initial contribution)
 
-Torbjörn Granlund	Main author
+TorbjÃ¶rn Granlund	Main author
 
 John Amanatides		Original version of mpz/pprime_p.c
 Paul Zimmermann		mpn/generic/mul_fft.c, mpn/generic/dc_divrem_n.c,
