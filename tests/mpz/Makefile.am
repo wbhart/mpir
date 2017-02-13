@@ -26,7 +26,7 @@
 AM_CPPFLAGS = -I$(top_srcdir) -I$(top_srcdir)/tests
 LDADD = $(top_builddir)/tests/libtests.la $(top_builddir)/libmpir.la
 
-check_PROGRAMS = bit convert dive dive_ui io logic reuse t-addsub t-aorsmul t-bin t-cdiv_ui t-cmp t-cmp_d t-cmp_si t-cong t-cong_2exp t-div_2exp t-divis t-divis_2exp t-export t-fac_ui t-fdiv t-fdiv_ui t-fib_ui t-fits t-gcd t-gcd_ui t-get_d t-get_d_2exp t-get_si t-get_sx t-get_ux t-hamdist t-import t-inp_str t-io_raw t-jac t-lcm t-likely_prime_p t-lucnum_ui t-mfac_uiui t-mul t-mul_i t-next_prime_candidate t-oddeven t-perfpow t-perfsqr t-popcount t-pow t-powm t-powm_ui t-pprime_p t-primorial_ui t-root t-scan t-set_d t-set_f t-set_si t-set_str t-set_sx t-set_ux t-sizeinbase t-sqrtrem t-tdiv t-tdiv_ui t-trial_division 
+check_PROGRAMS = bit convert dive dive_ui io logic reuse t-addsub t-aorsmul t-bin t-cdiv_ui t-cmp t-cmp_d t-cmp_si t-cong t-cong_2exp t-div_2exp t-divis t-divis_2exp t-export t-fac_ui t-fdiv t-fdiv_ui t-fib_ui t-fits t-gcd t-gcd_ui t-get_d t-get_d_2exp t-get_si t-get_sx t-get_ux t-hamdist t-import t-inp_str t-io_raw t-jac t-lcm t-limbs t-likely_prime_p t-lucnum_ui t-mfac_uiui t-mul t-mul_i t-next_prime_candidate t-oddeven t-perfpow t-perfsqr t-popcount t-pow t-powm t-powm_ui t-pprime_p t-primorial_ui t-root t-scan t-set_d t-set_f t-set_si t-set_str t-set_sx t-set_ux t-sizeinbase t-sqrtrem t-tdiv t-tdiv_ui t-trial_division 
 
 if ENABLE_STATIC
 if ENABLE_SHARED

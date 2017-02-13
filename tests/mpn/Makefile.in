@@ -114,8 +114,9 @@ check_PROGRAMS = t-addadd_n$(EXEEXT) t-addsub_n$(EXEEXT) \
 	t-mulmod_2expp1$(EXEEXT) t-neg$(EXEEXT) t-perfsqr$(EXEEXT) \
 	t-redc_1$(EXEEXT) t-sb_bdiv_q$(EXEEXT) t-sb_bdiv_qr$(EXEEXT) \
 	t-sb_div_q$(EXEEXT) t-sb_div_qr$(EXEEXT) \
-	t-sb_divappr_q$(EXEEXT) t-scan$(EXEEXT) t-subadd_n$(EXEEXT) \
-	t-tdiv_q$(EXEEXT) t-tdiv_qr$(EXEEXT) $(am__EXEEXT_1)
+	t-sb_divappr_q$(EXEEXT) t-scan$(EXEEXT) t-sizeinbase$(EXEEXT) \
+	t-subadd_n$(EXEEXT) t-tdiv_q$(EXEEXT) t-tdiv_qr$(EXEEXT) \
+	$(am__EXEEXT_1)
 @ENABLE_SHARED_TRUE@@ENABLE_STATIC_TRUE@am__append_1 = st_fat st_instrument
 subdir = tests/mpn
 DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/Makefile.am \
@@ -375,6 +376,11 @@ t_scan_OBJECTS = t-scan.$(OBJEXT)
 t_scan_LDADD = $(LDADD)
 t_scan_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
 	$(top_builddir)/libmpir.la
+t_sizeinbase_SOURCES = t-sizeinbase.c
+t_sizeinbase_OBJECTS = t-sizeinbase.$(OBJEXT)
+t_sizeinbase_LDADD = $(LDADD)
+t_sizeinbase_DEPENDENCIES = $(top_builddir)/tests/libtests.la \
+	$(top_builddir)/libmpir.la
 t_subadd_n_SOURCES = t-subadd_n.c
 t_subadd_n_OBJECTS = t-subadd_n.$(OBJEXT)
 t_subadd_n_LDADD = $(LDADD)
@@ -434,8 +440,8 @@ SOURCES = $(st_fat_SOURCES) $(st_instrument_SOURCES) t-addadd_n.c \
 	t-mullow_basecase.c t-mullowhigh.c t-mulmid.c \
 	t-mulmod_2expm1.c t-mulmod_2expp1.c t-neg.c t-perfsqr.c \
 	t-redc_1.c t-sb_bdiv_q.c t-sb_bdiv_qr.c t-sb_div_q.c \
-	t-sb_div_qr.c t-sb_divappr_q.c t-scan.c t-subadd_n.c \
-	t-tdiv_q.c t-tdiv_qr.c
+	t-sb_div_qr.c t-sb_divappr_q.c t-scan.c t-sizeinbase.c \
+	t-subadd_n.c t-tdiv_q.c t-tdiv_qr.c
 DIST_SOURCES = $(am__st_fat_SOURCES_DIST) \
 	$(am__st_instrument_SOURCES_DIST) t-addadd_n.c t-addsub_n.c \
 	t-aors_1.c t-asmtype.c t-dc_bdiv_q.c t-dc_bdiv_q_n.c \
@@ -448,7 +454,7 @@ DIST_SOURCES = $(am__st_fat_SOURCES_DIST) \
 	t-mullowhigh.c t-mulmid.c t-mulmod_2expm1.c t-mulmod_2expp1.c \
 	t-neg.c t-perfsqr.c t-redc_1.c t-sb_bdiv_q.c t-sb_bdiv_qr.c \
 	t-sb_div_q.c t-sb_div_qr.c t-sb_divappr_q.c t-scan.c \
-	t-subadd_n.c t-tdiv_q.c t-tdiv_qr.c
+	t-sizeinbase.c t-subadd_n.c t-tdiv_q.c t-tdiv_qr.c
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
@@ -1058,6 +1064,10 @@ t-scan$(EXEEXT): $(t_scan_OBJECTS) $(t_scan_DEPENDENCIES) $(EXTRA_t_scan_DEPENDE
 	@rm -f t-scan$(EXEEXT)
 	$(AM_V_CCLD)$(LINK) $(t_scan_OBJECTS) $(t_scan_LDADD) $(LIBS)
 
+t-sizeinbase$(EXEEXT): $(t_sizeinbase_OBJECTS) $(t_sizeinbase_DEPENDENCIES) $(EXTRA_t_sizeinbase_DEPENDENCIES) 
+	@rm -f t-sizeinbase$(EXEEXT)
+	$(AM_V_CCLD)$(LINK) $(t_sizeinbase_OBJECTS) $(t_sizeinbase_LDADD) $(LIBS)
+
 t-subadd_n$(EXEEXT): $(t_subadd_n_OBJECTS) $(t_subadd_n_DEPENDENCIES) $(EXTRA_t_subadd_n_DEPENDENCIES) 
 	@rm -f t-subadd_n$(EXEEXT)
 	$(AM_V_CCLD)$(LINK) $(t_subadd_n_OBJECTS) $(t_subadd_n_LDADD) $(LIBS)
@@ -1588,6 +1598,13 @@ t-sb_divappr_q.log: t-sb_divappr_q$(EXEEXT)
 t-scan.log: t-scan$(EXEEXT)
 	@p='t-scan$(EXEEXT)'; \
 	b='t-scan'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+t-sizeinbase.log: t-sizeinbase$(EXEEXT)
+	@p='t-sizeinbase$(EXEEXT)'; \
+	b='t-sizeinbase'; \
 	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
 	--log-file $$b.log --trs-file $$b.trs \
 	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
