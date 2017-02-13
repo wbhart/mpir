@@ -50,36 +50,20 @@ char *decimal_point;
 
 /* Replace the libc localeconv with one we can manipulate. */
 /*
-The t-local test fails on
-mingw64   ie defined(_WIN64) && !defined(_MSC_VER)
-
-  to detect a non-msvc 64bit windows the above is the best solution ,
-  but as we are using it to exclude a test , 
-  it would be better to only limit it to mingw64 only and not some 
-  other future 64bit windows gcc , so it's best in this case to use the 
-  defined(__MINGW64__) macro
-
-msvc with version<=1500  ie defined(_MSC_VER) && _MSC_VER <= 1500
-
+  The t-local test fails on MinGW, MinGW-W64 and Microsoft C/C++
+  compilers because of their own 'localeconv' implementation.
+  The goal is to detect those compilers and skip 'localeconv'
+  redefinition so the 't-locale' test ends up in
+     printf("Test skipped...")
+  which shows that replacing 'localeconv' is disabled (on Windows).
+  It's best in this case to use '__MINGW32__' macro, which is
+  common for all
+  MinGW (i686), MinGW-W64 (i686) and MinGW-W64 (x86_64), and '_MSC_VER'
+  for Microsoft C/C++ Compiler, details at
+  http://sourceforge.net/p/predef/wiki/Compilers/
 */
 
-#if _MSC_VER && __GMP_LIBGMP_DLL
-
-int
-main (void)
-{
-  printf ("Test suppressed for windows DLL\n");
-  exit (0);
-}
-
-
-#else /* ! DLL_EXPORT */
-
-#if ! (defined(__MINGW64_VERSION_MAJOR) || (defined(_MSC_VER) && _MSC_VER <= 1500))
-#if HAVE_LOCALECONV
-#ifdef _MSC_VER
-__GMP_DECLSPEC
-#endif
+#if HAVE_LOCALECONV && ! (defined(__MINGW32__) || defined(_MSC_VER))
 struct lconv *
 localeconv (void)
 {
@@ -87,7 +71,6 @@ localeconv (void)
   l.decimal_point = decimal_point;
   return &l;
 }
-#endif
 #endif
 
 /* Replace the libc nl_langinfo with one we can manipulate. */
@@ -227,4 +210,3 @@ main (void)
   exit (0);
 }
 
-#endif
