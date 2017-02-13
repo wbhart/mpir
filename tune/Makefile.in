@@ -174,14 +174,15 @@ am__objects_1 = divrem_2.$(OBJEXT) gcd.$(OBJEXT) gcdext.$(OBJEXT) \
 	get_str.$(OBJEXT) set_str.$(OBJEXT) matrix22_mul.$(OBJEXT) \
 	hgcd.$(OBJEXT) hgcd_appr.$(OBJEXT) hgcd_reduce.$(OBJEXT) \
 	mul_n.$(OBJEXT) mullow_n.$(OBJEXT) mulhigh_n.$(OBJEXT) \
-	mul.$(OBJEXT) tdiv_qr.$(OBJEXT) toom4_mul_n.$(OBJEXT) \
-	toom4_mul.$(OBJEXT) toom3_mul.$(OBJEXT) toom3_mul_n.$(OBJEXT) \
-	toom8h_mul.$(OBJEXT) toom8_sqr_n.$(OBJEXT) \
-	mulmod_2expm1.$(OBJEXT) mulmod_2expp1_basecase.$(OBJEXT) \
-	rootrem.$(OBJEXT) divrem_euclidean_r_1.$(OBJEXT) \
-	divrem_hensel_qr_1.$(OBJEXT) rsh_divrem_hensel_qr_1.$(OBJEXT) \
-	sb_divappr_q.$(OBJEXT) sb_div_qr.$(OBJEXT) \
-	dc_divappr_q.$(OBJEXT) dc_div_qr.$(OBJEXT) \
+	mul.$(OBJEXT) tdiv_qr.$(OBJEXT) mulmid.$(OBJEXT) \
+	mulmid_n.$(OBJEXT) toom42_mulmid.$(OBJEXT) \
+	toom4_mul_n.$(OBJEXT) toom4_mul.$(OBJEXT) toom3_mul.$(OBJEXT) \
+	toom3_mul_n.$(OBJEXT) toom8h_mul.$(OBJEXT) \
+	toom8_sqr_n.$(OBJEXT) mulmod_2expm1.$(OBJEXT) \
+	mulmod_2expp1_basecase.$(OBJEXT) rootrem.$(OBJEXT) \
+	divrem_euclidean_r_1.$(OBJEXT) divrem_hensel_qr_1.$(OBJEXT) \
+	rsh_divrem_hensel_qr_1.$(OBJEXT) sb_divappr_q.$(OBJEXT) \
+	sb_div_qr.$(OBJEXT) dc_divappr_q.$(OBJEXT) dc_div_qr.$(OBJEXT) \
 	dc_div_qr_n.$(OBJEXT) inv_divappr_q.$(OBJEXT) \
 	inv_div_qr.$(OBJEXT) tdiv_q.$(OBJEXT) dc_bdiv_qr.$(OBJEXT) \
 	dc_bdiv_qr_n.$(OBJEXT) dc_bdiv_q.$(OBJEXT)
@@ -490,6 +491,7 @@ TUNE_MPN_SRCS = $(TUNE_MPN_SRCS_BASIC) $(TUNE_FFT_SRCS_BASIC) divrem_1.c mod_1.c
 TUNE_MPN_SRCS_BASIC = divrem_2.c gcd.c gcdext.c get_str.c set_str.c \
   matrix22_mul.c hgcd.c hgcd_appr.c hgcd_reduce.c \
   mul_n.c mullow_n.c mulhigh_n.c mul.c tdiv_qr.c \
+  mulmid.c mulmid_n.c toom42_mulmid.c \
   toom4_mul_n.c toom4_mul.c toom3_mul.c toom3_mul_n.c \
   toom8h_mul.c toom8_sqr_n.c mulmod_2expm1.c mulmod_2expp1_basecase.c \
   rootrem.c divrem_euclidean_r_1.c \

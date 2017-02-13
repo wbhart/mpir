@@ -58,7 +58,7 @@ see https://www.gnu.org/licenses/.  */
 
 static void
 mod (mp_ptr np, mp_size_t nn, mp_srcptr dp, mp_size_t dn, mp_limb_t dinv,
-     mp_limb_t d1inv, mp_ptr tp)
+     mp_ptr tp)
 {
   mp_ptr qp;
   TMP_DECL;
@@ -77,13 +77,13 @@ mod (mp_ptr np, mp_size_t nn, mp_srcptr dp, mp_size_t dn, mp_limb_t dinv,
   else if (BELOW_THRESHOLD (dn, DC_DIV_QR_THRESHOLD) ||
 	   BELOW_THRESHOLD (nn - dn, DC_DIV_QR_THRESHOLD))
     {
-      mpn_sb_div_qr (qp, np, nn, dp, dn, dinv, d1inv); /* JPF: no gmp_pi1_t, two limbs pi */
+      mpn_sb_div_qr (qp, np, nn, dp, dn, dinv); /* JPF: no gmp_pi1_t, two limbs pi */
     }
   /* Different conditions */
   else if (BELOW_THRESHOLD (dn, INV_DIV_QR_THRESHOLD) ||   /* fast condition */
 	   BELOW_THRESHOLD (nn, 2 * INV_DIV_QR_THRESHOLD)) /* fast condition */
     {
-      mpn_dc_div_qr (qp, np, nn, dp, dn, dinv, d1inv); /* JPF: no gmp_pi1_t */
+      mpn_dc_div_qr (qp, np, nn, dp, dn, dinv); /* JPF: no gmp_pi1_t */
     }
   else
     {
@@ -99,7 +99,7 @@ mod (mp_ptr np, mp_size_t nn, mp_srcptr dp, mp_size_t dn, mp_limb_t dinv,
    t is defined by (tp,mn).  */
 static void
 reduce (mp_ptr tp, mp_srcptr ap, mp_size_t an, mp_srcptr mp, mp_size_t mn,
-        mp_limb_t dinv, mp_limb_t d1inv)
+        mp_limb_t dinv)
 {
   mp_ptr rp, scratch;
   TMP_DECL;
@@ -108,7 +108,7 @@ reduce (mp_ptr tp, mp_srcptr ap, mp_size_t an, mp_srcptr mp, mp_size_t mn,
   rp = TMP_ALLOC_LIMBS (an);
   scratch = TMP_ALLOC_LIMBS (an - mn + 1);
   MPN_COPY (rp, ap, an);
-  mod (rp, an, mp, mn, dinv, d1inv, scratch);
+  mod (rp, an, mp, mn, dinv, scratch);
   MPN_COPY (tp, rp, mn);
 
   TMP_FREE;
@@ -124,7 +124,7 @@ mpz_powm_ui (mpz_ptr r, mpz_srcptr b, mpir_ui el, mpz_srcptr m)
       int m_zero_cnt;
       int c;
       mp_limb_t e, m2;
-      mp_limb_t dinv, d1inv;
+      mp_limb_t dinv;
       TMP_DECL;
 
       mp = PTR(m);
@@ -155,7 +155,7 @@ mpz_powm_ui (mpz_ptr r, mpz_srcptr b, mpir_ui el, mpz_srcptr m)
 	}
 
       m2 = mn == 1 ? 0 : mp[mn - 2];
-      mpir_invert_pi2 (dinv, d1inv, mp[mn - 1], m2); /* JPF: don't use gmp_pi1_t */
+      mpir_invert_pi1 (dinv, mp[mn - 1], m2); /* JPF: don't use gmp_pi1_t */
 
       bn = ABSIZ(b);
       bp = PTR(b);
@@ -164,7 +164,7 @@ mpz_powm_ui (mpz_ptr r, mpz_srcptr b, mpir_ui el, mpz_srcptr m)
 	  /* Reduce possibly huge base.  Use a function call to reduce, since we
 	     don't want the quotient allocation to live until function return.  */
 	  mp_ptr new_bp = TMP_ALLOC_LIMBS (mn);
-	  reduce (new_bp, bp, bn, mp, mn, dinv, d1inv); /* JPF */
+	  reduce (new_bp, bp, bn, mp, mn, dinv); /* JPF */
 	  bp = new_bp;
 	  bn = mn;
 	  /* Canonicalize the base, since we are potentially going to multiply with
@@ -214,7 +214,7 @@ mpz_powm_ui (mpz_ptr r, mpz_srcptr b, mpir_ui el, mpz_srcptr m)
 		}
 	      else
 		{
-                    mod (tp, tn, mp, mn, dinv, d1inv, scratch); /* JPF */
+                    mod (tp, tn, mp, mn, dinv, scratch); /* JPF */
 		  MPN_COPY (xp, tp, mn);
 		  xn = mn;
 		}
@@ -230,7 +230,7 @@ mpz_powm_ui (mpz_ptr r, mpz_srcptr b, mpir_ui el, mpz_srcptr m)
 		    }
 		  else
 		    {
-                        mod (tp, tn, mp, mn, dinv, d1inv, scratch); /* JPF */
+                        mod (tp, tn, mp, mn, dinv, scratch); /* JPF */
 		      MPN_COPY (xp, tp, mn);
 		      xn = mn;
 		    }
@@ -255,7 +255,7 @@ mpz_powm_ui (mpz_ptr r, mpz_srcptr b, mpir_ui el, mpz_srcptr m)
 	    }
 	  else
 	    {
-                mod (tp, xn, mp, mn, dinv, d1inv, scratch); /* JPF */
+                mod (tp, xn, mp, mn, dinv, scratch); /* JPF */
 	      MPN_COPY (xp, tp, mn);
 	      xn = mn;
 	    }
