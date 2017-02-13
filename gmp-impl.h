@@ -2073,6 +2073,10 @@ __GMP_DECLSPEC mp_limb_t gmp_primesieve (mp_ptr, mp_limb_t);
 #define INV_DIV_Q_THRESHOLD    (MUL_FFT_THRESHOLD/3)
 #endif
 
+#ifndef BINV_NEWTON_THRESHOLD
+#define BINV_NEWTON_THRESHOLD           300
+#endif
+
 #ifndef DC_DIVAPPR_Q_THRESHOLD
 #define DC_DIVAPPR_Q_THRESHOLD    (3 * MUL_TOOM3_THRESHOLD)
 #endif
@@ -4427,6 +4431,10 @@ extern mp_size_t                     dc_div_q_threshold;
 #undef  INV_DIV_Q_THRESHOLD
 #define INV_DIV_Q_THRESHOLD          inv_div_q_threshold
 extern mp_size_t                     inv_div_q_threshold;
+
+#undef BINV_NEWTON_THRESHOLD
+#define BINV_NEWTON_THRESHOLD        binv_newton_threshold
+extern mp_size_t                     binv_newton_threshold;
 
 #undef  DC_DIVAPPR_Q_THRESHOLD
 #define DC_DIVAPPR_Q_THRESHOLD       dc_divappr_q_threshold
