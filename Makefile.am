@@ -102,10 +102,6 @@ LIBGMPXX_LT_AGE = 4
 
 SUBDIRS = tests
 
-if BUILD_YASM
-SUBDIRS += yasm
-endif
-
 SUBDIRS += mpn fft mpz mpq mpf printf scanf cxx tune doc
 
 EXTRA_DIST = configfsf.guess configfsf.sub .gdbinit INSTALL.autoconf
@@ -274,16 +270,3 @@ BUILT_SOURCES += mpn/dummy1.c
 #
 dist-hook:
 	-find $(distdir) \( -name CVS -type d \) -o -name "*~" -o -name ".#*" -o -name ".svn" | xargs rm -rf
-	rm -f $(distdir)/yasm/Makefile.in
-	(  VAR=0 ; \
-	   IFS=$(echo -e "\n") ; \
-	   cat $(srcdir)/yasm/Makefile.in | while read -r LINE ; do \
-	   if test `echo $$LINE | grep -ce "^[[:alpha:]]"` -eq 1  ; then VAR=0 ; fi ;  \
-	   if test `echo $$LINE | grep -ce "^install:"` -eq 1  ; then VAR=1 ; echo "install:" ; fi ; \
-	   if test `echo $$VAR` -eq 0 ; then /bin/echo -E "$$LINE" ; fi ; done ) |	\
-	(  VAR=0 ; \
-	   IFS=$(echo -e "\n") ; \
-	   while read -r LINE ; do \
-	   if test `echo $$LINE | grep -ce "^[[:alpha:]]"` -eq 1  ; then VAR=0 ; fi ;  \
-	   if test `echo $$LINE | grep -ce "^check:"` -eq 1  ; then VAR=1 ; echo "check:" ; fi ; \
-	   if test `echo $$VAR` -eq 0 ; then /bin/echo -E "$$LINE" ; fi ; done ) > $(distdir)/yasm/Makefile.in

@@ -70,21 +70,9 @@ AM_MAINTAINER_MODE
 
 dnl  Yasm configuration
 AC_ARG_WITH([yasm],
-[AC_HELP_STRING([--with-yasm],[use a custom Yasm [[default=no]]])],
-[case "$withval" in
-  no) ;;
-  *) AC_MSG_ERROR([bad value $withval for --with-yasm, need no or path to Yasm's executable]) ;;
-esac],
-[with_yasm=no]
-)
-
-AC_ARG_WITH([system-yasm],
-[AC_HELP_STRING([--with-system-yasm],[use a system-wide Yasm [[default=no]]])],
-[case "$withval" in
-  yes|no) ;;
-  *) AC_MSG_ERROR([bad value $withval for --with-system-yasm, need yes or no]) ;;
-esac],
-[with_system_yasm=no]
+[AC_HELP_STRING([--with-yasm],[use a custom Yasm])],
+[],
+[]
 )
 
 AC_ARG_ENABLE(assert,
@@ -948,8 +936,6 @@ case $host in
     any_32_testlist="sizeof-long-4"
     CALLING_CONVENTIONS_OBJS='x86call.lo x86check$U.lo'
 
-    # Currently yasm is only needed to build x86 assembly files on some hosts
-    want_yasm="yes"
     # Availability of rdtsc is checked at run-time.
     SPEED_CYCLECOUNTER_OBJ=pentium.lo
     
@@ -1738,33 +1724,20 @@ test -n "$CCAS" || CCAS="$CC -c"
 AC_SUBST(CCAS)
 
 # If the user provided its Yasm, check it seems functional
-if test "$with_yasm" != "no" && test "$with_system_yasm" != "no"; then
-  AC_MSG_ERROR([you cannot provide non-default values to both --with-yasm and --with-system-yasm])
-fi
 MPIR_AS=""
-if test "$with_system_yasm" = "yes"; then
+if test -z "$with_yasm"; then
   echo "Looking for a system-wide yasm..."
   MPIR_AS=`which yasm`
   if test $? -ne 0; then
     AC_MSG_ERROR([no system-wide yasm found])
   fi
-fi
-if test "$with_yasm" != no; then
+else
   MPIR_AS="$with_yasm"
 fi
-if test -n "$MPIR_AS"; then
-  echo "Checking user-provided yasm..."
-  if ! test -f "$MPIR_AS" || ! test -x "$MPIR_AS"; then
-    AC_MSG_ERROR([$MPIR_AS does not seem functional])
-  fi
+echo "Checking yasm..."
+if ! test -f "$MPIR_AS" || ! test -x "$MPIR_AS"; then
+  AC_MSG_ERROR([$MPIR_AS does not seem functional])
 fi
-# Otherwise build it if needed.
-if test "$want_yasm" = "yes" && test -z "$MPIR_AS"; then
-  build_yasm="yes"
-  MPIR_AS="\$(top_builddir)/yasm/yasm"
-fi
-
-AM_CONDITIONAL(BUILD_YASM, test "$build_yasm" = "yes")
 AC_SUBST(MPIR_AS)
 
 # The C++ compiler, if desired.
@@ -3018,17 +2991,6 @@ AC_SUBST(TUNE_SQR_OBJ)
 
 # Create config.m4.
 GMP_FINISH
-
-# Always configure subdirectories or "make dist" and so on will fail.
-# A better solution would be to ship a vanilla Yasm tarball
-# and modify the way MPIR builds it when it is needed;
-# in particular this should not rely on autotools.
-#
-AC_CONFIG_FILES(yasm/config/config.guess:configfsf.guess yasm/config/config.sub:configfsf.sub)
-AC_CONFIG_FILES(yasm/configure.gnu:configure.yasm)
-#if test "$build_yasm" = "yes"; then
-AC_CONFIG_SUBDIRS([yasm])
-#fi
 
 case $host in
   *-pc-msys|*-w64-mingw*|*-*-cygwin*)
