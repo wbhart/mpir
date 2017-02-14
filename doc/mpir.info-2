@@ -3,9 +3,7 @@ This is mpir.info, produced by makeinfo version 5.2 from mpir.texi.
 This manual describes how to install and use MPIR, the Multiple
 Precision Integers and Rationals library, version 2.7.2.
 
-   Copyright 1991, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001,
-2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013
-Free Software Foundation, Inc.
+   Copyright 1991, 1993-2016 Free Software Foundation, Inc.
 
    Copyright 2008, 2009, 2010 William Hart
 
@@ -20,6 +18,114 @@ INFO-DIR-SECTION GNU libraries
 START-INFO-DIR-ENTRY
 * mpir: (mpir).                   MPIR Multiple Precision Integers and Rationals Library.
 END-INFO-DIR-ENTRY
+
+
+File: mpir.info,  Node: Custom Allocation,  Next: Language Bindings,  Prev: .Net Interface,  Up: Top
+
+14 Custom Allocation
+********************
+
+By default MPIR uses 'malloc', 'realloc' and 'free' for memory
+allocation, and if they fail MPIR prints a message to the standard error
+output and terminates the program.
+
+   Alternate functions can be specified, to allocate memory in a
+different way or to have a different error action on running out of
+memory.
+
+ -- Function: void mp_set_memory_functions (
+          void *(*ALLOC_FUNC_PTR) (size_t),
+          void *(*REALLOC_FUNC_PTR) (void *, size_t, size_t),
+          void (*FREE_FUNC_PTR) (void *, size_t))
+     Replace the current allocation functions from the arguments.  If an
+     argument is 'NULL', the corresponding default function is used.
+
+     These functions will be used for all memory allocation done by
+     MPIR, apart from temporary space from 'alloca' if that function is
+     available and MPIR is configured to use it (*note Build Options::).
+
+     *Be sure to call 'mp_set_memory_functions' only when there are no
+     active MPIR objects allocated using the previous memory functions!
+     Usually that means calling it before any other MPIR function.*
+
+   The functions supplied should fit the following declarations:
+
+ -- Function: void * allocate_function (size_t ALLOC_SIZE)
+     Return a pointer to newly allocated space with at least ALLOC_SIZE
+     bytes.
+
+ -- Function: void * reallocate_function (void *PTR, size_t OLD_SIZE,
+          size_t NEW_SIZE)
+     Resize a previously allocated block PTR of OLD_SIZE bytes to be
+     NEW_SIZE bytes.
+
+     The block may be moved if necessary or if desired, and in that case
+     the smaller of OLD_SIZE and NEW_SIZE bytes must be copied to the
+     new location.  The return value is a pointer to the resized block,
+     that being the new location if moved or just PTR if not.
+
+     PTR is never 'NULL', it's always a previously allocated block.
+     NEW_SIZE may be bigger or smaller than OLD_SIZE.
+
+ -- Function: void free_function (void *PTR, size_t SIZE)
+     De-allocate the space pointed to by PTR.
+
+     PTR is never 'NULL', it's always a previously allocated block of
+     SIZE bytes.
+
+   A "byte" here means the unit used by the 'sizeof' operator.
+
+   The OLD_SIZE parameters to REALLOCATE_FUNCTION and FREE_FUNCTION are
+passed for convenience, but of course can be ignored if not needed.  The
+default functions using 'malloc' and friends for instance don't use
+them.
+
+   No error return is allowed from any of these functions, if they
+return then they must have performed the specified operation.  In
+particular note that ALLOCATE_FUNCTION or REALLOCATE_FUNCTION mustn't
+return 'NULL'.
+
+   Getting a different fatal error action is a good use for custom
+allocation functions, for example giving a graphical dialog rather than
+the default print to 'stderr'.  How much is possible when genuinely out
+of memory is another question though.
+
+   There's currently no defined way for the allocation functions to
+recover from an error such as out of memory, they must terminate program
+execution.  A 'longjmp' or throwing a C++ exception will have undefined
+results.  This may change in the future.
+
+   MPIR may use allocated blocks to hold pointers to other allocated
+blocks.  This will limit the assumptions a conservative garbage
+collection scheme can make.
+
+   Any custom allocation functions must align pointers to limb
+boundaries.  Thus if a limb is eight bytes (e.g.  on x86_64), then all
+blocks must be aligned to eight byte boundaries.  Check the
+configuration options for the custom allocation library in use.  It is
+not necessary to align blocks to SSE boundaries even when SSE code is
+used.  All MPIR assembly routines assume limb boundary alignment only
+(which is the default for most standard memory managers).
+
+   Since the default MPIR allocation uses 'malloc' and friends, those
+functions will be linked in even if the first thing a program does is an
+'mp_set_memory_functions'.  It's necessary to change the MPIR sources if
+this is a problem.
+
+
+ -- Function: void mp_get_memory_functions (
+          void *(**ALLOC_FUNC_PTR) (size_t),
+          void *(**REALLOC_FUNC_PTR) (void *, size_t, size_t),
+          void (**FREE_FUNC_PTR) (void *, size_t))
+     Get the current allocation functions, storing function pointers to
+     the locations given by the arguments.  If an argument is 'NULL',
+     that function pointer is not stored.
+
+     For example, to get just the current free function,
+
+          void (*freefunc) (void *, size_t);
+
+          mp_get_memory_functions (NULL, NULL, &freefunc);
 
 
 File: mpir.info,  Node: Language Bindings,  Next: Algorithms,  Prev: Custom Allocation,  Up: Top
@@ -4836,6 +4942,14 @@ Function and Type Index
                                                               (line 132)
 * mpz_likely_prime_p:                    Number Theoretic Functions.
                                                               (line  24)
+* mpz_limbs_finish:                      Integer Special Functions.
+                                                              (line  87)
+* mpz_limbs_modify:                      Integer Special Functions.
+                                                              (line  80)
+* mpz_limbs_read:                        Integer Special Functions.
+                                                              (line  74)
+* mpz_limbs_write:                       Integer Special Functions.
+                                                              (line  79)
 * mpz_lucnum2_ui:                        Number Theoretic Functions.
                                                               (line 189)
 * mpz_lucnum_ui:                         Number Theoretic Functions.
@@ -4878,6 +4992,10 @@ Function and Type Index
                                                               (line  48)
 * mpz_remove:                            Number Theoretic Functions.
                                                               (line 154)
+* mpz_roinit_n:                          Integer Special Functions.
+                                                              (line 107)
+* MPZ_ROINIT_N:                          Integer Special Functions.
+                                                              (line 123)
 * mpz_root:                              Integer Roots.       (line   6)
 * mpz_rootrem:                           Integer Roots.       (line  14)
 * mpz_rrandomb:                          Integer Random Numbers.

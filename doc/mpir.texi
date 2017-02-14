@@ -13,9 +13,7 @@
 This manual describes how to install and use MPIR, the Multiple Precision Integers and Rationals
 library, version @value{VERSION}.
 
-Copyright 1991, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002,
-2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013 Free Software 
-Foundation, Inc.
+Copyright 1991, 1993-2016 Free Software Foundation, Inc.
 
 Copyright 2008, 2009, 2010 William Hart
 
@@ -4054,7 +4052,82 @@ the returned value will be zero.
 @c (@xref{Nomenclature}, for an explanation of the concept @dfn{limb}.)
 @end deftypefun
 
+@deftypefun {const mp_limb_t *} mpz_limbs_read (const mpz_t @var{x})
+Return a pointer to the limb array representing the absolute value of @var{x}.
+The size of the array is @code{mpz_size(@var{x})}. Intended for read access
+only.
+@end deftypefun
 
+@deftypefun {mp_limb_t *} mpz_limbs_write (mpz_t @var{x}, mp_size_t @var{n})
+@deftypefunx {mp_limb_t *} mpz_limbs_modify (mpz_t @var{x}, mp_size_t @var{n})
+Return a pointer to the limb array, intended for write access. The array is
+reallocated as needed, to make room for @var{n} limbs. Requires @math{@var{n}
+> 0}. The @code{mpz_limbs_modify} function returns an array that holds the old
+absolute value of @var{x}, while @code{mpz_limbs_write} may destroy the old
+value and return an array with unspecified contents.
+@end deftypefun
+
+@deftypefun void mpz_limbs_finish (mpz_t @var{x}, mp_size_t @var{s})
+Updates the internal size field of @var{x}. Used after writing to the limb
+array pointer returned by @code{mpz_limbs_write} or @code{mpz_limbs_modify} is
+completed. The array should contain @math{@GMPabs{@var{s}}} valid limbs,
+representing the new absolute value for @var{x}, and the sign of @var{x} is
+taken from the sign of @var{s}. This function never reallocates @var{x}, so
+the limb pointer remains valid.
+@end deftypefun
+
+@c FIXME: Some more useful and less silly example?
+@example
+void foo (mpz_t x)
+@{
+  mp_size_t n, i;
+  mp_limb_t *xp;
+
+  n = mpz_size (x);
+  xp = mpz_limbs_modify (x, 2*n);
+  for (i = 0; i < n; i++)
+    xp[n+i] = xp[n-1-i];
+  mpz_limbs_finish (x, mpz_sgn (x) < 0 ? - 2*n : 2*n);
+@}
+@end example
+
+@deftypefun mpz_srcptr mpz_roinit_n (mpz_t @var{x}, const mp_limb_t *@var{xp}, mp_size_t @var{xs})
+Special initialization of @var{x}, using the given limb array and size.
+@var{x} should be treated as read-only: it can be passed safely as input to
+any mpz function, but not as an output. The array @var{xp} must point to at
+least a readable limb, its size is
+@math{@GMPabs{@var{xs}}}, and the sign of @var{x} is the sign of @var{xs}. For
+convenience, the function returns @var{x}, but cast to a const pointer type.
+@end deftypefun
+
+@example
+void foo (mpz_t x)
+@{
+  static const mp_limb_t y[3] = @{ 0x1, 0x2, 0x3 @};
+  mpz_t tmp;
+  mpz_add (x, x, mpz_roinit_n (tmp, y, 3));
+@}
+@end example
+
+@deftypefn Macro mpz_t MPZ_ROINIT_N (mp_limb_t *@var{xp}, mp_size_t @var{xs})
+This macro expands to an initializer which can be assigned to an mpz_t
+variable. The limb array @var{xp} must point to at least a readable limb,
+moreover, unlike the @code{mpz_roinit_n} function, the array must be
+normalized: if @var{xs} is non-zero, then
+@code{@var{xp}[@math{@GMPabs{@var{xs}}-1}]} must be non-zero. Intended
+primarily for constant values. Using it for non-constant values requires a C
+compiler supporting C99.
+@end deftypefn
+
+@example
+void foo (mpz_t x)
+@{
+  static const mp_limb_t ya[3] = @{ 0x1, 0x2, 0x3 @};
+  static const mpz_t y = MPZ_ROINIT_N ((mp_limb_t *) ya, 3);
+
+  mpz_add (x, x, y);
+@}
+@end example
 
 @node Rational Number Functions, Floating-point Functions, Integer Functions, Top
 @comment  node-name,  next,  previous,  up
