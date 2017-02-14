@@ -74,3 +74,5 @@ Julien Puydt         Tuning values
 Vincent Delecroix    Port of mpq_cmp_z from gmp
 sav-ix (Alexander)   Patch for t-locale on Windows
 Isuru Fernando       Tuning values
+Alex Dyachenko       mpir.net for interface to .net languages
+
