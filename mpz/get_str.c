@@ -34,7 +34,7 @@ GNU Lesser General Public License along with the GNU MP Library.  If not,
 see https://www.gnu.org/licenses/.  */
 
 #include <string.h> /* for strlen */
-#include "gmp.h"
+#include "mpir.h"
 #include "gmp-impl.h"
 #include "longlong.h"
 
