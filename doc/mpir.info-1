@@ -1,7 +1,7 @@
 This is mpir.info, produced by makeinfo version 5.2 from mpir.texi.
 
 This manual describes how to install and use MPIR, the Multiple
-Precision Integers and Rationals library, version 2.7.2.
+Precision Integers and Rationals library, version 3.0.0.
 
    Copyright 1991, 1993-2016 Free Software Foundation, Inc.
 
@@ -26,7 +26,7 @@ MPIR
 ****
 
 This manual describes how to install and use MPIR, the Multiple
-Precision Integers and Rationals library, version 2.7.2.
+Precision Integers and Rationals library, version 3.0.0.
 
    Copyright 1991, 1993-2016 Free Software Foundation, Inc.
 
@@ -236,7 +236,7 @@ Build Directory
      directory.  For example
 
           cd /my/build/dir
-          /my/sources/mpir-2.7.2/configure
+          /my/sources/mpir-3.0.0/configure
 
      Not all 'make' programs have the necessary features ('VPATH') to
      support this.  In particular, SunOS and Solaris 'make' have bugs
@@ -1495,7 +1495,7 @@ File: mpir.info,  Node: Useful Macros and Constants,  Next: Compatibility with o
 
  -- Global Constant: const char * const mpir_version
      The MPIR version number, as a null-terminated string, in the form
-     "i.j.k".  This release is "2.7.2".
+     "i.j.k".  This release is "3.0.0".
 
 
 File: mpir.info,  Node: Compatibility with older versions,  Next: Efficiency,  Prev: Useful Macros and Constants,  Up: MPIR Basics
@@ -1756,7 +1756,7 @@ Source File Paths
      to the source directory.
 
           cd /my/build/dir
-          /my/source/dir/gmp-2.7.2/configure
+          /my/source/dir/gmp-3.0.0/configure
 
      This works via 'VPATH', and might require GNU 'make'.  Alternately
      it might be possible to change the '.c.lo' rules appropriately.

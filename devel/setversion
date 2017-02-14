@@ -3,21 +3,21 @@
 # run this script from the devel directory
 
 # set version number
-VERSION=2
-VERSION_MINOR=5
-VERSION_PATCHLEVEL=1
+VERSION=3
+VERSION_MINOR=0
+VERSION_PATCHLEVEL=0
 
 # these are the library soname numbers see
 # http://sources.redhat.com/autobook/autobook/autobook_91.html
 # or the start of Makefile.am to see what was done before
 
-LIBGMP_LT_CURRENT=11
-LIBGMP_LT_REVISION=2
-LIBGMP_LT_AGE=4
+LIBGMP_LT_CURRENT=23
+LIBGMP_LT_REVISION=3
+LIBGMP_LT_AGE=0
 
-LIBGMPXX_LT_CURRENT=4
-LIBGMPXX_LT_REVISION=19
-LIBGMPXX_LT_AGE=3
+LIBGMPXX_LT_CURRENT=12
+LIBGMPXX_LT_REVISION=3
+LIBGMPXX_LT_AGE=4
 
 echo "Setting MPIR to"
 echo "MPIR-$VERSION.$VERSION_MINOR.$VERSION_PATCHLEVEL"
@@ -62,6 +62,6 @@ makeinfo mpir.texi
 makeinfo version.texi
 cd ..
 
-autoreconf -f
+autoreconf -fiv --no-recursive
 rm -f $TMPFILE
 cd devel

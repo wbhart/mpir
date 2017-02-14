@@ -77,8 +77,9 @@
 #	2.5.2	11:3:4	4:20:3
 #	2.6.0   11:0:5  4:21:3               Clearly wrong!!
 #       2.7.0   16:0:6  8:0:4                Attempt to correct wrt all prev 
-#       2.7.1   22:1:6  12:1:4               Due to traiing space for 2.7.1
+#       2.7.1   22:1:6  12:1:4               Due to trailing space for 2.7.1
 #       2.7.2   22:2:6  12:2:4
+#       3.0.0   23:3:0  12:3:4
 #
 # Starting at 3:0:0 is a slight abuse of the versioning system, but it
 # ensures we're past soname libgmp.so.2, which was used on Debian GNU/Linux
@@ -91,12 +92,12 @@
 # it's still good to get the shared library filename (like
 # libgmpxx.so.3.0.4) incrementing, to make it clear which GMP it's from.
 
-LIBGMP_LT_CURRENT = 22
-LIBGMP_LT_REVISION = 2
-LIBGMP_LT_AGE = 6
+LIBGMP_LT_CURRENT = 23
+LIBGMP_LT_REVISION = 3
+LIBGMP_LT_AGE = 0
 
 LIBGMPXX_LT_CURRENT = 12
-LIBGMPXX_LT_REVISION = 2
+LIBGMPXX_LT_REVISION = 3
 LIBGMPXX_LT_AGE = 4
 
 SUBDIRS = tests
