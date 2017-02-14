@@ -9,6 +9,7 @@ compiler:
 addons:
   apt:
     packages:
+      - yasm
       - texinfo
 script:
   - $CC --version
