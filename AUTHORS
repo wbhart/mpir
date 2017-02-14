@@ -50,7 +50,8 @@ Torbjorn Granlund    revised FFT code, schoolbook and divide and conquer
                      division code (reused in asymptotically fast division
                      code), logops, rootrem, tdiv_q, tdiv_qr, linear division
                      code for x86_64, itanium assembly code, divexact, 
-                     nextprime, n-choose-k 
+                     nextprime, n-choose-k, binvert, mullow_n_basecase, powlo,
+                     redc_n, powm, powm_ui improvements 
 Marco Bodrato        mpz implementation of Toom 7, mpn implementation of 
                      toom 8.5, contributed to Schoolbook division code
                      many improved number theoretical functions factorial,
