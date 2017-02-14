@@ -66,9 +66,11 @@ Peter Shrimpton	     BPSW primality test code for integers up to GMP_LIMB_BITS
 Minh Van Nguyen      Release manager for MPIR 2.1.0
 Case Vanhorsen	     Release testing
 David Cleaver        Bug report
-JP Flori             Many build system patches, tuning values
+JP Flori             Many build system patches, tuning values, port of GMP
+                     mpz_powm and mpz_powm_ui to MPIR
 Sisyphus (Rob)       Tuning values
 Leif Lionhardy       Build system patches, tuning values
 Julien Puydt         Tuning values
-Vincent Delecroix    port of mpq_cmp_z from gmp
-sav-ix (Alexander)   patch for t-locale on Windows
+Vincent Delecroix    Port of mpq_cmp_z from gmp
+sav-ix (Alexander)   Patch for t-locale on Windows
+Isuru Fernando       Tuning values

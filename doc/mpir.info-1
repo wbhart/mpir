@@ -1,11 +1,9 @@
 This is mpir.info, produced by makeinfo version 5.2 from mpir.texi.
 
 This manual describes how to install and use MPIR, the Multiple
-Precision Integers and Rationals library, version 2.7.2.
+Precision Integers and Rationals library, version 3.0.0.
 
-   Copyright 1991, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001,
-2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013
-Free Software Foundation, Inc.
+   Copyright 1991, 1993-2016 Free Software Foundation, Inc.
 
    Copyright 2008, 2009, 2010 William Hart
 
@@ -28,11 +26,9 @@ MPIR
 ****
 
 This manual describes how to install and use MPIR, the Multiple
-Precision Integers and Rationals library, version 2.7.2.
+Precision Integers and Rationals library, version 3.0.0.
 
-   Copyright 1991, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001,
-2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013
-Free Software Foundation, Inc.
+   Copyright 1991, 1993-2016 Free Software Foundation, Inc.
 
    Copyright 2008, 2009, 2010 William Hart
 
@@ -240,7 +236,7 @@ Build Directory
      directory.  For example
 
           cd /my/build/dir
-          /my/sources/mpir-2.7.2/configure
+          /my/sources/mpir-3.0.0/configure
 
      Not all 'make' programs have the necessary features ('VPATH') to
      support this.  In particular, SunOS and Solaris 'make' have bugs
@@ -1499,7 +1495,7 @@ File: mpir.info,  Node: Useful Macros and Constants,  Next: Compatibility with o
 
  -- Global Constant: const char * const mpir_version
      The MPIR version number, as a null-terminated string, in the form
-     "i.j.k".  This release is "2.7.2".
+     "i.j.k".  This release is "3.0.0".
 
 
 File: mpir.info,  Node: Compatibility with older versions,  Next: Efficiency,  Prev: Useful Macros and Constants,  Up: MPIR Basics
@@ -1760,7 +1756,7 @@ Source File Paths
      to the source directory.
 
           cd /my/build/dir
-          /my/source/dir/gmp-2.7.2/configure
+          /my/source/dir/gmp-3.0.0/configure
 
      This works via 'VPATH', and might require GNU 'make'.  Alternately
      it might be possible to change the '.c.lo' rules appropriately.
@@ -3145,6 +3141,71 @@ applications will not need them.
  -- Function: size_t mpz_size (mpz_t OP)
      Return the size of OP measured in number of limbs.  If OP is zero,
      the returned value will be zero.
+
+ -- Function: const mp_limb_t * mpz_limbs_read (const mpz_t X)
+     Return a pointer to the limb array representing the absolute value
+     of X.  The size of the array is 'mpz_size(X)'.  Intended for read
+     access only.
+
+ -- Function: mp_limb_t * mpz_limbs_write (mpz_t X, mp_size_t N)
+ -- Function: mp_limb_t * mpz_limbs_modify (mpz_t X, mp_size_t N)
+     Return a pointer to the limb array, intended for write access.  The
+     array is reallocated as needed, to make room for N limbs.  Requires
+     N > 0.  The 'mpz_limbs_modify' function returns an array that holds
+     the old absolute value of X, while 'mpz_limbs_write' may destroy
+     the old value and return an array with unspecified contents.
+
+ -- Function: void mpz_limbs_finish (mpz_t X, mp_size_t S)
+     Updates the internal size field of X.  Used after writing to the
+     limb array pointer returned by 'mpz_limbs_write' or
+     'mpz_limbs_modify' is completed.  The array should contain abs(S)
+     valid limbs, representing the new absolute value for X, and the
+     sign of X is taken from the sign of S.  This function never
+     reallocates X, so the limb pointer remains valid.
+
+     void foo (mpz_t x)
+     {
+       mp_size_t n, i;
+       mp_limb_t *xp;
+
+       n = mpz_size (x);
+       xp = mpz_limbs_modify (x, 2*n);
+       for (i = 0; i < n; i++)
+         xp[n+i] = xp[n-1-i];
+       mpz_limbs_finish (x, mpz_sgn (x) < 0 ? - 2*n : 2*n);
+     }
+
+ -- Function: mpz_srcptr mpz_roinit_n (mpz_t X, const mp_limb_t *XP,
+          mp_size_t XS)
+     Special initialization of X, using the given limb array and size.
+     X should be treated as read-only: it can be passed safely as input
+     to any mpz function, but not as an output.  The array XP must point
+     to at least a readable limb, its size is abs(XS), and the sign of X
+     is the sign of XS.  For convenience, the function returns X, but
+     cast to a const pointer type.
+
+     void foo (mpz_t x)
+     {
+       static const mp_limb_t y[3] = { 0x1, 0x2, 0x3 };
+       mpz_t tmp;
+       mpz_add (x, x, mpz_roinit_n (tmp, y, 3));
+     }
+
+ -- Macro: mpz_t MPZ_ROINIT_N (mp_limb_t *XP, mp_size_t XS)
+     This macro expands to an initializer which can be assigned to an
+     mpz_t variable.  The limb array XP must point to at least a
+     readable limb, moreover, unlike the 'mpz_roinit_n' function, the
+     array must be normalized: if XS is non-zero, then 'XP[abs(XS)-1]'
+     must be non-zero.  Intended primarily for constant values.  Using
+     it for non-constant values requires a C compiler supporting C99.
+
+     void foo (mpz_t x)
+     {
+       static const mp_limb_t ya[3] = { 0x1, 0x2, 0x3 };
+       static const mpz_t y = MPZ_ROINIT_N ((mp_limb_t *) ya, 3);
+
+       mpz_add (x, x, y);
+     }
 
 
 File: mpir.info,  Node: Rational Number Functions,  Next: Floating-point Functions,  Prev: Integer Functions,  Up: Top
@@ -6939,112 +7000,4 @@ File: mpir.info,  Node: MPIR.Net Settings,  Prev: MPIR.Net Random Numbers,  Up: 
      allocation of large memory blocks while inspecting variables in the
      debugger.  The default value is 256.  Setting this property to 0
      causes all digits to be output.
-
-
-File: mpir.info,  Node: Custom Allocation,  Next: Language Bindings,  Prev: .Net Interface,  Up: Top
-
-14 Custom Allocation
-********************
-
-By default MPIR uses 'malloc', 'realloc' and 'free' for memory
-allocation, and if they fail MPIR prints a message to the standard error
-output and terminates the program.
-
-   Alternate functions can be specified, to allocate memory in a
-different way or to have a different error action on running out of
-memory.
-
- -- Function: void mp_set_memory_functions (
-          void *(*ALLOC_FUNC_PTR) (size_t),
-          void *(*REALLOC_FUNC_PTR) (void *, size_t, size_t),
-          void (*FREE_FUNC_PTR) (void *, size_t))
-     Replace the current allocation functions from the arguments.  If an
-     argument is 'NULL', the corresponding default function is used.
-
-     These functions will be used for all memory allocation done by
-     MPIR, apart from temporary space from 'alloca' if that function is
-     available and MPIR is configured to use it (*note Build Options::).
-
-     *Be sure to call 'mp_set_memory_functions' only when there are no
-     active MPIR objects allocated using the previous memory functions!
-     Usually that means calling it before any other MPIR function.*
-
-   The functions supplied should fit the following declarations:
-
- -- Function: void * allocate_function (size_t ALLOC_SIZE)
-     Return a pointer to newly allocated space with at least ALLOC_SIZE
-     bytes.
-
- -- Function: void * reallocate_function (void *PTR, size_t OLD_SIZE,
-          size_t NEW_SIZE)
-     Resize a previously allocated block PTR of OLD_SIZE bytes to be
-     NEW_SIZE bytes.
-
-     The block may be moved if necessary or if desired, and in that case
-     the smaller of OLD_SIZE and NEW_SIZE bytes must be copied to the
-     new location.  The return value is a pointer to the resized block,
-     that being the new location if moved or just PTR if not.
-
-     PTR is never 'NULL', it's always a previously allocated block.
-     NEW_SIZE may be bigger or smaller than OLD_SIZE.
-
- -- Function: void free_function (void *PTR, size_t SIZE)
-     De-allocate the space pointed to by PTR.
-
-     PTR is never 'NULL', it's always a previously allocated block of
-     SIZE bytes.
-
-   A "byte" here means the unit used by the 'sizeof' operator.
-
-   The OLD_SIZE parameters to REALLOCATE_FUNCTION and FREE_FUNCTION are
-passed for convenience, but of course can be ignored if not needed.  The
-default functions using 'malloc' and friends for instance don't use
-them.
-
-   No error return is allowed from any of these functions, if they
-return then they must have performed the specified operation.  In
-particular note that ALLOCATE_FUNCTION or REALLOCATE_FUNCTION mustn't
-return 'NULL'.
-
-   Getting a different fatal error action is a good use for custom
-allocation functions, for example giving a graphical dialog rather than
-the default print to 'stderr'.  How much is possible when genuinely out
-of memory is another question though.
-
-   There's currently no defined way for the allocation functions to
-recover from an error such as out of memory, they must terminate program
-execution.  A 'longjmp' or throwing a C++ exception will have undefined
-results.  This may change in the future.
-
-   MPIR may use allocated blocks to hold pointers to other allocated
-blocks.  This will limit the assumptions a conservative garbage
-collection scheme can make.
-
-   Any custom allocation functions must align pointers to limb
-boundaries.  Thus if a limb is eight bytes (e.g.  on x86_64), then all
-blocks must be aligned to eight byte boundaries.  Check the
-configuration options for the custom allocation library in use.  It is
-not necessary to align blocks to SSE boundaries even when SSE code is
-used.  All MPIR assembly routines assume limb boundary alignment only
-(which is the default for most standard memory managers).
-
-   Since the default MPIR allocation uses 'malloc' and friends, those
-functions will be linked in even if the first thing a program does is an
-'mp_set_memory_functions'.  It's necessary to change the MPIR sources if
-this is a problem.
-
-
- -- Function: void mp_get_memory_functions (
-          void *(**ALLOC_FUNC_PTR) (size_t),
-          void *(**REALLOC_FUNC_PTR) (void *, size_t, size_t),
-          void (**FREE_FUNC_PTR) (void *, size_t))
-     Get the current allocation functions, storing function pointers to
-     the locations given by the arguments.  If an argument is 'NULL',
-     that function pointer is not stored.
-
-     For example, to get just the current free function,
-
-          void (*freefunc) (void *, size_t);
-
-          mp_get_memory_functions (NULL, NULL, &freefunc);
 
