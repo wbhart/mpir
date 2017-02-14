@@ -94,6 +94,7 @@
 #       2.7.0   16:0:6  8:0:4                Attempt to correct wrt all prev 
 #       2.7.1   22:1:6  12:1:4               Due to trailing space for 2.7.1
 #       2.7.2   22:2:6  12:2:4
+#       3.0.0   23:3:0  12:3:4
 #
 # Starting at 3:0:0 is a slight abuse of the versioning system, but it
 # ensures we're past soname libgmp.so.2, which was used on Debian GNU/Linux
@@ -171,23 +172,21 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
-@BUILD_YASM_TRUE@am__append_1 = yasm
-@WANT_GMPCOMPAT_TRUE@am__append_2 = libgmp.la
+@WANT_GMPCOMPAT_TRUE@am__append_1 = libgmp.la
+@WANT_GMPCOMPAT_TRUE@am__append_2 = gmp.h
 @WANT_GMPCOMPAT_TRUE@am__append_3 = gmp.h
-@WANT_GMPCOMPAT_TRUE@am__append_4 = gmp.h
+@WANT_CXX_TRUE@@WANT_GMPCOMPAT_TRUE@am__append_4 = gmpxx.h
 @WANT_CXX_TRUE@@WANT_GMPCOMPAT_TRUE@am__append_5 = gmpxx.h
-@WANT_CXX_TRUE@@WANT_GMPCOMPAT_TRUE@am__append_6 = gmpxx.h
-@WANT_CXX_TRUE@@WANT_GMPCOMPAT_TRUE@am__append_7 = libgmpxx.la
+@WANT_CXX_TRUE@@WANT_GMPCOMPAT_TRUE@am__append_6 = libgmpxx.la
 subdir = .
 DIST_COMMON = INSTALL NEWS README AUTHORS ChangeLog \
 	$(srcdir)/Makefile.in $(srcdir)/Makefile.am \
 	$(top_srcdir)/configure $(am__configure_deps) \
 	$(srcdir)/config.in $(srcdir)/longlong_pre.h \
-	$(srcdir)/longlong_post.h $(srcdir)/configfsf.guess \
-	$(srcdir)/configfsf.sub $(srcdir)/configure.yasm \
-	$(srcdir)/gmp-h.in $(srcdir)/mpirxx.h \
-	$(am__include_HEADERS_DIST) COPYING COPYING.LIB compile \
-	config.guess config.sub install-sh missing ylwrap ltmain.sh
+	$(srcdir)/longlong_post.h $(srcdir)/gmp-h.in \
+	$(srcdir)/mpirxx.h $(am__include_HEADERS_DIST) COPYING \
+	COPYING.LIB compile config.guess config.sub install-sh missing \
+	ylwrap ltmain.sh
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/acinclude.m4 \
 	$(top_srcdir)/configure.ac
@@ -197,9 +196,8 @@ am__CONFIG_DISTCLEAN_FILES = config.status config.cache config.log \
  configure.lineno config.status.lineno
 mkinstalldirs = $(install_sh) -d
 CONFIG_HEADER = config.h
-CONFIG_CLEAN_FILES = longlong.h yasm/config/config.guess \
-	yasm/config/config.sub yasm/configure.gnu mpir.h gmp.h gmpxx.h \
-	gmp-mparam.h yasm_mac.inc
+CONFIG_CLEAN_FILES = longlong.h mpir.h gmp.h gmpxx.h gmp-mparam.h \
+	yasm_mac.inc
 CONFIG_CLEAN_VPATH_FILES =
 am__vpath_adj_setup = srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`;
 am__vpath_adj = case $$p in \
@@ -376,8 +374,7 @@ am__define_uniq_tagged_files = \
 ETAGS = etags
 CTAGS = ctags
 CSCOPE = cscope
-DIST_SUBDIRS = tests yasm mpn fft mpz mpq mpf printf scanf cxx tune \
-	doc
+DIST_SUBDIRS = $(SUBDIRS)
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 distdir = $(PACKAGE)-$(VERSION)
 top_distdir = $(distdir)
@@ -559,7 +556,6 @@ psdir = @psdir@
 sbindir = @sbindir@
 sharedstatedir = @sharedstatedir@
 srcdir = @srcdir@
-subdirs = @subdirs@
 sysconfdir = @sysconfdir@
 target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
@@ -571,8 +567,7 @@ LIBGMP_LT_AGE = 0
 LIBGMPXX_LT_CURRENT = 12
 LIBGMPXX_LT_REVISION = 3
 LIBGMPXX_LT_AGE = 4
-SUBDIRS = tests $(am__append_1) mpn fft mpz mpq mpf printf scanf cxx \
-	tune doc
+SUBDIRS = tests mpn fft mpz mpq mpf printf scanf cxx tune doc
 EXTRA_DIST = configfsf.guess configfsf.sub .gdbinit INSTALL.autoconf \
 	mpirxx.h yasm_macwin.inc.fat yasm_macwin.inc.nofat \
 	yasm_mac.inc.fat yasm_mac.inc.nofat strip_fPIC.sh mpn/x86w \
@@ -591,10 +586,10 @@ EXTRA_DIST = configfsf.guess configfsf.sub .gdbinit INSTALL.autoconf \
 #
 includeexecdir = $(exec_prefix)/include
 include_HEADERS = $(GMPXX_HEADERS_OPTION)
-nodist_includeexec_HEADERS = mpir.h $(am__append_4) $(am__append_6)
-lib_LTLIBRARIES = libmpir.la $(am__append_2) \
+nodist_includeexec_HEADERS = mpir.h $(am__append_3) $(am__append_5)
+lib_LTLIBRARIES = libmpir.la $(am__append_1) \
 	$(GMPXX_LTLIBRARIES_OPTION)
-BUILT_SOURCES = mpir.h $(am__append_3) $(am__append_5) mpn/dummy1.c
+BUILT_SOURCES = mpir.h $(am__append_2) $(am__append_4) mpn/dummy1.c
 DISTCLEANFILES = $(BUILT_SOURCES) config.m4 fat.h @gmp_srclinks@
 
 # Tell mpir.h it's building gmp, not an application, used by windows DLL stuff.
@@ -733,7 +728,7 @@ libgmp_la_LDFLAGS = $(GMP_LDFLAGS) $(LIBGMP_LDFLAGS) \
 # We need at least one .cc file in $(libmpirxx_la_SOURCES) so automake will
 # use $(CXXLINK) rather than the plain C $(LINK).  cxx/dummy.cc is that
 # file.
-@WANT_CXX_TRUE@GMPXX_LTLIBRARIES_OPTION = libmpirxx.la $(am__append_7)
+@WANT_CXX_TRUE@GMPXX_LTLIBRARIES_OPTION = libmpirxx.la $(am__append_6)
 libmpirxx_la_SOURCES = cxx/dummy.cc
 libmpirxx_la_DEPENDENCIES = $(CXX_OBJECTS) libmpir.la
 libmpirxx_la_LIBADD = $(libmpirxx_la_DEPENDENCIES)
@@ -799,12 +794,6 @@ $(srcdir)/config.in: @MAINTAINER_MODE_TRUE@ $(am__configure_deps)
 distclean-hdr:
 	-rm -f config.h stamp-h1
 longlong.h: $(top_builddir)/config.status $(srcdir)/longlong_pre.h $(srcdir)/longlong_post.h
-	cd $(top_builddir) && $(SHELL) ./config.status $@
-yasm/config/config.guess: $(top_builddir)/config.status $(srcdir)/configfsf.guess
-	cd $(top_builddir) && $(SHELL) ./config.status $@
-yasm/config/config.sub: $(top_builddir)/config.status $(srcdir)/configfsf.sub
-	cd $(top_builddir) && $(SHELL) ./config.status $@
-yasm/configure.gnu: $(top_builddir)/config.status $(srcdir)/configure.yasm
 	cd $(top_builddir) && $(SHELL) ./config.status $@
 mpir.h: $(top_builddir)/config.status $(srcdir)/gmp-h.in
 	cd $(top_builddir) && $(SHELL) ./config.status $@
@@ -1420,19 +1409,6 @@ mpn/dummy1.c:
 #
 dist-hook:
 	-find $(distdir) \( -name CVS -type d \) -o -name "*~" -o -name ".#*" -o -name ".svn" | xargs rm -rf
-	rm -f $(distdir)/yasm/Makefile.in
-	(  VAR=0 ; \
-	   IFS=$(echo -e "\n") ; \
-	   cat $(srcdir)/yasm/Makefile.in | while read -r LINE ; do \
-	   if test `echo $$LINE | grep -ce "^[[:alpha:]]"` -eq 1  ; then VAR=0 ; fi ;  \
-	   if test `echo $$LINE | grep -ce "^install:"` -eq 1  ; then VAR=1 ; echo "install:" ; fi ; \
-	   if test `echo $$VAR` -eq 0 ; then /bin/echo -E "$$LINE" ; fi ; done ) |	\
-	(  VAR=0 ; \
-	   IFS=$(echo -e "\n") ; \
-	   while read -r LINE ; do \
-	   if test `echo $$LINE | grep -ce "^[[:alpha:]]"` -eq 1  ; then VAR=0 ; fi ;  \
-	   if test `echo $$LINE | grep -ce "^check:"` -eq 1  ; then VAR=1 ; echo "check:" ; fi ; \
-	   if test `echo $$VAR` -eq 0 ; then /bin/echo -E "$$LINE" ; fi ; done ) > $(distdir)/yasm/Makefile.in
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
