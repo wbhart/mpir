@@ -22,4 +22,5 @@ script:
        export CXX=g++-4.8;
     fi
   - $CC --version
+  - ./autogen.sh
   - ./configure && make && make check
