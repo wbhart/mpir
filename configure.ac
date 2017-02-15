@@ -1109,6 +1109,10 @@ case $host in
         gcc_cflags_cpu="-mtune=skylake -mtune=corei7-avx -mtune=corei7 -mtune=core2 -mtune=nocona -mtune=pentium3 -mcpu=pentiumpro -mcpu=i486 -m486"
         gcc_cflags_arch="-march=skylake -march=corei7-avx -march=corei7 -march=core2 -march=nocona -march=pentium3 -march=pentiumpro -march=pentium"
         ;;
+      broadwell)
+        gcc_cflags_cpu="-mtune=broadwell -mtune=corei7-avx -mtune=corei7 -mtune=core2 -mtune=nocona -mtune=pentium3 -mcpu=pentiumpro -mcpu=i486 -m486"
+        gcc_cflags_arch="-march=broadwell -march=corei7-avx -march=corei7 -march=core2 -march=nocona -march=pentium3 -march=pentiumpro -march=pentium"
+        ;;
       *)
         gcc_cflags_cpu="-mtune=i486 -mcpu=i486 -m486"
         gcc_cflags_arch="-march=i486"
@@ -1132,7 +1136,7 @@ case $host in
       k8 | bobcat)		path="x86/k7/mmx/k8 x86/k7/mmx x86/k7 x86" ;;
       core2 | penryn)		path="x86/core2 x86" ;;
       i786 | pentium4)		path="x86/pentium4/sse2 x86/pentium4/mmx x86/pentium4 x86" ;;
-      nehalem | westmere | sandybridge | ivybridge | haswell | skylake | skylakeavx)	path="x86/nehalem x86" ;;
+      nehalem | westmere | sandybridge | ivybridge | haswell | skylake | skylakeavx | broadwell)	path="x86/nehalem x86" ;;
       prescott | netburst | netburstlahf)       path="x86/pentium4/sse2 x86/pentium4/mmx x86/pentium4 x86" ;;
       # VIA/Centaur processors, sold as CyrixIII and C3.
       nano | viac32)           path="x86/p6/p3mmx x86/p6/mmx x86/p6 x86";;
@@ -1237,6 +1241,8 @@ case $host in
             path_64="x86_64w/skylake x86_64w/sandybridge x86_64w" ;;
           skylakeavx-pc-msys|skylakeavx-w64-mingw*|skylakeavx-*-cygwin*)
             path_64="x86_64w/skylakeavx x86_64w/skylake x86_64w/haswell x86_64w/sandybridge x86_64w" ;;
+          broadwell-pc-msys|broadwell-w64-mingw*|broadwell-*-cygwin*)
+            path_64="x86_64w/haswell/broadwell x86_64w/haswell/avx x86_64w/haswell x86_64w/sandybridge x86_64w" ;;
           atom-pc-msys|atom-w64-mingw*|atom-*-cygwin*)
             path_64="x86_64w/atom x86_64w" ;;
           nano-pc-msys|nano-w64-mingw*|nano-*-cygwin*)
@@ -1276,6 +1282,8 @@ case $host in
             path_64="x86_64/sandybridge/ivybridge x86_64/sandybridge x86_64/nehalem x86_64/core2 x86_64" ;;
           haswell-*-*)
             path_64="x86_64/haswell/avx x86_64/haswell x86_64/sandybridge x86_64" ;;
+          broadwell-*-*)
+            path_64="x86_64/haswell/broadwell x86_64/haswell/avx x86_64/haswell x86_64/sandybridge x86_64" ;;
           skylake-*-*)
             path_64="x86_64/skylake x86_64/sandybridge x86_64" ;;
           skylakeavx-*-*)
@@ -1294,10 +1302,10 @@ case $host in
           case $host in
             *-pc-msys|*-w64-mingw*|*-*-cygwin*)
               path_64="x86_64w x86_64w/fat"
-              fat_path_64="x86_64w x86_64w/fat x86_64w/netburst x86_64w/k8 x86_64w/k8/k8only x86_64w/k8/k10 x86_64w/k8/k10/k102  x86_64w/core2 x86_64w/core2/penryn x86_64w/nehalem x86_64w/nehalem/westmere x86_64w/atom x86_64w/bobcat x86_64w/sandybridge" ;;
+              fat_path_64="x86_64w x86_64w/fat x86_64w/netburst x86_64w/k8 x86_64w/k8/k8only x86_64w/k8/k10 x86_64w/k8/k10/k102  x86_64w/core2 x86_64w/core2/penryn x86_64w/nehalem x86_64w/nehalem/westmere x86_64w/atom x86_64w/bobcat x86_64w/sandybridge x86_64w/haswell x86_64w/haswell/avx x86_64w/haswell/broadwell x86_64w/skylake x86_64w/skylake/avx" ;;
             *-*-*)
               path_64="x86_64 x86_64/fat"
-              fat_path_64="x86_64 x86_64/fat x86_64/netburst x86_64/k8 x86_64/k8/k8only x86_64/k8/k10 x86_64/k8/k10/k102  x86_64/core2 x86_64/core2/penryn x86_64/nehalem x86_64/nehalem/westmere x86_64/atom x86_64/bobcat x86_64/bulldozer x86_64/bulldozer/piledriver x86_64/sandybridge x86_64/sandybridge/ivybridge x86_64/haswell" ;;
+              fat_path_64="x86_64 x86_64/fat x86_64/netburst x86_64/k8 x86_64/k8/k8only x86_64/k8/k10 x86_64/k8/k10/k102  x86_64/core2 x86_64/core2/penryn x86_64/nehalem x86_64/nehalem/westmere x86_64/atom x86_64/bobcat x86_64/bulldozer x86_64/bulldozer/piledriver x86_64/sandybridge x86_64/sandybridge/ivybridge x86_64/haswell x86_64/haswell/avx x86_64/haswell/broadwell x86_64/skylake x86_64/skylake/avx" ;;
           esac
         fi
         ;;

@@ -51,8 +51,8 @@
         neg	CarryIn		; Set CF iff CarryIn != 0
 	inc     Size
 	dec     Size		; Set ZF without affecting CF
-	jnz     mpn_sub_n.loop1
-        jmp     mpn_sub_n.rest ;ajs:notshortform
+	jnz     loop1
+        jmp     therest ;ajs:notshortform
 
 	align   16
    GLOBAL_FUNC mpn_sub_n
@@ -61,11 +61,11 @@
 	shr     Size, 3
 	cmp     Size, 0
 ;	carry flag is clear here
-	jnz     .loop1
-        jmp     .rest ;ajs:notshortform
+	jnz     loop1
+        jmp     therest ;ajs:notshortform
 
 	align   16
-.loop1:
+loop1:
 	mov     LIMB1, [Inp1P]
 	mov     LIMB2, [Inp1P+8]
 	ADCSBB  LIMB1, [Inp2P]
@@ -94,36 +94,36 @@
 	mov     [SumP+56], LIMB2
 	lea     SumP, [SumP+64]
 	dec     Size
-	jnz     .loop1
+	jnz     loop1
 	inc     SizeRest
 	dec     SizeRest
-	jz      .end
-.rest:
+	jz      end
+therest:
 	mov     LIMB1, [Inp1P]
 	ADCSBB  LIMB1, [Inp2P]
 	mov     [SumP], LIMB1
 	dec     SizeRest
-	jz      .end
+	jz      end
 	mov     LIMB1, [Inp1P+8]
 	ADCSBB  LIMB1, [Inp2P+8]
 	mov     [SumP+8], LIMB1
 	dec     SizeRest
-	jz      .end
+	jz      end
 	mov     LIMB1, [Inp1P+16]
 	ADCSBB  LIMB1, [Inp2P+16]
 	mov     [SumP+16], LIMB1
 	dec     SizeRest
-        jz      .end
+        jz      end
 	mov     LIMB1, [Inp1P+24]
 	ADCSBB  LIMB1, [Inp2P+24]
 	mov     [SumP+24], LIMB1
 	dec     SizeRest
-        jz      .end
+        jz      end
         lea     Inp1P, [Inp1P+32]
         lea     Inp2P, [Inp2P+32]
         lea     SumP, [SumP+32]
-        jmp     .rest
-.end:
+        jmp     therest
+end:
 	mov     eax, 0
 	adc     eax, eax
 	ret

@@ -153,7 +153,15 @@ for information about reporting bugs.
 Everyone should read *note MPIR Basics::.  If you need to install the
 library yourself, then read *note Installing MPIR::.  If you have a
 system with multiple ABIs, then read *note ABI and ISA::, for the
-compiler options that must be used on applications.
+compiler options that must be used on applications.  In addition to
+usual compilation tools, MPIR depends on Yasm to be built.  If yasm is
+not available on your system, you can download its sources at
+
+     <http://yasm.tortall.net/Download.html>
+
+   build your own version and make it available to MPIR configuration
+system by passing its path to 'configure' through the '--with-yasm'
+option.  See *note Build Options:: for further details.
 
    The rest of the manual can be used for later reference, although it
 is probably a good idea to glance through it.
@@ -180,13 +188,13 @@ And you can install (under '/usr/local' by default) with
 
    Important note: by default MPIR produces libraries named libmpir,
 etc., and the header file 'mpir.h'.  If you wish to have MPIR to build a
-library named libgmp as well, etc., and a gmp.h header file, so that you
-can use mpir with programs designed to only work with GMP, then use the
-'--enable-gmpcompat' option when invoking configure:
+library named libgmp as well, etc., and a 'gmp.h' header file, so that
+you can use mpir with programs designed to only work with GMP, then use
+the '--enable-gmpcompat' option when invoking configure:
 
      ./configure --enable-gmpcompat
 
-   Note gmp.h is only created upon running make install.
+   Note 'gmp.h' is only created upon running make install.
 
    MPIR is compatible with GMP when the '--enable-gmpcompat' option is
 used, except that the GMP secure cryptographic functions are not
@@ -393,16 +401,14 @@ Fat binary, '--enable-fat'
      See *note ABI and ISA::, for the available choices on relevant
      CPUs, and what applications need to do.
 
-'--with-yasm', '--with-system-yasm'
-     By default MPIR will compile its own version of Yasm if needed.
-     Passing '--with-yasm' or '--with-system-yasm' let MPIR use a
-     precompiled version of Yasm.  With the former option a full path to
-     Yasm's binary should be given, for example
+'--with-yasm'
+     By default MPIR will look for a system-wide Yasm using the 'which'
+     command.  Passing '--with-yasm' let MPIR use a version of Yasm at a
+     non-standard location.  This is useful if none is available in
+     'PATH'.  With this option a full path to Yasm's binary should be
+     given, for example
 
           ./configure --with-yasm=/usr/local/bin/yasm
-
-     with the latter option MPIR will try to detect a system-wide
-     installation of Yasm.  Both options are mutually exclusive.
 
 'CC', 'CFLAGS'
      By default the C compiler used is chosen from among some likely
@@ -6952,52 +6958,4 @@ File: mpir.info,  Node: MPIR.Net Random Numbers,  Next: MPIR.Net Settings,  Prev
      Returns an expression that generates a random float with long
      strings of zeros and ones in the binary representation, and the
      specified number of significant limbs in the mantissa.
-
-
-File: mpir.info,  Node: MPIR.Net Settings,  Prev: MPIR.Net Random Numbers,  Up: .Net Interface
-
-13.7 MPIR.Net Settings
-======================
-
- -- Static Class: MpirSettings
-     This static class contains several members that describe or control
-     various default behaviors of the other MPIR.Net classes.
-
- -- Constant: int BITS_PER_LIMB
-     Represents the total number of bits in a single MPIR limb,
-     including data bits and nail bits.  This will be either 32 or 64,
-     depending on your selected build architecture.
-
- -- Constant: int NAIL_BITS_PER_LIMB
-     Represents the number of nail bits in a single MPIR limb.  Nail
-     bits are used internally by MPIR.
-
- -- Constant: int USABLE_BITS_PER_LIMB
-     Represents the number of data bits in a single MPIR limb.
-
- -- Constant: Version MPIR_VERSION
-     Represents the version of the underlying MPIR library
-
- -- Constant: Version GMP_VERSION
-     Represents the version of GMP with which the underlying MPIR
-     library is compatible
-
- -- Static Property: RoundingModes RoundingMode
-     Gets or sets the default rounding mode used for MPIR integer
-     division operations that don't explicitly specify a rounding mode.
-     Does not affect rational or float operations.  The default value is
-     'Truncate'.
-
- -- Static Property: int ToStringDigits
-     Gets or sets the maximum number of digits the 'object.ToString()'
-     method override will output.  If an integer number is longer than
-     this number of digits, it will be output as "'[-]...NNNNN'" with
-     the least significant digits shown.  Rational numbers apply the
-     limit separately to the numerator and denominator.  Floats output
-     the most significant digits, and there is no ellipsis.
-
-     The primary purpose of this setting is to prevent accidental
-     allocation of large memory blocks while inspecting variables in the
-     debugger.  The default value is 256.  Setting this property to 0
-     causes all digits to be output.
 
