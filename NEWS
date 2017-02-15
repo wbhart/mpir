@@ -38,7 +38,7 @@ Features:
 * Improved AMD Bulldozer support due to Alex Kruppa
 * Faster mpz_powm, mpz_powm_ui from GMP
 * New mpz_limbs functionality from GMP 6
-* New mpn_sizeinbase function from GMP 6
+* New mpn_sizeinbase, mullow_basecase_n, binvert, redc_1, redc_2, redc_n functions from GMP 6
 * New mpn_nsumdiff_n function (speeds up FFT on haswell)
 * Visual Studio 2017 support
 * mpir.net for interface to .net languages
