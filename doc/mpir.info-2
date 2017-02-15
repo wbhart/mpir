@@ -20,6 +20,54 @@ START-INFO-DIR-ENTRY
 END-INFO-DIR-ENTRY
 
 
+File: mpir.info,  Node: MPIR.Net Settings,  Prev: MPIR.Net Random Numbers,  Up: .Net Interface
+
+13.7 MPIR.Net Settings
+======================
+
+ -- Static Class: MpirSettings
+     This static class contains several members that describe or control
+     various default behaviors of the other MPIR.Net classes.
+
+ -- Constant: int BITS_PER_LIMB
+     Represents the total number of bits in a single MPIR limb,
+     including data bits and nail bits.  This will be either 32 or 64,
+     depending on your selected build architecture.
+
+ -- Constant: int NAIL_BITS_PER_LIMB
+     Represents the number of nail bits in a single MPIR limb.  Nail
+     bits are used internally by MPIR.
+
+ -- Constant: int USABLE_BITS_PER_LIMB
+     Represents the number of data bits in a single MPIR limb.
+
+ -- Constant: Version MPIR_VERSION
+     Represents the version of the underlying MPIR library
+
+ -- Constant: Version GMP_VERSION
+     Represents the version of GMP with which the underlying MPIR
+     library is compatible
+
+ -- Static Property: RoundingModes RoundingMode
+     Gets or sets the default rounding mode used for MPIR integer
+     division operations that don't explicitly specify a rounding mode.
+     Does not affect rational or float operations.  The default value is
+     'Truncate'.
+
+ -- Static Property: int ToStringDigits
+     Gets or sets the maximum number of digits the 'object.ToString()'
+     method override will output.  If an integer number is longer than
+     this number of digits, it will be output as "'[-]...NNNNN'" with
+     the least significant digits shown.  Rational numbers apply the
+     limit separately to the numerator and denominator.  Floats output
+     the most significant digits, and there is no ellipsis.
+
+     The primary purpose of this setting is to prevent accidental
+     allocation of large memory blocks while inspecting variables in the
+     debugger.  The default value is 256.  Setting this property to 0
+     causes all digits to be output.
+
+
 File: mpir.info,  Node: Custom Allocation,  Next: Language Bindings,  Prev: .Net Interface,  Up: Top
 
 14 Custom Allocation
@@ -3545,20 +3593,19 @@ Concept Index
 * '#include':                            Headers and Libraries.
                                                               (line   6)
 * '--build':                             Build Options.       (line  60)
-* '--disable-fft':                       Build Options.       (line 323)
+* '--disable-fft':                       Build Options.       (line 321)
 * '--disable-shared':                    Build Options.       (line  53)
 * '--disable-static':                    Build Options.       (line  53)
-* '--enable-alloca':                     Build Options.       (line 289)
-* '--enable-assert':                     Build Options.       (line 328)
-* '--enable-cxx':                        Build Options.       (line 241)
+* '--enable-alloca':                     Build Options.       (line 287)
+* '--enable-assert':                     Build Options.       (line 326)
+* '--enable-cxx':                        Build Options.       (line 239)
 * '--enable-fat':                        Build Options.       (line 163)
 * '--enable-gmpcompat':                  Build Options.       (line  45)
-* '--enable-profiling':                  Build Options.       (line 332)
+* '--enable-profiling':                  Build Options.       (line 330)
 * '--enable-profiling' <1>:              Profiling.           (line   6)
 * '--exec-prefix':                       Build Options.       (line  32)
 * '--host':                              Build Options.       (line  74)
 * '--prefix':                            Build Options.       (line  32)
-* '--with-system-yasm':                  Build Options.       (line 182)
 * '--with-yasm':                         Build Options.       (line 182)
 * '-finstrument-functions':              Profiling.           (line  66)
 * .Net Interface:                        .Net Interface.      (line   6)
@@ -3573,7 +3620,7 @@ Concept Index
 * AIX:                                   ABI and ISA.         (line  95)
 * AIX <1>:                               ABI and ISA.         (line 103)
 * Algorithms:                            Algorithms.          (line   6)
-* 'alloca':                              Build Options.       (line 289)
+* 'alloca':                              Build Options.       (line 287)
 * Allocation of memory:                  Custom Allocation.   (line   6)
 * AMD64:                                 ABI and ISA.         (line  45)
 * Application Binary Interface:          ABI and ISA.         (line   6)
@@ -3599,7 +3646,7 @@ Concept Index
                                                               (line   6)
 * Assembler writing guide:               Assembler Writing Guide.
                                                               (line   6)
-* Assertion checking:                    Build Options.       (line 328)
+* Assertion checking:                    Build Options.       (line 326)
 * Assertion checking <1>:                Debugging.           (line  75)
 * Assignment functions:                  Assigning Integers.  (line   6)
 * Assignment functions <1>:              Simultaneous Integer Init & Assign.
@@ -3637,18 +3684,18 @@ Concept Index
 * Build system:                          Build Options.       (line  60)
 * Building MPIR:                         Installing MPIR.     (line   6)
 * Bus error:                             Debugging.           (line   7)
-* C compiler:                            Build Options.       (line 193)
-* C++ compiler:                          Build Options.       (line 265)
+* C compiler:                            Build Options.       (line 191)
+* C++ compiler:                          Build Options.       (line 263)
 * C++ interface:                         C++ Class Interface. (line   6)
 * C++ interface internals:               C++ Interface Internals.
                                                               (line   6)
 * C++ 'istream' input:                   C++ Formatted Input. (line   6)
 * C++ 'ostream' output:                  C++ Formatted Output.
                                                               (line   6)
-* C++ support:                           Build Options.       (line 241)
-* 'CC':                                  Build Options.       (line 193)
-* 'CC_FOR_BUILD':                        Build Options.       (line 228)
-* 'CFLAGS':                              Build Options.       (line 193)
+* C++ support:                           Build Options.       (line 239)
+* 'CC':                                  Build Options.       (line 191)
+* 'CC_FOR_BUILD':                        Build Options.       (line 226)
+* 'CFLAGS':                              Build Options.       (line 191)
 * Checker:                               Debugging.           (line 111)
 * 'checkergcc':                          Debugging.           (line 118)
 * Code organisation:                     Assembler Code Organisation.
@@ -3674,14 +3721,14 @@ Concept Index
                                                               (line   6)
 * Conversion functions <2>:              Converting Floats.   (line   6)
 * Copying conditions:                    Copying.             (line   6)
-* 'CPPFLAGS':                            Build Options.       (line 219)
+* 'CPPFLAGS':                            Build Options.       (line 217)
 * CPU types:                             Introduction to MPIR.
                                                               (line  24)
 * CPU types <1>:                         Build Options.       (line 115)
 * Cross compiling:                       Build Options.       (line  74)
 * Custom allocation:                     Custom Allocation.   (line   6)
-* 'CXX':                                 Build Options.       (line 265)
-* 'CXXFLAGS':                            Build Options.       (line 265)
+* 'CXX':                                 Build Options.       (line 263)
+* 'CXXFLAGS':                            Build Options.       (line 263)
 * Cygwin:                                Notes for Particular Systems.
                                                               (line  21)
 * Debugging:                             Debugging.           (line   6)
@@ -3697,17 +3744,17 @@ Concept Index
 * Division functions <2>:                Float Arithmetic.    (line  27)
 * DLLs:                                  Notes for Particular Systems.
                                                               (line  34)
-* DocBook:                               Build Options.       (line 355)
-* Documentation formats:                 Build Options.       (line 348)
+* DocBook:                               Build Options.       (line 353)
+* Documentation formats:                 Build Options.       (line 346)
 * Documentation license:                 GNU Free Documentation License.
                                                               (line   6)
-* DVI:                                   Build Options.       (line 351)
+* DVI:                                   Build Options.       (line 349)
 * Efficiency:                            Efficiency.          (line   6)
 * Emacs:                                 Emacs.               (line   6)
 * Exact division functions:              Integer Division.    (line  99)
 * Exact remainder:                       Exact Remainder.     (line   6)
 * Exec prefix:                           Build Options.       (line  32)
-* Execution profiling:                   Build Options.       (line 332)
+* Execution profiling:                   Build Options.       (line 330)
 * Execution profiling <1>:               Profiling.           (line   6)
 * Exponentiation functions:              Integer Exponentiation.
                                                               (line   6)
@@ -3723,7 +3770,7 @@ Concept Index
                                                               (line 163)
 * Fast Fourier Transform:                FFT Multiplication.  (line   6)
 * Fat binary:                            Build Options.       (line 163)
-* FFT multiplication:                    Build Options.       (line 323)
+* FFT multiplication:                    Build Options.       (line 321)
 * FFT multiplication <1>:                FFT Multiplication.  (line   6)
 * Fibonacci number algorithm:            Fibonacci Numbers Algorithm.
                                                               (line   6)
@@ -3944,7 +3991,7 @@ Concept Index
                                                               (line   6)
 * 'mpirxx.h':                            C++ Interface General.
                                                               (line   8)
-* 'MPN_PATH':                            Build Options.       (line 336)
+* 'MPN_PATH':                            Build Options.       (line 334)
 * MS Windows:                            Notes for Particular Systems.
                                                               (line  21)
 * MS Windows <1>:                        Notes for Particular Systems.
@@ -3991,14 +4038,14 @@ Concept Index
                                                               (line   6)
 * Past GMP/MPIR versions:                Compatibility with older versions.
                                                               (line   6)
-* PDF:                                   Build Options.       (line 351)
+* PDF:                                   Build Options.       (line 349)
 * Perfect power algorithm:               Perfect Power Algorithm.
                                                               (line   6)
 * Perfect power functions:               Integer Roots.       (line  30)
 * Perfect square algorithm:              Perfect Square Algorithm.
                                                               (line   6)
 * Perfect square functions:              Integer Roots.       (line  39)
-* Postscript:                            Build Options.       (line 351)
+* Postscript:                            Build Options.       (line 349)
 * Powering algorithms:                   Powering Algorithms. (line   6)
 * Powering functions:                    Integer Exponentiation.
                                                               (line   6)
@@ -4110,7 +4157,7 @@ Concept Index
 * SSE2:                                  Notes for Particular Systems.
                                                               (line  93)
 * Stack backtrace:                       Debugging.           (line  46)
-* Stack overflow:                        Build Options.       (line 289)
+* Stack overflow:                        Build Options.       (line 287)
 * Stack overflow <1>:                    Debugging.           (line   7)
 * Static linking:                        Efficiency.          (line  14)
 * 'stdarg.h':                            Headers and Libraries.
@@ -4120,8 +4167,8 @@ Concept Index
 * Sun:                                   ABI and ISA.         (line 120)
 * Systems:                               Notes for Particular Systems.
                                                               (line   6)
-* Temporary memory:                      Build Options.       (line 289)
-* Texinfo:                               Build Options.       (line 348)
+* Temporary memory:                      Build Options.       (line 287)
+* Texinfo:                               Build Options.       (line 346)
 * Text input/output:                     Efficiency.          (line 151)
 * Thread safety:                         Reentrancy.          (line   6)
 * Toom multiplication:                   Toom 3-Way Multiplication.
@@ -4161,7 +4208,7 @@ Concept Index
                                                               (line  87)
 * x87:                                   Notes for Particular Systems.
                                                               (line  12)
-* XML:                                   Build Options.       (line 355)
+* XML:                                   Build Options.       (line 353)
 * XOP:                                   Known Build Problems.
                                                               (line   9)
 * Yasm:                                  Build Options.       (line 182)

@@ -102,10 +102,6 @@ LIBGMPXX_LT_AGE = 4
 
 SUBDIRS = tests
 
-if BUILD_YASM
-SUBDIRS += yasm
-endif
-
 SUBDIRS += mpn fft mpz mpq mpf printf scanf cxx tune doc
 
 EXTRA_DIST = configfsf.guess configfsf.sub .gdbinit INSTALL.autoconf
@@ -113,7 +109,7 @@ EXTRA_DIST = configfsf.guess configfsf.sub .gdbinit INSTALL.autoconf
 if WANT_CXX
 GMPXX_HEADERS_OPTION = mpirxx.h
 endif
-EXTRA_DIST += mpirxx.h yasm_macwin.inc.fat yasm_macwin.inc.nofat yasm_mac.inc.fat yasm_mac.inc.nofat strip_fPIC.sh mpn/x86w mpn/x86_64w build.vc10 build.vc11 build.vc12 build.vc14 doc/devel doc/fdl.texi cpuid.c gpl-2.0.txt lgpl-2.1.txt
+EXTRA_DIST += mpirxx.h yasm_macwin.inc.fat yasm_macwin.inc.nofat yasm_mac.inc.fat yasm_mac.inc.nofat strip_fPIC.sh mpn/x86w mpn/x86_64w build.vc11 build.vc12 build.vc14 build.vc15 doc/devel doc/fdl.texi cpuid.c gpl-2.0.txt lgpl-2.1.txt
 
 # mpir.h is architecture dependent, mainly since they encode the
 # limb size used in libmpir.  For that reason they belong under $exec_prefix
@@ -274,16 +270,3 @@ BUILT_SOURCES += mpn/dummy1.c
 #
 dist-hook:
 	-find $(distdir) \( -name CVS -type d \) -o -name "*~" -o -name ".#*" -o -name ".svn" | xargs rm -rf
-	rm -f $(distdir)/yasm/Makefile.in
-	(  VAR=0 ; \
-	   IFS=$(echo -e "\n") ; \
-	   cat $(srcdir)/yasm/Makefile.in | while read -r LINE ; do \
-	   if test `echo $$LINE | grep -ce "^[[:alpha:]]"` -eq 1  ; then VAR=0 ; fi ;  \
-	   if test `echo $$LINE | grep -ce "^install:"` -eq 1  ; then VAR=1 ; echo "install:" ; fi ; \
-	   if test `echo $$VAR` -eq 0 ; then /bin/echo -E "$$LINE" ; fi ; done ) |	\
-	(  VAR=0 ; \
-	   IFS=$(echo -e "\n") ; \
-	   while read -r LINE ; do \
-	   if test `echo $$LINE | grep -ce "^[[:alpha:]]"` -eq 1  ; then VAR=0 ; fi ;  \
-	   if test `echo $$LINE | grep -ce "^check:"` -eq 1  ; then VAR=1 ; echo "check:" ; fi ; \
-	   if test `echo $$VAR` -eq 0 ; then /bin/echo -E "$$LINE" ; fi ; done ) > $(distdir)/yasm/Makefile.in

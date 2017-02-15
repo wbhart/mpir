@@ -175,10 +175,12 @@ CPUVEC_SETUP_x86_64;
 	  if (model == 55){ CPUIS(atom);break;}
           if (model == 58){ CPUIS(ivybridge);break;}
 	  if (model == 60){ CPUIS(haswell);break;}
+          if (model == 61){ CPUIS(broadwell);break;}
           if (model == 62){ CPUIS(ivybridge);break;}
           if (model == 63){ CPUIS(haswell);break;}
           if (model == 69){ CPUIS(haswell);break;}
           if (model == 70){ CPUIS(haswell);break;}
+          if (model == 78){ CPUIS(skylakeavx);break;}
           if (model == 94){
               int feat = ((int *)features)[2];
               if (feat & FEAT_HAS_AVX) { CPUIS(skylakeavx);break; } /* Core i Skylake */

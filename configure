@@ -658,12 +658,10 @@ ac_includes_default="\
 # include <unistd.h>
 #endif"
 
-enable_option_checking=no
 ac_subst_vars='am__EXEEXT_FALSE
 am__EXEEXT_TRUE
 LTLIBOBJS
 LIBOBJS
-subdirs
 TUNE_SQR_OBJ
 gmp_srclinks
 mpn_objs_in_libgmp
@@ -706,8 +704,6 @@ ac_ct_CXX
 CXXFLAGS
 CXX
 MPIR_AS
-BUILD_YASM_FALSE
-BUILD_YASM_TRUE
 CCAS
 LIBM_FOR_BUILD
 U_FOR_BUILD
@@ -818,7 +814,6 @@ enable_option_checking
 enable_silent_rules
 enable_maintainer_mode
 with_yasm
-with_system_yasm
 enable_assert
 enable_alloca
 enable_cxx
@@ -852,7 +847,7 @@ CXXFLAGS
 CCC
 CXXCPP
 M4'
-ac_subdirs_all='yasm'
+
 
 # Initialize some variables set by options.
 ac_init_help=
@@ -1494,8 +1489,7 @@ Optional Features:
 Optional Packages:
   --with-PACKAGE[=ARG]    use PACKAGE [ARG=yes]
   --without-PACKAGE       do not use PACKAGE (same as --with-PACKAGE=no)
-  --with-yasm             use a custom Yasm [[default=no]]
-  --with-system-yasm      use a system-wide Yasm [[default=no]]
+  --with-yasm             use a custom Yasm
   --with-pic[=PKGS]       try to use only PIC/non-PIC objects [default=use
                           both]
   --with-gnu-ld           assume the C compiler uses GNU ld [default=no]
@@ -3683,26 +3677,7 @@ fi
 
 # Check whether --with-yasm was given.
 if test "${with_yasm+set}" = set; then :
-  withval=$with_yasm; case "$withval" in
-  no) ;;
-  *) as_fn_error $? "bad value $withval for --with-yasm, need no or path to Yasm's executable" "$LINENO" 5 ;;
-esac
-else
-  with_yasm=no
-
-fi
-
-
-
-# Check whether --with-system-yasm was given.
-if test "${with_system_yasm+set}" = set; then :
-  withval=$with_system_yasm; case "$withval" in
-  yes|no) ;;
-  *) as_fn_error $? "bad value $withval for --with-system-yasm, need yes or no" "$LINENO" 5 ;;
-esac
-else
-  with_system_yasm=no
-
+  withval=$with_yasm;
 fi
 
 
@@ -4601,7 +4576,7 @@ echo "include_mpn(\`sparc32/sparc-defs.m4')" >> $gmp_tmpconfigm4i
   # mode, in case -m32 has failed not because it's an old gcc, but because
   # it's a dual 32/64-bit gcc without a 32-bit libc, or whatever.
   #
-  i?86*-*-* | k[5-8]*-*-* | pentium*-*-* | prescott-*-* | core-*-* | athlon-*-* | viac3*-*-* | x86_64-*-* | netburst-*-* | netburstlahf-*-* | k8-*-* | k10-*-* | k102-*-* | k103-*-* | core2-*-* | penryn-*-* | nehalem-*-* | westmere-*-* | sandybridge-*-* | atom-*-* | nano-*-* | bobcat-*-* | bulldozer-*-* | piledriver-*-* | ivybridge-*-* | haswell-*-*  | skylake-*-* | skylakeavx-*-*)
+  i?86*-*-* | k[5-8]*-*-* | pentium*-*-* | prescott-*-* | core-*-* | athlon-*-* | viac3*-*-* | x86_64-*-* | netburst-*-* | netburstlahf-*-* | k8-*-* | k10-*-* | k102-*-* | k103-*-* | core2-*-* | penryn-*-* | nehalem-*-* | westmere-*-* | sandybridge-*-* | atom-*-* | nano-*-* | bobcat-*-* | bulldozer-*-* | piledriver-*-* | ivybridge-*-* | haswell-*-*  | broadwell-*-* | skylake-*-* | skylakeavx-*-*)
     abilist="32"
     cclist="gcc icc cc"
     gcc_cflags="-O2 $fomit_frame_pointer"
@@ -4616,8 +4591,6 @@ echo "include_mpn(\`sparc32/sparc-defs.m4')" >> $gmp_tmpconfigm4i
     any_32_testlist="sizeof-long-4"
     CALLING_CONVENTIONS_OBJS='x86call.lo x86check$U.lo'
 
-    # Currently yasm is only needed to build x86 assembly files on some hosts
-    want_yasm="yes"
     # Availability of rdtsc is checked at run-time.
     SPEED_CYCLECOUNTER_OBJ=pentium.lo
 
@@ -4791,6 +4764,10 @@ echo "include_mpn(\`sparc32/sparc-defs.m4')" >> $gmp_tmpconfigm4i
         gcc_cflags_cpu="-mtune=skylake -mtune=corei7-avx -mtune=corei7 -mtune=core2 -mtune=nocona -mtune=pentium3 -mcpu=pentiumpro -mcpu=i486 -m486"
         gcc_cflags_arch="-march=skylake -march=corei7-avx -march=corei7 -march=core2 -march=nocona -march=pentium3 -march=pentiumpro -march=pentium"
         ;;
+      broadwell)
+        gcc_cflags_cpu="-mtune=broadwell -mtune=corei7-avx -mtune=corei7 -mtune=core2 -mtune=nocona -mtune=pentium3 -mcpu=pentiumpro -mcpu=i486 -m486"
+        gcc_cflags_arch="-march=broadwell -march=corei7-avx -march=corei7 -march=core2 -march=nocona -march=pentium3 -march=pentiumpro -march=pentium"
+        ;;
       *)
         gcc_cflags_cpu="-mtune=i486 -mcpu=i486 -m486"
         gcc_cflags_arch="-march=i486"
@@ -4814,7 +4791,7 @@ echo "include_mpn(\`sparc32/sparc-defs.m4')" >> $gmp_tmpconfigm4i
       k8 | bobcat)		path="x86/k7/mmx/k8 x86/k7/mmx x86/k7 x86" ;;
       core2 | penryn)		path="x86/core2 x86" ;;
       i786 | pentium4)		path="x86/pentium4/sse2 x86/pentium4/mmx x86/pentium4 x86" ;;
-      nehalem | westmere | sandybridge | ivybridge | haswell | skylake | skylakeavx)	path="x86/nehalem x86" ;;
+      nehalem | westmere | sandybridge | ivybridge | haswell | skylake | skylakeavx | broadwell)	path="x86/nehalem x86" ;;
       prescott | netburst | netburstlahf)       path="x86/pentium4/sse2 x86/pentium4/mmx x86/pentium4 x86" ;;
       # VIA/Centaur processors, sold as CyrixIII and C3.
       nano | viac32)           path="x86/p6/p3mmx x86/p6/mmx x86/p6 x86";;
@@ -4856,7 +4833,7 @@ echo "include_mpn(\`sparc32/sparc-defs.m4')" >> $gmp_tmpconfigm4i
     fi
 
     case $host in
-      x86_64-*-* | netburst-*-* | netburstlahf-*-* | k8-*-* | k10-*-* | k102-*-* | k103-*-* | core2-*-* | penryn-*-* | nehalem-*-* | westmere-*-* | sandybridge-*-* | atom-*-* | nano-*-* | bobcat-*-* | bulldozer-*-* | piledriver-*-* | ivybridge-*-* | haswell-*-*  | skylake-*-* | skylakeavx-*-*)
+      x86_64-*-* | netburst-*-* | netburstlahf-*-* | k8-*-* | k10-*-* | k102-*-* | k103-*-* | core2-*-* | penryn-*-* | nehalem-*-* | westmere-*-* | sandybridge-*-* | atom-*-* | nano-*-* | bobcat-*-* | bulldozer-*-* | piledriver-*-* | ivybridge-*-* | haswell-*-*  | broadwell-*-* | skylake-*-* | skylakeavx-*-*)
         abilist="64 32"
         cclist_64="gcc cc"
         gcc_64_cflags="-m64"
@@ -4919,6 +4896,8 @@ echo "include_mpn(\`sparc32/sparc-defs.m4')" >> $gmp_tmpconfigm4i
             path_64="x86_64w/skylake x86_64w/sandybridge x86_64w" ;;
           skylakeavx-pc-msys|skylakeavx-w64-mingw*|skylakeavx-*-cygwin*)
             path_64="x86_64w/skylakeavx x86_64w/skylake x86_64w/haswell x86_64w/sandybridge x86_64w" ;;
+          broadwell-pc-msys|broadwell-w64-mingw*|broadwell-*-cygwin*)
+            path_64="x86_64w/haswell/broadwell x86_64w/haswell/avx x86_64w/haswell x86_64w/sandybridge x86_64w" ;;
           atom-pc-msys|atom-w64-mingw*|atom-*-cygwin*)
             path_64="x86_64w/atom x86_64w" ;;
           nano-pc-msys|nano-w64-mingw*|nano-*-cygwin*)
@@ -4958,6 +4937,8 @@ echo "include_mpn(\`sparc32/sparc-defs.m4')" >> $gmp_tmpconfigm4i
             path_64="x86_64/sandybridge/ivybridge x86_64/sandybridge x86_64/nehalem x86_64/core2 x86_64" ;;
           haswell-*-*)
             path_64="x86_64/haswell/avx x86_64/haswell x86_64/sandybridge x86_64" ;;
+          broadwell-*-*)
+            path_64="x86_64/haswell/broadwell x86_64/haswell/avx x86_64/haswell x86_64/sandybridge x86_64" ;;
           skylake-*-*)
             path_64="x86_64/skylake x86_64/sandybridge x86_64" ;;
           skylakeavx-*-*)
@@ -4976,10 +4957,10 @@ echo "include_mpn(\`sparc32/sparc-defs.m4')" >> $gmp_tmpconfigm4i
           case $host in
             *-pc-msys|*-w64-mingw*|*-*-cygwin*)
               path_64="x86_64w x86_64w/fat"
-              fat_path_64="x86_64w x86_64w/fat x86_64w/netburst x86_64w/k8 x86_64w/k8/k8only x86_64w/k8/k10 x86_64w/k8/k10/k102  x86_64w/core2 x86_64w/core2/penryn x86_64w/nehalem x86_64w/nehalem/westmere x86_64w/atom x86_64w/bobcat x86_64w/sandybridge" ;;
+              fat_path_64="x86_64w x86_64w/fat x86_64w/netburst x86_64w/k8 x86_64w/k8/k8only x86_64w/k8/k10 x86_64w/k8/k10/k102  x86_64w/core2 x86_64w/core2/penryn x86_64w/nehalem x86_64w/nehalem/westmere x86_64w/atom x86_64w/bobcat x86_64w/sandybridge x86_64w/haswell x86_64w/haswell/avx x86_64w/haswell/broadwell x86_64w/skylake x86_64w/skylake/avx" ;;
             *-*-*)
               path_64="x86_64 x86_64/fat"
-              fat_path_64="x86_64 x86_64/fat x86_64/netburst x86_64/k8 x86_64/k8/k8only x86_64/k8/k10 x86_64/k8/k10/k102  x86_64/core2 x86_64/core2/penryn x86_64/nehalem x86_64/nehalem/westmere x86_64/atom x86_64/bobcat x86_64/bulldozer x86_64/bulldozer/piledriver x86_64/sandybridge x86_64/sandybridge/ivybridge x86_64/haswell" ;;
+              fat_path_64="x86_64 x86_64/fat x86_64/netburst x86_64/k8 x86_64/k8/k8only x86_64/k8/k10 x86_64/k8/k10/k102  x86_64/core2 x86_64/core2/penryn x86_64/nehalem x86_64/nehalem/westmere x86_64/atom x86_64/bobcat x86_64/bulldozer x86_64/bulldozer/piledriver x86_64/sandybridge x86_64/sandybridge/ivybridge x86_64/haswell x86_64/haswell/avx x86_64/haswell/broadwell x86_64/skylake x86_64/skylake/avx" ;;
           esac
         fi
         ;;
@@ -10278,40 +10259,20 @@ test -n "$CCAS" || CCAS="$CC -c"
 
 
 # If the user provided its Yasm, check it seems functional
-if test "$with_yasm" != "no" && test "$with_system_yasm" != "no"; then
-  as_fn_error $? "you cannot provide non-default values to both --with-yasm and --with-system-yasm" "$LINENO" 5
-fi
 MPIR_AS=""
-if test "$with_system_yasm" = "yes"; then
+if test -z "$with_yasm"; then
   echo "Looking for a system-wide yasm..."
   MPIR_AS=`which yasm`
   if test $? -ne 0; then
     as_fn_error $? "no system-wide yasm found" "$LINENO" 5
   fi
-fi
-if test "$with_yasm" != no; then
+else
   MPIR_AS="$with_yasm"
 fi
-if test -n "$MPIR_AS"; then
-  echo "Checking user-provided yasm..."
-  if ! test -f "$MPIR_AS" || ! test -x "$MPIR_AS"; then
-    as_fn_error $? "$MPIR_AS does not seem functional" "$LINENO" 5
-  fi
+echo "Checking yasm..."
+if ! test -f "$MPIR_AS" || ! test -x "$MPIR_AS"; then
+  as_fn_error $? "$MPIR_AS does not seem functional" "$LINENO" 5
 fi
-# Otherwise build it if needed.
-if test "$want_yasm" = "yes" && test -z "$MPIR_AS"; then
-  build_yasm="yes"
-  MPIR_AS="\$(top_builddir)/yasm/yasm"
-fi
-
- if test "$build_yasm" = "yes"; then
-  BUILD_YASM_TRUE=
-  BUILD_YASM_FALSE='#'
-else
-  BUILD_YASM_TRUE='#'
-  BUILD_YASM_FALSE=
-fi
-
 
 
 # The C++ compiler, if desired.
@@ -10805,7 +10766,7 @@ done
 # enough assembler.
 #
 case $host in
-  i?86*-*-* | k[5-8]*-*-* | pentium*-*-* | prescott-*-* | core-*-* | athlon-*-* | viac3*-*-* | x86_64-*-* | netburst-*-* | netburstlahf-*-* | k8-*-* | k10-*-* | k102-*-* | k103-*-* | core2-*-* | penryn-*-* | nehalem-*-* | westmere-*-* | sandybridge-*-* | atom-*-* | nano-*-* | bobcat-*-* | bulldozer-*-* | piledriver-*-* | ivybridge-*-* | haswell-*-*  | skylake-*-* | skylakeavx-*-*)
+  i?86*-*-* | k[5-8]*-*-* | pentium*-*-* | prescott-*-* | core-*-* | athlon-*-* | viac3*-*-* | x86_64-*-* | netburst-*-* | netburstlahf-*-* | k8-*-* | k10-*-* | k102-*-* | k103-*-* | core2-*-* | penryn-*-* | nehalem-*-* | westmere-*-* | sandybridge-*-* | atom-*-* | nano-*-* | bobcat-*-* | bulldozer-*-* | piledriver-*-* | ivybridge-*-* | haswell-*-*  | broadwell-*-* | skylake-*-* | skylakeavx-*-*)
     if test "$ABI" = 32; then
       case "$path $fat_path" in
         *mmx*)   { $as_echo "$as_me:${as_lineno-$LINENO}: checking if the assembler knows about MMX instructions" >&5
@@ -25341,7 +25302,7 @@ echo "define(<HAVE_REGISTER>,<$gmp_cv_asm_sparc_register>)" >> $gmp_tmpconfigm4
           ;;
       esac
       ;;
-    i?86*-*-* | k[5-8]*-*-* | pentium*-*-* | prescott-*-* | core-*-* | athlon-*-* | viac3*-*-* | x86_64-*-* | netburst-*-* | netburstlahf-*-* | k8-*-* | k10-*-* | k102-*-* | k103-*-* | core2-*-* | penryn-*-* | nehalem-*-* | westmere-*-* | sandybridge-*-* | atom-*-* | nano-*-* | bobcat-*-* | bulldozer-*-* | piledriver-*-* | ivybridge-*-* | haswell-*-*  | skylake-*-* | skylakeavx-*-*)
+    i?86*-*-* | k[5-8]*-*-* | pentium*-*-* | prescott-*-* | core-*-* | athlon-*-* | viac3*-*-* | x86_64-*-* | netburst-*-* | netburstlahf-*-* | k8-*-* | k10-*-* | k102-*-* | k103-*-* | core2-*-* | penryn-*-* | nehalem-*-* | westmere-*-* | sandybridge-*-* | atom-*-* | nano-*-* | bobcat-*-* | bulldozer-*-* | piledriver-*-* | ivybridge-*-* | haswell-*-*  | broadwell-*-* | skylake-*-* | skylakeavx-*-*)
 
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking if the .align directive accepts an 0x90 fill in .text" >&5
 $as_echo_n "checking if the .align directive accepts an 0x90 fill in .text... " >&6; }
@@ -26008,22 +25969,6 @@ echo "')" >> $gmp_configm4
 echo "define(\`__CONFIG_M4_INCLUDED__')" >> $gmp_configm4
 
 
-# Always configure subdirectories or "make dist" and so on will fail.
-# A better solution would be to ship a vanilla Yasm tarball
-# and modify the way MPIR builds it when it is needed;
-# in particular this should not rely on autotools.
-#
-ac_config_files="$ac_config_files yasm/config/config.guess:configfsf.guess yasm/config/config.sub:configfsf.sub"
-
-ac_config_files="$ac_config_files yasm/configure.gnu:configure.yasm"
-
-#if test "$build_yasm" = "yes"; then
-
-
-subdirs="$subdirs yasm"
-
-#fi
-
 case $host in
   *-pc-msys|*-w64-mingw*|*-*-cygwin*)
     if test "$ABI" = "64"; then
@@ -26199,10 +26144,6 @@ Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
 if test -z "${WANT_GMPCOMPAT_TRUE}" && test -z "${WANT_GMPCOMPAT_FALSE}"; then
   as_fn_error $? "conditional \"WANT_GMPCOMPAT\" was never defined.
-Usually this means the macro was only invoked conditionally." "$LINENO" 5
-fi
-if test -z "${BUILD_YASM_TRUE}" && test -z "${BUILD_YASM_FALSE}"; then
-  as_fn_error $? "conditional \"BUILD_YASM\" was never defined.
 Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
 if test -z "${WANT_CXX_TRUE}" && test -z "${WANT_CXX_FALSE}"; then
@@ -27195,9 +27136,6 @@ do
     "mpn/$tmp_fn.$tmp_ext") CONFIG_LINKS="$CONFIG_LINKS mpn/$tmp_fn.$tmp_ext:mpn/$tmp_dir/$tmp_base.$tmp_ext" ;;
     "gmp-mparam.h") CONFIG_LINKS="$CONFIG_LINKS gmp-mparam.h:mpn/$gmp_mparam_dir/gmp-mparam.h" ;;
     "longlong.h") CONFIG_FILES="$CONFIG_FILES longlong.h:longlong_pre.h:mpn/$longlong_dir/longlong_inc.h:longlong_post.h" ;;
-    "yasm/config/config.guess") CONFIG_FILES="$CONFIG_FILES yasm/config/config.guess:configfsf.guess" ;;
-    "yasm/config/config.sub") CONFIG_FILES="$CONFIG_FILES yasm/config/config.sub:configfsf.sub" ;;
-    "yasm/configure.gnu") CONFIG_FILES="$CONFIG_FILES yasm/configure.gnu:configure.yasm" ;;
     "yasm_mac.inc") CONFIG_LINKS="$CONFIG_LINKS yasm_mac.inc:$YASM_MAC_INC" ;;
     "Makefile") CONFIG_FILES="$CONFIG_FILES Makefile" ;;
     "mpf/Makefile") CONFIG_FILES="$CONFIG_FILES mpf/Makefile" ;;
@@ -28682,151 +28620,6 @@ if test "$no_create" != yes; then
   # Use ||, not &&, to avoid exiting from the if with $? = 1, which
   # would make configure fail if this is the last instruction.
   $ac_cs_success || as_fn_exit 1
-fi
-
-#
-# CONFIG_SUBDIRS section.
-#
-if test "$no_recursion" != yes; then
-
-  # Remove --cache-file, --srcdir, and --disable-option-checking arguments
-  # so they do not pile up.
-  ac_sub_configure_args=
-  ac_prev=
-  eval "set x $ac_configure_args"
-  shift
-  for ac_arg
-  do
-    if test -n "$ac_prev"; then
-      ac_prev=
-      continue
-    fi
-    case $ac_arg in
-    -cache-file | --cache-file | --cache-fil | --cache-fi \
-    | --cache-f | --cache- | --cache | --cach | --cac | --ca | --c)
-      ac_prev=cache_file ;;
-    -cache-file=* | --cache-file=* | --cache-fil=* | --cache-fi=* \
-    | --cache-f=* | --cache-=* | --cache=* | --cach=* | --cac=* | --ca=* \
-    | --c=*)
-      ;;
-    --config-cache | -C)
-      ;;
-    -srcdir | --srcdir | --srcdi | --srcd | --src | --sr)
-      ac_prev=srcdir ;;
-    -srcdir=* | --srcdir=* | --srcdi=* | --srcd=* | --src=* | --sr=*)
-      ;;
-    -prefix | --prefix | --prefi | --pref | --pre | --pr | --p)
-      ac_prev=prefix ;;
-    -prefix=* | --prefix=* | --prefi=* | --pref=* | --pre=* | --pr=* | --p=*)
-      ;;
-    --disable-option-checking)
-      ;;
-    *)
-      case $ac_arg in
-      *\'*) ac_arg=`$as_echo "$ac_arg" | sed "s/'/'\\\\\\\\''/g"` ;;
-      esac
-      as_fn_append ac_sub_configure_args " '$ac_arg'" ;;
-    esac
-  done
-
-  # Always prepend --prefix to ensure using the same prefix
-  # in subdir configurations.
-  ac_arg="--prefix=$prefix"
-  case $ac_arg in
-  *\'*) ac_arg=`$as_echo "$ac_arg" | sed "s/'/'\\\\\\\\''/g"` ;;
-  esac
-  ac_sub_configure_args="'$ac_arg' $ac_sub_configure_args"
-
-  # Pass --silent
-  if test "$silent" = yes; then
-    ac_sub_configure_args="--silent $ac_sub_configure_args"
-  fi
-
-  # Always prepend --disable-option-checking to silence warnings, since
-  # different subdirs can have different --enable and --with options.
-  ac_sub_configure_args="--disable-option-checking $ac_sub_configure_args"
-
-  ac_popdir=`pwd`
-  for ac_dir in : $subdirs; do test "x$ac_dir" = x: && continue
-
-    # Do not complain, so a configure script can configure whichever
-    # parts of a large source tree are present.
-    test -d "$srcdir/$ac_dir" || continue
-
-    ac_msg="=== configuring in $ac_dir (`pwd`/$ac_dir)"
-    $as_echo "$as_me:${as_lineno-$LINENO}: $ac_msg" >&5
-    $as_echo "$ac_msg" >&6
-    as_dir="$ac_dir"; as_fn_mkdir_p
-    ac_builddir=.
-
-case "$ac_dir" in
-.) ac_dir_suffix= ac_top_builddir_sub=. ac_top_build_prefix= ;;
-*)
-  ac_dir_suffix=/`$as_echo "$ac_dir" | sed 's|^\.[\\/]||'`
-  # A ".." for each directory in $ac_dir_suffix.
-  ac_top_builddir_sub=`$as_echo "$ac_dir_suffix" | sed 's|/[^\\/]*|/..|g;s|/||'`
-  case $ac_top_builddir_sub in
-  "") ac_top_builddir_sub=. ac_top_build_prefix= ;;
-  *)  ac_top_build_prefix=$ac_top_builddir_sub/ ;;
-  esac ;;
-esac
-ac_abs_top_builddir=$ac_pwd
-ac_abs_builddir=$ac_pwd$ac_dir_suffix
-# for backward compatibility:
-ac_top_builddir=$ac_top_build_prefix
-
-case $srcdir in
-  .)  # We are building in place.
-    ac_srcdir=.
-    ac_top_srcdir=$ac_top_builddir_sub
-    ac_abs_top_srcdir=$ac_pwd ;;
-  [\\/]* | ?:[\\/]* )  # Absolute name.
-    ac_srcdir=$srcdir$ac_dir_suffix;
-    ac_top_srcdir=$srcdir
-    ac_abs_top_srcdir=$srcdir ;;
-  *) # Relative name.
-    ac_srcdir=$ac_top_build_prefix$srcdir$ac_dir_suffix
-    ac_top_srcdir=$ac_top_build_prefix$srcdir
-    ac_abs_top_srcdir=$ac_pwd/$srcdir ;;
-esac
-ac_abs_srcdir=$ac_abs_top_srcdir$ac_dir_suffix
-
-
-    cd "$ac_dir"
-
-    # Check for guested configure; otherwise get Cygnus style configure.
-    if test -f "$ac_srcdir/configure.gnu"; then
-      ac_sub_configure=$ac_srcdir/configure.gnu
-    elif test -f "$ac_srcdir/configure"; then
-      ac_sub_configure=$ac_srcdir/configure
-    elif test -f "$ac_srcdir/configure.in"; then
-      # This should be Cygnus configure.
-      ac_sub_configure=$ac_aux_dir/configure
-    else
-      { $as_echo "$as_me:${as_lineno-$LINENO}: WARNING: no configuration information is in $ac_dir" >&5
-$as_echo "$as_me: WARNING: no configuration information is in $ac_dir" >&2;}
-      ac_sub_configure=
-    fi
-
-    # The recursion is here.
-    if test -n "$ac_sub_configure"; then
-      # Make the cache file name correct relative to the subdirectory.
-      case $cache_file in
-      [\\/]* | ?:[\\/]* ) ac_sub_cache_file=$cache_file ;;
-      *) # Relative name.
-	ac_sub_cache_file=$ac_top_build_prefix$cache_file ;;
-      esac
-
-      { $as_echo "$as_me:${as_lineno-$LINENO}: running $SHELL $ac_sub_configure $ac_sub_configure_args --cache-file=$ac_sub_cache_file --srcdir=$ac_srcdir" >&5
-$as_echo "$as_me: running $SHELL $ac_sub_configure $ac_sub_configure_args --cache-file=$ac_sub_cache_file --srcdir=$ac_srcdir" >&6;}
-      # The eval makes quoting arguments work.
-      eval "\$SHELL \"\$ac_sub_configure\" $ac_sub_configure_args \
-	   --cache-file=\"\$ac_sub_cache_file\" --srcdir=\"\$ac_srcdir\"" ||
-	as_fn_error $? "$ac_sub_configure failed for $ac_dir" "$LINENO" 5
-    fi
-
-    cd "$ac_popdir"
-  done
 fi
 if test -n "$ac_unrecognized_opts" && test "$enable_option_checking" != no; then
   { $as_echo "$as_me:${as_lineno-$LINENO}: WARNING: unrecognized options: $ac_unrecognized_opts" >&5
