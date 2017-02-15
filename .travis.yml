@@ -9,7 +9,17 @@ compiler:
 addons:
   apt:
     packages:
+      - yasm
       - texinfo
 script:
+  - if [[ "${TRAVIS_OS_NAME}" == "osx" ]]; then
+       brew install yasm;
+    fi
+  # On OSX, gcc is a wrapper around clang, so use gcc from homebrew
+  - if [[ "${TRAVIS_OS_NAME}" == "osx" ]] && [[ "${CC}" == "gcc" ]]; then
+       brew install gcc48;
+       export CC=gcc-4.8;
+       export CXX=g++-4.8;
+    fi
   - $CC --version
   - ./configure && make && make check
