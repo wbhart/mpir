@@ -825,29 +825,24 @@ File: mpir.info,  Node: Building with Microsoft Visual Studio,  Next: Notes for 
 2.4 Building with Microsoft Visual Studio
 =========================================
 
-MPIR can be built with the professional and higher versions of Microsoft
-Visual Studio 2010, 2012 and 2013.  It can also be built with Visual
-Studio Express 2013 for Windows Desktop.  In addition to one of these
-versions of Visual Studio, Python 3 and the YASM assembler will need to
-be installed if the assembler optimised versions are required.  if
-installed, MPIR can also be built with the Intel compiler that can be
-integrated into tne full versions of Visual Studio.
+MPIR can be built with the professional and higher versions of Visual
+Studio 2012, 2013, 2015 and 2017.  It can also be built with the
+community editions of Visual Studio 2015 and 2017.  If the assembler
+optimised versions of MPIR are required, then both Python 3 and the YASM
+assembler also need to be installed.  MPIR can also be built with the
+Intel C/C++ compiler that can be integrated into versions of Visual
+Studio.
 
-   Python can be obtained from:
+   Python 3 can be obtained from:
 
      <https://www.python.org/>
 
-   and the YASM assembler is available here:
+   and the YASM assembler from:
 
      <http://yasm.tortall.net/Download.html>
 
    This assembler ('vsyasm.exe', NOT 'yasm.exe') should be placed in the
-binary directory used by the Visual Studio version in use, which should
-be one of:
-
-     'C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin'
-     'C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin'
-     'C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin'
+directory "C:\Program Files\yasm".
 
    Alternatively 'vsyasm.exe' can be placed elsewhere provided that the
 environment variable 'YASMPATH' gives its location.
@@ -858,13 +853,14 @@ Building MPIR
      'mpir.sln' in the appropriate sub-directory within the MPIR root
      directory:
 
-              Visual Studio 2010:  mpir/build.vc10/mpir.sln
               Visual Studio 2012:  mpir/build.vc11/mpir.sln
               Visual Studio 2013:  mpir/build.vc12/mpir.sln
+              Visual Studio 2015:  mpir/build.vc14/mpir.sln
+              Visual Studio 2017:  mpir/build.vc15/mpir.sln
 
      Visual Studio will then display a list of individual build projects
      from which an appropriate version of MPIR can be built.  For
-     example, a typical list of projects:
+     example, a typical list of projects is:
 
               dll_mpir_gc     standard DLL, no assembler (win32 and x64)
               dll_mpir_p3     assembly optimised DLL for pentium 3 (win32)
@@ -874,8 +870,8 @@ Building MPIR
                               core2 (x64)
               dll_mpir_core2  assembly optimised DLL for core2 (x64)
 
-     allows MPIR to be built either as a static library or as a DLL. A
-     DLL will include both the C and C++ features of MPIR but a static
+     MPIR can be built either as a static library or as a DLL. A DLL
+     will include both the C and C++ features of MPIR but a static
      library will include only the C features so in this case the
      project:
 
@@ -900,26 +896,37 @@ Additional Assembler Optimised Versions
      The Visual Studio builds for MPIR are initially provided with a
      small set of assembler optimised projects but many more are
      available and can be obtained by running the Python program
-     'mpir_config.py' that is in the appropriate build sub-directory for
-     the version of Visual Studio in use.  This program is run before
-     Visual Studio is used and provides a list of all the assembler
-     optimised versions that are available.  Any number can be chosen
-     and these builds will then be available when Visual Studio is
-     subsequently opened by double clicking on 'mpir.sln'.
+     'mpir_config.py <N>' that is in the mpir\build-vc directory.  The
+     value of <N> required depends on the version of Visual Studio in
+     use as follows:
+
+              Visual Studio 2012:  11
+              Visual Studio 2013:  12
+              Visual Studio 2015:  14
+              Visual Studio 2017:  15
+
+     This program, which has to be run before Visual Studio, provides a
+     list of all the assembler optimised versions of MPIR that are
+     available.  Any number of versions can be chosen and these builds
+     will then be available when Visual Studio is subsequently opened by
+     double clicking on 'mpir.sln'.
 
 Testing Visual Studio versions of MPIR
 
      Testing a version of the library once it has been built is started
      by double clicking on the appropriate solution file:
 
-              Visual Studio 2010:  mpir/build.vc10/mpir-tests.sln
               Visual Studio 2012:  mpir/build.vc11/mpir-tests.sln
               Visual Studio 2013:  mpir/build.vc12/mpir-tests.sln
+              Visual Studio 2015:  mpir/build.vc14/mpir-tests.sln
+              Visual Studio 2017:  mpir/build.vc15/mpir-tests.sln
 
      The tests are always run on the last version of MPIR built and it
-     is important to set the configuration for the tests (Release or
-     Debug, win32 or x64) to be the same as that used to build MPIR.
-     After loading there will be a large list of test projects starting:
+     is important that the configuration set for building the tests
+     (Release or Debug, win32 or x64) is the same as that used to build
+     MPIR. When testing the static library versions of MPIR, both the C
+     (mpir.lib) and C++ (mpirxx.lib) must be built.  After loading there
+     will be a large list of test projects starting:
 
             Solution `mpir-tests' (202 projects)
                   add-test-lib
@@ -932,9 +939,9 @@ Testing Visual Studio versions of MPIR
      above) can be selected to build all the tests.  After the build has
      completed, the tests are run by executing the Python program
      'run-tests.py' in the appropriate Visual Studio build
-     sub-directory, for example, for Visual Studio 2013:
+     sub-directory, for example, for Visual Studio 2017:
 
-             mpir/build.vc12/mpir-tests/run-tests.py
+             mpir/build.vc15/mpir-tests/run-tests.py
 
 Further Details
 
