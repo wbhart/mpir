@@ -52,6 +52,10 @@
 #define DC_BDIV_QR_THRESHOLD             50
 #define DC_BDIV_Q_THRESHOLD              36
 
+#define BINV_NEWTON_THRESHOLD            46
+#define REDC_1_TO_REDC_2_THRESHOLD       48
+#define REDC_2_TO_REDC_N_THRESHOLD        0  /* always */
+
 #define ROOTREM_THRESHOLD                 6
 
 #define MATRIX22_STRASSEN_THRESHOLD      19

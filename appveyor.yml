@@ -6,8 +6,16 @@ environment:
   matrix:
     - COMPILER: MinGW-w64
       ABI: 32
+      LIB: --enable-static --disable-shared
+    - COMPILER: MinGW-w64
+      ABI: 32
+      LIB: --disable-static --enable-shared
     - COMPILER: MinGW-w64
       ABI: 64
+      LIB: --enable-static --disable-shared
+    - COMPILER: MinGW-w64
+      ABI: 64
+      LIB: --disable-static --enable-shared
     - BUILD_TYPE: Release
       COMPILER: MSVC15
       PLATFORM: x64
