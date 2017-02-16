@@ -1,0 +1,656 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <RootNamespace>mpir</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{6716DA66-1483-45EB-BD0C-0EE8DF0FCE72}</ProjectGuid>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+    <Import Project="..\..\build.vc\vsyasm.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" />
+    <Import Project="..\..\build.vc\mpir_release_dll.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" />
+    <Import Project="..\..\build.vc\mpir_debug_dll.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.21006.1</_ProjectFileVersion>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">mpir</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">mpir</TargetName>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <PreBuildEvent>
+      <Command>cd ..\..\build.vc
+prebuild haswell\avx x64 14
+      </Command>
+    </PreBuildEvent>
+    <YASM>
+      <Defines>DLL</Defines>
+      <IncludePaths>..\..\mpn\x86_64w\</IncludePaths>
+      <Debug>true</Debug>
+      <ObjectFile>$(IntDir)mpn\</ObjectFile>
+    </YASM>
+    <ClCompile>
+      <AdditionalIncludeDirectories>..\..\</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>NDEBUG;WIN32;HAVE_CONFIG_H;MSC_BUILD_DLL;_WIN64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+    </Link>
+
+    <PostBuildEvent>
+      <Command>cd ..\..\build.vc
+postbuild "$(TargetPath)" 14
+      </Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <PreBuildEvent>
+      <Command>cd ..\..\build.vc
+prebuild haswell\avx x64 14
+      </Command>
+    </PreBuildEvent>
+    <YASM>
+      <Defines>DLL</Defines>
+      <IncludePaths>..\..\mpn\x86_64w\</IncludePaths>
+      <Debug>true</Debug>
+      <ObjectFile>$(IntDir)mpn\</ObjectFile>
+    </YASM>
+    <ClCompile>
+      <AdditionalIncludeDirectories>..\..\</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_DEBUG;WIN32;HAVE_CONFIG_H;MSC_BUILD_DLL;_WIN64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+    </Link>
+
+    <PostBuildEvent>
+      <Command>cd ..\..\build.vc
+postbuild "$(TargetPath)" 14
+      </Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ImportGroup>
+    <Import Condition="exists('$(MPIR_Props_External)')" Project="$(MPIR_Props_External)" />
+  </ImportGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\config.h" />
+    <ClInclude Include="..\..\gmp-impl.h" />
+    <ClInclude Include="..\..\longlong.h" />
+    <ClInclude Include="..\..\mpir.h" />
+    <ClInclude Include="..\..\gmp-mparam.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\assert.c" />
+    <ClCompile Include="..\..\errno.c" />
+    <ClCompile Include="..\..\extract-dbl.c" />
+    <ClCompile Include="..\..\invalid.c" />
+    <ClCompile Include="..\..\memory.c" />
+    <ClCompile Include="..\..\mp_bpl.c" />
+    <ClCompile Include="..\..\mp_clz_tab.c" />
+    <ClCompile Include="..\..\mp_dv_tab.c" />
+    <ClCompile Include="..\..\mp_get_fns.c" />
+    <ClCompile Include="..\..\mp_minv_tab.c" />
+    <ClCompile Include="..\..\mp_set_fns.c" />
+    <ClCompile Include="..\..\nextprime.c" />
+    <ClCompile Include="..\..\primesieve.c" />
+    <ClCompile Include="..\..\randbui.c" />
+    <ClCompile Include="..\..\randclr.c" />
+    <ClCompile Include="..\..\randdef.c" />
+    <ClCompile Include="..\..\randiset.c" />
+    <ClCompile Include="..\..\randlc2s.c" />
+    <ClCompile Include="..\..\randlc2x.c" />
+    <ClCompile Include="..\..\randmt.c" />
+    <ClCompile Include="..\..\randmts.c" />
+    <ClCompile Include="..\..\randmui.c" />
+    <ClCompile Include="..\..\rands.c" />
+    <ClCompile Include="..\..\randsd.c" />
+    <ClCompile Include="..\..\randsdui.c" />
+    <ClCompile Include="..\..\tal-reent.c" />
+    <ClCompile Include="..\..\version.c" />
+    <ClCompile Include="..\..\fft\adjust.c" />
+    <ClCompile Include="..\..\fft\adjust_sqrt2.c" />
+    <ClCompile Include="..\..\fft\butterfly_lshB.c" />
+    <ClCompile Include="..\..\fft\butterfly_rshB.c" />
+    <ClCompile Include="..\..\fft\combine_bits.c" />
+    <ClCompile Include="..\..\fft\div_2expmod_2expp1.c" />
+    <ClCompile Include="..\..\fft\fermat_to_mpz.c" />
+    <ClCompile Include="..\..\fft\fft_mfa_trunc_sqrt2.c" />
+    <ClCompile Include="..\..\fft\fft_mfa_trunc_sqrt2_inner.c" />
+    <ClCompile Include="..\..\fft\fft_negacyclic.c" />
+    <ClCompile Include="..\..\fft\fft_radix2.c" />
+    <ClCompile Include="..\..\fft\fft_trunc.c" />
+    <ClCompile Include="..\..\fft\fft_trunc_sqrt2.c" />
+    <ClCompile Include="..\..\fft\ifft_mfa_trunc_sqrt2.c" />
+    <ClCompile Include="..\..\fft\ifft_negacyclic.c" />
+    <ClCompile Include="..\..\fft\ifft_radix2.c" />
+    <ClCompile Include="..\..\fft\ifft_trunc.c" />
+    <ClCompile Include="..\..\fft\ifft_trunc_sqrt2.c" />
+    <ClCompile Include="..\..\fft\mul_2expmod_2expp1.c" />
+    <ClCompile Include="..\..\fft\mul_fft_main.c" />
+    <ClCompile Include="..\..\fft\mul_mfa_trunc_sqrt2.c" />
+    <ClCompile Include="..\..\fft\mul_trunc_sqrt2.c" />
+    <ClCompile Include="..\..\fft\mulmod_2expp1.c" />
+    <ClCompile Include="..\..\fft\normmod_2expp1.c" />
+    <ClCompile Include="..\..\fft\revbin.c" />
+    <ClCompile Include="..\..\fft\split_bits.c" />
+    <ClCompile Include="..\..\mpf\abs.c" />
+    <ClCompile Include="..\..\mpf\add.c" />
+    <ClCompile Include="..\..\mpf\add_ui.c" />
+    <ClCompile Include="..\..\mpf\ceilfloor.c" />
+    <ClCompile Include="..\..\mpf\clear.c" />
+    <ClCompile Include="..\..\mpf\clears.c" />
+    <ClCompile Include="..\..\mpf\cmp.c" />
+    <ClCompile Include="..\..\mpf\cmp_d.c" />
+    <ClCompile Include="..\..\mpf\cmp_si.c" />
+    <ClCompile Include="..\..\mpf\cmp_ui.c" />
+    <ClCompile Include="..\..\mpf\div.c" />
+    <ClCompile Include="..\..\mpf\div_2exp.c" />
+    <ClCompile Include="..\..\mpf\div_ui.c" />
+    <ClCompile Include="..\..\mpf\dump.c" />
+    <ClCompile Include="..\..\mpf\eq.c" />
+    <ClCompile Include="..\..\mpf\fits_si.c" />
+    <ClCompile Include="..\..\mpf\fits_sint.c" />
+    <ClCompile Include="..\..\mpf\fits_slong.c" />
+    <ClCompile Include="..\..\mpf\fits_sshort.c" />
+    <ClCompile Include="..\..\mpf\fits_ui.c" />
+    <ClCompile Include="..\..\mpf\fits_uint.c" />
+    <ClCompile Include="..\..\mpf\fits_ulong.c" />
+    <ClCompile Include="..\..\mpf\fits_ushort.c" />
+    <ClCompile Include="..\..\mpf\get_d.c" />
+    <ClCompile Include="..\..\mpf\get_d_2exp.c" />
+    <ClCompile Include="..\..\mpf\get_dfl_prec.c" />
+    <ClCompile Include="..\..\mpf\get_prc.c" />
+    <ClCompile Include="..\..\mpf\get_si.c" />
+    <ClCompile Include="..\..\mpf\get_str.c" />
+    <ClCompile Include="..\..\mpf\get_ui.c" />
+    <ClCompile Include="..\..\mpf\init.c" />
+    <ClCompile Include="..\..\mpf\init2.c" />
+    <ClCompile Include="..\..\mpf\inits.c" />
+    <ClCompile Include="..\..\mpf\inp_str.c" />
+    <ClCompile Include="..\..\mpf\int_p.c" />
+    <ClCompile Include="..\..\mpf\iset.c" />
+    <ClCompile Include="..\..\mpf\iset_d.c" />
+    <ClCompile Include="..\..\mpf\iset_si.c" />
+    <ClCompile Include="..\..\mpf\iset_str.c" />
+    <ClCompile Include="..\..\mpf\iset_ui.c" />
+    <ClCompile Include="..\..\mpf\mul.c" />
+    <ClCompile Include="..\..\mpf\mul_2exp.c" />
+    <ClCompile Include="..\..\mpf\mul_ui.c" />
+    <ClCompile Include="..\..\mpf\neg.c" />
+    <ClCompile Include="..\..\mpf\out_str.c" />
+    <ClCompile Include="..\..\mpf\pow_ui.c" />
+    <ClCompile Include="..\..\mpf\random2.c" />
+    <ClCompile Include="..\..\mpf\reldiff.c" />
+    <ClCompile Include="..\..\mpf\rrandomb.c" />
+    <ClCompile Include="..\..\mpf\set.c" />
+    <ClCompile Include="..\..\mpf\set_d.c" />
+    <ClCompile Include="..\..\mpf\set_dfl_prec.c" />
+    <ClCompile Include="..\..\mpf\set_prc.c" />
+    <ClCompile Include="..\..\mpf\set_prc_raw.c" />
+    <ClCompile Include="..\..\mpf\set_q.c" />
+    <ClCompile Include="..\..\mpf\set_si.c" />
+    <ClCompile Include="..\..\mpf\set_str.c" />
+    <ClCompile Include="..\..\mpf\set_ui.c" />
+    <ClCompile Include="..\..\mpf\set_z.c" />
+    <ClCompile Include="..\..\mpf\size.c" />
+    <ClCompile Include="..\..\mpf\sqrt.c" />
+    <ClCompile Include="..\..\mpf\sqrt_ui.c" />
+    <ClCompile Include="..\..\mpf\sub.c" />
+    <ClCompile Include="..\..\mpf\sub_ui.c" />
+    <ClCompile Include="..\..\mpf\swap.c" />
+    <ClCompile Include="..\..\mpf\trunc.c" />
+    <ClCompile Include="..\..\mpf\ui_div.c" />
+    <ClCompile Include="..\..\mpf\ui_sub.c" />
+    <ClCompile Include="..\..\mpf\urandomb.c" />
+    <ClCompile Include="..\..\mpq\abs.c" />
+    <ClCompile Include="..\..\mpq\aors.c" />
+    <ClCompile Include="..\..\mpq\canonicalize.c" />
+    <ClCompile Include="..\..\mpq\clear.c" />
+    <ClCompile Include="..\..\mpq\clears.c" />
+    <ClCompile Include="..\..\mpq\cmp.c" />
+    <ClCompile Include="..\..\mpq\cmp_si.c" />
+    <ClCompile Include="..\..\mpq\cmp_ui.c" />
+    <ClCompile Include="..\..\mpq\div.c" />
+    <ClCompile Include="..\..\mpq\equal.c" />
+    <ClCompile Include="..\..\mpq\get_d.c" />
+    <ClCompile Include="..\..\mpq\get_den.c" />
+    <ClCompile Include="..\..\mpq\get_num.c" />
+    <ClCompile Include="..\..\mpq\get_str.c" />
+    <ClCompile Include="..\..\mpq\init.c" />
+    <ClCompile Include="..\..\mpq\inits.c" />
+    <ClCompile Include="..\..\mpq\inp_str.c" />
+    <ClCompile Include="..\..\mpq\inv.c" />
+    <ClCompile Include="..\..\mpq\md_2exp.c" />
+    <ClCompile Include="..\..\mpq\mul.c" />
+    <ClCompile Include="..\..\mpq\neg.c" />
+    <ClCompile Include="..\..\mpq\out_str.c" />
+    <ClCompile Include="..\..\mpq\set.c" />
+    <ClCompile Include="..\..\mpq\set_d.c" />
+    <ClCompile Include="..\..\mpq\set_den.c" />
+    <ClCompile Include="..\..\mpq\set_f.c" />
+    <ClCompile Include="..\..\mpq\set_num.c" />
+    <ClCompile Include="..\..\mpq\set_si.c" />
+    <ClCompile Include="..\..\mpq\set_str.c" />
+    <ClCompile Include="..\..\mpq\set_ui.c" />
+    <ClCompile Include="..\..\mpq\set_z.c" />
+    <ClCompile Include="..\..\mpq\swap.c" />
+    <ClCompile Include="..\..\mpz\2fac_ui.c" />
+    <ClCompile Include="..\..\mpz\abs.c" />
+    <ClCompile Include="..\..\mpz\add.c" />
+    <ClCompile Include="..\..\mpz\add_ui.c" />
+    <ClCompile Include="..\..\mpz\and.c" />
+    <ClCompile Include="..\..\mpz\aorsmul.c" />
+    <ClCompile Include="..\..\mpz\aorsmul_i.c" />
+    <ClCompile Include="..\..\mpz\array_init.c" />
+    <ClCompile Include="..\..\mpz\bin_ui.c" />
+    <ClCompile Include="..\..\mpz\bin_uiui.c" />
+    <ClCompile Include="..\..\mpz\cdiv_q.c" />
+    <ClCompile Include="..\..\mpz\cdiv_q_ui.c" />
+    <ClCompile Include="..\..\mpz\cdiv_qr.c" />
+    <ClCompile Include="..\..\mpz\cdiv_qr_ui.c" />
+    <ClCompile Include="..\..\mpz\cdiv_r.c" />
+    <ClCompile Include="..\..\mpz\cdiv_r_ui.c" />
+    <ClCompile Include="..\..\mpz\cdiv_ui.c" />
+    <ClCompile Include="..\..\mpz\cfdiv_q_2exp.c" />
+    <ClCompile Include="..\..\mpz\cfdiv_r_2exp.c" />
+    <ClCompile Include="..\..\mpz\clear.c" />
+    <ClCompile Include="..\..\mpz\clears.c" />
+    <ClCompile Include="..\..\mpz\clrbit.c" />
+    <ClCompile Include="..\..\mpz\cmp.c" />
+    <ClCompile Include="..\..\mpz\cmp_d.c" />
+    <ClCompile Include="..\..\mpz\cmp_si.c" />
+    <ClCompile Include="..\..\mpz\cmp_ui.c" />
+    <ClCompile Include="..\..\mpz\cmpabs.c" />
+    <ClCompile Include="..\..\mpz\cmpabs_d.c" />
+    <ClCompile Include="..\..\mpz\cmpabs_ui.c" />
+    <ClCompile Include="..\..\mpz\com.c" />
+    <ClCompile Include="..\..\mpz\combit.c" />
+    <ClCompile Include="..\..\mpz\cong.c" />
+    <ClCompile Include="..\..\mpz\cong_2exp.c" />
+    <ClCompile Include="..\..\mpz\cong_ui.c" />
+    <ClCompile Include="..\..\mpz\dive_ui.c" />
+    <ClCompile Include="..\..\mpz\divegcd.c" />
+    <ClCompile Include="..\..\mpz\divexact.c" />
+    <ClCompile Include="..\..\mpz\divis.c" />
+    <ClCompile Include="..\..\mpz\divis_2exp.c" />
+    <ClCompile Include="..\..\mpz\divis_ui.c" />
+    <ClCompile Include="..\..\mpz\dump.c" />
+    <ClCompile Include="..\..\mpz\export.c" />
+    <ClCompile Include="..\..\mpz\fac_ui.c" />
+    <ClCompile Include="..\..\mpz\fdiv_q.c" />
+    <ClCompile Include="..\..\mpz\fdiv_q_ui.c" />
+    <ClCompile Include="..\..\mpz\fdiv_qr.c" />
+    <ClCompile Include="..\..\mpz\fdiv_qr_ui.c" />
+    <ClCompile Include="..\..\mpz\fdiv_r.c" />
+    <ClCompile Include="..\..\mpz\fdiv_r_ui.c" />
+    <ClCompile Include="..\..\mpz\fdiv_ui.c" />
+    <ClCompile Include="..\..\mpz\fib2_ui.c" />
+    <ClCompile Include="..\..\mpz\fib_ui.c" />
+    <ClCompile Include="..\..\mpz\fits_si.c" />
+    <ClCompile Include="..\..\mpz\fits_sint.c" />
+    <ClCompile Include="..\..\mpz\fits_slong.c" />
+    <ClCompile Include="..\..\mpz\fits_sshort.c" />
+    <ClCompile Include="..\..\mpz\fits_ui.c" />
+    <ClCompile Include="..\..\mpz\fits_uint.c" />
+    <ClCompile Include="..\..\mpz\fits_ulong.c" />
+    <ClCompile Include="..\..\mpz\fits_ushort.c" />
+    <ClCompile Include="..\..\mpz\gcd.c" />
+    <ClCompile Include="..\..\mpz\gcd_ui.c" />
+    <ClCompile Include="..\..\mpz\gcdext.c" />
+    <ClCompile Include="..\..\mpz\get_d.c" />
+    <ClCompile Include="..\..\mpz\get_d_2exp.c" />
+    <ClCompile Include="..\..\mpz\get_si.c" />
+    <ClCompile Include="..\..\mpz\get_str.c" />
+    <ClCompile Include="..\..\mpz\get_sx.c" />
+    <ClCompile Include="..\..\mpz\get_ui.c" />
+    <ClCompile Include="..\..\mpz\get_ux.c" />
+    <ClCompile Include="..\..\mpz\getlimbn.c" />
+    <ClCompile Include="..\..\mpz\hamdist.c" />
+    <ClCompile Include="..\..\mpz\import.c" />
+    <ClCompile Include="..\..\mpz\init.c" />
+    <ClCompile Include="..\..\mpz\init2.c" />
+    <ClCompile Include="..\..\mpz\inits.c" />
+    <ClCompile Include="..\..\mpz\inp_raw.c" />
+    <ClCompile Include="..\..\mpz\inp_str.c" />
+    <ClCompile Include="..\..\mpz\invert.c" />
+    <ClCompile Include="..\..\mpz\ior.c" />
+    <ClCompile Include="..\..\mpz\iset.c" />
+    <ClCompile Include="..\..\mpz\iset_d.c" />
+    <ClCompile Include="..\..\mpz\iset_si.c" />
+    <ClCompile Include="..\..\mpz\iset_str.c" />
+    <ClCompile Include="..\..\mpz\iset_sx.c" />
+    <ClCompile Include="..\..\mpz\iset_ui.c" />
+    <ClCompile Include="..\..\mpz\iset_ux.c" />
+    <ClCompile Include="..\..\mpz\jacobi.c" />
+    <ClCompile Include="..\..\mpz\kronsz.c" />
+    <ClCompile Include="..\..\mpz\kronuz.c" />
+    <ClCompile Include="..\..\mpz\kronzs.c" />
+    <ClCompile Include="..\..\mpz\kronzu.c" />
+    <ClCompile Include="..\..\mpz\lcm.c" />
+    <ClCompile Include="..\..\mpz\lcm_ui.c" />
+    <ClCompile Include="..\..\mpz\likely_prime_p.c" />
+    <ClCompile Include="..\..\mpz\limbs_finish.c" />
+    <ClCompile Include="..\..\mpz\limbs_modify.c" />
+    <ClCompile Include="..\..\mpz\limbs_read.c" />
+    <ClCompile Include="..\..\mpz\limbs_write.c" />
+    <ClCompile Include="..\..\mpz\lucnum2_ui.c" />
+    <ClCompile Include="..\..\mpz\lucnum_ui.c" />
+    <ClCompile Include="..\..\mpz\mfac_uiui.c" />
+    <ClCompile Include="..\..\mpz\miller_rabin.c" />
+    <ClCompile Include="..\..\mpz\millerrabin.c" />
+    <ClCompile Include="..\..\mpz\mod.c" />
+    <ClCompile Include="..\..\mpz\mul.c" />
+    <ClCompile Include="..\..\mpz\mul_2exp.c" />
+    <ClCompile Include="..\..\mpz\mul_si.c" />
+    <ClCompile Include="..\..\mpz\mul_ui.c" />
+    <ClCompile Include="..\..\mpz\n_pow_ui.c" />
+    <ClCompile Include="..\..\mpz\neg.c" />
+    <ClCompile Include="..\..\mpz\next_prime_candidate.c" />
+    <ClCompile Include="..\..\mpz\nextprime.c" />
+    <ClCompile Include="..\..\mpz\nthroot.c" />
+    <ClCompile Include="..\..\mpz\oddfac_1.c" />
+    <ClCompile Include="..\..\mpz\out_raw.c" />
+    <ClCompile Include="..\..\mpz\out_str.c" />
+    <ClCompile Include="..\..\mpz\perfpow.c" />
+    <ClCompile Include="..\..\mpz\perfsqr.c" />
+    <ClCompile Include="..\..\mpz\popcount.c" />
+    <ClCompile Include="..\..\mpz\pow_ui.c" />
+    <ClCompile Include="..\..\mpz\powm.c" />
+    <ClCompile Include="..\..\mpz\powm_ui.c" />
+    <ClCompile Include="..\..\mpz\pprime_p.c" />
+    <ClCompile Include="..\..\mpz\primorial_ui.c" />
+    <ClCompile Include="..\..\mpz\probable_prime_p.c" />
+    <ClCompile Include="..\..\mpz\prodlimbs.c" />
+    <ClCompile Include="..\..\mpz\realloc.c" />
+    <ClCompile Include="..\..\mpz\realloc2.c" />
+    <ClCompile Include="..\..\mpz\remove.c" />
+    <ClCompile Include="..\..\mpz\roinit_n.c" />
+    <ClCompile Include="..\..\mpz\root.c" />
+    <ClCompile Include="..\..\mpz\rootrem.c" />
+    <ClCompile Include="..\..\mpz\rrandomb.c" />
+    <ClCompile Include="..\..\mpz\scan0.c" />
+    <ClCompile Include="..\..\mpz\scan1.c" />
+    <ClCompile Include="..\..\mpz\set.c" />
+    <ClCompile Include="..\..\mpz\set_d.c" />
+    <ClCompile Include="..\..\mpz\set_f.c" />
+    <ClCompile Include="..\..\mpz\set_q.c" />
+    <ClCompile Include="..\..\mpz\set_si.c" />
+    <ClCompile Include="..\..\mpz\set_str.c" />
+    <ClCompile Include="..\..\mpz\set_sx.c" />
+    <ClCompile Include="..\..\mpz\set_ui.c" />
+    <ClCompile Include="..\..\mpz\set_ux.c" />
+    <ClCompile Include="..\..\mpz\setbit.c" />
+    <ClCompile Include="..\..\mpz\size.c" />
+    <ClCompile Include="..\..\mpz\sizeinbase.c" />
+    <ClCompile Include="..\..\mpz\sqrt.c" />
+    <ClCompile Include="..\..\mpz\sqrtrem.c" />
+    <ClCompile Include="..\..\mpz\sub.c" />
+    <ClCompile Include="..\..\mpz\sub_ui.c" />
+    <ClCompile Include="..\..\mpz\swap.c" />
+    <ClCompile Include="..\..\mpz\tdiv_q.c" />
+    <ClCompile Include="..\..\mpz\tdiv_q_2exp.c" />
+    <ClCompile Include="..\..\mpz\tdiv_q_ui.c" />
+    <ClCompile Include="..\..\mpz\tdiv_qr.c" />
+    <ClCompile Include="..\..\mpz\tdiv_qr_ui.c" />
+    <ClCompile Include="..\..\mpz\tdiv_r.c" />
+    <ClCompile Include="..\..\mpz\tdiv_r_2exp.c" />
+    <ClCompile Include="..\..\mpz\tdiv_r_ui.c" />
+    <ClCompile Include="..\..\mpz\tdiv_ui.c" />
+    <ClCompile Include="..\..\mpz\trial_division.c" />
+    <ClCompile Include="..\..\mpz\tstbit.c" />
+    <ClCompile Include="..\..\mpz\ui_pow_ui.c" />
+    <ClCompile Include="..\..\mpz\ui_sub.c" />
+    <ClCompile Include="..\..\mpz\urandomb.c" />
+    <ClCompile Include="..\..\mpz\urandomm.c" />
+    <ClCompile Include="..\..\mpz\xor.c" />
+    <ClCompile Include="..\..\printf\asprintf.c" />
+    <ClCompile Include="..\..\printf\asprntffuns.c" />
+    <ClCompile Include="..\..\printf\doprnt.c" />
+    <ClCompile Include="..\..\printf\doprntf.c" />
+    <ClCompile Include="..\..\printf\doprnti.c" />
+    <ClCompile Include="..\..\printf\fprintf.c" />
+    <ClCompile Include="..\..\printf\obprintf.c" />
+    <ClCompile Include="..\..\printf\obprntffuns.c" />
+    <ClCompile Include="..\..\printf\obvprintf.c" />
+    <ClCompile Include="..\..\printf\printf.c" />
+    <ClCompile Include="..\..\printf\printffuns.c" />
+    <ClCompile Include="..\..\printf\repl-vsnprintf.c" />
+    <ClCompile Include="..\..\printf\snprintf.c" />
+    <ClCompile Include="..\..\printf\snprntffuns.c" />
+    <ClCompile Include="..\..\printf\sprintf.c" />
+    <ClCompile Include="..\..\printf\sprintffuns.c" />
+    <ClCompile Include="..\..\printf\vasprintf.c" />
+    <ClCompile Include="..\..\printf\vfprintf.c" />
+    <ClCompile Include="..\..\printf\vprintf.c" />
+    <ClCompile Include="..\..\printf\vsnprintf.c" />
+    <ClCompile Include="..\..\printf\vsprintf.c" />
+    <ClCompile Include="..\..\scanf\doscan.c" />
+    <ClCompile Include="..\..\scanf\fscanf.c" />
+    <ClCompile Include="..\..\scanf\fscanffuns.c" />
+    <ClCompile Include="..\..\scanf\scanf.c" />
+    <ClCompile Include="..\..\scanf\sscanf.c" />
+    <ClCompile Include="..\..\scanf\sscanffuns.c" />
+    <ClCompile Include="..\..\scanf\vfscanf.c" />
+    <ClCompile Include="..\..\scanf\vscanf.c" />
+    <ClCompile Include="..\..\scanf\vsscanf.c" />
+    <ClCompile Include="..\..\cxx\dummy.cc" />
+    <ClCompile Include="..\..\cxx\isfuns.cc" />
+    <ClCompile Include="..\..\cxx\ismpf.cc" />
+    <ClCompile Include="..\..\cxx\ismpq.cc" />
+    <ClCompile Include="..\..\cxx\ismpz.cc" />
+    <ClCompile Include="..\..\cxx\ismpznw.cc" />
+    <ClCompile Include="..\..\cxx\osdoprnti.cc" />
+    <ClCompile Include="..\..\cxx\osfuns.cc" />
+    <ClCompile Include="..\..\cxx\osmpf.cc" />
+    <ClCompile Include="..\..\cxx\osmpq.cc" />
+    <ClCompile Include="..\..\cxx\osmpz.cc" />
+    <ClCompile Include="..\..\mpn\generic\add.c" />
+    <ClCompile Include="..\..\mpn\generic\add_1.c" />
+    <ClCompile Include="..\..\mpn\generic\addadd_n.c" />
+    <ClCompile Include="..\..\mpn\generic\addsub_n.c" />
+    <ClCompile Include="..\..\mpn\generic\bdivmod.c" />
+    <ClCompile Include="..\..\mpn\generic\binvert.c" />
+    <ClCompile Include="..\..\mpn\generic\cmp.c" />
+    <ClCompile Include="..\..\mpn\generic\comb_tables.c" />
+    <ClCompile Include="..\..\mpn\generic\dc_bdiv_q.c" />
+    <ClCompile Include="..\..\mpn\generic\dc_bdiv_q_n.c" />
+    <ClCompile Include="..\..\mpn\generic\dc_bdiv_qr.c" />
+    <ClCompile Include="..\..\mpn\generic\dc_bdiv_qr_n.c" />
+    <ClCompile Include="..\..\mpn\generic\dc_div_q.c" />
+    <ClCompile Include="..\..\mpn\generic\dc_div_qr.c" />
+    <ClCompile Include="..\..\mpn\generic\dc_div_qr_n.c" />
+    <ClCompile Include="..\..\mpn\generic\dc_divappr_q.c" />
+    <ClCompile Include="..\..\mpn\generic\divexact.c" />
+    <ClCompile Include="..\..\mpn\generic\divisible_p.c" />
+    <ClCompile Include="..\..\mpn\generic\divrem.c" />
+    <ClCompile Include="..\..\mpn\generic\divrem_1.c" />
+    <ClCompile Include="..\..\mpn\generic\divrem_euclidean_r_1.c" />
+    <ClCompile Include="..\..\mpn\generic\divrem_hensel_qr_1.c" />
+    <ClCompile Include="..\..\mpn\generic\divrem_hensel_qr_1_2.c" />
+    <ClCompile Include="..\..\mpn\generic\divrem_hensel_r_1.c" />
+    <ClCompile Include="..\..\mpn\generic\divrem_hensel_rsh_qr_1.c" />
+    <ClCompile Include="..\..\mpn\generic\dump.c" />
+    <ClCompile Include="..\..\mpn\generic\fib2_ui.c" />
+    <ClCompile Include="..\..\mpn\generic\fib_table.c" />
+    <ClCompile Include="..\..\mpn\generic\gcd.c" />
+    <ClCompile Include="..\..\mpn\generic\gcd_1.c" />
+    <ClCompile Include="..\..\mpn\generic\gcd_subdiv_step.c" />
+    <ClCompile Include="..\..\mpn\generic\gcdext.c" />
+    <ClCompile Include="..\..\mpn\generic\gcdext_1.c" />
+    <ClCompile Include="..\..\mpn\generic\gcdext_lehmer.c" />
+    <ClCompile Include="..\..\mpn\generic\get_d.c" />
+    <ClCompile Include="..\..\mpn\generic\get_str.c" />
+    <ClCompile Include="..\..\mpn\generic\hgcd.c" />
+    <ClCompile Include="..\..\mpn\generic\hgcd2.c" />
+    <ClCompile Include="..\..\mpn\generic\hgcd2_jacobi.c" />
+    <ClCompile Include="..\..\mpn\generic\hgcd_appr.c" />
+    <ClCompile Include="..\..\mpn\generic\hgcd_jacobi.c" />
+    <ClCompile Include="..\..\mpn\generic\hgcd_matrix.c" />
+    <ClCompile Include="..\..\mpn\generic\hgcd_reduce.c" />
+    <ClCompile Include="..\..\mpn\generic\hgcd_step.c" />
+    <ClCompile Include="..\..\mpn\generic\inv_div_q.c" />
+    <ClCompile Include="..\..\mpn\generic\inv_div_qr.c" />
+    <ClCompile Include="..\..\mpn\generic\inv_div_qr_n.c" />
+    <ClCompile Include="..\..\mpn\generic\inv_divappr_q.c" />
+    <ClCompile Include="..\..\mpn\generic\inv_divappr_q_n.c" />
+    <ClCompile Include="..\..\mpn\generic\invert.c" />
+    <ClCompile Include="..\..\mpn\generic\jacobi.c" />
+    <ClCompile Include="..\..\mpn\generic\jacobi_2.c" />
+    <ClCompile Include="..\..\mpn\generic\jacobi_base.c" />
+    <ClCompile Include="..\..\mpn\generic\matrix22_mul.c" />
+    <ClCompile Include="..\..\mpn\generic\matrix22_mul1_inverse_vector.c" />
+    <ClCompile Include="..\..\mpn\generic\mod_1.c" />
+    <ClCompile Include="..\..\mpn\generic\mod_34lsub1.c" />
+    <ClCompile Include="..\..\mpn\generic\mp_bases.c" />
+    <ClCompile Include="..\..\mpn\generic\mul.c" />
+    <ClCompile Include="..\..\mpn\generic\mul_fft.c" />
+    <ClCompile Include="..\..\mpn\generic\mul_n.c" />
+    <ClCompile Include="..\..\mpn\generic\mulhigh_n.c" />
+    <ClCompile Include="..\..\mpn\generic\mullow_basecase.c" />
+    <ClCompile Include="..\..\mpn\generic\mullow_n.c" />
+    <ClCompile Include="..\..\mpn\generic\mulmid.c" />
+    <ClCompile Include="..\..\mpn\generic\mulmid_n.c" />
+    <ClCompile Include="..\..\mpn\generic\mulmod_2expm1.c" />
+    <ClCompile Include="..\..\mpn\generic\mulmod_2expp1_basecase.c" />
+    <ClCompile Include="..\..\mpn\generic\mulmod_bexpp1.c" />
+    <ClCompile Include="..\..\mpn\generic\neg_n.c" />
+    <ClCompile Include="..\..\mpn\generic\perfect_square_p.c" />
+    <ClCompile Include="..\..\mpn\generic\pow_1.c" />
+    <ClCompile Include="..\..\mpn\generic\powlo.c" />
+    <ClCompile Include="..\..\mpn\generic\powm.c" />
+    <ClCompile Include="..\..\mpn\generic\preinv_mod_1.c" />
+    <ClCompile Include="..\..\mpn\generic\random.c" />
+    <ClCompile Include="..\..\mpn\generic\random2.c" />
+    <ClCompile Include="..\..\mpn\generic\randomb.c" />
+    <ClCompile Include="..\..\mpn\generic\redc_2.c" />
+    <ClCompile Include="..\..\mpn\generic\redc_n.c" />
+    <ClCompile Include="..\..\mpn\generic\rootrem.c" />
+    <ClCompile Include="..\..\mpn\generic\rootrem_basecase.c" />
+    <ClCompile Include="..\..\mpn\generic\rrandom.c" />
+    <ClCompile Include="..\..\mpn\generic\rsh_divrem_hensel_qr_1.c" />
+    <ClCompile Include="..\..\mpn\generic\sb_bdiv_q.c" />
+    <ClCompile Include="..\..\mpn\generic\sb_bdiv_qr.c" />
+    <ClCompile Include="..\..\mpn\generic\sb_div_q.c" />
+    <ClCompile Include="..\..\mpn\generic\sb_div_qr.c" />
+    <ClCompile Include="..\..\mpn\generic\sb_divappr_q.c" />
+    <ClCompile Include="..\..\mpn\generic\scan0.c" />
+    <ClCompile Include="..\..\mpn\generic\scan1.c" />
+    <ClCompile Include="..\..\mpn\generic\set_str.c" />
+    <ClCompile Include="..\..\mpn\generic\sizeinbase.c" />
+    <ClCompile Include="..\..\mpn\generic\sqrtrem.c" />
+    <ClCompile Include="..\..\mpn\generic\sub.c" />
+    <ClCompile Include="..\..\mpn\generic\sub_1.c" />
+    <ClCompile Include="..\..\mpn\generic\subadd_n.c" />
+    <ClCompile Include="..\..\mpn\generic\tdiv_q.c" />
+    <ClCompile Include="..\..\mpn\generic\tdiv_qr.c" />
+    <ClCompile Include="..\..\mpn\generic\toom3_mul.c" />
+    <ClCompile Include="..\..\mpn\generic\toom3_mul_n.c" />
+    <ClCompile Include="..\..\mpn\generic\toom42_mulmid.c" />
+    <ClCompile Include="..\..\mpn\generic\toom4_mul.c" />
+    <ClCompile Include="..\..\mpn\generic\toom4_mul_n.c" />
+    <ClCompile Include="..\..\mpn\generic\toom8_sqr_n.c" />
+    <ClCompile Include="..\..\mpn\generic\toom8h_mul.c" />
+    <ClCompile Include="..\..\mpn\generic\toom_couple_handling.c" />
+    <ClCompile Include="..\..\mpn\generic\toom_eval_dgr3_pm1.c" />
+    <ClCompile Include="..\..\mpn\generic\toom_eval_dgr3_pm2.c" />
+    <ClCompile Include="..\..\mpn\generic\toom_eval_pm1.c" />
+    <ClCompile Include="..\..\mpn\generic\toom_eval_pm2.c" />
+    <ClCompile Include="..\..\mpn\generic\toom_eval_pm2exp.c" />
+    <ClCompile Include="..\..\mpn\generic\toom_eval_pm2rexp.c" />
+    <ClCompile Include="..\..\mpn\generic\toom_interpolate_16pts.c" />
+    <ClCompile Include="..\..\mpn\generic\urandomb.c" />
+    <ClCompile Include="..\..\mpn\generic\urandomm.c" />
+    <ClCompile Include="..\..\mpn\generic\zero.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <YASM Include="..\..\mpn\x86_64w\add_err1_n.asm" />
+    <YASM Include="..\..\mpn\x86_64w\add_err2_n.asm" />
+    <YASM Include="..\..\mpn\x86_64w\haswell\add_n.asm" />
+    <YASM Include="..\..\mpn\x86_64w\haswell\addlsh1_n.asm" />
+    <YASM Include="..\..\mpn\x86_64w\haswell\avx\addmul_1.asm" />
+    <YASM Include="..\..\mpn\x86_64w\haswell\addmul_2.asm" />
+    <YASM Include="..\..\mpn\x86_64w\haswell\and_n.asm" />
+    <YASM Include="..\..\mpn\x86_64w\haswell\andn_n.asm" />
+    <YASM Include="..\..\mpn\x86_64w\haswell\avx\com_n.asm" />
+    <YASM Include="..\..\mpn\x86_64w\haswell\avx\copyd.asm" />
+    <YASM Include="..\..\mpn\x86_64w\haswell\avx\copyi.asm" />
+    <YASM Include="..\..\mpn\x86_64w\divexact_1.asm" />
+    <YASM Include="..\..\mpn\x86_64w\divexact_by3c.asm" />
+    <YASM Include="..\..\mpn\x86_64w\haswell\divexact_byff.asm" />
+    <YASM Include="..\..\mpn\x86_64w\divexact_byfobm1.asm" />
+    <YASM Include="..\..\mpn\x86_64w\divrem_2.asm" />
+    <YASM Include="..\..\mpn\x86_64w\divrem_euclidean_qr_1.asm" />
+    <YASM Include="..\..\mpn\x86_64w\divrem_euclidean_qr_2.asm" />
+    <YASM Include="..\..\mpn\x86_64w\haswell\divrem_hensel_qr_1_1.asm" />
+    <YASM Include="..\..\mpn\x86_64w\haswell\hamdist.asm" />
+    <YASM Include="..\..\mpn\x86_64w\haswell\ior_n.asm" />
+    <YASM Include="..\..\mpn\x86_64w\haswell\iorn_n.asm" />
+    <YASM Include="..\..\mpn\x86_64w\haswell\karaadd.asm" />
+    <YASM Include="..\..\mpn\x86_64w\haswell\karasub.asm" />
+    <YASM Include="..\..\mpn\x86_64w\haswell\avx\lshift.asm" />
+    <YASM Include="..\..\mpn\x86_64w\haswell\avx\lshift1.asm" />
+    <YASM Include="..\..\mpn\x86_64w\haswell\lshiftc.asm" />
+    <YASM Include="..\..\mpn\x86_64w\haswell\mod_1_1.asm" />
+    <YASM Include="..\..\mpn\x86_64w\haswell\mod_1_2.asm" />
+    <YASM Include="..\..\mpn\x86_64w\haswell\mod_1_3.asm" />
+    <YASM Include="..\..\mpn\x86_64w\modexact_1c_odd.asm" />
+    <YASM Include="..\..\mpn\x86_64w\haswell\avx\mul_1.asm" />
+    <YASM Include="..\..\mpn\x86_64w\haswell\mul_2.asm" />
+    <YASM Include="..\..\mpn\x86_64w\haswell\avx\mul_basecase.asm" />
+    <YASM Include="..\..\mpn\x86_64w\mullow_n_basecase.asm" />
+    <YASM Include="..\..\mpn\x86_64w\mulmid_basecase.asm" />
+    <YASM Include="..\..\mpn\x86_64w\haswell\nand_n.asm" />
+    <YASM Include="..\..\mpn\x86_64w\haswell\nior_n.asm" />
+    <YASM Include="..\..\mpn\x86_64w\haswell\nsumdiff_n.asm" />
+    <YASM Include="..\..\mpn\x86_64w\haswell\popcount.asm" />
+    <YASM Include="..\..\mpn\x86_64w\haswell\redc_1.asm" />
+    <YASM Include="..\..\mpn\x86_64w\haswell\rsh_divrem_hensel_qr_1_1.asm" />
+    <YASM Include="..\..\mpn\x86_64w\haswell\rsh_divrem_hensel_qr_1_2.asm" />
+    <YASM Include="..\..\mpn\x86_64w\haswell\avx\rshift.asm" />
+    <YASM Include="..\..\mpn\x86_64w\haswell\avx\rshift1.asm" />
+    <YASM Include="..\..\mpn\x86_64w\haswell\avx\sqr_basecase.asm" />
+    <YASM Include="..\..\mpn\x86_64w\haswell\store.asm" />
+    <YASM Include="..\..\mpn\x86_64w\sub_err1_n.asm" />
+    <YASM Include="..\..\mpn\x86_64w\sub_err2_n.asm" />
+    <YASM Include="..\..\mpn\x86_64w\haswell\sub_n.asm" />
+    <YASM Include="..\..\mpn\x86_64w\haswell\sublsh1_n.asm" />
+    <YASM Include="..\..\mpn\x86_64w\haswell\avx\submul_1.asm" />
+    <YASM Include="..\..\mpn\x86_64w\haswell\sumdiff_n.asm" />
+    <YASM Include="..\..\mpn\x86_64w\udiv_qrnnd.asm" />
+    <YASM Include="..\..\mpn\x86_64w\umul_ppmm.asm" />
+    <YASM Include="..\..\mpn\x86_64w\haswell\xnor_n.asm" />
+    <YASM Include="..\..\mpn\x86_64w\haswell\xor_n.asm" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+    <Import Project="..\..\build.vc\vsyasm.targets" />
+    </ImportGroup>
+<ItemGroup>
+    <None Include="..\..\gmp-h.in" />
+    </ItemGroup>
+</Project>
