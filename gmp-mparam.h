@@ -1,1 +1,0 @@
-mpn/x86_64/k8/k10/k102/gmp-mparam.h
