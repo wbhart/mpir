@@ -350,6 +350,10 @@ postbuild "$(TargetPath)" 14
     <ClCompile Include="..\..\mpz\lcm.c" />
     <ClCompile Include="..\..\mpz\lcm_ui.c" />
     <ClCompile Include="..\..\mpz\likely_prime_p.c" />
+    <ClCompile Include="..\..\mpz\limbs_finish.c" />
+    <ClCompile Include="..\..\mpz\limbs_modify.c" />
+    <ClCompile Include="..\..\mpz\limbs_read.c" />
+    <ClCompile Include="..\..\mpz\limbs_write.c" />
     <ClCompile Include="..\..\mpz\lucnum2_ui.c" />
     <ClCompile Include="..\..\mpz\lucnum_ui.c" />
     <ClCompile Include="..\..\mpz\mfac_uiui.c" />
@@ -381,6 +385,7 @@ postbuild "$(TargetPath)" 14
     <ClCompile Include="..\..\mpz\realloc.c" />
     <ClCompile Include="..\..\mpz\realloc2.c" />
     <ClCompile Include="..\..\mpz\remove.c" />
+    <ClCompile Include="..\..\mpz\roinit_n.c" />
     <ClCompile Include="..\..\mpz\root.c" />
     <ClCompile Include="..\..\mpz\rootrem.c" />
     <ClCompile Include="..\..\mpz\rrandomb.c" />
@@ -452,6 +457,7 @@ postbuild "$(TargetPath)" 14
     <ClCompile Include="..\..\mpn\generic\add.c" />
     <ClCompile Include="..\..\mpn\generic\add_1.c" />
     <ClCompile Include="..\..\mpn\generic\bdivmod.c" />
+    <ClCompile Include="..\..\mpn\generic\binvert.c" />
     <ClCompile Include="..\..\mpn\generic\cmp.c" />
     <ClCompile Include="..\..\mpn\generic\comb_tables.c" />
     <ClCompile Include="..\..\mpn\generic\dc_bdiv_q.c" />
@@ -510,7 +516,6 @@ postbuild "$(TargetPath)" 14
     <ClCompile Include="..\..\mpn\generic\mulhigh_n.c" />
     <ClCompile Include="..\..\mpn\generic\mullow_basecase.c" />
     <ClCompile Include="..\..\mpn\generic\mullow_n.c" />
-    <ClCompile Include="..\..\mpn\generic\mullow_n_basecase.c" />
     <ClCompile Include="..\..\mpn\generic\mulmid.c" />
     <ClCompile Include="..\..\mpn\generic\mulmid_n.c" />
     <ClCompile Include="..\..\mpn\generic\mulmod_2expm1.c" />
@@ -520,11 +525,14 @@ postbuild "$(TargetPath)" 14
     <ClCompile Include="..\..\mpn\generic\nsumdiff_n.c" />
     <ClCompile Include="..\..\mpn\generic\perfect_square_p.c" />
     <ClCompile Include="..\..\mpn\generic\pow_1.c" />
+    <ClCompile Include="..\..\mpn\generic\powlo.c" />
+    <ClCompile Include="..\..\mpn\generic\powm.c" />
     <ClCompile Include="..\..\mpn\generic\preinv_mod_1.c" />
     <ClCompile Include="..\..\mpn\generic\random.c" />
     <ClCompile Include="..\..\mpn\generic\random2.c" />
     <ClCompile Include="..\..\mpn\generic\randomb.c" />
     <ClCompile Include="..\..\mpn\generic\redc_2.c" />
+    <ClCompile Include="..\..\mpn\generic\redc_n.c" />
     <ClCompile Include="..\..\mpn\generic\rootrem.c" />
     <ClCompile Include="..\..\mpn\generic\rootrem_basecase.c" />
     <ClCompile Include="..\..\mpn\generic\rrandom.c" />
@@ -600,6 +608,7 @@ postbuild "$(TargetPath)" 14
     <YASM Include="..\..\mpn\x86_64w\core2\mul_1.asm" />
     <YASM Include="..\..\mpn\x86_64w\core2\mul_2.asm" />
     <YASM Include="..\..\mpn\x86_64w\core2\mul_basecase.asm" />
+    <YASM Include="..\..\mpn\x86_64w\core2\mullow_n_basecase.asm" />
     <YASM Include="..\..\mpn\x86_64w\mulmid_basecase.asm" />
     <YASM Include="..\..\mpn\x86_64w\core2\nand_n.asm" />
     <YASM Include="..\..\mpn\x86_64w\core2\nior_n.asm" />
