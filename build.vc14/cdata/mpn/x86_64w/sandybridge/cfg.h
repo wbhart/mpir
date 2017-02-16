@@ -34,6 +34,7 @@ mpn_modexact_1c_odd
 mpn_mul_1
 mpn_mul_2
 mpn_mul_basecase
+mpn_mullow_n_basecase
 mpn_mulmid_basecase
 mpn_nand_n
 mpn_nior_n
