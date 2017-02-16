@@ -40,17 +40,16 @@
 	cmp     r9, 3
 	je      asm_sym(?mpn_mullow1)
 	ja      asm_sym(?mpn_mullow2)
-    mov     r10, rdx
 	mov     rax, [rdx]
+	cmp     r9, 2
+	jae     .1
 
-	align	16
-    cmp     r9, 2
-	ja      .1
-    imul    rax, [r8]
+	imul    rax, [r8]
 	mov     [rcx], rax
 	ret
 
-.1: mov     r9, [r8]
+.1: mov     r10, rdx
+    mov     r9, [r8]
 	mul     r9
 	mov     [rcx], rax
 	mov     rax, [r10+8]
@@ -102,204 +101,236 @@
     mov     rdi, rcx
     mov     rsi, rdx
     mov     rcx, r9
-
 	mov     rax, [rsi]
-	mov     r9, [r8]
+	mov     r10, [r8]
 	lea     rdi, [rdi+rcx*8]
 	lea     rsi, [rsi+rcx*8]
-	neg     rcx
-	mul     r9
-	mov     rbx, [r8+8]
+	mov     r9d, 0
+	sub     r9, rcx
+	mul     r10
+	mov     r11, [r8+8]
 	test    cl, 1
-	jnz     .2
-.1:	lea     rbp, [rcx]
-	xor     r10, r10
+	jnz     .4
+.1:	test    cl, 2
+	jnz     .3
+.2:	lea     r13, [r9]
+	mov     [rdi+r9*8], rax
+	mov     rcx, rdx
+	mov     rax, [rsi+r9*8]
+	xor     ebp, ebp
+	jmp     .9
+.3:	lea     r13, [r9-2]
+	mov     rbp, rax
+	mov     rax, [rsi+r9*8]
+	mov     r12, rdx
+	xor     ebx, ebx
+	jmp     .11
+.4:	test    cl, 2
+	jnz     .6
+.5:	lea     r13, [r9+1]
+	mov     [rdi+r9*8], rax
+	mov     rax, [rsi+r9*8]
+	mov     rbx, rdx
+	xor     ecx, ecx
+	jmp     .8
+.6:	lea     r13, [r9-1]
+	xor     r12d, r12d
+	mov     rcx, rax
+	mov     rbp, rdx
+	mov     rax, [rsi+r9*8]
+	jmp     .10
+
+	align	16
+.7:	mul     r10
+	add     r12, rax
+	mov     rax, [rsi+r13*8-8]
+	mov     [rdi+r13*8-8], r12
+	adc     rbx, rdx
+	adc     ecx, 0
+.8:	mul     r11
+	add     rbx, rax
+	adc     rcx, rdx
+	mov     ebp, 0
+	mov     rax, [rsi+r13*8]
+	mul     r10
+	add     rbx, rax
+	mov     [rdi+r13*8], rbx
+	adc     rcx, rdx
+	mov     rax, [rsi+r13*8]
+	adc     ebp, 0
+.9:	mul     r11
+	add     rcx, rax
+	adc     rbp, rdx
+	mov     rax, [rsi+r13*8+8]
+	mul     r10
+	mov     r12d, 0
+	add     rcx, rax
+	adc     rbp, rdx
+	adc     r12d, 0
+	mov     rax, [rsi+r13*8+8]
+.10:mul     r11
+	add     rbp, rax
+	mov     [rdi+r13*8+8], rcx
+	adc     r12, rdx
+	mov     ebx, 0
+	mov     rax, [rsi+r13*8+16]
+	mul     r10
+	add     rbp, rax
+	mov     rax, [rsi+r13*8+16]
+	adc     r12, rdx
+	adc     ebx, 0
+.11:mul     r11
+	mov     ecx, 0
+	add     r12, rax
+	mov     rax, [rsi+r13*8+24]
+	mov     [rdi+r13*8+16], rbp
+	adc     rbx, rdx
+	add     r13, 4
+	js      .7
+.12:imul    rax, r10
+	add     rax, r12
+	mov     [rdi-8], rax
+	add     r9, 2
+	lea     r8, [r8+16]
+	lea     rsi, [rsi-16]
+	cmp     r9, -2
+	jge     .26
+.13:mov     r10, [r8]
+	mov     r11, [r8+8]
+	mov     rax, [rsi+r9*8]
+	mul     r10
+	test    r9b, 1
+	jnz     .17
+.14:mov     r15, rax
+	mov     r14, rdx
+	mov     rax, [rsi+r9*8]
+	mul     r11
+	test    r9b, 2
+	jnz     .16
+.15:lea     r13, [r9]
+	mov     r12, [rdi+r9*8]
+	mov     rbx, rax
+	lea     rcx, [rdx]
+	jmp     .23
+.16:lea     r13, [r9+2]
+	mov     rcx, [rdi+r9*8]
+	mov     rbp, rax
+	mov     rax, [rsi+r9*8+8]
+	lea     r12, [rdx]
+	jmp     .21
+.17:mov     r14, rax
+	mov     r15, rdx
+	mov     rax, [rsi+r9*8]
+	mul     r11
+	test    r9b, 2
+	jz      .19
+.18:lea     r13, [r9+1]
+	lea     rbx, [rdx]
+	mov     rbp, [rdi+r9*8]
 	mov     r12, rax
-	mov     r11, rdx
-	jmp     .5
-.2:	lea     rbp, [rcx+1]
-	xor     r11, r11
-	xor     r12, r12
-	mov     r10, rax
-	mov     r13, rdx
-	jmp     .4
-	align	32
-.3:	mul     r9
-	add     r10, rax
-	mov     r13, rdx
-	adc     r13, 0
-.4:	mov     rax, [rsi+rbp*8-8]
-	mul     rbx
-	add     r10, r11
-	adc     r13, 0
-	add     r12, rax
-	mov     [rdi+rbp*8-8], r10
-	mov     r10, rdx
-	adc     r10, 0
-	mov     rax, [rsi+rbp*8]
-	mul     r9
-	add     r12, rax
-	mov     r11, rdx
-	adc     r11, 0
-	add     r12, r13
-.5:	mov     rax, [rsi+rbp*8]
-	adc     r11, 0
-	mul     rbx
-	mov     [rdi+rbp*8], r12
-	add     r10, rax
-	mov     r12, rdx
-	mov     rax, [rsi+rbp*8+8]
-	adc     r12, 0
-	add     rbp, 2
-	jnc     .3
-.6:	imul    rax, r9
-	add     rax, r10
-	add     rax, r11
-	mov     [rdi-8], rax
-	add     rcx, 2
-	lea     r8, [r8+16]
-	lea     rsi, [rsi-16]
-	cmp     rcx, -2
-	jge     .19
-.7:	mov     r9, [r8]
-	mov     rbx, [r8+8]
-	mov     rax, [rsi+rcx*8]
-	mul     r9
-	test    cl, 1
-	jnz     .11
-.8:	mov     r15, [rdi+rcx*8]
-	xor     r12, r12
-	xor     r11, r11
-	test    cl, 2
-	jnz     .10
-.9:	lea     rbp, [rcx+1]
-	jmp     .16
-.10:lea     rbp, [rcx+3]
-	mov     r13, rdx
-	add     r15, rax
-	mov     rax, [rsi+rcx*8]
-	mov     r14, [rdi+rcx*8+8]
-	adc     r13, 0
-	jmp     .14
-.11:mov     r14, [rdi+rcx*8]
-	xor     r10, r10
-	mov     r11, rdx
-	test    cl, 2
-	jz      .13
-.12:lea     rbp, [rcx+2]
-	add     r14, rax
-	adc     r11, 0
-	mov     rax, [rsi+rcx*8]
-	mul     rbx
-	mov     r15, [rdi+rcx*8+8]
-	jmp     .15
-.13:lea     rbp, [rcx]
-	xor     r13, r13
-	jmp     .17
+	jmp     .22
+.19:lea     r13, [r9-1]
+	lea     rbp, [rdx]
+	mov     rcx, rax
+	mov     rbx, [rdi+r9*8]
+	mov     rax, [rsi+r9*8+8]
+	jmp     .24
 	
-    align	32
-.14:mul     rbx
-	mov     r10, rdx
-	add     r14, rax
-	adc     r10, 0
-	add     r15, r11
-	adc     r13, 0
-	add     r14, r12
-	adc     r10, 0
-	mov     rax, [rsi+rbp*8-16]
-	mul     r9
-	add     r14, rax
-	mov     r11, rdx
-	adc     r11, 0
-	mov     rax, [rsi+rbp*8-16]
-	mul     rbx
-	mov     [rdi+rbp*8-24], r15
-	mov     r15, [rdi+rbp*8-8]
-	add     r14, r13
-	adc     r11, 0
-.15:mov     r12, rdx
-	mov     [rdi+rbp*8-16], r14
-	add     r15, rax
+    align	16
+.20:mul     r11
+	add     rcx, rbx
+	adc     rbp, rax
+	mov     rax, [rsi+r13*8-8]
+	lea     r12, [rdx]
 	adc     r12, 0
-	mov     rax, [rsi+rbp*8-8]
-	add     r15, r10
-	adc     r12, 0
-	mul     r9
-.16:add     r15, rax
-	mov     r13, rdx
-	adc     r13, 0
-	mov     rax, [rsi+rbp*8-8]
-	mul     rbx
-	add     r15, r11
-	mov     r14, [rdi+rbp*8]
-	adc     r13, 0
-	mov     r10, rdx
-	add     r14, rax
-	adc     r10, 0
-	mov     rax, [rsi+rbp*8]
-	mul     r9
-	add     r14, r12
-	mov     [rdi+rbp*8-8], r15
-	mov     r11, rdx
-	adc     r10, 0
-.17:add     r14, rax
-	adc     r11, 0
-	mov     rax, [rsi+rbp*8]
-	add     r14, r13
-	adc     r11, 0
-	mul     rbx
-	mov     r15, [rdi+rbp*8+8]
-	add     r15, rax
-	mov     r12, rdx
-	adc     r12, 0
-	mov     rax, [rsi+rbp*8+8]
-	mov     [rdi+rbp*8], r14
-	mul     r9
-	add     r15, r10
-	mov     r13, rdx
-	adc     r12, 0
-	add     r15, rax
-	mov     rax, [rsi+rbp*8+8]
-	mov     r14, [rdi+rbp*8+16]
-	adc     r13, 0
-	add     rbp, 4
-	jnc     .14
-.18:imul    rax, rbx
-	add     r14, rax
-	add     r15, r11
-	adc     r13, 0
-	add     r14, r12
+.21:mul     r10
+	add     r15, rcx
+	mov     [rdi+r13*8-16], r15
+	adc     r14, rax
+	mov     r15, rdx
+	adc     r15, 0
+	mov     rax, [rsi+r13*8-8]
+	mul     r11
+	lea     rbx, [rdx]
+	mov     rcx, [rdi+r13*8-8]
+	add     rbp, rcx
+	adc     r12, rax
+	adc     rbx, 0
+.22:mov     rax, [rsi+r13*8]
+	mul     r10
+	add     r14, rbp
+	adc     r15, rax
+	mov     [rdi+r13*8-8], r14
+	mov     r14, rdx
+	adc     r14, 0
+	mov     rax, [rsi+r13*8]
+	mov     rbp, [rdi+r13*8]
+	mul     r11
+	add     r12, rbp
+	adc     rbx, rax
+	lea     rcx, [rdx]
+	adc     rcx, 0
+.23:mov     rax, [rsi+r13*8+8]
+	mul     r10
+	add     r15, r12
+	mov     [rdi+r13*8], r15
+	adc     r14, rax
+	mov     r15, rdx
+	mov     r12, [rdi+r13*8+8]
+	adc     r15, 0
+	mov     rax, [rsi+r13*8+8]
+	mul     r11
+	add     rbx, r12
+	lea     rbp, [rdx]
+	adc     rcx, rax
+	mov     rax, [rsi+r13*8+16]
+	adc     rbp, 0
+.24:mul     r10
+	add     r14, rbx
+	mov     [rdi+r13*8+8], r14
+	mov     r14, rdx
+	adc     r15, rax
+	mov     rax, [rsi+r13*8+16]
+	mov     rbx, [rdi+r13*8+16]
+	adc     r14, 0
+	add     r13, 4
+	jnc     .20
+.25:imul    rax, r11
+	add     rcx, rbx
+	adc     rbp, rax
 	mov     rax, [rsi-8]
-	imul    rax, r9
-	add     rax, r14
+	imul    rax, r10
+	add     r15, rcx
 	mov     [rdi-16], r15
-	add     rax, r13
+	adc     rax, r14
+	mov     rcx, [rdi-8]
+	add     rbp, rcx
+	add     rax, rbp
 	mov     [rdi-8], rax
-	add     rcx, 2
+	add     r9, 2
 	lea     r8, [r8+16]
 	lea     rsi, [rsi-16]
-	cmp     rcx, -2
-	jl      .7
-	jnz     .20
-.19:mov     r9, [r8]
-	mov     rbx, [r8+8]
+	cmp     r9, -2
+	jl      .13
+	jnz     .27
+.26:mov     r10, [r8]
+	mov     r11, [r8+8]
 	mov     rax, [rsi-16]
-	mul     r9
+	mul     r10
 	add     rax, [rdi-16]
 	adc     rdx, [rdi-8]
-	mov     r10, [rsi-8]
-	imul    r10, r9
-	mov     r11, [rsi-16]
-	imul    r11, rbx
+	mov     rbx, [rsi-8]
+	imul    rbx, r10
+	mov     rcx, [rsi-16]
+	imul    rcx, r11
 	mov     [rdi-16], rax
-	add     r11, r10
-	add     r11, rdx
-	mov     [rdi-8], r11
+	add     rcx, rbx
+	add     rcx, rdx
+	mov     [rdi-8], rcx
     EXIT_PROC reg_save_list
 
-.20:mov     r11, [r8]
+.27:mov     r11, [r8]
 	imul    r11, [rsi-8]
 	add     r11, rax
 	mov     [rdi-8], r11
     END_PROC reg_save_list
- 
