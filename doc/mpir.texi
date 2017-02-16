@@ -1386,7 +1386,7 @@ and the YASM assembler from:
 @end display
 
 This assembler (@file{vsyasm.exe}, NOT @file{yasm.exe}) should be placed in the 
-directory "C:\Program Files\yasm".
+directory @file{C:\Program Files\yasm}.
 
 Alternatively @file{vsyasm.exe} can be placed elsewhere provided that the
 environment variable @samp{YASMPATH} gives its location.
@@ -1496,11 +1496,6 @@ Studio build sub-directory, for example, for Visual Studio 2017:
 @example
    mpir/build.vc15/mpir-tests/run-tests.py 
 @end example
-
-@item Further Details
-
-Additional details can be found in the @file{readme.txt} files in the 
-appropriate Visual Studio build sub-directories.
 
 @end table
 
@@ -11416,8 +11411,6 @@ The following people have either contributed directly to the MPIR project,
 made code available on their websites or contributed code to the official 
 GNU project which has been used in MPIR.
 
-Pierrick Gaudry wrote some fast assembly support for AMD 64.
-
 Jason Martin wrote some fast assembly patches for Core 2 and converted them to
 intel format. He also did the initial merge of Niels Moller's fast GCD patches.
 He wrote fast addmul functions for Itanium.
@@ -11435,12 +11428,16 @@ with fast jacobi symbols code.
 He also made contributions to the Toom multiply code, 
 especially helper functions to simplify Toom evaluations.
 
+Burcin Erocal helped with build testing on Pentium-D
+
 Pierrick Gaudry provided initial AMD 64 assembly support and revised the FFT code.
 
 Paul Zimmermann provided an mpz implementation of Toom 4, wrote much of the FFT code, wrote some of the rootrem code and contributed invert.c for computing
 precomputed inverses.
 
-Alexander Kruppa revised the FFT code.
+Alexander Kruppa revised the FFT code and helped write and superoptimise
+assembly code for Skylake, Haswell and Bulldozer and helped write a
+superoptimiser.
 
 Torbjorn Granlund revised the FFT code and wrote a lot of division code, 
 including the quadratic Euclidean division code, many parts of the divide
@@ -11450,8 +11447,10 @@ write the root code and wrote much of the Itanium assembly code and a couple
 of Core 2 assembly functions and part of the basecase middle product assembly
 code for x86 64 bit. He also wrote the improved string input and output code
 and made improvements to the GCD and extended GCD code. He also contributed the
-nextprime code and coauthored the bin_uiui code. Torbjorn is also responsible
-for numerous other bits and pieces that have been used from the GNU project.
+nextprime code and coauthored the bin_uiui code. He also wrote or maintained
+the binvert, mullow_n_basecase, powlo, redc_n code and the powm and powm_ui
+improvements. Torbjorn is also responsible for numerous other bits and pieces
+that have been used from the GNU project.
 
 Marco Bodrato and Alberto Zanoni suggested the unbalanced multiply strategy
 and found optimal Toom multiplication sequences.
@@ -11460,6 +11459,8 @@ Marco Bodrato wrote an mpz implementation of the Toom 7 code and wrote most of
 the Toom 8.5 multiply and squaring code. He also helped write the divide and conquer Euclidean division code. He also contributed many improved number
 theoretical functions including factorial, multi-factorial, primorial, 
 n-choose-k.
+
+Marc Glisse improved gmpxx.h
 
 Robert Gerbicz contributed fast factorial code.
 
@@ -11473,13 +11474,12 @@ T. R. Nicely wrote primality tests used in the benchmark code.
 
 Jeff Gilchrist assisted with the porting of T. R. Nicely's primality code to MPIR and helped with tuning.
 
+David Kirkby helped with build testing on Sun servers
+
 Peter Shrimpton wrote the BPSW primality test used up to GMP_LIMB_BITS.
 
 Thanks to Microsoft for supporting Jason Moxham to work on a command line
 build system for Windows and some assembly improvements for Windows.
-
-Thanks to the Free Software Foundation France for giving us access to their
-build farm.
 
 Thanks to William Stein for giving us access to his sage.math machines for
 testing and for hosting the MPIR website, and for supporting us in inumerably 
@@ -11493,9 +11493,38 @@ David Cleaver filed a bug report.
 
 Julien Puydt provided tuning values.
 
-Leif Lionhardy provided tuning values.
+Leif Lionhardy supplied build patches and provided tuning values.
 
-Jean-Pierre Flori provided tuning values.
+Jean-Pierre Flori ported the powm, powm_ui improvements from GMP, supplied many
+build system patches and improvements and provided tuning values.
+
+Thanks to an anonymous Japanese contributor for assembly improvements
+
+Marshall Hampton reported an issue on apple machines
+
+Jens Nurmann contributed significant quantities of Skylake assembly code and
+contributed assembly improvements that have been used elsewhere.
+
+Alex Best wrote an assembly superoptimiser.
+
+Vincent Delecroix ported mpq_cmp_z from GMP.
+
+Sisyphus (Rob) submitted tuning values.
+
+sav-ix (Alexander) provided a patch for t-locale on Windows.
+
+Isurus Fernando provided tuning values, numerous build system patches, did
+release testing and helped with continuous integration.
+
+Alex Dyachenko wrote mpir.net for interfacing MPIR to .net languages.
+
+Tommy Hoffman supplied a sed patch.
+
+Averkhaturau fixed a C++ compilation problem.
+
+Marcell Keller fixed a sign conversion bug.
+
+Sergey Taymanov fixed some Windows build file issues.
 
 @node References, GNU Free Documentation License, Contributors, Top
 @comment  node-name,  next,  previous,  up
