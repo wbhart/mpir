@@ -201,3 +201,4 @@ longlong.h
 gmp-mparam.h
 tune/sqr_basecase.c
 autoscript
+cdata
