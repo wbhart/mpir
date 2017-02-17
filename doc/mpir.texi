@@ -1367,7 +1367,7 @@ preprocessor symbols and chooses the correct actual @file{mpir.h}.
 @cindex Visual Studio
 
 MPIR can be built with the professional and higher versions of Visual Studio
-2012, 2013, 2015 and 2017.  It can also be built with the community editions
+2013, 2015 and 2017.  It can also be built with the community editions
 of Visual Studio 2015 and 2017. If the assembler optimised versions of MPIR
 are required, then both Python 3 and the YASM assembler also need to be
 installed.  MPIR can also be built with the Intel C/C++ compiler that can be
@@ -1399,7 +1399,6 @@ A build of MPIR is started by double clicking on the file @file{mpir.sln}
 in the appropriate sub-directory within the MPIR root directory:
 
 @example
-    Visual Studio 2012:  mpir/build.vc11/mpir.sln
     Visual Studio 2013:  mpir/build.vc12/mpir.sln
     Visual Studio 2015:  mpir/build.vc14/mpir.sln
     Visual Studio 2017:  mpir/build.vc15/mpir.sln
@@ -1450,7 +1449,6 @@ in the mpir\build-vc directory.  The value of <N> required depends on the
 version of Visual Studio in use as follows:
 
 @example
-    Visual Studio 2012:  11
     Visual Studio 2013:  12
     Visual Studio 2015:  14
     Visual Studio 2017:  15
@@ -1467,7 +1465,6 @@ Testing a version of the library once it has been built is started by double
 clicking on the appropriate solution file:
 
 @example
-    Visual Studio 2012:  mpir/build.vc11/mpir-tests.sln
     Visual Studio 2013:  mpir/build.vc12/mpir-tests.sln
     Visual Studio 2015:  mpir/build.vc14/mpir-tests.sln
     Visual Studio 2017:  mpir/build.vc15/mpir-tests.sln
