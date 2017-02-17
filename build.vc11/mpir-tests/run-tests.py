@@ -14,7 +14,7 @@ import sys
 import re
 
 cw, f = os.path.split(__file__)
-if cw != ''
+if cw != '':
   os.chdir(cw)
 
 try:
