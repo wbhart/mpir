@@ -180,6 +180,7 @@ CPUVEC_SETUP_x86_64;
           if (model == 63){ CPUIS(haswell);break;}
           if (model == 69){ CPUIS(haswell);break;}
           if (model == 70){ CPUIS(haswell);break;}
+          if (model == 71){ CPUIS(broadwell);break;}
           if (model == 78){ CPUIS(skylakeavx);break;}
           if (model == 79){ CPUIS(broadwell);break;}
           if (model == 94){
