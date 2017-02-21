@@ -36,19 +36,6 @@ static const mp_limb_t  endian_test = (CNST_LIMB(1) << (GMP_LIMB_BITS-7)) - 1;
 #define HOST_ENDIAN     (* (signed char *) &endian_test)
 #endif
 
-
-#define MPN_SIZEINBASE_2EXP(result, ptr, size, base2exp)                \
-  do {                                                                  \
-    int            __cnt;                                               \
-    mp_bitcnt_t  __totbits;                                           \
-    ASSERT ((size) > 0);                                                \
-    ASSERT ((ptr)[(size)-1] != 0);                                      \
-    count_leading_zeros (__cnt, (ptr)[(size)-1]);                       \
-    __totbits = (size) * GMP_NUMB_BITS - (__cnt - GMP_NAIL_BITS);       \
-    (result) = (__totbits + (base2exp)-1) / (base2exp);                 \
-  } while (0)
-
-
 void *
 mpz_export (void *data, size_t *countp, int order,
             size_t size, int endian, size_t nail, mpz_srcptr z)
