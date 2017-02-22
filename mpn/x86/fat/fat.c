@@ -109,6 +109,9 @@ struct cpuvec_t __gmpn_cpuvec = {
 #define CPUSETUP_sandybridge	CPUVEC_SETUP_nehalem
 #define CPUSETUP_ivybridge	CPUVEC_SETUP_nehalem
 #define CPUSETUP_haswell	CPUVEC_SETUP_nehalem
+#define CPUSETUP_broadwell      CPUVEC_SETUP_nehalem
+#define CPUSETUP_skylake        CPUVEC_SETUP_nehalem
+#define CPUSETUP_skylakeavx     CPUVEC_SETUP_nehalem
 #define CPUSETUP_atom		CPUVEC_SETUP_p6;CPUVEC_SETUP_p6_mmx;CPUVEC_SETUP_p6_p3mmx
 #define CPUSETUP_nano		CPUVEC_SETUP_p6;CPUVEC_SETUP_p6_mmx;CPUVEC_SETUP_p6_p3mmx
 #define CPUSETUP_pentium4	CPUVEC_SETUP_pentium4;CPUVEC_SETUP_pentium4_mmx;CPUVEC_SETUP_pentium4_sse2
