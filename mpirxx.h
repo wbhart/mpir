@@ -1208,6 +1208,70 @@ struct __gmp_sgn_function
   static int eval(mpf_srcptr f) { return mpf_sgn(f); }
 };
 
+struct __gmp_gcd_function
+{
+    static void eval(mpz_ptr z, mpz_srcptr w, mpz_srcptr v)
+    {
+        mpz_gcd(z, w, v);
+    }
+    static void eval(mpz_ptr z, mpz_srcptr w, mpir_ui l)
+    {
+        mpz_gcd_ui(z, w, l);
+    }
+    static void eval(mpz_ptr z, mpir_ui l, mpz_srcptr w)
+    {
+        eval(z, w, l);
+    }
+    static void eval(mpz_ptr z, mpz_srcptr w, mpir_si l)
+    {
+        eval(z, w, __gmpxx_abs_ui(l));
+    }
+    static void eval(mpz_ptr z, mpir_si l, mpz_srcptr w)
+    {
+        eval(z, w, l);
+    }
+    static void eval(mpz_ptr z, mpz_srcptr w, double d)
+    {
+        __GMPXX_TMPZ_D;    mpz_gcd(z, w, temp);
+    }
+    static void eval(mpz_ptr z, double d, mpz_srcptr w)
+    {
+        eval(z, w, d);
+    }
+};
+
+struct __gmp_lcm_function
+{
+    static void eval(mpz_ptr z, mpz_srcptr w, mpz_srcptr v)
+    {
+        mpz_lcm(z, w, v);
+    }
+    static void eval(mpz_ptr z, mpz_srcptr w, mpir_ui l)
+    {
+        mpz_lcm_ui(z, w, l);
+    }
+    static void eval(mpz_ptr z, mpir_ui l, mpz_srcptr w)
+    {
+        eval(z, w, l);
+    }
+    static void eval(mpz_ptr z, mpz_srcptr w, mpir_si l)
+    {
+        eval(z, w, __gmpxx_abs_ui(l));
+    }
+    static void eval(mpz_ptr z, mpir_si l, mpz_srcptr w)
+    {
+        eval(z, w, l);
+    }
+    static void eval(mpz_ptr z, mpz_srcptr w, double d)
+    {
+        __GMPXX_TMPZ_D;    mpz_lcm(z, w, temp);
+    }
+    static void eval(mpz_ptr z, double d, mpz_srcptr w)
+    {
+        eval(z, w, d);
+    }
+};
+
 struct __gmp_cmp_function
 {
   static int eval(mpz_srcptr z, mpz_srcptr w) { return mpz_cmp(z, w); }
