@@ -63,6 +63,8 @@
 %define r6b bpl
 %define r7b spl
 
+%define asm_sym(x) __g %+ x
+
 ; Standard macro for alignment (used to allow easy subsititution of
 ; alternative padding schemes)
 
@@ -74,78 +76,115 @@
 ;
 ; Copyright 2008, 2009 Brian Gladman
 ;
-; Windows x64 prologue macro
+; Windows x64 prologue macro:
 ;
-;   FRAME_PROC name, stack_slots, register_save_list 
+;     FRAME_PROC name, var_slots, register_save_list 
 ;
-;   name:                routine name
-;   register_save_list:  comma separated list of registers to save
-;   stack_slots:         stack space needed in 8 byte units
+; Windows x64 epilogue macro:
+;
+;     EXIT_PROC register_save_list
+;
+; Windows x64 epilogue and end procedure macro
+;
+;     END_PROC register_save_list
+;
+; where:
 
-; Windows x64 epilogue macro
-;
-;   EXIT_PROC register_save_list
-;
-;   register_save_list:  comma separated list of registers to save
-;                        in same order used in prologue
-;
+;   name:                routine name
+;   var_slots:           stack space needed in 8 byte units
+;   register_save_list:  comma separated list of registers to
+;                        save and restore: a list of general
+;                        purpose registers followed, if XMM
+;                        registers are present, by XMM, and
+;                        then a list of the numbers of the 
+;                        XMM registers to save and restore
+;                        e.g.  rsi, rdi, rbp, XMM, 6, 7, 8
+
 ; On return the macro variable 'stack_use' gives the total number 
 ; of bytes used on the stack. This allows the function parameters
 ; to be accessed at [rsp + stack_use + 8 * n] where n starts at 1
 ; (for n = 1..4 this is shadow space for a register parameter)  
-;
-; Windows x64 epilogue and end procedure macro
-;
-;   END_PROC register_save_list
-;
-; Details as above but used at the end of a procedure to signal 
-; the end of its source code.
 
 %macro FRAME_PROC 2-*
 
-    global  __g%1
+    global  asm_sym(%1)
     
 %ifdef DLL
-    export  __g%1
+    export  asm_sym(%1)
 %endif
 
-    PROC_FRAME __g%1
+    PROC_FRAME asm_sym(%1)
     %rotate 1
       
     %if %1 < 0
         %error Negative stack allocation not allowed
     %else
-        %if (%0 & 1) == (%1 & 1)
-            %assign stack_use 8 * (%1 + 1)
-        %else
-            %assign stack_use 8 * %1
-        %endif
+	    %assign var_slots %1
     %endif
     %rotate 1
 
+	%assign reg_slots 0
+	%assign xmm_seen 0
     %if %0 > 2
         %rep %0 - 2
-            push_reg  %1
+		    %ifnum %1
+			    %if xmm_seen == 0
+				    %error Not an XMM register
+				%else
+				    alloc_stack 16
+					save_xmm128 XMM%1, 0
+					%assign reg_slots reg_slots + 2
+				%endif
+		    %elifid %1
+		        %ifidni XMM, %1 
+					%if reg_slots & 1 == 0
+					    alloc_stack 8
+  					    %assign reg_slots reg_slots + 1
+    				    %assign xmm_seen 1 
+					%else
+				        %assign xmm_seen 2					 
+					%endif
+				%elif xmm_seen == 0
+					push_reg  %1
+  					%assign reg_slots reg_slots + 1
+				%else
+				    %error XMM registers must be last in the save list
+				%endif 
+			%else
+			    %error Bad parameter list
+			%endif
             %rotate 1
         %endrep
     %endif
 
-    %if stack_use > 0
-        alloc_stack stack_use
-    %endif
-    
-    %assign stack_use stack_use + 8 * (%0 - 2)
+	%if (reg_slots & 1) == (var_slots & 1)
+	    %assign var_slots var_slots + 1
+	%endif
+
+    %if var_slots > 0
+        alloc_stack 8 * var_slots
+	%endif
+	%assign stack_use 8 * (reg_slots + var_slots)
     END_PROLOGUE
 
 %endmacro
 
 %macro EXIT_PROC 0-*
 
-    add rsp, stack_use - 8 * %0
+    add rsp, 8 * var_slots
     %if %0 > 0
         %rep %0
             %rotate -1
-            pop  %1  
+			%ifnum %1
+			    movdqa XMM%1, [rsp]
+				add rsp, 16
+			%elifidni %1, XMM
+			    %if xmm_seen == 1 
+				    add rsp, 8
+				%endif
+			%else 
+                pop  %1
+			%endif  
         %endrep
     %endif
     ret
@@ -154,27 +193,38 @@
 
 %macro END_PROC 0-*
 
-    add rsp, stack_use - 8 * %0
+    %if var_slots
+	    add rsp, 8 * var_slots
+    %endif
     %if %0 > 0
         %rep %0
             %rotate -1
-            pop  %1  
+			%ifnum %1
+			    movdqa XMM%1, [rsp]
+				add rsp, 16
+			%elifidni %1, XMM
+			    %if xmm_seen == 1 
+				    add rsp, 8
+				%endif
+			%else 
+                pop  %1
+			%endif  
         %endrep
     %endif
-    ret
+	ret
     ENDPROC_FRAME
 
 %endmacro
 
 %macro LEAF_PROC 1
     
-    global  __g%1
+    global  asm_sym(%1)
     
 %ifdef DLL
-    export  __g%1
+    export  asm_sym(%1)
 %endif
 
-__g%1:
+asm_sym(%1):
 
 %endmacro
 
@@ -183,13 +233,13 @@ __g%1:
 ; six integer parameters from Microsoft ABI calling
 ; calling conventions to those used by GCC: 
 ;
-;   function(     MSVC --> GCC
-;       p1,       rcx      rdi
-;       p2,       rdx      rsi
-;       p3,        r8      rdx
-;       p4,        r9      rcx
-;       p5,  [rsp+40]       r8
-;       p6,  [rsp+48]       r9
+;   function(    MSVC --> GCC
+;       p1,       rcx     rdi
+;       p2,       rdx     rsi
+;       p3,        r8     rdx
+;       p4,        r9     rcx
+;       p5,  [rsp+40]      r8
+;       p6,  [rsp+48]      r9
 ;
 ;   WIN64_GCC_PROC name, n_parms, (frame | leaf)
 ;
@@ -201,11 +251,12 @@ __g%1:
 ;     n_parms number of parameters (default 6)
 ;     type    frame or leaf function (default frame)
 ;
-; These defines are also used:
+; These defines are also used and must be set before the
+; macros are used:
 ;
 ;     reg_save_list   list of registers to be saved
 ;                     and restored
-;     stack_slots     number of 8 byte slots needed
+;     var_slots       number of 8 byte slots needed
 ;                     on the stack (excluding the 
 ;                     register save/restore space)
 
@@ -217,11 +268,11 @@ __g%1:
             %define reg_save_list rsi, rdi
         %endif
 
-        %ifndef stack_slots
-            %define stack_slots 0
+        %ifndef var_slots
+            %define var_slots 0
         %endif
 
-        FRAME_PROC %1, stack_slots, reg_save_list
+        FRAME_PROC %1, var_slots, reg_save_list
         
     %elifidn %3, leaf
 
