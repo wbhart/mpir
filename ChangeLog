@@ -20,6 +20,10 @@ along with the GNU MP Library; see the file COPYING.LIB.  If not, write to
 the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 MA 02110-1301, USA.
 
+2017-03-01 mpir-devel <http://groups.google.com/group/mpir-devel>
+
+    * MPIR version 3.0.0 released
+
 2015-11-20 mpir-devel <http://groups.google.com/group/mpir-devel>
 
     * MPIR version 2.7.2 released
