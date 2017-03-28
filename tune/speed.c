@@ -351,6 +351,10 @@ const struct routine_t {
 
   { "mpn_mullow_n",      speed_mpn_mullow_n         },
   { "mpn_mullow_n_basecase", speed_mpn_mullow_n_basecase},
+  { "mpn_mulmid_basecase",  speed_mpn_mulmid_basecase, FLAG_R_OPTIONAL },
+  { "mpn_toom42_mulmid",    speed_mpn_toom42_mulmid },
+  { "mpn_mulmid_n",         speed_mpn_mulmid_n },
+  { "mpn_mulmid",           speed_mpn_mulmid, FLAG_R_OPTIONAL },
   { "mpn_mulhigh_n",      speed_mpn_mulhigh_n         },
   { "mpn_mulmod_2expm1",  speed_mpn_mulmod_2expm1     },
   { "mpn_mulmod_2expp1_basecase",  speed_mpn_mulmod_2expp1_basecase     },
@@ -378,10 +382,9 @@ const struct routine_t {
   { "mpz_powm",          speed_mpz_powm             },
   { "mpz_powm_mod",      speed_mpz_powm_mod         },
   { "mpz_powm_redc",     speed_mpz_powm_redc        },
-  { "mpz_powm_ui",       speed_mpz_powm_ui          },
+  { "mpz_powm_ui",       speed_mpz_powm_ui,  FLAG_R_OPTIONAL },
 
   { "mpz_mod",           speed_mpz_mod              },
-  { "redc",              speed_redc                 },
   { "mpn_store",         speed_mpn_store },
 
   { "MPN_COPY",          speed_MPN_COPY             },

@@ -1,5 +1,5 @@
 
-# A Python program to run speed and evaluate the performance of MPIR 
+# A Python program to run speed and evaluate the performance of MPIR
 # routines.
 #
 # Copyright (c) 2009, Brian Gladman, Worcester, UK.
@@ -8,7 +8,7 @@
 # software; you can redistribute it and/or modify it under the terms
 # of the GNU Lesser General Public License version 2.1 as published
 # by the Free Software Foundation.
-# 
+#
 # The MPIR Library is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
@@ -44,7 +44,7 @@ ll = [
      '-c -s 10(10)1000 mpn_subadd_n',
      '-c -s 10(10)1000 mpn_addsub_n',
      '-c -s 10(10)1000 mpn_karaadd',
-     '-c -s 10(10)1000 mpn_karasub',     
+     '-c -s 10(10)1000 mpn_karasub',
      '-c -s 10(10)1000 mpn_addmul_1.3333',
      '-c -s 10(10)1000 mpn_submul_1.3333',
      '-c -s 10(10)1000 mpn_submul_2',
@@ -98,7 +98,7 @@ ll = [
       '-c -s 10(10)1000 mpn_rshift.33',
       '-c -s 10(10)1000 mpn_lshift1',
       '-c -s 10(10)1000 mpn_rshift1',
-      '-c -s 10(10)1000 mpn_duuble',
+      '-c -s 10(10)1000 mpn_double',
       '-c -s 10(10)1000 mpn_half',
       '-c -s 10(10)1000 mpn_lshift2',
       '-c -s 10(10)1000 mpn_rshift2',
@@ -109,12 +109,12 @@ ll = [
       '-c -s 10(10)1000 mpn_iorn_n',
       '-c -s 10(10)1000 mpn_nior_n',
       '-c -s 10(10)1000 mpn_xor_n',
-      '-c -s 10(10)1000 mpn_xnor_n',     
+      '-c -s 10(10)1000 mpn_xnor_n',
       '-c -s 10(10)1000 mpn_com_n',
       '-c -s 10(10)1000 mpn_not',
       '-c -s 10(10)1000 mpn_popcount',
-      '-c -s 10(10)1000 mpn_hamdist',     
-      
+      '-c -s 10(10)1000 mpn_hamdist',
+
      '-c -s 10(10)1000 MPN_ZERO',
      '-c -s 10(10)1000 MPN_COPY',
      '-c -s 10(10)1000 MPN_COPY_INCR',
@@ -136,7 +136,7 @@ ll = [
      '-c -s 10(10)1000 umul_ppmm',
      '-c -s 10(10)1000 mpn_popcount',
      '-c -s 10(10)1000 mpn_hamdist',
-     
+
      ]
 
 lq = [
@@ -168,7 +168,7 @@ def run_exe(exe, args, inp) :
 # output a matrix implemented as a dictionary
 def mout(m, n) :
   for r in range(n) :
-    print('\n{0:3d}'.format(r), end='') 
+    print('\n{0:3d}'.format(r), end='')
     for c in range(n) :
       print('{0:18.4f}'.format(m[(r,c)]) , end='')
   print
@@ -205,7 +205,7 @@ def LU_decompose(A, n) :
     if A[(k,k)] == 0.0 :
       return None
 
-    # set upper triangular elements 
+    # set upper triangular elements
     for j in range(k + 1,n) :
       A[(k,j)] /= A[(k,k)]
 
@@ -223,7 +223,7 @@ def LU_decompose(A, n) :
 def LU_solve(A, p, b) :
   n = len(p)
   x = [0] * n
-  
+
   # calculate U x = L^-1 b
   for k in range(n) :
     if p[k] != k :
@@ -279,7 +279,7 @@ def do_lsq(x, y, lsq_size) :
       sc += 1
 
   # if we had to remove more than 10% of measurements
-  # declare that the result is not stable 
+  # declare that the result is not stable
   if 10 * sc > len(x) :
     return None
   else :

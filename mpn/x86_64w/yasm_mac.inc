@@ -63,6 +63,8 @@
 %define r6b bpl
 %define r7b spl
 
+%define asm_sym(x) __g %+ x
+
 ; Standard macro for alignment (used to allow easy subsititution of
 ; alternative padding schemes)
 
@@ -105,13 +107,13 @@
 
 %macro FRAME_PROC 2-*
 
-    global  __g%1
+    global  asm_sym(%1)
     
 %ifdef DLL
-    export  __g%1
+    export  asm_sym(%1)
 %endif
 
-    PROC_FRAME __g%1
+    PROC_FRAME asm_sym(%1)
     %rotate 1
       
     %if %1 < 0
@@ -216,13 +218,13 @@
 
 %macro LEAF_PROC 1
     
-    global  __g%1
+    global  asm_sym(%1)
     
 %ifdef DLL
-    export  __g%1
+    export  asm_sym(%1)
 %endif
 
-__g%1:
+asm_sym(%1):
 
 %endmacro
 

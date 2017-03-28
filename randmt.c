@@ -371,7 +371,7 @@ __gmp_randiset_mt (gmp_randstate_ptr dst, gmp_randstate_srcptr src)
   dstp = (*__gmp_allocate_func) (sizeof (gmp_rand_mt_struct));
 
   RNG_STATE (dst) = (void *) dstp;
-  RNG_FNPTR (dst) = (void *) &Mersenne_Twister_Generator_Noseed;
+  RNG_FNPTR (dst) = RNG_FNPTR(src);
 
   for (i = 0; i < N; i++)
     dstp->mt[i] = srcp->mt[i];

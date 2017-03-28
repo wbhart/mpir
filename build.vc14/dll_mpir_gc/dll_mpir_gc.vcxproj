@@ -21,7 +21,7 @@
   <PropertyGroup Label="Globals">
     <RootNamespace>mpir</RootNamespace>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{EF286BFC-F78C-45A4-A818-C6C4CCB96D57}</ProjectGuid>
+    <ProjectGuid>{10B31DE4-3383-4BBE-95D2-4FA82F3C07BC}</ProjectGuid>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
@@ -405,6 +405,10 @@ postbuild "$(TargetPath)" 14
     <ClCompile Include="..\..\mpz\lcm.c" />
     <ClCompile Include="..\..\mpz\lcm_ui.c" />
     <ClCompile Include="..\..\mpz\likely_prime_p.c" />
+    <ClCompile Include="..\..\mpz\limbs_finish.c" />
+    <ClCompile Include="..\..\mpz\limbs_modify.c" />
+    <ClCompile Include="..\..\mpz\limbs_read.c" />
+    <ClCompile Include="..\..\mpz\limbs_write.c" />
     <ClCompile Include="..\..\mpz\lucnum2_ui.c" />
     <ClCompile Include="..\..\mpz\lucnum_ui.c" />
     <ClCompile Include="..\..\mpz\mfac_uiui.c" />
@@ -436,6 +440,7 @@ postbuild "$(TargetPath)" 14
     <ClCompile Include="..\..\mpz\realloc.c" />
     <ClCompile Include="..\..\mpz\realloc2.c" />
     <ClCompile Include="..\..\mpz\remove.c" />
+    <ClCompile Include="..\..\mpz\roinit_n.c" />
     <ClCompile Include="..\..\mpz\root.c" />
     <ClCompile Include="..\..\mpz\rootrem.c" />
     <ClCompile Include="..\..\mpz\rrandomb.c" />
@@ -526,6 +531,7 @@ postbuild "$(TargetPath)" 14
     <ClCompile Include="..\..\mpn\generic\and_n.c" />
     <ClCompile Include="..\..\mpn\generic\andn_n.c" />
     <ClCompile Include="..\..\mpn\generic\bdivmod.c" />
+    <ClCompile Include="..\..\mpn\generic\binvert.c" />
     <ClCompile Include="..\..\mpn\generic\cmp.c" />
     <ClCompile Include="..\..\mpn\generic\com_n.c" />
     <ClCompile Include="..\..\mpn\generic\comb_tables.c" />
@@ -619,6 +625,8 @@ postbuild "$(TargetPath)" 14
     <ClCompile Include="..\..\mpn\generic\perfect_square_p.c" />
     <ClCompile Include="..\..\mpn\generic\popcount.c" />
     <ClCompile Include="..\..\mpn\generic\pow_1.c" />
+    <ClCompile Include="..\..\mpn\generic\powlo.c" />
+    <ClCompile Include="..\..\mpn\generic\powm.c" />
     <ClCompile Include="..\..\mpn\generic\preinv_divrem_1.c" />
     <ClCompile Include="..\..\mpn\generic\preinv_mod_1.c" />
     <ClCompile Include="..\..\mpn\generic\random.c" />
@@ -626,6 +634,7 @@ postbuild "$(TargetPath)" 14
     <ClCompile Include="..\..\mpn\generic\randomb.c" />
     <ClCompile Include="..\..\mpn\generic\redc_1.c" />
     <ClCompile Include="..\..\mpn\generic\redc_2.c" />
+    <ClCompile Include="..\..\mpn\generic\redc_n.c" />
     <ClCompile Include="..\..\mpn\generic\rootrem.c" />
     <ClCompile Include="..\..\mpn\generic\rootrem_basecase.c" />
     <ClCompile Include="..\..\mpn\generic\rrandom.c" />

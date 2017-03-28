@@ -43,8 +43,7 @@ MA 02110-1301, USA. */
 
 extern char point_string[];
 
-#ifndef __MINGW64__
-#if HAVE_LOCALECONV
+#if HAVE_LOCALECONV && ! (defined(__MINGW32__) || defined(_MSC_VER))
 struct lconv *
 localeconv (void)
 {
@@ -52,7 +51,6 @@ localeconv (void)
   l.decimal_point = point_string;
   return &l;
 }
-#endif
 #endif
 
 #if HAVE_NL_LANGINFO

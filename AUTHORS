@@ -1,6 +1,6 @@
 Authors of GNU MP (in chronological order of initial contribution)
 
-Torbjörn Granlund	Main author
+TorbjÃ¶rn Granlund	Main author
 
 John Amanatides		Original version of mpz/pprime_p.c
 Paul Zimmermann		mpn/generic/mul_fft.c, mpn/generic/dc_divrem_n.c,
@@ -50,7 +50,8 @@ Torbjorn Granlund    revised FFT code, schoolbook and divide and conquer
                      division code (reused in asymptotically fast division
                      code), logops, rootrem, tdiv_q, tdiv_qr, linear division
                      code for x86_64, itanium assembly code, divexact, 
-                     nextprime, n-choose-k 
+                     nextprime, n-choose-k, binvert, mullow_n_basecase, powlo,
+                     redc_n, powm, powm_ui improvements 
 Marco Bodrato        mpz implementation of Toom 7, mpn implementation of 
                      toom 8.5, contributed to Schoolbook division code
                      many improved number theoretical functions factorial,
@@ -66,8 +67,23 @@ Peter Shrimpton	     BPSW primality test code for integers up to GMP_LIMB_BITS
 Minh Van Nguyen      Release manager for MPIR 2.1.0
 Case Vanhorsen	     Release testing
 David Cleaver        Bug report
-JP Flori             Many build system patches, tuning values
+JP Flori             Many build system patches, tuning values, port of GMP
+                     mpz_powm and mpz_powm_ui to MPIR
 Sisyphus (Rob)       Tuning values
 Leif Lionhardy       Build system patches, tuning values
 Julien Puydt         Tuning values
-Vincent Delecroix    port of mpq_cmp_z from gmp
+Vincent Delecroix    Port of mpq_cmp_z from gmp
+sav-ix (Alexander)   Patch for t-locale on Windows
+Isuru Fernando       Tuning values, numerous build patches and continuous
+                     integration
+Alex Dyachenko       mpir.net for interface to .net languages
+
+Tommy Hoffman        Supplied a sed patch.
+
+Averkhaturau         Fixed a C++ compilation problem.
+
+Marcell Keller       Fixed a sign conversion bug.
+
+Sergey Taymanov      Fixed some Windows build file issues.
+
+

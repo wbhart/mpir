@@ -776,6 +776,18 @@
     <ClCompile Include="..\..\mpz\likely_prime_p.c">
       <Filter>Source Files\mpz</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\mpz\limbs_finish.c">
+      <Filter>Source Files\mpz</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\mpz\limbs_modify.c">
+      <Filter>Source Files\mpz</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\mpz\limbs_read.c">
+      <Filter>Source Files\mpz</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\mpz\limbs_write.c">
+      <Filter>Source Files\mpz</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\mpz\lucnum2_ui.c">
       <Filter>Source Files\mpz</Filter>
     </ClCompile>
@@ -867,6 +879,9 @@
       <Filter>Source Files\mpz</Filter>
     </ClCompile>
     <ClCompile Include="..\..\mpz\remove.c">
+      <Filter>Source Files\mpz</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\mpz\roinit_n.c">
       <Filter>Source Files\mpz</Filter>
     </ClCompile>
     <ClCompile Include="..\..\mpz\root.c">
@@ -1104,6 +1119,9 @@
       <Filter>Source Files\mpn</Filter>
     </ClCompile>
     <ClCompile Include="..\..\mpn\generic\bdivmod.c">
+      <Filter>Source Files\mpn</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\mpn\generic\binvert.c">
       <Filter>Source Files\mpn</Filter>
     </ClCompile>
     <ClCompile Include="..\..\mpn\generic\cmp.c">
@@ -1385,6 +1403,12 @@
     <ClCompile Include="..\..\mpn\generic\pow_1.c">
       <Filter>Source Files\mpn</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\mpn\generic\powlo.c">
+      <Filter>Source Files\mpn</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\mpn\generic\powm.c">
+      <Filter>Source Files\mpn</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\mpn\generic\preinv_divrem_1.c">
       <Filter>Source Files\mpn</Filter>
     </ClCompile>
@@ -1404,6 +1428,9 @@
       <Filter>Source Files\mpn</Filter>
     </ClCompile>
     <ClCompile Include="..\..\mpn\generic\redc_2.c">
+      <Filter>Source Files\mpn</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\mpn\generic\redc_n.c">
       <Filter>Source Files\mpn</Filter>
     </ClCompile>
     <ClCompile Include="..\..\mpn\generic\rootrem.c">

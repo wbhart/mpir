@@ -929,11 +929,6 @@ speed_mpz_mod (struct speed_params *s)
 {
   SPEED_ROUTINE_MPZ_MOD (mpz_mod);
 }
-double
-speed_redc (struct speed_params *s)
-{
-  SPEED_ROUTINE_REDC (mpn_redc_1);
-}
 
 
 double
@@ -1253,6 +1248,30 @@ speed_mpn_mullow_n_basecase (struct speed_params *s)
 }
 
 double
+speed_mpn_mulmid_basecase (struct speed_params *s)
+{
+  SPEED_ROUTINE_MPN_MULMID (mpn_mulmid_basecase);
+}
+
+double
+speed_mpn_mulmid (struct speed_params *s)
+{
+  SPEED_ROUTINE_MPN_MULMID (mpn_mulmid);
+}
+
+double
+speed_mpn_mulmid_n (struct speed_params *s)
+{
+  SPEED_ROUTINE_MPN_MULMID_N (mpn_mulmid_n);
+}
+
+double
+speed_mpn_toom42_mulmid (struct speed_params *s)
+{
+  SPEED_ROUTINE_MPN_TOOM42_MULMID (mpn_toom42_mulmid);
+}
+
+double
 speed_mpn_matrix22_mul (struct speed_params *s)
 {
   /* Speed params only includes 2 inputs, so we have to invent the
@@ -1488,6 +1507,7 @@ speed_mpz_powm_mod (struct speed_params *s)
 {
   SPEED_ROUTINE_MPZ_POWM (mpz_powm_mod);
 }
+
 double
 speed_mpz_powm_redc (struct speed_params *s)
 {
@@ -1497,6 +1517,28 @@ double
 speed_mpz_powm_ui (struct speed_params *s)
 {
   SPEED_ROUTINE_MPZ_POWM_UI (mpz_powm_ui);
+}
+
+double
+speed_mpn_binvert (struct speed_params *s)
+{
+  SPEED_ROUTINE_MPN_BINVERT (mpn_binvert, mpn_binvert_itch);
+}
+
+double
+speed_mpn_redc_1 (struct speed_params *s)
+{
+  SPEED_ROUTINE_REDC_1 (mpn_redc_1);
+}
+double
+speed_mpn_redc_2 (struct speed_params *s)
+{
+  SPEED_ROUTINE_REDC_2 (mpn_redc_2);
+}
+double
+speed_mpn_redc_n (struct speed_params *s)
+{
+  SPEED_ROUTINE_REDC_N (mpn_redc_n);
 }
 
 

@@ -115,7 +115,7 @@ Boston, MA 02110-1301, USA.
   Given n digit xp and yp, 
   define mulshort_n(xp,yp,n) to be sum 
   
-  {i + j >= n - 2, and perhaps some i + j < n - 2} xp[i]yp[i]B^(i+j)
+  {i + j >= n - 2, and perhaps some i + j < n - 2} xp[i]yp[j]B^(i+j)
   choose m such that n+2 <= 2m and m < n then from above  
   
   mulshort_n(xp, yp, n) = mul(xp + n - m, yp + n - m, m)B^(2n - 2m)
@@ -138,10 +138,6 @@ mpn_mulshort_n_basecase(mp_ptr rp, mp_srcptr xp, mp_srcptr yp, mp_size_t n)
 {
   mp_size_t i, k;
 
-#if GMP_NAIL_BITS==0
-  mp_limb_t t1, t2, t3;
-#endif
-
   ASSERT(n >= 3);  /* this restriction doesn't make a lot of sense in general */
   ASSERT_MPN(xp, n);
   ASSERT_MPN(yp, n);
@@ -149,21 +145,96 @@ mpn_mulshort_n_basecase(mp_ptr rp, mp_srcptr xp, mp_srcptr yp, mp_size_t n)
   ASSERT(!MPN_OVERLAP_P (rp, 2 * n, yp, n));
 
   k = n - 2; /* so want short product sum_(i + j >= k) x[i]y[j]B^(i + j) */
+  i = 0;
 
-#if GMP_NAIL_BITS!=0
-  rp[n] = mpn_mul_1(rp + k, xp + k, 2, yp[0]);
+  /* Multiply w limbs from y + i to (2 + i + w - 1) limbs from x + (n - 2 - i - w + 1)
+     and put it into r + (n - 2 - w + 1), "overflow" (i.e. last) limb into
+     r + (n + w - 1) for i between 0 and n - 2.
+     i == n - w needs special treatment. */
+
+  /* We first multiply by the low order limb (or depending on optional function
+     availability, limbs).  This result can be stored, not added, to rp.  We
+     also avoid a loop for zeroing this way.  */
+
+#if HAVE_NATIVE_mpn_mul_2
+  rp[n + 1] = mpn_mul_2 (rp + k - 1, xp + k - 1, 2 + 1, yp);
+  i += 2;
 #else
-
-  umul_ppmm(t1, rp[k], xp[k], yp[0]);
-  umul_ppmm(t3, t2, xp[k + 1], yp[0]);
-  add_ssaaaa(rp[n], rp[k + 1], t3, t2, 0, t1);
+  rp[n] = mpn_mul_1 (rp + k, xp + k, 2, yp[0]);
+  i += 1;
 #endif
 
-  for (i = 1; i <= n - 2; i++)
-     rp[n + i] = mpn_addmul_1 (rp + k, xp + k - i, 2 + i, yp[i]);
-  
-  rp[n + n - 1] = mpn_addmul_1 (rp + n - 1, xp, n, yp[n - 1]);
-  
+#if HAVE_NATIVE_mpn_addmul_6
+  while (i < n - 6)
+    {
+      rp[n + i + 6 - 1] = mpn_addmul_6 (rp + k - 6 + 1, xp + k - i - 6 + 1, 2 + i + 6 - 1, yp + i);
+      i += 6;
+    }
+  if (i == n - 6)
+    {
+      rp[n + n - 1] = mpn_addmul_6 (rp + i, xp, n, yp + i);
+      return;
+    }
+#endif
+
+#if HAVE_NATIVE_mpn_addmul_5
+  while (i < n - 5)
+    {
+      rp[n + i + 5 - 1] = mpn_addmul_5 (rp + k - 5 + 1, xp + k - i - 5 + 1, 2 + i + 5 - 1, yp + i)
+      i += 5;
+    }
+  if (i == n - 5)
+    {
+      rp[n + n - 1] = mpn_addmul_5 (rp + i, xp, n, yp + i);
+      return;
+    }
+#endif
+
+#if HAVE_NATIVE_mpn_addmul_4
+  while (i < n - 4)
+    {
+      rp[n + i + 4 - 1] = mpn_addmul_4 (rp + k - 4 + 1, xp + k - i - 4 + 1, 2 + i + 4 - 1, yp + i);
+      i += 4;
+    }
+  if (i == n - 4)
+    {
+      rp[n + n - 1] = mpn_addmul_4 (rp + i, xp, n, yp + i);
+      return;
+    }
+#endif
+
+#if HAVE_NATIVE_mpn_addmul_3
+  while (i < n - 3)
+    {
+      rp[n + i + 3 - 1] = mpn_addmul_3 (rp + k - 3 + 1, xp + k - i - 3 + 1, 2 + i + 3 - 1, yp + i);
+      i += 3;
+    }
+  if (i == n - 3)
+    {
+      rp[n + n - 1] = mpn_addmul_3 (rp + i, xp, n, yp + i);
+      return;
+    }
+#endif
+
+#if HAVE_NATIVE_mpn_addmul_2
+  while (i < n - 2)
+    {
+      rp[n + i + 2 - 1] = mpn_addmul_2 (rp + k - 2 + 1, xp + k - i - 2 + 1, 2 + i + 2 - 1, yp + i);
+      i += 2;
+    }
+  if (i == n - 2)
+    {
+      rp[n + n - 1] = mpn_addmul_2 (rp + i, xp, n, yp + i);
+      return;
+    }
+#endif
+
+  while (i < n - 1)
+    {
+      rp[n + i] = mpn_addmul_1 (rp + k, xp + k - i, 2 + i, yp[i]);
+      i += 1;
+    }
+  rp[n + n - 1] = mpn_addmul_1 (rp + i, xp, n, yp[i]);
   return;
 }
 

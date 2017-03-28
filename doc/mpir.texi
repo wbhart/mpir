@@ -13,9 +13,7 @@
 This manual describes how to install and use MPIR, the Multiple Precision Integers and Rationals
 library, version @value{VERSION}.
 
-Copyright 1991, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002,
-2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013 Free Software 
-Foundation, Inc.
+Copyright 1991, 1993-2016 Free Software Foundation, Inc.
 
 Copyright 2008, 2009, 2010 William Hart
 
@@ -511,6 +509,16 @@ Everyone should read @ref{MPIR Basics}.  If you need to install the library
 yourself, then read @ref{Installing MPIR}.  If you have a system with multiple
 ABIs, then read @ref{ABI and ISA}, for the compiler options that must be used
 on applications.
+In addition to usual compilation tools, MPIR depends on Yasm to be built.
+If yasm is not available on your system, you can download its sources at
+
+@display
+@uref{http://yasm.tortall.net/Download.html}
+@end display
+
+build your own version and make it available to MPIR configuration system
+by passing its path to @file{configure} through the @samp{--with-yasm} option.
+See @ref{Build Options} for further details.
 
 The rest of the manual can be used for later reference, although it is
 probably a good idea to glance through it.
@@ -522,6 +530,7 @@ probably a good idea to glance through it.
 @cindex Installing MPIR
 @cindex Configuring MPIR
 @cindex Building MPIR
+
 
 MPIR has an autoconf/automake/libtool based configuration system.  On a
 Unix-like system a basic build can be done with
@@ -547,14 +556,14 @@ make install
 
 Important note: by default MPIR produces libraries named libmpir, etc., and the header file 
 @file{mpir.h}. If you wish to have MPIR to build a library named libgmp as well, etc., and a 
-gmp.h header file, so that you can use mpir with programs designed to only work with GMP, 
+@file{gmp.h} header file, so that you can use mpir with programs designed to only work with GMP, 
 then use the @samp{--enable-gmpcompat} option when invoking configure:
 
 @example
 ./configure --enable-gmpcompat
 @end example
 
-Note gmp.h is only created upon running make install. 
+Note @file{gmp.h} is only created upon running make install. 
 
 MPIR is compatible with GMP when the @samp{--enable-gmpcompat} option is used, except that the GMP secure cryptographic functions are not available. 
 
@@ -854,22 +863,18 @@ best ABI available, but a particular ABI can be selected.  For example
 See @ref{ABI and ISA}, for the available choices on relevant CPUs, and what
 applications need to do.
 
-@item @option{--with-yasm}, @option{--with-system-yasm}
+@item @option{--with-yasm}
 @cindex Yasm
 @cindex @option{--with-yasm}
-@cindex @option{--with-system-yasm}
-By default MPIR will compile its own version of Yasm if needed.
-Passing @option{--with-yasm} or @option{--with-system-yasm} let MPIR use a
-precompiled version of Yasm. With the former option a full path to Yasm's
-binary should be given, for example
+By default MPIR will look for a system-wide Yasm using the @command{which} command.
+Passing @option{--with-yasm} let MPIR use a version of Yasm at a non-standard
+location.
+This is useful if none is available in @env{PATH}.
+With this option a full path to Yasm's binary should be given, for example
 
 @example
 ./configure --with-yasm=/usr/local/bin/yasm
 @end example
-
-with the latter option MPIR will try to detect a system-wide installation of
-Yasm.
-Both options are mutually exclusive.
 
 @item @option{CC}, @option{CFLAGS}
 @cindex C compiler
@@ -1361,35 +1366,27 @@ preprocessor symbols and chooses the correct actual @file{mpir.h}.
 @cindex MSVC
 @cindex Visual Studio
 
-MPIR can be built with the professional and higher versions of Microsoft
-Visual Studio 2010, 2012 and 2013.  It can also be built with Visual 
-Studio Express 2013 for Windows Desktop.  In addition to one of these
-versions of Visual Studio, Python 3 and the YASM assembler will need
-to be installed if the assembler optimised versions are required. if
-installed, MPIR can also be built with the Intel compiler that can be
-integrated into tne full versions of Visual Studio.
+MPIR can be built with the professional and higher versions of Visual Studio
+2012, 2013, 2015 and 2017.  It can also be built with the community editions
+of Visual Studio 2015 and 2017. If the assembler optimised versions of MPIR
+are required, then both Python 3 and the YASM assembler also need to be
+installed.  MPIR can also be built with the Intel C/C++ compiler that can be
+integrated into versions of Visual Studio.
 
-Python can be obtained from:
+Python 3 can be obtained from:
 
 @display
 @uref{https://www.python.org/}
 @end display
 
-and the YASM assembler is available here:
+and the YASM assembler from:
 
 @display
 @uref{http://yasm.tortall.net/Download.html}
 @end display
 
 This assembler (@file{vsyasm.exe}, NOT @file{yasm.exe}) should be placed in the 
-binary directory used by the Visual Studio version in use, which should be one
-of:
-
-@display
-@file{C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin}
-@file{C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin}
-@file{C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin}
-@end display
+directory @file{C:\Program Files\yasm}.
 
 Alternatively @file{vsyasm.exe} can be placed elsewhere provided that the
 environment variable @samp{YASMPATH} gives its location.
@@ -1402,14 +1399,15 @@ A build of MPIR is started by double clicking on the file @file{mpir.sln}
 in the appropriate sub-directory within the MPIR root directory:
 
 @example
-    Visual Studio 2010:  mpir/build.vc10/mpir.sln
     Visual Studio 2012:  mpir/build.vc11/mpir.sln
     Visual Studio 2013:  mpir/build.vc12/mpir.sln
+    Visual Studio 2015:  mpir/build.vc14/mpir.sln
+    Visual Studio 2017:  mpir/build.vc15/mpir.sln
 @end example
     
 Visual Studio will then display a list of individual build projects
 from which an appropriate version of MPIR can be built. For example,
-a typical list of projects:
+a typical list of projects is:
 
 @example
     dll_mpir_gc     standard DLL, no assembler (win32 and x64)
@@ -1421,7 +1419,7 @@ a typical list of projects:
     dll_mpir_core2  assembly optimised DLL for core2 (x64)
 @end example
 
-allows MPIR to be built either as a static library or as a DLL. A DLL will
+MPIR can be built either as a static library or as a DLL. A DLL will
 include both the C and C++ features of MPIR but a static library will include
 only the C features so in this case the project:
 
@@ -1447,12 +1445,21 @@ depending on whether static library or DLL versions have been built.
 
 The Visual Studio builds for MPIR are initially provided with a small set
 of assembler optimised projects but many more are available and can be
-obtained by running the Python program @command{mpir_config.py} that is in the
-appropriate build sub-directory for the version of Visual Studio in use. 
-This program is run before Visual Studio is used and provides a list of
-all the assembler optimised versions that are available.  Any number can
-be chosen and these builds will then be available when Visual Studio is
-subsequently opened by double clicking on @file{mpir.sln}.
+obtained by running the Python program @command{mpir_config.py <N>} that is
+in the mpir\build-vc directory.  The value of <N> required depends on the
+version of Visual Studio in use as follows:
+
+@example
+    Visual Studio 2012:  11
+    Visual Studio 2013:  12
+    Visual Studio 2015:  14
+    Visual Studio 2017:  15
+@end example
+
+This program, which has to be run before Visual Studio, provides a list of
+all the assembler optimised versions of MPIR that are available.  Any number
+of versions can be chosen and these builds will then be available when Visual
+Studio is subsequently opened by double clicking on @file{mpir.sln}.
 
 @item Testing Visual Studio versions of MPIR 
 
@@ -1460,15 +1467,17 @@ Testing a version of the library once it has been built is started by double
 clicking on the appropriate solution file:
 
 @example
-    Visual Studio 2010:  mpir/build.vc10/mpir-tests.sln
     Visual Studio 2012:  mpir/build.vc11/mpir-tests.sln
     Visual Studio 2013:  mpir/build.vc12/mpir-tests.sln
+    Visual Studio 2015:  mpir/build.vc14/mpir-tests.sln
+    Visual Studio 2017:  mpir/build.vc15/mpir-tests.sln
 @end example
 
 The tests are always run on the last version of MPIR built and it is important
-to set the configuration for the tests (Release or Debug, win32 or x64) to be 
-the same as that used to build MPIR.  After loading there will be a large list
-of test projects starting:
+that the configuration set for building the tests (Release or Debug, win32 or
+x64) is the same as that used to build MPIR.  When testing the static library
+versions of MPIR, both the C (mpir.lib) and C++ (mpirxx.lib) must be built.
+After loading there will be a large list of test projects starting:
 
 @example
   Solution `mpir-tests' (202 projects)
@@ -1482,16 +1491,11 @@ The project @samp{add-test-lib} should be selected and built first, after which
 the solution as a whole (i.e. the first line shown above) can be selected to 
 build all the tests.  After the build has completed, the tests are run by 
 executing the Python program @command{run-tests.py} in the appropriate Visual 
-Studio build sub-directory, for example, for Visual Studio 2013:
+Studio build sub-directory, for example, for Visual Studio 2017:
 
 @example
-   mpir/build.vc12/mpir-tests/run-tests.py 
+   mpir/build.vc15/mpir-tests/run-tests.py 
 @end example
-
-@item Further Details
-
-Additional details can be found in the @file{readme.txt} files in the 
-appropriate Visual Studio build sub-directories.
 
 @end table
 
@@ -4054,7 +4058,82 @@ the returned value will be zero.
 @c (@xref{Nomenclature}, for an explanation of the concept @dfn{limb}.)
 @end deftypefun
 
+@deftypefun {const mp_limb_t *} mpz_limbs_read (const mpz_t @var{x})
+Return a pointer to the limb array representing the absolute value of @var{x}.
+The size of the array is @code{mpz_size(@var{x})}. Intended for read access
+only.
+@end deftypefun
 
+@deftypefun {mp_limb_t *} mpz_limbs_write (mpz_t @var{x}, mp_size_t @var{n})
+@deftypefunx {mp_limb_t *} mpz_limbs_modify (mpz_t @var{x}, mp_size_t @var{n})
+Return a pointer to the limb array, intended for write access. The array is
+reallocated as needed, to make room for @var{n} limbs. Requires @math{@var{n}
+> 0}. The @code{mpz_limbs_modify} function returns an array that holds the old
+absolute value of @var{x}, while @code{mpz_limbs_write} may destroy the old
+value and return an array with unspecified contents.
+@end deftypefun
+
+@deftypefun void mpz_limbs_finish (mpz_t @var{x}, mp_size_t @var{s})
+Updates the internal size field of @var{x}. Used after writing to the limb
+array pointer returned by @code{mpz_limbs_write} or @code{mpz_limbs_modify} is
+completed. The array should contain @math{@GMPabs{@var{s}}} valid limbs,
+representing the new absolute value for @var{x}, and the sign of @var{x} is
+taken from the sign of @var{s}. This function never reallocates @var{x}, so
+the limb pointer remains valid.
+@end deftypefun
+
+@c FIXME: Some more useful and less silly example?
+@example
+void foo (mpz_t x)
+@{
+  mp_size_t n, i;
+  mp_limb_t *xp;
+
+  n = mpz_size (x);
+  xp = mpz_limbs_modify (x, 2*n);
+  for (i = 0; i < n; i++)
+    xp[n+i] = xp[n-1-i];
+  mpz_limbs_finish (x, mpz_sgn (x) < 0 ? - 2*n : 2*n);
+@}
+@end example
+
+@deftypefun mpz_srcptr mpz_roinit_n (mpz_t @var{x}, const mp_limb_t *@var{xp}, mp_size_t @var{xs})
+Special initialization of @var{x}, using the given limb array and size.
+@var{x} should be treated as read-only: it can be passed safely as input to
+any mpz function, but not as an output. The array @var{xp} must point to at
+least a readable limb, its size is
+@math{@GMPabs{@var{xs}}}, and the sign of @var{x} is the sign of @var{xs}. For
+convenience, the function returns @var{x}, but cast to a const pointer type.
+@end deftypefun
+
+@example
+void foo (mpz_t x)
+@{
+  static const mp_limb_t y[3] = @{ 0x1, 0x2, 0x3 @};
+  mpz_t tmp;
+  mpz_add (x, x, mpz_roinit_n (tmp, y, 3));
+@}
+@end example
+
+@deftypefn Macro mpz_t MPZ_ROINIT_N (mp_limb_t *@var{xp}, mp_size_t @var{xs})
+This macro expands to an initializer which can be assigned to an mpz_t
+variable. The limb array @var{xp} must point to at least a readable limb,
+moreover, unlike the @code{mpz_roinit_n} function, the array must be
+normalized: if @var{xs} is non-zero, then
+@code{@var{xp}[@math{@GMPabs{@var{xs}}-1}]} must be non-zero. Intended
+primarily for constant values. Using it for non-constant values requires a C
+compiler supporting C99.
+@end deftypefn
+
+@example
+void foo (mpz_t x)
+@{
+  static const mp_limb_t ya[3] = @{ 0x1, 0x2, 0x3 @};
+  static const mpz_t y = MPZ_ROINIT_N ((mp_limb_t *) ya, 3);
+
+  mpz_add (x, x, y);
+@}
+@end example
 
 @node Rational Number Functions, Floating-point Functions, Integer Functions, Top
 @comment  node-name,  next,  previous,  up
@@ -11332,8 +11411,6 @@ The following people have either contributed directly to the MPIR project,
 made code available on their websites or contributed code to the official 
 GNU project which has been used in MPIR.
 
-Pierrick Gaudry wrote some fast assembly support for AMD 64.
-
 Jason Martin wrote some fast assembly patches for Core 2 and converted them to
 intel format. He also did the initial merge of Niels Moller's fast GCD patches.
 He wrote fast addmul functions for Itanium.
@@ -11351,12 +11428,16 @@ with fast jacobi symbols code.
 He also made contributions to the Toom multiply code, 
 especially helper functions to simplify Toom evaluations.
 
+Burcin Erocal helped with build testing on Pentium-D
+
 Pierrick Gaudry provided initial AMD 64 assembly support and revised the FFT code.
 
 Paul Zimmermann provided an mpz implementation of Toom 4, wrote much of the FFT code, wrote some of the rootrem code and contributed invert.c for computing
 precomputed inverses.
 
-Alexander Kruppa revised the FFT code.
+Alexander Kruppa revised the FFT code and helped write and superoptimise
+assembly code for Skylake, Haswell and Bulldozer and helped write a
+superoptimiser.
 
 Torbjorn Granlund revised the FFT code and wrote a lot of division code, 
 including the quadratic Euclidean division code, many parts of the divide
@@ -11366,8 +11447,10 @@ write the root code and wrote much of the Itanium assembly code and a couple
 of Core 2 assembly functions and part of the basecase middle product assembly
 code for x86 64 bit. He also wrote the improved string input and output code
 and made improvements to the GCD and extended GCD code. He also contributed the
-nextprime code and coauthored the bin_uiui code. Torbjorn is also responsible
-for numerous other bits and pieces that have been used from the GNU project.
+nextprime code and coauthored the bin_uiui code. He also wrote or maintained
+the binvert, mullow_n_basecase, powlo, redc_n code and the powm and powm_ui
+improvements. Torbjorn is also responsible for numerous other bits and pieces
+that have been used from the GNU project.
 
 Marco Bodrato and Alberto Zanoni suggested the unbalanced multiply strategy
 and found optimal Toom multiplication sequences.
@@ -11376,6 +11459,8 @@ Marco Bodrato wrote an mpz implementation of the Toom 7 code and wrote most of
 the Toom 8.5 multiply and squaring code. He also helped write the divide and conquer Euclidean division code. He also contributed many improved number
 theoretical functions including factorial, multi-factorial, primorial, 
 n-choose-k.
+
+Marc Glisse improved gmpxx.h
 
 Robert Gerbicz contributed fast factorial code.
 
@@ -11389,13 +11474,12 @@ T. R. Nicely wrote primality tests used in the benchmark code.
 
 Jeff Gilchrist assisted with the porting of T. R. Nicely's primality code to MPIR and helped with tuning.
 
+David Kirkby helped with build testing on Sun servers
+
 Peter Shrimpton wrote the BPSW primality test used up to GMP_LIMB_BITS.
 
 Thanks to Microsoft for supporting Jason Moxham to work on a command line
 build system for Windows and some assembly improvements for Windows.
-
-Thanks to the Free Software Foundation France for giving us access to their
-build farm.
 
 Thanks to William Stein for giving us access to his sage.math machines for
 testing and for hosting the MPIR website, and for supporting us in inumerably 
@@ -11409,9 +11493,38 @@ David Cleaver filed a bug report.
 
 Julien Puydt provided tuning values.
 
-Leif Lionhardy provided tuning values.
+Leif Lionhardy supplied build patches and provided tuning values.
 
-Jean-Pierre Flori provided tuning values.
+Jean-Pierre Flori ported the powm, powm_ui improvements from GMP, supplied many
+build system patches and improvements and provided tuning values.
+
+Thanks to an anonymous Japanese contributor for assembly improvements
+
+Marshall Hampton reported an issue on apple machines
+
+Jens Nurmann contributed significant quantities of Skylake assembly code and
+contributed assembly improvements that have been used elsewhere.
+
+Alex Best wrote an assembly superoptimiser.
+
+Vincent Delecroix ported mpq_cmp_z from GMP.
+
+Sisyphus (Rob) submitted tuning values.
+
+sav-ix (Alexander) provided a patch for t-locale on Windows.
+
+Isurus Fernando provided tuning values, numerous build system patches, did
+release testing and helped with continuous integration.
+
+Alex Dyachenko wrote mpir.net for interfacing MPIR to .net languages.
+
+Tommy Hoffman supplied a sed patch.
+
+Averkhaturau fixed a C++ compilation problem.
+
+Marcell Keller fixed a sign conversion bug.
+
+Sergey Taymanov fixed some Windows build file issues.
 
 @node References, GNU Free Documentation License, Contributors, Top
 @comment  node-name,  next,  previous,  up

@@ -70,21 +70,9 @@ AM_MAINTAINER_MODE
 
 dnl  Yasm configuration
 AC_ARG_WITH([yasm],
-[AC_HELP_STRING([--with-yasm],[use a custom Yasm [[default=no]]])],
-[case "$withval" in
-  no) ;;
-  *) AC_MSG_ERROR([bad value $withval for --with-yasm, need no or path to Yasm's executable]) ;;
-esac],
-[with_yasm=no]
-)
-
-AC_ARG_WITH([system-yasm],
-[AC_HELP_STRING([--with-system-yasm],[use a system-wide Yasm [[default=no]]])],
-[case "$withval" in
-  yes|no) ;;
-  *) AC_MSG_ERROR([bad value $withval for --with-system-yasm, need yes or no]) ;;
-esac],
-[with_system_yasm=no]
+[AC_HELP_STRING([--with-yasm],[use a custom Yasm])],
+[],
+[]
 )
 
 AC_ARG_ENABLE(assert,
@@ -948,8 +936,6 @@ case $host in
     any_32_testlist="sizeof-long-4"
     CALLING_CONVENTIONS_OBJS='x86call.lo x86check$U.lo'
 
-    # Currently yasm is only needed to build x86 assembly files on some hosts
-    want_yasm="yes"
     # Availability of rdtsc is checked at run-time.
     SPEED_CYCLECOUNTER_OBJ=pentium.lo
     
@@ -1123,6 +1109,10 @@ case $host in
         gcc_cflags_cpu="-mtune=skylake -mtune=corei7-avx -mtune=corei7 -mtune=core2 -mtune=nocona -mtune=pentium3 -mcpu=pentiumpro -mcpu=i486 -m486"
         gcc_cflags_arch="-march=skylake -march=corei7-avx -march=corei7 -march=core2 -march=nocona -march=pentium3 -march=pentiumpro -march=pentium"
         ;;
+      broadwell)
+        gcc_cflags_cpu="-mtune=broadwell -mtune=corei7-avx -mtune=corei7 -mtune=core2 -mtune=nocona -mtune=pentium3 -mcpu=pentiumpro -mcpu=i486 -m486"
+        gcc_cflags_arch="-march=broadwell -march=corei7-avx -march=corei7 -march=core2 -march=nocona -march=pentium3 -march=pentiumpro -march=pentium"
+        ;;
       *)
         gcc_cflags_cpu="-mtune=i486 -mcpu=i486 -m486"
         gcc_cflags_arch="-march=i486"
@@ -1146,7 +1136,7 @@ case $host in
       k8 | bobcat)		path="x86/k7/mmx/k8 x86/k7/mmx x86/k7 x86" ;;
       core2 | penryn)		path="x86/core2 x86" ;;
       i786 | pentium4)		path="x86/pentium4/sse2 x86/pentium4/mmx x86/pentium4 x86" ;;
-      nehalem | westmere | sandybridge | ivybridge | haswell | skylake | skylakeavx)	path="x86/nehalem x86" ;;
+      nehalem | westmere | sandybridge | ivybridge | haswell | skylake | skylakeavx | broadwell)	path="x86/nehalem x86" ;;
       prescott | netburst | netburstlahf)       path="x86/pentium4/sse2 x86/pentium4/mmx x86/pentium4 x86" ;;
       # VIA/Centaur processors, sold as CyrixIII and C3.
       nano | viac32)           path="x86/p6/p3mmx x86/p6/mmx x86/p6 x86";;
@@ -1251,6 +1241,8 @@ case $host in
             path_64="x86_64w/skylake x86_64w/sandybridge x86_64w" ;;
           skylakeavx-pc-msys|skylakeavx-w64-mingw*|skylakeavx-*-cygwin*)
             path_64="x86_64w/skylakeavx x86_64w/skylake x86_64w/haswell x86_64w/sandybridge x86_64w" ;;
+          broadwell-pc-msys|broadwell-w64-mingw*|broadwell-*-cygwin*)
+            path_64="x86_64w/haswell/broadwell x86_64w/haswell/avx x86_64w/haswell x86_64w/sandybridge x86_64w" ;;
           atom-pc-msys|atom-w64-mingw*|atom-*-cygwin*)
             path_64="x86_64w/atom x86_64w" ;;
           nano-pc-msys|nano-w64-mingw*|nano-*-cygwin*)
@@ -1281,15 +1273,17 @@ case $host in
           penryn-*-*) 
             path_64="x86_64/core2/penryn x86_64/core2 x86_64" ;;
           nehalem-*-*) 
-            path_64="x86_64/nehalem x86_64" ;;
+            path_64="x86_64/nehalem x86_64/core2 x86_64" ;;
           westmere-*-*) 
-            path_64="x86_64/nehalem/westmere x86_64/nehalem x86_64" ;;
+            path_64="x86_64/nehalem/westmere x86_64/nehalem x86_64/core2 x86_64" ;;
           sandybridge-*-*) 
-            path_64="x86_64/sandybridge x86_64" ;;
+            path_64="x86_64/sandybridge x86_64/nehalem x86_64/core2 x86_64" ;;
           ivybridge-*-*)
-            path_64="x86_64/sandybridge/ivybridge x86_64/sandybridge x86_64" ;;
+            path_64="x86_64/sandybridge/ivybridge x86_64/sandybridge x86_64/nehalem x86_64/core2 x86_64" ;;
           haswell-*-*)
             path_64="x86_64/haswell/avx x86_64/haswell x86_64/sandybridge x86_64" ;;
+          broadwell-*-*)
+            path_64="x86_64/haswell/broadwell x86_64/haswell/avx x86_64/haswell x86_64/sandybridge x86_64" ;;
           skylake-*-*)
             path_64="x86_64/skylake x86_64/sandybridge x86_64" ;;
           skylakeavx-*-*)
@@ -1308,10 +1302,10 @@ case $host in
           case $host in
             *-pc-msys|*-w64-mingw*|*-*-cygwin*)
               path_64="x86_64w x86_64w/fat"
-              fat_path_64="x86_64w x86_64w/fat x86_64w/netburst x86_64w/k8 x86_64w/k8/k8only x86_64w/k8/k10 x86_64w/k8/k10/k102  x86_64w/core2 x86_64w/core2/penryn x86_64w/nehalem x86_64w/nehalem/westmere x86_64w/atom x86_64w/bobcat x86_64w/sandybridge" ;;
+              fat_path_64="x86_64w x86_64w/fat x86_64w/netburst x86_64w/k8 x86_64w/k8/k8only x86_64w/k8/k10 x86_64w/k8/k10/k102  x86_64w/core2 x86_64w/core2/penryn x86_64w/nehalem x86_64w/nehalem/westmere x86_64w/atom x86_64w/bobcat x86_64w/sandybridge x86_64w/haswell x86_64w/haswell/avx x86_64w/haswell/broadwell x86_64w/skylake x86_64w/skylake/avx" ;;
             *-*-*)
               path_64="x86_64 x86_64/fat"
-              fat_path_64="x86_64 x86_64/fat x86_64/netburst x86_64/k8 x86_64/k8/k8only x86_64/k8/k10 x86_64/k8/k10/k102  x86_64/core2 x86_64/core2/penryn x86_64/nehalem x86_64/nehalem/westmere x86_64/atom x86_64/bobcat x86_64/bulldozer x86_64/bulldozer/piledriver x86_64/sandybridge x86_64/sandybridge/ivybridge x86_64/haswell" ;;
+              fat_path_64="x86_64 x86_64/fat x86_64/netburst x86_64/k8 x86_64/k8/k8only x86_64/k8/k10 x86_64/k8/k10/k102  x86_64/core2 x86_64/core2/penryn x86_64/nehalem x86_64/nehalem/westmere x86_64/atom x86_64/bobcat x86_64/bulldozer x86_64/bulldozer/piledriver x86_64/sandybridge x86_64/sandybridge/ivybridge x86_64/haswell x86_64/haswell/avx x86_64/haswell/broadwell x86_64/skylake x86_64/skylake/avx" ;;
           esac
         fi
         ;;
@@ -1738,33 +1732,20 @@ test -n "$CCAS" || CCAS="$CC -c"
 AC_SUBST(CCAS)
 
 # If the user provided its Yasm, check it seems functional
-if test "$with_yasm" != "no" && test "$with_system_yasm" != "no"; then
-  AC_MSG_ERROR([you cannot provide non-default values to both --with-yasm and --with-system-yasm])
-fi
 MPIR_AS=""
-if test "$with_system_yasm" = "yes"; then
+if test -z "$with_yasm"; then
   echo "Looking for a system-wide yasm..."
   MPIR_AS=`which yasm`
   if test $? -ne 0; then
     AC_MSG_ERROR([no system-wide yasm found])
   fi
-fi
-if test "$with_yasm" != no; then
+else
   MPIR_AS="$with_yasm"
 fi
-if test -n "$MPIR_AS"; then
-  echo "Checking user-provided yasm..."
-  if ! test -f "$MPIR_AS" || ! test -x "$MPIR_AS"; then
-    AC_MSG_ERROR([$MPIR_AS does not seem functional])
-  fi
+echo "Checking yasm..."
+if ! test -f "$MPIR_AS" || ! test -x "$MPIR_AS"; then
+  AC_MSG_ERROR([$MPIR_AS does not seem functional])
 fi
-# Otherwise build it if needed.
-if test "$want_yasm" = "yes" && test -z "$MPIR_AS"; then
-  build_yasm="yes"
-  MPIR_AS="\$(top_builddir)/yasm/yasm"
-fi
-
-AM_CONDITIONAL(BUILD_YASM, test "$build_yasm" = "yes")
 AC_SUBST(MPIR_AS)
 
 # The C++ compiler, if desired.
@@ -2199,11 +2180,13 @@ gmp_mpn_functions="$extra_functions					   \
   mod_1_1 mod_1_2 mod_1_3 tdiv_q mp_bases fib_table			\
   mulmid_basecase mulmid mulmid_n toom42_mulmid	mulmod_bexpp1 mulmod_2expm1 \
   mulmod_2expp1_basecase mul_fft \
-  mul mul_n mul_basecase sqr_basecase random random2 pow_1	   \
+  mul mul_n mul_basecase sqr_basecase random random2 	   \
+  pow_1 powlo powm binvert \
   urandomb urandomm randomb rrandom invert \	
-  rootrem sqrtrem get_str set_str scan0 scan1 popcount hamdist cmp perfect_square_p \
+  rootrem sizeinbase sqrtrem get_str set_str scan0 scan1 popcount hamdist cmp perfect_square_p \
   bdivmod gcd gcd_1 gcdext tdiv_qr jacobi_base jacobi jacobi_2 get_d  \
-  mullow_n mulhigh_n mullow_n_basecase mullow_basecase redc_1 redc_2	\
+  mullow_n mulhigh_n mullow_n_basecase mullow_basecase \
+  redc_1 redc_2 redc_n \
   sb_divappr_q toom3_mul toom3_mul_n toom4_mul toom4_mul_n \
   dc_div_q dc_divappr_q sb_div_q sb_div_qr dc_div_qr dc_div_qr_n inv_divappr_q_n \
   inv_divappr_q inv_div_q inv_div_qr inv_div_qr_n rootrem_basecase \
@@ -3016,17 +2999,6 @@ AC_SUBST(TUNE_SQR_OBJ)
 
 # Create config.m4.
 GMP_FINISH
-
-# Always configure subdirectories or "make dist" and so on will fail.
-# A better solution would be to ship a vanilla Yasm tarball
-# and modify the way MPIR builds it when it is needed;
-# in particular this should not rely on autotools.
-#
-AC_CONFIG_FILES(yasm/config/config.guess:configfsf.guess yasm/config/config.sub:configfsf.sub)
-AC_CONFIG_FILES(yasm/configure.gnu:configure.yasm)
-#if test "$build_yasm" = "yes"; then
-AC_CONFIG_SUBDIRS([yasm])
-#fi
 
 case $host in
   *-pc-msys|*-w64-mingw*|*-*-cygwin*)

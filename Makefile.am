@@ -77,8 +77,9 @@
 #	2.5.2	11:3:4	4:20:3
 #	2.6.0   11:0:5  4:21:3               Clearly wrong!!
 #       2.7.0   16:0:6  8:0:4                Attempt to correct wrt all prev 
-#       2.7.1   22:1:6  12:1:4               Due to traiing space for 2.7.1
+#       2.7.1   22:1:6  12:1:4               Due to trailing space for 2.7.1
 #       2.7.2   22:2:6  12:2:4
+#       3.0.0   23:3:0  12:3:4
 #
 # Starting at 3:0:0 is a slight abuse of the versioning system, but it
 # ensures we're past soname libgmp.so.2, which was used on Debian GNU/Linux
@@ -91,19 +92,15 @@
 # it's still good to get the shared library filename (like
 # libgmpxx.so.3.0.4) incrementing, to make it clear which GMP it's from.
 
-LIBGMP_LT_CURRENT = 22
-LIBGMP_LT_REVISION = 2
-LIBGMP_LT_AGE = 6
+LIBGMP_LT_CURRENT = 23
+LIBGMP_LT_REVISION = 3
+LIBGMP_LT_AGE = 0
 
 LIBGMPXX_LT_CURRENT = 12
-LIBGMPXX_LT_REVISION = 2
+LIBGMPXX_LT_REVISION = 3
 LIBGMPXX_LT_AGE = 4
 
 SUBDIRS = tests
-
-if BUILD_YASM
-SUBDIRS += yasm
-endif
 
 SUBDIRS += mpn fft mpz mpq mpf printf scanf cxx tune doc
 
@@ -112,7 +109,7 @@ EXTRA_DIST = configfsf.guess configfsf.sub .gdbinit INSTALL.autoconf
 if WANT_CXX
 GMPXX_HEADERS_OPTION = mpirxx.h
 endif
-EXTRA_DIST += mpirxx.h yasm_macwin.inc.fat yasm_macwin.inc.nofat yasm_mac.inc.fat yasm_mac.inc.nofat strip_fPIC.sh mpn/x86w mpn/x86_64w build.vc10 build.vc11 build.vc12 build.vc14 doc/devel doc/fdl.texi cpuid.c gpl-2.0.txt lgpl-2.1.txt
+EXTRA_DIST += mpirxx.h yasm_macwin.inc.fat yasm_macwin.inc.nofat yasm_mac.inc.fat yasm_mac.inc.nofat strip_fPIC.sh mpn/x86w mpn/x86_64w build.vc11 build.vc12 build.vc14 build.vc15 build.vc doc/devel doc/fdl.texi cpuid.c gpl-2.0.txt lgpl-2.1.txt
 
 # mpir.h is architecture dependent, mainly since they encode the
 # limb size used in libmpir.  For that reason they belong under $exec_prefix
@@ -151,7 +148,7 @@ MPF_OBJECTS = mpf/abs$U.lo mpf/add$U.lo mpf/add_ui$U.lo mpf/ceilfloor$U.lo mpf/c
 
 FFT_OBJECTS = fft/adjust$U.lo fft/adjust_sqrt2$U.lo fft/butterfly_lshB$U.lo fft/butterfly_rshB$U.lo fft/combine_bits$U.lo fft/div_2expmod_2expp1$U.lo fft/fermat_to_mpz$U.lo fft/fft_mfa_trunc_sqrt2$U.lo fft/fft_mfa_trunc_sqrt2_inner$U.lo fft/fft_negacyclic$U.lo fft/fft_radix2$U.lo fft/fft_trunc$U.lo fft/fft_trunc_sqrt2$U.lo fft/ifft_mfa_trunc_sqrt2$U.lo fft/ifft_negacyclic$U.lo fft/ifft_radix2$U.lo fft/ifft_trunc$U.lo fft/ifft_trunc_sqrt2$U.lo fft/mul_2expmod_2expp1$U.lo fft/mul_fft_main$U.lo fft/mul_mfa_trunc_sqrt2$U.lo fft/mul_trunc_sqrt2$U.lo fft/mulmod_2expp1$U.lo fft/normmod_2expp1$U.lo fft/revbin$U.lo fft/split_bits$U.lo 
 
-MPZ_OBJECTS = mpz/2fac_ui$U.lo mpz/abs$U.lo mpz/add$U.lo mpz/add_ui$U.lo mpz/and$U.lo mpz/aorsmul$U.lo mpz/aorsmul_i$U.lo mpz/array_init$U.lo mpz/bin_ui$U.lo mpz/bin_uiui$U.lo mpz/cdiv_q$U.lo mpz/cdiv_q_ui$U.lo mpz/cdiv_qr$U.lo mpz/cdiv_qr_ui$U.lo mpz/cdiv_r$U.lo mpz/cdiv_r_ui$U.lo mpz/cdiv_ui$U.lo mpz/cfdiv_q_2exp$U.lo mpz/cfdiv_r_2exp$U.lo mpz/clear$U.lo mpz/clears$U.lo mpz/clrbit$U.lo mpz/cmp$U.lo mpz/cmp_d$U.lo mpz/cmp_si$U.lo mpz/cmp_ui$U.lo mpz/cmpabs$U.lo mpz/cmpabs_d$U.lo mpz/cmpabs_ui$U.lo mpz/com$U.lo mpz/combit$U.lo mpz/cong$U.lo mpz/cong_2exp$U.lo mpz/cong_ui$U.lo mpz/dive_ui$U.lo mpz/divegcd$U.lo mpz/divexact$U.lo mpz/divis$U.lo mpz/divis_2exp$U.lo mpz/divis_ui$U.lo mpz/dump$U.lo mpz/export$U.lo mpz/fac_ui$U.lo mpz/fdiv_q$U.lo mpz/fdiv_q_ui$U.lo mpz/fdiv_qr$U.lo mpz/fdiv_qr_ui$U.lo mpz/fdiv_r$U.lo mpz/fdiv_r_ui$U.lo mpz/fdiv_ui$U.lo mpz/fib2_ui$U.lo mpz/fib_ui$U.lo mpz/fits_si$U.lo mpz/fits_sint$U.lo mpz/fits_slong$U.lo mpz/fits_sshort$U.lo mpz/fits_ui$U.lo mpz/fits_uint$U.lo mpz/fits_ulong$U.lo mpz/fits_ushort$U.lo mpz/gcd$U.lo mpz/gcd_ui$U.lo mpz/gcdext$U.lo mpz/get_d$U.lo mpz/get_d_2exp$U.lo mpz/get_si$U.lo mpz/get_str$U.lo mpz/get_sx$U.lo mpz/get_ui$U.lo mpz/get_ux$U.lo mpz/getlimbn$U.lo mpz/hamdist$U.lo mpz/import$U.lo mpz/init$U.lo mpz/init2$U.lo mpz/inits$U.lo mpz/inp_raw$U.lo mpz/inp_str$U.lo mpz/invert$U.lo mpz/ior$U.lo mpz/iset$U.lo mpz/iset_d$U.lo mpz/iset_si$U.lo mpz/iset_str$U.lo mpz/iset_sx$U.lo mpz/iset_ui$U.lo mpz/iset_ux$U.lo mpz/jacobi$U.lo mpz/kronsz$U.lo mpz/kronuz$U.lo mpz/kronzs$U.lo mpz/kronzu$U.lo mpz/lcm$U.lo mpz/lcm_ui$U.lo mpz/likely_prime_p$U.lo mpz/lucnum2_ui$U.lo mpz/lucnum_ui$U.lo mpz/mfac_uiui$U.lo mpz/miller_rabin$U.lo mpz/millerrabin$U.lo mpz/mod$U.lo mpz/mul$U.lo mpz/mul_2exp$U.lo mpz/mul_si$U.lo mpz/mul_ui$U.lo mpz/n_pow_ui$U.lo mpz/neg$U.lo mpz/next_prime_candidate$U.lo mpz/nextprime$U.lo mpz/nthroot$U.lo mpz/oddfac_1$U.lo mpz/out_raw$U.lo mpz/out_str$U.lo mpz/perfpow$U.lo mpz/perfsqr$U.lo mpz/popcount$U.lo mpz/pow_ui$U.lo mpz/powm$U.lo mpz/powm_ui$U.lo mpz/pprime_p$U.lo mpz/primorial_ui$U.lo mpz/probable_prime_p$U.lo mpz/prodlimbs$U.lo mpz/realloc$U.lo mpz/realloc2$U.lo mpz/remove$U.lo mpz/root$U.lo mpz/rootrem$U.lo mpz/rrandomb$U.lo mpz/scan0$U.lo mpz/scan1$U.lo mpz/set$U.lo mpz/set_d$U.lo mpz/set_f$U.lo mpz/set_q$U.lo mpz/set_si$U.lo mpz/set_str$U.lo mpz/set_sx$U.lo mpz/set_ui$U.lo mpz/set_ux$U.lo mpz/setbit$U.lo mpz/size$U.lo mpz/sizeinbase$U.lo mpz/sqrt$U.lo mpz/sqrtrem$U.lo mpz/sub$U.lo mpz/sub_ui$U.lo mpz/swap$U.lo mpz/tdiv_q$U.lo mpz/tdiv_q_2exp$U.lo mpz/tdiv_q_ui$U.lo mpz/tdiv_qr$U.lo mpz/tdiv_qr_ui$U.lo mpz/tdiv_r$U.lo mpz/tdiv_r_2exp$U.lo mpz/tdiv_r_ui$U.lo mpz/tdiv_ui$U.lo mpz/trial_division$U.lo mpz/tstbit$U.lo mpz/ui_pow_ui$U.lo mpz/ui_sub$U.lo mpz/urandomb$U.lo mpz/urandomm$U.lo mpz/xor$U.lo 
+MPZ_OBJECTS = mpz/2fac_ui$U.lo mpz/abs$U.lo mpz/add$U.lo mpz/add_ui$U.lo mpz/and$U.lo mpz/aorsmul$U.lo mpz/aorsmul_i$U.lo mpz/array_init$U.lo mpz/bin_ui$U.lo mpz/bin_uiui$U.lo mpz/cdiv_q$U.lo mpz/cdiv_q_ui$U.lo mpz/cdiv_qr$U.lo mpz/cdiv_qr_ui$U.lo mpz/cdiv_r$U.lo mpz/cdiv_r_ui$U.lo mpz/cdiv_ui$U.lo mpz/cfdiv_q_2exp$U.lo mpz/cfdiv_r_2exp$U.lo mpz/clear$U.lo mpz/clears$U.lo mpz/clrbit$U.lo mpz/cmp$U.lo mpz/cmp_d$U.lo mpz/cmp_si$U.lo mpz/cmp_ui$U.lo mpz/cmpabs$U.lo mpz/cmpabs_d$U.lo mpz/cmpabs_ui$U.lo mpz/com$U.lo mpz/combit$U.lo mpz/cong$U.lo mpz/cong_2exp$U.lo mpz/cong_ui$U.lo mpz/dive_ui$U.lo mpz/divegcd$U.lo mpz/divexact$U.lo mpz/divis$U.lo mpz/divis_2exp$U.lo mpz/divis_ui$U.lo mpz/dump$U.lo mpz/export$U.lo mpz/fac_ui$U.lo mpz/fdiv_q$U.lo mpz/fdiv_q_ui$U.lo mpz/fdiv_qr$U.lo mpz/fdiv_qr_ui$U.lo mpz/fdiv_r$U.lo mpz/fdiv_r_ui$U.lo mpz/fdiv_ui$U.lo mpz/fib2_ui$U.lo mpz/fib_ui$U.lo mpz/fits_si$U.lo mpz/fits_sint$U.lo mpz/fits_slong$U.lo mpz/fits_sshort$U.lo mpz/fits_ui$U.lo mpz/fits_uint$U.lo mpz/fits_ulong$U.lo mpz/fits_ushort$U.lo mpz/gcd$U.lo mpz/gcd_ui$U.lo mpz/gcdext$U.lo mpz/get_d$U.lo mpz/get_d_2exp$U.lo mpz/get_si$U.lo mpz/get_str$U.lo mpz/get_sx$U.lo mpz/get_ui$U.lo mpz/get_ux$U.lo mpz/getlimbn$U.lo mpz/hamdist$U.lo mpz/import$U.lo mpz/init$U.lo mpz/init2$U.lo mpz/inits$U.lo mpz/inp_raw$U.lo mpz/inp_str$U.lo mpz/invert$U.lo mpz/ior$U.lo mpz/iset$U.lo mpz/iset_d$U.lo mpz/iset_si$U.lo mpz/iset_str$U.lo mpz/iset_sx$U.lo mpz/iset_ui$U.lo mpz/iset_ux$U.lo mpz/jacobi$U.lo mpz/kronsz$U.lo mpz/kronuz$U.lo mpz/kronzs$U.lo mpz/kronzu$U.lo mpz/lcm$U.lo mpz/lcm_ui$U.lo mpz/likely_prime_p$U.lo mpz/limbs_finish$U.lo mpz/limbs_modify$U.lo mpz/limbs_read$U.lo mpz/limbs_write$U.lo mpz/lucnum2_ui$U.lo mpz/lucnum_ui$U.lo mpz/mfac_uiui$U.lo mpz/miller_rabin$U.lo mpz/millerrabin$U.lo mpz/mod$U.lo mpz/mul$U.lo mpz/mul_2exp$U.lo mpz/mul_si$U.lo mpz/mul_ui$U.lo mpz/n_pow_ui$U.lo mpz/neg$U.lo mpz/next_prime_candidate$U.lo mpz/nextprime$U.lo mpz/nthroot$U.lo mpz/oddfac_1$U.lo mpz/out_raw$U.lo mpz/out_str$U.lo mpz/perfpow$U.lo mpz/perfsqr$U.lo mpz/popcount$U.lo mpz/pow_ui$U.lo mpz/powm$U.lo mpz/powm_ui$U.lo mpz/pprime_p$U.lo mpz/primorial_ui$U.lo mpz/probable_prime_p$U.lo mpz/prodlimbs$U.lo mpz/realloc$U.lo mpz/realloc2$U.lo mpz/remove$U.lo mpz/roinit_n$U.lo mpz/root$U.lo mpz/rootrem$U.lo mpz/rrandomb$U.lo mpz/scan0$U.lo mpz/scan1$U.lo mpz/set$U.lo mpz/set_d$U.lo mpz/set_f$U.lo mpz/set_q$U.lo mpz/set_si$U.lo mpz/set_str$U.lo mpz/set_sx$U.lo mpz/set_ui$U.lo mpz/set_ux$U.lo mpz/setbit$U.lo mpz/size$U.lo mpz/sizeinbase$U.lo mpz/sqrt$U.lo mpz/sqrtrem$U.lo mpz/sub$U.lo mpz/sub_ui$U.lo mpz/swap$U.lo mpz/tdiv_q$U.lo mpz/tdiv_q_2exp$U.lo mpz/tdiv_q_ui$U.lo mpz/tdiv_qr$U.lo mpz/tdiv_qr_ui$U.lo mpz/tdiv_r$U.lo mpz/tdiv_r_2exp$U.lo mpz/tdiv_r_ui$U.lo mpz/tdiv_ui$U.lo mpz/trial_division$U.lo mpz/tstbit$U.lo mpz/ui_pow_ui$U.lo mpz/ui_sub$U.lo mpz/urandomb$U.lo mpz/urandomm$U.lo mpz/xor$U.lo 
 
 MPQ_OBJECTS = mpq/abs$U.lo mpq/aors$U.lo mpq/canonicalize$U.lo mpq/clear$U.lo mpq/clears$U.lo mpq/cmp$U.lo mpq/cmp_si$U.lo mpq/cmp_ui$U.lo mpq/div$U.lo mpq/equal$U.lo mpq/get_d$U.lo mpq/get_den$U.lo mpq/get_num$U.lo mpq/get_str$U.lo mpq/init$U.lo mpq/inits$U.lo mpq/inp_str$U.lo mpq/inv$U.lo mpq/md_2exp$U.lo mpq/mul$U.lo mpq/neg$U.lo mpq/out_str$U.lo mpq/set$U.lo mpq/set_d$U.lo mpq/set_den$U.lo mpq/set_f$U.lo mpq/set_num$U.lo mpq/set_si$U.lo mpq/set_str$U.lo mpq/set_ui$U.lo mpq/set_z$U.lo mpq/swap$U.lo 
 
@@ -273,16 +270,3 @@ BUILT_SOURCES += mpn/dummy1.c
 #
 dist-hook:
 	-find $(distdir) \( -name CVS -type d \) -o -name "*~" -o -name ".#*" -o -name ".svn" | xargs rm -rf
-	rm -f $(distdir)/yasm/Makefile.in
-	(  VAR=0 ; \
-	   IFS=$(echo -e "\n") ; \
-	   cat $(srcdir)/yasm/Makefile.in | while read -r LINE ; do \
-	   if test `echo $$LINE | grep -ce "^[[:alpha:]]"` -eq 1  ; then VAR=0 ; fi ;  \
-	   if test `echo $$LINE | grep -ce "^install:"` -eq 1  ; then VAR=1 ; echo "install:" ; fi ; \
-	   if test `echo $$VAR` -eq 0 ; then /bin/echo -E "$$LINE" ; fi ; done ) |	\
-	(  VAR=0 ; \
-	   IFS=$(echo -e "\n") ; \
-	   while read -r LINE ; do \
-	   if test `echo $$LINE | grep -ce "^[[:alpha:]]"` -eq 1  ; then VAR=0 ; fi ;  \
-	   if test `echo $$LINE | grep -ce "^check:"` -eq 1  ; then VAR=1 ; echo "check:" ; fi ; \
-	   if test `echo $$VAR` -eq 0 ; then /bin/echo -E "$$LINE" ; fi ; done ) > $(distdir)/yasm/Makefile.in
