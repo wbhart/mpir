@@ -45,7 +45,7 @@
 
 	align	16
     cmp     r9, 2
-	ja      .1
+	jae     .1
     imul    rax, [r8]
 	mov     [rcx], rax
 	ret
