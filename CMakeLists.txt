@@ -3,6 +3,9 @@ cmake_policy(SET CMP0048 NEW)
 project(MPIR VERSION 3.0.0)
 
 
+option(MPIR_GMP "Enable GMP compatibility and generate gmp.h header" OFF)
+
+
 include(CheckTypeSize)
 include(CheckSymbolExists)
 set(CMAKE_REQUIRED_DEFINITIONS -D__GMP_WITHIN_CONFIGURE=1)
@@ -17,6 +20,11 @@ set(GMP_NAIL_BITS "0")
 set(DEFN_LONG_LONG_LIMB "/* #undef _LONG_LONG_LIMB */")
 set(LIBGMP_DLL "0")
 configure_file(gmp-h.in mpir.h)
+
+if(MPIR_GMP)
+    # TODO: I guess we can copy mpir.h instead of configuring it again.
+    configure_file(gmp-h.in gmp.h)
+endif()
 
 check_type_size(intmax_t SIZEOF_INTMAX_T)
 check_symbol_exists(strnlen string.h HAVE_STRNLEN)
@@ -59,3 +67,10 @@ if(MPIR_TESTS)
     enable_testing()
     add_subdirectory(tests)
 endif()
+
+include(GNUInstallDirs)
+install(FILES ${CMAKE_BINARY_DIR}/mpir.h DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+if(MPIR_GMP)
+    install(FILES ${CMAKE_BINARY_DIR}/gmp.h DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+endif()
+install(TARGETS mpir ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR})
