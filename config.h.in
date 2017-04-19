@@ -1,0 +1,29 @@
+#cmakedefine SIZEOF_MP_LIMB_T @SIZEOF_MP_LIMB_T@
+#cmakedefine SIZEOF_UNSIGNED_LONG @SIZEOF_UNSIGNED_LONG@
+
+#define HAVE_MEMSET 1
+#define HAVE_DOUBLE_IEEE_LITTLE_ENDIAN 1
+
+// Comes from AC_TYPE_SIGNAL.
+// TODO: Remove support for it.
+#define RETSIGTYPE void
+
+#cmakedefine WANT_TMP_ALLOCA @WANT_TMP_ALLOCA@
+
+
+/* Define to 1 if the system has the type `intmax_t'. */
+#cmakedefine HAVE_INTMAX_T @HAVE_INTMAX_T@
+
+/* Define to 1 if you have the <inttypes.h> header file. */
+#cmakedefine HAVE_INTTYPES_H @HAVE_INTTYPES_H@
+
+/* Define to 1 if you have the <unistd.h> header file. */
+#cmakedefine HAVE_UNISTD_H @HAVE_UNISTD_H@
+
+#cmakedefine HAVE_STDARG @HAVE_STDARG@
+
+#cmakedefine HAVE_STRNLEN @HAVE_STRNLEN@
+
+#cmakedefine HAVE_STRCHR @HAVE_STRCHR@
+
+#cmakedefine VERSION "@VERSION@"
