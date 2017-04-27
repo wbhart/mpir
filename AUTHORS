@@ -77,13 +77,8 @@ sav-ix (Alexander)   Patch for t-locale on Windows
 Isuru Fernando       Tuning values, numerous build patches and continuous
                      integration
 Alex Dyachenko       mpir.net for interface to .net languages
-
 Tommy Hoffman        Supplied a sed patch.
-
 Averkhaturau         Fixed a C++ compilation problem.
-
 Marcell Keller       Fixed a sign conversion bug.
-
 Sergey Taymanov      Fixed some Windows build file issues.
-
-
+jengelh              Reported a bug and did build test

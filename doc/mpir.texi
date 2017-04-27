@@ -11526,6 +11526,8 @@ Marcell Keller fixed a sign conversion bug.
 
 Sergey Taymanov fixed some Windows build file issues.
 
+jengelh reported a bug and helped with build testing
+
 @node References, GNU Free Documentation License, Contributors, Top
 @comment  node-name,  next,  previous,  up
 @appendix References
