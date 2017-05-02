@@ -18,6 +18,9 @@
 
 ;   (rdi,r8) = (rsi,r8)+(rdx,r8)-(rcx,r8)
 ;   rax = summed carry and borrow in range [ -1..1 ]
+
+; the main loop has been enhanced with the MPIR SuperOptimizer
+; the gain was roughly 4% execution speed for operands in LD1$
 ;
 ;  mp_limb_t mpn_addsub_n(mp_ptr, mp_ptr, mp_ptr, mp_ptr, mp_size_t)
 ;  rax                       rdi     rsi     rdx     rcx         r8
@@ -82,26 +85,26 @@
     mov     Limb1, [Src1P+8]
     mov     Limb2, [Src1P+16]
     mov     Limb3, [Src1P+24]
+    lea     Src3P, [Src3P+32]
+    lea     ResP, [ResP+32]
     adc     Limb0, [Src2P]
     adc     Limb1, [Src2P+8]
     adc     Limb2, [Src2P+16]
     adc     Limb3, [Src2P+24]
-    lea     Src3P, [Src3P+32]
-    lea     ResP, [ResP+32]
     setc    Carry
 
-    shr     Borrow, 1
-    lea     Src1P, [Src1P+32]
     lea     Src2P, [Src2P+32]
+    shr     Borrow, 1
     sbb     Limb0, [Src3P]
     sbb     Limb1, [Src3P+8]
-    sbb     Limb2, [Src3P+16]
-    sbb     Limb3, [Src3P+24]
+    lea     Src1P, [Src1P+32]
     mov     [ResP], Limb0
+    sbb     Limb2, [Src3P+16]
     mov     [ResP+8], Limb1
     mov     [ResP+16], Limb2
-    mov     [ResP+24], Limb3
+    sbb     Limb3, [Src3P+24]
     setc    Borrow
+    mov     [ResP+24], Limb3
 
     ; label @ $a (mod $10) seems ok from benchmark figures
 .Check:

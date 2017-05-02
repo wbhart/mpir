@@ -18,6 +18,9 @@
 
 ;   (rdi,r8) = (rsi,r8)-(rdx,r8)-(rcx,r8)
 ;   rax = summed borrow in range [ 0..2 ]
+
+; the main loop has been enhanced with the MPIR SuperOptimizer
+; the gain was roughly 4% execution speed for operands in LD1$
 ;
 ;  mp_limb_t mpn_subadd_n(mp_ptr, mp_ptr, mp_ptr, mp_ptr, mp_size_t)
 ;  rax                       rdi     rsi     rdx     rcx         r8
@@ -33,7 +36,6 @@
 %include 'yasm_mac.inc'
 
 %define reg_save_list rsi, rdi, r12
-
 ; definition according to Linux 64 bit ABI
 
 %define ResP    rdi
@@ -43,8 +45,8 @@
 %define Size    r8
 
 %define Spills  eax
-%define Borrow1 al
-%define Borrow2 ah
+%define Carry   al
+%define Borrow  ah
 
 %define Limb0   r9
 %define Limb1   r10
@@ -77,31 +79,31 @@
     ; on port 7) which allows a sustained 2r1w execution per cycle
     vpor    ymm0, ymm0, ymm0
 
-    shr     Borrow1, 1
+    shr     Carry, 1
     mov     Limb0, [Src1P]
     mov     Limb1, [Src1P+8]
     mov     Limb2, [Src1P+16]
     mov     Limb3, [Src1P+24]
+    lea     Src3P, [Src3P+32]
+    lea     ResP, [ResP+32]
     sbb     Limb0, [Src2P]
     sbb     Limb1, [Src2P+8]
     sbb     Limb2, [Src2P+16]
     sbb     Limb3, [Src2P+24]
-    lea     Src3P, [Src3P+32]
-    lea     ResP, [ResP+32]
-    setc    Borrow1
+    setc    Carry
 
-    shr     Borrow2, 1
-    lea     Src1P, [Src1P+32]
     lea     Src2P, [Src2P+32]
+    shr     Borrow, 1
     sbb     Limb0, [Src3P]
     sbb     Limb1, [Src3P+8]
-    sbb     Limb2, [Src3P+16]
-    sbb     Limb3, [Src3P+24]
+    lea     Src1P, [Src1P+32]
     mov     [ResP], Limb0
+    sbb     Limb2, [Src3P+16]
     mov     [ResP+8], Limb1
     mov     [ResP+16], Limb2
+    sbb     Limb3, [Src3P+24]
+    setc    Borrow
     mov     [ResP+24], Limb3
-    setc    Borrow2
 
     ; label @ $a (mod $10) seems ok from benchmark figures
   .Check:
@@ -117,40 +119,41 @@
     add     Size, 4
     je      .Exit
 
-    shr     Borrow1, 1
+    shr     Carry, 1
     mov     Limb0, [Src1P]
     sbb     Limb0, [Src2P]
-    setc    Borrow1
-    shr     Borrow2, 1
+    setc    Carry
+    shr     Borrow, 1
     sbb     Limb0, [Src3P]
-    setc    Borrow2
+    setc    Borrow
     mov     [ResP], Limb0
     dec     Size
     je      .Exit
 
-    shr     Borrow1, 1
+    shr     Carry, 1
     mov     Limb0, [Src1P+8]
     sbb     Limb0, [Src2P+8]
-    setc    Borrow1
-    shr     Borrow2, 1
+    setc    Carry
+    shr     Borrow, 1
     sbb     Limb0, [Src3P+8]
-    setc    Borrow2
+    setc    Borrow
     mov     [ResP+8], Limb0
     dec     Size
     je      .Exit
 
-    shr     Borrow1, 1
+    shr     Carry, 1
     mov     Limb0, [Src1P+16]
     sbb     Limb0, [Src2P+16]
-    setc    Borrow1
-    shr     Borrow2, 1
+    setc    Carry
+    shr     Borrow, 1
     sbb     Limb0, [Src3P+16]
     mov     [ResP+16], Limb0
-    setc    Borrow2
+    setc    Borrow
 
     ; label @ $2 (mod $10) is ok
 .Exit:
 
-    add     Borrow1, Borrow2
-    movsx   rax, Borrow1
+    add     Carry, Borrow
+    movsx   rax, Carry
 	END_PROC reg_save_list
+
