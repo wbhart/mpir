@@ -1132,9 +1132,6 @@
     <ClCompile Include="..\..\mpn\generic\addadd_n.c">
       <Filter>Source Files\mpn</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\mpn\generic\addsub_n.c">
-      <Filter>Source Files\mpn</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\mpn\generic\bdivmod.c">
       <Filter>Source Files\mpn</Filter>
     </ClCompile>
@@ -1411,9 +1408,6 @@
     <ClCompile Include="..\..\mpn\generic\sub_1.c">
       <Filter>Source Files\mpn</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\mpn\generic\subadd_n.c">
-      <Filter>Source Files\mpn</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\mpn\generic\tdiv_q.c">
       <Filter>Source Files\mpn</Filter>
     </ClCompile>
@@ -1492,6 +1486,9 @@
       <Filter>Source Files\mpn\yasm</Filter>
     </YASM>
     <YASM Include="..\..\mpn\x86_64w\haswell\addmul_2.asm">
+      <Filter>Source Files\mpn\yasm</Filter>
+    </YASM>
+    <YASM Include="..\..\mpn\x86_64w\haswell\avx\addsub_n.asm">
       <Filter>Source Files\mpn\yasm</Filter>
     </YASM>
     <YASM Include="..\..\mpn\x86_64w\haswell\and_n.asm">
@@ -1624,6 +1621,9 @@
       <Filter>Source Files\mpn\yasm</Filter>
     </YASM>
     <YASM Include="..\..\mpn\x86_64w\haswell\sub_n.asm">
+      <Filter>Source Files\mpn\yasm</Filter>
+    </YASM>
+    <YASM Include="..\..\mpn\x86_64w\haswell\avx\subadd_n.asm">
       <Filter>Source Files\mpn\yasm</Filter>
     </YASM>
     <YASM Include="..\..\mpn\x86_64w\haswell\sublsh1_n.asm">

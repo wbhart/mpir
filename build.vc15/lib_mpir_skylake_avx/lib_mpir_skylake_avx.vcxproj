@@ -59,8 +59,8 @@ prebuild skylake\avx x64 15
     <ClCompile>
       <AdditionalIncludeDirectories>..\..\</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NDEBUG;WIN32;_LIB;HAVE_CONFIG_H;_WIN64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <EnableEnhancedInstructionSet>AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
     </ClCompile>
-
     <PostBuildEvent>
       <Command>cd ..\..\build.vc
 postbuild "$(TargetPath)" 15
@@ -82,8 +82,8 @@ prebuild skylake\avx x64 15
     <ClCompile>
       <AdditionalIncludeDirectories>..\..\</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_DEBUG;WIN32;_LIB;HAVE_CONFIG_H;_WIN64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <EnableEnhancedInstructionSet>AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
     </ClCompile>
-
     <PostBuildEvent>
       <Command>cd ..\..\build.vc
 postbuild "$(TargetPath)" 15
@@ -457,7 +457,6 @@ postbuild "$(TargetPath)" 15
     <ClCompile Include="..\..\mpn\generic\add.c" />
     <ClCompile Include="..\..\mpn\generic\add_1.c" />
     <ClCompile Include="..\..\mpn\generic\addadd_n.c" />
-    <ClCompile Include="..\..\mpn\generic\addsub_n.c" />
     <ClCompile Include="..\..\mpn\generic\bdivmod.c" />
     <ClCompile Include="..\..\mpn\generic\binvert.c" />
     <ClCompile Include="..\..\mpn\generic\cmp.c" />
@@ -551,7 +550,6 @@ postbuild "$(TargetPath)" 15
     <ClCompile Include="..\..\mpn\generic\sqrtrem.c" />
     <ClCompile Include="..\..\mpn\generic\sub.c" />
     <ClCompile Include="..\..\mpn\generic\sub_1.c" />
-    <ClCompile Include="..\..\mpn\generic\subadd_n.c" />
     <ClCompile Include="..\..\mpn\generic\tdiv_q.c" />
     <ClCompile Include="..\..\mpn\generic\tdiv_qr.c" />
     <ClCompile Include="..\..\mpn\generic\toom3_mul.c" />
@@ -580,6 +578,7 @@ postbuild "$(TargetPath)" 15
     <YASM Include="..\..\mpn\x86_64w\skylake\addlsh1_n.asm" />
     <YASM Include="..\..\mpn\x86_64w\skylake\avx\addmul_1.asm" />
     <YASM Include="..\..\mpn\x86_64w\skylake\addmul_2.asm" />
+    <YASM Include="..\..\mpn\x86_64w\skylake\avx\addsub_n.asm" />
     <YASM Include="..\..\mpn\x86_64w\skylake\and_n.asm" />
     <YASM Include="..\..\mpn\x86_64w\skylake\andn_n.asm" />
     <YASM Include="..\..\mpn\x86_64w\skylake\com_n.asm" />
@@ -623,6 +622,7 @@ postbuild "$(TargetPath)" 15
     <YASM Include="..\..\mpn\x86_64w\skylake\avx\sub_err1_n.asm" />
     <YASM Include="..\..\mpn\x86_64w\sub_err2_n.asm" />
     <YASM Include="..\..\mpn\x86_64w\skylake\avx\sub_n.asm" />
+    <YASM Include="..\..\mpn\x86_64w\skylake\avx\subadd_n.asm" />
     <YASM Include="..\..\mpn\x86_64w\skylake\sublsh1_n.asm" />
     <YASM Include="..\..\mpn\x86_64w\skylake\submul_1.asm" />
     <YASM Include="..\..\mpn\x86_64w\skylake\sumdiff_n.asm" />

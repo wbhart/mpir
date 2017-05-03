@@ -5,6 +5,7 @@ mpn_add_nc
 mpn_addlsh1_n
 mpn_addmul_1
 mpn_addmul_2
+mpn_addsub_n
 mpn_and_n
 mpn_andn_n
 mpn_com_n
@@ -54,6 +55,7 @@ mpn_sub_err1_n
 mpn_sub_err2_n
 mpn_sub_n
 mpn_sub_nc
+mpn_subadd_n
 mpn_sublsh1_n
 mpn_submul_1
 mpn_sumdiff_n

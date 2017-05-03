@@ -109,14 +109,16 @@ def yasm_options(plat, proj_type, outf):
 
   outf.write(f1.format('DLL' if proj_type == Project_Type.DLL else '', '' if plat == 'Win32' else '_64'))
 
-def compiler_options(plat, proj_type, is_debug, outf):
+def compiler_options(plat, proj_type, is_debug, is_avx2, outf):
 
   f1 = r'''    <ClCompile>
       <AdditionalIncludeDirectories>..\..\</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>{0:s}%(PreprocessorDefinitions)</PreprocessorDefinitions>
-    </ClCompile>
 '''
-
+  f2 = r'''      <EnableEnhancedInstructionSet>AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
+'''
+  f3 = r'''    </ClCompile>
+'''
   if proj_type == Project_Type.APP:
     s1 = 'DEBUG;WIN32;_CONSOLE;'
   if proj_type == Project_Type.DLL:
@@ -129,6 +131,9 @@ def compiler_options(plat, proj_type, is_debug, outf):
     s1 = s1 + '_WIN64;'
   s1 = ('_' if is_debug else 'N') + s1
   outf.write(f1.format(s1))
+  if is_avx2:
+    outf.write(f2)
+  outf.write(f3)
 
 def linker_options(outf):
 
@@ -149,8 +154,7 @@ prebuild {0:s} {1:s} {2:s}
 
 def vcx_post_build(is_cpp, msvc_ver, outf):
 
-  f1 = r'''
-    <PostBuildEvent>
+  f1 = r'''    <PostBuildEvent>
       <Command>cd ..\..\build.vc
 postbuild "$(TargetPath)" {0:s}
       </Command>
@@ -172,7 +176,7 @@ def vcx_tool_options(config, plat, proj_type, is_cpp, af_list, add_prebuild, msv
         vcx_pre_build(config, pl, msvc_ver, outf)
       if af_list:
         yasm_options(pl, proj_type, outf)
-      compiler_options(pl, proj_type, is_debug, outf)
+      compiler_options(pl, proj_type, is_debug, config.endswith('\\avx'), outf)
       if proj_type != Project_Type.LIB:
         linker_options(outf)
       vcx_post_build(is_cpp, msvc_ver, outf)
