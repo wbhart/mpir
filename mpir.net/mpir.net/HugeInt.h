@@ -1662,20 +1662,22 @@ namespace MPIR
 
             /// <summary>
             /// Returns the value of the number as a double, truncating if necessary (rounding towards zero).
-            /// <para>If the exponent from the conversion is too big, the result is system dependent. An infinity is returned where available.             /// A hardware overflow trap may or may not occur.
+            /// <para>If the exponent from the conversion is too big, the result is system dependent. An infinity is returned where available. 
+            /// A hardware overflow trap may or may not occur.
             /// </para></summary>
             /// <returns>The value as a double, possibly truncated.</returns>
             double ToDouble() { return MP(get_d)(_value); }
 
             /// <summary>
             /// Returns the value of the number as a double, truncating if necessary (rounding towards zero), and returning the exponent separately.
-            /// <para>The return is the mantissa, its absolute value will be in the range [0.5 - 1).            /// </para>If the source value is zero, both mantissa and exponent are returned as 0.
+            /// <para>The return is the mantissa, its absolute value will be in the range [0.5 - 1).
+            /// </para>If the source value is zero, both mantissa and exponent are returned as 0.
             /// </summary>
             /// <param name="exp">variable to store the exponent in.</param>
             /// <returns>The mantissa of the value as a double, possibly truncated.</returns>
-            double ToDouble([Out] mpir_si% exp) 
+            double ToDouble([Out] mp_exp_t% exp) 
             { 
-                mpir_si x; 
+                mp_exp_t x; 
                 auto result = MP(get_d_2exp)(&x, _value); 
                 exp = x; 
                 return result; 

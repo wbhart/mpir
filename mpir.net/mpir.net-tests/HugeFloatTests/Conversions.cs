@@ -107,7 +107,7 @@ namespace MPIR.Tests.HugeFloatTests
             using (var a = new HugeFloat())
             {
                 a.SetTo(-123.25);
-                var exp = Platform.Si(0, 0);
+                var exp = 0;
                 double c = a.ToDouble(out exp);
                 Assert.IsTrue(c.Equals(-0.962890625));
                 Assert.AreEqual(7L, exp);
@@ -196,7 +196,7 @@ namespace MPIR.Tests.HugeFloatTests
             using(var a = new HugeFloat())
             {
                 a.SetTo(-123.45e20);
-                var exp = Platform.Si(0, 0);
+                var exp = 0;
                 var zillion = Platform.Si(10000000000, 1000000000);
                 a.Value = a + a;
                 double c = a.ToDouble(out exp);

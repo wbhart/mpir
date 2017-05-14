@@ -117,7 +117,7 @@ namespace MPIR.Tests.HugeIntTests
                 var source = Platform.Select(-123.45e20, -123.45e19);
                 var zillion = Platform.Ui(10000000000U, 1000000000U);
                 var factor = Platform.Ui(1, 10);
-                var exp = Platform.Si(0, 0);
+                var exp = 0;
 
                 a.SetTo(source);
                 lo.Value = (a/zillion).Rounding(RoundingModes.Floor);
