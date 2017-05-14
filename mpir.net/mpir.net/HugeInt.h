@@ -1037,7 +1037,6 @@ namespace MPIR
 
         public:
 
-#define _GMP_VERSION __GNU_MP_VERSION + "." + __GNU_MP_VERSION_MINOR + "." + __GNU_MP_VERSION_PATCHLEVEL
 #undef GMP_VERSION
 
             /// <summary>
@@ -1058,7 +1057,7 @@ namespace MPIR
             /// <summary>
             /// Represents the version of GMP with which the underlying MPIR library is compatible
             /// </summary>
-            static initonly const Version^ GMP_VERSION = gcnew Version(_GMP_VERSION);
+            static initonly const Version^ GMP_VERSION = gcnew Version(__GNU_MP_VERSION, __GNU_MP_VERSION_MINOR, __GNU_MP_VERSION_PATCHLEVEL);
 
             /// <summary>
             /// Represents the version of the underlying MPIR library
