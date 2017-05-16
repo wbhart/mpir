@@ -33,13 +33,13 @@ FUNCTION (mpf_srcptr f)
   mp_exp_t   exp;
   mp_limb_t  fl;
 
+  exp = EXP(f);
+  if (exp < 1)
+    return 1;  /* -1 < f < 1 truncates to zero, so fits */
   fn = SIZ(f);
   if (fn <= 0)
     return fn == 0;  /* zero fits, negatives don't */
 
-  exp = EXP(f);
-  if (exp < 1)
-    return 1;  /* 0 < f < 1 truncates to zero, so fits */
 
   fp = PTR(f);
 
