@@ -1,6 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26206.0
+VisualStudioVersion = 15.0.26430.4
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "bswap", "mpir-tests\bswap\bswap.vcxproj", "{50EFC9E8-FB88-44C3-9F30-075547E22992}"
 EndProject
@@ -436,6 +436,8 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpz.limbs", "mpir-tests\mpz.limbs\mpz.limbs.vcxproj", "{1F36B6D7-4504-4B2B-BABC-7CFBEC62029B}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpn.sizeinbase", "mpir-tests\mpn.sizeinbase\mpn.sizeinbase.vcxproj", "{935A51B1-BFEB-4864-A11A-1B436811C52D}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpn.logic", "mpir-tests\mpn.logic\mpn.logic.vcxproj", "{84FAB0B1-23B6-4A2B-9E89-4152A3B15DB4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -1673,6 +1675,14 @@ Global
 		{935A51B1-BFEB-4864-A11A-1B436811C52D}.Release|Win32.Build.0 = Release|Win32
 		{935A51B1-BFEB-4864-A11A-1B436811C52D}.Release|x64.ActiveCfg = Release|x64
 		{935A51B1-BFEB-4864-A11A-1B436811C52D}.Release|x64.Build.0 = Release|x64
+		{84FAB0B1-23B6-4A2B-9E89-4152A3B15DB4}.Debug|Win32.ActiveCfg = Debug|Win32
+		{84FAB0B1-23B6-4A2B-9E89-4152A3B15DB4}.Debug|Win32.Build.0 = Debug|Win32
+		{84FAB0B1-23B6-4A2B-9E89-4152A3B15DB4}.Debug|x64.ActiveCfg = Debug|x64
+		{84FAB0B1-23B6-4A2B-9E89-4152A3B15DB4}.Debug|x64.Build.0 = Debug|x64
+		{84FAB0B1-23B6-4A2B-9E89-4152A3B15DB4}.Release|Win32.ActiveCfg = Release|Win32
+		{84FAB0B1-23B6-4A2B-9E89-4152A3B15DB4}.Release|Win32.Build.0 = Release|Win32
+		{84FAB0B1-23B6-4A2B-9E89-4152A3B15DB4}.Release|x64.ActiveCfg = Release|x64
+		{84FAB0B1-23B6-4A2B-9E89-4152A3B15DB4}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
