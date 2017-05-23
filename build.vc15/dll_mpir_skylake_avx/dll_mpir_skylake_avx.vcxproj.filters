@@ -1497,7 +1497,7 @@
     <YASM Include="..\..\mpn\x86_64w\skylake\and_n.asm">
       <Filter>Source Files\mpn\yasm</Filter>
     </YASM>
-    <YASM Include="..\..\mpn\x86_64w\skylake\andn_n.asm">
+    <YASM Include="..\..\mpn\x86_64w\skylake\avx\andn_n.asm">
       <Filter>Source Files\mpn\yasm</Filter>
     </YASM>
     <YASM Include="..\..\mpn\x86_64w\skylake\com_n.asm">
@@ -1536,10 +1536,10 @@
     <YASM Include="..\..\mpn\x86_64w\skylake\hamdist.asm">
       <Filter>Source Files\mpn\yasm</Filter>
     </YASM>
-    <YASM Include="..\..\mpn\x86_64w\skylake\ior_n.asm">
+    <YASM Include="..\..\mpn\x86_64w\skylake\avx\ior_n.asm">
       <Filter>Source Files\mpn\yasm</Filter>
     </YASM>
-    <YASM Include="..\..\mpn\x86_64w\skylake\iorn_n.asm">
+    <YASM Include="..\..\mpn\x86_64w\skylake\avx\iorn_n.asm">
       <Filter>Source Files\mpn\yasm</Filter>
     </YASM>
     <YASM Include="..\..\mpn\x86_64w\skylake\karaadd.asm">
@@ -1584,10 +1584,10 @@
     <YASM Include="..\..\mpn\x86_64w\mulmid_basecase.asm">
       <Filter>Source Files\mpn\yasm</Filter>
     </YASM>
-    <YASM Include="..\..\mpn\x86_64w\skylake\nand_n.asm">
+    <YASM Include="..\..\mpn\x86_64w\skylake\avx\nand_n.asm">
       <Filter>Source Files\mpn\yasm</Filter>
     </YASM>
-    <YASM Include="..\..\mpn\x86_64w\skylake\nior_n.asm">
+    <YASM Include="..\..\mpn\x86_64w\skylake\avx\nior_n.asm">
       <Filter>Source Files\mpn\yasm</Filter>
     </YASM>
     <YASM Include="..\..\mpn\x86_64w\skylake\popcount.asm">
@@ -1641,10 +1641,10 @@
     <YASM Include="..\..\mpn\x86_64w\umul_ppmm.asm">
       <Filter>Source Files\mpn\yasm</Filter>
     </YASM>
-    <YASM Include="..\..\mpn\x86_64w\skylake\xnor_n.asm">
+    <YASM Include="..\..\mpn\x86_64w\skylake\avx\xnor_n.asm">
       <Filter>Source Files\mpn\yasm</Filter>
     </YASM>
-    <YASM Include="..\..\mpn\x86_64w\skylake\xor_n.asm">
+    <YASM Include="..\..\mpn\x86_64w\skylake\avx\xor_n.asm">
       <Filter>Source Files\mpn\yasm</Filter>
     </YASM>
   </ItemGroup>

@@ -595,7 +595,7 @@ postbuild "$(TargetPath)" 15
     <YASM Include="..\..\mpn\x86_64w\skylake\addmul_2.asm" />
     <YASM Include="..\..\mpn\x86_64w\skylake\avx\addsub_n.asm" />
     <YASM Include="..\..\mpn\x86_64w\skylake\and_n.asm" />
-    <YASM Include="..\..\mpn\x86_64w\skylake\andn_n.asm" />
+    <YASM Include="..\..\mpn\x86_64w\skylake\avx\andn_n.asm" />
     <YASM Include="..\..\mpn\x86_64w\skylake\com_n.asm" />
     <YASM Include="..\..\mpn\x86_64w\skylake\copyd.asm" />
     <YASM Include="..\..\mpn\x86_64w\skylake\copyi.asm" />
@@ -608,8 +608,8 @@ postbuild "$(TargetPath)" 15
     <YASM Include="..\..\mpn\x86_64w\divrem_euclidean_qr_2.asm" />
     <YASM Include="..\..\mpn\x86_64w\skylake\divrem_hensel_qr_1_1.asm" />
     <YASM Include="..\..\mpn\x86_64w\skylake\hamdist.asm" />
-    <YASM Include="..\..\mpn\x86_64w\skylake\ior_n.asm" />
-    <YASM Include="..\..\mpn\x86_64w\skylake\iorn_n.asm" />
+    <YASM Include="..\..\mpn\x86_64w\skylake\avx\ior_n.asm" />
+    <YASM Include="..\..\mpn\x86_64w\skylake\avx\iorn_n.asm" />
     <YASM Include="..\..\mpn\x86_64w\skylake\karaadd.asm" />
     <YASM Include="..\..\mpn\x86_64w\skylake\karasub.asm" />
     <YASM Include="..\..\mpn\x86_64w\skylake\avx\lshift.asm" />
@@ -624,8 +624,8 @@ postbuild "$(TargetPath)" 15
     <YASM Include="..\..\mpn\x86_64w\skylake\avx\mul_basecase.asm" />
     <YASM Include="..\..\mpn\x86_64w\skylake\mullow_n_basecase.asm" />
     <YASM Include="..\..\mpn\x86_64w\mulmid_basecase.asm" />
-    <YASM Include="..\..\mpn\x86_64w\skylake\nand_n.asm" />
-    <YASM Include="..\..\mpn\x86_64w\skylake\nior_n.asm" />
+    <YASM Include="..\..\mpn\x86_64w\skylake\avx\nand_n.asm" />
+    <YASM Include="..\..\mpn\x86_64w\skylake\avx\nior_n.asm" />
     <YASM Include="..\..\mpn\x86_64w\skylake\popcount.asm" />
     <YASM Include="..\..\mpn\x86_64w\skylake\redc_1.asm" />
     <YASM Include="..\..\mpn\x86_64w\skylake\rsh_divrem_hensel_qr_1_1.asm" />
@@ -643,8 +643,8 @@ postbuild "$(TargetPath)" 15
     <YASM Include="..\..\mpn\x86_64w\skylake\sumdiff_n.asm" />
     <YASM Include="..\..\mpn\x86_64w\udiv_qrnnd.asm" />
     <YASM Include="..\..\mpn\x86_64w\umul_ppmm.asm" />
-    <YASM Include="..\..\mpn\x86_64w\skylake\xnor_n.asm" />
-    <YASM Include="..\..\mpn\x86_64w\skylake\xor_n.asm" />
+    <YASM Include="..\..\mpn\x86_64w\skylake\avx\xnor_n.asm" />
+    <YASM Include="..\..\mpn\x86_64w\skylake\avx\xor_n.asm" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

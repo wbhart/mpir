@@ -579,7 +579,7 @@ postbuild "$(TargetPath)" 15
     <YASM Include="..\..\mpn\x86_64w\haswell\addmul_2.asm" />
     <YASM Include="..\..\mpn\x86_64w\haswell\avx\addsub_n.asm" />
     <YASM Include="..\..\mpn\x86_64w\haswell\and_n.asm" />
-    <YASM Include="..\..\mpn\x86_64w\haswell\andn_n.asm" />
+    <YASM Include="..\..\mpn\x86_64w\haswell\avx\andn_n.asm" />
     <YASM Include="..\..\mpn\x86_64w\haswell\avx\com_n.asm" />
     <YASM Include="..\..\mpn\x86_64w\haswell\avx\copyd.asm" />
     <YASM Include="..\..\mpn\x86_64w\haswell\avx\copyi.asm" />
@@ -592,8 +592,8 @@ postbuild "$(TargetPath)" 15
     <YASM Include="..\..\mpn\x86_64w\divrem_euclidean_qr_2.asm" />
     <YASM Include="..\..\mpn\x86_64w\haswell\divrem_hensel_qr_1_1.asm" />
     <YASM Include="..\..\mpn\x86_64w\haswell\hamdist.asm" />
-    <YASM Include="..\..\mpn\x86_64w\haswell\ior_n.asm" />
-    <YASM Include="..\..\mpn\x86_64w\haswell\iorn_n.asm" />
+    <YASM Include="..\..\mpn\x86_64w\haswell\avx\ior_n.asm" />
+    <YASM Include="..\..\mpn\x86_64w\haswell\avx\iorn_n.asm" />
     <YASM Include="..\..\mpn\x86_64w\haswell\karaadd.asm" />
     <YASM Include="..\..\mpn\x86_64w\haswell\karasub.asm" />
     <YASM Include="..\..\mpn\x86_64w\haswell\avx\lshift.asm" />
@@ -608,8 +608,8 @@ postbuild "$(TargetPath)" 15
     <YASM Include="..\..\mpn\x86_64w\haswell\avx\mul_basecase.asm" />
     <YASM Include="..\..\mpn\x86_64w\mullow_n_basecase.asm" />
     <YASM Include="..\..\mpn\x86_64w\mulmid_basecase.asm" />
-    <YASM Include="..\..\mpn\x86_64w\haswell\nand_n.asm" />
-    <YASM Include="..\..\mpn\x86_64w\haswell\nior_n.asm" />
+    <YASM Include="..\..\mpn\x86_64w\haswell\avx\nand_n.asm" />
+    <YASM Include="..\..\mpn\x86_64w\haswell\avx\nior_n.asm" />
     <YASM Include="..\..\mpn\x86_64w\haswell\nsumdiff_n.asm" />
     <YASM Include="..\..\mpn\x86_64w\haswell\popcount.asm" />
     <YASM Include="..\..\mpn\x86_64w\haswell\redc_1.asm" />
@@ -628,8 +628,8 @@ postbuild "$(TargetPath)" 15
     <YASM Include="..\..\mpn\x86_64w\haswell\sumdiff_n.asm" />
     <YASM Include="..\..\mpn\x86_64w\udiv_qrnnd.asm" />
     <YASM Include="..\..\mpn\x86_64w\umul_ppmm.asm" />
-    <YASM Include="..\..\mpn\x86_64w\haswell\xnor_n.asm" />
-    <YASM Include="..\..\mpn\x86_64w\haswell\xor_n.asm" />
+    <YASM Include="..\..\mpn\x86_64w\haswell\avx\xnor_n.asm" />
+    <YASM Include="..\..\mpn\x86_64w\haswell\avx\xor_n.asm" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

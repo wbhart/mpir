@@ -1,6 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26424.2
+VisualStudioVersion = 15.0.26430.4
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lib_mpir_p3", "lib_mpir_p3\lib_mpir_p3.vcxproj", "{F4418981-ABAA-4B7A-9538-3E0166149F28}"
 EndProject
@@ -23,6 +23,10 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "dll_mpir_haswell_avx", "dll_mpir_haswell_avx\dll_mpir_haswell_avx.vcxproj", "{074CFDBD-585A-4841-BFA0-2DD8BDF23882}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lib_mpir_haswell_avx", "lib_mpir_haswell_avx\lib_mpir_haswell_avx.vcxproj", "{371A8946-D0E3-4316-88DF-75B6DDF3496A}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "dll_mpir_broadwell_avx", "dll_mpir_broadwell_avx\dll_mpir_broadwell_avx.vcxproj", "{E9726EC3-B643-4152-A472-12F6393EFFEF}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lib_mpir_broadwell_avx", "lib_mpir_broadwell_avx\lib_mpir_broadwell_avx.vcxproj", "{15C18BBF-3BE1-4E8E-BB96-8CA9B8C10B6D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -76,6 +80,14 @@ Global
 		{371A8946-D0E3-4316-88DF-75B6DDF3496A}.Debug|x64.ActiveCfg = Debug|x64
 		{371A8946-D0E3-4316-88DF-75B6DDF3496A}.Release|Win32.ActiveCfg = Release|x64
 		{371A8946-D0E3-4316-88DF-75B6DDF3496A}.Release|x64.ActiveCfg = Release|x64
+		{E9726EC3-B643-4152-A472-12F6393EFFEF}.Debug|Win32.ActiveCfg = Debug|x64
+		{E9726EC3-B643-4152-A472-12F6393EFFEF}.Debug|x64.ActiveCfg = Debug|x64
+		{E9726EC3-B643-4152-A472-12F6393EFFEF}.Release|Win32.ActiveCfg = Release|x64
+		{E9726EC3-B643-4152-A472-12F6393EFFEF}.Release|x64.ActiveCfg = Release|x64
+		{15C18BBF-3BE1-4E8E-BB96-8CA9B8C10B6D}.Debug|Win32.ActiveCfg = Debug|x64
+		{15C18BBF-3BE1-4E8E-BB96-8CA9B8C10B6D}.Debug|x64.ActiveCfg = Debug|x64
+		{15C18BBF-3BE1-4E8E-BB96-8CA9B8C10B6D}.Release|Win32.ActiveCfg = Release|x64
+		{15C18BBF-3BE1-4E8E-BB96-8CA9B8C10B6D}.Release|x64.ActiveCfg = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
