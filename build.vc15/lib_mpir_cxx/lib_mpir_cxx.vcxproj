@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="15.0.25914.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Release|Win32">
@@ -22,6 +22,7 @@
     <RootNamespace>mpirxx</RootNamespace>
     <Keyword>Win32Proj</Keyword>
     <ProjectGuid>{D35A0A8E-F81A-4F97-828E-8CAB4B9DBFFC}</ProjectGuid>
+    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
@@ -140,7 +141,7 @@ postbuild "$(TargetPath)" 15
   <ItemGroup>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
-<ItemGroup>
+  <ItemGroup>
     <None Include="..\..\gmp-h.in" />
-    </ItemGroup>
+  </ItemGroup>
 </Project>

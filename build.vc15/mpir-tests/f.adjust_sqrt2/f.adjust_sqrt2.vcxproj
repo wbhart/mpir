@@ -22,7 +22,7 @@
     <RootNamespace>f.adjust_sqrt2</RootNamespace>
     <Keyword>Win32Proj</Keyword>
     <ProjectGuid>{43366239-23B3-5478-798A-8EC47C4A301D}</ProjectGuid>
-    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">

@@ -22,7 +22,7 @@
     <RootNamespace>f.mulmod_2expp1</RootNamespace>
     <Keyword>Win32Proj</Keyword>
     <ProjectGuid>{7649A8B8-DB7D-F3C2-EE1B-0FE5CC7B1F8C}</ProjectGuid>
-    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="15.0.25914.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Release|Win32">
@@ -14,6 +14,7 @@
     <RootNamespace>mpir</RootNamespace>
     <Keyword>Win32Proj</Keyword>
     <ProjectGuid>{F4418981-ABAA-4B7A-9538-3E0166149F28}</ProjectGuid>
+    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
@@ -51,7 +52,8 @@ prebuild p3 Win32 15
       </Command>
     </PreBuildEvent>
     <YASM>
-      <Defines></Defines>
+      <Defines>
+      </Defines>
       <IncludePaths>..\..\mpn\x86w\</IncludePaths>
       <Debug>true</Debug>
       <ObjectFile>$(IntDir)mpn\</ObjectFile>
@@ -60,7 +62,6 @@ prebuild p3 Win32 15
       <AdditionalIncludeDirectories>..\..\</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NDEBUG;WIN32;_LIB;HAVE_CONFIG_H;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
-
     <PostBuildEvent>
       <Command>cd ..\..\build.vc
 postbuild "$(TargetPath)" 15
@@ -74,7 +75,8 @@ prebuild p3 Win32 15
       </Command>
     </PreBuildEvent>
     <YASM>
-      <Defines></Defines>
+      <Defines>
+      </Defines>
       <IncludePaths>..\..\mpn\x86w\</IncludePaths>
       <Debug>true</Debug>
       <ObjectFile>$(IntDir)mpn\</ObjectFile>
@@ -83,7 +85,6 @@ prebuild p3 Win32 15
       <AdditionalIncludeDirectories>..\..\</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_DEBUG;WIN32;_LIB;HAVE_CONFIG_H;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
-
     <PostBuildEvent>
       <Command>cd ..\..\build.vc
 postbuild "$(TargetPath)" 15
@@ -625,8 +626,8 @@ postbuild "$(TargetPath)" 15
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
     <Import Project="..\..\build.vc\vsyasm.targets" />
-    </ImportGroup>
-<ItemGroup>
+  </ImportGroup>
+  <ItemGroup>
     <None Include="..\..\gmp-h.in" />
-    </ItemGroup>
+  </ItemGroup>
 </Project>

@@ -22,7 +22,7 @@
     <RootNamespace>f.butterfly_rshb</RootNamespace>
     <Keyword>Win32Proj</Keyword>
     <ProjectGuid>{C378B7A2-A687-D103-6712-90DBE7A3AE71}</ProjectGuid>
-    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">

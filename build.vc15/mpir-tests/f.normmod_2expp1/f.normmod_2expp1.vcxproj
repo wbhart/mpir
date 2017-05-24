@@ -22,7 +22,7 @@
     <RootNamespace>f.normmod_2expp1</RootNamespace>
     <Keyword>Win32Proj</Keyword>
     <ProjectGuid>{3A56B50E-973C-4C5C-BC7B-2FDF6F92B1D9}</ProjectGuid>
-    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">

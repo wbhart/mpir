@@ -22,7 +22,7 @@
     <RootNamespace>f.fft_ifft_trunc</RootNamespace>
     <Keyword>Win32Proj</Keyword>
     <ProjectGuid>{6D83FE35-DFC6-B075-2A66-50C63FCE453F}</ProjectGuid>
-    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">

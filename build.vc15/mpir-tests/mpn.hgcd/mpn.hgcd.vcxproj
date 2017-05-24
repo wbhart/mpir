@@ -22,7 +22,7 @@
     <RootNamespace>mpn.hgcd</RootNamespace>
     <Keyword>Win32Proj</Keyword>
     <ProjectGuid>{A0303476-37AF-58E5-0246-15E7EA6CA907}</ProjectGuid>
-    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">

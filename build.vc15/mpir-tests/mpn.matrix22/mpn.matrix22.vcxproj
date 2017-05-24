@@ -22,7 +22,7 @@
     <RootNamespace>mpn.matrix22</RootNamespace>
     <Keyword>Win32Proj</Keyword>
     <ProjectGuid>{77929D2A-D434-C35E-92C4-A3CC66374531}</ProjectGuid>
-    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">

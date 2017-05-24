@@ -22,7 +22,7 @@
     <RootNamespace>f.butterfly_twiddle</RootNamespace>
     <Keyword>Win32Proj</Keyword>
     <ProjectGuid>{7D828822-0A10-7E1B-19EA-8C9E9BB415FB}</ProjectGuid>
-    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">

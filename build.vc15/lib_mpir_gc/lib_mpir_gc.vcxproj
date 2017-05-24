@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="15.0.25914.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Release|Win32">
@@ -22,6 +22,7 @@
     <RootNamespace>mpir</RootNamespace>
     <Keyword>Win32Proj</Keyword>
     <ProjectGuid>{4A742B65-9836-4F46-8310-728F046A31C1}</ProjectGuid>
+    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
@@ -79,7 +80,6 @@ prebuild gc Win32 15
       <AdditionalIncludeDirectories>..\..\</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NDEBUG;WIN32;_LIB;HAVE_CONFIG_H;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
-
     <PostBuildEvent>
       <Command>cd ..\..\build.vc
 postbuild "$(TargetPath)" 15
@@ -96,7 +96,6 @@ prebuild gc Win32 15
       <AdditionalIncludeDirectories>..\..\</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_DEBUG;WIN32;_LIB;HAVE_CONFIG_H;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
-
     <PostBuildEvent>
       <Command>cd ..\..\build.vc
 postbuild "$(TargetPath)" 15
@@ -113,7 +112,6 @@ prebuild gc x64 15
       <AdditionalIncludeDirectories>..\..\</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NDEBUG;WIN32;_LIB;HAVE_CONFIG_H;_WIN64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
-
     <PostBuildEvent>
       <Command>cd ..\..\build.vc
 postbuild "$(TargetPath)" 15
@@ -130,7 +128,6 @@ prebuild gc x64 15
       <AdditionalIncludeDirectories>..\..\</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_DEBUG;WIN32;_LIB;HAVE_CONFIG_H;_WIN64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
-
     <PostBuildEvent>
       <Command>cd ..\..\build.vc
 postbuild "$(TargetPath)" 15
@@ -668,7 +665,7 @@ postbuild "$(TargetPath)" 15
   <ItemGroup>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
-<ItemGroup>
+  <ItemGroup>
     <None Include="..\..\gmp-h.in" />
-    </ItemGroup>
+  </ItemGroup>
 </Project>
