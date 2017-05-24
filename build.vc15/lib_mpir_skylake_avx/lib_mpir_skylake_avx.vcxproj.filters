@@ -1460,7 +1460,7 @@
     <YASM Include="..\..\mpn\x86_64w\skylake\avx\addsub_n.asm">
       <Filter>Source Files\mpn\yasm</Filter>
     </YASM>
-    <YASM Include="..\..\mpn\x86_64w\skylake\and_n.asm">
+    <YASM Include="..\..\mpn\x86_64w\skylake\avx\and_n.asm">
       <Filter>Source Files\mpn\yasm</Filter>
     </YASM>
     <YASM Include="..\..\mpn\x86_64w\skylake\avx\andn_n.asm">

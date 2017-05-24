@@ -594,7 +594,7 @@ postbuild "$(TargetPath)" 15
     <YASM Include="..\..\mpn\x86_64w\skylake\avx\addmul_1.asm" />
     <YASM Include="..\..\mpn\x86_64w\skylake\addmul_2.asm" />
     <YASM Include="..\..\mpn\x86_64w\skylake\avx\addsub_n.asm" />
-    <YASM Include="..\..\mpn\x86_64w\skylake\and_n.asm" />
+    <YASM Include="..\..\mpn\x86_64w\skylake\avx\and_n.asm" />
     <YASM Include="..\..\mpn\x86_64w\skylake\avx\andn_n.asm" />
     <YASM Include="..\..\mpn\x86_64w\skylake\com_n.asm" />
     <YASM Include="..\..\mpn\x86_64w\skylake\copyd.asm" />

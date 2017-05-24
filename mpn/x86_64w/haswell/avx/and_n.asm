@@ -1,4 +1,4 @@
-;  AVX mpn_iorn_n
+;  AVX mpn_and_n
 ;
 ;  Copyright 2017 Jens Nurmann
 ;
@@ -16,7 +16,7 @@
 ;  to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 ;  Boston, MA 02110-1301, USA.
 
-;   (rdi,rcx) = (rsi,rcx) and not (rdx,rcx)
+;   (rdi,rcx) = (rsi,rcx) and (rdx,rcx)
 
 ; There is no initial pointer alignment lead in code below. The argument
 ; why not is based on some statistical reasoning and measurement points.
@@ -52,7 +52,7 @@
 ;                   LD1$      LD2$
 ;   Haswell         ???       ???
 ;   Broadwell       ???       ???
-;   Skylake         0.29-0.31 0.39-0.40
+;   Skylake         0.29-0.68 0.34-0.94 (depending on alignment)
 
 %include 'yasm_mac.inc'
 
@@ -68,46 +68,45 @@
 %define Limb0   R10
 %define Limb0D R10D
 %define QLimb0 YMM0
-%define	QLimb1 YMM1
+%define QLimb1 YMM1
 
     align   32
     BITS    64
 
-LEAF_PROC   mpn_iorn_n
+LEAF_PROC   mpn_and_n
 
     mov     CountD, 3
     mov     Limb0, Size
     sub     Count, Size
     jnc     .PostGPR            ; dispatch size 0-3 immediately
 
-    vpcmpeqq QLimb1, QLimb1, QLimb1
-
     mov     SizeD, 3
     shr     Limb0, 2
     or      Count, -4
     sub     Size, Limb0
-    jnc     .PostAVX            ; dispatch size 4, 8 & 12 immediately
+    jnc     .PostAVX            ; dispatch size 0, 4, 8 & 12 immediately
 
-    mov     Limb0D, 128
-
+	; the code density in the core loop is low - 5.18 byte per instruction
   .Loop:
 
-    vpxor   QLimb0, QLimb1, [Src2P]
-    vpor    QLimb0, QLimb0, [Src1P]
+    vmovdqu QLimb0, [Src1P]
+    vpand   QLimb0, QLimb0, [Src2P]
     vmovdqu [ResP], QLimb0
-    vpxor   QLimb0, QLimb1, [Src2P+32]
-    vpor    QLimb0, QLimb0, [Src1P+32]
+    vmovdqu QLimb0, [Src1P+32]
+    vpand   QLimb0, QLimb0, [Src2P+32]
     vmovdqu [ResP+32], QLimb0
-    vpxor   QLimb0, QLimb1, [Src2P+64]
-    vpor    QLimb0, QLimb0, [Src1P+64]
+    vmovdqu QLimb0, [Src1P+64]
+    vpand   QLimb0, QLimb0, [Src2P+64]
     vmovdqu [ResP+64], QLimb0
-    vpxor   QLimb0, QLimb1, [Src2P+96]
-    vpor    QLimb0, QLimb0, [Src1P+96]
+    vmovdqu QLimb0, [Src1P+96]
+    vpand   QLimb0, QLimb0, [Src2P+96]
     vmovdqu [ResP+96], QLimb0
 
-    lea     Src2P, [Src2P+Limb0]
-    lea     Src1P, [Src1P+Limb0]
-    lea     ResP, [ResP+Limb0]
+    add     Src1P, 128
+    add     Src2P, 128
+    add     ResP, 128
+
+  .Check:
 
     add     Size, 4
     jnc     .Loop
@@ -115,7 +114,7 @@ LEAF_PROC   mpn_iorn_n
   .PostAVX:
 
     mov     Limb0D, 0           ; to allow pointer correction on exit
-    cmp     Size, 2             ; fastest way to dispatch values 0-3
+    cmp     SizeB, 2            ; fastest way to dispatch values 0-3
     ja      .PostAVX0
     je      .PostAVX1
     jp      .PostAVX2
@@ -123,59 +122,57 @@ LEAF_PROC   mpn_iorn_n
   .PostAVX3:
 
     add     Limb0, 32
-    vpxor   QLimb0, QLimb1, [Src2P+64]
-    vpor    QLimb0, QLimb0, [Src1P+64]
+    vmovdqu QLimb0, [Src1P+64]
+    vpand   QLimb0, QLimb0, [Src2P+64]
     vmovdqu [ResP+64], QLimb0
 
   .PostAVX2:
 
     add     Limb0, 32
-    vpxor   QLimb0, QLimb1, [Src2P+32]
-    vpor    QLimb0, QLimb0, [Src1P+32]
+    vmovdqu QLimb0, [Src1P+32]
+    vpand   QLimb0, QLimb0, [Src2P+32]
     vmovdqu [ResP+32], QLimb0
 
   .PostAVX1:
 
     add     Limb0, 32
-    vpxor   QLimb0, QLimb1, [Src2P]
-    vpor    QLimb0, QLimb0, [Src1P]
+    vmovdqu QLimb0, [Src1P]
+    vpand   QLimb0, QLimb0, [Src2P]
     vmovdqu [ResP], QLimb0
 
   .PostAVX0:
 
-    add     Src2P, Limb0
     add     Src1P, Limb0
+    add     Src2P, Limb0
     add     ResP, Limb0
     add     Count, 4
 
   .PostGPR:
 
-    cmp     Count, 2            ; fastest way to dispatch values 0-3
+    cmp     CountB, 2           ; fastest way to dispatch values 0-3
     ja      .Exit
     je      .PostGPR1
     jp      .PostGPR2
 
   .PostGPR3:
 
-    mov     Limb0, [Src2P+16]
-    not     Limb0
-    or      Limb0, [Src1P+16]
+    mov     Limb0, [Src1P+16]
+    and     Limb0, [Src2P+16]
     mov     [ResP+16], Limb0
 
   .PostGPR2:
 
-    mov     Limb0, [Src2P+8]
-    not     Limb0
-    or      Limb0, [Src1P+8]
+    mov     Limb0, [Src1P+8]
+    and     Limb0, [Src2P+8]
     mov     [ResP+8], Limb0
 
   .PostGPR1:
 
-    mov     Limb0, [Src2P]
-    not     Limb0
-    or      Limb0, [Src1P]
+    mov     Limb0, [Src1P]
+    and     Limb0, [Src2P]
     mov     [ResP], Limb0
 
   .Exit:
 
     ret
+
