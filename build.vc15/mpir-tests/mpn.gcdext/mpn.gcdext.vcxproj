@@ -22,7 +22,7 @@
     <RootNamespace>mpn.gcdext</RootNamespace>
     <Keyword>Win32Proj</Keyword>
     <ProjectGuid>{5266D637-E029-E07A-F53C-F7D4E55EFB2B}</ProjectGuid>
-    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">

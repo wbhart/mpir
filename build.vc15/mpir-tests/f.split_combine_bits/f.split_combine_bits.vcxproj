@@ -22,7 +22,7 @@
     <RootNamespace>f.split_combine_bits</RootNamespace>
     <Keyword>Win32Proj</Keyword>
     <ProjectGuid>{6D207124-520E-C8B5-E8E8-9422FB90E683}</ProjectGuid>
-    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">

@@ -22,7 +22,7 @@
     <RootNamespace>f.fft_ifft_radix2</RootNamespace>
     <Keyword>Win32Proj</Keyword>
     <ProjectGuid>{46524C3E-36A7-743B-44BB-E92F7405DD01}</ProjectGuid>
-    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">

@@ -22,6 +22,7 @@
     <ProjectGuid>{47B9E74C-7D7A-47DA-83AF-0A6ADE4FBB69}</ProjectGuid>
     <RootNamespace>lib_speed</RootNamespace>
     <Keyword>Win32Proj</Keyword>
+    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">

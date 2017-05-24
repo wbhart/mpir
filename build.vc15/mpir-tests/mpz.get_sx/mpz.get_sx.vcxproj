@@ -22,7 +22,7 @@
     <RootNamespace>mpz.get_sx</RootNamespace>
     <Keyword>Win32Proj</Keyword>
     <ProjectGuid>{66B6322B-6F68-AD9B-B439-10E0D7AC88FD}</ProjectGuid>
-    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">

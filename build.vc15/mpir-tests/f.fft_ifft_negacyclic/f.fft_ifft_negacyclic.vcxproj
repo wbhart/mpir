@@ -22,7 +22,7 @@
     <RootNamespace>f.fft_ifft_negacyclic</RootNamespace>
     <Keyword>Win32Proj</Keyword>
     <ProjectGuid>{41D5C99F-47BF-2472-59C0-3A17A9D9BBB8}</ProjectGuid>
-    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">

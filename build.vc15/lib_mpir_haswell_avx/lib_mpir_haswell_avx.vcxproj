@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="15.0.25914.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Release|x64">
@@ -14,6 +14,7 @@
     <RootNamespace>mpir</RootNamespace>
     <Keyword>Win32Proj</Keyword>
     <ProjectGuid>{371A8946-D0E3-4316-88DF-75B6DDF3496A}</ProjectGuid>
+    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
@@ -51,7 +52,8 @@ prebuild haswell\avx x64 15
       </Command>
     </PreBuildEvent>
     <YASM>
-      <Defines></Defines>
+      <Defines>
+      </Defines>
       <IncludePaths>..\..\mpn\x86_64w\</IncludePaths>
       <Debug>true</Debug>
       <ObjectFile>$(IntDir)mpn\</ObjectFile>
@@ -74,7 +76,8 @@ prebuild haswell\avx x64 15
       </Command>
     </PreBuildEvent>
     <YASM>
-      <Defines></Defines>
+      <Defines>
+      </Defines>
       <IncludePaths>..\..\mpn\x86_64w\</IncludePaths>
       <Debug>true</Debug>
       <ObjectFile>$(IntDir)mpn\</ObjectFile>
@@ -634,8 +637,8 @@ postbuild "$(TargetPath)" 15
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
     <Import Project="..\..\build.vc\vsyasm.targets" />
-    </ImportGroup>
-<ItemGroup>
+  </ImportGroup>
+  <ItemGroup>
     <None Include="..\..\gmp-h.in" />
-    </ItemGroup>
+  </ItemGroup>
 </Project>

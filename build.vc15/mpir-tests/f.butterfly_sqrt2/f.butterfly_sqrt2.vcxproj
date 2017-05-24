@@ -22,7 +22,7 @@
     <RootNamespace>f.butterfly_sqrt2</RootNamespace>
     <Keyword>Win32Proj</Keyword>
     <ProjectGuid>{5C899A89-5497-EBE4-355D-43C4FAC1B4D8}</ProjectGuid>
-    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">

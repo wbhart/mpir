@@ -22,7 +22,7 @@
     <ProjectGuid>{7A0A0EA8-A660-4489-9AD3-754AC1D3A43A}</ProjectGuid>
     <RootNamespace>mpn.dc_bdiv_qr_n</RootNamespace>
     <Keyword>Win32Proj</Keyword>
-    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
