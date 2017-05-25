@@ -29,15 +29,16 @@ def vcx_proj_cfg(plat, outf):
       outf.write(f2.format(pl, conf))
   outf.write(f3)
 
-def vcx_globals(name, guid, outf):
+def vcx_globals(name, guid, vs_info, outf):
 
   f1 = r'''  <PropertyGroup Label="Globals">
     <RootNamespace>{0:s}</RootNamespace>
     <Keyword>Win32Proj</Keyword>
     <ProjectGuid>{1:s}</ProjectGuid>
+    <WindowsTargetPlatformVersion>{2:s}</WindowsTargetPlatformVersion>
   </PropertyGroup>
 '''
-  outf.write(f1.format(name, guid))
+  outf.write(f1.format(name, guid, vs_info['windows_sdk']))
 
 def vcx_default_cpp_props(outf):
 
@@ -260,7 +261,7 @@ def gen_vcxproj(path, root_dir, proj_name, guid, config, plat, proj_type,
   with open(path, 'w') as outf:
     outf.write(f1.format(vs_info['vcx_tool']))
     vcx_proj_cfg(plat, outf)
-    vcx_globals(proj_name, guid, outf)
+    vcx_globals(proj_name, guid, vs_info, outf)
     vcx_default_cpp_props(outf)
     vcx_library_type(plat, proj_type, vs_info, outf)
     vcx_cpp_props(outf)
