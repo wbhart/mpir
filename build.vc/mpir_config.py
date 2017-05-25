@@ -36,6 +36,9 @@ build_dir_name = 'build.vc{0:d}'.format(vs_version)
 path.append(abspath(join(script_dir, '../' + build_dir_name)))
 from version_info import vs_info
 
+if len(argv) > 2:
+  vs_info['windows_sdk'] = argv[2]
+
 # for script debugging
 debug = False
 # either add a prebuild step to the project files or do it here
