@@ -12,5 +12,5 @@ vs_info = { 'solution':'12',
             'msvc_long':'14.0.24720.0',
             'vcx_tool':'14.0',
             'platform_toolset':'140',
-            'windows_sdk':'10.0.10240.0'            
+            'windows_sdk':'8.1'            
           }
