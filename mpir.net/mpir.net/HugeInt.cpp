@@ -773,6 +773,57 @@ namespace MPIR
         return nread;
     }
 
+    void MPTYPE::ReadLimbs(array<mpir_ui>^ destination, int start, int length, int destinationIndex)
+    {
+        if (start < 0) throw gcnew ArgumentException("Invalid start", "start");
+        if (length <= 0) throw gcnew ArgumentException("Invalid length", "length");
+        if (_value->_mp_alloc < start + length) throw gcnew ArgumentException("Insufficient allocated limb data", "length");
+        if (destinationIndex < 0) throw gcnew ArgumentException("Invalid destination index", "destinationIndex");
+        if (destination->Length < destinationIndex + length) throw gcnew ArgumentException("Insufficient destination array size", "destinationIndex");
+
+        auto src = &MP(limbs_read)(_value)[start];
+        for (int i = 0; i < length; i++)
+        {
+            destination[destinationIndex++] = *src++;
+        }
+    }
+
+    void MPTYPE::ModifyLimbs(array<mpir_ui>^ source, int start, int length, int sourceIndex, bool negative)
+    {
+        if (start < 0) throw gcnew ArgumentException("Invalid start", "start");
+        if (length <= 0) throw gcnew ArgumentException("Invalid length", "length");
+        if (sourceIndex < 0) throw gcnew ArgumentException("Invalid source index", "sourceIndex");
+        if (source->Length < sourceIndex + length) throw gcnew ArgumentException("Insufficient source array size", "sourceIndex");
+
+        auto oldAbsSize = ABS(_value->_mp_size);
+        auto newSize = MAX(_value->_mp_alloc, start + length);
+
+        auto ptr = MP(limbs_modify)(_value, newSize);
+        auto dest = &ptr[oldAbsSize];
+        for (int i = oldAbsSize; i < start; i++)
+            *dest++ = 0;
+
+        dest = &ptr[start];
+        for (int i = 0; i < length; i++)
+            *dest++ = source[sourceIndex++];
+
+        MP(limbs_finish)(_value, negative ? -newSize : newSize);
+    }
+
+    void MPTYPE::WriteLimbs(array<mpir_ui>^ source, int sourceIndex, mp_size_t newSize, bool negative)
+    {
+        auto length = newSize;
+        if (length == 0) throw gcnew ArgumentException("Invalid new size", "newSize");
+        if (sourceIndex < 0) throw gcnew ArgumentException("Invalid source index", "sourceIndex");
+        if (source->Length < sourceIndex + length) throw gcnew ArgumentException("Insufficient source array size", "sourceIndex");
+
+        auto dest = MP(limbs_write)(_value, length);
+        for (mp_size_t i = 0; i < length; i++)
+            *dest++ = source[sourceIndex++];
+
+        MP(limbs_finish)(_value, negative ? -newSize : newSize);
+    }
+
     #pragma endregion
 
     #pragma region number-theoretic
