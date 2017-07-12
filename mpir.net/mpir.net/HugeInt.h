@@ -1037,7 +1037,6 @@ namespace MPIR
 
         public:
 
-#define _GMP_VERSION __GNU_MP_VERSION + "." + __GNU_MP_VERSION_MINOR + "." + __GNU_MP_VERSION_PATCHLEVEL
 #undef GMP_VERSION
 
             /// <summary>
@@ -1058,7 +1057,7 @@ namespace MPIR
             /// <summary>
             /// Represents the version of GMP with which the underlying MPIR library is compatible
             /// </summary>
-            static initonly const Version^ GMP_VERSION = gcnew Version(_GMP_VERSION);
+            static initonly const Version^ GMP_VERSION = gcnew Version(__GNU_MP_VERSION, __GNU_MP_VERSION_MINOR, __GNU_MP_VERSION_PATCHLEVEL);
 
             /// <summary>
             /// Represents the version of the underlying MPIR library
@@ -1662,20 +1661,22 @@ namespace MPIR
 
             /// <summary>
             /// Returns the value of the number as a double, truncating if necessary (rounding towards zero).
-            /// <para>If the exponent from the conversion is too big, the result is system dependent. An infinity is returned where available.             /// A hardware overflow trap may or may not occur.
+            /// <para>If the exponent from the conversion is too big, the result is system dependent. An infinity is returned where available. 
+            /// A hardware overflow trap may or may not occur.
             /// </para></summary>
             /// <returns>The value as a double, possibly truncated.</returns>
             double ToDouble() { return MP(get_d)(_value); }
 
             /// <summary>
             /// Returns the value of the number as a double, truncating if necessary (rounding towards zero), and returning the exponent separately.
-            /// <para>The return is the mantissa, its absolute value will be in the range [0.5 - 1).            /// </para>If the source value is zero, both mantissa and exponent are returned as 0.
+            /// <para>The return is the mantissa, its absolute value will be in the range [0.5 - 1).
+            /// </para>If the source value is zero, both mantissa and exponent are returned as 0.
             /// </summary>
             /// <param name="exp">variable to store the exponent in.</param>
             /// <returns>The mantissa of the value as a double, possibly truncated.</returns>
-            double ToDouble([Out] mpir_si% exp) 
+            double ToDouble([Out] mp_exp_t% exp) 
             { 
-                mpir_si x; 
+                mp_exp_t x; 
                 auto result = MP(get_d_2exp)(&x, _value); 
                 exp = x; 
                 return result; 
@@ -2042,6 +2043,40 @@ namespace MPIR
                 MP(export)(pinned_data, &limbCount, (int)limbOrder, bytesPerLimb, (int)endianness, nails, _value);
                 return data;
             }
+
+            /// <summary>
+            /// Reads limb data from the number into an array.
+            /// </summary>
+            /// <param name="destination">The destination array into which limb data will be copied</param>
+            /// <param name="start">The 0-based index of the first limb to copy</param>
+            /// <param name="length">The number of limbs to copy</param>
+            /// <param name="destinationIndex">The starting index within the <paramref name="destination"/> array that will receive the first copied limb.</param>
+            void ReadLimbs(array<mpir_ui>^ destination, int start, int length, int destinationIndex);
+
+            /// <summary>
+            /// Modifies a portion or all of the limb data within the number by copying from an array.
+            /// <para>The number is reallocated if necessary to accommodate the limbs.
+            /// </para>The previous limb data is preserved, so that partial writes are supported.
+            /// <para>If a partial write begins beyond the currently allocated limb array, any gap is zeroed out.
+            /// </para></summary>
+            /// <param name="source">The source array from which limb data will be copied.  The limb data need not be normalized</param>
+            /// <param name="start">The 0-based index within the destination number's limb data that will receive the first copied limb</param>
+            /// <param name="length">The number of limbs to copy</param>
+            /// <param name="sourceIndex">The starting index within the <paramref name="source"/> array from which the first limb is to be copied.</param>
+            /// <param name="negative">Specifies the new sign of the number: true if negative, false if non-negative</param>
+            void ModifyLimbs(array<mpir_ui>^ source, int start, int length, int sourceIndex, bool negative);
+
+            /// <summary>
+            /// Writes limb data into the number from an array.
+            /// <para>The number is reallocated if necessary to accommodate the limbs.
+            /// </para>The previous limb data is not used; this method is suitable for full replacement of limb data only.
+            /// </summary>
+            /// <param name="source">The source array from which limb data will be copied</param>
+            /// <param name="newSize">The new size of the number.  The absolute value is the number of limbs to copy, and will be the new number of limbs, and the sign is the new sign of the number.
+            /// <para>Copying always starts at the beginning of the number's (re-)allocated limb data.  The new limb data must be valid, but need not be normalized</para></param>
+            /// <param name="sourceIndex">The starting index within the <paramref name="source"/> array from which the first limb is to be copied.</param>
+            /// <param name="negative">Specifies the new sign of the number: true if negative, false if non-negative</param>
+            void WriteLimbs(array<mpir_ui>^ source, int sourceIndex, mp_size_t newSize, bool negative);
 
         internal:
             size_t ReadNoWhite(TextReader^ reader, int base, size_t nread);

@@ -330,6 +330,98 @@ namespace MPIR.Tests.HugeIntTests
                 Assert.AreEqual(Platform.Ui(0xA123456789ABCDEFUL, 0x01234567U), a.GetLimb(1));
             }
         }
+
+        [TestMethod]
+        public void IntReadLimbs()
+        {
+            var dest = Enumerable.Repeat(Platform.Ui(0, 0), 8).ToArray();
+
+            using (var a = new HugeInt("-0x55533123456789ABCDEF02468ACEFDB9753171122334455667788"))
+            {
+                a.ReadLimbs(dest, 1, 2, 3);
+                a.ReadLimbs(dest, 2, 2, 6);
+                Assert.AreEqual(Platform.Ui(0x2468ACEFDB975317UL, 0x11223344U), dest[3]);
+                Assert.AreEqual(Platform.Ui(0x123456789ABCDEF0UL, 0xDB975317U), dest[4]);
+                Assert.AreEqual(Platform.Ui(0x123456789ABCDEF0UL, 0xDB975317U), dest[6]);
+                Assert.AreEqual(Platform.Ui(0x0000000000055533UL, 0x2468ACEFU), dest[7]);
+            }
+        }
+
+        [TestMethod]
+        public void IntModifyLimbs()
+        {
+            var src = new[]
+                {
+                    Platform.Ui(0, 0),
+                    Platform.Ui(0, 0),
+                    Platform.Ui(0, 0),
+                    Platform.Ui(0x2468ACEFDB975317UL, 0x11223344U),
+                    Platform.Ui(0x3456789ABCDEF044UL, 0x09872458U),
+                    Platform.Ui(0, 0),
+                    Platform.Ui(0x123456789ABCDEF0UL, 0xDB975317U),
+                    Platform.Ui(0x0000000000055533UL, 0x2468ACEFU),
+                };
+
+            using (var a = new HugeInt(Platform.Select("0x1122334455667788", "0x55667788")))
+            using (var expected1 = new HugeInt(Platform.Select(      "0x3456789ABCDEF0442468ACEFDB9753171122334455667788",          "0x098724581122334455667788")))
+            using (var expected2 = new HugeInt(Platform.Select("-0x55533123456789ABCDEF02468ACEFDB9753171122334455667788", "-0x2468ACEFDB9753171122334455667788")))
+            {
+                a.ModifyLimbs(src, 1, 2, 3, false);
+                Assert.AreEqual(expected1, a);
+
+                a.ModifyLimbs(src, 2, 2, 6, true);
+                Assert.AreEqual(expected2, a);
+            }
+        }
+
+        [TestMethod]
+        public void IntModifyLimbsWithGap()
+        {
+            var src = new[]
+                {
+                    Platform.Ui(0, 0),
+                    Platform.Ui(0, 0),
+                    Platform.Ui(0, 0),
+                    Platform.Ui(0x2468ACEFDB975317UL, 0x11223344U),
+                    Platform.Ui(0x3456789ABCDEF044UL, 0x09872458U),
+                    Platform.Ui(0, 0),
+                    Platform.Ui(0x123456789ABCDEF0UL, 0xDB975317U),
+                    Platform.Ui(0x0000000000055533UL, 0x2468ACEFU),
+                };
+
+            using (var a = new HugeInt(Platform.Select("0x1122334455667788", "0x55667788")))
+            using (var expected = new HugeInt(Platform.Select("0x3456789ABCDEF0442468ACEFDB97531700000000000000001122334455667788", "0x09872458112233440000000055667788")))
+            {
+                a.ModifyLimbs(src, 2, 2, 3, false);
+                Assert.AreEqual(expected, a);
+            }
+        }
+
+        [TestMethod]
+        public void IntWriteLimbs()
+        {
+            var src = new[]
+                {
+                    Platform.Ui(0, 0),
+                    Platform.Ui(0, 0),
+                    Platform.Ui(0, 0),
+                    Platform.Ui(0x2468ACEFDB975317UL, 0x11223344U),
+                    Platform.Ui(0x3456789ABCDEF044UL, 0x09872458U),
+                    Platform.Ui(0, 0),
+                    Platform.Ui(0x123456789ABCDEF0UL, 0xDB975317U),
+                    Platform.Ui(0x0000000000055533UL, 0x2468ACEFU),
+                };
+
+            using (var a = new HugeInt(Platform.Select("0x1122334455667788", "0x55667788")))
+            using (var expected = new HugeInt(Platform.Select("-0x123456789ABCDEF000000000000000003456789ABCDEF0442468ACEFDB975317", "-0xDB975317000000000987245811223344")))
+            {
+                a.WriteLimbs(src, 3, 4, false);
+                Assert.IsTrue(-expected == a);
+
+                a.WriteLimbs(src, 3, 4, true);
+                Assert.AreEqual(expected, a);
+            }
+        }
         //more tests coming here
     }
 }

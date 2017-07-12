@@ -42,8 +42,8 @@ namespace MPIR.Tests.RandomTests
         [TestMethod]
         public void Version()
         {
-            Assert.AreEqual("5.1.3", MpirSettings.GMP_VERSION.ToString());
-            Assert.AreEqual("2.7.2", MpirSettings.MPIR_VERSION.ToString());
+            Assert.AreEqual("6.0.0", MpirSettings.GMP_VERSION.ToString());
+            Assert.AreEqual("3.0.0", MpirSettings.MPIR_VERSION.ToString());
         }
 
         [TestMethod]
