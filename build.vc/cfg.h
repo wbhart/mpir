@@ -155,9 +155,6 @@ MA 02111-1307, USA. */
 /* Define if you have the <memory.h> header file. */
 #define HAVE_MEMORY_H		1
 
-/* Define if you have the `memset' function. */
-#define HAVE_MEMSET			1
-
 /* Define if you have the `mmap' function. */
 #undef HAVE_MMAP
 
