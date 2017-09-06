@@ -2102,7 +2102,7 @@ GMP_C_DOUBLE_FORMAT
 # __gmp_replacement_vsnprintf which is not required on AIX since it has a
 # vsnprintf.
 #
-AC_CHECK_FUNCS(alarm attr_get clock clock_gettime cputime getpagesize getrusage gettimeofday getsysinfo localeconv mmap nl_langinfo obstack_vprintf popen processor_info pstat_getprocessor raise read_real_time syssgi strchr strerror strnlen strtol strtoul sysconf sysctl sysctlbyname times)
+AC_CHECK_FUNCS(alarm attr_get clock clock_gettime cputime getpagesize getrusage gettimeofday getsysinfo localeconv mmap nl_langinfo obstack_vprintf popen processor_info pstat_getprocessor raise read_real_time syssgi strerror strnlen strtol strtoul sysconf sysctl sysctlbyname times)
 
 # mingw returns OK on mprotect , but it's broken
 #

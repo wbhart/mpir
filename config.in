@@ -313,9 +313,6 @@ MA 02110-1301, USA.
 /* Define to 1 if the system has the type `std::locale'. */
 #undef HAVE_STD__LOCALE
 
-/* Define to 1 if you have the `strchr' function. */
-#undef HAVE_STRCHR
-
 /* Define to 1 if you have the `strerror' function. */
 #undef HAVE_STRERROR
 

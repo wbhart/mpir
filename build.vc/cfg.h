@@ -205,9 +205,6 @@ MA 02111-1307, USA. */
 /* Define if you have the `strcasecmp' function. */
 #undef HAVE_STRCASECMP
 
-/* Define if you have the `strchr' function. */
-#define HAVE_STRCHR			1
-
 /* Define if cpp supports the ANSI # stringizing operator. */
 #define HAVE_STRINGIZE		1
 

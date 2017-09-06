@@ -398,11 +398,6 @@ typedef struct {mp_limb_t inv21, inv32, inv53;} gmp_pi2_t;
 #endif
 
 
-#if ! HAVE_STRCHR
-#define strchr(s,c)  index(s,c)
-#endif
-
-
 /* va_copy is standard in C99, and gcc provides __va_copy when in strict C89
    mode.  Falling back to a memcpy will give maximum portability, since it
    works no matter whether va_list is a pointer, struct or array.  */
