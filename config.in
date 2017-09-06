@@ -289,9 +289,6 @@ MA 02110-1301, USA.
 /* Define to 1 if you have the `pstat_getprocessor' function. */
 #undef HAVE_PSTAT_GETPROCESSOR
 
-/* Define to 1 if the system has the type `ptrdiff_t'. */
-#undef HAVE_PTRDIFF_T
-
 /* Define to 1 if the system has the type `quad_t'. */
 #undef HAVE_QUAD_T
 
@@ -409,8 +406,7 @@ MA 02110-1301, USA.
 /* Assembler local label prefix */
 #undef LSYM_PREFIX
 
-/* Define to the sub-directory in which libtool stores uninstalled libraries.
-   */
+/* Define to the sub-directory where libtool stores uninstalled libraries. */
 #undef LT_OBJDIR
 
 /* Name of package */

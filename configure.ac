@@ -1,5 +1,5 @@
 dnl  Process this file with autoconf to produce a configure script.
- 
+
 define(GMP_COPYRIGHT,[[
 
 Copyright 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006
@@ -60,7 +60,7 @@ dnl  Automake "no-dependencies" is used because include file dependencies
 dnl  are not useful to us.  Pretty much everything depends just on mpir.h,
 dnl  gmp-impl.h and longlong.h, and yet only rarely does everything need to
 dnl  be rebuilt for changes to those files.
-dnl 
+dnl
 dnl  Note that there's a copy of these options in the top-level Makefile.am,
 dnl  so update there too if changing anything.
 dnl
@@ -390,7 +390,7 @@ case $host in
     GMP_INCLUDE_MPN(alpha/alpha-defs.m4)
     GMP_INCLUDE_MPN(alpha/default.m4)
     SPEED_CYCLECOUNTER_OBJ=alpha.lo
-    cyclecounter_size=1    
+    cyclecounter_size=1
     ;;
 
   arm*-*-*)
@@ -587,7 +587,7 @@ case $host in
       powerpc7400 | powerpc7410)
 		    gcc_cflags_asm="-Wa,-maltivec"
   		    gcc_cflags_cpu="-mcpu=7400 -mcpu=750" ;;
-      powerpc74[45]?)  
+      powerpc74[45]?)
             gcc_cflags_asm="-Wa,-maltivec"
   		    gcc_cflags_cpu="-mcpu=7450" ;;
       powerpc750)   gcc_cflags_cpu="-mcpu=750" ;;
@@ -938,7 +938,7 @@ case $host in
 
     # Availability of rdtsc is checked at run-time.
     SPEED_CYCLECOUNTER_OBJ=pentium.lo
-    
+
     case $host in
       *-*-solaris* | *-*-sunos*)
     	# Note no -g, it disables all optimizations.
@@ -1131,7 +1131,7 @@ case $host in
       [k6[23]])                path="x86/k6/k62mmx x86/k6/mmx x86/k6 x86" ;;
       k6)                      path="x86/k6/mmx x86/k6 x86" ;;
       athlon | k7 | x86_64 | atom)   path="x86/k7/mmx x86/k7 x86" ;;
-      k102 | k103 | bulldozer | piledriver)       path="x86/k7/mmx/k8/k10/k102  x86/k7/mmx/k8/k10 x86/k7/mmx/k8 x86/k7/mmx x86/k7 x86" ;; 
+      k102 | k103 | bulldozer | piledriver)       path="x86/k7/mmx/k8/k10/k102  x86/k7/mmx/k8/k10 x86/k7/mmx/k8 x86/k7/mmx x86/k7 x86" ;;
       k10)			path="x86/k7/mmx/k8/k10 x86/k7/mmx/k8 x86/k7/mmx x86/k7 x86" ;;
       k8 | bobcat)		path="x86/k7/mmx/k8 x86/k7/mmx x86/k7 x86" ;;
       core2 | penryn)		path="x86/core2 x86" ;;
@@ -1167,7 +1167,7 @@ case $host in
 		x86/core2 x86/nehalem"
       fat_functions="add_n addmul_1 add_err1_n add_err2_n copyd copyi
 		     divexact_1 divexact_by3c divexact_byfobm1 divrem_1 divrem_2
-			 divrem_euclidean_qr_1 
+			 divrem_euclidean_qr_1
 			divrem_euclidean_qr_2 gcd_1 lshift
 		     mod_1 mod_34lsub1 modexact_1c_odd mul_1 mul_basecase
 		     mulmid_basecase preinv_divrem_1 preinv_mod_1 redc_1 rshift
@@ -1190,7 +1190,7 @@ case $host in
         gcc_64_cflags_optlist="opt arch cpu"
         SPEED_CYCLECOUNTER_OBJ_64=x86_64.lo
         CALLING_CONVENTIONS_OBJS_64='x86_64call.lo x86_64check$U.lo'
-        cyclecounter_size_64=2 
+        cyclecounter_size_64=2
         case $host in
            *-*-solaris* | *-*-sunos*)
            # Note no -g, it disables all optimizations.
@@ -1268,15 +1268,15 @@ case $host in
             path_64="x86_64/bulldozer/piledriver x86_64/bulldozer x86_64/k8/k10/k102 x86_64/k8/k10 x86_64/k8 x86_64" ;;
           bobcat-*-*)
             path_64="x86_64/bobcat x86_64" ;;
-          core2-*-*) 
+          core2-*-*)
             path_64="x86_64/core2 x86_64" ;;
-          penryn-*-*) 
+          penryn-*-*)
             path_64="x86_64/core2/penryn x86_64/core2 x86_64" ;;
-          nehalem-*-*) 
+          nehalem-*-*)
             path_64="x86_64/nehalem x86_64/core2 x86_64" ;;
-          westmere-*-*) 
+          westmere-*-*)
             path_64="x86_64/nehalem/westmere x86_64/nehalem x86_64/core2 x86_64" ;;
-          sandybridge-*-*) 
+          sandybridge-*-*)
             path_64="x86_64/sandybridge x86_64/nehalem x86_64/core2 x86_64" ;;
           ivybridge-*-*)
             path_64="x86_64/sandybridge/ivybridge x86_64/sandybridge x86_64/nehalem x86_64/core2 x86_64" ;;
@@ -1288,9 +1288,9 @@ case $host in
             path_64="x86_64/skylake x86_64/sandybridge x86_64" ;;
           skylakeavx-*-*)
             path_64="x86_64/skylake/avx x86_64/haswell/avx x86_64/skylake x86_64/haswell x86_64/sandybridge x86_64" ;;
-          atom-*-*) 
+          atom-*-*)
             path_64="x86_64/atom x86_64" ;;
-          nano-*-*) 
+          nano-*-*)
             path_64="x86_64/k8/k8only x86_64/k8 x86_64" ;;
         esac
 
@@ -1632,7 +1632,7 @@ if test $found_compiler = yes; then
   else
     GMP_CC="/* No __GMP_CC here as --enable-gmpcompat option not selected */"
     GMP_CFLAGS=""
-  fi    
+  fi
 
    AC_SUBST(GMP_CC)
    AC_SUBST(GMP_CFLAGS)
@@ -1930,7 +1930,7 @@ Use "--disable-static --enable-shared" to build just a DLL.])
     # inline isascii (used in gmp).  It gives an extern inline for
     # __isascii, but for some reason not the plain isascii.
     #
-    # LDFLAGS="$LDFLAGS -Wl,--enable-auto-import"  this is too general 
+    # LDFLAGS="$LDFLAGS -Wl,--enable-auto-import"  this is too general
     if test "$enable_shared" = yes; then
       GMP_LDFLAGS="$GMP_LDFLAGS -no-undefined -Wl,--export-all-symbols"
       LIBGMP_LDFLAGS="$LIBGMP_LDFLAGS -Wl,--output-def,.libs/libmpir-3.dll.def"
@@ -2025,13 +2025,12 @@ AC_TYPE_SIGNAL
 #   intmax_t       - C99
 #   long double    - not in the HP bundled K&R cc
 #   long long      - only in reasonably recent compilers
-#   ptrdiff_t      - seems to be everywhere, maybe don't need to check this
 #   quad_t         - BSD specific
 #   uint_least32_t - C99
 #
 # the default includes are sufficient for all these types
 #
-AC_CHECK_TYPES([intmax_t, uintmax_t, long double, long long, ptrdiff_t, quad_t, uint_least32_t])
+AC_CHECK_TYPES([intmax_t, uintmax_t, long double, long long, quad_t, uint_least32_t])
 
 AC_C_STRINGIZE
 
@@ -2182,7 +2181,7 @@ gmp_mpn_functions="$extra_functions					   \
   mulmod_2expp1_basecase mul_fft \
   mul mul_n mul_basecase sqr_basecase random random2 	   \
   pow_1 powlo powm binvert \
-  urandomb urandomm randomb rrandom invert \	
+  urandomb urandomm randomb rrandom invert \
   rootrem sizeinbase sqrtrem get_str set_str scan0 scan1 popcount hamdist cmp perfect_square_p \
   bdivmod gcd gcd_1 gcdext tdiv_qr jacobi_base jacobi jacobi_2 get_d  \
   mullow_n mulhigh_n mullow_n_basecase mullow_basecase \
@@ -2835,7 +2834,7 @@ if test "$gmp_asm_syntax_testing" != no; then
       	  case $enable_profiling in
       	    prof | gprof)  GMP_ASM_X86_MCOUNT ;;
       	  esac
-          case $host in 
+          case $host in
             *-*-darwin*)
               OBJECT_FORMAT="-f macho32" ;;
             *)
@@ -2844,7 +2843,7 @@ if test "$gmp_asm_syntax_testing" != no; then
           ;;
 
         64)
-          case $host in 
+          case $host in
             *-*-darwin*)
               # Defined in mpn/x86_64/x86_64-defs.m4, but there currently
               # hardcoded just for ELF, so redefine it here for Mach-O:

@@ -154,7 +154,7 @@ check_vsprintf (const char *want, const char *fmt, va_list ap)
 {
   char  got[MAX_OUTPUT];
   int   got_len, want_len;
-  
+
   want_len = strlen (want);
   got_len = gmp_vsprintf (got, fmt, ap);
 
@@ -214,7 +214,7 @@ check_vsnprintf (const char *want, const char *fmt, va_list ap)
   char    got[MAX_OUTPUT+1];
   int     ret, got_len, want_len;
   size_t  bufsize;
-  
+
   want_len = strlen (want);
 
   bufsize = -1;
@@ -269,7 +269,7 @@ check_vasprintf (const char *want, const char *fmt, va_list ap)
 {
   char  *got;
   int   got_len, want_len;
-  
+
   want_len = strlen (want);
   got_len = gmp_vasprintf (&got, fmt, ap);
 
@@ -429,7 +429,7 @@ check_z (void)
   mp_size_t  nsize, zeros;
 
   mpz_init (z);
-  
+
   for (i = 0; i < numberof (data); i++)
     {
       mpz_set_str_or_abort (z, data[i].z, 0);
@@ -441,7 +441,7 @@ check_z (void)
         {
           check_plain (data[i].want, data[i].fmt, mpz_get_si (z));
         }
-          
+
       check_one (data[i].want, data[i].fmt, z);
 
       /* Same again, with %N and possibly some high zero limbs */
@@ -459,7 +459,7 @@ check_z (void)
         }
       __gmp_free_func (nfmt, strlen(nfmt)+1);
     }
-      
+
   mpz_clear (z);
 }
 
@@ -560,13 +560,13 @@ check_q (void)
   mpq_t  q;
 
   mpq_init (q);
-  
+
   for (i = 0; i < numberof (data); i++)
     {
       mpq_set_str_or_abort (q, data[i].q, 0);
       check_one (data[i].want, data[i].fmt, q);
     }
-      
+
   mpq_clear (q);
 }
 
@@ -720,7 +720,7 @@ check_f (void)
         mpf_set_str_or_abort (f, data[i].f, 16);
       else
         mpf_set_str_or_abort (f, data[i].f, 10);
-        
+
       /* if mpf->double doesn't truncate, then expect same result */
       d = mpf_get_d (f);
       if (mpf_cmp_d (f, d) == 0)
@@ -816,9 +816,7 @@ check_n (void)
 #if HAVE_INTMAX_T
   CHECK_N (intmax_t,  "j");
 #endif
-#if HAVE_PTRDIFF_T
   CHECK_N (ptrdiff_t, "t");
-#endif
   CHECK_N (short,     "h");
   CHECK_N (size_t,    "z");
 
