@@ -4,6 +4,7 @@ project(MPIR VERSION 3.0.0)
 
 
 option(MPIR_GMP "Enable GMP compatibility and generate gmp.h header" OFF)
+option(MPIR_TESTS "Enable MPIR tests" OFF)
 
 
 include(CheckTypeSize)
@@ -13,7 +14,6 @@ set(CMAKE_REQUIRED_INCLUDES "${CMAKE_SOURCE_DIR}")
 set(CMAKE_EXTRA_INCLUDE_FILES gmp-h.in stdint.h)
 check_type_size("unsigned long" SIZEOF_UNSIGNED_LONG)
 check_type_size("mp_limb_t" SIZEOF_MP_LIMB_T)
-message("sizeof mp_limb_t: ${SIZEOF_MP_LIMB_T}")
 
 math(EXPR BITS_PER_MP_LIMB "${SIZEOF_MP_LIMB_T} * 8")
 set(GMP_NAIL_BITS "0")
@@ -22,8 +22,8 @@ set(LIBGMP_DLL "0")
 configure_file(gmp-h.in mpir.h)
 
 if(MPIR_GMP)
-    # TODO: I guess we can copy mpir.h instead of configuring it again.
-    configure_file(gmp-h.in gmp.h)
+  # TODO: I guess we can copy mpir.h instead of configuring it again.
+  configure_file(gmp-h.in gmp.h)
 endif()
 
 check_type_size(intmax_t SIZEOF_INTMAX_T)
@@ -57,20 +57,28 @@ set(SOURCES assert.c compat.c errno.c invalid.c memory.c mp_bpl.c mp_clz_tab.c m
 mp_set_fns.c nextprime.c primesieve.c randbui.c randclr.c randdef.c randiset.c randlc2s.c randlc2x.c randmt.c randmts.c
 randmui.c rands.c randsd.c randsdui.c tal-reent.c version.c)
 
-add_library(mpir ${SOURCES} ${FFT_SOURCES} ${MPF_SOURCES} ${MPN_SOURCES}
-  ${MPQ_SOURCES} ${MPZ_SOURCES} ${PRINTF_SOURCES} ${SCANF_SOURCES})
+add_library(
+    mpir
+    ${SOURCES}
+    ${FFT_SOURCES}
+    ${MPF_SOURCES}
+    ${MPN_SOURCES}
+    ${MPQ_SOURCES}
+    ${MPZ_SOURCES}
+    ${PRINTF_SOURCES}
+    ${SCANF_SOURCES}
+)
 target_include_directories(mpir PUBLIC ${CMAKE_BINARY_DIR} ${CMAKE_SOURCE_DIR})
 
 
-option(MPIR_TESTS "Enable MPIR tests" OFF)
 if(MPIR_TESTS)
-    enable_testing()
-    add_subdirectory(tests)
+  enable_testing()
+  add_subdirectory(tests)
 endif()
 
 include(GNUInstallDirs)
 install(FILES ${CMAKE_BINARY_DIR}/mpir.h DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 if(MPIR_GMP)
-    install(FILES ${CMAKE_BINARY_DIR}/gmp.h DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+  install(FILES ${CMAKE_BINARY_DIR}/gmp.h DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 endif()
 install(TARGETS mpir ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR})
