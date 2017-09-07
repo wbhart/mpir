@@ -717,11 +717,7 @@ __gmp_doscan (const struct gmp_doscan_funs_t *funs, void *data,
                 case 'L':  ASSERT_FAIL (long long not available); break;
 #endif
                 case 'Q':  mpq_set_si ((mpq_ptr) p, (long) chars, 1L); break;
-#if HAVE_PTRDIFF_T
                 case 't':  * (ptrdiff_t *) p = chars; break;
-#else
-                case 't':  ASSERT_FAIL (ptrdiff_t not available); break;
-#endif
                 case 'z':  * (size_t    *) p = chars; break;
                 case 'Z':  mpz_set_si ((mpz_ptr) p, (long) chars); break;
                 default: ASSERT (0); break;

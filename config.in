@@ -165,9 +165,6 @@ MA 02110-1301, USA.
 /* Define to 1 if you have the <memory.h> header file. */
 #undef HAVE_MEMORY_H
 
-/* Define to 1 if you have the `memset' function. */
-#undef HAVE_MEMSET
-
 /* Define to 1 if you have the `mmap' function. */
 #undef HAVE_MMAP
 
@@ -289,9 +286,6 @@ MA 02110-1301, USA.
 /* Define to 1 if you have the `pstat_getprocessor' function. */
 #undef HAVE_PSTAT_GETPROCESSOR
 
-/* Define to 1 if the system has the type `ptrdiff_t'. */
-#undef HAVE_PTRDIFF_T
-
 /* Define to 1 if the system has the type `quad_t'. */
 #undef HAVE_QUAD_T
 
@@ -318,9 +312,6 @@ MA 02110-1301, USA.
 
 /* Define to 1 if the system has the type `std::locale'. */
 #undef HAVE_STD__LOCALE
-
-/* Define to 1 if you have the `strchr' function. */
-#undef HAVE_STRCHR
 
 /* Define to 1 if you have the `strerror' function. */
 #undef HAVE_STRERROR
@@ -409,8 +400,7 @@ MA 02110-1301, USA.
 /* Assembler local label prefix */
 #undef LSYM_PREFIX
 
-/* Define to the sub-directory in which libtool stores uninstalled libraries.
-   */
+/* Define to the sub-directory where libtool stores uninstalled libraries. */
 #undef LT_OBJDIR
 
 /* Name of package */
@@ -433,9 +423,6 @@ MA 02110-1301, USA.
 
 /* Define to the version of this package. */
 #undef PACKAGE_VERSION
-
-/* Define as the return type of signal handlers (`int' or `void'). */
-#undef RETSIGTYPE
 
 /* The size of `mp_limb_t', as computed by sizeof. */
 #undef SIZEOF_MP_LIMB_T

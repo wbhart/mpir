@@ -415,7 +415,7 @@ char *
 unittime_string (double t)
 {
   static char  buf[128];
-  
+
   const char  *unit;
   int         prec;
 
@@ -446,7 +446,7 @@ unittime_string (double t)
 
 static jmp_buf  cycles_works_buf;
 
-static RETSIGTYPE
+static void
 cycles_works_handler (int sig)
 {
   longjmp (cycles_works_buf, 1);
@@ -462,7 +462,7 @@ cycles_works_p (void)
 
 #ifdef SIGILL
   {
-    RETSIGTYPE (*old_handler) _PROTO ((int));
+    void (*old_handler) _PROTO ((int));
     unsigned  cycles[2];
 
     old_handler = signal (SIGILL, cycles_works_handler);
@@ -773,7 +773,7 @@ freq_measure_mftb_one (void)
 
 static jmp_buf  mftb_works_buf;
 
-static RETSIGTYPE
+static void
 mftb_works_handler (int sig)
 {
   longjmp (mftb_works_buf, 1);
@@ -783,7 +783,7 @@ int
 mftb_works_p (void)
 {
   unsigned   a[2];
-  RETSIGTYPE (*old_handler) __GMP_PROTO ((int));
+  void (*old_handler) __GMP_PROTO ((int));
   double     cycletime;
 
   /* suppress a warning about a[] unused */
@@ -1451,7 +1451,7 @@ speed_endtime (void)
 
       /* Use getrusage() if the cycle counter limit would be exceeded, or if
          it provides enough accuracy already. */
-      if (use_cycles)  
+      if (use_cycles)
         {
           if (t_grus >= speed_precision*grus_unittime)
             END_ENOUGH ("getrusage()", t_grus);
@@ -1466,7 +1466,7 @@ speed_endtime (void)
 
       /* Use times() if the cycle counter limit would be exceeded, or if
          it provides enough accuracy already. */
-      if (use_cycles)  
+      if (use_cycles)
         {
           if (t_times >= speed_precision*times_unittime)
             END_ENOUGH ("times()", t_times);
@@ -1481,20 +1481,20 @@ speed_endtime (void)
 
       /* Use gettimeofday() if it measured a value bigger than the cycle
          counter can handle.  */
-      if (use_cycles)  
+      if (use_cycles)
         {
           if (t_gtod >= cycles_limit)
             END_EXCEED ("gettimeofday()", t_gtod);
         }
     }
-  
+
   if (use_mftb)
     {
       t_mftb = speed_mftb_diff (end_mftb, start_mftb) * mftb_unittime;
       END_USE ("mftb", t_mftb);
     }
 
-  if (use_stck)  
+  if (use_stck)
     {
       t_stck = (end_stck - start_stck) * STCK_PERIOD;
       END_USE ("stck", t_stck);
@@ -1506,7 +1506,7 @@ speed_endtime (void)
       END_USE ("SGI hardware counter", t_sgi);
     }
 
-  if (use_cycles)  
+  if (use_cycles)
     {
       t_cycles = speed_cyclecounter_diff (end_cycles, start_cycles)
         * speed_cycletime;

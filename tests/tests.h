@@ -53,7 +53,7 @@ int tests_memory_valid __GMP_PROTO ((void *ptr));
 void tests_rand_start __GMP_PROTO ((void));
 void tests_rand_end __GMP_PROTO ((void));
 
-double tests_infinity_d __GMP_PROTO (()); 
+double tests_infinity_d __GMP_PROTO (());
 int tests_hardware_getround __GMP_PROTO ((void));
 int tests_hardware_setround __GMP_PROTO ((int));
 int tests_isinf __GMP_PROTO ((double));
@@ -71,7 +71,7 @@ int tests_dbl_mant_bits __GMP_PROTO ((void));
   (signal (SIGFPE, tests_sigfpe_handler),       \
    setjmp (tests_sigfpe_target))
 
-RETSIGTYPE tests_sigfpe_handler __GMP_PROTO ((int));
+void tests_sigfpe_handler __GMP_PROTO ((int));
 void tests_sigfpe_done __GMP_PROTO ((void));
 extern jmp_buf  tests_sigfpe_target;
 
@@ -344,7 +344,7 @@ void refmpn_mulmid_basecase __GMP_PROTO ((mp_ptr rp, mp_srcptr up, mp_size_t un,
                mp_srcptr vp, mp_size_t vn));
 void refmpn_mulmid __GMP_PROTO ((mp_ptr rp, mp_srcptr up, mp_size_t un,
                mp_srcptr vp, mp_size_t vn));
-void refmpn_mulmid_n __GMP_PROTO ((mp_ptr rp, mp_srcptr up, 
+void refmpn_mulmid_n __GMP_PROTO ((mp_ptr rp, mp_srcptr up,
                                             mp_srcptr vp, mp_size_t n));
 void refmpn_nand_n __GMP_PROTO ((mp_ptr wp, mp_srcptr xp, mp_srcptr yp,
                             mp_size_t size));
@@ -447,7 +447,7 @@ int refmpz_ui_kronecker __GMP_PROTO ((unsigned long, mpz_srcptr));
 
 void refmpz_pow_ui __GMP_PROTO ((mpz_ptr w, mpz_srcptr b, unsigned long e));
 
-void refmpn_redc_1 __GMP_PROTO ((mp_ptr cp, mp_ptr tp,mp_srcptr mp, mp_size_t n, 
+void refmpn_redc_1 __GMP_PROTO ((mp_ptr cp, mp_ptr tp,mp_srcptr mp, mp_size_t n,
 									mp_limb_t Nd));
 
 #if defined (__cplusplus)

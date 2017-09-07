@@ -66,7 +66,7 @@ MA 02110-1301, USA. */
 
 
 /* change this to "#define TRACE(x) x" for diagnostics */
-#define TRACE(x) 
+#define TRACE(x)
 
 
 /* Should be portable, but in any case this is only used under some ASSERTs. */
@@ -212,7 +212,7 @@ __gmp_doprnt (const struct doprnt_funs_t *funs, void *data,
 
       type = '\0';
       value = &param.width;
-  
+
       param.base = 10;
       param.conv = 0;
       param.expfmt = "e%c%02ld";
@@ -321,11 +321,7 @@ __gmp_doprnt (const struct doprnt_funs_t *funs, void *data,
               gmp_str = mpq_get_str (NULL, param.base, va_arg(ap, mpq_srcptr));
               goto gmp_integer;
             case 't':
-#if HAVE_PTRDIFF_T
               (void) va_arg (ap, ptrdiff_t);
-#else
-              ASSERT_FAIL (ptrdiff_t not available);
-#endif
               break;
             case 'z':
               (void) va_arg (ap, size_t);
@@ -425,11 +421,11 @@ __gmp_doprnt (const struct doprnt_funs_t *funs, void *data,
               goto set_type;
             type = 'L';   /* "ll" means "L" */
             break;
-            
+
           case 'm':
             /* glibc strerror(errno), no argument */
             goto next;
-            
+
           case 'M': /* mp_limb_t */
             /* mung format string to l or ll and let plain printf handle it */
 #if _LONG_LONG_LIMB
@@ -485,11 +481,7 @@ __gmp_doprnt (const struct doprnt_funs_t *funs, void *data,
                 }
                 break;
               case 'Q':  mpq_set_si ((mpq_ptr) p, (long) retval, 1L); break;
-#if HAVE_PTRDIFF_T
               case 't':  * (ptrdiff_t *) p = retval; break;
-#else
-              case 't':  ASSERT_FAIL (ptrdiff_t not available); break;
-#endif
               case 'z':  * (size_t    *) p = retval; break;
               case 'Z':  mpz_set_si ((mpz_ptr) p, (long) retval); break;
               }
@@ -508,7 +500,7 @@ __gmp_doprnt (const struct doprnt_funs_t *funs, void *data,
                need for separate code.  */
             (void) va_arg (ap, const void *);
             goto next;
-            
+
           case 'x':
             param.base = 16;
             goto integer;
@@ -561,7 +553,7 @@ __gmp_doprnt (const struct doprnt_funs_t *funs, void *data,
                   /* don't allow negative precision */
                   param.prec = MAX (0, n);
                 }
-            }                
+            }
             break;
 
           case '0':

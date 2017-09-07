@@ -54,7 +54,7 @@ int  spinner_tick = 1;     /* 1 ready to print, 0 not */
 
 
 /*ARGSUSED*/
-RETSIGTYPE
+void
 spinner_signal (int signum)
 {
   spinner_tick = 1;
@@ -72,7 +72,7 @@ spinner_signal (int signum)
 
    This is done the first time spinner() is called, so an application
    doesn't need to call this directly.
-  
+
    The spinner is only wanted if the output is a tty.  */
 
 #define SPINNER_WANTED_INIT() \
@@ -82,8 +82,8 @@ void
 spinner_init (void)
 {
   spinner_wanted = isatty (fileno (stdout));
-  if (spinner_wanted == -1)                   
-    abort ();                                  
+  if (spinner_wanted == -1)
+    abort ();
 
   if (!spinner_wanted)
     return;
