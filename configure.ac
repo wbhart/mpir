@@ -2019,8 +2019,6 @@ AC_CHECK_DECLS([sys_errlist, sys_nerr], , ,
 [#include <stdio.h>
 #include <errno.h>])
 
-AC_TYPE_SIGNAL
-
 # Reasons for testing:
 #   intmax_t       - C99
 #   long double    - not in the HP bundled K&R cc

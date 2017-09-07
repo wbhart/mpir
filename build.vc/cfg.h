@@ -295,9 +295,6 @@ MA 02111-1307, USA. */
 /* Define if compiler has function prototypes */
 #define PROTOTYPES			1
 
-/* Define as the return type of signal handlers (`int' or `void'). */
-#define RETSIGTYPE	void
-
 /* The size of a `unsigned long', as computed by sizeof. */
 #define SIZEOF_UNSIGNED_LONG	4
 
