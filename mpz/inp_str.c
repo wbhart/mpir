@@ -144,18 +144,17 @@ mpz_inp_str_nowhite (mpz_ptr x, FILE *stream, int base, int c, size_t nread)
   return nread;
 }
 
-​
 size_t
 mpz_inp_str (mpz_ptr x, FILE *stream, int base)
 {
   int c;
   size_t nread;
-​
+
   if (stream == 0)
     stream = stdin;
-​
+
   nread = 0;
-​
+
   /* Skip whitespace.  */
   do
     {
@@ -163,6 +162,6 @@ mpz_inp_str (mpz_ptr x, FILE *stream, int base)
       nread++;
     }
   while (isspace (c));
-​
+
   return mpz_inp_str_nowhite (x, stream, base, c, nread);
 }
