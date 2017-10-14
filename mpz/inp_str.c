@@ -33,28 +33,6 @@ MA 02110-1301, USA. */
 extern const unsigned char __gmp_digit_value_tab[];
 #define digit_value_tab __gmp_digit_value_tab
 
-size_t
-mpz_inp_str (mpz_ptr x, FILE *stream, int base)
-{
-  int c;
-  size_t nread;
-
-  if (stream == 0)
-    stream = stdin;
-
-  nread = 0;
-
-  /* Skip whitespace.  */
-  do
-    {
-      c = getc (stream);
-      nread++;
-    }
-  while (isspace (c));
-
-  return mpz_inp_str_nowhite (x, stream, base, c, nread);
-}
-
 /* shared by mpq_inp_str */
 size_t
 mpz_inp_str_nowhite (mpz_ptr x, FILE *stream, int base, int c, size_t nread)
@@ -164,4 +142,26 @@ mpz_inp_str_nowhite (mpz_ptr x, FILE *stream, int base, int c, size_t nread)
     }
   (*__gmp_free_func) (str, alloc_size);
   return nread;
+}
+
+size_t
+mpz_inp_str (mpz_ptr x, FILE *stream, int base)
+{
+  int c;
+  size_t nread;
+
+  if (stream == 0)
+    stream = stdin;
+
+  nread = 0;
+
+  /* Skip whitespace.  */
+  do
+    {
+      c = getc (stream);
+      nread++;
+    }
+  while (isspace (c));
+
+  return mpz_inp_str_nowhite (x, stream, base, c, nread);
 }
