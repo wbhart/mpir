@@ -20,11 +20,11 @@ along with the GNU MP Library; see the file COPYING.LIB.  If not, write to
 the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,
 MA 02111-1307, USA. */
 
-#if _MSC_VER >= 1600 && !defined( HAVE_STDINT_H ) 
+#if _MSC_VER >= 1600 && !defined( HAVE_STDINT_H )
 #  define HAVE_STDINT_H 1
 #endif
 
-#if _MSC_VER >= 1800 
+#if _MSC_VER >= 1800
 #  define HAVE_INTTYPES_H 1
 #endif
 
@@ -155,9 +155,6 @@ MA 02111-1307, USA. */
 /* Define if you have the <memory.h> header file. */
 #define HAVE_MEMORY_H		1
 
-/* Define if you have the `memset' function. */
-#define HAVE_MEMSET			1
-
 /* Define if you have the `mmap' function. */
 #undef HAVE_MMAP
 
@@ -172,9 +169,6 @@ MA 02111-1307, USA. */
 
 /* Define if you have the `processor_info' function. */
 #undef HAVE_PROCESSOR_INFO
-
-/* Define if the system has the type `ptrdiff_t'. */
-#define HAVE_PTRDIFF_T		1
 
 /* Define if the system has the type `quad_t'. */
 #undef HAVE_QUAD_T
@@ -210,9 +204,6 @@ MA 02111-1307, USA. */
 
 /* Define if you have the `strcasecmp' function. */
 #undef HAVE_STRCASECMP
-
-/* Define if you have the `strchr' function. */
-#define HAVE_STRCHR			1
 
 /* Define if cpp supports the ANSI # stringizing operator. */
 #define HAVE_STRINGIZE		1
@@ -298,9 +289,6 @@ MA 02111-1307, USA. */
 /* Define if compiler has function prototypes */
 #define PROTOTYPES			1
 
-/* Define as the return type of signal handlers (`int' or `void'). */
-#define RETSIGTYPE	void
-
 /* The size of a `unsigned long', as computed by sizeof. */
 #define SIZEOF_UNSIGNED_LONG	4
 
@@ -357,7 +345,6 @@ MA 02111-1307, USA. */
 #ifdef HAVE_STDINT_H
 #define HAVE_INTMAX_T        1
 #define HAVE_UINTMAX_T       1
-#define HAVE_PTRDIFF_T       1
 #define HAVE_UINT_LEAST32_T  1
 #define SIZEOF_UINTMAX_T	 8
 #endif
@@ -371,7 +358,7 @@ MA 02111-1307, USA. */
 #define alloca _alloca
 #define HAVE_STRCASECMP		1
 #define HAVE_STRNCASECMP	1
-#define MSC_C_(x) #x  
+#define MSC_C_(x) #x
 #define MSC_CC_(x)  MSC_C_(x)
 #define MSC_VERSION "Microsoft C++ (Version " MSC_CC_(_MSC_FULL_VER) ")"
 #endif

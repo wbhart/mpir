@@ -13,6 +13,7 @@ addons:
       - texinfo
 script:
   - if [[ "${TRAVIS_OS_NAME}" == "osx" ]]; then
+       brew update;
        brew install yasm;
     fi
   # On OSX, gcc is a wrapper around clang, so use gcc from homebrew

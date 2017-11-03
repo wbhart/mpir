@@ -1350,9 +1350,7 @@ check_n (void)
 #if HAVE_INTMAX_T
   CHECK_N (intmax_t,  "j");
 #endif
-#if HAVE_PTRDIFF_T
   CHECK_N (ptrdiff_t, "t");
-#endif
   CHECK_N (short,     "h");
   CHECK_N (size_t,    "z");
 

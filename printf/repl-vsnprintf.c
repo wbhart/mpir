@@ -130,7 +130,7 @@ __gmp_replacement_vsnprintf (char *buf, size_t buf_size,
 #ifdef DBL_MAX_10_EXP
   /* but in any case prefer a value the compiler says */
   double_digits = DBL_MAX_10_EXP;
-#endif                
+#endif
 
   /* IEEE 128-bit quad, Intel 80-bit temporary, or VAX H floats all have 15
      bit exponents, so the default is a maximum 4932 decimal digits.  */
@@ -143,7 +143,7 @@ __gmp_replacement_vsnprintf (char *buf, size_t buf_size,
 #ifdef LDBL_MAX_10_EXP
   /* but in any case prefer a value the compiler says */
   long_double_digits = LDBL_MAX_10_EXP;
-#endif                
+#endif
 
   for (;;)
     {
@@ -166,7 +166,7 @@ __gmp_replacement_vsnprintf (char *buf, size_t buf_size,
           case 'c':
             /* char, already accounted for by strlen(fmt) */
             goto next;
-            
+
           case 'd':
           case 'i':
           case 'o':
@@ -206,11 +206,7 @@ __gmp_replacement_vsnprintf (char *buf, size_t buf_size,
 #endif
               break;
             case 't':
-#if HAVE_PTRDIFF_T
               (void) va_arg (ap, ptrdiff_t);
-#else
-              ASSERT_FAIL (ptrdiff_t not available);
-#endif
               break;
             case 'z':
               (void) va_arg (ap, size_t);
@@ -272,7 +268,7 @@ __gmp_replacement_vsnprintf (char *buf, size_t buf_size,
           set_type:
             type = fchar;
             break;
-            
+
           case 'l':
             /* long or long long */
             if (type != 'l')
@@ -296,7 +292,7 @@ __gmp_replacement_vsnprintf (char *buf, size_t buf_size,
               prec = (seen_prec ? strnlen (s, prec) : strlen (s));
             }
             goto next;
-            
+
           case 'p':
             /* pointer, let's assume at worst it's octal with some padding */
             (void) va_arg (ap, const void *);
@@ -320,7 +316,7 @@ __gmp_replacement_vsnprintf (char *buf, size_t buf_size,
           case '-':
             /* left justify, no effect on total width */
             break;
-            
+
           case '.':
             seen_prec = 1;
             value = &prec;
