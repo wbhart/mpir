@@ -89,6 +89,14 @@ L(ltab):	JMPENT(	L(ltab), L(ltab))			C not allowed
 	JMPENT(	L(l1), L(ltab))			C 1
 	JMPENT(	L(l2), L(ltab))			C 2
 	JMPENT(	L(l3), L(ltab))			C 3
+dnl	JMPENT(	L(l0m4), L(ltab))		C 4
+dnl	JMPENT(	L(l1m4), L(ltab))		C 5
+dnl	JMPENT(	L(l2m4), L(ltab))		C 6
+dnl	JMPENT(	L(l3m4), L(ltab))		C 7
+dnl	JMPENT(	L(l0m4), L(ltab))		C 8
+dnl	JMPENT(	L(l1m4), L(ltab))		C 9
+dnl	JMPENT(	L(l2m4), L(ltab))		C 10
+dnl	JMPENT(	L(l3m4), L(ltab))		C 11
 	TEXT
 
 L(l1):	imul	%r8, %rax
@@ -129,6 +137,10 @@ L(l3):	mov	8(vp_param), %r9	C v1
 	mov	%r9, 16(rp)
 	ret
 
+L(l0m4):
+L(l1m4):
+L(l2m4):
+L(l3m4):
 L(lgen): push	%rbx
 	push	%rbp
 	push	%r13
