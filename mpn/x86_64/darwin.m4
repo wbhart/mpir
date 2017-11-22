@@ -1,3 +1,7 @@
+divert(-1)
+
+dnl  m4 macro overrrides for Darwin x86-64 assembler.
+
 define(`JMPENT',`dnl
 ifdef(`PIC',
     `.set   $1_tmp, $1-$2
@@ -5,3 +9,5 @@ ifdef(`PIC',
 ,
     `.quad  $1'
 )')
+
+divert`'dnl
