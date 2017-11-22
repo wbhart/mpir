@@ -105,7 +105,7 @@ PROLOGUE(mpn_sqr_basecase)
 
 	cmovg	%r8, %rcx
 
-	lea	.Ltab(%rip), %rax
+	lea	L(tab)(%rip), %rax
 ifdef(`PIC',
 `	movslq	(%rax,%rcx,4), %r10
 	add	%r10, %rax
@@ -115,24 +115,24 @@ ifdef(`PIC',
 ')
 	JUMPTABSECT
 	ALIGN(8)
-.Ltab:	JMPENT(	.Ll4, .Ltab)
-	JMPENT(	.Ll1, .Ltab)
-	JMPENT(	.Ll2, .Ltab)
-	JMPENT(	.Ll3, .Ltab)
-	JMPENT(	.Ll0m4, .Ltab)
-	JMPENT(	.Ll1m4, .Ltab)
-	JMPENT(	.Ll2m4, .Ltab)
-	JMPENT(	.Ll3m4, .Ltab)
+L(tab):	JMPENT(	L(l4), L(tab))
+	JMPENT(	L(l1), L(tab))
+	JMPENT(	L(l2), L(tab))
+	JMPENT(	L(l3), L(tab))
+	JMPENT(	L(l0m4), L(tab))
+	JMPENT(	L(l1m4), L(tab))
+	JMPENT(	L(l2m4), L(tab))
+	JMPENT(	L(l3m4), L(tab))
 	TEXT
 
-.Ll1:	mov	(up), %rax
+L(l1):	mov	(up), %rax
 	mul	%rax
 	add	$40, %rsp
 	mov	%rax, (rp)
 	mov	%rdx, 8(rp)
 	ret
 
-.Ll2:	mov	(up), %rax
+L(l2):	mov	(up), %rax
 	mov	%rax, %r8
 	mul	%rax
 	mov	8(up), %r11
@@ -157,7 +157,7 @@ ifdef(`PIC',
 	mov	%r11, 24(rp)
 	ret
 
-.Ll3:	mov	(up), %rax
+L(l3):	mov	(up), %rax
 	mov	%rax, %r10
 	mul	%rax
 	mov	8(up), %r11
@@ -201,7 +201,7 @@ ifdef(`PIC',
 	adc	%r11, 40(rp)
 	ret
 
-.Ll4:	mov	(up), %rax
+L(l4):	mov	(up), %rax
 	mov	%rax, %r11
 	mul	%rax
 	mov	8(up), %rbx
@@ -271,7 +271,7 @@ ifdef(`PIC',
 	ret
 
 
-.Ll0m4:
+L(l0m4):
 	lea	-16(rp,n,8), tp		C point tp in middle of result operand
 	mov	(up), v0
 	mov	8(up), %rax
@@ -290,7 +290,7 @@ C Function mpn_mul_1_m3(tp, up - i, i, up[-i - 1])
 	jmp	.LlL3
 
 	ALIGN(16)
-.Lmul_1_m3_top:
+L(mul_1_m3_top):
 	add	%rax, w2
 	mov	w3, (tp,j,8)
 	mov	(up,j,8), %rax
@@ -316,7 +316,7 @@ C Function mpn_mul_1_m3(tp, up - i, i, up[-i - 1])
 	mov	w0, 24(tp,j,8)
 	mul	v0
 	add	$4, j
-	js	.Lmul_1_m3_top
+	js	L(mul_1_m3_top)
 
 	add	%rax, w2
 	mov	w3, (tp)
@@ -329,7 +329,7 @@ C Function mpn_mul_1_m3(tp, up - i, i, up[-i - 1])
 	jmp	.Ldowhile
 
 
-.Ll1m4:
+L(l1m4):
 	lea	8(rp,n,8), tp		C point tp in middle of result operand
 	mov	(up), v0		C u0
 	mov	8(up), %rax		C u1
@@ -407,7 +407,7 @@ C Function mpn_mul_2s_m0(tp, up - i, i, up - i - 1)
 	jmp	.Ldowhile_end
 
 
-.Ll2m4:
+L(l2m4):
 	lea	-16(rp,n,8), tp		C point tp in middle of result operand
 	mov	(up), v0
 	mov	8(up), %rax
@@ -464,7 +464,7 @@ C Function mpn_mul_1_m1(tp, up - (i - 1), i - 1, up[-i])
 	jmp	.Ldowhile_mid
 
 
-.Ll3m4:
+L(l3m4):
 	lea	8(rp,n,8), tp		C point tp in middle of result operand
 	mov	(up), v0		C u0
 	mov	8(up), %rax		C u1

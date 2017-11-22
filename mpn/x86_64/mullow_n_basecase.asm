@@ -71,11 +71,11 @@ ASM_START()
 	ALIGN(16)
 PROLOGUE(mpn_mullow_n_basecase)
 	cmp	$4, n
-	jge	lgen
+	jge	L(lgen)
 	mov	(up), %rax		C u0
 	mov	(vp_param), %r8		C v0
 
-	lea	ltab(%rip), %r9
+	lea	L(ltab)(%rip), %r9
 ifdef(`PIC',
 `	movslq	(%r9,%rcx,4), %r10
 	add	%r10, %r9
@@ -85,25 +85,17 @@ ifdef(`PIC',
 ')
 	JUMPTABSECT
 	ALIGN(8)
-ltab:	JMPENT(	ltab, ltab)			C not allowed
-	JMPENT(	l1, ltab)			C 1
-	JMPENT(	l2, ltab)			C 2
-	JMPENT(	l3, ltab)			C 3
-dnl	JMPENT(	l0m4, ltab)			C 4
-dnl	JMPENT(	l1m4, ltab)			C 5
-dnl	JMPENT(	l2m4, ltab)			C 6
-dnl	JMPENT(	l3m4, ltab)			C 7
-dnl	JMPENT(	l0m4, ltab)			C 8
-dnl	JMPENT(	l1m4, ltab)			C 9
-dnl	JMPENT(	l2m4, ltab)			C 10
-dnl	JMPENT(	l3m4, ltab)			C 11
+L(ltab):	JMPENT(	L(ltab), L(ltab))			C not allowed
+	JMPENT(	L(l1), L(ltab))			C 1
+	JMPENT(	L(l2), L(ltab))			C 2
+	JMPENT(	L(l3), L(ltab))			C 3
 	TEXT
 
-l1:	imul	%r8, %rax
+L(l1):	imul	%r8, %rax
 	mov	%rax, (rp)
 	ret
 
-l2:	mov	8(vp_param), %r11
+L(l2):	mov	8(vp_param), %r11
 	imul	%rax, %r11		C u0 x v1
 	mul	%r8			C u0 x v0
 	mov	%rax, (rp)
@@ -113,7 +105,7 @@ l2:	mov	8(vp_param), %r11
 	mov	%rax, 8(rp)
 	ret
 
-l3:	mov	8(vp_param), %r9	C v1
+L(l3):	mov	8(vp_param), %r9	C v1
 	mov	16(vp_param), %r11
 	mul	%r8			C u0 x v0 -> <r1,r0>
 	mov	%rax, (rp)		C r0
@@ -137,11 +129,7 @@ l3:	mov	8(vp_param), %r9	C v1
 	mov	%r9, 16(rp)
 	ret
 
-l0m4:
-l1m4:
-l2m4:
-l3m4:
-lgen:	push	%rbx
+L(lgen): push	%rbx
 	push	%rbp
 	push	%r13
 	push	%r14
