@@ -158,34 +158,34 @@ L(lgen): push	%rbx
 	mul	v0
 
 	test	$1, R8(n)
-	jz	lmul_2
+	jz	L(lmul_2)
 
-lmul_1:
+L(lmul_1):
 	lea	-8(rp), rp
 	lea	-8(up), up
 	test	$2, R8(n)
-	jnz	lmul_1_prologue_3
+	jnz	L(lmul_1_prologue_3)
 
-lmul_1_prologue_2:		C n = 7, 11, 15, ...
+L(lmul_1_prologue_2):		C n = 7, 11, 15, ...
 	lea	-1(n), j
-	lea	laddmul_outer_1(%rip), outer_addr
+	lea	L(laddmul_outer_1)(%rip), outer_addr
 	mov	%rax, w0
 	mov	%rdx, w1
 	xor	w232, w232
 	xor	w332, w332
 	mov	16(up,n,8), %rax
-	jmp	lmul_1_entry_2
+	jmp	L(lmul_1_entry_2)
 
-lmul_1_prologue_3:		C n = 5, 9, 13, ...
+L(lmul_1_prologue_3):		C n = 5, 9, 13, ...
 	lea	1(n), j
-	lea	laddmul_outer_3(%rip), outer_addr
+	lea	L(laddmul_outer_3)(%rip), outer_addr
 	mov	%rax, w2
 	mov	%rdx, w3
 	xor	w032, w032
-	jmp	lmul_1_entry_0
+	jmp	L(lmul_1_entry_0)
 
 	ALIGN(16)
-lmul_1_top:
+L(lmul_1_top):
 	mov	w0, -16(rp,j,8)
 	add	%rax, w1
 	mov	(up,j,8), %rax
@@ -195,7 +195,7 @@ lmul_1_top:
 	mov	w1, -8(rp,j,8)
 	add	%rax, w2
 	adc	%rdx, w3
-lmul_1_entry_0:
+L(lmul_1_entry_0):
 	mov	8(up,j,8), %rax
 	mul	v0
 	mov	w2, (rp,j,8)
@@ -210,10 +210,10 @@ lmul_1_entry_0:
 	mov	24(up,j,8), %rax
 	mov	w2, w1			C zero
 	adc	%rdx, w1
-lmul_1_entry_2:
+L(lmul_1_entry_2):
 	mul	v0
 	add	$4, j
-	js	lmul_1_top
+	js	L(lmul_1_top)
 
 	mov	w0, -16(rp)
 	add	%rax, w1
@@ -225,7 +225,7 @@ lmul_1_entry_2:
 	mov	w2, (rp)
 
 	add	$1, n
-	jz	lret
+	jz	L(lret)
 
 	mov	8(vp), v0
 	mov	16(vp), v1
@@ -237,33 +237,33 @@ lmul_1_entry_2:
 	jmp	*outer_addr
 
 
-lmul_2:
+L(lmul_2):
 	mov	8(vp), v1
 	test	$2, R8(n)
-	jz	lmul_2_prologue_3
+	jz	L(lmul_2_prologue_3)
 
 	ALIGN(16)
-lmul_2_prologue_1:
+L(lmul_2_prologue_1):
 	lea	0(n), j
 	mov	%rax, w3
 	mov	%rdx, w0
 	xor	w132, w132
 	mov	(up,n,8), %rax
-	lea	laddmul_outer_3(%rip), outer_addr
-	jmp	lmul_2_entry_1
+	lea	L(laddmul_outer_3)(%rip), outer_addr
+	jmp	L(lmul_2_entry_1)
 
 	ALIGN(16)
-lmul_2_prologue_3:
+L(lmul_2_prologue_3):
 	lea	2(n), j
 	mov	$0, w332
 	mov	%rax, w1
 	mov	(up,n,8), %rax
 	mov	%rdx, w2
-	lea	laddmul_outer_1(%rip), outer_addr
-	jmp	lmul_2_entry_3
+	lea	L(laddmul_outer_1)(%rip), outer_addr
+	jmp	L(lmul_2_entry_3)
 
 	ALIGN(16)
-lmul_2_top:
+L(lmul_2_top):
 	mov	-32(up,j,8), %rax
 	mul	v1
 	add	%rax, w0
@@ -286,7 +286,7 @@ lmul_2_top:
 	adc	%rdx, w2
 	mov	-16(up,j,8), %rax
 	adc	$0, w332
-lmul_2_entry_3:
+L(lmul_2_entry_3):
 	mov	$0, w032
 	mov	w1, -16(rp,j,8)
 	mul	v1
@@ -308,10 +308,10 @@ lmul_2_entry_3:
 	add	%rax, w3
 	adc	%rdx, w0
 	adc	$0, w132
-lmul_2_entry_1:
+L(lmul_2_entry_1):
 	add	$4, j
 	mov	w3, -32(rp,j,8)
-	js	lmul_2_top
+	js	L(lmul_2_top)
 
 	imul	-16(up), v1
 	add	v1, w0
@@ -320,7 +320,7 @@ lmul_2_entry_1:
 	mov	w0, -8(rp)
 
 	add	$2, n
-	jz	lret
+	jz	L(lret)
 
 	mov	16(vp), v0
 	mov	24(vp), v1
@@ -331,7 +331,7 @@ lmul_2_entry_1:
 	jmp	*outer_addr
 
 
-laddmul_outer_1:
+L(laddmul_outer_1):
 	lea	-2(n), j
 	mov	-16(up,n,8), %rax
 	mul	v0
@@ -339,10 +339,10 @@ laddmul_outer_1:
 	mov	-16(up,n,8), %rax
 	mov	%rdx, w0
 	xor	w132, w132
-	lea	laddmul_outer_3(%rip), outer_addr
-	jmp	laddmul_entry_1
+	lea	L(laddmul_outer_3)(%rip), outer_addr
+	jmp	L(laddmul_entry_1)
 
-laddmul_outer_3:
+L(laddmul_outer_3):
 	lea	0(n), j
 	mov	-16(up,n,8), %rax
 	xor	w332, w332
@@ -350,11 +350,11 @@ laddmul_outer_3:
 	mov	%rax, w1
 	mov	-16(up,n,8), %rax
 	mov	%rdx, w2
-	lea	laddmul_outer_1(%rip), outer_addr
-	jmp	laddmul_entry_3
+	lea	L(laddmul_outer_1)(%rip), outer_addr
+	jmp	L(laddmul_entry_3)
 
 	ALIGN(16)
-laddmul_top:
+L(laddmul_top):
 	add	w3, -32(rp,j,8)
 	adc	%rax, w0
 	mov	-24(up,j,8), %rax
@@ -376,7 +376,7 @@ laddmul_top:
 	mov	-16(up,j,8), %rax
 	adc	%rdx, w2
 	adc	$0, w332
-laddmul_entry_3:
+L(laddmul_entry_3):
 	mul	v1
 	add	w1, -16(rp,j,8)
 	adc	%rax, w2
@@ -399,10 +399,10 @@ laddmul_entry_3:
 	mov	(up,j,8), %rax
 	adc	%rdx, w0
 	adc	$0, w132
-laddmul_entry_1:
+L(laddmul_entry_1):
 	mul	v1
 	add	$4, j
-	js	laddmul_top
+	js	L(laddmul_top)
 
 	add	w3, -32(rp)
 	adc	%rax, w0
@@ -412,7 +412,7 @@ laddmul_entry_1:
 	add	w0, -24(rp)
 
 	add	$2, n
-	jns	lret
+	jns	L(lret)
 
 	lea	16(vp), vp
 
@@ -423,7 +423,7 @@ laddmul_entry_1:
 
 	jmp	*outer_addr
 
-lret:	pop	%r15
+L(lret):	pop	%r15
 	pop	%r14
 	pop	%r13
 	pop	%rbp

@@ -31,9 +31,9 @@ lea -24(%rsi,%rdx,8),%rsi
 lea -24(%rdi,%rdx,8),%rdi
 mov $0,%r8
 sub %rdx,%rcx
-jnc skiplp
+jnc L(skiplp)
 ALIGN(16)
-lp:
+L(lp):
 	mov (%rsi,%rcx,8),%r9
 	lea (%r8,%r9,4),%r8
 	shr $62,%r9
@@ -51,13 +51,13 @@ lp:
 	shr $62,%r8
 	add $4,%rcx
 	mov %r9,8-32(%rdi,%rcx,8)
-	jnc lp
-skiplp:
+	jnc L(lp)
+L(skiplp):
 cmp $2,%rcx
-ja case0
-je case1
-jp case2
-case3:	mov (%rsi,%rcx,8),%r9
+ja L(case0)
+je L(case1)
+jp L(case2)
+L(case3):	mov (%rsi,%rcx,8),%r9
 	lea (%r8,%r9,4),%r8
 	shr $62,%r9
 	mov 8(%rsi,%rcx,8),%r10
@@ -72,7 +72,7 @@ case3:	mov (%rsi,%rcx,8),%r9
 	mov %r9,8(%rdi,%rcx,8)
 	ret
 ALIGN(16)
-case2:	mov (%rsi,%rcx,8),%r9
+L(case2):	mov (%rsi,%rcx,8),%r9
 	lea (%r8,%r9,4),%r8
 	shr $62,%r9
 	mov 8(%rsi,%rcx,8),%r10
@@ -83,13 +83,13 @@ case2:	mov (%rsi,%rcx,8),%r9
 	mov %r9,8(%rdi,%rcx,8)
 	ret
 ALIGN(16)
-case1:	mov (%rsi,%rcx,8),%r9
+L(case1):	mov (%rsi,%rcx,8),%r9
 	lea (%r8,%r9,4),%r8
 	shr $62,%r9
 	mov %r8,(%rdi,%rcx,8)
 	mov %r9,%rax
 	ret
 ALIGN(16)
-case0:	mov %r8,%rax
+L(case0):	mov %r8,%rax
 	ret
 EPILOGUE()

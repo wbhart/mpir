@@ -30,37 +30,37 @@ ASM_START()
 PROLOGUE(mpn_store)
 lea -32(%rdi),%rdi
 cmp $0,%rsi
-jz .Lcase0
+jz L(case0)
 MOVQ %rdx,%xmm0
 movddup %xmm0,%xmm0
 test $0xF,%rdi
-jz notodd
+jz L(notodd)
 	mov %rdx,32(%rdi)
 	lea 8(%rdi),%rdi
 	sub $1,%rsi
-notodd:
+L(notodd):
 sub $4,%rsi
-jc .Lskiplp
+jc L(skiplp)
 ALIGN(16)
-.Llp:
+L(lp):
 	lea 32(%rdi),%rdi
 	sub $4,%rsi
 	movdqa %xmm0,(%rdi)
 	movdqa %xmm0,16(%rdi)
-	jnc .Llp
-.Lskiplp:
+	jnc L(lp)
+L(skiplp):
 cmp $-2,%rsi
-ja .Lcase3
-jz .Lcase2
-jp .Lcase1
-.Lcase0:
+ja L(case3)
+jz L(case2)
+jp L(case1)
+L(case0):
 ret
-.Lcase3:// rsi=-1
+L(case3):// rsi=-1
 	movdqa %xmm0,32(%rdi)
-.Lcase1:
+L(case1):
 	mov %rdx,56(%rdi,%rsi,8)
 	ret
-.Lcase2:// rsi=-2
+L(case2):// rsi=-2
 	movdqa %xmm0,32(%rdi)
 	ret
 EPILOGUE()
