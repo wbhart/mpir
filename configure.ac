@@ -2841,18 +2841,18 @@ if test "$gmp_asm_syntax_testing" != no; then
           ;;
 
         64)
+          GMP_INCLUDE_MPN(x86_64/x86_64-defs.m4)
           case $host in
             *-*-darwin*)
               # Defined in mpn/x86_64/x86_64-defs.m4, but there currently
               # hardcoded just for ELF, so redefine it here for Mach-O:
-              GMP_DEFINE_RAW(["define(\`JUMPTABSECT',\`    .section    __DATA,__const')"],POST)
-              OBJECT_FORMAT="-f macho64" ;;
+              OBJECT_FORMAT="-f macho64"
+              GMP_INCLUDE_MPN(x86_64/darwin.m4)  ;;
             *-pc-msys|*-w64-mingw*|*-*-cygwin*)
               OBJECT_FORMAT="-f x64"  ;;
             *)
               OBJECT_FORMAT="-f elf64" ;;
           esac
-          GMP_INCLUDE_MPN(x86_64/x86_64-defs.m4)
           ;;
       esac
       AC_SUBST(OBJECT_FORMAT)

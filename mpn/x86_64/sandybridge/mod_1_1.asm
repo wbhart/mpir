@@ -35,7 +35,7 @@ mov 8(%rcx),%r9
 mov %rdx,%rcx
 sub $2,%rcx
 ALIGN(16)
-lp:
+L(lp):
 	mov -8(%rsi,%rcx,8),%r10
 	mul %r8
 	add %rax,%r10
@@ -47,7 +47,7 @@ lp:
 	mov %r11,%r13
 	adc %rdx,%r13
 	dec %rcx
-	jnz lp
+	jnz L(lp)
 C // r13,rax
 mov %rax,(%rdi)
 mov %r8,%rax

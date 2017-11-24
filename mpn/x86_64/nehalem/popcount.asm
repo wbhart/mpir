@@ -27,9 +27,9 @@ mov $5,%rcx
 lea -40(%rdi,%rsi,8),%rdi
 xor %eax,%eax
 sub %rsi,%rcx
-jnc skiplp
+jnc L(skiplp)
 ALIGN(16)
-lp:
+L(lp):
 	popcnt (%rdi,%rcx,8),%r8
 	popcnt 8(%rdi,%rcx,8),%r9
 	popcnt 16(%rdi,%rcx,8),%r10
@@ -43,24 +43,24 @@ lp:
 	add %r10,%rax
 	add %r9,%rax
 	add $6,%rcx
-	jnc lp
-skiplp:
-lea case5(%rip),%rdx	#// in linux we can do this before the loop
+	jnc L(lp)
+L(skiplp):
+lea L(case5)(%rip),%rdx	#// in linux we can do this before the loop
 lea (%rcx,%rcx,8),%rcx	#// rcx*9
 add %rcx,%rdx
 jmp *%rdx
-case5:	#//rcx=0
+L(case5):	#//rcx=0
 	nop
 	popcnt (%rdi),%r8	#// 5bytes
 	add %r8,%rax		#// 3bytes
-case4:	#//rcx=1
+L(case4):	#//rcx=1
 	popcnt 8(%rdi),%r9	#// 6bytes
 	add %r9,%rax
-case3:	popcnt 16(%rdi),%r10
+L(case3):	popcnt 16(%rdi),%r10
 	add %r10,%rax
-case2:	popcnt 24(%rdi),%rsi
+L(case2):	popcnt 24(%rdi),%rsi
 	add %rsi,%rax
-case1:	popcnt 32(%rdi),%r8
+L(case1):	popcnt 32(%rdi),%r8
 	add %r8,%rax
-case0:	ret
+L(case0):	ret
 EPILOGUE()

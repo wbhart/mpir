@@ -30,29 +30,29 @@ mov $3,%rcx
 lea -24(%rsi,%rdx,8),%rsi
 lea -24(%rdi,%rdx,8),%rdi
 sub %rdx,%rcx
-jnc skiplp
+jnc L(skiplp)
 ALIGN(16)
-lp:
+L(lp):
 	movdqu (%rsi,%rcx,8),%xmm0
 	movdqu 16(%rsi,%rcx,8),%xmm1
 	add $4,%rcx
 	movdqu %xmm1,16-32(%rdi,%rcx,8)
 	movdqu %xmm0,-32(%rdi,%rcx,8)
-	jnc lp
-skiplp:
+	jnc L(lp)
+L(skiplp):
 cmp $2,%rcx
-ja case0
-je case1
-jp case2	
-case3:	movdqu (%rsi,%rcx,8),%xmm0
+ja L(case0)
+je L(case1)
+jp L(case2)	
+L(case3):	movdqu (%rsi,%rcx,8),%xmm0
 	mov 16(%rsi,%rcx,8),%rax
 	mov %rax,16(%rdi,%rcx,8)
 	movdqu %xmm0,(%rdi,%rcx,8)
 	ret
-case2:	movdqu (%rsi,%rcx,8),%xmm0
+L(case2):	movdqu (%rsi,%rcx,8),%xmm0
 	movdqu %xmm0,(%rdi,%rcx,8)
 	ret
-case1:	mov (%rsi,%rcx,8),%rax
+L(case1):	mov (%rsi,%rcx,8),%rax
 	mov %rax,(%rdi,%rcx,8)
-case0:	ret
+L(case0):	ret
 EPILOGUE()

@@ -118,9 +118,9 @@ sbb %r10,%r10
 
 
 add $2,%r9
-jc skiplp
+jc L(skiplp)
 ALIGN(16)
-lp:
+L(lp):
 	mov %r12,%r8
 	mov %r13,%rax
 	mul %r11
@@ -157,8 +157,8 @@ lp:
 		sbb $0,%r12
 		sbb $0,%r10
 	add $2,%r9
-	jnc lp
-skiplp:
+	jnc L(lp)
+L(skiplp):
 mov %r12,%r8
 mov %r13,%rax
 mul %r11
@@ -175,8 +175,8 @@ imul %r13,%r12
 add %r11,%rdx
 add %r12,%rdx
 cmp $0,%r9
-jne case0
-case1:
+jne L(case0)
+L(case1):
 		mov 8(%rsi,%r9,8),%r11
 	MOVQ %rdx,%mm3
 	movq %mm3,%mm2
@@ -213,7 +213,7 @@ case1:
 	pop %r12
 	emms
 	ret
-case0:
+L(case0):
 	MOVQ %rdx,%mm3
 	movq %mm3,%mm2
 	psllq %mm1,%mm3

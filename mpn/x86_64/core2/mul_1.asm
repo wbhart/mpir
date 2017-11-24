@@ -29,17 +29,17 @@ mov $1,%r8d
 sub %rdx,%r8
 mov (%rsi,%r8,8),%rax
 mov $0,%r9d
-jz skiplp
+jz L(skiplp)
 ALIGN(16)
-lp:	mul %rcx
+L(lp):	mul %rcx
 	add %r9,%rax
 	mov %rax,(%rdi,%r8,8)
 	mov 8(%rsi,%r8,8),%rax
 	mov $0,%r9d
 	adc %rdx,%r9
 	add $1,%r8
-	jnc lp
-skiplp:
+	jnc L(lp)
+L(skiplp):
 mul %rcx
 add %r9,%rax
 mov %rax,(%rdi,%r8,8)

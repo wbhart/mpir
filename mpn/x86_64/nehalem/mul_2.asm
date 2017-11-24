@@ -65,9 +65,9 @@ sub %rdx,%rbx
 	#adc $0,%r10
 	#add $3,%rbx
 cmp $0,%rbx
-jge skiplp
+jge L(skiplp)
 ALIGN(16)
-lp:	mul %r8
+L(lp):	mul %r8
 	add %rax,%r9
 	adc %rdx,%r10
 	mov 8(%rsi,%rbx,8),%rax
@@ -101,12 +101,12 @@ lp:	mul %r8
 	adc %rdx,%r9
 	adc $0,%r10
 	add $3,%rbx
-	jnc lp
-skiplp:
+	jnc L(lp)
+L(skiplp):
 cmp $1,%rbx
-ja case0
-je case1
-case2:	mul %r8
+ja L(case0)
+je L(case1)
+L(case2):	mul %r8
 	add %rax,%r9
 	adc %rdx,%r10
 	mov 8(%rsi,%rbx,8),%rax
@@ -135,7 +135,7 @@ case2:	mul %r8
 	mov %r9,%rax
 	pop %rbx
 	ret
-case1:	mul %r8
+L(case1):	mul %r8
 	add %rax,%r9
 	adc %rdx,%r10
 	mov 8(%rsi,%rbx,8),%rax
@@ -153,7 +153,7 @@ case1:	mul %r8
 	mov %r11,%rax
 	pop %rbx
 	ret
-case0:	mul %r8
+L(case0):	mul %r8
 	add %rax,%r9
 	adc %rdx,%r10
 	mov %r9,8(%rdi,%rbx,8)

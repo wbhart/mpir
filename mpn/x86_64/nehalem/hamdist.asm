@@ -28,9 +28,9 @@ lea -8(%rsi,%rdx,8),%rsi
 lea -8(%rdi,%rdx,8),%rdi
 xor %eax,%eax
 sub %rdx,%rcx
-jnc skiplp
+jnc L(skiplp)
 ALIGN(16)
-lp:
+L(lp):
 	mov (%rdi,%rcx,8),%r8                                                                                                                                                               
 	xor (%rsi,%rcx,8),%r8                                                                                                                                                               
 	popcnt %r8,%r8                                                                                                                                                                      
@@ -40,12 +40,12 @@ lp:
 	add %r8,%rax                                                                                                                                                                        
 	add %r9,%rax                                                                                                                                                                        
 	add $2,%rcx
-	jnc lp
-skiplp:
-jne fin
+	jnc L(lp)
+L(skiplp):
+jne L(fin)
 	mov (%rdi,%rcx,8),%r8 
 	xor (%rsi,%rcx,8),%r8
 	popcnt %r8,%r8
 	add %r8,%rax 
-fin:	ret
+L(fin):	ret
 EPILOGUE()

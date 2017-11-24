@@ -72,7 +72,7 @@ imul %rax,%r11
 C //clear carry
 xor %rdx,%rdx
 ALIGN(16)
-loop:
+L(loop):
     mov (%rsi,%r9,8),%rax
     sbb %rdx,%rax
     sbb %r8,%r8
@@ -81,7 +81,7 @@ loop:
     mul %rcx
     add $1,%r8
     inc %r9
-    jnz loop
+    jnz L(loop)
 mov $0,%rax
 adc %rdx,%rax
 ret

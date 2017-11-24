@@ -33,9 +33,9 @@ lea -24(%rdi,%r8,8),%rdi
 lea -24(%rsi,%r8,8),%rsi
 lea -24(%rdx,%r8,8),%rdx
 lea -24(%rcx,%r8,8),%rcx
-jnc skiplp
+jnc L(skiplp)
 .align 16
-lp:     .byte 0x9e      # sahf	
+L(lp):    .byte 0x9e      # sahf	
 	mov (%rsi,%r10,8),%r8
 	sbb (%rcx,%r10,8),%r8
 	mov 8(%rsi,%r10,8),%rbx
@@ -56,13 +56,13 @@ lp:     .byte 0x9e      # sahf
 	mov %rbp,16(%rdi,%r10,8)
 	mov %rbx,8(%rdi,%r10,8)
 	add $4,%r10
-	jnc lp
-skiplp:
+	jnc L(lp)
+L(skiplp):
 cmp $2,%r10
-jg case0
-je case1
-jp case2
-case3:  .byte 0x9e      # sahf	
+jg L(case0)
+je L(case1)
+jp L(case2)
+L(case3):  .byte 0x9e      # sahf	
 	mov (%rsi),%r8
 	sbb (%rcx),%r8
 	mov 8(%rsi),%rbx
@@ -86,7 +86,7 @@ case3:  .byte 0x9e      # sahf
 	pop %rbp
 	pop %rbx
 	ret
-case2:  .byte 0x9e      # sahf	
+L(case2):  .byte 0x9e      # sahf	
 	mov 8(%rsi),%r8
 	sbb 8(%rcx),%r8
 	mov 16(%rsi),%rbx
@@ -106,7 +106,7 @@ case2:  .byte 0x9e      # sahf
 	pop %rbp
 	pop %rbx
 	ret
-case1:  .byte 0x9e      # sahf	
+L(case1):  .byte 0x9e      # sahf	
 	mov 16(%rsi),%r8
 	sbb 16(%rcx),%r8
         .byte 0x9f      # lahf	
@@ -114,7 +114,7 @@ case1:  .byte 0x9e      # sahf
 	sbb 16(%rdx),%r8
 	mov %r8,16(%rdi)
 	setc %r9b
-case0:  .byte 0x9e      # sahf	
+L(case0):  .byte 0x9e      # sahf	
 	mov $0,%eax
 	adc $0,%rax
 	add $255,%r9b
