@@ -47,9 +47,9 @@ PROLOGUE(mpn_sub_err1_n)
        mov $0,%r9                  C t1 = 0
        mov $0,%rax                 C t2 = 0
        mov $0,%rbx                 C t3 = 0
-       jnc skiplp                  C if done goto skiplp
+       jnc L(skiplp)                  C if done goto L(skiplp)
 ALIGN(16)
-lp:
+L(lp):
 	mov (%rsi,%r11,8),%r12      C s1 = *(up + i + 0)
 	mov 8(%rsi,%r11,8),%r13     C s2 = *(up + i + 1)
 	mov 16(%rsi,%r11,8),%r14    C s3 = *(up + i + 2)
@@ -82,15 +82,15 @@ lp:
 	mov %r15,24(%rdi,%r11,8)    C *(rp + i + 3) = s4
 	mov $0,%rbx                 C t3 = 0
 	add $4,%r11                 C i += 4
-	jnc  lp                     C not done, goto lp
-skiplp:
+	jnc L(lp)                     C not done, goto lp
+L(skiplp):
        cmp $2,%r11             C cmp(i, 2)
        mov -16(%rsp),%rbp      C restore rbp
        mov -48(%rsp),%r15      C restore r15
-       ja case0                C i == 3 goto case0 
-       je case1                C i == 2 goto case1
-       jp case2                C i == 1 goto case2
-case3:
+       ja L(case0)                C i == 3 goto L(case0) 
+       je L(case1)                C i == 2 goto L(case1)
+       jp L(case2)                C i == 1 goto L(case2)
+L(case3):
 	mov (%rsi,%r11,8),%r12     C s1 = *(up + i + 0)
 	mov 8(%rsi,%r11,8),%r13    C s2 = *(up + i + 1)
 	mov 16(%rsi,%r11,8),%r14   C s3 = *(up + i + 2) 
@@ -124,7 +124,7 @@ case3:
 	mov -8(%rsp),%rbx          C restore rbx
 	ret
 ALIGN(16)
-case2:
+L(case2):
 	mov (%rsi,%r11,8),%r12   C s1 = *(up + i + 0)
 	mov 8(%rsi,%r11,8),%r13  C s2 = *(up + i + 1)
 	shl $1,%r10              C restore borrow1 from high bit of t1
@@ -151,7 +151,7 @@ case2:
 	mov -8(%rsp),%rbx        C restore rbx
 	ret
 ALIGN(16)
-case1:
+L(case1):
 	mov (%rsi,%r11,8),%r12   C s1 = *(up + i + 0)
 	shl $1,%r10              C restore borrow1 from high bit of t1
 	sbb (%rdx,%r11,8),%r12   C s1 -= *(vp + i + 0) + borrow1
@@ -160,7 +160,7 @@ case1:
 	add %rax,%r9             C t1 += t2
 	adc $0,%r10              C accumulate cy
 	mov %r12,(%rdi,%r11,8)   C *(rp + i + 0) = s1
-case0:	mov -56(%rsp),%rcx       C restore rcx
+L(case0):	mov -56(%rsp),%rcx       C restore rcx
 	mov %r9,(%rcx)           C ep[0] = t1
 	btr $63,%r10             C retrieve borrow out and reset bit of cy
 	mov %r10,8(%rcx)         C ep[1] = cy

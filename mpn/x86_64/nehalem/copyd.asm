@@ -29,29 +29,29 @@ PROLOGUE(mpn_copyd)
 lea 16(%rsi),%rsi
 lea 16(%rdi),%rdi
 sub $4,%rdx
-jc skiplp
+jc L(skiplp)
 ALIGN(16)
-lp:
+L(lp):
 	movdqu (%rsi,%rdx,8),%xmm0
 	movdqu -16(%rsi,%rdx,8),%xmm1
 	sub $4,%rdx
 	movdqu %xmm1,-16+32(%rdi,%rdx,8)
 	movdqu %xmm0,32(%rdi,%rdx,8)
-	jnc lp
-skiplp:
+	jnc L(lp)
+L(skiplp):
 cmp $-2,%rdx
-jg case3
-je case2
-jnp case0
-case1:	mov 8(%rsi,%rdx,8),%rax
+jg L(case3)
+je L(case2)
+jnp L(case0)
+L(case1):	mov 8(%rsi,%rdx,8),%rax
 	mov %rax,8(%rdi,%rdx,8)
-case0:	ret
-case3:	movdqu (%rsi,%rdx,8),%xmm0
+L(case0):	ret
+L(case3):	movdqu (%rsi,%rdx,8),%xmm0
 	mov -8(%rsi,%rdx,8),%rax
 	mov %rax,-8(%rdi,%rdx,8)
 	movdqu %xmm0,(%rdi,%rdx,8)
 	ret
-case2:	movdqu (%rsi,%rdx,8),%xmm0
+L(case2):	movdqu (%rsi,%rdx,8),%xmm0
 	movdqu %xmm0,(%rdi,%rdx,8)
 	ret
 EPILOGUE()

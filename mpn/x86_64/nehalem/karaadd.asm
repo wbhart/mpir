@@ -52,7 +52,7 @@ mov $3,%ecx
 sub %rdx,%rcx
 mov $3,%edx
 .align 16
-lp:	bt $2,%rbx
+L(lp):	bt $2,%rbx
 	mov (%rdi,%rdx,8),%r8
 	adc (%rbp,%rcx,8),%r8
 	mov %r8,%r12
@@ -100,12 +100,12 @@ lp:	bt $2,%rbx
 	mov %r14,16(%rbp,%rcx,8)
 	mov %r15,24(%rbp,%rcx,8)
 	add $4,%rcx
-	jnc lp
+	jnc L(lp)
 cmp $2,%rcx
-jg	case0
-jz	case1
-jp	case2
-case3:	#rcx=0
+jg	L(case0)
+jz	L(case1)
+jp	L(case2)
+L(case3):	#rcx=0
 	bt $2,%rbx
 	mov (%rdi,%rdx,8),%r8
 	adc (%rbp),%r8
@@ -144,8 +144,8 @@ case3:	#rcx=0
 	mov %r12,(%rbp)
 	mov %r13,8(%rbp)
 	mov %r14,16(%rbp)
-	jmp fin
-case2:	#rcx=1
+	jmp L(fin)
+L(case2):	#rcx=1
 	bt $2,%rbx
 	mov (%rdi,%rdx,8),%r8
 	adc 8(%rbp),%r8
@@ -175,8 +175,8 @@ case2:	#rcx=1
 	add $2,%rdx
 	mov %r12,8(%rbp)
 	mov %r13,16(%rbp)
-	jmp fin
-case1:	#rcx=2
+	jmp L(fin)
+L(case1):	#rcx=2
 	bt $2,%rbx
 	mov (%rdi,%rdx,8),%r8
 	adc 16(%rbp),%r8
@@ -197,11 +197,11 @@ case1:	#rcx=2
 	rcl $1,%rbx
 	add $1,%rdx
 	mov %r12,(%rbp,%rcx,8)
-fin:	mov $3,%rcx
-case0: 	#rcx=3
+L(fin):	mov $3,%rcx
+L(case0): 	#rcx=3
 	pop %r8
 	bt $0,%r8
-	jnc notodd
+	jnc L(notodd)
 	xor %r10,%r10
 	mov (%rbp,%rdx,8),%r8
 	mov 8(%rbp,%rdx,8),%r9
@@ -211,24 +211,24 @@ case0: 	#rcx=3
 	add %r8,24(%rbp)
 	adc %r9,32(%rbp)
 	adc %r10,40(%rbp)
-l7:	adcq $0,24(%rbp,%rcx,8)
+L(l7):	adcq $0,24(%rbp,%rcx,8)
 	lea 1(%rcx),%rcx
-	jc l7
+	jc L(l7)
 	mov $3,%rcx
-notodd:	and $3,%rax
+L(notodd):	and $3,%rax
 	popcnt %rax,%r8
 	bt $2,%rbx
 	adc $0,%r8
 	adc %r8,(%rdi,%rdx,8)
-l1:	adcq $0,8(%rdi,%rdx,8)
+L(l1):	adcq $0,8(%rdi,%rdx,8)
 	lea 1(%rdx),%rdx
-	jc l1
+	jc L(l1)
 	and $7,%rbx
 	popcnt %rbx,%r8
 	add %r8,24(%rbp)
-l2:	adcq $0,8(%rbp,%rcx,8)
+L(l2):	adcq $0,8(%rbp,%rcx,8)
 	lea 1(%rcx),%rcx
-	jc l2
+	jc L(l2)
 pop %r15
 pop %r14
 pop %r13
