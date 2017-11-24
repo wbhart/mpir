@@ -58,7 +58,7 @@ PROLOGUE(mpn_addmul_1c)
 	mul	%rcx
 	add	carry_in, %rax
 	adc	$0, %rdx
-	jmp	start_nc
+	jmp	L(start_nc)
 EPILOGUE()
 
 	ALIGN(16)
@@ -75,24 +75,24 @@ PROLOGUE(mpn_addmul_1)
 	lea	(up,%rdx,8), up
 	mul	%rcx
 
-start_nc:
+L(start_nc):
 	bt	$0, %ebx
-	jc	odd
+	jc	L(odd)
 
 	lea	(%rax), %r11
 	mov	8(up,%rbx,8), %rax
 	lea	(%rdx), %rbp
 	mul	%rcx
 	add	$2, %rbx
-	jns	ln2
+	jns	L(ln2)
 
 	lea	(%rax), %r8
 	mov	(up,%rbx,8), %rax
 	lea	(%rdx), %r9
-	jmp	mid
+	jmp	L(mid)
 
-odd:	add	$1, %rbx
-	jns	ln1
+L(odd):	add	$1, %rbx
+	jns	L(ln1)
 
 	lea	(%rax), %r8
 	mov	(up,%rbx,8), %rax
@@ -101,10 +101,10 @@ odd:	add	$1, %rbx
 	lea	(%rax), %r11
 	mov	8(up,%rbx,8), %rax
 	lea	(%rdx), %rbp
-	jmp	le
+	jmp	L(le)
 
 	ALIGN(16)
-top:	mul	%rcx
+L(top):	mul	%rcx
 	add	%r8, %r10
 	lea	(%rax), %r8
 	mov	(up,%rbx,8), %rax
@@ -113,7 +113,7 @@ top:	mul	%rcx
 	mov	(rp,%rbx,8), %r10
 	lea	(%rdx), %r9
 	adc	$0, %rbp
-mid:	mul	%rcx
+L(mid):	mul	%rcx
 	add	%r11, %r10
 	lea	(%rax), %r11
 	mov	8(up,%rbx,8), %rax
@@ -122,20 +122,20 @@ mid:	mul	%rcx
 	mov	8(rp,%rbx,8), %r10
 	lea	(%rdx), %rbp
 	adc	$0, %r9
-le:	add	$2, %rbx
-	js	top
+L(le):	add	$2, %rbx
+	js	L(top)
 
 	mul	%rcx
 	add	%r8, %r10
 	adc	%r9, %r11
 	mov	%r10, -8(rp)
 	adc	$0, %rbp
-ln2:	mov	(rp), %r10
+L(ln2):	mov	(rp), %r10
 	add	%r11, %r10
 	adc	%rbp, %rax
 	mov	%r10, (rp)
 	adc	$0, %rdx
-ln1:	mov	8(rp), %r10
+L(ln1):	mov	8(rp), %r10
 	add	%rax, %r10
 	mov	%r10, 8(rp)
 	mov    %ebx, %eax	C zero rax

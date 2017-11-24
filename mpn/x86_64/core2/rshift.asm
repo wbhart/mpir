@@ -36,9 +36,9 @@ xor %rax,%rax
 mov -8(%rsi,%rbx,8),%rdx
 shrd %cl,%rdx,%rax
 cmp $0,%rbx
-jge skiplp	
+jge L(skiplp)	
 ALIGN(16)
-lp:
+L(lp):
 	mov (%rsi,%rbx,8),%r8
 	mov 24(%rsi,%rbx,8),%r11
 	shrd %cl,%r8,%rdx
@@ -53,13 +53,13 @@ lp:
 	shrd %cl,%r11,%r10
 	add $4,%rbx
 	mov %r10,-16(%rdi,%rbx,8)
-	jnc lp
-skiplp:
+	jnc L(lp)
+L(skiplp):
 cmp $2,%rbx
-ja case0
-je case1
-jp case2
-case3:
+ja L(case0)
+je L(case1)
+jp L(case2)
+L(case3):
 	mov (%rsi,%rbx,8),%r8
 	shrd %cl,%r8,%rdx
 	mov 8(%rsi,%rbx,8),%r9
@@ -74,7 +74,7 @@ case3:
 	pop %rbx
 	ret
 ALIGN(16)
-case2:
+L(case2):
 	mov (%rsi,%rbx,8),%r8
 	shrd %cl,%r8,%rdx
 	mov 8(%rsi,%rbx,8),%r9
@@ -86,7 +86,7 @@ case2:
 	pop %rbx
 	ret
 ALIGN(16)
-case1:
+L(case1):
 	mov (%rsi,%rbx,8),%r8
 	shrd %cl,%r8,%rdx
 	shr %cl,%r8
@@ -95,7 +95,7 @@ case1:
 	pop %rbx
 	ret
 ALIGN(16)
-case0:
+L(case0):
 	shr %cl,%rdx
 	mov %rdx,-8(%rdi,%rbx,8)
 	pop %rbx

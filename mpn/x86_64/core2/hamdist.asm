@@ -35,7 +35,7 @@ mov $0x0f0f0f0f0f0f0f0f,%r10
 mov $0x0101010101010101,%r11
 xor %eax,%eax
 sub $3,%rdx
-jc skip
+jc L(skip)
 	mov 16(%rdi,%rdx,8),%rcx
 	xor 16(%rsi,%rdx,8),%rcx
 	mov 8(%rdi,%rdx,8),%r12
@@ -43,9 +43,9 @@ jc skip
 	mov (%rdi,%rdx,8),%r14
 	xor (%rsi,%rdx,8),%r14
 sub $3,%rdx
-jc skiplp
+jc L(skiplp)
 ALIGN(16)
-lp:	mov %rcx,%rbp
+L(lp):	mov %rcx,%rbp
 	shr $1,%rcx
 	and %r8,%rcx
 	sub %rcx,%rbp
@@ -92,8 +92,8 @@ lp:	mov %rcx,%rbp
 		mov (%rdi,%rdx,8),%r14
 		xor (%rsi,%rdx,8),%r14
 	sub $3,%rdx
-	jnc lp
-skiplp:
+	jnc L(lp)
+L(skiplp):
 	mov %rcx,%rbp
 	shr $1,%rcx
 	and %r8,%rcx
@@ -134,11 +134,11 @@ skiplp:
 	imul %r11,%r14
 	shr $56,%r14
 	add %r14,%rax
-skip:
+L(skip):
 	cmp $-2,%rdx
-	jl case0
-	jz case1
-case2:
+	jl L(case0)
+	jz L(case1)
+L(case2):
 	mov 16(%rdi,%rdx,8),%rcx
 	xor 16(%rsi,%rdx,8),%rcx
 	mov %rcx,%rbp
@@ -160,7 +160,7 @@ case2:
 	shr $56,%r14
 	add %r14,%rax
 	dec %rdx
-case1:
+L(case1):
 	mov 16(%rdi,%rdx,8),%rcx
 	xor 16(%rsi,%rdx,8),%rcx
 	mov %rcx,%rbp
@@ -181,7 +181,7 @@ case1:
 	imul %r11,%r14
 	shr $56,%r14
 	add %r14,%rax
-case0:	pop %rbp
+L(case0):	pop %rbp
 	pop %r14
 	pop %r12
 	ret

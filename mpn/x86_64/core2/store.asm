@@ -29,27 +29,27 @@ C	rax          rdi,      rsi,         rdx
 ASM_START()
 PROLOGUE(mpn_store)
 cmp $0,%rsi
-jz case0
+jz L(case0)
 MOVQ %rdx,%xmm0
 movddup %xmm0,%xmm0
 lea -16(%rdi),%rdi
 test $0xF,%rdi
-jz notodd
+jz L(notodd)
 	mov %rdx,16(%rdi)
 	lea 8(%rdi),%rdi
 	sub $1,%rsi
-notodd:
+L(notodd):
 sub $2,%rsi
-jc skiplp
+jc L(skiplp)
 ALIGN(16)
-lp:
+L(lp):
 	lea 16(%rdi),%rdi
 	sub $2,%rsi
 	movdqa %xmm0,(%rdi)
-	jnc lp
-skiplp:
-jnp case0
+	jnc L(lp)
+L(skiplp):
+jnp L(case0)
 	mov %rdx,16(%rdi)
-case0:
+L(case0):
 	ret
 EPILOGUE()
