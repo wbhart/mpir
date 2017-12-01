@@ -2846,8 +2846,8 @@ if test "$gmp_asm_syntax_testing" != no; then
             *-*-darwin*)
               # Defined in mpn/x86_64/x86_64-defs.m4, but there currently
               # hardcoded just for ELF, so redefine it here for Mach-O:
-              OBJECT_FORMAT="-f macho64"
-              GMP_INCLUDE_MPN(x86_64/darwin.m4)  ;;
+	      GMP_DEFINE_RAW(["define(\`JUMPTABSECT',\`    .text')"],POST)
+              OBJECT_FORMAT="-f macho64" ;;
             *-pc-msys|*-w64-mingw*|*-*-cygwin*)
               OBJECT_FORMAT="-f x64"  ;;
             *)
