@@ -23,25 +23,33 @@ MA 02110-1301, USA. */
 #include "gmp-impl.h"
 #include "longlong.h"
 
-double
-mpz_get_d_2exp (signed long *exp2, mpz_srcptr src)
+mpir_si
+mpz_get_2exp_d (double *r, mpz_srcptr src)
 {
   mp_size_t size, abs_size;
   mp_srcptr ptr;
   int cnt;
-  signed long exp;
+  mpir_si exp;
 
   size = SIZ(src);
   if (UNLIKELY (size == 0))
     {
-      *exp2 = 0;
-      return 0.0;
+	  *r = 0.0;
+	  return 0;
     }
 
   ptr = PTR(src);
   abs_size = ABS(size);
   count_leading_zeros (cnt, ptr[abs_size - 1]);
   exp = abs_size * GMP_NUMB_BITS - (cnt - GMP_NAIL_BITS);
-  *exp2 = exp;
-  return mpn_get_d (ptr, abs_size, size, -exp);
+  *r = mpn_get_d (ptr, abs_size, size, -exp);
+  return exp;
+}
+
+double
+mpz_get_d_2exp(signed long *exp2, mpz_srcptr src)
+{
+	double r;
+	*exp2 = mpz_get_2exp_d(&r, src);
+	return r;
 }
