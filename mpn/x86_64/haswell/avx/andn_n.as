@@ -159,19 +159,19 @@ GLOBAL_FUNC mpn_andn_n
   .PostGPR3:
 
     mov     Limb0, [Src1P+16]
-    andn    Limb0, [Src2P+16]
+    andn    Limb0, Limb0, [Src2P+16]
     mov     [ResP+16], Limb0
 
   .PostGPR2:
 
     mov     Limb0, [Src1P+8]
-    andn    Limb0, [Src2P+8]
+    andn    Limb0, Limb0, [Src2P+8]
     mov     [ResP+8], Limb0
 
   .PostGPR1:
 
     mov     Limb0, [Src1P]
-    andn    Limb0, [Src2P]
+    andn    Limb0, Limb0, [Src2P]
     mov     [ResP], Limb0
 
   .Exit:
