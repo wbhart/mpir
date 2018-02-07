@@ -5,7 +5,6 @@ os:
   - linux
 compiler:
   - gcc
-  - clang
 addons:
   apt:
     packages:
@@ -18,10 +17,9 @@ script:
     fi
   # On OSX, gcc is a wrapper around clang, so use gcc from homebrew
   - if [[ "${TRAVIS_OS_NAME}" == "osx" ]] && [[ "${CC}" == "gcc" ]]; then
-       brew install gcc48;
-       brew link --overwrite gcc@4.8;
-       export CC=gcc-4.8;
-       export CXX=g++-4.8;
+       brew install gcc73;
+       export CC=gcc-7.3;
+       export CXX=g++-7.3;
     fi
   - $CC --version
   - ./autogen.sh
