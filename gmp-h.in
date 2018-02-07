@@ -28,6 +28,10 @@ along with the GNU MP Library.  If not, see http://www.gnu.org/licenses/.  */
 #include <stdarg.h>   /* on Sun Studio */
 #endif 
 
+#if defined(sun) || defined(__sun)
+#include <stdint.h>
+#endif
+
 #if defined (__cplusplus)
 
 #include <cstddef>     /* for size_t */
@@ -1240,6 +1244,7 @@ __GMP_DECLSPEC mpz_srcptr mpz_roinit_n (mpz_ptr, mp_srcptr, mp_size_t);
 /****** Integer (i.e. Z) routines for intmaax_t/uintmax_t types ******/
 
 /* if stdint.h is available -- n.b: we do NOT include stdint.h ourselves */
+/*  -- however, we do include it on SunOS/Solaris, for (u)intmax_t       */
 #if defined(INTMAX_MAX)
 
 #define __GMP_BITS_PER_UINTMAX  (8*sizeof(uintmax_t))
