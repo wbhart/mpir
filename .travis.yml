@@ -5,6 +5,7 @@ os:
   - linux
 compiler:
   - gcc
+  - clang
 addons:
   apt:
     packages:
@@ -18,6 +19,7 @@ script:
   # On OSX, gcc is a wrapper around clang, so use gcc from homebrew
   - if [[ "${TRAVIS_OS_NAME}" == "osx" ]] && [[ "${CC}" == "gcc" ]]; then
        brew install gcc;
+       brew link --overwrite gcc
        export CC=gcc;
        export CXX=g++;
     fi
