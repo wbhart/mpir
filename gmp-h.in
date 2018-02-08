@@ -28,6 +28,12 @@ along with the GNU MP Library.  If not, see http://www.gnu.org/licenses/.  */
 #include <stdarg.h>   /* on Sun Studio */
 #endif 
 
+#if defined(__has_include)  /* should work on gcc 5.x or better, clang, VS 2015+ */
+# if __has_include(<stdint.h>)
+#  include <stdint.h>
+# endif
+#endif
+
 #if defined (__cplusplus)
 
 #include <cstddef>     /* for size_t */
@@ -1239,7 +1245,8 @@ __GMP_DECLSPEC mpz_srcptr mpz_roinit_n (mpz_ptr, mp_srcptr, mp_size_t);
 
 /****** Integer (i.e. Z) routines for intmaax_t/uintmax_t types ******/
 
-/* if stdint.h is available -- n.b: we do NOT include stdint.h ourselves */
+/* if stdint.h is available -- n.b: we do NOT include stdint.h on old compilers   */
+/* we DO (safely) include stdint.h on modern compilers supporting __has_include() */
 #if defined(INTMAX_MAX)
 
 #define __GMP_BITS_PER_UINTMAX  (8*sizeof(uintmax_t))

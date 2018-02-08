@@ -18,10 +18,10 @@ script:
     fi
   # On OSX, gcc is a wrapper around clang, so use gcc from homebrew
   - if [[ "${TRAVIS_OS_NAME}" == "osx" ]] && [[ "${CC}" == "gcc" ]]; then
-       brew install gcc48;
-       brew link --overwrite gcc@4.8;
-       export CC=gcc-4.8;
-       export CXX=g++-4.8;
+       brew install gcc;
+       brew link --overwrite gcc;
+       export CC=gcc;
+       export CXX=g++;
     fi
   - $CC --version
   - ./autogen.sh
