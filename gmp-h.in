@@ -28,11 +28,20 @@ along with the GNU MP Library.  If not, see http://www.gnu.org/licenses/.  */
 #include <stdarg.h>   /* on Sun Studio */
 #endif 
 
+<<<<<<< HEAD
 #if defined(__has_include)  /* should work on gcc 5.x or better, clang, VS 2015+ */
+=======
+#if defined(sun) || defined(__sun)
+#if defined(__has_include)  /* should work on gcc 5.x or better, or on clang */
+>>>>>>> 67e6c2fb68ce0419d7974de384ccc70def6ac8ba
 #if __has_include(<stdint.h>)
 #include <stdint.h>
 #endif
 #endif
+<<<<<<< HEAD
+=======
+#endif
+>>>>>>> 67e6c2fb68ce0419d7974de384ccc70def6ac8ba
 
 #if defined (__cplusplus)
 
