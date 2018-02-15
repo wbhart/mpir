@@ -34,7 +34,7 @@
         Condition="'%(YASM.ObjectFile)' != '' and '%(YASM.ExcludedFromBuild)' != 'true'">
       </_YASMReadTlog>
       <_YASMWriteTlog
-        Include="^%(YASM.FullPath);$([MSBuild]::NormalizePath('$(MSBuildProjectDirectory)', '%(YASM.ObjectFile)%(YASM.FileName).obj'))"
+        Include="^%(YASM.FullPath);'$(MSBuildProjectDirectory)\%(YASM.ObjectFile)%(YASM.FileName).obj'"
         Condition="'%(YASM.ObjectFile)' != '' and '%(YASM.ExcludedFromBuild)' != 'true'">
       </_YASMWriteTlog>
     </ItemGroup>
