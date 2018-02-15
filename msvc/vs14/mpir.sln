@@ -1,0 +1,35 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "dll_mpir_skylake_avx", "dll_mpir_skylake_avx\dll_mpir_skylake_avx.vcxproj", "{2DD81F4B-A443-4107-A09F-28FE6501D66F}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lib_mpir_skylake_avx", "lib_mpir_skylake_avx\lib_mpir_skylake_avx.vcxproj", "{AB6A0C36-A71F-4648-A313-37CFA3985937}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lib_mpir_cxx", "lib_mpir_cxx\lib_mpir_cxx.vcxproj", "{6AA894FE-FFA3-4830-8B2F-E5EF87FA07F9}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Debug|x64 = Debug|x64
+		Release|Win32 = Release|Win32
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2DD81F4B-A443-4107-A09F-28FE6501D66F}.Debug|Win32.ActiveCfg = Debug|x64
+		{2DD81F4B-A443-4107-A09F-28FE6501D66F}.Debug|x64.ActiveCfg = Debug|x64
+		{2DD81F4B-A443-4107-A09F-28FE6501D66F}.Release|Win32.ActiveCfg = Release|x64
+		{2DD81F4B-A443-4107-A09F-28FE6501D66F}.Release|x64.ActiveCfg = Release|x64
+		{AB6A0C36-A71F-4648-A313-37CFA3985937}.Debug|Win32.ActiveCfg = Debug|x64
+		{AB6A0C36-A71F-4648-A313-37CFA3985937}.Debug|x64.ActiveCfg = Debug|x64
+		{AB6A0C36-A71F-4648-A313-37CFA3985937}.Release|Win32.ActiveCfg = Release|x64
+		{AB6A0C36-A71F-4648-A313-37CFA3985937}.Release|x64.ActiveCfg = Release|x64
+		{6AA894FE-FFA3-4830-8B2F-E5EF87FA07F9}.Debug|Win32.ActiveCfg = Debug|Win32
+		{6AA894FE-FFA3-4830-8B2F-E5EF87FA07F9}.Debug|x64.ActiveCfg = Debug|x64
+		{6AA894FE-FFA3-4830-8B2F-E5EF87FA07F9}.Release|Win32.ActiveCfg = Release|Win32
+		{6AA894FE-FFA3-4830-8B2F-E5EF87FA07F9}.Release|x64.ActiveCfg = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
