@@ -649,7 +649,7 @@ postbuild "$(TargetPath)" 14
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
-    <Import Project="C:\Program Files\yasm\vsyasm.targets" />
+    <Import Project="..\..\vsyasm.targets" />
     </ImportGroup>
 <ItemGroup>
     <None Include="..\..\..\gmp-h.in" />
