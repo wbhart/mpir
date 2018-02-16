@@ -101,6 +101,9 @@
     <PreBuildEvent>
       <Command>tune_prebuild.bat</Command>
     </PreBuildEvent>
+    <YASM>
+      <ObjectFile>$(IntDir)%(FileName).obj</ObjectFile>
+    </YASM>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <PreBuildEvent />
@@ -130,6 +133,9 @@
     <PreBuildEvent>
       <Command>tune_prebuild.bat</Command>
     </PreBuildEvent>
+    <YASM>
+      <ObjectFile>$(IntDir)%(FileName).obj</ObjectFile>
+    </YASM>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <PreBuildEvent />
@@ -158,6 +164,9 @@
     <PreBuildEvent>
       <Command>tune_prebuild.bat</Command>
     </PreBuildEvent>
+    <YASM>
+      <ObjectFile>$(IntDir)%(FileName).obj</ObjectFile>
+    </YASM>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <PreBuildEvent />
@@ -190,6 +199,9 @@
     <PreBuildEvent>
       <Command>tune_prebuild.bat</Command>
     </PreBuildEvent>
+    <YASM>
+      <ObjectFile>$(IntDir)%(FileName).obj</ObjectFile>
+    </YASM>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\getopt.c" />

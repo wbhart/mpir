@@ -89,9 +89,6 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <AdditionalIncludeDirectories>$(MPDIR);..\..\..\..\..\..\lib\$(IntDir);..\;..\..\..\;..\..\..\..\tests;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <IntrinsicFunctions>true</IntrinsicFunctions>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <FloatingPointModel>Strict</FloatingPointModel>
     </ClCompile>
     <Link>
       <AdditionalDependencies>$(OutDir)lib_speed.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -102,6 +99,10 @@
     <PreBuildEvent>
       <Command>tune_prebuild.bat</Command>
     </PreBuildEvent>
+    <YASM />
+    <YASM>
+      <ObjectFile>$(IntDir)%(FileName).obj</ObjectFile>
+    </YASM>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <PreBuildEvent />
@@ -118,9 +119,6 @@
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <AdditionalIncludeDirectories>$(MPDIR);..\..\..\..\..\..\lib\$(IntDir);..\;..\..\..\;..\..\..\..\tests;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <IntrinsicFunctions>true</IntrinsicFunctions>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <FloatingPointModel>Strict</FloatingPointModel>
     </ClCompile>
     <Link>
       <AdditionalDependencies>$(OutDir)lib_speed.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -131,6 +129,10 @@
     <PreBuildEvent>
       <Command>tune_prebuild.bat</Command>
     </PreBuildEvent>
+    <YASM />
+    <YASM>
+      <ObjectFile>$(IntDir)%(FileName).obj</ObjectFile>
+    </YASM>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <PreBuildEvent />
@@ -144,9 +146,6 @@
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <AdditionalIncludeDirectories>$(MPDIR);..\..\..\..\..\..\lib\$(IntDir);..\;..\..\..\;..\..\..\..\tests;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <Optimization>Full</Optimization>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <FloatingPointModel>Strict</FloatingPointModel>
     </ClCompile>
     <Link>
       <AdditionalDependencies>$(OutDir)lib_speed.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -159,6 +158,10 @@
     <PreBuildEvent>
       <Command>tune_prebuild.bat</Command>
     </PreBuildEvent>
+    <YASM />
+    <YASM>
+      <ObjectFile>$(IntDir)%(FileName).obj</ObjectFile>
+    </YASM>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <PreBuildEvent />
@@ -175,9 +178,6 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <AdditionalIncludeDirectories>$(MPDIR);..\..\..\..\..\..\lib\$(IntDir);..\;..\..\..\;..\..\..\..\tests;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <BufferSecurityCheck>false</BufferSecurityCheck>
-      <Optimization>Full</Optimization>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <FloatingPointModel>Strict</FloatingPointModel>
     </ClCompile>
     <Link>
       <AdditionalDependencies>$(OutDir)lib_speed.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -191,6 +191,10 @@
     <PreBuildEvent>
       <Command>tune_prebuild.bat</Command>
     </PreBuildEvent>
+    <YASM />
+    <YASM>
+      <ObjectFile>$(IntDir)%(FileName).obj</ObjectFile>
+    </YASM>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\getopt.c" />
@@ -669,13 +673,6 @@
     <ClInclude Include="..\..\..\..\tune\speed.h" />
   </ItemGroup>
   <ItemGroup>
-    <YASM Include="sqr_basecase.asm">
-      <FileType>Document</FileType>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-    </YASM>
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\..\mpir-tests\add-test-lib\add-test-lib.vcxproj">
       <Project>{a742d3d1-6956-4f85-bfd6-b0e7b477041d}</Project>
     </ProjectReference>
@@ -683,8 +680,11 @@
       <Project>{47b9e74c-7d7a-47da-83af-0a6ade4fbb69}</Project>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <YASM Include="sqr_basecase.asm" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
-    <Import Project="c:\program files\yasm\vsyasm.targets" />
+    <Import Project="..\..\..\vsyasm.targets" />
   </ImportGroup>
 </Project>

@@ -55,7 +55,7 @@ prebuild skylake\avx x64 15
       <Defines>DLL</Defines>
       <IncludePaths>..\..\..\mpn\x86_64w\</IncludePaths>
       <Debug>true</Debug>
-      <ObjectFile>$(IntDir)mpn\</ObjectFile>
+      <ObjectFile>$(IntDir)mpn\%(FileName).obj</ObjectFile>
     </YASM>
     <ClCompile>
       <AdditionalIncludeDirectories>..\..\..\</AdditionalIncludeDirectories>
@@ -80,7 +80,7 @@ prebuild skylake\avx x64 15
       <Defines>DLL</Defines>
       <IncludePaths>..\..\..\mpn\x86_64w\</IncludePaths>
       <Debug>true</Debug>
-      <ObjectFile>$(IntDir)mpn\</ObjectFile>
+      <ObjectFile>$(IntDir)mpn\%(FileName).obj</ObjectFile>
     </YASM>
     <ClCompile>
       <AdditionalIncludeDirectories>..\..\..\</AdditionalIncludeDirectories>

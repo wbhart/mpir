@@ -75,7 +75,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <PreBuildEvent>
       <Command>cd ..\..\..\ 
-check_config $(Platform) $(Configuration) 14
+check_config $(Platform) $(Configuration) 15
       </Command>
     </PreBuildEvent>
     <ClCompile>
@@ -96,7 +96,7 @@ check_config $(Platform) $(Configuration) 14
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <PreBuildEvent>
       <Command>cd ..\..\..\ 
-check_config $(Platform) $(Configuration) 14
+check_config $(Platform) $(Configuration) 15
       </Command>
     </PreBuildEvent>
     <Midl>
@@ -120,7 +120,7 @@ check_config $(Platform) $(Configuration) 14
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <PreBuildEvent>
       <Command>cd ..\..\..\ 
-check_config $(Platform) $(Configuration) 14
+check_config $(Platform) $(Configuration) 15
       </Command>
     </PreBuildEvent>
     <ClCompile>
@@ -144,7 +144,7 @@ check_config $(Platform) $(Configuration) 14
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <PreBuildEvent>
       <Command>cd ..\..\..\ 
-check_config $(Platform) $(Configuration) 14
+check_config $(Platform) $(Configuration) 15
       </Command>
     </PreBuildEvent>
     <Midl>

@@ -36,7 +36,7 @@ echo   ^</PropertyGroup^> >>tmp.props
 echo   ^<ItemDefinitionGroup^> >>tmp.props
 echo     ^<ClCompile^> >>tmp.props
 echo       ^<RuntimeLibrary^>%rt_lib%^</RuntimeLibrary^> >>tmp.props
-echo       ^<AdditionalIncludeDirectories^>$(MPDIR);$(SolutionDir)..\tests^</AdditionalIncludeDirectories^> >>tmp.props
+echo       ^<AdditionalIncludeDirectories^>$(MPDIR);$(SolutionDir)..\..\tests^</AdditionalIncludeDirectories^> >>tmp.props
 if /i "%libr%" EQU "DLL" (
 echo       ^<PreprocessorDefinitions^>__GMP_LIBGMP_DLL^</PreprocessorDefinitions^> >>tmp.props
 )
