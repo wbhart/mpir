@@ -5,6 +5,15 @@ rem %3 = platform (Win32|x64)
 rem %4 = configuration (Release|Debug)
 rem %5 = build tests (|+tests)
 
+rem This is the directory where Microsoft MSBUILD is installed 
+for /f "usebackq tokens=*" %%i in (`vswhere -latest -products * -requires Microsoft.Component.MSBuild -property installationPath`) do (
+  set InstallDir=%%i
+)
+
+if exist "%InstallDir%\MSBuild\15.0\Bin\MSBuild.exe" (
+  set msbdir="%InstallDir%\MSBuild\15.0\Bin\MSBuild.exe"
+)
+
 if "%4" NEQ "" if "%3" NEQ "" if "%2" NEQ "" if "%1" NEQ "" goto cont
 call :get_architectures -
 echo usage: msbuild architecture=^<%architectures:|=^|%^> library_type=^<LIB^|DLL^> platform=^<Win32^|x64^> configuration=^<Release^|Debug^>
@@ -20,12 +29,10 @@ if /i "%4" EQU "Debug" (set conf=Debug) else (if /i "%4" EQU "Release" (set conf
 
 set src=%libp%_mpir_%1
 
-rem This is the directory where Microsoft MSBUILD is installed 
-set msbdir="C:\Program Files (x86)\MSBuild\14.0\Bin"
-
 rem This is the Visual Studio build directory (within the MPIR directory) 
 set srcdir="."
 
+echo Using MSBuild at: %msbdir%
 %msbdir%\msbuild.exe /p:Platform=%plat% /p:Configuration=%conf% %srcdir%\%src%\%src%.vcxproj
 
 if /i "%libp%" == "LIB" (
