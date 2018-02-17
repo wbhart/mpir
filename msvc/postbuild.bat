@@ -1,8 +1,8 @@
 @echo off
 rem %1 = full target path
-rem %2 = MSVC version number (e.g. 14)
+rem %2 = last two digits of the Visual Studio version number (e.g. 17)
 
-set msvc_ver=%2
+set vs_ver=%2
 set str=%~1
 
 rem delete anything from the path before 'msvc'
@@ -33,7 +33,7 @@ call :seterr & echo "postbuild copy error ERROR: target=%tloc%, plat=%plat%, con
 
 :is2nd:
 rem set the target and final binary output directories
-set tgt_dir="vs%msvc_ver%\%loc%%plat%\%conf%\"
+set tgt_dir="vs%vs_ver%\%loc%%plat%\%conf%\"
 set bin_dir="..\%extn%\%plat%\%conf%\"
 set hdr_dir="..\%extn%\%plat%\%conf%\"
 
@@ -81,7 +81,7 @@ if "%4" EQU "dll" (
 )
 
 rem set configuration for the tests
-call gen_test_config_props %plat% %conf% %msvc_ver%
+call gen_test_config_props %plat% %conf% %vs_ver%
 exit /b 0
 
 rem copy headers to final destination directory

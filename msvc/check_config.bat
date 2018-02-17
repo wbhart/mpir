@@ -1,7 +1,7 @@
 @echo off
 rem %1 = platform
 rem %2 = configuration
-rem %3 - msvc version
+rem %3 - last two digits of Visul Studio version (e.g. 17)
 
 rem output_params.bat contains:
 rem (set ldir=architecture)   

@@ -68,7 +68,7 @@
     Condition="'@(YASM)' != ''"
     Inputs="%(YASM.Identity);%(YASM.AdditionalDependencies);$(MSBuildProjectFile)"
     Outputs="%(YASM.ObjectFile)"
-    DependsOnTargets="_WriteYasmTlogs;_SelectedFiles;$(YASMDependsOn);">
+    DependsOnTargets="PrepareForBuild;_WriteYasmTlogs;_SelectedFiles;$(YASMDependsOn);">
 
     <ItemGroup Condition="'@(SelectedFiles)' != ''">
       <YASM Remove="@(YASM)" Condition="'%(Identity)' != '@(SelectedFiles)'" />

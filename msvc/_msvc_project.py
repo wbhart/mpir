@@ -143,7 +143,7 @@ def linker_options(outf):
 '''
   outf.write(f1)
 
-def vcx_pre_build(name, plat, msvc_ver, outf):
+def vcx_pre_build(name, plat, vs_info, outf):
 
   f1 = r'''    <PreBuildEvent>
       <Command>cd ..\..\
@@ -151,9 +151,9 @@ prebuild {0:s} {1:s} {2:s}
       </Command>
     </PreBuildEvent>
 '''
-  outf.write(f1.format(name, plat, msvc_ver))
+  outf.write(f1.format(name, plat, vs_info['visual studio']))
 
-def vcx_post_build(is_cpp, msvc_ver, outf):
+def vcx_post_build(is_cpp, vs_info, outf):
 
   f1 = r'''    <PostBuildEvent>
       <Command>cd ..\..\
@@ -162,9 +162,9 @@ postbuild "$(TargetPath)" {0:s}
     </PostBuildEvent>
 '''
 
-  outf.write(f1.format(msvc_ver))
+  outf.write(f1.format(vs_info['visual studio']))
 
-def vcx_tool_options(config, plat, proj_type, is_cpp, af_list, add_prebuild, msvc_ver, outf):
+def vcx_tool_options(config, plat, proj_type, is_cpp, af_list, add_prebuild, vs_info, outf):
 
   f1 = r'''  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='{1:s}|{0:s}'">
 '''
@@ -174,13 +174,13 @@ def vcx_tool_options(config, plat, proj_type, is_cpp, af_list, add_prebuild, msv
     for is_debug in (False, True):
       outf.write(f1.format(pl, 'Debug' if is_debug else 'Release'))
       if add_prebuild and not is_cpp:
-        vcx_pre_build(config, pl, msvc_ver, outf)
+        vcx_pre_build(config, pl, vs_info, outf)
       if af_list:
         yasm_options(pl, proj_type, outf)
       compiler_options(pl, proj_type, is_debug, config.endswith('\\avx'), outf)
       if proj_type != Project_Type.LIB:
         linker_options(outf)
-      vcx_post_build(is_cpp, msvc_ver, outf)
+      vcx_post_build(is_cpp, vs_info, outf)
       outf.write(f2)
 
 def vcx_external_props(outf):
@@ -270,7 +270,7 @@ def gen_vcxproj(path, root_dir, proj_name, guid, config, plat, proj_type,
     vcx_user_props(plat, proj_type, outf)
     outf.write(f2)
     vcx_target_name_and_dirs(proj_name, plat, proj_type, outf)
-    vcx_tool_options(config, plat, proj_type, is_cpp, af_list, add_prebuild, vs_info['msvc'], outf)
+    vcx_tool_options(config, plat, proj_type, is_cpp, af_list, add_prebuild, vs_info, outf)
     vcx_external_props(outf)
     if hf_list:
       vcx_hdr_items(hf_list, relp, outf)
