@@ -220,6 +220,9 @@
     <ClCompile Include="..\..\..\mpf\cmp_ui.c">
       <Filter>Source Files\mpf</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\mpf\cmp_z.c">
+      <Filter>Source Files\mpf</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\mpf\div.c">
       <Filter>Source Files\mpf</Filter>
     </ClCompile>
@@ -1393,6 +1396,9 @@
     <ClCompile Include="..\..\..\mpn\generic\perfect_square_p.c">
       <Filter>Source Files\mpn</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\mpn\generic\perfpow.c">
+      <Filter>Source Files\mpn</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\mpn\generic\popcount.c">
       <Filter>Source Files\mpn</Filter>
     </ClCompile>
@@ -1559,6 +1565,9 @@
       <Filter>Source Files\mpn</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\mpn\generic\zero.c">
+      <Filter>Source Files\mpn</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\mpn\generic\zero_p.c">
       <Filter>Source Files\mpn</Filter>
     </ClCompile>
   </ItemGroup>

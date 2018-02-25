@@ -169,6 +169,7 @@ postbuild "$(TargetPath)" 17
     <ClCompile Include="..\..\..\mpf\cmp_d.c" />
     <ClCompile Include="..\..\..\mpf\cmp_si.c" />
     <ClCompile Include="..\..\..\mpf\cmp_ui.c" />
+    <ClCompile Include="..\..\..\mpf\cmp_z.c" />
     <ClCompile Include="..\..\..\mpf\div.c" />
     <ClCompile Include="..\..\..\mpf\div_2exp.c" />
     <ClCompile Include="..\..\..\mpf\div_ui.c" />
@@ -541,6 +542,7 @@ postbuild "$(TargetPath)" 17
     <ClCompile Include="..\..\..\mpn\generic\neg_n.c" />
     <ClCompile Include="..\..\..\mpn\generic\nsumdiff_n.c" />
     <ClCompile Include="..\..\..\mpn\generic\perfect_square_p.c" />
+    <ClCompile Include="..\..\..\mpn\generic\perfpow.c" />
     <ClCompile Include="..\..\..\mpn\generic\pow_1.c" />
     <ClCompile Include="..\..\..\mpn\generic\powlo.c" />
     <ClCompile Include="..\..\..\mpn\generic\powm.c" />
@@ -586,6 +588,7 @@ postbuild "$(TargetPath)" 17
     <ClCompile Include="..\..\..\mpn\generic\urandomb.c" />
     <ClCompile Include="..\..\..\mpn\generic\urandomm.c" />
     <ClCompile Include="..\..\..\mpn\generic\zero.c" />
+    <ClCompile Include="..\..\..\mpn\generic\zero_p.c" />
   </ItemGroup>
   <ItemGroup>
     <YASM Include="..\..\..\mpn\x86_64w\skylake\avx\add_err1_n.asm" />
