@@ -78,9 +78,9 @@ MA 02110-1301, USA. */
 
 #if ! defined (count_leading_zeros) && ! defined (LONGLONG_STANDALONE)
 #if HAVE_ATTRIBUTE_CONST
-long __MPN(count_leading_zeros) _PROTO ((UDItype)) __attribute__ ((const));
+long __MPN(count_leading_zeros)(UDItype) __attribute__ ((const));
 #else
-long __MPN(count_leading_zeros) _PROTO ((UDItype));
+long __MPN(count_leading_zeros)(UDItype);
 #endif
 #define count_leading_zeros(count, x) \
   ((count) = __MPN(count_leading_zeros) (x))

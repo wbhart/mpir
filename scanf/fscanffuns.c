@@ -30,13 +30,13 @@ MA 02110-1301, USA. */
 
 /* SunOS 4 stdio.h doesn't provide prototypes for these */
 #if ! HAVE_DECL_FGETC
-int fgetc _PROTO ((FILE *fp));
+int fgetc(FILE *fp);
 #endif
 #if ! HAVE_DECL_FSCANF
-int fscanf _PROTO ((FILE *fp, const char *fmt, ...));
+int fscanf(FILE *fp, const char *fmt, ...);
 #endif
 #if ! HAVE_DECL_UNGETC
-int ungetc _PROTO ((int c, FILE *fp));
+int ungetc(int c, FILE *fp);
 #endif
 
 
