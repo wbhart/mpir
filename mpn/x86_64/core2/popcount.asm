@@ -43,7 +43,7 @@ pxor %xmm11,%xmm11
 pxor %xmm8,%xmm8
 # this takes care of an odd address by padding with zeros
 btr $3,%rdi		# rdi is even
-sbb %rax,%rax		# rax =-1 if was odd
+sbb %rax,%rax		# rax =-1 if was L(odd)
 sub %rax,%rsi
 MOVQ %rax,%xmm0
 pandn (%rdi),%xmm0	# first load padded with zero
@@ -59,7 +59,7 @@ pandn -16(%rdi,%rsi,8),%xmm2	# last load padded with zero
 # by chance the general code handles all cases correctly except for
 # n=0,1, 2evenaddr
 cmp $2,%rsi
-jne big
+jne L(big)
 	# so just pad out with zeros
 	add $2,%rsi
 	MOVQ %rax,%xmm1
@@ -67,13 +67,13 @@ jne big
 	pand %xmm1,%xmm0
 	pandn %xmm2,%xmm1
 	movdqa %xmm1,%xmm2
-big:
+L(big):
 movdqa %xmm0,%xmm1
 movdqa %xmm2,%xmm3
 sub $8,%rsi
-jc skiplp
+jc L(skiplp)
 ALIGN(16)
-lp:
+L(lp):
 	psrlw $1,%xmm0
 	pand %xmm4,%xmm0
 	psubb %xmm0,%xmm1
@@ -103,8 +103,8 @@ lp:
 	paddb %xmm3,%xmm8
 				movdqa 32-48+64(%rdi,%rsi,8),%xmm3
 	psadbw %xmm7,%xmm8
-	jnc lp
-skiplp:
+	jnc L(lp)
+L(skiplp):
 	psrlw $1,%xmm0
 	pand %xmm4,%xmm0
 	psubb %xmm0,%xmm1
@@ -130,8 +130,8 @@ skiplp:
 	paddb %xmm3,%xmm8
 	psadbw %xmm7,%xmm8	
 cmp $-3,%rsi
-jl nomore
-onemore:
+jl L(nomore)
+L(onemore):
 	movdqa -32+64(%rdi,%rsi,8),%xmm2
 	movdqa %xmm2,%xmm3
 		psrlw $1,%xmm2
@@ -149,7 +149,7 @@ onemore:
 	pand %xmm6,%xmm8
 	paddb %xmm3,%xmm8
 	psadbw %xmm7,%xmm8
-nomore:
+L(nomore):
 	paddq %xmm8,%xmm11
 MOVQ %xmm11,%rax
 shufpd $1,%xmm11,%xmm11

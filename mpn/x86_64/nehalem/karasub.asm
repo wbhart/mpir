@@ -52,7 +52,7 @@ mov $3,%ecx
 sub %rdx,%rcx
 mov $3,%edx
 .align 16
-lp:	bt $2,%rbx
+L(lp):	bt $2,%rbx
 	mov (%rdi,%rdx,8),%r8
 	adc (%rbp,%rcx,8),%r8
 	mov %r8,%r12
@@ -100,12 +100,12 @@ lp:	bt $2,%rbx
 	mov %r14,16(%rbp,%rcx,8)
 	mov %r15,24(%rbp,%rcx,8)
 	add $4,%rcx
-	jnc lp
+	jnc L(lp)
 cmp $2,%rcx
-jg	case0
-jz	case1
-jp	case2
-case3:	#rcx=0
+jg	L(case0)
+jz	L(case1)
+jp	L(case2)
+L(case3):	#rcx=0
 	bt $2,%rbx
 	mov (%rdi,%rdx,8),%r8
 	adc (%rbp),%r8
@@ -144,8 +144,8 @@ case3:	#rcx=0
 	mov %r12,(%rbp)
 	mov %r13,8(%rbp)
 	mov %r14,16(%rbp)
-	jmp fin
-case2:	#rcx=1
+	jmp L(fin)
+L(case2):	#rcx=1
 	bt $2,%rbx
 	mov (%rdi,%rdx,8),%r8
 	adc 8(%rbp),%r8
@@ -175,8 +175,8 @@ case2:	#rcx=1
 	add $2,%rdx
 	mov %r12,8(%rbp)
 	mov %r13,16(%rbp)
-	jmp fin
-case1:	#rcx=2
+	jmp L(fin)
+L(case1):	#rcx=2
 	bt $2,%rbx
 	mov (%rdi,%rdx,8),%r8
 	adc 16(%rbp),%r8
@@ -197,25 +197,25 @@ case1:	#rcx=2
 	rcl $1,%rbx
 	add $1,%rdx
 	mov %r12,(%rbp,%rcx,8)
-fin:	mov $3,%rcx
-case0: 	#rcx=3
+L(fin):	mov $3,%rcx
+L(case0): 	#rcx=3
 	#// store top two words of H as carrys could change them
 	pop %r15
 	bt $0,%r15
-	jnc skipload
+	jnc L(skipload)
 	mov (%rbp,%rdx,8),%r12
         mov 8(%rbp,%rdx,8),%r13
 	#// the two carrys from 2nd to 3rd
-skipload:	mov %rdx,%r11
+L(skipload):	mov %rdx,%r11
 	xor %r8,%r8
 	bt $1,%rax
 	adc %r8,%r8
 	bt $2,%rbx
 	adc $0,%r8
 	add %r8,(%rdi,%rdx,8)
-l2:	adcq $0,8(%rdi,%rdx,8)
+L(l2):	adcq $0,8(%rdi,%rdx,8)
 	lea 1(%rdx),%rdx
-	jc l2
+	jc L(l2)
 	# //the two carrys from 3rd to 4th
 	xor %r8,%r8
 	bt $1,%rbx
@@ -223,26 +223,26 @@ l2:	adcq $0,8(%rdi,%rdx,8)
 	bt $2,%rbx
 	adc $0,%r8
 	add %r8,(%rbp,%rcx,8)
-l3:	adcq $0,8(%rbp,%rcx,8)
+L(l3):	adcq $0,8(%rbp,%rcx,8)
 	lea 1(%rcx),%rcx
-	jc l3
+	jc L(l3)
 	#// now the borrow from 2nd to 3rd
 	mov %r11,%rdx
 	bt $0,%rax
-l1:	sbbq $0,(%rdi,%rdx,8)
+L(l1):	sbbq $0,(%rdi,%rdx,8)
 	lea 1(%rdx),%rdx
-	jc l1
+	jc L(l1)
 	#// borrow from 3rd to 4th
 	mov $3,%rcx
 	bt $0,%rbx
-l4:	sbbq $0,(%rbp,%rcx,8)
+L(l4):	sbbq $0,(%rbp,%rcx,8)
 	lea 1(%rcx),%rcx
-	jc l4
+	jc L(l4)
 	#// if odd the do next two
 	mov $3,%rcx
 	mov %r11,%rdx
 	bt $0,%r15
-	jnc notodd
+	jnc L(notodd)
 	xor %r10,%r10
 	sub (%rsi,%rdx,8),%r12
 	sbb 8(%rsi,%rdx,8),%r13
@@ -253,12 +253,12 @@ l4:	sbbq $0,(%rbp,%rcx,8)
 	adc %r8,%r8
 	bt $0,%r10
 	sbb $0,%r8
-l7:	add %r8,16(%rbp,%rcx,8)
+L(l7):	add %r8,16(%rbp,%rcx,8)
 	adc $0,%r8
 	add $1,%rcx
 	sar $1,%r8
-	jnz l7
-notodd:	
+	jnz L(l7)
+L(notodd):	
 pop %r15
 pop %r14
 pop %r13

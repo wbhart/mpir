@@ -8,8 +8,7 @@ dnl  This file is just an adaptation of similar file in the x86 directory.
 dnl  Adapted by P. Gaudry in April 2005.
 dnl  Here is the copyright of the original x86 version:
 
-dnl  Copyright 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2008, 2009, 2011, 
-dnl  2012, 2013 Free Software Foundation, Inc.
+dnl  Copyright 1999-2005, 2008, 2009, 2011-2013 Free Software Foundation, Inc.
 dnl 
 dnl  This file is part of the GNU MP Library.
 dnl
@@ -122,17 +121,6 @@ $1:
 ifelse(WANT_PROFILING,`no',,`call_mcount
 ')')
 
-define(`JUMPTABSECT', `.section .data.rel.ro.local,"aw",@progbits')
-
-
-dnl  Usage: JMPENT(targlabel,tablabel)
-
-define(`JMPENT',`dnl
-ifdef(`PIC',
-    `.long  $1-$2'
-,
-    `.quad  $1'
-)')
 
 dnl  Usage: call_mcount
 dnl

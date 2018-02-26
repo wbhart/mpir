@@ -82,3 +82,5 @@ Averkhaturau         Fixed a C++ compilation problem.
 Marcell Keller       Fixed a sign conversion bug.
 Sergey Taymanov      Fixed some Windows build file issues.
 jengelh              Reported a bug and did build test
+Dima Pasechnik       Build system patches, bulk changes to x86_64 assembler code
+                     to accommodate OSX linker quirks.

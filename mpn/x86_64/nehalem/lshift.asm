@@ -35,9 +35,9 @@ mov -32(%rsi,%rbx,8),%rdx
 xor %rax,%rax
 shld %cl,%rdx,%rax
 sub $5,%rbx
-js skiplp
+js L(skiplp)
 ALIGN(16)
-lp:
+L(lp):
 	mov (%rsi,%rbx,8),%r8
 	mov -24(%rsi,%rbx,8),%r11
 	mov -8(%rsi,%rbx,8),%r9
@@ -52,19 +52,19 @@ lp:
 	shld %cl,%r11,%r10
 	sub $4,%rbx
 	mov %r10,16(%rdi,%rbx,8)
-	jns lp
-skiplp:
+	jns L(lp)
+L(skiplp):
 cmp $-2,%rbx
-ja case3
-je case2
-jp case1
-case0:
+ja L(case3)
+je L(case2)
+jp L(case1)
+L(case0):
 	shl %cl,%rdx
 	mov %rdx,8(%rdi,%rbx,8)
 	pop %rbx
 	ret
 ALIGN(16)
-case3:
+L(case3):
 	mov (%rsi,%rbx,8),%r8
 	mov -8(%rsi,%rbx,8),%r9
 	shld %cl,%r8,%rdx
@@ -79,7 +79,7 @@ case3:
 	pop %rbx
 	ret
 ALIGN(16)
-case2:
+L(case2):
 	mov (%rsi,%rbx,8),%r8
 	mov -8(%rsi,%rbx,8),%r9
 	shld %cl,%r8,%rdx
@@ -91,7 +91,7 @@ case2:
 	pop %rbx
 	ret
 ALIGN(16)
-case1:
+L(case1):
 	mov (%rsi,%rbx,8),%r8
 	shld %cl,%r8,%rdx
 	mov %rdx,8(%rdi,%rbx,8)

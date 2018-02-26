@@ -90,7 +90,7 @@ PROLOGUE(mpn_mullow_n_basecase)
 	mov	vp_param, vp
 
 	cmp	$4, n
-	jb	lsmall
+	jb	L(lsmall)
 
 	mov	(vp_param), v0
 	push	%rbx
@@ -104,27 +104,27 @@ PROLOGUE(mpn_mullow_n_basecase)
 	mov	8(vp), v1
 
 	test	$1, n8
-	jnz	lm2b1
+	jnz	L(lm2b1)
 
-lm2b0:lea	(n), i
+L(lm2b0): lea	(n), i
 	xor	w0, w0
 	mov	%rax, w2
 	mov	%rdx, w1
-	jmp	lm2l0
+	jmp	L(lm2l0)
 
-lm2b1:lea	1(n), i
+L(lm2b1): lea	1(n), i
 	xor	w1, w1
 	xor	w2, w2
 	mov	%rax, w0
 	mov	%rdx, w3
-	jmp	lm2l1
+	jmp	L(lm2l1)
 
 	ALIGN(32)
-lm2tp:mul	v0
+L(lm2tp):mul	v0
 	add	%rax, w0
 	mov	%rdx, w3
 	adc	$0, w3
-lm2l1:mov	-8(up,i,8), %rax
+L(lm2l1):mov	-8(up,i,8), %rax
 	mul	v1
 	add	w1, w0
 	adc	$0, w3
@@ -138,7 +138,7 @@ lm2l1:mov	-8(up,i,8), %rax
 	mov	%rdx, w1
 	adc	$0, w1
 	add	w3, w2
-lm2l0:mov	(up,i,8), %rax
+L(lm2l0):mov	(up,i,8), %rax
 	adc	$0, w1
 	mul	v1
 	mov	w2, (rp,i,8)
@@ -147,9 +147,9 @@ lm2l0:mov	(up,i,8), %rax
 	mov	8(up,i,8), %rax
 	adc	$0, w2			C FIXME: dead in last iteration
 	add	$2, i
-	jnc	lm2tp
+	jnc	L(lm2tp)
 
-lm2ed:imul	v0, %rax
+L(lm2ed):imul	v0, %rax
 	add	w0, %rax
 	add	w1, %rax
 	mov	%rax, I(-8(rp),-8(rp,i,8))
@@ -158,57 +158,57 @@ lm2ed:imul	v0, %rax
 	lea	16(vp), vp
 	lea	-16(up), up
 	cmp	$-2, n
-	jge	lcor1
+	jge	L(lcor1)
 
 	push	%r14
 	push	%r15
 
-louter:
+L(louter):
 	mov	(vp), v0
 	mov	8(vp), v1
 	mov	(up,n,8), %rax
 	mul	v0
 	test	$1, n8
-	jnz	la1x1
+	jnz	L(la1x1)
 
-la1x0:mov	(rp,n,8), X1
+L(la1x0):mov	(rp,n,8), X1
 	xor	w2, w2
 	xor	w1, w1
 	test	$2, n8
-	jnz	la110
+	jnz	L(la110)
 
-la100:lea	1(n), i
-	jmp	llo0
+L(la100):lea	1(n), i
+	jmp	L(llo0)
 
-la110:lea	3(n), i
+L(la110):lea	3(n), i
 	mov	%rdx, w3
 	add	%rax, X1
 	mov	(up,n,8), %rax
 	mov	8(rp,n,8), X0
 	adc	$0, w3
-	jmp	llo2
+	jmp	L(llo2)
 
-la1x1:mov	(rp,n,8), X0
+L(la1x1):mov	(rp,n,8), X0
 	xor	w0, w0
 	mov	%rdx, w1
 	test	$2, n8
-	jz	la111
+	jz	L(la111)
 
-la101:lea	2(n), i
+L(la101):lea	2(n), i
 	add	%rax, X0
 	adc	$0, w1
 	mov	(up,n,8), %rax
 	mul	v1
 	mov	8(rp,n,8), X1
-	jmp	llo1
+	jmp	L(llo1)
 
-la111:lea	(n), i
+L(la111):lea	(n), i
 	xor	w3, w3
-	jmp	llo3
+	jmp	L(llo3)
 
 	ALIGN(32)
-ltop:
-llo2:	mul	v1
+L(ltop):
+L(llo2):	mul	v1
 	mov	%rdx, w0
 	add	%rax, X0
 	adc	$0, w0
@@ -227,7 +227,7 @@ llo2:	mul	v1
 	mov	-8(rp,i,8), X1
 	add	w3, X0
 	adc	$0, w1
-llo1:	mov	%rdx, w2
+L(llo1):	mov	%rdx, w2
 	mov	X0, -16(rp,i,8)
 	add	%rax, X1
 	adc	$0, w2
@@ -235,7 +235,7 @@ llo1:	mov	%rdx, w2
 	add	w0, X1
 	adc	$0, w2
 	mul	v0
-llo0:	add	%rax, X1
+L(llo0):	add	%rax, X1
 	mov	%rdx, w3
 	adc	$0, w3
 	mov	-8(up,i,8), %rax
@@ -252,7 +252,7 @@ llo0:	add	%rax, X1
 	mov	X1, -8(rp,i,8)
 	mov	%rdx, w1
 	adc	$0, w0
-llo3:	add	%rax, X0
+L(llo3):	add	%rax, X0
 	adc	$0, w1
 	mov	(up,i,8), %rax
 	add	w3, X0
@@ -273,9 +273,9 @@ llo3:	add	%rax, X0
 	mov	16(rp,i,8), X0
 	adc	$0, w3
 	add	$4, i
-	jnc	ltop
+	jnc	L(ltop)
 
-lend:	imul	v1, %rax
+L(lend):	imul	v1, %rax
 	add	%rax, X0
 	add	w1, X1
 	adc	$0, w3
@@ -291,14 +291,14 @@ lend:	imul	v1, %rax
 	lea	16(vp), vp
 	lea	-16(up), up
 	cmp	$-2, n
-	jl	louter
+	jl	L(louter)
 
 	pop	%r15
 	pop	%r14
 
-	jnz	lcor0
+	jnz	L(lcor0)
 
-lcor1:mov	(vp), v0
+L(lcor1):mov	(vp), v0
 	mov	8(vp), v1
 	mov	-16(up), %rax
 	mul	v0			C u0 x v2
@@ -318,7 +318,7 @@ lcor1:mov	(vp), v0
 	pop	%rbx
 	ret
 
-lcor0:mov	(vp), %r11
+L(lcor0):mov	(vp), %r11
 	imul	-8(up), %r11
 	add	%rax, %r11
 	mov	%r11, -8(rp)
@@ -329,14 +329,14 @@ lcor0:mov	(vp), %r11
 	ret
 
 	ALIGN(16)
-lsmall:
+L(lsmall):
 	cmp	$2, n
-	jae	lgt1
-ln1:	imul	(vp_param), %rax
+	jae	L(lgt1)
+L(ln1):	imul	(vp_param), %rax
 	mov	%rax, (rp)
 	ret
-lgt1:	ja	lgt2
-ln2:	mov	(vp_param), %r9
+L(lgt1):	ja	L(lgt2)
+L(ln2):	mov	(vp_param), %r9
 	mul	%r9
 	mov	%rax, (rp)
 	mov	8(up), %rax
@@ -348,8 +348,8 @@ ln2:	mov	(vp_param), %r9
 	add	%rcx, %rdx
 	mov	%rdx, 8(rp)
 	ret
-lgt2:
-ln3:	mov	(vp_param), %r9
+L(lgt2):
+L(ln3):	mov	(vp_param), %r9
 	mul	%r9		C u0 x v0
 	mov	%rax, (rp)
 	mov	%rdx, %r10

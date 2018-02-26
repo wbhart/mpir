@@ -38,9 +38,9 @@ mov 8(%rcx),%r9
 mov 16(%rcx),%r10
 mov %rdx,%rcx
 sub $6,%rcx
-jc skiplp
+jc L(skiplp)
 ALIGN(16)
-lp:
+L(lp):
 	mov 16(%rsi,%rcx,8),%r11
 	mov 16+8(%rsi,%rcx,8),%rax
 	mul %r8
@@ -59,8 +59,8 @@ lp:
 	lea (%r12),%r14
 	adc %rdx,%r14
 	sub $2,%rcx
-	jnc lp
-skiplp:	#// Dont need this extra wind down code now as we are not pipelined anymore
+	jnc L(lp)
+L(skiplp):	#// Dont need this extra wind down code now as we are not pipelined anymore
 	mov 16(%rsi,%rcx,8),%r11
 	mov 16+8(%rsi,%rcx,8),%rax
 	mul %r8
@@ -78,8 +78,8 @@ skiplp:	#// Dont need this extra wind down code now as we are not pipelined anym
 	mov %r12,%r14
 	adc %rdx,%r14
 cmp $-2,%rcx
-je case0
-case1:
+je L(case0)
+L(case1):
 	mov 8(%rsi,%rcx,8),%r11
 	mov $0,%r12d
 	mov %r8,%rax
@@ -92,7 +92,7 @@ case1:
 	add %rax,%r13
 	mov %r12,%r14
 	adc %rdx,%r14
-case0:	
+L(case0):	
 mov %r8,%rax
 mul %r14
 add %rax,%r13

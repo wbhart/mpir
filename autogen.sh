@@ -1,8 +1,8 @@
 #! /bin/sh
 
 # Save FSF scripts wrappers.
-mv config.guess configmpir.guess
-mv config.sub configmpir.sub
+mv -f config.guess configmpir.guess
+mv -f config.sub configmpir.sub
 # FSF scripts should be updated manually if needed.
 #mv configfsf.guess config.guess
 #mv configfsf.sub config.sub
@@ -16,6 +16,6 @@ autoreconf -isv
 # Restore the FSF scripts wrappers.
 #mv config.guess configfsf.guess
 #mv config.sub configfsf.sub
-mv configmpir.guess config.guess
-mv configmpir.sub config.sub
+mv -f configmpir.guess config.guess
+mv -f configmpir.sub config.sub
 

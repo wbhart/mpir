@@ -39,9 +39,9 @@ mov %rdx,%rcx
 	lea (%r8),%r8
 	sub $3,%rcx
 	lea (%r9),%r9
-	jz skiplp
+	jz L(skiplp)
 ALIGN(16)
-lp:	mul %r8
+L(lp):	mul %r8
 	add %rax,%r10
 	adc %rdx,%r11
 	lea (%r13),%rax
@@ -54,8 +54,8 @@ lp:	mul %r8
 	lea (%r8),%r8
 	dec %rcx
 	lea (%r9),%r9
-	jnz lp
-skiplp:	
+	jnz L(lp)
+L(skiplp):	
 	mul %r8
 	add %rax,%r10
 	adc %rdx,%r11

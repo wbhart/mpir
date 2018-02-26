@@ -41,13 +41,13 @@ C //	jnz lp
 C //	ret
 C // large:
 cmp $0,%rdx
-jz endfn
+jz L(endfn)
 mov %rdi,%rax
 sub %rsi,%rax
 test $0xF,%rax
-jz aligned
+jz L(aligned)
 test $0xF,%rdi
-jz srcisodd
+jz L(srcisodd)
 mov $5,%rcx
 sub %rdx,%rcx
 lea -40(%rsi,%rdx,8),%rsi
@@ -56,25 +56,25 @@ movapd (%rsi,%rcx,8),%xmm1
 movq %xmm1,(%rdi,%rcx,8)
 add $8,%rdi
 cmp $1,%rdx
-jz endfn
+jz L(endfn)
 cmp $0,%rcx
-jge skiplpud
+jge L(skiplpud)
 ALIGN(16)
-lpud:	movapd 16(%rsi,%rcx,8),%xmm0
+L(lpud):	movapd 16(%rsi,%rcx,8),%xmm0
 	add $4,%rcx
 	shufpd $1,%xmm0,%xmm1
 	movapd %xmm1,-32(%rdi,%rcx,8)
 	movapd 32-32(%rsi,%rcx,8),%xmm1
 	shufpd $1,%xmm1,%xmm0
 	movapd %xmm0,16-32(%rdi,%rcx,8)
-	jnc lpud
-skiplpud:
+	jnc L(lpud)
+L(skiplpud):
 cmp $2,%rcx
-ja case0d
-jz case1d
-jp case2d
+ja L(case0d)
+jz L(case1d)
+jp L(case2d)
 ALIGN(16)
-case3d:	movapd 16(%rsi,%rcx,8),%xmm0
+L(case3d):	movapd 16(%rsi,%rcx,8),%xmm0
 	shufpd $1,%xmm0,%xmm1
 	movapd %xmm1,(%rdi,%rcx,8)
 	movapd 32(%rsi,%rcx,8),%xmm1  
@@ -82,21 +82,21 @@ case3d:	movapd 16(%rsi,%rcx,8),%xmm0
 	movapd %xmm0,16(%rdi,%rcx,8)
 	ret
 ALIGN(16)
-case2d:	movapd 16(%rsi,%rcx,8),%xmm0
+L(case2d):	movapd 16(%rsi,%rcx,8),%xmm0
 	shufpd $1,%xmm0,%xmm1
 	movapd %xmm1,(%rdi,%rcx,8)
 	movhpd %xmm0,16(%rdi,%rcx,8)
 	ret
 ALIGN(16)
-case1d:	movapd 16(%rsi,%rcx,8),%xmm0
+L(case1d):	movapd 16(%rsi,%rcx,8),%xmm0
 	shufpd $1,%xmm0,%xmm1
 	movapd %xmm1,(%rdi,%rcx,8)
 	ret
 ALIGN(16)
-case0d:	movhpd %xmm1,(%rdi,%rcx,8)
-endfn:	ret
+L(case0d):	movhpd %xmm1,(%rdi,%rcx,8)
+L(endfn):	ret
 C //////////////////////////
-srcisodd:
+L(srcisodd):
 mov $4,%rcx
 sub %rdx,%rcx
 lea -32(%rsi,%rdx,8),%rsi
@@ -104,23 +104,23 @@ lea -32(%rdi,%rdx,8),%rdi
 	movapd -8(%rsi,%rcx,8),%xmm1
 	sub $8,%rsi
 cmp $0,%rcx
-jge skiplpus	
+jge L(skiplpus)
 ALIGN(16)
-lpus:	movapd 16(%rsi,%rcx,8),%xmm0
+L(lpus):	movapd 16(%rsi,%rcx,8),%xmm0
 	add $4,%rcx
 	shufpd $1,%xmm0,%xmm1
 	movapd %xmm1,-32(%rdi,%rcx,8)
 	movapd 32-32(%rsi,%rcx,8),%xmm1
 	shufpd $1,%xmm1,%xmm0
 	movapd %xmm0,16-32(%rdi,%rcx,8)
-	jnc lpus
-skiplpus:
+	jnc L(lpus)
+L(skiplpus):
 cmp $2,%rcx
-ja case0s
-jz case1s
-jp case2s
+ja L(case0s)
+jz L(case1s)
+jp L(case2s)
 ALIGN(16)
-case3s:	movapd 16(%rsi,%rcx,8),%xmm0
+L(case3s):	movapd 16(%rsi,%rcx,8),%xmm0
 	shufpd $1,%xmm0,%xmm1
 	movapd %xmm1,(%rdi,%rcx,8)
 	movapd 32(%rsi,%rcx,8),%xmm1
@@ -128,57 +128,57 @@ case3s:	movapd 16(%rsi,%rcx,8),%xmm0
 	movapd %xmm0,16(%rdi,%rcx,8)
 	ret
 ALIGN(16)
-case2s: movapd 16(%rsi,%rcx,8),%xmm0
+L(case2s): movapd 16(%rsi,%rcx,8),%xmm0
 	shufpd $1,%xmm0,%xmm1
 	movapd %xmm1,(%rdi,%rcx,8)
 	movhpd %xmm0,16(%rdi,%rcx,8)
 	ret
 ALIGN(16)
-case1s:	movapd 16(%rsi,%rcx,8),%xmm0
+L(case1s):	movapd 16(%rsi,%rcx,8),%xmm0
 	shufpd $1,%xmm0,%xmm1
 	movapd %xmm1,(%rdi,%rcx,8)
 	ret
 ALIGN(16)
-case0s:	movhpd %xmm1,(%rdi,%rcx,8)
+L(case0s):	movhpd %xmm1,(%rdi,%rcx,8)
 	ret
 C //////////////////////////
 ALIGN(16)
-aligned:
+L(aligned):
 mov $3,%rcx
 sub %rdx,%rcx
 test $0xF,%rdi
 lea -24(%rsi,%rdx,8),%rsi
 lea -24(%rdi,%rdx,8),%rdi
-jz notodda
+jz L(notodda)
 	mov (%rsi,%rcx,8),%rax
 	mov %rax,(%rdi,%rcx,8)
 	add $1,%rcx
-notodda:
+L(notodda):
 cmp $0,%rcx
-jge skiplpa
+jge L(skiplpa)
 ALIGN(16)
-lpa:	add $4,%rcx
+L(lpa):	add $4,%rcx
 	movapd -32(%rsi,%rcx,8),%xmm0
 	movapd %xmm0,-32(%rdi,%rcx,8)
 	movapd 16-32(%rsi,%rcx,8),%xmm1
 	movapd %xmm1,16-32(%rdi,%rcx,8)
-	jnc lpa
-skiplpa:
+	jnc L(lpa)
+L(skiplpa):
 cmp $2,%rcx
-ja casea0
-je casea1
-jp casea2
-casea3:	movapd (%rsi,%rcx,8),%xmm0
+ja L(casea0)
+je L(casea1)
+jp L(casea2)
+L(casea3):	movapd (%rsi,%rcx,8),%xmm0
 	movapd %xmm0,(%rdi,%rcx,8)
 	mov 16(%rsi,%rcx,8),%rax
 	mov %rax,16(%rdi,%rcx,8)
-casea0:	ret
+L(casea0):	ret
 ALIGN(16)
-casea2:	movapd (%rsi,%rcx,8),%xmm0
+L(casea2):	movapd (%rsi,%rcx,8),%xmm0
 	movapd %xmm0,(%rdi,%rcx,8)
 	ret
 ALIGN(16)
-casea1:	mov (%rsi,%rcx,8),%rax
+L(casea1):	mov (%rsi,%rcx,8),%rax
 	mov %rax,(%rdi,%rcx,8)
 	ret
 EPILOGUE()

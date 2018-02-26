@@ -2895,8 +2895,10 @@ These functions assign new values to already initialized integers
 @deftypefunx void mpz_set_d (mpz_t @var{rop}, double @var{op})
 @deftypefunx void mpz_set_q (mpz_t @var{rop}, mpq_t @var{op})
 @deftypefunx void mpz_set_f (mpz_t @var{rop}, mpf_t @var{op})
-Set the value of @var{rop} from @var{op}. Note the intmax versions are only available
-if you include the @file{stdint.h} header before including @file{mpir.h}.
+Set the value of @var{rop} from @var{op}. Note that the @code{(u)intmax} versions are only available
+if @file{stdint.h} header exists. It is included conditionally and automatically on modern
+compilers supporting @code{__has_include()} macro, otherwise
+you need to include @file{stdint.h} before including @file{mpir.h}.
 
 @code{mpz_set_d}, @code{mpz_set_q} and @code{mpz_set_f} truncate @var{op} to
 make it an integer.
