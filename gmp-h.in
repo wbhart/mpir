@@ -1406,6 +1406,9 @@ __GMP_DECLSPEC void mpf_clears(mpf_ptr, ...);
 #define mpf_cmp __gmpf_cmp
 __GMP_DECLSPEC int mpf_cmp(mpf_srcptr, mpf_srcptr) __GMP_NOTHROW __GMP_ATTRIBUTE_PURE;
 
+#define mpf_cmp_z __gmpf_cmp_z
+__GMP_DECLSPEC int mpf_cmp_z (mpf_srcptr, mpz_srcptr) __GMP_NOTHROW __GMP_ATTRIBUTE_PURE;
+
 #define mpf_cmp_d __gmpf_cmp_d
 __GMP_DECLSPEC int mpf_cmp_d(mpf_srcptr, double) __GMP_ATTRIBUTE_PURE;
 
@@ -1649,6 +1652,13 @@ __GMP_DECLSPEC void mpn_redc_1(mp_ptr, mp_ptr, mp_srcptr, mp_size_t, mp_limb_t);
 #define mpn_redc_2 __MPN(redc_2)
 __GMP_DECLSPEC void mpn_redc_2(mp_ptr, mp_ptr, mp_srcptr, mp_size_t, mp_srcptr);
 
+#define mpn_zero_p __MPN(zero_p)
+#if __GMP_INLINE_PROTOTYPES || defined (__GMP_FORCE_mpn_zero_p)
+__GMP_DECLSPEC int mpn_zero_p (mp_srcptr, mp_size_t) __GMP_NOTHROW __GMP_ATTRIBUTE_PURE;
+#endif
+
+#define mpn_divexact_1 __MPN(divexact_1)
+__GMP_DECLSPEC void mpn_divexact_1 (mp_ptr, mp_srcptr, mp_size_t, mp_limb_t);
 #define mpn_redc_n __MPN(redc_n)
 __GMP_DECLSPEC void mpn_redc_n(mp_ptr, mp_ptr, mp_srcptr, mp_size_t, mp_srcptr);
 
@@ -1660,6 +1670,9 @@ __GMP_DECLSPEC mp_limb_t mpn_divexact_by3c(mp_ptr, mp_srcptr, mp_size_t, mp_limb
 
 #define mpn_divmod_1(qp,np,nsize,dlimb) \
   mpn_divrem_1 (qp, __GMP_CAST (mp_size_t, 0), np, nsize, dlimb)
+
+#define mpn_divrem __MPN(divrem)
+__GMP_DECLSPEC mp_limb_t mpn_divrem (mp_ptr, mp_size_t, mp_ptr, mp_size_t, mp_srcptr, mp_size_t);
 
 #define mpn_divrem_1 __MPN(divrem_1)
 __GMP_DECLSPEC mp_limb_t mpn_divrem_1(mp_ptr, mp_size_t, mp_srcptr, mp_size_t, mp_limb_t);
@@ -1788,14 +1801,17 @@ __GMP_DECLSPEC void mpn_sqr(mp_ptr, mp_srcptr, mp_size_t);
 
 #define mpn_neg_n __MPN(neg_n)
 #define mpn_neg   __MPN(neg_n)
+#if __GMP_INLINE_PROTOTYPES || defined (__GMP_FORCE_mpn_neg)
 __GMP_DECLSPEC mp_limb_t mpn_neg_n(mp_ptr, mp_srcptr, mp_size_t);
-
+#endif
 #define mpn_com_n __MPN(com_n)
 #define mpn_com   __MPN(com_n)
 __GMP_DECLSPEC void mpn_com_n(mp_ptr, mp_srcptr, mp_size_t);
 
 #define mpn_perfect_square_p __MPN(perfect_square_p)
 __GMP_DECLSPEC int mpn_perfect_square_p(mp_srcptr, mp_size_t) __GMP_ATTRIBUTE_PURE;
+#define mpn_perfect_power_p __MPN(perfect_power_p)
+__GMP_DECLSPEC int mpn_perfect_power_p (mp_srcptr, mp_size_t) __GMP_ATTRIBUTE_PURE;
 
 #define mpn_popcount __MPN(popcount)
 __GMP_DECLSPEC mp_bitcnt_t mpn_popcount(mp_srcptr, mp_size_t) __GMP_NOTHROW __GMP_ATTRIBUTE_PURE;
@@ -2390,6 +2406,22 @@ mpn_cmp (mp_srcptr __gmp_xp, mp_srcptr __gmp_yp, mp_size_t __gmp_size) __GMP_NOT
 }
 #endif
 
+#if defined (__GMP_EXTERN_INLINE) || defined (__GMP_FORCE_mpn_zero_p)
+#if ! defined (__GMP_FORCE_mpn_zero_p)
+__GMP_EXTERN_INLINE
+#endif
+int
+mpn_zero_p (mp_srcptr __gmp_p, mp_size_t __gmp_n) __GMP_NOTHROW
+{
+  /* if (__GMP_LIKELY (__gmp_n > 0)) */
+    do {
+      if (__gmp_p[--__gmp_n] != 0)
+	return 0;
+    } while (__gmp_n != 0);
+  return 1;
+}
+#endif
+
 #if defined (__GMP_EXTERN_INLINE) || defined (__GMP_FORCE_mpn_sub)
 #if ! defined (__GMP_FORCE_mpn_sub)
 __GMP_EXTERN_INLINE
@@ -2413,6 +2445,30 @@ mpn_sub_1 (mp_ptr __gmp_dst, mp_srcptr __gmp_src, mp_size_t __gmp_size, mp_limb_
   mp_limb_t  __gmp_c;
   __GMPN_SUB_1 (__gmp_c, __gmp_dst, __gmp_src, __gmp_size, __gmp_n);
   return __gmp_c;
+}
+#endif
+
+#if defined (__GMP_EXTERN_INLINE) || defined (__GMP_FORCE_mpn_neg_n)
+#if ! defined (__GMP_FORCE_mpn_neg)
+__GMP_EXTERN_INLINE
+#endif
+mp_limb_t
+mpn_neg_n (mp_ptr __gmp_rp, mp_srcptr __gmp_up, mp_size_t __gmp_n)
+{
+  while (*__gmp_up == 0) /* Low zero limbs are unchanged by negation. */
+    {
+      *__gmp_rp = 0;
+      if (!--__gmp_n) /* All zero */
+	return 0;
+      ++__gmp_up; ++__gmp_rp;
+    }
+
+  *__gmp_rp = (- *__gmp_up) & GMP_NUMB_MASK;
+
+  if (--__gmp_n) /* Higher limbs get complemented. */
+    mpn_com (++__gmp_rp, ++__gmp_up, __gmp_n);
+
+  return 1;
 }
 #endif
 

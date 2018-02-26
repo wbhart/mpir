@@ -4262,20 +4262,6 @@ __GMP_DECLSPEC void __gmpn_cpuvec_init(void);
   ((LIKELY (__gmpn_cpuvec.initialized) ? 0 : (__gmpn_cpuvec_init (), 0)),     \
    __gmpn_cpuvec.field)
 
-
-
-static inline int
-mpn_zero_p (mp_srcptr ap, mp_size_t n)
-{
-  mp_size_t i;
-  for (i = n - 1; i >= 0; i--)
-    {
-      if (ap[i] != 0)
-    return 0;
-    }
-  return 1;
-}
-
 #if TUNE_PROGRAM_BUILD
 /* Some extras wanted when recompiling some .c files for use by the tune
    program.  Not part of a normal build.
