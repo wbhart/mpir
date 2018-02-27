@@ -35,7 +35,7 @@ the GNU MP Library test suite.  If not, see https://www.gnu.org/licenses/.  */
 #define HAVE_NATIVE_mpn_xor_n  1
 #define HAVE_NATIVE_mpn_xnor_n 1
 
-#include "gmp.h"
+#include "mpir.h"
 #include "gmp-impl.h"
 #include "tests.h"
 
