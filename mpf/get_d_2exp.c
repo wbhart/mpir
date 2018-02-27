@@ -23,6 +23,9 @@ MA 02110-1301, USA. */
 #include "gmp-impl.h"
 #include "longlong.h"
 
+#ifndef _MSC_VER
+static
+#endif
 mpir_si
 mpf_get_2exp_d (double *r, mpf_srcptr src)
 {
