@@ -1367,9 +1367,9 @@ preprocessor symbols and chooses the correct actual @file{mpir.h}.
 @cindex Visual Studio
 
 MPIR can be built with the professional and higher versions of Visual Studio
-2012, 2013, 2015 and 2017.  It can also be built with the community editions
-of Visual Studio 2015 and 2017. If the assembler optimised versions of MPIR
-are required, then both Python 3 and the YASM assembler also need to be
+2013, 2015 and 2017.  It can also be built with the community editions of
+Visual Studio 2015 and 2017. If the assembler optimised versions of MPIR
+are required, then Python 3 and the YASM assembler also need to be
 installed.  MPIR can also be built with the Intel C/C++ compiler that can be
 integrated into versions of Visual Studio.
 
@@ -1399,10 +1399,9 @@ A build of MPIR is started by double clicking on the file @file{mpir.sln}
 in the appropriate sub-directory within the MPIR root directory:
 
 @example
-    Visual Studio 2012:  mpir/build.vc11/mpir.sln
-    Visual Studio 2013:  mpir/build.vc12/mpir.sln
-    Visual Studio 2015:  mpir/build.vc14/mpir.sln
-    Visual Studio 2017:  mpir/build.vc15/mpir.sln
+    Visual Studio 2013:  mpir/msvc/vs13/mpir.sln
+    Visual Studio 2015:  mpir/msvc/vs15/mpir.sln
+    Visual Studio 2017:  mpir/msvc/vs17/mpir.sln
 @end example
     
 Visual Studio will then display a list of individual build projects
@@ -1445,21 +1444,23 @@ depending on whether static library or DLL versions have been built.
 
 The Visual Studio builds for MPIR are initially provided with a small set
 of assembler optimised projects but many more are available and can be
-obtained by running the Python program @command{mpir_config.py <N>} that is
-in the mpir\build-vc directory.  The value of <N> required depends on the
+obtained by running the Python program @command{mpir_config.py <N> [<SDK>]} 
+that is in the mpir\msvc directory. The value of <N> required depends on the
 version of Visual Studio in use as follows:
 
 @example
-    Visual Studio 2012:  11
-    Visual Studio 2013:  12
-    Visual Studio 2015:  14
-    Visual Studio 2017:  15
+    Visual Studio 2013:  13
+    Visual Studio 2015:  15
+    Visual Studio 2017:  17
 @end example
 
-This program, which has to be run before Visual Studio, provides a list of
-all the assembler optimised versions of MPIR that are available.  Any number
-of versions can be chosen and these builds will then be available when Visual
-Studio is subsequently opened by double clicking on @file{mpir.sln}.
+The parameter <SDK> is optional and is the version number of the Windows SDK
+for which the builds will be taargetted (e.g. 10.0.16299.0).  This program,
+which has to be run before Visual Studio, provides a list of all the assembler
+optimised versions of MPIR that are available.  Any number of versions can be
+chosen and these builds will then be available when Visual Studio is subsequently
+opened by double clicking on @file{mpir.sln}.  It is advisable not to have Visual
+Studio running when new builds are being added in this way.
 
 @item Testing Visual Studio versions of MPIR 
 
@@ -1467,10 +1468,9 @@ Testing a version of the library once it has been built is started by double
 clicking on the appropriate solution file:
 
 @example
-    Visual Studio 2012:  mpir/build.vc11/mpir-tests.sln
-    Visual Studio 2013:  mpir/build.vc12/mpir-tests.sln
-    Visual Studio 2015:  mpir/build.vc14/mpir-tests.sln
-    Visual Studio 2017:  mpir/build.vc15/mpir-tests.sln
+    Visual Studio 2013:  mpir/msvc/vs13/mpir-tests.sln
+    Visual Studio 2015:  mpir/msvc/vs15/mpir-tests.sln
+    Visual Studio 2017:  mpir/msvc/vs17/mpir-tests.sln
 @end example
 
 The tests are always run on the last version of MPIR built and it is important
@@ -1494,7 +1494,7 @@ executing the Python program @command{run-tests.py} in the appropriate Visual
 Studio build sub-directory, for example, for Visual Studio 2017:
 
 @example
-   mpir/build.vc15/mpir-tests/run-tests.py 
+   mpir/msvc/vs17/mpir-tests/run-tests.py 
 @end example
 
 @end table
@@ -3048,6 +3048,15 @@ The return value is in the range @math{0.5@le{}@GMPabs{@var{d}}<1} and the
 exponent is stored to @code{*@var{exp}}.  @m{@var{d} * 2^{exp}, @var{d} *
 2^@var{exp}} is the (truncated) @var{op} value.  If @var{op} is zero, the
 return is @math{0.0} and 0 is stored to @code{*@var{exp}}.
+
+@deftypefun mpir_si mpz_get_2exp_d (double *@var{???}, mpz_t @var{op})
+Convert @var{op} to a @code{double}, truncating if necessary (ie.@: rounding
+towards zero), and returning the exponent separately.
+
+This function has been added on Windows as an alternative to mpz_get_d_2exp
+to avoid problems that occur on 64-bit Windows systems where pointers to 
+integers point to 32-bit integer variables when MPIR expects to find space
+for 64-bit integers.
 
 @cindex @code{frexp}
 This is similar to the standard C @code{frexp} function (@pxref{Normalization
@@ -4747,6 +4756,15 @@ exponent is stored to @code{*@var{exp}}.  @m{@var{d} * 2^{exp}, @var{d} *
 2^@var{exp}} is the (truncated) @var{op} value.  If @var{op} is zero, the
 return is @math{0.0} and 0 is stored to @code{*@var{exp}}.
 
+@deftypefun mpir_si mpf_get_2exp_d (double *@var{rop}, mpf_t @var{op})
+Convert @var{op} to a @code{double}, truncating if necessary (ie.@: rounding
+towards zero), and with an exponent returned separately.
+
+This function has been added on Windows as an alternative to mpf_get_d_2exp
+to avoid problems that occur on 64-bit Windows systems where pointers to 
+integers point to 32-bit integer variables when MPIR expects to find space
+for 64-bit integers.
+
 @cindex @code{frexp}
 This is similar to the standard C @code{frexp} function (@pxref{Normalization
 Functions,,, libc, The GNU C Library Reference Manual}).
@@ -5334,6 +5352,10 @@ This function is written in assembly for most CPUs.
 Compare @{@var{s1p}, @var{n}@} and @{@var{s2p}, @var{n}@} and return a
 positive value if @math{@var{s1} > @var{s2}}, 0 if they are equal, or a
 negative value if @math{@var{s1} < @var{s2}}.
+@end deftypefun
+
+@deftypefun int mpn_zero_p (const mp_limb_t *@var{sp}, mp_size_t @var{n})
+Test @{@var{sp}, @var{n}@} and return 1 if the operand is zero, 0 otherwise.
 @end deftypefun
 
 @deftypefun mp_size_t mpn_gcd (mp_limb_t *@var{rp}, mp_limb_t *@var{s1p}, mp_size_t @var{s1n}, mp_limb_t *@var{s2p}, mp_size_t @var{s2n})
