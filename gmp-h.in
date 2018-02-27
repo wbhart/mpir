@@ -2449,7 +2449,7 @@ mpn_sub_1 (mp_ptr __gmp_dst, mp_srcptr __gmp_src, mp_size_t __gmp_size, mp_limb_
 #endif
 
 #if defined (__GMP_EXTERN_INLINE) || defined (__GMP_FORCE_mpn_neg_n)
-#if ! defined (__GMP_FORCE_mpn_neg)
+#if ! defined (__GMP_FORCE_mpn_neg_n)
 __GMP_EXTERN_INLINE
 #endif
 mp_limb_t
