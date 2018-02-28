@@ -2180,7 +2180,7 @@ gmp_mpn_functions="$extra_functions					   \
   mul mul_n mul_basecase sqr_basecase random random2 	   \
   pow_1 powlo powm binvert \
   urandomb urandomm randomb rrandom invert \
-  rootrem sizeinbase sqrtrem get_str set_str scan0 scan1 popcount hamdist cmp perfect_square_p perfpow \
+  rootrem sizeinbase sqrtrem get_str set_str scan0 scan1 popcount hamdist cmp perfect_square_p \
   bdivmod gcd gcd_1 gcdext tdiv_qr jacobi_base jacobi jacobi_2 get_d  \
   mullow_n mulhigh_n mullow_n_basecase mullow_basecase \
   redc_1 redc_2 redc_n \
