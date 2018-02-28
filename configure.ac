@@ -2180,7 +2180,7 @@ gmp_mpn_functions="$extra_functions					   \
   mul mul_n mul_basecase sqr_basecase random random2 	   \
   pow_1 powlo powm binvert \
   urandomb urandomm randomb rrandom invert \
-  rootrem sizeinbase sqrtrem get_str set_str scan0 scan1 popcount hamdist cmp perfect_square_p \
+  rootrem sizeinbase sqrtrem get_str set_str scan0 scan1 popcount hamdist cmp perfect_square_p perfpow \
   bdivmod gcd gcd_1 gcdext tdiv_qr jacobi_base jacobi jacobi_2 get_d  \
   mullow_n mulhigh_n mullow_n_basecase mullow_basecase \
   redc_1 redc_2 redc_n \
@@ -2190,7 +2190,7 @@ gmp_mpn_functions="$extra_functions					   \
   toom_eval_dgr3_pm1 toom_eval_dgr3_pm2 toom_eval_pm1 toom_eval_pm2 \
   toom_eval_pm2exp toom_eval_pm2rexp toom_interpolate_16pts \
   toom8_sqr_n toom8h_mul toom_couple_handling sb_bdiv_q sb_bdiv_qr \
-  dc_bdiv_q_n dc_bdiv_q dc_bdiv_qr dc_bdiv_qr_n divexact zero $gmp_mpn_functions_optional"
+  dc_bdiv_q_n dc_bdiv_q dc_bdiv_qr dc_bdiv_qr_n divexact zero zero_p $gmp_mpn_functions_optional"
 
 # should be able to remove the mulfunc below
 define(GMP_MULFUNC_CHOICES,
