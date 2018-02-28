@@ -847,9 +847,6 @@
     <ClCompile Include="..\..\..\mpz\out_str.c">
       <Filter>Source Files\mpz</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\mpz\perfpow.c">
-      <Filter>Source Files\mpz</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\mpz\perfsqr.c">
       <Filter>Source Files\mpz</Filter>
     </ClCompile>

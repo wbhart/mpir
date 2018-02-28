@@ -621,7 +621,6 @@ postbuild "$(TargetPath)" 15
     <ClCompile Include="..\..\..\mpn\generic\nior_n.c" />
     <ClCompile Include="..\..\..\mpn\generic\nsumdiff_n.c" />
     <ClCompile Include="..\..\..\mpn\generic\perfect_square_p.c" />
-    <ClCompile Include="..\..\..\mpn\generic\perfpow.c" />
     <ClCompile Include="..\..\..\mpn\generic\popcount.c" />
     <ClCompile Include="..\..\..\mpn\generic\pow_1.c" />
     <ClCompile Include="..\..\..\mpn\generic\powlo.c" />

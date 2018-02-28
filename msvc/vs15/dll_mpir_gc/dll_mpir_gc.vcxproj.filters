@@ -1434,9 +1434,6 @@
     <ClCompile Include="..\..\..\mpn\generic\perfect_square_p.c">
       <Filter>Source Files\mpn</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\mpn\generic\perfpow.c">
-      <Filter>Source Files\mpn</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\mpn\generic\popcount.c">
       <Filter>Source Files\mpn</Filter>
     </ClCompile>
