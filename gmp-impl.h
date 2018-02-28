@@ -592,7 +592,21 @@ __GMP_DECLSPEC void  __gmp_tmp_debug_free(const char *, int, int,
         (yp) = (xp) + (xsize);                          \
       }                                                 \
   } while (0)
-
+#define TMP_ALLOC_LIMBS_3(xp,xsize, yp,ysize, zp,zsize)			\
+  do {									\
+    if (WANT_TMP_DEBUG)							\
+      {									\
+	(xp) = TMP_ALLOC_LIMBS (xsize);					\
+	(yp) = TMP_ALLOC_LIMBS (ysize);					\
+	(zp) = TMP_ALLOC_LIMBS (zsize);					\
+      }									\
+    else								\
+      {									\
+	(xp) = TMP_ALLOC_LIMBS ((xsize) + (ysize) + (zsize));		\
+	(yp) = (xp) + (xsize);						\
+	(zp) = (yp) + (ysize);						\
+      }									\
+  } while (0)
 
 /* From mpir.h, nicer names for internal use. */
 #define MPN_CMP(result, xp, yp, size)  __GMPN_CMP(result, xp, yp, size)
