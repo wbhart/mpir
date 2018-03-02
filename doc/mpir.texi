@@ -3048,6 +3048,7 @@ The return value is in the range @math{0.5@le{}@GMPabs{@var{d}}<1} and the
 exponent is stored to @code{*@var{exp}}.  @m{@var{d} * 2^{exp}, @var{d} *
 2^@var{exp}} is the (truncated) @var{op} value.  If @var{op} is zero, the
 return is @math{0.0} and 0 is stored to @code{*@var{exp}}.
+@end deftypefun
 
 @deftypefun mpir_si mpz_get_2exp_d (double *@var{???}, mpz_t @var{op})
 Convert @var{op} to a @code{double}, truncating if necessary (ie.@: rounding
@@ -3057,6 +3058,7 @@ This function has been added on Windows as an alternative to mpz_get_d_2exp
 to avoid problems that occur on 64-bit Windows systems where pointers to 
 integers point to 32-bit integer variables when MPIR expects to find space
 for 64-bit integers.
+@end deftypefun
 
 @cindex @code{frexp}
 This is similar to the standard C @code{frexp} function (@pxref{Normalization
@@ -4755,6 +4757,7 @@ The return value is in the range @math{0.5@le{}@GMPabs{@var{d}}<1} and the
 exponent is stored to @code{*@var{exp}}.  @m{@var{d} * 2^{exp}, @var{d} *
 2^@var{exp}} is the (truncated) @var{op} value.  If @var{op} is zero, the
 return is @math{0.0} and 0 is stored to @code{*@var{exp}}.
+@end deftypefun
 
 @deftypefun mpir_si mpf_get_2exp_d (double *@var{rop}, mpf_t @var{op})
 Convert @var{op} to a @code{double}, truncating if necessary (ie.@: rounding
@@ -4764,6 +4767,7 @@ This function has been added on Windows as an alternative to mpf_get_d_2exp
 to avoid problems that occur on 64-bit Windows systems where pointers to 
 integers point to 32-bit integer variables when MPIR expects to find space
 for 64-bit integers.
+@end deftypefun
 
 @cindex @code{frexp}
 This is similar to the standard C @code{frexp} function (@pxref{Normalization
