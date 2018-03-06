@@ -592,21 +592,7 @@ __GMP_DECLSPEC void  __gmp_tmp_debug_free(const char *, int, int,
         (yp) = (xp) + (xsize);                          \
       }                                                 \
   } while (0)
-#define TMP_ALLOC_LIMBS_3(xp,xsize, yp,ysize, zp,zsize)			\
-  do {									\
-    if (WANT_TMP_DEBUG)							\
-      {									\
-	(xp) = TMP_ALLOC_LIMBS (xsize);					\
-	(yp) = TMP_ALLOC_LIMBS (ysize);					\
-	(zp) = TMP_ALLOC_LIMBS (zsize);					\
-      }									\
-    else								\
-      {									\
-	(xp) = TMP_ALLOC_LIMBS ((xsize) + (ysize) + (zsize));		\
-	(yp) = (xp) + (xsize);						\
-	(zp) = (yp) + (ysize);						\
-      }									\
-  } while (0)
+
 
 /* From mpir.h, nicer names for internal use. */
 #define MPN_CMP(result, xp, yp, size)  __GMPN_CMP(result, xp, yp, size)
@@ -3066,7 +3052,7 @@ __GMP_DECLSPEC mp_limb_t mpn_modexact_1_odd(mp_srcptr src, mp_size_t size,
                                       mp_limb_t divisor) __GMP_ATTRIBUTE_PURE;
 #else
 #define mpn_modexact_1_odd(src,size,divisor) \
-  mpn_modexact_1c_odd (src, size, divisor, CNST_LIMB(0)
+  mpn_modexact_1c_odd (src, size, divisor, CNST_LIMB(0))
 #endif
 
 #define MPN_MOD_OR_MODEXACT_1_ODD(src,size,divisor)			\
