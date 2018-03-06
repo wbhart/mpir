@@ -1410,9 +1410,9 @@ a typical list of projects is:
 
 @example
     dll_mpir_gc     standard DLL, no assembler (win32 and x64)
-    dll_mpir_p3     assembly optimised DLL for pentium 3 (win32)
-    lib_mpir_p3     assembly optimised static library for 
-                    pentium 3 (x64)
+    dll_mpir_p6     assembly optimised DLL for pentium 6 (win32)
+    lib_mpir_p6     assembly optimised static library for 
+                    pentium 6 (win32)
     lib_mpir_core2  assembly optimised static library for 
                     core2 (x64)
     dll_mpir_core2  assembly optimised DLL for core2 (x64)
