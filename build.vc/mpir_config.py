@@ -203,7 +203,7 @@ g2_sym = compile(r'global\s+__g(\w+)')
 def get_symbols(setf, sym_dir):
   for f in setf:
     fn = join(mpir_root_dir, f[2], f[0] + f[1])
-    with open(fn, 'r') as inf:
+    with open(fn, 'r', encoding='utf8', errors='replace') as inf:
       lines = inf.readlines()
       for l in lines:
         m = fr_sym.search(l)
