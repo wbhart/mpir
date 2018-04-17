@@ -2465,7 +2465,7 @@ mpn_neg_n (mp_ptr __gmp_rp, mp_srcptr __gmp_up, mp_size_t __gmp_n)
       ++__gmp_up; ++__gmp_rp;
     }
 
-  *__gmp_rp = (- *__gmp_up) & GMP_NUMB_MASK;
+  *__gmp_rp = (- *(mp_limb_signed_t*)__gmp_up) & GMP_NUMB_MASK;
 
   if (--__gmp_n) /* Higher limbs get complemented. */
     mpn_com (++__gmp_rp, ++__gmp_up, __gmp_n);
