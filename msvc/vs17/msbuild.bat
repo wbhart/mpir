@@ -5,13 +5,15 @@ rem %3 = platform (Win32|x64)
 rem %4 = configuration (Release|Debug)
 rem %5 = build tests (|+tests)
 
+set vsw_exe="%ProgramFiles(x86)%\Microsoft Visual Studio\Installer\vswhere.exe"
+
 rem This is the directory where Microsoft MSBUILD is installed 
-for /f "usebackq tokens=*" %%i in (`vswhere -latest -products * -requires Microsoft.Component.MSBuild -property installationPath`) do (
+for /f "usebackq tokens=*" %%i in (`%vsw_exe% -latest -products * -requires Microsoft.Component.MSBuild -property installationPath`) do (
   set InstallDir=%%i
 )
 
 if exist "%InstallDir%\MSBuild\15.0\Bin\MSBuild.exe" (
-  set msbdir="%InstallDir%\MSBuild\15.0\Bin\MSBuild.exe"
+  set msbdir="%InstallDir%\MSBuild\15.0\Bin"
 )
 
 if "%4" NEQ "" if "%3" NEQ "" if "%2" NEQ "" if "%1" NEQ "" goto cont
