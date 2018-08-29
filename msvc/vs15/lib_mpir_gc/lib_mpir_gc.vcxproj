@@ -208,7 +208,6 @@ postbuild "$(TargetPath)" 15
     <ClCompile Include="..\..\..\mpf\cmp_d.c" />
     <ClCompile Include="..\..\..\mpf\cmp_si.c" />
     <ClCompile Include="..\..\..\mpf\cmp_ui.c" />
-    <ClCompile Include="..\..\..\mpf\cmp_z.c" />
     <ClCompile Include="..\..\..\mpf\div.c" />
     <ClCompile Include="..\..\..\mpf\div_2exp.c" />
     <ClCompile Include="..\..\..\mpf\div_ui.c" />
@@ -417,7 +416,6 @@ postbuild "$(TargetPath)" 15
     <ClCompile Include="..\..\..\mpz\oddfac_1.c" />
     <ClCompile Include="..\..\..\mpz\out_raw.c" />
     <ClCompile Include="..\..\..\mpz\out_str.c" />
-    <ClCompile Include="..\..\..\mpz\perfpow.c" />
     <ClCompile Include="..\..\..\mpz\perfsqr.c" />
     <ClCompile Include="..\..\..\mpz\popcount.c" />
     <ClCompile Include="..\..\..\mpz\pow_ui.c" />
@@ -662,7 +660,6 @@ postbuild "$(TargetPath)" 15
     <ClCompile Include="..\..\..\mpn\generic\xnor_n.c" />
     <ClCompile Include="..\..\..\mpn\generic\xor_n.c" />
     <ClCompile Include="..\..\..\mpn\generic\zero.c" />
-    <ClCompile Include="..\..\..\mpn\generic\zero_p.c" />
   </ItemGroup>
   <ItemGroup>
   </ItemGroup>

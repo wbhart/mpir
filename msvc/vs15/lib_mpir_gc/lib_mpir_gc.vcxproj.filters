@@ -218,9 +218,6 @@
     <ClCompile Include="..\..\..\mpf\cmp_ui.c">
       <Filter>Source Files\mpf</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\mpf\cmp_z.c">
-      <Filter>Source Files\mpf</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\mpf\div.c">
       <Filter>Source Files\mpf</Filter>
     </ClCompile>
@@ -843,9 +840,6 @@
       <Filter>Source Files\mpz</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\mpz\out_str.c">
-      <Filter>Source Files\mpz</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\mpz\perfpow.c">
       <Filter>Source Files\mpz</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\mpz\perfsqr.c">
@@ -1578,9 +1572,6 @@
       <Filter>Source Files\mpn</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\mpn\generic\zero.c">
-      <Filter>Source Files\mpn</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\mpn\generic\zero_p.c">
       <Filter>Source Files\mpn</Filter>
     </ClCompile>
   </ItemGroup>
